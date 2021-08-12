@@ -1,0 +1,194 @@
+#Joining the Council of Florence
+
+namespace = ukr_flavor
+
+country_event = {
+	id = ukr_flavor.1
+	title = "ukr_flavor.1.t"
+	desc = "ukr_flavor.1.d"
+	picture = ORTHODOX_eventPicture
+
+	is_triggered_only = no
+
+	trigger = {
+		is_year = 1444
+		culture = ruthenian
+		NOT = { has_country_modifier = council_of_florence }
+		NOT = { is_year = 1445 }
+		NOT = { patriarch_authority = 0.45 }
+	}
+
+	mean_time_to_happen = { days = 49 }
+
+	option = {
+		name = "ukr_flavor.1.a"
+		add_patriarch_authority = 0.5
+		add_estate_church_loyalty_effect = yes
+		ai_chance = {
+			factor = 25
+		}
+	}
+
+	option = {
+		name = "ukr_flavor.1.b"
+		reduce_estate_church_loyalty_effect = yes
+		add_country_modifier = {
+			name = council_of_florence
+			duration = 65700
+		}
+		ai_chance = {
+			factor = 75
+		}
+	}
+}
+
+# Third Rome - alt history
+country_event = {
+	id = flavor_rus.2003
+	title = "flavor_rus.EVTNAME2001"
+	desc = "flavor_rus.EVTDESC2001"
+	picture = COURT_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		has_dlc = "Third Rome"
+		NOT = { is_year = 1500 }
+		culture_group = east_slavic
+		owns = 151
+	}
+	
+	mean_time_to_happen = { months = 10	}
+
+	option = {
+		name = "flavor_rus.EVTOPTA2001"
+		trigger = {
+			151 = { is_capital = no }
+		}
+		ai_chance = {
+			factor = 34
+		}
+		151 = {
+			move_capital_effect = yes
+			change_religion = ROOT
+			change_culture = ROOT
+			rename_capital = Tsaregorod
+			add_province_modifier = {
+				name = "third_rome_modifier"
+				duration = -1
+			}
+		}
+	}
+
+	option = {
+		name = "flavor_rus.EVTOPTB2001"
+		capital_scope = {
+			add_province_modifier = {
+				name = "third_rome_modifier"
+				duration = -1
+			}
+		}
+		ai_chance = {
+			factor = 66
+		}
+	}
+}
+
+# The Restoration of Kiev - alt history
+country_event = {
+	id = flavor_rus.2004
+	title = "flavor_rus.EVTNAME2002"
+	desc = "flavor_rus.EVTDESC2002"
+	picture = COURT_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		has_dlc = "Third Rome"
+		NOT = { is_year = 1700 }
+		culture_group = east_slavic
+		if = {
+			limit = { tag = KIE }
+			is_year = 1635
+		}
+		owns = 280
+	}
+
+	mean_time_to_happen = { months = 10 }
+
+	option = {
+		name = "flavor_rus.EVTOPTA2002"
+		if = {
+			limit = { 
+				NOT = { primary_culture = ruthenian }
+			}
+			change_primary_culture = ruthenian
+		}
+		280 = {
+			move_capital_effect = yes
+			add_base_tax = 4
+			add_base_production = 3
+			add_base_manpower = 3
+		}
+		ai_chance = {
+			factor = 12
+		}
+	}
+
+	option = {
+		name = "flavor_rus.EVTOPTB2002"
+		trigger = { 280 = { is_capital = no } }
+		capital_scope = {
+			add_base_tax = 1
+			add_base_production = 2
+			add_base_manpower = 2
+		}
+		ai_chance = {
+			factor = 88
+		}
+	}
+}
+
+# The Cossack Host
+
+namespace = zaz_flavor
+
+country_event = {
+	id = zaz_flavor.1
+	title = "zaz_flavor.1.t"
+	desc = "zaz_flavor.1.d"
+	picture = ANGRY_MOB_eventPicture
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ZAZ
+	}
+	
+	mean_time_to_happen = {
+		months = 2
+		modifier = {
+			factor = 0.1
+			NOT = { stability = -3 }
+		}
+	}
+	
+	option = {
+		name = "zaz_flavor.1.a"
+		add_country_modifier = {
+			name = cossack_host
+			duration = 2000
+		}
+		capital_scope = {
+			cossack_cavalry = ZAZ
+			cossack_cavalry = ZAZ
+			cossack_cavalry = ZAZ
+			cossack_cavalry = ZAZ
+			cossack_cavalry = ZAZ
+			cossack_cavalry = ZAZ
+			cossack_cavalry = ZAZ
+			cossack_cavalry = ZAZ
+			cossack_cavalry = ZAZ
+		}
+	}
+}

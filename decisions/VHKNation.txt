@@ -1,0 +1,141 @@
+country_decisions = {
+
+	volyn_halich_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			OR = {
+				ai = yes
+				is_playing_custom_nation = no
+			}
+			NOT = { tag = PAP }
+			NOT = { tag = HLR }
+			NOT = { exists = UKR }
+			NOT = { exists = VOL }
+			OR = {
+				tag = HLC
+				tag = VLN
+			}
+			OR = {
+				ai = no
+				AND = {
+					ai = yes
+					num_of_cities = 3
+				}
+			}
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {	
+				AND = {
+					ROOT = { DIP = 5 }
+					OR = {
+						province_id = 279		#Kiev -center
+						province_id = 261		#Zaporozhie -southern center of rebellions
+					}
+				}
+				AND = {
+					OR = {
+						province_id = 279		#Kiev -center
+						province_id = 261		#Zaporozhie -southern center of rebellions
+						province_id = 281		#Ruthenia/Lvov -western
+					}
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			is_institution_enabled = renaissance
+			is_subject = no
+			is_nomad = no
+			is_at_war = no
+			
+			OR = {
+				#owns everything
+				AND = {
+					owns_core_province = 279		
+					owns_core_province = 261		
+					owns_core_province = 281		
+				}
+				#or owns only core-core stuff but has god like ruler
+				AND = {
+					owns_core_province = 279				
+					owns_core_province = 261		
+					dip = 5
+				}
+			}
+		}
+		effect = {
+			red_ruthenia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_permanent_claim = VOL
+			}
+			moldavia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_permanent_claim = VOL
+			}
+			pripyat_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_permanent_claim = VOL
+			}
+			podolia_volhynia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_permanent_claim = VOL
+			}
+			add_prestige = 25
+			change_tag = VOL
+			VOL = {
+				set_capital = 279 
+			}
+			if = {
+				limit = {
+					is_part_of_hre = yes
+					is_elector = no
+					is_emperor = no
+				}
+				every_owned_province = {
+					limit = {
+						is_part_of_hre = yes
+					}
+					set_in_empire = no
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						government_rank = 2
+					}
+				}
+				set_government_rank = 2
+			}
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+		}
+		ai_importance = 500		
+	}
+	
+}

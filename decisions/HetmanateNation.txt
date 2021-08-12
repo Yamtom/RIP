@@ -1,0 +1,88 @@
+country_decisions = {
+
+	hetmanate_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			was_never_end_game_tag_trigger = yes
+			NOT = { has_country_flag = formed_hetmanate_nation_flag }
+			OR = {
+				ai = yes
+				is_playing_custom_nation = no
+			}
+			tag = ZAZ
+			OR = {
+				religion_group = christian
+				religion_group = pagan
+			}
+			NOT = { has_reform = celestial_empire }
+			NOT = { exists = HET }
+			NOT = { exists = UKR }
+			NOT = { tag = PAP }
+			NOT = { tag = HLR }	
+			OR = {
+				ai = no
+				AND = {
+					ai = yes
+					num_of_cities = 3
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = west_dniepr_area
+				area = east_dniepr_area
+				area = zaporizhia_area
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			NOT = { exists = HET }
+			is_at_war = no
+			stability = 3
+			west_dniepr_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			east_dniepr_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			zaporizhia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			1944 = {
+				move_capital_effect = yes
+			}
+			west_dniepr_area = {
+				add_permanent_claim = HET
+			}
+			east_dniepr_area = {
+				add_permanent_claim = HET
+			}
+			zaporizhia_area = {
+				add_permanent_claim = HET
+			}
+			yedisan_area = {
+				add_permanent_claim = HET
+			}
+			set_government_rank = 2
+			change_tag = HET
+			set_global_flag = hetmanate_nation_formed
+			country_event = { id = ideagroups.1 } #Swap Ideas	
+			set_country_flag = formed_hetmanate_nation_flag
+			add_government_reform = military_dictatorship_reform
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 600
+	}
+}
