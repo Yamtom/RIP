@@ -47,9 +47,11 @@ VOL_missions_1 = {
 		required_missions = { volhynia_declare_independence }
 		position = 2
 		provinces_to_highlight = {
-			area = podolia_volhynia_area
-			area = red_ruthenia_area
-			area = volhynia_area
+			OR = {
+				area = podolia_volhynia_area
+				area = red_ruthenia_area
+				area = volhynia_area
+			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
@@ -97,8 +99,10 @@ VOL_missions_1 = {
 		required_missions = { volhynia_unite_galicia_volhynia }
 		position = 3
 		provinces_to_highlight = {
-			area = malopolska_area
-			area = sandomierz_area
+			OR = {
+				area = malopolska_area
+				area = sandomierz_area
+			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
@@ -135,8 +139,10 @@ VOL_missions_1 = {
 		required_missions = { volhynia_conquer_malopolska }
 		position = 4
 		provinces_to_highlight = {
-			area = pripyat_area
-			area = podlasie_area
+			OR = {
+				area = pripyat_area
+				area = podlasie_area
+			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
@@ -150,7 +156,6 @@ VOL_missions_1 = {
 			}
 		}
 		effect = {
-			add_accepted_culture = polish
 			pripyat_area = {
 				add_culture_construction = yes
 				change_religion = ROOT
@@ -161,6 +166,7 @@ VOL_missions_1 = {
 			}
 		}
 	}
+
 	volhynia_demolish_poland = {
 		icon = mission_assemble_an_army
 		required_missions = { volhynia_integrate_north }
@@ -237,8 +243,6 @@ VOL_missions_2 = {
 		provinces_to_highlight = {
 			OR = {
 				area = east_dniepr_area
-				province_id = 291
-				province_id = 298
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
@@ -265,7 +269,7 @@ VOL_missions_2 = {
 			volhynia_conquer_malopolska
 			volhynia_conquer_west_dniepr
 		}
-		position = 9
+		position = 5
 		provinces_to_highlight = {
 			OR = {
 				area = minsk_area
@@ -283,8 +287,8 @@ VOL_missions_2 = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
-		effect = {
-			add_accepted_culture = byelorussian	
+		effect = {	
+			add_accepted_culture = byelorussian
 			smolensk_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -301,7 +305,7 @@ VOL_missions_2 = {
 			volhynia_conquer_belarus
 			volhynia_integrate_north
 		}
-		position = 10
+		position = 6
 		trigger = {
 			NOT = { exists = LIT }
 			NOT = { exists = PLC }
@@ -372,8 +376,6 @@ VOL_missions_3 = {
 		provinces_to_highlight = {
 			OR = {
 				area = chernigov_area
-				province_id = 291
-				province_id = 298
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
@@ -404,7 +406,7 @@ VOL_missions_3 = {
 	volhynia_conquer_smolensk = {
 		icon = mission_cannons_firing
 		required_missions = { volhynia_conquer_chernihiv }
-		position = 6
+		position = 5
 		provinces_to_highlight = {
 			area = smolensk_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -416,6 +418,7 @@ VOL_missions_3 = {
 			}
 		}
 		effect = {
+			add_accepted_culture = ryazanian
 			293 = {				# Kiev
 				add_trade_modifier = {
 					who = ROOT
@@ -430,7 +433,7 @@ VOL_missions_3 = {
 	volhynia_demolish_MOS = {
 		icon = mission_assemble_an_army
 		required_missions = { volhynia_conquer_chernihiv }
-		position = 10
+		position = 6
 		trigger = {
 			NOT = { exists = MOS }
 			NOT = { exists = RUS }
@@ -501,8 +504,6 @@ VOL_missions_4 = {
 		provinces_to_highlight = {
 			OR = {
 				area = sloboda_ukraine_area
-				province_id = 291
-				province_id = 298
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
@@ -544,24 +545,7 @@ VOL_missions_5 = {
 			is_subject = no
 		}
 		effect = {
-			add_country_modifier = {
-				name = "volhynia_rebuild_nation"
-				duration = 9125
-			}
-			podolia_volhynia_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			red_ruthenia_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
+			
 		}
 	}
 }
