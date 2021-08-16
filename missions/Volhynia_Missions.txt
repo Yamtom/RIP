@@ -404,7 +404,7 @@ VOL_missions_3 = {
 	volhynia_conquer_smolensk = {
 		icon = mission_cannons_firing
 		required_missions = { volhynia_conquer_chernihiv }
-		position = 5
+		position = 6
 		provinces_to_highlight = {
 			area = smolensk_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -426,6 +426,19 @@ VOL_missions_3 = {
 			}
 		}
 	}
+	
+	volhynia_demolish_MOS = {
+		icon = mission_assemble_an_army
+		required_missions = { volhynia_conquer_chernihiv }
+		position = 10
+		trigger = {
+			NOT = { exists = MOS }
+			NOT = { exists = RUS }
+		}
+		effect = {
+			add_prestige = 20
+		}
+	}
 }
 
 VOL_missions_4 = {
@@ -437,6 +450,7 @@ VOL_missions_4 = {
 			tag = VOL
 			tag = VLN
 			tag = HLC 
+			tag = PDL
 		}
 	}
 	has_country_shield = yes
@@ -502,6 +516,51 @@ VOL_missions_4 = {
 			add_country_modifier = {
 				name = "protectors_of_ruthenia"
 				duration = 9125
+			}
+		}
+	}
+}
+
+VOL_missions_5 = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = VOL
+			tag = VLN
+			tag = HLC
+			tag = PDL 
+		}
+	}
+	has_country_shield = yes
+
+	
+	volhynia_declare_independence = {
+		icon = mission_have_two_subjects
+		required_missions = { }
+		position = 1
+		trigger = {
+			is_subject = no
+		}
+		effect = {
+			add_country_modifier = {
+				name = "volhynia_rebuild_nation"
+				duration = 9125
+			}
+			podolia_volhynia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			red_ruthenia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
 			}
 		}
 	}
