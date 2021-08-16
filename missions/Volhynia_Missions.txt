@@ -50,18 +50,14 @@ VOL_missions_1 = {
 			OR = {
 				if = {
 					limit = {
-						OR ={
-							NOT = { tag = VLN }
-						}
+						NOT ={tag = VLN }
 					}
 					area = podolia_volhynia_area
 					area = red_ruthenia_area
 				}
 				if = {
 					limit = {
-						OR ={
-							NOT = { tag = HLC }
-						}
+						NOT ={tag = HLC }
 					}
 					area = podolia_volhynia_area
 					area = volhynia_area
@@ -69,18 +65,14 @@ VOL_missions_1 = {
 				}
 				if = {
 					limit = {
-						OR ={
-							NOT = { tag = PDL }
-						}
+						NOT ={ tag = PDL }
 					}
 					area = volhynia_area
 					area = red_ruthenia_area
 				}
 				if = {
 					limit = {
-						OR ={
-							NOT = { tag = VOL }
-						}
+						NOT ={ tag = VOL }
 					}
 					area = podolia_volhynia_area
 					area = red_ruthenia_area
@@ -90,13 +82,66 @@ VOL_missions_1 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			podolia_volhynia_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			if = {
+				limit = {
+					NOT ={tag = VLN }
+				}
+				podolia_volhynia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				red_ruthenia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
 			}
-			red_ruthenia_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			if = {
+				limit = {
+					NOT ={tag = HLC
+					}
+				}
+				podolia_volhynia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				volhynia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+			if = {
+				limit = {
+					OR ={
+						NOT = { tag = PDL }
+					}
+				}
+				volhynia_area= {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				red_ruthenia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+			if = {
+				limit = {
+					OR ={
+						NOT = { tag = VOL }
+					}
+				}
+				podolia_volhynia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				red_ruthenia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				volhynia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
 			}
 		}
 		effect = {
