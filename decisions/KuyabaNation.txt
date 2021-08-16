@@ -1,20 +1,19 @@
 country_decisions = {
 
-	ruthenian_nation = {
+	kuyaba_nation = {
 		major = yes
 		potential = {
 			normal_or_historical_nations = yes
 			was_never_end_game_tag_trigger = yes
-			NOT = { has_country_flag = formed_ruthenia_flag }
-			OR = {
-				ai = no
-				is_playing_custom_nation = yes
-			}
+			religion_group = muslim
+			is_colonial_nation = no
+			NOT = { has_country_flag = formed_kuyaba_nation_flag }
 			NOT = { tag = PAP }
-			NOT = { tag = HLR }	
-			NOT = { tag = ZAZ }	
+			NOT = { tag = HLR }
+			NOT = { tag = ZAZ }
 			NOT = { exists = UKR }
 			NOT = { exists = HET }
+			NOT = { exists = KUY }
 			OR = {
 				primary_culture = byelorussian
 				primary_culture = ruthenian
@@ -26,7 +25,10 @@ country_decisions = {
 					num_of_cities = 3
 				}
 			}
-			is_colonial_nation = no
+			OR = {
+				ai = no
+				is_playing_custom_nation = yes
+			}
 			OR = {
 				is_former_colonial_nation = no
 				AND = {
@@ -36,7 +38,7 @@ country_decisions = {
 			}
 		}
 		provinces_to_highlight = {
-			OR = {	
+			OR = {
 				AND = {
 					ROOT = { DIP = 5 }
 					OR = {
