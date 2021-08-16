@@ -1,6 +1,6 @@
 VOL_missions_1 = {
 	slot = 1
-	generic = no
+	generic = yes
 	ai = yes
 	potential = {
 		OR = {
@@ -45,7 +45,7 @@ VOL_missions_1 = {
 	volhynia_unite_galicia_volhynia = {
 		icon = mission_conquer_50_development
 		required_missions = { volhynia_declare_independence }
-		position = 3
+		position = 2
 		provinces_to_highlight = {
 			OR = {
 				area = podolia_volhynia_area
@@ -97,7 +97,7 @@ VOL_missions_1 = {
 	volhynia_conquer_malopolska = {
 		icon = mission_build_up_to_force_limit
 		required_missions = { volhynia_unite_galicia_volhynia }
-		position = 5
+		position = 3
 		provinces_to_highlight = {
 			OR = {
 				area = malopolska_area
@@ -137,7 +137,7 @@ VOL_missions_1 = {
 	volhynia_integrate_north = {
 		icon = mission_unite_home_region
 		required_missions = { volhynia_conquer_malopolska }
-		position = 6
+		position = 4
 		provinces_to_highlight = {
 			OR = {
 				area = pripyat_area
@@ -170,7 +170,7 @@ VOL_missions_1 = {
 	volhynia_demolish_poland = {
 		icon = mission_assemble_an_army
 		required_missions = { volhynia_integrate_north }
-		position = 7
+		position = 5
 		trigger = {
 			NOT = { exists = POL }
 			NOT = { exists = PLC }
@@ -183,7 +183,7 @@ VOL_missions_1 = {
 
 VOL_missions_2 = {
 	slot = 2
-	generic = no
+	generic = yes
 	ai = yes
 	potential = {
 		OR = {
@@ -198,7 +198,7 @@ VOL_missions_2 = {
 	volhynia_conquer_west_dniepr = {
 		icon = mission_conquer_5_states
 		required_missions = { volhynia_unite_galicia_volhynia }
-		position = 5
+		position = 3
 		provinces_to_highlight = {
 			area = west_dniepr_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -239,7 +239,7 @@ VOL_missions_2 = {
 	volhynia_conquer_east_dniepr = {
 		icon = mission_unite_home_region
 		required_missions = { volhynia_conquer_west_dniepr }
-		position = 6
+		position = 4
 		provinces_to_highlight = {
 			OR = {
 				area = east_dniepr_area
@@ -269,7 +269,7 @@ VOL_missions_2 = {
 			volhynia_conquer_malopolska
 			volhynia_conquer_west_dniepr
 		}
-		position = 7
+		position = 5
 		provinces_to_highlight = {
 			OR = {
 				area = minsk_area
@@ -305,7 +305,7 @@ VOL_missions_2 = {
 			volhynia_conquer_belarus
 			volhynia_integrate_north
 		}
-		position = 8
+		position = 6
 		trigger = {
 			NOT = { exists = LIT }
 			NOT = { exists = PLC }
@@ -318,7 +318,7 @@ VOL_missions_2 = {
 
 VOL_missions_3 = {
 	slot = 3
-	generic = no
+	generic = yes
 	ai = yes
 	potential = {
 		OR = {
@@ -333,7 +333,7 @@ VOL_missions_3 = {
 	volhynia_conquer_moldavia = {
 		icon = mission_cossack_cavalry
 		required_missions = { volhynia_unite_galicia_volhynia }
-		position = 5
+		position = 3
 		provinces_to_highlight = {
 			area = moldavia_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -372,7 +372,7 @@ VOL_missions_3 = {
 	volhynia_conquer_chernihiv = {
 		icon = mission_unite_home_region
 		required_missions = { volhynia_conquer_west_dniepr }
-		position = 6
+		position = 4
 		provinces_to_highlight = {
 			OR = {
 				area = chernigov_area
@@ -406,7 +406,7 @@ VOL_missions_3 = {
 	volhynia_conquer_smolensk = {
 		icon = mission_cannons_firing
 		required_missions = { volhynia_conquer_chernihiv }
-		position = 7
+		position = 5
 		provinces_to_highlight = {
 			area = smolensk_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -433,7 +433,7 @@ VOL_missions_3 = {
 	volhynia_demolish_MOS = {
 		icon = mission_assemble_an_army
 		required_missions = { volhynia_conquer_chernihiv }
-		position = 8
+		position = 6
 		trigger = {
 			NOT = { exists = MOS }
 			NOT = { exists = RUS }
@@ -446,7 +446,7 @@ VOL_missions_3 = {
 
 VOL_missions_4 = {
 	slot = 4
-	generic = no
+	generic = yes
 	ai = yes
 	potential = {
 		OR = {
@@ -464,7 +464,7 @@ VOL_missions_4 = {
 			volhynia_conquer_west_dniepr
 			volhynia_conquer_moldavia
 		}
-		position = 6
+		position = 4
 		provinces_to_highlight = {
 			OR = {
 				area = zaporizhia_area
@@ -500,7 +500,7 @@ VOL_missions_4 = {
 	volhynia_conquer_sloboda = {
 		icon = mission_unite_home_region
 		required_missions = { volhynia_conquer_west_dniepr }
-		position = 7
+		position = 5
 		provinces_to_highlight = {
 			OR = {
 				area = sloboda_ukraine_area
@@ -521,3 +521,34 @@ VOL_missions_4 = {
 		}
 	}
 }
+<<<<<<< HEAD
+=======
+
+VOL_missions_5 = {
+	slot = 5
+	generic = yes
+	ai = yes
+	potential = {
+		OR = {
+			tag = VOL
+			tag = VLN
+			tag = HLC
+			tag = PDL 
+		}
+	}
+	has_country_shield = yes
+
+	
+	volhynia_declare_independence = {
+		icon = mission_have_two_subjects
+		required_missions = { }
+		position = 1
+		trigger = {
+			is_subject = no
+		}
+		effect = {
+
+		}
+	}
+}
+>>>>>>> parent of e30561e... 8
