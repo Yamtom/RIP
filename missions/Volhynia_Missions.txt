@@ -6,7 +6,8 @@ VOL_missions_1 = {
 		OR = {
 			tag = VOL
 			tag = VLN
-			tag = HLC 
+			tag = HLC
+			tag = PDL 
 		}
 	}
 	has_country_shield = yes
@@ -44,11 +45,47 @@ VOL_missions_1 = {
 	volhynia_unite_galicia_volhynia = {
 		icon = mission_conquer_50_development
 		required_missions = { volhynia_declare_independence }
-		position = 7
+		position = 1
 		provinces_to_highlight = {
 			OR = {
-				area = podolia_volhynia_area
-				area = red_ruthenia_area
+				if = {
+					limit = {
+						OR ={
+							NOT = { tag = VLN }
+						}
+					}
+					area = podolia_volhynia_area
+					area = red_ruthenia_area
+				}
+				if = {
+					limit = {
+						OR ={
+							NOT = { tag = HLC }
+						}
+					}
+					area = podolia_volhynia_area
+					area = volhynia_area
+
+				}
+				if = {
+					limit = {
+						OR ={
+							NOT = { tag = PDL }
+						}
+					}
+					area = volhynia_area
+					area = red_ruthenia_area
+				}
+				if = {
+					limit = {
+						OR ={
+							NOT = { tag = PDL }
+						}
+					}
+					area = podolia_volhynia_area
+					area = red_ruthenia_area
+					area = volhynia_area
+				}
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
