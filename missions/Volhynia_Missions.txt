@@ -16,7 +16,7 @@ VOL_missions_1 = {
 	volhynia_declare_independence = {
 		icon = mission_have_two_subjects
 		required_missions = { }
-		position = 5
+		position = 1
 		trigger = {
 			is_subject = no
 		}
@@ -45,7 +45,7 @@ VOL_missions_1 = {
 	volhynia_unite_galicia_volhynia = {
 		icon = mission_conquer_50_development
 		required_missions = { volhynia_declare_independence }
-		position = 1
+		position = 2
 		provinces_to_highlight = {
 			OR = {
 				if = {
@@ -82,65 +82,62 @@ VOL_missions_1 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			if = {
-				limit = {
-					NOT ={tag = VLN }
-				}
-				podolia_volhynia_area = {
-					type = all
-					country_or_non_sovereign_subject_holds = ROOT
-				}
-				red_ruthenia_area = {
-					type = all
-					country_or_non_sovereign_subject_holds = ROOT
-				}
-			}
-			if = {
-				limit = {
-					NOT ={tag = HLC
+			OR = {
+				if = {
+					limit = {
+						NOT ={ tag = VLN }
+					}
+					podolia_volhynia_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+					red_ruthenia_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
 					}
 				}
-				podolia_volhynia_area = {
-					type = all
-					country_or_non_sovereign_subject_holds = ROOT
+				if = {
+					limit = {
+						NOT ={ tag = HLC }
+					}
+					podolia_volhynia_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+					volhynia_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+					}
 				}
-				volhynia_area = {
-					type = all
-					country_or_non_sovereign_subject_holds = ROOT
-				}
-			}
-			if = {
-				limit = {
-					OR ={
+				if = {
+					limit = {
 						NOT = { tag = PDL }
 					}
-				}
-				volhynia_area= {
-					type = all
-					country_or_non_sovereign_subject_holds = ROOT
-				}
-				red_ruthenia_area = {
-					type = all
-					country_or_non_sovereign_subject_holds = ROOT
-				}
-			}
-			if = {
-				limit = {
-					OR ={
-						NOT = { tag = VOL }
+					volhynia_area= {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+					red_ruthenia_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
 					}
 				}
-				podolia_volhynia_area = {
-					type = all
-					country_or_non_sovereign_subject_holds = ROOT
-				}
-				red_ruthenia_area = {
-					type = all
-					country_or_non_sovereign_subject_holds = ROOT
-				}
-				volhynia_area = {
-					type = all
-					country_or_non_sovereign_subject_holds = ROOT
+				if = {
+					limit = {
+						NOT = { tag = VOL }
+					}
+					podolia_volhynia_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+					red_ruthenia_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+					volhynia_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+					}
 				}
 			}
 		}
