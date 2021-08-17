@@ -15,7 +15,7 @@ VOL_missions_1 = {
 	
 	volhynia_declare_independence = {
 		icon = mission_have_two_subjects
-		required_missions = { }
+		required_missions = { volhynia_stability }
 		position = 1
 		trigger = {
 			is_subject = no
@@ -215,6 +215,29 @@ VOL_missions_2 = {
 	}
 	has_country_shield = yes
 	
+
+	volhynia_stability = {
+		icon = mission_assemble_an_army
+		required_missions = {  }
+		position = 2
+		provinces_to_highlight = {
+			area = pripyat_area
+		}
+		trigger = {
+			stability = 2
+			podolia_volhynia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = VOL_border_control
+				duration = 3654
+			}
+		}
+	}
+
 	volhynia_conquer_west_dniepr = {
 		icon = mission_conquer_5_states
 		required_missions = { volhynia_unite_galicia }
@@ -460,6 +483,48 @@ VOL_missions_3 = {
 	}
 	has_country_shield = yes
 	
+
+	volhynia_church = {
+		icon = mission_assemble_an_army
+		required_missions = {  }
+		position = 7
+		trigger = {
+			temple = 5
+			prestige = 50
+		}
+		effect = {
+			add_country_modifier = {
+				name = VOL_godliness
+				duration = 3654
+			}			
+			add_country_modifier = {
+				name = VOL_mod_arch
+				duration = -1
+			}
+		}
+	}
+
+	volhynia_full_army = {
+		icon = mission_assemble_an_army
+		required_missions = { volhynia_church }
+		position = 2
+		provinces_to_highlight = {
+			area = volhynia_area
+		}
+		trigger = {
+			army_size_percentage = 1
+			volhynia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			279 = {
+				add_building = fort_16th
+			}
+		}
+	}
+
 	volhynia_conquer_moldavia = {
 		icon = mission_cossack_cavalry
 		required_missions = { volhynia_unite_galicia }
@@ -623,6 +688,58 @@ VOL_missions_4 = {
 	}
 	has_country_shield = yes
 	
+
+	volhynia_king_power = {
+		icon = mission_assemble_an_army
+		required_missions = { volhynia_church }
+		position = 2
+		provinces_to_highlight = {
+			area = red_ruthenia_area
+		}
+		trigger = {
+			absolutism = 50
+			red_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			dip_power_cost = 50
+			capital_scope = {
+				cossack_cavalry = ROOT
+				cossack_cavalry = ROOT
+				cossack_cavalry = ROOT
+				cossack_cavalry = ROOT
+				cossack_cavalry = ROOT
+			}
+		}
+	}
+
+	volhynia_king_power = {
+		icon = mission_assemble_an_army
+		required_missions = { volhynia_church }
+		position = 2
+		provinces_to_highlight = {
+		province_id = 280
+		}
+		trigger = {
+			absolutism = 50
+			280 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_stability = 2
+			change_heir_adm = 2 
+			change_heir_dip = 2
+			change_heir_mil = 2
+			add_country_modifier = {
+				name = VOL_unity
+				duration = -1
+			}
+		}
+	}
+
 	mission_restore_ruthenia = {
 		icon = mission_eastern_european_city
 		required_missions = { VOL_deal_with_the_boyar_mission  }
@@ -744,10 +861,10 @@ polish_missions_slot_5 = {
 		required_missions = { VOL_renaissance_mission }
 		position = 2
 		provinces_to_highlight = {
-			province_id = 262
+			province_id = 261
 		}
 		trigger = {
-			954 = {
+			261 = {
 				owned_by = ROOT
 				NOT = { unrest = 1 }
 				NOT = { devastation = 1 }
@@ -762,7 +879,7 @@ polish_missions_slot_5 = {
 			}
 		}
 		effect = {
-			954 = {
+			261 = {
 				add_province_modifier = {
 					name = "chumak_modifier"
 					duration = -1
@@ -875,6 +992,7 @@ polish_missions_slot_5 = {
 		trigger = {
 			owns_core_province = 291
 			owns_core_province = 2413
+			has_institution = industrialization
 			291 = {
 				development = 20			
 				has_manufactory_trigger = yes
