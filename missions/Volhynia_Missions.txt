@@ -269,7 +269,7 @@ VOL_missions_2 = {
 			volhynia_integrate_north
 			volhynia_conquer_chernihiv
 		}
-		position = 5
+		position = 6
 		provinces_to_highlight = {
 			OR = {
 				area = minsk_area
@@ -304,7 +304,7 @@ VOL_missions_2 = {
 		required_missions = { 
 			volhynia_conquer_belarus
 		}
-		position = 6
+		position = 7
 		trigger = {
 			NOT = { exists = LIT }
 			NOT = { exists = PLC }
@@ -370,8 +370,8 @@ VOL_missions_3 = {
 	
 	volhynia_conquer_chernihiv = {
 		icon = mission_unite_home_region
-		required_missions = { volhynia_conquer_west_dniepr }
-		position = 4
+		required_missions = { volhynia_conquer_east_dniepr }
+		position = 5
 		provinces_to_highlight = {
 			OR = {
 				area = chernigov_area
@@ -405,7 +405,7 @@ VOL_missions_3 = {
 	volhynia_conquer_smolensk = {
 		icon = mission_cannons_firing
 		required_missions = { volhynia_conquer_chernihiv }
-		position = 5
+		position = 6
 		provinces_to_highlight = {
 			area = smolensk_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -432,7 +432,7 @@ VOL_missions_3 = {
 	volhynia_demolish_MOS = {
 		icon = mission_assemble_an_army
 		required_missions = { volhynia_conquer_smolensk }
-		position = 6
+		position = 7
 		trigger = {
 			NOT = { exists = MOS }
 			NOT = { exists = RUS }
@@ -498,7 +498,7 @@ VOL_missions_4 = {
 	
 	volhynia_conquer_sloboda = {
 		icon = mission_unite_home_region
-		required_missions = { volhynia_conquer_chernihiv }
+		required_missions = { volhynia_conquer_east_dniepr }
 		position = 5
 		provinces_to_highlight = {
 			OR = {
@@ -516,6 +516,411 @@ VOL_missions_4 = {
 			add_country_modifier = {
 				name = "protectors_of_ruthenia"
 				duration = 9125
+			}
+		}
+	}
+	
+	mission_restore_ruthenia = {
+		icon = mission_eastern_european_city
+		required_missions = { deal_with_the_sejm_mission  }
+		position = 6
+		provinces_to_highlight = {
+			OR = {
+				area = west_dniepr_area
+				area = east_dniepr_area
+			}
+		}
+		trigger = {
+			west_dniepr_area = {
+				type = all
+				owned_by = ROOT
+			}
+			east_dniepr_area = {
+				type = all
+				owned_by = ROOT
+			}
+			280 = {
+				development = 20
+			}
+			num_of_owned_provinces_with = {
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+				development = 10
+				value = 5
+			}
+		}
+		effect = {
+			west_dniepr_area = {
+				# dev cost
+				add_province_modifier = {
+					name = "restored_ruthenia"
+					duration = -1
+				}
+			}
+			east_dniepr_area = {
+				# dev cost
+				add_province_modifier = {
+					name = "restored_ruthenia"
+					duration = -1
+				}
+			}
+		}
+	}
+
+	break_the_rus_mission = {
+		icon = mission_conquer_5_states
+		required_missions = { 
+			volhynia_demolish_MOS 
+			mission_restore_ruthenia
+		}
+		position = 8
+		provinces_to_highlight = {
+			owner = {
+				capital_scope = {
+					region = russia_region
+				}
+				total_development = 100
+				culture_group = east_slavic
+				is_subject = no
+			}
+		}
+		trigger = {
+			total_development = 600
+			custom_trigger_tooltip = {
+				tooltip = break_the_rus_mission_tooltip
+				NOT = {
+					any_country = {
+						capital_scope = {
+							region = russia_region
+						}
+						total_development = 100
+						culture_group = east_slavic
+						is_subject = no
+					}
+				}
+			}
+		}
+		effect = {
+			add_yearly_manpower = 3
+			add_war_exhaustion = -5
+			add_country_modifier = {
+				name = "broke_the_rus"
+				duration = 7300
+			}
+		}
+	}
+}
+
+polish_missions_slot_5 = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = VOL
+			tag = VLN
+			tag = HLC 
+			tag = PDL
+		}
+	}
+	has_country_shield = yes
+	
+	polish_renaissance_mission = {
+		icon = mission_early_modern_university
+		required_missions = {  }
+		position = 1
+		trigger = {
+			has_institution = renaissance
+			stability = 2
+			prestige = 25
+			NOT = { war_exhaustion = 1 }
+		}
+		effect = {
+			country_event = { id = flavor_pol.5100 }
+			add_country_modifier = {
+				name = "polish_renaissance"
+				duration = 7300
+			}
+		}
+	}
+	expand_kazimierz_mission = {
+		icon = mission_eastern_european_city
+		required_missions = { polish_renaissance_mission }
+		position = 2
+		provinces_to_highlight = {
+			province_id = 262
+		}
+		trigger = {
+			262 = {
+				owned_by = ROOT
+				NOT = { unrest = 1 }
+				NOT = { devastation = 1 }
+				OR = {
+					has_building = workshop
+					has_building = counting_house
+				}
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+					}
+					province_has_center_of_trade_of_level = 3
+				}
+				else = {
+					OR = {
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}
+			}
+		}
+		effect = {
+			define_advisor = {
+				type = theologian
+				name = "Moses Isserles"
+				culture = polish
+				religion = jewish
+				skill = 3
+				cost_multiplier = 0.25
+			}
+			add_country_modifier = {
+				name = "pol_thriving_jewish_community"
+				duration = 7300
+			}
+			262 = {
+				add_province_modifier = {
+					name = "kazimierz_modifier"
+					duration = -1
+				}
+			}
+		}
+	}
+	deal_with_the_sejm_mission = {
+		icon = mission_noble_council
+		required_missions = { expand_kazimierz_mission }
+		position = 3
+		trigger = {
+			NOT = {
+				has_reform = elective_monarchy
+			}
+			if = {
+				limit = {
+					is_revolutionary = no
+				}
+				absolutism = 50
+			}
+			crown_land_share = 50
+		}
+		effect = {
+			add_adm_power = 100
+			add_country_modifier = {
+				name = "dealt_with_the_sejm"
+				duration = 7300
+			}
+		}
+	}
+	invest_in_west_poland_mission = {
+		icon = mission_have_manufactories
+		required_missions = { deal_with_the_sejm_mission }
+		position = 4
+		provinces_to_highlight = {
+			OR = {
+				province_id = 260
+				province_id = 2961
+			}
+		}
+		trigger = {
+			owns_core_province = 260
+			owns_core_province = 2961
+			260 = {
+				development = 20			
+				has_manufactory_trigger = yes
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+					}
+					province_has_center_of_trade_of_level = 3
+				}
+				else = {
+					OR = {
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}				
+			}
+			2961 = {
+				development = 20
+				has_manufactory_trigger = yes
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+					}
+					province_has_center_of_trade_of_level = 2
+				}
+				else = {
+					OR = {
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}	
+			}
+		}
+		effect = {
+			# goods produced and local trade power
+			sandomierz_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = "invested_in_eastern_poland"
+					duration = 7300
+				}
+			}
+			red_ruthenia_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = "invested_in_eastern_poland"
+					duration = 7300
+				}
+			}
+		}
+	}
+	invest_in_centr_poland_mission = {
+		icon = mission_have_manufactories
+		required_missions = { deal_with_the_sejm_mission }
+		position = 4
+		provinces_to_highlight = {
+			OR = {
+				province_id = 260
+				province_id = 2961
+			}
+		}
+		trigger = {
+			owns_core_province = 260
+			owns_core_province = 2961
+			260 = {
+				development = 20			
+				has_manufactory_trigger = yes
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+					}
+					province_has_center_of_trade_of_level = 3
+				}
+				else = {
+					OR = {
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}				
+			}
+			2961 = {
+				development = 20
+				has_manufactory_trigger = yes
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+					}
+					province_has_center_of_trade_of_level = 2
+				}
+				else = {
+					OR = {
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}	
+			}
+		}
+		effect = {
+			# goods produced and local trade power
+			sandomierz_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = "invested_in_eastern_poland"
+					duration = 7300
+				}
+			}
+			red_ruthenia_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = "invested_in_eastern_poland"
+					duration = 7300
+				}
+			}
+		}
+	}
+	invest_in_eastern_poland_mission = {
+		icon = mission_have_manufactories
+		required_missions = { invest_in_centr_poland_mission }
+		position = 4
+		provinces_to_highlight = {
+			OR = {
+				province_id = 260
+				province_id = 2961
+			}
+		}
+		trigger = {
+			owns_core_province = 260
+			owns_core_province = 2961
+			260 = {
+				development = 20			
+				has_manufactory_trigger = yes
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+					}
+					province_has_center_of_trade_of_level = 3
+				}
+				else = {
+					OR = {
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}				
+			}
+			2961 = {
+				development = 20
+				has_manufactory_trigger = yes
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+					}
+					province_has_center_of_trade_of_level = 2
+				}
+				else = {
+					OR = {
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}	
+			}
+		}
+		effect = {
+			# goods produced and local trade power
+			sandomierz_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = "invested_in_eastern_poland"
+					duration = 7300
+				}
+			}
+			red_ruthenia_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = "invested_in_eastern_poland"
+					duration = 7300
+				}
 			}
 		}
 	}
