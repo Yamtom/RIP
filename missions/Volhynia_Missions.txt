@@ -15,7 +15,7 @@ VOL_missions_1 = {
 	
 	volhynia_declare_independence = {
 		icon = mission_have_two_subjects
-		required_missions = { volhynia_stability }
+		required_missions = {  }
 		position = 1
 		trigger = {
 			is_subject = no
@@ -218,10 +218,10 @@ VOL_missions_2 = {
 
 	volhynia_stability = {
 		icon = mission_assemble_an_army
-		required_missions = {  }
+		required_missions = { volhynia_church }
 		position = 2
 		provinces_to_highlight = {
-			area = pripyat_area
+			area = podolia_volhynia_area
 		}
 		trigger = {
 			stability = 2
@@ -495,7 +495,7 @@ VOL_missions_3 = {
 		effect = {
 			add_country_modifier = {
 				name = VOL_godliness
-				duration = 3654
+				duration = 3650
 			}			
 			add_country_modifier = {
 				name = VOL_mod_arch
@@ -515,7 +515,6 @@ VOL_missions_3 = {
 			army_size_percentage = 1
 			volhynia_area = {
 				type = all
-				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		effect = {
@@ -704,7 +703,7 @@ VOL_missions_4 = {
 			}
 		}
 		effect = {
-			dip_power_cost = 50
+			dip_power_cost = -50
 			capital_scope = {
 				cossack_cavalry = ROOT
 				cossack_cavalry = ROOT
