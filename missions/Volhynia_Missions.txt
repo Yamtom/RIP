@@ -42,7 +42,7 @@ VOL_missions_1 = {
 		}
 	}
 	
-	volhynia_unite_galicia_volhynia = {
+	volhynia_unite_galicia = {
 		icon = mission_conquer_50_development
 		required_missions = { volhynia_declare_independence }
 		position = 2
@@ -96,7 +96,7 @@ VOL_missions_1 = {
 	
 	volhynia_conquer_malopolska = {
 		icon = mission_build_up_to_force_limit
-		required_missions = { volhynia_unite_galicia_volhynia }
+		required_missions = { volhynia_unite_galicia }
 		position = 3
 		provinces_to_highlight = {
 			OR = {
@@ -197,7 +197,7 @@ VOL_missions_2 = {
 	
 	volhynia_conquer_west_dniepr = {
 		icon = mission_conquer_5_states
-		required_missions = { volhynia_unite_galicia_volhynia }
+		required_missions = { volhynia_unite_galicia }
 		position = 3
 		provinces_to_highlight = {
 			area = west_dniepr_area
@@ -266,8 +266,8 @@ VOL_missions_2 = {
 	volhynia_conquer_belarus = {
 		icon = mission_assemble_an_army
 		required_missions = {
-			volhynia_conquer_malopolska
-			volhynia_conquer_west_dniepr
+			volhynia_integrate_north
+			volhynia_conquer_chernihiv
 		}
 		position = 5
 		provinces_to_highlight = {
@@ -303,7 +303,6 @@ VOL_missions_2 = {
 		icon = mission_assemble_an_army
 		required_missions = { 
 			volhynia_conquer_belarus
-			volhynia_integrate_north
 		}
 		position = 6
 		trigger = {
@@ -332,7 +331,7 @@ VOL_missions_3 = {
 	
 	volhynia_conquer_moldavia = {
 		icon = mission_cossack_cavalry
-		required_missions = { volhynia_unite_galicia_volhynia }
+		required_missions = { volhynia_unite_galicia }
 		position = 3
 		provinces_to_highlight = {
 			area = moldavia_area
@@ -432,7 +431,7 @@ VOL_missions_3 = {
 	
 	volhynia_demolish_MOS = {
 		icon = mission_assemble_an_army
-		required_missions = { volhynia_conquer_chernihiv }
+		required_missions = { volhynia_conquer_smolensk }
 		position = 6
 		trigger = {
 			NOT = { exists = MOS }
@@ -499,7 +498,7 @@ VOL_missions_4 = {
 	
 	volhynia_conquer_sloboda = {
 		icon = mission_unite_home_region
-		required_missions = { volhynia_conquer_west_dniepr }
+		required_missions = { volhynia_conquer_chernihiv }
 		position = 5
 		provinces_to_highlight = {
 			OR = {
