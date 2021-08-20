@@ -43,7 +43,7 @@ kyiv_missions_1 = {
 	secure_the_west_KIE = {
 		icon = kingdom_of_cyprus
 		required_missions = { subjugate_lendians_KIE }
-		position = 3
+		position = 2
 		
 		provinces_to_highlight = {
 			OR = {
@@ -74,7 +74,7 @@ kyiv_missions_1 = {
 	growing_wealth_KIE = {
 		icon = dominant_economy
 		required_missions = { secure_the_west_KIE }
-		position = 5
+		position = 3
 		
 		trigger = {
 			num_of_owned_provinces_with = {
@@ -86,32 +86,6 @@ kyiv_missions_1 = {
 		effect = {
 			add_mercantilism = 5
 			add_corruption = -10
-		}
-	}
-	men_of_the_north_KIE = {
-		icon = et_mission_viking_longboat
-		required_missions = { integrate_novgorod_KIE }
-		position = 7
-		
-		trigger = {
-			OR = {
-				any_hired_mercenary_company = {
-					home_province = {
-						region = scandinavia_region
-					}
-				}
-				any_ally = {
-					capital_scope = {
-						region = scandinavia_region
-					}
-					has_opinion = {
-						who = ROOT
-						value = 150
-					}
-				}
-			}
-		}
-		effect = {
 		}
 	}
 	KIE_ruthenia = {
@@ -146,6 +120,32 @@ kyiv_missions_1 = {
 				}
 				add_permanent_claim = ROOT
 			}
+		}
+	}
+	men_of_the_north_KIE = {
+		icon = et_mission_viking_longboat
+		required_missions = { integrate_novgorod_KIE }
+		position = 7
+		
+		trigger = {
+			OR = {
+				any_hired_mercenary_company = {
+					home_province = {
+						region = scandinavia_region
+					}
+				}
+				any_ally = {
+					capital_scope = {
+						region = scandinavia_region
+					}
+					has_opinion = {
+						who = ROOT
+						value = 150
+					}
+				}
+			}
+		}
+		effect = {
 		}
 	}
 	
@@ -183,7 +183,7 @@ kyiv_missions_1 = {
 	
 	KIE_novgorod = {
 		icon = mission_conquer_novgorod
-		position = 10
+		position = 9
 		required_missions = { KIE_muscovy }
 		
 		provinces_to_highlight = {
@@ -220,7 +220,7 @@ kyiv_missions_1 = {
 	
 	KIE_ancestral = {
 		icon = mission_protect_white_sea_trade
-		position = 12
+		position = 10
 		required_missions = { KIE_novgorod }
 		
 		provinces_to_highlight = {
@@ -249,7 +249,7 @@ kyiv_missions_1 = {
 	
 	KIE_kazan = {
 		icon = mission_steppe_warriors
-		position = 14
+		position = 11
 		required_missions = { }
 		
 		provinces_to_highlight = {
@@ -286,7 +286,7 @@ kievenrus_missions_2 = {
 	subjugate_dregovichs_KIE = {
 		icon = mission_have_two_subjects
 		required_missions = { true_ruler_rus_KIE }
-		position = 3
+		position = 2
 		completed_by = 1478.1.1
 		
 		provinces_to_highlight = {
@@ -383,7 +383,7 @@ kievenrus_missions_2 = {
 	integrate_novgorod_KIE = {
 		icon = mission_conquer_novgorod
 		required_missions = { northern_expansion_KIE }
-		position = 7
+		position = 6
 		completed_by = 1478.1.1
 		
 		provinces_to_highlight = {
@@ -462,7 +462,7 @@ kievenrus_missions_2 = {
 	under_one_rule_KIE = {
 		icon = mission_rule_ruthenia
 		required_missions = { integrate_novgorod_KIE }
-		position = 9
+		position = 7
 		completed_by = 1463.1.1
 		
 		provinces_to_highlight = {
@@ -510,7 +510,7 @@ kievenrus_missions_2 = {
 	
 	KIE_princes = {
 		icon = mission_unite_the_princes
-		position = 10
+		position = 9
 		required_missions = { KIE_muscovy }
 		
 		provinces_to_highlight = {
@@ -535,7 +535,7 @@ kievenrus_missions_2 = {
 	
 	KIE_baltic = {
 		icon = mission_landsknecht_soldier
-		position = 12
+		position = 10
 		required_missions = { KIE_novgorod }
 		
 		provinces_to_highlight = {
@@ -569,7 +569,7 @@ kievenrus_missions_2 = {
 
 	KIE_poland = {
 		icon = mission_conquer_5_states
-		position = 14
+		position = 11
 		required_missions = { KIE_baltic }
 		
 		provinces_to_highlight = {
@@ -845,7 +845,7 @@ kievenrus_missions_3 = {
 
 	KIE_patriarchy = {
 		icon = mission_autocephalous_archbishopric
-		position = 8
+		position = 7
 		required_missions = { KIE_restore_kiev }
 		
 		trigger = {
@@ -941,7 +941,7 @@ kievenrus_missions_3 = {
 	
 	KIE_bulgaria = {
 		icon = mission_crusade_for_varna
-		position = 12
+		position = 11
 		required_missions = { KIE_romania }
 		
 		provinces_to_highlight = {
@@ -991,7 +991,7 @@ kievenrus_missions_3 = {
 	
 	KIE_tsar = {
 		icon = mission_city_of_the_world's_desire
-		position = 14
+		position = 12
 		required_missions = { KIE_bulgaria }
 		
 		provinces_to_highlight = {
@@ -1064,7 +1064,7 @@ kievenrus_missions_3 = {
 	
 	KIE_greece = {
 		icon = mission_pf_cross
-		position = 16
+		position = 13
 		required_missions = { KIE_tsar }
 		
 		provinces_to_highlight = {
@@ -1111,7 +1111,7 @@ kievenrus_missions_3 = {
 	
 	KIE_siberia = {
 		icon = mission_collect_yasak
-		position = 18
+		position = 14
 		required_missions = { KIE_kazan KIE_perm }
 		
 		trigger = {
@@ -1147,7 +1147,7 @@ kievenrus_missions_4 = {
 		position = 4
 		required_missions = { KIE_secure_kiev }
 		trigger = {
-			at_war = no
+			is_at_war = no
 			dynasty = "Rurikovich"
 		}
 		effect = {
@@ -1211,7 +1211,7 @@ kievenrus_missions_4 = {
 	khazar_rus_conflict_KIE = {
 		icon = mission_indo_scythians
 		required_missions = { dniestr_trade_route_KIE }
-		position = 7
+		position = 6
 		
 		provinces_to_highlight = {
 			OR = {
@@ -1264,13 +1264,6 @@ kievenrus_missions_4 = {
 		effect = {
 			add_treasury = 250
 			wallachia_area = {
-				limit = {
-					NOT = { is_permanent_claim = ROOT	}
-					NOT = { is_core = ROOT	}
-				}
-				add_permanent_claim = ROOT
-			}
-			bessarabia_area = {
 				limit = {
 					NOT = { is_permanent_claim = ROOT	}
 					NOT = { is_core = ROOT	}
@@ -1351,7 +1344,7 @@ kievenrus_missions_4 = {
 	}
 	KIE_fleet = {
 		icon = mission_arabian_sea_trade
-		position = 12
+		position = 11
 		required_missions = { KIE_port }
 		
 		trigger = {
@@ -1433,7 +1426,7 @@ kievenrus_missions_5 = {
 	byzantine_relations_KIE = {
 		icon = carolingian_empire
 		required_missions = { develop_kyiv_KIE }
-		position = 3
+		position = 2
 		
 		provinces_to_highlight = {
 			owned_by = BYZ
@@ -1500,7 +1493,7 @@ kievenrus_missions_5 = {
 	
 	KIE_dniepr = {
 		icon = mission_advance_to_the_dnieper
-		position = 6
+		position = 5
 		required_missions = { KIE_cossack }
 		
 		trigger = {
@@ -1647,7 +1640,7 @@ kievenrus_missions_5 = {
 	
 	KIE_perm = {
 		icon = mission_integrate_perm
-		position = 16
+		position = 13
 		required_missions = { }
 		
 		trigger = {
