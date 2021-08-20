@@ -756,7 +756,46 @@ VOL_missions_4 = {
 			}
 		}
 	}
+}
 
+VOL_missions_U_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		tag = VOL
+	}
+	has_country_shield = yes
+
+	
+	VOL_old_capital = {
+		icon = mission_conquer_50_development
+		required_missions = { 
+			VOL_king_power
+			VOL_full_army
+		}
+		position = 2
+		provinces_to_highlight = {
+		province_id = 280
+		}
+		trigger = {
+			absolutism = 50
+			280 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_stability = 2
+			change_heir_adm = 2 
+			change_heir_dip = 2
+			change_heir_mil = 2
+			add_country_modifier = {
+				name = VOL_unity
+				duration = -1
+			}
+		}
+	}
+	
 	VOL_restore_ruthenia = {
 		icon = mission_eastern_european_city
 		required_missions = { VOL_deal_with_the_boyar_mission  }
@@ -805,46 +844,7 @@ VOL_missions_4 = {
 			}
 		}
 	}
-}
 
-VOL_missions_U_4 = {
-	slot = 4
-	generic = no
-	ai = yes
-	potential = {
-		tag = VOL
-	}
-	has_country_shield = yes
-
-	
-	VOL_old_capital = {
-		icon = mission_conquer_50_development
-		required_missions = { 
-			VOL_king_power
-			VOL_full_army
-		}
-		position = 2
-		provinces_to_highlight = {
-		province_id = 280
-		}
-		trigger = {
-			absolutism = 50
-			280 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		effect = {
-			add_stability = 2
-			change_heir_adm = 2 
-			change_heir_dip = 2
-			change_heir_mil = 2
-			add_country_modifier = {
-				name = VOL_unity
-				duration = -1
-			}
-		}
-	}
-	
 	VOL_far_north = {
 		icon = mission_conquer_5_states
 		required_missions = { 
