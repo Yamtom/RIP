@@ -47,25 +47,16 @@ country_decisions = {
 				}
 				AND = {
 					ROOT = { NOT = { DIP = 5 } }
-					if = {
-						limit = {
-							NOT = { is_date = 1775.1.1 }
- 						}
-						OR = {
-							province_id = 280		#Kiev -center
-							province_id = 283		#Zaporozhie -southern center of rebellions
-							province_id = 261		#Ruthenia/Lvov -western
-							province_id = 279		#Volhynia -western
-							province_id = 289		#Chernihiv -eastern
-							province_id = 291		#Kharkiv -eastern
-						}
-					}
 					OR = {
 						province_id = 280		#Kiev -center
 						province_id = 283		#Zaporozhie -eastern/southern center of rebellions
 						province_id = 261		#Ruthenia/Lvov -western
 						province_id = 279		#Volhynia -western
 						province_id = 289		#Chernihiv -eastern
+						if = {
+							limit = {is_date = 1775.1.1 }
+							province_id = 291		#Kharkiv -eastern
+						}
 					}
 				}
 			}
@@ -83,23 +74,30 @@ country_decisions = {
 			280 = { is_state = yes }					#Kiev -center
 			OR = {
 				#or owns only core-core stuff but has god like ruler
-				AND = {
+				if = {
+					limit = { NOT = {dip = 5 } }
 					owns_core_province = 283		#Zaporozhie -southern center of rebellions
 					owns_core_province = 280		#Kiev -center
 					dip = 5
 				}
 				#owns everything per 1775
-				AND = {	
+				if = {
+					limit = { NOT = { is_date = 1775.1.1 } }
 					owns_core_province = 261		#Ruthenia/Lvov -western
 					owns_core_province = 279		#Volhynia -western
 					owns_core_province = 283		#Zaporozhie southern center of rebellions
 					owns_core_province = 280		#Kiev -center
 					owns_core_province = 289		#Chernihiv -eastern
-					if = {
-						limit = {is_date = 1775.1.1 }
-						owns_core_province = 291		#Kharkiv -eastern
-					}	
 				}
+				if = {
+					limit = {is_date = 1775.1.1 }
+					owns_core_province = 261		#Ruthenia/Lvov -western
+					owns_core_province = 279		#Volhynia -western
+					owns_core_province = 283		#Zaporozhie southern center of rebellions
+					owns_core_province = 280		#Kiev -center
+					owns_core_province = 289		#Chernihiv -eastern
+					owns_core_province = 291		#Kharkiv -eastern
+				}	
 			}
 		}
 		effect = {
