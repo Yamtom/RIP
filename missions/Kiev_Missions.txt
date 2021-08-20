@@ -109,7 +109,7 @@ kyiv_missions_1 = {
 			ruthenia_region = {
 				limit = { owned_by = ROOT }
 				add_province_modifier = {
-					name = "rut_unified"
+					name = "KIE_unified"
 					duration = 5475
 				}
 			}
@@ -240,7 +240,7 @@ kyiv_missions_1 = {
 			add_legitimacy = 15
 			scandinavia_region = {
 				add_province_modifier = {
-					name = "rus_scandinavia"
+					name = "KIE_scandinavia"
 					duration = 7300
 				}
 			}
@@ -254,7 +254,7 @@ kyiv_missions_1 = {
 		
 		provinces_to_highlight = {
 			OR = {
-				area = kazam_area
+				area = kazan_area
 			}
 			NOT = {
 				country_or_non_sovereign_subject_holds = ROOT
@@ -271,7 +271,7 @@ kyiv_missions_1 = {
 		}
 	}
 }
-kievenrus_missions_2 = {
+KIE_missions_2 = {
 	slot = 2
 	generic = no
 	ai = yes
@@ -285,7 +285,7 @@ kievenrus_missions_2 = {
 		
 	subjugate_dregovichs_KIE = {
 		icon = mission_have_two_subjects
-		required_missions = { true_ruler_rus_KIE }
+		required_missions = { true_ruler_KIE_KIE }
 		position = 2
 		completed_by = 1478.1.1
 		
@@ -339,7 +339,7 @@ kievenrus_missions_2 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = "rus_develop_ruthenia"
+				name = "KIE_develop_ruthenia"
 				duration = 7300
 			}
 		}
@@ -514,8 +514,11 @@ kievenrus_missions_2 = {
 		required_missions = { KIE_muscovy }
 		
 		provinces_to_highlight = {
-			area = russia_region
-			NOT = { owned_by = ROOT }
+			area = {
+				russia_region = {
+					NOT = { owned_by = ROOT }
+				}
+			}
 		}
 		
 		trigger = {
@@ -621,7 +624,7 @@ kievenrus_missions_2 = {
 		}
 	}
 }
-kievenrus_missions_3 = {
+KIE_missions_3 = {
 	slot = 3
 	generic = no
 	ai = yes
@@ -633,7 +636,7 @@ kievenrus_missions_3 = {
 	}
 	has_country_shield = yes
 	
-	true_ruler_rus_KIE = {
+	true_ruler_KIE_KIE = {
 		icon = king_of_poland
 		required_missions = {  }
 		position = 1
@@ -663,7 +666,7 @@ kievenrus_missions_3 = {
 				target = VOL
 			}
 		}
-	}hield = yes
+	}
 	
 	KIE_secure_kiev = {
 		icon = mission_restore_kiev
@@ -694,7 +697,7 @@ kievenrus_missions_3 = {
 	}
 	friend_or_foe_KIE = {
 		icon = mission_attila_the_hun
-		required_missions = { true_ruler_rus_KIE }
+		required_missions = { true_ruler_KIE_KIE }
 		position = 3
 		
 		provinces_to_highlight = {
@@ -857,7 +860,6 @@ kievenrus_missions_3 = {
 					has_dlc = "Third Rome"
 				}
 				280 = {
-					type = all
 					has_state_patriach = yes
 				}
 			}
@@ -897,7 +899,6 @@ kievenrus_missions_3 = {
 			OR = {
 				area = wallachia_area
 				area = moldavia_area
-				area = bessarabia_area
 			}
 			NOT = {
 				country_or_non_sovereign_subject_holds = ROOT
@@ -908,10 +909,6 @@ kievenrus_missions_3 = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
-			bessarabia_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
 			moldavia_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
@@ -919,7 +916,7 @@ kievenrus_missions_3 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = "rus_balkan"
+				name = "KIE_balkan"
 				duration = 5475
 			}
 			bulgaria_area = {
@@ -1123,14 +1120,14 @@ kievenrus_missions_3 = {
 			add_adm_power = -200
 			add_dip_power = -200
 			add_country_modifier = {
-				name = "rus_siberian_frontier"
+				name = "KIE_siberian_frontier"
 				duration = -1
 			}
 		}
 	}
 
 }
-kievenrus_missions_4 = {
+KIE_missions_4 = {
 	slot = 4
 	generic = no
 	ai = yes
@@ -1152,7 +1149,7 @@ kievenrus_missions_4 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = "rus_rurik"
+				name = "KIE_rurik"
 				duration = 7300
 			}
 		}
@@ -1208,7 +1205,7 @@ kievenrus_missions_4 = {
 			2447 = { add_permanent_claim = ROOT }
 		}
 	}
-	khazar_rus_conflict_KIE = {
+	khazar_KIE_conflict_KIE = {
 		icon = mission_indo_scythians
 		required_missions = { dniestr_trade_route_KIE }
 		position = 6
@@ -1282,7 +1279,7 @@ kievenrus_missions_4 = {
 	
 	demand_tribute_KIE = {
 		icon = mission_cossack_cavalry
-		required_missions = { khazar_rus_conflict_KIE }
+		required_missions = { khazar_KIE_conflict_KIE }
 		position = 9
 		
 		provinces_to_highlight = {
@@ -1336,7 +1333,7 @@ kievenrus_missions_4 = {
 			add_navy_tradition = 15
 			284 = {
 				add_province_modifier = {
-					name = "rus_crimean_port"
+					name = "KIE_crimean_port"
 					duration = -1
 				}
 			}
@@ -1353,7 +1350,7 @@ kievenrus_missions_4 = {
 		
 		effect = {
 			add_country_modifier = {
-				name = "rus_blac_sea_fleet"
+				name = "KIE_blac_sea_fleet"
 				duration = 5475
 			}
 		}
@@ -1385,14 +1382,14 @@ kievenrus_missions_4 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = "rus_serbian_conquest"
+				name = "KIE_serbian_conquest"
 				duration = 7300
 			}
 		}
 	}
 	
 }
-kievenrus_missions_5 = {
+KIE_missions_5 = {
 	slot = 5
 	generic = no
 	ai = yes
@@ -1478,7 +1475,7 @@ kievenrus_missions_5 = {
 		
 		effect = {
 			add_country_modifier = {
-				name = "rus_cossacks"
+				name = "KIE_cossacks"
 				duration = 5475
 			}
 			east_dniepr_area = {
@@ -1570,7 +1567,7 @@ kievenrus_missions_5 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = "rus_yoke"
+				name = "KIE_yoke"
 				duration = 7300
 			}
 			astrakhan_area = {
@@ -1585,7 +1582,7 @@ kievenrus_missions_5 = {
 	
 	small_discrepancies_KIE = {
 		icon = take_constantinople
-		required_missions = { khazar_rus_conflict_KIE convert_the_land_KIE }
+		required_missions = { khazar_KIE_conflict_KIE convert_the_land_KIE }
 		position = 9
 		
 		provinces_to_highlight = {
