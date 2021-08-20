@@ -79,7 +79,6 @@ country_decisions = {
 			is_free_or_tributary_trigger = yes
 			is_nomad = no
 			is_at_war = no
-			
 			OR = {
 				#or owns only core-core stuff but has god like ruler
 				AND = {
@@ -96,35 +95,18 @@ country_decisions = {
 						limit = {
 							NOT = { is_date = 1775.1.1 }
 						}
-						owns_core_province = 261		#Ruthenia/Lvov -western
-						owns_core_province = 279		#Volhynia -western
-						owns_core_province = 283		#Zaporozhie southern center of rebellions
-						owns_core_province = 280		#Kiev -center
-						owns_core_province = 289		#Chernihiv -eastern
 						owns_core_province = 291		#Kharkiv -eastern
-	
-						280 = { 						#Kiev -center
-							is_state = yes
-						}
 					}	
-				}
-				#owns everything after 1775
-				AND = {	
-					if = { 
-						limit = {
-							is_date = 1775.1.1
-						}	
-						owns_core_province = 261		#Ruthenia/Lvov -western
-						owns_core_province = 279		#Volhynia -western
-						owns_core_province = 283		#Zaporozhie southern center of rebellions
-						owns_core_province = 280		#Kiev -center
-						owns_core_province = 289		#Chernihiv -eastern
-	
-						280 = { 						#Kiev -center
-							is_state = yes
-						}
+					owns_core_province = 261		#Ruthenia/Lvov -western
+					owns_core_province = 279		#Volhynia -western
+					owns_core_province = 283		#Zaporozhie southern center of rebellions
+					owns_core_province = 280		#Kiev -center
+					owns_core_province = 289		#Chernihiv -eastern
+
+					280 = { 						#Kiev -center
+						is_state = yes
 					}
-				}	
+				}
 			}
 		}
 		effect = {
