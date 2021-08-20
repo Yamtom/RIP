@@ -88,27 +88,33 @@ country_decisions = {
 				#or owns only core-core stuff but has god like ruler
 				if = {
 					limit = { NOT = {dip = 5 } }
-					owns_core_province = 283		#Zaporozhie -southern center of rebellions
-					owns_core_province = 280		#Kiev -center
-					dip = 5
+					AND = {
+						owns_core_province = 283		#Zaporozhie -southern center of rebellions
+						owns_core_province = 280		#Kiev -center
+						dip = 5
+					}
 				}
 				#owns everything per 1775
 				if = {
 					limit = { NOT = { is_date = 1775.1.1 } }
-					owns_core_province = 261		#Ruthenia/Lvov -western
-					owns_core_province = 279		#Volhynia -western
-					owns_core_province = 283		#Zaporozhie southern center of rebellions
-					owns_core_province = 280		#Kiev -center
-					owns_core_province = 289		#Chernihiv -eastern
+					AND = {
+						owns_core_province = 261		#Ruthenia/Lvov -western
+						owns_core_province = 279		#Volhynia -western
+						owns_core_province = 283		#Zaporozhie southern center of rebellions
+						owns_core_province = 280		#Kiev -center
+						owns_core_province = 289		#Chernihiv -eastern
+					}
 				}
 				if = {
 					limit = {is_date = 1775.1.1 }
-					owns_core_province = 261		#Ruthenia/Lvov -western
-					owns_core_province = 279		#Volhynia -western
-					owns_core_province = 283		#Zaporozhie southern center of rebellions
-					owns_core_province = 280		#Kiev -center
-					owns_core_province = 289		#Chernihiv -eastern
-					owns_core_province = 291		#Kharkiv -eastern
+					AND = {
+						owns_core_province = 261		#Ruthenia/Lvov -western
+						owns_core_province = 279		#Volhynia -western
+						owns_core_province = 283		#Zaporozhie southern center of rebellions
+						owns_core_province = 280		#Kiev -center
+						owns_core_province = 289		#Chernihiv -eastern
+						owns_core_province = 291		#Kharkiv -eastern
+					}
 				}	
 			}
 		}
