@@ -10,11 +10,11 @@ kyiv_missions_1 = {
 	}
 	has_country_shield = yes
 		
-	subjugate_lendians_kru = {
+	subjugate_lendians_KIE = {
 		icon = mission_extent_yasak_to_the_east
 		required_missions = {  }
 		position = 1
-		completed_by = 981.1.1
+		completed_by = 1482.1.1
 		
 		provinces_to_highlight = {
 			OR = {
@@ -40,10 +40,10 @@ kyiv_missions_1 = {
 			add_manpower = 1
 		}
 	}
-	secure_the_west_kru = {
+	secure_the_west_KIE = {
 		icon = kingdom_of_cyprus
-		required_missions = { subjugate_lendians_kru }
-		position = 2
+		required_missions = { subjugate_lendians_KIE }
+		position = 3
 		
 		provinces_to_highlight = {
 			OR = {
@@ -71,10 +71,10 @@ kyiv_missions_1 = {
 		effect = {
 		}
 	}
-	growing_wealth_kru = {
+	growing_wealth_KIE = {
 		icon = dominant_economy
-		required_missions = { secure_the_west_kru }
-		position = 3
+		required_missions = { secure_the_west_KIE }
+		position = 5
 		
 		trigger = {
 			num_of_owned_provinces_with = {
@@ -88,10 +88,10 @@ kyiv_missions_1 = {
 			add_corruption = -10
 		}
 	}
-	men_of_the_north_kru = {
+	men_of_the_north_KIE = {
 		icon = et_mission_viking_longboat
-		required_missions = { integrate_novgorod_kru }
-		position = 5
+		required_missions = { integrate_novgorod_KIE }
+		position = 7
 		
 		trigger = {
 			OR = {
@@ -114,6 +114,162 @@ kyiv_missions_1 = {
 		effect = {
 		}
 	}
+	KIE_ruthenia = {
+		icon = mission_rule_ruthenia
+		position = 6
+		required_missions = { }
+		
+		provinces_to_highlight = {
+			region = ruthenia_region
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			ruthenia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT	
+			}
+		}
+		effect = {
+			ruthenia_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "rut_unified"
+					duration = 5475
+				}
+			}
+			moscow_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	KIE_muscovy = {
+		icon = mission_conquer_moscow
+		position = 8
+		required_missions = { KIE_ruthenia }
+		
+		provinces_to_highlight = {
+			area = moscow_area
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			moscow_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT	
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "KIE_subjugated"
+				duration = 5475
+			}
+			russia_region = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	KIE_novgorod = {
+		icon = mission_conquer_novgorod
+		position = 10
+		required_missions = { KIE_muscovy }
+		
+		provinces_to_highlight = {
+			area = novgorod_area
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			novgorod_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT	
+			}
+		}
+		effect = {
+			add_treasury = 350
+			add_mercantilism = 3
+			baltic_region = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+			scandinavia_region = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	KIE_ancestral = {
+		icon = mission_protect_white_sea_trade
+		position = 12
+		required_missions = { KIE_novgorod }
+		
+		provinces_to_highlight = {
+			region = scandinavia_region
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			scandinavia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT	
+			}
+		}
+		effect = {
+			add_prestige = 15
+			add_legitimacy = 15
+			scandinavia_region = {
+				add_province_modifier = {
+					name = "rus_scandinavia"
+					duration = 7300
+				}
+			}
+		}
+	}
+	
+	KIE_kazan = {
+		icon = mission_steppe_warriors
+		position = 14
+		required_missions = { }
+		
+		provinces_to_highlight = {
+			OR = {
+				area = kazam_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			kazan_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_mil_power = 50
+		}
+	}
 }
 kievenrus_missions_2 = {
 	slot = 2
@@ -127,11 +283,11 @@ kievenrus_missions_2 = {
 	}
 	has_country_shield = yes
 		
-	subjugate_dregovichs_kru = {
+	subjugate_dregovichs_KIE = {
 		icon = mission_have_two_subjects
-		required_missions = { true_ruler_rus_kru }
-		position = 2
-		completed_by = 880.1.1
+		required_missions = { true_ruler_rus_KIE }
+		position = 3
+		completed_by = 1478.1.1
 		
 		provinces_to_highlight = {
 			OR = {
@@ -171,11 +327,28 @@ kievenrus_missions_2 = {
 			add_prestige = 10
 		}
 	}
-	northern_expansion_kru = {
+	KIE_agriculture = {
+		icon = mission_farm
+		position = 4
+		required_missions = { KIE_secure_kiev }
+		trigger = {
+			OR = {
+				workshop = 10
+				counting_house = 10
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "rus_develop_ruthenia"
+				duration = 7300
+			}
+		}
+	}
+	northern_expansion_KIE = {
 		icon = the_russian_campaign
-		required_missions = { subjugate_dregovichs_kru }
-		position = 3
-		completed_by = 881.1.1
+		required_missions = { subjugate_dregovichs_KIE }
+		position = 5
+		completed_by = 1476.1.1
 		
 		provinces_to_highlight = {
 			OR = {
@@ -207,11 +380,11 @@ kievenrus_missions_2 = {
 			add_adm_power = 100
 		}
 	}
-	integrate_novgorod_kru = {
+	integrate_novgorod_KIE = {
 		icon = mission_conquer_novgorod
-		required_missions = { northern_expansion_kru }
-		position = 4
-		completed_by = 882.1.1
+		required_missions = { northern_expansion_KIE }
+		position = 7
+		completed_by = 1478.1.1
 		
 		provinces_to_highlight = {
 			OR = {
@@ -286,11 +459,11 @@ kievenrus_missions_2 = {
 			}
 		}
 	}
-	under_one_rule_kru = {
+	under_one_rule_KIE = {
 		icon = mission_rule_ruthenia
-		required_missions = { integrate_novgorod_kru }
-		position = 5
-		completed_by = 1000.1.1
+		required_missions = { integrate_novgorod_KIE }
+		position = 9
+		completed_by = 1463.1.1
 		
 		provinces_to_highlight = {
 			OR = {
@@ -334,6 +507,119 @@ kievenrus_missions_2 = {
 		effect = {
 		}
 	}
+	
+	KIE_princes = {
+		icon = mission_unite_the_princes
+		position = 10
+		required_missions = { KIE_muscovy }
+		
+		provinces_to_highlight = {
+			area = russia_region
+			NOT = { owned_by = ROOT }
+		}
+		
+		trigger = {
+			russia_region = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = "KIE_prince"
+				duration = 5475
+			}
+		}
+	}
+	
+	KIE_baltic = {
+		icon = mission_landsknecht_soldier
+		position = 12
+		required_missions = { KIE_novgorod }
+		
+		provinces_to_highlight = {
+			OR = {
+				region = baltic_region
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			baltic_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "KIE_expansion"
+				duration = 7300
+			}
+			poland_region = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	KIE_poland = {
+		icon = mission_conquer_5_states
+		position = 14
+		required_missions = { KIE_baltic }
+		
+		provinces_to_highlight = {
+			OR = {
+				region = poland_region
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			poland_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+		    if = {
+				limit = {
+					NOT = { accepted_culture = polish }
+				}
+				add_accepted_culture = polish
+			}
+			else = {
+				add_dip_power = 100
+			}
+			add_country_modifier = {
+				name = "KIE_union"
+				duration = -1
+			}
+			hidden_effect = {
+			every_province = {
+				limit = {
+					OR = {
+						culture = polish
+					}
+				}
+				change_culture = ROOT
+			}
+			every_country = {
+				limit = {
+					OR = {
+						primary_culture = polish
+					}
+				}
+				change_primary_culture = ROOT
+			}
+			}
+		}
+	}
 }
 kievenrus_missions_3 = {
 	slot = 3
@@ -347,11 +633,11 @@ kievenrus_missions_3 = {
 	}
 	has_country_shield = yes
 	
-	true_ruler_rus_kru = {
+	true_ruler_rus_KIE = {
 		icon = king_of_poland
 		required_missions = {  }
 		position = 1
-		completed_by = 880.1.1
+		completed_by = 1478.1.1
 		
 		trigger = {
 			OR = {
@@ -377,11 +663,39 @@ kievenrus_missions_3 = {
 				target = VOL
 			}
 		}
-	}
-	friend_or_foe_kru = {
-		icon = mission_attila_the_hun
-		required_missions = { true_ruler_rus_kru }
+	}hield = yes
+	
+	KIE_secure_kiev = {
+		icon = mission_restore_kiev
 		position = 2
+		required_missions = {  }
+		
+		provinces_to_highlight = {
+			OR = {
+				area = west_dniepr_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			west_dniepr_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			280 = {
+				add_base_tax = 2
+				add_base_production = 2
+				add_base_manpower = 2
+			}
+		}
+	}
+	friend_or_foe_KIE = {
+		icon = mission_attila_the_hun
+		required_missions = { true_ruler_rus_KIE }
+		position = 3
 		
 		provinces_to_highlight = {
 			OR = {
@@ -440,10 +754,30 @@ kievenrus_missions_3 = {
 			add_prestige = 15
 		}
 	}
-	secure_the_south_kru = {
+	
+	KIE_consolidate = {
+		icon = mission_consolidate_the_state
+		position = 4
+		required_missions = { KIE_secure_kiev }
+		
+		trigger = {
+			stability = 2
+			num_of_loans = 0
+			is_in_deficit = no
+			has_any_disaster = no
+			NOT = { average_autonomy = 30 }
+			NOT = { num_of_rebel_armies = 1 }
+			NOT = { num_of_rebel_controlled_provinces = 1 }
+		}
+		
+		effect = {
+			add_stability = 1
+		}
+	}
+	secure_the_south_KIE = {
 		icon = mission_advance_to_the_dnieper
-		required_missions = { friend_or_foe_kru }
-		position = 3
+		required_missions = { friend_or_foe_KIE }
+		position = 5
 		
 		provinces_to_highlight = {
 			OR = {
@@ -466,6 +800,335 @@ kievenrus_missions_3 = {
 			
 		}
 	}
+	KIE_restore_kiev = {
+		icon = mission_sovereign_principality
+		position = 6
+		required_missions = { KIE_consolidate }
+		
+		trigger = {
+			280 = {
+				country_or_non_sovereign_subject_holds = ROOT
+				owned_by = ROOT 
+				development = 25
+			}
+		}
+		
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280
+			}
+		}
+		
+		effect = {
+			280 = {
+				if = {
+					limit = {
+						NOT = { province_has_center_of_trade_of_level = 1 }
+					}
+					center_of_trade = 1
+				}
+				else_if = {
+					limit = {
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+					add_center_of_trade_level = 1
+				}
+			}
+			280 = {
+				add_province_modifier = {
+				name = "KIE_kiev"
+				duration = -1
+				}
+			}
+		}
+	}
+
+	KIE_patriarchy = {
+		icon = mission_autocephalous_archbishopric
+		position = 8
+		required_missions = { KIE_restore_kiev }
+		
+		trigger = {
+			280 = {
+				owned_by = ROOT
+			}
+		    if = {
+				limit = {
+					has_dlc = "Third Rome"
+				}
+				280 = {
+					type = all
+					has_state_patriach = yes
+				}
+			}
+			else = {
+				advisor = theologian
+			}
+		}
+		provinces_to_highlight = {
+			province_id = 280
+		}
+		effect = {
+		    if = {
+				limit = {
+					has_dlc = "Third Rome"
+				}
+				add_patriarch_authority = 0.1
+			}
+			else = {
+				add_dip_power = 100
+			}
+			define_advisor = {
+				type = theologian
+				skill = 3
+				culture = ruthenian
+				religion = ROOT
+				cost_multiplier = 0.5
+			}
+		}
+	}
+	
+	KIE_romania = {
+		icon = mission_conquer_romania
+		position = 10
+		required_missions = { KIE_crimea }
+		
+		provinces_to_highlight = {
+			OR = {
+				area = wallachia_area
+				area = moldavia_area
+				area = bessarabia_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			wallachia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			bessarabia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			moldavia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "rus_balkan"
+				duration = 5475
+			}
+			bulgaria_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+			silistria_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	KIE_bulgaria = {
+		icon = mission_crusade_for_varna
+		position = 12
+		required_missions = { KIE_romania }
+		
+		provinces_to_highlight = {
+			OR = {
+				area = silistria_area
+				area = bulgaria_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			bulgaria_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			silistria_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_army_tradition = 15
+			thrace_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+			serbia_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+			rascia_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	KIE_tsar = {
+		icon = mission_city_of_the_world's_desire
+		position = 14
+		required_missions = { KIE_bulgaria }
+		
+		provinces_to_highlight = {
+			OR = {
+				AND = {
+					OR = {
+						area = thrace_area
+					}
+					NOT = {
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+				}
+				AND = {
+					province_id = 151
+					NOT = {
+						owned_by = ROOT
+					}
+				}
+			}
+		}
+		trigger = {
+			thrace_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			owns = 151
+		}
+		effect = {
+			add_prestige = 25
+			add_legitimacy = 25
+			151 = {
+				change_culture = ROOT
+				change_religion = ROOT
+			}
+			151 = {
+				add_base_tax = 2
+				add_base_production = 2
+				add_base_manpower = 2
+			}
+			morea_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+			macedonia_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+			northern_greece_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+			aegean_archipelago_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	KIE_greece = {
+		icon = mission_pf_cross
+		position = 16
+		required_missions = { KIE_tsar }
+		
+		provinces_to_highlight = {
+			OR = {
+				area = macedonia_area
+				area = northern_greece_area
+				area = morea_area
+				area = aegean_archipelago_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			macedonia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			northern_greece_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			morea_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			aegean_archipelago_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+		    if = {
+				limit = {
+					NOT = { accepted_culture = greek }
+				}
+				add_accepted_culture = greek
+			}
+			else = {
+				add_dip_power = 100
+			}
+		}
+	}
+	
+	KIE_siberia = {
+		icon = mission_collect_yasak
+		position = 18
+		required_missions = { KIE_kazan KIE_perm }
+		
+		trigger = {
+			adm_power = 200
+			dip_power = 200
+		}
+		
+		effect = {
+			add_adm_power = -200
+			add_dip_power = -200
+			add_country_modifier = {
+				name = "rus_siberian_frontier"
+				duration = -1
+			}
+		}
+	}
+
 }
 kievenrus_missions_4 = {
 	slot = 4
@@ -477,12 +1140,28 @@ kievenrus_missions_4 = {
 			NOT = { map_setup = map_setup_random }
 		}
 	}
-	has_country_shield = yes	
+	has_country_shield = yes
 	
-	dniestr_trade_route_kru = {
+	KIE_rurik = {
+		icon = mission_empire
+		position = 4
+		required_missions = { KIE_secure_kiev }
+		trigger = {
+			at_war = no
+			dynasty = "Rurikovich"
+		}
+		effect = {
+			add_country_modifier = {
+				name = "rus_rurik"
+				duration = 7300
+			}
+		}
+	}	
+	
+	dniestr_trade_route_KIE = {
 		icon = danubian_power
-		required_missions = { friend_or_foe_kru byzantine_relations_kru }
-		position = 3
+		required_missions = { friend_or_foe_KIE byzantine_relations_KIE }
+		position = 5
 		
 		provinces_to_highlight = {
 			OR = {
@@ -529,10 +1208,10 @@ kievenrus_missions_4 = {
 			2447 = { add_permanent_claim = ROOT }
 		}
 	}
-	khazar_rus_conflict_kru = {
+	khazar_rus_conflict_KIE = {
 		icon = mission_indo_scythians
-		required_missions = { dniestr_trade_route_kru }
-		position = 4
+		required_missions = { dniestr_trade_route_KIE }
+		position = 7
 		
 		provinces_to_highlight = {
 			OR = {
@@ -558,10 +1237,60 @@ kievenrus_missions_4 = {
 		effect = {
 		}
 	}
-	demand_tribute_kru = {
+	KIE_crimea = {
+		icon = mission_non-western_cavalry_raid
+		position = 8
+		required_missions = { KIE_dniepr }
+		
+		provinces_to_highlight = {
+			OR = {
+				area = azov_area
+				area = crimea_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			azov_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			crimea_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_treasury = 250
+			wallachia_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+			bessarabia_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+			moldavia_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	demand_tribute_KIE = {
 		icon = mission_cossack_cavalry
-		required_missions = { khazar_rus_conflict_kru }
-		position = 5
+		required_missions = { khazar_rus_conflict_KIE }
+		position = 9
 		
 		provinces_to_highlight = {
 			OR = {
@@ -585,6 +1314,90 @@ kievenrus_missions_4 = {
 			add_prestige = 15
 		}
 	}
+	KIE_port = {
+		icon = mission_galleys_in_port
+		position = 10
+		required_missions = { KIE_crimea }
+		
+		provinces_to_highlight = {
+			OR = {
+				province_id = 284
+			}
+		}
+		
+		trigger = {
+			284 = {
+				owned_by = ROOT
+				OR = {
+					has_building = dock
+					has_building = drydock
+				}
+				OR = {
+					has_building = shipyard
+					has_building = grand_shipyard
+				}
+			}
+		}
+		
+		effect = {
+			add_navy_tradition = 15
+			284 = {
+				add_province_modifier = {
+					name = "rus_crimean_port"
+					duration = -1
+				}
+			}
+		}
+	}
+	KIE_fleet = {
+		icon = mission_arabian_sea_trade
+		position = 12
+		required_missions = { KIE_port }
+		
+		trigger = {
+			navy_size_percentage = 1
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = "rus_blac_sea_fleet"
+				duration = 5475
+			}
+		}
+	}
+	
+	KIE_serbia = {
+		icon = mission_recruit_streltsy
+		position = 14
+		required_missions = { KIE_bulgaria }
+		
+		provinces_to_highlight = {
+			OR = {
+				area = rascia_area
+				area = serbia_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			rascia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			serbia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "rus_serbian_conquest"
+				duration = 7300
+			}
+		}
+	}
+	
 }
 kievenrus_missions_5 = {
 	slot = 5
@@ -598,7 +1411,7 @@ kievenrus_missions_5 = {
 	}
 	has_country_shield = yes	
 	
-	develop_kyiv_kru = {
+	develop_kyiv_KIE = {
 		icon = mission_early_game_buildings
 		required_missions = {  }
 		position = 1
@@ -617,10 +1430,10 @@ kievenrus_missions_5 = {
 		effect = {
 		}
 	}
-	byzantine_relations_kru = {
+	byzantine_relations_KIE = {
 		icon = carolingian_empire
-		required_missions = { develop_kyiv_kru }
-		position = 2
+		required_missions = { develop_kyiv_KIE }
+		position = 3
 		
 		provinces_to_highlight = {
 			owned_by = BYZ
@@ -660,10 +1473,79 @@ kievenrus_missions_5 = {
 			add_adm_power = 50
 		}
 	}
-	convert_the_land_kru = {
+	
+	KIE_cossack = {
+		icon = mission_recruit_the_cossacks
+		position = 4
+		required_missions = { KIE_secure_kiev }
+		
+		trigger = {
+			num_of_cavalry = 10
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = "rus_cossacks"
+				duration = 5475
+			}
+			east_dniepr_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	KIE_dniepr = {
+		icon = mission_advance_to_the_dnieper
+		position = 6
+		required_missions = { KIE_cossack }
+		
+		trigger = {
+		    east_dniepr_area = {
+			    type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		
+		provinces_to_highlight = {
+			OR = {
+				area = east_dniepr_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		effect = {
+			add_adm_power = 100
+			lower_don_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+			azov_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+			crimea_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	convert_the_land_KIE = {
 		icon = mission_restore_kiev
 		required_missions = {  }
-		position = 4
+		position = 7
 		
 		trigger = { 
 			religious_unity = 1
@@ -675,10 +1557,43 @@ kievenrus_missions_5 = {
 		effect = {
 		}
 	}
-	small_discrepancies_kru = {
+	KIE_tatar = {
+		icon = mission_break_the_tatar_yoke
+		position = 8
+		required_missions = { KIE_dniepr }
+		
+		trigger = {
+		    lower_don_area = {
+			    type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		
+		provinces_to_highlight = {
+			OR = {
+				area = lower_don_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		effect = {
+			add_country_modifier = {
+				name = "rus_yoke"
+				duration = 7300
+			}
+			astrakhan_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	small_discrepancies_KIE = {
 		icon = take_constantinople
-		required_missions = { khazar_rus_conflict_kru convert_the_land_kru }
-		position = 5
+		required_missions = { khazar_rus_conflict_KIE convert_the_land_KIE }
+		position = 9
 		
 		provinces_to_highlight = {
 			province_id = 151
@@ -697,6 +1612,60 @@ kievenrus_missions_5 = {
 		effect = {
 			add_treasury = 500
 			add_stability = 1
+		}
+	}
+	
+	KIE_horde = {
+		icon = mission_unite_home_region
+		position = 10
+		required_missions = { KIE_tatar }
+
+		trigger = {
+		    astrakhan_area = {
+			    type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		
+		provinces_to_highlight = {
+			OR = {
+				area = astrakhan_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		effect = {
+			add_prestige = 15
+			add_legitimacy = 15
+			add_army_tradition = 15
+			add_country_modifier = {
+				name = "KIE_campaign"
+				duration = 7300
+			}
+		}
+	}
+	
+	KIE_perm = {
+		icon = mission_integrate_perm
+		position = 16
+		required_missions = { }
+		
+		trigger = {
+		    perm_area = {
+			    type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		
+		provinces_to_highlight = {
+			OR = {
+				area = perm_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		effect = {
+			add_dip_power = 50
 		}
 	}
 }
