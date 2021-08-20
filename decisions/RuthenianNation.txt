@@ -12,6 +12,8 @@ country_decisions = {
 			}
 			NOT = { tag = PAP }
 			NOT = { tag = HLR }
+			NOT = { tag = HET }
+			NOT = { tag = ZAZ }
 			NOT = { exists = UKR }
 			NOT = { exists = HET }
 			NOT = { exists = KUY }
@@ -53,11 +55,25 @@ country_decisions = {
 						province_id = 261		#Ruthenia/Lvov -western
 						province_id = 279		#Volhynia -western
 						province_id = 289		#Chernihiv -eastern
-						if = {
-							limit = {is_date = 1775.1.1 }
-							province_id = 291		#Kharkiv -eastern
+					}
+				}
+				AND = {
+					ROOT = { NOT = { DIP = 5 } }
+					if = {
+						limit = {is_date = 1775.1.1 }
+						Or = {
+							province_id = 280		#Kiev -center
+							province_id = 283		#Zaporozhie -eastern/southern center of rebellions
+							province_id = 261		#Ruthenia/Lvov -western
+							province_id = 279		#Volhynia -western
+							province_id = 289		#Chernihiv -eastern
+							province_id = 291		#Kharkiv -easter
 						}
 					}
+				}
+				if = {
+					limit = {is_date = 1775.1.1 }
+					province_id = 291		#Kharkiv -eastern
 				}
 			}
 			OR = {
