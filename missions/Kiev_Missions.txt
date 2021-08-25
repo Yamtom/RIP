@@ -279,7 +279,7 @@ KIE_missions_2 = {
 	}
 	KIE_agriculture = {
 		icon = mission_high_income
-		position = 4
+		position = 3
 		required_missions = { 
 			subjugate_dregovichs_KIE
 		}
@@ -1221,6 +1221,19 @@ KIE_missions_4 = {
 			2447 = { add_permanent_claim = ROOT }
 		}
 	}
+}
+UKR_missions_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			tag = UKR
+			NOT = { map_setup = map_setup_random }
+		}
+	}
+	has_country_shield = yes	
+	
 	KIE_crimea = {
 		icon = mission_non-western_cavalry_raid
 		position = 7
@@ -1263,19 +1276,6 @@ KIE_missions_4 = {
 			}
 		}
 	}
-}
-UKR_missions_4 = {
-	slot = 4
-	generic = no
-	ai = yes
-	potential = {
-		AND = {
-			tag = UKR
-			NOT = { map_setup = map_setup_random }
-		}
-	}
-	has_country_shield = yes	
-	
 	small_discrepancies_KIE = {
 		icon = take_constantinople
 		required_missions = { KIE_crimea  }
