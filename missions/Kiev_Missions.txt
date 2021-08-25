@@ -5,6 +5,7 @@ kyiv_missions_1 = {
 	potential = {
 		AND = {
 			tag = KIE
+			tag = UKR
 			NOT = { map_setup = map_setup_random }
 		}
 	}
@@ -14,7 +15,6 @@ kyiv_missions_1 = {
 		icon = mission_extent_yasak_to_the_east
 		required_missions = { true_ruler_KIE_KIE  }
 		position = 2
-		completed_by = 1482.1.1
 		
 		provinces_to_highlight = {
 			OR = {
@@ -61,6 +61,20 @@ kyiv_missions_1 = {
 			add_corruption = -10
 		}
 	}
+}
+
+UKR_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			tag = UKR
+			NOT = { map_setup = map_setup_random }
+		}
+	}
+	has_country_shield = yes
+		
 	KIE_ruthenia = {
 		icon = mission_rule_ruthenia
 		position = 5
@@ -203,7 +217,6 @@ kyiv_missions_1 = {
 		}
 	}
 }
-
 KIE_missions_2 = {
 	slot = 2
 	generic = no
@@ -211,6 +224,7 @@ KIE_missions_2 = {
 	potential = {
 		AND = {
 			tag = KIE
+			tag = UKR
 			NOT = { map_setup = map_setup_random }
 		}
 	}
@@ -220,7 +234,6 @@ KIE_missions_2 = {
 		icon = mission_have_two_subjects
 		required_missions = { true_ruler_KIE_KIE }
 		position = 2
-		completed_by = 1478.1.1
 		
 		provinces_to_highlight = {
 			OR = {
@@ -265,7 +278,6 @@ KIE_missions_2 = {
 		position = 4
 		required_missions = { 
 			subjugate_dregovichs_KIE
-			friend_or_foe_KIE
 		}
 		trigger = {
 			OR = {
@@ -280,11 +292,45 @@ KIE_missions_2 = {
 			}
 		}
 	}
+	KIE_chernihiv = {
+		icon = mission_high_income
+		position = 4
+		required_missions = { 
+			KIE_agriculture
+			friend_or_foe_KIE
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = chernigov_area
+			}
+			NOT = { owned_by = ROOT }
+		}
+		trigger = {
+			AND = {
+				chernigov_area = { 
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+			289 = {
+				development = 15
+			}
+		}
+		effect = {
+			chernigov_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_prestige = 15
+		}
+	}
 	northern_expansion_KIE = {
 		icon = the_russian_campaign
-		required_missions = { KIE_agriculture }
+		required_missions = { KIE_chernihiv }
 		position = 5
-		completed_by = 1476.1.1
 		
 		provinces_to_highlight = {
 			OR = {
@@ -320,7 +366,6 @@ KIE_missions_2 = {
 		icon = mission_conquer_novgorod
 		required_missions = { northern_expansion_KIE }
 		position = 6
-		completed_by = 1478.1.1
 		
 		provinces_to_highlight = {
 			OR = {
@@ -398,7 +443,19 @@ KIE_missions_2 = {
 			}
 		}
 	}	
-	
+}
+UKR_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			tag = UKR
+			NOT = { map_setup = map_setup_random }
+		}
+	}
+	has_country_shield = yes
+
 	KIE_princes = {
 		icon = mission_unite_the_princes
 		position = 7
@@ -519,6 +576,7 @@ KIE_missions_3 = {
 	potential = {
 		AND = {
 			tag = KIE
+			tag = UKR
 			NOT = { map_setup = map_setup_random }
 		}
 	}
@@ -528,7 +586,6 @@ KIE_missions_3 = {
 		icon = king_of_poland
 		required_missions = {  }
 		position = 1
-		completed_by = 1478.1.1
 		
 		trigger = {
 			OR = {
@@ -545,7 +602,12 @@ KIE_missions_3 = {
 					stability = 1
 				}
 			}
-			exists = VOL
+			OR = {
+				exists = VOL
+				exists = HLC
+				exists = VLN
+			}
+			has_institution = renaissance
 		}
 		effect = {
 			add_casus_belli = {
@@ -800,7 +862,18 @@ KIE_missions_3 = {
 			}
 		}
 	}
-	
+}
+UKR_missions_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			tag = UKR
+			NOT = { map_setup = map_setup_random }
+		}
+	}
+	has_country_shield = yes	
 	KIE_romania = {
 		icon = mission_conquer_romania
 		position = 8
@@ -1024,11 +1097,12 @@ KIE_missions_4 = {
 	potential = {
 		AND = {
 			tag = KIE
+			tag = UKR
 			NOT = { map_setup = map_setup_random }
 		}
 	}
 	has_country_shield = yes
-	
+
 	byzantine_relations_KIE = {
 		icon = carolingian_empire
 		required_missions = { }
@@ -1072,6 +1146,7 @@ KIE_missions_4 = {
 			add_adm_power = 50
 		}
 	}
+
 	KIE_rurik = {
 		icon = mission_empire
 		position = 4
@@ -1180,7 +1255,18 @@ KIE_missions_4 = {
 			}
 		}
 	}
-	
+}
+UKR_missions_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			tag = UKR
+			NOT = { map_setup = map_setup_random }
+		}
+	}
+	has_country_shield = yes	
 	
 	small_discrepancies_KIE = {
 		icon = take_constantinople
@@ -1307,12 +1393,12 @@ KIE_missions_5 = {
 	potential = {
 		AND = {
 			tag = KIE
+			tag = UKR
 			NOT = { map_setup = map_setup_random }
 		}
 	}
 	has_country_shield = yes	
-	
-	
+		
 	KIE_cossack = {
 		icon = mission_recruit_the_cossacks
 		position = 4
@@ -1336,7 +1422,18 @@ KIE_missions_5 = {
 			}
 		}
 	}
-	
+}
+UKR_missions_5 = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			tag = UKR
+			NOT = { map_setup = map_setup_random }
+		}
+	}
+	has_country_shield = yes		
 	KIE_dniepr = {
 		icon = mission_advance_to_the_dnieper
 		position = 6
