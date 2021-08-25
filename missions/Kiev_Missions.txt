@@ -12,8 +12,8 @@ kyiv_missions_1 = {
 		
 	KIE_subjugate_volynians = {
 		icon = mission_extent_yasak_to_the_east
-		required_missions = {  }
-		position = 1
+		required_missions = { true_ruler_KIE_KIE  }
+		position = 2
 		completed_by = 1482.1.1
 		
 		provinces_to_highlight = {
@@ -47,7 +47,7 @@ kyiv_missions_1 = {
 	KIE_growing_wealth = {
 		icon = dominant_economy
 		required_missions = { KIE_subjugate_volynians }
-		position = 2
+		position = 3
 		
 		trigger = {
 			num_of_owned_provinces_with = {
@@ -510,30 +510,6 @@ KIE_missions_2 = {
 					change_primary_culture = ROOT
 				}
 			}
-		}
-	}
-	
-	KIE_kazan = {
-		icon = mission_steppe_warriors
-		position = 11
-		required_missions = { }
-		
-		provinces_to_highlight = {
-			OR = {
-				area = kazan_area
-			}
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		trigger = {
-			kazan_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		effect = {
-			add_mil_power = 50
 		}
 	}
 }
@@ -1041,27 +1017,6 @@ KIE_missions_3 = {
 			}
 		}
 	}
-	
-	KIE_siberia = {
-		icon = mission_collect_yasak
-		position = 12
-		required_missions = { KIE_kazan KIE_perm }
-		
-		trigger = {
-			adm_power = 200
-			dip_power = 200
-		}
-		
-		effect = {
-			add_adm_power = -200
-			add_dip_power = -200
-			add_country_modifier = {
-				name = "KIE_siberian_frontier"
-				duration = -1
-			}
-		}
-	}
-
 }
 KIE_missions_4 = {
 	slot = 4
@@ -1075,6 +1030,49 @@ KIE_missions_4 = {
 	}
 	has_country_shield = yes
 	
+	byzantine_relations_KIE = {
+		icon = carolingian_empire
+		required_missions = { }
+		position = 2
+		
+		provinces_to_highlight = {
+			owned_by = BYZ
+		}
+		trigger = {
+			if = {
+				limit = { exists = BYZ }
+				OR = {
+					alliance_with = BYZ
+					BYZ = {
+						custom_trigger_tooltip = {
+							tooltip = rivalled_or_rival_of
+							OR = {
+								is_rival = root
+								root = { is_rival = prev }
+							}
+						}
+						custom_trigger_tooltip = {
+							tooltip = has_been_insulted_by_root
+							OR = {
+								has_opinion_modifier = {
+									who = ROOT
+									modifier = insulted
+								}
+								has_opinion_modifier = {
+									who = ROOT
+									modifier = scornfully_insulted
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			add_dip_power = 50
+			add_adm_power = 50
+		}
+	}
 	KIE_rurik = {
 		icon = mission_empire
 		position = 4
@@ -1278,27 +1276,28 @@ KIE_missions_4 = {
 		}
 	}
 	
-	KIE_perm = {
-		icon = mission_integrate_perm
+	
+	KIE_kazan = {
+		icon = mission_steppe_warriors
 		position = 11
 		required_missions = { }
 		
-		trigger = {
-		    perm_area = {
-			    type = all
+		provinces_to_highlight = {
+			OR = {
+				area = kazan_area
+			}
+			NOT = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
-		
-		provinces_to_highlight = {
-			OR = {
-				area = perm_area
+		trigger = {
+			kazan_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
-		
 		effect = {
-			add_dip_power = 50
+			add_mil_power = 50
 		}
 	}
 }
@@ -1314,49 +1313,6 @@ KIE_missions_5 = {
 	}
 	has_country_shield = yes	
 	
-	byzantine_relations_KIE = {
-		icon = carolingian_empire
-		required_missions = { }
-		position = 2
-		
-		provinces_to_highlight = {
-			owned_by = BYZ
-		}
-		trigger = {
-			if = {
-				limit = { exists = BYZ }
-				OR = {
-					alliance_with = BYZ
-					BYZ = {
-						custom_trigger_tooltip = {
-							tooltip = rivalled_or_rival_of
-							OR = {
-								is_rival = root
-								root = { is_rival = prev }
-							}
-						}
-						custom_trigger_tooltip = {
-							tooltip = has_been_insulted_by_root
-							OR = {
-								has_opinion_modifier = {
-									who = ROOT
-									modifier = insulted
-								}
-								has_opinion_modifier = {
-									who = ROOT
-									modifier = scornfully_insulted
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		effect = {
-			add_dip_power = 50
-			add_adm_power = 50
-		}
-	}
 	
 	KIE_cossack = {
 		icon = mission_recruit_the_cossacks
@@ -1529,6 +1485,49 @@ KIE_missions_5 = {
 			add_country_modifier = {
 				name = "KIE_blac_sea_fleet"
 				duration = 5475
+			}
+		}
+	}
+	KIE_perm = {
+		icon = mission_integrate_perm
+		position = 11
+		required_missions = { }
+		
+		trigger = {
+		    perm_area = {
+			    type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		
+		provinces_to_highlight = {
+			OR = {
+				area = perm_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		effect = {
+			add_dip_power = 50
+		}
+	}
+
+	KIE_siberia = {
+		icon = mission_collect_yasak
+		position = 12
+		required_missions = { KIE_kazan KIE_perm }
+		
+		trigger = {
+			adm_power = 200
+			dip_power = 200
+		}
+		
+		effect = {
+			add_adm_power = -200
+			add_dip_power = -200
+			add_country_modifier = {
+				name = "KIE_siberian_frontier"
+				duration = -1
 			}
 		}
 	}
