@@ -77,6 +77,9 @@ kyiv_missions_1 = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT	
 			}
+			280 = { 
+				development = 30
+			}
 		}
 		effect = {
 			ruthenia_region = {
@@ -112,6 +115,9 @@ kyiv_missions_1 = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT	
 			}
+			295 = { 
+				development = 30
+			}
 		}
 		effect = {
 			add_country_modifier = {
@@ -143,6 +149,9 @@ kyiv_missions_1 = {
 			novgorod_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT	
+			}
+			310 = { 
+				development = 30
 			}
 		}
 		effect = {
@@ -196,7 +205,7 @@ kyiv_missions_1 = {
 	
 	KIE_kazan = {
 		icon = mission_steppe_warriors
-		position = 13
+		position = 11
 		required_missions = { }
 		
 		provinces_to_highlight = {
@@ -276,7 +285,7 @@ KIE_missions_2 = {
 		}
 	}
 	KIE_agriculture = {
-		icon = mission_farm
+		icon = mission_high_income
 		position = 4
 		required_missions = { 
 			subjugate_dregovichs_KIE
@@ -420,8 +429,10 @@ KIE_missions_2 = {
 		required_missions = { KIE_muscovy }
 
 		provinces_to_highlight = {
-			russia_region = {
-				NOT = { owned_by = ROOT }
+			area = {
+				russia_region = {
+					NOT = { owned_by = ROOT }
+				}
 			}
 		}
 		trigger = {
@@ -598,7 +609,7 @@ KIE_missions_3 = {
 		}
 	}
 	friend_or_foe_KIE = {
-		icon = mission_attila_the_hun
+		icon = mission_rice_field
 		required_missions = { 
 			KIE_secure_kiev 
 			byzantine_relations_KIE
@@ -1033,7 +1044,7 @@ KIE_missions_3 = {
 	
 	KIE_siberia = {
 		icon = mission_collect_yasak
-		position = 14
+		position = 12
 		required_missions = { KIE_kazan KIE_perm }
 		
 		trigger = {
@@ -1203,7 +1214,7 @@ KIE_missions_4 = {
 	KIE_port = {
 		icon = mission_galleys_in_port
 		position = 9
-		required_missions = { KIE_crimea }
+		required_missions = { demand_tribute_KIE }
 		
 		provinces_to_highlight = {
 			OR = {
@@ -1235,26 +1246,10 @@ KIE_missions_4 = {
 			}
 		}
 	}
-	KIE_fleet = {
-		icon = mission_arabian_sea_trade
-		position = 10
-		required_missions = { KIE_port }
-		
-		trigger = {
-			navy_size_percentage = 1
-		}
-		
-		effect = {
-			add_country_modifier = {
-				name = "KIE_blac_sea_fleet"
-				duration = 5475
-			}
-		}
-	}
 	
 	KIE_serbia = {
 		icon = mission_recruit_streltsy
-		position = 11
+		position = 10
 		required_missions = { KIE_bulgaria }
 		
 		provinces_to_highlight = {
@@ -1470,7 +1465,7 @@ KIE_missions_5 = {
 	KIE_horde = {
 		icon = mission_unite_home_region
 		position = 9
-		required_missions = { KIE_tatar }
+		required_missions = { small_discrepancies_KIE }
 
 		trigger = {
 		    astrakhan_area = {
@@ -1497,9 +1492,25 @@ KIE_missions_5 = {
 		}
 	}
 	
+	KIE_fleet = {
+		icon = mission_arabian_sea_trade
+		position = 10
+		required_missions = { KIE_port }
+		
+		trigger = {
+			navy_size_percentage = 1
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = "KIE_blac_sea_fleet"
+				duration = 5475
+			}
+		}
+	}
 	KIE_perm = {
 		icon = mission_integrate_perm
-		position = 13
+		position = 11
 		required_missions = { }
 		
 		trigger = {
