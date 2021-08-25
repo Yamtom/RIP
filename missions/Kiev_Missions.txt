@@ -405,11 +405,10 @@ KIE_missions_2 = {
 		required_missions = { KIE_muscovy }
 
 		provinces_to_highlight = {
-			area = {
-				russia_region = {
-					NOT = { owned_by = ROOT }
-				}
+			OR = {
+				region = russia_region
 			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
 			russia_region = {
