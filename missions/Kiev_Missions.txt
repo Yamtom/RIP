@@ -202,30 +202,6 @@ kyiv_missions_1 = {
 			}
 		}
 	}
-	
-	KIE_kazan = {
-		icon = mission_steppe_warriors
-		position = 11
-		required_missions = { }
-		
-		provinces_to_highlight = {
-			OR = {
-				area = kazan_area
-			}
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		trigger = {
-			kazan_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		effect = {
-			add_mil_power = 50
-		}
-	}
 }
 
 KIE_missions_2 = {
@@ -534,6 +510,30 @@ KIE_missions_2 = {
 					change_primary_culture = ROOT
 				}
 			}
+		}
+	}
+
+	KIE_kazan = {
+		icon = mission_steppe_warriors
+		position = 11
+		required_missions = { }
+		
+		provinces_to_highlight = {
+			OR = {
+				area = kazan_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			kazan_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_mil_power = 50
 		}
 	}
 }
@@ -1184,31 +1184,29 @@ KIE_missions_4 = {
 		}
 	}
 	
-	demand_tribute_KIE = {
-		icon = mission_cossack_cavalry
-		required_missions = { KIE_crimea }
+	
+	small_discrepancies_KIE = {
+		icon = take_constantinople
+		required_missions = { KIE_crimea KIE_tatar }
 		position = 8
 		
 		provinces_to_highlight = {
-			OR = {
-				area = astrakhan_area
-				area = lower_don_area
-				area = sloboda_ukraine_area
-			}
-			NOT = { controlled_by = ROOT }
+			province_id = 151
 		}
 		trigger = {
-			moldavia_area = { 
-				type = all
-				controlled_by = ROOT
-			}
-			red_ruthenia_area = { 
-				type = all
-				controlled_by = ROOT
+			OR = {
+				BYZ = {
+					has_opinion = {
+						who = ROOT
+						value = 180
+					}
+				}
+				151 = { controlled_by = ROOT }
 			}
 		}
 		effect = {
-			add_prestige = 15
+			add_treasury = 500
+			add_stability = 1
 		}
 	}
 	KIE_port = {
@@ -1278,7 +1276,29 @@ KIE_missions_4 = {
 			}
 		}
 	}
-	
+	KIE_perm = {
+		icon = mission_integrate_perm
+		position = 11
+		required_missions = { }
+		
+		trigger = {
+		    perm_area = {
+			    type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		
+		provinces_to_highlight = {
+			OR = {
+				area = perm_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		effect = {
+			add_dip_power = 50
+		}
+	}
 }
 KIE_missions_5 = {
 	slot = 5
@@ -1437,35 +1457,38 @@ KIE_missions_5 = {
 		}
 	}
 	
-	small_discrepancies_KIE = {
-		icon = take_constantinople
-		required_missions = { KIE_crimea KIE_tatar }
+	demand_tribute_KIE = {
+		icon = mission_cossack_cavalry
+		required_missions = { KIE_crimea }
 		position = 8
 		
 		provinces_to_highlight = {
-			province_id = 151
+			OR = {
+				area = astrakhan_area
+				area = lower_don_area
+				area = sloboda_ukraine_area
+			}
+			NOT = { controlled_by = ROOT }
 		}
 		trigger = {
-			OR = {
-				BYZ = {
-					has_opinion = {
-						who = ROOT
-						value = 180
-					}
-				}
-				151 = { controlled_by = ROOT }
+			moldavia_area = { 
+				type = all
+				controlled_by = ROOT
+			}
+			red_ruthenia_area = { 
+				type = all
+				controlled_by = ROOT
 			}
 		}
 		effect = {
-			add_treasury = 500
-			add_stability = 1
+			add_prestige = 15
 		}
 	}
 	
 	KIE_horde = {
 		icon = mission_unite_home_region
 		position = 9
-		required_missions = { small_discrepancies_KIE }
+		required_missions = { demand_tribute_KIE }
 
 		trigger = {
 		    astrakhan_area = {
@@ -1506,29 +1529,6 @@ KIE_missions_5 = {
 				name = "KIE_blac_sea_fleet"
 				duration = 5475
 			}
-		}
-	}
-	KIE_perm = {
-		icon = mission_integrate_perm
-		position = 11
-		required_missions = { }
-		
-		trigger = {
-		    perm_area = {
-			    type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		
-		provinces_to_highlight = {
-			OR = {
-				area = perm_area
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		
-		effect = {
-			add_dip_power = 50
 		}
 	}
 }
