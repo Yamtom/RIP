@@ -637,7 +637,7 @@ KIE_missions_3 = {
 			}
 		}
 		effect = {
-			podolia_volhynia_area = {
+			east_dniepr_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -1343,17 +1343,26 @@ KIE_missions_5 = {
 		required_missions = { KIE_cossack }
 		
 		trigger = {
-		    east_dniepr_area = {
+		    yedisan_area = {
 			    type = all
 				country_or_non_sovereign_subject_holds = ROOT
+				culture = ruthenian
+			}
+		    zaporizhia_area = {
+			    type = all
+				country_or_non_sovereign_subject_holds = ROOT
+				culture = ruthenian
 			}
 		}
 		
 		provinces_to_highlight = {
 			OR = {
-				area = east_dniepr_area
+				area = yedisan_area
+				area = zaporizhia_area
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = { country_or_non_sovereign_subject_holds = ROOT
+				culture = ruthenian 
+			}
 		}
 		
 		effect = {
@@ -1419,33 +1428,6 @@ KIE_missions_5 = {
 		required_missions = { KIE_crimea KIE_tatar }
 		position = 8
 		
-		provinces_to_highlight = {
-			OR = {
-				area = astrakhan_area
-				area = lower_don_area
-				area = sloboda_ukraine_area
-			}
-			NOT = { controlled_by = ROOT }
-		}
-		trigger = {
-			moldavia_area = { 
-				type = all
-				controlled_by = ROOT
-			}
-			red_ruthenia_area = { 
-				type = all
-				controlled_by = ROOT
-			}
-		}
-		effect = {
-			add_prestige = 15
-		}
-	}
-	KIE_horde = {
-		icon = mission_unite_home_region
-		position = 9
-		required_missions = { demand_tribute_KIE }
-
 		trigger = {
 		    astrakhan_area = {
 			    type = all
@@ -1460,6 +1442,43 @@ KIE_missions_5 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		
+		effect = {
+			add_prestige = 15
+		}
+	}
+	KIE_horde = {
+		icon = mission_unite_home_region
+		position = 9
+		required_missions = { demand_tribute_KIE }
+
+		provinces_to_highlight = {
+			OR = {
+				area = astrakhan_area
+				area = lower_don_area
+				area = sloboda_ukraine_area
+			}
+			NOT = { controlled_by = ROOT }
+		}
+		trigger = {
+			astrakhan_area = { 
+				type = all
+				controlled_by = ROOT
+				development = 70
+			}
+			lower_don_area = { 
+				type = all
+				controlled_by = ROOT
+				development = 70
+			}
+			sloboda_ukraine_area = { 
+				type = all
+				controlled_by = ROOT
+				development = 70
+			}
+			2409 = {
+				culture = ruthenian
+			}
+		}
 		effect = {
 			add_prestige = 15
 			add_legitimacy = 15
