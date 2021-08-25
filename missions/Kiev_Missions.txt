@@ -512,7 +512,7 @@ KIE_missions_2 = {
 			}
 		}
 	}
-
+	
 	KIE_kazan = {
 		icon = mission_steppe_warriors
 		position = 11
@@ -1187,7 +1187,7 @@ KIE_missions_4 = {
 	
 	small_discrepancies_KIE = {
 		icon = take_constantinople
-		required_missions = { KIE_crimea KIE_tatar }
+		required_missions = { KIE_crimea  }
 		position = 8
 		
 		provinces_to_highlight = {
@@ -1209,10 +1209,11 @@ KIE_missions_4 = {
 			add_stability = 1
 		}
 	}
+
 	KIE_port = {
 		icon = mission_galleys_in_port
 		position = 9
-		required_missions = { demand_tribute_KIE }
+		required_missions = { small_discrepancies_KIE }
 		
 		provinces_to_highlight = {
 			OR = {
@@ -1276,6 +1277,7 @@ KIE_missions_4 = {
 			}
 		}
 	}
+	
 	KIE_perm = {
 		icon = mission_integrate_perm
 		position = 11
@@ -1459,7 +1461,7 @@ KIE_missions_5 = {
 	
 	demand_tribute_KIE = {
 		icon = mission_cossack_cavalry
-		required_missions = { KIE_crimea }
+		required_missions = { KIE_crimea KIE_tatar }
 		position = 8
 		
 		provinces_to_highlight = {
@@ -1484,7 +1486,6 @@ KIE_missions_5 = {
 			add_prestige = 15
 		}
 	}
-	
 	KIE_horde = {
 		icon = mission_unite_home_region
 		position = 9
