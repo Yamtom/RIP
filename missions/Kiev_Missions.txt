@@ -337,12 +337,10 @@ KIE_missions_2 = {
 			OR = {
 				area = novgorod_area
 				area = pskov_area
+				area = beloozero_area
 				province_id = 33
 				province_id = 34
-				province_id = 1752
-				province_id = 1949
-				province_id = 1961
-				province_id = 4261
+				province_id = 1961 
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
@@ -356,19 +354,24 @@ KIE_missions_2 = {
 					type = all
 					country_or_non_sovereign_subject_holds = ROOT
 				}
+				beloozero_area = { 
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
 				33 = { country_or_non_sovereign_subject_holds = ROOT }
 				34 = { country_or_non_sovereign_subject_holds = ROOT }
-				1752 = { country_or_non_sovereign_subject_holds = ROOT }
-				1949 = { country_or_non_sovereign_subject_holds = ROOT }
-				1961 = { country_or_non_sovereign_subject_holds = ROOT }
-				4261 = { country_or_non_sovereign_subject_holds = ROOT }
+				1961 = { country_or_non_sovereign_subject_holds = ROOT } 
 			}
 		}
 		effect = {
 			change_government = monarchy
-			308 = { add_permanent_claim = ROOT }
-			4117 = { add_permanent_claim = ROOT }
-			4115 = { add_permanent_claim = ROOT }
+			yaroslavl_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
 			suzdal_area = {
 				limit = {
 					NOT = { is_core = ROOT }
@@ -406,11 +409,12 @@ KIE_missions_2 = {
 			}
 		}
 	}	
+	
 	KIE_princes = {
 		icon = mission_unite_the_princes
 		position = 9
 		required_missions = { KIE_muscovy }
-		
+
 		provinces_to_highlight = {
 			area = {
 				russia_region = {
@@ -418,14 +422,12 @@ KIE_missions_2 = {
 				}
 			}
 		}
-		
 		trigger = {
 			russia_region = {
 				type = all
 				owned_by = ROOT
 			}
 		}
-		
 		effect = {
 			add_country_modifier = {
 				name = "KIE_prince"
@@ -433,7 +435,6 @@ KIE_missions_2 = {
 			}
 		}
 	}
-	
 	KIE_baltic = {
 		icon = mission_landsknecht_soldier
 		position = 10
