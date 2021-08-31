@@ -15,7 +15,7 @@ KIE_missions_1 = {
 		
 	KIE_subjugate_volynians = {
 		icon = mission_extent_yasak_to_the_east
-		required_missions = { true_ruler_KIE_KIE  }
+		required_missions = { KIE_true_ruler }
 		position = 2
 		
 		provinces_to_highlight = {
@@ -46,6 +46,7 @@ KIE_missions_1 = {
 			add_manpower = 1
 		}
 	}
+
 	KIE_growing_wealth = {
 		icon = dominant_economy
 		required_missions = { KIE_subjugate_volynians }
@@ -77,7 +78,7 @@ UKR_missions_1 = {
 	}
 	has_country_shield = yes
 		
-	KIE_ruthenia = {
+	UKR_ruthenia = {
 		icon = mission_rule_ruthenia
 		position = 5
 		required_missions = { }
@@ -115,10 +116,10 @@ UKR_missions_1 = {
 		}
 	}
 	
-	KIE_muscovy = {
+	UKR_muscovy = {
 		icon = mission_conquer_moscow
 		position = 6
-		required_missions = { KIE_ruthenia }
+		required_missions = { UKR_ruthenia }
 		
 		provinces_to_highlight = {
 			area = moscow_area
@@ -150,10 +151,10 @@ UKR_missions_1 = {
 		}
 	}
 	
-	KIE_novgorod = {
+	UKR_novgorod = {
 		icon = mission_conquer_novgorod
 		position = 7
-		required_missions = { KIE_muscovy }
+		required_missions = { UKR_muscovy }
 		
 		provinces_to_highlight = {
 			area = novgorod_area
@@ -190,10 +191,10 @@ UKR_missions_1 = {
 		}
 	}
 	
-	KIE_ancestral = {
+	UKR_ancestral = {
 		icon = mission_protect_white_sea_trade
 		position = 8
-		required_missions = { KIE_novgorod }
+		required_missions = { UKR_novgorod }
 		
 		provinces_to_highlight = {
 			region = scandinavia_region
@@ -219,6 +220,7 @@ UKR_missions_1 = {
 		}
 	}
 }
+
 KIE_missions_2 = {
 	slot = 2
 	generic = no
@@ -234,9 +236,9 @@ KIE_missions_2 = {
 	}
 	has_country_shield = yes
 		
-	subjugate_dregovichs_KIE = {
+	KIE_subjugate_white_ruthenia = {
 		icon = mission_have_two_subjects
-		required_missions = { true_ruler_KIE_KIE }
+		required_missions = { KIE_true_ruler }
 		position = 2
 		
 		provinces_to_highlight = {
@@ -277,11 +279,12 @@ KIE_missions_2 = {
 			add_prestige = 10
 		}
 	}
+
 	KIE_agriculture = {
 		icon = mission_high_income
 		position = 3
 		required_missions = { 
-			subjugate_dregovichs_KIE
+			KIE_subjugate_white_ruthenia
 		}
 		trigger = {
 			OR = {
@@ -296,12 +299,13 @@ KIE_missions_2 = {
 			}
 		}
 	}
+
 	KIE_chernihiv = {
 		icon = mission_high_income
 		position = 4
 		required_missions = { 
 			KIE_agriculture
-			friend_or_foe_KIE
+			KIE_friend_or_foe
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -331,7 +335,8 @@ KIE_missions_2 = {
 			add_prestige = 15
 		}
 	}
-	northern_expansion_KIE = {
+
+	KIE_northern_expansion = {
 		icon = the_russian_campaign
 		required_missions = { KIE_chernihiv }
 		position = 5
@@ -366,9 +371,10 @@ KIE_missions_2 = {
 			add_adm_power = 100
 		}
 	}
-	integrate_novgorod_KIE = {
+
+	KIE_integrate_novgorod = {
 		icon = mission_conquer_novgorod
-		required_missions = { northern_expansion_KIE }
+		required_missions = { KIE_northern_expansion }
 		position = 6
 		
 		provinces_to_highlight = {
@@ -448,6 +454,7 @@ KIE_missions_2 = {
 		}
 	}	
 }
+
 UKR_missions_2 = {
 	slot = 2
 	generic = no
@@ -460,10 +467,10 @@ UKR_missions_2 = {
 	}
 	has_country_shield = yes
 
-	KIE_princes = {
+	UKR_princes = {
 		icon = mission_unite_the_princes
 		position = 7
-		required_missions = { KIE_muscovy }
+		required_missions = { UKR_muscovy }
 
 		provinces_to_highlight = {
 			OR = {
@@ -485,10 +492,10 @@ UKR_missions_2 = {
 		}
 	}
 
-	KIE_baltic = {
+	UKR_baltic = {
 		icon = mission_landsknecht_soldier
 		position = 8
-		required_missions = { KIE_novgorod }
+		required_missions = { UKR_novgorod }
 		
 		provinces_to_highlight = {
 			OR = {
@@ -519,10 +526,10 @@ UKR_missions_2 = {
 		}
 	}
 
-	KIE_poland = {
+	UKR_poland = {
 		icon = mission_conquer_5_states
 		position = 9
-		required_missions = { KIE_baltic }
+		required_missions = { UKR_baltic }
 		
 		provinces_to_highlight = {
 			OR = {
@@ -588,7 +595,7 @@ KIE_missions_3 = {
 	}
 	has_country_shield = yes
 	
-	true_ruler_KIE_KIE = {
+	KIE_true_ruler = {
 		icon = king_of_poland
 		required_missions = {  }
 		position = 1
@@ -635,7 +642,7 @@ KIE_missions_3 = {
 	KIE_secure_kiev = {
 		icon = mission_restore_kiev
 		position = 2
-		required_missions = { true_ruler_KIE_KIE }
+		required_missions = { KIE_true_ruler }
 		
 		provinces_to_highlight = {
 			OR = {
@@ -659,12 +666,12 @@ KIE_missions_3 = {
 			}
 		}
 	}
-	friend_or_foe_KIE = {
+	KIE_friend_or_foe = {
 		icon = mission_rice_field
 		required_missions = { 
 			KIE_secure_kiev 
-			byzantine_relations_KIE
-			subjugate_dregovichs_KIE
+			KIE_byzantine_relations 
+			KIE_subjugate_white_ruthenia 
 		}
 		position = 3
 		
@@ -748,7 +755,7 @@ KIE_missions_3 = {
 	KIE_consolidate = {
 		icon = mission_consolidate_the_state
 		position = 4
-		required_missions = { friend_or_foe_KIE }
+		required_missions = { KIE_friend_or_foe  }
 		
 		trigger = {
 			stability = 2
@@ -764,7 +771,7 @@ KIE_missions_3 = {
 			add_stability = 1
 		}
 	}
-	secure_the_south_KIE = {
+	KIE_secure_the_south = {
 		icon = mission_advance_to_the_dnieper
 		required_missions = { KIE_consolidate }
 		position = 5
@@ -793,7 +800,7 @@ KIE_missions_3 = {
 	KIE_restore_kiev = {
 		icon = mission_sovereign_principality
 		position = 6
-		required_missions = { secure_the_south_KIE }
+		required_missions = { KIE_secure_the_south }
 		
 		trigger = {
 			280 = {
@@ -877,6 +884,7 @@ KIE_missions_3 = {
 		}
 	}
 }
+
 UKR_missions_3 = {
 	slot = 3
 	generic = no
@@ -888,10 +896,11 @@ UKR_missions_3 = {
 		}
 	}
 	has_country_shield = yes	
-	KIE_romania = {
+
+	UKR_romania = {
 		icon = mission_conquer_romania
 		position = 8
-		required_missions = { KIE_crimea }
+		required_missions = { UKR_crimea }
 		
 		provinces_to_highlight = {
 			OR = {
@@ -934,10 +943,10 @@ UKR_missions_3 = {
 		}
 	}
 	
-	KIE_bulgaria = {
+	UKR_bulgaria = {
 		icon = mission_crusade_for_varna
 		position = 9
-		required_missions = { KIE_romania }
+		required_missions = { UKR_romania }
 		
 		provinces_to_highlight = {
 			OR = {
@@ -984,10 +993,10 @@ UKR_missions_3 = {
 		}
 	}
 	
-	KIE_tsar = {
+	UKR_tsar = {
 		icon = mission_city_of_the_world's_desire
 		position = 10
-		required_missions = { KIE_bulgaria }
+		required_missions = { UKR_bulgaria }
 		
 		provinces_to_highlight = {
 			OR = {
@@ -1057,10 +1066,10 @@ UKR_missions_3 = {
 		}
 	}
 	
-	KIE_greece = {
+	UKR_greece = {
 		icon = mission_pf_cross
 		position = 11
-		required_missions = { KIE_tsar }
+		required_missions = { UKR_tsar }
 		
 		provinces_to_highlight = {
 			OR = {
@@ -1104,6 +1113,7 @@ UKR_missions_3 = {
 		}
 	}
 }
+
 KIE_missions_4 = {
 	slot = 4
 	generic = no
@@ -1119,7 +1129,7 @@ KIE_missions_4 = {
 	}
 	has_country_shield = yes
 
-	byzantine_relations_KIE = {
+	KIE_byzantine_relations = {
 		icon = carolingian_empire
 		required_missions = { }
 		position = 2
@@ -1163,23 +1173,21 @@ KIE_missions_4 = {
 		}
 	}
 
-	KIE_rurik = {
+	KIE_dynasty = {
 		icon = mission_empire
 		position = 4
-		required_missions = { friend_or_foe_KIE }
+		required_missions = { KIE_friend_or_foe }
 		trigger = {
 			is_at_war = no
-			dynasty = "Rurikovich"
 		}
 		effect = {
-			add_country_modifier = {
-				name = "KIE_rurik"
-				duration = 7300
+			country_event = {
+				id = M_UKR_Events.1
 			}
 		}
 	}	
 	
-	dniestr_trade_route_KIE = {
+	KIE_dniestr_trade_route = {
 		icon = danubian_power
 		required_missions = { KIE_consolidate KIE_cossack }
 		position = 5
@@ -1242,10 +1250,10 @@ UKR_missions_4 = {
 	}
 	has_country_shield = yes	
 	
-	KIE_crimea = {
+	UKR_crimea = {
 		icon = mission_non-western_cavalry_raid
 		position = 7
-		required_missions = { KIE_dniepr }
+		required_missions = { UKR_dniepr }
 		
 		provinces_to_highlight = {
 			OR = {
@@ -1284,9 +1292,9 @@ UKR_missions_4 = {
 			}
 		}
 	}
-	small_discrepancies_KIE = {
+	UKR_small_discrepancies = {
 		icon = take_constantinople
-		required_missions = { KIE_crimea  }
+		required_missions = { UKR_crimea  }
 		position = 8
 		
 		provinces_to_highlight = {
@@ -1309,10 +1317,10 @@ UKR_missions_4 = {
 		}
 	}
 
-	KIE_port = {
+	UKR_port = {
 		icon = mission_galleys_in_port
 		position = 9
-		required_missions = { small_discrepancies_KIE }
+		required_missions = { UKR_small_discrepancies }
 		
 		provinces_to_highlight = {
 			OR = {
@@ -1345,10 +1353,10 @@ UKR_missions_4 = {
 		}
 	}
 	
-	KIE_serbia = {
+	UKR_serbia = {
 		icon = mission_recruit_streltsy
 		position = 10
-		required_missions = { KIE_bulgaria }
+		required_missions = { UKR_bulgaria }
 		
 		provinces_to_highlight = {
 			OR = {
@@ -1378,7 +1386,7 @@ UKR_missions_4 = {
 	}
 	
 	
-	KIE_kazan = {
+	UKR_kazan = {
 		icon = mission_steppe_warriors
 		position = 11
 		required_missions = { }
@@ -1402,6 +1410,7 @@ UKR_missions_4 = {
 		}
 	}
 }
+
 KIE_missions_5 = {
 	slot = 5
 	generic = no
@@ -1448,7 +1457,7 @@ UKR_missions_5 = {
 	}
 	has_country_shield = yes	
 	
-	KIE_union = {
+	UKR_union = {
 		icon = mission_unite_home_region
 		position = 2
 		required_missions = { KIE_stability }
@@ -1485,7 +1494,7 @@ KIE_missions_5 = {
 	KIE_cossack = {
 		icon = mission_recruit_the_cossacks
 		position = 4
-		required_missions = { friend_or_foe_KIE }
+		required_missions = { KIE_friend_or_foe }
 		
 		trigger = {
 			num_of_cavalry = 10
@@ -1519,7 +1528,7 @@ UKR_missions_5 = {
 	}
 	has_country_shield = yes
 
-	KIE_dniepr = {
+	UKR_dniepr = {
 		icon = mission_advance_to_the_dnieper
 		position = 6
 		required_missions = { KIE_cossack }
@@ -1572,10 +1581,10 @@ UKR_missions_5 = {
 			}
 		}
 	}
-	KIE_tatar = {
+	UKR_tatar = {
 		icon = mission_break_the_tatar_yoke
 		position = 7
-		required_missions = { KIE_dniepr }
+		required_missions = { UKR_dniepr }
 		
 		trigger = {
 		    lower_don_area = {
@@ -1605,9 +1614,9 @@ UKR_missions_5 = {
 		}
 	}
 	
-	demand_tribute_KIE = {
+	UKR_demand_tribute = {
 		icon = mission_cossack_cavalry
-		required_missions = { KIE_crimea KIE_tatar }
+		required_missions = { UKR_crimea UKR_tatar }
 		position = 8
 		
 		trigger = {
@@ -1628,10 +1637,10 @@ UKR_missions_5 = {
 			add_prestige = 15
 		}
 	}
-	KIE_horde = {
+	UKR_horde = {
 		icon = mission_unite_home_region
 		position = 9
-		required_missions = { demand_tribute_KIE }
+		required_missions = { UKR_demand_tribute }
 
 		provinces_to_highlight = {
 			OR = {
@@ -1672,10 +1681,10 @@ UKR_missions_5 = {
 		}
 	}
 	
-	KIE_fleet = {
+	UKR_fleet = {
 		icon = mission_arabian_sea_trade
 		position = 10
-		required_missions = { KIE_port }
+		required_missions = { UKR_port }
 		
 		trigger = {
 			navy_size_percentage = 1
@@ -1688,7 +1697,7 @@ UKR_missions_5 = {
 			}
 		}
 	}
-	KIE_perm = {
+	UKR_perm = {
 		icon = mission_integrate_perm
 		position = 11
 		required_missions = { }
@@ -1712,10 +1721,10 @@ UKR_missions_5 = {
 		}
 	}
 
-	KIE_siberia = {
+	UKR_siberia = {
 		icon = mission_collect_yasak
 		position = 12
-		required_missions = { KIE_kazan KIE_perm }
+		required_missions = { UKR_kazan UKR_perm }
 		
 		trigger = {
 			adm_power = 200
