@@ -610,17 +610,25 @@ KIE_missions_3 = {
 			}
 			OR = {
 				exists = VOL
-				exists = HLC
 				exists = VLN
 			}
 			has_institution = renaissance
 		}
 		effect = {
+			if = {
+				limit = { exists = VOL }
+				add_casus_belli = {
+					type = cb_vassalize_mission
+					months = 300
+					target = VOL
+				}
+			}
 			add_casus_belli = {
 				type = cb_vassalize_mission
 				months = 300
-				target = VOL
+				target = VLN
 			}
+
 		}
 	}
 	
@@ -1409,9 +1417,26 @@ KIE_missions_5 = {
 	}
 	has_country_shield = yes	
 		
-	KIE_cossack = {
+	KIE_stability = {
 		icon = mission_recruit_the_cossacks
 		position = 4
+		required_missions = { }
+		
+		trigger = {
+			stability = 2
+		}
+		
+		effect = {
+			add_prestige = 20
+			add_country_modifier = {
+				name = KIE_defence
+				duration = -1
+			}
+		}
+	}
+	KIE_cossack = {
+		icon = mission_recruit_the_cossacks
+		position = 1
 		required_missions = { friend_or_foe_KIE }
 		
 		trigger = {
@@ -1443,7 +1468,24 @@ UKR_missions_5 = {
 			NOT = { map_setup = map_setup_random }
 		}
 	}
-	has_country_shield = yes		
+	has_country_shield = yes	
+	KIE_stability = {
+		icon = mission_recruit_the_cossacks
+		position = 3
+		required_missions = { KIE_stability }
+		
+		trigger = {
+			religious_unity = 1
+			prestige = 1
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = KIE_glory
+				duration = -1
+			}
+		}
+	}	
 	KIE_dniepr = {
 		icon = mission_advance_to_the_dnieper
 		position = 6
