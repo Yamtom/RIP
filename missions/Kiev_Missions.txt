@@ -688,7 +688,7 @@ KIE_missions_3 = {
 			if = {
 				OR = {
 					alliance_with = CRI
-					alliance_with = HUN
+					alliance_with = GOL
 				}
 				limit = { 
 					OR = {
@@ -696,7 +696,7 @@ KIE_missions_3 = {
 							exists = CRI 
 							is_neighbor_of = CRI
 						}
-						exists = HUN
+						exists = GOL
 					}			
 				}
 			}
@@ -1170,6 +1170,12 @@ KIE_missions_4 = {
 		effect = {
 			add_dip_power = 50
 			add_adm_power = 50
+			if = {
+				limit = {
+					alliance_with = BYZ
+				}
+				add_historical_friend = BYZ
+			}
 		}
 	}
 
