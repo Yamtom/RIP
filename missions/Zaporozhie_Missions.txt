@@ -15,7 +15,7 @@ ZAZ_missions_1 = {
 		required_missions = {
 			ZAZ_indep_1
 		}
-		position = 2
+		position = 3
 		trigger = {
 			army_size_percentage = 1.0
 		}
@@ -112,8 +112,8 @@ ZAZ_missions_2 = {
 	
 	ZAZ_indep_1 = { #muster manpower
 		icon = mission_have_two_subjects
-		required_missions = { }
-		position = 1
+		required_missions = { ZAZ_indep_3 }
+		position = 2
 		trigger = {
 			manpower_percentage = 0.25
 		}
@@ -156,7 +156,8 @@ ZAZ_missions_2 = {
 			ZAZ_indep_3
 		}
 		provinces_to_highlight = {
-			province_id = 275
+			province_id = 262
+			province_id = 295
 			NOT = { owned_by = ROOT }
 			OR = {
 				NOT = { units_in_province = ROOT }
@@ -167,7 +168,18 @@ ZAZ_missions_2 = {
 		}
 		position = 3
 		trigger = {
-			275 = {
+			262 = {
+				OR = {
+					owned_by = ROOT
+					AND = {
+						owner = {
+							war_with = ROOT
+						}
+						units_in_province = ROOT
+					}
+				}
+			}
+			295 = {
 				OR = {
 					owned_by = ROOT
 					AND = {
@@ -182,7 +194,10 @@ ZAZ_missions_2 = {
 		effect = {
 			if = {
 				limit = {
-					NOT = { owns = 275 }
+					AND = {
+						NOT = { owns = 262 }
+						NOT = { owns = 295 }
+					}
 				}
 				country_event = { id = M_ZAZ_Events.2 }
 			}
@@ -190,6 +205,26 @@ ZAZ_missions_2 = {
 				add_prestige = 10
 				add_manpower = 1000
 			}
+		}
+	}
+	
+	ZAZ_ally_tartar = { #allign with hordes
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_indep_6
+		}
+		position = 5
+		trigger = {
+			exists = GOL
+			reverse_has_opinion = {
+				who = GOL
+				value = 100
+			}
+		}
+		effect = {
+			set_country_flag = zaz_allied_gol
+			country_event = { id = M_ZAZ_Events.4 }
+			create_alliance	= GOL
 		}
 	}
 }
@@ -208,11 +243,8 @@ ZAZ_missions_3 = {
 	
 	ZAZ_indep_3 = { #independce war
 		icon = mission_have_two_subjects
-		required_missions = {
-			ZAZ_indep_1
-			ZAZ_indep_2
-		}
-		position = 2
+		required_missions = { }
+		position = 1
 		trigger = {
 			stability = 1
 		}
@@ -244,6 +276,8 @@ ZAZ_missions_3 = {
 		}
 		provinces_to_highlight = {
 			province_id = 272
+			province_id = 275
+			province_id = 1936
 			NOT = { owned_by = ROOT }
 			OR = {
 				NOT = { units_in_province = ROOT }
@@ -265,11 +299,37 @@ ZAZ_missions_3 = {
 					}
 				}
 			}
+			275 = {
+				OR = {
+					owned_by = ROOT
+					AND = {
+						owner = {
+							war_with = ROOT
+						}
+						units_in_province = ROOT
+					}
+				}
+			}
+			1936 = {
+				OR = {
+					owned_by = ROOT
+					AND = {
+						owner = {
+							war_with = ROOT
+						}
+						units_in_province = ROOT
+					}
+				}
+			}
 		}
 		effect = {
 			if = {
 				limit = {
-					NOT = { owns = 272 }
+					AND = {
+					NOT = { owns = 272 }	
+					NOT = { owns = 275 }
+					NOT = { owns = 1936 }
+					}
 				}
 				country_event = { id = M_ZAZ_Events.1 }
 			}
@@ -331,26 +391,6 @@ ZAZ_missions_3 = {
 			add_stability = 2
 		}
 	}
-	
-	ZAZ_ally_tartar = { #allign with hordes
-		icon = mission_have_two_subjects
-		required_missions = {
-			ZAZ_indep_6
-		}
-		position = 5
-		trigger = {
-			exists = GOL
-			reverse_has_opinion = {
-				who = GOL
-				value = 100
-			}
-		}
-		effect = {
-			set_country_flag = zaz_allied_gol
-			country_event = { id = M_ZAZ_Events.4 }
-			create_alliance	= GOL
-		}
-	}
 }
 
 ZAZ_missions_4 = {
@@ -367,7 +407,8 @@ ZAZ_missions_4 = {
 	
 	ZAZ_indep_2 = { #prepare the settlements
 		icon = mission_have_two_subjects
-		required_missions = { }
+		required_missions = { ZAZ_indep_3 }
+		position = 2
 		provinces_to_highlight = {
 			OR = {
 				province_id = 282
@@ -430,7 +471,8 @@ ZAZ_missions_4 = {
 			ZAZ_indep_3
 		}
 		provinces_to_highlight = {
-			province_id = 1936
+			province_id = 151
+			province_id = 303
 			NOT = { owned_by = ROOT }
 			OR = {
 				NOT = { units_in_province = ROOT }
@@ -441,7 +483,18 @@ ZAZ_missions_4 = {
 		}
 		position = 3
 		trigger = {
-			1936 = {
+			151 = {
+				OR = {
+					owned_by = ROOT
+					AND = {
+						owner = {
+							war_with = ROOT
+						}
+						units_in_province = ROOT
+					}
+				}
+			}
+			303 = {
 				OR = {
 					owned_by = ROOT
 					AND = {
@@ -456,7 +509,10 @@ ZAZ_missions_4 = {
 		effect = {
 			if = {
 				limit = {
-					NOT = { owns = 1936 }
+					AND ={
+						NOT = { owns = 151 }
+						NOT = { owns = 303 }
+					}
 				}
 				country_event = { id = M_ZAZ_Events.3 }
 			}
@@ -485,7 +541,7 @@ ZAZ_missions_5 = {
 		required_missions = {
 			ZAZ_indep_2
 		}
-		position = 2
+		position = 3
 		trigger = {
 			grown_by_development = 12
 		}
