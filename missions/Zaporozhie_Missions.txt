@@ -83,6 +83,9 @@ ZAZ_missions_1 = {
 			ZAZ_indep_6
 		}
 		position = 5
+		provinces_to_highlight = {
+			country_or_non_sovereign_subject_holds = TUR
+		}
 		trigger = {
 			exists = TUR
 			reverse_has_opinion = {
@@ -152,12 +155,15 @@ ZAZ_missions_2 = {
 	
 	ZAZ_indep_7 = { #ambush plockas
 		icon = mission_have_two_subjects
+		position = 3
 		required_missions = {
 			ZAZ_indep_3
 		}
 		provinces_to_highlight = {
-			province_id = 262
-			province_id = 295
+			OR = {
+				province_id = 262
+				province_id = 295
+			}
 			NOT = { owned_by = ROOT }
 			OR = {
 				NOT = { units_in_province = ROOT }
@@ -166,7 +172,6 @@ ZAZ_missions_2 = {
 				}
 			}
 		}
-		position = 3
 		trigger = {
 			262 = {
 				OR = {
@@ -207,13 +212,16 @@ ZAZ_missions_2 = {
 			}
 		}
 	}
-	
+
 	ZAZ_ally_tartar = { #allign with hordes
 		icon = mission_have_two_subjects
 		required_missions = {
 			ZAZ_indep_6
 		}
 		position = 5
+		provinces_to_highlight = {
+			country_or_non_sovereign_subject_holds = GOL
+		}
 		trigger = {
 			exists = GOL
 			reverse_has_opinion = {
@@ -271,13 +279,16 @@ ZAZ_missions_3 = {
 	
 	ZAZ_indep_4 = { #ambush vilnius
 		icon = mission_have_two_subjects
+		position = 2
 		required_missions = {
 			ZAZ_indep_3
 		}
 		provinces_to_highlight = {
-			province_id = 272
-			province_id = 275
-			province_id = 1936
+			OR = {
+				province_id = 272
+				province_id = 275
+				province_id = 1936
+			}
 			NOT = { owned_by = ROOT }
 			OR = {
 				NOT = { units_in_province = ROOT }
@@ -286,7 +297,6 @@ ZAZ_missions_3 = {
 				}
 			}
 		}
-		position = 3
 		trigger = {
 			272 = {
 				OR = {
@@ -420,7 +430,6 @@ ZAZ_missions_4 = {
 				NOT = { development = 6 }
 			}
 		}
-		position = 1
 		trigger = {
    			treasury = 100
 			owns = 282
@@ -471,8 +480,10 @@ ZAZ_missions_4 = {
 			ZAZ_indep_3
 		}
 		provinces_to_highlight = {
-			province_id = 151
-			province_id = 303
+			OR = {
+				province_id = 151
+				province_id = 303
+			}
 			NOT = { owned_by = ROOT }
 			OR = {
 				NOT = { units_in_province = ROOT }
@@ -538,10 +549,10 @@ ZAZ_missions_5 = {
 	
 	ZAZ_domestic_2 = { #budding khanate
 		icon = mission_have_two_subjects
+		position = 3
 		required_missions = {
 			ZAZ_indep_2
 		}
-		position = 3
 		trigger = {
 			grown_by_development = 12
 		}
@@ -558,10 +569,10 @@ ZAZ_missions_5 = {
 	
 	ZAZ_domestic_3 = { #proper khanate
 		icon = mission_have_two_subjects
+		position = 4
 		required_missions = {
 			ZAZ_domestic_2
 		}
-		position = 4
 		trigger = {
 			grown_by_development = 50
 		}
@@ -584,6 +595,9 @@ ZAZ_missions_5 = {
 			ZAZ_indep_6
 		}
 		position = 5
+		provinces_to_highlight = {
+			country_or_non_sovereign_subject_holds = MOS
+		}
 		trigger = {
 			exists = MOS
 			reverse_has_opinion = {
