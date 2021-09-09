@@ -157,12 +157,11 @@ ZAZ_missions_2 = {
 		icon = mission_have_two_subjects
 		position = 3
 		required_missions = {
-			ZAZ_indep_3
+			ZAZ_indep_4
 		}
 		provinces_to_highlight = {
 			OR = {
 				province_id = 262
-				province_id = 295
 			}
 			NOT = { owned_by = ROOT }
 			OR = {
@@ -184,6 +183,42 @@ ZAZ_missions_2 = {
 					}
 				}
 			}
+		}
+		effect = {
+			if = {
+				limit = {
+					AND = {
+						NOT = { owns = 262 }
+					}
+				}
+				country_event = { id = M_ZAZ_Events.2 }
+			}
+			else = {
+				add_prestige = 10
+				add_manpower = 1000
+			}
+		}
+	}
+
+	ZAZ_indep_7_1 = { #ambush plockas
+		icon = mission_have_two_subjects
+		position = 4
+		required_missions = {
+			ZAZ_indep_7
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 295
+			}
+			NOT = { owned_by = ROOT }
+			OR = {
+				NOT = { units_in_province = ROOT }
+				owner = {
+					NOT = { war_with = ROOT }
+				}
+			}
+		}
+		trigger = {
 			295 = {
 				OR = {
 					owned_by = ROOT
@@ -200,7 +235,6 @@ ZAZ_missions_2 = {
 			if = {
 				limit = {
 					AND = {
-						NOT = { owns = 262 }
 						NOT = { owns = 295 }
 					}
 				}
@@ -212,7 +246,6 @@ ZAZ_missions_2 = {
 			}
 		}
 	}
-
 	ZAZ_ally_tartar = { #allign with hordes
 		icon = mission_have_two_subjects
 		required_missions = {
@@ -401,6 +434,77 @@ ZAZ_missions_3 = {
 			add_stability = 2
 		}
 	}
+	ZAZ_only_zaz = { #only zaporizhzhia
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_indep_6
+		}
+		position = 5
+		provinces_to_highlight = {
+			AND = {
+				NOT = {	country_or_non_sovereign_subject_holds = TUR}
+				NOT = {	country_or_non_sovereign_subject_holds = GOL}
+				OR = {
+					NOT = {	country_or_non_sovereign_subject_holds = POL}
+					NOT = {	country_or_non_sovereign_subject_holds = PLC}
+				}
+				OR = {
+					NOT = {	country_or_non_sovereign_subject_holds = MOS}
+					NOT = {	country_or_non_sovereign_subject_holds = RUS}
+				}
+			}
+		}
+		trigger = {
+			NOT = {
+				AND = {
+					exists = TUR
+					exists = GOL
+					OR ={
+						exists = POL
+						exists = PLC
+					}
+					OR ={
+						exists = MOS
+						exists = RUS
+					}
+				}
+			}
+			AND = {
+				reverse_has_opinion = {
+					who = TUR
+					value = 100
+				}
+				reverse_has_opinion = {
+					who = GOL
+					value = 100
+				}
+				OR = {
+					reverse_has_opinion = {
+						who = POL
+						value = 100
+					}
+					reverse_has_opinion = {
+						who = PLC
+						value = 100
+					}
+				}
+				OR = {
+					reverse_has_opinion = {
+						who = MOS
+						value = 100
+					}
+					reverse_has_opinion = {
+						who = RUS
+						value = 100
+					}
+				}
+			}
+		}
+		effect = {
+			set_country_flag = zaz_only_zaz
+			country_event = { id = M_ZAZ_Events.4 }
+		}
+	}
 }
 
 ZAZ_missions_4 = {
@@ -477,12 +581,11 @@ ZAZ_missions_4 = {
 	ZAZ_indep_5 = { #ambush kaunas
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_indep_3
+			ZAZ_indep_4
 		}
 		provinces_to_highlight = {
 			OR = {
 				province_id = 151
-				province_id = 303
 			}
 			NOT = { owned_by = ROOT }
 			OR = {
@@ -505,6 +608,43 @@ ZAZ_missions_4 = {
 					}
 				}
 			}
+		}
+		effect = {
+			if = {
+				limit = {
+					AND ={
+						NOT = { owns = 151 }
+					}
+				}
+				country_event = { id = M_ZAZ_Events.3 }
+			}
+			else = {
+				add_prestige = 10
+				add_manpower = 1000
+			}
+		}
+	}
+
+	
+	ZAZ_indep_5_1 = { #ambush kaunas
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_indep_5
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 303
+			}
+			NOT = { owned_by = ROOT }
+			OR = {
+				NOT = { units_in_province = ROOT }
+				owner = {
+					NOT = { war_with = ROOT }
+				}
+			}
+		}
+		position = 4
+		trigger = {
 			303 = {
 				OR = {
 					owned_by = ROOT
@@ -521,7 +661,6 @@ ZAZ_missions_4 = {
 			if = {
 				limit = {
 					AND ={
-						NOT = { owns = 151 }
 						NOT = { owns = 303 }
 					}
 				}
@@ -531,6 +670,41 @@ ZAZ_missions_4 = {
 				add_prestige = 10
 				add_manpower = 1000
 			}
+		}
+	}
+	ZAZ_ally_pol = { #allign with poland
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_indep_6
+		}
+		position = 5
+		provinces_to_highlight = {
+			OR = {
+				country_or_non_sovereign_subject_holds = POL
+				country_or_non_sovereign_subject_holds = PLC
+			}
+		}
+		trigger = {
+			OR = {
+				exists = POL
+				exists = PLC
+			}
+			OR = {
+				reverse_has_opinion = {
+					who = POL
+					value = 100
+				}
+				reverse_has_opinion = {
+					who = PLC
+					value = 100
+				}
+			}
+		}
+		effect = {
+			set_country_flag = zaz_allied_pol
+			country_event = { id = M_ZAZ_Events.4 }
+			create_alliance	= POL
+			create_alliance	= PLC
 		}
 	}
 }
@@ -596,19 +770,32 @@ ZAZ_missions_5 = {
 		}
 		position = 5
 		provinces_to_highlight = {
-			country_or_non_sovereign_subject_holds = MOS
+			OR = {
+				country_or_non_sovereign_subject_holds = MOS
+				country_or_non_sovereign_subject_holds = RUS
+			}
 		}
 		trigger = {
-			exists = MOS
-			reverse_has_opinion = {
-				who = MOS
-				value = 100
+			OR = { 
+				exists = MOS
+				exists = RUS
+			}
+			OR = {
+				reverse_has_opinion = {
+					who = MOS
+					value = 100
+				}
+				reverse_has_opinion = {
+					who = RUS
+					value = 100
+				}
 			}
 		}
 		effect = {
 			set_country_flag = zaz_allied_rus
 			country_event = { id = M_ZAZ_Events.4 }
 			create_alliance	= MOS
+			create_alliance	= RUS
 		}
 	}
 }
