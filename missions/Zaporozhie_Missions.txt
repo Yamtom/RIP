@@ -3829,60 +3829,20 @@ ZAZ_POL_missions_1 = {
 		}
 		provinces_to_highlight = {
 			OR = {
-				area = sloboda_ukraine_area
-				area = west_dniepr_area
-				area = east_dniepr_area
 				area = podolia_volhynia_area
 			}
 			NOT = { owned_by = ROOT }
 		}
 		position = 9
 		trigger = {
-			sloboda_ukraine_area = {
-				type = all
-				owned_by = ROOT
-			}
-			west_dniepr_area = {
-				type = all
-				owned_by = ROOT
-			}
-			east_dniepr_area = {
-				type = all
-				owned_by = ROOT
-			}
 			podolia_volhynia_area = {
 				type = all
 				owned_by = ROOT
 			}
 		}
 		effect = {
-			pripyat_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			minsk_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			white_ruthenia_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			smolensk_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
-				}
-				add_permanent_claim = ROOT
+			1943 = {
+				add_building = fort_17th
 			}
 		}
 	}
@@ -4560,7 +4520,7 @@ ZAZ_pol_missions_4 = {
 	}
 }
 
-ZAZ_plc_missions_5 = {
+ZAZ_pol_missions_5 = {
 	slot = 5
 	generic = no
 	ai = yes
@@ -4622,9 +4582,7 @@ ZAZ_plc_missions_5 = {
 			ZAZ_plc_war_5
 		}
 		provinces_to_highlight = {
-			OR = {
-				region = crimea_region
-			}
+			region = crimea_region
 			NOT = { owned_by = ROOT }
 		}
 		position = 9
