@@ -4540,10 +4540,6 @@ ZAZ_pol_missions_5 = {
 		}
 		position = 6
 		trigger = {
-			reverse_has_opinion_modifier = {
-				who = CRI
-				modifier = insulted
-			}
 		}
 		effect = {
 			2411 = {
@@ -4593,21 +4589,6 @@ ZAZ_pol_missions_5 = {
 			}
 		}
 		effect = {
-			every_neighbor_country = {
-				limit = {
-					NOT = { alliance_with = ROOT }
-					NOT = { is_subject_of = ROOT }
-				}
-				add_country_modifier = {
-					name = zaz_unchecked_horde
-					duration = 10950
-				}
-				add_stability = -1
-			}
-			add_country_modifier = {
-				name = zaz_russian_help #zaz_poland_help
-				duration = 18250
-			}
 		}
 	}
 }
