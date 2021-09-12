@@ -4533,7 +4533,7 @@ ZAZ_pol_missions_5 = {
 	}
 	has_country_shield = yes
 
-	ZAZ_plc_war_1 = { 
+	ZAZ_plc_war_1 = {
 		icon = mission_have_two_subjects
 		required_missions = {
 			ZAZ_ally_pol
@@ -4549,8 +4549,7 @@ ZAZ_pol_missions_5 = {
 			2411 = {
 				if = {
 					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
+						owned_by = ROOT
 					}
 					add_permanent_claim = ROOT
 				}
@@ -4558,8 +4557,7 @@ ZAZ_pol_missions_5 = {
 			2412 = {
 				if = {
 					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
+						owned_by = ROOT
 					}
 					add_permanent_claim = ROOT
 				}
@@ -4567,15 +4565,13 @@ ZAZ_pol_missions_5 = {
 			1974 = {
 				if = {
 					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
+						owned_by = ROOT
 					}
 					add_permanent_claim = ROOT
 				}
 			}
 		}
 	}
-	
 	ZAZ_plc_war_6 = { #settle south ukraine
 		icon = mission_have_two_subjects
 		required_missions = {
@@ -4587,26 +4583,25 @@ ZAZ_pol_missions_5 = {
 		}
 		position = 9
 		trigger = {
-			crimea_region = {
-				type = all
+			2411 = {
+				owned_by = ROOT
+			}
+			2412 = {
+				owned_by = ROOT
+			}
+			1974 = {
 				owned_by = ROOT
 			}
 		}
 		effect = {
-			every_neighbor_country = {
-				limit = {
-					NOT = { alliance_with = ROOT }
-					NOT = { is_subject_of = ROOT }
+			crimea_region = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
 				}
-				add_country_modifier = {
-					name = zaz_unchecked_horde
-					duration = 10950
-				}
-				add_stability = -1
-			}
-			add_country_modifier = {
-				name = zaz_russian_help #zaz_poland_help
-				duration = 18250
 			}
 		}
 	}
