@@ -2315,6 +2315,10 @@ ZAZ_GOL_missions_1 = {
 		}
 		position = 6
 		trigger = {
+			reverse_has_opinion_modifier = {
+				who = LIT
+				modifier = insulted
+			}
 			}
 		effect = {
 			1943 = {
@@ -3696,7 +3700,7 @@ ZAZ_GOL_missions_5 = {
 			}
 			NOT = { owned_by = ROOT }
 		}
-		position = 12
+		position = 11
 		trigger = {
 			poland_region = {
 				type = all
@@ -3715,6 +3719,1104 @@ ZAZ_GOL_missions_5 = {
 #only ZAZ
 #############
 
+ZAZ_ukr_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = ZAZ
+			tag = HET
+		}
+		has_country_flag = zaz_only_zaz
+	}
+	has_country_shield = yes
+	
+	ZAZ_ukr_war_2 = { #contest crimea
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_only_zaz
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1974
+				province_id = 2412
+				province_id = 2411
+			}
+			NOT = { owned_by = ROOT }
+			NOT = { is_claim = ROOT }
+		}
+		position = 6
+		trigger = {
+			1974 = {
+				OR = {
+					owned_by = ROOT
+					is_claim = ROOT
+				}
+			}
+			OR = {
+				2412 = {
+					OR = {
+						owned_by = ROOT
+						is_claim = ROOT
+					}
+				}
+				2411 = {
+					OR = {
+						owned_by = ROOT
+						is_claim = ROOT
+					}
+				}
+			}
+		}
+		effect = {
+			create_general = {
+				tradition = 75
+			}
+			282 = {
+				if = {
+					limit = {
+						is_core = CRI
+					}
+					remove_core = CRI
+				}
+			}
+			283 = {
+				if = {
+					limit = {
+						is_core = CRI
+					}
+					remove_core = CRI
+				}
+			}
+			2406 = {
+				if = {
+					limit = {
+						is_core = CRI
+					}
+					remove_core = CRI
+				}
+			}
+		}
+	}
+	
+	ZAZ_ukr_war_3 = { #war with crimea
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ukr_war_2
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = zaporizhia_area
+				area = yedisan_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		position = 7
+		trigger = {
+			OR = {
+				offensive_war_with = CRI
+				NOT = { exists = CRI }
+			}
+		}
+		effect = {
+			zaporizhia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			yedisan_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	ZAZ_ukr_war_4 = { #end crimea
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ukr_war_3
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 284
+				province_id = 2413
+				province_id = 2414
+				province_id = 287
+			}
+			NOT = { owned_by = ROOT }
+		}
+		position = 8
+		trigger = {
+			NOT = { exists = CRI }
+			284 = {
+				owned_by = ROOT
+			}
+			2413 = {
+				owned_by = ROOT
+			}
+			2414 = {
+				owned_by = ROOT
+			}
+			287 = {
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			crimea_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			azov_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	ZAZ_ukr_war_5 = { #sieze ports
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ukr_war_4
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = crimea_area
+				area = azov_area
+			}
+			NOT = { owned_by = ROOT }
+		}
+		position = 9
+		trigger = {
+			crimea_area = {
+				type = all
+				owned_by = ROOT
+			}
+			azov_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			284 = {
+				add_trade_modifier = {
+					who = ROOT
+					duration = -1
+					power = 20
+					key = ZAZ_CRIMEAN_TRADE
+				}
+			}
+		}
+	}
+	
+	ZAZ_ukr_war_8 = { #grand khan
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ukr_war_5
+			ZAZ_ukr_war_7
+			ZAZ_ukr_war_6
+		}
+		provinces_to_highlight = {
+			OR = {
+				region = crimea_region
+				region = ruthenia_region
+			}
+			NOT = { owned_by = ROOT }
+		}
+		position = 10
+		trigger = {
+			NOT = { exists = LIT }
+			army_size = POL
+			army_size = MOS
+			crimea_region = {
+				type = all
+				owned_by = ROOT
+			}
+			ruthenia_region = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			every_neighbor_country = {
+				limit = {
+					NOT = { alliance_with = ROOT }
+					NOT = { is_subject_of = ROOT }
+				}
+				add_country_modifier = {
+					name = zaz_unchecked_horde
+					duration = 10950
+				}
+				add_stability = -1
+			}
+			add_country_modifier = {
+				name = zaz_turkish_help
+				duration = 18250
+			}
+		}
+	}
+}
+ZAZ_ukr_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = ZAZ
+			tag = HET
+		}
+		has_country_flag = zaz_only_zaz
+	}
+	has_country_shield = yes
+
+	ZAZ_ukr_war_1 = { 
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_only_zaz
+		}
+		position = 6
+		trigger = {
+			exists = LIT
+		}
+		effect = {
+			1943 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			1944 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			290 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+	}
+	
+	ZAZ_ukr_war_6 = { #settle south ukraine
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ukr_war_1
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1943
+				province_id = 1944
+				province_id = 290
+			}
+			NOT = { owned_by = ROOT }
+		}
+		position = 8
+		trigger = {
+			1943 = {
+				owned_by = ROOT
+			}
+			1944 = {
+				owned_by = ROOT
+			}
+			290 = {
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			sloboda_ukraine_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			west_dniepr_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			east_dniepr_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			podolia_volhynia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	ZAZ_ukr_war_7 = { #settle north ukraine
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ukr_war_6
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = sloboda_ukraine_area
+				area = west_dniepr_area
+				area = east_dniepr_area
+				area = podolia_volhynia_area
+			}
+			NOT = { owned_by = ROOT }
+		}
+		position = 9
+		trigger = {
+			sloboda_ukraine_area = {
+				type = all
+				owned_by = ROOT
+			}
+			west_dniepr_area = {
+				type = all
+				owned_by = ROOT
+			}
+			east_dniepr_area = {
+				type = all
+				owned_by = ROOT
+			}
+			podolia_volhynia_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			pripyat_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			minsk_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			white_ruthenia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			smolensk_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+}
+
+
+ZAZ_ukr_missions_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = ZAZ
+			tag = HET
+		}
+		has_country_flag = zaz_only_zaz
+	}
+	has_country_shield = yes
+	
+	ZAZ_ukr_dip_3 = { #be in the same war and same side as rus
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_only_zaz
+		}
+		position = 6
+		trigger = {
+			OR = {
+				is_in_war = {
+					attackers = MOS
+					attackers = ROOT
+				}
+				is_in_war = {
+					attackers = RUS
+					attackers = ROOT
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					is_in_war = {
+						attackers = MOS
+						attackers = ROOT
+					}
+					NOT = { is_rival = MOS }
+					NOT = { is_enemy = MOS }
+				}
+				add_historical_friend = MOS
+				MOS = { add_historical_friend = ROOT }
+			}
+			else_if = {
+				limit = {
+					is_in_war = {
+						attackers = RUS
+						attackers = ROOT
+					}
+					NOT = { is_rival = RUS }
+					NOT = { is_enemy = RUS }
+				}
+				add_historical_friend = RUS
+				RUS = { add_historical_friend = ROOT }
+			}
+			else = {
+				add_mil_power = 50
+			}
+		}
+	}
+	
+	ZAZ_ukr_dip_7 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ukr_dip_3
+		}
+		provinces_to_highlight = {
+			area = red_ruthenia_area
+			NOT = { owned_by = ROOT }
+		}
+		position = 7
+		trigger = {
+			red_ruthenia_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			add_mil_power = 25
+		}
+	}
+
+	ZAZ_ukr_dip_4 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ukr_dip_7
+		}
+		position = 8
+		provinces_to_highlight = {
+			area = sandomierz_area
+			NOT = { is_claim = ROOT }
+			NOT = { owned_by = ROOT }
+		}
+		trigger = {
+			sandomierz_area = {
+				OR = {
+					is_claim = ROOT
+					owned_by = ROOT
+				}
+			}
+		}
+		effect = {
+			red_ruthenia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			malopolska_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+	
+	ZAZ_ukr_dip_6 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ukr_dip_4
+		}
+		provinces_to_highlight = {
+			area = malopolska_area
+			NOT = { owned_by = ROOT }
+		}
+		position = 9
+		trigger = {
+			malopolska_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = zaz_trade_eff
+				duration = 9125
+			}
+		}
+	}
+}
+
+ZAZ_ukr_missions_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = ZAZ
+			tag = HET
+		}
+		has_country_flag = zaz_only_zaz
+	}
+	has_country_shield = yes
+	
+	ZAZ_insult_theo = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ally_tartar
+		}
+		position = 6
+		provinces_to_highlight = {
+			province_id = 2410
+			NOT = { owned_by = ROOT }
+		}
+		trigger = {
+			2410 = {
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			2410 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+	}
+	
+	ZAZ_attack_genoa = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_insult_theo
+		}
+		provinces_to_highlight = {
+			province_id = 2410
+			NOT = { owned_by = ROOT }
+		}
+		position = 7
+		trigger = {
+			2410 = {
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			285 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2447 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			286 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+	}
+	
+	ZAZ_attack_genoa_2 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_attack_genoa
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 285
+				province_id = 2447
+				province_id = 286
+			}
+			NOT = { owned_by = ROOT }
+		}
+		position = 8
+		trigger = {
+			285 = {
+				owned_by = ROOT
+			}
+			2447 = {
+				owned_by = ROOT
+			}
+			286 = {
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			284 = {
+				add_trade_modifier = {
+					who = ROOT
+					duration = -1
+					power = 15
+					key = ZAZ_CRIMEAN_TRADE
+				}
+			}
+			if = {
+				limit = {
+					has_dlc = "Mandate of Heaven"
+					exists = TRE
+				}
+				add_casus_belli = {
+					target = TRE
+					type = cb_force_tributary
+					months = 240
+				}
+			}
+			else = {
+				330 = {
+					if = {
+						limit = {
+							NOT = { owned_by = ROOT }
+							NOT = { is_core = ROOT }
+						}
+						add_permanent_claim = ROOT
+					}
+				}
+			}
+		}
+	}
+	ZAZ_tur = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_plc_5
+		}
+		provinces_to_highlight = {
+			area = moldavia_area
+			NOT = { owned_by = ROOT }
+		}
+		position = 9
+		trigger = {
+			moldavia_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			wallachia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+	
+	ZAZ_ukr_2 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_tur
+		}
+		provinces_to_highlight = {
+			area = wallachia_area
+			NOT = { owned_by = ROOT }
+		}
+		position = 10
+		trigger = {
+			wallachia_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			bulgaria_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+	
+	ZAZ_ukr_3 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ukr_2
+		}
+		provinces_to_highlight = {
+			area = bulgaria_area
+			NOT = { owned_by = ROOT }
+		}
+		position = 11
+		trigger = {
+			bulgaria_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			149 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+			1764 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+		}
+	}
+	
+	ZAZ_ukr_4 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ukr_3
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 149
+				province_id = 1764
+			}
+			NOT = { owned_by = ROOT }
+		}
+		position = 12
+		trigger = {
+			1764 = {
+				owned_by = ROOT
+			}
+			149 = {
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			151 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+	}
+	
+	ZAZ_ukr_5 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ukr_4
+		}
+		provinces_to_highlight = {
+			province_id = 151
+			NOT = { owned_by = ROOT }
+		}
+		position = 13
+		trigger = {
+			151 = {
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = zaz_russia_buff #zaz_ukr_buff
+				duration = 9125
+			}
+			country_event = { id = M_ZAZ_Events.9 }
+		}
+	}
+}
+
+ZAZ_ukr_missions_5 = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = ZAZ
+			tag = HET
+		}
+		has_country_flag = zaz_only_zaz
+	}
+	has_country_shield = yes
+	
+	ZAZ_insult_tur = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ally_tartar
+		}
+		position = 6
+		trigger = {
+			exists = TUR
+			}
+		effect = {
+			add_country_modifier = {
+				name = zaz_insult_tur
+				duration = 9125
+			}
+		}
+	}
+	
+	ZAZ_plc_3 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_insult_tur
+		}
+		provinces_to_highlight = {
+			province_id = 1756
+			NOT = { owned_by = ROOT }
+		}
+		position = 7
+		trigger = {
+			1756 = {
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			moldavia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+	
+	ZAZ_plc_5 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_plc_3
+		}
+		provinces_to_highlight = {
+			area = podolia_volhynia_area
+			NOT = { owned_by = ROOT }
+		}
+		position = 8
+		trigger = {
+			podolia_volhynia_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			red_ruthenia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			pripyat_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	ZAZ_plc_7 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_plc_5
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = red_ruthenia_area
+				area = pripyat_area
+			}
+			NOT = { owned_by = ROOT }
+		}
+		position = 9
+		trigger = {
+			red_ruthenia_area = {
+				type = all
+				owned_by = ROOT
+			}
+			pripyat_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			malopolska_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			269 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+		}
+	}
+	
+	ZAZ_plc_8 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_plc_7
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = malopolska_area
+				province_id = 269
+			}
+			NOT = { owned_by = ROOT }
+		}
+		position = 10
+		trigger = {
+			malopolska_area = {
+				type = all
+				owned_by = ROOT
+			}
+			269 = {
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			wielkopolska_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			256 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+			257 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+			1937 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+		}
+	}
+	
+	ZAZ_plc_9 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_plc_8
+		}
+		provinces_to_highlight = {
+			OR = {
+				region = poland_region
+			}
+			NOT = { owned_by = ROOT }
+		}
+		position = 11
+		trigger = {
+			poland_region = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = zaz_plc_buff
+				duration = 9125
+			}
+		}
+	}
+}
 
 #############
 #alligned with poland
