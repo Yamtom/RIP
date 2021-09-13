@@ -1577,6 +1577,38 @@ ZAZ_RUS_missions_1 = {
 		has_country_flag = zaz_allied_rus
 	}
 	has_country_shield = yes
+	
+	ZAZ_rus_dip_5 = { #
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_ally_rus
+		}
+		position = 6
+		trigger = {
+			NOT = {
+				reverse_has_opinion = {
+					who = TUR
+					value = -190
+				}
+			}
+		}
+		effect = {
+			country_event = { id = M_ZAZ_Events.6 }
+		}
+	}
+}
+ZAZ_RUS_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = ZAZ
+			tag = HET
+		}
+		has_country_flag = zaz_allied_rus
+	}
+	has_country_shield = yes
 
 	ZAZ_rus_war_1 = { 
 		icon = mission_have_two_subjects
@@ -1741,59 +1773,6 @@ ZAZ_RUS_missions_1 = {
 	}
 }
 
-ZAZ_RUS_missions_2 = {
-	slot = 2
-	generic = no
-	ai = yes
-	potential = {
-		OR = {
-			tag = ZAZ
-			tag = HET
-		}
-		has_country_flag = zaz_allied_rus
-	}
-	has_country_shield = yes
-	
-	ZAZ_rus_dip_5 = { #
-		icon = mission_have_two_subjects
-		required_missions = {
-			ZAZ_rus_dip_3
-		}
-		position = 7
-		trigger = {
-			NOT = {
-				reverse_has_opinion = {
-					who = TUR
-					value = -190
-				}
-			}
-		}
-		effect = {
-			country_event = { id = M_ZAZ_Events.6 }
-		}
-	}
-	
-	ZAZ_rus_dip_7 = {
-		icon = mission_have_two_subjects
-		required_missions = {
-			ZAZ_rus_dip_4
-		}
-		provinces_to_highlight = {
-			area = red_ruthenia_area
-			NOT = { owned_by = ROOT }
-		}
-		position = 9
-		trigger = {
-			red_ruthenia_area = {
-				type = all
-				owned_by = ROOT
-			}
-		}
-		effect = {
-			add_mil_power = 25
-		}
-	}
-}
 
 ZAZ_RUS_missions_3 = {
 	slot = 3
@@ -1857,20 +1836,41 @@ ZAZ_RUS_missions_3 = {
 		}
 	}
 	
-	ZAZ_rus_dip_4 = {
+	ZAZ_rus_dip_7 = {
 		icon = mission_have_two_subjects
 		required_missions = {
 			ZAZ_rus_dip_3
+		}
+		provinces_to_highlight = {
+			area = red_ruthenia_area
+			NOT = { owned_by = ROOT }
+		}
+		position = 7
+		trigger = {
+			red_ruthenia_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			add_mil_power = 25
+		}
+	}
+
+	ZAZ_rus_dip_4 = {
+		icon = mission_have_two_subjects
+		required_missions = {
+			ZAZ_rus_dip_7
 			ZAZ_rus_dip_2
 		}
 		position = 8
 		provinces_to_highlight = {
-			province_id = 260
+			area = sandomierz_area
 			NOT = { is_claim = ROOT }
 			NOT = { owned_by = ROOT }
 		}
 		trigger = {
-			260 = {
+			sandomierz_area = {
 				OR = {
 					is_claim = ROOT
 					owned_by = ROOT
@@ -2317,15 +2317,6 @@ ZAZ_GOL_missions_1 = {
 		trigger = {
 			}
 		effect = {
-			1756 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
 			1943 = {
 				if = {
 					limit = {
@@ -2382,13 +2373,6 @@ ZAZ_GOL_missions_1 = {
 			}
 		}
 		effect = {
-			podolia_volhynia_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
 			west_dniepr_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -3534,7 +3518,7 @@ ZAZ_GOL_missions_5 = {
 	ZAZ_plc_3 = {
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_insult_lit
+			ZAZ_insult_tur
 		}
 		provinces_to_highlight = {
 			province_id = 1756
@@ -3561,7 +3545,6 @@ ZAZ_GOL_missions_5 = {
 	ZAZ_plc_5 = {
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_plc_2
 			ZAZ_plc_3
 		}
 		provinces_to_highlight = {
