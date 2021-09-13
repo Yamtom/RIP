@@ -504,43 +504,16 @@ ZAZ_missions_3_2 = {
 		position = 5
 		provinces_to_highlight = {
 			OR = {
-				if = {
-					limit = {
-						NOT = { exists = TUR }
-					}
-					country_or_non_sovereign_subject_holds = TUR
+				country_or_non_sovereign_subject_holds = TUR
+				country_or_non_sovereign_subject_holds = GOL
+				OR = {
+					country_or_non_sovereign_subject_holds = POL
+					country_or_non_sovereign_subject_holds = PLC
 				}
-				if = {
-					limit = {
-						NOT = { exists = GOL }
-					}
-					country_or_non_sovereign_subject_holds = GOL
+				OR = {
+					country_or_non_sovereign_subject_holds = MOS
+					country_or_non_sovereign_subject_holds = RUS
 				}
-				if = {
-					limit = {
-						OR = {
-							NOT = { exists = POL }
-							NOT = { exists = PLC }
-						}
-						OR = {
-							country_or_non_sovereign_subject_holds = POL
-							country_or_non_sovereign_subject_holds = PLC
-						}
-					}
-				}
-				if = {
-					limit = {
-						OR = {
-							NOT = { exists = MOS }
-							NOT = { exists = RUS }
-						}
-						OR = {
-							country_or_non_sovereign_subject_holds = MOS
-							country_or_non_sovereign_subject_holds = RUS
-						}
-					}
-				}
-				
 			}
 		}
 		trigger = {
@@ -549,26 +522,30 @@ ZAZ_missions_3_2 = {
 			}
 			NOT = {
 				AND = {
-					OR = {
-						NOT = { exists = TUR }
+					IF = {
+						limit = {
+							NOT = { exists = TUR }
+						}
 						reverse_has_opinion = {
 							who = TUR
 							value = 0
 						}
-
 					}
-					OR = {
-						NOT = { exists =  GOL }
+					IF = {
+						limit = {
+							NOT = { exists =  GOL }
+						}
 						reverse_has_opinion = {
 							who = GOL
 							value = 0
 						}
-
 					}
-					OR = {
-						OR = {
-							NOT = { exists =  POL  }
-							NOT = { exists =  PLC  }
+					IF = {
+						limit = {
+							OR = {
+								NOT = { exists =  POL  }
+								NOT = { exists =  PLC  }
+							}
 						}
 						OR = {
 							reverse_has_opinion = {
@@ -581,10 +558,12 @@ ZAZ_missions_3_2 = {
 							}
 						}
 					}
-					OR = {
-						OR = {
-							NOT = { exists =  MOS  }
-							NOT = { exists =  RUS  }
+					IF = {
+						limit = {
+							OR = {
+								NOT = { exists =  MOS  }
+								NOT = { exists =  RUS  }
+							}
 						}
 						OR = {
 							reverse_has_opinion = {
