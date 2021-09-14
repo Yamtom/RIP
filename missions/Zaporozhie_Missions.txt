@@ -3948,7 +3948,7 @@ ZAZ_ukr_missions_1 = {
 	ZAZ_ukr_war_5_1 = { #sieze ports
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_ukr_war_4
+			ZAZ_ukr_war_5
 		}
 		provinces_to_highlight = {
 			culture = crimean
@@ -4126,31 +4126,12 @@ ZAZ_ukr_missions_2 = {
 		}
 		position = 9
 		trigger = {
-			sloboda_ukraine_area = {
-				type = all
-				owned_by = ROOT
-			}
 			west_dniepr_area = {
-				type = all
-				owned_by = ROOT
-			}
-			east_dniepr_area = {
-				type = all
-				owned_by = ROOT
-			}
-			podolia_volhynia_area = {
 				type = all
 				owned_by = ROOT
 			}
 		}
 		effect = {
-			pripyat_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
 			minsk_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -4165,19 +4146,12 @@ ZAZ_ukr_missions_2 = {
 				}
 				add_permanent_claim = ROOT
 			}
-			smolensk_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
 		}
 	}
 	ZAZ_ukr_war_7_1 = { #settle north ukraine
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_ukr_war_6
+			ZAZ_ukr_war_7
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -4286,6 +4260,13 @@ ZAZ_ukr_missions_3 = {
 				add_permanent_claim = ROOT
 			}
 			smolensk_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			chernigov_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
 					NOT = { is_core = ROOT }
@@ -4959,7 +4940,7 @@ ZAZ_ukr_missions_5 = {
 	ZAZ_plc_8 = {
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_plc_7
+			ZAZ_ukr_dip_4
 		}
 		provinces_to_highlight = {
 			OR = {
