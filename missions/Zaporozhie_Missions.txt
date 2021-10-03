@@ -936,7 +936,7 @@ ZAZ_TUR_missions_1 = {
 	}
 	has_country_shield = yes
 	
-	ZAZ_tur_war_2 = { #contest crimea
+	ZAZ_TUR_contest_crimea = { #contest crimea
 		icon = mission_have_two_subjects
 		required_missions = {
 			ZAZ_ally_tur
@@ -1004,10 +1004,10 @@ ZAZ_TUR_missions_1 = {
 		}
 	}
 	
-	ZAZ_tur_war_3 = { #war with crimea
+	ZAZ_TUR_war_crimea = { #war with crimea
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_tur_war_2
+			ZAZ_TUR_contest_crimea
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -1041,10 +1041,10 @@ ZAZ_TUR_missions_1 = {
 		}
 	}
 	
-	ZAZ_tur_war_4 = { #end crimea
+	ZAZ_TUR_end_crimea = { #end crimea
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_tur_war_3
+			ZAZ_TUR_war_crimea
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -1089,10 +1089,10 @@ ZAZ_TUR_missions_1 = {
 		}
 	}
 	
-	ZAZ_tur_war_5 = { #sieze ports
+	ZAZ_TUR_sieze_ports = { #sieze ports
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_tur_war_4
+			ZAZ_TUR_end_crimea
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -1124,12 +1124,12 @@ ZAZ_TUR_missions_1 = {
 		}
 	}
 	
-	ZAZ_tur_war_8 = { #grand khan
+	ZAZ_TUR_otoman = { #grand khan
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_tur_war_5
+			ZAZ_TUR_sieze_ports
 			ZAZ_tur_war_7
-			ZAZ_tur_war_9
+			ZAZ_TUR_conquer_steppe
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -1185,7 +1185,7 @@ ZAZ_TUR_missions_2 = {
 	}
 	has_country_shield = yes
 	
-	ZAZ_tur_dip_1 = { #
+	ZAZ_TUR_different_ally = { #
 		icon = mission_have_two_subjects
 		required_missions = {
 			ZAZ_ally_tur
@@ -1204,10 +1204,10 @@ ZAZ_TUR_missions_2 = {
 		}
 	}
 	
-	ZAZ_tur_dip_2 = { #
+	ZAZ_TUR_embargo_all = { #
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_tur_dip_1
+			ZAZ_TUR_different_ally
 		}
 		position = 7
 		trigger = { #embargo all ally's rivals
@@ -1226,10 +1226,10 @@ ZAZ_TUR_missions_2 = {
 		}
 	}
 	
-	ZAZ_tur_war_9 = { #conquer the steppe
+	ZAZ_TUR_conquer_steppe = { #conquer the steppe
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_tur_war_4
+			ZAZ_TUR_end_crimea
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -1271,7 +1271,7 @@ ZAZ_TUR_missions_3 = {
 	}
 	has_country_shield = yes
 	
-	ZAZ_tur_dip_3 = { #be in the same war and same side as tur
+	ZAZ_TUR_side_tur = { #be in the same war and same side as tur
 		icon = mission_have_two_subjects
 		required_missions = {
 			ZAZ_ally_tur
@@ -1289,11 +1289,11 @@ ZAZ_TUR_missions_3 = {
 		}
 	}
 	
-	ZAZ_tur_dip_4 = { #slave trade in ottomans
+	ZAZ_TUR_slave_trade = { #slave trade in ottomans
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_tur_dip_3
-			ZAZ_tur_dip_2
+			ZAZ_TUR_side_tur
+			ZAZ_TUR_embargo_all
 		}
 		position = 8
 		provinces_to_highlight = {
@@ -1346,10 +1346,10 @@ ZAZ_TUR_missions_4 = {
 	}
 	has_country_shield = yes
 	
-	ZAZ_tur_dip_5 = { #
+	ZAZ_TUR_brake_rus = { #
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_tur_dip_3
+			ZAZ_TUR_side_tur
 		}
 		position = 7
 		trigger = {
@@ -1394,11 +1394,11 @@ ZAZ_TUR_missions_4 = {
 		}
 	}
 	
-	ZAZ_tur_dip_6 = { #convert to islam
+	ZAZ_TUR_convert_islam = { #convert to islam
 		icon = mission_have_two_subjects
 		required_missions = {
-			ZAZ_tur_dip_5
-			ZAZ_tur_dip_4
+			ZAZ_TUR_brake_rus
+			ZAZ_TUR_slave_trade
 		}
 		position = 9
 		trigger = {
