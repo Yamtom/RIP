@@ -106,16 +106,16 @@ country_event = { #surprise occupy vilnius
 }
 
 country_event = {
-	id = zaz_flavor.m.2
-	title = zaz_flavor.m.2.t
-	desc = zaz_flavor.m.2.d
+	id = zaz_flavor.m.2.1
+	title = zaz_flavor.m.2.1.t
+	desc = zaz_flavor.m.2.1.d
 	picture = BORDER_TENSION_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = { # plunder
-		name = zaz_flavor.m.2.a
+		name = zaz_flavor.m.2.1.a
 		
 		ai_chance = { factor = 0.33 }
 		
@@ -131,7 +131,7 @@ country_event = {
 	}
 	
 	option = {# conscript
-		name = zaz_flavor.m.2.b
+		name = zaz_flavor.m.2.1.b
 		
 		ai_chance = { factor = 0.33 }
 		
@@ -147,7 +147,7 @@ country_event = {
 	}
 	
 	option = {# let the tribes decide
-		name = zaz_flavor.m.2.c
+		name = zaz_flavor.m.2.1.c
 		
 		ai_chance = { factor = 0.33 }
 		
@@ -173,17 +173,150 @@ country_event = {
 	}
 }
 
-country_event = { #surprise occupy kaunas
-	id = zaz_flavor.m.3
-	title = zaz_flavor.m.3.t
-	desc = zaz_flavor.m.3.d
+country_event = {
+	id = zaz_flavor.m.2.2
+	title = zaz_flavor.m.2.2.t
+	desc = zaz_flavor.m.2.2.d
 	picture = BORDER_TENSION_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = { # plunder
-		name = zaz_flavor.m.3.a
+		name = zaz_flavor.m.2.2.a
+		
+		ai_chance = { factor = 0.33 }
+		
+		295= {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+		}
+		add_years_of_income = 1
+	}
+	
+	option = {# conscript
+		name = zaz_flavor.m.2.2.b
+		
+		ai_chance = { factor = 0.33 }
+		
+		295 = {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+		}
+		add_manpower = 0.5
+	}
+	
+	option = {# let the tribes decide
+		name = zaz_flavor.m.2.2.c
+		
+		ai_chance = { factor = 0.33 }
+		
+		295 = {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+		}
+		random_list = {
+			25 = {
+				add_manpower = 0.25
+			}
+			25 = {
+				add_years_of_income = 0.5
+			}
+			50 = {
+				capital_scope = { add_devastation = 25 }
+			}
+		}
+	}
+}
+
+country_event = { #surprise occupy kaunas
+	id = zaz_flavor.m.3.1
+	title = zaz_flavor.m.3.1.t
+	desc = zaz_flavor.m.3.1.d
+	picture = BORDER_TENSION_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { # plunder
+		name = zaz_flavor.m.3.1.a
+		
+		ai_chance = { factor = 0.33 }
+		
+		303 = {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+		}
+		add_prestige = 10
+	}
+	
+	option = {# conscript
+		name = zaz_flavor.m.3.1.a
+		
+		ai_chance = { factor = 0.33 }
+		
+		303 = {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+		}
+		add_manpower = 0.5
+	}
+	
+	option = {# let the tribes decide
+		name = zaz_flavor.m.3.1.a
+		
+		ai_chance = { factor = 0.33 }
+		
+		303 = {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+		}
+		random_list = {
+			50 = {
+				add_army_tradition = 15
+			}
+			50 = {
+				add_years_of_income = 2
+			}
+		}
+	}
+}
+
+country_event = { #surprise occupy kaunas
+	id = zaz_flavor.m.3.2
+	title = zaz_flavor.m.3.2.t
+	desc = zaz_flavor.m.3.2.d
+	picture = BORDER_TENSION_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { # plunder
+		name = zaz_flavor.m.3.2.a
 		
 		ai_chance = { factor = 0.33 }
 		
@@ -199,7 +332,7 @@ country_event = { #surprise occupy kaunas
 	}
 	
 	option = {# conscript
-		name = zaz_flavor.m.3.a
+		name = zaz_flavor.m.3.2.a
 		
 		ai_chance = { factor = 0.33 }
 		
@@ -215,7 +348,7 @@ country_event = { #surprise occupy kaunas
 	}
 	
 	option = {# let the tribes decide
-		name = zaz_flavor.m.3.a
+		name = zaz_flavor.m.3.2.a
 		
 		ai_chance = { factor = 0.33 }
 		
