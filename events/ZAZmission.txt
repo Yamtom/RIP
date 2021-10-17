@@ -451,16 +451,16 @@ country_event = {#event to extend mission set
 }
 
 country_event = {#conversion event
-	id = zaz_flavor.m.5
-	title = zaz_flavor.m.5.t
-	desc = zaz_flavor.m.5.d
+	id = zaz_flavor.m.5.1
+	title = zaz_flavor.m.5.1.t
+	desc = zaz_flavor.m.5.1.d
 	picture = BORDER_TENSION_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = { #convert to islam
-		name = zaz_flavor.m.5.a
+		name = zaz_flavor.m.5.1.a
 		
 		ai_chance = { factor = 0.5 }
 		
@@ -484,7 +484,53 @@ country_event = {#conversion event
 	}
 	
 	option = { #stay orthodox
-		name = zaz_flavor.m.5.a
+		name = zaz_flavor.m.5.1.a
+		
+		ai_chance = { factor = 0.5 }
+		
+		add_patriarch_authority = 0.05
+		add_country_modifier = {
+			name = zaz_ortho
+			duration = 10950
+		}
+	}
+}
+
+country_event = {#conversion event
+	id = zaz_flavor.m.5.2
+	title = zaz_flavor.m.5.2.t
+	desc = zaz_flavor.m.5.2.d
+	picture = BORDER_TENSION_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { #convert to islam
+		name = zaz_flavor.m.5.2.a
+		
+		ai_chance = { factor = 0.5 }
+		
+		change_religion = sunni
+		capital_scope = {
+			every_neighbor_province = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = zaz_catholic_spread
+					duration = 3650
+				}
+			}
+			change_religion = catholic
+		}
+		add_country_modifier = {
+			name = zaz_missionaries
+			duration = 3650
+		}
+	}
+	
+	option = { #stay orthodox
+		name = zaz_flavor.m.5.2.a
 		
 		ai_chance = { factor = 0.5 }
 		
