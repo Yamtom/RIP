@@ -26,7 +26,7 @@ country_event = {
 		
 	}
 	option = { 
-		name = M_UKR_Events.1.a
+		name = M_UKR_Events.1.b
 		
 		trigger = {
 			NOT = { dynasty = Gedyminovich }
@@ -43,7 +43,7 @@ country_event = {
 		
 	}
 	option = { 
-		name = M_UKR_Events.1.b
+		name = M_UKR_Events.1.c
 		
 		trigger = {
 			NOT = { dynasty = Jagiellon }
@@ -53,20 +53,6 @@ country_event = {
 		set_dynasty = Jagiellon
 		add_country_modifier = {
 			name = UKR_jagiellon
-			duration = -1
-		}
-		ai_chance = { factor = 0.25 }
-		
-	}
-	option = { 
-		name = M_UKR_Events.1.c
-		
-		add_prestige = 25
-		country_event = {
-			id = M_UKR_Events.11
-		}
-		add_country_modifier = {
-			name = UKR_dynasty
 			duration = -1
 		}
 		ai_chance = { factor = 0.25 }
@@ -98,7 +84,7 @@ country_event = {
 			dynasty = Rurikovich
 		}
 		
-		add_prestige = 25
+		add_prestige = 50
 		add_country_modifier = {
 			name = UKR_rurikovich
 			duration = -1
@@ -113,7 +99,7 @@ country_event = {
 			dynasty = Gedyminovich
 		}
 
-		add_prestige = 25
+		add_prestige = 50
 		add_country_modifier = {
 			name = UKR_gedyminovich
 			duration = -1
@@ -128,7 +114,7 @@ country_event = {
 			dynasty = Jagiellon
 		}
 
-		add_prestige = 25
+		add_prestige = 50
 		add_country_modifier = {
 			name = UKR_jagiellon
 			duration = -1
@@ -138,261 +124,3 @@ country_event = {
 	}
 }
 
-
-country_event = {
-	id = M_UKR_Events.11
-	title = M_UKR_Events.11.t
-	desc = M_UKR_Events.11.desc
-	
-	picture = RELIGION_eventPicture
-
-
-	option = {
-		name = M_UKR_Events.11.a		# A Local Noble
-		if = {
-			limit = {
-				has_estate = estate_nobles
-			}
-			add_estate_loyalty = {
-				estate = estate_nobles
-				loyalty = 15
-			}
-			set_dynasty = event_target:noble_province
-		}
-		if = {
-			limit = {
-				has_saved_event_target = noble_province
-				NOT = {
-					has_global_modifier_value = {
-						which = female_advisor_chance
-						value = 1
-					}
-				}
-			}
-			set_dynasty = {
-				culture = event_target:noble_province
-			}
-		}
-		add_devotion = -5
-		add_prestige = 10
-		clr_country_flag = in_theocracy_heir_selection
-		custom_tooltip = theocracy.1.tt
-	}	
-	option = {
-		name = M_UKR_Events.11.b		# A Foreign Noble
-		trigger = { 
-			any_neighbor_country = {
-				government = monarchy
-				has_regency = no
-			}
-		}
-		if = {
-			limit = {
-				has_estate = estate_nobles
-			}
-			add_estate_loyalty = {
-				estate = estate_nobles
-				loyalty = 10
-			}
-		}
-		random_neighbor_country = { 
-			limit = {
-				government = monarchy
-				has_regency = no
-				religion = ROOT
-			}
-			ROOT = { 
-				if = {
-					limit = {
-						NOT = {
-							has_global_modifier_value = {
-								which = female_advisor_chance
-								value = 1
-							}
-						}
-					}
-					set_dynasty = { 
-						dynasty = PREV 
-						culture = PREV
-					} 
-				}
-				else = {
-					set_dynasty = { 
-						dynasty = PREV 
-						culture = PREV
-						female = yes
-					} 
-				}
-			}
-			add_opinion = { who = ROOT modifier = opinion_theocracy_noble }
-		}
-		clr_country_flag = in_theocracy_heir_selection
-		custom_tooltip = theocracy.1.tt
-	}
-
-	option = {
-		name = M_UKR_Events.11.c		# A Merchant's Son 
-		if = {
-			limit = {
-				has_estate = estate_burghers
-			}
-			add_estate_loyalty = {
-				estate = estate_burghers
-				loyalty = 15
-			}
-		}
-		
-		if = {
-			limit = {
-				has_saved_event_target = burgher_province
-				NOT = {
-					has_global_modifier_value = {
-						which = female_advisor_chance
-						value = 1
-					}
-				}
-			}
-			set_dynasty = {
-				culture = event_target:burgher_province
-			}
-		add_years_of_income = 0.35
-		add_devotion = -5
-		clr_country_flag = in_theocracy_heir_selection
-		custom_tooltip = theocracy.1.tt
-		}
-	}
-
-	option = {
-		name = M_UKR_Events.11.e		# A Talented Theologian 
-		if = {
-			limit = {
-				has_estate = estate_church
-			}
-			add_estate_loyalty = {
-				estate = estate_church
-				loyalty = 15
-			}
-		}
-		if = {
-			limit = {
-				has_saved_event_target = church_province
-				NOT = {
-					has_global_modifier_value = {
-						which = female_advisor_chance
-						value = 1
-					}
-				}
-			}
-			set_dynasty = {
-				culture = event_target:church_province
-			}
-		}
-		add_devotion = 5
-		clr_country_flag = in_theocracy_heir_selection
-		custom_tooltip = theocracy.1.tt
-	}
-	option = {
-		name = M_UKR_Events.11.f		# A Local Preacher
-		trigger = { 
-			NOT = {
-				religion_group = muslim
-			}
-		}
-		if = {
-			limit = {
-				has_estate = estate_burghers
-			}
-			add_estate_loyalty = {
-				estate = estate_church
-				loyalty = 15
-			}
-			add_estate_loyalty = {
-				estate = estate_burghers
-				loyalty = 15
-			}
-		}
-		if = {
-			limit = {
-				has_saved_event_target = church_province
-				NOT = {
-					has_global_modifier_value = {
-						which = female_advisor_chance
-						value = 1
-					}
-				}
-			}
-			set_dynasty = {
-				culture = event_target:church_province
-			}
-		}
-		add_devotion = 10
-		add_prestige = -5
-		clr_country_flag = in_theocracy_heir_selection
-		custom_tooltip = theocracy.1.tt
-	}
-	option = {
-		name = M_UKR_Events.11.d		# A Papal Protege
-		trigger = { 
-			religion = catholic
-		}
-		if = {
-			limit = {
-				has_estate = estate_church
-			}
-			add_estate_loyalty = {
-				estate = estate_church
-				loyalty = 15
-			}
-			add_estate_loyalty = {
-				estate = estate_nobles
-				loyalty = 10
-			}
-		}
-		if = {
-			limit = {
-				has_saved_event_target = papal_protoge_country
-				NOT = {
-					has_global_modifier_value = {
-						which = female_advisor_chance
-						value = 1
-					}
-				}
-			}
-			set_dynasty = {
-				culture = event_target:papal_protoge_country
-			}
-		}
-		add_papal_influence = 10
-		clr_country_flag = in_theocracy_heir_selection
-		custom_tooltip = theocracy.1.tt
-	}
-	option = {
-		name = M_UKR_Events.11.g		# A Local Imam Khatib
-		trigger = { 
-			religion_group = muslim
-		}
-		set_country_flag = theo_imam_khatib_flag # USED IN DEVOTION.TXT
-		if = {
-			limit = {
-				has_estate = estate_church
-			}
-			add_estate_loyalty = {
-				estate = estate_church
-				loyalty = 15
-			}
-			if = {
-				limit = {
-					has_estate = estate_church
-				}
-				add_estate_loyalty = {
-					estate = estate_church
-					loyalty = 15
-				}
-			}
-		}
-		add_devotion = 10
-		add_prestige = -10
-		clr_country_flag = in_theocracy_heir_selection
-		custom_tooltip = theocracy.1.tt
-	}
-}
