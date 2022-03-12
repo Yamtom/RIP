@@ -1,16 +1,17 @@
-namespace = M_ZAZ_Events
+namespace = zaz_flavor.m
 
+#Mission
 country_event = { #surprise occupy vilnius
-	id = M_ZAZ_Events.1
-	title = "M_ZAZ_Events.1.t"
-	desc = "M_ZAZ_Events.1.d"
+	id = zaz_flavor.m.1
+	title = "zaz_flavor.m.1.t"
+	desc = "zaz_flavor.m.1.d"
 	picture = BORDER_TENSION_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
 	
-	option = { #kill citizens
-		name = M_ZAZ_Events.1.a
+	option = {
+		name = zaz_flavor.m.1.a
 		
 		ai_chance = { factor = 0.33 }
 		
@@ -20,10 +21,22 @@ country_event = { #surprise occupy vilnius
 				add_war_exhaustion = 15
 			}
 		}
+		275 = {
+			change_controller = ROOT
+			owner = {
+				add_war_exhaustion = 15
+			}
+		}
+		1936 = {
+			change_controller = ROOT
+			owner = {
+				add_war_exhaustion = 15
+			}
+		}
 	}
 	
-	option = {# kill nobility
-		name = M_ZAZ_Events.1.b
+	option = {
+		name = zaz_flavor.m.1.b
 		
 		ai_chance = { factor = 0.33 }
 		
@@ -33,10 +46,22 @@ country_event = { #surprise occupy vilnius
 				add_stability = -3
 			}
 		}
+		275 = {
+			change_controller = ROOT
+			owner = {
+				add_stability = -3
+			}
+		}
+		1936 = {
+			change_controller = ROOT
+			owner = {
+				add_stability = -3
+			}
+		}
 	}
 	
-	option = {# plunder
-		name = M_ZAZ_Events.1.c
+	option = {
+		name = zaz_flavor.m.1.c
 		
 		ai_chance = { factor = 0.33 }
 		
@@ -52,25 +77,49 @@ country_event = { #surprise occupy vilnius
 				add_war_exhaustion = 7.5
 			}
 		}
+		275 = {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+			owner = {
+				add_stability = -1
+				add_war_exhaustion = 7.5
+			}
+		}
+		1936 = {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+			owner = {
+				add_stability = -1
+				add_war_exhaustion = 7.5
+			}
+		}
 		add_years_of_income = 5
 	}
 }
 
-country_event = { #surprise occupy plockas
-	id = M_ZAZ_Events.2
-	title = M_ZAZ_Events.2.t
-	desc = M_ZAZ_Events.2.d
+country_event = {
+	id = zaz_flavor.m.2.1
+	title = zaz_flavor.m.2.1.t
+	desc = zaz_flavor.m.2.1.d
 	picture = BORDER_TENSION_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = { # plunder
-		name = M_ZAZ_Events.2.a
+		name = zaz_flavor.m.2.1.a
 		
 		ai_chance = { factor = 0.33 }
 		
-		275 = {
+		262= {
 			change_controller = ROOT
 			remove_loot = {
 				who = ROOT
@@ -82,11 +131,11 @@ country_event = { #surprise occupy plockas
 	}
 	
 	option = {# conscript
-		name = M_ZAZ_Events.2.b
+		name = zaz_flavor.m.2.1.b
 		
 		ai_chance = { factor = 0.33 }
 		
-		275 = {
+		262 = {
 			change_controller = ROOT
 			remove_loot = {
 				who = ROOT
@@ -98,11 +147,79 @@ country_event = { #surprise occupy plockas
 	}
 	
 	option = {# let the tribes decide
-		name = M_ZAZ_Events.2.c
+		name = zaz_flavor.m.2.1.c
 		
 		ai_chance = { factor = 0.33 }
 		
-		275 = {
+		262 = {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+		}
+		random_list = {
+			25 = {
+				add_manpower = 0.25
+			}
+			25 = {
+				add_years_of_income = 0.5
+			}
+			50 = {
+				capital_scope = { add_devastation = 25 }
+			}
+		}
+	}
+}
+
+country_event = {
+	id = zaz_flavor.m.2.2
+	title = zaz_flavor.m.2.2.t
+	desc = zaz_flavor.m.2.2.d
+	picture = BORDER_TENSION_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { # plunder
+		name = zaz_flavor.m.2.2.a
+		
+		ai_chance = { factor = 0.33 }
+		
+		295= {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+		}
+		add_years_of_income = 1
+	}
+	
+	option = {# conscript
+		name = zaz_flavor.m.2.2.b
+		
+		ai_chance = { factor = 0.33 }
+		
+		295 = {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+		}
+		add_manpower = 0.5
+	}
+	
+	option = {# let the tribes decide
+		name = zaz_flavor.m.2.2.c
+		
+		ai_chance = { factor = 0.33 }
+		
+		295 = {
 			change_controller = ROOT
 			remove_loot = {
 				who = ROOT
@@ -125,20 +242,20 @@ country_event = { #surprise occupy plockas
 }
 
 country_event = { #surprise occupy kaunas
-	id = M_ZAZ_Events.3
-	title = M_ZAZ_Events.3.t
-	desc = M_ZAZ_Events.3.d
+	id = zaz_flavor.m.3.1
+	title = zaz_flavor.m.3.1.t
+	desc = zaz_flavor.m.3.1.d
 	picture = BORDER_TENSION_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = { # plunder
-		name = M_ZAZ_Events.3.a
+		name = zaz_flavor.m.3.1.a
 		
 		ai_chance = { factor = 0.33 }
 		
-		1936 = {
+		303 = {
 			change_controller = ROOT
 			remove_loot = {
 				who = ROOT
@@ -150,11 +267,11 @@ country_event = { #surprise occupy kaunas
 	}
 	
 	option = {# conscript
-		name = M_ZAZ_Events.3.a
+		name = zaz_flavor.m.3.1.a
 		
 		ai_chance = { factor = 0.33 }
 		
-		1936 = {
+		303 = {
 			change_controller = ROOT
 			remove_loot = {
 				who = ROOT
@@ -166,11 +283,76 @@ country_event = { #surprise occupy kaunas
 	}
 	
 	option = {# let the tribes decide
-		name = M_ZAZ_Events.3.a
+		name = zaz_flavor.m.3.1.a
 		
 		ai_chance = { factor = 0.33 }
 		
-		1936 = {
+		303 = {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+		}
+		random_list = {
+			50 = {
+				add_army_tradition = 15
+			}
+			50 = {
+				add_years_of_income = 2
+			}
+		}
+	}
+}
+
+country_event = { #surprise occupy kaunas
+	id = zaz_flavor.m.3.2
+	title = zaz_flavor.m.3.2.t
+	desc = zaz_flavor.m.3.2.d
+	picture = BORDER_TENSION_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { # plunder
+		name = zaz_flavor.m.3.2.a
+		
+		ai_chance = { factor = 0.33 }
+		
+		151 = {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+		}
+		add_prestige = 10
+	}
+	
+	option = {# conscript
+		name = zaz_flavor.m.3.2.a
+		
+		ai_chance = { factor = 0.33 }
+		
+		151 = {
+			change_controller = ROOT
+			remove_loot = {
+				who = ROOT
+				amount = 100
+			}
+			add_devastation = 25
+		}
+		add_manpower = 0.5
+	}
+	
+	option = {# let the tribes decide
+		name = zaz_flavor.m.3.2.a
+		
+		ai_chance = { factor = 0.33 }
+		
+		151 = {
 			change_controller = ROOT
 			remove_loot = {
 				who = ROOT
@@ -190,27 +372,27 @@ country_event = { #surprise occupy kaunas
 }
 
 country_event = {#event to extend mission set
-	id = M_ZAZ_Events.4
-	title = M_ZAZ_Events.4.t #the way forward
+	id = zaz_flavor.m.4
+	title = zaz_flavor.m.4.t #the way forward
 	desc = {
 		trigger = { has_country_flag = zaz_allied_tur }
-		desc = M_ZAZ_Events.4.d1
+		desc = zaz_flavor.m.4.d1
 	}
 	desc = {
 		trigger = { has_country_flag = zaz_allied_gol }
-		desc = M_ZAZ_Events.4.d2
+		desc = zaz_flavor.m.4.d2
 	}
 	desc = {
 		trigger = { has_country_flag = zaz_only_zaz }
-		desc = M_ZAZ_Events.4.d3
+		desc = zaz_flavor.m.4.d3
 	}
 	desc = {
 		trigger = { has_country_flag = zaz_allied_pol }
-		desc = M_ZAZ_Events.4.d3
+		desc = zaz_flavor.m.4.d4
 	}
 	desc = {
 		trigger = { has_country_flag = zaz_allied_rus }
-		desc = M_ZAZ_Events.4.d3
+		desc = zaz_flavor.m.4.d5
 	}
 	picture = BORDER_TENSION_eventPicture
 
@@ -218,7 +400,7 @@ country_event = {#event to extend mission set
 	is_triggered_only = yes
 	
 	option = { # switches mission set
-		name = M_ZAZ_Events.4.a
+		name = zaz_flavor.m.4.a
 		
 		trigger = {
 			has_country_flag = zaz_allied_tur
@@ -228,7 +410,7 @@ country_event = {#event to extend mission set
 	}
 	
 	option = { # switches mission set
-		name = M_ZAZ_Events.4.b
+		name = zaz_flavor.m.4.b
 		
 		trigger = {
 			has_country_flag = zaz_allied_gol
@@ -238,7 +420,7 @@ country_event = {#event to extend mission set
 	}
 	
 	option = { # switches mission set
-		name = M_ZAZ_Events.4.c
+		name = zaz_flavor.m.4.c
 		
 		trigger = {
 			has_country_flag = zaz_only_zaz
@@ -248,7 +430,7 @@ country_event = {#event to extend mission set
 	}
 	
 	option = { # switches mission set
-		name = M_ZAZ_Events.4.d
+		name = zaz_flavor.m.4.d
 		
 		trigger = {
 			has_country_flag = zaz_allied_pol
@@ -258,7 +440,7 @@ country_event = {#event to extend mission set
 	}
 	
 	option = { # switches mission set
-		name = M_ZAZ_Events.4.e
+		name = zaz_flavor.m.4.e
 		
 		trigger = {
 			has_country_flag = zaz_allied_rus
@@ -269,16 +451,16 @@ country_event = {#event to extend mission set
 }
 
 country_event = {#conversion event
-	id = M_ZAZ_Events.5
-	title = M_ZAZ_Events.5.t
-	desc = M_ZAZ_Events.5.d1
+	id = zaz_flavor.m.5.1
+	title = zaz_flavor.m.5.1.t
+	desc = zaz_flavor.m.5.1.d
 	picture = BORDER_TENSION_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = { #convert to islam
-		name = M_ZAZ_Events.5.a
+		name = zaz_flavor.m.5.1.a
 		
 		ai_chance = { factor = 0.5 }
 		
@@ -302,7 +484,53 @@ country_event = {#conversion event
 	}
 	
 	option = { #stay orthodox
-		name = M_ZAZ_Events.5.a
+		name = zaz_flavor.m.5.1.a
+		
+		ai_chance = { factor = 0.5 }
+		
+		add_patriarch_authority = 0.05
+		add_country_modifier = {
+			name = zaz_ortho
+			duration = 10950
+		}
+	}
+}
+
+country_event = {#conversion event
+	id = zaz_flavor.m.5.2
+	title = zaz_flavor.m.5.2.t
+	desc = zaz_flavor.m.5.2.d
+	picture = BORDER_TENSION_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = { #convert to islam
+		name = zaz_flavor.m.5.2.a
+		
+		ai_chance = { factor = 0.5 }
+		
+		change_religion = sunni
+		capital_scope = {
+			every_neighbor_province = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = zaz_catholic_spread
+					duration = 3650
+				}
+			}
+			change_religion = catholic
+		}
+		add_country_modifier = {
+			name = zaz_missionaries
+			duration = 3650
+		}
+	}
+	
+	option = { #stay orthodox
+		name = zaz_flavor.m.5.2.a
 		
 		ai_chance = { factor = 0.5 }
 		
@@ -315,37 +543,37 @@ country_event = {#conversion event
 }
 
 country_event = { #reply of the zaphorzian cossacks
-	id = M_ZAZ_Events.6
-	title = M_ZAZ_Events.6.t
-	desc = M_ZAZ_Events.6.d
+	id = zaz_flavor.m.6
+	title = zaz_flavor.m.6.t
+	desc = zaz_flavor.m.6.d
 	picture = BORDER_TENSION_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = {
-		name = M_ZAZ_Events.6.a
+		name = zaz_flavor.m.6.a
 		
 		hidden_effect = {
-			country_event = { id = M_ZAZ_Events.7 days = 10 }
+			country_event = { id = zaz_flavor.m.7 days = 10 }
 			TUR = {
-				country_event = { id = M_ZAZ_Events.8 days = 2 }
+				country_event = { id = zaz_flavor.m.8 days = 2 }
 			}
 		}
 	}
 }
 
 country_event = { #reply of the turks (zaz)
-	id = M_ZAZ_Events.7
-	title = M_ZAZ_Events.7.t
-	desc = M_ZAZ_Events.7.d
+	id = zaz_flavor.m.7
+	title = zaz_flavor.m.7.t
+	desc = zaz_flavor.m.7.d
 	picture = BORDER_TENSION_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = {
-		name = M_ZAZ_Events.7.a
+		name = zaz_flavor.m.7.a
 		
 		add_prestige = 1
 		add_historical_rival = TUR
@@ -357,32 +585,32 @@ country_event = { #reply of the turks (zaz)
 }
 
 country_event = { #reply of the turks (turks)
-	id = M_ZAZ_Events.8
-	title = M_ZAZ_Events.8.t
-	desc = M_ZAZ_Events.8.d
+	id = zaz_flavor.m.8
+	title = zaz_flavor.m.8.t
+	desc = zaz_flavor.m.8.d
 	picture = BORDER_TENSION_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = {
-		name = M_ZAZ_Events.8.a
+		name = zaz_flavor.m.8.a
 		
 		add_prestige = -1
 	}
 }
 
 country_event = { #new capital!
-	id = M_ZAZ_Events.9
-	title = M_ZAZ_Events.9.t
-	desc = M_ZAZ_Events.9.d
+	id = zaz_flavor.m.9
+	title = zaz_flavor.m.9.t
+	desc = zaz_flavor.m.9.d
 	picture = BORDER_TENSION_eventPicture
 
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = {
-		name = M_ZAZ_Events.9.a
+		name = zaz_flavor.m.9.a
 		
 		ai_chance = { factor = 0.5 }
 		
@@ -400,7 +628,7 @@ country_event = { #new capital!
 	}
 	
 	option = {
-		name = M_ZAZ_Events.9.b
+		name = zaz_flavor.m.9.b
 		
 		ai_chance = { factor = 0.5 }
 		
