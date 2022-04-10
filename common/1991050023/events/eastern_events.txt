@@ -1,0 +1,113 @@
+namespace = neo_monarchy
+
+country_event = {
+		id = neo_monarchy.1
+		title = neo_monarchy.1t
+		desc = neo_monarchy.1d
+		picture = COUNTRY_COLLAPSE_eventPicture
+		
+		fire_only_once = yes
+		
+		trigger = {
+			has_reform = representation_monarchy_reform
+			OR = {
+				current_age = age_of_absolutism
+				current_age = age_of_revolutions
+			}
+		}
+		
+		immediate = {
+			hidden_effect = {
+				add_disaster_progress = {
+					disaster =  political_upheaval
+					value = 100
+				}
+				set_country_flag = reactionary_response_flag
+			}
+		}
+		
+		option = {
+			name = neo_monarchy.1a
+				if = {
+					limit = {
+						has_reform = boyar_elite_reform
+					}
+					add_government_reform = democratic_assemblies_reform
+					add_stability = -2
+				}
+				
+		}
+	}
+
+country_event = {
+		id = neo_monarchy.2
+		name = neo_monarchy.2t
+		desc = neo_monarchy.2d
+		picture = LAND_MILITARY_eventPicture
+		
+		trigger = {
+			has_disaster = political_upheaval
+		}
+		
+		fire_only_once = yes
+		
+		immediate = {
+			set_country_flag = { political_upheaval_rebellion }
+		}
+		
+		option = {
+			name = neo_monarchy.2a
+			
+			capital_scope = {
+				spawn_rebels = {
+					type = noble_rebels
+					size = 2
+				}
+			}
+			random_owned_province = {
+				spawn_rebels = {
+					type = noble_rebels
+					size = 1
+				}
+			}
+			random_owned_province = {
+				spawn_rebels = {
+					type = noble_rebels
+					size = 1
+				}
+			}
+			random_owned_province = {
+				spawn_rebels = {
+					type = noble_rebels
+					size = 1
+				}
+			}
+			random_owned_province = {
+				spawn_rebels = {
+					type = noble_rebels
+					size = 1
+				}
+			}
+		}
+	}
+
+country_event = {
+	id = neo_monarchy.3
+	name = neo_monarchy.3t
+	desc = neo_monarchy.3d
+	picture = FAMINE_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		NOT = { has_disaster = political_upheaval }
+	
+		hidden_trigger = {
+			has_country_flag = political_upheaval_rebellion
+		}
+	}
+	
+	option = {
+		name = neo_monarchy.3a
+			
+		add_government_reform = neo_monarchy_reform

@@ -1,0 +1,62 @@
+country_decisions = {
+
+	federation_of_the_rus_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			tag = KIE
+			owns_core_province = 280 # Kiev
+			NOT = { has_country_flag = federationflag }
+			NOT = { exists = GRU }
+		}
+		
+		allow = {
+			owns_core_province = 280 # Kiev
+			owns_core_province = 289 # Chernigov
+			owns_core_province = 275 # Polotsk
+			ruthenia_region = {
+			type = all
+			owned_by = ROOT 
+			}
+			yedisan_area = { 
+			owned_by = ROOT 
+			}
+			zaporizhia_area = {
+			owned_by = ROOT 
+			}
+			stability = 1
+			adm_tech = 10
+			
+		}
+		
+		effect = {
+			add_prestige = 25
+			add_government_reform = kievan_rus_reform
+			change_tag = GRU
+			set_country_flag = federationflag
+			
+			280 = {
+				move_capital_effect = yes
+			}
+			
+			ruthenia_region = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_claim = ROOT }
+					}
+					add_permanent_claim = GRU
+				}
+			}
+			red_ruthenia_area = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_claim = ROOT }
+					}
+					add_permanent_claim = GRU
+				}
+			}
+		}
+	}
+}

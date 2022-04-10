@@ -1,0 +1,53 @@
+political_upheaval = {
+
+	potential = {
+		OR = {
+			tag = GRU
+			tag = KIE
+	    }
+	}
+	
+	trigger = {
+		OR = {
+			has_reform = representative_monarchy_reform
+			has_reform = kievan_rus_reform
+		}
+	}
+	
+	can_start = {
+		has_any_disaster = no
+		has_country_flag = reactionary_response_flag
+		OR = {
+			current_age = age_of_absolutism
+			current_age = age_of_revolutions
+		}
+	}
+	
+	modifier = {
+		stability_cost_modifier = 0.50
+		war_exhaustion = 0.3
+	}
+	
+	progress = {
+		modifier = {
+			factor = 1
+			always = yes
+		}
+	}
+	
+	can_end = {
+		AND = {
+			stability = 2
+			NOT = { num_of_rebel_controlled_provinces = 1 }
+		}
+	}
+	
+	on_monthly = {
+		events = {
+		}
+		random_events = { 
+		1000 = 0
+		100 = neo_monarchy.2
+		}
+	}
+}

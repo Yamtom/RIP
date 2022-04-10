@@ -1,0 +1,707 @@
+liberate_ruthenia_missions = {	
+	slot = 3
+	generic = no
+	ai = yes
+	has_country_shield = yes
+
+	potential = {
+		OR = {	
+			tag = KIE
+			tag = GRU
+		}
+	}
+
+	the_ruthenian_coalition_mission = {
+		icon = mission_cossack_cavalry
+		position = 1
+		completed_by = 1452.1.1
+		
+		required_missions { } #none
+		
+		trigger = {
+			is_subject = no
+			OR = {
+			is_subject = no
+			is_year = 1450
+			}
+			tag = KIE
+		}
+		
+		effect = {
+			add_prestige = 20
+		}
+	}
+	
+	liberation_of_ruthenia = {
+		icon = mission_empire
+		position = 2
+		completed_by = 1460.5.2
+		
+		required_missions = {
+			the_ruthenian_coalition_mission
+		}
+		
+		trigger = {
+			is_at_war = no
+			truce_with = LIT
+			is_subject = no
+			OR = {
+			tag = KIE
+			tag = GRU
+			}
+		}
+		
+		effect = {
+			4247 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT	}
+					}
+					cede_province = KIE
+				}
+			}
+			
+			292 = {
+				if = {
+					limit = {
+						NOT = { owned_by = PLT }
+					}
+					cede_province = PLT
+				}
+			}
+			
+			4242 = {
+				if = {
+					limit = {
+						NOT = { owned_by = PLT }
+					}
+					cede_province = PLT
+				}
+			}
+			set_country_flag = ruthenia_liberate
+			add_prestige = 10
+			
+			white_peace = LIT
+			add_truce_with = LIT
+		}
+	}
+	
+	unify_the_princes = {
+		icon = mission_alliances
+		position = 3
+		completed_by = 1456.7.23
+		
+		required_missions = {
+			liberation_of_ruthenia
+		}
+		
+		trigger = {
+			283 = { owned_by = ROOT }
+			289 = { owned_by = ROOT }
+			4116 = { owned_by = ROOT }
+			297 = { owned_by = ROOT }
+			301 = { owned_by = ROOT }
+			275 = { owned_by = ROOT }
+		}
+		
+		provinces_to_highlight = {
+			283 = { NOT { owned_by = ROOT } }
+			289 = { NOT { owned_by = ROOT } }
+			4116 = { NOT { owned_by = ROOT } }
+			297 = { NOT { owned_by = ROOT } }
+			301 = { NOT { owned_by = ROOT } }
+			275 = { NOT { owned_by = ROOT } }
+		}
+		
+		effect = {
+			if = {
+				limit = {
+					ruthenia_region = {
+						owned_by = ROOT
+					}
+					add_unrest = -10
+				}
+			}
+			add_country_modifier = {
+				name = unification_of_principalities
+				duration = 1000
+			}
+		}
+	}
+	
+	recover_from_war = {
+			icon = mission_colonial
+			position = 5
+			completed_by = 1460.2.1
+			
+		required_missions = { } #none
+		
+		trigger = {
+			
+			is_at_war = no
+			estate_loyalty = {
+				estate = estate_nobles
+					loyalty = 75
+			}
+			capital_scope = {
+				development = 20
+			}	
+			ROOT = { grown_by_development = 50 }
+		
+		
+			hidden_trigger = {
+				has_country_flag = ruthenia_liberate
+			}
+		}
+		
+		effect = {
+			capital_scope = {
+				add_base_tax = 3
+				add_base_production = 1
+				add_base_manpower = 1
+			}
+			capital_scope = { add_building = temple }
+			add_prestige = 10
+		}	
+	}
+
+	
+	the_eastern_threat = {
+		icon = mission_monarch_in_throne_room
+		position = 6
+		completed_by = 1465.3.1
+		
+		required_missions = {
+		recover_from_war
+		}
+		
+		trigger = {
+			OR= {
+				reverse_has_opinion = {
+					who = MOS
+					value = 100
+				}
+			}
+			
+		}
+		
+		effect = {
+			create_alliance = MOS
+			
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							1752 = { owned_by = MOS }
+							4148 = { owned_by = MOS }
+							1960 = { owned_by = MOS }
+						}
+						AND = {
+							1752 = { owned_by = RUS }
+							4148 = { owned_by = RUS }
+							1960 = { owned_by = RUS }
+						}
+					}
+				}
+			}
+			
+			if = {
+				limit = {	
+					1752 = { owned_by = MOS }
+					4148 = { owned_by = MOS }
+					1960 = { owned_by = MOS }
+				}
+				1752 = { cede_province = ROOT }
+				4148 = { cede_province = ROOT }
+				1960 = { cede_province = ROOT }
+			}
+			
+			if = {
+				limit = {
+					exists = MOS
+					301 = { owned_by = ROOT }
+				}
+				301 = { cede_province = MOS }
+			}
+		}
+	}
+}
+
+non_federation_route_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	has_country_shield = yes
+	
+	potential = {
+		OR = {	
+			tag = KIE
+			tag = GRU
+		}
+	}
+	
+	succession_in_the_east = {
+		icon = mission_unite_the_princes
+		position = 1
+		completed_by = 1632.2.23
+		
+		required_missions = { } #none
+		
+		trigger = {
+			dynasty = MOS
+			dynasty = RUS
+		}
+		
+		effect = {
+			if = {
+				limit = {
+					exists = MOS
+				}
+				add_trust = {
+					who = MOS
+					value = 50
+					mutual = yes
+				}
+			}
+			
+			if = {			
+				limit = {
+					exists = RUS
+				}
+				add_trust = {
+					who = RUS
+					value = 50
+					mutual = yes
+				}
+			}
+			add_stability = 1
+			add_patriarch_authority = 0.10
+		}	
+	}
+	
+	demand_yasak = {
+		icon = mission_war_chest
+		position = 2
+		completed_by = 1632.2.23
+		
+		required_missions = { }
+		
+		trigger = {
+			GOL = { is_subject_of = ROOT }
+			CRI = { is_subject_of = ROOT }
+		}
+		
+		effect = {
+			remove_country_modifier = tatar_harassment
+			
+			
+			add_treasury = 1000
+			add_adm_power = 100
+			add_dip_power = 100
+			add_mil_power = 100
+			
+			GOL = {
+				random_owned_province = {
+					add_devastation = 30
+				}
+				add_treasury = -500
+			}
+			
+			CRI = {
+				random_owned_province = {
+					add_devastation = 30
+				}
+				add_treasury = -500
+			}
+		}
+	}
+	
+	the_coalition_succeeds = {	
+		icon = mission_noble_council
+		position = 3
+		completed_by = 1460.4.12
+		
+		required_missions = {
+			liberation_of_ruthenia
+		}
+		
+		trigger = {
+			is_subject = no
+			owns = 4247
+		
+			hidden_trigger = {
+				has_country_flag = ruthenia_liberate
+			}
+		}
+		
+		effect = {			
+			280 = {
+				add_base_tax = 3 
+				add_base_production = 3 
+				add_base_manpower = 3 
+			}
+		}
+	}
+
+
+	restoration_of_kiev = {
+		icon = mission_early_game_buildings
+		position = 4
+		completed_by = 1465.5.5
+		
+		required_missions = {
+			the_coalition_suceeds
+		}
+		
+		trigger = {
+			capital_scope = {
+				has_building = temple
+				has_building = marketplace
+				has_building = fort_15th
+			}
+		
+		
+			hidden_trigger = {
+			has_country_flag = ruthenia_liberate
+			}
+		}
+		
+		effect = {
+			add_mercantilism = 2
+			add_prestige = 20
+			add_patriarch_authority = 0.01
+			add_stability = 1
+		}
+	}
+
+	
+	subdue_the_great_horde = {
+		icon = mission_non-western_cavalry_raid
+		position = 7
+		completed_by = 1522.4.15
+		
+		required_missions = {
+		invasion_of_tatary
+		}
+		
+		trigger = {
+			OR = {
+				AND = {
+					overlord_of = GOL
+				}
+				AND = {
+					NOT = { exists = GOL }
+					crimea_region = {
+						type = all
+						OR = {
+							owned_by = ROOT
+							AND = {
+								 is_core = GOL 
+							}
+						}
+					}
+				}
+			}
+			
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = triumphant_military
+				duration = 2500
+			}
+			
+			GOL = {
+				add_country_modifier = {
+					name = Subdued_by_ruthenians
+					duration = 1000
+				}
+			}
+			
+			if = {
+				limit = {
+					GOL = { is_vassal = yes }
+				}
+				GOL = { change_primary_culture = ruthenian }
+			}
+			
+			if = {
+				limit = {
+					299 = { owned_by = GOL }
+				}
+				299 = { cede_province = ROOT }
+			}
+			
+			add_prestige = 25
+			
+			if = {
+				limit = {
+					GOL = { is_subject_of = ROOT }
+				}
+				add_country_modifier = {
+					name = subjugation_of_the_great_horde
+					duration = 1000
+				}
+			}	
+		}
+	}
+}	
+	
+non_federation_route_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	has_country_shield = yes
+	
+	potential = {
+		OR = {	
+			tag = KIE
+			tag = GRU
+		}
+	}
+	
+	secure_our_borders = {
+		icon = mission_unite_home_region
+		position = 5
+		completed_by = 1500.2.22
+		
+		required_missions = { } #none
+		
+		trigger = {
+			army_size_percentage = 0.85
+		}		
+		
+		
+		
+		effect = {
+			add_manpower = 20
+			define_general = {
+				shock = 4
+				fire = 3
+				manuever = 5
+				siege = 3
+				name = Yevheniy_Sobol
+			}
+			has_spy_network_in = {
+				who = CRI
+				value = 50
+			}
+				
+			has_spy_network_in = {
+				who = GOL
+				value = 50
+			}
+		}
+	}
+	
+	
+	invasion_of_tatary = {
+		icon = mission_assemble_an_army
+		position = 6
+		completed_by = 1520.4.25
+		
+		required_missions = {
+			secure_our_borders
+		}
+		
+		trigger = {
+				has_spy_network_in = {
+					who = CRI
+					value = 50
+				}
+				
+				has_spy_network_in = {
+					who = GOL
+					value = 50
+				}
+			
+				exists = GOL
+				exists = CRI
+				
+			
+		}
+		
+		effect = {
+			crimea_region = { add_permanent_claims = KIE }
+			
+			add_casus_belli = {
+				target = CRI
+				type = cb_vassalize_mission
+			}
+			
+			add_casus_belli = {
+				target = GOL
+				type = cb_vassalize_mission
+			}
+		}	
+	}
+	
+	subdue_the_crimeans = {
+		icon = mission_non-western_cavalry_raid
+		position = 7
+		completed_by = 1522.4.15
+		
+		required_missions = {
+		invasion_of_tatary
+		}
+		
+		trigger = {
+			OR = {
+				AND = {
+					overlord_of = CRI
+				}
+				AND = {
+					NOT = { exists = CRI }
+					crimea_region = {
+						type = all
+						OR = {
+							owned_by = ROOT
+							AND = {
+								is_core = CRI 
+							}
+						}
+					}
+				}
+			}
+			
+		}	
+		
+		effect = {
+				CRI = {
+					add_country_modifier = {
+						name = Subdued_by_ruthenians
+						duration = 1000
+					}
+				}
+			
+			
+			if = {
+				limit = {
+					CRI = { is_vassal = yes }
+				}
+				CRI = { change_primary_culture = ruthenian }
+			}
+			
+			
+			add_prestige = 25
+			
+			if = {
+				limit = {
+					CRI = { is_subject_of = ROOT }
+				}
+				add_country_modifier = {
+					name = subjugation_of_the_crimeans
+					duration = 1000
+				}
+			}	
+		}
+	}
+}
+
+non_federation_route_3 = {
+	slot = 4
+	generic = no
+	ai = yes
+	has_country_shield = yes
+	
+	potential = {
+		OR = {	
+			tag = KIE
+			tag = GRU
+		}
+	}
+	
+	kievan_merchants = {
+		icon = mission_war_chest
+		position = 3
+		completed_by = 1465.5.5
+		
+		required_missions = {
+			liberation_of_ruthenia
+		}
+		
+		trigger = {
+			total_development = 100
+			capital_scope = {
+				province_has_center_of_trade_of_level = 2
+			}
+		}
+		
+		hidden_trigger = {
+			has_country_flag = ruthenia_liberate
+		}
+		
+		effect = {
+			add_mercantilism = 2
+			
+			capital_scope = {
+				add_trade_modifier {
+					who = ROOT
+					duration = 5000
+					power = 50
+				}
+			}
+			
+			capital_scope = {
+			add_trade_node_income = 10
+			add_center_of_trade_level = 1
+			}
+		}
+	}
+}
+
+non_federation_route_4 = {
+	slot = 5
+	generic = no
+	ai = yes
+	has_country_shield = yes
+	
+	potential = {
+		OR = {	
+			tag = KIE
+			tag = GRU
+		}
+	}
+	
+	professional_army = {
+		icon = mission_assemble_an_army
+		position = 1
+		completed_by = 1580.2.23
+		
+		required_missions = { }
+		
+		trigger = {
+			army_professionalism = 0.5
+			army_tradition = 80
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = elite_army
+				duration = 5000
+			}
+		}
+	}
+	
+	expand_our_influence = {
+		icon = mission_have_two_subjects
+		position = 3
+		completed_by = 1550.5.1
+		
+		required_missions = {
+		liberation_of_ruthenia
+		}
+		
+		trigger = {
+			owns_or_non_sovereign_subject_of = 2410
+			owns_or_non_sovereign_subject_of = 299
+		}
+	
+		effect = {
+			crimea_area = {add_trade_node_income = 10 }
+			crimea_area = { add_unrest = -10 }
+			add_prestige = 25
+		
+		}
+	}	
+}	

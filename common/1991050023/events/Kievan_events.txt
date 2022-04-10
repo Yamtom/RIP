@@ -1,0 +1,255 @@
+namespace = princes_revolt
+namespace = kiev_independence
+namespace = harass_tatar
+
+country_event = {
+	id = harass_tatar.1
+	title = harass_tatar.1t
+	desc = harass_tatar.1d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = KIE
+		OR = {
+			exists = CRI
+			exists = GOL
+		}
+	}
+	
+	option = {
+		name = harass_tatar.1a
+		add_country_modifier = {
+			name = tatar_harassment
+			duration = -1
+		}	
+	}
+}
+	
+country_event = {
+	id = princes_revolt.1
+	title = princes_revolt.1t
+	desc = princes_revolt.1d
+	picture = PEASANTS_ON_STEPPES_eventPicture
+
+	trigger = {
+		has_disaster = unruly_princes 
+	}
+
+	is_triggered_only = yes
+
+	option = {
+		name = "princes_revolt.1a"
+		ai_chance = { factor = 75 }
+			
+		add_casus_belli = {
+			target = KIE
+			type = cb_disloyal_vassal
+			months = 1
+		}
+		declare_war_with_cb = {
+			who = KIE
+			casus_belli = cb_disloyal_vassal
+		}
+		
+		set_country_flag = princes_revolted	
+		set_country_flag = aftermath_of_revolt
+	}
+
+	option = {
+		name = "princes_revolt.1b"
+		ai_chance = { factor = 25 }
+		
+		add_stability = 1
+		add_prestige = -50
+
+		KIE = { 
+			if = {
+				limit = {
+					is_subject_of = ROOT
+					
+				}
+				grant_independence = yes 
+				add_truce_with = LIT
+			}
+		}
+		
+		set_country_flag = princes_revolted
+		set_country_flag = aftermath_of_revolt
+	}
+}
+
+
+#country_event = {
+#	id = princes_revolt.2
+#	title = princes_revolt.2t
+#	desc = princes_revolt.2d
+#	picture = CIVIL_WAR_eventPicture 
+#
+#	is_triggered_only = yes
+#
+#	trigger = {
+#		owner = { 
+#			has_disaster = unruly_princes 
+#		}
+#		has_country_flag = princes_revolted
+#	}
+#
+#	immediate = {
+#		owner = { set_country_flag = aftermath_of_revolt }
+#	}
+#
+#	option = {
+#		name = princes_revolt.2a
+#	}
+#}
+
+country_event = {
+	id = princes_revolt.3
+	title = princes_revolt.3t
+	desc = princes_revolt.3d
+	picture = CIVIL_WAR_eventPicture 
+	
+	is_triggered_only = no
+	fire_only_once = yes
+	
+	trigger = {
+		tag = KIE
+		controls = 272 # Vilnius
+		is_subject = no
+		is_at_war = yes
+		war_score_against = {
+			who = LIT
+			value = 40
+		}
+	}
+	
+	immediate = {
+		4247 = { cede_province = KIE }
+		292 = { cede_province = PLT }
+		4242 = { cede_province = PLT }
+		white_peace = LIT
+		add_truce_with = LIT
+	}
+	
+	option = {
+		name = "princes_revolt.3a"
+		add_prestige = 20
+		set_country_flag = ruthenia_liberate
+		
+	}
+}
+
+country_event = {
+	id = kiev_independence.1
+	title = kiev_independence.1t
+	desc = kiev_independence.1d
+	picture = CONQUEST_eventPicture
+	
+	is_triggered_only = no
+	fire_only_once = yes
+	
+	trigger = {
+		owns = 280 # Kiev
+		owns = 4247 # Ovruch/Owrucz
+		truce_with = LIT
+		is_subject = no
+		is_at_war = no
+		tag = KIE
+	}
+	
+	option = {
+		name = "kiev_independence.1a"
+#		ai_chance = { factor = 80 }
+		
+		add_stability = 1
+		add_prestige = 50				
+		add_accepted_culture = russian
+		add_accepted_culture = ryazanian
+		add_accepted_culture = byelorussian
+		add_accepted_culture = novgorodian
+		ruthenia_region = { add_permanent_claim = ROOT }
+		red_ruthenia_area = { add_permanent_claim = ROOT }
+		every_subject_country = {
+			limit = {
+				capital_scope = {
+					OR = {
+						area = red_ruthenia_area
+						region = ruthenia_region
+						area = zaporizhia_area
+						area = oka_area
+						area = pskov_area
+						area = ryazan_area
+					}
+				}
+			}
+			country_event = {
+			id = kiev_independence.2
+			}
+		}
+	}
+}
+
+country_event = {
+	id = kiev_independence.2
+	title = kiev_independence.2t
+	desc = kiev_independence.2d
+	picture = LAND_MILITARY_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		is_subject_of = KIE
+	}
+	
+	option = {
+		name = "kiev_independence.2a"
+		ai_chance = { factor = 65 }
+		
+		overlord = { inherit = ROOT }
+	}
+	
+	option = {
+		name = "kiev_independence.2b"
+		ai_chance = { factor = 35 }
+		
+		overlord = {
+			add_casus_belli = {
+				target = ROOT
+				type = cb_annex
+			}
+		}
+		grant_independence = yes
+#		country_event = {
+#			id = kiev_independence.3
+#		}
+	}
+}
+	
+#country_event = {
+#	name = kiev_independence.3
+#	title = kiev_independence.3t
+#	desc = kiev_independence.3d
+#	picture = DIPLOMACY_eventPicture
+#
+#	is_triggered_only = yes
+#
+#	trigger = {
+#		tag = KIE
+#	}
+#
+#	option = {
+#		name = "kiev_independence.3a"
+#
+#		if = {
+#			limit = {
+#				has_country_flag = disloyal_vassal_kiev
+#			}
+#			add_casus_belli = {
+#				target = FROM
+#				type = cb_disloyal_vassal
+#			}
+#		}
+#	}
+#}
