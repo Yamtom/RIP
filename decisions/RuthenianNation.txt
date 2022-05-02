@@ -12,6 +12,8 @@ country_decisions = {
 			}
 			NOT = { tag = PAP }
 			NOT = { tag = HLR }
+			NOT = { tag = HET }
+			NOT = { tag = ZAZ }
 			NOT = { exists = UKR }
 			NOT = { exists = HET }
 			NOT = { exists = KUY }
@@ -48,16 +50,13 @@ country_decisions = {
 				AND = {
 					ROOT = { NOT = { DIP = 5 } }
 					if = {
-						limit = {
-							NOT = { is_date = 1775.1.1 }
- 						}
+						limit = { NOT = {is_date = 1775.1.1 } }
 						OR = {
 							province_id = 280		#Kiev -center
-							province_id = 283		#Zaporozhie -southern center of rebellions
+							province_id = 283		#Zaporozhie -eastern/southern center of rebellions
 							province_id = 261		#Ruthenia/Lvov -western
 							province_id = 279		#Volhynia -western
 							province_id = 289		#Chernihiv -eastern
-							province_id = 291		#Kharkiv -eastern
 						}
 					}
 					OR = {
@@ -66,6 +65,7 @@ country_decisions = {
 						province_id = 261		#Ruthenia/Lvov -western
 						province_id = 279		#Volhynia -western
 						province_id = 289		#Chernihiv -eastern
+						province_id = 291		#Kharkiv -easter
 					}
 				}
 			}
@@ -80,51 +80,36 @@ country_decisions = {
 			is_nomad = no
 			is_at_war = no
 			
+			280 = { is_state = yes }					#Kiev -center
 			OR = {
 				#or owns only core-core stuff but has god like ruler
 				AND = {
 					owns_core_province = 283		#Zaporozhie -southern center of rebellions
 					owns_core_province = 280		#Kiev -center
-					280 = { 						#Kiev -center
-						is_state = yes
-					}
 					dip = 5
 				}
 				#owns everything per 1775
-				AND = {	
+				AND = {
+					ROOT = { NOT = { DIP = 5 } }
 					if = {
-						limit = {
-							NOT = { is_date = 1775.1.1 }
+						limit = { NOT = {is_date = 1775.1.1 } }
+						AND = {
+							owns_core_province = 261		#Ruthenia/Lvov -western
+							owns_core_province = 279		#Volhynia -western
+							owns_core_province = 283		#Zaporozhie southern center of rebellions
+							owns_core_province = 280		#Kiev -center
+							owns_core_province = 289		#Chernihiv -eastern
 						}
+					}
+					AND = {
 						owns_core_province = 261		#Ruthenia/Lvov -western
 						owns_core_province = 279		#Volhynia -western
 						owns_core_province = 283		#Zaporozhie southern center of rebellions
 						owns_core_province = 280		#Kiev -center
 						owns_core_province = 289		#Chernihiv -eastern
 						owns_core_province = 291		#Kharkiv -eastern
-	
-						280 = { 						#Kiev -center
-							is_state = yes
-						}
-					}	
+					}				
 				}
-				#owns everything after 1775
-				AND = {	
-					if = { 
-						limit = {
-							is_date = 1775.1.1
-						}	
-						owns_core_province = 261		#Ruthenia/Lvov -western
-						owns_core_province = 279		#Volhynia -western
-						owns_core_province = 283		#Zaporozhie southern center of rebellions
-						owns_core_province = 280		#Kiev -center
-						owns_core_province = 289		#Chernihiv -eastern
-	
-						280 = { 						#Kiev -center
-							is_state = yes
-						}
-					}
-				}	
 			}
 		}
 		effect = {
@@ -147,6 +132,7 @@ country_decisions = {
 			}
 			add_prestige = 25
 			change_tag = UKR
+			set_country_flag = formed_ruthenia_flag
 			swap_non_generic_missions = yes
 			set_government_rank = 3
 			if = {

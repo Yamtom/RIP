@@ -15,6 +15,7 @@ country_decisions = {
 			OR = {
 				tag = HLC
 				tag = VLN
+				tag = PDL
 			}
 			OR = {
 				ai = no
@@ -37,15 +38,15 @@ country_decisions = {
 				AND = {
 					ROOT = { DIP = 5 }
 					OR = {
-						province_id = 279		#Kiev -center
-						province_id = 261		#Zaporozhie -southern center of rebellions
+						province_id = 279		
+						province_id = 261		
 					}
 				}
 				AND = {
 					OR = {
-						province_id = 279		#Kiev -center
-						province_id = 261		#Zaporozhie -southern center of rebellions
-						province_id = 281		#Ruthenia/Lvov -western
+						province_id = 279		
+						province_id = 261		
+						province_id = 1943		
 					}
 				}
 			}
@@ -55,7 +56,7 @@ country_decisions = {
 			}
 		}
 		allow = {
-			is_institution_enabled = renaissance
+			has_institution = renaissance
 			is_subject = no
 			is_nomad = no
 			is_at_war = no
@@ -65,7 +66,7 @@ country_decisions = {
 				AND = {
 					owns_core_province = 279		
 					owns_core_province = 261		
-					owns_core_province = 281		
+					owns_core_province = 1943		
 				}
 				#or owns only core-core stuff but has god like ruler
 				AND = {
@@ -83,14 +84,7 @@ country_decisions = {
 				}
 				add_permanent_claim = VOL
 			}
-			moldavia_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_claim = ROOT }
-				}
-				add_permanent_claim = VOL
-			}
-			pripyat_area = {
+			podolia_volhynia_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
 					NOT = { is_claim = ROOT }
@@ -106,6 +100,7 @@ country_decisions = {
 			}
 			add_prestige = 25
 			change_tag = VOL
+			swap_non_generic_missions = yes
 			VOL = {
 				set_capital = 279 
 			}
