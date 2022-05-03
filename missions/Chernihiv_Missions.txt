@@ -25,7 +25,7 @@ Chernigov_missions_1 = {
 		}
 	}
 	
-	tr_conquer_mos = {
+	Chernigov_conquer_mos = {
 		icon = mission_conquer_moscow
 		required_missions = { Chernigov_army }
 		position = 4
@@ -100,7 +100,7 @@ Chernigov_missions_1 = {
 
 	Chernigov_Manpower = {
 		icon = mission_assemble_an_army
-		required_missions = { tr_conquer_mos }
+		required_missions = { Chernigov_conquer_mos }
 		position = 5
 		trigger = {
 			manpower_percentage = 1
@@ -139,10 +139,10 @@ Chernigov_missions_1 = {
 		}
 	}
 	
-	establish_high_seas_navy = {
+	Chernigov_establish_high_seas_navy = {
 		icon = mission_establish_high_seas_navy
 		required_missions = { Chernigov_Manpower }
-		position = 7
+		position = 6
 		trigger = { 
 			OR = {
 				num_of_heavy_ship = 10 
@@ -160,7 +160,7 @@ Chernigov_missions_1 = {
 	Chernigov_Smolensk = {
 		icon = mission_cannons_firing
 		required_missions = { }
-		position = 8
+		position = 7
 		provinces_to_highlight = {
 			area = smolensk_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -185,7 +185,7 @@ Chernigov_missions_1 = {
 	Chernigov_Belarus_1 = {
 		icon = mission_unite_home_region
 		required_missions = { Chernigov_Smolensk }
-		position = 11
+		position = 10
 		provinces_to_highlight = {
 			area = white_ruthenia_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -210,7 +210,7 @@ Chernigov_missions_1 = {
 	Chernigov_Belarus_2 = {
 		icon = mission_assemble_an_army
 		required_missions = { Chernigov_Belarus_1 }
-		position = 14
+		position = 11
 		provinces_to_highlight = {
 			area = minsk_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -235,7 +235,7 @@ Chernigov_missions_1 = {
 	Chernigov_Minsk = {
 		icon = mission_cannons_firing
 		required_missions = { Chernigov_Belarus_2 }
-		position = 15
+		position = 12
 		provinces_to_highlight = {
 			area = pripyat_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -264,7 +264,7 @@ Chernigov_missions_2 = {
 	}
 	has_country_shield = yes
 	
-	tr_independence = {
+	Chernigov_independence = {
 		icon = mission_sovereign_principality
 		required_missions = { Chernigov_army }
 		provinces_to_highlight = {
@@ -304,9 +304,9 @@ Chernigov_missions_2 = {
 		}
 	}
 
-	expand_country_mission = {
+	Chernigov_expand_country_mission = {
 		icon = mission_conquer_50_development
-		required_missions = { tr_independence }
+		required_missions = { Chernigov_independence }
 		position = 3
 		trigger = { grown_by_development = 50 }
 		effect = {
@@ -326,10 +326,10 @@ Chernigov_missions_2 = {
 	}
  
 	
-	tr_conquer_russia = {
+	Chernigov_conquer_russia = {
 		icon = mission_unite_the_princes
 		required_missions = { }
-		position = 8
+		position = 7
 		provinces_to_highlight = {
 			region = russia_region
 			NOT = {
@@ -347,16 +347,16 @@ Chernigov_missions_2 = {
 			add_dip_power = 100
 			add_mil_power = 100
 			add_country_modifier = {
-				name = "tr_united_russia"
+				name = "Chernigov_united_russia"
 				duration = 7300
 			}
 		}
 	}
 
-	assemble_an_army = {
+	Chernigov_assemble_an_army = {
 		icon = mission_assemble_an_army
-		required_missions = { tr_conquer_russia Chernigov_Great_Horde Chernigov_Smolensk}
-		position = 9
+		required_missions = { Chernigov_conquer_russia Chernigov_Great_Horde Chernigov_Smolensk}
+		position = 8
 		trigger = { army_size = 80 }
 		effect = {
 			add_country_modifier = {
@@ -368,8 +368,8 @@ Chernigov_missions_2 = {
 
 	Chernigov_Kiev = {
 		icon = mission_build_up_to_force_limit
-		required_missions = { tr_cossacks }
-		position = 11
+		required_missions = { Chernigov_cossacks }
+		position = 10
 		provinces_to_highlight = {
 			OR = {
 				area = west_dniepr_area
@@ -417,7 +417,7 @@ Chernigov_missions_2 = {
 		}
 	}
 
-	unite_home_region = {
+	Chernigov_unite_home_region = {
 		icon = mission_unite_home_region
 		required_missions = { Chernigov_Kiev }
 		provinces_to_highlight = {
@@ -426,7 +426,7 @@ Chernigov_missions_2 = {
 			}
 			NOT = { owned_by = ROOT }
 		}
-		position = 12
+		position = 11
 		trigger = {
 			custom_trigger_tooltip = {
 				tooltip = unite_home_region_ct
@@ -449,10 +449,10 @@ Chernigov_missions_2 = {
 		}
 	}
 
-	tr_tatar_yoke = {
+	Chernigov_tatar_yoke = {
 		icon = mission_break_the_tatar_yoke
-		required_missions = { unite_home_region trade_company_region_abroad}
-		position = 13
+		required_missions = { Chernigov_unite_home_region Chernigov_trade_company_region_abroad}
+		position = 12
 		provinces_to_highlight = {
 			region = crimea_region
 			NOT = {
@@ -468,7 +468,7 @@ Chernigov_missions_2 = {
 		effect = {
 			add_mil_power = 100
 			add_country_modifier = {
-				name = "tr_ended_tatar_yoke"
+				name = "Chernigov_ended_tatar_yoke"
 				duration = 7300
 			}
 		}
@@ -487,10 +487,10 @@ Chernigov_missions_3 = {
 	}
 	has_country_shield = yes
 	
-	building_alliances = {
+	Chernigov_building_alliances = {
 		icon = mission_alliances
 		required_missions = {  } #none
-		position = 2
+		position = 1
 		trigger = {
 			custom_trigger_tooltip = {
 				tooltip = building_alliances.tooltip
@@ -514,10 +514,10 @@ Chernigov_missions_3 = {
 		}
 	}
 
-	have_two_subjects = {
+	Chernigov_have_two_subjects = {
 		icon = mission_have_two_subjects
-		required_missions = { building_alliances }
-		position = 3
+		required_missions = { Chernigov_building_alliances }
+		position = 2
 		trigger = { num_of_non_tributary_subjects = 2 }
 		effect = {
 			add_country_modifier = {
@@ -527,9 +527,9 @@ Chernigov_missions_3 = {
 		}
 	}
 
-	tr_conquer_nov = {
+	Chernigov_conquer_nov = {
 		icon = mission_conquer_novgorod
-		required_missions = { expand_country_mission have_two_subjects }
+		required_missions = { Chernigov_expand_country_mission Chernigov_have_two_subjects }
 		position = 4
 		provinces_to_highlight = {
 			area = novgorod_area
@@ -545,7 +545,7 @@ Chernigov_missions_3 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = "tr_conquered_nov"
+				name = "Chernigov_conquered_nov"
 				duration = 7300
 			}
 			pskov_area = {
@@ -600,9 +600,9 @@ Chernigov_missions_3 = {
 		}
 	}
 
-	conquer_states = {
+	Chernigov_conquer_states = {
 		icon = mission_cannons_firing
-		required_missions = { tr_conquer_mos expand_country_mission tr_conquer_nov  }
+		required_missions = { Chernigov_conquer_mos Chernigov_expand_country_mission Chernigov_conquer_nov  }
 		position = 5
 		trigger = { grown_by_states = 5 }
 		effect = {
@@ -615,7 +615,7 @@ Chernigov_missions_3 = {
 
 	Chernigov_Accept_Ruthenian = {
 		icon = mission_alliances
-		required_missions = { conquer_states Chernigov_Manpower }
+		required_missions = { Chernigov_conquer_states Chernigov_Manpower }
 		position = 6
 		trigger = {
 			accepted_culture = ruthenian 
@@ -636,8 +636,8 @@ Chernigov_missions_3 = {
 
 	Chernigov_Great_Horde = {
 		icon = mission_cannons_firing
-		required_missions = { establish_high_seas_navy tr_dniepr }
-		position = 8
+		required_missions = { Chernigov_establish_high_seas_navy Chernigov_dniepr }
+		position = 7
 		provinces_to_highlight = {
 			OR = {
 				area = lower_don_area
@@ -674,10 +674,10 @@ Chernigov_missions_3 = {
 		}
 	}
 	
-	dominate_home_trade_node = {
+	Chernigov_dominate_home_trade_node = {
 		icon = mission_dominate_home_trade_node
 		required_missions = { Chernigov_Great_Horde }
-		position = 9
+		position = 8
 		trigger = {
 			home_trade_node = {
 				trade_share = {
@@ -754,10 +754,10 @@ Chernigov_missions_3 = {
 		}
 	}
 
-	tr_cossacks = {
+	Chernigov_cossacks = {
 		icon = mission_recruit_the_cossacks
-		required_missions = { dominate_home_trade_node }
-		position = 10
+		required_missions = { Chernigov_dominate_home_trade_node }
+		position = 9
 		provinces_to_highlight = {
 			area = zaporizhia_area
 			NOT = {
@@ -809,8 +809,8 @@ Chernigov_missions_3 = {
 	
 	Chernigov_Zaporozhie = {
 		icon = mission_cossack_cavalry
-		required_missions = { tr_cossacks }
-		position = 11
+		required_missions = { Chernigov_cossacks }
+		position = 10
 		provinces_to_highlight = {
 			OR = {
 				province_id = 282
@@ -873,7 +873,7 @@ Chernigov_missions_3 = {
 	Chernigov_Crimea = {
 		icon = mission_recruit_the_cossacks
 		required_missions = { Chernigov_Zaporozhie }
-		position = 12
+		position = 11
 		provinces_to_highlight = {
 			OR = {
 				province_id = 284
@@ -919,10 +919,10 @@ Chernigov_missions_4 = {
 	}
 	has_country_shield = yes
 
-	high_income_mission = {
+	Chernigov_high_income_mission = {
 		icon = mission_high_income
 		required_missions = {  } #None
-		position = 2
+		position = 1
 		trigger = { share_of_starting_income = 1.5 }
 		effect = {
 			add_country_modifier = {
@@ -932,13 +932,13 @@ Chernigov_missions_4 = {
 		}
 	}
 
-	tr_stability = {
+	Chernigov_stability = {
 		icon = mission_consolidate_the_state
-		required_missions = { high_income_mission }
+		required_missions = { Chernigov_high_income_mission }
 		provinces_to_highlight = {
 		}
 		trigger = {
-			stability = 3
+			stability = 2
 			if = {
 				limit = {
 					OR = {
@@ -967,10 +967,10 @@ Chernigov_missions_4 = {
 		}
 	}
 
-	build_temples = {
+	Chernigov_build_temples = {
 		icon = mission_early_game_buildings
-		required_missions = { tr_stability }
-		position = 4
+		required_missions = { Chernigov_stability }
+		position = 3
 		trigger = {
 			temple = 5
 			workshop = 5
@@ -983,9 +983,10 @@ Chernigov_missions_4 = {
 			}
 		}
 	}
-	build_treasury = {
+	Chernigov_build_treasury = {
 		icon = mission_war_chest
-		required_missions = { build_temples }
+		required_missions = { Chernigov_build_temples }
+		position = 4
 		trigger = { treasury = 2000 }
 		effect = {
 			add_country_modifier = {
@@ -994,10 +995,10 @@ Chernigov_missions_4 = {
 			}
 		}
 	}
-	build_manufactories = {
+	Chernigov_build_manufactories = {
 		icon = mission_have_manufactories
-		required_missions = { build_treasury }
-		position = 6
+		required_missions = { Chernigov_build_treasury }
+		position = 5
 		trigger = {
 			calc_true_if = {
 				desc = build_manufactories_mission_tooltip
@@ -1026,10 +1027,10 @@ Chernigov_missions_4 = {
 	}
 
 
-	tr_dniepr = {
+	Chernigov_dniepr = {
 		icon = mission_advance_to_the_dnieper
-		required_missions = { build_manufactories }
-		position = 7
+		required_missions = { Chernigov_build_manufactories }
+		position = 6
 		provinces_to_highlight = {
 			area = east_dniepr_area
 			NOT = {
@@ -1061,10 +1062,10 @@ Chernigov_missions_4 = {
 		}
 	}
 
-	imperial_ambition_mission = {
+	Chernigov_imperial_ambition_mission = {
 		icon = mission_empire
-		required_missions = { tr_dniepr tr_kiev }
-		position = 9
+		required_missions = { Chernigov_dniepr Chernigov_kiev }
+		position = 8
 		trigger = {
 			total_development = 1000
 		}
@@ -1077,10 +1078,10 @@ Chernigov_missions_4 = {
 		}
 	}
 
-	tr_ruthenia = {
+	Chernigov_ruthenia = {
 		icon = mission_rule_ruthenia
-		required_missions = { trade_company_region_abroad tr_kiev }
-		position = 13
+		required_missions = { Chernigov_trade_company_region_abroad Chernigov_kiev }
+		position = 12
 		provinces_to_highlight = {
 			OR = {
 				region = ruthenia_region
@@ -1129,10 +1130,10 @@ Chernigov_missions_5 = {
 	}
 	has_country_shield = yes
 		
-	tr_kiev = {
+	Chernigov_kiev = {
 		icon = mission_restore_kiev
-		required_missions = { tr_dniepr }
-		position = 8
+		required_missions = { Chernigov_dniepr }
+		position = 7
 		provinces_to_highlight = {
 			area = west_dniepr_area
 			NOT = {
@@ -1188,8 +1189,8 @@ Chernigov_missions_5 = {
 
 	Chernigov_Azov = {
 		icon = mission_conquer_5_states
-		required_missions = { tr_cossacks }
-		position = 11
+		required_missions = { Chernigov_cossacks }
+		position = 10
 		provinces_to_highlight = {
 			OR = {
 				area = azov_area
@@ -1228,10 +1229,10 @@ Chernigov_missions_5 = {
 		}
 	}
 
-	trade_company_region_abroad = {
+	Chernigov_trade_company_region_abroad = {
 		icon = mission_trade_company_region_abroad
 		required_missions = { Chernigov_Azov }
-		position = 12
+		position = 11
 		trigger = {
 			custom_trigger_tooltip = {
 				tooltip = trade_company_region_abroad_tooltip
@@ -1260,8 +1261,8 @@ Chernigov_missions_5 = {
 
 	Chernigov_Mansur = {
 		icon = mission_conquer_50_development
-		required_missions = { trade_company_region_abroad }
-		position = 14
+		required_missions = { Chernigov_trade_company_region_abroad }
+		position = 12
 		provinces_to_highlight = {
 			OR = {
 				province_id = 2411
@@ -1291,7 +1292,7 @@ Chernigov_missions_5 = {
 	Chernigov_Astrakhan = {
 		icon = mission_trade_company_region_abroad
 		required_missions = { Chernigov_Mansur }
-		position = 15
+		position = 13
 		provinces_to_highlight = {
 			area = astrakhan_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
