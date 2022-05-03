@@ -452,7 +452,7 @@ Chernigov_missions_2 = {
 
 	Chernigov_unite_home_region = {
 		icon = mission_unite_home_region
-		required_missions = { Chernigov_Kiev }
+		required_missions = { Chernigov_Kiev Chernigov_Minsk }
 		provinces_to_highlight = {
 			region_for_scope_province = {
 				is_capital_of = ROOT
@@ -482,27 +482,41 @@ Chernigov_missions_2 = {
 		}
 	}
 
-	Chernigov_tatar_yoke = {
-		icon = mission_break_the_tatar_yoke
-		required_missions = { Chernigov_unite_home_region Chernigov_trade_company_region_abroad}
+	Chernigov_ruthenia = {
+		icon = mission_rule_ruthenia
+		required_missions = { Chernigov_unite_home_region }
 		position = 12
 		provinces_to_highlight = {
-			region = crimea_region
+			OR = {
+				region = ruthenia_region
+				area = red_ruthenia_area
+			}
 			NOT = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		trigger = {
-			crimea_region = {
+			ruthenia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			red_ruthenia_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		effect = {
+			add_adm_power = 100
+			add_dip_power = 100
 			add_mil_power = 100
-			add_country_modifier = {
-				name = "Chernigov_ended_tatar_yoke"
-				duration = 7300
+			ruthenia_region = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = "ruthenian_integration"
+					duration = 7300
+				}
 			}
 		}
 	}
@@ -657,7 +671,7 @@ Chernigov_missions_3 = {
 	
 	Chernigov_dominate_home_trade_node = {
 		icon = mission_dominate_home_trade_node
-		required_missions = { Chernigov_Great_Horde }
+		required_missions = { Chernigov_Great_Horde Chernigov_kiev }
 		position = 8
 		trigger = {
 			home_trade_node = {
@@ -887,7 +901,7 @@ Chernigov_missions_3 = {
 	Chernigov_establish_high_seas_navy = {
 		icon = mission_establish_high_seas_navy
 		required_missions = { Chernigov_Crimea }
-		position = 12
+		position = 13
 		trigger = { 
 			OR = {
 				num_of_heavy_ship = 10 
@@ -1060,60 +1074,89 @@ Chernigov_missions_4 = {
 		}
 	}
 
-	Chernigov_imperial_ambition_mission = {
-		icon = mission_empire
-		required_missions = { Chernigov_dniepr Chernigov_kiev }
-		position = 8
-		trigger = {
-			total_development = 1000
-		}
-		effect = {
-			add_prestige = 30
-			add_country_modifier = {
-				name = "imperial_ambition"
-				duration = 9125
-			}
-		}
-	}
+	Chernigov_kiev = { 
+		icon = mission_restore_kiev 
+		required_missions = { Chernigov_dniepr } 
+		position = 7 
+		provinces_to_highlight = { 
+			area = west_dniepr_area 
+			NOT = { 
+				country_or_non_sovereign_subject_holds = ROOT 
+			} 
+		} 
+		trigger = { 
+			west_dniepr_area = { 
+				type = all 
+				owned_by = ROOT 
+			} 
+		} 
+		effect = { 
+			add_prestige = 20 
+			country_event = { id = flavor_rus.2002 } 
+			white_ruthenia_area = { 
+				limit = { 
+					NOT = { is_core = ROOT } 
+					NOT = { is_permanent_claim = ROOT } 
+				} 
+				add_permanent_claim = ROOT 
+			} 
+			pripyat_area = { 
+				limit = { 
+					NOT = { is_core = ROOT } 
+					NOT = { is_permanent_claim = ROOT } 
+				} 
+				add_permanent_claim = ROOT 
+			} 
+			smolensk_area = { 
+				limit = { 
+					NOT = { is_core = ROOT } 
+					NOT = { is_permanent_claim = ROOT } 
+				} 
+				add_permanent_claim = ROOT 
+			} 
+			minsk_area = { 
+				limit = { 
+					NOT = { is_core = ROOT } 
+					NOT = { is_permanent_claim = ROOT } 
+				} 
+				add_permanent_claim = ROOT 
+			} 
+			red_ruthenia_area = { 
+				limit = { 
+					NOT = { is_core = ROOT } 
+					NOT = { is_permanent_claim = ROOT } 
+				} 
+				add_permanent_claim = ROOT 
+			} 
+		} 
+	} 
+ 
 
-	Chernigov_ruthenia = {
-		icon = mission_rule_ruthenia
-		required_missions = { Chernigov_trade_company_region_abroad Chernigov_kiev }
-		position = 12
+	Chernigov_tatar_yoke = {
+		icon = mission_break_the_tatar_yoke
+		required_missions = { Chernigov_establish_high_seas_navy Chernigov_Astrakhan}
+		position = 14
 		provinces_to_highlight = {
-			OR = {
-				region = ruthenia_region
-				area = red_ruthenia_area
-			}
+			region = crimea_region
 			NOT = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		trigger = {
-			ruthenia_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			red_ruthenia_area = {
+			crimea_region = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		effect = {
-			add_adm_power = 100
-			add_dip_power = 100
 			add_mil_power = 100
-			ruthenia_region = {
-				limit = {
-					owned_by = ROOT
-				}
-				add_province_modifier = {
-					name = "ruthenian_integration"
-					duration = 7300
-				}
+			add_country_modifier = {
+				name = "Chernigov_ended_tatar_yoke"
+				duration = 7300
 			}
 		}
 	}
+
 }
 
 Chernigov_missions_5 = {
@@ -1128,6 +1171,22 @@ Chernigov_missions_5 = {
 	}
 	has_country_shield = yes
 		
+
+	Chernigov_imperial_ambition_mission = {
+		icon = mission_empire
+		required_missions = { Chernigov_kiev }
+		position = 8
+		trigger = {
+			total_development = 1000
+		}
+		effect = {
+			add_prestige = 30
+			add_country_modifier = {
+				name = "imperial_ambition"
+				duration = 9125
+			}
+		}
+	}
 
 	Chernigov_Azov = {
 		icon = mission_conquer_5_states
