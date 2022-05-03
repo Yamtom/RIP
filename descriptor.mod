@@ -6,10 +6,6 @@ tags={
 	"Missions And Decisions"
 }
 picture="thumbnail.png"
-<<<<<<< HEAD
-supported_version="1.33.2"
-=======
-supported_version="1.33.*.*"
->>>>>>> 3f8ce2f... 6
+supported_version="1.33.*"
 path="D:/Program Files (x86)/Steam/steamapps/workshop/content/236850/RIP"
 remote_file_id="2563577714"
