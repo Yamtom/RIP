@@ -604,7 +604,7 @@ Chernigov_missions_3 = {
 	
 	Chernigov_conquer_states = {
 		icon = mission_cannons_firing
-		required_missions = { Chernigov_expand_country_mission  }
+		required_missions = { Chernigov_Manpower  }
 		position = 5
 		trigger = { grown_by_states = 5 }
 		effect = {
@@ -617,7 +617,7 @@ Chernigov_missions_3 = {
 
 	Chernigov_Great_Horde = {
 		icon = mission_cannons_firing
-		required_missions = { Chernigov_establish_high_seas_navy Chernigov_dniepr }
+		required_missions = { Chernigov_conquer_states Chernigov_dniepr }
 		position = 7
 		provinces_to_highlight = {
 			OR = {
@@ -1076,66 +1076,9 @@ Chernigov_missions_4 = {
 		}
 	}
 
-	Chernigov_kiev = {
-		icon = mission_restore_kiev
-		required_missions = { Chernigov_dniepr }
-		position = 7
-		provinces_to_highlight = {
-			area = west_dniepr_area
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		trigger = {
-			west_dniepr_area = {
-				type = all
-				owned_by = ROOT
-			}
-		}
-		effect = {
-			add_prestige = 20
-			country_event = { id = flavor_rus.2002 }
-			white_ruthenia_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			pripyat_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			smolensk_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			minsk_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			red_ruthenia_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-		}
-	}
-
 	Chernigov_ruthenia = {
 		icon = mission_rule_ruthenia
-		required_missions = { Chernigov_kiev }
+		required_missions = { Chernigov_trade_company_region_abroad Chernigov_kiev }
 		position = 12
 		provinces_to_highlight = {
 			OR = {
