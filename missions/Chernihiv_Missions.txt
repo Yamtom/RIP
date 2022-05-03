@@ -170,23 +170,6 @@ Chernigov_missions_1 = {
 			}
 		}
 	}
-	Chernigov_establish_high_seas_navy = {
-		icon = mission_establish_high_seas_navy
-		required_missions = { Chernigov_Manpower }
-		position = 6
-		trigger = { 
-			OR = {
-				num_of_heavy_ship = 10 
-				num_of_galley = 30
-			}
-		}
-		effect = {
-			add_country_modifier = {
-				name = "naval_enthusiasm_mission"
-				duration = 9125 #25 years
-			}
-		}
-	}
 	
 	Chernigov_Smolensk = {
 		icon = mission_cannons_firing
@@ -358,7 +341,7 @@ Chernigov_missions_2 = {
 	
 	Chernigov_Accept_Ruthenian = {
 		icon = mission_alliances
-		required_missions = { Chernigov_conquer_states Chernigov_Manpower }
+		required_missions = { Chernigov_conquer_states Chernigov_conquer_nov }
 		position = 6
 		trigger = {
 			accepted_culture = ruthenian 
@@ -577,78 +560,6 @@ Chernigov_missions_3 = {
 		}
 	}
 
-	Chernigov_conquer_nov = {
-		icon = mission_conquer_novgorod
-		required_missions = { Chernigov_expand_country_mission Chernigov_have_two_subjects }
-		position = 4
-		provinces_to_highlight = {
-			area = novgorod_area
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		trigger = {
-			novgorod_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}			
-		}
-		effect = {
-			add_country_modifier = {
-				name = "Chernigov_conquered_nov"
-				duration = 7300
-			}
-			pskov_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			beloozero_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			pomor_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			karelia_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			north_karelia = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			arkhangelsk_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			vologda_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-		}
-	}
 
 	Chernigov_Manpower = {
 		icon = mission_assemble_an_army
@@ -973,6 +884,23 @@ Chernigov_missions_3 = {
 			}
 		}
 	}
+	Chernigov_establish_high_seas_navy = {
+		icon = mission_establish_high_seas_navy
+		required_missions = { Chernigov_Crimea }
+		position = 12
+		trigger = { 
+			OR = {
+				num_of_heavy_ship = 10 
+				num_of_galley = 30
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "naval_enthusiasm_mission"
+				duration = 9125 #25 years
+			}
+		}
+	}
 }
 
 
@@ -1148,58 +1076,6 @@ Chernigov_missions_4 = {
 		}
 	}
 
-	Chernigov_ruthenia = {
-		icon = mission_rule_ruthenia
-		required_missions = { Chernigov_trade_company_region_abroad Chernigov_kiev }
-		position = 12
-		provinces_to_highlight = {
-			OR = {
-				region = ruthenia_region
-				area = red_ruthenia_area
-			}
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		trigger = {
-			ruthenia_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			red_ruthenia_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		effect = {
-			add_adm_power = 100
-			add_dip_power = 100
-			add_mil_power = 100
-			ruthenia_region = {
-				limit = {
-					owned_by = ROOT
-				}
-				add_province_modifier = {
-					name = "ruthenian_integration"
-					duration = 7300
-				}
-			}
-		}
-	}
-}
-
-Chernigov_missions_5 = {
-	slot = 5
-	generic = no
-	ai = yes
-	potential = {
-		AND = {
-			tag = CHR
-			NOT = { map_setup = map_setup_random }
-		}
-	}
-	has_country_shield = yes
-		
 	Chernigov_kiev = {
 		icon = mission_restore_kiev
 		required_missions = { Chernigov_dniepr }
@@ -1256,6 +1132,59 @@ Chernigov_missions_5 = {
 			}
 		}
 	}
+
+	Chernigov_ruthenia = {
+		icon = mission_rule_ruthenia
+		required_missions = { Chernigov_kiev }
+		position = 12
+		provinces_to_highlight = {
+			OR = {
+				region = ruthenia_region
+				area = red_ruthenia_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			ruthenia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			red_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_adm_power = 100
+			add_dip_power = 100
+			add_mil_power = 100
+			ruthenia_region = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = "ruthenian_integration"
+					duration = 7300
+				}
+			}
+		}
+	}
+}
+
+Chernigov_missions_5 = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			tag = CHR
+			NOT = { map_setup = map_setup_random }
+		}
+	}
+	has_country_shield = yes
+		
 
 	Chernigov_Azov = {
 		icon = mission_conquer_5_states
