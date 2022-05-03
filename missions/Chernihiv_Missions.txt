@@ -288,7 +288,7 @@ Chernigov_missions_2 = {
 
 	expand_country_mission = {
 		icon = mission_conquer_50_development
-		required_missions = { expand_country_mission }
+		required_missions = { tr_independence }
 		position = 5
 		trigger = { grown_by_development = 50 }
 		effect = {
@@ -303,19 +303,6 @@ Chernigov_missions_2 = {
 						duration = 9125 #25 years
 					}
 				}
-			}
-		}
-	}
-
-	conquer_states = {
-		icon = mission_cannons_firing
-		required_missions = { tr_conquer_mos expand_country_mission tr_conquer_nov Chernigov_Smolensk }
-		position = 7
-		trigger = { grown_by_states = 5 }
-		effect = {
-			add_country_modifier = {
-				name = "expansionist_country"
-				duration = 9125 #25 years
 			}
 		}
 	}
@@ -369,7 +356,7 @@ Chernigov_missions_2 = {
 
 	assemble_an_army = {
 		icon = mission_assemble_an_army
-		required_missions = { tr_conquer_russia tr_cossacks }
+		required_missions = { tr_conquer_russia Chernigov_Great_Horde Chernigov_Smolensk}
 		position = 11
 		trigger = { army_size = 80 }
 		effect = {
@@ -382,7 +369,7 @@ Chernigov_missions_2 = {
 
 	Chernigov_Kiev = {
 		icon = mission_build_up_to_force_limit
-		required_missions = { assemble_an_army dominate_home_trade_node }
+		required_missions = { dominate_home_trade_node }
 		position = 13
 		provinces_to_highlight = {
 			OR = {
@@ -484,103 +471,6 @@ Chernigov_missions_2 = {
 			add_country_modifier = {
 				name = "tr_ended_tatar_yoke"
 				duration = 7300
-			}
-		}
-	}
-
-	Chernigov_Zaporozhie = {
-		icon = mission_cossack_cavalry
-		required_missions = { }
-		position = 16
-		provinces_to_highlight = {
-			OR = {
-				province_id = 282
-				province_id = 283
-				province_id = 2406
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			282 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			283 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			2406 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		effect = {
-			284 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			1974 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			285 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			2410 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-		}
-	}
-	
-	Chernigov_Crimea = {
-		icon = mission_non_western_cavalry_raid
-		required_missions = { Chernigov_Zaporozhie }
-		position = 17
-		provinces_to_highlight = {
-			OR = {
-				province_id = 284
-				province_id = 285
-				province_id = 2410
-				province_id = 1974
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			284 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			285 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			2410 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			1974 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		effect = {
-			1974 = {
-				change_culture = ruthenian
 			}
 		}
 	}
@@ -707,6 +597,19 @@ Chernigov_missions_3 = {
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	conquer_states = {
+		icon = mission_cannons_firing
+		required_missions = { tr_conquer_mos expand_country_mission tr_conquer_nov  }
+		position = 7
+		trigger = { grown_by_states = 5 }
+		effect = {
+			add_country_modifier = {
+				name = "expansionist_country"
+				duration = 9125 #25 years
 			}
 		}
 	}
@@ -898,6 +801,103 @@ Chernigov_missions_3 = {
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	Chernigov_Zaporozhie = {
+		icon = mission_cossack_cavalry
+		required_missions = { }
+		position = 16
+		provinces_to_highlight = {
+			OR = {
+				province_id = 282
+				province_id = 283
+				province_id = 2406
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			282 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			283 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2406 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			284 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			1974 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			285 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+			2410 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+	}
+	
+	Chernigov_Crimea = {
+		icon = mission_non_western_cavalry_raid
+		required_missions = { Chernigov_Zaporozhie }
+		position = 17
+		provinces_to_highlight = {
+			OR = {
+				province_id = 284
+				province_id = 285
+				province_id = 2410
+				province_id = 1974
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			284 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			285 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2410 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			1974 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			1974 = {
+				change_culture = ruthenian
 			}
 		}
 	}
@@ -1184,7 +1184,7 @@ Chernigov_missions_5 = {
 
 	Chernigov_Azov = {
 		icon = mission_conquer_5_states
-		required_missions = { tr_kiev dominate_home_trade_node }
+		required_missions = { dominate_home_trade_node }
 		position = 13
 		provinces_to_highlight = {
 			OR = {
