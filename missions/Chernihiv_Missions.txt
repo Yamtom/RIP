@@ -98,47 +98,78 @@ Chernigov_missions_1 = {
 		}
 	}
 
-	Chernigov_Manpower = {
-		icon = mission_assemble_an_army
+	Chernigov_conquer_nov = {
+		icon = mission_conquer_novgorod
 		required_missions = { Chernigov_conquer_mos }
 		position = 5
+		provinces_to_highlight = {
+			area = novgorod_area
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
 		trigger = {
-			manpower_percentage = 1
+			novgorod_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}			
 		}
 		effect = {
-			smolensk_area = {
+			add_country_modifier = {
+				name = "Chernigov_conquered_nov"
+				duration = 7300
+			}
+			pskov_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
 					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
-			lower_don_area = {
+			beloozero_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
 					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
-			west_dniepr_area = {
+			pomor_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
 					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
-			299 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
+			karelia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
 				}
+				add_permanent_claim = ROOT
+			}
+			north_karelia = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			arkhangelsk_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			vologda_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
 			}
 		}
 	}
-	
 	Chernigov_establish_high_seas_navy = {
 		icon = mission_establish_high_seas_navy
 		required_missions = { Chernigov_Manpower }
@@ -185,7 +216,7 @@ Chernigov_missions_1 = {
 	Chernigov_Belarus_1 = {
 		icon = mission_unite_home_region
 		required_missions = { Chernigov_Smolensk }
-		position = 10
+		position = 8
 		provinces_to_highlight = {
 			area = white_ruthenia_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -210,7 +241,7 @@ Chernigov_missions_1 = {
 	Chernigov_Belarus_2 = {
 		icon = mission_assemble_an_army
 		required_missions = { Chernigov_Belarus_1 }
-		position = 11
+		position = 9
 		provinces_to_highlight = {
 			area = minsk_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -235,7 +266,7 @@ Chernigov_missions_1 = {
 	Chernigov_Minsk = {
 		icon = mission_cannons_firing
 		required_missions = { Chernigov_Belarus_2 }
-		position = 12
+		position = 10
 		provinces_to_highlight = {
 			area = pripyat_area
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
@@ -324,11 +355,30 @@ Chernigov_missions_2 = {
 			}
 		}
 	}
- 
+	
+	Chernigov_Accept_Ruthenian = {
+		icon = mission_alliances
+		required_missions = { Chernigov_conquer_states Chernigov_Manpower }
+		position = 6
+		trigger = {
+			accepted_culture = ruthenian 
+		}
+		effect = {
+			1943 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+	}
 	
 	Chernigov_conquer_russia = {
 		icon = mission_unite_the_princes
-		required_missions = { }
+		required_missions = { Chernigov_Accept_Ruthenian }
 		position = 7
 		provinces_to_highlight = {
 			region = russia_region
@@ -600,28 +650,36 @@ Chernigov_missions_3 = {
 		}
 	}
 
-	Chernigov_conquer_states = {
-		icon = mission_cannons_firing
-		required_missions = { Chernigov_conquer_mos Chernigov_expand_country_mission Chernigov_conquer_nov  }
-		position = 5
-		trigger = { grown_by_states = 5 }
-		effect = {
-			add_country_modifier = {
-				name = "expansionist_country"
-				duration = 9125 #25 years
-			}
-		}
-	}
-
-	Chernigov_Accept_Ruthenian = {
-		icon = mission_alliances
-		required_missions = { Chernigov_conquer_states Chernigov_Manpower }
-		position = 6
+	Chernigov_Manpower = {
+		icon = mission_assemble_an_army
+		required_missions = { Chernigov_expand_country_mission Chernigov_have_two_subjects }
+		position = 4
 		trigger = {
-			accepted_culture = ruthenian 
+			manpower_percentage = 1
 		}
 		effect = {
-			1943 = {
+			smolensk_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			lower_don_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			west_dniepr_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			299 = {
 				if = {
 					limit = {
 						NOT = { owned_by = ROOT }
@@ -633,6 +691,18 @@ Chernigov_missions_3 = {
 		}
 	}
 	
+	Chernigov_conquer_states = {
+		icon = mission_cannons_firing
+		required_missions = { Chernigov_expand_country_mission  }
+		position = 5
+		trigger = { grown_by_states = 5 }
+		effect = {
+			add_country_modifier = {
+				name = "expansionist_country"
+				duration = 9125 #25 years
+			}
+		}
+	}
 
 	Chernigov_Great_Horde = {
 		icon = mission_cannons_firing
