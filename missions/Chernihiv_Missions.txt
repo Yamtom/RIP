@@ -19,24 +19,31 @@ chr_missions_1 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = "thriving_arms_industry" #необходимо улучшить в 2 раза
-				duration = 9125
+				name = "chr_thriving_arms_industry"
+				duration = 18250
 			}
+		}
+		oka_area = {
+			limit = {
+				NOT = { is_core = ROOT }
+				NOT = { is_permanent_claim = ROOT }
+			}
+			add_permanent_claim = ROOT
 		}
 	}
 	
-	chr_conquer_mos = {
+	chr_conquer_oka = {
 		icon = mission_conquer_moscow
 		required_missions = { chr_army }
 		position = 4
 		provinces_to_highlight = {
-			area = moscow_area
+			area = oka_area
 			NOT = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		trigger = {
-			moscow_area = {
+			oka_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
@@ -44,51 +51,9 @@ chr_missions_1 = {
 		effect = {
 			add_country_modifier = {
 				name = "nov_defeated_muscovy"
-				duration = 7300
-			}
-			oka_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
+				duration = 18250
 			}
 			ryazan_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			vladimir_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			suzdal_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			yaroslavl_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			tver_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			tambov_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -98,82 +63,33 @@ chr_missions_1 = {
 		}
 	}
 
-	chr_conquer_nov = {
+	chr_conquer_rya = {
 		icon = mission_conquer_novgorod
-		required_missions = { chr_conquer_mos }
+		required_missions = { chr_conquer_oka }
 		position = 5
 		provinces_to_highlight = {
-			area = novgorod_area
+			area = ryazan_area
 			NOT = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		trigger = {
-			novgorod_area = {
+			ryazan_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}			
 		}
 		effect = {
 			add_country_modifier = {
-				name = "chr_conquered_nov"
-				duration = 7300
-			}
-			pskov_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			beloozero_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			pomor_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			karelia_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			north_karelia = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			arkhangelsk_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			vologda_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
+				name = "chr_conquered_rya"
+				duration = 29200
 			}
 		}
 	}
 	
 	chr_Smolensk = {
 		icon = mission_cannons_firing
-		required_missions = { chr_conquer_nov }
+		required_missions = { chr_conquer_rya }
 		position = 7
 		provinces_to_highlight = {
 			area = smolensk_area
@@ -192,6 +108,15 @@ chr_missions_1 = {
 					NOT = { is_core = ROOT }
 				}
 				add_permanent_claim = ROOT
+			}
+			275 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -299,22 +224,17 @@ chr_missions_2 = {
 			}
 		}
 		effect = {
-			add_stability_or_adm_power = yes
-			add_legitimacy = 20
-			novgorod_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
+			and ={
+				add_stability_or_adm_power = yes
+				add_stability_or_adm_power = yes
 			}
-			moscow_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
+			or = {
+				add_legitimacy = 30
+				add_republican_tradition = 30
+				add_horde_unity = 30
+				add_devotion = 30
 			}
+
 		}
 	}
 
@@ -341,47 +261,38 @@ chr_missions_2 = {
 	
 	chr_Accept_Ruthenian = {
 		icon = mission_alliances
-		required_missions = { chr_conquer_states chr_conquer_nov }
+		required_missions = { chr_conquer_states chr_conquer_rya }
 		position = 6
 		trigger = {
 			accepted_culture = ruthenian 
 		}
 		effect = {
-			1943 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
+			set_heir_culture = ruthenian
+			set_ruler_culture = ruthenian
+			add_country_modifier = {
+				name = "chr_origins"
+				duration = 36500
+			}
+			add_country_modifier = {
+				name = "chr_renesans"
+				duration = 18250
 			}
 		}
 	}
-	
 	chr_conquer_russia = {
 		icon = mission_unite_the_princes
 		required_missions = { chr_Accept_Ruthenian }
 		position = 7
-		provinces_to_highlight = {
-			region = russia_region
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
 		trigger = {
-			russia_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+			grown_by_states = 20
 		}
 		effect = {
 			add_adm_power = 100
 			add_dip_power = 100
 			add_mil_power = 100
 			add_country_modifier = {
-				name = "chr_united_russia"
-				duration = 7300
+				name = "chr_united"
+				duration = 14600
 			}
 		}
 	}
@@ -394,7 +305,7 @@ chr_missions_2 = {
 		effect = {
 			add_country_modifier = {
 				name = "army_enthusiasm"
-				duration = 9125 #25 years
+				duration = 9125
 			}
 		}
 	}
@@ -406,7 +317,7 @@ chr_missions_2 = {
 		provinces_to_highlight = {
 			OR = {
 				area = west_dniepr_area
-				province_id = 1943
+				area = podolia_volhynia_area
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
@@ -415,37 +326,18 @@ chr_missions_2 = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
-			1943 = {
+			podolia_volhynia_area = {
+				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		effect = {
-			282 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
+			ruthenia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
 				}
-			}
-			283 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			2406 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
+				add_permanent_claim = ROOT
 			}
 		}
 	}
@@ -454,21 +346,18 @@ chr_missions_2 = {
 		icon = mission_unite_home_region
 		required_missions = { chr_Kiev chr_Minsk }
 		provinces_to_highlight = {
-			region_for_scope_province = {
-				is_capital_of = ROOT
+			OR = {
+				region = ruthenia_region
 			}
-			NOT = { owned_by = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		position = 11
 		trigger = {
-			custom_trigger_tooltip = {
-				tooltip = unite_home_region_ct
-				capital_scope = {
-					region_for_scope_province = {
-						type = all
-						owned_by = ROOT #Subjects won't count, empty provinces will need to be colonized.
-					}
-				}
+			ruthenia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		effect = {
@@ -477,7 +366,7 @@ chr_missions_2 = {
 			add_mil_power = 50
 			add_country_modifier = {
 				name = "hegemonic_ambition"
-				duration = 9125 #25 years
+				duration = 9125 
 			}
 		}
 	}
@@ -497,8 +386,8 @@ chr_missions_2 = {
 		}
 		trigger = {
 			ruthenia_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+					type = all
+					owned_by = ROOT 
 			}
 			red_ruthenia_area = {
 				type = all
@@ -583,28 +472,14 @@ chr_missions_3 = {
 			manpower_percentage = 1
 		}
 		effect = {
-			smolensk_area = {
+			sloboda_ukraine_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
 					NOT = { is_core = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
-			lower_don_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			west_dniepr_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
-			299 = {
+			2409 = {
 				if = {
 					limit = {
 						NOT = { owned_by = ROOT }
@@ -619,9 +494,37 @@ chr_missions_3 = {
 	chr_conquer_states = {
 		icon = mission_cannons_firing
 		required_missions = { chr_Manpower  }
+		provinces_to_highlight = {
+			OR = {
+				area = sloboda_ukraine_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
 		position = 5
-		trigger = { grown_by_states = 5 }
+		trigger = { 
+			grown_by_states = 5
+			sloboda_ukraine_area = {
+					type = all
+					owned_by = ROOT 
+			}
+		}
 		effect = {
+			lower_don_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			2413 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
 			add_country_modifier = {
 				name = "expansionist_country"
 				duration = 9125 #25 years
@@ -636,7 +539,7 @@ chr_missions_3 = {
 		provinces_to_highlight = {
 			OR = {
 				area = lower_don_area
-				province_id = 299
+				province_id = 2413
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
@@ -645,7 +548,7 @@ chr_missions_3 = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
-			299 = {
+			2413 = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
@@ -778,21 +681,21 @@ chr_missions_3 = {
 			else = {
 				add_army_tradition = 15
 			}
-			sloboda_ukraine_area = {
+			yedisan_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
-			podolia_volhynia_area = {
+			moldavia_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
-			crimea_region = {
+			crimea_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -808,59 +711,23 @@ chr_missions_3 = {
 		position = 10
 		provinces_to_highlight = {
 			OR = {
-				province_id = 282
-				province_id = 283
-				province_id = 2406
+				area = yedisan_area
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			282 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			283 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			2406 = {
-				country_or_non_sovereign_subject_holds = ROOT
+			yedisan_area = {
+				type = all
+				owned_by = ROOT
 			}
 		}
 		effect = {
-			284 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
+			crimea_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
 				}
-			}
-			1974 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			285 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
-			}
-			2410 = {
-				if = {
-					limit = {
-						NOT = { owned_by = ROOT }
-						NOT = { is_core = ROOT }
-					}
-					add_permanent_claim = ROOT
-				}
+				add_permanent_claim = ROOT
 			}
 		}
 	}
@@ -871,30 +738,30 @@ chr_missions_3 = {
 		position = 11
 		provinces_to_highlight = {
 			OR = {
-				province_id = 284
-				province_id = 285
-				province_id = 2410
-				province_id = 1974
+				region = crimea_region
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			284 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			285 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			2410 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			1974 = {
-				country_or_non_sovereign_subject_holds = ROOT
+			crimea_region = {
+				type = all
+				owned_by = ROOT
 			}
 		}
 		effect = {
 			1974 = {
 				change_culture = ruthenian
+			}
+			2412 = {
+				change_culture = ruthenian
+			}
+			2411 = {
+				change_culture = ruthenian
+		}
+			284 = {
+				add_base_tax = 11
+				add_base_production = 11
+				add_base_manpower = 7
 			}
 		}
 	}
