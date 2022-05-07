@@ -50,7 +50,7 @@ chr_missions_1 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = "nov_defeated_muscovy"
+				name = "chr_defeated_oka"
 				duration = 18250
 			}
 			ryazan_area = {
@@ -81,7 +81,7 @@ chr_missions_1 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = "chr_conquered_rya"
+				name = "chr_defeated_rya"
 				duration = 29200
 			}
 		}
@@ -227,12 +227,12 @@ chr_missions_2 = {
 			and ={
 				add_stability_or_adm_power = yes
 				add_stability_or_adm_power = yes
-			}
-			or = {
-				add_legitimacy = 30
-				add_republican_tradition = 30
-				add_horde_unity = 30
-				add_devotion = 30
+				or = {
+					add_legitimacy = 30
+					add_republican_tradition = 30
+					add_horde_unity = 30
+					add_devotion = 30
+				}
 			}
 
 		}
@@ -497,6 +497,7 @@ chr_missions_3 = {
 		provinces_to_highlight = {
 			OR = {
 				area = sloboda_ukraine_area
+				province_id = 2409
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
@@ -507,6 +508,10 @@ chr_missions_3 = {
 					type = all
 					owned_by = ROOT 
 			}
+			2409 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
 		}
 		effect = {
 			lower_don_area = {
@@ -738,12 +743,12 @@ chr_missions_3 = {
 		position = 11
 		provinces_to_highlight = {
 			OR = {
-				region = crimea_region
+				region = crimea_area
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			crimea_region = {
+			crimea_area = {
 				type = all
 				owned_by = ROOT
 			}
@@ -759,9 +764,9 @@ chr_missions_3 = {
 				change_culture = ruthenian
 		}
 			284 = {
-				add_base_tax = 11
-				add_base_production = 11
-				add_base_manpower = 7
+				add_base_tax = 4
+				add_base_production = 4
+				add_base_manpower = 3
 			}
 		}
 	}
@@ -946,13 +951,13 @@ chr_missions_4 = {
 		required_missions = { chr_dniepr } 
 		position = 7 
 		provinces_to_highlight = { 
-			area = west_dniepr_area 
+			province_id = 280
 			NOT = { 
 				country_or_non_sovereign_subject_holds = ROOT 
 			} 
 		} 
 		trigger = { 
-			west_dniepr_area = { 
+			280 = { 
 				type = all 
 				owned_by = ROOT 
 			} 
@@ -960,42 +965,14 @@ chr_missions_4 = {
 		effect = { 
 			add_prestige = 20 
 			country_event = { id = flavor_rus.2002 } 
-			white_ruthenia_area = { 
-				limit = { 
-					NOT = { is_core = ROOT } 
-					NOT = { is_permanent_claim = ROOT } 
-				} 
-				add_permanent_claim = ROOT 
-			} 
-			pripyat_area = { 
-				limit = { 
-					NOT = { is_core = ROOT } 
-					NOT = { is_permanent_claim = ROOT } 
-				} 
-				add_permanent_claim = ROOT 
-			} 
-			smolensk_area = { 
-				limit = { 
-					NOT = { is_core = ROOT } 
-					NOT = { is_permanent_claim = ROOT } 
-				} 
-				add_permanent_claim = ROOT 
-			} 
-			minsk_area = { 
-				limit = { 
-					NOT = { is_core = ROOT } 
-					NOT = { is_permanent_claim = ROOT } 
-				} 
-				add_permanent_claim = ROOT 
-			} 
-			red_ruthenia_area = { 
-				limit = { 
-					NOT = { is_core = ROOT } 
-					NOT = { is_permanent_claim = ROOT } 
-				} 
-				add_permanent_claim = ROOT 
-			} 
 		} 
+		effect = {
+			add_country_modifier = {
+				name = "chr_old"
+				duration = 9125
+			}
+			add_years_of_income = 1.5
+		}
 	} 
  
 
@@ -1120,33 +1097,6 @@ chr_missions_5 = {
 			}
 		}
 		effect = {
-			add_country_modifier = {
-				name = "east_india_trade_rush"
-				duration = 9125 #25 years
-			}
-		}
-	}
-
-	chr_Mansur = {
-		icon = mission_conquer_50_development
-		required_missions = { chr_trade_company_region_abroad }
-		position = 12
-		provinces_to_highlight = {
-			OR = {
-				province_id = 2411
-				province_id = 2412
-			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-		trigger = {
-			2411 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			2412 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		effect = {
 			astrakhan_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -1154,12 +1104,16 @@ chr_missions_5 = {
 				}
 				add_permanent_claim = ROOT
 			}
+			add_country_modifier = {
+				name = "east_india_trade_rush"
+				duration = 9125 #25 years
+			}
 		}
 	}
 
 	chr_Astrakhan = {
-		icon = mission_trade_company_region_abroad
-		required_missions = { chr_Mansur }
+		icon = mission_conquer_50_development
+		required_missions = { chr_trade_company_region_abroad }
 		position = 13
 		provinces_to_highlight = {
 			area = astrakhan_area
