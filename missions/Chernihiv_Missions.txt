@@ -22,13 +22,13 @@ chr_missions_1 = {
 				name = "chr_thriving_arms_industry"
 				duration = 18250
 			}
-		}
-		oka_area = {
-			limit = {
-				NOT = { is_core = ROOT }
-				NOT = { is_permanent_claim = ROOT }
+			oka_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
 			}
-			add_permanent_claim = ROOT
 		}
 	}
 	
@@ -224,17 +224,14 @@ chr_missions_2 = {
 			}
 		}
 		effect = {
-			and ={
-				add_stability_or_adm_power = yes
-				add_stability_or_adm_power = yes
-				or = {
-					add_legitimacy = 30
-					add_republican_tradition = 30
-					add_horde_unity = 30
-					add_devotion = 30
-				}
+			add_stability_or_adm_power = yes
+			add_stability_or_adm_power = yes
+			OR = {
+				add_legitimacy = 30
+				add_republican_tradition = 30
+				add_horde_unity = 30
+				add_devotion = 30
 			}
-
 		}
 	}
 
@@ -267,8 +264,8 @@ chr_missions_2 = {
 			accepted_culture = ruthenian 
 		}
 		effect = {
-			set_heir_culture = ruthenian
 			set_ruler_culture = ruthenian
+			set_heir_culture = ruthenian
 			add_country_modifier = {
 				name = "chr_origins"
 				duration = 36500
@@ -653,6 +650,13 @@ chr_missions_3 = {
 			else = {
 				custom_tooltip = dominant_home_node_reward_tooltip
 			}
+			zaporizhia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
 		}
 	}
 
@@ -742,7 +746,7 @@ chr_missions_3 = {
 		position = 11
 		provinces_to_highlight = {
 			OR = {
-				region = crimea_area
+				area = crimea_area
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
@@ -840,13 +844,6 @@ chr_missions_4 = {
 		effect = {
 			add_prestige = 10
 			add_adm_power = 50
-			east_dniepr_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
 		}
 	}
 
@@ -906,6 +903,13 @@ chr_missions_4 = {
 				duration = 9125
 			}
 			add_years_of_income = 1.5
+			east_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
 		}
 	}
 
@@ -928,19 +932,14 @@ chr_missions_4 = {
 		}
 		effect = {
 			add_army_tradition = 20
-			west_dniepr_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+			280 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
-			}
-			zaporizhia_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
 			}
 		}
 	}
@@ -988,12 +987,12 @@ chr_missions_4 = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
-		}
 		effect = {
 			add_mil_power = 100
 			add_country_modifier = {
 				name = "chr_ended_tatar_yoke"
 				duration = 7300
+				}
 			}
 		}
 	}
