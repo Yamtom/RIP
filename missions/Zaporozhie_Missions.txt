@@ -2938,6 +2938,10 @@ ZAZ_GOL_missions_3 = {
 		}
 		trigger = {
 			exists = CRI
+			reverse_has_opinion_modifier = {
+				who = CRI
+				modifier = insulted
+			}
 			}
 		effect = {
 			yedisan_area = {
@@ -3241,13 +3245,10 @@ ZAZ_GOL_missions_4 = {
 		required_missions = {
 			ZAZ_ally_tartar
 		}
-		provinces_to_highlight = {
-			province_id = 2410
-			NOT = { owned_by = ROOT }
-		}
 		trigger = {
-			2410 = {
-				owned_by = ROOT
+			reverse_has_opinion_modifier = {
+				who = FEO
+				modifier = insulted
 			}
 		}
 		effect = {
@@ -3440,6 +3441,14 @@ ZAZ_GOL_missions_4 = {
 			}
 		}
 		effect = {
+			silistria_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
 			149 = {
 				if = {
 					limit = {
@@ -3477,6 +3486,10 @@ ZAZ_GOL_missions_4 = {
 			NOT = { owned_by = ROOT }
 		}
 		trigger = {
+			silistria_area = {
+				type = all
+				owned_by = ROOT
+			}
 			1764 = {
 				owned_by = ROOT
 			}
@@ -3535,7 +3548,7 @@ ZAZ_GOL_missions_5 = {
 	}
 	has_country_shield = yes
 	
-	ZAZ_UKR_insult_tur = {
+	ZAZ_GOL_insult_tur = {
 		icon = mission_have_two_subjects
 		position = 6
 		required_missions = {
@@ -3543,10 +3556,14 @@ ZAZ_GOL_missions_5 = {
 		}
 		trigger = {
 			exists = TUR
+			reverse_has_opinion_modifier = {
+				who = TUR
+				modifier = insulted
 			}
+		}
 		effect = {
 			add_country_modifier = {
-				name = ZAZ_insult_tur
+				name = zaz_insult_tur
 				duration = 9125
 			}
 		}
@@ -3556,7 +3573,7 @@ ZAZ_GOL_missions_5 = {
 		icon = mission_have_two_subjects
 		position = 7
 		required_missions = {
-			ZAZ_UKR_insult_tur
+			ZAZ_GOL_insult_tur
 		}
 		provinces_to_highlight = {
 			province_id = 1756
@@ -3603,7 +3620,7 @@ ZAZ_GOL_missions_5 = {
 				}
 				add_permanent_claim = ROOT
 			}
-			pripyat_area = {
+			volhynia_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
 					NOT = { is_core = ROOT }
@@ -3645,6 +3662,14 @@ ZAZ_GOL_missions_5 = {
 				}
 				add_claim = ROOT
 			}
+			sandomierz_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
 			269 = {
 				if = {
 					limit = {
@@ -3673,6 +3698,10 @@ ZAZ_GOL_missions_5 = {
 		}
 		trigger = {
 			malopolska_area = {
+				type = all
+				owned_by = ROOT
+			}
+			sandomierz_area = {
 				type = all
 				owned_by = ROOT
 			}
@@ -4494,8 +4523,9 @@ ZAZ_UKR_missions_4 = {
 			NOT = { owned_by = ROOT }
 		}
 		trigger = {
-			2410 = {
-				owned_by = ROOT
+			reverse_has_opinion_modifier = {
+				who = FEO
+				modifier = insulted
 			}
 		}
 		effect = {
@@ -4668,6 +4698,14 @@ ZAZ_UKR_missions_4 = {
 				}
 				add_claim = ROOT
 			}
+			silistria_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
 		}
 	}
 	
@@ -4683,6 +4721,10 @@ ZAZ_UKR_missions_4 = {
 		}
 		trigger = {
 			bulgaria_area = {
+				type = all
+				owned_by = ROOT
+			}
+			silistria_area = {
 				type = all
 				owned_by = ROOT
 			}
@@ -4791,10 +4833,14 @@ ZAZ_UKR_missions_5 = {
 		}
 		trigger = {
 			exists = TUR
+			reverse_has_opinion_modifier = {
+				who = TUR
+				modifier = insulted
+			}
 			}
 		effect = {
 			add_country_modifier = {
-				name = ZAZ_insult_tur
+				name = zaz_insult_tur
 				duration = 9125
 			}
 		}
