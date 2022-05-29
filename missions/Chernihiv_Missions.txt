@@ -575,7 +575,7 @@ chr_missions_3 = {
 	
 	chr_dominate_home_trade_node = {
 		icon = mission_dominate_home_trade_node
-		required_missions = { chr_Great_Horde chr_kiev }
+		required_missions = { chr_Great_Horde chr_kiev_2 }
 		position = 8
 		trigger = {
 			home_trade_node = {
@@ -944,8 +944,8 @@ chr_missions_4 = {
 		}
 	}
 
-	chr_kiev = { 
-		icon = mission_restore_kiev 
+	chr_kiev_2_2 = { 
+		icon = mission_restore_kiev_2 
 		required_missions = { chr_dniepr } 
 		position = 7 
 		provinces_to_highlight = { 
@@ -955,18 +955,15 @@ chr_missions_4 = {
 			} 
 		} 
 		trigger = { 
-			280 = { 
-				type = all 
+			280 = {
 				owned_by = ROOT 
 			} 
 		} 
 		effect = { 
 			add_prestige = 20 
 			country_event = { id = flavor_rus.2002 } 
-		} 
-		effect = {
 			add_country_modifier = {
-				name = "chr_old"
+				name = chr_old
 				duration = 9125
 			}
 			add_years_of_income = 1.5
@@ -987,12 +984,12 @@ chr_missions_4 = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
+		}
 		effect = {
 			add_mil_power = 100
 			add_country_modifier = {
-				name = "chr_ended_tatar_yoke"
+				name = chr_ended_tatar_yoke
 				duration = 7300
-				}
 			}
 		}
 	}
@@ -1013,7 +1010,7 @@ chr_missions_5 = {
 
 	chr_imperial_ambition_mission = {
 		icon = mission_empire
-		required_missions = { chr_kiev }
+		required_missions = { chr_kiev_2 }
 		position = 8
 		trigger = {
 			total_development = 1000
