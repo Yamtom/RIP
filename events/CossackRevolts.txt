@@ -1,21 +1,11 @@
-##########################################################
-# Lumisentius' second attempt in making Cossack Revolts.
-# Date: 11.07.2020
-# Latest update: 09.08.2020
-# Finished event chains:
-# 	- Cossack Raids Against Ottomans
-# 	- Kosinski Uprising
-# 	- Nalyvaiko Uprising
-#												 
-# Total amount of events: 25
-##########################################################
 
-namespace = fee_plc_cr
+namespace = CR
 
-# [COSSACK RAIDS AGAINST OTTOMANS CHAIN]
-# Cossack Raids
+# COSSACK IMPRESSIONS ON THE OTTOMAN CHAIN
+# Cossack raids
+# Cossack raids on the Ottomans
 country_event = {
-	id = fee_plc_cr.1
+	id = CR.1
 	title = "cr_1_title"
 	desc = "cr_1_desc"
 	picture = BARBARY_PIRATES_eventPicture
@@ -41,11 +31,11 @@ country_event = {
 	option = {
 		name = "cr_1_a"
 		ai_chance = { factor = 85 }
-		
+		add_prestige = 5
 		hidden_effect = {
 			PLC = {
 				country_event = {
-					id = fee_plc_cr.2
+					id = CR.2
 					days = 30
 					random = 15
 				}
@@ -63,9 +53,9 @@ country_event = {
 	}
 }
 
-# Threatened by Sultan
+# Under threat from the sultan
 country_event = {
-	id = fee_plc_cr.2
+	id = CR.2
 	title = "cr_2_title"
 	desc = "cr_2_desc"
 	picture = DIPLOMACY_eventPicture
@@ -76,13 +66,13 @@ country_event = {
 		ai_chance = { factor = 90 }
 		
 		add_country_modifier = {
-			name = "order_in_ukraine"
+			name = CR_order_in_ukraine
 			duration = 3652
 		}
 		
 		TUR = {
 			country_event = {
-				id = fee_plc_cr.3
+				id = CR.3
 				days = 30
 				random = 15
 				tooltip = "cr_2_a_tooltip"
@@ -98,7 +88,7 @@ country_event = {
 		
 		TUR = {
 			country_event = {
-				id = fee_plc_cr.4
+				id = CR.4
 				days = 30
 				random = 15
 				tooltip = "cr_2_b_tooltip"
@@ -107,9 +97,9 @@ country_event = {
 	}
 }
 
-# Commonwealth accepts our demands
+#The Commonwealth accepts our demands
 country_event = {
-	id = fee_plc_cr.3
+	id = CR.3
 	title = "cr_3_title"
 	desc = "cr_3_desc"
 	picture = DIPLOMACY_eventPicture
@@ -123,9 +113,9 @@ country_event = {
 	}
 }
 
-# Commonwealth rejects our demands
+#The Commonwealth rejects our demands
 country_event = {
-	id = fee_plc_cr.4
+	id = CR.4
 	title = "cr_4_title"
 	desc = "cr_4_desc"
 	picture = BORDER_TENSION_eventPicture
@@ -147,10 +137,10 @@ country_event = {
 	}
 }
 
-# [KOSINSKI UPRISING EVENT CHAIN]
-# A Conflict between Ruthenian Nobility
+#CHANGE OF EVENTS OF THE KOSINSKY UPRISING
+# Conflict between the Ruthenian nobility
 country_event = {
-	id = fee_plc_cr.5
+	id = CR.5
 	title = "cr_5_title"
 	desc = "cr_5_desc"
 	picture = BORDER_TENSION_eventPicture
@@ -174,10 +164,10 @@ country_event = {
 		name = "cr_5_a"
 		
 		280 = { add_devastation = 2 }
-		
+		add_prestige = 5
 		hidden_effect = {
 			country_event = {
-				id = fee_plc_cr.6
+				id = CR.6
 				days = 60
 				random = 15
 			}
@@ -185,9 +175,9 @@ country_event = {
 	}
 }
 
-# Ruthenian Noble names himself a Hetman
+# Ruthenian Nobility calls itself hetman
 country_event = {
-	id = fee_plc_cr.6
+	id = CR.6
 	title = "cr_6_title"
 	desc = "cr_6_desc"
 	picture = ANGRY_MOB_eventPicture
@@ -195,19 +185,15 @@ country_event = {
 	
 	option = {
 		name = "cr_6_a"
-		
+		add_prestige = 5
 		hidden_effect = {
 			random_list = {
-				90 = {
-					country_event = {
-						id = fee_plc_cr.7
-						days = 120
-						random = 10
-					}
+				80 = {
+					add_prestige = 5
 				}
-				10 = {
+				20 = {
 					country_event = {
-						id = fee_plc_cr.8
+						id = CR.8
 						days = 120
 						random = 10
 					}
@@ -216,26 +202,10 @@ country_event = {
 		}
 	}
 }
-
-# End of Kosinski Uprising (Success)
+ 
+# Shy failure
 country_event = {
-	id = fee_plc_cr.7
-	title = "cr_7_title"
-	desc = "cr_7_desc"
-	picture = CONQUEST_eventPicture
-	is_triggered_only = yes
-	
-	option = {
-		name = "cr_7_a"
-		
-		# +Mission for ME and a mechanism preventing next event chain from firing before this one is over.
-		set_country_flag = PLC_dealt_with_kosinski_uprising
-	}
-}
-
-# Embarrassing Failure
-country_event = {
-	id = fee_plc_cr.8
+	id = CR.8
 	title = "cr_8_title"
 	desc = "cr_8_desc"
 	picture = BATTLE_eventPicture
@@ -261,10 +231,10 @@ country_event = {
 				win = yes
 			}
 		}
-		
+		add_prestige = 5
 		hidden_effect = {
 			country_event = {
-				id = fee_plc_cr.1001
+				id = CR.1001
 				days = 120
 				random = 30
 			}
@@ -272,9 +242,9 @@ country_event = {
 	}
 }
 
-# Kosinski Uprising [Phase 1]
+# Kosinsky Uprising Stage 1
 country_event = {
-	id = fee_plc_cr.1001
+	id = CR.1001
 	title = "cr_1001_title"
 	desc = "cr_1001_desc"
 	picture = BATTLE_eventPicture
@@ -299,20 +269,20 @@ country_event = {
 		}
 		
 		country_event = {
-			id = fee_plc_cr.1002
+			id = CR.1002
 			days = 120
 			random = 30
 		}
 	}
 	
 	option = {
-		
+		add_prestige = 5
 	}
 }
 
-# Kosinski Uprising [Phase 2]
+# Kosinsky Uprising Stage 2
 country_event = {
-	id = fee_plc_cr.1002
+	id = CR.1002
 	title = "cr_1002_title"
 	desc = "cr_1002_desc"
 	picture = BATTLE_eventPicture
@@ -337,19 +307,19 @@ country_event = {
 		}
 		
 		country_event = {
-			id = fee_plc_cr.1003
+			id = CR.1003
 			days = 90
 		}
 	}
 	
 	option = {
-		
+		add_prestige = 5
 	}
 }
 
-# Kosinski Uprising [Final Phase (Loop)]
+# The final phase of the Kosinsky uprising`
 country_event = {
-	id = fee_plc_cr.1003
+	id = CR.1003
 	title = "cr_1003_title"
 	desc = "cr_1003_desc"
 	picture = BATTLE_eventPicture
@@ -360,23 +330,23 @@ country_event = {
 		if = {
 			limit = { has_spawned_rebels = cossack_rebels }
 			country_event = {
-				id = fee_plc_cr.1003
+				id = CR.1003
 				days = 90
 			}
 		}
 		else = {
-			country_event = { id = fee_plc_cr.9 }
+			country_event = { id = CR.9 }
 		}
 	}
 	
 	option = {
-		
+		add_prestige = 5
 	}
 }
 
-# End of Kosinski Uprising (Intervention)
+# The end of the intervention of the Kosinsky uprising
 country_event = {
-	id = fee_plc_cr.9
+	id = CR.9
 	title = "cr_9_title"
 	desc = "cr_9_desc"
 	picture = CONQUEST_eventPicture
@@ -389,10 +359,10 @@ country_event = {
 	}
 }
 
-# [NALYVAIKO UPRISING EVENT CHAIN]
-# An influental Cossack demands changes
+#CHANGE OF EVENTS OF THE NALIVAYKO UPRISING
+# An influential Cossack needs change
 country_event = {
-	id = fee_plc_cr.10
+	id = CR.10
 	title = "cr_10_title"
 	desc = "cr_10_desc"
 	picture = SEJM_eventPicture
@@ -439,19 +409,19 @@ country_event = {
 				}
 			}
 		}
-		
+		add_prestige = 5
 		hidden_effect = {
 			random_list = {
 				90 = {
 					country_event = {
-						id = fee_plc_cr.12
+						id = CR.12
 						days = 120
 						random = 30
 					}
 				}
 				10 = {
 					country_event = {
-						id = fee_plc_cr.11
+						id = CR.11
 						days = 60
 						random = 15
 					}
@@ -475,13 +445,13 @@ country_event = {
 			loyalty = 10
 		}
 		add_country_modifier = {
-			name = grateful_cossacks
+			name = CR_grateful_cossacks
 			duration = 3650
 		}
-		
+		add_prestige = 5
 		hidden_effect = {
 			country_event = {
-				id = fee_plc_cr.11
+				id = CR.11
 				days = 60
 				random = 15
 			}
@@ -495,13 +465,13 @@ country_event = {
 		
 		add_years_of_income = -0.5
 		add_country_modifier = {
-			name = grateful_cossacks
+			name = CR_grateful_cossacks
 			duration = 3650
 		}
-		
+		add_prestige = 5
 		hidden_effect = {
 			country_event = {
-				id = fee_plc_cr.11
+				id = CR.11
 				days = 60
 				random = 15
 			}
@@ -523,10 +493,10 @@ country_event = {
 			estate = estate_nobles
 			loyalty = -5
 		}
-		
+		add_prestige = 5
 		hidden_effect = {
 			country_event = {
-				id = fee_plc_cr.11
+				id = CR.11
 				days = 60
 				random = 15
 			}
@@ -545,13 +515,13 @@ country_event = {
 		}
 		
 		add_country_modifier = {
-			name = grateful_cossacks
+			name = CR_grateful_cossacks
 			duration = 3650
 		}
-		
+		add_prestige = 5
 		hidden_effect = {
 			country_event = {
-				id = fee_plc_cr.11
+				id = CR.11
 				days = 60
 				random = 15
 			}
@@ -570,13 +540,13 @@ country_event = {
 		
 		add_years_of_income = 0.5
 		add_country_modifier = {
-			name = despised_by_the_cossacks
+			name = CR_despised_by_the_cossacks
 			duration = 3650
 		}
-		
+		add_prestige = 5
 		hidden_effect = {
 			country_event = {
-				id = fee_plc_cr.12
+				id = CR.12
 				days = 120
 				random = 30
 			}
@@ -595,13 +565,13 @@ country_event = {
 		
 		add_stability = -1
 		add_country_modifier = {
-			name = despised_by_the_cossacks
+			name = CR_despised_by_the_cossacks
 			duration = 3650
 		}
-		
+		add_prestige = 5
 		hidden_effect = {
 			country_event = {
-				id = fee_plc_cr.12
+				id = CR.12
 				days = 120
 				random = 30
 			}
@@ -609,9 +579,9 @@ country_event = {
 	}
 }
 
-# Szlachta Agrees
+# Szlachta agrees
 country_event = {
-	id = fee_plc_cr.11
+	id = CR.11
 	title = "cr_11_title"
 	desc = "cr_11_desc"
 	picture = SEJM_eventPicture
@@ -624,9 +594,9 @@ country_event = {
 	}
 }
 
-# Szlachta Refuses
+# Szlachta refuses
 country_event = {
-	id = fee_plc_cr.12
+	id = CR.12
 	title = "cr_12_title"
 	desc = "cr_12_desc"
 	picture = SEJM_eventPicture
@@ -634,10 +604,10 @@ country_event = {
 	
 	option = {
 		name = "cr_12_a"
-		
+		add_prestige = 5
 		hidden_effect = {
 			country_event = {
-				id = fee_plc_cr.13
+				id = CR.13
 				days = 150
 				random = 30
 			}
@@ -645,9 +615,9 @@ country_event = {
 	}
 }
 
-# Szlachta Requests our Help
+# Szlachta asks for our help
 country_event = {
-	id = fee_plc_cr.13
+	id = CR.13
 	title = "cr_13_title"
 	desc = "cr_13_desc"
 	picture = NOBLE_ESTATE_eventPicture
@@ -663,7 +633,7 @@ country_event = {
 			name = "Stanislaw Zolkiewski"
 		}
 		
-		# Mohilew
+		# Mohyliv
 		292 = {
 			add_devastation = 20
 			spawn_rebels = {
@@ -673,9 +643,9 @@ country_event = {
 				leader = "Severyn Nalyvaiko"
 			}
 		}
-		
+		add_prestige = 5
 		hidden_effect = {
-			# Bratslaw
+			# Bratslav
 			1943 = {
 				add_devastation = 10
 				spawn_rebels = {
@@ -683,7 +653,10 @@ country_event = {
 					size = 0
 					win = yes
 				}
-				kill_units = { who = REB }
+				kill_units = {
+					who = controller
+					type = cavalry
+				}
 			}
 			# Bar
 			4540 = {
@@ -693,9 +666,12 @@ country_event = {
 					size = 0
 					win = yes
 				}
-				kill_units = { who = REB }
+				kill_units = {
+					who = controller
+					type = cavalry
+				}
 			}
-			# Lutsk
+			# Lutsʹk
 			279 = {
 				add_devastation = 10
 				spawn_rebels = {
@@ -703,7 +679,10 @@ country_event = {
 					size = 0
 					win = yes
 				}
-				kill_units = { who = REB }
+				kill_units = {
+					who = controller
+					type = cavalry
+				}
 			}
 			# Ternopil
 			281 = {
@@ -713,7 +692,10 @@ country_event = {
 					size = 0
 					win = yes
 				}
-				kill_units = { who = REB }
+				kill_units = {
+					who = controller
+					type = cavalry
+				}
 			}
 			# Kaniv
 			1944 = {
@@ -723,9 +705,12 @@ country_event = {
 					size = 0
 					win = yes
 				}
-				kill_units = { who = REB }
+				kill_units = {
+					who = controller
+					type = cavalry
+				}
 			}
-			# Slutsk
+			# Slutsʹk
 			4545 = {
 				add_devastation = 10
 				spawn_rebels = {
@@ -733,9 +718,12 @@ country_event = {
 					size = 0
 					win = yes
 				}
-				kill_units = { who = REB }
+				kill_units = {
+					who = controller
+					type = cavalry
+				}
 			}
-			# Bobrujsk
+			# Bobruysʹk
 			4544 = {
 				add_devastation = 10
 				spawn_rebels = {
@@ -743,11 +731,14 @@ country_event = {
 					size = 0
 					win = yes
 				}
-				kill_units = { who = REB }
+				kill_units = {
+					who = controller
+					type = cavalry
+				}
 			}
 			
 			country_event = {
-				id = fee_plc_cr.1004
+				id = CR.1004
 				days = 240
 			}
 		}
@@ -755,19 +746,19 @@ country_event = {
 	
 	option = {
 		name = "cr_13_b"
-		
+		add_prestige = 5
 		hidden_effect = {
 			country_event = {
-				id = fee_plc_cr.14
+				id = CR.14
 				days = 30
 			}
 		}
 	}
 }
 
-# End of Nalyvaiko Uprising (Peacefully)
+# End of the Nalyvayka uprising Peacefully
 country_event = {
-	id = fee_plc_cr.14
+	id = CR.14
 	title = "cr_14_title"
 	desc = "cr_14_desc"
 	picture = FAMINE_eventPicture
@@ -788,7 +779,7 @@ country_event = {
 		}
 		
 		add_country_modifier = {
-			name = nalyvaiko_peace_offer
+			name = CR_nalyvaiko_peace_offer
 			duration = 3650
 		}
 		
@@ -803,9 +794,9 @@ country_event = {
 	}
 }
 
-# Loop to check if there's any Cossack rebels in the country.
+# Carry out a cycle to check if there are Cossack rebels in the country.
 country_event = {
-	id = fee_plc_cr.1004
+	id = CR.1004
 	title = "cr_1004_title"
 	desc = "cr_1004_desc"
 	picture = BATTLE_eventPicture
@@ -817,7 +808,7 @@ country_event = {
 			limit = { has_spawned_rebels = cossack_rebels }
 			
 			country_event = {
-				id = fee_plc_cr.1004
+				id = CR.1004
 				days = 120
 			}
 		}
@@ -825,19 +816,19 @@ country_event = {
 			limit = { NOT = { has_spawned_rebels = cossack_rebels } }
 			
 			country_event = {
-				id = fee_plc_cr.15
+				id = CR.15
 			}
 		}
 	}
 	
 	option = {
-		
+		add_prestige = 5
 	}
 }
 
-# Rebels Were Forced to Retreat
+# The rebels were forced to retreat
 country_event = {
-	id = fee_plc_cr.15
+	id = CR.15
 	title = "cr_15_title"
 	desc = "cr_15_desc"
 	picture = BATTLE_eventPicture
@@ -845,7 +836,7 @@ country_event = {
 	
 	option = {
 		name = "cr_15_a"
-		
+		add_prestige = 5
 		hidden_effect = {
 			4542 = {
 				spawn_rebels = {
@@ -853,7 +844,10 @@ country_event = {
 					size = 0
 					win = yes
 				}
-				kill_units = { who = REB }
+				kill_units = {
+					who = controller
+					type = cavalry
+				}
 				
 				if = {
 					limit = {
@@ -875,16 +869,16 @@ country_event = {
 			set_country_flag = PLC_nalyvaiko_lubnie
 			
 			country_event = {
-				id = fee_plc_cr.1005
+				id = CR.1005
 				days = 180
 			}
 		}
 	}
 }
 
-# Another loop to check what player had decided.
+# Another cycle to check what the player has decided.
 country_event = {
-	id = fee_plc_cr.1005
+	id = CR.1005
 	title = "cr_1005_title"
 	desc = "cr_1005_desc"
 	picture = BATTLE_eventPicture
@@ -892,11 +886,11 @@ country_event = {
 	is_triggered_only = yes
 	
 	option = {
-		
+		add_prestige = 5
 	}
 	
 	immediate = {
-		# Default outcome: Player sieges down Lubnie
+		# Default result: The player is besieging Lubne
 		if = {
 			limit = {
 				has_country_flag = PLC_nalyvaiko_lubnie
@@ -908,7 +902,7 @@ country_event = {
 			}
 			
 			country_event = {
-				id = fee_plc_cr.16
+				id = CR.16
 			}
 			
 			if = {
@@ -924,16 +918,16 @@ country_event = {
 		}
 		else = {
 			country_event = {
-				id = fee_plc_cr.1005
+				id = CR.1005
 				days = 120
 			}
 		}
 	}
 }
 
-# End of Nalyvaiko Uprising (Default)
+# The end of the Nalyvayka uprising Default
 country_event = {
-	id = fee_plc_cr.16
+	id = CR.16
 	title = "cr_16_title"
 	desc = "cr_16_desc"
 	picture = VILLAGE_BURNING_eventPicture
@@ -941,7 +935,7 @@ country_event = {
 	
 	option = {
 		name = "cr_16_a"
-		
+		add_prestige = 5
 		hidden_effect = {
 			if = {
 				limit = {
@@ -955,7 +949,7 @@ country_event = {
 		}
 		
 		add_country_modifier = {
-			name = nalyvaiko_cossack_lands_confiscated
+			name = CR_nalyvaiko_cossack_lands_confiscated
 			duration = 3650
 		}
 		
@@ -964,9 +958,9 @@ country_event = {
 	}
 }
 
-# Negotiations with Rebels â„–1
+#Negotiations with the rebels №1
 country_event = {
-	id = fee_plc_cr.17
+	id = CR.17
 	title = "cr_17_title"
 	desc = "cr_17_desc"
 	picture = GENERALS_DISCUSSING_eventPicture
@@ -974,19 +968,19 @@ country_event = {
 	
 	option = {
 		name = "cr_17_a"
-		
+		add_prestige = 5
 		hidden_effect = {
 			random_list = {
-				60 = { country_event = { id = fee_plc_cr.19 } }
-				40 = { country_event = { id = fee_plc_cr.18 } }
+				60 = { country_event = { id = CR.19 } }
+				40 = { country_event = { id = CR.18 } }
 			}
 		}
 	}
 }
 
-# Negotiations with Rebels (Failure)
+# Negotiations with the rebels failed
 country_event = {
-	id = fee_plc_cr.18
+	id = CR.18
 	title = "cr_18_title"
 	desc = "cr_18_desc"
 	picture = GENERALS_DISCUSSING_eventPicture
@@ -997,9 +991,9 @@ country_event = {
 	}
 }
 
-# Negotiations with Rebels â„–2
+# Negotiations with insurgents №2
 country_event = {
-	id = fee_plc_cr.19
+	id = CR.19
 	title = "cr_19_title"
 	desc = "cr_19_desc"
 	picture = GENERALS_DISCUSSING_eventPicture
@@ -1007,20 +1001,20 @@ country_event = {
 	
 	option = {
 		name = "cr_19_a"
-		
-		hidden_effect = { country_event = { id = fee_plc_cr.20 } }
+		add_prestige = 5
+		hidden_effect = { country_event = { id = CR.20 } }
 	}
 	
 	option = {
 		name = "cr_19_b"
-		
-		hidden_effect = { country_event = { id = fee_plc_cr.21 } }
+		add_prestige = 5
+		hidden_effect = { country_event = { id = CR.21 } }
 	}
 }
 
-# Negotiations with Rebels (Peacefully)
+## Negotiate peacefully with the rebels
 country_event = {
-	id = fee_plc_cr.20
+	id = CR.20
 	title = "cr_20_title"
 	desc = "cr_20_desc"
 	picture = MILITARY_CAMP_eventPicture
@@ -1059,9 +1053,9 @@ country_event = {
 	}
 }
 
-# Negotiations with Rebels (Bloody)
+# Negotiate with Rebels Bloody
 country_event = {
-	id = fee_plc_cr.21
+	id = CR.21
 	title = "cr_21_title"
 	desc = "cr_21_desc"
 	picture = VILLAGE_RAIDED_eventPicture
@@ -1096,7 +1090,7 @@ country_event = {
 		}
 		
 		add_country_modifier = {
-			name = nalyvaiko_cossack_lands_confiscated
+			name = CR_nalyvaiko_cossack_lands_confiscated
 			duration = 3650
 		}
 	}
