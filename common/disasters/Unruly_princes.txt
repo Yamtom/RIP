@@ -3,7 +3,7 @@ unruly_princes = {
 	potential = {
 		tag = LIT
 		normal_or_historical_nations = yes
-		NOT = { has_country_flag = unruly_princes }
+		NOT = { has_country_flag = unruly_princes}
 		OR = {
 			is_free_or_tributary_trigger = yes
 			is_subject_of = POL
@@ -33,7 +33,7 @@ unruly_princes = {
 	
 	modifier = {
 		stability_cost_modifier = 0.40
-		stability = -1
+		local_unrest = 1
 	}
 	
 	progress = {
@@ -47,9 +47,4 @@ unruly_princes = {
 		stability = 1
 		has_country_flag = princes_revolted
 	}
-	
-	on_start = princes_revolt.1
-	
-	on_end = princes_revolt.2
-
 }

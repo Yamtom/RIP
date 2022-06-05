@@ -7,11 +7,20 @@ political_upheaval = {
 	    }
 	}
 	
-	trigger = {
+	can_stop = {
 		OR = {
-			has_reform = representative_monarchy_reform
-			has_reform = kievan_rus_reform
+			has_any_disaster = yes
+			AND = {
+				has_regency = no
+				legitimacy = 75
+			}
+			OR = {
+				has_reform = ruthenian_principality_reform
+				has_reform = kievan_rus_reform
+			}
+			is_subject = yes
 		}
+		
 	}
 	
 	can_start = {

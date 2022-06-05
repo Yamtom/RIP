@@ -10,15 +10,13 @@ monarchy_mechanic = {
 kievan_rus_reform = {
 
 	icon = "chieftain"
-	basic_reform = no
-	legacy_government = no
 		
 		allow_normal_conversion = no
 		valid_for_nation_designer = no
 		valid_for_new_country = no
 		lock_level_when_selected = yes
 		queen = no
-		consort = yes
+		royal_marriage = yes
 		heir = yes
 		rulers_can_be_generals = yes 
 		heirs_can_be_generals = yes
@@ -27,7 +25,6 @@ kievan_rus_reform = {
 		allow_force_tributary = yes
 		
 		government_abilities = {
-			allow = { has_dlc = "Third rome" }
 			russian_mechanic
 		}
 		
@@ -57,53 +54,59 @@ kievan_rus_reform = {
 	}
 	
 ruthenian_principality_reform = {
-icon = "generic_people"
-basic_reform = no
-	
-	legacy_equivalent = principality_legacy
-	valid_for_nation_designer = no
-	valid_for_new_country = no
-	lock_level_when_selected = yes
-	allow_convert = no
-	queen = yes
-	heir = yes
-	consort = yes
-	rulers_can_be_generals = no 
-	royal_marriage = yes
-	can_use_trade_post = yes
-	can_form_trade_league = yes
-	
-	
-	
-	
-	trigger = {
-		OR = {
-				tag = GRU
-				tag = KIE
+	icon = "generic_people"
+		
+		legacy_equivalent = principality_legacy
+		valid_for_nation_designer = no
+		valid_for_new_country = no
+		lock_level_when_selected = yes
+		allow_convert = no
+		queen = yes
+		heir = yes
+		rulers_can_be_generals = no 
+		royal_marriage = yes
+		conditional = {
+			allow = {
+				has_dlc = "Res Publica"
+				NOT = { has_dlc = "Mare Nostrum" }
 			}
+			can_use_trade_post = yes
+		}
+		can_form_trade_league = yes
+		
+		conditional = {
+			allow = {
+				has_dlc = "Third Rome"
+				NOT = { has_dlc = "Mare Nostrum" }
+				NOT = { has_dlc = "Res Publica" }
+			}
+			government_abilities = {
+				russian_mechanic
+			}
+		}
+		
+		trigger = {
+			OR = {
+					tag = GRU
+					tag = KIE
+				}
+		}
+		modifiers = {
+			state_governing_cost = 5
+			vassal_income = 0.5
+			min_autonomy = 0.25
+		}
+		
+			custom_attributes = {
+			locked_government_type = yes
+		}
+		
 	}
-	modifiers = {
-		max_states = 5
-		vassal_income = 0.5
-		min_autonomy = 0.25
-	}
-	
-		custom_attributes = {
-		locked_government_type = yes
-	}
-	
-	government_abilities = {
-		allow = { has_dlc = "Third rome" }
-		russian_mechanic
-	}
-
-}
 
 #hereditary vs nobility
 
 democratic_assemblies_reform = {
 	icon = "fist_in_air"
-	basic_reform = no
 	allow_normal_conversion = yes
 	
 	trigger ={
@@ -129,7 +132,6 @@ democratic_assemblies_reform = {
 
 boyar_elite_reform = {
 	icon = "soldiers_6"
-	basic_reform = no
 	allow_normal_conversion = yes
 	
 	trigger = {
@@ -149,7 +151,6 @@ boyar_elite_reform = {
 
 holy_rule_reform = { 
 	icon = "english_monarchy"
-	basic_reform = no
 	allow_normal_conversion = yes
 	
 	trigger = {
@@ -169,7 +170,6 @@ holy_rule_reform = {
 
 patriarch_appointment_reform = {
 	icon = "clergyman"
-	basic_reform = no
 	allow_normal_conversion = yes
 	
 	trigger = {
@@ -190,7 +190,6 @@ patriarch_appointment_reform = {
 
 merchant_nobility_reform = {
 	icon = "merchant"
-	basic_reform = no
 	allow_normal_conversion = yes
 	
 	trigger = {
@@ -209,7 +208,6 @@ merchant_nobility_reform = {
 
 open_trading_ports_reform = {
 	icon = "paper_money_map"
-	basic_reform = no
 	allow_normal_conversion = yes
 	
 	trigger = {
@@ -230,7 +228,6 @@ open_trading_ports_reform = {
 
 gathering_houses_reform = {
 	icon = "man_on_podium"
-	basic_reform = no
 	allow_normal_conversion = yes
 	
 	trigger = {
@@ -253,8 +250,8 @@ gathering_houses_reform = {
 
 great_dynasty_reform = {
 	icon = "king_highlighted"
-	basic_reform = no
 	allow_normal_conversion = yes
+	maintain_dynasty = yes
 	
 	trigger = {
 		OR = {
@@ -266,7 +263,7 @@ great_dynasty_reform = {
 	allow_convert = yes
 	
 	modifiers = {
-		maintain_dynasty = yes
+		
 		max_absolutism = 10
 		monarch_admin_power = 2
 	}
@@ -274,7 +271,6 @@ great_dynasty_reform = {
 
 representation_monarchy_reform = {
 	icon = "fist_in_air"
-	basic_reform = no
 	allow_normal_conversion = no
 	
 	trigger = {
@@ -302,7 +298,6 @@ representation_monarchy_reform = {
 
 legislative_duma_reform = {
 	icon = "assembly_hall"
-	basic_reform = no
 	allow_normal_conversion = yes
 	
 	trigger = {
@@ -312,8 +307,10 @@ legislative_duma_reform = {
 			has_reform = neo_monarchy_reform
 		}
 	}
-	
-	has_parliament = yes
+	conditional = {
+		allow = { has_dlc = "Common Sense" }
+		has_parliament = yes
+	}
 	
 	modifiers = {
 		yearly_corruption = -0.05
@@ -324,7 +321,6 @@ legislative_duma_reform = {
 
 Divine_tsar_reform = {
 	icon = "king_highlighted"
-	basic_reform = no
 	allow_normal_conversion = yes
 	
 	trigger = {

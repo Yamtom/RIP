@@ -1,37 +1,5 @@
 country_decisions = {
 
-    aristocracy_purged= {
-		major = yes
-        potential = {
-            has_reform = neo_monarchy_reform
-        }
-        allow = {
-            has_disaster = political_upheaval
-        }
-        effect = {
-            add_estate_influence_modifier = {
-                estate = estate_nobles
-                    desc = aristocracy_purged
-                influence = -300
-            }
-        }
-    }
-    absolute_rule_in_ruthenia = {
-		major = yes
-        potential = {
-            KIE = exists
-            tag = LIT
-            KIE = { is_subject_of = ROOT }
-            NOT = { has_disaster = unruly_princes }
-        }
-        allow = {
-                tag = LIT
-                KIE = { is_subject_of = ROOT }
-            }
-        effect = {
-            reduced_liberty_desire = -50
-        }
-    }
 	federation_of_the_rus_nation = {
 		major = yes
 		potential = {
