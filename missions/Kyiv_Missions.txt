@@ -72,7 +72,16 @@ UKR_missions_1 = {
 	ai = yes
 	potential = {
 		AND = {
-			tag = UKR
+			AND = {
+				tag = UKR
+				tag = KRU
+				AND = {
+					tag = KIE
+					OR = {
+						has_reform = kyivan_rus_reform
+					}
+				}
+			}
 			NOT = { map_setup = map_setup_random }
 		}
 	}
@@ -461,7 +470,16 @@ UKR_missions_2 = {
 	ai = yes
 	potential = {
 		AND = {
-			tag = UKR
+			AND = {
+				tag = UKR
+				tag = KRU
+				AND = {
+					tag = KIE
+					OR = {
+						has_reform = kyivan_rus_reform
+					}
+				}
+			}
 			NOT = { map_setup = map_setup_random }
 		}
 	}
@@ -639,8 +657,8 @@ KIE_missions_3 = {
 		}
 	}
 	
-	KIE_secure_kiev = {
-		icon = mission_restore_kiev
+	KIE_secure_kyiv = {
+		icon = mission_restore_kyiv
 		position = 2
 		required_missions = { KIE_true_ruler }
 		
@@ -669,7 +687,7 @@ KIE_missions_3 = {
 	KIE_friend_or_foe = {
 		icon = mission_rice_field
 		required_missions = { 
-			KIE_secure_kiev 
+			KIE_secure_kyiv 
 			KIE_byzantine_relations 
 			KIE_subjugate_white_ruthenia 
 		}
@@ -797,7 +815,7 @@ KIE_missions_3 = {
 			
 		}
 	}
-	KIE_restore_kiev = {
+	KIE_restore_kyiv = {
 		icon = mission_sovereign_principality
 		position = 6
 		required_missions = { KIE_secure_the_south }
@@ -833,7 +851,7 @@ KIE_missions_3 = {
 			}
 			280 = {
 				add_province_modifier = {
-				name = "KIE_kiev"
+				name = "KIE_kyiv"
 				duration = -1
 				}
 			}
@@ -843,7 +861,7 @@ KIE_missions_3 = {
 	KIE_patriarchy = {
 		icon = mission_autocephalous_archbishopric
 		position = 7
-		required_missions = { KIE_restore_kiev }
+		required_missions = { KIE_restore_kyiv }
 		
 		trigger = {
 			280 = {
@@ -891,7 +909,16 @@ UKR_missions_3 = {
 	ai = yes
 	potential = {
 		AND = {
-			tag = UKR
+			AND = {
+				tag = UKR
+				tag = KRU
+				AND = {
+					tag = KIE
+					OR = {
+						has_reform = kyivan_rus_reform
+					}
+				}
+			}
 			NOT = { map_setup = map_setup_random }
 		}
 	}
@@ -1250,7 +1277,16 @@ UKR_missions_4 = {
 	ai = yes
 	potential = {
 		AND = {
-			tag = UKR
+			AND = {
+				tag = UKR
+				tag = KRU
+				AND = {
+					tag = KIE
+					OR = {
+						has_reform = kyivan_rus_reform
+					}
+				}
+			}
 			NOT = { map_setup = map_setup_random }
 		}
 	}
@@ -1463,7 +1499,16 @@ UKR_missions_5 = {
 	ai = yes
 	potential = {
 		AND = {
-			tag = UKR
+			AND = {
+				tag = UKR
+				tag = KRU
+				AND = {
+					tag = KIE
+					OR = {
+						has_reform = kyivan_rus_reform
+					}
+				}
+			}
 			NOT = { map_setup = map_setup_random }
 		}
 	}
@@ -1534,7 +1579,16 @@ UKR_missions_5 = {
 	ai = yes
 	potential = {
 		AND = {
-			tag = UKR
+			AND = {
+				tag = UKR
+				tag = KRU
+				AND = {
+					tag = KIE
+					OR = {
+						has_reform = kyivan_rus_reform
+					}
+				}
+			}
 			NOT = { map_setup = map_setup_random }
 		}
 	}

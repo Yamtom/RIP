@@ -5,14 +5,22 @@ country_decisions = {
 		potential = {
 			normal_or_historical_nations = yes
 			tag = KIE
-			owns_core_province = 280 # Kiev
-			NOT = { has_country_flag = federation_flag }
-			NOT = { exists = GRU }
+			owns_core_province = 280 # kyiv
+			NOT = { has_country_flag = rus_flag }
+			NOT = { exists = KRU }
+			NOT = { tag = PAP }
+			NOT = { tag = HLR }
+			NOT = { tag = HET }
+			NOT = { tag = ZAZ }
+			NOT = { exists = UKR }
+			NOT = { exists = HET }
+			NOT = { exists = KUY }
+			NOT = { exists = KRU }
             NOT = { has_institution = renaissance }
 		}
 		
 		allow = {
-			owns_core_province = 280 # Kiev
+			owns_core_province = 280 # kyiv
 			owns_core_province = 289 # Chernihov
 			owns_core_province = 275 # Polotsk
 			stability = 1
@@ -22,9 +30,9 @@ country_decisions = {
 		
 		effect = {
 			add_prestige = 25
-			add_government_reform = kievan_rus_reform
-			change_tag = GRU
-			set_country_flag = federation_flag
+			add_government_reform = kyivan_rus_reform
+			change_tag = KRU
+			set_country_flag = rus_flag
 			
 			280 = {
 				move_capital_effect = yes
@@ -36,7 +44,7 @@ country_decisions = {
 						NOT = { owned_by = ROOT }
 						NOT = { is_claim = ROOT }
 					}
-					add_permanent_claim = GRU
+					add_permanent_claim = KRU
 				}
 			}
 			red_ruthenia_area = {
@@ -45,36 +53,36 @@ country_decisions = {
 						NOT = { owned_by = ROOT }
 						NOT = { is_claim = ROOT }
 					}
-					add_permanent_claim = GRU
+					add_permanent_claim = KRU
 				}
 			}
 		}
 	}
-	federation_of_the_rus_nation = {
+	like_rus_nation = {
 		major = yes
 		potential = {
 			normal_or_historical_nations = yes
 			tag = KIE
-			owns_core_province = 280 # Kiev
-			NOT = { has_country_flag = federation_flag }
-			NOT = { exists = GRU }
+			owns_core_province = 280 # kyiv
+			NOT = { has_country_flag = rus_flag }
+			OR = {
+				NOT = { exists = KRU }
+				exists = RUS 
+				exists = UKR 
+				exists = HET 
+				exists = KUY 
+			}
+			NOT = { tag = PAP }
+			NOT = { tag = HLR }
+			NOT = { tag = HET }
+			NOT = { tag = ZAZ }
             has_institution = renaissance
 		}
 		
 		allow = {
-			owns_core_province = 280 # Kiev
-			owns_core_province = 289 # Chernigov
+			owns_core_province = 280 # kyiv
+			owns_core_province = 289 # chernihiv
 			owns_core_province = 275 # Polotsk
-			ruthenia_region = {
-			type = all
-			owned_by = ROOT 
-			}
-			yedisan_area = { 
-			owned_by = ROOT 
-			}
-			zaporizhia_area = {
-			owned_by = ROOT 
-			}
 			stability = 1
 			adm_tech = 10
 			
@@ -82,8 +90,8 @@ country_decisions = {
 		
 		effect = {
 			add_prestige = 25
-			add_government_reform = kievan_rus_reform
-			set_country_flag = federation_flag
+			add_government_reform = kyivan_rus_reform
+			set_country_flag = rus_flag
 			
 			280 = {
 				move_capital_effect = yes
@@ -95,7 +103,7 @@ country_decisions = {
 						NOT = { owned_by = ROOT }
 						NOT = { is_claim = ROOT }
 					}
-					add_permanent_claim = GRU
+					add_permanent_claim = KIE
 				}
 			}
 			red_ruthenia_area = {
@@ -104,7 +112,7 @@ country_decisions = {
 						NOT = { owned_by = ROOT }
 						NOT = { is_claim = ROOT }
 					}
-					add_permanent_claim = GRU
+					add_permanent_claim = KIE
 				}
 			}
 		}

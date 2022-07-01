@@ -7,13 +7,13 @@ monarchy_mechanic = {
 }
 
 #feudalism vs autocracy
-kievan_rus_reform = {
+kyivan_rus_reform = {
 
 	icon = "chieftain"
 		
 		allow_normal_conversion = no
 		valid_for_nation_designer = no
-		valid_for_new_country = no
+		valid_for_new_country = yes
 		lock_level_when_selected = yes
 		queen = no
 		royal_marriage = yes
@@ -23,15 +23,34 @@ kievan_rus_reform = {
 		allow_convert = no
 		royal_marriage = yes
 		allow_force_tributary = yes
+		allow_vassal_war = yes
+		allow_vassal_alliance = yes
+		conditional = {
+			allow = {
+				has_dlc = "Mare Nostrum"
+				NOT = { has_dlc = "Res Publica" }
+			}
+			can_form_trade_league = yes
+			trade_city_reform = trading_city
+		}
+		conditional = {
+			allow = {
+				has_dlc = "Res Publica"
+				has_dlc = "Mare Nostrum"
+			}
+			can_use_trade_post = yes
+			can_form_trade_league = yes
+			trade_city_reform = trading_city
+		}
 		
 		government_abilities = {
-			russian_mechanic
+			cossacks_mechanic
 		}
 		
 		
 		trigger = {
 			OR = {
-				tag = GRU
+				tag = KRU
 				tag = KIE
 			}
 		}
@@ -65,29 +84,15 @@ ruthenian_principality_reform = {
 		heir = yes
 		rulers_can_be_generals = no 
 		royal_marriage = yes
-		conditional = {
-			allow = {
-				has_dlc = "Res Publica"
-				NOT = { has_dlc = "Mare Nostrum" }
-			}
-			can_use_trade_post = yes
-		}
 		can_form_trade_league = yes
 		
-		conditional = {
-			allow = {
-				has_dlc = "Third Rome"
-				NOT = { has_dlc = "Mare Nostrum" }
-				NOT = { has_dlc = "Res Publica" }
-			}
-			government_abilities = {
-				russian_mechanic
-			}
+		government_abilities = {
+			cossacks_mechanic
 		}
 		
 		trigger = {
 			OR = {
-					tag = GRU
+					tag = KRU
 					tag = KIE
 				}
 		}
@@ -111,9 +116,7 @@ democratic_assemblies_reform = {
 	
 	trigger ={
 		OR = {
-			has_reform = representation_monarchy_reform
-			has_reform = representation_monarchy_reform
-			has_reform = kievan_rus_reform
+			has_reform = kyivan_rus_reform
 		}
 	}
 	
@@ -137,7 +140,7 @@ boyar_elite_reform = {
 	trigger = {
 		OR = {
 		has_reform = ruthenian_principality_reform
-		has_reform = kievan_rus_reform
+		has_reform = kyivan_rus_reform
 		}
 	}
 	
@@ -156,7 +159,7 @@ holy_rule_reform = {
 	trigger = {
 		OR = {
 		has_reform = ruthenian_principality_reform
-		has_reform = kievan_rus_reform
+		has_reform = kyivan_rus_reform
 		}
 	}
 	
@@ -175,8 +178,7 @@ patriarch_appointment_reform = {
 	trigger = {
 		OR = {
 		has_reform = ruthenian_principality_reform
-		has_reform = kievan_rus_reform
-		has_reform = representation_monarchy_reform
+		has_reform = kyivan_rus_reform
 		}
 	}
 	
@@ -195,7 +197,7 @@ merchant_nobility_reform = {
 	trigger = {
 		OR = {
 			has_reform = ruthenian_principality_reform
-			has_reform = kievan_rus_reform
+			has_reform = kyivan_rus_reform
 		}
 	}
 	
@@ -213,8 +215,7 @@ open_trading_ports_reform = {
 	trigger = {
 		OR = {
 			has_reform = ruthenian_principality_reform
-			has_reform = kievan_rus_reform
-			has_reform = representation_monarchy_reform
+			has_reform = kyivan_rus_reform
 		}
 	}
 	
@@ -233,8 +234,7 @@ gathering_houses_reform = {
 	trigger = {
 		OR = {
 			has_reform = ruthenian_principality_reform
-			has_reform = kievan_rus_reform
-			has_reform = representation_monarchy_reform
+			has_reform = kyivan_rus_reform
 		}
 	}
 	
@@ -256,7 +256,7 @@ great_dynasty_reform = {
 	trigger = {
 		OR = {
 			has_reform = ruthenian_principality_reform
-			has_reform = kievan_rus_reform
+			has_reform = kyivan_rus_reform
 		}
 	}
 	
@@ -276,7 +276,7 @@ representation_monarchy_reform = {
 	trigger = {
 		AND = {
 			has_reform = boyar_elite_reform
-			has_reform = kievan_rus_reform
+			has_reform = kyivan_rus_reform
 		}
 	}	
 	
@@ -303,7 +303,7 @@ legislative_duma_reform = {
 	trigger = {
 		OR = {
 			has_reform = ruthenian_principality_reform
-			has_reform = kievan_rus_reform
+			has_reform = kyivan_rus_reform
 			has_reform = representation_monarchy_reform
 		}
 	}
@@ -327,7 +327,7 @@ Divine_tsar_reform = {
 		OR = {
 			has_reform = great_dynasty_reform
 			has_reform = holy_rule_reform
-			has_reform = kievan_rus_reform
+			has_reform = kyivan_rus_reform
 		}
 	}
 	

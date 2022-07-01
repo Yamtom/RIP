@@ -94,7 +94,7 @@ country_event = {
 	}
 }
 
-# The Restoration of Kiev - alt history
+# The Restoration of kyiv - alt history
 country_event = {
 	id = flavor_rus.2004
 	title = "flavor_rus.EVTNAME2002"
@@ -190,15 +190,15 @@ country_event = {
 	}
 }
 
-namespace = neo_monarchy
+namespace = euro_monarchy
 namespace = princes_revolt
-namespace = kiev_independence
+namespace = kyiv_independence
 namespace = harass_tatar
 
 country_event = {
-	id = neo_monarchy.1
-	title = "neo_monarchy.1t"
-	desc = "neo_monarchy.1d"
+	id = euro_monarchy.1
+	title = "euro_monarchy.1t"
+	desc = "euro_monarchy.1d"
 	picture = COUNTRY_COLLAPSE_eventPicture
 	
 	fire_only_once = yes
@@ -222,7 +222,7 @@ country_event = {
 	}
 	
 	option = {
-		name = neo_monarchy.1a
+		name = euro_monarchy.1a
 			if = {
 				limit = {
 					has_reform = boyar_elite_reform
@@ -235,9 +235,9 @@ country_event = {
 }
 
 country_event = {
-	id = neo_monarchy.2
-	title = "neo_monarchy.2t"
-	desc = "neo_monarchy.2d"
+	id = euro_monarchy.2
+	title = "euro_monarchy.2t"
+	desc = "euro_monarchy.2d"
 	picture = LAND_MILITARY_eventPicture
 	
 	trigger = {
@@ -247,7 +247,7 @@ country_event = {
 	fire_only_once = yes
 		
 	option = {
-		name = neo_monarchy.2a
+		name = euro_monarchy.2a
 		
 		capital_scope = {
 			spawn_rebels = {
@@ -283,9 +283,9 @@ country_event = {
 }
 
 country_event = {
-	id = neo_monarchy.3
-	title = "neo_monarchy.3t"
-	desc = "neo_monarchy.3d"
+	id = euro_monarchy.3
+	title = "euro_monarchy.3t"
+	desc = "euro_monarchy.3d"
 	picture = FAMINE_eventPicture
 
 	fire_only_once = yes
@@ -299,7 +299,7 @@ country_event = {
 	}
 
 	option = {
-		name = neo_monarchy.3a
+		name = euro_monarchy.3a
 			
 		add_government_reform = ruthenian_principality_reform
 	}
@@ -384,29 +384,25 @@ country_event = {
 } 
  
  
-#country_event = { 
-#	id = princes_revolt.2 
-#	title = "princes_revolt.2t 
-#	desc = "princes_revolt.2d 
-#	picture = CIVIL_WAR_eventPicture  
-#
-#	is_triggered_only = yes 
-#
-#	trigger = { 
-#		owner = {  
-#			has_disaster = unruly_princes  
-#		} 
-#		has_country_flag = princes_revolted 
-#	} 
-#
-#	immediate = { 
-#		owner = { set_country_flag = aftermath_of_revolt } 
-#	} 
-#
-#	option = { 
-#		name = princes_revolt.2a 
-#	} 
-#} 
+country_event = { 
+	id = princes_revolt.2 
+	title = "princes_revolt.2t" 
+	desc = "princes_revolt.2d" 
+	picture = CIVIL_WAR_eventPicture  
+	is_triggered_only = yes 
+	trigger = { 
+		ROOT = {  
+			has_disaster = unruly_princes  
+		} 
+		has_country_flag = princes_revolted 
+	} 
+	immediate = { 
+		ROOT = { set_country_flag = aftermath_of_revolt } 
+	} 
+	option = { 
+		name = princes_revolt.2a 
+	} 
+} 
  
 country_event = { 
 	id = princes_revolt.3 
@@ -445,16 +441,16 @@ country_event = {
 } 
  
 country_event = { 
-	id = kiev_independence.1 
-	title = "kiev_independence.1t"
-	desc = "kiev_independence.1d"
+	id = kyiv_independence.1 
+	title = "kyiv_independence.1t"
+	desc = "kyiv_independence.1d"
 	picture = CONQUEST_eventPicture 
 	 
 	is_triggered_only = no 
 	fire_only_once = yes 
 	 
 	trigger = { 
-		owns = 280 # Kiev 
+		owns = 280 # kyiv 
 		owns = 4247 # Ovruch/Owrucz 
 		truce_with = LIT 
 		is_subject = no 
@@ -463,8 +459,8 @@ country_event = {
 	} 
 	 
 	option = { 
-		name = "kiev_independence.1a" 
-#		ai_chance = { factor = 80 } 
+		name = "kyiv_independence.1a" 
+		ai_chance = { factor = 80 } 
 		 
 		add_stability = 1 
 		add_prestige = 50				 
@@ -488,33 +484,53 @@ country_event = {
 				} 
 			} 
 			country_event = { 
-			id = kiev_independence.2 
+			id = kyiv_independence.2 
 			} 
 		} 
 	} 
 } 
  
 country_event = { 
-	id = kiev_independence.2 
-	title = "kiev_independence.2t"
-	desc = "kiev_independence.2d"
+	id = kyiv_independence.2 
+	title = "kyiv_independence.2t"
+	desc = "kyiv_independence.2d"
 	picture = LAND_MILITARY_eventPicture 
 	 
 	is_triggered_only = yes 
 	 
 	trigger = { 
-		is_subject_of = KIE 
+		OR ={
+			OR ={
+				ai = yes
+				ai = no
+			}
+			OR = {
+				AND = {
+					is_in_trade_league_with = KIE
+					has_reform = trading_city
+					NOT = { is_subject_of_type = princedom }
+				}
+				AND = {
+					is_subject_of = KIE 
+					NOT = { is_subject_of_type = princedom }
+				}
+			}
+		}
 	} 
 	 
 	option = { 
-		name = "kiev_independence.2a" 
+		name = "kyiv_independence.2a" 
 		ai_chance = { factor = 65 } 
-		 
+		KIE = {
+			country_event = {
+				id = kyiv_independence.3
+			}
+		}		 
 		overlord = { inherit = ROOT } 
 	} 
 	 
-	option = { 
-		name = "kiev_independence.2b" 
+	option = {
+		name = "kyiv_independence.2b" 
 		ai_chance = { factor = 35 } 
 		 
 		overlord = { 
@@ -524,35 +540,23 @@ country_event = {
 			} 
 		} 
 		grant_independence = yes 
-#		country_event = { 
-#			id = kiev_independence.3 
-#		} 
 	} 
 } 
+
+country_event = { 
+	id = kyiv_independence.3 
+	title = "kyiv_independence.3t"
+	desc = "kyiv_independence.3d"
+	picture = CIVIL_WAR_eventPicture  
 	 
-#country_event = { 
-#	name = kiev_independence.3 
-#	title = "kiev_independence.3t 
-#	desc = "kiev_independence.3d 
-#	picture = DIPLOMACY_eventPicture 
-#
-#	is_triggered_only = yes 
-#
-#	trigger = { 
-#		tag = KIE 
-#	} 
-#
-#	option = { 
-#		name = "kiev_independence.3a" 
-#
-#		if = { 
-#			limit = { 
-#				has_country_flag = disloyal_vassal_kiev 
-#			} 
-#			add_casus_belli = { 
-#				target = FROM 
-#				type = cb_disloyal_vassal 
-#			} 
-#		} 
-#	} 
-#} 
+	is_triggered_only = yes 
+	 
+	trigger = {
+	} 
+	option = {
+		create_subject = {
+			subject_type = princedom
+			subject = FROM
+		}
+	} 
+} 
