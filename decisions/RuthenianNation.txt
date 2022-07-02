@@ -158,23 +158,7 @@ country_decisions = {
 					set_in_empire = no
 				}
 			}
-			if = {
-				limit = {
-					OR = {
-						has_reform = veche_republic
-						has_reform = principality
-					}
-				}
-				set_government_rank = 3
-				if = {
-					limit = { 
-						is_revolutionary = no
-						NOT = { government = republic } 
-					}
-					change_government_to_monarchy = yes
-					add_government_reform = tsardom
-				}
-			}
+			set_government_rank = 3
 			if = {
 				limit = { has_custom_ideas = no }
 				country_event = { id = ideagroups.1 } #Swap Ideas

@@ -8,9 +8,9 @@ monarchy_mechanic = {
 
 #feudalism vs autocracy
 kyivan_rus_reform = {
-
 	icon = "chieftain"
 		
+		legacy_equivalent = tsardom_legacy
 		allow_normal_conversion = no
 		valid_for_nation_designer = no
 		valid_for_new_country = yes
@@ -40,13 +40,12 @@ kyivan_rus_reform = {
 			}
 			can_use_trade_post = yes
 			can_form_trade_league = yes
-			trade_city_reform = trading_city
+			trade_city_reform = free_city
 		}
 		
 		government_abilities = {
 			cossacks_mechanic
 		}
-		
 		
 		trigger = {
 			OR = {
@@ -59,11 +58,6 @@ kyivan_rus_reform = {
 			min_autonomy = -5
 			global_manpower_modifier = 0.3
 			core_creation = -0.25
-		}
-
-		conditional = {
-		allow = { has_dlc = "Third Rome" }
-		claim_states = yes
 		}
 		
 		custom_attributes = {
@@ -94,6 +88,7 @@ ruthenian_principality_reform = {
 			OR = {
 					tag = KRU
 					tag = KIE
+					culture = ruthenian
 				}
 		}
 		modifiers = {
@@ -141,6 +136,7 @@ boyar_elite_reform = {
 		OR = {
 		has_reform = ruthenian_principality_reform
 		has_reform = kyivan_rus_reform
+		culture = ruthenian
 		}
 	}
 	
@@ -160,6 +156,7 @@ holy_rule_reform = {
 		OR = {
 		has_reform = ruthenian_principality_reform
 		has_reform = kyivan_rus_reform
+		culture = ruthenian
 		}
 	}
 	
@@ -179,6 +176,7 @@ patriarch_appointment_reform = {
 		OR = {
 		has_reform = ruthenian_principality_reform
 		has_reform = kyivan_rus_reform
+		culture = ruthenian
 		}
 	}
 	
@@ -198,6 +196,7 @@ merchant_nobility_reform = {
 		OR = {
 			has_reform = ruthenian_principality_reform
 			has_reform = kyivan_rus_reform
+			culture = ruthenian
 		}
 	}
 	
@@ -216,6 +215,7 @@ open_trading_ports_reform = {
 		OR = {
 			has_reform = ruthenian_principality_reform
 			has_reform = kyivan_rus_reform
+			culture = ruthenian
 		}
 	}
 	
@@ -235,6 +235,7 @@ gathering_houses_reform = {
 		OR = {
 			has_reform = ruthenian_principality_reform
 			has_reform = kyivan_rus_reform
+			culture = ruthenian
 		}
 	}
 	
@@ -257,6 +258,7 @@ great_dynasty_reform = {
 		OR = {
 			has_reform = ruthenian_principality_reform
 			has_reform = kyivan_rus_reform
+			culture = ruthenian
 		}
 	}
 	
@@ -272,7 +274,7 @@ great_dynasty_reform = {
 representation_monarchy_reform = {
 	icon = "fist_in_air"
 	allow_normal_conversion = no
-	
+	has_term_election = yes
 	trigger = {
 		AND = {
 			has_reform = boyar_elite_reform
@@ -305,6 +307,7 @@ legislative_duma_reform = {
 			has_reform = ruthenian_principality_reform
 			has_reform = kyivan_rus_reform
 			has_reform = representation_monarchy_reform
+			culture = ruthenian
 		}
 	}
 	conditional = {
@@ -333,7 +336,10 @@ Divine_tsar_reform = {
 	
 	lock_level_when_selected = yes
 	allow_convert = no
-	
+	conditional = {
+		allow = { has_dlc = "Third Rome" }
+		claim_states = yes
+	}
 	modifiers = {
 		legitimacy = 1
 		global_unrest = -1

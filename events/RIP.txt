@@ -502,16 +502,22 @@ country_event = {
 		OR ={
 			OR ={
 				ai = yes
-				ai = no
 			}
 			OR = {
 				AND = {
-					is_in_trade_league_with = KIE
-					has_reform = trading_city
+					OR = {
+						is_in_trade_league_with = KIE
+						is_in_trade_league_with = KRU
+						is_in_trade_league_with = UKR
+					}
 					NOT = { is_subject_of_type = princedom }
 				}
 				AND = {
-					is_subject_of = KIE 
+					OR = {
+						is_subject_of = KIE
+						is_subject_of = KRU
+						is_subject_of = UKR
+					}
 					NOT = { is_subject_of_type = princedom }
 				}
 			}
