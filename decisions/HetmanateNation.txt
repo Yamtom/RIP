@@ -3,6 +3,7 @@ country_decisions = {
 	hetmanate_nation = {
 		major = yes
 		potential = {
+			has_institution = renaissance
 			normal_or_historical_nations = yes
 			was_never_end_game_tag_trigger = yes
 			NOT = { has_country_flag = formed_hetmanate_nation_flag }
@@ -11,13 +12,14 @@ country_decisions = {
 				ai = yes
 				is_playing_custom_nation = no
 			}
-			Or = {
+			OR = {
 				tag = ZAZ
 				tag = PRL
 			}
 			NOT = { has_reform = celestial_empire }
 			NOT = { exists = HET }
 			NOT = { exists = UKR }
+			NOT = { exists = KRU }
 			NOT = { tag = PAP }
 			NOT = { tag = HLR }	
 			OR = {
@@ -40,6 +42,7 @@ country_decisions = {
 			}
 		}
 		allow = {
+			adm_tech = 15
 			NOT = { exists = HET }
 			is_at_war = no
 			stability = 3

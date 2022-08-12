@@ -1,25 +1,27 @@
 #Joining the Council of Florence
-
 namespace = ukr_flavor
-
 country_event = {
 	id = ukr_flavor.1
 	title = "ukr_flavor.1.t"
 	desc = "ukr_flavor.1.d"
 	picture = ORTHODOX_eventPicture
-
 	is_triggered_only = no
-
 	trigger = {
 		is_year = 1444
 		culture = ruthenian
-		NOT = { has_country_modifier = council_of_florence }
-		NOT = { is_year = 1445 }
-		NOT = { patriarch_authority = 0.45 }
+		NOT = {
+			has_country_modifier = council_of_florence
+		}
+		NOT = {
+			is_year = 1445
+		}
+		NOT = {
+			patriarch_authority = 0.45
+		}
 	}
-
-	mean_time_to_happen = { days = 49 }
-
+	mean_time_to_happen = {
+		days = 49
+	}
 	option = {
 		name = "ukr_flavor.1.a"
 		add_patriarch_authority = 0.5
@@ -28,7 +30,6 @@ country_event = {
 			factor = 25
 		}
 	}
-
 	option = {
 		name = "ukr_flavor.1.b"
 		reduce_estate_church_loyalty_effect = yes
@@ -48,22 +49,24 @@ country_event = {
 	title = "flavor_rus.EVTNAME2001"
 	desc = "flavor_rus.EVTDESC2001"
 	picture = COURT_eventPicture
-	
 	fire_only_once = yes
-	
 	trigger = {
 		has_dlc = "Third Rome"
-		NOT = { is_year = 1500 }
+		NOT = {
+			is_year = 1500
+		}
 		culture_group = east_slavic
 		owns = 151
 	}
-	
-	mean_time_to_happen = { months = 10	}
-
+	mean_time_to_happen = {
+		months = 10
+	}
 	option = {
 		name = "flavor_rus.EVTOPTA2001"
 		trigger = {
-			151 = { is_capital = no }
+			151 = {
+				is_capital = no
+			}
 		}
 		ai_chance = {
 			factor = 34
@@ -79,7 +82,6 @@ country_event = {
 			}
 		}
 	}
-
 	option = {
 		name = "flavor_rus.EVTOPTB2001"
 		capital_scope = {
@@ -94,33 +96,37 @@ country_event = {
 	}
 }
 
-# The Restoration of Kiev - alt history
+# The Restoration of kyiv - alt history
 country_event = {
 	id = flavor_rus.2004
 	title = "flavor_rus.EVTNAME2002"
 	desc = "flavor_rus.EVTDESC2002"
 	picture = COURT_eventPicture
-	
 	fire_only_once = yes
-	
 	trigger = {
 		has_dlc = "Third Rome"
-		NOT = { is_year = 1700 }
+		NOT = {
+			is_year = 1700
+		}
 		culture_group = east_slavic
 		if = {
-			limit = { tag = KIE }
+			limit = {
+				tag = KIE
+			}
 			is_year = 1635
 		}
 		owns = 280
 	}
-
-	mean_time_to_happen = { months = 10 }
-
+	mean_time_to_happen = {
+		months = 10
+	}
 	option = {
 		name = "flavor_rus.EVTOPTA2002"
 		if = {
-			limit = { 
-				NOT = { primary_culture = ruthenian }
+			limit = {
+				NOT = {
+					primary_culture = ruthenian
+				}
 			}
 			change_primary_culture = ruthenian
 		}
@@ -134,10 +140,13 @@ country_event = {
 			factor = 12
 		}
 	}
-
 	option = {
 		name = "flavor_rus.EVTOPTB2002"
-		trigger = { 280 = { is_capital = no } }
+		trigger = {
+			280 = {
+				is_capital = no
+			}
+		}
 		capital_scope = {
 			add_base_tax = 1
 			add_base_production = 2
@@ -150,28 +159,25 @@ country_event = {
 }
 
 namespace = zaz_flavor
-
 # The Cossack Host
 country_event = {
 	id = zaz_flavor.1
 	title = "zaz_flavor.1.t"
 	desc = "zaz_flavor.1.d"
 	picture = ANGRY_MOB_eventPicture
-
 	fire_only_once = yes
-	
 	trigger = {
 		tag = ZAZ
 	}
-	
 	mean_time_to_happen = {
 		months = 2
 		modifier = {
 			factor = 0.1
-			NOT = { stability = -3 }
+			NOT = {
+				stability = -3
+			}
 		}
 	}
-	
 	option = {
 		name = "zaz_flavor.1.a"
 		add_country_modifier = {
@@ -186,6 +192,331 @@ country_event = {
 			cossack_cavalry = ZAZ
 			cossack_cavalry = ZAZ
 			cossack_cavalry = ZAZ
+		}
+	}
+}
+
+namespace = euro_monarchy
+namespace = princes_revolt
+namespace = kyiv_independence
+namespace = harass_tatar
+country_event = {
+	id = euro_monarchy.1
+	title = "euro_monarchy.1t"
+	desc = "euro_monarchy.1d"
+	picture = COUNTRY_COLLAPSE_eventPicture
+	fire_only_once = yes
+	trigger = {
+		has_reform = representation_monarchy_reform
+		OR = {
+			current_age = age_of_absolutism
+			current_age = age_of_revolutions
+		}
+	}
+	immediate = {
+		hidden_effect = {
+			add_disaster_progress = {
+				disaster = political_upheaval
+				value = 100
+			}
+			set_country_flag = reactionary_response_flag
+		}
+	}
+	option = {
+		name = euro_monarchy.1a
+		if = {
+			limit = {
+				has_reform = boyar_elite_reform
+			}
+			add_government_reform = democratic_assemblies_reform
+			add_stability = -2
+		}
+	}
+}
+
+country_event = {
+	id = euro_monarchy.2
+	title = "euro_monarchy.2t"
+	desc = "euro_monarchy.2d"
+	picture = LAND_MILITARY_eventPicture
+	trigger = {
+		has_disaster = political_upheaval
+	}
+	fire_only_once = yes
+	option = {
+		name = euro_monarchy.2a
+		capital_scope = {
+			spawn_rebels = {
+				type = noble_rebels
+				size = 2
+			}
+		}
+		random_owned_province = {
+			spawn_rebels = {
+				type = noble_rebels
+				size = 1
+			}
+		}
+		random_owned_province = {
+			spawn_rebels = {
+				type = noble_rebels
+				size = 1
+			}
+		}
+		random_owned_province = {
+			spawn_rebels = {
+				type = noble_rebels
+				size = 1
+			}
+		}
+		random_owned_province = {
+			spawn_rebels = {
+				type = noble_rebels
+				size = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = euro_monarchy.3
+	title = "euro_monarchy.3t"
+	desc = "euro_monarchy.3d"
+	picture = FAMINE_eventPicture
+	fire_only_once = yes
+	trigger = {
+		NOT = {
+			has_disaster = political_upheaval
+		}
+		hidden_trigger = {
+			has_country_flag = political_upheaval_rebellion
+		}
+	}
+	option = {
+		name = euro_monarchy.3a
+		add_government_reform = ruthenian_principality_reform
+	}
+}
+
+country_event = {
+	id = harass_tatar.1
+	title = "harass_tatar.1t"
+	desc = "harass_tatar.1d"
+	picture = HORDE_ON_HORSEBACK_eventPicture
+	fire_only_once = yes
+	trigger = {
+		tag = KIE
+		OR = {
+			exists = CRI
+			exists = GOL
+		}
+	}
+	option = {
+		name = harass_tatar.1a
+		add_country_modifier = {
+			name = KIE_tatar_harassment
+			duration = -1
+		}
+	}
+}
+
+country_event = {
+	id = princes_revolt.1
+	title = "princes_revolt.1t"
+	desc = "princes_revolt.1d"
+	picture = PEASANTS_ON_STEPPES_eventPicture
+	trigger = {
+		has_disaster = unruly_princes
+	}
+	is_triggered_only = yes
+	option = {
+		name = "princes_revolt.1a"
+		ai_chance = {
+			factor = 75
+		}
+		add_casus_belli = {
+			target = KIE
+			type = cb_disloyal_vassal
+			months = 1
+		}
+		declare_war_with_cb = {
+			who = KIE
+			casus_belli = cb_disloyal_vassal
+		}
+		set_country_flag = princes_revolted
+		set_country_flag = aftermath_of_revolt
+	}
+	option = {
+		name = "princes_revolt.1b"
+		ai_chance = {
+			factor = 25
+		}
+		add_stability = 1
+		add_prestige = -50
+		KIE = {
+			if = {
+				limit = {
+					is_subject_of = ROOT
+				}
+				grant_independence = yes
+				add_truce_with = LIT
+			}
+		}
+		set_country_flag = princes_revolted
+		set_country_flag = aftermath_of_revolt
+	}
+}
+
+country_event = {
+	id = princes_revolt.2
+	title = "princes_revolt.2t"
+	desc = "princes_revolt.2d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		ROOT = {
+			has_disaster = unruly_princes
+		}
+		has_country_flag = princes_revolted
+	}
+	immediate = {
+		ROOT = {
+			set_country_flag = aftermath_of_revolt
+		}
+	}
+	option = {
+		name = princes_revolt.2a
+	}
+}
+
+country_event = {
+	id = princes_revolt.3
+	title = "princes_revolt.3t"
+	desc = "princes_revolt.3d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = no
+	fire_only_once = yes
+	trigger = {
+		tag = KIE
+		controls = 272		# Vilnius 
+		is_subject = no
+		is_at_war = yes
+		war_score_against = {
+			who = LIT
+			value = 40
+		}
+	}
+	immediate = {
+		4247 = {
+			cede_province = KIE
+		}
+		292 = {
+			cede_province = PLT
+		}
+		4242 = {
+			cede_province = PLT
+		}
+		white_peace = LIT
+		add_truce_with = LIT
+	}
+	option = {
+		name = "princes_revolt.3a"
+		add_prestige = 20
+		set_country_flag = ruthenia_liberate
+	}
+}
+
+country_event = {
+	id = kyiv_independence.1
+	title = "kyiv_independence.1t"
+	desc = "kyiv_independence.1d"
+	picture = CONQUEST_eventPicture
+	is_triggered_only = no
+	fire_only_once = yes
+	trigger = {
+		owns = 280		# kyiv 
+		owns = 4247		# Ovruch/Owrucz 
+		truce_with = LIT
+		is_subject = no
+		is_at_war = no
+		tag = KIE
+	}
+	option = {
+		name = "kyiv_independence.1a"
+		ai_chance = {
+			factor = 80
+		}
+		add_stability = 1
+		add_prestige = 50
+		add_accepted_culture = russian
+		add_accepted_culture = ryazanian
+		add_accepted_culture = byelorussian
+		add_accepted_culture = novgorodian
+		ruthenia_region = {
+			add_permanent_claim = ROOT
+		}
+		red_ruthenia_area = {
+			add_permanent_claim = ROOT
+		}
+		every_subject_country = {
+			limit = {
+				capital_scope = {
+					OR = {
+						area = red_ruthenia_area
+						area = zaporizhia_area
+						area = oka_area
+						area = pskov_area
+						area = ryazan_area
+						region = ruthenia_region
+					}
+				}
+			}
+			country_event = {
+				id = kyiv_independence.2
+			}
+		}
+	}
+}
+
+country_event = {
+	id = kyiv_independence.2
+	title = "kyiv_independence.2t"
+	desc = "kyiv_independence.2d"
+	picture = LAND_MILITARY_eventPicture
+	trigger = {
+		NOT = { is_subject_of_type = princedom}
+		event_target:kyiv_rus = {
+			OR = {
+				overlord_of = ROOT
+				AND = {
+					is_trade_league_leader = yes
+					is_in_trade_league_with = ROOT
+				}
+			}
+		}
+	}
+	option = {
+		name = "kyiv_independence.2a"
+		event_target:kyiv_rus = {
+				country_event = {
+					id = kyiv_independence.3
+				}
+			}
+		}
+}
+
+country_event = {
+	id = kyiv_independence.3
+	title = "kyiv_independence.3t"
+	desc = "kyiv_independence.3d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	trigger = {
+	}
+	option = {
+		create_subject = {
+			subject_type = princedom
+			subject = FROM
 		}
 	}
 }
