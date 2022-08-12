@@ -6,8 +6,8 @@ KIE_missions_1 = {
 		AND = {
 			OR = {
 				tag = KIE
-				tag = UKR
 				tag = KRU
+				tag = UKR
 			}
 			NOT = { map_setup = map_setup_random }
 		}
@@ -76,10 +76,6 @@ UKR_missions_1 = {
 			OR = {
 				tag = UKR
 				tag = KRU
-				AND = {
-					tag = KIE
-					has_country_flag = rus_flag
-				}
 			}
 			NOT = { map_setup = map_setup_random }
 		}
@@ -473,10 +469,6 @@ UKR_missions_2 = {
 			OR = {
 				tag = UKR
 				tag = KRU
-				AND = {
-					tag = KIE
-					has_country_flag = rus_flag
-				}
 			}
 			NOT = { map_setup = map_setup_random }
 		}
@@ -911,10 +903,6 @@ UKR_missions_3 = {
 			OR = {
 				tag = UKR
 				tag = KRU
-				AND = {
-					tag = KIE
-					has_country_flag = rus_flag
-				}
 			}
 			NOT = { map_setup = map_setup_random }
 		}
@@ -1278,10 +1266,6 @@ UKR_missions_4 = {
 			OR = {
 				tag = UKR
 				tag = KRU
-				AND = {
-					tag = KIE
-					has_country_flag = rus_flag
-				}
 			}
 			NOT = { map_setup = map_setup_random }
 		}
@@ -1488,62 +1472,6 @@ KIE_missions_5 = {
 			}
 		}
 	}
-}
-
-UKR_missions_5 = {
-	slot = 5
-	generic = no
-	ai = yes
-	potential = {
-		AND = {
-			OR = {
-				tag = UKR
-				tag = KRU
-				AND = {
-					tag = KIE
-					has_country_flag = rus_flag
-				}
-			}
-			NOT = { map_setup = map_setup_random }
-		}
-	}
-	has_country_shield = yes	
-	
-	UKR_union = {
-		icon = mission_unite_home_region
-		position = 2
-		required_missions = { KIE_stability }
-		
-		trigger = {
-			religious_unity = 1
-			prestige = 100
-		}
-		
-		effect = {
-			add_country_modifier = {
-				name = KIE_glory
-				duration = -1
-			}
-		}
-	}
-}
-
-KIE_missions_5 = {
-	slot = 5
-	generic = no
-	ai = yes
-	potential = {
-		AND = {
-			OR = {
-				tag = KIE
-				tag = UKR
-				tag = KRU
-			}
-			NOT = { map_setup = map_setup_random }
-		}
-	}
-	has_country_shield = yes	
-
 	KIE_cossack = {
 		icon = mission_recruit_the_cossacks
 		position = 4
@@ -1578,10 +1506,6 @@ UKR_missions_5 = {
 			OR = {
 				tag = UKR
 				tag = KRU
-				AND = {
-					tag = KIE
-					has_country_flag = rus_flag
-				}
 			}
 			NOT = { map_setup = map_setup_random }
 		}
