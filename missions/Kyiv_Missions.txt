@@ -803,7 +803,10 @@ KIE_missions_3 = {
 			}
 		}
 		effect = {
-			
+			add_country_modifier ={
+				name = "KIE_great_building"
+				duration = 730
+			}
 		}
 	}
 	KIE_restore_kyiv = {
@@ -1535,8 +1538,11 @@ UKR_missions_5 = {
 				area = yedisan_area
 				area = zaporizhia_area
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT
-				culture = ruthenian 
+			NOT = { 
+				AND ={
+					country_or_non_sovereign_subject_holds = ROOT
+					culture = ruthenian 
+				}
 			}
 		}
 		
