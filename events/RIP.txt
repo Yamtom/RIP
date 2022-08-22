@@ -646,9 +646,83 @@ country_event = {
 	trigger = {
 	}
 	option = {
+		name = "kyiv_independence.3a"
 		create_subject = {
 			subject_type = princedom
 			subject = FROM
+		}
+	}
+}
+
+
+namespace = ruth_instituties
+country_event = {
+	id = ruth_instituties.1
+	title = "kyiv_independence.1t"
+	desc = "kyiv_independence.1d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		culture = ruthenian
+		116 = { 
+			is_institution_enabled = renaissance			
+		}
+		owns_core_province = 261
+	}
+	option = {
+		name = "ruth_instituties.1a"
+		if = {
+			limit = { 261 = { is_institution_enabled = renaissance	 } }
+			261 = { add_institution_embracement = {
+				which = renaissance
+				value = 100
+			} }
+		}
+		if = {
+			limit = { NOT = { 261 = { is_institution_enabled = renaissance	 } } }
+			261 = { 
+				controller = {	add_country_modifier = {
+					name = UKR_prosvita
+					duration = 1825  
+					hidden = yes 	
+					}
+				}
+			}
+		}
+	}
+}
+country_event = {
+	id = ruth_instituties.2
+	title = "kyiv_independence.2t"
+	desc = "kyiv_independence.2d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		culture = ruthenian
+		78 = { 
+			is_institution_enabled = printing_press			
+		}
+		owns_core_province = 261
+	}
+	option = {
+		name = "ruth_instituties.2a"
+		if = {
+			limit = { 261 = { is_institution_enabled = printing_press	} }
+			261 = { add_institution_embracement = {
+				which = renaissance
+				value = 100
+			} }
+		}
+		if = {
+			limit = { NOT = { 261 = { is_institution_enabled = printing_press	} } }
+			261 = { 
+				controller = {	add_country_modifier = {
+					name = UKR_prosvita
+					duration = 1825  
+					hidden = yes 	
+				}
+				}
+			}
 		}
 	}
 }
