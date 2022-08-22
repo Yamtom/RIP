@@ -697,7 +697,10 @@ KIE_missions_3 = {
 			if = {
 				OR = {
 					alliance_with = CRI
-					alliance_with = GOL
+					OR = {						
+						alliance_with = GOL
+						alliance_with = GLH
+					}
 				}
 				limit = { 
 					OR = {
@@ -705,7 +708,10 @@ KIE_missions_3 = {
 							exists = CRI 
 							is_neighbor_of = CRI
 						}
-						exists = GOL
+						OR = {
+							exists = GLH
+							exists = GLH
+						}
 					}			
 				}
 			}

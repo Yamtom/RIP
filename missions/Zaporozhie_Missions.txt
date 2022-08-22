@@ -104,19 +104,38 @@ ZAZ_missions_1_1 = {
 			ZAZ_finally
 		}
 		provinces_to_highlight = {
-			country_or_non_sovereign_subject_holds = TUR
+			OR = {
+				country_or_non_sovereign_subject_holds = TUR
+				country_or_non_sovereign_subject_holds = RUM
+			}
 		}
 		trigger = {
-			exists = TUR
-			reverse_has_opinion = {
-				who = TUR
-				value = 100
+			OR = {
+				exists = TUR
+				exists = RUM
+			}
+			OR ={
+				reverse_has_opinion = {
+					who = TUR
+					value = 100
+				}
+				reverse_has_opinion = {
+					who = RUM
+					value = 100
+				}
 			}
 		}
 		effect = {
 			set_country_flag = zaz_allied_tur
 			country_event = { id = zaz_flavor_m_4 }
-			create_alliance	= TUR
+			if = {
+				limit ={ exists = RUM }
+				create_alliance	= TUR
+			}
+			if = {
+				limit ={ exists = TUR }
+				create_alliance	= RUM
+			}
 		}
 	}
 }
@@ -296,19 +315,39 @@ ZAZ_missions_2_2 = {
 			ZAZ_finally
 		}
 		provinces_to_highlight = {
-			country_or_non_sovereign_subject_holds = GOL
+			OR = {
+				country_or_non_sovereign_subject_holds = GOL
+				country_or_non_sovereign_subject_holds = GLH
+			}
 		}
 		trigger = {
-			exists = GOL
-			reverse_has_opinion = {
-				who = GOL
-				value = 100
+			OR = {
+				exists = GOL
+				exists = GLH
+			}
+			OR = {
+				reverse_has_opinion = {
+					who = GOL
+					value = 100
+				}
+				reverse_has_opinion = {
+					who = GLH
+					value = 100
+				}
 			}
 		}
 		effect = {
 			set_country_flag = zaz_allied_gol
 			country_event = { id = zaz_flavor_m_4 }
-			create_alliance	= GOL
+			if = {
+				limit = { exists = GLH }
+				create_alliance	= GOL
+			}
+			if = {
+				limit = { exists = GOL }
+				create_alliance	= GLH
+			}
+			
 		}
 	}
 }
@@ -506,8 +545,14 @@ ZAZ_missions_3_2 = {
 		}
 		provinces_to_highlight = {
 			OR = {
-				country_or_non_sovereign_subject_holds = TUR
-				country_or_non_sovereign_subject_holds = GOL
+				OR = {
+					country_or_non_sovereign_subject_holds = TUR
+					country_or_non_sovereign_subject_holds = RUM
+				}
+				OR = {
+					country_or_non_sovereign_subject_holds = GOL
+					country_or_non_sovereign_subject_holds = GLH
+				}
 				OR = {
 					country_or_non_sovereign_subject_holds = POL
 					country_or_non_sovereign_subject_holds = PLC
@@ -522,13 +567,25 @@ ZAZ_missions_3_2 = {
 			NOT = {
 				exists = UKR
 			}
-			has_opinion = {
-				who = TUR
-				value = -25
-			}
-			has_opinion = {
-				who = GOL
+			OR ={
+				has_opinion = {
+					who = TUR
 					value = -25
+				}
+				has_opinion = {
+					who = RUM
+					value = -25
+				}
+			}
+			OR ={
+				has_opinion = {
+					who = GOL
+					value = -25
+				}
+				has_opinion = {
+					who = GLH
+					value = -25
+				}
 			}
 			OR ={
 				has_opinion = {
@@ -1164,8 +1221,13 @@ ZAZ_TUR_missions_2 = {
 			ZAZ_ally_tur
 		}
 		trigger = { #get a different ally
-			any_ally = {
-				NOT = { tag = TUR }
+			OR = {
+				any_ally = {
+					NOT = { tag = TUR }
+				}
+				any_ally = {
+					NOT = { tag = RUM }
+				}
 			}
 		}
 		effect = {
@@ -1250,14 +1312,21 @@ ZAZ_TUR_missions_3 = {
 			ZAZ_ally_tur
 		}
 		trigger = {
-			is_in_war = {
-				attackers = TUR
-				attackers = ROOT
+			OR = {
+				is_in_war = {
+					attackers = TUR
+					attackers = ROOT
+				}
+				is_in_war = {
+					attackers = RUM
+					attackers = ROOT
+				}
 			}
 		}
 		effect = {
 			set_country_flag = zaz_friends_with_tur
 			add_historical_friend = TUR
+			add_historical_friend = RUM
 		}
 	}
 	
@@ -1584,9 +1653,15 @@ ZAZ_RUS_missions_1 = {
 		}
 		trigger = {
 			NOT = {
-				reverse_has_opinion = {
-					who = TUR
-					value = -190
+				OR = {
+					reverse_has_opinion = {
+						who = TUR
+						value = -190
+					}
+					reverse_has_opinion = {
+						who = RUM
+						value = -190
+					}
 				}
 			}
 		}
@@ -2085,8 +2160,14 @@ ZAZ_RUS_missions_4 = {
 			ZAZ_RUS_hetman
 		}
 		trigger = { #threaten ottos
-			army_size = TUR
-			is_neighbor_of = TUR
+			OR = {
+				army_size = TUR
+				army_size = RUM
+			}
+			OR = {
+				is_neighbor_of = TUR
+				is_neighbor_of = RUM
+			}
 		}
 		effect = {
 			add_country_modifier = {
@@ -2641,19 +2722,33 @@ ZAZ_GOL_missions_2 = {
 		trigger = {
 			dip = 3
 			legitimacy_equivalent = 90
-			alliance_with = GOL
+			OR = {
+				alliance_with = GOL
+				alliance_with = GLH
+			}
 		}
 		effect = {
 			if = {
 				limit = {
 					NOT = { is_rival = GOL }
 					NOT = { is_enemy = GOL }
+					exists = GLH
 				}
 				add_historical_friend = GOL
 				GOL = { add_historical_friend = ROOT }
+				set_dynasty = GOL
+			}
+			if = {
+				limit = {
+					NOT = { is_rival = GLH }
+					NOT = { is_enemy = GLH }
+					exists = GOL
+				}
+				add_historical_friend = GLH
+				GLH = { add_historical_friend = ROOT }
+				set_dynasty = GLH
 			}
 			set_country_flag = zaz_dynasties_gol
-			set_dynasty = GOL
 			add_dip_power = 50
 		}
 	}
@@ -2667,7 +2762,10 @@ ZAZ_GOL_missions_2 = {
 		trigger = {	
 			legitimacy_equivalent = 90
 			total_development = 350
-			alliance_with = GOL
+			OR = {
+				alliance_with = GOL
+				alliance_with = GLH
+			}
 		}
 		effect = {
 			add_prestige = 20
@@ -3526,10 +3624,19 @@ ZAZ_GOL_missions_5 = {
 			ZAZ_ally_tartar
 		}
 		trigger = {
-			exists = TUR
-			reverse_has_opinion_modifier = {
-				who = TUR
-				modifier = insulted
+			OR = {
+				exists = TUR
+				exists = RUM
+			}
+			OR = {
+				reverse_has_opinion_modifier = {
+					who = TUR
+					modifier = insulted
+				}
+				reverse_has_opinion_modifier = {
+					who = RUM
+					modifier = insulted
+				}
 			}
 		}
 		effect = {
@@ -4803,10 +4910,19 @@ ZAZ_UKR_missions_5 = {
 			ZAZ_only_zaz
 		}
 		trigger = {
-			exists = TUR
-			reverse_has_opinion_modifier = {
-				who = TUR
-				modifier = insulted
+			OR = {
+				exists = TUR
+				exists = RUM
+			}
+			OR = {
+				reverse_has_opinion_modifier = {
+					who = TUR
+					modifier = insulted
+				}
+				reverse_has_opinion_modifier = {
+					who = RUM
+					modifier = insulted
+				}
 			}
 		}
 		effect = {
@@ -5057,13 +5173,25 @@ ZAZ_POL_missions_1 = {
 			ZAZ_ally_pol
 		}
 		provinces_to_highlight = {
-			country_or_non_sovereign_subject_holds = TUR
+			OR = {
+				country_or_non_sovereign_subject_holds = TUR
+				country_or_non_sovereign_subject_holds = RUM
+			}
 		}
 		trigger = {
-			exists = TUR
-			reverse_has_opinion_modifier = {
-				who = TUR
-				modifier = insulted
+			OR = {
+				exists = TUR
+				exists = RUM
+			}
+			OR = {
+				reverse_has_opinion_modifier = {
+					who = TUR
+					modifier = insulted
+				}
+				reverse_has_opinion_modifier = {
+					who = RUM
+					modifier = insulted
+				}
 			}
 		}
 		effect = {
@@ -5212,10 +5340,19 @@ ZAZ_POL_missions_2 = {
 			country_or_non_sovereign_subject_holds = GOL
 		}
 		trigger = {
-			exists = GOL
-			reverse_has_opinion_modifier = {
-				who = GOL
-				modifier = insulted
+			OR = {
+				exists = GOL
+				exists = GLH
+			}
+			OR = {
+				reverse_has_opinion_modifier = {
+					who = GOL
+					modifier = insulted
+				}
+				reverse_has_opinion_modifier = {
+					who = GLH
+					modifier = insulted
+				}
 			}
 		}
 		effect = {
