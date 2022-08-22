@@ -568,6 +568,12 @@ country_event = {
 	trigger = {
 		owns = 280		# kyiv 
 		owns = 4247		# Ovruch/Owrucz 
+		OR = {
+			owns = 283
+			owns = 289	
+			owns = 2961	
+			government_rank = 3
+		}
 		truce_with = LIT
 		is_subject = no
 		is_at_war = no
@@ -575,9 +581,6 @@ country_event = {
 	}
 	option = {
 		name = "kyiv_independence.1a"
-		ai_chance = {
-			factor = 80
-		}
 		add_stability = 1
 		add_prestige = 50
 		add_accepted_culture = russian
@@ -585,10 +588,10 @@ country_event = {
 		add_accepted_culture = byelorussian
 		add_accepted_culture = novgorodian
 		ruthenia_region = {
-			add_permanent_claim = ROOT
+			add_claim = ROOT
 		}
 		red_ruthenia_area = {
-			add_permanent_claim = ROOT
+			add_claim = ROOT
 		}
 		every_subject_country = {
 			limit = {
@@ -602,9 +605,6 @@ country_event = {
 						region = ruthenia_region
 					}
 				}
-			}
-			country_event = {
-				id = kyiv_independence.2
 			}
 		}
 	}

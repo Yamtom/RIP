@@ -75,12 +75,29 @@ country_decisions = {
 			yedisan_area = {
 				add_permanent_claim = HET
 			}
-			set_government_rank = 2
 			change_tag = HET
 			set_global_flag = hetmanate_nation_formed
 			country_event = { id = ideagroups.1 } #Swap Ideas	
 			set_country_flag = formed_hetmanate_nation_flag
-			add_government_reform = military_dictatorship_reform
+			
+			if = {
+				limit = {legitimacy_equivalent = 0 }  
+				add_government_reform = military_dictatorship_reform
+				set_government_rank = 2
+			}
+			if = {
+				limit = {legitimacy_equivalent = 50 }
+				add_government_reform = nepotism_reform
+				set_government_rank = 2
+				add_army_tradition = 25
+				add_legitimacy = 25
+			}
+			if = {
+				limit = {legitimacy_equivalent = 75 }
+				add_army_tradition = 50
+				add_prestige = 50
+				set_government_rank = 3
+			}
 			swap_non_generic_missions = yes
 		}
 
