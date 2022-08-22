@@ -43,6 +43,138 @@ country_event = {
 	}
 }
 
+
+
+country_event = {
+	id = ukr_flavor.2
+	title = "ukr_flavor.2t"
+	desc = "ukr_flavor.2d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		is_date = 1470.01.01
+		tag = NOV
+		OR = {
+			defensive_war_with = MOS
+			defensive_war_with = RUS
+		}
+		OR = {
+			war_exhaustion = 7
+			war_score = 90
+		}
+		OR = {
+			KIE = {
+				army_strength = {
+					who = MOS
+					value = 1
+				}
+			}
+			KRU = {
+				army_strength = {
+					who = MOS
+					value = 1
+				}
+							}
+			UKR = {
+				army_strength = {
+					who = MOS
+					value = 1
+				}				
+			}
+			KIE = {
+				army_strength = {
+					who = RUS
+					value = 1
+				}
+			}
+			KRU = {
+				army_strength = {
+					who = RUS
+					value = 1
+				}
+							}
+			UKR = {
+				army_strength = {
+					who = RUS
+					value = 1
+				}				
+			}
+		}
+	}
+	option = {
+		if = {
+			limit = { 
+				NOT = { 
+					OR = {
+					exists = KIE
+					}
+				}
+			}
+			KIE = {vassalize = ROOT}
+			
+		}
+		if = {
+			limit = { 
+				NOT = { 
+					OR = {
+					exists = KRU
+					}
+				}
+			}
+			KRU = {vassalize = ROOT}
+		}
+		if = {
+			limit = { 
+				NOT = { 
+					OR = {
+					exists = UKR
+					}
+				}
+			}
+			UKR = {vassalize = ROOT}
+		}
+	}
+}
+country_event = {
+	id = ukr_flavor.3
+	title = "ukr_flavor.3t"
+	desc = "ukr_flavor.3d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		is_date = 1470.01.01
+		OR = {
+			tag = OKA
+			tag = RYA
+		}
+		OR = {
+			defensive_war_with = MOS
+			defensive_war_with = RUS
+		}
+		OR = {
+			war_exhaustion = 7
+			war_score = 90
+		}
+		OR = {
+			CHR = {
+				army_strength = {
+					who = MOS
+					value = 0.5
+				}
+			}
+			CHR = {
+				army_strength = {
+					who = RUS
+					value = 0.5
+				}
+			}
+		}
+	}
+	option = {
+		CHR = { vassalize = ROOT }
+	}
+}
+
 # Third Rome - alt history
 country_event = {
 	id = flavor_rus.2003
