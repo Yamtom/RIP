@@ -1,0 +1,480 @@
+monarchy_mechanic = {
+	monarchy = yes
+	heir = yes
+	queen = yes
+	basic_reform = yes
+	valid_for_nation_designer = no
+}
+
+#feudalism vs autocracy
+kyivan_rus_reform = {
+	icon = "chieftain"
+		
+		legacy_equivalent = tsardom_legacy
+		allow_normal_conversion = no
+		valid_for_nation_designer = no
+		valid_for_new_country = yes
+		lock_level_when_selected = yes
+		queen = yes
+		royal_marriage = yes
+		heir = yes
+		rulers_can_be_generals = yes 
+		heirs_can_be_generals = yes
+		allow_convert = no
+		royal_marriage = yes
+		conditional = {
+			allow = {
+				has_dlc = "Mare Nostrum"
+				NOT = { has_dlc = "Res Publica" }
+			}
+			can_form_trade_league = yes
+			trade_city_reform = free_city
+		}
+		conditional = {
+			allow = {
+				has_dlc = "Res Publica"
+				has_dlc = "Mare Nostrum"
+			}
+			can_use_trade_post = yes
+			can_form_trade_league = yes
+			trade_city_reform = Appanage_princepality
+		}
+		conditional = {
+			allow = {
+				has_dlc = "The Cossacks"
+			}
+			government_abilities = {
+				cossacks_mechanic
+			}
+		}
+		allow_force_tributary = yes
+		#allow_vassal_war = yes
+		allow_vassal_alliance = yes
+		
+		trigger = {
+			OR = {
+				tag = KRU
+				tag = KIE
+			}
+		}
+		
+		modifiers = {
+			min_autonomy = -5
+			global_manpower_modifier = 0.3
+			core_creation = -0.25
+		}
+		
+		custom_attributes = {
+		locked_government_type = yes
+		}
+		
+	}
+	
+ruthenian_principality_reform = {
+	icon = "generic_people"
+		
+		legacy_equivalent = principality_legacy
+		valid_for_nation_designer = no
+		valid_for_new_country = no
+		lock_level_when_selected = yes
+		allow_convert = no
+		queen = yes
+		heir = yes
+		rulers_can_be_generals = no 
+		royal_marriage = yes
+		
+		conditional = {
+			allow = {
+				has_dlc = "The Cossacks"
+			}
+			government_abilities = {
+				cossacks_mechanic
+			}
+		}
+		
+		trigger = {
+			OR = {
+					tag = KRU
+					tag = KIE
+					culture = ruthenian
+				}
+		}
+		modifiers = {
+			state_governing_cost = 5
+			vassal_income = 0.5
+			min_autonomy = 0.25
+		}
+		
+			custom_attributes = {
+			locked_government_type = yes
+		}
+		
+	}
+
+	Appanage_princepality = {
+		icon = "free_city"
+		allow_normal_conversion = no
+		legacy_equivalent = imperial_city
+		lock_level_when_selected = yes
+		queen = yes
+		heir = yes
+		rulers_can_be_generals = no 
+		royal_marriage = yes 
+	
+		free_city = yes
+		modifiers = {
+			trade_efficiency = 0.1
+			development_cost = -0.1
+			max_absolutism = 20
+			burghers_influence_modifier = 0.15
+		}
+		fixed_rank = 1
+	
+		custom_attributes = {
+			locked_government_type = yes
+			enables_plutocratic_idea_group = yes
+			enables_aristocratic_idea_group = no
+		}
+		conditional = {
+			allow = {
+				has_dlc = "The Cossacks"
+			}
+			government_abilities = {
+				cossacks_mechanic
+			}
+		}
+	}
+#hereditary vs nobility
+
+democratic_assemblies_reform = {
+	icon = "fist_in_air"
+	allow_normal_conversion = yes
+	
+	trigger ={
+		OR = {
+			has_reform = kyivan_rus_reform
+		}
+	}
+	
+	lock_level_when_selected = yes
+	allow_convert = yes
+	
+	modifiers = {
+		min_autonomy_in_territories = 0.2
+		candidate_random_bonus = 2
+		diplomats = 1
+		diplomatic_reputation = 1
+		envoy_travel_time = 0.5
+		inflation_reduction = 0.5
+	}
+}
+
+boyar_elite_reform = {
+	icon = "soldiers_6"
+	allow_normal_conversion = yes
+	
+	trigger = {
+		OR = {
+		has_reform = ruthenian_principality_reform
+		has_reform = kyivan_rus_reform
+		culture = ruthenian
+		has_reform = Appanage_princepality
+		}
+	}
+	
+	modifiers = {
+		army_tradition = 0.5
+		land_attrition = -0.05
+	}
+}
+
+#bureaucracy
+
+holy_rule_reform = { 
+	icon = "english_monarchy"
+	allow_normal_conversion = yes
+	
+	trigger = {
+		OR = {
+		has_reform = ruthenian_principality_reform
+		has_reform = kyivan_rus_reform
+		culture = ruthenian
+		has_reform = Appanage_princepality
+		}
+	}
+	
+	modifiers = {
+		tolerance_own = 2
+		monthly_splendor = 0.1
+		unjustified_demands = -0.25
+		yearly_absolutism = 0.1
+	}
+}
+
+patriarch_appointment_reform = {
+	icon = "clergyman"
+	allow_normal_conversion = yes
+	
+	trigger = {
+		OR = {
+		has_reform = ruthenian_principality_reform
+		has_reform = kyivan_rus_reform
+		culture = ruthenian
+		has_reform = Appanage_princepality
+		}
+	}
+	
+	modifiers = {
+		missionary_maintenance_cost = -0.2
+		global_missionary_strength = 0.01
+	}
+}
+
+#growth_of_administration
+
+merchant_nobility_reform = {
+	icon = "merchant"
+	allow_normal_conversion = yes
+	
+	trigger = {
+		OR = {
+			has_reform = ruthenian_principality_reform
+			has_reform = kyivan_rus_reform
+			culture = ruthenian
+			has_reform = Appanage_princepality
+		}
+	}
+	
+	modifiers = {
+		merchants = 1
+		global_tax_modifier = -0.1
+		trade_company_investment_cost = -0.33
+	}
+}
+
+open_trading_ports_reform = {
+	icon = "paper_money_map"
+	allow_normal_conversion = yes
+	
+	trigger = {
+		OR = {
+			has_reform = ruthenian_principality_reform
+			has_reform = kyivan_rus_reform
+			culture = ruthenian
+			has_reform = Appanage_princepality
+		}
+	}
+	
+	modifiers = {
+		global_own_trade_power = 0.2
+		center_of_trade_upgrade_cost = -0.5
+	}
+}
+
+#deliberative_assembly
+
+gathering_houses_reform = {
+	icon = "man_on_podium"
+	allow_normal_conversion = yes
+	
+	trigger = {
+		OR = {
+			has_reform = ruthenian_principality_reform
+			has_reform = kyivan_rus_reform
+			culture = ruthenian
+			has_reform = Appanage_princepality
+		}
+	}
+	
+	different_religion_acceptance = 10
+	
+	modifiers = {
+		global_institution_spread = 0.25
+		global_unrest = -1.0
+	}
+}
+
+#absolute rule vs constitutional
+
+great_dynasty_reform = {
+	icon = "king_highlighted"
+	allow_normal_conversion = yes
+	maintain_dynasty = yes
+	
+	trigger = {
+		OR = {
+			has_reform = ruthenian_principality_reform
+			has_reform = kyivan_rus_reform
+			culture = ruthenian
+			has_reform = Appanage_princepality
+		}
+	}
+	
+	allow_convert = yes
+	
+	modifiers = {
+		
+		max_absolutism = 10
+		monarch_admin_power = 2
+	}
+}
+
+representation_monarchy_reform = {
+	icon = "fist_in_air"
+	allow_normal_conversion = no
+	has_term_election = yes
+	trigger = {
+		AND = {
+			has_reform = boyar_elite_reform
+			has_reform = kyivan_rus_reform
+		}
+	}	
+	
+	lock_level_when_selected = yes
+	allow_convert = yes
+	
+	modifiers = {
+		global_unrest = -0.5
+		global_tax_modifier = -0.1
+		max_absolutism = -0.1
+		legitimacy = -0.5
+		promote_culture_cost = -0.25
+		years_of_nationalism = -10
+		global_missionary_strength = -0.05
+	}
+}
+
+#separation of power
+
+legislative_duma_reform = {
+	icon = "assembly_hall"
+	allow_normal_conversion = yes
+	
+	trigger = {
+		OR = {
+			has_reform = ruthenian_principality_reform
+			has_reform = kyivan_rus_reform
+			has_reform = representation_monarchy_reform
+			culture = ruthenian
+		}
+	}
+	conditional = {
+		allow = { has_dlc = "Common Sense" }
+		has_parliament = yes
+	}
+	
+	modifiers = {
+		yearly_corruption = -0.05
+		global_tax_modifier = 0.1
+		advisor_cost = -0.25
+	}
+}
+
+Divine_tsar_reform = {
+	icon = "king_highlighted"
+	allow_normal_conversion = yes
+	
+	trigger = {
+		OR = {
+			has_reform = great_dynasty_reform
+			has_reform = holy_rule_reform
+			has_reform = kyivan_rus_reform
+		}
+	}
+	
+	lock_level_when_selected = yes
+	allow_convert = no
+	conditional = {
+		allow = { has_dlc = "Third Rome" }
+		claim_states = yes
+	}
+	modifiers = {
+		legitimacy = 1
+		global_unrest = -1
+		max_absolutism = 1
+		free_mil_policy = 1
+	}
+}
+
+republic_mechanic = {
+	basic_reform = yes
+	republican_name = yes
+	royal_marriage = no
+	republic = yes
+	duration = 4
+	has_term_election = yes
+	custom_attributes = {
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+
+	modifiers = {
+		burghers_influence_modifier = 0.15
+		vaisyas_influence_modifier = 0.15
+		max_absolutism = -40
+	}
+
+	valid_for_nation_designer = no
+}
+
+cossacks_reform = {
+	icon = "horde_riding"
+	legacy_equivalent = cossacks_legacy_reform
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			AND = {
+				OR = {
+					tag = ZAZ
+					tag = HET
+				}
+				NOT = { map_setup = map_setup_random }
+			}
+			has_reform = cossacks_reform
+			have_had_reform = cossacks_reform
+		}
+	}
+	
+
+	raze_province = yes
+	government_abilities = {
+		cossacks_mechanic
+	}
+
+	conditional = {
+		allow = { has_dlc = "Origins" }
+		custom_attributes = {
+			has_itinerant_capital = yes
+		}
+	}
+	conditional = {
+        allow = {
+            NOT = {tag = HET}
+        }
+        fixed_rank = 1
+    }
+	valid_for_new_country = yes
+
+	nation_designer_trigger = {
+		any_owned_province = {
+			has_terrain = steppe
+		}
+	}
+
+	custom_attributes = {
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	valid_for_nation_designer = yes
+	nation_designer_cost = 60
+
+	modifiers = {
+		cavalry_power = 0.2
+		cavalry_cost = -0.2
+		cav_to_inf_ratio = 0.2
+		governing_capacity = 50
+	}
+
+	
+	duration = 4
+}

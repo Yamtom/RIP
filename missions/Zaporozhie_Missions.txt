@@ -49,7 +49,7 @@ ZAZ_missions_1 = {
 	}
 	
 	ZAZ_first_raze = { #baby's first raze
-		icon = mission_have_two_subjects
+		icon = mission_build_up_to_force_limit
 		position = 4
 		required_missions = {
 			ZAZ_rally_hordes
@@ -99,25 +99,44 @@ ZAZ_missions_1_1 = {
 	has_country_shield = yes
 
 	ZAZ_ally_tur = { #allign with turks
-		icon = mission_have_two_subjects
+		icon = mission_eastern_european_city
 		position = 5
 		required_missions = {
 			ZAZ_finally
 		}
 		provinces_to_highlight = {
-			country_or_non_sovereign_subject_holds = TUR
+			OR = {
+				country_or_non_sovereign_subject_holds = TUR
+				country_or_non_sovereign_subject_holds = RUM
+			}
 		}
 		trigger = {
-			exists = TUR
-			reverse_has_opinion = {
-				who = TUR
-				value = 100
+			OR = {
+				exists = TUR
+				exists = RUM
+			}
+			OR ={
+				reverse_has_opinion = {
+					who = TUR
+					value = 100
+				}
+				reverse_has_opinion = {
+					who = RUM
+					value = 100
+				}
 			}
 		}
 		effect = {
 			set_country_flag = zaz_allied_tur
 			country_event = { id = zaz_flavor_m_4 }
-			create_alliance	= TUR
+			if = {
+				limit ={ exists = RUM }
+				create_alliance	= TUR
+			}
+			if = {
+				limit ={ exists = TUR }
+				create_alliance	= RUM
+			}
 		}
 	}
 }
@@ -135,7 +154,7 @@ ZAZ_missions_2 = {
 	has_country_shield = yes
 	
 	ZAZ_muster_manpower = { #muster manpower
-		icon = mission_have_two_subjects
+		icon = mission_conquer_novgorod
 		required_missions = { ZAZ_independce }
 		position = 2
 		trigger = {
@@ -175,7 +194,7 @@ ZAZ_missions_2 = {
 	}
 	
 	ZAZ_krakow = { 
-		icon = mission_have_two_subjects
+		icon = mission_cannons_firing
 		position = 3
 		required_missions = {
 			ZAZ_lit
@@ -222,7 +241,7 @@ ZAZ_missions_2 = {
 	}
 
 	ZAZ_moskva = { #ambush plockas
-		icon = mission_have_two_subjects
+		icon = mission_unite_home_region
 		position = 4
 		required_missions = {
 			ZAZ_krakow
@@ -268,6 +287,8 @@ ZAZ_missions_2 = {
 		}
 	}
 }
+
+
 ZAZ_missions_2_2 = {
 	slot = 2
 	generic = no
@@ -289,25 +310,45 @@ ZAZ_missions_2_2 = {
 	has_country_shield = yes
 		
 	ZAZ_ally_tartar = { #allign with hordes
-		icon = mission_have_two_subjects
+		icon = mission_assemble_an_army
 		position = 5
 		required_missions = {
 			ZAZ_finally
 		}
 		provinces_to_highlight = {
-			country_or_non_sovereign_subject_holds = GOL
+			OR = {
+				country_or_non_sovereign_subject_holds = GOL
+				country_or_non_sovereign_subject_holds = GLH
+			}
 		}
 		trigger = {
-			exists = GOL
-			reverse_has_opinion = {
-				who = GOL
-				value = 100
+			OR = {
+				exists = GOL
+				exists = GLH
+			}
+			OR = {
+				reverse_has_opinion = {
+					who = GOL
+					value = 100
+				}
+				reverse_has_opinion = {
+					who = GLH
+					value = 100
+				}
 			}
 		}
 		effect = {
 			set_country_flag = zaz_allied_gol
 			country_event = { id = zaz_flavor_m_4 }
-			create_alliance	= GOL
+			if = {
+				limit = { exists = GLH }
+				create_alliance	= GOL
+			}
+			if = {
+				limit = { exists = GOL }
+				create_alliance	= GLH
+			}
+			
 		}
 	}
 }
@@ -325,9 +366,8 @@ ZAZ_missions_3 = {
 	has_country_shield = yes
 	
 	ZAZ_independce = { #independce war
-		icon = mission_have_two_subjects
+		icon = mission_cannons_firing
 		position = 1
-		required_missions = { }
 		trigger = {
 			stability = 1
 		}
@@ -353,7 +393,7 @@ ZAZ_missions_3 = {
 	}
 	
 	ZAZ_lit = { #ambush vilnius
-		icon = mission_have_two_subjects
+		icon = mission_conquer_50_development
 		position = 2
 		required_missions = {
 			ZAZ_independce
@@ -426,7 +466,7 @@ ZAZ_missions_3 = {
 	}
 	
 	ZAZ_finally = { #finally indep
-		icon = mission_have_two_subjects
+		icon = mission_alliances
 		position = 4
 		required_missions = {
 			ZAZ_lit
@@ -477,6 +517,7 @@ ZAZ_missions_3 = {
 		}
 	}
 }
+
 ZAZ_missions_3_2 = {
 	slot = 3
 	generic = no
@@ -498,15 +539,21 @@ ZAZ_missions_3_2 = {
 	has_country_shield = yes
 	
 	ZAZ_only_zaz = { #only zaporizhzhia
-		icon = mission_have_two_subjects
+		icon = mission_rule_ruthenia
 		position = 5
 		required_missions = {
 			ZAZ_finally
 		}
 		provinces_to_highlight = {
 			OR = {
-				country_or_non_sovereign_subject_holds = TUR
-				country_or_non_sovereign_subject_holds = GOL
+				OR = {
+					country_or_non_sovereign_subject_holds = TUR
+					country_or_non_sovereign_subject_holds = RUM
+				}
+				OR = {
+					country_or_non_sovereign_subject_holds = GOL
+					country_or_non_sovereign_subject_holds = GLH
+				}
 				OR = {
 					country_or_non_sovereign_subject_holds = POL
 					country_or_non_sovereign_subject_holds = PLC
@@ -521,63 +568,45 @@ ZAZ_missions_3_2 = {
 			NOT = {
 				exists = UKR
 			}
-			NOT = {
-				AND = {
-					IF = {
-						limit = {
-							NOT = { exists = TUR }
-						}
-						reverse_has_opinion = {
-							who = TUR
-							value = 0
-						}
-					}
-					IF = {
-						limit = {
-							NOT = { exists = GOL }
-						}
-						reverse_has_opinion = {
-							who = GOL
-							value = 0
-						}
-					}
-					IF = {
-						limit = {
-							OR = {
-								NOT = { exists = POL }
-								NOT = { exists = PLC }
-							}
-						}
-						OR = {
-							reverse_has_opinion = {
-								who = POL
-								value = 0
-							}
-							reverse_has_opinion = {
-								who = PLC
-								value = 0
-							}
-						}
-					}
-					IF = {
-						limit = {
-							OR = {
-								NOT = { exists = MOS }
-								NOT = { exists = RUS }
-							}
-						}
-						OR = {
-							reverse_has_opinion = {
-								who = MOS
-								value = 0
-							}
-							reverse_has_opinion = {
-								who = RUS
-								value = 0
-							}
-						}
-					}
+			OR ={
+				has_opinion = {
+					who = TUR
+					value = -25
 				}
+				has_opinion = {
+					who = RUM
+					value = -25
+				}
+			}
+			OR ={
+				has_opinion = {
+					who = GOL
+					value = -25
+				}
+				has_opinion = {
+					who = GLH
+					value = -25
+				}
+			}
+			OR ={
+				has_opinion = {
+					who = POL
+					value = -25
+				}
+				has_opinion = {
+					who = PLC
+					value = -25
+				}
+			}
+			OR = {
+			has_opinion = {
+				who = MOS
+				value = -25
+			}
+			has_opinion = {
+				who = RUS
+				value = -25
+			}
 			}
 		}
 		effect = {
@@ -600,7 +629,7 @@ ZAZ_missions_4 = {
 	has_country_shield = yes
 	
 	ZAZ_settlements = { #prepare the settlements
-		icon = mission_have_two_subjects
+		icon = mission_assemble_an_army
 		position = 2
 		required_missions = { ZAZ_independce }
 		provinces_to_highlight = {
@@ -659,7 +688,7 @@ ZAZ_missions_4 = {
 	}
 	
 	ZAZ_istanbul = { #ambush kaunas
-		icon = mission_have_two_subjects
+		icon = mission_build_up_to_force_limit
 		position = 3
 		required_missions = {
 			ZAZ_lit
@@ -707,7 +736,7 @@ ZAZ_missions_4 = {
 
 	
 	ZAZ_saratov = { #ambush kaunas
-		icon = mission_have_two_subjects
+		icon = mission_unite_home_region
 		position = 4
 		required_missions = {
 			ZAZ_istanbul
@@ -774,7 +803,7 @@ ZAZ_missions_4_2 = {
 	has_country_shield = yes
 		
 	ZAZ_ally_pol = { #allign with poland
-		icon = mission_have_two_subjects
+		icon = mission_unite_the_princes
 		position = 5
 		required_missions = {
 			ZAZ_finally
@@ -823,7 +852,7 @@ ZAZ_missions_5 = {
 	has_country_shield = yes
 	
 	ZAZ_khanate = { #budding khanate
-		icon = mission_have_two_subjects
+		icon = mission_alliances
 		position = 3
 		required_missions = {
 			ZAZ_settlements
@@ -885,7 +914,7 @@ ZAZ_missions_5_2 = {
 	has_country_shield = yes
 	
 	ZAZ_ally_rus = { #allign with russia
-		icon = mission_have_two_subjects
+		icon = mission_conquer_moscow
 		position = 5
 		required_missions = {
 			ZAZ_finally
@@ -938,7 +967,7 @@ ZAZ_TUR_missions_1 = {
 	has_country_shield = yes
 	
 	ZAZ_TUR_contest_crimea = { #contest crimea
-		icon = mission_have_two_subjects
+		icon = mission_cannons_firing
 		position = 6
 		required_missions = {
 			ZAZ_ally_tur
@@ -1006,7 +1035,7 @@ ZAZ_TUR_missions_1 = {
 	}
 	
 	ZAZ_TUR_war_crimea = { #war with crimea
-		icon = mission_have_two_subjects
+		icon = mission_cannons_firing
 		position = 7
 		required_missions = {
 			ZAZ_TUR_contest_crimea
@@ -1043,7 +1072,7 @@ ZAZ_TUR_missions_1 = {
 	}
 	
 	ZAZ_TUR_end_crimea = { #end crimea
-		icon = mission_have_two_subjects
+		icon = mission_dominate_home_trade_node
 		position = 8
 		required_missions = {
 			ZAZ_TUR_war_crimea
@@ -1091,7 +1120,7 @@ ZAZ_TUR_missions_1 = {
 	}
 	
 	ZAZ_TUR_sieze_ports = { #sieze ports
-		icon = mission_have_two_subjects
+		icon = mission_recruit_the_cossacks
 		position = 9
 		required_missions = {
 			ZAZ_TUR_end_crimea
@@ -1126,7 +1155,7 @@ ZAZ_TUR_missions_1 = {
 	}
 	
 	ZAZ_TUR_otoman = { #grand khan
-		icon = mission_have_two_subjects
+		icon = mission_cossack_cavalry
 		position = 10
 		required_missions = {
 			ZAZ_TUR_sieze_ports
@@ -1187,26 +1216,31 @@ ZAZ_TUR_missions_2 = {
 	has_country_shield = yes
 	
 	ZAZ_TUR_different_ally = { #
-		icon = mission_have_two_subjects
+		icon = mission_recruit_the_cossacks
 		position = 6
 		required_missions = {
 			ZAZ_ally_tur
 		}
 		trigger = { #get a different ally
-			any_ally = {
-				NOT = { tag = TUR }
+			OR = {
+				any_ally = {
+					NOT = { tag = TUR }
+				}
+				any_ally = {
+					NOT = { tag = RUM }
+				}
 			}
 		}
 		effect = {
 			add_country_modifier = {
-				name = kaz_connections
+				name = zaz_connections
 				duration = 9125
 			}
 		}
 	}
 	
 	ZAZ_TUR_embargo_all = { #
-		icon = mission_have_two_subjects
+		icon = mission_establish_high_seas_navy
 		position = 7
 		required_missions = {
 			ZAZ_TUR_different_ally
@@ -1228,7 +1262,7 @@ ZAZ_TUR_missions_2 = {
 	}
 	
 	ZAZ_TUR_conquer_steppe = { #conquer the steppe
-		icon = mission_have_two_subjects
+		icon = mission_high_income
 		position = 9
 		required_missions = {
 			ZAZ_TUR_end_crimea
@@ -1273,25 +1307,32 @@ ZAZ_TUR_missions_3 = {
 	has_country_shield = yes
 	
 	ZAZ_TUR_side_tur = { #be in the same war and same side as tur
-		icon = mission_have_two_subjects
+		icon = mission_consolidate_the_state
 		position = 6
 		required_missions = {
 			ZAZ_ally_tur
 		}
 		trigger = {
-			is_in_war = {
-				attackers = TUR
-				attackers = ROOT
+			OR = {
+				is_in_war = {
+					attackers = TUR
+					attackers = ROOT
+				}
+				is_in_war = {
+					attackers = RUM
+					attackers = ROOT
+				}
 			}
 		}
 		effect = {
 			set_country_flag = zaz_friends_with_tur
 			add_historical_friend = TUR
+			add_historical_friend = RUM
 		}
 	}
 	
 	ZAZ_TUR_slave_trade = { #slave trade in ottomans
-		icon = mission_have_two_subjects
+		icon = mission_early_game_buildings
 		position = 8
 		required_missions = {
 			ZAZ_TUR_side_tur
@@ -1348,7 +1389,7 @@ ZAZ_TUR_missions_4 = {
 	has_country_shield = yes
 	
 	ZAZ_TUR_brake_rus = { #
-		icon = mission_have_two_subjects
+		icon = mission_war_chest
 		position = 7
 		required_missions = {
 			ZAZ_TUR_side_tur
@@ -1396,7 +1437,7 @@ ZAZ_TUR_missions_4 = {
 	}
 	
 	ZAZ_TUR_convert_islam = { #convert to islam
-		icon = mission_have_two_subjects
+		icon = mission_have_manufactories
 		position = 9
 		required_missions = {
 			ZAZ_TUR_brake_rus
@@ -1424,7 +1465,7 @@ ZAZ_TUR_missions_5 = {
 	has_country_shield = yes
 	
 	ZAZ_TUR_expand_border = { #expand border
-		icon = mission_have_two_subjects
+		icon = mission_advance_to_the_dnieper
 		position = 6
 		required_missions = {
 			ZAZ_ally_tur
@@ -1467,7 +1508,7 @@ ZAZ_TUR_missions_5 = {
 	}
 	
 	ZAZ_TUR_settle_south = { #settle south ukraine
-		icon = mission_have_two_subjects
+		icon = mission_restore_kiev
 		position = 8
 		required_missions = {
 			ZAZ_TUR_expand_border
@@ -1524,7 +1565,7 @@ ZAZ_TUR_missions_5 = {
 	}
 	
 	ZAZ_TUR_settle_north = { #settle north ukraine
-		icon = mission_have_two_subjects
+		icon = mission_break_the_tatar_yoke
 		position = 9
 		required_missions = {
 			ZAZ_TUR_settle_south
@@ -1606,16 +1647,22 @@ ZAZ_RUS_missions_1 = {
 	has_country_shield = yes
 	
 	ZAZ_RUS_brack_tur = { #
-		icon = mission_have_two_subjects
+		icon = mission_empire
 		position = 6
 		required_missions = {
 			ZAZ_ally_rus
 		}
 		trigger = {
 			NOT = {
-				reverse_has_opinion = {
-					who = TUR
-					value = -190
+				OR = {
+					reverse_has_opinion = {
+						who = TUR
+						value = -190
+					}
+					reverse_has_opinion = {
+						who = RUM
+						value = -190
+					}
 				}
 			}
 		}
@@ -1638,7 +1685,7 @@ ZAZ_RUS_missions_2 = {
 	has_country_shield = yes
 
 	ZAZ_RUS_brack_lit = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_5_states
 		position = 6
 		required_missions = {
 			ZAZ_ally_rus
@@ -1684,7 +1731,7 @@ ZAZ_RUS_missions_2 = {
 	}
 	
 	ZAZ_RUS_settle_south = { #settle south ukraine
-		icon = mission_have_two_subjects
+		icon = mission_trade_company_region_abroad
 		position = 8
 		required_missions = {
 			ZAZ_RUS_brack_lit
@@ -1741,7 +1788,7 @@ ZAZ_RUS_missions_2 = {
 	}
 	
 	ZAZ_RUS_settle_north = { #settle north ukraine
-		icon = mission_have_two_subjects
+		icon = mission_conquer_50_development
 		position = 9
 		required_missions = {
 			ZAZ_RUS_settle_south
@@ -1821,7 +1868,7 @@ ZAZ_RUS_missions_3 = {
 	has_country_shield = yes
 	
 	ZAZ_RUS_war_rus = { #be in the same war and same side as rus
-		icon = mission_have_two_subjects
+		icon = mission_extent_yasak_to_the_east
 		position = 6
 		required_missions = {
 			ZAZ_ally_rus
@@ -1870,7 +1917,7 @@ ZAZ_RUS_missions_3 = {
 	}
 	
 	ZAZ_RUS_west = {
-		icon = mission_have_two_subjects
+		icon = dominant_economy
 		position = 7
 		required_missions = {
 			ZAZ_RUS_war_rus
@@ -1899,7 +1946,7 @@ ZAZ_RUS_missions_3 = {
 	}
 
 	ZAZ_RUS_wester = {
-		icon = mission_have_two_subjects
+		icon = mission_rule_ruthenia
 		position = 8
 		required_missions = {
 			ZAZ_RUS_west
@@ -1931,7 +1978,7 @@ ZAZ_RUS_missions_3 = {
 	}
 	
 	ZAZ_RUS_westest = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_moscow
 		position = 9
 		required_missions = {
 			ZAZ_RUS_wester
@@ -1969,7 +2016,7 @@ ZAZ_RUS_missions_4 = {
 	has_country_shield = yes
 	
 	ZAZ_RUS_different_ally = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_novgorod
 		position = 6
 		required_missions = {
 			ZAZ_ally_rus
@@ -1982,14 +2029,14 @@ ZAZ_RUS_missions_4 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = kaz_connections
+				name = zaz_connections
 				duration = 9125
 			}
 		}
 	}
 	
 	ZAZ_RUS_europe_trade = {
-		icon = mission_have_two_subjects
+		icon = mission_protect_white_sea_trade
 		position = 7
 		required_missions = {
 			ZAZ_RUS_different_ally
@@ -2004,7 +2051,7 @@ ZAZ_RUS_missions_4 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = kaz_caravan
+				name = zaz_caravan
 				duration = 9125
 			}
 		}
@@ -2030,7 +2077,7 @@ ZAZ_RUS_missions_4 = {
 	}
 	
 	ZAZ_RUS_conquer_steppe = { #conquer the steppe
-		icon = mission_have_two_subjects
+		icon = mission_high_income
 		position = 9
 		required_missions = {
 			ZAZ_RUS_end_crimea
@@ -2061,14 +2108,13 @@ ZAZ_RUS_missions_4 = {
 	}
 	
 	ZAZ_RUS_hetman = { #grand khan
-		icon = mission_have_two_subjects
+		icon = mission_high_income
 		position = 10
 		required_missions = {
 			ZAZ_RUS_sieze_ports
 			ZAZ_RUS_settle_north
 			ZAZ_RUS_conquer_steppe
 			ZAZ_RUS_westest
-			ZAZ_RUS_west
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -2109,14 +2155,20 @@ ZAZ_RUS_missions_4 = {
 	}
 	
 	ZAZ_RUS_threaten_tur = {
-		icon = mission_have_two_subjects
+		icon = the_russian_campaign
 		position = 11
 		required_missions = {
 			ZAZ_RUS_hetman
 		}
 		trigger = { #threaten ottos
-			army_size = TUR
-			is_neighbor_of = TUR
+			OR = {
+				army_size = TUR
+				army_size = RUM
+			}
+			OR = {
+				is_neighbor_of = TUR
+				is_neighbor_of = RUM
+			}
 		}
 		effect = {
 			add_country_modifier = {
@@ -2141,7 +2193,7 @@ ZAZ_RUS_missions_5 = {
 	has_country_shield = yes
 	
 	ZAZ_RUS_contest_crimea = { #contest crimea
-		icon = mission_have_two_subjects
+		icon = mission_conquer_novgorod
 		position = 6
 		required_missions = {
 			ZAZ_ally_rus
@@ -2209,7 +2261,7 @@ ZAZ_RUS_missions_5 = {
 	}
 	
 	ZAZ_RUS_war_crimea = { #war with crimea
-		icon = mission_have_two_subjects
+		icon = mission_unite_the_princes
 		position = 7
 		required_missions = {
 			ZAZ_RUS_contest_crimea
@@ -2239,7 +2291,7 @@ ZAZ_RUS_missions_5 = {
 	}
 	
 	ZAZ_RUS_end_crimea = { #end crimea
-		icon = mission_have_two_subjects
+		icon = mission_landsknecht_soldier
 		position = 8
 		required_missions = {
 			ZAZ_RUS_war_crimea
@@ -2288,7 +2340,7 @@ ZAZ_RUS_missions_5 = {
 	}
 	
 	ZAZ_RUS_sieze_ports = { #sieze ports
-		icon = mission_have_two_subjects
+		icon = mission_conquer_5_states
 		position = 9
 		required_missions = {
 			ZAZ_RUS_end_crimea
@@ -2342,7 +2394,7 @@ ZAZ_GOL_missions_1 = {
 	has_country_shield = yes
 	
 	ZAZ_GOL_insult_lit = {
-		icon = mission_have_two_subjects
+		icon = king_of_poland
 		position = 6
 		required_missions = {
 			ZAZ_ally_tartar
@@ -2385,7 +2437,7 @@ ZAZ_GOL_missions_1 = {
 	}
 	
 	ZAZ_GOL_cordon = {
-		icon = mission_have_two_subjects
+		icon = mission_restore_kiev
 		position = 7
 		required_missions = {
 			ZAZ_GOL_insult_lit
@@ -2428,7 +2480,7 @@ ZAZ_GOL_missions_1 = {
 	}
 	
 	ZAZ_GOL_west_dniepr = {
-		icon = mission_have_two_subjects
+		icon = mission_rice_field
 		position = 8
 		required_missions = {
 			ZAZ_GOL_cordon
@@ -2462,7 +2514,7 @@ ZAZ_GOL_missions_1 = {
 	}
 	
 	ZAZ_GOL_ruthenia = {
-		icon = mission_have_two_subjects
+		icon = mission_consolidate_the_state
 		position = 9
 		required_missions = {
 			ZAZ_GOL_west_dniepr
@@ -2515,7 +2567,7 @@ ZAZ_GOL_missions_1 = {
 	}
 	
 	ZAZ_GOL_russia = {
-		icon = mission_have_two_subjects
+		icon = mission_advance_to_the_dnieper
 		position = 10
 		required_missions = {
 			ZAZ_GOL_ruthenia
@@ -2580,7 +2632,7 @@ ZAZ_GOL_missions_1 = {
 	}
 	
 	ZAZ_GOL_russia_2 = {
-		icon = mission_have_two_subjects
+		icon = mission_sovereign_principality
 		position = 11
 		required_missions = {
 			ZAZ_GOL_russia
@@ -2624,7 +2676,7 @@ ZAZ_GOL_missions_1 = {
 	}
 	
 	ZAZ_GOL_russia_3 = {
-		icon = mission_have_two_subjects
+		icon = mission_autocephalous_archbishopric
 		position = 12
 		required_missions = {
 			ZAZ_GOL_russia_2
@@ -2663,7 +2715,7 @@ ZAZ_GOL_missions_2 = {
 	has_country_shield = yes
 	
 	ZAZ_GOL_politics = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_romania
 		position = 6
 		required_missions = {
 			ZAZ_ally_tartar
@@ -2671,25 +2723,39 @@ ZAZ_GOL_missions_2 = {
 		trigger = {
 			dip = 3
 			legitimacy_equivalent = 90
-			alliance_with = GOL
+			OR = {
+				alliance_with = GOL
+				alliance_with = GLH
+			}
 		}
 		effect = {
 			if = {
 				limit = {
 					NOT = { is_rival = GOL }
 					NOT = { is_enemy = GOL }
+					exists = GLH
 				}
 				add_historical_friend = GOL
 				GOL = { add_historical_friend = ROOT }
+				set_dynasty = GOL
+			}
+			if = {
+				limit = {
+					NOT = { is_rival = GLH }
+					NOT = { is_enemy = GLH }
+					exists = GOL
+				}
+				add_historical_friend = GLH
+				GLH = { add_historical_friend = ROOT }
+				set_dynasty = GLH
 			}
 			set_country_flag = zaz_dynasties_gol
-			set_dynasty = GOL
 			add_dip_power = 50
 		}
 	}
 	
 	ZAZ_GOL_politics_2 = {
-		icon = mission_have_two_subjects
+		icon = mission_crusade_for_varna
 		position = 7
 		required_missions = {
 			ZAZ_GOL_politics
@@ -2697,7 +2763,10 @@ ZAZ_GOL_missions_2 = {
 		trigger = {	
 			legitimacy_equivalent = 90
 			total_development = 350
-			alliance_with = GOL
+			OR = {
+				alliance_with = GOL
+				alliance_with = GLH
+			}
 		}
 		effect = {
 			add_prestige = 20
@@ -2706,7 +2775,7 @@ ZAZ_GOL_missions_2 = {
 	}
 	
 	ZAZ_GOL_east_dniepr = {
-		icon = mission_have_two_subjects
+		icon = mission_city_of_the_world's_desire
 		position = 8
 		required_missions = {
 			ZAZ_GOL_cordon
@@ -2740,7 +2809,7 @@ ZAZ_GOL_missions_2 = {
 	}
 	
 	ZAZ_GOL_crimea_3 = {
-		icon = mission_have_two_subjects
+		icon = mission_pf_cross
 		position = 9
 		required_missions = {
 			ZAZ_GOL_crimea_2
@@ -2820,7 +2889,7 @@ ZAZ_GOL_missions_2 = {
 	}
 	
 	ZAZ_GOL_tribes = {
-		icon = mission_have_two_subjects
+		icon = carolingian_empire
 		position = 10
 		required_missions = {
 			ZAZ_GOL_crimea_3
@@ -2870,7 +2939,7 @@ ZAZ_GOL_missions_2 = {
 	}
 	
 	ZAZ_GOL_tribes_2 = {
-		icon = mission_have_two_subjects
+		icon = mission_empire
 		position = 11
 		required_missions = {
 			ZAZ_GOL_tribes
@@ -2932,13 +3001,17 @@ ZAZ_GOL_missions_3 = {
 	has_country_shield = yes
 	
 	ZAZ_GOL_insult_crimea = {
-		icon = mission_have_two_subjects
+		icon = danubian_power
 		position = 6
 		required_missions = {
 			ZAZ_ally_tartar
 		}
 		trigger = {
 			exists = CRI
+			reverse_has_opinion_modifier = {
+				who = CRI
+				modifier = insulted
+			}
 			}
 		effect = {
 			yedisan_area = {
@@ -2983,7 +3056,7 @@ ZAZ_GOL_missions_3 = {
 	}
 	
 	ZAZ_GOL_crimea_1 = {
-		icon = mission_have_two_subjects
+		icon = mission_non-western_cavalry_raid
 		position = 7
 		required_missions = {
 			ZAZ_GOL_insult_crimea
@@ -3046,7 +3119,7 @@ ZAZ_GOL_missions_3 = {
 	}
 	
 	ZAZ_GOL_crimea_2 = {
-		icon = mission_have_two_subjects
+		icon = take_constantinople
 		position = 8
 		required_missions = {
 			ZAZ_GOL_crimea_1
@@ -3102,7 +3175,7 @@ ZAZ_GOL_missions_3 = {
 	
 	
 	ZAZ_GOL_trebes = {
-		icon = mission_have_two_subjects
+		icon = mission_galleys_in_port
 		position = 9
 		required_missions = {
 			ZAZ_GOL_attack_genoa_2
@@ -3141,7 +3214,7 @@ ZAZ_GOL_missions_3 = {
 	}
 	
 	ZAZ_GOL_tribes_3 = {
-		icon = mission_have_two_subjects
+		icon = mission_recruit_streltsy
 		position = 10
 		required_missions = {
 			ZAZ_GOL_crimea_3
@@ -3189,7 +3262,7 @@ ZAZ_GOL_missions_3 = {
 	}
 	
 	ZAZ_GOL_tribes_4 = {#caucasia subject
-		icon = mission_have_two_subjects
+		icon = mission_steppe_warriors
 		position = 11
 		required_missions = {
 			ZAZ_GOL_tribes_3
@@ -3237,18 +3310,15 @@ ZAZ_GOL_missions_4 = {
 	has_country_shield = yes
 	
 	ZAZ_GOL_insult_feo = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_5_states
 		position = 6
 		required_missions = {
 			ZAZ_ally_tartar
 		}
-		provinces_to_highlight = {
-			province_id = 2410
-			NOT = { owned_by = ROOT }
-		}
 		trigger = {
-			2410 = {
-				owned_by = ROOT
+			reverse_has_opinion_modifier = {
+				who = FEO
+				modifier = insulted
 			}
 		}
 		effect = {
@@ -3265,7 +3335,7 @@ ZAZ_GOL_missions_4 = {
 	}
 	
 	ZAZ_GOL_attack_genoa = {
-		icon = mission_have_two_subjects
+		icon = mission_unite_home_region
 		position = 7
 		required_missions = {
 			ZAZ_GOL_insult_feo
@@ -3311,7 +3381,7 @@ ZAZ_GOL_missions_4 = {
 	}
 	
 	ZAZ_GOL_attack_genoa_2 = {
-		icon = mission_have_two_subjects
+		icon = mission_recruit_the_cossacks
 		position = 8
 		required_missions = {
 			ZAZ_GOL_attack_genoa
@@ -3369,7 +3439,7 @@ ZAZ_GOL_missions_4 = {
 		}
 	}
 	ZAZ_GOL_tur_1 = {
-		icon = mission_have_two_subjects
+		icon = mission_break_the_tatar_yoke
 		position = 9
 		required_missions = {
 			ZAZ_GOL_podolia_volhynia
@@ -3397,7 +3467,7 @@ ZAZ_GOL_missions_4 = {
 	}
 	
 	ZAZ_GOL_tur_2 = {
-		icon = mission_have_two_subjects
+		icon = mission_cossack_cavalry
 		position = 10
 		required_missions = {
 			ZAZ_GOL_tur_1
@@ -3425,7 +3495,7 @@ ZAZ_GOL_missions_4 = {
 	}
 	
 	ZAZ_GOL_tur_3 = {
-		icon = mission_have_two_subjects
+		icon = mission_unite_home_region
 		position = 11
 		required_missions = {
 			ZAZ_GOL_tur_2
@@ -3441,6 +3511,14 @@ ZAZ_GOL_missions_4 = {
 			}
 		}
 		effect = {
+			silistria_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
 			149 = {
 				if = {
 					limit = {
@@ -3465,7 +3543,7 @@ ZAZ_GOL_missions_4 = {
 	}
 	
 	ZAZ_GOL_tur_4 = {
-		icon = mission_have_two_subjects
+		icon = mission_arabian_sea_trade
 		position = 12
 		required_missions = {
 			ZAZ_GOL_tur_3
@@ -3478,6 +3556,10 @@ ZAZ_GOL_missions_4 = {
 			NOT = { owned_by = ROOT }
 		}
 		trigger = {
+			silistria_area = {
+				type = all
+				owned_by = ROOT
+			}
 			1764 = {
 				owned_by = ROOT
 			}
@@ -3499,7 +3581,7 @@ ZAZ_GOL_missions_4 = {
 	}
 	
 	ZAZ_GOL_tur_5 = {
-		icon = mission_have_two_subjects
+		icon = mission_integrate_perm
 		position = 13
 		required_missions = {
 			ZAZ_GOL_tur_4
@@ -3536,28 +3618,41 @@ ZAZ_GOL_missions_5 = {
 	}
 	has_country_shield = yes
 	
-	ZAZ_UKR_insult_tur = {
-		icon = mission_have_two_subjects
+	ZAZ_GOL_insult_tur = {
+		icon = mission_collect_yasak
 		position = 6
 		required_missions = {
 			ZAZ_ally_tartar
 		}
 		trigger = {
-			exists = TUR
+			OR = {
+				exists = TUR
+				exists = RUM
 			}
+			OR = {
+				reverse_has_opinion_modifier = {
+					who = TUR
+					modifier = insulted
+				}
+				reverse_has_opinion_modifier = {
+					who = RUM
+					modifier = insulted
+				}
+			}
+		}
 		effect = {
 			add_country_modifier = {
-				name = ZAZ_insult_tur
+				name = zaz_insult_tur
 				duration = 9125
 			}
 		}
 	}
 	
 	ZAZ_GOL_weste = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_moscow
 		position = 7
 		required_missions = {
-			ZAZ_UKR_insult_tur
+			ZAZ_GOL_insult_tur
 		}
 		provinces_to_highlight = {
 			province_id = 1756
@@ -3581,7 +3676,7 @@ ZAZ_GOL_missions_5 = {
 	}
 	
 	ZAZ_GOL_podolia_volhynia = {
-		icon = mission_have_two_subjects
+		icon = mission_sovereign_principality
 		position = 8
 		required_missions = {
 			ZAZ_GOL_weste
@@ -3604,7 +3699,7 @@ ZAZ_GOL_missions_5 = {
 				}
 				add_permanent_claim = ROOT
 			}
-			pripyat_area = {
+			volhynia_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
 					NOT = { is_core = ROOT }
@@ -3615,7 +3710,7 @@ ZAZ_GOL_missions_5 = {
 	}
 	
 	ZAZ_GOL_red_ruthenia = {
-		icon = mission_have_two_subjects
+		icon = mission_unite_the_princes
 		position = 9
 		required_missions = {
 			ZAZ_GOL_podolia_volhynia
@@ -3646,6 +3741,14 @@ ZAZ_GOL_missions_5 = {
 				}
 				add_claim = ROOT
 			}
+			sandomierz_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
 			269 = {
 				if = {
 					limit = {
@@ -3660,7 +3763,7 @@ ZAZ_GOL_missions_5 = {
 	}
 	
 	ZAZ_GOL_malopolska = {
-		icon = mission_have_two_subjects
+		icon = mission_break_the_tatar_yoke
 		position = 10
 		required_missions = {
 			ZAZ_GOL_red_ruthenia
@@ -3674,6 +3777,10 @@ ZAZ_GOL_missions_5 = {
 		}
 		trigger = {
 			malopolska_area = {
+				type = all
+				owned_by = ROOT
+			}
+			sandomierz_area = {
 				type = all
 				owned_by = ROOT
 			}
@@ -3724,7 +3831,7 @@ ZAZ_GOL_missions_5 = {
 	}
 	
 	ZAZ_GOL_poland = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_novgorod
 		position = 11
 		required_missions = {
 			ZAZ_GOL_malopolska
@@ -3767,7 +3874,7 @@ ZAZ_UKR_missions_1 = {
 	has_country_shield = yes
 	
 	ZAZ_UKR_contest_crimea = { #contest crimea
-		icon = mission_have_two_subjects
+		icon = mission_recruit_the_cossacks
 		position = 6
 		required_missions = {
 			ZAZ_only_zaz
@@ -3835,7 +3942,7 @@ ZAZ_UKR_missions_1 = {
 	}
 	
 	ZAZ_UKR_war_crimea = { #war with crimea
-		icon = mission_have_two_subjects
+		icon = mission_consolidate_the_state
 		position = 7
 		required_missions = {
 			ZAZ_UKR_contest_crimea
@@ -3872,7 +3979,7 @@ ZAZ_UKR_missions_1 = {
 	}
 	
 	ZAZ_UKR_end_crimea = { #end crimea
-		icon = mission_have_two_subjects
+		icon = mission_rule_ruthenia
 		position = 8
 		required_missions = {
 			ZAZ_UKR_war_crimea
@@ -3920,7 +4027,7 @@ ZAZ_UKR_missions_1 = {
 	}
 	
 	ZAZ_UKR_sieze_ports = { #sieze ports
-		icon = mission_have_two_subjects
+		icon = mission_restore_kiev
 		position = 9
 		required_missions = {
 			ZAZ_UKR_end_crimea
@@ -3977,7 +4084,7 @@ ZAZ_UKR_missions_1 = {
 	}
 	
 	ZAZ_UKR_hatman = { #grand khan
-		icon = mission_have_two_subjects
+		icon = mission_conquer_50_development
 		position = 11
 		required_missions = {
 			ZAZ_UKR_sieze_ports_1
@@ -4036,7 +4143,7 @@ ZAZ_UKR_missions_2 = {
 	has_country_shield = yes
 
 	ZAZ_UKR_cordon = { 
-		icon = mission_have_two_subjects
+		icon = mission_build_up_to_force_limit
 		position = 6
 		required_missions = {
 			ZAZ_only_zaz
@@ -4076,7 +4183,7 @@ ZAZ_UKR_missions_2 = {
 	}
 	
 	ZAZ_UKR_settle_south = { #settle south ukraine
-		icon = mission_have_two_subjects
+		icon = mission_war_chest
 		position = 8
 		required_missions = {
 			ZAZ_UKR_cordon
@@ -4119,7 +4226,7 @@ ZAZ_UKR_missions_2 = {
 	}
 	
 	ZAZ_UKR_settle_north = { #settle north ukraine
-		icon = mission_have_two_subjects
+		icon = mission_cannons_firing
 		position = 9
 		required_missions = {
 			ZAZ_UKR_settle_south
@@ -4157,7 +4264,7 @@ ZAZ_UKR_missions_2 = {
 		}
 	}
 	ZAZ_UKR_settle_north_1 = { #settle north ukraine
-		icon = mission_have_two_subjects
+		icon = mission_build_up_to_force_limit
 		position = 10
 		required_missions = {
 			ZAZ_UKR_settle_north
@@ -4200,7 +4307,7 @@ ZAZ_UKR_missions_3 = {
 	}
 	has_country_shield = yes
 	ZAZ_UKR_politics = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_5_states
 		position = 6
 		required_missions = {
 			ZAZ_only_zaz
@@ -4227,7 +4334,7 @@ ZAZ_UKR_missions_3 = {
 	}
 	
 	ZAZ_UKR_politics_2 = {
-		icon = mission_have_two_subjects
+		icon = mission_unite_home_region
 		position = 7
 		required_missions = {
 			ZAZ_UKR_politics
@@ -4244,7 +4351,7 @@ ZAZ_UKR_missions_3 = {
 	}
 	
 	ZAZ_UKR_east_dniepr = {
-		icon = mission_have_two_subjects
+		icon = mission_alliances
 		position = 9
 		required_missions = {
 			ZAZ_UKR_settle_south
@@ -4285,7 +4392,7 @@ ZAZ_UKR_missions_3 = {
 	}
 	
 	ZAZ_UKR_ruthenia = {
-		icon = mission_have_two_subjects
+		icon = mission_assemble_an_army
 		position = 11
 		required_missions = {
 			ZAZ_UKR_east_dniepr
@@ -4338,7 +4445,7 @@ ZAZ_UKR_missions_3 = {
 	}
 	
 	ZAZ_UKR_russia = {
-		icon = mission_have_two_subjects
+		icon = mission_build_up_to_force_limit
 		position = 10
 		required_missions = {
 			ZAZ_UKR_ruthenia
@@ -4403,7 +4510,7 @@ ZAZ_UKR_missions_3 = {
 	}
 	
 	ZAZ_UKR_russia_2 = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_50_development
 		position = 11
 		required_missions = {
 			ZAZ_UKR_russia
@@ -4447,7 +4554,7 @@ ZAZ_UKR_missions_3 = {
 	}
 	
 	ZAZ_UKR_russia_3 = {
-		icon = mission_have_two_subjects
+		icon = mission_assemble_an_army
 		position = 12
 		required_missions = {
 			ZAZ_UKR_russia_2
@@ -4485,7 +4592,7 @@ ZAZ_UKR_missions_4 = {
 	has_country_shield = yes
 	
 	ZAZ_UKR_insult_feo = {
-		icon = mission_have_two_subjects
+		icon = mission_cannons_firing
 		position = 6
 		required_missions = {
 			ZAZ_only_zaz
@@ -4495,8 +4602,9 @@ ZAZ_UKR_missions_4 = {
 			NOT = { owned_by = ROOT }
 		}
 		trigger = {
-			2410 = {
-				owned_by = ROOT
+			reverse_has_opinion_modifier = {
+				who = FEO
+				modifier = insulted
 			}
 		}
 		effect = {
@@ -4513,7 +4621,7 @@ ZAZ_UKR_missions_4 = {
 	}
 	
 	ZAZ_UKR_attack_genoa = {
-		icon = mission_have_two_subjects
+		icon = mission_cossack_cavalry
 		position = 7
 		required_missions = {
 			ZAZ_UKR_insult_feo
@@ -4559,7 +4667,7 @@ ZAZ_UKR_missions_4 = {
 	}
 	
 	ZAZ_UKR_attack_genoa_2 = {
-		icon = mission_have_two_subjects
+		icon = mission_non-western_cavalry_raid
 		position = 8
 		required_missions = {
 			ZAZ_UKR_attack_genoa
@@ -4617,7 +4725,7 @@ ZAZ_UKR_missions_4 = {
 		}
 	}
 	ZAZ_UKR = {
-		icon = mission_have_two_subjects
+		icon = mission_assemble_an_army
 		position = 9
 		required_missions = {
 			ZAZ_UKR_podolia_volhynia
@@ -4645,7 +4753,7 @@ ZAZ_UKR_missions_4 = {
 	}
 	
 	ZAZ_UKR_2 = {
-		icon = mission_have_two_subjects
+		icon = mission_cannons_firing
 		position = 10
 		required_missions = {
 			ZAZ_UKR
@@ -4669,11 +4777,19 @@ ZAZ_UKR_missions_4 = {
 				}
 				add_claim = ROOT
 			}
+			silistria_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
 		}
 	}
 	
 	ZAZ_UKR_3 = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_5_states
 		position = 11
 		required_missions = {
 			ZAZ_UKR_2
@@ -4684,6 +4800,10 @@ ZAZ_UKR_missions_4 = {
 		}
 		trigger = {
 			bulgaria_area = {
+				type = all
+				owned_by = ROOT
+			}
+			silistria_area = {
 				type = all
 				owned_by = ROOT
 			}
@@ -4713,7 +4833,7 @@ ZAZ_UKR_missions_4 = {
 	}
 	
 	ZAZ_UKR_4 = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_5_states
 		position = 12
 		required_missions = {
 			ZAZ_UKR_3
@@ -4747,7 +4867,7 @@ ZAZ_UKR_missions_4 = {
 	}
 	
 	ZAZ_UKR_5 = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_50_development
 		position = 13
 		required_missions = {
 			ZAZ_UKR_4
@@ -4785,24 +4905,37 @@ ZAZ_UKR_missions_5 = {
 	has_country_shield = yes
 	
 	ZAZ_UKR_insult_tur = {
-		icon = mission_have_two_subjects
+		icon = mission_eastern_european_city
 		position = 6
 		required_missions = {
 			ZAZ_only_zaz
 		}
 		trigger = {
-			exists = TUR
+			OR = {
+				exists = TUR
+				exists = RUM
 			}
+			OR = {
+				reverse_has_opinion_modifier = {
+					who = TUR
+					modifier = insulted
+				}
+				reverse_has_opinion_modifier = {
+					who = RUM
+					modifier = insulted
+				}
+			}
+		}
 		effect = {
 			add_country_modifier = {
-				name = ZAZ_insult_tur
+				name = zaz_insult_tur
 				duration = 9125
 			}
 		}
 	}
 	
 	ZAZ_UKR_weste = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_5_states
 		position = 7
 		required_missions = {
 			ZAZ_UKR_insult_tur
@@ -4829,7 +4962,7 @@ ZAZ_UKR_missions_5 = {
 	}
 	
 	ZAZ_UKR_podolia_volhynia = {
-		icon = mission_have_two_subjects
+		icon = mission_early_modern_university
 		position = 8
 		required_missions = {
 			ZAZ_UKR_weste
@@ -4870,7 +5003,7 @@ ZAZ_UKR_missions_5 = {
 	}
 	
 	ZAZ_UKR_dip_7 = {
-		icon = mission_have_two_subjects
+		icon = mission_eastern_european_city
 		position = 9
 		required_missions = {
 			ZAZ_UKR_podolia_volhynia
@@ -4907,7 +5040,7 @@ ZAZ_UKR_missions_5 = {
 	}
 
 	ZAZ_UKR_dip_4 = {
-		icon = mission_have_two_subjects
+		icon = mission_noble_council
 		position = 10
 		required_missions = {
 			ZAZ_UKR_dip_7
@@ -4946,7 +5079,7 @@ ZAZ_UKR_missions_5 = {
 	}
 	
 	ZAZ_UKR_malopolska = {
-		icon = mission_have_two_subjects
+		icon = mission_have_manufactories
 		position = 11
 		required_missions = {
 			ZAZ_UKR_dip_4
@@ -5041,12 +5174,25 @@ ZAZ_POL_missions_1 = {
 			ZAZ_ally_pol
 		}
 		provinces_to_highlight = {
-			country_or_non_sovereign_subject_holds = TUR
+			OR = {
+				country_or_non_sovereign_subject_holds = TUR
+				country_or_non_sovereign_subject_holds = RUM
+			}
 		}
 		trigger = {
-			reverse_has_opinion_modifier = {
-				who = TUR
-				modifier = insulted
+			OR = {
+				exists = TUR
+				exists = RUM
+			}
+			OR = {
+				reverse_has_opinion_modifier = {
+					who = TUR
+					modifier = insulted
+				}
+				reverse_has_opinion_modifier = {
+					who = RUM
+					modifier = insulted
+				}
 			}
 		}
 		effect = {
@@ -5071,8 +5217,8 @@ ZAZ_POL_missions_1 = {
 		}
 	}
 	
-	ZAZ_POL_settle_south = { #settle south ukraine
-		icon = mission_have_two_subjects
+	ZAZ_POL_settle_east = { #settle south ukraine
+		icon = mission_build_up_to_force_limit
 		position = 8
 		required_missions = {
 			ZAZ_POL_expand_border
@@ -5111,10 +5257,10 @@ ZAZ_POL_missions_1 = {
 	}
 	
 	ZAZ_POL_settle_north = { #settle north ukraine
-		icon = mission_have_two_subjects
+		icon = mission_build_up_to_force_limit
 		position = 9
 		required_missions = {
-			ZAZ_POL_settle_south
+			ZAZ_POL_settle_east
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -5134,6 +5280,42 @@ ZAZ_POL_missions_1 = {
 			}
 		}
 	}
+
+	ZAZ_POL_settle_east_2 = { #settle south ukraine
+		icon = mission_eastern_european_city
+		position = 10
+		required_missions = {
+			ZAZ_POL_settle_north
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 4529
+				province_id = 281
+			}
+			NOT = { owned_by = ROOT }
+		}
+		trigger = {
+			4529 = {
+				owned_by = ROOT
+			}
+			281 = {
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			red_ruthenia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = VOL_chumak_modifier
+				duration = 9125
+			}
+		}
+	}
 }
 
 ZAZ_POL_missions_2 = {
@@ -5149,8 +5331,8 @@ ZAZ_POL_missions_2 = {
 	}
 	has_country_shield = yes
 	
-	ZAZ_POL_insult_lit = {
-		icon = mission_have_two_subjects
+	ZAZ_POL_insult_gol = {
+		icon = mission_conquer_novgorod
 		position = 6
 		required_missions = {
 			ZAZ_ally_pol
@@ -5159,9 +5341,19 @@ ZAZ_POL_missions_2 = {
 			country_or_non_sovereign_subject_holds = GOL
 		}
 		trigger = {
-			reverse_has_opinion_modifier = {
-				who = GOL
-				modifier = insulted
+			OR = {
+				exists = GOL
+				exists = GLH
+			}
+			OR = {
+				reverse_has_opinion_modifier = {
+					who = GOL
+					modifier = insulted
+				}
+				reverse_has_opinion_modifier = {
+					who = GLH
+					modifier = insulted
+				}
 			}
 		}
 		effect = {
@@ -5205,10 +5397,10 @@ ZAZ_POL_missions_2 = {
 	}
 	
 	ZAZ_POL_cordon = {
-		icon = mission_have_two_subjects
+		icon = mission_cannons_firing
 		position = 7
 		required_missions = {
-			ZAZ_POL_insult_lit
+			ZAZ_POL_insult_gol
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -5248,7 +5440,7 @@ ZAZ_POL_missions_2 = {
 	}
 	
 	ZAZ_POL_west_dniepr = {
-		icon = mission_have_two_subjects
+		icon = mission_unite_home_region
 		position = 8
 		required_missions = {
 			ZAZ_POL_cordon
@@ -5282,10 +5474,10 @@ ZAZ_POL_missions_2 = {
 	}
 	
 	ZAZ_POL = {
-		icon = mission_have_two_subjects
+		icon = mission_alliances
 		position = 9
 		required_missions = {
-			ZAZ_POL_settle_south
+			ZAZ_POL_settle_east ZAZ_POL_west_dniepr
 		}
 		provinces_to_highlight = {
 			area = moldavia_area
@@ -5310,7 +5502,7 @@ ZAZ_POL_missions_2 = {
 	}
 	
 	ZAZ_POL_2 = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_5_states
 		position = 10
 		required_missions = {
 			ZAZ_POL
@@ -5338,7 +5530,7 @@ ZAZ_POL_missions_2 = {
 	}
 	
 	ZAZ_POL_3 = {
-		icon = mission_have_two_subjects
+		icon = mission_teutonic_knights
 		position = 11
 		required_missions = {
 			ZAZ_POL_2
@@ -5378,7 +5570,7 @@ ZAZ_POL_missions_2 = {
 	}
 	
 	ZAZ_POL_4 = {
-		icon = mission_have_two_subjects
+		icon = mission_galleys_in_port
 		position = 12
 		required_missions = {
 			ZAZ_POL_3
@@ -5412,7 +5604,7 @@ ZAZ_POL_missions_2 = {
 	}
 	
 	ZAZ_POL_5 = {
-		icon = mission_have_two_subjects
+		icon = mission_steppe_warriors
 		position = 13
 		required_missions = {
 			ZAZ_POL_4
@@ -5450,7 +5642,7 @@ ZAZ_POL_missions_3 = {
 	has_country_shield = yes
 	
 	ZAZ_POL_politics = {
-		icon = mission_have_two_subjects
+		icon = mission_crusade_for_varna
 		position = 6
 		required_missions = {
 			ZAZ_ally_pol
@@ -5458,7 +5650,13 @@ ZAZ_POL_missions_3 = {
 		trigger = {
 			dip = 3
 			legitimacy_equivalent = 90
-			alliance_with = pol
+			if = {
+				limit = { exists = POL }
+				alliance_with = PLC
+			}
+			else = {
+				alliance_with = POL				
+			}
 		}
 		effect = {
 			if = {
@@ -5467,7 +5665,13 @@ ZAZ_POL_missions_3 = {
 					NOT = { is_enemy = pol }
 				}
 				add_historical_friend = pol
-				pol = { add_historical_friend = ROOT }
+				if = {
+					limit = { exists = POL }
+					PLC = { add_historical_friend = ROOT }
+				else = {
+					POL = { add_historical_friend = ROOT }
+				}
+				}
 			}
 			set_country_flag = zaz_dynasties_pol
 			set_dynasty = pol
@@ -5493,7 +5697,7 @@ ZAZ_POL_missions_3 = {
 	}
 	
 	ZAZ_POL_east_dniepr = {
-		icon = mission_have_two_subjects
+		icon = mission_empire
 		position = 8
 		required_missions = {
 			ZAZ_POL_cordon
@@ -5527,7 +5731,7 @@ ZAZ_POL_missions_3 = {
 	}
 	
 	ZAZ_POL_ruthenia = {
-		icon = mission_have_two_subjects
+		icon = mission_monarch_in_throne_room
 		position = 9
 		required_missions = {
 			ZAZ_POL_west_dniepr
@@ -5580,7 +5784,7 @@ ZAZ_POL_missions_3 = {
 	}
 	
 	ZAZ_POL_russia = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_5_states
 		position = 10
 		required_missions = {
 			ZAZ_POL_ruthenia
@@ -5645,7 +5849,7 @@ ZAZ_POL_missions_3 = {
 	}
 	
 	ZAZ_POL_russia_2 = {
-		icon = mission_have_two_subjects
+		icon = mission_monarch_in_throne_room
 		position = 11
 		required_missions = {
 			ZAZ_POL_russia
@@ -5689,7 +5893,7 @@ ZAZ_POL_missions_3 = {
 	}
 	
 	ZAZ_POL_russia_3 = {
-		icon = mission_have_two_subjects
+		icon = mission_eastern_european_city
 		position = 12
 		required_missions = {
 			ZAZ_POL_russia_2
@@ -5727,7 +5931,7 @@ ZAZ_POL_missions_4 = {
 	has_country_shield = yes
 
 	ZAZ_POL_cri = {
-		icon = mission_have_two_subjects
+		icon = mission_conquer_5_states
 		position = 6
 		required_missions = {
 			ZAZ_ally_pol
@@ -5736,6 +5940,7 @@ ZAZ_POL_missions_4 = {
 			country_or_non_sovereign_subject_holds = CRI
 		}
 		trigger = {
+			exists = CRI
 			reverse_has_opinion_modifier = {
 				who = CRI
 				modifier = insulted
@@ -5770,7 +5975,7 @@ ZAZ_POL_missions_4 = {
 	}
 
 	ZAZ_POL_end_crimea = { #end crimea
-		icon = mission_have_two_subjects
+		icon = mission_noble_council
 		position = 7
 		required_missions = {
 			ZAZ_POL_cri
@@ -5819,7 +6024,7 @@ ZAZ_POL_missions_4 = {
 	}
 	
 	ZAZ_POL_sieze_ports = { #sieze ports
-		icon = mission_have_two_subjects
+		icon = mission_have_manufactories
 		position = 8
 		required_missions = {
 			ZAZ_POL_end_crimea
