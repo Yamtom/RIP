@@ -1,0 +1,126 @@
+#Ruthenia & Black Sea
+zaporizhian_sich = {
+	start = 283
+	date = 1550.01.01
+	time = {
+		months = 48
+	}
+	build_cost = 2500
+	can_be_moved = no
+	move_days_per_unit_distance = 1
+	starting_tier = 0
+	type = monument
+	build_trigger = {
+		OR = {
+			tag = ZAZ
+			tag = HET
+		}
+		culture = ruthenian
+		has_owner_accepted_culture = yes
+	}
+	on_built = {
+	}
+	on_destroyed = {
+	}
+	can_use_modifiers_trigger = {
+		culture = ruthenian
+		has_owner_accepted_culture = yes
+		religion = orthodox
+		has_owner_religion = yes
+	}
+	can_upgrade_trigger = {
+		culture = ruthenian
+		has_owner_accepted_culture = yes
+	}
+	keep_trigger = {
+	}
+	tier_0 = {
+		upgrade_time = {
+			months = 0
+		}
+		cost_to_upgrade = {
+			factor = 0
+		}
+		province_modifiers = {
+		}
+		area_modifier = {
+		}
+		country_modifiers = {
+			cavalry_power = 0.025
+		}
+		on_upgraded = {
+		}
+	}
+	tier_1 = {
+		upgrade_time = {
+			months = 120
+		}
+		cost_to_upgrade = {
+			factor = 1000
+		}
+		province_modifiers = {
+			local_defensiveness = 0.075
+		}
+		area_modifier = {
+			local_manpower_modifier = 0.05
+		}
+		country_modifiers = {
+			cavalry_power = 0.05
+			hostile_attrition = 0.5
+		}
+		on_upgraded = {
+		}
+	}
+	tier_2 = {
+		upgrade_time = {
+			months = 240
+		}
+		cost_to_upgrade = {
+			factor = 3500
+		}
+		province_modifiers = {
+			local_defensiveness = 0.15
+			local_friendly_movement_speed = 0.075
+		}
+		area_modifier = {
+			local_manpower_modifier = 0.10
+			local_regiment_cost = -0.125
+		}
+		country_modifiers = {
+			cavalry_power = 0.1
+			hostile_attrition = 1
+			cavalry_shock = 1
+			garrison_size = 0.5
+		}
+		on_upgraded = {
+		}
+	}
+	tier_3 = {
+		upgrade_time = {
+			months = 480
+		}
+		cost_to_upgrade = {
+			factor = 12000
+		}
+		province_modifiers = {
+			local_defensiveness = 0.30
+			local_friendly_movement_speed = 0.225
+		}
+		area_modifier = {
+			local_manpower_modifier = 0.15
+			local_regiment_cost = -0.25
+			regiment_recruit_speed = -0.125
+		}
+		country_modifiers = {
+			cavalry_power = 0.15
+			hostile_attrition = 2
+			cavalry_fire = 1
+			cavalry_shock = 1
+			artillery_cost = -0.025
+			garrison_size = 0.5
+			global_garrison_growth = 0.025
+		}
+		on_upgraded = {
+		}
+	}
+}
