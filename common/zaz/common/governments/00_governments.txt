@@ -1,0 +1,908 @@
+#Do not change tags in here without changing every other reference to them.
+#If adding new forms of governemnts, make sure they are uniquely named.
+
+#Uses all 'modifiers' possible that's exported as a Modifier.
+
+#ai_will_do will only check if it's valid,and won't break unions or switch to republic from monarchy, nor check to convert to something earlier in the file.
+
+####################################
+#
+#Monarchies
+#
+####################################
+
+despotic_monarchy = {
+	monarchy = yes
+	
+	valid_for_new_country = yes
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = feudal_monarchy
+		}
+		modifier = {
+			factor = 0
+			government = republic
+		}
+	}
+
+	#bonus
+	global_revolt_risk = -1
+	unjustified_demands = -0.1
+}
+
+feudal_monarchy = {
+	monarchy = yes
+	
+	valid_for_new_country = yes
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = administrative_monarchy
+		}
+		modifier = {
+			factor = 0
+			government = republic
+		}
+		modifier = {
+			factor = 5
+			government = despotic_monarchy
+		}
+		modifier = {
+			factor = 5
+			has_idea = grand_army
+			has_idea = glorious_arms
+			has_idea = bayonet_leaders
+			has_idea = battlefield_commisions
+			has_idea = improved_foraging
+			has_idea = improved_manuever
+			has_idea = napoleonic_warfare
+		}
+	}
+	
+	#bonus
+	vassal_income = 0.1
+	global_manpower_modifier = 0.1
+}
+
+administrative_monarchy = {
+	monarchy = yes
+	
+	valid_for_new_country = yes
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = absolute_monarchy
+		}
+		modifier = {
+			factor = 0
+			government = republic
+		}
+		modifier = {
+			factor = 5
+			government = feudal_monarchy
+		}
+		modifier = {
+			factor = 5
+			has_idea = organised_mercenary_payment
+			has_idea = benefits_for_mercenaries
+			has_idea = organised_mercenary_recruitment
+			has_idea = bookkeeping
+			has_idea = administrative_efficiency
+			has_idea = resilient_state
+			has_idea = war_cabinet
+		}
+	}
+
+	#bonus
+	production_efficiency = 0.1
+	global_tax_modifier = 0.05
+}
+
+absolute_monarchy = {
+	monarchy = yes
+	
+	valid_for_new_country = yes
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = constitutional_monarchy
+		}
+		modifier = {
+			factor = 0
+			government = republic
+		}
+		modifier = {
+			factor = 5
+			government = administrative_monarchy
+		}
+		modifier = {
+			factor = 5
+			has_idea = engineer_corps
+			has_idea = military_drill
+			has_idea = regimental_system
+			has_idea = defensive_mentality
+			has_idea = superior_firepower
+			has_idea = supply_trains
+			has_idea = national_conscripts
+		}
+	}
+	
+	#bonus
+	discipline = 0.10
+	global_revolt_risk = -1
+}
+
+constitutional_monarchy = {
+	monarchy = yes
+	
+	valid_for_new_country = yes
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = enlightened_despotism
+		}
+		modifier = {
+			factor = 0
+			government = republic
+		}
+		modifier = {
+			factor = 5
+			government = absolute_monarchy
+		}
+		modifier = {
+			factor = 5
+			has_idea = foreign_embassies
+			has_idea = claim_fabrication
+			has_idea = cabinet
+			has_idea = adaptability
+			has_idea = revolution_and_counter
+			has_idea = diplomatic_influence
+			has_idea = flexible_negotiation
+		}
+	}
+
+	#bonus
+	prestige_decay = -0.01
+	legitimacy = 1
+	manpower_recovery_speed = 0.1
+}
+
+enlightened_despotism = {
+	monarchy = yes
+	
+	valid_for_new_country = yes
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = revolutionary_empire
+		}
+		modifier = {
+			factor = 0
+			government = republic
+		}
+		modifier = {
+			factor = 5
+			government = constitutional_monarchy
+		}
+		modifier = {
+			factor = 5
+			has_idea = grand_army
+			has_idea = glorious_arms
+			has_idea = bayonet_leaders
+			has_idea = battlefield_commisions
+			has_idea = improved_foraging
+			has_idea = improved_manuever
+			has_idea = napoleonic_warfare
+		}
+	}
+
+	#bonus
+	global_spy_defence = 0.20
+	core_creation = -0.05
+	global_manpower_modifier = 0.1
+}
+
+revolutionary_empire = {
+	monarchy = yes
+	
+	valid_for_new_country = no
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = despotic_monarchy
+		}
+		modifier = {
+			factor = 0
+			government = republic
+		}
+		modifier = {
+			factor = 5
+			government = enlightened_despotism
+		}
+		modifier = {
+			factor = 5
+			has_idea = patron_of_art
+			has_idea = pragmatism
+			has_idea = scientific_revolution
+			has_idea = knowledge_transfer
+			has_idea = organised_recruiting
+			has_idea = optimism
+			has_idea = formalized_officer_corps
+		}
+	}
+	
+	#bonus
+	army_tradition = 1
+	global_manpower_modifier = 0.25
+	land_morale = 0.5
+}
+
+
+####################################
+#
+#Republics
+#
+####################################
+
+merchant_republic = {
+	republic = yes
+
+	valid_for_new_country = no
+	
+	duration = 4
+
+	republican_name = yes
+	royal_marriage = no
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = bureaucratic_despotism
+		}
+		modifier = {
+			factor = 0
+			government = monarchy
+		}
+		modifier = {
+			factor = 5
+			has_idea = shrewd_commerce_practise
+			has_idea = free_trade
+			has_idea = merchant_adventures
+			has_idea = national_trade_policy
+			has_idea = overseas_merchants
+			has_idea = trade_manipulation
+			has_idea = fast_negotiations
+		}
+	}
+
+	#bonus
+	global_trade_power = 0.10
+	merchants = 1
+	trade_efficiency = 0.05
+}
+
+noble_republic = {
+	republic = yes
+	
+	valid_for_new_country = yes
+	
+	duration = 8
+
+	republican_name = yes
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = administrative_republic
+		}
+		modifier = {
+			factor = 0
+			government = monarchy
+		}
+		modifier = {
+			factor = 0
+			government = merchant_republic
+		}
+		modifier = {
+			factor = 5
+			has_idea = quality_education
+			has_idea = finest_of_horses
+			has_idea = oak_forests_for_ships
+			has_idea = private_to_marshal
+			has_idea = naval_drill
+			has_idea = merchant_marine
+			has_idea = massed_battery
+		}
+	}
+
+	#bonus
+	tolerance_heretic = 1
+	tolerance_heathen = 1
+	land_morale = 0.25
+}
+
+administrative_republic = {
+	republic = yes
+	
+	valid_for_new_country = yes
+	
+	duration = 5
+
+	republican_name = yes
+	royal_marriage = no
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = republican_dictatorship
+		}
+		modifier = {
+			factor = 0
+			government = monarchy
+		}
+		modifier = {
+			factor = 0
+			government = merchant_republic
+		}
+		modifier = {
+			factor = 5
+			government = noble_republic
+		}
+		modifier = {
+			factor = 5
+			has_idea = organised_mercenary_payment
+			has_idea = benefits_for_mercenaries
+			has_idea = organised_mercenary_recruitment
+			has_idea = bookkeeping
+			has_idea = administrative_efficiency
+			has_idea = resilient_state
+			has_idea = war_cabinet
+		}
+	}
+
+	#bonus
+	tolerance_heretic = 1
+	tolerance_heathen = 1
+	trade_efficiency = 0.1
+}
+
+republican_dictatorship = {
+	republic = yes
+	
+	valid_for_new_country = yes
+
+	republican_name = yes
+	royal_marriage = no
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = constitutional_republic
+		}
+		modifier = {
+			factor = 0
+			government = monarchy
+		}
+		modifier = {
+			factor = 0
+			government = merchant_republic
+		}
+		modifier = {
+			factor = 5
+			government = administrative_republic
+		}
+		modifier = {
+			factor = 5
+			has_idea = benefits_for_horseowners
+			has_idea = the_old_and_infirm
+			has_idea = the_young_can_serve
+			has_idea = enforced_service
+			has_idea = ships_penny
+			has_idea = standardized_artillery
+			has_idea = mass_army
+		}
+	}
+	
+	#bonus
+	tolerance_heretic = 1
+	tolerance_heathen = 1
+	land_morale = 0.1
+}
+
+constitutional_republic = {
+	republic = yes
+	
+	valid_for_new_country = yes
+	
+	duration = 4
+	
+	republican_name = yes
+	royal_marriage = no
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = bureaucratic_despotism
+		}
+		modifier = {
+			factor = 0
+			government = monarchy
+		}
+		modifier = {
+			factor = 0
+			government = merchant_republic
+		}
+		modifier = {
+			factor = 5
+			government = republican_dictatorship
+		}
+		modifier = {
+			factor = 5
+			has_idea = foreign_embassies
+			has_idea = claim_fabrication
+			has_idea = cabinet
+			has_idea = adaptability
+			has_idea = revolution_and_counter
+			has_idea = diplomatic_influence
+			has_idea = flexible_negotiation
+		}
+	}
+
+	#bonus
+	tolerance_heretic = 1
+	tolerance_heathen = 1
+	production_efficiency = 0.2
+}
+
+bureaucratic_despotism = {
+	republic = yes
+	
+	valid_for_new_country = yes
+	
+	royal_marriage = no
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = revolutionary_republic
+		}
+		modifier = {
+			factor = 0
+			government = monarchy
+		}
+		modifier = {
+			factor = 0
+			government = merchant_republic
+		}
+		modifier = {
+			factor = 5
+			government = constitutional_republic
+		}
+		modifier = {
+			factor = 5
+			has_idea = bureaucracy
+			has_idea = organised_construction
+			has_idea = smithian_economics
+			has_idea = national_bank
+			has_idea = debt_and_loans
+			has_idea = centralization
+			has_idea = nationalistic_enthusiasm
+		}
+	}
+
+	#bonus
+	tolerance_heretic = 1
+	tolerance_heathen = 1
+	stability_cost_modifier = -0.20
+}
+
+revolutionary_republic = {
+	republic = yes
+	
+	valid_for_new_country = no
+	
+	duration = 4
+
+	republican_name = yes
+	royal_marriage = no
+	
+	ai_will_do = {
+		factor = 0
+		modifier = {
+			factor = 0
+			government = bureaucratic_despotism
+		}
+		modifier = {
+			factor = 0
+			government = monarchy
+		}
+		modifier = {
+			factor = 0
+			government = merchant_republic
+		}
+		modifier = {
+			factor = 5
+			government = bureaucratic_despotism
+		}
+		modifier = {
+			factor = 5
+			has_idea = privateers
+			has_idea = vetting
+			has_idea = rumourmongering
+			has_idea = efficient_spies
+			has_idea = shady_recruitment
+			has_idea = destabilising_efforts
+			has_idea = espionage
+		}
+	}
+	
+	#bonus
+	tolerance_heretic = 2
+	tolerance_heathen = 2
+	land_morale = 0.5
+}
+
+Hetmanate = {
+	republic = yes
+	
+	valid_for_new_country = yes
+	
+	royal_marriage = yes
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = revolutionary_republic
+		}
+		modifier = {
+			factor = 0
+			government = merchant_republic
+		}
+		modifier = {
+			factor = 5
+			government = constitutional_republic
+		}
+		modifier = {
+			factor = 5
+			has_idea = cabinet
+			has_idea = benefits_for_mercenaries
+			has_idea = defensive_mentality
+			has_idea = flexible_negotiation
+			has_idea = improved_foraging
+			has_idea = national_conscripts
+			has_idea = nationalistic_enthusiasm
+		}
+	}
+
+	#bonus
+	tolerance_heretic = 2
+	tolerance_heathen = 2
+	army_tradition = 1
+	land_morale = 0.25
+}
+
+
+####################################
+#
+#Religious Governments
+#
+####################################
+
+theocratic_government = {
+	religion = yes
+	
+	valid_for_new_country = yes
+	
+	royal_marriage = no
+	
+	ai_will_do = {
+		factor = 0
+		modifier = {
+			factor = 0
+			government = papal_government
+		}
+	}
+	
+	#bonus
+	tolerance_own = 2
+	tolerance_heretic = -2
+	papal_influence = 1
+}
+
+papal_government = {
+	religion = yes
+	papacy = yes
+	
+	valid_for_new_country = no
+
+	royal_marriage = no
+	
+	allow_convert = no
+	
+	ai_will_do = {
+		factor = 0
+		modifier = {
+			factor = 5
+			government = theocratic_government
+		}
+	}
+	
+	#bonus
+	tolerance_own = 3
+	tolerance_heretic = -2
+	prestige = 1
+}
+
+
+####################################
+#
+#Tribal Governments
+#
+####################################
+
+steppe_horde = {
+	monarchy = yes
+	tribal = yes
+	nomad = yes
+	
+	valid_for_new_country = no
+	allow_convert = no
+	
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			government = tribal_democracy
+		}
+	}
+
+	#bonus
+	global_manpower_modifier = 1.0
+	land_forcelimit_modifier = 1.0
+	
+	#malus
+	relations_decay_of_me = -0.5
+}
+
+tribal_despotism = {
+	monarchy = yes
+	tribal = yes
+	
+	valid_for_new_country = yes
+	
+	ai_will_do = {
+		factor = 0
+		modifier = {
+			factor = 0
+			government = tribal_federation
+		}
+		modifier = {
+			factor = 5
+			government = steppe_horde
+		}
+	}
+
+	#bonus
+	core_creation = -0.1
+	
+	#malus
+	global_revolt_risk = 1
+	global_prov_trade_power_modifier = -1.0
+}
+
+tribal_federation = {
+	monarchy = yes
+	tribal = yes
+	
+	valid_for_new_country = yes
+
+	ai_will_do = {
+		factor = 0
+		modifier = {
+			factor = 0
+			government = tribal_democracy
+		}
+		modifier = {
+			factor = 5
+			government = tribal_despotism
+		}
+	}
+	
+	#bonus
+	land_forcelimit_modifier = 0.2
+	global_manpower_modifier = 0.2
+
+	#malus
+	global_prov_trade_power_modifier = -1.0
+}
+
+tribal_democracy = {
+	republic = yes
+	tribal = yes
+	
+	valid_for_new_country = yes
+	
+	republican_name = yes
+	royal_marriage = no
+	
+	ai_will_do = {
+		factor = 0
+		modifier = {
+			factor = 5
+			government = tribal_federation
+		}
+	}
+
+	#bonus
+	stability_cost_modifier = -0.33
+	#malus
+	technology_cost = 0.1
+	global_prov_trade_power_modifier = -1.0
+}
+
+
+##########################################
+#
+#Unique Governments for special countries
+#
+##########################################
+
+#SpecialforMilan
+ambrosian_republic = {
+	republic = yes
+	
+	valid_for_new_country = no
+	
+	duration = 3
+	
+	republican_name = yes
+	royal_marriage = no
+
+	#bonus
+	global_tax_modifier = 0.10
+	land_morale = 0.20
+}
+
+# Special for the Dutch
+dutch_republic = {
+	republic = yes
+	duration = 0 # rule for life.
+	valid_for_new_country = no
+	
+	republican_name = no
+	royal_marriage = yes
+
+	#bonus
+	
+	naval_forcelimit_modifier = 0.33
+	global_trade_income_modifier = 0.10
+	
+}
+
+# Archduchy
+archduchy = {
+	monarchy = yes
+	
+	valid_for_new_country = no
+	
+	#bonus
+	vassal_income = 0.1
+	diplomatic_upkeep = 1
+	global_manpower_modifier = 0.1
+}
+
+# China
+celestial_empire = {
+	monarchy = yes
+	
+	valid_for_new_country = no
+	allow_convert = no
+	
+	global_revolt_risk = -3
+}
+
+# Arab Countries, Earlygame
+iqta = {
+	monarchy = yes
+	
+	valid_for_new_country = no
+
+	allow_convert = no
+
+	#bonus
+	vassal_income = 0.33
+	heir_chance = 1.0
+}
+
+#Japanese vassals
+daimyo = {
+	monarchy = yes
+	
+	valid_for_new_country = no
+	allow_convert = no
+	
+	#bonus
+	land_morale = 0.5
+	infantry_power = 0.10
+}
+
+#Japan itself before unification.
+shogunate = {
+	monarchy = yes
+	
+	valid_for_new_country = no
+	allow_vassal_war = yes
+	allow_vassal_alliance = yes
+	
+	allow_convert = no
+	#bonus
+	diplomatic_upkeep = 4
+}
+
+#Byzantine Special.
+imperial_government = {
+	monarchy = yes
+	
+	valid_for_new_country = no
+	
+
+	
+	#bonus
+	land_morale = 0.25
+	vassal_income = 0.1
+}
+
+### USA specific governments ###
+
+american_republic = {
+	republic = yes
+	
+	duration = 7
+	
+	republican_name = yes
+	royal_marriage = no
+	
+	valid_for_new_country = no
+	allow_convert = no
+	
+	# Bonus
+	stability_cost_modifier = -0.1
+}
+
+federal_republic = {
+	republic = yes
+	
+	duration = 4
+	
+	republican_name = yes
+	royal_marriage = no
+	
+	valid_for_new_country = no
+	allow_convert = no
+	
+	# Bonus
+	diplomatic_reputation = 2
+	global_spy_defence = 0.10
+}
