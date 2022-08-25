@@ -348,7 +348,7 @@ country_event = {
 	immediate = {
 		hidden_effect = {
 			add_disaster_progress = {
-				disaster = political_upheaval
+				disaster = governmental_disruption
 				value = 100
 			}
 			set_country_flag = reactionary_response_flag
@@ -360,7 +360,7 @@ country_event = {
 			limit = {
 				has_reform = boyar_elite_reform
 			}
-			add_government_reform = democratic_assemblies_reform
+			add_government_reform = elected_assemblies_reform
 			add_stability = -2
 		}
 	}
@@ -372,7 +372,7 @@ country_event = {
 	desc = "euro_monarchy.2d"
 	picture = LAND_MILITARY_eventPicture
 	trigger = {
-		has_disaster = political_upheaval
+		has_disaster = governmental_disruption
 	}
 	fire_only_once = yes
 	option = {
@@ -418,10 +418,10 @@ country_event = {
 	fire_only_once = yes
 	trigger = {
 		NOT = {
-			has_disaster = political_upheaval
+			has_disaster = governmental_disruption
 		}
 		hidden_trigger = {
-			has_country_flag = political_upheaval_rebellion
+			has_country_flag = governmental_disruption_rebellion
 		}
 	}
 	option = {
@@ -458,7 +458,7 @@ country_event = {
 	desc = "princes_revolt.1d"
 	picture = PEASANTS_ON_STEPPES_eventPicture
 	trigger = {
-		has_disaster = unruly_princes
+		has_disaster = disorderly_princes
 	}
 	is_triggered_only = yes
 	option = {
@@ -507,7 +507,7 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		ROOT = {
-			has_disaster = unruly_princes
+			has_disaster = disorderly_princes
 		}
 		has_country_flag = princes_revolted
 	}

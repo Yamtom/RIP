@@ -111,42 +111,42 @@ ruthenian_principality_reform = {
 		
 	}
 
-	Appanage_princepality = {
-		icon = "free_city"
-		allow_normal_conversion = no
-		legacy_equivalent = imperial_city
-		lock_level_when_selected = yes
-		queen = yes
-		heir = yes
-		rulers_can_be_generals = no 
-		royal_marriage = yes 
-	
-		free_city = yes
-		modifiers = {
-			trade_efficiency = 0.1
-			development_cost = -0.1
-			max_absolutism = 20
-			burghers_influence_modifier = 0.15
+Appanage_princepality = {
+	icon = "free_city"
+	allow_normal_conversion = no
+	legacy_equivalent = imperial_city
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	rulers_can_be_generals = no 
+	royal_marriage = yes 
+
+	free_city = yes
+	modifiers = {
+		trade_efficiency = 0.1
+		development_cost = -0.1
+		max_absolutism = 20
+		burghers_influence_modifier = 0.15
+	}
+	fixed_rank = 1
+
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	conditional = {
+		allow = {
+			has_dlc = "The Cossacks"
 		}
-		fixed_rank = 1
-	
-		custom_attributes = {
-			locked_government_type = yes
-			enables_plutocratic_idea_group = yes
-			enables_aristocratic_idea_group = no
-		}
-		conditional = {
-			allow = {
-				has_dlc = "The Cossacks"
-			}
-			government_abilities = {
-				cossacks_mechanic
-			}
+		government_abilities = {
+			cossacks_mechanic
 		}
 	}
+}
 #hereditary vs nobility
 
-democratic_assemblies_reform = {
+elected_assemblies_reform = {
 	icon = "fist_in_air"
 	allow_normal_conversion = yes
 	
@@ -175,9 +175,9 @@ boyar_elite_reform = {
 	
 	trigger = {
 		OR = {
+		culture = ruthenian
 		has_reform = ruthenian_principality_reform
 		has_reform = kyivan_rus_reform
-		culture = ruthenian
 		has_reform = Appanage_princepality
 		}
 	}
@@ -190,7 +190,7 @@ boyar_elite_reform = {
 
 #bureaucracy
 
-holy_rule_reform = { 
+sacred_regulation_reform = { 
 	icon = "english_monarchy"
 	allow_normal_conversion = yes
 	
@@ -211,7 +211,7 @@ holy_rule_reform = {
 	}
 }
 
-patriarch_appointment_reform = {
+patriarch_engagement_reform = {
 	icon = "clergyman"
 	allow_normal_conversion = yes
 	
@@ -273,7 +273,7 @@ open_trading_ports_reform = {
 
 #deliberative_assembly
 
-gathering_houses_reform = {
+assembly_houses_reform = {
 	icon = "man_on_podium"
 	allow_normal_conversion = yes
 	
@@ -296,7 +296,7 @@ gathering_houses_reform = {
 
 #absolute rule vs constitutional
 
-great_dynasty_reform = {
+considerable_bloodline_reform = {
 	icon = "king_highlighted"
 	allow_normal_conversion = yes
 	maintain_dynasty = yes
@@ -346,7 +346,7 @@ representation_monarchy_reform = {
 
 #separation of power
 
-legislative_duma_reform = {
+legislative_rada_reform = {
 	icon = "assembly_hall"
 	allow_normal_conversion = yes
 	
@@ -370,14 +370,14 @@ legislative_duma_reform = {
 	}
 }
 
-Divine_tsar_reform = {
+Divine_tsyisar_reform = {
 	icon = "king_highlighted"
 	allow_normal_conversion = yes
 	
 	trigger = {
 		OR = {
-			has_reform = great_dynasty_reform
-			has_reform = holy_rule_reform
+			has_reform = considerable_bloodline_reform
+			has_reform = sacred_regulation_reform
 			has_reform = kyivan_rus_reform
 		}
 	}
