@@ -455,6 +455,25 @@ country_event = {
 }
 
 country_event = {
+	id = princes_revolt.0
+	title = "princes_revolt.0t"
+	desc = "princes_revolt.0d"
+	picture = PEASANTS_ON_STEPPES_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		tag = LIT
+		exists = KIE
+		KIE = { 
+			is_vassal = yes
+			vassal_of = ROOT
+		}
+	}
+	option = {
+		name = "princes_revolt.0a"
+		set_country_flag = disorderly_princes
+	}
+}
+country_event = {
 	id = princes_revolt.1
 	title = "princes_revolt.1t"
 	desc = "princes_revolt.1d"
@@ -498,7 +517,6 @@ country_event = {
 		}
 		set_country_flag = princes_revolted
 		set_country_flag = aftermath_of_revolt
-		set_country_flag = disorderly_princes
 	}
 }
 
