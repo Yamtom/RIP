@@ -43,8 +43,6 @@ country_event = {
 	}
 }
 
-
-
 country_event = {
 	id = ukr_flavor.2
 	title = "ukr_flavor.2t"
@@ -74,12 +72,12 @@ country_event = {
 					who = MOS
 					value = 1
 				}
-							}
+			}
 			UKR = {
 				army_strength = {
 					who = MOS
 					value = 1
-				}				
+				}
 			}
 			KIE = {
 				army_strength = {
@@ -92,50 +90,56 @@ country_event = {
 					who = RUS
 					value = 1
 				}
-							}
+			}
 			UKR = {
 				army_strength = {
 					who = RUS
 					value = 1
-				}				
+				}
 			}
 		}
 	}
 	option = {
 		name = "ukr_flavor.2a"
 		if = {
-			limit = { 
-				NOT = { 
+			limit = {
+				NOT = {
 					OR = {
-					exists = KIE
+						exists = KIE
 					}
 				}
 			}
-			KIE = {vassalize = ROOT}
-			
+			KIE = {
+				vassalize = ROOT
+			}
 		}
 		if = {
-			limit = { 
-				NOT = { 
+			limit = {
+				NOT = {
 					OR = {
-					exists = KRU
+						exists = KRU
 					}
 				}
 			}
-			KRU = {vassalize = ROOT}
+			KRU = {
+				vassalize = ROOT
+			}
 		}
 		if = {
-			limit = { 
-				NOT = { 
+			limit = {
+				NOT = {
 					OR = {
-					exists = UKR
+						exists = UKR
 					}
 				}
 			}
-			UKR = {vassalize = ROOT}
+			UKR = {
+				vassalize = ROOT
+			}
 		}
 	}
 }
+
 country_event = {
 	id = ukr_flavor.3
 	title = "ukr_flavor.3t"
@@ -170,10 +174,12 @@ country_event = {
 				}
 			}
 		}
-	} 
+	}
 	option = {
 		name = "ukr_flavor.3a"
-		CHR = { vassalize = ROOT }
+		CHR = {
+			vassalize = ROOT
+		}
 	}
 }
 
@@ -572,8 +578,8 @@ country_event = {
 		owns = 4247		# Ovruch/Owrucz 
 		OR = {
 			owns = 283
-			owns = 289	
-			owns = 2961	
+			owns = 289
+			owns = 2961
 			government_rank = 3
 		}
 		truce_with = LIT
@@ -618,7 +624,9 @@ country_event = {
 	desc = "kyiv_independence.2d"
 	picture = LAND_MILITARY_eventPicture
 	trigger = {
-		NOT = { is_subject_of_type = princedom}
+		NOT = {
+			is_subject_of_type = princedom
+		}
 		event_target:kyiv_rus = {
 			OR = {
 				overlord_of = ROOT
@@ -632,11 +640,11 @@ country_event = {
 	option = {
 		name = "kyiv_independence.2a"
 		event_target:kyiv_rus = {
-				country_event = {
-					id = kyiv_independence.3
-				}
+			country_event = {
+				id = kyiv_independence.3
 			}
 		}
+	}
 }
 
 country_event = {
@@ -656,7 +664,6 @@ country_event = {
 	}
 }
 
-
 namespace = ruth_instituties
 country_event = {
 	id = ruth_instituties.1
@@ -666,33 +673,47 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		culture = ruthenian
-		116 = { 
-			is_institution_enabled = renaissance			
+		116 = {
+			is_institution_enabled = renaissance
 		}
 		owns_core_province = 261
 	}
 	option = {
 		name = "ruth_instituties.1a"
 		if = {
-			limit = { 261 = { is_institution_enabled = renaissance	 } }
-			261 = { add_institution_embracement = {
-				which = renaissance
-				value = 100
-			} }
+			limit = {
+				261 = {
+					is_institution_enabled = renaissance
+				}
+			}
+			261 = {
+				add_institution_embracement = {
+					which = renaissance
+					value = 100
+				}
+			}
 		}
 		if = {
-			limit = { NOT = { 261 = { is_institution_enabled = renaissance	 } } }
-			261 = { 
-				controller = {	add_country_modifier = {
-					name = UKR_prosvita
-					duration = 1825  
-					hidden = yes 	
+			limit = {
+				NOT = {
+					261 = {
+						is_institution_enabled = renaissance
+					}
+				}
+			}
+			261 = {
+				controller = {
+					add_country_modifier = {
+						name = UKR_prosvita
+						duration = 1825
+						hidden = yes
 					}
 				}
 			}
 		}
 	}
 }
+
 country_event = {
 	id = ruth_instituties.2
 	title = "kyiv_independence.2t"
@@ -701,34 +722,47 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		culture = ruthenian
-		78 = { 
-			is_institution_enabled = printing_press			
+		78 = {
+			is_institution_enabled = printing_press
 		}
 		owns_core_province = 261
 	}
 	option = {
 		name = "ruth_instituties.2a"
 		if = {
-			limit = { 261 = { is_institution_enabled = printing_press	} }
-			261 = { add_institution_embracement = {
-				which = renaissance
-				value = 100
-			} }
+			limit = {
+				261 = {
+					is_institution_enabled = printing_press
+				}
+			}
+			261 = {
+				add_institution_embracement = {
+					which = renaissance
+					value = 100
+				}
+			}
 		}
 		if = {
-			limit = { NOT = { 261 = { is_institution_enabled = printing_press	} } }
-			261 = { 
-				controller = {	add_country_modifier = {
-					name = UKR_prosvita
-					duration = 1825  
-					hidden = yes 	
+			limit = {
+				NOT = {
+					261 = {
+						is_institution_enabled = printing_press
+					}
 				}
+			}
+			261 = {
+				controller = {
+					add_country_modifier = {
+						name = UKR_prosvita
+						duration = 1825
+						hidden = yes
+					}
 				}
 			}
 		}
 	}
 }
-	
+
 namespace = bs_flavor
 country_event = {
 	id = bs_flavor.1
@@ -748,9 +782,9 @@ country_event = {
 	}
 	option = {
 		name = "bs_flavor.1a"
-		add_country_modifier ={
+		add_country_modifier = {
 			name = GEN_compass
-			duration = 365  
+			duration = 365
 		}
 		GEN = {
 			add_mercantilism = 5

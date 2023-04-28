@@ -20,13 +20,16 @@ tr_russian_minors_1 = {
 			tag = NZH
 		}
 		has_dlc = "Third Rome"
-		NOT = { map_setup = map_setup_random }
+		NOT = {
+			map_setup = map_setup_random
+		}
 	}
 	has_country_shield = yes
-	
 	tr_conquer_mos = {
 		icon = mission_conquer_moscow
-		required_missions = { tr_independence }
+		required_missions = {
+			tr_independence
+		}
 		position = 2
 		provinces_to_highlight = {
 			area = moscow_area
@@ -47,50 +50,78 @@ tr_russian_minors_1 = {
 			}
 			oka_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			ryazan_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			vladimir_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			suzdal_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			yaroslavl_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			tver_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			tambov_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
@@ -120,18 +151,22 @@ tr_russian_minors_2 = {
 			tag = NZH
 		}
 		has_dlc = "Third Rome"
-		NOT = { map_setup = map_setup_random }
+		NOT = {
+			map_setup = map_setup_random
+		}
 	}
 	has_country_shield = yes
-	
 	tr_independence = {
 		icon = mission_sovereign_principality
-		required_missions = {  }
+		required_missions = {
+		}
 		provinces_to_highlight = {
 			area_for_scope_province = {
 				is_capital_of = ROOT
 			}
-			NOT = { owned_by = ROOT }
+			NOT = {
+				owned_by = ROOT
+			}
 		}
 		trigger = {
 			is_subject = no
@@ -148,15 +183,23 @@ tr_russian_minors_2 = {
 			add_legitimacy = 20
 			novgorod_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			moscow_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
@@ -164,7 +207,10 @@ tr_russian_minors_2 = {
 	}
 	tr_conquer_russia = {
 		icon = mission_unite_the_princes
-		required_missions = { tr_conquer_mos tr_conquer_nov  }
+		required_missions = {
+			tr_conquer_mos
+			tr_conquer_nov
+		}
 		position = 3
 		provinces_to_highlight = {
 			region = russia_region
@@ -190,7 +236,9 @@ tr_russian_minors_2 = {
 	}
 	tr_tatar_yoke = {
 		icon = mission_break_the_tatar_yoke
-		required_missions = { tr_cossacks }
+		required_missions = {
+			tr_cossacks
+		}
 		position = 5
 		provinces_to_highlight = {
 			region = crimea_region
@@ -236,13 +284,16 @@ tr_russian_minors_3 = {
 			tag = NZH
 		}
 		has_dlc = "Third Rome"
-		NOT = { map_setup = map_setup_random }
+		NOT = {
+			map_setup = map_setup_random
+		}
 	}
 	has_country_shield = yes
-	
 	tr_conquer_nov = {
 		icon = mission_conquer_novgorod
-		required_missions = { tr_independence }
+		required_missions = {
+			tr_independence
+		}
 		position = 2
 		provinces_to_highlight = {
 			area = novgorod_area
@@ -254,7 +305,7 @@ tr_russian_minors_3 = {
 			novgorod_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
-			}			
+			}
 		}
 		effect = {
 			add_country_modifier = {
@@ -263,50 +314,78 @@ tr_russian_minors_3 = {
 			}
 			pskov_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			beloozero_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			pomor_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			karelia_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			north_karelia = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			arkhangelsk_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			vologda_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
@@ -314,7 +393,9 @@ tr_russian_minors_3 = {
 	}
 	tr_cossacks = {
 		icon = mission_recruit_the_cossacks
-		required_missions = { tr_dniepr }
+		required_missions = {
+			tr_dniepr
+		}
 		position = 4
 		provinces_to_highlight = {
 			area = zaporizhia_area
@@ -343,22 +424,34 @@ tr_russian_minors_3 = {
 			}
 			sloboda_ukraine_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			podolia_volhynia_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			crimea_region = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
@@ -388,13 +481,15 @@ tr_russian_minors_4 = {
 			tag = NZH
 		}
 		has_dlc = "Third Rome"
-		NOT = { map_setup = map_setup_random }
+		NOT = {
+			map_setup = map_setup_random
+		}
 	}
 	has_country_shield = yes
-	
 	tr_stability = {
 		icon = mission_consolidate_the_state
-		required_missions = {  }
+		required_missions = {
+		}
 		provinces_to_highlight = {
 		}
 		trigger = {
@@ -419,17 +514,22 @@ tr_russian_minors_4 = {
 			add_adm_power = 50
 			east_dniepr_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 		}
 	}
-	
 	tr_dniepr = {
 		icon = mission_advance_to_the_dnieper
-		required_missions = { tr_stability }
+		required_missions = {
+			tr_stability
+		}
 		position = 3
 		provinces_to_highlight = {
 			area = east_dniepr_area
@@ -447,15 +547,23 @@ tr_russian_minors_4 = {
 			add_army_tradition = 20
 			west_dniepr_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			zaporizhia_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
@@ -463,7 +571,10 @@ tr_russian_minors_4 = {
 	}
 	tr_ruthenia = {
 		icon = mission_rule_ruthenia
-		required_missions = { tr_cossacks tr_kiev }
+		required_missions = {
+			tr_cossacks
+			tr_kiev
+		}
 		position = 5
 		provinces_to_highlight = {
 			OR = {
@@ -523,13 +634,16 @@ tr_russian_minors_5 = {
 			tag = NZH
 		}
 		has_dlc = "Third Rome"
-		NOT = { map_setup = map_setup_random }
+		NOT = {
+			map_setup = map_setup_random
+		}
 	}
 	has_country_shield = yes
-	
 	tr_kiev = {
 		icon = mission_restore_kiev
-		required_missions = { tr_dniepr  }
+		required_missions = {
+			tr_dniepr
+		}
 		position = 4
 		provinces_to_highlight = {
 			area = west_dniepr_area
@@ -545,39 +659,61 @@ tr_russian_minors_5 = {
 		}
 		effect = {
 			add_prestige = 20
-			country_event = { id = flavor_rus.2002 }
+			country_event = {
+				id = flavor_rus.2002
+			}
 			white_ruthenia_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			pripyat_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			smolensk_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			minsk_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			red_ruthenia_area = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
