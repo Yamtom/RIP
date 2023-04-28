@@ -12,38 +12,76 @@ princedom = {
 	has_power_projection = no
 	gets_help_with_rebels = yes
 	can_be_integrated = no
-	takes_diplo_slot = no
+	takes_diplo_slot = yes
+	gives_daimyo_bonuses = yes
 	can_release_in_peace = no
 	can_use_claims = yes
 	overlord_can_fabricate_for = yes
+	separatists_become_subjects = yes
+	allows_taking_land_without_independence = yes
+	forms_trade_companies = no
+	can_concentrate_development = no
 	
 
 	max_government_rank = 1
-	
-	base_liberty_desire = 0.0
-	liberty_desire_development_ratio = 0.05
+	trust_on_start = 0 
+	base_liberty_desire = 35.0 
+	liberty_desire_development_ratio = 0.25
 	liberty_desire_same_dynasty = -5.0
 	pays_overlord = 0.5
 	forcelimit_to_overlord = 0.0
-	military_focus = 2.0
+	military_focus = 2.0 
 
 	relative_power_class = 1
 	upgrade_subject_type = yes
 	
-	restoration_cb = cb_disloyal_vassal
+	relative_power_class = 1
+	should_quit_wars_on_activation = yes
 
-	# Subject Interactions:
-	scutage = no
+	can_fight = {
+		same_overlord = princedom
+	}
+	can_rival = {
+		same_overlord = princedom
+	}
+	can_ally = {
+		same_overlord = princedom
+	}
+	can_marry = {
+		same_overlord = princedom
+	}
+	
+	restoration_cb = cb_disloyal_vassal
+	# Subject Interactions
+	#(disable)
+	scutage = yes
+	grant_core_claim = yes
+	grant_province = yes
 	place_relative_on_throne = no
 	sacrifice_ruler = no
 	sacrifice_heir = no
 	divert_trade = yes
+	enforce_religion = yes
+	enforce_culture = no
 	seize_territory = no
 	send_officers = no
-	enforce_religion = yes
 	grant_province = no
 	bestow_gifts = no
+	#(enable)
+	contribute_to_capital = yes
+	return_land = yes
+	conscript_general = yes 
 
 	overlord_opinion_modifier = is_vassal
 	subject_opinion_modifier = is_vassal
+	# Modifiers
+	
+	modifier_overlord = clear #We don't want to duplicate the ones inherited from vassal
+	modifier_subject = clear #Ditto
+	modifier_subject = {
+		modifier = subject_nation
+	}
+	modifier_overlord = {
+		modifier = princedom_subject
+	}
 }
