@@ -300,7 +300,26 @@ considerable_bloodline_reform = {
 representation_monarchy_reform = {
 	icon = "fist_in_air"
 	allow_normal_conversion = no
-	has_term_election = yes
+	conditional = {
+		allow = { has_dlc = "Res Publica" }
+		queen = no
+		heir = no
+		duration = 40
+		has_term_election = yes
+		states_general_mechanic = {
+			boyars = {
+				global_tax_modifier	= 0.2
+				liberty_desire_from_subject_development = -1.5
+			}
+
+			princes = {
+				max_absolutism = 0.15
+				local_autonomy = -0.05
+				legitimacy = 1
+				reform_progress_growth = 1
+			}
+		}
+	}
 	trigger = {
 		AND = {
 			has_reform = boyar_elite_reform
