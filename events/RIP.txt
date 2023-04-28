@@ -660,10 +660,36 @@ country_event = {
 		create_subject = {
 			subject_type = princedom
 			subject = FROM
+			event_target:FROM = {
+				country_event = {
+					id = kyiv_independence.4
+				}
+			}
 		}
 	}
 }
 
+country_event = {
+	id = kyiv_independence.3
+	title = "kyiv_independence.3t"
+	desc = "kyiv_independence.3d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	trigger = {
+	}
+	option = {
+		name = "kyiv_independence.3a"
+		create_subject = {
+			subject_type = princedom
+			subject = FROM 
+		}
+	}
+	immediate = {
+		hidden_effect = {
+			add_government_reform = Appanage_princepality
+		}
+	}
+} 
 namespace = ruth_instituties
 country_event = {
 	id = ruth_instituties.1
