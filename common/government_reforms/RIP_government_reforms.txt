@@ -2,14 +2,26 @@ monarchy_mechanic = {
 	monarchy = yes
 	heir = yes
 	queen = yes
-	basic_reform = yes
+	basic_reform = yes # = invisible/does not take up a slot
 	valid_for_nation_designer = no
+	custom_attributes = {
+		enables_aristocratic_idea_group = yes
+	}
+	modifiers = {
+		nobles_influence_modifier = 0.05
+	}
 }
 
 #feudalism vs autocracy
 kyivan_rus_reform = {
 	icon = "chieftain"
 	legacy_equivalent = tsardom_legacy
+	potential = {
+		OR = {
+			tag = KIE
+			tag = KRU
+		}
+	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = yes
