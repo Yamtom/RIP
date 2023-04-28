@@ -33,33 +33,15 @@ kyivan_rus_reform = {
 	heirs_can_be_generals = yes
 	allow_convert = no
 	royal_marriage = yes
-	conditional = {
-		allow = {
-			has_dlc = "Mare Nostrum"
-			NOT = {
-				has_dlc = "Res Publica"
-			}
-		}
-		can_form_trade_league = yes
-		trade_city_reform = Appanage_princepality
+	
+	can_use_trade_post = yes
+	can_form_trade_league = yes
+	trade_city_reform = Appanage_princepality
+	
+	government_abilities = {
+		cossacks_mechanic
 	}
-	conditional = {
-		allow = {
-			has_dlc = "Res Publica"
-			has_dlc = "Mare Nostrum"
-		}
-		can_use_trade_post = yes
-		can_form_trade_league = yes
-		trade_city_reform = Appanage_princepality
-	}
-	conditional = {
-		allow = {
-			has_dlc = "The Cossacks"
-		}
-		government_abilities = {
-			cossacks_mechanic
-		}
-	}
+	
 	allow_force_tributary = yes
 	allow_vassal_war = yes
 	allow_vassal_alliance = yes
@@ -90,14 +72,11 @@ ruthenian_principality_reform = {
 	heir = yes
 	rulers_can_be_generals = no
 	royal_marriage = yes
-	conditional = {
-		allow = {
-			has_dlc = "The Cossacks"
-		}
-		government_abilities = {
-			cossacks_mechanic
-		}
+	
+	government_abilities = {
+		cossacks_mechanic
 	}
+
 	trigger = {
 		OR = {
 			tag = KRU
