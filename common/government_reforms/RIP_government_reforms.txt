@@ -103,7 +103,6 @@ Appanage_princepality = {
 	heir = yes
 	rulers_can_be_generals = no
 	royal_marriage = yes
-	free_city = yes
 	modifiers = {
 		trade_efficiency = 0.1
 		development_cost = -0.1
@@ -183,7 +182,6 @@ sacred_regulation_reform = {
 		yearly_absolutism = 0.1
 	}
 }
-
 patriarch_engagement_reform = {
 	icon = "clergyman"
 	allow_normal_conversion = yes
@@ -388,6 +386,7 @@ republic_mechanic = {
 	valid_for_nation_designer = no
 }
 
+#oligarchy_merchant_class_noble_elite
 cossacks_reform = {
 	icon = "horde_riding"
 	legacy_equivalent = cossacks_legacy_reform
@@ -446,4 +445,147 @@ cossacks_reform = {
 		governing_capacity = 50
 	}
 	duration = 4
+}
+#republican_virtues
+cossacks_terror_reform = {
+	icon = "soldiers_6"
+	allow_normal_conversion = yes
+	trigger = {
+		OR = {
+			has_reform = cossacks_reform
+		}
+	}
+	lock_level_when_selected = yes
+	allow_convert = yes
+	modifiers = {
+		unrest_catholic_provinces = -4
+		reelection_cost = -0.2
+		iplomatic_reputation = 1
+		diplomatic_upkeep = 1
+		fabricate_claims_cost = 0.5
+		monthly_gold_inflation_modifier = 0.5
+	}
+}
+#frequent_elections_vs_consolidation_of_power
+sacred_dialog_reform = {
+	icon = "english_monarchy"
+	allow_normal_conversion = yes
+	trigger = {
+		OR = {
+			culture = ruthenian
+			tag = ZAZ
+			tag = HET 
+			has_reform = cossacks_reform
+		}
+	}
+	modifiers = {
+		tolerance_heretic = 2
+		yearly_corruption = -0.01
+		rival_change_cost = -0.25
+		max_absolutism = 10
+	}
+}
+#federalism_vs_unitarism_vs_confederacy
+chumak_nobility_reform = {
+	icon = "merchant"
+	allow_normal_conversion = yes
+	trigger = {
+		OR = {
+			culture = ruthenian
+			tag = ZAZ
+			tag = HET 
+			has_reform = cossacks_reform
+		}
+	}
+	modifiers = {
+		placed_merchant_power = 3
+		production_efficiency = -0.1
+		mercantilism_cost = -0.33
+	}
+}
+#parliamentary_vs_presidential
+voluntary_houses_reform = {
+	icon = "man_on_podium"
+	allow_normal_conversion = yes
+	trigger = {
+		OR = {
+			culture = ruthenian
+			tag = ZAZ
+			tag = HET 
+			has_reform = cossacks_reform
+		}
+	}
+	different_religion_acceptance = 10
+	modifiers = {
+		institution_spread_from_true_faith = 0.25
+		stability_cost_modifier = -0.05
+	}
+}
+#guiding_principle_of_administration
+cos_and_het_reform = {
+	icon = "fist_in_air"
+	allow_normal_conversion = no
+	conditional = {
+		allow = { has_dlc = "Res Publica" }
+		queen = no
+		heir = no
+		duration = 4
+		has_term_election = yes
+		states_general_mechanic = {
+			cossacks = {
+				production_efficiency	= 0.2
+				reduced_liberty_desire = 60
+			}
+
+			hetman = {
+				legitimacy = 1.5
+				local_years_of_nationalism = 5
+				republican_tradition = 0.5
+				monthly_reform_progress = 5
+			}
+		}
+	}
+	trigger = {
+		AND = {
+			has_reform = cossacks_terror_reform
+			tag = HET 
+		}
+	}
+	lock_level_when_selected = yes
+	allow_convert = yes
+	modifiers = {
+		stability_cost_modifier = -0.025
+		production_efficiency = -0.1
+		legitimacy = -0.01
+		republican_tradition = -0.25
+		relation_with_same_culture = 5
+		min_autonomy_in_territories = 0.2
+		global_heretic_missionary_strength = -0.05
+	}
+}
+#electorate
+great_hauptmann_reform = {
+	icon = "king_highlighted"
+	allow_normal_conversion = yes
+	trigger = {
+		OR = {
+			#has_reform = considerable_bloodline_reform
+			has_reform = sacred_dialog_reform
+			tag = HET 
+		}
+	}
+	lock_level_when_selected = yes
+	allow_convert = no
+	conditional = {
+		allow = {
+			has_dlc = "Third Rome"
+		}
+		claim_states = yes
+	}
+	modifiers = {
+		republican_tradition = 0.5
+		stability_cost_modifier = -0.05
+		legitimacy = 0.1
+		possible_adm_policy = 1
+	}
 }
