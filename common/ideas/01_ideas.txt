@@ -267,3 +267,166 @@ KUY_ideas = {
 		adm_tech_cost_modifier = -0.1
 	}
 }
+
+
+
+cossack_ideas = {
+	start = {
+		global_unrest = -2
+		loot_amount = 0.25
+	}
+	bonus = {
+		shock_damage = 0.1
+	}
+	trigger = {
+		has_reform = cossacks_reform
+	}
+	free = yes
+	cossacks_escaped_serfs = {
+		manpower_recovery_speed = 0.2
+	}
+	cossacks_hetmanate = {
+		republican_tradition = 0.5
+	}
+	zaz_steppe_riders = {
+		# as the ZAZ idea, land attrition
+	}
+	cossacks_insults = {
+		power_projection_from_insults = 1
+	}
+	cossacks_military_society = {
+		army_tradition = 0.5
+	}
+	cossacks_free_the_serfs = {
+		years_of_nationalism = -5
+	}
+	cossacks_registered = {
+		possible_mil_policy = 1
+	}
+}
+
+ZAZ_ideas = {
+	start = {
+		loot_amount = 0.1
+		manpower_recovery_speed = 0.05
+	}
+	
+	bonus = {
+		global_manpower_modifier = 0.3
+	}
+	
+	trigger = {
+		tag = ZAZ
+	}
+	free = yes
+	
+	zaz_fort_builders = {
+		development_cost = -0.2
+	}
+	zaz_hetmanate = {
+		global_unrest = -2	
+	}
+	zaz_steppe_riders = {
+		land_attrition = -0.2
+		movement_speed = 0.2
+	}
+	zaz_cossack_hit_and_run = {
+		leader_land_manuever = 1
+		leader_land_shock =  1	
+	}
+	zaz_classy_diplomacy = {
+		power_projection_from_insults = 1
+		prestige_decay = -0.005	
+	}
+	zaz_zaporzhian_tolerance = {
+		religious_unity = 0.3	
+	}
+	zaz_army_first = {
+		cavalry_cost = -0.1
+		infantry_cost = -0.1
+	}
+}
+
+KIE_ideas = {
+	start = {
+		global_unrest = -2	
+		global_heretic_missionary_strength = 0.1
+	}
+	
+	bonus = {
+		land_morale = 0.2
+	}
+	
+	trigger = {
+		tag = KIE
+	}
+	free = yes	
+	
+	mother_of_all_cities = {
+		prestige = 2
+	}
+	heritage_of_rus = {
+		diplomatic_reputation = 2		
+	}
+	fending_off_the_invaders = {
+		defensiveness = 0.2		
+	}
+	chernozem_land = {
+		production_efficiency = 0.25
+	}
+	center_of_orthodox_church = {
+		tolerance_own = 2		
+		development_cost = -0.05
+	}
+	support_local_traders = {
+		merchants = 1
+		global_trade_power = 0.1
+	}
+	centralized_rule = {
+		global_tax_modifier = 0.1
+		global_regiment_recruit_speed = -0.10
+	}
+}
+ruthenian_ideas = {
+	start = {
+		manpower_recovery_speed = 0.2
+		global_manpower_modifier = 0.3
+	}
+
+	bonus = {
+		discipline = 0.05
+	}
+ 
+	trigger = {
+		OR = {
+			primary_culture = ruthenian
+			primary_culture = byelorussian
+		}
+	}
+	free = yes
+ 
+	mother_of_russian_cities = {
+		legitimacy = 1
+		prestige = 1
+	}
+	international_influences = {
+		tolerance_heretic = 2
+	}
+	zaporizhian_cossacs = {
+		cavalry_power = 0.2
+	}
+	east_and_west = {
+		global_trade_power = 0.2
+		caravan_power = 0.2
+	}
+	legacy_of_ancient_rus = {
+		stability_cost_modifier = -0.2
+	}
+	reuniting_rus = {
+		years_of_nationalism = -10
+	}
+	birth_of_russian_orthodoxy = {
+		tolerance_own = 1
+		promote_culture_cost = -0.25
+	}
+}
