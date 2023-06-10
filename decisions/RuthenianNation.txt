@@ -3,27 +3,23 @@ country_decisions = {
 	ruthenian_nation = {
 		major = yes
 		potential = {
-			has_institution = renaissance
 			normal_or_historical_nations = yes
 			was_never_end_game_tag_trigger = yes
 			NOT = { has_country_flag = formed_ruthenia_flag }
-			NOT = { has_country_flag = rus_flag }
 			OR = {
 				ai = no
-				is_playing_custom_nation = yes
+				is_playing_custom_nation = no
+			}
+			OR = {
+				is_free_or_tributary_trigger = yes
+				ai = no
 			}
 			NOT = { tag = PAP }
-			NOT = { tag = HLR }
-			NOT = { tag = HET }
-			NOT = { tag = ZAZ }
+			NOT = { tag = HLR }			
 			NOT = { exists = UKR }
-			NOT = { exists = HET }
-			NOT = { exists = KUY }
-			NOT = { exists = KRU }
-			NOT = { religion_group = muslim }
 			OR = {
-				primary_culture = byelorussian
 				primary_culture = ruthenian
+				primary_culture = ruthenian_new
 			}
 			OR = {
 				ai = no
@@ -42,36 +38,13 @@ country_decisions = {
 			}
 		}
 		provinces_to_highlight = {
-			OR = {	
-				AND = {
-					ROOT = { DIP = 5 }
 					OR = {
-						province_id = 280		#kyiv -center
-						province_id = 283		#Zaporozhie -southern center of rebellions
-					}
-				}
-				AND = {
-					ROOT = { NOT = { DIP = 5 } }
-					if = {
-						limit = { NOT = {is_date = 1775.1.1 } }
-						OR = {
-							province_id = 280		#kyiv -center
-							province_id = 283		#Zaporozhie -eastern/southern center of rebellions
-							province_id = 261		#Ruthenia/Lvov -western
-							province_id = 279		#Volhynia -western
-							province_id = 289		#Chernihiv -eastern
-						}
-					}
-					OR = {
-						province_id = 280		#kyiv -center
+						province_id = 280		#Kyiv -center
 						province_id = 283		#Zaporozhie -eastern/southern center of rebellions
-						province_id = 261		#Ruthenia/Lvov -western
+						province_id = 289		#Chernihiv -northern					
+						province_id = 2961		#Ruthenia/Lviv -western
 						province_id = 279		#Volhynia -western
-						province_id = 289		#Chernihiv -eastern
-						province_id = 291		#Kharkiv -easter
 					}
-				}
-			}
 			OR = {
 				NOT = { owned_by = ROOT }
 				NOT = { is_core = ROOT }
@@ -82,39 +55,16 @@ country_decisions = {
 			is_free_or_tributary_trigger = yes
 			is_nomad = no
 			is_at_war = no
-			
-			280 = { is_state = yes }					#kyiv -center
-			OR = {
-				#or owns only core-core stuff but has god like ruler
-				AND = {
-					owns_core_province = 283		#Zaporozhie -southern center of rebellions
-					owns_core_province = 280		#kyiv -center
-					dip = 5
-				}
-				#owns everything per 1775
-				AND = {
-					ROOT = { NOT = { DIP = 5 } }
-					if = {
-						limit = { NOT = {is_date = 1775.1.1 } }
-						AND = {
-							owns_core_province = 261		#Ruthenia/Lvov -western
-							owns_core_province = 279		#Volhynia -western
-							owns_core_province = 283		#Zaporozhie southern center of rebellions
-							owns_core_province = 280		#kyiv -center
-							owns_core_province = 289		#Chernihiv -eastern
-						}
+
+					owns_core_province = 2961		#Ruthenia/Lviv -western
+					owns_core_province = 279		#Volhynia -western
+					owns_core_province = 289		#Chernihiv -northern
+					owns_core_province = 283		#Zaporozhie -eastern/southern center of rebellions
+					owns_core_province = 280		#Kyiv -center
+					280 = { 						#Kyiv -center
+						is_state = yes
 					}
-					AND = {
-						owns_core_province = 261		#Ruthenia/Lvov -western
-						owns_core_province = 279		#Volhynia -western
-						owns_core_province = 283		#Zaporozhie southern center of rebellions
-						owns_core_province = 280		#kyiv -center
-						owns_core_province = 289		#Chernihiv -eastern
-						owns_core_province = 291		#Kharkiv -eastern
-					}				
 				}
-			}
-		}
 		effect = {
 			280 = {
 				move_capital_effect = yes
@@ -135,9 +85,8 @@ country_decisions = {
 			}
 			add_prestige = 25
 			change_tag = UKR
-			set_country_flag = formed_ruthenia_flag
+			on_change_tag_effect = yes
 			swap_non_generic_missions = yes
-			set_government_rank = 3
 			if = {
 				limit = {
 					technology_group = nomad_group
@@ -145,26 +94,22 @@ country_decisions = {
 				change_technology_group = eastern
 				change_unit_type = eastern
 			}
+			remove_non_electors_emperors_from_empire_effect = yes
 			if = {
-				limit = {
-					is_part_of_hre = yes
-					is_elector = no
-					is_emperor = no
-				}
-				every_owned_province = {
-					limit = {
-						is_part_of_hre = yes
-					}
-					set_in_empire = no
-				}
+				limit = { NOT = { government_rank = 2 } }
+				set_government_rank = 2
 			}
-			set_government_rank = 3
+			if = {
+				limit = { is_revolutionary = no government = monarchy }
+				add_government_reform = ruthenian_tsardom
+			}
+			set_country_flag = formed_ruthenia_flag
 			if = {
 				limit = { has_custom_ideas = no }
 				country_event = { id = ideagroups.1 } #Swap Ideas
 			}
-			remove_non_electors_emperors_from_empire_effect = yes
 		}
 		ai_importance = 500		
 	}
+	
 }

@@ -1,0 +1,241 @@
+namespace = flavor_ukr
+normal_or_historical_nations = yes
+
+country_event = { #The Crown of Rome
+	id = flavor_ukr_legacy_of_rus.1
+	title = flavor_ukr_legacy_of_rus.1.t 
+	desc = flavor_ukr_legacy_of_rus.1.d 
+	picture = BYZ_BYZANTINE_EMPEROR_eventPicture
+	is_triggered_only = yes 
+	
+	option = {
+		name = flavor_ukr_legacy_of_rus.1.a 
+		
+		if = { 
+			limit = { 
+				BYZ = { 
+					NOT = { is_subject_of = ROOT } 
+				}
+			}
+			thrace_area = {
+				add_core = BYZ 
+			}
+			release = BYZ 
+			vassalize = BYZ 
+		}
+		BYZ = { 
+			change_religion = orthodox 
+			add_historical_friend = ROOT
+		}
+		add_historical_friend = BYZ 
+		151 = { 
+			if = { 
+				limit = { 
+					NOT = { religion = orthodox } 
+				}
+				change_religion = orthodox 
+			}
+		}
+		151 = {
+			if = { 
+				limit = { 
+					NOT = { culture = greek } 
+				}
+				change_culture = greek 
+			}
+		}
+		add_country_modifier = {
+			name = ukr_defenders_of_rome_modifier
+			duration = 10950
+		}
+			if = {
+				limit = { has_global_flag = hagia_sophia_now_mosque }
+				clr_global_flag = hagia_sophia_now_mosque
+				show_ambient_object = hagia_sophia
+				hide_ambient_object = hagia_sophia_minarets
+			}
+	}
+		
+	option = {
+		name = flavor_ukr_legacy_of_rus.1.b 
+		
+		151 = {
+			rename_capital = "Tsarhorod"
+			change_culture = ROOT
+			change_religion = ROOT
+			add_base_tax = 2 
+			add_base_production = 2 
+			add_base_manpower = 2 
+		}
+		add_ruler_modifier = {
+			name = ukr_heir_of_rome_modifer
+			duration = -1 
+		}
+			if = {
+				limit = { has_global_flag = hagia_sophia_now_mosque }
+				clr_global_flag = hagia_sophia_now_mosque
+				show_ambient_object = hagia_sophia
+				hide_ambient_object = hagia_sophia_minarets
+			}
+			anatolia_region = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+	}
+}
+
+# Знищення Москви
+country_event = {
+	id = flavor_ukr_legacy_of_rus.2
+	title = flavor_ukr_legacy_of_rus.2.t
+	desc = flavor_ukr_legacy_of_rus.2.desc
+	picture = BURNED_KREMLIN_eventPicture
+	is_triggered_only = yes
+	
+	option = {
+		name = flavor_ukr_legacy_of_rus.2.a
+		295 = {
+			add_loot_from_rich_province_general_effect = {
+				LOOTER = controller
+			}
+			destroy_great_project = {
+			type = kremlin
+		    }
+			rename_capital = "Kuchkovo"
+			add_province_modifier = {
+				name = "ukr_humiliated_moscow"
+				duration = -1
+			}
+		}
+			russia_region = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT	}
+					NOT = { is_core = ROOT	}
+				}
+				add_permanent_claim = ROOT
+			}
+	}
+}
+
+# The Restoration of Kyiv
+country_event = {
+	id = flavor_ukr_legacy_of_rus.3
+	title = flavor_ukr_legacy_of_rus.3.t
+	desc = flavor_ukr_legacy_of_rus.3.desc
+	picture = KYIV_PECHERSK_LAVRA_eventPicture
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = flavor_ukr_legacy_of_rus.3.a
+		280 = {
+			move_capital_effect = yes
+			add_base_tax = 4
+			add_base_production = 3
+			add_base_manpower = 3
+				add_province_modifier = {
+					name = "restoration_of_kiev"
+					duration = -1
+				}
+		}
+	}
+}
+
+# Князь Василь Костянтин Острозький
+country_event = {
+	id = flavor_ukr_legacy_of_rus.4
+	title = flavor_ukr_legacy_of_rus.4.t
+	desc = flavor_ukr_legacy_of_rus.4.desc
+	picture = PRINCE_VASYL_OSTROZKYI_eventPicture
+	
+	is_triggered_only = yes
+	
+	fire_only_once = yes
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = flavor_ukr_legacy_of_rus.4.a
+		change_innovativeness = 5
+		2962 = {
+				if = {
+					limit = {
+						NOT = { has_building = university } 
+					}
+					add_building = university 
+				}
+				else = { add_base_production = 2 }
+				add_next_institution_embracement = 100
+				change_trade_goods = paper 
+				add_province_modifier = {
+					name = pol_major_printing_center_modifier
+					duration = -1 
+				}
+			}
+		define_heir = {
+			name = "Vasyl Kostyantyn"
+			dynasty = "Ostrozkyi"
+			adm = 6
+			dip = 4
+			mil = 4
+			age = 23
+		}
+		hidden_effect = {
+			add_heir_personality = patron_of_arts_personality
+		}
+			define_advisor = {
+			name = "Ivan Fedorovych"
+			culture = byelorussian
+			type = natural_scientist
+			skill = 3
+			cost_multiplier = 0.5
+			}
+		}
+
+	option = {
+		name = flavor_ukr_legacy_of_rus.4.b
+		change_innovativeness = 5
+		2962 = {
+				if = {
+					limit = {
+						NOT = { has_building = university } 
+					}
+					add_building = university 
+				}
+				else = { add_base_production = 2 }
+				add_next_institution_embracement = 25
+				change_trade_goods = paper 
+				add_province_modifier = {
+					name = pol_major_printing_center_modifier
+					duration = -1 
+				}
+			}
+			define_advisor = {
+			name = "Vasyl Ostrozkyi"
+			culture = ruthenian
+			type = statesman
+			skill = 3
+			age = 23
+			cost_multiplier = 0.5
+			}
+			define_advisor = {
+			name = "Ivan Fedorovych"
+			culture = byelorussian
+			type = natural_scientist
+			skill = 3
+			cost_multiplier = 0.5
+			}
+		}
+	}
+}

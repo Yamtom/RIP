@@ -1,0 +1,102 @@
+ruthenian_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 6
+	available = {
+		has_dlc = "The Cossacks"
+	}
+	
+	powers = {
+		ruthenian_adm_power = {
+			max = 150
+			monarch_power = ADM
+			base_monthly_growth = 0.25
+		}
+		ruthenian_dip_power = {
+			max = 150
+			monarch_power = DIP
+			base_monthly_growth = 0.25
+		}
+		ruthenian_mil_power = {
+			max = 150
+			monarch_power = MIL
+			base_monthly_growth = 0.25
+		}
+	}
+	
+	interactions = {
+		ruthenian_ability_patronage_culture = {
+			icon = GFX_ruthenian_ability_ADM
+			cost_type = ruthenian_adm_power
+			cost = 100
+			trigger = { 
+			}
+			effect = { 
+				add_country_modifier = {
+					name = ruthenian_patronage_culture_modifier
+					duration = 3650
+				}
+			}
+			cooldown_years = 10
+			ai_chance = {
+				factor = 100
+			}
+		}
+		ruthenian_ability_magdeburg_rights = {
+			icon = GFX_ruthenian_ability_DIP
+			cost_type = ruthenian_dip_power
+			cost = 100
+			trigger = { 
+			}
+			effect = {
+				random_owned_province = {
+					limit = { 
+						continent = europe
+					}
+				add_base_production = 1
+				add_base_tax = 1
+				add_province_modifier = {
+					name = ruthenian_local_magdeburg_rights_modifier
+					duration = 3650
+				        }
+				}
+			}
+			cooldown_years = 10
+			ai_chance = {
+				factor = 100
+			}
+		}
+		ruthenian_ability_cossacks = {
+			icon = GFX_cossacks_ability_MIL
+			cost_type = ruthenian_mil_power
+			cost = 100
+			trigger = {
+				capital_scope = {
+					controller = { 
+						tag = ROOT
+					}
+					has_siege = no
+				}
+			}
+			effect = { 
+				add_yearly_manpower = 0.6
+				add_war_exhaustion = -2
+				add_country_modifier = {
+					name = ruthenian_raised_cossack_host
+					duration = 3650
+				}
+			}
+			cooldown_years = 10
+			ai_chance = {
+				factor = 10
+				modifier = {
+					factor = 100
+					is_in_important_war = yes
+				}
+				modifier = {
+					factor = 100
+					is_at_war = yes
+				}
+			}
+		}
+	}
+}
