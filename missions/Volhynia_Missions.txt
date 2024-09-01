@@ -11,11 +11,10 @@ VOL_missions_1 = {
 		}
 	}
 	has_country_shield = yes
-	
-	
 	VOL_declare_independence = {
 		icon = mission_have_two_subjects
-		required_missions = { }
+		required_missions = {
+		}
 		position = 1
 		trigger = {
 			is_subject = no
@@ -27,31 +26,44 @@ VOL_missions_1 = {
 			}
 			podolia_volhynia_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			red_ruthenia_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			volhynia_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 		}
 	}
-	
 	VOL_unite_galicia = {
 		icon = mission_conquer_50_development
-		required_missions = { VOL_declare_independence }
+		required_missions = {
+			VOL_declare_independence
+		}
 		position = 2
 		provinces_to_highlight = {
 			OR = {
@@ -59,7 +71,9 @@ VOL_missions_1 = {
 				area = red_ruthenia_area
 				area = volhynia_area
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
 			podolia_volhynia_area = {
@@ -78,21 +92,31 @@ VOL_missions_1 = {
 		effect = {
 			if = {
 				limit = {
-					NOT = { government_rank = 2 }
+					NOT = {
+						government_rank = 2
+					}
 				}
 				set_government_rank = 2
 			}
 			west_dniepr_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			moldavia_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
@@ -100,17 +124,20 @@ VOL_missions_1 = {
 			add_adm_power = 25
 		}
 	}
-	
 	VOL_conquer_malopolska = {
 		icon = mission_build_up_to_force_limit
-		required_missions = { VOL_unite_galicia }
+		required_missions = {
+			VOL_unite_galicia
+		}
 		position = 3
 		provinces_to_highlight = {
 			OR = {
 				area = malopolska_area
 				area = sandomierz_area
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
 			malopolska_area = {
@@ -126,31 +153,42 @@ VOL_missions_1 = {
 			add_accepted_culture = polish
 			pripyat_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			podlasie_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 		}
 	}
-	
 	VOL_integrate_north = {
 		icon = mission_war_chest
-		required_missions = { VOL_conquer_malopolska }
+		required_missions = {
+			VOL_conquer_malopolska
+		}
 		position = 5
 		provinces_to_highlight = {
 			OR = {
 				area = pripyat_area
 				area = podlasie_area
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
 			pripyat_area = {
@@ -173,15 +211,23 @@ VOL_missions_1 = {
 			}
 			minsk_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			white_ruthenia_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
@@ -190,7 +236,6 @@ VOL_missions_1 = {
 			}
 		}
 	}
-
 }
 
 VOL_missions_U_1 = {
@@ -201,15 +246,19 @@ VOL_missions_U_1 = {
 		tag = VOL
 	}
 	has_country_shield = yes
-	
-	
 	VOL_demolish_poland = {
 		icon = mission_cannons_firing
-		required_missions = { VOL_integrate_north }
+		required_missions = {
+			VOL_integrate_north
+		}
 		position = 8
 		trigger = {
-			NOT = { exists = POL }
-			NOT = { exists = PLC }
+			NOT = {
+				exists = POL
+			}
+			NOT = {
+				exists = PLC
+			}
 		}
 		effect = {
 			add_prestige = 10
@@ -228,16 +277,16 @@ VOL_missions_2 = {
 		OR = {
 			tag = VOL
 			tag = VLN
-			tag = HLC 
+			tag = HLC
 			tag = PDL
 		}
 	}
 	has_country_shield = yes
-	
-
 	VOL_stability = {
 		icon = mission_build_up_to_force_limit
-		required_missions = { VOL_church }
+		required_missions = {
+			VOL_church
+		}
 		position = 2
 		provinces_to_highlight = {
 			area = podolia_volhynia_area
@@ -256,14 +305,17 @@ VOL_missions_2 = {
 			}
 		}
 	}
-
 	VOL_conquer_west_dniepr = {
 		icon = mission_conquer_5_states
-		required_missions = { VOL_unite_galicia }
+		required_missions = {
+			VOL_unite_galicia
+		}
 		position = 3
 		provinces_to_highlight = {
 			area = west_dniepr_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
 			west_dniepr_area = {
@@ -274,15 +326,21 @@ VOL_missions_2 = {
 		effect = {
 			zaporizhia_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			280 = {
 				if = {
 					limit = {
-						NOT = { is_core = ROOT }
+						NOT = {
+							is_core = ROOT
+						}
 					}
 					add_core = ROOT
 				}
@@ -291,15 +349,13 @@ VOL_missions_2 = {
 				add_base_production = 2
 				add_base_manpower = 2
 				add_province_modifier = {
-					name = VOL_re_establishment_of_kiev
+					name = VOL_re_establishment_of_kyiv
 					duration = 9125
 				}
 			}
 		}
 	}
-	
 }
-
 
 VOL_missions_U_2 = {
 	slot = 2
@@ -309,17 +365,19 @@ VOL_missions_U_2 = {
 		tag = VOL
 	}
 	has_country_shield = yes
-	
-	
 	VOL_conquer_east_dniepr = {
 		icon = mission_unite_home_region
-		required_missions = { VOL_conquer_west_dniepr }
+		required_missions = {
+			VOL_conquer_west_dniepr
+		}
 		position = 4
 		provinces_to_highlight = {
 			OR = {
 				area = east_dniepr_area
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
 			east_dniepr_area = {
@@ -330,23 +388,30 @@ VOL_missions_U_2 = {
 		effect = {
 			chernigov_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 		}
 	}
-	
 	volhynia_conquer_chernihiv = {
 		icon = mission_alliances
-		required_missions = { VOL_conquer_east_dniepr }
+		required_missions = {
+			VOL_conquer_east_dniepr
+		}
 		position = 5
 		provinces_to_highlight = {
 			OR = {
 				area = chernigov_area
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
 			chernigov_area = {
@@ -357,21 +422,28 @@ VOL_missions_U_2 = {
 		effect = {
 			smolensk_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			sloboda_ukraine_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 		}
 	}
-		
 	VOL_conquer_bilorus = {
 		icon = mission_assemble_an_army
 		required_missions = {
@@ -385,7 +457,9 @@ VOL_missions_U_2 = {
 				area = white_ruthenia_area
 				province_id = 275
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
 			minsk_area = {
@@ -400,46 +474,60 @@ VOL_missions_U_2 = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
-		effect = {	
+		effect = {
 			add_accepted_culture = byelorussian
 			smolensk_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 		}
 	}
-	
 	VOL_demolish_lithuania = {
 		icon = mission_build_up_to_force_limit
-		required_missions = { 
+		required_missions = {
 			VOL_conquer_bilorus
 		}
 		position = 7
 		trigger = {
-			NOT = { exists = LIT }
-			NOT = { exists = PLC }
+			NOT = {
+				exists = LIT
+			}
+			NOT = {
+				exists = PLC
+			}
 		}
 		effect = {
 			lithuania_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 			samogitia_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 		}
-	}	
-	
+	}
 	VOL_land_collector = {
 		icon = mission_conquer_50_development
 		required_missions = {
@@ -457,7 +545,9 @@ VOL_missions_U_2 = {
 				area = tver_area
 				province_id = 1952
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
 			samogitia_area = {
@@ -509,16 +599,15 @@ VOL_missions_3 = {
 		OR = {
 			tag = VOL
 			tag = VLN
-			tag = HLC 
+			tag = HLC
 			tag = PDL
 		}
 	}
 	has_country_shield = yes
-	
-
 	VOL_church = {
 		icon = mission_assemble_an_army
-		required_missions = { }
+		required_missions = {
+		}
 		position = 1
 		trigger = {
 			temple = 5
@@ -528,17 +617,18 @@ VOL_missions_3 = {
 			add_country_modifier = {
 				name = VOL_godliness
 				duration = 3650
-			}			
+			}
 			add_country_modifier = {
 				name = VOL_mod_arch
 				duration = -1
 			}
 		}
 	}
-
 	VOL_full_army = {
 		icon = mission_cannons_firing
-		required_missions = { VOL_church }
+		required_missions = {
+			VOL_church
+		}
 		position = 2
 		provinces_to_highlight = {
 			area = volhynia_area
@@ -556,14 +646,17 @@ VOL_missions_3 = {
 			}
 		}
 	}
-
 	VOL_conquer_moldavia = {
 		icon = mission_cossack_cavalry
-		required_missions = { VOL_unite_galicia }
+		required_missions = {
+			VOL_unite_galicia
+		}
 		position = 3
 		provinces_to_highlight = {
 			area = moldavia_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
 			moldavia_area = {
@@ -572,7 +665,8 @@ VOL_missions_3 = {
 			}
 		}
 		effect = {
-			1756 = {				# Crimea
+			1756 = {
+				# Crimea
 				add_trade_modifier = {
 					who = ROOT
 					duration = 7300
@@ -588,14 +682,17 @@ VOL_missions_3 = {
 			}
 			yedisan_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
 		}
 	}
-
 	VOL_conquer_zaporozhia = {
 		icon = mission_non-western_cavalry_raid
 		required_missions = {
@@ -608,7 +705,9 @@ VOL_missions_3 = {
 				area = zaporizhia_area
 				area = yedisan_area
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
 			zaporizhia_area = {
@@ -626,8 +725,12 @@ VOL_missions_3 = {
 			}
 			crimea_area = {
 				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
 				}
 				add_permanent_claim = ROOT
 			}
@@ -647,16 +750,19 @@ VOL_missions_U_3 = {
 		tag = VOL
 	}
 	has_country_shield = yes
-	
 	VOL_conquer_sloboda = {
 		icon = mission_assemble_an_army
-		required_missions = { VOL_conquer_east_dniepr }
+		required_missions = {
+			VOL_conquer_east_dniepr
+		}
 		position = 5
 		provinces_to_highlight = {
 			OR = {
 				area = sloboda_ukraine_area
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
 			sloboda_ukraine_area = {
@@ -674,14 +780,17 @@ VOL_missions_U_3 = {
 			}
 		}
 	}
-	
 	VOL_conquer_smolensk = {
 		icon = mission_cannons_firing
-		required_missions = { volhynia_conquer_chernihiv }
+		required_missions = {
+			volhynia_conquer_chernihiv
+		}
 		position = 6
 		provinces_to_highlight = {
 			area = smolensk_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
 			smolensk_area = {
@@ -691,7 +800,8 @@ VOL_missions_U_3 = {
 		}
 		effect = {
 			add_accepted_culture = ryazanian
-			293 = {				# kyiv
+			293 = {
+				# kyiv
 				add_trade_modifier = {
 					who = ROOT
 					duration = 7300
@@ -701,14 +811,19 @@ VOL_missions_U_3 = {
 			}
 		}
 	}
-	
 	VOL_demolish_MOS = {
 		icon = mission_conquer_5_states
-		required_missions = { VOL_conquer_smolensk }
+		required_missions = {
+			VOL_conquer_smolensk
+		}
 		position = 7
 		trigger = {
-			NOT = { exists = MOS }
-			NOT = { exists = RUS }
+			NOT = {
+				exists = MOS
+			}
+			NOT = {
+				exists = RUS
+			}
 		}
 		effect = {
 			add_prestige = 20
@@ -724,16 +839,16 @@ VOL_missions_4 = {
 		OR = {
 			tag = VOL
 			tag = VLN
-			tag = HLC 
+			tag = HLC
 			tag = PDL
 		}
 	}
 	has_country_shield = yes
-	
-
 	VOL_king_power = {
 		icon = mission_conquer_5_states
-		required_missions = { VOL_church }
+		required_missions = {
+			VOL_church
+		}
 		position = 2
 		provinces_to_highlight = {
 			area = red_ruthenia_area
@@ -766,17 +881,15 @@ VOL_missions_U_4 = {
 		tag = VOL
 	}
 	has_country_shield = yes
-
-	
 	VOL_old_capital = {
 		icon = mission_conquer_50_development
-		required_missions = { 
+		required_missions = {
 			VOL_king_power
 			VOL_full_army
 		}
 		position = 2
 		provinces_to_highlight = {
-		province_id = 280
+			province_id = 280
 		}
 		trigger = {
 			absolutism = 75
@@ -787,7 +900,7 @@ VOL_missions_U_4 = {
 		}
 		effect = {
 			add_stability = 2
-			change_heir_adm = 2 
+			change_heir_adm = 2
 			change_heir_dip = 2
 			change_heir_mil = 2
 			add_country_modifier = {
@@ -796,10 +909,11 @@ VOL_missions_U_4 = {
 			}
 		}
 	}
-	
 	VOL_restore_ruthenia = {
 		icon = mission_eastern_european_city
-		required_missions = { VOL_deal_with_the_boyar_mission }
+		required_missions = {
+			VOL_deal_with_the_boyar_mission
+		}
 		position = 4
 		provinces_to_highlight = {
 			OR = {
@@ -845,11 +959,10 @@ VOL_missions_U_4 = {
 			}
 		}
 	}
-
 	VOL_far_north = {
 		icon = mission_conquer_5_states
-		required_missions = { 
-			VOL_demolish_MOS 
+		required_missions = {
+			VOL_demolish_MOS
 			VOL_restore_ruthenia
 		}
 		position = 8
@@ -889,24 +1002,28 @@ VOL_missions_5 = {
 		OR = {
 			tag = VOL
 			tag = VLN
-			tag = HLC 
+			tag = HLC
 			tag = PDL
 		}
 	}
 	has_country_shield = yes
-	
 	VOL_renaissance_mission = {
 		icon = mission_early_modern_university
-		required_missions = { }
+		required_missions = {
+		}
 		position = 1
 		trigger = {
 			has_institution = renaissance
 			stability = 2
 			prestige = 25
-			NOT = { war_exhaustion = 1 }
+			NOT = {
+				war_exhaustion = 1
+			}
 		}
 		effect = {
-			country_event = { id = M_VOL_Events.1 }
+			country_event = {
+				id = M_VOL_Events.1
+			}
 			add_country_modifier = {
 				name = VOL_ruthenian_renaissance
 				duration = 7300
@@ -915,7 +1032,9 @@ VOL_missions_5 = {
 	}
 	VOL_expand_Chumatsky_Way_mission = {
 		icon = mission_eastern_european_city
-		required_missions = { VOL_renaissance_mission }
+		required_missions = {
+			VOL_renaissance_mission
+		}
 		position = 2
 		provinces_to_highlight = {
 			province_id = 261
@@ -923,8 +1042,12 @@ VOL_missions_5 = {
 		trigger = {
 			261 = {
 				owned_by = ROOT
-				NOT = { unrest = 1 }
-				NOT = { devastation = 1 }
+				NOT = {
+					unrest = 1
+				}
+				NOT = {
+					devastation = 1
+				}
 				OR = {
 					has_building = workshop
 					has_building = counting_house
@@ -946,7 +1069,9 @@ VOL_missions_5 = {
 	}
 	VOL_deal_with_the_boyar_mission = {
 		icon = mission_noble_council
-		required_missions = { VOL_expand_Chumatsky_Way_mission }
+		required_missions = {
+			VOL_expand_Chumatsky_Way_mission
+		}
 		position = 3
 		trigger = {
 			if = {
@@ -967,7 +1092,9 @@ VOL_missions_5 = {
 	}
 	VOL_invest_in_west_rus_mission = {
 		icon = mission_have_manufactories
-		required_missions = { VOL_deal_with_the_boyar_mission }
+		required_missions = {
+			VOL_deal_with_the_boyar_mission
+		}
 		position = 4
 		provinces_to_highlight = {
 			OR = {
@@ -979,7 +1106,7 @@ VOL_missions_5 = {
 			owns_core_province = 279
 			owns_core_province = 2961
 			279 = {
-				development = 20			
+				development = 20
 				has_manufactory_trigger = yes
 				if = {
 					limit = {
@@ -992,7 +1119,7 @@ VOL_missions_5 = {
 						has_building = trade_depot
 						has_building = stock_exchange
 					}
-				}				
+				}
 			}
 			2961 = {
 				development = 20
@@ -1008,7 +1135,7 @@ VOL_missions_5 = {
 						has_building = trade_depot
 						has_building = stock_exchange
 					}
-				}	
+				}
 			}
 		}
 		effect = {
@@ -1042,13 +1169,12 @@ VOL_missions_U_5 = {
 		tag = VOL
 	}
 	has_country_shield = yes
-	
 	VOL_invest_in_eastern_rus_mission = {
 		icon = mission_have_two_subjects
-		required_missions = { 
+		required_missions = {
 			VOL_invest_in_west_rus_mission
 			VOL_restore_ruthenia
-		 }
+		}
 		position = 4
 		provinces_to_highlight = {
 			OR = {
@@ -1061,7 +1187,7 @@ VOL_missions_U_5 = {
 			owns_core_province = 2413
 			has_institution = industrialization
 			291 = {
-				development = 20			
+				development = 20
 				has_manufactory_trigger = yes
 				if = {
 					limit = {
@@ -1074,7 +1200,7 @@ VOL_missions_U_5 = {
 						has_building = trade_depot
 						has_building = stock_exchange
 					}
-				}				
+				}
 			}
 			2413 = {
 				development = 20
@@ -1090,7 +1216,7 @@ VOL_missions_U_5 = {
 						has_building = trade_depot
 						has_building = stock_exchange
 					}
-				}	
+				}
 			}
 		}
 		effect = {

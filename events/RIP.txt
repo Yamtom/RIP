@@ -43,8 +43,6 @@ country_event = {
 	}
 }
 
-
-
 country_event = {
 	id = ukr_flavor.2
 	title = "ukr_flavor.2t"
@@ -74,12 +72,12 @@ country_event = {
 					who = MOS
 					value = 1
 				}
-							}
+			}
 			UKR = {
 				army_strength = {
 					who = MOS
 					value = 1
-				}				
+				}
 			}
 			KIE = {
 				army_strength = {
@@ -92,49 +90,56 @@ country_event = {
 					who = RUS
 					value = 1
 				}
-							}
+			}
 			UKR = {
 				army_strength = {
 					who = RUS
 					value = 1
-				}				
+				}
 			}
 		}
 	}
 	option = {
+		name = "ukr_flavor.2a"
 		if = {
-			limit = { 
-				NOT = { 
+			limit = {
+				NOT = {
 					OR = {
-					exists = KIE
+						exists = KIE
 					}
 				}
 			}
-			KIE = {vassalize = ROOT}
-			
+			KIE = {
+				vassalize = ROOT
+			}
 		}
 		if = {
-			limit = { 
-				NOT = { 
+			limit = {
+				NOT = {
 					OR = {
-					exists = KRU
+						exists = KRU
 					}
 				}
 			}
-			KRU = {vassalize = ROOT}
+			KRU = {
+				vassalize = ROOT
+			}
 		}
 		if = {
-			limit = { 
-				NOT = { 
+			limit = {
+				NOT = {
 					OR = {
-					exists = UKR
+						exists = UKR
 					}
 				}
 			}
-			UKR = {vassalize = ROOT}
+			UKR = {
+				vassalize = ROOT
+			}
 		}
 	}
 }
+
 country_event = {
 	id = ukr_flavor.3
 	title = "ukr_flavor.3t"
@@ -171,7 +176,10 @@ country_event = {
 		}
 	}
 	option = {
-		CHR = { vassalize = ROOT }
+		name = "ukr_flavor.3a"
+		CHR = {
+			vassalize = ROOT
+		}
 	}
 }
 
@@ -294,8 +302,8 @@ namespace = zaz_flavor
 # The Cossack Host
 country_event = {
 	id = zaz_flavor.1
-	title = "zaz_flavor.1.t"
-	desc = "zaz_flavor.1.d"
+	title = "zaz_flavor.1t"
+	desc = "zaz_flavor.1d"
 	picture = ANGRY_MOB_eventPicture
 	fire_only_once = yes
 	trigger = {
@@ -311,7 +319,7 @@ country_event = {
 		}
 	}
 	option = {
-		name = "zaz_flavor.1.a"
+		name = "zaz_flavor.1a"
 		add_country_modifier = {
 			name = cossack_host
 			duration = 2000
@@ -348,7 +356,7 @@ country_event = {
 	immediate = {
 		hidden_effect = {
 			add_disaster_progress = {
-				disaster = political_upheaval
+				disaster = governmental_disruption
 				value = 100
 			}
 			set_country_flag = reactionary_response_flag
@@ -360,7 +368,7 @@ country_event = {
 			limit = {
 				has_reform = boyar_elite_reform
 			}
-			add_government_reform = democratic_assemblies_reform
+			add_government_reform = elected_assemblies_reform
 			add_stability = -2
 		}
 	}
@@ -372,7 +380,7 @@ country_event = {
 	desc = "euro_monarchy.2d"
 	picture = LAND_MILITARY_eventPicture
 	trigger = {
-		has_disaster = political_upheaval
+		has_disaster = governmental_disruption
 	}
 	fire_only_once = yes
 	option = {
@@ -418,10 +426,10 @@ country_event = {
 	fire_only_once = yes
 	trigger = {
 		NOT = {
-			has_disaster = political_upheaval
+			has_disaster = governmental_disruption
 		}
 		hidden_trigger = {
-			has_country_flag = political_upheaval_rebellion
+			has_country_flag = governmental_disruption_rebellion
 		}
 	}
 	option = {
@@ -458,7 +466,7 @@ country_event = {
 	desc = "princes_revolt.1d"
 	picture = PEASANTS_ON_STEPPES_eventPicture
 	trigger = {
-		has_disaster = unruly_princes
+		has_disaster = disorderly_princes
 	}
 	is_triggered_only = yes
 	option = {
@@ -475,7 +483,7 @@ country_event = {
 			who = KIE
 			casus_belli = cb_disloyal_vassal
 		}
-		set_country_flag = princes_revolted
+		set_country_flag = disorderly_princes
 		set_country_flag = aftermath_of_revolt
 	}
 	option = {
@@ -494,7 +502,7 @@ country_event = {
 				add_truce_with = LIT
 			}
 		}
-		set_country_flag = princes_revolted
+		set_country_flag = disorderly_princes
 		set_country_flag = aftermath_of_revolt
 	}
 }
@@ -507,9 +515,9 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		ROOT = {
-			has_disaster = unruly_princes
+			has_disaster = disorderly_princes
 		}
-		has_country_flag = princes_revolted
+		has_country_flag = disorderly_princes
 	}
 	immediate = {
 		ROOT = {
@@ -570,8 +578,8 @@ country_event = {
 		owns = 4247		# Ovruch/Owrucz 
 		OR = {
 			owns = 283
-			owns = 289	
-			owns = 2961	
+			owns = 289
+			owns = 2961
 			government_rank = 3
 		}
 		truce_with = LIT
@@ -616,7 +624,9 @@ country_event = {
 	desc = "kyiv_independence.2d"
 	picture = LAND_MILITARY_eventPicture
 	trigger = {
-		NOT = { is_subject_of_type = princedom}
+		NOT = {
+			is_subject_of_type = princedom
+		}
 		event_target:kyiv_rus = {
 			OR = {
 				overlord_of = ROOT
@@ -630,11 +640,11 @@ country_event = {
 	option = {
 		name = "kyiv_independence.2a"
 		event_target:kyiv_rus = {
-				country_event = {
-					id = kyiv_independence.3
-				}
+			country_event = {
+				id = kyiv_independence.3
 			}
 		}
+	}
 }
 
 country_event = {
@@ -650,11 +660,31 @@ country_event = {
 		create_subject = {
 			subject_type = princedom
 			subject = FROM
+			event_target:FROM = {
+				country_event = {
+					id = kyiv_independence.4
+				}
+			}
 		}
 	}
 }
 
-
+country_event = {
+	id = kyiv_independence.3
+	title = "kyiv_independence.3t"
+	desc = "kyiv_independence.3d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	trigger = {
+	}
+	option = {
+		name = "kyiv_independence.3a"
+		create_subject = {
+			subject_type = princedom
+			subject = FROM 
+		}
+	} 
+} 
 namespace = ruth_instituties
 country_event = {
 	id = ruth_instituties.1
@@ -664,33 +694,47 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		culture = ruthenian
-		116 = { 
-			is_institution_enabled = renaissance			
+		116 = {
+			is_institution_enabled = renaissance
 		}
 		owns_core_province = 261
 	}
 	option = {
 		name = "ruth_instituties.1a"
 		if = {
-			limit = { 261 = { is_institution_enabled = renaissance	 } }
-			261 = { add_institution_embracement = {
-				which = renaissance
-				value = 100
-			} }
+			limit = {
+				261 = {
+					is_institution_enabled = renaissance
+				}
+			}
+			261 = {
+				add_institution_embracement = {
+					which = renaissance
+					value = 100
+				}
+			}
 		}
 		if = {
-			limit = { NOT = { 261 = { is_institution_enabled = renaissance	 } } }
-			261 = { 
-				controller = {	add_country_modifier = {
-					name = UKR_prosvita
-					duration = 1825  
-					hidden = yes 	
+			limit = {
+				NOT = {
+					261 = {
+						is_institution_enabled = renaissance
+					}
+				}
+			}
+			261 = {
+				controller = {
+					add_country_modifier = {
+						name = UKR_prosvita
+						duration = 1825
+						hidden = yes
 					}
 				}
 			}
 		}
 	}
 }
+
 country_event = {
 	id = ruth_instituties.2
 	title = "kyiv_independence.2t"
@@ -699,30 +743,86 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		culture = ruthenian
-		78 = { 
-			is_institution_enabled = printing_press			
+		78 = {
+			is_institution_enabled = printing_press
 		}
 		owns_core_province = 261
 	}
 	option = {
 		name = "ruth_instituties.2a"
 		if = {
-			limit = { 261 = { is_institution_enabled = printing_press	} }
-			261 = { add_institution_embracement = {
-				which = renaissance
-				value = 100
-			} }
-		}
-		if = {
-			limit = { NOT = { 261 = { is_institution_enabled = printing_press	} } }
-			261 = { 
-				controller = {	add_country_modifier = {
-					name = UKR_prosvita
-					duration = 1825  
-					hidden = yes 	
-				}
+			limit = {
+				261 = {
+					is_institution_enabled = printing_press
 				}
 			}
+			261 = {
+				add_institution_embracement = {
+					which = renaissance
+					value = 100
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					261 = {
+						is_institution_enabled = printing_press
+					}
+				}
+			}
+			261 = {
+				controller = {
+					add_country_modifier = {
+						name = UKR_prosvita
+						duration = 1825
+						hidden = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+namespace = bs_flavor
+country_event = {
+	id = bs_flavor.1
+	title = "bs_flavor.1t"
+	desc = "bs_flavor.1d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	mean_time_to_happen = {
+		days = 365
+	}
+	trigger = {
+		tag = CRI
+		border_distance = {
+			who = GEN
+			distance = 10
+		}
+	}
+	option = {
+		name = "bs_flavor.1a"
+		add_country_modifier = {
+			name = GEN_compass
+			duration = 365
+		}
+		GEN = {
+			add_mercantilism = 5
+		}
+		ai_chance = {
+			factor = 0.9
+		}
+		add_truce_with = GEN
+	}
+	option = {
+		name = "bs_flavor.1b"
+		declare_war_with_cb = {
+			who = GEN
+			casus_belli = cb_border_war
+		}
+		ai_chance = {
+			factor = 0.1
 		}
 	}
 }
