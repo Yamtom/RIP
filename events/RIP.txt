@@ -429,7 +429,7 @@ country_event = {
 			has_disaster = governmental_disruption
 		}
 		hidden_trigger = {
-			has_country_flag = governmental_disruption_rebellion
+			has_country_flag = aftermath_of_revolt
 		}
 	}
 	option = {
@@ -525,7 +525,8 @@ country_event = {
 		}
 	}
 	option = {
-		name = princes_revolt.2a
+		name = "princes_revolt.2a" #Rebels Win
+		add_stability = 1
 	}
 }
 
@@ -660,11 +661,6 @@ country_event = {
 		create_subject = {
 			subject_type = princedom
 			subject = FROM
-			event_target:FROM = {
-				country_event = {
-					id = kyiv_independence.4
-				}
-			}
 		}
 	}
 }
@@ -792,7 +788,7 @@ country_event = {
 	picture = CIVIL_WAR_eventPicture
 	is_triggered_only = yes
 	mean_time_to_happen = {
-		days = 365
+		days = 1
 	}
 	trigger = {
 		tag = CRI

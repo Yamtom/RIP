@@ -1,0 +1,1084 @@
+UZH_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = UZH
+	}
+	has_country_shield = yes
+	# Mission 1: Old Rus Alliances
+	uz_old_rus_alliances = {
+		icon = mission_pol_protect_hungary
+		position = 1
+		trigger = {
+			OR = {
+				alliance_with = POL
+				alliance_with = LIT
+				any_known_country = {
+					alliance_with = UZH
+					primary_culture = ruthenian
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uz_rus_alliance_strength"
+				duration = 7300
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	# Mission 2: Secure the Maramures
+	uz_secure_maramures = {
+		icon = mission_castle_construction
+		required_missions = {
+			uz_old_rus_alliances
+		}
+		position = 3
+		trigger = {
+			1952 = {
+				owned_by = ROOT
+				fort_level = 1
+			}
+		}
+		effect = {
+			1952 = {
+				add_base_tax = 1
+				add_base_production = 1
+			}
+			add_country_modifier = {
+				name = "uz_strong_defenses"
+				duration = 3650
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	# Mission 3: Protect Rusin Heritage
+	uz_protect_rusin_heritage = {
+		icon = mission_plc_cultural_flowering
+		required_missions = {
+			uz_secure_maramures
+		}
+		position = 5
+		trigger = {
+			OR = {
+				primary_culture = ruthenian
+			}
+			num_of_owned_provinces_with = {
+				OR = {
+					culture = ruthenian
+					culture = rusyn
+				}
+				value = 3
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = "uz_cultural_vigor"
+				duration = 7300
+			}
+		}
+		ai_weight = {
+			factor = 400
+		}
+	}
+	# Mission 4: Build the Black Legion
+	uz_build_black_legion = {
+		icon = mission_fekete_sereg
+		required_missions = {
+		}
+		position = 7
+		trigger = {
+			army_size = 10000
+			has_mil_advisor = yes
+			mil_tech = 6
+		}
+		effect = {
+			add_army_professionalism = 0.1
+			add_country_modifier = {
+				name = "uz_black_legion_morale"
+				duration = 3650
+			}
+		}
+		ai_weight = {
+			factor = 450
+		}
+	}
+	# Mission 5: Expand into Pannonia
+	uz_expand_pannonia = {
+		icon = mission_empire
+		required_missions = {
+			uz_build_black_legion
+		}
+		position = 8
+		trigger = {
+			NOT = {
+				any_province = {
+					region = carpathia_region
+					NOT = { owned_by = ROOT }
+				}
+			}
+			num_of_owned_provinces_with = {
+				region = carpathia_region
+				value = 5
+			}
+			any_owned_province = {
+				has_fort_building_trigger = yes
+			}
+		}
+		effect = {
+			carpathia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "uz_pannonia_expansion"
+				duration = 7300
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	# Mission 6: Integrate Local Nobility
+	uz_integrate_local_nobility = {
+		icon = mission_integrate_croatia
+		required_missions = {
+			uz_expand_pannonia
+		}
+		position = 9
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 5
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uz_local_nobility_integration"
+				duration = 3650
+			}
+			add_dip_power = 50
+		}
+		ai_weight = {
+			factor = 450
+		}
+	}
+	# Mission 7: Recover Lost Rusin Lands
+	uz_recover_lost_rusin_lands = {
+		icon = mission_conquer_5_states
+		required_missions = {
+			uz_integrate_local_nobility
+		}
+		position = 10
+		trigger = {
+			OR = {
+				any_province = {
+					province_id = 173  # Galicia
+				}
+				any_province = {
+					province_id = 174  # Volhynia
+				}
+			}
+			any_province = {
+				NOT = { is_permanent_claim = ROOT }
+			}
+		}
+		effect = {
+			every_province = {
+				limit = {
+					OR = {
+						province_id = 173  # Galicia
+						province_id = 174  # Volhynia
+					}
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "uz_recovered_homeland"
+				duration = 7300
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	# Mission 8: Legacy of the Old Rus
+	uz_legacy_old_rus = {
+		icon = mission_empire
+		required_missions = {
+			uz_recover_lost_rusin_lands
+		}
+		position = 11
+		trigger = {
+			owns_core_province = 173				# Galicia
+			owns_core_province = 174				# Volhynia
+			owns_core_province = 2930				# Maramures
+		}
+		effect = {
+			add_stability = 1
+			add_country_modifier = {
+				name = "uz_legacy_of_rus"
+				duration = 9125
+			}
+		}
+		ai_weight = {
+			factor = 600
+		}
+	}
+}
+
+UZH_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		tag = UZH
+	}
+	has_country_shield = yes
+	# Mission 1: "Паннонські амбіції"
+	uzh_pannonian_ambitions = {
+		icon = mission_conquer_5_states
+		required_missions = {
+		}
+		position = 1
+		provinces_to_highlight = {
+			area = alfold_area
+			area = transdanubia_area
+		}
+		trigger = {
+			OR = {
+				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+					region = carpathia_region
+					value = 1
+				}
+				any_owned_province = {
+					any_province = {
+						region = carpathia_region
+					}
+				}
+			}
+		}
+		effect = {
+			every_province = {
+				limit = {
+					region = carpathia_region
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_prestige = 10
+			add_country_modifier = {
+				name = "war_exhaustion"
+				duration = 3650				# 10 years
+			}
+		}
+	}
+	# Mission 2: "Паннонський контроль"
+	uzh_control_of_pannonia = {
+		icon = mission_conquer_5_states
+		required_missions = {
+			uzh_pannonian_ambitions
+		}
+		position = 2
+		provinces_to_highlight = {
+			region = carpathia_region
+		}
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = owns_carpathia_provinces_tooltip
+				NOT = {
+					any_province = {
+						region = carpathia_region
+						NOT = { owned_by = ROOT }
+					}
+				}
+			}
+		}
+		effect = {
+			add_war_exhaustion = -0.1
+			add_country_modifier = {
+				name = "uz_pannonia_control"
+				duration = 1825				# 5 years
+			}
+		}
+	}
+	# Mission 3: "Столиця Паннонії"
+	uzh_pannonian_capital = {
+		icon = mission_early_game_buildings
+		required_missions = {
+			uzh_control_of_pannonia
+		}
+		position = 3
+		provinces_to_highlight = {
+			province_id = 385
+		}
+		# Pest province
+		trigger = {
+			385 = {
+				owned_by = ROOT
+				development = 20
+			}
+			# Pest province
+		}
+		effect = {
+			set_capital = 385			# Pest province
+			add_country_modifier = {
+				name = "centralization_modifier"
+				duration = -1				# Permanent
+			}
+			add_stability = 1
+			add_years_of_income = 0.1
+		}
+	}
+	# Mission 4: "Культурне відродження"
+	uzh_cultural_revival = {
+		icon = mission_plc_cultural_flowering
+		required_missions = {
+			uzh_pannonian_capital
+		}
+		position = 4
+		provinces_to_highlight = {
+			any_province = {
+				culture = rusyn
+			}
+		}
+		trigger = {
+			primary_culture = rusyn
+			num_of_owned_provinces_with = {
+				culture = rusyn
+				value = 3
+			}
+			has_unified_culture_group = yes
+		}
+		effect = {
+			add_prestige = 12
+			add_harmonization_progress = 15
+			add_country_modifier = {
+				name = "innovative_modifier"
+				duration = 7300				# 20 years
+			}
+		}
+	}
+	# Mission 5: "Національна самосвідомість"
+	uzh_national_consciousness = {
+		icon = mission_empire
+		required_missions = {
+			uzh_cultural_revival
+		}
+		position = 5
+		provinces_to_highlight = {
+			any_province = {
+				culture = rusyn
+			}
+		}
+		trigger = {
+			stability = 3
+			has_unified_culture_group = yes
+			unrest = 0
+		}
+		effect = {
+			add_stability_or_adm_power = yes
+			add_country_modifier = {
+				name = "diplomatic_reputation"
+				duration = 3650
+			}
+			add_country_modifier = {
+				name = "legitimacy"
+				duration = 3650				# 10 years
+			}
+		}
+	}
+	# Mission 6: "Єдність Русьіни"
+	uzh_unity_of_rusin = {
+		icon = mission_empire
+		required_missions = {
+			uzh_national_consciousness
+		}
+		position = 6
+		provinces_to_highlight = {
+			any_province = {
+				culture = rusyn
+			}
+		}
+		trigger = {
+			any_owned_province = {
+				culture = rusyn
+			}
+			army_size_percentage = 0.8
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uz_army_morale_boost"
+				duration = 3650
+			}
+			every_province = {
+				limit = {
+					OR = {
+						province_id = 173  # Galicia
+						province_id = 174  # Volhynia
+					}
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "uz_unity_of_rusin"
+				duration = 3650				# 10 years
+			}
+		}
+	}
+}
+
+UZH_missions_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		tag = UZH
+	}
+		uz_establish_cultural_hub = {
+		icon = mission_plc_cultural_flowering
+		position = 8
+		required_missions = {
+			uz_protect_rusin_heritage
+		}
+		trigger = {
+			owns_core_province = 2930
+			2930 = {
+				has_building = university
+				is_capital = yes
+				development = 20
+			}
+		}
+		effect = {
+			2930 = {
+				add_base_tax = 2
+				add_base_production = 2
+				add_base_manpower = 2
+			}
+			add_country_modifier = {
+				name = "uz_cultural_hub"
+				duration = 7300
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	uz_unite_rusin_lands = {
+		icon = mission_plc_cultural_flowering
+		position = 9
+		required_missions = {
+			uz_establish_cultural_hub
+		}
+		trigger = {
+			num_of_owned_provinces_with = {
+				culture = rusyn
+				value = 10
+			}
+		}
+		effect = {
+			add_stability = 1
+			every_province = {
+				limit = {
+					OR = {
+						province_id = 173  # Galicia
+						province_id = 174  # Volhynia
+					}
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "uz_unified_rusin_lands"
+				duration = -1
+			}
+		}
+		ai_weight = {
+			factor = 600
+		}
+	}
+	uz_protect_eastern_frontier = {
+		icon = mission_build_up_to_force_limit
+		position = 10
+		required_missions = {
+			uz_unite_rusin_lands
+		}
+		trigger = {
+			172 = {				# Eastern Carpathians
+				owned_by = ROOT
+			}
+			172 = {
+				has_fort_building_trigger = yes
+			}
+		}
+		effect = {
+			172 = {
+				add_province_modifier = {
+					name = "uz_protected_frontier"
+					duration = 7300
+				}
+			}
+			add_country_modifier = {
+				name = "uz_enemy_attrition"
+				duration = 7300
+			}
+		}
+		ai_weight = {
+			factor = 550
+		}
+	}
+}
+
+UZH_missions_3_branches = {
+	slot = 3
+	generic = no
+	ai = yes
+	has_country_shield = yes
+	potential = {
+		tag = UZH
+		NOT = {
+			has_country_flag = hab_hre_branch
+		}
+		NOT = {
+			has_country_flag = hab_germany_branch
+		}
+	}
+	hab_branching2 = {
+		icon = mission_unknown_mission
+		position = 2
+		required_missions = {
+			uzh_pannonian_ambitions
+		}
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = HAB_this_is_a_branching_mission
+				always = no
+			}
+		}
+		effect = {
+			custom_tooltip = HAB_this_is_a_branching_mission
+		}
+	}
+	hab_branching5 = {
+		icon = mission_unknown_mission
+		position = 3
+		required_missions = {
+			hab_branching2
+		}
+		trigger = {
+			custom_trigger_tooltip = {
+				tooltip = HAB_this_is_a_branching_mission
+				always = no
+			}
+		}
+		effect = {
+			custom_tooltip = HAB_this_is_a_branching_mission
+		}
+	}
+}
+
+UZH_missions_3_brach1 = {
+	slot = 3
+	generic = no
+	ai = yes
+	has_country_shield = yes
+	potential = {
+		tag = UZH
+		has_country_flag = hab_hre_branch
+	}
+	uz_rusyn_cultural_awakening = {
+		icon = mission_plc_cultural_flowering
+		position = 5
+		required_missions = {
+			uzh_pannonian_ambitions
+		}
+		# Місія, яка передує цій
+		trigger = {
+			primary_culture = ruthenian
+			num_of_owned_provinces_with = {
+				culture = ruthenian
+				value = 2
+			}
+			religious_unity = 0.75
+			2930 = {
+				owned_by = ROOT
+			}
+			# Maramures region
+		}
+		effect = {
+			add_accepted_culture = rusyn
+			add_country_modifier = {
+				name = "uz_cultural_renaissance"
+				duration = 7300
+			}
+			add_prestige = 10
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+UZH_missions_3_brach2 = {
+	slot = 3
+	generic = no
+	ai = yes
+	has_country_shield = yes
+	potential = {
+		tag = UZH
+		has_country_flag = hab_germany_branch
+	}
+	uz_guardians_of_rusyn_legacy = {
+		icon = mission_plc_cultural_flowering
+		position = 6
+		required_missions = {
+			uzh_pannonian_ambitions
+		}
+		trigger = {
+			primary_culture = rusyn
+			num_of_owned_provinces_with = {
+				value = 3
+				culture = rusyn
+			}
+			num_of_owned_provinces_with = {
+				value = 1
+				culture_group = east_slavic
+			}
+			unrest = 0
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uz_rusyn_legacy_protector"
+				duration = 7300
+			}
+			custom_tooltip = uz_increase_tolerance_of_true_faith
+			hidden_effect = {
+				add_country_modifier = {
+					name = "tolerance_own"
+					duration = -1
+					hidden = yes
+				}
+				add_country_modifier = {
+					name = "religious_unity"
+					duration = -1
+				}
+			}
+			add_country_modifier = {
+				name = "diplomatic_reputation"
+				duration = 3650
+			}
+			every_province = {
+				limit = {
+					OR = {
+						province_id = 173  # Galicia
+						province_id = 174  # Volhynia
+					}
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+UZH_missions_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		NOT = {
+			map_setup = map_setup_random
+		}
+		tag = UZH
+	}
+	has_country_shield = yes
+	uzh_consolidate_rusin_authority = {
+		icon = mission_empire
+		required_missions = {
+		}
+		position = 3
+		provinces_to_highlight = {
+			OR = {
+				province_id = 2930 # Maramures
+				province_id = 1952 # Carpathians
+				province_id = 157 # Vasvar
+			}
+		}
+		trigger = {
+			OR = {
+				2930 = { owned_by = ROOT }  # Maramures
+				1952 = { owned_by = ROOT }  # Carpathians
+			}
+			crown_land_share = 25
+		}
+		effect = {
+			every_province = {
+				limit = {
+					culture = rusyn
+					NOT = { is_core = ROOT }
+				}
+				add_core = ROOT
+			}
+			if = {
+				limit = {
+					2930 = { # Maramures province
+						owned_by = ROOT
+					}
+				}
+				2930 = {
+					add_local_autonomy = -10
+				}
+			}
+		}
+	}
+	uzh_strengthen_eastern_frontier = {
+		icon = mission_build_up_to_force_limit
+		required_missions = {
+			uzh_consolidate_rusin_authority
+		}
+		position = 4
+		trigger = {
+			any_owned_province = {
+				province_id = 2930  # Maramures
+				has_fort_building_trigger = yes
+			}
+			transylvania_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uzh_strong_frontier"
+				duration = 7300
+			}
+			add_country_modifier = {
+				name = "uz_enemy_attrition"
+				duration = 7300
+			}
+			add_country_modifier = {
+				name = "uzh_strong_frontier"
+				duration = 7300
+			}
+		}
+	}
+		uzh_protect_rusin_heritage = {
+		icon = mission_plc_cultural_flowering
+		required_missions = {
+			uzh_strengthen_eastern_frontier
+		}
+		position = 6
+		trigger = {
+			culture = rusyn
+			num_of_owned_provinces_with = {
+				culture = rusyn
+				value = 3
+			}
+			any_province = {
+				has_building = cathedral
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uzh_heritage_protected"
+				duration = 7300
+			}
+			add_country_modifier = {
+				name = "uzh_heritage_protected"
+				duration = 7300
+			}
+		}
+	}
+	uzh_expand_into_pannonia = {
+		icon = mission_conquer_5_states
+		required_missions = {
+			uzh_protect_rusin_heritage
+		}
+		position = 9
+		trigger = {
+			num_of_owned_provinces_with = {
+				region = carpathia_region
+				value = 1
+			}
+			num_of_owned_provinces_with = {
+				region = carpathia_region
+				value = 5
+			}
+			any_owned_province = {
+				has_fort_building_trigger = yes
+			}
+		}
+		effect = {
+			carpathia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = "production_efficiency"
+				duration = 3650
+			}
+			add_country_modifier = {
+				name = "uzh_pannonia_expansion"
+				duration = 7300
+			}
+		}
+	}
+	uzh_establish_rusin_metropolis = {
+		icon = mission_early_game_buildings
+		required_missions = {
+			uzh_expand_into_pannonia
+		}
+		position = 10
+		trigger = {
+			owns_core_province = 2930
+			# Maramures
+			2930 = {
+				development = 20
+				has_building = university
+				is_capital = yes
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "innovative_modifier"
+				duration = 7300
+			}
+			add_prestige_or_monarch_power = { amount = 15 }
+			add_country_modifier = {
+				name = "uzh_cultural_hub"
+				duration = 7300
+			}
+		}
+	}
+}
+
+UZH_missions_5 = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		tag = UZH
+		NOT = {
+			map_setup = map_setup_random
+		}
+	}
+	has_country_shield = yes
+	unite_the_rusin_lands = {
+		icon = mission_unite_home_region
+		required_missions = {
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 173 # Galicia
+				province_id = 174 # Volhynia
+				province_id = 2930 # Maramures
+				province_id = 1952 # Carpathians
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			is_subject = no
+			owns_core_province = 173 # Galicia
+			owns_core_province = 174 # Volhynia
+			owns_core_province = 2930 # Maramures
+			owns_core_province = 1952 # Carpathians
+		}
+		effect = {
+			173 = { # Galicia
+				add_nationalism = -10
+			}
+			174 = { # Volhynia
+				add_nationalism = -10
+			}
+			transylvania_area = {
+				add_nationalism = -10
+			}
+			add_country_modifier = {
+				name = "uz_unified_rusin_lands"
+				duration = 7300
+			}
+		}
+	}
+	found_maramures_capital = {
+		icon = mission_eastern_european_city
+		required_missions = {
+			unite_the_rusin_lands
+		}
+		provinces_to_highlight = {
+			province_id = 2930			# Maramures province
+		}
+		trigger = {
+			2930 = {
+				owned_by = ROOT
+				NOT = {
+					devastation = 1
+				}
+				NOT = {
+					unrest = 1
+				}
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+				OR = {
+					has_building = workshop
+					has_building = counting_house
+				}
+			}
+		}
+		effect = {
+			2930 = {
+				move_capital_effect = yes
+				change_province_name = "Maramures"
+				rename_capital = "Maramures"
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+				add_province_modifier = {
+					name = "maramures_capital_modifier"
+					duration = -1
+				}
+			}
+			transylvania_area = {
+				limit = {
+					NOT = {
+						is_permanent_claim = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			southern_transylvania_area = {
+				limit = {
+					NOT = {
+						is_permanent_claim = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	expand_into_transylvania = {
+		icon = mission_landsknecht_soldier
+		required_missions = {
+			found_maramures_capital
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = transylvania_area
+				area = southern_transylvania_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			transylvania_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			southern_transylvania_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			transylvania_area = {
+				add_local_autonomy = -25
+			}
+			southern_transylvania_area = {
+				add_local_autonomy = -25
+			}
+			add_country_modifier = {
+				name = "consolidating_transylvania"
+				duration = 7300
+			}
+		}
+	}
+	fortify_eastern_borders = {
+		icon = mission_conquer_50_development
+		required_missions = {
+			expand_into_transylvania
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			has_fort_building_trigger = yes
+			NOT = {
+				fort_level = 4
+			}
+		}
+		trigger = {
+			num_of_owned_provinces_with = {
+				fort_level = 4
+				value = 4
+			}
+		}
+		effect = {
+			add_yearly_manpower = 1
+			add_country_modifier = {
+				name = "eastern_bulwark"
+				duration = 7300
+			}
+		}
+	}
+	appoint_regional_governors = {
+		icon = mission_noble_council
+		required_missions = {
+			fortify_eastern_borders
+		}
+		trigger = {
+			if = {
+				limit = {
+					is_revolutionary = no
+				}
+				absolutism = 50
+			}
+			NOT = {
+				num_of_loans = 1
+			}
+			NOT = {
+				corruption = 2
+			}
+			has_mil_advisor_2 = yes
+			has_adm_advisor_2 = yes
+			has_dip_advisor_2 = yes
+		}
+		effect = {
+			define_advisor = {
+				culture = rusyn
+				religion = ROOT
+				type = statesman
+				skill = 3
+				cost_multiplier = 0.5
+			}
+			add_country_modifier = {
+				name = "regional_governors_modifier"
+				duration = 7300
+			}
+		}
+	}
+}

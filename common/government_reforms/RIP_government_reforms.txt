@@ -35,7 +35,7 @@ kyivan_rus_reform = {
 	royal_marriage = yes
 	can_use_trade_post = yes
 	can_form_trade_league = yes
-	trade_city_reform = princepality_appanage
+	trade_city_government = princepality_appanage
 	government_abilities = {
 		cossacks_mechanic
 	}
@@ -414,14 +414,10 @@ cossacks_reform = {
 			has_itinerant_capital = yes
 		}
 	}
-	conditional = {
-		allow = {
-			NOT = {
-				tag = HET
-			}
-		}
-		fixed_rank = 1
+	trigger = {
+		always = yes
 	}
+	fixed_rank = 1
 	valid_for_new_country = yes
 	nation_designer_trigger = {
 		any_owned_province = {
