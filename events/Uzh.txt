@@ -1,0 +1,408 @@
+namespace = uzh
+
+# Event 1: Збереження Православної Віри
+country_event = {
+    id = uzh.1
+    title = "uzh.1.t"
+    desc = "uzh.1.d"
+    picture = ORTHODOX_eventPicture
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = "uzh.1.a"
+        add_country_modifier = {
+            name = "religious_unity" 
+            duration = 7300
+        }
+        add_patriarch_authority = 0.1
+        add_stability = 1
+    }
+}
+
+# Event 2: Угорське Покровительство
+country_event = {
+    id = uzh.2
+    title = "uzh.2.t"
+    desc = "uzh.2.d"
+    picture = DIPLOMACY_eventPicture
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = "uzh.2.a"
+        add_country_modifier = {
+            name = "uz_advisor_pool"
+            duration = 5475
+        }
+        add_dip_power = 50
+        if = {
+            limit = { 
+                exists = HUN
+                NOT = { alliance_with = HUN }
+            }
+            reverse_add_opinion = {
+                who = HUN
+                modifier = opinion_improved_relations
+            }
+        }
+    }
+    
+    option = {
+        name = "uzh.2.b"
+        add_country_modifier = {
+            name = "uz_advisor_pool"
+            duration = 5475
+        }
+        add_dip_power = 100
+        add_prestige = 10
+    }
+}
+
+# Event 3: Маркетська Автономія
+country_event = {
+    id = uzh.3
+    title = "uzh.3.t"
+    desc = "uzh.3.d"
+    picture = CITY_eventPicture
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = "uzh.3.a"
+        1952 = {
+            add_province_modifier = {
+                name = "uz_mukachevo_privileges"
+                duration = -1
+            }
+            add_base_tax = 1
+        }
+        add_country_modifier = {
+            name = "uz_administrative_efficiency"
+            duration = 7300
+        }
+    }
+    
+    option = {
+        name = "uzh.3.b"
+        1952 = {
+            add_province_modifier = {
+                name = "uz_mukachevo_privileges"
+                duration = -1
+            }
+            add_base_production = 1
+        }
+        add_country_modifier = {
+            name = "uz_administrative_efficiency"
+            duration = 7300
+        }
+        add_years_of_income = 0.25
+    }
+}
+
+# Event 4: Русинська Грамотність
+country_event = {
+    id = uzh.4
+    title = "uzh.4.t"
+    desc = "uzh.4.d"
+    picture = UNIVERSITY_eventPicture
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = "uzh.4.a"
+        add_country_modifier = {
+            name = "uz_rusin_enlightenment"
+            duration = 9125
+        }
+        change_primary_culture = rusyn
+        capital_scope = {
+            add_base_tax = 1
+        }
+        add_adm_power = 50
+    }
+}
+
+# Event 5: Опір Габсбургам
+country_event = {
+    id = uzh.5
+    title = "uzh.5.t"
+    desc = "uzh.5.d"
+    picture = BATTLE_eventPicture
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = "uzh.5.a"
+        add_country_modifier = {
+            name = "uz_habsburg_resistance" 
+            duration = 7300
+        }
+        add_mil_power = 100
+        add_army_tradition = 10
+    }
+    
+    option = {
+        name = "uzh.5.b"
+        add_country_modifier = {
+            name = "uz_habsburg_resistance" 
+            duration = 7300
+        }
+        add_mil_power = 50
+        add_manpower = 2
+        create_general = { tradition = 40 }
+    }
+}
+
+# Event 6: Великий Переселенський Рух
+country_event = {
+    id = uzh.6
+    title = "uzh.6.t"
+    desc = "uzh.6.d"
+    picture = COLONIZATION_eventPicture
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = "uzh.6.a"
+        add_country_modifier = {
+            name = "uz_pannonian_settlement"
+            duration = 10950
+        }
+        every_province = {
+            limit = {
+                area = alfold_area
+                NOT = { owned_by = ROOT }
+            }
+            add_permanent_claim = ROOT
+        }
+        every_province = {
+            limit = {
+                area = southern_transylvania_area
+                NOT = { owned_by = ROOT }
+            }
+            add_permanent_claim = ROOT
+        }
+    }
+    
+    option = {
+        name = "uzh.6.b"
+        add_country_modifier = {
+            name = "uz_pannonian_settlement"
+            duration = 10950
+        }
+        every_owned_province = {
+            limit = {
+                culture = rusyn
+            }
+            add_base_manpower = 1
+        }
+        add_years_of_income = -0.5
+    }
+}
+
+# Event 7: Національне Відродження
+country_event = {
+    id = uzh.7
+    title = "uzh.7.t"
+    desc = "uzh.7.d"
+    picture = CULTURE_eventPicture
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = "uzh.7.a"
+        add_country_modifier = {
+            name = "uz_rusin_national_awakening"
+            duration = -1
+        }
+        add_prestige = 25
+        every_owned_province = {
+            limit = {
+                culture = rusyn
+            }
+            add_local_autonomy = -10
+        }
+    }
+}
+
+# Event 8: Русинська Держава
+country_event = {
+    id = uzh.8
+    title = "uzh.8.t"
+    desc = "uzh.8.d"
+    picture = COURT_eventPicture
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = "uzh.8.a"
+        add_country_modifier = {
+            name = "uz_sovereign_rusin_state"
+            duration = -1
+        }
+        add_adm_power = 400
+        add_dip_power = 400
+        add_mil_power = 400
+        add_prestige = 50
+        set_government_rank = 2
+    }
+}
+namespace = uzh_identity
+
+# Event 1: Питання Ідентичності - Ключовий вибір
+country_event = {
+    id = uzh_identity.1
+    title = "uzh_identity.1.t"
+    desc = "uzh_identity.1.d"
+    picture = DIPLOMACY_eventPicture
+    
+    is_triggered_only = yes
+    
+    # Руська спадщина (україно-орієнтована)
+    option = {
+        name = "uzh_identity.1.a"
+        set_country_flag = chose_ruthenian_identity
+        add_country_modifier = {
+            name = "uz_ruthenian_awakening"
+            duration = 7300
+        }
+        add_prestige = 15
+        change_primary_culture = ruthenian
+        every_owned_province = {
+            limit = {
+                culture = rusyn
+            }
+            change_culture = ruthenian
+        }
+    }
+    
+    # Русинська автономія
+    option = {
+        name = "uzh_identity.1.b"
+        set_country_flag = chose_rusyn_identity
+        add_country_modifier = {
+            name = "uz_rusyn_autonomy"
+            duration = 7300
+        }
+        add_republican_tradition = 10
+        change_government = republic
+        change_primary_culture = rusyn
+    }
+    
+    # Угроруська інтеграція
+    option = {
+        name = "uzh_identity.1.c"
+        set_country_flag = chose_uhro_rusyn_identity
+        add_country_modifier = {
+            name = "uz_uhro_rusyn_integration"
+            duration = 7300
+        }
+        add_accepted_culture = hungarian
+        if = {
+            limit = { exists = HUN }
+            HUN = {
+                add_opinion = {
+                    who = ROOT
+                    modifier = opinion_improved_relations
+                }
+            }
+        }
+    }
+}
+
+# Event 2: Наслідки Руського Вибору
+country_event = {
+    id = uzh_identity.2
+    title = "uzh_identity.2.t"
+    desc = "uzh_identity.2.d"
+    picture = ORTHODOX_eventPicture
+    
+    trigger = {
+        has_country_flag = chose_ruthenian_identity
+        NOT = { has_country_flag = ruthenian_consequences_fired }
+    }
+    
+    mean_time_to_happen = {
+        months = 12
+    }
+    
+    option = {
+        name = "uzh_identity.2.a"
+        set_country_flag = ruthenian_consequences_fired
+        add_patriarch_authority = 0.1
+        every_owned_province = {
+            limit = {
+                religion = orthodox
+            }
+            add_province_modifier = {
+                name = "uz_orthodox_revival"
+                duration = 5475
+            }
+        }
+    }
+}
+
+# Event 3: Наслідки Русинського Вибору
+country_event = {
+    id = uzh_identity.3
+    title = "uzh_identity.3.t"
+    desc = "uzh_identity.3.d"
+    picture = DIPLOMACY_eventPicture
+    
+    trigger = {
+        has_country_flag = chose_rusyn_identity
+        NOT = { has_country_flag = rusyn_consequences_fired }
+    }
+    
+    mean_time_to_happen = {
+        months = 12
+    }
+    
+    option = {
+        name = "uzh_identity.3.a"
+        set_country_flag = rusyn_consequences_fired
+        add_republican_tradition = 15
+        every_owned_province = {
+            limit = {
+                culture = rusyn
+            }
+            add_local_autonomy = -15
+        }
+    }
+}
+
+# Event 4: Наслідки Угрорусінського Вибору
+country_event = {
+    id = uzh_identity.4
+    title = "uzh_identity.4.t"
+    desc = "uzh_identity.4.d"
+    picture = DIPLOMACY_eventPicture
+    
+    trigger = {
+        has_country_flag = chose_uhro_rusyn_identity
+        NOT = { has_country_flag = uhro_rusyn_consequences_fired }
+    }
+    
+    mean_time_to_happen = {
+        months = 12
+    }
+    
+    option = {
+        name = "uzh_identity.4.a"
+        set_country_flag = uhro_rusyn_consequences_fired
+        if = {
+            limit = { 
+                exists = HUN
+                NOT = { alliance_with = HUN }
+            }
+            create_alliance = HUN
+        }
+        every_owned_province = {
+            limit = {
+                culture = hungarian
+            }
+            add_base_tax = 1
+        }
+    }
+}
