@@ -32,10 +32,9 @@ kyivan_rus_reform = {
 	rulers_can_be_generals = yes
 	heirs_can_be_generals = yes
 	allow_convert = no
-	royal_marriage = yes
 	can_use_trade_post = yes
 	can_form_trade_league = yes
-	trade_city_reform = princepality_appanage
+	trade_city_government = princepality_appanage
 	government_abilities = {
 		cossacks_mechanic
 	}
@@ -80,7 +79,7 @@ ruthenian_principality_reform = {
 		}
 	}
 	modifiers = {
-		state_governing_cost = 1
+		state_governing_cost = -0.1
 		vassal_income = 0.5
 		min_autonomy = 0.25
 	}
@@ -100,7 +99,7 @@ princepality_appanage = {
 	modifiers = {
 		trade_efficiency = 0.1
 		development_cost = -0.1
-		max_absolutism = 20
+		max_absolutism = -20
 		burghers_influence_modifier = 0.15
 	}
 	fixed_rank = 1
@@ -124,19 +123,15 @@ elected_assemblies_reform = {
 	icon = "fist_in_air"
 	allow_normal_conversion = yes
 	trigger = {
-		OR = {
-			has_reform = kyivan_rus_reform
-		}
+		has_reform = kyivan_rus_reform
 	}
-	lock_level_when_selected = yes
-	allow_convert = yes
 	modifiers = {
-		min_autonomy_in_territories = 0.2
+		min_autonomy_in_territories = -0.2
 		candidate_random_bonus = 2
 		diplomats = 1
 		diplomatic_reputation = 1
-		envoy_travel_time = 0.5
-		inflation_reduction = 0.5
+		envoy_travel_time = -0.25
+		inflation_reduction = 0.05
 	}
 }
 
@@ -153,7 +148,8 @@ boyar_elite_reform = {
 	}
 	modifiers = {
 		army_tradition = 0.5
-		land_attrition = -0.05
+		land_attrition = -0.1
+		nobles_influence_modifier = 0.1
 	}
 }
 
@@ -171,9 +167,9 @@ sacred_regulation_reform = {
 	}
 	modifiers = {
 		tolerance_own = 2
-		monthly_splendor = 0.1
+		monthly_splendor = 1
 		unjustified_demands = -0.25
-		yearly_absolutism = 0.1
+		yearly_absolutism = 1
 	}
 }
 
@@ -189,8 +185,9 @@ patriarch_engagement_reform = {
 		}
 	}
 	modifiers = {
-		missionary_maintenance_cost = -0.2
-		global_missionary_strength = 0.01
+		missionary_maintenance_cost = -0.5
+		global_missionary_strength = 0.02
+		clergy_influence_modifier = 0.1
 	}
 }
 
@@ -208,8 +205,9 @@ merchant_nobility_reform = {
 	}
 	modifiers = {
 		merchants = 1
-		global_tax_modifier = -0.1
+		global_tax_modifier = 0.1
 		trade_company_investment_cost = -0.33
+		burghers_influence_modifier = 0.1
 	}
 }
 
@@ -227,6 +225,7 @@ open_trading_ports_reform = {
 	modifiers = {
 		global_own_trade_power = 0.2
 		center_of_trade_upgrade_cost = -0.5
+		trade_steering = 0.25
 	}
 }
 
@@ -242,10 +241,11 @@ assembly_houses_reform = {
 			has_reform = princepality_appanage
 		}
 	}
-	different_religion_acceptance = 10
+	different_religion_acceptance = 25
 	modifiers = {
 		global_institution_spread = 0.25
 		global_unrest = -1
+		stability_cost_modifier = -0.1
 	}
 }
 
@@ -266,6 +266,7 @@ considerable_bloodline_reform = {
 	modifiers = {
 		max_absolutism = 10
 		monarch_admin_power = 2
+		legitimacy = 1
 	}
 }
 
@@ -278,18 +279,18 @@ representation_monarchy_reform = {
 		}
 		queen = no
 		heir = no
-		duration = 40
+		duration = 4
 		has_term_election = yes
 		states_general_mechanic = {
 			boyars = {
 				global_tax_modifier = 0.2
-				liberty_desire_from_subject_development = -1.5
+				liberty_desire_from_subject_development = -0.15
 			}
 			princes = {
-				max_absolutism = 0.15
+				max_absolutism = 15
 				local_autonomy = -0.05
 				legitimacy = 1
-				reform_progress_growth = 1
+				monthly_reform_progress = 0.1
 			}
 		}
 	}
@@ -302,13 +303,13 @@ representation_monarchy_reform = {
 	lock_level_when_selected = yes
 	allow_convert = yes
 	modifiers = {
-		global_unrest = -0.5
-		global_tax_modifier = -0.1
-		max_absolutism = -0.1
-		legitimacy = -0.5
+		global_unrest = -1
+		global_tax_modifier = 0.1
+		max_absolutism = -10
+		legitimacy = 0.5
 		promote_culture_cost = -0.25
 		years_of_nationalism = -10
-		global_missionary_strength = -0.05
+		global_missionary_strength = 0.02
 	}
 }
 
@@ -331,13 +332,14 @@ legislative_rada_reform = {
 		has_parliament = yes
 	}
 	modifiers = {
-		yearly_corruption = -0.05
+		yearly_corruption = -0.1
 		global_tax_modifier = 0.1
-		advisor_cost = -0.25
+		advisor_cost = -0.15
+		stability_cost_modifier = -0.1
 	}
 }
 
-Divine_tsyisar_reform = {
+divine_tsyisar_reform = {
 	icon = "king_highlighted"
 	allow_normal_conversion = yes
 	trigger = {
@@ -357,9 +359,9 @@ Divine_tsyisar_reform = {
 	}
 	modifiers = {
 		legitimacy = 1
-		global_unrest = -1
-		max_absolutism = 1
-		free_mil_policy = 1
+		global_unrest = -2
+		max_absolutism = 10
+		free_policy = 1
 	}
 }
 
@@ -414,14 +416,10 @@ cossacks_reform = {
 			has_itinerant_capital = yes
 		}
 	}
-	conditional = {
-		allow = {
-			NOT = {
-				tag = HET
-			}
-		}
-		fixed_rank = 1
+	trigger = {
+		always = yes
 	}
+	fixed_rank = 1
 	valid_for_new_country = yes
 	nation_designer_trigger = {
 		any_owned_province = {
@@ -435,10 +433,11 @@ cossacks_reform = {
 	valid_for_nation_designer = yes
 	nation_designer_cost = 60
 	modifiers = {
-		cavalry_power = 0.2
-		cavalry_cost = -0.2
-		cav_to_inf_ratio = 0.2
-		governing_capacity = 50
+		cavalry_power = 0.25
+		cavalry_cost = -0.15
+		cav_to_inf_ratio = 0.25
+		governing_capacity = 150
+		loot_amount = 0.5
 	}
 	duration = 4
 }

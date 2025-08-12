@@ -429,7 +429,7 @@ country_event = {
 			has_disaster = governmental_disruption
 		}
 		hidden_trigger = {
-			has_country_flag = governmental_disruption_rebellion
+			has_country_flag = aftermath_of_revolt
 		}
 	}
 	option = {
@@ -525,7 +525,8 @@ country_event = {
 		}
 	}
 	option = {
-		name = princes_revolt.2a
+		name = "princes_revolt.2a" #Rebels Win
+		add_stability = 1
 	}
 }
 
@@ -660,31 +661,10 @@ country_event = {
 		create_subject = {
 			subject_type = princedom
 			subject = FROM
-			event_target:FROM = {
-				country_event = {
-					id = kyiv_independence.4
-				}
-			}
 		}
 	}
 }
 
-country_event = {
-	id = kyiv_independence.3
-	title = "kyiv_independence.3t"
-	desc = "kyiv_independence.3d"
-	picture = CIVIL_WAR_eventPicture
-	is_triggered_only = yes
-	trigger = {
-	}
-	option = {
-		name = "kyiv_independence.3a"
-		create_subject = {
-			subject_type = princedom
-			subject = FROM 
-		}
-	} 
-} 
 namespace = ruth_instituties
 country_event = {
 	id = ruth_instituties.1
@@ -792,7 +772,7 @@ country_event = {
 	picture = CIVIL_WAR_eventPicture
 	is_triggered_only = yes
 	mean_time_to_happen = {
-		days = 365
+		days = 1
 	}
 	trigger = {
 		tag = CRI
@@ -825,4 +805,34 @@ country_event = {
 			factor = 0.1
 		}
 	}
+}
+
+namespace = uzh_identity
+
+# Identity Choice Event
+country_event = {
+    id = uzh_identity.1
+    title = "uzh_identity.1.t"
+    desc = "uzh_identity.1.d"
+    picture = DIPLOMACY_eventPicture
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = "uzh_identity.1.a"  # Choose Ruthenian path
+        set_country_flag = chose_ruthenian_identity
+        add_prestige = 10
+    }
+    
+    option = {
+        name = "uzh_identity.1.b"  # Choose Slovak path  
+        set_country_flag = chose_slovak_identity
+        add_prestige = 10
+    }
+    
+    option = {
+        name = "uzh_identity.1.c"  # Choose Uhro-Rusyn path
+        set_country_flag = chose_uhro_rusyn_identity
+        add_prestige = 10
+    }
 }
