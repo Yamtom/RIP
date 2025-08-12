@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Alternative Ruthenian Immersion Pack
 
 The **Alternative Ruthenian Immersion Pack** is a fan-made mod for *Europa Universalis IV* that explores an alternate historical development of Ruthenia. It adds new nations, missions, decisions, and other flavour content to enrich gameplay in Eastern Europe.
@@ -14,3 +15,14 @@ The **Alternative Ruthenian Immersion Pack** is a fan-made mod for *Europa Unive
 - The included `descriptor.mod` file specifies no external dependencies.
 
 Enjoy an alternate Ruthenian experience!
+=======
+# RIP
+
+## Running Tests
+
+To ensure event IDs are unique, run:
+
+```sh
+python tests/test_event_ids.py
+```
+>>>>>>> origin/codex/add-tests-for-unique-event-ids
