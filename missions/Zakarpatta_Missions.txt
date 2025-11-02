@@ -284,7 +284,6 @@ UZH_missions_1 = {
             factor = 700
         }
     }
-
 }
 
 # Лінія розселення в Паннонію
@@ -331,6 +330,12 @@ UZH_missions_2 = {
             add_country_modifier = {
                 name = "uz_frontier_expansion"
                 duration = 5475
+            }
+            1952 = {
+                add_province_modifier = {
+                    name = "uz_protected_frontier"
+                    duration = 5475
+                }
             }
             add_mil_power = 50
             add_dip_power = 25
@@ -423,43 +428,46 @@ UZH_missions_2 = {
 		}
 	}
 	
-	# Mission 4: Срємська Митрополія
-	uzh_srem_metropolis = {
-		icon = mission_religious
-		required_missions = {
-			uzh_banat_colonization
-		}
-		position = 6
-		trigger = {
+    # Mission 4: Срємська Митрополія
+    uzh_srem_metropolis = {
+        icon = mission_religious
+        required_missions = {
+            uzh_banat_colonization
+        }
+        position = 6
+        trigger = {
             has_country_flag = uzh_banat_settled
-			owns = 2960 # Novi Sad
-			2960 = {
-				religion = orthodox
-				has_building = cathedral
-			}
-		}
-		effect = {
-			2960 = {
-				add_province_modifier = {
-					name = "uz_orthodox_metropolis"
-					duration = -1
-				}
-			}
-			add_patriarch_authority = 0.15
+            owns = 2960 # Novi Sad
+            2960 = {
+                religion = orthodox
+                has_building = cathedral
+            }
+        }
+        effect = {
+            2960 = {
+                add_province_modifier = {
+                    name = "uz_orthodox_metropolis"
+                    duration = -1
+                }
+            }
+            add_patriarch_authority = 0.15
+            country_event = {
+                id = uzh.201
+            }
             set_country_flag = uzh_srem_metropolis_consecrated
-		}
-		ai_weight = {
-			factor = 500
-		}
-	}
-	
-	# Mission 5: Паннонська Республіка 
-	uzh_pannonian_republic = {
+        }
+        ai_weight = {
+            factor = 500
+        }
+    }
+
+    # Mission 5: Паннонська Республіка 
+    uzh_pannonian_republic = {
 		icon = mission_empire
 		required_missions = {
-			uzh_srem_metropolis
+            uzh_srem_metropolis
 		}
-		position = 7
+        position = 7
 		trigger = {
             has_country_flag = uzh_srem_metropolis_consecrated
             has_country_flag = uzh_diaspora_started
@@ -489,6 +497,10 @@ UZH_missions_2 = {
                 name = "uz_border_guard_union"
                 duration = 5475
             }
+			add_country_modifier = {
+				name = "uz_carpathian_hegemony"
+				duration = -1
+			}
             add_manpower = 6
             change_government_reform_progress = 50
             if = {
@@ -530,6 +542,9 @@ UZH_missions_2 = {
                 }
             }
             set_country_flag = uzh_pannonian_compact_signed
+			country_event = {
+				id = uzh.202
+			}
 		}
 		ai_weight = {
 			factor = 400
@@ -677,14 +692,14 @@ UZH_missions_3 = {
                 limit = { religion = orthodox }
                 add_patriarch_authority = 0.15
                 add_country_modifier = {
-                    name = "religious_unity"
+                    name = "uz_old_rite_resilience"
                     duration = 9125
                 }
             }
             else = {
                 add_papal_influence = 25
                 add_country_modifier = {
-                    name = "religious_unity"
+                    name = "uz_greek_catholic_concord"
                     duration = 7300
                 }
             }
@@ -812,7 +827,6 @@ UZH_missions_3_ruthenian = {
     generic = no
     ai = yes
     potential = {
-        has_dlc = "Winds of Change"
         tag = UZH
         has_country_flag = chose_ruthenian_identity
     }
@@ -886,7 +900,7 @@ UZH_missions_3_ruthenian = {
         }
         effect = {
             add_country_modifier = {
-                name = "religious_center"
+                name = "orthodox_zeal"
                 duration = -1
             }
             every_owned_province = {
@@ -894,7 +908,7 @@ UZH_missions_3_ruthenian = {
                     religion = orthodox
                 }
                 add_province_modifier = {
-                    name = "religious_center"
+                    name = "uz_orthodox_metropolis"
                     duration = -1
                 }
             }
@@ -928,6 +942,10 @@ UZH_missions_3_ruthenian = {
                 name = "uz_pan_ruthenian_union"
                 duration = -1
             }
+            add_country_modifier = {
+                name = "uz_ambitious_expansion_modifier"
+                duration = 5475
+            }
             ruthenia_region = {
                 limit = {
                     NOT = { owned_by = ROOT }
@@ -949,7 +967,6 @@ UZH_missions_3_rusyn = {
     generic = no
     ai = yes
     potential = {
-        has_dlc = "Winds of Change"
         tag = UZH
         has_country_flag = chose_rusyn_identity
     }
@@ -1010,13 +1027,12 @@ UZH_missions_3_rusyn = {
             add_country_modifier = {
                 name = "uz_carpathian_federation"
                 duration = -1
-                # Removed invalid effect stability_cost_modifier
             }
             change_government_reform_progress = 100
             add_republican_tradition = 30
             add_country_modifier = {
-                name = "diplomatic_reputation"
-                duration = 7300  # 20 years
+                name = "uz_carpathian_federation_diprep"
+                duration = 7300
             }
             add_country_modifier = {
                 name = "uz_administrative_efficiency"
@@ -1071,7 +1087,6 @@ UZH_missions_3_uhro_rusyn = {
     generic = no
     ai = yes
     potential = {
-        has_dlc = "Winds of Change"
         tag = UZH
         has_country_flag = chose_uhro_rusyn_identity
     }
@@ -1291,10 +1306,6 @@ UZH_missions_3_uhro_rusyn = {
                 every_subject_country = {
                     add_liberty_desire = -25
                 }
-            }
-            add_country_modifier = {
-                name = "diplomatic_reputation"
-                duration = -1
             }
             if = {
                 limit = {
@@ -1604,7 +1615,7 @@ UZH_missions_5 = {
 			uzh_trade_routes
 		}
 		position = 6
-		trigger = {
+    	trigger = {
             has_country_flag = uzh_trade_corridors_established
             has_institution = manufactories
             num_of_owned_provinces_with = {
@@ -1622,11 +1633,9 @@ UZH_missions_5 = {
                 }
                 value = 3
             }
-            custom_trigger_tooltip = {
-                tooltip = UZH_industrial_coal_tt
-                any_owned_province = {
-                    trade_goods = coal
-                }
+            num_of_owned_provinces_with = {
+                trade_goods = coal
+                value = 1
             }
 		}
 		effect = {
@@ -1647,9 +1656,84 @@ UZH_missions_5 = {
                 }
             }
             set_country_flag = uzh_industrialization_in_motion
+			country_event = {
+				id = uzh.203
+			}
 		}
 		ai_weight = {
 		 factor = 600
+		}
+	}
+
+	# Mission 4A: Карпатська Патрональна Унія
+	uzh_congress_subject_hegemony = {
+		icon = mission_alliances
+		required_missions = {
+			uzh_industrial_revolution
+		}
+		position = 7
+		trigger = {
+			has_country_flag = uzh_congress_subject_path
+			num_of_subjects = 1
+            all_subject_country = {
+                liberty_desire < 50
+                has_opinion = {
+                    who = ROOT
+                    value = 100
+                }
+            }
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uz_congress_subject_charters"
+				duration = -1
+			}
+			every_subject_country = {
+				add_liberty_desire = -10
+				add_opinion = {
+					who = ROOT
+					modifier = opinion_granted_privileges
+				}
+			}
+			add_dip_power = 150
+			change_government_reform_progress = 50
+			set_country_flag = uzh_congress_subject_supremacy
+		}
+		ai_weight = {
+			factor = 350
+		}
+	}
+
+	# Mission 4B: Карпатський Оборонний Щит
+	uzh_congress_border_bastion = {
+		icon = mission_empire
+		required_missions = {
+			uzh_industrial_revolution
+		}
+		position = 8
+		trigger = {
+			has_country_flag = uzh_congress_border_path
+			manpower_percentage = 0.6
+			army_tradition = 30
+			army_professionalism = 0.4
+            num_of_owned_provinces_with = {
+                fort_level = 3
+                value = 3
+            }
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uz_congress_border_drill"
+				duration = -1
+			}
+			add_manpower = 8
+			add_army_professionalism = 0.05
+			add_mil_power = 150
+			add_army_tradition = 15
+			set_country_flag = uzh_congress_border_bulwark
+		}
+		ai_weight = {
+			factor = 350
 		}
 	}
 }

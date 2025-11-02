@@ -22,3 +22,28 @@ uzh_loyal_subject_network = {
 		}
 	}
 }
+
+uzh_identity_core_culture = {
+	OR = {
+		AND = {
+			owner = { has_country_flag = chose_ruthenian_identity }
+			culture = ruthenian
+		}
+		AND = {
+			owner = { has_country_flag = chose_rusyn_identity }
+			culture = rusyn
+		}
+		AND = {
+			owner = { has_country_flag = chose_uhro_rusyn_identity }
+			culture = hungarian
+		}
+		AND = {
+			owner = {
+				NOT = { has_country_flag = chose_ruthenian_identity }
+				NOT = { has_country_flag = chose_rusyn_identity }
+				NOT = { has_country_flag = chose_uhro_rusyn_identity }
+			}
+			culture = rusyn
+		}
+	}
+}
