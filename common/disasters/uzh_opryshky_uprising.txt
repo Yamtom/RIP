@@ -1,0 +1,74 @@
+uzh_opryshky_uprising = {
+
+	potential = {
+		tag = UZH
+		owns = 1952
+		OR = {
+			current_age = age_of_absolutism
+			current_age = age_of_revolutions
+		}
+		NOT = { has_country_modifier = uz_opryshky_pacified }
+	}
+
+	can_start = {
+		has_any_disaster = no
+		is_year = 1650
+		NOT = { stability = 1 }
+		OR = {
+			war_exhaustion = 4
+			num_of_rebel_controlled_provinces = 1
+			NOT = { manpower_percentage = 0.45 }
+		}
+	}
+	on_start = uzh.54
+
+	can_stop = {
+		has_any_disaster = yes
+	}
+
+	modifier = {
+		global_unrest = 3
+		manpower_recovery_speed = -0.15
+		production_efficiency = -0.1
+	}
+
+	progress = {
+		modifier = {
+			factor = 1
+			always = yes
+		}
+		modifier = {
+			factor = 1.5
+			war_exhaustion = 5
+		}
+		modifier = {
+			factor = 1.25
+			num_of_rebel_controlled_provinces = 1
+		}
+		modifier = {
+			factor = 1.2
+			NOT = { manpower_percentage = 0.3 }
+		}
+		modifier = {
+			factor = 0.85
+			has_country_modifier = uz_mountain_gendarmerie
+		}
+		modifier = {
+			factor = 0.75
+			has_country_modifier = uz_amnesty_rollout
+		}
+	}
+
+	can_end = {
+		stability = 1
+		NOT = { war_exhaustion = 3 }
+		NOT = { num_of_rebel_controlled_provinces = 1 }
+	}
+	on_end = uzh.56
+
+	on_monthly = {
+		random_events = {
+			200 = uzh.55
+		}
+	}
+}

@@ -1,0 +1,24 @@
+uzh_powerful_monarchy_pressure = {
+	OR = {
+		AND = {
+			is_subject = yes
+			overlord = {
+				exists = yes
+				government = monarchy
+				total_development = 150
+			}
+		}
+		any_neighbor_country = {
+			government = monarchy
+			total_development = 150
+		}
+	}
+}
+
+uzh_loyal_subject_network = {
+	NOT = {
+		any_subject_country = {
+			liberty_desire = 60
+		}
+	}
+}

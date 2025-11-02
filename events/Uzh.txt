@@ -123,7 +123,7 @@ country_event = {
     }
 }
 
-# Event 5: Опір Габсбургам
+# Event 5: Династична Сторожа
 country_event = {
     id = uzh.5
     title = "uzh.5.t"
@@ -135,22 +135,52 @@ country_event = {
     option = {
         name = "uzh.5.a"
         add_country_modifier = {
-            name = "uz_habsburg_resistance" 
-            duration = 7300
+            name = "uz_border_dynasty_network"
+            duration = 9125
         }
-        add_mil_power = 100
-        add_army_tradition = 10
+        add_dip_power = 75
+        if = {
+            limit = {
+                has_saved_event_target = uzh_dynasty_patron
+            }
+            event_target:uzh_dynasty_patron = {
+                add_trust = {
+                    who = ROOT
+                    value = 5
+                }
+                add_opinion = {
+                    who = ROOT
+                    modifier = opinion_uz_border_dynasty
+                }
+            }
+        }
+        else = {
+            random_neighbor_country = {
+                limit = {
+                    total_development = 150
+                    alliance_with = ROOT
+                }
+                add_trust = {
+                    who = ROOT
+                    value = 5
+                }
+                add_opinion = {
+                    who = ROOT
+                    modifier = opinion_uz_border_dynasty
+                }
+            }
+        }
     }
     
     option = {
         name = "uzh.5.b"
         add_country_modifier = {
-            name = "uz_habsburg_resistance" 
-            duration = 7300
+            name = "uz_border_guard_drill"
+            duration = 9125
         }
-        add_mil_power = 50
+        add_mil_power = 75
+        add_army_tradition = 8
         add_manpower = 2
-        create_general = { tradition = 40 }
     }
 }
 
@@ -169,6 +199,7 @@ country_event = {
             name = "uz_pannonian_settlement"
             duration = 10950
         }
+        set_country_flag = uzh_diaspora_started
         every_province = {
             limit = {
                 area = alfold_area
@@ -191,6 +222,21 @@ country_event = {
             name = "uz_pannonian_settlement"
             duration = 10950
         }
+        set_country_flag = uzh_diaspora_started
+        every_province = {
+            limit = {
+                area = alfold_area
+                NOT = { owned_by = ROOT }
+            }
+            add_permanent_claim = ROOT
+        }
+        every_province = {
+            limit = {
+                area = southern_transylvania_area
+                NOT = { owned_by = ROOT }
+            }
+            add_permanent_claim = ROOT
+        }
         every_owned_province = {
             limit = {
                 culture = rusyn
@@ -201,7 +247,7 @@ country_event = {
     }
 }
 
-# Event 7: Національне Відродження
+# Event 7: Статути Паланака
 country_event = {
     id = uzh.7
     title = "uzh.7.t"
@@ -213,10 +259,11 @@ country_event = {
     option = {
         name = "uzh.7.a"
         add_country_modifier = {
-            name = "uz_rusin_national_awakening"
+            name = "uz_statute_codification"
             duration = -1
         }
-        add_prestige = 25
+        change_government_reform_progress = 100
+        add_prestige = 20
         every_owned_province = {
             limit = {
                 culture = rusyn
@@ -248,6 +295,421 @@ country_event = {
         set_government_rank = 2
     }
 }
+
+# Event 9: Паннонський Кордон
+country_event = {
+    id = uzh.9
+    title = "uzh.9.t"
+    desc = "uzh.9.d"
+    picture = MILITARY_eventPicture
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = "uzh.9.a"
+        carpathia_region = {
+            limit = {
+                NOT = { owned_by = ROOT }
+            }
+            add_permanent_claim = ROOT
+        }
+        add_country_modifier = {
+            name = "uz_frontier_expansion"
+            duration = 5475
+        }
+        add_mil_power = 75
+        add_army_tradition = 5
+    }
+    
+    option = {
+        name = "uzh.9.b"
+        carpathia_region = {
+            limit = {
+                NOT = { owned_by = ROOT }
+            }
+            add_permanent_claim = ROOT
+        }
+        add_country_modifier = {
+            name = "uz_frontier_charters"
+            duration = 5475
+        }
+        add_dip_power = 75
+        add_mercantilism = 1
+    }
+}
+
+# Event 10: Паннонська Республіка
+country_event = {
+    id = uzh.10
+    title = "uzh.10.t"
+    desc = "uzh.10.d"
+    picture = DIPLOMACY_eventPicture
+    
+    is_triggered_only = yes
+    
+    option = {
+        name = "uzh.10.a"
+        add_country_modifier = {
+            name = "uz_pannonian_league"
+            duration = 9125
+        }
+        every_owned_province = {
+            limit = {
+                region = carpathia_region
+                culture = rusyn
+            }
+            add_local_autonomy = -5
+        }
+        add_dip_power = 100
+    }
+    
+    option = {
+        name = "uzh.10.b"
+        add_country_modifier = {
+            name = "uz_border_guard_union"
+            duration = 9125
+        }
+        add_manpower = 3
+        add_mil_power = 100
+    }
+}
+
+# Event 11: Солотвинські соляні камери
+country_event = {
+    id = uzh.50
+    title = "uzh.50.t"
+    desc = "uzh.50.d"
+    picture = TRADE_eventPicture
+
+    trigger = {
+        tag = UZH
+        owns = 1952
+        NOT = { has_country_modifier = uz_salt_chamber_overwatch }
+        NOT = { has_country_modifier = uz_private_salt_leases }
+        1952 = {
+            trade_goods = salt
+            is_city = yes
+        }
+    }
+
+    mean_time_to_happen = {
+        months = 120
+    }
+
+    fire_only_once = yes
+
+    option = {
+        name = "uzh.50.a"
+        1952 = {
+            add_province_modifier = {
+                name = "uz_solotvyno_chambers"
+                duration = -1
+            }
+            add_base_production = 1
+        }
+        add_country_modifier = {
+            name = "uz_salt_chamber_overwatch"
+            duration = 7300
+        }
+        add_treasury = 75
+    }
+
+    option = {
+        name = "uzh.50.b"
+        1952 = {
+            add_province_modifier = {
+                name = "uz_solotvyno_chambers"
+                duration = 3650
+            }
+        }
+        add_country_modifier = {
+            name = "uz_private_salt_leases"
+            duration = 5475
+        }
+        add_adm_power = 50
+        add_treasury = 150
+        add_mercantilism = 1
+    }
+}
+
+# Event 12: Ужгородська унія 1646 року
+country_event = {
+    id = uzh.51
+    title = "uzh.51.t"
+    desc = "uzh.51.d"
+    picture = RELIGIOUS_eventPicture
+
+    trigger = {
+        tag = UZH
+        religion_group = christian
+        NOT = { has_country_modifier = uz_greek_catholic_concord }
+        NOT = { has_country_modifier = uz_old_rite_resilience }
+    }
+
+    mean_time_to_happen = {
+        months = 120
+    }
+
+    fire_only_once = yes
+
+    option = {
+        name = "uzh.51.a"
+        add_country_modifier = {
+            name = "uz_greek_catholic_concord"
+            duration = 5475
+        }
+        add_prestige = 10
+        if = {
+            limit = { religion = catholic }
+            add_papal_influence = 20
+        }
+        if = {
+            limit = { religion = orthodox }
+            add_patriarch_authority = -0.05
+        }
+    }
+
+    option = {
+        name = "uzh.51.b"
+        add_country_modifier = {
+            name = "uz_old_rite_resilience"
+            duration = 5475
+        }
+        add_stability = 1
+        if = {
+            limit = { religion = orthodox }
+            add_patriarch_authority = 0.1
+        }
+    }
+}
+
+# Event 13: Куруцька прикордонна варта
+country_event = {
+    id = uzh.52
+    title = "uzh.52.t"
+    desc = "uzh.52.d"
+    picture = BATTLE_eventPicture
+
+    trigger = {
+        tag = UZH
+        NOT = { has_country_modifier = uz_kuruc_border_raids }
+        NOT = { has_country_modifier = uz_habsburg_border_command }
+    }
+
+    mean_time_to_happen = {
+        months = 180
+    }
+
+    fire_only_once = yes
+
+    option = {
+        name = "uzh.52.a"
+        add_country_modifier = {
+            name = "uz_kuruc_border_raids"
+            duration = 3650
+        }
+        add_mil_power = 75
+        add_army_tradition = 5
+        add_war_exhaustion = 1
+        add_manpower = 2
+    }
+
+    option = {
+        name = "uzh.52.b"
+        add_country_modifier = {
+            name = "uz_habsburg_border_command"
+            duration = 3650
+        }
+        add_prestige = 10
+        add_legitimacy = 10
+        if = {
+            limit = { exists = HAB }
+            HAB = {
+                add_opinion = {
+                    who = ROOT
+                    modifier = opinion_granted_privileges
+                }
+            }
+        }
+    }
+}
+
+# Event 14: "Я русин був, єсмь і буду"
+country_event = {
+    id = uzh.53
+    title = "uzh.53.t"
+    desc = "uzh.53.d"
+    picture = CULTURE_eventPicture
+
+    trigger = {
+        tag = UZH
+        NOT = { has_country_modifier = uz_duchnovych_awakening }
+        NOT = { has_country_modifier = uz_magyarization_drive }
+    }
+
+    mean_time_to_happen = {
+        months = 120
+    }
+
+    fire_only_once = yes
+
+    option = {
+        name = "uzh.53.a"
+        add_country_modifier = {
+            name = "uz_duchnovych_awakening"
+            duration = 5475
+        }
+        add_prestige = 15
+        every_owned_province = {
+            limit = {
+                culture = rusyn
+            }
+            add_base_production = 1
+        }
+    }
+
+    option = {
+        name = "uzh.53.b"
+        add_country_modifier = {
+            name = "uz_magyarization_drive"
+            duration = 5475
+        }
+        add_adm_power = 75
+        every_owned_province = {
+            limit = {
+                culture = rusyn
+            }
+            add_local_autonomy = 10
+        }
+    }
+}
+
+# Event 15: Повстання опришків
+country_event = {
+    id = uzh.54
+    title = "uzh.54.t"
+    desc = "uzh.54.d"
+    picture = PEASANTS_eventPicture
+
+    is_triggered_only = yes
+
+    option = {
+        name = "uzh.54.a"
+        add_stability = -1
+        add_war_exhaustion = 1
+        add_mil_power = 50
+        add_disaster_progress = {
+            disaster = uzh_opryshky_uprising
+            value = -10
+        }
+        remove_country_modifier = uz_amnesty_rollout
+        add_country_modifier = {
+            name = uz_mountain_gendarmerie
+            duration = 1825
+        }
+    }
+
+    option = {
+        name = "uzh.54.b"
+        add_treasury = -100
+        add_prestige = 10
+        add_disaster_progress = {
+            disaster = uzh_opryshky_uprising
+            value = -15
+        }
+        remove_country_modifier = uz_mountain_gendarmerie
+        add_country_modifier = {
+            name = uz_amnesty_rollout
+            duration = 1825
+        }
+    }
+}
+
+# Event 16: Засідка на Солотвинських дорогах
+country_event = {
+    id = uzh.55
+    title = "uzh.55.t"
+    desc = "uzh.55.d"
+    picture = REVOLT_eventPicture
+
+    is_triggered_only = yes
+
+    immediate = {
+        if = {
+            limit = { owns = 1952 }
+            1952 = {
+                add_devastation = 5
+            }
+        }
+        add_country_modifier = {
+            name = uz_opryshky_raids
+            duration = 365
+        }
+    }
+
+    option = {
+        name = "uzh.55.a"
+        add_mil_power = 25
+        add_war_exhaustion = 0.5
+        add_disaster_progress = {
+            disaster = uzh_opryshky_uprising
+            value = -5
+        }
+    }
+
+    option = {
+        name = "uzh.55.b"
+        add_treasury = -50
+        add_inflation = 0.1
+        add_disaster_progress = {
+            disaster = uzh_opryshky_uprising
+            value = -10
+        }
+    }
+}
+
+# Event 17: Приборкати братства чи вшанувати? 
+country_event = {
+    id = uzh.56
+    title = "uzh.56.t"
+    desc = "uzh.56.d"
+    picture = PEASANTS_eventPicture
+
+    is_triggered_only = yes
+
+    immediate = {
+        remove_country_modifier = uz_opryshky_raids
+    }
+
+    option = {
+        name = "uzh.56.a"
+        remove_country_modifier = uz_amnesty_rollout
+        add_country_modifier = {
+            name = uz_mountain_gendarmerie
+            duration = 5475
+        }
+        add_country_modifier = {
+            name = uz_opryshky_pacified
+            duration = -1
+        }
+        add_mil_power = 50
+    }
+
+    option = {
+        name = "uzh.56.b"
+        remove_country_modifier = uz_mountain_gendarmerie
+        add_country_modifier = {
+            name = uz_rebel_legends
+            duration = 5475
+        }
+        add_country_modifier = {
+            name = uz_opryshky_pacified
+            duration = -1
+        }
+        add_prestige = 20
+    }
+}
+
 namespace = uzh_identity
 
 # Event 1: Питання Ідентичності - Ключовий вибір
@@ -264,17 +726,12 @@ country_event = {
         name = "uzh_identity.1.a"
         set_country_flag = chose_ruthenian_identity
         add_country_modifier = {
-            name = "uz_ruthenian_awakening"
-            duration = 7300
+            name = "uz_ukraino_rusyn_identity"
+            duration = 9125
         }
         add_prestige = 15
-        change_primary_culture = ruthenian
-        every_owned_province = {
-            limit = {
-                culture = rusyn
-            }
-            change_culture = ruthenian
-        }
+        add_accepted_culture = ruthenian
+        add_legitimacy = 10
     }
     
     # Русинська автономія
@@ -282,12 +739,13 @@ country_event = {
         name = "uzh_identity.1.b"
         set_country_flag = chose_rusyn_identity
         add_country_modifier = {
-            name = "uz_rusyn_autonomy"
-            duration = 7300
+            name = "uz_slavo_rusyn_identity"
+            duration = 9125
         }
         add_republican_tradition = 10
         change_government = republic
         change_primary_culture = rusyn
+    change_government_reform_progress = 75
     }
     
     # Угроруська інтеграція
@@ -295,8 +753,8 @@ country_event = {
         name = "uzh_identity.1.c"
         set_country_flag = chose_uhro_rusyn_identity
         add_country_modifier = {
-            name = "uz_uhro_rusyn_integration"
-            duration = 7300
+            name = "uz_uhro_rusyn_identity"
+            duration = 9125
         }
         add_accepted_culture = hungarian
         if = {

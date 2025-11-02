@@ -57,6 +57,99 @@ kyivan_rus_reform = {
 	}
 }
 
+uzh_palanok_captaincy_reform = {
+	icon = "fort"
+	potential = {
+		tag = UZH
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	rulers_can_be_generals = yes
+	royal_marriage = yes
+	allow_convert = no
+	government_abilities = {
+		cossacks_mechanic
+	}
+	allow_force_tributary = yes
+	trigger = {
+		tag = UZH
+	}
+	modifiers = {
+		defensiveness = 0.2
+		fort_maintenance_modifier = -0.2
+		manpower_recovery_speed = 0.1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		has_dutch_election = yes
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Res Publica"
+				has_dlc = "Winds of Change"
+			}
+		}
+		states_general_mechanic = {
+			partia_soymu = { # "Партія Сойму" (Торгова Олігархія)
+				trade_efficiency = 0.10
+				build_cost = -0.10
+				diplomatic_reputation = 1
+				republican_tradition = 0.5  # Підтримує регулярні вибори
+			}
+	
+			partia_kapitaniv = { # "Партія Капітанів" (Військова Демократія)
+				land_morale = 0.10
+				global_manpower_modifier = 0.15
+				defensiveness = 0.10  # Бонус до оборони фортів (гірська місцевість)
+				republican_tradition = -0.5  # Лідер править довічно
+			}
+		}
+		custom_attributes = {
+			enables_aristocratic_idea_group = no
+			enables_indigenous_idea_group = yes
+		}
+	}
+}
+
+uzh_komitat_system_reform = {
+	icon = "noble_council"
+	potential = {
+		tag = UZH
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	rulers_can_be_generals = yes
+	royal_marriage = yes
+	allow_convert = no
+	government_abilities = {
+		cossacks_mechanic
+	}
+	allow_force_tributary = yes
+	trigger = {
+		tag = UZH
+	}
+	modifiers = {
+		state_maintenance_modifier = -0.15
+		governing_capacity_modifier = 0.1
+		nobles_loyalty_modifier = 0.1
+		manpower_recovery_speed = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_aristocratic_idea_group = yes
+		enables_indigenous_idea_group = no
+	}
+}
+
 ruthenian_principality_reform = {
 	icon = "generic_people"
 	legacy_equivalent = principality_legacy
@@ -187,7 +280,35 @@ patriarch_engagement_reform = {
 	modifiers = {
 		missionary_maintenance_cost = -0.5
 		global_missionary_strength = 0.02
-		clergy_influence_modifier = 0.1
+		church_influence_modifier = 0.1
+	}
+}
+
+uzh_union_synod_reform = {
+	icon = "clergyman"
+	potential = {
+		tag = UZH
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	trigger = {
+		tag = UZH
+	}
+	modifiers = {
+		tolerance_own = 1
+		tolerance_heretic = 2
+		missionary_maintenance_cost = -0.25
+		religious_unity = 0.1
+		papal_influence = 1
+	}
+	custom_attributes = {
+		locked_government_type = yes
 	}
 }
 
@@ -336,6 +457,33 @@ legislative_rada_reform = {
 		global_tax_modifier = 0.1
 		advisor_cost = -0.15
 		stability_cost_modifier = -0.1
+	}
+}
+
+uzh_carpathian_border_commissariat_reform = {
+	icon = "soldiers_4"
+	potential = {
+		tag = UZH
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = yes
+	trigger = {
+		tag = UZH
+	}
+	modifiers = {
+		army_tradition = 0.5
+		land_forcelimit_modifier = 0.2
+		land_attrition = -0.1
+		governing_capacity = 50
+	}
+	custom_attributes = {
+		locked_government_type = yes
 	}
 }
 

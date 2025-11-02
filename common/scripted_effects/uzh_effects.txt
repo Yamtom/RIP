@@ -1,0 +1,71 @@
+uzh_select_dynasty_patron = {
+	save_event_target_as = uzh_dynasty_patron
+	clr_country_flag = uzh_dynasty_source_overlord
+	clr_country_flag = uzh_dynasty_source_neighbor
+	clr_country_flag = uzh_dynasty_source_habsburg
+	clr_country_flag = uzh_dynasty_source_none
+
+	if = {
+		limit = {
+			is_subject = yes
+			overlord = {
+				exists = yes
+				has_ruler = yes
+			}
+		}
+		overlord = {
+			save_event_target_as = uzh_dynasty_patron
+		}
+		set_country_flag = uzh_dynasty_source_overlord
+	}
+	else_if = {
+		limit = {
+			NOT = { is_subject = yes }
+			any_neighbor_country = {
+				total_development = 150
+				has_ruler = yes
+				is_subject = no
+				NOT = { is_rival = ROOT }
+				has_opinion = {
+					who = ROOT
+					value = 80
+				}
+			}
+		}
+		random_neighbor_country = {
+			limit = {
+				total_development = 150
+				has_ruler = yes
+				is_subject = no
+				NOT = { is_rival = ROOT }
+				has_opinion = {
+					who = ROOT
+					value = 80
+				}
+			}
+			save_event_target_as = uzh_dynasty_patron
+		}
+		set_country_flag = uzh_dynasty_source_neighbor
+	}
+	else_if = {
+		limit = {
+			exists = HAB
+			HAB = {
+				has_ruler = yes
+				NOT = { is_rival = ROOT }
+				has_opinion = {
+					who = ROOT
+					value = 50
+				}
+			}
+		}
+		HAB = {
+			save_event_target_as = uzh_dynasty_patron
+		}
+		set_country_flag = uzh_dynasty_source_habsburg
+	}
+	else = {
+		save_event_target_as = uzh_dynasty_patron
+		set_country_flag = uzh_dynasty_source_none
+	}
+}
