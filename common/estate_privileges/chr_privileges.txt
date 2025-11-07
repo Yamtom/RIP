@@ -1,0 +1,84 @@
+# Nobles' "Seimski Statuty" privilege
+# Mechanics: Locks in higher noble loyalty while trading absolutism for parliament backing.
+# Narrative: Models the Starshyna codifying Sejm statutes after Khmelnytsky to guard estate prerogatives.
+# References: Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988); Mykhailo Hrushevsky,
+# *History of Ukraine-Rus'*, vol. 9.
+estate_nobles_chr_seimski_statuty = {
+	icon = privilege_grant_autonomy
+	loyalty = 0.10
+	influence = 0.05
+
+	is_valid = {
+		tag = CHR
+		has_estate = estate_nobles
+	}
+	can_select = {
+		tag = CHR
+		has_estate = estate_nobles
+	}
+
+	max_absolutism = -5
+	benefits = {
+		nobles_loyalty_modifier = 10
+		parliament_backing_chance = 0.1
+		max_absolutism = -5
+	}
+
+	ai_will_do = { factor = 1 }
+}
+
+# Burghers' "Grain Cartels" privilege
+# Mechanics: Requires the grain corridor flag, boosting trade and production via loyal burghers.
+# Narrative: Represents Chernihiv grain syndicates leveraging privileges after canal and depot expansion.
+# References: Serhii Plokhy, *The Cossacks and Religion* (1996); Frank Sysyn, *Between Poland and the Ukraine* (1985).
+estate_burghers_chr_grain_cartels = {
+	icon = privilege_supply_arms
+	loyalty = 0.05
+	influence = 0.05
+
+	is_valid = {
+		tag = CHR
+		has_estate = estate_burghers
+	}
+	can_select = {
+		tag = CHR
+		has_estate = estate_burghers
+		has_country_flag = chr_grain_corridors_built
+	}
+
+	benefits = {
+		burghers_loyalty_modifier = 10
+		production_efficiency = 0.05
+		trade_efficiency = 0.05
+	}
+
+	ai_will_do = { factor = 1 }
+}
+
+# Cossacks' "Starshyna Collegium" privilege
+# Mechanics: Grants cavalry discounts and manpower recovery once the frontier branch is chosen.
+# Narrative: Captures hetman councils elevating senior officers into a permanent collegiate board during the Ruina.
+# References: Orest Subtelny, *Ukraine: A History* (2009); Serhii Plokhy, *The Cossack Myth* (2012).
+estate_cossacks_chr_starshyna_collegium = {
+	icon = privilege_military_power
+	loyalty = 0.05
+	influence = 0.10
+
+	is_valid = {
+		tag = CHR
+		has_estate = estate_cossacks
+	}
+	can_select = {
+		tag = CHR
+		has_estate = estate_cossacks
+		has_country_flag = chr_frontier_branch_taken
+	}
+
+	benefits = {
+		cossacks_loyalty_modifier = 10
+		manpower_recovery_speed = 0.1
+		cavalry_cost = -0.1
+	}
+
+	ai_will_do = { factor = 1 }
+}

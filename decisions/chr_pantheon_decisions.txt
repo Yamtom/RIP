@@ -1,0 +1,201 @@
+# Hetmanic Pantheon & Economic Investments — Mechanics, Narrative, References
+# Mechanics: Sequential decisions that unlock event choices, convert province modifiers, and manage cooldowns for Chernihiv’s frontier/grain gameplay.
+# Narrative: Chart the pantheonisation of Doroshenko, Samoylovych, and Mazepa alongside Left-Bank infrastructure programmes.
+# References: Serhii Plokhy, *The Cossack Myth* (2012); Frank Sysyn, *Between Poland and the Ukraine* (1985); Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988).
+country_decisions = {
+
+	# Commission Doroshenko — anchors the pantheon sequence with a military vs diplomatic legacy.
+	chr_commission_doroshenko_pantheon = {
+		major = yes
+		potential = {
+			tag = CHR
+			NOT = {
+				OR = {
+					has_country_modifier = chr_pantheon_doroshenko_march
+					has_country_modifier = chr_pantheon_doroshenko_council
+				}
+			}
+			stability = 1
+			adm_power = 50
+		}
+		allow = {
+			NOT = {
+				OR = {
+					has_country_modifier = chr_pantheon_doroshenko_march
+					has_country_modifier = chr_pantheon_doroshenko_council
+				}
+			}
+			stability = 1
+			adm_power = 50
+		}
+		effect = {
+			add_adm_power = -50
+			add_prestige = 5
+			country_event = { id = chr_flavor.31 }
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Commission Samoylovych — extends the pantheon into administrative or ecclesiastical directions.
+	chr_commission_samoylovych_pantheon = {
+		major = yes
+		potential = {
+			tag = CHR
+			OR = {
+				has_country_modifier = chr_pantheon_doroshenko_march
+				has_country_modifier = chr_pantheon_doroshenko_council
+			}
+			NOT = {
+				OR = {
+					has_country_modifier = chr_pantheon_samoylovych_chancery
+					has_country_modifier = chr_pantheon_samoylovych_metropolitan
+				}
+			}
+			dip_power = 50
+		}
+		allow = {
+			OR = {
+				has_country_modifier = chr_pantheon_doroshenko_march
+				has_country_modifier = chr_pantheon_doroshenko_council
+			}
+			NOT = {
+				OR = {
+					has_country_modifier = chr_pantheon_samoylovych_chancery
+					has_country_modifier = chr_pantheon_samoylovych_metropolitan
+				}
+			}
+			dip_power = 50
+		}
+		effect = {
+			add_dip_power = -50
+			add_prestige = 5
+			country_event = { id = chr_flavor.32 }
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Commission Mazepa — finalises the pantheon with cultural or fiscal emphasis.
+	chr_commission_mazepa_pantheon = {
+		major = yes
+		potential = {
+			tag = CHR
+			OR = {
+				has_country_modifier = chr_pantheon_samoylovych_chancery
+				has_country_modifier = chr_pantheon_samoylovych_metropolitan
+			}
+			NOT = {
+				OR = {
+					has_country_modifier = chr_pantheon_mazepa_academy
+					has_country_modifier = chr_pantheon_mazepa_treasury
+				}
+			}
+			mil_power = 50
+		}
+		allow = {
+			OR = {
+				has_country_modifier = chr_pantheon_samoylovych_chancery
+				has_country_modifier = chr_pantheon_samoylovych_metropolitan
+			}
+			NOT = {
+				OR = {
+					has_country_modifier = chr_pantheon_mazepa_academy
+					has_country_modifier = chr_pantheon_mazepa_treasury
+				}
+			}
+			mil_power = 50
+		}
+		effect = {
+			add_mil_power = -50
+			add_prestige = 10
+			country_event = { id = chr_flavor.33 }
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Commission Monastic Bastions — upgrades temples into fortified monasteries after the frontier branch.
+	chr_commission_monastic_bastions = {
+		potential = {
+			tag = CHR
+		}
+		allow = {
+			has_country_flag = chr_frontier_branch_taken
+			NOT = { has_country_modifier = chr_monastery_investment_cooldown }
+			treasury = 150
+			mil_power = 25
+		}
+		effect = {
+			add_treasury = -150
+			add_mil_power = -25
+			add_country_modifier = {
+				name = chr_monastery_investment_cooldown
+				duration = 1825
+			}
+			hidden_effect = {
+				chr_left_bank_monastery_investment = yes
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Expand Sloboda Farmlands — invests diplo power to upgrade grain estates following corridor completion.
+	chr_expand_sloboda_farmlands = {
+		potential = {
+			tag = CHR
+		}
+		allow = {
+			has_country_flag = chr_grain_corridors_built
+			NOT = { has_country_modifier = chr_sloboda_investment_cooldown }
+			treasury = 120
+			dip_power = 25
+		}
+		effect = {
+			add_treasury = -120
+			add_dip_power = -25
+			add_country_modifier = {
+				name = chr_sloboda_investment_cooldown
+				duration = 1825
+			}
+			hidden_effect = {
+				chr_left_bank_sloboda_investment = yes
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Integrate Grain Exchange Guilds — spends administrative power to spread exchange modifiers once the grain exchange exists.
+	chr_integrate_grain_exchange_guilds = {
+		potential = {
+			tag = CHR
+		}
+		allow = {
+			has_country_flag = chr_grain_exchange_founded
+			NOT = { has_country_modifier = chr_exchange_integration_cooldown }
+			treasury = 100
+			adm_power = 25
+		}
+		effect = {
+			add_treasury = -100
+			add_adm_power = -25
+			add_country_modifier = {
+				name = chr_exchange_integration_cooldown
+				duration = 1460
+			}
+			hidden_effect = {
+				chr_left_bank_grain_exchange_integration = yes
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}

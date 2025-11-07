@@ -1,0 +1,100 @@
+# Border Compacts — Mechanics, Narrative, References
+# Mechanics: Targeted diplomatic decision trading power for mutual modifiers, queueing the review event chain with branch flags.
+# Narrative: Emulates Hetmanate envoys renewing or stressing frontier patrol compacts with major neighbours.
+# References: Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988); Serhii Plokhy, *The Cossack Myth* (2012).
+targeted_decisions = {
+
+	chr_border_compacts = {
+		major = yes
+		potential = {
+			tag = CHR
+		}
+		target_potential = {
+			OR = {
+				tag = PLC
+				tag = POL
+				tag = LIT
+				tag = MOS
+				tag = RUS
+			}
+		}
+		allow = {
+			dip_power = 40
+			is_at_war = no
+			NOT = { has_country_modifier = chr_border_compact_cooldown }
+			NOT = { has_country_modifier = chr_border_compact_betrayal }
+			target = {
+				is_at_war = no
+				NOT = { war_with = ROOT }
+			}
+			NOT = { has_truce_with = target }
+			OR = {
+				has_alliance = target
+				has_guaranteed = target
+				target = { has_alliance = ROOT }
+			}
+		}
+		effect = {
+			add_dip_power = -40
+			add_country_modifier = {
+				name = chr_border_compact_cooldown
+				duration = 1825
+			}
+			target = {
+				add_opinion = {
+					who = ROOT
+					modifier = chr_border_compact_support
+				}
+				save_event_target_as = chr_border_compact_partner
+			}
+			if = {
+				limit = {
+					target = {
+						has_opinion = {
+							who = ROOT
+							value = 80
+						}
+						trust = {
+							who = ROOT
+							value = 50
+						}
+					}
+				}
+				custom_tooltip = chr_border_compacts_confidence_tt
+				add_country_modifier = {
+					name = chr_border_compact_confidence
+					duration = 1825
+				}
+				target = {
+					add_country_modifier = {
+						name = chr_border_compact_confidence_partner
+						duration = 1825
+					}
+				}
+			}
+			else = {
+				custom_tooltip = chr_border_compacts_tension_tt
+				add_country_modifier = {
+					name = chr_border_compact_tension
+					duration = 1095
+				}
+				target = {
+					add_country_modifier = {
+						name = chr_border_compact_watchposts
+						duration = 1095
+					}
+				}
+			}
+			hidden_effect = {
+				set_country_flag = chr_border_compacts_pending_review
+				country_event = {
+					id = chr_flavor.36
+					days = 540
+				}
+			}
+		}
+	}
+	ai_will_do = {
+		factor = 0
+	}
+}

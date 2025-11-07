@@ -11,6 +11,9 @@ chr_missions_1 = {
 		}
 	}
 	has_country_shield = yes
+	# Mechanics: Reach force limit to earn a long-lasting arms industry bonus and permanent claims on the Upper Oka.
+	# Narrative: Recounts Chernihiv's post-Livonian War musters that secured Seversk frontiers before pushing toward Ryazan.
+	# References: Plokhy 2012; Kohut 1988; Subtelny 2009.
 	chr_army = {
 		icon = mission_build_up_to_force_limit
 		required_missions = {
@@ -37,6 +40,9 @@ chr_missions_1 = {
 			}
 		}
 	}
+	# Mechanics: Occupy the Oka area to gain a frontier victory modifier and claims on Ryazan.
+	# Narrative: Mirrors seventeenth-century campaigns that carried Cossack banners across the Oka marches.
+	# References: Plokhy 2012; Davies 2007; Sysyn 1985.
 	chr_conquer_oka = {
 		icon = mission_conquer_moscow
 		required_missions = {
@@ -73,10 +79,15 @@ chr_missions_1 = {
 			}
 		}
 	}
+	# Mechanics: Secure all of Ryazan to extend claims and keep the frontier momentum going.
+	# Narrative: Charts the consolidation of Seversk control over Ryazan forts after routing Muscovite voivodes.
+	# References: Plokhy 2012; Kohut 1988; Kollmann 2017.
 	chr_conquer_rya = {
 		icon = mission_conquer_novgorod
 		required_missions = {
 			chr_conquer_oka
+			
+            chr_diplomatic_network
 		}
 		position = 5
 		provinces_to_highlight = {
@@ -98,10 +109,14 @@ chr_missions_1 = {
 			}
 		}
 	}
+	# Mechanics: Owning Smolensk unlocks claims on White Ruthenia and a focused claim on Smolensk city.
+	# Narrative: Recalls Chernihiv nobles lobbying for the Smolensk line during Commonwealth border commissions.
+	# References: Sysyn 1985; Kaminski 1983; Plokhy 2012.
 	chr_Smolensk = {
 		icon = mission_cannons_firing
 		required_missions = {
 			chr_conquer_rya
+			chr_conquer_states
 		}
 		position = 7
 		provinces_to_highlight = {
@@ -143,10 +158,14 @@ chr_missions_1 = {
 			}
 		}
 	}
+	# Mechanics: Full control of White Ruthenia spills claims into Minsk after the mission.
+	# Narrative: Evokes Left-Bank envoys pressing Minsk burghers to accept union under the Hetman.
+	# References: Kohut 1988; Sysyn 1985; Subtelny 2009.
 	chr_Belarus_1 = {
 		icon = mission_unite_home_region
 		required_missions = {
 			chr_Smolensk
+			chr_sloboda_charters
 		}
 		position = 8
 		provinces_to_highlight = {
@@ -175,6 +194,9 @@ chr_missions_1 = {
 			}
 		}
 	}
+	# Mechanics: Completing Minsk occupation pushes claims into Pripyat marshland provinces.
+	# Narrative: Represents Cossack colonels integrating Polissia after Minsk's Sejmiks switched allegiance.
+	# References: Plokhy 2012; Sysyn 1985; Kohut 1988.
 	chr_Belarus_2 = {
 		icon = mission_assemble_an_army
 		required_missions = {
@@ -207,6 +229,9 @@ chr_missions_1 = {
 			}
 		}
 	}
+	# Mechanics: Control of Pripyat grants Byelorussian culture acceptance for the realm.
+	# Narrative: Symbolises the Hetman's proclamation in Minsk to knit Ruthenian and Belarusian estates.
+	# References: Plokhy 2012; Subtelny 2009; Sysyn 1985.
 	chr_Minsk = {
 		icon = mission_cannons_firing
 		required_missions = {
@@ -229,6 +254,128 @@ chr_missions_1 = {
 			add_accepted_culture = byelorussian
 		}
 	}
+	
+	# Mechanics: Five state grain provinces with 6 production grant depot modifiers, a consortium bonus, and set the investment flag.
+	# Narrative: Follows the building of grain corridors from Sloboda Ukraine to the Dnieper elevators during the Ruina recovery.
+	# References: Plokhy 2012; Sysyn 1985; Kohut 1988.
+	chr_grain_corridors = {
+		icon = mission_protect_the_south_slavs
+		required_missions = {
+		}
+		position = 11
+		provinces_to_highlight = {
+			OR = {
+				area = east_dniepr_area
+				area = sloboda_ukraine_area
+			}
+		}
+		trigger = {
+			calc_true_if = {
+				all_owned_province = {
+					trade_goods = grain
+					base_production = 6
+					is_state = yes
+				}
+				amount = 5
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_grain_consortium
+				duration = 9125
+			}
+			sloboda_ukraine_area = {
+				limit = {
+					owned_by = ROOT
+					trade_goods = grain
+				}
+				add_province_modifier = {
+					name = chr_grain_depot_province
+					duration = 9125
+				}
+			}
+			east_dniepr_area = {
+				limit = {
+					owned_by = ROOT
+					trade_goods = grain
+				}
+				add_province_modifier = {
+					name = chr_grain_depot_province
+					duration = 9125
+				}
+			}
+			hidden_effect = {
+				set_country_flag = chr_grain_corridors_built
+				chr_left_bank_sloboda_investment = yes
+			}
+		}
+	}
+	
+	# Mechanics: Crimean path players with alliance, trust, and guardianship modifier refresh the buff and add sailors.
+	# Narrative: Depicts treaties where Chernihiv hetmans bargained with the Giray khans for maritime backing.
+	# References: Fisher 1978; Plokhy 2012; Davies 2007.
+	chr_crimean_compact_mission = {
+        icon = mission_trade_company_region_abroad
+        required_missions = {
+            chr_assemble_an_army
+        }
+        position = 15
+        trigger = {
+            has_country_flag = chr_ruina_path_crimea
+            has_country_modifier = chr_crimean_guardianship
+            custom_trigger_tooltip = {
+                tooltip = chr_crimean_compact_tt
+                AND = {
+                    exists = CRI
+                    alliance_with = CRI
+                    CRI = {
+                        has_opinion = { who = ROOT value = 100 }
+                        trust = { who = ROOT value = 50 }
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = chr_crimean_guardianship
+                duration = 5475
+                desc = chr_crimean_guardianship_desc
+            }
+            add_sailors = 1500
+            set_country_flag = chr_crimean_path_stage1
+        }
+    }
+	
+	# Mechanics: After the compact, build Crimean marketplaces and meet navy size to gain permanent trade modifier and diplo power.
+	# Narrative: Chronicles Left-Bank broker guilds partnering with Crimean ports to dominate Black Sea convoys.
+	# References: Fisher 1978; Sysyn 1985; Davies 2007.
+	chr_black_sea_consortia_mission = {
+		icon = mission_establish_high_seas_navy
+		required_missions = {
+			chr_crimean_compact_mission
+		}
+		position = 15
+		trigger = {
+			has_country_flag = chr_ruina_path_crimea
+			has_country_flag = chr_crimean_path_stage1
+			navy_size_percentage = 0.5
+			calc_true_if = {
+				all_owned_province = {
+					region = crimea_region
+					has_building = marketplace
+				}
+				amount = 2
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_black_sea_consortia
+				duration = -1
+				desc = chr_black_sea_consortia_desc
+			}
+			add_dip_power = 75
+		}
+	}
 }
 
 chr_missions_2 = {
@@ -244,6 +391,9 @@ chr_missions_2 = {
 		}
 	}
 	has_country_shield = yes
+	# Mechanics: Demands independence, level 3 capital fort, and full area ownership to hand out stability and legitimacy rewards.
+	# Narrative: Marks Chernihiv's assertion of autonomy by fortifying the Desna bastion and rallying regiments.
+	# References: Plokhy 2012; Sysyn 1985; Kohut 1988.
 	chr_independence = {
 		icon = mission_sovereign_principality
 		required_missions = {
@@ -268,7 +418,7 @@ chr_missions_2 = {
 				}
 			}
 		}
-		effect = {
+		effect = { 
 			add_stability_or_adm_power = yes
 			add_stability_or_adm_power = yes
 			OR = {
@@ -279,6 +429,9 @@ chr_missions_2 = {
 			}
 		}
 	}
+	# Mechanics: Growth by 50 development grants triple capital development and spreads growth modifiers to owned provinces.
+	# Narrative: Captures post-independence expansion as Hetman chanceries surveyed new Left-Bank settlements.
+	# References: Plokhy 2012; Subtelny 2009; Sysyn 1985.
 	chr_expand_country_mission = {
 		icon = mission_conquer_50_development
 		required_missions = {
@@ -305,11 +458,140 @@ chr_missions_2 = {
 			}
 		}
 	}
+	
+	# Mechanics: Muscovy Ruina path with guardianship modifier, manpower, and alliance check renews the buff and gives professionalism.
+	# Narrative: Reflects treaties where Chernihiv invited Muscovite streltsy to bolster frontier regiments.
+	# References: Kollmann 2017; Plokhy 2012; Davies 2007.
+	chr_muscovy_auxiliaries_mission = {
+        icon = mission_build_up_to_force_limit
+        required_missions = {
+            chr_frontier_garrisons
+        }
+        position = 4
+        trigger = {
+            has_country_flag = chr_ruina_path_muscovy
+            has_country_modifier = chr_muscovite_guardianship
+            manpower_percentage = 0.7
+            custom_trigger_tooltip = {
+                tooltip = chr_muscovy_alliance_tt
+                OR = {
+                    AND = {
+                        exists = RUS
+                        alliance_with = RUS
+                        RUS = {
+                            has_opinion = { who = ROOT value = 100 }
+                            trust = { who = ROOT value = 50 }
+                        }
+                    }
+                    AND = {
+                        exists = MOS
+                        alliance_with = MOS
+                        MOS = {
+                            has_opinion = { who = ROOT value = 100 }
+                            trust = { who = ROOT value = 50 }
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = chr_muscovite_guardianship
+                duration = 5475
+                desc = chr_muscovite_guardianship_desc
+            }
+            add_army_professionalism = 0.03
+            set_country_flag = chr_muscovite_path_stage1
+        }
+    }
+	# Mechanics: Poland Ruina path with guardianship modifier, alliance, and peace status refreshes the buff and adds prestige.
+	# Narrative: Models Chernihiv diets negotiating Warsaw-backed protectorates to counterbalance Muscovite influence.
+	# References: Sysyn 1985; Plokhy 2012; Kaminski 1983.
+	chr_commonwealth_protectorate_mission = {
+        icon = mission_alliances
+        required_missions = {
+			chr_conquer_rya
+			chr_diplomatic_network
+			chr_Manpower
+        }
+        position = 6
+        trigger = {
+            has_country_flag = chr_ruina_path_poland
+            has_country_modifier = chr_commonwealth_guardianship
+            is_at_war = no
+            custom_trigger_tooltip = {
+                tooltip = chr_commonwealth_protectorate_tt
+                OR = {
+                    AND = {
+                        exists = PLC
+                        alliance_with = PLC
+                        PLC = {
+                            has_opinion = { who = ROOT value = 100 }
+                            trust = { who = ROOT value = 50 }
+                        }
+                    }
+                    AND = {
+                        exists = POL
+                        alliance_with = POL
+                        POL = {
+                            has_opinion = { who = ROOT value = 100 }
+                            trust = { who = ROOT value = 50 }
+                        }
+                    }
+                    AND = {
+                        exists = LIT
+                        alliance_with = LIT
+                        LIT = {
+                            has_opinion = { who = ROOT value = 100 }
+                            trust = { who = ROOT value = 50 }
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = chr_commonwealth_guardianship
+                duration = 5475
+                desc = chr_commonwealth_guardianship_desc
+            }
+            add_prestige = 10
+            set_country_flag = chr_polish_path_stage1
+        }
+    }
+	
+	# Mechanics: Muscovy path stage with army tradition and manpower delivers a permanent commission modifier and military power.
+	# Narrative: Represents the Belgorod border commission codifying fort maintenance with Muscovite assistance.
+	# References: Davies 2007; Kollmann 2017; Plokhy 2012.
+	chr_sloboda_border_commission_mission = {
+        icon = mission_conquer_5_states
+        required_missions = {
+            chr_muscovy_auxiliaries_mission
+        }
+        position = 11
+        trigger = {
+            has_country_flag = chr_ruina_path_muscovy
+            has_country_flag = chr_muscovite_path_stage1
+            army_tradition = 40
+            manpower_percentage = 0.6
+        }
+        effect = {
+            add_country_modifier = {
+                name = chr_muscovite_border_commission
+                duration = -1
+                desc = chr_muscovite_border_commission_desc
+            }
+            add_mil_power = 75
+        }
+    }
+	# Mechanics: Accepting Ruthenian culture shifts ruler culture, applies two long modifiers, and secures cultural rewards.
+	# Narrative: Chronicles the Hetman's court embracing Ruthenian identity to rally Left-Bank elites.
+	# References: Plokhy 2012; Sysyn 1985; Subtelny 2009.
 	chr_Accept_Ruthenian = {
 		icon = mission_alliances
 		required_missions = {
-			chr_conquer_states
-			chr_conquer_rya
+			chr_cossacks
+			chr_grain_corridors
 		}
 		position = 6
 		trigger = {
@@ -328,10 +610,14 @@ chr_missions_2 = {
 			}
 		}
 	}
+	# Mechanics: Expanding by 20 states grants tri-power windfall and a unity modifier.
+	# Narrative: Follows the Hetman's push past the Dnieper to claim wider Ruthenian lands after the Ruina.
+	# References: Plokhy 2012; Kohut 1988; Subtelny 2009.
 	chr_conquer_russia = {
 		icon = mission_unite_the_princes
 		required_missions = {
 			chr_Accept_Ruthenian
+			chr_Zaporozhie
 		}
 		position = 7
 		trigger = {
@@ -347,11 +633,14 @@ chr_missions_2 = {
 			}
 		}
 	}
+	# Mechanics: Build 80 units to earn an army enthusiasm modifier boosting the campaign tempo.
+	# Narrative: Emulates Left-Bank general musters that raised combined infantry-cavalry hosts for grand offensives.
+	# References: Davies 2007; Plokhy 2012; Sysyn 1985.
 	chr_assemble_an_army = {
 		icon = mission_assemble_an_army
 		required_missions = {
 			chr_conquer_russia
-			chr_Great_Horde
+			chr_sloboda_charters
 			chr_Smolensk
 		}
 		position = 8
@@ -365,6 +654,9 @@ chr_missions_2 = {
 			}
 		}
 	}
+	# Mechanics: Owning West Dnieper and Podolia-Volhynia bestows permanent claims across Ruthenia.
+	# Narrative: Celebrates relighting the Kyiv regalia by seizing both banks and calling a hetmanate rada.
+	# References: Plokhy 2012; Sysyn 1985; Subtelny 2009.
 	chr_Kiev = {
 		icon = mission_build_up_to_force_limit
 		required_missions = {
@@ -404,11 +696,15 @@ chr_missions_2 = {
 			}
 		}
 	}
+	# Mechanics: Full Ruthenia ownership produces stat boosts, hegemonic modifier, and flagged integration stage.
+	# Narrative: Marks the proclamation of a united Ruthenia under Chernihiv after pacifying the steppe.
+	# References: Plokhy 2012; Kohut 1988; Subtelny 2009.
 	chr_unite_home_region = {
 		icon = mission_unite_home_region
 		required_missions = {
 			chr_Kiev
-			chr_Minsk
+			chr_crimean_compact_mission
+
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -435,10 +731,14 @@ chr_missions_2 = {
 			}
 		}
 	}
+	# Mechanics: Own Ruthenia and Red Ruthenia for triple monarch points and regional integration modifiers.
+	# Narrative: Retells the coronation tours through Lviv and Kyiv to cement a Ruthenian commonwealth.
+	# References: Sysyn 1985; Plokhy 2012; Subtelny 2009.
 	chr_ruthenia = {
 		icon = mission_rule_ruthenia
 		required_missions = {
 			chr_unite_home_region
+			chr_black_sea_consortia_mission
 		}
 		position = 12
 		provinces_to_highlight = {
@@ -490,6 +790,9 @@ chr_missions_3 = {
 		}
 	}
 	has_country_shield = yes
+	# Mechanics: Maintain two allies with high opinion to secure a 25-year influential diplomacy modifier.
+	# Narrative: Reflects Chernihiv hetmans weaving regional compacts with steppe powers and Commonwealth magnates.
+	# References: Plokhy 2012; Sysyn 1985; Pierling 1898.
 	chr_building_alliances = {
 		icon = mission_alliances
 		required_missions = {
@@ -518,33 +821,225 @@ chr_missions_3 = {
 			}
 		}
 	}
-	chr_have_two_subjects = {
-		icon = mission_have_two_subjects
+	# Mechanics: Keep a trusted border ally while at peace to earn prestige, fire an event, and lock in diplomatic branch flags.
+	# Narrative: Evokes the Novhorod-Siverskyi border congresses that brokered truces with Poland-Lithuania and Muscovy.
+	# References: Sysyn 1985; Plokhy 2012; Kaminski 1983.
+	chr_border_compacts = {
+		icon = mission_alliances
 		required_missions = {
 			chr_building_alliances
 		}
+		provinces_to_highlight = {
+			province_id = 1945	# Novhorod-Siverskyi
+			province_id = 4244	# Starodub
+		}
 		position = 2
 		trigger = {
-			num_of_non_tributary_subjects = 2
+			num_of_allies = 1
+			custom_trigger_tooltip = {
+				tooltip = chr_border_compacts_relations_tt
+				any_neighbor_country = {
+					OR = {
+						tag = PLC
+						tag = POL
+						tag = LIT
+						tag = MOS
+						tag = RUS
+						tag = CRI
+					}
+					has_opinion = {
+						who = ROOT
+						value = 125
+					}
+					NOT = {
+						is_rival = ROOT
+					}
+				}
+				is_at_war = no
+			}
 		}
 		effect = {
-			add_country_modifier = {
-				name = obedient_subjects
-				duration = 9125				#25 years
+			add_prestige = 10
+			hidden_effect = {
+				set_country_flag = chr_border_compacts_fired
+				if = {
+					limit = { has_country_flag = chr_border_compacts_militarized_path }
+					clr_country_flag = chr_border_compacts_militarized_path
+				}
+				set_country_flag = chr_border_compacts_diplomatic_path
+			}
+			country_event = {
+				id = chr_flavor.10
 			}
 		}
 	}
+	# Mechanics: Build forts in specified areas with professionalism and manpower for military power, modifiers, and branch flag swap.
+	# Narrative: Represents reinforcing Sloboda Ukraine fort belts to deter raids after the border compacts splintered.
+	# References: Davies 2007; Plokhy 2012; Fisher 1978.
+	chr_frontier_garrisons = {
+		icon = mission_build_up_to_force_limit
+		required_missions = {
+			chr_border_compacts
+		}
+		position = 3
+		provinces_to_highlight = {
+			OR = {
+				area = sloboda_ukraine_area
+				area = lower_don_area
+				province_id = 1945
+				province_id = 4244
+			}
+		}
+		trigger = {
+			NOT = {
+				has_country_flag = chr_border_branch_selected
+			}
+			calc_true_if = {
+				all_owned_province = {
+					fort_level = 1
+				}
+				amount = 4
+			}
+			army_professionalism = 0.25
+			custom_trigger_tooltip = {
+				tooltip = chr_frontier_garrisons_forts_tt
+				calc_true_if = {
+					all_owned_province = {
+						OR = {
+							area = sloboda_ukraine_area
+							area = lower_don_area
+							province_id = 1945
+							province_id = 4244
+						}
+						fort_level = 1
+					}
+					amount = 2
+				}
+			}
+		}
+		effect = {
+			add_mil_power = 75
+			add_army_tradition = 15
+			add_country_modifier = {
+				name = chr_frontier_garrisons
+				duration = 9125
+			}
+			sloboda_ukraine_area = {
+				limit = {
+					owned_by = ROOT
+					fort_level = 1
+				}
+				add_province_modifier = {
+					name = chr_border_outposts
+					duration = 9125
+				}
+			}
+			lower_don_area = {
+				limit = {
+					owned_by = ROOT
+					fort_level = 1
+				}
+				add_province_modifier = {
+					name = chr_border_outposts
+					duration = 9125
+				}
+			}
+			1945 = {
+				if = {
+					limit = {
+						owned_by = ROOT
+						fort_level = 1
+					}
+					add_province_modifier = {
+						name = chr_border_outposts
+						duration = 9125
+					}
+				}
+			}
+			4244 = {
+				if = {
+					limit = {
+						owned_by = ROOT
+						fort_level = 1
+					}
+					add_province_modifier = {
+						name = chr_border_outposts
+						duration = 9125
+					}
+				}
+			}
+			hidden_effect = {
+				chr_left_bank_monastery_investment = yes
+			}
+			hidden_effect = {
+				set_country_flag = chr_border_branch_selected
+				set_country_flag = chr_frontier_branch_taken
+				clr_country_flag = chr_diplomatic_branch_taken
+			}
+		}
+	}
+	# Mechanics: Maintain three allies with loyalty thresholds to gain a diplomacy modifier and branch flag.
+	# Narrative: Captures hetman embassies courting Warsaw, Crimea, and Danubian princes to balance the frontiers.
+	# References: Plokhy 2012; Sysyn 1985; Kaminski 1983.
+	chr_diplomatic_network = {
+		icon = mission_alliances
+		required_missions = {
+			chr_expand_country_mission
+		}
+		position = 4
+		trigger = {
+			NOT = {
+				has_country_flag = chr_border_branch_selected
+			}
+			num_of_allies = 3
+			custom_trigger_tooltip = {
+				tooltip = chr_diplomatic_network_loyal_allies_tt
+				calc_true_if = {
+					all_ally = {
+						has_opinion = {
+							who = ROOT
+							value = 150
+						}
+						trust = {
+							who = ROOT
+							value = 60
+						}
+					}
+					amount = 2
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_compact_network
+				duration = 9125
+			}
+			hidden_effect = {
+				set_country_flag = chr_border_branch_selected
+				set_country_flag = chr_diplomatic_branch_taken
+				clr_country_flag = chr_frontier_branch_taken
+			}
+		}
+	}
+	# Mechanics: Cap manpower reserves to unlock claims, manpower boost, and mobilization modifier.
+	# Narrative: Recounts mobilising the Left-Bank starshyna for campaigns alongside allied compacts.
+	# References: Davies 2007; Plokhy 2012; Sysyn 1985.
 	chr_Manpower = {
 		icon = mission_assemble_an_army
 		required_missions = {
-			chr_expand_country_mission
-			chr_have_two_subjects
+			chr_conquer_oka
+			chr_diplomatic_network
 		}
-		position = 4
+		position = 5
 		trigger = {
 			manpower_percentage = 1
 		}
 		effect = {
+			add_country_modifier = {
+				name = chr_left_bank_mobilization
+				duration = 3650
+			}
+			add_manpower = 500
 			sloboda_ukraine_area = {
 				limit = {
 					NOT = {
@@ -571,6 +1066,9 @@ chr_missions_3 = {
 			}
 		}
 	}
+	# Mechanics: Grow by states while owning Sloboda Ukraine to add claims, expansion modifier, and target provinces.
+	# Narrative: Mirrors Hetman colonisation of Sloboda and Don estates to secure Kazakh and Tatar approaches.
+	# References: Plokhy 2012; Fisher 1978; Davies 2007.
 	chr_conquer_states = {
 		icon = mission_cannons_firing
 		required_missions = {
@@ -585,7 +1083,7 @@ chr_missions_3 = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
-		position = 5
+		position = 6
 		trigger = {
 			grown_by_states = 5
 			sloboda_ukraine_area = {
@@ -627,13 +1125,135 @@ chr_missions_3 = {
 			}
 		}
 	}
-	chr_Great_Horde = {
-		icon = mission_cannons_firing
+	# 17th century Sloboda Ukraine self-government charters for Kharkiv, Sumy, Okhtyrka settlers
+	# Mechanics: Build economic buildings in Sloboda Ukraine to grant a national modifier, province modifiers, and development bonuses.
+	# Narrative: Tells of sloboda charters granting tax freedoms to settlers across Kharkiv and Sumy.
+	# References: Plokhy 2012; Subtelny 2009; Kohut 1988.
+	chr_sloboda_charters = {
+		icon = mission_build_up_to_force_limit
 		required_missions = {
 			chr_conquer_states
 			chr_dniepr
 		}
 		position = 7
+		provinces_to_highlight = {
+			area = sloboda_ukraine_area
+		}
+		trigger = {
+			calc_true_if = {
+				all_owned_province = {
+					area = sloboda_ukraine_area
+					OR = {
+						has_building = temple
+						has_building = workshop
+						has_building = marketplace
+					}
+				}
+				amount = 3
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_sloboda_settlers
+				duration = 9125
+			}
+			sloboda_ukraine_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = chr_sloboda_charter
+					duration = -1
+				}
+			}
+			291 = {
+				if = {
+					limit = {
+						owned_by = ROOT
+					}
+					add_base_manpower = 1
+					add_base_production = 1
+				}
+			}
+		}
+	}
+	# Belgorod defensive line securing the Sloboda frontier against 17th century raids
+	# Mechanics: Maintain upgraded forts and professionalism to earn Belgorod line modifiers and military power.
+	# Narrative: Depicts the Belgorod defensive line that tethered Muscovite and Cossack garrisons across the frontier.
+	# References: Davies 2007; Kollmann 2017; Plokhy 2012.
+	chr_belgorod_line = {
+		icon = mission_build_up_to_force_limit
+		required_missions = {
+			chr_sloboda_charters
+			chr_kiev_2 
+			chr_Smolensk
+		}
+		position = 8
+		provinces_to_highlight = {
+			OR = {
+				area = sloboda_ukraine_area
+				area = lower_don_area
+			}
+		}
+		trigger = {
+			sloboda_ukraine_area = {
+				type = any
+				owned_by = ROOT
+				OR = {
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+			lower_don_area = {
+				type = any
+				owned_by = ROOT
+				OR = {
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+			army_professionalism = 0.15
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_belgorod_line_country
+				duration = 9125
+			}
+			sloboda_ukraine_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = chr_belgorod_line_province
+					duration = 9125
+				}
+			}
+			lower_don_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = chr_belgorod_line_province
+					duration = 9125
+				}
+			}
+			add_mil_power = 50
+		}
+	}
+	# Mechanics: Control Lower Don holdings to trigger claims across Azov and key provinces.
+	# Narrative: Chronicles the defeat of the Great Horde remnants and the absorption of Don forts.
+	# References: Fisher 1978; Davies 2007; Plokhy 2012.
+	chr_Great_Horde = {
+		icon = mission_cannons_firing
+		required_missions = {
+			chr_belgorod_line
+			chr_imperial_ambition_mission
+		}
+		position = 9
 		provinces_to_highlight = {
 			OR = {
 				area = lower_don_area
@@ -679,257 +1299,273 @@ chr_missions_3 = {
 			}
 		}
 	}
+	# Mechanics: Reach 75 share in home node to unlock a permanent trade hub modifier and claims on Zaporizhia.
+	# Narrative: Highlights Left-Bank syndicates monopolising Dnieper trade hubs after the Don campaigns.
+	# References: Sysyn 1985; Plokhy 2012; Subtelny 2009.
 	chr_dominate_home_trade_node = {
-		icon = mission_dominate_home_trade_node
-		required_missions = {
-			chr_Great_Horde
-			chr_kiev_2
-		}
-		position = 8
-		trigger = {
-			home_trade_node = {
-				trade_share = {
-					country = ROOT
-					share = 75
-				}
-			}
-		}
-		effect = {
-			hidden_effect = {
-				home_trade_node_effect_scope = {
-					random_trade_node_member_province = {
-						limit = {
-							owned_by = ROOT
-						}
-						save_event_target_as = reward_province
-					}
-					random_trade_node_member_province = {
-						limit = {
-							owned_by = ROOT
-							is_capital = yes
-						}
-						save_event_target_as = reward_province
-					}
-					random_trade_node_member_province = {
-						limit = {
-							owned_by = ROOT
-							development = CAPITAL
-							is_capital = no
-						}
-						save_event_target_as = reward_province
-					}
-					random_trade_node_member_province = {
-						limit = {
-							owned_by = ROOT
-							development = CAPITAL
-							is_capital = no
-							development = 20
-						}
-						save_event_target_as = reward_province
-					}
-					random_trade_node_member_province = {
-						limit = {
-							owned_by = ROOT
-							development = CAPITAL
-							is_capital = no
-							development = 25
-						}
-						save_event_target_as = reward_province
-					}
-					random_trade_node_member_province = {
-						limit = {
-							owned_by = ROOT
-							development = CAPITAL
-							is_capital = no
-							development = 30
-						}
-						save_event_target_as = reward_province
-					}
-				}
-			}
-			if = {
-				limit = {
-					has_saved_event_target = reward_province
-				}
-				event_target:reward_province = {
-					add_province_modifier = {
-						name = dominant_trade_hub
-						duration = -1
-					}
-				}
-			}
-			else = {
-				custom_tooltip = dominant_home_node_reward_tooltip
-			}
-			zaporizhia_area = {
-				limit = {
-					NOT = {
-						is_core = ROOT
-					}
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
-		}
-	}
+		icon = mission_dominate_home_trade_node 
+		required_missions = { 
+			chr_Great_Horde 
+		} 
+		position = 10 
+		trigger = { 
+			home_trade_node = { 
+				trade_share = { 
+					country = ROOT 
+					share = 75 
+				} 
+			} 
+		} 
+		effect = { 
+			hidden_effect = { 
+				home_trade_node_effect_scope = { 
+					random_trade_node_member_province = { 
+						limit = { 
+							owned_by = ROOT 
+						} 
+						save_event_target_as = reward_province 
+					} 
+					random_trade_node_member_province = { 
+						limit = { 
+							owned_by = ROOT 
+							is_capital = yes 
+						} 
+						save_event_target_as = reward_province 
+					} 
+					random_trade_node_member_province = { 
+						limit = { 
+							owned_by = ROOT 
+							development = CAPITAL 
+							is_capital = no 
+						} 
+						save_event_target_as = reward_province 
+					} 
+					random_trade_node_member_province = { 
+						limit = { 
+							owned_by = ROOT 
+							development = CAPITAL 
+							is_capital = no 
+							development = 20 
+						} 
+						save_event_target_as = reward_province 
+					} 
+					random_trade_node_member_province = { 
+						limit = { 
+							owned_by = ROOT 
+							development = CAPITAL 
+							is_capital = no 
+							development = 25 
+						} 
+						save_event_target_as = reward_province 
+					} 
+					random_trade_node_member_province = { 
+						limit = { 
+							owned_by = ROOT 
+							development = CAPITAL 
+							is_capital = no 
+							development = 30 
+						} 
+						save_event_target_as = reward_province 
+					} 
+				} 
+			} 
+			if = { 
+				limit = { 
+					has_saved_event_target = reward_province 
+				} 
+				event_target:reward_province = { 
+					add_province_modifier = { 
+						name = dominant_trade_hub 
+						duration = -1 
+					} 
+				} 
+			} 
+			else = { 
+				custom_tooltip = dominant_home_node_reward_tooltip 
+			} 
+			zaporizhia_area = { 
+				limit = { 
+					NOT = { 
+						is_core = ROOT 
+					} 
+					NOT = { 
+						is_permanent_claim = ROOT 
+					} 
+				} 
+				add_permanent_claim = ROOT 
+			} 
+		} 
+	} 
+	# Mechanics: Control Zaporizhia to grant estate loyalty, claims in surrounding regions, and mission momentum.
+	# Narrative: Celebrates restoring Zaporizhian host dominance and extending protectorates into the steppe.
+	# References: Plokhy 2012; Sysyn 1985; Subtelny 2009.
 	chr_cossacks = {
-		icon = mission_recruit_the_cossacks
-		required_missions = {
-			chr_dominate_home_trade_node
-		}
-		position = 9
-		provinces_to_highlight = {
-			area = zaporizhia_area
-			NOT = {
-				owned_by = ROOT
-			}
-		}
-		trigger = {
-			zaporizhia_area = {
-				type = all
-				owned_by = ROOT
-			}
-		}
-		effect = {
-			if = {
-				limit = {
-					has_estate = estate_cossacks
-				}
-				add_estate_loyalty = {
-					estate = estate_cossacks
-					loyalty = 20
-				}
-			}
-			else = {
-				add_army_tradition = 15
-			}
-			yedisan_area = {
-				limit = {
-					NOT = {
-						is_core = ROOT
-					}
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
-			moldavia_area = {
-				limit = {
-					NOT = {
-						is_core = ROOT
-					}
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
-			crimea_area = {
-				limit = {
-					NOT = {
-						is_core = ROOT
-					}
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
-		}
-	}
+		icon = mission_recruit_the_cossacks 
+		required_missions = { 
+			chr_dominate_home_trade_node 
+			chr_Minsk
+		} 
+		position = 11 
+		provinces_to_highlight = { 
+			area = zaporizhia_area 
+			NOT = { 
+				owned_by = ROOT 
+			} 
+		} 
+		trigger = { 
+			zaporizhia_area = { 
+				type = all 
+				owned_by = ROOT 
+			} 
+		} 
+		effect = { 
+			if = { 
+				limit = { 
+					has_estate = estate_cossacks 
+				} 
+				add_estate_loyalty = { 
+					estate = estate_cossacks 
+					loyalty = 20 
+				} 
+			} 
+			else = { 
+				add_army_tradition = 15 
+			} 
+			yedisan_area = { 
+				limit = { 
+					NOT = { 
+						is_core = ROOT 
+					} 
+					NOT = { 
+						is_permanent_claim = ROOT 
+					} 
+				} 
+				add_permanent_claim = ROOT 
+			} 
+			moldavia_area = { 
+				limit = { 
+					NOT = { 
+						is_core = ROOT 
+					} 
+					NOT = { 
+						is_permanent_claim = ROOT 
+					} 
+				} 
+				add_permanent_claim = ROOT 
+			} 
+			crimea_area = { 
+				limit = { 
+					NOT = { 
+						is_core = ROOT 
+					} 
+					NOT = { 
+						is_permanent_claim = ROOT 
+					} 
+				} 
+				add_permanent_claim = ROOT 
+			} 
+		} 
+	} 
+	# Mechanics: Hold Yedisan to seed Crimean claims across the region.
+	# Narrative: Represents consolidating the lower Dnieper and turning Zaporizhia into a springboard toward Crimea.
+	# References: Plokhy 2012; Fisher 1978; Davies 2007.
 	chr_Zaporozhie = {
-		icon = mission_cossack_cavalry
-		required_missions = {
-			chr_cossacks
-		}
-		position = 10
-		provinces_to_highlight = {
-			OR = {
-				area = yedisan_area
-			}
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		trigger = {
-			yedisan_area = {
-				type = all
-				owned_by = ROOT
-			}
-		}
-		effect = {
-			crimea_region = {
-				limit = {
-					NOT = {
-						is_core = ROOT
-					}
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
-		}
-	}
+		icon = mission_cossack_cavalry 
+		required_missions = { 
+			chr_cossacks 
+			chr_dniepr_grain_exchange
+		} 
+		position = 12 
+		provinces_to_highlight = { 
+			OR = { 
+				area = yedisan_area 
+			} 
+			NOT = { 
+				country_or_non_sovereign_subject_holds = ROOT 
+			} 
+		} 
+		trigger = { 
+			yedisan_area = { 
+				type = all 
+				owned_by = ROOT 
+			} 
+		} 
+		effect = { 
+			crimea_region = { 
+				limit = { 
+					NOT = { 
+						is_core = ROOT 
+					} 
+					NOT = { 
+						is_permanent_claim = ROOT 
+					} 
+				} 
+				add_permanent_claim = ROOT 
+			} 
+		} 
+	} 
+	# Mechanics: Own Crimea to culture-convert and heavily develop key provinces.
+	# Narrative: Recounts Chernihiv dominance of the Crimean Khanate towns following Zaporizhian integration.
+	# References: Fisher 1978; Plokhy 2012; Davies 2007.
 	chr_Crimea = {
-		icon = mission_recruit_the_cossacks
-		required_missions = {
-			chr_Zaporozhie
-		}
-		position = 11
-		provinces_to_highlight = {
-			OR = {
-				area = crimea_area
-			}
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
-		trigger = {
-			crimea_area = {
-				type = all
-				owned_by = ROOT
-			}
-		}
-		effect = {
-			1974 = {
-				change_culture = ruthenian
-			}
-			2412 = {
-				change_culture = ruthenian
-			}
-			2411 = {
-				change_culture = ruthenian
-			}
-			284 = {
-				add_base_tax = 4
-				add_base_production = 4
-				add_base_manpower = 3
-			}
-		}
-	}
-	chr_establish_high_seas_navy = {
-		icon = mission_establish_high_seas_navy
-		required_missions = {
-			chr_Crimea
-		}
+		icon = mission_recruit_the_cossacks 
+		required_missions = { 
+			chr_Zaporozhie 
+		} 
 		position = 13
-		trigger = {
-			OR = {
-				num_of_heavy_ship = 10
-				num_of_galley = 30
-			}
-		}
-		effect = {
-			add_country_modifier = {
-				name = naval_enthusiasm_mission
-				duration = 9125				#25 years
-			}
-		}
-	}
+		provinces_to_highlight = { 
+			OR = { 
+				area = crimea_area 
+			} 
+			NOT = { 
+				country_or_non_sovereign_subject_holds = ROOT 
+			} 
+		} 
+		trigger = { 
+			crimea_area = { 
+				type = all 
+				owned_by = ROOT 
+			} 
+		} 
+		effect = { 
+			1974 = { 
+				change_culture = ruthenian 
+			} 
+			2412 = { 
+				change_culture = ruthenian 
+			} 
+			2411 = { 
+				change_culture = ruthenian 
+			} 
+			284 = { 
+				add_base_tax = 4 
+				add_base_production = 4 
+				add_base_manpower = 3 
+			} 
+		} 
+	} 
+	# Mechanics: Build heavy or galley fleets to gain naval enthusiasm modifier.
+	# Narrative: Emulates the Hetmanate launching Black Sea patrol squadrons from Sevastopol and Ochakiv.
+	# References: Davies 2007; Fisher 1978; Plokhy 2012.
+	chr_establish_high_seas_navy = {
+		icon = mission_establish_high_seas_navy 
+		required_missions = { 
+			chr_Crimea 
+		} 
+		position = 14 
+		trigger = { 
+			OR = { 
+				num_of_heavy_ship = 10 
+				num_of_galley = 30 
+			} 
+		} 
+		effect = { 
+			add_country_modifier = { 
+				name = naval_enthusiasm_mission 
+				duration = 9125				#25 years 
+			} 
+		} 
+	} 
 }
 
 chr_missions_4 = {
@@ -944,6 +1580,9 @@ chr_missions_4 = {
 		}
 	}
 	has_country_shield = yes
+	# Mechanics: Boost income to 150 percent of start to earn a growing economy modifier.
+	# Narrative: Captures treasury reforms that monetised grain exports during the Left-Bank recovery.
+	# References: Plokhy 2012; Sysyn 1985; Subtelny 2009.
 	chr_high_income_mission = {
 		icon = mission_high_income
 		required_missions = {
@@ -960,6 +1599,9 @@ chr_missions_4 = {
 			}
 		}
 	}
+	# Mechanics: Hit stability 2 to gain prestige and administrative power.
+	# Narrative: Reenacts hetman consolidations that calmed uprising after revenue surges.
+	# References: Plokhy 2012; Kohut 1988; Sysyn 1985.
 	chr_stability = {
 		icon = mission_consolidate_the_state
 		required_missions = {
@@ -970,35 +1612,22 @@ chr_missions_4 = {
 		}
 		trigger = {
 			stability = 2
-			if = {
-				limit = {
-					OR = {
-						has_reform = principality
-						has_reform = veche_republic
-						has_reform = tsardom
-					}
-				}
-				num_of_streltsy = 5
-			}
-			else = {
-				army_size_percentage = 1
-			}
-			num_of_states = 3
 		}
 		effect = {
 			add_prestige = 10
 			add_adm_power = 50
 		}
 	}
+	# Mechanics: Construct five temples to gain admin power and a building spree modifier.
+	# Narrative: Represents patronage of parish churches and collegiate monasteries along the Desna.
+	# References: Plokhy 2012; Sysyn 1985; Subtelny 2009.
 	chr_build_temples = {
 		icon = mission_early_game_buildings
 		required_missions = {
-			chr_stability
 		}
 		position = 3
 		trigger = {
 			temple = 5
-			workshop = 5
 		}
 		effect = {
 			add_adm_power = 50
@@ -1008,6 +1637,9 @@ chr_missions_4 = {
 			}
 		}
 	}
+	# Mechanics: Accumulate 2000 ducats to gain prestige and treasury strength modifier.
+	# Narrative: Symbolises Hetman treasury hoards earmarked for frontier bulwarks and patronage.
+	# References: Kohut 1988; Plokhy 2012; Sysyn 1985.
 	chr_build_treasury = {
 		icon = mission_war_chest
 		required_missions = {
@@ -1018,12 +1650,16 @@ chr_missions_4 = {
 			treasury = 2000
 		}
 		effect = {
+			add_prestige = 25
 			add_country_modifier = {
 				name = strong_treasury
 				duration = 9125
 			}
 		}
 	}
+	# Mechanics: Own twenty manufactories to gain proto industrialization modifier, income, and new claims.
+	# Narrative: Chronicles the rise of Left-Bank milling and foundries feeding Dnieper exports.
+	# References: Plokhy 2012; Subtelny 2009; Sysyn 1985.
 	chr_build_manufactories = {
 		icon = mission_have_manufactories
 		required_missions = {
@@ -1067,6 +1703,9 @@ chr_missions_4 = {
 			}
 		}
 	}
+	# Mechanics: Control the East Dniepr area to gain army tradition and a targeted claim.
+	# Narrative: Marks the Hetmanate clearing Cossack ferries along the Dnieper to secure trade flows.
+	# References: Plokhy 2012; Davies 2007; Sysyn 1985.
 	chr_dniepr = {
 		icon = mission_advance_to_the_dnieper
 		required_missions = {
@@ -1102,6 +1741,9 @@ chr_missions_4 = {
 			}
 		}
 	}
+	# Mechanics: Own Kyiv to get prestige, event trigger, modifiers, and income burst.
+	# Narrative: Celebrates the ceremonial restoration of Kyiv as co-capital of the Hetmanate.
+	# References: Plokhy 2012; Sysyn 1985; Subtelny 2009.
 	chr_kiev_2 = {
 		icon = mission_restore_kiev
 		required_missions = {
@@ -1131,10 +1773,134 @@ chr_missions_4 = {
 			add_years_of_income = 1.5
 		}
 	}
+	# Mechanics: Upgrade grain estates and modules to produce national and provincial modifiers, development, event, and flags.
+	# Narrative: Represents the Left-Bank agrarian revolution harnessing black soil estates around Kharkiv.
+	# References: Plokhy 2012; Subtelny 2009; Sysyn 1985.
+	chr_black_soil_silos = {
+		icon = mission_have_manufactories
+		required_missions = {
+			chr_Belarus_2
+			chr_Great_Horde
+		}
+		position = 10
+		provinces_to_highlight = {
+			area = sloboda_ukraine_area
+		}
+		trigger = {
+			calc_true_if = {
+				all_owned_province = {
+					trade_goods = grain
+					has_building = farm_estate
+				}
+				amount = 4
+			}
+			custom_trigger_tooltip = {
+				tooltip = chr_black_soil_silos_modules_tt
+				calc_true_if = {
+					all_owned_province = {
+						has_province_modifier = chr_sloboda_farm_lvl1
+					}
+					amount = 4
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_black_soil_silos
+				duration = 9125
+			}
+			291 = {
+				if = {
+					limit = {
+						owned_by = ROOT
+						trade_goods = grain
+					}
+					add_base_production = 1
+					owner = {
+						add_treasury = 45
+					}
+				}
+			}
+			sloboda_ukraine_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = chr_grain_silo_province
+					duration = 9125
+				}
+			}
+			country_event = {
+				id = chr_flavor.35
+			}
+			hidden_effect = {
+				set_country_flag = chr_black_soil_silos_flag
+				chr_left_bank_sloboda_investment = yes
+			}
+		}
+	}
+	# Mechanics: Grain marketplaces, trade share, and module thresholds grant grain exchange modifier, income, and flags.
+	# Narrative: Illustrates creation of Dnieper grain exchange syndicates linking Kyiv to the Black Sea.
+	# References: Plokhy 2012; Sysyn 1985; Davies 2007.
+	chr_dniepr_grain_exchange = {
+		icon = mission_dominate_home_trade_node
+		required_missions = {
+			chr_black_soil_silos
+		}
+		position = 11
+		provinces_to_highlight = {
+			OR = {
+				area = east_dniepr_area
+				area = west_dniepr_area
+			}
+		}
+		trigger = {
+			calc_true_if = {
+				all_owned_province = {
+					trade_goods = grain
+					has_building = marketplace
+					OR = {
+						area = east_dniepr_area
+						area = west_dniepr_area
+					}
+				}
+				amount = 3
+			}
+			home_trade_node = {
+				trade_share = {
+					country = ROOT
+					share = 0.55
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = chr_dniepr_grain_modules_tt
+				calc_true_if = {
+					all_owned_province = {
+						has_province_modifier = chr_sloboda_farm_lvl2
+					}
+					amount = 3
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_dniepr_grain_exchange
+				duration = 9125
+			}
+			add_years_of_income = 1
+			hidden_effect = {
+				set_country_flag = chr_grain_exchange_founded
+				chr_left_bank_grain_exchange_integration = yes
+			}
+		}
+	}
+	# Mechanics: Control Crimea region to gain military power and an ended yoke modifier.
+	# Narrative: Marks the final subjugation of Tatar raiding routes after conquering Crimea.
+	# References: Fisher 1978; Davies 2007; Plokhy 2012.
 	chr_tatar_yoke = {
 		icon = mission_break_the_tatar_yoke
 		required_missions = {
-			chr_establish_high_seas_navy
+			chr_Crimea
 			chr_Astrakhan
 		}
 		position = 14
@@ -1173,6 +1939,34 @@ chr_missions_5 = {
 		}
 	}
 	has_country_shield = yes
+	
+	# Mechanics: Poland path parliament with stability gives a permanent joint diets modifier and diplo power.
+	# Narrative: Recreates joint diets convened with Warsaw partners to regularise Chernihiv autonomy within the Commonwealth orbit.
+	# References: Sysyn 1985; Plokhy 2012; Kaminski 1983.
+	chr_commonwealth_joint_diets_mission = {
+        icon = mission_high_income
+        required_missions = {
+            chr_commonwealth_protectorate_mission
+        }
+        position = 7
+        trigger = {
+            has_country_flag = chr_ruina_path_poland
+            has_country_flag = chr_polish_path_stage1
+            has_parliament = yes
+            stability = 2
+        }
+        effect = {
+            add_country_modifier = {
+                name = chr_commonwealth_joint_diets
+                duration = -1
+                desc = chr_commonwealth_joint_diets_desc
+            }
+            add_dip_power = 75
+        }
+    }
+	# Mechanics: Reach 1000 development to gain prestige and imperial ambition modifier.
+	# Narrative: Signals the Hetmanate proclaiming imperial pretensions once Left-Bank reforms matured.
+	# References: Plokhy 2012; Kohut 1988; Subtelny 2009.
 	chr_imperial_ambition_mission = {
 		icon = mission_empire
 		required_missions = {
@@ -1190,10 +1984,13 @@ chr_missions_5 = {
 			}
 		}
 	}
+	# Mechanics: Control Azov area to gain claims on remaining Crimean provinces.
+	# Narrative: Depicts sieges of Azov and the push to dominate Don-Crimean ports.
+	# References: Davies 2007; Fisher 1978; Plokhy 2012.
 	chr_Azov = {
 		icon = mission_conquer_5_states
 		required_missions = {
-			chr_cossacks
+			chr_Belarus_2
 			chr_imperial_ambition_mission
 		}
 		position = 10
@@ -1244,6 +2041,9 @@ chr_missions_5 = {
 			}
 		}
 	}
+	# Mechanics: Hold trade company provinces overseas to gain claims on Astrakhan and a trade rush modifier.
+	# Narrative: Chronicles ventures establishing consortia beyond the Black Sea to reach Caspian markets.
+	# References: Davies 2007; Plokhy 2012; Subtelny 2009.
 	chr_trade_company_region_abroad = {
 		icon = mission_trade_company_region_abroad
 		required_missions = {
@@ -1288,10 +2088,14 @@ chr_missions_5 = {
 			}
 		}
 	}
+	# Mechanics: Control Astrakhan area to gain triple monarch point rewards.
+	# Narrative: Commemorates capturing Astrakhan trade gates to crown the eastern expansion.
+	# References: Davies 2007; Fisher 1978; Plokhy 2012.
 	chr_Astrakhan = {
 		icon = mission_conquer_50_development
 		required_missions = {
 			chr_trade_company_region_abroad
+			chr_Zaporozhie
 		}
 		position = 13
 		provinces_to_highlight = {
@@ -1310,6 +2114,121 @@ chr_missions_5 = {
 			add_adm_power = 100
 			add_dip_power = 100
 			add_mil_power = 100
+		}
+	}
+	# Mechanics: Reach income, grain production, and apply branch-specific reward with flags and events.
+	# Narrative: Celebrates Chernihiv agrarian supremacy feeding Europe via balanced or branch-aligned policies.
+	# References: Plokhy 2012; Subtelny 2009; Sysyn 1985.
+	chr_breadbasket_supremacy = {
+		icon = mission_high_income
+		required_missions = {
+			chr_dniepr_grain_exchange
+		}
+		position = 14
+		provinces_to_highlight = {
+			OR = {
+				area = sloboda_ukraine_area
+				area = east_dniepr_area
+				province_id = 1945
+				province_id = 4244
+			}
+		}
+		trigger = {
+			monthly_income = 35
+			calc_true_if = {
+				all_owned_province = {
+					trade_goods = grain
+					base_production = 8
+				}
+				amount = 6
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_breadbasket_supremacy
+				duration = 9125
+			}
+			hidden_effect = {
+				set_country_flag = chr_breadbasket_supremacy_flag
+				if = {
+					limit = {
+						NOT = { has_country_flag = chr_eastern_chronicle_compiled }
+					}
+					country_event = {
+						id = chr_flavor.37
+						days = 30
+					}
+				}
+			}
+			if = {
+				limit = { has_country_flag = chr_border_compacts_diplomatic_path }
+				custom_tooltip = chr_breadbasket_supremacy_diplomatic_reward_tt
+				add_dip_power = 100
+			}
+			else_if = {
+				limit = { has_country_flag = chr_border_compacts_militarized_path }
+				custom_tooltip = chr_breadbasket_supremacy_military_reward_tt
+				add_mil_power = 100
+			}
+			else = {
+				custom_tooltip = chr_breadbasket_supremacy_balanced_reward_tt
+				add_adm_power = 100
+			}
+		}
+	}
+	# Mechanics: Achieve trade income ratio, farm modules, and exchange modules to grant long modifier, estate reward, claims, and flags.
+	# Narrative: Portrays the Left-Bank agro-conglomerates that fused grain exchanges with Carpathian investments.
+	# References: Plokhy 2012; Subtelny 2009; Sysyn 1985.
+	chr_agro_hypercorporation = {
+		icon = mission_trade_company_region_abroad
+		required_missions = {
+			chr_breadbasket_supremacy
+		}
+		position = 15
+		trigger = {
+			trade_income_percentage = 0.3
+			calc_true_if = {
+				all_owned_province = {
+					has_province_modifier = chr_sloboda_farm_lvl2
+				}
+				amount = 5
+			}
+			custom_trigger_tooltip = {
+				tooltip = chr_agro_hypercorporation_exchange_tt
+				calc_true_if = {
+					all_owned_province = {
+						has_province_modifier = chr_sloboda_exchange_province
+					}
+					amount = 3
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_agro_hypercorporation
+				duration = 18250
+			}
+			if = {
+				limit = { has_estate = estate_burghers }
+				add_mercantilism = 2
+			}
+			else = {
+				add_adm_power = 100
+			}
+			carpathia_region = {
+				limit = {
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			hidden_effect = {
+				set_country_flag = chr_agro_hypercorp_complete
+			}
 		}
 	}
 }

@@ -34,6 +34,63 @@ cossack_ideas = {
 	}
 }
 
+# Chernihiv Ideas — Mechanics, Narrative, References
+# Mechanics: Balanced national idea set blending morale, manpower recovery, diplomacy, and grain trade bonuses keyed to the frontier/diplomatic mission split.
+# Narrative: Chronicles the evolution from Desna bastions to grain syndicates, illustrating Chernihiv’s path through the Ruina.
+# References: Serhii Plokhy, *The Cossack Myth* (2012); Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988); Frank Sysyn, *Between Poland and the Ukraine* (1985).
+CHR_ideas = {
+	start = {
+		# Starting traditions: steady morale, cheaper regiments, and improved relations to represent hardened frontier regiments negotiating survival.
+		land_morale = 0.05
+		global_regiment_cost = -0.05
+	}
+	bonus = {
+		# Ambitions: moderate loyalty equilibrium and governing capacity mirroring a bureaucratised Left Bank.
+		all_estate_loyalty_equilibrium = 0.05
+		governing_capacity_modifier = 0.1
+	}
+	trigger = {
+		tag = CHR
+	}
+	free = yes
+	# Desna Concord Compacts — fortress administration backed by statute and gradual reform progress.
+	chr_legacy_of_the_old_principality = { #CHR_bastions_of_desna
+		governing_capacity_modifier = 0.05
+		defensiveness = 0.15
+		reform_progress_growth = 0.05
+	}
+	# Balanced Sotnia Rosters — cavalry punch and manpower recovery from rotating registries.
+	chr_cossack_regiments = {#CHR_pospolite_rus
+		cavalry_power = 0.1
+		manpower_recovery_speed = 0.1
+	}
+	# Moderated Collegium — collegiate training translates into manpower, cheaper advisors, and knowledge flow.
+	chr_regimental_barracks = { #CHR_chernihiv_collegium
+		global_manpower_modifier = 0.1
+	}
+	# Tri-Compact Envoys — Polish, Muscovite, and Crimean embassies bolster diplomatic reach.
+	chr_konotop_fortress = { #CHR_crossroads_diplomacy
+		diplomatic_reputation = 1
+		diplomatic_upkeep = 1
+		tolerance_heretic = 0.5
+	}
+	# Urban-Rada Concord — urban taxation and production steadied by shared magistrates.
+	chr_local_councils = { #CHR_siversk_trade_routes
+		global_unrest = -1
+		global_tax_modifier = 0.1
+	}
+	# Synodal Compromise — confession balancing reduces maintenance costs on clergy infrastructure.
+	chr_renovate_transfiguration_cathedral = { #CHR_border_raids
+		tolerance_own = 1
+	}
+	# Left-Bank Grain Syndicates — scaled trade network leaning on caravan routes and goods produced.
+	chr_cultivate_the_east_dniepr = { #CHR_guardians_of_orthodoxy
+		global_trade_goods_size_modifier = 0.05
+		trade_efficiency = 0.05
+		caravan_power = 0.15
+	}
+}
+
 ZAZ_ideas = {
 	start = {
 		loot_amount = 0.1
@@ -61,7 +118,7 @@ ZAZ_ideas = {
 	}
 	zaz_cossack_hit_and_run = {
 		leader_land_manuever = 1
-		leader_land_shock =  1	
+		leader_land_shock = 1	
 	}
 	zaz_classy_diplomacy = {
 		power_projection_from_insults = 1
@@ -125,7 +182,7 @@ ruthenian_ideas = {
 	bonus = {
 		discipline = 0.05
 	}
- 
+
 	trigger = {
 		OR = {
 			primary_culture = ruthenian
@@ -133,7 +190,7 @@ ruthenian_ideas = {
 		}
 	}
 	free = yes
- 
+
 	mother_of_russian_cities = {
 		legitimacy = 1
 		prestige = 1

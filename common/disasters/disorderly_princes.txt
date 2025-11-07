@@ -43,15 +43,19 @@ disorderly_princes = {
 	}
 	
 	modifier = {
-		stability_cost_modifier = 0.40
-		local_unrest = 1
+		stability_cost_modifier = 0.4
+		global_unrest = 2
 	}
-	
+
 	progress = {
 		modifier = {
-			factor = 100
+			factor = 2
 			NOT = { has_country_flag = aftermath_of_revolt }
-		} 
+		}
+		modifier = {
+			factor = 0.75
+			stability = 1
+		}
 	}
 	
 	can_end = {

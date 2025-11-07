@@ -22,6 +22,30 @@ ruthenian_principality_reform = {
 	}
 }
 
+siversk_veche_reform = {
+	rank = {
+		1 = SIVERSK_COMMUNE
+		2 = MAGDEBURG_RADA
+		3 = LEFT_BANK_CONFEDERATION
+	}
+
+	ruler_male = {
+		1 = POSADNYK
+		2 = STARSHYNA_MARSHAL
+		3 = HETMAN_PROTECTOR
+	}
+
+	ruler_female = {
+		1 = POSADNYTSIA
+		2 = STARSHYNA_MARSHALKA
+		3 = HETMANKA_PROTECTOR
+	}
+
+	trigger = {
+		has_reform = siversk_veche_reform
+	}
+}
+
 Kyivan_rus_reform = {
 	rank = {
 		1 = KYIVAN_DUCHY
@@ -181,3 +205,31 @@ uzh_palanok_captaincy_reform = {
 			has_reform = uzh_komitat_system_reform
 		}
 	}
+
+# Chernihiv Grain Directorate titles – mechanics, narrative, references
+# Mechanics: Unlocks after grain branch missions, renaming ranks to align with agrarian administration reform.
+# Narrative: Celebrates Chernihiv's imagined grain commonwealth staffed by atamans and directors.
+# References: Serhii Plokhy, *The Cossack Myth* (2012); Tetiana Tairova-Yakovleva, *Ivan Mazepa and His Age* (2007).
+chr_grain_directorate_reform = {
+	rank = {
+		1 = GRAIN_COLLEGIUM
+		2 = SIVERSK_GRAIN_DIRECTORATE
+		3 = BLACK_SOIL_COMMONWEALTH
+	}
+
+	ruler_male = {
+		1 = GRANARY_ATAMAN
+		2 = GREAT_GRAIN_DIRECTOR
+		3 = ARCH_HARVEST_HETMAN
+	}
+
+	ruler_female = {
+		1 = GRANARY_ATAMAN
+		2 = GREAT_GRAIN_DIRECTRESS
+		3 = ARCH_HARVEST_HETMANKA
+	}
+
+	trigger = {
+		has_reform = chr_grain_directorate_reform
+	}
+}

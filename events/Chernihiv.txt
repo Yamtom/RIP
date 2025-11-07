@@ -1,0 +1,1130 @@
+namespace = chr_flavor
+
+country_event = {
+	id = chr_flavor.1
+	title = "chr_flavor.1.t"
+	desc = "chr_flavor.1.d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		has_disaster = chernihiv_ruina
+	}
+	immediate = {
+		set_country_flag = chernihiv_ruina_active
+	}
+	option = {
+		name = "chr_flavor.1.a"
+		add_mil_power = 50
+		add_war_exhaustion = 1
+		add_country_modifier = {
+			name = chr_baturyn_fortifications
+			duration = 3650
+		}
+	}
+	option = {
+		name = "chr_flavor.1.b"
+		add_treasury = -100
+		add_prestige = 5
+		add_country_modifier = {
+			name = chr_starshyna_compromise
+			duration = 3650
+		}
+		add_dip_power = 50
+	}
+}
+
+country_event = {
+	id = chr_flavor.35
+	title = "chr_flavor.35.t"
+	desc = "chr_flavor.35.d"
+	picture = BOOKS_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = "chr_flavor.35.a"
+		add_prestige = 10
+		add_country_modifier = {
+			name = chr_western_frontier_chronicle
+			duration = -1
+		}
+		set_country_flag = chr_western_chronicle_compiled
+	}
+}
+
+country_event = {
+	id = chr_flavor.36
+	title = "chr_flavor.36.t"
+	desc = "chr_flavor.36.d"
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+	immediate = {
+		set_country_flag = chr_border_compacts_pending_review
+	}
+	option = {
+		name = "chr_flavor.36.a"
+		trigger = {
+			has_country_modifier = chr_border_compact_confidence
+			exists = event_target:chr_border_compact_partner
+			is_at_war = no
+			event_target:chr_border_compact_partner = {
+				is_at_war = no
+				has_opinion = {
+					who = ROOT
+					value = 60
+				}
+			}
+		}
+		custom_tooltip = chr_border_compacts_renewed_tt
+		add_dip_power = 20
+		if = {
+			limit = { has_country_flag = chr_border_compacts_pending_review }
+			clr_country_flag = chr_border_compacts_pending_review
+		}
+		if = {
+			limit = { has_country_flag = chr_border_compacts_militarized_path }
+			clr_country_flag = chr_border_compacts_militarized_path
+		}
+		set_country_flag = chr_border_compacts_diplomatic_path
+		remove_country_modifier = chr_border_compact_confidence
+		remove_country_modifier = chr_border_compact_tension
+		remove_country_modifier = chr_border_compact_betrayal
+		add_country_modifier = {
+			name = chr_border_compact_confidence
+			duration = 1825
+		}
+		event_target:chr_border_compact_partner = {
+			remove_country_modifier = chr_border_compact_confidence_partner
+			remove_country_modifier = chr_border_compact_watchposts
+			add_country_modifier = {
+				name = chr_border_compact_confidence_partner
+				duration = 1825
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = chr_border_compact_support
+			}
+			add_trust = {
+				who = ROOT
+				value = 5
+			}
+			save_event_target_as = chr_border_compact_partner
+		}
+		hidden_effect = {
+			country_event = {
+				id = chr_flavor.36
+				days = 540
+			}
+		}
+	}
+	option = {
+		name = "chr_flavor.36.b"
+		trigger = {
+			OR = {
+				has_country_modifier = chr_border_compact_confidence
+				has_country_modifier = chr_border_compact_tension
+			}
+			exists = event_target:chr_border_compact_partner
+			OR = {
+				event_target:chr_border_compact_partner = {
+					NOT = {
+						has_opinion = {
+							who = ROOT
+							value = 50
+						}
+					}
+				}
+				event_target:chr_border_compact_partner = { war_with = ROOT }
+			}
+		}
+		custom_tooltip = chr_border_compacts_betrayal_tt
+		add_prestige = -10
+		if = {
+			limit = { has_country_flag = chr_border_compacts_pending_review }
+			clr_country_flag = chr_border_compacts_pending_review
+		}
+		if = {
+			limit = { has_country_flag = chr_border_compacts_diplomatic_path }
+			clr_country_flag = chr_border_compacts_diplomatic_path
+		}
+		set_country_flag = chr_border_compacts_militarized_path
+		remove_country_modifier = chr_border_compact_confidence
+		remove_country_modifier = chr_border_compact_tension
+		add_country_modifier = {
+			name = chr_border_compact_betrayal
+			duration = 1460
+		}
+		event_target:chr_border_compact_partner = {
+			remove_country_modifier = chr_border_compact_confidence_partner
+			add_country_modifier = {
+				name = chr_border_compact_watchposts
+				duration = 730
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = chr_border_compact_rupture
+			}
+			add_trust = {
+				who = ROOT
+				value = -10
+			}
+		}
+	}
+	option = {
+		name = "chr_flavor.36.c"
+		trigger = {
+			has_country_modifier = chr_border_compact_tension
+			exists = event_target:chr_border_compact_partner
+			is_at_war = no
+			event_target:chr_border_compact_partner = {
+				is_at_war = no
+				has_opinion = {
+					who = ROOT
+					value = 65
+				}
+			}
+		}
+		custom_tooltip = chr_border_compacts_deescalated_tt
+		remove_country_modifier = chr_border_compact_tension
+		if = {
+			limit = { has_country_flag = chr_border_compacts_pending_review }
+			clr_country_flag = chr_border_compacts_pending_review
+		}
+		if = {
+			limit = { has_country_flag = chr_border_compacts_militarized_path }
+			clr_country_flag = chr_border_compacts_militarized_path
+		}
+		set_country_flag = chr_border_compacts_diplomatic_path
+		add_country_modifier = {
+			name = chr_border_compact_confidence
+			duration = 1825
+		}
+		event_target:chr_border_compact_partner = {
+			remove_country_modifier = chr_border_compact_watchposts
+			add_country_modifier = {
+				name = chr_border_compact_confidence_partner
+				duration = 1825
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = chr_border_compact_support
+			}
+			add_trust = {
+				who = ROOT
+				value = 5
+			}
+			save_event_target_as = chr_border_compact_partner
+		}
+		hidden_effect = {
+			country_event = {
+				id = chr_flavor.36
+				days = 540
+			}
+		}
+	}
+	option = {
+		name = "chr_flavor.36.d"
+		trigger = {
+			OR = {
+				NOT = { exists = event_target:chr_border_compact_partner }
+				is_at_war = yes
+				event_target:chr_border_compact_partner = { war_with = ROOT }
+			}
+		}
+		custom_tooltip = chr_border_compacts_dissolved_tt
+		if = {
+			limit = { has_country_flag = chr_border_compacts_pending_review }
+			clr_country_flag = chr_border_compacts_pending_review
+		}
+		if = {
+			limit = { has_country_flag = chr_border_compacts_diplomatic_path }
+			clr_country_flag = chr_border_compacts_diplomatic_path
+		}
+		if = {
+			limit = { has_country_flag = chr_border_compacts_militarized_path }
+			clr_country_flag = chr_border_compacts_militarized_path
+		}
+		remove_country_modifier = chr_border_compact_confidence
+		remove_country_modifier = chr_border_compact_tension
+		remove_country_modifier = chr_border_compact_betrayal
+		if = {
+			limit = { exists = event_target:chr_border_compact_partner }
+			event_target:chr_border_compact_partner = {
+				remove_country_modifier = chr_border_compact_confidence_partner
+				remove_country_modifier = chr_border_compact_watchposts
+			}
+		}
+	}
+}
+
+country_event = {
+	id = chr_flavor.37
+	title = "chr_flavor.37.t"
+	desc = "chr_flavor.37.d"
+	picture = HARVEST_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = "chr_flavor.37.a"
+		trigger = {
+			has_country_flag = chr_border_compacts_diplomatic_path
+		}
+		add_dip_power = 75
+		add_prestige = 10
+		add_country_modifier = {
+			name = chr_eastern_frontier_chronicle
+			duration = -1
+		}
+		set_country_flag = chr_eastern_chronicle_compiled
+	}
+	option = {
+		name = "chr_flavor.37.b"
+		trigger = {
+			has_country_flag = chr_border_compacts_militarized_path
+		}
+		add_mil_power = 75
+		add_army_tradition = 1
+		add_country_modifier = {
+			name = chr_eastern_march_command
+			duration = 9125
+		}
+		set_country_flag = chr_eastern_chronicle_compiled
+	}
+	option = {
+		name = "chr_flavor.37.c"
+		trigger = {
+			NOT = { has_country_flag = chr_border_compacts_diplomatic_path }
+			NOT = { has_country_flag = chr_border_compacts_militarized_path }
+		}
+		add_adm_power = 75
+		set_country_flag = chr_eastern_chronicle_compiled
+	}
+}
+
+country_event = {
+	id = chr_flavor.2
+	title = "chr_flavor.2.t"
+	desc = "chr_flavor.2.d"
+	picture = CELEBRATION_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		NOT = { has_disaster = chernihiv_ruina }
+	}
+	immediate = {
+		clr_country_flag = chernihiv_ruina_active
+		set_country_flag = chernihiv_ruina_resolved
+		if = {
+			limit = {
+				NOT = { has_country_flag = chr_ruina_path_selected }
+			}
+			country_event = { id = chr_flavor.18 days = 7 }
+		}
+	}
+	option = {
+		name = "chr_flavor.2.a"
+		add_prestige = 10
+		add_country_modifier = {
+			name = chr_collegium_reform
+			duration = 3650
+		}
+		add_adm_power = 50
+	}
+	option = {
+		name = "chr_flavor.2.b"
+		add_legitimacy = 10
+		add_mil_power = 50
+		add_country_modifier = {
+			name = chr_starshyna_autonomy
+			duration = 3650
+		}
+	}
+}
+
+country_event = {
+	id = chr_flavor.3
+	title = "chr_flavor.3.t"
+	desc = "chr_flavor.3.d"
+	picture = REVOLT_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		has_disaster = chernihiv_ruina
+	}
+	option = {
+		name = "chr_flavor.3.a"
+		add_war_exhaustion = 1
+		add_mil_power = -25
+	}
+	option = {
+		name = "chr_flavor.3.b"
+		add_treasury = -60
+		add_dip_power = 35
+	}
+}
+
+country_event = {
+	id = chr_flavor.10
+	title = "chr_flavor.10.t"
+	desc = "chr_flavor.10.d"
+	picture = DIPLOMACY_eventPicture
+	trigger = {
+		tag = CHR
+		is_year = 1470
+		NOT = { has_country_modifier = chr_border_pacts_cooldown }
+		OR = {
+			exists = LIT
+			exists = PLC
+			exists = POL
+			exists = MOS
+			exists = RUS
+			exists = CRI
+		}
+	}
+	mean_time_to_happen = {
+		months = 120
+	}
+	option = {
+		name = "chr_flavor.10.a"
+		add_country_modifier = {
+			name = chr_commonwealth_alignment
+			duration = 3650
+		}
+		add_country_modifier = {
+			name = chr_border_pacts_cooldown
+			duration = 7300
+		}
+		if = {
+			limit = { exists = PLC }
+			PLC = { add_opinion = { who = ROOT modifier = chr_border_surety } }
+		}
+		else_if = {
+			limit = { exists = LIT }
+			LIT = { add_opinion = { who = ROOT modifier = chr_border_surety } }
+		}
+		else_if = {
+			limit = { exists = POL }
+			POL = { add_opinion = { who = ROOT modifier = chr_border_surety } }
+		}
+		add_dip_power = 40
+		ai_chance = {
+			factor = 5
+		}
+	}
+	option = {
+		name = "chr_flavor.10.b"
+		add_country_modifier = {
+			name = chr_muscovite_alignment
+			duration = 3650
+		}
+		add_country_modifier = {
+			name = chr_border_pacts_cooldown
+			duration = 7300
+		}
+		if = {
+			limit = { exists = RUS }
+			RUS = { add_opinion = { who = ROOT modifier = chr_border_surety } }
+		}
+		else_if = {
+			limit = { exists = MOS }
+			MOS = { add_opinion = { who = ROOT modifier = chr_border_surety } }
+		}
+		add_mil_power = 40
+		ai_chance = {
+			factor = 4
+		}
+	}
+	option = {
+		name = "chr_flavor.10.c"
+		add_country_modifier = {
+			name = chr_steppe_accord
+			duration = 3650
+		}
+		add_country_modifier = {
+			name = chr_border_pacts_cooldown
+			duration = 7300
+		}
+		if = {
+			limit = { exists = CRI }
+			CRI = { add_opinion = { who = ROOT modifier = chr_border_surety } }
+		}
+		add_treasury = -75
+		ai_chance = {
+			factor = 3
+		}
+	}
+}
+
+country_event = {
+	id = chr_flavor.11
+	title = "chr_flavor.11.t"
+	desc = "chr_flavor.11.d"
+	picture = COURT_eventPicture
+	trigger = {
+		tag = CHR
+		is_year = 1650
+		NOT = { has_country_modifier = chr_polissia_policy_lock }
+	}
+	mean_time_to_happen = {
+		months = 180
+	}
+	option = {
+		name = "chr_flavor.11.a"
+		add_treasury = -150
+		add_country_modifier = {
+			name = chr_polissian_drainage
+			duration = 5475
+		}
+		add_country_modifier = {
+			name = chr_polissia_policy_lock
+			duration = 7300
+		}
+		capital_scope = {
+			add_base_production = 1
+		}
+		ai_chance = {
+			factor = 4
+		}
+	}
+	option = {
+		name = "chr_flavor.11.b"
+		add_country_modifier = {
+			name = chr_polissian_screen
+			duration = 5475
+		}
+		add_country_modifier = {
+			name = chr_polissia_policy_lock
+			duration = 7300
+		}
+		ai_chance = {
+			factor = 3
+		}
+	}
+	option = {
+		name = "chr_flavor.11.c"
+		add_adm_power = 40
+		add_country_modifier = {
+			name = chr_diplomatic_balancers
+			duration = 3650
+		}
+		add_country_modifier = {
+			name = chr_polissia_policy_lock
+			duration = 7300
+		}
+		ai_chance = {
+			factor = 2
+		}
+	}
+}
+
+country_event = {
+	id = chr_flavor.12
+	title = "chr_flavor.12.t"
+	desc = "chr_flavor.12.d"
+	picture = CASTLE_eventPicture
+	trigger = {
+		tag = CHR
+		is_year = 1500
+		owns = 4244
+		NOT = { has_country_modifier = chr_starodub_assembly_cooldown }
+	}
+	mean_time_to_happen = {
+		months = 180
+	}
+	option = {
+		name = "chr_flavor.12.a"
+		add_country_modifier = {
+			name = chr_starodub_privileges
+			duration = 3650
+		}
+		add_country_modifier = {
+			name = chr_starodub_assembly_cooldown
+			duration = 7300
+		}
+		add_prestige = 10
+		add_dip_power = 35
+		ai_chance = {
+			factor = 6
+		}
+	}
+	option = {
+		name = "chr_flavor.12.b"
+		add_country_modifier = {
+			name = chr_regimental_reforms
+			duration = 3650
+		}
+		add_country_modifier = {
+			name = chr_starodub_assembly_cooldown
+			duration = 7300
+		}
+		add_army_professionalism = 0.02
+		add_mil_power = 45
+		ai_chance = {
+			factor = 4
+		}
+	}
+}
+
+country_event = {
+	id = chr_flavor.14
+	title = "chr_flavor.14.t"
+	desc = "chr_flavor.14.d"
+		picture = BOOKS_eventPicture
+		trigger = {
+			tag = CHR
+			is_year = 1660
+			owns = 4244
+			NOT = { has_country_modifier = chr_baranovych_press_cooldown }
+		}
+		mean_time_to_happen = {
+			months = 180
+		}
+		option = {
+			name = "chr_flavor.14.a"
+			add_adm_power = 40
+			add_prestige = 10
+			add_country_modifier = {
+				name = chr_baranovych_press
+				duration = 3650
+			}
+			add_country_modifier = {
+				name = chr_baranovych_press_cooldown
+				duration = 7300
+			}
+			ai_chance = {
+				factor = 6
+			}
+		}
+		option = {
+			name = "chr_flavor.14.b"
+			add_mil_power = 40
+			add_army_professionalism = 0.02
+			add_country_modifier = {
+				name = chr_baranovych_guard
+				duration = 3650
+			}
+			add_country_modifier = {
+				name = chr_baranovych_press_cooldown
+				duration = 7300
+			}
+			ai_chance = {
+				factor = 4
+			}
+		}
+	}
+
+country_event = {
+		id = chr_flavor.15
+		title = "chr_flavor.15.t"
+		desc = "chr_flavor.15.d"
+		picture = ARMY_CAMP_eventPicture
+		trigger = {
+			tag = CHR
+			is_year = 1675
+			NOT = { has_country_modifier = chr_lyzohub_cooldown }
+		}
+		mean_time_to_happen = {
+			months = 160
+		}
+		option = {
+			name = "chr_flavor.15.a"
+			add_mil_power = 35
+			add_army_professionalism = 0.02
+			add_country_modifier = {
+				name = chr_lyzohub_regiments
+				duration = 3650
+			}
+			add_country_modifier = {
+				name = chr_lyzohub_cooldown
+				duration = 7300
+			}
+			ai_chance = {
+				factor = 6
+			}
+		}
+		option = {
+			name = "chr_flavor.15.b"
+			add_treasury = 100
+			add_legitimacy = 5
+			add_country_modifier = {
+				name = chr_hetman_coffers
+				duration = 3650
+			}
+			add_country_modifier = {
+				name = chr_lyzohub_cooldown
+				duration = 7300
+			}
+			ai_chance = {
+				factor = 4
+			}
+		}
+	}
+
+country_event = {
+		id = chr_flavor.16
+		title = "chr_flavor.16.t"
+		desc = "chr_flavor.16.d"
+		picture = BATTLE_eventPicture
+		trigger = {
+			tag = CHR
+			is_year = 1707
+			exists = SWE
+			NOT = { has_country_modifier = chr_mazeppa_alignment_lock }
+		}
+		mean_time_to_happen = {
+			months = 200
+		}
+		option = {
+			name = "chr_flavor.16.a"
+			add_stability = -1
+			add_prestige = 10
+			add_country_modifier = {
+				name = chr_swedish_compact
+				duration = 5475
+			}
+			add_country_modifier = {
+				name = chr_mazeppa_alignment_lock
+				duration = 7300
+			}
+			if = {
+				limit = { exists = SWE }
+				SWE = {
+					add_opinion = {
+						who = ROOT
+						modifier = chr_swedish_overture
+					}
+				}
+			}
+			if = {
+				limit = { exists = RUS }
+				RUS = {
+					add_opinion = {
+						who = ROOT
+						modifier = chr_betrayed_tsar
+					}
+				}
+			}
+			ai_chance = {
+				factor = 4
+			}
+		}
+		option = {
+			name = "chr_flavor.16.b"
+			add_stability = 1
+			add_prestige = -5
+			add_legitimacy = 10
+			add_country_modifier = {
+				name = chr_tsar_loyalists
+				duration = 5475
+			}
+			add_country_modifier = {
+				name = chr_mazeppa_alignment_lock
+				duration = 7300
+			}
+			if = {
+				limit = { exists = RUS }
+				RUS = {
+					add_opinion = {
+						who = ROOT
+						modifier = chr_tsar_gratitude
+					}
+				}
+			}
+			ai_chance = {
+				factor = 6
+			}
+		}
+	}
+
+country_event = {
+		id = chr_flavor.17
+		title = "chr_flavor.17.t"
+		desc = "chr_flavor.17.d"
+		picture = SETTLERS_eventPicture
+		trigger = {
+			tag = CHR
+			is_year = 1580
+			owns = 298
+			NOT = { has_country_modifier = chr_sloboda_cooldown }
+		}
+		mean_time_to_happen = {
+			months = 220
+		}
+		option = {
+			name = "chr_flavor.17.a"
+			add_country_modifier = {
+				name = chr_sloboda_resettlement
+				duration = 3650
+			}
+			add_country_modifier = {
+				name = chr_sloboda_cooldown
+				duration = 7300
+			}
+			capital_scope = {
+				add_base_tax = 1
+			}
+			ai_chance = {
+				factor = 5
+			}
+		}
+		option = {
+			name = "chr_flavor.17.b"
+			add_treasury = 60
+			add_country_modifier = {
+				name = chr_sloboda_conservatism
+				duration = 3650
+			}
+			add_country_modifier = {
+				name = chr_sloboda_cooldown
+				duration = 7300
+			}
+			ai_chance = {
+				factor = 4
+			}
+		}
+	}
+
+country_event = {
+	id = chr_flavor.13
+	title = "chr_flavor.13.t"
+	desc = "chr_flavor.13.d"
+	picture = MILITARY_eventPicture
+	trigger = {
+		tag = CHR
+		is_year = 1520
+		owns = 298
+		owns = 4543
+		NOT = { has_country_modifier = chr_seim_outposts_cooldown }
+	}
+	mean_time_to_happen = {
+		months = 120
+	}
+	option = {
+		name = "chr_flavor.13.a"
+		add_treasury = -80
+		add_country_modifier = {
+			name = chr_steppe_picquets
+			duration = 3650
+		}
+		add_country_modifier = {
+			name = chr_seim_outposts_cooldown
+			duration = 5475
+		}
+		ai_chance = {
+			factor = 6
+		}
+	}
+	option = {
+		name = "chr_flavor.13.b"
+		add_manpower = -400
+		add_country_modifier = {
+			name = chr_seim_dragoons
+			duration = 3650
+		}
+		add_country_modifier = {
+			name = chr_seim_outposts_cooldown
+			duration = 5475
+		}
+		add_mil_power = 30
+		ai_chance = {
+			factor = 4
+		}
+	}
+}
+
+country_event = {
+	id = chr_flavor.18
+	title = "chr_flavor.18.t"
+	desc = "chr_flavor.18.d"
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		tag = CHR
+		has_country_flag = chernihiv_ruina_resolved
+		NOT = { has_country_flag = chr_ruina_path_selected }
+	}
+	option = {
+		name = "chr_flavor.18.a"
+		custom_tooltip = chr_commonwealth_guardianship_tt
+		add_country_modifier = {
+			name = chr_commonwealth_guardianship
+			duration = 5475
+			desc = chr_commonwealth_guardianship_desc
+		}
+		set_country_flag = chr_ruina_path_poland
+		set_country_flag = chr_ruina_path_selected
+		add_dip_power = 50
+		if = {
+			limit = { exists = PLC }
+			PLC = {
+				add_opinion = { who = ROOT modifier = chr_border_surety }
+				add_trust = { who = ROOT value = 5 }
+			}
+		}
+		else_if = {
+			limit = { exists = POL }
+			POL = {
+				add_opinion = { who = ROOT modifier = chr_border_surety }
+				add_trust = { who = ROOT value = 5 }
+			}
+		}
+		else_if = {
+			limit = { exists = LIT }
+			LIT = {
+				add_opinion = { who = ROOT modifier = chr_border_surety }
+				add_trust = { who = ROOT value = 5 }
+			}
+		}
+		ai_chance = {
+			factor = 4
+		}
+	}
+	option = {
+		name = "chr_flavor.18.b"
+		custom_tooltip = chr_muscovite_guardianship_tt
+		add_country_modifier = {
+			name = chr_muscovite_guardianship
+			duration = 5475
+			desc = chr_muscovite_guardianship_desc
+		}
+		set_country_flag = chr_ruina_path_muscovy
+		set_country_flag = chr_ruina_path_selected
+		add_mil_power = 50
+		if = {
+			limit = { exists = RUS }
+			RUS = {
+				add_opinion = { who = ROOT modifier = chr_border_surety }
+				add_trust = { who = ROOT value = 5 }
+			}
+		}
+		else_if = {
+			limit = { exists = MOS }
+			MOS = {
+				add_opinion = { who = ROOT modifier = chr_border_surety }
+				add_trust = { who = ROOT value = 5 }
+			}
+		}
+		ai_chance = {
+			factor = 3
+		}
+	}
+	option = {
+		name = "chr_flavor.18.c"
+		custom_tooltip = chr_crimean_guardianship_tt
+		add_country_modifier = {
+			name = chr_crimean_guardianship
+			duration = 5475
+			desc = chr_crimean_guardianship_desc
+		}
+		set_country_flag = chr_ruina_path_crimea
+		set_country_flag = chr_ruina_path_selected
+		add_adm_power = 50
+		if = {
+			limit = { exists = CRI }
+			CRI = {
+				add_opinion = { who = ROOT modifier = chr_border_surety }
+				add_trust = { who = ROOT value = 5 }
+			}
+		}
+		ai_chance = {
+			factor = 2
+		}
+	}
+}
+
+country_event = {
+	id = chr_flavor.30
+	title = "chr_flavor.30.t"
+	desc = "chr_flavor.30.d"
+	picture = HISTORY_eventPicture
+	trigger = {
+		tag = CHR
+		NOT = { has_country_modifier = chr_polissia_history_chronicle }
+	}
+	mean_time_to_happen = {
+		months = 1
+	}
+	immediate = {
+		add_country_modifier = {
+			name = chr_polissia_history_chronicle
+			duration = -1
+		}
+	}
+	option = {
+		name = "chr_flavor.30.a"
+		add_adm_power = 50
+		add_prestige = 15
+		add_legitimacy = 10
+	}
+}
+
+country_event = {
+	id = chr_flavor.31
+	title = "chr_flavor.31.t"
+	desc = "chr_flavor.31.d"
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	immediate = {
+	add_country_modifier = {
+		name = chr_pantheon_stage1_track
+		duration = -1
+	}
+}
+	option = {
+		name = "chr_flavor.31.a"
+		add_country_modifier = {
+			name = chr_pantheon_doroshenko_march
+			duration = -1
+		}
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 5
+			}
+		}
+	}
+	option = {
+		name = "chr_flavor.31.b"
+		add_country_modifier = {
+			name = chr_pantheon_doroshenko_council
+			duration = -1
+		}
+		add_dip_power = 25
+	}
+}
+
+country_event = {
+	id = chr_flavor.32
+	title = "chr_flavor.32.t"
+	desc = "chr_flavor.32.d"
+	picture = BOOKS_eventPicture
+	is_triggered_only = yes
+	immediate = {
+	add_country_modifier = {
+		name = chr_pantheon_stage2_track
+		duration = -1
+	}
+}
+	option = {
+		name = "chr_flavor.32.a"
+		add_country_modifier = {
+			name = chr_pantheon_samoylovych_chancery
+			duration = -1
+		}
+		change_government_reform_progress = 30
+	}
+	option = {
+		name = "chr_flavor.32.b"
+		add_country_modifier = {
+			name = chr_pantheon_samoylovych_metropolitan
+			duration = -1
+		}
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 5
+			}
+		}
+	}
+}
+
+country_event = {
+	id = chr_flavor.33
+	title = "chr_flavor.33.t"
+	desc = "chr_flavor.33.d"
+	picture = CELEBRATION_eventPicture
+	is_triggered_only = yes
+	immediate = {
+	add_country_modifier = {
+		name = chr_pantheon_stage3_track
+		duration = -1
+	}
+}
+	option = {
+		name = "chr_flavor.33.a"
+		add_country_modifier = {
+			name = chr_pantheon_mazepa_academy
+			duration = -1
+		}
+		add_dip_power = 50
+	}
+	option = {
+		name = "chr_flavor.33.b"
+		add_country_modifier = {
+			name = chr_pantheon_mazepa_treasury
+			duration = -1
+		}
+		add_treasury = 200
+	}
+}
+
+country_event = {
+	id = chr_flavor.34
+	title = "chr_flavor.34.t"
+	desc = "chr_flavor.34.d"
+	picture = ESTATES_eventPicture
+	trigger = {
+		tag = CHR
+		NOT = { has_country_modifier = chr_loyalty_balance_cooldown }
+		OR = {
+			has_estate_privilege = estate_nobles_chr_seimski_statuty
+			has_estate_privilege = estate_burghers_chr_grain_cartels
+			has_estate_privilege = estate_cossacks_chr_starshyna_collegium
+		}
+	}
+	mean_time_to_happen = {
+		months = 12
+	}
+	option = {
+		name = "chr_flavor.34.a"
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 10
+			}
+		}
+		add_estate_loyalty = {
+			estate = estate_burghers
+			loyalty = -5
+		}
+		add_country_modifier = {
+			name = chr_loyalty_balance_cooldown
+			duration = 365
+		}
+	}
+	option = {
+		name = "chr_flavor.34.b"
+		add_estate_loyalty = {
+			estate = estate_burghers
+			loyalty = 10
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -5
+			}
+		}
+		add_country_modifier = {
+			name = chr_loyalty_balance_cooldown
+			duration = 365
+		}
+	}
+	option = {
+		name = "chr_flavor.34.c"
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 5
+		}
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 5
+			}
+		}
+		add_treasury = -100
+		add_country_modifier = {
+			name = chr_loyalty_balance_cooldown
+			duration = 365
+		}
+	}
+}

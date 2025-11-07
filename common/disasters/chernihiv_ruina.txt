@@ -1,0 +1,110 @@
+# Chernihiv Ruina — MECHANICS, NARRATIVE, REFERENCES
+# Mechanics: Mid-game disaster for CHR that drains tax, manpower, and reform progress
+# while piling unrest until stability, war exhaustion, loans, and devastation are
+# brought back under control. Players mitigate the monthly tick with defensive
+# investments (Baturyn Fortifications) and noble compromises.
+# Narrative: Recreates the Ruina (1650s–1670s) when Left-Bank Chernihiv bounced
+# between Polish, Muscovite, and Crimean patrons, with scorched provinces and
+# exhausted regiments.
+# References: Serhii Plokhy, *The Cossack Myth* (2012); Zenon Kohut, *Russian
+# Centralism and Ukrainian Autonomy* (1988); Frank Sysyn, *Between Poland and
+# the Ukraine* (1985).
+chernihiv_ruina = {
+
+	potential = {
+		tag = CHR
+		normal_or_historical_nations = yes
+	}
+
+	can_start = {
+		has_any_disaster = no
+		current_age = age_of_reformation
+		is_year = 1654
+		stability < 1
+		OR = {
+			war_exhaustion = 5
+			num_of_loans = 5
+			any_owned_province = {
+				is_state = yes
+				devastation = 20
+			}
+		}
+	}
+	on_start = chr_flavor.1
+
+	can_stop = {
+		has_any_disaster = yes
+	}
+
+	modifier = {
+		global_unrest = 2
+		manpower_recovery_speed = -0.2
+		global_tax_modifier = -0.1
+		reform_progress_growth = -0.2
+	}
+
+	progress = {
+		modifier = {
+			factor = 1
+			always = yes
+		}
+		modifier = {
+			factor = 1.5
+			war_exhaustion = 6
+		}
+		modifier = {
+			factor = 1.35
+			num_of_loans = 7
+		}
+		modifier = {
+			factor = 1.25
+			any_owned_province = {
+				is_state = yes
+				devastation = 30
+			}
+		}
+		modifier = {
+			factor = 1.2
+			NOT = { manpower_percentage = 0.35 }
+		}
+		modifier = {
+			factor = 0.8
+			stability = 1
+		}
+		modifier = {
+			factor = 0.6
+			stability = 2
+		}
+		modifier = {
+			factor = 0.75
+			has_country_modifier = chr_baturyn_fortifications
+		}
+		modifier = {
+			factor = 0.7
+			has_country_modifier = chr_starshyna_compromise
+		}
+	}
+
+	can_end = {
+		OR = {
+			stability = 1
+			stability = 2
+			stability = 3
+		}
+		NOT = { war_exhaustion = 3 }
+		NOT = { num_of_loans = 4 }
+		NOT = {
+			any_owned_province = {
+				is_state = yes
+				devastation = 15
+			}
+		}
+	}
+	on_end = chr_flavor.2
+
+	on_monthly = {
+		random_events = {
+			100 = chr_flavor.3
+		}
+	}
+}

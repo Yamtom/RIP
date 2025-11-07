@@ -1,0 +1,81 @@
+# Scripted effects for Chernihiv mechanics
+
+chr_left_bank_monastery_investment = {
+	every_owned_province = {
+		limit = {
+			OR = {
+				area = east_dniepr_area
+				area = sloboda_ukraine_area
+			}
+			has_building = temple
+		}
+		if = {
+			limit = { has_province_modifier = chr_fortified_monastery_lvl1 }
+			hidden_effect = { remove_province_modifier = chr_fortified_monastery_lvl1 }
+			add_province_modifier = {
+				name = chr_fortified_monastery_lvl2
+				duration = -1
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { has_province_modifier = chr_fortified_monastery_lvl2 }
+			}
+			add_province_modifier = {
+				name = chr_fortified_monastery_lvl1
+				duration = -1
+			}
+		}
+	}
+}
+
+chr_left_bank_sloboda_investment = {
+	every_owned_province = {
+		limit = {
+			OR = {
+				area = east_dniepr_area
+				area = sloboda_ukraine_area
+			}
+			trade_goods = grain
+			has_building = farm_estate
+		}
+		if = {
+			limit = { has_province_modifier = chr_sloboda_farm_lvl1 }
+			hidden_effect = { remove_province_modifier = chr_sloboda_farm_lvl1 }
+			add_province_modifier = {
+				name = chr_sloboda_farm_lvl2
+				duration = -1
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { has_province_modifier = chr_sloboda_farm_lvl2 }
+			}
+			add_province_modifier = {
+				name = chr_sloboda_farm_lvl1
+				duration = -1
+			}
+		}
+	}
+}
+
+chr_left_bank_grain_exchange_integration = {
+	every_owned_province = {
+		limit = {
+			has_province_modifier = chr_sloboda_farm_lvl2
+			OR = {
+				area = east_dniepr_area
+				area = sloboda_ukraine_area
+			}
+		}
+		if = {
+			limit = {
+				NOT = { has_province_modifier = chr_sloboda_exchange_province }
+			}
+			add_province_modifier = {
+				name = chr_sloboda_exchange_province
+				duration = 9125
+			}
+		}
+	}
+}
