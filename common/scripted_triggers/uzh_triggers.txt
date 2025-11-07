@@ -27,15 +27,23 @@ uzh_identity_core_culture = {
 	OR = {
 		AND = {
 			owner = { has_country_flag = chose_ruthenian_identity }
-			culture = ruthenian
+			OR = {
+				culture = ruthenian
+				culture = ruthenian_new
+			}
 		}
 		AND = {
 			owner = { has_country_flag = chose_rusyn_identity }
-			culture = rusyn
+			OR = {
+				culture = rusyn
+				culture = rusyn_new
+			}
 		}
 		AND = {
 			owner = { has_country_flag = chose_uhro_rusyn_identity }
-			culture = hungarian
+			OR = {
+				culture = rusyn_new_new
+			}
 		}
 		AND = {
 			owner = {
@@ -43,7 +51,33 @@ uzh_identity_core_culture = {
 				NOT = { has_country_flag = chose_rusyn_identity }
 				NOT = { has_country_flag = chose_uhro_rusyn_identity }
 			}
-			culture = rusyn
+			OR = {
+				culture = rusyn
+				culture = rusyn_new
+			}
 		}
+	}
+}
+
+uzh_has_courthouse_infrastructure = {
+	OR = {
+		has_building = courthouse
+		has_building = town_hall
+		has_building = state_house
+	}
+}
+
+uzh_has_market_infrastructure = {
+	OR = {
+		has_building = marketplace
+		has_building = trade_depot
+		has_building = stock_exchange
+	}
+}
+
+uzh_has_workshop_infrastructure = {
+	OR = {
+		has_building = workshop
+		has_building = counting_house
 	}
 }

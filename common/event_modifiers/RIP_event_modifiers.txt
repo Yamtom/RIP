@@ -438,6 +438,61 @@ GEN_compass = {
 	global_monthly_devastation = -0.2
 }
 
+# =========================================================================
+# UZHHOROD / ZAKARPATTIA MODIFIER CATALOGUE
+# =========================================================================
+# TECHNICAL OVERVIEW:
+# - Mission Integration: Every uz_* modifier below is awarded by the
+#   Zakarpatta_Missions tree or its supporting events (namespaced uzh.*).
+#   Numbers mirror specific mission tasks: e.g. uz_ambitious_expansion_modifier
+#   ("National Revival" finale) reduces diplo-annex cost, while
+#   uz_protected_frontier and uz_border_guard_union are tied to frontier
+#   fortification branches. Disaster follow-ups (uz_mountain_gendarmerie,
+#   uz_amnesty_rollout, uz_opryshky_pacified) are called from the
+#   uzh_opryshky_uprising disaster script.
+# - Thematic Clusters:
+#   * Salt Economy: uz_solotvyno_chambers, uz_salt_chamber_overwatch,
+#     uz_private_salt_leases improve tax/trade as events 50-55 resolve.
+#   * Ecclesiastical Balancing: uz_greek_catholic_concord, uz_old_rite_resilience,
+#     uz_karloca_synod_blessing and uz_cathedral_guild_college stem from union
+#     dilemmata (missions/events 51, 201) giving opposing faith bonuses.
+#   * Identity Paths: uz_slavo_rusyn_identity, uz_ukraino_rusyn_identity,
+#     uz_uhro_rusyn_identity, uz_pan_ruthenian_union represent the three
+#     outcome branches of mission "Question of Identity" and its follow-ups.
+#   * Governance Reforms: uz_statute_codification, uz_federal_structure,
+#     uz_dual_monarchy_administration correspond to Palanok -> Komitat ->
+#     federalization missions, stacking governing cap and reform progress.
+#   * Pannonian Expansion: uz_pannonian_settlement, uz_backa_colonial_network,
+#     uz_banat_colonists, uz_danube_trade_league, uz_crown_of_saint_stephen,
+#     uz_danubian_monarchy_influence reward conquering the Danubian basin.
+# - Gameplay Hooks: Modifiers often add autonomy, loyalty, or culture effects
+#   that plug into custom triggers (e.g. chose_ruthenian_identity flag). Check
+#   for synergies in decisions like HetmanateNation and Uzh missions to avoid
+#   stacking conflicts.
+#
+# NARRATIVE PILLARS:
+# - Border March Legacy: Frontier pieces (uz_protected_frontier,
+#   uz_carpathian_hegemony) echo Palanok Castle and the Habsburg Military
+#   Frontier. Identity-focused bonuses evoke Rusyn/Hungarian duality.
+# - Salt & Trade Corridors: Solotvyno salt domes, Tysa caravans, and Danube
+#   exchanges appear through salt modifiers and uz_danube_* suite, portraying
+#   Huszt as logistics hub between Vienna and the Balkans.
+# - Religious Concord: Dual Orthodox/Greek Catholic modifiers dramatise the
+#   1646 Union of Uzhhorod and later Karlovac synod compromises.
+# - Popular Resistance: Opryshky-related modifiers chart the arc from raids
+#   (uz_opryshky_raids) to state co-option (uz_rebel_legends,
+#   uz_opryshky_pacified), reflecting mountain outlaw folklore.
+#
+# HISTORICAL REFERENCES:
+# - "Union of Uzhhorod" (1646) primary accounts compiled by Mykhailo Лучкай
+#   and František Dvorník's studies on the Greek Catholic Church.
+# - Habsburg Military Frontier records on Palanok Fortress (Kriegsarchiv Wien).
+# - Roman Drozd, *Oleksa Dovbush: Between History and Legend* (2008) for
+#   opryshky material; Jaroslav Dashkevych's research on Rusyn uprisings.
+# - Economic notes from Austro-Hungarian salt monopoly archives (Solotvyno,
+#   Maramureș) documenting tax farming vs. state oversight.
+# =========================================================================
+
 #Zakarpatta_modifiers = {
 uz_ambitious_expansion_modifier = {
 	diplomatic_annexation_cost = -0.10

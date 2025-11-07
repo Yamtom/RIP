@@ -1,7 +1,101 @@
+# =========================================================================
+# OPRYSHKY UPRISING DISASTER
+# =========================================================================
+#
+# HISTORICAL BACKGROUND:
+# The Opryshky (Опришки) were Carpathian mountain outlaws active in the 
+# 17th-18th centuries across Zakarpattia, Galicia, Bukovyna, and Maramureș.
+# Born from the valach (Wallachian) legal tradition granting pastoral autonomy,
+# these brotherhoods evolved into resistance movements against feudal 
+# exploitation, Habsburg centralization, and salt monopoly abuses.
+#
+# Key Historical Figures:
+# - Oleksa Dovbush (Олекса Довбуш, 1700-1745): Most famous opryshky leader,
+#   operated from the Carpathian forests, raiding noble estates and 
+#   redistributing wealth. Became a folk hero celebrated in Hutsul songs.
+# - Vasyl Bailiuk (Василь Байлюк, early 1700s): Led bands in Maramureș
+# - Ivan Boichuk (Іван Бойчук): Active in Zakarpattia borderlands
+# - Hryts Pyntya (Гриць Пинтя, 1670s): Earlier opryshky captain
+#
+# Historical Context:
+# - Valach Law (Волоське право): Medieval charters granting mountain shepherds
+#   tax exemptions and self-governance in exchange for border guard duties
+# - Salt Monopoly: Habsburg and Polish crown monopolies on Carpathian salt
+#   mines (Solotvyno, Kosiv) created smuggling economies and brutal enforcement
+# - Serfdom Pressures: 17th-18th century re-imposition of corvée labor 
+#   (robota/панщина) drove free peasants into outlaw bands
+# - Counter-Reformation: Religious pressure on Orthodox/Uniate communities
+#   added ideological fuel to economic grievances
+#
+# GAME MECHANICS:
+# This disaster simulates the Opryshky phenomenon through a multi-stage
+# escalation system that mirrors historical patterns of peasant unrest,
+# banditry, and eventual state response.
+#
+# TRIGGERING CONDITIONS (can_start):
+# - Historical Era: Age of Absolutism/Revolutions (post-1650)
+#   Reflects the intensification of state centralization vs. traditional rights
+# - Low Stability (<1): Represents weak governance allowing banditry to flourish
+# - Economic/Military Stress: War exhaustion, rebel provinces, or manpower 
+#   depletion simulate the conditions that drove peasants to opryshky bands
+#
+# DISASTER EFFECTS (modifier):
+# - +3 Global Unrest: Mountain parishes and lowland estates both suffer raids
+# - -15% Manpower Recovery: Young men join opryshky bands instead of levies
+# - -10% Production: Salt roads are unsafe, caravans are ambushed, trade disrupted
+#
+# PROGRESSION SYSTEM (progress):
+# Base progression speed increases with:
+# - High War Exhaustion (+50% at 5+): Returning veterans swell bandit ranks
+# - Rebel Provinces (+25%): Demonstrates state weakness, emboldens opryshky
+# - Manpower Depletion (+20% under 30%): Desperation drives recruitment
+#
+# Mitigation modifiers:
+# - uz_mountain_gendarmerie (-15%): Palanok watch patrols suppress bands
+# - uz_amnesty_rollout (-25%): Pardons and salt tax reductions buy calm
+#
+# EVENT CHAIN:
+# - on_start = uzh.54: "Opryshky Stir the Mountains" 
+#   Player chooses: raise gendarmerie (harsh) or parley (conciliatory)
+# - on_monthly = uzh.55 (2% chance): "Ambush in the Salt Pass"
+#   Random raid event showing ongoing banditry
+# - on_end = uzh.56: "A Quiet Carpathian Dawn"
+#   Resolution: institutionalize mountain guard or celebrate folk heroes
+#
+# ENDING CONDITIONS (can_end):
+# - Stability 1+: Governance restored
+# - War Exhaustion <3: Peace allows focus on internal order
+# - No Rebel Provinces: State authority re-established
+#
+# DESIGN NOTES:
+# - The disaster cannot recur once uz_opryshky_pacified modifier is gained
+# - Province 1952 (Maramureș/Mukachevo) must be owned (historical epicenter)
+# - Balanced to allow player agency: harsh crackdown vs. compromise both viable
+# - Ties into mission tree: uz_union_dilemma and border control missions
+#   provide tools to prevent or mitigate the disaster
+#
+# LOCALIZATION KEYS:
+# - UZH_opryshky_uprising (disaster name)
+# - UZH_opryshky_uprising_title, UZH_opryshky_uprising_desc (UI text)
+# - uzh.54.t/d/a/b, uzh.55.t/d/a/b, uzh.56.t/d/a/b (event chain)
+# - uz_mountain_gendarmerie, uz_amnesty_rollout, uz_opryshky_pacified (modifiers)
+# - uz_rebel_legends, uz_opryshky_raids (flavor modifiers from events)
+#
+# HISTORICAL SOURCES:
+# - Іван Франко, "Добрий Добуш" (collected folk ballads, 1896)
+# - Ярослав Дашкевич, "Опришківство на Україні" (academic study, 1976)
+# - Roman Drozd, "Oleksa Dovbush: Between History and Legend" (2008)
+# - Habsburg military reports on Carpathian banditry (Kriegsarchiv Wien)
+# =========================================================================
+
 uzh_opryshky_uprising = {
 
 	potential = {
-		tag = UZH
+		OR = {
+			tag = HLC
+			tag = UZH
+			tag = HUN
+		}
 		owns = 1952
 		OR = {
 			current_age = age_of_absolutism

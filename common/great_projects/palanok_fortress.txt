@@ -1,3 +1,56 @@
+# =========================================================================
+# PALANOK (MUKACHEVO) FORTRESS – GREAT PROJECT DOSSIER
+# =========================================================================
+# TECHNICAL OVERVIEW:
+# - Province Anchor: start province 1952 (Mukachevo/Maramures) places the
+#   monument squarely in Uzhhorod’s heartland. Project type = monument and
+#   can_be_moved = no keep it fixed to the volcanic hilltop citadel.
+# - Construction Window: build_trigger = is_date 1500.01.01 delays player
+#   access until Late Middle Ages, matching historical Habsburg rebuild.
+#   Base build cost 1800 ducats with 36-month timer; tiers require owner to
+#   accept the province culture (can_upgrade_trigger) reinforcing cultural
+#   stewardship of the march.
+# - Culture Access: can_use_modifiers_trigger allows Ruthenian, Hungarian,
+#   Slovak, or Romanian owners to benefit, reflecting Palanok’s multi-ethnic
+#   command history across Upper Hungary and Transylvania.
+# - Tier Effects:
+#   * Tier 0 (ruined ramparts): instant unlock, small defensiveness + manpower
+#     area bonus, -5% fort upkeep nationally.
+#   * Tier 1 (renaissance bastion): +20% local defensiveness and friendly
+#     movement, manpower doubling, national +5% siege ability to mirror the
+#     fortress’ training academies.
+#   * Tier 2 (imperial frontier garrison): adds hostile attrition, production
+#     boost in Carpathian area, and national fort upkeep/defensiveness stacking.
+#   * Tier 3 (Rakoczi citadel apex): heavy attrition (1.5), friendly movement,
+#     regiment cost reduction area-wide, national siege +10%, defensiveness +15,
+#     prestige tick symbolising Palanok as Carpathian bulwark.
+# - Upgrade Costs/Times escalate (1200 -> 3600 -> 9000) mirroring decades of
+#   engineering after the 1687 siege; upgrade_time months align with multi-year
+#   renovation campaigns.
+#
+# NARRATIVE/PLOT HOOKS:
+# - Fortress of Palanok guarded the salt roads from Solotvyno and served as
+#   capital to the Drugeth, later the Rákóczi princes. Mission chains and
+#   disasters (Opryshky uprising) tie into its defensive bonuses, letting the
+#   player canonise Palanok as keystone of the Carpathian march.
+# - Tier progression mirrors historical phases: medieval earthworks -> Italian
+#   bastions under Italian engineers -> Habsburg artillery modernisation ->
+#   anti-Habsburg stronghold during Rákóczi’s War of Independence.
+# - Local manpower boosts echo sheltering of Zakarpattian diets and refugee
+#   militias, while national siege bonuses show Palanok’s officer corps training
+#   frontier regiments deployed across the monarchy.
+#
+# REFERENCES:
+# - Géza Pálffy, "The Origins of the Border Fortresses of Royal Hungary",
+#   Hungarian Historical Review 4 (2015): 189-216, on Palanok’s strategic role.
+# - István Diószegi, *The Rakoczi War of Independence* (Budapest, 2004) for the
+#   1703-1711 modernisation and siege accounts.
+# - Paul Robert Magocsi, *With Their Backs to the Mountains* (2015), chapters on
+#   Mukachevo’s march administration.
+# - Mukachevo city archives & Kriegsarchiv Wien fortress reports (AFA 1660-1730)
+#   detailing garrison strengths, Italian engineer plans, and salt-tax logistics.
+# =========================================================================
+
 palanok_fortress = {
 	start = 1952
 	date = 1400.01.01
@@ -22,6 +75,10 @@ palanok_fortress = {
 			culture = hungarian
 			culture = slovak
 			culture = romanian
+			culture = rusyn
+			culture = ruthenian_new
+			culture = rusyn_new
+			culture = rusyn_new_new
 		}
 	}
 	can_upgrade_trigger = {

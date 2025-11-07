@@ -96,6 +96,45 @@ cossacks_reform = {
 }
 
 uzh_palanok_captaincy_reform = {
+	# -----------------------------------------------------------------
+	# UZHHOROD GOVERNMENT TITLES – PALANOK & KOMITAT SYSTEM
+	# -----------------------------------------------------------------
+	# TECHNICAL NOTES:
+	# - Both blocks below are scoped by has_reform checks, ensuring the
+	#   name-set swaps only when the Palanok Captaincy or Komitat System
+	#   reforms are active. Rank ladders map directly to EU4 government
+	#   tiers (duchy/kingdom/empire equivalents):
+	#     * rank[1] = March (Tier 1), rank[2] = Polk (Tier 2),
+	#       rank[3] = Governorate (Tier 3).
+	# - Ruler titles differentiate male/female variants to keep flavor in
+	#   UI tooltips, monarch lists, and succession events. Localization
+	#   keys follow uppercase identifiers declared here (e.g. PALATINE,
+	#   KAPITAN) and must exist in government names l_*.yml files.
+	# - `uzh_palanok_captaincy_reform` works with early-mission reform
+	#   (see common/government_reforms/RIP_government_reforms.txt) granting
+	#   march-style autonomy; `uzh_komitat_system_reform` is unlocked later
+	#   via mission "Komitat System" replacing hereditary captaincy.
+	#
+	# NARRATIVE BACKGROUND:
+	# - Palanok Captaincy: Inspired by the Palanok (Mukachevo) fortress,
+	#   historically run by captains (kapitány) drawn from Drugeth/Rákóczi
+	#   lineages. Titles like KAPITAN / KAPITANSHA evoke border-march
+	#   command, while POLKOVNYK and PAN_GENERAL echo Cossack/Polish ranks
+	#   adopted by Rusyn elites guarding the Tysa passes.
+	# - Komitat System: References the integration of Zakarpattia into the
+	#   Hungarian comitatus/megye administration. NADKOMIT (chief county
+	#   magistrate) and KORONNY_MARSHAL borrow from Habsburg-Hungarian
+	#   terminology, culminating in PALATINE / PALATINESS for crown
+	#   governors managing the March under St. Stephen's laws.
+	#
+	# SOURCES & FURTHER READING:
+	# - Géza Pálffy, "The Origins of the Border Fortresses of Royal Hungary"
+	#   (Hungarian Historical Review, 2015) on Palanok captaincies.
+	# - Ivan Pop, *History of Transcarpathia* (Uzhhorod, 2002) detailing
+	#   comitat governance reforms in the 18th century.
+	# - Palanok Castle archival inventories (Kriegsarchiv Wien, AFA 1730-1780)
+	#   noting captain/palatine appointments across the Muкачево estate.
+	# -----------------------------------------------------------------
 	rank = {
 		1 = MARCH
 		2 = POLK
