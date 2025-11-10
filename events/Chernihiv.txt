@@ -221,7 +221,7 @@ country_event = {
 		}
 	}
 	option = {
-		name = "chr_flavor.36.d"
+		name = "chr_flavor.36.opt_d"
 		trigger = {
 			OR = {
 				NOT = { exists = event_target:chr_border_compact_partner }
@@ -1180,108 +1180,6 @@ country_event = {
 		add_adm_power = 50
 		add_prestige = 15
 		add_legitimacy = 10
-	}
-}
-
-country_event = {
-	id = chr_flavor.31
-	title = "chr_flavor.31.t"
-	desc = "chr_flavor.31.d"
-	picture = COURT_eventPicture
-	is_triggered_only = yes
-	immediate = {
-	add_country_modifier = {
-		name = chr_pantheon_stage1_track
-		duration = -1
-	}
-}
-	option = {
-		name = "chr_flavor.31.a"
-		add_country_modifier = {
-			name = chr_pantheon_doroshenko_march
-			duration = -1
-		}
-		if = {
-			limit = { has_estate = estate_cossacks }
-			add_estate_loyalty = {
-				estate = estate_cossacks
-				loyalty = 5
-			}
-		}
-	}
-	option = {
-		name = "chr_flavor.31.b"
-		add_country_modifier = {
-			name = chr_pantheon_doroshenko_council
-			duration = -1
-		}
-		add_dip_power = 25
-	}
-}
-
-country_event = {
-	id = chr_flavor.32
-	title = "chr_flavor.32.t"
-	desc = "chr_flavor.32.d"
-	picture = BOOKS_eventPicture
-	is_triggered_only = yes
-	immediate = {
-	add_country_modifier = {
-		name = chr_pantheon_stage2_track
-		duration = -1
-	}
-}
-	option = {
-		name = "chr_flavor.32.a"
-		add_country_modifier = {
-			name = chr_pantheon_samoylovych_chancery
-			duration = -1
-		}
-		change_government_reform_progress = 30
-	}
-	option = {
-		name = "chr_flavor.32.b"
-		add_country_modifier = {
-			name = chr_pantheon_samoylovych_metropolitan
-			duration = -1
-		}
-		if = {
-			limit = { has_estate = estate_church }
-			add_estate_loyalty = {
-				estate = estate_church
-				loyalty = 5
-			}
-		}
-	}
-}
-
-country_event = {
-	id = chr_flavor.33
-	title = "chr_flavor.33.t"
-	desc = "chr_flavor.33.d"
-	picture = CELEBRATION_eventPicture
-	is_triggered_only = yes
-	immediate = {
-	add_country_modifier = {
-		name = chr_pantheon_stage3_track
-		duration = -1
-	}
-}
-	option = {
-		name = "chr_flavor.33.a"
-		add_country_modifier = {
-			name = chr_pantheon_mazepa_academy
-			duration = -1
-		}
-		add_dip_power = 50
-	}
-	option = {
-		name = "chr_flavor.33.b"
-		add_country_modifier = {
-			name = chr_pantheon_mazepa_treasury
-			duration = -1
-		}
-		add_treasury = 200
 	}
 }
 

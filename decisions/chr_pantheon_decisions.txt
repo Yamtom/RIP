@@ -1,143 +1,9 @@
-# Hetmanic Pantheon & Economic Investments — Mechanics, Narrative, References
-# Mechanics: Sequential decisions that unlock event choices, convert province modifiers, and manage cooldowns for Chernihiv’s frontier/grain gameplay.
-# Narrative: Chart the pantheonisation of Doroshenko, Samoylovych, and Mazepa alongside Left-Bank infrastructure programmes.
-# References: Serhii Plokhy, *The Cossack Myth* (2012); Frank Sysyn, *Between Poland and the Ukraine* (1985); Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988).
+# Hetmanic Pantheon — sequential canonisation of Doroshenko, Samoylovych, and Mazepa.
 country_decisions = {
-
-	# Commission Doroshenko — anchors the pantheon sequence with a military vs diplomatic legacy.
-	chr_commission_doroshenko_pantheon = {
-		major = yes
-		potential = {
-			tag = CHR
-			hidden_trigger = { is_year = 1696 }
-		}
-		allow = {
-			is_year = 1696
-			stability = 1
-			adm_power = 50
-			NOT = { has_country_modifier = chr_pantheon_min_interval }
-			NOT = { has_country_modifier = chr_pantheon_switch_cooldown }
-			NOT = {
-				OR = {
-					has_country_modifier = chr_pantheon_doroshenko_march
-					has_country_modifier = chr_pantheon_doroshenko_council
-				}
-			}
-		}
-		effect = {
-			add_adm_power = -50
-			add_prestige = 5
-			# privilege granting handled via mission rewards
-			hidden_effect = {
-				chr_clear_active_hetman_modifiers = yes
-			}
-			add_country_modifier = {
-				name = chr_pantheon_min_interval
-				duration = 1095
-			}
-			add_country_modifier = {
-				name = chr_pantheon_switch_cooldown
-				duration = 1460
-			}
-			hidden_effect = {
-				set_country_flag = chr_last_hetman_switch
-			}
-			country_event = { id = chr_flavor.31 }
-		}
-		ai_will_do = {
-			factor = 0
-		}
-	}
-
-	# Commission Samoylovych — extends the pantheon into administrative or ecclesiastical directions.
-	chr_commission_samoylovych_pantheon = {
-		major = yes
-		potential = {
-			tag = CHR
-			hidden_trigger = { is_year = 1690 }
-		}
-		allow = {
-			is_year = 1690
-			dip_power = 50
-			NOT = { has_country_modifier = chr_pantheon_min_interval }
-			NOT = { has_country_modifier = chr_pantheon_switch_cooldown }
-			NOT = {
-				OR = {
-					has_country_modifier = chr_pantheon_samoylovych_chancery
-					has_country_modifier = chr_pantheon_samoylovych_metropolitan
-				}
-			}
-		}
-		effect = {
-			add_dip_power = -50
-			add_prestige = 5
-			# privilege granting handled via mission rewards
-			hidden_effect = {
-				chr_clear_active_hetman_modifiers = yes
-			}
-			add_country_modifier = {
-				name = chr_pantheon_min_interval
-				duration = 1095
-			}
-			add_country_modifier = {
-				name = chr_pantheon_switch_cooldown
-				duration = 1460
-			}
-			hidden_effect = {
-				set_country_flag = chr_last_hetman_switch
-			}
-			country_event = { id = chr_flavor.32 }
-		}
-		ai_will_do = {
-			factor = 0
-		}
-	}
-
-	# Commission Mazepa — finalises the pantheon with cultural or fiscal emphasis.
-	chr_commission_mazepa_pantheon = {
-		major = yes
-		potential = {
-			tag = CHR
-			hidden_trigger = { is_year = 1709 }
-		}
-		allow = {
-			is_year = 1709
-			mil_power = 50
-			NOT = { has_country_modifier = chr_pantheon_min_interval }
-			NOT = { has_country_modifier = chr_pantheon_switch_cooldown }
-			NOT = {
-				OR = {
-					has_country_modifier = chr_pantheon_mazepa_academy
-					has_country_modifier = chr_pantheon_mazepa_treasury
-				}
-			}
-		}
-		effect = {
-			add_mil_power = -50
-			add_prestige = 10
-			hidden_effect = {
-				chr_clear_active_hetman_modifiers = yes
-			}
-			add_country_modifier = {
-				name = chr_pantheon_min_interval
-				duration = 1095
-			}
-			add_country_modifier = {
-				name = chr_pantheon_switch_cooldown
-				duration = 1460
-			}
-			hidden_effect = {
-				set_country_flag = chr_last_hetman_switch
-			}
-			country_event = { id = chr_flavor.33 }
-		}
-		ai_will_do = {
-			factor = 0
-		}
-	}
 
 	# Commission Monastic Bastions — upgrades temples into fortified monasteries after the frontier branch.
 	chr_commission_monastic_bastions = {
+		color = { 210 175 20 }
 		potential = {
 			tag = CHR
 			has_country_flag = chr_frontier_branch_taken
@@ -181,6 +47,7 @@ country_decisions = {
 
 	# Expand Sloboda Farmlands — invests diplo power to upgrade grain estates following corridor completion.
 	chr_expand_sloboda_farmlands = {
+		color = { 210 175 20 }
 		potential = {
 			tag = CHR
 			has_country_flag = chr_grain_corridors_built
@@ -224,6 +91,7 @@ country_decisions = {
 
 	# Integrate Grain Exchange Guilds — spends administrative power to spread exchange modifiers once the grain exchange exists.
 	chr_integrate_grain_exchange_guilds = {
+		color = { 210 175 20 }
 		potential = {
 			tag = CHR
 			has_country_flag = chr_grain_exchange_founded

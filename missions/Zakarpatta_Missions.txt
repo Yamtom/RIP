@@ -8,6 +8,7 @@ UZH_missions_1 = {
     }
     has_country_shield = yes
     
+
     # ---
     # Місія "Збереження Православної Віри"
     # Механіка: Вимагає православну або католицьку державу з ≥80% єдності релігії та православний храм/собор у власній провінції; запускає подію uzh.1 й ставить прапор `uzh_rite_stabilized`.
@@ -449,6 +450,7 @@ UZH_missions_1 = {
         icon = mission_colonize_the_caribbean
         required_missions = {
             uz_resist_habsburgs
+            uz_identity_question
         }
         position = 6
         provinces_to_highlight = {
@@ -596,6 +598,7 @@ UZH_missions_1 = {
     }
 }
 
+
 # Лінія розселення в Паннонію
 UZH_missions_2 = {
 	slot = 2
@@ -606,6 +609,7 @@ UZH_missions_2 = {
 	}
 	has_country_shield = yes
 
+
     # ---
     # Місія "Паннонська Межа"
     # Механіка: Щоб активувати, потрібні коронні прапори `uzh_charter_signed`, контроль у Словаччині й Трансільванії та фортифікація поза Мукачевом; місія роздає постійні претензії в Карпатії, надає модифікатор `uz_frontier_expansion`, фортифікує Мукачево й ставить прапор `uzh_frontier_prepared`.
@@ -613,9 +617,9 @@ UZH_missions_2 = {
     # Референси: Королівські настанови угорських капітанів марок XV ст., укріплення Паланку й Хуста.
 	uzh_pannonian_frontier = {
 		icon = mission_conquer_5_states
-		position = 3
+		position = 2
 		required_missions = {
-			uz_hungarian_protection
+			uz_preserve_orthodox_faith
 		}
         provinces_to_highlight = {
             OR = {
@@ -681,7 +685,7 @@ UZH_missions_2 = {
 		required_missions = {
 			uzh_pannonian_frontier
 		}
-        position = 1
+        position = 3
         provinces_to_highlight = {
             area = alfold_area
         }
@@ -748,7 +752,7 @@ UZH_missions_2 = {
 		required_missions = {
 			uzh_backa_settlements
 		}
-        position = 2
+        position = 4
         provinces_to_highlight = {
             area = southern_transylvania_area
         }
@@ -810,7 +814,7 @@ UZH_missions_2 = {
         required_missions = {
             uzh_banat_colonization
         }
-        position = 6
+        position = 5
         provinces_to_highlight = {
             province_id = 2960
         }
@@ -851,6 +855,7 @@ UZH_missions_2 = {
 		icon = mission_empire
 		required_missions = {
             uzh_srem_metropolis
+            uz_great_migration
 		}
         position = 7
         provinces_to_highlight = {
@@ -1093,6 +1098,7 @@ UZH_missions_2 = {
         }
     }
 }
+
 # Лінія самоідентифікації та культури - БРАНЧОВАНÁ
 UZH_missions_3 = {
     slot = 3
@@ -1103,6 +1109,7 @@ UZH_missions_3 = {
     }
     has_country_shield = yes
     
+
     # ---
     # Місія "Міська Грамота Густа"
     # Механіка: Потребує три міста з другим рангом або паннонські володіння за межами Карпатії; встановлює історичне ім'я Huszt, дає престиж і прапор `uzh_name_huszt`.
@@ -1111,9 +1118,9 @@ UZH_missions_3 = {
     uz_huszt_rename = {
         icon = mission_build_up_to_force_limit
         required_missions = {
-            uz_preserve_orthodox_faith
+            
         }
-        position = 2
+        position = 1
         provinces_to_highlight = {
             OR = {
                 AND = {
@@ -1167,7 +1174,7 @@ UZH_missions_3 = {
         required_missions = {
             uz_huszt_rename
         }
-        position = 3
+        position = 2
         provinces_to_highlight = {
             region = carpathia_region
         }
@@ -1193,6 +1200,7 @@ UZH_missions_3 = {
             factor = 350
         }
     }
+    
     # ---
     # Місія "Унійна Дилема"
     # Механіка: Доступна православним/католицьким державам із ≥80% єдності; дає або `uz_old_rite_resilience` з авторитетом патріарха, або `uz_greek_catholic_concord` і папський вплив, а також престиж і прапор `uzh_union_debated`.
@@ -1200,9 +1208,9 @@ UZH_missions_3 = {
     # Референси: Ужгородська унія 1646, православні собори в Марамороші.
     uz_union_dilemma = {
         icon = mission_religious
-        position = 4
+        position = 3
         required_missions = {
-            uz_mukachevo_autonomy
+            uz_hungarian_protection
         }
         trigger = {
             OR = {
@@ -1246,9 +1254,8 @@ UZH_missions_3 = {
         icon = mission_plc_cultural_flowering
         required_missions = {
             uz_union_dilemma
-            uz_rusin_literacy
         }
-        position = 5
+        position = 4
         provinces_to_highlight = {
             owned_by = ROOT
             NOT = { uzh_identity_core_culture = yes }
@@ -1326,8 +1333,9 @@ UZH_missions_3 = {
         icon = mission_empire
         required_missions = {
             uz_rusin_language
+            uz_rusin_literacy
         }
-        position = 6
+        position = 5
         trigger = {
             OR = {
                 primary_culture = rusyn
@@ -1397,7 +1405,7 @@ UZH_missions_3_branch = {
         NOT = { has_country_flag = chose_uhro_rusyn_identity }
     }
     has_country_shield = yes
-    # Заглушки для бранчованих місій
+
     uz_identity_branching_1 = {
         icon = mission_unknown_mission
         position = 7
@@ -1435,6 +1443,7 @@ UZH_missions_3_branch = {
     }
 }
 
+    
 # ГІЛКА A: Руська спадщина (україно-орієнтована)
 UZH_missions_3_ruthenian = {
     slot = 3
@@ -1578,7 +1587,6 @@ UZH_missions_3_ruthenian = {
         icon = mission_conquer_50_development
         required_missions = {
             uz_orthodox_unity
-            uz_rusin_state
         }
         position = 9
         provinces_to_highlight = {
@@ -1720,6 +1728,7 @@ UZH_missions_3_ruthenian = {
         }
     }
 }
+
 
 # ГІЛКА B: Русинська автономія (незалежний шлях)
 UZH_missions_3_rusyn = {
@@ -1894,8 +1903,6 @@ UZH_missions_3_rusyn = {
         icon = mission_noble_council
         required_missions = {
             uz_carpathian_federation
-            uz_rusin_state
-            uzh_federalization
         }
         position = 9
         trigger = {
@@ -1929,6 +1936,7 @@ UZH_missions_3_uhro_rusyn = {
         has_country_flag = chose_uhro_rusyn_identity
     }
     has_country_shield = yes
+
 
     # ---
     # Місія "Пресбурзька Угода"
@@ -2210,6 +2218,7 @@ UZH_missions_3_uhro_rusyn = {
         }
     }
 }
+
 # Лінія політичного розвитку
 UZH_missions_4 = {
 	slot = 4
@@ -2220,6 +2229,7 @@ UZH_missions_4 = {
 	}
     has_country_shield = yes
 	
+
     # ---
     # Місія "Комітатська Система"
     # Механіка: Потребує прапор `uzh_charter_signed`, феодальну реформу та ≥30% коронних земель; може замінити реформу паланку на комітат, додає `uz_komitat_administration`, гроші й адміністративні очки, а також прапор `uzh_komitat_restructured`.
@@ -2512,6 +2522,7 @@ UZH_missions_4 = {
 		}
 	}
 }
+    
 # Лінія економічного розвитку
 UZH_missions_5 = {
 	slot = 5
@@ -2522,6 +2533,7 @@ UZH_missions_5 = {
 	}
     has_country_shield = yes
 	
+
     # ---
     # Місія "Сільське Господарство"
     # Механіка: Потребує прапор `uzh_mukachevo_privilege_confirmed`, реформу комітатів, ферму в Мукачеві та винні/скотарські провінції; дає `uz_agricultural_development`, +1 виробництва в винних землях, модифікатори `uz_carpathian_vineyards` і `uz_riverine_granaries`, а також прапор `uzh_agriculture_program_launched`.
@@ -2529,10 +2541,9 @@ UZH_missions_5 = {
     # Референси: Марамороські соляні камери, винні устави Мукачівського комітату.
 	uzh_agriculture = {
 		icon = mission_wine_monopolies
-		position = 4
+		position = 3
 		required_missions = {
-			uz_mukachevo_autonomy
-            uzh_komitat_system
+			
 		}
         provinces_to_highlight = {
             OR = {
@@ -2627,6 +2638,7 @@ UZH_missions_5 = {
 		icon = mission_dominate_home_trade_node
 		required_missions = {
 			uzh_agriculture
+            uzh_banat_colonization
 		}
 		position = 5
         provinces_to_highlight = {
@@ -2698,7 +2710,7 @@ UZH_missions_5 = {
 		required_missions = {
 			uzh_trade_routes
 		}
-		position = 6
+		position = 7
         provinces_to_highlight = {
             OR = {
                 AND = {
@@ -2784,9 +2796,9 @@ UZH_missions_5 = {
 		icon = mission_alliances
 		required_missions = {
 			uzh_industrial_revolution
-            uz_identity_question
+            uzh_federalization
 		}
-		position = 7
+		position = 9
         provinces_to_highlight = {
             region = carpathia_region
             owned_by = ROOT
@@ -2930,7 +2942,7 @@ UZH_missions_5 = {
 			uzh_congress_subject_hegemony
             
 		}
-		position = 8
+		position = 10
         provinces_to_highlight = {
             region = carpathia_region
             owned_by = ROOT

@@ -1,0 +1,291 @@
+namespace = chr_pantheon
+
+# Hidden trigger fired from on_monarch_death.
+country_event = {
+  id = chr_pantheon.0
+  title = "chr_pantheon.0.t"
+  desc = "chr_pantheon.0.d"
+  hidden = yes
+  picture = DIPLO_eventPicture
+  is_triggered_only = yes
+
+  trigger = {
+    tag = CHR
+  }
+
+  immediate = {
+    clr_country_flag = chr_pantheon_candidate_dip
+    clr_country_flag = chr_pantheon_candidate_adm
+    clr_country_flag = chr_pantheon_candidate_mil
+
+    if = {
+      limit = {
+        NOT = { has_country_modifier = chr_pantheon_min_interval }
+        NOT = { has_country_flag = chr_pantheon_doroshenko_canonised }
+        from = {
+          OR = {
+            dip = 5
+            dip = 6
+            dip = 7
+            dip = 8
+            dip = 9
+          }
+        }
+      }
+      set_country_flag = chr_pantheon_candidate_dip
+    }
+    if = {
+      limit = {
+        NOT = { has_country_modifier = chr_pantheon_min_interval }
+        has_country_flag = chr_pantheon_doroshenko_canonised
+        NOT = { has_country_flag = chr_pantheon_samoylovych_canonised }
+        from = {
+          OR = {
+            adm = 5
+            adm = 6
+            adm = 7
+            adm = 8
+            adm = 9
+          }
+        }
+      }
+      set_country_flag = chr_pantheon_candidate_adm
+    }
+    if = {
+      limit = {
+        NOT = { has_country_modifier = chr_pantheon_min_interval }
+        has_country_flag = chr_pantheon_samoylovych_canonised
+        NOT = { has_country_flag = chr_pantheon_mazepa_canonised }
+        from = {
+          OR = {
+            mil = 5
+            mil = 6
+            mil = 7
+            mil = 8
+            mil = 9
+          }
+        }
+      }
+      set_country_flag = chr_pantheon_candidate_mil
+    }
+    if = {
+      limit = {
+        OR = {
+          has_country_flag = chr_pantheon_candidate_dip
+          has_country_flag = chr_pantheon_candidate_adm
+          has_country_flag = chr_pantheon_candidate_mil
+        }
+      }
+      country_event = { id = chr_pantheon.1 days = 1 }
+    }
+  }
+
+  option = {
+    name = "chr_pantheon.0.a"
+  }
+}
+
+# Visible canonisation choice for the freshly deceased hetman.
+country_event = {
+  id = chr_pantheon.1
+  title = "chr_pantheon.1.t"
+  desc = "chr_pantheon.1.d"
+  picture = DIPLO_eventPicture
+  is_triggered_only = yes
+
+  option = {
+    name = "chr_pantheon.1.a"
+    trigger = {
+      has_country_flag = chr_pantheon_candidate_dip
+      NOT = { has_country_flag = chr_pantheon_doroshenko_canonised }
+    }
+    set_country_flag = chr_pantheon_doroshenko_canonised
+    add_prestige = 20
+    add_dip_power = 100
+    add_country_modifier = {
+      name = chr_pantheon_min_interval
+      duration = 3650
+    }
+    country_event = { id = chr_pantheon.20 days = 1 }
+    ai_chance = {
+      factor = 100
+    }
+    hidden_effect = {
+      clr_country_flag = chr_pantheon_candidate_dip
+      clr_country_flag = chr_pantheon_candidate_adm
+      clr_country_flag = chr_pantheon_candidate_mil
+    }
+  }
+
+  option = {
+    name = "chr_pantheon.1.b"
+    trigger = {
+      has_country_flag = chr_pantheon_candidate_adm
+      has_country_flag = chr_pantheon_doroshenko_canonised
+      NOT = { has_country_flag = chr_pantheon_samoylovych_canonised }
+    }
+    set_country_flag = chr_pantheon_samoylovych_canonised
+    add_stability = 1
+    add_adm_power = 100
+    add_country_modifier = {
+      name = chr_pantheon_min_interval
+      duration = 3650
+    }
+    country_event = { id = chr_pantheon.30 days = 1 }
+    ai_chance = {
+      factor = 100
+    }
+    hidden_effect = {
+      clr_country_flag = chr_pantheon_candidate_dip
+      clr_country_flag = chr_pantheon_candidate_adm
+      clr_country_flag = chr_pantheon_candidate_mil
+    }
+  }
+
+  option = {
+    name = "chr_pantheon.1.c"
+    trigger = {
+      has_country_flag = chr_pantheon_candidate_mil
+      has_country_flag = chr_pantheon_samoylovych_canonised
+      NOT = { has_country_flag = chr_pantheon_mazepa_canonised }
+    }
+    set_country_flag = chr_pantheon_mazepa_canonised
+    add_prestige = 10
+    add_mil_power = 100
+    add_country_modifier = {
+      name = chr_pantheon_min_interval
+      duration = 3650
+    }
+    country_event = { id = chr_pantheon.40 days = 1 }
+    ai_chance = {
+      factor = 100
+    }
+    hidden_effect = {
+      clr_country_flag = chr_pantheon_candidate_dip
+      clr_country_flag = chr_pantheon_candidate_adm
+      clr_country_flag = chr_pantheon_candidate_mil
+    }
+  }
+
+  option = {
+    name = "chr_pantheon.1.refuse"
+    add_prestige = -5
+    add_country_modifier = {
+      name = chr_pantheon_min_interval
+      duration = 365
+    }
+    ai_chance = {
+      factor = 0
+    }
+    hidden_effect = {
+      clr_country_flag = chr_pantheon_candidate_dip
+      clr_country_flag = chr_pantheon_candidate_adm
+      clr_country_flag = chr_pantheon_candidate_mil
+    }
+  }
+}
+
+# Doroshenko legacies.
+country_event = {
+  id = chr_pantheon.20
+  title = "chr_pantheon.20.t"
+  desc = "chr_pantheon.20.d"
+  picture = MILITARY_eventPicture
+  is_triggered_only = yes
+
+  option = {
+    name = "chr_pantheon.20.a"
+    remove_country_modifier = chr_pantheon_doroshenko_council
+    add_country_modifier = {
+      name = chr_pantheon_doroshenko_march
+      duration = -1
+    }
+    set_country_flag = chr_pantheon_doroshenko_march_legacy
+    ai_chance = {
+      factor = 55
+    }
+  }
+
+  option = {
+    name = "chr_pantheon.20.b"
+    remove_country_modifier = chr_pantheon_doroshenko_march
+    add_country_modifier = {
+      name = chr_pantheon_doroshenko_council
+      duration = -1
+    }
+    set_country_flag = chr_pantheon_doroshenko_council_legacy
+    ai_chance = {
+      factor = 45
+    }
+  }
+}
+
+# Samoylovych legacies.
+country_event = {
+  id = chr_pantheon.30
+  title = "chr_pantheon.30.t"
+  desc = "chr_pantheon.30.d"
+  picture = ADMINISTRATIVE_eventPicture
+  is_triggered_only = yes
+
+  option = {
+    name = "chr_pantheon.30.a"
+    remove_country_modifier = chr_pantheon_samoylovych_metropolitan
+    add_country_modifier = {
+      name = chr_pantheon_samoylovych_chancery
+      duration = -1
+    }
+    set_country_flag = chr_pantheon_samoylovych_chancery_legacy
+    ai_chance = {
+      factor = 55
+    }
+  }
+
+  option = {
+    name = "chr_pantheon.30.b"
+    remove_country_modifier = chr_pantheon_samoylovych_chancery
+    add_country_modifier = {
+      name = chr_pantheon_samoylovych_metropolitan
+      duration = -1
+    }
+    set_country_flag = chr_pantheon_samoylovych_metropolitan_legacy
+    ai_chance = {
+      factor = 45
+    }
+  }
+}
+
+# Mazepa legacies.
+country_event = {
+  id = chr_pantheon.40
+  title = "chr_pantheon.40.t"
+  desc = "chr_pantheon.40.d"
+  picture = CULTURE_eventPicture
+  is_triggered_only = yes
+
+  option = {
+    name = "chr_pantheon.40.a"
+    remove_country_modifier = chr_pantheon_mazepa_treasury
+    add_country_modifier = {
+      name = chr_pantheon_mazepa_academy
+      duration = -1
+    }
+    set_country_flag = chr_pantheon_mazepa_academy_legacy
+    ai_chance = {
+      factor = 55
+    }
+  }
+
+  option = {
+    name = "chr_pantheon.40.b"
+    remove_country_modifier = chr_pantheon_mazepa_academy
+    add_country_modifier = {
+      name = chr_pantheon_mazepa_treasury
+      duration = -1
+    }
+    set_country_flag = chr_pantheon_mazepa_treasury_legacy
+    ai_chance = {
+      factor = 45
+    }
+  }
+}

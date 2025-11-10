@@ -1,0 +1,74 @@
+namespace = chr_flavor
+
+# Frontier enterprise specialisation events for Chernihiv (CHR)
+
+province_event = {
+	id = chr_flavor.201
+	title = "chr_flavor.201.t"
+	desc = "chr_flavor.201.d"
+	picture = GFX_event_workshop
+	is_triggered_only = yes
+
+	immediate = {
+		remove_province_modifier = chr_frontier_sloboda
+		remove_province_modifier = chr_frontier_sloboda_march_bonus
+		remove_province_modifier = chr_enterprise_academy_bonus
+	}
+
+	option = {
+		name = "chr_flavor.201.a"
+		add_province_modifier = {
+			name = chr_enterprise_mlyn
+			duration = -1
+		}
+		if = {
+			limit = { owner = { has_country_modifier = chr_pantheon_mazepa_academy } }
+			add_province_modifier = {
+				name = chr_enterprise_academy_bonus
+				duration = -1
+			}
+		}
+	}
+	option = {
+		name = "chr_flavor.201.b"
+		add_province_modifier = {
+			name = chr_enterprise_guta
+			duration = -1
+		}
+		if = {
+			limit = { owner = { has_country_modifier = chr_pantheon_mazepa_academy } }
+			add_province_modifier = {
+				name = chr_enterprise_academy_bonus
+				duration = -1
+			}
+		}
+	}
+	option = {
+		name = "chr_flavor.201.c"
+		add_province_modifier = {
+			name = chr_enterprise_buda
+			duration = -1
+		}
+		if = {
+			limit = { owner = { has_country_modifier = chr_pantheon_mazepa_academy } }
+			add_province_modifier = {
+				name = chr_enterprise_academy_bonus
+				duration = -1
+			}
+		}
+	}
+		option = {
+			name = "chr_flavor.201.opt_d"
+		add_province_modifier = {
+			name = chr_enterprise_selitra
+			duration = -1
+		}
+		if = {
+			limit = { owner = { has_country_modifier = chr_pantheon_mazepa_academy } }
+			add_province_modifier = {
+				name = chr_enterprise_academy_bonus
+				duration = -1
+			}
+		}
+	}
+}
