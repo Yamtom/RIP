@@ -4,55 +4,157 @@
 # References: Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988); Mykhailo Hrushevsky,
 # *History of Ukraine-Rus'*, vol. 9.
 estate_nobles_chr_seimski_statuty = {
-	icon = privilege_grant_autonomy
-	loyalty = 0.10
-	influence = 0.05
+    icon = privilege_french_strong_duchies
+    loyalty = 0.10
+    influence = 0.05
+    land_share = 10
+    max_absolutism = -5
 
-	is_valid = {
-		tag = CHR
-		has_estate = estate_nobles
-	}
-	can_select = {
-		tag = CHR
-		has_estate = estate_nobles
-	}
+    is_valid = {
+        tag = CHR
+        has_estate = estate_nobles
+    }
+    can_select = {
+        tag = CHR
+        has_estate = estate_nobles
+        can_select_monarch_power_privilege = {
+            estate = estate_nobles
+            type = mil
+        }
+    }
 
-	max_absolutism = -5
-	benefits = {
-		nobles_loyalty_modifier = 10
-		parliament_backing_chance = 0.1
-		max_absolutism = -5
-	}
+    benefits = {
+        nobles_loyalty_modifier = 10
+        parliament_backing_chance = 0.1
+    }
 
-	ai_will_do = { factor = 1 }
+    conditional_modifier = {
+        trigger = { has_absolutism_reduction_for_estate_privileges = yes }
+        modifier = { max_absolutism = 1 }
+    }
+
+    ai_will_do = {
+        factor = 50
+        modifier = {
+            factor = 0
+            OR = {
+                NOT = { crown_land_share = 30 }
+                estate_influence = {
+                    estate = estate_nobles
+                    influence = 95
+                }
+            }
+            NOT = { has_estate_privilege = estate_nobles_nobility_primacy }
+        }
+        modifier = {
+            factor = 0.75
+            is_absolutism_active = yes
+        }
+        modifier = {
+            factor = 1.5
+            NOT = { mil = 2 }
+        }
+    }
 }
 
-# Burghers' "Grain Cartels" privilege
-# Mechanics: Requires the grain corridor flag, boosting trade and production via loyal burghers.
-# Narrative: Represents Chernihiv grain syndicates leveraging privileges after canal and depot expansion.
-# References: Serhii Plokhy, *The Cossacks and Religion* (1996); Frank Sysyn, *Between Poland and the Ukraine* (1985).
-estate_burghers_chr_grain_cartels = {
-	icon = privilege_supply_arms
-	loyalty = 0.05
-	influence = 0.05
+# Clergy's "Chernihiv Collegium" privilege
+# Mechanics: Unlocks once the Chernihiv Collegium monument is active and rewards scholarly clergy with reformist momentum.
+# Narrative: Evokes the Mohyla Academy offshoot tutoring Left Bank clergy and officers through the Hetmanate era.
+# References: Larry Wolff, *The Idea of Galicia* (2010); Frank Sysyn on Lazar Baranovych; Ihor Shevchenko, *The Ukrainian Baroque* (1971).
+estate_church_chr_chernihiv_collegium = {
+    icon = privilege_grant_autonomy
+    loyalty = 0.10
+    influence = 0.05
+    land_share = 5
+    max_absolutism = -5
 
-	is_valid = {
-		tag = CHR
-		has_estate = estate_burghers
-	}
-	can_select = {
-		tag = CHR
-		has_estate = estate_burghers
-		has_country_flag = chr_grain_corridors_built
-	}
+    is_valid = {
+        tag = CHR
+        has_estate = estate_church
+    }
+    can_select = {
+        tag = CHR
+        has_estate = estate_church
+    }
 
-	benefits = {
-		burghers_loyalty_modifier = 10
-		production_efficiency = 0.05
-		trade_efficiency = 0.05
-	}
+    benefits = {
+        church_loyalty_modifier = 10
+        global_institution_spread = 0.05
+        global_missionary_strength = 0.02
+        development_cost = -0.05
+        technology_cost = -0.03
+        idea_cost = -0.03
+        reform_progress_growth = 0.05
+        governing_capacity = 100
+    }
 
-	ai_will_do = { factor = 1 }
+    conditional_modifier = {
+        trigger = { has_absolutism_reduction_for_estate_privileges = yes }
+        modifier = { max_absolutism = 1 }
+    }
+    conditional_modifier = {
+        trigger = { has_country_flag = mng_increased_land_rights_flag }
+        modifier = { stability_cost_modifier = -0.05 }
+    }
+    conditional_modifier = {
+        trigger = { has_government_mechanic = russian_modernization_mechanic }
+        modifier = { monthly_russian_modernization = -0.03 }
+    }
+
+    ai_will_do = {
+        factor = 40
+        modifier = {
+            factor = 0
+            OR = {
+                NOT = { crown_land_share = 25 }
+                estate_influence = {
+                    estate = estate_church
+                    influence = 75
+                }
+            }
+            NOT = { has_estate_privilege = estate_church_land_rights }
+        }
+        modifier = {
+            factor = 0
+            NOT = { governing_capacity_percentage = 0.5 }
+        }
+        modifier = {
+            factor = 3
+            OR = {
+                AND = {
+                    governing_capacity_percentage = 0.9
+                    NOT = { has_estate_privilege = estate_church_land_rights }
+                }
+                AND = {
+                    governing_capacity_percentage = 0.6
+                    has_estate_privilege = estate_church_land_rights
+                }
+            }
+        }
+        modifier = {
+            factor = 0.8
+            is_absolutism_active = yes
+        }
+        modifier = {
+            factor = 2
+            governing_capacity_percentage = 0.9
+        }
+        modifier = {
+            factor = 3
+            governing_capacity_percentage = 1
+        }
+        modifier = {
+            factor = 8
+            NOT = { adm_tech = 12 }
+            governing_capacity_percentage = 0.8
+        }
+        modifier = {
+            factor = 5
+            NOT = { adm_tech = 12 }
+            NOT = { government_rank = 1 }
+            governing_capacity_percentage = 0.65
+        }
+    }
 }
 
 # Cossacks' "Starshyna Collegium" privilege
@@ -60,25 +162,131 @@ estate_burghers_chr_grain_cartels = {
 # Narrative: Captures hetman councils elevating senior officers into a permanent collegiate board during the Ruina.
 # References: Orest Subtelny, *Ukraine: A History* (2009); Serhii Plokhy, *The Cossack Myth* (2012).
 estate_cossacks_chr_starshyna_collegium = {
-	icon = privilege_military_power
-	loyalty = 0.05
-	influence = 0.10
+    icon = privilege_raise_host
+    loyalty = 0.05
+    influence = 0.10
+    land_share = 5
+    max_absolutism = -5
 
-	is_valid = {
-		tag = CHR
-		has_estate = estate_cossacks
-	}
-	can_select = {
-		tag = CHR
-		has_estate = estate_cossacks
-		has_country_flag = chr_frontier_branch_taken
-	}
+    is_valid = {
+        tag = CHR
+        has_estate = estate_cossacks
+    }
+    can_select = {
+        tag = CHR
+        has_estate = estate_cossacks
+        has_country_flag = chr_frontier_branch_taken
+    }
 
-	benefits = {
-		cossacks_loyalty_modifier = 10
-		manpower_recovery_speed = 0.1
-		cavalry_cost = -0.1
-	}
+    benefits = {
+        cossacks_loyalty_modifier = 10
+        manpower_recovery_speed = 0.1
+        cavalry_cost = -0.1
+    }
 
-	ai_will_do = { factor = 1 }
+    conditional_modifier = {
+        trigger = { has_absolutism_reduction_for_estate_privileges = yes }
+        modifier = { max_absolutism = 1 }
+    }
+    conditional_modifier = {
+        trigger = { has_government_mechanic = russian_modernization_mechanic }
+        modifier = { monthly_russian_modernization = -0.01 }
+    }
+
+    modifier_by_land_ownership = {
+        allowed_cossack_fraction = 0.5
+    }
+
+    mechanics = {
+        enables_cossack_regiments
+        exempt_from_seize_land
+    }
+
+    ai_will_do = {
+        factor = 25
+        modifier = {
+            factor = 10
+            any_owned_province = { has_terrain = steppe }
+        }
+        modifier = {
+            factor = 0
+            OR = {
+                NOT = { crown_land_share = 25 }
+                estate_influence = {
+                    estate = estate_cossacks
+                    influence = 75
+                }
+            }
+            NOT = { has_estate_privilege = estate_cossacks_establish_the_cossack_regiments }
+        }
+    }
+    additional_description = {
+        cossacks_regiment
+    }
 }
+
+# Burghers' "Grain Cartels" privilege
+# Mechanics: Requires the grain corridor flag, boosting trade and production via loyal burghers.
+# Narrative: Represents Chernihiv grain syndicates leveraging privileges after canal and depot expansion.
+# References: Serhii Plokhy, *The Cossacks and Religion* (1996); Frank Sysyn, *Between Poland and the Ukraine* (1985).
+estate_burghers_chr_grain_cartels = {
+    icon = privilege_diplo_power
+    loyalty = 0.05
+    influence = 0.05
+    land_share = 10
+    max_absolutism = -5
+
+    is_valid = {
+        tag = CHR
+        has_estate = estate_burghers
+    }
+    can_select = {
+        tag = CHR
+        has_estate = estate_burghers
+        has_country_flag = chr_grain_corridors_built
+        can_select_monarch_power_privilege = {
+            estate = estate_burghers
+            type = dip
+        }
+    }
+
+    benefits = {
+        burghers_loyalty_modifier = 10
+        production_efficiency = 0.05
+        trade_efficiency = 0.05
+        country_diplomatic_power = 1
+    }
+
+    conditional_modifier = {
+        trigger = { has_absolutism_reduction_for_estate_privileges = yes }
+        modifier = { max_absolutism = 1 }
+    }
+    conditional_modifier = {
+        trigger = { has_government_mechanic = russian_modernization_mechanic }
+        modifier = { monthly_russian_modernization = -0.03 }
+    }
+
+    ai_will_do = {
+        factor = 60
+        modifier = {
+            factor = 0
+            OR = {
+                NOT = { crown_land_share = 30 }
+                estate_influence = {
+                    estate = estate_burghers
+                    influence = 95
+                }
+            }
+            NOT = { has_estate_privilege = estate_burghers_land_of_commerce }
+        }
+        modifier = {
+            factor = 0.8
+            is_absolutism_active = yes
+        }
+        modifier = {
+            factor = 1.25
+            NOT = { dip = 2 }
+        }
+    }
+}
+

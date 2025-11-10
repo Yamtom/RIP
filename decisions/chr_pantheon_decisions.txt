@@ -9,28 +9,39 @@ country_decisions = {
 		major = yes
 		potential = {
 			tag = CHR
-			NOT = {
-				OR = {
-					has_country_modifier = chr_pantheon_doroshenko_march
-					has_country_modifier = chr_pantheon_doroshenko_council
-				}
-			}
-			stability = 1
-			adm_power = 50
+			hidden_trigger = { is_year = 1696 }
 		}
 		allow = {
+			is_year = 1696
+			stability = 1
+			adm_power = 50
+			NOT = { has_country_modifier = chr_pantheon_min_interval }
+			NOT = { has_country_modifier = chr_pantheon_switch_cooldown }
 			NOT = {
 				OR = {
 					has_country_modifier = chr_pantheon_doroshenko_march
 					has_country_modifier = chr_pantheon_doroshenko_council
 				}
 			}
-			stability = 1
-			adm_power = 50
 		}
 		effect = {
 			add_adm_power = -50
 			add_prestige = 5
+			# privilege granting handled via mission rewards
+			hidden_effect = {
+				chr_clear_active_hetman_modifiers = yes
+			}
+			add_country_modifier = {
+				name = chr_pantheon_min_interval
+				duration = 1095
+			}
+			add_country_modifier = {
+				name = chr_pantheon_switch_cooldown
+				duration = 1460
+			}
+			hidden_effect = {
+				set_country_flag = chr_last_hetman_switch
+			}
 			country_event = { id = chr_flavor.31 }
 		}
 		ai_will_do = {
@@ -43,34 +54,38 @@ country_decisions = {
 		major = yes
 		potential = {
 			tag = CHR
-			OR = {
-				has_country_modifier = chr_pantheon_doroshenko_march
-				has_country_modifier = chr_pantheon_doroshenko_council
-			}
-			NOT = {
-				OR = {
-					has_country_modifier = chr_pantheon_samoylovych_chancery
-					has_country_modifier = chr_pantheon_samoylovych_metropolitan
-				}
-			}
-			dip_power = 50
+			hidden_trigger = { is_year = 1690 }
 		}
 		allow = {
-			OR = {
-				has_country_modifier = chr_pantheon_doroshenko_march
-				has_country_modifier = chr_pantheon_doroshenko_council
-			}
+			is_year = 1690
+			dip_power = 50
+			NOT = { has_country_modifier = chr_pantheon_min_interval }
+			NOT = { has_country_modifier = chr_pantheon_switch_cooldown }
 			NOT = {
 				OR = {
 					has_country_modifier = chr_pantheon_samoylovych_chancery
 					has_country_modifier = chr_pantheon_samoylovych_metropolitan
 				}
 			}
-			dip_power = 50
 		}
 		effect = {
 			add_dip_power = -50
 			add_prestige = 5
+			# privilege granting handled via mission rewards
+			hidden_effect = {
+				chr_clear_active_hetman_modifiers = yes
+			}
+			add_country_modifier = {
+				name = chr_pantheon_min_interval
+				duration = 1095
+			}
+			add_country_modifier = {
+				name = chr_pantheon_switch_cooldown
+				duration = 1460
+			}
+			hidden_effect = {
+				set_country_flag = chr_last_hetman_switch
+			}
 			country_event = { id = chr_flavor.32 }
 		}
 		ai_will_do = {
@@ -83,34 +98,37 @@ country_decisions = {
 		major = yes
 		potential = {
 			tag = CHR
-			OR = {
-				has_country_modifier = chr_pantheon_samoylovych_chancery
-				has_country_modifier = chr_pantheon_samoylovych_metropolitan
-			}
-			NOT = {
-				OR = {
-					has_country_modifier = chr_pantheon_mazepa_academy
-					has_country_modifier = chr_pantheon_mazepa_treasury
-				}
-			}
-			mil_power = 50
+			hidden_trigger = { is_year = 1709 }
 		}
 		allow = {
-			OR = {
-				has_country_modifier = chr_pantheon_samoylovych_chancery
-				has_country_modifier = chr_pantheon_samoylovych_metropolitan
-			}
+			is_year = 1709
+			mil_power = 50
+			NOT = { has_country_modifier = chr_pantheon_min_interval }
+			NOT = { has_country_modifier = chr_pantheon_switch_cooldown }
 			NOT = {
 				OR = {
 					has_country_modifier = chr_pantheon_mazepa_academy
 					has_country_modifier = chr_pantheon_mazepa_treasury
 				}
 			}
-			mil_power = 50
 		}
 		effect = {
 			add_mil_power = -50
 			add_prestige = 10
+			hidden_effect = {
+				chr_clear_active_hetman_modifiers = yes
+			}
+			add_country_modifier = {
+				name = chr_pantheon_min_interval
+				duration = 1095
+			}
+			add_country_modifier = {
+				name = chr_pantheon_switch_cooldown
+				duration = 1460
+			}
+			hidden_effect = {
+				set_country_flag = chr_last_hetman_switch
+			}
 			country_event = { id = chr_flavor.33 }
 		}
 		ai_will_do = {
@@ -122,12 +140,28 @@ country_decisions = {
 	chr_commission_monastic_bastions = {
 		potential = {
 			tag = CHR
+			has_country_flag = chr_frontier_branch_taken
+			treasury = 150
+			mil_power = 25
+			NOT = {
+				OR = {
+					has_country_modifier = chr_monastery_investment_cooldown
+					has_country_modifier = chr_sloboda_investment_cooldown
+					has_country_modifier = chr_exchange_integration_cooldown
+				}
+			}
 		}
 		allow = {
 			has_country_flag = chr_frontier_branch_taken
-			NOT = { has_country_modifier = chr_monastery_investment_cooldown }
 			treasury = 150
 			mil_power = 25
+			NOT = {
+				OR = {
+					has_country_modifier = chr_monastery_investment_cooldown
+					has_country_modifier = chr_sloboda_investment_cooldown
+					has_country_modifier = chr_exchange_integration_cooldown
+				}
+			}
 		}
 		effect = {
 			add_treasury = -150
@@ -149,12 +183,28 @@ country_decisions = {
 	chr_expand_sloboda_farmlands = {
 		potential = {
 			tag = CHR
+			has_country_flag = chr_grain_corridors_built
+			treasury = 120
+			dip_power = 25
+			NOT = {
+				OR = {
+					has_country_modifier = chr_monastery_investment_cooldown
+					has_country_modifier = chr_sloboda_investment_cooldown
+					has_country_modifier = chr_exchange_integration_cooldown
+				}
+			}
 		}
 		allow = {
 			has_country_flag = chr_grain_corridors_built
-			NOT = { has_country_modifier = chr_sloboda_investment_cooldown }
 			treasury = 120
 			dip_power = 25
+			NOT = {
+				OR = {
+					has_country_modifier = chr_monastery_investment_cooldown
+					has_country_modifier = chr_sloboda_investment_cooldown
+					has_country_modifier = chr_exchange_integration_cooldown
+				}
+			}
 		}
 		effect = {
 			add_treasury = -120
@@ -176,12 +226,28 @@ country_decisions = {
 	chr_integrate_grain_exchange_guilds = {
 		potential = {
 			tag = CHR
+			has_country_flag = chr_grain_exchange_founded
+			treasury = 100
+			adm_power = 25
+			NOT = {
+				OR = {
+					has_country_modifier = chr_monastery_investment_cooldown
+					has_country_modifier = chr_sloboda_investment_cooldown
+					has_country_modifier = chr_exchange_integration_cooldown
+				}
+			}
 		}
 		allow = {
 			has_country_flag = chr_grain_exchange_founded
-			NOT = { has_country_modifier = chr_exchange_integration_cooldown }
 			treasury = 100
 			adm_power = 25
+			NOT = {
+				OR = {
+					has_country_modifier = chr_monastery_investment_cooldown
+					has_country_modifier = chr_sloboda_investment_cooldown
+					has_country_modifier = chr_exchange_integration_cooldown
+				}
+			}
 		}
 		effect = {
 			add_treasury = -100

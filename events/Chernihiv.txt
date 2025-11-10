@@ -256,6 +256,235 @@ country_event = {
 }
 
 country_event = {
+	id = chr_flavor.38
+	title = "chr_flavor.38.t"
+	desc = "chr_flavor.38.d"
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = chr_border_compacts_fired
+	}
+	option = {
+		name = "chr_flavor.38.a"
+		custom_tooltip = chr_border_compacts_branch_diplomatic_tt
+		if = {
+			limit = { has_country_flag = chr_border_compacts_militarized_path }
+			clr_country_flag = chr_border_compacts_militarized_path
+		}
+		set_country_flag = chr_border_compacts_diplomatic_path
+        swap_non_generic_missions = yes
+		hidden_effect = {
+			country_event = { id = chr_flavor.10 }
+		}
+	}
+	option = {
+		name = "chr_flavor.38.b"
+		custom_tooltip = chr_border_compacts_branch_militarized_tt
+		if = {
+			limit = { has_country_flag = chr_border_compacts_diplomatic_path }
+			clr_country_flag = chr_border_compacts_diplomatic_path
+		}
+		set_country_flag = chr_border_compacts_militarized_path
+        swap_non_generic_missions = yes
+		hidden_effect = {
+			country_event = { id = chr_flavor.10 }
+		}
+	}
+}
+
+country_event = {
+	id = chr_flavor.39
+	title = "chr_flavor.39.t"
+	desc = "chr_flavor.39.d"
+	picture = PARLIAMENT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = "chr_flavor.39.a"
+		add_prestige = 5
+	}
+}
+
+country_event = {
+	id = chr_flavor.40
+	title = "chr_flavor.40.t"
+	desc = "chr_flavor.40.d"
+	picture = FORTIFICATION_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = "chr_flavor.40.a"
+		add_army_professionalism = 0.01
+	}
+}
+
+country_event = {
+	id = chr_flavor.41
+	title = "chr_flavor.41.t"
+	desc = "chr_flavor.41.d"
+	picture = BOOKS_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = "chr_flavor.41.a"
+		change_innovativeness = 1
+		add_adm_power = 50
+	}
+	option = {
+		name = "chr_flavor.41.b"
+		add_dip_power = 50
+		add_prestige = 10
+	}
+}
+
+country_event = {
+	id = chr_flavor.42
+	title = "chr_flavor.42.t"
+	desc = "chr_flavor.42.d"
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		tag = CHR
+		OR = {
+			religion = orthodox
+			has_country_flag = chr_metropolitan_statute_candidate
+		}
+	}
+	immediate = {
+		set_country_flag = chr_metropolia_deliberations
+		280 = {
+			save_event_target_as = chr_metropolia_kyiv
+		}
+	}
+	option = {
+		name = "chr_flavor.42.a"
+		trigger = {
+			religion = orthodox
+		}
+		custom_tooltip = chr_flavor_42_orthodox_tt
+		add_prestige = 10
+		add_patriarch_authority = 0.1
+		add_country_modifier = {
+			name = chr_kyiv_metropolia_orthodox
+			duration = -1
+		}
+		add_country_modifier = {
+			name = chr_border_branch_lock
+			duration = 3650
+		}
+		clr_country_flag = chr_metropolitan_statute_candidate
+		clr_country_flag = chr_kyiv_metropolia_statute_path
+		set_country_flag = chr_kyiv_metropolia_orthodox_path
+		hidden_effect = {
+			country_event = { id = chr_flavor.44 days = 90 }
+		}
+	}
+	option = {
+		name = "chr_flavor.42.b"
+		trigger = {
+			has_country_flag = chr_metropolitan_statute_candidate
+		}
+		custom_tooltip = chr_flavor_42_statute_tt
+		change_government_reform_progress = 75
+		change_innovativeness = 1
+		add_country_modifier = {
+			name = chr_metropolitan_statute_patronage
+			duration = -1
+		}
+		add_country_modifier = {
+			name = chr_border_branch_lock
+			duration = 3650
+		}
+		clr_country_flag = chr_metropolitan_statute_candidate
+		clr_country_flag = chr_kyiv_metropolia_orthodox_path
+		set_country_flag = chr_kyiv_metropolia_statute_path
+		hidden_effect = {
+			country_event = { id = chr_flavor.45 days = 90 }
+		}
+	}
+	option = {
+		name = "chr_flavor.42.c"
+		trigger = {
+			NOT = { religion = orthodox }
+			NOT = { has_country_flag = chr_metropolitan_statute_candidate }
+		}
+		custom_tooltip = chr_flavor_42_delay_tt
+		add_adm_power = 50
+		add_prestige = -5
+		hidden_effect = {
+			clr_country_flag = chr_metropolia_deliberations
+		}
+	}
+}
+
+country_event = {
+	id = chr_flavor.44
+	title = "chr_flavor.44.t"
+	desc = "chr_flavor.44.d"
+	picture = BOOKS_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = chr_kyiv_metropolia_orthodox_path
+		NOT = { has_country_flag = chr_kyiv_metropolia_orthodox_synod_resolved }
+	}
+	immediate = {
+		clr_country_flag = chr_metropolia_deliberations
+	}
+	option = {
+		name = "chr_flavor.44.a"
+		custom_tooltip = chr_flavor_44_monastic_tt
+		add_prestige = 15
+		add_patriarch_authority = 0.05
+		event_target:chr_metropolia_kyiv = {
+			add_base_tax = 1
+		}
+		set_country_flag = chr_kyiv_metropolia_orthodox_synod_resolved
+	}
+	option = {
+		name = "chr_flavor.44.b"
+		custom_tooltip = chr_flavor_44_cossack_tt
+		add_mil_power = 50
+		add_army_professionalism = 0.02
+		add_manpower = 5
+		set_country_flag = chr_kyiv_metropolia_orthodox_synod_resolved
+	}
+}
+
+country_event = {
+	id = chr_flavor.45
+	title = "chr_flavor.45.t"
+	desc = "chr_flavor.45.d"
+	picture = PARLIAMENT_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = chr_kyiv_metropolia_statute_path
+		NOT = { has_country_flag = chr_kyiv_metropolia_statute_resolved }
+	}
+	immediate = {
+		clr_country_flag = chr_metropolia_deliberations
+	}
+	option = {
+		name = "chr_flavor.45.a"
+		custom_tooltip = chr_flavor_45_collegium_tt
+		change_innovativeness = 1
+		change_government_reform_progress = 50
+		event_target:chr_metropolia_kyiv = {
+			add_base_production = 1
+		}
+		add_dip_power = 50
+		set_country_flag = chr_kyiv_metropolia_statute_resolved
+	}
+	option = {
+		name = "chr_flavor.45.b"
+		custom_tooltip = chr_flavor_45_ledgers_tt
+		add_country_modifier = {
+			name = chr_starshyna_autonomy
+			duration = 7300
+		}
+		add_adm_power = 50
+		add_prestige = 10
+		set_country_flag = chr_kyiv_metropolia_statute_resolved
+	}
+}
+
+country_event = {
 	id = chr_flavor.37
 	title = "chr_flavor.37.t"
 	desc = "chr_flavor.37.d"
@@ -361,6 +590,7 @@ country_event = {
 country_event = {
 	id = chr_flavor.10
 	title = "chr_flavor.10.t"
+
 	desc = "chr_flavor.10.d"
 	picture = DIPLOMACY_eventPicture
 	trigger = {
@@ -1128,3 +1358,4 @@ country_event = {
 		}
 	}
 }
+

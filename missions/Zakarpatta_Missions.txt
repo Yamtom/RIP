@@ -1100,9 +1100,6 @@ UZH_missions_3 = {
     ai = yes
     potential = {
         tag = UZH
-        NOT = { has_country_flag = chose_ruthenian_identity }
-        NOT = { has_country_flag = chose_rusyn_identity }
-        NOT = { has_country_flag = chose_uhro_rusyn_identity }
     }
     has_country_shield = yes
     
@@ -1387,7 +1384,19 @@ UZH_missions_3 = {
             factor = 600
         }
     }
-
+}
+# Лінія самоідентифікації та культури - БРАНЧІ
+UZH_missions_3_branch = {
+    slot = 3
+    generic = no
+    ai = yes
+    potential = {
+        tag = UZH
+        NOT = { has_country_flag = chose_ruthenian_identity }
+        NOT = { has_country_flag = chose_rusyn_identity }
+        NOT = { has_country_flag = chose_uhro_rusyn_identity }
+    }
+    has_country_shield = yes
     # Заглушки для бранчованих місій
     uz_identity_branching_1 = {
         icon = mission_unknown_mission
@@ -2696,7 +2705,7 @@ UZH_missions_5 = {
                     owned_by = ROOT
                     NOT = {
                         OR = {
-                            has_building = manufactory
+                            has_manufactory_trigger = yes
                             has_building = weapons
                             has_building = wharf
                             has_building = textile
@@ -2719,7 +2728,7 @@ UZH_missions_5 = {
             has_institution = manufactories
             num_of_owned_provinces_with = {
                 OR = {
-                    has_building = manufactory
+                    has_manufactory_trigger = yes
                     has_building = weapons
                     has_building = wharf
                     has_building = textile
@@ -2747,7 +2756,7 @@ UZH_missions_5 = {
 			}
             every_owned_province = {
                 limit = {
-                    has_building = manufactory
+                    has_manufactory_trigger = yes
                 }
                 add_province_modifier = {
                     name = "uz_factory_consortiums"

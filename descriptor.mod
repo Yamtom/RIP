@@ -7,5 +7,5 @@ tags={
 }
 picture="thumbnail.png"
 path="C:/Users/Yamtom/Documents/Paradox Interactive/Europa Universalis IV/mod/RIP"
-supported_version="1.37.5"
+supported_version="1.37.*"
 remote_file_id="2563577714" 
