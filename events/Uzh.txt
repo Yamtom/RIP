@@ -582,6 +582,159 @@ country_event = {
 }
 
 # ---
+# Подія 230 "Експансія Паннонії"
+# Механіка: Три варіанти — військовий марш із `uz_pannonian_drive`, торгові хартії з `uz_pannonian_charters` або пограничні колонії з `uz_colonization_banat`; усі варіанти підсилюють відповідні провінції Альфельду, Славонії чи Південної Трансільванії.
+# Наратив: Вирішує, чи переводити паланківську межу на військовий стан, відкривати ярмаркові контори чи облаштовувати комітатські колонії на Мароші.
+# Референси: Патенти Карла VI та Марії Терезії про військово-торгові колонії у Бачці та Банаті.
+
+country_event = {
+    id = uzh.230
+    title = "uzh.230.t"
+    desc = "uzh.230.d"
+    picture = MILITARY_eventPicture
+
+    is_triggered_only = yes
+
+    option = {
+        name = "uzh.230.a"
+        add_country_modifier = {
+            name = "uz_pannonian_drive"
+            duration = 9125
+        }
+        add_mil_power = 75
+        add_army_tradition = 5
+        every_owned_province = {
+            limit = {
+                area = alfold_area
+                uzh_identity_core_culture = yes
+            }
+            add_province_modifier = {
+                name = "uz_pannonian_blockhouses"
+                duration = 7300
+            }
+        }
+    }
+
+    option = {
+        name = "uzh.230.b"
+        add_country_modifier = {
+            name = "uz_pannonian_charters"
+            duration = 9125
+        }
+        add_dip_power = 75
+        add_mercantilism = 1
+        every_owned_province = {
+            limit = {
+                area = slavonia_area
+                owned_by = ROOT
+            }
+            add_province_modifier = {
+                name = "uz_colonist_hamlets"
+                duration = 7300
+            }
+        }
+    }
+
+    option = {
+        name = "uzh.230.c"
+        add_country_modifier = {
+            name = "uz_colonization_banat"
+            duration = 5475
+        }
+        add_adm_power = 50
+        add_mil_power = 50
+        every_owned_province = {
+            limit = {
+                area = southern_transylvania_area
+                owned_by = ROOT
+            }
+            add_province_modifier = {
+                name = "uz_banat_border_colonies"
+                duration = 7300
+            }
+        }
+    }
+}
+
+# ---
+# Подія 241 "Солотвинська камера"
+# Механіка: Сценарна винагорода місії. Варіант A впроваджує ревізійні книги, дає 20-річний модифікатор `uz_solotvynska_camera`, знижує інфляцію та оновлює соляні палати у всіх володіннях.
+# Референси: Камеральні реформи соляних палат Габсбургів, ревізії Солотвина XVIII ст.
+
+country_event = {
+    id = uzh.241
+    title = "uzh.241.t"
+    desc = "uzh.241.d"
+    picture = TRADE_eventPicture
+
+    is_triggered_only = yes
+
+    option = {
+        name = "uzh.241.a"
+        add_country_modifier = {
+            name = "uz_solotvynska_camera"
+            duration = 7300
+        }
+        add_adm_power = 50
+        add_inflation = -0.05
+        custom_tooltip = UZH_solotvynska_camera_reward_tt
+        hidden_effect = {
+            set_country_flag = uzh_solotvynska_camera_enforced
+            every_owned_province = {
+                limit = {
+                    trade_goods = salt
+                }
+                add_province_modifier = {
+                    name = "uz_solotvyno_chambers"
+                    duration = 3650
+                }
+            }
+        }
+    }
+}
+
+# ---
+# Подія 242 "Митна конвенція Тиси"
+# Механіка: Сценарна винагорода місії. Варіант A укладає конвенцію, надає +1 купця, торговий модифікатор на 10 років і роздає `uz_tisza_customs_depot` центрам торгівлі Закарпаття, Альфельду й Славонії.
+# Референси: Торгові конвенції Пешта й митні статути Тиси XVIII ст.
+
+country_event = {
+    id = uzh.242
+    title = "uzh.242.t"
+    desc = "uzh.242.d"
+    picture = TRADE_eventPicture
+
+    is_triggered_only = yes
+
+    option = {
+        name = "uzh.242.a"
+        add_country_modifier = {
+            name = "uz_tisza_customs_convention"
+            duration = 3650
+        }
+        add_dip_power = 75
+        custom_tooltip = UZH_tisza_customs_reward_tt
+        hidden_effect = {
+            set_country_flag = uzh_tisza_customs_signed
+            every_owned_province = {
+                limit = {
+                    OR = {
+                        area = alfold_area
+                        area = slavonia_area
+                        region = carpathia_region
+                    }
+                    uzh_has_market_infrastructure = yes
+                }
+                add_province_modifier = {
+                    name = "uz_tisza_customs_depot"
+                    duration = 3650
+                }
+            }
+        }
+    }
+}
+
+# ---
 # Подія 11 "Солотвинські соляні камери"
 # Механіка: Має часове очікування (MTTH 120 міс.) для UZH з Мукачевом 1952 та соляним товаром; опція A надає безстроковий провінційний мод `uz_solotvyno_chambers`, +1 базового виробництва, `uz_salt_chamber_overwatch` на 20 років і 75 дукатів, опція B дає короткий провінційний бонус, `uz_private_salt_leases` на 15 років, +50 ADM, +150 дукатів і +1 меркантилізм.
 # Наратив: Висвітлює компроміс між державним наглядом і приватними концесіями Солотвинських соляних копалень.
@@ -949,6 +1102,156 @@ country_event = {
             duration = -1
         }
         add_prestige = 20
+    }
+}
+
+# ---
+# Подія 310 "Русинська колонизація"
+# Механіка: Доступна через рішення; три опції спрямовують хвилю колонізації в Карпатію, Альфельд або Банат, змінюючи культуру провінцій згідно з обраною ідентичністю та додаючи відповідні модифікатори.
+# Наратив: Відображає переселення родин із гір у паннонські слободи й формування прикордонних сторож на Мароші.
+# Референси: Колонізаційні листи Марії Терезії для русинів Бачки (1740-ві), банатські руські поселення в Арадському комітаті.
+
+country_event = {
+    id = uzh.310
+    title = "uzh.310.t"
+    desc = "uzh.310.d"
+    picture = COLONIAL_eventPicture
+
+    is_triggered_only = yes
+
+    option = {
+        name = "uzh.310.a"
+        add_country_modifier = {
+            name = "uz_colonization_homeward"
+            duration = 5475
+        }
+        add_adm_power = 50
+        every_owned_province = {
+            limit = {
+                region = carpathia_region
+                NOT = { uzh_identity_core_culture = yes }
+            }
+            uzh_set_identity_culture = yes
+            add_province_modifier = {
+                name = "uz_colonist_hamlets"
+                duration = 5475
+            }
+        }
+        hidden_effect = {
+            set_country_flag = uzh_colonization_recent
+        }
+    }
+
+    option = {
+        name = "uzh.310.b"
+        add_country_modifier = {
+            name = "uz_colonization_pannonia"
+            duration = 5475
+        }
+        add_dip_power = 50
+        every_owned_province = {
+            limit = {
+                area = alfold_area
+                owned_by = ROOT
+                NOT = { uzh_identity_core_culture = yes }
+            }
+            uzh_set_identity_culture = yes
+            add_province_modifier = {
+                name = "uz_pannonian_blockhouses"
+                duration = 5475
+            }
+        }
+        hidden_effect = {
+            set_country_flag = uzh_colonization_recent
+        }
+    }
+
+    option = {
+        name = "uzh.310.c"
+        add_country_modifier = {
+            name = "uz_colonization_banat"
+            duration = 5475
+        }
+        add_mil_power = 50
+        every_owned_province = {
+            limit = {
+                area = southern_transylvania_area
+                owned_by = ROOT
+                NOT = { uzh_identity_core_culture = yes }
+            }
+            uzh_set_identity_culture = yes
+            add_province_modifier = {
+                name = "uz_banat_border_colonies"
+                duration = 5475
+            }
+        }
+        hidden_effect = {
+            set_country_flag = uzh_colonization_recent
+        }
+    }
+}
+
+# ---
+# Подія 410 "Сердюки чи Опришки"
+# Механіка: Сценарна нагорода для рішення; опція А дає `uz_serdyuk_guard`, +5000 рекрутів, +50 MIL та знижує професіоналізм, опція B — `uz_opryshok_raiders`, армійську традицію й мобільність, опція C зберігає ресурси; усі шляхи накладають `uz_unique_host_cooldown`.
+# Наратив: Уряд Паланку вирішує, чи ставити ставку на сердюцькі гвардійські полки, чи на легкі опришківські загони.
+# Референси: Сердюцька піхота Мазепи, опришківські ватаги Довбуша та Маруся Чурай.
+
+country_event = {
+    id = uzh.410
+    title = "uzh.410.t"
+    desc = "uzh.410.d"
+    picture = MILITARY_eventPicture
+
+    is_triggered_only = yes
+
+    option = {
+        name = "uzh.410.a"
+        add_country_modifier = {
+            name = "uz_serdyuk_guard"
+            duration = 5475
+        }
+        add_mil_power = 50
+    add_manpower = 5
+        add_army_professionalism = -0.03
+        hidden_effect = {
+            add_country_modifier = {
+                name = "uz_unique_host_cooldown"
+                duration = 3650
+            }
+            set_country_flag = uzh_serdyuk_guard_active
+        }
+    }
+
+    option = {
+        name = "uzh.410.b"
+        add_country_modifier = {
+            name = "uz_opryshok_raiders"
+            duration = 5475
+        }
+        add_mil_power = 25
+        add_army_tradition = 5
+        add_army_professionalism = -0.01
+        hidden_effect = {
+            add_country_modifier = {
+                name = "uz_unique_host_cooldown"
+                duration = 3650
+            }
+            set_country_flag = uzh_opryshok_raiders_active
+        }
+    }
+
+    option = {
+        name = "uzh.410.c"
+        add_stability = 1
+        hidden_effect = {
+            add_country_modifier = {
+                name = "uz_unique_host_cooldown"
+                duration = 3650
+            }
+            clr_country_flag = uzh_serdyuk_guard_active
+            clr_country_flag = uzh_opryshok_raiders_active
+        }
     }
 }
 

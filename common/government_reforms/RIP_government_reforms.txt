@@ -217,6 +217,150 @@ uzh_komitat_system_reform = {
 	}
 }
 
+uzh_palatial_ruthenian_reform = {
+	icon = "english_monarchy"
+	potential = {
+		tag = UZH
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+
+	allow_convert = no
+	start_territory_to_estates = 0.3
+	trigger = {
+		tag = UZH
+		has_country_flag = chose_ruthenian_identity
+	}
+	modifiers = {
+		num_accepted_cultures = 1
+		diplomatic_reputation = 1
+		parliament_backing_chance = 0.1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+		}
+		has_parliament = yes
+		custom_attributes = {
+			blocked_call_diet = yes
+		}
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+			NOT = { has_dlc = "Domination" }
+		}
+		has_parliament = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Domination"
+		}
+		has_parliament = yes
+		custom_attributes = {
+			english_parliament = yes
+		}
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+uzh_palatial_rusyn_reform = {
+	icon = "assembly_hall"
+	potential = {
+		tag = UZH
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	trigger = {
+		tag = UZH
+		has_country_flag = chose_rusyn_identity
+	}
+	modifiers = {
+		autonomy_change_time = -0.1
+		governing_capacity_modifier = 0.1
+		reform_progress_growth = 0.1
+		years_of_nationalism = -10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		seizing_land_no_rebels_from_estate_burghers = yes
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+uzh_palatial_uhro_reform = {
+	icon = "noble_council"
+	potential = {
+		tag = UZH
+	}
+    fixed_rank = 1
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	raze_province = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	trigger = {
+		tag = UZH
+		has_country_flag = chose_uhro_rusyn_identity
+	}
+	modifiers = {
+		legitimacy = 1
+		nobles_loyalty_modifier = 0.1
+		max_absolutism = 10
+		governing_capacity_modifier = -0.15
+		technology_cost = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Rights of Man"
+				has_dlc = "Domination"
+			}
+		}
+		custom_attributes = {
+			GER_buff_prussian_militarization = yes
+		}
+	}
+	conditional = {
+		allow = {
+			NOT = {
+				OR = {
+					has_dlc = "Rights of Man"
+					has_dlc = "Domination"
+				}
+			}
+		}
+		custom_attributes = {
+			free_noble_levies = yes
+		}
+	}
+	ai = {
+		factor = 1
+	}
+}
+
 ruthenian_principality_reform = {
 	icon = "generic_people"
 	legacy_equivalent = principality_legacy

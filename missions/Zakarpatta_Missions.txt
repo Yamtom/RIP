@@ -44,6 +44,7 @@ UZH_missions_1 = {
             custom_tooltip = UZH_hungarian_protection_charter_tt
 
             hidden_effect = {
+                set_country_flag = uzh_rite_stabilized
                 set_country_flag = uzh_charter_signed
 
                 # 1) Якщо існує Угорщина — зробити її кандидатом у «патрони»
@@ -254,7 +255,6 @@ UZH_missions_1 = {
         ai_weight = { factor = 500 }
     }
 
-    
     # ---
     # Місія "Маркетська Автономія"
     # Механіка: Вимагає гербову грамоту (`uzh_charter_signed`) та розбудову Мукачевого (15 розвитку, суд і низька автономія); викликає подію uzh.3 й ставить прапор `uzh_mukachevo_privilege_confirmed`.
@@ -265,9 +265,11 @@ UZH_missions_1 = {
         required_missions = {
             uz_hungarian_protection
         }
-        position = 3
+        position = 4
         provinces_to_highlight = {
-            province_id = 1952
+            1952 = {
+                owned_by = ROOT
+            }
         }
         trigger = {
             has_country_flag = uzh_charter_signed
@@ -301,9 +303,11 @@ UZH_missions_1 = {
         required_missions = {
             uz_mukachevo_autonomy
         }
-        position = 4
+        position = 5
         provinces_to_highlight = {
-            province_id = 1952
+            1952 = {
+                owned_by = ROOT
+            }
         }
         trigger = {
             has_country_flag = uzh_mukachevo_privilege_confirmed
@@ -322,7 +326,7 @@ UZH_missions_1 = {
             }
         }
         ai_weight = {
-            factor = 600
+            factor = 400
         }
     }
     
@@ -336,7 +340,7 @@ UZH_missions_1 = {
         required_missions = {
             uz_rusin_literacy
         }
-        position = 5
+        position = 6
         trigger = {
             has_country_flag = uzh_scholars_network
             army_size_percentage = 0.6
@@ -375,10 +379,13 @@ UZH_missions_1 = {
             }
             custom_tooltip = UZH_resist_habsburgs_neighbor_tt
             tooltip = {
-                event_target:uzh_dynasty_patron = {
-                    add_opinion = {
-                        who = ROOT
-                        modifier = opinion_uz_border_dynasty
+                if = {
+                    limit = { has_saved_event_target = uzh_dynasty_patron }
+                    event_target:uzh_dynasty_patron = {
+                        add_opinion = {
+                            who = ROOT
+                            modifier = opinion_uz_border_dynasty
+                        }
                     }
                 }
             }
@@ -394,7 +401,8 @@ UZH_missions_1 = {
                     duration = 9125
                 }
                 add_dip_power = 100
-                uzh_select_dynasty_patron = yes
+                set_country_flag = uzh_select_dynasty_patron_unlocked
+                uzh_select_dynasty_patron = { }
                 if = {
                     limit = {
                         has_country_flag = uzh_dynasty_source_overlord
@@ -414,10 +422,13 @@ UZH_missions_1 = {
                     limit = {
                         has_country_flag = uzh_dynasty_source_neighbor
                     }
-                    event_target:uzh_dynasty_patron = {
-                        add_opinion = {
-                            who = ROOT
-                            modifier = opinion_uz_border_dynasty
+                    if = {
+                        limit = { has_saved_event_target = uzh_dynasty_patron }
+                        event_target:uzh_dynasty_patron = {
+                            add_opinion = {
+                                who = ROOT
+                                modifier = opinion_uz_border_dynasty
+                            }
                         }
                     }
                     add_prestige = 10
@@ -450,9 +461,9 @@ UZH_missions_1 = {
         icon = mission_colonize_the_caribbean
         required_missions = {
             uz_resist_habsburgs
-            uz_identity_question
+            uz_self_identification
         }
-        position = 6
+        position = 9
         provinces_to_highlight = {
             region = carpathia_region
             owned_by = ROOT
@@ -470,7 +481,7 @@ UZH_missions_1 = {
                     }
                 }
             }
-        manpower_percentage = 0.6
+            manpower_percentage = 0.6
         }
         effect = {
             country_event = {
@@ -495,11 +506,11 @@ UZH_missions_1 = {
         required_missions = {
             uz_great_migration
         }
-        position = 7
+        position = 10
         provinces_to_highlight = {
             OR = {
-                AND = {
-                    province_id = 1952
+                1952 = {
+                    owned_by = ROOT
                     OR = {
                         NOT = { uzh_has_courthouse_infrastructure = yes }
                         NOT = { has_building = university }
@@ -577,9 +588,11 @@ UZH_missions_1 = {
         required_missions = {
             uz_national_revival
         }
-        position = 8
+        position = 11
         provinces_to_highlight = {
-            province_id = 1952
+            1952 = {
+                owned_by = ROOT
+            }
         }
         trigger = {
             owns_core_province = 1952
@@ -625,7 +638,7 @@ UZH_missions_2 = {
             OR = {
                 AND = {
                     region = carpathia_region
-                    NOT = { province_id = 1952 }
+                    owned_by = ROOT
                 }
                 area = transylvania_area
                 area = slovakia_area
@@ -635,7 +648,6 @@ UZH_missions_2 = {
             has_country_flag = uzh_charter_signed
 			any_owned_province = {
 				region = carpathia_region
-				NOT = { province_id = 1952 }
 			}
 			num_of_owned_provinces_with = {
                 area = transylvania_area
@@ -816,7 +828,9 @@ UZH_missions_2 = {
         }
         position = 5
         provinces_to_highlight = {
-            province_id = 2960
+            2960 = {
+                owned_by = ROOT
+            }
         }
         trigger = {
             has_country_flag = uzh_banat_settled
@@ -847,6 +861,75 @@ UZH_missions_2 = {
     }
 
     # ---
+    # Місія "Експансія Паннонії"
+    # Механіка: Потребує консекрованої Сремської митрополії, більшості власних русинських поселень в Альфельді та присутності на марошському кордоні; відкриває подію uzh.203, дає модифікатор `uz_pannonian_drive`, претензії в Альфельді та Славонії й ставить прапор `uzh_pannonian_expansion_complete`.
+    # Наратив: Закріплює мережу русинських поселень за Дунаєм, переводячи оборонну межу в наступ на паннонські комітати.
+    # Референси: Привілеї русинів у Бачці та Славонії XVIII ст., паннонські колонізаційні патенти Габсбургів.
+    uzh_pannonian_expansion = {
+    icon = mission_conquer_5_states
+        required_missions = {
+            uzh_srem_metropolis
+        }
+        position = 6
+        provinces_to_highlight = {
+            OR = {
+                area = alfold_area
+                area = slavonia_area
+                area = southern_transylvania_area
+            }
+        }
+        trigger = {
+            has_country_flag = uzh_srem_metropolis_consecrated
+            num_of_owned_provinces_with = {
+                area = alfold_area
+                value = 4
+            }
+            num_of_owned_provinces_with = {
+                area = southern_transylvania_area
+                value = 2
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_pannonian_expansion_culture_tt
+                hidden_trigger = {
+                    num_of_owned_provinces_with = {
+                        area = alfold_area
+                        uzh_identity_core_culture = yes
+                        value = 3
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_pannonian_drive"
+                duration = 5475
+            }
+            alfold_area = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            slavonia_area = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_mil_power = 75
+            hidden_effect = {
+                set_country_flag = uzh_pannonian_expansion_complete
+                country_event = {
+                    id = uzh.230
+                }
+            }
+        }
+        ai_weight = {
+            factor = 450
+        }
+    }
+
+    # ---
     # Місія "Паннонська Республіка"
     # Механіка: Потребує `uzh_srem_metropolis_consecrated`, прапор `uzh_diaspora_started` та русифіковану Карпатію з республіканським устроєм або прапором `uzh_constitutional_framework`; надає постійні моди `uz_pannonian_autonomy`, `uz_carpathian_hegemony`, тимчасові `uz_pannonian_league` й `uz_border_guard_union`, бонуси станам, прапор `uzh_pannonian_compact_signed`, подію uzh.202 та відповідні підпрапори залежно від форми правління.
     # Наратив: Скликає Карпатський конгрес, який легалізує федеративну угоду між русинськими містами та шляхтою Паннонії.
@@ -854,10 +937,10 @@ UZH_missions_2 = {
     uzh_pannonian_republic = {
 		icon = mission_empire
 		required_missions = {
-            uzh_srem_metropolis
-            uz_great_migration
+        uzh_pannonian_expansion
+        uz_great_migration
 		}
-        position = 7
+        position = 10
         provinces_to_highlight = {
             region = carpathia_region
             owned_by = ROOT
@@ -928,7 +1011,7 @@ UZH_missions_2 = {
                     name = "uz_carpathian_hegemony"
                     duration = -1
                 }
-                add_manpower = 6
+                uzh_gain_manpower_6000 = yes
                 change_government_reform_progress = 50
             }
             custom_tooltip = UZH_pannonian_republic_reform_choice_tt
@@ -983,7 +1066,7 @@ UZH_missions_2 = {
                     name = "uz_carpathian_hegemony"
                     duration = -1
                 }
-                add_manpower = 6
+                uzh_gain_manpower_6000 = yes
                 change_government_reform_progress = 50
                 if = {
                     limit = { government = republic }
@@ -1031,6 +1114,91 @@ UZH_missions_2 = {
 	}
 
     # ---
+    # Місія "Солянi Коридори"
+    # Механіка: Потребує підписаного Паннонського пакту, дві провінції із сіллю чи вином з розвитими майстернями/ринками та 25% торгівельної частки в Пештському вузлі; нагорода дає тимчасові `uz_salt_corridor_depots` у цих провінціях і `uz_salt_corridor_convoys` для країни.
+    # Наратив: Стандартизує конвої солі та вина між Солотвином і Дунаєм, закріплюючи контроль над торговими перевалами.
+    # Референси: Соляні склади Мармароша, купецькі ліцензії Пешта 1680-х років.
+    uzh_salt_corridors = {
+        icon = mission_dominate_home_trade_node
+        required_missions = {
+            uzh_pannonian_republic
+        }
+        position = 11
+        provinces_to_highlight = {
+            owned_by = ROOT
+            OR = {
+                trade_goods = salt
+                trade_goods = wine
+            }
+            NOT = {
+                OR = {
+                    has_building = workshop
+                    has_building = counting_house
+                    has_building = marketplace
+                    has_building = trade_depot
+                    has_building = stock_exchange
+                }
+            }
+        }
+        trigger = {
+            has_country_flag = uzh_pannonian_compact_signed
+            num_of_owned_provinces_with = {
+                OR = {
+                    trade_goods = salt
+                    trade_goods = wine
+                }
+                OR = {
+                    has_building = workshop
+                    has_building = counting_house
+                    has_building = marketplace
+                    has_building = trade_depot
+                    has_building = stock_exchange
+                }
+                value = 2
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_salt_corridors_pest_share_tt
+                hidden_trigger = {
+                    153 = {
+                        is_strongest_trade_power = ROOT
+                    }
+                }
+            }
+        }
+        effect = {
+            every_owned_province = {
+                limit = {
+                    OR = {
+                        trade_goods = salt
+                        trade_goods = wine
+                    }
+                    OR = {
+                        has_building = workshop
+                        has_building = counting_house
+                        has_building = marketplace
+                        has_building = trade_depot
+                        has_building = stock_exchange
+                    }
+                }
+                add_province_modifier = {
+                    name = "uz_salt_corridor_depots"
+                    duration = 5475
+                }
+            }
+            add_country_modifier = {
+                name = "uz_salt_corridor_convoys"
+                duration = 5475
+            }
+            hidden_effect = {
+                set_country_flag = uzh_salt_corridors_established
+            }
+        }
+        ai_weight = {
+            factor = 440
+        }
+    }
+
+    # ---
     # Місія "Дунайська Торгова Ліга"
     # Механіка: Вимагає прапорів `uzh_pannonian_republic_established` чи `uzh_pannonian_charter_ratified`, трьох купців, мережу ринків у Альфельді та Славонії; надає постійний `uz_danube_trade_league`, +2 меркантилізму, покращує виробництво ринкових міст і ставить прапор `uzh_danube_league_established`.
     # Наратив: Формує союз купців Тиси й Дунаю, переорієнтовуючи торгівлю зі Львова та Відня до Хуста.
@@ -1038,9 +1206,9 @@ UZH_missions_2 = {
     uzh_danube_trade_league = {
         icon = mission_dominate_home_trade_node
         required_missions = {
-            uzh_pannonian_republic
+            uzh_salt_corridors
         }
-        position = 8
+        position = 12
         provinces_to_highlight = {
             OR = {
                 AND = {
@@ -1154,7 +1322,7 @@ UZH_missions_3 = {
         effect = {
             hidden_effect = {
                 override_country_name = UZH_Huszt_Name
-                set_country_flag = uzh_Name_huszt
+                set_country_flag = uzh_name_huszt
             }
             add_prestige = 15
             
@@ -1244,6 +1412,49 @@ UZH_missions_3 = {
             factor = 400
         }
     }
+
+    # ---
+    # Місія "Унійний Компроміс+"
+    # Механіка: Потребує завершеної унійної дилеми, наявного теолога або інквізитора та 200 дукатів; надає десятирічний модифікатор `uz_union_compromise_plus`, що здешевлює ідеї.
+    # Наратив: Дорадча колегія фінансує друк богословських трактатів, аби переконати синоди у користі компромісу та заохотити реформи.
+    # Референси: Дискусії Мукачівської єпархії XVII ст., гранти на видання катехизмів.
+    uz_union_compromise_plus = {
+        icon = mission_religious
+        position = 4
+        required_missions = {
+            uz_union_dilemma
+        }
+        trigger = {
+            has_country_flag = uzh_union_debated
+            OR = {
+                advisor = theologian
+                advisor = inquisitor
+            }
+            treasury = 200
+        }
+        effect = {
+            add_treasury = -200
+            add_country_modifier = {
+                name = "uz_union_compromise_plus"
+                duration = 3650
+            }
+        }
+        ai_weight = {
+            factor = 380
+            modifier = {
+                factor = 1.2
+                has_idea_group = religious_ideas
+            }
+            modifier = {
+                factor = 1.15
+                has_idea_group = influence_ideas
+            }
+            modifier = {
+                factor = 0.85
+                NOT = { num_of_owned_provinces_with = { religion = catholic value = 2 } }
+            }
+        }
+    }
     
     # ---
     # Місія "Русинська Мова"
@@ -1253,9 +1464,9 @@ UZH_missions_3 = {
     uz_rusin_language = {
         icon = mission_plc_cultural_flowering
         required_missions = {
-            uz_union_dilemma
+            uz_union_compromise_plus
         }
-        position = 4
+        position = 5
         provinces_to_highlight = {
             owned_by = ROOT
             NOT = { uzh_identity_core_culture = yes }
@@ -1276,15 +1487,6 @@ UZH_missions_3 = {
                 AND = {
                     has_country_flag = chose_uhro_rusyn_identity
                     primary_culture = rusyn_new_new
-                }
-            }
-            custom_trigger_tooltip = {
-                tooltip = UZH_rusin_language_culture_tt
-                hidden_trigger = {
-                    num_of_owned_provinces_with = {
-                        uzh_identity_core_culture = yes
-                        value = 5
-                    }
                 }
             }
             treasury = 200
@@ -1320,7 +1522,71 @@ UZH_missions_3 = {
             }
         }
         ai_weight = {
-            factor = 500
+            factor = 480
+            modifier = {
+                factor = 1.15
+                has_idea_group = administrative_ideas
+            }
+            modifier = {
+                factor = 1.1
+                has_country_flag = uzh_union_debated
+            }
+        }
+    }
+
+    # ---
+    # Місія "Постанова про Мови"
+    # Механіка: Вимагає стандартизованої мови; якщо бракує пʼяти провінцій основної ідентичної культури, надає пʼятнадцятирічний модифікатор `uz_language_decree`, що здешевлює культурну конверсію.
+    # Наратив: Сейм видає постанову про мовні права та переклад статутів, щоб заохотити громади приймати стандартизовані норми.
+    # Референси: Реформи Марії-Терезії щодо мов адміністрації, русинські граматики XVIII ст.
+    uz_language_decree = {
+        icon = mission_plc_cultural_flowering
+        position = 6
+        required_missions = {
+            uz_rusin_language
+            uz_rusin_literacy
+        }
+        provinces_to_highlight = {
+            owned_by = ROOT
+            NOT = { uzh_identity_core_culture = yes }
+        }
+        trigger = {
+            has_country_flag = uzh_language_standardized
+        }
+        effect = {
+            if = {
+                limit = {
+                    NOT = {
+                        num_of_owned_provinces_with = {
+                            uzh_identity_core_culture = yes
+                            value = 5
+                        }
+                    }
+                }
+                add_country_modifier = {
+                    name = "uz_language_decree"
+                    duration = 5475
+                }
+            }
+            else = {
+                add_prestige = 5
+            }
+        }
+        ai_weight = {
+            factor = 360
+            modifier = {
+                factor = 1.2
+                NOT = {
+                    num_of_owned_provinces_with = {
+                        uzh_identity_core_culture = yes
+                        value = 5
+                    }
+                }
+            }
+            modifier = {
+                factor = 1.1
+                has_idea_group = humanist_ideas
+            }
         }
     }
     
@@ -1332,10 +1598,9 @@ UZH_missions_3 = {
     uz_identity_question = {
         icon = mission_empire
         required_missions = {
-            uz_rusin_language
-            uz_rusin_literacy
+            uz_language_decree
         }
-        position = 5
+        position = 7
         trigger = {
             OR = {
                 primary_culture = rusyn
@@ -1351,6 +1616,14 @@ UZH_missions_3 = {
                     has_country_flag = chose_uhro_rusyn_identity
                     primary_culture = rusyn_new_new
                 }
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_this_is_a_branching_mission
+                hidden_trigger = { always = yes }
+            }
+            num_of_owned_provinces_with = {
+                uzh_identity_core_culture = yes
+                value = 5
             }
             stability = 1
             adm_power = 100
@@ -1392,7 +1665,54 @@ UZH_missions_3 = {
             factor = 600
         }
     }
+
+    # ---
+    # Місія "Самоідентифікація Русинів"
+    # Механіка: Завершує дискусію про шлях розвитку, вимагаючи обраної гілки ідентичності; дає модифікатор `uz_identity_consolidated`, престиж і легітимність, фіксуючи вибір фракції.
+    # Наратив: Синод у Паланку скріплює ухвалений курс, роздаючи універсали старшинам і братствам.
+    # Референси: Мукачівські консисторії XVIII ст., програми русофілів та народовців.
+    uz_self_identification = {
+        icon = mission_plc_cultural_flowering
+        required_missions = {
+            uz_identity_question
+        }
+        position = 8
+        trigger = {
+            has_country_flag = uzh_identity_path_locked
+            OR = {
+                has_country_flag = chose_ruthenian_identity
+                has_country_flag = chose_rusyn_identity
+                has_country_flag = chose_uhro_rusyn_identity
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_identity_consolidated"
+                duration = 5475
+            }
+            add_prestige = 15
+            if = {
+                limit = { government = monarchy }
+                add_legitimacy = 10
+            }
+            else_if = {
+                limit = { government = republic }
+                add_republican_tradition = 8
+            }
+            else = {
+                add_stability = 1
+            }
+            hidden_effect = {
+                set_country_flag = uzh_identity_consolidated
+            }
+        }
+        ai_weight = {
+            factor = 550
+        }
+    }
 }
+
+
 # Лінія самоідентифікації та культури - БРАНЧІ
 UZH_missions_3_branch = {
     slot = 3
@@ -1408,8 +1728,8 @@ UZH_missions_3_branch = {
 
     uz_identity_branching_1 = {
         icon = mission_unknown_mission
-        position = 7
-        required_missions = { uz_identity_question }
+        position = 9
+        required_missions = { uz_self_identification }
         trigger = {
             custom_trigger_tooltip = { tooltip = UZH_this_is_a_branching_mission always = no }
         }
@@ -1420,7 +1740,7 @@ UZH_missions_3_branch = {
 
     uz_identity_branching_2 = {
         icon = mission_unknown_mission
-        position = 8
+        position = 10
         required_missions = { uz_identity_branching_1 }
         trigger = {
             custom_trigger_tooltip = { tooltip = UZH_this_is_a_branching_mission always = no }
@@ -1432,7 +1752,7 @@ UZH_missions_3_branch = {
     
     uz_identity_branching_3 = {
         icon = mission_unknown_mission
-        position = 9
+        position = 11
         required_missions = { uz_identity_branching_2 }
         trigger = {
             custom_trigger_tooltip = { tooltip = UZH_this_is_a_branching_mission always = no }
@@ -1463,9 +1783,9 @@ UZH_missions_3_ruthenian = {
     uz_kyivan_heritage = {
         icon = mission_conquer_50_development
         required_missions = {
-            uz_identity_question
+            uz_self_identification
         }
-        position = 7
+        position = 9
         provinces_to_highlight = {
             OR = {
                 area = red_ruthenia_area
@@ -1516,7 +1836,19 @@ UZH_missions_3_ruthenian = {
             }
         }
         ai_weight = {
-            factor = 500
+            factor = 420
+            modifier = {
+                factor = 1.25
+                has_country_flag = uzh_union_debated
+            }
+            modifier = {
+                factor = 1.2
+                has_idea_group = religious_ideas
+            }
+            modifier = {
+                factor = 0.85
+                government = theocracy
+            }
         }
     }
     
@@ -1530,7 +1862,7 @@ UZH_missions_3_ruthenian = {
         required_missions = {
             uz_kyivan_heritage
         }
-        position = 8
+        position = 10
         provinces_to_highlight = {
             owned_by = ROOT
             NOT = {
@@ -1588,7 +1920,7 @@ UZH_missions_3_ruthenian = {
         required_missions = {
             uz_orthodox_unity
         }
-        position = 9
+        position = 11
         provinces_to_highlight = {
             OR = {
                 AND = {
@@ -1707,12 +2039,12 @@ UZH_missions_3_ruthenian = {
         }
         effect = {
             add_country_modifier = {
-                name = "uz_pan_ruthenian_union"
-                duration = -1
-            }
-            add_country_modifier = {
                 name = "uz_ambitious_expansion_modifier"
                 duration = 5475
+            }
+            add_country_modifier = {
+                name = "uz_pan_ruthenian_union"
+                duration = -1
             }
             ruthenia_region = {
                 limit = {
@@ -1724,7 +2056,19 @@ UZH_missions_3_ruthenian = {
             add_prestige = 25
         }
         ai_weight = {
-            factor = 500
+            factor = 420
+            modifier = {
+                factor = 1.2
+                num_of_subjects = 1
+            }
+            modifier = {
+                factor = 1.15
+                has_idea_group = influence_ideas
+            }
+            modifier = {
+                factor = 0.85
+                government = republic
+            }
         }
     }
 }
@@ -1749,9 +2093,9 @@ UZH_missions_3_rusyn = {
     uz_rusyn_autonomy = {
         icon = mission_noble_council
         required_missions = {
-            uz_identity_question
+            uz_self_identification
         }
-        position = 7
+        position = 9
         trigger = {
             has_country_flag = chose_rusyn_identity
             has_country_flag = uzh_language_standardized
@@ -1805,7 +2149,7 @@ UZH_missions_3_rusyn = {
         required_missions = {
             uz_rusyn_autonomy
         }
-        position = 8
+        position = 10
         provinces_to_highlight = {
             owned_by = ROOT
             NOT = {
@@ -1904,7 +2248,7 @@ UZH_missions_3_rusyn = {
         required_missions = {
             uz_carpathian_federation
         }
-        position = 9
+        position = 11
         trigger = {
             has_country_flag = chose_rusyn_identity
             has_country_flag = uzh_carpathian_federation_established
@@ -1946,9 +2290,9 @@ UZH_missions_3_uhro_rusyn = {
     uz_pressburg_compact = {
         icon = mission_pol_protect_hungary
         required_missions = {
-            uz_identity_question
+            uz_self_identification
         }
-        position = 7
+        position = 9
         trigger = {
             has_country_flag = chose_uhro_rusyn_identity
             has_country_flag = uzh_language_standardized
@@ -2003,7 +2347,7 @@ UZH_missions_3_uhro_rusyn = {
         required_missions = {
             uz_pressburg_compact
         }
-        position = 8
+        position = 10
         provinces_to_highlight = {
             OR = {
                 AND = {
@@ -2080,10 +2424,12 @@ UZH_missions_3_uhro_rusyn = {
         required_missions = {
             uz_uhro_rusyn_integration
         }
-        position = 9
+        position = 12
         provinces_to_highlight = {
             OR = {
-                province_id = 153
+                153 = {
+                    owned_by = ROOT
+                }
                 AND = {
                     region = carpathia_region
                     culture = rusyn_new_new
@@ -2158,7 +2504,7 @@ UZH_missions_3_uhro_rusyn = {
         required_missions = {
             uz_crown_of_saint_stephen
         }
-        position = 10
+        position = 13
         trigger = {
             has_country_flag = chose_uhro_rusyn_identity
             government_rank = 3
@@ -2218,6 +2564,7 @@ UZH_missions_3_uhro_rusyn = {
         }
     }
 }
+
 
 # Лінія політичного розвитку
 UZH_missions_4 = {
@@ -2349,18 +2696,92 @@ UZH_missions_4 = {
 			factor = 500
 		}
 	}
+
+        # ---
+        # Місія "Палатна Реформа"
+        # Механіка: Потребує парламент із принаймні п'ятьма місцями, наданими підданим. Дає модифікатор `uz_palatial_chambers`, легітимність або республіканську традицію залежно від устрою й відкриває спеціальну реформу рівня 9 відповідно до вибраної ідентичності.
+        # Наратив: Закріплює двопалатну раду, де піддані отримують гарантовані місця й корпус статутів, що кодифікує домовленості після питань ідентичності.
+        # Референси: «Густьський статут» 1711, реформи угорського сейму XVIII ст., компроміси з підданими на Тисі.
+        uzh_palatial_reform = {
+            icon = mission_noble_council
+            required_missions = {
+                uzh_rusin_nobility
+            }
+            position = 5
+            trigger = {
+                has_parliament = yes
+                custom_trigger_tooltip = {
+                    tooltip = UZH_palatial_reform_subject_seats_tt
+                    hidden_trigger = {
+                        calc_true_if = {
+                            amount = 5
+                            any_owned_province = {
+                                region = carpathia_region
+                                has_seat_in_parliament = yes
+                            }
+                        }
+                    }
+                }
+                calc_true_if = {
+                    amount = 5
+                    any_owned_province = {
+                        region = carpathia_region
+                        has_seat_in_parliament = yes
+                    }
+                }
+            }
+            effect = {
+                add_country_modifier = {
+                    name = "uz_palatial_chambers"
+                    duration = 7300
+                }
+                if = {
+                    limit = { government = monarchy }
+                    add_legitimacy = 10
+                }
+                else_if = {
+                    limit = { government = republic }
+                    add_republican_tradition = 10
+                }
+                else_if = {
+                    limit = { government = theocracy }
+                    add_devotion = 10
+                }
+                else = {
+                    change_government_reform_progress = 25
+                }
+                hidden_effect = {
+                    if = {
+                        limit = { has_country_flag = chose_ruthenian_identity }
+                        add_government_reform = uzh_palatial_ruthenian_reform
+                    }
+                    else_if = {
+                        limit = { has_country_flag = chose_rusyn_identity }
+                        add_government_reform = uzh_palatial_rusyn_reform
+                    }
+                    else_if = {
+                        limit = { has_country_flag = chose_uhro_rusyn_identity }
+                        add_government_reform = uzh_palatial_uhro_reform
+                    }
+                    set_country_flag = uzh_palatial_reform_enacted
+                }
+            }
+            ai_weight = {
+                factor = 320
+            }
+        }
 	
     # ---
     # Місія "Конституційна Монархія"
     # Механіка: Вимагає прапор `uzh_rusin_nobility_crowned`, парламентську реформу, стабільність 2 і монархію без проголошеної республіки; дарує постійний `uz_constitutional_system`, тимчасовий `uz_statute_codification`, +15 легітимності, +50 реформ і підвищену лояльність станів, встановлюючи прапор `uzh_constitutional_framework`.
     # Наратив: Кодифікує "Густьський статут" — договір між сеймом і князем, що закріплює баланс між палатами та міськими громадами.
     # Референси: Густьський сейм 1711, мадярські конституційні реформи XVIII ст.
-	uzh_constitutional_monarchy = {
+    uzh_constitutional_monarchy = {
 		icon = mission_noble_council
 		required_missions = {
-			uzh_rusin_nobility
+            uzh_palatial_reform
 		}
-		position = 5
+        position = 6
 		trigger = {
             has_country_flag = uzh_rusin_nobility_crowned
 			has_reform = parliamentary_reform
@@ -2426,7 +2847,7 @@ UZH_missions_4 = {
             uzh_constitutional_monarchy
             uzh_pannonian_republic
         }
-		position = 8
+		position = 11
         provinces_to_highlight = {
             owned_by = ROOT
             NOT = {
@@ -2521,6 +2942,79 @@ UZH_missions_4 = {
 			factor = 200
 		}
 	}
+    
+    # ---
+    # Місія "Федеративні Статути"
+    # Механіка: Завершує русинську (B) гілку після федералізації. Потребує реалізованого проекту федерації, щонайменше двох лояльних підданих і п'ять ухвалених культур.
+    # Нагорода: Постійну реформу апарату — або +200 керівної спроможності для монархії, або –5% до часу зміни автономії для республіканських і змішаних режимів.
+    # Референси: Статті Гадяцької унії 1658 р., привілеї міст Речі Посполитої для русинських кадетів.
+    uzh_federative_statutes = {
+        icon = mission_empire
+        required_missions = {
+            uzh_federalization
+        }
+        position = 12
+        trigger = {
+            has_country_flag = uzh_federal_project_realized
+            custom_trigger_tooltip = {
+                tooltip = UZH_federative_statutes_loyal_subjects_tt
+                hidden_trigger = {
+                    calc_true_if = {
+                        amount = 2
+                        any_subject_country = {
+                            liberty_desire < 50
+                            always = yes
+                        }
+                    }
+                }
+            }
+            calc_true_if = {
+                amount = 2
+                any_subject_country = {
+                    liberty_desire < 50
+                    always = yes
+                }
+            }
+            num_accepted_cultures = 5
+        }
+        effect = {
+            custom_tooltip = UZH_federative_statutes_reward_tt
+            hidden_effect = {
+                if = {
+                    limit = { government = monarchy }
+                    add_country_modifier = {
+                        name = "uz_federative_statutes_capacity"
+                        duration = -1
+                    }
+                }
+                else_if = {
+                    limit = { government = republic }
+                    add_country_modifier = {
+                        name = "uz_federative_statutes_autonomy"
+                        duration = -1
+                    }
+                }
+                else = {
+                    add_country_modifier = {
+                        name = "uz_federative_statutes_capacity"
+                        duration = -1
+                    }
+                }
+                every_subject_country = {
+                    add_liberty_desire = -10
+                    add_opinion = {
+                        who = ROOT
+                        modifier = opinion_granted_privileges
+                    }
+                }
+                change_government_reform_progress = 75
+                set_country_flag = uzh_federative_statutes_enacted
+            }
+        }
+        ai_weight = {
+            factor = 340
+        }
+    }
 }
     
 # Лінія економічного розвитку
@@ -2554,8 +3048,10 @@ UZH_missions_5 = {
                 }
                 OR = {
                     AND = {
-                        province_id = 1952
-                        NOT = { has_building = farm_estate }
+                        1952 = {
+                            owned_by = ROOT
+                            NOT = { has_building = farm_estate }
+                        }
                     }
                     AND = {
                         region = carpathia_region
@@ -2569,8 +3065,8 @@ UZH_missions_5 = {
 		trigger = {
             has_country_flag = uzh_mukachevo_privilege_confirmed
             OR = {
-                any_owned_province = {
-                    province_id = 1952
+                1952 = {
+                    owned_by = ROOT
                     has_building = farm_estate
                 }
                 any_owned_province = {
@@ -2630,6 +3126,43 @@ UZH_missions_5 = {
 	}
 	
     # ---
+    # Місія "Солотвинська Камера"
+    # Механіка: Потрібно володіти бодай однією соляною провінцією з мануфактурою або з розвитком 15+. Дає модифікатор "uz_solotvynska_camera" на 20 років та запускає подію uzh.241.
+    # Наратив: Кодифікує соляні камери Солотвина, запроваджуючи ревізійні книги й спільні податкові норми.
+    # Референси: Солотвинська соляна палата XVIII ст., ревізії Мукачівської домінії.
+    uzh_solotvynska_camera = {
+        icon = mission_high_income
+        required_missions = {
+            uzh_agriculture
+        }
+        position = 4
+        provinces_to_highlight = {
+            owned_by = ROOT
+            trade_goods = salt
+        }
+        trigger = {
+            custom_trigger_tooltip = {
+                tooltip = UZH_solotvynska_camera_salt_tt
+                hidden_trigger = {
+                    any_owned_province = {
+                        trade_goods = salt
+                        OR = {
+                            has_manufactory_trigger = yes
+                            development = 15
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            country_event = { id = uzh.241 }
+        }
+        ai_weight = {
+            factor = 450
+        }
+    }
+
+    # ---
     # Місія "Торгові Шляхи"
     # Механіка: Вимагає прапор `uzh_agriculture_program_launched`, двох купців, розбудовані ринки в Альфельді та Славонії й ≥30% частки у вузлі; дає модифікатор `uz_trade_prosperity`, +3 меркантилізму, роздає `uz_danube_exchange` та ставить прапор `uzh_trade_corridors_established`.
     # Наратив: Зосереджує торгівлю вином і сіллю на Тисі, пов'язуючи ринки Сігету, Нового Саду й Комарна.
@@ -2637,7 +3170,7 @@ UZH_missions_5 = {
 	uzh_trade_routes = {
 		icon = mission_dominate_home_trade_node
 		required_missions = {
-			uzh_agriculture
+            uzh_solotvynska_camera
             uzh_banat_colonization
 		}
 		position = 5
@@ -2701,6 +3234,68 @@ UZH_missions_5 = {
 	}
 	
     # ---
+    # Місія "Митна Конвенція Тиси"
+    # Механіка: Потребує щонайменше 35% частки торгівлі в Пешті та 20% у Рагузі або Відні; надає 10-річний модифікатор `uz_tisza_customs_convention` та роздає провінційний модифікатор `uz_tisza_customs_depot` центрам торгівлі, запускаючи подію uzh.242.
+    # Наратив: Запроваджує спільну митну конвенцію на Тисі, синхронізуючи склади та ярмаркові пункти для винно-соляних конвоїв.
+    # Референси: Торгові конвенції Пешту XVIII ст., митні статути рік Тиси та Дунаю.
+    uzh_tisza_customs_convention = {
+        icon = mission_hanseatic_city
+        required_missions = {
+            uzh_trade_routes
+        }
+        position = 6
+        provinces_to_highlight = {
+            owned_by = ROOT
+            OR = {
+                area = alfold_area
+                area = slavonia_area
+                region = carpathia_region
+            }
+        }
+        trigger = {
+            custom_trigger_tooltip = {
+                tooltip = UZH_tisza_customs_pest_tt
+                hidden_trigger = {
+                    153 = {
+                        is_strongest_trade_power = ROOT
+                    }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_tisza_customs_downstream_tt
+                hidden_trigger = {
+                    OR = {
+                        118 = {
+                            is_strongest_trade_power = ROOT
+                        }
+                        120 = {
+                            is_strongest_trade_power = ROOT
+                        }
+                        121 = {
+                            is_strongest_trade_power = ROOT
+                        }
+                        122 = {
+                            is_strongest_trade_power = ROOT
+                        }
+                        123 = {
+                            is_strongest_trade_power = ROOT
+                        }
+                        124 = {
+                            is_strongest_trade_power = ROOT
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            country_event = { id = uzh.242 }
+        }
+        ai_weight = {
+            factor = 420
+        }
+    }
+
+    # ---
     # Місія "Промислова Революція"
     # Механіка: Потребує прапор `uzh_trade_corridors_established`, прийняті мануфактури, три промислові провінції та доступ до вугілля; дає `uz_early_industrialization`, +3 виробництва столиці, модифікатор `uz_factory_consortiums`, запускає подію uzh.203 і прапор `uzh_industrialization_in_motion`.
     # Наратив: Залучає гірських кузнів і соляних майстерень до мережі ранніх фабрик.
@@ -2708,7 +3303,7 @@ UZH_missions_5 = {
 	uzh_industrial_revolution = {
 		icon = mission_early_game_buildings
 		required_missions = {
-			uzh_trade_routes
+            uzh_tisza_customs_convention
 		}
 		position = 7
         provinces_to_highlight = {
@@ -2787,6 +3382,7 @@ UZH_missions_5 = {
 		}
 	}
 
+
     # ---
     # Місія "Карпатська Патрональна Унія"
     # Механіка: Вимагає `uzh_industrialization_in_motion` та завершення `uz_identity_question`; може виконуватися як через шлях підданих (`uzh_congress_subject_path`), так і через оборонний курс (`uzh_congress_border_path`). Обраний шлях відкриває власний набір бонусів і прапор supremacy.
@@ -2798,7 +3394,7 @@ UZH_missions_5 = {
 			uzh_industrial_revolution
             uzh_federalization
 		}
-		position = 9
+		position = 12
         provinces_to_highlight = {
             region = carpathia_region
             owned_by = ROOT
@@ -2850,8 +3446,8 @@ UZH_missions_5 = {
                         army_professionalism = 0.35
                         num_of_owned_provinces_with = {
                             region = carpathia_region
-                            fort_level = 2
-                            value = 2
+                            fort_level = 3
+                            value = 3
                         }
                     }
                 }
@@ -2875,7 +3471,7 @@ UZH_missions_5 = {
                     army_professionalism = 0.35
                     num_of_owned_provinces_with = {
                         region = carpathia_region
-                        fort_level = 2
+                        fort_level >= 2
                         value = 2
                     }
                 }
@@ -2908,10 +3504,10 @@ UZH_missions_5 = {
                     name = "uz_congress_border_drill"
                     duration = 9125
                 }
-                add_manpower = 50
-                add_mil_power = 125
-                add_army_professionalism = 0.03
-                add_army_tradition = 10
+                add_manpower = 8
+                add_army_professionalism = 0.05
+                add_mil_power = 150
+                add_army_tradition = 15
                 if = {
                     limit = { num_of_subjects > 0 }
                     every_subject_country = {
@@ -2927,7 +3523,24 @@ UZH_missions_5 = {
             }
         }
 		ai_weight = {
-			factor = 350
+            factor = 350
+            modifier = {
+                factor = 1.2
+                has_country_flag = uzh_congress_subject_path
+            }
+            modifier = {
+                factor = 1.15
+                has_country_flag = uzh_congress_border_path
+                has_idea_group = defensive_ideas
+            }
+            modifier = {
+                factor = 1.1
+                has_idea_group = influence_ideas
+            }
+            modifier = {
+                factor = 0.85
+                government = theocracy
+            }
 		}
 	}
 
@@ -2942,7 +3555,7 @@ UZH_missions_5 = {
 			uzh_congress_subject_hegemony
             
 		}
-		position = 10
+		position = 13
         provinces_to_highlight = {
             region = carpathia_region
             owned_by = ROOT
@@ -2950,6 +3563,7 @@ UZH_missions_5 = {
                 OR = {
                     has_building = fort_17th
                     has_building = fort_18th
+                    fort_level >= 3
                 }
             }
         }
@@ -2965,7 +3579,7 @@ UZH_missions_5 = {
                         army_professionalism = 0.4
                         num_of_owned_provinces_with = {
                             region = carpathia_region
-                            fort_level = 3
+                            fort_level >= 3
                             value = 3
                         }
                     }
@@ -2997,7 +3611,7 @@ UZH_missions_5 = {
                     army_professionalism = 0.4
                     num_of_owned_provinces_with = {
                         region = carpathia_region
-                        fort_level = 3
+                        fort_level >= 3
                         value = 3
                     }
                 }
@@ -3023,7 +3637,7 @@ UZH_missions_5 = {
                     name = "uz_congress_border_drill"
                     duration = -1
                 }
-                add_manpower = 80
+                uzh_gain_manpower_8000 = yes
                 add_army_professionalism = 0.05
                 add_mil_power = 150
                 add_army_tradition = 15

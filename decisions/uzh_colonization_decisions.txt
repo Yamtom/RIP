@@ -1,0 +1,58 @@
+# Uzhhorod colonization and host formations decisions
+country_decisions = {
+
+    uzh_launch_colonization_wave = {
+        major = yes
+        potential = {
+            tag = UZH
+        }
+        allow = {
+            NOT = { has_country_modifier = uz_colonization_cooldown }
+            OR = {
+                has_country_flag = uzh_backa_colonies_established
+                has_country_flag = uzh_banat_settled
+                has_country_flag = uzh_pannonian_expansion_complete
+            }
+            adm_power = 50
+            dip_power = 25
+            is_at_war = no
+        }
+        effect = {
+            add_adm_power = -50
+            add_dip_power = -25
+            add_country_modifier = {
+                name = uz_colonization_cooldown
+                duration = 1825
+            }
+            country_event = {
+                id = uzh.310
+            }
+        }
+        ai_will_do = {
+            factor = 0
+        }
+    }
+
+    uzh_raise_serdyuk_host = {
+        major = yes
+        potential = {
+            tag = UZH
+        }
+        allow = {
+            NOT = { has_country_modifier = uz_unique_host_cooldown }
+            has_country_flag = uzh_pannonian_expansion_complete
+            mil_power = 50
+            manpower_percentage = 0.25
+        }
+        effect = {
+            add_mil_power = -50
+            add_army_professionalism = -0.02
+            country_event = {
+                id = uzh.410
+            }
+        }
+        ai_will_do = {
+            factor = 0
+        }
+    }
+}

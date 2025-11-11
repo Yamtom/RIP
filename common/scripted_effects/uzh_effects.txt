@@ -69,3 +69,41 @@ uzh_select_dynasty_patron = {
 		set_country_flag = uzh_dynasty_source_none
 	}
 }
+
+uzh_gain_manpower_6000 = {
+	add_manpower = 6
+}
+
+uzh_gain_manpower_8000 = {
+	add_manpower = 8
+}
+
+uzh_set_identity_culture = {
+	if = {
+		limit = {
+			owner = {
+				has_country_flag = chose_ruthenian_identity
+			}
+		}
+		change_culture = ruthenian_new
+	}
+	else_if = {
+		limit = {
+			owner = {
+				has_country_flag = chose_rusyn_identity
+			}
+		}
+		change_culture = rusyn_new
+	}
+	else_if = {
+		limit = {
+			owner = {
+				has_country_flag = chose_uhro_rusyn_identity
+			}
+		}
+		change_culture = rusyn_new_new
+	}
+	else = {
+		change_culture = rusyn
+	}
+}
