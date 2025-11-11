@@ -108,3 +108,57 @@ defined_text = {
 		localisation_key = UZH_CULTURE_ADJECTIVE_RUSYN
 	}
 }
+defined_text = {
+    name = GetCHRParliamentName
+    # Реформа 2 має пріоритет
+    text = { localisation_key = CHR_PARL_R2  trigger = { has_government_reform = chr_grain_directorate_reform } }
+    # Реформа 1
+    text = { localisation_key = CHR_PARL_R1  trigger = { has_government_reform = siversk_veche_reform } }
+    # База
+    text = { localisation_key = CHR_PARL_BASE }
+}
+
+# Базові назви: ранги × геополітика
+defined_text = {
+    name = GetCHRParliamentBase
+    # Польща
+    text = { localisation_key = CHR_PARL_POL_DUCHY   trigger = { government_rank = 1 has_country_flag = chr_border_compacts_diplomatic_path } }
+    text = { localisation_key = CHR_PARL_POL_KINGDOM trigger = { government_rank = 2 has_country_flag = chr_border_compacts_diplomatic_path } }
+    text = { localisation_key = CHR_PARL_POL_EMPIRE  trigger = { government_rank = 3 has_country_flag = chr_border_compacts_diplomatic_path } }
+    # Московія
+    text = { localisation_key = CHR_PARL_MOS_DUCHY   trigger = { government_rank = 1 has_country_flag = chr_border_compacts_militarized_path } }
+    text = { localisation_key = CHR_PARL_MOS_KINGDOM trigger = { government_rank = 2 has_country_flag = chr_border_compacts_militarized_path } }
+    text = { localisation_key = CHR_PARL_MOS_EMPIRE  trigger = { government_rank = 3 has_country_flag = chr_border_compacts_militarized_path } }
+    # Нейтрально
+    text = { localisation_key = CHR_PARL_NEU_DUCHY   trigger = { government_rank = 1 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+    text = { localisation_key = CHR_PARL_NEU_KINGDOM trigger = { government_rank = 2 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+    text = { localisation_key = CHR_PARL_NEU_EMPIRE  trigger = { government_rank = 3 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+}
+
+# Реформа 1: поверх бази додаємо «торговий/хартійний» відтінок
+defined_text = {
+    name = GetCHRParliamentR1
+    text = { localisation_key = CHR_PARL_POL_R1_DUCHY   trigger = { government_rank = 1 has_country_flag = chr_border_compacts_diplomatic_path } }
+    text = { localisation_key = CHR_PARL_POL_R1_KINGDOM trigger = { government_rank = 2 has_country_flag = chr_border_compacts_diplomatic_path } }
+    text = { localisation_key = CHR_PARL_POL_R1_EMPIRE  trigger = { government_rank = 3 has_country_flag = chr_border_compacts_diplomatic_path } }
+    text = { localisation_key = CHR_PARL_MOS_R1_DUCHY   trigger = { government_rank = 1 has_country_flag = chr_border_compacts_militarized_path } }
+    text = { localisation_key = CHR_PARL_MOS_R1_KINGDOM trigger = { government_rank = 2 has_country_flag = chr_border_compacts_militarized_path } }
+    text = { localisation_key = CHR_PARL_MOS_R1_EMPIRE  trigger = { government_rank = 3 has_country_flag = chr_border_compacts_militarized_path } }
+    text = { localisation_key = CHR_PARL_NEU_R1_DUCHY   trigger = { government_rank = 1 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+    text = { localisation_key = CHR_PARL_NEU_R1_KINGDOM trigger = { government_rank = 2 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+    text = { localisation_key = CHR_PARL_NEU_R1_EMPIRE  trigger = { government_rank = 3 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+}
+
+# Реформа 2: аграрна дирекція
+defined_text = {
+    name = GetCHRParliamentR2
+    text = { localisation_key = CHR_PARL_POL_R2_DUCHY   trigger = { government_rank = 1 } }
+    text = { localisation_key = CHR_PARL_POL_R2_KINGDOM trigger = { government_rank = 2 } }
+    text = { localisation_key = CHR_PARL_POL_R2_EMPIRE  trigger = { government_rank = 3 } }
+    text = { localisation_key = CHR_PARL_MOS_R2_DUCHY   trigger = { government_rank = 1 has_country_flag = chr_border_compacts_militarized_path } }
+    text = { localisation_key = CHR_PARL_MOS_R2_KINGDOM trigger = { government_rank = 2 has_country_flag = chr_border_compacts_militarized_path } }
+    text = { localisation_key = CHR_PARL_MOS_R2_EMPIRE  trigger = { government_rank = 3 has_country_flag = chr_border_compacts_militarized_path } }
+    text = { localisation_key = CHR_PARL_NEU_R2_DUCHY   trigger = { government_rank = 1 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+    text = { localisation_key = CHR_PARL_NEU_R2_KINGDOM trigger = { government_rank = 2 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+    text = { localisation_key = CHR_PARL_NEU_R2_EMPIRE  trigger = { government_rank = 3 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+}
