@@ -1,0 +1,671 @@
+namespace = zaz_flavor
+
+# The Founding of the Sich
+country_event = {
+	id = zaz_flavor.2
+	title = "zaz_flavor.2.t"
+	desc = "zaz_flavor.2.d"
+	picture = FORT_eventPicture
+	fire_only_once = yes
+	
+	trigger = {
+		tag = ZAZ
+		is_year = 1552
+		NOT = { is_year = 1560 }
+		owns = 284  # Zaporizhia
+	}
+	
+	mean_time_to_happen = {
+		months = 24
+	}
+	
+	# Establish Sich on Khortytsia
+	option = {
+		name = "zaz_flavor.2.a"
+		284 = {
+			add_province_modifier = {
+				name = "zaporozhian_sich_founded"
+				duration = -1
+			}
+			add_base_manpower = 2
+			add_building = fort_15th
+		}
+		add_prestige = 15
+		add_army_tradition = 10
+		capital_scope = {
+			add_province_modifier = {
+				name = mobile_sich
+				duration = 7300
+			}
+		}
+	}
+	
+	# Establish mobile Sich
+	option = {
+		name = "zaz_flavor.2.b"
+		capital_scope = {
+			add_province_modifier = {
+				name = mobile_sich
+				duration = 5475
+			}
+			add_base_manpower = 1
+		}
+		add_republican_tradition = 5
+	}
+}
+
+# The Chaiky Raiders
+country_event = {
+	id = zaz_flavor.3
+	title = "zaz_flavor.3.t"
+	desc = "zaz_flavor.3.d"
+	picture = NAVAL_MILITARY_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		is_year = 1570
+		NOT = { is_year = 1700 }
+		navy_size = 5
+		any_known_country = {
+			tag = TUR
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = {
+			factor = 0.8
+			has_reform = zaz_chaiky_trade_reform
+		}
+	}
+	
+	# Build more chaiky
+	option = {
+		name = "zaz_flavor.3.a"
+		add_navy_tradition = 5
+		add_country_modifier = {
+			name = "zaz_chaiky_fleet"
+			duration = 3650
+		}
+		capital_scope = {
+			galley = ROOT
+			galley = ROOT
+		}
+	}
+	
+	# Focus on land warfare
+	option = {
+		name = "zaz_flavor.3.b"
+		add_army_tradition = 5
+		add_mil_power = 25
+	}
+}
+
+# Raid into Crimean Territory
+country_event = {
+	id = zaz_flavor.4
+	title = "zaz_flavor.4.t"
+	desc = "zaz_flavor.4.d"
+	picture = BORDER_TENSION_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		is_year = 1550
+		any_neighbor_country = {
+			tag = CRI
+		}
+		NOT = { war_with = CRI }
+		NOT = { alliance_with = CRI }
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+		modifier = {
+			factor = 0.7
+			NOT = { manpower_percentage = 0.5 }
+		}
+	}
+	
+	# Conduct the raid
+	option = {
+		name = "zaz_flavor.4.a"
+		add_treasury = 75
+		add_yearly_manpower = 0.3
+		add_prestige = 5
+		CRI = {
+			add_opinion = {
+				who = ROOT
+				modifier = crimean_slave_raids_suffered
+			}
+		}
+	}
+	
+	# Restrain the Cossacks
+	option = {
+		name = "zaz_flavor.4.b"
+		add_prestige = -5
+		add_stability_or_adm_power = yes
+		CRI = {
+			add_opinion = {
+				who = ROOT
+				modifier = crimean_alliance_zaz
+			}
+		}
+	}
+}
+
+# The Kosh Otaman Election
+country_event = {
+	id = zaz_flavor.5
+	title = "zaz_flavor.5.t"
+	desc = "zaz_flavor.5.d"
+	picture = ELECTION_REPUBLICAN_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		has_reform = zaz_kosh_elections_reform
+		NOT = { republican_tradition = 50 }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	# Elect warrior leader
+	option = {
+		name = "zaz_flavor.5.a"
+		define_ruler = {
+			change_mil = 3
+			change_adm = -1
+		}
+		add_republican_tradition = 5
+		add_army_tradition = 5
+	}
+	
+	# Elect diplomatic leader
+	option = {
+		name = "zaz_flavor.5.b"
+		define_ruler = {
+			change_dip = 3
+			change_mil = -1
+		}
+		add_republican_tradition = 5
+		add_dip_power = 25
+	}
+	
+	# Elect experienced elder
+	option = {
+		name = "zaz_flavor.5.c"
+		define_ruler = {
+			change_adm = 2
+			change_dip = 1
+			change_mil = 1
+		}
+		add_republican_tradition = 10
+	}
+}
+
+# Clash with Polish-Lithuanian Commonwealth
+country_event = {
+	id = zaz_flavor.6
+	title = "zaz_flavor.6.t"
+	desc = "zaz_flavor.6.d"
+	picture = DIPLOMATIC_TENSION_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		is_year = 1600
+		NOT = { is_year = 1670 }
+		any_neighbor_country = {
+			tag = POL
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 200
+		modifier = {
+			factor = 0.6
+			POL = {
+				NOT = { has_opinion = {
+					who = ROOT
+					value = 0
+				}}
+			}
+		}
+	}
+	
+	# Seek autonomy within Commonwealth
+	option = {
+		name = "zaz_flavor.6.a"
+		if = {
+			limit = {
+				is_subject = no
+			}
+			POL = {
+				create_subject = {
+					subject_type = vassal
+					subject = ROOT
+				}
+			}
+		}
+		add_country_modifier = {
+			name = "zaz_polish_autonomy"
+			duration = 3650
+		}
+		add_liberty_desire = 20
+	}
+	
+	# Resist Polish control
+	option = {
+		name = "zaz_flavor.6.b"
+		add_prestige = 10
+		POL = {
+			add_opinion = {
+				who = ROOT
+				modifier = plc_cossack_rebellion
+			}
+		}
+		add_casus_belli = {
+			target = POL
+			type = cb_insult
+			months = 60
+		}
+	}
+	
+	# Remain neutral
+	option = {
+		name = "zaz_flavor.6.c"
+		add_stability_or_adm_power = yes
+		add_dip_power = 25
+	}
+}
+
+# The Sich Rada Debates Religious Policy
+country_event = {
+	id = zaz_flavor.7
+	title = "zaz_flavor.7.t"
+	desc = "zaz_flavor.7.d"
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		religion = orthodox
+		is_year = 1600
+		any_neighbor_country = {
+			OR = {
+				religion = catholic
+				religion_group = muslim
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 300
+	}
+	
+	# Champion Orthodox cause
+	option = {
+		name = "zaz_flavor.7.a"
+		add_patriarch_authority = 0.1
+		add_church_power = 50
+		add_country_modifier = {
+			name = zaz_orthodox_champions
+			duration = 5475
+		}
+		every_neighbor_country = {
+			limit = {
+				religion_group = muslim
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = orthodox_cossack_defenders
+			}
+		}
+	}
+	
+	# Maintain religious tolerance
+	option = {
+		name = "zaz_flavor.7.b"
+		add_stability_or_adm_power = yes
+		add_prestige = 5
+	}
+}
+
+# Devastating Ottoman Raid
+country_event = {
+	id = zaz_flavor.8
+	title = "zaz_flavor.8.t"
+	desc = "zaz_flavor.8.d"
+	picture = BATTLE_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		is_year = 1580
+		any_neighbor_country = {
+			OR = {
+				tag = TUR
+				tag = CRI
+			}
+			NOT = { alliance_with = ROOT }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = {
+			factor = 0.6
+			has_country_modifier = zaz_chaiky_fleet
+		}
+	}
+	
+	# Fight back fiercely
+	option = {
+		name = "zaz_flavor.8.a"
+		add_war_exhaustion = 1
+		capital_scope = {
+			add_devastation = 10
+		}
+		add_army_tradition = 10
+		add_prestige = 5
+	}
+	
+	# Relocate the Sich
+	option = {
+		name = "zaz_flavor.8.b"
+		trigger = {
+			any_owned_province = {
+				is_sich_location = yes
+				NOT = { province_id = capital }
+			}
+		}
+		add_adm_power = -50
+		zaz_relocate_sich_effect = yes
+	}
+	
+	# Sue for peace
+	option = {
+		name = "zaz_flavor.8.c"
+		add_prestige = -10
+		add_treasury = -100
+		add_war_exhaustion = -1
+	}
+}
+
+# The Brotherly Compact
+country_event = {
+	id = zaz_flavor.9
+	title = "zaz_flavor.9.t"
+	desc = "zaz_flavor.9.d"
+	picture = DIPLOMACY_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		any_known_country = {
+			OR = {
+				culture_group = altaic
+				technology_group = nomad_group
+			}
+			NOT = { war_with = ROOT }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 300
+	}
+	
+	# Form alliance
+	option = {
+		name = "zaz_flavor.9.a"
+		add_dip_power = -50
+		random_known_country = {
+			limit = {
+				OR = {
+					culture_group = altaic
+					technology_group = nomad_group
+				}
+				NOT = { war_with = ROOT }
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = zaz_steppe_brotherhood
+			}
+			ROOT = {
+				add_opinion = {
+					who = PREV
+					modifier = zaz_steppe_brotherhood
+				}
+			}
+		}
+		add_country_modifier = {
+			name = zaz_steppe_alliance
+			duration = 3650
+		}
+	}
+	
+	# Remain independent
+	option = {
+		name = "zaz_flavor.9.b"
+		add_prestige = 5
+		add_republican_tradition = 5
+	}
+}
+
+# Great Raid Event (triggered by decision)
+country_event = {
+	id = zaz_flavor.10
+	title = "zaz_flavor.10.t"
+	desc = "zaz_flavor.10.d"
+	picture = HORDE_ON_HORSEBACK_eventPicture
+	is_triggered_only = yes
+	
+	# Successful raid
+	option = {
+		name = "zaz_flavor.10.a"
+		trigger = {
+			mil = 3
+		}
+		zaz_successful_raid_effect = yes
+		random_known_country = {
+			limit = {
+				is_chaiky_raid_target = yes
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_hates_us
+			}
+		}
+		ai_chance = {
+			factor = 70
+		}
+	}
+	
+	# Mixed results
+	option = {
+		name = "zaz_flavor.10.b"
+		add_treasury = 50
+		add_prestige = 2
+		add_yearly_manpower = -0.2
+		ai_chance = {
+			factor = 20
+		}
+	}
+	
+	# Failed raid
+	option = {
+		name = "zaz_flavor.10.c"
+		zaz_failed_raid_effect = yes
+		ai_chance = {
+			factor = 10
+		}
+	}
+}
+
+# Chaiky Raid Event (triggered by decision)
+country_event = {
+	id = zaz_flavor.11
+	title = "zaz_flavor.11.t"
+	desc = "zaz_flavor.11.d"
+	picture = NAVAL_MILITARY_eventPicture
+	is_triggered_only = yes
+	
+	# Devastating success
+	option = {
+		name = "zaz_flavor.11.a"
+		trigger = {
+			dip = 3
+			mil = 3
+		}
+		zaz_chaiky_raid_effect = yes
+		add_navy_tradition = 15
+		TUR = {
+			capital_scope = {
+				add_devastation = 5
+			}
+		}
+		ai_chance = {
+			factor = 60
+		}
+	}
+	
+	# Moderate success
+	option = {
+		name = "zaz_flavor.11.b"
+		add_treasury = 75
+		add_navy_tradition = 5
+		add_prestige = 5
+		TUR = {
+			add_opinion = {
+				who = ROOT
+				modifier = ottoman_chaiky_humiliation
+			}
+		}
+		ai_chance = {
+			factor = 30
+		}
+	}
+	
+	# Caught and defeated
+	option = {
+		name = "zaz_flavor.11.c"
+		add_prestige = -10
+		add_navy_tradition = -5
+		capital_scope = {
+			light_ship = ROOT
+			light_ship = ROOT
+			kill_units = {
+				who = ROOT
+				type = light_ship
+				amount = 2
+			}
+		}
+		ai_chance = {
+			factor = 10
+		}
+	}
+}
+
+# Wild Fields Settlement
+country_event = {
+	id = zaz_flavor.12
+	title = "zaz_flavor.12.t"
+	desc = "zaz_flavor.12.d"
+	picture = COLONIZATION_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		is_year = 1600
+		any_owned_province = {
+			is_wild_fields = yes
+			NOT = { is_city = yes }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+	}
+	
+	# Establish settlement
+	option = {
+		name = "zaz_flavor.12.a"
+		random_owned_province = {
+			limit = {
+				is_wild_fields = yes
+				NOT = { is_city = yes }
+			}
+			establish_cossack_settlement_effect = yes
+		}
+	}
+	
+	# Leave it wild
+	option = {
+		name = "zaz_flavor.12.b"
+		add_prestige = 5
+		add_mil_power = 25
+	}
+}
+
+# The Sich and Russian Tsardom
+country_event = {
+	id = zaz_flavor.13
+	title = "zaz_flavor.13.t"
+	desc = "zaz_flavor.13.d"
+	picture = DIPLOMACY_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		is_year = 1700
+		NOT = { is_year = 1775 }
+		OR = {
+			exists = RUS
+			exists = MOS
+		}
+		is_subject = no
+	}
+	
+	mean_time_to_happen = {
+		months = 200
+	}
+	
+	# Accept Russian protection
+	option = {
+		name = "zaz_flavor.13.a"
+		if = {
+			limit = { exists = RUS }
+			RUS = {
+				create_subject = {
+					subject_type = vassal
+					subject = ROOT
+				}
+			}
+		}
+		else_if = {
+			limit = { exists = MOS }
+			MOS = {
+				create_subject = {
+					subject_type = vassal
+					subject = ROOT
+				}
+			}
+		}
+		add_country_modifier = {
+			name = zaz_polish_autonomy
+			duration = 10950
+		}
+	}
+	
+	# Maintain independence
+	option = {
+		name = "zaz_flavor.13.b"
+		add_prestige = 10
+		add_republican_tradition = 10
+		if = {
+			limit = { exists = RUS }
+			RUS = {
+				add_opinion = {
+					who = ROOT
+					modifier = zaz_rebellious_cossacks
+				}
+			}
+		}
+	}
+}

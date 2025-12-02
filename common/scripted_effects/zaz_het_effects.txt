@@ -1,0 +1,368 @@
+# Effects for Zaporizhia and Hetmanate
+
+# Conduct successful raid
+zaz_successful_raid_effect = {
+	add_treasury = 100
+	add_prestige = 5
+	add_yearly_manpower = 0.5
+	add_country_modifier = {
+		name = zaz_successful_raid
+		duration = 730
+	}
+	capital_scope = {
+		add_base_manpower = 1
+	}
+}
+
+# Conduct failed raid
+zaz_failed_raid_effect = {
+	add_prestige = -5
+	add_war_exhaustion = 1
+	add_yearly_manpower = -0.3
+	add_country_modifier = {
+		name = zaz_failed_raid
+		duration = 730
+	}
+}
+
+# Relocate the Sich
+zaz_relocate_sich_effect = {
+	capital_scope = {
+		remove_province_modifier = zaporozhian_sich_capital
+	}
+	ROOT = {
+		capital = 284  # Default Zaporizhia
+	}
+	capital_scope = {
+		add_province_modifier = {
+			name = zaporozhian_sich_capital
+			duration = -1
+		}
+		add_base_manpower = 2
+		add_base_production = 1
+		if = {
+			limit = { NOT = { fort_level = 1 } }
+			add_building = fort_15th
+		}
+	}
+	add_prestige = 10
+	add_stability_or_adm_power = yes
+}
+
+# Establish Cossack settlement
+establish_cossack_settlement_effect = {
+	add_base_tax = 1
+	add_base_production = 1
+	add_base_manpower = 2
+	add_province_modifier = {
+		name = cossack_settlement
+		duration = -1
+	}
+	change_culture = ruthenian
+	if = {
+		limit = { NOT = { religion = orthodox } }
+		change_religion = orthodox
+	}
+}
+
+# Liberate slaves
+zaz_liberate_slaves_effect = {
+	add_prestige = 10
+	add_patriarch_authority = 0.05
+	add_country_modifier = {
+		name = zaz_liberator_of_slaves
+		duration = 3650
+	}
+	capital_scope = {
+		add_base_manpower = 1
+	}
+	random_owned_province = {
+		limit = { is_state_core = ROOT }
+		add_base_manpower = 1
+	}
+}
+
+# Conduct Chaiky raid
+zaz_chaiky_raid_effect = {
+	add_navy_tradition = 10
+	add_treasury = 150
+	add_prestige = 10
+	add_country_modifier = {
+		name = zaz_chaiky_raiders
+		duration = 1825
+	}
+	if = {
+		limit = {
+			any_neighbor_country = {
+				tag = TUR
+			}
+		}
+		TUR = {
+			add_opinion = {
+				who = ROOT
+				modifier = ottoman_chaiky_humiliation
+			}
+		}
+	}
+}
+
+# Strengthen Hetman authority
+het_strengthen_hetman_effect = {
+	add_legitimacy = 15
+	add_absolutism = 5
+	add_country_modifier = {
+		name = het_strong_hetman
+		duration = 3650
+	}
+	add_estate_loyalty = {
+		estate = estate_nobles
+		loyalty = -10
+	}
+}
+
+# Empower Starshyna
+het_empower_starshyna_effect = {
+	add_stability_or_adm_power = yes
+	add_country_modifier = {
+		name = het_starshyna_council
+		duration = 3650
+	}
+	add_estate_loyalty = {
+		estate = estate_nobles
+		loyalty = 15
+	}
+}
+
+# Establish regiment
+het_establish_regiment_effect = {
+	add_province_modifier = {
+		name = "regimental_headquarters"
+		duration = -1
+	}
+	add_base_manpower = 2
+	add_base_tax = 1
+	if = {
+		limit = { NOT = { fort_level = 1 } }
+		add_building = fort_15th
+	}
+}
+
+# Kyiv-Mohyla Academy boost
+het_academy_boost_effect = {
+	add_adm_power = 50
+	add_dip_power = 50
+	add_country_modifier = {
+		name = "het_academy_excellence"
+		duration = 3650
+	}
+	add_innovativeness_small_effect = yes
+}
+
+# Sign Pereiaslav Treaty
+het_pereiaslav_treaty_effect = {
+	if = {
+		limit = {
+			exists = RUS
+		}
+		RUS = {
+			create_subject = {
+				subject_type = vassal
+				subject = ROOT
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = het_pereiaslav_oath
+			}
+		}
+		add_country_modifier = {
+			name = "het_russian_protection"
+			duration = -1
+		}
+	}
+	else_if = {
+		limit = {
+			exists = MOS
+		}
+		MOS = {
+			create_subject = {
+				subject_type = vassal
+				subject = ROOT
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = het_pereiaslav_oath
+			}
+		}
+		add_country_modifier = {
+			name = "het_russian_protection"
+			duration = -1
+		}
+	}
+}
+
+# Break with overlord (Mazepa style)
+het_break_with_overlord_effect = {
+	if = {
+		limit = { is_subject = yes }
+		overlord = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_mazepa_treason
+			}
+			add_casus_belli = {
+				target = ROOT
+				type = cb_vassalize_mission
+				months = 120
+			}
+		}
+	}
+	add_liberty_desire = 100
+	add_prestige = 15
+	add_legitimacy = 10
+	add_country_modifier = {
+		name = "het_independence_struggle"
+		duration = 3650
+	}
+}
+
+# Establish Black Sea trade
+establish_black_sea_trade_effect = {
+	add_mercantilism = 2
+	add_country_modifier = {
+		name = "black_sea_commerce"
+		duration = 5475
+	}
+	random_owned_province = {
+		limit = {
+			has_port = yes
+			OR = {
+				area = yedisan_area
+				region = crimea_region
+			}
+		}
+		add_province_modifier = {
+			name = cossack_trade_port
+			duration = -1
+		}
+		add_base_production = 1
+	}
+}
+
+# Fortify Wild Fields
+fortify_wild_fields_effect = {
+	random_owned_province = {
+		limit = {
+			is_wild_fields = yes
+		}
+		add_building = fort_15th
+		add_province_modifier = {
+			name = frontier_fortress
+			duration = -1
+		}
+	}
+	add_country_modifier = {
+		name = fortified_frontier
+		duration = 7300
+	}
+}
+
+# Colonize Wild Fields
+colonize_wild_fields_effect = {
+	random_owned_province = {
+		limit = {
+			is_wild_fields = yes
+			NOT = { is_city = yes }
+		}
+		add_base_tax = 1
+		add_base_production = 1
+		add_base_manpower = 1
+		add_province_modifier = {
+			name = "cossack_frontier_settlement"
+			duration = 7300
+		}
+	}
+}
+
+# Defend Orthodox faith
+defend_orthodox_faith_effect = {
+	add_patriarch_authority = 0.1
+	add_church_power = 50
+	add_country_modifier = {
+		name = "orthodox_champions"
+		duration = 5475
+	}
+	every_owned_province = {
+		limit = {
+			religion = orthodox
+		}
+		add_province_modifier = {
+			name = "orthodox_protected"
+			duration = 3650
+		}
+	}
+}
+
+# Host great Rada (council)
+zaz_great_rada_effect = {
+	add_republican_tradition = 10
+	add_stability_or_adm_power = yes
+	add_country_modifier = {
+		name = "zaz_great_rada_held"
+		duration = 3650
+	}
+	if = {
+		limit = {
+			estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 60
+			}
+		}
+		add_adm_power = 50
+	}
+}
+
+# Establish Sloboda colony
+establish_sloboda_effect = {
+	add_base_tax = 1
+	add_base_production = 1
+	add_base_manpower = 1
+	change_culture = ruthenian
+	change_religion = orthodox
+	add_province_modifier = {
+		name = "sloboda_settlement"
+		duration = -1
+	}
+	add_nationalism = -5
+}
+
+# Alliance with steppe nomads
+alliance_with_nomads_effect = {
+	add_country_modifier = {
+		name = steppe_alliance
+		duration = 3650
+	}
+	if = {
+		limit = {
+			any_known_country = {
+				OR = {
+					culture_group = altaic
+					technology_group = nomad_group
+				}
+				NOT = { war_with = ROOT }
+			}
+		}
+		random_known_country = {
+			limit = {
+				OR = {
+					culture_group = altaic
+					technology_group = nomad_group
+				}
+				NOT = { war_with = ROOT }
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = steppe_brotherhood
+			}
+		}
+	}
+}

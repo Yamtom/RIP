@@ -1,0 +1,233 @@
+namespace = zaz_crisis
+
+# Sich Crisis Begins
+country_event = {
+	id = zaz_crisis.1
+	title = "zaz_crisis.1.t"
+	desc = "zaz_crisis.1.d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	
+	immediate = {
+		set_country_flag = sich_crisis_active
+	}
+	
+	# Strengthen the Kosh Otaman
+	option = {
+		name = "zaz_crisis.1.a"
+		add_legitimacy = 10
+		add_republican_tradition = -5
+		add_country_modifier = {
+			name = zaz_strong_otaman
+			duration = 3650
+		}
+	}
+	
+	# Empower the Rada (council)
+	option = {
+		name = "zaz_crisis.1.b"
+		add_republican_tradition = 10
+		add_stability = -1
+		add_country_modifier = {
+			name = zaz_democratic_rada
+			duration = 3650
+		}
+	}
+	
+	# Launch a great raid to unite the Host
+	option = {
+		name = "zaz_crisis.1.c"
+		add_prestige = 10
+		add_yearly_manpower = 0.5
+		add_country_modifier = {
+			name = zaz_great_raid
+			duration = 1825
+		}
+	}
+}
+
+# Sich Crisis Ends
+country_event = {
+	id = zaz_crisis.2
+	title = "zaz_crisis.2.t"
+	desc = "zaz_crisis.2.d"
+	picture = GOOD_WITH_MONARCH_eventPicture
+	is_triggered_only = yes
+	
+	immediate = {
+		clr_country_flag = sich_crisis_active
+	}
+	
+	# The Sich stands united
+	option = {
+		name = "zaz_crisis.2.a"
+		add_prestige = 10
+		add_army_tradition = 10
+		add_country_modifier = {
+			name = zaz_united_host
+			duration = 5475
+		}
+	}
+	
+	# Accept overlord control
+	option = {
+		name = "zaz_crisis.2.b"
+		trigger = {
+			is_subject = yes
+		}
+		add_liberty_desire = -20
+		add_country_modifier = {
+			name = zaz_loyal_subject
+			duration = 5475
+		}
+	}
+	
+	# Relocate the Sich
+	option = {
+		name = "zaz_crisis.2.c"
+		add_dip_power = -50
+		capital_scope = {
+			add_base_tax = 1
+			add_base_manpower = 1
+		}
+	}
+}
+
+# Raid Gone Wrong
+country_event = {
+	id = zaz_crisis.3
+	title = "zaz_crisis.3.t"
+	desc = "zaz_crisis.3.d"
+	picture = BORDER_TENSION_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = zaporozhian_sich_crisis
+		any_neighbor_country = {
+			OR = {
+				tag = CRI
+				tag = TUR
+				religion_group = muslim
+			}
+		}
+	}
+	
+	# Accept losses
+	option = {
+		name = "zaz_crisis.3.a"
+		add_prestige = -5
+		add_yearly_manpower = -0.3
+		add_war_exhaustion = 0.5
+	}
+	
+	# Prepare for retaliation
+	option = {
+		name = "zaz_crisis.3.b"
+		add_mil_power = -25
+		random_neighbor_country = {
+			limit = {
+				OR = {
+					tag = CRI
+					tag = TUR
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = zaz_raid_provocation
+			}
+		}
+	}
+}
+
+# Kosh Otaman vs Rada
+country_event = {
+	id = zaz_crisis.4
+	title = "zaz_crisis.4.t"
+	desc = "zaz_crisis.4.d"
+	picture = ELECTION_REPUBLICAN_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = zaporozhian_sich_crisis
+	}
+	
+	# Support the Otaman
+	option = {
+		name = "zaz_crisis.4.a"
+		add_legitimacy = 10
+		add_republican_tradition = -10
+		add_adm_power = -30
+	}
+	
+	# Support the Rada
+	option = {
+		name = "zaz_crisis.4.b"
+		add_republican_tradition = 10
+		add_legitimacy = -10
+		add_stability = -1
+	}
+	
+	# Call new election
+	option = {
+		name = "zaz_crisis.4.c"
+		define_ruler = {
+			random_gender = yes
+			change_adm = 1
+			change_dip = 1
+			change_mil = 2
+		}
+	}
+}
+
+# Overlord Demands Control
+country_event = {
+	id = zaz_crisis.5
+	title = "zaz_crisis.5.t"
+	desc = "zaz_crisis.5.d"
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = zaporozhian_sich_crisis
+		is_subject = yes
+		overlord = {
+			OR = {
+				tag = POL
+				tag = RUS
+			}
+		}
+	}
+	
+	# Submit to demands
+	option = {
+		name = "zaz_crisis.5.a"
+		add_liberty_desire = -15
+		add_prestige = -10
+		overlord = {
+			add_opinion = {
+				who = ROOT
+				modifier = zaz_obedient_cossacks
+			}
+		}
+	}
+	
+	# Resist demands
+	option = {
+		name = "zaz_crisis.5.b"
+		add_liberty_desire = 20
+		add_prestige = 5
+		overlord = {
+			add_opinion = {
+				who = ROOT
+				modifier = zaz_rebellious_cossacks
+			}
+		}
+	}
+	
+	# Negotiate compromise
+	option = {
+		name = "zaz_crisis.5.c"
+		add_dip_power = -50
+		add_adm_power = 25
+	}
+}

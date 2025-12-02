@@ -7,7 +7,7 @@ country_event = {
 	picture = CIVIL_WAR_eventPicture
 	is_triggered_only = yes
 	trigger = {
-		has_disaster = chernihiv_ruina
+		has_disaster = "chernihiv_ruina"
 	}
 	immediate = {
 		set_country_flag = chernihiv_ruina_active
@@ -534,7 +534,7 @@ country_event = {
 	picture = CELEBRATION_eventPicture
 	is_triggered_only = yes
 	trigger = {
-		NOT = { has_disaster = chernihiv_ruina }
+		NOT = { has_country_flag = chernihiv_ruina }
 	}
 	immediate = {
 		clr_country_flag = chernihiv_ruina_active

@@ -1,0 +1,265 @@
+namespace = ruina_events
+
+# The Ruina Begins
+country_event = {
+	id = ruina_events.1
+	title = "ruina_events.1.t"
+	desc = "ruina_events.1.d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	
+	immediate = {
+		set_country_flag = ruina_period_active
+	}
+	
+	# Prepare for the storm
+	option = {
+		name = "ruina_events.1.a"
+		add_mil_power = 50
+		add_war_exhaustion = 1
+		add_country_modifier = {
+			name = ruina_fortified_heartland
+			duration = 3650
+		}
+	}
+	
+	# Seek foreign protection
+	option = {
+		name = "ruina_events.1.b"
+		trigger = {
+			any_neighbor_country = {
+				OR = {
+					tag = POL
+					tag = MOS
+					tag = RUS
+				}
+			}
+		}
+		add_dip_power = 50
+		add_liberty_desire = -10
+		add_country_modifier = {
+			name = ruina_foreign_protectorate
+			duration = 3650
+		}
+	}
+	
+	# Rally the Cossacks
+	option = {
+		name = "ruina_events.1.c"
+		add_prestige = -5
+		add_country_modifier = {
+			name = ruina_cossack_mobilization
+			duration = 3650
+		}
+		random_owned_province = {
+			limit = { is_state_core = ROOT }
+			spawn_rebels = {
+				type = particularist_rebels
+				size = 1
+			}
+		}
+	}
+}
+
+# The Ruina Ends
+country_event = {
+	id = ruina_events.2
+	title = "ruina_events.2.t"
+	desc = "ruina_events.2.d"
+	picture = GOOD_WITH_MONARCH_eventPicture
+	is_triggered_only = yes
+	
+	immediate = {
+		clr_country_flag = ruina_period_active
+		set_country_flag = survived_the_ruina
+	}
+	
+	# Rebuild and reform
+	option = {
+		name = "ruina_events.2.a"
+		add_prestige = 15
+		add_stability = 1
+		add_country_modifier = {
+			name = ruina_reconstruction
+			duration = 5475
+		}
+		add_adm_power = 75
+	}
+	
+	# Strengthen military
+	option = {
+		name = "ruina_events.2.b"
+		add_army_tradition = 10
+		add_mil_power = 75
+		add_country_modifier = {
+			name = ruina_hardened_veterans
+			duration = 5475
+		}
+	}
+	
+	# Secure borders through diplomacy
+	option = {
+		name = "ruina_events.2.c"
+		add_dip_power = 75
+		add_country_modifier = {
+			name = ruina_diplomatic_settlement
+			duration = 5475
+		}
+	}
+}
+
+# Pretender Hetman
+country_event = {
+	id = ruina_events.3
+	title = "ruina_events.3.t"
+	desc = "ruina_events.3.d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = the_ruina
+	}
+	
+	# Crush the pretender
+	option = {
+		name = "ruina_events.3.a"
+		add_mil_power = -50
+		add_war_exhaustion = 0.5
+		random_owned_province = {
+			limit = { is_state_core = ROOT }
+			spawn_rebels = {
+				type = pretender_rebels
+				size = 2
+			}
+		}
+	}
+	
+	# Negotiate compromise
+	option = {
+		name = "ruina_events.3.b"
+		add_prestige = -5
+		add_legitimacy = -10
+	}
+	
+	# Let them fight it out
+	option = {
+		name = "ruina_events.3.c"
+		add_stability = -1
+		add_war_exhaustion = 1
+	}
+}
+
+# Foreign Intervention
+country_event = {
+	id = ruina_events.4
+	title = "ruina_events.4.t"
+	desc = "ruina_events.4.d"
+	picture = BORDER_TENSION_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = the_ruina
+		any_neighbor_country = {
+			OR = {
+				tag = POL
+				tag = MOS
+				tag = RUS
+				tag = CRI
+			}
+			NOT = { alliance_with = ROOT }
+		}
+	}
+	
+	# Resist foreign interference
+	option = {
+		name = "ruina_events.4.a"
+		add_prestige = 10
+		random_neighbor_country = {
+			limit = {
+				OR = {
+					tag = POL
+					tag = MOS
+					tag = RUS
+					tag = CRI
+				}
+			}
+			add_casus_belli = {
+				target = ROOT
+				type = cb_vassalize_mission
+				months = 60
+			}
+		}
+	}
+	
+	# Accept vassal status
+	option = {
+		name = "ruina_events.4.b"
+		trigger = {
+			is_subject = no
+		}
+		add_prestige = -10
+		random_neighbor_country = {
+			limit = {
+				OR = {
+					tag = POL
+					tag = MOS
+					tag = RUS
+				}
+			}
+			create_subject = {
+				subject_type = vassal
+				subject = ROOT
+			}
+		}
+	}
+	
+	# Pay tribute to avoid invasion
+	option = {
+		name = "ruina_events.4.c"
+		add_treasury = -200
+		add_prestige = -5
+	}
+}
+
+# Devastated Province
+country_event = {
+	id = ruina_events.5
+	title = "ruina_events.5.t"
+	desc = "ruina_events.5.d"
+	picture = FAMINE_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = the_ruina
+		any_owned_province = {
+			is_state_core = ROOT
+			NOT = { devastation = 50 }
+		}
+	}
+	
+	# Send relief
+	option = {
+		name = "ruina_events.5.a"
+		add_treasury = -50
+		random_owned_province = {
+			limit = { 
+				is_state_core = ROOT
+				NOT = { devastation = 50 }
+			}
+			add_devastation = -10
+		}
+	}
+	
+	# Let them fend for themselves
+	option = {
+		name = "ruina_events.5.b"
+		random_owned_province = {
+			limit = { 
+				is_state_core = ROOT
+				NOT = { devastation = 50 }
+			}
+			add_devastation = 20
+			add_local_autonomy = 10
+		}
+	}
+}

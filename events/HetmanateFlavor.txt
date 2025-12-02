@@ -1,0 +1,698 @@
+namespace = het_flavor
+
+# The Hetman is Elected
+country_event = {
+	id = het_flavor.1
+	title = "het_flavor.1.t"
+	desc = "het_flavor.1.d"
+	picture = ELECTION_REPUBLICAN_eventPicture
+	
+	trigger = {
+		tag = HET
+		NOT = { legitimacy = 60 }
+		has_reform = het_starshyna_oligarchy_reform
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+	}
+	
+	# Elect military leader
+	option = {
+		name = "het_flavor.1.a"
+		define_ruler = {
+			change_mil = 3
+			change_adm = -1
+		}
+		add_legitimacy = 10
+		add_army_tradition = 10
+	}
+	
+	# Elect diplomatic leader
+	option = {
+		name = "het_flavor.1.b"
+		define_ruler = {
+			change_dip = 3
+			change_adm = -1
+		}
+		add_legitimacy = 10
+		add_dip_power = 50
+	}
+	
+	# Elect administrator
+	option = {
+		name = "het_flavor.1.c"
+		define_ruler = {
+			change_adm = 3
+			change_mil = -1
+		}
+		add_legitimacy = 15
+		add_adm_power = 50
+	}
+}
+
+# Kyiv-Mohyla Academy Founded
+country_event = {
+	id = het_flavor.2
+	title = "het_flavor.2.t"
+	desc = "het_flavor.2.d"
+	picture = UNIVERSITY_eventPicture
+	fire_only_once = yes
+	
+	trigger = {
+		tag = HET
+		is_year = 1632
+		NOT = { is_year = 1640 }
+		owns = 280  # Kyiv
+	}
+	
+	mean_time_to_happen = {
+		months = 36
+	}
+	
+	# Establish the Academy
+	option = {
+		name = "het_flavor.2.a"
+		280 = {
+			add_province_modifier = {
+				name = "kyiv_mohyla_academy"
+				duration = -1
+			}
+			add_base_tax = 1
+		}
+		add_adm_power = 50
+		add_dip_power = 50
+		add_country_modifier = {
+			name = "het_academy_excellence"
+			duration = -1
+		}
+	}
+}
+
+# The Pereiaslav Council (1654)
+country_event = {
+	id = het_flavor.3
+	title = "het_flavor.3.t"
+	desc = "het_flavor.3.d"
+	picture = DIPLOMACY_eventPicture
+	fire_only_once = yes
+	
+	trigger = {
+		tag = HET
+		is_year = 1654
+		NOT = { is_year = 1656 }
+		is_at_war = yes
+		war_with = POL
+		OR = {
+			exists = RUS
+			exists = MOS
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 6
+	}
+	
+	# Sign treaty with Russia
+	option = {
+		name = "het_flavor.3.a"
+		het_pereiaslav_treaty_effect = yes
+		white_peace = POL
+		add_truce_with = POL
+		set_country_flag = pereiaslav_treaty_signed
+	}
+	
+	# Continue fighting alone
+	option = {
+		name = "het_flavor.3.b"
+		add_prestige = 10
+		add_legitimacy = 10
+		add_war_exhaustion = -1
+		add_country_modifier = {
+			name = het_independence_struggle
+			duration = 3650
+		}
+	}
+}
+
+# The Regimental System
+country_event = {
+	id = het_flavor.4
+	title = "het_flavor.4.t"
+	desc = "het_flavor.4.d"
+	picture = LAND_MILITARY_eventPicture
+	
+	trigger = {
+		tag = HET
+		is_year = 1650
+		has_reform = het_regimental_system_reform
+		num_of_owned_provinces_with = {
+			value = 5
+			OR = {
+				area = west_dniepr_area
+				area = east_dniepr_area
+			}
+			is_city = yes
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	# Strengthen regiments
+	option = {
+		name = "het_flavor.4.a"
+		add_country_modifier = {
+			name = "het_regimental_administration"
+			duration = 5475
+		}
+		every_owned_province = {
+			limit = {
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+				is_city = yes
+			}
+			add_province_modifier = {
+				name = "regimental_headquarters"
+				duration = 3650
+			}
+		}
+	}
+	
+	# Focus on centralization
+	option = {
+		name = "het_flavor.4.b"
+		add_absolutism = 5
+		add_country_modifier = {
+			name = centralized_control
+			duration = 5475
+		}
+	}
+}
+
+# Starshyna Opposition
+country_event = {
+	id = het_flavor.5
+	title = "het_flavor.5.t"
+	desc = "het_flavor.5.d"
+	picture = NOBLES_UPSET_eventPicture
+	
+	trigger = {
+		tag = HET
+		estate_influence = {
+			estate = estate_nobles
+			influence = 60
+		}
+		absolutism = 10
+	}
+	
+	mean_time_to_happen = {
+		months = 200
+		modifier = {
+			factor = 0.7
+			absolutism = 20
+		}
+	}
+	
+	# Compromise with starshyna
+	option = {
+		name = "het_flavor.5.a"
+		add_absolutism = -5
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 15
+		}
+		add_stability_or_adm_power = yes
+	}
+	
+	# Assert Hetman authority
+	option = {
+		name = "het_flavor.5.b"
+		add_absolutism = 5
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = -15
+		}
+		add_legitimacy = 10
+		add_country_modifier = {
+			name = "het_strong_hetman"
+			duration = 3650
+		}
+	}
+	
+	# Call general council
+	option = {
+		name = "het_flavor.5.c"
+		add_adm_power = -50
+		add_stability = 1
+	}
+}
+
+# Mazepa's Reforms (1687-1709)
+country_event = {
+	id = het_flavor.6
+	title = "het_flavor.6.t"
+	desc = "het_flavor.6.d"
+	picture = COURT_eventPicture
+	fire_only_once = yes
+	
+	trigger = {
+		tag = HET
+		is_year = 1687
+		NOT = { is_year = 1710 }
+		has_reform = het_mazepist_autocracy_reform
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	# Implement Mazepa's reforms
+	option = {
+		name = "het_flavor.6.a"
+		add_absolutism = 10
+		add_adm_power = 100
+		add_country_modifier = {
+			name = mazepa_golden_age
+			duration = 7300
+		}
+		capital_scope = {
+			add_base_tax = 2
+			add_base_production = 1
+		}
+		if = {
+			limit = { owns = 280 }
+			280 = {
+				add_building = cathedral
+			}
+		}
+	}
+	
+	# Maintain traditional system
+	option = {
+		name = "het_flavor.6.b"
+		add_stability = 1
+		add_estate_loyalty = {
+			estate = estate_nobility
+			loyalty = 10
+		}
+	}
+}
+
+# The Battle of Poltava (1709)
+country_event = {
+	id = het_flavor.7
+	title = "het_flavor.7.t"
+	desc = "het_flavor.7.d"
+	picture = BATTLE_eventPicture
+	fire_only_once = yes
+	
+	trigger = {
+		tag = HET
+		is_year = 1709
+		NOT = { is_year = 1711 }
+		is_subject_of = RUS
+		has_country_flag = mazepa_independence_attempted
+	}
+	
+	mean_time_to_happen = {
+		months = 6
+	}
+	
+	# Remain loyal to Russia
+	option = {
+		name = "het_flavor.7.a"
+		add_liberty_desire = -30
+		overlord = {
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_increased_trust
+			}
+		}
+		add_country_modifier = {
+			name = russian_protection
+			duration = -1
+		}
+	}
+	
+	# Face consequences of rebellion
+	option = {
+		name = "het_flavor.7.b"
+		add_prestige = -20
+		add_legitimacy = -20
+		add_stability = -2
+		capital_scope = {
+			add_devastation = 30
+		}
+		overlord = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_mazepa_treason
+			}
+		}
+	}
+}
+
+# Left Bank vs Right Bank
+country_event = {
+	id = het_flavor.8
+	title = "het_flavor.8.t"
+	desc = "het_flavor.8.d"
+	picture = CIVIL_WAR_eventPicture
+	
+	trigger = {
+		tag = HET
+		is_year = 1660
+		NOT = { is_year = 1690 }
+		owns_core_province = 280
+		any_owned_province = {
+			area = east_dniepr_area
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+	}
+	
+	# Focus on Left Bank
+	option = {
+		name = "het_flavor.8.a"
+		east_dniepr_area = {
+			add_province_modifier = {
+				name = "left_bank_administration"
+				duration = 5475
+			}
+			add_base_tax = 1
+		}
+		add_country_modifier = {
+			name = centralization_modifier
+			duration = 5475
+		}
+	}
+	
+	# Focus on Right Bank
+	option = {
+		name = "het_flavor.8.b"
+		trigger = {
+			any_owned_province = {
+				area = west_dniepr_area
+			}
+		}
+		west_dniepr_area = {
+			add_province_modifier = {
+				name = "left_bank_administration"
+				duration = 5475
+			}
+			add_base_production = 1
+		}
+	}
+	
+	# Balance both regions
+	option = {
+		name = "het_flavor.8.c"
+		add_adm_power = -75
+		add_stability = 1
+		add_country_modifier = {
+			name = centralization_modifier
+			duration = 5475
+		}
+	}
+}
+
+# Sloboda Ukraine Settlement
+country_event = {
+	id = het_flavor.9
+	title = "het_flavor.9.t"
+	desc = "het_flavor.9.d"
+	picture = COLONIZATION_eventPicture
+	
+	trigger = {
+		tag = HET
+		is_year = 1650
+		any_owned_province = {
+			can_establish_sloboda = yes
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 200
+	}
+	
+	# Encourage settlement
+	option = {
+		name = "het_flavor.9.a"
+		random_owned_province = {
+			limit = {
+				can_establish_sloboda = yes
+			}
+			establish_sloboda_effect = yes
+		}
+		add_dip_power = 50
+	}
+	
+	# Grant military privileges
+	option = {
+		name = "het_flavor.9.b"
+		random_owned_province = {
+			limit = {
+				can_establish_sloboda = yes
+			}
+			add_base_manpower = 2
+			add_province_modifier = {
+				name = military_sloboda
+				duration = 5475
+			}
+		}
+	}
+}
+
+# Orthodox Metropolia of Kyiv
+country_event = {
+	id = het_flavor.10
+	title = "het_flavor.10.t"
+	desc = "het_flavor.10.d"
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		tag = HET
+		religion = orthodox
+		owns = 280  # Kyiv
+		is_year = 1650
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+	}
+	
+	# Strengthen Orthodox church
+	option = {
+		name = "het_flavor.10.a"
+		add_patriarch_authority = 0.1
+		add_church_power = 100
+		280 = {
+			add_building = cathedral
+			add_base_tax = 1
+			add_base_production = 1
+		}
+		add_country_modifier = {
+			name = orthodox_protector
+			duration = 7300
+		}
+	}
+	
+	# Balance church and state
+	option = {
+		name = "het_flavor.10.b"
+		add_patriarch_authority = 0.05
+		add_adm_power = 50
+		add_stability_or_adm_power = yes
+	}
+}
+
+# Grain Trade with Black Sea
+country_event = {
+	id = het_flavor.11
+	title = "het_flavor.11.t"
+	desc = "het_flavor.11.d"
+	picture = TRADEGOODS_eventPicture
+	
+	trigger = {
+		tag = HET
+		any_owned_province = {
+			trade_goods = grain
+			has_port = yes
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+	}
+	
+	# Expand grain trade
+	option = {
+		name = "het_flavor.11.a"
+		add_mercantilism = 1
+		add_years_of_income = 0.5
+		random_owned_province = {
+			limit = {
+				trade_goods = grain
+			}
+			add_province_modifier = {
+				name = "grain_export_hub"
+				duration = 5475
+			}
+			add_base_production = 1
+		}
+	}
+	
+	# Focus on domestic supply
+	option = {
+		name = "het_flavor.11.b"
+		add_years_of_income = 0.25
+		add_country_modifier = {
+			name = centralization_modifier
+			duration = 3650
+		}
+	}
+}
+
+# The Collegium Takes Control (1722+)
+country_event = {
+	id = het_flavor.12
+	title = "het_flavor.12.t"
+	desc = "het_flavor.12.d"
+	picture = REFORM_eventPicture
+	fire_only_once = yes
+	
+	trigger = {
+		tag = HET
+		is_year = 1722
+		NOT = { is_year = 1734 }
+		is_subject_of = RUS
+		has_reform = het_collegium_control_reform
+	}
+	
+	mean_time_to_happen = {
+		months = 48
+	}
+	
+	# Accept Russian control
+	option = {
+		name = "het_flavor.12.a"
+		add_liberty_desire = -20
+		add_legitimacy = -10
+		overlord = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_obedient_hetmanate
+			}
+		}
+		add_country_modifier = {
+			name = centralization_modifier
+			duration = -1
+		}
+	}
+	
+	# Resist quietly
+	option = {
+		name = "het_flavor.12.b"
+		add_liberty_desire = 10
+		add_prestige = 5
+		add_country_modifier = {
+			name = centralization_modifier
+			duration = 5475
+		}
+	}
+}
+
+# Russian-Turkish War Impact
+country_event = {
+	id = het_flavor.13
+	title = "het_flavor.13.t"
+	desc = "het_flavor.13.d"
+	picture = BATTLE_eventPicture
+	
+	trigger = {
+		tag = HET
+		is_subject_of = RUS
+		is_year = 1735
+		NOT = { is_year = 1750 }
+		RUS = {
+			war_with = TUR
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	# Support Russian war effort
+	option = {
+		name = "het_flavor.13.a"
+		add_manpower = -5
+		add_treasury = -200
+		overlord = {
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_increased_trust
+			}
+			add_manpower = 5
+		}
+		add_war_exhaustion = 1
+	}
+	
+	# Minimal support
+	option = {
+		name = "het_flavor.13.b"
+		add_liberty_desire = 5
+		add_prestige = -5
+	}
+}
+
+# Abolition of the Hetmanate (1764)
+country_event = {
+	id = het_flavor.14
+	title = "het_flavor.14.t"
+	desc = "het_flavor.14.d"
+	picture = BAD_WITH_MONARCH_eventPicture
+	fire_only_once = yes
+	
+	trigger = {
+		tag = HET
+		is_year = 1764
+		NOT = { is_year = 1775 }
+		is_subject_of = RUS
+	}
+	
+	mean_time_to_happen = {
+		months = 48
+	}
+	
+	# Accept Russian annexation
+	option = {
+		name = "het_flavor.14.a"
+		overlord = {
+			inherit = ROOT
+		}
+	}
+	
+	# Resist (will fail historically)
+	option = {
+		name = "het_flavor.14.b"
+		trigger = {
+			ai = no
+		}
+		add_liberty_desire = 100
+		declare_war_with_cb = {
+			who = RUS
+			casus_belli = cb_independence_war
+		}
+		add_country_modifier = {
+			name = het_independence_struggle
+			duration = 1825
+		}
+	}
+}

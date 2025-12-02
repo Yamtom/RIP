@@ -1,0 +1,445 @@
+# Hetmanate Decisions
+
+country_decisions = {
+
+	# Strengthen Hetman Authority
+	het_strengthen_hetman = {
+		major = yes
+		potential = {
+			tag = HET
+			NOT = { has_country_flag = hetman_strengthened_recent }
+			OR = {
+				has_reform = het_starshyna_oligarchy_reform
+				has_reform = het_hetman_for_life_reform
+			}
+		}
+		allow = {
+			adm_power = 100
+			legitimacy = 60
+			stability = 1
+			is_at_war = no
+		}
+		effect = {
+			add_adm_power = -100
+			het_strengthen_hetman_effect = yes
+			set_country_flag = hetman_strengthened_recent
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				NOT = { legitimacy = 75 }
+			}
+		}
+	}
+
+	# Empower the Starshyna Council
+	het_empower_starshyna = {
+		potential = {
+			tag = HET
+			NOT = { has_country_flag = starshyna_empowered_recent }
+			estate_influence = {
+				estate = estate_nobles
+				influence = 40
+			}
+		}
+		allow = {
+			adm_power = 75
+			stability = 0
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 50
+			}
+		}
+		effect = {
+			add_adm_power = -75
+			het_empower_starshyna_effect = yes
+			set_country_flag = starshyna_empowered_recent
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				estate_influence = {
+					estate = estate_nobles
+					influence = 60
+				}
+			}
+		}
+	}
+
+	# Establish Regimental System
+	het_establish_regiments = {
+		major = yes
+		potential = {
+			tag = HET
+			NOT = { has_country_flag = regiments_established }
+			NOT = { has_reform = het_regimental_system_reform }
+			num_of_cities = 5
+		}
+		provinces_to_highlight = {
+			can_establish_regiment = yes
+		}
+		allow = {
+			mil_power = 150
+			adm_power = 100
+			stability = 1
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+					area = sloboda_ukraine_area
+				}
+				is_city = yes
+			}
+		}
+		effect = {
+			add_mil_power = -150
+			add_adm_power = -100
+			every_owned_province = {
+				limit = {
+					can_establish_regiment = yes
+				}
+				het_establish_regiment_effect = yes
+			}
+			add_country_modifier = {
+				name = "het_regimental_administration"
+				duration = -1
+			}
+			set_country_flag = regiments_established
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				num_of_cities = 8
+			}
+		}
+	}
+
+	# Expand Kyiv-Mohyla Academy
+	het_expand_academy = {
+		potential = {
+			tag = HET
+			owns = 280  # Kyiv
+			NOT = { has_country_flag = academy_expanded }
+			is_year = 1632
+		}
+		allow = {
+			adm_power = 100
+			dip_power = 50
+			treasury = 300
+			280 = {
+				owned_by = ROOT
+				is_state = yes
+			}
+			innovativeness_ideas = 1
+		}
+		effect = {
+			add_adm_power = -100
+			add_dip_power = -50
+			add_treasury = -300
+			het_academy_boost_effect = yes
+			280 = {
+				add_province_modifier = {
+					name = kyiv_mohyla_academy
+					duration = -1
+				}
+				add_base_tax = 2
+			}
+			set_country_flag = academy_expanded
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				innovativeness = 10
+			}
+		}
+	}
+
+	# Sign Treaty with Russia (Pereiaslav)
+	het_pereiaslav_treaty = {
+		major = yes
+		potential = {
+			tag = HET
+			is_subject = no
+			NOT = { has_country_flag = pereiaslav_treaty_signed }
+			is_year = 1650
+			NOT = { is_year = 1670 }
+			OR = {
+				exists = RUS
+				exists = MOS
+			}
+		}
+		allow = {
+			is_at_war = yes
+			war_exhaustion = 3
+			dip_power = 100
+			OR = {
+				AND = {
+					exists = RUS
+					RUS = {
+						NOT = { war_with = ROOT }
+					}
+				}
+				AND = {
+					exists = MOS
+					MOS = {
+						NOT = { war_with = ROOT }
+					}
+				}
+			}
+		}
+		effect = {
+			add_dip_power = -100
+			het_pereiaslav_treaty_effect = yes
+			set_country_flag = pereiaslav_treaty_signed
+			add_country_modifier = {
+				name = het_autonomy_guaranteed
+				duration = 10950
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				war_exhaustion = 8
+			}
+			modifier = {
+				factor = 0
+				NOT = { war_exhaustion = 5 }
+			}
+		}
+	}
+
+	# Break with Overlord (Mazepa's Choice)
+	het_mazepa_independence = {
+		major = yes
+		potential = {
+			tag = HET
+			is_subject = yes
+			NOT = { has_country_flag = mazepa_independence_attempted }
+			is_year = 1700
+			NOT = { is_year = 1720 }
+		}
+		allow = {
+			liberty_desire = 50
+			mil_power = 150
+			army_size = 20
+			any_ally = {
+				is_great_power = yes
+				NOT = { overlord_of = ROOT }
+			}
+		}
+		effect = {
+			add_mil_power = -150
+			het_break_with_overlord_effect = yes
+			set_country_flag = mazepa_independence_attempted
+		}
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				factor = 1
+				liberty_desire = 75
+				any_ally = {
+					tag = SWE
+				}
+			}
+		}
+	}
+
+	# Establish Left Bank Administration
+	het_left_bank_admin = {
+		potential = {
+			tag = HET
+			NOT = { has_country_flag = left_bank_established }
+			any_owned_province = {
+				area = east_dniepr_area
+			}
+		}
+		allow = {
+			adm_power = 100
+			stability = 1
+			east_dniepr_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_adm_power = -100
+			east_dniepr_area = {
+				add_province_modifier = {
+					name = left_bank_administration
+					duration = -1
+				}
+				add_base_tax = 1
+			}
+			add_country_modifier = {
+				name = het_left_bank_settled
+				duration = 7300
+			}
+			set_country_flag = left_bank_established
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Establish Sloboda Ukraine Settlements
+	het_sloboda_settlements = {
+		potential = {
+			tag = HET
+			NOT = { has_country_flag = sloboda_settled }
+			any_owned_province = {
+				can_establish_sloboda = yes
+			}
+		}
+		allow = {
+			adm_power = 75
+			treasury = 150
+			stability = 0
+			any_owned_province = {
+				can_establish_sloboda = yes
+			}
+		}
+		effect = {
+			add_adm_power = -75
+			add_treasury = -150
+			random_owned_province = {
+				limit = {
+					can_establish_sloboda = yes
+				}
+				establish_sloboda_effect = yes
+			}
+			add_country_modifier = {
+				name = sloboda_colonization
+				duration = 5475
+			}
+			set_country_flag = sloboda_settled
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Defend Orthodox Faith
+	het_defend_orthodox = {
+		potential = {
+			tag = HET
+			religion = orthodox
+			NOT = { has_country_flag = orthodox_defender_het }
+			OR = {
+				is_subject_of = POL
+				any_neighbor_country = {
+					OR = {
+						religion = catholic
+						religion_group = muslim
+					}
+				}
+			}
+		}
+		allow = {
+			patriarch_authority = 0.2
+			church_power = 100
+			prestige = 20
+			stability = 1
+		}
+		effect = {
+			add_church_power = -100
+			defend_orthodox_faith_effect = yes
+			set_country_flag = orthodox_defender_het
+			if = {
+				limit = {
+					is_subject_of = POL
+				}
+				overlord = {
+					add_opinion = {
+						who = ROOT
+						modifier = het_religious_tension
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				is_subject_of = POL
+			}
+		}
+	}
+
+	# Establish Black Sea Trade
+	het_black_sea_trade = {
+		potential = {
+			tag = HET
+			NOT = { has_country_flag = het_black_sea_trade_established }
+			any_owned_province = {
+				has_port = yes
+				OR = {
+					area = yedisan_area
+					area = zaporizhia_area
+				}
+			}
+		}
+		allow = {
+			dip_power = 100
+			treasury = 200
+			mercantilism = 3
+			any_owned_province = {
+				has_port = yes
+				development = 12
+			}
+		}
+		effect = {
+			add_dip_power = -100
+			add_treasury = -200
+			establish_black_sea_trade_effect = yes
+			set_country_flag = het_black_sea_trade_established
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trade_income_percentage = 0.25
+			}
+		}
+	}
+
+	# Reform Hetman Election Process
+	het_reform_elections = {
+		potential = {
+			tag = HET
+			NOT = { has_country_flag = elections_reformed }
+			NOT = { has_reform = het_collegium_control_reform }
+		}
+		allow = {
+			adm_power = 150
+			dip_power = 100
+			stability = 2
+			NOT = { average_autonomy = 30 }
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 60
+			}
+		}
+		effect = {
+			add_adm_power = -150
+			add_dip_power = -100
+			add_country_modifier = {
+				name = het_reformed_election_system
+				duration = -1
+			}
+			set_country_flag = elections_reformed
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				reform_level = 5
+			}
+		}
+	}
+}

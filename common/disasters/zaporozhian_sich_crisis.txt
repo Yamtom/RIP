@@ -1,0 +1,143 @@
+# Zaporozhian Sich Crisis — MECHANICS, NARRATIVE, REFERENCES
+# Mechanics: Disaster for Zaporizhia (ZAZ) representing internal conflicts between
+# democratic Sich rada (council) and authoritarian kosh otamans (military leaders),
+# raids going wrong, conflicts with overlords (Poland/Russia), and Crimean pressure.
+# Causes massive unrest, military power drain, and diplomatic isolation until resolved
+# through reform or military victory.
+# Narrative: Simulates various crises of the Zaporozhian Host including the conflicts
+# over autonomy, raids that provoked retaliation, internal power struggles, and the
+# final liquidation attempts by Russian Empire (1709, 1775).
+# References: Linda Gordon, *Cossack Rebellions* (1983); 
+# Victor Ostapchuk, "The Human Landscape of the Ottoman Black Sea" (2001);
+# Evariste Lévi-Provençal, *The Zaporozhian Cossacks* (1967).
+
+zaporozhian_sich_crisis = {
+
+	potential = {
+		tag = ZAZ
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = sich_liquidated }
+	}
+
+	can_start = {
+		has_any_disaster = no
+		OR = {
+			current_age = age_of_reformation
+			current_age = age_of_absolutism
+			current_age = age_of_revolutions
+		}
+		OR = {
+			# Internal crisis
+			AND = {
+				NOT = { legitimacy = 50 }
+				NOT = { republican_tradition = 40 }
+				average_autonomy = 30
+			}
+			# Failed raid consequences
+			AND = {
+				is_at_war = yes
+				war_exhaustion = 5
+				NOT = { manpower_percentage = 0.4 }
+			}
+			# Overlord pressure
+			AND = {
+				is_subject = yes
+				liberty_desire = 60
+			}
+			# Crimean/Ottoman threat
+			AND = {
+				any_neighbor_country = {
+					OR = {
+						tag = CRI
+						tag = TUR
+					}
+					army_size = ROOT
+					is_rival = ROOT
+				}
+			}
+		}
+	}
+	on_start = zaz_crisis.1
+
+	can_stop = {
+		has_any_disaster = yes
+	}
+
+	modifier = {
+		global_unrest = 4
+		global_autonomy = 0.05
+		land_morale = -0.15
+		diplomatic_reputation = -1
+		shock_damage = -0.1
+		available_province_loot = 0.2
+		may_perform_slave_raid_on_same_religion = yes
+		loot_amount = 0.15
+	}
+
+	progress = {
+		modifier = {
+			factor = 2
+			always = yes
+		}
+		modifier = {
+			factor = 2
+			NOT = { legitimacy = 40 }
+		}
+		modifier = {
+			factor = 2
+			NOT = { republican_tradition = 30 }
+		}
+		modifier = {
+			factor = 1.5
+			war_exhaustion = 6
+		}
+		modifier = {
+			factor = 1.5
+			is_subject = yes
+			liberty_desire = 70
+		}
+		modifier = {
+			factor = 1.3
+			num_of_rebel_armies = 1
+		}
+		modifier = {
+			factor = 0.75
+			stability = 1
+		}
+		modifier = {
+			factor = 0.6
+			has_idea_group = defensive_ideas
+		}
+		modifier = {
+			factor = 0.8
+			prestige = 50
+		}
+	}
+
+	can_end = {
+		stability = 0
+		NOT = { war_exhaustion = 3 }
+		OR = {
+			AND = {
+				legitimacy = 60
+			}
+			AND = {
+				republican_tradition = 50
+			}
+		}
+		NOT = { num_of_rebel_armies = 1 }
+		OR = {
+			is_subject = no
+			NOT = { liberty_desire = 50 }
+		}
+	}
+	on_end = zaz_crisis.2
+
+	on_monthly = {
+		random_events = {
+			100 = zaz_crisis.3
+			80 = zaz_crisis.4
+			60 = zaz_crisis.5
+		}
+	}
+}

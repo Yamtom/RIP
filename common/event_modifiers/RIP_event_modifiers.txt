@@ -196,106 +196,110 @@ KIE_great_building = {
 }
 
 #Mission of Zaporizhzhzia
+# ZAPORIZHIA MODIFIERS - Enhanced to 200% (doubled from baseline)
 zaz_prepped = {
-	local_defensiveness = 0.33
+	local_defensiveness = 0.66
 }
 
 zaz_lit_kill = {
-	movement_speed = 0.33
+	movement_speed = 0.66
 }
 
 zaz_taxes = {
-	global_tax_modifier = 0.1
-	global_unrest = -1
+	global_tax_modifier = 0.2
+	global_unrest = -2
+	production_efficiency = 0.1
 }
 
 zaz_proper_khan = {
-	raze_power_gain = 0.1
+	raze_power_gain = 0.2
 }
 
 zaz_army = {
-	land_forcelimit_modifier = 0.33
+	land_forcelimit_modifier = 0.66
 }
 
 zaz_connections = {
-	diplomatic_reputation = 1
-	improve_relation_modifier = 0.05
+	diplomatic_reputation = 2
+	improve_relation_modifier = 0.10
 }
 
 zaz_tur_trade = {
-	trade_efficiency = 0.1
-	embargo_efficiency = 0.33
+	trade_efficiency = 0.2
+	embargo_efficiency = 0.66
 }
 
 zaz_steppe_raiders = {
-	army_tradition = 1
-	land_maintenance_modifier = -0.05
+	army_tradition = 2
+	land_maintenance_modifier = -0.10
+	cavalry_power = 0.15
+	shock_damage = 0.10
 }
 
 zaz_unchecked_horde = {
-	global_unrest = 1
-	land_morale = -0.1
+	global_unrest = 2
+	land_morale = -0.2
 }
 
 zaz_rivaled_rus = {
-	ae_impact = -0.1
+	ae_impact = -0.2
 }
 
 zaz_missionaries = {
-	global_missionary_strength = 0.03
+	global_missionary_strength = 0.06
 }
 
 zaz_islam_spread = {
-	local_missionary_strength = 0.01
+	local_missionary_strength = 0.02
 }
 
 zaz_catholic_spread = {
-	local_missionary_strength = 0.01
-	tolerance_heretic = 1
+	local_missionary_strength = 0.02
+	tolerance_heretic = 2
 }
 
 zaz_ortho = {
-	tolerance_own = 1
+	tolerance_own = 2
 }
 
 zaz_turkish_help = {
-	discipline = 0.05
+	discipline = 0.10
 }
 
 # alligned with russia
 zaz_rivaled_tur = {
-	tolerance_own = 0.5
-	improve_relation_modifier = 0.15
+	tolerance_own = 1
+	improve_relation_modifier = 0.30
 }
 
 zaz_russian_help = {
-	global_missionary_strength = 0.02
-	global_unrest = -1
+	global_missionary_strength = 0.04
+	global_unrest = -2
 }
 
 zaz_caravan = {
-	caravan_power = 0.5
-	trade_steering = 0.05
+	caravan_power = 1.0
+	trade_steering = 0.10
 }
 
 zaz_trade_eff = {
-	trade_efficiency = 0.1
+	trade_efficiency = 0.2
 }
 
 zaz_threaten_tur = {
-	land_morale = 0.15
+	land_morale = 0.30
 }
 
 zaz_faith = {
-	tolerance_own = 2
+	tolerance_own = 4
 }
 
 zaz_insult_tur = {
-	land_morale = 0.1
+	land_morale = 0.2
 }
 
 zaz_ruthenia = {
-	raze_power_gain = 0.15
+	raze_power_gain = 0.30
 }
 
 chr_frontier_garrisons = {
@@ -1759,4 +1763,376 @@ uz_congress_border_drill = {
 	land_morale = 0.1
 	manpower_recovery_speed = 0.05
 	army_tradition = 0.5
+}
+
+# THE RUINA MODIFIERS
+ruina_fortified_heartland = {
+	defensiveness = 0.15
+	fort_maintenance_modifier = -0.1
+	hostile_attrition = 0.5
+}
+
+ruina_foreign_protectorate = {
+	diplomatic_reputation = 1
+	liberty_desire = 10
+	diplomatic_upkeep = -1
+}
+
+ruina_cossack_mobilization = {
+	manpower_recovery_speed = 0.15
+	land_morale = 0.1
+	war_exhaustion = 0.02
+}
+
+ruina_reconstruction = {
+	development_cost = -0.1
+	build_cost = -0.15
+	global_prosperity_growth = 0.1
+}
+
+ruina_hardened_veterans = {
+	army_tradition = 1
+	land_morale = 0.1
+	recover_army_morale_speed = 0.1
+}
+
+ruina_diplomatic_settlement = {
+	improve_relation_modifier = 0.25
+	ae_impact = -0.1
+	diplomatic_upkeep = 1
+}
+
+# ZAPORIZHIA SICH CRISIS MODIFIERS
+zaz_strong_otaman = {
+	legitimacy = 0.5
+	army_tradition_decay = -0.01
+	global_unrest = -1
+}
+
+zaz_democratic_rada = {
+	republican_tradition = 0.3
+	global_autonomy = 0.03
+	stability_cost_modifier = 0.1
+}
+
+zaz_great_raid = {
+	loot_amount = 0.25
+	available_province_loot = 0.25
+	land_attrition = -0.1
+}
+
+zaz_united_host = {
+	land_morale = 0.15
+	shock_damage = 0.1
+	discipline = 0.05
+}
+
+zaz_loyal_subject = {
+	liberty_desire = -15
+	vassal_income = -0.1
+	diplomatic_reputation = -1
+}
+
+# HETMANATE SUCCESSION MODIFIERS
+het_strong_hetman = {
+	legitimacy = 1
+	max_absolutism = 5
+}
+
+het_starshyna_council = {
+	stability_cost_modifier = -0.1
+	advisor_pool = 1
+	free_leader_pool = 1
+}
+
+het_foreign_backing = {
+	diplomatic_reputation = -1
+	liberty_desire = 15
+	military_tactics = 0.05
+}
+
+het_consolidated_power = {
+	legitimacy = 1
+	reform_progress_growth = 0.1
+	state_maintenance_modifier = -0.1
+}
+
+het_reformed_election = {
+	heir_chance = 0.33
+	stability_cost_modifier = -0.15
+	monarch_lifespan = -0.1
+}
+
+het_hereditary_rule = {
+	legitimacy = 1
+	heir_chance = 0.5
+	max_absolutism = 10
+}
+
+het_elective_rule = {
+	republican_tradition = 0.5
+	advisor_cost = -0.1
+	stability_cost_modifier = 0.1
+}
+
+het_term_limited_rule = {
+	reform_progress_growth = 0.15
+	army_tradition = 0.5
+	monarch_admin_power = 1
+}
+
+# =========================================================================
+# MISSING MODIFIERS - ZAPORIZHIA & HETMANATE DECISIONS/EVENTS
+# =========================================================================
+
+# HETMANATE PROVINCE MODIFIERS
+regimental_headquarters = {
+	local_manpower_modifier = 0.25
+	local_defensiveness = 0.15
+	local_garrison_size = 0.25
+}
+
+kyiv_mohyla_academy = {
+	local_institution_spread = 0.15
+	local_development_cost = -0.1
+	allowed_num_of_buildings = 1
+}
+
+left_bank_administration = {
+	local_tax_modifier = 0.15
+	local_state_maintenance_modifier = -0.25
+	local_autonomy = -0.05
+}
+
+sloboda_settlement = {
+	local_development_cost = -0.15
+	local_manpower_modifier = 0.2
+	local_unrest = -1
+}
+
+military_sloboda = {
+	local_manpower_modifier = 0.35
+	local_defensiveness = 0.1
+	local_garrison_size = 0.15
+}
+
+orthodox_protected = {
+	local_missionary_strength = 0.02
+	local_religious_unity_contribution = 0.5
+	local_unrest = -2
+}
+
+cossack_trade_port = {
+	local_production_efficiency = 0.15
+	trade_value_modifier = 0.2
+}
+
+# HETMANATE COUNTRY MODIFIERS
+het_regimental_administration = {
+	land_forcelimit_modifier = 0.15
+	army_tradition = 0.5
+	fire_damage_received = -0.05
+}
+
+het_academy_excellence = {
+	idea_cost = -0.05
+	innovativeness_gain = 0.25
+	advisor_cost = -0.1
+}
+
+het_russian_protection = {
+	liberty_desire = -10
+	land_morale = 0.1
+	diplomatic_reputation = 1
+}
+
+het_autonomy_guaranteed = {
+	stability_cost_modifier = -0.1
+	years_of_nationalism = -5
+	global_autonomy = -0.03
+}
+
+het_independence_struggle = {
+	land_morale = 0.15
+	war_exhaustion = -0.03
+	liberty_desire_from_subject_development = 0.25
+}
+
+het_left_bank_settled = {
+	development_cost = -0.1
+	colonist_placement_chance = 0.05
+	global_colonial_growth = 10
+}
+
+sloboda_colonization = {
+	colonist_placement_chance = 0.1
+	global_colonial_growth = 15
+	colonists = 1
+}
+
+orthodox_champions = {
+	tolerance_own = 2
+	papal_influence = 1
+	church_power_modifier = 0.15
+}
+
+black_sea_commerce = {
+	trade_efficiency = 0.1
+	merchants = 1
+	trade_range_modifier = 0.15
+}
+
+het_reformed_election_system = {
+	republican_tradition = 0.3
+	legitimacy = 0.5
+	election_cycle = 1
+}
+
+centralized_control = {
+	max_absolutism = 5
+	administrative_efficiency = 0.05
+	state_maintenance_modifier = -0.1
+}
+
+russian_protection = {
+	land_morale = 0.1
+	liberty_desire = -15
+}
+
+orthodox_protector = {
+	tolerance_own = 1
+	church_power_modifier = 0.1
+	papal_influence = 0.5
+}
+
+grain_export_hub = {
+	trade_efficiency = 0.15
+	global_trade_goods_size_modifier = 0.1
+	production_efficiency = 0.1
+}
+
+mazepa_golden_age = {
+	prestige = 1
+	legitimacy = 1
+	diplomatic_reputation = 1
+	advisor_cost = -0.1
+}
+
+# ZAPORIZHIA PROVINCE MODIFIERS
+zaporozhian_sich_capital = {
+	local_manpower_modifier = 0.5
+	local_autonomy = -0.1
+	local_unrest = -3
+	fort_level = 1
+}
+
+sich_outpost = {
+	local_defensiveness = 0.15
+	local_hostile_attrition = 2
+}
+
+cossack_settlement = {
+	local_manpower_modifier = 0.25
+	local_development_cost = -0.1
+}
+
+frontier_fortress = {
+	local_defensiveness = 0.25
+	local_garrison_size = 0.3
+	fort_level = 1
+}
+
+cossack_frontier_settlement = {
+	local_development_cost = -0.15
+	local_manpower_modifier = 0.2
+	local_colonist_placement_chance = 0.05
+}
+
+# ZAPORIZHIA COUNTRY MODIFIERS
+zaporozhian_sich_founded = {
+	republican_tradition = 0.5
+	cav_to_inf_ratio = 0.1
+	cavalry_power = 0.1
+}
+
+mobile_sich = {
+	movement_speed = 0.15
+	loot_amount = 0.15
+	republican_tradition = 0.3
+}
+
+zich_relocated = {
+	prestige = 0.5
+	stability_cost_modifier = -0.1
+	war_exhaustion = -0.02
+}
+
+zaz_liberator_of_slaves = {
+	prestige = 1
+	religious_unity = 0.1
+	improve_relation_modifier = 0.15
+}
+
+zaz_colonization_effort = {
+	colonist_placement_chance = 0.1
+	global_colonial_growth = 10
+}
+
+steppe_alliance = {
+	cavalry_power = 0.1
+	cav_to_inf_ratio = 0.15
+	improve_relation_modifier = 0.2
+}
+
+zaz_great_rada_held = {
+	republican_tradition = 0.5
+	stability_cost_modifier = -0.15
+	global_autonomy = -0.03
+}
+
+fortified_frontier = {
+	fort_maintenance_modifier = -0.15
+	defensiveness = 0.1
+	garrison_size = 0.15
+}
+
+zaz_chaiky_fleet = {
+	naval_morale = 0.15
+	navy_tradition = 0.5
+	privateer_efficiency = 0.25
+}
+
+zaz_polish_autonomy = {
+	liberty_desire = -20
+	global_autonomy = 0.05
+	diplomatic_reputation = -1
+}
+
+zaz_orthodox_champions = {
+	tolerance_own = 2
+	church_power_modifier = 0.15
+	papal_influence = 1
+}
+
+zaz_steppe_alliance = {
+	cavalry_power = 0.15
+	improve_relation_modifier = 0.25
+}
+
+zaz_successful_raid = {
+	prestige = 0.5
+	army_tradition = 0.5
+	loot_amount = 0.2
+}
+
+zaz_failed_raid = {
+	prestige = -0.5
+	war_exhaustion = 0.05
+	army_tradition_decay = 0.01
+}
+
+zaz_chaiky_raiders = {
+	navy_tradition = 1
+	privateer_efficiency = 0.3
+	naval_morale = 0.1
 }

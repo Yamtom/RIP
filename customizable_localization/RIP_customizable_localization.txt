@@ -111,9 +111,9 @@ defined_text = {
 defined_text = {
     name = GetCHRParliamentName
     # Реформа 2 має пріоритет
-    text = { localisation_key = CHR_PARL_R2  trigger = { has_government_reform = chr_grain_directorate_reform } }
+	text = { localisation_key = CHR_PARL_R2  trigger = { has_reform = chr_grain_directorate_reform } }
     # Реформа 1
-    text = { localisation_key = CHR_PARL_R1  trigger = { has_government_reform = siversk_veche_reform } }
+	text = { localisation_key = CHR_PARL_R1  trigger = { has_reform = siversk_veche_reform } }
     # База
     text = { localisation_key = CHR_PARL_BASE }
 }
@@ -144,9 +144,147 @@ defined_text = {
     text = { localisation_key = CHR_PARL_MOS_R1_DUCHY   trigger = { government_rank = 1 has_country_flag = chr_border_compacts_militarized_path } }
     text = { localisation_key = CHR_PARL_MOS_R1_KINGDOM trigger = { government_rank = 2 has_country_flag = chr_border_compacts_militarized_path } }
     text = { localisation_key = CHR_PARL_MOS_R1_EMPIRE  trigger = { government_rank = 3 has_country_flag = chr_border_compacts_militarized_path } }
-    text = { localisation_key = CHR_PARL_NEU_R1_DUCHY   trigger = { government_rank = 1 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
-    text = { localisation_key = CHR_PARL_NEU_R1_KINGDOM trigger = { government_rank = 2 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
-    text = { localisation_key = CHR_PARL_NEU_R1_EMPIRE  trigger = { government_rank = 3 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+    text = { localisation_key = CHR_PARL_NEU_R2_DUCHY   trigger = { government_rank = 1 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+    text = { localisation_key = CHR_PARL_NEU_R2_KINGDOM trigger = { government_rank = 2 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+    text = { localisation_key = CHR_PARL_NEU_R2_EMPIRE  trigger = { government_rank = 3 NOT = { OR = { has_country_flag = chr_border_compacts_diplomatic_path has_country_flag = chr_border_compacts_militarized_path } } } }
+}
+
+# Zaporizhia customizable localization
+defined_text = {
+	name = GetZAZRaidTarget
+	text = {
+		trigger = {
+			any_neighbor_country = {
+				tag = TUR
+			}
+		}
+		localisation_key = ZAZ_RAID_TARGET_TURKS
+	}
+	text = {
+		trigger = {
+			any_neighbor_country = {
+				tag = CRI
+			}
+		}
+		localisation_key = ZAZ_RAID_TARGET_CRIMEA
+	}
+	text = {
+		trigger = { always = yes }
+		localisation_key = ZAZ_RAID_TARGET_GENERIC
+	}
+}
+
+defined_text = {
+	name = GetZAZSichLocation
+	text = {
+		trigger = {
+			capital = 284  # Zaporizhia
+		}
+		localisation_key = ZAZ_SICH_KHORTYTSIA
+	}
+	text = {
+		trigger = {
+			capital = 2410
+		}
+		localisation_key = ZAZ_SICH_TOMAKIVKA
+	}
+	text = {
+		trigger = {
+			capital = 2411
+		}
+		localisation_key = ZAZ_SICH_CHORTOMLYK
+	}
+	text = {
+		trigger = { always = yes }
+		localisation_key = ZAZ_SICH_GENERIC
+	}
+}
+
+defined_text = {
+	name = GetZAZOtamanTitle
+	text = {
+		trigger = {
+			has_reform = zaz_free_host_reform
+		}
+		localisation_key = ZAZ_OTAMAN_HOST
+	}
+	text = {
+		trigger = {
+			has_reform = zaz_general_rada_reform
+		}
+		localisation_key = ZAZ_OTAMAN_GENERAL
+	}
+	text = {
+		trigger = { always = yes }
+		localisation_key = ZAZ_OTAMAN_KOSH
+	}
+}
+
+# Hetmanate customizable localization
+defined_text = {
+	name = GetHETHetmanTitle
+	text = {
+		trigger = {
+			has_reform = het_mazepist_autocracy_reform
+		}
+		localisation_key = HET_HETMAN_AUTOCRAT
+	}
+	text = {
+		trigger = {
+			has_reform = het_hetman_for_life_reform
+		}
+		localisation_key = HET_HETMAN_LIFE
+	}
+	text = {
+		trigger = {
+			has_reform = het_collegium_control_reform
+		}
+		localisation_key = HET_HETMAN_RESTRICTED
+	}
+	text = {
+		trigger = { always = yes }
+		localisation_key = HET_HETMAN_ELECTED
+	}
+}
+
+defined_text = {
+	name = GetHETRegimentName
+	text = {
+		trigger = {
+			has_reform = het_regimental_system_reform
+		}
+		localisation_key = HET_REGIMENT_SYSTEM
+	}
+	text = {
+		trigger = { always = yes }
+		localisation_key = HET_REGIMENT_FORMING
+	}
+}
+
+defined_text = {
+	name = GetHETOverlordRelation
+	text = {
+		trigger = {
+			is_subject_of = RUS
+		}
+		localisation_key = HET_OVERLORD_RUSSIA
+	}
+	text = {
+		trigger = {
+			is_subject_of = POL
+		}
+		localisation_key = HET_OVERLORD_POLAND
+	}
+	text = {
+		trigger = {
+			is_subject_of = MOS
+		}
+		localisation_key = HET_OVERLORD_MUSCOVY
+	}
+	text = {
+		trigger = { always = yes }
+		localisation_key = HET_OVERLORD_NONE
+	}
 }
 
 # Реформа 2: аграрна дирекція

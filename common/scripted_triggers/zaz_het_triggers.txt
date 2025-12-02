@@ -1,0 +1,256 @@
+# Triggers for Zaporizhia and Hetmanate
+
+# Check if nation is a Cossack state
+is_cossack_nation = {
+	OR = {
+		tag = ZAZ
+		tag = HET
+		has_reform = zaz_sich_brotherhood_reform
+		has_reform = het_starshyna_oligarchy_reform
+	}
+}
+
+# Check if province is in Wild Fields
+is_wild_fields = {
+	OR = {
+		area = zaporizhia_area
+		area = yedisan_area
+		area = azov_area
+		province_id = 284  # Zaporizhia
+		province_id = 2410 # Khortytsia
+		province_id = 2411 # Samara
+		has_terrain = steppe
+		has_terrain = grasslands
+	}
+	NOT = { is_city = yes }
+}
+
+# Check if suitable for Sich relocation
+is_sich_location = {
+	OR = {
+		area = zaporizhia_area
+		area = yedisan_area
+		area = azov_area
+	}
+	has_terrain = steppe
+	controlled_by = owner
+	owner = {
+		OR = {
+			tag = ZAZ
+			culture_group = east_slavic
+		}
+	}
+}
+
+# Check if nation can conduct slave raids
+can_conduct_slave_raids = {
+	OR = {
+		tag = ZAZ
+		has_reform = zaz_free_host_reform
+	}
+	any_neighbor_country = {
+		OR = {
+			tag = CRI
+			tag = TUR
+			religion_group = muslim
+		}
+	}
+}
+
+# Check if suitable target for Chaiky raids
+is_chaiky_raid_target = {
+	OR = {
+		tag = TUR
+		tag = CRI
+		overlord = { tag = TUR }
+	}
+	OR = {
+		any_owned_province = {
+			has_port = yes
+			OR = {
+				region = crimea_region
+				province_id = 151 
+				area = azov_area
+			}
+		}
+	}
+}
+
+# Check if Hetmanate is autonomous
+het_is_autonomous = {
+	tag = HET
+	OR = {
+		is_subject = no
+		AND = {
+			is_subject = yes
+			liberty_desire = 30
+		}
+		has_reform = het_mazepist_autocracy_reform
+	}
+}
+
+# Check if suitable for regimental system
+can_establish_regiment = {
+	owner = {
+		OR = {
+			tag = HET
+			has_reform = het_regimental_system_reform
+		}
+	}
+	is_city = yes
+	OR = {
+		area = west_dniepr_area
+		area = east_dniepr_area
+		area = sloboda_ukraine_area
+	}
+	development = 8
+}
+
+# Check if Sich is threatened
+zich_is_threatened = {
+	tag = ZAZ
+	OR = {
+		is_at_war = yes
+		any_neighbor_country = {
+			OR = {
+				is_rival = ROOT
+				has_opinion_modifier = {
+					modifier = zaz_slave_raiders
+					who = ROOT
+				}
+				AND = {
+					tag = RUS
+					is_year = 1760
+				}
+			}
+		}
+		war_exhaustion = 5
+	}
+}
+
+# Check if province has Cossack heritage
+has_cossack_heritage = {
+	OR = {
+		has_province_modifier = "cossack_settlement"
+		has_province_modifier = "sich_outpost"
+		has_province_modifier = "regimental_headquarters"
+		culture = ruthenian
+		owner = { is_cossack_nation = yes }
+	}
+}
+
+# Check if Orthodox under Catholic/Muslim rule
+orthodox_under_pressure = {
+	religion = orthodox
+	owner = {
+		NOT = { religion = orthodox }
+		OR = {
+			religion_group = christian
+			religion_group = muslim
+		}
+	}
+}
+
+# Check if can form trade route
+can_establish_trade_route = {
+	owner = {
+		OR = {
+			tag = ZAZ
+			tag = HET
+		}
+	}
+	has_port = yes
+	OR = {
+		trade_goods = fish
+		trade_goods = salt
+		trade_goods = grain
+		trade_goods = naval_supplies
+	}
+}
+
+# Check if Hetmanate succession crisis imminent
+het_succession_crisis_imminent = {
+	tag = HET
+	OR = {
+		NOT = { legitimacy = 50 }
+		ruler_age = 60
+		is_subject = yes
+		AND = {
+			estate_influence = {
+				estate = estate_nobles
+				influence = 60
+			}
+		}
+	}
+}
+
+# Check if ZAZ internal crisis imminent
+zaz_internal_crisis_imminent = {
+	tag = ZAZ
+	OR = {
+		NOT = { republican_tradition = 40 }
+		NOT = { stability = 0 }
+		is_subject = yes
+		liberty_desire = 50
+		any_owned_province = {
+			local_autonomy = 75
+		}
+	}
+}
+
+# Check if suitable for Sich great project upgrade
+can_upgrade_sich_project = {
+	province_id = 284  # Zaporizhia
+	owner = {
+		OR = {
+			tag = ZAZ
+			tag = HET
+			culture = ruthenian
+		}
+		treasury = 1000
+		mil_power = 100
+	}
+}
+
+# Check if Black Sea trade dominant
+dominates_black_sea_trade = {
+	owner = {
+		OR = {
+			tag = ZAZ
+			tag = HET
+		}
+	}
+	trade_goods = fish
+	OR = {
+		province_id = 2410  # Black Sea coast
+		area = yedisan_area
+		region = crimea_region
+	}
+	owner = {
+		OR = {
+			home_trade_node = {
+				OR = {
+					trade_node_value = 15
+				}
+			}
+		}
+	}
+}
+
+# Check if can establish Sloboda settlement
+can_establish_sloboda = {
+	owner = {
+		OR = {
+			tag = HET
+			tag = ZAZ
+			culture = ruthenian
+		}
+	}
+	OR = {
+		area = sloboda_ukraine_area
+		province_id = 301  # Kharkiv
+		province_id = 2408 # Sumy
+	}
+	NOT = { is_city = yes }
+	is_empty = no
+}

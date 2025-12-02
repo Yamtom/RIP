@@ -1,0 +1,166 @@
+# Hetman Succession Crisis — MECHANICS, NARRATIVE, REFERENCES
+# Mechanics: Disaster for Hetmanate (HET) representing the chronic instability caused
+# by hetman elections, competing candidates backed by different powers (Poland, Russia),
+# starshyna (officer class) factionalism, and attempts at centralization vs autonomy.
+# Causes pretender rebellions, foreign interference, legitimacy drain, and reform slowdown
+# until a clear succession is established or hetman power is curtailed.
+# Narrative: Simulates succession crises like those following Bohdan Khmelnytsky (1657),
+# the rivalry between Doroshenko and Samoylovych (1660s-70s), and Mazepa's defection (1708).
+# Each crisis could lead to partition, foreign vassalization, or renewed hetman authority.
+# References: Orest Subtelny, *The Mazepists* (1981);
+# Paul Robert Magocsi, *A History of Ukraine* (1996);
+# Jaroslaw Pelenski, *The Contest for the Legacy of Kievan Rus'* (1998).
+
+hetman_succession_crisis = {
+
+	potential = {
+		tag = HET
+		normal_or_historical_nations = yes
+		government = monarchy
+		NOT = { has_country_flag = abolished_hetmanate }
+	}
+
+	can_start = {
+		has_any_disaster = no
+		OR = {
+			current_age = age_of_reformation
+			current_age = age_of_absolutism
+			current_age = age_of_revolutions
+		}
+		OR = {
+			# Hetman death/weak ruler
+			AND = {
+				NOT = { legitimacy = 50 }
+				OR = {
+					has_regency = yes
+					ruler_age = 60
+				}
+			}
+			# Starshyna power struggle
+			AND = {
+				estate_influence = {
+					estate = estate_nobles
+					influence = 60
+				}
+				NOT = { crown_land_share = 30 }
+			}
+			# Foreign pressure for regime change
+			AND = {
+				is_subject = yes
+				overlord = {
+					OR = {
+						tag = POL
+						tag = MOS
+						tag = RUS
+					}
+					NOT = {
+						has_opinion = {
+							who = ROOT
+							value = 0
+						}
+					}
+				}
+			}
+			# Rival hetman faction
+			AND = {
+				stability = -1
+				num_of_powerful_estates = 2
+			}
+		}
+	}
+	on_start = het_succession.1
+
+	can_stop = {
+		has_any_disaster = yes
+	}
+
+	modifier = {
+		global_unrest = 3
+		legitimacy = -1.5
+		stability_cost_modifier = 0.4
+		reform_progress_growth = -0.3
+		diplomatic_reputation = -2
+		fort_maintenance_modifier = 0.2
+		liberty_desire = 15
+	}
+
+	progress = {
+		modifier = {
+			factor = 2
+			always = yes
+		}
+		modifier = {
+			factor = 2.5
+			NOT = { legitimacy = 30 }
+		}
+		modifier = {
+			factor = 1.5
+			has_regency = yes
+		}
+		modifier = {
+			factor = 1.5
+			estate_influence = {
+				estate = estate_nobles
+				influence = 70
+			}
+		}
+		modifier = {
+			factor = 1.3
+			is_subject = yes
+			overlord = {
+				NOT = {
+					has_opinion = {
+						who = ROOT
+						value = -50
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 1.5
+			num_of_rebel_armies = 1
+		}
+		modifier = {
+			factor = 0.75
+			stability = 1
+		}
+		modifier = {
+			factor = 0.5
+			stability = 2
+		}
+		modifier = {
+			factor = 0.7
+			legitimacy = 70
+		}
+		modifier = {
+			factor = 0.8
+			crown_land_share = 40
+		}
+	}
+
+	can_end = {
+		stability = 0
+		legitimacy = 60
+		NOT = { has_regency = yes }
+		NOT = { num_of_rebel_armies = 1 }
+		OR = {
+			is_subject = no
+			overlord = {
+				has_opinion = {
+					who = ROOT
+					value = 0
+				}
+			}
+		}
+	}
+	on_end = het_succession.2
+
+	on_monthly = {
+		random_events = {
+			120 = het_succession.3
+			100 = het_succession.4
+			80 = het_succession.5
+			60 = het_succession.6
+		}
+	}
+}
