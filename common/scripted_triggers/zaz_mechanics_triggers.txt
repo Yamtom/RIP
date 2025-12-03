@@ -1,0 +1,546 @@
+# ========================================
+# ZAPORIZHIA & HETMANATE MECHANICS TRIGGERS
+# ========================================
+
+# === GENERAL ZAPORIZHIA/HETMANATE CHECKS ===
+
+is_zaporozhian_nation = {
+	OR = {
+		tag = ZAZ
+		tag = HET
+		has_country_modifier = zaporozhian_sich_founded
+	}
+}
+
+is_hetmanate_nation = {
+	OR = {
+		tag = HET
+		has_country_modifier = hetmanate_capital
+	}
+}
+
+has_sich_established = {
+	OR = {
+		has_country_modifier = zaporozhian_sich_founded
+		any_owned_province = {
+			has_province_modifier = zaporozhian_sich_capital
+		}
+		owns = 283  # Zaporizhia
+	}
+}
+
+# === RADA CONVOCATION TRIGGERS ===
+
+can_convene_rada = {
+	is_zaporozhian_nation = yes
+	has_sich_established = yes
+	
+	OR = {
+		legitimacy_equivalent = 75
+		republican_tradition = 50
+	}
+	
+	is_at_war = no
+	NOT = { has_country_modifier = zaz_rada_cooldown }
+	stability = 1
+	NOT = { num_of_rebel_armies = 1 }
+}
+
+rada_can_elect_officer = {
+	can_convene_rada = yes
+	NOT = { had_country_flag = { flag = rada_officer_election days = 1825 } }
+}
+
+# === SICH RELOCATION TRIGGERS ===
+
+has_valid_sich_relocation_target = {
+	any_owned_province = {
+		region = ruthenia_region
+		development = 8
+		OR = {
+			has_terrain = steppe
+			has_terrain = grasslands
+		}
+		any_neighbor_province = {
+			OR = {
+				has_terrain = coastline
+				has_port = yes
+			}
+		}
+		NOT = { has_province_modifier = zaporozhian_sich_capital }
+		NOT = { devastation = 5 }
+	}
+}
+
+sich_relocation_necessary = {
+	OR = {
+		# Military pressure
+		capital_scope = {
+			devastation = 20
+		}
+		capital_scope = {
+			controller = {
+				war_with = ROOT
+			}
+		}
+		# Diplomatic pressure
+		is_subject = yes
+		overlord = {
+			has_opinion_modifier = {
+				who = ROOT
+				modifier = demanded_sich_relocation
+			}
+		}
+		# Strategic opportunity
+		any_owned_province = {
+			region = ruthenia_region
+			development = 15
+			OR = {
+				has_terrain = steppe
+				has_terrain = grasslands
+			}
+			any_neighbor_province = {
+				has_river = yes
+			}
+			NOT = { province_id = 283 }
+		}
+	}
+}
+
+can_relocate_sich = {
+	has_sich_established = yes
+	has_valid_sich_relocation_target = yes
+	NOT = { has_country_modifier = zaz_recent_relocation }
+	OR = {
+		sich_relocation_necessary = yes
+		AND = {
+			stability = 2
+			adm_power = 100
+		}
+	}
+}
+
+# === CHAIKY RAID TRIGGERS ===
+
+has_chaiky_fleet = {
+	num_of_galley = 5
+	sailors_percentage = 0.2
+	navy_tradition = 5
+}
+
+has_valid_raid_target = {
+	any_known_country = {
+		any_owned_province = {
+			has_port = yes
+		}
+		capital_scope = {
+			OR = {
+				region = balkan_region
+				region = anatolia_region
+				region = crimea_region
+				region = caucasia_region
+			}
+		}
+		OR = {
+			AND = {
+				NOT = { alliance_with = ROOT }
+				NOT = { truce_with = ROOT }
+			}
+			is_rival = ROOT
+			war_with = ROOT
+		}
+		OR = {
+			tag = TUR
+			tag = CRI
+			is_subject_of = TUR
+			culture_group = byzantine
+		}
+	}
+}
+
+can_launch_chaiky_raid = {
+	is_zaporozhian_nation = yes
+	has_chaiky_fleet = yes
+	has_valid_raid_target = yes
+	NOT = { has_country_modifier = zaz_chaiky_raid_cooldown }
+	NOT = { war_exhaustion = 5 }
+	OR = {
+		num_of_ports = 1
+		any_ally = {
+			any_owned_province = {
+				has_port = yes
+			}
+		}
+	}
+}
+
+# === COSSACK REGISTER TRIGGERS ===
+
+has_cossack_register = {
+	OR = {
+		has_country_modifier = zaz_register_limited
+		has_country_modifier = zaz_register_expanded
+		has_country_modifier = zaz_register_unlimited
+	}
+}
+
+register_is_low = {
+	has_country_modifier = zaz_register_limited
+}
+
+register_is_medium = {
+	has_country_modifier = zaz_register_expanded
+}
+
+register_is_high = {
+	has_country_modifier = zaz_register_unlimited
+}
+
+register_is_abolished = {
+	has_country_modifier = zaz_no_register
+}
+
+can_expand_register = {
+	is_zaporozhian_nation = yes
+	is_subject = yes
+	OR = {
+		register_is_low = yes
+		register_is_medium = yes
+	}
+	NOT = { liberty_desire = 50 }
+	overlord = {
+		has_opinion = {
+			who = ROOT
+			value = 100
+		}
+	}
+}
+
+can_abolish_register = {
+	is_zaporozhian_nation = yes
+	has_cossack_register = yes
+	OR = {
+		is_subject = no
+		liberty_desire = 75
+	}
+	republican_tradition = 60
+}
+
+overlord_wants_register_expanded = {
+	is_subject = yes
+	overlord = {
+		OR = {
+			is_at_war = yes
+			any_rival_country = {
+				army_size = ROOT
+			}
+		}
+	}
+	NOT = { register_is_high = yes }
+}
+
+# === STEPPE ALLIANCE TRIGGERS ===
+
+has_steppe_ally = {
+	OR = {
+		alliance_with = CRI
+		alliance_with = NOG
+		alliance_with = GOL
+		alliance_with = GLH
+		alliance_with = KAZ
+		alliance_with = KZH
+	}
+}
+
+can_recruit_from_steppe = {
+	has_steppe_ally = yes
+	manpower_percentage = 0.3
+	treasury = 50
+	any_ally = {
+		OR = {
+			tag = CRI
+			tag = NOG
+			tag = GOL
+			tag = GLH
+			tag = KAZ
+		}
+		has_opinion = {
+			who = ROOT
+			value = 100
+		}
+	}
+}
+
+steppe_alliance_beneficial = {
+	OR = {
+		any_neighbor_country = {
+			OR = {
+				tag = CRI
+				tag = NOG
+				tag = GOL
+			}
+		}
+		any_rival_country = {
+			OR = {
+				tag = RUS
+				tag = PLC
+				tag = MOS
+			}
+		}
+	}
+}
+
+# === SLOBODA COLONIZATION TRIGGERS ===
+
+has_frontier_provinces = {
+	any_owned_province = {
+		OR = {
+			has_terrain = steppe
+			has_terrain = grasslands
+		}
+		development = 15
+		OR = {
+			any_neighbor_province = {
+				NOT = { owned_by = ROOT }
+				OR = {
+					owner = { has_government = tribal }
+					is_empty = yes
+				}
+			}
+			area = crimean_steppe_area
+		}
+	}
+}
+
+can_establish_sloboda = {
+	is_zaporozhian_nation = yes
+	has_frontier_provinces = yes
+	treasury = 100
+	manpower_percentage = 0.4
+	adm_power = 50
+	any_owned_province = {
+		OR = {
+			has_terrain = steppe
+			has_terrain = grasslands
+		}
+		NOT = { has_province_modifier = sloboda_settlement }
+		NOT = { has_province_modifier = military_sloboda }
+		NOT = { unrest = 2 }
+		development = 5
+	}
+}
+
+has_civilian_slobodas = {
+	any_owned_province = {
+		has_province_modifier = sloboda_settlement
+	}
+}
+
+can_upgrade_sloboda = {
+	has_civilian_slobodas = yes
+	mil_power = 100
+	treasury = 200
+	any_owned_province = {
+		has_province_modifier = sloboda_settlement
+		NOT = { unrest = 1 }
+	}
+}
+
+# === ORTHODOX PROTECTOR TRIGGERS ===
+
+is_orthodox_champion = {
+	religion = orthodox
+	religious_unity = 0.85
+	OR = {
+		patriarch_authority = 0.4
+		church_power = 50
+	}
+	owns = 280  # Kyiv
+}
+
+can_protect_orthodox = {
+	is_zaporozhian_nation = yes
+	is_orthodox_champion = yes
+	any_owned_province = {
+		religion = orthodox
+		OR = {
+			has_building = temple
+			has_building = cathedral
+		}
+	}
+	NOT = { has_country_modifier = orthodox_champions }
+}
+
+orthodox_monasteries_threatened = {
+	owns = 280  # Kyiv
+	any_neighbor_country = {
+		NOT = { religion = orthodox }
+		is_rival = ROOT
+		army_size = ROOT
+	}
+}
+
+# === HETMAN ELECTION TRIGGERS ===
+
+hetman_election_due = {
+	is_hetmanate_nation = yes
+	OR = {
+		# Regular election cycle (every 20 years)
+		had_country_flag = {
+			flag = last_hetman_election
+			days = 7300
+		}
+		# Election never held
+		NOT = { has_country_flag = last_hetman_election }
+		# Crisis election
+		NOT = { legitimacy_equivalent = 40 }
+		# Foreign pressure
+		AND = {
+			is_subject = yes
+			overlord = {
+				has_opinion_modifier = {
+					who = ROOT
+					modifier = demanded_sich_relocation
+				}
+			}
+		}
+	}
+}
+
+can_hold_hetman_election = {
+	hetman_election_due = yes
+	is_at_war = no
+	NOT = { num_of_rebel_armies = 1 }
+	stability = 0
+}
+
+hetman_has_strong_support = {
+	legitimacy_equivalent = 75
+	stability = 2
+	NOT = { average_unrest = 1 }
+}
+
+# === HETMANATE AUTONOMY TRIGGERS ===
+
+hetmanate_autonomy_high = {
+	is_hetmanate_nation = yes
+	is_subject = yes
+	NOT = { liberty_desire = 25 }
+	OR = {
+		has_country_modifier = mazepa_golden_age
+		has_country_modifier = het_independent_state
+	}
+}
+
+hetmanate_autonomy_medium = {
+	is_hetmanate_nation = yes
+	is_subject = yes
+	liberty_desire = 25
+	NOT = { liberty_desire = 50 }
+	OR = {
+		has_country_modifier = het_russian_protection
+		has_country_modifier = het_hadiach_reform
+	}
+}
+
+hetmanate_autonomy_low = {
+	is_hetmanate_nation = yes
+	is_subject = yes
+	liberty_desire = 50
+	OR = {
+		has_country_modifier = het_russian_repression
+		has_country_modifier = het_little_russian_collegium
+	}
+}
+
+hetmanate_autonomy_ending = {
+	is_hetmanate_nation = yes
+	is_subject = yes
+	OR = {
+		has_country_modifier = het_abolished
+		liberty_desire = 75
+	}
+	overlord = {
+		NOT = {
+			has_opinion = {
+				who = ROOT
+				value = 0
+			}
+		}
+	}
+}
+
+can_resist_abolition = {
+	hetmanate_autonomy_ending = yes
+	army_size = 15
+	manpower_percentage = 0.5
+	any_ally = {
+		army_size = ROOT
+	}
+}
+
+# === CULTURAL DEVELOPMENT TRIGGERS ===
+
+has_ukrainian_academy = {
+	owns = 280  # Kyiv
+	280 = {
+		has_province_modifier = kyiv_mohyla_academy
+	}
+}
+
+can_establish_printing_press = {
+	is_hetmanate_nation = yes
+	has_ukrainian_academy = yes
+	adm_tech = 15
+	innovativeness = 10
+	NOT = { has_country_modifier = het_printing_press }
+}
+
+ukrainian_culture_flourishing = {
+	is_hetmanate_nation = yes
+	has_ukrainian_academy = yes
+	OR = {
+		has_country_modifier = mazepa_golden_age
+		has_country_modifier = het_cultural_golden_age
+	}
+	innovativeness = 20
+	prestige = 25
+}
+
+# === POLTAVA CRISIS TRIGGERS ===
+
+poltava_crisis_active = {
+	is_hetmanate_nation = yes
+	current_age = age_of_revolutions
+	is_year = 1700
+	NOT = { is_year = 1720 }
+	is_subject_of = RUS
+	any_known_country = {
+		tag = SWE
+		war_with = RUS
+	}
+}
+
+can_join_sweden = {
+	poltava_crisis_active = yes
+	liberty_desire = 50
+	legitimacy_equivalent = 60
+	army_size = 10
+	SWE = {
+		has_opinion = {
+			who = ROOT
+			value = 50
+		}
+	}
+}
+
+can_stay_loyal_to_russia = {
+	poltava_crisis_active = yes
+	NOT = { liberty_desire = 50 }
+	RUS = {
+		has_opinion = {
+			who = ROOT
+			value = 100
+		}
+	}
+}

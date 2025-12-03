@@ -1,4 +1,4 @@
-#Rework
+#Rework - Historically accurate Zaporozhian mission tree
 ZAZ_missions_1 = {
 	slot = 1
 	generic = no
@@ -10,8 +10,79 @@ ZAZ_missions_1 = {
 		}
 	}
 	has_country_shield = yes
+	
+	ZAZ_establish_sich = {
+		#Establish the Sich fortress
+		icon = mission_cossack_cavalry
+		position = 1
+		trigger = {
+			stability = 1
+			army_size_percentage = 0.75
+			283 = {
+				owned_by = ROOT
+				OR = {
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "zaporozhian_sich_founded"
+				duration = -1
+			}
+			283 = {
+				add_province_modifier = {
+					name = "zaporozhian_sich_capital"
+					duration = -1
+				}
+			}
+			add_army_tradition = 15
+			add_prestige = 10
+		}
+	}
+	
+	ZAZ_chaiky_raids = {
+		#Naval raids with chaiky boats
+		icon = mission_galleys_in_port
+		position = 2
+		required_missions = {
+			ZAZ_establish_sich
+		}
+		trigger = {
+			num_of_galley = 5
+			navy_tradition = 10
+			OR = {
+				has_won_war_against = {
+					who = TUR
+					max_years_since = 25
+				}
+				has_won_war_against = {
+					who = CRI
+					max_years_since = 25
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "zaz_chaiky_raiders"
+				duration = 7300
+			}
+			add_navy_tradition = 10
+			add_prestige = 15
+			284 = {
+				add_claim = ROOT
+			}
+			285 = {
+				add_claim = ROOT
+			}
+		}
+	}
+	
 	ZAZ_rally_hordes = {
-		#rally hordes
+		#rally hordes - recruit steppe cavalry
 		icon = mission_have_two_subjects
 		position = 3
 		required_missions = {
@@ -19,8 +90,13 @@ ZAZ_missions_1 = {
 		}
 		trigger = {
 			army_size_percentage = 1
+			cavalry_fraction = 0.4
 		}
 		effect = {
+			add_country_modifier = {
+				name = "steppe_cavalry_tactics"
+				duration = 9125
+			}
 			282 = {
 				if = {
 					limit = {
@@ -47,9 +123,10 @@ ZAZ_missions_1 = {
 			}
 		}
 	}
+	
 	ZAZ_first_raze = {
-		#baby's first raze
-		icon = mission_build_up_to_force_limit
+		#Punitive raids against enemies
+		icon = mission_non-western_cavalry_raid
 		position = 4
 		required_missions = {
 			ZAZ_rally_hordes
@@ -68,9 +145,10 @@ ZAZ_missions_1 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = zaz_taxes
-				duration = 9125
+				name = zaz_successful_raid
+				duration = 3650
 			}
+			add_army_tradition = 10
 			every_owned_province = {
 				limit = {
 					is_core = ROOT
@@ -161,15 +239,15 @@ ZAZ_missions_2 = {
 		}
 	}
 	has_country_shield = yes
+	
 	ZAZ_muster_manpower = {
-		#muster manpower
+		#muster manpower - build Cossack host
 		icon = mission_conquer_novgorod
-		required_missions = {
-			ZAZ_independce
-		}
+		required_missions = { }
 		position = 2
 		trigger = {
-			manpower_percentage = 0.25
+			manpower_percentage = 0.5
+			num_of_infantry = 10
 		}
 		effect = {
 			add_yearly_manpower = 2.5
@@ -203,10 +281,53 @@ ZAZ_missions_2 = {
 			}
 		}
 	}
-	ZAZ_krakow = {
-		icon = mission_cannons_firing
+	
+	ZAZ_orthodox_protectors = {
+		#Defenders of Orthodox faith
+		icon = mission_hands_praying
 		position = 3
 		required_missions = {
+			ZAZ_muster_manpower
+		}
+		trigger = {
+			religious_unity = 0.85
+			has_institution = renaissance
+			280 = {
+				OR = {
+					owned_by = ROOT
+					owner = {
+						religion = orthodox
+						has_opinion = {
+							who = ROOT
+							value = 100
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "orthodox_champions"
+				duration = 9125
+			}
+			add_patriarch_authority = 0.1
+			280 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+		}
+	}
+	
+	ZAZ_krakow = {
+		#Raid or siege Krakow
+		icon = mission_cannons_firing
+		position = 4
+		required_missions = {
+			ZAZ_orthodox_protectors
 			ZAZ_lit
 		}
 		provinces_to_highlight = {
@@ -259,10 +380,11 @@ ZAZ_missions_2 = {
 			}
 		}
 	}
+	
 	ZAZ_moskva = {
-		#ambush plockas
+		#Raid or threaten Moskva
 		icon = mission_unite_home_region
-		position = 4
+		position = 5
 		required_missions = {
 			ZAZ_krakow
 		}
@@ -311,8 +433,9 @@ ZAZ_missions_2 = {
 				}
 			}
 			else = {
-				add_prestige = 10
-				add_manpower = 1
+				add_prestige = 15
+				add_manpower = 2
+				add_army_tradition = 10
 			}
 		}
 	}
@@ -398,18 +521,26 @@ ZAZ_missions_3 = {
 		}
 	}
 	has_country_shield = yes
+	
 	ZAZ_independce = {
-		#independce war
-		icon = mission_cannons_firing
+		#Independence struggle
+		icon = mission_cossack_infantry
 		position = 1
 		trigger = {
-			stability = 1
+			OR = {
+				is_subject = no
+				liberty_desire = 50
+			}
+			stability = 0
+			army_size = 10
 		}
 		effect = {
 			add_country_modifier = {
-				name = zaz_lit_kill
-				duration = 1825
+				name = "het_independence_struggle"
+				duration = 3650
 			}
+			add_prestige = 10
+			add_legitimacy = 10
 			if = {
 				limit = {
 					is_subject = yes
@@ -425,8 +556,9 @@ ZAZ_missions_3 = {
 			}
 		}
 	}
+	
 	ZAZ_lit = {
-		#ambush vilnius
+		#Resist Lithuania/Commonwealth
 		icon = mission_conquer_50_development
 		position = 2
 		required_missions = {
@@ -435,8 +567,8 @@ ZAZ_missions_3 = {
 		provinces_to_highlight = {
 			OR = {
 				province_id = 272
-				province_id = 275
-				province_id = 1936
+				province_id = 276
+				province_id = 280
 			}
 			NOT = {
 				owned_by = ROOT
@@ -453,115 +585,108 @@ ZAZ_missions_3 = {
 			}
 		}
 		trigger = {
-			272 = {
-				OR = {
-					owned_by = ROOT
-					AND = {
-						owner = {
-							war_with = ROOT
+			OR = {
+				272 = {
+					OR = {
+						owned_by = ROOT
+						AND = {
+							owner = {
+								war_with = ROOT
+							}
+							units_in_province = ROOT
 						}
-						units_in_province = ROOT
+					}
+				}
+				276 = {
+					OR = {
+						owned_by = ROOT
+						AND = {
+							owner = {
+								war_with = ROOT
+							}
+							units_in_province = ROOT
+						}
+					}
+				}
+				280 = {
+					OR = {
+						owned_by = ROOT
+						AND = {
+							owner = {
+								war_with = ROOT
+							}
+							units_in_province = ROOT
+						}
 					}
 				}
 			}
-			275 = {
-				OR = {
-					owned_by = ROOT
-					AND = {
-						owner = {
-							war_with = ROOT
-						}
-						units_in_province = ROOT
-					}
+			OR = {
+				NOT = { exists = LIT }
+				NOT = { exists = PLC }
+				war_score_against = {
+					who = LIT
+					value = 50
 				}
-			}
-			1936 = {
-				OR = {
-					owned_by = ROOT
-					AND = {
-						owner = {
-							war_with = ROOT
-						}
-						units_in_province = ROOT
-					}
+				war_score_against = {
+					who = PLC
+					value = 50
 				}
 			}
 		}
 		effect = {
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							owns = 272
-						}
-						NOT = {
-							owns = 275
-						}
-						NOT = {
-							owns = 1936
-						}
+			add_prestige = 15
+			add_legitimacy = 10
+			add_republican_tradition = 5
+			272 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
 					}
-				}
-				country_event = {
-					id = zaz_flavor_m_1.1
+					add_permanent_claim = ROOT
 				}
 			}
-			else = {
-				add_prestige = 10
-				add_manpower = 1
+			280 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
+	
 	ZAZ_finally = {
-		#finally indep
+		#Secure independence
 		icon = mission_alliances
 		position = 4
 		required_missions = {
 			ZAZ_lit
+			ZAZ_muster_manpower
 		}
 		trigger = {
+			is_subject = no
+			stability = 2
+			legitimacy_equivalent = 90
+			NOT = {
+				war_exhaustion = 1
+			}
 			OR = {
-				AND = {
-					is_subject = no
-					is_at_war = no
-				}
-				is_in_war = {
-					attacker_leader = ROOT
-					casus_belli = cb_independence_war
-					war_score = 40
-				}
+				army_size = 25
+				army_size_percentage = 1
 			}
 		}
 		effect = {
-			if = {
-				limit = {
-					is_in_war = {
-						attacker_leader = ROOT
-						casus_belli = cb_independence_war
-					}
-				}
-				random_country = {
-					limit = {
-						is_in_war = {
-							attacker_leader = ROOT
-							defender_leader = THIS
-							casus_belli = cb_independence_war
-						}
-					}
-					white_peace = ROOT
-				}
-				if = {
-					limit = {
-						is_subject = yes
-					}
-					overlord = {
-						ROOT = {
-							grant_independence = yes
-						}
-					}
-				}
+			add_country_modifier = {
+				name = "zaporozhian_sich_founded"
+				duration = -1
 			}
-			add_stability = 2
+			add_prestige = 20
+			add_legitimacy = 15
+			add_republican_tradition = 10
+			country_event = {
+				id = zaz_flavor_m_3.1
+			}
 		}
 	}
 }

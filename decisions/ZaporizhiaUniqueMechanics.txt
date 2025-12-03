@@ -1,0 +1,511 @@
+# ========================================
+# ZAPORIZHIA UNIQUE DECISIONS
+# ========================================
+
+country_decisions = {
+
+	# === CONVENE GREAT RADA ===
+	zaz_convene_great_rada = {
+		major = yes
+		potential = {
+			is_zaporozhian_nation = yes
+			has_sich_established = yes
+		}
+		
+		allow = {
+			can_convene_rada = yes
+			adm_power = 50
+			dip_power = 50
+			mil_power = 50
+		}
+		
+		effect = {
+			add_adm_power = -50
+			add_dip_power = -50
+			add_mil_power = -50
+			
+			zaz_convene_great_rada = yes
+			
+			country_event = { id = zaz_rada_1 }
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { years_of_income = 0.5 }
+			}
+			modifier = {
+				factor = 2
+				legitimacy_equivalent = 90
+			}
+		}
+	}
+
+	# === RELOCATE SICH ===
+	zaz_relocate_sich = {
+		major = yes
+		potential = {
+			is_zaporozhian_nation = yes
+			has_sich_established = yes
+		}
+		
+		allow = {
+			can_relocate_sich = yes
+			adm_power = 100
+			treasury = 200
+		}
+		
+		effect = {
+			add_adm_power = -100
+			add_treasury = -200
+			add_prestige = 5
+			
+			zaz_relocate_sich_effect = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { sich_relocation_necessary = yes }
+			}
+			modifier = {
+				factor = 5
+				capital_scope = {
+					devastation = 30
+				}
+			}
+			modifier = {
+				factor = 3
+				capital_scope = {
+					controlled_by = REB
+				}
+			}
+		}
+	}
+
+	# === LAUNCH CHAIKY RAID ===
+	zaz_launch_chaiky_raid = {
+		major = yes
+		potential = {
+			is_zaporozhian_nation = yes
+		}
+		
+		allow = {
+			can_launch_chaiky_raid = yes
+			mil_power = 50
+		}
+		
+		effect = {
+			add_mil_power = -50
+			
+			zaz_launch_chaiky_raid = yes
+			
+			country_event = { id = zaporozhia_flavor.11 }
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				is_at_war = yes
+			}
+			modifier = {
+				factor = 2
+				any_rival_country = {
+					tag = TUR
+				}
+			}
+			modifier = {
+				factor = 2
+				any_rival_country = {
+					tag = CRI
+				}
+			}
+		}
+	}
+
+	# === EXPAND COSSACK REGISTER ===
+	zaz_expand_register = {
+		major = yes
+		potential = {
+			is_zaporozhian_nation = yes
+			is_subject = yes
+			NOT = { register_is_high = yes }
+			NOT = { register_is_abolished = yes }
+		}
+		
+		allow = {
+			can_expand_register = yes
+			mil_power = 100
+			treasury = 150
+		}
+		
+		effect = {
+			add_mil_power = -100
+			add_treasury = -150
+			
+			zaz_expand_register = yes
+			
+			if = {
+				limit = { is_subject = yes }
+				overlord = {
+					add_opinion = {
+						who = ROOT
+						modifier = opinion_pleased
+					}
+				}
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { overlord_wants_register_expanded = yes }
+			}
+			modifier = {
+				factor = 2
+				overlord = {
+					is_at_war = yes
+				}
+			}
+		}
+	}
+
+	# === ABOLISH COSSACK REGISTER ===
+	zaz_abolish_register = {
+		major = yes
+		potential = {
+			is_zaporozhian_nation = yes
+			has_cossack_register = yes
+		}
+		
+		allow = {
+			can_abolish_register = yes
+			mil_power = 150
+			legitimacy_equivalent = 60
+		}
+		
+		effect = {
+			add_mil_power = -150
+			
+			zaz_abolish_register = yes
+			
+			if = {
+				limit = { is_subject = yes }
+				overlord = {
+					add_opinion = {
+						who = ROOT
+						modifier = opinion_disloyal_vassal
+					}
+					add_casus_belli = {
+						target = ROOT
+						type = cb_disloyal_vassal
+						months = 120
+					}
+				}
+			}
+			
+			country_event = { id = zaporozhia_flavor.12 }
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				is_subject = yes
+				NOT = { liberty_desire = 75 }
+			}
+			modifier = {
+				factor = 3
+				NOT = { is_subject = yes }
+			}
+		}
+	}
+
+	# === RECRUIT FROM STEPPE ALLIES ===
+	zaz_recruit_steppe_cavalry = {
+		major = no
+		potential = {
+			is_zaporozhian_nation = yes
+		}
+		
+		allow = {
+			can_recruit_from_steppe = yes
+			mil_power = 50
+			treasury = 50
+		}
+		
+		effect = {
+			add_mil_power = -50
+			add_treasury = -50
+			
+			zaz_recruit_steppe_cavalry = yes
+			
+			random_known_country = {
+				limit = {
+					OR = {
+						tag = CRI
+						tag = NOG
+						tag = GOL
+						tag = KAZ
+					}
+					alliance_with = ROOT
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = opinion_pleased
+				}
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { manpower_percentage = 0.5 }
+			}
+			modifier = {
+				factor = 2
+				is_at_war = yes
+			}
+		}
+	}
+
+	# === ESTABLISH SLOBODA ===
+	zaz_establish_sloboda = {
+		major = yes
+		potential = {
+			is_zaporozhian_nation = yes
+		}
+		
+		allow = {
+			can_establish_sloboda = yes
+		}
+		
+		effect = {
+			zaz_establish_sloboda = yes
+			
+			tooltip = {
+				random_owned_province = {
+					limit = {
+						OR = {
+							has_terrain = steppe
+							has_terrain = grasslands
+						}
+					}
+					add_province_modifier = {
+						name = "sloboda_settlement"
+						duration = -1
+					}
+				}
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { adm_power = 100 }
+			}
+			modifier = {
+				factor = 2
+				has_frontier_provinces = yes
+			}
+		}
+	}
+
+	# === FORTIFY SLOBODA ===
+	zaz_fortify_sloboda = {
+		major = yes
+		potential = {
+			is_zaporozhian_nation = yes
+			has_civilian_slobodas = yes
+		}
+		
+		allow = {
+			can_upgrade_sloboda = yes
+		}
+		
+		effect = {
+			zaz_fortify_sloboda = yes
+			
+			tooltip = {
+				random_owned_province = {
+					limit = {
+						has_province_modifier = sloboda_settlement
+					}
+					add_province_modifier = {
+						name = "military_sloboda"
+						duration = -1
+					}
+				}
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				is_at_war = no
+			}
+			modifier = {
+				factor = 3
+				any_neighbor_country = {
+					is_rival = ROOT
+					army_size = ROOT
+				}
+			}
+		}
+	}
+
+	# === PROTECT ORTHODOX MONASTERIES ===
+	zaz_protect_orthodox = {
+		major = yes
+		potential = {
+			is_zaporozhian_nation = yes
+			religion = orthodox
+		}
+		
+		allow = {
+			can_protect_orthodox = yes
+			dip_power = 50
+		}
+		
+		effect = {
+			add_dip_power = -50
+			
+			zaz_protect_orthodox_monasteries = yes
+			
+			country_event = { id = zaporozhia_flavor.13 }
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { religious_unity = 0.9 }
+			}
+			modifier = {
+				factor = 2
+				orthodox_monasteries_threatened = yes
+			}
+		}
+	}
+
+	# === HOLD HETMAN ELECTION ===
+	zaz_hold_hetman_election = {
+		major = yes
+		potential = {
+			is_hetmanate_nation = yes
+		}
+		
+		allow = {
+			can_hold_hetman_election = yes
+			adm_power = 100
+		}
+		
+		effect = {
+			add_adm_power = -100
+			
+			zaz_hold_hetman_election = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				legitimacy_equivalent = 75
+				NOT = {
+					had_country_flag = {
+						flag = last_hetman_election
+						days = 7300
+					}
+				}
+			}
+			modifier = {
+				factor = 5
+				NOT = { legitimacy_equivalent = 30 }
+			}
+		}
+	}
+
+	# === ESTABLISH PRINTING PRESS ===
+	het_establish_printing_press = {
+		major = yes
+		potential = {
+			is_hetmanate_nation = yes
+			has_ukrainian_academy = yes
+			NOT = { has_country_modifier = het_printing_press }
+		}
+		
+		allow = {
+			can_establish_printing_press = yes
+			adm_power = 150
+			treasury = 300
+		}
+		
+		effect = {
+			add_adm_power = -150
+			add_treasury = -300
+			
+			add_country_modifier = {
+				name = "het_printing_press"
+				duration = -1
+			}
+			
+			add_innovativeness_small_effect = yes
+			
+			# country_event = { id = het_culture.1 }
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { adm_tech = 15 }
+			}
+			modifier = {
+				factor = 2
+				innovativeness = 20
+			}
+		}
+	}
+
+	# === RESIST ABOLITION (Poltava Crisis) ===
+	het_resist_abolition = {
+		major = yes
+		potential = {
+			is_hetmanate_nation = yes
+			hetmanate_autonomy_ending = yes
+		}
+		
+		allow = {
+			can_resist_abolition = yes
+			mil_power = 200
+			legitimacy_equivalent = 75
+		}
+		
+		effect = {
+			add_mil_power = -200
+			add_stability = -2
+			
+			# country_event = { id = het_crisis.1 }
+			# TODO: Create het_crisis.1 event in events/HetmanateCrisis.txt
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				army_size_percentage = 0.8
+			}
+			modifier = {
+				factor = 5
+				liberty_desire = 90
+			}
+		}
+	}
+}

@@ -50,21 +50,27 @@ chr_border_compacts = {
 			}
 			if = {
 				limit = {
-					target = {
-						has_opinion = {
-							who = ROOT
-							value = 80
-						}
-						trust = {
-							who = ROOT
-							value = 50
-						}
-					}
+					target = { has_opinion = { who = ROOT value = 80 } }
+					target = { trust = { who = ROOT value = 50 } }
 				}
 				custom_tooltip = chr_border_compacts_confidence_tt
 				add_country_modifier = {
 					name = chr_border_compact_confidence
 					duration = 1825
+				}
+			}
+			else = {
+				custom_tooltip = chr_border_compacts_tension_tt
+				add_country_modifier = {
+					name = chr_border_compact_tension
+					duration = 1095
+				}
+			}
+			# Apply partner modifiers outside the if/else block
+			if = {
+				limit = {
+					target = { has_opinion = { who = ROOT value = 80 } }
+					target = { trust = { who = ROOT value = 50 } }
 				}
 				target = {
 					add_country_modifier = {
@@ -74,11 +80,6 @@ chr_border_compacts = {
 				}
 			}
 			else = {
-				custom_tooltip = chr_border_compacts_tension_tt
-				add_country_modifier = {
-					name = chr_border_compact_tension
-					duration = 1095
-				}
 				target = {
 					add_country_modifier = {
 						name = chr_border_compact_watchposts

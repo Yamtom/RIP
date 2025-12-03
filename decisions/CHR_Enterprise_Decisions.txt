@@ -1,20 +1,21 @@
 country_decisions = {
 
 chr_organize_sloboda = {
-		potential = {
-			owner = { tag = CHR }
-			is_border_province = yes
-			NOT = { has_province_modifier = chr_frontier_sloboda }
-			NOT = { has_province_modifier = chr_enterprise_mlyn }
-			NOT = { has_province_modifier = chr_enterprise_guta }
-			NOT = { has_province_modifier = chr_enterprise_buda }
-			NOT = { has_province_modifier = chr_enterprise_selitra }
-		}
-		allow = {
-			owner = { adm_power = 25 }
-		}
-		effect = {
-			owner = { add_adm_power = -25 }
+	potential = {
+		tag = CHR
+		is_border_province = yes
+		NOT = { has_province_modifier = chr_frontier_sloboda }
+		NOT = { has_province_modifier = chr_enterprise_mlyn }
+		NOT = { has_province_modifier = chr_enterprise_guta }
+		NOT = { has_province_modifier = chr_enterprise_buda }
+		NOT = { has_province_modifier = chr_enterprise_selitra }
+	}
+	allow = {
+		adm_power = 25
+	}
+	effect = {
+		add_adm_power = -25
+		this = {
 			add_province_modifier = {
 				name = chr_frontier_sloboda
 				duration = -1
@@ -27,21 +28,26 @@ chr_organize_sloboda = {
 				}
 			}
 		}
-		ai_will_do = { factor = 1 }
 	}
+	ai_will_do = { factor = 1 }
+}
 
 	chr_establish_enterprise = {
 		potential = {
-			owner = { tag = CHR }
-			has_province_modifier = chr_frontier_sloboda
+			tag = CHR
+			this = {
+				has_province_modifier = chr_frontier_sloboda
+			}
 		}
 		allow = {
-			owner = { dip_power = 50 }
+			dip_power = 50
 			is_year = 1600
 		}
 		effect = {
-			owner = { add_dip_power = -50 }
-			province_event = { id = chr_flavor.201 }
+			add_dip_power = -50
+			this = {
+				province_event = { id = chr_flavor.201 }
+			}
 		}
 		ai_will_do = { factor = 1 }
 	}

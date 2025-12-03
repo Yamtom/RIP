@@ -1,0 +1,239 @@
+# ========================================
+# ZAPORIZHIA UNIQUE MECHANICS
+# ========================================
+
+# === SICH RADA MECHANIC ===
+zaz_convene_great_rada = {
+	add_prestige = 5
+	add_legitimacy = 5
+	add_republican_tradition = 5
+	
+	add_country_modifier = {
+		name = "zaz_great_rada_held"
+		duration = 1825
+	}
+	
+	add_country_modifier = {
+		name = "zaz_rada_cooldown"
+		duration = 3650
+		hidden = yes
+	}
+	
+	custom_tooltip = zaz_rada_effects_tt
+}
+
+# === SICH RELOCATION MECHANIC ===
+zaz_relocate_sich_effect = {
+	capital_scope = {
+		remove_province_modifier = zaporozhian_sich_capital
+		add_devastation = 10
+	}
+	
+	country_event = { id = zaporozhia_flavor.1 }
+	
+	add_country_modifier = {
+		name = "zaz_recent_relocation"
+		duration = 1825
+	}
+	
+	add_country_modifier = {
+		name = "zich_relocated"
+		duration = 3650
+	}
+}
+
+# === CHAIKY RAID MECHANIC ===
+zaz_launch_chaiky_raid = {
+	add_navy_tradition = 5
+	add_sailors = -1000
+	
+	random_list = {
+		40 = {
+			add_country_modifier = {
+				name = "zaz_successful_raid"
+				duration = 1825
+			}
+			add_treasury = 200
+			add_prestige = 10
+			add_yearly_manpower = 1
+			custom_tooltip = zaz_freed_captives_tt
+		}
+		30 = {
+			add_treasury = 100
+			add_prestige = 5
+			add_yearly_manpower = 0.5
+		}
+		20 = {
+			add_prestige = -5
+			add_war_exhaustion = 0.5
+		}
+		10 = {
+			add_country_modifier = {
+				name = "zaz_failed_raid"
+				duration = 1825
+			}
+			add_prestige = -10
+			add_war_exhaustion = 2
+			kill_units = {
+				who = ROOT
+				type = galley
+				amount = 3
+			}
+		}
+	}
+	
+	add_country_modifier = {
+		name = "zaz_chaiky_raid_cooldown"
+		duration = 1095
+		hidden = yes
+	}
+}
+
+# === COSSACK REGISTER MECHANIC ===
+zaz_expand_register = {
+	if = {
+		limit = { has_country_modifier = zaz_register_limited }
+		remove_country_modifier = zaz_register_limited
+		add_country_modifier = {
+			name = "zaz_register_expanded"
+			duration = -1
+		}
+		add_yearly_manpower = 2
+		add_army_professionalism = 0.05
+	}
+	else_if = {
+		limit = { has_country_modifier = zaz_register_expanded }
+		remove_country_modifier = zaz_register_expanded
+		add_country_modifier = {
+			name = "zaz_register_unlimited"
+			duration = -1
+		}
+		add_yearly_manpower = 3
+		add_army_professionalism = 0.05
+	}
+	
+	custom_tooltip = zaz_register_expanded_tt
+}
+
+zaz_abolish_register = {
+	remove_country_modifier = zaz_register_limited
+	remove_country_modifier = zaz_register_expanded
+	remove_country_modifier = zaz_register_unlimited
+	
+	add_country_modifier = {
+		name = "zaz_no_register"
+		duration = -1
+	}
+	
+	add_liberty_desire = 25
+	add_republican_tradition = 10
+	add_yearly_manpower = 5
+	add_army_professionalism = -0.10
+	
+	custom_tooltip = zaz_register_abolished_tt
+}
+
+# === STEPPE ALLIANCE MECHANIC ===
+zaz_recruit_steppe_cavalry = {
+	add_yearly_manpower = 1
+	
+	add_country_modifier = {
+		name = "steppe_cavalry_recruited"
+		duration = 3650
+	}
+	
+	create_general = { tradition = 40 }
+	
+	custom_tooltip = zaz_sloboda_established_tt
+}
+
+# === SLOBODA COLONIZATION MECHANIC ===
+zaz_establish_sloboda = {
+	add_treasury = -100
+	add_yearly_manpower = -0.5
+	
+	random_owned_province = {
+		limit = {
+			OR = {
+				has_terrain = steppe
+				has_terrain = grasslands
+			}
+			NOT = { has_province_modifier = sloboda_settlement }
+			NOT = { has_province_modifier = military_sloboda }
+		}
+		
+		add_province_modifier = {
+			name = "sloboda_settlement"
+			duration = -1
+		}
+		add_base_manpower = 1
+		add_base_production = 1
+	}
+	
+	custom_tooltip = zaz_sloboda_established_tt
+}
+
+zaz_fortify_sloboda = {
+	add_treasury = -200
+	add_mil_power = -100
+	
+	random_owned_province = {
+		limit = {
+			has_province_modifier = sloboda_settlement
+		}
+		
+		remove_province_modifier = sloboda_settlement
+		add_province_modifier = {
+			name = "military_sloboda"
+			duration = -1
+		}
+		add_base_manpower = 1
+		if = {
+			limit = { NOT = { fort_level = 1 } }
+			add_building = fort_15th
+		}
+	}
+}
+
+# === ORTHODOX PROTECTOR MECHANIC ===
+zaz_protect_orthodox_monasteries = {
+	add_patriarch_authority = 0.05
+	add_church_power = 25
+	
+	add_country_modifier = {
+		name = "orthodox_champions"
+		duration = 5475
+	}
+	
+	every_owned_province = {
+		limit = {
+			religion = orthodox
+			OR = {
+				has_building = temple
+				has_building = cathedral
+			}
+		}
+		add_province_modifier = {
+			name = "orthodox_protected"
+			duration = 5475
+		}
+	}
+}
+
+# === HETMAN ELECTION MECHANIC ===
+zaz_hold_hetman_election = {
+	if = {
+		limit = { has_government_attribute = heir }
+		add_republican_tradition = 5
+	}
+	else = {
+		add_legitimacy = 10
+	}
+	
+	add_stability = -1
+	add_prestige = 5
+	
+	set_country_flag = last_hetman_election
+	
+	country_event = { id = zaporozhia_flavor.2 }
+}
