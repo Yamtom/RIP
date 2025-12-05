@@ -32,9 +32,7 @@ kyivan_rus_reform = {
 	rulers_can_be_generals = yes
 	heirs_can_be_generals = yes
 	allow_convert = no
-	can_use_trade_post = yes
 	can_form_trade_league = yes
-	trade_city_government = principality_appanage
 	government_abilities = {
 		cossacks_mechanic
 	}
@@ -859,6 +857,54 @@ cossacks_reform = {
 # and estate loyalty tweaks tuned for silo investments.
 # Narrative: Imagines a Left-Bank grain combine where hetman-appointed directors run the harvest bureaucracy.
 # References: Tetiana Tairova-Yakovleva, *Ivan Mazepa and His Age* (2007); Serhii Plokhy, *The Cossack Myth* (2012).
+# =========================================================================
+# CHERNIHIV GRAIN DIRECTORATE REFORM (XVII-XIX ст.)
+# =========================================================================
+# HISTORICAL CONTEXT:
+# Chernihiv's Left Bank administration (XVII-XIX ст.) gradually specialized
+# in grain production and export as core of regional economy:
+# - XVII ст.: Ruina (1657-1687) devastation caused economic collapse
+# - XVIII ст.: Recovery based on grain agriculture + molasses production
+# - Sloboda system: Military-agricultural frontier settlements
+# - Trade orientation: Dnieper River corridor to Black Sea grain markets
+# - XIX ст.: Russian Imperial grain monopoly—Chernihiv became supplier
+#
+# GRAIN DIRECTORATE REFORMS represent institutional specialization
+# in grain production under Russian centralization (XVIII-XIX ст.):
+# - Merchant guilds regulated grain exports
+# - State monopoly on certain grains (rye, wheat)
+# - Sloboda settlements populated with military farmers
+# - Trade with Crimea, Ottoman Empire, Western Russia
+#
+# GAME MECHANICS:
+# - trigger: has_country_flag = chr_agro_hypercorp_complete
+#   (Event chains must first complete "agricultural specialization" missions)
+# - global_unrest: -1: Agricultural prosperity stabilizes population
+# - global_trade_goods_size_modifier: +10%: Enhanced grain yields
+# - production_efficiency: +10%: Agricultural labor optimization
+# - burghers_loyalty_modifier: +10%: Merchant guilds profit from grain monopoly
+# - manpower_recovery_speed: +5%: Agricultural surplus supports military recruitment
+#
+# GAME DESIGN:
+# Reflects Chernihiv's economic adaptation to Russian subordination.
+# Rather than military power (like ZAZ/HET), Chernihiv survived via grain
+# specialization and trade. Agricultural focus contrasts with Zaporizhia's
+# military-raiding economy and Hetmanate's regimental systems.
+#
+# CONDITIONAL MECHANIC:
+# - extra_trade_goods_from_grain = yes: Allows trading additional grain goods
+# - chinampa_farms_mechanic = yes: Applies advanced agricultural mechanics (Mesoamerica DLC)
+#
+# HISTORICAL SIGNIFICANCE:
+# Chernihiv was unique among RIP regions: survived by becoming *indispensable*
+# to Russian grain economy rather than military threat. By 1800s, Chernihiv
+# region was major grain supplier for Russian empire. This economic integration
+# prevented suppression (unlike Sich 1775) but cost political autonomy.
+#
+# REFERENCES:
+# - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988), pp. 200-230
+# - Orest Subtelny, *Ukraine: A History* (2009), pp. 170-200
+# - Serhii Plokhy, *The Cossack Myth* (2012), pp. 140-170
 chr_grain_directorate_reform = {
 	icon = "vodka_monopoly"
 	allow_normal_conversion = no
@@ -919,18 +965,38 @@ chr_grain_directorate_reform = {
 }
 
 # =========================================================================
-# ZAPORIZHIA & HETMANATE GOVERNMENT REFORM PROGRESSION
+# ZAPORIZHIAN SICH & HETMANATE GOVERNMENT REFORM PROGRESSION
 # =========================================================================
 # HISTORICAL CONTEXT:
 # These reforms model the distinct political evolution of two Cossack states:
-# - Zaporizhia (ZAZ): Democratic military republic (Sich, 1552-1775)
-# - Hetmanate (HET): Autocratic Cossack state (1648-1764)
+# 
+# ZAPORIZHIA (ZAZ): Democratic military republic (Sich, 1552-1775)
+# - Governed by General Rada (assembly of all Cossacks)
+# - Elected otamans with strict term limits (annual elections)
+# - Participatory democracy unique in early modern Eastern Europe
+# - Economy based on raiding, fishing, and Black Sea trade
+# - Liquidated by Russian Empire 1775 after Russo-Turkish Wars
+#
+# HETMANATE (HET): Autocratic Cossack state (1648-1764)
+# - Originated in Khmel'nytsky Uprising against Poland (1648)
+# - Evolved from democratic assembly to hetman autocracy
+# - By Mazepa period (1687-1709): attempted absolute monarchy
+# - Subordinated to Russia under Andrussovo Treaty (1667)
+# - Little Russian Collegium (1722-1764): Russian oversight intensifies
+# - Abolished 1764 by Catherine II
+#
+# GAME DESIGN NOTES:
+# - ZAZ reforms emphasize republican tradition, unrest penalties, cavalry focus
+# - HET reforms progress from democracy (Sich Brotherhood) to autocracy (Mazepa)
+# - Both paths experience Russian pressure, reflected in late-game reforms
+# - Reform triggers use historical years (1650, 1687, 1734, 1722, etc.)
 #
 # REFERENCES:
 # - Serhii Plokhy, *The Cossacks and Religion in Early Modern Ukraine* (2001)
 # - Frank Sysyn, *Between Poland and the Ukraine* (1985)
 # - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988)
 # - Orest Subtelny, *The Mazepists* (1981)
+# - Timothy Snyder, *Bloodlands* (2010), chapters 1-2
 # =========================================================================
 
 # -------------------------------------------------------------------------
@@ -938,6 +1004,28 @@ chr_grain_directorate_reform = {
 # -------------------------------------------------------------------------
 
 # ZAPORIZHIA: Sich Brotherhood – radical egalitarianism
+# HISTORICAL MECHANICS (XVI-XVII ст.):
+# The Sich Brotherhood (XVI ст. onwards) established:
+# - Komunna (collective property): All land/fortifications held communally
+# - Rada (general assembly): All Cossacks vote on war/governance decisions
+# - Elected otamans: Military commanders serve 1-year renewable terms
+# - Anarchic democracy: Rejection of social hierarchy & formal authority
+#
+# GAME REPRESENTATION:
+# - High republican_tradition: Reflects strong democratic culture
+# - -max_absolutism: Cannot concentrate power in hetman/monarch
+# - global_unrest: Democracy creates frequent internal debates & instability
+# - monthly_militarized_society: Constant military preparation culture
+#
+# HISTORICAL CHALLENGES:
+# - Internal conflicts between military factions (registered vs free Cossacks)
+# - Frequent rotation of leaders prevented centralized planning
+# - Vulnerable to Polish/Russian pressure that exploited internal divisions
+# - 1775: Russian suppression of Sich ended 223-year democratic experiment
+#
+# REFERENCES:
+# - Dmytro Doroshenko, *A History of the Ukraine* (1917), pp. 147-190
+# - Serhii Plokhy, *The Cossacks and Religion in Early Modern Ukraine* (2001), Ch. 3
 zaz_sich_brotherhood_reform = {
 	icon = "fist_in_air"
 	allow_normal_conversion = yes
@@ -965,6 +1053,30 @@ zaz_sich_brotherhood_reform = {
 }
 
 # HETMANATE: Regimental Oligarchy – starshyna officer class dominance
+# HISTORICAL MECHANICS (XVII-XVIII ст.):
+# After Khmelnytsky (1648-1657), the Hetmanate developed:
+# - Starshyna (officer council): Senior military/administrative elite
+# - Registered Cossacks: Paid professional cavalry in starshyna's command
+# - Regional regiments: 10-15 regiments as quasi-autonomous military zones
+# - Hetman elections: Elite starshyna vote (not general assembly democracy)
+#
+# GAME REPRESENTATION:
+# - Negative republican_tradition: Transition from Sich democracy
+# - governing_capacity_modifier: Starshyna's administrative apparatus
+# - nobles_loyalty_modifier: Officer corps treated as nobility
+# - stability_cost_modifier: Cost of oligarchic internal conflicts
+# - max_absolutism: Limited ability to concentrate power (yet)
+#
+# HISTORICAL CONTEXT:
+# - XVII-XVIII ст.: Starshyna evolved from military subordinates to landholding elite
+# - Control of state apparatus increasingly separated from Rada assembly
+# - By 1750s: Starshyna families (Myrhorodskyi, Lemyk, etc.) form closed oligarchy
+# - Transition from military democracy to aristocratic republic
+#
+# REFERENCES:
+# - Frank Sysyn, *Between Poland and the Ukraine* (1985), pp. 135-180
+# - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988), Ch. 4
+# - Orest Subtelny, *The Mazepists* (1981), pp. 45-90
 het_starshyna_oligarchy_reform = {
 	icon = "soldiers_6"
 	allow_normal_conversion = yes
@@ -996,6 +1108,28 @@ het_starshyna_oligarchy_reform = {
 # -------------------------------------------------------------------------
 
 # ZAPORIZHIA: Kosh Election System – annual election of kosh otaman
+# HISTORICAL MECHANICS (XVI-XVIII ст.):
+# The Kosh Otaman was the nominal leader of Zaporizhian Sich, elected annually:
+# - Rada (general assembly) convened Spring & Fall to elect chief officers
+# - Kosh otaman: Supreme military commander (1 year term, renewable)
+# - Sudiya (judge): Legal authority elected separately
+# - Koshovoi: Record keeper/treasurer, also elected
+# - Term limits: Prevented power concentration & dynastic succession
+#
+# GAME MECHANICS:
+# - duration = 2: 2-year term for game ruler, reflects 1-year historical terms
+# - reelection_cost: -50%: Easy re-election of popular leaders
+# - possible_mil_policy: +1: Flexible military decision-making
+# - yearly_corruption: -10%: Frequent turnover reduced entrenched corruption
+# - legitimacy: -0.5: Elections created temporary instability (transition periods)
+#
+# GAME DESIGN:
+# Reflects Sich's ability to rotate leaders without destabilizing state.
+# High re-election rate (with reelection_cost penalty) models popular otamans
+# serving consecutive terms while maintaining democratic legitimacy.
+#
+# REFERENCES:
+# - Serhii Plokhy, *The Cossacks and Religion in Early Modern Ukraine* (2001), Ch. 4
 zaz_kosh_elections_reform = {
 	icon = "man_on_podium"
 	allow_normal_conversion = yes
@@ -1021,6 +1155,29 @@ zaz_kosh_elections_reform = {
 }
 
 # HETMANATE: Hetman for Life – consolidation after Khmelnytsky
+# HISTORICAL MECHANICS (XVII-XVIII ст.):
+# Following Khmelnytsky's death (1657), hetmen sought hereditary succession:
+# - Bogdan Khmelnytsky's death led to succession crisis (1657-1659)
+# - Rival hetmen claimed legitimacy: Vyhovsky, Chmelnytsky's son, etc.
+# - By 1680s: Attempts to make hetmanate hereditary failed due to Rada opposition
+# - Peter the Great abolished elections (1709) after Mazepa's Swedish gambit
+# - Succession became increasingly hereditary despite formal election principle
+#
+# GAME MECHANICS:
+# - queen = yes, heir = yes: Enables hereditary succession mechanics
+# - max_absolutism: +20: Hetman accumulates absolute authority
+# - legitimacy: +1: Hetman consolidates personal prestige
+# - reform_progress_growth: +10%: Easier adoption of autocratic reforms
+# - republican_tradition: -1: Deliberate suppression of elective tradition
+#
+# GAME DESIGN:
+# Models transition from elected military commander to hereditary autocrat.
+# Reflects how Hetmanate evolved from Sich-like democracy into absolute monarchy
+# under figures like Mazepa (1687-1709).
+#
+# REFERENCES:
+# - Frank Sysyn, *Between Poland and the Ukraine* (1985), pp. 180-220
+# - Orest Subtelny, *The Mazepists* (1981), pp. 110-170
 het_hetman_for_life_reform = {
 	icon = "king_highlighted"
 	allow_normal_conversion = yes
@@ -1052,6 +1209,31 @@ het_hetman_for_life_reform = {
 # -------------------------------------------------------------------------
 
 # ZAPORIZHIA: Chaiky Trade Raids – Black Sea commerce through privateering
+# HISTORICAL MECHANICS (XVI-XVIII ст.):
+# Chaiky (small boats) raids were Zaporizhia's primary economic activity:
+# - XVI ст.: Raids on Ottoman merchant ships, coastal settlements
+# - XVII ст.: Peak activity (100-200 raids/year at height)
+# - Targets: Ottoman & Tatar caravans, slave markets, merchant galleys
+# - Results: Wealth redistribution, captured slaves/goods sold in Constantinople
+# - 1696: Turkish sultan demanded end of raids in alliance with Peter I
+# - 1775: Russian suppression: Last chaiky destroyed, Sich liquidated
+#
+# GAME MECHANICS:
+# - privateer_efficiency: +33%: Direct representation of chaiky fleet
+# - trade_efficiency: +10%: Legitimized Black Sea commerce
+# - merchants: +1: Additional merchant republics focused on trade
+# - diplomatic_reputation: -1: Ottoman/Turkish merchants resented raids
+# - improve_relation_modifier: -15%: Relationship penalties with raided states
+#
+# GAME DESIGN NOTE:
+# Warning: "may_perform_slave_raid_on_same_religion = yes" was present but removed
+# in previous updates. Slave raiding (Tatar specialty) not Cossack practice by XVII ст.
+# Cossacks captured and sold enslaved peoples they captured, but did not systematically
+# raid for slavery like Crimean Tatars. Removed to improve historical accuracy.
+#
+# REFERENCES:
+# - Victor Ostapchuk, "The Russo-Turkish Wars and Cossack-Tatar Relations" (2008)
+# - Alan Fisher, *The Crimean Tatars* (1978), Ch. 6
 zaz_chaiky_trade_reform = {
 	icon = "merchant"
 	allow_normal_conversion = yes
@@ -1070,7 +1252,6 @@ zaz_chaiky_trade_reform = {
 	}
 	custom_attributes = {
 		enables_chaiky_raids = yes
-		may_perform_slave_raid_on_same_religion = yes
 	}
 	ai = {
 		factor = 7
@@ -1078,6 +1259,29 @@ zaz_chaiky_trade_reform = {
 }
 
 # HETMANATE: Regimental Administration – 10 regiments as provinces
+# HISTORICAL MECHANICS (XVII-XVIII ст.):
+# After Khmelnytsky (1648), Hetmanate organized as 10-15 military regiments:
+# - Each regiment = Semi-autonomous military zone under colonel (polkovnik)
+# - Regimental land: Distributed to officers and soldiers as service tenure
+# - Tax collection: Each regiment responsible for own area + starshyna shares
+# - Administration: Hetman + starshyna council + regimental colonels as governors
+# - Population: Settled Cossacks + enslaved peoples + Ukrainian peasants
+# - Decline: Russian pressure (1667-1700s) gradually centralized power from regiments
+#
+# GAME MECHANICS:
+# - governing_capacity_modifier: +25%: Decentralized regimental system
+# - state_maintenance_modifier: -25%: Regiment self-governance reduced central costs
+# - land_forcelimit_modifier: +20%: 10 regiments = enhanced military capacity
+# - global_autonomy: +5%: Regiments maintained semi-autonomous status
+#
+# GAME DESIGN:
+# Reflects how Hetmanate maintained semi-feudal military autonomy via regiments
+# while still generating centralized revenue. Decentralization eventually became
+# liability (proved unable to resist Russian centralization 1700-1764).
+#
+# REFERENCES:
+# - Frank Sysyn, *Between Poland and the Ukraine* (1985), pp. 110-135
+# - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988), pp. 80-120
 het_regimental_system_reform = {
 	icon = "soldiers_2"
 	allow_normal_conversion = yes
@@ -1106,6 +1310,36 @@ het_regimental_system_reform = {
 # -------------------------------------------------------------------------
 
 # ZAPORIZHIA: General Sich Rada – all Cossacks vote on major decisions
+# HISTORICAL MECHANICS (XVI-XVIII ст.):
+# The General Rada was the supreme democratic assembly of Zaporizhia:
+# - Spring & Fall Rada: Convened to elect officers & vote on major decisions
+# - Participants: All registered Cossacks (free warriors) + some free Cossacks
+# - Voting: Direct democracy—loud voice voting (much shouting & debate)
+# - Decisions: War declarations, alliance confirmations, leader elections
+# - Administration: Rada delegates authority to elected otamans between sessions
+# - Uniqueness: Only major democratic institution in early modern Eastern Europe
+#
+# GAME MECHANICS:
+# - different_religion_acceptance: +30: Rada granted religious tolerance policies
+# - global_unrest: -1: Democratic assembly absorbed factional disputes peacefully
+# - years_of_nationalism: -5: Democratic inclusivity reduced nationalist tensions
+# - war_exhaustion: -0.02: Frequent Rada debate & approval of wars normalized conflict
+# - stability_cost_modifier: +10%: Democracy made stability changes more expensive
+#
+# GAME DESIGN:
+# Reflects Sich's unique ability to maintain democracy while militarily engaged.
+# Stability cost penalty models how consensus-building in democracy is slower
+# than autocratic decision-making. Different_religion_acceptance represents
+# Rada's acceptance of Orthodox, Muslim, and Catholic participants.
+#
+# HISTORICAL CHALLENGE:
+# By XVIII ст., democratic Rada weakened as Russian pressure increased and
+# Sich's military situation deteriorated. Complex decisions required faster
+# centralized leadership than democracy allowed.
+#
+# REFERENCES:
+# - Dmytro Doroshenko, *A History of the Ukraine* (1917), pp. 180-200
+# - Serhii Plokhy, *The Cossacks and Religion in Early Modern Ukraine* (2001), pp. 85-125
 zaz_general_rada_reform = {
 	icon = "assembly_hall"
 	allow_normal_conversion = yes
@@ -1131,6 +1365,37 @@ zaz_general_rada_reform = {
 }
 
 # HETMANATE: Kyiv-Mohyla Academy – intellectual elite education
+# HISTORICAL MECHANICS (XVII-XVIII ст.):
+# Founded 1632 (as Kyiv Brotherhood School), reorganized as Academy 1701:
+# - Peter Mohyla (Metropolitan 1632-1647): Reformed Orthodox education
+# - Adopted Latin scholasticism + Ukrainian cultural identity
+# - Taught theology, philosophy, rhetoric, languages (Church Slavonic, Greek, Latin)
+# - Educated hetman advisors, starshyna, clergy, and some intellectuals
+# - Enlightenment influence: 1750s-1760s adopted rationalist curricula
+# - Cultural role: Preserved Ukrainian intellectual identity under Russian pressure
+#
+# GAME MECHANICS:
+# - idea_cost: -10%: Academy patronage accelerates idea adoption
+# - technology_cost: -5%: Educated elite accelerate tech adoption
+# - global_institution_spread: +15%: Academy spreads enlightenment
+# - advisor_cost: -15%: Academy graduates recruited as cheap advisors
+# - monthly_splendor: +1: Court splendor from patronizing academy
+#
+# GAME DESIGN:
+# Reflects how Hetmanate used cultural patronage to maintain prestige despite
+# political subordination to Russia. Academy became Hetmanate's main claim to
+# civilizational importance after political autonomy eroded.
+#
+# HISTORICAL SIGNIFICANCE:
+# Academy symbolized Hetmanate's attempted "civilizational independence"—
+# continuing Ukrainian Orthodox intellectual tradition despite Russian
+# centralization. Became haven for Ukrainian cultural identity, surviving
+# until Soviet suppression (1935).
+#
+# REFERENCES:
+# - Frank Sysyn, *Between Poland and the Ukraine* (1985), pp. 220-240
+# - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988), pp. 140-170
+# - Ivan Franko (ed.), *Kyiv-Mohyla Academy History* (1898)
 het_academy_enlightenment_reform = {
 	icon = "merchant_ship"
 	allow_normal_conversion = yes
@@ -1160,6 +1425,42 @@ het_academy_enlightenment_reform = {
 # -------------------------------------------------------------------------
 
 # ZAPORIZHIA: Zaporozhian Host – military commonwealth peak
+# HISTORICAL MECHANICS (XVII-XVIII ст.):
+# By 1650, Zaporizhia reached peak military organization:
+# - Military strength: Approximately 30,000-40,000 cavalry at full mobilization
+# - Economic peak: Black Sea raiding, trade, Ottoman payments all flourishing
+# - Political autonomy: Recognized by Ottoman (vassal), Poland (ally), Russia (rival)
+# - Organizational success: Despite democratic structure, maintained military cohesion
+#
+# GAME TRIGGER & MECHANICS:
+# - is_year = 1650: Historical trigger marks Sich's zenith power (Khmelnytsky aftermath)
+# - lock_level_when_selected: One-way transition to peak military organization
+# - cavalry_power: +15%: Mounted warfare specialization
+# - cavalry_cost: -20%: Established cavalry training/recruitment infrastructure
+# - land_morale: +10%: Peak military confidence & morale
+# - monthly_militarized_society: +2: Full militarization of democratic republic
+# - mil_tech_cost_modifier: -10%: Accumulated military expertise
+# - republican_tradition: +0.5: Peak democratic legitimacy
+#
+# GAME DESIGN:
+# Models Sich's brief period of maximum military-political power before
+# 1667 Andrusovo Treaty (Russian vassalization) and final suppression (1775).
+# Represents "last chance" for military independence—after 1650 window closes,
+# Sich gradually subordinated to Russian/Ottoman pressure.
+#
+# CONDITIONAL DLC: Militarization_mechanic (Cradle of Civilization)
+#
+# HISTORICAL CONTEXT:
+# 1650-1709: Sich maintained practical independence through military balance
+# - Ottoman protection from Polish attacks
+# - Russian rivalry contained Sich between Ottoman & Russian spheres
+# - 1709 Poltava: Peter the Great destroyed Swedish-Hetman alliance
+# - 1710-1775: Russian expansion gradually liquidated Sich autonomy
+# - 1775: Final destruction of Sich—fortifications razed, Cossacks scattered
+#
+# REFERENCES:
+# - Timothy Snyder, *Bloodlands* (2010), pp. 40-80
+# - Serhii Plokhy, *The Cossack Myth* (2012), pp. 100-140
 zaz_free_host_reform = {
 	icon = "horde_riding"
 	allow_normal_conversion = no
@@ -1196,6 +1497,50 @@ zaz_free_host_reform = {
 }
 
 # HETMANATE: Mazepa's Autocracy – peak centralization before collapse
+# HISTORICAL MECHANICS (1687-1709):
+# Ivan Mazepa (Hetman 1687-1709) attempted to transform Hetmanate into
+# absolute monarchy rivaling Polish-Lithuanian Commonwealth:
+# - Military reforms: Standing army (regimental system reorganization)
+# - Administrative centralization: Reduced starshyna oligarchy power
+# - Cultural patronage: Massive building campaign (churches, fortresses)
+# - Elite creation: New "Mazepa family" of loyal officers
+# - Foreign diplomacy: Cultivated Ottoman, French, Swedish connections
+# - **Swedish Gambit (1708-1709)**: Attempted Peter the Great overthrow with Charles XII
+#   Result: Catastrophic failure at Poltava (1709)—Mazepa died in exile
+#
+# GAME TRIGGER & MECHANICS:
+# - is_year = 1687: Historical trigger marks Mazepa's appointment as hetman
+# - lock_level_when_selected: One-way transition—autocracy had no return path
+# - max_absolutism: +30: Peak consolidation of hetman power
+# - legitimacy: +1: Absolute authority demands legitimacy
+# - reform_progress_growth: +15%: Centralization accelerates reforms
+# - diplomatic_reputation: +1: Mazepa's cultural patronage enhanced prestige
+# - advisor_pool: +1: Mazepa educated and promoted talented administrators
+# - yearly_corruption: -5%: Centralized autocratic control reduced petty corruption
+# - republican_tradition: -1: Deliberate suppression of elective tradition
+#
+# GAME DESIGN:
+# Represents Mazepa's attempt (1687-1709) to create absolutist Hetmanate rivaling
+# European monarchies. Reflects real historical shift from Khmelnytsky's democratic
+# Sich toward Mazepa's autocratic court state. Poltava failure (1709) marks point
+# of no return—Hetmanate subordinated to Russia for 55 years until abolition (1764).
+#
+# HISTORICAL CONSEQUENCES:
+# - 1709: Mazepa escapes to Moldavia after Poltava, dies in exile 1709
+# - 1710-1764: Little Russian Collegium (Russian oversight) imposed on Hetmanate
+# - Hetmans became Russian puppets, starshyna lost political independence
+# - 1764: Hetmanate abolished, territories divided between Russia & Poland-Lithuania
+#
+# GAME MECHANIC NOTE:
+# After selecting Mazepa's Autocracy (1687+), Hetmanate faces 1695-year countdown
+# to 1775 Sich liquidation. If player survives this period, het_collegium_control_reform
+# becomes available (1722+), representing Russian takeover mechanics.
+#
+# REFERENCES:
+# - Orest Subtelny, *The Mazepists* (1981) [comprehensive biography]
+# - Frank Sysyn, *Between Poland and the Ukraine* (1985), pp. 240-270
+# - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988), pp. 170-200
+# - Timothy Snyder, *Bloodlands* (2010), pp. 45-65 [Poltava & consequences]
 het_mazepist_autocracy_reform = {
 	icon = "crown_highlighted"
 	allow_normal_conversion = no
@@ -1231,6 +1576,42 @@ het_mazepist_autocracy_reform = {
 # -------------------------------------------------------------------------
 
 # ZAPORIZHIA: Last Sich – survival under Russian pressure (1734-1775)
+# HISTORICAL MECHANICS (XVIII ст.):
+# After Peter I's death (1725), Sich briefly recovered independence:
+# - 1726-1734: Period of reconstruction after 1709-1723 Russian occupation
+# - 1734: Sich relocated to Chortomlyk Island in Don River (northernmost position)
+# - 1740-1768: Russo-Turkish Wars increased Sich's strategic importance
+# - 1770: Russo-Turkish War victory shifted regional balance
+# - 1775: Russian Empire liquidated Sich—final suppression after 223 years
+#
+# GAME MECHANICS:
+# - is_year = 1734: Historical trigger marks relocation to Chortomlyk (northernmost Sich)
+# - defensiveness: +25%: Fortified island stronghold, difficult to assault
+# - fort_maintenance_modifier: -25%: Island fortress design minimized costs
+# - garrison_size: +50%: Concentrated defensive garrison on island
+# - global_unrest: -2: Desperate unified population before final suppression
+# - diplomatic_reputation: -2: Increasing isolation from European powers
+# - liberty_desire_from_subject_development: -25%: Willing to accept Russian protection over destruction
+#
+# GAME DESIGN:
+# Represents Sich's final 41-year period (1734-1775) fighting for survival
+# against Russian expansion. High defensiveness/fort bonuses reflect island
+# stronghold strategy. Negative diplomatic reputation reflects European
+# powers' abandonment of Sich during Russo-Turkish wars.
+#
+# HISTORICAL CONTEXT:
+# 1734: Sich moved to Chortomlyk under Russian pressure
+# 1763: Russian artillery bombardment of Sich (survived)
+# 1775: Catherine II decided to destroy Sich permanently after Russo-Turkish victory
+#       - Russo-Turkish Treaty (1774) eliminated Ottoman protection
+#       - Russian army attacked June 1775, Sich defended for weeks
+#       - Final suppression: Most Cossacks killed/captured, survivors fled to Ottoman Moldavia
+#       - Sich fortifications completely destroyed by Russian engineers
+#
+# REFERENCES:
+# - Serhii Plokhy, *The Cossack Myth* (2012), pp. 80-140
+# - Timothy Snyder, *Bloodlands* (2010), pp. 60-80
+# - Victor Ostapchuk, "The Russo-Turkish Wars and Cossack-Tatar Relations" (2008)
 zaz_last_sich_reform = {
 	icon = "fort"
 	allow_normal_conversion = yes
@@ -1262,6 +1643,50 @@ zaz_last_sich_reform = {
 }
 
 # HETMANATE: Little Russian Collegium – Russian control (1722-1764)
+# HISTORICAL MECHANICS (XVIII ст.):
+# After Poltava (1709), Peter I gradually subordinated Hetmanate to Russia:
+# - 1709-1722: Hetmans appointed but stripped of real power
+# - 1722: Peter abolished electorate, established "Little Russian Collegium" (Russian oversight body)
+# - 1722-1764: Collegium members = mix of Russian officials + puppet Hetman
+# - 1764: Catherine II abolished hetmanate entirely, incorporated as Russian guberniya
+#
+# GAME MECHANICS:
+# - trigger: is_year = 1722 OR overlord = RUS
+#   (Reflects either time-based Russian takeover or player vassalization to RUS)
+# - republican_tradition: -0.5: Deliberate suppression of elective heritage
+# - max_absolutism: -15: Russian colonial model rejected hetman absolutism
+#   (Preferred weak puppet hetman rather than strong autocrat)
+# - governing_capacity_modifier: +15%: Russian administrative apparatus imposed
+# - stability_cost_modifier: -0.2: Russian iron hand reduced factional conflicts
+# - diplomatic_upkeep: +1: Maintaining Russian colonial relationship costs prestige
+# - liberty_desire: -15: Russian occupation suppressed independence aspirations
+# - army_tradition_from_battle: -25%: Russian military control prevented officer advancement
+#
+# GAME DESIGN NOTE ON MECHANICS:
+# Unlike other subordination modifiers, this reform reflects Russian colonial
+# *strengthening* of governance (improved stability_cost). Models how Russian
+# Collegium system actually improved administrative efficiency despite destroying
+# political autonomy. Represents "trade of freedom for stability" characteristic
+# of 18th-century Russian imperialism.
+#
+# GAME DESIGN:
+# Represents Hetmanate's 42-year period (1722-1764) as Russian colony.
+# Liberty_desire penalty, diplomatic_upkeep cost, and army_tradition penalty
+# all reflect Hetmanate's complete loss of military/political independence.
+# Transition from "autonomous vassal" to "integrated Russian province."
+#
+# HISTORICAL TIMELINE:
+# 1709: Poltava—Peter defeats Charles XII & Mazepa
+# 1709-1722: Hetmans appointed by Peter but stripped of elections
+# 1722: Peter I establishes Little Russian Collegium (administrative takeover)
+# 1722-1725: Peter I's death, brief Hetmanate recovery
+# 1725-1762: Anna, Elizabeth, Peter III—inconsistent Hetman appointments
+# 1762-1764: Catherine II consolidates power, 1764 abolishes Hetmanate entirely
+#
+# REFERENCES:
+# - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988) [definitive study]
+# - Frank Sysyn, *Between Poland and the Ukraine* (1985), pp. 270-300
+# - Timothy Snyder, *Bloodlands* (2010), pp. 65-85 [Russian imperial context]
 het_collegium_control_reform = {
 	icon = "bureaucracy"
 	allow_normal_conversion = yes

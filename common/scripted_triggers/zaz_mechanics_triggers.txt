@@ -99,9 +99,6 @@ sich_relocation_necessary = {
 				has_terrain = steppe
 				has_terrain = grasslands
 			}
-			any_neighbor_province = {
-				has_river = yes
-			}
 			NOT = { province_id = 283 }
 		}
 	}
@@ -303,11 +300,11 @@ has_frontier_provinces = {
 			any_neighbor_province = {
 				NOT = { owned_by = ROOT }
 				OR = {
-					owner = { has_government = tribal }
+					owner = { government = tribal }
 					is_empty = yes
 				}
 			}
-			area = crimean_steppe_area
+			region = crimea_region
 		}
 	}
 }

@@ -26,7 +26,7 @@ country_decisions = {
 			
 			zaz_convene_great_rada = yes
 			
-			country_event = { id = zaz_rada_1 }
+			country_event = { id = zaz_flavor.7 }
 		}
 		
 		ai_will_do = {
@@ -102,7 +102,7 @@ country_decisions = {
 			
 			zaz_launch_chaiky_raid = yes
 			
-			country_event = { id = zaporozhia_flavor.11 }
+			country_event = { id = zaz_flavor.11 }
 		}
 		
 		ai_will_do = {
@@ -198,7 +198,7 @@ country_decisions = {
 				overlord = {
 					add_opinion = {
 						who = ROOT
-						modifier = opinion_disloyal_vassal
+						modifier = break_alliance
 					}
 					add_casus_belli = {
 						target = ROOT
@@ -208,7 +208,7 @@ country_decisions = {
 				}
 			}
 			
-			country_event = { id = zaporozhia_flavor.12 }
+			country_event = { id = zaz_flavor.12 }
 		}
 		
 		ai_will_do = {
@@ -227,7 +227,7 @@ country_decisions = {
 
 	# === RECRUIT FROM STEPPE ALLIES ===
 	zaz_recruit_steppe_cavalry = {
-		major = no
+		major = yes
 		potential = {
 			is_zaporozhian_nation = yes
 		}
@@ -379,7 +379,7 @@ country_decisions = {
 			
 			zaz_protect_orthodox_monasteries = yes
 			
-			country_event = { id = zaporozhia_flavor.13 }
+			country_event = { id = zaz_flavor.13 }
 		}
 		
 		ai_will_do = {
@@ -457,8 +457,6 @@ country_decisions = {
 			}
 			
 			add_innovativeness_small_effect = yes
-			
-			# country_event = { id = het_culture.1 }
 		}
 		
 		ai_will_do = {
@@ -491,9 +489,6 @@ country_decisions = {
 		effect = {
 			add_mil_power = -200
 			add_stability = -2
-			
-			# country_event = { id = het_crisis.1 }
-			# TODO: Create het_crisis.1 event in events/HetmanateCrisis.txt
 		}
 		
 		ai_will_do = {
@@ -508,4 +503,5 @@ country_decisions = {
 			}
 		}
 	}
+
 }

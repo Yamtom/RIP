@@ -195,6 +195,32 @@ KIE_great_building = {
 	prestige_per_development_from_conversion = 0.1
 }
 
+# =========================================================================
+# ZAPORIZHIAN SICH MILITARY & DIPLOMATIC MODIFIERS (XVI-XVIII ст.)
+# =========================================================================
+# HISTORICAL CONTEXT:
+# These modifiers represent the Zaporozhian Sich's peak military and
+# diplomatic capabilities (XVI-XVIII centuries) before Russian suppression (1775).
+#
+# The Sich was a cossack military democracy characterized by:
+# - Rapid defensive fortification & relocation against superior forces
+# - Cavalry raids (chaiky) across Black Sea & Danube steppes
+# - Diplomatic juggling with Ottoman, Polish, Russian powers
+# - Democratic militia governance with elected otamans
+#
+# GAME MECHANICS:
+# - 200% bonus scaling reflects Sich's specialized military economy
+# - Cavalry modifiers show steppe combat specialization
+# - Trade bonuses reflect Black Sea commerce networks
+# - Unrest penalties reflect internal democratic conflicts
+#
+# HISTORICAL REFERENCES:
+# - Serhii Plokhy, *The Cossacks and Religion in Early Modern Ukraine* (2001)
+# - Frank Sysyn, *Between Poland and the Ukraine* (1985)
+# - Timothy Snyder, *Bloodlands* (2010), chapters 1-2
+# - Orest Subtelny, *Ukraine: A History* (2009), chapters 5-7
+# =========================================================================
+
 #Mission of Zaporizhzhzia
 # ZAPORIZHIA MODIFIERS - Enhanced to 200% (doubled from baseline)
 zaz_prepped = {
@@ -2082,6 +2108,21 @@ steppe_alliance = {
 	cavalry_power = 0.1
 	cav_to_inf_ratio = 0.15
 	improve_relation_modifier = 0.2
+}
+
+steppe_brotherhood = {
+	cavalry_power = 0.1
+	hostile_attrition = 1
+}
+
+zaz_steppe_brotherhood = {
+	cavalry_power = 0.1
+	hostile_attrition = 1
+}
+
+zaz_slave_raiders = {
+	loot_amount = 0.25
+	privateer_efficiency = 0.1
 }
 
 zaz_great_rada_held = {

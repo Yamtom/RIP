@@ -17,295 +17,294 @@ POL_re_missions_1 = {
     has_country_shield = yes
 
     pol_restore_sejm_discipline = {
-        icon = mission_noble_council
-        position = 11
-        trigger = {
-            government = monarchy
-            has_parliament = yes
-            stability = 1
-            crown_land_share = 30
-        }
-        effect = {
-            change_government_reform_progress = 50
-            add_country_modifier = {
-                name = "pol_sejm_reform"
-                duration = 5475
+            icon = mission_noble_council
+            position = 11
+            trigger = {
+                government = monarchy
+                has_parliament = yes
+                stability = 1
+                crown_land_share = 30
             }
-            hidden_effect = {
-                set_country_flag = pol_sejm_reformed
-            }
-        }
-        ai_weight = {
-            factor = 400
-        }
-    }
-
-    pol_reaffirm_union = {
-        icon = mission_alliances
-        required_missions = {
-            pol_restore_sejm_discipline
-        }
-        position = 12
-        trigger = {
-            OR = {
-                tag = PLC
-                AND = {
-                    tag = POL
-                    LIT = {
-                        junior_union_with = ROOT
-                    }
+            effect = {
+                change_government_reform_progress = 50
+                add_country_modifier = {
+                    name = "pol_sejm_reform"
+                    duration = 5475
+                }
+                hidden_effect = {
+                    set_country_flag = pol_sejm_reformed
                 }
             }
-            owns = 41  # Vilnius
-            owns = 262 # Kraków
-        }
-        effect = {
-            add_country_modifier = {
-                name = "pol_commonwealth_legacy"
-                duration = 9125
-            }
-            if = {
-                limit = { LIT = { exists = yes } }
-                LIT = {
-                    every_owned_province = {
-                        limit = { NOT = { owned_by = ROOT } }
-                        add_permanent_claim = ROOT
-                    }
-                }
-            }
-            hidden_effect = {
-                set_country_flag = pol_union_reaffirmed
+            ai_weight = {
+                factor = 400
             }
         }
-        ai_weight = {
-            factor = 450
-        }
-    }
 
-    pol_ruthenian_compact = {
-        icon = mission_conquer_novgorod
-        required_missions = {
-            pol_reaffirm_union
-        }
-        position = 13
-        provinces_to_highlight = {
-            region = ruthenia_region
-            NOT = { owned_by = ROOT }
-        }
-        trigger = {
-            num_of_owned_provinces_with = {
-                region = ruthenia_region
-                value = 6
+        pol_reaffirm_union = {
+            icon = mission_alliances
+            required_missions = {
+                pol_restore_sejm_discipline
             }
-            num_of_owned_provinces_with = {
-                region = ruthenia_region
-                culture = ruthenian
-                value = 3
-            }
-        }
-        effect = {
-            add_country_modifier = {
-                name = "pol_ruthenian_pact"
-                duration = 9125
-            }
-            add_dip_power = 100
-            add_legitimacy = 10
-        }
-        ai_weight = {
-            factor = 420
-        }
-    }
-
-    pol_guardian_of_frontier = {
-        icon = mission_build_up_to_force_limit
-        required_missions = {
-            pol_ruthenian_compact
-        }
-        position = 14
-        trigger = {
-            army_size_percentage = 0.6
-            owns = 281   # Podillia (Kamianets)
-            owns = 1943  # Bratslav
-            owns = 4540  # Winnica
-        }
-        effect = {
-            add_country_modifier = {
-                name = "pol_frontier_commissariat"
-                duration = 9125
-            }
-            add_mil_power = 75
-            add_army_tradition = 5
-        }
-        ai_weight = {
-            factor = 420
-        }
-    }
-
-    pol_hadiach_commission = {
-        icon = mission_alliances
-        required_missions = {
-            pol_ruthenian_compact
-        }
-        position = 15
-        trigger = {
-            has_country_flag = pol_union_reaffirmed
-            has_parliament = yes
-            custom_trigger_tooltip = {
-                tooltip = POL_hadiach_commission_subject_tt
-                hidden_trigger = {
-                    any_subject_country = {
-                        liberty_desire < 50
-                        OR = {
-                            tag = ZAZ
-                            tag = HET
-                            primary_culture = ruthenian
-                            primary_culture = ruthenian_new
-                            primary_culture = rusyn
-                            primary_culture = rusyn_new
-                        }
-                    }
-                }
-            }
-            any_subject_country = {
-                liberty_desire < 50
+            position = 12
+            trigger = {
                 OR = {
-                    tag = ZAZ
-                    tag = HET
-                    primary_culture = ruthenian
-                    primary_culture = ruthenian_new
-                    primary_culture = rusyn
-                    primary_culture = rusyn_new
-                }
-            }
-        }
-        effect = {
-            add_country_modifier = {
-                name = "pol_hadiach_commission"
-                duration = 5475
-            }
-            add_dip_power = 100
-            hidden_effect = {
-                set_country_flag = pol_hadiach_commission_signed
-            }
-        }
-        ai_weight = {
-            factor = 400
-        }
-    }
-
-    pol_codify_hadiach_privileges = {
-        icon = mission_noble_council
-        required_missions = {
-            pol_hadiach_commission
-        }
-        position = 16
-        trigger = {
-            has_country_flag = pol_hadiach_commission_signed
-            num_accepted_cultures = 4
-            custom_trigger_tooltip = {
-                tooltip = POL_hadiach_seats_tt
-                hidden_trigger = {
-                    calc_true_if = {
-                        amount = 3
-                        any_owned_province = {
-                            region = ruthenia_region
-                            has_seat_in_parliament = yes
+                    tag = PLC
+                    AND = {
+                        tag = POL
+                        LIT = {
+                            junior_union_with = ROOT
                         }
                     }
                 }
+                owns = 41  # Vilnius
+                owns = 262 # Kraków
             }
-            calc_true_if = {
-                amount = 3
-                any_owned_province = {
-                    region = ruthenia_region
-                    has_seat_in_parliament = yes
+            effect = {
+                add_country_modifier = {
+                    name = "pol_commonwealth_legacy"
+                    duration = 9125
                 }
-            }
-        }
-        effect = {
-            add_country_modifier = {
-                name = "pol_hadiach_charters"
-                duration = -1
-            }
-            change_government_reform_progress = 75
-            if = {
-                limit = {
-                    NOT = { accepted_culture = ruthenian }
-                }
-                add_accepted_culture = ruthenian
-            }
-            hidden_effect = {
-                set_country_flag = pol_hadiach_privileges_codified
-            }
-        }
-        ai_weight = {
-            factor = 380
-        }
-    }
-
-    pol_triatomic_commonwealth = {
-        icon = mission_empire
-        required_missions = {
-            pol_codify_hadiach_privileges
-        }
-        position = 17
-        trigger = {
-            has_country_flag = pol_hadiach_privileges_codified
-            num_of_owned_provinces_with = {
-                region = ruthenia_region
-                value = 10
-            }
-            custom_trigger_tooltip = {
-                tooltip = POL_triatomic_integration_tt
-                hidden_trigger = {
-                    num_of_owned_provinces_with = {
-                        region = ruthenia_region
-                        value = 10
+                if = {
+                    limit = { LIT = { exists = yes } }
+                    LIT = {
+                        every_owned_province = {
+                            limit = { NOT = { owned_by = ROOT } }
+                            add_permanent_claim = ROOT
+                        }
                     }
                 }
+                hidden_effect = {
+                    set_country_flag = pol_union_reaffirmed
+                }
             }
-            custom_trigger_tooltip = {
-                tooltip = POL_triatomic_autonomy_tt
-                hidden_trigger = {
-                    NOT = {
-                        any_owned_province = {
-                            region = ruthenia_region
-                            local_autonomy >= 40
+            ai_weight = {
+                factor = 450
+            }
+        }
+
+        pol_ruthenian_compact = {
+            icon = mission_conquer_novgorod
+            required_missions = {
+                pol_reaffirm_union
+            }
+            position = 13
+            provinces_to_highlight = {
+                region = ruthenia_region
+                NOT = { owned_by = ROOT }
+            }
+            trigger = {
+                num_of_owned_provinces_with = {
+                    region = ruthenia_region
+                    value = 6
+                }
+                num_of_owned_provinces_with = {
+                    region = ruthenia_region
+                    culture = ruthenian
+                    value = 3
+                }
+            }
+            effect = {
+                add_country_modifier = {
+                    name = "pol_ruthenian_pact"
+                    duration = 9125
+                }
+                add_dip_power = 100
+                add_legitimacy = 10
+            }
+            ai_weight = {
+                factor = 420
+            }
+        }
+
+        pol_guardian_of_frontier = {
+            icon = mission_build_up_to_force_limit
+            required_missions = {
+                pol_ruthenian_compact
+            }
+            position = 14
+            trigger = {
+                army_size_percentage = 0.6
+                owns = 281   # Podillia (Kamianets)
+                owns = 1943  # Bratslav
+                owns = 4540  # Winnica
+            }
+            effect = {
+                add_country_modifier = {
+                    name = "pol_frontier_commissariat"
+                    duration = 9125
+                }
+                add_mil_power = 75
+                add_army_tradition = 5
+            }
+            ai_weight = {
+                factor = 420
+            }
+        }
+
+        pol_hadiach_commission = {
+            icon = mission_alliances
+            required_missions = {
+                pol_ruthenian_compact
+            }
+            position = 15
+            trigger = {
+                has_country_flag = pol_union_reaffirmed
+                has_parliament = yes
+                custom_trigger_tooltip = {
+                    tooltip = POL_hadiach_commission_subject_tt
+                    hidden_trigger = {
+                        any_subject_country = {
+                            liberty_desire < 50
+                            OR = {
+                                tag = ZAZ
+                                tag = HET
+                                primary_culture = ruthenian
+                                primary_culture = ruthenian_new
+                                primary_culture = rusyn
+                                primary_culture = rusyn_new
                             }
                         }
                     }
                 }
-            }
-            NOT = {
-                any_owned_province = {
-                    region = ruthenia_region
-                    local_autonomy >= 40
+                any_subject_country = {
+                    liberty_desire < 50
+                    OR = {
+                        tag = ZAZ
+                        tag = HET
+                        primary_culture = ruthenian
+                        primary_culture = ruthenian_new
+                        primary_culture = rusyn
+                        primary_culture = rusyn_new
+                    }
                 }
             }
-        }
-        
-        effect = {
-            add_country_modifier = {
-                name = "pol_triatomic_compact"
-                duration = -1
-            }
-            add_prestige = 15
-            add_legitimacy = 10
-            change_government_reform_progress = 100
-            every_owned_province = {
-                limit = {
-                    region = ruthenia_region
+            effect = {
+                add_country_modifier = {
+                    name = "pol_hadiach_commission"
+                    duration = 5475
                 }
-                add_local_autonomy = -5
+                add_dip_power = 100
+                hidden_effect = {
+                    set_country_flag = pol_hadiach_commission_signed
+                }
             }
-            hidden_effect = {
-                set_country_flag = pol_triatomic_commonwealth_realized
+            ai_weight = {
+                factor = 400
             }
         }
-        ai_weight = {
-            factor = 360
+
+        pol_codify_hadiach_privileges = {
+            icon = mission_noble_council
+            required_missions = {
+                pol_hadiach_commission
+            }
+            position = 16
+            trigger = {
+                has_country_flag = pol_hadiach_commission_signed
+                num_accepted_cultures = 4
+                custom_trigger_tooltip = {
+                    tooltip = POL_hadiach_seats_tt
+                    hidden_trigger = {
+                        calc_true_if = {
+                            amount = 3
+                            any_owned_province = {
+                                region = ruthenia_region
+                                has_seat_in_parliament = yes
+                            }
+                        }
+                    }
+                }
+                calc_true_if = {
+                    amount = 3
+                    any_owned_province = {
+                        region = ruthenia_region
+                        has_seat_in_parliament = yes
+                    }
+                }
+            }
+            effect = {
+                add_country_modifier = {
+                    name = "pol_hadiach_charters"
+                    duration = -1
+                }
+                change_government_reform_progress = 75
+                if = {
+                    limit = {
+                        NOT = { accepted_culture = ruthenian }
+                    }
+                    add_accepted_culture = ruthenian
+                }
+                hidden_effect = {
+                    set_country_flag = pol_hadiach_privileges_codified
+                }
+            }
+            ai_weight = {
+                factor = 380
+            }
         }
-    }
+
+        pol_triatomic_commonwealth = {
+            icon = mission_empire
+            required_missions = {
+                pol_codify_hadiach_privileges
+            }
+            position = 17
+            trigger = {
+                has_country_flag = pol_hadiach_privileges_codified
+                num_of_owned_provinces_with = {
+                    region = ruthenia_region
+                    value = 10
+                }
+                custom_trigger_tooltip = {
+                    tooltip = POL_triatomic_integration_tt
+                    hidden_trigger = {
+                        num_of_owned_provinces_with = {
+                            region = ruthenia_region
+                            value = 10
+                        }
+                    }
+                }
+                custom_trigger_tooltip = {
+                    tooltip = POL_triatomic_autonomy_tt
+                    hidden_trigger = {
+                        NOT = {
+                            any_owned_province = {
+                                region = ruthenia_region
+                                local_autonomy >= 40
+                                }
+                            }
+                        }
+                    }
+                NOT = {
+                    any_owned_province = {
+                        region = ruthenia_region
+                        local_autonomy >= 40
+                    }
+                }
+            }
+            
+            effect = {
+                add_country_modifier = {
+                    name = "pol_triatomic_compact"
+                    duration = -1
+                }
+                add_prestige = 15
+                add_legitimacy = 10
+                change_government_reform_progress = 100
+                every_owned_province = {
+                    limit = {
+                        region = ruthenia_region
+                    }
+                    add_local_autonomy = -5
+                }
+                hidden_effect = {
+                    set_country_flag = pol_triatomic_commonwealth_realized
+                }
+            }
+            ai_weight = {
+                factor = 360
+            }
+        }
 }
 
 POL_re_missions_2 = {
@@ -325,71 +324,71 @@ POL_re_missions_2 = {
     has_country_shield = yes
 
     pol_professionalize_army = {
-        icon = mission_build_up_to_force_limit
-        required_missions = {
-            pol_hadiach_commission
-        }
-        position = 16
-        trigger = {
-            army_professionalism = 0.2
-        }
-        effect = {
-            add_country_modifier = {
-                name = "pol_army_commission"
-                duration = 5475
+            icon = mission_build_up_to_force_limit
+            required_missions = {
+                pol_hadiach_commission
             }
-            add_mil_power = 50
+            position = 16
+            trigger = {
+                army_professionalism = 0.2
+            }
+            effect = {
+                add_country_modifier = {
+                    name = "pol_army_commission"
+                    duration = 5475
+                }
+                add_mil_power = 50
+            }
+            ai_weight = {
+                factor = 380
+            }
         }
-        ai_weight = {
-            factor = 380
-        }
-    }
 
-    pol_hussar_reform = {
-        icon = mission_build_up_to_force_limit
-        required_missions = {
-            pol_professionalize_army
-        }
-        position = 17
-        trigger = {
-            army_tradition = 30
-            num_of_cavalry = 20
-        }
-        effect = {
-            add_country_modifier = {
-                name = "pol_winged_hussars"
-                duration = 9125
+        pol_hussar_reform = {
+            icon = mission_build_up_to_force_limit
+            required_missions = {
+                pol_professionalize_army
             }
-            add_army_professionalism = 0.05
+            position = 17
+            trigger = {
+                army_tradition = 30
+                num_of_cavalry = 20
+            }
+            effect = {
+                add_country_modifier = {
+                    name = "pol_winged_hussars"
+                    duration = 9125
+                }
+                add_army_professionalism = 0.05
+            }
+            ai_weight = {
+                factor = 400
+            }
         }
-        ai_weight = {
-            factor = 400
-        }
-    }
 
-    pol_secure_grain_trade = {
-        icon = mission_hanseatic_city
-        required_missions = {
-            pol_hussar_reform
-        }
-        position = 18
-        trigger = {
-            num_of_merchants = 3
-            owns = 44 # Danzig
-            num_of_owned_provinces_with = {
-                trade_goods = grain
-                value = 6
+        pol_secure_grain_trade = {
+            icon = mission_hanseatic_city
+            required_missions = {
+                pol_hussar_reform
+            }
+            position = 18
+            trigger = {
+                num_of_merchants = 3
+                owns = 44 # Danzig
+                num_of_owned_provinces_with = {
+                    trade_goods = grain
+                    value = 6
+                }
+            }
+            effect = {
+                add_country_modifier = {
+                    name = "pol_grain_headlands"
+                    duration = 9125
+                }
+                add_mercantilism = 1
+            }
+            ai_weight = {
+                factor = 390
             }
         }
-        effect = {
-            add_country_modifier = {
-                name = "pol_grain_headlands"
-                duration = 9125
-            }
-            add_mercantilism = 1
-        }
-        ai_weight = {
-            factor = 390
-        }
-    }
 }

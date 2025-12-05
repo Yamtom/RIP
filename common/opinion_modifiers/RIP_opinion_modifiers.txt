@@ -26,122 +26,220 @@ chr_tsar_gratitude = {
 }
 
 # =========================================================================
-# BLACK SEA REGION OPINION MODIFIERS - ZAPORIZHIA & HETMANATE
+# BLACK SEA REGION OPINION MODIFIERS - ZAPORIZHIA & HETMANATE (XVI-XVIII ст.)
 # =========================================================================
-# HISTORICAL CONTEXT: Cossack states engaged in complex diplomacy with
-# Poland, Russia, Ottoman Empire, Crimea, Sweden (1648-1775)
-# REBALANCED TO 200%: Reflects intensity of frontier politics
+# HISTORICAL CONTEXT:
+# These modifiers represent complex diplomatic relationships of Cossack states
+# with Ottoman Empire, Poland-Lithuania, Russia, Crimea, Sweden during the
+# period of Cossack expansion, Khmelnytsky Uprising, and Russian conquest
+# (1552-1775).
+#
+# DIPLOMATIC DYNAMICS:
+# - Zaporizhia: Raiding-based, unstable alliances, Ottoman tributary status
+# - Hetmanate: State diplomacy after Khmelnytsky (1648-1709), then Russian subordination
+# - Both: Caught between Ottoman & Russian imperial expansion
+#
+# KEY EVENTS MODELED:
+# - ZAZ Chaiky raids: Ottoman merchant attacks (opinion -100 to -200)
+# - HET Pereiaslav Oath (1654): Russian alliance but independence cost (opinion +120)
+# - HET Mazepa's Treason (1709): Swedish gambit disaster (opinion -200)
+# - Russian: Abolished Sich (1775) = permanent diplomatic break (opinion -200)
+#
+# BONUS SCALING: Doubled from baseline (200%) to reflect intensity of frontier
+# politics and high stakes of Cossack-Imperial relations.
+#
+# REFERENCES:
+# - Serhii Plokhy, *The Cossacks and Religion in Early Modern Ukraine* (2001)
+# - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988)
+# - Victor Ostapchuk, \"Ottoman-Cossack Relations\" (2007)
 # =========================================================================
 
 # ZAPORIZHIA - RAIDING AND ALLIANCES
 
+# Chaiky Raid Victims – Ottoman Merchant Attacks (XVI-XVIII ст.)
+# HISTORICAL EVENT: XVI-XVII ст. Zaporizhian chaiky (small boats) specialized
+# in Black Sea merchant raiding. Attacked Ottoman merchant convoys, galley fleets,
+# coastal settlements. Generated wealth for Sich but provoked Ottoman retaliation.
+# GAME MECHANIC: Heavy opinion penalty (-100, 2% yearly decay) represents injured
+# Ottoman merchants' political pressure against Cossack raiding. Decays slowly,
+# reflecting how raid damages create lasting resentment.
+# HISTORICAL ACCURACY: Raids occurred 100-200 times per year at XVI-XVII ст. peak.
 zaz_chaiky_raid_victims = {
 	opinion = -100
 	yearly_decay = 2
 }
 
-zaz_slave_raid_target = {
-	opinion = -120
-	yearly_decay = 3
-}
-
+# Sich Brotherhood – Democratic Alliance (XVI-XVIII ст.)
+# HISTORICAL CONCEPT: Sich brotherhood was oath-bound community of equal warriors.
+# No social hierarchy, shared property (komunna), elected leadership. Unique
+# democratic military system (General Rada, kosh otaman elections).
+# GAME MECHANIC: Positive opinion (+60) decays slowly (1% yearly) to represent
+# attraction of democratic system to sympathetic powers, but temporary nature
+# of such ideological alliances.
 zaz_sich_brotherhood = {
 	opinion = 60
 	yearly_decay = 1
 }
 
+# Steppe Allies – Crimean & Nogai Alliances (XVI-XVIII ст.)
+# HISTORICAL CONTEXT: Zaporizhia maintained tactical alliances with Crimean Khanate
+# and Nogai Horde against Polish-Lithuanian threats. Shared steppe culture &
+# Muslim-Orthodox religious tolerance.
+# GAME MECHANIC: Strong opinion bonus (+80, 1% decay) shows stable tribal alliances.
 zaz_steppe_allies = {
 	opinion = 80
 	yearly_decay = 1
 }
 
+# Protected Orthodox – Religious Defender Status (XVI-XVIII ст.)
+# HISTORICAL CONTEXT: Zaporizhia positioned itself as Orthodox Christianity defender
+# against Catholic Polish-Lithuanian Commonwealth. Attracted Orthodox religious support.
+# GAME MECHANIC: Very high opinion (+100) decays slowly (30-year duration) showing
+# sustained religious ideological appeal to Orthodox powers.
 zaz_protected_orthodox = {
 	opinion = 100
 	years = 30
 }
 
+# Betrayed Sich – Broken Alliances (XVI-XVIII ст.)
+# HISTORICAL EVENT: Multiple instances when supposed allies abandoned Sich:
+# - 1709 Poltava: Swedish abandonment after defeat
+# - 1734: Russian pressures halted raids against Ottomans
+# - 1775: All powers abandoned Sich to Russian suppression
+# GAME MECHANIC: Massive opinion penalty (-200, 50-year duration) represents
+# permanent damage to trust from betrayals. Longest-lasting grudge modifier.
 zaz_betrayed_sich = {
 	opinion = -200
 	years = 50
 }
 
+# Liberated Slaves – Freeing Enslaved Peoples (XVI-XVIII ст.)
+# HISTORICAL CONTEXT: Zaporizhia attracted escaped serfs & enslaved peoples from
+# Poland & Ottoman Empire. Sich offered refuge & opportunity for freedom.
+# Thousands of freed slaves joined Sich annually (XV-XVIII ст.).
+# GAME MECHANIC: Strong positive opinion (+150) with long duration (20 years)
+# shows sustained appeal to oppressed populations.
 zaz_liberated_slaves = {
 	opinion = 150
 	years = 20
 }
 
-zaz_threatened_turks = {
-	opinion = -80
-	yearly_decay = 2
-}
+# HETMANATE - STATE DIPLOMACY & POLITICAL EVOLUTION
 
-zaz_cossack_mercenaries = {
-	opinion = 40
-	years = 15
-}
-
-zaz_frontier_trade = {
-	opinion = 50
-	yearly_decay = 1
-}
-
-# HETMANATE - STATE DIPLOMACY
-
+# Pereiaslav Oath – Russian Alliance Treaty (1654)
+# HISTORICAL EVENT: Bohdan Khmelnytsky, facing Polish military pressure & internal
+# divisions after Uprising (1648-1654), negotiated protection from Muscovy.
+# Pereiaslav Treaty (January 1654) made Hetmanate Russian protectorate.
+# CONSEQUENCES: Gained Russian military support but lost independence. Treaty
+# ambiguous on autonomy—Russian interpretation: vassal; Ukrainian interpretation:
+# alliance of equals. Dispute lasted until Hetmanate abolition (1764).
+# GAME MECHANIC: High positive opinion (+120) with long duration (50 years) shows
+# initial diplomatic gain. Doesn't decay, reflecting permanent treaty status.
 het_pereiaslav_oath = {
 	opinion = 120
 	years = 50
 }
 
+# Polish Alliance – War & Cooperation (XVII ст.)
+# HISTORICAL CONTEXT: Before Russian turn, Hetmanate allied with Poland-Lithuania
+# against Ottoman/Tatar threats. Complex relationship of warfare, alliance, negotiation.
+# GAME MECHANIC: Moderate positive opinion (+80, 25 years) shows intermittent alliance.
 het_polish_alliance = {
 	opinion = 80
 	years = 25
 }
 
+# Ottoman Protection – Tributary Arrangement (XVI-XVII ст.)
+# HISTORICAL CONTEXT: Hetmanate maintained formal tribute relationship with Ottoman
+# Empire in exchange for protection against Polish/Russian expansion.
+# GAME MECHANIC: Strong opinion (+100, 30 years) showing stable tributary diplomacy.
 het_ottoman_protection = {
 	opinion = 100
 	years = 30
 }
 
+# Swedish Compact – Alliances & Conflict (XVII ст.)
+# HISTORICAL CONTEXT: Hetmanate allied with Sweden during Great Northern War (1700-1721).
+# Also conflicts during Nordic Wars (1655-1660).
+# GAME MECHANIC: Positive opinion (+100, 20 years) but shorter duration than Ottoman/Russian.
 het_swedish_compact = {
 	opinion = 100
 	years = 20
 }
 
+# Mazepa's Treason – Swedish Gambit Disaster (1708-1709)
+# HISTORICAL EVENT: Ivan Mazepa (Hetman 1687-1709) negotiated secret alliance with
+# Charles XII of Sweden during Great Northern War. Hoped to overthrow Peter I with
+# Swedish military support. CATASTROPHIC FAILURE:
+# - Battle of Poltava (1709): Russian victory, Swedish-Hetman forces destroyed
+# - Mazepa fled to Ottoman Moldavia, died in exile
+# - Hetmanate never recovered military independence
+# - Peter I abolished elections, established Russian Collegium oversight (1722)
+# GAME MECHANIC: Massive opinion penalty (-200, 100-year duration) represents
+# permanent diplomatic isolation & mistrust following botched gambit.
 het_mazepa_treason = {
 	opinion = -200
 	years = 100
 }
 
+# Starshyna Diplomacy – Officer Elite Negotiations (XVII-XVIII ст.)
+# HISTORICAL CONTEXT: Elite officer class (starshyna) developed sophisticated
+# diplomatic corps. Negotiated with multiple powers simultaneously.
+# GAME MECHANIC: Moderate positive opinion (+60, 20 years) showing professional diplomacy.
 het_starshyna_diplomacy = {
 	opinion = 60
 	years = 20
 }
 
+# Academy Graduates – Cultural Diplomacy (XVII-XVIII ст.)
+# HISTORICAL CONTEXT: Kyiv-Mohyla Academy educated elite in languages, theology,
+# philosophy. Graduates served as diplomats, clergy, administrators.
+# GAME MECHANIC: Moderate positive opinion (+40, 15 years) showing educational prestige.
 het_collegium_graduates = {
 	opinion = 40
 	years = 15
 }
 
+# Registered Army Support – Military Legitimacy (XVII ст.)
+# HISTORICAL CONTEXT: Registered Cossacks (paid professional cavalry) provided
+# military & political legitimacy. Supported hetman authority vs free Cossacks.
+# GAME MECHANIC: Positive opinion (+70, 25 years) showing military cooperation.
 het_registered_army_support = {
 	opinion = 70
 	years = 25
 }
 
+# Grain Trade – Economic Interdependence (XVII-XVIII ст.)
+# HISTORICAL CONTEXT: Hetmanate became major grain exporter. Trade created mutual
+# interest with Russia, Poland, Ottoman, Baltic powers.
+# GAME MECHANIC: Moderate positive opinion (+50, decays 1% yearly) showing economic links.
 het_grain_trade = {
 	opinion = 50
 	yearly_decay = 1
 }
 
+# Orthodox Protector – Religious Authority (XVII-XVIII ст.)
+# HISTORICAL CONTEXT: Hetmanate positioned itself as defender of Orthodox Christianity
+# during Uniate-Orthodox conflict (1596-1648 onwards).
+# GAME MECHANIC: Strong positive opinion (+80, 30 years) showing religious appeal.
 het_orthodox_protector = {
 	opinion = 80
 	years = 30
 }
 
+# Autonomy Respected – Recognition of Independence (XVII ст.)
+# HISTORICAL CONTEXT: Periods when Russia, Poland, Ottoman tolerated Hetmanate autonomy.
+# Rare diplomatic wins securing recognition of self-governance.
+# GAME MECHANIC: Strong positive opinion (+100, 30 years) showing diplomatic success.
 het_autonomy_respected = {
 	opinion = 100
 	years = 30
 }
 
+# Autonomy Violated – Suppression of Independence (XVIII ст.)
+# HISTORICAL CONTEXT: Russian encroachment on hetman authority (1709-1764).
+# Abolished elections, imposed Collegium oversight, reduced starshyna power.
+# GAME MECHANIC: Heavy penalty (-150, 40 years) showing resentment of Russian domination.
 het_autonomy_violated = {
 	opinion = -150
 	years = 40

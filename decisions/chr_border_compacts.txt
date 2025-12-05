@@ -10,29 +10,26 @@ chr_border_compacts = {
 		potential = {
 			tag = CHR
 		}
-		target_potential = {
-			OR = {
-				tag = PLC
-				tag = POL
-				tag = LIT
-				tag = MOS
-				tag = RUS
-			}
-		}
 		allow = {
 			dip_power = 40
 			is_at_war = no
 			NOT = { has_country_modifier = chr_border_compact_cooldown }
 			NOT = { has_country_modifier = chr_border_compact_betrayal }
-			target = {
+			any_country = {
+				OR = {
+					tag = PLC
+					tag = POL
+					tag = LIT
+					tag = MOS
+					tag = RUS
+				}
 				is_at_war = no
 				NOT = { war_with = ROOT }
-			}
-			NOT = { has_truce_with = target }
-			OR = {
-				has_alliance = target
-				has_guaranteed = target
-				target = { has_alliance = ROOT }
+				has_truce = no
+				OR = {
+					has_guaranteed = ROOT
+					ROOT = { alliance_with = PREV }
+				}
 			}
 		}
 		effect = {
@@ -41,49 +38,57 @@ chr_border_compacts = {
 				name = chr_border_compact_cooldown
 				duration = 1825
 			}
-			target = {
+			random_country = {
+				limit = {
+					OR = {
+						tag = PLC
+						tag = POL
+						tag = LIT
+						tag = MOS
+						tag = RUS
+					}
+					is_at_war = no
+					NOT = { war_with = ROOT }
+					has_truce = no
+					OR = {
+						has_guaranteed = ROOT
+						ROOT = { alliance_with = PREV }
+					}
+					alliance_with = ROOT
+				}
+				save_event_target_as = chr_border_compact_partner
 				add_opinion = {
 					who = ROOT
 					modifier = chr_border_compact_support
 				}
-				save_event_target_as = chr_border_compact_partner
-			}
-			if = {
-				limit = {
-					target = { has_opinion = { who = ROOT value = 80 } }
-					target = { trust = { who = ROOT value = 50 } }
-				}
-				custom_tooltip = chr_border_compacts_confidence_tt
-				add_country_modifier = {
-					name = chr_border_compact_confidence
-					duration = 1825
-				}
-			}
-			else = {
-				custom_tooltip = chr_border_compacts_tension_tt
-				add_country_modifier = {
-					name = chr_border_compact_tension
-					duration = 1095
-				}
-			}
-			# Apply partner modifiers outside the if/else block
-			if = {
-				limit = {
-					target = { has_opinion = { who = ROOT value = 80 } }
-					target = { trust = { who = ROOT value = 50 } }
-				}
-				target = {
+				if = {
+					limit = {
+						has_opinion = { who = ROOT value = 80 }
+						trust = { who = ROOT value = 50 }
+					}
+					custom_tooltip = chr_border_compacts_confidence_tt
 					add_country_modifier = {
-						name = chr_border_compact_confidence_partner
+						name = chr_border_compact_confidence
 						duration = 1825
 					}
+					ROOT = {
+						add_country_modifier = {
+							name = chr_border_compact_confidence_partner
+							duration = 1825
+						}
+					}
 				}
-			}
-			else = {
-				target = {
+				else = {
+					custom_tooltip = chr_border_compacts_tension_tt
 					add_country_modifier = {
 						name = chr_border_compact_watchposts
 						duration = 1095
+					}
+					ROOT = {
+						add_country_modifier = {
+							name = chr_border_compact_tension
+							duration = 1095
+						}
 					}
 				}
 			}
