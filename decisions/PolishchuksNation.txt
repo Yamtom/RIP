@@ -1,0 +1,191 @@
+country_decisions = {
+
+	form_polishchuks_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			was_never_end_game_tag_trigger = yes
+			NOT = { has_country_flag = formed_polishchuks_flag }
+			NOT = { has_country_flag = formed_ruthenia_flag }
+			OR = {
+				ai = yes
+				is_playing_custom_nation = no
+			}
+			OR = {
+				primary_culture = ruthenian
+				primary_culture = byelorussian
+			}
+			NOT = { tag = PSH }
+			NOT = { exists = PSH }
+			NOT = { tag = PAP }
+			NOT = { tag = HLR }
+			NOT = { tag = RUS }
+			NOT = { tag = PLC }
+			NOT = { tag = LIT }
+			OR = {
+				ai = no
+				AND = {
+					ai = yes
+					num_of_cities = 3
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 278  # Pinsk
+				province_id = 1941 # Turov
+				province_id = 4115 # Mazyr
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			adm_tech = 8
+			NOT = { exists = PSH }
+			is_at_war = no
+			is_free_or_tributary_trigger = yes
+			stability = 1
+			owns_core_province = 278  # Pinsk
+			owns_core_province = 1941 # Turov
+			owns_core_province = 4115 # Mazyr
+			OR = {
+				primary_culture = ruthenian
+				primary_culture = byelorussian
+			}
+		}
+		effect = {
+			278 = {
+				move_capital_effect = yes
+			}
+			change_tag = PSH
+			swap_non_generic_missions = yes
+			set_country_flag = formed_polishchuks_flag
+			add_prestige = 10
+			add_country_modifier = {
+				name = "polissian_marshlands"
+				duration = -1
+			}
+			278 = {
+				add_base_tax = 1
+				add_base_production = 1
+			}
+			1941 = {
+				add_base_manpower = 1
+			}
+			4115 = {
+				add_base_production = 1
+			}
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 }
+			}
+			set_government_rank = 1
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 200
+	}
+
+	# Unite Polissia
+	psh_unite_polissia = {
+		major = yes
+		potential = {
+			tag = PSH
+			NOT = { has_country_flag = united_polissia }
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 278  # Pinsk
+				province_id = 1941 # Turov
+				province_id = 4115 # Mazyr
+				province_id = 4545 # Sluck
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			adm_tech = 12
+			is_at_war = no
+			stability = 1
+			owns_core_province = 278  # Pinsk
+			owns_core_province = 1941 # Turov
+			owns_core_province = 4115 # Mazyr
+			owns_core_province = 4545 # Sluck
+		}
+		effect = {
+			add_prestige = 15
+			add_adm_power = 50
+			set_country_flag = united_polissia
+			add_country_modifier = {
+				name = "unified_polissia"
+				duration = 7300  # 20 years: sustained unity bonus after territorial consolidation
+			}
+			every_owned_province = {
+				limit = {
+					OR = {
+						province_id = 278
+						province_id = 1941
+						province_id = 4115
+						province_id = 4545
+					}
+				}
+				add_province_modifier = {
+					name = "polissian_heartland"
+					duration = -1
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Develop Forest Economy
+	psh_develop_forest_economy = {
+		major = no
+		potential = {
+			tag = PSH
+			NOT = { has_country_flag = developed_forest_economy }
+		}
+		allow = {
+			dip_tech = 10
+			treasury = 200
+			any_owned_province = {
+				OR = {
+					trade_goods = naval_supplies
+					trade_goods = fur
+					has_terrain = forest
+				}
+			}
+		}
+		effect = {
+			add_treasury = -200
+			set_country_flag = developed_forest_economy
+			add_country_modifier = {
+				name = "polissian_forest_development"
+				duration = 7300  # 20 years: investment in forest industries yields long-term returns
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						trade_goods = naval_supplies
+						has_terrain = forest
+					}
+				}
+				add_base_production = 2
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { treasury = 300 }
+			}
+		}
+	}
+}
