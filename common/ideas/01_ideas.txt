@@ -246,7 +246,26 @@ HET_ideas = {
 }
 
 KRU_ideas = {
-	#Rus
+	# KYIVAN CONFEDERATION / RUTHENIAN UNIFICATION (Київська конфедерація)
+	# XIV-XVI century alternate history: Unified Ruthenian state from Kyiv-Mohyla sphere
+	# Precondition: Successful Svydrigaylo independence path or Bohdan Khmelnytsky unified control
+	# 
+	# Historical Context:
+	# - 1430-1480: Svydrigaylo (сын Ольгерда) claims Lithuanian-Ruthenian heritage, models proto-Ruthenian state
+	# - 1648-1654: Bohdan Khmelnytsky Uprising merges Zaporizhia, Hetmanate, Kyiv spheres
+	# - 1667-1700s: Treaty of Andrusovo divides Ruthenia between Polish-Lithuanian & Muscovite realms
+	# - Alternate: Unified Ruthenian Confederation (КРУ) maintains independence from both Poland & Moscow
+	# 
+	# Mechanical Basis:
+	# - Integrates Zaporizhian democracy (republican_tradition) with Hetmanate oligarchy (legitimacy)
+	# - Blends Kyivan Orthodox hierarchy with starshyna clan councils
+	# - Incorporates federated system: Kyiv center, Hetmanate military, Zaporizhia frontier autonomy
+	# - Tax base: Chernozem wheat, Dnieper commerce, Sich tribute
+	# 
+	# Start bonuses reflect confederal state-building:
+	# - global_tax_modifier: Multiple federated territories pooling resources
+	# - num_accepted_cultures: Ruthenian, Cossack, Lesser Rus, Moldavian, Tatar minorities
+	#
 	start = {
 		global_tax_modifier = 0.2
 		num_accepted_cultures = 3
@@ -259,25 +278,47 @@ KRU_ideas = {
 	}
 	free = yes
 	The_federal_army = {
+		# Federated Ruthenian forces: Kyivan city militia + Hetmanate cavalry + Zaporizhian light cavalry
+		# XVI-XVII ст. model: Integration of three military traditions
+		# Based on 1654-1667 joint operations (Bohdan Khmelnytsky era)
+		# Mechanical: Shock represents cavalry superiority (Cossack husaria influence)
 		fire_damage = 0.1
 		global_manpower_modifier = 0.25
 	}
 	Act_of_russification = {
+		# Assimilating conquered Polish/Lithuanian nobility into Ruthenian starshyna system
+		# XV-XVI ст. precedent: Vytautas & Svydrigaylo integration
+		# Represents cultural synthesis without imposed Muscovite absolutism
 		culture_conversion_cost = -0.5
 	}
 	Great_levy_reforms = {
+		# Militia system modeled on Zaporizhian Sіč + Hetmanate pospolite ruszenie
+		# Widespread conscription from Kyiv sphere outward
+		# Reduces training time through established military hierarchy
 		reinforce_cost_modifier = -0.15
 	}
 	Integrating_the_great_expanse = {
+		# Coordinating Kyiv administrative center with Hetmanate + Zaporizhia = effective federation
+		# One state, three regional power centers = reduced central bureaucracy costs
+		# 1658 Zboriv Treaty model (confederal autonomy with shared sovereignty)
 		state_maintenance_modifier = -0.5
 	}
 	Restore_the_Orthodoxy = {
+		# Post-Khmelnytsky reunification of Orthodox church under Kyiv-Mohyla Metropolitanate
+		# Counter-Reformation recovery (XVII ст.)
+		# Spiritual authority legitimates confederation against Polish latinization
 		global_missionary_strength = 0.02
 	}
 	Absolute_hegemony_of_the_east = {
+		# Ruthenian confederation as Eastern European hegemon
+		# Must consolidate power vs Muscovy, Crimea, Ottoman, Poland-Lithuania
+		# Represents ideological claim to Kyivan Rus' succession (competitive with Moscow)
 		yearly_absolutism = 0.1
 	}
 	Imperial_centralisation = {
+		# Federal system with unified diplomatic authority: Ruthenian Confederation speaks with one voice
+		# Annexations accelerated by treating vassal territories as federal components
+		# Based on precedent: Khmelnytsky integrated Kyiv into Hetmanate sphere (1654)
 		diplomatic_annexation_cost = -0.5
 	}
 }
@@ -417,6 +458,27 @@ ZAZ_ideas = {
 }
 
 KIE_ideas = {
+	# KYIVAN RUS' / KINGDOM OF KYIV (Київська Русь / Київське князівство)
+	# XV-XVI century independent Kyivan state: Religious center, merchant republic, Orthodox stronghold
+	# 
+	# Historical Context:
+	# - 988: Christianization (Volodymyr the Great) → Kyiv-Mohyla cultural inheritance
+	# - 1240: Mongol invasion disrupted but didn't destroy Orthodox hierarchy
+	# - 1362: Lithuanian conquest (Vytautas), integration into Grand Duchy
+	# - 1569: Polish-Lithuanian Union subordinates Kyivan church to Polish ecclesiastical authority
+	# - 1648: Khmelnytsky Uprising revitalizes Kyivan Orthodox autonomy
+	# - Alternate: Kyiv maintains independent ecclesiastical + commercial sovereignty
+	# 
+	# Mechanical Basis:
+	# - Religious authority: Kyiv-Mohyla Academy = cultural production hub
+	# - Economic leverage: Dnieper commerce, Chernozem grain, pilgrimage economy
+	# - Diplomatic weight: Orthodox church mediates between Poland & Muscovy
+	# - Military: City militia + hired Cossack mercenaries
+	# 
+	# Start bonuses reflect merchant-ecclesiastical state:
+	# - global_unrest: Orthodox religious authority stabilizes region (counter-reformation anxiety)
+	# - heretic missionary strength: Kyiv-Mohyla advanced theological training
+	#
 	start = {
 		global_unrest = -2	
 		global_heretic_missionary_strength = 0.1
@@ -432,31 +494,73 @@ KIE_ideas = {
 	free = yes	
 	
 	mother_of_all_cities = {
+		# Kyiv = Kyivan Rus' capital (912 AD onwards), spiritual successor to Constantinople Orthodox authority
+		# Prestige from ecclesiastical authority (Kyiv-Mohyla metropolitanate) + merchant hub status
+		# Represents ideological claim to Rurikid succession
 		prestige = 2
 	}
 	heritage_of_rus = {
+		# Kyiv = seat of Original Rus' civilization (Kyivan Rus' 862-1240)
+		# Diplomatic prestige from historical claim to East Slavic legitimacy
+		# Counter-claim to Muscovy's "Third Rome" ideology
+		# XV-XVI ст. context: Kyiv maintains cultural independence despite vassal status
 		diplomatic_reputation = 2		
 	}
 	fending_off_the_invaders = {
+		# Kyiv survived: Pecheneg invasions (X-XI ст.) → Mongol destruction (1240) → Crimean raids → Polish occupation
+		# Defensive architecture: City fortifications upgraded post-Khmelnytsky
+		# Represents resilience of Orthodox stronghold against external threats
 		defensiveness = 0.2		
 	}
 	chernozem_land = {
+		# Kyivan hinterland: Most fertile agricultural region in Eastern Europe
+		# Grain trade via Dnieper commerce routes sustains state budget
+		# XVI-XVII ст. boom period (before Ruïna disruption)
 		production_efficiency = 0.25
 	}
 	center_of_orthodox_church = {
+		# Kyiv-Mohyla Academy (основана 1632) = intellectual center of Orthodox Christianity
+		# Religious acceptance from Orthodox hierarchy under Kyivan metropolitan authority
+		# Development investment in theological, administrative infrastructure
 		tolerance_own = 2		
 		development_cost = -0.05
 	}
 	support_local_traders = {
+		# Dnieper commerce network: Kyiv hub for Baltic-Black Sea-Caspian trade routes
+		# Merchant guilds (XVI ст. Italian, Greek, Armenian diaspora) = economic power base
+		# Represents capital city advantage in medieval trade geography
 		merchants = 1
 		global_trade_power = 0.1
 	}
 	centralized_rule = {
+		# Kyivan metropolitan authority (ecclesiastical hierarchy) enforces governance
+		# City administration extends control outward via Orthodox church network
+		# Recruitment leverages urban militia + Cossack hired levies
 		global_tax_modifier = 0.1
 		global_regiment_recruit_speed = -0.10
 	}
 }
 ruthenian_ideas = {
+	# RUTHENIAN CONFEDERATION / UNIFIED RUS' (Рутенська конфедерація / Об'єднана Русь)
+	# Alternate history XVI-XIX century: Culture group for states with Ruthenian/Byelorussian primary culture
+	# Represents peoples of Kyivan Rus' successor states not absorbed by Poland, Lithuania, Muscovy
+	# 
+	# Historical Basis:
+	# - Kyivan Rus' (IX-XIII ст.) = cultural/religious foundation for all East Slavic peoples
+	# - 1240-1480: Fragmentation under Mongol overlordship, Lithuanian-Polish vassalization
+	# - 1648-1654: Khmelnytsky Uprising revitalizes Ruthenian identity (anti-Polish, anti-absolutist)
+	# - 1667-1772: Treaty of Andrusovo + Partitions of Poland divide Ruthenia between empires
+	# - Alternate: Ruthenian peoples (Zaporizhia, Hetmanate, Kyiv, Chernihiv) maintain federal confederation
+	# 
+	# Mechanical Basis:
+	# - Manpower/Population: Chernozem agricultural base, Cossack recruitment pools
+	# - Stability mechanism: Republican tradition (Zaporizhia) balances legitimacy (Hetmanate)
+	# - Cultural identity: Orthodox Christianity vs Polish Catholicism, Cossack militancy vs peasant rebellion
+	# - Diplomatic: Mediator between Poland, Muscovy, Ottoman, Crimea
+	# 
+	# Trigger applies to any nation with Ruthenian or Byelorussian primary culture
+	# (Models confederation government form spanning multiple state entities)
+	#
 	start = {
 		manpower_recovery_speed = 0.2
 		global_manpower_modifier = 0.3
@@ -475,26 +579,50 @@ ruthenian_ideas = {
 	free = yes
  
 	mother_of_russian_cities = {
+		# Kyiv = "Mother of Russian Cities" (Нестерова литопись, XI ст.)
+		# Kyivan Rus' founding site: Rurikid dynasty origin (862 AD)
+		# Legitimacy & prestige from ancient statehood claim
+		# Competition with Moscow's "Third Rome" ideology
 		legitimacy = 1
 		prestige = 1
 	}
 	international_influences = {
+		# Ruthenian confederation spans Catholic (Polish) + Orthodox (Russian/Greek) + Islamic (Ottoman/Crimea) spheres
+		# Religious pluralism: Kyiv-Mohyla academy hosts Catholic & Reformed scholars
+		# XVII ст. context: Confessional synthesis (non-persecution of heretics)
 		tolerance_heretic = 2
 	}
 	zaporizhian_cossacs = {
+		# Zaporizhia = military backbone of Ruthenian confederation
+		# Cavalry superiority: Cossack tactics (XVII-XVIII ст.), frontier raiding culture
+		# Republican tradition + democratic institutions (Sich Rada) = unique military ethos
 		cavalry_power = 0.2
 	}
 	east_and_west = {
+		# Ruthenian confederation positioned at trade crossroads: Baltic-Adriatic-Black Sea routes
+		# Kyiv = hub; Dnieper commerce = lifeblood
+		# Caravan networks: Chumak traders, Armenian merchants, Italian Genoese competition
 		global_trade_power = 0.2
 		caravan_power = 0.2
 	}
 	legacy_of_ancient_rus = {
+		# Kyivan Rus' legacy (IX-XIII ст.) = cultural inheritance of all East Slavic peoples
+		# Reduces stability cost of internal cultural integration (all Ruthenian subgroups = family)
+		# Ideological framework: Confederation unites fragmented Ruthenian lands
 		stability_cost_modifier = -0.2
 	}
 	reuniting_rus = {
+		# Confederation goal: Reverse the fragmentation (1240 Mongol invasion aftermath)
+		# Reabsorb Smolensk, Polotsk, other Ruthenian lands from Muscovy/Polish vassalization
+		# Represents XVI-XIX ст. "Ruthenian nationalism" movements
+		# Reduces cultural resentment from non-accepted cultures (ideological unity)
 		years_of_nationalism = -10
 	}
 	birth_of_russian_orthodoxy = {
+		# 988 AD: Christianization of Kyiv by Volodymyr the Great
+		# Kyiv-Mohyla Academy = Orthodox intellectual center (XVII ст.)
+		# Religious authority: Metropolitan of Kyiv maintains independence from Russian Patriarchate
+		# Promotes Ruthenian cultural assimilation via Orthodox faith
 		tolerance_own = 1
 		promote_culture_cost = -0.25
 	}

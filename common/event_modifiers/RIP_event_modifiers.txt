@@ -2498,6 +2498,8 @@ het_swedish_gambit = {
 	war_exhaustion = -0.05
 }
 
+
+
 het_poltava_victory = {
 	prestige = 2
 	legitimacy = 2
@@ -2514,3 +2516,255 @@ het_poltava_defeat = {
 	liberty_desire = 100
 	stability_cost_modifier = 0.50
 }
+
+# === НОВІ МОДИФІКАТОРИ: ЗАПОРОЗЬКА СІЧ XVII–XVIII ст. ===
+
+# Registered Cossacks (XVI–XVII ст.: формалізація козацтва за польськими статтями)
+# Історія: Річ Посполита встановила "реєстр" офіційних козаків — платні, дисциплінаційовані,
+# але менш вільні. Вільні козаки опиралися цьому як порушенню традицій демократії Січі.
+zaz_registered_cossacks = {
+	land_morale = 0.10
+	manpower_recovery_speed = 0.15
+	global_unrest = -1
+	stability_cost_modifier = -0.10
+	liberty_desire = 5
+	years_of_nationalism = -5
+}
+
+# Free Cossacks Spirit (XVII–XVIII ст.: захист демократичної традиції Січі)
+# Історія: Козаки, що відстоюють вільність від польської/російської контролю,
+# зберігають демократичні традиції та резистентність до централізації.
+zaz_free_cossacks_spirit = {
+	republican_tradition = 0.5
+	legitimacy = 0.5
+	global_unrest = 2
+	stability_cost_modifier = 0.25
+	liberty_desire = 15
+	land_morale = 0.15
+}
+
+# Sich Fortified Against Ottoman Attack (XVII–XVIII ст.: підготовка до знищувального удару)
+# Історія: 1656–1657 р. та 1709–1775 — Османська імперія та Крим організовували велики рейди.
+# Укріплення Січі були символом опору й надії на вияток від знищення.
+sich_fortified_against_ottoman = {
+	fort_level = 1
+	land_morale = 0.10
+	land_morale = 0.05
+	prestige = 2
+	defensiveness = 0.15
+}
+
+# Seeking a Patron Power (XVII–XVIII ст.: дипломатичний пошук союзника)
+# Історія: Січь часто шукала покровництво від Польщі, Московії або Туреччини для захисту.
+zaz_seeking_patron = {
+	diplomatic_reputation = 2
+	improve_relation_modifier = 0.15
+	stability_cost_modifier = 0.10
+	diplomatic_upkeep = -0.15
+}
+
+# Sich Relocated (XVI–XVIII ст.: переміщення з одної локації до іншої)
+# Історія: Томаківська → Базавлуцька → Микитинська → Чортомлицька → Олешківська.
+# Кожне переміщення давало нові можливості, але й знов начиналася адаптація.
+sich_relocated = {
+	manpower_recovery_speed = -0.10
+	development_cost = 0.10
+	global_unrest = 1
+	years_of_nationalism = 2
+	prestige = -2
+}
+
+# Sich in Ottoman Lands (1709–1775: Олешківська Січ під Османською протекцією)
+# Історія: Після поразки Мазепи при Полтаві (1709) частина козаків переміщувалась до
+# Олешківської Січі під Кримською залежністю й Османським контролем.
+sich_ottoman_lands = {
+	global_autonomy = 0.10
+	diplomatic_reputation = -2
+	legitimacy = -3
+	stability_cost_modifier = 0.15
+	liberty_desire = -10
+	army_tradition = 0.05
+}
+
+# Cossack Settlement (XVI–XIX ст.: утворення козацьких слобід на кордонах)
+# Історія: Слободи як полукочевие поселення вільних людей, організовані козацькими общинами,
+# забезпечували буфер проти татарських рейдів.
+cossack_settlement = {
+	local_manpower_modifier = 0.15
+	local_defensiveness = 0.10
+	years_of_nationalism = -2
+	local_unrest = -1
+	local_autonomy = 0.05
+}
+
+# Steppe Brotherhood (XVI–XVIII ст.: союз козаків з іншими степовими народами)
+# Історія: Інколи козаки союзувалися з кримськими татарами, ногайцями чи іншими степовимі
+# воєнизованими громадами проти спільного ворога (Осман, РП).
+zaz_steppe_brotherhood = {
+	diplomatic_reputation = 1
+	improve_relation_modifier = 0.10
+	cav_to_inf_ratio = 0.05
+	cavalry_power = 0.05
+}
+
+# Steppe Alliance (XVI–XVIII ст.: формальний союз з степовими кочівниками)
+zaz_steppe_alliance = {
+	improve_relation_modifier = 0.10
+	dip_tech_cost_modifier = -0.05
+}
+
+# Rebellious Cossacks (XVIII ст.: козацька резистентність російському панству)
+# Історія: После 1709 р. козаки все более розглядалися як російські васали, але опір
+# російській централізації залишився. Бунти, втечі, союзи з Пугачевим.
+zaz_rebellious_cossacks = {
+	global_unrest = 3
+	liberty_desire = 30
+	years_of_nationalism = 3
+	prestige = -2
+	stability_cost_modifier = 0.25
+}
+
+# Ottoman-Protected Sich (1709–1775: Січь як інструмент Османської політики)
+# Історія: Кримські хани й Туреччина використовували уламки Січі як буфер проти Російської експансії.
+ottoman_protected_sich = {
+	diplomatic_reputation = -2
+	stability_cost_modifier = 0.10
+	global_autonomy = 0.15
+	liberty_desire = -15
+	improve_relation_modifier = -0.10
+}
+
+# Sich Diaspora (1775–XIX ст.:散散的 козацькі громади в екзилі)
+# Історія: Після знищення Січі 1775 р. уламки козаків розсіялися: на Кубань (Чорноморське Козацтво),
+# на Дунай (Дунайське Козацтво), на Дон, в Туреччину.
+sich_diaspora = {
+	global_autonomy = 0.20
+	liberty_desire = 10
+	prestige = -5
+	legitimacy = -3
+	global_unrest = 2
+}
+
+# Registered Cossacks (Гетьманщина XVII–XVIII ст.: інтеграція козаків в офіційну структуру)
+# Історія: За гетьманства Мазепи й його наступників козацькі полки були переведені на
+# постійну службу й включені в военно-адміністративну структуру.
+het_registered_cossacks_integrated = {
+	manpower_recovery_speed = 0.10
+	land_morale = 0.10
+	global_unrest = -2
+	stability_cost_modifier = -0.10
+	liberty_desire = 5
+}
+
+# Hetman Faction Conflict (XVII–XVIII ст.: боротьба старшинських кланів за гетьманство)
+# Історія: Вибори гетьмана були часто буремні: старшина розділялась, іноземні держави
+# втручалися, нові гетмани мали низьку легітимність.
+hetman_faction_conflict = {
+	global_unrest = 2
+	stability_cost_modifier = 0.20
+	liberty_desire = 10
+	legitimacy = -5
+	prestige = -3
+}
+
+# Russian-Backed Hetman (XVIII ст.: гетьман, призначений Московією)
+# Історія: Після 1709 р. Московія почала прямо призначати гетманів, замість дозволяти їхній вибір.
+russian_backed_hetman = {
+	global_autonomy = 0.15
+	liberty_desire = 15
+	diplomatic_reputation = -3
+	legitimacy = -5
+	prestige = -2
+}
+
+# =========================================================================
+# SVYDRIGAYLO INDEPENDENCE PATH MODIFIERS (XIV-XV century alternate history)
+# =========================================================================
+# Historical Context:
+# XIV-XV century path where Svydrigaylo of Lithuania (сын Ольгерда) successfully
+# establishes an independent Ruthenian state, breaking from Grand Duchy of Lithuania.
+# This alternate timeline sees Ruthenian confederation maintained through 16th-18th centuries.
+#
+# Mechanical Basis:
+# Starshyna Council → Preparation Phase → Independence Declaration → Confederation Formation
+# Each phase unlocks additional buffs, prestige, diplomatic benefits.
+#
+# Narrative Inspiration:
+# - 1399-1432: Svydrigaylo (Свидригайло) claims Ruthenian lands vs Vytautas
+# - 1648-1654: Bohdan Khmelnytsky Uprising revives confederation model
+# - 1667 onwards: Alternate history maintains multi-power balance vs Russian absorption
+# =========================================================================
+
+# Starshyna Council Formation (XIV-XV ст.: перша формальна організація старшини)
+# Механіка: Дозволяє розпочати процес незалежності; стабілізує внутрішні конфлікти.
+# Історія: Перша офіціальна структура, в якій козацькі офіцери й литовська аристократія
+# обговорюють спільні інтереси незалежної Рутенської держави.
+svydrigaylo_starshyna_council = {
+	stability_cost_modifier = -0.08
+	diplomats = 1
+	free_leader_pool = 1
+	legitimacy = 0.5
+}
+
+# Preparing for Independence (XV ст.: дипломатична підготовка до розриву)
+# Механіка: Підтримка союзників, укріплення армії, набір анти-литовського настрою.
+# Історія: За часи підготовки до розриву договорів з Литвою здійснюються переговори
+# з Крименьким Ханством, Польщею, і локальними козацькими громадами.
+svydrigaylo_preparing_independence = {
+	improve_relation_modifier = 0.10
+	diplomatic_reputation = 1
+	manpower_recovery_speed = 0.10
+	land_morale = 0.05
+	prestige = 0.5
+}
+
+# Independent Ruthenian State (XV ст.: новоутворена вільна держава)
+# Механіка: Видаляє модификатори васалізму, додає престиж й дипломатичну репутацію.
+# Історія: Рутенська держава визнається як суверенний актор, пропонує альтернативу
+# як русинському, так і польському, й литовському домінуванню.
+svydrigaylo_independent_ruthenian_state = {
+	legitimacy = 1
+	prestige = 1
+	diplomatic_reputation = 2
+	global_autonomy = -0.10
+	improve_relation_modifier = 0.15
+	unjustified_demands = -0.25
+}
+
+# Kyivan Confederation Established (XV-XVI ст.: об'єднання Рутенських земель)
+# Механіка: Максимальні бонуси за об'єднання; додає принципи республіканської традиції
+# + легітимності, символізуючи компромісну систему управління (демократія + аристократія).
+# Історія: КРУ конфедерація об'єднує Київ (релігійний центр), Гетьманщину (військовий),
+# Запоріжжя (демократичне), Чернігів (административне).
+kru_confederation_established = {
+	legitimacy = 2
+	republican_tradition = 1
+	prestige = 2
+	diplomatic_reputation = 3
+	global_autonomy = -0.15
+	stability_cost_modifier = -0.15
+	num_accepted_cultures = 2
+	improve_relation_modifier = 0.20
+	unjustified_demands = -0.35
+	diplomatic_upkeep = -0.10
+}
+
+# Svydrigaylo's Legacy (XIV-XV ст.: історична реберенція до Свидригайла)
+# Механіка: Престиж i легітимність від історичної фігури, яка встановила традицію независимості.
+# Історія: Упрочнення ідеї про Рутенське право на самовизначення й опір чужому панству.
+svydrigaylo_legacy = {
+	prestige = 1
+	prestige_decay = -0.01
+	diplomatic_reputation = 1
+	global_unrest = -1
+}
+
+# Balance between Rada and Hetmanate (republican tradition converted to legitimacy)
+kru_confederation_balance = {
+	legitimacy = 1
+	republican_tradition = 0.25
+	max_absolutism = -5
+	global_autonomy = -0.03
+	stability_cost_modifier = -0.05
+}
+
