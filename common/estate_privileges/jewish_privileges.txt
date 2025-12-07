@@ -1,0 +1,124 @@
+# =========================================================================
+# JEWISH MERCHANT ESTATE PRIVILEGES
+# =========================================================================
+
+estate_jewish_tax_farmers = {
+    icon = privilege_burghers_tax_exemptions
+    loyalty = 0.10
+    influence = 0.10
+    land_share = 5
+    max_absolutism = -5
+
+    is_valid = {
+        has_estate = estate_jewish_merchants
+    }
+    can_select = {
+        has_estate = estate_jewish_merchants
+    }
+
+    benefits = {
+        global_tax_modifier = 0.10
+        production_efficiency = 0.05
+    }
+
+    conditional_modifier = {
+        trigger = { has_absolutism_reduction_for_estate_privileges = yes }
+        modifier = { max_absolutism = 1 }
+    }
+
+    ai_will_do = {
+        factor = 25
+    }
+}
+
+estate_jewish_loan_banks = {
+    icon = privilege_burghers_private_trade_companies
+    loyalty = 0.05
+    influence = 0.10
+    land_share = 0
+    max_absolutism = -2
+
+    is_valid = {
+        has_estate = estate_jewish_merchants
+    }
+    can_select = {
+        has_estate = estate_jewish_merchants
+    }
+
+    benefits = {
+        interest = -1
+        global_tax_modifier = 0.02
+        trade_efficiency = 0.05
+    }
+
+    conditional_modifier = {
+        trigger = { has_absolutism_reduction_for_estate_privileges = yes }
+        modifier = { max_absolutism = 1 }
+    }
+
+    ai_will_do = {
+        factor = 35
+    }
+}
+
+estate_jewish_kahal_autonomy = {
+    icon = privilege_clergy_religious_state
+    loyalty = 0.10
+    influence = 0.05
+    land_share = 3
+    max_absolutism = -3
+
+    is_valid = {
+        has_estate = estate_jewish_merchants
+    }
+    can_select = {
+        has_estate = estate_jewish_merchants
+    }
+
+    benefits = {
+        tolerance_heathen = 1
+        tolerance_heretic = 1
+        global_unrest = -1
+        governing_capacity = 25
+    }
+
+    conditional_modifier = {
+        trigger = { has_absolutism_reduction_for_estate_privileges = yes }
+        modifier = { max_absolutism = 1 }
+    }
+
+    ai_will_do = {
+        factor = 20
+    }
+}
+
+estate_jewish_black_sea_network = {
+    icon = privilege_burghers_private_trade_companies
+    loyalty = 0.05
+    influence = 0.10
+    land_share = 0
+
+    is_valid = {
+        has_estate = estate_jewish_merchants
+    }
+    can_select = {
+        has_estate = estate_jewish_merchants
+    }
+
+    benefits = {
+        global_trade_power = 0.1
+        trade_range_modifier = 0.25
+        sailors_recovery_speed = 0.10
+    }
+
+    ai_will_do = {
+        factor = 30
+        modifier = {
+            factor = 2
+            any_owned_province = {
+                trade_goods = grain
+                has_port = yes
+            }
+        }
+    }
+}

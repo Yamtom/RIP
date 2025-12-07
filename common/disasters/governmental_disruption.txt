@@ -116,22 +116,19 @@ governmental_disruption = {
 			tag = KIE
 	    }
 		normal_or_historical_nations = yes
-		NOT = { has_country_flag = modernization_suppressed }
 	}
 	
 	can_stop = {
 		OR = {
 			has_any_disaster = yes
-			AND = {
-				has_regency = no
-				legitimacy = 75
-			}
-			OR = {
-				has_reform = ruthenian_principality_reform
-				has_reform = kyivan_rus_reform
-			}
-			is_subject = yes
+			has_regency = no
+			legitimacy = 75
 		}
+		OR = {
+			has_reform = ruthenian_principality_reform
+			has_reform = kyivan_rus_reform
+		}
+		is_subject = yes
 	}
 	
 	can_start = {
