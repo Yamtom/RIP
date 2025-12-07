@@ -30,9 +30,7 @@ zaz_relocate_sich_effect = {
 	capital_scope = {
 		remove_province_modifier = zaporozhian_sich_capital
 	}
-	ROOT = {
-		capital = 284  # Default Zaporizhia
-	}
+	set_capital = 284  # Default Zaporizhia
 	capital_scope = {
 		add_province_modifier = {
 			name = zaporozhian_sich_capital
@@ -199,6 +197,24 @@ het_pereiaslav_treaty_effect = {
 		}
 	}
 }
+
+	# Transition from Sich democracy to early Hetmanate (convert republican tradition into legitimacy)
+	zaz_evolve_to_hetmanate_effect = {
+		# Consume republican tradition as political capital
+		add_republican_tradition = -15
+		add_legitimacy = 20
+		add_absolutism = 5
+		add_country_modifier = {
+			name = "kru_confederation_balance"
+			duration = 3650
+		}
+		if = {
+			limit = { NOT = { government = monarchy } }
+			change_government = monarchy
+		}
+		add_prestige = 10
+		add_stability_or_adm_power = yes
+	}
 
 # Break with overlord (Mazepa style)
 het_break_with_overlord_effect = {

@@ -1,0 +1,134 @@
+# Svydrigaylo Independence Path (XIV-XV century alternate history)
+# Механіка незалежності Рутенської конфедерації від Литви/Польщі
+# 
+# Historical Background:
+# - 1399-1432: Svydrigaylo of Lithuania (Свидригайло, син Ольгерда) 
+#   attempts to establish independent Ruthenian state vs Vytautas/Grand Duchy
+# - Alternate timeline: Successful Ruthenian independence from Gediminas dynasty
+# - Creates playable path: ZAZ + HET + CHR + KIE merge into KRU (Kyivan Confederation)
+# - Requirements: war exhaustion in overlord, Republican tradition/Legitimacy balance, Starshyna loyalty
+#
+# Mechanical Preconditions:
+# 1. Vassal Status: Must be vassal of Lithuania, Poland, or Poland-Lithuania
+# 2. Republican Tradition ≥ 60 (strong democratic institutions)
+# 3. Legitimacy ≥ 60 (strong military/ecclesiastical authority)
+# 4. Overlord war_exhaustion ≥ 3 (external military pressure on suzerain)
+# 5. Own war_exhaustion < 2 (confederation militarily intact)
+# 6. Army strength ≥ 80% (defensive capability)
+# 7. Catholic/Orthodox religious unity (cultural coherence)
+#
+# Mechanical Effects:
+# 1. Remove vassal modifiers (subtract legitimacy cost, remove liberty_desire penalties)
+# 2. Add Ruthenian identity modifiers (add prestige, diplomatic reputation)
+# 3. Shift from republican_tradition to legitimacy (oligarchy = starshyna councils)
+# 4. Activate confederal government form (federated decision-making)
+# 5. Grant casus belli vs overlord (Ruthenian Independence War)
+# 6. Add diplo benefits vs Orthodox/merchant powers (Venice, Crimea, Orthodox states)
+#
+country_decisions = {
+
+	# Stage 1: Establish Starshyna Council (15+ years before independence possible)
+	# Placeholder: Svydrigaylo independence chain temporarily disabled pending rework
+
+	svydrigaylo_confederation_invitation = {
+		potential = {
+			exists = HET
+			exists = CHR
+			exists = KIE
+		}
+		allow = {
+			legitimacy = 60
+			diplomatic_reputation = 5
+			is_at_war = no
+		}
+		effect = {
+			set_country_flag = kru_confederation_invitation_sent
+			
+			if = {
+				limit = { exists = ZAZ }
+				ZAZ = {
+					country_event = {
+						id = svydrigaylo.100
+					}
+				}
+			}
+			if = {
+				limit = { exists = HET }
+				HET = {
+					country_event = {
+						id = svydrigaylo.101
+					}
+				}
+			}
+			if = {
+				limit = { exists = CHR }
+				CHR = {
+					country_event = {
+						id = svydrigaylo.102
+					}
+				}
+			}
+			if = {
+				limit = { exists = KIE }
+				KIE = {
+					country_event = {
+						id = svydrigaylo.103
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Stage 6: Ruthenian Independence War (vs overlord if they refuse peace)
+	svydrigaylo_ruthenian_independence_war = {
+		major = yes
+		potential = {
+			is_free_or_tributary_trigger = yes
+			has_country_flag = svydrigaylo_independence_declared
+			overlord = {
+				OR = {
+					tag = LIT
+					tag = POL
+					tag = PLC
+				}
+			}
+		}
+		allow = {
+			is_at_war = no
+			legitimacy = 55
+			army_strength = {
+				who = overlord
+				value = 0.70
+			}
+		}
+		effect = {
+			overlord = {
+				create_subject = {
+					subject_type = vassal
+					subject = ROOT
+				}
+			}
+			if = {
+				limit = {
+					overlord = {
+						NOT = { has_opinion_modifier = {
+							who = ROOT
+							modifier = ruthenian_independence_accepted
+						}}
+					}
+				}
+				declare_war_with_cb = {
+					who = overlord
+					casus_belli = cb_liberation
+				}
+			}
+			add_prestige = 10
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}

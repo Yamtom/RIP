@@ -1,10 +1,122 @@
+# =========================================================================
+# GOVERNMENTAL DISRUPTION DISASTER
+# (XVIII–XIX ст.: 1750–1850 р.р. — модернізація vs. традиційні інститути)
+# =========================================================================
+#
+# HISTORICAL CONTEXT:
+# This disaster represents the tumultuous collision between Imperial Russian centralization
+# (Peter I, Catherine II) and the surviving autonomy of Kyivan/Ruthenian regional principalities,
+# the Hetmanate's charter rights, and local boyar/starshyna resistance to bureaucratic reform.
+# The disaster triggers when a Kyivan or Ruthenian state attempts to implement European-style
+# absolute monarchy reforms (creating new central ministries, standing armies, secular law codes)
+# while facing resistance from traditionalist estates (Church, Nobility, Cossacks, Burghers).
+#
+# Historical Background:
+# - Peter I's Reforms (1682–1725): Westernization program; creation of centralized ministries
+#   (Colleges/Коллегии instead of boyar councils), secular state apparatus, standing military,
+#   modern navy, etc. Encountered fierce resistance from traditionalists who saw reform as
+#   apostasy (religious) and tyranny (political). Resulted in the Strelvetsy Rebellion (1682–1698),
+#   peasant uprisings (Astrakhan Rebellion 1705), and cossack revolts (Bulavin Rebellion 1707–1708).
+# - Catherine II's Reforms (1762–1796): Enlightened absolutism; reformed provincial administration,
+#   judicial system, and noble rights; secularized church lands; created "free" peasant categories.
+#   Met with stability in some quarters (nobility coopted through extended privileges) but sparked
+#   Pugachev Rebellion (1773–1775) among cossacks and peasants who saw centralization as enserfment.
+# - Hetmanate's Decline (1709–1764): After Mazepa's failed Swedish alliance (1708) and Russian
+#   triumph at Poltava (1709), the Hetmanate's institutional autonomy was progressively stripped:
+#   Hetmans were appointed directly by Russian governors rather than elected; autonomous regiments
+#   (polky) were reorganized into centralized military units; the Rada's authority was curtailed;
+#   Orthodox church lands began to be confiscated. By 1764, the hetmanate office itself was abolished
+#   by Catherine II, and Kyivan/Chernihiv regions were incorporated into gubernial (provincial) system.
+# - Kyivan Independence Attempts: Kyiv principality, under cultural and religious influence from
+#   Mohyla Academy and Orthodox Church, occasionally resisted Russian centralization (e.g., support
+#   for Mazepa in 1708), but lacked military and political power to succeed. By 1750s, Kyiv was
+#   firmly subordinated to Russia, though local nobility and clergy preserved considerable de facto
+#   autonomy in their estates.
+# - Ruthenian Principality (Hypothetical in Mod): The mod appears to include a "Ruthenian" 
+#   principality (KRU) which may represent a surviving autonomous entity in lands between Ukraine,
+#   Muscovy, and Crimea (e.g., Pereyaslav, Zaporozhia, or a larger confederation). Such an entity
+#   would face intense Russian pressure to centralize and submit; resistance from local cossacks,
+#   clergy, and boyars would be intense.
+#
+# Key Reformers & Resisters:
+# - Peter I: Architect of centralization; ruthlessly suppressed tradition; created an entirely new
+#   military-bureaucratic elite (rank nobility, Table of Ranks, service obligations).
+# - Catherine II: More subtle; coopted nobility with extended privileges and land grants; but
+#   centralized provincial administration and reduced Church autonomy. Suppressed Pugachev Rebellion
+#   and fortified absolute monarchy.
+# - Kyivan Metropolitan and Orthodox Clergy: Resisted secularization and state control of church
+#   lands and appointments; attempted to maintain ecclesiastical autonomy and defend Orthodox privileges.
+# - Ruthenian/Cossack Starshyna: Resisted centralization as erosion of elective hetmanate system,
+#   raiding autonomy, democratic Rada, and traditional land/military privileges. Some starshyna were
+#   co-opted into Russian nobility (Table of Ranks); others rebelled.
+# - Cossack Host (Sich, Registered Regiments): Viewed Peter/Catherine's reforms as enserfment;
+#   opposed standing army integration, central taxation, and loss of Sich autonomy. Sparked multiple
+#   rebellions (Bulavin 1707–1708, Zaporozhian unrest 1730s–1770s, Pugachev 1773–1775).
+#
+# Causes of Disruption:
+# - Reform Momentum: New hetman or prince, ambitious reformer, or external pressure (from overlord
+#   or from ambitious neighbors) triggers attempt at administrative modernization.
+# - Estate Resistance: Clergy resists loss of church lands/autonomy; nobility resists centralization
+#   of power and tribute demands; cossacks resist conscription and formalization of military hierarchy;
+#   burghers resist increased taxation and regulation of trade.
+# - Violence & Instability: Reformers attempt to enforce change through military force, new laws,
+#   and bureaucratic authority. Traditionalists resist through defiance, capital flight, brigandage
+#   (opryshky), and open rebellion. Civil war or intense unrest results.
+# - Foreign Intervention: Russian overlord may demand faster centralization (increasing pressure on
+#   local rulers), or Poland/Ottoman may offer support to traditionalists to destabilize Russian expansion.
+#
+# Crisis Mechanics in Historical Record:
+# - Strelvetsy Rebellion (1682–1698): Peter I's own elite guards mutinied against reform; Peter
+#   brutally suppressed them (public executions, monasteries for defeated rebels). Symbolized the
+#   human cost of forced centralization.
+# - Astrakhan Rebellion (1705–1706): Revolting against new taxation and conscription; suppressed
+#   with bloody reprisal; thousands executed; thousands more fled to Crimea/Don regions.
+# - Bulavin Rebellion (1707–1708): Cossack uprising on Don and Left Bank against Peter's centralization
+#   and conscription. Bulavin, a Don Cossack leader, coordinated with Zaporozhian Sich and Mazepa's
+#   defection to provide synchronized pressure. Rebellion suppressed only after Poltava; Bulavin was
+#   killed by his own followers (pro-Russian moderate faction).
+# - Pugachev Rebellion (1773–1775): Largest pre-modern peasant/cossack rebellion; claimed to be
+#   Peter III (killed 1762) returning to reverse Catherine's reforms. Spread across Don, Volga,
+#   Zaporozhia, involving cossacks, Calmyks, Bashkirs, serfs. Catherine brutally suppressed
+#   (200,000+ killed) and strengthened state control even further (enserfed previously free peasants,
+#   eliminated Zaporozhian Sich 1775).
+#
+# Game Design Notes:
+# This disaster is designed for KIE (Kyiv) and KRU (Ruthenian Principality) and triggers when
+# they are engaged in modernization reforms ("reactionary_response_flag" indicates a counter-reform
+# or reform attempt). The disaster models the chaos of trying to centralize late-medieval institutions
+# against entrenched estate opposition. It drains stability and increases war exhaustion (due to
+# internal conflict). Modifiers depress legitimacy and increase unrest. The disaster can_end when
+# stability reaches +2 and no rebel provinces remain—meaning the reformer has consolidated either
+# through force (suppression of all resistance) or through negotiation (estates accept new order).
+# Alternatively, can_stop if the ruler accepts autonomy (is_subject = yes; vassal to an overlord
+# like Moscow, who co-opts the reformist agenda, taking pressure off local institutions).
+#
+# Mechanics: Disaster representing the turmoil when a Kyivan or Ruthenian state attempts
+# European-style absolute monarchy reforms while facing resistance from estates (Church, Nobility,
+# Cossacks, Burghers) wedded to medieval/autonomous traditions.
+#
+# Narrative: Simulates the catastrophic collision between Imperial Russian centralization 
+# (Peter I, Catherine II) and surviving local autonomy, charter rights, and estate power.
+# Attempts to implement new bureaucracies, standing armies, and centralized law faced fierce
+# resistance; resulted in civil wars, rebellions, and ultimately forced subordination to 
+# Russian state control (by 1790s, all Ukrainian/Ruthenian resistance had been quashed or coopted).
+#
+# References:
+# - Mykhailo Hrushevsky, *History of Ukraine-Rus'*, vols. 9-10
+# - Orest Subtelny, *Ukraine: A History* (2000)
+# - Paul Bushkovitch, *A Concise History of Russia* (2012) — for Peter/Catherine context
+# - Jaroslaw Pelenski, *The Contest for the Legacy of Kievan Rus'* (1998)
+# - Richard Hellie, *Slavery in Russia, 1464–1725* (1982) — for serfdom and state-building context
+# =========================================================================
 governmental_disruption = {
-
 	potential = {
 		OR = {
 			tag = KRU
 			tag = KIE
 	    }
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = modernization_suppressed }
 	}
 	
 	can_stop = {
@@ -20,7 +132,6 @@ governmental_disruption = {
 			}
 			is_subject = yes
 		}
-		
 	}
 	
 	can_start = {

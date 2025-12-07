@@ -355,10 +355,6 @@ country_event = {
 	}
 	immediate = {
 		hidden_effect = {
-			add_disaster_progress = {
-				disaster = governmental_disruption
-				value = 100
-			}
 			set_country_flag = reactionary_response_flag
 		}
 	}
@@ -625,11 +621,8 @@ country_event = {
 	desc = "kyiv_independence.2d"
 	picture = LAND_MILITARY_eventPicture
 	trigger = {
-		exists = event_target:kyiv_rus
-		NOT = {
-			is_subject_of_type = princedom
-		}
-		event_target:kyiv_rus = {
+		exists = KRU
+		KRU = {
 			OR = {
 				overlord_of = ROOT
 				AND = {
@@ -638,10 +631,13 @@ country_event = {
 				}
 			}
 		}
+		NOT = {
+			is_subject_of_type = princedom
+		}
 	}
 	option = {
 		name = "kyiv_independence.2a"
-		event_target:kyiv_rus = {
+		KRU = {
 			country_event = {
 				id = kyiv_independence.3
 			}

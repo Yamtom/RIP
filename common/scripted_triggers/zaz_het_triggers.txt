@@ -42,8 +42,8 @@ is_sich_location = {
 	}
 }
 
-# Check if nation can conduct slave raids
-can_conduct_slave_raids = {
+# Check if nation can conduct Chaiky trade/raid expeditions (non-slave raids)
+can_conduct_chaiky_raids = {
 	OR = {
 		tag = ZAZ
 		has_reform = zaz_free_host_reform
@@ -129,13 +129,21 @@ zich_is_threatened = {
 }
 
 # Check if province has Cossack heritage
-has_cossack_heritage = {
+has_cossack_heritage_prov = {
 	OR = {
 		has_province_modifier = "cossack_settlement"
 		has_province_modifier = "sich_outpost"
 		has_province_modifier = "regimental_headquarters"
 		culture = ruthenian
-		owner = { is_cossack_nation = yes }
+	}
+}
+
+# Check if country is Cossack nation
+is_cossack_nation = {
+	OR = {
+		tag = ZAZ
+		tag = HET
+		tag = KRU
 	}
 }
 

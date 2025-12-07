@@ -1,5 +1,29 @@
 namespace = zaz_flavor
 
+# === ІСТОРИЧНИЙ КОНТЕКСТ: XV–XIX ст. Запорозька Січ ===
+# Запорізька Січ виникла як напівнезалежна козацька демократична комуна на Нижньому Дніпрі
+# (XV ст.), досягла розквіту у XVI–XVII ст. як сила, що впливала на регіональну політику
+# (чайки, реєстр, виборність отамана). 1648–1657 — комітет під Б. Хмельницького та розпочинання
+# Визвольної вiйни. 1657–1709 — період Руїни, росіїївського закабалення й спроб централізації
+# (Мазепа). 1709–1775 — російське закріпачення й остаточна ліквідація Січі 1775 р.
+# Вижившi козаки перейшли до Кубанського/Чорноморського козацтва.
+#
+# МЕХАНІКИ (ідеї для геймплею):
+# - Релокація Січі: Томаківська → Базавлуцька → Микитинська → Чортомлицька → Олешківська 
+#   (під Османами) → Нова Січ (у 1810–х). Подієва система вибору нової локації зі слоба-бонусами.
+# - Чайки/морські рейди: навиковий механіко захоплення й гра ризику проти Османської флоти.
+# - Козацький реєстр: механіка формалізації/дикості козаків, відповідь на тиск суверенів.
+# - Демократія Січі: виборність отамана (подієві цикли), рада, рівність в дистрибуції здобичі.
+# - Старшинські роди: впливові генерали/дипломати як радники й конкуренти.
+#
+# ІСТОРИЧНІ РЕФЕРЕНСИ:
+# - Сергій Плохій, "Брама Європи" (Harvard, 2015); "Cossacks and Religion in Early Modern Ukraine".
+# - Олена Апанович, "Збройні сили України першої половини XVIII ст." (1995).
+# - Михайло Грушевський, "Історія України-Руси" (т. VII–IX, 1908–1935).
+# - Orest Subtelny, "Ukraine: A History" (Toronto, 1988).
+# - Frank Sysyn, "Between Poland and the Ukraine" (1985).
+#
+
 # The Founding of the Sich
 country_event = {
 	id = zaz_flavor.2
@@ -19,7 +43,9 @@ country_event = {
 		months = 24
 	}
 	
-	# Establish Sich on Khortytsia
+	# Establish Sich on Khortytsia (XV–XVI ст.)
+	# Історичний факт: Хортиця як основна база козацьких банд ~ 1550–1560-х;
+	# укріплення стану через укріплення острова, тренування, мобілізацію сильних воїнів.
 	option = {
 		name = "zaz_flavor.2.a"
 		284 = {
@@ -32,6 +58,7 @@ country_event = {
 		}
 		add_prestige = 15
 		add_army_tradition = 10
+		add_republican_tradition = 5
 		capital_scope = {
 			add_province_modifier = {
 				name = mobile_sich
@@ -40,7 +67,9 @@ country_event = {
 		}
 	}
 	
-	# Establish mobile Sich
+	# Establish mobile Sich (nomadic strategy)
+	# Альтернативний історичний шлях: мобільний табір замість фіксованої фортеці;
+	# зберігає гнучкість проти противника, але зменшує контроль над територією.
 	option = {
 		name = "zaz_flavor.2.b"
 		capital_scope = {
@@ -50,11 +79,16 @@ country_event = {
 			}
 			add_base_manpower = 1
 		}
-		add_republican_tradition = 5
+		add_republican_tradition = 10
+		add_prestige = 5
 	}
 }
 
-# The Chaiky Raiders
+# The Chaiky Raiders (XVI–XVII ст.)
+# Історія: Чайки — легкі весельні чи парусні кораблі козаків; 1550–1700-і були знаряддям
+# морських рейдів на Чорне й Азовське море проти Османів та Кримських татар.
+# Успішні рейди: захист 1615 р., рейди на Кафу (~1616), глибокі морські експедиції.
+# Невдачи: османські експедиції, втрати флоту, репресалії крымців.
 country_event = {
 	id = zaz_flavor.3
 	title = "zaz_flavor.3.t"
@@ -79,7 +113,8 @@ country_event = {
 		}
 	}
 	
-	# Build more chaiky
+	# Build more chaiky and conduct raids (aggressive expansion)
+	# Тактика: розширення флоту, навчання морських спеціалістів, підвищення видимості на морі.
 	option = {
 		name = "zaz_flavor.3.a"
 		add_navy_tradition = 5
@@ -91,9 +126,20 @@ country_event = {
 			galley = ROOT
 			galley = ROOT
 		}
+		add_prestige = 8
+		every_neighbor_country = {
+			limit = {
+				religion_group = muslim
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_hates_us
+			}
+		}
 	}
 	
-	# Focus on land warfare
+	# Focus on land warfare and domestic stability
+	# Тактика: обережність, зберігання сил для сухопутних конфліктів.
 	option = {
 		name = "zaz_flavor.3.b"
 		add_army_tradition = 5
@@ -667,5 +713,423 @@ country_event = {
 				}
 			}
 		}
+	}
+}
+
+# === РОЗШИРЕНІ ПОДІЄННЯ: XVII–XVIII ст. КРИЗА РЕЄСТРУ, ДЕМОКРАТІЯ ТА ОСМАНСЬКИЙ ТИСК ===
+
+# The Registered Cossacks Crisis (XVI–XVII ст.)
+# Історія: Річ Посполита намагалася формалізувати козацтво через "реєстр" — офіційні,
+# платні, дисциплінаційовані сили; "вільні" козаки відстоювали демократичність Січі.
+# 1571 — перший реєстр (200 осіб); 1620-і — розширення; 1648 — восстання Хмельницького
+# як відповідь на обмеження реєстру й утиски польської шляхти.
+country_event = {
+	id = zaz_flavor.14
+	title = "zaz_flavor.14.t"
+	desc = "zaz_flavor.14.d"
+	picture = ELECTION_REPUBLICAN_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		is_year = 1620
+		NOT = { is_year = 1660 }
+		any_neighbor_country = {
+			tag = POL
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+	}
+	
+	# Expand registered cossacks (more discipline, less freedom)
+	# Стратегія: прийняти польські умови й формалізувати армію; бонуси армії, штраф свободи.
+	option = {
+		name = "zaz_flavor.14.a"
+		add_mil_power = 30
+		add_republican_tradition = -5
+		add_army_tradition = 8
+		add_country_modifier = {
+			name = "zaz_registered_cossacks"
+			duration = 5475
+		}
+		add_stability_or_adm_power = yes
+		POL = {
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_friendly
+			}
+		}
+	}
+	
+	# Reject registration (maintain independence, risk)
+	# Стратегія: охороняти демократичність Січі; рис + ліберті дезайр, конфліктність з Польщею.
+	option = {
+		name = "zaz_flavor.14.b"
+		add_prestige = 10
+		add_republican_tradition = 15
+		add_liberty_desire = 10
+		POL = {
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_hates_us
+			}
+		}
+		add_country_modifier = {
+			name = "zaz_free_cossacks_spirit"
+			duration = 3650
+		}
+	}
+	
+	# Negotiate a compromise (both sides satisfied)
+	# Стратегія: балансування між дисциплінею й свободою.
+	option = {
+		name = "zaz_flavor.14.c"
+		add_dip_power = 20
+		add_prestige = 5
+		add_stability_or_adm_power = yes
+		POL = {
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_likes_us
+			}
+		}
+	}
+}
+
+# The Sich Rada and Kosh Otaman Election (XVI–XIX ст.)
+# Історія: Рада Січі був демократичним органом усіх козаків; кошовий отаман (військовий командир)
+# обирався радою, був відповідальний перед нею, не мав постійної влади між походами.
+# Важливо: демократія + його осердя Січі, видовження та критика централізації (Хмельницький, Мазепа).
+country_event = {
+	id = zaz_flavor.15
+	title = "zaz_flavor.15.t"
+	desc = "zaz_flavor.15.d"
+	picture = ELECTION_REPUBLICAN_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		has_reform = zaz_kosh_elections_reform
+		is_year = 1600
+		NOT = { republican_tradition = 60 }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	# Elect a strong military leader (战士)
+	# Образ: енергійний, боєздатний отаман; риси бойовитості й лідерства.
+	option = {
+		name = "zaz_flavor.15.a"
+		define_ruler = {
+			change_mil = 3
+			change_adm = -1
+			change_dip = 0
+		}
+		add_republican_tradition = 5
+		add_army_tradition = 8
+		add_prestige = 5
+	}
+	
+	# Elect a diplomatic leader
+	# Образ: переговорник, старик, здатен балансувати між Польщею, Московією, Кримом.
+	option = {
+		name = "zaz_flavor.15.b"
+		define_ruler = {
+			change_dip = 3
+			change_mil = -1
+			change_adm = 1
+		}
+		add_republican_tradition = 5
+		add_dip_power = 30
+		add_prestige = 3
+	}
+	
+	# Elect an experienced elder (conseil of balance)
+	# Образ: рівновага, мудрість; слабкіші кількісно, але більш стійкі до криз.
+	option = {
+		name = "zaz_flavor.15.c"
+		define_ruler = {
+			change_adm = 2
+			change_dip = 1
+			change_mil = 1
+		}
+		add_republican_tradition = 10
+		add_stability_or_adm_power = yes
+		add_prestige = 4
+	}
+}
+
+# The Ottoman Pressure and Chaiky Crisis (XVII–XVIII ст.)
+# Історія: Османська імперія та Кримське ханство прагнули придушити чайки-рейди,
+# наносили катастрофічні контрареди, перекривали снабження. 1656 – велика експедиція проти Січі.
+# 1700–1775 — прогресуючий тиск в межах гегемонії Османів і Росії.
+country_event = {
+	id = zaz_flavor.16
+	title = "zaz_flavor.16.t"
+	desc = "zaz_flavor.16.d"
+	picture = BORDER_TENSION_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		is_year = 1650
+		NOT = { is_year = 1780 }
+		OR = {
+			any_neighbor_country = {
+				tag = TUR
+			}
+			any_neighbor_country = {
+				tag = CRI
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 200
+		modifier = {
+			factor = 0.6
+			has_country_modifier = zaz_chaiky_fleet
+		}
+		modifier = {
+			factor = 0.8
+			is_year = 1680
+		}
+	}
+	
+	# Strengthen defenses and prepare for raids
+	# Оборонна позиція: укріплення, підготовка армії, евакуація невійськових.
+	option = {
+		name = "zaz_flavor.16.a"
+		add_mil_power = 30
+		capital_scope = {
+			add_province_modifier = {
+				name = "sich_fortified_against_ottoman"
+				duration = 3650
+			}
+		}
+		add_army_tradition = 5
+	}
+	
+	# Launch a preemptive naval raid
+	# Наступна тактика: атакуй перший, завдај урону, здобувай престиж; ризик — втрати.
+	option = {
+		name = "zaz_flavor.16.b"
+		add_prestige = 8
+		add_navy_tradition = 7
+		add_war_exhaustion = 2
+		TUR = {
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_hates_us
+			}
+		}
+		random_known_country = {
+			limit = {
+				OR = {
+					tag = TUR
+					tag = CRI
+				}
+			}
+			add_casus_belli = {
+				target = ROOT
+				type = cb_insult
+				months = 60
+			}
+		}
+	}
+	
+	# Seek protection from a neighboring power
+	# Дипломатична тактика: пошук союзника (Московія, РП) для ліквідації угрози.
+	option = {
+		name = "zaz_flavor.16.c"
+		add_dip_power = 25
+		add_prestige = -5
+		if = {
+			limit = {
+				exists = RUS
+			}
+			RUS = {
+				add_opinion = {
+					who = ROOT
+					modifier = zaz_seeks_protection
+				}
+			}
+		}
+		add_country_modifier = {
+			name = "zaz_seeking_patron"
+			duration = 3650
+		}
+	}
+}
+
+# The Great Relocation of the Sich (XVI–XIX ст.)
+# Історія: Січ змінювала місця розташування безпеку і логістиці причин:
+# ~ 1550 Томаківська Січ → 1593 Базавлуцька → 1625 Микитинська → 1652 Чортомлицька →
+# ~ 1709 Олешківська (під Османами) → 1775 знищена Катериною II → 1787 Нова Січ (Кубань).
+country_event = {
+	id = zaz_flavor.17
+	title = "zaz_flavor.17.t"
+	desc = "zaz_flavor.17.d"
+	picture = COLONIZATION_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		is_year = 1600
+		NOT = { is_year = 1780 }
+		any_owned_province = {
+			And = {
+				area = west_dniepr_area
+				area = east_dniepr_area
+				}
+			is_wild_fields = yes
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+	}
+	
+	# Relocate Sich to safer location upstream
+	# Історія: переміщення на північніше, до защищеніших земель; слабка назва
+	option = {
+		name = "zaz_flavor.17.a"
+		add_adm_power = -40
+		capital_scope = {
+			add_province_modifier = {
+				name = "sich_relocated"
+				duration = 5475
+			}
+		}
+		add_prestige = 3
+		random_owned_province = {
+			limit = {
+				And = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+					}
+			}
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = "cossack_settlement"
+				duration = -1
+			}
+		}
+	}
+	
+	# Relocate Sich to mouth of Dnieper (Ottoman lands)
+	# Історія: переміщення під Османську протекцію (1709); контроль Чорного моря.
+	option = {
+		name = "zaz_flavor.17.b"
+		add_adm_power = -60
+		add_dip_power = -30
+		capital_scope = {
+			add_province_modifier = {
+				name = "sich_ottoman_lands"
+				duration = 3650
+			}
+		}
+		if = {
+			limit = {
+				exists = TUR
+			}
+			TUR = {
+				add_opinion = {
+					who = ROOT
+					modifier = ottoman_protected_sich
+				}
+			}
+		}
+		add_prestige = -5
+	}
+}
+
+# The Crisis of 1775: Final Liquidation or Escape
+# Історія: 1775 р. — Катерина II наказала зруйнувати останню базу Січі на Хортиці;
+# російська армія штурмувала укріплення; козаки розбігалися або емігрували до Кубані.
+# Це подія показує фінальний крах Січі як державної структури в межах європейського баланса сил.
+country_event = {
+	id = zaz_flavor.18
+	title = "zaz_flavor.18.t"
+	desc = "zaz_flavor.18.d"
+	picture = BATTLE_eventPicture
+	
+	trigger = {
+		tag = ZAZ
+		is_year = 1770
+		NOT = { is_year = 1780 }
+		OR = {
+			exists = RUS
+			capital_scope = {
+				controlled_by = ROOT
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	# Fight to the last man (heroic but doomed)
+	# Історичний парадокс: Січь могла опиратися, але не мала шансів проти російської імперії.
+	option = {
+		name = "zaz_flavor.18.a"
+		capital_scope = {
+			add_devastation = 25
+		}
+		add_war_exhaustion = 5
+		add_prestige = 20
+		add_army_tradition = 15
+		add_manpower = -10
+	}
+	
+	# Scatter and reorganize elsewhere (Ottoman/Kuban path)
+	# Історичний факт: частина козаків втекла до Кубані й організувала Чорноморське козацтво.
+	option = {
+		name = "zaz_flavor.18.b"
+		add_prestige = 10
+		add_republican_tradition = 10
+		add_stability_or_adm_power = yes
+		capital_scope = {
+			add_devastation = 10
+		}
+		if = {
+			limit = {
+				exists = TUR
+			}
+			TUR = {
+				add_opinion = {
+					who = ROOT
+					modifier = ottoman_receives_cossacks
+				}
+			}
+		}
+		add_country_modifier = {
+			name = "sich_diaspora"
+			duration = -1
+		}
+	}
+	
+	# Submit to Russia (preserve some autonomy)
+	# Історичний факт: деякі козаки прийняли російське панування й були інтегровані в структури Ірків.
+	option = {
+		name = "zaz_flavor.18.c"
+		if = {
+			limit = {
+				exists = RUS
+			}
+			RUS = {
+				create_subject = {
+					subject_type = vassal
+					subject = ROOT
+				}
+			}
+		}
+		add_prestige = -10
+		add_republican_tradition = -15
+		capital_scope = {
+			add_devastation = 5
+		}
+		add_stability_or_adm_power = yes
 	}
 }

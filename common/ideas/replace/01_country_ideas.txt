@@ -34,9 +34,50 @@ cossack_ideas = {
 	}
 }
 
+# =========================================================================
+# CHERNIHIV (CHR) NATIONAL IDEAS – LEFT BANK FRONTIER ADAPTATION
+# =========================================================================
+# HISTORICAL CONTEXT (XV-XIX ст.):
+# Chernihiv evolved from medieval principality → frontier garrison state →
+# grain-export economy under Russian imperialism.
+#
+# DISTINCT DEVELOPMENT PATH:
+# Unlike Zaporizhia (military raiding economy) or Hetmanate (regimental
+# system), Chernihiv SURVIVED through agricultural specialization and
+# diplomatic adaptation to Russian rule.
+#
+# KEY PERIODS:
+# - XV ст.: Desna principality, "concord compacts" with Poland-Lithuania
+# - XVII ст.: Ruina (1657-1687) devastation, recovery via grain exports
+# - XVIII ст.: Sloboda system (military-agricultural settlements) expansion
+# - XIX ст.: Russian Imperial grain monopoly—Chernihiv became major supplier
+#
+# STRATEGIC ADVANTAGES:
+# - Agricultural: Chernozem soils supported grain production (millet, rye, wheat)
+# - Trade: Desna-Dnieper corridor connected to Black Sea grain markets
+# - Diplomatic: Maintained neutrality between Russian, Ottoman, Polish powers
+# - Frontier: Garrison system (kompaniya, slobody) balanced defense & settlement
+#
+# SURVIVAL STRATEGY:
+# Rather than military power (like Zaporizhia) or regimental autonomy (like
+# Hetmanate), Chernihiv made itself INDISPENSABLE to Russian economy via
+# grain supply. Economic integration prevented suppression (unlike Sich 1775)
+# but cost political autonomy.
+#
+# IDEA MECHANICS:
+# - Emphasis: Morale, manpower recovery, diplomatic reputation, trade bonuses
+# - Weakness: No military specialization (unlike cossack_ideas)
+# - Focus: Frontier stability, agricultural production, border negotiation
+#
+# REFERENCES:
+# - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988), pp. 200-230
+# - Orest Subtelny, *Ukraine: A History* (2009), pp. 170-200
+# - Serhii Plokhy, *The Cossack Myth* (2012), pp. 140-170
+# =========================================================================
+
 # Chernihiv Ideas — Mechanics, Narrative, References
 # Mechanics: Balanced national idea set blending morale, manpower recovery, diplomacy, and grain trade bonuses keyed to the frontier/diplomatic mission split.
-# Narrative: Chronicles the evolution from Desna bastions to grain syndicates, illustrating Chernihiv’s path through the Ruina.
+# Narrative: Chronicles the evolution from Desna bastions to grain syndicates, illustrating Chernihiv's path through the Ruina.
 # References: Serhii Plokhy, *The Cossack Myth* (2012); Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988); Frank Sysyn, *Between Poland and the Ukraine* (1985).
 CHR_ideas = {
 	start = {
@@ -92,6 +133,45 @@ CHR_ideas = {
 }
 
 ZAZ_ideas = {
+	# =========================================================================
+	# ZAPORIZHIAN SICH (ZAZ) NATIONAL IDEAS – DEMOCRATIC MILITARY REPUBLIC
+	# =========================================================================
+	# HISTORICAL CONTEXT (XVI-XVIII ст.):
+	# Zaporizhia represented unique political system: military democracy based on
+	# elected leadership, shared property (komunna), and direct assembly voting
+	# (General Rada). No social hierarchy—elected otamans served 1-year terms with
+	# strict limits on power accumulation.
+	#
+	# ECONOMIC BASE: Black Sea raiding (chaiky), merchant ship attacks, Ottoman
+	# tribute payments, river commerce tolls, fishing, salt production.
+	# High-risk, high-reward economy based on military specialization.
+	#
+	# MILITARY CHARACTER:
+	# - Cavalry specialists: Light steppe cavalry, shock tactics, rapid maneuvers
+	# - Naval: Shallow-draft chaiky boats for Black Sea operations
+	# - Weakness: Poor siege warfare, vulnerable to artillery
+	# - Strength: Island fortification, defensive depth, rapid mobilization
+	#
+	# IDEA SELECTION RATIONALE:
+	# - loot_amount: Represents raiding economy (chaiky commerce attacks)
+	# - manpower_recovery: Rapid recruitment of registered & free Cossacks
+	# - development_cost: Democratic communities' ability to mobilize resources
+	# - steppe_riders: Cavalry specialization reflecting Sich's mounted strength
+	# - hit_and_run: Tactical specialization (rapid raids, avoidance of pitched battles)\n# - tolerance: Religious pluralism (Orthodox, Muslim, Catholic Cossacks coexisted)
+	# - army_cost: Militia-based system with lower maintenance (paid from loot)
+	#
+	# HISTORICAL CHALLENGES:
+	# - Internal democracy slow for centralized decisions (cost: +stability_cost)
+	# - Cavalry strength doesn't translate to siege capability
+	# - Dependent on raiding economy (vulnerable if Ottoman/Turkish pressure rises)
+	# - 1775: Russian suppression ended 223-year democratic experiment
+	#
+	# REFERENCES:
+	# - Serhii Plokhy, *The Cossacks and Religion in Early Modern Ukraine* (2001)
+	# - Frank Sysyn, *Between Poland and the Ukraine* (1985), pp. 80-150
+	# - Timothy Snyder, *Bloodlands* (2010), pp. 40-80
+	# - Dmytro Doroshenko, *A History of the Ukraine* (1917), pp. 147-200
+	# =========================================================================
 	start = {
 		loot_amount = 0.1
 		manpower_recovery_speed = 0.05
@@ -106,28 +186,42 @@ ZAZ_ideas = {
 	}
 	free = yes
 	
+	# FRONTIER FORTIFICATION TRADITION
 	zaz_fort_builders = {
+		# Island-building expertise from 223 years of maintaining Dnieper chumaks
 		development_cost = -0.2
 	}
+	# MILITARY DEMOCRACY EGALITARIANISM
 	zaz_hetmanate = {
+		# General Rada eliminated internal conflicts through consensus
 		global_unrest = -2	
 	}
+	# STEPPE CAVALRY MASTERY
 	zaz_steppe_riders = {
+		# XVI-XVIII ст. cavalry dominance on open steppes
 		land_attrition = -0.2
 		movement_speed = 0.2
 	}
+	# RAIDING TACTICS SPECIALIZATION
 	zaz_cossack_hit_and_run = {
+		# Chaiky raids required rapid maneuvers & tactical flexibility
 		leader_land_manuever = 1
 		leader_land_shock = 1	
 	}
+	# DIPLOMATIC REPUTATION FROM INSULTS
 	zaz_classy_diplomacy = {
+		# Cossacks maintained aggressive stance vs Polish/Russian pressure
 		power_projection_from_insults = 1
 		prestige_decay = -0.005	
 	}
+	# RELIGIOUS TOLERANCE CHARACTERISTIC
 	zaz_zaporzhian_tolerance = {
+		# Unique: Orthodox, Muslim, & Catholic Cossacks coexisted (XVI-XVIII ст.)
 		religious_unity = 0.3	
 	}
+	# MILITARY-ECONOMIC PRIORITIZATION
 	zaz_army_first = {
+		# Economy completely subordinated to military readiness & raiding
 		cavalry_cost = -0.1
 		infantry_cost = -0.1
 	}

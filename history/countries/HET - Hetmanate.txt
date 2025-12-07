@@ -8,3 +8,190 @@ capital = 292	# Poltava
 
 1444.11.11 = {
 }
+
+# Cossack State Formation Period
+1648.1.1 = {
+	monarch = {
+		name = "Bohdan"
+		dynasty = "Khmelnytsky"
+		adm = 4
+		dip = 6
+		mil = 5
+	}
+	government_rank = 2
+	add_country_modifier = {
+		name = "het_independent_state"
+		duration = -1
+	}
+	set_estate_privilege = estate_cossacks_cossack_self_governance
+}
+
+# Pereiaslav Council - Russian Protectorate
+1654.1.8 = {
+	add_country_modifier = {
+		name = "het_russian_protection"
+		duration = -1
+	}
+}
+
+# The Ruin Period Begins
+1657.1.1 = {
+	monarch = {
+		name = "Ivan"
+		dynasty = "Vyhovsky"
+		adm = 3
+		dip = 5
+		mil = 3
+	}
+	remove_country_modifier = "het_independent_state"
+	add_country_modifier = {
+		name = "het_ruina_period"
+		duration = 10950  # 30 years
+	}
+}
+
+# Treaty of Hadiach attempt
+1658.9.16 = {
+	add_country_modifier = {
+		name = "het_hadiach_reform"
+		duration = 365
+	}
+}
+
+1659.1.1 = {
+	monarch = {
+		name = "Yuriy"
+		dynasty = "Khmelnytsky"
+		adm = 2
+		dip = 3
+		mil = 3
+	}
+}
+
+# Rivalry with Left Bank Hetmanate
+1663.1.1 = {
+	monarch = {
+		name = "Pavlo"
+		dynasty = "Teteria"
+		adm = 2
+		dip = 3
+		mil = 3
+	}
+}
+
+1665.1.1 = {
+	monarch = {
+		name = "Petro"
+		dynasty = "Doroshenko"
+		adm = 3
+		dip = 4
+		mil = 5
+	}
+}
+
+# Treaty of Andrusovo - Split finalized
+1667.1.30 = {
+	add_country_modifier = {
+		name = "het_divided_state"
+		duration = 7300  # 20 years
+	}
+}
+
+# Reunification under Doroshenko
+1668.1.1 = {
+	government_rank = 2
+	remove_country_modifier = "het_divided_state"
+}
+
+# Mazepa Era - Cultural Renaissance
+1687.1.1 = {
+	monarch = {
+		name = "Ivan"
+		dynasty = "Mazepa"
+		adm = 5
+		dip = 5
+		mil = 4
+	}
+	remove_country_modifier = "het_ruina_period"
+	add_country_modifier = {
+		name = "mazepa_golden_age"
+		duration = 8030  # 22 years
+	}
+}
+
+# Great Northern War - Independence Attempt
+1708.11.1 = {
+	add_country_modifier = {
+		name = "het_independence_struggle"
+		duration = 365
+	}
+}
+
+# Post-Mazepa Repression
+1709.7.8 = {
+	monarch = {
+		name = "Ivan"
+		dynasty = "Skoropadsky"
+		adm = 2
+		dip = 3
+		mil = 3
+	}
+	remove_country_modifier = "mazepa_golden_age"
+	remove_country_modifier = "het_independence_struggle"
+	add_country_modifier = {
+		name = "het_russian_repression"
+		duration = 5475  # 15 years
+	}
+}
+
+# Hetmanate in Exile
+1710.4.5 = {
+	# Orlyk Constitution
+}
+
+# Temporary abolition 1722-27
+1722.1.1 = {
+	government_rank = 1
+	add_country_modifier = {
+		name = "het_little_russian_collegium"
+		duration = 1825  # 5 years
+	}
+}
+
+# Restored under Danylo Apostol
+1727.1.1 = {
+	monarch = {
+		name = "Danylo"
+		dynasty = "Apostol"
+		adm = 3
+		dip = 4
+		mil = 3
+	}
+	government_rank = 2
+	remove_country_modifier = "het_little_russian_collegium"
+}
+
+# Last Hetman - Kyrylo Rozumovsky
+1750.1.1 = {
+	monarch = {
+		name = "Kyrylo"
+		dynasty = "Rozumovsky"
+		adm = 2
+		dip = 3
+		mil = 2
+	}
+	add_country_modifier = {
+		name = "het_reformed_election_system"
+		duration = -1
+	}
+}
+
+# Final abolition of Hetmanate
+1764.11.10 = {
+	government_rank = 1
+	remove_country_modifier = "het_reformed_election_system"
+	add_country_modifier = {
+		name = "het_abolished"
+		duration = -1
+	}
+}

@@ -164,6 +164,28 @@ country_decisions = {
 		}
 	}
 
+	# Evolve Sich democracy into early Hetmanate balance
+	zaz_evolve_to_hetmanate = {
+		major = yes
+		potential = {
+			tag = ZAZ
+			NOT = { has_country_flag = "zaz_evolved_to_hetmanate" }
+		}
+		allow = {
+			republican_tradition = 60
+			stability = 1
+			is_at_war = no
+			NOT = { government = monarchy }
+		}
+		effect = {
+			set_country_flag = "zaz_evolved_to_hetmanate"
+			zaz_evolve_to_hetmanate_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
 	# Establish Cossack Settlement in Wild Fields
 	zaz_settle_wild_fields = {
 		potential = {

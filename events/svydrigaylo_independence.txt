@@ -1,0 +1,292 @@
+# Svydrigaylo Independence Path Events
+# События для механіки незалежності Рутенської конфедерації
+# ID: svydrigaylo.001 - svydrigaylo.103
+#
+namespace = svydrigaylo
+
+# Event 1: Overlord Notified of Independence Declaration
+country_event = {
+	id = svydrigaylo.001
+	title = "svydrigaylo.001.t"
+	desc = "svydrigaylo.001.d"
+	picture = CARDINALS_ARGUING_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_country_flag = svydrigaylo_independence_declared
+	}
+	
+	immediate = {
+		hidden_effect = {
+			# Overlord evaluates response
+			if = {
+				limit = {
+					war_exhaustion = 5
+					NOT = { army_strength = { who = FROM value = 1 } }
+				}
+				set_country_flag = overlord_accepts_independence
+			}
+			else = {
+				set_country_flag = overlord_denies_independence
+			}
+		}
+	}
+	
+	option = {
+		name = "svydrigaylo.001.a"
+		trigger = { has_country_flag = overlord_accepts_independence }
+		
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = ruthenian_independence_accepted
+				years = 20
+			}
+		}
+		add_prestige = 20
+		add_stability = 1
+	}
+	
+	option = {
+		name = "svydrigaylo.001.b"
+		trigger = { has_country_flag = overlord_denies_independence }
+		
+		FROM = {
+			add_casus_belli = {
+				type = cb_vassalize_mission
+				target = ROOT
+			}
+		}
+		ROOT = {
+			add_casus_belli = {
+				type = cb_liberation
+				target = ROOT
+			}
+		}
+	}
+}
+
+# Event 100: ZAZ Invitation to Confederation
+country_event = {
+	id = svydrigaylo.100
+	title = "svydrigaylo.100.t"
+	desc = "svydrigaylo.100.d"
+	picture = ENLIGHTENMENT_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "svydrigaylo.100.a"
+		
+		FROM = {
+			country_event = {
+				id = svydrigaylo.200
+			}
+		}
+		add_stability = 1
+	}
+	
+	option = {
+		name = "svydrigaylo.100.b"
+		
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = zaz_refused_confederation
+				years = 10
+			}
+		}
+	}
+}
+
+# Event 101: HET Invitation to Confederation
+country_event = {
+	id = svydrigaylo.101
+	title = "svydrigaylo.101.t"
+	desc = "svydrigaylo.101.d"
+	picture = ENLIGHTENMENT_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "svydrigaylo.101.a"
+		
+		FROM = {
+			country_event = {
+				id = svydrigaylo.201
+			}
+		}
+		add_stability = 1
+	}
+	
+	option = {
+		name = "svydrigaylo.101.b"
+		
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_refused_confederation
+				years = 10
+			}
+		}
+	}
+}
+
+# Event 102: CHR Invitation to Confederation
+country_event = {
+	id = svydrigaylo.102
+	title = "svydrigaylo.102.t"
+	desc = "svydrigaylo.102.d"
+	picture = ENLIGHTENMENT_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "svydrigaylo.102.a"
+		
+		FROM = {
+			country_event = {
+				id = svydrigaylo.202
+			}
+		}
+		add_stability = 1
+	}
+	
+	option = {
+		name = "svydrigaylo.102.b"
+		
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = chr_refused_confederation
+				years = 10
+			}
+		}
+	}
+}
+
+# Event 103: KIE Invitation to Confederation
+country_event = {
+	id = svydrigaylo.103
+	title = "svydrigaylo.103.t"
+	desc = "svydrigaylo.103.d"
+	picture = ENLIGHTENMENT_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "svydrigaylo.103.a"
+		
+		FROM = {
+			country_event = {
+				id = svydrigaylo.203
+			}
+		}
+		add_stability = 1
+	}
+	
+	option = {
+		name = "svydrigaylo.103.b"
+		
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = kie_refused_confederation
+				years = 10
+			}
+		}
+	}
+}
+
+# Event 200: ZAZ Acceptance Response
+country_event = {
+	id = svydrigaylo.200
+	title = "svydrigaylo.200.t"
+	desc = "svydrigaylo.200.d"
+	picture = MERCHANTS_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "svydrigaylo.200.a"
+		
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = zaz_joined_confederation
+				years = -1
+			}
+		}
+		add_prestige = 10
+	}
+}
+
+# Event 201: HET Acceptance Response
+country_event = {
+	id = svydrigaylo.201
+	title = "svydrigaylo.201.t"
+	desc = "svydrigaylo.201.d"
+	picture = MERCHANTS_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "svydrigaylo.201.a"
+		
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_joined_confederation
+				years = -1
+			}
+		}
+		add_prestige = 10
+	}
+}
+
+# Event 202: CHR Acceptance Response
+country_event = {
+	id = svydrigaylo.202
+	title = "svydrigaylo.202.t"
+	desc = "svydrigaylo.202.d"
+	picture = MERCHANTS_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "svydrigaylo.202.a"
+		
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = chr_joined_confederation
+				years = -1
+			}
+		}
+		add_prestige = 10
+	}
+}
+
+# Event 203: KIE Acceptance Response
+country_event = {
+	id = svydrigaylo.203
+	title = "svydrigaylo.203.t"
+	desc = "svydrigaylo.203.d"
+	picture = MERCHANTS_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = "svydrigaylo.203.a"
+		
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = kie_joined_confederation
+				years = -1
+			}
+		}
+		add_prestige = 10
+	}
+}

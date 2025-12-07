@@ -1,3 +1,37 @@
+# =========================================================================
+# ZAPOROZHIAN SICH GREAT PROJECT – MILITARY COMMONWEALTH (XVI-XVIII ст.)
+# =========================================================================
+# HISTORICAL CONTEXT:
+# The Zaporozhian Sich ("beyond the rapids") was a fortified military republic
+# on Lower Dnieper islands. Founded ~1552, peaked at 30,000-40,000 warriors.
+# Unique democratic system: General Rada elected otaman annually, elected
+# officer councils (starshyna). Controlled island fortresses & conducted
+# Black Sea raiding (chaiky boats) against Ottoman merchants.
+#
+# ECONOMIC MODEL: Raiding (primary), river tolls, salt production, Ottoman
+# tribute payments. Integrated with wider Cossack mercenary economy.
+#
+# MILITARY: Steppe cavalry specialists (shock tactics, rapid maneuvers).
+# Weak in siege warfare, strong in fortified island defense.
+#
+# PHASES: 1552-1648 (Wild Cossacks) → 1648-1667 (Khmelnytsky) → 1667-1700
+# (Russian vassalization begins) → 1700-1734 (Russian occupation/recovery) →
+# 1734-1775 (Last Sich resistance) → 1775 (Russian suppression, Sich destroyed).
+#
+# GAME DESIGN:
+# - start = 283: Sich province location
+# - date = 1552.01.01: Historical founding year
+# - can_be_moved = yes: Reflects real relocations (1596, 1638, 1686, 1734)
+# - Tier 3 = apex military power (1650-1709)
+#
+# CRITICAL FIX: Removed "may_perform_slave_raid_on_same_religion = yes"
+# (Anachronism: Crimean Tatars were slave specialists, not Cossacks.
+#  Cossacks engaged in commerce raiding, not systematic slavery.
+#  Wealth from raiding represented via "loot_amount" modifier instead.)
+#
+# REFERENCES: Plokhy (2001), Sysyn (1985), Snyder (2010)
+# =========================================================================
+
 zaporozhian_sich = {
 	start = 283
 	date = 1552.01.01
@@ -169,7 +203,6 @@ zaporozhian_sich = {
 			cossacks_loyalty_modifier = 0.2
 			cossacks_influence_modifier = 0.15
 			shock_damage = 0.1
-			may_perform_slave_raid_on_same_religion = yes
 			privateer_efficiency = 0.15
 			army_tradition_from_battle = 0.25
 		}
