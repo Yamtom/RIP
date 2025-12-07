@@ -1,0 +1,64 @@
+namespace = rip_jewish
+
+# Invitation or restriction of Jewish merchant communities
+country_event = {
+		id = rip_jewish.1
+		title = rip_jewish.1.t
+		desc = rip_jewish.1.d
+	picture = BURGHERS_eventPicture
+
+	trigger = {
+		OR = {
+			any_owned_province = { religion = jewish }
+			any_owned_province = {
+				has_port = yes
+				trade_goods = cloth
+				development = 12
+			}
+		}
+		is_year = 1500
+		NOT = { has_country_flag = rip_jewish_estate_resolved }
+	}
+
+	mean_time_to_happen = {
+		months = 200
+		modifier = {
+			factor = 0.75
+			religion_group = christian
+		}
+		modifier = {
+			factor = 0.75
+			any_owned_province = { religion = jewish }
+		}
+	}
+
+		option = {
+			name = rip_jewish.1.a # Invite and guarantee protections
+		set_country_flag = rip_jewish_estate_resolved
+		add_country_modifier = {
+			name = jewish_merchant_charters
+			duration = 3650
+		}
+		add_estate_loyalty = { estate = estate_jewish_merchants loyalty = 10 }
+		add_absolutism = -3
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = 5 }
+		}
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = { estate = estate_church loyalty = -5 }
+		}
+	}
+
+		option = {
+			name = rip_jewish.1.b # Restrict charters
+		set_country_flag = rip_jewish_estate_resolved
+		add_country_modifier = {
+			name = jewish_communities_restricted
+			duration = 1825
+		}
+		add_estate_loyalty = { estate = estate_jewish_merchants loyalty = -10 }
+		add_estate_loyalty = { estate = estate_church loyalty = 5 }
+	}
+}
