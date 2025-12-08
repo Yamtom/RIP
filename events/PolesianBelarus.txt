@@ -9,11 +9,11 @@ polesian_belarus.1 = {
 	
 	trigger = {
 		OR = {
-			tag = POL
+			tag = RPS
 			tag = TRV
-			primary_culture = polesian
+			primary_culture = ruthenian
 		}
-		any_owned_province = {
+		any_owned_province {
 			has_terrain = marsh
 		}
 		NOT = { has_country_modifier = polesian_marsh_tactics }
@@ -93,18 +93,24 @@ polesian_belarus.3 = {
 	
 	trigger = {
 		OR = {
-			tag = PLT
+			tag = PLK
 			tag = MSK
 			tag = TRV
-			tag = VIT
+			tag = VTB
 			tag = MSL
 		}
-		primary_culture = byelorussian
+		OR = {
+			primary_culture = byelorussian
+			primary_culture = ruthenian
+		}
 		is_subject = no
 		NOT = { exists = BLR }
 		num_of_owned_provinces_with = {
 			value = 5
-			culture = byelorussian
+			OR = {
+				culture = byelorussian
+				culture = ruthenian
+			}
 		}
 	}
 	
@@ -230,7 +236,7 @@ polesian_belarus.6 = {
 	picture = SHIP_SAILING_eventPicture
 	
 	trigger = {
-		tag = VIT
+		tag = VTB
 		owns = 1934  # Vitebsk
 		is_at_war = no
 		NOT = { has_country_modifier = vitebsk_dvina_prosperity }
@@ -360,7 +366,7 @@ polesian_belarus.9 = {
 	
 	trigger = {
 		OR = {
-			tag = POL
+			tag = RPS
 			tag = TRV
 		}
 		any_owned_province = {
@@ -403,7 +409,7 @@ polesian_belarus.10 = {
 	trigger = {
 		OR = {
 			tag = MSK
-			tag = VIT
+			tag = VTB
 			tag = MSL
 			tag = BLR
 		}
@@ -436,3 +442,102 @@ polesian_belarus.10 = {
 		add_absolutism = 5
 	}
 }
+
+# Formation of Belarus: Cultural Identity Crisis
+# Історія: Білорусь може розвиватися як білоруська національна держава або як північна рутенська держава
+# З різними культурними наслідками для її розвитку й відносин з Україною/Московією
+polesian_belarus.20 = {
+	title = polesian_belarus.20.t
+	desc = polesian_belarus.20.d
+	picture = CULTURE_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		tag = BLR
+	}
+	
+	# Embrace Belarusian national identity
+	# Історична довідка: 19th–20th ст. розвиток білоруської національної ідентичності 
+	# (відмінної від російської чи української). Сучасна Білорусь часто самоідентифікується як окремий народ.
+	option = {
+		name = polesian_belarus.20.a
+		trigger = {
+			OR = {
+				primary_culture = byelorussian
+				primary_culture = ruthenian
+			}
+		}
+		ai_chance = { factor = 60 }
+		
+		if = {
+			limit = {
+				NOT = { primary_culture = byelorussian }
+			}
+			change_primary_culture = byelorussian
+		}
+		
+			every_owned_province = {
+				limit = {
+					culture = ruthenian
+				}
+				change_culture = byelorussian
+			}		add_prestige = 15
+		add_stability_or_adm_power = yes
+		add_country_modifier = {
+			name = belarus_national_identity
+			duration = 7300
+		}
+	}
+	
+	# Maintain Ruthenian/Polesian cultural continuity
+	# Історична довідка: північний рутенізм як альтернатива – збереження впливу часів 
+	# Полоцько-Смоленського князівства, культурної спадщини давньої Русі,連як північного рутенізму.
+	# Білорусь як спадкоємиця давньоруських традицій, а не модерної національної держави.
+	option = {
+		name = polesian_belarus.20.b
+		trigger = {
+			OR = {
+				primary_culture = byelorussian
+				primary_culture = ruthenian
+			}
+		}
+		ai_chance = { factor = 30 }
+		
+		if = {
+			limit = {
+				NOT = { primary_culture = ruthenian }
+			}
+			change_primary_culture = ruthenian
+		}
+		
+		every_owned_province = {
+			limit = {
+				culture = byelorussian
+			}
+			change_culture = ruthenian
+		}
+		
+		add_prestige = 10
+		add_republican_tradition = 5
+		add_country_modifier = {
+			name = belarus_ruthenian_heritage
+			duration = 7300
+		}
+	}
+	
+	# Split identity – both cultures coexist
+	# Історична довідка: реальність білоруських земель – змішаність культур і ідентичностей.
+	# Розпливчастість кордонів між українцями, рутенами та білорусами.
+	option = {
+		name = polesian_belarus.20.c
+		ai_chance = { factor = 10 }
+		
+		add_stability_or_adm_power = yes
+		add_dip_power = 20
+		add_country_modifier = {
+			name = belarus_mixed_heritage
+			duration = -1
+		}
+	}
+}
+

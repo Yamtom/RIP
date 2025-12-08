@@ -10,7 +10,7 @@ country_decisions = {
 			NOT = { has_country_flag = formed_belarus_nation_flag }
 			NOT = { tag = PAP }
 			NOT = { tag = HLR }
-			NOT = { exists = POL }
+			NOT = { exists = RPS }
 			NOT = { exists = BLR }
 			OR = {
 				primary_culture = polesian
@@ -70,34 +70,34 @@ country_decisions = {
 					NOT = { owned_by = ROOT }
 					NOT = { is_claim = ROOT }
 				}
-				add_permanent_claim = POL
+				add_permanent_claim = RPS
 			}
 			pripyat_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
 					NOT = { is_claim = ROOT }
 				}
-				add_permanent_claim = POL
+				add_permanent_claim = RPS
 			}
 			west_dniepr_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
 					NOT = { is_claim = ROOT }
 				}
-				add_permanent_claim = POL
+				add_permanent_claim = RPS
 			}
 			add_prestige = 20
 			add_legitimacy = 10
-			change_tag = POL
+			change_tag = RPS
 			set_country_flag = formed_polesian_nation_flag
 			swap_non_generic_missions = yes
 			set_government_rank = 2
 			
 			if = {
 				limit = {
-					NOT = { primary_culture = polesian }
+					NOT = { primary_culture = ruthenian }
 				}
-				change_primary_culture = polesian
+				change_primary_culture = ruthenian
 			}
 			
 			if = {
@@ -255,7 +255,7 @@ country_decisions = {
 			NOT = { exists = BLR }
 			OR = {
 				primary_culture = byelorussian
-				primary_culture = polesian
+				primary_culture = ruthenian
 			}
 			OR = {
 				ai = no
@@ -307,8 +307,8 @@ country_decisions = {
 			OR = {
 				primary_culture = byelorussian
 				accepted_culture = byelorussian
-				primary_culture = polesian
-				accepted_culture = polesian
+				primary_culture = ruthenian
+				accepted_culture = ruthenian
 			}
 		}
 		effect = {
@@ -370,15 +370,18 @@ country_decisions = {
 			swap_non_generic_missions = yes
 			set_government_rank = 3
 			
-			if = {
-				limit = {
-					NOT = { primary_culture = byelorussian }
-					NOT = { primary_culture = polesian }
-				}
-				change_primary_culture = byelorussian
+		if = {
+			limit = {
+				NOT = { primary_culture = byelorussian }
+				NOT = { primary_culture = polesian }
 			}
-			
-			if = {
+			change_primary_culture = byelorussian
+		}
+		
+		# Trigger cultural identity event
+		country_event = {
+			id = polesian_belarus.20
+		}			if = {
 				limit = {
 					is_part_of_hre = yes
 					is_elector = no

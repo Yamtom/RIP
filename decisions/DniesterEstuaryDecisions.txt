@@ -44,9 +44,8 @@ country_decisions = {
 			}
 			any_owned_province = {
 				OR = {
-					province_id = 2410 # Akkerman/Bilhorod
-					province_id = 2409 # Kilia
-					province_id = 268  # Jedisan region
+					province_id = 282  # Yedisan/Akkerman/Bilhorod
+					province_id = 268  # Moldavia region
 				}
 			}
 			NOT = { has_country_flag = dniester_estuary_developed }
@@ -60,7 +59,7 @@ country_decisions = {
 			dip_power = 50
 			
 			# Control key provinces
-			owns_or_non_sovereign_subject_of = 2410 # Akkerman
+			owns_or_non_sovereign_subject_of = 282 # Yedisan/Akkerman
 			
 			# Requires stability and peace
 			NOT = { war_exhaustion = 3 }
@@ -74,8 +73,8 @@ country_decisions = {
 			
 			set_country_flag = dniester_estuary_developed
 			
-			# Akkerman/Bilhorod becomes major trade center
-			2410 = {
+			# Yedisan/Akkerman becomes major trade center
+			282 = {
 				add_province_modifier = {
 					name = dnestr_estuary_modifier
 					duration = -1
@@ -84,19 +83,6 @@ country_decisions = {
 				add_base_production = 2
 				add_base_manpower = 1
 				center_of_trade = 2
-			}
-			
-			# Kilia benefits if owned
-			if = {
-				limit = { owns_or_non_sovereign_subject_of = 2409 }
-				2409 = {
-					add_province_modifier = {
-						name = dniester_kilia_trade
-						duration = -1
-					}
-					add_base_tax = 1
-					add_base_production = 1
-				}
 			}
 			
 			# Country benefits
@@ -139,7 +125,7 @@ country_decisions = {
 			has_country_flag = dniester_estuary_developed
 			NOT = { has_country_flag = dniester_estuary_fortified }
 			
-			owns_or_non_sovereign_subject_of = 2410
+			owns_or_non_sovereign_subject_of = 282
 		}
 		
 		allow = {
@@ -147,7 +133,7 @@ country_decisions = {
 			treasury = 400
 			mil_power = 75
 			
-			2410 = {
+			282 = {
 				fort_level = 2
 			}
 			
@@ -161,7 +147,7 @@ country_decisions = {
 			set_country_flag = dniester_estuary_fortified
 			
 			# Major fortifications at Akkerman
-			2410 = {
+			282 = {
 				add_province_modifier = {
 					name = dniester_fortress_akkerman
 					duration = -1
@@ -173,8 +159,8 @@ country_decisions = {
 			
 			# Naval base improvements
 			if = {
-				limit = { 2410 = { has_port = yes } }
-				2410 = {
+				limit = { 282 = { has_port = yes } }
+				282 = {
 					add_province_modifier = {
 						name = dniester_naval_base
 						duration = -1
@@ -217,7 +203,7 @@ country_decisions = {
 			has_country_flag = dniester_estuary_developed
 			NOT = { has_country_flag = dniester_fishing_established }
 			
-			owns_or_non_sovereign_subject_of = 2410
+			owns_or_non_sovereign_subject_of = 282
 		}
 		
 		allow = {
@@ -225,7 +211,7 @@ country_decisions = {
 			treasury = 150
 			dip_power = 50
 			
-			2410 = {
+			282 = {
 				has_port = yes
 			}
 		}
@@ -236,24 +222,13 @@ country_decisions = {
 			
 			set_country_flag = dniester_fishing_established
 			
-			2410 = {
+			282 = {
 				add_province_modifier = {
 					name = dniester_fishing_industry
 					duration = -1
 				}
 				
 				change_trade_goods = fish
-			}
-			
-			# Additional provinces benefit if owned
-			if = {
-				limit = { owns_or_non_sovereign_subject_of = 2409 }
-				2409 = {
-					add_province_modifier = {
-						name = dniester_fishing_industry
-						duration = -1
-					}
-				}
 			}
 			
 			add_years_of_income = 0.25
@@ -276,7 +251,7 @@ country_decisions = {
 			has_country_flag = dniester_estuary_developed
 			NOT = { has_country_flag = dniester_wine_trade_established }
 			
-			owns_or_non_sovereign_subject_of = 2410
+			owns_or_non_sovereign_subject_of = 282
 		}
 		
 		allow = {
@@ -286,7 +261,7 @@ country_decisions = {
 			
 			# Greek or Armenian merchants present
 			OR = {
-				2410 = { culture = greek }
+				282 = { culture = greek }
 				accepted_culture = greek
 				accepted_culture = armenian
 				has_idea_group = trade_ideas
@@ -299,7 +274,7 @@ country_decisions = {
 			
 			set_country_flag = dniester_wine_trade_established
 			
-			2410 = {
+			282 = {
 				add_province_modifier = {
 					name = dniester_wine_merchants
 					duration = -1
@@ -344,7 +319,7 @@ country_decisions = {
 			has_country_flag = dniester_estuary_developed
 			NOT = { has_country_flag = dniester_salt_established }
 			
-			owns_or_non_sovereign_subject_of = 2410
+			owns_or_non_sovereign_subject_of = 282
 		}
 		
 		allow = {
@@ -359,7 +334,7 @@ country_decisions = {
 			
 			set_country_flag = dniester_salt_established
 			
-			2410 = {
+			282 = {
 				add_province_modifier = {
 					name = dniester_salt_production
 					duration = -1
@@ -393,26 +368,23 @@ country_decisions = {
 	contest_ottoman_dniester_control = {
 		major = yes
 		potential = {
-			OR = {
-				tag = MOL
-				tag = ZAZ
-				tag = HET
-				tag = POL
-				tag = PLC
-				tag = RUS
-			}
-			
-			NOT = { has_country_flag = contesting_dniester }
+		OR = {
+			tag = MOL
+			tag = ZAZ
+			tag = HET
+			tag = PLC
+			tag = RUS
+		}			NOT = { has_country_flag = contesting_dniester }
 			
 			# Ottomans control key province
-			2410 = {
+			282 = {
 				owned_by = TUR
 			}
 			
 			# Player is neighbor or regional power
 			OR = {
 				any_owned_province = {
-					any_neighbor_province = { province_id = 2410 }
+					any_neighbor_province = { province_id = 282 }
 				}
 				total_development = 300
 			}
@@ -435,8 +407,7 @@ country_decisions = {
 				months = 120
 			}
 			
-			add_claim = 2410
-			add_claim = 2409
+			add_claim = 282
 			
 			add_prestige = 5
 			

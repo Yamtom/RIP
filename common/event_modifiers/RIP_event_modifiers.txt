@@ -1418,14 +1418,9 @@ uz_opryshok_raiders = {
 	movement_speed = 0.05
 }
 
-dnestr_estuary_modifier = {
-	province_trade_power_modifier = 0.25
-	trade_goods_size_modifier = 0.10
-	local_sailors_modifier = 0.20
-	local_ship_repair = 0.25
-}
-
 # === DNIESTER ESTUARY EXPANSION MODIFIERS ===
+# NOTE: dnestr_estuary_modifier already exists in base game (00_event_modifiers.txt)
+# with province_trade_power_value = 10. We add additional modifiers below.
 
 dniester_trade_network = {
 	trade_efficiency = 0.10
@@ -2943,6 +2938,7 @@ gdl_cultural_legacy = {
 	accept_culture_threshold = -0.1
 }
 
+
 polesian_timber_trade = {
 	production_efficiency = 0.15
 	naval_forcelimit_modifier = 0.2
@@ -2954,5 +2950,28 @@ magdeburg_law_expansion = {
 	build_cost = -0.1
 	global_tax_modifier = 0.1
 }
+
+belarus_national_identity = {
+	stability_cost_modifier = -0.1
+	legitimacy = 0.5
+	national_unrest = -2
+	primary_culture_from_their_core_culture_prestige = 0.5
+}
+
+belarus_ruthenian_heritage = {
+	republican_tradition = 0.3
+	global_institution_spread = 0.1
+	prestige_decay = -0.01
+	culture_conversion_cost = -0.2
+}
+
+belarus_mixed_heritage = {
+	diplomatic_reputation = 1
+	years_of_nationalism = -10
+	diplo_annex_influence = -0.2
+	trade_efficiency = 0.05
+}
+
+
 
 
