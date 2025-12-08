@@ -1,0 +1,224 @@
+# =========================================================================
+# UNIATE CHURCH MODIFIERS (Union of Brest 1596)
+# =========================================================================
+# HISTORICAL CONTEXT:
+# The Union of Brest (1596) created the Greek Catholic (Uniate) Church,
+# attempting to unite Orthodox and Catholic traditions under papal authority
+# while preserving Eastern liturgy. This became a major religious-political
+# force in Polish-Lithuanian Commonwealth, creating tensions between:
+# - Orthodox faithful (resisting Rome)
+# - Catholic nobility (supporting union)
+# - Greek Catholics (navigating both worlds)
+#
+# GAME MECHANICS:
+# These modifiers represent different outcomes and stages of religious union:
+# - Tolerance bonuses for successful integration
+# - Conversion mechanics for spreading union
+# - Unrest and autonomy penalties for resistance
+# - Cultural and diplomatic effects of religious identity
+#
+# HISTORICAL REFERENCES:
+# - Borys Gudziak, *Crisis and Reform: The Kyivan Metropolitanate* (1998)
+# - Sophia Senyk, *A History of the Church in Ukraine* (1993)
+# - Frank Sysyn, *Between Poland and the Ukraine* (1985)
+# - Orest Subtelny, *The Mazepists* (1981)
+# =========================================================================
+
+# Union of Brest established (Orthodox provinces converting to Uniate)
+uniate_union_established = {
+	tolerance_heretic = 2
+	tolerance_own = 1
+	global_missionary_strength = 0.02
+	papal_influence = 1
+	global_unrest = 1
+}
+
+# Strong Orthodox resistance to union
+orthodox_resistance_to_union = {
+	tolerance_heretic = -1
+	global_unrest = 2
+	global_missionary_strength = -0.01
+	stability_cost_modifier = 0.1
+}
+
+# Catholic support for Uniate Church
+catholic_backing_uniate = {
+	tolerance_heretic = 1
+	papal_influence = 2
+	diplomatic_reputation = 1
+	improve_relation_modifier = 0.15
+}
+
+# Uniate Church consolidation (successful integration)
+uniate_church_consolidation = {
+	tolerance_own = 2
+	tolerance_heretic = 2
+	global_missionary_strength = 0.03
+	idea_cost = -0.05
+	stability_cost_modifier = -0.1
+}
+
+# Orthodox brotherhood resistance (Kyiv, Lviv, Vilna brotherhoods)
+orthodox_brotherhood_resistance = {
+	tolerance_own = 1
+	global_unrest = 1
+	institution_spread_from_true_faith = -0.1
+	culture_conversion_cost = 0.25
+}
+
+# Uniate metropolitan authority
+uniate_metropolitan_authority = {
+	tolerance_heretic = 1
+	diplomatic_reputation = 1
+	prestige = 0.5
+	advisor_cost = -0.05
+}
+
+# Dual communion (allowing both rites)
+dual_communion_compromise = {
+	tolerance_own = 2
+	tolerance_heretic = 2
+	global_unrest = -1
+	stability_cost_modifier = -0.05
+	global_missionary_strength = 0.01
+}
+
+# Forced union (high unrest, low tolerance)
+forced_religious_union = {
+	global_unrest = 3
+	tolerance_own = -1
+	stability_cost_modifier = 0.15
+	global_missionary_strength = 0.03
+}
+
+# Peaceful coexistence (Orthodox & Uniate provinces)
+orthodox_uniate_coexistence = {
+	tolerance_heretic = 3
+	global_unrest = -1
+	idea_cost = -0.05
+	reform_progress_growth = 0.05
+}
+
+# Synod of Zamość (1720) - Latinization of Uniate Church
+zamosc_synod_latinization = {
+	papal_influence = 2
+	tolerance_heretic = 1
+	culture_conversion_cost = -0.1
+	global_unrest = 1
+}
+
+# Resistance to Latinization (preserving Eastern rite)
+eastern_rite_preservation = {
+	tolerance_own = 2
+	global_unrest = 1
+	culture_conversion_cost = 0.15
+	idea_cost = -0.05
+}
+
+# Uniate educational network (seminaries, printing presses)
+uniate_educational_network = {
+	idea_cost = -0.1
+	technology_cost = -0.05
+	global_institution_spread = 0.1
+	advisor_pool = 1
+}
+
+# Orthodox revival (counter-reformation against union)
+orthodox_revival_movement = {
+	tolerance_own = 2
+	global_missionary_strength = 0.02
+	global_unrest = 1
+	culture_conversion_cost = -0.1
+}
+
+# Monastic orders (Basilian Order supporting union)
+basilian_monastic_order = {
+	tolerance_heretic = 1
+	global_missionary_strength = 0.02
+	advisor_cost = -0.05
+	idea_cost = -0.05
+}
+
+# Cossack Orthodox identity (resistance to union)
+cossack_orthodox_identity = {
+	tolerance_own = 2
+	cavalry_power = 0.05
+	global_unrest = 1
+	cossacks_loyalty_modifier = 0.1
+}
+
+# Polish nobility supporting union
+polish_nobility_union_support = {
+	diplomatic_reputation = 1
+	tolerance_heretic = 1
+	nobles_loyalty_modifier = 0.05
+	papal_influence = 1
+}
+
+# Uniate Church under Commonwealth protection
+commonwealth_church_protection = {
+	tolerance_heretic = 1
+	diplomatic_upkeep = 1
+	improve_relation_modifier = 0.1
+	stability_cost_modifier = -0.05
+}
+
+# Provincial uniate resistance
+provincial_uniate_resistance = {
+	local_unrest = 2
+	local_autonomy = 0.1
+	local_missionary_strength = -0.02
+}
+
+# Provincial uniate acceptance
+provincial_uniate_acceptance = {
+	local_unrest = -1
+	local_tax_modifier = 0.1
+	local_missionary_strength = 0.02
+}
+
+# Uniate-Catholic tensions
+uniate_catholic_tensions = {
+	tolerance_heretic = -1
+	papal_influence = -0.5
+	diplomatic_reputation = -1
+}
+
+# Uniate-Orthodox reconciliation attempts
+uniate_orthodox_reconciliation = {
+	tolerance_heretic = 2
+	tolerance_own = 1
+	global_unrest = -1
+	diplomatic_reputation = 1
+}
+
+# Moscow's anti-union campaign
+moscow_anti_union_campaign = {
+	tolerance_heretic = -2
+	global_missionary_strength = 0.02
+	spy_offence = 0.15
+}
+
+# Uniate Church suppression (by Orthodox or Catholic)
+uniate_church_suppression = {
+	global_unrest = 2
+	tolerance_heretic = -2
+	stability_cost_modifier = 0.15
+	global_missionary_strength = 0.03
+}
+
+# Uniate cultural flowering (literature, art, architecture)
+uniate_cultural_flowering = {
+	prestige = 1
+	idea_cost = -0.05
+	institution_spread_from_true_faith = 0.1
+	advisor_pool = 1
+}
+
+# Religious pluralism (multiple faiths coexisting)
+ruthenian_religious_pluralism = {
+	tolerance_heretic = 3
+	tolerance_heathen = 1
+	global_unrest = -1
+	diplomatic_reputation = 1
+}

@@ -1,46 +1,24 @@
-#Country Name: Please see filename.
-
 graphical_culture = easterngfx
 
-color = { 82 145 72 }
-revolutionary_colors = { 5 8 5 }
-
-# === ІСТОРИЧНИЙ КОНТЕКСТ (XV–XIX ст.) ===
-# Нарратив: Поліщуки (Polishchuks) як унікальна етнографічна група Полісся – болотисті землі басейну Прип'яті.
-# Витоки у XIV–XV ст. як прикордонні громади між Литвою і Руссю; специфічна культура лісів і боліт;
-# економіка заснована на бортництві, рибальстві, смолокурінні, деревообробці; напівавтономне існування
-# в рамках Великого князівства Литовського, потім Речі Посполитої; збереження архаїчних традицій;
-# низька щільність населення, самобутня говірка; поступова інтеграція в ХІХ ст.
-
-# Історичні механіки (ідеї для геймплею):
-# - Болотяна природа: захист від вторгнень, підвищена атриція для ворогів, складність будівництва
-# - Лісова економіка: бортництво (мед), смола, дерево; торгівля з литовськими та руськими містами
-# - Автономія: слабка централізація, місцеве самоврядування, опір феодалізації
-# - Релігійний синкретизм: православ'я з елементами язичництва, опір уніатству
-# - Демографічна стабільність: низька щільність, але стійке населення, адаптоване до природи
-
-# Історичні референси:
-# - Михайло Довнар-Запольський, "Історія Білорусі" (1926).
-# - Іван Носович, "Словник білоруського наріччя" (1870) про поліську говірку.
-# - Павло Чубинський, "Труди етнографічно-статистичної експедиції" (1872–1878).
-# - Археологічні дослідження поліських культур (Милоградська, Зарубинецька).
+color = { 95 140 75 }
+revolutionary_colors = { 35 60 25 }
 
 historical_idea_groups = {
 	defensive_ideas
+	expansion_ideas
+	religious_ideas
 	economic_ideas
 	administrative_ideas
-	religious_ideas
 	trade_ideas
-	expansion_ideas
 	diplomatic_ideas
-	innovativeness_ideas
+	offensive_ideas
 }
 
 historical_units = {
-	bardiche_infantry
 	eastern_militia
-	slavic_stradioti
+	bardiche_infantry
 	druzhina_cavalry
+	slavic_stradioti
 	muscovite_musketeer
 	muscovite_caracolle
 	muscovite_soldaty
@@ -55,55 +33,58 @@ historical_units = {
 	russian_mass
 }
 
-monarch_names = {
-	# Polishchuk traditional names
-	"Ivan #0" = 50
-	"Yakov #0" = 40
-	"Mikola #0" = 35
-	"Symon #0" = 30
-	"Vasyl #0" = 30
-	"Mykhailo #0" = 25
-	"Andriy #0" = 25
-	"Petro #0" = 25
-	"Stepan #0" = 20
-	"Hryhoriy #0" = 20
-	"Fedir #0" = 15
-	"Pavlo #0" = 15
-	"Ilya #0" = 15
-	"Dmytro #0" = 10
-	"Zakhar #0" = 10
-	"Matviy #0" = 10
-	"Yosyp #0" = 10
-	"Lukian #0" = 5
-	"Serhiy #0" = 5
-	"Bohdan #0" = 5
-	"Klym #0" = 5
-	"Yakym #0" = 5
-	"Tymofiy #0" = 5
-	"Demyan #0" = 0
-	"Mykola #0" = 0
-	"Oleksiy #0" = 0
-	"Roman #0" = 0
-	
-	"Hanna #0" = -1
-	"Mariya #0" = -1
-	"Kateryna #0" = -1
-	"Sofiya #0" = -1
+leader_names = {
+	Ilyinsky Polissky Mozyrsky Turovsky Pinsky
+	Ovruchsky Korostensky Zhytomyrsky Chernobylsky
+	Lyubechsky Pripyatsky Starodubsky Novhorodsky
 }
 
-leader_names = { 
-	# Historical Polishchuk surnames
-	Turovskyi Pinskyi Mazyrskyi Sluckyi Davydovich
-	Korzh Bohush Svyrid Kulak Oksimchuk
-	Shymko Demchuk Bondar Koval Rudyk
-	Lytvyn Bilyi Chornyi Kravets Tkach
-	Honcharenko Melnyk Kotlar Shvets Stoliar
+monarch_names = {
+	"Vseslav #0" = 20
+	"Svyatopolk #0" = 15
+	"Iziaslav #0" = 15
+	"Yaroslav #0" = 15
+	"Mstislav #0" = 10
+	"Rostislav #0" = 10
+	"Vladimir #0" = 10
+	"Boris #0" = 10
+	"Gleb #0" = 10
+	"Yuri #0" = 5
+	"Roman #0" = 5
+	"Igor #0" = 5
+	"Oleg #0" = 5
+	"Sviatoslav #0" = 5
+	"Vsevolod #0" = 5
+	"Ivan #0" = 5
+	"Dmitri #0" = 5
+	"Andrei #0" = 5
+	"Mikhail #0" = 5
+
+	"Olga #0" = -1
+	"Maria #0" = -1
+	"Anna #0" = -1
+	"Anastasia #0" = -1
+	"Yefrosinia #0" = -1
+	"Sofia #0" = -1
+	"Yekaterina #0" = -1
+	"Ludmila #0" = -1
+	"Yaroslava #0" = -1
+	"Elena #0" = -1
+}
+
+army_names = {
+	"Polesian Army" "Pripyat Host" "Mozyr Regiment" "Pinsk Militia" 
+	"Turov Guard" "Ovruchy Levy" "Chernobyl Defense"
+	"Forest Warriors" "Marsh Defenders"
+}
+
+fleet_names = {
+	"Pripyat Flotilla" "Dnieper Squadron" "River Guard"
+	"Mozyr Fleet" "Turov Boats"
 }
 
 ship_names = {
-	# Polissian rivers and settlements
-	Prypyat "Polissya" Pinsk Turov Mazyr
-	Styr Horyn "Rika Yaselda" "Boloto" "Pushcha"
-	"Bortnik" "Smolar" Sluck Davyd-Horodok Kobryn
-	"Lisy" "Ozera" "Bahna" "Khashcha" "Berezyna"
+	"Pripyat" "Mozyr" "Turov" "Pinsk" "Brest"
+	"Ovruchy" "Korosten" "Chernobyl" "Lyubech"
+	"Starodub" "Novhorod" "Slutsk"
 }

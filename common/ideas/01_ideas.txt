@@ -628,70 +628,526 @@ ruthenian_ideas = {
 	}
 }
 
-# ------------------------------------------------------------------------
-# POLISHCHUKS (PSH) NATIONAL IDEAS – POLISSIAN MARSH CULTURE
-# ------------------------------------------------------------------------
-# STRUCTURE:
-# - Start bonuses (hostile_attrition +1, land_attrition -0.25) represent the Polissian
-#   marshlands natural defenses - difficult terrain for invaders, familiar ground for locals
-# - Idea order reflects: defensive marsh warfare, forest economy (beekeeping, tar production),
-#   autonomy traditions, religious syncretism, demographic resilience, river trade, cultural preservation
-# - Bonus grants extra diplomatic relation to reflect local self-governance networks
-#
-# ITEMISED IDEAS:
-# * PSH_marshland_defense: hostile_attrition + defensiveness = swamps, forests protect against cavalry
-# * PSH_forest_economy: production_efficiency + goods_produced = honey, tar, timber, fish
-# * PSH_local_autonomy: governing_capacity + state_maintenance_modifier = weak centralization
-# * PSH_old_faith: tolerance_own + religious_unity = Orthodox with pagan remnants
-# * PSH_marsh_dwellers: manpower_recovery + land_forcelimit = population adapted to environment
-# * PSH_river_trade: trade_efficiency + trade_steering = Pripyat river commerce
-# * PSH_archaic_traditions: prestige + legitimacy = preservation of ancient customs
-#
-# LORE REFERENCES:
-# - Михайло Довнар-Запольський, "Історія Білорусі" (1926) on Polissian autonomy
-# - Павло Чубинський, "Труди етнографічно-статистичної експедиції" (1872–1878)
-# - Archaeological research on Milograd and Zarubintsy cultures
-# ------------------------------------------------------------------------
-
-PSH_ideas = {
+POL_ideas = {
+	# POLESIAN PRINCIPALITY (Поліське князівство)
+	# Polesia = vast wetlands region (Pripyat marshes), buffer zone between Kyiv-Turov-Polotsk
+	# Historical: Part of Kyivan Rus' → Turov principality → GDL → Polish-Lithuanian Commonwealth
+	# Culture: Unique Polesian ethnos (archaic East Slavic dialect, distinctive folk traditions)
+	# Geography: Marshes = natural defense, limited agriculture, forest economy
+	# Economy: Timber, hunting, fishing, river trade (Pripyat → Dnieper)
+	# Military: Light infantry, ambush tactics, river boats
+	# Alternative history: Independent Polesian state emerges during Lithuanian fragmentation
+	
 	start = {
-		hostile_attrition = 1
 		land_attrition = -0.25
+		hostile_attrition = 1.5
 	}
+	
 	bonus = {
-		diplomatic_relation = 1
+		defensiveness = 0.25
 	}
+	
 	trigger = {
-		tag = PSH
+		tag = POL
 	}
 	free = yes
-	PSH_marshland_defense = {
-		hostile_attrition = 0.5
-		defensiveness = 0.15
+	
+	children_of_the_marshes = {
+		# Polesia = Europe's largest wetland (Pripyat Marshes)
+		# Local knowledge = asymmetric warfare advantage
+		# Difficult terrain protects from cavalry-heavy invaders
+		fort_maintenance_modifier = -0.33
+		garrison_size = 0.25
 	}
-	PSH_forest_economy = {
-		production_efficiency = 0.15
-		goods_produced_modifier = 0.1
-	}
-	PSH_local_autonomy = {
-		governing_capacity_modifier = 0.15
-		state_maintenance_modifier = -0.15
-	}
-	PSH_old_faith = {
-		tolerance_own = 2
-		religious_unity = 0.15
-	}
-	PSH_marsh_dwellers = {
-		manpower_recovery_speed = 0.15
-		land_forcelimit_modifier = 0.15
-	}
-	PSH_river_trade = {
+	pripyat_river_trade = {
+		# Pripyat → Dnieper trade route
+		# Timber flotillas, fish, amber, furs
+		# Limited but strategic commerce
 		trade_efficiency = 0.1
-		trade_steering = 0.15
+		caravan_power = 0.1
+		naval_forcelimit_modifier = 0.25
 	}
-	PSH_archaic_traditions = {
-		prestige = 0.5  # Preservation of ancient Polissian customs grants cultural prestige
-		legitimacy = 0.5  # Continuity with pre-feudal traditions strengthens ruler legitimacy
+	forest_wardens = {
+		# Dense forests = partisan warfare tradition
+		# Light infantry, ambushes, guerrilla tactics
+		# Similar to Finnish/Lithuanian forest combat
+		infantry_power = 0.1
+		reinforce_speed = 0.33
+	}
+	polesian_mysticism = {
+		# Archaic pagan survivals mixed with Orthodox Christianity
+		# Folk magic, nature worship, spiritual resilience
+		# Unique cultural identity resists assimilation
+		tolerance_heretic = 2
+		culture_conversion_cost = 0.5
+		years_of_nationalism = -5
+	}
+	wetland_fortifications = {
+		# Marsh forts = wooden palisades on artificial islands
+		# Difficult to besiege, requires specialized knowledge
+		# Historical: Turov, Pinsk, Mozyr defended by wetlands
+		defensiveness = 0.15
+		siege_ability = -0.15
+	}
+	river_flotilla_tactics = {
+		# Pripyat boats = shallow-draft vessels
+		# Raiding, smuggling, troop transport
+		# Mobility in terrain impassable to heavy cavalry
+		movement_speed = 0.15
+		sailors_recovery_speed = 0.25
+	}
+	polesian_endurance = {
+		# Harsh environment breeds hardy population
+		# Subsistence economy = self-reliant communities
+		# Low-intensity warfare = long-term attrition resistance
+		war_exhaustion = -0.03
+		war_exhaustion_cost = -0.15
+		global_manpower_modifier = 0.15
 	}
 }
 
+PLT_ideas = {
+	# POLOTSK PRINCIPALITY (Полоцьке князівство)
+	# Ancient principality (862 AD), rival to Kyiv, independent Rurikid branch
+	# Famous rulers: Rogvolod (980), Vseslav the Sorcerer (1044-1101)
+	# Geography: Dvina river basin, gateway to Baltic, forest economy
+	# Culture: Distinct identity, resisted Kyiv domination, Orthodox stronghold
+	# Economy: Baltic trade (furs, wax, amber), crafts, Hanseatic connections
+	# Military: Professional druzhina, defensive fortifications
+	# Alternative: Polotsk maintains independence from GDL
+	
+	start = {
+		diplomatic_reputation = 1
+		prestige = 1
+	}
+	
+	bonus = {
+		trade_efficiency = 0.2
+	}
+	
+	trigger = {
+		tag = PLT
+	}
+	free = yes
+	
+	legacy_of_vseslav = {
+		# Vseslav the Sorcerer (Чародій) = legendary prince
+		# Defended Polotsk against Kyiv, Novgorod, Byzantium
+		# Cultural hero = symbol of independence
+		army_tradition = 1
+		legitimacy = 1
+	}
+	dvina_commerce = {
+		# Western Dvina = major trade artery
+		# Riga, Polotsk, Vitebsk = river trade network
+		# Baltic-Black Sea connection
+		trade_steering = 0.2
+		global_own_trade_power = 0.15
+	}
+	polotsk_sophia = {
+		# St. Sophia Cathedral (1044-1066) = symbol of independence
+		# Ecclesiastical authority parallel to Kyiv
+		# Cultural prestige
+		prestige_decay = -0.01
+		tolerance_own = 1
+	}
+	northern_border = {
+		# Polotsk = buffer between Rus' and Teutonic Knights
+		# Defensive tradition against Western crusaders
+		# Fort network along Dvina
+		fort_maintenance_modifier = -0.25
+		defensiveness = 0.15
+	}
+	hanseatic_connections = {
+		# Trade with Hanseatic League (Riga, Reval)
+		# Western technology transfer, mercantile culture
+		# Alternative to Moscow-dominated Rus'
+		institution_spread_from_true_faith = 0.5
+		idea_cost = -0.05
+	}
+	polotsk_independence = {
+		# Centuries of autonomy from Kyiv/Moscow/Lithuania
+		# Proud tradition of self-governance
+		# Resistant to foreign vassalization
+		diplomatic_upkeep = 1
+		liberty_desire_from_subjects = -15
+	}
+	dvina_fortress_line = {
+		# Strategic forts: Polotsk, Vitebsk, Disna
+		# River crossings = chokepoints
+		# Defensive depth against invaders
+		fort_maintenance_modifier = -0.15
+		garrison_size = 0.25
+	}
+}
+
+MSK_ideas = {
+	# MINSK PRINCIPALITY (Мінське князівство)
+	# Central Belarusian principality, founded 1067 (Battle of Nemiga)
+	# Geography: Central location, forest-steppe transition, river crossroads
+	# Economy: Trade hub, crafts, agriculture
+	# Culture: Synthesis of Polotsk/Turov/Kyiv influences
+	# History: Frequently contested between Polotsk, Kyiv, GDL
+	# Alternative: Minsk emerges as independent power center
+	
+	start = {
+		development_cost = -0.1
+		build_cost = -0.1
+	}
+	
+	bonus = {
+		global_trade_power = 0.15
+	}
+	
+	trigger = {
+		tag = MSK
+	}
+	free = yes
+	
+	crossroads_of_rus = {
+		# Minsk = geographic center of Belarus
+		# Trade routes: Vilnius-Smolensk, Polotsk-Kyiv
+		# Strategic crossroads
+		caravan_power = 0.25
+		trade_efficiency = 0.1
+	}
+	battle_of_nemiga = {
+		# 1067: Famous battle, Minsk independence struggle
+		# Cultural memory of resistance
+		# Military tradition
+		army_tradition_decay = -0.01
+		prestige_from_battles = 0.5
+	}
+	minsk_magdeburg_law = {
+		# 1499: Magdeburg rights granted
+		# Self-governance, merchant guilds, urban development
+		# Western legal tradition
+		global_trade_goods_size_modifier = 0.1
+		development_cost = -0.05
+	}
+	forest_and_field = {
+		# Mixed terrain = diverse economy
+		# Forests (timber, hunting) + fields (agriculture)
+		# Balanced subsistence + trade
+		production_efficiency = 0.1
+		goods_produced_modifier = 0.1
+	}
+	urban_fortifications = {
+		# Minsk castle, urban walls
+		# Renaissance fortification influence
+		# Defensive urban center
+		fort_maintenance_modifier = -0.2
+		garrison_size = 0.15
+	}
+	merchant_networks = {
+		# Jewish merchants, Armenian traders, Polish factors
+		# Multi-ethnic commercial culture
+		# Economic pragmatism
+		interest = -0.5
+		inflation_reduction = 0.1
+	}
+	belarusian_identity = {
+		# Minsk = future capital of Belarus
+		# Cultural synthesis: Orthodox + Catholic influence
+		# Tolerant multi-confessional tradition
+		tolerance_heretic = 2
+		tolerance_heathen = 1
+		promote_culture_cost = -0.25
+	}
+}
+
+TRV_ideas = {
+	# TUROV PRINCIPALITY (Турівське князівство)
+	# Ancient principality of Dregovichi tribe, Pripyat river basin
+	# History: One of oldest Rus' cities (980 AD), Svyatopolk the Accursed
+	# Geography: Wetlands, marshes, river trade
+	# Economy: Limited agriculture, fishing, hunting, river commerce
+	# Culture: Polesian traditions, Orthodox stronghold
+	# Military: River flotillas, marsh warfare
+	
+	start = {
+		naval_forcelimit_modifier = 0.33
+		sailor_maintenance_modifer = -0.25
+	}
+	
+	bonus = {
+		naval_morale = 0.2
+	}
+	
+	trigger = {
+		tag = TRV
+	}
+	free = yes
+	
+	ancient_dregovichi = {
+		# Dregovichi = East Slavic tribe (VI-XII ст.)
+		# Ancient cultural roots, pre-Kyivan identity
+		# Historical prestige
+		prestige = 1
+		legitimacy = 0.5
+	}
+	pripyat_heartland = {
+		# Turov = center of Pripyat basin
+		# River trade, strategic waterway control
+		# Gateway to Dnieper
+		trade_steering = 0.15
+		caravan_power = 0.15
+	}
+	marsh_defenders = {
+		# Wetland warfare expertise
+		# Defensive advantage in homeland
+		# Guerrilla tactics
+		hostile_attrition = 1
+		land_attrition = -0.2
+	}
+	orthodox_bishopric = {
+		# Turov bishopric = ancient Orthodox see
+		# Religious authority, cultural influence
+		# Ecclesiastical prestige
+		tolerance_own = 2
+		church_power_modifier = 0.15
+	}
+	river_flotilla = {
+		# Pripyat river boats
+		# Shallow-draft vessels, troop transport
+		# Raiding capability
+		galley_power = 0.25
+		sailor_maintenance_modifer = -0.15
+	}
+	wetland_economy = {
+		# Fishing, hunting, peat extraction
+		# Forest resources, limited but sustainable
+		# Subsistence resilience
+		production_efficiency = 0.1
+		global_trade_goods_size_modifier = 0.05
+	}
+	turov_resilience = {
+		# Survived centuries of invasions
+		# Mongols, Lithuanians, Poles couldn't fully conquer
+		# Cultural endurance
+		war_exhaustion = -0.02
+		stability_cost_modifier = -0.15
+	}
+}
+
+VIT_ideas = {
+	# VITEBSK PRINCIPALITY (Вітебське князівство)
+	# Northern Belarusian principality, Dvina trade city
+	# History: Founded X century, contested Polotsk-Smolensk border
+	# Geography: Dvina river, gateway to Riga
+	# Economy: Baltic trade, crafts, merchant guilds
+	# Culture: Mixed Polotsk/Smolensk influence
+	
+	start = {
+		trade_efficiency = 0.15
+		development_cost = -0.1
+	}
+	
+	bonus = {
+		merchants = 1
+	}
+	
+	trigger = {
+		tag = VIT
+	}
+	free = yes
+	
+	dvina_gateway = {
+		# Vitebsk = key Dvina trade post
+		# Riga-Smolensk route
+		# Commercial importance
+		global_own_trade_power = 0.2
+		trade_steering = 0.15
+	}
+	vitebsk_magdeburg = {
+		# 1597: Magdeburg rights
+		# Urban self-governance, guild system
+		# Western legal influence
+		development_cost = -0.1
+		build_cost = -0.1
+	}
+	northern_crafts = {
+		# Vitebsk craftsmen renowned for quality
+		# Leatherwork, metalwork, textiles
+		# Export goods
+		production_efficiency = 0.15
+		goods_produced_modifier = 0.1
+	}
+	baltic_connections = {
+		# Trade with Riga, Reval, Dorpat
+		# Western technology, ideas
+		# Alternative to Muscovite influence
+		institution_spread_from_true_faith = 0.5
+		embracement_cost = -0.1
+	}
+	dvina_fortifications = {
+		# Vitebsk fortress, strategic location
+		# River crossing defense
+		# Border stronghold
+		fort_maintenance_modifier = -0.25
+		defensiveness = 0.15
+	}
+	merchant_guilds = {
+		# Multi-ethnic guilds: Ruthenian, Jewish, German
+		# Commercial expertise
+		# Economic pragmatism
+		interest = -0.5
+		trade_range_modifier = 0.2
+	}
+	vitebsk_tolerance = {
+		# Multi-confessional city: Orthodox, Catholic, Jewish
+		# Commercial pragmatism > religious conflict
+		# Cultural synthesis
+		tolerance_heretic = 2
+		tolerance_heathen = 2
+	}
+}
+
+MSL_ideas = {
+	# MSTISLAVL PRINCIPALITY (Мстиславське князівство)
+	# Eastern Belarusian borderland, Sozh river basin
+	# History: Founded XII century, named after Prince Mstislav
+	# Geography: Forest, steppe frontier, contested border zone
+	# Economy: Limited resources, military economy
+	# Culture: Mixed Smolensk/Polotsk influence
+	
+	start = {
+		fort_maintenance_modifier = -0.25
+		garrison_size = 0.25
+	}
+	
+	bonus = {
+		land_morale = 0.15
+	}
+	
+	trigger = {
+		tag = MSL
+	}
+	free = yes
+	
+	eastern_frontier = {
+		# Mstislavl = border between Belarus and Russia
+		# Contested by Smolensk, Polotsk, GDL, Muscovy
+		# Military frontier
+		manpower_recovery_speed = 0.15
+		global_manpower_modifier = 0.1
+	}
+	mstislavl_fortress = {
+		# Strategic border fortress
+		# Frequently besieged, rebuilt
+		# Defensive expertise
+		defensiveness = 0.2
+		fort_maintenance_modifier = -0.15
+	}
+	border_raiders = {
+		# Light cavalry, border skirmishes
+		# Raiding economy supplements limited agriculture
+		# Steppe warfare influence
+		cavalry_power = 0.1
+		loot_amount = 0.25
+	}
+	sozh_trade = {
+		# Sozh river = minor trade route
+		# Connects to Dnieper system
+		# Strategic but limited commerce
+		caravan_power = 0.15
+		trade_efficiency = 0.1
+	}
+	magdeburg_privileges = {
+		# 1555: Magdeburg rights
+		# Urban self-governance despite military pressures
+		# Civilian resilience
+		development_cost = -0.1
+		stability_cost_modifier = -0.1
+	}
+	military_society = {
+		# Constant warfare shapes culture
+		# Every citizen = potential soldier
+		# Martial traditions
+		land_maintenance_modifier = -0.1
+		reinforce_speed = 0.25
+	}
+	frontier_endurance = {
+		# Survived centuries of border conflicts
+		# Cultural resilience, military expertise
+		# Never fully conquered
+		war_exhaustion = -0.03
+		years_of_nationalism = -10
+	}
+}
+
+BLR_ideas = {
+	# BELARUS (UNIFIED) - Об'єднана Білорусь
+	# Historical synthesis: Polotsk + Minsk + Turov + Vitebsk + Mstislavl
+	# Alternative history: Belarus emerges as independent state (not under GDL/Poland/Russia)
+	# Culture: Belarusian ethnogenesis (XIV-XVII ст.), distinct from Russian/Ukrainian
+	# Geography: Forests, rivers (Dvina, Pripyat, Nioman), wetlands
+	# Economy: Balanced agriculture-commerce-crafts, Western trade links
+	# Military: Defensive tradition, partisan warfare, Lithuanian military influence
+	
+	start = {
+		diplomatic_reputation = 1
+		development_cost = -0.1
+	}
+	
+	bonus = {
+		stability_cost_modifier = -0.15
+	}
+	
+	trigger = {
+		tag = BLR
+	}
+	free = yes
+	
+	belarusian_unity = {
+		# Unification of Polotsk, Minsk, Turov, Vitebsk, Mstislavl
+		# Cultural synthesis, national identity
+		# Reduced internal strife
+		global_unrest = -2
+		accept_culture_threshold = -0.1
+	}
+	land_of_forests = {
+		# Belarus = densely forested (Belovezhskaya Pushcha, etc.)
+		# Timber economy, defensive terrain
+		# Partisan warfare tradition
+		hostile_attrition = 1
+		production_efficiency = 0.1
+	}
+	river_networks = {
+		# Dvina, Pripyat, Nioman, Sozh = trade arteries
+		# Internal commerce, external connections
+		# Strategic river system
+		caravan_power = 0.25
+		trade_efficiency = 0.15
+	}
+	grand_duchy_legacy = {
+		# GDL inheritance: Legal codes (Statutes 1529/1566/1588)
+		# Administrative tradition, Western influence
+		# Alternative: Independent Belarus continues GDL traditions
+		administrative_efficiency = 0.05
+		governing_capacity_modifier = 0.1
+	}
+	magdeburg_law_tradition = {
+		# Urban self-governance widespread in Belarus
+		# Minsk, Vitebsk, Polotsk, Turov = Magdeburg rights
+		# Commercial culture
+		development_cost = -0.1
+		build_cost = -0.1
+	}
+	religious_tolerance = {
+		# Orthodox + Catholic coexistence
+		# Jewish communities, Uniate Church
+		# Pragmatic multi-confessionalism
+		tolerance_heretic = 3
+		tolerance_heathen = 2
+		religious_unity = 0.25
+	}
+	partisan_tradition = {
+		# Historical: WWI-WWII partisan warfare
+		# Anachronistic but culturally significant
+		# Forest guerrilla expertise
+		land_morale = 0.1
+		reinforce_speed = 0.25
+		war_exhaustion = -0.03
+	}
+}

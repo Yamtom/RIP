@@ -1,0 +1,473 @@
+# =========================================================================
+# DNIESTER ESTUARY MECHANICS DECISIONS
+# =========================================================================
+# HISTORICAL CONTEXT:
+# The Dniester (Dnister) Estuary was strategically important trade zone
+# connecting the steppe, Moldavia, and Black Sea trade routes. Key centers:
+# - Bilhorod-Dnistrovskyi (Akkerman/Cetatea Albă): Major port fortress
+# - Kilia (Chilia Veche): Danube-Dniester trade hub
+# - Smaller settlements like Ovidiopol, Shabo
+#
+# ECONOMIC IMPORTANCE:
+# - Transit point for goods between Poland-Lithuania, Moldavia, Black Sea
+# - Fishing, salt production, wine trade
+# - Strategic control point for multiple powers (Moldavia, Ottomans, 
+#   Poland, Cossacks, Crimea)
+#
+# HISTORICAL TIMELINE:
+# - 1420s-1484: Moldavian control
+# - 1484-1812: Ottoman control (with periodic Cossack/Polish incursions)
+# - 1812-1917: Russian control
+#
+# GAME MECHANICS:
+# - Development of estuary trade infrastructure
+# - Fortification of key ports
+# - Fishing and salt industries
+# - Wine production (Greek/Armenian merchants)
+# - Naval base development
+# - Competition between regional powers
+# =========================================================================
+
+country_decisions = {
+	
+	# Develop Dniester Estuary Trade
+	develop_dniester_estuary_trade = {
+		major = yes
+		potential = {
+			OR = {
+				tag = MOL
+				tag = ZAZ
+				tag = HET
+				tag = UKR
+				tag = POL
+				tag = VOL
+			}
+			any_owned_province = {
+				OR = {
+					province_id = 2410 # Akkerman/Bilhorod
+					province_id = 2409 # Kilia
+					province_id = 268  # Jedisan region
+				}
+			}
+			NOT = { has_country_flag = dniester_estuary_developed }
+		}
+		
+		allow = {
+			adm_tech = 10
+			dip_tech = 10
+			treasury = 300
+			adm_power = 75
+			dip_power = 50
+			
+			# Control key provinces
+			owns_or_non_sovereign_subject_of = 2410 # Akkerman
+			
+			# Requires stability and peace
+			NOT = { war_exhaustion = 3 }
+			is_at_war = no
+		}
+		
+		effect = {
+			add_treasury = -300
+			add_adm_power = -75
+			add_dip_power = -50
+			
+			set_country_flag = dniester_estuary_developed
+			
+			# Akkerman/Bilhorod becomes major trade center
+			2410 = {
+				add_province_modifier = {
+					name = dnestr_estuary_modifier
+					duration = -1
+				}
+				add_base_tax = 2
+				add_base_production = 2
+				add_base_manpower = 1
+				center_of_trade = 2
+			}
+			
+			# Kilia benefits if owned
+			if = {
+				limit = { owns_or_non_sovereign_subject_of = 2409 }
+				2409 = {
+					add_province_modifier = {
+						name = dniester_kilia_trade
+						duration = -1
+					}
+					add_base_tax = 1
+					add_base_production = 1
+				}
+			}
+			
+			# Country benefits
+			add_country_modifier = {
+				name = dniester_trade_network
+				duration = -1
+			}
+			
+			add_prestige = 10
+			add_mercantilism = 2
+			
+			# Event chain starts
+			country_event = { id = dniester_estuary.1 days = 30 }
+		}
+		
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 2
+				tag = MOL
+			}
+			
+			modifier = {
+				factor = 1.5
+				trade_income_percentage = 0.3
+			}
+			
+			modifier = {
+				factor = 0
+				NOT = { treasury = 500 }
+			}
+		}
+	}
+	
+	# Fortify Dniester Estuary Ports
+	fortify_dniester_estuary = {
+		major = yes
+		potential = {
+			has_country_flag = dniester_estuary_developed
+			NOT = { has_country_flag = dniester_estuary_fortified }
+			
+			owns_or_non_sovereign_subject_of = 2410
+		}
+		
+		allow = {
+			mil_tech = 12
+			treasury = 400
+			mil_power = 75
+			
+			2410 = {
+				fort_level = 2
+			}
+			
+			is_at_war = no
+		}
+		
+		effect = {
+			add_treasury = -400
+			add_mil_power = -75
+			
+			set_country_flag = dniester_estuary_fortified
+			
+			# Major fortifications at Akkerman
+			2410 = {
+				add_province_modifier = {
+					name = dniester_fortress_akkerman
+					duration = -1
+				}
+				
+				add_fort_level = 1
+				add_base_manpower = 2
+			}
+			
+			# Naval base improvements
+			if = {
+				limit = { 2410 = { has_port = yes } }
+				2410 = {
+					add_province_modifier = {
+						name = dniester_naval_base
+						duration = -1
+					}
+				}
+			}
+			
+			add_country_modifier = {
+				name = dniester_defensive_network
+				duration = -1
+			}
+			
+			add_prestige = 5
+			add_army_tradition = 5
+			
+			country_event = { id = dniester_estuary.10 days = 60 }
+		}
+		
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 2
+				any_neighbor_country = {
+					is_rival = ROOT
+				}
+			}
+			
+			modifier = {
+				factor = 0
+				NOT = { treasury = 600 }
+			}
+		}
+	}
+	
+	# Establish Estuary Fishing Industry
+	establish_dniester_fishing = {
+		major = no
+		potential = {
+			has_country_flag = dniester_estuary_developed
+			NOT = { has_country_flag = dniester_fishing_established }
+			
+			owns_or_non_sovereign_subject_of = 2410
+		}
+		
+		allow = {
+			dip_tech = 8
+			treasury = 150
+			dip_power = 50
+			
+			2410 = {
+				has_port = yes
+			}
+		}
+		
+		effect = {
+			add_treasury = -150
+			add_dip_power = -50
+			
+			set_country_flag = dniester_fishing_established
+			
+			2410 = {
+				add_province_modifier = {
+					name = dniester_fishing_industry
+					duration = -1
+				}
+				
+				change_trade_goods = fish
+			}
+			
+			# Additional provinces benefit if owned
+			if = {
+				limit = { owns_or_non_sovereign_subject_of = 2409 }
+				2409 = {
+					add_province_modifier = {
+						name = dniester_fishing_industry
+						duration = -1
+					}
+				}
+			}
+			
+			add_years_of_income = 0.25
+		}
+		
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 0
+				NOT = { treasury = 300 }
+			}
+		}
+	}
+	
+	# Develop Wine Trade (Greek/Armenian merchants)
+	establish_dniester_wine_trade = {
+		major = no
+		potential = {
+			has_country_flag = dniester_estuary_developed
+			NOT = { has_country_flag = dniester_wine_trade_established }
+			
+			owns_or_non_sovereign_subject_of = 2410
+		}
+		
+		allow = {
+			dip_tech = 10
+			treasury = 200
+			dip_power = 50
+			
+			# Greek or Armenian merchants present
+			OR = {
+				2410 = { culture = greek }
+				accepted_culture = greek
+				accepted_culture = armenian
+				has_idea_group = trade_ideas
+			}
+		}
+		
+		effect = {
+			add_treasury = -200
+			add_dip_power = -50
+			
+			set_country_flag = dniester_wine_trade_established
+			
+			2410 = {
+				add_province_modifier = {
+					name = dniester_wine_merchants
+					duration = -1
+				}
+				
+				if = {
+					limit = { NOT = { trade_goods = wine } }
+					change_trade_goods = wine
+				}
+				
+				add_base_production = 2
+			}
+			
+			add_mercantilism = 1
+			add_years_of_income = 0.3
+			
+			country_event = { id = dniester_estuary.20 days = 90 }
+		}
+		
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 1.5
+				OR = {
+					accepted_culture = greek
+					accepted_culture = armenian
+				}
+			}
+			
+			modifier = {
+				factor = 0
+				NOT = { treasury = 400 }
+			}
+		}
+	}
+	
+	# Establish Salt Production
+	establish_dniester_salt_works = {
+		major = no
+		potential = {
+			has_country_flag = dniester_estuary_developed
+			NOT = { has_country_flag = dniester_salt_established }
+			
+			owns_or_non_sovereign_subject_of = 2410
+		}
+		
+		allow = {
+			adm_tech = 8
+			treasury = 150
+			adm_power = 50
+		}
+		
+		effect = {
+			add_treasury = -150
+			add_adm_power = -50
+			
+			set_country_flag = dniester_salt_established
+			
+			2410 = {
+				add_province_modifier = {
+					name = dniester_salt_production
+					duration = -1
+				}
+				
+				if = {
+					limit = { 
+						NOT = { trade_goods = wine }
+						NOT = { trade_goods = fish }
+					}
+					change_trade_goods = salt
+				}
+				
+				add_base_production = 1
+			}
+			
+			add_years_of_income = 0.2
+		}
+		
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 0
+				NOT = { treasury = 300 }
+			}
+		}
+	}
+	
+	# Contest Ottoman Control (if Ottomans control estuary)
+	contest_ottoman_dniester_control = {
+		major = yes
+		potential = {
+			OR = {
+				tag = MOL
+				tag = ZAZ
+				tag = HET
+				tag = POL
+				tag = PLC
+				tag = RUS
+			}
+			
+			NOT = { has_country_flag = contesting_dniester }
+			
+			# Ottomans control key province
+			2410 = {
+				owned_by = TUR
+			}
+			
+			# Player is neighbor or regional power
+			OR = {
+				any_owned_province = {
+					any_neighbor_province = { province_id = 2410 }
+				}
+				total_development = 300
+			}
+		}
+		
+		allow = {
+			mil_tech = 12
+			army_size = 30
+			is_at_war = no
+			NOT = { truce_with = TUR }
+			NOT = { alliance_with = TUR }
+		}
+		
+		effect = {
+			set_country_flag = contesting_dniester
+			
+			add_casus_belli = {
+				target = TUR
+				type = cb_conquest
+				months = 120
+			}
+			
+			add_claim = 2410
+			add_claim = 2409
+			
+			add_prestige = 5
+			
+			country_event = { id = dniester_estuary.30 days = 30 }
+		}
+		
+		ai_will_do = {
+			factor = 1
+			
+			modifier = {
+				factor = 2
+				OR = {
+					tag = MOL
+					tag = RUS
+				}
+			}
+			
+			modifier = {
+				factor = 3
+				is_rival = TUR
+			}
+			
+			modifier = {
+				factor = 0
+				NOT = { army_size = 40 }
+			}
+			
+			modifier = {
+				factor = 0
+				is_subject = yes
+			}
+		}
+	}
+}
