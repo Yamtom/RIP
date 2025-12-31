@@ -117,88 +117,86 @@ country_decisions = {
 			}
 		}
 	}
-	
 	# Fortify Dniester Estuary Ports
-	fortify_dniester_estuary = {
-		major = yes
-		potential = {
-			has_country_flag = dniester_estuary_developed
-			NOT = { has_country_flag = dniester_estuary_fortified }
-			
-			owns_or_non_sovereign_subject_of = 282
-		}
-		
-		allow = {
-			mil_tech = 12
-			treasury = 400
-			mil_power = 75
-			
-			282 = {
-				fort_level = 2
-			}
-			
-			is_at_war = no
-		}
-		
-		effect = {
-			add_treasury = -400
-			add_mil_power = -75
-			
-			set_country_flag = dniester_estuary_fortified
-			
-			# Major fortifications at Akkerman
-			282 = {
-				add_province_modifier = {
-					name = dniester_fortress_akkerman
-					duration = -1
-				}
-				
-				add_fort_level = 1
-				add_base_manpower = 2
-			}
-			
-			# Naval base improvements
-			if = {
-				limit = { 282 = { has_port = yes } }
-				282 = {
-					add_province_modifier = {
-						name = dniester_naval_base
-						duration = -1
-					}
-				}
-			}
-			
-			add_country_modifier = {
-				name = dniester_defensive_network
-				duration = -1
-			}
-			
-			add_prestige = 5
-			add_army_tradition = 5
-			
-			country_event = { id = dniester_estuary.10 days = 60 }
-		}
-		
-		ai_will_do = {
-			factor = 1
-			
-			modifier = {
-				factor = 2
-				any_neighbor_country = {
-					is_rival = ROOT
-				}
-			}
-			
-			modifier = {
-				factor = 0
-				NOT = { treasury = 600 }
-			}
-		}
-	}
+    fortify_dniester_estuary = {
+        major = yes
+        potential = {
+            has_country_flag = dniester_estuary_developed
+            NOT = { has_country_flag = dniester_estuary_fortified }
+            owns_or_non_sovereign_subject_of = 282
+        }
+        
+        allow = {
+            mil_tech = 12
+            treasury = 400
+            mil_power = 75
+            
+            # CHANGED: Only allow if there is NO Level 2 fort yet
+            282 = {
+                NOT = { fort_level = 2 }
+            }
+            
+            is_at_war = no
+        }
+        
+        effect = {
+            add_treasury = -400
+            add_mil_power = -75
+            
+            set_country_flag = dniester_estuary_fortified
+            
+            # Major fortifications at Akkerman
+            282 = {
+                add_province_modifier = {
+                    name = dniester_fortress_akkerman
+                    duration = -1
+                }
+                
+                # FIXED: Changed 'fort' to 'fort_15th' (Castle)
+                add_building = fort_15th
+                add_base_manpower = 2
+            }
+            
+            # Naval base improvements
+            if = {
+                limit = { 282 = { has_port = yes } }
+                282 = {
+                    add_province_modifier = {
+                        name = dniester_naval_base
+                        duration = -1
+                    }
+                }
+            }
+            
+            add_country_modifier = {
+                name = dniester_defensive_network
+                duration = -1
+            }
+            
+            add_prestige = 5
+            add_army_tradition = 5
+            
+            country_event = { id = dniester_estuary.10 days = 60 }
+        }
+        
+        ai_will_do = {
+            factor = 1
+            modifier = {
+                factor = 2
+                any_neighbor_country = {
+                    is_rival = ROOT
+                }
+            }
+            modifier = {
+                factor = 0
+                NOT = { treasury = 600 }
+            }
+        }
+    }
 	
 	# Establish Estuary Fishing Industry
 	establish_dniester_fishing = {
-		major = no
+		major = yes
 		potential = {
 			has_country_flag = dniester_estuary_developed
 			NOT = { has_country_flag = dniester_fishing_established }
@@ -246,7 +244,7 @@ country_decisions = {
 	
 	# Develop Wine Trade (Greek/Armenian merchants)
 	establish_dniester_wine_trade = {
-		major = no
+		major = yes
 		potential = {
 			has_country_flag = dniester_estuary_developed
 			NOT = { has_country_flag = dniester_wine_trade_established }
@@ -314,7 +312,7 @@ country_decisions = {
 	
 	# Establish Salt Production
 	establish_dniester_salt_works = {
-		major = no
+		major = yes
 		potential = {
 			has_country_flag = dniester_estuary_developed
 			NOT = { has_country_flag = dniester_salt_established }

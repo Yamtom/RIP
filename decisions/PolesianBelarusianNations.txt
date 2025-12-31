@@ -13,7 +13,7 @@ country_decisions = {
 			NOT = { exists = RPS }
 			NOT = { exists = BLR }
 			OR = {
-				primary_culture = polesian
+				primary_culture = ruthenian
 				primary_culture = byelorussian
 			}
 			OR = {
@@ -37,7 +37,7 @@ country_decisions = {
 		}
 		provinces_to_highlight = {
 			OR = {
-				province_id = 1941		# Turov - Polesian heartland
+				province_id = 1941		# Turov - Ruthenian heartland
 				province_id = 2968		# Mozyr - key Pripyat city
 				province_id = 1942		# Pinsk - strategic wetland center
 			}
@@ -140,7 +140,7 @@ country_decisions = {
 			NOT = { exists = BLR }
 			OR = {
 				primary_culture = byelorussian
-				primary_culture = polesian
+				primary_culture = ruthenian
 			}
 			OR = {
 				ai = no
@@ -182,14 +182,14 @@ country_decisions = {
 				move_capital_effect = yes
 			}
 			# Add claims to northern Belarus
-			polotsk_area = {
+			pskov_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
 					NOT = { is_claim = ROOT }
 				}
 				add_permanent_claim = PLT
 			}
-			vitebsk_area = {
+			white_ruthenia_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
 					NOT = { is_claim = ROOT }
@@ -316,14 +316,14 @@ country_decisions = {
 				move_capital_effect = yes
 			}
 			# Add claims to all Belarusian territories
-			polotsk_area = {
+			pskov_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
 					NOT = { is_claim = ROOT }
 				}
-				add_permanent_claim = BLR
+				add_permanent_claim = PLT
 			}
-			vitebsk_area = {
+			white_ruthenia_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
 					NOT = { is_claim = ROOT }
@@ -358,11 +358,6 @@ country_decisions = {
 				}
 				add_permanent_claim = BLR
 			}
-			
-			add_prestige = 30
-			add_legitimacy = 15
-			add_adm_power = 100
-			add_dip_power = 100
 			add_mil_power = 100
 			
 			change_tag = BLR
@@ -370,18 +365,18 @@ country_decisions = {
 			swap_non_generic_missions = yes
 			set_government_rank = 3
 			
-		if = {
-			limit = {
-				NOT = { primary_culture = byelorussian }
-				NOT = { primary_culture = polesian }
+			if = {
+				limit = {
+					NOT = { primary_culture = byelorussian }
+					NOT = { primary_culture = ruthenian }
+				}
+				change_primary_culture = byelorussian
 			}
-			change_primary_culture = byelorussian
-		}
-		
-		# Trigger cultural identity event
-		country_event = {
-			id = polesian_belarus.20
-		}			if = {
+			
+			# Trigger cultural identity event
+			country_event = { id = polesian_belarus.20 }
+			
+			if = {
 				limit = {
 					is_part_of_hre = yes
 					is_elector = no

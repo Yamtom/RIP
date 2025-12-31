@@ -17,7 +17,8 @@ namespace = uniate_church
 # =========================================================================
 
 # Event 1: Proposal for Church Union
-uniate_church.1 = {
+country_event = {
+	id = uniate_church.1
 	title = uniate_church.1.t
 	desc = uniate_church.1.d
 	picture = RELIGION_eventPicture
@@ -100,9 +101,9 @@ uniate_church.1 = {
 		}
 	}
 }
-
 # Event 2: Union of Brest Signed (1596)
-uniate_church.2 = {
+country_event = {
+	id = uniate_church.2
 	title = uniate_church.2.t
 	desc = uniate_church.2.d
 	picture = RELIGION_eventPicture
@@ -158,11 +159,12 @@ uniate_church.2 = {
 		add_papal_influence = 20
 		add_curia_treasury = 50
 	}
-}
-
 # Event 3: Orthodox Brotherhood Resistance
-uniate_church.3 = {
+country_event = {
+	id = uniate_church.3
 	title = uniate_church.3.t
+	desc = uniate_church.3.d
+	picture = REFORM_eventPicture
 	desc = uniate_church.3.d
 	picture = REFORM_eventPicture
 	
@@ -232,7 +234,8 @@ uniate_church.3 = {
 }
 
 # Event 4: Cossack Orthodox Identity
-uniate_church.4 = {
+country_event = {
+	id = uniate_church.4
 	title = uniate_church.4.t
 	desc = uniate_church.4.d
 	picture = BATTLE_eventPicture
@@ -319,7 +322,8 @@ uniate_church.4 = {
 }
 
 # Event 5: Synod of Zamość (1720) - Latinization
-uniate_church.5 = {
+country_event = {
+	id = uniate_church.5
 	title = uniate_church.5.t
 	desc = uniate_church.5.d
 	picture = RELIGION_eventPicture
@@ -347,8 +351,6 @@ uniate_church.5 = {
 			name = zamosc_synod_latinization
 			duration = -1
 		}
-		
-		add_papal_influence = 25
 	}
 	
 	option = { # Preserve Eastern rite
@@ -361,13 +363,12 @@ uniate_church.5 = {
 			name = eastern_rite_preservation
 			duration = -1
 		}
-		
-		add_legitimacy = 10
 	}
 }
 
 # Event 6: Uniate Educational Network
-uniate_church.6 = {
+country_event = {
+	id = uniate_church.6
 	title = uniate_church.6.t
 	desc = uniate_church.6.d
 	picture = UNIVERSITY_eventPicture
@@ -395,21 +396,19 @@ uniate_church.6 = {
 			name = uniate_educational_network
 			duration = -1
 		}
-		
-		add_adm_power = 50
 	}
 	
 	option = { # Focus on secular education
 		name = uniate_church.6.b
 		ai_chance = { factor = 30 }
 		
-		add_innovativeness = 5
-		add_dip_power = 50
+		set_country_flag = uniate_education_established
 	}
 }
 
 # Event 7: Uniate Cultural Flowering
-uniate_church.7 = {
+country_event = {
+	id = uniate_church.7
 	title = uniate_church.7.t
 	desc = uniate_church.7.d
 	picture = CULTURE_eventPicture
@@ -438,20 +437,19 @@ uniate_church.7 = {
 			name = uniate_cultural_flowering
 			duration = -1
 		}
-		
-		add_prestige = 25
 	}
 	
 	option = { # Maintain status quo
 		name = uniate_church.7.b
 		ai_chance = { factor = 20 }
 		
-		add_adm_power = 25
+		set_country_flag = uniate_culture_flourished
 	}
 }
 
 # Event 8: Moscow's Anti-Union Campaign
-uniate_church.8 = {
+country_event = {
+	id = uniate_church.8
 	title = uniate_church.8.t
 	desc = uniate_church.8.d
 	picture = SPY_eventPicture
