@@ -1,0 +1,180 @@
+# =========================================================================
+# GREEK CATHOLIC SCRIPTED EFFECTS
+# =========================================================================
+
+# Effect: Convert province to Greek Catholic with bonuses
+convert_to_greek_catholic_effect = {
+	change_religion = greek_catholic
+	add_province_modifier = {
+		name = greek_catholic_diocese
+		duration = 5475
+	}
+	if = {
+		limit = { has_building = temple }
+		add_base_tax = 1
+	}
+	if = {
+		limit = { has_building = cathedral }
+		add_base_tax = 2
+	}
+}
+
+# Effect: Establish Greek Catholic center
+establish_greek_catholic_center_effect = {
+	change_religion = greek_catholic
+	add_province_modifier = {
+		name = greek_catholic_center
+		duration = -1
+	}
+	add_base_tax = 2
+	add_base_production = 1
+	add_base_manpower = 1
+	if = {
+		limit = {
+			NOT = { has_building = temple }
+			NOT = { has_building = cathedral }
+		}
+		add_building = temple
+	}
+}
+
+# Effect: Spread Greek Catholic faith to neighboring provinces
+spread_greek_catholic_to_neighbors = {
+	every_neighbor_province = {
+		limit = {
+			OR = {
+				religion = orthodox
+				religion = catholic
+			}
+			owned_by = ROOT
+		}
+		random = {
+			chance = 30
+			change_religion = greek_catholic
+			add_province_modifier = {
+				name = greek_catholic_diocese
+				duration = 3650
+			}
+		}
+	}
+}
+
+# Effect: Grant Greek Catholic bonuses
+greek_catholic_faith_bonus = {
+	add_prestige = 10
+	add_legitimacy = 10
+	add_papal_influence = 15
+	add_church_power = 25
+}
+
+# Effect: Orthodox resistance to Greek Catholic spread
+orthodox_resistance_effect = {
+	add_province_modifier = {
+		name = resistance_to_greek_catholic_spread
+		duration = 3650
+	}
+	spawn_rebels = {
+		type = orthodox_rebels
+		size = 1
+	}
+}
+
+# Effect: Greek Catholic persecution by Orthodox
+greek_catholic_persecution_effect = {
+	add_country_modifier = {
+		name = persecution_of_greek_catholics
+		duration = 5475
+	}
+	every_owned_province = {
+		limit = { religion = greek_catholic }
+		add_local_autonomy = 10
+		add_unrest = 3
+	}
+}
+
+# Effect: Papal protection for Greek Catholics
+papal_protection_effect = {
+	add_country_modifier = {
+		name = papal_protection_greek_catholic
+		duration = 7300
+	}
+	add_papal_influence = 25
+	improve_relation_with_pope = yes
+}
+
+# Effect: Establish Greek Catholic educational network
+establish_greek_catholic_education = {
+	add_country_modifier = {
+		name = uniate_educational_network
+		duration = -1
+	}
+	capital_scope = {
+		if = {
+			limit = {
+				NOT = { has_building = university }
+			}
+			add_building = university
+		}
+	}
+	add_adm_power = 50
+}
+
+# Effect: Greek Catholic cultural flowering
+greek_catholic_cultural_boom = {
+	add_country_modifier = {
+		name = uniate_cultural_flowering
+		duration = -1
+	}
+	add_prestige = 25
+	random_owned_province = {
+		limit = {
+			religion = greek_catholic
+			development = 15
+		}
+		add_province_modifier = {
+			name = greek_catholic_printing_press
+			duration = -1
+		}
+	}
+}
+
+# Effect: Improve relations with Pope
+improve_relation_with_pope = {
+	if = {
+		limit = { PAP = { exists = yes } }
+		PAP = {
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_improved_relations
+			}
+		}
+		reverse_add_opinion = {
+			who = PAP
+			modifier = opinion_improved_relations
+		}
+	}
+}
+
+# Effect: Orthodox-Greek Catholic reconciliation attempt
+orthodox_greek_catholic_reconciliation = {
+	add_country_modifier = {
+		name = greek_catholic_orthodox_dialogue
+		duration = 5475
+	}
+	every_neighbor_country = {
+		limit = { religion = orthodox }
+		add_opinion = {
+			who = ROOT
+			modifier = opinion_improved_relations
+		}
+	}
+}
+
+# Effect: Activate Greek Catholic reformation
+activate_greek_catholic_reformation = {
+	set_country_flag = greek_catholic_reformation_active
+	add_country_modifier = {
+		name = greek_catholic_reformation_active
+		duration = 10950 # 30 years
+	}
+}

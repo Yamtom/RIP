@@ -1,0 +1,326 @@
+# =========================================================================
+# RUSSIAN ORTHODOX DECISIONS
+# =========================================================================
+
+country_decisions = {
+
+	# Convert to Russian Orthodox (Third Rome)
+	convert_to_russian_orthodox_decision = {
+		major = yes
+		potential = {
+			religion = orthodox
+			NOT = { religion = russian_orthodox }
+			culture_group = east_slavic
+			is_year = 1450
+		}
+		
+		allow = {
+			is_at_war = no
+			stability = 2
+			adm_power = 150
+			dip_power = 100
+			legitimacy = 75
+			OR = {
+				owns = 295 # Moscow
+				capital_scope = {
+					region = russia_region
+				}
+			}
+		}
+		
+		effect = {
+			add_adm_power = -150
+			add_dip_power = -100
+			convert_to_russian_orthodox_effect = yes
+			capital_scope = {
+				change_religion = russian_orthodox
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { is_year = 1453 }
+			}
+			modifier = {
+				factor = 5
+				tag = MOS
+			}
+		}
+	}
+
+	# Establish Moscow Patriarchate
+	establish_moscow_patriarchate_decision = {
+		major = yes
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = moscow_patriarchate_authority }
+			is_year = 1580
+			OR = {
+				tag = MOS
+				tag = RUS
+			}
+		}
+		
+		allow = {
+			is_at_war = no
+			stability = 2
+			adm_power = 100
+			church_power = 100
+			legitimacy = 80
+		}
+		
+		effect = {
+			add_adm_power = -100
+			add_church_power = -100
+			establish_moscow_patriarchate_effect = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Launch Russification Campaign
+	russification_campaign_decision = {
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = forced_russification }
+			num_of_owned_provinces_with = {
+				value = 15
+				NOT = { culture_group = east_slavic }
+			}
+		}
+		
+		allow = {
+			adm_power = 100
+			mil_power = 50
+			stability = 1
+		}
+		
+		effect = {
+			add_adm_power = -100
+			add_mil_power = -50
+			start_russification_campaign = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				num_of_owned_provinces_with = {
+					value = 30
+					NOT = { culture_group = east_slavic }
+				}
+			}
+		}
+	}
+
+	# Establish Orthodox Inquisition
+	establish_orthodox_inquisition_decision = {
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = orthodox_inquisition }
+			religious_ideas = 3
+		}
+		
+		allow = {
+			adm_power = 75
+			church_power = 75
+			stability = 1
+		}
+		
+		effect = {
+			add_adm_power = -75
+			add_church_power = -75
+			activate_orthodox_inquisition = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				num_of_owned_provinces_with = {
+					value = 20
+					NOT = { religion = russian_orthodox }
+				}
+			}
+		}
+	}
+
+	# Gathering of Russian Lands
+	gathering_russian_lands_decision = {
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = gathering_russian_lands }
+			culture_group = east_slavic
+			any_neighbor_country = {
+				culture_group = east_slavic
+			}
+		}
+		
+		allow = {
+			mil_power = 100
+			legitimacy = 80
+		}
+		
+		effect = {
+			add_mil_power = -100
+			activate_gathering_lands_effect = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				tag = MOS
+			}
+		}
+	}
+
+	# Establish Symphonia of Powers
+	establish_symphonia_decision = {
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = symphonia_of_powers }
+			government_rank = 3
+		}
+		
+		allow = {
+			adm_power = 100
+			church_power = 100
+			legitimacy = 90
+			stability = 2
+		}
+		
+		effect = {
+			add_adm_power = -100
+			add_church_power = -100
+			establish_symphonia_effect = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Proclaim Orthodox Empire
+	proclaim_orthodox_empire_decision = {
+		major = yes
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = orthodox_empire_proclaimed }
+			government_rank = 3
+		}
+		
+		allow = {
+			total_development = 500
+			legitimacy = 90
+			prestige = 50
+			adm_power = 150
+			num_of_owned_provinces_with = {
+				value = 50
+				religion = russian_orthodox
+			}
+		}
+		
+		effect = {
+			add_adm_power = -150
+			proclaim_orthodox_empire_effect = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Force Convert Province to Russian Orthodox
+	force_convert_province_decision = {
+		potential = {
+			NOT = { religion = russian_orthodox }
+			is_city = yes
+			owned_by = {
+				religion = russian_orthodox
+			}
+		}
+		
+		provinces_to_highlight = {
+			province_id = THIS
+		}
+		
+		allow = {
+			religion = russian_orthodox
+			adm_power = 50
+			mil_power = 25
+		}
+		
+		effect = {
+			owner = {
+				add_adm_power = -50
+				add_mil_power = -25
+			}
+			change_religion = russian_orthodox
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				owner = {
+					NOT = { local_autonomy = 50 }
+				}
+			}
+			modifier = {
+				factor = 2
+				owner = {
+					has_country_modifier = orthodox_inquisition
+				}
+			}
+		}
+	}
+
+	# Russify Province
+	russify_province_decision = {
+		potential = {
+			owner = {
+				religion = russian_orthodox
+				primary_culture = russian
+			}
+			NOT = { culture_group = east_slavic }
+			NOT = { has_province_modifier = russian_settlement }
+			is_city = yes
+		}
+		
+		provinces_to_highlight = {
+			province_id = THIS
+		}
+		
+		allow = {
+			owner = {
+				adm_power = 75
+				has_country_modifier = forced_russification
+			}
+			nationalism = 0
+		}
+		
+		effect = {
+			owner = {
+				add_adm_power = -75
+			}
+			russify_province_effect = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.1
+				development = 20
+			}
+			modifier = {
+				factor = 2
+				development = 10
+			}
+		}
+	}
+}

@@ -1,0 +1,327 @@
+# =========================================================================
+# GREEK CATHOLIC DECISIONS
+# =========================================================================
+
+country_decisions = {
+
+	# Convert to Greek Catholic Faith
+	convert_to_greek_catholic_decision = {
+		major = yes
+		potential = {
+			OR = {
+				religion = orthodox
+				religion = catholic
+			}
+			NOT = { has_country_flag = refused_greek_catholic_conversion }
+			is_year = 1590
+		}
+		
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				religion = orthodox
+				religion = catholic
+			}
+		}
+		
+		allow = {
+			is_at_war = no
+			stability = 1
+			OR = {
+				any_neighbor_country = {
+					religion = greek_catholic
+				}
+				any_owned_province = {
+					religion = greek_catholic
+				}
+				has_country_flag = pursuing_uniate_union
+			}
+			adm_power = 100
+			dip_power = 100
+		}
+		
+		effect = {
+			add_adm_power = -100
+			add_dip_power = -100
+			change_religion = greek_catholic
+			add_country_modifier = {
+				name = greek_catholic_reformation_active
+				duration = 10950
+			}
+			capital_scope = {
+				change_religion = greek_catholic
+				add_province_modifier = {
+					name = greek_catholic_center
+					duration = -1
+				}
+			}
+			every_owned_province = {
+				limit = {
+					OR = {
+						religion = orthodox
+						religion = catholic
+					}
+					development = 10
+				}
+				random = {
+					chance = 40
+					change_religion = greek_catholic
+				}
+			}
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { is_year = 1596 }
+			}
+			modifier = {
+				factor = 2
+				has_country_flag = pursuing_uniate_union
+			}
+			modifier = {
+				factor = 0.5
+				stability = 2
+			}
+		}
+	}
+
+	# Establish Greek Catholic Center
+	establish_greek_catholic_center_decision = {
+		potential = {
+			religion = greek_catholic
+			NOT = { has_country_flag = greek_catholic_center_established }
+			any_owned_province = {
+				is_suitable_greek_catholic_center = yes
+			}
+		}
+		
+		provinces_to_highlight = {
+			owned_by = ROOT
+			is_suitable_greek_catholic_center = yes
+		}
+		
+		allow = {
+			adm_power = 50
+			owns = 268 # Lviv - or another suitable province
+		}
+		
+		effect = {
+			add_adm_power = -50
+			set_country_flag = greek_catholic_center_established
+			268 = {
+				establish_greek_catholic_center_effect = yes
+			}
+			add_prestige = 10
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Launch Greek Catholic Missionary Campaign
+	greek_catholic_missionary_campaign_decision = {
+		potential = {
+			religion = greek_catholic
+			NOT = { has_country_modifier = greek_catholic_missionary_activity }
+			any_owned_province = {
+				OR = {
+					religion = orthodox
+					religion = catholic
+				}
+			}
+		}
+		
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				religion = orthodox
+				religion = catholic
+			}
+		}
+		
+		allow = {
+			adm_power = 50
+			dip_power = 50
+			stability = 1
+		}
+		
+		effect = {
+			add_adm_power = -50
+			add_dip_power = -50
+			add_country_modifier = {
+				name = greek_catholic_missionary_activity
+				duration = 5475
+			}
+			add_papal_influence = 10
+			add_church_power = 25
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Establish Greek Catholic Educational Network
+	greek_catholic_education_decision = {
+		potential = {
+			religion = greek_catholic
+			NOT = { has_country_modifier = uniate_educational_network }
+		}
+		
+		allow = {
+			adm_tech = 10
+			adm_power = 100
+			treasury = 200
+			num_of_owned_provinces_with = {
+				value = 5
+				religion = greek_catholic
+			}
+		}
+		
+		effect = {
+			add_adm_power = -100
+			add_treasury = -200
+			establish_greek_catholic_education = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Patronize Greek Catholic Culture
+	patronize_greek_catholic_culture_decision = {
+		potential = {
+			religion = greek_catholic
+			NOT = { has_country_modifier = uniate_cultural_flowering }
+			is_ruthenian_culture_area = yes
+		}
+		
+		allow = {
+			adm_power = 50
+			dip_power = 50
+			prestige = 25
+			treasury = 150
+		}
+		
+		effect = {
+			add_adm_power = -50
+			add_dip_power = -50
+			add_treasury = -150
+			greek_catholic_cultural_boom = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				num_of_owned_provinces_with = {
+					value = 15
+					religion = greek_catholic
+				}
+			}
+		}
+	}
+
+	# Seek Orthodox Reconciliation
+	seek_orthodox_reconciliation_decision = {
+		potential = {
+			religion = greek_catholic
+			NOT = { has_country_modifier = greek_catholic_orthodox_dialogue }
+			any_neighbor_country = {
+				religion = orthodox
+			}
+		}
+		
+		allow = {
+			dip_power = 100
+			prestige = 10
+			diplomatic_reputation = 1
+			any_neighbor_country = {
+				religion = orthodox
+				NOT = { war_with = ROOT }
+				NOT = { is_rival = ROOT }
+			}
+		}
+		
+		effect = {
+			add_dip_power = -100
+			orthodox_greek_catholic_reconciliation = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.5
+				any_rival_country = {
+					religion = orthodox
+				}
+			}
+		}
+	}
+
+	# Strengthen Papal Ties
+	strengthen_papal_ties_decision = {
+		potential = {
+			religion = greek_catholic
+			NOT = { has_country_modifier = papal_protection_greek_catholic }
+			PAP = { exists = yes }
+		}
+		
+		allow = {
+			dip_power = 75
+			treasury = 100
+			papal_influence = 25
+		}
+		
+		effect = {
+			add_dip_power = -75
+			add_treasury = -100
+			add_papal_influence = -25
+			papal_protection_effect = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				alliance_with = PAP
+			}
+		}
+	}
+
+	# Preserve Eastern Rite Traditions
+	preserve_eastern_rite_decision = {
+		potential = {
+			religion = greek_catholic
+			NOT = { has_country_modifier = eastern_rite_tradition_preserved }
+		}
+		
+		allow = {
+			adm_power = 50
+			church_power = 50
+			stability = 1
+		}
+		
+		effect = {
+			add_adm_power = -50
+			add_church_power = -50
+			add_country_modifier = {
+				name = eastern_rite_tradition_preserved
+				duration = -1
+			}
+			add_legitimacy = 10
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				is_ruthenian_culture_area = yes
+			}
+		}
+	}
+}

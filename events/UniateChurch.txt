@@ -43,10 +43,11 @@ country_event = {
 			any_neighbor_country = {
 				religion = catholic
 			}
+			overlord = { religion = catholic }
 		}
 		NOT = { has_country_flag = uniate_union_proposed }
-		year = 1590
-		NOT = { year = 1650 }
+		is_year = 1590
+		NOT = { is_year = 1650 }
 	}
 	
 	mean_time_to_happen = {
@@ -159,6 +160,8 @@ country_event = {
 		add_papal_influence = 20
 		add_curia_treasury = 50
 	}
+}
+
 # Event 3: Orthodox Brotherhood Resistance
 country_event = {
 	id = uniate_church.3
@@ -333,8 +336,8 @@ country_event = {
 	trigger = {
 		has_country_flag = pursuing_uniate_union
 		NOT = { has_country_flag = zamosc_synod_held }
-		year = 1710
-		NOT = { year = 1750 }
+		is_year = 1710
+		NOT = { is_year = 1750 }
 	}
 	
 	mean_time_to_happen = {
@@ -493,3 +496,660 @@ country_event = {
 		}
 	}
 }
+
+# =========================================================================
+# GREEK CATHOLIC CHURCH SPREAD MECHANICS
+# =========================================================================
+
+# Event 9: Establishment of Greek Catholic Center
+country_event = {
+	id = uniate_church.9
+	title = uniate_church.9.t
+	desc = uniate_church.9.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		has_country_flag = pursuing_uniate_union
+		NOT = { has_country_flag = greek_catholic_center_established }
+		owns = 268 # Lviv
+		268 = {
+			religion = orthodox
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 24
+	}
+	
+	option = { # Establish Lviv as center
+		name = uniate_church.9.a
+		ai_chance = { factor = 70 }
+		
+		set_country_flag = greek_catholic_center_established
+		
+		268 = {
+			change_religion = greek_catholic
+			add_province_modifier = {
+				name = greek_catholic_center
+				duration = -1
+			}
+			add_base_tax = 2
+			add_base_production = 1
+			add_base_manpower = 1
+		}
+		
+		add_country_modifier = {
+			name = greek_catholic_reformation_active
+			duration = 10950 # 30 years
+		}
+	}
+	
+	option = { # Wait for better time
+		name = uniate_church.9.b
+		ai_chance = { factor = 30 }
+		
+		add_prestige = -5
+	}
+}
+
+# Event 10: Greek Catholic Spread to Neighboring Province
+province_event = {
+	id = uniate_church.10
+	title = uniate_church.10.t
+	desc = uniate_church.10.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		owner = { has_country_flag = pursuing_uniate_union }
+		religion = orthodox
+		any_neighbor_province = {
+			religion = greek_catholic
+		}
+		NOT = { has_province_modifier = resistance_to_greek_catholic_spread }
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+		modifier = {
+			factor = 0.7
+			has_building = temple
+		}
+		modifier = {
+			factor = 0.8
+			development = 15
+		}
+		modifier = {
+			factor = 1.5
+			has_owner_culture = no
+		}
+	}
+	
+	option = { # Province converts
+		name = uniate_church.10.a
+		ai_chance = { factor = 60 }
+		
+		change_religion = greek_catholic
+		add_province_modifier = {
+			name = greek_catholic_diocese
+			duration = 7300
+		}
+		add_base_tax = 1
+	}
+	
+	option = { # Province resists
+		name = uniate_church.10.b
+		ai_chance = { factor = 40 }
+		
+		add_province_modifier = {
+			name = resistance_to_greek_catholic_spread
+			duration = 3650
+		}
+	}
+}
+
+# Event 11: Greek Catholic Missionary Success
+country_event = {
+	id = uniate_church.11
+	title = uniate_church.11.t
+	desc = uniate_church.11.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		religion = greek_catholic
+		NOT = { has_country_modifier = greek_catholic_missionary_activity }
+		any_owned_province = {
+			OR = {
+				religion = orthodox
+				religion = catholic
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	option = { # Launch missionary campaign
+		name = uniate_church.11.a
+		ai_chance = { factor = 70 }
+		
+		add_country_modifier = {
+			name = greek_catholic_missionary_activity
+			duration = 5475
+		}
+		
+		add_papal_influence = 10
+		add_church_power = 25
+	}
+	
+	option = { # Focus on consolidation
+		name = uniate_church.11.b
+		ai_chance = { factor = 30 }
+		
+		add_stability_or_adm_power = yes
+	}
+}
+
+# Event 12: Establish Metropolitan See
+country_event = {
+	id = uniate_church.12
+	title = uniate_church.12.t
+	desc = uniate_church.12.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		religion = greek_catholic
+		NOT = { has_country_flag = greek_catholic_metropolitan_established }
+		any_owned_province = {
+			religion = greek_catholic
+			development = 20
+			OR = {
+				has_building = temple
+				has_building = cathedral
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 48
+	}
+	
+	option = { # Establish metropolitan see
+		name = uniate_church.12.a
+		ai_chance = { factor = 80 }
+		
+		set_country_flag = greek_catholic_metropolitan_established
+		
+		random_owned_province = {
+			limit = {
+				religion = greek_catholic
+				development = 20
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+			}
+			add_province_modifier = {
+				name = uniate_metropolitan_see
+				duration = -1
+			}
+			add_base_tax = 1
+		}
+		
+		add_country_modifier = {
+			name = greek_catholic_synodal_administration
+			duration = -1
+		}
+	}
+	
+	option = { # Delay establishment
+		name = uniate_church.12.b
+		ai_chance = { factor = 20 }
+		
+		add_adm_power = 25
+	}
+}
+
+# =========================================================================
+# THEMED HISTORICAL & ALTERNATE HISTORY EVENTS
+# =========================================================================
+
+# Event 13: Ruthenian Cultural Renaissance
+country_event = {
+	id = uniate_church.13
+	title = uniate_church.13.t
+	desc = uniate_church.13.d
+	picture = CULTURE_eventPicture
+	
+	trigger = {
+		religion = greek_catholic
+		NOT = { has_country_flag = ruthenian_renaissance_occurred }
+		OR = {
+			primary_culture = ruthenian
+			primary_culture = byelorussian
+		}
+		num_of_owned_provinces_with = {
+			value = 10
+			religion = greek_catholic
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 72
+	}
+	
+	option = { # Patronize arts and culture
+		name = uniate_church.13.a
+		ai_chance = { factor = 80 }
+		
+		set_country_flag = ruthenian_renaissance_occurred
+		
+		add_country_modifier = {
+			name = uniate_cultural_flowering
+			duration = -1
+		}
+		
+		add_prestige = 20
+		add_adm_power = 50
+	}
+	
+	option = { # Focus on religious unity
+		name = uniate_church.13.b
+		ai_chance = { factor = 20 }
+		
+		set_country_flag = ruthenian_renaissance_occurred
+		add_church_power = 50
+	}
+}
+
+# Event 14: Greek Catholic-Catholic Theological Debate
+country_event = {
+	id = uniate_church.14
+	title = uniate_church.14.t
+	desc = uniate_church.14.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		religion = greek_catholic
+		NOT = { has_country_flag = greek_catholic_debate_held }
+		any_neighbor_country = {
+			religion = catholic
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	option = { # Emphasize unity with Rome
+		name = uniate_church.14.a
+		ai_chance = { factor = 40 }
+		
+		set_country_flag = greek_catholic_debate_held
+		
+		add_country_modifier = {
+			name = greek_catholic_latin_cooperation
+			duration = 7300
+		}
+		
+		add_papal_influence = 15
+	}
+	
+	option = { # Emphasize Eastern tradition
+		name = uniate_church.14.b
+		ai_chance = { factor = 40 }
+		
+		set_country_flag = greek_catholic_debate_held
+		
+		add_country_modifier = {
+			name = eastern_rite_tradition_preserved
+			duration = 7300
+		}
+		
+		add_church_power = 50
+	}
+	
+	option = { # Seek balanced approach
+		name = uniate_church.14.c
+		ai_chance = { factor = 20 }
+		
+		set_country_flag = greek_catholic_debate_held
+		
+		add_stability_or_adm_power = yes
+		add_prestige = 10
+	}
+}
+
+# Event 15: Orthodox-Greek Catholic Reconciliation Attempt
+country_event = {
+	id = uniate_church.15
+	title = uniate_church.15.t
+	desc = uniate_church.15.d
+	picture = DIPLOMACY_eventPicture
+	
+	trigger = {
+		religion = greek_catholic
+		NOT = { has_country_flag = reconciliation_attempt_made }
+		any_neighbor_country = {
+			religion = orthodox
+		}
+		NOT = { war_with = ROOT }
+	}
+	
+	mean_time_to_happen = {
+		months = 84
+	}
+	
+	option = { # Pursue dialogue
+		name = uniate_church.15.a
+		ai_chance = { factor = 50 }
+		
+		set_country_flag = reconciliation_attempt_made
+		
+		add_country_modifier = {
+			name = greek_catholic_orthodox_dialogue
+			duration = 5475
+		}
+		
+		random_neighbor_country = {
+			limit = { religion = orthodox }
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_improved_relations
+			}
+		}
+	}
+	
+	option = { # Assert Greek Catholic identity
+		name = uniate_church.15.b
+		ai_chance = { factor = 30 }
+		
+		set_country_flag = reconciliation_attempt_made
+		
+		add_prestige = 10
+		add_legitimacy = 10
+	}
+	
+	option = { # Maintain status quo
+		name = uniate_church.15.c
+		ai_chance = { factor = 20 }
+		
+		set_country_flag = reconciliation_attempt_made
+		add_adm_power = 25
+	}
+}
+
+# Event 16: Greek Catholic Printing Revolution
+country_event = {
+	id = uniate_church.16
+	title = uniate_church.16.t
+	desc = uniate_church.16.d
+	picture = PRINTING_PRESS_eventPicture
+	
+	trigger = {
+		religion = greek_catholic
+		NOT = { has_country_flag = greek_catholic_printing_established }
+		owns = 268 # Lviv
+		268 = {
+			religion = greek_catholic
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 48
+	}
+	
+	option = { # Establish printing press
+		name = uniate_church.16.a
+		ai_chance = { factor = 80 }
+		
+		set_country_flag = greek_catholic_printing_established
+		
+		268 = {
+			add_province_modifier = {
+				name = greek_catholic_printing_press
+				duration = -1
+			}
+		}
+		
+		add_country_modifier = {
+			name = uniate_educational_network
+			duration = -1
+		}
+		
+		add_adm_power = 50
+	}
+	
+	option = { # Focus elsewhere
+		name = uniate_church.16.b
+		ai_chance = { factor = 20 }
+		
+		set_country_flag = greek_catholic_printing_established
+		add_papal_influence = 10
+	}
+}
+
+# Event 17: Alternate History - Greek Catholic Empire
+country_event = {
+	id = uniate_church.17
+	title = uniate_church.17.t
+	desc = uniate_church.17.d
+	picture = COURT_eventPicture
+	
+	trigger = {
+		religion = greek_catholic
+		NOT = { has_country_flag = greek_catholic_empire_proclaimed }
+		total_development = 500
+		num_of_owned_provinces_with = {
+			value = 30
+			religion = greek_catholic
+		}
+		OR = {
+			government_rank = 3
+			is_emperor = yes
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = { # Proclaim Greek Catholic leadership
+		name = uniate_church.17.a
+		ai_chance = { factor = 60 }
+		
+		set_country_flag = greek_catholic_empire_proclaimed
+		
+		add_country_modifier = {
+			name = greek_catholic_church_patronage
+			duration = -1
+		}
+		
+		add_prestige = 50
+		add_legitimacy = 25
+		add_papal_influence = 25
+		
+		every_country = {
+			limit = { religion = greek_catholic }
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_improved_relations
+			}
+		}
+	}
+	
+	option = { # Remain humble
+		name = uniate_church.17.b
+		ai_chance = { factor = 40 }
+		
+		set_country_flag = greek_catholic_empire_proclaimed
+		add_stability = 1
+	}
+}
+
+# Event 18: Persecution by Orthodox State
+country_event = {
+	id = uniate_church.18
+	title = uniate_church.18.t
+	desc = uniate_church.18.d
+	picture = BAD_WITH_MONARCH_eventPicture
+	
+	trigger = {
+		religion = greek_catholic
+		NOT = { has_country_flag = suffered_orthodox_persecution }
+		any_neighbor_country = {
+			religion = orthodox
+			army_size = ROOT
+			NOT = { alliance_with = ROOT }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 96
+	}
+	
+	option = { # Resist persecution
+		name = uniate_church.18.a
+		ai_chance = { factor = 60 }
+		
+		set_country_flag = suffered_orthodox_persecution
+		
+		add_country_modifier = {
+			name = persecution_of_greek_catholics
+			duration = 3650
+		}
+		
+		add_legitimacy = 10
+		add_prestige = 10
+	}
+	
+	option = { # Seek papal protection
+		name = uniate_church.18.b
+		ai_chance = { factor = 40 }
+		
+		set_country_flag = suffered_orthodox_persecution
+		
+		add_country_modifier = {
+			name = papal_protection_greek_catholic
+			duration = 5475
+		}
+		
+		add_papal_influence = 20
+	}
+}
+
+# Event 19: Greek Catholic Ecumenical Council
+country_event = {
+	id = uniate_church.19
+	title = uniate_church.19.t
+	desc = uniate_church.19.d
+	picture = RELIGION_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		religion = greek_catholic
+		NOT = { has_country_flag = ecumenical_council_held }
+		is_year = 1650
+		num_of_owned_provinces_with = {
+			value = 20
+			religion = greek_catholic
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	option = { # Reform church structure
+		name = uniate_church.19.a
+		ai_chance = { factor = 40 }
+		
+		set_country_flag = ecumenical_council_held
+		
+		add_country_modifier = {
+			name = greek_catholic_synodal_administration
+			duration = -1
+		}
+		
+		add_adm_power = 100
+	}
+	
+	option = { # Strengthen papal ties
+		name = uniate_church.19.b
+		ai_chance = { factor = 30 }
+		
+		set_country_flag = ecumenical_council_held
+		
+		add_country_modifier = {
+			name = papal_protection_greek_catholic
+			duration = -1
+		}
+		
+		add_papal_influence = 30
+	}
+	
+	option = { # Emphasize independence
+		name = uniate_church.19.c
+		ai_chance = { factor = 30 }
+		
+		set_country_flag = ecumenical_council_held
+		
+		add_country_modifier = {
+			name = eastern_rite_tradition_preserved
+			duration = -1
+		}
+		
+		add_church_power = 100
+		add_prestige = 20
+	}
+}
+
+# Event 20: Greek Catholic Saints and Martyrs
+country_event = {
+	id = uniate_church.20
+	title = uniate_church.20.t
+	desc = uniate_church.20.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		religion = greek_catholic
+		NOT = { has_country_flag = greek_catholic_martyrs_honored }
+		OR = {
+			had_recent_war = 10
+			num_of_owned_provinces_with = {
+				value = 5
+				religion = greek_catholic
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 72
+	}
+	
+	option = { # Canonize martyrs
+		name = uniate_church.20.a
+		ai_chance = { factor = 70 }
+		
+		set_country_flag = greek_catholic_martyrs_honored
+		
+		add_prestige = 15
+		add_legitimacy = 10
+		add_church_power = 50
+		
+		add_country_modifier = {
+			name = greek_catholic_church_patronage
+			duration = 5475
+		}
+	}
+	
+	option = { # Honor quietly
+		name = uniate_church.20.b
+		ai_chance = { factor = 30 }
+		
+		set_country_flag = greek_catholic_martyrs_honored
+		add_stability = 1
+	}
+}
+

@@ -1,0 +1,177 @@
+# Custom church aspects for Uniate and Russian Orthodox faiths
+
+# Greek Catholic (Uniate) aspects
+embrace_eastern_rite = {
+	cost = 100
+	trigger = {
+		always = yes
+	}
+	modifiers = {
+		tolerance_own = 1
+		church_power_modifier = 0.1
+		legitimacy = 0.5
+	}
+	ai_will_do = {
+		factor = 10
+	}
+}
+
+accept_papal_supremacy = {
+	cost = 100
+	trigger = {
+		always = yes
+	}
+	modifiers = {
+		papal_influence = 1
+		diplomatic_reputation = 1
+		improve_relation_modifier = 0.1
+	}
+	ai_will_do = {
+		factor = 10
+	}
+}
+
+basilian_monasteries = {
+	cost = 100
+	trigger = {
+		always = yes
+	}
+	modifiers = {
+		stability_cost_modifier = -0.1
+		global_institution_spread = 0.05
+		idea_cost = -0.05
+	}
+	ai_will_do = {
+		factor = 8
+	}
+}
+
+uniate_educational_network_aspect = {
+	cost = 100
+	trigger = {
+		always = yes
+	}
+	modifiers = {
+		advisor_cost = -0.1
+		innovativeness_gain = 0.5
+		institution_spread_from_true_faith = 0.1
+	}
+	ai_will_do = {
+		factor = 8
+	}
+}
+
+defender_of_union = {
+	cost = 100
+	trigger = {
+		always = yes
+	}
+	modifiers = {
+		tolerance_heretic = 2
+		religious_unity = 0.15
+		global_missionary_strength = 0.01
+	}
+	ai_will_do = {
+		factor = 6
+	}
+}
+
+# Russian Orthodox aspects
+third_rome_mission = {
+	cost = 100
+	trigger = {
+		capital_scope = {
+			region = russia_region
+		}
+	}
+	modifiers = {
+		legitimacy = 1
+		prestige = 1
+		ae_impact = -0.15
+		unjustified_demands = -0.25
+	}
+	ai_will_do = {
+		factor = 10
+	}
+}
+
+patriarch_authority = {
+	cost = 100
+	trigger = {
+		always = yes
+	}
+	modifiers = {
+		church_power_modifier = 0.25
+		stability_cost_modifier = -0.15
+		global_autonomy = -0.05
+	}
+	ai_will_do = {
+		factor = 10
+	}
+}
+
+orthodox_inquisition = {
+	cost = 100
+	trigger = {
+		religious_ideas = 3
+	}
+	modifiers = {
+		global_missionary_strength = 0.03
+		global_heretic_missionary_strength = 0.02
+		tolerance_heretic = -2
+		tolerance_heathen = -2
+	}
+	ai_will_do = {
+		factor = 8
+	}
+}
+
+forced_russification = {
+	cost = 100
+	trigger = {
+		num_of_owned_provinces_with = {
+			value = 20
+			NOT = { culture = russian }
+		}
+	}
+	modifiers = {
+		culture_conversion_cost = -0.30
+		harsh_treatment_cost = -0.25
+		years_of_nationalism = -5
+	}
+	ai_will_do = {
+		factor = 9
+	}
+}
+
+imperial_orthodox_church = {
+	cost = 100
+	trigger = {
+		government_rank = 3
+	}
+	modifiers = {
+		administrative_efficiency = 0.05
+		governing_capacity_modifier = 0.15
+		state_maintenance_modifier = -0.20
+	}
+	ai_will_do = {
+		factor = 8
+	}
+}
+
+subjugation_of_heretics = {
+	cost = 100
+	trigger = {
+		any_owned_province = {
+			NOT = { religion = ROOT }
+		}
+	}
+	modifiers = {
+		religious_unity = 0.25
+		global_unrest = -2
+		num_accepted_cultures = 1
+	}
+	ai_will_do = {
+		factor = 7
+	}
+}

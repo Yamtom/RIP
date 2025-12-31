@@ -1,0 +1,742 @@
+# =========================================================================
+# RUSSIAN ORTHODOX EVENTS - THIRD ROME AND EXPANSION
+# =========================================================================
+# Historical and alternate history events for aggressive Russian Orthodox
+# church expansion, assimilation, and "Third Rome" ideology
+# =========================================================================
+
+namespace = russian_orthodox
+
+# Event 1: Fall of Constantinople - Third Rome Doctrine
+country_event = {
+	id = russian_orthodox.1
+	title = russian_orthodox.1.t
+	desc = russian_orthodox.1.d
+	picture = RELIGION_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = MOS
+		religion = orthodox
+		is_year = 1453
+		NOT = { is_year = 1500 }
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = { # Proclaim Third Rome ideology
+		name = russian_orthodox.1.a
+		ai_chance = { factor = 80 }
+		
+		change_religion = russian_orthodox
+		add_country_modifier = {
+			name = third_rome_ideology
+			duration = -1
+		}
+		add_prestige = 25
+		add_legitimacy = 15
+	}
+	
+	option = { # Remain traditional Orthodox
+		name = russian_orthodox.1.b
+		ai_chance = { factor = 20 }
+		
+		add_prestige = 10
+	}
+}
+
+# Event 2: Establishment of Moscow Patriarchate (1589)
+country_event = {
+	id = russian_orthodox.2
+	title = russian_orthodox.2.t
+	desc = russian_orthodox.2.d
+	picture = RELIGION_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		religion = russian_orthodox
+		is_year = 1585
+		NOT = { is_year = 1600 }
+		OR = {
+			tag = MOS
+			tag = RUS
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 24
+	}
+	
+	option = { # Establish independent Patriarchate
+		name = russian_orthodox.2.a
+		ai_chance = { factor = 90 }
+		
+		add_country_modifier = {
+			name = moscow_patriarchate_authority
+			duration = -1
+		}
+		add_church_power = 100
+		add_legitimacy = 20
+		add_prestige = 30
+	}
+	
+	option = { # Delay for better timing
+		name = russian_orthodox.2.b
+		ai_chance = { factor = 10 }
+		
+		add_adm_power = 50
+	}
+}
+
+# Event 3: Conquest - Forced Conversion Choice
+province_event = {
+	id = russian_orthodox.3
+	title = russian_orthodox.3.t
+	desc = russian_orthodox.3.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		owner = {
+			religion = russian_orthodox
+			NOT = { has_country_flag = no_forced_conversions }
+		}
+		NOT = { religion = russian_orthodox }
+		NOT = { religion = orthodox }
+		NOT = { has_province_modifier = forced_conversions }
+		is_year = 1500
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+		modifier = {
+			factor = 0.5
+			owner = { has_country_modifier = orthodox_inquisition }
+		}
+		modifier = {
+			factor = 1.5
+			development = 20
+		}
+	}
+	
+	option = { # Force conversion aggressively
+		name = russian_orthodox.3.a
+		ai_chance = { factor = 60 }
+		
+		add_province_modifier = {
+			name = forced_conversions
+			duration = 3650
+		}
+		random = {
+			chance = 40
+			change_religion = russian_orthodox
+		}
+	}
+	
+	option = { # Gradual missionary work
+		name = russian_orthodox.3.b
+		ai_chance = { factor = 30 }
+		
+		add_province_modifier = {
+			name = orthodox_mission_established
+			duration = 5475
+		}
+	}
+	
+	option = { # Allow religious freedom (for now)
+		name = russian_orthodox.3.c
+		ai_chance = { factor = 10 }
+		
+		add_local_autonomy = 15
+	}
+}
+
+# Event 4: Russification Campaign
+country_event = {
+	id = russian_orthodox.4
+	title = russian_orthodox.4.t
+	desc = russian_orthodox.4.d
+	picture = CULTURE_eventPicture
+	
+	trigger = {
+		religion = russian_orthodox
+		NOT = { has_country_modifier = forced_russification }
+		num_of_owned_provinces_with = {
+			value = 20
+			NOT = { culture_group = east_slavic }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = { # Launch aggressive Russification
+		name = russian_orthodox.4.a
+		ai_chance = { factor = 70 }
+		
+		add_country_modifier = {
+			name = forced_russification
+			duration = 7300
+		}
+		add_adm_power = -50
+		
+		every_owned_province = {
+			limit = {
+				NOT = { culture_group = east_slavic }
+				development = 10
+			}
+			random = {
+				chance = 20
+				add_province_modifier = {
+					name = local_resistance_russification
+					duration = 5475
+				}
+			}
+		}
+	}
+	
+	option = { # Gradual cultural integration
+		name = russian_orthodox.4.b
+		ai_chance = { factor = 25 }
+		
+		add_country_modifier = {
+			name = cultural_integration_program
+			duration = 7300
+		}
+	}
+	
+	option = { # Respect local cultures
+		name = russian_orthodox.4.c
+		ai_chance = { factor = 5 }
+		
+		add_stability = 1
+	}
+}
+
+# Event 5: Orthodox Inquisition
+country_event = {
+	id = russian_orthodox.5
+	title = russian_orthodox.5.t
+	desc = russian_orthodox.5.d
+	picture = REFORM_eventPicture
+	
+	trigger = {
+		religion = russian_orthodox
+		NOT = { has_country_modifier = orthodox_inquisition }
+		religious_ideas = 3
+		any_owned_province = {
+			NOT = { religion = russian_orthodox }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+	}
+	
+	option = { # Establish Orthodox Inquisition
+		name = russian_orthodox.5.a
+		ai_chance = { factor = 60 }
+		
+		add_country_modifier = {
+			name = orthodox_inquisition
+			duration = 10950
+		}
+		add_church_power = 50
+	}
+	
+	option = { # Moderate persecution only
+		name = russian_orthodox.5.b
+		ai_chance = { factor = 30 }
+		
+		add_country_modifier = {
+			name = persecution_of_heretics
+			duration = 5475
+		}
+	}
+	
+	option = { # Religious tolerance
+		name = russian_orthodox.5.c
+		ai_chance = { factor = 10 }
+		
+		add_stability = 1
+	}
+}
+
+# Event 6: Old Believer Schism (Raskol)
+country_event = {
+	id = russian_orthodox.6
+	title = russian_orthodox.6.t
+	desc = russian_orthodox.6.d
+	picture = REFORM_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		religion = russian_orthodox
+		is_year = 1650
+		NOT = { is_year = 1680 }
+		OR = {
+			tag = RUS
+			tag = MOS
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	option = { # Suppress Old Believers harshly
+		name = russian_orthodox.6.a
+		ai_chance = { factor = 50 }
+		
+		add_country_modifier = {
+			name = suppression_old_believers
+			duration = 7300
+		}
+		
+		random_owned_province = {
+			limit = { religion = russian_orthodox }
+			spawn_rebels = {
+				type = religious_rebels
+				size = 2
+			}
+		}
+	}
+	
+	option = { # Allow Old Believers to exist
+		name = russian_orthodox.6.b
+		ai_chance = { factor = 30 }
+		
+		add_country_modifier = {
+			name = old_believer_underground
+			duration = 10950
+		}
+	}
+	
+	option = { # Compromise with reformers
+		name = russian_orthodox.6.c
+		ai_chance = { factor = 20 }
+		
+		add_church_power = -50
+		add_stability = 1
+	}
+}
+
+# Event 7: Conquest of Kazan - Islamic Territories
+country_event = {
+	id = russian_orthodox.7
+	title = russian_orthodox.7.t
+	desc = russian_orthodox.7.d
+	picture = BATTLE_eventPicture
+	
+	trigger = {
+		religion = russian_orthodox
+		owns = 1082 # Kazan
+		1082 = {
+			OR = {
+				religion = sunni
+				religion = shiite
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = { # Convert and Russify aggressively
+		name = russian_orthodox.7.a
+		ai_chance = { factor = 60 }
+		
+		1082 = {
+			change_religion = russian_orthodox
+			add_province_modifier = {
+				name = forced_conversions
+				duration = 5475
+			}
+			spawn_rebels = {
+				type = nationalist_rebels
+				size = 1
+			}
+		}
+	}
+	
+	option = { # Build Orthodox mission
+		name = russian_orthodox.7.b
+		ai_chance = { factor = 30 }
+		
+		1082 = {
+			add_province_modifier = {
+				name = orthodox_mission_established
+				duration = -1
+			}
+			if = {
+				limit = { NOT = { has_building = temple } }
+				add_building = temple
+			}
+		}
+	}
+	
+	option = { # Religious tolerance
+		name = russian_orthodox.7.c
+		ai_chance = { factor = 10 }
+		
+		1082 = {
+			add_local_autonomy = 25
+		}
+	}
+}
+
+# Event 8: Gathering of Russian Lands
+country_event = {
+	id = russian_orthodox.8
+	title = russian_orthodox.8.t
+	desc = russian_orthodox.8.d
+	picture = DIPLOMACY_eventPicture
+	
+	trigger = {
+		religion = russian_orthodox
+		NOT = { has_country_modifier = gathering_russian_lands }
+		OR = {
+			tag = MOS
+			tag = RUS
+		}
+		culture_group = east_slavic
+		any_neighbor_country = {
+			culture_group = east_slavic
+			NOT = { alliance_with = ROOT }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+	}
+	
+	option = { # Pursue unification
+		name = russian_orthodox.8.a
+		ai_chance = { factor = 80 }
+		
+		add_country_modifier = {
+			name = gathering_russian_lands
+			duration = 7300
+		}
+		random_neighbor_country = {
+			add_casus_belli = {
+				target = ROOT
+				type = cb_core
+				months = 120
+			}
+		}
+	}
+	
+	option = { # Peaceful expansion
+		name = russian_orthodox.8.b
+		ai_chance = { factor = 20 }
+		
+		add_dip_power = 100
+	}
+}
+
+# Event 9: Symphonia - Church-State Unity
+country_event = {
+	id = russian_orthodox.9
+	title = russian_orthodox.9.t
+	desc = russian_orthodox.9.d
+	picture = COURT_eventPicture
+	
+	trigger = {
+		religion = russian_orthodox
+		NOT = { has_country_modifier = symphonia_of_powers }
+		government_rank = 3
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = { # Establish Symphonia
+		name = russian_orthodox.9.a
+		ai_chance = { factor = 70 }
+		
+		add_country_modifier = {
+			name = symphonia_of_powers
+			duration = -1
+		}
+		add_church_power = 100
+		add_legitimacy = 15
+	}
+	
+	option = { # Maintain separation
+		name = russian_orthodox.9.b
+		ai_chance = { factor = 30 }
+		
+		add_adm_power = 50
+	}
+}
+
+# Event 10: Conquest of Constantinople (Alt-History)
+country_event = {
+	id = russian_orthodox.10
+	title = russian_orthodox.10.t
+	desc = russian_orthodox.10.d
+	picture = SIEGE_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		religion = russian_orthodox
+		owns = 151 # Constantinople
+		151 = {
+			NOT = { religion = russian_orthodox }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 6
+	}
+	
+	option = { # Restore Orthodox Constantinople
+		name = russian_orthodox.10.a
+		ai_chance = { factor = 90 }
+		
+		151 = {
+			change_religion = russian_orthodox
+			add_base_tax = 3
+			add_base_production = 3
+			add_base_manpower = 3
+		}
+		
+		add_country_modifier = {
+			name = conquest_of_constantinople
+			duration = -1
+		}
+		
+		add_prestige = 50
+		add_legitimacy = 25
+	}
+	
+	option = { # Religious tolerance
+		name = russian_orthodox.10.b
+		ai_chance = { factor = 10 }
+		
+		add_prestige = 25
+	}
+}
+
+# Event 11: Imperial Orthodox Church
+country_event = {
+	id = russian_orthodox.11
+	title = russian_orthodox.11.t
+	desc = russian_orthodox.11.d
+	picture = COURT_eventPicture
+	
+	trigger = {
+		religion = russian_orthodox
+		NOT = { has_country_modifier = imperial_orthodox_state }
+		government_rank = 3
+		total_development = 500
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = { # Proclaim Imperial Church
+		name = russian_orthodox.11.a
+		ai_chance = { factor = 80 }
+		
+		add_country_modifier = {
+			name = imperial_orthodox_state
+			duration = -1
+		}
+		add_country_modifier = {
+			name = orthodox_empire_proclaimed
+			duration = -1
+		}
+		add_prestige = 40
+	}
+	
+	option = { # Remain humble
+		name = russian_orthodox.11.b
+		ai_chance = { factor = 20 }
+		
+		add_stability = 1
+	}
+}
+
+# Event 12: Missionary Success in Siberia
+country_event = {
+	id = russian_orthodox.12
+	title = russian_orthodox.12.t
+	desc = russian_orthodox.12.d
+	picture = EXPLORERS_eventPicture
+	
+	trigger = {
+		religion = russian_orthodox
+		any_owned_province = {
+			region = west_siberia_region
+			NOT = { religion = russian_orthodox }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	option = { # Establish missions
+		name = russian_orthodox.12.a
+		ai_chance = { factor = 80 }
+		
+		random_owned_province = {
+			limit = {
+				region = west_siberia_region
+				NOT = { religion = russian_orthodox }
+			}
+			change_religion = russian_orthodox
+			add_province_modifier = {
+				name = russian_monastery_established
+				duration = -1
+			}
+		}
+	}
+	
+	option = { # Focus elsewhere
+		name = russian_orthodox.12.b
+		ai_chance = { factor = 20 }
+		
+		add_adm_power = 25
+	}
+}
+
+# Event 13: Defender of Orthodoxy
+country_event = {
+	id = russian_orthodox.13
+	title = russian_orthodox.13.t
+	desc = russian_orthodox.13.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		religion = russian_orthodox
+		NOT = { has_country_modifier = defender_of_orthodoxy }
+		is_defender_of_faith = yes
+		num_of_owned_provinces_with = {
+			value = 50
+			religion = russian_orthodox
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+	}
+	
+	option = { # Accept the mantle
+		name = russian_orthodox.13.a
+		ai_chance = { factor = 90 }
+		
+		add_country_modifier = {
+			name = defender_of_orthodoxy
+			duration = -1
+		}
+		add_prestige = 30
+	}
+	
+	option = { # Remain modest
+		name = russian_orthodox.13.b
+		ai_chance = { factor = 10 }
+		
+		add_stability = 1
+	}
+}
+
+# Event 14: Patriarch of All Rus'
+country_event = {
+	id = russian_orthodox.14
+	title = russian_orthodox.14.t
+	desc = russian_orthodox.14.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		religion = russian_orthodox
+		NOT = { has_country_modifier = patriarch_of_all_rus }
+		OR = {
+			owns = 280 # Kiev
+			owns = 295 # Moscow
+		}
+		num_of_cities = 100
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = { # Proclaim Patriarch of All Rus'
+		name = russian_orthodox.14.a
+		ai_chance = { factor = 80 }
+		
+		add_country_modifier = {
+			name = patriarch_of_all_rus
+			duration = -1
+		}
+		add_church_power = 100
+		add_legitimacy = 20
+	}
+	
+	option = { # Decline the honor
+		name = russian_orthodox.14.b
+		ai_chance = { factor = 20 }
+		
+		add_prestige = 10
+	}
+}
+
+# Event 15: Cultural Resistance Movement
+province_event = {
+	id = russian_orthodox.15
+	title = russian_orthodox.15.t
+	desc = russian_orthodox.15.d
+	picture = ANGRY_MOB_eventPicture
+	
+	trigger = {
+		owner = {
+			religion = russian_orthodox
+			has_country_modifier = forced_russification
+		}
+		NOT = { culture_group = east_slavic }
+		NOT = { has_province_modifier = local_resistance_russification }
+		development = 12
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = {
+			factor = 0.7
+			NOT = { religion = russian_orthodox }
+		}
+	}
+	
+	option = { # Suppress the resistance
+		name = russian_orthodox.15.a
+		ai_chance = { factor = 60 }
+		
+		add_province_modifier = {
+			name = garrison_and_mission
+			duration = 5475
+		}
+		spawn_rebels = {
+			type = nationalist_rebels
+			size = 1
+		}
+	}
+	
+	option = { # Grant concessions
+		name = russian_orthodox.15.b
+		ai_chance = { factor = 40 }
+		
+		add_local_autonomy = 20
+		add_unrest = -3
+	}
+}

@@ -1,0 +1,90 @@
+# =========================================================================
+# RUSSIAN ORTHODOX SCRIPTED TRIGGERS
+# =========================================================================
+
+# Check if country is Russian Orthodox
+is_russian_orthodox_nation = {
+	religion = russian_orthodox
+}
+
+# Check if country can convert to Russian Orthodox
+can_convert_to_russian_orthodox = {
+	religion = orthodox
+	OR = {
+		culture_group = east_slavic
+		capital_scope = {
+			region = russia_region
+		}
+	}
+	is_year = 1450
+}
+
+# Check if province is suitable for Russification
+suitable_for_russification = {
+	NOT = { culture_group = east_slavic }
+	development = 8
+	owner = {
+		religion = russian_orthodox
+		primary_culture = russian
+	}
+}
+
+# Check if country is pursuing Third Rome ideology
+pursuing_third_rome = {
+	religion = russian_orthodox
+	OR = {
+		has_country_modifier = third_rome_ideology
+		has_country_modifier = moscow_patriarchate_authority
+	}
+}
+
+# Check if province should be forcibly converted
+should_force_conversion = {
+	NOT = { religion = russian_orthodox }
+	owner = {
+		religion = russian_orthodox
+		OR = {
+			has_country_modifier = orthodox_inquisition
+			has_country_modifier = persecution_of_heretics
+		}
+	}
+}
+
+# Check if country can establish Moscow Patriarchate
+can_establish_patriarchate = {
+	religion = russian_orthodox
+	is_year = 1585
+	OR = {
+		tag = MOS
+		tag = RUS
+	}
+	NOT = { has_country_modifier = moscow_patriarchate_authority }
+}
+
+# Check if country is conducting expansionist campaign
+is_expansionist_orthodox = {
+	religion = russian_orthodox
+	OR = {
+		has_country_modifier = gathering_russian_lands
+		has_country_modifier = orthodox_manifest_destiny
+		has_country_modifier = divine_right_of_conquest
+	}
+}
+
+# Check if province has resistance to Russian rule
+has_cultural_resistance = {
+	OR = {
+		has_province_modifier = local_resistance_russification
+		has_province_modifier = cultural_preservation_movement
+		unrest = 3
+	}
+}
+
+# Check if can proclaim Orthodox Empire
+can_proclaim_orthodox_empire = {
+	religion = russian_orthodox
+	government_rank = 3
+	total_development = 500
+	legitimacy = 75
+	NOT = { has_country_modifier = orthodox_empire_proclaimed }
+}

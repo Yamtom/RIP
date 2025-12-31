@@ -1,2 +1,80 @@
-# Uniate Church placeholder template (Greek Catholic rite).
-# When ready to activate, add a proper religion_group definition here. This placeholder is non-functional by design and avoids altering vanilla Christian data.
+# =========================================================================
+# GREEK CATHOLIC (UNIATE) CHURCH
+# =========================================================================
+# Historical Context: Created by the Union of Brest (1596), combining
+# Orthodox liturgy with Catholic hierarchy. Major force in Commonwealth.
+# 
+# Game Mechanics: Hybrid religion combining Catholic and Orthodox features
+# - Papal influence like Catholics
+# - Church power and icons like Orthodox
+# - Protestant-style center of reformation for spreading
+# - Can interact with both Catholic and Orthodox mechanics
+# =========================================================================
+
+christian = {
+	crusade_name = CRUSADE
+	
+	# Greek Catholic Church (Uniate) - Union of Brest (1596)
+	greek_catholic = {
+		color = { 0.7 0.5 0.8 }
+		icon = 10
+		
+		country = {
+			tolerance_own = 2
+			tolerance_heretic = 1
+			papal_influence = 1
+			diplomatic_reputation = 1
+			advisor_cost = -0.05
+		}
+		
+		country_as_secondary = {
+			tolerance_heretic = 1
+			diplomatic_reputation = 0.5
+		}
+		
+		province = {
+			local_missionary_strength = 0.01
+		}
+		
+		# Combines Catholic and Orthodox mechanics
+		uses_church_power = yes
+		
+		# Patriarchs like Orthodox
+		has_patriarchs = yes
+		
+		# HRE religion
+		hre_heretic_religion = yes
+		
+		# Misguided heretic for Catholics and Orthodox
+		heretic = { "BOGOMILIST" }
+		
+		# Date of emergence
+		date = 1596.10.6
+		
+		# Country modifiers on conversion
+		on_convert = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = uniate_church_consolidation
+				duration = 3650
+			}
+		}
+		
+		# Aspects and blessings references
+		church_aspects = {
+			embrace_eastern_rite
+			accept_papal_supremacy
+			basilian_monasteries
+			uniate_educational_network_aspect
+			defender_of_union
+		}
+		
+		blessings = {
+			blessing_of_saints_cyril_and_methodius
+			blessing_of_basilian_order
+			blessing_of_papal_protection
+			blessing_of_eastern_liturgy
+			blessing_of_uniate_missionaries
+		}
+	}
+}

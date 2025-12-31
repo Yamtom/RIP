@@ -1,0 +1,144 @@
+# =========================================================================
+# COSSACK HOST FORMATION DECISIONS
+# =========================================================================
+
+country_decisions = {
+
+	# Declare as Cossack Host
+	form_cossack_host = {
+		major = yes
+		potential = {
+			primary_culture = ruthenian
+			OR = {
+				has_reform = cossacks_reform
+				has_reform = zaz_sich_brotherhood_reform
+			}
+			NOT = { has_country_flag = declared_cossack_host }
+			NOT = { tag = HET }  # Hetmanate has separate path
+		}
+		allow = {
+			stability = 1
+			army_tradition = 40
+			total_development = 50
+			num_of_cavalry = 10
+			republican_tradition = 50
+		}
+		effect = {
+			set_country_flag = declared_cossack_host
+			add_prestige = 15
+			add_army_tradition = 10
+			add_country_modifier = {
+				name = "cossack_host_proclaimed"
+				duration = -1
+			}
+			every_owned_province = {
+				limit = { culture = ruthenian }
+				add_province_modifier = {
+					name = "host_territory"
+					duration = -1
+				}
+			}
+			if = {
+				limit = { government_rank = 1 }
+				set_government_rank = 2
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				army_tradition = 60
+			}
+		}
+	}
+
+	# Establish Host Military Organization
+	establish_host_organization = {
+		potential = {
+			has_country_flag = declared_cossack_host
+			NOT = { has_country_flag = host_organization_established }
+		}
+		allow = {
+			adm_power = 100
+			mil_power = 100
+			army_size_percentage = 0.90
+			manpower_percentage = 0.50
+		}
+		effect = {
+			add_adm_power = -100
+			add_mil_power = -100
+			set_country_flag = host_organization_established
+			add_country_modifier = {
+				name = "host_military_structure"
+				duration = -1
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Formalize Host Democracy
+	formalize_host_democracy = {
+		potential = {
+			has_country_flag = declared_cossack_host
+			has_reform = zaz_sich_brotherhood_reform
+			NOT = { has_country_flag = host_democracy_formalized }
+		}
+		allow = {
+			republican_tradition = 75
+			stability = 2
+			NOT = { corruption = 1 }
+		}
+		effect = {
+			set_country_flag = host_democracy_formalized
+			add_republican_tradition = 10
+			add_country_modifier = {
+				name = "formalized_host_democracy"
+				duration = -1
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Integrate into Russian Host System (late game)
+	integrate_russian_host_system = {
+		potential = {
+			has_country_flag = declared_cossack_host
+			is_year = 1700
+			OR = {
+				overlord = { tag = RUS }
+				alliance_with = RUS
+			}
+			NOT = { has_country_flag = russian_host_integrated }
+		}
+		allow = {
+			is_subject = yes
+			overlord = { tag = RUS }
+			liberty_desire = 10
+		}
+		effect = {
+			set_country_flag = russian_host_integrated
+			add_liberty_desire = -15
+			overlord = {
+				add_opinion = {
+					who = ROOT
+					modifier = integrated_host_system
+				}
+			}
+			add_country_modifier = {
+				name = "imperial_cossack_host"
+				duration = -1
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				liberty_desire = 5
+			}
+		}
+	}
+}

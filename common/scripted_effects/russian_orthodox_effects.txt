@@ -1,0 +1,207 @@
+# =========================================================================
+# RUSSIAN ORTHODOX SCRIPTED EFFECTS
+# =========================================================================
+
+# Effect: Convert to Russian Orthodox with bonuses
+convert_to_russian_orthodox_effect = {
+	change_religion = russian_orthodox
+	add_country_modifier = {
+		name = third_rome_ideology
+		duration = 5475
+	}
+	add_prestige = 15
+	add_legitimacy = 10
+}
+
+# Effect: Force conversion of province
+force_convert_province_effect = {
+	change_religion = russian_orthodox
+	add_province_modifier = {
+		name = forced_conversions
+		duration = 3650
+	}
+	add_unrest = 5
+}
+
+# Effect: Establish Orthodox mission
+establish_orthodox_mission_effect = {
+	add_province_modifier = {
+		name = orthodox_mission_established
+		duration = -1
+	}
+	if = {
+		limit = { NOT = { has_building = temple } }
+		add_building = temple
+	}
+}
+
+# Effect: Russify province
+russify_province_effect = {
+	change_culture = russian
+	add_province_modifier = {
+		name = russian_settlement
+		duration = 7300
+	}
+	add_nationalism = -5
+}
+
+# Effect: Aggressive expansion campaign
+launch_expansion_campaign = {
+	add_country_modifier = {
+		name = orthodox_manifest_destiny
+		duration = 5475
+	}
+		every_neighbor_country = {
+			limit = { is_at_war = yes }
+			ROOT = {
+				add_casus_belli = {
+					target = PREV
+					type = cb_conquest
+					months = 120
+				}
+			}
+		}
+}
+
+# Effect: Establish Patriarchate
+establish_moscow_patriarchate_effect = {
+	add_country_modifier = {
+		name = moscow_patriarchate_authority
+		duration = -1
+	}
+	add_church_power = 100
+	add_legitimacy = 20
+	add_prestige = 30
+}
+
+# Effect: Start Russification campaign
+start_russification_campaign = {
+	add_country_modifier = {
+		name = forced_russification
+		duration = 7300
+	}
+	every_owned_province = {
+		limit = {
+			NOT = { culture_group = east_slavic }
+			development = 10
+		}
+		random = {
+			chance = 30
+			add_province_modifier = {
+				name = russian_settlement
+				duration = 5475
+			}
+		}
+	}
+}
+
+# Effect: Orthodox Inquisition
+activate_orthodox_inquisition = {
+	add_country_modifier = {
+		name = orthodox_inquisition
+		duration = 10950
+	}
+	every_owned_province = {
+		limit = {
+			NOT = { religion = russian_orthodox }
+		}
+		add_province_modifier = {
+			name = forced_conversions
+			duration = 3650
+		}
+	}
+}
+
+# Effect: Suppress cultural resistance
+suppress_cultural_resistance_effect = {
+	add_province_modifier = {
+		name = garrison_and_mission
+		duration = 5475
+	}
+	add_local_autonomy = -15
+	spawn_rebels = {
+		type = nationalist_rebels
+		size = 1
+	}
+}
+
+# Effect: Conquer Constantinople benefits
+conquer_constantinople_benefits = {
+	add_country_modifier = {
+		name = conquest_of_constantinople
+		duration = -1
+	}
+	add_prestige = 50
+	add_legitimacy = 25
+	add_church_power = 100
+}
+
+# Effect: Proclaim Orthodox Empire
+proclaim_orthodox_empire_effect = {
+	add_country_modifier = {
+		name = orthodox_empire_proclaimed
+		duration = -1
+	}
+	add_country_modifier = {
+		name = imperial_orthodox_state
+		duration = -1
+	}
+	add_prestige = 50
+	add_legitimacy = 25
+}
+
+# Effect: Establish Symphonia
+establish_symphonia_effect = {
+	add_country_modifier = {
+		name = symphonia_of_powers
+		duration = -1
+	}
+	add_church_power = 100
+	add_legitimacy = 15
+	add_adm_power = 50
+}
+
+# Effect: Spread Russian Orthodox to neighbors
+spread_russian_orthodox_neighbors = {
+	every_neighbor_province = {
+		limit = {
+			religion = orthodox
+			owned_by = ROOT
+		}
+		random = {
+			chance = 40
+			change_religion = russian_orthodox
+		}
+	}
+}
+
+# Effect: Establish monastery and mission
+establish_monastery_mission_effect = {
+	add_province_modifier = {
+		name = russian_monastery_established
+		duration = -1
+	}
+	add_base_tax = 1
+	change_religion = russian_orthodox
+}
+
+# Effect: Gathering of Russian Lands
+activate_gathering_lands_effect = {
+	add_country_modifier = {
+		name = gathering_russian_lands
+		duration = 7300
+	}
+	every_neighbor_country = {
+		limit = {
+			culture_group = east_slavic
+			NOT = { alliance_with = ROOT }
+		}
+		ROOT = {
+			add_casus_belli = {
+				target = PREV
+				type = cb_core
+				months = 120
+			}
+		}
+	}
+}

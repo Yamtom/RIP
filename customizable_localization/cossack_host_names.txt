@@ -1,0 +1,195 @@
+# =========================================================================
+# COSSACK STATES "HOST" NAMING SYSTEM
+# =========================================================================
+# HISTORICAL CONTEXT:
+# All major Cossack military formations used "Host" (вiйсько/войско) designation:
+# - Zaporozhian Host (Військо Запорозьке)
+# - Don Host (Донское войско)  
+# - Kuban Host (Кубанское войско)
+# - Terek Host (Терское войско)
+# - Black Sea Host (Черноморское войско)
+#
+# This reflects their military-administrative nature as autonomous armed forces
+# rather than traditional states. The term emphasized their status as permanent
+# military societies organized for frontier defense and raiding.
+#
+# IMPLEMENTATION:
+# Uses EU4's customizable localization system to dynamically add "Host" suffix
+# to Cossack state names based on government reforms and culture.
+#
+# REFERENCES:
+# - Brian Boeck, "Imperial Boundaries" (2009), Ch. 3
+# - Shane O'Rourke, "Warriors and Peasants" (2000), pp. 15-45
+# - Albert Seaton, "The Horsemen of the Steppes" (1985)
+# =========================================================================
+
+defined_text = {
+	name = GetCossackHostName
+	
+	# Zaporozhian Host
+	text = {
+		trigger = {
+			tag = ZAZ
+			OR = {
+				has_reform = zaz_sich_brotherhood_reform
+				has_reform = zaz_kosh_elections_reform
+				has_reform = zaz_free_host_reform
+				has_reform = zaz_chaiky_trade_reform
+			}
+		}
+		localisation_key = ZAPOROZHIAN_HOST_NAME
+	}
+	
+	# Hetmanate (special case - not called "Host" until late period)
+	text = {
+		trigger = {
+			tag = HET
+			has_reform = het_mazepist_autocracy_reform
+		}
+		localisation_key = HETMANATE_HOST_NAME
+	}
+	
+	# Don Host (if tag exists in mod)
+	# text = {
+	# 	trigger = {
+	# 		tag = DON
+	# 		OR = {
+	# 			has_reform = cossacks_reform
+	# 			has_reform = zaz_sich_brotherhood_reform
+	# 		}
+	# 	}
+	# 	localisation_key = DON_HOST_NAME
+	# }
+	
+	# Kuban Host (if tag exists in mod)
+	# text = {
+	# 	trigger = {
+	# 		tag = KUB
+	# 		OR = {
+	# 			has_reform = cossacks_reform
+	# 			has_reform = zaz_sich_brotherhood_reform
+	# 		}
+	# 	}
+	# 	localisation_key = KUBAN_HOST_NAME
+	# }
+	
+	# Terek Host (if tag exists in mod)
+	# text = {
+	# 	trigger = {
+	# 		tag = TRK
+	# 		OR = {
+	# 			has_reform = cossacks_reform
+	# 			has_reform = zaz_sich_brotherhood_reform
+	# 		}
+	# 	}
+	# 	localisation_key = TEREK_HOST_NAME
+	# }
+	
+	# Generic Cossack Host (fallback for any Cossack-governed state)
+	text = {
+		trigger = {
+			OR = {
+				has_reform = cossacks_reform
+				has_reform = zaz_sich_brotherhood_reform
+				has_reform = het_starshyna_oligarchy_reform
+			}
+			primary_culture = ruthenian
+		}
+		localisation_key = COSSACK_HOST_GENERIC
+	}
+	
+	# Default: regular country name
+	text = {
+		localisation_key = COUNTRY_NAME_DEFAULT
+	}
+}
+
+# Rank-based titles for Cossack Hosts
+defined_text = {
+	name = GetCossackHostRank
+	
+	# Rank 1: Local Host
+	text = {
+		trigger = {
+			government_rank = 1
+			OR = {
+				has_reform = cossacks_reform
+				has_reform = zaz_sich_brotherhood_reform
+			}
+		}
+		localisation_key = COSSACK_HOST_RANK_1
+	}
+	
+	# Rank 2: Great Host
+	text = {
+		trigger = {
+			government_rank = 2
+			OR = {
+				has_reform = cossacks_reform
+				has_reform = zaz_sich_brotherhood_reform
+			}
+		}
+		localisation_key = COSSACK_HOST_RANK_2
+	}
+	
+	# Rank 3: Imperial Host
+	text = {
+		trigger = {
+			government_rank = 3
+			OR = {
+				has_reform = cossacks_reform
+				has_reform = zaz_sich_brotherhood_reform
+			}
+		}
+		localisation_key = COSSACK_HOST_RANK_3
+	}
+	
+	# Default
+	text = {
+		localisation_key = ""
+	}
+}
+
+# Host Commander Title
+defined_text = {
+	name = GetCossackHostCommander
+	
+	# Zaporozhian Sich - Kosh Otaman
+	text = {
+		trigger = {
+			tag = ZAZ
+			has_reform = zaz_sich_brotherhood_reform
+		}
+		localisation_key = KOSH_OTAMAN_TITLE
+	}
+	
+	# Hetmanate - Hetman
+	text = {
+		trigger = {
+			tag = HET
+		}
+		localisation_key = HETMAN_TITLE
+	}
+	
+	# Don Host - Ataman (if tag exists)
+	# text = {
+	# 	trigger = {
+	# 		tag = DON
+	# 		has_reform = cossacks_reform
+	# 	}
+	# 	localisation_key = DON_ATAMAN_TITLE
+	# }
+	
+	# Generic - Otaman
+	text = {
+		trigger = {
+			has_reform = cossacks_reform
+		}
+		localisation_key = COSSACK_OTAMAN_GENERIC
+	}
+	
+	# Default
+	text = {
+		localisation_key = RULER_TITLE_DEFAULT
+	}
+}

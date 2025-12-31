@@ -1,0 +1,105 @@
+# =========================================================================
+# GREEK CATHOLIC SCRIPTED TRIGGERS
+# =========================================================================
+
+# Check if country is Greek Catholic or pursuing union
+is_greek_catholic_nation = {
+	OR = {
+		religion = greek_catholic
+		has_country_flag = pursuing_uniate_union
+	}
+}
+
+# Check if country can convert to Greek Catholic
+can_convert_to_greek_catholic = {
+	OR = {
+		religion = orthodox
+		religion = catholic
+	}
+	any_neighbor_country = {
+		religion = greek_catholic
+	}
+}
+
+# Check if province can convert to Greek Catholic
+can_province_convert_greek_catholic = {
+	OR = {
+		religion = orthodox
+		religion = catholic
+	}
+	OR = {
+		any_neighbor_province = {
+			religion = greek_catholic
+		}
+		owner = {
+			religion = greek_catholic
+		}
+	}
+}
+
+# Check if country is in Greek Catholic cultural area
+is_ruthenian_culture_area = {
+	OR = {
+		culture_group = east_slavic
+		primary_culture = ruthenian
+		primary_culture = byelorussian
+	}
+}
+
+# Check if province is suitable for Greek Catholic center
+is_suitable_greek_catholic_center = {
+	religion = orthodox
+	development = 15
+	OR = {
+		province_id = 268 # Lviv
+		province_id = 280 # Kyiv
+		province_id = 272 # Vilnius
+		province_id = 275 # Minsk
+		province_id = 1943 # Polotsk
+	}
+}
+
+# Check if Greek Catholic faith is spreading
+greek_catholic_reformation_spreading = {
+	OR = {
+		has_country_modifier = greek_catholic_reformation_active
+		has_country_modifier = greek_catholic_missionary_activity
+		any_owned_province = {
+			has_province_modifier = greek_catholic_center
+		}
+	}
+}
+
+# Check for Orthodox-Greek Catholic tensions
+has_orthodox_greek_catholic_tensions = {
+	OR = {
+		any_owned_province = {
+			religion = orthodox
+			any_neighbor_province = {
+				religion = greek_catholic
+			}
+		}
+		any_neighbor_country = {
+			religion = orthodox
+			NOT = { alliance_with = ROOT }
+		}
+	}
+}
+
+# Check for Catholic-Greek Catholic cooperation potential
+can_cooperate_with_catholics = {
+	religion = greek_catholic
+	OR = {
+		any_ally = {
+			religion = catholic
+		}
+		any_neighbor_country = {
+			religion = catholic
+			has_opinion = {
+				who = ROOT
+				value = 100
+			}
+		}
+		alliance_with = PAP
+	}
+}
