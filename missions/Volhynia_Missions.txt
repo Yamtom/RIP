@@ -120,6 +120,10 @@ VOL_missions_1 = {
 				}
 				add_permanent_claim = ROOT
 			}
+			if = {
+				limit = { tag = HLC }
+				country_event = { id = rip_galicia.1 days = 1 }
+			}
 			add_dip_power = 25
 			add_adm_power = 25
 		}
@@ -242,9 +246,7 @@ VOL_missions_U_1 = {
 	slot = 1
 	generic = no
 	ai = yes
-	potential = {
-		tag = VOL
-	}
+	potential = { tag = VOL }
 	has_country_shield = yes
 	VOL_demolish_poland = {
 		icon = mission_cannons_firing
@@ -356,6 +358,7 @@ VOL_missions_2 = {
 		}
 	}
 }
+
 
 VOL_missions_U_2 = {
 	slot = 2
@@ -844,21 +847,15 @@ VOL_missions_4 = {
 		}
 	}
 	has_country_shield = yes
+	# Absolutist thrust shared across tags
 	VOL_king_power = {
 		icon = mission_conquer_5_states
-		required_missions = {
-			VOL_church
-		}
+		required_missions = { VOL_church }
 		position = 2
-		provinces_to_highlight = {
-			area = red_ruthenia_area
-		}
+		provinces_to_highlight = { area = red_ruthenia_area }
 		trigger = {
 			absolutism = 50
-			red_ruthenia_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+			red_ruthenia_area = { type = all country_or_non_sovereign_subject_holds = ROOT }
 		}
 		effect = {
 			dip_power_cost = -50
@@ -868,6 +865,77 @@ VOL_missions_4 = {
 				cossack_cavalry = ROOT
 				cossack_cavalry = ROOT
 				cossack_cavalry = ROOT
+			}
+		}
+	}
+}
+
+VOL_missions_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = VOL
+			tag = HLC
+		}
+	}
+	# HLC-only Austrian/Polish analogue column embedded into slot 4
+	hlc_carpathian_bulwark = {
+		icon = mission_conquer_50_development
+		required_missions = { VOL_unite_galicia }
+		position = 3
+		provinces_to_highlight = { area = red_ruthenia_area }
+		trigger = {
+			red_ruthenia_area = { type = all country_or_non_sovereign_subject_holds = ROOT }
+			num_of_owned_provinces_with = { value = 3 has_building = fort_15th }
+		}
+		effect = { add_country_modifier = { name = rip_galicia_carpathian_shield duration = 3650 } }
+	}
+
+	hlc_confessional_compact = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { hlc_carpathian_bulwark }
+		position = 4
+		trigger = { has_country_flag = rip_galicia_confessional_set }
+		effect = {
+			if = {
+				limit = { has_country_flag = rip_galicia_path_austria }
+				add_country_modifier = { name = rip_galicia_uniate_synod duration = 3650 }
+			}
+			if = {
+				limit = { has_country_flag = rip_galicia_path_poland }
+				add_country_modifier = { name = rip_galicia_orthodox_bastion duration = 3650 }
+			}
+			add_prestige = 10
+		}
+	}
+
+	hlc_halych_sejm_mission = {
+		icon = mission_assemble_an_army
+		required_missions = { VOL_conquer_malopolska }
+		position = 5
+		trigger = { OR = { has_country_flag = rip_galicia_path_poland accepted_culture = polish } }
+			effect = {
+				add_country_modifier = { name = rip_galicia_halych_sejm duration = 3650 }
+				add_adm_power = 50
+			}
+	}
+
+	hlc_constitutional_settlement = {
+		icon = mission_have_two_subjects
+		required_missions = { hlc_confessional_compact hlc_halych_sejm_mission }
+		position = 6
+		trigger = { has_country_flag = rip_galicia_constitution_done }
+		effect = {
+			if = {
+				limit = { has_country_modifier = rip_galicia_constitution }
+				add_adm_power = 50
+				add_dip_power = 25
+			}
+			if = {
+				limit = { has_country_modifier = rip_galicia_crown_and_sabre }
+				add_mil_power = 50
 			}
 		}
 	}

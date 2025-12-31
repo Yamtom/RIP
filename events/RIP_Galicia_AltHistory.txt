@@ -1,0 +1,126 @@
+namespace = rip_galicia
+
+# Galician alternative path: Austria-facing or Poland-facing, plus confessional and constitutional steps
+
+country_event = {
+	id = rip_galicia.1
+	title = rip_galicia.1.t
+	desc = rip_galicia.1.d
+	picture = COURT_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	trigger = {
+		tag = HLC
+	}
+
+	option = {
+		name = rip_galicia.1.a # Carpathian Shield (Austrian-leaning)
+		set_country_flag = rip_galicia_path_austria
+		add_country_modifier = {
+			name = rip_galicia_carpathian_shield
+			duration = 3650
+		}
+	}
+
+	option = {
+		name = rip_galicia.1.b # Halych Sejm (Polish-style liberties)
+		set_country_flag = rip_galicia_path_poland
+		add_stability = 1
+		add_country_modifier = {
+			name = rip_galicia_halych_sejm
+			duration = 3650
+		}
+	}
+}
+
+country_event = {
+	id = rip_galicia.2
+	title = rip_galicia.2.t
+	desc = rip_galicia.2.d
+	picture = REFORM_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = HLC
+		OR = {
+			has_country_flag = rip_galicia_path_austria
+			has_country_flag = rip_galicia_path_poland
+		}
+		NOT = { has_country_flag = rip_galicia_confessional_set }
+	}
+
+	mean_time_to_happen = {
+		months = 24
+	}
+
+	option = {
+		name = rip_galicia.2.a # Uniate Synod
+		set_country_flag = rip_galicia_confessional_set
+		add_papal_influence = 25
+		add_country_modifier = {
+			name = rip_galicia_uniate_synod
+			duration = 3650
+		}
+		add_country_modifier = {
+			name = rip_galicia_sejm_uniate
+			duration = 3650
+		}
+	}
+
+	option = {
+		name = rip_galicia.2.b # Orthodox Bastion
+		set_country_flag = rip_galicia_confessional_set
+		add_legitimacy = 10
+		if = {
+			limit = { religion = orthodox }
+			add_patriarch_authority = 0.05
+		}
+		add_country_modifier = {
+			name = rip_galicia_orthodox_bastion
+			duration = 3650
+		}
+	}
+}
+
+country_event = {
+	id = rip_galicia.3
+	title = rip_galicia.3.t
+	desc = rip_galicia.3.d
+	picture = REVOLUTION_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = HLC
+		has_country_flag = rip_galicia_confessional_set
+		NOT = { has_country_flag = rip_galicia_constitution_done }
+	}
+
+	mean_time_to_happen = {
+		months = 36
+	}
+
+	option = {
+		name = rip_galicia.3.a # Constitution of Danylo
+		set_country_flag = rip_galicia_constitution_done
+		add_adm_power = 50
+		add_dip_power = 50
+		add_country_modifier = {
+			name = rip_galicia_constitution
+			duration = 7300
+		}
+	}
+
+	option = {
+		name = rip_galicia.3.b # Crown and Sabre
+		set_country_flag = rip_galicia_constitution_done
+		add_stability = 1
+		add_country_modifier = {
+			name = rip_galicia_crown_and_sabre
+			duration = 7300
+		}
+	}
+}

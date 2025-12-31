@@ -693,6 +693,93 @@ uzh_carpathian_border_commissariat_reform = {
 	}
 }
 
+# -------------------------------------------------------------------------
+# Galicia: hybrid reforms combining local custom with Austrian and Polish models
+# -------------------------------------------------------------------------
+
+hlc_galician_voivodeship_reform = {
+	icon = "assembly_hall"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = HLC
+	}
+	trigger = {
+		tag = HLC
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.10
+		state_maintenance_modifier = -0.10
+		global_unrest = -1
+		reform_progress_growth = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_confessional_dualism_reform = {
+	icon = "holy_state"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = HLC
+	}
+	trigger = {
+		tag = HLC
+		has_country_flag = rip_galicia_confessional_set
+	}
+	modifiers = {
+		tolerance_heretic = 2
+		tolerance_heathen = 1
+		religious_unity = 0.20
+		stability_cost_modifier = -0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_crown_and_sejm_reform = {
+	icon = "bureaucracy"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = HLC
+	}
+	trigger = {
+		tag = HLC
+		has_country_flag = rip_galicia_constitution_done
+	}
+	modifiers = {
+		max_absolutism = 10
+		reform_progress_growth = 0.10
+		advisor_cost = -0.10
+		global_tax_modifier = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
 divine_tsyisar_reform = {
 	icon = "king_highlighted"
 	allow_normal_conversion = yes
