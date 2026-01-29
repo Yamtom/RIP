@@ -1,0 +1,610 @@
+namespace = border_principalities
+
+# Dmitri Shemyaka's Descendants in Rylsk
+border_principalities.1 = {
+	type = country_event
+	title = border_principalities.1.t
+	desc = border_principalities.1.d
+	picture = COURT_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = LIT
+		is_year = 1444
+		NOT = { is_year = 1500 }
+		owns = 295  # Rylsk
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = {  # Grant Rylsk to Shemyaka heirs as vassal
+		name = border_principalities.1.a
+		ai_chance = { factor = 80 }
+		
+		295 = {
+			add_province_modifier = {
+				name = shemyaka_rurikid_rule
+				duration = -1
+			}
+		}
+		add_country_modifier = {
+			name = border_vassal_buffer
+			duration = 7300  # 20 years
+		}
+	}
+	
+	option = {  # Keep direct control
+		name = border_principalities.1.b
+		ai_chance = { factor = 20 }
+		
+		add_stability_or_adm_power = yes
+		295 = {
+			add_unrest = 3
+		}
+	}
+}
+
+# Glinski Family and Mamai's Descendants in Hlinsk
+border_principalities.2 = {
+	type = country_event
+	title = border_principalities.2.t
+	desc = border_principalities.2.d
+	picture = DIPLOMATIC_HEATHENS_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = LIT
+		is_year = 1444
+		NOT = { is_year = 1500 }
+		OR = {
+			owns = 296  # Bryansk area
+			owns = 1960  # Severia
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 18
+	}
+	
+	option = {  # Grant lands to Glinski and settle Tatars
+		name = border_principalities.2.a
+		ai_chance = { factor = 70 }
+		
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = severia_area
+					area = bryansk_area
+				}
+			}
+			add_province_modifier = {
+				name = glinski_tatar_settlement
+				duration = -1
+			}
+			add_base_manpower = 1
+		}
+		add_country_modifier = {
+			name = tatar_border_defense
+			duration = 9125  # 25 years
+		}
+	}
+	
+	option = {  # Refuse Glinski's petition
+		name = border_principalities.2.b
+		ai_chance = { factor = 30 }
+		
+		add_prestige = 5
+		add_country_modifier = {
+			name = refused_powerful_family
+			duration = 3650
+		}
+	}
+}
+
+# Jagoldai Khanate - Golden Horde Vassal
+border_principalities.3 = {
+	type = country_event
+	title = border_principalities.3.t
+	desc = border_principalities.3.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = LIT
+		is_year = 1444
+		NOT = { is_year = 1480 }
+		owns = 2408  # Kursk
+	}
+	
+	mean_time_to_happen = {
+		months = 24
+	}
+	
+	option = {  # Accept Jagoldai's settlement
+		name = border_principalities.3.a
+		ai_chance = { factor = 75 }
+		
+		2408 = {
+			add_province_modifier = {
+				name = jagoldai_horde_settlement
+				duration = -1
+			}
+			add_base_cavalry = 2
+		}
+		add_country_modifier = {
+			name = horde_vassal_buffer
+			duration = 9125
+		}
+	}
+	
+	option = {  # Refuse horde settlement
+		name = border_principalities.3.b
+		ai_chance = { factor = 25 }
+		
+		add_legitimacy = 10
+		2408 = {
+			add_unrest = 2
+		}
+	}
+}
+
+# Rylsk Defects to Muscovy (1500-1503 War Context)
+border_principalities.4 = {
+	type = country_event
+	title = border_principalities.4.t
+	desc = border_principalities.4.d
+	picture = BORDER_TENSION_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = LIT
+		is_year = 1500
+		NOT = { is_year = 1510 }
+		owns = 295  # Rylsk
+		295 = { has_province_modifier = shemyaka_rurikid_rule }
+		exists = MOS
+		MOS = {
+			is_neighbor_of = ROOT
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 36
+		modifier = {
+			factor = 0.8
+			NOT = { legitimacy = 50 }
+		}
+		modifier = {
+			factor = 0.7
+			is_at_war = yes
+		}
+	}
+	
+	option = {  # Try to keep Rylsk loyal
+		name = border_principalities.4.a
+		ai_chance = { factor = 60 }
+		
+		add_prestige = -10
+		295 = {
+			add_loyalty = 10
+		}
+		random_list = {
+			30 = {  # Rylsk defects anyway
+				MOS = {
+					country_event = { id = border_principalities.5 days = 30 }
+				}
+			}
+			70 = {  # Loyalty maintained
+				add_country_modifier = {
+					name = strengthened_border_vassals
+					duration = 3650
+				}
+			}
+		}
+	}
+	
+	option = {  # Let them go peacefully
+		name = border_principalities.4.b
+		ai_chance = { factor = 10 }
+		
+		295 = {
+			cede_province = MOS
+			remove_province_modifier = shemyaka_rurikid_rule
+		}
+		add_prestige = -15
+		add_truce_with = MOS
+	}
+	
+	option = {  # Punish their treachery!
+		name = border_principalities.4.c
+		ai_chance = { factor = 30 }
+		
+		declare_war_with_cb = {
+			who = MOS
+			casus_belli = cb_restore_personal_union
+			war_goal_province = 295
+		}
+	}
+}
+
+# Muscovy Receives Rylsk Defection
+border_principalities.5 = {
+	type = country_event
+	title = border_principalities.5.t
+	desc = border_principalities.5.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {  # Welcome the Shemyaka heirs
+		name = border_principalities.5.a
+		
+		295 = {
+			if = {
+				limit = { owned_by = LIT }
+				cede_province = ROOT
+			}
+			remove_province_modifier = shemyaka_rurikid_rule
+		}
+		add_prestige = 10
+		add_legitimacy = 5
+		add_casus_belli = {
+			target = LIT
+			type = cb_core
+			months = 120
+		}
+	}
+}
+
+# Glinski Rebellion (1507-1508)
+border_principalities.6 = {
+	type = country_event
+	title = border_principalities.6.t
+	desc = border_principalities.6.d
+	picture = ANGRY_MOB_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = LIT
+		is_year = 1507
+		NOT = { is_year = 1515 }
+		any_owned_province = {
+			has_province_modifier = glinski_tatar_settlement
+		}
+		exists = MOS
+	}
+	
+	mean_time_to_happen = {
+		months = 24
+		modifier = {
+			factor = 0.6
+			NOT = { legitimacy = 40 }
+		}
+		modifier = {
+			factor = 0.7
+			num_of_revolts = 1
+		}
+	}
+	
+	option = {  # Negotiate with Glinski
+		name = border_principalities.6.a
+		ai_chance = { factor = 40 }
+		
+		add_prestige = -10
+		add_years_of_income = -0.3
+		random_owned_province = {
+			limit = {
+				has_province_modifier = glinski_tatar_settlement
+			}
+			add_province_modifier = {
+				name = glinski_appeasement
+				duration = 3650
+			}
+		}
+		random_list = {
+			60 = {  # Glinski accepts
+				add_country_modifier = {
+					name = glinski_loyalty
+					duration = 7300
+				}
+			}
+			40 = {  # Glinski still rebels
+				country_event = { id = border_principalities.7 days = 60 }
+			}
+		}
+	}
+	
+	option = {  # Suppress Glinski firmly
+		name = border_principalities.6.b
+		ai_chance = { factor = 30 }
+		
+		add_mil_power = -50
+		random_owned_province = {
+			limit = {
+				has_province_modifier = glinski_tatar_settlement
+			}
+			spawn_rebels = {
+				type = noble_rebels
+				size = 2
+				friend = MOS
+			}
+		}
+	}
+	
+	option = {  # Exile Glinski family
+		name = border_principalities.6.c
+		ai_chance = { factor = 30 }
+		
+		MOS = {
+			country_event = { id = border_principalities.8 days = 10 }
+		}
+		random_owned_province = {
+			limit = {
+				has_province_modifier = glinski_tatar_settlement
+			}
+			remove_province_modifier = glinski_tatar_settlement
+			add_devastation = 20
+		}
+	}
+}
+
+# Glinski Full Rebellion
+border_principalities.7 = {
+	type = country_event
+	title = border_principalities.7.t
+	desc = border_principalities.7.d
+	picture = CIVIL_WAR_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {  # Face the consequences
+		name = border_principalities.7.a
+		
+		random_owned_province = {
+			limit = {
+				has_province_modifier = glinski_tatar_settlement
+			}
+			spawn_rebels = {
+				type = noble_rebels
+				size = 3
+				friend = MOS
+			}
+		}
+		MOS = {
+			add_casus_belli = {
+				target = ROOT
+				type = cb_support_rebels
+				months = 60
+			}
+		}
+	}
+}
+
+# Muscovy Receives Glinski Defectors
+border_principalities.8 = {
+	type = country_event
+	title = border_principalities.8.t
+	desc = border_principalities.8.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {  # Welcome the Glinski princes
+		name = border_principalities.8.a
+		
+		add_prestige = 15
+		add_legitimacy = 10
+		add_adm_power = 50
+		add_country_modifier = {
+			name = glinski_advisors_muscovy
+			duration = 7300
+		}
+		add_casus_belli = {
+			target = LIT
+			type = cb_core
+			months = 120
+		}
+	}
+}
+
+# Jagoldai Switches Allegiance
+border_principalities.9 = {
+	type = country_event
+	title = border_principalities.9.t
+	desc = border_principalities.9.d
+	picture = HORDE_ALLIED_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = LIT
+		is_year = 1492
+		NOT = { is_year = 1505 }
+		owns = 2408  # Kursk
+		2408 = { has_province_modifier = jagoldai_horde_settlement }
+		exists = MOS
+	}
+	
+	mean_time_to_happen = {
+		months = 48
+		modifier = {
+			factor = 0.7
+			MOS = { army_size = LIT }
+		}
+		modifier = {
+			factor = 0.8
+			is_at_war = yes
+		}
+	}
+	
+	option = {  # Try to retain Jagoldai's loyalty
+		name = border_principalities.9.a
+		ai_chance = { factor = 50 }
+		
+		add_years_of_income = -0.25
+		random_list = {
+			40 = {  # Jagoldai stays loyal
+				add_country_modifier = {
+					name = jagoldai_loyalty
+					duration = 5475
+				}
+			}
+			60 = {  # Jagoldai defects
+				MOS = {
+					country_event = { id = border_principalities.10 days = 20 }
+				}
+			}
+		}
+	}
+	
+	option = {  # Let the horde vassals leave
+		name = border_principalities.9.b
+		ai_chance = { factor = 20 }
+		
+		2408 = {
+			cede_province = MOS
+			remove_province_modifier = jagoldai_horde_settlement
+		}
+		add_prestige = -10
+	}
+	
+	option = {  # War to keep them
+		name = border_principalities.9.c
+		ai_chance = { factor = 30 }
+		
+		declare_war_with_cb = {
+			who = MOS
+			casus_belli = cb_annex
+			war_goal_province = 2408
+		}
+	}
+}
+
+# Muscovy Receives Jagoldai Defection
+border_principalities.10 = {
+	type = country_event
+	title = border_principalities.10.t
+	desc = border_principalities.10.d
+	picture = HORDE_ALLIED_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {  # Welcome the Tatar cavalry
+		name = border_principalities.10.a
+		
+		2408 = {
+			if = {
+				limit = { owned_by = LIT }
+				cede_province = ROOT
+			}
+			remove_province_modifier = jagoldai_horde_settlement
+			add_province_modifier = {
+				name = jagoldai_muscovite_service
+				duration = -1
+			}
+		}
+		add_prestige = 10
+		add_mil_power = 50
+	}
+}
+
+# Starodub Switching Allegiance (Historical 1503)
+border_principalities.11 = {
+	type = country_event
+	title = border_principalities.11.t
+	desc = border_principalities.11.d
+	picture = BORDER_TENSION_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = LIT
+		is_year = 1500
+		NOT = { is_year = 1510 }
+		OR = {
+			owns = 1960  # Starodub area
+			owns = 296   # Bryansk area
+		}
+		exists = MOS
+		MOS = {
+			is_neighbor_of = ROOT
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 30
+		modifier = {
+			factor = 0.6
+			is_at_war = yes
+		}
+		modifier = {
+			factor = 0.7
+			MOS = { 
+				military_strength = {
+					who = ROOT
+					value = 1.2
+				}
+			}
+		}
+	}
+	
+	option = {  # Fight to keep Severia
+		name = border_principalities.11.a
+		ai_chance = { factor = 70 }
+		
+		MOS = {
+			add_casus_belli = {
+				target = ROOT
+				type = cb_core
+				months = 120
+			}
+			country_event = { id = border_principalities.12 days = 15 }
+		}
+	}
+	
+	option = {  # Let them go
+		name = border_principalities.11.b
+		ai_chance = { factor = 30 }
+		
+		add_prestige = -20
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = severia_area
+					area = bryansk_area
+				}
+			}
+			cede_province = MOS
+		}
+		add_truce_with = MOS
+	}
+}
+
+# Muscovy Receives Starodub Offer
+border_principalities.12 = {
+	type = country_event
+	title = border_principalities.12.t
+	desc = border_principalities.12.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {  # Accept the princes of Severia
+		name = border_principalities.12.a
+		
+		add_prestige = 15
+		add_legitimacy = 10
+		add_casus_belli = {
+			target = LIT
+			type = cb_core
+			months = 120
+		}
+	}
+}
