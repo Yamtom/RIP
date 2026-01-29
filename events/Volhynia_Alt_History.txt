@@ -1,0 +1,394 @@
+########################################
+# Volhynia (VOL) Alternative History Events
+# Designed to mirror Hungarian and Lithuanian paths,
+# but as junior partner to Galicia (HLC)
+########################################
+
+namespace = rip_vol_alt_history
+
+# Event 1: Eastern Partnership — Carpathian Union (Austrian analogue)
+country_event = {
+	id = rip_vol_alt_history.1
+	title = rip_vol_alt_history.1.t
+	desc = rip_vol_alt_history.1.d
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+	
+	option = {
+		name = rip_vol_alt_history.1.a # Accept Carpathian Federation
+		trigger = {
+			has_country_flag = rip_vol_eastern_path
+			alliance = HLC
+		}
+		set_country_flag = rip_vol_carpathian_partner
+		add_country_modifier = {
+			name = vol_carpathian_integration
+			duration = -1
+		}
+		HLC = {
+			add_opinion = {
+				who = ROOT
+				modifier = vol_carpathian_brother
+				years = 50
+			}
+		}
+		add_adm_power = 100
+	}
+	
+	option = {
+		name = rip_vol_alt_history.1.b # Pursue Independent Path
+		trigger = {
+			has_country_flag = rip_vol_eastern_path
+		}
+		clr_country_flag = rip_vol_eastern_path
+		set_country_flag = rip_vol_independent
+		add_prestige = -10
+		add_adm_power = 50
+	}
+}
+
+# Event 2: Baltic Dominion — Grand Ruthenia (Lithuanian analogue)
+country_event = {
+	id = rip_vol_alt_history.2
+	title = rip_vol_alt_history.2.t
+	desc = rip_vol_alt_history.2.d
+	picture = EXPANSION_eventPicture
+	is_triggered_only = yes
+	
+	option = {
+		name = rip_vol_alt_history.2.a # Embrace Grand Ruthenia
+		trigger = {
+			has_country_flag = rip_vol_grand_ruthenia
+		}
+		set_country_flag = rip_vol_grand_ruthenia_confirmed
+		add_country_modifier = {
+			name = vol_grand_ruthenia_hegemony
+			duration = -1
+		}
+		add_dip_power = 150
+		add_prestige = 75
+		every_province = {
+			limit = {
+				region = ruthenia_region
+				owned_by = ROOT
+			}
+			add_province_modifier = {
+				name = vol_ruthenian_consolidation
+				duration = 7300
+			}
+		}
+	}
+	
+	option = {
+		name = rip_vol_alt_history.2.b # Regional Hegemon Only
+		clr_country_flag = rip_vol_grand_ruthenia
+		add_country_modifier = {
+			name = vol_regional_power
+			duration = 5475
+		}
+		add_mil_power = 75
+	}
+}
+
+# Event 3: Confessional Balance — Eastern Syncretic Path
+country_event = {
+	id = rip_vol_alt_history.3
+	title = rip_vol_alt_history.3.t
+	desc = rip_vol_alt_history.3.d
+	picture = RELIGION_eventPicture
+	is_triggered_only = yes
+	
+	option = {
+		name = rip_vol_alt_history.3.a # Orthodox Foundation
+		set_country_flag = rip_vol_confessional_orthodox
+		add_country_modifier = {
+			name = vol_orthodox_confesionalism
+			duration = -1
+		}
+		add_church_power = 100
+		tolerance_own = 1
+	}
+	
+	option = {
+		name = rip_vol_alt_history.3.b # Uniate Synthesis (Greek-Catholic)
+		set_country_flag = rip_vol_confessional_uniate
+		add_country_modifier = {
+			name = vol_uniate_synthesis
+			duration = -1
+		}
+		add_papal_influence = 50
+	}
+	
+	option = {
+		name = rip_vol_alt_history.3.c # Pluralist Balance
+		set_country_flag = rip_vol_confessional_plural
+		add_country_modifier = {
+			name = vol_religious_tolerance
+			duration = -1
+		}
+		add_dip_power = 50
+	}
+}
+
+# Event 4: Constitutional Assembly — VOL Institutional Development
+country_event = {
+	id = rip_vol_alt_history.4
+	title = rip_vol_alt_history.4.t
+	desc = rip_vol_alt_history.4.d
+	picture = DEBATE_REPUBLICAN_eventPicture
+	is_triggered_only = yes
+	
+	option = {
+		name = rip_vol_alt_history.4.a # Crown and Sejmik (Polish-inspired)
+		set_country_flag = rip_vol_crown_and_sejmik
+		add_country_modifier = {
+			name = vol_crown_and_sejmik_reform
+			duration = -1
+		}
+		add_adm_power = 50
+		add_dip_power = 50
+	}
+	
+	option = {
+		name = rip_vol_alt_history.4.b # Voivodeship Assembly (Hungarian-inspired)
+		set_country_flag = rip_vol_voivodeship_assembly
+		add_country_modifier = {
+			name = vol_voivodeship_assembly_reform
+			duration = -1
+		}
+		add_adm_power = 75
+		max_absolutism = 5
+	}
+	
+	option = {
+		name = rip_vol_alt_history.4.c # Cossack Radical Democracy
+		set_country_flag = rip_vol_cossack_democracy
+		add_country_modifier = {
+			name = vol_cossack_democratic_reform
+			duration = -1
+		}
+		add_mil_power = 75
+		add_legitimacy = 25
+	}
+}
+
+# Event 5: VOL-HLC Galician Union Proposal (mirrors PLC or AUH formation)
+country_event = {
+	id = rip_vol_alt_history.5
+	title = rip_vol_alt_history.5.t
+	desc = rip_vol_alt_history.5.d
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	trigger = {
+		tag = VOL
+		exists = HLC
+		HLC = {
+			num_of_owned_provinces = 10
+		}
+		num_of_owned_provinces = 15
+		alliance = HLC
+		has_country_flag = rip_vol_carpathian_partner
+		OR = {
+			HLC = { has_country_flag = rip_galicia_path_austria }
+			HLC = { has_country_flag = rip_galicia_path_poland }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 24
+		modifier = {
+			factor = 0.8
+			has_country_flag = rip_vol_eastern_path
+		}
+	}
+	
+	option = {
+		name = rip_vol_alt_history.5.a # Form Carpathian Union
+		set_country_flag = rip_vol_carpathian_union_formed
+		HLC = {
+			set_country_flag = hlc_carpathian_union_formed
+			add_opinion = {
+				who = ROOT
+				modifier = vol_eternal_union
+				years = 100
+			}
+		}
+		create_union = HLC
+		add_prestige = 100
+		add_adm_power = 200
+	}
+	
+	option = {
+		name = rip_vol_alt_history.5.b # Maintain Alliance Only
+		add_opinion = {
+			who = HLC
+			modifier = vol_reject_union
+			years = 20
+		}
+		add_prestige = 25
+	}
+}
+
+# Event 6: Hungarian Parallel — Voivode Succession Crisis
+country_event = {
+	id = rip_vol_alt_history.6
+	title = rip_vol_alt_history.6.t
+	desc = rip_vol_alt_history.6.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		tag = VOL
+		has_country_flag = rip_vol_voivodeship_assembly
+		government = monarchy
+		current_age = age_of_absolutism
+	}
+	
+	option = {
+		name = rip_vol_alt_history.6.a # Empower Voivode Assembly
+		add_country_modifier = {
+			name = vol_voivode_empowered
+			duration = 7300
+		}
+		add_dip_power = 50
+	}
+	
+	option = {
+		name = rip_vol_alt_history.6.b # Centralize Monarchical Power
+		add_country_modifier = {
+			name = vol_monarchical_centralization
+			duration = 7300
+		}
+		add_legitimacy = 15
+		add_absolutism = 10
+	}
+	
+	option = {
+		name = rip_vol_alt_history.6.c # Cossack Uprising
+		add_country_modifier = {
+			name = vol_cossack_upheaval
+			duration = 3650
+		}
+		add_stability = -1
+		add_war_exhaustion = 2
+		random_owned_province = {
+			limit = {
+				culture = ruthenian
+				development = 10
+			}
+			spawn_rebels = {
+				type = cossack_rebels
+				size = 2
+				unrest = 5
+			}
+		}
+	}
+}
+
+# Event 7: Lithuanian Parallel — Northern Expansion Crisis
+country_event = {
+	id = rip_vol_alt_history.7
+	title = rip_vol_alt_history.7.t
+	desc = rip_vol_alt_history.7.d
+	picture = CONQUEST_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		tag = VOL
+		has_country_flag = rip_vol_grand_ruthenia_confirmed
+		num_of_owned_provinces = 30
+		current_age = age_of_absolutism
+	}
+	
+	option = {
+		name = rip_vol_alt_history.7.a # Assert Ruthenia Grand Duchess
+		set_government_rank = 3
+		add_country_modifier = {
+			name = vol_grand_duchess_authority
+			duration = -1
+		}
+		add_prestige = 50
+	}
+	
+	option = {
+		name = rip_vol_alt_history.7.b # Support Elective Principles
+		add_country_modifier = {
+			name = vol_elective_principles
+			duration = 7300
+		}
+		add_legitimacy = -10
+		add_republican_tradition = 15
+	}
+}
+
+# Event 8: Confessional Crisis — Synod of Ruthenia
+country_event = {
+	id = rip_vol_alt_history.8
+	title = rip_vol_alt_history.8.t
+	desc = rip_vol_alt_history.8.d
+	picture = RELIGION_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		tag = VOL
+		OR = {
+			has_country_flag = rip_vol_confessional_orthodox
+			has_country_flag = rip_vol_confessional_uniate
+			has_country_flag = rip_vol_confessional_plural
+		}
+		religious_unity = 0.6
+		current_age = age_of_enlightenment
+	}
+	
+	mean_time_to_happen = {
+		months = 36
+	}
+	
+	option = {
+		name = rip_vol_alt_history.8.a # Orthodox Consolidation
+		if = {
+			limit = { has_country_flag = rip_vol_confessional_orthodox }
+			add_country_modifier = {
+				name = vol_orthodox_consolidated
+				duration = 7300
+			}
+			religious_unity = 0.1
+		}
+		if = {
+			limit = { has_country_flag = rip_vol_confessional_uniate }
+			add_stability = -1
+		}
+	}
+	
+	option = {
+		name = rip_vol_alt_history.8.b # Protect Uniate Autonomy
+		if = {
+			limit = { has_country_flag = rip_vol_confessional_uniate }
+			add_country_modifier = {
+				name = vol_uniate_protected
+				duration = 7300
+			}
+			add_papal_influence = 100
+		}
+		if = {
+			limit = { has_country_flag = rip_vol_confessional_orthodox }
+			add_stability = -1
+		}
+	}
+	
+	option = {
+		name = rip_vol_alt_history.8.c # Religious Tolerance Edict
+		if = {
+			limit = { has_country_flag = rip_vol_confessional_plural }
+			add_country_modifier = {
+				name = vol_tolerance_edict
+				duration = -1
+			}
+			tolerance_heretic = 1
+			tolerance_heathen = 1
+		}
+		add_dip_power = 75
+	}
+}

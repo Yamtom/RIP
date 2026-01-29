@@ -1310,3 +1310,1270 @@ VOL_missions_U_5 = {
 		}
 	}
 }
+# =========================================================================
+# VLNHYNIA (VOL) ALTERNATIVE HISTORY MISSIONS
+# =========================================================================
+# Design Goal: Develop VLN as the junior partner to Galicia (HLC),
+# with two diverging paths analogous to Hungarian (AUH) and Lithuanian (LIT)
+# historical development, but without dependency on PLC or AUH
+#
+# Path 1: "Eastern Partnership" — VLN allies with HLC to form a Central-Eastern
+#         European federation similar to a "Carpathian Union" (non-AUH model)
+#
+# Path 2: "Baltic Alliance" — VLN marches northward through Lithuania analogue,
+#         forming a "Grand Ruthenia" without PLC institutional constraints
+#
+# Core Mechanic: Synergy flags rip_vol_eastern_path / rip_vol_baltic_path
+#                unlock VLN-HLC government reforms and mission rewards
+# =========================================================================
+
+VLN_alt_history_path_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = VLN
+		exists = HLC
+	}
+	has_country_shield = yes
+
+	VLN_galician_alliance = {
+		icon = mission_alliances
+		required_missions = {
+			VLN_declare_independence
+		}
+		position = 2
+		provinces_to_highlight = {
+			region = ruthenia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			alliance = HLC
+			HLC = {
+				num_of_owned_provinces = 5
+				OR = {
+					has_country_flag = rip_galicia_path_austria
+					has_country_flag = rip_galicia_path_poland
+				}
+			}
+		}
+		effect = {
+			set_country_flag = rip_vol_eastern_path
+			HLC = { 
+				add_country_modifier = {
+					name = VLN_galician_brotherhood
+					duration = 7300
+				}
+			}
+			add_country_modifier = {
+				name = VLN_galician_brotherhood
+				duration = 7300
+			}
+			red_ruthenia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+		ai_weight = {
+			factor = 100
+		}
+	}
+
+	VLN_carpathian_federation_eastern = {
+		icon = mission_form_nation
+		required_missions = {
+			VLN_galician_alliance
+			VLN_unite_galicia
+		}
+		position = 3
+		trigger = {
+			has_country_flag = rip_vol_eastern_path
+			HLC = { has_country_flag = rip_galicia_path_austria }
+			num_of_owned_provinces = 15
+			is_subject = no
+		}
+		effect = {
+			set_country_flag = rip_vol_carpathian_federation
+			# Federated authority boost
+			add_country_modifier = {
+				name = VLN_carpathian_federation_modifier
+				duration = -1
+			}
+			# Diplomatic bonuses
+			add_dip_power = 100
+			every_country = {
+				limit = {
+					tag = HLC
+					alliance = ROOT
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = VLN_carpathian_ally
+					years = 30
+				}
+			}
+		}
+		ai_weight = {
+			factor = 150
+		}
+	}
+
+	VLN_eastern_partnership_culmination = {
+		icon = mission_eastern_european_city
+		required_missions = {
+			VLN_carpathian_federation_eastern
+			VLN_restore_ruthenia
+		}
+		position = 4
+		trigger = {
+			has_country_flag = rip_vol_carpathian_federation
+			capital_scope = { development = 35 }
+			stability = 2
+			num_of_owned_provinces = 25
+		}
+		effect = {
+			add_country_modifier = {
+				name = VLN_eastern_prosperity
+				duration = 7300
+			}
+			add_adm_power = 150
+			add_prestige = 50
+			# Unlocks VLN-HLC government reform
+			country_event = {
+				id = rip_vol_alt_history.1
+			}
+		}
+		ai_weight = {
+			factor = 200
+		}
+	}
+}
+
+VLN_alt_history_path_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		tag = VLN
+		exists = HLC
+	}
+	has_country_shield = yes
+
+	VLN_baltic_aspirations = {
+		icon = mission_conquer_5_states
+		required_missions = {
+			VLN_declare_independence
+		}
+		position = 2
+		provinces_to_highlight = {
+			OR = {
+				area = lithuania_area
+				area = samogitia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			OR = {
+				NOT = { exists = LIT }
+				LIT = { is_subject = yes }
+			}
+			num_of_owned_provinces = 8
+			prestige = 30
+		}
+		effect = {
+			set_country_flag = rip_vol_baltic_path
+			lithuania_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			samogitia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = VLN_baltic_ambitions
+				duration = 5475
+			}
+		}
+		ai_weight = {
+			factor = 80
+		}
+	}
+
+	VLN_grand_ruthenia_baltic = {
+		icon = mission_unite_home_region
+		required_missions = {
+			VLN_baltic_aspirations
+			VLN_unite_galicia
+		}
+		position = 3
+		provinces_to_highlight = {
+			OR = {
+				area = lithuania_area
+				area = samogitia_area
+				area = red_ruthenia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			has_country_flag = rip_vol_baltic_path
+			lithuania_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			samogitia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			red_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			set_country_flag = rip_vol_grand_ruthenia
+			add_country_modifier = {
+				name = VLN_grand_ruthenia_modifier
+				duration = -1
+			}
+			set_government_rank = 3
+			add_accepted_culture = lithuanian
+			add_mil_power = 150
+		}
+		ai_weight = {
+			factor = 150
+		}
+	}
+
+	VLN_baltic_partnership_culmination = {
+		icon = mission_eastern_european_city
+		required_missions = {
+			VLN_grand_ruthenia_baltic
+			VLN_integrate_north
+		}
+		position = 4
+		trigger = {
+			has_country_flag = rip_vol_grand_ruthenia
+			capital_scope = { development = 35 }
+			stability = 2
+			num_of_owned_provinces = 30
+		}
+		effect = {
+			add_country_modifier = {
+				name = VLN_baltic_dominance
+				duration = 7300
+			}
+			add_dip_power = 100
+			add_prestige = 75
+			# Unlocks VLN-HLC government reform
+			country_event = {
+				id = rip_vol_alt_history.2
+			}
+		}
+		ai_weight = {
+			factor = 200
+		}
+	}
+}
+
+VLN_alt_history_galician_synergy = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		tag = VLN
+		exists = HLC
+	}
+	has_country_shield = yes
+
+	VLN_confessional_balance = {
+		icon = mission_build_holy_city
+		required_missions = { VLN_unite_galicia }
+		position = 2
+		trigger = {
+			OR = {
+				HLC = { has_country_flag = rip_galicia_confessional_set }
+				has_estate = estate_clergy
+			}
+			religious_unity = 0.5
+		}
+		effect = {
+			if = {
+				limit = { HLC = { has_country_flag = rip_galicia_confessional_set } }
+				set_country_flag = rip_vol_confessional_allied
+				add_country_modifier = {
+					name = VLN_confessional_dialogue
+					duration = 7300
+				}
+			}
+			# Unlocks confessional-based VLN reform
+			country_event = {
+				id = rip_vol_alt_history.3
+			}
+		}
+		ai_weight = {
+			factor = 100
+		}
+	}
+
+	VLN_constitutional_assembly = {
+		icon = mission_noble_council
+		required_missions = {
+			VLN_confessional_balance
+		}
+		position = 3
+		trigger = {
+			absolutism = 45
+			OR = {
+				has_country_modifier = VLN_carpathian_federation_modifier
+				has_country_flag = rip_vol_grand_ruthenia
+			}
+		}
+		effect = {
+			set_country_flag = rip_vol_constitution_done
+			add_country_modifier = {
+				name = VLN_constitutional_framework
+				duration = -1
+			}
+			add_adm_power = 75
+			# Event to unlock final VLN government reform
+			country_event = {
+				id = rip_vol_alt_history.4
+			}
+		}
+		ai_weight = {
+			factor = 120
+		}
+	}
+
+	VLN_ruthenian_renaissance = {
+		icon = mission_early_modern_university
+		required_missions = {
+			VLN_constitutional_assembly
+		}
+		position = 4
+		trigger = {
+			has_institution = renaissance
+			capital_scope = { development = 30 }
+			prestige = 50
+		}
+		effect = {
+			add_country_modifier = {
+				name = VLN_ruthenian_renaissance_modifier
+				duration = 7300
+			}
+			add_innovativeness = 20
+			add_adm_power = 100
+		}
+		ai_weight = {
+			factor = 100
+		}
+	}
+}
+
+VLN_alt_history_independence_arch = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		tag = VLN
+	}
+	has_country_shield = yes
+
+	VLN_declare_independence = {
+		icon = mission_have_two_subjects
+		required_missions = { }
+		position = 1
+		trigger = {
+			is_subject = no
+		}
+		effect = {
+			add_country_modifier = {
+				name = VLN_rebuild_nation
+				duration = 9125
+			}
+			add_prestige = 10
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	VLN_unite_galicia = {
+		icon = mission_conquer_50_development
+		required_missions = {
+			VLN_declare_independence
+		}
+		position = 2
+		provinces_to_highlight = {
+			OR = {
+				area = podolia_volhynia_area
+				area = red_ruthenia_area
+				area = VLNhynia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			podolia_volhynia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			red_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			volhynia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					NOT = { government_rank = 2 }
+				}
+				set_government_rank = 2
+			}
+			add_dip_power = 50
+			add_prestige = 25
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	VLN_integrate_north = {
+		icon = mission_assemble_an_army
+		required_missions = { VLN_unite_galicia }
+		position = 3
+		provinces_to_highlight = {
+			OR = {
+				area = minsk_area
+				area = white_ruthenia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			minsk_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			white_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_accepted_culture = belarusian
+			add_country_modifier = {
+				name = VLN_northern_integration
+				duration = 5475
+			}
+		}
+		ai_weight = {
+			factor = 100
+		}
+	}
+
+	VLN_restore_ruthenia = {
+		icon = mission_eastern_european_city
+		required_missions = {
+			VLN_integrate_north
+		}
+		position = 4
+		trigger = {
+			west_dniepr_area = {
+				type = all
+				owned_by = ROOT
+			}
+			east_dniepr_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = restored_ruthenia
+				duration = -1
+			}
+			add_adm_power = 100
+			add_prestige = 50
+		}
+		ai_weight = {
+			factor = 150
+		}
+	}
+}
+# ==========================================
+# Volhynia (VOL) - Alternative History Missions
+# Inspired by Hungarian (HUN) and Lithuanian (LIT) paths
+# ==========================================
+
+# Column 1: Eastern Partnership (Carpathian Federation - Hungarian model)
+VLN_alt_history_path_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = VLN
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	# Base mission: Independence (Universal)
+	VLN_declare_independence = {
+		icon = mission_pol_protect_ukraine
+		required_missions = { }
+		position = 1
+		
+		provinces_to_highlight = {
+			area = volhynia_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		trigger = {
+			is_subject = no
+			owns_or_non_sovereign_subject_of = 4346	# Volhynia
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = vol_rebuild_nation
+				duration = -1
+			}
+			add_prestige = 25
+		}
+	}
+	
+	# Step 1: Galician Alliance (Eastern Path trigger)
+	VLN_galician_alliance = {
+		icon = mission_pol_protect_hungary
+		required_missions = { VLN_declare_independence }
+		position = 2
+		
+		provinces_to_highlight = {
+			OR = {
+				area = galicia_area
+				area = red_ruthenia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		trigger = {
+			alliance = HLC
+			OR = {
+				owns_or_non_sovereign_subject_of = 4343	# Galicia
+				owns_or_non_sovereign_subject_of = 4344	# Red Ruthenia
+			}
+		}
+		
+		effect = {
+			set_country_flag = rip_vol_eastern_path
+			add_country_modifier = {
+				name = vol_galician_brotherhood
+				duration = -1
+			}
+			add_dip_power = 75
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	
+	# Step 2: Carpathian Federation (Hungarian-inspired - fekete_sereg analog)
+	VLN_carpathian_federation_eastern = {
+		icon = mission_fekete_sereg
+		required_missions = { VLN_galician_alliance }
+		position = 3
+		
+		provinces_to_highlight = {
+			OR = {
+				area = galicia_area
+				area = red_ruthenia_area
+				region = carpathian_region
+			}
+			NOT = { owned_by = ROOT }
+		}
+		
+		trigger = {
+			HLC = {
+				has_country_flag = rip_galicia_path_austria
+			}
+			num_of_owned_provinces_with = {
+				value = 8
+				OR = {
+					area = galicia_area
+					area = red_ruthenia_area
+				}
+			}
+			army_size = 25
+		}
+		
+		effect = {
+			set_country_flag = rip_vol_carpathian_federation
+			add_country_modifier = {
+				name = vol_carpathian_federation_modifier
+				duration = -1
+			}
+			HLC = {
+				add_opinion = {
+					who = ROOT
+					modifier = vol_carpathian_brother
+					years = 50
+				}
+			}
+			add_mil_power = 100
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	
+	# Step 3: Carpathian Military Supremacy (fekete_sereg full analog)
+	VLN_carpathian_black_legion = {
+		icon = gory_to_the_black_army
+		required_missions = { VLN_carpathian_federation_eastern }
+		position = 4
+		
+		trigger = {
+			has_country_flag = rip_vol_carpathian_federation
+			army_professionalism = 0.5
+			num_of_generals = 3
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = vol_eastern_military_tradition
+				duration = -1
+			}
+			add_mil_power = 150
+			add_prestige = 50
+		}
+	}
+	
+	# Step 4: Culmination Event
+	VLN_eastern_partnership_culmination = {
+		icon = mission_eastern_european_city
+		required_missions = { VLN_carpathian_black_legion }
+		position = 5
+		
+		trigger = {
+			has_country_flag = rip_vol_carpathian_federation
+			alliance = HLC
+		}
+		
+		effect = {
+			trigger_country_event = { id = rip_vol_alt_history.1 }
+			add_country_modifier = {
+				name = vol_eastern_prosperity
+				duration = -1
+			}
+			add_adm_power = 100
+		}
+	}
+}
+
+# Column 2: Baltic Path (Grand Ruthenia - Lithuanian model with Cossacks)
+VLN_alt_history_path_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		tag = VLN
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	# Step 1: Cossack Recruitment (Lithuanian sca_mission_lit_cossacks analog)
+	VLN_cossack_recruitment = {
+		icon = mission_cossack_cavalry
+		required_missions = { VLN_declare_independence }
+		position = 1
+		
+		provinces_to_highlight = {
+			area = zaporizhia_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 2
+				culture = ruthenian
+				development = 5
+			}
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = vol_cossack_recruitment
+				duration = -1
+			}
+			add_mil_power = 75
+		}
+		ai_weight = {
+			factor = 450
+		}
+	}
+	
+	# Step 2: Baltic Aspirations (Lithuanian expansion model)
+	VLN_baltic_aspirations = {
+		icon = mission_eastern_european_city
+		required_missions = { VLN_cossack_recruitment }
+		position = 2
+		
+		provinces_to_highlight = {
+			OR = {
+				area = lithuania_area
+				area = samogitia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		trigger = {
+			NOT = { has_country_flag = rip_vol_eastern_path }
+			OR = {
+				owns_or_non_sovereign_subject_of = 271	# Lithuania
+				owns_or_non_sovereign_subject_of = 3139	# Samogitia
+			}
+		}
+		
+		effect = {
+			set_country_flag = rip_vol_baltic_path
+			add_country_modifier = {
+				name = vol_baltic_ambitions
+				duration = -1
+			}
+			add_dip_power = 100
+		}
+		ai_weight = {
+			factor = 450
+		}
+	}
+	
+	# Step 3: Harness the Steppes (Lithuanian sca_lit_harness_steppes analog + Crimea)
+	VLN_harness_steppes = {
+		icon = mission_sca_lit_harness_steppes
+		required_missions = { VLN_baltic_aspirations }
+		position = 3
+		
+		provinces_to_highlight = {
+			OR = {
+				region = crimea_region
+				area = yedisan_area
+				area = north_caucasus_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 3
+				OR = {
+					region = crimea_region
+					area = yedisan_area
+				}
+			}
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = vol_steppe_master
+				duration = -1
+			}
+			add_mil_power = 125
+			add_prestige = 60
+		}
+	}
+	
+	# Step 4: Grand Ruthenia (Lithuanian LIT title elevation)
+	VLN_grand_ruthenia_baltic = {
+		icon = mission_lit_great_power_politics
+		required_missions = { VLN_harness_steppes }
+		position = 4
+		
+		provinces_to_highlight = {
+			OR = {
+				region = ruthenia_region
+				area = lithuania_area
+				area = samogitia_area
+			}
+			NOT = { owned_by = ROOT }
+		}
+		
+		trigger = {
+			owns_or_non_sovereign_subject_of = 271	# Lithuania
+			owns_or_non_sovereign_subject_of = 3139	# Samogitia
+			num_of_owned_provinces_with = {
+				value = 10
+				region = ruthenia_region
+			}
+			NOT = { has_country_flag = rip_vol_eastern_path }
+		}
+		
+		effect = {
+			set_country_flag = rip_vol_grand_ruthenia
+			change_government_rank_to = 3
+			add_country_modifier = {
+				name = vol_grand_ruthenia_modifier
+				duration = -1
+			}
+			add_prestige = 100
+			add_dip_power = 150
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	
+	# Step 5: Culmination
+	VLN_baltic_partnership_culmination = {
+		icon = mission_lit_great_power_politics
+		required_missions = { VLN_grand_ruthenia_baltic }
+		position = 5
+		
+		trigger = {
+			has_country_flag = rip_vol_grand_ruthenia
+			num_of_owned_provinces_with = {
+				value = 25
+				region = ruthenia_region
+			}
+		}
+		
+		effect = {
+			trigger_country_event = { id = rip_vol_alt_history.2 }
+			add_country_modifier = {
+				name = vol_baltic_dominance
+				duration = -1
+			}
+		}
+	}
+}
+
+# Column 3: Synergy Missions (Confessional & Constitutional)
+VLN_alt_history_galician_synergy = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		tag = VLN
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	# Confessional Balance (Hungarian hun_unity_in_belief + Lithuanian religious reforms)
+	VLN_confessional_balance = {
+		icon = mission_luther_theses
+		required_missions = { VLN_galician_alliance VLN_baltic_aspirations }
+		position = 2
+		
+		trigger = {
+			HLC = {
+				has_country_flag = rip_galicia_confessional_set
+			}
+			religious_unity = 0.5
+		}
+		
+		effect = {
+			set_country_flag = rip_vol_confessional_allied
+			trigger_country_event = { id = rip_vol_alt_history.3 }
+			add_country_modifier = {
+				name = vol_confessional_dialogue
+				duration = -1
+			}
+			add_dip_power = 75
+		}
+		ai_weight = {
+			factor = 400
+		}
+	}
+	
+	# Constitutional Assembly (Hungarian + Lithuanian governance hybrid)
+	VLN_constitutional_assembly = {
+		icon = reform_the_nomocanon
+		required_missions = { VLN_confessional_balance }
+		position = 3
+		
+		trigger = {
+			OR = {
+				has_country_flag = rip_vol_carpathian_federation
+				has_country_flag = rip_vol_grand_ruthenia
+			}
+			absolutism = 45
+		}
+		
+		effect = {
+			set_country_flag = rip_vol_constitution_done
+			trigger_country_event = { id = rip_vol_alt_history.4 }
+			add_country_modifier = {
+				name = vol_constitutional_framework
+				duration = -1
+			}
+			add_adm_power = 100
+		}
+		ai_weight = {
+			factor = 400
+		}
+	}
+	
+	# Ruthenian Renaissance (Hungarian bibliotheca_corviniana analog)
+	VLN_ruthenian_renaissance = {
+		icon = mission_lit_jesuit_academy
+		required_missions = { VLN_constitutional_assembly }
+		position = 4
+		
+		provinces_to_highlight = {
+			owned_by = ROOT
+			culture = ruthenian
+			development = 20
+		}
+		
+		trigger = {
+			has_country_flag = rip_vol_constitution_done
+			num_of_owned_provinces_with = {
+				value = 3
+				culture = ruthenian
+				development = 20
+			}
+			has_institution = renaissance
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = vol_ruthenian_renaissance_modifier
+				duration = -1
+			}
+			add_adm_power = 150
+			add_innovativeness = 20
+		}
+		ai_weight = {
+			factor = 350
+		}
+	}
+	
+	# Tier 8: Economical Matters - Develop Volhynia
+	VLN_develop_economy = {
+		icon = mission_the_great_city_of_buda
+		required_missions = { VLN_ruthenian_renaissance }
+		position = 5
+		
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				area = podolia_volhynia_area
+				area = galicia_area
+			}
+			NOT = { num_of_times_improved = 5 }
+		}
+		
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					area = podolia_volhynia_area
+					area = galicia_area
+				}
+				num_of_times_improved = 5
+			}
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = vol_economic_prosperity
+				duration = 7300
+			}
+			add_dip_power = 100
+		}
+		ai_weight = {
+			factor = 300
+		}
+	}
+	
+	# Tier 9: Legitimation of Power - Establish Legality
+	VLN_legitimate_crown = {
+		icon = mission_colonial_settlement
+		required_missions = { VLN_develop_economy }
+		position = 6
+		
+		trigger = {
+			absolutism = 60
+			has_country_flag = rip_vol_constitution_done
+			government_rank = 3
+		}
+		
+		effect = {
+			set_country_flag = rip_vol_legitimate_kingdom
+			add_country_modifier = {
+				name = vol_legitimate_authority
+				duration = -1
+			}
+			add_prestige = 100
+			add_adm_power = 75
+		}
+		ai_weight = {
+			factor = 350
+		}
+	}
+	
+	# Tier 10: Absolutism & Constitutionalism - Grand Ruthenia
+	VLN_grand_ruthenia = {
+		icon = mission_empire_crown
+		required_missions = { VLN_legitimate_crown }
+		position = 7
+		
+		trigger = {
+			has_country_flag = rip_vol_legitimate_kingdom
+			absolutism = 75
+			total_development = 250
+		}
+		
+		effect = {
+			set_country_flag = rip_vol_grand_ruthenia
+			change_government_rank_to = 3
+			add_country_modifier = {
+				name = vol_grand_ruthenia_authority
+				duration = -1
+			}
+			add_prestige = 150
+		}
+		ai_weight = {
+			factor = 400
+		}
+	}
+	
+	# Tier 11: Separation of Power - Universal Ruthenia
+	VLN_universal_ruthenia = {
+		icon = mission_three_continents
+		required_missions = { VLN_grand_ruthenia }
+		position = 8
+		
+		trigger = {
+			has_country_flag = rip_vol_grand_ruthenia
+			total_development = 350
+			num_of_owned_provinces_with = {
+				value = 40
+				region = ruthenia_region
+			}
+		}
+		
+		effect = {
+			set_country_flag = rip_vol_universal_ruthenia
+			add_country_modifier = {
+				name = vol_supreme_authority
+				duration = -1
+			}
+			add_prestige = 200
+			change_government_rank_to = 3
+		}
+		ai_weight = {
+			factor = 450
+		}
+	}
+}
+
+# Column 4: Universal Core Missions
+VLN_alt_history_independence_arch = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		tag = VLN
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	# Unite Galicia (Hungarian hun_vassal_states analog)
+	VLN_unite_galicia = {
+		icon = mission_unite_home_region
+		required_missions = { VLN_declare_independence }
+		position = 2
+		
+		provinces_to_highlight = {
+			OR = {
+				area = galicia_area
+				area = red_ruthenia_area
+				area = podolia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		trigger = {
+			galicia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			red_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		
+		effect = {
+			change_government_rank_to = 2
+			add_country_modifier = {
+				name = vol_galician_unification
+				duration = 7300
+			}
+			add_prestige = 50
+			add_mil_power = 75
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	
+	# Integrate North (Lithuanian expansion + White Ruthenia)
+	VLN_integrate_north = {
+		icon = mission_eastern_european_city
+		required_missions = { VLN_unite_galicia }
+		position = 3
+		
+		provinces_to_highlight = {
+			OR = {
+				area = white_ruthenia_area
+				area = minsk_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		trigger = {
+			white_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = vol_northern_integration
+				duration = -1
+			}
+			add_dip_power = 100
+			add_accepted_culture = belarusian
+		}
+		ai_weight = {
+			factor = 400
+		}
+	}
+	
+	# Restore Ruthenia (Both Dniepr regions - Lithuanian geographic expansion)
+	VLN_restore_ruthenia = {
+		icon = mission_eastern_european_city
+		required_missions = { VLN_integrate_north }
+		position = 4
+		
+		provinces_to_highlight = {
+			region = ruthenia_region
+			NOT = { owned_by = ROOT }
+		}
+		
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 15
+				region = ruthenia_region
+			}
+			owns_or_non_sovereign_subject_of = 4600	# West Dniepr
+			owns_or_non_sovereign_subject_of = 4634	# East Dniepr
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = restored_ruthenia
+				duration = -1
+			}
+			add_prestige = 75
+			add_adm_power = 125
+		}
+		ai_weight = {
+			factor = 400
+		}
+	}
+}
+
+# Column 5: Optional Advanced Paths (Hungarian prestige & Lithuanian Crimea)
+VLN_carpathian_prestige = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		tag = VLN
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	# Carpathian Bulwark (Hungarian defense against Ottoman analog)
+	VLN_carpathian_bulwark = {
+		icon = mission_non-western_soldiers
+		required_missions = { VLN_unite_galicia }
+		position = 2
+		
+		provinces_to_highlight = {
+			OR = {
+				area = galicia_area
+				area = red_ruthenia_area
+			}
+			owned_by = ROOT
+			NOT = { num_of_times_improved = 3 }
+		}
+		
+		trigger = {
+			has_country_flag = rip_vol_eastern_path
+			num_of_owned_provinces_with = {
+				value = 3
+				OR = {
+					area = galicia_area
+					area = red_ruthenia_area
+				}
+				num_of_times_improved = 3
+			}
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = vol_carpathian_bulwark_modifier
+				duration = -1
+			}
+			add_mil_power = 100
+		}
+	}
+	
+	# Conquer Crimea (Lithuanian sca_lit_conquer_crimea analog)
+	VLN_conquer_crimea = {
+		icon = mission_sca_lit_conquer_crimea
+		required_missions = { VLN_integrate_north }
+		position = 3
+		
+		provinces_to_highlight = {
+			region = crimea_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		trigger = {
+			has_country_flag = rip_vol_baltic_path
+			crimea_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = vol_crimean_conquest
+				duration = -1
+			}
+			add_prestige = 80
+			add_mil_power = 125
+		}
+		ai_weight = {
+			factor = 350
+		}
+	}
+}

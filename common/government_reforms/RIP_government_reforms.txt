@@ -697,6 +697,10 @@ uzh_carpathian_border_commissariat_reform = {
 # Galicia: hybrid reforms combining local custom with Austrian and Polish models
 # -------------------------------------------------------------------------
 
+# ==========================================
+# Galician (HLC) - Tier 1: Power Structure (Base)
+# ==========================================
+
 hlc_galician_voivodeship_reform = {
 	icon = "assembly_hall"
 	allow_normal_conversion = no
@@ -723,6 +727,165 @@ hlc_galician_voivodeship_reform = {
 		locked_government_type = yes
 	}
 }
+
+# ==========================================
+# Galician (HLC) - Tier 2: Noble Privileges
+# ==========================================
+
+hlc_magnate_assembly_reform = {
+	icon = "magnate"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = HLC
+	}
+	trigger = {
+		tag = HLC
+	}
+	modifiers = {
+		prestige = 1
+		stability_cost_modifier = -0.05
+		max_absolutism = -10
+		monthly_reform_progress = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Galician (HLC) - Tier 3: Bureaucracy
+# ==========================================
+
+hlc_centralized_voivodeship_reform = {
+	icon = "decentralized_bureaucracy"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = HLC
+	}
+	trigger = {
+		tag = HLC
+	}
+	modifiers = {
+		development_cost = -0.05
+		state_maintenance_modifier = -0.10
+		administrative_efficiency = 0.025
+		max_absolutism = 5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Galician (HLC) - Tier 4: Deliberative Assembly
+# ==========================================
+
+hlc_galician_sejm_reform = {
+	icon = "general_estates"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = HLC
+	}
+	trigger = {
+		tag = HLC
+	}
+	modifiers = {
+		reform_progress_growth = 0.15
+		stability_cost_modifier = -0.05
+		max_absolutism = -5
+		global_unrest = -0.5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Galician (HLC) - Tier 5: Administrative Cadre
+# ==========================================
+
+hlc_austrian_bureaucracy_reform = {
+	icon = "expanded_royal_court"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = HLC
+	}
+	trigger = {
+		tag = HLC
+	}
+	modifiers = {
+		advisor_cost = -0.10
+		meritocracy = 0.25
+		governing_capacity_modifier = 0.05
+		monthly_reform_progress = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Galician (HLC) - Tier 6: Economical Matters
+# ==========================================
+
+hlc_merchant_privileges_reform = {
+	icon = "merchant_aristocracy"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = HLC
+	}
+	trigger = {
+		tag = HLC
+	}
+	modifiers = {
+		trade_efficiency = 0.10
+		trade_steering = 0.05
+		merchants = 1
+		global_own_trade_power = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Galician (HLC) - Tier 7: State and Religion (Confessional Dualism)
+# ==========================================
 
 hlc_confessional_dualism_reform = {
 	icon = "holy_state"
@@ -752,6 +915,41 @@ hlc_confessional_dualism_reform = {
 	}
 }
 
+# ==========================================
+# Galician (HLC) - Tier 8: Legitimation of Power
+# ==========================================
+
+hlc_crown_authority_reform = {
+	icon = "royal_decree"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = HLC
+	}
+	trigger = {
+		tag = HLC
+	}
+	modifiers = {
+		max_absolutism = 5
+		yearly_absolutism = 0.25
+		diplomatic_reputation = 0.5
+		stability_cost_modifier = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Galician (HLC) - Tier 9: Absolutism & Constitutionalism (Crown and Sejm)
+# ==========================================
+
 hlc_crown_and_sejm_reform = {
 	icon = "bureaucracy"
 	allow_normal_conversion = no
@@ -774,6 +972,324 @@ hlc_crown_and_sejm_reform = {
 		reform_progress_growth = 0.10
 		advisor_cost = -0.10
 		global_tax_modifier = 0.10
+		stability_cost_modifier = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Galician (HLC) - Tier 10: Separation of Power
+# ==========================================
+
+hlc_enlightened_monarchy_reform = {
+	icon = "an_enlightened_monarchy"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = HLC
+	}
+	trigger = {
+		tag = HLC
+	}
+	modifiers = {
+		global_unrest = -2
+		meritocracy = 0.25
+		culture_conversion_cost = -0.10
+		development_cost = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Galician (HLC) - Tier 11: Military Doctrines
+# ==========================================
+
+hlc_military_modernization_reform = {
+	icon = "cavalry_warfare"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = HLC
+	}
+	trigger = {
+		tag = HLC
+	}
+	modifiers = {
+		cavalry_cost = -0.10
+		cavalry_power = 0.10
+		morale_damage = 0.05
+		cavalry_flanking = 0.25
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Volhynia (VOL) - Tier 1: Power Structure
+# ==========================================
+
+vln_voivodeship_reform = {
+	icon = "assembly_hall"
+	allow_normal_conversion = yes
+	trigger = {
+		tag = VLN
+		is_subject = no
+	}
+	lock_level_when_selected = yes
+	allow_convert = no
+	modifiers = {
+		governing_capacity = 0.10
+		reform_progress_growth = 0.10
+		diplomatic_reputation = 0.5
+		monthly_reform_progress = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Volhynia (VOL) - Tier 4: State and Religion
+# ==========================================
+
+vln_confessional_reform = {
+	icon = "holy_state"
+	allow_normal_conversion = yes
+	trigger = {
+		tag = VLN
+		has_country_flag = rip_vln_confessional_allied
+	}
+	lock_level_when_selected = yes
+	allow_convert = no
+	modifiers = {
+		tolerance_heretic = 2
+		tolerance_heathen = 1
+		religious_unity = 0.20
+		stability_cost_modifier = -0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Volhynia (VOL) - Tier 9: Legitimation of Power
+# ==========================================
+
+vln_ruthenia_reform = {
+	icon = "bureaucracy"
+	allow_normal_conversion = yes
+	trigger = {
+		tag = VLN
+		has_country_flag = rip_vln_constitution_done
+	}
+	lock_level_when_selected = yes
+	allow_convert = no
+	modifiers = {
+		max_absolutism = 10
+		reform_progress_growth = 0.10
+		advisor_cost = -0.10
+		global_tax_modifier = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Volhynia (VOL) - Tier 2: Estate Privileges (Cossack-based - Lithuanian analog)
+# ==========================================
+
+vln_cossack_host_reform = {
+	icon = "cossack_cavalry"
+	allow_normal_conversion = yes
+	trigger = {
+		tag = VLN
+		has_country_flag = rip_vln_baltic_path
+	}
+	lock_level_when_selected = yes
+	allow_convert = no
+	modifiers = {
+		cavalry_cost = -0.15
+		cavalry_flanking = 0.25
+		mil_tech_cost_modifier = -0.05
+		land_forcelimit = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Volhynia (VOL) - Tier 3: Religious Reforms (Confessional Balance - Hungarian+Lithuanian hybrid)
+# ==========================================
+
+vln_confessional_academy = {
+	icon = "jesuit_academy"
+	allow_normal_conversion = yes
+	trigger = {
+		tag = VLN
+		OR = {
+			has_country_flag = rip_vln_confessional_allied
+			has_country_flag = rip_vln_carpathian_federation
+		}
+	}
+	lock_level_when_selected = yes
+	allow_convert = no
+	modifiers = {
+		technology_cost = -0.05
+		idea_cost = -0.10
+		religious_unity = 0.15
+		advisor_pool = 2
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Volhynia (VOL) - Tier 5: Administrative Reforms (Magdeburg Law - Lithuanian model)
+# ==========================================
+
+vln_magdeburg_rights = {
+	icon = "city_rights"
+	allow_normal_conversion = yes
+	trigger = {
+		tag = VLN
+		num_of_owned_provinces_with = {
+			value = 5
+			development = 10
+		}
+	}
+	lock_level_when_selected = yes
+	allow_convert = no
+	modifiers = {
+		local_autonomy = -0.05
+		local_governing_cost = -0.10
+		production_efficiency = 0.10
+		trade_efficiency = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Volhynia (VOL) - Tier 6: Military Traditions (Voivode Council - Hungarian model)
+# ==========================================
+
+vln_voivode_council = {
+	icon = "noble_council"
+	allow_normal_conversion = yes
+	trigger = {
+		tag = VLN
+		OR = {
+			has_country_flag = rip_vln_carpathian_federation
+			has_country_flag = rip_vln_eastern_path
+		}
+	}
+	lock_level_when_selected = yes
+	allow_convert = no
+	modifiers = {
+		general_cost = -0.15
+		army_tradition_decay = -0.01
+		fort_maintenance_modifier = -0.10
+		land_morale = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Volhynia (VOL) - Tier 7: Military Excellence (Black Voivode Legion - fekete_sereg analog)
+# ==========================================
+
+vln_black_voivode_legion = {
+	icon = "fekete_sereg"
+	allow_normal_conversion = yes
+	trigger = {
+		tag = VLN
+		has_country_flag = rip_vln_carpathian_federation
+		army_professionalism = 0.4
+	}
+	lock_level_when_selected = yes
+	allow_convert = no
+	modifiers = {
+		infantry_cost = -0.10
+		infantry_fire = 0.15
+		discipline = 0.05
+		land_morale = 0.15
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Volhynia (VOL) - Tier 8: Cultural Integration (Renaissance - Hungarian Corviniana analog)
+# ==========================================
+
+vln_ruthenian_renaissance_reform = {
+	icon = "bibliotheca_corviana"
+	allow_normal_conversion = yes
+	trigger = {
+		tag = VLN
+		has_institution = renaissance
+		num_of_owned_provinces_with = {
+			value = 3
+			culture = ruthenian
+			development = 20
+		}
+	}
+	lock_level_when_selected = yes
+	allow_convert = no
+	modifiers = {
+		development_cost = -0.10
+		idea_cost = -0.05
+		prestige = 1
+		advisor_cost = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# ==========================================
+# Volhynia (VOL) - Tier 10: Universal Title (Post-Constitutional)
+# ==========================================
+
+vln_grand_ruthenia_reform = {
+	icon = "king_highlighted"
+	allow_normal_conversion = yes
+	trigger = {
+		tag = VLN
+		has_country_flag = rip_vln_grand_ruthenia
+	}
+	lock_level_when_selected = yes
+	allow_convert = no
+	modifiers = {
+		prestige = 2
+		stability_cost_modifier = -0.15
+		diplomatic_reputation = 1
+		max_absolutism = 15
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -1810,6 +2326,645 @@ het_collegium_control_reform = {
 			factor = 2
 			overlord = {
 				tag = RUS
+			}
+		}
+	}
+}
+# =========================================================================
+# PODILLIA (PDL) - GOVERNMENT REFORM SYSTEM
+# =========================================================================
+# Implementation framework for 5 distinct development paths reflecting
+# Podillia's historical position as contested frontier between Ottoman,
+# Polish-Lithuanian, and Cossack/Ruthenian influences.
+#
+# HISTORICAL CONTEXT:
+# - 1444-1569: Moldavian suzerainty and Ottomans contest Polish claims
+# - 1569-1648: Polish-Lithuanian integration creates Podilska Voivodeship
+# - 1648-1667: Khmelnytsky's Uprising and Ruina (civil war) reshape region
+# - Post-1667: Ottoman-Moldavian pressure countered by Cossack/magnate interests
+#
+# GAME MECHANICS INTEGRATION:
+# Each reform tier opens government_names display variants via:
+#   trigger = { has_reform = pdl_[path]_reform }
+# Synergies with Volhynia (VLN) and Galicia (HLC) enabled through mission flags:
+#   pdl_carpathian_path / pdl_magnate_path / pdl_tolerance_path
+#
+# REFERENCE MODELS:
+# - Carpathian Bastion ← Croatian military traditions (Croatian_Fortified_Lands)
+# - Frontier Republic ← Cossack host mechanics (uzh_palanok_captaincy_reform)
+# - Magnate Dominion ← Polish noble system (representation_monarchy_reform)
+# - Universal Expansion ← Regional hegemony (ruskie_voivodeship precedent)
+# =========================================================================
+
+# ==========================================
+# PODILLIA GOVERNMENT REFORM TIERS (11 TOTAL)
+# ==========================================
+# Tier 11 (Tribal/Ancient):       pdl_clan_assembly_reform
+# Tier 10 (Principality):          pdl_steppe_principality_reform
+# Tier 9  (Kingdom):               pdl_voivodeship_kingdom_reform
+# Tier 8  (Feudal/Court):          pdl_palatine_court_reform
+# Tier 7  (Aristocratic):          pdl_aristocratic_assembly_reform
+# Tier 6  (Representative):        pdl_magnate_republic_reform
+# Tier 5  (Deliberative):          pdl_[path]_reform (3 variants: bastion/republic/magnate)
+# Tier 4  (Enlightened):           pdl_enlightened_voivodeship_reform
+# Tier 3  (Absolute):              pdl_absolute_dominion_reform
+# Tier 2  (Modern):                pdl_revolutionary_republic_reform
+# Tier 1  (Imperial):              pdl_grand_podillia_reform
+
+# ==========================================
+# Podillia (PDL) - Tier 11: Clan Assembly (Tribal Foundation)
+# ==========================================
+# Represents earliest tribal/clan governance before voivodeship formalization
+# (Reference: Steppe peoples' clan gatherings)
+
+pdl_clan_assembly_reform = {
+	icon = "tribal_assembly"
+	allow_normal_conversion = no
+	valid_for_nation_designer = yes
+	valid_for_new_country = yes
+	lock_level_when_selected = yes
+	queen = no
+	heir = no
+	royal_marriage = no
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		global_unrest = -1
+		land_forcelimit = 0.10
+		global_manpower_modifier = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 5
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 10: Steppe Principality
+# ==========================================
+# Emergence of princely authority over tribal confederation
+# (Reference: Cossack hosts organization)
+
+pdl_steppe_principality_reform = {
+	icon = "prince_council"
+	allow_normal_conversion = no
+	valid_for_nation_designer = yes
+	valid_for_new_country = yes
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = no
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.10
+		global_unrest = -1
+		cavalry_cost = -0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 6
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 9: Voivodeship Kingdom
+# ==========================================
+# Established voivodeship with royal pretensions, balancing tribal and feudal systems
+# (Reference: Croatian model + Mazovian early kingdom structure)
+
+pdl_voivodeship_kingdom_reform = {
+	icon = "crown_kingdom"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.15
+		reform_progress_growth = 0.15
+		state_maintenance_modifier = -0.10
+		diplomatic_reputation = 0.5
+		global_unrest = -1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 8: Palatine Court (Feudal/Court System)
+# ==========================================
+# Formal feudal court with palatine nobility, drawing from Polish-Lithuanian traditions
+# (Reference: Polish palatinate system + Croatian feudal model)
+
+pdl_palatine_court_reform = {
+	icon = "royal_court"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		diplomatic_reputation = 1
+		nobles_influence_modifier = 0.15
+		governing_capacity_modifier = 0.20
+		state_maintenance_modifier = -0.10
+		global_unrest = -1.5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 8
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 7: Aristocratic Assembly
+# ==========================================
+# Noble assembly gaining political power, reflecting magnate influence
+# (Reference: Mazovian and Polish noble assembly traditions)
+
+pdl_aristocratic_assembly_reform = {
+	icon = "noble_assembly"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		nobles_influence_modifier = 0.25
+		stability_cost_modifier = -0.15
+		governing_capacity_modifier = 0.25
+		max_absolutism = -10
+		global_unrest = -1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 9
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 6: Magnate Republic
+# ==========================================
+# Oligarchic republic dominated by magnate families, Mazovian-style
+# (Reference: Mazovia's independence period magnate government)
+
+pdl_magnate_republic_reform = {
+	icon = "merchant_republic"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = no
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		global_tax_modifier = 0.20
+		trade_efficiency = 0.20
+		governing_capacity_modifier = 0.30
+		merchants = 2
+		nobles_influence_modifier = 0.20
+		max_absolutism = -15
+		stability_cost_modifier = -0.10
+	}
+	start_territory_to_estates = 0.25
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 8
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 1: Foundational Voivodeship
+# ==========================================
+# Base reform reflecting initial independence from Poland-Lithuania.
+# Unlocks frontier governance and sets baseline for specialization paths.
+# Triggers: Mission "PDL_declare_independence" (Podillia_Missions.txt, slot 1)
+
+pdl_frontier_voivodeship_reform = {
+	icon = "assembly_hall"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.15
+		reform_progress_growth = 0.15
+		state_maintenance_modifier = -0.10
+		diplomatic_reputation = 0.5
+		global_unrest = -1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 5: Deliberative Assembly (Carpathian Bastion Path - Croatian Model)
+# ==========================================
+# Defensive militarization model based on Croatian historical precedent
+# (Reference: Croatian_Fortified_Lands - military traditions of border control)
+# Rewards: Fort development, garrison culture, fortress bonuses
+# Triggers: Mission "PDL_fortify_khotyn" (Podillia_Missions.txt, slot 1, pos 2)
+# Synergy Flag: has_country_flag = pdl_carpathian_path
+# Cross-Reference: Volhynia vln_voivode_council compatible
+#   → Both emphasize military leadership and fort maintenance
+
+pdl_carpathian_bastion_reform = {
+	icon = "soldiers_4"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		fort_maintenance_modifier = -0.20
+		defensiveness = 0.25
+		garrison_size = 0.20
+		army_tradition_decay = -0.01
+		hostile_attrition = 1.5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 8
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 5: Deliberative Assembly (Frontier Republic Path - Mazovian/Cossack Model)
+# ==========================================
+# Cossack-influenced cavalry and steppe warfare specialization
+# (Reference: uzh_palanok_captaincy_reform - cavalry traditions and cossack mechanics)
+# (Reference: Mazovian cavalry and steppe traditions)
+# Rewards: Cavalry bonuses, steppe terrain mastery, estate_cossacks integration
+# Triggers: Mission "PDL_recruit_cossacks" (Podillia_Missions.txt, slot 2, pos 1)
+# Synergy Flag: has_country_flag = pdl_cossack_recruited
+# Cross-Reference: Volhynia vln_cossack_host_reform compatible
+#   → Both enable cavalry_flanking and integrated cossack estate
+
+pdl_frontier_republic_reform = {
+	icon = "cossack_cavalry"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		cavalry_cost = -0.15
+		cavalry_flanking = 0.25
+		land_forcelimit = 0.15
+		mil_tech_cost_modifier = -0.05
+		army_tradition = 0.25
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	government_abilities = {
+		cossacks_mechanic
+	}
+	ai = {
+		factor = 8
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 5: Deliberative Assembly (Magnate Dominion Path - Mazovian Model)
+# ==========================================
+# Polish-Lithuanian magnate oligarchy model emphasizing noble autonomy
+# (Reference: representation_monarchy_reform - noble estates and sejm mechanics)
+# (Reference: Mazovia's historical magnate system - internal autonomy balancing)
+# Rewards: Trade power, estate noble influence, governing capacity, tax modifiers
+# Triggers: Mission "PDL_magnate_authority" (Podillia_Missions.txt, slot 3, pos 1)
+# Synergy Flag: has_country_flag = pdl_magnate_path
+# Cross-Reference: Galicia hlc_crown_and_sejm_reform compatible
+#   → Both reward max_absolutism and enable strong noble engagement
+
+pdl_magnate_dominion_reform = {
+	icon = "noble_council"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		global_tax_modifier = 0.15
+		trade_efficiency = 0.15
+		governing_capacity_modifier = 0.20
+		merchants = 1
+		burghers_influence_modifier = 0.15
+		nobles_influence_modifier = 0.10
+		max_absolutism = 15
+	}
+	start_territory_to_estates = 0.25
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 8
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 4: Enlightened Voivodeship (Enlightened Monarchy)
+# ==========================================
+# Reform-minded voivodeship adopting enlightenment principles while maintaining traditions
+# (Reference: Enlightened absolutism combining Polish and Croatian influences)
+
+pdl_enlightened_voivodeship_reform = {
+	icon = "enlightenment_monarchy"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		technology_cost = -0.10
+		idea_cost = -0.05
+		stability_cost_modifier = -0.15
+		administrative_efficiency = 0.10
+		institution_spread_from_true_faith = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 7
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 3: Absolute Dominion (Absolute Monarchy)
+# ==========================================
+# Centralized absolute authority over Podillia, merging military and administrative power
+# (Reference: Combined Croatian defensive absolutism + Mazovian noble control)
+
+pdl_absolute_dominion_reform = {
+	icon = "absolute_monarchy"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		max_absolutism = 10
+		global_tax_modifier = 0.10
+		state_maintenance_modifier = -0.15
+		governing_capacity_modifier = 0.10
+		diplomatic_reputation = 1
+		fort_maintenance_modifier = -0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 7
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 2: Revolutionary Republic (Modern Government)
+# ==========================================
+# Republican transformation with revolutionary ideals and democratic assembly
+# (Reference: Late 18th century ideals blended with traditional Cossack democracy)
+
+pdl_revolutionary_republic_reform = {
+	icon = "revolutionary_republic"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = no
+	heir = yes
+	royal_marriage = no
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		institution_spread_from_true_faith = 0.15
+		governing_capacity_modifier = 0.10
+		idea_cost = -0.05
+		administrative_efficiency = 0.10
+		stability_cost_modifier = -0.15
+		max_absolutism = -20
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 5
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Tier 1: Grand Podillia (Imperial Unification)
+# ==========================================
+# Final tier consolidating regional dominance after territorial expansion
+# Requires completion of Tier 2 path + conquest of critical regions
+# (Reference: ruskie_voivodeship - regional hegemony and cultural integration)
+# Triggers: Mission "PDL_grand_podillia" (Podillia_Missions.txt, slot 4, pos 4)
+# Synergy Flag: has_country_flag = pdl_grand_podillia
+# Cross-Reference: Unified government_names display via pdl_grand_podillia trigger
+#   → Activates GRAND_VOIVODE → GRAND_KING → PODILLIAN_EMPEROR titles
+
+pdl_grand_podillia_reform = {
+	icon = "king_highlighted"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		prestige = 2
+		stability_cost_modifier = -0.15
+		diplomatic_reputation = 1
+		max_absolutism = 20
+		reform_progress_growth = 0.10
+		global_manpower_modifier = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+# ==========================================
+# Podillia (PDL) - Optional Tier: Religious Tolerance Path
+# ==========================================
+# Confessional balance model emphasizing tolerance and coexistence
+# (Reference: uzh_union_synod_reform - religious tolerance mechanics)
+# (Reference: hlc_confessional_dualism_reform - heretic/heathen tolerance)
+# Rewards: Religious unity, missionary tolerance, institution spread
+# Triggers: Mission "PDL_religious_tolerance" (Podillia_Missions.txt, slot 5, pos 1)
+# Synergy Flag: has_country_flag = pdl_tolerance_path
+# Stack Mechanics: Can be combined with any Tier 2 path for enhanced tolerance bonuses
+
+pdl_religious_tolerance_reform = {
+	icon = "holy_state"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		tolerance_heretic = 2
+		tolerance_heathen = 1
+		religious_unity = 0.25
+		stability_cost_modifier = -0.15
+		missionary_maintenance_cost = -0.25
+		global_missionary_strength = 0.02
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 6
+		modifier = {
+			factor = 1.5
+			OR = {
+				religion = jewish
+				religion = orthodox
 			}
 		}
 	}
