@@ -1,0 +1,1103 @@
+namespace = west_ukraine_history
+
+# =========================================================================
+# WESTERN UKRAINE HISTORICAL EVENTS (1444-1821)
+# Region: Galicia (HLC), Volhynia (VOL), Red Ruthenia, Podolia
+# 
+# Historical Themes:
+# - Polish-Lithuanian influence and colonization
+# - Church Union of Brest (1596)
+# - Orthodox-Uniate conflicts
+# - Cossack uprisings
+# - Polonization of nobility
+# - Tatar raids
+# - Trade and economic development
+# - Magdeburg Law cities
+# =========================================================================
+
+# =========================================================================
+# POLONIZATION CHAIN (1444-1600)
+# Historical context: Polish nobility gradually adopts Polish culture,
+# language, and customs while maintaining Ruthenian traditions
+# =========================================================================
+
+# Polonization Begins
+country_event = {
+	id = west_ukraine_history.1
+	title = west_ukraine_history.1.t
+	desc = west_ukraine_history.1.d
+	picture = POLISH_CEREMONY_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = VOL
+			tag = HLC
+			tag = PDL
+		}
+		OR = {
+			overlord = { tag = POL }
+			overlord = { tag = PLC }
+			alliance_with = POL
+			alliance_with = PLC
+		}
+		NOT = { has_country_flag = polonization_started }
+		any_owned_province = {
+			OR = {
+				culture = ruthenian
+				culture = byelorussian
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+		modifier = {
+			factor = 0.5
+			is_subject_of = POL
+		}
+		modifier = {
+			factor = 0.5
+			is_subject_of = PLC
+		}
+		modifier = {
+			factor = 1.5
+			NOT = { stability = 0 }
+		}
+	}
+	
+	# Accept Polish influence
+	option = {
+		name = west_ukraine_history.1.a
+		
+		set_country_flag = polonization_started
+		add_country_modifier = {
+			name = west_ukr_polish_influence
+			duration = 7300
+		}
+		
+		if = {
+			limit = { NOT = { accepted_culture = polish } }
+			add_accepted_culture = polish
+		}
+		
+		add_prestige = -5
+		
+		ai_chance = {
+			factor = 60
+		}
+	}
+	
+	# Resist Polish culture
+	option = {
+		name = west_ukraine_history.1.b
+		
+		add_country_modifier = {
+			name = west_ukr_cultural_resistance
+			duration = 3650
+		}
+		
+		if = {
+			limit = { 
+				OR = {
+					overlord = { tag = POL }
+					overlord = { tag = PLC }
+				}
+			}
+			overlord = {
+				add_opinion = {
+					who = ROOT
+					modifier = west_ukr_cultural_defiance
+				}
+			}
+		}
+		
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				personality = ai_balanced
+			}
+		}
+	}
+}
+
+# Polish Language at Court
+country_event = {
+	id = west_ukraine_history.2
+	title = west_ukraine_history.2.t
+	desc = west_ukraine_history.2.d
+	picture = COURT_eventPicture
+	
+	trigger = {
+		has_country_flag = polonization_started
+		has_country_modifier = west_ukr_polish_influence
+		NOT = { has_country_flag = polish_court_language }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	# Adopt Polish at court
+	option = {
+		name = west_ukraine_history.2.a
+		
+		set_country_flag = polish_court_language
+		add_prestige = 10
+		add_legitimacy_equivalent = { amount = 5 republican_tradition = 3 }
+		
+		if = {
+			limit = { 
+				OR = {
+					overlord = { tag = POL }
+					overlord = { tag = PLC }
+				}
+			}
+			overlord = {
+				add_opinion = {
+					who = ROOT
+					modifier = west_ukr_loyal_vassal
+				}
+			}
+		}
+		
+		random_owned_province = {
+			limit = { culture = ruthenian }
+			change_culture = polish
+		}
+	}
+	
+	# Maintain Ruthenian language
+	option = {
+		name = west_ukraine_history.2.b
+		
+		add_stability_or_adm_power = yes
+		add_country_modifier = {
+			name = west_ukr_ruthenian_pride
+			duration = 5475
+		}
+	}
+}
+
+# =========================================================================
+# CHURCH UNION EVENTS (1596-1650)
+# Historical context: Union of Brest creates Greek Catholic Church,
+# leading to religious and political tensions
+# =========================================================================
+
+# Pressure for Church Union
+country_event = {
+	id = west_ukraine_history.3
+	title = west_ukraine_history.3.t
+	desc = west_ukraine_history.3.d
+	picture = POPE_PREACHING_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = VOL
+			tag = HLC
+			tag = PDL
+		}
+		OR = {
+			overlord = { tag = POL }
+			overlord = { tag = PLC }
+		}
+		religion = orthodox
+		NOT = { has_country_flag = church_union_decision }
+		current_age = age_of_reformation
+	}
+	
+	mean_time_to_happen = {
+		months = 200
+		modifier = {
+			factor = 0.5
+			is_year = 1590
+		}
+		modifier = {
+			factor = 0.3
+			is_year = 1595
+		}
+	}
+	
+	# Accept Church Union
+	option = {
+		name = west_ukraine_history.3.a
+		
+		set_country_flag = church_union_decision
+		set_country_flag = accepted_uniate_church
+		
+		change_religion = catholic
+		add_country_modifier = {
+			name = west_ukr_church_union
+			duration = -1
+		}
+		
+		every_owned_province = {
+			limit = { religion = orthodox }
+			change_religion = catholic
+			add_province_modifier = {
+				name = west_ukr_converted_uniate
+				duration = 7300
+			}
+		}
+		
+		if = {
+			limit = { overlord = { } }
+			overlord = {
+				add_opinion = {
+					who = ROOT
+					modifier = west_ukr_church_loyalty
+				}
+			}
+		}
+		
+		add_prestige = 10
+		
+		ai_chance = {
+			factor = 40
+		}
+	}
+	
+	# Refuse Church Union
+	option = {
+		name = west_ukraine_history.3.b
+		
+		set_country_flag = church_union_decision
+		set_country_flag = rejected_uniate_church
+		
+		add_country_modifier = {
+			name = west_ukr_orthodox_faithful
+			duration = 9125
+		}
+		
+		if = {
+			limit = { overlord = { } }
+			overlord = {
+				add_opinion = {
+					who = ROOT
+					modifier = west_ukr_religious_defiance
+				}
+			}
+			add_liberty_desire = 15
+		}
+		
+		add_church_power = 100
+		
+		ai_chance = {
+			factor = 60
+		}
+	}
+}
+
+# Orthodox-Uniate Conflict
+country_event = {
+	id = west_ukraine_history.4
+	title = west_ukraine_history.4.t
+	desc = west_ukraine_history.4.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = VOL
+			tag = HLC
+			tag = PDL
+		}
+		OR = {
+			has_country_flag = accepted_uniate_church
+			AND = {
+				has_country_flag = rejected_uniate_church
+				any_owned_province = {
+					religion = catholic
+				}
+			}
+		}
+		any_owned_province = {
+			OR = {
+				religion = orthodox
+				religion = catholic
+			}
+			NOT = { has_province_modifier = west_ukr_religious_peace }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 150
+	}
+	
+	immediate = {
+		random_owned_province = {
+			limit = {
+				OR = {
+					religion = orthodox
+					religion = catholic
+				}
+				NOT = { has_province_modifier = west_ukr_religious_peace }
+			}
+			save_event_target_as = conflict_province
+		}
+	}
+	
+	# Suppress Orthodox resistance
+	option = {
+		name = west_ukraine_history.4.a
+		trigger = { has_country_flag = accepted_uniate_church }
+		
+		event_target:conflict_province = {
+			add_province_modifier = {
+				name = west_ukr_forced_conversion
+				duration = 3650
+			}
+			if = {
+				limit = { religion = orthodox }
+				change_religion = catholic
+			}
+		}
+		
+		add_papal_influence = 10
+		
+		ai_chance = {
+			factor = 50
+		}
+	}
+	
+	# Protect Orthodox faithful
+	option = {
+		name = west_ukraine_history.4.b
+		trigger = { has_country_flag = rejected_uniate_church }
+		
+		event_target:conflict_province = {
+			add_province_modifier = {
+				name = west_ukr_orthodox_protection
+				duration = 5475
+			}
+		}
+		
+		add_church_power = 25
+		
+		ai_chance = {
+			factor = 50
+		}
+	}
+	
+	# Promote tolerance
+	option = {
+		name = west_ukraine_history.4.c
+		
+		event_target:conflict_province = {
+			add_province_modifier = {
+				name = west_ukr_religious_peace
+				duration = 7300
+			}
+		}
+		
+		add_adm_power = 25
+		
+		ai_chance = {
+			factor = 30
+		}
+	}
+}
+
+# =========================================================================
+# COSSACK UPRISING CHAIN (1590-1680)
+# Historical context: Cossack revolts against Polish rule and serfdom
+# =========================================================================
+
+# Cossack Discontent
+country_event = {
+	id = west_ukraine_history.5
+	title = west_ukraine_history.5.t
+	desc = west_ukraine_history.5.d
+	picture = ANGRY_MOB_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = VOL
+			tag = HLC
+			tag = PDL
+		}
+		OR = {
+			overlord = { tag = POL }
+			overlord = { tag = PLC }
+		}
+		any_owned_province = {
+			has_terrain = steppe
+			OR = {
+				culture = ruthenian
+				culture = ukrainian
+			}
+		}
+		NOT = { has_country_flag = cossack_uprising_chain }
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = {
+			factor = 0.5
+			is_year = 1590
+		}
+		modifier = {
+			factor = 0.3
+			is_year = 1630
+		}
+		modifier = {
+			factor = 2.0
+			stability = 2
+		}
+	}
+	
+	# Suppress Cossack rights
+	option = {
+		name = west_ukraine_history.5.a
+		
+		set_country_flag = cossack_uprising_chain
+		
+		random_owned_province = {
+			limit = {
+				has_terrain = steppe
+				OR = {
+					culture = ruthenian
+					culture = ukrainian
+				}
+			}
+			spawn_rebels = {
+				type = cossack_rebels
+				size = 2
+			}
+			add_province_modifier = {
+				name = west_ukr_cossack_unrest
+				duration = 5475
+			}
+		}
+		
+		add_stability = -1
+		
+		ai_chance = {
+			factor = 30
+		}
+	}
+	
+	# Grant Cossack privileges
+	option = {
+		name = west_ukraine_history.5.b
+		
+		set_country_flag = cossack_uprising_chain
+		set_country_flag = granted_cossack_rights
+		
+		add_country_modifier = {
+			name = west_ukr_cossack_privileges
+			duration = 7300
+		}
+		
+		add_years_of_income = -0.5
+		
+		if = {
+			limit = { overlord = { } }
+			overlord = {
+				add_opinion = {
+					who = ROOT
+					modifier = west_ukr_soft_on_cossacks
+				}
+			}
+		}
+		
+		ai_chance = {
+			factor = 70
+		}
+	}
+}
+
+# Cossack Raid
+country_event = {
+	id = west_ukraine_history.6
+	title = west_ukraine_history.6.t
+	desc = west_ukraine_history.6.d
+	picture = BORDER_PATROL_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = VOL
+			tag = HLC
+			tag = PDL
+		}
+		has_country_flag = granted_cossack_rights
+		any_owned_province = {
+			has_terrain = steppe
+		}
+		any_neighbor_country = {
+			OR = {
+				tag = CRI
+				tag = TUR
+				primary_culture = crimean
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+	}
+	
+	# Endorse the raid
+	option = {
+		name = west_ukraine_history.6.a
+		
+		add_mil_power = 25
+		add_prestige = 5
+		
+		random_neighbor_country = {
+			limit = {
+				OR = {
+					tag = CRI
+					tag = TUR
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = west_ukr_cossack_raid
+			}
+		}
+		
+		ai_chance = {
+			factor = 60
+		}
+	}
+	
+	# Punish the Cossacks
+	option = {
+		name = west_ukraine_history.6.b
+		
+		add_country_modifier = {
+			name = west_ukr_cossack_discipline
+			duration = 3650
+		}
+		
+		random_owned_province = {
+			limit = { has_terrain = steppe }
+			add_unrest = 5
+		}
+		
+		ai_chance = {
+			factor = 40
+		}
+	}
+}
+
+# =========================================================================
+# TATAR RAID EVENTS (1444-1700)
+# Historical context: Crimean Tatar raids devastate borderlands
+# =========================================================================
+
+# Tatar Raid Warning
+country_event = {
+	id = west_ukraine_history.7
+	title = west_ukraine_history.7.t
+	desc = west_ukraine_history.7.d
+	picture = BORDER_PATROL_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = VOL
+			tag = HLC
+			tag = PDL
+		}
+		any_owned_province = {
+			OR = {
+				region = ruthenia_region
+				area = podolia_volhynia_area
+			}
+			any_neighbor_province = {
+				owner = {
+					OR = {
+						tag = CRI
+						primary_culture = crimean
+					}
+				}
+			}
+		}
+		NOT = { is_year = 1700 }
+		is_at_war = no
+	}
+	
+	mean_time_to_happen = {
+		months = 200
+		modifier = {
+			factor = 0.7
+			NOT = { mil_tech = 8 }
+		}
+		modifier = {
+			factor = 1.5
+			mil_tech = 12
+		}
+		modifier = {
+			factor = 2.0
+			is_year = 1650
+		}
+	}
+	
+	immediate = {
+		random_owned_province = {
+			limit = {
+				OR = {
+					region = ruthenia_region
+					area = podolia_volhynia_area
+				}
+			}
+			save_event_target_as = raid_target
+		}
+	}
+	
+	# Fortify the borders
+	option = {
+		name = west_ukraine_history.7.a
+		
+		add_mil_power = -50
+		
+		event_target:raid_target = {
+			add_province_modifier = {
+				name = west_ukr_border_fortifications
+				duration = 5475
+			}
+		}
+		
+		ai_chance = {
+			factor = 40
+		}
+	}
+	
+	# Accept the risk
+	option = {
+		name = west_ukraine_history.7.b
+		
+		event_target:raid_target = {
+			add_devastation = 10
+			add_base_manpower = -1
+			add_province_modifier = {
+				name = west_ukr_tatar_raid_damage
+				duration = 3650
+			}
+		}
+		
+		add_prestige = -5
+		
+		ai_chance = {
+			factor = 60
+		}
+	}
+}
+
+# Yasyr - Tatar Captives
+country_event = {
+	id = west_ukraine_history.8
+	title = west_ukraine_history.8.t
+	desc = west_ukraine_history.8.d
+	picture = MERCHANTS_TALKING_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = VOL
+			tag = HLC
+			tag = PDL
+		}
+		any_owned_province = {
+			has_province_modifier = west_ukr_tatar_raid_damage
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	immediate = {
+		random_owned_province = {
+			limit = { has_province_modifier = west_ukr_tatar_raid_damage }
+			save_event_target_as = raided_province
+		}
+	}
+	
+	# Ransom the captives
+	option = {
+		name = west_ukraine_history.8.a
+		
+		add_years_of_income = -0.3
+		
+		event_target:raided_province = {
+			add_base_manpower = 1
+			remove_province_modifier = west_ukr_tatar_raid_damage
+		}
+		
+		add_prestige = 5
+		
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 0.1
+				NOT = { treasury = 50 }
+			}
+		}
+	}
+	
+	# Accept the loss
+	option = {
+		name = west_ukraine_history.8.b
+		
+		event_target:raided_province = {
+			add_base_manpower = -1
+		}
+		
+		add_prestige = -10
+		
+		ai_chance = {
+			factor = 40
+		}
+	}
+}
+
+# =========================================================================
+# TRADE AND ECONOMIC DEVELOPMENT (1444-1650)
+# Historical context: Western Ukraine as trade crossroads
+# =========================================================================
+
+# Lviv Trade Fair
+country_event = {
+	id = west_ukraine_history.9
+	title = west_ukraine_history.9.t
+	desc = west_ukraine_history.9.d
+	picture = MERCHANTS_TALKING_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = HLC
+			owns = 279  # Halych/Lviv
+		}
+		279 = {
+			owned_by = ROOT
+			base_production = 5
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 300
+	}
+	
+	# Invest in the fair
+	option = {
+		name = west_ukraine_history.9.a
+		
+		add_ducats = -100
+		
+		279 = {
+			add_province_modifier = {
+				name = west_ukr_lviv_trade_fair
+				duration = 7300
+			}
+			add_base_production = 1
+		}
+		
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 0.1
+				NOT = { treasury = 150 }
+			}
+		}
+	}
+	
+	# Let it develop naturally
+	option = {
+		name = west_ukraine_history.9.b
+		
+		279 = {
+			add_base_tax = 1
+		}
+		
+		ai_chance = {
+			factor = 40
+		}
+	}
+}
+
+# Magdeburg Law
+country_event = {
+	id = west_ukraine_history.10
+	title = west_ukraine_history.10.t
+	desc = west_ukraine_history.10.d
+	picture = CITY_DEVELOPMENT_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = VOL
+			tag = HLC
+			tag = PDL
+		}
+		any_owned_province = {
+			OR = {
+				province_id = 279  # Halych
+				province_id = 280  # Volhynia
+			}
+			NOT = { has_province_modifier = west_ukr_magdeburg_law }
+			development = 15
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 400
+	}
+	
+	immediate = {
+		random_owned_province = {
+			limit = {
+				OR = {
+					province_id = 279
+					province_id = 280
+				}
+				NOT = { has_province_modifier = west_ukr_magdeburg_law }
+			}
+			save_event_target_as = city_province
+		}
+	}
+	
+	# Grant Magdeburg Law
+	option = {
+		name = west_ukraine_history.10.a
+		
+		event_target:city_province = {
+			add_province_modifier = {
+				name = west_ukr_magdeburg_law
+				duration = -1
+			}
+			add_base_tax = 1
+			add_base_production = 1
+		}
+		
+		add_prestige = 5
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 10
+			}
+		}
+		
+		ai_chance = {
+			factor = 80
+		}
+	}
+	
+	# Maintain direct control
+	option = {
+		name = west_ukraine_history.10.b
+		
+		add_adm_power = 25
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = -5
+			}
+		}
+		
+		ai_chance = {
+			factor = 20
+		}
+	}
+}
+
+# Chumak Trade Route
+country_event = {
+	id = west_ukraine_history.11
+	title = west_ukraine_history.11.t
+	desc = west_ukraine_history.11.d
+	picture = TRADEGOODS_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = VOL
+			tag = HLC
+		}
+		any_owned_province = {
+			has_terrain = steppe
+			trade_goods = salt
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 360
+	}
+	
+	# Support the Chumaks
+	option = {
+		name = west_ukraine_history.11.a
+		
+		random_owned_province = {
+			limit = {
+				has_terrain = steppe
+				trade_goods = salt
+			}
+			add_province_modifier = {
+				name = west_ukr_chumak_trade
+				duration = 7300
+			}
+		}
+		
+		add_mercantilism = 1
+		
+		ai_chance = {
+			factor = 70
+		}
+	}
+	
+	# Tax the Chumaks
+	option = {
+		name = west_ukraine_history.11.b
+		
+		add_years_of_income = 0.25
+		
+		ai_chance = {
+			factor = 30
+		}
+	}
+}
+
+# =========================================================================
+# NOBILITY AND SZLACHTA CULTURE (1500-1700)
+# Historical context: Ruthenian nobility adopts Polish gentry culture
+# =========================================================================
+
+# Sarmatism Ideology
+country_event = {
+	id = west_ukraine_history.12
+	title = west_ukraine_history.12.t
+	desc = west_ukraine_history.12.d
+	picture = NOBLES_ESTATE_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = VOL
+			tag = HLC
+			tag = PDL
+		}
+		has_country_flag = polonization_started
+		OR = {
+			overlord = { tag = POL }
+			overlord = { tag = PLC }
+			accepted_culture = polish
+		}
+		NOT = { has_country_flag = sarmatism_adopted }
+	}
+	
+	mean_time_to_happen = {
+		months = 300
+	}
+	
+	# Embrace Sarmatism
+	option = {
+		name = west_ukraine_history.12.a
+		
+		set_country_flag = sarmatism_adopted
+		
+		add_country_modifier = {
+			name = west_ukr_sarmatism
+			duration = -1
+		}
+		
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 15
+			}
+		}
+		
+		ai_chance = {
+			factor = 70
+		}
+	}
+	
+	# Maintain Ruthenian traditions
+	option = {
+		name = west_ukraine_history.12.b
+		
+		add_country_modifier = {
+			name = west_ukr_ruthenian_nobility
+			duration = 9125
+		}
+		
+		add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
+		
+		ai_chance = {
+			factor = 30
+		}
+	}
+}
+
+# Golden Liberty vs Absolutism
+country_event = {
+	id = west_ukraine_history.13
+	title = west_ukraine_history.13.t
+	desc = west_ukraine_history.13.d
+	picture = REFORM_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = VOL
+			tag = HLC
+		}
+		has_country_flag = sarmatism_adopted
+		current_age = age_of_absolutism
+		NOT = { has_country_flag = liberty_vs_absolutism_choice }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	# Support Golden Liberty
+	option = {
+		name = west_ukraine_history.13.a
+		
+		set_country_flag = liberty_vs_absolutism_choice
+		
+		add_country_modifier = {
+			name = west_ukr_golden_liberty_support
+			duration = 9125
+		}
+		
+		add_absolutism = -10
+		
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 20
+			}
+		}
+		
+		ai_chance = {
+			factor = 50
+		}
+	}
+	
+	# Strengthen royal power
+	option = {
+		name = west_ukraine_history.13.b
+		
+		set_country_flag = liberty_vs_absolutism_choice
+		
+		add_absolutism = 10
+		add_legitimacy_equivalent = { amount = 15 republican_tradition = 7 }
+		
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+		
+		ai_chance = {
+			factor = 50
+		}
+	}
+}
