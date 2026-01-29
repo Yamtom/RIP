@@ -1,0 +1,629 @@
+namespace = steppe_raid
+
+# Steppe Raiding System - Crimean Tatar and Nomadic Mechanics
+# Based on historical raids into Muscovy, Poland-Lithuania, and Ukraine (1444-1700s)
+# Yasyr (Ясир) - captives taken to be sold into slavery
+
+# ========================================
+# CRIMEAN TATAR RAIDS
+# ========================================
+
+# 1. Organize Raiding Party
+country_event = {
+	id = steppe_raid.1
+	title = steppe_raid.1.t
+	desc = steppe_raid.1.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+	
+	trigger = {
+		OR = {
+			government = steppe_horde
+			tag = CRI # Crimea
+			tag = NOG # Nogai
+			tag = KAZ # Kazakh
+			tag = AST # Astrakhan
+		}
+		is_at_war = no
+		manpower_percentage = 0.3
+		NOT = { has_country_modifier = steppe_raid_cooldown }
+		any_neighbor_country = {
+			NOT = { alliance_with = ROOT }
+			NOT = { is_subject_of = ROOT }
+			OR = {
+				tag = MOS
+				tag = RUS
+				tag = POL
+				tag = PLC
+				tag = LIT
+				tag = VOL
+				tag = HLC
+				tag = PDL
+				technology_group = eastern
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		
+		modifier = {
+			factor = 0.7
+			horde_unity = 70
+		}
+		modifier = {
+			factor = 0.8
+			mil_power = 100
+		}
+		modifier = {
+			factor = 1.5
+			is_at_war = yes
+		}
+	}
+	
+	option = {
+		name = steppe_raid.1.a # Launch the raid!
+		ai_chance = { factor = 70 }
+		
+		add_country_modifier = {
+			name = steppe_raid_party
+			duration = 365
+		}
+		add_country_modifier = {
+			name = steppe_raid_cooldown
+			duration = 730
+		}
+		add_mil_power = -25
+		add_years_of_income = -0.15
+		add_horde_unity = 5
+		
+		random_neighbor_country = {
+			limit = {
+				NOT = { alliance_with = ROOT }
+				NOT = { is_subject_of = ROOT }
+				OR = {
+					tag = MOS
+					tag = RUS
+					tag = POL
+					tag = PLC
+					tag = LIT
+					tag = VOL
+					tag = HLC
+					tag = PDL
+					technology_group = eastern
+				}
+			}
+			country_event = { id = steppe_raid.2 days = 30 }
+		}
+	}
+	
+	option = {
+		name = steppe_raid.1.b # Not this year
+		ai_chance = { factor = 30 }
+		
+		add_prestige = -5
+		add_horde_unity = -3
+	}
+}
+
+# 2. Steppe Raid Arrives (Target)
+country_event = {
+	id = steppe_raid.2
+	title = steppe_raid.2.t
+	desc = steppe_raid.2.d
+	picture = BORDER_TENSION_eventPicture
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		random_owned_province = {
+			limit = {
+				any_neighbor_province = {
+					owned_by = FROM
+				}
+				NOT = { has_province_modifier = steppe_raid_devastation }
+			}
+			save_event_target_as = raid_target_province
+		}
+	}
+	
+	option = {
+		name = steppe_raid.2.a # Defend the border!
+		ai_chance = { factor = 60 }
+		
+		add_mil_power = -25
+		event_target:raid_target_province = {
+			add_province_modifier = {
+				name = steppe_border_defense
+				duration = 365
+			}
+		}
+		
+		FROM = {
+			country_event = { id = steppe_raid.3 days = 60 }
+		}
+	}
+	
+	option = {
+		name = steppe_raid.2.b # Accept the devastation
+		ai_chance = { factor = 40 }
+		
+		event_target:raid_target_province = {
+			add_devastation = 15
+			add_province_modifier = {
+				name = steppe_raid_devastation
+				duration = 1825
+			}
+		}
+		add_prestige = -10
+		
+		FROM = {
+			country_event = { id = steppe_raid.4 days = 60 }
+		}
+	}
+}
+
+# 3. Raid Repelled
+country_event = {
+	id = steppe_raid.3
+	title = steppe_raid.3.t
+	desc = steppe_raid.3.d
+	picture = BATTLE_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = steppe_raid.3.a # Unfortunate
+		
+		add_prestige = -10
+		add_horde_unity = -5
+		remove_country_modifier = steppe_raid_party
+		add_manpower = -2
+		
+		add_opinion = {
+			who = FROM
+			modifier = steppe_raid_repelled
+		}
+	}
+}
+
+# 4. Successful Raid - Yasyr (Captives)
+country_event = {
+	id = steppe_raid.4
+	title = steppe_raid.4.t
+	desc = steppe_raid.4.d
+	picture = BORDER_TENSION_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = steppe_raid.4.a # Take the yasyr to slave markets
+		ai_chance = { factor = 80 }
+		
+		add_years_of_income = 0.5
+		add_prestige = 10
+		add_horde_unity = 10
+		remove_country_modifier = steppe_raid_party
+		add_manpower = -1 # Casualties in raid
+		
+		add_country_modifier = {
+			name = steppe_successful_raid
+			duration = 1825
+		}
+		
+		add_opinion = {
+			who = FROM
+			modifier = steppe_raid_successful
+		}
+		
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = steppe_yasyr_taken
+			}
+		}
+		
+		# Chance of yasyr event for target
+		FROM = { country_event = { id = steppe_raid.5 days = 180 } }
+	}
+	
+	option = {
+		name = steppe_raid.4.b # Release captives for tribute
+		ai_chance = { factor = 20 }
+		
+		add_years_of_income = 0.25
+		add_prestige = 5
+		add_horde_unity = 5
+		remove_country_modifier = steppe_raid_party
+		
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = steppe_raid_tribute
+			}
+		}
+	}
+}
+
+# 5. Ransom the Yasyr (Target Country)
+country_event = {
+	id = steppe_raid.5
+	title = steppe_raid.5.t
+	desc = steppe_raid.5.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		NOT = { war_with = FROM }
+	}
+	
+	option = {
+		name = steppe_raid.5.a # Pay the ransom
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 0.1
+				NOT = { years_of_income = 0.5 }
+			}
+		}
+		
+		add_years_of_income = -0.5
+		add_prestige = 5
+		
+		random_owned_province = {
+			limit = {
+				has_province_modifier = steppe_raid_devastation
+			}
+			add_base_manpower = 1
+		}
+		
+		FROM = {
+			add_years_of_income = 0.3
+			add_opinion = {
+				who = ROOT
+				modifier = steppe_yasyr_ransomed
+			}
+		}
+	}
+	
+	option = {
+		name = steppe_raid.5.b # Refuse to pay
+		ai_chance = { factor = 40 }
+		
+		add_prestige = -10
+		
+		random_owned_province = {
+			limit = {
+				has_province_modifier = steppe_raid_devastation
+			}
+			add_base_manpower = -1
+			add_devastation = 5
+		}
+		
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = steppe_yasyr_refused
+			}
+		}
+	}
+}
+
+# ========================================
+# COSSACK COUNTER-RAIDS
+# ========================================
+
+# 6. Cossack Retaliatory Raid
+country_event = {
+	id = steppe_raid.6
+	title = steppe_raid.6.t
+	desc = steppe_raid.6.d
+	picture = COSSACK_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = VOL
+			tag = HLC
+			tag = PDL
+			tag = ZAZ # Zaporozhia
+			has_estate = estate_cossacks
+		}
+		has_estate_privilege = estate_cossacks_self_governance
+		NOT = { has_country_modifier = cossack_raid_cooldown }
+		any_neighbor_country = {
+			OR = {
+				tag = CRI
+				tag = NOG
+				government = steppe_horde
+			}
+			has_opinion_modifier = {
+				who = ROOT
+				modifier = steppe_yasyr_taken
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 80
+		
+		modifier = {
+			factor = 0.7
+			estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 60
+			}
+		}
+	}
+	
+	option = {
+		name = steppe_raid.6.a # Support the Cossack raid
+		ai_chance = { factor = 70 }
+		
+		add_mil_power = -15
+		add_country_modifier = {
+			name = cossack_raid_cooldown
+			duration = 730
+		}
+		
+		random_neighbor_country = {
+			limit = {
+				OR = {
+					tag = CRI
+					tag = NOG
+					government = steppe_horde
+				}
+			}
+			country_event = { id = steppe_raid.7 days = 45 }
+		}
+	}
+	
+	option = {
+		name = steppe_raid.6.b # Forbid the raid
+		ai_chance = { factor = 30 }
+		
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = -10
+		}
+		add_prestige = 5
+	}
+}
+
+# 7. Cossack Raid Strikes Steppe Horde
+country_event = {
+	id = steppe_raid.7
+	title = steppe_raid.7.t
+	desc = steppe_raid.7.d
+	picture = COSSACK_RAID_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = steppe_raid.7.a # They dare strike back!
+		
+		random_owned_province = {
+			limit = {
+				any_neighbor_province = {
+					owned_by = FROM
+				}
+			}
+			add_devastation = 10
+			add_province_modifier = {
+				name = cossack_raid_damage
+				duration = 1095
+			}
+		}
+		
+		add_prestige = -5
+		add_horde_unity = -5
+		
+		FROM = {
+			add_years_of_income = 0.3
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 10
+			}
+		}
+	}
+}
+
+# ========================================
+# MIGRATION EVENTS
+# ========================================
+
+# 8. Nogai Migration to Crimea/Budjak
+country_event = {
+	id = steppe_raid.8
+	title = steppe_raid.8.t
+	desc = steppe_raid.8.d
+	picture = STEPPE_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		OR = {
+			tag = CRI
+			tag = TUR
+		}
+		OR = {
+			owns = 2410 # Yedisan
+			owns = 2447 # Budjak  
+			owns = 2416 # Kuban
+		}
+		NOT = { exists = NOG }
+		is_year = 1500
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+	}
+	
+	option = {
+		name = steppe_raid.8.a # Settle the Nogai refugees
+		ai_chance = { factor = 80 }
+		
+		if = {
+			limit = { owns = 2416 } # Kuban
+			2416 = {
+				change_culture = nogaybak
+				add_base_manpower = 2
+				add_base_production = 1
+			}
+		}
+		else_if = {
+			limit = { owns = 2410 } # Yedisan
+			2410 = {
+				change_culture = nogaybak
+				add_base_manpower = 2
+				add_base_production = 1
+			}
+		}
+		else_if = {
+			limit = { owns = 2447 } # Budjak
+			2447 = {
+				change_culture = nogaybak
+				add_base_manpower = 2
+				add_base_production = 1
+			}
+		}
+		
+		add_country_modifier = {
+			name = nogai_settlers
+			duration = 7300
+		}
+	}
+	
+	option = {
+		name = steppe_raid.8.b # Refuse them
+		ai_chance = { factor = 20 }
+		
+		add_prestige = -5
+	}
+}
+
+# 9. Kalmyk Migration to Russia
+country_event = {
+	id = steppe_raid.9
+	title = steppe_raid.9.t
+	desc = steppe_raid.9.d
+	picture = MONGOL_BANNERS_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		OR = {
+			tag = MOS
+			tag = RUS
+		}
+		owns = 464 # Astrakhan
+		owns = 1082 # Lower Yayik
+		is_year = 1620
+		NOT = { is_year = 1650 }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = {
+		name = steppe_raid.9.a # Accept the Kalmyks as subjects
+		ai_chance = { factor = 70 }
+		
+		464 = { # Astrakhan
+			change_culture = oirats
+			change_religion = vajrayana
+			add_base_manpower = 3
+		}
+		1082 = { # Lower Yayik
+			change_culture = oirats
+			change_religion = vajrayana
+			add_base_manpower = 2
+		}
+		
+		add_country_modifier = {
+			name = kalmyk_cavalry
+			duration = -1
+		}
+	}
+	
+	option = {
+		name = steppe_raid.9.b # Face the Kalmyk invasion
+		ai_chance = { factor = 30 }
+		
+		464 = {
+			spawn_rebels = {
+				type = nomad_raiders
+				size = 3
+			}
+		}
+	}
+}
+
+# 10. Zasechnaya Cherta - Defensive Line
+country_event = {
+	id = steppe_raid.10
+	title = steppe_raid.10.t
+	desc = steppe_raid.10.d
+	picture = FORT_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = MOS
+			tag = RUS
+		}
+		adm_tech = 10
+		NOT = { has_country_modifier = zasechnaya_cherta }
+		any_owned_province = {
+			region = russia_region
+			any_neighbor_province = {
+				owned_by = CRI
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 200
+		
+		modifier = {
+			factor = 0.7
+			adm_power = 100
+		}
+	}
+	
+	option = {
+		name = steppe_raid.10.a # Build the Zasechnaya Cherta
+		ai_chance = { factor = 80 }
+		
+		add_adm_power = -50
+		add_years_of_income = -0.5
+		
+		add_country_modifier = {
+			name = zasechnaya_cherta
+			duration = -1
+		}
+		
+		every_owned_province = {
+			limit = {
+				region = russia_region
+				any_neighbor_province = {
+					OR = {
+						owned_by = CRI
+						owned_by = NOG
+						owned_by = AST
+					}
+				}
+			}
+			add_province_modifier = {
+				name = zasechnaya_cherta_province
+				duration = -1
+			}
+		}
+	}
+	
+	option = {
+		name = steppe_raid.10.b # Too expensive
+		ai_chance = { factor = 20 }
+		
+		add_prestige = -5
+	}
+}
