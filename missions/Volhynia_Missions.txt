@@ -2577,3 +2577,706 @@ VLN_carpathian_prestige = {
 		}
 	}
 }
+
+# =========================================================================
+# VOLHYNIA (VOL) - AUSTRIAN IMPERIAL PATH
+# Based on Habsburg missions: managing minorities, diplomatic marriages,
+# imperial prestige, and balance of power
+# Design: Mirrors Austrian multi-ethnic empire management
+# =========================================================================
+
+VOL_austrian_imperial_path_slot1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = VOL
+		has_country_flag = vol_austrian_path
+	}
+	has_country_shield = yes
+	
+	# Balance Estates (Austrian emp_hab_balanced_estates analog)
+	VOL_balance_estates = {
+		icon = balance_the_estates
+		position = 6
+		required_missions = { VOL_conquer_moldavia }
+		trigger = {
+			crown_land_share = 30
+			OR = {
+				NOT = { has_estate = estate_nobles }
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 60
+				}
+			}
+			OR = {
+				NOT = { has_estate = estate_church }
+				estate_loyalty = {
+					estate = estate_church
+					loyalty = 60
+				}
+			}
+			OR = {
+				NOT = { has_estate = estate_burghers }
+				estate_loyalty = {
+					estate = estate_burghers
+					loyalty = 60
+				}
+			}
+		}
+		effect = {
+			add_stability_or_adm_power = yes
+			add_country_modifier = {
+				name = vol_balanced_estates
+				duration = 7300
+			}
+			custom_tooltip = VOL_austrian_path_unlocked_tooltip
+			set_country_flag = vol_can_manage_minorities
+		}
+	}
+	
+	# The Ruthenian Question (Austrian emp_hab_the_hungarian_question analog)
+	VOL_manage_minorities = {
+		icon = the_hungarian_question
+		required_missions = { VOL_balance_estates }
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				culture = polish
+				culture = lithuanian
+				culture = hungarian
+				culture = romanian
+			}
+			NOT = { has_province_modifier = vol_minority_rights }
+		}
+		trigger = {
+			has_country_flag = vol_can_manage_minorities
+			if = {
+				limit = {
+					any_owned_province = {
+						OR = {
+							culture = polish
+							culture = lithuanian
+							culture = hungarian
+							culture = romanian
+						}
+					}
+				}
+				num_of_owned_provinces_with = {
+					value = 5
+					OR = {
+						culture = polish
+						culture = lithuanian
+						culture = hungarian
+						culture = romanian
+					}
+					NOT = { unrest = 1 }
+				}
+			}
+			else = {
+				num_of_owned_provinces_with = {
+					value = 10
+					NOT = { unrest = 1 }
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = vol_multicultural_realm
+				duration = 9125
+			}
+			every_owned_province = {
+				limit = {
+					OR = {
+						culture = polish
+						culture = lithuanian
+						culture = hungarian
+						culture = romanian
+					}
+				}
+				add_province_modifier = {
+					name = vol_minority_rights
+					duration = -1
+				}
+			}
+			add_adm_power = 50
+		}
+	}
+	
+	# All Minorities Welcome (Austrian emp_hab_all_minorities_are_welcome analog)
+	VOL_welcome_all_cultures = {
+		icon = multicultural_empire
+		required_missions = { VOL_manage_minorities }
+		trigger = {
+			has_country_modifier = vol_multicultural_realm
+			accepted_culture = polish
+			num_of_accepted_cultures = 2
+		}
+		effect = {
+			add_country_modifier = {
+				name = vol_cultural_tolerance
+				duration = -1
+			}
+			add_prestige = 25
+			if = {
+				limit = {
+					NOT = { accepted_culture = lithuanian }
+				}
+				add_accepted_culture = lithuanian
+			}
+		}
+	}
+}
+
+VOL_austrian_imperial_path_slot2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		tag = VOL
+		has_country_flag = vol_austrian_path
+	}
+	has_country_shield = yes
+	
+	# Imperial Capitals (Austrian emp_hab_imperial_capitals analog)
+	VOL_develop_capitals = {
+		icon = imperial_capitals
+		position = 7
+		required_missions = { VOL_balance_estates }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280  # Volhynia
+				province_id = 279  # Halych
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 20 }
+			}
+		}
+		trigger = {
+			280 = {
+				owned_by = ROOT
+				development = 20
+			}
+			279 = {
+				owned_by = ROOT
+				development = 20
+			}
+		}
+		effect = {
+			280 = {
+				add_province_modifier = {
+					name = vol_imperial_capital
+					duration = -1
+				}
+			}
+			279 = {
+				add_province_modifier = {
+					name = vol_imperial_capital
+					duration = -1
+				}
+			}
+			add_country_modifier = {
+				name = vol_twin_capitals
+				duration = 10950
+			}
+		}
+	}
+	
+	# Balance of Power (Austrian emp_hab_balance_of_power analog)
+	VOL_balance_of_power = {
+		icon = mission_have_two_subjects
+		required_missions = { VOL_develop_capitals }
+		trigger = {
+			OR = {
+				alliance_with = POL
+				alliance_with = LIT
+				alliance_with = HUN
+				alliance_with = MOS
+				alliance_with = HLC
+			}
+			OR = {
+				num_of_subjects = 2
+				total_own_and_non_tributary_subject_development = 300
+			}
+			prestige = 40
+		}
+		effect = {
+			add_dip_power = 100
+			add_country_modifier = {
+				name = vol_diplomatic_ascendancy
+				duration = 9125
+			}
+			set_country_flag = vol_balance_master
+		}
+	}
+	
+	# Dynastic Network (Austrian emp_hab_spread_dynasties analog)
+	VOL_dynastic_marriages = {
+		icon = mission_monarch_in_throne_room
+		required_missions = { VOL_balance_of_power }
+		trigger = {
+			has_country_flag = vol_balance_master
+			num_of_royal_marriages = 5
+			calc_true_if = {
+				desc = VOL_dynastic_network_tooltip
+				all_known_country = {
+					OR = {
+						has_ruler_of_dynasty = ROOT
+						AND = {
+							marriage_with = ROOT
+							has_opinion = {
+								who = ROOT
+								value = 100
+							}
+						}
+					}
+				}
+				amount = 3
+			}
+		}
+		effect = {
+			add_prestige = 30
+			add_country_modifier = {
+				name = vol_dynastic_prestige
+				duration = 10950
+			}
+			custom_tooltip = VOL_dynasty_spread_tooltip
+		}
+	}
+}
+
+# =========================================================================
+# VOLHYNIA (VOL) - POLISH CONSTITUTIONAL PATH
+# Based on Polish missions: Golden Liberty, Sejm, magnates, cultural flowering
+# Design: Mirrors PLC constitutional development with Ruthenian flavor
+# =========================================================================
+
+VOL_polish_constitutional_path_slot3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		tag = VOL
+		has_country_flag = vol_constitutional_path
+	}
+	has_country_shield = yes
+	
+	# Leverage Magnates (Polish pol_leverage_magnates analog)
+	VOL_manage_magnates = {
+		icon = polish_diplomacy
+		position = 6
+		required_missions = { VOL_conquer_moldavia }
+		trigger = {
+			if = {
+				limit = { has_estate = estate_nobles }
+				estate_influence = {
+					estate = estate_nobles
+					influence = 40
+				}
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 60
+				}
+			}
+			else = {
+				stability = 2
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = vol_magnate_support
+				duration = 7300
+			}
+			if = {
+				limit = { has_estate = estate_nobles }
+				add_estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 10
+				}
+			}
+			set_country_flag = vol_magnate_alliance
+		}
+	}
+	
+	# Great Sejm (Polish pol_great_sejm analog)
+	VOL_establish_sejm = {
+		icon = reform_the_state
+		required_missions = { VOL_manage_magnates }
+		trigger = {
+			has_country_flag = vol_magnate_alliance
+			adm_power = 100
+			if = {
+				limit = { has_estate = estate_nobles }
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 70
+				}
+			}
+			stability = 1
+		}
+		effect = {
+			add_adm_power = -100
+			add_country_modifier = {
+				name = vol_ruthenian_sejm
+				duration = -1
+			}
+			set_country_flag = vol_sejm_established
+			add_prestige = 15
+		}
+	}
+	
+	# Articles of Agreement (Polish plc_articles_agreement analog)
+	VOL_constitutional_compact = {
+		icon = mission_noble_council
+		required_missions = { VOL_establish_sejm }
+		trigger = {
+			has_country_flag = vol_sejm_established
+			adm_tech = 10
+			OR = {
+				full_idea_group = aristocracy_ideas
+				full_idea_group = plutocracy_ideas
+				full_idea_group = administrative_ideas
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = vol_constitutional_framework
+				duration = 10950
+			}
+			custom_tooltip = VOL_can_adopt_elective_tooltip
+			set_country_flag = vol_constitutional_ready
+		}
+	}
+	
+	# Golden Liberty (Polish plc_golden_liberty analog)
+	VOL_ruthenian_liberty = {
+		icon = mission_eastern_european_city
+		required_missions = { VOL_constitutional_compact }
+		trigger = {
+			has_country_flag = vol_constitutional_ready
+			stability = 2
+			legitimacy_equivalent = 90
+			prestige = 50
+		}
+		effect = {
+			add_country_modifier = {
+				name = vol_golden_liberty
+				duration = -1
+			}
+			add_prestige = 20
+			add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
+		}
+	}
+}
+
+VOL_polish_constitutional_path_slot4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		tag = VOL
+		has_country_flag = vol_constitutional_path
+	}
+	has_country_shield = yes
+	
+	# Negotiate Nunciature (Polish pol_negotiate_nunciature analog)
+	VOL_church_relations = {
+		icon = mission_hands_praying
+		position = 7
+		required_missions = { VOL_manage_magnates }
+		trigger = {
+			if = {
+				limit = { has_estate = estate_church }
+				estate_loyalty = {
+					estate = estate_church
+					loyalty = 60
+				}
+			}
+			religious_unity = 0.80
+		}
+		effect = {
+			add_country_modifier = {
+				name = vol_church_support
+				duration = 7300
+			}
+			if = {
+				limit = { has_estate = estate_church }
+				add_estate_loyalty = {
+					estate = estate_church
+					loyalty = 10
+				}
+			}
+		}
+	}
+	
+	# Expand University (Polish pol_expand_krakow_university analog)
+	VOL_university_expansion = {
+		icon = mission_early_modern_university
+		required_missions = { VOL_church_relations VOL_establish_sejm }
+		provinces_to_highlight = {
+			province_id = 280
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { has_building = university }
+			}
+		}
+		trigger = {
+			280 = {
+				owned_by = ROOT
+				has_building = university
+			}
+			innovativeness = 5
+		}
+		effect = {
+			280 = {
+				add_province_modifier = {
+					name = vol_center_of_learning
+					duration = -1
+				}
+			}
+			add_country_modifier = {
+				name = vol_educational_reform
+				duration = 9125
+			}
+		}
+	}
+	
+	# Cultural Flowering (Polish plc_cultural_flowering analog)
+	VOL_renaissance_court = {
+		icon = patronize_art_and_religion
+		required_missions = { VOL_university_expansion }
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 3
+				has_building = university
+			}
+			innovativeness = 10
+			OR = {
+				has_institution = renaissance
+				has_institution = printing_press
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = vol_cultural_flowering
+				duration = 10950
+			}
+			capital_scope = {
+				add_base_tax = 2
+				add_base_production = 2
+				add_base_manpower = 1
+			}
+		}
+	}
+	
+	# Edict of Education (Polish plc_edict_education analog)
+	VOL_education_edict = {
+		icon = religious_resolution
+		required_missions = { VOL_renaissance_court }
+		trigger = {
+			has_country_modifier = vol_cultural_flowering
+			num_of_owned_provinces_with = {
+				value = 5
+				development = 15
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = vol_enlightened_realm
+				duration = -1
+			}
+			add_adm_power = 100
+		}
+	}
+}
+
+# =========================================================================
+# VOLHYNIA (VOL) - SYNERGY MISSIONS (Both Paths)
+# Universal missions that benefit from either path choice
+# Design: Combines Austrian prestige with Polish constitutional benefits
+# =========================================================================
+
+VOL_synergy_missions_slot5 = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		tag = VOL
+		OR = {
+			has_country_flag = vol_austrian_path
+			has_country_flag = vol_constitutional_path
+		}
+	}
+	has_country_shield = yes
+	
+	# Choose Path Decision Point
+	VOL_choose_development_path = {
+		icon = mission_empire
+		position = 5
+		required_missions = { VOL_invest_in_west_rus_mission }
+		trigger = {
+			is_at_war = no
+			stability = 1
+			total_development = 200
+		}
+		effect = {
+			country_event = { id = vol_path_events.1 }
+			custom_tooltip = VOL_choose_path_tooltip
+		}
+	}
+	
+	# Prosper (Austrian emp_hab_prospering_nation + Polish breadbasket analog)
+	VOL_prosperity = {
+		icon = austria_prospers
+		required_missions = { VOL_choose_development_path }
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				area = volhynia_area
+				area = red_ruthenia_area
+				area = podolia_volhynia_area
+			}
+			OR = {
+				NOT = { development = 15 }
+				devastation = 1
+			}
+		}
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 10
+				OR = {
+					area = volhynia_area
+					area = red_ruthenia_area
+					area = podolia_volhynia_area
+				}
+				development = 15
+				NOT = { devastation = 1 }
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = vol_prosperous_realm
+				duration = 9125
+			}
+			if = {
+				limit = { has_country_flag = vol_austrian_path }
+				add_mercantilism = 3
+			}
+			else_if = {
+				limit = { has_country_flag = vol_constitutional_path }
+				add_years_of_income = 1.0
+			}
+		}
+	}
+	
+	# Confessional Unity (Austrian + Polish religious mechanics)
+	VOL_religious_settlement = {
+		icon = holy_state
+		required_missions = { VOL_prosperity }
+		trigger = {
+			religious_unity = 0.90
+			OR = {
+				has_country_modifier = vol_multicultural_realm
+				has_country_modifier = vol_magnate_support
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = vol_religious_harmony
+				duration = 10950
+			}
+			if = {
+				limit = { has_country_flag = vol_austrian_path }
+				add_papal_influence = 20
+			}
+			else_if = {
+				limit = { has_country_flag = vol_constitutional_path }
+				add_church_power = 50
+			}
+		}
+	}
+	
+	# Imperial Ambition (Combine Austrian imperial and Polish hegemony)
+	VOL_ruthenian_hegemony = {
+		icon = a_roman_empire
+		required_missions = { VOL_religious_settlement }
+		trigger = {
+			total_development = 400
+			army_size = 40
+			OR = {
+				government_rank = 3
+				AND = {
+					prestige = 75
+					legitimacy_equivalent = 90
+				}
+			}
+			OR = {
+				has_country_modifier = vol_dynastic_prestige
+				has_country_modifier = vol_golden_liberty
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					NOT = { government_rank = 3 }
+				}
+				set_government_rank = 3
+			}
+			add_country_modifier = {
+				name = vol_ruthenian_empire
+				duration = -1
+			}
+			set_country_flag = vol_empire_proclaimed
+			add_prestige = 30
+		}
+	}
+	
+	# Final Mission: Ruthenia Triumphant (Austrian A.E.I.O.U. + Polish hegemony)
+	VOL_ruthenia_triumphant = {
+		icon = a.e.i.o.u.
+		required_missions = { VOL_ruthenian_hegemony }
+		trigger = {
+			has_country_flag = vol_empire_proclaimed
+			total_development = 600
+			is_great_power = yes
+			OR = {
+				AND = {
+					has_country_flag = vol_austrian_path
+					calc_true_if = {
+						all_known_country = {
+							has_ruler_of_dynasty = ROOT
+						}
+						amount = 3
+					}
+					num_of_subjects = 3
+				}
+				AND = {
+					has_country_flag = vol_constitutional_path
+					has_country_modifier = vol_golden_liberty
+					stability = 3
+					legitimacy_equivalent = 95
+				}
+			}
+		}
+		effect = {
+			add_prestige = 50
+			add_legitimacy_equivalent = { amount = 25 republican_tradition = 10 }
+			if = {
+				limit = { has_country_flag = vol_austrian_path }
+				add_country_modifier = {
+					name = vol_imperial_triumph
+					duration = -1
+				}
+			}
+			else_if = {
+				limit = { has_country_flag = vol_constitutional_path }
+				add_country_modifier = {
+					name = vol_constitutional_triumph
+					duration = -1
+				}
+			}
+			custom_tooltip = VOL_ruthenia_triumphant_tooltip
+		}
+	}
+}

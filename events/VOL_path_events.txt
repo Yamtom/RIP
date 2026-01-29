@@ -1,0 +1,356 @@
+namespace = vol_path_events
+
+# =========================================================================
+# Volhynia Path Choice Events
+# Based on Austrian and Polish historical models
+# =========================================================================
+
+# Main Path Choice Event
+country_event = {
+	id = vol_path_events.1
+	title = vol_path_events.1.t
+	desc = vol_path_events.1.d
+	picture = COURT_eventPicture
+	
+	is_triggered_only = yes
+	
+	# Austrian Imperial Path
+	option = {
+		name = vol_path_events.1.a
+		
+		set_country_flag = vol_austrian_path
+		
+		add_country_modifier = {
+			name = vol_diplomatic_focus
+			duration = 7300
+		}
+		
+		custom_tooltip = vol_austrian_path_tooltip
+		
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				personality = ai_diplomat
+			}
+			modifier = {
+				factor = 2
+				num_of_subjects = 2
+			}
+			modifier = {
+				factor = 1.5
+				OR = {
+					alliance_with = HUN
+					alliance_with = POL
+				}
+			}
+		}
+	}
+	
+	# Polish Constitutional Path
+	option = {
+		name = vol_path_events.1.b
+		
+		set_country_flag = vol_constitutional_path
+		
+		add_country_modifier = {
+			name = vol_constitutional_focus
+			duration = 7300
+		}
+		
+		custom_tooltip = vol_constitutional_path_tooltip
+		
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				personality = ai_balanced
+			}
+			modifier = {
+				factor = 2
+				has_reform = elective_monarchy
+			}
+			modifier = {
+				factor = 1.5
+				estate_influence = {
+					estate = estate_nobles
+					influence = 50
+				}
+			}
+		}
+	}
+}
+
+# Austrian Path - Dynasty Marriage Success
+country_event = {
+	id = vol_path_events.2
+	title = vol_path_events.2.t
+	desc = vol_path_events.2.d
+	picture = ROYAL_COUPLE_eventPicture
+	
+	trigger = {
+		has_country_flag = vol_austrian_path
+		has_country_modifier = vol_dynastic_prestige
+		num_of_royal_marriages = 4
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = {
+		name = vol_path_events.2.a
+		
+		add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
+		add_prestige = 10
+		
+		random_known_country = {
+			limit = {
+				marriage_with = ROOT
+				NOT = { has_ruler_of_dynasty = ROOT }
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = vol_dynastic_ties
+			}
+		}
+	}
+}
+
+# Polish Path - Sejm Deliberation
+country_event = {
+	id = vol_path_events.3
+	title = vol_path_events.3.t
+	desc = vol_path_events.3.d
+	picture = SEJM_eventPicture
+	
+	trigger = {
+		has_country_flag = vol_constitutional_path
+		has_country_modifier = vol_ruthenian_sejm
+		stability = 1
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	# Support the Nobles
+	option = {
+		name = vol_path_events.3.a
+		
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 10
+		}
+		add_reform_progress = 10
+		
+		ai_chance = {
+			factor = 60
+		}
+	}
+	
+	# Assert Royal Authority
+	option = {
+		name = vol_path_events.3.b
+		
+		add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
+		add_absolutism = 5
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = -5
+		}
+		
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				personality = ai_militarist
+			}
+		}
+	}
+}
+
+# Cultural Flowering Event (Both Paths)
+country_event = {
+	id = vol_path_events.4
+	title = vol_path_events.4.t
+	desc = vol_path_events.4.d
+	picture = UNIVERSITY_eventPicture
+	
+	trigger = {
+		OR = {
+			has_country_modifier = vol_cultural_flowering
+			has_country_modifier = vol_dynastic_prestige
+		}
+		capital_scope = {
+			has_building = university
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+	}
+	
+	option = {
+		name = vol_path_events.4.a
+		
+		add_adm_power = 50
+		capital_scope = {
+			add_base_tax = 1
+			add_base_production = 1
+		}
+		
+		if = {
+			limit = { has_country_flag = vol_austrian_path }
+			add_prestige = 15
+		}
+		else_if = {
+			limit = { has_country_flag = vol_constitutional_path }
+			add_innovativeness = 2
+		}
+	}
+}
+
+# Minority Integration Event (Austrian Path)
+country_event = {
+	id = vol_path_events.5
+	title = vol_path_events.5.t
+	desc = vol_path_events.5.d
+	picture = CULTURE_eventPicture
+	
+	trigger = {
+		has_country_flag = vol_austrian_path
+		has_country_modifier = vol_multicultural_realm
+		any_owned_province = {
+			NOT = { culture = ROOT }
+			NOT = { has_province_modifier = vol_minority_rights }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	# Extend Rights
+	option = {
+		name = vol_path_events.5.a
+		
+		random_owned_province = {
+			limit = {
+				NOT = { culture = ROOT }
+				NOT = { has_province_modifier = vol_minority_rights }
+			}
+			add_province_modifier = {
+				name = vol_minority_rights
+				duration = -1
+			}
+		}
+		
+		add_adm_power = -25
+		add_prestige = 5
+		
+		ai_chance = {
+			factor = 70
+		}
+	}
+	
+	# Maintain Status Quo
+	option = {
+		name = vol_path_events.5.b
+		
+		add_adm_power = 10
+		
+		ai_chance = {
+			factor = 30
+		}
+	}
+}
+
+# Constitutional Reform Debate (Polish Path)
+country_event = {
+	id = vol_path_events.6
+	title = vol_path_events.6.t
+	desc = vol_path_events.6.d
+	picture = REFORM_eventPicture
+	
+	trigger = {
+		has_country_flag = vol_constitutional_path
+		has_country_modifier = vol_constitutional_framework
+		reform_progress = 50
+	}
+	
+	mean_time_to_happen = {
+		months = 150
+	}
+	
+	# Implement Reforms
+	option = {
+		name = vol_path_events.6.a
+		
+		add_reform_progress = -50
+		add_country_modifier = {
+			name = vol_successful_reform
+			duration = 3650
+		}
+		
+		ai_chance = {
+			factor = 60
+		}
+	}
+	
+	# Delay Reforms
+	option = {
+		name = vol_path_events.6.b
+		
+		add_stability_or_adm_power = yes
+		
+		ai_chance = {
+			factor = 40
+		}
+	}
+}
+
+# Empire Proclaimed (Final Event)
+country_event = {
+	id = vol_path_events.7
+	title = vol_path_events.7.t
+	desc = vol_path_events.7.d
+	picture = EMPEROR_eventPicture
+	
+	trigger = {
+		has_country_flag = vol_empire_proclaimed
+		NOT = { has_country_flag = vol_empire_celebration }
+	}
+	
+	mean_time_to_happen = {
+		days = 7
+	}
+	
+	immediate = {
+		set_country_flag = vol_empire_celebration
+	}
+	
+	option = {
+		name = vol_path_events.7.a
+		
+		add_prestige = 30
+		add_legitimacy_equivalent = { amount = 20 republican_tradition = 10 }
+		
+		if = {
+			limit = { has_country_flag = vol_austrian_path }
+			custom_tooltip = vol_austrian_empire_tooltip
+			add_country_modifier = {
+				name = vol_imperial_coronation
+				duration = 3650
+			}
+		}
+		else_if = {
+			limit = { has_country_flag = vol_constitutional_path }
+			custom_tooltip = vol_constitutional_empire_tooltip
+			add_country_modifier = {
+				name = vol_constitutional_coronation
+				duration = 3650
+			}
+		}
+	}
+}
