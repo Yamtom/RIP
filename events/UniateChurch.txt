@@ -44,7 +44,10 @@ country_event = {
 				religion = catholic
 			}
 			overlord = { religion = catholic }
-			senior_union_with = { religion = catholic }
+			OR = {
+				overlord = { religion = catholic }
+				senior_union_with = { religion = catholic }
+			}
 		}
 		NOT = { has_country_flag = uniate_union_proposed }
 		is_year = 1590
@@ -61,7 +64,10 @@ country_event = {
 			factor = 0.8
 			OR = {
 				overlord = { religion = catholic }
-				senior_union_with = { religion = catholic }
+				OR = {
+					overlord = { religion = catholic }   # if you’re junior
+					any_subject_country = { religion = catholic }  # if you’re senior
+				}
 			}
 		}
 	}
