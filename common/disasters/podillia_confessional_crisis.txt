@@ -20,10 +20,7 @@ podillia_confessional_crisis = {
 		stability = 0
 		
 		# Religious diversity triggers crisis
-		OR = {
-			religious_unity = 0.65
-			num_of_different_religions = 2
-		}
+		religious_unity = 0.65
 		
 		# Tensions with religious estates
 		OR = {
@@ -59,9 +56,8 @@ podillia_confessional_crisis = {
 		OR = {
 			has_country_modifier = religious_intolerance
 			has_country_modifier = forced_conversion
-			had_recent_religious_change = yes
-			NOT = { tolerance_heretic = -1 }
-			NOT = { tolerance_heathen = -1 }
+			NOT = { tolerance_heretic = 0 }
+			NOT = { tolerance_heathen = 0 }
 		}
 	}
 	
@@ -73,8 +69,8 @@ podillia_confessional_crisis = {
 			
 			# Religious tolerance achieved
 			AND = {
-				tolerance_heretic = 1
-				tolerance_heathen = 1
+				tolerance_heretic = 2
+				tolerance_heathen = 2
 			}
 			
 			# Estates pacified
@@ -131,8 +127,8 @@ podillia_confessional_crisis = {
 			AND = {
 				stability = 2
 				religious_unity = 0.85
-				tolerance_heretic = 2
-				tolerance_heathen = 2
+				tolerance_heretic >= 2
+				tolerance_heathen >= 2
 			}
 			
 			# Forced resolution

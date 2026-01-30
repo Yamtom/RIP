@@ -420,13 +420,12 @@ country_event = {
 			overlord = { tag = POL }
 			overlord = { tag = PLC }
 		}
-		any_owned_province = {
-			has_terrain = steppe
-			OR = {
-				culture = ruthenian
-				culture = ukrainian
+			any_owned_province = {
+				has_terrain = steppe
+				OR = {
+					culture = ruthenian
+				}
 			}
-		}
 		NOT = { has_country_flag = cossack_uprising_chain }
 	}
 	
@@ -452,23 +451,23 @@ country_event = {
 		
 		set_country_flag = cossack_uprising_chain
 		
-		random_owned_province = {
-			limit = {
-				has_terrain = steppe
-				OR = {
-					culture = ruthenian
-					culture = ukrainian
-				}
-			}
-			spawn_rebels = {
-				type = cossack_rebels
-				size = 2
-			}
-			add_province_modifier = {
-				name = west_ukr_cossack_unrest
-				duration = 5475
-			}
-		}
+		   random_owned_province = {
+			   limit = {
+				   has_terrain = steppe
+				   OR = {
+					   culture = ruthenian
+					   culture = ukrainian
+				   }
+			   }
+			   spawn_rebels = {
+				   type = cossack_rebels
+				   size = 2
+			   }
+			   add_province_modifier = {
+				   name = west_ukr_cossack_unrest
+				   duration = 5475
+			   }
+		   }
 		
 		add_stability = -1
 		
@@ -783,7 +782,7 @@ country_event = {
 	option = {
 		name = west_ukraine_history.9.a
 		
-		add_ducats = -100
+		add_treasury = -100
 		
 		279 = {
 			add_province_modifier = {

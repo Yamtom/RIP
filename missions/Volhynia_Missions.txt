@@ -258,14 +258,14 @@ VOL_missions_U_1 = {
 			NOT = {
 				exists = POL
 			}
-			NOT = {
-				exists = PLC
-			}
-		}
-		effect = {
-			add_prestige = 10
-			1952 = {
-				add_permanent_claim = ROOT
+		trigger = {
+			HLC = { alliance = ROOT }
+			HLC = {
+				   HLC = { num_of_owned_provinces = 5 }
+				OR = {
+					has_country_flag = rip_galicia_path_austria
+					has_country_flag = rip_galicia_path_poland
+				}
 			}
 		}
 	}
@@ -1348,9 +1348,9 @@ VLN_alt_history_path_1 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			alliance = HLC
+			HLC = { alliance = ROOT }
 			HLC = {
-				num_of_owned_provinces = 5
+				   HLC = { num_of_owned_provinces = 5 }
 				OR = {
 					has_country_flag = rip_galicia_path_austria
 					has_country_flag = rip_galicia_path_poland

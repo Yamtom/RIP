@@ -107,7 +107,7 @@ country_event = {
 		random_known_country = {
 			limit = {
 				marriage_with = ROOT
-				NOT = { has_ruler_of_dynasty = ROOT }
+				has_ruler_of_dynasty = ROOT
 			}
 			add_opinion = {
 				who = ROOT
@@ -142,7 +142,6 @@ country_event = {
 			estate = estate_nobles
 			loyalty = 10
 		}
-		add_reform_progress = 10
 		
 		ai_chance = {
 			factor = 60
@@ -206,7 +205,7 @@ country_event = {
 		}
 		else_if = {
 			limit = { has_country_flag = vol_constitutional_path }
-			add_innovativeness = 2
+			add_adm_power = 25
 		}
 	}
 }
@@ -276,7 +275,6 @@ country_event = {
 	trigger = {
 		has_country_flag = vol_constitutional_path
 		has_country_modifier = vol_constitutional_framework
-		reform_progress = 50
 	}
 	
 	mean_time_to_happen = {
@@ -287,7 +285,7 @@ country_event = {
 	option = {
 		name = vol_path_events.6.a
 		
-		add_reform_progress = -50
+		add_adm_power = -50
 		add_country_modifier = {
 			name = vol_successful_reform
 			duration = 3650

@@ -2,6 +2,7 @@ namespace = border_principalities
 
 # Dmitri Shemyaka's Descendants in Rylsk
 border_principalities.1 = {
+	id = border_principalities.1
 	type = country_event
 	title = border_principalities.1.t
 	desc = border_principalities.1.d
@@ -49,6 +50,7 @@ border_principalities.1 = {
 
 # Glinski Family and Mamai's Descendants in Hlinsk
 border_principalities.2 = {
+	id = border_principalities.2
 	type = country_event
 	title = border_principalities.2.t
 	desc = border_principalities.2.d
@@ -77,8 +79,8 @@ border_principalities.2 = {
 		random_owned_province = {
 			limit = {
 				OR = {
-					area = severia_area
-					area = bryansk_area
+					province_id = 1960
+					province_id = 296
 				}
 			}
 			add_province_modifier = {
@@ -107,6 +109,7 @@ border_principalities.2 = {
 
 # Jagoldai Khanate - Golden Horde Vassal
 border_principalities.3 = {
+	id = border_principalities.3
 	type = country_event
 	title = border_principalities.3.t
 	desc = border_principalities.3.d
@@ -134,12 +137,12 @@ border_principalities.3 = {
 				name = jagoldai_horde_settlement
 				duration = -1
 			}
-			add_base_cavalry = 2
 		}
 		add_country_modifier = {
 			name = horde_vassal_buffer
 			duration = 9125
 		}
+		add_mil_power = 50
 	}
 	
 	option = {  # Refuse horde settlement
@@ -156,6 +159,7 @@ border_principalities.3 = {
 # Rylsk Defects to Muscovy (1500-1503 War Context)
 border_principalities.4 = {
 	type = country_event
+	id = border_principalities.4
 	title = border_principalities.4.t
 	desc = border_principalities.4.d
 	picture = BORDER_TENSION_eventPicture
@@ -191,9 +195,7 @@ border_principalities.4 = {
 		ai_chance = { factor = 60 }
 		
 		add_prestige = -10
-		295 = {
-			add_loyalty = 10
-		}
+		add_legitimacy = 10
 		random_list = {
 			30 = {  # Rylsk defects anyway
 				MOS = {
@@ -236,6 +238,7 @@ border_principalities.4 = {
 # Muscovy Receives Rylsk Defection
 border_principalities.5 = {
 	type = country_event
+	id = border_principalities.5
 	title = border_principalities.5.t
 	desc = border_principalities.5.d
 	picture = GOOD_WITH_MONARCH_eventPicture
@@ -265,6 +268,7 @@ border_principalities.5 = {
 # Glinski Rebellion (1507-1508)
 border_principalities.6 = {
 	type = country_event
+	id = border_principalities.6
 	title = border_principalities.6.t
 	desc = border_principalities.6.d
 	picture = ANGRY_MOB_eventPicture
@@ -358,6 +362,7 @@ border_principalities.6 = {
 # Glinski Full Rebellion
 border_principalities.7 = {
 	type = country_event
+	id = border_principalities.7
 	title = border_principalities.7.t
 	desc = border_principalities.7.d
 	picture = CIVIL_WAR_eventPicture
@@ -389,6 +394,7 @@ border_principalities.7 = {
 
 # Muscovy Receives Glinski Defectors
 border_principalities.8 = {
+	id = border_principalities.8
 	type = country_event
 	title = border_principalities.8.t
 	desc = border_principalities.8.d
@@ -417,6 +423,7 @@ border_principalities.8 = {
 # Jagoldai Switches Allegiance
 border_principalities.9 = {
 	type = country_event
+	id = border_principalities.9
 	title = border_principalities.9.t
 	desc = border_principalities.9.d
 	picture = HORDE_ALLIED_eventPicture
@@ -490,6 +497,7 @@ border_principalities.9 = {
 # Muscovy Receives Jagoldai Defection
 border_principalities.10 = {
 	type = country_event
+	id = border_principalities.10
 	title = border_principalities.10.t
 	desc = border_principalities.10.d
 	picture = HORDE_ALLIED_eventPicture
@@ -518,6 +526,7 @@ border_principalities.10 = {
 # Starodub Switching Allegiance (Historical 1503)
 border_principalities.11 = {
 	type = country_event
+	id = border_principalities.11
 	title = border_principalities.11.t
 	desc = border_principalities.11.d
 	picture = BORDER_TENSION_eventPicture
@@ -577,8 +586,8 @@ border_principalities.11 = {
 		random_owned_province = {
 			limit = {
 				OR = {
-					area = severia_area
-					area = bryansk_area
+					province_id = 1960
+					province_id = 296
 				}
 			}
 			cede_province = MOS
@@ -590,6 +599,7 @@ border_principalities.11 = {
 # Muscovy Receives Starodub Offer
 border_principalities.12 = {
 	type = country_event
+	id = border_principalities.12
 	title = border_principalities.12.t
 	desc = border_principalities.12.d
 	picture = GOOD_WITH_MONARCH_eventPicture

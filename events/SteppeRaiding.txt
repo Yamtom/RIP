@@ -17,11 +17,11 @@ country_event = {
 	
 	trigger = {
 		OR = {
-			government = steppe_horde
 			tag = CRI # Crimea
 			tag = NOG # Nogai
 			tag = KAZ # Kazakh
 			tag = AST # Astrakhan
+			government_rank = 1
 		}
 		is_at_war = no
 		manpower_percentage = 0.3
@@ -328,13 +328,12 @@ country_event = {
 			tag = ZAZ # Zaporozhia
 			has_estate = estate_cossacks
 		}
-		has_estate_privilege = estate_cossacks_self_governance
+		has_estate = estate_cossacks
 		NOT = { has_country_modifier = cossack_raid_cooldown }
 		any_neighbor_country = {
 			OR = {
 				tag = CRI
 				tag = NOG
-				government = steppe_horde
 			}
 			has_opinion_modifier = {
 				who = ROOT
@@ -370,7 +369,6 @@ country_event = {
 				OR = {
 					tag = CRI
 					tag = NOG
-					government = steppe_horde
 				}
 			}
 			country_event = { id = steppe_raid.7 days = 45 }
@@ -552,7 +550,7 @@ country_event = {
 		
 		464 = {
 			spawn_rebels = {
-				type = nomad_raiders
+				type = religious_rebels
 				size = 3
 			}
 		}

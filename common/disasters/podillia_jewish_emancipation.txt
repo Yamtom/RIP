@@ -7,7 +7,6 @@
 podillia_jewish_emancipation = {
 	potential = {
 		tag = PDL
-		NOT = { has_country_flag = had_pdl_jewish_emancipation }
 		has_estate = estate_dhimmi
 	}
 	
@@ -47,24 +46,16 @@ podillia_jewish_emancipation = {
 	}
 	
 	can_stop = {
-		OR = {
-			# Full emancipation granted
-			has_country_flag = pdl_jewish_rights_granted
-			
-			# Traditional restrictions maintained
-			has_country_flag = pdl_traditional_order_restored
-			
-			# Compromise reached
-			AND = {
-				stability = 2
-				estate_loyalty = {
-					estate = estate_dhimmi
-					loyalty = 60
-				}
-				estate_loyalty = {
-					estate = estate_nobles
-					loyalty = 60
-				}
+		# Compromise reached
+		AND = {
+			stability = 2
+			estate_loyalty = {
+				estate = estate_dhimmi
+				loyalty = 60
+			}
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 60
 			}
 		}
 	}
@@ -72,13 +63,11 @@ podillia_jewish_emancipation = {
 	progress = {
 		modifier = {
 			factor = 1
-			desc = "pdl_jewish_emancipation_base_progress"
 		}
 		
 		# Accelerators
 		modifier = {
 			factor = 2
-			desc = "pdl_high_dhimmi_influence"
 			estate_influence = {
 				estate = estate_dhimmi
 				influence = 60
@@ -87,13 +76,11 @@ podillia_jewish_emancipation = {
 		
 		modifier = {
 			factor = 1.5
-			desc = "pdl_enlightenment_ideas"
 			has_idea_group = humanist_ideas
 		}
 		
 		modifier = {
 			factor = 1.5
-			desc = "pdl_low_noble_loyalty"
 			estate_loyalty = {
 				estate = estate_nobles
 				loyalty = 40
@@ -103,13 +90,11 @@ podillia_jewish_emancipation = {
 		# Reducers
 		modifier = {
 			factor = -1
-			desc = "pdl_tolerance_path"
 			has_country_flag = pdl_tolerance_path
 		}
 		
 		modifier = {
 			factor = -0.5
-			desc = "pdl_stable_estates"
 			stability = 2
 			estate_loyalty = {
 				estate = estate_nobles

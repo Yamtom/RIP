@@ -11,7 +11,7 @@ country_decisions = {
 
 	# Embrace Carpathian Defense Doctrine
 	pdl_adopt_carpathian_doctrine = {
-		major = no
+		major = yes
 		potential = {
 			tag = PDL
 			NOT = { has_country_flag = pdl_carpathian_path }
@@ -30,7 +30,6 @@ country_decisions = {
 		effect = {
 			add_mil_power = -50
 			set_country_flag = pdl_carpathian_path
-			country_event = { id = podillia_events.1 days = 30 }
 		}
 		
 		ai_will_do = {
@@ -49,7 +48,7 @@ country_decisions = {
 
 	# Embrace Cossack Frontier Traditions
 	pdl_adopt_cossack_traditions = {
-		major = no
+		major = yes
 		potential = {
 			tag = PDL
 			NOT = { has_country_flag = pdl_carpathian_path }
@@ -83,7 +82,7 @@ country_decisions = {
 
 	# Embrace Magnate Governance
 	pdl_adopt_magnate_governance = {
-		major = no
+		major = yes
 		potential = {
 			tag = PDL
 			NOT = { has_country_flag = pdl_carpathian_path }
@@ -123,7 +122,7 @@ country_decisions = {
 
 	# Grant Cossack Lands
 	pdl_grant_cossack_lands = {
-		major = no
+		major = yes
 		potential = {
 			tag = PDL
 			has_estate = estate_cossacks
@@ -134,7 +133,6 @@ country_decisions = {
 		provinces_to_highlight = {
 			owned_by = ROOT
 			area = podolia_volhynia_area
-			terrain = plains
 		}
 		
 		allow = {
@@ -144,7 +142,6 @@ country_decisions = {
 			}
 			any_owned_province = {
 				area = podolia_volhynia_area
-				terrain = plains
 			}
 			adm_power = 100
 		}
@@ -154,7 +151,6 @@ country_decisions = {
 			random_owned_province = {
 				limit = {
 					area = podolia_volhynia_area
-					terrain = plains
 				}
 				add_province_modifier = {
 					name = pdl_cossack_settlement
@@ -184,7 +180,7 @@ country_decisions = {
 
 	# Establish Magnate Council
 	pdl_establish_magnate_council = {
-		major = no
+		major = yes
 		potential = {
 			tag = PDL
 			has_country_flag = pdl_magnate_path
@@ -274,7 +270,6 @@ country_decisions = {
 
 	# Protect Jewish Communities
 	pdl_protect_jewish_communities = {
-		major = no
 		potential = {
 			tag = PDL
 			has_country_flag = pdl_tolerance_path
@@ -314,7 +309,6 @@ country_decisions = {
 
 	# Develop Kamianets as Capital
 	pdl_develop_kamianets = {
-		major = no
 		potential = {
 			tag = PDL
 			owns = 277
@@ -363,7 +357,6 @@ country_decisions = {
 
 	# Fortify Khotyn
 	pdl_fortify_khotyn_decision = {
-		major = no
 		potential = {
 			tag = PDL
 			owns = 281
@@ -412,7 +405,6 @@ country_decisions = {
 
 	# Establish Trade Route to Lviv
 	pdl_establish_lviv_trade = {
-		major = no
 		potential = {
 			tag = PDL
 			owns = 277
@@ -455,7 +447,7 @@ country_decisions = {
 
 	# Grant Magnate Titles to Vassals
 	pdl_grant_magnate_titles = {
-		major = no
+		major = yes
 		potential = {
 			tag = PDL
 			has_country_flag = pdl_magnate_path
@@ -516,7 +508,6 @@ country_decisions = {
 
 	# Integrate Magnate Vassal
 	pdl_integrate_magnate_vassal = {
-		major = no
 		potential = {
 			tag = PDL
 			has_country_flag = pdl_magnate_path
@@ -579,7 +570,6 @@ country_decisions = {
 
 	# Establish Kamianets Trade Company
 	pdl_establish_trade_company = {
-		major = no
 		potential = {
 			tag = PDL
 			owns = 277
@@ -629,7 +619,7 @@ country_decisions = {
 
 	# Expand Trade Company Network
 	pdl_expand_trade_network = {
-		major = no
+		major = yes
 		potential = {
 			tag = PDL
 			has_country_flag = pdl_kamianets_trade_company
@@ -751,7 +741,6 @@ country_decisions = {
 			VOL = {
 				is_subject_of = ROOT
 			}
-			accepted_culture = ruthenian
 			stability = 1
 			adm_power = 200
 			dip_power = 100
@@ -769,7 +758,6 @@ country_decisions = {
 			inherit = VOL
 			add_prestige = 20
 			add_legitimacy = 10
-			add_accepted_culture = volhynian
 			add_country_modifier = {
 				name = pdl_volhynian_integration
 				duration = 7300
@@ -778,10 +766,6 @@ country_decisions = {
 		
 		ai_will_do = {
 			factor = 1
-			modifier = {
-				factor = 2
-				has_country_flag = pdl_cossack_path
-			}
 			modifier = {
 				factor = 0.5
 				NOT = { accepted_culture = ruthenian }
@@ -830,10 +814,7 @@ country_decisions = {
 			}
 			every_owned_province = {
 				limit = {
-					OR = {
-						culture = ruthenian
-						culture = volhynian
-					}
+					culture = ruthenian
 				}
 				add_nationalism = -10
 			}

@@ -46,13 +46,12 @@ christian = {
 		
 		# Orthodox church power system
 		uses_church_power = yes
-		uses_aspects_and_blessings = yes
 		
 		# Patriarchs
 		has_patriarchs = yes
 		
 		# Misguided heretics
-		heretic = { "BOGOMILIST" "OLD_BELIEVERS" }
+		heretic = { "BOGOMILIST" }
 		
 		# Date when Moscow became Patriarchate
 		date = 1589.1.26
@@ -67,146 +66,6 @@ christian = {
 			}
 		}
 		
-		# Aggressive Orthodox aspects
-		aspects = {
-			third_rome_mission = {
-				cost = 100
-				trigger = {
-					capital_scope = {
-						region = russia_region
-					}
-				}
-				modifiers = {
-					legitimacy = 1
-					prestige = 1
-					ae_impact = -0.15
-					unjustified_demands = -0.25
-				}
-				ai_will_do = {
-					factor = 10
-				}
-			}
-			
-			patriarch_authority = {
-				cost = 100
-				trigger = {
-					always = yes
-				}
-				modifiers = {
-					church_power_modifier = 0.25
-					stability_cost_modifier = -0.15
-					global_autonomy = -0.05
-				}
-				ai_will_do = {
-					factor = 10
-				}
-			}
-			
-			orthodox_inquisition = {
-				cost = 100
-				trigger = {
-					religious_ideas = 3
-				}
-				modifiers = {
-					global_missionary_strength = 0.03
-					global_heretic_missionary_strength = 0.02
-					tolerance_heretic = -2
-					tolerance_heathen = -2
-				}
-				ai_will_do = {
-					factor = 8
-				}
-			}
-			
-			forced_russification = {
-				cost = 100
-				trigger = {
-					num_of_owned_provinces_with = {
-						value = 20
-						NOT = { culture = russian }
-					}
-				}
-				modifiers = {
-					culture_conversion_cost = -0.30
-					harsh_treatment_cost = -0.25
-					years_of_nationalism = -5
-				}
-				ai_will_do = {
-					factor = 9
-				}
-			}
-			
-			imperial_orthodox_church = {
-				cost = 100
-				trigger = {
-					government_rank = 3
-				}
-				modifiers = {
-					administrative_efficiency = 0.05
-					governing_capacity_modifier = 0.15
-					state_maintenance_modifier = -0.20
-				}
-				ai_will_do = {
-					factor = 8
-				}
-			}
-			
-			subjugation_of_heretics = {
-				cost = 100
-				trigger = {
-					any_owned_province = {
-						NOT = { religion = ROOT }
-					}
-				}
-				modifiers = {
-					religious_unity = 0.25
-					global_unrest = -2
-					num_accepted_cultures = 1
-				}
-				ai_will_do = {
-					factor = 7
-				}
-			}
-		}
-		
-		# Blessings focused on expansion and domination
-		blessings = {
-			blessing_of_third_rome = {
-				modifier = {
-					prestige_decay = -0.01
-					legitimacy = 1
-					ae_impact = -0.10
-				}
-			}
-			
-			blessing_of_patriarch_of_moscow = {
-				modifier = {
-					church_power_modifier = 0.20
-					stability_cost_modifier = -0.15
-				}
-			}
-			
-			blessing_of_orthodox_conquest = {
-				modifier = {
-					core_creation = -0.15
-					province_warscore_cost = -0.10
-				}
-			}
-			
-			blessing_of_cultural_dominance = {
-				modifier = {
-					culture_conversion_cost = -0.25
-					accept_culture_threshold = -0.15
-				}
-			}
-			
-			blessing_of_religious_unity = {
-				modifier = {
-					global_missionary_strength = 0.03
-					missionaries = 1
-				}
-			}
-		}
 		
 		# Holy sites give aggressive bonuses
 		holy_sites = {

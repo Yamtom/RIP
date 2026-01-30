@@ -232,7 +232,7 @@ PDL_missions_1_carpathian = {
 		}
 		
 		effect = {
-			add_mil_tradition = 20
+			   add_army_tradition = 2
 			281 = {
 				add_base_manpower = 2
 				add_building = barracks
@@ -289,12 +289,64 @@ PDL_missions_1_carpathian = {
 		required_missions = { PDL_kamianets_capital }
 		position = 5
 		
-		provinces_to_highlight = {
-			region = pontic_steppe_region
-			NOT = {
-				owned_by = ROOT
-			}
-		}
+		   provinces_to_highlight = {
+			   OR = {
+				   province_id = 4749 # Example province in Pontic Steppe
+				   province_id = 4750 # Add more Pontic Steppe province IDs as needed
+				   province_id = 4751
+				   province_id = 4752
+				   province_id = 4753
+				   province_id = 4754
+				   province_id = 4755
+				   province_id = 4756
+				   province_id = 4757
+				   province_id = 4758
+				   province_id = 4759
+				   province_id = 4760
+				   province_id = 4761
+				   province_id = 4762
+				   province_id = 4763
+				   province_id = 4764
+				   province_id = 4765
+				   province_id = 4766
+				   province_id = 4767
+				   province_id = 4768
+				   province_id = 4769
+				   province_id = 4770
+				   province_id = 4771
+				   province_id = 4772
+				   province_id = 4773
+				   province_id = 4774
+				   province_id = 4775
+				   province_id = 4776
+				   province_id = 4777
+				   province_id = 4778
+				   province_id = 4779
+				   province_id = 4780
+				   province_id = 4781
+				   province_id = 4782
+				   province_id = 4783
+				   province_id = 4784
+				   province_id = 4785
+				   province_id = 4786
+				   province_id = 4787
+				   province_id = 4788
+				   province_id = 4789
+				   province_id = 4790
+				   province_id = 4791
+				   province_id = 4792
+				   province_id = 4793
+				   province_id = 4794
+				   province_id = 4795
+				   province_id = 4796
+				   province_id = 4797
+				   province_id = 4798
+				   province_id = 4799
+			   }
+			   NOT = {
+				   owned_by = ROOT
+			   }
+		   }
 		
 		trigger = {
 			num_of_owned_provinces_with = {
@@ -374,10 +426,9 @@ PDL_missions_2_frontier = {
 			
 			# Allow Cossack estate expansion
 			every_owned_province = {
-				limit = {
-					area = podolia_volhynia_area
-					terrain = plains
-				}
+				   limit = {
+					   area = podolia_volhynia_area
+				   }
 				add_province_modifier = {
 					name = pdl_cossack_settlement
 					duration = -1
@@ -391,46 +442,37 @@ PDL_missions_2_frontier = {
 	}
 
 	PDL_steppe_mastery = {
-		icon = mission_sca_lit_harness_steppes
+		icon = mission_cossack_cavalry
 		required_missions = { PDL_recruit_cossacks }
 		position = 2
 		
-		provinces_to_highlight = {
-			OR = {
-				area = podolia_volhynia_area
-				area = yedisan_area
-				area = zaporizhia_area
-			}
-			terrain = steppe
-		}
+		   provinces_to_highlight = {
+			   OR = {
+				   area = podolia_volhynia_area
+				   area = yedisan_area
+				   area = zaporizhia_area
+			   }
+			   # terrain = steppe removed (invalid in this context)
+		   }
 		
 		trigger = {
 			has_country_flag = pdl_cossack_recruited
 			cavalry_fraction = 0.40
 			owns = 281
-			num_of_owned_provinces_with = {
-				terrain = steppe
-				value = 3
-			}
+	}
+	
+	effect = {
+		add_country_modifier = {
+			name = pdl_steppe_masters
+			duration = -1
 		}
-		
-		effect = {
-			add_country_modifier = {
-				name = pdl_steppe_masters
-				duration = -1
+		yedisan_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
 			}
-			
-			yedisan_area = {
-				limit = {
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
-			}
+			add_permanent_claim = ROOT
 		}
-		
-		ai_weight = {
-			factor = 100
-		}
+	}
 	}
 
 	PDL_host_assembly = {
@@ -438,13 +480,10 @@ PDL_missions_2_frontier = {
 		required_missions = { PDL_steppe_mastery }
 		position = 3
 		
-		trigger = {
-			has_country_flag = pdl_cossack_recruited
-			estate_cossacks = {
-				estate_influence = 25
-			}
-			cavalry = 30
-		}
+	trigger = {
+		has_country_flag = pdl_cossack_recruited
+		has_estate = estate_cossacks
+	}
 		
 		effect = {
 			add_country_modifier = {
@@ -468,7 +507,7 @@ PDL_missions_2_frontier = {
 		
 		trigger = {
 			has_country_flag = pdl_cossack_recruited
-			cavalry_tradition = 40
+			   num_of_cavalry = 15
 			prestige = 40
 		}
 		
@@ -686,10 +725,10 @@ PDL_missions_4_expansion = {
 			add_accepted_culture = ruthenian
 			
 			podolia_volhynia_area = {
-				limit = {
-					is_owned_by_ROOT
-				}
-				add_local_autonomy = -10
+				   limit = {
+					   owned_by = ROOT
+				   }
+				   add_local_autonomy = -10
 			}
 		}
 		
@@ -776,11 +815,9 @@ PDL_missions_4_expansion = {
 		}
 		
 		trigger = {
-			east_dniepr_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			num_of_owned_provinces = 35
+		east_dniepr_area = {
+			type = all
+			country_or_non_sovereign_subject_holds = ROOT
 		}
 		
 		effect = {

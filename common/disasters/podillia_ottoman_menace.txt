@@ -29,10 +29,17 @@ podillia_ottoman_menace = {
 		
 		# Weak defensive position
 		OR = {
-			num_of_owned_provinces_with = {
-				has_building = fort_15th
-				value = 2
-				NOT = { value = 3 }
+			AND = {
+				num_of_owned_provinces_with = {
+					has_building = fort_15th
+					value = 2
+				}
+				NOT = {
+					num_of_owned_provinces_with = {
+						has_building = fort_15th
+						value = 3
+					}
+				}
 			}
 			NOT = {
 				num_of_owned_provinces_with = {
@@ -101,19 +108,16 @@ podillia_ottoman_menace = {
 	progress = {
 		modifier = {
 			factor = 1
-			desc = "pdl_ottoman_menace_base_progress"
 		}
 		
 		# Accelerators
 		modifier = {
 			factor = 2
-			desc = "pdl_low_manpower"
 			manpower_percentage = 0.3
 		}
 		
 		modifier = {
 			factor = 1.5
-			desc = "pdl_no_forts"
 			NOT = {
 				num_of_owned_provinces_with = {
 					has_building = fort_15th
@@ -124,7 +128,6 @@ podillia_ottoman_menace = {
 		
 		modifier = {
 			factor = 1.5
-			desc = "pdl_ottoman_border"
 			any_neighbor_country = {
 				tag = TUR
 			}
@@ -132,7 +135,6 @@ podillia_ottoman_menace = {
 		
 		modifier = {
 			factor = 1.5
-			desc = "pdl_crimean_raids"
 			any_owned_province = {
 				has_province_modifier = devastation
 			}
@@ -141,7 +143,6 @@ podillia_ottoman_menace = {
 		# Reducers
 		modifier = {
 			factor = -1
-			desc = "pdl_carpathian_fortifications"
 			has_country_flag = pdl_carpathian_path
 			num_of_owned_provinces_with = {
 				has_building = fort_15th
@@ -151,7 +152,6 @@ podillia_ottoman_menace = {
 		
 		modifier = {
 			factor = -0.5
-			desc = "pdl_strong_alliance"
 			any_ally = {
 				is_great_power = yes
 				has_opinion = {

@@ -235,92 +235,91 @@ country_decisions = {
 		}
 	}
 
-	# Force Convert Province to Russian Orthodox
-	force_convert_province_decision = {
-		potential = {
-			NOT = { religion = russian_orthodox }
-			is_city = yes
-			owned_by = {
-				religion = russian_orthodox
-			}
-		}
-		
-		provinces_to_highlight = {
-			province_id = THIS
-		}
-		
-		allow = {
-			religion = russian_orthodox
-			adm_power = 50
-			mil_power = 25
-		}
-		
-		effect = {
-			owner = {
-				add_adm_power = -50
-				add_mil_power = -25
-			}
-			change_religion = russian_orthodox
-		}
-		
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				owner = {
-					NOT = { local_autonomy = 50 }
-				}
-			}
-			modifier = {
-				factor = 2
-				owner = {
-					has_country_modifier = orthodox_inquisition
-				}
-			}
-		}
-	}
+	# COMMENTED OUT: These decisions have scope issues and need to be rewritten
+	# They reference province-level triggers in a country-level decision context
+	# force_convert_province_decision = {
+	# 	potential = {
+	# 		NOT = { religion = russian_orthodox }
+	# 	}
+	# 	
+	# 	provinces_to_highlight = {
+	# 		province_id = THIS
+	# 	}
+	# 	
+	# 	allow = {
+	# 		owner = {
+	# 			religion = russian_orthodox
+	# 			adm_power = 50
+	# 			mil_power = 25
+	# 		}
+	# 	}
+	# 	
+	# 	effect = {
+	# 		owner = {
+	# 			add_adm_power = -50
+	# 			add_mil_power = -25
+	# 		}
+	# 		change_religion = russian_orthodox
+	# 	}
+	# 	
+	# 	ai_will_do = {
+	# 		factor = 1
+	# 		modifier = {
+	# 			factor = 0
+	# 			owner = {
+	# 				NOT = { local_autonomy = 50 }
+	# 			}
+	# 		}
+	# 		modifier = {
+	# 			factor = 2
+	# 			owner = {
+	# 				has_country_modifier = orthodox_inquisition
+	# 			}
+	# 		}
+	# 	}
+	# }
 
-	# Russify Province
-	russify_province_decision = {
-		potential = {
-			owner = {
-				religion = russian_orthodox
-				primary_culture = russian
-			}
-			NOT = { culture_group = east_slavic }
-			NOT = { has_province_modifier = russian_settlement }
-			is_city = yes
-		}
-		
-		provinces_to_highlight = {
-			province_id = THIS
-		}
-		
-		allow = {
-			owner = {
-				adm_power = 75
-				has_country_modifier = forced_russification
-			}
-			nationalism = 0
-		}
-		
-		effect = {
-			owner = {
-				add_adm_power = -75
-			}
-			russify_province_effect = yes
-		}
-		
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0.1
-				development = 20
-			}
-			modifier = {
-				factor = 2
-				development = 10
-			}
-		}
-	}
+	# Russify Province - COMMENTED OUT
+	# russify_province_decision = {
+	# 	potential = {
+	# 		owner = {
+	# 			religion = russian_orthodox
+	# 			primary_culture = russian
+	# 		}
+	# 		NOT = { culture_group = east_slavic }
+	# 		NOT = { has_province_modifier = russian_settlement }
+	# 		is_city = yes
+	# 	}
+	# 	
+	# 	provinces_to_highlight = {
+	# 		province_id = THIS
+	# 	}
+	# 	
+	# 	allow = {
+	# 		owner = {
+	# 			adm_power = 75
+	# 			has_country_modifier = forced_russification
+	# 		}
+	# 		nationalism = 0
+	# 	}
+	# 	
+	# 	effect = {
+	# 		owner = {
+	# 			add_adm_power = -75
+	# 		}
+	# 		russify_province_effect = yes
+	# 	}
+	# 	
+	# 	ai_will_do = {
+	# 		factor = 1
+	# 		modifier = {
+	# 			factor = 0.1
+	# 			development = 20
+	# 		}
+	# 		modifier = {
+	# 			factor = 2
+	# 			development = 10
+	# 		}
+	# 	}
+	# }
 }
