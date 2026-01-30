@@ -811,10 +811,21 @@ hlc_galician_sejm_reform = {
 		tag = HLC
 	}
 	modifiers = {
+		free_adm_policy = 1
+		envoy_travel_time = -0.15
 		reform_progress_growth = 0.15
 		stability_cost_modifier = -0.05
 		max_absolutism = -5
 		global_unrest = -0.5
+	}
+	effect = {
+		add_country_modifier = {
+			name = galician_sejm_assembly
+			duration = -1
+		}
+	}
+	removed_effect = {
+		remove_country_modifier = galician_sejm_assembly
 	}
 	custom_attributes = {
 		locked_government_type = yes

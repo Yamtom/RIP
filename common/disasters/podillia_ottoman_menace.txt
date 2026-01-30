@@ -1,0 +1,216 @@
+# =====================================================================
+# PODILLIA - OTTOMAN MENACE DISASTER
+# =====================================================================
+# Represents Ottoman/Crimean military pressure on Podillia's southern borders
+# Triggers when Ottoman threat is high and defensive capabilities are weak
+
+podillia_ottoman_menace = {
+	potential = {
+		tag = PDL
+		NOT = { has_country_flag = had_pdl_ottoman_menace }
+	}
+	
+	can_start = {
+		has_dlc = "Dharma"
+		is_subject = no
+		is_at_war = no
+		NOT = { has_regency = yes }
+		
+		# Ottoman/Crimean threat conditions
+		OR = {
+			any_neighbor_country = {
+				tag = TUR
+				army_size = ROOT
+			}
+			any_neighbor_country = {
+				tag = CRI
+			}
+		}
+		
+		# Weak defensive position
+		OR = {
+			num_of_owned_provinces_with = {
+				has_building = fort_15th
+				value = 2
+				NOT = { value = 3 }
+			}
+			NOT = {
+				num_of_owned_provinces_with = {
+					has_building = fort_15th
+					value = 2
+				}
+			}
+		}
+		
+		# Military weakness
+		OR = {
+			army_size_percentage = 0.7
+			manpower_percentage = 0.4
+		}
+		
+		# No strong alliances
+		NOT = {
+			any_ally = {
+				army_size = ROOT
+				is_great_power = yes
+			}
+		}
+	}
+	
+	can_stop = {
+		OR = {
+			# Military victory
+			AND = {
+				stability = 1
+				army_size_percentage = 0.9
+				num_of_owned_provinces_with = {
+					has_building = fort_15th
+					value = 3
+				}
+			}
+			
+			# Diplomatic solution
+			AND = {
+				stability = 2
+				any_ally = {
+					OR = {
+						tag = POL
+						tag = HUN
+						tag = LIT
+						is_great_power = yes
+					}
+					has_opinion = {
+						who = ROOT
+						value = 150
+					}
+				}
+			}
+			
+			# Ottoman threat eliminated
+			NOT = {
+				any_neighbor_country = {
+					OR = {
+						tag = TUR
+						tag = CRI
+					}
+				}
+			}
+		}
+	}
+	
+	progress = {
+		modifier = {
+			factor = 1
+			desc = "pdl_ottoman_menace_base_progress"
+		}
+		
+		# Accelerators
+		modifier = {
+			factor = 2
+			desc = "pdl_low_manpower"
+			manpower_percentage = 0.3
+		}
+		
+		modifier = {
+			factor = 1.5
+			desc = "pdl_no_forts"
+			NOT = {
+				num_of_owned_provinces_with = {
+					has_building = fort_15th
+					value = 2
+				}
+			}
+		}
+		
+		modifier = {
+			factor = 1.5
+			desc = "pdl_ottoman_border"
+			any_neighbor_country = {
+				tag = TUR
+			}
+		}
+		
+		modifier = {
+			factor = 1.5
+			desc = "pdl_crimean_raids"
+			any_owned_province = {
+				has_province_modifier = devastation
+			}
+		}
+		
+		# Reducers
+		modifier = {
+			factor = -1
+			desc = "pdl_carpathian_fortifications"
+			has_country_flag = pdl_carpathian_path
+			num_of_owned_provinces_with = {
+				has_building = fort_15th
+				value = 3
+			}
+		}
+		
+		modifier = {
+			factor = -0.5
+			desc = "pdl_strong_alliance"
+			any_ally = {
+				is_great_power = yes
+				has_opinion = {
+					who = ROOT
+					value = 150
+				}
+			}
+		}
+	}
+	
+	can_end = {
+		OR = {
+			# Disaster resolved through events
+			has_country_flag = pdl_ottoman_menace_resolved
+			
+			# Conditions improved
+			AND = {
+				stability = 2
+				army_size_percentage = 1.0
+				manpower_percentage = 0.6
+				num_of_owned_provinces_with = {
+					has_building = fort_15th
+					value = 3
+				}
+			}
+		}
+	}
+	
+	modifier = {
+		stability_cost_modifier = 0.25
+		fort_maintenance_modifier = 0.30
+		land_morale = -0.10
+		defensiveness = -0.15
+		yearly_army_professionalism = -0.01
+	}
+	
+	on_start = podillia_disasters.41
+	on_end = podillia_disasters.51
+	
+	on_monthly = {
+		events = {
+			podillia_disasters.42
+			podillia_disasters.43
+			podillia_disasters.44
+			podillia_disasters.45
+			podillia_disasters.46
+			podillia_disasters.47
+			podillia_disasters.48
+		}
+		
+		random_events = {
+			100 = 0
+			10 = podillia_disasters.42
+			10 = podillia_disasters.43
+			10 = podillia_disasters.44
+			10 = podillia_disasters.45
+			10 = podillia_disasters.46
+			10 = podillia_disasters.47
+			10 = podillia_disasters.48
+		}
+	}
+}

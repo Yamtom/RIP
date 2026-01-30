@@ -1,0 +1,413 @@
+# =========================================================================
+# PODILLIA FLAVOR EVENTS
+# =========================================================================
+# Triggered by mission flags from Podillia_Missions.txt
+# Historical context: Podillia as frontier region (1444-1648)
+# References: Croatian border defense, Mazovian magnate conflicts, Cossack integration
+
+namespace = podillia_events
+
+# =========================================================================
+# PATH A: CARPATHIAN BASTION EVENTS
+# =========================================================================
+
+# Fortress Commander Appointment
+podillia_events.1 = {
+	title = podillia_events.1.t
+	desc = podillia_events.1.d
+	picture = FORTRESS_eventPicture
+	
+	trigger = {
+		tag = PDL
+		has_country_flag = pdl_carpathian_path
+		any_owned_province = {
+			has_building = fort_15th
+		}
+		NOT = { has_country_flag = pdl_fortress_commander_appointed }
+	}
+	
+	mean_time_to_happen = {
+		months = 48
+	}
+	
+	option = {
+		name = podillia_events.1.a
+		add_mil_power = 50
+		add_army_tradition = 5
+		set_country_flag = pdl_fortress_commander_appointed
+	}
+}
+
+# Garrison Drill Reforms
+podillia_events.2 = {
+	title = podillia_events.2.t
+	desc = podillia_events.2.d
+	picture = MILITARY_CAMP_eventPicture
+	
+	trigger = {
+		tag = PDL
+		has_country_flag = pdl_carpathian_path
+		has_reform = pdl_carpathian_bastion_reform
+		NOT = { has_country_flag = pdl_garrison_drills }
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	option = {
+		name = podillia_events.2.a
+		add_country_modifier = {
+			name = pdl_garrison_drills
+			duration = 7300
+		}
+		set_country_flag = pdl_garrison_drills
+	}
+	
+	option = {
+		name = podillia_events.2.b
+		add_prestige = 10
+	}
+}
+
+# =========================================================================
+# PATH B: FRONTIER REPUBLIC EVENTS (COSSACK INTEGRATION)
+# =========================================================================
+
+# Cossack Raid Dispute
+podillia_events.3 = {
+	title = podillia_events.3.t
+	desc = podillia_events.3.d
+	picture = BORDER_TENSION_eventPicture
+	
+	trigger = {
+		tag = PDL
+		has_country_flag = pdl_cossack_recruited
+		has_estate = estate_cossacks
+		NOT = { has_country_flag = pdl_cossack_raid_resolved }
+	}
+	
+	mean_time_to_happen = {
+		months = 36
+	}
+	
+	option = {
+		name = podillia_events.3.a
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = 10
+		}
+		add_prestige = -5
+		set_country_flag = pdl_cossack_raid_resolved
+	}
+	
+	option = {
+		name = podillia_events.3.b
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = -10
+		}
+		add_army_tradition = 5
+		set_country_flag = pdl_cossack_raid_resolved
+	}
+}
+
+# Cossack Settlement Expansion
+podillia_events.4 = {
+	title = podillia_events.4.t
+	desc = podillia_events.4.d
+	picture = COLONIZATION_eventPicture
+	
+	trigger = {
+		tag = PDL
+		has_country_flag = pdl_cossack_recruited
+		has_reform = pdl_frontier_republic_reform
+		any_owned_province = {
+			has_province_modifier = pdl_cossack_settlement
+		}
+		NOT = { has_country_flag = pdl_settlement_expanded }
+	}
+	
+	mean_time_to_happen = {
+		months = 48
+	}
+	
+	option = {
+		name = podillia_events.4.a
+		random_owned_province = {
+			limit = {
+				has_province_modifier = pdl_cossack_settlement
+			}
+			add_base_manpower = 1
+		}
+		set_country_flag = pdl_settlement_expanded
+	}
+}
+
+# Steppe Warfare Tactics
+podillia_events.5 = {
+	title = podillia_events.5.t
+	desc = podillia_events.5.d
+	picture = LAND_MILITARY_eventPicture
+	
+	trigger = {
+		tag = PDL
+		has_country_modifier = pdl_steppe_masters
+		num_of_cavalry = 15
+		NOT = { has_country_flag = pdl_steppe_tactics }
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	option = {
+		name = podillia_events.5.a
+		add_country_modifier = {
+			name = pdl_steppe_warfare
+			duration = 7300
+		}
+		set_country_flag = pdl_steppe_tactics
+	}
+}
+
+# =========================================================================
+# PATH C: MAGNATE DOMINION EVENTS
+# =========================================================================
+
+# Magnate Rivalry
+podillia_events.6 = {
+	title = podillia_events.6.t
+	desc = podillia_events.6.d
+	picture = COURT_eventPicture
+	
+	trigger = {
+		tag = PDL
+		has_country_flag = pdl_magnate_path
+		has_estate = estate_nobles
+		estate_influence = {
+			estate = estate_nobles
+			influence = 40
+		}
+		NOT = { has_country_flag = pdl_magnate_rivalry }
+	}
+	
+	mean_time_to_happen = {
+		months = 48
+	}
+	
+	option = {
+		name = podillia_events.6.a
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 10
+		}
+		add_stability = -1
+		set_country_flag = pdl_magnate_rivalry
+	}
+	
+	option = {
+		name = podillia_events.6.b
+		add_estate_influence_modifier = {
+			estate = estate_nobles
+			influence = -10
+			duration = 3650
+		}
+		add_prestige = 10
+		set_country_flag = pdl_magnate_rivalry
+	}
+}
+
+# Trade Fair in Kamianets
+podillia_events.7 = {
+	title = podillia_events.7.t
+	desc = podillia_events.7.d
+	picture = MERCHANTS_TALKING_eventPicture
+	
+	trigger = {
+		tag = PDL
+		has_country_flag = pdl_magnate_path
+		owns = 277
+		277 = {
+			province_has_center_of_trade_of_level = 1
+		}
+		NOT = { has_country_flag = pdl_trade_fair }
+	}
+	
+	mean_time_to_happen = {
+		months = 72
+	}
+	
+	option = {
+		name = podillia_events.7.a
+		277 = {
+			add_base_production = 1
+			add_province_modifier = {
+				name = pdl_annual_fair
+				duration = 7300
+			}
+		}
+		set_country_flag = pdl_trade_fair
+	}
+}
+
+# Magnate Sejm Convocation
+podillia_events.8 = {
+	title = podillia_events.8.t
+	desc = podillia_events.8.d
+	picture = REFORM_eventPicture
+	
+	trigger = {
+		tag = PDL
+		has_reform = pdl_magnate_dominion_reform
+		NOT = { has_country_flag = pdl_sejm_convened }
+	}
+	
+	mean_time_to_happen = {
+		months = 36
+	}
+	
+	option = {
+		name = podillia_events.8.a
+		add_reform_progress = 50
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 10
+		}
+		set_country_flag = pdl_sejm_convened
+	}
+	
+	option = {
+		name = podillia_events.8.b
+		add_absolutism = 5
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = -10
+		}
+		set_country_flag = pdl_sejm_convened
+	}
+}
+
+# =========================================================================
+# RELIGIOUS TOLERANCE PATH EVENTS
+# =========================================================================
+
+# Orthodox-Catholic Dialogue
+podillia_events.9 = {
+	title = podillia_events.9.t
+	desc = podillia_events.9.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		tag = PDL
+		has_country_flag = pdl_tolerance_path
+		num_of_owned_provinces_with = {
+			religion = orthodox
+			value = 3
+		}
+		num_of_owned_provinces_with = {
+			religion = catholic
+			value = 2
+		}
+		NOT = { has_country_flag = pdl_religious_dialogue }
+	}
+	
+	mean_time_to_happen = {
+		months = 48
+	}
+	
+	option = {
+		name = podillia_events.9.a
+		add_country_modifier = {
+			name = pdl_confessional_peace
+			duration = 7300
+		}
+		set_country_flag = pdl_religious_dialogue
+	}
+}
+
+# Jewish Community Prosperity
+podillia_events.10 = {
+	title = podillia_events.10.t
+	desc = podillia_events.10.d
+	picture = TRADEGOODS_eventPicture
+	
+	trigger = {
+		tag = PDL
+		has_country_flag = pdl_jewish_communities_established
+		capital_scope = {
+			development = 20
+		}
+		NOT = { has_country_flag = pdl_jewish_prosperity }
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	option = {
+		name = podillia_events.10.a
+		capital_scope = {
+			add_base_tax = 1
+		}
+		add_years_of_income = 0.5
+		set_country_flag = pdl_jewish_prosperity
+	}
+}
+
+# =========================================================================
+# HISTORICAL MILESTONE EVENTS
+# =========================================================================
+
+# The Khotyn Victory (1621 historical reference)
+podillia_events.11 = {
+	title = podillia_events.11.t
+	desc = podillia_events.11.d
+	picture = BATTLE_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = podillia_events.11.a
+		add_prestige = 25
+		add_army_tradition = 15
+		281 = {
+			add_permanent_province_modifier = {
+				name = pdl_khotyn_victory
+				duration = -1
+			}
+		}
+	}
+}
+
+# Crimean Threat Neutralized
+podillia_events.12 = {
+	title = podillia_events.12.t
+	desc = podillia_events.12.d
+	picture = MILITARY_CAMP_eventPicture
+	
+	trigger = {
+		tag = PDL
+		has_country_modifier = pdl_crimea_raids
+		CRI = {
+			has_opinion = {
+				who = ROOT
+				value = -100
+			}
+		}
+		NOT = { has_country_flag = pdl_crimea_secure }
+	}
+	
+	mean_time_to_happen = {
+		months = 72
+	}
+	
+	option = {
+		name = podillia_events.12.a
+		add_country_modifier = {
+			name = pdl_steppe_security
+			duration = 10950
+		}
+		set_country_flag = pdl_crimea_secure
+	}
+}

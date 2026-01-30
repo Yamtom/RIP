@@ -1,0 +1,529 @@
+# =========================================================================
+# PODILLIA DISASTER EVENTS
+# =========================================================================
+# Events for Confessional Crisis and Cossack Upheaval disasters
+
+namespace = podillia_disasters
+
+# =========================================================================
+# CONFESSIONAL CRISIS EVENTS (1-20)
+# =========================================================================
+
+# Disaster Start
+country_event = {
+	id = podillia_disasters.1
+	title = podillia_disasters.1.t
+	desc = podillia_disasters.1.d
+	picture = RELIGION_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = podillia_disasters.1.a
+		add_stability = -1
+		add_country_modifier = {
+			name = religious_intolerance
+			duration = 1825
+		}
+	}
+}
+
+# Orthodox-Catholic Confrontation
+country_event = {
+	id = podillia_disasters.2
+	title = podillia_disasters.2.t
+	desc = podillia_disasters.2.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+	
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = {
+		name = podillia_disasters.2.a
+		add_stability = -1
+		if = {
+			limit = { religion = orthodox }
+			add_papal_influence = -10
+		}
+		add_country_modifier = {
+			name = religious_intolerance
+			duration = 730
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.2.b
+		add_stability = -1
+		if = {
+			limit = { religion = catholic }
+			add_church_power = -25
+		}
+		add_country_modifier = {
+			name = religious_intolerance
+			duration = 730
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.2.c
+		add_adm_power = -50
+		add_stability = -1
+	}
+}
+
+# Jewish Persecution
+country_event = {
+	id = podillia_disasters.3
+	title = podillia_disasters.3.t
+	desc = podillia_disasters.3.d
+	picture = JEWS_ESCAPING_eventPicture
+	
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = {
+		name = podillia_disasters.3.a
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = 15
+		}
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = -10
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.3.b
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = -15
+		}
+		add_years_of_income = -0.5
+	}
+	
+	option = {
+		name = podillia_disasters.3.c
+		add_stability = -1
+		add_prestige = -5
+	}
+}
+
+# Religious Riots
+country_event = {
+	id = podillia_disasters.4
+	title = podillia_disasters.4.t
+	desc = podillia_disasters.4.d
+	picture = RELIGIOUS_RIOTS_eventPicture
+	
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		months = 9
+	}
+	
+	option = {
+		name = podillia_disasters.4.a
+		add_mil_power = -50
+		random_owned_province = {
+			spawn_rebels = {
+				type = religious_rebels
+				size = 2
+			}
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.4.b
+		add_war_exhaustion = 2
+		random_owned_province = {
+			add_devastation = 15
+		}
+	}
+}
+
+# Estates Demand Supremacy
+country_event = {
+	id = podillia_disasters.5
+	title = podillia_disasters.5.t
+	desc = podillia_disasters.5.d
+	picture = ESTATE_CHURCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = {
+		name = podillia_disasters.5.a
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = 15
+		}
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = -20
+		}
+		add_stability = -1
+	}
+	
+	option = {
+		name = podillia_disasters.5.b
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = -10
+		}
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = 10
+		}
+	}
+}
+
+# Moderate Clergy Intervene
+country_event = {
+	id = podillia_disasters.6
+	title = podillia_disasters.6.t
+	desc = podillia_disasters.6.d
+	picture = PRAYING_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = podillia_disasters.6.a
+		add_adm_power = -25
+		add_stability = 1
+		add_country_modifier = {
+			name = religious_tolerance_edict
+			duration = 1825
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.6.b
+		# No effect
+	}
+}
+
+# Radical Factions Emerge
+country_event = {
+	id = podillia_disasters.7
+	title = podillia_disasters.7.t
+	desc = podillia_disasters.7.d
+	picture = ANGRY_MOB_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = podillia_disasters.7.a
+		add_mil_power = -75
+		add_stability = 1
+		random_owned_province = {
+			spawn_rebels = {
+				type = religious_rebels
+				size = 1
+			}
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.7.b
+		add_mil_power = -50
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = -15
+		}
+	}
+}
+
+# Foreign Interference
+country_event = {
+	id = podillia_disasters.8
+	title = podillia_disasters.8.t
+	desc = podillia_disasters.8.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = podillia_disasters.8.a
+		add_dip_power = -50
+		add_prestige = 10
+	}
+	
+	option = {
+		name = podillia_disasters.8.b
+		add_dip_power = -25
+		add_stability = 1
+	}
+}
+
+# Disaster End
+country_event = {
+	id = podillia_disasters.11
+	title = podillia_disasters.11.t
+	desc = podillia_disasters.11.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = podillia_disasters.11.a
+		add_prestige = 15
+		add_country_modifier = {
+			name = pdl_confessional_peace_enacted
+			duration = 7300
+		}
+	}
+}
+
+# =========================================================================
+# COSSACK UPHEAVAL EVENTS (21-40)
+# =========================================================================
+
+# Disaster Start
+country_event = {
+	id = podillia_disasters.21
+	title = podillia_disasters.21.t
+	desc = podillia_disasters.21.d
+	picture = COSSACK_RAID_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = podillia_disasters.21.a
+		add_stability = -2
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = -20
+		}
+	}
+}
+
+# Cossack Demands
+country_event = {
+	id = podillia_disasters.22
+	title = podillia_disasters.22.t
+	desc = podillia_disasters.22.d
+	picture = COSSACK_NEGOTIATIONS_eventPicture
+	
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		months = 9
+	}
+	
+	option = {
+		name = podillia_disasters.22.a
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = 20
+		}
+		add_years_of_income = -1
+	}
+	
+	option = {
+		name = podillia_disasters.22.b
+		add_mil_power = -50
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = -15
+		}
+		random_owned_province = {
+			spawn_rebels = {
+				type = cossack_rebels
+				size = 2
+			}
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.22.c
+		add_dip_power = -50
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = 10
+		}
+	}
+}
+
+# Raids Intensify
+country_event = {
+	id = podillia_disasters.23
+	title = podillia_disasters.23.t
+	desc = podillia_disasters.23.d
+	picture = BATTLE_eventPicture
+	
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = podillia_disasters.23.a
+		add_mil_power = -75
+		random_owned_province = {
+			spawn_rebels = {
+				type = cossack_rebels
+				size = 3
+			}
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.23.b
+		add_years_of_income = -0.5
+		random_owned_province = {
+			add_devastation = 20
+		}
+	}
+}
+
+# Mass Desertions
+country_event = {
+	id = podillia_disasters.24
+	title = podillia_disasters.24.t
+	desc = podillia_disasters.24.d
+	picture = MILITARY_CAMP_eventPicture
+	
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = podillia_disasters.24.a
+		add_army_tradition = -10
+		add_mil_power = -50
+	}
+}
+
+# Leadership Crisis
+country_event = {
+	id = podillia_disasters.25
+	title = podillia_disasters.25.t
+	desc = podillia_disasters.25.d
+	picture = WOUNDED_SOLDIERS_eventPicture
+	
+	is_triggered_only = yes
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = podillia_disasters.25.a
+		add_mil_power = -50
+		add_army_tradition = -5
+	}
+	
+	option = {
+		name = podillia_disasters.25.b
+		add_dip_power = -50
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = 10
+		}
+	}
+}
+
+# Hetman's Mediation
+country_event = {
+	id = podillia_disasters.26
+	title = podillia_disasters.26.t
+	desc = podillia_disasters.26.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = podillia_disasters.26.a
+		add_dip_power = -50
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = 15
+		}
+		add_stability = 1
+	}
+	
+	option = {
+		name = podillia_disasters.26.b
+		add_prestige = 5
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = -10
+		}
+	}
+}
+
+# Compromise Offer
+country_event = {
+	id = podillia_disasters.27
+	title = podillia_disasters.27.t
+	desc = podillia_disasters.27.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = podillia_disasters.27.a
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = 20
+		}
+		add_country_modifier = {
+			name = pdl_cossack_autonomy_granted
+			duration = 7300
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.27.b
+		add_mil_power = -100
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = -20
+		}
+	}
+}
+
+# Foreign Support
+country_event = {
+	id = podillia_disasters.28
+	title = podillia_disasters.28.t
+	desc = podillia_disasters.28.d
+	picture = SPY_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = podillia_disasters.28.a
+		add_dip_power = -50
+		add_war_exhaustion = 1
+	}
+}
+
+# Disaster End
+country_event = {
+	id = podillia_disasters.31
+	title = podillia_disasters.31.t
+	desc = podillia_disasters.31.d
+	picture = MILITARY_CAMP_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = podillia_disasters.31.a
+		add_prestige = 10
+		add_army_tradition = 15
+	}
+}

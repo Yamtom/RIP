@@ -1,0 +1,177 @@
+# =========================================================================
+# PODILLIA CONFESSIONAL CRISIS DISASTER
+# =========================================================================
+# Religious tensions between Orthodox, Catholic, and Jewish communities
+# escalate into civil unrest and factional conflict
+
+podillia_confessional_crisis = {
+
+	potential = {
+		tag = PDL
+		NOT = { has_country_flag = had_pdl_confessional_crisis }
+		normal_or_historical_nations = yes
+		has_dlc = "Dharma"
+	}
+	
+	can_start = {
+		has_regency = no
+		is_subject = no
+		is_at_war = no
+		stability = 0
+		
+		# Religious diversity triggers crisis
+		OR = {
+			religious_unity = 0.65
+			num_of_different_religions = 2
+		}
+		
+		# Tensions with religious estates
+		OR = {
+			AND = {
+				has_estate = estate_church
+				estate_loyalty = {
+					estate = estate_church
+					loyalty = 40
+				}
+				NOT = {
+					estate_loyalty = {
+						estate = estate_church
+						loyalty = 60
+					}
+				}
+			}
+			AND = {
+				has_estate = estate_dhimmi
+				estate_loyalty = {
+					estate = estate_dhimmi
+					loyalty = 40
+				}
+				NOT = {
+					estate_loyalty = {
+						estate = estate_dhimmi
+						loyalty = 60
+					}
+				}
+			}
+		}
+		
+		# Recent religious conversions or intolerance
+		OR = {
+			has_country_modifier = religious_intolerance
+			has_country_modifier = forced_conversion
+			had_recent_religious_change = yes
+			NOT = { tolerance_heretic = -1 }
+			NOT = { tolerance_heathen = -1 }
+		}
+	}
+	
+	can_stop = {
+		OR = {
+			# Stability restored
+			stability = 2
+			religious_unity = 0.85
+			
+			# Religious tolerance achieved
+			AND = {
+				tolerance_heretic = 1
+				tolerance_heathen = 1
+			}
+			
+			# Estates pacified
+			AND = {
+				has_estate = estate_church
+				estate_loyalty = {
+					estate = estate_church
+					loyalty = 60
+				}
+			}
+			
+			# Administrative solution
+			has_country_modifier = pdl_confessional_peace_enacted
+		}
+	}
+	
+	progress = {
+		modifier = {
+			factor = 1
+			custom_trigger_tooltip = {
+				tooltip = pdl_crisis_base_progress
+				always = yes
+			}
+		}
+		modifier = {
+			factor = 2
+			NOT = { stability = 0 }
+		}
+		modifier = {
+			factor = 1.5
+			NOT = { religious_unity = 0.6 }
+		}
+		modifier = {
+			factor = 1.5
+			num_of_rebel_armies = 1
+		}
+		modifier = {
+			factor = 2
+			num_of_rebel_controlled_provinces = 3
+		}
+		modifier = {
+			factor = -1
+			has_country_modifier = pdl_religious_tolerance
+		}
+		modifier = {
+			factor = -1
+			has_country_flag = pdl_tolerance_path
+		}
+	}
+	
+	can_end = {
+		OR = {
+			# Peaceful resolution
+			AND = {
+				stability = 2
+				religious_unity = 0.85
+				tolerance_heretic = 2
+				tolerance_heathen = 2
+			}
+			
+			# Forced resolution
+			AND = {
+				NOT = { num_of_rebel_armies = 1 }
+				NOT = { num_of_rebel_controlled_provinces = 1 }
+				stability = 1
+			}
+			
+			# Administrative decree
+			has_country_modifier = pdl_confessional_peace_enacted
+		}
+	}
+	
+	modifier = {
+		stability_cost_modifier = 0.25
+		global_unrest = 3
+		tolerance_heretic = -2
+		tolerance_heathen = -2
+		papal_influence = -0.5
+		church_power_modifier = -0.25
+		devotion = -0.5
+	}
+	
+	on_start = podillia_disasters.1
+	on_end = podillia_disasters.11
+	
+	on_monthly = {
+		events = {
+			podillia_disasters.2  # Orthodox-Catholic tensions
+			podillia_disasters.3  # Jewish persecution risk
+			podillia_disasters.4  # Religious riots
+			podillia_disasters.5  # Estate pressure
+		}
+		random_events = {
+			1000 = 0
+			100 = podillia_disasters.6  # Moderate clergy intervention
+			100 = podillia_disasters.7  # Radical factions emerge
+			50 = podillia_disasters.8   # Foreign interference
+		}
+	}
+}

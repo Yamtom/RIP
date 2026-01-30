@@ -1,0 +1,164 @@
+# =========================================================================
+# PODILLIA COSSACK UPHEAVAL DISASTER
+# =========================================================================
+# Cossack estate rebels against central authority demanding autonomy
+
+podillia_cossack_upheaval = {
+
+	potential = {
+		tag = PDL
+		NOT = { has_country_flag = had_pdl_cossack_upheaval }
+		has_estate = estate_cossacks
+		normal_or_historical_nations = yes
+		has_dlc = "The Cossacks"
+	}
+	
+	can_start = {
+		has_regency = no
+		is_subject = no
+		
+		# Cossack estate discontent
+		has_estate = estate_cossacks
+		estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = 30
+		}
+		NOT = {
+			estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 50
+			}
+		}
+		
+		# High Cossack influence
+		estate_influence = {
+			estate = estate_cossacks
+			influence = 60
+		}
+		
+		# Recent military defeats or lack of conquest
+		OR = {
+			num_of_loans = 3
+			war_exhaustion = 5
+			NOT = { prestige = -10 }
+			NOT = { has_won_war_against = { who = TUR } }
+			NOT = { has_won_war_against = { who = CRI } }
+		}
+	}
+	
+	can_stop = {
+		OR = {
+			# Cossacks pacified
+			AND = {
+				has_estate = estate_cossacks
+				estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 60
+				}
+			}
+			
+			# Authority restored
+			AND = {
+				stability = 2
+				legitimacy = 75
+			}
+			
+			# Administrative solution
+			has_country_modifier = pdl_cossack_autonomy_granted
+		}
+	}
+	
+	progress = {
+		modifier = {
+			factor = 1
+			custom_trigger_tooltip = {
+				tooltip = pdl_cossack_upheaval_base_progress
+				always = yes
+			}
+		}
+		modifier = {
+			factor = 2
+			NOT = {
+				estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 40
+				}
+			}
+		}
+		modifier = {
+			factor = 1.5
+			war_exhaustion = 8
+		}
+		modifier = {
+			factor = 1.5
+			num_of_rebel_armies = 1
+		}
+		modifier = {
+			factor = 2
+			estate_influence = {
+				estate = estate_cossacks
+				influence = 80
+			}
+		}
+		modifier = {
+			factor = -1
+			has_country_flag = pdl_cossack_path
+		}
+		modifier = {
+			factor = -1
+			has_country_modifier = pdl_cossack_integration
+		}
+	}
+	
+	can_end = {
+		OR = {
+			# Peaceful resolution
+			AND = {
+				has_estate = estate_cossacks
+				estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 65
+				}
+				NOT = { num_of_rebel_armies = 1 }
+			}
+			
+			# Forceful suppression
+			AND = {
+				NOT = { num_of_rebel_armies = 1 }
+				NOT = { num_of_rebel_controlled_provinces = 1 }
+				stability = 1
+				army_size = 20
+			}
+			
+			# Autonomy granted
+			has_country_modifier = pdl_cossack_autonomy_granted
+		}
+	}
+	
+	modifier = {
+		global_unrest = 4
+		cavalry_cost = 0.25
+		cav_to_inf_ratio = -0.25
+		stability_cost_modifier = 0.30
+		land_morale = -0.10
+		war_exhaustion = 0.03
+	}
+	
+	on_start = podillia_disasters.21
+	on_end = podillia_disasters.31
+	
+	on_monthly = {
+		events = {
+			podillia_disasters.22  # Cossack demands
+			podillia_disasters.23  # Raids intensify
+			podillia_disasters.24  # Desertions
+			podillia_disasters.25  # Leadership crisis
+		}
+		random_events = {
+			1000 = 0
+			100 = podillia_disasters.26  # Hetman intervention
+			100 = podillia_disasters.27  # Compromise offer
+			50 = podillia_disasters.28   # Foreign support for rebels
+		}
+	}
+}

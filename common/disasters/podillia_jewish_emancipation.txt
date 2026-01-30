@@ -1,0 +1,173 @@
+# =====================================================================
+# PODILLIA - JEWISH EMANCIPATION DISASTER
+# =====================================================================
+# Represents enlightenment-era tensions over Jewish rights and integration
+# Triggers when Dhimmi estate demands rights expansion
+
+podillia_jewish_emancipation = {
+	potential = {
+		tag = PDL
+		NOT = { has_country_flag = had_pdl_jewish_emancipation }
+		has_estate = estate_dhimmi
+	}
+	
+	can_start = {
+		has_dlc = "Dharma"
+		is_subject = no
+		NOT = { has_regency = yes }
+		
+		# Dhimmi estate exists and demands rights
+		has_estate = estate_dhimmi
+		estate_influence = {
+			estate = estate_dhimmi
+			influence = 40
+		}
+		
+		# Enlightenment ideas or tolerance
+		OR = {
+			has_idea_group = humanist_ideas
+			religious_unity = 0.8
+			has_country_flag = pdl_tolerance_path
+		}
+		
+		# Noble/clergy resistance to change
+		OR = {
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 60
+			}
+			estate_loyalty = {
+				estate = estate_church
+				loyalty = 60
+			}
+		}
+		
+		# Not recently resolved
+		NOT = { has_country_modifier = pdl_jewish_emancipation_enacted }
+	}
+	
+	can_stop = {
+		OR = {
+			# Full emancipation granted
+			has_country_flag = pdl_jewish_rights_granted
+			
+			# Traditional restrictions maintained
+			has_country_flag = pdl_traditional_order_restored
+			
+			# Compromise reached
+			AND = {
+				stability = 2
+				estate_loyalty = {
+					estate = estate_dhimmi
+					loyalty = 60
+				}
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 60
+				}
+			}
+		}
+	}
+	
+	progress = {
+		modifier = {
+			factor = 1
+			desc = "pdl_jewish_emancipation_base_progress"
+		}
+		
+		# Accelerators
+		modifier = {
+			factor = 2
+			desc = "pdl_high_dhimmi_influence"
+			estate_influence = {
+				estate = estate_dhimmi
+				influence = 60
+			}
+		}
+		
+		modifier = {
+			factor = 1.5
+			desc = "pdl_enlightenment_ideas"
+			has_idea_group = humanist_ideas
+		}
+		
+		modifier = {
+			factor = 1.5
+			desc = "pdl_low_noble_loyalty"
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 40
+			}
+		}
+		
+		# Reducers
+		modifier = {
+			factor = -1
+			desc = "pdl_tolerance_path"
+			has_country_flag = pdl_tolerance_path
+		}
+		
+		modifier = {
+			factor = -0.5
+			desc = "pdl_stable_estates"
+			stability = 2
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 60
+			}
+			estate_loyalty = {
+				estate = estate_dhimmi
+				loyalty = 60
+			}
+		}
+	}
+	
+	can_end = {
+		OR = {
+			# Disaster resolved through events
+			has_country_flag = pdl_jewish_emancipation_resolved
+			
+			# Conditions stabilized
+			AND = {
+				stability = 2
+				estate_loyalty = {
+					estate = estate_dhimmi
+					loyalty = 50
+				}
+			}
+		}
+	}
+	
+	modifier = {
+		stability_cost_modifier = 0.25
+		global_unrest = 3
+		tolerance_heathen = -2
+		production_efficiency = -0.10
+	}
+	
+	on_start = podillia_disasters.61
+	on_end = podillia_disasters.71
+	
+	on_monthly = {
+		events = {
+			podillia_disasters.62
+			podillia_disasters.63
+			podillia_disasters.64
+			podillia_disasters.65
+			podillia_disasters.66
+			podillia_disasters.67
+			podillia_disasters.68
+		}
+		
+		random_events = {
+			100 = 0
+			10 = podillia_disasters.62
+			10 = podillia_disasters.63
+			10 = podillia_disasters.64
+			10 = podillia_disasters.65
+			10 = podillia_disasters.66
+			10 = podillia_disasters.67
+			10 = podillia_disasters.68
+		}
+	}
+}
