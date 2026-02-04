@@ -1,0 +1,581 @@
+# =========================================================================
+# PEREIASLAV (PRL) MISSION TREE
+# =========================================================================
+# HISTORICAL FRAMEWORK:
+# Pereiaslav's mission tree reflects its historical role as:
+# 1. Ancient Kyivan Rus' principality and border fortress
+# 2. Site of the 1654 Pereiaslav Council/Treaty
+# 3. Elite Left-Bank Cossack regiment
+# 4. Agricultural heartland (chernozem grain economy)
+#
+# Design philosophy: Focused, regional mission tree (smaller than CHR/HET)
+# Emphasizes:
+# - Diplomatic paths (treaty legacy, vassal management)
+# - Agricultural development (chernozem economy)
+# - Defensive consolidation (border fortress tradition)
+# - Regimental administration (sotnya system, military culture)
+#
+# REFERENCES:
+# - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988)
+# - Frank Sysyn, *Between Poland and the Ukraine* (1985)
+# - Natalia Yakovenko, *Narys istorii Ukrainy* (1997)
+# - Mykhailo Hrushevsky, *History of Ukraine-Rus'*, vols. 7-9
+# =========================================================================
+
+prl_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = PRL
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	# Mechanics: Build up army to unlock claims on neighboring provinces
+	# Narrative: Pereiaslav musters its regimental forces
+	# References: Pereiaslav Regiment (Polk) military organization
+	prl_build_army = {
+		icon = mission_build_up_to_force_limit
+		required_missions = {}
+		position = 1
+		trigger = {
+			army_size_percentage = 1
+			num_of_generals = 1
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_regimental_muster
+				duration = 9125
+			}
+			east_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	# Mechanics: Consolidate Left Bank territories around Pereiaslav
+	# Narrative: Reunite ancient Pereiaslav principality lands
+	# References: Historical Pereiaslav principality boundaries
+	prl_consolidate_left_bank = {
+		icon = mission_unite_home_region
+		required_missions = { prl_build_army }
+		position = 2
+		provinces_to_highlight = {
+			area = east_dniepr_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			east_dniepr_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_prestige = 15
+			add_country_modifier = {
+				name = prl_left_bank_secured
+				duration = 9125
+			}
+			west_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			zaporizhia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	
+	# Mechanics: Build fortifications to secure borders
+	# Narrative: Strengthen ancient defensive traditions
+	# References: Pereiaslav as southern bulwark against steppe raids
+	prl_border_defenses = {
+		icon = mission_assemble_an_army
+		required_missions = { prl_consolidate_left_bank }
+		position = 3
+		trigger = {
+			capital_scope = {
+				fort_level = 2
+			}
+			calc_true_if = {
+				all_owned_province = {
+					OR = {
+						area = east_dniepr_area
+						province_id = 2407
+					}
+					fort_level = 2
+				}
+				amount = 3
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_fortified_borders
+				duration = 9125
+			}
+			capital_scope = {
+				add_province_modifier = {
+					name = prl_fortress_city
+					duration = -1
+				}
+			}
+		}
+	}
+	
+	# Mechanics: Build strong navy to control river trade
+	# Narrative: Dominate Dnieper and Trubizh river crossings
+	# References: Pereiaslav's control of vital river fords
+	prl_river_flotilla = {
+		icon = mission_establish_high_seas_navy
+		required_missions = { prl_border_defenses }
+		position = 4
+		trigger = {
+			navy_size = 10
+			num_of_admirals = 1
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_river_control
+				duration = 9125
+			}
+			add_navy_tradition = 15
+		}
+	}
+}
+
+prl_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		tag = PRL
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	# Mechanics: Develop core provinces to unlock economic bonuses
+	# Narrative: Exploit chernozem agricultural wealth
+	# References: Pereiaslav region as grain breadbasket
+	prl_chernozem_development = {
+		icon = mission_have_two_subjects
+		required_missions = {}
+		position = 1
+		trigger = {
+			2407 = {
+				base_production = 8
+				base_tax = 6
+			}
+			calc_true_if = {
+				all_owned_province = {
+					OR = {
+						area = east_dniepr_area
+						province_id = 2407
+					}
+					development = 15
+				}
+				amount = 3
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_grain_prosperity
+				duration = 9125
+			}
+			2407 = {
+				add_province_modifier = {
+					name = prl_granary_capital
+					duration = -1
+				}
+			}
+		}
+	}
+	
+	# Mechanics: Build production buildings to boost goods produced
+	# Narrative: Organize systematic grain export economy
+	# References: Hetmanate grain trade supporting state budget
+	prl_grain_trade = {
+		icon = mission_dominate_home_trade_node
+		required_missions = { prl_chernozem_development }
+		position = 2
+		trigger = {
+			calc_true_if = {
+				all_owned_province = {
+					OR = {
+						area = east_dniepr_area
+						province_id = 2407
+					}
+					OR = {
+						has_building = workshop
+						has_building = counting_house
+					}
+				}
+				amount = 3
+			}
+			monthly_income = 15
+		}
+		effect = {
+			add_years_of_income = 1
+			add_country_modifier = {
+				name = prl_grain_exports
+				duration = 9125
+			}
+		}
+	}
+	
+	# Mechanics: Control trade in home node
+	# Narrative: Dominate Dnieper river commerce
+	# References: Customs revenue from river trade
+	prl_trade_dominance = {
+		icon = mission_establish_high_seas_navy
+		required_missions = { prl_grain_trade }
+		position = 3
+		trigger = {
+			home_trade_node = {
+				trade_share = {
+					country = ROOT
+					share = 20
+				}
+			}
+		}
+		effect = {
+			add_mercantilism = 3
+			add_country_modifier = {
+				name = prl_trade_hub
+				duration = 9125
+			}
+		}
+	}
+	
+	# Mechanics: Build manufactories for production efficiency
+	# Narrative: Industrialize agricultural economy
+	# References: Late-period economic modernization
+	prl_manufactories = {
+		icon = mission_have_manufactories
+		required_missions = { prl_trade_dominance }
+		position = 4
+		trigger = {
+			calc_true_if = {
+				all_owned_province = {
+					has_manufactory_trigger = yes
+				}
+				amount = 3
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_industrial_base
+				duration = 9125
+			}
+		}
+	}
+}
+
+prl_missions_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		tag = PRL
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	# Mechanics: Improve diplomatic reputation to enable treaty path
+	# Narrative: Establish diplomatic prestige from 1654 legacy
+	# References: Pereiaslav Council as diplomatic milestone
+	prl_diplomatic_prestige = {
+		icon = mission_alliances
+		required_missions = {}
+		position = 1
+		trigger = {
+			diplomatic_reputation = 2
+			num_of_allies = 1
+		}
+		effect = {
+			add_dip_power = 100
+			add_country_modifier = {
+				name = prl_diplomatic_tradition
+				duration = 9125
+			}
+		}
+	}
+	
+	# Mechanics: Secure strong ally or overlord
+	# Narrative: Navigate complex allegiances (Poland/Moscow/Ottomans)
+	# References: Historical Pereiaslav Treaty with Moscow (1654)
+	prl_great_power_alliance = {
+		icon = mission_monarch_in_throne_room
+		required_missions = { prl_diplomatic_prestige }
+		position = 2
+		trigger = {
+			OR = {
+				is_subject = yes
+				any_ally = {
+					total_development = 300
+				}
+			}
+		}
+		effect = {
+			add_prestige = 20
+			add_country_modifier = {
+				name = prl_treaty_protection
+				duration = 9125
+			}
+		}
+	}
+	
+	# Mechanics: Develop vassal relationships
+	# Narrative: Exercise diplomatic expertise in managing subjects
+	# References: Pereiaslav's role in Hetmanate diplomatic network
+	prl_vassal_management = {
+		icon = mission_unite_home_region
+		required_missions = { prl_great_power_alliance }
+		position = 3
+		trigger = {
+			OR = {
+				num_of_subjects = 2
+				is_subject = yes
+			}
+			stability = 2
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_diplomatic_network
+				duration = 9125
+			}
+			add_legitimacy = 20
+		}
+	}
+	
+	# Mechanics: Achieve regional power status
+	# Narrative: Pereiaslav as influential Left Bank power
+	# References: Pereiaslav Regiment's political weight
+	prl_regional_hegemony = {
+		icon = mission_empire
+		required_missions = { prl_vassal_management }
+		position = 4
+		trigger = {
+			total_development = 200
+			army_size = 30
+			prestige = 25
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_left_bank_hegemony
+				duration = -1
+			}
+			set_government_rank = 2
+		}
+	}
+}
+
+prl_missions_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		tag = PRL
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	# Mechanics: Strengthen Orthodox institutions
+	# Narrative: Pereiaslav's episcopal see as religious center
+	# References: Pereiaslav bishop seat, Orthodox brotherhoods
+	prl_episcopal_authority = {
+		icon = mission_hands_praying
+		required_missions = {}
+		position = 1
+		trigger = {
+			OR = {
+				religious_unity = 0.95
+				tolerance_own = 2
+			}
+			has_estate_privilege = estate_church_statutory_rights
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_orthodox_center
+				duration = 9125
+			}
+			add_church_power = 50
+		}
+	}
+	
+	# Mechanics: Build religious buildings
+	# Narrative: Strengthen monasteries and brotherhoods
+	# References: Orthodox institutional infrastructure
+	prl_monasteries = {
+		icon = mission_european_church
+		required_missions = { prl_episcopal_authority }
+		position = 2
+		trigger = {
+			calc_true_if = {
+				all_owned_province = {
+					OR = {
+						has_building = temple
+						has_building = cathedral
+					}
+				}
+				amount = 5
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_monastic_network
+				duration = 9125
+			}
+			add_patriarch_authority = 0.1
+		}
+	}
+	
+	# Mechanics: Cultural development through religious education
+	# Narrative: Brotherhood schools and literacy programs
+	# References: Orthodox brotherhoods maintaining schools
+	prl_brotherhood_schools = {
+		icon = mission_early_game_buildings
+		required_missions = { prl_monasteries }
+		position = 3
+		trigger = {
+			adm_tech = 12
+			innovativeness = 10
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_enlightened_clergy
+				duration = 9125
+			}
+			add_adm_power = 100
+		}
+	}
+	
+	# Mechanics: Religious influence over region
+	# Narrative: Pereiaslav as Orthodox cultural center
+	# References: Episcopal authority in Left Bank
+	prl_orthodox_leadership = {
+		icon = mission_hands_praying
+		required_missions = { prl_brotherhood_schools }
+		position = 4
+		trigger = {
+			religious_unity = 1
+			num_of_owned_provinces_with = {
+				value = 10
+				religion = orthodox
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_orthodox_beacon
+				duration = -1
+			}
+			add_prestige = 25
+		}
+	}
+}
+
+prl_missions_5 = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		tag = PRL
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+	
+	# Mechanics: Organize regimental administration
+	# Narrative: Pereiaslav Regiment sotnya system
+	# References: Cossack regimental structure
+	prl_regimental_organization = {
+		icon = mission_conquer_50_development
+		required_missions = {}
+		position = 1
+		trigger = {
+			army_tradition = 30
+			mil_power = 100
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_sotnya_system
+				duration = 9125
+			}
+			add_mil_power = 50
+		}
+	}
+	
+	# Mechanics: Professionalize military
+	# Narrative: Elite regimental forces
+	# References: Pereiaslav Polk military reputation
+	prl_professional_army = {
+		icon = mission_assemble_an_army
+		required_missions = { prl_regimental_organization }
+		position = 2
+		trigger = {
+			army_professionalism = 0.2
+			has_mil_advisor = yes
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_elite_regiment
+				duration = 9125
+			}
+			add_army_professionalism = 0.05
+		}
+	}
+	
+	# Mechanics: Military expansion and conquest
+	# Narrative: Pereiaslav military campaigns
+	# References: Historical territorial expansion
+	prl_military_campaigns = {
+		icon = mission_unite_home_region
+		required_missions = { prl_professional_army }
+		position = 3
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 15
+				is_core = ROOT
+			}
+			army_size = 25
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_military_expansion
+				duration = 9125
+			}
+			add_prestige = 15
+		}
+	}
+	
+	# Mechanics: Achieve military dominance
+	# Narrative: Pereiaslav as military power
+	# References: Regiment's military achievements
+	prl_military_supremacy = {
+		icon = mission_conquer_50_development
+		required_missions = { prl_military_campaigns }
+		position = 4
+		trigger = {
+			army_size = 40
+			army_tradition = 50
+			land_forcelimit = 35
+		}
+		effect = {
+			add_country_modifier = {
+				name = prl_military_dominance
+				duration = -1
+			}
+			add_mil_power = 150
+		}
+	}
+}

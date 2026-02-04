@@ -365,7 +365,156 @@ KUY_ideas = {
 	}
 }
 
+# ------------------------------------------------------------------------
+# PEREIASLAV (PRL) NATIONAL IDEAS – TECHNICAL & NARRATIVE BRIEFING
+# ------------------------------------------------------------------------
+# HISTORICAL BACKGROUND:
+# Pereiaslav (Переяслав) was one of the most ancient and strategically vital 
+# cities of Kyivan Rus', founded in 993 by Grand Prince Volodymyr the Great. 
+# Located on the Trubizh River (tributary of the Dnieper), Pereiaslav served as:
+#
+# 1. ANCIENT PRINCIPALITY (X–XIII ст.):
+#    - Seat of powerful princes (Svyatoslav, Volodymyr Monomakh, Yuriy Dolgorukiy)
+#    - Southern defensive bulwark against Pechenegs and Cumans
+#    - Major religious center (Cathedral of St. Michael, episcopal see)
+#    - Economic hub connecting Kyiv to the steppe trade routes
+#
+# 2. COSSACK ERA (XVII–XVIII ст.):
+#    - Capital of Pereiaslav Regiment (Переяславський полк), one of the most 
+#      prestigious Left-Bank Cossack regiments
+#    - Site of the historic Pereiaslav Council (1654) where Bohdan Khmelnytsky 
+#      accepted Tsar Alexei's protectorate, fundamentally altering Ukrainian history
+#    - Administrative center with strong military tradition and agricultural base
+#    - Bridge between Kyiv ecclesiastical authority and Left-Bank Cossack autonomy
+#
+# 3. STRATEGIC & ECONOMIC ROLE:
+#    - Gateway to Left Bank: Pereiaslav controlled vital Dnieper crossings
+#    - Agricultural heartland: Fertile black earth (chernozem) produced surplus grain
+#    - Diplomatic center: Treaty site gave Pereiaslav symbolic authority in negotiations
+#    - Military strongpoint: Fortified town anchored defenses against Crimean raids
+#
+# 4. CULTURAL IDENTITY:
+#    - Synthesis of ancient Rus' legacy with Cossack democratic traditions
+#    - Orthodox piety: Monasteries, brotherhoods, church schools
+#    - Regimental pride: Pereiaslav sotnyky (centurions) and starshyna formed 
+#      influential military-administrative elite
+#    - Treaty legacy: 1654 Council became central to Ukrainian-Russian relations debate
+#
+# GAME MECHANICS REPRESENTATION:
+# Pereiaslav's ideas reflect a principality that combines:
+# - Defensive military tradition (border bulwark against steppe)
+# - Diplomatic heritage (treaty site, negotiation culture)
+# - Agricultural prosperity (chernozem grain surplus)
+# - Cossack regimental administration (sotnya system, elective councils)
+# - Orthodox ecclesiastical authority (episcopal see, brotherhoods)
+# - Ancient Rus' legitimacy (princely lineage, Kyivan heritage)
+#
+# Design balances defensive-diplomatic orientation with economic-administrative 
+# strengths, differentiating Pereiaslav from:
+# - Zaporizhia (ZAZ): Pure military democracy, raiding focus
+# - Chernihiv (CHR): Frontier fortress, starshyna elite
+# - Kyiv (KIE): Metropolitan capital, ecclesiastical supremacy
+# - Hetmanate (HET): Centralizing Cossack state, hetman autocracy
+#
+# REFERENCES:
+# - Serhii Plokhy, *The Cossacks and Religion in Early Modern Ukraine* (2001)
+# - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988)
+# - Frank Sysyn, *Between Poland and the Ukraine* (1985)
+# - Natalia Yakovenko, *Narys istorii Ukrainy* (1997)
+# - Mykhailo Hrushevsky, *History of Ukraine-Rus'*, vols. 7-9
+# ------------------------------------------------------------------------
 
+PRL_ideas = {
+	# Pereiaslav - Ancient border principality, treaty site, agricultural heartland, regimental center
+	# BALANCED TO 120%: Reflects status as important but subordinate regional power
+	
+	start = {
+		# Defensive Border Tradition: Centuries defending Rus' southern frontier
+		defensiveness = 0.15
+		# Diplomatic Legacy: 1654 Pereiaslav Treaty site, negotiation culture
+		diplomatic_reputation = 1
+	}
+	
+	bonus = {
+		# Chernozem Prosperity: Black earth grain surplus supports state expansion
+		development_cost = -0.10
+	}
+	
+	trigger = {
+		tag = PRL
+	}
+	free = yes
+	
+	prl_ancient_bulwark = {
+		# Ancient Bulwark of Kyivan Rus'
+		# Pereiaslav founded 993 as southern defensive anchor against steppe nomads
+		# Fortress tradition: Prince Volodymyr Monomakh's stronghold (1054-1125)
+		# Mechanics: Fort upkeep reduction + attrition reflects centuries of siege experience
+		# References: Hrushevsky vol. 2; Franklin & Shepard 1996
+		fort_maintenance_modifier = -0.20
+		land_attrition = -0.10
+	}
+	
+	prl_treaty_legacy = {
+		# Legacy of the Pereiaslav Council
+		# 1654 Pereiaslav Agreement: Khmelnytsky accepted Tsar's protectorate here
+		# Treaty site became symbolic center of Ukrainian-Russian relations
+		# Mechanics: Vassal opinion + dip annexation cost reflects negotiation expertise
+		# References: Plokhy 2001; Kohut 1988; Sysyn 1985
+		vassal_income = 0.25
+		diplomatic_annexation_cost = -0.15
+	}
+	
+	prl_chernozem_granary = {
+		# Chernozem Granary of the Left Bank
+		# Pereiaslav region: Most fertile black earth lands in Ukraine
+		# Grain surplus sustained armies, fed cities, generated tax revenue
+		# Mechanics: Goods produced + trade goods size reflects agricultural wealth
+		# References: Yakovenko 1997; economic histories of Hetmanate grain trade
+		goods_produced_modifier = 0.15
+		global_trade_goods_size_modifier = 0.10
+	}
+	
+	prl_regimental_sotnya = {
+		# Pereiaslav Regimental Sotnya System
+		# Pereiaslav Polk: Elite Left-Bank regiment with democratic sotnya councils
+		# Sotnyky (centurions) elected by Cossack assemblies, answered to colonel
+		# Mechanics: Army tradition + morale reflects professional military culture
+		# References: Kohut 1988; regimental administrative records
+		army_tradition = 0.5
+		land_morale = 0.10
+	}
+	
+	prl_episcopal_authority = {
+		# Episcopal See and Orthodox Brotherhoods
+		# Pereiaslav bishop seat: Major Orthodox ecclesiastical center
+		# Brotherhoods (bratstva) promoted literacy, maintained schools, resisted Uniatism
+		# Mechanics: Tolerance + clergy loyalty reflects church institutional strength
+		# References: Plokhy 2001; Zhukovich 1906 on Orthodox brotherhoods
+		tolerance_own = 2
+		church_loyalty_modifier = 0.10
+	}
+	
+	prl_trubizh_crossings = {
+		# Trubizh River Crossings and Dnieper Trade
+		# Pereiaslav controlled vital river fords linking Kyiv to Left Bank
+		# Customs revenue from river commerce sustained princely/regimental budgets
+		# Mechanics: Trade power + steering reflects geographic commercial advantage
+		# References: Archaeological studies of Pereiaslav river ports; trade route maps
+		trade_efficiency = 0.10
+		trade_steering = 0.15
+	}
+	
+	prl_princely_legacy = {
+		# Legacy of the Pereiaslavl Princes
+		# Ancient princely seat: Svyatoslav, Vsevolod, Volodymyr Monomakh, Yuriy Dolgorukiy
+		# Princely legitimacy inherited by Cossack colonels (polkovnyky)
+		# Mechanics: Legitimacy + prestige reflects continuity with Kyivan Rus' greatness
+		# References: Hrushevsky vols. 2-3; princely genealogies
+		legitimacy = 1
+		prestige = 0.5
+	}
+}
 
 cossack_ideas = {
 	start = {

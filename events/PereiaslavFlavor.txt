@@ -1,0 +1,218 @@
+namespace = prl_flavor
+
+# The Pereiaslav Council (1654)
+country_event = {
+	id = prl_flavor.1
+	title = "prl_flavor.1.t"
+	desc = "prl_flavor.1.d"
+	picture = DIPLOMACY_eventPicture
+	fire_only_once = yes
+
+	trigger = {
+		tag = PRL
+		owns = 2407
+		is_year = 1654
+		NOT = { is_year = 1656 }
+		is_at_war = yes
+		OR = {
+			war_with = PLC
+			war_with = POL
+		}
+		OR = {
+			exists = RUS
+			exists = MOS
+		}
+		NOT = { is_subject = yes }
+	}
+
+	mean_time_to_happen = {
+		months = 6
+	}
+
+	option = {
+		name = "prl_flavor.1.a"
+		set_country_flag = prl_pereiaslav_oath
+		if = {
+			limit = { exists = RUS }
+			RUS = {
+				create_subject = {
+					subject_type = vassal
+					subject = ROOT
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = het_pereiaslav_oath
+				}
+			}
+		}
+		else_if = {
+			limit = { exists = MOS }
+			MOS = {
+				create_subject = {
+					subject_type = vassal
+					subject = ROOT
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = het_pereiaslav_oath
+				}
+			}
+		}
+		add_country_modifier = {
+			name = prl_russian_protection
+			duration = -1
+		}
+		add_prestige = -5
+	}
+
+	option = {
+		name = "prl_flavor.1.b"
+		add_prestige = 15
+		add_legitimacy = 10
+		add_war_exhaustion = -1
+		add_country_modifier = {
+			name = prl_defiant_council
+			duration = 3650
+		}
+	}
+}
+
+# The Pereiaslav Regiment Statute
+country_event = {
+	id = prl_flavor.2
+	title = "prl_flavor.2.t"
+	desc = "prl_flavor.2.d"
+	picture = LAND_MILITARY_eventPicture
+	fire_only_once = yes
+
+	trigger = {
+		tag = PRL
+		owns = 2407
+		army_tradition = 25
+		OR = {
+			has_reform = prl_regimental_republic_reform
+			has_reform = prl_border_fortress_reform
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 120
+	}
+
+	option = {
+		name = "prl_flavor.2.a"
+		add_country_modifier = {
+			name = prl_sotnya_statute
+			duration = 5475
+		}
+		add_army_tradition = 5
+		add_mil_power = 50
+	}
+
+	option = {
+		name = "prl_flavor.2.b"
+		add_country_modifier = {
+			name = prl_central_command
+			duration = 5475
+		}
+		add_absolutism = 5
+		add_legitimacy = 10
+	}
+}
+
+# Brotherhood Schools of Pereiaslav
+country_event = {
+	id = prl_flavor.3
+	title = "prl_flavor.3.t"
+	desc = "prl_flavor.3.d"
+	picture = ORTHODOX_eventPicture
+	fire_only_once = yes
+
+	trigger = {
+		tag = PRL
+		owns = 2407
+		religion = orthodox
+		2407 = {
+			has_building = temple
+		}
+		OR = {
+			has_reform = prl_episcopal_authority_reform
+			has_estate_privilege = estate_church_statutory_rights
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 120
+	}
+
+	option = {
+		name = "prl_flavor.3.a"
+		add_country_modifier = {
+			name = prl_brotherhood_schools
+			duration = 5475
+		}
+		add_adm_power = 50
+		add_treasury = -50
+		2407 = { add_base_tax = 1 }
+	}
+
+	option = {
+		name = "prl_flavor.3.b"
+		add_country_modifier = {
+			name = prl_monastic_patronage
+			duration = 5475
+		}
+		add_patriarch_authority = 0.05
+		2407 = { add_base_manpower = 1 }
+	}
+}
+
+# Trubizh River Tolls
+country_event = {
+	id = prl_flavor.4
+	title = "prl_flavor.4.t"
+	desc = "prl_flavor.4.d"
+	picture = TRADE_eventPicture
+	fire_only_once = yes
+
+	trigger = {
+		tag = PRL
+		owns = 2407
+		2407 = {
+			OR = {
+				has_building = marketplace
+				has_building = trade_depot
+			}
+		}
+		home_trade_node = {
+			trade_share = {
+				country = ROOT
+				share = 15
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 120
+	}
+
+	option = {
+		name = "prl_flavor.4.a"
+		2407 = {
+			add_province_modifier = {
+				name = prl_trubizh_tolls
+				duration = -1
+			}
+		}
+		add_treasury = 75
+	}
+
+	option = {
+		name = "prl_flavor.4.b"
+		add_country_modifier = {
+			name = prl_open_crossings
+			duration = 3650
+		}
+		add_prestige = 5
+	}
+}
