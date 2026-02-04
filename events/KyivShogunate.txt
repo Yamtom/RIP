@@ -1,0 +1,134 @@
+namespace = kyiv_shogunate
+
+country_event = {
+	id = kyiv_shogunate.1
+	title = kyiv_shogunate.1.t
+	desc = kyiv_shogunate.1.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+	trigger = {
+		tag = KIE
+		has_reform = kyivan_shogunate_reform
+		is_at_war = no
+	}
+
+	option = {
+		name = kyiv_shogunate.1.a
+		trigger = {
+			NOT = { exists = CHR }
+			any_owned_province = { area = chernigov_area }
+		}
+		random_owned_province = {
+			limit = { area = chernigov_area }
+			cede_province = CHR
+		}
+		create_subject = {
+			subject_type = princedom
+			subject = CHR
+		}
+		CHR = {
+			add_opinion = {
+				who = ROOT
+				modifier = is_vassal
+			}
+			adopt_reform_progress = ROOT
+		}
+	}
+
+	option = {
+		name = kyiv_shogunate.1.b
+		trigger = {
+			NOT = { exists = VLN }
+			any_owned_province = { area = volhynia_area }
+		}
+		random_owned_province = {
+			limit = { area = volhynia_area }
+			cede_province = VLN
+		}
+		create_subject = {
+			subject_type = princedom
+			subject = VLN
+		}
+		VLN = {
+			add_opinion = {
+				who = ROOT
+				modifier = is_vassal
+			}
+			adopt_reform_progress = ROOT
+		}
+	}
+
+	option = {
+		name = kyiv_shogunate.1.c
+		trigger = {
+			NOT = { exists = PDL }
+			any_owned_province = { area = podolia_volhynia_area }
+		}
+		random_owned_province = {
+			limit = { area = podolia_volhynia_area }
+			cede_province = PDL
+		}
+		create_subject = {
+			subject_type = princedom
+			subject = PDL
+		}
+		PDL = {
+			add_opinion = {
+				who = ROOT
+				modifier = is_vassal
+			}
+			adopt_reform_progress = ROOT
+		}
+	}
+
+	option = {
+		name = kyiv_shogunate.1.e
+		trigger = {
+			NOT = { exists = PRL }
+			any_owned_province = { province_id = 2407 }
+		}
+		random_owned_province = {
+			limit = { province_id = 2407 }
+			cede_province = PRL
+		}
+		create_subject = {
+			subject_type = princedom
+			subject = PRL
+		}
+		PRL = {
+			add_opinion = {
+				who = ROOT
+				modifier = is_vassal
+			}
+			adopt_reform_progress = ROOT
+		}
+	}
+
+	option = {
+		name = kyiv_shogunate.1.f
+		trigger = {
+			NOT = { exists = HLC }
+			any_owned_province = { area = red_ruthenia_area }
+		}
+		random_owned_province = {
+			limit = { area = red_ruthenia_area }
+			cede_province = HLC
+		}
+		create_subject = {
+			subject_type = princedom
+			subject = HLC
+		}
+		HLC = {
+			add_opinion = {
+				who = ROOT
+				modifier = is_vassal
+			}
+			adopt_reform_progress = ROOT
+		}
+	}
+
+	option = {
+		name = kyiv_shogunate.1.d
+	}
+}

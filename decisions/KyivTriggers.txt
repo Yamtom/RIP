@@ -7,6 +7,7 @@ country_decisions = {
 			tag = KIE
 			owns_or_non_sovereign_subject_of = 280 # kyiv
 			NOT = { has_country_flag = rus_flag }
+			NOT = { has_country_flag = kyiv_path_chosen }
 			NOT = { tag = PAP }
 			NOT = { tag = HLR }
 			NOT = { tag = HET }
@@ -70,6 +71,7 @@ country_decisions = {
 			tag = KIE
 			owns_or_non_sovereign_subject_of = 280 # kyiv
 			NOT = { has_country_flag = rus_flag }
+			NOT = { has_country_flag = kyiv_path_chosen }
 			OR = {
 				NOT = { exists = KRU }
 				exists = RUS 
@@ -121,6 +123,250 @@ country_decisions = {
 					add_permanent_claim = KIE
 				}
 			}
+		}
+	}
+
+	kyiv_shogunate_path = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			tag = KIE
+			owns_or_non_sovereign_subject_of = 280 # kyiv
+			NOT = { has_country_flag = rus_flag }
+			NOT = { has_country_flag = kyiv_path_chosen }
+			NOT = { tag = PAP }
+			NOT = { tag = HLR }
+			NOT = { tag = HET }
+			NOT = { tag = ZAZ }
+		}
+		allow = {
+			stability = 1
+			adm_tech = 8
+			num_of_cities = 5
+		}
+		effect = {
+			add_prestige = 10
+			add_government_reform = kyivan_shogunate_reform
+			add_country_modifier = {
+				name = KIE_shogunate
+				duration = -1
+			}
+			set_country_flag = kyiv_path_shogunate
+			set_country_flag = kyiv_path_chosen
+		}
+	}
+
+	kyiv_cesarstvo_path = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			tag = KIE
+			owns_or_non_sovereign_subject_of = 280 # kyiv
+			NOT = { has_country_flag = rus_flag }
+			NOT = { has_country_flag = kyiv_path_chosen }
+			NOT = { tag = PAP }
+			NOT = { tag = HLR }
+			NOT = { tag = HET }
+			NOT = { tag = ZAZ }
+		}
+		allow = {
+			stability = 2
+			adm_tech = 10
+			total_development = 200
+			is_at_war = no
+		}
+		effect = {
+			add_prestige = 25
+			set_government_rank = 3
+			add_government_reform = kyivan_cesarstvo_reform
+			add_country_modifier = {
+				name = KIE_cesarstvo
+				duration = -1
+			}
+			ruthenia_region = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = KIE_cesarstvo_ruthenia
+					duration = -1
+				}
+			}
+			red_ruthenia_area = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = KIE_cesarstvo_ruthenia
+					duration = -1
+				}
+			}
+			set_country_flag = kyiv_path_cesarstvo
+			set_country_flag = kyiv_path_chosen
+		}
+	}
+
+	kyiv_factional_ruthenia = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			tag = KIE
+			owns_or_non_sovereign_subject_of = 280 # kyiv
+			NOT = { has_country_flag = rus_flag }
+			NOT = { has_country_flag = kyiv_path_chosen }
+			NOT = { tag = PAP }
+			NOT = { tag = HLR }
+			NOT = { tag = HET }
+			NOT = { tag = ZAZ }
+			NOT = { exists = KRU }
+		}
+		allow = {
+			owns_or_non_sovereign_subject_of = 280 # kyiv
+			owns_or_non_sovereign_subject_of = 289 # Chernihov
+			owns_or_non_sovereign_subject_of = 275 # Polotsk
+			stability = 1
+			adm_tech = 10
+		}
+		effect = {
+			add_prestige = 25
+			add_government_reform = ruthenian_factional_empire_reform
+			change_tag = KRU
+			set_country_flag = rus_flag
+			set_country_flag = kyiv_path_factional_ruthenia
+			set_country_flag = kyiv_path_chosen
+			swap_non_generic_missions = yes
+			save_global_event_target_as = kyiv_rus
+			change_primary_culture = ruthenian
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			280 = {
+				move_capital_effect = yes
+			}
+			add_country_modifier = {
+				name = KIE_factional_ruthenia
+				duration = -1
+			}
+			ruthenia_region = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_claim = ROOT }
+					}
+					add_permanent_claim = KRU
+				}
+			}
+			red_ruthenia_area = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_claim = ROOT }
+					}
+					add_permanent_claim = KRU
+				}
+			}
+		}
+	}
+
+	kyiv_establish_princedoms = {
+		major = yes
+		potential = {
+			tag = KIE
+			has_reform = kyivan_shogunate_reform
+			NOT = { has_country_flag = kyiv_princedoms_established }
+		}
+		allow = {
+			any_subject_country = {
+				OR = {
+					is_subject_of_type = vassal
+					is_subject_of_type = march
+				}
+			}
+		}
+		effect = {
+			every_subject_country = {
+				limit = {
+					OR = {
+						is_subject_of_type = vassal
+						is_subject_of_type = march
+					}
+				}
+				ROOT = {
+					create_subject = {
+						subject_type = princedom
+						subject = PREV
+					}
+				}
+			}
+			add_country_modifier = {
+				name = KIE_princedom_network
+				duration = -1
+			}
+			set_country_flag = kyiv_princedoms_established
+		}
+	}
+
+	kyiv_summon_princes = {
+		major = yes
+		potential = {
+			tag = KIE
+			has_reform = kyivan_shogunate_reform
+		}
+		allow = {
+			is_at_war = no
+			stability = 1
+		}
+		effect = {
+			country_event = { id = kyiv_shogunate.1 days = 1 }
+		}
+	}
+
+	kyiv_charter_free_city = {
+		major = yes
+		potential = {
+			tag = KIE
+			has_reform = kyivan_shogunate_reform
+		}
+		allow = {
+			is_at_war = no
+			stability = 1
+			has_country_modifier = KIE_trade_houses
+			has_estate = estate_burghers
+			estate_influence = { estate = estate_burghers value = 60 }
+			NOT = { has_country_modifier = KIE_free_city_charter_cooldown }
+			any_owned_province = {
+				OR = {
+					region = ruthenia_region
+					area = red_ruthenia_area
+				}
+				province_has_center_of_trade_of_level = 1
+				NOT = { has_province_modifier = KIE_free_trade_city }
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = KIE_free_city_charter_cooldown
+				duration = 3650
+			}
+			country_event = { id = kyiv_trade_houses.2 days = 1 }
+		}
+	}
+
+	ruthenian_convene_court = {
+		major = yes
+		potential = {
+			tag = KRU
+			has_reform = ruthenian_factional_empire_reform
+			NOT = { has_dlc = "Res Publica" }
+			NOT = { has_country_modifier = KRU_factional_court_cooldown }
+		}
+		allow = {
+			stability = 1
+			is_at_war = no
+		}
+		effect = {
+			add_country_modifier = {
+				name = KRU_factional_court_cooldown
+				duration = 3650
+			}
+			country_event = { id = ruthenian_factions.1 days = 1 }
 		}
 	}
 }

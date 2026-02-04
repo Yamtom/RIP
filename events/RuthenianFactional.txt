@@ -1,0 +1,80 @@
+namespace = ruthenian_factions
+
+country_event = {
+	id = ruthenian_factions.1
+	title = "ruthenian_factions.1.t"
+	desc = "ruthenian_factions.1.d"
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = "ruthenian_factions.1.a"
+		ai_chance = { factor = 35 }
+		remove_country_modifier = KRU_boyar_duma
+		remove_country_modifier = KRU_hetman_council
+		add_country_modifier = {
+			name = KRU_princes_court
+			duration = 3650
+		}
+		change_variable = { which = ruthenian_decadence value = -5 }
+		add_legitimacy = 10
+		add_prestige = 5
+		every_subject_country = {
+			add_liberty_desire = -5
+		}
+	}
+	option = {
+		name = "ruthenian_factions.1.b"
+		ai_chance = { factor = 35 }
+		remove_country_modifier = KRU_princes_court
+		remove_country_modifier = KRU_hetman_council
+		add_country_modifier = {
+			name = KRU_boyar_duma
+			duration = 3650
+		}
+		change_variable = { which = ruthenian_decadence value = -5 }
+		add_adm_power = 50
+		add_prestige = 5
+	}
+	option = {
+		name = "ruthenian_factions.1.c"
+		ai_chance = { factor = 30 }
+		remove_country_modifier = KRU_princes_court
+		remove_country_modifier = KRU_boyar_duma
+		add_country_modifier = {
+			name = KRU_hetman_council
+			duration = 3650
+		}
+		change_variable = { which = ruthenian_decadence value = -10 }
+		add_mil_power = 50
+		add_army_tradition = 10
+	}
+}
+
+country_event = {
+	id = ruthenian_factions.2
+	title = "ruthenian_factions.1.t"
+	desc = "ruthenian_factions.1.d"
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		tag = KRU
+		has_reform = ruthenian_factional_empire_reform
+		NOT = { has_dlc = "Res Publica" }
+		ai = yes
+		NOT = { has_country_modifier = KRU_factional_court_cooldown }
+	}
+
+	immediate = {
+		add_country_modifier = {
+			name = KRU_factional_court_cooldown
+			duration = 3650
+		}
+		country_event = { id = ruthenian_factions.1 days = 1 }
+	}
+
+	option = {
+		name = "ruthenian_factions.2.a"
+	}
+}

@@ -539,6 +539,79 @@ KIE_missions_2 = {
 			}
 		}
 	}
+	KIE_subjugate_moscow = {
+		icon = mission_conquer_moscow
+		required_missions = {
+			KIE_integrate_novgorod
+		}
+		position = 7
+		provinces_to_highlight = {
+			area = moscow_area
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			moscow_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			295 = {
+				development = 30
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = KIE_moscow_subjugated
+				duration = 5475
+			}
+			russia_region = {
+				limit = {
+					NOT = {
+						is_permanent_claim = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+	KIE_heir_of_rus = {
+		icon = mission_unite_the_princes
+		required_missions = {
+			KIE_subjugate_moscow
+		}
+		position = 8
+		provinces_to_highlight = {
+			OR = {
+				region = russia_region
+				region = ruthenia_region
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			russia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			ruthenia_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_prestige = 25
+			add_legitimacy = 20
+			add_country_modifier = {
+				name = KIE_heir_of_rus
+				duration = -1
+			}
+		}
+	}
 }
 
 UKR_missions_2 = {
@@ -1448,6 +1521,61 @@ KIE_missions_4 = {
 			2447 = {
 				add_permanent_claim = ROOT
 			}
+		}
+	}
+
+	KIE_trade_houses = {
+		icon = mission_arabian_sea_trade
+		required_missions = {
+			KIE_dniestr_trade_route
+		}
+		position = 6
+		trigger = {
+			has_estate = estate_burghers
+			num_of_owned_provinces_with = {
+				value = 6
+				has_building = marketplace
+			}
+			any_owned_province = {
+				province_has_center_of_trade_of_level = 2
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = KIE_trade_houses
+				duration = -1
+			}
+			country_event = { id = kyiv_trade_houses.1 days = 1 }
+		}
+	}
+
+	KIE_free_trade_cities = {
+		icon = mission_protect_white_sea_trade
+		required_missions = {
+			KIE_trade_houses
+		}
+		position = 7
+		trigger = {
+			has_estate = estate_burghers
+			estate_influence = { estate = estate_burghers value = 60 }
+			OR = {
+				has_reform = kyivan_shogunate_reform
+				has_country_flag = kyiv_path_shogunate
+			}
+			any_owned_province = {
+				OR = {
+					region = ruthenia_region
+					area = red_ruthenia_area
+				}
+				province_has_center_of_trade_of_level = 1
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = KIE_free_city_charter_cooldown
+				duration = 1825
+			}
+			country_event = { id = kyiv_trade_houses.2 days = 1 }
 		}
 	}
 }

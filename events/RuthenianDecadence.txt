@@ -1,0 +1,137 @@
+namespace = ruthenian_decadence
+
+country_event = {
+	id = ruthenian_decadence.1
+	title = "ruthenian_decadence.1.t"
+	desc = "ruthenian_decadence.1.d"
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		tag = KRU
+		has_reform = ruthenian_factional_empire_reform
+	}
+
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = ruthenian_decadence } }
+			set_variable = { which = ruthenian_decadence value = 20 }
+		}
+
+		change_variable = { which = ruthenian_decadence value = 0 }
+		if = {
+			limit = {
+				stability = 0
+				NOT = { stability = 1 }
+			}
+			change_variable = { which = ruthenian_decadence value = 2 }
+		}
+		if = {
+			limit = { NOT = { stability = 0 } }
+			change_variable = { which = ruthenian_decadence value = 3 }
+		}
+		if = {
+			limit = { is_at_war = yes }
+			change_variable = { which = ruthenian_decadence value = 1 }
+		}
+		if = {
+			limit = { num_of_loans = 5 }
+			change_variable = { which = ruthenian_decadence value = 1 }
+		}
+		if = {
+			limit = { average_autonomy = 40 }
+			change_variable = { which = ruthenian_decadence value = 1 }
+		}
+		if = {
+			limit = { NOT = { legitimacy = 50 } }
+			change_variable = { which = ruthenian_decadence value = 1 }
+		}
+		if = {
+			limit = { NOT = { prestige = 0 } }
+			change_variable = { which = ruthenian_decadence value = 0 }
+		}
+		if = {
+			limit = { stability = 2 }
+			change_variable = { which = ruthenian_decadence value = -3 }
+		}
+		if = {
+			limit = { is_at_war = no }
+			change_variable = { which = ruthenian_decadence value = -2 }
+		}
+
+		if = {
+			limit = { NOT = { check_variable = { which = ruthenian_decadence value = 0 } } }
+			set_variable = { which = ruthenian_decadence value = 0 }
+		}
+		if = {
+			limit = { check_variable = { which = ruthenian_decadence value = 101 } }
+			set_variable = { which = ruthenian_decadence value = 100 }
+		}
+
+		if = {
+			limit = { check_variable = { which = ruthenian_decadence value = 70 } }
+			remove_country_modifier = KRU_decadence_low
+			remove_country_modifier = KRU_decadence_medium
+			add_country_modifier = {
+				name = KRU_decadence_high
+				duration = 365
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = ruthenian_decadence value = 40 } }
+			remove_country_modifier = KRU_decadence_low
+			remove_country_modifier = KRU_decadence_high
+			add_country_modifier = {
+				name = KRU_decadence_medium
+				duration = 365
+			}
+		}
+		else = {
+			remove_country_modifier = KRU_decadence_medium
+			remove_country_modifier = KRU_decadence_high
+			add_country_modifier = {
+				name = KRU_decadence_low
+				duration = 365
+			}
+		}
+
+		if = {
+			limit = {
+				check_variable = { which = ruthenian_decadence value = 90 }
+				NOT = { has_country_flag = ruthenian_decadence_crisis_recent }
+				NOT = { has_disaster = ruthenian_court_crisis }
+			}
+			set_country_flag = ruthenian_decadence_crisis_recent
+			country_event = { id = ruthenian_decadence.2 days = 1 }
+		}
+	}
+
+	option = {
+		name = "ruthenian_decadence.1.a"
+	}
+}
+
+country_event = {
+	id = ruthenian_decadence.2
+	title = "ruthenian_decadence.2.t"
+	desc = "ruthenian_decadence.2.d"
+	picture = REVOLUTION_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = "ruthenian_decadence.2.a"
+		add_stability = -1
+		add_prestige = -10
+		change_variable = { which = ruthenian_decadence value = -20 }
+	}
+	option = {
+		name = "ruthenian_decadence.2.b"
+		add_treasury = -200
+		add_corruption = 1
+		change_variable = { which = ruthenian_decadence value = -10 }
+		add_country_modifier = {
+			name = KRU_decadence_appeased
+			duration = 1825
+		}
+	}
+}

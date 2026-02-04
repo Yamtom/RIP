@@ -1,0 +1,43 @@
+# =========================================================================
+# RUTHENIAN COURT CRISIS DISASTER
+# =========================================================================
+ruthenian_court_crisis = {
+	potential = {
+		tag = KRU
+		normal_or_historical_nations = yes
+	}
+
+	can_start = {
+		has_any_disaster = no
+		has_reform = ruthenian_factional_empire_reform
+		check_variable = { which = ruthenian_decadence value = 90 }
+	}
+
+	on_start = {
+		set_country_flag = ruthenian_decadence_crisis_recent
+	}
+
+	modifier = {
+		global_unrest = 3
+		stability_cost_modifier = 0.2
+		advisor_cost = 0.2
+		discipline = -0.03
+	}
+
+	progress = {
+		modifier = {
+			factor = 6
+			check_variable = { which = ruthenian_decadence value = 90 }
+		}
+	}
+
+	can_end = {
+		stability = 1
+		NOT = { check_variable = { which = ruthenian_decadence value = 60 } }
+	}
+
+	on_end = {
+		change_variable = { which = ruthenian_decadence value = -10 }
+		clr_country_flag = ruthenian_decadence_crisis_recent
+	}
+}
