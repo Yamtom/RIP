@@ -1,0 +1,255 @@
+# =========================================================================
+# KHMELNYTSKY UPRISING EVENT CHAIN
+# =========================================================================
+
+namespace = khmelnytsky_events
+
+# Event 1: Disaster starts - The Uprising Begins
+country_event = {
+	id = khmelnytsky_events.1
+	title = khmelnytsky_events.1.t
+	desc = khmelnytsky_events.1.d
+	picture = ANGRY_MOB_eventPicture
+	
+	is_triggered_only = yes
+
+	option = {
+		name = khmelnytsky_events.1.a
+		ai_chance = { factor = 50 }
+		add_stability = -2
+		add_country_modifier = {
+			name = khmelnytsky_revolt_active
+			duration = -1
+		}
+	}
+
+	option = {
+		name = khmelnytsky_events.1.b
+		ai_chance = { factor = 50 }
+		add_country_modifier = {
+			name = khmelnytsky_military_response
+			duration = 1825
+		}
+	}
+}
+
+# Event 2: Disaster ends - Suppression or Resolution
+country_event = {
+	id = khmelnytsky_events.2
+	title = khmelnytsky_events.2.t
+	desc = khmelnytsky_events.2.d
+	picture = PEACE_eventPicture
+	
+	is_triggered_only = yes
+
+	option = {
+		name = khmelnytsky_events.2.a
+		set_country_flag = survived_khmelnytsky_uprising
+		add_stability = 1
+	}
+}
+
+# Event 3: Cossack Raids Intensify
+country_event = {
+	id = khmelnytsky_events.3
+	title = khmelnytsky_events.3.t
+	desc = khmelnytsky_events.3.d
+	picture = BATTLE_eventPicture
+	
+	trigger = {
+		has_disaster = khmelnytsky_uprising
+	}
+	
+	mean_time_to_happen = {
+		months = 24
+	}
+
+	option = {
+		name = khmelnytsky_events.3.a
+		ai_chance = { factor = 60 }
+		
+		random_owned_province = {
+			limit = {
+				OR = {
+					region = ruthenia_region
+					area = kyiv_area
+					area = cherkasy_area
+					area = poltava_area
+					area = chernihiv_area
+					area = podillia_area
+				}
+				is_core = ROOT
+			}
+			add_unrest = 2
+			add_devastation = 10
+		}
+	}
+
+	option = {
+		name = khmelnytsky_events.3.b
+		ai_chance = { factor = 40 }
+		
+		random_owned_province = {
+			limit = {
+				OR = {
+					region = ruthenia_region
+					area = kyiv_area
+					area = cherkasy_area
+					area = poltava_area
+					area = chernihiv_area
+					area = podillia_area
+				}
+				is_core = ROOT
+			}
+			spawn_rebels = {
+				type = cossack_rebels
+				size = 3
+				leader = "Bohdan Khmelnytsky"
+			}
+		}
+	}
+}
+
+# Event 4: Massacres and Atrocities
+country_event = {
+	id = khmelnytsky_events.4
+	title = khmelnytsky_events.4.t
+	desc = khmelnytsky_events.4.d
+	picture = ACCUSATION_eventPicture
+	
+	trigger = {
+		has_disaster = khmelnytsky_uprising
+		OR = {
+			tag = POL
+			tag = LIT
+			tag = PLC
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 20
+	}
+
+	option = {
+		name = khmelnytsky_events.4.a
+		
+		random_owned_province = {
+			limit = {
+				OR = {
+					region = ruthenia_region
+					area = kyiv_area
+					area = cherkasy_area
+					area = poltava_area
+					area = chernihiv_area
+					area = podillia_area
+				}
+				is_core = ROOT
+			}
+			add_devastation = 15
+			add_unrest = 3
+			add_nationalism = 5
+		}
+	}
+}
+
+# Event 5: Peasant Recruitment to the Cause
+country_event = {
+	id = khmelnytsky_events.5
+	title = khmelnytsky_events.5.t
+	desc = khmelnytsky_events.5.d
+	picture = SOLDIERS_RECRUIT_eventPicture
+	
+	trigger = {
+		has_disaster = khmelnytsky_uprising
+	}
+	
+	mean_time_to_happen = {
+		months = 30
+	}
+
+	option = {
+		name = khmelnytsky_events.5.a
+		
+		add_manpower = -5
+		random_owned_province = {
+			limit = {
+				OR = {
+					region = ruthenia_region
+					area = kyiv_area
+					area = cherkasy_area
+					area = poltava_area
+					area = chernihiv_area
+					area = podillia_area
+				}
+				is_core = ROOT
+			}
+			add_unrest = 2
+		}
+	}
+
+	option = {
+		name = khmelnytsky_events.5.b
+		ai_chance = { factor = 30 }
+		
+		add_country_modifier = {
+			name = khmelnytsky_concessions
+			duration = 1825
+		}
+	}
+}
+
+# Event 6: Foreign Intervention Opportunity
+country_event = {
+	id = khmelnytsky_events.6
+	title = khmelnytsky_events.6.t
+	desc = khmelnytsky_events.6.d
+	picture = DIPLOMACY_eventPicture
+	
+	trigger = {
+		has_disaster = khmelnytsky_uprising
+		OR = {
+			tag = CHR
+			tag = HET
+			tag = KIE
+			tag = PRL
+			tag = VOL
+			tag = ZAZ
+		}
+		OR = {
+			MOS = { exists = yes }
+			RUS = { exists = yes }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 40
+	}
+
+	option = {
+		name = khmelnytsky_events.6.a
+		ai_chance = { factor = 40 }
+		
+		if = {
+			limit = { MOS = { exists = yes } }
+			create_alliance = MOS
+			add_country_modifier = {
+				name = khmelnytsky_moscow_support
+				duration = 3650
+			}
+		}
+		else = {
+			create_alliance = RUS
+			add_country_modifier = {
+				name = khmelnytsky_moscow_support
+				duration = 3650
+			}
+		}
+	}
+
+	option = {
+		name = khmelnytsky_events.6.b
+		ai_chance = { factor = 60 }
+		
+		add_stability = -1
+	}
+}

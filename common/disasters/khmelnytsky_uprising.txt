@@ -1,0 +1,280 @@
+# =========================================================================
+# THE KHMELNYTSKY UPRISING DISASTER
+# (XVII ст.: 1648–1654 р.р.)
+# =========================================================================
+#
+# HISTORICAL BACKGROUND:
+# The Khmelnytsky Uprising (1648–1654) was a massive Cossack rebellion against
+# Polish-Lithuanian rule, led by Bohdan Khmelnytsky (1595–1676). It resulted in:
+# - Simultaneous rebellion of the Registered Cossacks and peasant masses
+# - Destruction of Polish-Lithuanian authority in Ukraine
+# - Massacres of Polish magnates, Catholic clergy, and Jewish communities
+# - Devastation of the region through warfare and civil conflict
+# - Ultimately led to the 1654 Pereiaslav Agreement with Muscovy
+#
+# Key Figures and Events:
+# - Bogdan Khmelnytsky (1595–1676): Cossack leader, enslaved by Tatars, becomes hetman
+# - 1648: Uprising begins after Khmelnytsky defeats Polish forces at Zhovti Vody
+# - 1649: Battle of Zboriv—Polish army defeated; Polish-Cossack agreement
+# - 1651: Battle of Berestechko—largest battle of Eastern Europe (300,000+ troops)
+# - 1654: Pereiaslav Agreement—Khmelnytsky accepts Muscovite suzerainty
+#
+# Scope of Destruction:
+# - Estimated 100,000–500,000 deaths (20–40% of Ukrainian population)
+# - Total destruction of Polish manorial system in central/eastern Ukraine
+# - Devastation of provinces: Kyiv, Cherkasy, Poltava, Chernihiv regions
+# - Jewish communities decimated (estimated 100,000 to 300,000 killed)
+# - Polish magnate estates and fortresses destroyed or abandoned
+# - Economic collapse: agriculture, trade, and urban life disrupted
+#
+# Consequences:
+# - End of Polish-Lithuanian dominance in Ukraine
+# - Rise of Cossack military power under hetman authority
+# - Ukraine divided: Right Bank (eventually Polish), Left Bank (Muscovite)
+# - Long-term fragmentation of Ukrainian lands
+# - Beginning of Muscovite dominance that would last centuries
+#
+# GAME MECHANICS:
+# Represents catastrophic uprising affecting either:
+# A) Polish/Lithuanian entities owning Ukrainian cores (severe penalties)
+# B) Ukrainian Cossack states gaining strength from the rebellion
+#
+# The disaster progresses based on devastation, unrest, and warfare.
+# It can be mitigated through military suppression or diplomatic concessions.
+# =========================================================================
+
+khmelnytsky_uprising = {
+
+	potential = {
+		OR = {
+			# Polish forces holding Ukrainian territory
+			AND = {
+				OR = {
+					tag = POL
+					tag = LIT
+					tag = PLC
+				}
+				any_owned_province = {
+					OR = {
+						region = ruthenia_region
+						area = kyiv_area
+						area = cherkasy_area
+						area = poltava_area
+						area = chernihiv_area
+						area = podillia_area
+					}
+					is_core = ROOT
+				}
+			}
+			# Or for Ukrainian Cossack states during the period
+			OR = {
+				tag = CHR
+				tag = HET
+				tag = KIE
+				tag = PRL
+				tag = VOL
+				tag = ZAZ
+			}
+		}
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = survived_khmelnytsky_uprising }
+	}
+
+	can_start = {
+		has_any_disaster = no
+		OR = {
+			current_age = age_of_reformation
+			current_age = age_of_absolutism
+		}
+		is_year = 1648
+		NOT = { is_year = 1660 }
+		OR = {
+			# For Polish/Lithuanian: holding Ukrainian territory with high unrest
+			AND = {
+				OR = {
+					tag = POL
+					tag = LIT
+					tag = PLC
+				}
+				any_owned_province = {
+					OR = {
+						region = ruthenia_region
+						area = kyiv_area
+						area = cherkasy_area
+						area = poltava_area
+						area = chernihiv_area
+						area = podillia_area
+					}
+					is_core = ROOT
+					OR = {
+						local_unrest = 3
+						development = 20
+					}
+				}
+				stability < 1
+			}
+			# For Cossack states: emerging or at war
+			AND = {
+				OR = {
+					tag = CHR
+					tag = HET
+					tag = KIE
+					tag = PRL
+					tag = VOL
+					tag = ZAZ
+				}
+				OR = {
+					is_year = 1648
+					has_country_flag = khmelnytsky_revolt_active
+				}
+			}
+		}
+	}
+
+	on_start = khmelnytsky_events.1
+
+	can_stop = {
+		NOT = { has_any_disaster = yes }
+	}
+
+	modifier = {
+		global_unrest = 2
+		stability_cost_modifier = 0.30
+		global_tax_modifier = -0.20
+		manpower_recovery_speed = -0.30
+		reform_progress_growth = -0.20
+		legitimacy = -1
+		war_exhaustion_cost = 0.20
+	}
+
+	progress = {
+		modifier = {
+			factor = 2
+			always = yes
+		}
+		modifier = {
+			factor = 1.5
+			any_owned_province = {
+				OR = {
+					region = ruthenia_region
+					area = kyiv_area
+					area = cherkasy_area
+					area = poltava_area
+					area = chernihiv_area
+					area = podillia_area
+				}
+				local_unrest = 5
+			}
+		}
+		modifier = {
+			factor = 1.5
+			num_of_rebel_armies = 2
+		}
+		modifier = {
+			factor = 1.3
+			war_exhaustion = 5
+		}
+		modifier = {
+			factor = 1.3
+			any_owned_province = {
+				OR = {
+					region = ruthenia_region
+					area = kyiv_area
+					area = cherkasy_area
+					area = poltava_area
+					area = chernihiv_area
+					area = podillia_area
+				}
+				devastation = 20
+			}
+		}
+		modifier = {
+			factor = 1.2
+			NOT = { manpower_percentage = 0.4 }
+		}
+		modifier = {
+			factor = 0.8
+			stability = 1
+		}
+		modifier = {
+			factor = 0.5
+			stability = 2
+		}
+		modifier = {
+			factor = 0.3
+			stability = 3
+		}
+		modifier = {
+			factor = 0.9
+			OR = {
+				tag = POL
+				tag = LIT
+				tag = PLC
+			}
+			army_size = 30
+		}
+		modifier = {
+			factor = 0.7
+			OR = {
+				tag = CHR
+				tag = HET
+				tag = KIE
+				tag = PRL
+				tag = VOL
+				tag = ZAZ
+			}
+		}
+	}
+
+	can_end = {
+		stability = 1
+		NOT = { war_exhaustion = 2 }
+		OR = {
+			# Polish suppress the rebellion
+			AND = {
+				OR = {
+					tag = POL
+					tag = LIT
+					tag = PLC
+				}
+				NOT = {
+					any_owned_province = {
+						OR = {
+							region = ruthenia_region
+							area = kyiv_area
+							area = cherkasy_area
+							area = poltava_area
+							area = chernihiv_area
+							area = podillia_area
+						}
+						local_unrest = 2
+					}
+				}
+				NOT = { num_of_rebel_armies = 1 }
+			}
+			# Cossack states secure independence
+			AND = {
+				OR = {
+					tag = CHR
+					tag = HET
+					tag = KIE
+					tag = PRL
+					tag = VOL
+					tag = ZAZ
+				}
+				is_subject = no
+			}
+		}
+	}
+
+	on_end = khmelnytsky_events.2
+
+	on_monthly = {
+		random_events = {
+			100 = khmelnytsky_events.3
+			75 = khmelnytsky_events.4
+			50 = khmelnytsky_events.5
+			25 = khmelnytsky_events.6
+		}
+	}
+}
