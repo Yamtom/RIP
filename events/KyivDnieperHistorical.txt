@@ -1,0 +1,1426 @@
+# =========================================================================
+# KYIV AND DNIEPER REGION HISTORICAL PROCESSES
+# =========================================================================
+# HISTORICAL CONTEXT:
+# This event chain recreates the key historical processes of Kyiv region
+# and the Dnieper (Dnipro) basin during the EU4 timeframe (1444-1821):
+#
+# - Development of Dnieper river trade routes
+# - Urban development of Kyiv, Chernihiv, Pereiaslav, and other cities
+# - Agricultural colonization of the Middle Dnieper region
+# - Cultural and educational development (Kyiv-Mohyla Academy)
+# - Religious center (Orthodox metropolitanate)
+# - Competition between regional powers (Lithuania, Poland, Muscovy, Crimea)
+# - Cossack influence and settlement
+# - Craft industries and urban economies
+#
+# GEOGRAPHIC SCOPE:
+# - Kyiv province (280)
+# - Chernihiv province (289)
+# - Pereiaslav province (295)
+# - West Dnieper area
+# - East Dnieper area
+# - Zaporizhia area
+#
+# TIMELINE: 1444-1821
+# =========================================================================
+
+namespace = kyiv_dnieper_history
+
+# =================================================================
+# DNIEPER RIVER TRADE DEVELOPMENT CHAIN
+# =================================================================
+
+# Event 1.1: Establishing Dnieper Trading Network
+country_event = {
+	id = kyiv_dnieper_history.1
+	title = kyiv_dnieper_history.1.t
+	desc = kyiv_dnieper_history.1.d
+	picture = TRADEGOODS_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = KIE
+			tag = LIT
+			tag = POL
+			tag = PLC
+			tag = CHR
+			tag = HET
+			tag = UKR
+			tag = KRU
+		}
+		owns = 280  # Kyiv
+		NOT = { has_country_flag = dnieper_trade_network_established }
+		is_at_war = no
+		treasury = 100
+		any_owned_province = {
+			OR = {
+				area = west_dniepr_area
+				area = east_dniepr_area
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		
+		modifier = {
+			factor = 0.8
+			stability = 1
+		}
+		modifier = {
+			factor = 0.7
+			adm_tech = 8
+		}
+		modifier = {
+			factor = 0.9
+			diplomatic_reputation = 2
+		}
+		modifier = {
+			factor = 1.2
+			is_at_war = yes
+		}
+	}
+	
+	option = { # Invest heavily in river trade
+		name = kyiv_dnieper_history.1.a
+		ai_chance = { factor = 60 }
+		
+		add_treasury = -150
+		add_mercantilism = 1
+		set_country_flag = dnieper_trade_network_established
+		
+		280 = {
+			add_province_modifier = {
+				name = dnieper_trade_hub
+				duration = 10950  # 30 years
+			}
+		}
+		
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+			}
+			add_province_modifier = {
+				name = dnieper_river_port
+				duration = 9125  # 25 years
+			}
+		}
+		
+		add_country_modifier = {
+			name = dnieper_commerce_network
+			duration = 10950  # 30 years
+		}
+	}
+	
+	option = { # Moderate investment
+		name = kyiv_dnieper_history.1.b
+		ai_chance = { factor = 35 }
+		
+		add_treasury = -75
+		set_country_flag = dnieper_trade_network_established
+		
+		280 = {
+			add_base_production = 1
+		}
+		
+		add_mercantilism = 0.5
+	}
+	
+	option = { # Focus on military control instead
+		name = kyiv_dnieper_history.1.c
+		ai_chance = { factor = 5 }
+		
+		add_mil_power = 25
+		add_prestige = -5
+	}
+}
+
+# Event 1.2: Greek and Armenian Merchants
+country_event = {
+	id = kyiv_dnieper_history.2
+	title = kyiv_dnieper_history.2.t
+	desc = kyiv_dnieper_history.2.d
+	picture = MERCHANTS_TALKING_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = KIE
+			tag = CHR
+			tag = HET
+			tag = UKR
+			tag = KRU
+		}
+		owns = 280
+		has_country_flag = dnieper_trade_network_established
+		NOT = { has_country_flag = kyiv_foreign_merchants }
+		is_at_war = no
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+		
+		modifier = {
+			factor = 0.7
+			280 = { development = 20 }
+		}
+		modifier = {
+			factor = 0.8
+			trade_income_percentage = 0.25
+		}
+	}
+	
+	option = { # Welcome foreign merchants
+		name = kyiv_dnieper_history.2.a
+		ai_chance = { factor = 70 }
+		
+		set_country_flag = kyiv_foreign_merchants
+		
+		280 = {
+			add_province_modifier = {
+				name = kyiv_foreign_trading_quarters
+				duration = -1
+			}
+			add_base_production = 1
+		}
+		
+		add_years_of_income = 0.3
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 10
+			}
+		}
+	}
+	
+	option = { # Restrict foreign influence
+		name = kyiv_dnieper_history.2.b
+		ai_chance = { factor = 30 }
+		
+		add_mercantilism = 1
+		add_prestige = 5
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = -5
+			}
+		}
+	}
+}
+
+# Event 1.3: Chumak Salt Caravans
+country_event = {
+	id = kyiv_dnieper_history.3
+	title = kyiv_dnieper_history.3.t
+	desc = kyiv_dnieper_history.3.d
+	picture = CARAVAN_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = KIE
+			tag = CHR
+			tag = HET
+			tag = UKR
+			tag = KRU
+			tag = ZAZ
+		}
+		owns = 280
+		NOT = { has_country_flag = chumak_caravans_established }
+		any_owned_province = {
+			OR = {
+				trade_goods = salt
+				area = zaporizhia_area
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		
+		modifier = {
+			factor = 0.8
+			has_country_flag = dnieper_trade_network_established
+		}
+		modifier = {
+			factor = 0.9
+			num_of_owned_provinces_with = {
+				value = 3
+				area = zaporizhia_area
+			}
+		}
+	}
+	
+	option = { # Organize chumak trade
+		name = kyiv_dnieper_history.3.a
+		ai_chance = { factor = 80 }
+		
+		set_country_flag = chumak_caravans_established
+		
+		add_country_modifier = {
+			name = chumak_salt_trade
+			duration = -1
+		}
+		
+		every_owned_province = {
+			limit = { trade_goods = salt }
+			add_province_modifier = {
+				name = chumak_salt_extraction
+				duration = -1
+			}
+		}
+		
+		add_mercantilism = 0.5
+		add_years_of_income = 0.25
+	}
+	
+	option = { # State monopoly on salt
+		name = kyiv_dnieper_history.3.b
+		ai_chance = { factor = 20 }
+		
+		set_country_flag = chumak_caravans_established
+		
+		add_mercantilism = 2
+		add_years_of_income = 0.5
+		add_country_modifier = {
+			name = salt_state_monopoly
+			duration = 7300  # 20 years
+		}
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = -10
+			}
+		}
+	}
+}
+
+# =================================================================
+# URBAN DEVELOPMENT CHAIN
+# =================================================================
+
+# Event 2.1: Kyiv Urban Expansion
+country_event = {
+	id = kyiv_dnieper_history.4
+	title = kyiv_dnieper_history.4.t
+	desc = kyiv_dnieper_history.4.d
+	picture = CITY_DEVELOPMENT_eventPicture
+	
+	trigger = {
+		owns = 280
+		280 = { development = 15 }
+		NOT = { has_country_flag = kyiv_urban_expansion }
+		is_at_war = no
+		treasury = 150
+	}
+	
+	mean_time_to_happen = {
+		months = 200
+		
+		modifier = {
+			factor = 0.7
+			280 = { development = 25 }
+		}
+		modifier = {
+			factor = 0.8
+			stability = 2
+		}
+		modifier = {
+			factor = 0.9
+			adm_power = 100
+		}
+	}
+	
+	option = { # Major urban development project
+		name = kyiv_dnieper_history.4.a
+		ai_chance = { factor = 60 }
+		
+		add_treasury = -200
+		add_adm_power = -50
+		set_country_flag = kyiv_urban_expansion
+		
+		280 = {
+			add_base_tax = 2
+			add_base_production = 2
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = kyiv_podil_expansion
+				duration = -1
+			}
+		}
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 15
+			}
+		}
+	}
+	
+	option = { # Gradual organic growth
+		name = kyiv_dnieper_history.4.b
+		ai_chance = { factor = 35 }
+		
+		add_treasury = -100
+		set_country_flag = kyiv_urban_expansion
+		
+		280 = {
+			add_base_tax = 1
+			add_base_production = 1
+		}
+		
+		add_adm_power = 25
+	}
+	
+	option = { # No investment needed
+		name = kyiv_dnieper_history.4.c
+		ai_chance = { factor = 5 }
+		
+		add_stability = -1
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = -10
+			}
+		}
+	}
+}
+
+# Event 2.2: Magdeburg Rights for Dnieper Cities
+country_event = {
+	id = kyiv_dnieper_history.5
+	title = kyiv_dnieper_history.5.t
+	desc = kyiv_dnieper_history.5.d
+	picture = CITY_DEVELOPMENT_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = KIE
+			tag = LIT
+			tag = POL
+			tag = PLC
+			tag = HET
+			tag = UKR
+			tag = KRU
+		}
+		OR = {
+			owns = 280  # Kyiv
+			owns = 289  # Chernihiv
+			owns = 295  # Pereiaslav
+		}
+		NOT = { has_country_flag = magdeburg_rights_dnieper }
+		adm_tech = 8
+		is_at_war = no
+	}
+	
+	mean_time_to_happen = {
+		months = 300
+		
+		modifier = {
+			factor = 0.7
+			OR = {
+				tag = POL
+				tag = PLC
+				tag = LIT
+			}
+		}
+		modifier = {
+			factor = 0.8
+			stability = 2
+		}
+		modifier = {
+			factor = 0.9
+			any_owned_province = {
+				OR = {
+					province_id = 280
+					province_id = 289
+					province_id = 295
+				}
+				development = 20
+			}
+		}
+	}
+	
+	option = { # Grant Magdeburg rights to Kyiv
+		name = kyiv_dnieper_history.5.a
+		ai_chance = { factor = 40 }
+		
+		trigger = { owns = 280 }
+		
+		set_country_flag = magdeburg_rights_dnieper
+		
+		280 = {
+			add_province_modifier = {
+				name = magdeburg_law_city
+				duration = -1
+			}
+			add_base_tax = 1
+			add_base_production = 1
+		}
+		
+		add_prestige = 10
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 15
+			}
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -5
+			}
+		}
+	}
+	
+	option = { # Grant rights to Chernihiv
+		name = kyiv_dnieper_history.5.b
+		ai_chance = { factor = 30 }
+		
+		trigger = { owns = 289 }
+		
+		set_country_flag = magdeburg_rights_dnieper
+		
+		289 = {
+			add_province_modifier = {
+				name = magdeburg_law_city
+				duration = -1
+			}
+			add_base_tax = 1
+			add_base_production = 1
+		}
+		
+		add_prestige = 10
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 15
+			}
+		}
+	}
+	
+	option = { # Grant rights to multiple cities
+		name = kyiv_dnieper_history.5.c
+		ai_chance = { factor = 25 }
+		
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 2
+				OR = {
+					province_id = 280
+					province_id = 289
+					province_id = 295
+				}
+			}
+		}
+		
+		set_country_flag = magdeburg_rights_dnieper
+		add_adm_power = -75
+		
+		every_owned_province = {
+			limit = {
+				OR = {
+					province_id = 280
+					province_id = 289
+					province_id = 295
+				}
+			}
+			add_province_modifier = {
+				name = magdeburg_law_city
+				duration = -1
+			}
+		}
+		
+		add_prestige = 20
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 20
+			}
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+	}
+	
+	option = { # Refuse urban autonomy
+		name = kyiv_dnieper_history.5.e
+		ai_chance = { factor = 5 }
+		
+		set_country_flag = magdeburg_rights_dnieper
+		
+		add_absolutism = 5
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = -15
+			}
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+}
+
+# Event 2.3: Crafts and Artisan Guilds
+country_event = {
+	id = kyiv_dnieper_history.6
+	title = kyiv_dnieper_history.6.t
+	desc = kyiv_dnieper_history.6.d
+	picture = TRADEGOODS_eventPicture
+	
+	trigger = {
+		owns = 280
+		280 = { development = 18 }
+		NOT = { has_country_flag = kyiv_artisan_guilds }
+		is_at_war = no
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		
+		modifier = {
+			factor = 0.8
+			280 = { has_province_modifier = magdeburg_law_city }
+		}
+		modifier = {
+			factor = 0.8
+			has_country_flag = kyiv_foreign_merchants
+		}
+	}
+	
+	option = { # Support guild development
+		name = kyiv_dnieper_history.6.a
+		ai_chance = { factor = 75 }
+		
+		set_country_flag = kyiv_artisan_guilds
+		
+		280 = {
+			add_province_modifier = {
+				name = kyiv_artisan_guilds_modifier
+				duration = -1
+			}
+			if = {
+				limit = { NOT = { has_building = workshop } }
+				add_building = workshop
+			}
+		}
+		
+		add_years_of_income = 0.3
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 10
+			}
+		}
+	}
+	
+	option = { # State-controlled production
+		name = kyiv_dnieper_history.6.b
+		ai_chance = { factor = 25 }
+		
+		set_country_flag = kyiv_artisan_guilds
+		
+		280 = {
+			add_base_production = 2
+		}
+		
+		add_mercantilism = 2
+		add_years_of_income = 0.5
+		
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = -10
+			}
+		}
+	}
+}
+
+# =================================================================
+# COLONIZATION AND SETTLEMENT CHAIN
+# =================================================================
+
+# Event 3.1: Colonization of Middle Dnieper
+country_event = {
+	id = kyiv_dnieper_history.7
+	title = kyiv_dnieper_history.7.t
+	desc = kyiv_dnieper_history.7.d
+	picture = COLONIZATION_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = KIE
+			tag = LIT
+			tag = POL
+			tag = PLC
+			tag = CHR
+			tag = HET
+			tag = UKR
+			tag = KRU
+		}
+		owns = 280
+		NOT = { has_country_flag = middle_dnieper_colonization }
+		any_owned_province = {
+			OR = {
+				area = west_dniepr_area
+				area = east_dniepr_area
+			}
+			NOT = { development = 10 }
+		}
+		is_at_war = no
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+		
+		modifier = {
+			factor = 0.7
+			stability = 2
+		}
+		modifier = {
+			factor = 0.8
+			adm_tech = 10
+		}
+		modifier = {
+			factor = 0.9
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+			}
+		}
+	}
+	
+	option = { # Encourage peasant settlement
+		name = kyiv_dnieper_history.7.a
+		ai_chance = { factor = 60 }
+		
+		set_country_flag = middle_dnieper_colonization
+		
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+				NOT = { development = 10 }
+			}
+			add_base_tax = 1
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = dnieper_peasant_settlement
+				duration = 7300  # 20 years
+			}
+		}
+		
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+				NOT = { development = 10 }
+			}
+			add_base_tax = 1
+			add_base_manpower = 1
+		}
+		
+		add_country_modifier = {
+			name = middle_dnieper_settlement
+			duration = 9125  # 25 years
+		}
+	}
+	
+	option = { # Cossack military settlements
+		name = kyiv_dnieper_history.7.b
+		ai_chance = { factor = 30 }
+		
+		set_country_flag = middle_dnieper_colonization
+		
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+			}
+			add_base_manpower = 2
+			add_province_modifier = {
+				name = cossack_military_settlement
+				duration = 9125  # 25 years
+			}
+		}
+		
+		add_mil_power = 50
+		add_yearly_manpower = 0.5
+	}
+	
+	option = { # Noble estates
+		name = kyiv_dnieper_history.7.c
+		ai_chance = { factor = 10 }
+		
+		set_country_flag = middle_dnieper_colonization
+		
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+			}
+			add_base_tax = 2
+			add_base_production = 1
+			add_province_modifier = {
+				name = dnieper_noble_estates
+				duration = 9125  # 25 years
+			}
+		}
+		
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 15
+			}
+		}
+	}
+}
+
+# Event 3.2: Development of Chernozem Agriculture
+country_event = {
+	id = kyiv_dnieper_history.8
+	title = kyiv_dnieper_history.8.t
+	desc = kyiv_dnieper_history.8.d
+	picture = FARMING_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = KIE
+			tag = CHR
+			tag = HET
+			tag = UKR
+			tag = KRU
+			tag = PRL
+		}
+		NOT = { has_country_flag = chernozem_agriculture_improved }
+		any_owned_province = {
+			OR = {
+				area = west_dniepr_area
+				area = east_dniepr_area
+				province_id = 295  # Pereiaslav
+			}
+			trade_goods = grain
+		}
+		adm_tech = 12
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		
+		modifier = {
+			factor = 0.7
+			has_country_flag = middle_dnieper_colonization
+		}
+		modifier = {
+			factor = 0.8
+			stability = 2
+		}
+	}
+	
+	option = { # Invest in agricultural improvements
+		name = kyiv_dnieper_history.8.a
+		ai_chance = { factor = 80 }
+		
+		set_country_flag = chernozem_agriculture_improved
+		add_treasury = -100
+		
+		every_owned_province = {
+			limit = {
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+				trade_goods = grain
+			}
+			add_base_production = 1
+			add_province_modifier = {
+				name = chernozem_fertility
+				duration = -1
+			}
+		}
+		
+		add_country_modifier = {
+			name = dnieper_grain_surplus
+			duration = -1
+		}
+		
+		add_years_of_income = 0.5
+	}
+	
+	option = { # Export focus
+		name = kyiv_dnieper_history.8.b
+		ai_chance = { factor = 20 }
+		
+		set_country_flag = chernozem_agriculture_improved
+		
+		add_mercantilism = 1
+		add_years_of_income = 1
+		
+		add_country_modifier = {
+			name = grain_export_economy
+			duration = 10950  # 30 years
+		}
+	}
+}
+
+# =================================================================
+# CULTURAL AND EDUCATIONAL CHAIN
+# =================================================================
+
+# Event 4.1: Foundation of Kyiv-Mohyla Academy
+country_event = {
+	id = kyiv_dnieper_history.9
+	title = kyiv_dnieper_history.9.t
+	desc = kyiv_dnieper_history.9.d
+	picture = UNIVERSITY_eventPicture
+	
+	trigger = {
+		owns = 280
+		religion = orthodox
+		is_year = 1580
+		NOT = { is_year = 1650 }
+		NOT = { has_country_flag = kyiv_mohyla_academy_founded }
+		280 = { development = 20 }
+		adm_tech = 10
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+		
+		modifier = {
+			factor = 0.5
+			is_year = 1615
+		}
+		modifier = {
+			factor = 0.7
+			280 = { development = 25 }
+		}
+	}
+	
+	option = { # Found the Academy
+		name = kyiv_dnieper_history.9.a
+		ai_chance = { factor = 90 }
+		
+		set_country_flag = kyiv_mohyla_academy_founded
+		add_treasury = -200
+		add_adm_power = -100
+		
+		280 = {
+			if = {
+				limit = { NOT = { has_building = university } }
+				add_building = university
+			}
+			add_province_modifier = {
+				name = kyiv_mohyla_academy
+				duration = -1
+			}
+			add_base_tax = 2
+		}
+		
+		add_country_modifier = {
+			name = orthodox_education_center
+			duration = -1
+		}
+		
+		add_prestige = 25
+		
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 20
+			}
+		}
+	}
+	
+	option = { # Foreign education is sufficient
+		name = kyiv_dnieper_history.9.b
+		ai_chance = { factor = 10 }
+		
+		set_country_flag = kyiv_mohyla_academy_founded
+		
+		add_dip_power = 50
+		add_prestige = -10
+		
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = -15
+			}
+		}
+	}
+}
+
+# Event 4.2: Orthodox Publishing and Printing
+country_event = {
+	id = kyiv_dnieper_history.10
+	title = kyiv_dnieper_history.10.t
+	desc = kyiv_dnieper_history.10.d
+	picture = REFORM_eventPicture
+	
+	trigger = {
+		owns = 280
+		religion = orthodox
+		has_country_flag = kyiv_mohyla_academy_founded
+		NOT = { has_country_flag = kyiv_orthodox_printing }
+		adm_tech = 13
+	}
+	
+	mean_time_to_happen = {
+		months = 180
+		
+		modifier = {
+			factor = 0.7
+			innovativeness_ideas = 3
+		}
+		modifier = {
+			factor = 0.8
+			280 = { has_building = university }
+		}
+	}
+	
+	option = { # Establish printing press
+		name = kyiv_dnieper_history.10.a
+		ai_chance = { factor = 85 }
+		
+		set_country_flag = kyiv_orthodox_printing
+		add_treasury = -150
+		
+		280 = {
+			add_province_modifier = {
+				name = orthodox_printing_press
+				duration = -1
+			}
+		}
+		
+		add_country_modifier = {
+			name = orthodox_literary_tradition
+			duration = -1
+		}
+		
+		add_prestige = 15
+		add_innovativeness = 1
+		
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 10
+			}
+		}
+	}
+	
+	option = { # Import foreign books
+		name = kyiv_dnieper_history.10.b
+		ai_chance = { factor = 15 }
+		
+		set_country_flag = kyiv_orthodox_printing
+		
+		add_adm_power = 25
+		add_dip_power = 25
+	}
+}
+
+# Event 4.3: Orthodox Metropolitan Authority
+country_event = {
+	id = kyiv_dnieper_history.11
+	title = kyiv_dnieper_history.11.t
+	desc = kyiv_dnieper_history.11.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		owns = 280
+		religion = orthodox
+		NOT = { has_country_flag = kyiv_metropolitan_authority }
+		280 = { development = 20 }
+	}
+	
+	mean_time_to_happen = {
+		months = 300
+		
+		modifier = {
+			factor = 0.7
+			has_country_flag = kyiv_mohyla_academy_founded
+		}
+		modifier = {
+			factor = 0.8
+			religious_unity = 0.9
+		}
+		modifier = {
+			factor = 0.9
+			stability = 2
+		}
+	}
+	
+	option = { # Strengthen metropolitan authority
+		name = kyiv_dnieper_history.11.a
+		ai_chance = { factor = 70 }
+		
+		set_country_flag = kyiv_metropolitan_authority
+		
+		280 = {
+			add_province_modifier = {
+				name = kyiv_orthodox_metropolitanate
+				duration = -1
+			}
+			add_base_tax = 1
+		}
+		
+		add_country_modifier = {
+			name = kyiv_ecclesiastical_authority
+			duration = -1
+		}
+		
+		add_prestige = 15
+		add_legitimacy = 10
+		
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 15
+			}
+		}
+	}
+	
+	option = { # Maintain status quo
+		name = kyiv_dnieper_history.11.b
+		ai_chance = { factor = 30 }
+		
+		set_country_flag = kyiv_metropolitan_authority
+		
+		add_stability = 1
+	}
+}
+
+# =================================================================
+# MILITARY AND DEFENSE CHAIN
+# =================================================================
+
+# Event 5.1: Fortification of Dnieper Cities
+country_event = {
+	id = kyiv_dnieper_history.12
+	title = kyiv_dnieper_history.12.t
+	desc = kyiv_dnieper_history.12.d
+	picture = FORT_eventPicture
+	
+	trigger = {
+		OR = {
+			tag = KIE
+			tag = LIT
+			tag = POL
+			tag = PLC
+			tag = CHR
+			tag = HET
+			tag = UKR
+			tag = KRU
+		}
+		owns = 280
+		NOT = { has_country_flag = dnieper_fortifications }
+		mil_tech = 12
+		treasury = 200
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		
+		modifier = {
+			factor = 0.5
+			any_neighbor_country = {
+				OR = {
+					tag = CRI
+					tag = TUR
+					tag = MOS
+					tag = RUS
+				}
+			}
+		}
+		modifier = {
+			factor = 0.7
+			is_at_war = yes
+		}
+	}
+	
+	option = { # Fortify Kyiv
+		name = kyiv_dnieper_history.12.a
+		ai_chance = { factor = 50 }
+		
+		trigger = { owns = 280 }
+		
+		set_country_flag = dnieper_fortifications
+		add_treasury = -300
+		add_mil_power = -75
+		
+		280 = {
+			if = {
+				limit = { NOT = { has_building = fort_15th } }
+				add_building = fort_15th
+			}
+			add_province_modifier = {
+				name = fortified_dnieper_city
+				duration = -1
+			}
+			add_base_manpower = 1
+		}
+		
+		add_army_tradition = 10
+	}
+	
+	option = { # Fortify multiple cities
+		name = kyiv_dnieper_history.12.b
+		ai_chance = { factor = 35 }
+		
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 2
+				OR = {
+					province_id = 280
+					province_id = 289
+					province_id = 295
+				}
+			}
+		}
+		
+		set_country_flag = dnieper_fortifications
+		add_treasury = -500
+		add_mil_power = -100
+		
+		every_owned_province = {
+			limit = {
+				OR = {
+					province_id = 280
+					province_id = 289
+					province_id = 295
+				}
+			}
+			add_province_modifier = {
+				name = fortified_dnieper_city
+				duration = -1
+			}
+		}
+		
+		add_army_tradition = 15
+		add_prestige = 10
+	}
+	
+	option = { # Chain of fortresses along Dnieper
+		name = kyiv_dnieper_history.12.c
+		ai_chance = { factor = 10 }
+		
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 4
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+			}
+		}
+		
+		set_country_flag = dnieper_fortifications
+		add_treasury = -600
+		add_mil_power = -150
+		
+		every_owned_province = {
+			limit = {
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+			}
+			add_province_modifier = {
+				name = dnieper_defense_line
+				duration = -1
+			}
+		}
+		
+		add_country_modifier = {
+			name = dnieper_fortified_border
+			duration = -1
+		}
+		
+		add_army_tradition = 20
+		add_prestige = 15
+	}
+	
+	option = { # Rely on Cossack defense
+		name = kyiv_dnieper_history.12.e
+		ai_chance = { factor = 5 }
+		
+		set_country_flag = dnieper_fortifications
+		
+		add_yearly_manpower = 1
+		add_mil_power = 50
+	}
+}
+
+# Event 5.2: Tatar Raids on Dnieper Region
+country_event = {
+	id = kyiv_dnieper_history.13
+	title = kyiv_dnieper_history.13.t
+	desc = kyiv_dnieper_history.13.d
+	picture = BORDER_TENSION_eventPicture
+	
+	trigger = {
+		owns = 280
+		any_neighbor_country = {
+			OR = {
+				tag = CRI
+				tag = NOG
+				primary_culture = crimean
+			}
+		}
+		NOT = { has_country_modifier = recent_tatar_raid }
+		is_at_war = no
+	}
+	
+	mean_time_to_happen = {
+		months = 360
+		
+		modifier = {
+			factor = 0.7
+			NOT = { mil_tech = 10 }
+		}
+		modifier = {
+			factor = 1.5
+			has_country_flag = dnieper_fortifications
+		}
+		modifier = {
+			factor = 0.8
+			NOT = { army_size_percentage = 0.8 }
+		}
+	}
+	
+	option = { # Organize defense
+		name = kyiv_dnieper_history.13.a
+		ai_chance = { factor = 60 }
+		
+		add_mil_power = -25
+		add_treasury = -50
+		
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+			}
+			add_devastation = 10
+		}
+		
+		add_country_modifier = {
+			name = recent_tatar_raid
+			duration = 1825  # 5 years
+		}
+		
+		add_army_tradition = 5
+	}
+	
+	option = { # Launch counter-raid
+		name = kyiv_dnieper_history.13.b
+		ai_chance = { factor = 30 }
+		
+		trigger = { army_size = 15 }
+		
+		add_mil_power = 25
+		add_treasury = 50
+		
+		add_country_modifier = {
+			name = recent_tatar_raid
+			duration = 1825  # 5 years
+		}
+		
+		add_army_tradition = 10
+		add_prestige = 10
+		
+		random_neighbor_country = {
+			limit = {
+				OR = {
+					tag = CRI
+					primary_culture = crimean
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = raided_us
+			}
+		}
+	}
+	
+	option = { # Pay tribute to avoid raids
+		name = kyiv_dnieper_history.13.c
+		ai_chance = { factor = 10 }
+		
+		add_treasury = -150
+		add_prestige = -10
+		
+		add_country_modifier = {
+			name = recent_tatar_raid
+			duration = 3650  # 10 years (longer protection)
+		}
+		
+		add_country_modifier = {
+			name = pays_tatar_tribute
+			duration = 1825  # 5 years
+		}
+		
+		random_neighbor_country = {
+			limit = {
+				OR = {
+					tag = CRI
+					primary_culture = crimean
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = paid_tribute
+			}
+		}
+	}
+}

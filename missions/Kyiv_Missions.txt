@@ -1804,6 +1804,66 @@ KIE_missions_5 = {
 			}
 		}
 	}
+	KIE_magdeburg_law = {
+		icon = mission_early_game_buildings
+		position = 2
+		required_missions = {
+			KIE_restore_kyiv
+		}
+		provinces_to_highlight = {
+			province_id = 280
+		}
+		trigger = {
+			280 = {
+				owned_by = ROOT
+				has_building = marketplace
+			}
+			num_of_owned_provinces_with = {
+				value = 3
+				has_building = marketplace
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = magdeburg_law_expansion
+				duration = 7300
+			}
+			add_prestige = 10
+			add_adm_power = 50
+		}
+	}
+	KIE_brotherhood_schools = {
+		icon = mission_hands_praying
+		position = 3
+		required_missions = {
+			KIE_magdeburg_law
+		}
+		provinces_to_highlight = {
+			province_id = 280
+		}
+		trigger = {
+			religion = orthodox
+			adm_tech = 10
+			280 = {
+				owned_by = ROOT
+				has_building = temple
+			}
+			num_of_owned_provinces_with = {
+				value = 3
+				has_building = temple
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = KIE_brotherhood_schools
+				duration = 5475
+			}
+			add_adm_power = 100
+			280 = {
+				add_base_tax = 1
+			}
+		}
+	}
 	KIE_cossack = {
 		icon = mission_recruit_the_cossacks
 		position = 4
@@ -1829,6 +1889,66 @@ KIE_missions_5 = {
 				}
 				add_permanent_claim = ROOT
 			}
+		}
+	}
+	KIE_dnieper_settlement = {
+		icon = mission_advance_to_the_dnieper
+		position = 5
+		required_missions = {
+			KIE_cossack
+			KIE_brotherhood_schools
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = east_dniepr_area
+				area = zaporizhia_area
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 10 }
+			}
+		}
+		trigger = {
+			calc_true_if = {
+				all_owned_province = {
+					OR = {
+						area = east_dniepr_area
+						area = zaporizhia_area
+					}
+					development = 10
+				}
+				amount = 6
+			}
+		}
+		effect = {
+			east_dniepr_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = cossack_settlement
+					duration = 7300
+				}
+			}
+			zaporizhia_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = cossack_settlement
+					duration = 7300
+				}
+			}
+			sloboda_ukraine_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = cossack_settlement
+					duration = 7300
+				}
+			}
+			add_manpower = 2
 		}
 	}
 }
