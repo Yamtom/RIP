@@ -1,0 +1,954 @@
+# =========================================================================
+# ORTHODOX CRUSADE EVENTS
+# =========================================================================
+# Events for Orthodox crusades to reclaim Constantinople and Jerusalem
+# Includes declaration, participation, progress, and outcome events
+# =========================================================================
+
+namespace = orthodox_crusade
+
+# =========================================================================
+# CONSTANTINOPLE CRUSADE EVENTS (1-10)
+# =========================================================================
+
+# Event 1: Crusade for Constantinople Declared
+country_event = {
+	id = orthodox_crusade.1
+	title = orthodox_crusade.1.t
+	desc = orthodox_crusade.1.d
+	picture = CRUSADE_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Lead the faithful to victory
+		name = orthodox_crusade.1.a
+		ai_chance = { factor = 100 }
+		
+		add_mil_power = 50
+		add_army_tradition = 10
+		
+		# Announce to the crusade target
+		every_country = {
+			limit = { has_country_flag = orthodox_crusade_target_constantinople }
+			country_event = { id = orthodox_crusade.3 }
+		}
+		
+		# Give special bonuses
+		add_country_modifier = {
+			name = orthodox_crusade_leader
+			duration = 18250
+		}
+	}
+}
+
+# Event 2: Call to join Constantinople Crusade (for other Orthodox nations)
+country_event = {
+	id = orthodox_crusade.2
+	title = orthodox_crusade.2.t
+	desc = orthodox_crusade.2.d
+	picture = CRUSADE_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Join the crusade
+		name = orthodox_crusade.2.a
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 1.5
+				alliance_with = FROM
+			}
+			modifier = {
+				factor = 0.3
+				is_at_war = yes
+			}
+		}
+		
+		add_country_modifier = {
+			name = orthodox_crusade_participant
+			duration = 18250
+		}
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		add_opinion = {
+			who = FROM
+			modifier = joined_orthodox_crusade
+		}
+		add_church_power = 25
+	}
+	
+	option = { # Refuse but support spiritually
+		name = orthodox_crusade.2.b
+		ai_chance = {
+			factor = 30
+		}
+		
+		add_church_power = 10
+		add_prestige = 5
+	}
+	
+	option = { # Refuse
+		name = orthodox_crusade.2.c
+		ai_chance = {
+			factor = 10
+		}
+		
+		add_opinion = {
+			who = FROM
+			modifier = refused_orthodox_crusade
+		}
+	}
+}
+
+# Event 3: Orthodox Crusade threatened (for Constantinople owner)
+country_event = {
+	id = orthodox_crusade.3
+	title = orthodox_crusade.3.t
+	desc = orthodox_crusade.3.d
+	picture = ANGRY_MOB_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Prepare defenses
+		name = orthodox_crusade.3.a
+		ai_chance = { factor = 70 }
+		
+		add_mil_power = 50
+		151 = {
+			add_province_modifier = {
+				name = fortified_against_crusade
+				duration = 3650
+			}
+		}
+	}
+	
+	option = { # Seek allies
+		name = orthodox_crusade.3.b
+		ai_chance = { factor = 30 }
+		
+		add_dip_power = 50
+		add_country_modifier = {
+			name = seeking_anti_crusade_allies
+			duration = 3650
+		}
+	}
+}
+
+# Event 4: Crusade Progress Update
+country_event = {
+	id = orthodox_crusade.4
+	title = orthodox_crusade.4.t
+	desc = orthodox_crusade.4.d
+	picture = LAND_MILITARY_eventPicture
+	
+	trigger = {
+		has_country_flag = orthodox_crusade_constantinople_active
+		is_at_war_with_crusade_target = yes
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	option = { # God is with us!
+		name = orthodox_crusade.4.a
+		
+		add_army_tradition = 5
+		add_church_power = 25
+		add_war_exhaustion = -1
+	}
+}
+
+# Event 5: Constantinople Crusade Success
+country_event = {
+	id = orthodox_crusade.5
+	title = orthodox_crusade.5.t
+	desc = orthodox_crusade.5.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	major = yes
+	
+	option = { # Restore Orthodox Constantinople!
+		name = orthodox_crusade.5.a
+		ai_chance = { factor = 100 }
+		
+		# Massive rewards
+		add_prestige = 100
+		add_legitimacy_equivalent = { amount = 25 }
+		add_adm_power = 100
+		add_dip_power = 100
+		add_mil_power = 100
+		add_church_power = 200
+
+		# Contribution-based bonus
+		if = {
+			limit = { check_variable = { which = orthodox_crusade_contribution value = 20 } }
+			add_prestige = 35
+			add_church_power = 75
+			add_country_modifier = {
+				name = crusade_contributor_gold
+				duration = 7300
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = orthodox_crusade_contribution value = 12 } }
+			add_prestige = 20
+			add_church_power = 50
+			add_country_modifier = {
+				name = crusade_contributor_silver
+				duration = 5475
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = orthodox_crusade_contribution value = 6 } }
+			add_prestige = 10
+			add_church_power = 25
+			add_country_modifier = {
+				name = crusade_contributor_bronze
+				duration = 3650
+			}
+		}
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		
+		# Special modifiers
+		add_country_modifier = {
+			name = liberator_of_constantinople
+			duration = -1
+		}
+		
+		151 = {
+			add_base_tax = 3
+			add_base_production = 3
+			add_base_manpower = 3
+			add_province_modifier = {
+				name = restored_orthodox_constantinople
+				duration = -1
+			}
+		}
+		
+		# Patriarch of Constantinople
+		if = {
+			limit = { religion = russian_orthodox }
+			add_country_modifier = {
+				name = patriarch_of_constantinople_restored
+				duration = -1
+			}
+		}
+		
+		# Reward all participants
+		every_country = {
+			limit = {
+				has_country_modifier = orthodox_crusade_participant
+			}
+			country_event = { id = orthodox_crusade.7 }
+		}
+	}
+}
+
+# Event 6: Constantinople Crusade Failure
+country_event = {
+	id = orthodox_crusade.6
+	title = orthodox_crusade.6.t
+	desc = orthodox_crusade.6.d
+	picture = BAD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # A shameful defeat
+		name = orthodox_crusade.6.a
+		
+		add_prestige = -50
+		add_legitimacy_equivalent = { amount = -10 }
+		add_church_power = -50
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		
+		add_country_modifier = {
+			name = failed_orthodox_crusade
+			duration = 7300
+		}
+		
+		# Notify participants
+		every_country = {
+			limit = {
+				has_country_modifier = orthodox_crusade_participant
+			}
+			country_event = { id = orthodox_crusade.8 }
+		}
+	}
+}
+
+# Event 7: Crusade Victory Reward (for participants)
+country_event = {
+	id = orthodox_crusade.7
+	title = orthodox_crusade.7.t
+	desc = orthodox_crusade.7.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Share in the glory
+		name = orthodox_crusade.7.a
+		
+		if = {
+			limit = { check_variable = { which = orthodox_crusade_contribution value = 20 } }
+			add_prestige = 35
+			add_church_power = 75
+			add_country_modifier = {
+				name = crusade_contributor_gold
+				duration = 7300
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = orthodox_crusade_contribution value = 12 } }
+			add_prestige = 20
+			add_church_power = 50
+			add_country_modifier = {
+				name = crusade_contributor_silver
+				duration = 5475
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = orthodox_crusade_contribution value = 6 } }
+			add_prestige = 10
+			add_church_power = 25
+			add_country_modifier = {
+				name = crusade_contributor_bronze
+				duration = 3650
+			}
+		}
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		
+		remove_country_modifier = orthodox_crusade_participant
+	}
+}
+
+# Event 8: Crusade Failure (for participants)
+country_event = {
+	id = orthodox_crusade.8
+	title = orthodox_crusade.8.t
+	desc = orthodox_crusade.8.d
+	picture = BAD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # A dark day
+		name = orthodox_crusade.8.a
+		
+		add_prestige = -20
+		add_church_power = -25
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		
+		remove_country_modifier = orthodox_crusade_participant
+	}
+}
+
+# Event 9: Crusade Battle Victory
+country_event = {
+	id = orthodox_crusade.9
+	title = orthodox_crusade.9.t
+	desc = orthodox_crusade.9.d
+	picture = BATTLE_eventPicture
+	
+	trigger = {
+		has_country_flag = orthodox_crusade_constantinople_active
+		is_at_war_with_crusade_target = yes
+		OR = {
+			has_country_modifier = orthodox_crusade_for_constantinople
+			has_country_modifier = orthodox_crusade_participant
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = {
+			factor = 0.8
+			is_at_war = yes
+		}
+	}
+	
+	option = { # Divine intervention!
+		name = orthodox_crusade.9.a
+		
+		add_army_tradition = 10
+		add_prestige = 10
+		add_mil_power = 25
+	}
+}
+
+# Event 10: Religious Fervor During Crusade
+country_event = {
+	id = orthodox_crusade.10
+	title = orthodox_crusade.10.t
+	desc = orthodox_crusade.10.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		has_country_flag = orthodox_crusade_constantinople_active
+		is_at_war_with_crusade_target = yes
+		OR = {
+			has_country_modifier = orthodox_crusade_for_constantinople
+			has_country_modifier = orthodox_crusade_participant
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 100
+	}
+	
+	option = { # The faithful are inspired
+		name = orthodox_crusade.10.a
+		
+		add_church_power = 50
+		add_stability_or_adm_power = yes
+		
+		random_owned_province = {
+			limit = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+			}
+			add_province_modifier = {
+				name = crusade_religious_fervor
+				duration = 3650
+			}
+		}
+	}
+}
+
+# =========================================================================
+# JERUSALEM CRUSADE EVENTS (11-20)
+# =========================================================================
+
+# Event 11: Crusade for Jerusalem Declared
+country_event = {
+	id = orthodox_crusade.11
+	title = orthodox_crusade.11.t
+	desc = orthodox_crusade.11.d
+	picture = CRUSADE_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Reclaim the Holy Land!
+		name = orthodox_crusade.11.a
+		ai_chance = { factor = 100 }
+		
+		add_mil_power = 75
+		add_army_tradition = 15
+		
+		# Announce to the crusade target
+		every_country = {
+			limit = { has_country_flag = orthodox_crusade_target_jerusalem }
+			country_event = { id = orthodox_crusade.13 }
+		}
+		
+		# Give special bonuses
+		add_country_modifier = {
+			name = orthodox_crusade_leader
+			duration = 18250
+		}
+	}
+}
+
+# Event 12: Call to join Jerusalem Crusade (for other Orthodox nations)
+country_event = {
+	id = orthodox_crusade.12
+	title = orthodox_crusade.12.t
+	desc = orthodox_crusade.12.d
+	picture = CRUSADE_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Join the crusade
+		name = orthodox_crusade.12.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 1.5
+				alliance_with = FROM
+			}
+			modifier = {
+				factor = 0.3
+				is_at_war = yes
+			}
+		}
+		
+		add_country_modifier = {
+			name = orthodox_crusade_participant
+			duration = 18250
+		}
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		add_opinion = {
+			who = FROM
+			modifier = joined_orthodox_crusade
+		}
+		add_church_power = 50
+	}
+	
+	option = { # Refuse but support spiritually
+		name = orthodox_crusade.12.b
+		ai_chance = {
+			factor = 35
+		}
+		
+		add_church_power = 15
+		add_prestige = 5
+	}
+	
+	option = { # Refuse
+		name = orthodox_crusade.12.c
+		ai_chance = {
+			factor = 15
+		}
+		
+		add_opinion = {
+			who = FROM
+			modifier = refused_orthodox_crusade
+		}
+	}
+}
+
+# Event 13: Orthodox Crusade threatened (for Jerusalem owner)
+country_event = {
+	id = orthodox_crusade.13
+	title = orthodox_crusade.13.t
+	desc = orthodox_crusade.13.d
+	picture = ANGRY_MOB_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Prepare defenses
+		name = orthodox_crusade.13.a
+		ai_chance = { factor = 70 }
+		
+		add_mil_power = 75
+		379 = {
+			add_province_modifier = {
+				name = fortified_against_crusade
+				duration = 3650
+			}
+		}
+	}
+	
+	option = { # Seek allies
+		name = orthodox_crusade.13.b
+		ai_chance = { factor = 30 }
+		
+		add_dip_power = 75
+		add_country_modifier = {
+			name = seeking_anti_crusade_allies
+			duration = 3650
+		}
+	}
+}
+
+# Event 14: Jerusalem Crusade Progress
+country_event = {
+	id = orthodox_crusade.14
+	title = orthodox_crusade.14.t
+	desc = orthodox_crusade.14.d
+	picture = LAND_MILITARY_eventPicture
+	
+	trigger = {
+		has_country_flag = orthodox_crusade_jerusalem_active
+		is_at_war_with_crusade_target = yes
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	option = { # Victory is near!
+		name = orthodox_crusade.14.a
+		
+		add_army_tradition = 10
+		add_church_power = 50
+		add_war_exhaustion = -2
+	}
+}
+
+# Event 15: Jerusalem Crusade Success
+country_event = {
+	id = orthodox_crusade.15
+	title = orthodox_crusade.15.t
+	desc = orthodox_crusade.15.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	major = yes
+	
+	option = { # Holy Land reclaimed!
+		name = orthodox_crusade.15.a
+		ai_chance = { factor = 100 }
+		
+		# Massive rewards
+		add_prestige = 150
+		add_legitimacy_equivalent = { amount = 50 }
+		add_adm_power = 150
+		add_dip_power = 150
+		add_mil_power = 150
+		add_church_power = 300
+
+		# Contribution-based bonus
+		if = {
+			limit = { check_variable = { which = orthodox_crusade_contribution value = 20 } }
+			add_prestige = 35
+			add_church_power = 75
+			add_country_modifier = {
+				name = crusade_contributor_gold
+				duration = 7300
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = orthodox_crusade_contribution value = 12 } }
+			add_prestige = 20
+			add_church_power = 50
+			add_country_modifier = {
+				name = crusade_contributor_silver
+				duration = 5475
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = orthodox_crusade_contribution value = 6 } }
+			add_prestige = 10
+			add_church_power = 25
+			add_country_modifier = {
+				name = crusade_contributor_bronze
+				duration = 3650
+			}
+		}
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		
+		# Special modifiers
+		add_country_modifier = {
+			name = liberator_of_jerusalem
+			duration = -1
+		}
+		
+		379 = {
+			add_base_tax = 4
+			add_base_production = 4
+			add_base_manpower = 4
+			add_province_modifier = {
+				name = restored_orthodox_jerusalem
+				duration = -1
+			}
+		}
+		
+		# Become defender of the faith
+		if = {
+			limit = {
+				NOT = { is_defender_of_faith = yes }
+			}
+			set_defender_of_faith = yes
+		}
+		
+		# Reward all participants
+		every_country = {
+			limit = {
+				has_country_modifier = orthodox_crusade_participant
+			}
+			country_event = { id = orthodox_crusade.17 }
+		}
+	}
+}
+
+# Event 16: Jerusalem Crusade Failure
+country_event = {
+	id = orthodox_crusade.16
+	title = orthodox_crusade.16.t
+	desc = orthodox_crusade.16.d
+	picture = BAD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # God has abandoned us
+		name = orthodox_crusade.16.a
+		
+		add_prestige = -75
+		add_legitimacy_equivalent = { amount = -15 }
+		add_church_power = -100
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		
+		add_country_modifier = {
+			name = failed_orthodox_crusade
+			duration = 10950
+		}
+		
+		# Notify participants
+		every_country = {
+			limit = {
+				has_country_modifier = orthodox_crusade_participant
+			}
+			country_event = { id = orthodox_crusade.18 }
+		}
+	}
+}
+
+# Event 17: Jerusalem Victory Reward (for participants)
+country_event = {
+	id = orthodox_crusade.17
+	title = orthodox_crusade.17.t
+	desc = orthodox_crusade.17.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Blessed by victory
+		name = orthodox_crusade.17.a
+		
+		if = {
+			limit = { check_variable = { which = orthodox_crusade_contribution value = 20 } }
+			add_prestige = 35
+			add_church_power = 75
+			add_country_modifier = {
+				name = crusade_contributor_gold
+				duration = 7300
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = orthodox_crusade_contribution value = 12 } }
+			add_prestige = 20
+			add_church_power = 50
+			add_country_modifier = {
+				name = crusade_contributor_silver
+				duration = 5475
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = orthodox_crusade_contribution value = 6 } }
+			add_prestige = 10
+			add_church_power = 25
+			add_country_modifier = {
+				name = crusade_contributor_bronze
+				duration = 3650
+			}
+		}
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		
+		remove_country_modifier = orthodox_crusade_participant
+	}
+}
+
+# Event 18: Jerusalem Failure (for participants)
+country_event = {
+	id = orthodox_crusade.18
+	title = orthodox_crusade.18.t
+	desc = orthodox_crusade.18.d
+	picture = BAD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Mourning
+		name = orthodox_crusade.18.a
+		
+		add_prestige = -30
+		add_church_power = -50
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		
+		remove_country_modifier = orthodox_crusade_participant
+	}
+}
+
+# Event 19: Pilgrimage to Liberated Jerusalem
+country_event = {
+	id = orthodox_crusade.19
+	title = orthodox_crusade.19.t
+	desc = orthodox_crusade.19.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		379 = {
+			owned_by = ROOT
+			OR = {
+				religion = orthodox
+				religion = russian_orthodox
+			}
+		}
+		has_country_modifier = liberator_of_jerusalem
+	}
+	
+	mean_time_to_happen = {
+		months = 200
+	}
+	
+	option = { # Welcome the pilgrims
+		name = orthodox_crusade.19.a
+		
+		add_church_power = 50
+		add_prestige = 15
+		379 = {
+			add_base_tax = 1
+		}
+	}
+}
+
+# Event 20: Orthodox Unity Through Crusade
+country_event = {
+	id = orthodox_crusade.20
+	title = orthodox_crusade.20.t
+	desc = orthodox_crusade.20.d
+	picture = RELIGION_eventPicture
+	
+	trigger = {
+		OR = {
+			has_country_modifier = orthodox_crusade_for_constantinople
+			has_country_modifier = orthodox_crusade_for_jerusalem
+		}
+		is_at_war_with_crusade_target = yes
+	}
+	
+	mean_time_to_happen = {
+		months = 150
+	}
+	
+	option = { # United in faith
+		name = orthodox_crusade.20.a
+		
+		add_church_power = 25
+		add_stability_or_adm_power = yes
+		
+		every_country = {
+			limit = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+				has_opinion = {
+					who = ROOT
+					value = 0
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = orthodox_crusade_unity
+			}
+		}
+	}
+}
+
+# =========================================================================
+# CRUSADE CONTRIBUTION & AUTO-END EVENTS (21+)
+# =========================================================================
+
+# Event 21: Crusade Contribution - Battle Won
+country_event = {
+	id = orthodox_crusade.21
+	title = orthodox_crusade.21.t
+	desc = orthodox_crusade.21.d
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_crusade_participant = yes
+		is_at_war_with_crusade_target = yes
+	}
+
+	immediate = {
+		change_variable = { which = orthodox_crusade_contribution value = 1 }
+	}
+
+	option = { name = orthodox_crusade.21.a }
+}
+
+# Event 22: Crusade Contribution - Siege Won
+country_event = {
+	id = orthodox_crusade.22
+	title = orthodox_crusade.22.t
+	desc = orthodox_crusade.22.d
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_crusade_participant = yes
+		is_at_war_with_crusade_target = yes
+	}
+
+	immediate = {
+		change_variable = { which = orthodox_crusade_contribution value = 2 }
+	}
+
+	option = { name = orthodox_crusade.22.a }
+}
+
+# Event 23: Auto-End Orthodox Crusade
+country_event = {
+	id = orthodox_crusade.23
+	title = orthodox_crusade.23.t
+	desc = orthodox_crusade.23.d
+	hidden = yes
+
+	trigger = {
+		OR = {
+			has_country_flag = orthodox_crusade_constantinople_active
+			has_country_flag = orthodox_crusade_jerusalem_active
+		}
+		OR = {
+			is_constantinople_crusade_successful = yes
+			is_jerusalem_crusade_successful = yes
+			AND = {
+				has_country_flag = orthodox_crusade_constantinople_active
+				NOT = { has_country_modifier = orthodox_crusade_for_constantinople }
+			}
+			AND = {
+				has_country_flag = orthodox_crusade_jerusalem_active
+				NOT = { has_country_modifier = orthodox_crusade_for_jerusalem }
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 1
+	}
+
+	immediate = {
+		# Check for Constantinople crusade
+		if = {
+			limit = { is_constantinople_crusade_successful = yes }
+			country_event = { id = orthodox_crusade.5 } # Success
+		}
+		else_if = {
+			limit = { has_country_flag = orthodox_crusade_constantinople_active }
+			country_event = { id = orthodox_crusade.6 } # Failure
+		}
+
+		# Check for Jerusalem crusade
+		if = {
+			limit = { is_jerusalem_crusade_successful = yes }
+			country_event = { id = orthodox_crusade.15 } # Success
+		}
+		else_if = {
+			limit = { has_country_flag = orthodox_crusade_jerusalem_active }
+			country_event = { id = orthodox_crusade.16 } # Failure
+		}
+
+		# Remove crusade flags and modifiers
+		clr_country_flag = orthodox_crusade_constantinople_active
+		clr_country_flag = orthodox_crusade_jerusalem_active
+		remove_country_modifier = orthodox_crusade_for_constantinople
+		remove_country_modifier = orthodox_crusade_for_jerusalem
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+
+		# Clear crusade targets
+		every_country = {
+			limit = { has_country_flag = orthodox_crusade_target_constantinople }
+			clr_country_flag = orthodox_crusade_target_constantinople
+		}
+		every_country = {
+			limit = { has_country_flag = orthodox_crusade_target_jerusalem }
+			clr_country_flag = orthodox_crusade_target_jerusalem
+		}
+
+		# Add cooldown
+		add_country_modifier = {
+			name = orthodox_crusade_cooldown
+			duration = 7300
+		}
+	}
+
+	option = { name = orthodox_crusade.23.a }
+}

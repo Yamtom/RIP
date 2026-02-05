@@ -1,0 +1,470 @@
+# =========================================================================
+# ORTHODOX CRUSADE DECISIONS
+# =========================================================================
+# Decisions for declaring and managing Orthodox crusades to reclaim
+# Constantinople (Byzantium) and Jerusalem from non-Orthodox rulers
+# =========================================================================
+
+# Declare Crusade for Constantinople
+orthodox_crusade_constantinople = {
+	major = yes
+	potential = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		NOT = { has_country_flag = orthodox_crusade_constantinople_active }
+		NOT = { has_country_flag = orthodox_crusade_jerusalem_active }
+		151 = { # Constantinople
+			NOT = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+			}
+		}
+	}
+	
+	allow = {
+		is_at_war = no
+		is_subject = no
+		total_development = 200
+		OR = {
+			religious_unity = 0.75
+			has_country_modifier = third_rome_ideology
+		}
+		church_power = 100
+		prestige = 50
+		legitimacy_equivalent = 75
+		NOT = { war_exhaustion = 1 }
+		custom_trigger_tooltip = {
+			tooltip = orthodox_crusade_cooldown_tt
+			NOT = { has_country_modifier = orthodox_crusade_cooldown }
+		}
+	}
+	
+	effect = {
+		add_church_power = -100
+		add_prestige = 25
+		set_country_flag = orthodox_crusade_constantinople_active
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		
+		# Add crusade modifier
+		add_country_modifier = {
+			name = orthodox_crusade_for_constantinople
+			duration = 18250 # 50 years
+		}
+		
+		# Determine crusade target (BYZ priority)
+		if = {
+			limit = {
+				exists = BYZ
+				BYZ = { owns = 151 }
+				BYZ = {
+					NOT = {
+						OR = {
+							religion = orthodox
+							religion = russian_orthodox
+						}
+					}
+				}
+			}
+			BYZ = {
+				set_country_flag = orthodox_crusade_target_constantinople
+				add_opinion = {
+					who = ROOT
+					modifier = declared_orthodox_crusade
+				}
+			}
+			ROOT = {
+				add_casus_belli = {
+					type = cb_crusade_for_constantinople
+					target = BYZ
+					months = 600
+				}
+			}
+		}
+		else = {
+			# Gain CB on Constantinople owner
+			151 = {
+				owner = {
+					set_country_flag = orthodox_crusade_target_constantinople
+					ROOT = {
+						add_casus_belli = {
+							type = cb_crusade_for_constantinople
+							target = PREV
+							months = 600
+						}
+					}
+					add_opinion = {
+						who = ROOT
+						modifier = declared_orthodox_crusade
+					}
+				}
+			}
+		}
+		
+		# Rally Orthodox nations
+		every_country = {
+			limit = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+				NOT = { tag = ROOT }
+			}
+			country_event = { id = orthodox_crusade.2 }
+		}
+		
+		# Main crusade event
+		country_event = { id = orthodox_crusade.1 }
+	}
+	
+	ai_will_do = {
+		factor = 1
+		
+		modifier = {
+			factor = 2
+			has_country_modifier = third_rome_ideology
+		}
+		
+		modifier = {
+			factor = 2
+			OR = {
+				tag = RUS
+				tag = MOS
+				tag = KIE
+			}
+		}
+		
+		modifier = {
+			factor = 0
+			NOT = { army_size = 40 }
+		}
+		
+		modifier = {
+			factor = 0.5
+			is_at_war = yes
+		}
+		
+		modifier = {
+			factor = 1.5
+			mil_power = 100
+		}
+	}
+}
+
+# Declare Crusade for Jerusalem
+orthodox_crusade_jerusalem = {
+	major = yes
+	potential = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		NOT = { has_country_flag = orthodox_crusade_constantinople_active }
+		NOT = { has_country_flag = orthodox_crusade_jerusalem_active }
+		379 = { # Jerusalem
+			NOT = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+			}
+		}
+	}
+	
+	allow = {
+		is_at_war = no
+		is_subject = no
+		total_development = 300
+		OR = {
+			religious_unity = 0.80
+			has_country_modifier = third_rome_ideology
+		}
+		church_power = 150
+		prestige = 75
+		legitimacy_equivalent = 80
+		NOT = { war_exhaustion = 1 }
+		custom_trigger_tooltip = {
+			tooltip = orthodox_crusade_cooldown_tt
+			NOT = { has_country_modifier = orthodox_crusade_cooldown }
+		}
+	}
+	
+	effect = {
+		add_church_power = -150
+		add_prestige = 35
+		set_country_flag = orthodox_crusade_jerusalem_active
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		
+		# Add crusade modifier
+		add_country_modifier = {
+			name = orthodox_crusade_for_jerusalem
+			duration = 18250 # 50 years
+		}
+		
+		# Gain CB on Jerusalem owner
+		379 = {
+			owner = {
+				set_country_flag = orthodox_crusade_target_jerusalem
+				ROOT = {
+					add_casus_belli = {
+						type = cb_crusade_for_jerusalem
+						target = PREV
+						months = 600
+					}
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = declared_orthodox_crusade
+				}
+			}
+		}
+		
+		# Rally Orthodox nations
+		every_country = {
+			limit = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+				NOT = { tag = ROOT }
+			}
+			country_event = { id = orthodox_crusade.12 }
+		}
+		
+		# Main crusade event
+		country_event = { id = orthodox_crusade.11 }
+	}
+	
+	ai_will_do = {
+		factor = 1
+		
+		modifier = {
+			factor = 2
+			has_country_modifier = third_rome_ideology
+		}
+		
+		modifier = {
+			factor = 2
+			OR = {
+				tag = RUS
+				tag = MOS
+			}
+		}
+		
+		modifier = {
+			factor = 0
+			NOT = { army_size = 50 }
+		}
+		
+		modifier = {
+			factor = 0.5
+			is_at_war = yes
+		}
+		
+		modifier = {
+			factor = 0.3
+			NOT = { owns = 151 } # Haven't conquered Constantinople yet
+		}
+	}
+}
+
+# End Crusade (Success or Failure)
+orthodox_crusade_end = {
+	potential = {
+		OR = {
+			has_country_flag = orthodox_crusade_constantinople_active
+			has_country_flag = orthodox_crusade_jerusalem_active
+		}
+		OR = {
+			# Constantinople crusade success
+			AND = {
+				has_country_flag = orthodox_crusade_constantinople_active
+				owns = 151
+				151 = {
+					OR = {
+						religion = orthodox
+						religion = russian_orthodox
+					}
+				}
+			}
+			# Jerusalem crusade success
+			AND = {
+				has_country_flag = orthodox_crusade_jerusalem_active
+				owns = 379
+				379 = {
+					OR = {
+						religion = orthodox
+						religion = russian_orthodox
+					}
+				}
+			}
+			# Timeout
+			AND = {
+				has_country_flag = orthodox_crusade_constantinople_active
+				NOT = { has_country_modifier = orthodox_crusade_for_constantinople }
+			}
+			AND = {
+				has_country_flag = orthodox_crusade_jerusalem_active
+				NOT = { has_country_modifier = orthodox_crusade_for_jerusalem }
+			}
+		}
+	}
+	
+	allow = {
+		always = yes
+	}
+	
+	effect = {
+		# Check for Constantinople crusade
+		if = {
+			limit = {
+				has_country_flag = orthodox_crusade_constantinople_active
+				owns = 151
+				151 = {
+					OR = {
+						religion = orthodox
+						religion = russian_orthodox
+					}
+				}
+			}
+			country_event = { id = orthodox_crusade.5 } # Success
+		}
+		else_if = {
+			limit = {
+				has_country_flag = orthodox_crusade_constantinople_active
+			}
+			country_event = { id = orthodox_crusade.6 } # Failure
+		}
+		
+		# Check for Jerusalem crusade
+		if = {
+			limit = {
+				has_country_flag = orthodox_crusade_jerusalem_active
+				owns = 379
+				379 = {
+					OR = {
+						religion = orthodox
+						religion = russian_orthodox
+					}
+				}
+			}
+			country_event = { id = orthodox_crusade.15 } # Success
+		}
+		else_if = {
+			limit = {
+				has_country_flag = orthodox_crusade_jerusalem_active
+			}
+			country_event = { id = orthodox_crusade.16 } # Failure
+		}
+		
+		# Remove crusade flags and modifiers
+		clr_country_flag = orthodox_crusade_constantinople_active
+		clr_country_flag = orthodox_crusade_jerusalem_active
+		remove_country_modifier = orthodox_crusade_for_constantinople
+		remove_country_modifier = orthodox_crusade_for_jerusalem
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+
+		# Clear crusade targets
+		every_country = {
+			limit = { has_country_flag = orthodox_crusade_target_constantinople }
+			clr_country_flag = orthodox_crusade_target_constantinople
+		}
+		every_country = {
+			limit = { has_country_flag = orthodox_crusade_target_jerusalem }
+			clr_country_flag = orthodox_crusade_target_jerusalem
+		}
+		
+		# Add cooldown
+		add_country_modifier = {
+			name = orthodox_crusade_cooldown
+			duration = 7300 # 20 years
+		}
+	}
+	
+	ai_will_do = {
+		factor = 1
+	}
+}
+
+# Join an active Orthodox Crusade
+orthodox_crusade_join = {
+	major = yes
+	potential = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		is_subject = no
+		NOT = { has_country_modifier = orthodox_crusade_participant }
+		NOT = { has_country_modifier = orthodox_crusade_leader }
+		OR = {
+			any_country = { has_country_flag = orthodox_crusade_constantinople_active }
+			any_country = { has_country_flag = orthodox_crusade_jerusalem_active }
+		}
+	}
+
+	allow = {
+		is_at_war = no
+		any_country = {
+			has_country_modifier = orthodox_crusade_leader
+			alliance_with = ROOT
+		}
+	}
+
+	effect = {
+		add_country_modifier = {
+			name = orthodox_crusade_participant
+			duration = 18250
+		}
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		add_church_power = 25
+
+		# Add CB on active crusade target
+		if = {
+			limit = { any_country = { has_country_flag = orthodox_crusade_target_constantinople } }
+			every_country = {
+				limit = { has_country_flag = orthodox_crusade_target_constantinople }
+				ROOT = {
+					add_casus_belli = {
+						type = cb_crusade_for_constantinople
+						target = PREV
+						months = 600
+					}
+				}
+			}
+		}
+		if = {
+			limit = { any_country = { has_country_flag = orthodox_crusade_target_jerusalem } }
+			every_country = {
+				limit = { has_country_flag = orthodox_crusade_target_jerusalem }
+				ROOT = {
+					add_casus_belli = {
+						type = cb_crusade_for_jerusalem
+						target = PREV
+						months = 600
+					}
+				}
+			}
+		}
+
+		# Improve relations with the crusade leader
+		every_country = {
+			limit = { has_country_modifier = orthodox_crusade_leader }
+			add_opinion = {
+				who = ROOT
+				modifier = joined_orthodox_crusade
+			}
+		}
+	}
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 2
+			has_country_modifier = third_rome_ideology
+		}
+	}
+}

@@ -88,3 +88,167 @@ can_proclaim_orthodox_empire = {
 	legitimacy = 75
 	NOT = { has_country_modifier = orthodox_empire_proclaimed }
 }
+
+# =========================================================================
+# ORTHODOX CRUSADE TRIGGERS
+# =========================================================================
+
+# Check if country can declare crusade for Constantinople
+can_declare_constantinople_crusade = {
+	OR = {
+		religion = orthodox
+		religion = russian_orthodox
+	}
+	is_subject = no
+	is_at_war = no
+	total_development = 200
+	church_power = 100
+	prestige = 50
+	legitimacy_equivalent = 75
+	NOT = { war_exhaustion = 1 }
+	NOT = { has_country_flag = orthodox_crusade_constantinople_active }
+	NOT = { has_country_flag = orthodox_crusade_jerusalem_active }
+	NOT = { has_country_modifier = orthodox_crusade_cooldown }
+	OR = {
+		AND = {
+			exists = BYZ
+			BYZ = { owns = 151 }
+			BYZ = {
+				NOT = {
+					OR = {
+						religion = orthodox
+						religion = russian_orthodox
+					}
+				}
+			}
+		}
+		151 = {
+			NOT = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+			}
+		}
+	}
+}
+
+# Check if country can declare crusade for Jerusalem
+can_declare_jerusalem_crusade = {
+	OR = {
+		religion = orthodox
+		religion = russian_orthodox
+	}
+	is_subject = no
+	is_at_war = no
+	total_development = 300
+	church_power = 150
+	prestige = 75
+	legitimacy_equivalent = 80
+	NOT = { war_exhaustion = 1 }
+	NOT = { has_country_flag = orthodox_crusade_constantinople_active }
+	NOT = { has_country_flag = orthodox_crusade_jerusalem_active }
+	NOT = { has_country_modifier = orthodox_crusade_cooldown }
+	379 = {
+		NOT = {
+			OR = {
+				religion = orthodox
+				religion = russian_orthodox
+			}
+		}
+	}
+}
+
+# Check if Constantinople crusade is successful
+is_constantinople_crusade_successful = {
+	has_country_flag = orthodox_crusade_constantinople_active
+	owns = 151
+	151 = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+	}
+}
+
+# Check if Jerusalem crusade is successful
+is_jerusalem_crusade_successful = {
+	has_country_flag = orthodox_crusade_jerusalem_active
+	owns = 379
+	379 = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+	}
+}
+
+# Check if country is participating in crusade
+is_crusade_participant = {
+	OR = {
+		has_country_modifier = orthodox_crusade_for_constantinople
+		has_country_modifier = orthodox_crusade_for_jerusalem
+		has_country_modifier = orthodox_crusade_participant
+		has_country_modifier = orthodox_crusade_leader
+	}
+}
+
+# Check if any crusade is active
+has_active_constantinople_crusade = {
+	any_country = { has_country_flag = orthodox_crusade_constantinople_active }
+}
+
+has_active_jerusalem_crusade = {
+	any_country = { has_country_flag = orthodox_crusade_jerusalem_active }
+}
+
+# Check if country can join a crusade
+can_join_orthodox_crusade = {
+	OR = {
+		religion = orthodox
+		religion = russian_orthodox
+	}
+	is_at_war = no
+	NOT = { has_country_modifier = orthodox_crusade_participant }
+	NOT = { has_country_flag = orthodox_crusade_constantinople_active }
+	NOT = { has_country_flag = orthodox_crusade_jerusalem_active }
+	OR = {
+		has_active_constantinople_crusade = yes
+		has_active_jerusalem_crusade = yes
+	}
+}
+
+# Check if holy lands are liberated
+has_liberated_holy_lands = {
+	OR = {
+		has_country_modifier = liberator_of_constantinople
+		has_country_modifier = liberator_of_jerusalem
+	}
+}
+
+# Check if country is at war with the current crusade target
+is_at_war_with_crusade_target = {
+	OR = {
+		any_country = {
+			has_country_flag = orthodox_crusade_target_constantinople
+			war_with = ROOT
+		}
+		any_country = {
+			has_country_flag = orthodox_crusade_target_jerusalem
+			war_with = ROOT
+		}
+	}
+}
+
+# Check if country is worthy crusader
+is_worthy_crusader = {
+	OR = {
+		religion = orthodox
+		religion = russian_orthodox
+	}
+	army_size = 20
+	prestige = 25
+	legitimacy_equivalent = 50
+	NOT = { war_exhaustion = 3 }
+}
+
