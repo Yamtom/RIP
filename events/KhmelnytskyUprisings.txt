@@ -253,3 +253,272 @@ country_event = {
 		add_stability = -1
 	}
 }
+
+# =================================================================
+# RELIGIOUS EVENTS IN RUTHENIA
+# =================================================================
+
+# Event 7: Union of Brest
+country_event = {
+	id = khmelnytsky_events.7
+	title = khmelnytsky_events.7.t
+	desc = khmelnytsky_events.7.d
+	picture = RELIGION_eventPicture
+
+	trigger = {
+		religion = catholic
+		any_owned_province = {
+			region = ruthenia_region
+			religion = orthodox
+		}
+		is_year = 1595
+		NOT = { is_year = 1626 }
+		NOT = { has_country_flag = union_of_brest_happened }
+	}
+
+	mean_time_to_happen = {
+		months = 60
+	}
+
+	option = {
+		name = khmelnytsky_events.7.a
+		ai_chance = { factor = 60 }
+
+		set_country_flag = union_of_brest_happened
+		add_country_modifier = {
+			name = union_of_brest_enforced
+			duration = 7300
+		}
+		random_owned_province = {
+			limit = {
+				region = ruthenia_region
+				religion = orthodox
+			}
+			add_unrest = 3
+			add_local_autonomy = 0.05
+		}
+	}
+
+	option = {
+		name = khmelnytsky_events.7.b
+		ai_chance = { factor = 40 }
+
+		set_country_flag = union_of_brest_happened
+		add_country_modifier = {
+			name = union_of_brest_compromise
+			duration = 7300
+		}
+		add_prestige = -5
+	}
+}
+
+# Event 8: Orthodox Brotherhoods
+country_event = {
+	id = khmelnytsky_events.8
+	title = khmelnytsky_events.8.t
+	desc = khmelnytsky_events.8.d
+	picture = UNIVERSITY_eventPicture
+
+	trigger = {
+		religion = orthodox
+		any_owned_province = {
+			region = ruthenia_region
+		}
+		is_year = 1550
+		NOT = { has_country_flag = orthodox_brotherhoods_supported }
+	}
+
+	mean_time_to_happen = {
+		months = 120
+	}
+
+	option = {
+		name = khmelnytsky_events.8.a
+		ai_chance = { factor = 70 }
+
+		set_country_flag = orthodox_brotherhoods_supported
+		add_country_modifier = {
+			name = orthodox_brotherhoods
+			duration = 7300
+		}
+		add_patriarch_authority = 0.05
+		add_prestige = 5
+	}
+
+	option = {
+		name = khmelnytsky_events.8.b
+		ai_chance = { factor = 30 }
+
+		set_country_flag = orthodox_brotherhoods_supported
+		add_treasury = 50
+		random_owned_province = {
+			limit = {
+				region = ruthenia_region
+			}
+			add_unrest = 1
+		}
+	}
+}
+
+# Event 9: Jesuit Missions in Ruthenia
+country_event = {
+	id = khmelnytsky_events.9
+	title = khmelnytsky_events.9.t
+	desc = khmelnytsky_events.9.d
+	picture = RELIGION_eventPicture
+
+	trigger = {
+		religion = catholic
+		any_owned_province = {
+			region = ruthenia_region
+			religion = orthodox
+		}
+		is_year = 1570
+		NOT = { has_country_flag = jesuit_missions_ruthenia }
+	}
+
+	mean_time_to_happen = {
+		months = 90
+	}
+
+	option = {
+		name = khmelnytsky_events.9.a
+		ai_chance = { factor = 55 }
+
+		set_country_flag = jesuit_missions_ruthenia
+		add_country_modifier = {
+			name = jesuit_missions_supported
+			duration = 3650
+		}
+		add_papal_influence = 10
+		random_owned_province = {
+			limit = {
+				region = ruthenia_region
+				religion = orthodox
+			}
+			add_unrest = 2
+		}
+	}
+
+	option = {
+		name = khmelnytsky_events.9.b
+		ai_chance = { factor = 45 }
+
+		set_country_flag = jesuit_missions_ruthenia
+		add_country_modifier = {
+			name = jesuit_missions_restrained
+			duration = 3650
+		}
+		add_prestige = 5
+	}
+}
+
+# Event 10: Cossack Defense of Orthodoxy
+country_event = {
+	id = khmelnytsky_events.10
+	title = khmelnytsky_events.10.t
+	desc = khmelnytsky_events.10.d
+	picture = RELIGION_eventPicture
+
+	trigger = {
+		religion = orthodox
+		OR = {
+			tag = ZAZ
+			tag = HET
+			tag = CHR
+			tag = KIE
+			tag = PRL
+			tag = VOL
+		}
+		any_owned_province = {
+			region = ruthenia_region
+		}
+		is_year = 1600
+		NOT = { has_country_flag = cossack_defenders_orthodoxy }
+	}
+
+	mean_time_to_happen = {
+		months = 120
+	}
+
+	option = {
+		name = khmelnytsky_events.10.a
+		ai_chance = { factor = 65 }
+
+		set_country_flag = cossack_defenders_orthodoxy
+		add_country_modifier = {
+			name = defenders_of_orthodoxy
+			duration = 3650
+		}
+		add_army_tradition = 5
+		add_church_power = 15
+	}
+
+	option = {
+		name = khmelnytsky_events.10.b
+		ai_chance = { factor = 35 }
+
+		set_country_flag = cossack_defenders_orthodoxy
+		add_stability = 1
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = -10
+			}
+		}
+	}
+}
+
+# Event 11: Church Property Disputes
+country_event = {
+	id = khmelnytsky_events.11
+	title = khmelnytsky_events.11.t
+	desc = khmelnytsky_events.11.d
+	picture = RELIGION_eventPicture
+
+	trigger = {
+		religion = catholic
+		any_owned_province = {
+			region = ruthenia_region
+			religion = orthodox
+		}
+		is_year = 1550
+		NOT = { has_country_flag = church_property_dispute_resolved }
+	}
+
+	mean_time_to_happen = {
+		months = 100
+	}
+
+	option = {
+		name = khmelnytsky_events.11.a
+		ai_chance = { factor = 45 }
+
+		set_country_flag = church_property_dispute_resolved
+		add_country_modifier = {
+			name = church_property_restored
+			duration = 3650
+		}
+		add_prestige = 5
+	}
+
+	option = {
+		name = khmelnytsky_events.11.b
+		ai_chance = { factor = 55 }
+
+		set_country_flag = church_property_dispute_resolved
+		add_country_modifier = {
+			name = church_property_conflict
+			duration = 3650
+		}
+		add_treasury = 75
+		random_owned_province = {
+			limit = {
+				region = ruthenia_region
+				religion = orthodox
+			}
+			add_unrest = 2
+		}
+	}
+}
