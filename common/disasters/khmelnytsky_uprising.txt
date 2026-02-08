@@ -55,14 +55,7 @@ khmelnytsky_uprising = {
 					tag = PLC
 				}
 				any_owned_province = {
-					OR = {
 						region = ruthenia_region
-						area = kyiv_area
-						area = cherkasy_area
-						area = poltava_area
-						area = chernihiv_area
-						area = podillia_area
-					}
 					is_core = ROOT
 				}
 			}
@@ -97,18 +90,11 @@ khmelnytsky_uprising = {
 					tag = PLC
 				}
 				any_owned_province = {
-					OR = {
 						region = ruthenia_region
-						area = kyiv_area
-						area = cherkasy_area
-						area = poltava_area
-						area = chernihiv_area
-						area = podillia_area
-					}
 					is_core = ROOT
 					OR = {
-						local_unrest = 3
-						development = 20
+						unrest >= 3
+						development >= 20
 					}
 				}
 				stability < 1
@@ -125,7 +111,7 @@ khmelnytsky_uprising = {
 				}
 				OR = {
 					is_year = 1648
-					has_country_flag = khmelnytsky_revolt_active
+					has_country_modifier = khmelnytsky_revolt_active
 				}
 			}
 		}
@@ -155,15 +141,8 @@ khmelnytsky_uprising = {
 		modifier = {
 			factor = 1.5
 			any_owned_province = {
-				OR = {
 					region = ruthenia_region
-					area = kyiv_area
-					area = cherkasy_area
-					area = poltava_area
-					area = chernihiv_area
-					area = podillia_area
-				}
-				local_unrest = 5
+				unrest = 5
 			}
 		}
 		modifier = {
@@ -177,14 +156,7 @@ khmelnytsky_uprising = {
 		modifier = {
 			factor = 1.3
 			any_owned_province = {
-				OR = {
 					region = ruthenia_region
-					area = kyiv_area
-					area = cherkasy_area
-					area = poltava_area
-					area = chernihiv_area
-					area = podillia_area
-				}
 				devastation = 20
 			}
 		}
@@ -239,15 +211,8 @@ khmelnytsky_uprising = {
 				}
 				NOT = {
 					any_owned_province = {
-						OR = {
-							region = ruthenia_region
-							area = kyiv_area
-							area = cherkasy_area
-							area = poltava_area
-							area = chernihiv_area
-							area = podillia_area
-						}
-						local_unrest = 2
+						region = ruthenia_region
+						unrest = 2
 					}
 				}
 				NOT = { num_of_rebel_armies = 1 }

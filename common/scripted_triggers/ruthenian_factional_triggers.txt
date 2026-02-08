@@ -1,0 +1,30 @@
+# =========================================================================
+# RUTHENIAN FACTIONAL EMPIRE - SCRIPTED TRIGGERS
+# =========================================================================
+
+kru_has_factional_empire_reform = {
+	tag = KRU
+	OR = {
+		has_reform = ruthenian_factional_empire_reform
+		has_reform = ruthenian_factional_empire_princes_hetmans_reform
+		has_reform = ruthenian_factional_empire_boyars_hetmans_reform
+	}
+	has_dlc = "Res Publica"
+}
+
+kru_pair_knyazi_boyary_active = {
+	has_reform = ruthenian_factional_empire_reform
+}
+
+kru_pair_knyazi_hetmany_active = {
+	has_reform = ruthenian_factional_empire_princes_hetmans_reform
+}
+
+kru_pair_boyary_hetmany_active = {
+	has_reform = ruthenian_factional_empire_boyars_hetmans_reform
+}
+
+kru_can_shift_pair = {
+	NOT = { has_country_modifier = KRU_factional_pair_shift_cooldown }
+	stability = 0
+}

@@ -104,30 +104,19 @@ can_cooperate_with_catholics = {
 	}
 }
 
-# Check if tolerance is negative (less than 0)
+# Check if tolerance variables are set (DISABLED - uses undefined variables)
 pdl_0_tolerance = {
-    OR = {
-        # Check if the variable is less than 0
-        NOT = { check_variable = { which = current_heretic_tolerance value = 0 } }
-        NOT = { check_variable = { which = current_heathen_tolerance value = 0 } }
-    }
+    always = no
 }
 
-# Check if tolerance is exactly 2
 pdl_2_tolerance = {
-    AND = {
-        check_variable = { which = current_heretic_tolerance value = 2 }
-        check_variable = { which = current_heathen_tolerance value = 2 }
-    }
+    always = no
 }
 
-# Check if tolerance is 2 or more
 pdl_more2_tolerance = {
-    AND = {
-        check_variable = { which = current_heretic_tolerance value = 2 }
-        check_variable = { which = current_heathen_tolerance value = 2 }
-    }
+    always = no
 }
+
 same_dynasty_as_root = {
     has_ruler = yes
 	OR = {

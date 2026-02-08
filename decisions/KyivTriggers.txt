@@ -329,7 +329,7 @@ country_decisions = {
 			stability = 1
 			has_country_modifier = KIE_trade_houses
 			has_estate = estate_burghers
-			estate_influence = { estate = estate_burghers value = 60 }
+			estate_influence = { estate = estate_burghers influence = 60 }
 			NOT = { has_country_modifier = KIE_free_city_charter_cooldown }
 			any_owned_province = {
 				OR = {
@@ -353,7 +353,11 @@ country_decisions = {
 		major = yes
 		potential = {
 			tag = KRU
-			has_reform = ruthenian_factional_empire_reform
+			OR = {
+				has_reform = ruthenian_factional_empire_reform
+				has_reform = ruthenian_factional_empire_princes_hetmans_reform
+				has_reform = ruthenian_factional_empire_boyars_hetmans_reform
+			}
 			NOT = { has_dlc = "Res Publica" }
 			NOT = { has_country_modifier = KRU_factional_court_cooldown }
 		}

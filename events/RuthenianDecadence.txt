@@ -9,12 +9,17 @@ country_event = {
 
 	trigger = {
 		tag = KRU
-		has_reform = ruthenian_factional_empire_reform
+		OR = {
+			has_reform = ruthenian_factional_empire_reform
+			has_reform = ruthenian_factional_empire_princes_hetmans_reform
+			has_reform = ruthenian_factional_empire_boyars_hetmans_reform
+		}
 	}
 
 	immediate = {
+		# Initialize ruthenian_decadence variable if not already set
 		if = {
-			limit = { NOT = { has_variable = ruthenian_decadence } }
+			limit = { check_variable = { which = ruthenian_decadence value = 0 } }
 			set_variable = { which = ruthenian_decadence value = 20 }
 		}
 

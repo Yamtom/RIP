@@ -1,0 +1,192 @@
+# =========================================================================
+# RUTHENIAN FACTIONAL EMPIRE - SCRIPTED EFFECTS
+# =========================================================================
+
+kru_clear_active_pair_modifiers_effect = {
+	remove_country_modifier = KRU_pair_knyazi_boyary
+	remove_country_modifier = KRU_pair_knyazi_hetmany
+	remove_country_modifier = KRU_pair_boyary_hetmany
+}
+
+kru_apply_pair_knyazi_boyary_effect = {
+	kru_clear_active_pair_modifiers_effect = yes
+	add_country_modifier = {
+		name = KRU_pair_knyazi_boyary
+		duration = -1
+	}
+	if = {
+		limit = { NOT = { has_reform = ruthenian_factional_empire_reform } }
+		remove_government_reform = ruthenian_factional_empire_princes_hetmans_reform
+		remove_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
+		add_government_reform = ruthenian_factional_empire_reform
+	}
+}
+
+kru_apply_pair_knyazi_hetmany_effect = {
+	kru_clear_active_pair_modifiers_effect = yes
+	add_country_modifier = {
+		name = KRU_pair_knyazi_hetmany
+		duration = -1
+	}
+	if = {
+		limit = { NOT = { has_reform = ruthenian_factional_empire_princes_hetmans_reform } }
+		remove_government_reform = ruthenian_factional_empire_reform
+		remove_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
+		add_government_reform = ruthenian_factional_empire_princes_hetmans_reform
+	}
+}
+
+kru_apply_pair_boyary_hetmany_effect = {
+	kru_clear_active_pair_modifiers_effect = yes
+	add_country_modifier = {
+		name = KRU_pair_boyary_hetmany
+		duration = -1
+	}
+	if = {
+		limit = { NOT = { has_reform = ruthenian_factional_empire_boyars_hetmans_reform } }
+		remove_government_reform = ruthenian_factional_empire_reform
+		remove_government_reform = ruthenian_factional_empire_princes_hetmans_reform
+		add_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
+	}
+}
+
+kru_add_pair_shift_cooldown_effect = {
+	add_country_modifier = {
+		name = KRU_factional_pair_shift_cooldown
+		duration = 1825
+	}
+}
+
+# Score model:
+# - Knyazi: legitimacy, diplomacy, tributary/subject control
+# - Boyary: administration, stability, autonomy pressure
+# - Hetmany: military readiness and wartime pressure
+kru_recalculate_faction_influence_effect = {
+	set_variable = { which = kru_knyazi_influence value = 25 }
+	set_variable = { which = kru_boyary_influence value = 25 }
+	set_variable = { which = kru_hetmany_influence value = 25 }
+
+	# Knyazi influence sources
+	if = { limit = { legitimacy_equivalent = 50 } change_variable = { which = kru_knyazi_influence value = 10 } }
+	if = { limit = { legitimacy_equivalent = 75 } change_variable = { which = kru_knyazi_influence value = 10 } }
+	if = { limit = { diplomatic_reputation = 1 } change_variable = { which = kru_knyazi_influence value = 8 } }
+	if = { limit = { diplomatic_reputation = 2 } change_variable = { which = kru_knyazi_influence value = 7 } }
+	if = { limit = { num_of_subjects = 1 } change_variable = { which = kru_knyazi_influence value = 8 } }
+	if = { limit = { num_of_subjects = 3 } change_variable = { which = kru_knyazi_influence value = 7 } }
+
+	# Boyary influence sources
+	if = { limit = { stability = 1 } change_variable = { which = kru_boyary_influence value = 10 } }
+	if = { limit = { stability = 2 } change_variable = { which = kru_boyary_influence value = 10 } }
+	if = { limit = { average_autonomy = 40 } change_variable = { which = kru_boyary_influence value = 10 } }
+	if = { limit = { average_autonomy = 60 } change_variable = { which = kru_boyary_influence value = 8 } }
+	if = { limit = { advisor_cost = -0.05 } change_variable = { which = kru_boyary_influence value = 5 } }
+	if = { limit = { inflation = 3 } change_variable = { which = kru_boyary_influence value = -5 } }
+
+	# Hetmany influence sources
+	if = { limit = { army_tradition = 30 } change_variable = { which = kru_hetmany_influence value = 10 } }
+	if = { limit = { army_tradition = 50 } change_variable = { which = kru_hetmany_influence value = 10 } }
+	if = { limit = { manpower_percentage = 0.5 } change_variable = { which = kru_hetmany_influence value = 10 } }
+	if = { limit = { manpower_percentage = 0.75 } change_variable = { which = kru_hetmany_influence value = 8 } }
+	if = { limit = { army_size = 40 } change_variable = { which = kru_hetmany_influence value = 8 } }
+	if = { limit = { is_at_war = yes } change_variable = { which = kru_hetmany_influence value = 10 } }
+
+	# Clamp to keep score range stable.
+	if = {
+		limit = { check_variable = { which = kru_knyazi_influence value = 101 } }
+		set_variable = { which = kru_knyazi_influence value = 100 }
+	}
+	if = {
+		limit = { check_variable = { which = kru_boyary_influence value = 101 } }
+		set_variable = { which = kru_boyary_influence value = 100 }
+	}
+	if = {
+		limit = { check_variable = { which = kru_hetmany_influence value = 101 } }
+		set_variable = { which = kru_hetmany_influence value = 100 }
+	}
+}
+
+# This effect picks the active pair using a stable threshold model:
+# - Third faction must cross 70 and one incumbent must dip below 65.
+kru_update_dominant_pair_effect = {
+	# Initialize the first valid pair if somehow missing.
+	if = {
+		limit = {
+			NOT = { has_reform = ruthenian_factional_empire_reform }
+			NOT = { has_reform = ruthenian_factional_empire_princes_hetmans_reform }
+			NOT = { has_reform = ruthenian_factional_empire_boyars_hetmans_reform }
+		}
+		kru_apply_pair_knyazi_boyary_effect = yes
+	}
+
+	# Pair Knyazi-Boyary -> allow Hetmany to enter if sufficiently strong.
+	if = {
+		limit = {
+			kru_pair_knyazi_boyary_active = yes
+			kru_can_shift_pair = yes
+			check_variable = { which = kru_hetmany_influence value = 70 }
+			OR = {
+				NOT = { check_variable = { which = kru_knyazi_influence value = 65 } }
+				NOT = { check_variable = { which = kru_boyary_influence value = 65 } }
+			}
+		}
+		if = {
+			limit = {
+				check_variable = { which = kru_knyazi_influence value = 65 }
+				NOT = { check_variable = { which = kru_boyary_influence value = 65 } }
+			}
+			kru_apply_pair_knyazi_hetmany_effect = yes
+		}
+		else = {
+			kru_apply_pair_boyary_hetmany_effect = yes
+		}
+		kru_add_pair_shift_cooldown_effect = yes
+	}
+
+	# Pair Knyazi-Hetmany -> allow Boyary to enter if sufficiently strong.
+	if = {
+		limit = {
+			kru_pair_knyazi_hetmany_active = yes
+			kru_can_shift_pair = yes
+			check_variable = { which = kru_boyary_influence value = 70 }
+			OR = {
+				NOT = { check_variable = { which = kru_knyazi_influence value = 65 } }
+				NOT = { check_variable = { which = kru_hetmany_influence value = 65 } }
+			}
+		}
+		if = {
+			limit = {
+				check_variable = { which = kru_knyazi_influence value = 65 }
+				NOT = { check_variable = { which = kru_hetmany_influence value = 65 } }
+			}
+			kru_apply_pair_knyazi_boyary_effect = yes
+		}
+		else = {
+			kru_apply_pair_boyary_hetmany_effect = yes
+		}
+		kru_add_pair_shift_cooldown_effect = yes
+	}
+
+	# Pair Boyary-Hetmany -> allow Knyazi to enter if sufficiently strong.
+	if = {
+		limit = {
+			kru_pair_boyary_hetmany_active = yes
+			kru_can_shift_pair = yes
+			check_variable = { which = kru_knyazi_influence value = 70 }
+			OR = {
+				NOT = { check_variable = { which = kru_boyary_influence value = 65 } }
+				NOT = { check_variable = { which = kru_hetmany_influence value = 65 } }
+			}
+		}
+		if = {
+			limit = {
+				check_variable = { which = kru_boyary_influence value = 65 }
+				NOT = { check_variable = { which = kru_hetmany_influence value = 65 } }
+			}
+			kru_apply_pair_knyazi_boyary_effect = yes
+		}
+		else = {
+			kru_apply_pair_knyazi_hetmany_effect = yes
+		}
+		kru_add_pair_shift_cooldown_effect = yes
+	}
+}

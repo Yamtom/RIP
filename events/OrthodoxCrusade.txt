@@ -27,6 +27,13 @@ country_event = {
 		add_mil_power = 50
 		add_army_tradition = 10
 		
+		# Ensure current Constantinople owner is marked as crusade target
+		151 = {
+			owner = {
+				set_country_flag = orthodox_crusade_target_constantinople
+			}
+		}
+		
 		# Announce to the crusade target
 		every_country = {
 			limit = { has_country_flag = orthodox_crusade_target_constantinople }
@@ -436,6 +443,13 @@ country_event = {
 		add_mil_power = 75
 		add_army_tradition = 15
 		
+		# Ensure current Jerusalem owner is marked as crusade target
+		379 = {
+			owner = {
+				set_country_flag = orthodox_crusade_target_jerusalem
+			}
+		}
+		
 		# Announce to the crusade target
 		every_country = {
 			limit = { has_country_flag = orthodox_crusade_target_jerusalem }
@@ -587,7 +601,8 @@ country_event = {
 		add_adm_power = 150
 		add_dip_power = 150
 		add_mil_power = 150
-		add_church_power = 300
+		add_church_power = 200
+		add_church_power = 100
 
 		# Contribution-based bonus
 		if = {
@@ -633,14 +648,6 @@ country_event = {
 				name = restored_orthodox_jerusalem
 				duration = -1
 			}
-		}
-		
-		# Become defender of the faith
-		if = {
-			limit = {
-				NOT = { is_defender_of_faith = yes }
-			}
-			set_defender_of_faith = yes
 		}
 		
 		# Reward all participants

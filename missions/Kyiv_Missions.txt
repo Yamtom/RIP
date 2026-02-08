@@ -24,7 +24,7 @@ KIE_missions_1 = {
 		provinces_to_highlight = {
 			OR = {
 				area = volhynia_area
-				area = pripyat_area
+				area = podlasie_area
 			}
 			NOT = {
 				country_or_non_sovereign_subject_holds = ROOT
@@ -35,7 +35,7 @@ KIE_missions_1 = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
-			pripyat_area = {
+			podlasie_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
@@ -855,7 +855,6 @@ KIE_missions_3 = {
 				area = east_dniepr_area
 				area = podolia_volhynia_area
 				area = yedisan_area
-				area = zaporizhia_area
 			}
 			NOT = {
 				owned_by = ROOT
@@ -863,87 +862,62 @@ KIE_missions_3 = {
 		}
 		trigger = {
 			if = {
-				OR = {
-					alliance_with = CRI
-					OR = {
-						alliance_with = GOL
-						alliance_with = GLH
-					}
-				}
 				limit = {
 					OR = {
-						AND = {
-							exists = CRI
-							is_neighbor_of = CRI
-						}
+						alliance_with = CRI
 						OR = {
-							exists = GLH
-							exists = GLH
+							alliance_with = GOL
+							alliance_with = GLH
 						}
+					}
+				}
+				OR = {
+					AND = {
+						exists = CRI
+						is_neighbor_of = CRI
+					}
+					OR = {
+						exists = GLH
+						exists = GLH
 					}
 				}
 			}
 			else = {
-				east_dniepr_area = {
-					type = all
-					owned_by = ROOT
-				}
-				podolia_volhynia_area = {
-					type = all
-					owned_by = ROOT
-				}
-				yedisan_area = {
-					type = all
-					owned_by = ROOT
-				}
-				zaporizhia_area = {
-					type = all
-					owned_by = ROOT
+				AND = {
+					east_dniepr_area = {
+						type = all
+						owned_by = ROOT
+					}
+					podolia_volhynia_area = {
+						type = all
+						owned_by = ROOT
+					}
+					yedisan_area = {
+						type = all
+						owned_by = ROOT
+					}
 				}
 			}
 		}
 		effect = {
 			east_dniepr_area = {
 				limit = {
-					NOT = {
-						is_core = ROOT
-					}
-					NOT = {
-						is_permanent_claim = ROOT
-					}
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
 			podolia_volhynia_area = {
 				limit = {
-					NOT = {
-						is_core = ROOT
-					}
-					NOT = {
-						is_permanent_claim = ROOT
-					}
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
 			yedisan_area = {
 				limit = {
-					NOT = {
-						is_core = ROOT
-					}
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
-			zaporizhia_area = {
-				limit = {
-					NOT = {
-						is_core = ROOT
-					}
-					NOT = {
-						is_permanent_claim = ROOT
-					}
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
@@ -1146,23 +1120,15 @@ UKR_missions_3 = {
 			}
 			bulgaria_area = {
 				limit = {
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
+					NOT = { is_permanent_claim = ROOT }
+					NOT = { is_core = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
 			silistria_area = {
 				limit = {
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
+					NOT = { is_permanent_claim = ROOT }
+					NOT = { is_core = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
@@ -1197,34 +1163,22 @@ UKR_missions_3 = {
 			add_army_tradition = 15
 			thrace_area = {
 				limit = {
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
+					NOT = { is_permanent_claim = ROOT }
+					NOT = { is_core = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
 			serbia_area = {
 				limit = {
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
+					NOT = { is_permanent_claim = ROOT }
+					NOT = { is_core = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
 			rascia_area = {
 				limit = {
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
+					NOT = { is_permanent_claim = ROOT }
+					NOT = { is_core = ROOT }
 				}
 				add_permanent_claim = ROOT
 			}
@@ -1255,8 +1209,8 @@ UKR_missions_3 = {
 			}
 		}
 		trigger = {
-			thrace_area = {
-				type = all
+			all_owned_province = {
+				area = thrace_area
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 			owns = 151
@@ -1557,7 +1511,7 @@ KIE_missions_4 = {
 		position = 7
 		trigger = {
 			has_estate = estate_burghers
-			estate_influence = { estate = estate_burghers value = 60 }
+			estate_influence = { estate = estate_burghers influence = 60 }
 			OR = {
 				has_reform = kyivan_shogunate_reform
 				has_country_flag = kyiv_path_shogunate
@@ -1901,7 +1855,7 @@ KIE_missions_5 = {
 		provinces_to_highlight = {
 			OR = {
 				area = east_dniepr_area
-				area = zaporizhia_area
+				area = yedisan_area
 			}
 			OR = {
 				NOT = { owned_by = ROOT }
@@ -1909,15 +1863,13 @@ KIE_missions_5 = {
 			}
 		}
 		trigger = {
-			calc_true_if = {
-				all_owned_province = {
-					OR = {
-						area = east_dniepr_area
-						area = zaporizhia_area
-					}
-					development = 10
+			num_of_owned_provinces_with = {
+				value = 6
+				OR = {
+					area = east_dniepr_area
+					area = yedisan_area
 				}
-				amount = 6
+				development = 10
 			}
 		}
 		effect = {
@@ -1930,7 +1882,7 @@ KIE_missions_5 = {
 					duration = 7300
 				}
 			}
-			zaporizhia_area = {
+			yedisan_area = {
 				limit = {
 					owned_by = ROOT
 				}
@@ -1976,13 +1928,11 @@ UKR_missions_5 = {
 			KIE_cossack
 		}
 		trigger = {
-			yedisan_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-				culture = ruthenian
-			}
-			zaporizhia_area = {
-				type = all
+			all_owned_province = {
+				OR = {
+					area = yedisan_area
+					area = sloboda_ukraine_area
+				}
 				country_or_non_sovereign_subject_holds = ROOT
 				culture = ruthenian
 			}
@@ -1990,7 +1940,7 @@ UKR_missions_5 = {
 		provinces_to_highlight = {
 			OR = {
 				area = yedisan_area
-				area = zaporizhia_area
+				area = sloboda_ukraine_area
 			}
 			NOT = {
 				AND = {

@@ -1,5 +1,8 @@
 namespace = ruthenian_factions
 
+# -------------------------------------------------------------------------
+# Fallback manual court (no Res Publica DLC)
+# -------------------------------------------------------------------------
 country_event = {
 	id = ruthenian_factions.1
 	title = "ruthenian_factions.1.t"
@@ -60,7 +63,11 @@ country_event = {
 
 	trigger = {
 		tag = KRU
-		has_reform = ruthenian_factional_empire_reform
+		OR = {
+			has_reform = ruthenian_factional_empire_reform
+			has_reform = ruthenian_factional_empire_princes_hetmans_reform
+			has_reform = ruthenian_factional_empire_boyars_hetmans_reform
+		}
 		NOT = { has_dlc = "Res Publica" }
 		ai = yes
 		NOT = { has_country_modifier = KRU_factional_court_cooldown }
@@ -72,6 +79,28 @@ country_event = {
 			duration = 3650
 		}
 		country_event = { id = ruthenian_factions.1 days = 1 }
+	}
+
+	option = {
+		name = "ruthenian_factions.2.a"
+	}
+}
+
+# -------------------------------------------------------------------------
+# Main faction-pair system (Res Publica DLC)
+# -------------------------------------------------------------------------
+country_event = {
+	id = ruthenian_factions.20
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		kru_has_factional_empire_reform = yes
+	}
+
+	immediate = {
+		kru_recalculate_faction_influence_effect = yes
+		kru_update_dominant_pair_effect = yes
 	}
 
 	option = {
