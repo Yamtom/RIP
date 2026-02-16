@@ -59,7 +59,7 @@ kru_add_pair_shift_cooldown_effect = {
 
 # Score model:
 # - Knyazi: legitimacy, diplomacy, tributary/subject control
-# - Boyary: administration, stability, autonomy pressure
+# - Boyary: administration, stability, autonomy pressure, treasury depth
 # - Hetmany: military readiness and wartime pressure
 kru_recalculate_faction_influence_effect = {
 	set_variable = { which = kru_knyazi_influence value = 25 }
@@ -79,7 +79,7 @@ kru_recalculate_faction_influence_effect = {
 	if = { limit = { stability = 2 } change_variable = { which = kru_boyary_influence value = 10 } }
 	if = { limit = { average_autonomy = 40 } change_variable = { which = kru_boyary_influence value = 10 } }
 	if = { limit = { average_autonomy = 60 } change_variable = { which = kru_boyary_influence value = 8 } }
-	if = { limit = { advisor_cost = -0.05 } change_variable = { which = kru_boyary_influence value = 5 } }
+	if = { limit = { treasury = 200 } change_variable = { which = kru_boyary_influence value = 5 } }
 	if = { limit = { inflation = 3 } change_variable = { which = kru_boyary_influence value = -5 } }
 
 	# Hetmany influence sources

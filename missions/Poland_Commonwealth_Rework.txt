@@ -1,4 +1,4 @@
-# Poland and Commonwealth Rework Mission Set
+﻿# Poland and Commonwealth Rework Mission Set
 POL_re_missions_1 = {
     slot = 1
     generic = yes
@@ -154,7 +154,7 @@ POL_re_missions_1 = {
                     tooltip = POL_hadiach_commission_subject_tt
                     hidden_trigger = {
                         any_subject_country = {
-                            liberty_desire < 50
+                            NOT = { liberty_desire = 50 }
                             OR = {
                                 tag = ZAZ
                                 tag = HET
@@ -167,7 +167,7 @@ POL_re_missions_1 = {
                     }
                 }
                 any_subject_country = {
-                    liberty_desire < 50
+                    NOT = { liberty_desire = 50 }
                     OR = {
                         tag = ZAZ
                         tag = HET
@@ -270,7 +270,7 @@ POL_re_missions_1 = {
                         NOT = {
                             any_owned_province = {
                                 region = ruthenia_region
-                                local_autonomy >= 40
+                                local_autonomy = 40
                                 }
                             }
                         }
@@ -278,7 +278,7 @@ POL_re_missions_1 = {
                 NOT = {
                     any_owned_province = {
                         region = ruthenia_region
-                        local_autonomy >= 40
+                        local_autonomy = 40
                     }
                 }
             }

@@ -1,4 +1,4 @@
-# Основна лінія: Русинська спадщина та виживання
+﻿# Основна лінія: Русинська спадщина та виживання
 UZH_missions_1 = {
     slot = 1
     generic = no
@@ -2962,7 +2962,7 @@ UZH_missions_4 = {
                     calc_true_if = {
                         amount = 2
                         any_subject_country = {
-                            liberty_desire < 50
+                            NOT = { liberty_desire = 50 }
                             always = yes
                         }
                     }
@@ -2971,7 +2971,7 @@ UZH_missions_4 = {
             calc_true_if = {
                 amount = 2
                 any_subject_country = {
-                    liberty_desire < 50
+                    NOT = { liberty_desire = 50 }
                     always = yes
                 }
             }
@@ -3427,7 +3427,7 @@ UZH_missions_5 = {
                     hidden_trigger = {
                         num_of_subjects = 1
                         all_subject_country = {
-                            liberty_desire < 50
+                            NOT = { liberty_desire = 50 }
                             has_opinion = {
                                 who = ROOT
                                 value = 100
@@ -3457,7 +3457,7 @@ UZH_missions_5 = {
                     has_country_flag = uzh_congress_subject_path
                     num_of_subjects = 1
                     all_subject_country = {
-                        liberty_desire < 50
+                        NOT = { liberty_desire = 50 }
                         has_opinion = {
                             who = ROOT
                             value = 100
@@ -3510,7 +3510,7 @@ UZH_missions_5 = {
                 add_mil_power = 150
                 add_army_tradition = 15
                 if = {
-                    limit = { num_of_subjects > 0 }
+                    limit = { num_of_subjects = 1 }
                     every_subject_country = {
                         add_opinion = {
                             who = ROOT
@@ -3564,7 +3564,7 @@ UZH_missions_5 = {
                 OR = {
                     has_building = fort_17th
                     has_building = fort_18th
-                    fort_level >= 3
+                    fort_level = 3
                 }
             }
         }
@@ -3580,7 +3580,7 @@ UZH_missions_5 = {
                         army_professionalism = 0.4
                         num_of_owned_provinces_with = {
                             region = carpathia_region
-                            fort_level >= 3
+                            fort_level = 3
                             value = 3
                         }
                     }
@@ -3594,7 +3594,7 @@ UZH_missions_5 = {
                         has_country_modifier = uz_congress_subject_charters
                         num_of_subjects = 2
                         all_subject_country = {
-                            liberty_desire < 45
+                            NOT = { liberty_desire = 45 }
                             has_opinion = {
                                 who = ROOT
                                 value = 125
@@ -3612,7 +3612,7 @@ UZH_missions_5 = {
                     army_professionalism = 0.4
                     num_of_owned_provinces_with = {
                         region = carpathia_region
-                        fort_level >= 3
+                        fort_level = 3
                         value = 3
                     }
                 }
@@ -3621,7 +3621,7 @@ UZH_missions_5 = {
                     has_country_modifier = uz_congress_subject_charters
                     num_of_subjects = 2
                     all_subject_country = {
-                        liberty_desire < 45
+                        NOT = { liberty_desire = 45 }
                         has_opinion = {
                             who = ROOT
                             value = 125
