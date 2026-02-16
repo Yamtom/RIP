@@ -116,8 +116,8 @@ This document outlines comprehensive map rework proposals for the Ukrainian/Ruth
 - **Historical Context:**
   - Genoa colony "Ginestra" (1440s)
   - Multiple Genoese Black Sea colonies in region
-  - Future site of Odessa (major port city)
-  - Trade route: Istanbul-Odessa-Krakow-Kiev
+  - Future site of Odesa (major port city)
+  - Trade route: Istanbul-Odesa-Krakow-Kiev
 - **Gameplay:** Adds historical Center of Trade potential, Genoese colonization flavor
 - **Development:** 7-9 (trade colony, grows significantly)
 

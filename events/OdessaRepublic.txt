@@ -1,0 +1,37 @@
+namespace = odesa_republic
+
+country_event = {
+	id = odesa_republic.1
+	title = "odesa_republic.1.t"
+	desc = "odesa_republic.1.d"
+	picture = TRADE_eventPicture
+
+	trigger = {
+		is_year = 1794
+		NOT = { is_year = 1806 }
+		owns = 282
+		NOT = { exists = ODS }
+		NOT = { has_global_flag = odesa_republic_established }
+	}
+
+	mean_time_to_happen = {
+		months = 3
+	}
+
+	option = {
+		name = "odesa_republic.1.a"
+		282 = { add_core = ODS }
+		release_vassal = ODS
+		ODS = {
+			add_government_reform = odesa_trade_republic_reform
+			set_government_rank = 1
+		}
+		add_prestige = 5
+		set_global_flag = odesa_republic_established
+	}
+
+	option = {
+		name = "odesa_republic.1.b"
+		set_global_flag = odesa_republic_established
+	}
+}
