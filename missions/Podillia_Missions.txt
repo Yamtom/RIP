@@ -181,15 +181,11 @@ PDL_missions_1_carpathian = {
 		required_missions = { PDL_declare_independence }
 		position = 2
 		provinces_to_highlight = {
-			OR = {
-				province_id = 277
-				province_id = 281
-			}
+			province_id = 281
 			NOT = { owned_by = ROOT }
 		}
 		
 		trigger = {
-			277 = { owned_by = ROOT }
 			281 = { owned_by = ROOT }
 		}
 		
@@ -258,18 +254,18 @@ PDL_missions_1_carpathian = {
 		position = 4
 		
 		provinces_to_highlight = {
-			province_id = 277
+			province_id = 281
 		}
 		
 		trigger = {
-			277 = {
+			281 = {
 				owned_by = ROOT
 				NOT = { num_free_building_slots = 1 }
 			}
 		}
 		
 		effect = {
-			277 = {
+			281 = {
 				add_base_tax = 2
 				add_base_production = 2
 				add_base_manpower = 2
@@ -576,14 +572,14 @@ PDL_missions_3_magnate = {
 		}
 		
 		trigger = {
-			277 = {
+			281 = {
 				owned_by = ROOT
 				NOT = { num_free_building_slots = 1 }
 			}
 		}
 		
 		effect = {
-			277 = {
+			281 = {
 				add_base_tax = 2
 				add_base_production = 2
 				add_base_manpower = 2
@@ -631,24 +627,24 @@ PDL_missions_3_magnate = {
 		position = 4
 		
 		provinces_to_highlight = {
-			province_id = 277
+			province_id = 281
 		}
 		
 		trigger = {
-			277 = { owned_by = ROOT }
-			277 = { is_strongest_trade_power = ROOT }
+			281 = { owned_by = ROOT }
+			281 = { is_strongest_trade_power = ROOT }
 		}
 		
 		effect = {
 			add_mercantilism = 5
 			if = {
 				limit = {
-					277 = {
+					281 = {
 						province_has_center_of_trade_of_level = 1
 						NOT = { province_has_center_of_trade_of_level = 3 }
 					}
 				}
-				277 = {
+				281 = {
 					add_center_of_trade_level = 1
 				}
 			}
