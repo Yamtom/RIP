@@ -1,0 +1,62 @@
+# =========================================================================
+# SOUTHERN UKRAINE HISTORICAL PROCESS TRIGGERS
+# =========================================================================
+
+su_controls_south_core = {
+	num_of_owned_provinces_with = {
+		value = 2
+		OR = {
+			area = zaporizhia_area
+			area = yedisan_area
+			area = azov_area
+		}
+	}
+}
+
+su_has_black_sea_access = {
+	any_owned_province = {
+		is_coastal = yes
+		OR = {
+			area = yedisan_area
+			area = azov_area
+			area = crimea_area
+		}
+	}
+}
+
+su_is_full_process_owner = {
+	su_controls_south_core = yes
+	OR = {
+		has_reform = cossacks_reform
+		has_reform = kyivan_rus_reform
+		has_reform = ruthenian_principality_reform
+		has_reform = ruthenian_factional_empire_reform
+		has_reform = ruthenian_factional_empire_princes_hetmans_reform
+		has_reform = ruthenian_factional_empire_boyars_hetmans_reform
+		primary_culture = ruthenian
+		primary_culture = ruthenian_new
+		primary_culture = rusyn
+		has_estate = estate_cossacks
+	}
+}
+
+su_is_secondary_process_owner = {
+	su_controls_south_core = yes
+	NOT = { su_is_full_process_owner = yes }
+}
+
+su_has_existing_chumak_stack = {
+	OR = {
+		has_country_modifier = chumak_salt_trade
+		has_country_modifier = west_ukr_chumak_trade
+		has_country_modifier = VOL_chumak_modifier
+	}
+}
+
+su_has_existing_black_sea_stack = {
+	OR = {
+		has_country_modifier = black_sea_commerce
+		has_country_modifier = KIE_black_sea_fleet
+		has_country_modifier = chr_black_sea_consortia
+	}
+}

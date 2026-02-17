@@ -18,7 +18,7 @@ ruthenian_court_crisis = {
 	}
 
 	can_stop = {
-		NOT = { has_any_disaster = yes }
+		has_any_disaster = yes
 	}
 
 	modifier = {
@@ -32,6 +32,18 @@ ruthenian_court_crisis = {
 		modifier = {
 			factor = 6
 			check_variable = { which = ruthenian_decadence value = 90 }
+		}
+		modifier = {
+			factor = 1.35
+			has_country_flag = su_path_frontier_centralization
+		}
+		modifier = {
+			factor = 0.8
+			has_country_flag = su_path_frontier_liberties
+		}
+		modifier = {
+			factor = 0.85
+			has_country_modifier = ruina_recovery_south
 		}
 	}
 

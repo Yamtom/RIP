@@ -1,0 +1,1091 @@
+# =========================================================================
+# SOUTHERN UKRAINE HISTORICAL PROCESSES (15th-18th centuries)
+# =========================================================================
+# Scope: Lower Dnieper, Zaporizhia, Yedisan, Azov, and Crimean frontier areas.
+# Timeline: 1444-1799
+# Model: History-first arc with owner-tier scaling and controlled alternatives.
+# =========================================================================
+
+namespace = south_ukraine_history
+
+# -----------------------------------------------------------------
+# 15th century: frontier watchlines
+# -----------------------------------------------------------------
+country_event = {
+	id = south_ukraine_history.1
+	title = south_ukraine_history.1.t
+	desc = south_ukraine_history.1.d
+	picture = FORT_eventPicture
+
+	trigger = {
+		is_year = 1450
+		NOT = { is_year = 1495 }
+		NOT = { has_country_flag = su_15_watchlines }
+		is_at_war = no
+		OR = {
+			su_is_full_process_owner = yes
+			su_is_secondary_process_owner = yes
+		}
+		any_owned_province = {
+			OR = {
+				area = zaporizhia_area
+				area = yedisan_area
+				area = azov_area
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 160
+		modifier = {
+			factor = 0.8
+			stability = 1
+		}
+		modifier = {
+			factor = 0.85
+			manpower_percentage = 0.5
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.1.a
+		ai_chance = { factor = 65 }
+
+		set_country_flag = su_15_watchlines
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_treasury = -100
+		}
+		else = {
+			add_treasury = -60
+		}
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = zaporizhia_area
+					area = yedisan_area
+					area = azov_area
+				}
+			}
+			if = {
+				limit = { ROOT = { su_is_full_process_owner = yes } }
+				add_province_modifier = {
+					name = south_watchlines
+					duration = 7300
+				}
+			}
+			else = {
+				add_province_modifier = {
+					name = south_watchlines
+					duration = 3650
+				}
+			}
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.1.b
+		ai_chance = { factor = 35 }
+
+		set_country_flag = su_15_watchlines
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_army_tradition = 5
+			add_mil_power = 25
+		}
+		else = {
+			add_army_tradition = 3
+			add_mil_power = 15
+		}
+	}
+}
+
+# -----------------------------------------------------------------
+# 15th century: Chumak salt and grain caravans
+# -----------------------------------------------------------------
+country_event = {
+	id = south_ukraine_history.2
+	title = south_ukraine_history.2.t
+	desc = south_ukraine_history.2.d
+	picture = TRADEGOODS_eventPicture
+
+	trigger = {
+		is_year = 1460
+		NOT = { is_year = 1515 }
+		has_country_flag = su_15_watchlines
+		NOT = { has_country_flag = su_15_chumak }
+		is_at_war = no
+		OR = {
+			su_is_full_process_owner = yes
+			su_is_secondary_process_owner = yes
+		}
+		NOT = { su_has_existing_chumak_stack = yes }
+		any_owned_province = {
+			OR = {
+				area = yedisan_area
+				area = azov_area
+				area = zaporizhia_area
+				area = west_dniepr_area
+				area = east_dniepr_area
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 180
+		modifier = {
+			factor = 0.8
+			trade_income_percentage = 0.2
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.2.a
+		ai_chance = { factor = 70 }
+
+		set_country_flag = su_15_chumak
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_treasury = -75
+			add_country_modifier = {
+				name = chumak_routes
+				duration = 5475
+			}
+		}
+		else = {
+			add_treasury = -45
+			add_country_modifier = {
+				name = chumak_routes
+				duration = 3650
+			}
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.2.b
+		ai_chance = { factor = 30 }
+
+		set_country_flag = su_15_chumak
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_treasury = 120
+		}
+		else = {
+			add_treasury = 80
+		}
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = yedisan_area
+					area = azov_area
+					area = zaporizhia_area
+				}
+			}
+			if = {
+				limit = { ROOT = { su_is_full_process_owner = yes } }
+				add_unrest = 2
+			}
+			else = {
+				add_unrest = 1
+			}
+		}
+	}
+}
+
+# -----------------------------------------------------------------
+# Late 15th century: Crimean protection or defiance
+# -----------------------------------------------------------------
+country_event = {
+	id = south_ukraine_history.3
+	title = south_ukraine_history.3.t
+	desc = south_ukraine_history.3.d
+	picture = BORDER_TENSION_eventPicture
+
+	trigger = {
+		is_year = 1470
+		NOT = { is_year = 1530 }
+		has_country_flag = su_15_chumak
+		NOT = { has_country_flag = su_15_compact }
+		is_at_war = no
+		OR = {
+			su_is_full_process_owner = yes
+			su_is_secondary_process_owner = yes
+		}
+		OR = {
+			any_neighbor_country = { tag = CRI }
+			any_owned_province = {
+				OR = {
+					area = crimea_area
+					area = yedisan_area
+					area = azov_area
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 190
+		modifier = {
+			factor = 0.85
+			diplomatic_reputation = 1
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.3.a
+		ai_chance = { factor = 55 }
+
+		set_country_flag = su_15_compact
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_treasury = -80
+			add_country_modifier = {
+				name = south_steppe_compact
+				duration = 3650
+			}
+		}
+		else = {
+			add_treasury = -50
+			add_country_modifier = {
+				name = south_steppe_compact
+				duration = 1825
+			}
+		}
+		if = {
+			limit = { exists = CRI }
+			CRI = {
+				add_opinion = {
+					who = ROOT
+					modifier = black_sea_trade_partner
+				}
+			}
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.3.b
+		ai_chance = { factor = 45 }
+
+		set_country_flag = su_15_compact
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_prestige = 5
+		}
+		else = {
+			add_prestige = 3
+		}
+		if = {
+			limit = { exists = CRI }
+			CRI = {
+				add_opinion = {
+					who = ROOT
+					modifier = insulted
+				}
+			}
+		}
+	}
+}
+
+# -----------------------------------------------------------------
+# 16th century: Cossack registers
+# -----------------------------------------------------------------
+country_event = {
+	id = south_ukraine_history.4
+	title = south_ukraine_history.4.t
+	desc = south_ukraine_history.4.d
+	picture = MILITARY_CAMP_eventPicture
+
+	trigger = {
+		is_year = 1550
+		NOT = { is_year = 1625 }
+		has_country_flag = su_15_compact
+		NOT = { has_country_flag = su_16_registers }
+		OR = {
+			su_is_full_process_owner = yes
+			su_is_secondary_process_owner = yes
+		}
+		OR = {
+			has_estate = estate_cossacks
+			any_owned_province = {
+				OR = {
+					area = zaporizhia_area
+					area = sloboda_ukraine_area
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 170
+		modifier = {
+			factor = 0.8
+			army_tradition = 40
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.4.a
+		ai_chance = { factor = 65 }
+
+		set_country_flag = su_16_registers
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_country_modifier = {
+				name = registered_cossacks_south
+				duration = 7300
+			}
+		}
+		else = {
+			add_country_modifier = {
+				name = registered_cossacks_south
+				duration = 3650
+			}
+		}
+		if = {
+			limit = { has_estate = estate_cossacks }
+			if = {
+				limit = { su_is_full_process_owner = yes }
+				add_estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 10
+				}
+			}
+			else = {
+				add_estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.4.b
+		ai_chance = { factor = 35 }
+
+		set_country_flag = su_16_registers
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_yearly_manpower = 1
+			add_army_tradition = 3
+		}
+		else = {
+			add_yearly_manpower = 0.5
+			add_army_tradition = 2
+		}
+		add_unrest = 1
+	}
+}
+
+# -----------------------------------------------------------------
+# Late 16th century: Sloboda charters on the steppe
+# -----------------------------------------------------------------
+country_event = {
+	id = south_ukraine_history.5
+	title = south_ukraine_history.5.t
+	desc = south_ukraine_history.5.d
+	picture = CITY_VIEW_eventPicture
+
+	trigger = {
+		is_year = 1570
+		NOT = { is_year = 1655 }
+		has_country_flag = su_16_registers
+		NOT = { has_country_flag = su_16_sloboda }
+		OR = {
+			su_is_full_process_owner = yes
+			su_is_secondary_process_owner = yes
+		}
+		any_owned_province = {
+			OR = {
+				area = zaporizhia_area
+				area = yedisan_area
+				area = azov_area
+				area = sloboda_ukraine_area
+				area = west_dniepr_area
+				area = east_dniepr_area
+			}
+			NOT = { development = 14 }
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 190
+		modifier = {
+			factor = 0.85
+			adm_power = 100
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.5.a
+		ai_chance = { factor = 60 }
+
+		set_country_flag = su_16_sloboda
+		set_country_flag = su_path_sloboda_charters
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_adm_power = -50
+		}
+		else = {
+			add_adm_power = -30
+		}
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = zaporizhia_area
+					area = yedisan_area
+					area = azov_area
+					area = sloboda_ukraine_area
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+				NOT = { development = 14 }
+			}
+			if = {
+				limit = { ROOT = { su_is_full_process_owner = yes } }
+				add_province_modifier = {
+					name = sloboda_charters_south
+					duration = 7300
+				}
+			}
+			else = {
+				add_province_modifier = {
+					name = sloboda_charters_south
+					duration = 3650
+				}
+			}
+			add_base_manpower = 1
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.5.b
+		ai_chance = { factor = 40 }
+
+		set_country_flag = su_16_sloboda
+		clr_country_flag = su_path_sloboda_charters
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_treasury = 50
+			add_prestige = -3
+		}
+		else = {
+			add_treasury = 30
+			add_prestige = -2
+		}
+	}
+}
+
+# -----------------------------------------------------------------
+# 16th-17th centuries: Chaiky raids and Black Sea patrols
+# -----------------------------------------------------------------
+country_event = {
+	id = south_ukraine_history.6
+	title = south_ukraine_history.6.t
+	desc = south_ukraine_history.6.d
+	picture = NAVAL_MILITARY_eventPicture
+
+	trigger = {
+		is_year = 1580
+		NOT = { is_year = 1700 }
+		has_country_flag = su_16_sloboda
+		NOT = { has_country_flag = su_16_chaiky }
+		OR = {
+			su_is_full_process_owner = yes
+			su_is_secondary_process_owner = yes
+		}
+		NOT = { su_has_existing_black_sea_stack = yes }
+		navy_size = 6
+		su_has_black_sea_access = yes
+		any_known_country = {
+			OR = {
+				tag = TUR
+				tag = CRI
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 220
+		modifier = {
+			factor = 0.85
+			naval_tradition = 20
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.6.a
+		ai_chance = { factor = 50 }
+
+		set_country_flag = su_16_chaiky
+		set_country_flag = su_path_maritime_raiding
+		clr_country_flag = su_path_maritime_trade
+		remove_country_modifier = black_sea_safe_trade
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_navy_tradition = 8
+			add_prestige = 5
+		}
+		else = {
+			add_navy_tradition = 5
+			add_prestige = 3
+		}
+		every_known_country = {
+			limit = {
+				OR = {
+					tag = TUR
+					tag = CRI
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_hates_us
+			}
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.6.b
+		ai_chance = { factor = 50 }
+
+		set_country_flag = su_16_chaiky
+		set_country_flag = su_path_maritime_trade
+		clr_country_flag = su_path_maritime_raiding
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_country_modifier = {
+				name = black_sea_safe_trade
+				duration = 5475
+			}
+		}
+		else = {
+			add_country_modifier = {
+				name = black_sea_safe_trade
+				duration = 3650
+			}
+		}
+	}
+}
+
+# -----------------------------------------------------------------
+# 17th century: Zaporozhian autonomy charter
+# -----------------------------------------------------------------
+country_event = {
+	id = south_ukraine_history.7
+	title = south_ukraine_history.7.t
+	desc = south_ukraine_history.7.d
+	picture = PARLIAMENT_eventPicture
+
+	trigger = {
+		is_year = 1620
+		NOT = { is_year = 1705 }
+		has_country_flag = su_16_chaiky
+		NOT = { has_country_flag = su_17_charter }
+		OR = {
+			su_is_full_process_owner = yes
+			su_is_secondary_process_owner = yes
+		}
+		any_owned_province = {
+			OR = {
+				area = zaporizhia_area
+				area = sloboda_ukraine_area
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 210
+		modifier = {
+			factor = 0.85
+			stability = 1
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.7.a
+		ai_chance = { factor = 60 }
+
+		set_country_flag = su_17_charter
+		every_owned_province = {
+			limit = {
+				OR = {
+					area = zaporizhia_area
+					area = sloboda_ukraine_area
+				}
+			}
+			if = {
+				limit = { ROOT = { su_is_full_process_owner = yes } }
+				add_local_autonomy = 5
+				add_province_modifier = {
+					name = zaporozhian_charter
+					duration = 7300
+				}
+			}
+			else = {
+				add_local_autonomy = 3
+				add_province_modifier = {
+					name = zaporozhian_charter
+					duration = 3650
+				}
+			}
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.7.b
+		ai_chance = { factor = 40 }
+
+		set_country_flag = su_17_charter
+		add_absolutism = 1
+		add_unrest = 1
+	}
+}
+
+# -----------------------------------------------------------------
+# Mid-late 17th century: Frontier recovery after turmoil
+# -----------------------------------------------------------------
+country_event = {
+	id = south_ukraine_history.8
+	title = south_ukraine_history.8.t
+	desc = south_ukraine_history.8.d
+	picture = CIVIL_WAR_eventPicture
+
+	trigger = {
+		is_year = 1657
+		NOT = { is_year = 1715 }
+		has_country_flag = su_17_charter
+		NOT = { has_country_flag = su_17_recovery }
+		OR = {
+			su_is_full_process_owner = yes
+			su_is_secondary_process_owner = yes
+		}
+		OR = {
+			war_exhaustion = 3
+			stability = -1
+			has_disaster = chernihiv_ruina
+		}
+		any_owned_province = {
+			OR = {
+				area = zaporizhia_area
+				area = yedisan_area
+				area = azov_area
+				area = sloboda_ukraine_area
+				area = west_dniepr_area
+				area = east_dniepr_area
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 180
+		modifier = {
+			factor = 0.75
+			war_exhaustion = 5
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.8.a
+		ai_chance = { factor = 65 }
+
+		set_country_flag = su_17_recovery
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_treasury = -120
+			add_country_modifier = {
+				name = ruina_recovery_south
+				duration = 3650
+			}
+		}
+		else = {
+			add_treasury = -70
+			add_country_modifier = {
+				name = ruina_recovery_south
+				duration = 1825
+			}
+		}
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = zaporizhia_area
+					area = yedisan_area
+					area = azov_area
+					area = sloboda_ukraine_area
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+			}
+			if = {
+				limit = { ROOT = { su_is_full_process_owner = yes } }
+				add_devastation = -10
+			}
+			else = {
+				add_devastation = -6
+			}
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.8.b
+		ai_chance = { factor = 35 }
+
+		set_country_flag = su_17_recovery
+		every_owned_province = {
+			limit = {
+				OR = {
+					area = zaporizhia_area
+					area = yedisan_area
+					area = azov_area
+					area = sloboda_ukraine_area
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+			}
+			if = {
+				limit = { ROOT = { su_is_full_process_owner = yes } }
+				add_local_autonomy = 5
+			}
+			else = {
+				add_local_autonomy = 3
+			}
+		}
+	}
+}
+
+# -----------------------------------------------------------------
+# Late 17th century: Black Sea grain corridor
+# -----------------------------------------------------------------
+country_event = {
+	id = south_ukraine_history.9
+	title = south_ukraine_history.9.t
+	desc = south_ukraine_history.9.d
+	picture = TRADEGOODS_eventPicture
+
+	trigger = {
+		is_year = 1670
+		NOT = { is_year = 1735 }
+		has_country_flag = su_17_recovery
+		NOT = { has_country_flag = su_17_corridor }
+		OR = {
+			su_is_full_process_owner = yes
+			su_is_secondary_process_owner = yes
+		}
+		su_has_black_sea_access = yes
+		trade_income_percentage = 0.18
+		NOT = { su_has_existing_black_sea_stack = yes }
+	}
+
+	mean_time_to_happen = {
+		months = 190
+		modifier = {
+			factor = 0.8
+			num_of_merchants = 1
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.9.a
+		ai_chance = { factor = 70 }
+
+		set_country_flag = su_17_corridor
+		set_country_flag = su_path_maritime_trade
+		clr_country_flag = su_path_maritime_raiding
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_treasury = -100
+			add_country_modifier = {
+				name = black_sea_grain_corridor
+				duration = 7300
+			}
+		}
+		else = {
+			add_treasury = -60
+			add_country_modifier = {
+				name = black_sea_grain_corridor
+				duration = 3650
+			}
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.9.b
+		ai_chance = { factor = 30 }
+
+		set_country_flag = su_17_corridor
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = yedisan_area
+					area = azov_area
+					area = west_dniepr_area
+					area = east_dniepr_area
+				}
+			}
+			add_base_production = 1
+		}
+	}
+}
+
+# -----------------------------------------------------------------
+# 18th century: New port foundations
+# -----------------------------------------------------------------
+country_event = {
+	id = south_ukraine_history.10
+	title = south_ukraine_history.10.t
+	desc = south_ukraine_history.10.d
+	picture = CITY_VIEW_eventPicture
+
+	trigger = {
+		is_year = 1720
+		NOT = { is_year = 1785 }
+		has_country_flag = su_17_corridor
+		NOT = { has_country_flag = su_18_ports }
+		OR = {
+			su_is_full_process_owner = yes
+			su_is_secondary_process_owner = yes
+		}
+		su_has_black_sea_access = yes
+	}
+
+	mean_time_to_happen = {
+		months = 180
+		modifier = {
+			factor = 0.85
+			adm_tech = 10
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.10.a
+		ai_chance = { factor = 65 }
+
+		set_country_flag = su_18_ports
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_treasury = -150
+		}
+		else = {
+			add_treasury = -90
+		}
+		random_owned_province = {
+			limit = {
+				is_coastal = yes
+				OR = {
+					area = yedisan_area
+					area = azov_area
+					area = crimea_area
+				}
+			}
+			if = {
+				limit = { ROOT = { su_is_full_process_owner = yes } }
+				add_province_modifier = {
+					name = new_port_charter
+					duration = 9125
+				}
+			}
+			else = {
+				add_province_modifier = {
+					name = new_port_charter
+					duration = 5475
+				}
+			}
+			add_base_tax = 1
+			add_building = dock
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.10.b
+		ai_chance = { factor = 35 }
+
+		set_country_flag = su_18_ports
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = yedisan_area
+					area = azov_area
+					area = zaporizhia_area
+				}
+			}
+			add_base_production = 1
+		}
+	}
+}
+
+# -----------------------------------------------------------------
+# 18th century: Steppe colonization drives
+# -----------------------------------------------------------------
+country_event = {
+	id = south_ukraine_history.11
+	title = south_ukraine_history.11.t
+	desc = south_ukraine_history.11.d
+	picture = PEASANTS_eventPicture
+
+	trigger = {
+		is_year = 1735
+		NOT = { is_year = 1799 }
+		has_country_flag = su_18_ports
+		NOT = { has_country_flag = su_18_colonization }
+		OR = {
+			su_is_full_process_owner = yes
+			su_is_secondary_process_owner = yes
+		}
+		any_owned_province = {
+			OR = {
+				area = yedisan_area
+				area = zaporizhia_area
+				area = azov_area
+				area = sloboda_ukraine_area
+			}
+			NOT = { development = 14 }
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 190
+		modifier = {
+			factor = 0.85
+			stability = 1
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.11.a
+		ai_chance = { factor = 70 }
+
+		set_country_flag = su_18_colonization
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_adm_power = -75
+			add_country_modifier = {
+				name = steppe_settlement_drives
+				duration = 7300
+			}
+		}
+		else = {
+			add_adm_power = -45
+			add_country_modifier = {
+				name = steppe_settlement_drives
+				duration = 3650
+			}
+		}
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = yedisan_area
+					area = zaporizhia_area
+					area = azov_area
+					area = sloboda_ukraine_area
+				}
+				NOT = { development = 14 }
+			}
+			if = {
+				limit = { ROOT = { su_is_full_process_owner = yes } }
+				add_base_manpower = 1
+				add_base_production = 1
+			}
+			else = {
+				add_base_manpower = 1
+			}
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.11.b
+		ai_chance = { factor = 30 }
+
+		set_country_flag = su_18_colonization
+		add_stability_or_adm_power = yes
+	}
+}
+
+# -----------------------------------------------------------------
+# 18th century: Imperial frontier reform
+# -----------------------------------------------------------------
+country_event = {
+	id = south_ukraine_history.12
+	title = south_ukraine_history.12.t
+	desc = south_ukraine_history.12.d
+	picture = PARLIAMENT_eventPicture
+
+	trigger = {
+		is_year = 1760
+		NOT = { is_year = 1799 }
+		has_country_flag = su_18_colonization
+		NOT = { has_country_flag = su_18_reform }
+		OR = {
+			su_is_full_process_owner = yes
+			su_is_secondary_process_owner = yes
+		}
+		OR = {
+			government_rank = 2
+			government_rank = 3
+		}
+		any_owned_province = {
+			OR = {
+				area = yedisan_area
+				area = zaporizhia_area
+				area = azov_area
+				area = sloboda_ukraine_area
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 210
+		modifier = {
+			factor = 0.85
+			absolutism = 30
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.12.a
+		ai_chance = { factor = 60 }
+
+		set_country_flag = su_18_reform
+		set_country_flag = su_path_frontier_centralization
+		clr_country_flag = su_path_frontier_liberties
+		remove_country_modifier = frontier_liberties
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_absolutism = 2
+			add_country_modifier = {
+				name = frontier_centralization
+				duration = 7300
+			}
+		}
+		else = {
+			add_absolutism = 1
+			add_country_modifier = {
+				name = frontier_centralization
+				duration = 3650
+			}
+		}
+	}
+
+	option = {
+		name = south_ukraine_history.12.b
+		ai_chance = { factor = 40 }
+
+		set_country_flag = su_18_reform
+		set_country_flag = su_path_frontier_liberties
+		clr_country_flag = su_path_frontier_centralization
+		remove_country_modifier = frontier_centralization
+		if = {
+			limit = { su_is_full_process_owner = yes }
+			add_country_modifier = {
+				name = frontier_liberties
+				duration = 7300
+			}
+			add_prestige = 5
+		}
+		else = {
+			add_country_modifier = {
+				name = frontier_liberties
+				duration = 3650
+			}
+			add_prestige = 3
+		}
+	}
+}

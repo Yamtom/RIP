@@ -1,0 +1,119 @@
+# =========================================================================
+# SOUTHERN UKRAINE HISTORICAL DECISIONS
+# =========================================================================
+
+country_decisions = {
+
+	south_ukraine_codify_frontier = {
+		major = yes
+		potential = {
+			NOT = { has_country_flag = su_frontier_statutes }
+			su_controls_south_core = yes
+		}
+		allow = {
+			is_at_war = no
+			stability = 1
+			adm_power = 100
+			OR = {
+				has_country_flag = su_18_reform
+				has_country_flag = su_path_frontier_centralization
+				has_country_flag = su_path_frontier_liberties
+			}
+		}
+		effect = {
+			add_adm_power = -100
+			set_country_flag = su_frontier_statutes
+			if = {
+				limit = { su_is_full_process_owner = yes }
+				add_country_modifier = {
+					name = su_frontier_statutes
+					duration = 7300
+				}
+				add_army_tradition = 5
+			}
+			else = {
+				add_country_modifier = {
+					name = su_frontier_statutes
+					duration = 3650
+				}
+				add_army_tradition = 2
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 1.75
+				su_is_full_process_owner = yes
+			}
+			modifier = {
+				factor = 1.5
+				has_country_flag = su_path_frontier_centralization
+			}
+			modifier = {
+				factor = 1.3
+				army_tradition = 40
+			}
+			modifier = {
+				factor = 0.8
+				trade_income_percentage = 0.25
+			}
+		}
+	}
+
+	south_ukraine_grain_exchange = {
+		major = yes
+		potential = {
+			NOT = { has_country_flag = su_grain_exchange_established }
+			su_has_black_sea_access = yes
+		}
+		allow = {
+			stability = 0
+			dip_power = 100
+			trade_income_percentage = 0.2
+			OR = {
+				has_country_flag = su_path_maritime_trade
+				has_country_flag = su_18_ports
+				has_country_flag = su_18_colonization
+				has_country_flag = su_18_reform
+			}
+		}
+		effect = {
+			add_dip_power = -100
+			set_country_flag = su_grain_exchange_established
+			if = {
+				limit = { su_is_full_process_owner = yes }
+				add_country_modifier = {
+					name = su_black_sea_exchange
+					duration = 9125
+				}
+				add_mercantilism = 1
+			}
+			else = {
+				add_country_modifier = {
+					name = su_black_sea_exchange
+					duration = 5475
+				}
+				add_mercantilism = 0.5
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 1.8
+				trade_income_percentage = 0.25
+			}
+			modifier = {
+				factor = 1.4
+				num_of_merchants = 1
+			}
+			modifier = {
+				factor = 1.25
+				has_country_flag = su_path_maritime_trade
+			}
+			modifier = {
+				factor = 0.7
+				army_tradition = 35
+			}
+		}
+	}
+}
