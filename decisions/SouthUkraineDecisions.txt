@@ -4,6 +4,52 @@
 
 country_decisions = {
 
+	south_ukraine_enable_process_mol = {
+		major = yes
+		potential = {
+			tag = MOL
+			su_controls_south_core = yes
+			NOT = { has_country_flag = su_process_optin_mol }
+		}
+		allow = {
+			is_at_war = no
+			stability = 0
+			dip_power = 50
+			su_mol_vanilla_sync_blocked = yes
+		}
+		effect = {
+			add_dip_power = -50
+			add_prestige = -5
+			set_country_flag = su_process_optin_mol
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	south_ukraine_enable_process_cri = {
+		major = yes
+		potential = {
+			tag = CRI
+			su_controls_south_core = yes
+			NOT = { has_country_flag = su_process_optin_cri }
+		}
+		allow = {
+			is_at_war = no
+			stability = 0
+			dip_power = 50
+			su_cri_vanilla_sync_blocked = yes
+		}
+		effect = {
+			add_dip_power = -50
+			add_prestige = -5
+			set_country_flag = su_process_optin_cri
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
 	south_ukraine_codify_frontier = {
 		major = yes
 		potential = {

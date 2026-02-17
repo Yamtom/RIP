@@ -252,7 +252,10 @@ country_event = {
 			}
 		}
 		if = {
-			limit = { exists = CRI }
+			limit = {
+				exists = CRI
+				NOT = { tag = CRI }
+			}
 			CRI = {
 				add_opinion = {
 					who = ROOT
@@ -275,7 +278,10 @@ country_event = {
 			add_prestige = 3
 		}
 		if = {
-			limit = { exists = CRI }
+			limit = {
+				exists = CRI
+				NOT = { tag = CRI }
+			}
 			CRI = {
 				add_opinion = {
 					who = ROOT
@@ -497,12 +503,6 @@ country_event = {
 		NOT = { su_has_existing_black_sea_stack = yes }
 		navy_size = 6
 		su_has_black_sea_access = yes
-		any_known_country = {
-			OR = {
-				tag = TUR
-				tag = CRI
-			}
-		}
 	}
 
 	mean_time_to_happen = {
@@ -536,6 +536,7 @@ country_event = {
 					tag = TUR
 					tag = CRI
 				}
+				NOT = { tag = ROOT }
 			}
 			add_opinion = {
 				who = ROOT

@@ -24,7 +24,40 @@ su_has_black_sea_access = {
 	}
 }
 
+su_mol_vanilla_sync_blocked = {
+	tag = MOL
+	OR = {
+		has_global_flag = mol_polish_march
+		has_global_flag = mol_hungarian_march
+	}
+}
+
+su_cri_vanilla_sync_blocked = {
+	tag = CRI
+	OR = {
+		is_subject_of = TUR
+		AND = {
+			exists = TUR
+			TUR = { has_country_flag = ottoman_promise_to_crimea }
+		}
+	}
+}
+
+su_vanilla_sync_ok = {
+	OR = {
+		NOT = { tag = MOL }
+		AND = { tag = MOL NOT = { su_mol_vanilla_sync_blocked = yes } }
+		has_country_flag = su_process_optin_mol
+	}
+	OR = {
+		NOT = { tag = CRI }
+		AND = { tag = CRI NOT = { su_cri_vanilla_sync_blocked = yes } }
+		has_country_flag = su_process_optin_cri
+	}
+}
+
 su_is_full_process_owner = {
+	su_vanilla_sync_ok = yes
 	su_controls_south_core = yes
 	OR = {
 		has_reform = cossacks_reform
@@ -41,6 +74,7 @@ su_is_full_process_owner = {
 }
 
 su_is_secondary_process_owner = {
+	su_vanilla_sync_ok = yes
 	su_controls_south_core = yes
 	NOT = { su_is_full_process_owner = yes }
 }
