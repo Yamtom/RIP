@@ -2203,19 +2203,63 @@ on_battle_won_country_effect = {
 		}
 		ROOT = { set_country_flag = albanian_victory }
 	}
-	count_won_battles_and_reward_at_end = {
-		counting_flag = teu_crusader_battle_counter
-		max_value = 20
-		effect = "
+	if = {
+		limit = {
+			ROOT = {
+				has_country_flag = teu_crusader_battle_counter
+			}
+		}
+		ROOT = {
+			change_variable = {
+				which = num_won_battles
+				value = 1
+			}
+		}
+	}
+	if = {
+		limit = {
+			ROOT = {
+				has_country_flag = teu_crusader_battle_counter
+				check_variable = {
+					which = num_won_battles
+					value = 20
+				}
+			}
+		}
+		ROOT = {
+			clr_country_flag = teu_crusader_battle_counter
 			country_event = {
 				id = flavor_teu.12
 			}
-		"
+		}
 	}
-	count_won_battles_and_reward_at_end = {
-		counting_flag = has_rus_kill_counter
-		max_value = 40
-		effect = "set_country_flag = rus_finished_kill_mission"
+	if = {
+		limit = {
+			ROOT = {
+				has_country_flag = has_rus_kill_counter
+			}
+		}
+		ROOT = {
+			change_variable = {
+				which = num_won_battles
+				value = 1
+			}
+		}
+	}
+	if = {
+		limit = {
+			ROOT = {
+				has_country_flag = has_rus_kill_counter
+				check_variable = {
+					which = num_won_battles
+					value = 40
+				}
+			}
+		}
+		ROOT = {
+			clr_country_flag = has_rus_kill_counter
+			set_country_flag = rus_finished_kill_mission
+		}
 	}
 	if = {
 		limit = {
@@ -3295,11 +3339,6 @@ add_country_modifier_for_age = {
 			desc = until_end_of_$age$_desc
 		}
 	}
-	[[else]
-		else = {
-			$else$
-		}
-	]
 }
 
 on_parliament_abolished_effect = {

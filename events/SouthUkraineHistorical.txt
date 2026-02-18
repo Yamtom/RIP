@@ -379,7 +379,15 @@ country_event = {
 			add_yearly_manpower = 0.5
 			add_army_tradition = 2
 		}
-		add_unrest = 1
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = zaporizhia_area
+					area = sloboda_ukraine_area
+				}
+			}
+			add_unrest = 1
+		}
 	}
 }
 
@@ -509,7 +517,7 @@ country_event = {
 		months = 220
 		modifier = {
 			factor = 0.85
-			naval_tradition = 20
+			has_country_modifier = black_sea_safe_trade
 		}
 	}
 
@@ -638,7 +646,15 @@ country_event = {
 
 		set_country_flag = su_17_charter
 		add_absolutism = 1
-		add_unrest = 1
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = zaporizhia_area
+					area = sloboda_ukraine_area
+				}
+			}
+			add_unrest = 1
+		}
 	}
 }
 
@@ -870,7 +886,7 @@ country_event = {
 		}
 		random_owned_province = {
 			limit = {
-				is_coastal = yes
+				has_port = yes
 				OR = {
 					area = yedisan_area
 					area = azov_area
