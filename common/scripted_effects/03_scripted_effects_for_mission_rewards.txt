@@ -1,4 +1,4 @@
-﻿#Tag specific reward for the dynamic effects
+#Tag specific reward for the dynamic effects
 restore_greek_names = {
 	custom_tooltip = reestablishing_themes_names_tooltip
 	hidden_effect = {
@@ -328,18 +328,15 @@ tur_address_firman_effect_a = {
 					change_religion = ROOT
 					change_culture = turkish
 				}
-				for = {
-					amount = 3
-					random_owned_province = { add_base_tax = 1 }
-				}
-				for = {
-					amount = 3
-					random_owned_province = { add_base_production = 1 }
-				}
-				for = {
-					amount = 3
-					random_owned_province = { add_base_manpower = 1 }
-				}
+				random_owned_province = { add_base_tax = 1 }
+				random_owned_province = { add_base_tax = 1 }
+				random_owned_province = { add_base_tax = 1 }
+				random_owned_province = { add_base_production = 1 }
+				random_owned_province = { add_base_production = 1 }
+				random_owned_province = { add_base_production = 1 }
+				random_owned_province = { add_base_manpower = 1 }
+				random_owned_province = { add_base_manpower = 1 }
+				random_owned_province = { add_base_manpower = 1 }
 			}
 			add_country_modifier = {
 				name = tur_turkish_andalusian_relations_tur
@@ -574,13 +571,8 @@ BYZ_upgrade_hexamilion_if_possible = {
 			}
 			if = {
 				limit = {
-					has_province_modifier = BYZ_hexamilion_wall_2
-				}
-				#nothing should happen. should not be achievable
-			}
-			else_if = {
-				limit = {
 					has_province_modifier = BYZ_hexamilion_wall_1
+					NOT = { has_province_modifier = BYZ_hexamilion_wall_2 }
 				}
 				remove_province_modifier = BYZ_hexamilion_wall_1
 				add_province_modifier = {
@@ -588,7 +580,11 @@ BYZ_upgrade_hexamilion_if_possible = {
 					duration = -1
 				}
 			}
-			else = {
+			else_if = {
+				limit = {
+					NOT = { has_province_modifier = BYZ_hexamilion_wall_1 }
+					NOT = { has_province_modifier = BYZ_hexamilion_wall_2 }
+				}
 				add_province_modifier = {
 					name = BYZ_hexamilion_wall_1
 					duration = -1
@@ -608,13 +604,8 @@ BYZ_upgrade_theodosian_if_possible = {
 			}
 			if = {
 				limit = {
-					has_province_modifier = BYZ_theodosian_wall_3
-				}
-				#nothing should happen. should not be achievable
-			}
-			else_if = {
-				limit = {
 					has_province_modifier = BYZ_theodosian_wall_2
+					NOT = { has_province_modifier = BYZ_theodosian_wall_3 }
 				}
 				remove_province_modifier = BYZ_theodosian_wall_2
 				add_province_modifier = {
@@ -625,6 +616,8 @@ BYZ_upgrade_theodosian_if_possible = {
 			else_if = {
 				limit = {
 					has_province_modifier = BYZ_theodosian_wall_1
+					NOT = { has_province_modifier = BYZ_theodosian_wall_2 }
+					NOT = { has_province_modifier = BYZ_theodosian_wall_3 }
 				}
 				remove_province_modifier = BYZ_theodosian_wall_1
 				add_province_modifier = {
@@ -632,7 +625,12 @@ BYZ_upgrade_theodosian_if_possible = {
 					duration = -1
 				}
 			}
-			else = {
+			else_if = {
+				limit = {
+					NOT = { has_province_modifier = BYZ_theodosian_wall_1 }
+					NOT = { has_province_modifier = BYZ_theodosian_wall_2 }
+					NOT = { has_province_modifier = BYZ_theodosian_wall_3 }
+				}
 				add_province_modifier = {
 					name = BYZ_theodosian_wall_1
 					duration = -1
@@ -1521,16 +1519,30 @@ ned_glorious_revolution_effect_opt_1_event_insight = {
 
 
 ned_glorious_revolution_effect_opt_1 = {
-	country_event_with_option_insight = {
+	country_event = {
 		id = dutch_mission_events.3
-		option_1 = "
-			ned_glorious_revolution_effect_opt_1_event_insight = yes
-		"
-		option_2 = "
-			custom_tooltip = NED_ENGLAND_PU_IS_25_CHEAPER_TO_INTEGRATE
-		"
 	}
 } 
+
+austria_king_of_poland_effect_2_opt_1 = {
+	262 = {
+		add_base_production = 3
+		add_province_modifier = {
+			name = hab_expansion_of_krakow
+			duration = -1
+		}
+	}
+}
+
+austria_king_of_poland_effect_2_opt_2 = {
+	257 = {
+		add_base_manpower = 2
+		add_province_modifier = {
+			name = hab_conscription_in_warsaw
+			duration = -1
+		}
+	}
+}
 
 INC_upgrade_pachakuti = {
 	if = {
@@ -2021,28 +2033,8 @@ austria_king_of_poland_effect_2 = {
     add_accepted_culture_or_dip_power = { culture = polish dip_reward = yes }
 
     custom_tooltip = SEPERATOR_TOOLTIP
-	tooltip = {
-		country_event_with_option_insight = {
-			id = flavor_hab.31
-			option_1 = "
-				262 = {
-					add_base_production = 3
-					add_province_modifier = {
-						name = hab_expansion_of_krakow
-						duration = -1
-					}
-				}
-			"
-			option_2 = "
-				257 = {
-					add_base_manpower = 2
-					add_province_modifier = {
-						name = hab_conscription_in_warsaw
-						duration = -1
-					}
-				}
-			"
-		}
+	country_event = {
+		id = flavor_hab.31
 	}
 }
 
@@ -2070,15 +2062,9 @@ hab_liberate_balkans_effect = {
 }
 
 italian_ambitions_effect_1 = {
-    country_event_with_option_insight = {
-        id = flavor_hab.32
-        option_1 = "
-            custom_tooltip = HAB_GAIN_50_OPINION_WITH_ITALY
-        "
-        option_2 = "
-            custom_tooltip = HAB_GAIN_SUBJECT_CB_ON_ITALY
-        "
-    }
+	country_event = {
+		id = flavor_hab.32
+	}
 }
 
 boh_integrate_silesian_subjects = {
@@ -2907,169 +2893,35 @@ yua_single_whip_law_effect = {
 }
 
 every_trunk_road_province_effect = {
-	# Validator-first fallback: explicit effect body instead of dynamic $effect$ injection.
 	custom_tooltip = MUG_every_highlighted_province
 	tooltip = {
-		if = {
-			limit = { has_dlc = "Mandate of Heaven" }
-			add_permanent_province_modifier = {
-				name = MUG_grand_trunk_road
-				duration = -1
-			}
-		}
-		else = {
-			add_permanent_province_modifier = {
-				name = MUG_grand_trunk_road_no_dlc
-				duration = -1
-			}
-		}
+		$effect$
 	}
 	hidden_effect = {
-		4449 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		2076 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		507 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		2075 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		510 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		2062 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		522 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		524 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		2063 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		523 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		555 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		4490 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		4487 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		4489 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		2044 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		563 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		4479 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		4476 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		561 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
-		4475 = {
-			if = {
-				limit = { has_dlc = "Mandate of Heaven" }
-				add_permanent_province_modifier = { name = MUG_grand_trunk_road duration = -1 }
-			}
-			else = { add_permanent_province_modifier = { name = MUG_grand_trunk_road_no_dlc duration = -1 } }
-		}
+		4449 = { $effect$ }
+		2076 = { $effect$ }
+		507 = { $effect$ }
+		2075 = { $effect$ }
+		510 = { $effect$ }
+		2062 = { $effect$ }
+		522 = { $effect$ }
+		524 = { $effect$ }
+		2063 = { $effect$ }
+		523 = { $effect$ }
+		555 = { $effect$ }
+		4490 = { $effect$ }
+		4487 = { $effect$ }
+		4489 = { $effect$ }
+		2044 = { $effect$ }
+		563 = { $effect$ }
+		4479 = { $effect$ }
+		4476 = { $effect$ }
+		561 = { $effect$ }
+		4475 = { $effect$ }
 	}
 }
 
 extra_claims_for_nomadic_path = {
-	# Validator-first fallback: keep mission preview hint, skip dynamic payload injection.
 	if = {
 		limit = {
 			TIM_nomad_tree_trigger = yes
@@ -3078,10 +2930,13 @@ extra_claims_for_nomadic_path = {
 			limit = {
 				not_in_mission_preview_mode = { key = TIM }
 			}
-			custom_tooltip = " "
+			$effect$ 
 		}
 		else = {
 			custom_tooltip = TIM_if_we_choose_to_go_for_nomadic_tree
+			tooltip = {
+				$effect$
+			}
 		}
 		custom_tooltip = " "
 	}
