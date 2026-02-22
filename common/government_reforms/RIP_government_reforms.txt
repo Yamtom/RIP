@@ -1,16 +1,3 @@
-monarchy_mechanic = {
-	monarchy = yes
-	heir = yes
-	queen = yes
-	basic_reform = yes	# = invisible/does not take up a slot
-	valid_for_nation_designer = no
-	custom_attributes = {
-		enables_aristocratic_idea_group = yes
-	}
-	modifiers = {
-		nobles_influence_modifier = 0.05
-	}
-}
 
 #feudalism vs autocracy
 kyivan_rus_reform = {
@@ -33,12 +20,18 @@ kyivan_rus_reform = {
 	heirs_can_be_generals = yes
 	allow_convert = no
 	can_form_trade_league = yes
-	trade_city_reform = principality_appanage
 	conditional = {
 		allow = {
 			has_dlc = "Res Publica"
 		}
 		can_use_trade_post = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Mare Nostrum"
+			NOT = { has_dlc = "Res Publica" }
+		}
+		trade_city_reform = principality_appanage
 	}
 	government_abilities = {
 		cossacks_mechanic
@@ -80,12 +73,18 @@ kyivan_shogunate_reform = {
 	heirs_can_be_generals = yes
 	allow_convert = no
 	can_form_trade_league = yes
-	trade_city_reform = principality_appanage
 	conditional = {
 		allow = {
 			has_dlc = "Res Publica"
 		}
 		can_use_trade_post = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Mare Nostrum"
+			NOT = { has_dlc = "Res Publica" }
+		}
+		trade_city_reform = principality_appanage
 	}
 	government_abilities = {
 		cossacks_mechanic
