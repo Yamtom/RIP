@@ -325,13 +325,12 @@ country_event = {
 			duration = 2000
 		}
 		capital_scope = {
+			cossack_infantry  = ZAZ
+			cossack_infantry = ZAZ
+			cossack_infantry = ZAZ
 			cossack_cavalry = ZAZ
 			cossack_cavalry = ZAZ
-			cossack_cavalry = ZAZ
-			cossack_cavalry = ZAZ
-			cossack_cavalry = ZAZ
-			cossack_cavalry = ZAZ
-			cossack_cavalry = ZAZ
+			horse_artillery_unit = ZAZ
 		}
 	}
 }
@@ -801,5 +800,813 @@ country_event = {
 		ai_chance = {
 			factor = 0.1
 		}
+	}
+}
+
+namespace = sloboda_history
+
+# -----------------------------------------------------------------
+# Slobozhanshchyna Historical Process (1550-1821)
+# -----------------------------------------------------------------
+
+country_event = {
+	id = sloboda_history.1
+	title = sloboda_history.1.t
+	desc = sloboda_history.1.d
+	picture = PEASANTS_eventPicture
+
+	trigger = {
+		is_year = 1550
+		NOT = { is_year = 1701 }
+		is_at_war = no
+		NOT = { has_country_flag = slh_settlement_wave }
+		num_of_owned_provinces_with = {
+			value = 2
+			area = sloboda_ukraine_area
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 160
+	}
+
+	option = {
+		name = sloboda_history.1.a
+		ai_chance = { factor = 55 }
+
+		set_country_flag = slh_settlement_wave
+		set_country_flag = slh_path_settlement_open
+		clr_country_flag = slh_path_settlement_starshyna
+		clr_country_flag = slh_path_settlement_restrict
+		add_treasury = -50
+		add_country_modifier = {
+			name = sloboda_migrant_wave
+			duration = 5475
+		}
+		random_owned_province = {
+			limit = {
+				area = sloboda_ukraine_area
+			}
+			add_province_modifier = {
+				name = sloboda_settlement_compacts
+				duration = 7300
+			}
+			add_base_manpower = 1
+		}
+	}
+
+	option = {
+		name = sloboda_history.1.b
+		ai_chance = { factor = 30 }
+
+		set_country_flag = slh_settlement_wave
+		set_country_flag = slh_path_settlement_starshyna
+		clr_country_flag = slh_path_settlement_open
+		clr_country_flag = slh_path_settlement_restrict
+		add_treasury = -35
+		add_country_modifier = {
+			name = sloboda_starshyna_patronage
+			duration = 7300
+		}
+		random_owned_province = {
+			limit = {
+				area = sloboda_ukraine_area
+			}
+			add_base_production = 1
+		}
+	}
+
+	option = {
+		name = sloboda_history.1.c
+		ai_chance = { factor = 15 }
+
+		set_country_flag = slh_settlement_wave
+		set_country_flag = slh_path_settlement_restrict
+		clr_country_flag = slh_path_settlement_open
+		clr_country_flag = slh_path_settlement_starshyna
+		add_country_modifier = {
+			name = sloboda_restricted_inflow
+			duration = 3650
+		}
+		add_stability = 1
+		add_prestige = -5
+	}
+}
+
+country_event = {
+	id = sloboda_history.2
+	title = sloboda_history.2.t
+	desc = sloboda_history.2.d
+	picture = CITY_VIEW_eventPicture
+
+	trigger = {
+		is_year = 1560
+		NOT = { is_year = 1731 }
+		has_country_flag = slh_settlement_wave
+		NOT = { has_country_flag = slh_charters_issued }
+		OR = {
+			has_country_modifier = chr_sloboda_settlers
+			any_owned_province = {
+				area = sloboda_ukraine_area
+				OR = {
+					has_building = temple
+					has_building = workshop
+					has_building = marketplace
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 150
+	}
+
+	option = {
+		name = sloboda_history.2.a
+		ai_chance = { factor = 50 }
+
+		set_country_flag = slh_charters_issued
+		add_treasury = -40
+		add_country_modifier = {
+			name = sloboda_fiscal_privileges
+			duration = 7300
+		}
+		sloboda_ukraine_area = {
+			limit = {
+				owned_by = ROOT
+			}
+			add_province_modifier = {
+				name = sloboda_charter_freedoms
+				duration = 3650
+			}
+		}
+	}
+
+	option = {
+		name = sloboda_history.2.b
+		ai_chance = { factor = 30 }
+
+		set_country_flag = slh_charters_issued
+		set_country_flag = slh_path_elective_charters
+		clr_country_flag = slh_path_standardized_charters
+		add_country_modifier = {
+			name = sloboda_elective_offices
+			duration = 7300
+		}
+		add_legitimacy_equivalent = {
+			amount = 8
+			republican_tradition = 8
+		}
+	}
+
+	option = {
+		name = sloboda_history.2.c
+		ai_chance = { factor = 20 }
+
+		set_country_flag = slh_charters_issued
+		set_country_flag = slh_path_standardized_charters
+		clr_country_flag = slh_path_elective_charters
+		add_country_modifier = {
+			name = sloboda_chancellery_standardization
+			duration = 5475
+		}
+		add_absolutism = 1
+		add_adm_power = 35
+	}
+}
+
+country_event = {
+	id = sloboda_history.3
+	title = sloboda_history.3.t
+	desc = sloboda_history.3.d
+	picture = MILITARY_CAMP_eventPicture
+
+	trigger = {
+		is_year = 1580
+		NOT = { is_year = 1751 }
+		has_country_flag = slh_charters_issued
+		NOT = { has_country_flag = slh_regimental_order }
+		mil_tech = 7
+		num_of_owned_provinces_with = {
+			value = 3
+			area = sloboda_ukraine_area
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 170
+	}
+
+	option = {
+		name = sloboda_history.3.a
+		ai_chance = { factor = 60 }
+
+		set_country_flag = slh_regimental_order
+		set_country_flag = slh_path_sotnia_service
+		clr_country_flag = slh_path_urban_garrisons
+		add_country_modifier = {
+			name = sloboda_regimental_chancery
+			duration = 7300
+		}
+		add_yearly_manpower = 0.5
+		add_army_tradition = 3
+	}
+
+	option = {
+		name = sloboda_history.3.b
+		ai_chance = { factor = 40 }
+
+		set_country_flag = slh_regimental_order
+		set_country_flag = slh_path_urban_garrisons
+		clr_country_flag = slh_path_sotnia_service
+		add_country_modifier = {
+			name = sloboda_urban_garrisons
+			duration = 7300
+		}
+		random_owned_province = {
+			limit = {
+				area = sloboda_ukraine_area
+			}
+			add_province_modifier = {
+				name = sloboda_garrison_city
+				duration = 7300
+			}
+		}
+		add_mil_power = 40
+	}
+}
+
+country_event = {
+	id = sloboda_history.4
+	title = sloboda_history.4.t
+	desc = sloboda_history.4.d
+	picture = FORT_eventPicture
+
+	trigger = {
+		is_year = 1620
+		NOT = { is_year = 1761 }
+		has_country_flag = slh_regimental_order
+		NOT = { has_country_flag = slh_fortified_line }
+		OR = {
+			has_country_modifier = chr_belgorod_line_country
+			sloboda_ukraine_area = {
+				type = any
+				owned_by = ROOT
+				OR = {
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 180
+	}
+
+	option = {
+		name = sloboda_history.4.a
+		ai_chance = { factor = 65 }
+
+		set_country_flag = slh_fortified_line
+		set_country_flag = slh_path_earthworks
+		clr_country_flag = slh_path_watchposts
+		add_treasury = -120
+		add_country_modifier = {
+			name = sloboda_fortified_line
+			duration = 9125
+		}
+		sloboda_ukraine_area = {
+			limit = {
+				owned_by = ROOT
+			}
+			add_province_modifier = {
+				name = sloboda_line_earthworks
+				duration = 7300
+			}
+		}
+	}
+
+	option = {
+		name = sloboda_history.4.b
+		ai_chance = { factor = 35 }
+
+		set_country_flag = slh_fortified_line
+		set_country_flag = slh_path_watchposts
+		clr_country_flag = slh_path_earthworks
+		add_treasury = -60
+		add_country_modifier = {
+			name = sloboda_mobile_watchposts
+			duration = 7300
+		}
+		add_army_tradition = 5
+	}
+}
+
+country_event = {
+	id = sloboda_history.5
+	title = sloboda_history.5.t
+	desc = sloboda_history.5.d
+	picture = PARLIAMENT_eventPicture
+
+	trigger = {
+		is_year = 1640
+		NOT = { is_year = 1771 }
+		has_country_flag = slh_fortified_line
+		NOT = { has_country_flag = slh_statute_review_done }
+	}
+
+	mean_time_to_happen = {
+		months = 170
+	}
+
+	option = {
+		name = sloboda_history.5.a
+		ai_chance = { factor = 55 }
+
+		set_country_flag = slh_statute_review_done
+		set_country_flag = slh_path_privileges
+		clr_country_flag = slh_path_oversight
+		add_country_modifier = {
+			name = sloboda_service_privileges
+			duration = 7300
+		}
+		add_prestige = 5
+	}
+
+	option = {
+		name = sloboda_history.5.b
+		ai_chance = { factor = 45 }
+
+		set_country_flag = slh_statute_review_done
+		set_country_flag = slh_path_oversight
+		clr_country_flag = slh_path_privileges
+		add_country_modifier = {
+			name = sloboda_central_oversight
+			duration = 7300
+		}
+		add_absolutism = 1
+		random_owned_province = {
+			limit = {
+				area = sloboda_ukraine_area
+			}
+			add_unrest = 1
+		}
+	}
+}
+
+country_event = {
+	id = sloboda_history.6
+	title = sloboda_history.6.t
+	desc = sloboda_history.6.d
+	picture = TRADEGOODS_eventPicture
+
+	trigger = {
+		is_year = 1600
+		NOT = { is_year = 1791 }
+		has_country_flag = slh_statute_review_done
+		NOT = { has_country_flag = slh_chernozem_specialization }
+		OR = {
+			has_country_flag = chr_black_soil_silos_flag
+			calc_true_if = {
+				all_owned_province = {
+					area = sloboda_ukraine_area
+					trade_goods = grain
+				}
+				amount = 3
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 160
+	}
+
+	option = {
+		name = sloboda_history.6.a
+		ai_chance = { factor = 60 }
+
+		set_country_flag = slh_chernozem_specialization
+		set_country_flag = slh_path_silos
+		clr_country_flag = slh_path_pastoral
+		add_treasury = -80
+		add_country_modifier = {
+			name = sloboda_chernozem_specialization
+			duration = 9125
+		}
+		every_owned_province = {
+			limit = {
+				area = sloboda_ukraine_area
+				trade_goods = grain
+			}
+			add_province_modifier = {
+				name = sloboda_grain_silo_network
+				duration = 7300
+			}
+		}
+	}
+
+	option = {
+		name = sloboda_history.6.b
+		ai_chance = { factor = 40 }
+
+		set_country_flag = slh_chernozem_specialization
+		set_country_flag = slh_path_pastoral
+		clr_country_flag = slh_path_silos
+		add_country_modifier = {
+			name = sloboda_pastoral_diversification
+			duration = 7300
+		}
+		add_stability_or_adm_power = yes
+	}
+}
+
+country_event = {
+	id = sloboda_history.7
+	title = sloboda_history.7.t
+	desc = sloboda_history.7.d
+	picture = MERCHANTS_TALKING_eventPicture
+
+	trigger = {
+		is_year = 1650
+		NOT = { is_year = 1791 }
+		has_country_flag = slh_chernozem_specialization
+		NOT = { has_country_flag = slh_kharkiv_contracts }
+		owns = 291
+		OR = {
+			has_country_modifier = chr_black_soil_silos
+			291 = { has_building = workshop }
+			291 = { has_building = marketplace }
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 150
+	}
+
+	option = {
+		name = sloboda_history.7.a
+		ai_chance = { factor = 65 }
+
+		set_country_flag = slh_kharkiv_contracts
+		set_country_flag = slh_path_contract_hall
+		clr_country_flag = slh_path_local_markets
+		add_treasury = -75
+		add_country_modifier = {
+			name = sloboda_trade_contracts
+			duration = 7300
+		}
+		291 = {
+			add_province_modifier = {
+				name = sloboda_grain_contract_hall
+				duration = 9125
+			}
+			add_base_tax = 1
+		}
+	}
+
+	option = {
+		name = sloboda_history.7.b
+		ai_chance = { factor = 35 }
+
+		set_country_flag = slh_kharkiv_contracts
+		set_country_flag = slh_path_local_markets
+		clr_country_flag = slh_path_contract_hall
+		add_country_modifier = {
+			name = sloboda_local_market_model
+			duration = 5475
+		}
+		291 = {
+			add_base_production = 1
+		}
+	}
+}
+
+country_event = {
+	id = sloboda_history.8
+	title = sloboda_history.8.t
+	desc = sloboda_history.8.d
+	picture = TRADEGOODS_eventPicture
+
+	trigger = {
+		is_year = 1670
+		NOT = { is_year = 1801 }
+		has_country_flag = slh_kharkiv_contracts
+		NOT = { has_country_flag = slh_grain_corridors }
+		OR = {
+			has_country_flag = chr_grain_corridors_built
+			calc_true_if = {
+				all_owned_province = {
+					area = sloboda_ukraine_area
+					trade_goods = grain
+				}
+				amount = 3
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 155
+	}
+
+	option = {
+		name = sloboda_history.8.a
+		ai_chance = { factor = 60 }
+
+		set_country_flag = slh_grain_corridors
+		set_country_flag = slh_path_logistics
+		clr_country_flag = slh_path_fiscal_exports
+		add_treasury = -90
+		add_dip_power = 35
+		add_country_modifier = {
+			name = sloboda_grain_corridors
+			duration = 9125
+		}
+	}
+
+	option = {
+		name = sloboda_history.8.b
+		ai_chance = { factor = 40 }
+
+		set_country_flag = slh_grain_corridors
+		set_country_flag = slh_path_fiscal_exports
+		clr_country_flag = slh_path_logistics
+		add_country_modifier = {
+			name = sloboda_export_fiscalization
+			duration = 7300
+		}
+		add_mercantilism = 1
+		random_owned_province = {
+			limit = {
+				area = sloboda_ukraine_area
+				trade_goods = grain
+			}
+			add_unrest = 1
+		}
+	}
+}
+
+country_event = {
+	id = sloboda_history.9
+	title = sloboda_history.9.t
+	desc = sloboda_history.9.d
+	picture = UNIVERSITY_eventPicture
+
+	trigger = {
+		is_year = 1680
+		NOT = { is_year = 1806 }
+		has_country_flag = slh_grain_corridors
+		NOT = { has_country_flag = slh_collegium_culture }
+		adm_tech = 10
+		any_owned_province = {
+			area = sloboda_ukraine_area
+			development = 18
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 165
+	}
+
+	option = {
+		name = sloboda_history.9.a
+		ai_chance = { factor = 55 }
+
+		set_country_flag = slh_collegium_culture
+		set_country_flag = slh_path_brotherhood_schools
+		clr_country_flag = slh_path_service_chancellery
+		add_adm_power = -50
+		add_prestige = 5
+		add_country_modifier = {
+			name = sloboda_brotherhood_schools
+			duration = 9125
+		}
+	}
+
+	option = {
+		name = sloboda_history.9.b
+		ai_chance = { factor = 45 }
+
+		set_country_flag = slh_collegium_culture
+		set_country_flag = slh_path_service_chancellery
+		clr_country_flag = slh_path_brotherhood_schools
+		add_adm_power = 25
+		add_country_modifier = {
+			name = sloboda_service_chancellery
+			duration = 9125
+		}
+	}
+}
+
+country_event = {
+	id = sloboda_history.10
+	title = sloboda_history.10.t
+	desc = sloboda_history.10.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	trigger = {
+		is_year = 1690
+		NOT = { is_year = 1811 }
+		has_country_flag = slh_collegium_culture
+		NOT = { has_country_flag = slh_confessional_policy }
+		is_at_war = no
+		NOT = { religious_unity = 0.95 }
+	}
+
+	mean_time_to_happen = {
+		months = 170
+	}
+
+	option = {
+		name = sloboda_history.10.a
+		ai_chance = { factor = 60 }
+
+		set_country_flag = slh_confessional_policy
+		set_country_flag = slh_path_community_compromise
+		clr_country_flag = slh_path_uniformity
+		add_country_modifier = {
+			name = sloboda_confessional_compromise
+			duration = 7300
+		}
+		add_stability = 1
+	}
+
+	option = {
+		name = sloboda_history.10.b
+		ai_chance = { factor = 40 }
+
+		set_country_flag = slh_confessional_policy
+		set_country_flag = slh_path_uniformity
+		clr_country_flag = slh_path_community_compromise
+		add_country_modifier = {
+			name = sloboda_confessional_uniformity
+			duration = 5475
+		}
+		add_prestige = 3
+		random_owned_province = {
+			limit = {
+				area = sloboda_ukraine_area
+			}
+			add_unrest = 1
+		}
+	}
+}
+
+country_event = {
+	id = sloboda_history.11
+	title = sloboda_history.11.t
+	desc = sloboda_history.11.d
+	picture = REFORM_eventPicture
+
+	trigger = {
+		is_year = 1700
+		NOT = { is_year = 1816 }
+		has_country_flag = slh_confessional_policy
+		NOT = { has_country_flag = slh_service_codified }
+	}
+
+	mean_time_to_happen = {
+		months = 150
+	}
+
+	option = {
+		name = sloboda_history.11.a
+		ai_chance = { factor = 55 }
+
+		set_country_flag = slh_service_codified
+		set_country_flag = slh_path_hybrid_service
+		clr_country_flag = slh_path_central_tables
+		add_country_modifier = {
+			name = sloboda_hybrid_service_code
+			duration = 9125
+		}
+		add_prestige = 5
+	}
+
+	option = {
+		name = sloboda_history.11.b
+		ai_chance = { factor = 45 }
+
+		set_country_flag = slh_service_codified
+		set_country_flag = slh_path_central_tables
+		clr_country_flag = slh_path_hybrid_service
+		add_country_modifier = {
+			name = sloboda_central_service_tables
+			duration = 9125
+		}
+		add_absolutism = 2
+	}
+}
+
+country_event = {
+	id = sloboda_history.12
+	title = sloboda_history.12.t
+	desc = sloboda_history.12.d
+	picture = PARLIAMENT_eventPicture
+
+	trigger = {
+		is_year = 1760
+		NOT = { is_year = 1822 }
+		has_country_flag = slh_service_codified
+		NOT = { has_country_flag = slh_governorate_reform }
+	}
+
+	mean_time_to_happen = {
+		months = 140
+	}
+
+	option = {
+		name = sloboda_history.12.a
+		ai_chance = { factor = 55 }
+
+		set_country_flag = slh_governorate_reform
+		set_country_flag = slh_path_gradual_integration
+		clr_country_flag = slh_path_rapid_uniformization
+		add_country_modifier = {
+			name = sloboda_gradual_integration
+			duration = 7300
+		}
+		add_stability_or_adm_power = yes
+	}
+
+	option = {
+		name = sloboda_history.12.b
+		ai_chance = { factor = 45 }
+
+		set_country_flag = slh_governorate_reform
+		set_country_flag = slh_path_rapid_uniformization
+		clr_country_flag = slh_path_gradual_integration
+		add_country_modifier = {
+			name = sloboda_rapid_uniformization
+			duration = 7300
+		}
+		add_absolutism = 3
+		add_prestige = -3
+	}
+}
+
+country_event = {
+	id = sloboda_history.13
+	title = sloboda_history.13.t
+	desc = sloboda_history.13.d
+	picture = REFORM_eventPicture
+
+	trigger = {
+		is_year = 1780
+		NOT = { is_year = 1822 }
+		has_country_flag = slh_governorate_reform
+		NOT = { has_country_flag = slh_frontier_legacy_chosen }
+	}
+
+	mean_time_to_happen = {
+		months = 120
+	}
+
+	option = {
+		name = sloboda_history.13.a
+		ai_chance = { factor = 35 }
+
+		set_country_flag = slh_frontier_legacy_chosen
+		set_country_flag = slh_legacy_military
+		clr_country_flag = slh_legacy_urban
+		clr_country_flag = slh_legacy_synthesis
+		add_country_modifier = {
+			name = sloboda_legacy_military
+			duration = -1
+		}
+		add_army_tradition = 10
+	}
+
+	option = {
+		name = sloboda_history.13.b
+		ai_chance = { factor = 35 }
+
+		set_country_flag = slh_frontier_legacy_chosen
+		set_country_flag = slh_legacy_urban
+		clr_country_flag = slh_legacy_military
+		clr_country_flag = slh_legacy_synthesis
+		add_country_modifier = {
+			name = sloboda_legacy_urban_economic
+			duration = -1
+		}
+		add_mercantilism = 1
+	}
+
+	option = {
+		name = sloboda_history.13.c
+		ai_chance = { factor = 30 }
+
+		set_country_flag = slh_frontier_legacy_chosen
+		set_country_flag = slh_legacy_synthesis
+		clr_country_flag = slh_legacy_military
+		clr_country_flag = slh_legacy_urban
+		add_country_modifier = {
+			name = sloboda_imperial_integration
+			duration = -1
+		}
+		add_adm_power = 50
+		add_mil_power = 50
 	}
 }
