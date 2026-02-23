@@ -1,0 +1,121 @@
+# ==============================================================
+# Rusyn Eastward Expansion (CHR/HET/UKR)
+# ==============================================================
+
+country_decisions = {
+	ruthenian_eastward_frontier_policy = {
+		major = yes
+		potential = {
+			OR = {
+				tag = CHR
+				tag = HET
+				tag = UKR
+			}
+		}
+		allow = {
+			is_at_war = no
+			adm_tech = 7
+			any_owned_province = {
+				region = crimea_region
+			}
+			NOT = { has_country_flag = ruthenian_eastward_policy }
+		}
+		effect = {
+			set_country_flag = ruthenian_eastward_policy
+			add_country_modifier = {
+				name = ruthenian_eastward_mandate
+				duration = 7300
+			}
+			every_province = {
+				limit = {
+					region = crimea_region
+					has_terrain = steppe
+					is_empty = no
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			country_event = { id = ruthenian_eastward.1 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	ruthenian_open_ural_gate = {
+		major = yes
+		potential = {
+			has_country_flag = ruthenian_eastward_policy
+			OR = {
+				tag = CHR
+				tag = HET
+				tag = UKR
+			}
+		}
+		allow = {
+			is_at_war = no
+			adm_tech = 12
+			any_owned_province = {
+				region = crimea_region
+				has_terrain = steppe
+			}
+			NOT = { has_country_flag = ruthenian_ural_gate_opened }
+		}
+		effect = {
+			set_country_flag = ruthenian_ural_gate_opened
+			add_country_modifier = {
+				name = ruthenian_ural_gate
+				duration = 9125
+			}
+			ural_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					is_empty = no
+				}
+				add_permanent_claim = ROOT
+			}
+			country_event = { id = ruthenian_eastward.2 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	ruthenian_manchurian_horizon = {
+		major = yes
+		potential = {
+			has_country_flag = ruthenian_ural_gate_opened
+			OR = {
+				tag = CHR
+				tag = HET
+				tag = UKR
+			}
+		}
+		allow = {
+			is_at_war = no
+			adm_tech = 17
+			any_owned_province = {
+				region = ural_region
+			}
+			NOT = { has_country_flag = ruthenian_manchurian_horizon }
+		}
+		effect = {
+			set_country_flag = ruthenian_manchurian_horizon
+			add_country_modifier = {
+				name = ruthenian_manchurian_push
+				duration = 9125
+			}
+			manchuria_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					is_empty = no
+				}
+				add_permanent_claim = ROOT
+			}
+			country_event = { id = ruthenian_eastward.3 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}
