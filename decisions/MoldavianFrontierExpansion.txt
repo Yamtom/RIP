@@ -1,0 +1,150 @@
+# ==============================================================
+# Moldavian Frontier Expansion (MOL-only)
+# ==============================================================
+
+country_decisions = {
+	moldavian_frontier_mandate = {
+		major = yes
+		potential = {
+			tag = MOL
+		}
+		allow = {
+			is_at_war = no
+			adm_tech = 7
+			NOT = { has_country_flag = mol_frontier_mandate }
+			OR = {
+				any_owned_province = {
+					area = moldavia_area
+				}
+				owns_or_non_sovereign_subject_of = 282
+			}
+		}
+		effect = {
+			set_country_flag = mol_frontier_mandate
+			add_country_modifier = {
+				name = moldavian_frontier_mandate
+				duration = 7300
+			}
+			if = {
+				limit = { has_country_flag = dniester_estuary_developed }
+				add_mercantilism = 1
+				add_dip_power = 25
+			}
+			country_event = { id = moldavian_frontier.1 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	moldavian_steppe_host_doctrine = {
+		major = yes
+		potential = {
+			tag = MOL
+			has_country_flag = mol_frontier_mandate
+		}
+		allow = {
+			is_at_war = no
+			mil_tech = 8
+			NOT = { has_country_flag = mol_steppe_doctrine }
+			OR = {
+				any_owned_province = {
+					area = moldavia_area
+				}
+				owns_or_non_sovereign_subject_of = 282
+			}
+		}
+		effect = {
+			set_country_flag = mol_steppe_doctrine
+			country_event = { id = moldavian_frontier.2 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	moldavian_corridor_and_customs = {
+		major = yes
+		potential = {
+			tag = MOL
+			has_country_flag = mol_steppe_doctrine
+		}
+		allow = {
+			is_at_war = no
+			adm_tech = 10
+			NOT = { has_country_flag = mol_corridors_established }
+			OR = {
+				any_owned_province = {
+					area = moldavia_area
+				}
+				owns_or_non_sovereign_subject_of = 282
+			}
+		}
+		effect = {
+			set_country_flag = mol_corridors_established
+			if = {
+				limit = {
+					OR = {
+						has_country_flag = dniester_wine_trade_established
+						has_country_flag = dniester_salt_established
+					}
+				}
+				add_dip_power = 25
+			}
+			country_event = { id = moldavian_frontier.3 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	moldavian_fortress_belt_statute = {
+		major = yes
+		potential = {
+			tag = MOL
+			has_country_flag = mol_corridors_established
+		}
+		allow = {
+			is_at_war = no
+			mil_tech = 12
+			NOT = { has_country_flag = mol_fortress_statute }
+			OR = {
+				any_owned_province = {
+					area = moldavia_area
+				}
+				owns_or_non_sovereign_subject_of = 282
+			}
+		}
+		effect = {
+			set_country_flag = mol_fortress_statute
+			if = {
+				limit = { has_country_flag = dniester_estuary_fortified }
+				add_army_tradition = 5
+			}
+			country_event = { id = moldavian_frontier.4 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	moldavian_frontier_legacy = {
+		major = yes
+		potential = {
+			tag = MOL
+			has_country_flag = mol_fortress_statute
+		}
+		allow = {
+			is_at_war = no
+			adm_tech = 14
+			NOT = { has_country_flag = mol_frontier_legacy_chosen }
+		}
+		effect = {
+			set_country_flag = mol_frontier_legacy_chosen
+			country_event = { id = moldavian_frontier.5 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}

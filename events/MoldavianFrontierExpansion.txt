@@ -1,0 +1,298 @@
+# ==============================================================
+# Moldavian Frontier Expansion Events
+# ==============================================================
+
+namespace = moldavian_frontier
+
+country_event = {
+	id = moldavian_frontier.1
+	title = moldavian_frontier.1.t
+	desc = moldavian_frontier.1.d
+	picture = PEASANTS_ON_STEPPES_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = moldavian_frontier.1.a
+		set_country_flag = mol_path_raid_columns
+		add_country_modifier = {
+			name = moldavian_raid_columns
+			duration = 5475
+		}
+		if = {
+			limit = { has_country_flag = dniester_estuary_developed }
+			add_mil_power = 35
+		}
+		else = {
+			add_army_tradition = 3
+		}
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 1.25
+				army_tradition = 30
+			}
+		}
+	}
+	option = {
+		name = moldavian_frontier.1.b
+		set_country_flag = mol_path_patrol_contracts
+		add_country_modifier = {
+			name = moldavian_patrol_contracts
+			duration = 5475
+		}
+		if = {
+			limit = { has_country_flag = dniester_estuary_developed }
+			add_dip_power = 25
+		}
+		else = {
+			add_prestige = 5
+		}
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 1.4
+				trade_income_percentage = 0.2
+			}
+		}
+	}
+}
+
+country_event = {
+	id = moldavian_frontier.2
+	title = moldavian_frontier.2.t
+	desc = moldavian_frontier.2.d
+	picture = FORT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = moldavian_frontier.2.a
+		set_country_flag = mol_path_corridors
+		add_country_modifier = {
+			name = moldavian_corridor_network
+			duration = 7300
+		}
+		every_owned_province = {
+			limit = {
+				area = moldavia_area
+			}
+			add_province_modifier = {
+				name = moldavian_waystation_node
+				duration = 5475
+			}
+		}
+		add_dip_power = 35
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 1.25
+				has_country_flag = dniester_estuary_developed
+			}
+		}
+	}
+	option = {
+		name = moldavian_frontier.2.b
+		set_country_flag = mol_path_fort_belt
+		add_country_modifier = {
+			name = moldavian_fortress_belt
+			duration = 7300
+		}
+		every_owned_province = {
+			limit = {
+				area = moldavia_area
+				OR = {
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+			add_province_modifier = {
+				name = moldavian_fort_node
+				duration = 7300
+			}
+		}
+		if = {
+			limit = { has_country_flag = dniester_estuary_fortified }
+			add_army_tradition = 5
+		}
+		else = {
+			add_mil_power = 35
+		}
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_country_flag = dniester_estuary_fortified
+			}
+		}
+	}
+}
+
+country_event = {
+	id = moldavian_frontier.3
+	title = moldavian_frontier.3.t
+	desc = moldavian_frontier.3.d
+	picture = TRADEGOODS_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = moldavian_frontier.3.a
+		set_country_flag = mol_path_trade_customs
+		add_country_modifier = {
+			name = moldavian_trade_customs
+			duration = 7300
+		}
+		if = {
+			limit = { owns = 282 }
+			282 = {
+				add_province_modifier = {
+					name = moldavian_customs_office
+					duration = 9125
+				}
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					has_country_flag = dniester_wine_trade_established
+					has_country_flag = dniester_salt_established
+				}
+			}
+			add_mercantilism = 1
+		}
+		else = {
+			add_dip_power = 30
+		}
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 1.4
+				trade_income_percentage = 0.25
+			}
+		}
+	}
+	option = {
+		name = moldavian_frontier.3.b
+		set_country_flag = mol_path_host_settlements
+		add_country_modifier = {
+			name = moldavian_host_settlements
+			duration = 7300
+		}
+		every_owned_province = {
+			limit = {
+				OR = {
+					area = moldavia_area
+					AND = {
+						region = crimea_region
+						has_terrain = steppe
+					}
+				}
+			}
+			add_province_modifier = {
+				name = moldavian_waystation_node
+				duration = 3650
+			}
+		}
+		add_yearly_manpower = 0.5
+		if = {
+			limit = { has_country_flag = dniester_estuary_developed }
+			add_prestige = 5
+		}
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 1.25
+				manpower_percentage = 0.4
+			}
+		}
+	}
+}
+
+country_event = {
+	id = moldavian_frontier.4
+	title = moldavian_frontier.4.t
+	desc = moldavian_frontier.4.d
+	picture = MILITARY_CAMP_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = moldavian_frontier.4.a
+		if = {
+			limit = { has_country_flag = dniester_estuary_fortified }
+			add_country_modifier = {
+				name = moldavian_fortress_belt
+				duration = 7300
+			}
+			add_army_tradition = 4
+		}
+		else = {
+			add_mil_power = 40
+		}
+		ai_chance = {
+			factor = 60
+		}
+	}
+	option = {
+		name = moldavian_frontier.4.b
+		if = {
+			limit = { has_country_flag = dniester_estuary_developed }
+			add_country_modifier = {
+				name = moldavian_trade_customs
+				duration = 3650
+			}
+			add_dip_power = 30
+		}
+		else = {
+			add_adm_power = 30
+		}
+		ai_chance = {
+			factor = 40
+		}
+	}
+}
+
+country_event = {
+	id = moldavian_frontier.5
+	title = moldavian_frontier.5.t
+	desc = moldavian_frontier.5.d
+	picture = TRADEGOODS_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = moldavian_frontier.5.a
+		set_country_flag = mol_legacy_military
+		add_country_modifier = {
+			name = moldavian_legacy_military
+			duration = -1
+		}
+		add_army_tradition = 10
+		ai_chance = {
+			factor = 40
+		}
+	}
+	option = {
+		name = moldavian_frontier.5.b
+		set_country_flag = mol_legacy_trade
+		add_country_modifier = {
+			name = moldavian_legacy_trade
+			duration = -1
+		}
+		add_mercantilism = 1
+		ai_chance = {
+			factor = 30
+		}
+	}
+	option = {
+		name = moldavian_frontier.5.c
+		set_country_flag = mol_legacy_balanced
+		add_country_modifier = {
+			name = moldavian_legacy_balanced
+			duration = -1
+		}
+		add_adm_power = 50
+		add_dip_power = 50
+		ai_chance = {
+			factor = 30
+		}
+	}
+}

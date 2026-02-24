@@ -81,6 +81,112 @@ country_decisions = {
 		}
 	}
 
+	ruthenian_steppe_raid_doctrine = {
+		major = yes
+		potential = {
+			has_country_flag = ruthenian_eastward_policy
+			OR = {
+				tag = CHR
+				tag = HET
+				tag = UKR
+			}
+		}
+		allow = {
+			is_at_war = no
+			mil_tech = 8
+			NOT = { has_country_flag = ruthenian_steppe_raid_doctrine }
+			any_owned_province = {
+				region = crimea_region
+				has_terrain = steppe
+			}
+		}
+		effect = {
+			set_country_flag = ruthenian_steppe_raid_doctrine
+			add_country_modifier = {
+				name = ruthenian_raiding_columns
+				duration = 5475
+			}
+			add_country_modifier = {
+				name = ruthenian_frontier_patrol_licenses
+				duration = 5475
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	ruthenian_frontier_mobility_network = {
+		major = yes
+		potential = {
+			has_country_flag = ruthenian_steppe_raid_doctrine
+			OR = {
+				tag = CHR
+				tag = HET
+				tag = UKR
+			}
+		}
+		allow = {
+			is_at_war = no
+			adm_tech = 10
+			NOT = { has_country_flag = ruthenian_frontier_mobility_network }
+			any_owned_province = {
+				region = crimea_region
+				has_terrain = steppe
+			}
+		}
+		effect = {
+			set_country_flag = ruthenian_frontier_mobility_network
+			add_country_modifier = {
+				name = ruthenian_frontier_organizers
+				duration = 7300
+			}
+			every_owned_province = {
+				limit = {
+					AND = {
+						region = crimea_region
+						has_terrain = steppe
+					}
+				}
+				add_province_modifier = {
+					name = steppe_border_defense
+					duration = 7300
+				}
+			}
+			if = {
+				limit = {
+					any_owned_province = {
+						region = crimea_region
+						OR = {
+							has_building = fort_15th
+							has_building = fort_16th
+							has_building = fort_17th
+							has_building = fort_18th
+						}
+					}
+				}
+				every_owned_province = {
+					limit = {
+						region = crimea_region
+						OR = {
+							has_building = fort_15th
+							has_building = fort_16th
+							has_building = fort_17th
+							has_building = fort_18th
+						}
+					}
+					add_province_modifier = {
+						name = zasechnaya_cherta_province
+						duration = 5475
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
 	ruthenian_manchurian_horizon = {
 		major = yes
 		potential = {
