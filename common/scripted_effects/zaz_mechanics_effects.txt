@@ -154,10 +154,7 @@ zaz_establish_sloboda = {
 	
 	random_owned_province = {
 		limit = {
-			OR = {
-				has_terrain = steppe
-				has_terrain = grasslands
-			}
+			rip_is_steppe_or_grasslands = yes
 			NOT = { has_province_modifier = sloboda_settlement }
 			NOT = { has_province_modifier = military_sloboda }
 		}

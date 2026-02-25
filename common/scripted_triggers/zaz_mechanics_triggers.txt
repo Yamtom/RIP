@@ -56,10 +56,7 @@ has_valid_sich_relocation_target = {
 	any_owned_province = {
 		region = ruthenia_region
 		development = 8
-		OR = {
-			has_terrain = steppe
-			has_terrain = grasslands
-		}
+		rip_is_steppe_or_grasslands = yes
 		any_neighbor_province = {
 			OR = {
 				has_terrain = coastline
@@ -94,10 +91,7 @@ sich_relocation_necessary = {
 		any_owned_province = {
 			region = ruthenia_region
 			development = 15
-			OR = {
-				has_terrain = steppe
-				has_terrain = grasslands
-			}
+			rip_is_steppe_or_grasslands = yes
 			NOT = { province_id = 283 }
 		}
 	}
@@ -290,10 +284,7 @@ steppe_alliance_beneficial = {
 
 has_frontier_provinces = {
 	any_owned_province = {
-		OR = {
-			has_terrain = steppe
-			has_terrain = grasslands
-		}
+		rip_is_steppe_or_grasslands = yes
 		development = 15
 		OR = {
 			any_neighbor_province = {
@@ -315,10 +306,7 @@ can_establish_sloboda = {
 	manpower_percentage = 0.4
 	adm_power = 50
 	any_owned_province = {
-		OR = {
-			has_terrain = steppe
-			has_terrain = grasslands
-		}
+		rip_is_steppe_or_grasslands = yes
 		NOT = { has_province_modifier = sloboda_settlement }
 		NOT = { has_province_modifier = military_sloboda }
 		NOT = { unrest = 2 }

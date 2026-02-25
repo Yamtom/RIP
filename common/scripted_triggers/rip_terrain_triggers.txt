@@ -1,0 +1,13 @@
+# RIP shared terrain predicates for Ruthenia Core
+
+rip_is_steppe_or_grasslands = {
+	OR = {
+		has_terrain = steppe
+		has_terrain = grasslands
+	}
+}
+
+rip_is_crimea_frontier_terrain = {
+	region = crimea_region
+	rip_is_steppe_or_grasslands = yes
+}

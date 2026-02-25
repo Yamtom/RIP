@@ -28,8 +28,7 @@ country_decisions = {
 			}
 			every_province = {
 				limit = {
-					region = crimea_region
-					has_terrain = steppe
+					rip_is_crimea_frontier_terrain = yes
 					is_empty = no
 					NOT = { owned_by = ROOT }
 				}
@@ -56,8 +55,7 @@ country_decisions = {
 			is_at_war = no
 			adm_tech = 12
 			any_owned_province = {
-				region = crimea_region
-				has_terrain = steppe
+				rip_is_crimea_frontier_terrain = yes
 			}
 			NOT = { has_country_flag = ruthenian_ural_gate_opened }
 		}
@@ -96,8 +94,7 @@ country_decisions = {
 			mil_tech = 8
 			NOT = { has_country_flag = ruthenian_steppe_raid_doctrine }
 			any_owned_province = {
-				region = crimea_region
-				has_terrain = steppe
+				rip_is_crimea_frontier_terrain = yes
 			}
 		}
 		effect = {
@@ -131,8 +128,7 @@ country_decisions = {
 			adm_tech = 10
 			NOT = { has_country_flag = ruthenian_frontier_mobility_network }
 			any_owned_province = {
-				region = crimea_region
-				has_terrain = steppe
+				rip_is_crimea_frontier_terrain = yes
 			}
 		}
 		effect = {
@@ -143,10 +139,7 @@ country_decisions = {
 			}
 			every_owned_province = {
 				limit = {
-					AND = {
-						region = crimea_region
-						has_terrain = steppe
-					}
+					rip_is_crimea_frontier_terrain = yes
 				}
 				add_province_modifier = {
 					name = steppe_border_defense
