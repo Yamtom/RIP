@@ -1,0 +1,279 @@
+# =================================================================
+# HETMANATE ORTHODOX CRUSADE EVENTS
+# =================================================================
+# Integration with Orthodox Crusade system
+# Focuses on Khmelnytsky's struggle against Catholic Poland
+# =================================================================
+
+namespace = het_orthodox
+
+# Event 1: Hetmanate Called to Orthodox Crusade
+country_event = {
+	id = het_orthodox.1
+	title = het_orthodox.1.t
+	desc = het_orthodox.1.d
+	picture = CRUSADE_eventPicture
+	
+	trigger = {
+		tag = HET
+		religion = orthodox
+		has_country_modifier = orthodox_crusade_participant
+		NOT = { has_country_flag = het_catholic_enemy_focus }
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = { # Focus on Catholic Poland
+		name = het_orthodox.1.a
+		ai_chance = { factor = 70 }
+		
+		set_country_flag = het_catholic_enemy_focus
+		add_country_modifier = {
+			name = het_anti_catholic_crusader
+			duration = 5475
+		}
+		poland_region = {
+			limit = {
+				religion = catholic
+				NOT = { is_core = ROOT }
+				NOT = { is_permanent_claim = ROOT }
+			}
+			add_permanent_claim = ROOT
+		}
+		add_casus_belli = {
+			type = cb_crusade_for_constantinople
+			target = PLC
+			months = 120
+		}
+	}
+	
+	option = { # March toward Constantinople
+		name = het_orthodox.1.b
+		ai_chance = { factor = 30 }
+		
+		add_country_modifier = {
+			name = het_constantinople_liberator
+			duration = 5475
+		}
+		balkan_region = {
+			limit = {
+				NOT = { is_core = ROOT }
+				NOT = { is_permanent_claim = ROOT }
+			}
+			add_permanent_claim = ROOT
+		}
+	}
+}
+
+# Event 2: Khmelnytsky's Catholic Poland Vendetta
+country_event = {
+	id = het_orthodox.2
+	title = het_orthodox.2.t
+	desc = het_orthodox.2.d
+	picture = ANGRY_MOB_eventPicture
+	
+	trigger = {
+		tag = HET
+		religion = orthodox
+		is_year = 1648
+		NOT = { is_year = 1670 }
+		OR = {
+			any_rival_country = {
+				OR = {
+					tag = PLC
+					tag = POL
+				}
+			}
+			any_neighbor_country = {
+				OR = {
+					tag = PLC
+					tag = POL
+				}
+			}
+		}
+		NOT = { has_country_flag = het_khmelnytsky_vendetta }
+	}
+	
+	mean_time_to_happen = {
+		months = 6
+	}
+	
+	option = { # Rally the faithful
+		name = het_orthodox.2.a
+		
+		set_country_flag = het_khmelnytsky_vendetta
+		add_country_modifier = {
+			name = khmelnitsky_uprising
+			duration = 3650
+		}
+		add_casus_belli = {
+			type = cb_crusade_for_constantinople
+			target = PLC
+			months = 240
+		}
+		add_church_power = 50
+		add_army_tradition = 15
+	}
+}
+
+# Event 3: Orthodox Brethren Support
+country_event = {
+	id = het_orthodox.3
+	title = het_orthodox.3.t
+	desc = het_orthodox.3.d
+	picture = ORTHODOX_eventPicture
+	
+	trigger = {
+		tag = HET
+		religion = orthodox
+		has_country_flag = het_catholic_enemy_focus
+		any_ally = {
+			religion = orthodox
+			is_great_power = yes
+		}
+		NOT = { has_country_flag = het_orthodox_brethren_support }
+	}
+	
+	mean_time_to_happen = {
+		months = 18
+	}
+	
+	option = { # Accept their aid
+		name = het_orthodox.3.a
+		
+		set_country_flag = het_orthodox_brethren_support
+		random_ally = {
+			limit = {
+				religion = orthodox
+				is_great_power = yes
+			}
+			add_trust = {
+				who = ROOT
+				value = 15
+				mutual = yes
+			}
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = het_orthodox_cooperation
+			}
+		}
+		add_manpower = 5
+		add_mil_power = 50
+	}
+	
+	option = { # We fight alone
+		name = het_orthodox.3.b
+		
+		add_prestige = 10
+		add_legitimacy = 10
+	}
+}
+
+# Event 4: Crusade Victory - Poland Weakened
+country_event = {
+	id = het_orthodox.4
+	title = het_orthodox.4.t
+	desc = het_orthodox.4.d
+	picture = GREAT_WARRIOR_eventPicture
+	
+	trigger = {
+		tag = HET
+		has_country_flag = het_catholic_enemy_focus
+		NOT = {
+			any_country = {
+				OR = {
+					tag = PLC
+					tag = POL
+				}
+				total_development = 400
+			}
+		}
+		NOT = { has_country_flag = het_crusade_poland_victory }
+	}
+	
+	mean_time_to_happen = {
+		months = 6
+	}
+	
+	option = { # The yoke is broken!
+		name = het_orthodox.4.a
+		
+		set_country_flag = het_crusade_poland_victory
+		add_country_modifier = {
+			name = het_liberation_achieved
+			duration = 10950
+		}
+		add_prestige = 40
+		add_legitimacy = 25
+		add_church_power = 100
+		
+		# Gain permanent claims over former Polish territories
+		ruthenia_region = {
+			limit = {
+				NOT = { is_core = ROOT }
+				NOT = { is_permanent_claim = ROOT }
+			}
+			add_permanent_claim = ROOT
+		}
+	}
+}
+
+# Event 5: Crusade Call - Hetmanate as Leader
+country_event = {
+	id = het_orthodox.5
+	title = het_orthodox.5.t
+	desc = het_orthodox.5.d
+	picture = CRUSADE_eventPicture
+	
+	trigger = {
+		tag = HET
+		religion = orthodox
+		prestige = 50
+		army_size = 40
+		is_subject = no
+		NOT = {
+			any_country = {
+				has_country_modifier = orthodox_crusade_leader
+			}
+		}
+		NOT = { has_country_flag = het_led_orthodox_crusade }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = {
+			factor = 0.5
+			is_year = 1650
+			NOT = { is_year = 1680 }
+		}
+	}
+	
+	option = { # Lead the faithful
+		name = het_orthodox.5.a
+		
+		set_country_flag = het_led_orthodox_crusade
+		add_country_modifier = {
+			name = orthodox_crusade_leader
+			duration = 18250
+		}
+		add_prestige = 25
+		add_church_power = 75
+		
+		# Announce to other Orthodox nations
+		every_country = {
+			limit = {
+				religion = orthodox
+				NOT = { tag = ROOT }
+			}
+			country_event = { id = orthodox_crusade.2 }
+		}
+	}
+	
+	option = { # Not yet
+		name = het_orthodox.5.b
+		
+		add_prestige = 5
+	}
+}

@@ -1,0 +1,404 @@
+# ==============================================================
+# Hetmanate Legacy Eras Events
+# ==============================================================
+
+namespace = het_legacy_eras
+
+country_event = {
+	id = het_legacy_eras.1
+	title = het_legacy_eras.1.t
+	desc = het_legacy_eras.1.d
+	picture = PEASANTS_ON_STEPPES_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = het_legacy_eras.1.a
+		set_country_flag = het_legacy_path_khmelnytsky
+		add_country_modifier = {
+			name = khmelnitsky_uprising
+			duration = 3650
+		}
+		add_mil_power = 50
+		ai_chance = {
+			factor = 60
+		}
+	}
+	option = {
+		name = het_legacy_eras.1.b
+		set_country_flag = het_legacy_path_institutional
+		add_country_modifier = {
+			name = het_reformed_election_system
+			duration = 3650
+		}
+		add_adm_power = 50
+		ai_chance = {
+			factor = 40
+		}
+	}
+
+	after = {
+		country_event = { id = het_legacy_eras.2 days = 20 }
+	}
+}
+
+country_event = {
+	id = het_legacy_eras.2
+	title = het_legacy_eras.2.t
+	desc = het_legacy_eras.2.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = het_legacy_eras.2.a
+		add_country_modifier = {
+			name = het_legacy_chronicle_reconciliation
+			duration = 3650
+		}
+		add_stability = 1
+		ai_chance = {
+			factor = 60
+		}
+	}
+	option = {
+		name = het_legacy_eras.2.b
+		add_country_modifier = {
+			name = het_independence_struggle
+			duration = 3650
+		}
+		add_absolutism = 1
+		ai_chance = {
+			factor = 40
+		}
+	}
+
+	after = {
+		country_event = { id = het_legacy_eras.3 days = 20 }
+	}
+}
+
+country_event = {
+	id = het_legacy_eras.3
+	title = het_legacy_eras.3.t
+	desc = het_legacy_eras.3.d
+	picture = ADMIRALTY_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = het_legacy_eras.3.a
+		add_country_modifier = {
+			name = mazepa_golden_age
+			duration = 5475
+		}
+		add_prestige = 10
+		ai_chance = {
+			factor = 55
+		}
+	}
+	option = {
+		name = het_legacy_eras.3.b
+		add_country_modifier = {
+			name = het_independence_struggle
+			duration = 5475
+		}
+		add_army_tradition = 5
+		ai_chance = {
+			factor = 45
+		}
+	}
+
+	after = {
+		country_event = { id = het_legacy_eras.4 days = 20 }
+	}
+}
+
+country_event = {
+	id = het_legacy_eras.4
+	title = het_legacy_eras.4.t
+	desc = het_legacy_eras.4.d
+	picture = DEBATE_RELIGIOUS_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = het_legacy_eras.4.a
+		add_country_modifier = {
+			name = het_legacy_chronicle_reconciliation
+			duration = 3650
+		}
+		add_dip_power = 50
+		ai_chance = {
+			factor = 50
+		}
+	}
+	option = {
+		name = het_legacy_eras.4.b
+		add_country_modifier = {
+			name = het_legacy_chronicle_administration
+			duration = 3650
+		}
+		add_adm_power = 50
+		ai_chance = {
+			factor = 50
+		}
+	}
+
+	after = {
+		country_event = { id = het_legacy_eras.5 days = 20 }
+	}
+}
+
+country_event = {
+	id = het_legacy_eras.5
+	title = het_legacy_eras.5.t
+	desc = het_legacy_eras.5.d
+	picture = MILITARY_CAMP_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = het_legacy_eras.5.a
+		set_country_flag = het_legacy_commonwealth
+		add_country_modifier = {
+			name = het_legacy_chronicle_commonwealth
+			duration = -1
+		}
+		add_prestige = 10
+		ai_chance = {
+			factor = 40
+		}
+	}
+	option = {
+		name = het_legacy_eras.5.b
+		set_country_flag = het_legacy_regimental
+		add_country_modifier = {
+			name = het_legacy_chronicle_regimental_state
+			duration = -1
+		}
+		add_army_tradition = 10
+		ai_chance = {
+			factor = 30
+		}
+	}
+	option = {
+		name = het_legacy_eras.5.c
+		set_country_flag = het_legacy_cultural
+		add_country_modifier = {
+			name = het_legacy_chronicle_cultural_patronage
+			duration = -1
+		}
+		add_adm_power = 50
+		ai_chance = {
+			factor = 30
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				NOT = { has_country_flag = het_legacy_pereiaslav_reviewed }
+				OR = {
+					has_country_flag = pereiaslav_treaty_signed
+					has_country_modifier = khmelnitsky_uprising
+					has_country_flag = het_legacy_path_khmelnytsky
+				}
+			}
+			country_event = { id = het_legacy_eras.6 days = 20 }
+		}
+		else_if = {
+			limit = {
+				NOT = { has_country_flag = het_legacy_mazepa_reviewed }
+				OR = {
+					has_country_flag = mazepa_independence_attempted
+					has_country_modifier = mazepa_golden_age
+				}
+			}
+			country_event = { id = het_legacy_eras.7 days = 20 }
+		}
+		else_if = {
+			limit = {
+				NOT = { has_country_flag = het_legacy_collegium_reviewed }
+				OR = {
+					has_country_flag = collegium_established
+					has_country_modifier = het_little_russian_collegium
+				}
+			}
+			country_event = { id = het_legacy_eras.8 days = 20 }
+		}
+		else = {
+			set_country_flag = het_legacy_eras_completed
+		}
+	}
+}
+
+country_event = {
+	id = het_legacy_eras.6
+	title = het_legacy_eras.6.t
+	desc = het_legacy_eras.6.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = het_legacy_eras_started
+		NOT = { has_country_flag = het_legacy_eras_completed }
+		NOT = { has_country_flag = het_legacy_pereiaslav_reviewed }
+		OR = {
+			has_country_flag = pereiaslav_treaty_signed
+			has_country_modifier = khmelnitsky_uprising
+			has_country_flag = het_legacy_path_khmelnytsky
+		}
+	}
+
+	option = {
+		name = het_legacy_eras.6.a
+		set_country_flag = het_legacy_pereiaslav_reviewed
+		add_country_modifier = {
+			name = het_legacy_chronicle_reconciliation
+			duration = 3650
+		}
+		add_dip_power = 40
+		add_prestige = 5
+		ai_chance = {
+			factor = 60
+		}
+	}
+	option = {
+		name = het_legacy_eras.6.b
+		set_country_flag = het_legacy_pereiaslav_reviewed
+		add_country_modifier = {
+			name = het_independence_struggle
+			duration = 3650
+		}
+		add_mil_power = 40
+		add_army_tradition = 3
+		ai_chance = {
+			factor = 40
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				NOT = { has_country_flag = het_legacy_mazepa_reviewed }
+				OR = {
+					has_country_flag = mazepa_independence_attempted
+					has_country_modifier = mazepa_golden_age
+				}
+			}
+			country_event = { id = het_legacy_eras.7 days = 20 }
+		}
+		else_if = {
+			limit = {
+				NOT = { has_country_flag = het_legacy_collegium_reviewed }
+				OR = {
+					has_country_flag = collegium_established
+					has_country_modifier = het_little_russian_collegium
+				}
+			}
+			country_event = { id = het_legacy_eras.8 days = 20 }
+		}
+		else = {
+			set_country_flag = het_legacy_eras_completed
+		}
+	}
+}
+
+country_event = {
+	id = het_legacy_eras.7
+	title = het_legacy_eras.7.t
+	desc = het_legacy_eras.7.d
+	picture = ADMIRALTY_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = het_legacy_eras_started
+		NOT = { has_country_flag = het_legacy_eras_completed }
+		NOT = { has_country_flag = het_legacy_mazepa_reviewed }
+		OR = {
+			has_country_flag = mazepa_independence_attempted
+			has_country_modifier = mazepa_golden_age
+		}
+	}
+
+	option = {
+		name = het_legacy_eras.7.a
+		set_country_flag = het_legacy_mazepa_reviewed
+		add_country_modifier = {
+			name = mazepa_golden_age
+			duration = 3650
+		}
+		add_adm_power = 40
+		add_prestige = 5
+		ai_chance = {
+			factor = 60
+		}
+	}
+	option = {
+		name = het_legacy_eras.7.b
+		set_country_flag = het_legacy_mazepa_reviewed
+		add_country_modifier = {
+			name = het_independence_struggle
+			duration = 3650
+		}
+		add_mil_power = 40
+		add_army_tradition = 5
+		ai_chance = {
+			factor = 40
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				NOT = { has_country_flag = het_legacy_collegium_reviewed }
+				OR = {
+					has_country_flag = collegium_established
+					has_country_modifier = het_little_russian_collegium
+				}
+			}
+			country_event = { id = het_legacy_eras.8 days = 20 }
+		}
+		else = {
+			set_country_flag = het_legacy_eras_completed
+		}
+	}
+}
+
+country_event = {
+	id = het_legacy_eras.8
+	title = het_legacy_eras.8.t
+	desc = het_legacy_eras.8.d
+	picture = DEBATE_RELIGIOUS_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = het_legacy_eras_started
+		NOT = { has_country_flag = het_legacy_eras_completed }
+		NOT = { has_country_flag = het_legacy_collegium_reviewed }
+		OR = {
+			has_country_flag = collegium_established
+			has_country_modifier = het_little_russian_collegium
+		}
+	}
+
+	option = {
+		name = het_legacy_eras.8.a
+		set_country_flag = het_legacy_collegium_reviewed
+		set_country_flag = het_legacy_eras_completed
+		add_country_modifier = {
+			name = het_legacy_chronicle_administration
+			duration = -1
+		}
+		add_adm_power = 50
+		ai_chance = {
+			factor = 60
+		}
+	}
+	option = {
+		name = het_legacy_eras.8.b
+		set_country_flag = het_legacy_collegium_reviewed
+		set_country_flag = het_legacy_eras_completed
+		add_country_modifier = {
+			name = het_legacy_chronicle_reconciliation
+			duration = -1
+		}
+		add_stability = 1
+		ai_chance = {
+			factor = 40
+		}
+	}
+}

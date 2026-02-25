@@ -1,0 +1,526 @@
+het_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			tag = HET
+			NOT = { map_setup = map_setup_random }
+		}
+	}
+	has_country_shield = yes
+
+	# KHMELNYTSKY ARC (1648-1657)
+	het_khmelnytsky_uprising = {
+		icon = mission_cossack_cavalry
+		required_missions = { }
+		position = 1
+		trigger = {
+			army_size_percentage = 0.9
+			manpower_percentage = 0.5
+			OR = {
+				has_country_modifier = khmelnitsky_uprising
+				is_year = 1648
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = khmelnitsky_uprising
+				duration = 3650
+			}
+			add_army_tradition = 20
+			add_mil_power = 100
+			ruthenia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			tooltip = {
+				custom_tooltip = het_khmelnytsky_uprising_tt
+			}
+		}
+	}
+
+	het_orthodox_defender = {
+		icon = mission_hands_praying
+		required_missions = { het_khmelnytsky_uprising }
+		position = 2
+		trigger = {
+			OR = {
+				religion = orthodox
+				has_country_flag = joined_orthodox_crusade
+				has_country_flag = orthodox_crusade_leader
+			}
+			total_own_and_non_tributary_subject_development = 150
+			religious_unity = 0.8
+		}
+		effect = {
+			add_country_modifier = {
+				name = het_orthodox_champion
+				duration = 7300
+			}
+			add_church_power = 100
+			add_prestige = 20
+			poland_region = {
+				limit = {
+					religion = catholic
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	het_break_polish_yoke = {
+		icon = mission_break_the_tatar_yoke
+		required_missions = { het_orthodox_defender }
+		position = 3
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280  # Kyiv
+				province_id = 279  # Volhynia
+				province_id = 281  # Podillia
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			owns_or_non_sovereign_subject_of = 280  # Kyiv
+			owns_or_non_sovereign_subject_of = 279  # Volhynia
+			owns_or_non_sovereign_subject_of = 281  # Podillia
+			NOT = {
+				any_country = {
+					OR = {
+						tag = PLC
+						tag = POL
+						tag = LIT
+					}
+					is_subject = no
+					total_development = 300
+				}
+			}
+		}
+		effect = {
+			add_prestige = 30
+			add_legitimacy = 20
+			add_country_modifier = {
+				name = het_liberation_achieved
+				duration = 10950
+			}
+			280 = {
+				add_base_tax = 2
+				add_base_production = 2
+				add_base_manpower = 2
+			}
+		}
+	}
+
+	# MAZEPA ARC (1687-1708)
+	het_mazepa_renaissance = {
+		icon = mission_establish_high_seas_navy
+		required_missions = { het_break_polish_yoke }
+		position = 4
+		trigger = {
+			stability = 2
+			prestige = 25
+			has_institution = enlightenment
+			OR = {
+				has_country_modifier = mazepa_golden_age
+				is_year = 1687
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = mazepa_golden_age
+				duration = 8030
+			}
+			add_adm_power = 100
+			add_dip_power = 100
+			capital_scope = {
+				add_province_modifier = {
+					name = het_cultural_center
+					duration = -1
+				}
+			}
+		}
+	}
+
+	het_swedish_alliance = {
+		icon = mission_alliances
+		required_missions = { het_mazepa_renaissance }
+		position = 5
+		trigger = {
+			OR = {
+				alliance_with = SWE
+				any_ally = {
+					OR = {
+						tag = SWE
+						culture_group = scandinavian
+					}
+					is_great_power = yes
+				}
+				is_year = 1708
+			}
+			army_tradition = 40
+		}
+		effect = {
+			add_country_modifier = {
+				name = het_independence_struggle
+				duration = 3650
+			}
+			add_mil_power = 150
+			russia_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	# ROZUMOVSKY ARC (1750-1764)
+	het_rozumovsky_reforms = {
+		icon = mission_monarch_in_throne_room
+		required_missions = { het_swedish_alliance }
+		position = 6
+		trigger = {
+			adm_tech = 18
+			OR = {
+				has_country_modifier = het_reformed_election_system
+				is_year = 1750
+			}
+			legitimacy = 80
+		}
+		effect = {
+			add_country_modifier = {
+				name = het_reformed_election_system
+				duration = 7300
+			}
+			add_adm_power = 100
+			change_government_reform_progress = 100
+		}
+	}
+}
+
+het_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			tag = HET
+			NOT = { map_setup = map_setup_random }
+		}
+	}
+	has_country_shield = yes
+
+	het_sich_stronghold = {
+		icon = mission_conquer_50_development
+		required_missions = { }
+		position = 1
+		trigger = {
+			capital_scope = {
+				fort_level = 2
+				development = 15
+			}
+			num_of_owned_provinces_with = {
+				value = 3
+				has_terrain = steppe
+				development = 10
+			}
+		}
+		effect = {
+			capital_scope = {
+				add_province_modifier = {
+					name = het_fortified_sich
+					duration = -1
+				}
+			}
+			add_country_modifier = {
+				name = het_steppe_mastery
+				duration = 7300
+			}
+		}
+	}
+
+	het_cossack_host = {
+		icon = mission_conquer_5_states
+		required_missions = { het_sich_stronghold }
+		position = 2
+		trigger = {
+			has_reform = cossacks_reform
+			army_size = 30
+			cavalry_fraction = 0.3
+		}
+		effect = {
+			add_country_modifier = {
+				name = het_cossack_cavalry_elite
+				duration = 9125
+			}
+			add_army_tradition = 15
+		}
+	}
+
+	het_raid_doctrine = {
+		icon = mission_cossack_cavalry
+		required_missions = { het_cossack_host }
+		position = 3
+		trigger = {
+			has_country_flag = het_conducted_major_raid
+			army_tradition = 50
+		}
+		effect = {
+			add_country_modifier = {
+				name = het_perfected_raids
+				duration = 10950
+			}
+			custom_tooltip = het_raid_doctrine_tt
+			set_country_flag = het_raid_doctrine_unlocked
+		}
+	}
+
+	het_zaporizhian_liberty = {
+		icon = mission_rb_grow_the_channel
+		required_missions = { het_raid_doctrine }
+		position = 4
+		trigger = {
+			is_subject = no
+			prestige = 50
+			legitimacy = 90
+		}
+		effect = {
+			add_country_modifier = {
+				name = het_free_cossacks
+				duration = -1
+			}
+			add_legitimacy = 30
+		}
+	}
+
+	het_dnieper_control = {
+		icon = mission_rb_control_the_hansa
+		required_missions = { het_zaporizhian_liberty }
+		position = 5
+		provinces_to_highlight = {
+			OR = {
+				province_id = 283  # Zaporozhia
+				province_id = 280  # Kyiv
+				province_id = 290  # Poltava
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			owns_or_non_sovereign_subject_of = 283
+			owns_or_non_sovereign_subject_of = 280
+			owns_or_non_sovereign_subject_of = 290
+			283 = { development = 20 }
+		}
+		effect = {
+			283 = {
+				add_province_modifier = {
+					name = het_dnieper_hub
+					duration = -1
+				}
+				add_center_of_trade_level = 1
+			}
+			add_mercantilism = 3
+		}
+	}
+
+	het_black_sea_ambition = {
+		icon = mission_establish_high_seas_navy
+		required_missions = { het_dnieper_control }
+		position = 6
+		provinces_to_highlight = {
+			OR = {
+				area = yedisan_area
+				province_id = 282  # Ochakov
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			num_of_ports = 5
+			navy_size = 15
+			any_owned_province = {
+				OR = {
+					area = yedisan_area
+					province_id = 282
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = het_black_sea_fleet
+				duration = 9125
+			}
+			crimea_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+}
+
+het_missions_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			tag = HET
+			NOT = { map_setup = map_setup_random }
+		}
+	}
+	has_country_shield = yes
+
+	het_moldovan_alliance = {
+		icon = mission_unite_home_region
+		required_missions = { }
+		position = 1
+		trigger = {
+			OR = {
+				alliance_with = MOL
+				MOL = {
+					is_subject_of = ROOT
+				}
+				AND = {
+					268 = { owned_by = ROOT }  # Moldavia
+					any_owned_province = {
+						area = moldavia_area
+					}
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = { alliance_with = MOL }
+				add_country_modifier = {
+					name = het_moldovan_partnership
+					duration = 5475
+				}
+			}
+			moldavia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			wallachia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			custom_tooltip = het_moldovan_alliance_tt
+		}
+	}
+
+	het_absorb_moldova = {
+		icon = mission_monarch_in_throne_room
+		required_missions = { het_moldovan_alliance }
+		position = 2
+		provinces_to_highlight = {
+			area = moldavia_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			OR = {
+				MOL = { is_subject_of = ROOT }
+				moldavia_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					MOL = { is_subject_of = ROOT }
+				}
+				add_country_modifier = {
+					name = het_moldovan_vassalization
+					duration = 7300
+				}
+			}
+			else = {
+				add_country_modifier = {
+					name = het_moldovan_conquest
+					duration = 5475
+				}
+			}
+			balkan_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	het_danube_frontier = {
+		icon = mission_unite_home_region
+		required_missions = { het_absorb_moldova }
+		position = 3
+		provinces_to_highlight = {
+			OR = {
+				area = wallachia_area
+				province_id = 153  # Dobruja
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			any_owned_province = {
+				area = wallachia_area
+			}
+			153 = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		effect = {
+			add_country_modifier = {
+				name = het_danube_watch
+				duration = 9125
+			}
+			serbia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	het_bulwark_christendom = {
+		icon = mission_hands_praying
+		required_missions = { het_danube_frontier }
+		position = 4
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 10
+				region = balkan_region
+			}
+			151 = {  # Constantinople
+				OR = {
+					country_or_non_sovereign_subject_holds = ROOT
+					owner = { religion = orthodox }
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = het_bulwark_of_orthodoxy
+				duration = -1
+			}
+			add_church_power = 200
+			add_prestige = 40
+		}
+	}
+}

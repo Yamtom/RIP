@@ -1,0 +1,299 @@
+# =================================================================
+# HETMANATE COSSACK RAID EVENTS
+# =================================================================
+# Events for Cossack raiding mechanics
+# =================================================================
+
+namespace = het_cossack_raids
+
+# Event 1: Organize Major Raid - Choose Target
+country_event = {
+	id = het_cossack_raids.1
+	title = het_cossack_raids.1.t
+	desc = het_cossack_raids.1.d
+	picture = COSSACK_CAVALRY_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Raid Ottoman territories
+		name = het_cossack_raids.1.a
+		trigger = {
+			any_neighbor_country = {
+				OR = {
+					tag = TUR
+					religion = sunni
+				}
+			}
+		}
+		
+		random_neighbor_country = {
+			limit = {
+				OR = {
+					tag = TUR
+					religion = sunni
+				}
+			}
+			country_event = { id = het_cossack_raids.2 days = 30 }
+			add_opinion = {
+				who = ROOT
+				modifier = het_raided_us
+			}
+		}
+		add_country_modifier = {
+			name = het_successful_raid
+			duration = 730
+		}
+		add_army_tradition = 10
+		add_prestige = 10
+		add_years_of_income = 0.5
+		set_country_flag = het_conducted_major_raid
+		clr_country_flag = het_raid_cooldown
+	}
+	
+	option = { # Raid Polish territories
+		name = het_cossack_raids.1.b
+		trigger = {
+			any_neighbor_country = {
+				OR = {
+					tag = PLC
+					tag = POL
+					religion = catholic
+				}
+			}
+		}
+		
+		random_neighbor_country = {
+			limit = {
+				OR = {
+					tag = PLC
+					tag = POL
+					religion = catholic
+				}
+			}
+			country_event = { id = het_cossack_raids.2 days = 30 }
+			add_opinion = {
+				who = ROOT
+				modifier = het_raided_us
+			}
+		}
+		add_country_modifier = {
+			name = het_successful_raid
+			duration = 730
+		}
+		add_army_tradition = 8
+		add_prestige = 12
+		add_years_of_income = 0.4
+		set_country_flag = het_conducted_major_raid
+		clr_country_flag = het_raid_cooldown
+	}
+	
+	option = { # Raid Crimean lands
+		name = het_cossack_raids.1.c
+		trigger = {
+			any_neighbor_country = {
+				OR = {
+					tag = CRI
+					primary_culture = crimean
+				}
+			}
+		}
+		
+		random_neighbor_country = {
+			limit = {
+				OR = {
+					tag = CRI
+					primary_culture = crimean
+				}
+			}
+			country_event = { id = het_cossack_raids.2 days = 30 }
+			add_opinion = {
+				who = ROOT
+				modifier = het_raided_us
+			}
+		}
+		add_country_modifier = {
+			name = het_successful_raid
+			duration = 730
+		}
+		add_army_tradition = 12
+		add_prestige = 8
+		add_years_of_income = 0.3
+		set_country_flag = het_conducted_major_raid
+		clr_country_flag = het_raid_cooldown
+	}
+	
+	option = { # Cancel the raid
+		name = het_cossack_raids.1.d
+		
+		clr_country_flag = het_raid_cooldown
+		add_prestige = -5
+	}
+}
+
+# Event 2: Target Responds to Raid
+country_event = {
+	id = het_cossack_raids.2
+	title = het_cossack_raids.2.t
+	desc = het_cossack_raids.2.d
+	picture = BORDER_TENSION_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Retaliate
+		name = het_cossack_raids.2.a
+		ai_chance = { factor = 60 }
+		
+		add_casus_belli = {
+			type = cb_border_war
+			target = FROM
+			months = 24
+		}
+		add_manpower = -2
+		add_war_exhaustion = 1
+	}
+	
+	option = { # Strengthen defenses
+		name = het_cossack_raids.2.b
+		ai_chance = { factor = 40 }
+		
+		random_owned_province = {
+			limit = {
+				any_neighbor_province = {
+					owned_by = FROM
+				}
+			}
+			add_province_modifier = {
+				name = het_raid_defenses
+				duration = 1825
+			}
+		}
+		add_mil_power = -25
+	}
+}
+
+# Event 3: Deep Penetration Raid
+country_event = {
+	id = het_cossack_raids.3
+	title = het_cossack_raids.3.t
+	desc = het_cossack_raids.3.d
+	picture = COSSACK_CAVALRY_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Strike deep into enemy territory
+		name = het_cossack_raids.3.a
+		
+		random_rival_country = {
+			limit = {
+				NOT = { war_with = ROOT }
+			}
+			random_owned_province = {
+				limit = {
+					development = 10
+				}
+				add_devastation = 15
+				add_province_modifier = {
+					name = het_deep_raided
+					duration = 1825
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = het_deep_raid_vendetta
+			}
+			country_event = { id = het_cossack_raids.5 days = 15 }
+		}
+		add_country_modifier = {
+			name = het_legendary_raid
+			duration = 1825
+		}
+		add_army_tradition = 15
+		add_prestige = 20
+		add_years_of_income = 0.8
+	}
+}
+
+# Event 4: Punitive Expedition Impact
+country_event = {
+	id = het_cossack_raids.4
+	title = het_cossack_raids.4.t
+	desc = het_cossack_raids.4.d
+	picture = BORDER_TENSION_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # They strike with fury
+		name = het_cossack_raids.4.a
+		
+		add_war_exhaustion = 2
+		random_owned_province = {
+			limit = {
+				controlled_by = FROM
+			}
+			add_devastation = 10
+		}
+	}
+}
+
+# Event 5: Deep Raid Consequences
+country_event = {
+	id = het_cossack_raids.5
+	title = het_cossack_raids.5.t
+	desc = het_cossack_raids.5.d
+	picture = ANGRY_MOB_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # This cannot stand!
+		name = het_cossack_raids.5.a
+		ai_chance = { factor = 80 }
+		
+		add_casus_belli = {
+			type = cb_insult
+			target = FROM
+			months = 60
+		}
+		add_prestige = -10
+		add_legitimacy = -5
+	}
+	
+	option = { # Endure the humiliation
+		name = het_cossack_raids.5.b
+		ai_chance = { factor = 20 }
+		
+		add_prestige = -15
+		add_stability = -1
+	}
+}
+
+# Event 6: Raid Brings Back Treasure
+country_event = {
+	id = het_cossack_raids.6
+	title = het_cossack_raids.6.t
+	desc = het_cossack_raids.6.d
+	picture = TRADE_GOODS_METALS_AND_MINING_EQUIPENT_eventPicture
+	
+	trigger = {
+		tag = HET
+		has_country_modifier = het_successful_raid
+	}
+	
+	mean_time_to_happen = {
+		months = 12
+	}
+	
+	option = { # Distribute among the Host
+		name = het_cossack_raids.6.a
+		
+		add_years_of_income = 0.3
+		add_army_tradition = 5
+		add_legitimacy = 5
+	}
+	
+	option = { # Keep for the treasury
+		name = het_cossack_raids.6.b
+		
+		add_years_of_income = 0.5
+		add_corruption = 0.5
+	}
+}

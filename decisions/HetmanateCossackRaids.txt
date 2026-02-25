@@ -1,0 +1,151 @@
+country_decisions = {
+
+	het_organize_major_raid = {
+		major = yes
+		potential = {
+			tag = HET
+			has_reform = cossacks_reform
+			NOT = { has_country_flag = het_raid_cooldown }
+		}
+		allow = {
+			is_at_war = no
+			army_tradition = 30
+			cavalry_fraction = 0.25
+			manpower_percentage = 0.6
+			NOT = { war_exhaustion = 2 }
+		}
+		effect = {
+			set_country_flag = het_raid_cooldown
+			country_event = { id = het_cossack_raids.1 }
+			add_country_modifier = {
+				name = het_raid_preparation
+				duration = 365
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.3
+				NOT = { army_tradition = 50 }
+			}
+		}
+	}
+
+	het_deep_penetration_raid = {
+		potential = {
+			tag = HET
+			has_reform = cossacks_reform
+			has_country_flag = het_raid_doctrine_unlocked
+			NOT = { has_country_flag = het_deep_raid_cooldown }
+		}
+		allow = {
+			is_at_war = no
+			army_tradition = 60
+			cavalry_fraction = 0.35
+			mil_power = 50
+			NOT = { war_exhaustion = 1 }
+		}
+		effect = {
+			add_mil_power = -50
+			set_country_flag = het_deep_raid_cooldown
+			country_event = { id = het_cossack_raids.3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { mil_power = 100 }
+			}
+		}
+	}
+
+	het_punitive_expedition = {
+		potential = {
+			tag = HET
+			has_reform = cossacks_reform
+		}
+		allow = {
+			is_at_war = yes
+			any_rival_country = {
+				war_with = ROOT
+			}
+			army_tradition = 40
+			NOT = { has_country_modifier = het_punitive_strike }
+		}
+		effect = {
+			add_country_modifier = {
+				name = het_punitive_strike
+				duration = 730
+			}
+			add_army_tradition = 10
+			random_rival_country = {
+				limit = { war_with = ROOT }
+				add_war_exhaustion = 2
+				country_event = { id = het_cossack_raids.4 }
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	het_steppe_domination = {
+		major = yes
+		potential = {
+			tag = HET
+			has_reform = cossacks_reform
+		}
+		allow = {
+			is_at_war = no
+			num_of_owned_provinces_with = {
+				value = 15
+				has_terrain = steppe
+			}
+			cavalry_fraction = 0.4
+			army_tradition = 70
+			NOT = { has_country_modifier = het_steppe_hegemony }
+		}
+		effect = {
+			add_country_modifier = {
+				name = het_steppe_hegemony
+				duration = 10950
+			}
+			add_prestige = 25
+			every_owned_province = {
+				limit = { has_terrain = steppe }
+				add_province_modifier = {
+					name = het_tamed_steppe
+					duration = 7300
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	het_modernize_host = {
+		potential = {
+			tag = HET
+			has_reform = cossacks_reform
+			mil_tech = 15
+		}
+		allow = {
+			mil_tech = 18
+			army_professionalism = 0.3
+			mil_power = 100
+			NOT = { has_country_modifier = het_modern_cossack_army }
+		}
+		effect = {
+			add_mil_power = -100
+			add_country_modifier = {
+				name = het_modern_cossack_army
+				duration = -1
+			}
+			add_army_professionalism = 0.05
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}

@@ -1,0 +1,169 @@
+country_decisions = {
+
+	het_moldovan_protection = {
+		major = yes
+		potential = {
+			tag = HET
+			NOT = { has_country_flag = het_moldova_decision_made }
+			MOL = {
+				exists = yes
+				is_subject = no
+			}
+		}
+		allow = {
+			is_at_war = no
+			NOT = { war_with = MOL }
+			prestige = 25
+			army_size = 25
+			OR = {
+				alliance_with = MOL
+				any_owned_province = {
+					any_neighbor_province = {
+						owned_by = MOL
+					}
+				}
+			}
+		}
+		effect = {
+			set_country_flag = het_moldova_decision_made
+			country_event = { id = het_moldova.1 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				alliance_with = MOL
+			}
+		}
+	}
+
+	het_integrate_moldova = {
+		major = yes
+		potential = {
+			tag = HET
+			MOL = {
+				is_subject_of = ROOT
+				is_subject_of_type = vassal
+			}
+			NOT = { has_country_flag = het_moldova_integrated }
+		}
+		allow = {
+			MOL = {
+				has_been_vassal_for_x_years = 15
+				has_opinion = {
+					who = ROOT
+					value = 150
+				}
+			}
+			dip_power = 100
+			stability = 2
+		}
+		effect = {
+			set_country_flag = het_moldova_integrated
+			add_dip_power = -100
+			country_event = { id = het_moldova.3 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	het_moldovan_military_access = {
+		potential = {
+			tag = HET
+			MOL = {
+				is_subject_of = ROOT
+			}
+			NOT = { has_country_flag = het_moldova_mil_access }
+		}
+		allow = {
+			is_at_war = yes
+			MOL = {
+				is_subject_of = ROOT
+				NOT = { manpower_percentage = 0.3 }
+			}
+		}
+		effect = {
+			set_country_flag = het_moldova_mil_access
+			add_country_modifier = {
+				name = het_moldovan_levies
+				duration = 1825
+			}
+			add_manpower = 5
+			MOL = {
+				add_manpower = -3
+				add_opinion = {
+					who = ROOT
+					modifier = het_forced_levies
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	het_danube_trade_charter = {
+		potential = {
+			tag = HET
+			OR = {
+				MOL = { is_subject_of = ROOT }
+				any_owned_province = {
+					area = moldavia_area
+				}
+			}
+			NOT = { has_country_modifier = het_danube_trade }
+		}
+		allow = {
+			dip_tech = 12
+			any_owned_province = {
+				OR = {
+					area = moldavia_area
+					area = wallachia_area
+				}
+			}
+			dip_power = 50
+		}
+		effect = {
+			add_dip_power = -50
+			add_country_modifier = {
+				name = het_danube_trade
+				duration = 7300
+			}
+			add_mercantilism = 2
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	het_orthodox_missionary_support = {
+		potential = {
+			tag = HET
+			MOL = {
+				is_subject_of = ROOT
+			}
+			NOT = { has_country_flag = het_mol_orthodox_mission }
+		}
+		allow = {
+			MOL = {
+				religious_unity = 0.7
+			}
+			church_power = 50
+		}
+		effect = {
+			set_country_flag = het_mol_orthodox_mission
+			add_church_power = -50
+			MOL = {
+				add_country_modifier = {
+					name = het_orthodox_support
+					duration = 5475
+				}
+			}
+			add_prestige = 10
+		}
+		ai_will_do = {
+			factor = 0.7
+		}
+	}
+}

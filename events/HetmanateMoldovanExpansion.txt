@@ -1,0 +1,294 @@
+# =================================================================
+# HETMANATE MOLDOVAN EXPANSION EVENTS
+# =================================================================
+# Events for Hetmanate's expansion into Moldova
+# =================================================================
+
+namespace = het_moldova
+
+# Event 1: Offer Protection to Moldova
+country_event = {
+	id = het_moldova.1
+	title = het_moldova.1.t
+	desc = het_moldova.1.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Offer vassalization
+		name = het_moldova.1.a
+		ai_chance = { factor = 60 }
+		
+		MOL = {
+			country_event = { id = het_moldova.2 }
+		}
+	}
+	
+	option = { # Offer alliance only
+		name = het_moldova.1.b
+		ai_chance = { factor = 30 }
+		
+		if = {
+			limit = { NOT = { alliance_with = MOL } }
+			create_alliance = MOL
+		}
+		add_country_modifier = {
+			name = het_moldovan_partnership
+			duration = 5475
+		}
+	}
+	
+	option = { # Demand submission by force
+		name = het_moldova.1.c
+		ai_chance = { factor = 10 }
+		
+		add_casus_belli = {
+			type = cb_vassalize_mission
+			target = MOL
+			months = 240
+		}
+		MOL = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_threatened_moldova
+			}
+		}
+	}
+}
+
+# Event 2: Moldova Receives Protection Offer
+country_event = {
+	id = het_moldova.2
+	title = het_moldova.2.t
+	desc = het_moldova.2.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Accept vassalization
+		name = het_moldova.2.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				FROM = { army_size_percentage = 0.8 }
+			}
+			modifier = {
+				factor = 0.3
+				is_great_power = yes
+			}
+			modifier = {
+				factor = 1.5
+				any_rival_country = {
+					OR = {
+						tag = TUR
+						tag = HUN
+					}
+				}
+			}
+		}
+		
+		FROM = {
+			vassalize = ROOT
+			add_country_modifier = {
+				name = het_moldovan_vassalization
+				duration = 7300
+			}
+		}
+		add_trust = {
+			who = FROM
+			value = 20
+			mutual = yes
+		}
+	}
+	
+	option = { # Refuse
+		name = het_moldova.2.b
+		ai_chance = { factor = 50 }
+		
+		add_prestige = 10
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_refused_protection
+			}
+		}
+	}
+}
+
+# Event 3: Integrate Moldova - Peaceful or Forceful
+country_event = {
+	id = het_moldova.3
+	title = het_moldova.3.t
+	desc = het_moldova.3.d
+	picture = CONQUEST_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = { # Peaceful integration
+		name = het_moldova.3.a
+		trigger = {
+			MOL = {
+				has_opinion = {
+					who = ROOT
+					value = 150
+				}
+			}
+		}
+		
+		inherit = MOL
+		add_prestige = 20
+		add_legitimacy = 10
+		moldavia_area = {
+			add_province_modifier = {
+				name = het_peaceful_integration
+				duration = 5475
+			}
+		}
+	}
+	
+	option = { # Forceful annexation
+		name = het_moldova.3.b
+		
+		inherit = MOL
+		add_prestige = 10
+		add_legitimacy = -5
+		moldavia_area = {
+			add_province_modifier = {
+				name = het_forced_integration
+				duration = 3650
+			}
+			add_unrest = 3
+		}
+	}
+}
+
+# Event 4: Moldovan Nobles Seek Hetmanate Support
+country_event = {
+	id = het_moldova.4
+	title = het_moldova.4.t
+	desc = het_moldova.4.d
+	picture = COURT_eventPicture
+	
+	trigger = {
+		tag = HET
+		MOL = {
+			exists = yes
+			is_subject = no
+			NOT = { alliance_with = ROOT }
+		}
+		any_owned_province = {
+			any_neighbor_province = {
+				owned_by = MOL
+			}
+		}
+		NOT = { has_country_flag = het_moldovan_nobles }
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+	}
+	
+	option = { # Support their cause
+		name = het_moldova.4.a
+		
+		set_country_flag = het_moldovan_nobles
+		add_casus_belli = {
+			type = cb_vassalize_mission
+			target = MOL
+			months = 120
+		}
+		MOL = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_noble_interference
+			}
+		}
+	}
+	
+	option = { # Remain neutral
+		name = het_moldova.4.b
+		
+		add_prestige = 5
+	}
+}
+
+# Event 5: Joint Orthodox Defense
+country_event = {
+	id = het_moldova.5
+	title = het_moldova.5.t
+	desc = het_moldova.5.d
+	picture = ORTHODOX_eventPicture
+	
+	trigger = {
+		tag = HET
+		MOL = {
+			is_subject_of = ROOT
+		}
+		is_at_war = yes
+		any_war_enemy_country = {
+			NOT = { religion = orthodox }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 24
+	}
+	
+	option = { # Rally Orthodox defenders
+		name = het_moldova.5.a
+		
+		add_country_modifier = {
+			name = het_orthodox_alliance_war
+			duration = 1825
+		}
+		add_manpower = 3
+		add_church_power = 25
+		MOL = {
+			add_manpower = 2
+		}
+	}
+}
+
+# Event 6: Danube Trade Opportunity
+country_event = {
+	id = het_moldova.6
+	title = het_moldova.6.t
+	desc = het_moldova.6.d
+	picture = TRADE_GOODS_METALS_AND_MINING_EQUIPENT_eventPicture
+	
+	trigger = {
+		tag = HET
+		OR = {
+			MOL = { is_subject_of = ROOT }
+			any_owned_province = {
+				area = moldavia_area
+			}
+		}
+		NOT = { has_country_flag = het_danube_trade_event }
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	option = { # Establish trade route
+		name = het_moldova.6.a
+		
+		set_country_flag = het_danube_trade_event
+		add_years_of_income = 0.5
+		add_mercantilism = 1
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = moldavia_area
+					area = wallachia_area
+				}
+			}
+			add_province_modifier = {
+				name = het_danube_trade_hub
+				duration = 7300
+			}
+		}
+	}
+}

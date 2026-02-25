@@ -1,0 +1,30 @@
+# ==============================================================
+# Hetmanate Legacy Eras (sourced from legacy "ruthenianew" data)
+# ==============================================================
+
+country_decisions = {
+	het_compile_legacy_chronicles = {
+		major = yes
+		potential = {
+			tag = HET
+		}
+		allow = {
+			is_at_war = no
+			is_year = 1648
+			adm_power = 50
+			NOT = { has_country_flag = het_legacy_eras_started }
+			NOT = { has_country_flag = het_legacy_eras_completed }
+			NOT = { has_country_flag = het_legacy_pereiaslav_reviewed }
+			NOT = { has_country_flag = het_legacy_mazepa_reviewed }
+			NOT = { has_country_flag = het_legacy_collegium_reviewed }
+		}
+		effect = {
+			add_adm_power = -50
+			set_country_flag = het_legacy_eras_started
+			country_event = { id = het_legacy_eras.1 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}
