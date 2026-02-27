@@ -49,12 +49,13 @@ country_decisions = {
 		}
 		allow = {
 			MOL = {
-				has_been_vassal_for_x_years = 15
 				has_opinion = {
 					who = ROOT
 					value = 150
 				}
 			}
+			has_country_flag = het_mol_vassal_tracking_active
+			NOT = { has_country_flag = het_mol_vassal_min_time_pending }
 			dip_power = 100
 			stability = 2
 		}
@@ -163,7 +164,7 @@ country_decisions = {
 			add_prestige = 10
 		}
 		ai_will_do = {
-			factor = 0.7
+			factor = 1
 		}
 	}
 }

@@ -95,6 +95,11 @@ country_event = {
 				duration = 7300
 			}
 		}
+		set_country_flag = het_mol_vassal_tracking_active@FROM
+		set_country_flag = {
+			flag = het_mol_vassal_min_time_pending@FROM
+			days = 3650
+		}
 		add_trust = {
 			who = FROM
 			value = 20
@@ -128,6 +133,8 @@ country_event = {
 	option = { # Peaceful integration
 		name = het_moldova.3.a
 		trigger = {
+			has_country_flag = het_mol_vassal_tracking_active
+			NOT = { has_country_flag = het_mol_vassal_min_time_pending }
 			MOL = {
 				has_opinion = {
 					who = ROOT
@@ -290,5 +297,42 @@ country_event = {
 				duration = 7300
 			}
 		}
+	}
+}
+
+# Event 90: Moldova vassal-time sync (technical)
+country_event = {
+	id = het_moldova.90
+
+	is_triggered_only = yes
+
+	trigger = {
+		tag = HET
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				MOL = {
+					exists = yes
+					is_subject_of = ROOT
+					is_subject_of_type = vassal
+				}
+				NOT = { has_country_flag = het_mol_vassal_tracking_active }
+			}
+			set_country_flag = het_mol_vassal_tracking_active
+			set_country_flag = {
+				flag = het_mol_vassal_min_time_pending
+				days = 3650
+			}
+		}
+		else = {
+			clr_country_flag = het_mol_vassal_tracking_active
+			clr_country_flag = het_mol_vassal_min_time_pending
+		}
+	}
+
+	option = {
+		name = CONTINUE
 	}
 }
