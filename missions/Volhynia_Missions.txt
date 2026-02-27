@@ -5,9 +5,11 @@ VOL_missions_1 = {
 	potential = {
 		OR = {
 			tag = VOL
-			tag = VLN
 			tag = HLC
-			tag = PDL
+			AND = {
+				tag = VLN
+				NOT = { exists = HLC }
+			}
 		}
 	}
 	has_country_shield = yes
@@ -283,9 +285,11 @@ VOL_missions_2 = {
 	potential = {
 		OR = {
 			tag = VOL
-			tag = VLN
 			tag = HLC
-			tag = PDL
+			AND = {
+				tag = VLN
+				NOT = { exists = HLC }
+			}
 		}
 	}
 	has_country_shield = yes
@@ -606,9 +610,11 @@ VOL_missions_3 = {
 	potential = {
 		OR = {
 			tag = VOL
-			tag = VLN
 			tag = HLC
-			tag = PDL
+			AND = {
+				tag = VLN
+				NOT = { exists = HLC }
+			}
 		}
 	}
 	has_country_shield = yes
@@ -846,9 +852,7 @@ VOL_missions_4 = {
 	potential = {
 		OR = {
 			tag = VOL
-			tag = VLN
 			tag = HLC
-			tag = PDL
 		}
 	}
 	has_country_shield = yes
@@ -880,10 +884,7 @@ VOL_missions_4_HLC = {
 	generic = no
 	ai = yes
 	potential = {
-		OR = {
-			tag = VOL
-			tag = HLC
-		}
+		tag = HLC
 	}
 	# HLC-only Austrian/Polish analogue column embedded into slot 4
 	hlc_carpathian_bulwark = {
@@ -960,7 +961,7 @@ VOL_missions_U_4 = {
 			VOL_king_power
 			VOL_full_army
 		}
-		position = 2
+		position = 7
 		provinces_to_highlight = {
 			province_id = 280
 		}
@@ -987,7 +988,7 @@ VOL_missions_U_4 = {
 		required_missions = {
 			VOL_deal_with_the_boyar_mission
 		}
-		position = 4
+		position = 8
 		provinces_to_highlight = {
 			OR = {
 				area = west_dniepr_area
@@ -1038,7 +1039,7 @@ VOL_missions_U_4 = {
 			VOL_demolish_MOS
 			VOL_restore_ruthenia
 		}
-		position = 8
+		position = 9
 		provinces_to_highlight = {
 			OR = {
 				area = pskov_area
@@ -1074,9 +1075,7 @@ VOL_missions_5 = {
 	potential = {
 		OR = {
 			tag = VOL
-			tag = VLN
 			tag = HLC
-			tag = PDL
 		}
 	}
 	has_country_shield = yes
@@ -1248,7 +1247,7 @@ VOL_missions_U_5 = {
 			VOL_invest_in_west_rus_mission
 			VOL_restore_ruthenia
 		}
-		position = 4
+		position = 5
 		provinces_to_highlight = {
 			OR = {
 				province_id = 291

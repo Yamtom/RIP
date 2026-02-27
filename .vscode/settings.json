@@ -5,6 +5,19 @@
     "cwtools.errors.vanilla": false,
     "chat.tools.terminal.autoApprove": {
         "Set-Content": true,
-        "Rename-Item": true
+        "Rename-Item": true,
+        "/^powershell -command \"Get-Content 'c:\\\\Users\\\\grigo\\\\Documents\\\\Paradox Interactive\\\\Europa Universalis IV\\\\mod\\\\RIP\\\\missions\\\\DOM_Russia_Missions\\.txt' \\| Select-Object -Index 714\\.\\.726 \\| ForEach-Object \\{\\$_ -replace ' ','·'\\} \\| Out-String\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^powershell -command \"\\(Get-Content 'c:\\\\Users\\\\grigo\\\\Documents\\\\Paradox Interactive\\\\Europa Universalis IV\\\\mod\\\\RIP\\\\missions\\\\DOM_Russia_Missions\\.txt'\\)\\[714\\.\\.726\\] \\| ForEach-Object \\{\\$_ -replace ' ','·'\\} \\| Out-String\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^powershell -command \"\\(Get-Content 'c:\\\\Users\\\\grigo\\\\Documents\\\\Paradox Interactive\\\\Europa Universalis IV\\\\mod\\\\RIP\\\\missions\\\\DOM_Russia_Missions\\.txt'\\)\\[710\\.\\.730\\] \\| ForEach-Object \\{ '\\{0\\}: \\{1\\}' -f \\(\\[array\\]::IndexOf\\(\\(Get-Content 'c:\\\\Users\\\\grigo\\\\Documents\\\\Paradox Interactive\\\\Europa Universalis IV\\\\mod\\\\RIP\\\\missions\\\\DOM_Russia_Missions\\.txt'\\),\\$_\\)\\), \\$_ \\}\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "ForEach-Object": true
     }
 }
