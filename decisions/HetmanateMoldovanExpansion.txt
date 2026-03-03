@@ -4,10 +4,17 @@ country_decisions = {
 		major = yes
 		potential = {
 			tag = HET
+			has_country_flag = het_unlocked_moldovan_path
 			NOT = { has_country_flag = het_moldova_decision_made }
 			MOL = {
 				exists = yes
 				is_subject = no
+			}
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			any_neighbor_province = {
+				owned_by = MOL
 			}
 		}
 		allow = {
@@ -41,6 +48,7 @@ country_decisions = {
 		major = yes
 		potential = {
 			tag = HET
+			has_country_flag = het_unlocked_moldovan_path
 			MOL = {
 				is_subject_of = ROOT
 				is_subject_of_type = vassal
@@ -74,6 +82,7 @@ country_decisions = {
 	het_moldovan_military_access = {
 		potential = {
 			tag = HET
+			has_country_flag = het_unlocked_moldovan_path
 			MOL = {
 				is_subject_of = ROOT
 			}
@@ -109,6 +118,7 @@ country_decisions = {
 	het_danube_trade_charter = {
 		potential = {
 			tag = HET
+			has_country_flag = het_unlocked_moldovan_path
 			OR = {
 				MOL = { is_subject_of = ROOT }
 				any_owned_province = {
@@ -116,6 +126,13 @@ country_decisions = {
 				}
 			}
 			NOT = { has_country_modifier = het_danube_trade }
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = moldavia_area
+				area = wallachia_area
+			}
+			NOT = { owned_by = ROOT }
 		}
 		allow = {
 			dip_tech = 12
@@ -143,6 +160,7 @@ country_decisions = {
 	het_orthodox_missionary_support = {
 		potential = {
 			tag = HET
+			has_country_flag = het_unlocked_moldovan_path
 			MOL = {
 				is_subject_of = ROOT
 			}

@@ -1,27 +1,7 @@
 namespace = west_ukraine_history
 
-# =========================================================================
-# WESTERN UKRAINE HISTORICAL EVENTS (1444-1821)
-# Region: Galicia (HLC), Volhynia (VOL), Red Ruthenia, Podolia
-# 
-# Historical Themes:
-# - Polish-Lithuanian influence and colonization
-# - Church Union of Brest (1596)
-# - Orthodox-Uniate conflicts
-# - Cossack uprisings
-# - Polonization of nobility
-# - Tatar raids
-# - Trade and economic development
-# - Magdeburg Law cities
-# =========================================================================
 
-# =========================================================================
-# POLONIZATION CHAIN (1444-1600)
-# Historical context: Polish nobility gradually adopts Polish culture,
-# language, and customs while maintaining Ruthenian traditions
-# =========================================================================
 
-# Polonization Begins
 country_event = {
 	id = west_ukraine_history.1
 	title = west_ukraine_history.1.t
@@ -65,7 +45,6 @@ country_event = {
 		}
 	}
 	
-	# Accept Polish influence
 	option = {
 		name = west_ukraine_history.1.a
 		
@@ -87,7 +66,6 @@ country_event = {
 		}
 	}
 	
-	# Resist Polish culture
 	option = {
 		name = west_ukraine_history.1.b
 		
@@ -121,7 +99,6 @@ country_event = {
 	}
 }
 
-# Polish Language at Court
 country_event = {
 	id = west_ukraine_history.2
 	title = west_ukraine_history.2.t
@@ -138,7 +115,6 @@ country_event = {
 		months = 120
 	}
 	
-	# Adopt Polish at court
 	option = {
 		name = west_ukraine_history.2.a
 		
@@ -167,7 +143,6 @@ country_event = {
 		}
 	}
 	
-	# Maintain Ruthenian language
 	option = {
 		name = west_ukraine_history.2.b
 		
@@ -179,13 +154,7 @@ country_event = {
 	}
 }
 
-# =========================================================================
-# CHURCH UNION EVENTS (1596-1650)
-# Historical context: Union of Brest creates Greek Catholic Church,
-# leading to religious and political tensions
-# =========================================================================
 
-# Pressure for Church Union
 country_event = {
 	id = west_ukraine_history.3
 	title = west_ukraine_history.3.t
@@ -198,6 +167,8 @@ country_event = {
 			tag = HLC
 			tag = PDL
 		}
+		is_year = 1550
+		NOT = { is_year = 1680 }
 		OR = {
 			overlord = { tag = POL }
 			overlord = { tag = PLC }
@@ -219,7 +190,6 @@ country_event = {
 		}
 	}
 	
-	# Accept Church Union
 	option = {
 		name = west_ukraine_history.3.a
 		
@@ -258,7 +228,6 @@ country_event = {
 		}
 	}
 	
-	# Refuse Church Union
 	option = {
 		name = west_ukraine_history.3.b
 		
@@ -289,7 +258,6 @@ country_event = {
 	}
 }
 
-# Orthodox-Uniate Conflict
 country_event = {
 	id = west_ukraine_history.4
 	title = west_ukraine_history.4.t
@@ -337,7 +305,6 @@ country_event = {
 		}
 	}
 	
-	# Suppress Orthodox resistance
 	option = {
 		name = west_ukraine_history.4.a
 		trigger = { has_country_flag = accepted_uniate_church }
@@ -360,7 +327,6 @@ country_event = {
 		}
 	}
 	
-	# Protect Orthodox faithful
 	option = {
 		name = west_ukraine_history.4.b
 		trigger = { has_country_flag = rejected_uniate_church }
@@ -379,7 +345,6 @@ country_event = {
 		}
 	}
 	
-	# Promote tolerance
 	option = {
 		name = west_ukraine_history.4.c
 		
@@ -398,12 +363,7 @@ country_event = {
 	}
 }
 
-# =========================================================================
-# COSSACK UPRISING CHAIN (1590-1680)
-# Historical context: Cossack revolts against Polish rule and serfdom
-# =========================================================================
 
-# Cossack Discontent
 country_event = {
 	id = west_ukraine_history.5
 	title = west_ukraine_history.5.t
@@ -416,6 +376,8 @@ country_event = {
 			tag = HLC
 			tag = PDL
 		}
+		is_year = 1550
+		NOT = { is_year = 1680 }
 		OR = {
 			overlord = { tag = POL }
 			overlord = { tag = PLC }
@@ -445,7 +407,6 @@ country_event = {
 		}
 	}
 	
-	# Suppress Cossack rights
 	option = {
 		name = west_ukraine_history.5.a
 		
@@ -473,7 +434,6 @@ country_event = {
 		}
 	}
 	
-	# Grant Cossack privileges
 	option = {
 		name = west_ukraine_history.5.b
 		
@@ -503,7 +463,6 @@ country_event = {
 	}
 }
 
-# Cossack Raid
 country_event = {
 	id = west_ukraine_history.6
 	title = west_ukraine_history.6.t
@@ -533,7 +492,6 @@ country_event = {
 		months = 180
 	}
 	
-	# Endorse the raid
 	option = {
 		name = west_ukraine_history.6.a
 		
@@ -558,7 +516,6 @@ country_event = {
 		}
 	}
 	
-	# Punish the Cossacks
 	option = {
 		name = west_ukraine_history.6.b
 		
@@ -578,12 +535,7 @@ country_event = {
 	}
 }
 
-# =========================================================================
-# TATAR RAID EVENTS (1444-1700)
-# Historical context: Crimean Tatar raids devastate borderlands
-# =========================================================================
 
-# Tatar Raid Warning
 country_event = {
 	id = west_ukraine_history.7
 	title = west_ukraine_history.7.t
@@ -642,7 +594,6 @@ country_event = {
 		}
 	}
 	
-	# Fortify the borders
 	option = {
 		name = west_ukraine_history.7.a
 		
@@ -660,7 +611,6 @@ country_event = {
 		}
 	}
 	
-	# Accept the risk
 	option = {
 		name = west_ukraine_history.7.b
 		
@@ -681,7 +631,6 @@ country_event = {
 	}
 }
 
-# Yasyr - Tatar Captives
 country_event = {
 	id = west_ukraine_history.8
 	title = west_ukraine_history.8.t
@@ -710,7 +659,6 @@ country_event = {
 		}
 	}
 	
-	# Ransom the captives
 	option = {
 		name = west_ukraine_history.8.a
 		
@@ -732,7 +680,6 @@ country_event = {
 		}
 	}
 	
-	# Accept the loss
 	option = {
 		name = west_ukraine_history.8.b
 		
@@ -748,12 +695,7 @@ country_event = {
 	}
 }
 
-# =========================================================================
-# TRADE AND ECONOMIC DEVELOPMENT (1444-1650)
-# Historical context: Western Ukraine as trade crossroads
-# =========================================================================
 
-# Lviv Trade Fair
 country_event = {
 	id = west_ukraine_history.9
 	title = west_ukraine_history.9.t
@@ -775,7 +717,6 @@ country_event = {
 		months = 300
 	}
 	
-	# Invest in the fair
 	option = {
 		name = west_ukraine_history.9.a
 		
@@ -798,7 +739,6 @@ country_event = {
 		}
 	}
 	
-	# Let it develop naturally
 	option = {
 		name = west_ukraine_history.9.b
 		
@@ -812,7 +752,6 @@ country_event = {
 	}
 }
 
-# Magdeburg Law
 country_event = {
 	id = west_ukraine_history.10
 	title = west_ukraine_history.10.t
@@ -852,7 +791,6 @@ country_event = {
 		}
 	}
 	
-	# Grant Magdeburg Law
 	option = {
 		name = west_ukraine_history.10.a
 		
@@ -880,7 +818,6 @@ country_event = {
 		}
 	}
 	
-	# Maintain direct control
 	option = {
 		name = west_ukraine_history.10.b
 		
@@ -900,7 +837,6 @@ country_event = {
 	}
 }
 
-# Chumak Trade Route
 country_event = {
 	id = west_ukraine_history.11
 	title = west_ukraine_history.11.t
@@ -922,7 +858,6 @@ country_event = {
 		months = 360
 	}
 	
-	# Support the Chumaks
 	option = {
 		name = west_ukraine_history.11.a
 		
@@ -944,7 +879,6 @@ country_event = {
 		}
 	}
 	
-	# Tax the Chumaks
 	option = {
 		name = west_ukraine_history.11.b
 		
@@ -956,12 +890,7 @@ country_event = {
 	}
 }
 
-# =========================================================================
-# NOBILITY AND SZLACHTA CULTURE (1500-1700)
-# Historical context: Ruthenian nobility adopts Polish gentry culture
-# =========================================================================
 
-# Sarmatism Ideology
 country_event = {
 	id = west_ukraine_history.12
 	title = west_ukraine_history.12.t
@@ -987,7 +916,6 @@ country_event = {
 		months = 300
 	}
 	
-	# Embrace Sarmatism
 	option = {
 		name = west_ukraine_history.12.a
 		
@@ -1011,7 +939,6 @@ country_event = {
 		}
 	}
 	
-	# Maintain Ruthenian traditions
 	option = {
 		name = west_ukraine_history.12.b
 		
@@ -1028,7 +955,6 @@ country_event = {
 	}
 }
 
-# Golden Liberty vs Absolutism
 country_event = {
 	id = west_ukraine_history.13
 	title = west_ukraine_history.13.t
@@ -1049,7 +975,6 @@ country_event = {
 		months = 120
 	}
 	
-	# Support Golden Liberty
 	option = {
 		name = west_ukraine_history.13.a
 		
@@ -1075,7 +1000,6 @@ country_event = {
 		}
 	}
 	
-	# Strengthen royal power
 	option = {
 		name = west_ukraine_history.13.b
 		

@@ -1,36 +1,6 @@
-# =========================================================================
-# DNIESTER ESTUARY MECHANICS DECISIONS
-# =========================================================================
-# HISTORICAL CONTEXT:
-# The Dniester (Dnister) Estuary was strategically important trade zone
-# connecting the steppe, Moldavia, and Black Sea trade routes. Key centers:
-# - Bilhorod-Dnistrovskyi (Akkerman/Cetatea Albă): Major port fortress
-# - Kilia (Chilia Veche): Danube-Dniester trade hub
-# - Smaller settlements like Ovidiopol, Shabo
-#
-# ECONOMIC IMPORTANCE:
-# - Transit point for goods between Poland-Lithuania, Moldavia, Black Sea
-# - Fishing, salt production, wine trade
-# - Strategic control point for multiple powers (Moldavia, Ottomans, 
-#   Poland, Cossacks, Crimea)
-#
-# HISTORICAL TIMELINE:
-# - 1420s-1484: Moldavian control
-# - 1484-1812: Ottoman control (with periodic Cossack/Polish incursions)
-# - 1812-1917: Russian control
-#
-# GAME MECHANICS:
-# - Development of estuary trade infrastructure
-# - Fortification of key ports
-# - Fishing and salt industries
-# - Wine production (Greek/Armenian merchants)
-# - Naval base development
-# - Competition between regional powers
-# =========================================================================
 
 country_decisions = {
 	
-	# Develop Dniester Estuary Trade
 	develop_dniester_estuary_trade = {
 		major = yes
 		potential = {
@@ -42,13 +12,26 @@ country_decisions = {
 				tag = POL
 				tag = VOL
 			}
-			any_owned_province = {
-				OR = {
-					province_id = 282  # Yedisan/Akkerman/Bilhorod
-					province_id = 268  # Moldavia region
+			OR = {
+				owns_or_non_sovereign_subject_of = 282 # Yedisan/Akkerman/Bilhorod
+				owns_or_non_sovereign_subject_of = 268 # Moldavia region
+				any_owned_province = {
+					any_neighbor_province = {
+						OR = {
+							province_id = 282
+							province_id = 268
+						}
+					}
 				}
 			}
 			NOT = { has_country_flag = dniester_estuary_developed }
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 282
+				province_id = 268
+			}
+			NOT = { owned_by = ROOT }
 		}
 		
 		allow = {
@@ -58,10 +41,8 @@ country_decisions = {
 			adm_power = 75
 			dip_power = 50
 			
-			# Control key provinces
 			owns_or_non_sovereign_subject_of = 282 # Yedisan/Akkerman
 			
-			# Requires stability and peace
 			NOT = { war_exhaustion = 3 }
 			is_at_war = no
 		}
@@ -73,7 +54,6 @@ country_decisions = {
 			
 			set_country_flag = dniester_estuary_developed
 			
-			# Yedisan/Akkerman becomes major trade center
 			282 = {
 				add_province_modifier = {
 					name = dnestr_estuary_modifier
@@ -85,7 +65,6 @@ country_decisions = {
 				center_of_trade = 2
 			}
 			
-			# Country benefits
 			add_country_modifier = {
 				name = dniester_trade_network
 				duration = -1
@@ -94,7 +73,6 @@ country_decisions = {
 			add_prestige = 10
 			add_mercantilism = 2
 			
-			# Event chain starts
 			country_event = { id = dniester_estuary.1 days = 30 }
 		}
 		
@@ -117,7 +95,6 @@ country_decisions = {
 			}
 		}
 	}
-	# Fortify Dniester Estuary Ports
     fortify_dniester_estuary = {
         major = yes
         potential = {
@@ -125,13 +102,19 @@ country_decisions = {
             NOT = { has_country_flag = dniester_estuary_fortified }
             owns_or_non_sovereign_subject_of = 282
         }
+		provinces_to_highlight = {
+			province_id = 282
+			OR = {
+				NOT = { owned_by = ROOT }
+				fort_level = 1
+			}
+		}
         
         allow = {
             mil_tech = 12
             treasury = 400
             mil_power = 75
             
-            # CHANGED: Only allow if there is NO Level 2 fort yet
             282 = {
                 NOT = { fort_level = 2 }
             }
@@ -145,19 +128,16 @@ country_decisions = {
             
             set_country_flag = dniester_estuary_fortified
             
-            # Major fortifications at Akkerman
             282 = {
                 add_province_modifier = {
                     name = dniester_fortress_akkerman
                     duration = -1
                 }
                 
-                # FIXED: Changed 'fort' to 'fort_15th' (Castle)
                 add_building = fort_15th
                 add_base_manpower = 2
             }
             
-            # Naval base improvements
             if = {
                 limit = { 282 = { has_port = yes } }
                 282 = {
@@ -194,7 +174,6 @@ country_decisions = {
         }
     }
 	
-	# Establish Estuary Fishing Industry
 	establish_dniester_fishing = {
 		major = yes
 		potential = {
@@ -202,6 +181,10 @@ country_decisions = {
 			NOT = { has_country_flag = dniester_fishing_established }
 			
 			owns_or_non_sovereign_subject_of = 282
+		}
+		provinces_to_highlight = {
+			province_id = 282
+			NOT = { owned_by = ROOT }
 		}
 		
 		allow = {
@@ -242,7 +225,6 @@ country_decisions = {
 		}
 	}
 	
-	# Develop Wine Trade (Greek/Armenian merchants)
 	establish_dniester_wine_trade = {
 		major = yes
 		potential = {
@@ -251,13 +233,16 @@ country_decisions = {
 			
 			owns_or_non_sovereign_subject_of = 282
 		}
+		provinces_to_highlight = {
+			province_id = 282
+			NOT = { owned_by = ROOT }
+		}
 		
 		allow = {
 			dip_tech = 10
 			treasury = 200
 			dip_power = 50
 			
-			# Greek or Armenian merchants present
 			OR = {
 				282 = { culture = greek }
 				accepted_culture = greek
@@ -310,7 +295,6 @@ country_decisions = {
 		}
 	}
 	
-	# Establish Salt Production
 	establish_dniester_salt_works = {
 		major = yes
 		potential = {
@@ -318,6 +302,10 @@ country_decisions = {
 			NOT = { has_country_flag = dniester_salt_established }
 			
 			owns_or_non_sovereign_subject_of = 282
+		}
+		provinces_to_highlight = {
+			province_id = 282
+			NOT = { owned_by = ROOT }
 		}
 		
 		allow = {
@@ -362,30 +350,32 @@ country_decisions = {
 		}
 	}
 	
-	# Contest Ottoman Control (if Ottomans control estuary)
 	contest_ottoman_dniester_control = {
 		major = yes
 		potential = {
-		OR = {
-			tag = MOL
-			tag = ZAZ
-			tag = HET
-			tag = PLC
-			tag = RUS
-		}			NOT = { has_country_flag = contesting_dniester }
+			OR = {
+				tag = MOL
+				tag = ZAZ
+				tag = HET
+				tag = PLC
+				tag = RUS
+			}
+			NOT = { has_country_flag = contesting_dniester }
 			
-			# Ottomans control key province
 			282 = {
 				owned_by = TUR
 			}
 			
-			# Player is neighbor or regional power
 			OR = {
+				owns_or_non_sovereign_subject_of = 282
 				any_owned_province = {
 					any_neighbor_province = { province_id = 282 }
 				}
-				total_development = 300
 			}
+		}
+		provinces_to_highlight = {
+			province_id = 282
+			owned_by = TUR
 		}
 		
 		allow = {

@@ -1,11 +1,13 @@
 country_decisions = {
 
 	het_organize_major_raid = {
-		major = yes
 		potential = {
 			tag = HET
-			has_reform = cossacks_reform
-			NOT = { has_country_flag = het_raid_cooldown }
+			OR = {
+				has_reform = cossacks_reform
+				mission_completed = het_cossack_host
+			}
+			NOT = { has_country_modifier = het_raid_preparation }
 		}
 		allow = {
 			is_at_war = no
@@ -15,11 +17,10 @@ country_decisions = {
 			NOT = { war_exhaustion = 2 }
 		}
 		effect = {
-			set_country_flag = het_raid_cooldown
 			country_event = { id = het_cossack_raids.1 }
 			add_country_modifier = {
 				name = het_raid_preparation
-				duration = 365
+				duration = 1095
 			}
 		}
 		ai_will_do = {
@@ -90,10 +91,13 @@ country_decisions = {
 	}
 
 	het_steppe_domination = {
-		major = yes
 		potential = {
 			tag = HET
 			has_reform = cossacks_reform
+		}
+		provinces_to_highlight = {
+			has_terrain = steppe
+			NOT = { owned_by = ROOT }
 		}
 		allow = {
 			is_at_war = no

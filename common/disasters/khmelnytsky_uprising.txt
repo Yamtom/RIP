@@ -1,53 +1,8 @@
-# =========================================================================
-# THE KHMELNYTSKY UPRISING DISASTER
-# (XVII ст.: 1648–1654 р.р.)
-# =========================================================================
-#
-# HISTORICAL BACKGROUND:
-# The Khmelnytsky Uprising (1648–1654) was a massive Cossack rebellion against
-# Polish-Lithuanian rule, led by Bohdan Khmelnytsky (1595–1676). It resulted in:
-# - Simultaneous rebellion of the Registered Cossacks and peasant masses
-# - Destruction of Polish-Lithuanian authority in Ukraine
-# - Massacres of Polish magnates, Catholic clergy, and Jewish communities
-# - Devastation of the region through warfare and civil conflict
-# - Ultimately led to the 1654 Pereiaslav Agreement with Muscovy
-#
-# Key Figures and Events:
-# - Bogdan Khmelnytsky (1595–1676): Cossack leader, enslaved by Tatars, becomes hetman
-# - 1648: Uprising begins after Khmelnytsky defeats Polish forces at Zhovti Vody
-# - 1649: Battle of Zboriv—Polish army defeated; Polish-Cossack agreement
-# - 1651: Battle of Berestechko—largest battle of Eastern Europe (300,000+ troops)
-# - 1654: Pereiaslav Agreement—Khmelnytsky accepts Muscovite suzerainty
-#
-# Scope of Destruction:
-# - Estimated 100,000–500,000 deaths (20–40% of Ukrainian population)
-# - Total destruction of Polish manorial system in central/eastern Ukraine
-# - Devastation of provinces: Kyiv, Cherkasy, Poltava, Chernihiv regions
-# - Jewish communities decimated (estimated 100,000 to 300,000 killed)
-# - Polish magnate estates and fortresses destroyed or abandoned
-# - Economic collapse: agriculture, trade, and urban life disrupted
-#
-# Consequences:
-# - End of Polish-Lithuanian dominance in Ukraine
-# - Rise of Cossack military power under hetman authority
-# - Ukraine divided: Right Bank (eventually Polish), Left Bank (Muscovite)
-# - Long-term fragmentation of Ukrainian lands
-# - Beginning of Muscovite dominance that would last centuries
-#
-# GAME MECHANICS:
-# Represents catastrophic uprising affecting either:
-# A) Polish/Lithuanian entities owning Ukrainian cores (severe penalties)
-# B) Ukrainian Cossack states gaining strength from the rebellion
-#
-# The disaster progresses based on devastation, unrest, and warfare.
-# It can be mitigated through military suppression or diplomatic concessions.
-# =========================================================================
 
 khmelnytsky_uprising = {
 
 	potential = {
 		OR = {
-			# Polish forces holding Ukrainian territory
 			AND = {
 				OR = {
 					tag = POL
@@ -59,7 +14,6 @@ khmelnytsky_uprising = {
 					is_core = ROOT
 				}
 			}
-			# Or for Ukrainian Cossack states during the period
 			OR = {
 				tag = CHR
 				tag = HET
@@ -82,7 +36,6 @@ khmelnytsky_uprising = {
 		is_year = 1648
 		NOT = { is_year = 1660 }
 		OR = {
-			# For Polish/Lithuanian: holding Ukrainian territory with high unrest
 			AND = {
 				OR = {
 					tag = POL
@@ -99,7 +52,6 @@ khmelnytsky_uprising = {
 				}
 				NOT = { stability = 1 }
 			}
-			# For Cossack states: emerging or at war
 			AND = {
 				OR = {
 					tag = CHR
@@ -202,7 +154,6 @@ khmelnytsky_uprising = {
 		stability = 1
 		NOT = { war_exhaustion = 2 }
 		OR = {
-			# Polish suppress the rebellion
 			AND = {
 				OR = {
 					tag = POL
@@ -217,7 +168,6 @@ khmelnytsky_uprising = {
 				}
 				NOT = { num_of_rebel_armies = 1 }
 			}
-			# Cossack states secure independence
 			AND = {
 				OR = {
 					tag = CHR

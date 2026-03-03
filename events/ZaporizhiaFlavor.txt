@@ -1,30 +1,6 @@
 namespace = zaz_flavor
 
-# === ІСТОРИЧНИЙ КОНТЕКСТ: XV–XIX ст. Запорозька Січ ===
-# Запорізька Січ виникла як напівнезалежна козацька демократична комуна на Нижньому Дніпрі
-# (XV ст.), досягла розквіту у XVI–XVII ст. як сила, що впливала на регіональну політику
-# (чайки, реєстр, виборність отамана). 1648–1657 — комітет під Б. Хмельницького та розпочинання
-# Визвольної вiйни. 1657–1709 — період Руїни, росіїївського закабалення й спроб централізації
-# (Мазепа). 1709–1775 — російське закріпачення й остаточна ліквідація Січі 1775 р.
-# Вижившi козаки перейшли до Кубанського/Чорноморського козацтва.
-#
-# МЕХАНІКИ (ідеї для геймплею):
-# - Релокація Січі: Томаківська → Базавлуцька → Микитинська → Чортомлицька → Олешківська 
-#   (під Османами) → Нова Січ (у 1810–х). Подієва система вибору нової локації зі слоба-бонусами.
-# - Чайки/морські рейди: навиковий механіко захоплення й гра ризику проти Османської флоти.
-# - Козацький реєстр: механіка формалізації/дикості козаків, відповідь на тиск суверенів.
-# - Демократія Січі: виборність отамана (подієві цикли), рада, рівність в дистрибуції здобичі.
-# - Старшинські роди: впливові генерали/дипломати як радники й конкуренти.
-#
-# ІСТОРИЧНІ РЕФЕРЕНСИ:
-# - Сергій Плохій, "Брама Європи" (Harvard, 2015); "Cossacks and Religion in Early Modern Ukraine".
-# - Олена Апанович, "Збройні сили України першої половини XVIII ст." (1995).
-# - Михайло Грушевський, "Історія України-Руси" (т. VII–IX, 1908–1935).
-# - Orest Subtelny, "Ukraine: A History" (Toronto, 1988).
-# - Frank Sysyn, "Between Poland and the Ukraine" (1985).
-#
 
-# The Founding of the Sich
 country_event = {
 	id = zaz_flavor.2
 	title = "zaz_flavor.2.t"
@@ -34,8 +10,29 @@ country_event = {
 	
 	trigger = {
 		tag = ZAZ
-		is_year = 1552
-		NOT = { is_year = 1560 }
+		OR = {
+			AND = {
+				is_year = 1552
+				NOT = { is_year = 1560 }
+			}
+			has_institution = renaissance
+			current_age = age_of_reformation
+			AND = {
+				NOT = {
+					OR = {
+						AND = {
+							is_year = 1552
+							NOT = { is_year = 1560 }
+						}
+						has_institution = renaissance
+						current_age = age_of_reformation
+					}
+				}
+				stability = 2
+				army_size_percentage = 1
+				manpower_percentage = 1
+			}
+		}
 		owns = 284  # Zaporizhia
 	}
 	
@@ -43,9 +40,6 @@ country_event = {
 		months = 24
 	}
 	
-	# Establish Sich on Khortytsia (XV–XVI ст.)
-	# Історичний факт: Хортиця як основна база козацьких банд ~ 1550–1560-х;
-	# укріплення стану через укріплення острова, тренування, мобілізацію сильних воїнів.
 	option = {
 		name = "zaz_flavor.2.a"
 		284 = {
@@ -67,9 +61,6 @@ country_event = {
 		}
 	}
 	
-	# Establish mobile Sich (nomadic strategy)
-	# Альтернативний історичний шлях: мобільний табір замість фіксованої фортеці;
-	# зберігає гнучкість проти противника, але зменшує контроль над територією.
 	option = {
 		name = "zaz_flavor.2.b"
 		capital_scope = {
@@ -84,11 +75,6 @@ country_event = {
 	}
 }
 
-# The Chaiky Raiders (XVI–XVII ст.)
-# Історія: Чайки — легкі весельні чи парусні кораблі козаків; 1550–1700-і були знаряддям
-# морських рейдів на Чорне й Азовське море проти Османів та Кримських татар.
-# Успішні рейди: захист 1615 р., рейди на Кафу (~1616), глибокі морські експедиції.
-# Невдачи: османські експедиції, втрати флоту, репресалії крымців.
 country_event = {
 	id = zaz_flavor.3
 	title = "zaz_flavor.3.t"
@@ -97,8 +83,28 @@ country_event = {
 	
 	trigger = {
 		tag = ZAZ
-		is_year = 1570
-		NOT = { is_year = 1700 }
+		OR = {
+			AND = {
+				is_year = 1570
+				NOT = { is_year = 1700 }
+			}
+			has_institution = new_world_i
+			current_age = age_of_reformation
+			AND = {
+				NOT = {
+					OR = {
+						AND = {
+							is_year = 1570
+							NOT = { is_year = 1700 }
+						}
+						has_institution = new_world_i
+						current_age = age_of_reformation
+					}
+				}
+				navy_size = 10
+				navy_tradition = 20
+			}
+		}
 		navy_size = 5
 		any_known_country = {
 			tag = TUR
@@ -113,8 +119,6 @@ country_event = {
 		}
 	}
 	
-	# Build more chaiky and conduct raids (aggressive expansion)
-	# Тактика: розширення флоту, навчання морських спеціалістів, підвищення видимості на морі.
 	option = {
 		name = "zaz_flavor.3.a"
 		add_navy_tradition = 5
@@ -138,8 +142,6 @@ country_event = {
 		}
 	}
 	
-	# Focus on land warfare and domestic stability
-	# Тактика: обережність, зберігання сил для сухопутних конфліктів.
 	option = {
 		name = "zaz_flavor.3.b"
 		add_army_tradition = 5
@@ -147,7 +149,6 @@ country_event = {
 	}
 }
 
-# Raid into Crimean Territory
 country_event = {
 	id = zaz_flavor.4
 	title = "zaz_flavor.4.t"
@@ -156,7 +157,22 @@ country_event = {
 	
 	trigger = {
 		tag = ZAZ
-		is_year = 1550
+		OR = {
+			is_year = 1550
+			has_institution = renaissance
+			current_age = age_of_reformation
+			AND = {
+				NOT = {
+					OR = {
+						is_year = 1550
+						has_institution = renaissance
+						current_age = age_of_reformation
+					}
+				}
+				stability = 2
+				army_size_percentage = 1
+			}
+		}
 		any_neighbor_country = {
 			tag = CRI
 		}
@@ -172,7 +188,6 @@ country_event = {
 		}
 	}
 	
-	# Conduct the raid
 	option = {
 		name = "zaz_flavor.4.a"
 		add_treasury = 75
@@ -186,7 +201,6 @@ country_event = {
 		}
 	}
 	
-	# Restrain the Cossacks
 	option = {
 		name = "zaz_flavor.4.b"
 		add_prestige = -5
@@ -200,7 +214,6 @@ country_event = {
 	}
 }
 
-# The Kosh Otaman Election
 country_event = {
 	id = zaz_flavor.5
 	title = "zaz_flavor.5.t"
@@ -217,7 +230,6 @@ country_event = {
 		months = 120
 	}
 	
-	# Elect warrior leader
 	option = {
 		name = "zaz_flavor.5.a"
 		define_ruler = {
@@ -228,7 +240,6 @@ country_event = {
 		add_army_tradition = 5
 	}
 	
-	# Elect diplomatic leader
 	option = {
 		name = "zaz_flavor.5.b"
 		define_ruler = {
@@ -239,7 +250,6 @@ country_event = {
 		add_dip_power = 25
 	}
 	
-	# Elect experienced elder
 	option = {
 		name = "zaz_flavor.5.c"
 		define_ruler = {
@@ -251,7 +261,6 @@ country_event = {
 	}
 }
 
-# Clash with Polish-Lithuanian Commonwealth
 country_event = {
 	id = zaz_flavor.6
 	title = "zaz_flavor.6.t"
@@ -260,8 +269,29 @@ country_event = {
 	
 	trigger = {
 		tag = ZAZ
-		is_year = 1600
-		NOT = { is_year = 1670 }
+		OR = {
+			AND = {
+				is_year = 1600
+				NOT = { is_year = 1670 }
+			}
+			has_institution = printing_press
+			current_age = age_of_absolutism
+			AND = {
+				NOT = {
+					OR = {
+						AND = {
+							is_year = 1600
+							NOT = { is_year = 1670 }
+						}
+						has_institution = printing_press
+						current_age = age_of_absolutism
+					}
+				}
+				republican_tradition = 80
+				army_size_percentage = 1
+				manpower_percentage = 1
+			}
+		}
 		any_neighbor_country = {
 			tag = POL
 		}
@@ -280,7 +310,6 @@ country_event = {
 		}
 	}
 	
-	# Seek autonomy within Commonwealth
 	option = {
 		name = "zaz_flavor.6.a"
 		if = {
@@ -301,7 +330,6 @@ country_event = {
 		add_liberty_desire = 20
 	}
 	
-	# Resist Polish control
 	option = {
 		name = "zaz_flavor.6.b"
 		add_prestige = 10
@@ -318,7 +346,6 @@ country_event = {
 		}
 	}
 	
-	# Remain neutral
 	option = {
 		name = "zaz_flavor.6.c"
 		add_stability_or_adm_power = yes
@@ -326,7 +353,6 @@ country_event = {
 	}
 }
 
-# The Sich Rada Debates Religious Policy
 country_event = {
 	id = zaz_flavor.7
 	title = "zaz_flavor.7.t"
@@ -336,7 +362,22 @@ country_event = {
 	trigger = {
 		tag = ZAZ
 		religion = orthodox
-		is_year = 1600
+		OR = {
+			is_year = 1600
+			has_institution = printing_press
+			current_age = age_of_absolutism
+			AND = {
+				NOT = {
+					OR = {
+						is_year = 1600
+						has_institution = printing_press
+						current_age = age_of_absolutism
+					}
+				}
+				army_tradition = 50
+				manpower_percentage = 1
+			}
+		}
 		any_neighbor_country = {
 			OR = {
 				religion = catholic
@@ -349,7 +390,6 @@ country_event = {
 		months = 300
 	}
 	
-	# Champion Orthodox cause
 	option = {
 		name = "zaz_flavor.7.a"
 		add_patriarch_authority = 0.1
@@ -369,7 +409,6 @@ country_event = {
 		}
 	}
 	
-	# Maintain religious tolerance
 	option = {
 		name = "zaz_flavor.7.b"
 		add_stability_or_adm_power = yes
@@ -377,7 +416,6 @@ country_event = {
 	}
 }
 
-# Devastating Ottoman Raid
 country_event = {
 	id = zaz_flavor.8
 	title = "zaz_flavor.8.t"
@@ -386,7 +424,22 @@ country_event = {
 	
 	trigger = {
 		tag = ZAZ
-		is_year = 1580
+		OR = {
+			is_year = 1580
+			has_institution = new_world_i
+			current_age = age_of_reformation
+			AND = {
+				NOT = {
+					OR = {
+						is_year = 1580
+						has_institution = new_world_i
+						current_age = age_of_reformation
+					}
+				}
+				navy_size = 8
+				army_size_percentage = 1
+			}
+		}
 		any_neighbor_country = {
 			OR = {
 				tag = TUR
@@ -404,7 +457,6 @@ country_event = {
 		}
 	}
 	
-	# Fight back fiercely
 	option = {
 		name = "zaz_flavor.8.a"
 		add_war_exhaustion = 1
@@ -415,7 +467,6 @@ country_event = {
 		add_prestige = 5
 	}
 	
-	# Relocate the Sich
 	option = {
 		name = "zaz_flavor.8.b"
 		trigger = {
@@ -428,7 +479,6 @@ country_event = {
 		zaz_relocate_sich_effect = yes
 	}
 	
-	# Sue for peace
 	option = {
 		name = "zaz_flavor.8.c"
 		add_prestige = -10
@@ -437,7 +487,6 @@ country_event = {
 	}
 }
 
-# The Brotherly Compact
 country_event = {
 	id = zaz_flavor.9
 	title = "zaz_flavor.9.t"
@@ -459,7 +508,6 @@ country_event = {
 		months = 300
 	}
 	
-	# Form alliance
 	option = {
 		name = "zaz_flavor.9.a"
 		add_dip_power = -50
@@ -488,7 +536,6 @@ country_event = {
 		}
 	}
 	
-	# Remain independent
 	option = {
 		name = "zaz_flavor.9.b"
 		add_prestige = 5
@@ -496,7 +543,6 @@ country_event = {
 	}
 }
 
-# Great Raid Event (triggered by decision)
 country_event = {
 	id = zaz_flavor.10
 	title = "zaz_flavor.10.t"
@@ -504,7 +550,6 @@ country_event = {
 	picture = HORDE_ON_HORSEBACK_eventPicture
 	is_triggered_only = yes
 	
-	# Successful raid
 	option = {
 		name = "zaz_flavor.10.a"
 		trigger = {
@@ -525,7 +570,6 @@ country_event = {
 		}
 	}
 	
-	# Mixed results
 	option = {
 		name = "zaz_flavor.10.b"
 		add_treasury = 50
@@ -536,7 +580,6 @@ country_event = {
 		}
 	}
 	
-	# Failed raid
 	option = {
 		name = "zaz_flavor.10.c"
 		zaz_failed_raid_effect = yes
@@ -546,7 +589,6 @@ country_event = {
 	}
 }
 
-# Chaiky Raid Event (triggered by decision)
 country_event = {
 	id = zaz_flavor.11
 	title = "zaz_flavor.11.t"
@@ -554,7 +596,6 @@ country_event = {
 	picture = NAVAL_MILITARY_eventPicture
 	is_triggered_only = yes
 	
-	# Devastating success
 	option = {
 		name = "zaz_flavor.11.a"
 		trigger = {
@@ -579,7 +620,6 @@ country_event = {
 		}
 	}
 	
-	# Moderate success
 	option = {
 		name = "zaz_flavor.11.b"
 		add_treasury = 75
@@ -598,7 +638,6 @@ country_event = {
 		}
 	}
 	
-	# Caught and defeated
 	option = {
 		name = "zaz_flavor.11.c"
 		add_prestige = -10
@@ -618,7 +657,6 @@ country_event = {
 	}
 }
 
-# Wild Fields Settlement
 country_event = {
 	id = zaz_flavor.12
 	title = "zaz_flavor.12.t"
@@ -627,7 +665,22 @@ country_event = {
 	
 	trigger = {
 		tag = ZAZ
-		is_year = 1600
+		OR = {
+			is_year = 1600
+			has_institution = printing_press
+			current_age = age_of_absolutism
+			AND = {
+				NOT = {
+					OR = {
+						is_year = 1600
+						has_institution = printing_press
+						current_age = age_of_absolutism
+					}
+				}
+				stability = 2
+				num_of_cities = 10
+			}
+		}
 		any_owned_province = {
 			is_wild_fields = yes
 			NOT = { is_city = yes }
@@ -638,7 +691,6 @@ country_event = {
 		months = 240
 	}
 	
-	# Establish settlement
 	option = {
 		name = "zaz_flavor.12.a"
 		random_owned_province = {
@@ -650,7 +702,6 @@ country_event = {
 		}
 	}
 	
-	# Leave it wild
 	option = {
 		name = "zaz_flavor.12.b"
 		add_prestige = 5
@@ -658,7 +709,6 @@ country_event = {
 	}
 }
 
-# The Sich and Russian Tsardom
 country_event = {
 	id = zaz_flavor.13
 	title = "zaz_flavor.13.t"
@@ -667,8 +717,29 @@ country_event = {
 	
 	trigger = {
 		tag = ZAZ
-		is_year = 1700
-		NOT = { is_year = 1775 }
+		OR = {
+			AND = {
+				is_year = 1700
+				NOT = { is_year = 1775 }
+			}
+			has_institution = global_trade
+			current_age = age_of_absolutism
+			AND = {
+				NOT = {
+					OR = {
+						AND = {
+							is_year = 1700
+							NOT = { is_year = 1775 }
+						}
+						has_institution = global_trade
+						current_age = age_of_absolutism
+					}
+				}
+				republican_tradition = 80
+				army_size_percentage = 1
+				manpower_percentage = 1
+			}
+		}
 		OR = {
 			exists = RUS
 			exists = MOS
@@ -680,7 +751,6 @@ country_event = {
 		months = 200
 	}
 	
-	# Accept Russian protection
 	option = {
 		name = "zaz_flavor.13.a"
 		if = {
@@ -707,7 +777,6 @@ country_event = {
 		}
 	}
 	
-	# Maintain independence
 	option = {
 		name = "zaz_flavor.13.b"
 		add_prestige = 10
@@ -724,13 +793,7 @@ country_event = {
 	}
 }
 
-# === РОЗШИРЕНІ ПОДІЄННЯ: XVII–XVIII ст. КРИЗА РЕЄСТРУ, ДЕМОКРАТІЯ ТА ОСМАНСЬКИЙ ТИСК ===
 
-# The Registered Cossacks Crisis (XVI–XVII ст.)
-# Історія: Річ Посполита намагалася формалізувати козацтво через "реєстр" — офіційні,
-# платні, дисциплінаційовані сили; "вільні" козаки відстоювали демократичність Січі.
-# 1571 — перший реєстр (200 осіб); 1620-і — розширення; 1648 — восстання Хмельницького
-# як відповідь на обмеження реєстру й утиски польської шляхти.
 country_event = {
 	id = zaz_flavor.14
 	title = "zaz_flavor.14.t"
@@ -739,8 +802,28 @@ country_event = {
 	
 	trigger = {
 		tag = ZAZ
-		is_year = 1620
-		NOT = { is_year = 1660 }
+		OR = {
+			AND = {
+				is_year = 1620
+				NOT = { is_year = 1660 }
+			}
+			has_institution = printing_press
+			current_age = age_of_absolutism
+			AND = {
+				NOT = {
+					OR = {
+						AND = {
+							is_year = 1620
+							NOT = { is_year = 1660 }
+						}
+						has_institution = printing_press
+						current_age = age_of_absolutism
+					}
+				}
+				republican_tradition = 80
+				army_tradition = 60
+			}
+		}
 		any_neighbor_country = {
 			tag = POL
 		}
@@ -750,8 +833,6 @@ country_event = {
 		months = 180
 	}
 	
-	# Expand registered cossacks (more discipline, less freedom)
-	# Стратегія: прийняти польські умови й формалізувати армію; бонуси армії, штраф свободи.
 	option = {
 		name = "zaz_flavor.14.a"
 		add_mil_power = 30
@@ -770,8 +851,6 @@ country_event = {
 		}
 	}
 	
-	# Reject registration (maintain independence, risk)
-	# Стратегія: охороняти демократичність Січі; рис + ліберті дезайр, конфліктність з Польщею.
 	option = {
 		name = "zaz_flavor.14.b"
 		add_prestige = 10
@@ -789,8 +868,6 @@ country_event = {
 		}
 	}
 	
-	# Negotiate a compromise (both sides satisfied)
-	# Стратегія: балансування між дисциплінею й свободою.
 	option = {
 		name = "zaz_flavor.14.c"
 		add_dip_power = 20
@@ -805,10 +882,6 @@ country_event = {
 	}
 }
 
-# The Sich Rada and Kosh Otaman Election (XVI–XIX ст.)
-# Історія: Рада Січі був демократичним органом усіх козаків; кошовий отаман (військовий командир)
-# обирався радою, був відповідальний перед нею, не мав постійної влади між походами.
-# Важливо: демократія + його осердя Січі, видовження та критика централізації (Хмельницький, Мазепа).
 country_event = {
 	id = zaz_flavor.15
 	title = "zaz_flavor.15.t"
@@ -818,7 +891,22 @@ country_event = {
 	trigger = {
 		tag = ZAZ
 		has_reform = zaz_kosh_elections_reform
-		is_year = 1600
+		OR = {
+			is_year = 1600
+			has_institution = printing_press
+			current_age = age_of_absolutism
+			AND = {
+				NOT = {
+					OR = {
+						is_year = 1600
+						has_institution = printing_press
+						current_age = age_of_absolutism
+					}
+				}
+				NOT = { republican_tradition = 30 }
+				army_tradition = 50
+			}
+		}
 		NOT = { republican_tradition = 60 }
 	}
 	
@@ -826,8 +914,6 @@ country_event = {
 		months = 120
 	}
 	
-	# Elect a strong military leader (战士)
-	# Образ: енергійний, боєздатний отаман; риси бойовитості й лідерства.
 	option = {
 		name = "zaz_flavor.15.a"
 		define_ruler = {
@@ -840,8 +926,6 @@ country_event = {
 		add_prestige = 5
 	}
 	
-	# Elect a diplomatic leader
-	# Образ: переговорник, старик, здатен балансувати між Польщею, Московією, Кримом.
 	option = {
 		name = "zaz_flavor.15.b"
 		define_ruler = {
@@ -854,8 +938,6 @@ country_event = {
 		add_prestige = 3
 	}
 	
-	# Elect an experienced elder (conseil of balance)
-	# Образ: рівновага, мудрість; слабкіші кількісно, але більш стійкі до криз.
 	option = {
 		name = "zaz_flavor.15.c"
 		define_ruler = {
@@ -869,10 +951,6 @@ country_event = {
 	}
 }
 
-# The Ottoman Pressure and Chaiky Crisis (XVII–XVIII ст.)
-# Історія: Османська імперія та Кримське ханство прагнули придушити чайки-рейди,
-# наносили катастрофічні контрареди, перекривали снабження. 1656 – велика експедиція проти Січі.
-# 1700–1775 — прогресуючий тиск в межах гегемонії Османів і Росії.
 country_event = {
 	id = zaz_flavor.16
 	title = "zaz_flavor.16.t"
@@ -881,8 +959,29 @@ country_event = {
 	
 	trigger = {
 		tag = ZAZ
-		is_year = 1650
-		NOT = { is_year = 1780 }
+		OR = {
+			AND = {
+				is_year = 1650
+				NOT = { is_year = 1780 }
+			}
+			has_institution = global_trade
+			current_age = age_of_absolutism
+			AND = {
+				NOT = {
+					OR = {
+						AND = {
+							is_year = 1650
+							NOT = { is_year = 1780 }
+						}
+						has_institution = global_trade
+						current_age = age_of_absolutism
+					}
+				}
+				army_size_percentage = 1
+				manpower_percentage = 1
+				navy_size = 10
+			}
+		}
 		OR = {
 			any_neighbor_country = {
 				tag = TUR
@@ -905,8 +1004,6 @@ country_event = {
 		}
 	}
 	
-	# Strengthen defenses and prepare for raids
-	# Оборонна позиція: укріплення, підготовка армії, евакуація невійськових.
 	option = {
 		name = "zaz_flavor.16.a"
 		add_mil_power = 30
@@ -919,8 +1016,6 @@ country_event = {
 		add_army_tradition = 5
 	}
 	
-	# Launch a preemptive naval raid
-	# Наступна тактика: атакуй перший, завдај урону, здобувай престиж; ризик — втрати.
 	option = {
 		name = "zaz_flavor.16.b"
 		add_prestige = 8
@@ -947,8 +1042,6 @@ country_event = {
 		}
 	}
 	
-	# Seek protection from a neighboring power
-	# Дипломатична тактика: пошук союзника (Московія, РП) для ліквідації угрози.
 	option = {
 		name = "zaz_flavor.16.c"
 		add_dip_power = 25
@@ -971,10 +1064,6 @@ country_event = {
 	}
 }
 
-# The Great Relocation of the Sich (XVI–XIX ст.)
-# Історія: Січ змінювала місця розташування безпеку і логістиці причин:
-# ~ 1550 Томаківська Січ → 1593 Базавлуцька → 1625 Микитинська → 1652 Чортомлицька →
-# ~ 1709 Олешківська (під Османами) → 1775 знищена Катериною II → 1787 Нова Січ (Кубань).
 country_event = {
 	id = zaz_flavor.17
 	title = "zaz_flavor.17.t"
@@ -983,13 +1072,33 @@ country_event = {
 	
 	trigger = {
 		tag = ZAZ
-		is_year = 1600
-		NOT = { is_year = 1780 }
+		OR = {
+			AND = {
+				is_year = 1600
+				NOT = { is_year = 1780 }
+			}
+			has_institution = global_trade
+			current_age = age_of_absolutism
+			AND = {
+				NOT = {
+					OR = {
+						AND = {
+							is_year = 1600
+							NOT = { is_year = 1780 }
+						}
+						has_institution = global_trade
+						current_age = age_of_absolutism
+					}
+				}
+				stability = 2
+				num_of_cities = 12
+			}
+		}
 		any_owned_province = {
-			And = {
+			OR = {
 				area = west_dniepr_area
 				area = east_dniepr_area
-				}
+			}
 			is_wild_fields = yes
 		}
 	}
@@ -998,8 +1107,6 @@ country_event = {
 		months = 240
 	}
 	
-	# Relocate Sich to safer location upstream
-	# Історія: переміщення на північніше, до защищеніших земель; слабка назва
 	option = {
 		name = "zaz_flavor.17.a"
 		add_adm_power = -40
@@ -1012,10 +1119,10 @@ country_event = {
 		add_prestige = 3
 		random_owned_province = {
 			limit = {
-				And = {
+				OR = {
 					area = west_dniepr_area
 					area = east_dniepr_area
-					}
+				}
 			}
 			add_base_manpower = 1
 			add_province_modifier = {
@@ -1025,8 +1132,6 @@ country_event = {
 		}
 	}
 	
-	# Relocate Sich to mouth of Dnieper (Ottoman lands)
-	# Історія: переміщення під Османську протекцію (1709); контроль Чорного моря.
 	option = {
 		name = "zaz_flavor.17.b"
 		add_adm_power = -60
@@ -1052,10 +1157,6 @@ country_event = {
 	}
 }
 
-# The Crisis of 1775: Final Liquidation or Escape
-# Історія: 1775 р. — Катерина II наказала зруйнувати останню базу Січі на Хортиці;
-# російська армія штурмувала укріплення; козаки розбігалися або емігрували до Кубані.
-# Це подія показує фінальний крах Січі як державної структури в межах європейського баланса сил.
 country_event = {
 	id = zaz_flavor.18
 	title = "zaz_flavor.18.t"
@@ -1064,8 +1165,28 @@ country_event = {
 	
 	trigger = {
 		tag = ZAZ
-		is_year = 1770
-		NOT = { is_year = 1780 }
+		OR = {
+			AND = {
+				is_year = 1770
+				NOT = { is_year = 1780 }
+			}
+			has_institution = manufactories
+			current_age = age_of_revolutions
+			AND = {
+				NOT = {
+					OR = {
+						AND = {
+							is_year = 1770
+							NOT = { is_year = 1780 }
+						}
+						has_institution = manufactories
+						current_age = age_of_revolutions
+					}
+				}
+				army_tradition = 70
+				manpower_percentage = 1
+			}
+		}
 		OR = {
 			exists = RUS
 			capital_scope = {
@@ -1078,8 +1199,6 @@ country_event = {
 		months = 60
 	}
 	
-	# Fight to the last man (heroic but doomed)
-	# Історичний парадокс: Січь могла опиратися, але не мала шансів проти російської імперії.
 	option = {
 		name = "zaz_flavor.18.a"
 		capital_scope = {
@@ -1091,8 +1210,6 @@ country_event = {
 		add_manpower = -10
 	}
 	
-	# Scatter and reorganize elsewhere (Ottoman/Kuban path)
-	# Історичний факт: частина козаків втекла до Кубані й організувала Чорноморське козацтво.
 	option = {
 		name = "zaz_flavor.18.b"
 		add_prestige = 10
@@ -1118,8 +1235,6 @@ country_event = {
 		}
 	}
 	
-	# Submit to Russia (preserve some autonomy)
-	# Історичний факт: деякі козаки прийняли російське панування й були інтегровані в структури Ірків.
 	option = {
 		name = "zaz_flavor.18.c"
 		if = {

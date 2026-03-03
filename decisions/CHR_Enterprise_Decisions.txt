@@ -4,6 +4,17 @@ chr_organize_sloboda = {
 	potential = {
 		tag = CHR
 	}
+	provinces_to_highlight = {
+		owned_by = ROOT
+		any_neighbor_province = {
+			NOT = { owned_by = ROOT }
+		}
+		NOT = { has_province_modifier = chr_frontier_sloboda }
+		NOT = { has_province_modifier = chr_enterprise_mlyn }
+		NOT = { has_province_modifier = chr_enterprise_guta }
+		NOT = { has_province_modifier = chr_enterprise_buda }
+		NOT = { has_province_modifier = chr_enterprise_selitra }
+	}
 	allow = {
 		adm_power = 25
 		any_owned_province = {
@@ -49,6 +60,9 @@ chr_organize_sloboda = {
 chr_establish_enterprise = {
 	potential = {
 		tag = CHR
+	}
+	provinces_to_highlight = {
+		has_province_modifier = chr_frontier_sloboda
 	}
 	allow = {
 		dip_power = 50

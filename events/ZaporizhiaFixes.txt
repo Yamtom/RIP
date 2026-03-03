@@ -1,25 +1,6 @@
-# =========================================================================
-# ZAPOROZHIA FIXES AND IMPROVEMENTS
-# =========================================================================
-# Based on community suggestions from Paradox Forums
-# "Update to Ukrainian region, Cossacks, content" by fr-rein
-#
-# KEY IMPROVEMENTS:
-# 1. Enhanced Sich mechanics (fortress + democracy)
-# 2. Improved raiding mechanics for Black Sea
-# 3. Better representation of Cossack Register system
-# 4. Historical accuracy for Polish-Ottoman-Russian relations
-# 5. Sich relocation events (multiple historical locations)
-#
-# HISTORICAL REFERENCES:
-# - Dmytro Yavornytsky, "History of Zaporozhian Cossacks" (1892-1897)
-# - Günther Stökl, "Die Entstehung des Kosakentums" (1953)
-# - Serhii Plokhy, "The Cossacks and Religion" (2001)
-# =========================================================================
 
 namespace = zaz_fixes
 
-# Enhanced Sich Foundation Event
 country_event = {
 	id = zaz_fixes.1
 	title = "zaz_fixes.1.t"
@@ -38,7 +19,6 @@ country_event = {
 		months = 24
 	}
 	
-	# Build advanced Sich fortress
 	option = {
 		name = "zaz_fixes.1.a"
 		add_treasury = -200
@@ -61,14 +41,12 @@ country_event = {
 		add_prestige = 10
 	}
 	
-	# Keep traditional Sich
 	option = {
 		name = "zaz_fixes.1.b"
 		add_stability_or_adm_power = yes
 	}
 }
 
-# Black Sea Raiding Rights
 country_event = {
 	id = zaz_fixes.2
 	title = "zaz_fixes.2.t"
@@ -88,7 +66,6 @@ country_event = {
 		months = 60
 	}
 	
-	# Negotiate raiding zones with Ottomans
 	option = {
 		name = "zaz_fixes.2.a"
 		TUR = {
@@ -104,7 +81,6 @@ country_event = {
 		set_country_flag = negotiated_raiding_rights
 	}
 	
-	# Raid without permission
 	option = {
 		name = "zaz_fixes.2.b"
 		TUR = {
@@ -120,7 +96,6 @@ country_event = {
 	}
 }
 
-# Polish Register System Expansion
 country_event = {
 	id = zaz_fixes.3
 	title = "zaz_fixes.3.t"
@@ -139,7 +114,6 @@ country_event = {
 		months = 120
 	}
 	
-	# Accept expanded Register
 	option = {
 		name = "zaz_fixes.3.a"
 		overlord = {
@@ -156,7 +130,6 @@ country_event = {
 		set_country_flag = register_expanded
 	}
 	
-	# Demand more autonomy
 	option = {
 		name = "zaz_fixes.3.b"
 		add_liberty_desire = 15
@@ -167,7 +140,6 @@ country_event = {
 	}
 }
 
-# Sich Relocation to Safer Location
 country_event = {
 	id = zaz_fixes.4
 	title = "zaz_fixes.4.t"
@@ -189,7 +161,6 @@ country_event = {
 		months = 24
 	}
 	
-	# Relocate Sich upstream (safer)
 	option = {
 		name = "zaz_fixes.4.a"
 		add_adm_power = -50
@@ -204,10 +175,10 @@ country_event = {
 			add_base_manpower = 1
 		}
 		set_country_flag = sich_recently_relocated
-		clr_country_flag = sich_recently_relocated
+		country_event = { id = zaz_fixes.7 days = 20 }
+		country_event = { id = zaz_fixes.8 days = 1825 }
 	}
 	
-	# Defend current location
 	option = {
 		name = "zaz_fixes.4.b"
 		add_mil_power = 25
@@ -215,7 +186,6 @@ country_event = {
 	}
 }
 
-# Chaiky Raids - Ottoman Retaliation
 country_event = {
 	id = zaz_fixes.5
 	title = "zaz_fixes.5.t"
@@ -234,7 +204,6 @@ country_event = {
 		months = 36
 	}
 	
-	# Prepare defenses
 	option = {
 		name = "zaz_fixes.5.a"
 		capital_scope = {
@@ -244,7 +213,6 @@ country_event = {
 		add_army_tradition = 10
 	}
 	
-	# Negotiate peace
 	option = {
 		name = "zaz_fixes.5.b"
 		remove_country_modifier = unrestricted_chaiky_raids
@@ -258,7 +226,6 @@ country_event = {
 	}
 }
 
-# Zaporozhian Democracy in Action
 country_event = {
 	id = zaz_fixes.6
 	title = "zaz_fixes.6.t"
@@ -276,7 +243,6 @@ country_event = {
 		months = 48
 	}
 	
-	# Strengthen democratic traditions
 	option = {
 		name = "zaz_fixes.6.a"
 		add_republican_tradition = 5
@@ -285,9 +251,9 @@ country_event = {
 			duration = 3650
 		}
 		set_country_flag = general_rada_recent
+		country_event = { id = zaz_fixes.9 days = 1460 }
 	}
 	
-	# Allow military elite more power
 	option = {
 		name = "zaz_fixes.6.b"
 		add_republican_tradition = -5
@@ -296,5 +262,62 @@ country_event = {
 			name = "military_otamans_empowered"
 			duration = 3650
 		}
+		set_country_flag = general_rada_recent
+		country_event = { id = zaz_fixes.9 days = 1460 }
+	}
+}
+
+country_event = {
+	id = zaz_fixes.7
+	title = "zaz_fixes.7.t"
+	desc = "zaz_fixes.7.d"
+	picture = GOVERNMENT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = "zaz_fixes.7.a"
+		add_stability = 1
+		add_country_modifier = {
+			name = "general_rada_authority"
+			duration = 3650
+		}
+	}
+
+	option = {
+		name = "zaz_fixes.7.b"
+		add_mil_power = 40
+		add_army_tradition = 5
+		add_country_modifier = {
+			name = "military_otamans_empowered"
+			duration = 1825
+		}
+	}
+}
+
+country_event = {
+	id = zaz_fixes.8
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		clr_country_flag = sich_recently_relocated
+	}
+
+	option = {
+		name = "OK"
+	}
+}
+
+country_event = {
+	id = zaz_fixes.9
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		clr_country_flag = general_rada_recent
+	}
+
+	option = {
+		name = "OK"
 	}
 }

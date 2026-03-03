@@ -1,13 +1,6 @@
-# =================================================================
-# HETMANATE ORTHODOX CRUSADE EVENTS
-# =================================================================
-# Integration with Orthodox Crusade system
-# Focuses on Khmelnytsky's struggle against Catholic Poland
-# =================================================================
 
 namespace = het_orthodox
 
-# Event 1: Hetmanate Called to Orthodox Crusade
 country_event = {
 	id = het_orthodox.1
 	title = het_orthodox.1.t
@@ -67,7 +60,6 @@ country_event = {
 	}
 }
 
-# Event 2: Khmelnytsky's Catholic Poland Vendetta
 country_event = {
 	id = het_orthodox.2
 	title = het_orthodox.2.t
@@ -118,7 +110,6 @@ country_event = {
 	}
 }
 
-# Event 3: Orthodox Brethren Support
 country_event = {
 	id = het_orthodox.3
 	title = het_orthodox.3.t
@@ -171,7 +162,6 @@ country_event = {
 	}
 }
 
-# Event 4: Crusade Victory - Poland Weakened
 country_event = {
 	id = het_orthodox.4
 	title = het_orthodox.4.t
@@ -209,7 +199,6 @@ country_event = {
 		add_legitimacy = 25
 		add_church_power = 100
 		
-		# Gain permanent claims over former Polish territories
 		ruthenia_region = {
 			limit = {
 				NOT = { is_core = ROOT }
@@ -220,7 +209,6 @@ country_event = {
 	}
 }
 
-# Event 5: Crusade Call - Hetmanate as Leader
 country_event = {
 	id = het_orthodox.5
 	title = het_orthodox.5.t
@@ -261,7 +249,6 @@ country_event = {
 		add_prestige = 25
 		add_church_power = 75
 		
-		# Announce to other Orthodox nations
 		every_country = {
 			limit = {
 				religion = orthodox

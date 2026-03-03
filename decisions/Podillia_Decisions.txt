@@ -1,15 +1,7 @@
-# =========================================================================
-# PODILLIA DECISIONS
-# =========================================================================
-# Path management, estate integration, and regional development decisions
 
 country_decisions = {
 
-	# =====================================================================
-	# PATH SELECTION DECISIONS (Alternative to mission-based selection)
-	# =====================================================================
 
-	# Embrace Carpathian Defense Doctrine
 	pdl_adopt_carpathian_doctrine = {
 		major = yes
 		potential = {
@@ -46,7 +38,6 @@ country_decisions = {
 		}
 	}
 
-	# Embrace Cossack Frontier Traditions
 	pdl_adopt_cossack_traditions = {
 		major = yes
 		potential = {
@@ -80,7 +71,6 @@ country_decisions = {
 		}
 	}
 
-	# Embrace Magnate Governance
 	pdl_adopt_magnate_governance = {
 		major = yes
 		potential = {
@@ -116,11 +106,7 @@ country_decisions = {
 		}
 	}
 
-	# =====================================================================
-	# ESTATE MANAGEMENT DECISIONS
-	# =====================================================================
 
-	# Grant Cossack Lands
 	pdl_grant_cossack_lands = {
 		major = yes
 		potential = {
@@ -178,7 +164,6 @@ country_decisions = {
 		}
 	}
 
-	# Establish Magnate Council
 	pdl_establish_magnate_council = {
 		major = yes
 		potential = {
@@ -215,11 +200,7 @@ country_decisions = {
 		}
 	}
 
-	# =====================================================================
-	# RELIGIOUS TOLERANCE DECISIONS
-	# =====================================================================
 
-	# Proclaim Religious Tolerance
 	pdl_proclaim_tolerance = {
 		major = yes
 		potential = {
@@ -268,7 +249,6 @@ country_decisions = {
 		}
 	}
 
-	# Protect Jewish Communities
 	pdl_protect_jewish_communities = {
 		potential = {
 			tag = PDL
@@ -303,11 +283,7 @@ country_decisions = {
 		}
 	}
 
-	# =====================================================================
-	# REGIONAL DEVELOPMENT DECISIONS
-	# =====================================================================
 
-	# Develop Kamianets as Capital
 	pdl_develop_kamianets = {
 		potential = {
 			tag = PDL
@@ -355,7 +331,6 @@ country_decisions = {
 		}
 	}
 
-	# Fortify Khotyn
 	pdl_fortify_khotyn_decision = {
 		potential = {
 			tag = PDL
@@ -403,12 +378,19 @@ country_decisions = {
 		}
 	}
 
-	# Establish Trade Route to Lviv
 	pdl_establish_lviv_trade = {
 		potential = {
 			tag = PDL
 			owns = 281
 			NOT = { has_country_flag = pdl_lviv_trade }
+		}
+
+		provinces_to_highlight = {
+			province_id = 281
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_strongest_trade_power = ROOT }
+			}
 		}
 		
 		allow = {
@@ -441,11 +423,7 @@ country_decisions = {
 		}
 	}
 
-	# =====================================================================
-	# VASSAL SUBJECTS SYSTEM (Phase 2 Enhancements)
-	# =====================================================================
 
-	# Grant Magnate Titles to Vassals
 	pdl_grant_magnate_titles = {
 		major = yes
 		potential = {
@@ -506,7 +484,6 @@ country_decisions = {
 		}
 	}
 
-	# Integrate Magnate Vassal
 	pdl_integrate_magnate_vassal = {
 		potential = {
 			tag = PDL
@@ -564,16 +541,21 @@ country_decisions = {
 		}
 	}
 
-	# =====================================================================
-	# TRADE COMPANY INTEGRATION (Phase 2 Enhancements)
-	# =====================================================================
 
-	# Establish Kamianets Trade Company
 	pdl_establish_trade_company = {
 		potential = {
 			tag = PDL
 			owns = 281
 			NOT = { has_country_flag = pdl_kamianets_trade_company }
+		}
+
+		provinces_to_highlight = {
+			province_id = 281
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { has_building = marketplace }
+				NOT = { development = 15 }
+			}
 		}
 		
 		allow = {
@@ -617,13 +599,20 @@ country_decisions = {
 		}
 	}
 
-	# Expand Trade Company Network
 	pdl_expand_trade_network = {
 		major = yes
 		potential = {
 			tag = PDL
 			has_country_flag = pdl_kamianets_trade_company
 			NOT = { has_country_flag = pdl_expanded_trade_network }
+		}
+
+		provinces_to_highlight = {
+			OR = {
+				province_id = 281
+				province_id = 279
+			}
+			NOT = { owned_by = ROOT }
 		}
 		
 		allow = {
@@ -660,11 +649,7 @@ country_decisions = {
 		}
 	}
 
-	# =====================================================================
-	# MERGER & UNIFICATION DECISIONS
-	# =====================================================================
 
-	# Unite with Galicia (Diplomatic Union)
 	pdl_unite_with_galicia_diplo = {
 		major = yes
 		potential = {
@@ -725,7 +710,6 @@ country_decisions = {
 		}
 	}
 
-	# Unite with Volhynia (Cultural Integration)
 	pdl_unite_with_volhynia = {
 		major = yes
 		potential = {
@@ -773,12 +757,25 @@ country_decisions = {
 		}
 	}
 
-	# Form Greater Ruthenian Kingdom (requires both regions)
 	pdl_form_greater_ruthenia = {
 		major = yes
 		potential = {
 			tag = PDL
 			NOT = { has_country_flag = pdl_formed_greater_ruthenia }
+		}
+
+		provinces_to_highlight = {
+			OR = {
+				province_id = 281
+				province_id = 279
+				province_id = 280
+				province_id = 282
+				province_id = 283
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
 		}
 		
 		allow = {

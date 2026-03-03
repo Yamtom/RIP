@@ -10,7 +10,6 @@ het_missions_1 = {
 	}
 	has_country_shield = yes
 
-	# KHMELNYTSKY ARC (1648-1657)
 	het_khmelnytsky_uprising = {
 		icon = mission_cossack_cavalry
 		required_missions = { }
@@ -20,7 +19,24 @@ het_missions_1 = {
 			manpower_percentage = 0.5
 			OR = {
 				has_country_modifier = khmelnitsky_uprising
-				is_year = 1648
+				AND = {
+					OR = {
+						is_year = 1648
+						has_institution = renaissance
+						current_age = age_of_reformation
+					}
+				}
+				AND = {
+					NOT = {
+						OR = {
+							is_year = 1648
+							has_institution = renaissance
+							current_age = age_of_reformation
+						}
+					}
+					army_size_percentage = 1
+					manpower_percentage = 1
+				}
 			}
 		}
 		effect = {
@@ -49,7 +65,9 @@ het_missions_1 = {
 		position = 2
 		trigger = {
 			OR = {
+				has_country_flag = orthodox_defender_het
 				religion = orthodox
+				has_country_modifier = het_orthodox_champion
 				has_country_modifier = orthodox_crusade_participant
 				has_country_modifier = orthodox_crusade_leader
 			}
@@ -61,6 +79,7 @@ het_missions_1 = {
 				name = het_orthodox_champion
 				duration = 7300
 			}
+			set_country_flag = het_unlocked_crusade_role
 			add_church_power = 100
 			add_prestige = 20
 			poland_region = {
@@ -91,14 +110,42 @@ het_missions_1 = {
 			owns_or_non_sovereign_subject_of = 279  # Volhynia
 			owns_or_non_sovereign_subject_of = 281  # Podillia
 			NOT = {
-				any_country = {
-					OR = {
-						tag = PLC
-						tag = POL
-						tag = LIT
+				any_province = {
+					area = west_dniepr_area
+					owner = {
+						OR = {
+							tag = PLC
+							tag = POL
+							tag = LIT
+						}
+						is_subject = no
 					}
-					is_subject = no
-					total_development = 300
+				}
+			}
+			NOT = {
+				any_province = {
+					area = podolia_volhynia_area
+					owner = {
+						OR = {
+							tag = PLC
+							tag = POL
+							tag = LIT
+						}
+						is_subject = no
+					}
+				}
+			}
+			NOT = {
+				any_province = {
+					area = volhynia_area
+					owner = {
+						OR = {
+							tag = PLC
+							tag = POL
+							tag = LIT
+						}
+						is_subject = no
+					}
 				}
 			}
 		}
@@ -117,7 +164,6 @@ het_missions_1 = {
 		}
 	}
 
-	# MAZEPA ARC (1687-1708)
 	het_mazepa_renaissance = {
 		icon = mission_establish_high_seas_navy
 		required_missions = { het_break_polish_yoke }
@@ -125,10 +171,41 @@ het_missions_1 = {
 		trigger = {
 			stability = 2
 			prestige = 25
-			has_institution = enlightenment
+			OR = {
+				OR = {
+					has_institution = printing_press
+					current_age = age_of_absolutism
+				}
+				AND = {
+					NOT = {
+						OR = {
+							has_institution = printing_press
+							current_age = age_of_absolutism
+						}
+					}
+					stability = 3
+					prestige = 50
+				}
+			}
 			OR = {
 				has_country_modifier = mazepa_golden_age
-				is_year = 1687
+				AND = {
+					OR = {
+						is_year = 1687
+						has_institution = printing_press
+						current_age = age_of_absolutism
+					}
+				}
+				AND = {
+					NOT = {
+						OR = {
+							is_year = 1687
+							has_institution = printing_press
+							current_age = age_of_absolutism
+						}
+					}
+					adm_tech = 20
+				}
 			}
 		}
 		effect = {
@@ -161,7 +238,23 @@ het_missions_1 = {
 					}
 					is_great_power = yes
 				}
-				is_year = 1708
+				AND = {
+					OR = {
+						is_year = 1708
+						has_institution = global_trade
+						current_age = age_of_absolutism
+					}
+				}
+				AND = {
+					NOT = {
+						OR = {
+							is_year = 1708
+							has_institution = global_trade
+							current_age = age_of_absolutism
+						}
+					}
+					army_tradition = 80
+				}
 			}
 			army_tradition = 40
 		}
@@ -181,7 +274,6 @@ het_missions_1 = {
 		}
 	}
 
-	# ROZUMOVSKY ARC (1750-1764)
 	het_rozumovsky_reforms = {
 		icon = mission_monarch_in_throne_room
 		required_missions = { het_swedish_alliance }
@@ -190,7 +282,24 @@ het_missions_1 = {
 			adm_tech = 18
 			OR = {
 				has_country_modifier = het_reformed_election_system
-				is_year = 1750
+				AND = {
+					OR = {
+						is_year = 1750
+						has_institution = enlightenment
+						current_age = age_of_revolutions
+					}
+				}
+				AND = {
+					NOT = {
+						OR = {
+							is_year = 1750
+							has_institution = enlightenment
+							current_age = age_of_revolutions
+						}
+					}
+					adm_tech = 24
+					legitimacy = 100
+				}
 			}
 			legitimacy = 80
 		}
@@ -398,6 +507,7 @@ het_missions_3 = {
 			}
 		}
 		effect = {
+			set_country_flag = het_unlocked_moldovan_path
 			if = {
 				limit = { alliance_with = MOL }
 				add_country_modifier = {

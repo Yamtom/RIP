@@ -1,15 +1,8 @@
-# =========================================================================
-# PODILLIA CONFESSIONAL CRISIS DISASTER
-# =========================================================================
-# Religious tensions between Orthodox, Catholic, and Jewish communities
-# escalate into civil unrest and factional conflict
 
 podillia_confessional_crisis = {
 
 	potential = {
 		tag = PDL
-		# NOTE: Flag check removed - had_pdl_confessional_crisis was never set anywhere
-		# NOT = { has_country_flag = had_pdl_confessional_crisis }
 		normal_or_historical_nations = yes
 		has_dlc = "Dharma"
 	}
@@ -20,10 +13,8 @@ podillia_confessional_crisis = {
 		is_at_war = no
 		stability = 0
 		
-		# Religious diversity triggers crisis
 		religious_unity = 0.65
 		
-		# Tensions with religious estates
 		OR = {
 			AND = {
 				has_estate = estate_church
@@ -53,7 +44,6 @@ podillia_confessional_crisis = {
 			}
 		}
 		
-		# Recent religious conversions or intolerance
 		OR = {
 			has_country_modifier = religious_intolerance
 			has_country_modifier = forced_conversion
@@ -63,16 +53,13 @@ podillia_confessional_crisis = {
 	
 	can_stop = {
 		OR = {
-			# Stability restored
 			stability = 2
 			religious_unity = 0.85
 			
-			# Religious tolerance achieved
 			AND = {
 				pdl_2_tolerance = yes
 			}
 			
-			# Estates pacified
 			AND = {
 				has_estate = estate_church
 				estate_loyalty = {
@@ -81,7 +68,6 @@ podillia_confessional_crisis = {
 				}
 			}
 			
-			# Administrative solution
 			has_country_modifier = pdl_confessional_peace_enacted
 		}
 	}
@@ -122,21 +108,18 @@ podillia_confessional_crisis = {
 	
 	can_end = {
 		OR = {
-			# Peaceful resolution
 			AND = {
 				stability = 2
 				religious_unity = 0.85
 				pdl_more2_tolerance = yes
 			}
 			
-			# Forced resolution
 			AND = {
 				NOT = { num_of_rebel_armies = 1 }
 				NOT = { num_of_rebel_controlled_provinces = 1 }
 				stability = 1
 			}
 			
-			# Administrative decree
 			has_country_modifier = pdl_confessional_peace_enacted
 		}
 	}

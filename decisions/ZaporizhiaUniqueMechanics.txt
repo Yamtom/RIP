@@ -1,15 +1,10 @@
-# ========================================
-# ZAPORIZHIA UNIQUE DECISIONS
-# ========================================
 
 country_decisions = {
 
-	# === CONVENE GREAT RADA ===
 	zaz_convene_great_rada = {
 		major = yes
 		potential = {
-			is_zaporozhian_nation = yes
-			has_sich_established = yes
+			always = no
 		}
 		
 		allow = {
@@ -42,54 +37,10 @@ country_decisions = {
 		}
 	}
 
-	# === RELOCATE SICH ===
-	zaz_relocate_sich = {
-		major = yes
-		potential = {
-			is_zaporozhian_nation = yes
-			has_sich_established = yes
-		}
-		
-		allow = {
-			can_relocate_sich = yes
-			adm_power = 100
-			treasury = 200
-		}
-		
-		effect = {
-			add_adm_power = -100
-			add_treasury = -200
-			add_prestige = 5
-			
-			zaz_relocate_sich_effect = yes
-		}
-		
-		ai_will_do = {
-			factor = 1
-			modifier = {
-				factor = 0
-				NOT = { sich_relocation_necessary = yes }
-			}
-			modifier = {
-				factor = 5
-				capital_scope = {
-					devastation = 30
-				}
-			}
-			modifier = {
-				factor = 3
-				capital_scope = {
-					controlled_by = REB
-				}
-			}
-		}
-	}
-
-	# === LAUNCH CHAIKY RAID ===
 	zaz_launch_chaiky_raid = {
 		major = yes
 		potential = {
-			is_zaporozhian_nation = yes
+			always = no
 		}
 		
 		allow = {
@@ -126,14 +77,10 @@ country_decisions = {
 		}
 	}
 
-	# === EXPAND COSSACK REGISTER ===
 	zaz_expand_register = {
 		major = yes
 		potential = {
-			is_zaporozhian_nation = yes
-			is_subject = yes
-			NOT = { register_is_high = yes }
-			NOT = { register_is_abolished = yes }
+			always = no
 		}
 		
 		allow = {
@@ -174,12 +121,10 @@ country_decisions = {
 		}
 	}
 
-	# === ABOLISH COSSACK REGISTER ===
 	zaz_abolish_register = {
 		major = yes
 		potential = {
-			is_zaporozhian_nation = yes
-			has_cossack_register = yes
+			always = no
 		}
 		
 		allow = {
@@ -225,11 +170,10 @@ country_decisions = {
 		}
 	}
 
-	# === RECRUIT FROM STEPPE ALLIES ===
 	zaz_recruit_steppe_cavalry = {
 		major = yes
 		potential = {
-			is_zaporozhian_nation = yes
+			always = no
 		}
 		
 		allow = {
@@ -274,11 +218,10 @@ country_decisions = {
 		}
 	}
 
-	# === ESTABLISH SLOBODA ===
 	zaz_establish_sloboda = {
 		major = yes
 		potential = {
-			is_zaporozhian_nation = yes
+			always = no
 		}
 		
 		allow = {
@@ -314,12 +257,10 @@ country_decisions = {
 		}
 	}
 
-	# === FORTIFY SLOBODA ===
 	zaz_fortify_sloboda = {
 		major = yes
 		potential = {
-			is_zaporozhian_nation = yes
-			has_civilian_slobodas = yes
+			always = no
 		}
 		
 		allow = {
@@ -358,12 +299,10 @@ country_decisions = {
 		}
 	}
 
-	# === PROTECT ORTHODOX MONASTERIES ===
 	zaz_protect_orthodox = {
 		major = yes
 		potential = {
-			is_zaporozhian_nation = yes
-			religion = orthodox
+			always = no
 		}
 		
 		allow = {
@@ -392,7 +331,6 @@ country_decisions = {
 		}
 	}
 
-	# === HOLD HETMAN ELECTION ===
 	zaz_hold_hetman_election = {
 		major = yes
 		potential = {
@@ -429,7 +367,6 @@ country_decisions = {
 		}
 	}
 
-	# === ESTABLISH PRINTING PRESS ===
 	het_establish_printing_press = {
 		major = yes
 		potential = {
@@ -469,7 +406,6 @@ country_decisions = {
 		}
 	}
 
-	# === RESIST ABOLITION (Poltava Crisis) ===
 	het_resist_abolition = {
 		major = yes
 		potential = {

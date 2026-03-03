@@ -1,33 +1,7 @@
-# =========================================================================
-# DNIESTER ESTUARY EVENTS
-# =========================================================================
-# HISTORICAL CONTEXT:
-# The Dniester (Dnister) Estuary was crucial Black Sea trade gateway,
-# controlling access between Polish-Lithuanian Commonwealth, Moldavia,
-# Ottoman Empire, and steppe nomads. Key ports:
-# - Bilhorod-Dnistrovskyi (Akkerman/Cetatea Albă)
-# - Kilia (Chilia Veche)
-#
-# STRATEGIC IMPORTANCE:
-# - Trade route between Central Europe and Black Sea
-# - Salt, fish, wine, grain trade
-# - Control contested by Moldavia, Ottomans, Poland, Cossacks, Crimea
-# - Major fortress controlling river access
-#
-# TIMELINE:
-# - 1420s-1484: Moldavian Golden Age
-# - 1484-1812: Ottoman control
-# - Periodic Cossack raids 16th-17th centuries
-# - Russian annexation 1812
-# =========================================================================
 
 namespace = dniester_estuary
 
-# =================================================================
-# DEVELOPMENT EVENTS (after decision)
-# =================================================================
 
-# dniester_estuary.1 - Greek Merchants Arrive
 country_event = {
 	id = dniester_estuary.1
 	title = dniester_estuary.1.t
@@ -41,7 +15,6 @@ country_event = {
 		owns_or_non_sovereign_subject_of = 282
 	}
 	
-	# Welcome Greek merchants
 	option = {
 		name = dniester_estuary.1.a
 		
@@ -59,7 +32,6 @@ country_event = {
 		add_mercantilism = 1
 		add_years_of_income = 0.25
 		
-		# Chance of Armenian merchants too
 		random_list = {
 			40 = {
 				country_event = { id = dniester_estuary.2 days = 60 }
@@ -68,7 +40,6 @@ country_event = {
 		}
 	}
 	
-	# Tax them heavily
 	option = {
 		name = dniester_estuary.1.b
 		
@@ -85,7 +56,6 @@ country_event = {
 		}
 	}
 	
-	# Restrict foreign merchants
 	option = {
 		name = dniester_estuary.1.c
 		
@@ -100,7 +70,6 @@ country_event = {
 	}
 }
 
-# dniester_estuary.2 - Armenian Merchants Arrive
 country_event = {
 	id = dniester_estuary.2
 	title = dniester_estuary.2.t
@@ -113,7 +82,6 @@ country_event = {
 		owns_or_non_sovereign_subject_of = 282
 	}
 	
-	# Welcome Armenian merchants
 	option = {
 		name = dniester_estuary.2.a
 		
@@ -132,7 +100,6 @@ country_event = {
 		add_dip_power = 25
 	}
 	
-	# Prefer locals
 	option = {
 		name = dniester_estuary.2.b
 		
@@ -145,11 +112,7 @@ country_event = {
 	}
 }
 
-# =================================================================
-# FORTIFICATION EVENTS
-# =================================================================
 
-# dniester_estuary.10 - Akkerman Fortress Completed
 country_event = {
 	id = dniester_estuary.10
 	title = dniester_estuary.10.t
@@ -163,7 +126,6 @@ country_event = {
 		owns_or_non_sovereign_subject_of = 282
 	}
 	
-	# A mighty fortress
 	option = {
 		name = dniester_estuary.10.a
 		
@@ -177,7 +139,6 @@ country_event = {
 			}
 		}
 		
-		# Neighboring powers react
 		every_neighbor_country = {
 			limit = {
 				is_rival = ROOT
@@ -193,7 +154,6 @@ country_event = {
 	}
 }
 
-# dniester_estuary.11 - Neighbor Reacts to Fortifications
 country_event = {
 	id = dniester_estuary.11
 	title = dniester_estuary.11.t
@@ -202,7 +162,6 @@ country_event = {
 	
 	is_triggered_only = yes
 	
-	# Build our own fortifications
 	option = {
 		name = dniester_estuary.11.a
 		
@@ -230,7 +189,6 @@ country_event = {
 		}
 	}
 	
-	# Prepare for conflict
 	option = {
 		name = dniester_estuary.11.b
 		
@@ -248,7 +206,6 @@ country_event = {
 		}
 	}
 	
-	# Accept it
 	option = {
 		name = dniester_estuary.11.c
 		
@@ -260,11 +217,7 @@ country_event = {
 	}
 }
 
-# =================================================================
-# WINE TRADE EVENTS
-# =================================================================
 
-# dniester_estuary.20 - Wine Trade Flourishes
 country_event = {
 	id = dniester_estuary.20
 	title = dniester_estuary.20.t
@@ -278,7 +231,6 @@ country_event = {
 		owns_or_non_sovereign_subject_of = 282
 	}
 	
-	# Expand production
 	option = {
 		name = dniester_estuary.20.a
 		
@@ -299,7 +251,6 @@ country_event = {
 		add_years_of_income = 0.5
 	}
 	
-	# Export more aggressively
 	option = {
 		name = dniester_estuary.20.b
 		
@@ -311,7 +262,6 @@ country_event = {
 		add_years_of_income = 0.3
 	}
 	
-	# Tax the profits
 	option = {
 		name = dniester_estuary.20.c
 		
@@ -327,11 +277,7 @@ country_event = {
 	}
 }
 
-# =================================================================
-# CONFLICT EVENTS
-# =================================================================
 
-# dniester_estuary.30 - Preparing to Contest Ottoman Control
 country_event = {
 	id = dniester_estuary.30
 	title = dniester_estuary.30.t
@@ -345,7 +291,6 @@ country_event = {
 		282 = { owned_by = TUR }
 	}
 	
-	# Build alliance network
 	option = {
 		name = dniester_estuary.30.a
 		
@@ -355,7 +300,6 @@ country_event = {
 		
 		add_dip_power = -50
 		
-		# Try to ally with other Ottoman rivals
 		custom_tooltip = dniester_estuary.30.a.tt
 		
 		every_country = {
@@ -375,7 +319,6 @@ country_event = {
 		add_prestige = 5
 	}
 	
-	# Delay for now
 	option = {
 		name = dniester_estuary.30.c
 		
@@ -388,11 +331,7 @@ country_event = {
 	}
 }
 
-# =================================================================
-# COSSACK RAID EVENTS
-# =================================================================
 
-# dniester_estuary.40 - Cossack Raids on Estuary
 country_event = {
 	id = dniester_estuary.40
 	title = dniester_estuary.40.t
@@ -438,7 +377,6 @@ country_event = {
 		}
 	}
 	
-	# Strengthen defenses
 	option = {
 		name = dniester_estuary.40.a
 		
@@ -457,7 +395,6 @@ country_event = {
 		}
 	}
 	
-	# Negotiate with Cossacks
 	option = {
 		name = dniester_estuary.40.b
 		
@@ -481,7 +418,6 @@ country_event = {
 		}
 	}
 	
-	# Accept the raids
 	option = {
 		name = dniester_estuary.40.c
 		
@@ -502,11 +438,7 @@ country_event = {
 	}
 }
 
-# =================================================================
-# RANDOM FLAVOR EVENTS
-# =================================================================
 
-# dniester_estuary.50 - Merchant Fleet Arrives
 country_event = {
 	id = dniester_estuary.50
 	title = dniester_estuary.50.t
@@ -533,7 +465,6 @@ country_event = {
 		}
 	}
 	
-	# Profitable trade
 	option = {
 		name = dniester_estuary.50.a
 		
@@ -549,7 +480,6 @@ country_event = {
 	}
 }
 
-# dniester_estuary.51 - Excellent Fish Harvest
 country_event = {
 	id = dniester_estuary.51
 	title = dniester_estuary.51.t
@@ -569,7 +499,6 @@ country_event = {
 		months = 200
 	}
 	
-	# Great harvest!
 	option = {
 		name = dniester_estuary.51.a
 		
@@ -584,7 +513,6 @@ country_event = {
 	}
 }
 
-# dniester_estuary.52 - Wine Vintage Competition
 country_event = {
 	id = dniester_estuary.52
 	title = dniester_estuary.52.t
@@ -604,7 +532,6 @@ country_event = {
 		months = 240
 	}
 	
-	# Host competition
 	option = {
 		name = dniester_estuary.52.a
 		
@@ -623,7 +550,6 @@ country_event = {
 		}
 	}
 	
-	# Just sell the wine
 	option = {
 		name = dniester_estuary.52.b
 		

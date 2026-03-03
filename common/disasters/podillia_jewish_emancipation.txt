@@ -1,8 +1,3 @@
-# =====================================================================
-# PODILLIA - JEWISH EMANCIPATION DISASTER
-# =====================================================================
-# Represents enlightenment-era tensions over Jewish rights and integration
-# Triggers when Dhimmi estate demands rights expansion
 
 podillia_jewish_emancipation = {
 	potential = {
@@ -15,21 +10,18 @@ podillia_jewish_emancipation = {
 		is_subject = no
 		NOT = { has_regency = yes }
 		
-		# Dhimmi estate exists and demands rights
 		has_estate = estate_dhimmi
 		estate_influence = {
 			estate = estate_dhimmi
 			influence = 40
 		}
 		
-		# Enlightenment ideas or tolerance
 		OR = {
 			has_idea_group = humanist_ideas
 			religious_unity = 0.8
 			has_country_flag = pdl_tolerance_path
 		}
 		
-		# Noble/clergy resistance to change
 		OR = {
 			estate_loyalty = {
 				estate = estate_nobles
@@ -41,12 +33,10 @@ podillia_jewish_emancipation = {
 			}
 		}
 		
-		# Not recently resolved
 		NOT = { has_country_modifier = pdl_jewish_emancipation_enacted }
 	}
 	
 	can_stop = {
-		# Compromise reached
 		AND = {
 			stability = 2
 			estate_loyalty = {
@@ -109,10 +99,8 @@ podillia_jewish_emancipation = {
 	
 	can_end = {
 		OR = {
-			# Disaster resolved through events
 			has_country_flag = pdl_jewish_emancipation_resolved
 			
-			# Conditions stabilized
 			AND = {
 				stability = 2
 				estate_loyalty = {

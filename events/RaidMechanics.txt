@@ -1,33 +1,7 @@
-# =========================================================================
-# RAID MECHANICS EVENTS
-# =========================================================================
-# HISTORICAL CONTEXT:
-# Raiding was endemic in the steppe frontier zone (Wild Fields) from the
-# 14th-18th centuries, involving Crimean Tatars, Zaporozhian Cossacks,
-# Polesian irregulars, Don Cossacks, and Nogai hordes.
-#
-# MECHANICS:
-# - Raid preparation events
-# - Raid execution with multiple outcomes
-# - Counter-raid mechanics
-# - Seasonal raiding patterns
-# - Diplomatic consequences
-# - Specialized raid types (slave raids, chaiky raids, marsh raids)
-#
-# ELIGIBLE TAGS:
-# - Zaporozhia (ZAZ), Hetmanate (HET), Don Cossacks (DON)
-# - Crimean Khanate (CRI), Great Horde (GOL), Nogai (NOG)
-# - Polishchuks (POL), all Ruthenian/Ukrainian minors
-# - Muscovy/Russia (MOS/RUS), Poland-Lithuania (POL/PLC)
-# =========================================================================
 
 namespace = raid_mechanics
 
-# =================================================================
-# RAID PREPARATION EVENTS
-# =================================================================
 
-# raid_mechanics.1 - Spring Raiding Season Approaches
 country_event = {
 	id = raid_mechanics.1
 	title = raid_mechanics.1.t
@@ -74,7 +48,6 @@ country_event = {
 		}
 	}
 	
-	# Prepare major raid
 	option = {
 		name = raid_mechanics.1.a
 		
@@ -102,7 +75,6 @@ country_event = {
 		country_event = { id = raid_mechanics.10 days = 90 }
 	}
 	
-	# Prepare minor raid
 	option = {
 		name = raid_mechanics.1.b
 		
@@ -123,7 +95,6 @@ country_event = {
 		}
 	}
 	
-	# Focus on defense this year
 	option = {
 		name = raid_mechanics.1.c
 		
@@ -145,7 +116,6 @@ country_event = {
 	}
 }
 
-# raid_mechanics.2 - Reconnaissance Reports (raid preparation phase)
 country_event = {
 	id = raid_mechanics.2
 	title = raid_mechanics.2.t
@@ -158,7 +128,6 @@ country_event = {
 		has_country_modifier = gathering_raiders
 	}
 	
-	# Send spies to enemy territory
 	option = {
 		name = raid_mechanics.2.a
 		
@@ -181,7 +150,6 @@ country_event = {
 		custom_tooltip = raid_mechanics.2.a.tt
 	}
 	
-	# Rely on local informants
 	option = {
 		name = raid_mechanics.2.b
 		
@@ -194,7 +162,6 @@ country_event = {
 		custom_tooltip = raid_mechanics.2.b.tt
 	}
 	
-	# Skip reconnaissance (risky)
 	option = {
 		name = raid_mechanics.2.c
 		
@@ -208,11 +175,7 @@ country_event = {
 	}
 }
 
-# =================================================================
-# RAID EXECUTION EVENTS
-# =================================================================
 
-# raid_mechanics.10 - Major Raid: Choose Target
 country_event = {
 	id = raid_mechanics.10
 	title = raid_mechanics.10.t
@@ -229,7 +192,6 @@ country_event = {
 		remove_country_modifier = gathering_raiders
 	}
 	
-	# Raid wealthy provinces (high risk, high reward)
 	option = {
 		name = raid_mechanics.10.a
 		
@@ -267,7 +229,6 @@ country_event = {
 		}
 	}
 	
-	# Raid border provinces (moderate risk/reward)
 	option = {
 		name = raid_mechanics.10.b
 		
@@ -290,7 +251,6 @@ country_event = {
 		}
 	}
 	
-	# Raid for specific objectives (slaves, livestock, etc.)
 	option = {
 		name = raid_mechanics.10.c
 		
@@ -326,7 +286,6 @@ country_event = {
 		}
 	}
 	
-	# Cancel raid (lose prestige)
 	option = {
 		name = raid_mechanics.10.e
 		
@@ -339,7 +298,6 @@ country_event = {
 	}
 }
 
-# raid_mechanics.11 - Minor Raid Success
 country_event = {
 	id = raid_mechanics.11
 	title = raid_mechanics.11.t
@@ -366,7 +324,6 @@ country_event = {
 	}
 }
 
-# raid_mechanics.12 - Minor Raid Failure
 country_event = {
 	id = raid_mechanics.12
 	title = raid_mechanics.12.t
@@ -392,11 +349,7 @@ country_event = {
 	}
 }
 
-# =================================================================
-# RAID SUCCESS EVENTS
-# =================================================================
 
-# raid_mechanics.20 - Major Raid Success
 country_event = {
 	id = raid_mechanics.20
 	title = raid_mechanics.20.t
@@ -422,7 +375,6 @@ country_event = {
 		add_army_tradition = 15
 		add_prestige = 10
 		
-		# Find victim
 		random_neighbor_country = {
 			limit = {
 				NOT = { alliance_with = ROOT }
@@ -439,7 +391,6 @@ country_event = {
 	}
 }
 
-# raid_mechanics.21 - Moderate Raid Success
 country_event = {
 	id = raid_mechanics.21
 	title = raid_mechanics.21.t
@@ -465,7 +416,6 @@ country_event = {
 		add_army_tradition = 10
 		add_prestige = 5
 		
-		# Find victim
 		random_neighbor_country = {
 			limit = {
 				NOT = { alliance_with = ROOT }
@@ -490,7 +440,6 @@ country_event = {
 	}
 }
 
-# raid_mechanics.22 - Modest Raid Success
 country_event = {
 	id = raid_mechanics.22
 	title = raid_mechanics.22.t
@@ -517,11 +466,7 @@ country_event = {
 	}
 }
 
-# =================================================================
-# RAID FAILURE EVENTS
-# =================================================================
 
-# raid_mechanics.30 - Major Raid Failure
 country_event = {
 	id = raid_mechanics.30
 	title = raid_mechanics.30.t
@@ -547,12 +492,10 @@ country_event = {
 		add_prestige = -15
 		add_war_exhaustion = 1
 		
-		# Lose some troops
 		add_manpower = -5
 	}
 }
 
-# raid_mechanics.31 - Raiders Ambushed
 country_event = {
 	id = raid_mechanics.31
 	title = raid_mechanics.31.t
@@ -578,10 +521,8 @@ country_event = {
 		add_prestige = -10
 		add_war_exhaustion = 2
 		
-		# Heavy manpower loss
 		add_manpower = -8
 		
-		# Victim gets prestige boost
 		random_neighbor_country = {
 			limit = {
 				NOT = { alliance_with = ROOT }
@@ -595,11 +536,7 @@ country_event = {
 	}
 }
 
-# =================================================================
-# SPECIALIZED RAID EVENTS
-# =================================================================
 
-# raid_mechanics.40 - Slave Raid Success (Crimean Tatars)
 country_event = {
 	id = raid_mechanics.40
 	title = raid_mechanics.40.t
@@ -632,7 +569,6 @@ country_event = {
 		add_treasury = 250
 		add_prestige = 5
 		
-		# Heavy diplomatic penalty
 		random_neighbor_country = {
 			limit = {
 				OR = {
@@ -653,7 +589,6 @@ country_event = {
 	}
 }
 
-# raid_mechanics.41 - Livestock Raid Success
 country_event = {
 	id = raid_mechanics.41
 	title = raid_mechanics.41.t
@@ -680,7 +615,6 @@ country_event = {
 	}
 }
 
-# raid_mechanics.42 - Chaiky Naval Raid (Cossacks)
 country_event = {
 	id = raid_mechanics.42
 	title = raid_mechanics.42.t
@@ -720,7 +654,6 @@ country_event = {
 		}
 	}
 	
-	# Launch chaiky raid
 	option = {
 		name = raid_mechanics.42.a
 		
@@ -744,7 +677,6 @@ country_event = {
 				add_navy_tradition = 20
 				add_prestige = 10
 				
-				# Find Ottoman/Tatar victim
 				random_neighbor_country = {
 					limit = {
 						OR = {
@@ -785,7 +717,6 @@ country_event = {
 		}
 	}
 	
-	# Don't raid this year
 	option = {
 		name = raid_mechanics.42.b
 		
@@ -797,7 +728,6 @@ country_event = {
 	}
 }
 
-# raid_mechanics.43 - Polesian Marsh Raid
 country_event = {
 	id = raid_mechanics.43
 	title = raid_mechanics.43.t
@@ -836,7 +766,6 @@ country_event = {
 		}
 	}
 	
-	# Launch marsh guerrilla raid
 	option = {
 		name = raid_mechanics.43.a
 		
@@ -883,7 +812,6 @@ country_event = {
 		}
 	}
 	
-	# Don't raid
 	option = {
 		name = raid_mechanics.43.b
 		
@@ -895,11 +823,7 @@ country_event = {
 	}
 }
 
-# =================================================================
-# VICTIM EVENTS (countries being raided)
-# =================================================================
 
-# raid_mechanics.50 - Our Territory Was Raided (major)
 country_event = {
 	id = raid_mechanics.50
 	title = raid_mechanics.50.t
@@ -923,7 +847,6 @@ country_event = {
 		
 		add_prestige = -10
 		
-		# Random border province gets raided
 		random_owned_province = {
 			limit = {
 				any_neighbor_province = { owned_by = FROM }
@@ -939,7 +862,6 @@ country_event = {
 	}
 }
 
-# raid_mechanics.51 - We Ambushed Raiders!
 country_event = {
 	id = raid_mechanics.51
 	title = raid_mechanics.51.t
@@ -955,7 +877,6 @@ country_event = {
 		add_army_tradition = 15
 		add_treasury = 75
 		
-		# Boost for successful defense
 		add_country_modifier = {
 			name = mobile_anti_raid_patrols
 			duration = 1095
@@ -963,7 +884,6 @@ country_event = {
 	}
 }
 
-# raid_mechanics.52 - Slave Raid on Our Territory!
 country_event = {
 	id = raid_mechanics.52
 	title = raid_mechanics.52.t
@@ -983,7 +903,6 @@ country_event = {
 		add_prestige = -15
 		add_legitimacy = -5
 		
-		# Heavy devastation
 		random_owned_province = {
 			limit = {
 				any_neighbor_province = { owned_by = FROM }
@@ -998,7 +917,6 @@ country_event = {
 			add_base_manpower = -1
 		}
 		
-		# Demand action
 		add_casus_belli = {
 			target = FROM
 			type = cb_insult
@@ -1007,7 +925,6 @@ country_event = {
 	}
 }
 
-# raid_mechanics.53 - Chaiky Raid on Our Coast!
 country_event = {
 	id = raid_mechanics.53
 	title = raid_mechanics.53.t
@@ -1035,7 +952,6 @@ country_event = {
 			add_devastation = 15
 		}
 		
-		# Demand retaliation
 		add_opinion = {
 			who = FROM
 			modifier = insulted
@@ -1043,11 +959,7 @@ country_event = {
 	}
 }
 
-# =================================================================
-# COUNTER-RAID & DEFENSE EVENTS
-# =================================================================
 
-# raid_mechanics.60 - Strengthen Border Defenses
 country_event = {
 	id = raid_mechanics.60
 	title = raid_mechanics.60.t
@@ -1070,7 +982,6 @@ country_event = {
 		}
 	}
 	
-	# Build fortifications
 	option = {
 		name = raid_mechanics.60.a
 		
@@ -1087,7 +998,6 @@ country_event = {
 		}
 	}
 	
-	# Mobile patrols
 	option = {
 		name = raid_mechanics.60.b
 		
@@ -1104,7 +1014,6 @@ country_event = {
 		}
 	}
 	
-	# Accept raids as reality
 	option = {
 		name = raid_mechanics.60.c
 		
@@ -1117,7 +1026,6 @@ country_event = {
 	}
 }
 
-# raid_mechanics.61 - Launch Counter-Raid
 country_event = {
 	id = raid_mechanics.61
 	title = raid_mechanics.61.t
@@ -1140,7 +1048,6 @@ country_event = {
 		}
 	}
 	
-	# Launch punitive expedition
 	option = {
 		name = raid_mechanics.61.a
 		
@@ -1172,7 +1079,6 @@ country_event = {
 		}
 	}
 	
-	# Diplomatic pressure
 	option = {
 		name = raid_mechanics.61.b
 		
@@ -1186,7 +1092,6 @@ country_event = {
 		remove_country_modifier = raid_victim_retaliation
 	}
 	
-	# Do nothing
 	option = {
 		name = raid_mechanics.61.c
 		

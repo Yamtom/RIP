@@ -195,45 +195,6 @@ cossacks_reform = {
 }
 
 uzh_palanok_captaincy_reform = {
-	# -----------------------------------------------------------------
-	# UZHHOROD GOVERNMENT TITLES – PALANOK & KOMITAT SYSTEM
-	# -----------------------------------------------------------------
-	# TECHNICAL NOTES:
-	# - Both blocks below are scoped by has_reform checks, ensuring the
-	#   name-set swaps only when the Palanok Captaincy or Komitat System
-	#   reforms are active. Rank ladders map directly to EU4 government
-	#   tiers (duchy/kingdom/empire equivalents):
-	#     * rank[1] = March (Tier 1), rank[2] = Polk (Tier 2),
-	#       rank[3] = Governorate (Tier 3).
-	# - Ruler titles differentiate male/female variants to keep flavor in
-	#   UI tooltips, monarch lists, and succession events. Localization
-	#   keys follow uppercase identifiers declared here (e.g. PALATINE,
-	#   KAPITAN) and must exist in government names l_*.yml files.
-	# - `uzh_palanok_captaincy_reform` works with early-mission reform
-	#   (see common/government_reforms/RIP_government_reforms.txt) granting
-	#   march-style autonomy; `uzh_komitat_system_reform` is unlocked later
-	#   via mission "Komitat System" replacing hereditary captaincy.
-	#
-	# NARRATIVE BACKGROUND:
-	# - Palanok Captaincy: Inspired by the Palanok (Mukachevo) fortress,
-	#   historically run by captains (kapitány) drawn from Drugeth/Rákóczi
-	#   lineages. Titles like KAPITAN / KAPITANSHA evoke border-march
-	#   command, while POLKOVNYK and PAN_GENERAL echo Cossack/Polish ranks
-	#   adopted by Rusyn elites guarding the Tysa passes.
-	# - Komitat System: References the integration of Zakarpattia into the
-	#   Hungarian comitatus/megye administration. NADKOMIT (chief county
-	#   magistrate) and KORONNY_MARSHAL borrow from Habsburg-Hungarian
-	#   terminology, culminating in PALATINE / PALATINESS for crown
-	#   governors managing the March under St. Stephen's laws.
-	#
-	# SOURCES & FURTHER READING:
-	# - Géza Pálffy, "The Origins of the Border Fortresses of Royal Hungary"
-	#   (Hungarian Historical Review, 2015) on Palanok captaincies.
-	# - Ivan Pop, *History of Transcarpathia* (Uzhhorod, 2002) detailing
-	#   comitat governance reforms in the 18th century.
-	# - Palanok Castle archival inventories (Kriegsarchiv Wien, AFA 1730-1780)
-	#   noting captain/palatine appointments across the Muкачево estate.
-	# -----------------------------------------------------------------
 	rank = {
 		1 = MARCH
 		2 = POLK
@@ -281,10 +242,6 @@ uzh_palanok_captaincy_reform = {
 		}
 	}
 
-# Chernihiv Grain Directorate titles – mechanics, narrative, references
-# Mechanics: Unlocks after grain branch missions, renaming ranks to align with agrarian administration reform.
-# Narrative: Celebrates Chernihiv's imagined grain commonwealth staffed by atamans and directors.
-# References: Serhii Plokhy, *The Cossack Myth* (2012); Tetiana Tairova-Yakovleva, *Ivan Mazepa and His Age* (2007).
 chr_grain_directorate_reform = {
 	rank = {
 		1 = GRAIN_COLLEGIUM
@@ -309,20 +266,6 @@ chr_grain_directorate_reform = {
 	}
 }
 
-# =========================================================================
-# ZAPORIZHIA GOVERNMENT NAMES – DEMOCRATIC COSSACK REPUBLIC
-# =========================================================================
-# HISTORICAL CONTEXT:
-# - Sich Brotherhood (1552-1650s): Early democratic period with rotating Kosh Otaman
-# - Kosh Elections (1650s-1709): Peak democracy with annual elections and Sich Rada power
-# - Zaporozhian Host (1709-1775): Mature military republic, split periods (Polish, Ottoman, Russian)
-# - Last Sich (1734-1775): New Sich under Ottoman protection before Catherine's abolition
-#
-# REFERENCES:
-# - Serhii Plokhy, *The Cossack Myth* (2012)
-# - Victor Ostapchuk, "The Human Landscape of the Ottoman Black Sea" (2001)
-# - Erica Fraser, "The Military-Religious Orders" (2016)
-# =========================================================================
 
 zaz_sich_brotherhood_reform = {
 	rank = {
@@ -420,21 +363,6 @@ zaz_last_sich_reform = {
 	}
 }
 
-# =========================================================================
-# HETMANATE GOVERNMENT NAMES – AUTOCRATIC COSSACK STATE
-# =========================================================================
-# HISTORICAL CONTEXT:
-# - Starshyna Oligarchy (1648-1657): Early Hetmanate with colonel power
-# - Hetman for Life (1657-1687): Transition to hereditary power during The Ruin
-# - Academy Enlightenment (1687-1709): Mazepa's baroque cultural peak
-# - Mazepist Autocracy (1687-1709): Hetman near-monarchical authority
-# - Little Russian Collegium (1722-1764): Russian supervision period
-#
-# REFERENCES:
-# - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988)
-# - Orest Subtelny, *The Mazepists* (1981)
-# - Frank Sysyn, *Between Poland and the Ukraine* (1985)
-# =========================================================================
 
 het_starshyna_oligarchy_reform = {
 	rank = {
@@ -556,20 +484,6 @@ het_collegium_control_reform = {
 	}
 }
 
-# =========================================================================
-# VOLHYNIA GOVERNMENT NAMES – REGIONAL PRINCIPALITY
-# =========================================================================
-# HISTORICAL CONTEXT:
-# - Voivodeship Structure: Administrative division inspired by Lithuanian governance
-# - Confessional Reform: Balance between Eastern Orthodox and Greek Catholic traditions
-# - Ruthenia Integration: Development as a Ruthenian cultural and political entity
-# - Cossack Host: Military estate similar to Lithuanian-Cossack hybrid models
-# - Renaissance Integration: Cultural flowering similar to Hungarian Corviniana
-#
-# REFERENCES:
-# - Mykhailo Doroshenko, *History of Volhynia* (1991)
-# - Paul Robert Magocsi, *Galicia: A Historical Survey* (2002)
-# =========================================================================
 
 vln_voivodeship_reform = {
 	rank = {
@@ -811,27 +725,7 @@ vln_grand_ruthenia_reform = {
 	}
 }
 
-# =========================================================================
-# PODILLIA GOVERNMENT NAMES – BORDER FORTRESS VOIVODESHIP
-# =========================================================================
-# HISTORICAL CONTEXT:
-# - Carpathian Bastion: Podillia as frontier defense against Ottoman expansion
-# - Frontier Republic: Semi-autonomous Cossack-influenced state (Lithuanian model)
-# - Magnate Dominion: Autonomous duchy within Polish-Lithuanian Commonwealth
-# - Grand Podillia: Regional superpower merging all three paths
-#
-# GOVERNMENT TITLES reflect Podillia's unique position:
-# 1. VOIVODE titles (Polish administrative structure)
-# 2. PALANOK/FORT CAPTAIN titles (Croatian defensive model)
-# 3. HOST COMMANDER titles (Cossack-influenced military)
-# 4. HETMAN titles (Upper-tier authority)
-#
-# REFERENCES:
-# - Paul Robert Magocsi, "Galicia: A Historical Survey" (2002)
-# - Timothy Snyder, "The Reconstruction of Nations" (2003), ch. 3
-# =========================================================================
 
-# Base Voivodeship (Polish administrative model)
 pdl_frontier_voivodeship = {
 	rank = {
 		1 = FRONTIER_VOIVODESHIP
@@ -856,7 +750,6 @@ pdl_frontier_voivodeship = {
 	}
 }
 
-# Carpathian Bastion Path (Croatian-inspired fortress model)
 pdl_carpathian_bastion = {
 	rank = {
 		1 = BORDER_GARRISON
@@ -882,7 +775,6 @@ pdl_carpathian_bastion = {
 	}
 }
 
-# Frontier Republic Path (Cossack-influenced)
 pdl_frontier_republic = {
 	rank = {
 		1 = COSSACK_VOIVODESHIP
@@ -908,7 +800,6 @@ pdl_frontier_republic = {
 	}
 }
 
-# Magnate Dominion Path (Mazovian-inspired autonomy)
 pdl_magnate_dominion = {
 	rank = {
 		1 = MAGNATE_DUCHY
@@ -934,7 +825,6 @@ pdl_magnate_dominion = {
 	}
 }
 
-# Grand Podillia (Regional supremacy - all paths culmination)
 pdl_grand_podillia = {
 	rank = {
 		1 = GRAND_PODILLIA_VOIVODESHIP
@@ -959,7 +849,6 @@ pdl_grand_podillia = {
 		has_country_flag = pdl_grand_podillia
 	}
 }
-# Podillia Tier 11: Clan Assembly (Tribal Foundation)
 pdl_clan_assembly = {
 	rank = {
 		1 = CLAN_COUNCIL
@@ -985,7 +874,6 @@ pdl_clan_assembly = {
 	}
 }
 
-# Podillia Tier 10: Steppe Principality
 pdl_steppe_principality = {
 	rank = {
 		1 = STEPPE_PRINCIPALITY
@@ -1011,7 +899,6 @@ pdl_steppe_principality = {
 	}
 }
 
-# Podillia Tier 9: Voivodeship Kingdom
 pdl_voivodeship_kingdom = {
 	rank = {
 		1 = VOIVODE_KINGDOM
@@ -1037,7 +924,6 @@ pdl_voivodeship_kingdom = {
 	}
 }
 
-# Podillia Tier 8: Palatine Court
 pdl_palatine_court = {
 	rank = {
 		1 = PALATINE_DUCHY
@@ -1063,7 +949,6 @@ pdl_palatine_court = {
 	}
 }
 
-# Podillia Tier 7: Aristocratic Assembly
 pdl_aristocratic_assembly = {
 	rank = {
 		1 = NOBLE_ASSEMBLY
@@ -1089,7 +974,6 @@ pdl_aristocratic_assembly = {
 	}
 }
 
-# Podillia Tier 6: Magnate Republic
 pdl_magnate_republic = {
 	rank = {
 		1 = OLIGARCHY
@@ -1115,7 +999,6 @@ pdl_magnate_republic = {
 	}
 }
 
-# Podillia Tier 4: Enlightened Voivodeship
 pdl_enlightened_voivodeship = {
 	rank = {
 		1 = ENLIGHTENED_VOIVODESHIP
@@ -1141,7 +1024,6 @@ pdl_enlightened_voivodeship = {
 	}
 }
 
-# Podillia Tier 3: Absolute Dominion
 pdl_absolute_dominion = {
 	rank = {
 		1 = VOIVODESHIP_ABSOLUTE
@@ -1167,7 +1049,6 @@ pdl_absolute_dominion = {
 	}
 }
 
-# Podillia Tier 2: Revolutionary Republic
 pdl_revolutionary_republic = {
 	rank = {
 		1 = PEOPLES_REPUBLIC

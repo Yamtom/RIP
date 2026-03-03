@@ -34,12 +34,18 @@ country_decisions = {
 					ai = no
 				}
 			}
+			calc_true_if = {
+				amount = 2
+				owns = 1941
+				owns = 278
+				owns = 4115
+			}
 		}
 		provinces_to_highlight = {
 			OR = {
 				province_id = 1941		# Turov - Ruthenian heartland
-				province_id = 2968		# Mozyr - key Pripyat city
-				province_id = 1942		# Pinsk - strategic wetland center
+				province_id = 4115		# Mazyr - key Pripyat city
+				province_id = 278		# Pinsk - strategic wetland center
 			}
 			OR = {
 				NOT = { owned_by = ROOT }
@@ -53,8 +59,8 @@ country_decisions = {
 			is_at_war = no
 			
 			owns_core_province = 1941		# Turov
-			owns_core_province = 2968		# Mozyr
-			owns_core_province = 1942		# Pinsk
+			owns_core_province = 4115		# Mazyr
+			owns_core_province = 278		# Pinsk
 			
 			1941 = {
 				is_state = yes
@@ -64,7 +70,6 @@ country_decisions = {
 			1941 = {
 				move_capital_effect = yes
 			}
-			# Add claims to Polesian territories
 			minsk_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -153,11 +158,16 @@ country_decisions = {
 				ai = no
 				is_playing_custom_nation = no
 			}
+			calc_true_if = {
+				amount = 1
+				owns = 275
+				owns = 771
+			}
 		}
 		provinces_to_highlight = {
 			OR = {
 				province_id = 275		# Polotsk - ancient capital
-				province_id = 1934		# Vitebsk - Dvina trade city
+				province_id = 771		# Vitebsk - Dvina trade city
 			}
 			OR = {
 				NOT = { owned_by = ROOT }
@@ -171,7 +181,7 @@ country_decisions = {
 			is_at_war = no
 			
 			owns_core_province = 275		# Polotsk
-			owns_core_province = 1934		# Vitebsk
+			owns_core_province = 771		# Vitebsk
 			
 			275 = {
 				is_state = yes
@@ -181,7 +191,6 @@ country_decisions = {
 			275 = {
 				move_capital_effect = yes
 			}
-			# Add claims to northern Belarus
 			pskov_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -268,16 +277,26 @@ country_decisions = {
 				ai = no
 				is_playing_custom_nation = no
 			}
+			calc_true_if = {
+				amount = 4
+				owns = 275
+				owns = 771
+				owns = 276
+				owns = 1941
+				owns = 278
+				owns = 4115
+				owns = 4246
+			}
 		}
 		provinces_to_highlight = {
 			OR = {
 				province_id = 275		# Polotsk
-				province_id = 1934		# Vitebsk
+				province_id = 771		# Vitebsk
 				province_id = 276		# Minsk - future capital
 				province_id = 1941		# Turov
-				province_id = 1942		# Pinsk
-				province_id = 2968		# Mozyr
-				province_id = 2400		# Mstislavl
+				province_id = 278		# Pinsk
+				province_id = 4115		# Mazyr
+				province_id = 4246		# Mstislavl
 			}
 			OR = {
 				NOT = { owned_by = ROOT }
@@ -290,20 +309,18 @@ country_decisions = {
 			is_nomad = no
 			is_at_war = no
 			
-			# Must control all major Belarusian cities
 			owns_core_province = 275		# Polotsk
-			owns_core_province = 1934		# Vitebsk
+			owns_core_province = 771		# Vitebsk
 			owns_core_province = 276		# Minsk
 			owns_core_province = 1941		# Turov
-			owns_core_province = 1942		# Pinsk
-			owns_core_province = 2968		# Mozyr
-			owns_core_province = 2400		# Mstislavl
+			owns_core_province = 278		# Pinsk
+			owns_core_province = 4115		# Mazyr
+			owns_core_province = 4246		# Mstislavl
 			
 			276 = {
 				is_state = yes
 			}
 			
-			# Cultural requirements
 			OR = {
 				primary_culture = byelorussian
 				accepted_culture = byelorussian
@@ -315,7 +332,6 @@ country_decisions = {
 			276 = {
 				move_capital_effect = yes
 			}
-			# Add claims to all Belarusian territories
 			pskov_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
@@ -374,7 +390,6 @@ country_decisions = {
 			}
 			
 			
-			# Cultural identity handled automatically
 			if = {
 				limit = {
 					is_part_of_hre = yes

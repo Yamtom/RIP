@@ -1,12 +1,16 @@
-# ==============================================================
-# Moldavian Frontier Expansion (MOL-only)
-# ==============================================================
 
 country_decisions = {
 	moldavian_frontier_mandate = {
 		major = yes
 		potential = {
 			tag = MOL
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = moldavia_area
+				province_id = 282
+			}
+			NOT = { owned_by = ROOT }
 		}
 		allow = {
 			is_at_war = no
@@ -43,6 +47,13 @@ country_decisions = {
 			tag = MOL
 			has_country_flag = mol_frontier_mandate
 		}
+		provinces_to_highlight = {
+			OR = {
+				area = moldavia_area
+				province_id = 282
+			}
+			NOT = { owned_by = ROOT }
+		}
 		allow = {
 			is_at_war = no
 			mil_tech = 8
@@ -68,6 +79,13 @@ country_decisions = {
 		potential = {
 			tag = MOL
 			has_country_flag = mol_steppe_doctrine
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = moldavia_area
+				province_id = 282
+			}
+			NOT = { owned_by = ROOT }
 		}
 		allow = {
 			is_at_war = no
@@ -103,6 +121,13 @@ country_decisions = {
 		potential = {
 			tag = MOL
 			has_country_flag = mol_corridors_established
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = moldavia_area
+				province_id = 282
+			}
+			NOT = { owned_by = ROOT }
 		}
 		allow = {
 			is_at_war = no

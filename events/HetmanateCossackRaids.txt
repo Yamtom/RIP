@@ -1,12 +1,6 @@
-# =================================================================
-# HETMANATE COSSACK RAID EVENTS
-# =================================================================
-# Events for Cossack raiding mechanics
-# =================================================================
 
 namespace = het_cossack_raids
 
-# Event 1: Organize Major Raid - Choose Target
 country_event = {
 	id = het_cossack_raids.1
 	title = het_cossack_raids.1.t
@@ -26,14 +20,14 @@ country_event = {
 			}
 		}
 		
-		random_neighbor_country = {
+			random_neighbor_country = {
 			limit = {
 				OR = {
 					tag = TUR
 					religion = sunni
 				}
 			}
-			country_event = { id = het_cossack_raids.2 days = 30 }
+			country_event = { id = het_cossack_raids.2 days = 45 }
 			add_opinion = {
 				who = ROOT
 				modifier = het_raided_us
@@ -47,7 +41,6 @@ country_event = {
 		add_prestige = 10
 		add_years_of_income = 0.5
 		set_country_flag = het_conducted_major_raid
-		clr_country_flag = het_raid_cooldown
 	}
 	
 	option = { # Raid Polish territories
@@ -62,7 +55,7 @@ country_event = {
 			}
 		}
 		
-		random_neighbor_country = {
+			random_neighbor_country = {
 			limit = {
 				OR = {
 					tag = PLC
@@ -70,7 +63,7 @@ country_event = {
 					religion = catholic
 				}
 			}
-			country_event = { id = het_cossack_raids.2 days = 30 }
+			country_event = { id = het_cossack_raids.2 days = 45 }
 			add_opinion = {
 				who = ROOT
 				modifier = het_raided_us
@@ -84,7 +77,6 @@ country_event = {
 		add_prestige = 12
 		add_years_of_income = 0.4
 		set_country_flag = het_conducted_major_raid
-		clr_country_flag = het_raid_cooldown
 	}
 	
 	option = { # Raid Crimean lands
@@ -98,14 +90,14 @@ country_event = {
 			}
 		}
 		
-		random_neighbor_country = {
+			random_neighbor_country = {
 			limit = {
 				OR = {
 					tag = CRI
 					primary_culture = crimean
 				}
 			}
-			country_event = { id = het_cossack_raids.2 days = 30 }
+			country_event = { id = het_cossack_raids.2 days = 45 }
 			add_opinion = {
 				who = ROOT
 				modifier = het_raided_us
@@ -119,18 +111,15 @@ country_event = {
 		add_prestige = 8
 		add_years_of_income = 0.3
 		set_country_flag = het_conducted_major_raid
-		clr_country_flag = het_raid_cooldown
 	}
 	
 	option = { # Cancel the raid
 		name = het_cossack_raids.1.d
-		
-		clr_country_flag = het_raid_cooldown
+
 		add_prestige = -5
 	}
 }
 
-# Event 2: Target Responds to Raid
 country_event = {
 	id = het_cossack_raids.2
 	title = het_cossack_raids.2.t
@@ -171,7 +160,6 @@ country_event = {
 	}
 }
 
-# Event 3: Deep Penetration Raid
 country_event = {
 	id = het_cossack_raids.3
 	title = het_cossack_raids.3.t
@@ -183,7 +171,7 @@ country_event = {
 	option = { # Strike deep into enemy territory
 		name = het_cossack_raids.3.a
 		
-		random_rival_country = {
+			random_rival_country = {
 			limit = {
 				NOT = { war_with = ROOT }
 			}
@@ -201,7 +189,7 @@ country_event = {
 				who = ROOT
 				modifier = het_deep_raid_vendetta
 			}
-			country_event = { id = het_cossack_raids.5 days = 15 }
+			country_event = { id = het_cossack_raids.5 days = 45 }
 		}
 		add_country_modifier = {
 			name = het_legendary_raid
@@ -213,7 +201,6 @@ country_event = {
 	}
 }
 
-# Event 4: Punitive Expedition Impact
 country_event = {
 	id = het_cossack_raids.4
 	title = het_cossack_raids.4.t
@@ -235,7 +222,6 @@ country_event = {
 	}
 }
 
-# Event 5: Deep Raid Consequences
 country_event = {
 	id = het_cossack_raids.5
 	title = het_cossack_raids.5.t
@@ -266,7 +252,6 @@ country_event = {
 	}
 }
 
-# Event 6: Raid Brings Back Treasure
 country_event = {
 	id = het_cossack_raids.6
 	title = het_cossack_raids.6.t
@@ -295,5 +280,19 @@ country_event = {
 		
 		add_years_of_income = 0.5
 		add_corruption = 0.5
+	}
+}
+
+country_event = {
+	id = het_cossack_raids.7
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		remove_country_modifier = het_raid_cooldown
+	}
+
+	option = {
+		name = "OK"
 	}
 }

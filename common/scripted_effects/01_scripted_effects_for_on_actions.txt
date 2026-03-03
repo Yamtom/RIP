@@ -1,4 +1,3 @@
-#Estate Privilege on_action effects are in 01_scripted_effects_for_estates.txt
 
 initialize_schools_effect = { #Used in on_startup on_action
 	if = {
@@ -320,7 +319,6 @@ on_new_monarch_effect = {
 		limit = {
 			has_government_attribute = theocratic_monarchy_mechanic
 		}
-		#Setting it to 0
 		change_statists_vs_orangists = -10
 		change_statists_vs_orangists = 1
 		if = {
@@ -441,7 +439,6 @@ battle_cult_spreading_effect = {
 		FROM = { country_event = { id = fetishist_flavor.3 } }
 	}
 	
-	#Cwezi / Swezi / Kubandwa
 	if = {
 		limit = {
 			ROOT = {
@@ -469,7 +466,6 @@ battle_cult_spreading_effect = {
 		FROM = { country_event = { id = fetishist_flavor.101 } }
 	}
 	
-	#Mlira and other Nature Spirits and/or ancestral cults of Central Africa
 	if = {
 		limit = {
 			ROOT = {
@@ -699,7 +695,6 @@ battle_cult_spreading_effect = {
 		}
 		FROM = { country_event = { id = fetishist_flavor.402 } }
 	}
-	#Dharmic Cult
 	if = {
 		limit = {
 			ROOT = {
@@ -730,7 +725,6 @@ battle_cult_spreading_effect = {
 		}
 		FROM = { country_event = { id = fetishist_flavor.403 } }
 	}
-	#Teotl Cult
 	if = {
 		limit = {
 			ROOT = {
@@ -764,7 +758,6 @@ battle_cult_spreading_effect = {
 		}
 		FROM = { country_event = { id = fetishist_flavor.404 } }
 	}
-	#Norse Cult
 	if = {
 		limit = {
 			ROOT = {
@@ -795,7 +788,6 @@ battle_cult_spreading_effect = {
 		}
 		FROM = { country_event = { id = fetishist_flavor.405 } }
 	}
-	#Jewish Cult
 	if = {
 		limit = {
 			ROOT = {
@@ -826,7 +818,6 @@ battle_cult_spreading_effect = {
 		}
 		FROM = { country_event = { id = fetishist_flavor.406 } }
 	}
-	#Zoroastrian Cult
 	if = {
 		limit = {
 			ROOT = {
@@ -1023,7 +1014,6 @@ thu_remain_von_wettin_effect = {
 		define_ruler = {
 			dynasty = "von Wettin"
 		}
-	#			country_event = { id = flavor_sax.4 days = 1 }
 	}
 }
 
@@ -1221,7 +1211,6 @@ ladislaus_postumus_union_effect = {
 }
 
 burgundian_inheritance_start_effect = {
-	#Burgundian succession stuff
 	if = {
 		limit = {
 			tag = BUR
@@ -1230,7 +1219,6 @@ burgundian_inheritance_start_effect = {
 			is_subject = no
 			is_lesser_in_union = no
 		}
-		#Fire an event which checks on the current state of Burgundy to see if they are already in a normal PU or not
 		country_event = {
 			id = incidents_bur_inheritance.1000
 			days = 1
@@ -1251,7 +1239,6 @@ burgundian_inheritance_start_effect = {
 			hidden = yes
 		}
 	}
-	#Burgundian marriage cleaner
 	if = {
 		limit = { tag = BUR }
 		country_event = {
@@ -2298,7 +2285,6 @@ on_battle_ended_effect = {
 	}
 }
 
-#Province effect
 judaism_on_province_culture_converted_effect = {
 	if = {
 		limit = { has_province_modifier = judaism_community_wrong_culture }
@@ -2343,7 +2329,6 @@ judaism_on_province_culture_converted_effect = {
 }
 
 on_religion_change_effect = {
-	###removes catholic modifiers
 		remove_country_modifier = counter_reformation
 		remove_country_modifier = the_statue_in_restraint_of_appeals
 		remove_country_modifier = revocation_of_restraint_of_appeals
@@ -2518,7 +2503,6 @@ on_religion_change_effect = {
 	}
 }
 
-#Country effect
 judaism_on_religion_change_effect = {
 	every_owned_province = {
 		limit = {
@@ -2534,88 +2518,8 @@ judaism_on_religion_change_effect = {
 	}
 }
 
-#on_culture_demoted_effect_free_slot_removal = {
-#	if = { 
-#		limit = { 
-#			has_country_modifier = free_slot_for_$culture$ 
-#			NOT = { accepted_culture = $culture$ } 
-#			NOT = { primary_culture = $culture$ } 
-#		} 
-#		remove_country_modifier = free_slot_for_$culture$ 
-#	}
-#}
-#
-#on_culture_demoted_effect_remove_all_free_slots = {
-#	on_culture_demoted_effect_free_slot_removal = { culture = armenian }
-#	on_culture_demoted_effect_free_slot_removal = { culture = georgian }
-#	on_culture_demoted_effect_free_slot_removal = { culture = turkish }
-#	on_culture_demoted_effect_free_slot_removal = { culture = al_iraqiya_arabic }
-#	on_culture_demoted_effect_free_slot_removal = { culture = al_suryah_arabic }
-#	on_culture_demoted_effect_free_slot_removal = { culture = occitain }
-#}
 
-#Country effect
 on_culture_demoted_effect = {
-	#if = {
-	#	limit = {
-	#		has_country_flag = boh_czechoslovak_brotherhood_flag
-	#		NOT = {
-	#			accepted_culture = slovak
-	#		}
-	#		has_country_modifier = boh_czechoslovak_brotherhood
-	#	}
-	#	remove_country_modifier = boh_czechoslovak_brotherhood
-	#}
-	#if = {
-	#	limit = {
-	#		has_country_flag = hun_polish_culture_bonus
-	#		NOT = {
-	#			accepted_culture = polish
-	#		}
-	#		has_country_modifier = hun_polish_brotherhood
-	#	}
-	#	remove_country_modifier = hun_polish_brotherhood
-	#}
-	#if = {
-	#	limit = {
-	#		has_country_modifier = plc_polish_lithuanian_union
-	#		OR = {
-	#			AND = {
-	#				primary_culture = polish
-	#				NOT = { accepted_culture = lithuanian }
-	#			}
-	#			AND = {
-	#				primary_culture = lithuanian
-	#				NOT = { accepted_culture = polish }
-	#			}
-	#			AND = {
-	#				OR = {
-	#					NOT = { accepted_culture = lithuanian }
-	#					NOT = { accepted_culture = polish }
-	#				}
-	#				NOT = { primary_culture = polish }
-	#				NOT = { primary_culture = lithuanian }
-	#			}
-	#		}
-	#	}
-	#	remove_country_modifier = plc_polish_lithuanian_union
-	#}
-	#if = {
-	#	limit = {
-	#		has_country_modifier = teu_pru_integration_of_the_poles
-	#		NOT = { accepted_culture = polish }
-	#		NOT = { primary_culture = polish }
-	#	}
-	#	remove_country_modifier = teu_pru_integration_of_the_poles
-	#}
-	#if = {
-	#	limit = {
-	#		has_country_modifier = teu_pru_integration_of_the_ruthenians
-	#		NOT = { accepted_culture = polish }
-	#		NOT = { primary_culture = polish }
-	#	}
-	#	remove_country_modifier = teu_pru_integration_of_the_ruthenians
-	#}	
 	if = {
 		limit = {
 			has_country_modifier = tur_legitimate_roman_empire_modifier
@@ -2773,7 +2677,6 @@ on_culture_demoted_effect = {
 	}
 }
 
-#Country effect
 judaism_on_culture_country_effect = {
 	if = {
 		limit = {
@@ -2828,7 +2731,6 @@ judaism_on_culture_country_effect = {
     }
 }
 
-#Province effect
 imperial_modifiers_on_province_change_culture_or_change_owner_effect = {
 	if = {
 		limit = {
@@ -2917,7 +2819,6 @@ imperial_modifiers_on_province_change_culture_or_change_owner_effect = {
 	}
 }
 
-#Country effect
 imperial_modifiers_on_culture_country_effect = {
 	if = {
 		limit = {
@@ -3009,7 +2910,6 @@ imperial_modifiers_on_culture_country_effect = {
 	}
 }
 
-#Country effect
 imperial_modifiers_on_primary_culture_change_effect = {
 	if = {
 		limit = {
@@ -3256,12 +3156,6 @@ remove_all_age_of_absolutism_modifiers = {
 	}
 }
 remove_all_age_of_revolution_modifiers = {
-	#if = {
-	#	limit = {
-	#		NOT = { current_age = age_of_revolutions }
-	#	}
-	#}
-	#Empty as there are no modifiers specific for this age
 }
 
 set_age_passed_global_flag = {
@@ -3312,7 +3206,6 @@ remove_all_age_timed_modifiers = {
 	remove_all_age_of_reformation_modifiers = yes
 	remove_all_age_of_absolutism_modifiers = yes
 	remove_all_age_of_revolution_modifiers = yes
-	# Generic ones
 	if = { 
 		limit = { has_country_modifier = jap_stability_edo_period_modifier }
 		remove_country_modifier = jap_stability_edo_period_modifier 
@@ -3330,11 +3223,6 @@ add_country_modifier_for_age = {
 			desc = until_end_of_$age$_desc
 		}
 	}
-	[[else]
-	else = {
-		$else$
-	}
-	]
 }
 
 on_parliament_abolished_effect = {
@@ -3526,7 +3414,6 @@ on_colonist_boosting_colony_effect = {
 			limit = {
 				OR = {
 					religion = noreligion
-					#test if colonists outnumber natives
 					variable_arithmetic_trigger = {
 						custom_tooltip = colonysize_is_larger_than_nativesize_tt
 						export_to_variable = {
@@ -3564,7 +3451,6 @@ on_colonist_boosting_colony_effect = {
 			limit = {
 				OR = {
 					culture = noculture
-					#test if colonists outnumber natives
 					variable_arithmetic_trigger = {
 						custom_tooltip = colonysize_is_larger_than_nativesize_tt
 						export_to_variable = {
@@ -3852,7 +3738,6 @@ on_development_effect = {
 	on_$type$_development_effect = yes
 }
 
-# THIS = Province, FROM = Country, ROOT = Merc Unit
 on_mercenary_recruited_effect = {
 	if = {
         limit = {
@@ -4161,13 +4046,10 @@ on_main_war_won_effect = {
 	}
 }
 
-#ALWAYS call this AFTER swap_non_generic_missions has been set or else the preview missions won't update
 on_change_tag_effect = {
 	hidden_effect = {
-		#Clear potential messes with name / map color changes
 		restore_country_name = yes
 		restore_country_color = yes
-		#Remove tag-locked modifiers
 		if = { limit = { has_country_modifier = royal_impressment_act_modifier } remove_country_modifier = royal_impressment_act_modifier }
 		if = { limit = { has_country_modifier = isolationism_act_modifier } remove_country_modifier = isolationism_act_modifier }
 		if = { limit = { has_country_modifier = colonial_act_modifier } remove_country_modifier = colonial_act_modifier }
@@ -4178,31 +4060,13 @@ on_change_tag_effect = {
 		if = { limit = { has_country_modifier = diplomatic_act_modifier } remove_country_modifier = diplomatic_act_modifier }
 		if = { limit = { has_country_modifier = internal_focus_act_modifier } remove_country_modifier = internal_focus_act_modifier }
 		if = { limit = { has_country_modifier = TIM_india_conquest } remove_country_modifier = TIM_india_conquest }
-		#Update event targets
 		if = { limit = { has_country_flag = feo_russian_ally } save_global_event_target_as = russian_ally }
 		if = { limit = { has_country_flag = feo_russian_pu } save_global_event_target_as = feo_russian_pu }
-		#Clear all flags which add the preview buttons if you do not have any mission enabling them
 		update_mission_previews = yes
 	}
 }
 
 on_force_conversion_effect = {
-	#if = {	#Commented out for now because Catholicism has received a lot of buffs already.
-	#	limit = {
-	#		FROM = { religion = catholic }
-	#	}
-	#	if = {
-	#		limit = { ROOT = { government_rank = 3 } }
-	#		FROM = { add_papal_influence = 20 }
-	#	}
-	#	else_if = {
-	#		limit = { ROOT = { government_rank = 2 } }
-	#		FROM = { add_papal_influence = 10 }
-	#	}
-	#	else = {
-	#		FROM = { add_papal_influence = 5 }
-	#	}
-	#}
 	FROM = {
 		add_country_modifier = {
 			name = recently_force_converted_protagonist_timer

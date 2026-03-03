@@ -1,6 +1,3 @@
-##Made by Ogele 'Comrade Flan'
-#Slot 1 and 2
-#Special to Muscovy only
 mos_rus_handle_succession = {
 	slot = 1
 	generic = no
@@ -98,7 +95,6 @@ mos_rus_handle_succession = {
 	}
 }
 
-#Available only to non-Novgorodian Russia
 mos_rus_conquer_west = {
 	slot = 1
 	generic = no
@@ -684,6 +680,7 @@ mos_rus_eastern_europe = {
 		}
 		effect = {
 			custom_tooltip = mos_rus_protect_south_slavs_bt
+			rip_create_rus_slavic_culture_group = yes
 			hidden_effect = {
 				if = { limit = { accepted_culture = russian } remove_accepted_culture = russian }
 				if = { limit = { accepted_culture = czech } remove_accepted_culture = czech }
@@ -700,26 +697,6 @@ mos_rus_eastern_europe = {
 				if = { limit = { accepted_culture = serbian } remove_accepted_culture = serbian }
 				if = { limit = { accepted_culture = bulgarian } remove_accepted_culture = bulgarian }
 				if = { limit = { accepted_culture = croatian } remove_accepted_culture = croatian }
-				create_new_culture_group = {
-					culture_group = slavic
-					culture = russian
-					culture2 = czech
-					culture3 = polish
-					culture4 = schlesian
-					culture5 = sorbian
-					culture6 = slovak
-					culture7 = novgorodian
-					culture8 = severian
-					culture9 = byelorussian
-					culture10 = ruthenian
-					culture11 = ilmenian
-					culture12 = slovene
-					culture13 = bosnian
-					culture14 = serbian
-					culture15 = bulgarian
-					culture16 = croatian
-					culture17 = volhynian
-				}
 			}
 			balkan_region = {
 				limit = {
@@ -768,7 +745,6 @@ mos_rus_eastern_europe = {
 	}
 }
 
-#Available only to Novgorodian Russia
 nov_rus_conquer_west = {
 	slot = 1
 	generic = no
@@ -1650,8 +1626,6 @@ nov_rus_eastern_europe = {
 	}
 }
 
-#Slot 3
-#Available to all forms of Russias
 mos_rus_russian_consolidation = {
 	slot = 3
 	generic = no
@@ -1728,15 +1702,6 @@ mos_rus_russian_consolidation = {
 			}
 			custom_tooltip = mos_rus_eliminate_the_minors_at
 			hidden_effect = {
-				#russia_region = {
-				#	limit = {
-				#		owned_by = ROOT
-				#	}
-				#	add_base_manpower = 1
-				#  
-				#	type = random
-				#	amount = 10
-				#}
 				random_owned_province = { limit = { NOT = { has_province_flag = received_reward } region = russia_region } add_base_manpower = 1 set_province_flag = received_reward }
 				random_owned_province = { limit = { NOT = { has_province_flag = received_reward } region = russia_region } add_base_manpower = 1 set_province_flag = received_reward }
 				random_owned_province = { limit = { NOT = { has_province_flag = received_reward } region = russia_region } add_base_manpower = 1 set_province_flag = received_reward }
@@ -2224,7 +2189,6 @@ mos_rus_russian_consolidation = {
 					custom_tooltip = mos_rus_conquer_persia_et
 				}
 			}
-			# For reasons beyond my comprehension, the game is refusing to trigger any event at this spot if I use the old dynamic reward helper.
 		}
 
 		ai_weight = {
@@ -2482,7 +2446,6 @@ mos_rus_russian_consolidation = {
 	}
 }
 
-#Slot 4
 mos_rus_russian_steppes = {
 	slot = 4
 	generic = no
@@ -2823,8 +2786,6 @@ mos_rus_california = {
 	}
 }
 
-#Slot 5
-#Muscovy only
 mos_rus_russian_subjects = {
 	slot = 5
 	generic = no
@@ -2877,7 +2838,6 @@ mos_rus_russian_subjects = {
 	}
 }
 
-#Novgorod only
 nov_rus_russian_navy = {
 	slot = 5
 	generic = no
@@ -2916,7 +2876,6 @@ nov_rus_russian_navy = {
 	}
 }
 
-#Russian Minor
 rmi_rus_power = {
 	slot = 5
 	generic = no
@@ -2959,7 +2918,6 @@ rmi_rus_power = {
 	}
 }
 
-#All Russias
 mos_rus_siberian_conquest = {
 	slot = 5
 	generic = no
@@ -3461,7 +3419,6 @@ mos_rus_new_world = {
 	}
 }
 
-#Russian Tsardom Misssions - Available for all Russias before modernization
 rus_russian_bureaucracy = {
 	slot = 1
 	generic = no
@@ -3561,9 +3518,7 @@ rus_russian_bureaucracy = {
 		trigger = {
 			if = {
 				limit = {
-					#Promote Advisors - +2
 					has_dlc = "Cradle of Civilization"
-					#National Focus - +2
 					has_dlc = "Res Publica"
 					has_dlc = "Common Sense"
 				}
@@ -3997,10 +3952,6 @@ rus_russian_streltsy = {
 					NOT = { has_reform = great_veche_republic }
 					NOT = { has_reform = streltsy_reform }
 				}
-				#custom_trigger_tooltip = {
-				#	tooltip = has_not_russian_mechanic_tt
-				#	NOT = { has_government_mechanic = russian_mechanic }
-				#}
 			}
 		}
 		effect = {
@@ -4021,7 +3972,6 @@ rus_russian_streltsy = {
 		provinces_to_highlight = {
 		}
 		trigger = {
-			#Exception case if the player - somehow - crushes the peasants and liberates them at the same time and vice versa for nobles...
 			if = {
 				limit = { RUS_has_none_of_the_serfdom_privileges = yes }
 				RUS_has_none_of_the_serfdom_privileges = yes
@@ -4429,7 +4379,6 @@ rus_court_and_church = {
 	}
 }
 
-#Russian Empire Missions - Available for all Russias after modernization
 rus_russian_navy = {
 	slot = 1
 	generic = no
@@ -4769,9 +4718,6 @@ rus_russian_religion_serfdom = {
 			}
 			else = { custom_tooltip = BONUS_REWARD_NO }
 			custom_tooltip = rus_most_holy_synod_ct
-			#tooltip = {
-			#	add_government_reform = holy_synod_reform
-			#}
 			custom_tooltip = rus_most_holy_synod_bt
 			if = {
 				limit = {
@@ -4795,9 +4741,6 @@ rus_russian_religion_serfdom = {
 			}
 			else = { custom_tooltip = BONUS_REWARD_NO }
 			custom_tooltip = rus_most_holy_synod_dt
-			#tooltip = {
-			#	add_government_reform = strengthened_the_patriarchy_reform
-			#}
 			if = {
 				limit = {
 					any_known_country = { 
@@ -4828,9 +4771,6 @@ rus_russian_religion_serfdom = {
 			}
 			else = { custom_tooltip = COMBINED_BONUS_REWARD_NO }
 			custom_tooltip = rus_most_holy_synod_tt 
-			#tooltip = {
-			#	add_government_reform = head_of_the_patriarchy_reform
-			#}
 
 			hidden_effect = {
 				if = {
@@ -5326,7 +5266,6 @@ rus_russian_westernization = {
 	}
 }
 
-#Revolutionary Russia
 rus_education = {
 	slot = 2
 	generic = no

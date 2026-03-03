@@ -1,13 +1,6 @@
-# =========================================================================
-# RUSSIAN ORTHODOX EVENTS - THIRD ROME AND EXPANSION
-# =========================================================================
-# Historical and alternate history events for aggressive Russian Orthodox
-# church expansion, assimilation, and "Third Rome" ideology
-# =========================================================================
 
 namespace = russian_orthodox
 
-# Event 1: Fall of Constantinople - Third Rome Doctrine
 country_event = {
 	id = russian_orthodox.1
 	title = russian_orthodox.1.t
@@ -19,6 +12,7 @@ country_event = {
 	trigger = {
 		tag = MOS
 		religion = orthodox
+		is_russian_orthodox_culture_eligible = yes
 		is_year = 1453
 		NOT = { is_year = 1500 }
 	}
@@ -48,7 +42,6 @@ country_event = {
 	}
 }
 
-# Event 2: Establishment of Moscow Patriarchate (1589)
 country_event = {
 	id = russian_orthodox.2
 	title = russian_orthodox.2.t
@@ -59,6 +52,7 @@ country_event = {
 	
 	trigger = {
 		religion = russian_orthodox
+		is_russian_orthodox_culture_eligible = yes
 		is_year = 1585
 		NOT = { is_year = 1600 }
 		OR = {
@@ -92,7 +86,6 @@ country_event = {
 	}
 }
 
-# Event 3: Conquest - Forced Conversion Choice
 province_event = {
 	id = russian_orthodox.3
 	title = russian_orthodox.3.t
@@ -153,7 +146,6 @@ province_event = {
 	}
 }
 
-# Event 4: Russification Campaign
 country_event = {
 	id = russian_orthodox.4
 	title = russian_orthodox.4.t
@@ -162,6 +154,7 @@ country_event = {
 	
 	trigger = {
 		religion = russian_orthodox
+		is_russian_orthodox_culture_eligible = yes
 		NOT = { has_country_modifier = forced_russification }
 		num_of_owned_provinces_with = {
 			value = 20
@@ -216,7 +209,6 @@ country_event = {
 	}
 }
 
-# Event 5: Orthodox Inquisition
 country_event = {
 	id = russian_orthodox.5
 	title = russian_orthodox.5.t
@@ -265,7 +257,6 @@ country_event = {
 	}
 }
 
-# Event 6: Old Believer Schism (Raskol)
 country_event = {
 	id = russian_orthodox.6
 	title = russian_orthodox.6.t
@@ -325,7 +316,6 @@ country_event = {
 	}
 }
 
-# Event 7: Conquest of Kazan - Islamic Territories
 country_event = {
 	id = russian_orthodox.7
 	title = russian_orthodox.7.t
@@ -390,7 +380,6 @@ country_event = {
 	}
 }
 
-# Event 8: Gathering of Russian Lands
 country_event = {
 	id = russian_orthodox.8
 	title = russian_orthodox.8.t
@@ -399,12 +388,12 @@ country_event = {
 	
 	trigger = {
 		religion = russian_orthodox
+		is_russian_orthodox_culture_eligible = yes
 		NOT = { has_country_modifier = gathering_russian_lands }
 		OR = {
 			tag = MOS
 			tag = RUS
 		}
-		culture_group = east_slavic
 		any_neighbor_country = {
 			culture_group = east_slavic
 			NOT = { alliance_with = ROOT }
@@ -440,7 +429,6 @@ country_event = {
 	}
 }
 
-# Event 9: Symphonia - Church-State Unity
 country_event = {
 	id = russian_orthodox.9
 	title = russian_orthodox.9.t
@@ -477,7 +465,6 @@ country_event = {
 	}
 }
 
-# Event 10: Conquest of Constantinople (Alt-History)
 country_event = {
 	id = russian_orthodox.10
 	title = russian_orthodox.10.t
@@ -526,7 +513,6 @@ country_event = {
 	}
 }
 
-# Event 11: Imperial Orthodox Church
 country_event = {
 	id = russian_orthodox.11
 	title = russian_orthodox.11.t
@@ -567,7 +553,6 @@ country_event = {
 	}
 }
 
-# Event 12: Missionary Success in Siberia
 country_event = {
 	id = russian_orthodox.12
 	title = russian_orthodox.12.t
@@ -611,7 +596,6 @@ country_event = {
 	}
 }
 
-# Event 13: Defender of Orthodoxy
 country_event = {
 	id = russian_orthodox.13
 	title = russian_orthodox.13.t
@@ -651,7 +635,6 @@ country_event = {
 	}
 }
 
-# Event 14: Patriarch of All Rus'
 country_event = {
 	id = russian_orthodox.14
 	title = russian_orthodox.14.t
@@ -692,7 +675,6 @@ country_event = {
 	}
 }
 
-# Event 15: Cultural Resistance Movement
 province_event = {
 	id = russian_orthodox.15
 	title = russian_orthodox.15.t
@@ -703,6 +685,7 @@ province_event = {
 		owner = {
 			religion = russian_orthodox
 			has_country_modifier = forced_russification
+			is_russian_orthodox_culture_eligible = yes
 		}
 		NOT = { culture_group = east_slavic }
 		NOT = { has_province_modifier = local_resistance_russification }
@@ -739,3 +722,4 @@ province_event = {
 		add_unrest = -3
 	}
 }
+

@@ -17,6 +17,24 @@ country_decisions = {
 			NOT = { exists = KUY }
 			NOT = { exists = KRU }
             NOT = { has_institution = renaissance }
+			calc_true_if = {
+				amount = 2
+				owns = 280
+				owns = 289
+				owns = 275
+			}
+		}
+
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280
+				province_id = 289
+				province_id = 275
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
 		}
 		
 		allow = {
@@ -84,6 +102,24 @@ country_decisions = {
 			NOT = { tag = HET }
 			NOT = { tag = ZAZ }
             has_institution = renaissance
+			calc_true_if = {
+				amount = 2
+				owns = 280
+				owns = 289
+				owns = 275
+			}
+		}
+
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280
+				province_id = 289
+				province_id = 275
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
 		}
 		
 		allow = {
@@ -139,6 +175,10 @@ country_decisions = {
 			NOT = { tag = HET }
 			NOT = { tag = ZAZ }
 		}
+		provinces_to_highlight = {
+			province_id = 280 # Kyiv
+			NOT = { owned_by = ROOT }
+		}
 		allow = {
 			stability = 1
 			adm_tech = 8
@@ -168,6 +208,10 @@ country_decisions = {
 			NOT = { tag = HLR }
 			NOT = { tag = HET }
 			NOT = { tag = ZAZ }
+		}
+		provinces_to_highlight = {
+			province_id = 280 # Kyiv
+			NOT = { owned_by = ROOT }
 		}
 		allow = {
 			stability = 2
@@ -215,6 +259,23 @@ country_decisions = {
 			NOT = { tag = HET }
 			NOT = { tag = ZAZ }
 			NOT = { exists = KRU }
+			calc_true_if = {
+				amount = 2
+				owns = 280
+				owns = 289
+				owns = 275
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280
+				province_id = 289
+				province_id = 275
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
 		}
 		allow = {
 			owns_or_non_sovereign_subject_of = 280 # kyiv
@@ -323,6 +384,15 @@ country_decisions = {
 		potential = {
 			tag = KIE
 			has_reform = kyivan_shogunate_reform
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				region = ruthenia_region
+				area = red_ruthenia_area
+			}
+			province_has_center_of_trade_of_level = 1
+			NOT = { has_province_modifier = KIE_free_trade_city }
 		}
 		allow = {
 			is_at_war = no

@@ -1,34 +1,6 @@
-# =========================================================================
-# ENHANCED HETMANATE MECHANICS
-# =========================================================================
-# Based on community suggestions from Paradox Forums
-# "Update to Ukrainian region, Cossacks, content" by fr-rein
-#
-# KEY ENHANCEMENTS:
-# 1. Hetman election mechanics (competitive vs hereditary)
-# 2. Starshyna (officer class) political influence
-# 3. Left Bank vs Right Bank division mechanics
-# 4. Russian interference and autonomy struggle
-# 5. Mazepa crisis and Swedish alliance option
-# 6. Abolition crisis (Catherine II period)
-#
-# HISTORICAL CONTEXT:
-# The Hetmanate (1648-1764) evolved from democratic Cossack uprising
-# to autocratic state under Russian pressure. Key periods:
-# - 1648-1654: Independent Hetmanate (Khmelnytsky)
-# - 1654-1709: Russian protectorate, growing autocracy
-# - 1709-1764: Post-Mazepa crisis, Russian control intensifies
-# - 1764: Abolition by Catherine II
-#
-# REFERENCES:
-# - Zenon Kohut, "Russian Centralism and Ukrainian Autonomy" (1988)
-# - Orest Subtelny, "The Mazepists" (1983)
-# - Serhii Plokhy, "The Cossacks and Religion" (2001)
-# =========================================================================
 
 namespace = het_enhanced
 
-# Hetman Election Crisis - Competitive vs Hereditary
 country_event = {
 	id = het_enhanced.1
 	title = "het_enhanced.1.t"
@@ -47,7 +19,6 @@ country_event = {
 		months = 120
 	}
 	
-	# Support competitive elections (democratic)
 	option = {
 		name = "het_enhanced.1.a"
 		add_republican_tradition = 10
@@ -59,7 +30,6 @@ country_event = {
 		set_country_flag = hetman_election_crisis
 	}
 	
-	# Allow hereditary succession (autocratic)
 	option = {
 		name = "het_enhanced.1.b"
 		add_republican_tradition = -10
@@ -71,7 +41,6 @@ country_event = {
 		set_country_flag = hetman_election_crisis
 	}
 	
-	# Compromise: Limited hereditary rights
 	option = {
 		name = "het_enhanced.1.c"
 		add_republican_tradition = -5
@@ -81,7 +50,6 @@ country_event = {
 	}
 }
 
-# Starshyna Oligarchy Demands
 country_event = {
 	id = het_enhanced.2
 	title = "het_enhanced.2.t"
@@ -101,7 +69,6 @@ country_event = {
 		months = 60
 	}
 	
-	# Grant Starshyna privileges
 	option = {
 		name = "het_enhanced.2.a"
 		add_estate_influence_modifier = {
@@ -116,7 +83,6 @@ country_event = {
 		set_country_flag = starshyna_demands_recent
 	}
 	
-	# Resist Starshyna oligarchy
 	option = {
 		name = "het_enhanced.2.b"
 		add_estate_loyalty_modifier = {
@@ -134,7 +100,6 @@ country_event = {
 	}
 }
 
-# Left Bank vs Right Bank Division
 country_event = {
 	id = het_enhanced.3
 	title = "het_enhanced.3.t"
@@ -158,7 +123,6 @@ country_event = {
 		months = 24
 	}
 	
-	# Prioritize Left Bank (Russian sphere)
 	option = {
 		name = "het_enhanced.3.a"
 		east_dniepr_area = {
@@ -179,7 +143,6 @@ country_event = {
 		set_country_flag = bank_division_crisis
 	}
 	
-	# Maintain both banks equally
 	option = {
 		name = "het_enhanced.3.b"
 		add_adm_power = -50
@@ -190,7 +153,6 @@ country_event = {
 		set_country_flag = bank_division_crisis
 	}
 	
-	# Focus on Right Bank (Polish ties)
 	option = {
 		name = "het_enhanced.3.c"
 		west_dniepr_area = {
@@ -212,7 +174,6 @@ country_event = {
 	}
 }
 
-# Russian Interference in Hetman Elections
 country_event = {
 	id = het_enhanced.4
 	title = "het_enhanced.4.t"
@@ -231,7 +192,6 @@ country_event = {
 		months = 80
 	}
 	
-	# Accept Russian candidate
 	option = {
 		name = "het_enhanced.4.a"
 		add_liberty_desire = -10
@@ -246,7 +206,6 @@ country_event = {
 		set_country_flag = russian_interference_recent
 	}
 	
-	# Elect own candidate (autonomy)
 	option = {
 		name = "het_enhanced.4.b"
 		add_liberty_desire = 15
@@ -262,7 +221,6 @@ country_event = {
 	}
 }
 
-# Mazepa Crisis - Swedish Alliance Option
 country_event = {
 	id = het_enhanced.5
 	title = "het_enhanced.5.t"
@@ -284,7 +242,6 @@ country_event = {
 		months = 36
 	}
 	
-	# Betray Russia, ally with Sweden (historical Mazepa choice)
 	option = {
 		name = "het_enhanced.5.a"
 		trigger = {
@@ -312,7 +269,6 @@ country_event = {
 		set_country_flag = mazepa_crisis_resolved
 	}
 	
-	# Remain loyal to Russia
 	option = {
 		name = "het_enhanced.5.b"
 		overlord = {
@@ -327,7 +283,6 @@ country_event = {
 	}
 }
 
-# Little Russian Collegium - Russian Direct Control
 country_event = {
 	id = het_enhanced.6
 	title = "het_enhanced.6.t"
@@ -346,7 +301,6 @@ country_event = {
 		months = 48
 	}
 	
-	# Accept the Collegium (lose autonomy)
 	option = {
 		name = "het_enhanced.6.a"
 		add_liberty_desire = -20
@@ -363,7 +317,6 @@ country_event = {
 		set_country_flag = collegium_established
 	}
 	
-	# Resist Russian control
 	option = {
 		name = "het_enhanced.6.b"
 		add_liberty_desire = 20
@@ -381,7 +334,6 @@ country_event = {
 	}
 }
 
-# Hetmanate Abolition Crisis (1764)
 country_event = {
 	id = het_enhanced.7
 	title = "het_enhanced.7.t"
@@ -400,7 +352,6 @@ country_event = {
 		months = 12
 	}
 	
-	# Accept abolition peacefully
 	option = {
 		name = "het_enhanced.7.a"
 		overlord = {
@@ -408,7 +359,6 @@ country_event = {
 		}
 	}
 	
-	# Fight for autonomy
 	option = {
 		name = "het_enhanced.7.b"
 		trigger = {
@@ -425,7 +375,6 @@ country_event = {
 		}
 	}
 	
-	# Negotiate limited autonomy
 	option = {
 		name = "het_enhanced.7.c"
 		add_country_modifier = {
@@ -442,7 +391,6 @@ country_event = {
 	}
 }
 
-# Cossack Revival Movement (if survived abolition)
 country_event = {
 	id = het_enhanced.8
 	title = "het_enhanced.8.t"
@@ -461,7 +409,6 @@ country_event = {
 		months = 60
 	}
 	
-	# Embrace Cossack traditions
 	option = {
 		name = "het_enhanced.8.a"
 		add_country_modifier = {
@@ -473,7 +420,6 @@ country_event = {
 		set_country_flag = cossack_revival_movement
 	}
 	
-	# Modernize as European state
 	option = {
 		name = "het_enhanced.8.b"
 		add_country_modifier = {

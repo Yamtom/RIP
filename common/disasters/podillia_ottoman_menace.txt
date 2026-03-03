@@ -1,14 +1,7 @@
-# =====================================================================
-# PODILLIA - OTTOMAN MENACE DISASTER
-# =====================================================================
-# Represents Ottoman/Crimean military pressure on Podillia's southern borders
-# Triggers when Ottoman threat is high and defensive capabilities are weak
 
 podillia_ottoman_menace = {
 	potential = {
 		tag = PDL
-		# NOTE: Flag check removed - had_pdl_ottoman_menace was never set anywhere
-		# NOT = { has_country_flag = had_pdl_ottoman_menace }
 	}
 	
 	can_start = {
@@ -17,7 +10,6 @@ podillia_ottoman_menace = {
 		is_at_war = no
 		NOT = { has_regency = yes }
 		
-		# Ottoman/Crimean threat conditions
 		OR = {
 			any_neighbor_country = {
 				tag = TUR
@@ -28,7 +20,6 @@ podillia_ottoman_menace = {
 			}
 		}
 		
-		# Weak defensive position
 		OR = {
 			AND = {
 				num_of_owned_provinces_with = {
@@ -50,13 +41,11 @@ podillia_ottoman_menace = {
 			}
 		}
 		
-		# Military weakness
 		OR = {
 			army_size_percentage = 0.7
 			manpower_percentage = 0.4
 		}
 		
-		# No strong alliances
 		NOT = {
 			any_ally = {
 				army_size = ROOT
@@ -67,7 +56,6 @@ podillia_ottoman_menace = {
 	
 	can_stop = {
 		OR = {
-			# Military victory
 			AND = {
 				stability = 1
 				army_size_percentage = 0.9
@@ -77,7 +65,6 @@ podillia_ottoman_menace = {
 				}
 			}
 			
-			# Diplomatic solution
 			AND = {
 				stability = 2
 				any_ally = {
@@ -94,7 +81,6 @@ podillia_ottoman_menace = {
 				}
 			}
 			
-			# Ottoman threat eliminated
 			NOT = {
 				any_neighbor_country = {
 					OR = {
@@ -165,10 +151,8 @@ podillia_ottoman_menace = {
 	
 	can_end = {
 		OR = {
-			# Disaster resolved through events
 			has_country_flag = pdl_ottoman_menace_resolved
 			
-			# Conditions improved
 			AND = {
 				stability = 2
 				army_size_percentage = 1.0

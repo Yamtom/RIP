@@ -1,6 +1,4 @@
-# Triggers for Zaporizhia and Hetmanate
 
-# Check if nation is a Cossack state
 is_cossack_nation = {
 	OR = {
 		tag = ZAZ
@@ -10,7 +8,6 @@ is_cossack_nation = {
 	}
 }
 
-# Check if province is in Wild Fields
 is_wild_fields = {
 	OR = {
 		area = zaporizhia_area
@@ -24,7 +21,6 @@ is_wild_fields = {
 	NOT = { is_city = yes }
 }
 
-# Check if suitable for Sich relocation
 is_sich_location = {
 	OR = {
 		area = zaporizhia_area
@@ -41,7 +37,6 @@ is_sich_location = {
 	}
 }
 
-# Check if nation can conduct Chaiky trade/raid expeditions (non-slave raids)
 can_conduct_chaiky_raids = {
 	OR = {
 		tag = ZAZ
@@ -56,7 +51,6 @@ can_conduct_chaiky_raids = {
 	}
 }
 
-# Check if suitable target for Chaiky raids
 is_chaiky_raid_target = {
 	OR = {
 		tag = TUR
@@ -75,7 +69,6 @@ is_chaiky_raid_target = {
 	}
 }
 
-# Check if Hetmanate is autonomous
 het_is_autonomous = {
 	tag = HET
 	OR = {
@@ -88,7 +81,6 @@ het_is_autonomous = {
 	}
 }
 
-# Check if suitable for regimental system
 can_establish_regiment = {
 	owner = {
 		OR = {
@@ -105,7 +97,6 @@ can_establish_regiment = {
 	development = 8
 }
 
-# Check if Sich is threatened
 zich_is_threatened = {
 	tag = ZAZ
 	OR = {
@@ -127,7 +118,6 @@ zich_is_threatened = {
 	}
 }
 
-# Check if province has Cossack heritage
 has_cossack_heritage_prov = {
 	OR = {
 		has_province_modifier = "cossack_settlement"
@@ -137,7 +127,6 @@ has_cossack_heritage_prov = {
 	}
 }
 
-# Check if country is Cossack nation
 is_cossack_nation = {
 	OR = {
 		tag = ZAZ
@@ -146,7 +135,6 @@ is_cossack_nation = {
 	}
 }
 
-# Check if Orthodox under Catholic/Muslim rule
 orthodox_under_pressure = {
 	religion = orthodox
 	owner = {
@@ -158,7 +146,6 @@ orthodox_under_pressure = {
 	}
 }
 
-# Check if can form trade route
 can_establish_trade_route = {
 	owner = {
 		OR = {
@@ -175,7 +162,6 @@ can_establish_trade_route = {
 	}
 }
 
-# Check if Hetmanate succession crisis imminent
 het_succession_crisis_imminent = {
 	tag = HET
 	OR = {
@@ -191,7 +177,6 @@ het_succession_crisis_imminent = {
 	}
 }
 
-# Check if ZAZ internal crisis imminent
 zaz_internal_crisis_imminent = {
 	tag = ZAZ
 	OR = {
@@ -205,7 +190,6 @@ zaz_internal_crisis_imminent = {
 	}
 }
 
-# Check if suitable for Sich great project upgrade
 can_upgrade_sich_project = {
 	province_id = 284  # Zaporizhia
 	owner = {
@@ -219,7 +203,6 @@ can_upgrade_sich_project = {
 	}
 }
 
-# Check if Black Sea trade dominant
 dominates_black_sea_trade = {
 	owner = {
 		OR = {
@@ -244,7 +227,6 @@ dominates_black_sea_trade = {
 	}
 }
 
-# Check if can establish Sloboda settlement
 can_establish_sloboda = {
 	owner = {
 		OR = {

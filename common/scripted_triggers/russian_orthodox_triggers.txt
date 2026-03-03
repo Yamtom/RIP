@@ -1,48 +1,47 @@
-# =========================================================================
-# RUSSIAN ORTHODOX SCRIPTED TRIGGERS
-# =========================================================================
 
-# Check if country is Russian Orthodox
-is_russian_orthodox_nation = {
-	religion = russian_orthodox
+is_russian_orthodox_culture_eligible = {
+	OR = {
+		primary_culture = russian
+		culture_group = finno_ugric
+		primary_culture = uralic
+		culture_group = tartar
+	}
 }
 
-# Check if country can convert to Russian Orthodox
+is_russian_orthodox_nation = {
+	religion = russian_orthodox
+	is_russian_orthodox_culture_eligible = yes
+}
+
 can_convert_to_russian_orthodox = {
 	religion = orthodox
-	OR = {
-		culture_group = east_slavic
-		capital_scope = {
-			region = russia_region
-		}
-	}
+	is_russian_orthodox_culture_eligible = yes
 	is_year = 1450
 }
 
-# Check if province is suitable for Russification
 suitable_for_russification = {
 	NOT = { culture_group = east_slavic }
 	development = 8
 	owner = {
 		religion = russian_orthodox
-		primary_culture = russian
+		is_russian_orthodox_culture_eligible = yes
 	}
 }
 
-# Check if country is pursuing Third Rome ideology
 pursuing_third_rome = {
 	religion = russian_orthodox
+	is_russian_orthodox_culture_eligible = yes
 	OR = {
 		has_country_modifier = third_rome_ideology
 		has_country_modifier = moscow_patriarchate_authority
 	}
 }
 
-# Check if province should be forcibly converted
 should_force_conversion = {
 	NOT = { religion = russian_orthodox }
 	owner = {
 		religion = russian_orthodox
+		is_russian_orthodox_culture_eligible = yes
 		OR = {
 			has_country_modifier = orthodox_inquisition
 			has_country_modifier = persecution_of_heretics
@@ -50,9 +49,9 @@ should_force_conversion = {
 	}
 }
 
-# Check if country can establish Moscow Patriarchate
 can_establish_patriarchate = {
 	religion = russian_orthodox
+	is_russian_orthodox_culture_eligible = yes
 	is_year = 1585
 	OR = {
 		tag = MOS
@@ -61,9 +60,9 @@ can_establish_patriarchate = {
 	NOT = { has_country_modifier = moscow_patriarchate_authority }
 }
 
-# Check if country is conducting expansionist campaign
 is_expansionist_orthodox = {
 	religion = russian_orthodox
+	is_russian_orthodox_culture_eligible = yes
 	OR = {
 		has_country_modifier = gathering_russian_lands
 		has_country_modifier = orthodox_manifest_destiny
@@ -71,7 +70,6 @@ is_expansionist_orthodox = {
 	}
 }
 
-# Check if province has resistance to Russian rule
 has_cultural_resistance = {
 	OR = {
 		has_province_modifier = local_resistance_russification
@@ -80,20 +78,16 @@ has_cultural_resistance = {
 	}
 }
 
-# Check if can proclaim Orthodox Empire
 can_proclaim_orthodox_empire = {
 	religion = russian_orthodox
+	is_russian_orthodox_culture_eligible = yes
 	government_rank = 3
 	total_development = 500
 	legitimacy = 75
 	NOT = { has_country_modifier = orthodox_empire_proclaimed }
 }
 
-# =========================================================================
-# ORTHODOX CRUSADE TRIGGERS
-# =========================================================================
 
-# Check if country can declare crusade for Constantinople
 can_declare_constantinople_crusade = {
 	OR = {
 		religion = orthodox
@@ -133,7 +127,6 @@ can_declare_constantinople_crusade = {
 	}
 }
 
-# Check if country can declare crusade for Jerusalem
 can_declare_jerusalem_crusade = {
 	OR = {
 		religion = orthodox
@@ -159,7 +152,6 @@ can_declare_jerusalem_crusade = {
 	}
 }
 
-# Check if Constantinople crusade is successful
 is_constantinople_crusade_successful = {
 	has_country_flag = orthodox_crusade_constantinople_active
 	owns = 151
@@ -171,7 +163,6 @@ is_constantinople_crusade_successful = {
 	}
 }
 
-# Check if Jerusalem crusade is successful
 is_jerusalem_crusade_successful = {
 	has_country_flag = orthodox_crusade_jerusalem_active
 	owns = 379
@@ -183,7 +174,6 @@ is_jerusalem_crusade_successful = {
 	}
 }
 
-# Check if country is participating in crusade
 is_crusade_participant = {
 	OR = {
 		has_country_modifier = orthodox_crusade_for_constantinople
@@ -193,7 +183,6 @@ is_crusade_participant = {
 	}
 }
 
-# Check if any crusade is active
 has_active_constantinople_crusade = {
 	any_country = { has_country_flag = orthodox_crusade_constantinople_active }
 }
@@ -202,7 +191,6 @@ has_active_jerusalem_crusade = {
 	any_country = { has_country_flag = orthodox_crusade_jerusalem_active }
 }
 
-# Check if country can join a crusade
 can_join_orthodox_crusade = {
 	OR = {
 		religion = orthodox
@@ -218,7 +206,6 @@ can_join_orthodox_crusade = {
 	}
 }
 
-# Check if holy lands are liberated
 has_liberated_holy_lands = {
 	OR = {
 		has_country_modifier = liberator_of_constantinople
@@ -226,7 +213,6 @@ has_liberated_holy_lands = {
 	}
 }
 
-# Check if country is at war with the current crusade target
 is_at_war_with_crusade_target = {
 	OR = {
 		any_country = {
@@ -240,7 +226,6 @@ is_at_war_with_crusade_target = {
 	}
 }
 
-# Check if country is worthy crusader
 is_worthy_crusader = {
 	OR = {
 		religion = orthodox

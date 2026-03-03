@@ -1,10 +1,7 @@
-# Hetmanate Decisions
 
 country_decisions = {
 
-	# Strengthen Hetman Authority
 	het_strengthen_hetman = {
-		major = yes
 		potential = {
 			tag = HET
 			NOT = { has_country_flag = hetman_strengthened_recent }
@@ -33,7 +30,6 @@ country_decisions = {
 		}
 	}
 
-	# Empower the Starshyna Council
 	het_empower_starshyna = {
 		potential = {
 			tag = HET
@@ -68,7 +64,6 @@ country_decisions = {
 		}
 	}
 
-	# Establish Regimental System
 	het_establish_regiments = {
 		major = yes
 		potential = {
@@ -118,13 +113,33 @@ country_decisions = {
 		}
 	}
 
-	# Expand Kyiv-Mohyla Academy
 	het_expand_academy = {
 		potential = {
 			tag = HET
 			owns = 280  # Kyiv
 			NOT = { has_country_flag = academy_expanded }
-			is_year = 1632
+			OR = {
+				OR = {
+					is_year = 1632
+					has_institution = renaissance
+					current_age = age_of_reformation
+				}
+				AND = {
+					NOT = {
+						OR = {
+							is_year = 1632
+							has_institution = renaissance
+							current_age = age_of_reformation
+						}
+					}
+					adm_tech = 12
+					innovativeness = 20
+				}
+			}
+		}
+		provinces_to_highlight = {
+			province_id = 280
+			NOT = { owned_by = ROOT }
 		}
 		allow = {
 			adm_power = 100
@@ -135,6 +150,26 @@ country_decisions = {
 				is_state = yes
 			}
 			innovativeness_ideas = 1
+			OR = {
+				OR = {
+					is_year = 1632
+					has_institution = renaissance
+					current_age = age_of_reformation
+				}
+				AND = {
+					NOT = {
+						OR = {
+							is_year = 1632
+							has_institution = renaissance
+							current_age = age_of_reformation
+						}
+					}
+					adm_power = 200
+					dip_power = 100
+					treasury = 600
+					innovativeness_ideas = 2
+				}
+			}
 		}
 		effect = {
 			add_adm_power = -100
@@ -159,15 +194,33 @@ country_decisions = {
 		}
 	}
 
-	# Sign Treaty with Russia (Pereiaslav)
 	het_pereiaslav_treaty = {
 		major = yes
 		potential = {
 			tag = HET
 			is_subject = no
 			NOT = { has_country_flag = pereiaslav_treaty_signed }
-			is_year = 1650
-			NOT = { is_year = 1670 }
+			OR = {
+				AND = {
+					is_year = 1650
+					NOT = { is_year = 1670 }
+					OR = {
+						has_institution = new_world_i
+						current_age = age_of_reformation
+					}
+				}
+				AND = {
+					NOT = {
+						OR = {
+							has_institution = new_world_i
+							current_age = age_of_reformation
+							is_year = 1650
+						}
+					}
+					army_size_percentage = 1
+					manpower_percentage = 1
+				}
+			}
 			OR = {
 				exists = RUS
 				exists = MOS
@@ -177,6 +230,24 @@ country_decisions = {
 			is_at_war = yes
 			war_exhaustion = 3
 			dip_power = 100
+			OR = {
+				OR = {
+					has_institution = new_world_i
+					current_age = age_of_reformation
+					is_year = 1650
+				}
+				AND = {
+					NOT = {
+						OR = {
+							has_institution = new_world_i
+							current_age = age_of_reformation
+							is_year = 1650
+						}
+					}
+					war_exhaustion = 6
+					dip_power = 200
+				}
+			}
 			OR = {
 				AND = {
 					exists = RUS
@@ -214,20 +285,57 @@ country_decisions = {
 		}
 	}
 
-	# Break with Overlord (Mazepa's Choice)
 	het_mazepa_independence = {
 		major = yes
 		potential = {
 			tag = HET
 			is_subject = yes
 			NOT = { has_country_flag = mazepa_independence_attempted }
-			is_year = 1700
-			NOT = { is_year = 1720 }
+			OR = {
+				AND = {
+					is_year = 1700
+					NOT = { is_year = 1720 }
+					OR = {
+						has_institution = global_trade
+						current_age = age_of_absolutism
+					}
+				}
+				AND = {
+					NOT = {
+						OR = {
+							has_institution = global_trade
+							current_age = age_of_absolutism
+							is_year = 1700
+						}
+					}
+					liberty_desire = 80
+					army_size = 40
+				}
+			}
 		}
 		allow = {
 			liberty_desire = 50
 			mil_power = 150
 			army_size = 20
+			OR = {
+				OR = {
+					has_institution = global_trade
+					current_age = age_of_absolutism
+					is_year = 1700
+				}
+				AND = {
+					NOT = {
+						OR = {
+							has_institution = global_trade
+							current_age = age_of_absolutism
+							is_year = 1700
+						}
+					}
+					liberty_desire = 80
+					mil_power = 300
+					army_size = 40
+				}
+			}
 			any_ally = {
 				is_great_power = yes
 				NOT = { overlord_of = ROOT }
@@ -250,7 +358,6 @@ country_decisions = {
 		}
 	}
 
-	# Establish Left Bank Administration
 	het_left_bank_admin = {
 		potential = {
 			tag = HET
@@ -258,6 +365,10 @@ country_decisions = {
 			any_owned_province = {
 				area = east_dniepr_area
 			}
+		}
+		provinces_to_highlight = {
+			area = east_dniepr_area
+			NOT = { owned_by = ROOT }
 		}
 		allow = {
 			adm_power = 100
@@ -287,14 +398,22 @@ country_decisions = {
 		}
 	}
 
-	# Establish Sloboda Ukraine Settlements
 	het_sloboda_settlements = {
 		potential = {
 			tag = HET
 			NOT = { has_country_flag = sloboda_settled }
+			OR = {
+				has_institution = new_world_i
+				has_country_flag = su_18_colonization
+				has_country_modifier = sloboda_colonization
+			}
 			any_owned_province = {
 				can_establish_sloboda = yes
 			}
+		}
+		provinces_to_highlight = {
+			can_establish_sloboda = yes
+			NOT = { owned_by = ROOT }
 		}
 		allow = {
 			adm_power = 75
@@ -324,7 +443,6 @@ country_decisions = {
 		}
 	}
 
-	# Defend Orthodox Faith
 	het_defend_orthodox = {
 		potential = {
 			tag = HET
@@ -371,7 +489,6 @@ country_decisions = {
 		}
 	}
 
-	# Establish Black Sea Trade
 	het_black_sea_trade = {
 		potential = {
 			tag = HET
@@ -381,6 +498,26 @@ country_decisions = {
 				OR = {
 					area = yedisan_area
 					area = zaporizhia_area
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				AND = {
+					NOT = { owned_by = ROOT }
+					has_port = yes
+					OR = {
+						area = yedisan_area
+						area = zaporizhia_area
+					}
+				}
+				AND = {
+					owned_by = ROOT
+					has_port = yes
+					OR = {
+						area = yedisan_area
+						area = zaporizhia_area
+					}
 				}
 			}
 		}
@@ -408,7 +545,6 @@ country_decisions = {
 		}
 	}
 
-	# Reform Hetman Election Process
 	het_reform_elections = {
 		potential = {
 			tag = HET

@@ -1,40 +1,3 @@
-VOL_ideas = {
-	start = {
-		diplomatic_reputation = 2
-		tolerance_heretic = 1
-	}
-	bonus = {
-		global_unrest = -2
-	}
-	trigger = {
-		tag = VOL
-	}
-	free = yes
-	VOL_rex_of_rus = {
-		legitimacy = 0.5
-		max_absolutism = 10
-	}
-	VOL_fortress_city = {
-		defensiveness = 0.2
-		fort_maintenance_modifier = -0.1
-	}
-	VOL_western_reforms = {
-		global_institution_spread = 0.1
-	}
-	VOL_druzhyna = {
-		manpower_recovery_speed = 0.2
-		land_forcelimit_modifier = 0.6
-	}
-	VOL_baroco = {
-		prestige = 0.15
-	}
-	VOL_prince_general = {
-		leader_land_shock = 2
-	}
-	VOL_magdeburg_laws = {
-		global_tax_modifier = 0.2
-	}
-}
 
 VLN_ideas = {
 	start = {
@@ -112,43 +75,6 @@ HLC_ideas = {
 	}
 }
 
-# ------------------------------------------------------------------------
-# UZHHOROD (UZH) NATIONAL IDEAS – TECHNICAL & NARRATIVE BRIEFING
-# ------------------------------------------------------------------------
-# STRUCTURE:
-# - Start bonuses (infantry_power +10%, hostile_attrition +0.5) grant early
-#   Carpathian mountain edge, synergising with march-style mission rewards and
-#   the Palanok fortress great project.
-# - Idea order complements mission tree pacing: defensive economy (Smereka,
-#   Carpathian Fort), legal-modernisation (Laws), pluralism (Mountain Faith),
-#   trade/roads for Danubian expansion. Bonus grants +1 free leader to support
-#   multi-front policing.
-#
-# ITEMISED IDEAS:
-# * UZH_smereka: attrition reduction + movement speed mirrors spruce forests
-#   (smereka) allowing light infantry to traverse passes. Reduces attrition on
-#   own troops while missions/monuments raise hostile attrition.
-# * UZH_bartka: discipline + morale references the Lemko bartka axe as both
-#   weapon and symbol; boosts front-line efficiency.
-# * UZH_carpathian_fort: defensiveness + fort upkeep reduction aligns with
-#   Palanok/Komitat missions; stacks with great project modifiers.
-# * UZH_laws: tax + development cost reduction captures Magdeburg-inspired
-#   municipal reforms; feeds economic branches of mission tree.
-# * UZH_mountain_faith: universal tolerance fosters identity-branch missions
-#   (Ruthenian/Rusyn/Uhro-Rusyn) and supports Union Synod reform.
-# * UZH_free_trade: trade power + goods size depict Huszt as salt-caravan hub
-#   linking Tokaj wine trade and Solotvyno salt.
-# * UZH_roads: extra diplo upkeep + improve relations accelerate Danubian
-#   diplomacy (Pressburg Compact, Carpathian Federation missions).
-#
-# LORE REFERENCES:
-# - Paul Robert Magocsi, *With Their Backs to the Mountains* (2015) on Rusyn
-#   identity, Bartka traditions, and Magdeburg law adoption.
-# - Roman Drozd, *Oleksa Dovbush: Between History and Legend* (2008) for
-#   mountain guerrilla mobility motifs inspiring Smereka idea.
-# - Habsburg salt-trade ledgers (Solotvyno) and Tokaj guild records for free
-#   trade/roads concept.
-# ------------------------------------------------------------------------
 
 UZH_ideas = {
 	start = {
@@ -193,8 +119,6 @@ UZH_ideas = {
 }
 
 HET_ideas = {
-	#Hetmanate - State-building Cossack polity, autocratic hetman, Left-Bank agricultural base
-	# REBALANCED TO 150%: Reflects Hetmanate's status as major Eastern European power (1648-1764)
 	start = {
 		land_morale = 0.2
 		stability_cost_modifier = -0.15
@@ -246,26 +170,6 @@ HET_ideas = {
 }
 
 KRU_ideas = {
-	# KYIVAN CONFEDERATION / RUTHENIAN UNIFICATION (Київська конфедерація)
-	# XIV-XVI century alternate history: Unified Ruthenian state from Kyiv-Mohyla sphere
-	# Precondition: Successful Svydrigaylo independence path or Bohdan Khmelnytsky unified control
-	# 
-	# Historical Context:
-	# - 1430-1480: Svydrigaylo (сын Ольгерда) claims Lithuanian-Ruthenian heritage, models proto-Ruthenian state
-	# - 1648-1654: Bohdan Khmelnytsky Uprising merges Zaporizhia, Hetmanate, Kyiv spheres
-	# - 1667-1700s: Treaty of Andrusovo divides Ruthenia between Polish-Lithuanian & Muscovite realms
-	# - Alternate: Unified Ruthenian Confederation (КРУ) maintains independence from both Poland & Moscow
-	# 
-	# Mechanical Basis:
-	# - Integrates Zaporizhian democracy (republican_tradition) with Hetmanate oligarchy (legitimacy)
-	# - Blends Kyivan Orthodox hierarchy with starshyna clan councils
-	# - Incorporates federated system: Kyiv center, Hetmanate military, Zaporizhia frontier autonomy
-	# - Tax base: Chernozem wheat, Dnieper commerce, Sich tribute
-	# 
-	# Start bonuses reflect confederal state-building:
-	# - global_tax_modifier: Multiple federated territories pooling resources
-	# - num_accepted_cultures: Ruthenian, Cossack, Lesser Rus, Moldavian, Tatar minorities
-	#
 	start = {
 		global_tax_modifier = 0.2
 		num_accepted_cultures = 3
@@ -278,47 +182,25 @@ KRU_ideas = {
 	}
 	free = yes
 	The_federal_army = {
-		# Federated Ruthenian forces: Kyivan city militia + Hetmanate cavalry + Zaporizhian light cavalry
-		# XVI-XVII ст. model: Integration of three military traditions
-		# Based on 1654-1667 joint operations (Bohdan Khmelnytsky era)
-		# Mechanical: Shock represents cavalry superiority (Cossack husaria influence)
 		fire_damage = 0.1
 		global_manpower_modifier = 0.25
 	}
 	Act_of_russification = {
-		# Assimilating conquered Polish/Lithuanian nobility into Ruthenian starshyna system
-		# XV-XVI ст. precedent: Vytautas & Svydrigaylo integration
-		# Represents cultural synthesis without imposed Muscovite absolutism
 		culture_conversion_cost = -0.5
 	}
 	Great_levy_reforms = {
-		# Militia system modeled on Zaporizhian Sіč + Hetmanate pospolite ruszenie
-		# Widespread conscription from Kyiv sphere outward
-		# Reduces training time through established military hierarchy
 		reinforce_cost_modifier = -0.15
 	}
 	Integrating_the_great_expanse = {
-		# Coordinating Kyiv administrative center with Hetmanate + Zaporizhia = effective federation
-		# One state, three regional power centers = reduced central bureaucracy costs
-		# 1658 Zboriv Treaty model (confederal autonomy with shared sovereignty)
 		state_maintenance_modifier = -0.5
 	}
 	Restore_the_Orthodoxy = {
-		# Post-Khmelnytsky reunification of Orthodox church under Kyiv-Mohyla Metropolitanate
-		# Counter-Reformation recovery (XVII ст.)
-		# Spiritual authority legitimates confederation against Polish latinization
 		global_missionary_strength = 0.02
 	}
 	Absolute_hegemony_of_the_east = {
-		# Ruthenian confederation as Eastern European hegemon
-		# Must consolidate power vs Muscovy, Crimea, Ottoman, Poland-Lithuania
-		# Represents ideological claim to Kyivan Rus' succession (competitive with Moscow)
 		yearly_absolutism = 0.1
 	}
 	Imperial_centralisation = {
-		# Federal system with unified diplomatic authority: Ruthenian Confederation speaks with one voice
-		# Annexations accelerated by treating vassal territories as federal components
-		# Based on precedent: Khmelnytsky integrated Kyiv into Hetmanate sphere (1654)
 		diplomatic_annexation_cost = -0.5
 	}
 }
@@ -365,78 +247,15 @@ KUY_ideas = {
 	}
 }
 
-# ------------------------------------------------------------------------
-# PEREIASLAV (PRL) NATIONAL IDEAS – TECHNICAL & NARRATIVE BRIEFING
-# ------------------------------------------------------------------------
-# HISTORICAL BACKGROUND:
-# Pereiaslav (Переяслав) was one of the most ancient and strategically vital 
-# cities of Kyivan Rus', founded in 993 by Grand Prince Volodymyr the Great. 
-# Located on the Trubizh River (tributary of the Dnieper), Pereiaslav served as:
-#
-# 1. ANCIENT PRINCIPALITY (X–XIII ст.):
-#    - Seat of powerful princes (Svyatoslav, Volodymyr Monomakh, Yuriy Dolgorukiy)
-#    - Southern defensive bulwark against Pechenegs and Cumans
-#    - Major religious center (Cathedral of St. Michael, episcopal see)
-#    - Economic hub connecting Kyiv to the steppe trade routes
-#
-# 2. COSSACK ERA (XVII–XVIII ст.):
-#    - Capital of Pereiaslav Regiment (Переяславський полк), one of the most 
-#      prestigious Left-Bank Cossack regiments
-#    - Site of the historic Pereiaslav Council (1654) where Bohdan Khmelnytsky 
-#      accepted Tsar Alexei's protectorate, fundamentally altering Ukrainian history
-#    - Administrative center with strong military tradition and agricultural base
-#    - Bridge between Kyiv ecclesiastical authority and Left-Bank Cossack autonomy
-#
-# 3. STRATEGIC & ECONOMIC ROLE:
-#    - Gateway to Left Bank: Pereiaslav controlled vital Dnieper crossings
-#    - Agricultural heartland: Fertile black earth (chernozem) produced surplus grain
-#    - Diplomatic center: Treaty site gave Pereiaslav symbolic authority in negotiations
-#    - Military strongpoint: Fortified town anchored defenses against Crimean raids
-#
-# 4. CULTURAL IDENTITY:
-#    - Synthesis of ancient Rus' legacy with Cossack democratic traditions
-#    - Orthodox piety: Monasteries, brotherhoods, church schools
-#    - Regimental pride: Pereiaslav sotnyky (centurions) and starshyna formed 
-#      influential military-administrative elite
-#    - Treaty legacy: 1654 Council became central to Ukrainian-Russian relations debate
-#
-# GAME MECHANICS REPRESENTATION:
-# Pereiaslav's ideas reflect a principality that combines:
-# - Defensive military tradition (border bulwark against steppe)
-# - Diplomatic heritage (treaty site, negotiation culture)
-# - Agricultural prosperity (chernozem grain surplus)
-# - Cossack regimental administration (sotnya system, elective councils)
-# - Orthodox ecclesiastical authority (episcopal see, brotherhoods)
-# - Ancient Rus' legitimacy (princely lineage, Kyivan heritage)
-#
-# Design balances defensive-diplomatic orientation with economic-administrative 
-# strengths, differentiating Pereiaslav from:
-# - Zaporizhia (ZAZ): Pure military democracy, raiding focus
-# - Chernihiv (CHR): Frontier fortress, starshyna elite
-# - Kyiv (KIE): Metropolitan capital, ecclesiastical supremacy
-# - Hetmanate (HET): Centralizing Cossack state, hetman autocracy
-#
-# REFERENCES:
-# - Serhii Plokhy, *The Cossacks and Religion in Early Modern Ukraine* (2001)
-# - Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988)
-# - Frank Sysyn, *Between Poland and the Ukraine* (1985)
-# - Natalia Yakovenko, *Narys istorii Ukrainy* (1997)
-# - Mykhailo Hrushevsky, *History of Ukraine-Rus'*, vols. 7-9
-# ------------------------------------------------------------------------
 
 PRL_ideas = {
-	# Pereiaslav - Ancient border principality, treaty site, agricultural heartland, regimental center
-	# BALANCED TO 120%: Reflects status as important but subordinate regional power
 	
 	start = {
-		# Defensive Border Tradition: Centuries defending Rus' southern frontier
 		defensiveness = 0.15
-		# Diplomatic Legacy: 1654 Pereiaslav Treaty site, negotiation culture
 		diplomatic_reputation = 1
 	}
 	
 	bonus = {
-		# Chernozem Prosperity: Black earth grain surplus supports state expansion
 		development_cost = -0.10
 	}
 	
@@ -446,498 +265,43 @@ PRL_ideas = {
 	free = yes
 	
 	prl_ancient_bulwark = {
-		# Ancient Bulwark of Kyivan Rus'
-		# Pereiaslav founded 993 as southern defensive anchor against steppe nomads
-		# Fortress tradition: Prince Volodymyr Monomakh's stronghold (1054-1125)
-		# Mechanics: Fort upkeep reduction + attrition reflects centuries of siege experience
-		# References: Hrushevsky vol. 2; Franklin & Shepard 1996
 		fort_maintenance_modifier = -0.20
 		land_attrition = -0.10
 	}
 	
 	prl_treaty_legacy = {
-		# Legacy of the Pereiaslav Council
-		# 1654 Pereiaslav Agreement: Khmelnytsky accepted Tsar's protectorate here
-		# Treaty site became symbolic center of Ukrainian-Russian relations
-		# Mechanics: Vassal opinion + dip annexation cost reflects negotiation expertise
-		# References: Plokhy 2001; Kohut 1988; Sysyn 1985
 		vassal_income = 0.25
 		diplomatic_annexation_cost = -0.15
 	}
 	
 	prl_chernozem_granary = {
-		# Chernozem Granary of the Left Bank
-		# Pereiaslav region: Most fertile black earth lands in Ukraine
-		# Grain surplus sustained armies, fed cities, generated tax revenue
-		# Mechanics: Goods produced + trade goods size reflects agricultural wealth
-		# References: Yakovenko 1997; economic histories of Hetmanate grain trade
 		trade_goods_size_modifier = 0.15
 		global_trade_goods_size_modifier = 0.10
 	}
 	
 	prl_regimental_sotnya = {
-		# Pereiaslav Regimental Sotnya System
-		# Pereiaslav Polk: Elite Left-Bank regiment with democratic sotnya councils
-		# Sotnyky (centurions) elected by Cossack assemblies, answered to colonel
-		# Mechanics: Army tradition + morale reflects professional military culture
-		# References: Kohut 1988; regimental administrative records
 		army_tradition = 0.5
 		land_morale = 0.10
 	}
 	
 	prl_episcopal_authority = {
-		# Episcopal See and Orthodox Brotherhoods
-		# Pereiaslav bishop seat: Major Orthodox ecclesiastical center
-		# Brotherhoods (bratstva) promoted literacy, maintained schools, resisted Uniatism
-		# Mechanics: Tolerance + clergy loyalty reflects church institutional strength
-		# References: Plokhy 2001; Zhukovich 1906 on Orthodox brotherhoods
 		tolerance_own = 2
 		church_loyalty_modifier = 0.10
 	}
 	
 	prl_trubizh_crossings = {
-		# Trubizh River Crossings and Dnieper Trade
-		# Pereiaslav controlled vital river fords linking Kyiv to Left Bank
-		# Customs revenue from river commerce sustained princely/regimental budgets
-		# Mechanics: Trade power + steering reflects geographic commercial advantage
-		# References: Archaeological studies of Pereiaslav river ports; trade route maps
 		trade_efficiency = 0.10
 		trade_steering = 0.15
 	}
 	
 	prl_princely_legacy = {
-		# Legacy of the Pereiaslavl Princes
-		# Ancient princely seat: Svyatoslav, Vsevolod, Volodymyr Monomakh, Yuriy Dolgorukiy
-		# Princely legitimacy inherited by Cossack colonels (polkovnyky)
-		# Mechanics: Legitimacy + prestige reflects continuity with Kyivan Rus' greatness
-		# References: Hrushevsky vols. 2-3; princely genealogies
 		legitimacy = 1
 		prestige = 0.5
 	}
 }
 
-cossack_ideas = {
-	start = {
-		global_unrest = -2
-		loot_amount = 0.25
-	}
-	bonus = {
-		shock_damage = 0.1
-	}
-	trigger = {
-		has_reform = cossacks_reform
-	}
-	free = yes
-	cossacks_escaped_serfs = {
-		manpower_recovery_speed = 0.2
-	}
-	cossacks_hetmanate = {
-		republican_tradition = 0.5
-	}
-	zaz_steppe_riders = {
-		# as the ZAZ idea, land attrition
-	}
-	cossacks_insults = {
-		power_projection_from_insults = 1
-	}
-	cossacks_military_society = {
-		army_tradition = 0.5
-	}
-	cossacks_free_the_serfs = {
-		years_of_nationalism = -5
-	}
-	cossacks_registered = {
-		possible_mil_policy = 1
-	}
-}
-
-ZAZ_ideas = {
-	# Zaporizhia - Democratic military republic, raiding culture, steppe frontier
-	# REBALANCED TO 150%: Reflects Sich's unique status as Europe's last free military democracy
-	start = {
-		shock_damage = 0.2
-		may_perform_slave_raid_on_same_religion = yes
-	}
-	
-	bonus = {
-		cavalry_power = 0.2
-		cavalry_flanking = 0.5
-	}
-	
-	trigger = {
-		tag = ZAZ
-	}
-	free = yes
-	
-	zaz_sich_democracy = {
-		republican_tradition = 0.5
-		global_unrest = -2
-		yearly_corruption = -0.1
-	}
-	zaz_kosh_otaman = {
-		army_tradition_decay = -0.015
-		free_leader_pool = 2
-		leader_land_shock = 1
-	}
-	zaz_steppe_raiders = {
-		loot_amount = 0.5
-		available_province_loot = 0.5
-		land_forcelimit_modifier = 0.1
-	}
-	zaz_chaiky_flotilla = {
-		movement_speed = 0.25
-		land_attrition = -0.3
-		hostile_attrition = 1
-	}
-	zaz_sich_rada_justice = {
-		stability_cost_modifier = -0.2
-		harsh_treatment_cost = -0.5
-		war_exhaustion = -0.03
-	}
-	zaz_frontier_tolerance = {
-		tolerance_heretic = 3
-		tolerance_heathen = 2
-		religious_unity = 0.33
-	}
-	zaz_warrior_brotherhood = {
-		land_morale = 0.15
-		mercenary_cost = -0.25
-		manpower_recovery_speed = 0.15
-	}
-}
-
-KIE_ideas = {
-	# KYIVAN RUS' / KINGDOM OF KYIV (Київська Русь / Київське князівство)
-	# XV-XVI century independent Kyivan state: Religious center, merchant republic, Orthodox stronghold
-	# 
-	# Historical Context:
-	# - 988: Christianization (Volodymyr the Great) → Kyiv-Mohyla cultural inheritance
-	# - 1240: Mongol invasion disrupted but didn't destroy Orthodox hierarchy
-	# - 1362: Lithuanian conquest (Vytautas), integration into Grand Duchy
-	# - 1569: Polish-Lithuanian Union subordinates Kyivan church to Polish ecclesiastical authority
-	# - 1648: Khmelnytsky Uprising revitalizes Kyivan Orthodox autonomy
-	# - Alternate: Kyiv maintains independent ecclesiastical + commercial sovereignty
-	# 
-	# Mechanical Basis:
-	# - Religious authority: Kyiv-Mohyla Academy = cultural production hub
-	# - Economic leverage: Dnieper commerce, Chernozem grain, pilgrimage economy
-	# - Diplomatic weight: Orthodox church mediates between Poland & Muscovy
-	# - Military: City militia + hired Cossack mercenaries
-	# 
-	# Start bonuses reflect merchant-ecclesiastical state:
-	# - global_unrest: Orthodox religious authority stabilizes region (counter-reformation anxiety)
-	# - heretic missionary strength: Kyiv-Mohyla advanced theological training
-	#
-	start = {
-		global_unrest = -2	
-		global_heretic_missionary_strength = 0.1
-	}
-	
-	bonus = {
-		land_morale = 0.2
-	}
-	
-	trigger = {
-		tag = KIE
-	}
-	free = yes	
-	
-	mother_of_all_cities = {
-		# Kyiv = Kyivan Rus' capital (912 AD onwards), spiritual successor to Constantinople Orthodox authority
-		# Prestige from ecclesiastical authority (Kyiv-Mohyla metropolitanate) + merchant hub status
-		# Represents ideological claim to Rurikid succession
-		prestige = 2
-	}
-	heritage_of_rus = {
-		# Kyiv = seat of Original Rus' civilization (Kyivan Rus' 862-1240)
-		# Diplomatic prestige from historical claim to East Slavic legitimacy
-		# Counter-claim to Muscovy's "Third Rome" ideology
-		# XV-XVI ст. context: Kyiv maintains cultural independence despite vassal status
-		diplomatic_reputation = 2		
-	}
-	fending_off_the_invaders = {
-		# Kyiv survived: Pecheneg invasions (X-XI ст.) → Mongol destruction (1240) → Crimean raids → Polish occupation
-		# Defensive architecture: City fortifications upgraded post-Khmelnytsky
-		# Represents resilience of Orthodox stronghold against external threats
-		defensiveness = 0.2		
-	}
-	chernozem_land = {
-		# Kyivan hinterland: Most fertile agricultural region in Eastern Europe
-		# Grain trade via Dnieper commerce routes sustains state budget
-		# XVI-XVII ст. boom period (before Ruïna disruption)
-		production_efficiency = 0.25
-	}
-	center_of_orthodox_church = {
-		# Kyiv-Mohyla Academy (основана 1632) = intellectual center of Orthodox Christianity
-		# Religious acceptance from Orthodox hierarchy under Kyivan metropolitan authority
-		# Development investment in theological, administrative infrastructure
-		tolerance_own = 2		
-		development_cost = -0.05
-	}
-	support_local_traders = {
-		# Dnieper commerce network: Kyiv hub for Baltic-Black Sea-Caspian trade routes
-		# Merchant guilds (XVI ст. Italian, Greek, Armenian diaspora) = economic power base
-		# Represents capital city advantage in medieval trade geography
-		merchants = 1
-		global_trade_power = 0.1
-	}
-	centralized_rule = {
-		# Kyivan metropolitan authority (ecclesiastical hierarchy) enforces governance
-		# City administration extends control outward via Orthodox church network
-		# Recruitment leverages urban militia + Cossack hired levies
-		global_tax_modifier = 0.1
-		global_regiment_recruit_speed = -0.10
-	}
-}
-ruthenian_ideas = {
-	# RUTHENIAN CONFEDERATION / UNIFIED RUS' (Рутенська конфедерація / Об'єднана Русь)
-	# Alternate history XVI-XIX century: Culture group for states with Ruthenian/Byelorussian primary culture
-	# Represents peoples of Kyivan Rus' successor states not absorbed by Poland, Lithuania, Muscovy
-	# 
-	# Historical Basis:
-	# - Kyivan Rus' (IX-XIII ст.) = cultural/religious foundation for all East Slavic peoples
-	# - 1240-1480: Fragmentation under Mongol overlordship, Lithuanian-Polish vassalization
-	# - 1648-1654: Khmelnytsky Uprising revitalizes Ruthenian identity (anti-Polish, anti-absolutist)
-	# - 1667-1772: Treaty of Andrusovo + Partitions of Poland divide Ruthenia between empires
-	# - Alternate: Ruthenian peoples (Zaporizhia, Hetmanate, Kyiv, Chernihiv) maintain federal confederation
-	# 
-	# Mechanical Basis:
-	# - Manpower/Population: Chernozem agricultural base, Cossack recruitment pools
-	# - Stability mechanism: Republican tradition (Zaporizhia) balances legitimacy (Hetmanate)
-	# - Cultural identity: Orthodox Christianity vs Polish Catholicism, Cossack militancy vs peasant rebellion
-	# - Diplomatic: Mediator between Poland, Muscovy, Ottoman, Crimea
-	# 
-	# Trigger applies to any nation with Ruthenian or Byelorussian primary culture
-	# (Models confederation government form spanning multiple state entities)
-	#
-	start = {
-		manpower_recovery_speed = 0.2
-		global_manpower_modifier = 0.3
-	}
-
-	bonus = {
-		discipline = 0.05
-	}
- 
-	trigger = {
-		OR = {
-			primary_culture = ruthenian
-			primary_culture = byelorussian
-		}
-	}
-	free = yes
- 
-	mother_of_russian_cities = {
-		# Kyiv = "Mother of Russian Cities" (Нестерова литопись, XI ст.)
-		# Kyivan Rus' founding site: Rurikid dynasty origin (862 AD)
-		# Legitimacy & prestige from ancient statehood claim
-		# Competition with Moscow's "Third Rome" ideology
-		legitimacy = 1
-		prestige = 1
-	}
-	international_influences = {
-		# Ruthenian confederation spans Catholic (Polish) + Orthodox (Russian/Greek) + Islamic (Ottoman/Crimea) spheres
-		# Religious pluralism: Kyiv-Mohyla academy hosts Catholic & Reformed scholars
-		# XVII ст. context: Confessional synthesis (non-persecution of heretics)
-		tolerance_heretic = 2
-	}
-	zaporizhian_cossacs = {
-		# Zaporizhia = military backbone of Ruthenian confederation
-		# Cavalry superiority: Cossack tactics (XVII-XVIII ст.), frontier raiding culture
-		# Republican tradition + democratic institutions (Sich Rada) = unique military ethos
-		cavalry_power = 0.2
-	}
-	east_and_west = {
-		# Ruthenian confederation positioned at trade crossroads: Baltic-Adriatic-Black Sea routes
-		# Kyiv = hub; Dnieper commerce = lifeblood
-		# Caravan networks: Chumak traders, Armenian merchants, Italian Genoese competition
-		global_trade_power = 0.2
-		caravan_power = 0.2
-	}
-	legacy_of_ancient_rus = {
-		# Kyivan Rus' legacy (IX-XIII ст.) = cultural inheritance of all East Slavic peoples
-		# Reduces stability cost of internal cultural integration (all Ruthenian subgroups = family)
-		# Ideological framework: Confederation unites fragmented Ruthenian lands
-		stability_cost_modifier = -0.2
-	}
-	reuniting_rus = {
-		# Confederation goal: Reverse the fragmentation (1240 Mongol invasion aftermath)
-		# Reabsorb Smolensk, Polotsk, other Ruthenian lands from Muscovy/Polish vassalization
-		# Represents XVI-XIX ст. "Ruthenian nationalism" movements
-		# Reduces cultural resentment from non-accepted cultures (ideological unity)
-		years_of_nationalism = -10
-	}
-	birth_of_russian_orthodoxy = {
-		# 988 AD: Christianization of Kyiv by Volodymyr the Great
-		# Kyiv-Mohyla Academy = Orthodox intellectual center (XVII ст.)
-		# Religious authority: Metropolitan of Kyiv maintains independence from Russian Patriarchate
-		# Promotes Ruthenian cultural assimilation via Orthodox faith
-		tolerance_own = 1
-		promote_culture_cost = -0.25
-	}
-}
-
-POL_ideas = {
-	# POLESIAN PRINCIPALITY (Поліське князівство)
-	# Polesia = vast wetlands region (Pripyat marshes), buffer zone between Kyiv-Turov-Polotsk
-	# Historical: Part of Kyivan Rus' → Turov principality → GDL → Polish-Lithuanian Commonwealth
-	# Culture: Unique Polesian ethnos (archaic East Slavic dialect, distinctive folk traditions)
-	# Geography: Marshes = natural defense, limited agriculture, forest economy
-	# Economy: Timber, hunting, fishing, river trade (Pripyat → Dnieper)
-	# Military: Light infantry, ambush tactics, river boats
-	# Alternative history: Independent Polesian state emerges during Lithuanian fragmentation
-	
-	start = {
-		land_attrition = -0.25
-		hostile_attrition = 1.5
-	}
-	
-	bonus = {
-		defensiveness = 0.25
-	}
-	
-	trigger = {
-		tag = RPS
-	}
-	free = yes
-	
-	children_of_the_marshes = {
-		# Polesia = Europe's largest wetland (Pripyat Marshes)
-		# Local knowledge = asymmetric warfare advantage
-		# Difficult terrain protects from cavalry-heavy invaders
-		fort_maintenance_modifier = -0.33
-		garrison_size = 0.25
-	}
-	pripyat_river_trade = {
-		# Pripyat → Dnieper trade route
-		# Timber flotillas, fish, amber, furs
-		# Limited but strategic commerce
-		trade_efficiency = 0.1
-		caravan_power = 0.1
-		naval_forcelimit_modifier = 0.25
-	}
-	forest_wardens = {
-		# Dense forests = partisan warfare tradition
-		# Light infantry, ambushes, guerrilla tactics
-		# Similar to Finnish/Lithuanian forest combat
-		infantry_power = 0.1
-		reinforce_speed = 0.33
-	}
-	polesian_mysticism = {
-		# Archaic pagan survivals mixed with Orthodox Christianity
-		# Folk magic, nature worship, spiritual resilience
-		# Unique cultural identity resists assimilation
-		tolerance_heretic = 2
-		culture_conversion_cost = 0.5
-		years_of_nationalism = -5
-	}
-	wetland_fortifications = {
-		# Marsh forts = wooden palisades on artificial islands
-		# Difficult to besiege, requires specialized knowledge
-		# Historical: Turov, Pinsk, Mozyr defended by wetlands
-		defensiveness = 0.15
-		siege_ability = -0.15
-	}
-	river_flotilla_tactics = {
-		# Pripyat boats = shallow-draft vessels
-		# Raiding, smuggling, troop transport
-		# Mobility in terrain impassable to heavy cavalry
-		movement_speed = 0.15
-		sailors_recovery_speed = 0.25
-	}
-	polesian_endurance = {
-		# Harsh environment breeds hardy population
-		# Subsistence economy = self-reliant communities
-		# Low-intensity warfare = long-term attrition resistance
-		war_exhaustion = -0.03
-		war_exhaustion_cost = -0.15
-		global_manpower_modifier = 0.15
-	}
-}
-
-PLT_ideas = {
-	# POLOTSK PRINCIPALITY (Полоцьке князівство)
-	# Ancient principality (862 AD), rival to Kyiv, independent Rurikid branch
-	# Famous rulers: Rogvolod (980), Vseslav the Sorcerer (1044-1101)
-	# Geography: Dvina river basin, gateway to Baltic, forest economy
-	# Culture: Distinct identity, resisted Kyiv domination, Orthodox stronghold
-	# Economy: Baltic trade (furs, wax, amber), crafts, Hanseatic connections
-	# Military: Professional druzhina, defensive fortifications
-	# Alternative: Polotsk maintains independence from GDL
-	
-	start = {
-		diplomatic_reputation = 1
-		prestige = 1
-	}
-	
-	bonus = {
-		trade_efficiency = 0.2
-	}
-	
-	trigger = {
-		tag = PLT
-	}
-	free = yes
-	
-	PLT_legacy_of_vseslav = {
-		# Vseslav the Sorcerer (Чародій) = legendary prince
-		# Defended Polotsk against Kyiv, Novgorod, Byzantium
-		# Cultural hero = symbol of independence
-		army_tradition = 1
-		legitimacy = 1
-	}
-	dvina_commerce = {
-		# Western Dvina = major trade artery
-		# Riga, Polotsk, Vitebsk = river trade network
-		# Baltic-Black Sea connection
-		trade_steering = 0.2
-		global_own_trade_power = 0.15
-	}
-	polotsk_sophia = {
-		# St. Sophia Cathedral (1044-1066) = symbol of independence
-		# Ecclesiastical authority parallel to Kyiv
-		# Cultural prestige
-		prestige_decay = -0.01
-		tolerance_own = 1
-	}
-	northern_border = {
-		# Polotsk = buffer between Rus' and Teutonic Knights
-		# Defensive tradition against Western crusaders
-		# Fort network along Dvina
-		fort_maintenance_modifier = -0.25
-		defensiveness = 0.15
-	}
-	hanseatic_connections = {
-		# Trade with Hanseatic League (Riga, Reval)
-		# Western technology transfer, mercantile culture
-		# Alternative to Moscow-dominated Rus'
-		institution_spread_from_true_faith = 0.5
-		idea_cost = -0.05
-	}
-	polotsk_independence = {
-		# Centuries of autonomy from Kyiv/Moscow/Lithuania
-		# Proud tradition of self-governance
-		# Resistant to foreign vassalization
-		diplomatic_upkeep = 1
-		improve_relation_modifier = 0.25
-	}
-	dvina_fortress_line = {
-		# Strategic forts: Polotsk, Vitebsk, Disna
-		# River crossings = chokepoints
-		# Defensive depth against invaders
-		fort_maintenance_modifier = -0.15
-		garrison_size = 0.25
-	}
-}
 
 MSK_ideas = {
-	# MINSK PRINCIPALITY (Мінське князівство)
-	# Central Belarusian principality, founded 1067 (Battle of Nemiga)
-	# Geography: Central location, forest-steppe transition, river crossroads
-	# Economy: Trade hub, crafts, agriculture
-	# Culture: Synthesis of Polotsk/Turov/Kyiv influences
-	# History: Frequently contested between Polotsk, Kyiv, GDL
-	# Alternative: Minsk emerges as independent power center
 	
 	start = {
 		development_cost = -0.1
@@ -954,50 +318,29 @@ MSK_ideas = {
 	free = yes
 	
 	crossroads_of_rus = {
-		# Minsk = geographic center of Belarus
-		# Trade routes: Vilnius-Smolensk, Polotsk-Kyiv
-		# Strategic crossroads
 		caravan_power = 0.25
 		trade_efficiency = 0.1
 	}
 	battle_of_nemiga = {
-		# 1067: Famous battle, Minsk independence struggle
-		# Cultural memory of resistance
-		# Military tradition
 		army_tradition_decay = -0.01
 		prestige = 0.5
 	}
 	minsk_magdeburg_law = {
-		# 1499: Magdeburg rights granted
-		# Self-governance, merchant guilds, urban development
-		# Western legal tradition
 		global_trade_goods_size_modifier = 0.1
 		development_cost = -0.05
 	}
 	forest_and_field = {
-		# Mixed terrain = diverse economy
-		# Forests (timber, hunting) + fields (agriculture)
-		# Balanced subsistence + trade
 		production_efficiency = 0.2
 	}
 	urban_fortifications = {
-		# Minsk castle, urban walls
-		# Renaissance fortification influence
-		# Defensive urban center
 		fort_maintenance_modifier = -0.2
 		garrison_size = 0.15
 	}
 	merchant_networks = {
-		# Jewish merchants, Armenian traders, Polish factors
-		# Multi-ethnic commercial culture
-		# Economic pragmatism
 		interest = -0.5
 		inflation_reduction = 0.1
 	}
 	belarusian_identity = {
-		# Minsk = future capital of Belarus
-		# Cultural synthesis: Orthodox + Catholic influence
-		# Tolerant multi-confessional tradition
 		tolerance_heretic = 2
 		tolerance_heathen = 1
 		promote_culture_cost = -0.25
@@ -1005,13 +348,6 @@ MSK_ideas = {
 }
 
 TRV_ideas = {
-	# TUROV PRINCIPALITY (Турівське князівство)
-	# Ancient principality of Dregovichi tribe, Pripyat river basin
-	# History: One of oldest Rus' cities (980 AD), Svyatopolk the Accursed
-	# Geography: Wetlands, marshes, river trade
-	# Economy: Limited agriculture, fishing, hunting, river commerce
-	# Culture: Polesian traditions, Orthodox stronghold
-	# Military: River flotillas, marsh warfare
 	
 	start = {
 		naval_forcelimit_modifier = 0.33
@@ -1028,63 +364,36 @@ TRV_ideas = {
 	free = yes
 	
 	ancient_dregovichi = {
-		# Dregovichi = East Slavic tribe (VI-XII ст.)
-		# Ancient cultural roots, pre-Kyivan identity
-		# Historical prestige
 		prestige = 1
 		legitimacy = 0.5
 	}
 	pripyat_heartland = {
-		# Turov = center of Pripyat basin
-		# River trade, strategic waterway control
-		# Gateway to Dnieper
 		trade_steering = 0.15
 		caravan_power = 0.15
 	}
 	marsh_defenders = {
-		# Wetland warfare expertise
-		# Defensive advantage in homeland
-		# Guerrilla tactics
 		hostile_attrition = 1
 		land_attrition = -0.2
 	}
 	orthodox_bishopric = {
-		# Turov bishopric = ancient Orthodox see
-		# Religious authority, cultural influence
-		# Ecclesiastical prestige
 		tolerance_own = 2
 		church_power_modifier = 0.15
 	}
 	river_flotilla = {
-		# Pripyat river boats
-		# Shallow-draft vessels, troop transport
-		# Raiding capability
 		galley_power = 0.25
 		sailor_maintenance_modifer = -0.15
 	}
 	wetland_economy = {
-		# Fishing, hunting, peat extraction
-		# Forest resources, limited but sustainable
-		# Subsistence resilience
 		production_efficiency = 0.1
 		global_trade_goods_size_modifier = 0.05
 	}
 	turov_resilience = {
-		# Survived centuries of invasions
-		# Mongols, Lithuanians, Poles couldn't fully conquer
-		# Cultural endurance
 		war_exhaustion = -0.02
 		stability_cost_modifier = -0.15
 	}
 }
 
 VIT_ideas = {
-	# VITEBSK PRINCIPALITY (Вітебське князівство)
-	# Northern Belarusian principality, Dvina trade city
-	# History: Founded X century, contested Polotsk-Smolensk border
-	# Geography: Dvina river, gateway to Riga
-	# Economy: Baltic trade, crafts, merchant guilds
-	# Culture: Mixed Polotsk/Smolensk influence
 	
 	start = {
 		trade_efficiency = 0.15
@@ -1101,62 +410,35 @@ VIT_ideas = {
 	free = yes
 	
 	dvina_gateway = {
-		# Vitebsk = key Dvina trade post
-		# Riga-Smolensk route
-		# Commercial importance
 		global_own_trade_power = 0.2
 		trade_steering = 0.15
 	}
 	vitebsk_magdeburg = {
-		# 1597: Magdeburg rights
-		# Urban self-governance, guild system
-		# Western legal influence
 		development_cost = -0.1
 		build_cost = -0.1
 	}
 	northern_crafts = {
-		# Vitebsk craftsmen renowned for quality
-		# Leatherwork, metalwork, textiles
-		# Export goods
 		production_efficiency = 0.25
 	}
 	baltic_connections = {
-		# Trade with Riga, Reval, Dorpat
-		# Western technology, ideas
-		# Alternative to Muscovite influence
 		institution_spread_from_true_faith = 0.5
 		embracement_cost = -0.1
 	}
 	dvina_fortifications = {
-		# Vitebsk fortress, strategic location
-		# River crossing defense
-		# Border stronghold
 		fort_maintenance_modifier = -0.25
 		defensiveness = 0.15
 	}
 	merchant_guilds = {
-		# Multi-ethnic guilds: Ruthenian, Jewish, German
-		# Commercial expertise
-		# Economic pragmatism
 		interest = -0.5
 		trade_range_modifier = 0.2
 	}
 	vitebsk_tolerance = {
-		# Multi-confessional city: Orthodox, Catholic, Jewish
-		# Commercial pragmatism > religious conflict
-		# Cultural synthesis
 		tolerance_heretic = 2
 		tolerance_heathen = 2
 	}
 }
 
 MSL_ideas = {
-	# MSTISLAVL PRINCIPALITY (Мстиславське князівство)
-	# Eastern Belarusian borderland, Sozh river basin
-	# History: Founded XII century, named after Prince Mstislav
-	# Geography: Forest, steppe frontier, contested border zone
-	# Economy: Limited resources, military economy
-	# Culture: Mixed Smolensk/Polotsk influence
 	
 	start = {
 		fort_maintenance_modifier = -0.25
@@ -1173,128 +455,32 @@ MSL_ideas = {
 	free = yes
 	
 	eastern_frontier = {
-		# Mstislavl = border between Belarus and Russia
-		# Contested by Smolensk, Polotsk, GDL, Muscovy
-		# Military frontier
 		manpower_recovery_speed = 0.15
 		global_manpower_modifier = 0.1
 	}
 	mstislavl_fortress = {
-		# Strategic border fortress
-		# Frequently besieged, rebuilt
-		# Defensive expertise
 		defensiveness = 0.2
 		fort_maintenance_modifier = -0.15
 	}
 	border_raiders = {
-		# Light cavalry, border skirmishes
-		# Raiding economy supplements limited agriculture
-		# Steppe warfare influence
 		cavalry_power = 0.1
 		loot_amount = 0.25
 	}
 	sozh_trade = {
-		# Sozh river = minor trade route
-		# Connects to Dnieper system
-		# Strategic but limited commerce
 		caravan_power = 0.15
 		trade_efficiency = 0.1
 	}
 	magdeburg_privileges = {
-		# 1555: Magdeburg rights
-		# Urban self-governance despite military pressures
-		# Civilian resilience
 		development_cost = -0.1
 		stability_cost_modifier = -0.1
 	}
 	military_society = {
-		# Constant warfare shapes culture
-		# Every citizen = potential soldier
-		# Martial traditions
 		land_maintenance_modifier = -0.1
 		reinforce_speed = 0.25
 	}
 	frontier_endurance = {
-		# Survived centuries of border conflicts
-		# Cultural resilience, military expertise
-		# Never fully conquered
 		war_exhaustion = -0.03
 		years_of_nationalism = -10
 	}
 }
 
-BLR_ideas = {
-	# BELARUS (UNIFIED) - Об'єднана Білорусь
-	# Historical synthesis: Polotsk + Minsk + Turov + Vitebsk + Mstislavl
-	# Alternative history: Belarus emerges as independent state (not under GDL/Poland/Russia)
-	# Culture: Belarusian ethnogenesis (XIV-XVII ст.), distinct from Russian/Ukrainian
-	# Geography: Forests, rivers (Dvina, Pripyat, Nioman), wetlands
-	# Economy: Balanced agriculture-commerce-crafts, Western trade links
-	# Military: Defensive tradition, partisan warfare, Lithuanian military influence
-	
-	start = {
-		diplomatic_reputation = 1
-		development_cost = -0.1
-	}
-	
-	bonus = {
-		stability_cost_modifier = -0.15
-	}
-	
-	trigger = {
-		tag = BLR
-	}
-	free = yes
-	
-	belarusian_unity = {
-		# Unification of Polotsk, Minsk, Turov, Vitebsk, Mstislavl
-		# Cultural synthesis, national identity
-		# Reduced internal strife
-		global_unrest = -2
-		promote_culture_cost = -0.25
-	}
-	land_of_forests = {
-		# Belarus = densely forested (Belovezhskaya Pushcha, etc.)
-		# Timber economy, defensive terrain
-		# Partisan warfare tradition
-		hostile_attrition = 1
-		production_efficiency = 0.1
-	}
-	river_networks = {
-		# Dvina, Pripyat, Nioman, Sozh = trade arteries
-		# Internal commerce, external connections
-		# Strategic river system
-		caravan_power = 0.25
-		trade_efficiency = 0.15
-	}
-	grand_duchy_legacy = {
-		# GDL inheritance: Legal codes (Statutes 1529/1566/1588)
-		# Administrative tradition, Western influence
-		# Alternative: Independent Belarus continues GDL traditions
-		administrative_efficiency = 0.05
-		governing_capacity_modifier = 0.1
-	}
-	magdeburg_law_tradition = {
-		# Urban self-governance widespread in Belarus
-		# Minsk, Vitebsk, Polotsk, Turov = Magdeburg rights
-		# Commercial culture
-		development_cost = -0.1
-		build_cost = -0.1
-	}
-	religious_tolerance = {
-		# Orthodox + Catholic coexistence
-		# Jewish communities, Uniate Church
-		# Pragmatic multi-confessionalism
-		tolerance_heretic = 3
-		tolerance_heathen = 2
-		religious_unity = 0.25
-	}
-	partisan_tradition = {
-		# Historical: WWI-WWII partisan warfare
-		# Anachronistic but culturally significant
-		# Forest guerrilla expertise
-		land_morale = 0.1
-		reinforce_speed = 0.25
-		war_exhaustion = -0.03
-	}
-}

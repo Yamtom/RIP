@@ -1,4 +1,3 @@
-#Tag specific reward for the dynamic effects
 restore_greek_names = {
 	custom_tooltip = reestablishing_themes_names_tooltip
 	hidden_effect = {
@@ -42,7 +41,6 @@ restore_greek_names = {
 		4315 = { change_province_name = Evdoksia rename_capital = Evdoksia }
 	}
 }
-#Country effect
 mal_mansa_musa_visit_effect = {
 	trigger_switch = {
 		on_trigger = has_country_flag
@@ -60,7 +58,6 @@ mal_mansa_musa_visit_effect = {
 	}
 }
 
-#Country effect
 mal_invest_in_own_provinces_effect = {
 	trigger_switch = {
 		on_trigger = has_country_flag
@@ -78,7 +75,6 @@ mal_invest_in_own_provinces_effect = {
 	}
 }
 
-#Country effect
 mal_travel_to_next_area = {
 	if = {
 		limit = { has_country_flag = mal_journey_to_maghreb }
@@ -139,7 +135,6 @@ mal_travel_to_next_area = {
 	clr_country_flag = mal_visit_foreign_capital
 }
 
-#Country effect
 mal_select_country_for_region = {
 	trigger_switch = {
 		on_trigger = has_country_flag
@@ -242,7 +237,6 @@ show_points_needed_for_livionian_government_of_category = {
 	]
 }
 
-#Ottoman Mission Rewards
 tur_crimean_khaganate_effect_a = {
 	CRI = {
 		add_historical_friend = ROOT
@@ -352,7 +346,6 @@ tur_address_firman_effect_a = {
 				change_religion = event_target:tur_andalusian_ally
 				change_culture = andalucian
 			}
-			# Old dynamic string-based loop removed for validator compatibility.
 			random_owned_province = { random_list = { 1 = { add_base_tax = 2 } 1 = { add_base_production = 2 } 1 = { add_base_manpower = 2 } } }
 			random_owned_province = { random_list = { 1 = { add_base_tax = 2 } 1 = { add_base_production = 2 } 1 = { add_base_manpower = 2 } } }
 			random_owned_province = { random_list = { 1 = { add_base_tax = 2 } 1 = { add_base_production = 2 } 1 = { add_base_manpower = 2 } } }
@@ -473,7 +466,6 @@ tur_al_andalus_eyalet_effect_a = {
 	}
 }
 
-#British Mission Rewards
 gbr_take_over_the_lowlands_effect_a = {
 	add_country_modifier = {
 		name = gbr_english_dutch_trade_partners
@@ -507,7 +499,6 @@ gbr_take_over_the_lowlands_effect_a = {
 	}
 }
 
-#Persian missions
 per_claim_constantinople_effect = {
 	151 = {
 		if = {
@@ -3018,3 +3009,188 @@ feo_rival_genoa_effect_1 = {
     }
     set_country_flag = feo_peaceful_italian_approach
 } 
+
+rip_create_rus_slavic_culture_group = {
+	change_primary_culture = russian_new
+	set_ruler_culture = russian_new
+	if = {
+		limit = {
+			has_heir = yes
+		}
+		set_heir_culture = russian_new
+	}
+	if = {
+		limit = {
+			has_consort = yes
+			OR = {
+				consort_culture = russian
+				consort_culture = czech
+				consort_culture = polish
+				consort_culture = schlesian
+				consort_culture = sorbian
+				consort_culture = slovak
+				consort_culture = novgorodian
+				consort_culture = severian
+				consort_culture = byelorussian
+				consort_culture = ruthenian
+				consort_culture = slovene
+				consort_culture = bosnian
+				consort_culture = serbian
+				consort_culture = bulgarian
+				consort_culture = croatian
+			}
+		}
+		set_consort_culture = russian_new
+	}
+	hidden_effect = {
+		every_province = {
+			limit = {
+				OR = {
+					culture = russian
+					culture = czech
+					culture = polish
+					culture = schlesian
+					culture = sorbian
+					culture = slovak
+					culture = novgorodian
+					culture = severian
+					culture = byelorussian
+					culture = ruthenian
+					culture = slovene
+					culture = bosnian
+					culture = serbian
+					culture = bulgarian
+					culture = croatian
+				}
+			}
+			if = { limit = { culture = russian } change_culture = russian_new }
+			if = { limit = { culture = czech } change_culture = czech_new }
+			if = { limit = { culture = polish } change_culture = polish_new }
+			if = { limit = { culture = schlesian } change_culture = schlesian_new }
+			if = { limit = { culture = sorbian } change_culture = sorbian_new }
+			if = { limit = { culture = slovak } change_culture = slovak_new }
+			if = { limit = { culture = novgorodian } change_culture = novgorodian_new }
+			if = { limit = { culture = severian } change_culture = severian_new }
+			if = { limit = { culture = byelorussian } change_culture = byelorussian_new }
+			if = { limit = { culture = ruthenian } change_culture = ruthenian_new }
+			if = { limit = { culture = slovene } change_culture = slovene_new }
+			if = { limit = { culture = bosnian } change_culture = bosnian_new }
+			if = { limit = { culture = serbian } change_culture = serbian_new }
+			if = { limit = { culture = bulgarian } change_culture = bulgarian_new }
+			if = { limit = { culture = croatian } change_culture = croatian_new }
+		}
+		every_country = {
+			limit = {
+				NOT = { tag = ROOT }
+				OR = {
+					primary_culture = russian
+					primary_culture = czech
+					primary_culture = polish
+					primary_culture = schlesian
+					primary_culture = sorbian
+					primary_culture = slovak
+					primary_culture = novgorodian
+					primary_culture = severian
+					primary_culture = byelorussian
+					primary_culture = ruthenian
+					primary_culture = slovene
+					primary_culture = bosnian
+					primary_culture = serbian
+					primary_culture = bulgarian
+					primary_culture = croatian
+				}
+			}
+			if = {
+				limit = { primary_culture = russian }
+				change_primary_culture = russian_new
+				set_ruler_culture = russian_new
+				if = { limit = { has_consort = yes } set_consort_culture = russian_new }
+			}
+			if = {
+				limit = { primary_culture = czech }
+				change_primary_culture = czech_new
+				set_ruler_culture = czech_new
+				if = { limit = { has_consort = yes } set_consort_culture = czech_new }
+			}
+			if = {
+				limit = { primary_culture = polish }
+				change_primary_culture = polish_new
+				set_ruler_culture = polish_new
+				if = { limit = { has_consort = yes } set_consort_culture = polish_new }
+			}
+			if = {
+				limit = { primary_culture = schlesian }
+				change_primary_culture = schlesian_new
+				set_ruler_culture = schlesian_new
+				if = { limit = { has_consort = yes } set_consort_culture = schlesian_new }
+			}
+			if = {
+				limit = { primary_culture = sorbian }
+				change_primary_culture = sorbian_new
+				set_ruler_culture = sorbian_new
+				if = { limit = { has_consort = yes } set_consort_culture = sorbian_new }
+			}
+			if = {
+				limit = { primary_culture = slovak }
+				change_primary_culture = slovak_new
+				set_ruler_culture = slovak_new
+				if = { limit = { has_consort = yes } set_consort_culture = slovak_new }
+			}
+			if = {
+				limit = { primary_culture = novgorodian }
+				change_primary_culture = novgorodian_new
+				set_ruler_culture = novgorodian_new
+				if = { limit = { has_consort = yes } set_consort_culture = novgorodian_new }
+			}
+			if = {
+				limit = { primary_culture = severian }
+				change_primary_culture = severian_new
+				set_ruler_culture = severian_new
+				if = { limit = { has_consort = yes } set_consort_culture = severian_new }
+			}
+			if = {
+				limit = { primary_culture = byelorussian }
+				change_primary_culture = byelorussian_new
+				set_ruler_culture = byelorussian_new
+				if = { limit = { has_consort = yes } set_consort_culture = byelorussian_new }
+			}
+			if = {
+				limit = { primary_culture = ruthenian }
+				change_primary_culture = ruthenian_new
+				set_ruler_culture = ruthenian_new
+				if = { limit = { has_consort = yes } set_consort_culture = ruthenian_new }
+			}
+			if = {
+				limit = { primary_culture = slovene }
+				change_primary_culture = slovene_new
+				set_ruler_culture = slovene_new
+				if = { limit = { has_consort = yes } set_consort_culture = slovene_new }
+			}
+			if = {
+				limit = { primary_culture = bosnian }
+				change_primary_culture = bosnian_new
+				set_ruler_culture = bosnian_new
+				if = { limit = { has_consort = yes } set_consort_culture = bosnian_new }
+			}
+			if = {
+				limit = { primary_culture = serbian }
+				change_primary_culture = serbian_new
+				set_ruler_culture = serbian_new
+				if = { limit = { has_consort = yes } set_consort_culture = serbian_new }
+			}
+			if = {
+				limit = { primary_culture = bulgarian }
+				change_primary_culture = bulgarian_new
+				set_ruler_culture = bulgarian_new
+				if = { limit = { has_consort = yes } set_consort_culture = bulgarian_new }
+			}
+			if = {
+				limit = { primary_culture = croatian }
+				change_primary_culture = croatian_new
+				set_ruler_culture = croatian_new
+				if = { limit = { has_consort = yes } set_consort_culture = croatian_new }
+			}
+		}
+		set_global_flag = updated_slavic_flag
+	}
+}

@@ -1,7 +1,3 @@
-# =========================================================================
-# PODILLIA COSSACK UPHEAVAL DISASTER
-# =========================================================================
-# Cossack estate rebels against central authority demanding autonomy
 
 podillia_cossack_upheaval = {
 
@@ -16,7 +12,6 @@ podillia_cossack_upheaval = {
 		has_regency = no
 		is_subject = no
 		
-		# Cossack estate discontent
 		has_estate = estate_cossacks
 		estate_loyalty = {
 			estate = estate_cossacks
@@ -29,13 +24,11 @@ podillia_cossack_upheaval = {
 			}
 		}
 		
-		# High Cossack influence
 		estate_influence = {
 			estate = estate_cossacks
 			influence = 60
 		}
 		
-		# Recent military defeats or lack of conquest
 		OR = {
 			num_of_loans = 3
 			war_exhaustion = 5
@@ -47,7 +40,6 @@ podillia_cossack_upheaval = {
 	
 	can_stop = {
 		OR = {
-			# Cossacks pacified
 			AND = {
 				has_estate = estate_cossacks
 				estate_loyalty = {
@@ -56,13 +48,11 @@ podillia_cossack_upheaval = {
 				}
 			}
 			
-			# Authority restored
 			AND = {
 				stability = 2
 				legitimacy = 75
 			}
 			
-			# Administrative solution
 			has_country_modifier = pdl_cossack_autonomy_granted
 		}
 	}
@@ -110,7 +100,6 @@ podillia_cossack_upheaval = {
 	
 	can_end = {
 		OR = {
-			# Peaceful resolution
 			AND = {
 				has_estate = estate_cossacks
 				estate_loyalty = {
@@ -120,7 +109,6 @@ podillia_cossack_upheaval = {
 				NOT = { num_of_rebel_armies = 1 }
 			}
 			
-			# Forceful suppression
 			AND = {
 				NOT = { num_of_rebel_armies = 1 }
 				NOT = { num_of_rebel_controlled_provinces = 1 }
@@ -128,7 +116,6 @@ podillia_cossack_upheaval = {
 				army_size = 20
 			}
 			
-			# Autonomy granted
 			has_country_modifier = pdl_cossack_autonomy_granted
 		}
 	}

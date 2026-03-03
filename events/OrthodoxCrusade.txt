@@ -1,17 +1,7 @@
-# =========================================================================
-# ORTHODOX CRUSADE EVENTS
-# =========================================================================
-# Events for Orthodox crusades to reclaim Constantinople and Jerusalem
-# Includes declaration, participation, progress, and outcome events
-# =========================================================================
 
 namespace = orthodox_crusade
 
-# =========================================================================
-# CONSTANTINOPLE CRUSADE EVENTS (1-10)
-# =========================================================================
 
-# Event 1: Crusade for Constantinople Declared
 country_event = {
 	id = orthodox_crusade.1
 	title = orthodox_crusade.1.t
@@ -27,20 +17,17 @@ country_event = {
 		add_mil_power = 50
 		add_army_tradition = 10
 		
-		# Ensure current Constantinople owner is marked as crusade target
 		151 = {
 			owner = {
 				set_country_flag = orthodox_crusade_target_constantinople
 			}
 		}
 		
-		# Announce to the crusade target
 		every_country = {
 			limit = { has_country_flag = orthodox_crusade_target_constantinople }
-			country_event = { id = orthodox_crusade.3 }
+			country_event = { id = orthodox_crusade.3 days = 45 }
 		}
 		
-		# Give special bonuses
 		add_country_modifier = {
 			name = orthodox_crusade_leader
 			duration = 18250
@@ -48,7 +35,6 @@ country_event = {
 	}
 }
 
-# Event 2: Call to join Constantinople Crusade (for other Orthodox nations)
 country_event = {
 	id = orthodox_crusade.2
 	title = orthodox_crusade.2.t
@@ -106,7 +92,6 @@ country_event = {
 	}
 }
 
-# Event 3: Orthodox Crusade threatened (for Constantinople owner)
 country_event = {
 	id = orthodox_crusade.3
 	title = orthodox_crusade.3.t
@@ -140,7 +125,6 @@ country_event = {
 	}
 }
 
-# Event 4: Crusade Progress Update
 country_event = {
 	id = orthodox_crusade.4
 	title = orthodox_crusade.4.t
@@ -165,7 +149,6 @@ country_event = {
 	}
 }
 
-# Event 5: Constantinople Crusade Success
 country_event = {
 	id = orthodox_crusade.5
 	title = orthodox_crusade.5.t
@@ -179,7 +162,6 @@ country_event = {
 		name = orthodox_crusade.5.a
 		ai_chance = { factor = 100 }
 		
-		# Massive rewards
 		add_prestige = 100
 		add_legitimacy_equivalent = { amount = 25 }
 		add_adm_power = 100
@@ -187,7 +169,6 @@ country_event = {
 		add_mil_power = 100
 		add_church_power = 200
 
-		# Contribution-based bonus
 		if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 20 } }
 			add_prestige = 35
@@ -217,7 +198,6 @@ country_event = {
 		}
 		set_variable = { which = orthodox_crusade_contribution value = 0 }
 		
-		# Special modifiers
 		add_country_modifier = {
 			name = liberator_of_constantinople
 			duration = -1
@@ -233,7 +213,6 @@ country_event = {
 			}
 		}
 		
-		# Patriarch of Constantinople
 		if = {
 			limit = { religion = russian_orthodox }
 			add_country_modifier = {
@@ -242,17 +221,19 @@ country_event = {
 			}
 		}
 		
-		# Reward all participants
 		every_country = {
 			limit = {
 				has_country_modifier = orthodox_crusade_participant
 			}
-			country_event = { id = orthodox_crusade.7 }
+			random_list = {
+				35 = { country_event = { id = orthodox_crusade.7 days = 30 } }
+				35 = { country_event = { id = orthodox_crusade.7 days = 45 } }
+				30 = { country_event = { id = orthodox_crusade.7 days = 60 } }
+			}
 		}
 	}
 }
 
-# Event 6: Constantinople Crusade Failure
 country_event = {
 	id = orthodox_crusade.6
 	title = orthodox_crusade.6.t
@@ -274,17 +255,19 @@ country_event = {
 			duration = 7300
 		}
 		
-		# Notify participants
 		every_country = {
 			limit = {
 				has_country_modifier = orthodox_crusade_participant
 			}
-			country_event = { id = orthodox_crusade.8 }
+			random_list = {
+				35 = { country_event = { id = orthodox_crusade.8 days = 30 } }
+				35 = { country_event = { id = orthodox_crusade.8 days = 45 } }
+				30 = { country_event = { id = orthodox_crusade.8 days = 60 } }
+			}
 		}
 	}
 }
 
-# Event 7: Crusade Victory Reward (for participants)
 country_event = {
 	id = orthodox_crusade.7
 	title = orthodox_crusade.7.t
@@ -329,7 +312,6 @@ country_event = {
 	}
 }
 
-# Event 8: Crusade Failure (for participants)
 country_event = {
 	id = orthodox_crusade.8
 	title = orthodox_crusade.8.t
@@ -349,7 +331,6 @@ country_event = {
 	}
 }
 
-# Event 9: Crusade Battle Victory
 country_event = {
 	id = orthodox_crusade.9
 	title = orthodox_crusade.9.t
@@ -382,7 +363,6 @@ country_event = {
 	}
 }
 
-# Event 10: Religious Fervor During Crusade
 country_event = {
 	id = orthodox_crusade.10
 	title = orthodox_crusade.10.t
@@ -423,11 +403,7 @@ country_event = {
 	}
 }
 
-# =========================================================================
-# JERUSALEM CRUSADE EVENTS (11-20)
-# =========================================================================
 
-# Event 11: Crusade for Jerusalem Declared
 country_event = {
 	id = orthodox_crusade.11
 	title = orthodox_crusade.11.t
@@ -443,20 +419,17 @@ country_event = {
 		add_mil_power = 75
 		add_army_tradition = 15
 		
-		# Ensure current Jerusalem owner is marked as crusade target
 		379 = {
 			owner = {
 				set_country_flag = orthodox_crusade_target_jerusalem
 			}
 		}
 		
-		# Announce to the crusade target
 		every_country = {
 			limit = { has_country_flag = orthodox_crusade_target_jerusalem }
-			country_event = { id = orthodox_crusade.13 }
+			country_event = { id = orthodox_crusade.13 days = 45 }
 		}
 		
-		# Give special bonuses
 		add_country_modifier = {
 			name = orthodox_crusade_leader
 			duration = 18250
@@ -464,7 +437,6 @@ country_event = {
 	}
 }
 
-# Event 12: Call to join Jerusalem Crusade (for other Orthodox nations)
 country_event = {
 	id = orthodox_crusade.12
 	title = orthodox_crusade.12.t
@@ -522,7 +494,6 @@ country_event = {
 	}
 }
 
-# Event 13: Orthodox Crusade threatened (for Jerusalem owner)
 country_event = {
 	id = orthodox_crusade.13
 	title = orthodox_crusade.13.t
@@ -556,7 +527,6 @@ country_event = {
 	}
 }
 
-# Event 14: Jerusalem Crusade Progress
 country_event = {
 	id = orthodox_crusade.14
 	title = orthodox_crusade.14.t
@@ -581,7 +551,6 @@ country_event = {
 	}
 }
 
-# Event 15: Jerusalem Crusade Success
 country_event = {
 	id = orthodox_crusade.15
 	title = orthodox_crusade.15.t
@@ -595,20 +564,17 @@ country_event = {
 		name = orthodox_crusade.15.a
 		ai_chance = { factor = 100 }
 		
-		# Massive rewards
-		add_prestige = 150
-		add_legitimacy_equivalent = { amount = 50 }
-		add_adm_power = 150
-		add_dip_power = 150
-		add_mil_power = 150
-		add_church_power = 200
-		add_church_power = 100
+		add_prestige = 100
+		add_legitimacy_equivalent = { amount = 30 }
+		add_adm_power = 80
+		add_dip_power = 80
+		add_mil_power = 80
+		add_church_power = 120
 
-		# Contribution-based bonus
 		if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 20 } }
-			add_prestige = 35
-			add_church_power = 75
+			add_prestige = 25
+			add_church_power = 45
 			add_country_modifier = {
 				name = crusade_contributor_gold
 				duration = 7300
@@ -616,8 +582,8 @@ country_event = {
 		}
 		else_if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 12 } }
-			add_prestige = 20
-			add_church_power = 50
+			add_prestige = 15
+			add_church_power = 30
 			add_country_modifier = {
 				name = crusade_contributor_silver
 				duration = 5475
@@ -625,8 +591,8 @@ country_event = {
 		}
 		else_if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 6 } }
-			add_prestige = 10
-			add_church_power = 25
+			add_prestige = 8
+			add_church_power = 15
 			add_country_modifier = {
 				name = crusade_contributor_bronze
 				duration = 3650
@@ -634,7 +600,6 @@ country_event = {
 		}
 		set_variable = { which = orthodox_crusade_contribution value = 0 }
 		
-		# Special modifiers
 		add_country_modifier = {
 			name = liberator_of_jerusalem
 			duration = -1
@@ -650,17 +615,19 @@ country_event = {
 			}
 		}
 		
-		# Reward all participants
 		every_country = {
 			limit = {
 				has_country_modifier = orthodox_crusade_participant
 			}
-			country_event = { id = orthodox_crusade.17 }
+			random_list = {
+				35 = { country_event = { id = orthodox_crusade.17 days = 30 } }
+				35 = { country_event = { id = orthodox_crusade.17 days = 45 } }
+				30 = { country_event = { id = orthodox_crusade.17 days = 60 } }
+			}
 		}
 	}
 }
 
-# Event 16: Jerusalem Crusade Failure
 country_event = {
 	id = orthodox_crusade.16
 	title = orthodox_crusade.16.t
@@ -682,17 +649,19 @@ country_event = {
 			duration = 10950
 		}
 		
-		# Notify participants
 		every_country = {
 			limit = {
 				has_country_modifier = orthodox_crusade_participant
 			}
-			country_event = { id = orthodox_crusade.18 }
+			random_list = {
+				35 = { country_event = { id = orthodox_crusade.18 days = 30 } }
+				35 = { country_event = { id = orthodox_crusade.18 days = 45 } }
+				30 = { country_event = { id = orthodox_crusade.18 days = 60 } }
+			}
 		}
 	}
 }
 
-# Event 17: Jerusalem Victory Reward (for participants)
 country_event = {
 	id = orthodox_crusade.17
 	title = orthodox_crusade.17.t
@@ -737,7 +706,6 @@ country_event = {
 	}
 }
 
-# Event 18: Jerusalem Failure (for participants)
 country_event = {
 	id = orthodox_crusade.18
 	title = orthodox_crusade.18.t
@@ -757,7 +725,6 @@ country_event = {
 	}
 }
 
-# Event 19: Pilgrimage to Liberated Jerusalem
 country_event = {
 	id = orthodox_crusade.19
 	title = orthodox_crusade.19.t
@@ -794,7 +761,6 @@ country_event = {
 	}
 }
 
-# Event 20: Orthodox Unity Through Crusade
 country_event = {
 	id = orthodox_crusade.20
 	title = orthodox_crusade.20.t
@@ -838,11 +804,7 @@ country_event = {
 	}
 }
 
-# =========================================================================
-# CRUSADE CONTRIBUTION & AUTO-END EVENTS (21+)
-# =========================================================================
 
-# Event 21: Crusade Contribution - Battle Won
 country_event = {
 	id = orthodox_crusade.21
 	title = orthodox_crusade.21.t
@@ -863,7 +825,6 @@ country_event = {
 	option = { name = orthodox_crusade.21.a }
 }
 
-# Event 22: Crusade Contribution - Siege Won
 country_event = {
 	id = orthodox_crusade.22
 	title = orthodox_crusade.22.t
@@ -884,7 +845,6 @@ country_event = {
 	option = { name = orthodox_crusade.22.a }
 }
 
-# Event 23: Auto-End Orthodox Crusade
 country_event = {
 	id = orthodox_crusade.23
 	title = orthodox_crusade.23.t
@@ -916,7 +876,6 @@ country_event = {
 	}
 
 	immediate = {
-		# Check for Constantinople crusade
 		if = {
 			limit = { is_constantinople_crusade_successful = yes }
 			country_event = { id = orthodox_crusade.5 } # Success
@@ -926,7 +885,6 @@ country_event = {
 			country_event = { id = orthodox_crusade.6 } # Failure
 		}
 
-		# Check for Jerusalem crusade
 		if = {
 			limit = { is_jerusalem_crusade_successful = yes }
 			country_event = { id = orthodox_crusade.15 } # Success
@@ -936,14 +894,12 @@ country_event = {
 			country_event = { id = orthodox_crusade.16 } # Failure
 		}
 
-		# Remove crusade flags and modifiers
 		clr_country_flag = orthodox_crusade_constantinople_active
 		clr_country_flag = orthodox_crusade_jerusalem_active
 		remove_country_modifier = orthodox_crusade_for_constantinople
 		remove_country_modifier = orthodox_crusade_for_jerusalem
 		set_variable = { which = orthodox_crusade_contribution value = 0 }
 
-		# Clear crusade targets
 		every_country = {
 			limit = { has_country_flag = orthodox_crusade_target_constantinople }
 			clr_country_flag = orthodox_crusade_target_constantinople
@@ -953,7 +909,6 @@ country_event = {
 			clr_country_flag = orthodox_crusade_target_jerusalem
 		}
 
-		# Add cooldown
 		add_country_modifier = {
 			name = orthodox_crusade_cooldown
 			duration = 7300
