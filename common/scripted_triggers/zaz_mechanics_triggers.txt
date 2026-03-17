@@ -353,13 +353,21 @@ orthodox_monasteries_threatened = {
 
 hetman_election_due = {
 	is_hetmanate_nation = yes
+	NOT = {
+		had_country_flag = {
+			flag = zaz_recent_hetman_election
+			days = 730
+		}
+	}
 	OR = {
 		had_country_flag = {
 			flag = last_hetman_election
 			days = 7300
 		}
-		NOT = { has_country_flag = last_hetman_election }
-		NOT = { legitimacy_equivalent = 40 }
+		AND = {
+			NOT = { has_country_flag = last_hetman_election }
+			NOT = { legitimacy_equivalent = 40 }
+		}
 		AND = {
 			is_subject = yes
 			overlord = {
@@ -376,6 +384,12 @@ can_hold_hetman_election = {
 	hetman_election_due = yes
 	is_at_war = no
 	NOT = { num_of_rebel_armies = 1 }
+	NOT = {
+		had_country_flag = {
+			flag = zaz_election_event_cooldown
+			days = 365
+		}
+	}
 	stability = 0
 }
 

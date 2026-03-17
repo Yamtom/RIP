@@ -135,7 +135,7 @@ VOL_missions_1 = {
 		required_missions = {
 			VOL_unite_galicia
 		}
-		position = 3
+		position = 4
 		provinces_to_highlight = {
 			OR = {
 				area = malopolska_area
@@ -845,6 +845,25 @@ VOL_missions_U_3 = {
 	}
 }
 
+VOL_missions_HLC = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		tag = HLC
+	}
+	has_country_shield = yes
+	hlc_halych_sejm_mission = {
+		icon = mission_assemble_an_army
+		required_missions = { VOL_conquer_malopolska }
+		position = 5
+		trigger = { OR = { has_country_flag = rip_galicia_path_poland accepted_culture = polish } }
+			effect = {
+				add_country_modifier = { name = rip_galicia_halych_sejm duration = 3650 }
+				add_adm_power = 50
+			}
+	}
+}
 VOL_missions_4 = {
 	slot = 4
 	generic = no
@@ -915,16 +934,6 @@ VOL_missions_4_HLC = {
 		}
 	}
 
-	hlc_halych_sejm_mission = {
-		icon = mission_assemble_an_army
-		required_missions = { VOL_conquer_malopolska }
-		position = 5
-		trigger = { OR = { has_country_flag = rip_galicia_path_poland accepted_culture = polish } }
-			effect = {
-				add_country_modifier = { name = rip_galicia_halych_sejm duration = 3650 }
-				add_adm_power = 50
-			}
-	}
 
 	hlc_constitutional_settlement = {
 		icon = mission_have_two_subjects

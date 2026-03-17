@@ -223,11 +223,29 @@ country_event = {
 	trigger = {
 		tag = ZAZ
 		has_reform = zaz_kosh_elections_reform
+		NOT = {
+			had_country_flag = {
+				flag = zaz_election_event_cooldown
+				days = 1460
+			}
+		}
+		NOT = {
+			had_country_flag = {
+				flag = zaz_recent_hetman_election
+				days = 730
+			}
+		}
 		NOT = { republican_tradition = 50 }
 	}
 	
 	mean_time_to_happen = {
 		months = 120
+	}
+
+	immediate = {
+		set_country_flag = last_hetman_election
+		set_country_flag = zaz_recent_hetman_election
+		set_country_flag = zaz_election_event_cooldown
 	}
 	
 	option = {
@@ -802,6 +820,19 @@ country_event = {
 	
 	trigger = {
 		tag = ZAZ
+		has_reform = zaz_kosh_elections_reform
+		NOT = {
+			had_country_flag = {
+				flag = zaz_election_event_cooldown
+				days = 1460
+			}
+		}
+		NOT = {
+			had_country_flag = {
+				flag = zaz_recent_hetman_election
+				days = 730
+			}
+		}
 		OR = {
 			AND = {
 				is_year = 1620
@@ -831,6 +862,12 @@ country_event = {
 	
 	mean_time_to_happen = {
 		months = 180
+	}
+
+	immediate = {
+		set_country_flag = last_hetman_election
+		set_country_flag = zaz_recent_hetman_election
+		set_country_flag = zaz_election_event_cooldown
 	}
 	
 	option = {
@@ -891,6 +928,18 @@ country_event = {
 	trigger = {
 		tag = ZAZ
 		has_reform = zaz_kosh_elections_reform
+		NOT = {
+			had_country_flag = {
+				flag = zaz_election_event_cooldown
+				days = 1460
+			}
+		}
+		NOT = {
+			had_country_flag = {
+				flag = zaz_recent_hetman_election
+				days = 730
+			}
+		}
 		OR = {
 			is_year = 1600
 			has_institution = printing_press
@@ -912,6 +961,12 @@ country_event = {
 	
 	mean_time_to_happen = {
 		months = 120
+	}
+
+	immediate = {
+		set_country_flag = last_hetman_election
+		set_country_flag = zaz_recent_hetman_election
+		set_country_flag = zaz_election_event_cooldown
 	}
 	
 	option = {
