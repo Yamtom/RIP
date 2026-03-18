@@ -109,7 +109,7 @@ kyivan_shogunate_reform = {
 }
 
 kyivan_cesarstvo_reform = {
-	icon = "imperial_crown"
+	icon = "holy_roman_emperor"
 	legacy_equivalent = tsardom_legacy
 	potential = {
 		OR = {
@@ -151,7 +151,7 @@ kyivan_cesarstvo_reform = {
 }
 
 ruthenian_factional_empire_reform = {
-	icon = "imperial_reform"
+	icon = "imperial_nobility_reform"
 	legacy_equivalent = principality_legacy
 	potential = {
 		tag = KRU
@@ -201,7 +201,7 @@ ruthenian_factional_empire_reform = {
 }
 
 ruthenian_factional_empire_princes_hetmans_reform = {
-	icon = "imperial_reform"
+	icon = "imperial_nobility_reform"
 	legacy_equivalent = principality_legacy
 	potential = {
 		tag = KRU
@@ -251,7 +251,7 @@ ruthenian_factional_empire_princes_hetmans_reform = {
 }
 
 ruthenian_factional_empire_boyars_hetmans_reform = {
-	icon = "imperial_reform"
+	icon = "imperial_nobility_reform"
 	legacy_equivalent = principality_legacy
 	potential = {
 		tag = KRU
@@ -341,7 +341,7 @@ uzh_palanok_captaincy_reform = {
 			has_dlc = "Res Publica"
 		}
 		states_general_mechanic = {
-			partia_soymu = { # "Партія Сойму" (Торгова Олігархія)
+			partia_soymu = { # Sejm party (trade oligarchy)
 				trade_efficiency = 0.10
 				build_cost = -0.10
 				diplomatic_reputation = 1
@@ -349,7 +349,7 @@ uzh_palanok_captaincy_reform = {
 				native_assimilation = 0.25
 			}
 
-			partia_kapitaniv = { # "Партія Капітанів" (Військова Демократія)
+			partia_kapitaniv = { # Captains party (military democracy)
 				land_morale = 0.10
 				global_manpower_modifier = 0.15
 				defensiveness = 0.10
@@ -398,16 +398,14 @@ uzh_komitat_system_reform = {
 }
 
 uzh_palatial_ruthenian_reform = {
-	icon = "english_monarchy"
+	icon = "british_monarchy"
 	potential = {
 		tag = UZH
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
 
-	allow_convert = no
 	start_territory_to_estates = 0.3
 	trigger = {
 		tag = UZH
@@ -459,8 +457,6 @@ uzh_palatial_rusyn_reform = {
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	allow_convert = no
 	trigger = {
 		tag = UZH
 		has_country_flag = chose_rusyn_identity
@@ -489,9 +485,7 @@ uzh_palatial_uhro_reform = {
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
 	raze_province = yes
-	allow_convert = no
 	trigger = {
 		tag = UZH
 		has_country_flag = chose_uhro_rusyn_identity
@@ -645,7 +639,7 @@ boyar_elite_reform = {
 
 #bureaucracy
 sacred_regulation_reform = {
-	icon = "english_monarchy"
+	icon = "british_monarchy"
 	allow_normal_conversion = yes
 	trigger = {
 		OR = {
@@ -689,11 +683,6 @@ uzh_union_synod_reform = {
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	trigger = {
 		tag = UZH
 	}
@@ -779,7 +768,6 @@ considerable_bloodline_reform = {
                     has_reform = principality_appanage
 		}
 	}
-	allow_convert = yes
 	modifiers = {
 		max_absolutism = 10
 		monarch_admin_power = 2
@@ -803,8 +791,6 @@ representation_monarchy_reform = {
 		allow = {
 			has_dlc = "Res Publica"
 		}
-		queen = no
-		heir = no
 		duration = 4
 		has_term_election = yes
 		states_general_mechanic = {
@@ -829,8 +815,6 @@ representation_monarchy_reform = {
 			}
 		}
 	}
-	lock_level_when_selected = yes
-	allow_convert = yes
 	modifiers = {
 		global_unrest = -1
 		global_tax_modifier = 0.1
@@ -868,18 +852,13 @@ legislative_rada_reform = {
 }
 
 uzh_carpathian_border_commissariat_reform = {
-	icon = "soldiers_4"
+	icon = "mountain_fort"
 	potential = {
 		tag = UZH
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = yes
 	trigger = {
 		tag = UZH
 	}
@@ -926,17 +905,16 @@ hlc_galician_voivodeship_reform = {
 
 
 hlc_magnate_assembly_reform = {
-	icon = "noble_assembly"
+	icon = "states_general"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	allow_convert = no
 	potential = {
 		tag = HLC
 	}
 	trigger = {
 		tag = HLC
+		has_country_flag = rip_galicia_path_poland
 	}
 	modifiers = {
 		prestige = 1
@@ -951,20 +929,16 @@ hlc_magnate_assembly_reform = {
 
 
 hlc_centralized_voivodeship_reform = {
-	icon = "decentralized_bureaucracy"
+	icon = "provincial_government"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = HLC
 	}
 	trigger = {
 		tag = HLC
+		has_country_flag = rip_galicia_path_austria
 	}
 	modifiers = {
 		development_cost = -0.05
@@ -983,16 +957,12 @@ hlc_galician_sejm_reform = {
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = HLC
 	}
 	trigger = {
 		tag = HLC
+		has_country_flag = rip_galicia_path_poland
 	}
 	modifiers = {
 		free_adm_policy = 1
@@ -1018,20 +988,16 @@ hlc_galician_sejm_reform = {
 
 
 hlc_austrian_bureaucracy_reform = {
-	icon = "expanded_royal_court"
+	icon = "royal_court"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = HLC
 	}
 	trigger = {
 		tag = HLC
+		has_country_flag = rip_galicia_path_austria
 	}
 	modifiers = {
 		advisor_cost = -0.10
@@ -1046,20 +1012,17 @@ hlc_austrian_bureaucracy_reform = {
 
 
 hlc_merchant_privileges_reform = {
-	icon = "merchant_aristocracy"
+	icon = "merchant_aristocracy_reform"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = HLC
 	}
 	trigger = {
 		tag = HLC
+		has_country_flag = rip_galicia_path_poland
+		has_country_flag = rip_galicia_constitution_done
 	}
 	modifiers = {
 		trade_efficiency = 0.10
@@ -1078,11 +1041,6 @@ hlc_confessional_dualism_reform = {
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = HLC
 	}
@@ -1107,20 +1065,17 @@ hlc_confessional_dualism_reform = {
 
 
 hlc_crown_authority_reform = {
-	icon = "royal_decree"
+	icon = "paper_with_seal"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = HLC
 	}
 	trigger = {
 		tag = HLC
+		has_country_flag = rip_galicia_path_austria
+		has_country_flag = rip_galicia_constitution_done
 	}
 	modifiers = {
 		max_absolutism = 5
@@ -1139,16 +1094,12 @@ hlc_crown_and_sejm_reform = {
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = HLC
 	}
 	trigger = {
 		tag = HLC
+		has_country_flag = rip_galicia_path_poland
 		custom_trigger_tooltip = {
 			tooltip = hlc_crown_and_sejm_constitution_req_tt
 			has_country_flag = rip_galicia_constitution_done
@@ -1169,20 +1120,16 @@ hlc_crown_and_sejm_reform = {
 
 
 hlc_enlightened_monarchy_reform = {
-	icon = "an_enlightened_monarchy"
+	icon = "enlightened_monarchy_reform"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = HLC
 	}
 	trigger = {
 		tag = HLC
+		has_country_flag = rip_galicia_constitution_done
 	}
 	modifiers = {
 		global_unrest = -2
@@ -1197,20 +1144,16 @@ hlc_enlightened_monarchy_reform = {
 
 
 hlc_military_modernization_reform = {
-	icon = "cavalry_warfare"
+	icon = "cavalry"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = HLC
 	}
 	trigger = {
 		tag = HLC
+		has_country_flag = rip_galicia_path_austria
 	}
 	modifiers = {
 		cavalry_cost = -0.10
@@ -1271,8 +1214,6 @@ vln_confessional_reform = {
 			tag = VLN
 		}
 	}
-	lock_level_when_selected = yes
-	allow_convert = no
 	modifiers = {
 		tolerance_heretic = 3
 		tolerance_heathen = 2
@@ -1301,8 +1242,6 @@ vln_ruthenia_reform = {
 			tag = VLN
 		}
 	}
-	lock_level_when_selected = yes
-	allow_convert = no
 	modifiers = {
 		max_absolutism = 10
 		reform_progress_growth = 0.15
@@ -1332,8 +1271,6 @@ vln_cossack_host_reform = {
 			tag = VLN
 		}
 	}
-	lock_level_when_selected = yes
-	allow_convert = no
 	modifiers = {
 		cavalry_cost = -0.15
 		cavalry_flanking = 0.25
@@ -1361,8 +1298,6 @@ vln_confessional_academy = {
 			tag = VLN
 		}
 	}
-	lock_level_when_selected = yes
-	allow_convert = no
 	modifiers = {
 		technology_cost = -0.05
 		idea_cost = -0.10
@@ -1396,8 +1331,6 @@ vln_magdeburg_rights = {
 			}
 		}
 	}
-	lock_level_when_selected = yes
-	allow_convert = no
 	modifiers = {
 		local_autonomy = -0.05
 		local_governing_cost = -0.10
@@ -1425,8 +1358,6 @@ vln_voivode_council = {
 			tag = VLN
 		}
 	}
-	lock_level_when_selected = yes
-	allow_convert = no
 	modifiers = {
 		general_cost = -0.15
 		army_tradition_decay = -0.01
@@ -1457,8 +1388,6 @@ vln_black_voivode_legion = {
 			}
 		}
 	}
-	lock_level_when_selected = yes
-	allow_convert = no
 	modifiers = {
 		infantry_cost = -0.10
 		infantry_fire = 0.15
@@ -1494,8 +1423,6 @@ vln_ruthenian_renaissance_reform = {
 			}
 		}
 	}
-	lock_level_when_selected = yes
-	allow_convert = no
 	modifiers = {
 		development_cost = -0.10
 		idea_cost = -0.05
@@ -1523,8 +1450,6 @@ vln_grand_ruthenia_reform = {
 			tag = VLN
 		}
 	}
-	lock_level_when_selected = yes
-	allow_convert = no
 	modifiers = {
 		prestige = 2
 		stability_cost_modifier = -0.15
@@ -1555,8 +1480,6 @@ divine_tsyisar_reform = {
 			has_reform = kyivan_rus_reform
 		}
 	}
-	lock_level_when_selected = yes
-	allow_convert = no
 	conditional = {
 		allow = {
 			has_dlc = "Third Rome"
@@ -1740,15 +1663,11 @@ cossacks_reform = {
 
 
 chr_grain_directorate_reform = {
-	icon = "vodka_monopoly"
+	icon = "paper_money_map"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	queen = yes
-	heir = yes
-	royal_marriage = yes
 	rulers_can_be_generals = yes
-	allow_convert = no
 	potential = {
 		tag = CHR
 	}
@@ -1908,8 +1827,6 @@ het_hetman_for_life_reform = {
 	trigger = {
 		tag = HET
 	}
-	queen = yes
-	heir = yes
 	has_term_election = no
 	modifiers = {
 		legitimacy = 1
@@ -2109,7 +2026,6 @@ zaz_free_host_reform = {
 			}
 		}
 	}
-	lock_level_when_selected = yes
 	modifiers = {
 		cavalry_power = 0.15
 		cavalry_cost = -0.2
@@ -2158,9 +2074,6 @@ het_mazepist_autocracy_reform = {
 			}
 		}
 	}
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
 	maintain_dynasty = yes
 	modifiers = {
 		max_absolutism = 30
@@ -2289,7 +2202,7 @@ zaz_last_sich_reform = {
 }
 
 het_collegium_control_reform = {
-	icon = "bureaucracy"
+	icon = "provincial_government"
 	allow_normal_conversion = yes
 	potential = {
 		tag = HET
@@ -2325,15 +2238,10 @@ het_collegium_control_reform = {
 
 
 pdl_clan_assembly_reform = {
-	icon = "tribal_assembly"
+	icon = "tribal_council"
 	allow_normal_conversion = no
 	valid_for_nation_designer = yes
 	valid_for_new_country = yes
-	lock_level_when_selected = yes
-	queen = no
-	heir = no
-	royal_marriage = no
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2355,15 +2263,10 @@ pdl_clan_assembly_reform = {
 
 
 pdl_steppe_principality_reform = {
-	icon = "prince_council"
+	icon = "russian_principality"
 	allow_normal_conversion = no
 	valid_for_nation_designer = yes
 	valid_for_new_country = yes
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = no
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2385,15 +2288,10 @@ pdl_steppe_principality_reform = {
 
 
 pdl_voivodeship_kingdom_reform = {
-	icon = "crown_kingdom"
+	icon = "crown_highlighted"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2421,11 +2319,6 @@ pdl_palatine_court_reform = {
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2449,15 +2342,10 @@ pdl_palatine_court_reform = {
 
 
 pdl_aristocratic_assembly_reform = {
-	icon = "noble_assembly"
+	icon = "states_general"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2481,15 +2369,10 @@ pdl_aristocratic_assembly_reform = {
 
 
 pdl_magnate_republic_reform = {
-	icon = "merchant_republic"
+	icon = "merchant_representation_reform"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = no
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2520,11 +2403,6 @@ pdl_frontier_voivodeship_reform = {
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2548,15 +2426,10 @@ pdl_frontier_voivodeship_reform = {
 
 
 pdl_carpathian_bastion_reform = {
-	icon = "soldiers_4"
+	icon = "mountain_fort"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2580,15 +2453,10 @@ pdl_carpathian_bastion_reform = {
 
 
 pdl_frontier_republic_reform = {
-	icon = "cossack_cavalry"
+	icon = "cossacks"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2615,15 +2483,10 @@ pdl_frontier_republic_reform = {
 
 
 pdl_magnate_dominion_reform = {
-	icon = "noble_council"
+	icon = "boyar"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2650,15 +2513,10 @@ pdl_magnate_dominion_reform = {
 
 
 pdl_enlightened_voivodeship_reform = {
-	icon = "enlightenment_monarchy"
+	icon = "enlightenment"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2682,15 +2540,10 @@ pdl_enlightened_voivodeship_reform = {
 
 
 pdl_absolute_dominion_reform = {
-	icon = "absolute_monarchy"
+	icon = "letat_cest_moi"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2719,11 +2572,6 @@ pdl_revolutionary_republic_reform = {
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = no
-	heir = yes
-	royal_marriage = no
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2752,11 +2600,6 @@ pdl_grand_podillia_reform = {
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2781,15 +2624,10 @@ pdl_grand_podillia_reform = {
 
 
 pdl_religious_tolerance_reform = {
-	icon = "holy_state"
+	icon = "holy_state_reform"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	lock_level_when_selected = yes
-	queen = yes
-	heir = yes
-	royal_marriage = yes
-	allow_convert = no
 	potential = {
 		tag = PDL
 	}
@@ -2822,7 +2660,7 @@ pdl_religious_tolerance_reform = {
 
 
 prl_ancient_principality_reform = {
-	icon = "prince"
+	icon = "russian_principality"
 	allow_normal_conversion = no
 	valid_for_nation_designer = yes
 	valid_for_new_country = yes
@@ -2855,16 +2693,11 @@ prl_ancient_principality_reform = {
 
 
 prl_regimental_republic_reform = {
-	icon = "cossacks_reform"
+	icon = "cossacks"
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = yes
-	lock_level_when_selected = yes
-	queen = no
-	royal_marriage = no
-	heir = no
 	rulers_can_be_generals = yes
-	allow_convert = no
 	republic = yes
 	duration = 4
 	potential = {
@@ -2997,3 +2830,4 @@ prl_episcopal_authority_reform = {
 		}
 	}
 }
+

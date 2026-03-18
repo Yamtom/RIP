@@ -341,6 +341,7 @@ country_event = {
 	desc = "euro_monarchy.1d"
 	picture = COUNTRY_COLLAPSE_eventPicture
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger = {
 		has_reform = representation_monarchy_reform
 		OR = {
@@ -370,6 +371,7 @@ country_event = {
 	title = "euro_monarchy.2t"
 	desc = "euro_monarchy.2d"
 	picture = LAND_MILITARY_eventPicture
+	is_triggered_only = yes
 	trigger = {
 		has_disaster = governmental_disruption
 	}
@@ -415,16 +417,18 @@ country_event = {
 	desc = "euro_monarchy.3d"
 	picture = FAMINE_eventPicture
 	fire_only_once = yes
+	is_triggered_only = yes
 	trigger = {
 		NOT = {
 			has_disaster = governmental_disruption
 		}
 		hidden_trigger = {
-			has_country_flag = aftermath_of_revolt
+			has_country_flag = reactionary_response_flag
 		}
 	}
 	option = {
 		name = euro_monarchy.3a
+		clr_country_flag = reactionary_response_flag
 		add_government_reform = ruthenian_principality_reform
 	}
 }
