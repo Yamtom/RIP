@@ -66,3 +66,34 @@ country_event = {
 		}
 	}
 }
+
+country_event = {
+	id = rip_jewish.99
+	title = rip_jewish.1.t
+	desc = rip_jewish.1.d
+	picture = rip_gfx_event_jewish_estate_invite_merchants_eventPicture
+
+	hidden = yes
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			has_country_modifier = jewish_merchant_charters
+			has_country_modifier = jewish_communities_restricted
+			has_estate_privilege = estate_jewish_tax_farmers
+			has_estate_privilege = estate_jewish_loan_banks
+			has_estate_privilege = estate_jewish_kahal_autonomy
+			has_estate_privilege = estate_jewish_black_sea_network
+		}
+		NOT = { has_country_flag = rip_jewish_estate_resolved }
+	}
+
+	mean_time_to_happen = {
+		months = 1
+	}
+
+	option = {
+		name = rip_jewish.1.a
+		set_country_flag = rip_jewish_estate_resolved
+	}
+}

@@ -409,7 +409,10 @@ uzh_palatial_ruthenian_reform = {
 	start_territory_to_estates = 0.3
 	trigger = {
 		tag = UZH
-		has_country_flag = chose_ruthenian_identity
+		custom_trigger_tooltip = {
+			tooltip = uzh_palatial_ruthenian_identity_req_tt
+			uzh_identity_ruthenian_selected = yes
+		}
 	}
 	modifiers = {
 		num_accepted_cultures = 1
@@ -459,7 +462,10 @@ uzh_palatial_rusyn_reform = {
 	valid_for_new_country = no
 	trigger = {
 		tag = UZH
-		has_country_flag = chose_rusyn_identity
+		custom_trigger_tooltip = {
+			tooltip = uzh_palatial_rusyn_identity_req_tt
+			uzh_identity_rusyn_selected = yes
+		}
 	}
 	modifiers = {
 		autonomy_change_time = -0.1
@@ -488,7 +494,10 @@ uzh_palatial_uhro_reform = {
 	raze_province = yes
 	trigger = {
 		tag = UZH
-		has_country_flag = chose_uhro_rusyn_identity
+		custom_trigger_tooltip = {
+			tooltip = uzh_palatial_uhro_identity_req_tt
+			uzh_identity_uhro_selected = yes
+		}
 	}
 	modifiers = {
 		legitimacy = 1
@@ -886,10 +895,16 @@ hlc_galician_voivodeship_reform = {
 	royal_marriage = yes
 	allow_convert = no
 	potential = {
-		tag = HLC
+		OR = {
+			tag = HLC
+			has_reform = hlc_galician_voivodeship_reform
+		}
 	}
 	trigger = {
-		tag = HLC
+		OR = {
+			tag = HLC
+			has_reform = hlc_galician_voivodeship_reform
+		}
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.05
@@ -910,17 +925,38 @@ hlc_magnate_assembly_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = HLC
+		OR = {
+			tag = HLC
+			has_reform = hlc_magnate_assembly_reform
+		}
 	}
 	trigger = {
-		tag = HLC
-		has_country_flag = rip_galicia_path_poland
+		OR = {
+			has_reform = hlc_magnate_assembly_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+			}
+		}
 	}
 	modifiers = {
 		prestige = 1
-		stability_cost_modifier = -0.05
+		stability_cost_modifier = -0.10
 		max_absolutism = -10
+		yearly_absolutism = -0.25
 		monthly_reform_progress = 0.05
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+		}
+		is_elective = yes
+		custom_attributes = {
+			has_polish_election = yes
+		}
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -934,11 +970,22 @@ hlc_centralized_voivodeship_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = HLC
+		OR = {
+			tag = HLC
+			has_reform = hlc_centralized_voivodeship_reform
+		}
 	}
 	trigger = {
-		tag = HLC
-		has_country_flag = rip_galicia_path_austria
+		OR = {
+			has_reform = hlc_centralized_voivodeship_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_austria_req_tt
+					hlc_has_austria_path = yes
+				}
+			}
+		}
 	}
 	modifiers = {
 		development_cost = -0.05
@@ -958,11 +1005,22 @@ hlc_galician_sejm_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = HLC
+		OR = {
+			tag = HLC
+			has_reform = hlc_galician_sejm_reform
+		}
 	}
 	trigger = {
-		tag = HLC
-		has_country_flag = rip_galicia_path_poland
+		OR = {
+			has_reform = hlc_galician_sejm_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+			}
+		}
 	}
 	modifiers = {
 		free_adm_policy = 1
@@ -981,6 +1039,15 @@ hlc_galician_sejm_reform = {
 	removed_effect = {
 		remove_country_modifier = galician_sejm_assembly
 	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
+		}
+		has_parliament = yes
+	}
 	custom_attributes = {
 		locked_government_type = yes
 	}
@@ -993,17 +1060,37 @@ hlc_austrian_bureaucracy_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = HLC
+		OR = {
+			tag = HLC
+			has_reform = hlc_austrian_bureaucracy_reform
+		}
 	}
 	trigger = {
-		tag = HLC
-		has_country_flag = rip_galicia_path_austria
+		OR = {
+			has_reform = hlc_austrian_bureaucracy_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_austria_req_tt
+					hlc_has_austria_path = yes
+				}
+			}
+		}
 	}
 	modifiers = {
 		advisor_cost = -0.10
 		meritocracy = 0.25
 		governing_capacity_modifier = 0.05
 		monthly_reform_progress = 0.10
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
+		}
+		has_parliament = yes
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -1017,12 +1104,26 @@ hlc_merchant_privileges_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = HLC
+		OR = {
+			tag = HLC
+			has_reform = hlc_merchant_privileges_reform
+		}
 	}
 	trigger = {
-		tag = HLC
-		has_country_flag = rip_galicia_path_poland
-		has_country_flag = rip_galicia_constitution_done
+		OR = {
+			has_reform = hlc_merchant_privileges_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_constitution_done_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+			}
+		}
 	}
 	modifiers = {
 		trade_efficiency = 0.10
@@ -1042,13 +1143,21 @@ hlc_confessional_dualism_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = HLC
+		OR = {
+			tag = HLC
+			has_reform = hlc_confessional_dualism_reform
+		}
 	}
 	trigger = {
-		tag = HLC
-		custom_trigger_tooltip = {
-			tooltip = hlc_confessional_dualism_confessional_req_tt
-			has_country_flag = rip_galicia_confessional_set
+		OR = {
+			has_reform = hlc_confessional_dualism_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_confessional_dualism_confessional_req_tt
+					hlc_has_confessional_settlement = yes
+				}
+			}
 		}
 	}
 	modifiers = {
@@ -1070,12 +1179,26 @@ hlc_crown_authority_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = HLC
+		OR = {
+			tag = HLC
+			has_reform = hlc_crown_authority_reform
+		}
 	}
 	trigger = {
-		tag = HLC
-		has_country_flag = rip_galicia_path_austria
-		has_country_flag = rip_galicia_constitution_done
+		OR = {
+			has_reform = hlc_crown_authority_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_austria_req_tt
+					hlc_has_austria_path = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_constitution_done_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+			}
+		}
 	}
 	modifiers = {
 		max_absolutism = 5
@@ -1095,14 +1218,25 @@ hlc_crown_and_sejm_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = HLC
+		OR = {
+			tag = HLC
+			has_reform = hlc_crown_and_sejm_reform
+		}
 	}
 	trigger = {
-		tag = HLC
-		has_country_flag = rip_galicia_path_poland
-		custom_trigger_tooltip = {
-			tooltip = hlc_crown_and_sejm_constitution_req_tt
-			has_country_flag = rip_galicia_constitution_done
+		OR = {
+			has_reform = hlc_crown_and_sejm_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_crown_and_sejm_constitution_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+			}
 		}
 	}
 	modifiers = {
@@ -1125,11 +1259,22 @@ hlc_enlightened_monarchy_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = HLC
+		OR = {
+			tag = HLC
+			has_reform = hlc_enlightened_monarchy_reform
+		}
 	}
 	trigger = {
-		tag = HLC
-		has_country_flag = rip_galicia_constitution_done
+		OR = {
+			has_reform = hlc_enlightened_monarchy_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_constitution_done_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+			}
+		}
 	}
 	modifiers = {
 		global_unrest = -2
@@ -1149,11 +1294,22 @@ hlc_military_modernization_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = HLC
+		OR = {
+			tag = HLC
+			has_reform = hlc_military_modernization_reform
+		}
 	}
 	trigger = {
-		tag = HLC
-		has_country_flag = rip_galicia_path_austria
+		OR = {
+			has_reform = hlc_military_modernization_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_austria_req_tt
+					hlc_has_austria_path = yes
+				}
+			}
+		}
 	}
 	modifiers = {
 		cavalry_cost = -0.10
@@ -1169,7 +1325,9 @@ hlc_military_modernization_reform = {
 
 vln_voivodeship_reform = {
 	icon = "assembly_hall"
-	allow_normal_conversion = yes
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
 	potential = {
 		OR = {
 			tag = VLN
@@ -1181,17 +1339,32 @@ vln_voivodeship_reform = {
 			has_reform = vln_voivodeship_reform
 			AND = {
 				tag = VLN
-				is_subject = no
 			}
 		}
 	}
 	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
 	allow_convert = no
+	fixed_rank = 1
+	government_abilities = {
+		cossacks_mechanic
+	}
 	modifiers = {
-		governing_capacity = 0.10
+		governing_capacity = 10
 		reform_progress_growth = 0.10
 		diplomatic_reputation = 0.5
 		monthly_reform_progress = 0.10
+	}
+	effect = {
+		add_country_modifier = {
+			name = vln_voivodeship_assembly
+			duration = -1
+		}
+	}
+	removed_effect = {
+		remove_country_modifier = vln_voivodeship_assembly
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -1218,8 +1391,23 @@ vln_confessional_reform = {
 		tolerance_heretic = 3
 		tolerance_heathen = 2
 		religious_unity = 0.25
-		stability_cost_modifier = -0.10
+		stability_cost_modifier = -0.12
 		prestige = 0.5
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+		}
+		has_parliament = yes
+	}
+	effect = {
+		add_country_modifier = {
+			name = vln_confessional_diet
+			duration = -1
+		}
+	}
+	removed_effect = {
+		remove_country_modifier = vln_confessional_diet
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -1243,12 +1431,33 @@ vln_ruthenia_reform = {
 		}
 	}
 	modifiers = {
-		max_absolutism = 10
+		max_absolutism = 12
 		reform_progress_growth = 0.15
 		administrative_efficiency = 0.05
 		global_tax_modifier = 0.10
-		stability_cost_modifier = -0.10
+		stability_cost_modifier = -0.12
 		legitimacy = 1
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+		}
+		has_parliament = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+		}
+		is_elective = yes
+	}
+	effect = {
+		add_country_modifier = {
+			name = vln_crown_statutes
+			duration = -1
+		}
+	}
+	removed_effect = {
+		remove_country_modifier = vln_crown_statutes
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -1277,8 +1486,20 @@ vln_cossack_host_reform = {
 		mil_tech_cost_modifier = -0.05
 		land_forcelimit = 0.10
 	}
+	government_abilities = {
+		cossacks_mechanic
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Cradle of Civilization"
+		}
+		government_abilities = {
+			militarization_mechanic
+		}
+	}
 	custom_attributes = {
 		locked_government_type = yes
+		recruiting_generals_increases_nobles_loyalty = yes
 	}
 }
 
@@ -1366,6 +1587,7 @@ vln_voivode_council = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
+		improved_military_buildings = yes
 	}
 }
 
@@ -1391,11 +1613,21 @@ vln_black_voivode_legion = {
 	modifiers = {
 		infantry_cost = -0.10
 		infantry_fire = 0.15
-		discipline = 0.05
+		discipline = 0.06
 		land_morale = 0.15
+		army_tradition = 0.5
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Cradle of Civilization"
+		}
+		government_abilities = {
+			militarization_mechanic
+		}
 	}
 	custom_attributes = {
 		locked_government_type = yes
+		recruiting_generals_increases_nobles_loyalty = yes
 	}
 }
 
@@ -1455,6 +1687,12 @@ vln_grand_ruthenia_reform = {
 		stability_cost_modifier = -0.15
 		diplomatic_reputation = 1
 		max_absolutism = 15
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+		}
+		has_parliament = yes
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -1673,7 +1911,10 @@ chr_grain_directorate_reform = {
 	}
 	trigger = {
 		tag = CHR
-		has_country_flag = chr_agro_hypercorp_complete
+		custom_trigger_tooltip = {
+			tooltip = chr_agro_hypercorp_complete_req_tt
+			chr_agro_hypercorp_completed = yes
+		}
 	}
 	modifiers = {
 		global_unrest = -1
@@ -1798,10 +2039,16 @@ zaz_kosh_elections_reform = {
 	icon = "man_on_podium"
 	allow_normal_conversion = yes
 	potential = {
-		tag = ZAZ
+		OR = {
+			has_reform = zaz_kosh_elections_reform
+			tag = ZAZ
+		}
 	}
 	trigger = {
-		tag = ZAZ
+		OR = {
+			has_reform = zaz_kosh_elections_reform
+			tag = ZAZ
+		}
 	}
 	duration = 2
 	has_term_election = yes
@@ -1844,10 +2091,16 @@ zaz_chaiky_trade_reform = {
 	icon = "sea_raiders"
 	allow_normal_conversion = yes
 	potential = {
-		tag = ZAZ
+		OR = {
+			has_reform = zaz_chaiky_trade_reform
+			tag = ZAZ
+		}
 	}
 	trigger = {
-		tag = ZAZ
+		OR = {
+			has_reform = zaz_chaiky_trade_reform
+			tag = ZAZ
+		}
 	}
 	modifiers = {
 		privateer_efficiency = 0.33
@@ -1944,10 +2197,16 @@ zaz_general_rada_reform = {
 	icon = "assembly_hall"
 	allow_normal_conversion = yes
 	potential = {
-		tag = ZAZ
+		OR = {
+			has_reform = zaz_general_rada_reform
+			tag = ZAZ
+		}
 	}
 	trigger = {
-		tag = ZAZ
+		OR = {
+			has_reform = zaz_general_rada_reform
+			tag = ZAZ
+		}
 	}
 	different_religion_acceptance = 30
 	modifiers = {
@@ -2009,20 +2268,28 @@ zaz_free_host_reform = {
 	icon = "rip_gfx_reform_zaz_free_host_icon"
 	allow_normal_conversion = no
 	potential = {
-		tag = ZAZ
+		OR = {
+			has_reform = zaz_free_host_reform
+			tag = ZAZ
+		}
 	}
 	trigger = {
-		tag = ZAZ
 		OR = {
-			is_year = 1650
+			has_reform = zaz_free_host_reform
 			AND = {
-				NOT = { is_year = 1650 }
+				tag = ZAZ
 				OR = {
-					has_institution = renaissance
-					current_age = age_of_reformation
+					is_year = 1650
+					AND = {
+						NOT = { is_year = 1650 }
+						OR = {
+							has_institution = renaissance
+							current_age = age_of_reformation
+						}
+						army_size_percentage = 1
+						manpower_percentage = 1
+					}
 				}
-				army_size_percentage = 1
-				manpower_percentage = 1
 			}
 		}
 	}
@@ -2110,6 +2377,7 @@ zaz_last_sich_reform = {
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
+			has_reform = zaz_last_sich_reform
 			tag = ZAZ
 			AND ={
 				culture = ruthenian
@@ -2136,6 +2404,7 @@ zaz_last_sich_reform = {
 	}
 	trigger = {
 		OR = {
+			has_reform = zaz_last_sich_reform
 			tag = ZAZ
 			is_subject = yes
 			AND ={

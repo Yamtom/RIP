@@ -1,0 +1,26 @@
+namespace = west_ukraine_missions
+
+country_event = {
+	id = west_ukraine_missions.1
+	title = rip_hidden_sync_event.t
+	desc = rip_hidden_sync_event.d
+	picture = ADMINISTRATIVE_REFORM_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		tag = VOL
+		NOT = { has_country_flag = rip_vol_missions_synced }
+		west_ukraine_hlc_legacy_missions = yes
+	}
+
+	immediate = {
+		set_country_flag = rip_vol_origin_hlc
+		swap_non_generic_missions = yes
+		set_country_flag = rip_vol_missions_synced
+	}
+
+	option = {
+		name = rip_hidden_sync_event.a
+	}
+}

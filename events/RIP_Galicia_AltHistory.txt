@@ -11,7 +11,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = HLC
+		west_ukraine_hlc_origin_country = yes
 	}
 
 	option = {
@@ -43,7 +43,7 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-		tag = HLC
+		west_ukraine_hlc_legacy_missions = yes
 		OR = {
 			has_country_flag = rip_galicia_path_austria
 			has_country_flag = rip_galicia_path_poland
@@ -93,7 +93,7 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-		tag = HLC
+		west_ukraine_hlc_legacy_missions = yes
 		has_country_flag = rip_galicia_confessional_set
 		NOT = { has_country_flag = rip_galicia_constitution_done }
 	}
@@ -105,6 +105,8 @@ country_event = {
 	option = {
 		name = rip_galicia.3.a # Constitution of Danylo
 		set_country_flag = rip_galicia_constitution_done
+		set_country_flag = rip_galicia_constitution_civic
+		clr_country_flag = rip_galicia_constitution_martial
 		add_adm_power = 50
 		add_dip_power = 50
 		add_country_modifier = {
@@ -116,6 +118,8 @@ country_event = {
 	option = {
 		name = rip_galicia.3.b # Crown and Sabre
 		set_country_flag = rip_galicia_constitution_done
+		set_country_flag = rip_galicia_constitution_martial
+		clr_country_flag = rip_galicia_constitution_civic
 		add_stability = 1
 		add_country_modifier = {
 			name = rip_galicia_crown_and_sabre
