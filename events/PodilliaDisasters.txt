@@ -4,7 +4,7 @@ namespace = podillia_disasters
 
 # Ottoman Menace Begins
 country_event = {
-	id = podillia_disasters.41
+	id =podillia_disasters.41
 	title = podillia_disasters.41.t
 	desc = podillia_disasters.41.d
 	picture = BORDER_TENSION_eventPicture
@@ -15,13 +15,10 @@ country_event = {
 		has_disaster = podillia_ottoman_menace
 	}
 	
-	mean_time_to_happen = {
-		days = 1
-	}
-	
 	# Emergency mobilization
 	option = {
 		name = podillia_disasters.41.a
+		set_country_flag = had_pdl_ottoman_menace
 		add_manpower = -5
 		add_army_tradition = 10
 		add_country_modifier = {
@@ -33,12 +30,13 @@ country_event = {
 	# Fortify the borders
 	option = {
 		name = podillia_disasters.41.b
+		set_country_flag = had_pdl_ottoman_menace
 		add_treasury = -200
 		random_owned_province = {
 			limit = {
 				OR = {
-					region = podolia_area
-					region = red_ruthenia_area
+					area = podolia_volhynia_area
+					area = red_ruthenia_area
 				}
 				NOT = { has_building = fort_15th }
 			}
@@ -49,6 +47,7 @@ country_event = {
 	# Seek diplomatic solution
 	option = {
 		name = podillia_disasters.41.c
+		set_country_flag = had_pdl_ottoman_menace
 		add_prestige = -10
 		add_dip_power = -50
 		set_country_flag = pdl_ottoman_diplomatic_approach
@@ -57,7 +56,7 @@ country_event = {
 
 # Ottoman Raids Intensify
 country_event = {
-	id = podillia_disasters.42
+	id =podillia_disasters.42
 	title = podillia_disasters.42.t
 	desc = podillia_disasters.42.d
 	picture = BORDER_TENSION_eventPicture
@@ -66,10 +65,6 @@ country_event = {
 	
 	trigger = {
 		has_disaster = podillia_ottoman_menace
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Pay tribute to reduce raids
@@ -89,7 +84,7 @@ country_event = {
 		add_mil_power = -50
 		random_owned_province = {
 			limit = {
-				area = podolia_area
+				area = podolia_volhynia_area
 			}
 			add_devastation = 20
 		}
@@ -101,7 +96,7 @@ country_event = {
 		name = podillia_disasters.42.c
 		random_owned_province = {
 			limit = {
-				area = podolia_area
+				area = podolia_volhynia_area
 			}
 			add_devastation = 30
 		}
@@ -116,7 +111,7 @@ country_event = {
 
 # Crimean Khan's Demands
 country_event = {
-	id = podillia_disasters.43
+	id =podillia_disasters.43
 	title = podillia_disasters.43.t
 	desc = podillia_disasters.43.d
 	picture = DIPLOMACY_eventPicture
@@ -128,10 +123,6 @@ country_event = {
 		CRI = {
 			exists = yes
 		}
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Accept Crimean suzerainty
@@ -190,7 +181,7 @@ country_event = {
 
 # Foreign Powers Offer Aid
 country_event = {
-	id = podillia_disasters.44
+	id =podillia_disasters.44
 	title = podillia_disasters.44.t
 	desc = podillia_disasters.44.d
 	picture = DIPLOMACY_eventPicture
@@ -210,10 +201,6 @@ country_event = {
 				}
 			}
 		}
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Accept military alliance
@@ -257,7 +244,7 @@ country_event = {
 
 # Cossack Volunteers
 country_event = {
-	id = podillia_disasters.45
+	id =podillia_disasters.45
 	title = podillia_disasters.45.t
 	desc = podillia_disasters.45.d
 	picture = COSSACK_ESTATE_eventPicture
@@ -267,10 +254,6 @@ country_event = {
 	trigger = {
 		has_disaster = podillia_ottoman_menace
 		has_estate = estate_cossacks
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Grant privileges for Cossack aid
@@ -319,7 +302,7 @@ country_event = {
 
 # Military Reforms Proposed
 country_event = {
-	id = podillia_disasters.46
+	id =podillia_disasters.46
 	title = podillia_disasters.46.t
 	desc = podillia_disasters.46.d
 	picture = MILITARY_CAMP_eventPicture
@@ -328,10 +311,6 @@ country_event = {
 	
 	trigger = {
 		has_disaster = podillia_ottoman_menace
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Comprehensive military reform
@@ -378,7 +357,7 @@ country_event = {
 
 # Peace Negotiations Begin
 country_event = {
-	id = podillia_disasters.47
+	id =podillia_disasters.47
 	title = podillia_disasters.47.t
 	desc = podillia_disasters.47.d
 	picture = DIPLOMACY_eventPicture
@@ -388,10 +367,6 @@ country_event = {
 	trigger = {
 		has_disaster = podillia_ottoman_menace
 		has_country_flag = pdl_ottoman_diplomatic_approach
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Sign treaty with concessions
@@ -434,7 +409,7 @@ country_event = {
 
 # Final Stand
 country_event = {
-	id = podillia_disasters.48
+	id =podillia_disasters.48
 	title = podillia_disasters.48.t
 	desc = podillia_disasters.48.d
 	picture = BATTLE_eventPicture
@@ -444,10 +419,6 @@ country_event = {
 	trigger = {
 		has_disaster = podillia_ottoman_menace
 		army_size_percentage = 0.8
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# All-out military campaign
@@ -478,7 +449,7 @@ country_event = {
 
 # Ottoman Menace Ends
 country_event = {
-	id = podillia_disasters.51
+	id =podillia_disasters.51
 	title = podillia_disasters.51.t
 	desc = podillia_disasters.51.d
 	picture = GOOD_WITH_MONARCH_eventPicture
@@ -495,12 +466,6 @@ country_event = {
 		add_stability = 1
 		add_prestige = 15
 		add_legitimacy = 10
-		if = {
-			limit = {
-				has_country_modifier = pdl_ottoman_menace_modifier
-			}
-			remove_country_modifier = pdl_ottoman_menace_modifier
-		}
 	}
 }
 
@@ -508,7 +473,7 @@ country_event = {
 
 # Jewish Emancipation Crisis Begins
 country_event = {
-	id = podillia_disasters.61
+	id =podillia_disasters.61
 	title = podillia_disasters.61.t
 	desc = podillia_disasters.61.d
 	picture = RELIGION_eventPicture
@@ -517,10 +482,6 @@ country_event = {
 	
 	trigger = {
 		has_disaster = podillia_jewish_emancipation
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Support emancipation immediately
@@ -569,7 +530,7 @@ country_event = {
 
 # Dhimmi Petitions
 country_event = {
-	id = podillia_disasters.62
+	id =podillia_disasters.62
 	title = podillia_disasters.62.t
 	desc = podillia_disasters.62.d
 	picture = RELIGION_eventPicture
@@ -579,10 +540,6 @@ country_event = {
 	trigger = {
 		has_disaster = podillia_jewish_emancipation
 		has_estate = estate_dhimmi
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Grant full citizenship rights
@@ -641,7 +598,7 @@ country_event = {
 
 # Noble Opposition
 country_event = {
-	id = podillia_disasters.63
+	id =podillia_disasters.63
 	title = podillia_disasters.63.t
 	desc = podillia_disasters.63.d
 	picture = COURT_eventPicture
@@ -651,10 +608,6 @@ country_event = {
 	trigger = {
 		has_disaster = podillia_jewish_emancipation
 		has_estate = estate_nobles
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Compromise with nobility
@@ -710,7 +663,7 @@ country_event = {
 
 # Enlightenment Debate
 country_event = {
-	id = podillia_disasters.64
+	id =podillia_disasters.64
 	title = podillia_disasters.64.t
 	desc = podillia_disasters.64.d
 	picture = BIG_BOOK_eventPicture
@@ -720,10 +673,6 @@ country_event = {
 	trigger = {
 		has_disaster = podillia_jewish_emancipation
 		has_idea_group = humanist_ideas
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Embrace Enlightenment principles
@@ -771,7 +720,7 @@ country_event = {
 
 # Economic Benefits of Emancipation
 country_event = {
-	id = podillia_disasters.65
+	id =podillia_disasters.65
 	title = podillia_disasters.65.t
 	desc = podillia_disasters.65.d
 	picture = TRADEGOODS_eventPicture
@@ -780,10 +729,6 @@ country_event = {
 	
 	trigger = {
 		has_disaster = podillia_jewish_emancipation
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Emphasize economic advantages
@@ -824,7 +769,7 @@ country_event = {
 
 # Church Opposition
 country_event = {
-	id = podillia_disasters.66
+	id =podillia_disasters.66
 	title = podillia_disasters.66.t
 	desc = podillia_disasters.66.d
 	picture = RELIGION_eventPicture
@@ -834,10 +779,6 @@ country_event = {
 	trigger = {
 		has_disaster = podillia_jewish_emancipation
 		has_estate = estate_church
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Respect church authority
@@ -896,7 +837,7 @@ country_event = {
 
 # Foreign Pressure
 country_event = {
-	id = podillia_disasters.67
+	id =podillia_disasters.67
 	title = podillia_disasters.67.t
 	desc = podillia_disasters.67.d
 	picture = DIPLOMACY_eventPicture
@@ -909,10 +850,6 @@ country_event = {
 			has_idea_group = humanist_ideas
 			is_great_power = yes
 		}
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Accept international expectations
@@ -959,7 +896,7 @@ country_event = {
 
 # Final Resolution
 country_event = {
-	id = podillia_disasters.68
+	id =podillia_disasters.68
 	title = podillia_disasters.68.t
 	desc = podillia_disasters.68.d
 	picture = COURT_eventPicture
@@ -968,10 +905,6 @@ country_event = {
 	
 	trigger = {
 		has_disaster = podillia_jewish_emancipation
-	}
-	
-	mean_time_to_happen = {
-		days = 1
 	}
 	
 	# Full Emancipation
@@ -1018,7 +951,7 @@ country_event = {
 
 # Jewish Emancipation Crisis Ends
 country_event = {
-	id = podillia_disasters.71
+	id =podillia_disasters.71
 	title = podillia_disasters.71.t
 	desc = podillia_disasters.71.d
 	picture = GOOD_WITH_MONARCH_eventPicture
@@ -1039,11 +972,5 @@ country_event = {
 		add_stability = 1
 		add_prestige = 15
 		add_legitimacy = 10
-		if = {
-			limit = {
-				has_country_modifier = pdl_jewish_emancipation_modifier
-			}
-			remove_country_modifier = pdl_jewish_emancipation_modifier
-		}
 	}
 }
