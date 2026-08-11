@@ -198,10 +198,8 @@ PDL_missions_1_carpathian = {
 			4749 = {
 				if = {
 					limit = {
-						NOT = {
-							is_permanent_claim = ROOT
-							is_core = ROOT
-						}
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
 					}
 					add_permanent_claim = ROOT
 				}
@@ -693,7 +691,7 @@ PDL_missions_3_magnate = {
 # Goal: Regional dominance and integration with surrounding territories
 # Inspiration: Croatian regional hegemony + Volhynia expansion model
 
-PDL_missions_4_expansion = {
+PDL_missions_4_expansion_column = {
 	slot = 4
 	generic = no
 	ai = yes
@@ -815,9 +813,10 @@ PDL_missions_4_expansion = {
 		}
 		
 		trigger = {
-		east_dniepr_area = {
-			type = all
-			country_or_non_sovereign_subject_holds = ROOT
+			east_dniepr_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		
 		effect = {
@@ -831,6 +830,7 @@ PDL_missions_4_expansion = {
 		}
 	}
 }
+
 
 # ==================================================
 # COLUMN 5: RELIGIOUS & CULTURAL SYNTHESIS
