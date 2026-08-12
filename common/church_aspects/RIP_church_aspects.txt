@@ -1,81 +1,163 @@
+# ===========================================================================
+# CHURCH ASPECTS FOR THE MOD'S CHURCH-POWER RELIGIONS
+# ---------------------------------------------------------------------------
+# Vanilla's only church-power religion is Protestant, so vanilla never had to
+# gate its aspects by faith. This mod adds two more (russian_orthodox and
+# greek_catholic), which means every aspect here must say which faith it
+# belongs to - otherwise the Uniate reform list offers the Muscovite
+# inquisition and the Protestant one offers both.
+#
+# EU4 requires `cost` on every aspect. Entries that lacked it were never
+# selectable and are given the standard 100 here.
+# ===========================================================================
+
+
+# --- shared by both eastern-rite faiths -------------------------------------
 
 embrace_eastern_rite = {
 	cost = 100
-	trigger = {
-		always = yes
+	potential = {
+		OR = {
+			religion = russian_orthodox
+			religion = greek_catholic
+		}
 	}
 	modifier = {
 		tolerance_own = 1
 		church_power_modifier = 0.1
 		legitimacy = 0.5
 	}
-	ai_will_do = {
-		factor = 10
-	}
+	ai_will_do = { factor = 10 }
 }
+
+blessing_of_saints_cyril_and_methodius = {
+	cost = 100
+	potential = {
+		OR = {
+			religion = russian_orthodox
+			religion = greek_catholic
+		}
+	}
+	modifier = {
+		culture_conversion_cost = -0.15
+		same_culture_advisor_cost = -0.15
+	}
+	ai_will_do = { factor = 8 }
+}
+
+blessing_of_eastern_liturgy = {
+	cost = 100
+	potential = {
+		OR = {
+			religion = russian_orthodox
+			religion = greek_catholic
+		}
+	}
+	modifier = {
+		tolerance_own = 2
+		global_unrest = -1
+	}
+	ai_will_do = { factor = 8 }
+}
+
+blessing_of_religious_unity = {
+	cost = 100
+	potential = {
+		OR = {
+			religion = russian_orthodox
+			religion = greek_catholic
+		}
+	}
+	modifier = {
+		global_missionary_strength = 0.03
+		missionaries = 1
+	}
+	ai_will_do = { factor = 7 }
+}
+
+
+# --- Greek Catholic ---------------------------------------------------------
 
 accept_papal_supremacy = {
 	cost = 100
-	trigger = {
-		always = yes
-	}
+	potential = { religion = greek_catholic }
 	modifier = {
 		papal_influence = 1
 		diplomatic_reputation = 1
 		improve_relation_modifier = 0.1
 	}
-	ai_will_do = {
-		factor = 10
-	}
+	ai_will_do = { factor = 10 }
 }
 
 basilian_monasteries = {
 	cost = 100
-	trigger = {
-		always = yes
-	}
+	potential = { religion = greek_catholic }
 	modifier = {
 		stability_cost_modifier = -0.1
 		global_institution_spread = 0.05
 		idea_cost = -0.05
 	}
-	ai_will_do = {
-		factor = 8
-	}
+	ai_will_do = { factor = 8 }
 }
 
 uniate_educational_network_aspect = {
 	cost = 100
-	trigger = {
-		always = yes
-	}
+	potential = { religion = greek_catholic }
 	modifier = {
 		advisor_cost = -0.1
 		innovativeness_gain = 0.5
 		institution_spread_from_true_faith = 0.1
 	}
-	ai_will_do = {
-		factor = 8
-	}
+	ai_will_do = { factor = 8 }
 }
 
 defender_of_union = {
 	cost = 100
-	trigger = {
-		always = yes
-	}
+	potential = { religion = greek_catholic }
 	modifier = {
 		tolerance_heretic = 2
 		religious_unity = 0.15
 		global_missionary_strength = 0.01
 	}
-	ai_will_do = {
-		factor = 6
-	}
+	ai_will_do = { factor = 6 }
 }
+
+blessing_of_basilian_order = {
+	cost = 100
+	potential = { religion = greek_catholic }
+	modifier = {
+		church_power_modifier = 0.15
+		stability_cost_modifier = -0.1
+	}
+	ai_will_do = { factor = 8 }
+}
+
+blessing_of_papal_protection = {
+	cost = 100
+	potential = { religion = greek_catholic }
+	modifier = {
+		papal_influence = 2
+		diplomatic_reputation = 1
+	}
+	ai_will_do = { factor = 7 }
+}
+
+blessing_of_uniate_missionaries = {
+	cost = 100
+	potential = { religion = greek_catholic }
+	modifier = {
+		global_missionary_strength = 0.02
+		missionaries = 1
+	}
+	ai_will_do = { factor = 7 }
+}
+
+
+# --- Russian Orthodox -------------------------------------------------------
 
 third_rome_mission = {
 	cost = 100
+	potential = { religion = russian_orthodox }
 	trigger = {
 		capital_scope = {
 			region = russia_region
@@ -87,28 +169,23 @@ third_rome_mission = {
 		ae_impact = -0.15
 		unjustified_demands = -0.25
 	}
-	ai_will_do = {
-		factor = 10
-	}
+	ai_will_do = { factor = 10 }
 }
 
 patriarch_authority = {
 	cost = 100
-	trigger = {
-		always = yes
-	}
+	potential = { religion = russian_orthodox }
 	modifier = {
 		church_power_modifier = 0.25
 		stability_cost_modifier = -0.15
 		global_autonomy = -0.05
 	}
-	ai_will_do = {
-		factor = 10
-	}
+	ai_will_do = { factor = 10 }
 }
 
 orthodox_inquisition = {
 	cost = 100
+	potential = { religion = russian_orthodox }
 	trigger = {
 		has_idea_group = religious_ideas
 	}
@@ -118,13 +195,12 @@ orthodox_inquisition = {
 		tolerance_heretic = -2
 		tolerance_heathen = -2
 	}
-	ai_will_do = {
-		factor = 8
-	}
+	ai_will_do = { factor = 8 }
 }
 
 forced_russification = {
 	cost = 100
+	potential = { religion = russian_orthodox }
 	trigger = {
 		num_of_owned_provinces_with = {
 			value = 20
@@ -136,13 +212,12 @@ forced_russification = {
 		harsh_treatment_cost = -0.25
 		years_of_nationalism = -5
 	}
-	ai_will_do = {
-		factor = 9
-	}
+	ai_will_do = { factor = 9 }
 }
 
 imperial_orthodox_church = {
 	cost = 100
+	potential = { religion = russian_orthodox }
 	trigger = {
 		government_rank = 3
 	}
@@ -151,13 +226,12 @@ imperial_orthodox_church = {
 		governing_capacity_modifier = 0.15
 		state_maintenance_modifier = -0.20
 	}
-	ai_will_do = {
-		factor = 8
-	}
+	ai_will_do = { factor = 8 }
 }
 
 subjugation_of_heretics = {
 	cost = 100
+	potential = { religion = russian_orthodox }
 	trigger = {
 		any_owned_province = {
 			NOT = { religion = ROOT }
@@ -168,7 +242,46 @@ subjugation_of_heretics = {
 		global_unrest = -2
 		num_accepted_cultures = 1
 	}
-	ai_will_do = {
-		factor = 7
+	ai_will_do = { factor = 7 }
+}
+
+blessing_of_third_rome = {
+	cost = 100
+	potential = { religion = russian_orthodox }
+	modifier = {
+		prestige_decay = -0.01
+		legitimacy = 1
+		ae_impact = -0.10
 	}
+	ai_will_do = { factor = 9 }
+}
+
+blessing_of_patriarch_of_moscow = {
+	cost = 100
+	potential = { religion = russian_orthodox }
+	modifier = {
+		church_power_modifier = 0.20
+		stability_cost_modifier = -0.15
+	}
+	ai_will_do = { factor = 8 }
+}
+
+blessing_of_orthodox_conquest = {
+	cost = 100
+	potential = { religion = russian_orthodox }
+	modifier = {
+		core_creation = -0.15
+		province_warscore_cost = -0.10
+	}
+	ai_will_do = { factor = 8 }
+}
+
+blessing_of_cultural_dominance = {
+	cost = 100
+	potential = { religion = russian_orthodox }
+	modifier = {
+		culture_conversion_cost = -0.25
+		accept_culture_threshold = -0.15
+	}
+	ai_will_do = { factor = 7 }
 }
