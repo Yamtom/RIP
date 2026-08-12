@@ -63,6 +63,38 @@ country_decisions = {
 			1944 = {
 				move_capital_effect = yes
 			}
+			if = {
+				limit = { has_reform = zaz_sich_brotherhood_reform }
+				set_country_flag = rip_preserve_zaz_sich_brotherhood_reform
+			}
+			if = {
+				limit = { has_reform = zaz_kosh_elections_reform }
+				set_country_flag = rip_preserve_zaz_kosh_elections_reform
+			}
+			if = {
+				limit = { has_reform = zaz_chaiky_trade_reform }
+				set_country_flag = rip_preserve_zaz_chaiky_trade_reform
+			}
+			if = {
+				limit = { has_reform = zaz_general_rada_reform }
+				set_country_flag = rip_preserve_zaz_general_rada_reform
+			}
+			if = {
+				limit = { has_reform = zaz_free_host_reform }
+				set_country_flag = rip_preserve_zaz_free_host_reform
+			}
+			if = {
+				limit = { has_reform = zaz_last_sich_reform }
+				set_country_flag = rip_preserve_zaz_last_sich_reform
+			}
+			if = {
+				limit = { tag = ZAZ }
+				set_country_flag = rip_hetmanate_origin_zaz
+			}
+			if = {
+				limit = { tag = PRL }
+				set_country_flag = rip_hetmanate_origin_prl
+			}
 			west_dniepr_area = {
 				add_permanent_claim = HET
 			}
@@ -76,29 +108,55 @@ country_decisions = {
 				add_permanent_claim = HET
 			}
 			change_tag = HET
+			if = {
+				limit = { has_country_flag = rip_preserve_zaz_sich_brotherhood_reform }
+				add_government_reform = zaz_sich_brotherhood_reform
+				clr_country_flag = rip_preserve_zaz_sich_brotherhood_reform
+			}
+			if = {
+				limit = { has_country_flag = rip_preserve_zaz_kosh_elections_reform }
+				add_government_reform = zaz_kosh_elections_reform
+				clr_country_flag = rip_preserve_zaz_kosh_elections_reform
+			}
+			if = {
+				limit = { has_country_flag = rip_preserve_zaz_chaiky_trade_reform }
+				add_government_reform = zaz_chaiky_trade_reform
+				clr_country_flag = rip_preserve_zaz_chaiky_trade_reform
+			}
+			if = {
+				limit = { has_country_flag = rip_preserve_zaz_general_rada_reform }
+				add_government_reform = zaz_general_rada_reform
+				clr_country_flag = rip_preserve_zaz_general_rada_reform
+			}
+			if = {
+				limit = { has_country_flag = rip_preserve_zaz_free_host_reform }
+				add_government_reform = zaz_free_host_reform
+				clr_country_flag = rip_preserve_zaz_free_host_reform
+			}
+			if = {
+				limit = { has_country_flag = rip_preserve_zaz_last_sich_reform }
+				add_government_reform = zaz_last_sich_reform
+				clr_country_flag = rip_preserve_zaz_last_sich_reform
+			}
 			set_global_flag = hetmanate_nation_formed
 			country_event = { id = ideagroups.1 } #Swap Ideas	
 			set_country_flag = formed_hetmanate_nation_flag
-			
+
 			if = {
-				limit = {legitimacy_equivalent = 0 }  
-				add_government_reform = military_dictatorship_reform
+				limit = {
+					NOT = { government_rank = 2 }
+					NOT = { government_rank = 3 }
+				}
 				set_government_rank = 2
 			}
 			if = {
-				limit = {legitimacy_equivalent = 50 }
-				add_government_reform = nepotism_reform
-				set_government_rank = 2
-				add_army_tradition = 25
-				add_legitimacy = 25
-			}
-			if = {
-				limit = {legitimacy_equivalent = 75 }
+				limit = { legitimacy_equivalent = 75 }
 				add_army_tradition = 50
 				add_prestige = 50
 				set_government_rank = 3
 			}
 			swap_non_generic_missions = yes
+			set_country_flag = rip_hetmanate_missions_synced
 		}
 
 		ai_will_do = {

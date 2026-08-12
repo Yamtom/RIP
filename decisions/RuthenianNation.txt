@@ -10,7 +10,7 @@ country_decisions = {
 			NOT = { has_country_flag = rus_flag }
 			OR = {
 				ai = no
-				is_playing_custom_nation = no
+				is_playing_custom_nation = yes
 			}
 			NOT = { tag = PAP }
 			NOT = { tag = HLR }
@@ -39,6 +39,15 @@ country_decisions = {
 					is_former_colonial_nation = yes
 					ai = no
 				}
+			}
+			calc_true_if = {
+				amount = 3
+				owns = 280
+				owns = 283
+				owns = 261
+				owns = 279
+				owns = 289
+				owns = 291
 			}
 		}
 		provinces_to_highlight = {
@@ -85,13 +94,11 @@ country_decisions = {
 			
 			280 = { is_state = yes }					#kyiv -center
 			OR = {
-				#or owns only core-core stuff but has god like ruler
 				AND = {
 					owns_core_province = 283		#Zaporozhie -southern center of rebellions
 					owns_core_province = 280		#kyiv -center
 					dip = 5
 				}
-				#owns everything per 1775
 				AND = {
 					ROOT = { NOT = { DIP = 5 } }
 					if = {
@@ -135,19 +142,9 @@ country_decisions = {
 			}
 			add_prestige = 25
 			change_tag = UKR
-			on_change_tag_effect = yes
 			set_country_flag = formed_ruthenia_flag
 			swap_non_generic_missions = yes
 			set_government_rank = 3
-			if = { 
-				limit = { 
-					OR = {
-						has_reform = kyivan_rus_reform
-						has_reform = ruthenian_principality_reform
-					}
-				} 
-				add_government_reform = ruthenian_tsardom 
-			}
 			if = {
 				limit = {
 					technology_group = nomad_group
@@ -168,14 +165,12 @@ country_decisions = {
 					set_in_empire = no
 				}
 			}
+			set_government_rank = 3
 			if = {
 				limit = { has_custom_ideas = no }
 				country_event = { id = ideagroups.1 } #Swap Ideas
 			}
 			remove_non_electors_emperors_from_empire_effect = yes
-		}
-		ai_will_do = {
-			factor = 1
 		}
 		ai_importance = 500		
 	}

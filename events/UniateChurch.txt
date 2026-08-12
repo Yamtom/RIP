@@ -1,24 +1,8 @@
 namespace = uniate_church
 
-# =========================================================================
-# UNIATE CHURCH EVENT CHAIN (Union of Brest 1596)
-# =========================================================================
-# These events cover the establishment, development, and consequences
-# of the Union of Brest (1596) and subsequent religious dynamics in
-# Ruthenian lands under Polish-Lithuanian Commonwealth.
-#
-# Historical flow:
-# 1. Proposal of religious union (Orthodox bishops approach Rome)
-# 2. Union of Brest signing (1596)
-# 3. Orthodox resistance (brotherhoods, Cossacks oppose)
-# 4. Catholic nobility support
-# 5. Consolidation or collapse of union
-# 6. Long-term consequences (Synod of Zamość 1720, etc.)
-# =========================================================================
 
-# Event 1: Proposal for Church Union
 country_event = {
-	id =uniate_church.1
+	id = uniate_church.1
 	title = uniate_church.1.t
 	desc = uniate_church.1.d
 	picture = RELIGION_eventPicture
@@ -44,9 +28,9 @@ country_event = {
 				religion = catholic
 			}
 			overlord = { religion = catholic }
-			any_subject_country = {
-				religion = catholic
-				junior_union_with = ROOT
+			AND = {
+				is_subject = yes
+				overlord = { religion = catholic }
 			}
 		}
 		NOT = { has_country_flag = uniate_union_proposed }
@@ -64,9 +48,9 @@ country_event = {
 			factor = 0.8
 			OR = {
 				overlord = { religion = catholic }
-				any_subject_country = {
-					religion = catholic
-					junior_union_with = ROOT
+				OR = {
+					overlord = { religion = catholic }   # if you’re junior
+					any_subject_country = { religion = catholic }  # if you’re senior
 				}
 			}
 		}
@@ -101,7 +85,6 @@ country_event = {
 		ai_chance = { factor = 60 }
 		
 		set_country_flag = uniate_union_rejected
-		set_country_flag = refused_greek_catholic_conversion
 		
 		add_prestige = 10
 		add_country_modifier = {
@@ -110,9 +93,8 @@ country_event = {
 		}
 	}
 }
-# Event 2: Union of Brest Signed (1596)
 country_event = {
-	id =uniate_church.2
+	id = uniate_church.2
 	title = uniate_church.2.t
 	desc = uniate_church.2.d
 	picture = RELIGION_eventPicture
@@ -133,9 +115,12 @@ country_event = {
 				religion = orthodox
 				development = 10
 			}
-			spawn_rebels = {
-				type = orthodox_rebels
-				size = 1
+			random = {
+				chance = 35
+				spawn_rebels = {
+					type = orthodox_rebels
+					size = 1
+				}
 			}
 		}
 	}
@@ -151,7 +136,7 @@ country_event = {
 		
 		random_owned_province = {
 			limit = { religion = orthodox }
-			change_religion = orthodox # Simulate gradual uniate adoption
+			change_religion = greek_catholic
 			add_base_tax = 1
 		}
 	}
@@ -170,18 +155,15 @@ country_event = {
 	}
 }
 
-# Event 3: Orthodox Brotherhood Resistance
 country_event = {
-	id =uniate_church.3
+	id = uniate_church.3
 	title = uniate_church.3.t
-	desc = uniate_church.3.d
-	picture = REFORM_eventPicture
 	desc = uniate_church.3.d
 	picture = REFORM_eventPicture
 	
 	trigger = {
 		has_country_flag = pursuing_uniate_union
-		NOT = { has_country_flag = orthodox_brotherhoods_resisted }
+		NOT = { has_country_flag = uniate_brotherhood_resolution_done }
 		any_owned_province = {
 			religion = orthodox
 			development = 12
@@ -197,6 +179,7 @@ country_event = {
 		ai_chance = { factor = 30 }
 		
 		set_country_flag = orthodox_brotherhoods_suppressed
+		set_country_flag = uniate_brotherhood_resolution_done
 		
 		add_country_modifier = {
 			name = forced_religious_union
@@ -220,6 +203,7 @@ country_event = {
 		ai_chance = { factor = 50 }
 		
 		set_country_flag = orthodox_brotherhoods_resisted
+		set_country_flag = uniate_brotherhood_resolution_done
 		
 		add_country_modifier = {
 			name = orthodox_uniate_coexistence
@@ -234,6 +218,7 @@ country_event = {
 		ai_chance = { factor = 20 }
 		
 		set_country_flag = orthodox_brotherhoods_autonomous
+		set_country_flag = uniate_brotherhood_resolution_done
 		
 		add_country_modifier = {
 			name = orthodox_brotherhood_resistance
@@ -244,9 +229,8 @@ country_event = {
 	}
 }
 
-# Event 4: Cossack Orthodox Identity
 country_event = {
-	id =uniate_church.4
+	id = uniate_church.4
 	title = uniate_church.4.t
 	desc = uniate_church.4.d
 	picture = BATTLE_eventPicture
@@ -254,6 +238,8 @@ country_event = {
 	trigger = {
 		has_country_flag = pursuing_uniate_union
 		NOT = { has_country_flag = cossack_orthodox_stance_determined }
+		is_year = 1590
+		NOT = { is_year = 1725 }
 		OR = {
 			has_estate = estate_cossacks
 			num_of_owned_provinces_with = {
@@ -287,6 +273,17 @@ country_event = {
 				loyalty = 10
 			}
 		}
+
+		every_neighbor_country = {
+			limit = {
+				religion = russian_orthodox
+				OR = {
+					tag = MOS
+					tag = RUS
+				}
+			}
+			country_event = { id = uniate_church.15 days = 45 }
+		}
 	}
 	
 	option = { # Force conversion
@@ -319,6 +316,17 @@ country_event = {
 				size = 2
 			}
 		}
+
+		every_neighbor_country = {
+			limit = {
+				religion = russian_orthodox
+				OR = {
+					tag = MOS
+					tag = RUS
+				}
+			}
+			country_event = { id = uniate_church.18 days = 45 }
+		}
 	}
 	
 	option = { # Seek compromise
@@ -332,12 +340,22 @@ country_event = {
 			name = dual_communion_compromise
 			duration = 5475
 		}
+
+		every_neighbor_country = {
+			limit = {
+				religion = russian_orthodox
+				OR = {
+					tag = MOS
+					tag = RUS
+				}
+			}
+			country_event = { id = uniate_church.15 days = 45 }
+		}
 	}
 }
 
-# Event 5: Synod of Zamość (1720) - Latinization
 country_event = {
-	id =uniate_church.5
+	id = uniate_church.5
 	title = uniate_church.5.t
 	desc = uniate_church.5.d
 	picture = RELIGION_eventPicture
@@ -346,7 +364,6 @@ country_event = {
 	
 	trigger = {
 		has_country_flag = pursuing_uniate_union
-		NOT = { has_country_flag = zamosc_synod_held }
 		is_year = 1710
 		NOT = { is_year = 1750 }
 	}
@@ -360,7 +377,6 @@ country_event = {
 		ai_chance = { factor = 40 }
 		
 		set_country_flag = zamosc_synod_latinized
-		set_country_flag = zamosc_synod_held
 		
 		add_country_modifier = {
 			name = zamosc_synod_latinization
@@ -373,7 +389,6 @@ country_event = {
 		ai_chance = { factor = 60 }
 		
 		set_country_flag = zamosc_synod_eastern_rite
-		set_country_flag = zamosc_synod_held
 		
 		add_country_modifier = {
 			name = eastern_rite_preservation
@@ -382,9 +397,8 @@ country_event = {
 	}
 }
 
-# Event 6: Uniate Educational Network
 country_event = {
-	id =uniate_church.6
+	id = uniate_church.6
 	title = uniate_church.6.t
 	desc = uniate_church.6.d
 	picture = UNIVERSITY_eventPicture
@@ -422,9 +436,8 @@ country_event = {
 	}
 }
 
-# Event 7: Uniate Cultural Flowering
 country_event = {
-	id =uniate_church.7
+	id = uniate_church.7
 	title = uniate_church.7.t
 	desc = uniate_church.7.d
 	picture = CULTURE_eventPicture
@@ -463,16 +476,14 @@ country_event = {
 	}
 }
 
-# Event 8: Moscow's Anti-Union Campaign
 country_event = {
-	id =uniate_church.8
+	id = uniate_church.8
 	title = uniate_church.8.t
 	desc = uniate_church.8.d
 	picture = SPY_eventPicture
 	
 	trigger = {
 		has_country_flag = pursuing_uniate_union
-		NOT = { has_country_flag = moscow_interference_handled }
 		any_neighbor_country = {
 			tag = MOS
 			religion = orthodox
@@ -488,7 +499,6 @@ country_event = {
 		ai_chance = { factor = 60 }
 		
 		set_country_flag = moscow_interference_countered
-		set_country_flag = moscow_interference_handled
 		
 		add_spy_network_in = {
 			who = MOS
@@ -503,7 +513,6 @@ country_event = {
 		ai_chance = { factor = 40 }
 		
 		set_country_flag = moscow_interference_ignored
-		set_country_flag = moscow_interference_handled
 		
 		add_country_modifier = {
 			name = moscow_anti_union_campaign
@@ -512,13 +521,9 @@ country_event = {
 	}
 }
 
-# =========================================================================
-# GREEK CATHOLIC CHURCH SPREAD MECHANICS
-# =========================================================================
 
-# Event 9: Establishment of Greek Catholic Center
 country_event = {
-	id =uniate_church.9
+	id = uniate_church.9
 	title = uniate_church.9.t
 	desc = uniate_church.9.d
 	picture = RELIGION_eventPicture
@@ -526,8 +531,8 @@ country_event = {
 	trigger = {
 		has_country_flag = pursuing_uniate_union
 		NOT = { has_country_flag = greek_catholic_center_established }
-		owns = 2961 # Lviv
-		2961 = {
+		owns = 268 # Lviv
+		268 = {
 			religion = orthodox
 		}
 	}
@@ -542,7 +547,7 @@ country_event = {
 		
 		set_country_flag = greek_catholic_center_established
 		
-		2961 = {
+		268 = {
 			change_religion = greek_catholic
 			add_province_modifier = {
 				name = greek_catholic_center
@@ -567,9 +572,8 @@ country_event = {
 	}
 }
 
-# Event 10: Greek Catholic Spread to Neighboring Province
 province_event = {
-	id =uniate_church.10
+	id = uniate_church.10
 	title = uniate_church.10.t
 	desc = uniate_church.10.d
 	picture = RELIGION_eventPicture
@@ -622,9 +626,8 @@ province_event = {
 	}
 }
 
-# Event 11: Greek Catholic Missionary Success
 country_event = {
-	id =uniate_church.11
+	id = uniate_church.11
 	title = uniate_church.11.t
 	desc = uniate_church.11.d
 	picture = RELIGION_eventPicture
@@ -665,9 +668,8 @@ country_event = {
 	}
 }
 
-# Event 12: Establish Metropolitan See
 country_event = {
-	id =uniate_church.12
+	id = uniate_church.12
 	title = uniate_church.12.t
 	desc = uniate_church.12.d
 	picture = RELIGION_eventPicture
@@ -725,13 +727,9 @@ country_event = {
 	}
 }
 
-# =========================================================================
-# THEMED HISTORICAL & ALTERNATE HISTORY EVENTS
-# =========================================================================
 
-# Event 13: Ruthenian Cultural Renaissance
 country_event = {
-	id =uniate_church.13
+	id = uniate_church.13
 	title = uniate_church.13.t
 	desc = uniate_church.13.d
 	picture = CULTURE_eventPicture
@@ -777,9 +775,8 @@ country_event = {
 	}
 }
 
-# Event 14: Greek Catholic-Catholic Theological Debate
 country_event = {
-	id =uniate_church.14
+	id = uniate_church.14
 	title = uniate_church.14.t
 	desc = uniate_church.14.d
 	picture = RELIGION_eventPicture
@@ -835,9 +832,8 @@ country_event = {
 	}
 }
 
-# Event 15: Orthodox-Greek Catholic Reconciliation Attempt
 country_event = {
-	id =uniate_church.15
+	id = uniate_church.15
 	title = uniate_church.15.t
 	desc = uniate_church.15.d
 	picture = DIPLOMACY_eventPicture
@@ -894,9 +890,8 @@ country_event = {
 	}
 }
 
-# Event 16: Greek Catholic Printing Revolution
 country_event = {
-	id =uniate_church.16
+	id = uniate_church.16
 	title = uniate_church.16.t
 	desc = uniate_church.16.d
 	picture = PRINTING_PRESS_eventPicture
@@ -904,8 +899,8 @@ country_event = {
 	trigger = {
 		religion = greek_catholic
 		NOT = { has_country_flag = greek_catholic_printing_established }
-		owns = 2961 # Lviv
-		2961 = {
+		owns = 268 # Lviv
+		268 = {
 			religion = greek_catholic
 		}
 	}
@@ -920,7 +915,7 @@ country_event = {
 		
 		set_country_flag = greek_catholic_printing_established
 		
-		2961 = {
+		268 = {
 			add_province_modifier = {
 				name = greek_catholic_printing_press
 				duration = -1
@@ -944,9 +939,8 @@ country_event = {
 	}
 }
 
-# Event 17: Alternate History - Greek Catholic Empire
 country_event = {
-	id =uniate_church.17
+	id = uniate_church.17
 	title = uniate_church.17.t
 	desc = uniate_church.17.d
 	picture = COURT_eventPicture
@@ -1002,9 +996,8 @@ country_event = {
 	}
 }
 
-# Event 18: Persecution by Orthodox State
 country_event = {
-	id =uniate_church.18
+	id = uniate_church.18
 	title = uniate_church.18.t
 	desc = uniate_church.18.d
 	picture = BAD_WITH_MONARCH_eventPicture
@@ -1053,9 +1046,8 @@ country_event = {
 	}
 }
 
-# Event 19: Greek Catholic Ecumenical Council
 country_event = {
-	id =uniate_church.19
+	id = uniate_church.19
 	title = uniate_church.19.t
 	desc = uniate_church.19.d
 	picture = RELIGION_eventPicture
@@ -1120,9 +1112,8 @@ country_event = {
 	}
 }
 
-# Event 20: Greek Catholic Saints and Martyrs
 country_event = {
-	id =uniate_church.20
+	id = uniate_church.20
 	title = uniate_church.20.t
 	desc = uniate_church.20.d
 	picture = RELIGION_eventPicture
@@ -1167,4 +1158,5 @@ country_event = {
 		add_stability = 1
 	}
 }
+
 

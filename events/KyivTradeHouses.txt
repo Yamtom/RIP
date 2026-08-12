@@ -1,0 +1,138 @@
+namespace = kyiv_trade_houses
+
+country_event = {
+	id = kyiv_trade_houses.1
+	title = kyiv_trade_houses.1.t
+	desc = kyiv_trade_houses.1.d
+	picture = MARKET_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = kyiv_trade_houses.1.a
+		trigger = {
+			280 = { owned_by = ROOT }
+			NOT = { 280 = { has_province_modifier = KIE_trade_house_hub } }
+		}
+		280 = {
+			add_province_modifier = {
+				name = KIE_trade_house_hub
+				duration = -1
+			}
+		}
+		add_mercantilism = 1
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = 5 }
+		}
+	}
+
+	option = {
+		name = kyiv_trade_houses.1.b
+		trigger = {
+			289 = { owned_by = ROOT }
+			NOT = { 289 = { has_province_modifier = KIE_trade_house_hub } }
+		}
+		289 = {
+			add_province_modifier = {
+				name = KIE_trade_house_hub
+				duration = -1
+			}
+		}
+		add_mercantilism = 1
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = 5 }
+		}
+	}
+
+	option = {
+		name = kyiv_trade_houses.1.c
+		trigger = {
+			2407 = { owned_by = ROOT }
+			NOT = { 2407 = { has_province_modifier = KIE_trade_house_hub } }
+		}
+		2407 = {
+			add_province_modifier = {
+				name = KIE_trade_house_hub
+				duration = -1
+			}
+		}
+		add_mercantilism = 1
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = 5 }
+		}
+	}
+
+	option = {
+		name = kyiv_trade_houses.1.e
+		trigger = {
+			any_owned_province = {
+				area = red_ruthenia_area
+				NOT = { has_province_modifier = KIE_trade_house_hub }
+			}
+		}
+		random_owned_province = {
+			limit = {
+				area = red_ruthenia_area
+				NOT = { has_province_modifier = KIE_trade_house_hub }
+			}
+			add_province_modifier = {
+				name = KIE_trade_house_hub
+				duration = -1
+			}
+		}
+		add_mercantilism = 1
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = 5 }
+		}
+	}
+
+	option = {
+		name = kyiv_trade_houses.1.f
+	}
+}
+
+country_event = {
+	id = kyiv_trade_houses.2
+	title = kyiv_trade_houses.2.t
+	desc = kyiv_trade_houses.2.d
+	picture = MARKET_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = kyiv_trade_houses.2.a
+		if = {
+			limit = {
+				any_owned_province = {
+					OR = {
+						region = ruthenia_region
+						area = red_ruthenia_area
+					}
+					province_has_center_of_trade_of_level = 1
+					NOT = { has_province_modifier = KIE_free_trade_city }
+				}
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						region = ruthenia_region
+						area = red_ruthenia_area
+					}
+					province_has_center_of_trade_of_level = 1
+					NOT = { has_province_modifier = KIE_free_trade_city }
+				}
+				add_province_modifier = {
+					name = KIE_free_trade_city
+					duration = -1
+				}
+			}
+		}
+		add_mercantilism = 1
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = 5 }
+		}
+	}
+}

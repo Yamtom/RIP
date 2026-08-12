@@ -1,5 +1,4 @@
 ﻿name="Alternative Ruthenian Immersion Pack"
-replace_path="common/bookmarks"
 tags={
 	"New Nations"
 	"Alternate History"

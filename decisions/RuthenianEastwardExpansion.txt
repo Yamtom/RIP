@@ -1,0 +1,237 @@
+
+country_decisions = {
+	ruthenian_eastward_frontier_policy = {
+		major = yes
+		potential = {
+			OR = {
+				tag = CHR
+				tag = HET
+				tag = UKR
+			}
+		}
+		provinces_to_highlight = {
+			region = crimea_region
+			NOT = { owned_by = ROOT }
+		}
+		allow = {
+			is_at_war = no
+			adm_tech = 7
+			any_owned_province = {
+				region = crimea_region
+			}
+			NOT = { has_country_flag = ruthenian_eastward_policy }
+		}
+		effect = {
+			set_country_flag = ruthenian_eastward_policy
+			add_country_modifier = {
+				name = ruthenian_eastward_mandate
+				duration = 7300
+			}
+			every_province = {
+				limit = {
+					rip_is_crimea_frontier_terrain = yes
+					is_empty = no
+					NOT = { owned_by = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			country_event = { id = ruthenian_eastward.1 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	ruthenian_open_ural_gate = {
+		major = yes
+		potential = {
+			has_country_flag = ruthenian_eastward_policy
+			OR = {
+				tag = CHR
+				tag = HET
+				tag = UKR
+			}
+		}
+		provinces_to_highlight = {
+			rip_is_crimea_frontier_terrain = yes
+			NOT = { owned_by = ROOT }
+		}
+		allow = {
+			is_at_war = no
+			adm_tech = 12
+			any_owned_province = {
+				rip_is_crimea_frontier_terrain = yes
+			}
+			NOT = { has_country_flag = ruthenian_ural_gate_opened }
+		}
+		effect = {
+			set_country_flag = ruthenian_ural_gate_opened
+			add_country_modifier = {
+				name = ruthenian_ural_gate
+				duration = 9125
+			}
+			ural_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					is_empty = no
+				}
+				add_permanent_claim = ROOT
+			}
+			country_event = { id = ruthenian_eastward.2 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	ruthenian_steppe_raid_doctrine = {
+		major = yes
+		potential = {
+			has_country_flag = ruthenian_eastward_policy
+			OR = {
+				tag = CHR
+				tag = HET
+				tag = UKR
+			}
+		}
+		provinces_to_highlight = {
+			rip_is_crimea_frontier_terrain = yes
+			NOT = { owned_by = ROOT }
+		}
+		allow = {
+			is_at_war = no
+			mil_tech = 8
+			NOT = { has_country_flag = ruthenian_steppe_raid_doctrine }
+			any_owned_province = {
+				rip_is_crimea_frontier_terrain = yes
+			}
+		}
+		effect = {
+			set_country_flag = ruthenian_steppe_raid_doctrine
+			add_country_modifier = {
+				name = ruthenian_raiding_columns
+				duration = 5475
+			}
+			add_country_modifier = {
+				name = ruthenian_frontier_patrol_licenses
+				duration = 5475
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	ruthenian_frontier_mobility_network = {
+		major = yes
+		potential = {
+			has_country_flag = ruthenian_steppe_raid_doctrine
+			OR = {
+				tag = CHR
+				tag = HET
+				tag = UKR
+			}
+		}
+		provinces_to_highlight = {
+			rip_is_crimea_frontier_terrain = yes
+			NOT = { owned_by = ROOT }
+		}
+		allow = {
+			is_at_war = no
+			adm_tech = 10
+			NOT = { has_country_flag = ruthenian_frontier_mobility_network }
+			any_owned_province = {
+				rip_is_crimea_frontier_terrain = yes
+			}
+		}
+		effect = {
+			set_country_flag = ruthenian_frontier_mobility_network
+			add_country_modifier = {
+				name = ruthenian_frontier_organizers
+				duration = 7300
+			}
+			every_owned_province = {
+				limit = {
+					rip_is_crimea_frontier_terrain = yes
+				}
+				add_province_modifier = {
+					name = steppe_border_defense
+					duration = 7300
+				}
+			}
+			if = {
+				limit = {
+					any_owned_province = {
+						region = crimea_region
+						OR = {
+							has_building = fort_15th
+							has_building = fort_16th
+							has_building = fort_17th
+							has_building = fort_18th
+						}
+					}
+				}
+				every_owned_province = {
+					limit = {
+						region = crimea_region
+						OR = {
+							has_building = fort_15th
+							has_building = fort_16th
+							has_building = fort_17th
+							has_building = fort_18th
+						}
+					}
+					add_province_modifier = {
+						name = zasechnaya_cherta_province
+						duration = 5475
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	ruthenian_manchurian_horizon = {
+		major = yes
+		potential = {
+			has_country_flag = ruthenian_ural_gate_opened
+			OR = {
+				tag = CHR
+				tag = HET
+				tag = UKR
+			}
+		}
+		provinces_to_highlight = {
+			region = ural_region
+			NOT = { owned_by = ROOT }
+		}
+		allow = {
+			is_at_war = no
+			adm_tech = 17
+			any_owned_province = {
+				region = ural_region
+			}
+			NOT = { has_country_flag = ruthenian_manchurian_horizon }
+		}
+		effect = {
+			set_country_flag = ruthenian_manchurian_horizon
+			add_country_modifier = {
+				name = ruthenian_manchurian_push
+				duration = 9125
+			}
+			manchuria_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					is_empty = no
+				}
+				add_permanent_claim = ROOT
+			}
+			country_event = { id = ruthenian_eastward.3 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}

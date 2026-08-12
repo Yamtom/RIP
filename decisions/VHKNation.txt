@@ -32,6 +32,12 @@ country_decisions = {
 					ai = no
 				}
 			}
+			calc_true_if = {
+				amount = 2
+				owns = 279
+				owns = 261
+				owns = 1943
+			}
 		}
 		provinces_to_highlight = {
 			OR = {	
@@ -62,13 +68,11 @@ country_decisions = {
 			is_at_war = no
 			
 			OR = {
-				#owns everything
 				AND = {
 					owns_or_non_sovereign_subject_of = 279		
 					owns_or_non_sovereign_subject_of = 261		
 					owns_or_non_sovereign_subject_of = 1943		
 				}
-				#or owns only core-core stuff but has god like ruler
 				AND = {
 					owns_or_non_sovereign_subject_of = 279				
 					owns_or_non_sovereign_subject_of = 261		
@@ -99,8 +103,13 @@ country_decisions = {
 				add_permanent_claim = VOL
 			}
 			add_prestige = 25
+			if = {
+				limit = { tag = HLC }
+				set_country_flag = rip_vol_origin_hlc
+			}
 			change_tag = VOL
 			swap_non_generic_missions = yes
+			set_country_flag = rip_vol_missions_synced
 			VOL = {
 				set_capital = 279 
 			}
@@ -129,9 +138,6 @@ country_decisions = {
 				limit = { has_custom_ideas = no }
 				country_event = { id = ideagroups.1 } #Swap Ideas
 			}
-		}
-		ai_will_do = {
-			factor = 1
 		}
 		ai_importance = 500		
 	}

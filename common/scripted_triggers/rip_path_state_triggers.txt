@@ -1,0 +1,150 @@
+hlc_has_any_path = {
+	OR = {
+		has_country_flag = rip_galicia_path_austria
+		has_country_flag = rip_galicia_path_poland
+	}
+}
+
+hlc_has_poland_path = {
+	has_country_flag = rip_galicia_path_poland
+}
+
+hlc_has_austria_path = {
+	has_country_flag = rip_galicia_path_austria
+}
+
+hlc_has_confessional_settlement = {
+	has_country_flag = rip_galicia_confessional_set
+}
+
+hlc_has_constitution_settlement = {
+	has_country_flag = rip_galicia_constitution_done
+}
+
+hlc_has_constitution_civic_outcome = {
+	has_country_flag = rip_galicia_constitution_civic
+}
+
+hlc_has_constitution_martial_outcome = {
+	has_country_flag = rip_galicia_constitution_martial
+}
+
+west_ukraine_shared_missions = {
+	OR = {
+		tag = VOL
+		tag = HLC
+	}
+}
+
+west_ukraine_hlc_origin_country = {
+	OR = {
+		tag = HLC
+		AND = {
+			tag = VOL
+			has_country_flag = rip_vol_origin_hlc
+		}
+	}
+}
+
+west_ukraine_hlc_legacy_missions = {
+	OR = {
+		west_ukraine_hlc_origin_country = yes
+		AND = {
+			tag = VOL
+			OR = {
+				hlc_has_any_path = yes
+				hlc_has_confessional_settlement = yes
+				hlc_has_constitution_settlement = yes
+				mission_completed = hlc_halych_sejm_mission
+				mission_completed = hlc_carpathian_bulwark
+				mission_completed = hlc_confessional_compact
+				mission_completed = hlc_constitutional_settlement
+			}
+		}
+	}
+}
+
+west_ukraine_austrian_path = {
+	OR = {
+		hlc_has_austria_path = yes
+		vol_has_austrian_path = yes
+	}
+}
+
+west_ukraine_constitutional_path = {
+	OR = {
+		hlc_has_poland_path = yes
+		vol_has_constitutional_path = yes
+	}
+}
+
+west_ukraine_any_development_path = {
+	OR = {
+		west_ukraine_austrian_path = yes
+		west_ukraine_constitutional_path = yes
+	}
+}
+
+uzh_identity_ruthenian_selected = {
+	has_country_flag = chose_ruthenian_identity
+}
+
+uzh_identity_rusyn_selected = {
+	has_country_flag = chose_rusyn_identity
+}
+
+uzh_identity_uhro_selected = {
+	has_country_flag = chose_uhro_rusyn_identity
+}
+
+chr_agro_hypercorp_completed = {
+	has_country_flag = chr_agro_hypercorp_complete
+}
+
+vol_has_eastern_path = {
+	has_country_flag = rip_vol_eastern_path
+}
+
+vol_has_carpathian_federation = {
+	has_country_flag = rip_vol_carpathian_federation
+}
+
+vol_has_baltic_path = {
+	has_country_flag = rip_vol_baltic_path
+}
+
+vol_has_grand_ruthenia = {
+	has_country_flag = rip_vol_grand_ruthenia
+}
+
+vol_has_austrian_path = {
+	has_country_flag = vol_austrian_path
+}
+
+vol_can_manage_minorities = {
+	has_country_flag = vol_can_manage_minorities
+}
+
+vol_has_balance_master = {
+	has_country_flag = vol_balance_master
+}
+
+vol_has_constitutional_path = {
+	has_country_flag = vol_constitutional_path
+}
+
+vol_has_magnate_alliance = {
+	has_country_flag = vol_magnate_alliance
+}
+
+vol_has_sejm_established = {
+	has_country_flag = vol_sejm_established
+}
+
+vol_has_constitutional_ready = {
+	has_country_flag = vol_constitutional_ready
+}
+
+vol_has_empire_proclaimed = {
+	has_country_flag = vol_empire_proclaimed
+}

@@ -1,9 +1,8 @@
 namespace = rip_galicia
 
-# Galician alternative path: Austria-facing or Poland-facing, plus confessional and constitutional steps
 
 country_event = {
-	id =rip_galicia.1
+	id = rip_galicia.1
 	title = rip_galicia.1.t
 	desc = rip_galicia.1.d
 	picture = COURT_eventPicture
@@ -12,11 +11,11 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		tag = HLC
+		west_ukraine_hlc_origin_country = yes
 	}
 
 	option = {
-		name = rip_galicia.1.a # Carpathian Shield (Austrian-leaning)
+		name = rip_galicia.1.a # Frontier-crown path
 		set_country_flag = rip_galicia_path_austria
 		add_country_modifier = {
 			name = rip_galicia_carpathian_shield
@@ -25,7 +24,7 @@ country_event = {
 	}
 
 	option = {
-		name = rip_galicia.1.b # Halych Sejm (Polish-style liberties)
+		name = rip_galicia.1.b # Estate-compact path
 		set_country_flag = rip_galicia_path_poland
 		add_stability = 1
 		add_country_modifier = {
@@ -36,7 +35,7 @@ country_event = {
 }
 
 country_event = {
-	id =rip_galicia.2
+	id = rip_galicia.2
 	title = rip_galicia.2.t
 	desc = rip_galicia.2.d
 	picture = REFORM_eventPicture
@@ -44,7 +43,7 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-		tag = HLC
+		west_ukraine_hlc_legacy_missions = yes
 		OR = {
 			has_country_flag = rip_galicia_path_austria
 			has_country_flag = rip_galicia_path_poland
@@ -86,7 +85,7 @@ country_event = {
 }
 
 country_event = {
-	id =rip_galicia.3
+	id = rip_galicia.3
 	title = rip_galicia.3.t
 	desc = rip_galicia.3.d
 	picture = REVOLUTION_eventPicture
@@ -94,7 +93,7 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-		tag = HLC
+		west_ukraine_hlc_legacy_missions = yes
 		has_country_flag = rip_galicia_confessional_set
 		NOT = { has_country_flag = rip_galicia_constitution_done }
 	}
@@ -106,6 +105,8 @@ country_event = {
 	option = {
 		name = rip_galicia.3.a # Constitution of Danylo
 		set_country_flag = rip_galicia_constitution_done
+		set_country_flag = rip_galicia_constitution_civic
+		clr_country_flag = rip_galicia_constitution_martial
 		add_adm_power = 50
 		add_dip_power = 50
 		add_country_modifier = {
@@ -117,6 +118,8 @@ country_event = {
 	option = {
 		name = rip_galicia.3.b # Crown and Sabre
 		set_country_flag = rip_galicia_constitution_done
+		set_country_flag = rip_galicia_constitution_martial
+		clr_country_flag = rip_galicia_constitution_civic
 		add_stability = 1
 		add_country_modifier = {
 			name = rip_galicia_crown_and_sabre
