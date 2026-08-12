@@ -504,10 +504,7 @@ chr_sloboda_exchange_province = {
 	province_trade_power_modifier = 0.15
 }
 
-chr_sejmik_commissions = {
-    reform_progress_growth = 0.10
-    diplomatic_reputation = 1
-}
+
 
 chr_ruthenian_civil_registers = {
     administrative_efficiency = 0.05
@@ -2014,11 +2011,7 @@ regimental_headquarters = {
 	local_garrison_size = 0.25
 }
 
-kyiv_mohyla_academy = {
-	local_institution_spread = 0.15
-	local_development_cost = -0.1
-	allowed_num_of_buildings = 1
-}
+
 
 left_bank_administration = {
 	local_tax_modifier = 0.15
@@ -2073,6 +2066,11 @@ het_autonomy_guaranteed = {
 	global_autonomy = -0.03
 }
 
+kyiv_autonomy_guaranteed = {
+	local_unrest = -2
+	local_autonomy = -0.05
+}
+
 het_independence_struggle = {
 	land_morale = 0.15
 	war_exhaustion = -0.03
@@ -2116,8 +2114,9 @@ centralized_control = {
 }
 
 russian_protection = {
-	land_morale = 0.1
-	liberty_desire = -15
+	local_defensiveness = 0.10
+	local_unrest = -1
+	local_autonomy = -0.05
 }
 
 orthodox_protector = {
@@ -2331,11 +2330,7 @@ het_abolished = {
 	stability_cost_modifier = 0.5
 }
 
-russian_protection = {
-	land_morale = 0.1
-	liberty_desire = -15
-	diplomatic_reputation = -1
-}
+
 
 sich_destroyed = {
 	local_unrest = 10
@@ -2351,13 +2346,7 @@ het_independent_state = {
 }
 
 
-zaz_great_rada_held = {
-	legitimacy = 0.5
-	republican_tradition = 0.5
-	stability_cost_modifier = -0.15
-	global_unrest = -2
-	global_autonomy = -0.05
-}
+
 
 zaz_rada_cooldown = {
 }
@@ -2369,11 +2358,7 @@ zaz_cossack_democracy = {
 	promote_culture_cost = -0.25
 }
 
-zich_relocated = {
-	global_unrest = -1
-	fort_maintenance_modifier = -0.20
-	defensiveness = 0.10
-}
+
 
 zaz_recent_relocation = {
 }
@@ -2385,18 +2370,9 @@ zaz_chaiky_fleet_active = {
 	blockade_efficiency = 0.25
 }
 
-zaz_successful_raid = {
-	prestige = 0.5
-	army_tradition = 0.5
-	loot_amount = 0.20
-	war_exhaustion = -0.05
-}
 
-zaz_failed_raid = {
-	prestige = -0.5
-	navy_tradition_decay = 0.02
-	naval_maintenance_modifier = 0.15
-}
+
+
 
 zaz_chaiky_raid_cooldown = {
 }
@@ -2433,12 +2409,7 @@ zaz_no_register = {
 	republican_tradition = 1
 }
 
-steppe_alliance = {
-	cavalry_power = 0.10
-	cavalry_cost = -0.10
-	movement_speed = 0.10
-	diplomatic_reputation = 1
-}
+
 
 steppe_cavalry_recruited = {
 	army_tradition = 0.5
@@ -2446,20 +2417,9 @@ steppe_cavalry_recruited = {
 	yearly_army_professionalism = 0.005
 }
 
-sloboda_settlement = {
-	local_manpower_modifier = 0.25
-	local_production_efficiency = 0.15
-	local_autonomy = -0.10
-	local_unrest = -1
-}
 
-military_sloboda = {
-	local_manpower_modifier = 0.50
-	local_defensiveness = 0.25
-	local_autonomy = -0.20
-	fort_level = 1
-	local_unrest = -2
-}
+
+
 
 sloboda_network_established = {
 	global_manpower_modifier = 0.15
@@ -2467,19 +2427,9 @@ sloboda_network_established = {
 	colonist_placement_chance = 0.05
 }
 
-orthodox_champions = {
-	tolerance_own = 2
-	papal_influence = 1
-	church_power_modifier = 0.15
-	prestige = 0.5
-	diplomatic_reputation = 1
-}
 
-orthodox_protected = {
-	local_missionary_strength = 0.03
-	local_tax_modifier = 0.10
-	local_unrest = -1
-}
+
+
 
 orthodox_defender_war = {
 	land_morale = 0.15
@@ -2542,11 +2492,7 @@ het_academy_network = {
 	yearly_innovativeness = 0.5
 }
 
-het_autonomy_guaranteed = {
-	liberty_desire = -15
-	global_autonomy = -0.10
-	diplomatic_reputation = 1
-}
+
 
 het_autonomy_threatened = {
 	liberty_desire = 15
@@ -2638,25 +2584,11 @@ sich_ottoman_lands = {
 	army_tradition = 0.05
 }
 
-cossack_settlement = {
-	local_manpower_modifier = 0.15
-	local_defensiveness = 0.10
-	years_of_nationalism = -2
-	local_unrest = -1
-	local_autonomy = 0.05
-}
 
-zaz_steppe_brotherhood = {
-	diplomatic_reputation = 1
-	improve_relation_modifier = 0.10
-	cav_to_inf_ratio = 0.05
-	cavalry_power = 0.05
-}
 
-zaz_steppe_alliance = {
-	improve_relation_modifier = 0.10
-	dip_tech_cost_modifier = -0.05
-}
+
+
+
 
 zaz_rebellious_cossacks = {
 	global_unrest = 3
@@ -2886,13 +2818,13 @@ belarus_mixed_heritage = {
 fortress_modifier = {
     local_defensiveness = 0.25          # +25% Defensiveness
     local_fort_maintenance_modifier = -0.20 # -20% Fort Maintenance
-    
+
 }
 
 vol_carpathian_bulwark_modifier = {
-	local_defensiveness = 0.20          # +20% Defensiveness
-	local_garrison_size = 0.15          # +15% Garrison Size
-	local_fort_maintenance_modifier = -0.15 # -15% Fort Maintenance
+	defensiveness = 0.20
+	fort_maintenance_modifier = -0.15
+	land_morale = 0.05
 }
 vol_crimean_conquest = {
 	land_morale = 0.1

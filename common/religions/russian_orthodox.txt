@@ -1,42 +1,39 @@
 
 christian = {
 	crusade_name = CRUSADE
-	
+
 	russian_orthodox = {
 		color = { 0.8 0.2 0.2 }
 		icon = 2
-		
+
+		# Scope kept at vanilla parity: every vanilla religion has 2-3 country
+		# modifiers, and none grants administrative_efficiency, core_creation,
+		# culture_conversion_cost, missionaries or legitimacy. The zeal against
+		# heretics is what sets the state church apart, so that is what it keeps.
 		country = {
-			tolerance_own = 2
+			tolerance_own = 2					# vanilla ceiling (inti)
 			tolerance_heretic = -2
-			missionaries = 1
-			global_missionary_strength = 0.02
-			culture_conversion_cost = -0.25
-			core_creation = -0.10
-			administrative_efficiency = 0.05
-			legitimacy = 1
+			global_heretic_missionary_strength = 0.02	# matches hussite
 		}
-		
+
 		country_as_secondary = {
-			missionaries = 1
 			tolerance_own = 1
+			global_colonial_growth = 10
 		}
-		
+
 		province = {
-			local_missionary_strength = 0.02
-			local_culture_conversion_cost = -0.15
-			local_unrest = -1
+			local_missionary_strength = -0.01	# as vanilla orthodox
 		}
-		
+
 		uses_church_power = yes
-		
+
 		# Patriarchs
 		has_patriarchs = yes
-		
+
 		heretic = { "BOGOMILIST" }
-		
+
 		date = 1589.1.26
-		
+
 		on_convert = {
 			add_prestige = 15
 			add_legitimacy = 10
@@ -45,8 +42,8 @@ christian = {
 				duration = 5475
 			}
 		}
-		
-		
+
+
 		holy_sites = {
 			280  # Kiev - Mother of Russian cities
 			295  # Moscow - Third Rome
@@ -54,5 +51,46 @@ christian = {
 			358  # Jerusalem - Holy Land
 			151  # Rome - First Rome (symbolic)
 		}
+	}
+
+	greek_catholic = {
+		color = { 0.7 0.5 0.8 }
+		icon = 10
+
+		country = {
+			tolerance_own = 2
+			tolerance_heretic = 1
+			papal_influence = 1
+			diplomatic_reputation = 1
+			advisor_cost = -0.05
+		}
+
+		country_as_secondary = {
+			tolerance_heretic = 1
+			diplomatic_reputation = 0.5
+		}
+
+		province = {
+			local_missionary_strength = 0.01
+		}
+
+		uses_church_power = yes
+
+		has_patriarchs = yes
+
+		hre_heretic_religion = yes
+
+		heretic = { "BOGOMILIST" }
+
+		date = 1596.10.6
+
+		on_convert = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = uniate_church_consolidation
+				duration = 3650
+			}
+		}
+
 	}
 }
