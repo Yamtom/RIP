@@ -487,12 +487,12 @@ EU4 `error.log` не містить mod-caused engine errors; нова гра т
 - [x] Завершити EN як source language; позначити FR/DE/ES як partial, доки не
   буде повного покриття.
 - [x] Запровадити topographic/style glossary.
-- [ ] Прибрати анахронічні династії та сучасні політичні прізвища.
-- [ ] Додати source note й authenticity tier до ключових event chains.
+- [x] Прибрати анахронічні династії та сучасні політичні прізвища.
+- [x] Додати source note й authenticity tier до ключових event chains.
 
 ## Milestone 3 — Balance and Pacing Alpha
 
-- [ ] Виправити scale errors loyalty, autonomy, patriarch authority та інші
+- [x] Виправити scale errors loyalty, autonomy, patriarch authority та інші
   значення, що відрізняються від vanilla приблизно у 10–100 разів.
 - [ ] Прибрати накопичення permanent tier modifiers.
 - [ ] Нормалізувати надсильні ideas, reforms, privileges і Sich monument.
