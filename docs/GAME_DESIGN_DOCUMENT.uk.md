@@ -120,7 +120,7 @@ Definition of done для історичного пакета:
 
 ## 2.1. Зареєстровані нові держави
 
-У canonical root зареєстровано 18 нових тегів:
+У canonical root зареєстровано 19 нових тегів:
 
 | Тег | Робоча назва | Фокус кампанії |
 |---|---|---|
@@ -136,6 +136,7 @@ Definition of done для історичного пакета:
 | SMY | Sumy Regiment | слобідський полковий устрій |
 | OKH | Okhtyrka Regiment | слобідське прикордоння |
 | IZM | Izium Regiment | військова колонізація степу |
+| KHK | Kharkov Host | харківське козацьке прикордоння |
 | RPS | Polishchuks / Polesia | Полісся та Прип'ятські болота |
 | MSK | Minsk | мінський торгово-князівський центр |
 | TRV | Turov | давня Турівська земля |
@@ -144,9 +145,9 @@ Definition of done для історичного пакета:
 | BLR | Belarus | об'єднання білоруських земель |
 
 Vanilla-теги `KIE`, `CHR`, `VOL`, `ZAZ`, `UKR`, `PLT`, `MOS/RUS` та російські
-князівства отримують розширення або overrides. `KHA` не є новим тегом: у
-vanilla він належить Mongol Khanate, тому Харківський полк повинен отримати
-інший вільний тег до релізу.
+князівства отримують розширення або overrides. Для Харківського полку
+використовується вільний тег `KHK`; vanilla `KHA` залишається за Mongol
+Khanate.
 
 ## 2.2. Місійні дерева
 
@@ -214,7 +215,7 @@ Orthodox Crusade; Dniester, Moldova, South Ukraine та eastward expansion.
 | Localisation | 42 files, 8,728 key lines; 8,486 use standard indentation |
 | Visuals | 23 TGA, 18 DDS, 6 interface GFX, thumbnail |
 
-Усі 18 зареєстрованих нових тегів уже мають прапори. У release assets не
+Усі 19 зареєстрованих нових тегів уже мають прапори. У release assets не
 враховуються чотири `.tga.bak`; це резервні копії, а не ігровий контент.
 
 ---
@@ -460,7 +461,7 @@ tagged release. Локальну й Workshop-копію моду не можна
 
 **Release blocker.**
 
-- [ ] Призначити Харківському полку вільний тег замість vanilla `KHA`.
+- [x] Призначити Харківському полку вільний тег `KHK` замість vanilla `KHA`.
 - [x] Виправити mappings або filenames `Chernihiv`, `Kyiv`, `Zaporizhia`,
   `Kharkov_Host`; видалити застарілий orphan `Rus.txt`.
 - [x] Додати flags для RPS, MSK, TRV, VTB, MSL, BLR.
