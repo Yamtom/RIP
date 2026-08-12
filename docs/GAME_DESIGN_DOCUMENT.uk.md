@@ -461,8 +461,8 @@ tagged release. Локальну й Workshop-копію моду не можна
 **Release blocker.**
 
 - [ ] Призначити Харківському полку вільний тег замість vanilla `KHA`.
-- [ ] Виправити mappings або filenames `Chernihiv`, `Kyiv`, `Zaporizhia`,
-  `Kharkov_Host`, `Rus`.
+- [x] Виправити mappings або filenames `Chernihiv`, `Kyiv`, `Zaporizhia`,
+  `Kharkov_Host`; видалити застарілий orphan `Rus.txt`.
 - [x] Додати flags для RPS, MSK, TRV, VTB, MSL, BLR.
 - [x] Додати RPS/VTB name й adjective localisation та ODS country colour.
 - [ ] Консолідувати 26 duplicate event-modifier IDs, 10 opinion IDs і
