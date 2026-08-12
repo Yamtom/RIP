@@ -1,0 +1,85 @@
+# Loaded after vanilla zz_group_ideas.txt so these override the vanilla
+# culture-group and cossack idea sets rather than competing with them.
+
+ruthenian_ideas = {
+	start = {
+		manpower_recovery_speed = 0.2
+		global_manpower_modifier = 0.3
+	}
+
+	bonus = {
+		discipline = 0.05
+	}
+
+	trigger = {
+		OR = {
+			primary_culture = ruthenian
+			primary_culture = byelorussian
+		}
+	}
+	free = yes
+
+	mother_of_russian_cities = {
+		legitimacy = 1
+		prestige = 1
+	}
+	international_influences = {
+		tolerance_heretic = 2
+	}
+	zaporizhian_cossacs = {
+		cavalry_power = 0.2
+	}
+	east_and_west = {
+		global_trade_power = 0.2
+		caravan_power = 0.2
+	}
+	legacy_of_ancient_rus = {
+		stability_cost_modifier = -0.2
+	}
+	reuniting_rus = {
+		years_of_nationalism = -10
+	}
+	birth_of_russian_orthodoxy = {
+		tolerance_own = 1
+		promote_culture_cost = -0.25
+	}
+}
+
+cossack_ideas = {
+	start = {
+		global_unrest = -2
+		loot_amount = 0.25
+	}
+	bonus = {
+		shock_damage = 0.1
+	}
+	trigger = {
+		# This set replaces the vanilla one, so it must still answer to the
+		# vanilla reform for anyone who reached it by a vanilla route.
+		OR = {
+			has_reform = rip_cossacks_reform
+			has_reform = cossacks_reform
+		}
+	}
+	free = yes
+	cossacks_escaped_serfs = {
+		manpower_recovery_speed = 0.2
+	}
+	cossacks_hetmanate = {
+		republican_tradition = 0.5
+	}
+	zaz_steppe_riders = {
+	}
+	cossacks_insults = {
+		power_projection_from_insults = 1
+	}
+	cossacks_military_society = {
+		army_tradition = 0.5
+	}
+	cossacks_free_the_serfs = {
+		years_of_nationalism = -5
+	}
+	cossacks_registered = {
+		possible_mil_policy = 1
+	}
+}
