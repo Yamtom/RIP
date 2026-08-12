@@ -44,13 +44,36 @@ country_event = {
 			factor = 0.5
 			alliance_with = PAP
 		}
+		# The Catholic recovery after the 1570s is the historical push toward
+		# Brest: once the Protestant magnates fold, the shelter their quarrel
+		# gave the Orthodox folds with them. See events/CommonwealthReformation.txt.
+		modifier = {
+			factor = 0.5
+			has_country_flag = uniate_pressure_mounting
+		}
+		modifier = {
+			factor = 0.6
+			OR = {
+				overlord = { has_country_flag = pl_catholic_recovery }
+				any_neighbor_country = { has_country_flag = pl_catholic_recovery }
+			}
+		}
+		# Conversely, while the Confederation still shelters dissenters the
+		# bishops have far less reason to look to Rome.
+		modifier = {
+			factor = 2.0
+			OR = {
+				has_country_flag = pl_brotherhoods_chartered
+				overlord = { has_country_flag = pl_confederation_upheld }
+			}
+		}
 		modifier = {
 			factor = 0.8
 			OR = {
 				overlord = { religion = catholic }
 				OR = {
-					overlord = { religion = catholic }   # if you’re junior
-					any_subject_country = { religion = catholic }  # if you’re senior
+					overlord = { religion = catholic }   # if you're junior
+					any_subject_country = { religion = catholic }  # if you're senior
 				}
 			}
 		}

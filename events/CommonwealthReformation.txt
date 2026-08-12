@@ -1,0 +1,284 @@
+namespace = pl_reformation
+
+# ===========================================================================
+# THE REFORMATION IN THE COMMONWEALTH
+# ---------------------------------------------------------------------------
+# The Protestant decades are the missing hinge in the Ruthenian story. Magnate
+# Calvinism and the Warsaw Confederation opened the space in which the Orthodox
+# brotherhoods built their schools and presses; the Catholic recovery after the
+# 1570s closed it again, and that closing is what drove the bishops to Brest.
+#
+# The chain sets three flags the Uniate events read:
+#   pl_magnate_reformation   - the Protestant window is open
+#   pl_brotherhood_window    - the brotherhoods took their chance
+#   pl_catholic_recovery     - the window has shut; pressure toward union
+# ===========================================================================
+
+
+# --- 1. Magnate Calvinism --------------------------------------------------
+country_event = {
+	id = pl_reformation.1
+	title = pl_reformation.1.t
+	desc = pl_reformation.1.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = POL
+			tag = LIT
+			tag = PLC
+		}
+		religion = catholic
+		is_year = 1548
+		NOT = { is_year = 1580 }
+		NOT = { has_country_flag = pl_magnate_reformation }
+		religious_unity = 0.5
+	}
+
+	mean_time_to_happen = {
+		months = 60
+		modifier = {
+			factor = 0.6
+			has_institution = printing_press
+		}
+		modifier = {
+			factor = 0.7
+			any_neighbor_country = { religion = protestant }
+		}
+		modifier = {
+			factor = 0.7
+			any_neighbor_country = { religion = reformed }
+		}
+	}
+
+	option = {		# Tolerate the magnates
+		name = pl_reformation.1.a
+		set_country_flag = pl_magnate_reformation
+		add_country_modifier = {
+			name = pl_magnate_confessions
+			duration = 7300
+		}
+		add_estate_loyalty = { estate = estate_nobles loyalty = 10 }
+		add_papal_influence = -20
+	}
+
+	option = {		# Stand with Rome from the first
+		name = pl_reformation.1.b
+		add_papal_influence = 25
+		add_estate_loyalty = { estate = estate_nobles loyalty = -10 }
+		add_prestige = -5
+		add_country_modifier = {
+			name = pl_early_catholic_stand
+			duration = 5475
+		}
+	}
+}
+
+
+# --- 2. The Polish Brethren ------------------------------------------------
+country_event = {
+	id = pl_reformation.2
+	title = pl_reformation.2.t
+	desc = pl_reformation.2.d
+	picture = DEBATE_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		has_country_flag = pl_magnate_reformation
+		NOT = { is_year = 1600 }
+	}
+
+	mean_time_to_happen = { months = 48 }
+
+	option = {		# Let them print and dispute
+		name = pl_reformation.2.a
+		add_country_modifier = {
+			name = pl_brethren_presses
+			duration = 7300
+		}
+		add_years_of_income = -0.05
+	}
+
+	option = {		# Curb the radicals
+		name = pl_reformation.2.b
+		add_papal_influence = 10
+		add_stability_or_adm_power = yes
+	}
+}
+
+
+# --- 3. The Warsaw Confederation, 1573 --------------------------------------
+country_event = {
+	id = pl_reformation.3
+	title = pl_reformation.3.t
+	desc = pl_reformation.3.d
+	picture = COURT_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = POL
+			tag = LIT
+			tag = PLC
+		}
+		is_year = 1573
+		NOT = { is_year = 1600 }
+		NOT = { has_country_flag = pl_warsaw_confederation }
+	}
+
+	mean_time_to_happen = {
+		months = 24
+		modifier = {
+			factor = 0.5
+			has_country_flag = pl_magnate_reformation
+		}
+	}
+
+	option = {		# Swear the Confederation
+		name = pl_reformation.3.a
+		set_country_flag = pl_warsaw_confederation
+		set_country_flag = pl_brotherhood_window
+		add_country_modifier = {
+			name = pl_confederation_oath
+			duration = -1
+		}
+		add_estate_loyalty = { estate = estate_nobles loyalty = 10 }
+	}
+
+	option = {		# Refuse the oath
+		name = pl_reformation.3.b
+		add_papal_influence = 30
+		add_estate_loyalty = { estate = estate_nobles loyalty = -15 }
+		add_country_modifier = {
+			name = pl_confession_of_the_crown
+			duration = 9125
+		}
+	}
+}
+
+
+# --- 4. The Orthodox brotherhoods take their chance -------------------------
+country_event = {
+	id = pl_reformation.4
+	title = pl_reformation.4.t
+	desc = pl_reformation.4.d
+	picture = ORTHODOX_RELIGION_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			religion = orthodox
+			any_owned_province = { religion = orthodox }
+		}
+		OR = {
+			has_country_flag = pl_brotherhood_window
+			overlord = { has_country_flag = pl_brotherhood_window }
+			AND = {
+				OR = { tag = POL tag = LIT tag = PLC }
+				has_country_flag = pl_magnate_reformation
+			}
+		}
+		is_year = 1576
+		NOT = { is_year = 1620 }
+		NOT = { has_country_flag = pl_brotherhoods_chartered }
+	}
+
+	mean_time_to_happen = {
+		months = 36
+		modifier = {
+			factor = 0.6
+			has_institution = printing_press
+		}
+	}
+
+	option = {		# Charter the brotherhoods
+		name = pl_reformation.4.a
+		set_country_flag = pl_brotherhoods_chartered
+		add_country_modifier = {
+			name = pl_orthodox_brotherhoods
+			duration = -1
+		}
+		add_prestige = 10
+	}
+
+	option = {		# Keep the schools under the bishops
+		name = pl_reformation.4.b
+		add_country_modifier = {
+			name = pl_episcopal_schools
+			duration = 7300
+		}
+		add_church_power = 50
+	}
+}
+
+
+# --- 5. The Catholic recovery -----------------------------------------------
+country_event = {
+	id = pl_reformation.5
+	title = pl_reformation.5.t
+	desc = pl_reformation.5.d
+	picture = JESUITS_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = POL
+			tag = LIT
+			tag = PLC
+		}
+		OR = {
+			has_country_flag = pl_magnate_reformation
+			has_country_flag = pl_warsaw_confederation
+		}
+		is_year = 1580
+		NOT = { is_year = 1620 }
+		NOT = { has_country_flag = pl_catholic_recovery }
+	}
+
+	mean_time_to_happen = {
+		months = 42
+		modifier = {
+			factor = 0.6
+			alliance_with = PAP
+		}
+		modifier = {
+			factor = 0.7
+			papal_influence = 50
+		}
+	}
+
+	option = {		# Let the colleges do their work
+		name = pl_reformation.5.a
+		set_country_flag = pl_catholic_recovery
+		add_country_modifier = {
+			name = pl_jesuit_colleges
+			duration = -1
+		}
+		add_papal_influence = 25
+		# The closing of the Protestant window is what pushes the eastern
+		# bishops toward Rome - see events/UniateChurch.txt.
+		hidden_effect = {
+			set_country_flag = uniate_pressure_mounting
+			every_subject_country = {
+				limit = { religion = orthodox }
+				set_country_flag = uniate_pressure_mounting
+			}
+		}
+	}
+
+	option = {		# Hold the Confederation's line
+		name = pl_reformation.5.b
+		add_papal_influence = -25
+		add_country_modifier = {
+			name = pl_confederation_upheld
+			duration = 9125
+		}
+		add_estate_loyalty = { estate = estate_nobles loyalty = 10 }
+	}
+}
