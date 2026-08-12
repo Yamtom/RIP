@@ -326,7 +326,7 @@ RIP/
 ```
 
 `docs`, tests і tooling не входять до Workshop ZIP. Поточний canonical
-release inventory: 415 tracked engine-layer files — `common` 123, `events` 53,
+release inventory: 414 tracked engine-layer files — `common` 122, `events` 53,
 `missions` 11, `decisions` 27, `history` 106, `localisation` 42, `gfx` 45,
 `interface` 6 і `customizable_localization` 2. У локальному worktree можуть
 залишатися чотири ignored `.tga.bak`, але Git і release archive їх не містять.
@@ -334,9 +334,9 @@ release inventory: 415 tracked engine-layer files — `common` 123, `events` 53,
 ## 4.2. Міграція RIP-fresh2
 
 Колишній `RIP-fresh2` був другою повною копією моду в активному корені. EU4
-не шукає рекурсивно новий mod root, тому 134 nested-only paths не
-завантажувалися, а 240 розбіжних дублікатів не можна було безпечно копіювати
-нагору.
+не шукає рекурсивно новий mod root, тому 134 audited game-layer nested-only
+paths не завантажувалися, а 240 розбіжних game-layer дублікатів не можна було
+безпечно копіювати нагору.
 
 Міграцію виконано як Git integration, а не як видалення історії:
 
