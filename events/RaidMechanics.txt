@@ -7,7 +7,7 @@ country_event = {
 	title = raid_mechanics.1.t
 	desc = raid_mechanics.1.d
 	picture = STEPPE_EVENT_eventPicture
-	
+
 	trigger = {
 		OR = {
 			tag = ZAZ
@@ -16,7 +16,7 @@ country_event = {
 			has_reform = cossacks_legacy_reform
 			tag = RPS
 			primary_culture = ruthenian
-			has_reform = cossacks_reform
+			has_reform = rip_cossacks_reform
 		}
 		NOT = { has_country_modifier = spring_raid_season }
 		NOT = { has_country_modifier = recent_raid_cooldown }
@@ -25,10 +25,10 @@ country_event = {
 		is_month = 3
 		is_month = 5
 	}
-	
+
 	mean_time_to_happen = {
 		months = 6
-		
+
 		modifier = {
 			factor = 0.5
 			OR = {
@@ -36,21 +36,21 @@ country_event = {
 				tag = CRI
 			}
 		}
-		
+
 		modifier = {
 			factor = 0.75
 			cavalry_fraction = 0.5
 		}
-		
+
 		modifier = {
 			factor = 1.5
 			stability = 2
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.1.a
-		
+
 		ai_chance = {
 			factor = 60
 			modifier = {
@@ -59,56 +59,56 @@ country_event = {
 			}
 		}
 
-		
+
 		add_country_modifier = {
 			name = gathering_raiders
 			duration = 180
 		}
-		
+
 		add_country_modifier = {
 			name = spring_raid_season
 			duration = 180
 		}
-		
+
 		add_mil_power = -25
-		
+
 		country_event = { id = raid_mechanics.10 days = 90 }
 	}
-	
+
 	option = {
 		name = raid_mechanics.1.b
-		
+
 		ai_chance = {
 			factor = 30
 		}
-		
+
 		add_country_modifier = {
 			name = spring_raid_season
 			duration = 120
 		}
-		
+
 		add_mil_power = -10
-		
+
 		random_list = {
 			60 = { country_event = { id = raid_mechanics.11 days = 60 } }
 			40 = { country_event = { id = raid_mechanics.12 days = 60 } }
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.1.c
-		
+
 		ai_chance = {
 			factor = 10
-			
+
 			modifier = {
 				factor = 3
 				war_exhaustion = 5
 			}
 		}
-		
+
 		add_stability_or_adm_power = yes
-		
+
 		add_country_modifier = {
 			name = mobile_anti_raid_patrols
 			duration = 365
@@ -121,56 +121,56 @@ country_event = {
 	title = raid_mechanics.2.t
 	desc = raid_mechanics.2.d
 	picture = BORDER_TENSION_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		has_country_modifier = gathering_raiders
 	}
-	
+
 	option = {
 		name = raid_mechanics.2.a
-		
+
 		ai_chance = {
 			factor = 50
-			
+
 			modifier = {
 				factor = 1.5
 				dip_power = 50
 			}
 		}
-		
+
 		add_dip_power = -25
-		
+
 		add_country_modifier = {
 			name = raid_reconnaissance
 			duration = 120
 		}
-		
+
 		custom_tooltip = raid_mechanics.2.a.tt
 	}
-	
+
 	option = {
 		name = raid_mechanics.2.b
-		
+
 		ai_chance = {
 			factor = 30
 		}
-		
+
 		add_prestige = -5
-		
+
 		custom_tooltip = raid_mechanics.2.b.tt
 	}
-	
+
 	option = {
 		name = raid_mechanics.2.c
-		
+
 		ai_chance = {
 			factor = 20
 		}
-		
+
 		add_mil_power = 10
-		
+
 		custom_tooltip = raid_mechanics.2.c.tt
 	}
 }
@@ -181,79 +181,79 @@ country_event = {
 	title = raid_mechanics.10.t
 	desc = raid_mechanics.10.d
 	picture = BORDER_TENSION_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		has_country_modifier = gathering_raiders
 	}
-	
+
 	immediate = {
 		remove_country_modifier = gathering_raiders
 	}
-	
+
 	option = {
 		name = raid_mechanics.10.a
-		
+
 		ai_chance = {
 			factor = 40
-			
+
 			modifier = {
 				factor = 1.5
 				army_tradition = 50
 			}
 		}
-		
+
 		random_list = {
 			35 = {
 				modifier = {
 					factor = 1.5
 					has_country_modifier = raid_reconnaissance
 				}
-				
+
 				country_event = { id = raid_mechanics.20 }
 			}
-			
+
 			40 = {
 				country_event = { id = raid_mechanics.21 }
 			}
-			
+
 			25 = {
 				modifier = {
 					factor = 0.5
 					has_country_modifier = raid_reconnaissance
 				}
-				
+
 				country_event = { id = raid_mechanics.30 }
 			}
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.10.b
-		
+
 		ai_chance = {
 			factor = 40
 		}
-		
+
 		random_list = {
 			50 = {
 				country_event = { id = raid_mechanics.21 }
 			}
-			
+
 			30 = {
 				country_event = { id = raid_mechanics.22 }
 			}
-			
+
 			20 = {
 				country_event = { id = raid_mechanics.31 }
 			}
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.10.c
-		
+
 		trigger = {
 			OR = {
 				tag = CRI
@@ -261,38 +261,38 @@ country_event = {
 				tag = GOL
 			}
 		}
-		
+
 		ai_chance = {
 			factor = 60
-			
+
 			modifier = {
 				factor = 2
 				tag = CRI
 			}
 		}
-		
+
 		random_list = {
 			60 = {
 				country_event = { id = raid_mechanics.40 }
 			}
-			
+
 			25 = {
 				country_event = { id = raid_mechanics.41 }
 			}
-			
+
 			15 = {
 				country_event = { id = raid_mechanics.31 }
 			}
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.10.e
-		
+
 		ai_chance = {
 			factor = 5
 		}
-		
+
 		add_prestige = -10
 		add_mil_power = 10
 	}
@@ -303,22 +303,22 @@ country_event = {
 	title = raid_mechanics.11.t
 	desc = raid_mechanics.11.d
 	picture = BATTLEFIELD_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = raid_mechanics.11.a
-		
+
 		add_country_modifier = {
 			name = minor_raid_success
 			duration = 730
 		}
-		
+
 		add_country_modifier = {
 			name = recent_raid_cooldown
 			duration = 365
 		}
-		
+
 		add_treasury = 50
 		add_army_tradition = 5
 	}
@@ -329,22 +329,22 @@ country_event = {
 	title = raid_mechanics.12.t
 	desc = raid_mechanics.12.d
 	picture = ACCUSATION_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = raid_mechanics.12.a
-		
+
 		add_country_modifier = {
 			name = minor_raid_failure
 			duration = 365
 		}
-		
+
 		add_country_modifier = {
 			name = recent_raid_cooldown
 			duration = 180
 		}
-		
+
 		add_army_tradition = -5
 	}
 }
@@ -355,37 +355,37 @@ country_event = {
 	title = raid_mechanics.20.t
 	desc = raid_mechanics.20.d
 	picture = CITY_DEVELOPMENT_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = raid_mechanics.20.a
-		
+
 		add_country_modifier = {
 			name = major_raid_success
 			duration = 1825
 		}
-		
+
 		add_country_modifier = {
 			name = recent_raid_cooldown
 			duration = 730
 		}
-		
+
 		add_treasury = 300
 		add_army_tradition = 15
 		add_prestige = 10
-		
+
 		random_neighbor_country = {
 			limit = {
 				NOT = { alliance_with = ROOT }
 				NOT = { truce_with = ROOT }
 			}
-			
+
 			add_opinion = {
 				who = ROOT
 				modifier = insulted
 			}
-			
+
 			country_event = { id = raid_mechanics.50 }
 		}
 	}
@@ -396,41 +396,41 @@ country_event = {
 	title = raid_mechanics.21.t
 	desc = raid_mechanics.21.d
 	picture = LAND_MILITARY_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = raid_mechanics.21.a
-		
+
 		add_country_modifier = {
 			name = moderate_raid_success
 			duration = 1095
 		}
-		
+
 		add_country_modifier = {
 			name = recent_raid_cooldown
 			duration = 545
 		}
-		
+
 		add_treasury = 150
 		add_army_tradition = 10
 		add_prestige = 5
-		
+
 		random_neighbor_country = {
 			limit = {
 				NOT = { alliance_with = ROOT }
 			}
-			
+
 			add_opinion = {
 				who = ROOT
 				modifier = insulted
 			}
-			
+
 			random_owned_province = {
 				limit = {
 					any_neighbor_province = { owned_by = ROOT }
 				}
-				
+
 				add_province_modifier = {
 					name = province_raided
 					duration = 1825
@@ -445,22 +445,22 @@ country_event = {
 	title = raid_mechanics.22.t
 	desc = raid_mechanics.22.d
 	picture = LAND_MILITARY_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = raid_mechanics.22.a
-		
+
 		add_country_modifier = {
 			name = minor_raid_success
 			duration = 730
 		}
-		
+
 		add_country_modifier = {
 			name = recent_raid_cooldown
 			duration = 365
 		}
-		
+
 		add_treasury = 75
 		add_army_tradition = 7
 	}
@@ -472,26 +472,26 @@ country_event = {
 	title = raid_mechanics.30.t
 	desc = raid_mechanics.30.d
 	picture = ACCUSATION_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = raid_mechanics.30.a
-		
+
 		add_country_modifier = {
 			name = major_raid_failure
 			duration = 1095
 		}
-		
+
 		add_country_modifier = {
 			name = recent_raid_cooldown
 			duration = 730
 		}
-		
+
 		add_army_tradition = -10
 		add_prestige = -15
 		add_war_exhaustion = 1
-		
+
 		add_manpower = -5
 	}
 }
@@ -501,36 +501,36 @@ country_event = {
 	title = raid_mechanics.31.t
 	desc = raid_mechanics.31.d
 	picture = BATTLEFIELD_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = raid_mechanics.31.a
-		
+
 		add_country_modifier = {
 			name = raiders_ambushed
 			duration = 1095
 		}
-		
+
 		add_country_modifier = {
 			name = recent_raid_cooldown
 			duration = 545
 		}
-		
+
 		add_army_tradition = -15
 		add_prestige = -10
 		add_war_exhaustion = 2
-		
+
 		add_manpower = -8
-		
+
 		random_neighbor_country = {
 			limit = {
 				NOT = { alliance_with = ROOT }
 			}
-			
+
 			add_prestige = 10
 			add_army_tradition = 10
-			
+
 			country_event = { id = raid_mechanics.51 }
 		}
 	}
@@ -542,9 +542,9 @@ country_event = {
 	title = raid_mechanics.40.t
 	desc = raid_mechanics.40.d
 	picture = ACCUSATION_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	trigger = {
 		OR = {
 			tag = CRI
@@ -552,23 +552,23 @@ country_event = {
 			tag = GOL
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.40.a
-		
+
 		add_country_modifier = {
 			name = slave_raid_success
 			duration = 1825
 		}
-		
+
 		add_country_modifier = {
 			name = recent_raid_cooldown
 			duration = 730
 		}
-		
+
 		add_treasury = 250
 		add_prestige = 5
-		
+
 		random_neighbor_country = {
 			limit = {
 				OR = {
@@ -578,12 +578,12 @@ country_event = {
 					tag = RUS
 				}
 			}
-			
+
 			add_opinion = {
 				who = ROOT
 				modifier = insulted
 			}
-			
+
 			country_event = { id = raid_mechanics.52 }
 		}
 	}
@@ -594,22 +594,22 @@ country_event = {
 	title = raid_mechanics.41.t
 	desc = raid_mechanics.41.d
 	picture = HORDE_ON_HORSEBACK_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = raid_mechanics.41.a
-		
+
 		add_country_modifier = {
 			name = livestock_raid_success
 			duration = 1095
 		}
-		
+
 		add_country_modifier = {
 			name = recent_raid_cooldown
 			duration = 545
 		}
-		
+
 		add_treasury = 100
 		add_years_of_income = 0.1
 	}
@@ -620,7 +620,7 @@ country_event = {
 	title = raid_mechanics.42.t
 	desc = raid_mechanics.42.d
 	picture = NAVAL_MILITARY_eventPicture
-	
+
 	trigger = {
 		OR = {
 			tag = ZAZ
@@ -639,44 +639,44 @@ country_event = {
 			}
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 120
-		
+
 		modifier = {
 			factor = 0.5
 			tag = ZAZ
 		}
-		
+
 		modifier = {
 			factor = 0.75
 			navy_size = 20
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.42.a
-		
+
 		ai_chance = {
 			factor = 70
 		}
-		
+
 		random_list = {
 			60 = {
 				add_country_modifier = {
 					name = chaiky_naval_raid_success
 					duration = 1095
 				}
-				
+
 				add_country_modifier = {
 					name = recent_raid_cooldown
 					duration = 545
 				}
-				
+
 				add_treasury = 200
 				add_navy_tradition = 20
 				add_prestige = 10
-				
+
 				random_neighbor_country = {
 					limit = {
 						OR = {
@@ -684,31 +684,31 @@ country_event = {
 							tag = CRI
 						}
 					}
-					
+
 					add_opinion = {
 						who = ROOT
 						modifier = insulted
 					}
-					
+
 					country_event = { id = raid_mechanics.53 }
 				}
 			}
-			
+
 			25 = {
 				add_navy_tradition = -10
 				add_prestige = -5
-				
+
 				add_country_modifier = {
 					name = recent_raid_cooldown
 					duration = 365
 				}
 			}
-			
+
 			15 = {
 				add_navy_tradition = -15
 				add_prestige = -10
 				add_sailors = -500
-				
+
 				add_country_modifier = {
 					name = recent_raid_cooldown
 					duration = 365
@@ -716,14 +716,14 @@ country_event = {
 			}
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.42.b
-		
+
 		ai_chance = {
 			factor = 30
 		}
-		
+
 		add_stability_or_adm_power = yes
 	}
 }
@@ -733,7 +733,7 @@ country_event = {
 	title = raid_mechanics.43.t
 	desc = raid_mechanics.43.d
 	picture = BORDER_TENSION_eventPicture
-	
+
 	trigger = {
 		OR = {
 			tag = RPS
@@ -746,15 +746,15 @@ country_event = {
 			has_terrain = marsh
 		}
 	}
-	
+
 	mean_time_to_happen = {
 		months = 100
-		
+
 		modifier = {
 			factor = 0.75
 			tag = RPS
 		}
-		
+
 		modifier = {
 			factor = 0.5
 			calc_true_if = {
@@ -765,45 +765,45 @@ country_event = {
 			}
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.43.a
-		
+
 		ai_chance = {
 			factor = 70
 		}
-		
+
 		random_list = {
 			65 = {
 				add_country_modifier = {
 					name = marsh_raid_success
 					duration = 1095
 				}
-				
+
 				add_country_modifier = {
 					name = recent_raid_cooldown
 					duration = 545
 				}
-				
+
 				add_treasury = 100
 				add_army_tradition = 10
 				add_prestige = 5
 			}
-			
+
 			25 = {
 				add_army_tradition = 5
 				add_treasury = 50
-				
+
 				add_country_modifier = {
 					name = recent_raid_cooldown
 					duration = 365
 				}
 			}
-			
+
 			10 = {
 				add_prestige = -5
 				add_manpower = -2
-				
+
 				add_country_modifier = {
 					name = recent_raid_cooldown
 					duration = 365
@@ -811,14 +811,14 @@ country_event = {
 			}
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.43.b
-		
+
 		ai_chance = {
 			factor = 30
 		}
-		
+
 		add_adm_power = 10
 	}
 }
@@ -829,34 +829,34 @@ country_event = {
 	title = raid_mechanics.50.t
 	desc = raid_mechanics.50.d
 	picture = ACCUSATION_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = raid_mechanics.50.a
-		
+
 		add_country_modifier = {
 			name = country_suffering_raids
 			duration = 1095
 		}
-		
+
 		add_country_modifier = {
 			name = raid_victim_retaliation
 			duration = 1825
 		}
-		
+
 		add_prestige = -10
-		
+
 		random_owned_province = {
 			limit = {
 				any_neighbor_province = { owned_by = FROM }
 			}
-			
+
 			add_province_modifier = {
 				name = province_heavily_raided
 				duration = 3650
 			}
-			
+
 			add_devastation = 25
 		}
 	}
@@ -867,16 +867,16 @@ country_event = {
 	title = raid_mechanics.51.t
 	desc = raid_mechanics.51.d
 	picture = LAND_MILITARY_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = raid_mechanics.51.a
-		
+
 		add_prestige = 10
 		add_army_tradition = 15
 		add_treasury = 75
-		
+
 		add_country_modifier = {
 			name = mobile_anti_raid_patrols
 			duration = 1095
@@ -889,34 +889,34 @@ country_event = {
 	title = raid_mechanics.52.t
 	desc = raid_mechanics.52.d
 	picture = ACCUSATION_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = raid_mechanics.52.a
-		
+
 		add_country_modifier = {
 			name = country_suffering_raids
 			duration = 1825
 		}
-		
+
 		add_prestige = -15
 		add_legitimacy = -5
-		
+
 		random_owned_province = {
 			limit = {
 				any_neighbor_province = { owned_by = FROM }
 			}
-			
+
 			add_province_modifier = {
 				name = province_heavily_raided
 				duration = 5475
 			}
-			
+
 			add_devastation = 50
 			add_base_manpower = -1
 		}
-		
+
 		add_casus_belli = {
 			target = FROM
 			type = cb_insult
@@ -930,28 +930,28 @@ country_event = {
 	title = raid_mechanics.53.t
 	desc = raid_mechanics.53.d
 	picture = NAVAL_MILITARY_eventPicture
-	
+
 	is_triggered_only = yes
-	
+
 	option = {
 		name = raid_mechanics.53.a
-		
+
 		add_prestige = -10
 		add_navy_tradition = -10
-		
+
 		random_owned_province = {
 			limit = {
 				has_port = yes
 			}
-			
+
 			add_province_modifier = {
 				name = province_raided
 				duration = 1825
 			}
-			
+
 			add_devastation = 15
 		}
-		
+
 		add_opinion = {
 			who = FROM
 			modifier = insulted
@@ -965,62 +965,62 @@ country_event = {
 	title = raid_mechanics.60.t
 	desc = raid_mechanics.60.d
 	picture = FORTIFICATION_eventPicture
-	
+
 	trigger = {
 		has_country_modifier = country_suffering_raids
 		NOT = { has_country_modifier = anti_raid_fortifications }
 		mil_power = 50
 		treasury = 100
 	}
-	
+
 	mean_time_to_happen = {
 		months = 24
-		
+
 		modifier = {
 			factor = 0.5
 			has_country_modifier = province_heavily_raided
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.60.a
-		
+
 		ai_chance = {
 			factor = 60
 		}
-		
+
 		add_mil_power = -50
 		add_treasury = -100
-		
+
 		add_country_modifier = {
 			name = anti_raid_fortifications
 			duration = -1
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.60.b
-		
+
 		ai_chance = {
 			factor = 30
 		}
-		
+
 		add_mil_power = -25
 		add_treasury = -50
-		
+
 		add_country_modifier = {
 			name = mobile_anti_raid_patrols
 			duration = 1825
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.60.c
-		
+
 		ai_chance = {
 			factor = 10
 		}
-		
+
 		add_stability = -1
 		add_legitimacy = -5
 	}
@@ -1031,46 +1031,46 @@ country_event = {
 	title = raid_mechanics.61.t
 	desc = raid_mechanics.61.d
 	picture = BORDER_TENSION_eventPicture
-	
+
 	trigger = {
 		has_country_modifier = raid_victim_retaliation
 		NOT = { has_country_modifier = recent_raid_cooldown }
 		manpower_percentage = 0.3
 		is_at_war = no
 	}
-	
+
 	mean_time_to_happen = {
 		months = 18
-		
+
 		modifier = {
 			factor = 0.5
 			army_tradition = 50
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.61.a
-		
+
 		ai_chance = {
 			factor = 70
 		}
-		
+
 		add_mil_power = -25
-		
+
 		random_list = {
 			50 = {
 				add_prestige = 10
 				add_army_tradition = 10
 				add_treasury = 100
-				
+
 				remove_country_modifier = raid_victim_retaliation
 			}
-			
+
 			30 = {
 				add_prestige = 5
 				add_army_tradition = 5
 			}
-			
+
 			20 = {
 				add_prestige = -5
 				add_manpower = -3
@@ -1078,27 +1078,27 @@ country_event = {
 			}
 		}
 	}
-	
+
 	option = {
 		name = raid_mechanics.61.b
-		
+
 		ai_chance = {
 			factor = 20
 		}
-		
+
 		add_dip_power = -25
 		add_prestige = -5
-		
+
 		remove_country_modifier = raid_victim_retaliation
 	}
-	
+
 	option = {
 		name = raid_mechanics.61.c
-		
+
 		ai_chance = {
 			factor = 10
 		}
-		
+
 		add_prestige = -10
 		add_legitimacy = -5
 	}
