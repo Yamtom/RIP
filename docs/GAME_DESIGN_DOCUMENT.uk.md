@@ -211,7 +211,7 @@ Orthodox Crusade; Dniester, Moldova, South Ukraine та eastward expansion.
 | Subject types | 1 (`princedom`) |
 | CB / wargoal types | 2 / 2 |
 | Event modifier definitions | 1,054 (1,028 unique IDs) |
-| Localisation | 42 files, 8,732 key lines; 8,490 use standard indentation |
+| Localisation | 42 files, 8,728 key lines; 8,486 use standard indentation |
 | Visuals | 23 TGA, 18 DDS, 6 interface GFX, thumbnail |
 
 Усі 18 зареєстрованих нових тегів уже мають прапори. У release assets не
