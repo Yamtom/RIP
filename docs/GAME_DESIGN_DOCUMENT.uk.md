@@ -466,7 +466,7 @@ tagged release. Локальну й Workshop-копію моду не можна
   `Kharkov_Host`; видалити застарілий orphan `Rus.txt`.
 - [x] Додати flags для RPS, MSK, TRV, VTB, MSL, BLR.
 - [x] Додати RPS/VTB name й adjective localisation та ODS country colour.
-- [ ] Консолідувати 26 duplicate event-modifier IDs, 10 opinion IDs і
+- [x] Консолідувати 26 duplicate event-modifier IDs, 10 opinion IDs і
   duplicate scripted triggers.
 - [x] Завершити aspects/blessings wiring.
 - [x] Виправити mission series/slot collisions і case typo `NOt`.
@@ -479,14 +479,14 @@ EU4 `error.log` не містить mod-caused engine errors; нова гра т
 
 ## Milestone 2 — Localisation and Historical QA
 
-- [ ] Уніфікувати BOM/header/indentation за vanilla 1.37.5.
-- [ ] Додати стандартний відступ до 242 zero-indented English keys.
-- [ ] Консолідувати 702 duplicate English keys і 1,209 redundant occurrences,
+- [x] Уніфікувати BOM/header/indentation за vanilla 1.37.5.
+- [x] Додати стандартний відступ до 242 zero-indented English keys.
+- [x] Консолідувати 702 duplicate English keys і 1,209 redundant occurrences,
   починаючи з тих, що мають різні значення.
-- [ ] Виправити malformed localisation і неправильні POL/VIT keys.
-- [ ] Завершити EN як source language; позначити FR/DE/ES як partial, доки не
+- [x] Виправити malformed localisation і неправильні POL/VIT keys.
+- [x] Завершити EN як source language; позначити FR/DE/ES як partial, доки не
   буде повного покриття.
-- [ ] Запровадити topographic/style glossary.
+- [x] Запровадити topographic/style glossary.
 - [ ] Прибрати анахронічні династії та сучасні політичні прізвища.
 - [ ] Додати source note й authenticity tier до ключових event chains.
 
