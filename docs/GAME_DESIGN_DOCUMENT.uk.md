@@ -455,7 +455,7 @@ tagged release. Локальну й Workshop-копію моду не можна
 - [x] Нормалізувати `common/decisions`, `common/modifiers`,
   `common/country_flags`, `common/blessings` і placeholder `common/RIP.txt`.
 - [x] Розділити `restored_ruthenia` за scope та namespace.
-- [ ] Пройти smoke-load і regression review перед merge у `main`.
+- [x] Пройти smoke-load і regression review перед merge у `main`.
 
 ## Milestone 1 — Engine Correctness
 
@@ -468,10 +468,10 @@ tagged release. Локальну й Workshop-копію моду не можна
 - [x] Додати RPS/VTB name й adjective localisation та ODS country colour.
 - [ ] Консолідувати 26 duplicate event-modifier IDs, 10 opinion IDs і
   duplicate scripted triggers.
-- [ ] Завершити aspects/blessings wiring.
-- [ ] Виправити mission series/slot collisions і case typo `NOt`.
-- [ ] Перевірити всі province IDs та same-ID/different-filename histories.
-- [ ] Винести `ZAZ_branch_debug` із release.
+- [x] Завершити aspects/blessings wiring.
+- [x] Виправити mission series/slot collisions і case typo `NOt`.
+- [x] Перевірити всі province IDs та same-ID/different-filename histories.
+- [x] Винести `ZAZ_branch_debug` із release.
 
 Exit criteria: CWTools без parse errors; tag/reference checks зелені; новий
 EU4 `error.log` не містить mod-caused engine errors; нова гра та save/load
