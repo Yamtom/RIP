@@ -1,9 +1,21 @@
 # WESTERN UKRAINE HISTORICAL EVENTS SYSTEM
 ## Comprehensive Documentation
 
+<<<<<<< Updated upstream
 **Date**: January 30, 2026
 **Version**: 1.0
 **Author**: Yamtom
+=======
+<<<<<<< HEAD
+**Date**: January 30, 2026  
+**Version**: 1.0  
+**Author**: Yamtom  
+=======
+**Date**: January 30, 2026
+**Version**: 1.0
+**Author**: Yamtom
+>>>>>>> main
+>>>>>>> Stashed changes
 **Region**: Galicia (HLC), Volhynia (VOL), Podolia (PDL), Red Ruthenia
 
 ---
@@ -74,7 +86,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 ### CHAIN 1: Polonization (1444-1700)
 
 #### Event 1.1: Polish Cultural Influence
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.1`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.1`  
+=======
+**ID**: `west_ukraine_history.1`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag: VOL, HLC, or PDL
 - Subject of or allied with POL/PLC
@@ -99,7 +119,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 **Historical Context**: Polish culture gradually influenced Ruthenian nobility through education in Kraków, intermarriage, and administrative integration.
 
 #### Event 1.2: Polish Language at Court
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.2`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.2`  
+=======
+**ID**: `west_ukraine_history.2`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Has `polonization_started` flag
 - Has `west_ukr_polish_influence` modifier
@@ -125,7 +153,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 ### CHAIN 2: Church Union (1596-1650)
 
 #### Event 2.1: Pressure for Church Union
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.3`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.3`  
+=======
+**ID**: `west_ukraine_history.3`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag: VOL, HLC, or PDL
 - Subject of POL/PLC
@@ -156,7 +192,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 **Historical Context**: Union of Brest (1596) created Greek Catholic Church under Polish pressure. Many Ruthenian nobles accepted it, but Orthodox faithful resisted.
 
 #### Event 2.2: Orthodox-Uniate Conflict
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.4`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.4`  
+=======
+**ID**: `west_ukraine_history.4`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Has church union flag
 - Mix of Orthodox and Catholic provinces
@@ -185,7 +229,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 ### CHAIN 3: Cossack Uprisings (1590-1680)
 
 #### Event 3.1: Cossack Discontent
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.5`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.5`  
+=======
+**ID**: `west_ukraine_history.5`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag: VOL, HLC, or PDL
 - Subject of POL/PLC
@@ -212,7 +264,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 **Historical Context**: Cossacks resisted Polish efforts to reduce them to serfdom, leading to series of uprisings culminating in Khmelnytsky Uprising (1648-1657).
 
 #### Event 3.2: Cossack Raid
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.6`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.6`  
+=======
+**ID**: `west_ukraine_history.6`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Has `granted_cossack_rights` flag
 - Owns steppe provinces
@@ -237,7 +297,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 ### CHAIN 4: Tatar Raids (1444-1700)
 
 #### Event 4.1: Tatar Raid Warning
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.7`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.7`  
+=======
+**ID**: `west_ukraine_history.7`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag: VOL, HLC, or PDL
 - Owns province in Ruthenia region bordering Crimean territory
@@ -263,7 +331,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 **Historical Context**: Crimean Tatar raids devastated southern borderlands for centuries, carrying off up to 2 million captives into slavery (1500-1700).
 
 #### Event 4.2: Yasyr - Tatar Captives
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.8`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.8`  
+=======
+**ID**: `west_ukraine_history.8`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Has province with `west_ukr_tatar_raid_damage` modifier
 
@@ -287,7 +363,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 ### CHAIN 5: Trade and Economy (1444-1650)
 
 #### Event 5.1: Lviv Trade Fair
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.9`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.9`  
+=======
+**ID**: `west_ukraine_history.9`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag HLC or owns province 279 (Halych/Lviv)
 - Province 279 has 5+ base production
@@ -306,7 +390,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 **Historical Context**: Lviv was major trading center between East and West, hosting international trade fairs that attracted merchants from Venice, Genoa, Ottoman Empire, and Muscovy.
 
 #### Event 5.2: Magdeburg Law
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.10`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.10`  
+=======
+**ID**: `west_ukraine_history.10`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag: VOL, HLC, or PDL
 - Owns Halych (279) or Volhynia (280)
@@ -330,7 +422,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 **Historical Context**: Magdeburg Law (German legal code) granted cities self-government and economic freedoms. Lviv received it in 1356, becoming major commercial center.
 
 #### Event 5.3: Chumak Trade Route
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.11`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.11`  
+=======
+**ID**: `west_ukraine_history.11`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag: VOL or HLC
 - Owns steppe province with salt trade good
@@ -352,7 +452,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 ### CHAIN 6: Noble Culture (1500-1700)
 
 #### Event 6.1: Sarmatism Ideology
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.12`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.12`  
+=======
+**ID**: `west_ukraine_history.12`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag: VOL, HLC, or PDL
 - Has `polonization_started` flag
@@ -373,7 +481,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 **Historical Context**: Sarmatism - ideology claiming Polish-Lithuanian nobility descended from ancient Sarmatians, emphasizing equality among nobles, military prowess, and distinctive culture.
 
 #### Event 6.2: Golden Liberty vs Absolutism
+<<<<<<< Updated upstream
 **ID**: `west_ukraine_history.13`
+=======
+<<<<<<< HEAD
+**ID**: `west_ukraine_history.13`  
+=======
+**ID**: `west_ukraine_history.13`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag: VOL or HLC
 - Has `sarmatism_adopted` flag
@@ -469,6 +585,21 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ### Decision-Making Weights
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+**Polonization**: 60% accept, 40% resist (balanced personality +2 to resist)  
+**Church Union**: 40% accept, 60% refuse (reflects historical resistance)  
+**Cossack Privileges**: 70% grant, 30% suppress (AI avoids instability)  
+**Cossack Raids**: 60% endorse, 40% punish  
+**Fortifications**: 40% build, 60% risk (cost consideration)  
+**Ransom Captives**: 60% pay, 40% refuse (factor 0.1 if treasury < 50)  
+**Lviv Fair**: 60% invest, 40% natural (factor 0.1 if treasury < 150)  
+**Magdeburg Law**: 80% grant, 20% refuse (strong economic benefit)  
+**Chumak Support**: 70% support, 30% tax  
+**Sarmatism**: 70% embrace, 30% resist  
+=======
+>>>>>>> Stashed changes
 **Polonization**: 60% accept, 40% resist (balanced personality +2 to resist)
 **Church Union**: 40% accept, 60% refuse (reflects historical resistance)
 **Cossack Privileges**: 70% grant, 30% suppress (AI avoids instability)
@@ -479,6 +610,10 @@ This system recreates historical processes in Western Ukraine (modern western re
 **Magdeburg Law**: 80% grant, 20% refuse (strong economic benefit)
 **Chumak Support**: 70% support, 30% tax
 **Sarmatism**: 70% embrace, 30% resist
+<<<<<<< Updated upstream
+=======
+>>>>>>> main
+>>>>>>> Stashed changes
 **Liberty vs Absolutism**: 50-50 split
 
 ---
@@ -631,11 +766,27 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ## CREDITS & ACKNOWLEDGMENTS
 
+<<<<<<< Updated upstream
 **Historical Research**: Ukrainian and Polish historiography
 **Paradox Interactive**: EU4 base game mechanics
 **RIP Mod Team**: Existing Ukrainian/Cossack content
 
 **Implementation**: Yamtom
+=======
+<<<<<<< HEAD
+**Historical Research**: Ukrainian and Polish historiography  
+**Paradox Interactive**: EU4 base game mechanics  
+**RIP Mod Team**: Existing Ukrainian/Cossack content  
+
+**Implementation**: Yamtom  
+=======
+**Historical Research**: Ukrainian and Polish historiography
+**Paradox Interactive**: EU4 base game mechanics
+**RIP Mod Team**: Existing Ukrainian/Cossack content
+
+**Implementation**: Yamtom
+>>>>>>> main
+>>>>>>> Stashed changes
 **Testing**: [Pending]
 
 ---

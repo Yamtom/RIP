@@ -1,9 +1,21 @@
 # STEPPE RAIDING & NOMADIC MECHANICS SYSTEM
 ## Comprehensive Documentation
 
+<<<<<<< Updated upstream
 **Date**: January 30, 2026
 **Version**: 1.0
 **Author**: Yamtom
+=======
+<<<<<<< HEAD
+**Date**: January 30, 2026  
+**Version**: 1.0  
+**Author**: Yamtom  
+=======
+**Date**: January 30, 2026
+**Version**: 1.0
+**Author**: Yamtom
+>>>>>>> main
+>>>>>>> Stashed changes
 **Regions**: Crimean Khanate, Nogai Horde, Great Steppe, Black Sea, Muscovy/Russia border
 
 ---
@@ -100,7 +112,15 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 ### CHAIN 1: Steppe Raiding Cycle
 
 #### Event 1.1: Organize Raiding Party
+<<<<<<< Updated upstream
 **ID**: `steppe_raid.1`
+=======
+<<<<<<< HEAD
+**ID**: `steppe_raid.1`  
+=======
+**ID**: `steppe_raid.1`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Government: Steppe Horde OR Crimea/Nogai/Kazakh/Astrakhan
 - Not at war
@@ -127,7 +147,15 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 **Historical Context**: Raids typically organized in spring when horses recovered from winter and grass was plentiful for long journeys.
 
 #### Event 1.2: Raid Arrives (Target)
+<<<<<<< Updated upstream
 **ID**: `steppe_raid.2`
+=======
+<<<<<<< HEAD
+**ID**: `steppe_raid.2`  
+=======
+**ID**: `steppe_raid.2`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Triggered Only**: By event 1
 
 **Options**:
@@ -144,7 +172,15 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 **Historical Context**: Sedentary states often couldn't mobilize fast enough to intercept raids, forcing choice between costly defense or accepting damage.
 
 #### Event 1.3: Raid Repelled
+<<<<<<< Updated upstream
 **ID**: `steppe_raid.3`
+=======
+<<<<<<< HEAD
+**ID**: `steppe_raid.3`  
+=======
+**ID**: `steppe_raid.3`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Triggered Only**: By event 2 (defense option)
 
 **Effects**:
@@ -155,7 +191,15 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 **Historical Context**: Well-prepared defenses (Zasechnaya Cherta, strong garrisons) could repel raids, as in 1572 Battle of Molodi.
 
 #### Event 1.4: Successful Raid - Yasyr Taken
+<<<<<<< Updated upstream
 **ID**: `steppe_raid.4`
+=======
+<<<<<<< HEAD
+**ID**: `steppe_raid.4`  
+=======
+**ID**: `steppe_raid.4`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Triggered Only**: By event 2 (accept devastation)
 
 **Options**:
@@ -173,8 +217,18 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 **Historical Context**: Crimean economy depended heavily on slave trade. Kaffa market alone processed 10,000-20,000 slaves annually at peak.
 
 #### Event 1.5: Ransom the Yasyr
+<<<<<<< Updated upstream
 **ID**: `steppe_raid.5`
 **Triggered Only**: By event 4 (180 days later)
+=======
+<<<<<<< HEAD
+**ID**: `steppe_raid.5`  
+**Triggered Only**: By event 4 (180 days later)  
+=======
+**ID**: `steppe_raid.5`
+**Triggered Only**: By event 4 (180 days later)
+>>>>>>> main
+>>>>>>> Stashed changes
 **Condition**: Not at war with raider
 
 **Options**:
@@ -197,7 +251,15 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 ### CHAIN 2: Cossack Counter-Raids
 
 #### Event 2.1: Cossacks Demand Vengeance
+<<<<<<< Updated upstream
 **ID**: `steppe_raid.6`
+=======
+<<<<<<< HEAD
+**ID**: `steppe_raid.6`  
+=======
+**ID**: `steppe_raid.6`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag: VOL/HLC/PDL/ZAZ OR has Cossack estate
 - Has Cossack self-governance privilege
@@ -221,7 +283,15 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 **Historical Context**: Cossacks organized revenge raids especially after major yasyr incidents. Famous raids: 1606, 1614, 1616 chaiky attacks on Constantinople suburbs.
 
 #### Event 2.2: Cossack Raid Strikes
+<<<<<<< Updated upstream
 **ID**: `steppe_raid.7`
+=======
+<<<<<<< HEAD
+**ID**: `steppe_raid.7`  
+=======
+**ID**: `steppe_raid.7`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Triggered Only**: By event 6
 
 **Effects**:
@@ -237,7 +307,15 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 ### CHAIN 3: Migrations
 
 #### Event 3.1: Nogai Migration
+<<<<<<< Updated upstream
 **ID**: `steppe_raid.8`
+=======
+<<<<<<< HEAD
+**ID**: `steppe_raid.8`  
+=======
+**ID**: `steppe_raid.8`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag: Crimea OR Ottomans
 - Owns Yedisan/Budjak/Kuban provinces
@@ -257,7 +335,15 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 **Historical Context**: After collapse of Nogai Horde (1550s-1630s), surviving clans settled in Crimean territory. Formed autonomous Nogai Horde under Crimean suzerainty in Budjak/Kuban.
 
 #### Event 3.2: Kalmyk Migration
+<<<<<<< Updated upstream
 **ID**: `steppe_raid.9`
+=======
+<<<<<<< HEAD
+**ID**: `steppe_raid.9`  
+=======
+**ID**: `steppe_raid.9`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag: Muscovy OR Russia
 - Owns Astrakhan + Lower Yayik
@@ -281,7 +367,15 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 ### CHAIN 4: Zasechnaya Cherta
 
 #### Event 4.1: Build Defensive Line
+<<<<<<< Updated upstream
 **ID**: `steppe_raid.10`
+=======
+<<<<<<< HEAD
+**ID**: `steppe_raid.10`  
+=======
+**ID**: `steppe_raid.10`
+>>>>>>> main
+>>>>>>> Stashed changes
 **Trigger**:
 - Tag: Muscovy OR Russia
 - ADM tech 10+
@@ -354,6 +448,7 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 ## AI BEHAVIOR
 
 ### Raiding Decisions
+<<<<<<< Updated upstream
 **Launch Raid**: 70% yes, 30% no
 **Defense**: 60% defend, 40% accept damage
 **Yasyr Sale**: 80% sell, 20% ransom
@@ -361,6 +456,25 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 
 ### Migration Acceptance
 **Nogai**: 80% accept, 20% refuse
+=======
+<<<<<<< HEAD
+**Launch Raid**: 70% yes, 30% no  
+**Defense**: 60% defend, 40% accept damage  
+**Yasyr Sale**: 80% sell, 20% ransom  
+**Pay Ransom**: 60% yes (0.1× if treasury < 50), 40% no
+
+### Migration Acceptance
+**Nogai**: 80% accept, 20% refuse  
+=======
+**Launch Raid**: 70% yes, 30% no
+**Defense**: 60% defend, 40% accept damage
+**Yasyr Sale**: 80% sell, 20% ransom
+**Pay Ransom**: 60% yes (0.1× if treasury < 50), 40% no
+
+### Migration Acceptance
+**Nogai**: 80% accept, 20% refuse
+>>>>>>> main
+>>>>>>> Stashed changes
 **Kalmyk**: 70% accept, 30% refuse (rebel spawn)
 
 ### Zasechnaya Cherta
@@ -377,8 +491,18 @@ This system recreates the devastating steppe raiding culture that plagued Easter
 - Works alongside Western Ukraine historical events
 
 ### Tag Requirements
+<<<<<<< Updated upstream
 **Raiders**: Steppe hordes, CRI, NOG, KAZ, AST
 **Targets**: MOS, RUS, POL, PLC, LIT, VOL, HLC, PDL, Eastern tech group
+=======
+<<<<<<< HEAD
+**Raiders**: Steppe hordes, CRI, NOG, KAZ, AST  
+**Targets**: MOS, RUS, POL, PLC, LIT, VOL, HLC, PDL, Eastern tech group  
+=======
+**Raiders**: Steppe hordes, CRI, NOG, KAZ, AST
+**Targets**: MOS, RUS, POL, PLC, LIT, VOL, HLC, PDL, Eastern tech group
+>>>>>>> main
+>>>>>>> Stashed changes
 **Cossacks**: VOL, HLC, PDL, ZAZ, any with Cossack estate
 
 ### Province Dependencies

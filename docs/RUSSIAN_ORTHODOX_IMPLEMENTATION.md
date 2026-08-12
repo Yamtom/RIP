@@ -39,7 +39,15 @@ RIP Mod/
 russian_orthodox = {
     icon = 43
     color = { 0.7 0.1 0.1 }
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< HEAD
+    
+=======
+
+>>>>>>> main
+>>>>>>> Stashed changes
     country = {
         tolerance_own = 2
         tolerance_heretic = -2
@@ -50,14 +58,34 @@ russian_orthodox = {
         land_morale = 0.05
         ae_impact = 0.10
     }
+<<<<<<< Updated upstream
 
     has_patriarchs = yes
 
+=======
+<<<<<<< HEAD
+    
+    has_patriarchs = yes
+    
+=======
+
+    has_patriarchs = yes
+
+>>>>>>> main
+>>>>>>> Stashed changes
     aspects_and_blessings = {
         aspects = { ... }
         blessings = { ... }
     }
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< HEAD
+    
+=======
+
+>>>>>>> main
+>>>>>>> Stashed changes
     holy_sites = { 151 358 112 1401 2313 }
 }
 ```
@@ -82,6 +110,28 @@ Each aspect follows this template:
 aspect_name = {
     sprite = 1
     cost = 100
+<<<<<<< Updated upstream
+
+=======
+<<<<<<< HEAD
+    
+>>>>>>> Stashed changes
+    trigger = {
+        # Conditions for availability
+    }
+
+    effect = {
+        # Stat modifiers
+    }
+
+    modifiers = {
+        # Country modifiers
+    }
+<<<<<<< Updated upstream
+
+=======
+    
+=======
 
     trigger = {
         # Conditions for availability
@@ -95,6 +145,8 @@ aspect_name = {
         # Country modifiers
     }
 
+>>>>>>> main
+>>>>>>> Stashed changes
     ai_will_do = {
         factor = X
     }
@@ -123,7 +175,15 @@ Template:
 blessing_name = {
     cost = 50
     duration = 7300  # 20 years
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< HEAD
+    
+=======
+
+>>>>>>> main
+>>>>>>> Stashed changes
     modifiers = {
         # Temporary bonuses
     }
@@ -149,16 +209,40 @@ country_event = {
     title = russian_orthodox.X.t
     desc = russian_orthodox.X.d
     picture = ORTHODOX_ICON_eventPicture
+<<<<<<< Updated upstream
 
     trigger = {
         # Firing conditions
     }
 
+=======
+<<<<<<< HEAD
+    
+    trigger = {
+        # Firing conditions
+    }
+    
+=======
+
+    trigger = {
+        # Firing conditions
+    }
+
+>>>>>>> main
+>>>>>>> Stashed changes
     mean_time_to_happen = {
         months = Y
         modifier = { ... }
     }
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< HEAD
+    
+=======
+
+>>>>>>> main
+>>>>>>> Stashed changes
     option = {
         name = russian_orthodox.X.a
         # Effects
@@ -206,6 +290,28 @@ country_event = {
 ```
 decision_name = {
     major = yes/no
+<<<<<<< Updated upstream
+
+=======
+<<<<<<< HEAD
+    
+>>>>>>> Stashed changes
+    potential = {
+        # Who can see this decision
+    }
+
+    allow = {
+        # Requirements to take decision
+    }
+
+    effect = {
+        # What happens when taken
+    }
+<<<<<<< Updated upstream
+
+=======
+    
+=======
 
     potential = {
         # Who can see this decision
@@ -219,6 +325,8 @@ decision_name = {
         # What happens when taken
     }
 
+>>>>>>> main
+>>>>>>> Stashed changes
     ai_will_do = {
         factor = X
         modifier = { ... }
@@ -501,7 +609,15 @@ aspect_name_desc         → Aspect description
 **Solution:** Check `common/religions/` file syntax. Ensure file is in correct folder and properly formatted.
 
 ### Issue: Events not firing
+<<<<<<< Updated upstream
 **Solution:**
+=======
+<<<<<<< HEAD
+**Solution:** 
+=======
+**Solution:**
+>>>>>>> main
+>>>>>>> Stashed changes
 1. Check `on_actions` integration
 2. Verify trigger conditions
 3. Check MTTH values (might be too high)

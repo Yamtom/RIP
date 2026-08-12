@@ -1,3 +1,9 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+RIP
+=======
+>>>>>>> Stashed changes
 # Alternative Ruthenian Immersion Pack
 
 A regional immersion expansion for Europa Universalis IV 1.37.5 focused on
@@ -9,3 +15,7 @@ Ruthenia, the Cossack frontier, Polesia, and the Carpathian borderlands.
 The only playable mod root is this repository root. Do not add nested
 `descriptor.mod` files, nested Git repositories, or files outside EU4's
 supported loader directories.
+<<<<<<< Updated upstream
+=======
+>>>>>>> main
+>>>>>>> Stashed changes
