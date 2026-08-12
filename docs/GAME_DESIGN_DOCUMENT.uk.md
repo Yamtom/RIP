@@ -480,7 +480,7 @@ EU4 `error.log` не містить mod-caused engine errors; нова гра т
 
 - [ ] Уніфікувати BOM/header/indentation за vanilla 1.37.5.
 - [ ] Додати стандартний відступ до 242 zero-indented English keys.
-- [ ] Консолідувати 706 duplicate English keys і 1,213 redundant occurrences,
+- [ ] Консолідувати 702 duplicate English keys і 1,209 redundant occurrences,
   починаючи з тих, що мають різні значення.
 - [ ] Виправити malformed localisation і неправильні POL/VIT keys.
 - [ ] Завершити EN як source language; позначити FR/DE/ES як partial, доки не
