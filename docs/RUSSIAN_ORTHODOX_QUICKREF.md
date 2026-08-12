@@ -137,7 +137,7 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 
 - **Newly Conquered Province** (when you take land)
   - Choose: Force conversion / Establish missions / Allow freedom
-  
+
 - **Russification Campaign** (random)
   - Choose: Aggressive Russification / Gradual integration / Respect cultures
 
@@ -326,8 +326,8 @@ A: No, conversion is permanent (like Protestant/Reformed split)
 
 ---
 
-**Version**: 1.0.0  
-**Last Updated**: 2025  
+**Version**: 1.0.0
+**Last Updated**: 2025
 **Author**: RIP Mod Team
 
 *Glory to the Third Rome!*

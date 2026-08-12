@@ -87,7 +87,7 @@
 - **Missions**: missions/Volhynia_Missions.txt (lines 2580+)
 - **Modifiers**: common/event_modifiers/VOL_mission_modifiers.txt
 - **Events**: events/VOL_path_events.txt
-- **Localization**: 
+- **Localization**:
   - localisation/VOL_austrian_polish_missions_l_english.yml
   - localisation/VOL_path_events_l_english.yml
 

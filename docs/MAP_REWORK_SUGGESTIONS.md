@@ -76,7 +76,7 @@ This document outlines comprehensive map rework proposals for the Ukrainian/Ruth
 
 **1. Belgorod (Province ID TBD)**
 - **Location:** Between Kursk and Voronezh
-- **Historical Context:** 
+- **Historical Context:**
   - Jagoldai Tatar settlement (Golden Horde remnant vassal to Lithuania, later Muscovy)
   - Strategic fortress on Zasechnaya Cherta defensive line
   - Border buffer between Lithuania/Muscovy (1444-1494)
@@ -313,7 +313,7 @@ Historical Hetmanate armies:
 
 ### 1. **Steppe Raiding System** (Already Implemented)
 - 10 events for yasyr trade, Crimean raids, Nogai/Kalmyk migrations
-- **Map Requirements:** 
+- **Map Requirements:**
   - Multiple Wild Field provinces for raid paths
   - Province modifiers for hostile attrition (Tatar settlements)
   - Zasechnaya Cherta defensive line provinces
@@ -544,7 +544,7 @@ The map rework proposals range from minimal border corrections (Tier 0) to compr
 
 ---
 
-**Document Version:** 1.0  
-**Date:** January 30, 2026  
-**Author:** Based on fr-rein forum proposals, compiled for RIP mod  
+**Document Version:** 1.0
+**Date:** January 30, 2026
+**Author:** Based on fr-rein forum proposals, compiled for RIP mod
 **Status:** Proposal for implementation

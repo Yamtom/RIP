@@ -272,6 +272,17 @@ VOL_missions_U_1 = {
 							hlc_has_any_path = yes
 						}
 					}
+<<<<<<< HEAD
+=======
+				}
+				custom_trigger_tooltip = {
+					tooltip = vol_demolish_poland_military_route_req_tt
+					AND = {
+						total_development = 250
+						army_size = 45
+						army_tradition = 40
+					}
+>>>>>>> main
 				}
 				custom_trigger_tooltip = {
 					tooltip = vol_demolish_poland_military_route_req_tt
@@ -281,6 +292,17 @@ VOL_missions_U_1 = {
 						army_tradition = 40
 					}
 				}
+			}
+		}
+		effect = {
+			add_prestige = 25
+			add_mil_power = 100
+			if = {
+				limit = { alliance_with = HLC }
+				add_dip_power = 50
+			}
+			else = {
+				add_army_tradition = 5
 			}
 		}
 		effect = {
@@ -1124,6 +1146,17 @@ VOL_missions_U_4 = {
 			}
 		}
 		effect = {
+<<<<<<< HEAD
+			west_dniepr_area = {
+				add_province_modifier = {
+					name = rip_vol_restored_ruthenia_province
+					duration = -1
+				}
+			}
+			east_dniepr_area = {
+				add_province_modifier = {
+					name = rip_vol_restored_ruthenia_province
+=======
 			west_dniepr_area = {
 				add_province_modifier = {
 					name = restored_ruthenia
@@ -1133,6 +1166,7 @@ VOL_missions_U_4 = {
 			east_dniepr_area = {
 				add_province_modifier = {
 					name = restored_ruthenia
+>>>>>>> main
 					duration = -1
 				}
 			}
@@ -1967,11 +2001,19 @@ VLN_alt_history_independence_arch = {
 				owned_by = ROOT
 			}
 		}
+<<<<<<< HEAD
+		effect = {
+			add_country_modifier = {
+				name = rip_vol_restored_ruthenia_country
+				duration = -1
+			}
+=======
 		effect = {
 			add_country_modifier = {
 				name = restored_ruthenia
 				duration = -1
 			}
+>>>>>>> main
 			add_adm_power = 100
 			add_prestige = 50
 		}

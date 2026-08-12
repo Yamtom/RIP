@@ -1,8 +1,8 @@
 # VOLHYNIA (VOL) - AUSTRIAN & POLISH DEVELOPMENT PATHS
 ## Comprehensive Mission System Documentation
 
-**Last Updated**: January 30, 2026  
-**Version**: 1.0  
+**Last Updated**: January 30, 2026
+**Version**: 1.0
 **Author**: Yamtom
 
 ---
@@ -38,7 +38,7 @@ The Polish missions demonstrate:
 
 ### Path Selection (Position 5, Slot 5)
 **Mission**: `VOL_choose_development_path`
-- **Trigger**: 
+- **Trigger**:
   - Not at war
   - Stability ≥ 1
   - Total development ≥ 200
@@ -379,9 +379,9 @@ Reflects PLC constitutional uniqueness:
 
 ## CREDITS & ACKNOWLEDGMENTS
 
-**Paradox Interactive**: Base game mechanics and historical mission inspiration  
-**EU4 Modding Community**: Tools and documentation  
-**Historical Sources**: Habsburg and PLC political history research  
+**Paradox Interactive**: Base game mechanics and historical mission inspiration
+**EU4 Modding Community**: Tools and documentation
+**Historical Sources**: Habsburg and PLC political history research
 
 **Special Thanks**:
 - Austrian mission tree designers for multi-ethnic management framework
