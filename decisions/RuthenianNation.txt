@@ -10,7 +10,7 @@ country_decisions = {
 			NOT = { has_country_flag = rus_flag }
 			OR = {
 				ai = no
-				is_playing_custom_nation = yes
+				is_playing_custom_nation = no
 			}
 			NOT = { tag = PAP }
 			NOT = { tag = HLR }
@@ -142,9 +142,19 @@ country_decisions = {
 			}
 			add_prestige = 25
 			change_tag = UKR
+			on_change_tag_effect = yes
 			set_country_flag = formed_ruthenia_flag
 			swap_non_generic_missions = yes
 			set_government_rank = 3
+			if = { 
+				limit = { 
+					OR = {
+						has_reform = kyivan_rus_reform
+						has_reform = ruthenian_principality_reform
+					}
+				} 
+				add_government_reform = ruthenian_tsardom 
+			}
 			if = {
 				limit = {
 					technology_group = nomad_group
@@ -165,12 +175,14 @@ country_decisions = {
 					set_in_empire = no
 				}
 			}
-			set_government_rank = 3
 			if = {
 				limit = { has_custom_ideas = no }
 				country_event = { id = ideagroups.1 } #Swap Ideas
 			}
 			remove_non_electors_emperors_from_empire_effect = yes
+		}
+		ai_will_do = {
+			factor = 1
 		}
 		ai_importance = 500		
 	}

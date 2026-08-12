@@ -7,11 +7,6 @@ POL_re_missions_1 = {
             tag = POL
             tag = PLC
         }
-        OR = {
-            primary_culture = ruthenian
-            primary_culture = ruthenian_new
-        }
-        
     }
     has_country_shield = yes
 
@@ -189,6 +184,17 @@ POL_re_missions_1 = {
             }
             ai_weight = {
                 factor = 400
+                # Hadiach was an offer made from weakness: a third partner in
+                # the union was unthinkable until the Deluge emptied the
+                # treasury and the field armies. See events/TheDeluge.txt.
+                modifier = {
+                    factor = 3
+                    has_country_flag = deluge_underway
+                }
+                modifier = {
+                    factor = 2
+                    has_country_flag = deluge_after_the_flood
+                }
             }
         }
 
@@ -314,10 +320,6 @@ POL_re_missions_2 = {
         OR = {
             tag = POL
             tag = PLC
-        }
-        OR = {
-            primary_culture = ruthenian
-            primary_culture = ruthenian_new
         }
     }
     has_country_shield = yes

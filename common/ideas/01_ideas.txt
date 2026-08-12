@@ -1,5 +1,5 @@
 
-VLN_ideas = {
+rip_VLN_ideas = {
 	start = {
 		manpower_recovery_speed = 0.2
 		tolerance_heretic = 2
@@ -37,7 +37,96 @@ VLN_ideas = {
 	}
 }
 
-HLC_ideas = {
+# Polesian principality
+rip_RPS_ideas = {
+	start = {
+		land_attrition = -0.25
+		hostile_attrition = 1.5
+	}
+	bonus = {
+		defensiveness = 0.25
+	}
+	trigger = { tag = RPS }
+	free = yes
+
+	children_of_the_marshes = {
+		fort_maintenance_modifier = -0.33
+		garrison_size = 0.25
+	}
+	pripyat_river_trade = {
+		trade_efficiency = 0.1
+		caravan_power = 0.1
+		naval_forcelimit_modifier = 0.25
+	}
+	forest_wardens = {
+		infantry_power = 0.1
+		reinforce_speed = 0.33
+	}
+	polesian_mysticism = {
+		tolerance_heretic = 2
+		culture_conversion_cost = 0.5
+		years_of_nationalism = -5
+	}
+	wetland_fortifications = {
+		defensiveness = 0.15
+		siege_ability = -0.15
+	}
+	river_flotilla_tactics = {
+		movement_speed = 0.15
+		sailors_recovery_speed = 0.25
+	}
+	polesian_endurance = {
+		war_exhaustion = -0.03
+		war_exhaustion_cost = -0.15
+		global_manpower_modifier = 0.15
+	}
+}
+
+# Unified Belarus
+rip_BLR_ideas = {
+	start = {
+		diplomatic_reputation = 1
+		development_cost = -0.1
+	}
+	bonus = {
+		stability_cost_modifier = -0.15
+	}
+	trigger = { tag = BLR }
+	free = yes
+
+	belarusian_unity = {
+		global_unrest = -2
+		promote_culture_cost = -0.25
+	}
+	land_of_forests = {
+		hostile_attrition = 1
+		production_efficiency = 0.1
+	}
+	river_networks = {
+		caravan_power = 0.25
+		trade_efficiency = 0.15
+	}
+	grand_duchy_legacy = {
+		administrative_efficiency = 0.05
+		governing_capacity_modifier = 0.1
+	}
+	magdeburg_law_tradition = {
+		development_cost = -0.1
+		build_cost = -0.1
+	}
+	religious_tolerance = {
+		tolerance_heretic = 3
+		tolerance_heathen = 2
+		religious_unity = 0.25
+	}
+	partisan_tradition = {
+		land_morale = 0.1
+		reinforce_speed = 0.25
+		war_exhaustion = -0.03
+	}
+}
+
+rip_HLC_ideas = {
 	start = {
 		land_forcelimit_modifier = 0.3
 		num_accepted_cultures = 2
@@ -75,8 +164,7 @@ HLC_ideas = {
 	}
 }
 
-
-UZH_ideas = {
+rip_UZH_ideas = {
 	start = {
 		infantry_power = 0.1
 		hostile_attrition = 0.5
@@ -118,7 +206,7 @@ UZH_ideas = {
 	}
 }
 
-HET_ideas = {
+rip_HET_ideas = {
 	start = {
 		land_morale = 0.2
 		stability_cost_modifier = -0.15
@@ -169,7 +257,7 @@ HET_ideas = {
 	}
 }
 
-KRU_ideas = {
+rip_KRU_ideas = {
 	start = {
 		global_tax_modifier = 0.2
 		num_accepted_cultures = 3
@@ -205,7 +293,7 @@ KRU_ideas = {
 	}
 }
 
-KUY_ideas = {
+rip_KUY_ideas = {
 	start = {
 		cav_to_inf_ratio = 0.6
 		heir_chance = 1
@@ -247,76 +335,74 @@ KUY_ideas = {
 	}
 }
 
+rip_PRL_ideas = {
 
-PRL_ideas = {
-	
 	start = {
 		defensiveness = 0.15
 		diplomatic_reputation = 1
 	}
-	
+
 	bonus = {
 		development_cost = -0.10
 	}
-	
+
 	trigger = {
 		tag = PRL
 	}
 	free = yes
-	
+
 	prl_ancient_bulwark = {
 		fort_maintenance_modifier = -0.20
 		land_attrition = -0.10
 	}
-	
+
 	prl_treaty_legacy = {
 		vassal_income = 0.25
 		diplomatic_annexation_cost = -0.15
 	}
-	
+
 	prl_chernozem_granary = {
 		trade_goods_size_modifier = 0.15
 		global_trade_goods_size_modifier = 0.10
 	}
-	
+
 	prl_regimental_sotnya = {
 		army_tradition = 0.5
 		land_morale = 0.10
 	}
-	
+
 	prl_episcopal_authority = {
 		tolerance_own = 2
 		church_loyalty_modifier = 0.10
 	}
-	
+
 	prl_trubizh_crossings = {
 		trade_efficiency = 0.10
 		trade_steering = 0.15
 	}
-	
+
 	prl_princely_legacy = {
 		legitimacy = 1
 		prestige = 0.5
 	}
 }
 
+rip_MSK_ideas = {
 
-MSK_ideas = {
-	
 	start = {
 		development_cost = -0.1
 		build_cost = -0.1
 	}
-	
+
 	bonus = {
 		global_trade_power = 0.15
 	}
-	
+
 	trigger = {
 		tag = MSK
 	}
 	free = yes
-	
+
 	crossroads_of_rus = {
 		caravan_power = 0.25
 		trade_efficiency = 0.1
@@ -347,22 +433,22 @@ MSK_ideas = {
 	}
 }
 
-TRV_ideas = {
-	
+rip_TRV_ideas = {
+
 	start = {
 		naval_forcelimit_modifier = 0.33
 		sailor_maintenance_modifer = -0.25
 	}
-	
+
 	bonus = {
 		naval_morale = 0.2
 	}
-	
+
 	trigger = {
 		tag = TRV
 	}
 	free = yes
-	
+
 	ancient_dregovichi = {
 		prestige = 1
 		legitimacy = 0.5
@@ -393,22 +479,22 @@ TRV_ideas = {
 	}
 }
 
-VIT_ideas = {
-	
+rip_VTB_ideas = {
+
 	start = {
 		trade_efficiency = 0.15
 		development_cost = -0.1
 	}
-	
+
 	bonus = {
 		merchants = 1
 	}
-	
+
 	trigger = {
 		tag = VTB
 	}
 	free = yes
-	
+
 	dvina_gateway = {
 		global_own_trade_power = 0.2
 		trade_steering = 0.15
@@ -438,22 +524,22 @@ VIT_ideas = {
 	}
 }
 
-MSL_ideas = {
-	
+rip_MSL_ideas = {
+
 	start = {
 		fort_maintenance_modifier = -0.25
 		garrison_size = 0.25
 	}
-	
+
 	bonus = {
 		land_morale = 0.15
 	}
-	
+
 	trigger = {
 		tag = MSL
 	}
 	free = yes
-	
+
 	eastern_frontier = {
 		manpower_recovery_speed = 0.15
 		global_manpower_modifier = 0.1
@@ -484,3 +570,136 @@ MSL_ideas = {
 	}
 }
 
+# ── Cossack generic ideas (government-based) ──
+
+# ── Chernihiv ──
+CHR_ideas = {
+	start = {
+		land_morale = 0.05
+		global_regiment_cost = -0.05
+	}
+	bonus = {
+		all_estate_loyalty_equilibrium = 0.05
+		governing_capacity_modifier = 0.1
+	}
+	trigger = {
+		tag = CHR
+	}
+	free = yes
+	chr_legacy_of_the_old_principality = { #CHR_bastions_of_desna
+		governing_capacity_modifier = 0.05
+		defensiveness = 0.15
+		reform_progress_growth = 0.05
+	}
+	chr_cossack_regiments = {#CHR_pospolite_rus
+		cavalry_power = 0.1
+		manpower_recovery_speed = 0.1
+	}
+	chr_regimental_barracks = { #CHR_chernihiv_collegium
+		global_manpower_modifier = 0.1
+	}
+	chr_konotop_fortress = { #CHR_crossroads_diplomacy
+		diplomatic_reputation = 1
+		diplomatic_upkeep = 1
+		tolerance_heretic = 0.5
+	}
+	chr_local_councils = { #CHR_siversk_trade_routes
+		global_unrest = -1
+		global_tax_modifier = 0.1
+	}
+	chr_renovate_transfiguration_cathedral = { #CHR_border_raids
+		tolerance_own = 1
+	}
+	chr_cultivate_the_east_dniepr = { #CHR_guardians_of_orthodoxy
+		global_trade_goods_size_modifier = 0.05
+		trade_efficiency = 0.05
+		caravan_power = 0.15
+	}
+}
+
+# ── Zaporizhia ──
+ZAZ_ideas = {
+	start = {
+		loot_amount = 0.1
+		manpower_recovery_speed = 0.05
+	}
+
+	bonus = {
+		global_manpower_modifier = 0.3
+	}
+
+	trigger = {
+		tag = ZAZ
+	}
+	free = yes
+
+	zaz_fort_builders = {
+		development_cost = -0.2
+	}
+	zaz_hetmanate = {
+		global_unrest = -2
+	}
+	zaz_steppe_riders = {
+		land_attrition = -0.2
+		movement_speed = 0.2
+	}
+	zaz_cossack_hit_and_run = {
+		leader_land_manuever = 1
+		leader_land_shock = 1
+	}
+	zaz_classy_diplomacy = {
+		power_projection_from_insults = 1
+		prestige_decay = -0.005
+	}
+	zaz_zaporzhian_tolerance = {
+		religious_unity = 0.3
+	}
+	zaz_army_first = {
+		cavalry_cost = -0.1
+		infantry_cost = -0.1
+	}
+}
+
+# ── Kiev ──
+KIE_ideas = {
+	start = {
+		global_unrest = -2
+		global_heretic_missionary_strength = 0.1
+	}
+
+	bonus = {
+		land_morale = 0.2
+	}
+
+	trigger = {
+		tag = KIE
+	}
+	free = yes
+
+	mother_of_all_cities = {
+		prestige = 2
+	}
+	heritage_of_rus = {
+		diplomatic_reputation = 2
+	}
+	fending_off_the_invaders = {
+		defensiveness = 0.2
+	}
+	chernozem_land = {
+		production_efficiency = 0.25
+	}
+	center_of_orthodox_church = {
+		tolerance_own = 2
+		development_cost = -0.05
+	}
+	support_local_traders = {
+		merchants = 1
+		global_trade_power = 0.1
+	}
+	centralized_rule = {
+		global_tax_modifier = 0.1
+		global_regiment_recruit_speed = -0.10
+	}
+}
+
+# ── Ruthenian culture group fallback ──

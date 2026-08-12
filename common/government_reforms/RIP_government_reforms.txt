@@ -1732,7 +1732,8 @@ divine_tsyisar_reform = {
 	}
 }
 
-republic_mechanic = {
+rip_republic_mechanic = {
+	icon = "merchant_republic"
 	basic_reform = yes
 	republican_name = yes
 	royal_marriage = no
@@ -1842,7 +1843,7 @@ odesa_trade_republic_reform = {
 	}
 }
 
-cossacks_reform = {
+rip_cossacks_reform = {
 	icon = "rip_gfx_reform_cossack_host_icon"
 	legacy_equivalent = cossacks_legacy_reform
 	allow_normal_conversion = yes
@@ -1857,8 +1858,8 @@ cossacks_reform = {
 					map_setup = map_setup_random
 				}
 			}
-			has_reform = cossacks_reform
-			have_had_reform = cossacks_reform
+			has_reform = rip_cossacks_reform
+			have_had_reform = rip_cossacks_reform
 		}
 	}
 	raze_province = yes
@@ -1871,6 +1872,14 @@ cossacks_reform = {
 		}
 		custom_attributes = {
 			has_itinerant_capital = yes
+		}
+	}
+	conditional = {
+		allow = {
+			has_dlc = "The Cossacks"
+		}
+		custom_attributes = {
+			enables_estate_cossacks = yes
 		}
 	}
 	trigger = {
@@ -1968,7 +1977,7 @@ zaz_sich_brotherhood_reform = {
 			has_reform = zaz_sich_brotherhood_reform
 			AND = {
 				tag = ZAZ
-				has_reform = cossacks_reform
+				has_reform = rip_cossacks_reform
 			}
 		}
 	}
@@ -1977,7 +1986,7 @@ zaz_sich_brotherhood_reform = {
 			has_reform = zaz_sich_brotherhood_reform
 			AND = {
 				tag = ZAZ
-				has_reform = cossacks_reform
+				has_reform = rip_cossacks_reform
 			}
 		}
 	}
@@ -2005,7 +2014,7 @@ het_starshyna_oligarchy_reform = {
 			has_reform = het_starshyna_oligarchy_reform
 			AND = {
 				tag = HET
-				has_reform = cossacks_reform
+				has_reform = rip_cossacks_reform
 			}
 		}
 	}
@@ -2014,7 +2023,7 @@ het_starshyna_oligarchy_reform = {
 			has_reform = het_starshyna_oligarchy_reform
 			AND = {
 				tag = HET
-				has_reform = cossacks_reform
+				has_reform = rip_cossacks_reform
 			}
 		}
 	}
@@ -2156,7 +2165,7 @@ het_regimental_system_reform = {
 	}
 	custom_attributes = {
 		regimental_provincial_system = yes
-		improved_military_buildings = yes 
+		improved_military_buildings = yes
 	}
 	effect = {
 		hidden_effect = {
@@ -2455,7 +2464,7 @@ zaz_last_sich_reform = {
 	}
 	custom_attributes = {
 		mercs_do_not_cost_army_professionalism = yes
-		
+
 		elections_increase_factions_influence = yes
 	}
 	ai = {
@@ -3099,4 +3108,3 @@ prl_episcopal_authority_reform = {
 		}
 	}
 }
-

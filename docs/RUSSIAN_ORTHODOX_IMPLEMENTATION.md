@@ -39,7 +39,7 @@ RIP Mod/
 russian_orthodox = {
     icon = 43
     color = { 0.7 0.1 0.1 }
-    
+
     country = {
         tolerance_own = 2
         tolerance_heretic = -2
@@ -50,14 +50,14 @@ russian_orthodox = {
         land_morale = 0.05
         ae_impact = 0.10
     }
-    
+
     has_patriarchs = yes
-    
+
     aspects_and_blessings = {
         aspects = { ... }
         blessings = { ... }
     }
-    
+
     holy_sites = { 151 358 112 1401 2313 }
 }
 ```
@@ -82,19 +82,19 @@ Each aspect follows this template:
 aspect_name = {
     sprite = 1
     cost = 100
-    
+
     trigger = {
         # Conditions for availability
     }
-    
+
     effect = {
         # Stat modifiers
     }
-    
+
     modifiers = {
         # Country modifiers
     }
-    
+
     ai_will_do = {
         factor = X
     }
@@ -123,7 +123,7 @@ Template:
 blessing_name = {
     cost = 50
     duration = 7300  # 20 years
-    
+
     modifiers = {
         # Temporary bonuses
     }
@@ -149,16 +149,16 @@ country_event = {
     title = russian_orthodox.X.t
     desc = russian_orthodox.X.d
     picture = ORTHODOX_ICON_eventPicture
-    
+
     trigger = {
         # Firing conditions
     }
-    
+
     mean_time_to_happen = {
         months = Y
         modifier = { ... }
     }
-    
+
     option = {
         name = russian_orthodox.X.a
         # Effects
@@ -206,19 +206,19 @@ country_event = {
 ```
 decision_name = {
     major = yes/no
-    
+
     potential = {
         # Who can see this decision
     }
-    
+
     allow = {
         # Requirements to take decision
     }
-    
+
     effect = {
         # What happens when taken
     }
-    
+
     ai_will_do = {
         factor = X
         modifier = { ... }
@@ -501,7 +501,7 @@ aspect_name_desc         → Aspect description
 **Solution:** Check `common/religions/` file syntax. Ensure file is in correct folder and properly formatted.
 
 ### Issue: Events not firing
-**Solution:** 
+**Solution:**
 1. Check `on_actions` integration
 2. Verify trigger conditions
 3. Check MTTH values (might be too high)
