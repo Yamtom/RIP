@@ -1,8 +1,6 @@
-# Zaporizhia Decisions
 
 country_decisions = {
 
-	# Relocate the Zaporozhian Sich
 	zaz_relocate_sich = {
 		major = yes
 		potential = {
@@ -44,11 +42,11 @@ country_decisions = {
 		}
 	}
 
-	# Conduct Great Raid into Ottoman Territory
 	zaz_great_raid = {
 		major = yes
 		potential = {
 			tag = ZAZ
+			has_country_flag = zaz_unlocked_raiding_system
 			NOT = { has_country_flag = great_raid_recent }
 			is_year = 1550
 			NOT = { is_year = 1775 }
@@ -83,11 +81,11 @@ country_decisions = {
 		}
 	}
 
-	# Conduct Chaiky Naval Raid
 	zaz_chaiky_raid = {
 		major = yes
 		potential = {
 			tag = ZAZ
+			has_country_flag = zaz_unlocked_raiding_system
 			NOT = { has_country_flag = chaiky_raid_recent }
 			is_year = 1570
 			NOT = { is_year = 1750 }
@@ -118,11 +116,11 @@ country_decisions = {
 		}
 	}
 
-	# Liberate Christian Slaves from Crimea
 	zaz_liberate_slaves = {
 		major = yes
 		potential = {
 			tag = ZAZ
+			has_country_flag = zaz_unlocked_raiding_system
 			is_year = 1550
 			NOT = { has_country_flag = liberated_slaves_recent }
 		}
@@ -164,11 +162,11 @@ country_decisions = {
 		}
 	}
 
-	# Evolve Sich democracy into early Hetmanate balance
 	ZAZ_evolve_to_hetmanate = {
 		major = yes
 		potential = {
 			tag = ZAZ
+			mission_completed = ZAZ_finally
 			NOT = { has_country_flag = "zaz_evolved_to_hetmanate" }
 		}
 		allow = {
@@ -186,14 +184,19 @@ country_decisions = {
 		}
 	}
 
-	# Establish Cossack Settlement in Wild Fields
 	zaz_settle_wild_fields = {
 		potential = {
 			tag = ZAZ
+			has_country_flag = zaz_unlocked_frontier_program
 			any_owned_province = {
 				is_wild_fields = yes
 				NOT = { is_city = yes }
 			}
+		}
+		provinces_to_highlight = {
+			is_wild_fields = yes
+			NOT = { is_city = yes }
+			NOT = { owned_by = ROOT }
 		}
 		allow = {
 			adm_power = 50
@@ -218,10 +221,10 @@ country_decisions = {
 		}
 	}
 
-	# Form Alliance with Steppe Nomads
 	zaz_steppe_alliance = {
 		potential = {
 			tag = ZAZ
+			has_country_flag = zaz_allied_gol
 			NOT = { has_country_flag = steppe_alliance_formed }
 			any_known_country = {
 				OR = {
@@ -255,16 +258,52 @@ country_decisions = {
 		}
 	}
 
-	# Establish Black Sea Trade Network
 	zaz_black_sea_trade = {
 		potential = {
 			tag = ZAZ
+			OR = {
+				AND = {
+					has_country_flag = zaz_allied_tur
+					mission_completed = ZAZ_TUR_sieze_ports
+				}
+				AND = {
+					has_country_flag = zaz_allied_rus
+					mission_completed = ZAZ_RUS_sieze_ports
+				}
+				AND = {
+					has_country_flag = zaz_allied_pol
+					mission_completed = ZAZ_POL_sieze_ports
+				}
+				AND = {
+					has_country_flag = zaz_only_zaz
+					mission_completed = ZAZ_UKR_sieze_ports_1
+				}
+			}
 			NOT = { has_country_flag = black_sea_trade_established }
 			any_owned_province = {
 				has_port = yes
 				OR = {
 					area = yedisan_area
 					region = crimea_region
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				AND = {
+					owned_by = ROOT
+					has_port = yes
+					OR = {
+						area = yedisan_area
+						region = crimea_region
+					}
+				}
+				AND = {
+					NOT = { owned_by = ROOT }
+					OR = {
+						area = yedisan_area
+						region = crimea_region
+					}
 				}
 			}
 		}
@@ -292,10 +331,10 @@ country_decisions = {
 		}
 	}
 
-	# Host the Great Rada
 	zaz_host_great_rada = {
 		potential = {
 			tag = ZAZ
+			has_country_flag = zaz_unlocked_orthodox_role
 			NOT = { has_country_flag = great_rada_recent }
 			has_reform = zaz_general_rada_reform
 		}
@@ -319,14 +358,21 @@ country_decisions = {
 		}
 	}
 
-	# Fortify the Frontier
 	zaz_fortify_frontier = {
 		potential = {
 			tag = ZAZ
+			has_country_flag = zaz_unlocked_frontier_program
 			any_owned_province = {
 				is_wild_fields = yes
 			}
 			NOT = { has_country_flag = frontier_fortified }
+		}
+		provinces_to_highlight = {
+			is_wild_fields = yes
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { controlled_by = ROOT }
+			}
 		}
 		allow = {
 			mil_power = 100
@@ -351,11 +397,10 @@ country_decisions = {
 			}
 		}
 	}
-
-	# Defend Orthodox Faith
 	zaz_defend_orthodox = {
 		potential = {
 			tag = ZAZ
+			has_country_flag = zaz_unlocked_orthodox_role
 			religion = orthodox
 			NOT = { has_country_flag = orthodox_defender_zaz }
 			any_neighbor_country = {

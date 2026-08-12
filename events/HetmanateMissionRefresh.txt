@@ -1,0 +1,29 @@
+namespace = rip_het_missions
+
+country_event = {
+	id = rip_het_missions.1
+	title = rip_hidden_sync_event.t
+	desc = rip_hidden_sync_event.d
+	picture = ADMINISTRATIVE_REFORM_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		tag = HET
+		has_country_flag = formed_hetmanate_nation_flag
+		NOT = { has_country_flag = rip_hetmanate_missions_synced }
+		OR = {
+			zaz_has_legacy_missions = yes
+			prl_has_legacy_missions = yes
+		}
+	}
+
+	immediate = {
+		swap_non_generic_missions = yes
+		set_country_flag = rip_hetmanate_missions_synced
+	}
+
+	option = {
+		name = rip_hidden_sync_event.a
+	}
+}

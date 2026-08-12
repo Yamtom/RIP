@@ -1,19 +1,46 @@
-# =========================================================================
-# JEWISH MERCHANT ESTATE PRIVILEGES
-# =========================================================================
 
 estate_jewish_tax_farmers = {
-    icon = privilege_burghers_tax_exemptions
+    icon = rip_gfx_privilege_jewish_tax_farmers_icon
     loyalty = 0.10
     influence = 0.10
     land_share = 5
     max_absolutism = -5
 
     is_valid = {
-        has_estate = estate_jewish_merchants
+        has_estate = estate_burghers
+        OR = {
+            tag = POL
+            tag = LIT
+            tag = HLC
+            tag = VOL
+            tag = VLN
+            tag = KRU
+            tag = HET
+            tag = PRL
+            tag = PDL
+            tag = KUY
+            tag = UKR
+        }
     }
     can_select = {
-        has_estate = estate_jewish_merchants
+        has_estate = estate_burghers
+        OR = {
+            tag = POL
+            tag = LIT
+            tag = HLC
+            tag = VOL
+            tag = VLN
+            tag = KRU
+            tag = HET
+            tag = PRL
+            tag = PDL
+            tag = KUY
+            tag = UKR
+        }
+        OR = {
+            has_country_modifier = jewish_merchant_charters
+            has_country_modifier = jewish_communities_restricted
+        }
     }
 
     benefits = {
@@ -32,17 +59,47 @@ estate_jewish_tax_farmers = {
 }
 
 estate_jewish_loan_banks = {
-    icon = privilege_burghers_private_trade_companies
+    icon = rip_gfx_privilege_jewish_loan_banks_icon
     loyalty = 0.05
     influence = 0.10
     land_share = 0
     max_absolutism = -2
 
     is_valid = {
-        has_estate = estate_jewish_merchants
+        has_estate = estate_burghers
+        OR = {
+            tag = POL
+            tag = LIT
+            tag = HLC
+            tag = VOL
+            tag = VLN
+            tag = KRU
+            tag = HET
+            tag = PRL
+            tag = PDL
+            tag = KUY
+            tag = UKR
+        }
     }
     can_select = {
-        has_estate = estate_jewish_merchants
+        has_estate = estate_burghers
+        OR = {
+            tag = POL
+            tag = LIT
+            tag = HLC
+            tag = VOL
+            tag = VLN
+            tag = KRU
+            tag = HET
+            tag = PRL
+            tag = PDL
+            tag = KUY
+            tag = UKR
+        }
+        OR = {
+            has_country_modifier = jewish_merchant_charters
+            has_country_modifier = jewish_communities_restricted
+        }
     }
 
     benefits = {
@@ -62,17 +119,47 @@ estate_jewish_loan_banks = {
 }
 
 estate_jewish_kahal_autonomy = {
-    icon = privilege_clergy_religious_state
+    icon = rip_gfx_privilege_jewish_kahal_autonomy_icon
     loyalty = 0.10
     influence = 0.05
     land_share = 3
     max_absolutism = -3
 
     is_valid = {
-        has_estate = estate_jewish_merchants
+        has_estate = estate_burghers
+        OR = {
+            tag = POL
+            tag = LIT
+            tag = HLC
+            tag = VOL
+            tag = VLN
+            tag = KRU
+            tag = HET
+            tag = PRL
+            tag = PDL
+            tag = KUY
+            tag = UKR
+        }
     }
     can_select = {
-        has_estate = estate_jewish_merchants
+        has_estate = estate_burghers
+        OR = {
+            tag = POL
+            tag = LIT
+            tag = HLC
+            tag = VOL
+            tag = VLN
+            tag = KRU
+            tag = HET
+            tag = PRL
+            tag = PDL
+            tag = KUY
+            tag = UKR
+        }
+        OR = {
+            has_country_modifier = jewish_merchant_charters
+            has_country_modifier = jewish_communities_restricted
+        }
     }
 
     benefits = {
@@ -93,16 +180,46 @@ estate_jewish_kahal_autonomy = {
 }
 
 estate_jewish_black_sea_network = {
-    icon = privilege_burghers_private_trade_companies
+    icon = rip_gfx_privilege_jewish_black_sea_network_icon
     loyalty = 0.05
     influence = 0.10
     land_share = 0
 
     is_valid = {
-        has_estate = estate_jewish_merchants
+        has_estate = estate_burghers
+        OR = {
+            tag = POL
+            tag = LIT
+            tag = HLC
+            tag = VOL
+            tag = VLN
+            tag = KRU
+            tag = HET
+            tag = PRL
+            tag = PDL
+            tag = KUY
+            tag = UKR
+        }
     }
     can_select = {
-        has_estate = estate_jewish_merchants
+        has_estate = estate_burghers
+        OR = {
+            tag = POL
+            tag = LIT
+            tag = HLC
+            tag = VOL
+            tag = VLN
+            tag = KRU
+            tag = HET
+            tag = PRL
+            tag = PDL
+            tag = KUY
+            tag = UKR
+        }
+        OR = {
+            has_country_modifier = jewish_merchant_charters
+            has_country_modifier = jewish_communities_restricted
+        }
     }
 
     benefits = {

@@ -40,6 +40,15 @@ country_decisions = {
 					ai = no
 				}
 			}
+			calc_true_if = {
+				amount = 3
+				owns = 280
+				owns = 283
+				owns = 261
+				owns = 279
+				owns = 289
+				owns = 291
+			}
 		}
 		provinces_to_highlight = {
 			OR = {	
@@ -85,13 +94,11 @@ country_decisions = {
 			
 			280 = { is_state = yes }					#kyiv -center
 			OR = {
-				#or owns only core-core stuff but has god like ruler
 				AND = {
 					owns_core_province = 283		#Zaporozhie -southern center of rebellions
 					owns_core_province = 280		#kyiv -center
 					dip = 5
 				}
-				#owns everything per 1775
 				AND = {
 					ROOT = { NOT = { DIP = 5 } }
 					if = {

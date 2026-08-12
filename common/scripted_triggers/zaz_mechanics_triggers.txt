@@ -1,8 +1,4 @@
-# ========================================
-# ZAPORIZHIA & HETMANATE MECHANICS TRIGGERS
-# ========================================
 
-# === GENERAL ZAPORIZHIA/HETMANATE CHECKS ===
 
 is_zaporozhian_nation = {
 	OR = {
@@ -29,7 +25,6 @@ has_sich_established = {
 	}
 }
 
-# === RADA CONVOCATION TRIGGERS ===
 
 can_convene_rada = {
 	is_zaporozhian_nation = yes
@@ -50,16 +45,12 @@ rada_can_elect_officer = {
 	can_convene_rada = yes
 }
 
-# === SICH RELOCATION TRIGGERS ===
 
 has_valid_sich_relocation_target = {
 	any_owned_province = {
 		region = ruthenia_region
 		development = 8
-		OR = {
-			has_terrain = steppe
-			has_terrain = grasslands
-		}
+		rip_is_steppe_or_grasslands = yes
 		any_neighbor_province = {
 			OR = {
 				has_terrain = coastline
@@ -73,7 +64,6 @@ has_valid_sich_relocation_target = {
 
 sich_relocation_necessary = {
 	OR = {
-		# Military pressure
 		capital_scope = {
 			devastation = 20
 		}
@@ -82,7 +72,6 @@ sich_relocation_necessary = {
 				war_with = ROOT
 			}
 		}
-		# Diplomatic pressure
 		is_subject = yes
 		overlord = {
 			has_opinion_modifier = {
@@ -90,14 +79,10 @@ sich_relocation_necessary = {
 				modifier = demanded_sich_relocation
 			}
 		}
-		# Strategic opportunity
 		any_owned_province = {
 			region = ruthenia_region
 			development = 15
-			OR = {
-				has_terrain = steppe
-				has_terrain = grasslands
-			}
+			rip_is_steppe_or_grasslands = yes
 			NOT = { province_id = 283 }
 		}
 	}
@@ -116,7 +101,6 @@ can_relocate_sich = {
 	}
 }
 
-# === CHAIKY RAID TRIGGERS ===
 
 has_chaiky_fleet = {
 	num_of_galley = 5
@@ -170,7 +154,6 @@ can_launch_chaiky_raid = {
 	}
 }
 
-# === COSSACK REGISTER TRIGGERS ===
 
 has_cossack_register = {
 	OR = {
@@ -235,7 +218,6 @@ overlord_wants_register_expanded = {
 	NOT = { register_is_high = yes }
 }
 
-# === STEPPE ALLIANCE TRIGGERS ===
 
 has_steppe_ally = {
 	OR = {
@@ -286,14 +268,10 @@ steppe_alliance_beneficial = {
 	}
 }
 
-# === SLOBODA COLONIZATION TRIGGERS ===
 
 has_frontier_provinces = {
 	any_owned_province = {
-		OR = {
-			has_terrain = steppe
-			has_terrain = grasslands
-		}
+		rip_is_steppe_or_grasslands = yes
 		development = 15
 		OR = {
 			any_neighbor_province = {
@@ -315,10 +293,7 @@ can_establish_sloboda = {
 	manpower_percentage = 0.4
 	adm_power = 50
 	any_owned_province = {
-		OR = {
-			has_terrain = steppe
-			has_terrain = grasslands
-		}
+		rip_is_steppe_or_grasslands = yes
 		NOT = { has_province_modifier = sloboda_settlement }
 		NOT = { has_province_modifier = military_sloboda }
 		NOT = { unrest = 2 }
@@ -342,7 +317,6 @@ can_upgrade_sloboda = {
 	}
 }
 
-# === ORTHODOX PROTECTOR TRIGGERS ===
 
 is_orthodox_champion = {
 	religion = orthodox
@@ -376,21 +350,24 @@ orthodox_monasteries_threatened = {
 	}
 }
 
-# === HETMAN ELECTION TRIGGERS ===
 
 hetman_election_due = {
 	is_hetmanate_nation = yes
+	NOT = {
+		had_country_flag = {
+			flag = zaz_recent_hetman_election
+			days = 730
+		}
+	}
 	OR = {
-		# Regular election cycle (every 20 years)
 		had_country_flag = {
 			flag = last_hetman_election
 			days = 7300
 		}
-		# Election never held
-		NOT = { has_country_flag = last_hetman_election }
-		# Crisis election
-		NOT = { legitimacy_equivalent = 40 }
-		# Foreign pressure
+		AND = {
+			NOT = { has_country_flag = last_hetman_election }
+			NOT = { legitimacy_equivalent = 40 }
+		}
 		AND = {
 			is_subject = yes
 			overlord = {
@@ -407,6 +384,12 @@ can_hold_hetman_election = {
 	hetman_election_due = yes
 	is_at_war = no
 	NOT = { num_of_rebel_armies = 1 }
+	NOT = {
+		had_country_flag = {
+			flag = zaz_election_event_cooldown
+			days = 365
+		}
+	}
 	stability = 0
 }
 
@@ -416,7 +399,6 @@ hetman_has_strong_support = {
 	NOT = { average_unrest = 1 }
 }
 
-# === HETMANATE AUTONOMY TRIGGERS ===
 
 hetmanate_autonomy_high = {
 	is_hetmanate_nation = yes
@@ -475,7 +457,6 @@ can_resist_abolition = {
 	}
 }
 
-# === CULTURAL DEVELOPMENT TRIGGERS ===
 
 has_ukrainian_academy = {
 	owns = 280  # Kyiv
@@ -503,7 +484,6 @@ ukrainian_culture_flourishing = {
 	prestige = 25
 }
 
-# === POLTAVA CRISIS TRIGGERS ===
 
 poltava_crisis_active = {
 	is_hetmanate_nation = yes

@@ -1,20 +1,7 @@
-# =========================================================================
-# GREEK CATHOLIC (UNIATE) CHURCH
-# =========================================================================
-# Historical Context: Created by the Union of Brest (1596), combining
-# Orthodox liturgy with Catholic hierarchy. Major force in Commonwealth.
-# 
-# Game Mechanics: Hybrid religion combining Catholic and Orthodox features
-# - Papal influence like Catholics
-# - Church power and icons like Orthodox
-# - Protestant-style center of reformation for spreading
-# - Can interact with both Catholic and Orthodox mechanics
-# =========================================================================
 
 christian = {
 	crusade_name = CRUSADE
 	
-	# Greek Catholic Church (Uniate) - Union of Brest (1596)
 	greek_catholic = {
 		color = { 0.7 0.5 0.8 }
 		icon = 10
@@ -36,22 +23,16 @@ christian = {
 			local_missionary_strength = 0.01
 		}
 		
-		# Combines Catholic and Orthodox mechanics
 		uses_church_power = yes
 		
-		# Patriarchs like Orthodox
 		has_patriarchs = yes
 		
-		# HRE religion
 		hre_heretic_religion = yes
 		
-		# Misguided heretic for Catholics and Orthodox
 		heretic = { "BOGOMILIST" }
 		
-		# Date of emergence
 		date = 1596.10.6
 		
-		# Country modifiers on conversion
 		on_convert = {
 			add_prestige = 10
 			add_country_modifier = {

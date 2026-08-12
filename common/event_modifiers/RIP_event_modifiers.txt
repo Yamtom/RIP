@@ -1,4 +1,3 @@
-#council of florenc
 council_of_florence = {
 	tolerance_heretic = 3
 }
@@ -17,7 +16,6 @@ UKR_prosvita = {
 	institution_growth = 0.1
 }
 
-#Missions of Halicia-Volhynia
 VOL_rebuild_nation = {
 	manpower_recovery_speed = 0.1
 	development_cost = -0.1
@@ -87,7 +85,6 @@ VOL_unity = {
 	global_autonomy = -1
 }
 
-#Misiioms of kyiv
 KIE_unified = {
 	local_unrest = -2
 }
@@ -115,8 +112,19 @@ KIE_subjugated = {
 	land_morale = 0.1
 }
 
+KIE_moscow_subjugated = {
+	land_morale = 0.1
+	legitimacy = 0.5
+}
+
 KIE_prince = {
 	improve_relation_modifier = 0.2
+}
+
+KIE_heir_of_rus = {
+	legitimacy = 1
+	diplomatic_reputation = 1
+	governing_capacity_modifier = 0.1
 }
 
 KIE_scandinavia = {
@@ -170,6 +178,64 @@ KIE_glory = {
 	manpower_recovery_speed = 0.1
 }
 
+KIE_shogunate = {
+	trade_efficiency = 0.1
+	global_trade_power = 0.15
+	global_ship_trade_power = 0.1
+	vassal_forcelimit_bonus = 0.2
+	diplomatic_reputation = 1
+}
+
+KIE_cesarstvo = {
+	discipline = 0.05
+	development_cost = -0.1
+	global_institution_spread = 0.15
+	advisor_cost = -0.1
+}
+
+KIE_factional_ruthenia = {
+	governing_capacity_modifier = 0.1
+	reform_progress_growth = 0.1
+	global_unrest = -1
+}
+
+KIE_princedom_network = {
+	vassal_income = 0.25
+	vassal_forcelimit_bonus = 0.2
+	liberty_desire_from_subject_development = -0.1
+	global_unrest = -1
+}
+
+KIE_trade_houses = {
+	trade_efficiency = 0.1
+	trade_steering = 0.1
+	global_trade_power = 0.1
+	burghers_loyalty_modifier = 0.1
+}
+
+KIE_trade_house_hub = {
+	province_trade_power_modifier = 0.2
+	local_production_efficiency = 0.1
+	local_development_cost = -0.05
+}
+
+KIE_free_trade_city = {
+	province_trade_power_modifier = 0.25
+	local_production_efficiency = 0.15
+	local_tax_modifier = 0.1
+	local_autonomy = 0.05
+}
+
+KIE_brotherhood_schools = {
+	idea_cost = -0.05
+	institution_growth = 0.05
+	advisor_cost = -0.05
+}
+
+KIE_free_city_charter_cooldown = {
+	prestige_decay = 0
+}
+
 UKR_rurikovich = {
 	free_mil_policy = 1
 	global_autonomy = -1
@@ -195,34 +261,80 @@ KIE_great_building = {
 	prestige_per_development_from_conversion = 0.1
 }
 
-# =========================================================================
-# ZAPORIZHIAN SICH MILITARY & DIPLOMATIC MODIFIERS (XVI-XVIII ст.)
-# =========================================================================
-# HISTORICAL CONTEXT:
-# These modifiers represent the Zaporozhian Sich's peak military and
-# diplomatic capabilities (XVI-XVIII centuries) before Russian suppression (1775).
-#
-# The Sich was a cossack military democracy characterized by:
-# - Rapid defensive fortification & relocation against superior forces
-# - Cavalry raids (chaiky) across Black Sea & Danube steppes
-# - Diplomatic juggling with Ottoman, Polish, Russian powers
-# - Democratic militia governance with elected otamans
-#
-# GAME MECHANICS:
-# - 200% bonus scaling reflects Sich's specialized military economy
-# - Cavalry modifiers show steppe combat specialization
-# - Trade bonuses reflect Black Sea commerce networks
-# - Unrest penalties reflect internal democratic conflicts
-#
-# HISTORICAL REFERENCES:
-# - Serhii Plokhy, *The Cossacks and Religion in Early Modern Ukraine* (2001)
-# - Frank Sysyn, *Between Poland and the Ukraine* (1985)
-# - Timothy Snyder, *Bloodlands* (2010), chapters 1-2
-# - Orest Subtelny, *Ukraine: A History* (2009), chapters 5-7
-# =========================================================================
+KRU_factional_court_cooldown = {
+	prestige_decay = 0
+}
 
-#Mission of Zaporizhzhzia
-# ZAPORIZHIA MODIFIERS - Enhanced to 200% (doubled from baseline)
+KRU_factional_pair_shift_cooldown = {
+	prestige_decay = 0
+}
+
+KRU_pair_knyazi_boyary = {
+	stability_cost_modifier = -0.05
+	global_tax_modifier = 0.05
+}
+
+KRU_pair_knyazi_hetmany = {
+	diplomatic_reputation = 1
+	manpower_recovery_speed = 0.05
+}
+
+KRU_pair_boyary_hetmany = {
+	global_autonomy = -0.02
+	discipline = 0.01
+}
+
+KRU_princes_court = {
+	vassal_forcelimit_bonus = 0.2
+	diplomatic_reputation = 1
+	liberty_desire_from_subject_development = -0.1
+}
+
+KRU_boyar_duma = {
+	global_tax_modifier = 0.15
+	autonomy_change_time = -0.1
+	nobles_influence_modifier = 0.1
+}
+
+KRU_hetman_council = {
+	cavalry_power = 0.15
+	land_morale = 0.1
+	manpower_recovery_speed = 0.1
+}
+
+KRU_decadence_low = {
+	global_unrest = 1
+}
+
+KRU_decadence_medium = {
+	global_unrest = 2
+	advisor_cost = 0.1
+}
+
+KRU_decadence_high = {
+	global_unrest = 3
+	advisor_cost = 0.2
+	discipline = -0.03
+}
+
+KRU_decadence_crisis = {
+	global_unrest = 4
+	stability_cost_modifier = 0.2
+	global_tax_modifier = -0.1
+}
+
+KRU_decadence_appeased = {
+	global_unrest = 1
+	global_tax_modifier = -0.05
+}
+
+KIE_cesarstvo_ruthenia = {
+	local_development_cost = -0.1
+	local_tax_modifier = 0.1
+	local_manpower_modifier = 0.1
+}
+
+
 zaz_prepped = {
 	local_defensiveness = 0.66
 }
@@ -292,7 +404,6 @@ zaz_turkish_help = {
 	discipline = 0.10
 }
 
-# alligned with russia
 zaz_rivaled_tur = {
 	tolerance_own = 1
 	improve_relation_modifier = 0.30
@@ -404,10 +515,6 @@ chr_ruthenian_civil_registers = {
     stability_cost_modifier = -0.10
 }
 
-# "Commonwealth Guardianship" modifier
-# Mechanics: Diplomatic reputation, improved relations, and tax bump with finite duration to reflect Polish-Lithuanian backing.
-# Narrative: Models Warsaw and Vilnius underwriting Chernihiv defenses during the Ruina.
-# References: Zenon Kohut, *Russian Centralism and Ukrainian Autonomy* (1988); Serhii Plokhy, *The Cossack Myth* (2012).
 chr_commonwealth_guardianship = {
 	diplomatic_reputation = 1
 	improve_relation_modifier = 0.15
@@ -469,10 +576,6 @@ chr_crimean_convoy_charters_mod = {
 	global_tariffs = 0.1
 }
 
-# "Muscovite Auxiliaries" modifier
-# Mechanics: Raises manpower recovery, trims maintenance, and adds defensiveness to show Russian military aid.
-# Narrative: Echoes the Andrusovo-era agreements where Moscow supplied troops in exchange for influence.
-# References: Frank Sysyn, *Between Poland and the Ukraine* (1985); Orest Subtelny, *Ukraine: A History* (2009).
 chr_muscovite_guardianship = {
 	manpower_recovery_speed = 0.15
 	land_maintenance_modifier = -0.05
@@ -485,10 +588,6 @@ chr_muscovite_border_commission = {
 	manpower_in_true_faith_provinces = 0.1
 }
 
-# "Crimean Compact" modifier
-# Mechanics: Trade efficiency, heathen tolerance, and naval force limit bonus simulating Crimean escorts on grain convoys.
-# Narrative: Represents the Khanate safeguarding caravans to secure grain and peace along the steppe frontier.
-# References: Alan Fisher, *The Crimean Tatars* (1978); Victor Ostapchuk, studies on Ottoman-Cossack diplomacy.
 chr_crimean_guardianship = {
 	trade_efficiency = 0.1
 	tolerance_heathen = 1
@@ -628,7 +727,6 @@ subjugation_of_the_great_horde = {
 subjugation_of_the_crimeans = {
 }
 
-# Mission of Chernihiv
 chr_thriving_arms_industry = {
 	siege_ability = 0.06
 	merc_maintenance_modifier = -0.06
@@ -822,7 +920,6 @@ chr_starshyna_compromise = {
 	advisor_cost = -0.08
 }
 
-# Eastern Sivershchyna provincial history
 chr_bratslav_brotherhood = {
 	local_institution_spread = 0.1
 	local_unrest = -1
@@ -1048,7 +1145,6 @@ chr_agro_hypercorporation = {
 	global_tax_modifier = 0.05
 }
 
-#Zaz revolt
 zaz_order_in_ukraine = {
 	cossacks_loyalty_modifier = -0.1
 }
@@ -1079,62 +1175,7 @@ GEN_compass = {
 	global_monthly_devastation = -0.2
 }
 
-# =========================================================================
-# UZHHOROD / ZAKARPATTIA MODIFIER CATALOGUE
-# =========================================================================
-# TECHNICAL OVERVIEW:
-# - Mission Integration: Every uz_* modifier below is awarded by the
-#   Zakarpatta_Missions tree or its supporting events (namespaced uzh.*).
-#   Numbers mirror specific mission tasks: e.g. uz_ambitious_expansion_modifier
-#   ("National Revival" finale) reduces diplo-annex cost, while
-#   uz_protected_frontier and uz_border_guard_union are tied to frontier
-#   fortification branches. Disaster follow-ups (uz_mountain_gendarmerie,
-#   uz_amnesty_rollout, uz_opryshky_pacified) are called from the
-#   uzh_opryshky_uprising disaster script.
-# - Thematic Clusters:
-#   * Salt Economy: uz_solotvyno_chambers, uz_salt_chamber_overwatch,
-#     uz_private_salt_leases improve tax/trade as events 50-55 resolve.
-#   * Ecclesiastical Balancing: uz_greek_catholic_concord, uz_old_rite_resilience,
-#     uz_karloca_synod_blessing and uz_cathedral_guild_college stem from union
-#     dilemmata (missions/events 51, 201) giving opposing faith bonuses.
-#   * Identity Paths: uz_slavo_rusyn_identity, uz_ukraino_rusyn_identity,
-#     uz_uhro_rusyn_identity, uz_pan_ruthenian_union represent the three
-#     outcome branches of mission "Question of Identity" and its follow-ups.
-#   * Governance Reforms: uz_statute_codification, uz_federal_structure,
-#     uz_dual_monarchy_administration correspond to Palanok -> Komitat ->
-#     federalization missions, stacking governing cap and reform progress.
-#   * Pannonian Expansion: uz_pannonian_settlement, uz_backa_colonial_network,
-#     uz_banat_colonists, uz_danube_trade_league, uz_crown_of_saint_stephen,
-#     uz_danubian_monarchy_influence reward conquering the Danubian basin.
-# - Gameplay Hooks: Modifiers often add autonomy, loyalty, or culture effects
-#   that plug into custom triggers (e.g. chose_ruthenian_identity flag). Check
-#   for synergies in decisions like HetmanateNation and Uzh missions to avoid
-#   stacking conflicts.
-#
-# NARRATIVE PILLARS:
-# - Border March Legacy: Frontier pieces (uz_protected_frontier,
-#   uz_carpathian_hegemony) echo Palanok Castle and the Habsburg Military
-#   Frontier. Identity-focused bonuses evoke Rusyn/Hungarian duality.
-# - Salt & Trade Corridors: Solotvyno salt domes, Tysa caravans, and Danube
-#   exchanges appear through salt modifiers and uz_danube_* suite, portraying
-#   Huszt as logistics hub between Vienna and the Balkans.
-# - Religious Concord: Dual Orthodox/Greek Catholic modifiers dramatise the
-#   1646 Union of Uzhhorod and later Karlovac synod compromises.
-# - Popular Resistance: Opryshky-related modifiers chart the arc from raids
-#   (uz_opryshky_raids) to state co-option (uz_rebel_legends,
-#   uz_opryshky_pacified), reflecting mountain outlaw folklore.
-#
-# HISTORICAL REFERENCES:
-# - "Union of Uzhhorod" (1646) primary accounts compiled by Mykhailo Лучкай
-#   and František Dvorník's studies on the Greek Catholic Church.
-# - Habsburg Military Frontier records on Palanok Fortress (Kriegsarchiv Wien).
-# - Roman Drozd, *Oleksa Dovbush: Between History and Legend* (2008) for
-#   opryshky material; Jaroslav Dashkevych's research on Rusyn uprisings.
-# - Economic notes from Austro-Hungarian salt monopoly archives (Solotvyno,
-#   Maramureș) documenting tax farming vs. state oversight.
-# =========================================================================
 
-#Zakarpatta_modifiers = {
 uz_ambitious_expansion_modifier = {
 	diplomatic_annexation_cost = -0.10
 }
@@ -1168,7 +1209,6 @@ uz_cultural_renaissance = {
 	development_cost = -0.1
 }
 
-# Custom modifiers for Zakarpattia missions
 uz_advisor_pool = {
     advisor_cost = -0.15
     advisor_pool = 1
@@ -1328,7 +1368,6 @@ uz_statute_codification = {
 	stability_cost_modifier = -0.1
 }
 
-# Frontier and expansion modifiers
 uz_frontier_expansion = {
     land_forcelimit_modifier = 0.15
     global_manpower_modifier = 0.10
@@ -1418,9 +1457,6 @@ uz_opryshok_raiders = {
 	movement_speed = 0.05
 }
 
-# === DNIESTER ESTUARY EXPANSION MODIFIERS ===
-# NOTE: dnestr_estuary_modifier already exists in base game (00_event_modifiers.txt)
-# with province_trade_power_value = 10. We add additional modifiers below.
 
 dniester_trade_network = {
 	trade_efficiency = 0.10
@@ -1583,7 +1619,6 @@ uz_pannonian_league = {
 	global_tax_modifier = 0.1
 }
 
-# Cultural and national identity modifiers
 uz_rusin_national_awakening = {
     culture_conversion_cost = -0.25
     global_unrest = -1
@@ -1646,7 +1681,6 @@ uz_basilian_monasteries = {
     stability_cost_modifier = -0.10
 }
 
-# Political development modifiers
 uz_komitat_administration = {
     administrative_efficiency = 0.05
     state_maintenance_modifier = -0.20
@@ -1687,7 +1721,6 @@ uz_federal_structure = {
     num_accepted_cultures = 2
 }
 
-# Economic development modifiers
 uz_agricultural_development = {
     production_efficiency = 0.10
     global_trade_goods_size_modifier = 0.05
@@ -1807,14 +1840,12 @@ uz_uhro_rusyn_integration = {
 uz_orthodox_revival = {
     local_missionary_strength = 0.02
     local_unrest = -2
-    # Add any other effects you want for this modifier
 }
 uz_kyivan_legacy = {
     prestige = 0.5
     legitimacy = 0.5
     diplomatic_reputation = 1
     tolerance_own = 1
-    # Add other effects as needed
 }
 uz_rusyn_self_governance = {
     local_autonomy = -0.05
@@ -1863,7 +1894,6 @@ uz_congress_border_drill = {
 	army_tradition = 0.5
 }
 
-# THE RUINA MODIFIERS
 ruina_fortified_heartland = {
 	defensiveness = 0.15
 	fort_maintenance_modifier = -0.1
@@ -1900,7 +1930,6 @@ ruina_diplomatic_settlement = {
 	diplomatic_upkeep = 1
 }
 
-# ZAPORIZHIA SICH CRISIS MODIFIERS
 zaz_strong_otaman = {
 	legitimacy = 0.5
 	army_tradition_decay = -0.01
@@ -1931,7 +1960,6 @@ zaz_loyal_subject = {
 	diplomatic_reputation = -1
 }
 
-# HETMANATE SUCCESSION MODIFIERS
 het_strong_hetman = {
 	legitimacy = 1
 	max_absolutism = 5
@@ -1979,11 +2007,7 @@ het_term_limited_rule = {
 	monarch_admin_power = 1
 }
 
-# =========================================================================
-# MISSING MODIFIERS - ZAPORIZHIA & HETMANATE DECISIONS/EVENTS
-# =========================================================================
 
-# HETMANATE PROVINCE MODIFIERS
 regimental_headquarters = {
 	local_manpower_modifier = 0.25
 	local_defensiveness = 0.15
@@ -2025,10 +2049,9 @@ cossack_trade_port = {
 	trade_value_modifier = 0.2
 }
 
-# HETMANATE COUNTRY MODIFIERS
 het_regimental_administration = {
-	land_forcelimit_modifier = 0.15
-	army_tradition = 0.5
+	land_forcelimit_modifier = 0.10
+	army_tradition = 0.25
 	fire_damage_received = -0.05
 }
 
@@ -2113,10 +2136,11 @@ mazepa_golden_age = {
 	prestige = 1
 	legitimacy = 1
 	diplomatic_reputation = 1
-	advisor_cost = -0.1
+	advisor_cost = -0.05
+	development_cost = -0.05
+	institution_spread_from_true_faith = 0.15
 }
 
-# ZAPORIZHIA PROVINCE MODIFIERS
 zaporozhian_sich_capital = {
 	local_manpower_modifier = 0.5
 	local_autonomy = -0.1
@@ -2146,7 +2170,6 @@ cossack_frontier_settlement = {
 	local_colonist_placement_chance = 0.05
 }
 
-# ZAPORIZHIA COUNTRY MODIFIERS
 zaporozhian_sich_founded = {
 	republican_tradition = 0.5
 	cav_to_inf_ratio = 0.1
@@ -2250,7 +2273,6 @@ zaz_chaiky_raiders = {
 	naval_morale = 0.1
 }
 
-# NEW MISSION MODIFIERS
 frontier_military_culture = {
 	manpower_recovery_speed = 0.15
 	fort_maintenance_modifier = -0.15
@@ -2287,15 +2309,6 @@ het_divided_state = {
 	global_autonomy = 0.15
 	stability_cost_modifier = 0.35
 	diplomatic_reputation = -2
-}
-
-mazepa_golden_age = {
-	prestige = 1
-	legitimacy = 1
-	diplomatic_reputation = 1
-	advisor_cost = -0.1
-	development_cost = -0.1
-	institution_spread_from_true_faith = 0.25
 }
 
 het_russian_repression = {
@@ -2337,9 +2350,7 @@ het_independent_state = {
 	global_autonomy = -0.1
 }
 
-# === NEW ZAPORIZHIA & HETMANATE UNIQUE MODIFIERS ===
 
-# Rada modifiers
 zaz_great_rada_held = {
 	legitimacy = 0.5
 	republican_tradition = 0.5
@@ -2349,7 +2360,6 @@ zaz_great_rada_held = {
 }
 
 zaz_rada_cooldown = {
-	# Hidden cooldown
 }
 
 zaz_cossack_democracy = {
@@ -2359,7 +2369,6 @@ zaz_cossack_democracy = {
 	promote_culture_cost = -0.25
 }
 
-# Sich relocation modifiers
 zich_relocated = {
 	global_unrest = -1
 	fort_maintenance_modifier = -0.20
@@ -2367,10 +2376,8 @@ zich_relocated = {
 }
 
 zaz_recent_relocation = {
-	# Hidden cooldown
 }
 
-# Chaiky raid modifiers
 zaz_chaiky_fleet_active = {
 	navy_tradition = 1
 	privateer_efficiency = 0.30
@@ -2392,10 +2399,8 @@ zaz_failed_raid = {
 }
 
 zaz_chaiky_raid_cooldown = {
-	# Hidden cooldown
 }
 
-# Cossack register modifiers
 zaz_register_limited = {
 	global_manpower_modifier = 0.10
 	land_maintenance_modifier = -0.10
@@ -2428,7 +2433,6 @@ zaz_no_register = {
 	republican_tradition = 1
 }
 
-# Steppe alliance modifiers
 steppe_alliance = {
 	cavalry_power = 0.10
 	cavalry_cost = -0.10
@@ -2442,7 +2446,6 @@ steppe_cavalry_recruited = {
 	yearly_army_professionalism = 0.005
 }
 
-# Sloboda modifiers
 sloboda_settlement = {
 	local_manpower_modifier = 0.25
 	local_production_efficiency = 0.15
@@ -2464,7 +2467,6 @@ sloboda_network_established = {
 	colonist_placement_chance = 0.05
 }
 
-# Orthodox protector modifiers
 orthodox_champions = {
 	tolerance_own = 2
 	papal_influence = 1
@@ -2485,7 +2487,6 @@ orthodox_defender_war = {
 	papal_influence = 2
 }
 
-# Hetman election modifiers
 hetman_strong_mandate = {
 	legitimacy = 1
 	stability_cost_modifier = -0.10
@@ -2518,7 +2519,6 @@ hetman_administrative_background = {
 	global_autonomy = -0.05
 }
 
-# Hetmanate cultural modifiers
 het_cultural_golden_age = {
 	prestige = 1
 	legitimacy = 1
@@ -2542,7 +2542,6 @@ het_academy_network = {
 	yearly_innovativeness = 0.5
 }
 
-# Hetmanate autonomy struggle modifiers
 het_autonomy_guaranteed = {
 	liberty_desire = -15
 	global_autonomy = -0.10
@@ -2562,7 +2561,6 @@ het_last_struggle = {
 	discipline = 0.05
 }
 
-# Poltava crisis modifiers
 het_swedish_gambit = {
 	liberty_desire = 50
 	prestige = 1
@@ -2589,11 +2587,7 @@ het_poltava_defeat = {
 	stability_cost_modifier = 0.50
 }
 
-# === НОВІ МОДИФІКАТОРИ: ЗАПОРОЗЬКА СІЧ XVII–XVIII ст. ===
 
-# Registered Cossacks (XVI–XVII ст.: формалізація козацтва за польськими статтями)
-# Історія: Річ Посполита встановила "реєстр" офіційних козаків — платні, дисциплінаційовані,
-# але менш вільні. Вільні козаки опиралися цьому як порушенню традицій демократії Січі.
 zaz_registered_cossacks = {
 	land_morale = 0.10
 	manpower_recovery_speed = 0.15
@@ -2603,9 +2597,6 @@ zaz_registered_cossacks = {
 	years_of_nationalism = -5
 }
 
-# Free Cossacks Spirit (XVII–XVIII ст.: захист демократичної традиції Січі)
-# Історія: Козаки, що відстоюють вільність від польської/російської контролю,
-# зберігають демократичні традиції та резистентність до централізації.
 zaz_free_cossacks_spirit = {
 	republican_tradition = 0.5
 	legitimacy = 0.5
@@ -2615,9 +2606,6 @@ zaz_free_cossacks_spirit = {
 	land_morale = 0.15
 }
 
-# Sich Fortified Against Ottoman Attack (XVII–XVIII ст.: підготовка до знищувального удару)
-# Історія: 1656–1657 р. та 1709–1775 — Османська імперія та Крим організовували велики рейди.
-# Укріплення Січі були символом опору й надії на вияток від знищення.
 sich_fortified_against_ottoman = {
 	fort_level = 1
 	land_morale = 0.10
@@ -2626,8 +2614,6 @@ sich_fortified_against_ottoman = {
 	defensiveness = 0.15
 }
 
-# Seeking a Patron Power (XVII–XVIII ст.: дипломатичний пошук союзника)
-# Історія: Січь часто шукала покровництво від Польщі, Московії або Туреччини для захисту.
 zaz_seeking_patron = {
 	diplomatic_reputation = 2
 	improve_relation_modifier = 0.15
@@ -2635,9 +2621,6 @@ zaz_seeking_patron = {
 	diplomatic_upkeep = -0.15
 }
 
-# Sich Relocated (XVI–XVIII ст.: переміщення з одної локації до іншої)
-# Історія: Томаківська → Базавлуцька → Микитинська → Чортомлицька → Олешківська.
-# Кожне переміщення давало нові можливості, але й знов начиналася адаптація.
 sich_relocated = {
 	manpower_recovery_speed = -0.10
 	development_cost = 0.10
@@ -2646,9 +2629,6 @@ sich_relocated = {
 	prestige = -2
 }
 
-# Sich in Ottoman Lands (1709–1775: Олешківська Січ під Османською протекцією)
-# Історія: Після поразки Мазепи при Полтаві (1709) частина козаків переміщувалась до
-# Олешківської Січі під Кримською залежністю й Османським контролем.
 sich_ottoman_lands = {
 	global_autonomy = 0.10
 	diplomatic_reputation = -2
@@ -2658,9 +2638,6 @@ sich_ottoman_lands = {
 	army_tradition = 0.05
 }
 
-# Cossack Settlement (XVI–XIX ст.: утворення козацьких слобід на кордонах)
-# Історія: Слободи як полукочевие поселення вільних людей, організовані козацькими общинами,
-# забезпечували буфер проти татарських рейдів.
 cossack_settlement = {
 	local_manpower_modifier = 0.15
 	local_defensiveness = 0.10
@@ -2669,9 +2646,6 @@ cossack_settlement = {
 	local_autonomy = 0.05
 }
 
-# Steppe Brotherhood (XVI–XVIII ст.: союз козаків з іншими степовими народами)
-# Історія: Інколи козаки союзувалися з кримськими татарами, ногайцями чи іншими степовимі
-# воєнизованими громадами проти спільного ворога (Осман, РП).
 zaz_steppe_brotherhood = {
 	diplomatic_reputation = 1
 	improve_relation_modifier = 0.10
@@ -2679,15 +2653,11 @@ zaz_steppe_brotherhood = {
 	cavalry_power = 0.05
 }
 
-# Steppe Alliance (XVI–XVIII ст.: формальний союз з степовими кочівниками)
 zaz_steppe_alliance = {
 	improve_relation_modifier = 0.10
 	dip_tech_cost_modifier = -0.05
 }
 
-# Rebellious Cossacks (XVIII ст.: козацька резистентність російському панству)
-# Історія: После 1709 р. козаки все более розглядалися як російські васали, але опір
-# російській централізації залишився. Бунти, втечі, союзи з Пугачевим.
 zaz_rebellious_cossacks = {
 	global_unrest = 3
 	liberty_desire = 30
@@ -2696,8 +2666,6 @@ zaz_rebellious_cossacks = {
 	stability_cost_modifier = 0.25
 }
 
-# Ottoman-Protected Sich (1709–1775: Січь як інструмент Османської політики)
-# Історія: Кримські хани й Туреччина використовували уламки Січі як буфер проти Російської експансії.
 ottoman_protected_sich = {
 	diplomatic_reputation = -2
 	stability_cost_modifier = 0.10
@@ -2706,9 +2674,6 @@ ottoman_protected_sich = {
 	improve_relation_modifier = -0.10
 }
 
-# Sich Diaspora (1775–XIX ст.:散散的 козацькі громади в екзилі)
-# Історія: Після знищення Січі 1775 р. уламки козаків розсіялися: на Кубань (Чорноморське Козацтво),
-# на Дунай (Дунайське Козацтво), на Дон, в Туреччину.
 sich_diaspora = {
 	global_autonomy = 0.20
 	liberty_desire = 10
@@ -2717,9 +2682,6 @@ sich_diaspora = {
 	global_unrest = 2
 }
 
-# Registered Cossacks (Гетьманщина XVII–XVIII ст.: інтеграція козаків в офіційну структуру)
-# Історія: За гетьманства Мазепи й його наступників козацькі полки були переведені на
-# постійну службу й включені в военно-адміністративну структуру.
 het_registered_cossacks_integrated = {
 	manpower_recovery_speed = 0.10
 	land_morale = 0.10
@@ -2728,9 +2690,6 @@ het_registered_cossacks_integrated = {
 	liberty_desire = 5
 }
 
-# Hetman Faction Conflict (XVII–XVIII ст.: боротьба старшинських кланів за гетьманство)
-# Історія: Вибори гетьмана були часто буремні: старшина розділялась, іноземні держави
-# втручалися, нові гетмани мали низьку легітимність.
 hetman_faction_conflict = {
 	global_unrest = 2
 	stability_cost_modifier = 0.20
@@ -2739,8 +2698,6 @@ hetman_faction_conflict = {
 	prestige = -3
 }
 
-# Russian-Backed Hetman (XVIII ст.: гетьман, призначений Московією)
-# Історія: Після 1709 р. Московія почала прямо призначати гетманів, замість дозволяти їхній вибір.
 russian_backed_hetman = {
 	global_autonomy = 0.15
 	liberty_desire = 15
@@ -2749,28 +2706,7 @@ russian_backed_hetman = {
 	prestige = -2
 }
 
-# =========================================================================
-# SVYDRIGAYLO INDEPENDENCE PATH MODIFIERS (XIV-XV century alternate history)
-# =========================================================================
-# Historical Context:
-# XIV-XV century path where Svydrigaylo of Lithuania (сын Ольгерда) successfully
-# establishes an independent Ruthenian state, breaking from Grand Duchy of Lithuania.
-# This alternate timeline sees Ruthenian confederation maintained through 16th-18th centuries.
-#
-# Mechanical Basis:
-# Starshyna Council → Preparation Phase → Independence Declaration → Confederation Formation
-# Each phase unlocks additional buffs, prestige, diplomatic benefits.
-#
-# Narrative Inspiration:
-# - 1399-1432: Svydrigaylo (Свидригайло) claims Ruthenian lands vs Vytautas
-# - 1648-1654: Bohdan Khmelnytsky Uprising revives confederation model
-# - 1667 onwards: Alternate history maintains multi-power balance vs Russian absorption
-# =========================================================================
 
-# Starshyna Council Formation (XIV-XV ст.: перша формальна організація старшини)
-# Механіка: Дозволяє розпочати процес незалежності; стабілізує внутрішні конфлікти.
-# Історія: Перша офіціальна структура, в якій козацькі офіцери й литовська аристократія
-# обговорюють спільні інтереси незалежної Рутенської держави.
 svydrigaylo_starshyna_council = {
 	stability_cost_modifier = -0.08
 	diplomats = 1
@@ -2778,10 +2714,6 @@ svydrigaylo_starshyna_council = {
 	legitimacy = 0.5
 }
 
-# Preparing for Independence (XV ст.: дипломатична підготовка до розриву)
-# Механіка: Підтримка союзників, укріплення армії, набір анти-литовського настрою.
-# Історія: За часи підготовки до розриву договорів з Литвою здійснюються переговори
-# з Крименьким Ханством, Польщею, і локальними козацькими громадами.
 svydrigaylo_preparing_independence = {
 	improve_relation_modifier = 0.10
 	diplomatic_reputation = 1
@@ -2790,10 +2722,6 @@ svydrigaylo_preparing_independence = {
 	prestige = 0.5
 }
 
-# Independent Ruthenian State (XV ст.: новоутворена вільна держава)
-# Механіка: Видаляє модификатори васалізму, додає престиж й дипломатичну репутацію.
-# Історія: Рутенська держава визнається як суверенний актор, пропонує альтернативу
-# як русинському, так і польському, й литовському домінуванню.
 svydrigaylo_independent_ruthenian_state = {
 	legitimacy = 1
 	prestige = 1
@@ -2803,11 +2731,6 @@ svydrigaylo_independent_ruthenian_state = {
 	unjustified_demands = -0.25
 }
 
-# Kyivan Confederation Established (XV-XVI ст.: об'єднання Рутенських земель)
-# Механіка: Максимальні бонуси за об'єднання; додає принципи республіканської традиції
-# + легітимності, символізуючи компромісну систему управління (демократія + аристократія).
-# Історія: КРУ конфедерація об'єднує Київ (релігійний центр), Гетьманщину (військовий),
-# Запоріжжя (демократичне), Чернігів (административне).
 kru_confederation_established = {
 	legitimacy = 2
 	republican_tradition = 1
@@ -2821,9 +2744,6 @@ kru_confederation_established = {
 	diplomatic_upkeep = -0.10
 }
 
-# =========================================================================
-# JEWISH MERCHANT ESTATE MODIFIERS
-# =========================================================================
 
 jewish_merchant_charters = {
 	trade_efficiency = 0.10
@@ -2838,9 +2758,6 @@ jewish_communities_restricted = {
 	production_efficiency = -0.05
 }
 
-# =========================================================================
-# COSSACK RAID & KHMElnytsky TIE-INS
-# =========================================================================
 
 cossack_freed_slaves = {
 	global_manpower_modifier = 0.10
@@ -2860,9 +2777,6 @@ khmelnytsky_negotiations = {
 	improve_relation_modifier = 0.10
 }
 
-# Svydrigaylo's Legacy (XIV-XV ст.: історична реберенція до Свидригайла)
-# Механіка: Престиж i легітимність від історичної фігури, яка встановила традицію независимості.
-# Історія: Упрочнення ідеї про Рутенське право на самовизначення й опір чужому панству.
 svydrigaylo_legacy = {
 	prestige = 1
 	prestige_decay = -0.01
@@ -2870,7 +2784,6 @@ svydrigaylo_legacy = {
 	global_unrest = -1
 }
 
-# Balance between Rada and Hetmanate (republican tradition converted to legitimacy)
 kru_confederation_balance = {
 	legitimacy = 1
 	republican_tradition = 0.25
@@ -2879,7 +2792,6 @@ kru_confederation_balance = {
 	stability_cost_modifier = -0.05
 }
 
-# Polesian and Belarusian Event Modifiers
 polesian_marsh_tactics = {
 	land_attrition = -0.2
 	hostile_attrition = 1
@@ -2975,8 +2887,202 @@ fortress_modifier = {
     local_defensiveness = 0.25          # +25% Defensiveness
     local_fort_maintenance_modifier = -0.20 # -20% Fort Maintenance
     
-    # Optional: Icon for the modifier (uses icons from GFX)
-    # picture = "fort_icon" 
+}
+
+vol_carpathian_bulwark_modifier = {
+	local_defensiveness = 0.20          # +20% Defensiveness
+	local_garrison_size = 0.15          # +15% Garrison Size
+	local_fort_maintenance_modifier = -0.15 # -15% Fort Maintenance
+}
+vol_crimean_conquest = {
+	land_morale = 0.1
+	manpower_recovery_speed = 0.1
+	cavalry_power = 0.1
+}
+embraced_minority_religion = {
+	local_missionary_strength = 0.05
+	local_unrest = -2
+}
+tolerant_policy = {
+	stability_cost_modifier = -0.1
+	religious_unity = 0.1
 }
 
 
+sloboda_migrant_wave = {
+	global_manpower_modifier = 0.05
+	development_cost = -0.03
+}
+
+sloboda_starshyna_patronage = {
+	global_tax_modifier = 0.05
+	production_efficiency = 0.05
+}
+
+sloboda_restricted_inflow = {
+	global_unrest = -1
+	global_manpower_modifier = -0.03
+}
+
+sloboda_fiscal_privileges = {
+	global_tax_modifier = 0.08
+	global_autonomy = 0.02
+}
+
+sloboda_elective_offices = {
+	stability_cost_modifier = -0.08
+	republican_tradition = 0.2
+	legitimacy = 0.5
+}
+
+sloboda_chancellery_standardization = {
+	governing_capacity_modifier = 0.05
+	state_maintenance_modifier = -0.05
+}
+
+sloboda_regimental_chancery = {
+	manpower_recovery_speed = 0.08
+	land_forcelimit_modifier = 0.05
+}
+
+sloboda_urban_garrisons = {
+	defensiveness = 0.1
+	fort_maintenance_modifier = -0.08
+}
+
+sloboda_fortified_line = {
+	defensiveness = 0.1
+	hostile_attrition = 0.5
+}
+
+sloboda_mobile_watchposts = {
+	land_morale = 0.05
+	army_tradition = 0.5
+}
+
+sloboda_service_privileges = {
+	global_unrest = -1
+	manpower_recovery_speed = 0.05
+}
+
+sloboda_central_oversight = {
+	governing_capacity_modifier = 0.08
+	global_unrest = 1
+}
+
+sloboda_chernozem_specialization = {
+	production_efficiency = 0.08
+	global_trade_goods_size_modifier = 0.05
+}
+
+sloboda_pastoral_diversification = {
+	development_cost = -0.05
+	land_forcelimit_modifier = 0.05
+}
+
+sloboda_trade_contracts = {
+	trade_efficiency = 0.08
+	global_trade_power = 0.08
+}
+
+sloboda_local_market_model = {
+	global_tax_modifier = 0.05
+	production_efficiency = 0.03
+}
+
+sloboda_grain_corridors = {
+	trade_efficiency = 0.1
+	global_trade_goods_size_modifier = 0.08
+	caravan_power = 0.1
+}
+
+sloboda_export_fiscalization = {
+	global_tax_modifier = 0.08
+	inflation_reduction = 0.03
+}
+
+sloboda_brotherhood_schools = {
+	idea_cost = -0.03
+	advisor_cost = -0.05
+}
+
+sloboda_service_chancellery = {
+	administrative_efficiency = 0.03
+	state_maintenance_modifier = -0.05
+}
+
+sloboda_confessional_compromise = {
+	tolerance_heretic = 1
+	tolerance_heathen = 1
+	global_unrest = -1
+}
+
+sloboda_confessional_uniformity = {
+	global_missionary_strength = 0.02
+	tolerance_heretic = -1
+}
+
+sloboda_hybrid_service_code = {
+	governing_capacity_modifier = 0.05
+	manpower_recovery_speed = 0.05
+}
+
+sloboda_central_service_tables = {
+	governing_capacity_modifier = 0.1
+	max_absolutism = 5
+}
+
+sloboda_gradual_integration = {
+	global_autonomy = -0.03
+	stability_cost_modifier = -0.05
+}
+
+sloboda_rapid_uniformization = {
+	governing_capacity_modifier = 0.1
+	global_unrest = 1
+}
+
+sloboda_legacy_military = {
+	land_morale = 0.05
+	army_tradition_decay = -0.01
+}
+
+sloboda_legacy_urban_economic = {
+	trade_efficiency = 0.1
+	production_efficiency = 0.1
+}
+
+sloboda_imperial_integration = {
+	administrative_efficiency = 0.05
+	improve_relation_modifier = 0.1
+}
+
+sloboda_settlement_compacts = {
+	local_development_cost = -0.1
+	local_manpower_modifier = 0.1
+}
+
+sloboda_charter_freedoms = {
+	local_tax_modifier = 0.1
+	local_production_efficiency = 0.05
+}
+
+sloboda_garrison_city = {
+	local_defensiveness = 0.15
+	garrison_size = 0.1
+}
+
+sloboda_line_earthworks = {
+	local_defensiveness = 0.2
+	hostile_attrition = 1
+}
+
+sloboda_grain_silo_network = {
+	local_production_efficiency = 0.1
+	local_build_cost = -0.05
+}
+
+sloboda_grain_contract_hall = {
+	province_trade_power_value = 10
+	local_production_efficiency = 0.08
+}

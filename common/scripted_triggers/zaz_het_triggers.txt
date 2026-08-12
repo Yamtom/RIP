@@ -1,6 +1,38 @@
-# Triggers for Zaporizhia and Hetmanate
 
-# Check if nation is a Cossack state
+zaz_has_legacy_missions = {
+	OR = {
+		tag = ZAZ
+		AND = {
+			tag = HET
+			OR = {
+				has_country_flag = rip_hetmanate_origin_zaz
+				has_country_flag = zaz_evolved_to_hetmanate
+				has_country_flag = zaz_only_zaz
+				has_country_flag = zaz_allied_pol
+				has_country_flag = zaz_allied_rus
+				has_country_flag = zaz_allied_gol
+				has_country_flag = zaz_allied_tur
+				mission_completed = ZAZ_independce
+				mission_completed = ZAZ_finally
+			}
+		}
+	}
+}
+
+prl_has_legacy_missions = {
+	OR = {
+		tag = PRL
+		AND = {
+			tag = HET
+			OR = {
+				has_country_flag = rip_hetmanate_origin_prl
+				mission_completed = prl_build_army
+				mission_completed = prl_consolidate_left_bank
+			}
+		}
+	}
+}
+
 is_cossack_nation = {
 	OR = {
 		tag = ZAZ
@@ -10,7 +42,6 @@ is_cossack_nation = {
 	}
 }
 
-# Check if province is in Wild Fields
 is_wild_fields = {
 	OR = {
 		area = zaporizhia_area
@@ -19,20 +50,18 @@ is_wild_fields = {
 		province_id = 284  # Zaporizhia
 		province_id = 2410 # Khortytsia
 		province_id = 2411 # Samara
-		has_terrain = steppe
-		has_terrain = grasslands
+		rip_is_steppe_or_grasslands = yes
 	}
 	NOT = { is_city = yes }
 }
 
-# Check if suitable for Sich relocation
 is_sich_location = {
 	OR = {
 		area = zaporizhia_area
 		area = yedisan_area
 		area = azov_area
 	}
-	has_terrain = steppe
+	rip_is_steppe_or_grasslands = yes
 	controlled_by = owner
 	owner = {
 		OR = {
@@ -42,7 +71,6 @@ is_sich_location = {
 	}
 }
 
-# Check if nation can conduct Chaiky trade/raid expeditions (non-slave raids)
 can_conduct_chaiky_raids = {
 	OR = {
 		tag = ZAZ
@@ -57,7 +85,6 @@ can_conduct_chaiky_raids = {
 	}
 }
 
-# Check if suitable target for Chaiky raids
 is_chaiky_raid_target = {
 	OR = {
 		tag = TUR
@@ -76,7 +103,6 @@ is_chaiky_raid_target = {
 	}
 }
 
-# Check if Hetmanate is autonomous
 het_is_autonomous = {
 	tag = HET
 	OR = {
@@ -89,7 +115,6 @@ het_is_autonomous = {
 	}
 }
 
-# Check if suitable for regimental system
 can_establish_regiment = {
 	owner = {
 		OR = {
@@ -106,7 +131,6 @@ can_establish_regiment = {
 	development = 8
 }
 
-# Check if Sich is threatened
 zich_is_threatened = {
 	tag = ZAZ
 	OR = {
@@ -128,7 +152,6 @@ zich_is_threatened = {
 	}
 }
 
-# Check if province has Cossack heritage
 has_cossack_heritage_prov = {
 	OR = {
 		has_province_modifier = "cossack_settlement"
@@ -138,7 +161,6 @@ has_cossack_heritage_prov = {
 	}
 }
 
-# Check if country is Cossack nation
 is_cossack_nation = {
 	OR = {
 		tag = ZAZ
@@ -147,7 +169,6 @@ is_cossack_nation = {
 	}
 }
 
-# Check if Orthodox under Catholic/Muslim rule
 orthodox_under_pressure = {
 	religion = orthodox
 	owner = {
@@ -159,7 +180,6 @@ orthodox_under_pressure = {
 	}
 }
 
-# Check if can form trade route
 can_establish_trade_route = {
 	owner = {
 		OR = {
@@ -176,7 +196,6 @@ can_establish_trade_route = {
 	}
 }
 
-# Check if Hetmanate succession crisis imminent
 het_succession_crisis_imminent = {
 	tag = HET
 	OR = {
@@ -192,7 +211,6 @@ het_succession_crisis_imminent = {
 	}
 }
 
-# Check if ZAZ internal crisis imminent
 zaz_internal_crisis_imminent = {
 	tag = ZAZ
 	OR = {
@@ -206,7 +224,6 @@ zaz_internal_crisis_imminent = {
 	}
 }
 
-# Check if suitable for Sich great project upgrade
 can_upgrade_sich_project = {
 	province_id = 284  # Zaporizhia
 	owner = {
@@ -220,7 +237,6 @@ can_upgrade_sich_project = {
 	}
 }
 
-# Check if Black Sea trade dominant
 dominates_black_sea_trade = {
 	owner = {
 		OR = {
@@ -245,7 +261,6 @@ dominates_black_sea_trade = {
 	}
 }
 
-# Check if can establish Sloboda settlement
 can_establish_sloboda = {
 	owner = {
 		OR = {
