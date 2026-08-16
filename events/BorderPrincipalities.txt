@@ -18,21 +18,24 @@ country_event = {
     fire_only_once = yes
     
     trigger = {
-        tag = LIT
+        OR = {
+            tag = LIT   # Вільно
+            tag = CHR   # Чернігів тримає Сіверщину від 1444.11.1
+        }
         is_year = 1444
         NOT = { is_year = 1500 }
-        owns = 295  # Rylsk
+        owns = 4543  # Rylsk
     }
-    
+
     mean_time_to_happen = {
         months = 12
     }
-    
+
     option = {  # Grant Rylsk to Shemyaka heirs as vassal
         name = border_principalities.1.a
         ai_chance = { factor = 80 }
-        
-        295 = {
+
+        4543 = {
             add_province_modifier = {
                 name = shemyaka_rurikid_rule
                 duration = -1
@@ -49,7 +52,7 @@ country_event = {
         ai_chance = { factor = 20 }
         
         add_stability_or_adm_power = yes
-        295 = {
+        4543 = {
             add_unrest = 3
         }
     }
@@ -64,12 +67,15 @@ country_event = {
     fire_only_once = yes
     
     trigger = {
-        tag = LIT
+        OR = {
+            tag = LIT   # Вільно
+            tag = CHR   # Чернігів тримає Сіверщину від 1444.11.1
+        }
         is_year = 1444
         NOT = { is_year = 1500 }
         OR = {
-            owns = 296  # Bryansk area
-            owns = 1960  # Severia
+            owns = 297   # Bryansk
+            owns = 1945  # Novgorod-Seversky
         }
     }
     
@@ -84,8 +90,8 @@ country_event = {
         random_owned_province = {
             limit = {
                 OR = {
-                    province_id = 1960
-                    province_id = 296
+                    province_id = 297   # Bryansk
+                    province_id = 1945  # Novgorod-Seversky
                 }
             }
             add_province_modifier = {
@@ -121,10 +127,13 @@ country_event = {
     fire_only_once = yes
     
     trigger = {
-        tag = LIT
+        OR = {
+            tag = LIT   # Вільно
+            tag = CHR   # Чернігів тримає Сіверщину від 1444.11.1
+        }
         is_year = 1444
         NOT = { is_year = 1480 }
-        owns = 2408  # Kursk
+        owns = 298  # Kursk
     }
     
     mean_time_to_happen = {
@@ -135,7 +144,7 @@ country_event = {
         name = border_principalities.3.a
         ai_chance = { factor = 75 }
         
-        2408 = {
+        298 = {
             add_province_modifier = {
                 name = jagoldai_horde_settlement
                 duration = -1
@@ -153,7 +162,7 @@ country_event = {
         ai_chance = { factor = 25 }
         
         add_legitimacy = 10
-        2408 = {
+        298 = {
             add_unrest = 2
         }
     }
@@ -168,11 +177,14 @@ country_event = {
     fire_only_once = yes
     
     trigger = {
-        tag = LIT
+        OR = {
+            tag = LIT   # Вільно
+            tag = CHR   # Чернігів тримає Сіверщину від 1444.11.1
+        }
         is_year = 1500
         NOT = { is_year = 1510 }
-        owns = 295  # Rylsk
-        295 = { has_province_modifier = shemyaka_rurikid_rule }
+        owns = 4543  # Rylsk
+        4543 = { has_province_modifier = shemyaka_rurikid_rule }
         exists = MOS
         MOS = {
             is_neighbor_of = ROOT
@@ -216,7 +228,7 @@ country_event = {
         name = border_principalities.4.b
         ai_chance = { factor = 10 }
         
-        295 = {
+        4543 = {
             cede_province = MOS
             remove_province_modifier = shemyaka_rurikid_rule
         }
@@ -231,7 +243,7 @@ country_event = {
         declare_war_with_cb = {
             who = MOS
             casus_belli = cb_restore_personal_union
-            war_goal_province = 295
+            war_goal_province = 4543
         }
     }
 }
@@ -247,9 +259,9 @@ country_event = {
     option = {  # Welcome the Shemyaka heirs
         name = border_principalities.5.a
         
-        295 = {
+        4543 = {
             if = {
-                limit = { owned_by = LIT }
+                limit = { owned_by = FROM }
                 cede_province = ROOT
             }
             remove_province_modifier = shemyaka_rurikid_rule
@@ -257,7 +269,7 @@ country_event = {
         add_prestige = 10
         add_legitimacy = 5
         add_casus_belli = {
-            target = LIT
+            target = FROM
             type = cb_core
             months = 120
         }
@@ -273,7 +285,10 @@ country_event = {
     fire_only_once = yes
     
     trigger = {
-        tag = LIT
+        OR = {
+            tag = LIT   # Вільно
+            tag = CHR   # Чернігів тримає Сіверщину від 1444.11.1
+        }
         is_year = 1507
         NOT = { is_year = 1515 }
         any_owned_province = {
@@ -406,7 +421,7 @@ country_event = {
             duration = 7300
         }
         add_casus_belli = {
-            target = LIT
+            target = FROM
             type = cb_core
             months = 120
         }
@@ -422,11 +437,14 @@ country_event = {
     fire_only_once = yes
     
     trigger = {
-        tag = LIT
+        OR = {
+            tag = LIT   # Вільно
+            tag = CHR   # Чернігів тримає Сіверщину від 1444.11.1
+        }
         is_year = 1492
         NOT = { is_year = 1505 }
-        owns = 2408  # Kursk
-        2408 = { has_province_modifier = jagoldai_horde_settlement }
+        owns = 298  # Kursk
+        298 = { has_province_modifier = jagoldai_horde_settlement }
         exists = MOS
     }
     
@@ -466,7 +484,7 @@ country_event = {
         name = border_principalities.9.b
         ai_chance = { factor = 20 }
         
-        2408 = {
+        298 = {
             cede_province = MOS
             remove_province_modifier = jagoldai_horde_settlement
         }
@@ -480,7 +498,7 @@ country_event = {
         declare_war_with_cb = {
             who = MOS
             casus_belli = cb_annex
-            war_goal_province = 2408
+            war_goal_province = 298
         }
     }
 }
@@ -496,9 +514,9 @@ country_event = {
     option = {  # Welcome the Tatar cavalry
         name = border_principalities.10.a
         
-        2408 = {
+        298 = {
             if = {
-                limit = { owned_by = LIT }
+                limit = { owned_by = FROM }
                 cede_province = ROOT
             }
             remove_province_modifier = jagoldai_horde_settlement
@@ -521,12 +539,15 @@ country_event = {
     fire_only_once = yes
     
     trigger = {
-        tag = LIT
+        OR = {
+            tag = LIT   # Вільно
+            tag = CHR   # Чернігів тримає Сіверщину від 1444.11.1
+        }
         is_year = 1500
         NOT = { is_year = 1510 }
         OR = {
-            owns = 1960  # Starodub area
-            owns = 296   # Bryansk area
+            owns = 4244  # Starodub
+            owns = 1945  # Novgorod-Seversky
         }
         exists = MOS
         MOS = {
@@ -573,8 +594,8 @@ country_event = {
         random_owned_province = {
             limit = {
                 OR = {
-                    province_id = 1960
-                    province_id = 296
+                    province_id = 4244  # Starodub
+                    province_id = 1945  # Novgorod-Seversky
                 }
             }
             cede_province = MOS
@@ -597,7 +618,7 @@ country_event = {
         add_prestige = 15
         add_legitimacy = 10
         add_casus_belli = {
-            target = LIT
+            target = FROM
             type = cb_core
             months = 120
         }

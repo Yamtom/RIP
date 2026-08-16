@@ -1,5 +1,76 @@
 # Border Principalities System - Technical Documentation
 
+## Status
+
+Both chains are wired and should fire. Three separate faults had to clear
+first: every province ID in `border_principalities.1-12` pointed at the wrong
+place, every trigger demanded a tag that does not hold the land at game start,
+and `qasim_khanate.1` could not create its vassal. Nothing in either chain is
+known to be blocked now.
+
+Одне залишається на розсуд автора: **Бєлгород**. Документ
+`MAP_REWORK_SUGGESTIONS.md` пропонує окрему провінцію під Ягольдаєву
+волость, і тоді подія 3 мала б націлюватися на неї, а не на Курськ. Поки
+провінції немає, Ягольдай осідає в `298` Курськ - історично це північний
+край волості, тож наближення прийнятне.
+
+## Хто насправді тримає ці землі
+
+Ланцюг писався під Литву: кожен тригер починався з `tag = LIT`. Але мод
+власною історією провінцій передає Сіверщину Чернігову **1444.11.1**, за
+десять днів до старту гри:
+
+| Провінція | Власник у файлі | Власник на 1444.11.11 |
+|---|---|---|
+| `4543` Рильськ | LIT | **CHR** |
+| `298` Курськ | LIT | **CHR** |
+| `1945` Новгород-Сіверський | LIT | **CHR** |
+| `4244` Стародуб | LIT | **CHR** |
+| `297` Брянськ | LIT | LIT |
+
+CHR — незалежна республіка Сіверського віча зі столицею в Чернігові, не
+васал Вільна. Тому з семи подій, що вимагали `tag = LIT`, реально могла
+спрацювати лише друга — та, якій вистачало Брянська. Події про Шемячичів у
+Рильську, про Ягольдая в Курську та про Стародуб не мали шансів, доки Литва
+не відвоює Сіверщину назад.
+
+Тригери тепер приймають `LIT` або `CHR`, а події, які отримує Москва,
+беруть сюзерена через `FROM` замість жорсткого тегу — отже ланцюг працює
+для того, хто справді тримає землю. Описи подій 5, 8, 10 і 12 називають
+сюзерена через `[From.GetName]`, а не «Литву».
+
+## Province IDs
+
+The chain originally shipped with province IDs that did not match the comments
+beside them; every trigger in it referred to the wrong place, most damagingly
+`295`, which is Moskva rather than Rylsk. The IDs below are the ones the mod's
+own `history/provinces/` files define. On who owns them at game start, see the
+section above.
+
+| Province | ID | Was (wrong) | Used by |
+|---|---|---|---|
+| Rylsk | `4543` | `295` - Moskva | events 1, 4, 5 |
+| Kursk | `298` | `2408` - Lipetsk | events 3, 9, 10 |
+| Bryansk | `297` | `296` - Myrhorod | event 2 |
+| Novgorod-Seversky | `1945` | `1960` - no such province | events 2, 11 |
+| Starodub | `4244` | `1960` - no such province | event 11 |
+
+## The Qasim chain
+
+`QAS` is a vanilla tag - `common/country_tags/00_countries.txt` maps it to
+`countries/QasimKhanate.txt`, and vanilla gives it a core on `1778` Kasimov.
+It is dormant rather than absent: Muscovy owns Kasimov in 1444 and no vanilla
+event ever releases QAS, so the mod is free to. The province IDs the chain
+uses are right - `1778` is Kasimov and `1082` is Kazan.
+
+The one defect was in `qasim_khanate.1`, which called `create_subject` on a
+country that did not exist yet. `release = QAS` now runs first, as it already
+did in `qasim_khanate.3`.
+
+Two comments elsewhere in the repository misname these same provinces and are
+worth not trusting: `events/SteppeRaiding.txt` calls `1082` the Lower Yayik,
+which it is not. See the triage list in `docs/WORKSHOP_LISTING.md`.
+
 ## Historical Context
 
 Between 1444 and 1520, the border region between the Grand Duchy of Lithuania and Muscovy was characterized by numerous small semi-autonomous principalities that could switch allegiance between the two powers. This instability was a key factor in the Muscovite-Lithuanian Wars of 1500-1503 and 1507-1508, which resulted in significant territorial gains for Moscow.
@@ -82,27 +153,27 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 ### Border Principalities Events (border_principalities namespace)
 
 #### Event 1: Shemyaka Heirs in Rylsk
-**Trigger**: Lithuania owns Rylsk, 1444-1500
+**Trigger**: Lithuania or Chernihiv owns Rylsk (`4543`), 1444-1500
 **MTTH**: 12 months
 **Choice A** (AI 80%): Grant vassal autonomy → modifier `shemyaka_rurikid_rule` on province, `border_vassal_buffer` country modifier
 **Choice B** (AI 20%): Direct control → stability or adm power, +3 unrest in Rylsk
 
 #### Event 2: Glinski Family and Mamai's Descendants
-**Trigger**: Lithuania owns Bryansk or Severia area, 1444-1500
+**Trigger**: Lithuania or Chernihiv owns Bryansk (`297`) or Novgorod-Seversky (`1945`), 1444-1500
 **MTTH**: 18 months
 **Choice A** (AI 70%): Grant lands to Glinski → `glinski_tatar_settlement` modifier on random Severia/Bryansk province, +1 base manpower, `tatar_border_defense` country modifier (25 years)
 **Choice B** (AI 30%): Refuse petition → +5 prestige, `refused_powerful_family` negative modifier (10 years)
 
 #### Event 3: Jagoldai Khanate Settlement
-**Trigger**: Lithuania owns Kursk, 1444-1480
+**Trigger**: Lithuania or Chernihiv owns Kursk (`298`), 1444-1480
 **MTTH**: 24 months
-**Choice A** (AI 75%): Accept Jagoldai → `jagoldai_horde_settlement` modifier on Kursk, +2 base cavalry, `horde_vassal_buffer` country modifier (25 years)
+**Choice A** (AI 75%): Accept Jagoldai → `jagoldai_horde_settlement` modifier on Kursk, +50 mil power, `horde_vassal_buffer` country modifier (25 years)
 **Choice B** (AI 25%): Refuse → +10 legitimacy, +2 unrest in Kursk
 
 #### Event 4: Rylsk Defects to Muscovy
-**Trigger**: Lithuania owns Rylsk with `shemyaka_rurikid_rule`, 1500-1510, Muscovy exists and neighbors Lithuania
+**Trigger**: Lithuania or Chernihiv owns Rylsk with `shemyaka_rurikid_rule`, 1500-1510, Muscovy exists and neighbors Lithuania
 **MTTH**: 36 months (faster if low legitimacy or at war)
-**Choice A** (AI 60%): Keep loyal → -10 prestige, +10 loyalty, 30% defects anyway triggering Event 5, 70% loyalty maintained
+**Choice A** (AI 60%): Keep loyal → -10 prestige, +10 legitimacy, 30% defects anyway triggering Event 5, 70% keeps `strengthened_border_vassals`
 **Choice B** (AI 10%): Peaceful transfer → Rylsk cedes to Muscovy, -15 prestige, truce
 **Choice C** (AI 30%): War → Declares restoration war on Muscovy
 
@@ -110,7 +181,7 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 **Result**: Muscovy gains Rylsk, +10 prestige, +5 legitimacy, core CB on Lithuania (10 years)
 
 #### Event 6: Glinski Rebellion Brewing
-**Trigger**: Lithuania has Glinski province, 1507-1515, Muscovy exists
+**Trigger**: Lithuania or Chernihiv has Glinski province, 1507-1515, Muscovy exists
 **MTTH**: 24 months (faster if low legitimacy or revolts present)
 **Choice A** (AI 40%): Negotiate → -10 prestige, -0.3 years income, 60% Glinski stays loyal (`glinski_appeasement`), 40% triggers Event 7
 **Choice B** (AI 30%): Suppress → -50 mil power, 2 noble rebel stacks spawn (friendly to Muscovy)
@@ -123,7 +194,7 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 **Result**: +15 prestige, +10 legitimacy, +50 adm power, `glinski_advisors_muscovy` modifier (20 years), core CB on Lithuania (10 years)
 
 #### Event 9: Jagoldai Switches Allegiance
-**Trigger**: Lithuania owns Kursk with `jagoldai_horde_settlement`, 1492-1505, Muscovy exists
+**Trigger**: Lithuania or Chernihiv owns Kursk with `jagoldai_horde_settlement`, 1492-1505, Muscovy exists
 **MTTH**: 48 months (faster if Muscovy stronger or Lithuania at war)
 **Choice A** (AI 50%): Retain loyalty → -0.25 years income, 40% stays loyal, 60% triggers Event 10
 **Choice B** (AI 20%): Let go → Kursk cedes to Muscovy, -10 prestige
@@ -133,7 +204,7 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 **Result**: Kursk cedes to Muscovy, removes old modifier, applies `jagoldai_muscovite_service`, +10 prestige, +50 mil power
 
 #### Event 11: Starodub Switching Allegiance
-**Trigger**: Lithuania owns Severia/Bryansk, 1500-1510, Muscovy neighbor
+**Trigger**: Lithuania or Chernihiv owns Starodub (`4244`) or Novgorod-Seversky (`1945`), 1500-1510, Muscovy neighbor
 **MTTH**: 30 months (faster if at war or Muscovy militarily stronger)
 **Choice A** (AI 70%): Fight → Muscovy gets core CB (10 years), triggers Event 12
 **Choice B** (AI 30%): Let go → -20 prestige, random Severia/Bryansk province cedes to Muscovy, truce
@@ -187,14 +258,14 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 | Modifier | Effects | Duration | Applied By |
 |----------|---------|----------|------------|
 | `shemyaka_rurikid_rule` | -1 unrest, +15% defensiveness, +10% garrison | Permanent | border_principalities.1 |
-| `glinski_tatar_settlement` | +20% manpower, +1 hostile attrition, +10% cavalry power | Permanent | border_principalities.2 |
-| `jagoldai_horde_settlement` | +25% manpower, +15% cavalry power, +1.5 hostile attrition | Permanent | border_principalities.3 |
+| `glinski_tatar_settlement` | +20% local manpower, +1 local hostile attrition | Permanent | border_principalities.2 |
+| `jagoldai_horde_settlement` | +25% local manpower, +1.5 local hostile attrition | Permanent | border_principalities.3 |
 | `glinski_appeasement` | -2 unrest, -15% local tax | 10 years | border_principalities.6.a |
 | `jagoldai_muscovite_service` | +15% manpower, +10% garrison, +1 hostile attrition | Permanent | border_principalities.10 |
-| `qasim_khanate_capital` | +20% manpower, +15% cavalry power, +10% garrison | Permanent | qasim_khanate.1 |
+| `qasim_khanate_capital` | +20% local manpower, +10% garrison | Permanent | qasim_khanate.1 |
 | `conquered_khanate` | +5 unrest, +10% local autonomy | 20 years | qasim_khanate.3.b |
-| `former_qasim_khanate` | +10% manpower, -10% cavalry cost | Permanent | qasim_khanate.4.a |
-| `lipka_tatar_settlement` | +20% manpower, +15% garrison, +10% cavalry power | Permanent | qasim_khanate.5 |
+| `former_qasim_khanate` | +10% local manpower | Permanent | qasim_khanate.4.a |
+| `lipka_tatar_settlement` | +20% local manpower, +15% garrison | Permanent | qasim_khanate.5 |
 | `lipka_tatar_privileges` | -2 unrest, +15% manpower, +20% garrison | 20 years | qasim_khanate.6.a |
 
 ### Country Modifiers
@@ -203,7 +274,7 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 |----------|---------|----------|------------|
 | `border_vassal_buffer` | +0.5 hostile attrition, -10% fort maintenance, +1 diplomat | 20 years | border_principalities.1 |
 | `tatar_border_defense` | +5% cavalry power, +25% flanking, -15% fort maint, +0.75 hostile attrition | 25 years | border_principalities.2 |
-| `refused_powerful_family` | -0.25 legitimacy, -5% all estate loyalty | 10 years | border_principalities.2.b |
+| `refused_powerful_family` | -0.25 legitimacy | 10 years | border_principalities.2.b |
 | `horde_vassal_buffer` | -10% cavalry cost, +10% cavalry power, +1 hostile attrition | 25 years | border_principalities.3 |
 | `strengthened_border_vassals` | +15% vassal income, +1 diplomatic reputation, -10% fort maintenance | 10 years | border_principalities.4.a success |
 | `glinski_loyalty` | +0.5 legitimacy, +10% cavalry power, +1 diplomatic reputation | 20 years | border_principalities.6.a success |
@@ -211,9 +282,9 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 | `glinski_advisors_muscovy` | +2 diplomatic reputation, +0.5 legitimacy, -15% advisor cost, +5% cav power | 20 years | border_principalities.8 |
 | `lipka_tatar_cavalry_tradition` | +15% cavalry power, +25% flanking, -10% cavalry cost | Permanent | qasim_khanate.5 |
 | `tatar_nobility_service` | +10% cavalry power, +1 diplomatic reputation, +2 tolerance heathen | 25 years | qasim_khanate.6.a |
-| `severian_princes_defection` | -1.0 prestige, -1 diplomatic reputation, -0.5 legitimacy | Event-applied | border_principalities.11/12 |
-| `muscovite_expansion_momentum` | +1.0 prestige, +1.0 legitimacy, +1 dipl rep, -10% core creation | Event-applied | border_principalities.11/12 |
-| `border_war_preparation` | +5% morale, +10% manpower recovery, -15% fort maintenance | Event-applied | Multiple events |
+| `severian_princes_defection` | -1.0 prestige, -1 diplomatic reputation, -0.5 legitimacy | **defined, never applied** | - |
+| `muscovite_expansion_momentum` | +1.0 prestige, +1.0 legitimacy, +1 dipl rep, -10% core creation | **defined, never applied** | - |
+| `border_war_preparation` | +5% morale, +10% manpower recovery, -15% fort maintenance | **defined, never applied** | - |
 | `qasim_khanate_vassal` | +10% cavalry power, +1 diplomatic reputation, +20% vassal income | Permanent | qasim_khanate.1 |
 | `kazan_pretender_claims` | -10% AE impact, -15% unjustified demands | Permanent | qasim_khanate.1 |
 | `muscovite_puppet_khan` | -20 liberty desire, -1 diplomatic reputation | Permanent | qasim_khanate.3.a |
@@ -355,6 +426,14 @@ For Lithuania/Commonwealth, the system creates internal challenges:
 
 ### Modified Files
 None (all new content in separate files)
+
+### Checks
+
+`python tests/check_script_layer.py` covers this system: it catches brace and
+encoding faults, duplicate event ids, undeclared namespaces, event text with no
+localisation, modifiers with no localisation, and modifier entries written in
+the wrong scope. It does not know province IDs - those have to be read off
+`history/provinces/`, which is how the errors above were found.
 
 ## Future Expansion Ideas
 
