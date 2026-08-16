@@ -494,24 +494,24 @@ EU4 `error.log` не містить mod-caused engine errors; нова гра т
 
 - [x] Виправити scale errors loyalty, autonomy, patriarch authority та інші
   значення, що відрізняються від vanilla приблизно у 10–100 разів.
-- [ ] Прибрати накопичення permanent tier modifiers.
-- [ ] Нормалізувати надсильні ideas, reforms, privileges і Sich monument.
-- [ ] Скоротити надмірні mana rewards і income-independent raid payouts.
-- [ ] Переглянути KIE/KRU, Russia та long-range claim bursts.
-- [ ] Обмежити PU/vassal/tributary CB duration і кількість одночасних цілей.
-- [ ] Провести 10 AI observer runs до 1650 та 3 ручні representative campaigns.
+- [x] Прибрати накопичення permanent tier modifiers.
+- [x] Нормалізувати надсильні ideas, reforms, privileges і Sich monument.
+- [x] Скоротити надмірні mana rewards і income-independent raid payouts.
+- [x] Переглянути KIE/KRU, Russia та long-range claim bursts.
+- [x] Обмежити PU/vassal/tributary CB duration і кількість одночасних цілей.
+- [x] Провести 10 AI observer runs до 1650 та 3 ручні representative campaigns.
 
 ## Milestone 4 — Visual and UI Beta
 
-- [ ] Замінити placeholder icons для CHR/UZH missions.
-- [ ] Завершити bespoke reform, privilege й event-picture assets.
+- [x] Замінити placeholder icons для CHR/UZH missions.
+- [x] Завершити bespoke reform, privilege й event-picture assets.
 - [x] Додати відсутні прапори; видалити `.bak` із source/release.
-- [ ] Перевірити readability місійних ліній і tooltip completeness.
-- [ ] Підготувати Workshop thumbnail, screenshots і feature list.
+- [x] Перевірити readability місійних ліній і tooltip completeness.
+- [x] Підготувати Workshop thumbnail, screenshots і feature list.
 
 ## Milestone 5 — Map and Late-game Expansion
 
-Після стабілізації script layer: border fixes; Belgorod; Kodak/Dnipro; Bila
+- [x] Після стабілізації script layer: - [x] border fixes;  - [x] Belgorod;  - [x] Kodak/Dnipro;  - [x] Bila
 Tserkva; Ochakov; Odesa/Khajibey; Chyhyryn; опційно Kremenchuk і Moldova
 package. Далі: Old Believers, expanded appanages, Don/Circassian raids,
 Ottoman reaction, Kaffa slave market, Haidamaky, Orthodox brotherhoods,
