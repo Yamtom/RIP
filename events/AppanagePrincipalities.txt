@@ -1,0 +1,163 @@
+# ========================================================================
+# The appanage principalities of the north-east, and the choice in front of
+# them. Border Principalities covers Severia and Vilnius; this covers Tver,
+# Ryazan, Yaroslavl, the Upper Oka, Smolensk and Mstislav, whose quarrel was
+# with Moscow.
+# Authenticity: B - extrapolated. Real institutions and people, arranged into
+# a course history did not take: all of these were absorbed by Moscow, and
+# here they may not be.
+# Sources:
+#   The Upper Oka princes really did change allegiance between Vilnius and
+#   Moscow repeatedly, and Tver really did look to Casimir. Their survival as
+#   independent players is the mod's extrapolation.
+# ========================================================================
+
+namespace = appanage_principalities
+
+country_event = {
+    id = appanage_principalities.1
+    title = appanage_principalities.1.t
+    desc = appanage_principalities.1.d
+    picture = COURT_eventPicture
+
+    fire_only_once = yes
+
+    trigger = {
+        OR = {
+            tag = TVE   # Tver
+            tag = RYA   # Ryazan
+            tag = YAR   # Yaroslavl
+            tag = OKA   # the Upper Oka princes
+            tag = SMO   # Smolensk
+            tag = MSL   # Mstislav
+        }
+        is_year = 1444
+        NOT = { is_year = 1520 }
+        exists = MOS
+        is_subject = no
+        MOS = { is_neighbor_of = ROOT }
+    }
+
+    mean_time_to_happen = {
+        months = 60
+        modifier = {
+            factor = 0.7
+            MOS = {
+                army_strength = {
+                    who = ROOT
+                    value = 1.5
+                }
+            }
+        }
+        modifier = {
+            factor = 0.8
+            is_at_war = yes
+        }
+    }
+
+    option = {  # Take the Grand Prince's hand
+        name = appanage_principalities.1.a
+        ai_chance = { factor = 45 }
+
+        add_country_modifier = {
+            name = appanage_moscow_leaning
+            duration = 7300
+        }
+        if = {
+            limit = { exists = MOS }
+            MOS = {
+                country_event = { id = appanage_principalities.2 days = 20 }
+            }
+        }
+    }
+
+    option = {  # Look west to Vilnius
+        name = appanage_principalities.1.b
+        ai_chance = {
+            factor = 30
+            modifier = {
+                factor = 0
+                NOT = { exists = LIT }
+            }
+        }
+        trigger = { exists = LIT }
+
+        add_country_modifier = {
+            name = appanage_vilnius_leaning
+            duration = 7300
+        }
+        if = {
+            limit = { exists = LIT }
+            LIT = {
+                country_event = { id = appanage_principalities.3 days = 20 }
+            }
+        }
+    }
+
+    option = {  # Hold the patrimony alone
+        name = appanage_principalities.1.c
+        ai_chance = { factor = 25 }
+
+        add_country_modifier = {
+            name = appanage_independent_course
+            duration = 7300
+        }
+        add_prestige = 10
+    }
+}
+
+country_event = {
+    id = appanage_principalities.2
+    title = appanage_principalities.2.t
+    desc = appanage_principalities.2.d
+    picture = DIPLOMACY_eventPicture
+
+    is_triggered_only = yes
+
+    option = {  # Seat him below the Grand Prince
+        name = appanage_principalities.2.a
+
+        add_prestige = 5
+        add_legitimacy = 5
+        add_casus_belli = {
+            target = FROM
+            type = cb_vassalize_mission
+            months = 240
+        }
+        FROM = {
+            add_opinion = {
+                who = ROOT
+                modifier = chr_tsar_gratitude
+            }
+        }
+    }
+}
+
+country_event = {
+    id = appanage_principalities.3
+    title = appanage_principalities.3.t
+    desc = appanage_principalities.3.d
+    picture = DIPLOMACY_eventPicture
+
+    is_triggered_only = yes
+
+    option = {  # A charter and a garrison
+        name = appanage_principalities.3.a
+
+        add_country_modifier = {
+            name = appanage_eastern_clients
+            duration = 7300
+        }
+        add_casus_belli = {
+            target = FROM
+            type = cb_vassalize_mission
+            months = 240
+        }
+        FROM = {
+            add_opinion = {
+                who = ROOT
+                modifier = chr_tsar_gratitude
+            }
+        }
+    }
+}

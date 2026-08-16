@@ -292,6 +292,7 @@ country_event = {
 		name = russian_orthodox.6.a
 		ai_chance = { factor = 50 }
 		
+		set_global_flag = raskol_schism
 		add_country_modifier = {
 			name = suppression_old_believers
 			duration = 7300
@@ -310,6 +311,7 @@ country_event = {
 		name = russian_orthodox.6.b
 		ai_chance = { factor = 30 }
 		
+		set_global_flag = raskol_schism
 		add_country_modifier = {
 			name = old_believer_underground
 			duration = 10950
@@ -320,6 +322,7 @@ country_event = {
 		name = russian_orthodox.6.c
 		ai_chance = { factor = 20 }
 		
+		set_global_flag = raskol_schism
 		add_church_power = -50
 		add_stability = 1
 	}
@@ -746,3 +749,115 @@ province_event = {
 	}
 }
 
+# ========================================================================
+# Where the Raskol went. The dissenters left Muscovy in numbers and settled
+# Starodub and Vetka across the border, and the Don and the Sich further
+# south - all of it inside this mod's map.
+# Authenticity: A - documented. Follows recorded events, people and dates.
+# ========================================================================
+
+country_event = {
+	id = russian_orthodox.16
+	title = russian_orthodox.16.t
+	desc = russian_orthodox.16.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		has_global_flag = raskol_schism
+		is_year = 1667
+		NOT = { is_year = 1730 }
+		owns = 4244            # Starodub
+		NOT = { tag = RUS }
+		NOT = { tag = MOS }
+		NOT = { religion = russian_orthodox }
+	}
+
+	mean_time_to_happen = {
+		months = 36
+		modifier = {
+			factor = 0.7
+			NOT = { is_rival = RUS }
+		}
+	}
+
+	option = {  # Let them have their slobodas
+		name = russian_orthodox.16.a
+		ai_chance = { factor = 70 }
+
+		4244 = {
+			add_province_modifier = {
+				name = old_believer_slobodas
+				duration = -1
+			}
+		}
+		add_country_modifier = {
+			name = raskolnik_refugees
+			duration = 10950
+		}
+	}
+
+	option = {  # Hand them back to Moscow
+		name = russian_orthodox.16.b
+		ai_chance = { factor = 30 }
+
+		add_country_modifier = {
+			name = surrendered_the_raskolniki
+			duration = 7300
+		}
+		if = {
+			limit = { exists = RUS }
+			RUS = {
+				add_opinion = {
+					who = ROOT
+					modifier = chr_tsar_gratitude
+				}
+			}
+		}
+		4244 = { add_devastation = 10 }
+	}
+}
+
+country_event = {
+	id = russian_orthodox.17
+	title = russian_orthodox.17.t
+	desc = russian_orthodox.17.d
+	picture = rip_gfx_event_south_ukraine_zaporozhian_autonomy_charter_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		has_global_flag = raskol_schism
+		is_year = 1670
+		NOT = { is_year = 1760 }
+		OR = {
+			tag = ZAZ
+			tag = HET
+		}
+		NOT = { religion = russian_orthodox }
+	}
+
+	mean_time_to_happen = {
+		months = 48
+	}
+
+	option = {  # Enrol them in a kurin of their own
+		name = russian_orthodox.17.a
+		ai_chance = { factor = 75 }
+
+		add_country_modifier = {
+			name = sich_raskolnik_kurin
+			duration = -1
+		}
+		add_yearly_manpower = 0.5
+	}
+
+	option = {  # The Host keeps one rite
+		name = russian_orthodox.17.b
+		ai_chance = { factor = 25 }
+
+		add_prestige = 5
+		add_church_power = 25
+	}
+}
