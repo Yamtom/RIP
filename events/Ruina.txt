@@ -162,6 +162,12 @@ country_event = {
 				tag = CRI
 			}
 			NOT = { alliance_with = ROOT }
+			NOT = {
+				has_casus_belli = {
+					target = ROOT
+					type = cb_vassalize_mission
+				}
+			}
 		}
 	}
 	
@@ -175,6 +181,13 @@ country_event = {
 					tag = MOS
 					tag = RUS
 					tag = CRI
+				}
+				NOT = { alliance_with = ROOT }
+				NOT = {
+					has_casus_belli = {
+						target = ROOT
+						type = cb_vassalize_mission
+					}
 				}
 			}
 			add_casus_belli = {
