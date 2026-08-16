@@ -1,4 +1,4 @@
-﻿ZAZ_missions_1 = {
+ZAZ_missions_1 = {
 	slot = 1
 	generic = no
 	ai = yes
@@ -2864,12 +2864,17 @@ ZAZ_GOL_missions_1 = {
 			if = {
 				limit = {
 					has_dlc = "Mandate of Heaven"
-					exists = TRE
+					TRE = {
+						exists = yes
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
 				}
+				hidden_effect = { rip_clear_zaz_tributary_campaign_cbs_effect = yes }
 				add_casus_belli = {
 					target = TRE
-					type = cb_force_tributary
-					months = 240
+					type = cb_force_tributary_mission
+					months = 120
 				}
 			}
 			else = {
@@ -2883,7 +2888,7 @@ ZAZ_GOL_missions_1 = {
 								is_core = ROOT
 							}
 						}
-						add_permanent_claim = ROOT
+						add_claim = ROOT
 					}
 				}
 			}
@@ -2908,12 +2913,17 @@ ZAZ_GOL_missions_1 = {
 			if = {
 				limit = {
 					has_dlc = "Mandate of Heaven"
-					exists = CND
+					CND = {
+						exists = yes
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
 				}
+				hidden_effect = { rip_clear_zaz_tributary_campaign_cbs_effect = yes }
 				add_casus_belli = {
 					target = CND
-					type = cb_force_tributary
-					months = 240
+					type = cb_force_tributary_mission
+					months = 120
 				}
 			}
 			else = {
@@ -2927,7 +2937,7 @@ ZAZ_GOL_missions_1 = {
 								is_core = ROOT
 							}
 						}
-						add_permanent_claim = ROOT
+						add_claim = ROOT
 					}
 				}
 			}
@@ -2965,12 +2975,17 @@ ZAZ_GOL_missions_1 = {
 			if = {
 				limit = {
 					has_dlc = "Mandate of Heaven"
-					exists = SRV
+					SRV = {
+						exists = yes
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
 				}
+				hidden_effect = { rip_clear_zaz_tributary_campaign_cbs_effect = yes }
 				add_casus_belli = {
 					target = SRV
-					type = cb_force_tributary
-					months = 240
+					type = cb_force_tributary_mission
+					months = 120
 				}
 			}
 			else = {
@@ -2984,7 +2999,7 @@ ZAZ_GOL_missions_1 = {
 								is_core = ROOT
 							}
 						}
-						add_permanent_claim = ROOT
+						add_claim = ROOT
 					}
 				}
 			}
@@ -3925,12 +3940,17 @@ ZAZ_GOL_missions_4 = {
 			if = {
 				limit = {
 					has_dlc = "Mandate of Heaven"
-					exists = CIR
+					CIR = {
+						exists = yes
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
 				}
+				hidden_effect = { rip_clear_zaz_tributary_campaign_cbs_effect = yes }
 				add_casus_belli = {
 					target = CIR
-					type = cb_force_tributary
-					months = 240
+					type = cb_force_tributary_mission
+					months = 120
 				}
 			}
 			else = {
@@ -3944,7 +3964,7 @@ ZAZ_GOL_missions_4 = {
 								is_core = ROOT
 							}
 						}
-						add_permanent_claim = ROOT
+						add_claim = ROOT
 					}
 				}
 			}
@@ -3977,64 +3997,78 @@ ZAZ_GOL_missions_4 = {
 			if = {
 				limit = {
 					has_dlc = "Mandate of Heaven"
-					exists = IME
+					IME = {
+						exists = yes
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
 				}
+				hidden_effect = { rip_clear_zaz_tributary_campaign_cbs_effect = yes }
 				add_casus_belli = {
 					target = IME
-					type = cb_force_tributary
-					months = 240
+					type = cb_force_tributary_mission
+					months = 120
+				}
+			}
+			else_if = {
+				limit = {
+					has_dlc = "Mandate of Heaven"
+					AVR = {
+						exists = yes
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
+				}
+				hidden_effect = { rip_clear_zaz_tributary_campaign_cbs_effect = yes }
+				add_casus_belli = {
+					target = AVR
+					type = cb_force_tributary_mission
+					months = 120
+				}
+			}
+			else_if = {
+				limit = {
+					has_dlc = "Mandate of Heaven"
+					GAZ = {
+						exists = yes
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
+				}
+				hidden_effect = { rip_clear_zaz_tributary_campaign_cbs_effect = yes }
+				add_casus_belli = {
+					target = GAZ
+					type = cb_force_tributary_mission
+					months = 120
 				}
 			}
 			else = {
 				422 = {
 					if = {
 						limit = {
-							NOT = {
-								owned_by = ROOT
-							}
-							NOT = {
-								is_core = ROOT
-							}
+							NOT = { owned_by = ROOT }
+							NOT = { is_core = ROOT }
 						}
-						add_permanent_claim = ROOT
+						add_claim = ROOT
 					}
 				}
-			}
-			if = {
-				limit = {
-					has_dlc = "Mandate of Heaven"
-					exists = AVR
+				2198 = {
+					if = {
+						limit = {
+							NOT = { owned_by = ROOT }
+							NOT = { is_core = ROOT }
+						}
+						add_claim = ROOT
+					}
 				}
-				add_casus_belli = {
-					target = AVR
-					type = cb_force_tributary
-					months = 240
-				}
-			}
-			else = {
 				4306 = {
 					if = {
 						limit = {
-							NOT = {
-								owned_by = ROOT
-							}
-							NOT = {
-								is_core = ROOT
-							}
+							NOT = { owned_by = ROOT }
+							NOT = { is_core = ROOT }
 						}
-						add_permanent_claim = ROOT
+						add_claim = ROOT
 					}
-				}
-			}
-			if = {
-				limit = {
-					has_dlc = "Mandate of Heaven"
-					exists = GAZ
-				}
-				add_casus_belli = {
-					target = GAZ
-					type = cb_force_tributary
-					months = 240
 				}
 			}
 		}
@@ -4071,12 +4105,17 @@ ZAZ_GOL_missions_4 = {
 			if = {
 				limit = {
 					has_dlc = "Mandate of Heaven"
-					exists = GEO
+					GEO = {
+						exists = yes
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
 				}
+				hidden_effect = { rip_clear_zaz_tributary_campaign_cbs_effect = yes }
 				add_casus_belli = {
 					target = GEO
-					type = cb_force_tributary
-					months = 240
+					type = cb_force_tributary_mission
+					months = 120
 				}
 			}
 			else = {
@@ -4090,7 +4129,7 @@ ZAZ_GOL_missions_4 = {
 								is_core = ROOT
 							}
 						}
-						add_permanent_claim = ROOT
+						add_claim = ROOT
 					}
 				}
 			}
@@ -4126,12 +4165,17 @@ ZAZ_GOL_missions_4 = {
 			if = {
 				limit = {
 					has_dlc = "Mandate of Heaven"
-					exists = SME
+					SME = {
+						exists = yes
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
 				}
+				hidden_effect = { rip_clear_zaz_tributary_campaign_cbs_effect = yes }
 				add_casus_belli = {
 					target = SME
-					type = cb_force_tributary
-					months = 240
+					type = cb_force_tributary_mission
+					months = 120
 				}
 			}
 			else = {
@@ -4145,7 +4189,7 @@ ZAZ_GOL_missions_4 = {
 								is_core = ROOT
 							}
 						}
-						add_permanent_claim = ROOT
+						add_claim = ROOT
 					}
 				}
 			}
@@ -5308,12 +5352,17 @@ ZAZ_UKR_missions_3 = {
 			if = {
 				limit = {
 					has_dlc = "Mandate of Heaven"
-					exists = TRE
+					TRE = {
+						exists = yes
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
 				}
+				hidden_effect = { rip_clear_zaz_tributary_campaign_cbs_effect = yes }
 				add_casus_belli = {
 					target = TRE
-					type = cb_force_tributary
-					months = 240
+					type = cb_force_tributary_mission
+					months = 120
 				}
 			}
 			else = {
@@ -5327,7 +5376,7 @@ ZAZ_UKR_missions_3 = {
 								is_core = ROOT
 							}
 						}
-						add_permanent_claim = ROOT
+						add_claim = ROOT
 					}
 				}
 			}
