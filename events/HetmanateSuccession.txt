@@ -250,10 +250,20 @@ country_event = {
 				who = ROOT
 				modifier = het_defiant_hetmanate
 			}
-			add_casus_belli = {
-				target = ROOT
-				type = cb_vassalize_mission
-				months = 60
+			if = {
+				limit = {
+					NOT = {
+						has_casus_belli = {
+							target = ROOT
+							type = cb_vassalize_mission
+						}
+					}
+				}
+				add_casus_belli = {
+					target = ROOT
+					type = cb_vassalize_mission
+					months = 60
+				}
 			}
 		}
 	}

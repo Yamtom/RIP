@@ -2277,14 +2277,30 @@ UZH_missions_3_uhro_rusyn = {
             add_legitimacy = 15
             if = {
                 limit = {
-                    exists = HUN
-                    NOT = {
-                        is_subject_of = HUN
+                    valid_for_personal_unions_trigger = yes
+                    HUN = {
+                        valid_for_personal_unions_trigger = yes
+                        is_neighbor_of = ROOT
                     }
                 }
                 add_casus_belli = {
                     target = HUN
                     type = cb_restore_personal_union
+                    months = 120
+                }
+            }
+            else_if = {
+                limit = {
+                    is_subject = no
+                    HUN = {
+                        exists = yes
+                        is_free_or_tributary_trigger = yes
+                        is_neighbor_of = ROOT
+                    }
+                }
+                add_casus_belli = {
+                    target = HUN
+                    type = cb_vassalize_mission
                     months = 120
                 }
             }

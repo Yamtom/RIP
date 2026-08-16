@@ -36,10 +36,25 @@ country_event = {
 		name = het_moldova.1.c
 		ai_chance = { factor = 10 }
 		
-		add_casus_belli = {
-			type = cb_vassalize_mission
-			target = MOL
-			months = 240
+		if = {
+			limit = {
+				MOL = {
+					exists = yes
+					is_free_or_tributary_trigger = yes
+					is_neighbor_of = ROOT
+				}
+				NOT = {
+					has_casus_belli = {
+						type = cb_vassalize_mission
+						target = MOL
+					}
+				}
+			}
+			add_casus_belli = {
+				type = cb_vassalize_mission
+				target = MOL
+				months = 120
+			}
 		}
 		MOL = {
 			add_opinion = {
@@ -179,6 +194,12 @@ country_event = {
 			}
 		}
 		NOT = { has_country_flag = het_moldovan_nobles }
+		NOT = {
+			has_casus_belli = {
+				type = cb_vassalize_mission
+				target = MOL
+			}
+		}
 	}
 	
 	mean_time_to_happen = {

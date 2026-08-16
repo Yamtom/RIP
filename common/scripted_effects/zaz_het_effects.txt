@@ -356,3 +356,49 @@ alliance_with_nomads_effect = {
 		}
 	}
 }
+
+# Keep the long Caucasus mission chains to one active tributary target at a
+# time. The generic CB cleanup also retires grants made by older saves.
+rip_clear_zaz_tributary_campaign_cbs_effect = {
+	every_country = {
+		limit = {
+			OR = {
+				tag = TRE
+				tag = CND
+				tag = SRV
+				tag = CIR
+				tag = IME
+				tag = AVR
+				tag = GAZ
+				tag = GEO
+				tag = SME
+			}
+		}
+		ROOT = {
+			if = {
+				limit = {
+					has_casus_belli = {
+						type = cb_force_tributary_mission
+						target = PREV
+					}
+				}
+				remove_casus_belli = {
+					type = cb_force_tributary_mission
+					target = PREV
+				}
+			}
+			if = {
+				limit = {
+					has_casus_belli = {
+						type = cb_force_tributary
+						target = PREV
+					}
+				}
+				remove_casus_belli = {
+					type = cb_force_tributary
+					target = PREV
+				}
+			}
+		}
+	}
+}

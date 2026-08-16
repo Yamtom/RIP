@@ -160,14 +160,47 @@ UKR_missions_1 = {
 				name = "KIE_subjugated"
 				duration = 5475
 			}
-			russia_region = {
+			# Open a contiguous route through northern Rus instead of granting the
+			# whole Russia region from a single early mission.
+			tver_area = {
 				limit = {
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
+			}
+			yaroslavl_area = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
+			}
+			suzdal_area = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
+			}
+			vladimir_area = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
+			}
+			novgorod_area = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
+			}
+			beloozero_area = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
 				}
 				add_claim = ROOT
 			}
@@ -198,17 +231,6 @@ UKR_missions_1 = {
 			add_treasury = 350
 			add_mercantilism = 3
 			baltic_region = {
-				limit = {
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_claim = ROOT
-			}
-			scandinavia_region = {
 				limit = {
 					NOT = {
 						is_permanent_claim = ROOT
@@ -413,10 +435,50 @@ KIE_missions_2 = {
 			}
 		}
 		effect = {
-			add_casus_belli = {
-				type = cb_restore_personal_union
-				months = 300
-				target = NOV
+			if = {
+				limit = {
+					exists = NOV
+					valid_for_personal_unions_trigger = yes
+					NOV = {
+						valid_for_personal_unions_trigger = yes
+						is_neighbor_of = ROOT
+					}
+				}
+				add_casus_belli = {
+					type = cb_restore_personal_union
+					months = 240
+					target = NOV
+				}
+			}
+			else_if = {
+				limit = {
+					exists = NOV
+					NOV = {
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
+				}
+				add_casus_belli = {
+					type = cb_vassalize_mission
+					months = 120
+					target = NOV
+				}
+			}
+			else = {
+				novgorod_area = {
+					limit = {
+						NOT = { is_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_claim = ROOT
+				}
+				beloozero_area = {
+					limit = {
+						NOT = { is_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_claim = ROOT
+				}
 			}
 			add_adm_power = 100
 		}
@@ -552,6 +614,10 @@ KIE_missions_2 = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				region = russia_region
+				value = 23
+			}
 			295 = {
 				development = 30
 			}
@@ -641,15 +707,22 @@ UKR_missions_2 = {
 			}
 		}
 		trigger = {
-			russia_region = {
-				type = all
-				owned_by = ROOT
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				region = russia_region
+				value = 23
 			}
 		}
 		effect = {
 			add_country_modifier = {
 				name = "KIE_prince"
 				duration = 5475
+			}
+			russia_region = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
 			}
 		}
 	}
@@ -678,16 +751,63 @@ UKR_missions_2 = {
 				name = "KIE_expansion"
 				duration = 7300
 			}
+			# Scandinavia opens only after the Baltic has been consolidated. These
+			# are temporary claims on a contiguous northern route.
+			finland_area = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
+			}
+			bothnia_area = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
+			}
+			laponia_area = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
+			}
+			svealand_area = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
+			}
+			norrland_area = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
+			}
+			ostra_svealand_area = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
+			}
+			vastra_gotaland_area = {
+				limit = {
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+				}
+				add_claim = ROOT
+			}
 			poland_region = {
 				limit = {
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
+					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
 				}
-				add_permanent_claim = ROOT
+				add_claim = ROOT
 			}
 		}
 	}
@@ -787,8 +907,20 @@ KIE_missions_3 = {
 				}
 			}
 			OR = {
-				exists = VOL
-				exists = VLN
+				AND = {
+					exists = VOL
+					VOL = {
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
+				}
+				AND = {
+					exists = VLN
+					VLN = {
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
+				}
 			}
 			has_institution = renaissance
 		}
@@ -796,17 +928,30 @@ KIE_missions_3 = {
 			if = {
 				limit = {
 					exists = VOL
+					VOL = {
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
 				}
 				add_casus_belli = {
 					type = cb_vassalize_mission
-					months = 300
+					months = 120
 					target = VOL
 				}
 			}
-			add_casus_belli = {
-				type = cb_vassalize_mission
-				months = 300
-				target = VLN
+			else_if = {
+				limit = {
+					exists = VLN
+					VLN = {
+						is_free_or_tributary_trigger = yes
+						is_neighbor_of = ROOT
+					}
+				}
+				add_casus_belli = {
+					type = cb_vassalize_mission
+					months = 120
+					target = VLN
+				}
 			}
 		}
 	}
