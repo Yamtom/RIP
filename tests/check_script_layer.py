@@ -491,6 +491,58 @@ if EU4_DIR:
             else:
                 warn(msg + " - far outside this tag's horizon")
 
+# --- 8. event pictures and opinion modifiers must exist --------------------
+
+# Both fail quietly: a bad picture renders as a blank frame, a bad opinion
+# modifier just does nothing. Neither shows up without reading error.log.
+if EU4_DIR:
+    sprites = set()
+    for d in (os.path.join(EU4_DIR, "interface"), "interface", "gfx"):
+        for path in glob.glob(os.path.join(d, "**", "*.gfx"), recursive=True):
+            text, _ = decode(read(path))
+            sprites.update(re.findall(r'name\s*=\s*"([A-Za-z0-9_]+_eventPicture)"',
+                                      text))
+            sprites.update(re.findall(r'\b([A-Za-z0-9_]+_eventPicture)\b', text))
+    # Vanilla itself names pictures that ship with DLC and are absent from a
+    # base install - WomenInHistory alone does it a hundred times. Anything
+    # vanilla references is fine for the mod to reference too; only names the
+    # mod invented are worth reporting.
+    for path in glob.glob(os.path.join(EU4_DIR, "events", "*.txt")):
+        text, _ = decode(read(path))
+        sprites.update(re.findall(r"^\s*picture\s*=\s*\"?([A-Za-z0-9_]+)\"?\s*$",
+                                  uncomment(text), re.M))
+
+    opinions = set()
+    for d in (os.path.join(EU4_DIR, "common", "opinion_modifiers"),
+              os.path.join("common", "opinion_modifiers")):
+        for path in glob.glob(os.path.join(d, "*.txt")):
+            body = strip_comments(decode(read(path))[0])
+            depth = 0
+            for m in re.finditer(r"([A-Za-z0-9_]+)\s*=\s*\{|\}", body):
+                if m.group(0) == "}":
+                    depth -= 1
+                    continue
+                if depth == 0:
+                    opinions.add(m.group(1))
+                depth += 1
+
+    for path in script_files():
+        text, _ = decode(read(path))
+        body = uncomment(text)
+        for m in re.finditer(r"^\s*picture\s*=\s*\"?([A-Za-z0-9_]+)\"?\s*$",
+                             body, re.M):
+            if sprites and m.group(1) not in sprites:
+                line = body.count("\n", 0, m.start()) + 1
+                err(f"{path}:{line}: event picture '{m.group(1)}' is not "
+                    f"defined in any .gfx (renders blank)")
+        for m in re.finditer(
+                r"(?:add_opinion|reverse_add_opinion|has_opinion_modifier|remove_opinion)"
+                r"\s*=\s*\{[^{}]*?\bmodifier\s*=\s*\"?([A-Za-z0-9_]+)\"?", body):
+            if opinions and m.group(1) not in opinions:
+                line = body.count("\n", 0, m.start()) + 1
+                err(f"{path}:{line}: opinion modifier '{m.group(1)}' is not "
+                    f"defined (the effect does nothing)")
+
 # --- report ----------------------------------------------------------------
 
 for w in warnings:
