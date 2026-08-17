@@ -1,5 +1,16 @@
 # RUSSIAN ORTHODOX CHURCH - QUICK REFERENCE GUIDE
 
+> **Звірено з кодом 2026-08-17.** Числа нижче були застарілі й тепер
+> виправлені: подій **17** (не 15 - додано `.16` і `.17` про Розкол),
+> аспектів **7**, благословень **7** (не 6 і 5), модифікаторів **55**,
+> рішень **7 country + 2 province**.
+>
+> Province decisions, які всі три документи перелічували як пункти 8 і 9,
+> досі не існували: `force_convert_province_effect` і
+> `russify_province_effect` були написані, локалізація для них теж, а самих
+> рішень не було - ефекти не викликалися нізвідки. Тепер викликаються.
+
+
 ## 🚀 Quick Start
 
 **What is Russian Orthodox?**
@@ -33,7 +44,7 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 
 ---
 
-## 🎯 6 Aspects (Choose Carefully!)
+## 🎯 7 Aspects (Choose Carefully!)
 
 | Aspect | Cost | Main Bonuses | When to Take |
 |--------|------|--------------|--------------|
@@ -54,7 +65,7 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 
 ---
 
-## 🙏 5 Blessings (Temporary Buffs - 20 Years)
+## 🙏 7 Blessings (Temporary Buffs - 20 Years)
 
 | Blessing | Cost | Effect | Best Use Case |
 |----------|------|--------|---------------|
@@ -291,7 +302,7 @@ A: No, conversion is permanent (like Protestant/Reformed split)
 - [ ] Maintain "Orthodox Conquest" blessing during wars
 
 ### Late Game Achievements
-- [ ] Take all 6 aspects
+- [ ] Take all 7 aspects
 - [ ] Establish Symphonia of Powers
 - [ ] Proclaim Orthodox Empire
 - [ ] Convert Constantinople (if conquered)

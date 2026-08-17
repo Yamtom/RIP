@@ -1,4 +1,11 @@
 # ORTHODOX CRUSADE SYSTEM - DOCUMENTATION
+
+> **Звірено з кодом 2026-08-17.** Документ точний: усі перелічені файли на
+> місці, крім українського перекладу (див. нижче), а числа в довіднику
+> модифікаторів збігаються з `russian_orthodox_modifiers.txt` - Константинополь
+> дає +2 престижу, +1 легітимності, +3 дипрепутації та -20% AE, Єрусалим
+> +3 престижу. Вікна 1525/1600 і `orthodox_crusade_cooldown` теж на місці;
+> звідки взялися саме ці числа, описано в `EVENT_CHAINS_AUDIT_2026-02-28.md`.
 # Механіка православного хрестового походу
 
 ## 📋 Overview / Огляд
@@ -32,7 +39,7 @@ RIP Mod/
 │       └── orthodox_crusade_wargoals.txt    [2 War Goals]
 └── localisation/
     ├── orthodox_crusade_l_english.yml       [Complete English]
-    └── orthodox_crusade_l_ukrainian.yml     [Complete Ukrainian]
+    └── orthodox_crusade_l_ukrainian.yml     [PLANNED - does not exist]
 ```
 
 ---

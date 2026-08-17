@@ -233,3 +233,71 @@ country_decisions = {
 
 
 }
+
+# The two province decisions the documentation has always listed as items 8
+# and 9. force_convert_province_effect and russify_province_effect were
+# written and then never called by anything; these are the callers.
+province_decisions = {
+
+	force_convert_province_decision = {
+		potential = {
+			owner = {
+				religion = russian_orthodox
+				has_country_modifier = orthodox_inquisition
+			}
+			NOT = { religion = russian_orthodox }
+			is_city = yes
+		}
+
+		allow = {
+			owner = {
+				adm_power = 50
+				religious_unity = 0.5
+			}
+			NOT = { unrest = 5 }
+		}
+
+		effect = {
+			owner = { add_adm_power = -50 }
+			force_convert_province_effect = yes
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				development = 20
+			}
+		}
+	}
+
+	russify_province_decision = {
+		potential = {
+			owner = {
+				religion = russian_orthodox
+				has_country_modifier = forced_russification
+			}
+			NOT = { culture_group = east_slavic }
+			is_city = yes
+		}
+
+		allow = {
+			owner = { dip_power = 50 }
+			religion = russian_orthodox
+			NOT = { unrest = 5 }
+		}
+
+		effect = {
+			owner = { add_dip_power = -50 }
+			russify_province_effect = yes
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				development = 20
+			}
+		}
+	}
+}

@@ -167,6 +167,17 @@ Added to localization:
 - `localisation/replace/zzz_RIP_l_english.yml` – Dynasty names
 
 ### Validation Status
+
+Перевірено проти коду 2026-08-17, і твердження тримаються:
+
+- усі дев'ять модифікаторів із таблиці вище існують у
+  `common/event_modifiers/ruthenian_eastward_modifiers.txt`;
+- гетьманські ери справді в `history/countries/HET - Hetmanate.txt`;
+- прізвища Дорошенка, Мазепи, Скоропадського й Розумовського є в локалізації.
+
+Єдине, що не витримало перевірки, - блок історичних назв провінцій вище;
+він виправлений окремо й позначений закресленням.
+
 ✅ **No syntax errors**  
 ✅ **All modifier keys EU4-valid**  
 ✅ **All localization keys in place**  
