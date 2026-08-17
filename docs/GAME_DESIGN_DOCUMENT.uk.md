@@ -512,10 +512,10 @@ EU4 `error.log` не містить mod-caused engine errors; нова гра т
 ## Milestone 5 — Map and Late-game Expansion
 
 - [x] Після стабілізації script layer: - [x] border fixes;  - [x] Belgorod;  - [x] Kodak/Dnipro;  - [x] Bila
-Tserkva; Ochakov; Odesa/Khajibey; Chyhyryn; опційно Kremenchuk і Moldova
-package. Далі: Old Believers, expanded appanages, Don/Circassian raids,
-Ottoman reaction, Kaffa slave market, Haidamaky, Orthodox brotherhoods,
-Armenian/Jewish urban networks, partitions і late-game Galicia/Volhynia.
+Tserkva;  - [x] Ochakov;  - [x] Odesa/Khajibey;  - [x] Chyhyryn;  - [x] опційно Kremenchuk і Moldova
+package. Далі:  - [x] Old Believers,  - [x] expanded appanages, - [x] Don/Circassian raids,
+- [x] Ottoman reaction, - [x] Kaffa slave market, - [x] Haidamaky, - [x] Orthodox brotherhoods,
+- [x] Armenian/Jewish urban networks, partitions і late-game Galicia/Volhynia.
 
 ## Release definition of done
 
