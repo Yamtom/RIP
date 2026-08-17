@@ -282,7 +282,7 @@ decisions/
   RussianOrthodoxDecisions.txt
 localisation/
   russian_orthodox_l_english.yml
-  russian_orthodox_l_ukrainian.yml
+  russian_orthodox_l_ukrainian.yml   <-- PLANNED, does not exist
 ```
 
 ### Сумісність
