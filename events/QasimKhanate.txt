@@ -82,19 +82,27 @@ country_event = {
 	title = qasim_khanate.2.t
 	desc = qasim_khanate.2.d
 	picture = BATTLE_eventPicture
+
+	fire_only_once = yes
 	
 	trigger = {
 		tag = MOS
+		is_subject = no
 		is_year = 1467
 		NOT = { is_year = 1550 }
+		NOT = { has_country_flag = qasim_kazan_intervention_resolved }
 		exists = QAS
 		QAS = {
 			is_subject_of = ROOT
 			has_country_modifier = kazan_pretender_claims
 		}
-		exists = KAZ
+		KAZ = {
+			exists = yes
+			is_subject = no
+		}
 		NOT = { war_with = KAZ }
 		NOT = { alliance_with = KAZ }
+		NOT = { truce_with = KAZ }
 	}
 	
 	mean_time_to_happen = {
@@ -109,19 +117,44 @@ country_event = {
 				NOT = { army_size = 10 }
 			}
 		}
-		modifier = {
-			factor = 1.5
-			alliance_with = KAZ
-		}
 	}
 	
 	option = {  # Support Qasim's claim with military force
 		name = qasim_khanate.2.a
 		ai_chance = { factor = 60 }
-		
-		declare_war_with_cb = {
-			who = KAZ
-			casus_belli = cb_restore_personal_union
+
+		set_country_flag = qasim_kazan_intervention_resolved
+		kazan_area = {
+			limit = { owned_by = KAZ }
+			if = {
+				limit = {
+					NOT = { is_claim = QAS }
+					NOT = { is_core = QAS }
+				}
+				add_claim = QAS
+			}
+			if = {
+				limit = {
+					NOT = { is_claim = MOS }
+					NOT = { is_core = MOS }
+				}
+				add_claim = MOS
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_casus_belli = {
+						type = cb_vassalize_mission
+						target = KAZ
+					}
+				}
+			}
+			add_casus_belli = {
+				target = KAZ
+				type = cb_vassalize_mission
+				months = 120
+			}
 		}
 		QAS = {
 			add_liberty_desire = -20
@@ -131,7 +164,8 @@ country_event = {
 	option = {  # Diplomatic pressure only
 		name = qasim_khanate.2.b
 		ai_chance = { factor = 30 }
-		
+
+		set_country_flag = qasim_kazan_intervention_resolved
 		KAZ = {
 			add_opinion = {
 				who = ROOT
@@ -144,7 +178,8 @@ country_event = {
 	option = {  # Restrain Qasim for now
 		name = qasim_khanate.2.c
 		ai_chance = { factor = 10 }
-		
+
+		set_country_flag = qasim_kazan_intervention_resolved
 		QAS = {
 			add_liberty_desire = 10
 		}
@@ -158,11 +193,16 @@ country_event = {
 	desc = qasim_khanate.3.d
 	picture = DIPLOMACY_eventPicture
 
+<<<<<<< Updated upstream
 	# The fate of a conquered Kazan is settled once. Without this the trigger
 	# stays true after either option - QAS still a vassal, KAZ still gone,
 	# Kazan still ours - and the event returns every six months.
 	fire_only_once = yes
 
+=======
+	fire_only_once = yes
+	
+>>>>>>> Stashed changes
 	trigger = {
 		tag = MOS
 		is_year = 1467
@@ -171,8 +211,18 @@ country_event = {
 		QAS = {
 			is_subject_of = ROOT
 		}
-		owns = 1082  # Kazan capital
-		NOT = { exists = KAZ }
+		NOT = { has_country_flag = qasim_kazan_fate_resolved }
+		OR = {
+			owns = 1082  # Kazan capital after direct conquest
+			KAZ = {
+				owns = 1082
+				is_subject_of = ROOT
+			}
+		}
+		OR = {
+			NOT = { exists = KAZ }
+			KAZ = { is_subject_of = ROOT }
+		}
 	}
 	
 	mean_time_to_happen = {
@@ -182,14 +232,24 @@ country_event = {
 	option = {  # Install Qasim Khan as ruler of Kazan
 		name = qasim_khanate.3.a
 		ai_chance = { factor = 40 }
-		
-		1082 = {
-			add_core = QAS
+
+		set_country_flag = qasim_kazan_fate_resolved
+		if = {
+			limit = {
+				exists = KAZ
+				KAZ = { is_subject_of = ROOT }
+			}
+			inherit = KAZ
 		}
-		release = QAS
-		create_subject = {
-			subject_type = vassal
-			subject = QAS
+		kazan_area = {
+			if = {
+				limit = { NOT = { is_core = QAS } }
+				add_core = QAS
+			}
+			if = {
+				limit = { owned_by = ROOT }
+				cede_province = QAS
+			}
 		}
 		QAS = {
 			add_liberty_desire = -30
@@ -203,8 +263,17 @@ country_event = {
 	option = {  # Annex Kazan directly
 		name = qasim_khanate.3.b
 		ai_chance = { factor = 60 }
-		
+
+		set_country_flag = qasim_kazan_fate_resolved
+		if = {
+			limit = {
+				exists = KAZ
+				KAZ = { is_subject_of = ROOT }
+			}
+			inherit = KAZ
+		}
 		kazan_area = {
+			limit = { owned_by = ROOT }
 			add_province_modifier = {
 				name = conquered_khanate
 				duration = 7300
@@ -340,12 +409,19 @@ country_event = {
 	id = qasim_khanate.6
 	title = qasim_khanate.6.t
 	desc = qasim_khanate.6.d
+<<<<<<< Updated upstream
 	picture = HORDE_ON_HORSEBACK_eventPicture
+=======
+	picture = HORDE_ALLIED_eventPicture
+
+	fire_only_once = yes
+>>>>>>> Stashed changes
 	
 	trigger = {
 		tag = PLC
 		is_year = 1569
 		NOT = { is_year = 1700 }
+		NOT = { has_country_flag = lipka_loyalty_settled }
 		any_owned_province = {
 			has_province_modifier = lipka_tatar_settlement
 		}
@@ -358,7 +434,8 @@ country_event = {
 	option = {  # Reward their loyalty
 		name = qasim_khanate.6.a
 		ai_chance = { factor = 70 }
-		
+
+		set_country_flag = lipka_loyalty_settled
 		add_years_of_income = -0.2
 		every_owned_province = {
 			limit = {
@@ -378,7 +455,8 @@ country_event = {
 	option = {  # Maintain current arrangement
 		name = qasim_khanate.6.b
 		ai_chance = { factor = 30 }
-		
+
+		set_country_flag = lipka_loyalty_settled
 		add_mil_power = 25
 	}
 }

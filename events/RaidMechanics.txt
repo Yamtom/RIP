@@ -29,8 +29,10 @@ country_event = {
 		NOT = { has_country_modifier = recent_raid_cooldown }
 		is_at_war = no
 		manpower_percentage = 0.25
-		is_month = 3
-		is_month = 5
+		OR = {
+			is_month = 3
+			is_month = 5
+		}
 	}
 
 	mean_time_to_happen = {
@@ -79,6 +81,7 @@ country_event = {
 
 		add_mil_power = -25
 
+		country_event = { id = raid_mechanics.2 days = 30 }
 		country_event = { id = raid_mechanics.10 days = 90 }
 	}
 
@@ -638,12 +641,11 @@ country_event = {
 		num_of_ports = 1
 		navy_size = 10
 		is_at_war = no
-		any_neighbor_country = {
-			OR = {
-				tag = TUR
-				tag = CRI
-				culture_group = byzantine
-			}
+		any_known_country = {
+			is_chaiky_raid_target = yes
+			NOT = { alliance_with = ROOT }
+			NOT = { truce_with = ROOT }
+			NOT = { is_subject_of = ROOT }
 		}
 	}
 
@@ -684,12 +686,12 @@ country_event = {
 				add_navy_tradition = 20
 				add_prestige = 10
 
-				random_neighbor_country = {
+				random_known_country = {
 					limit = {
-						OR = {
-							tag = TUR
-							tag = CRI
-						}
+						is_chaiky_raid_target = yes
+						NOT = { alliance_with = ROOT }
+						NOT = { truce_with = ROOT }
+						NOT = { is_subject_of = ROOT }
 					}
 
 					add_opinion = {
@@ -698,6 +700,21 @@ country_event = {
 					}
 
 					country_event = { id = raid_mechanics.53 }
+
+					if = {
+						limit = { owns = 285 }
+						ROOT = { rip_disrupt_kaffa_market_effect = yes }
+					}
+					if = {
+						limit = {
+							OR = {
+								tag = TUR
+								tag = CRI
+								is_subject_of = TUR
+							}
+						}
+						ROOT = { rip_request_ottoman_crimean_reaction_effect = yes }
+					}
 				}
 			}
 
@@ -985,7 +1002,9 @@ country_event = {
 
 		modifier = {
 			factor = 0.5
-			has_country_modifier = province_heavily_raided
+			any_owned_province = {
+				has_province_modifier = province_heavily_raided
+			}
 		}
 	}
 

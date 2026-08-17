@@ -76,12 +76,10 @@ can_conduct_chaiky_raids = {
 		tag = ZAZ
 		has_reform = zaz_free_host_reform
 	}
-	any_neighbor_country = {
-		OR = {
-			tag = CRI
-			tag = TUR
-			religion_group = muslim
-		}
+	any_known_country = {
+		is_chaiky_raid_target = yes
+		NOT = { alliance_with = ROOT }
+		NOT = { truce_with = ROOT }
 	}
 }
 

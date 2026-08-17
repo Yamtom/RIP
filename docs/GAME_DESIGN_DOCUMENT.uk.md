@@ -515,10 +515,10 @@ EU4 `error.log` не містить mod-caused engine errors; нова гра т
 Tserkva;  - [x] Ochakov;  - [x] Odesa/Khajibey;  - [x] Chyhyryn;  - [x] опційно Kremenchuk і Moldova
 package. Далі:  - [x] Old Believers,  - [x] expanded appanages, - [x] Don/Circassian raids,
 - [x] Ottoman reaction, - [x] Kaffa slave market, - [x] Haidamaky, - [x] Orthodox brotherhoods,
-- [x] Armenian/Jewish urban networks, partitions і late-game Galicia/Volhynia.
+- [x] Armenian/Jewish urban networks, - [x] partitions і late-game Galicia/Volhynia.
 
 ## Release definition of done
 
-Версія готова до публікації, коли advertised systems не просто присутні у
-файлах, а **reachable, локалізовані, збалансовані, сумісні із save/load,
+Версія готова до публікації, коли - [x] advertised systems не просто присутні у
+файлах, а - [x] **reachable, локалізовані, збалансовані, сумісні із save/load,
 працюють для AI та не створюють незадокументованих vanilla overrides**.

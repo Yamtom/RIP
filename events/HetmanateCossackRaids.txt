@@ -32,6 +32,20 @@ country_event = {
 				who = ROOT
 				modifier = het_raided_us
 			}
+			if = {
+				limit = { owns = 285 }
+				ROOT = { rip_disrupt_kaffa_market_effect = yes }
+			}
+			if = {
+				limit = {
+					OR = {
+						tag = TUR
+						tag = CRI
+						is_subject_of = TUR
+					}
+				}
+				ROOT = { rip_request_ottoman_crimean_reaction_effect = yes }
+			}
 		}
 		add_country_modifier = {
 			name = het_successful_raid
@@ -101,6 +115,19 @@ country_event = {
 			add_opinion = {
 				who = ROOT
 				modifier = het_raided_us
+			}
+			if = {
+				limit = { owns = 285 }
+				ROOT = { rip_disrupt_kaffa_market_effect = yes }
+			}
+			if = {
+				limit = {
+					OR = {
+						tag = CRI
+						is_subject_of = TUR
+					}
+				}
+				ROOT = { rip_request_ottoman_crimean_reaction_effect = yes }
 			}
 		}
 		add_country_modifier = {

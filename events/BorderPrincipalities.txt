@@ -238,12 +238,27 @@ country_event = {
     
     option = {  # Punish their treachery!
         name = border_principalities.4.c
+        trigger = { is_subject = no }
         ai_chance = { factor = 30 }
-        
-        declare_war_with_cb = {
-            who = MOS
-            casus_belli = cb_restore_personal_union
-            war_goal_province = 4543
+
+        add_country_modifier = {
+            name = border_war_preparation
+            duration = 1825
+        }
+        if = {
+            limit = {
+                NOT = {
+                    has_casus_belli = {
+                        type = cb_insult
+                        target = MOS
+                    }
+                }
+            }
+            add_casus_belli = {
+                target = MOS
+                type = cb_insult
+                months = 120
+            }
         }
     }
 }
@@ -268,11 +283,6 @@ country_event = {
         }
         add_prestige = 10
         add_legitimacy = 5
-        add_casus_belli = {
-            target = FROM
-            type = cb_core
-            months = 120
-        }
     }
 }
 
@@ -283,6 +293,15 @@ country_event = {
     picture = ANGRY_MOB_eventPicture
     
     fire_only_once = yes
+
+    immediate = {
+        random_owned_province = {
+            limit = {
+                has_province_modifier = glinski_tatar_settlement
+            }
+            save_event_target_as = glinski_disputed_province
+        }
+    }
     
     trigger = {
         OR = {
@@ -315,10 +334,7 @@ country_event = {
         
         add_prestige = -10
         add_years_of_income = -0.3
-        random_owned_province = {
-            limit = {
-                has_province_modifier = glinski_tatar_settlement
-            }
+        event_target:glinski_disputed_province = {
             add_province_modifier = {
                 name = glinski_appeasement
                 duration = 3650
@@ -332,6 +348,15 @@ country_event = {
                 }
             }
             40 = {  # Glinski still rebels
+                event_target:glinski_disputed_province = {
+                    if = {
+                        limit = {
+                            NOT = { is_claim = MOS }
+                            NOT = { is_core = MOS }
+                        }
+                        add_claim = MOS
+                    }
+                }
                 country_event = { id = border_principalities.7 days = 60 }
             }
         }
@@ -357,16 +382,20 @@ country_event = {
     option = {  # Exile Glinski family
         name = border_principalities.6.c
         ai_chance = { factor = 30 }
-        
-        MOS = {
-            country_event = { id = border_principalities.8 days = 10 }
-        }
-        random_owned_province = {
-            limit = {
-                has_province_modifier = glinski_tatar_settlement
+
+        event_target:glinski_disputed_province = {
+            if = {
+                limit = {
+                    NOT = { is_claim = MOS }
+                    NOT = { is_core = MOS }
+                }
+                add_claim = MOS
             }
             remove_province_modifier = glinski_tatar_settlement
             add_devastation = 20
+        }
+        MOS = {
+            country_event = { id = border_principalities.8 days = 10 }
         }
     }
 }
@@ -392,13 +421,6 @@ country_event = {
                 friend = MOS
             }
         }
-        MOS = {
-            add_casus_belli = {
-                target = ROOT
-                type = cb_support_rebels
-                months = 60
-            }
-        }
     }
 }
 
@@ -419,11 +441,6 @@ country_event = {
         add_country_modifier = {
             name = glinski_advisors_muscovy
             duration = 7300
-        }
-        add_casus_belli = {
-            target = FROM
-            type = cb_core
-            months = 120
         }
     }
 }
@@ -452,7 +469,7 @@ country_event = {
         months = 48
         modifier = {
             factor = 0.7
-            MOS = { army_size = LIT }
+            MOS = { army_size = ROOT }
         }
         modifier = {
             factor = 0.8
@@ -493,12 +510,27 @@ country_event = {
     
     option = {  # War to keep them
         name = border_principalities.9.c
+        trigger = { is_subject = no }
         ai_chance = { factor = 30 }
-        
-        declare_war_with_cb = {
-            who = MOS
-            casus_belli = cb_annex
-            war_goal_province = 298
+
+        add_country_modifier = {
+            name = border_war_preparation
+            duration = 1825
+        }
+        if = {
+            limit = {
+                NOT = {
+                    has_casus_belli = {
+                        type = cb_insult
+                        target = MOS
+                    }
+                }
+            }
+            add_casus_belli = {
+                target = MOS
+                type = cb_insult
+                months = 120
+            }
         }
     }
 }
@@ -537,6 +569,18 @@ country_event = {
     picture = BORDER_TENSION_eventPicture
     
     fire_only_once = yes
+
+    immediate = {
+        random_owned_province = {
+            limit = {
+                OR = {
+                    province_id = 4244
+                    province_id = 1945
+                }
+            }
+            save_event_target_as = severian_disputed_province
+        }
+    }
     
     trigger = {
         OR = {
@@ -575,13 +619,21 @@ country_event = {
     option = {  # Fight to keep Severia
         name = border_principalities.11.a
         ai_chance = { factor = 70 }
-        
-        MOS = {
-            add_casus_belli = {
-                target = ROOT
-                type = cb_core
-                months = 120
+
+        event_target:severian_disputed_province = {
+            if = {
+                limit = {
+                    NOT = { is_claim = MOS }
+                    NOT = { is_core = MOS }
+                }
+                add_claim = MOS
             }
+        }
+        add_country_modifier = {
+            name = border_war_preparation
+            duration = 1825
+        }
+        MOS = {
             country_event = { id = border_principalities.12 days = 15 }
         }
     }
@@ -591,13 +643,7 @@ country_event = {
         ai_chance = { factor = 30 }
         
         add_prestige = -20
-        random_owned_province = {
-            limit = {
-                OR = {
-                    province_id = 4244  # Starodub
-                    province_id = 1945  # Novgorod-Seversky
-                }
-            }
+        event_target:severian_disputed_province = {
             cede_province = MOS
         }
         add_truce_with = MOS
@@ -617,10 +663,5 @@ country_event = {
         
         add_prestige = 15
         add_legitimacy = 10
-        add_casus_belli = {
-            target = FROM
-            type = cb_core
-            months = 120
-        }
     }
 }

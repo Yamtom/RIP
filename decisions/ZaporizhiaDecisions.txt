@@ -47,7 +47,13 @@ country_decisions = {
 		potential = {
 			tag = ZAZ
 			has_country_flag = zaz_unlocked_raiding_system
-			NOT = { has_country_flag = great_raid_recent }
+			OR = {
+				NOT = { has_country_flag = great_raid_recent }
+				had_country_flag = {
+					flag = great_raid_recent
+					days = 1825
+				}
+			}
 			is_year = 1550
 			NOT = { is_year = 1775 }
 		}
@@ -86,7 +92,13 @@ country_decisions = {
 		potential = {
 			tag = ZAZ
 			has_country_flag = zaz_unlocked_raiding_system
-			NOT = { has_country_flag = chaiky_raid_recent }
+			OR = {
+				NOT = { has_country_flag = chaiky_raid_recent }
+				had_country_flag = {
+					flag = chaiky_raid_recent
+					days = 1825
+				}
+			}
 			is_year = 1570
 			NOT = { is_year = 1750 }
 			has_reform = zaz_chaiky_trade_reform
@@ -122,7 +134,13 @@ country_decisions = {
 			tag = ZAZ
 			has_country_flag = zaz_unlocked_raiding_system
 			is_year = 1550
-			NOT = { has_country_flag = liberated_slaves_recent }
+			OR = {
+				NOT = { has_country_flag = liberated_slaves_recent }
+				had_country_flag = {
+					flag = liberated_slaves_recent
+					days = 3650
+				}
+			}
 		}
 		allow = {
 			mil_power = 50
@@ -150,6 +168,19 @@ country_decisions = {
 				add_opinion = {
 					who = ROOT
 					modifier = zaz_liberated_slaves
+				}
+				if = {
+					limit = { owns = 285 }
+					ROOT = { rip_disrupt_kaffa_market_effect = yes }
+				}
+				if = {
+					limit = {
+						OR = {
+							tag = CRI
+							is_subject_of = TUR
+						}
+					}
+					ROOT = { rip_request_ottoman_crimean_reaction_effect = yes }
 				}
 			}
 		}

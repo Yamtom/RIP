@@ -56,9 +56,7 @@ country_event = {
 	trigger = {
 		tag = ZAZ
 		has_reform = zaz_chaiky_trade_reform
-		any_neighbor_country = {
-			tag = TUR
-		}
+		exists = TUR
 		NOT = { has_country_flag = negotiated_raiding_rights }
 	}
 	
@@ -195,9 +193,11 @@ country_event = {
 	trigger = {
 		tag = ZAZ
 		has_country_modifier = unrestricted_chaiky_raids
-		any_neighbor_country = {
-			tag = TUR
-		}
+		exists = TUR
+	}
+
+	immediate = {
+		rip_request_ottoman_crimean_reaction_effect = yes
 	}
 	
 	mean_time_to_happen = {

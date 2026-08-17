@@ -1,490 +1,277 @@
-# STEPPE RAIDING & NOMADIC MECHANICS SYSTEM
-## Comprehensive Documentation
+# Steppe Raiding System
 
-**Date**: January 30, 2026
-**Version**: 1.0
-**Author**: Yamtom
-**Regions**: Crimean Khanate, Nogai Horde, Great Steppe, Black Sea, Muscovy/Russia border
+**Implementation status:** complete in script; dedicated static contract passing  
+**Runtime status:** startup/parser smoke pending  
+**Game version:** EU4 1.37.5  
+**Document revision:** 2026-08-17
 
----
-
-## EXECUTIVE SUMMARY
+## Scope
 
-This system recreates the devastating steppe raiding culture that plagued Eastern Europe from the 14th-18th centuries. Crimean Tatars, Nogai, and other nomadic peoples conducted regular raids into Muscovy, Poland-Lithuania, and Ukraine to capture **yasyr** (ясир - captives for the slave trade). The system also includes:
-
-- **Raiding mechanics** for steppe hordes
-- **Yasyr (slave) system** with ransom opportunities
-- **Cossack counter-raids** including chaiky boat raids
-- **Kalmyk and Nogai migrations** (historical 1500s-1600s)
-- **Zasechnaya Cherta** - Russian defensive line system
-- **Kaffa slave markets** economic simulation
-
-**Total Implementation**:
-- 10 event chains
-- 25+ modifiers (country and province)
-- 6 opinion modifiers
-- Complete English localization
-- Period coverage: 1444-1821
-
----
-
-## HISTORICAL CONTEXT
-
-### The Yasyr Trade (1444-1783)
-
-**Yasyr** (Russian: ясир, from Turkic *esir* = captive/prisoner) was the term for captives taken in steppe raids and sold into slavery. This was the economic backbone of the Crimean Khanate.
-
-#### Scale of the Trade:
-- **1500-1700**: Estimated 2-2.5 million captives taken from Russia, Poland, Ukraine
-- **Peak Years**: 1570s-1630s (before Zasechnaya Cherta effectiveness)
-- **Major Markets**: Kaffa (Crimea), Constantinople, Cairo, Baghdad
-- **Price Range**: 30-100 ducats per slave depending on age/gender/skills
-
-#### Typical Raid Pattern:
-1. **Spring/Summer**: Small parties (100-1,000 riders) strike border regions
-2. **Major Raids**: Every 2-5 years, forces of 10,000-30,000 riders penetrate deep
-3. **Lightning Speed**: 100+ km/day movement, avoiding fortified positions
-4. **Captive Taking**: Primary goal - yasyr more valuable than loot
-5. **Return Route**: Escape before main armies mobilize
-
-### Geographic Targets
-
-#### Most Raided Regions:
-- **Muscovy**: Tula, Ryazan, Kaluga regions (pre-Zasechnaya Cherta)
-- **Ukraine**: Podolia, Volhynia, Kiev region
-- **Poland**: Eastern borderlands (kresy wschodnie)
-- **Circassia**: North Caucasus (internal Crimean raids)
+The system models four connected pressures around the Pontic steppe:
 
-#### Safe Zones:
-- Behind major river lines (Oka River, Dnieper)
-- Fortified cities (kremlin strongholds)
-- Post-1600s Zasechnaya Cherta zones
-
-### Zasechnaya Cherta (Засечная черта)
-
-**Great Abatis Line** - Russian defensive system 1520s-1700s:
-
-#### Structure:
-- **Zaseki** (засеки): Zones of felled trees creating impassable barriers for cavalry
-- **Fortified Towns**: Garrison posts every 20-40km
-- **Watchtowers**: Early warning system (fire/smoke signals)
-- **Service Cavalry**: Rapid response forces (служилые люди)
-- **Length**: Eventually ~1,000 km from Bryansk to Volga
-
-#### Effectiveness:
-- **Pre-1600**: Limited, easily bypassed
-- **1600-1650**: Reduced major raids by ~60%
-- **Post-1650**: Crimean raids mostly limited to small-scale border incidents
-- **1680s+**: Pushed southward to protect expanding Russian territory
-
-### Cossack Chaiky Raids
-
-**Chaiky** (чайки) - light boats used by Zaporozhian Cossacks:
-
-#### Characteristics:
-- **Size**: 15-20m long, 3-4m wide
-- **Crew**: 50-70 Cossacks per boat
-- **Armament**: Muskets, small cannons, boarding weapons
-- **Speed**: Very fast under oars, could outrun galleys
-
-#### Raid Targets:
-- **1590s-1620s**: Peaked during Ottoman wars
-- **Targets**: Crimean coast, Kaffa, Sinop, even Constantinople suburbs
-- **Goal**: Revenge for yasyr taking, liberation of captives, loot
-- **Impact**: Severely disrupted Crimean economy, freed thousands of slaves
-
----
-
-## EVENT CHAINS DOCUMENTATION
-
-### CHAIN 1: Steppe Raiding Cycle
-
-#### Event 1.1: Organize Raiding Party
-**ID**: `steppe_raid.1`
-**Trigger**:
-- Government: Steppe Horde OR Crimea/Nogai/Kazakh/Astrakhan
-- Not at war
-- 30%+ manpower
-- No recent raid cooldown
-- Neighbor is Muscovy/Russia/Poland/Lithuania/Ukraine tags
-
-**MTTH**: 120 months
-- ×0.7 if horde unity 70+
-- ×0.8 if 100+ MIL power
-- ×1.5 if at war
-
-**Options**:
-1. **Launch raid** (AI 70%)
-   - Cost: 25 MIL power, 0.15 years income
-   - Gain: Modifier `steppe_raid_party` (1 year)
-   - Gain: +5 horde unity
-   - Cooldown: 2 years
-   - Triggers event 2 for random neighbor (30 days)
-
-2. **Don't raid** (AI 30%)
-   - Cost: -5 prestige, -3 horde unity
-
-**Historical Context**: Raids typically organized in spring when horses recovered from winter and grass was plentiful for long journeys.
-
-#### Event 1.2: Raid Arrives (Target)
-**ID**: `steppe_raid.2`
-**Triggered Only**: By event 1
-
-**Options**:
-1. **Defend borders** (AI 60%)
-   - Cost: 25 MIL power
-   - Province gets `steppe_border_defense` modifier (1 year)
-   - Triggers event 3 (raid repelled) for raider
-
-2. **Accept devastation** (AI 40%)
-   - Province gets +15 devastation
-   - Province gets `steppe_raid_devastation` modifier (5 years)
-   - Triggers event 4 (successful raid) for raider
-
-**Historical Context**: Sedentary states often couldn't mobilize fast enough to intercept raids, forcing choice between costly defense or accepting damage.
-
-#### Event 1.3: Raid Repelled
-**ID**: `steppe_raid.3`
-**Triggered Only**: By event 2 (defense option)
-
-**Effects**:
-- Raider loses: -10 prestige, -5 horde unity, -2 manpower
-- Removes `steppe_raid_party` modifier
-- Opinion modifier: `steppe_raid_repelled` (-15 opinion, 10 years)
-
-**Historical Context**: Well-prepared defenses (Zasechnaya Cherta, strong garrisons) could repel raids, as in 1572 Battle of Molodi.
-
-#### Event 1.4: Successful Raid - Yasyr Taken
-**ID**: `steppe_raid.4`
-**Triggered Only**: By event 2 (accept devastation)
-
-**Options**:
-1. **Sell yasyr in slave markets** (AI 80%)
-   - Gain: +0.5 years income, +10 prestige, +10 horde unity
-   - Gain: `steppe_successful_raid` modifier (5 years)
-   - Cost: -1 manpower (casualties)
-   - Opinion: `steppe_raid_successful` (-30) and `steppe_yasyr_taken` (-50) with target
-   - Triggers event 5 (ransom) for target (6 months later)
-
-2. **Hold for ransom** (AI 20%)
-   - Gain: +0.25 years income, +5 prestige, +5 horde unity
-   - Opinion: `steppe_raid_tribute` (+10) with target
-
-**Historical Context**: Crimean economy depended heavily on slave trade. Kaffa market alone processed 10,000-20,000 slaves annually at peak.
-
-#### Event 1.5: Ransom the Yasyr
-**ID**: `steppe_raid.5`
-**Triggered Only**: By event 4 (180 days later)
-**Condition**: Not at war with raider
-
-**Options**:
-1. **Pay ransom** (AI 60%, factor 0.1 if poor)
-   - Cost: 0.5 years income
-   - Province regains +1 base manpower
-   - Gain: +5 prestige
-   - Raider gains: +0.3 years income
-   - Opinion: `steppe_yasyr_ransomed` (+20 opinion, 15 years)
-
-2. **Refuse ransom** (AI 40%)
-   - Province loses: -1 base manpower, +5 devastation
-   - Lose: -10 prestige
-   - Opinion: `steppe_yasyr_refused` (-20 opinion, 10 years)
-
-**Historical Context**: Ransom was common practice. Noble families often bankrupted themselves to recover relatives. Common folk had no such recourse.
-
----
-
-### CHAIN 2: Cossack Counter-Raids
-
-#### Event 2.1: Cossacks Demand Vengeance
-**ID**: `steppe_raid.6`
-**Trigger**:
-- Tag: VOL/HLC/PDL/ZAZ OR has Cossack estate
-- Has Cossack self-governance privilege
-- No Cossack raid cooldown
-- Neighbor is Crimea/Nogai/steppe horde
-- That neighbor has opinion modifier `steppe_yasyr_taken` on ROOT
-
-**MTTH**: 80 months
-- ×0.7 if Cossack loyalty 60+
-
-**Options**:
-1. **Support Cossack raid** (AI 70%)
-   - Cost: 15 MIL power
-   - Cooldown: 2 years
-   - Triggers event 7 for target horde (45 days)
-
-2. **Forbid raid** (AI 30%)
-   - Cost: -10 Cossack loyalty
-   - Gain: +5 prestige
+- horde raids and yasyr-taking against sedentary border states;
+- Cossack retaliation, including a Don/Azov route;
+- Crimean raids into Circassia and the movement of captives through Kaffa;
+- an Ottoman response when Crimea is represented in-game as an Ottoman subject.
 
-**Historical Context**: Cossacks organized revenge raids especially after major yasyr incidents. Famous raids: 1606, 1614, 1616 chaiky attacks on Constantinople suburbs.
-
-#### Event 2.2: Cossack Raid Strikes
-**ID**: `steppe_raid.7`
-**Triggered Only**: By event 6
-
-**Effects**:
-- Random border province: +10 devastation
-- Province gets `cossack_raid_damage` modifier (3 years)
-- Horde loses: -5 prestige, -5 horde unity
-- Cossacks gain: +0.3 years income, +10 Cossack loyalty
+Captives are deliberately abstracted as income, manpower, devastation, opinion,
+and temporary modifiers. There is no population ledger or slave commodity. The
+system does not treat its event outcomes as claims about a particular historical
+raid unless a source is named; most events are repeatable gameplay abstractions.
 
-**Historical Context**: Cossack raids disrupted Crimean economy and slave trade. 1616 raid captured Turkish ambassador's ship, causing diplomatic crisis.
+There are **16 events in seven connected chains**, not 16 independent chains.
 
----
+## Live files
 
-### CHAIN 3: Migrations
-
-#### Event 3.1: Nogai Migration
-**ID**: `steppe_raid.8`
-**Trigger**:
-- Tag: Crimea OR Ottomans
-- Owns Yedisan/Budjak/Kuban provinces
-- Nogai Horde doesn't exist
-- After 1500
+| Role | File |
+|---|---|
+| Events 1-16 | `events/SteppeRaiding.txt` |
+| Shared market/reaction effects | `common/scripted_effects/steppe_raid_effects.txt` |
+| Event and province modifiers | `common/event_modifiers/steppe_raid_modifiers.txt` |
+| Opinion modifiers | `common/opinion_modifiers/RIP_opinion_modifiers.txt` |
+| English localisation | `localisation/zzz_steppe_raiding_l_english.yml` |
+| General raid integration | `events/RaidMechanics.txt` |
+| Zaporozhian/HET integration | `events/ZaporizhiaFixes.txt`, `events/HetmanateCossackRaids.txt`, `common/scripted_effects/zaz_het_effects.txt` |
+| Kaffa mission policy | `missions/Zaporozhie_Missions.txt` (`ZAZ_TUR_slave_trade`) |
+| Static regression contract | `tests/check_steppe_expansions.py` |
 
-**MTTH**: 240 months
+## Event chains
 
-**Options**:
-1. **Settle Nogai** (AI 80%)
-   - Selected province: Culture → nogaybak, +2 manpower, +1 production
-   - Gain: `nogai_settlers` modifier (20 years)
+### 1. Horde raid and yasyr cycle (`steppe_raid.1-.5`)
 
-2. **Refuse** (AI 20%)
-   - Lose: -5 prestige
+`steppe_raid.1` may fire for CRI, NOG, KAZ, AST, GOL, or a country with the
+steppe-horde/Great Mongol State reform. The earlier `government_rank = 1`
+fallback was removed because it accidentally made every eligible OPM a horde
+raider.
 
-**Historical Context**: After collapse of Nogai Horde (1550s-1630s), surviving clans settled in Crimean territory. Formed autonomous Nogai Horde under Crimean suzerainty in Budjak/Kuban.
+The raider must be at peace, have at least 30% manpower, be off the two-year
+raid cooldown, and have a valid non-allied neighboring target. The launch option
+costs military power and income, creates a one-year raid party, and calls
+`steppe_raid.2` for a filtered neighbor.
 
-#### Event 3.2: Kalmyk Migration
-**ID**: `steppe_raid.9`
-**Trigger**:
-- Tag: Muscovy OR Russia
-- Owns Astrakhan + Lower Yayik
-- Years 1620-1650
+The target then chooses between:
 
-**MTTH**: 120 months
+- spending military power on a one-year border defense and repelling the raid;
+- taking devastation and allowing the raider to reach the yasyr reward.
 
-**Options**:
-1. **Accept Kalmyks** (AI 70%)
-   - Astrakhan & Lower Yayik: Culture → oirats, Religion → vajrayana
-   - Astrakhan: +3 manpower; Yayik: +2 manpower
-   - Gain: `kalmyk_cavalry` modifier (permanent)
+Glinski, Jagoldai, Lipka, Zasechnaya Cherta, and ordinary border-defense
+modifiers affect province selection and/or reduce damage. A successful yasyr
+sale calls `rip_feed_kaffa_market_effect`; this produces extra market income only
+when province 285 currently has the licensed market.
 
-2. **Refuse** (AI 30%)
-   - Astrakhan spawns: 3 regiments nomad raiders
+The target receives a later ransom choice in `steppe_raid.5`. The opinion trail
+uses the victim-to-raider direction consistently, so `steppe_raid.6` can find a
+country whose people were actually taken.
 
-**Historical Context**: Kalmyk migration (1609-1632) brought ~200,000 Oirat Mongols from Dzungaria to Caspian region. Became Russian subjects in 1640s.
+### 2. Cossack retaliation (`steppe_raid.6-.7`)
 
----
+VOL, HLC, PDL, ZAZ, countries with the Cossack estate, and countries with a
+supported Cossack reform can sponsor a counter-raid against CRI or NOG after a
+yasyr grievance. Estate loyalty effects are guarded by `has_estate`, so a
+Cossack-reform country without the estate does not execute an invalid estate
+effect.
 
-### CHAIN 4: Zasechnaya Cherta
+The sponsor receives a two-year cooldown. The target suffers bounded province
+damage; the Cossack country receives a small temporary retaliatory modifier.
 
-#### Event 4.1: Build Defensive Line
-**ID**: `steppe_raid.10`
-**Trigger**:
-- Tag: Muscovy OR Russia
-- ADM tech 10+
-- Owns Russia region province bordering Crimea
-- No `zasechnaya_cherta` modifier
+### 3. Nogai and Kalmyk settlement (`steppe_raid.8-.9`)
 
-**MTTH**: 200 months
-- ×0.7 if 100+ ADM power
+The province contract is fixed to the EU4 1.37.5 map:
 
-**Options**:
-1. **Build Zasechnaya Cherta** (AI 80%)
-   - Cost: 50 ADM power, 0.5 years income
-   - Gain: `zasechnaya_cherta` modifier (permanent)
-   - All border provinces: `zasechnaya_cherta_province` modifier (permanent)
+- Yedisan (`282`), Budjak (`1756`), and Kouban (`287`) are the possible Nogai
+  settlement provinces;
+- Astrakhan (`464`) and Yaik (`474`) are required for the Kalmyk event.
 
-2. **Too expensive** (AI 20%)
-   - Lose: -5 prestige
+The old values `2410`, `2447`, `2416`, and `1082` pointed to Theodoro, Mantrega,
+Majar, and Kazan respectively and are no longer used by these events.
 
-**Historical Context**: Zasechnaya Cherta construction began under Ivan III (1480s) and reached full effectiveness by 1650s. Fundamentally changed balance of power between Russia and Crimea.
+`steppe_raid.8` is a one-shot post-1500 event for CRI/TUR after NOG disappears.
+`steppe_raid.9` is a one-shot 1620-1649 event for MOS/RUS; acceptance changes
+the two named provinces and grants the permanent `kalmyk_cavalry` modifier.
 
----
-
-## MODIFIERS REFERENCE
+### 4. Zasechnaya Cherta (`steppe_raid.10`)
 
-### Raiding Modifiers
+MOS/RUS at administrative technology 10 can invest in the defensive line when
+an owned Russian-region province borders CRI, NOG, or AST. Acceptance grants the
+permanent country modifier and applies `zasechnaya_cherta_province` to the
+qualifying frontier provinces. Those province modifiers are recognized by the
+raid target-selection and damage logic.
 
-| Modifier | Effects | Duration |
-|----------|---------|----------|
-| `steppe_raid_party` | +25% Movement Speed, -20% Land Maintenance, -15% Cavalry Cost | 1 year |
-| `steppe_successful_raid` | +1 Horde Unity, +0.25 Prestige, +5% Cavalry Power | 5 years |
-| `steppe_raid_devastation` | +5 Unrest, -35% Tax, -25% Manpower, -20% Production | 5 years |
+### 5. Don/Azov Cossack raid (`steppe_raid.11-.12`)
 
-### Defense Modifiers
+There is no separate DON tag in EU4 1.37.5. “Don Host” is therefore represented
+by a ZAZ/HET or Cossack-reform country that owns a province in `lower_don_area`
+or `azov_area`. The custom host-name text can display **Don Host** and
+**Don Ataman** for a qualifying Cossack government.
+
+The opportunity requires peace, 30% manpower, a valid neighboring CRI, no
+alliance or truce, and no active five-year Cossack raid cooldown. Launching the
+raid calls the Crimean response and, only if CRI is a TUR subject, requests the
+Ottoman reaction.
 
-| Modifier | Effects | Duration |
-|----------|---------|----------|
-| `steppe_border_defense` | +25% Defensiveness, +10% Manpower, +1 Hostile Attrition | 1 year |
-| `zasechnaya_cherta` | +1 Hostile Attrition, -15% Fort Maintenance, +10% Defensiveness | Permanent |
-| `zasechnaya_cherta_province` | +30% Local Defensiveness, +2 Local Hostile Attrition, -10% Development Cost | Permanent |
+Crimea may fund a border interception or accept bounded damage. Protected
+provinces receive the reduced branch. If Crimea owns Kaffa and the raid succeeds,
+the licensed market is removed and replaced with five years of disrupted trade.
 
-### Migration Modifiers
+### 6. Ottoman reaction (`steppe_raid.13`)
 
-| Modifier | Effects | Duration |
-|----------|---------|----------|
-| `nogai_settlers` | +10% Cavalry Power, -10% Cavalry Cost, +15% Manpower Recovery | 20 years |
-| `kalmyk_cavalry` | +15% Cavalry Power, +25% Cavalry Flanking, -15% Cavalry Cost, +1 Horde Unity | Permanent |
+This is a triggered-only country event. It is valid only when:
+
+- ROOT is TUR;
+- CRI exists and `CRI = { is_subject_of = ROOT }`;
+- FROM is an existing non-Ottoman raider and is not allied to TUR;
+- the five-year `ottoman_crimean_reaction_cooldown` is absent.
+
+The cooldown is applied in `immediate`, so no option can refresh the event. The
+Porte may:
 
-### Economic Modifiers
+1. demand satisfaction, receiving a guarded `cb_insult` for **60 months** when
+   there is no truce, alliance, or already-active copy;
+2. spend income to give CRI five years of `ottoman_vassal_support` and manpower;
+3. ignore the appeal at a prestige cost.
+
+No option automatically declares war. Treating the Crimean-Ottoman relationship
+as EU4 subject status is a gameplay abstraction, not a claim that the historical
+relationship was equivalent to a simple vassal contract.
 
-| Modifier | Effects | Duration |
-|----------|---------|----------|
-| `slave_trade_income` | +10% Trade Efficiency, +5% Global Trade Power, -1 Diplomatic Reputation | Varies |
-| `crimean_yasyr_market` | +15% Trade Efficiency, +10% Global Trade Power, -2 Diplomatic Reputation, +2 Horde Unity | Event-based |
-
----
-
-## OPINION MODIFIERS
-
-| Modifier | Opinion | Duration | Source |
-|----------|---------|----------|--------|
-| `steppe_raid_repelled` | -15 | 10 years | Successfully defended against raid |
-| `steppe_raid_successful` | -30 | 15 years | Lost territory to raid |
-| `steppe_yasyr_taken` | -50 | 20 years | Population captured as slaves |
-| `steppe_raid_tribute` | +10 | 10 years | Offered tribute instead of raid |
-| `steppe_yasyr_ransomed` | +20 | 15 years | Paid ransom for captives |
-| `steppe_yasyr_refused` | -20 | 10 years | Refused to ransom captives |
-
----
-
-## AI BEHAVIOR
-
-### Raiding Decisions
-**Launch Raid**: 70% yes, 30% no
-**Defense**: 60% defend, 40% accept damage
-**Yasyr Sale**: 80% sell, 20% ransom
-**Pay Ransom**: 60% yes (0.1× if treasury < 50), 40% no
-
-### Migration Acceptance
-**Nogai**: 80% accept, 20% refuse
-**Kalmyk**: 70% accept, 30% refuse (rebel spawn)
-
-### Zasechnaya Cherta
-**Build**: 80% yes, 20% no
-
----
-
-## INTEGRATION WITH EXISTING SYSTEMS
-
-### Compatibility
-- Works with existing Cossack estate mechanics
-- Integrates with Crimean Khanate flavor
-- Compatible with Ottoman vassal systems
-- Works alongside Western Ukraine historical events
-
-### Tag Requirements
-**Raiders**: Steppe hordes, CRI, NOG, KAZ, AST
-**Targets**: MOS, RUS, POL, PLC, LIT, VOL, HLC, PDL, Eastern tech group
-**Cossacks**: VOL, HLC, PDL, ZAZ, any with Cossack estate
-
-### Province Dependencies
-- **Border provinces**: Determines raid targets
-- **Yedisan (2410), Budjak (2447), Kuban (2416)**: Nogai settlement
-- **Astrakhan (464), Lower Yayik (1082)**: Kalmyk settlement
-- **Russia region**: Zasechnaya Cherta construction
-
----
-
-## HISTORICAL ACCURACY
-
-### Authentic Elements
-1. **Yasyr System**: Based on actual slave trade (2+ million captives 1500-1700)
-2. **Kaffa Market**: Real economic center of Crimean Khanate
-3. **Zasechnaya Cherta**: Actual defensive line (1520s-1700s)
-4. **Kalmyk Migration**: Historical migration 1609-1632
-5. **Nogai Settlement**: Real refugee crisis 1550s-1630s
-6. **Cossack Chaiky**: Famous boat raids 1590s-1620s
-
-### Simplified Elements
-1. **Raid Frequency**: Game raids less frequent than historical (every 2-3 years vs. annually)
-2. **Captive Numbers**: Abstracted to manpower/income rather than tracking individuals
-3. **Ransom Process**: Simplified from complex diplomatic negotiations
-4. **Zasechnaya Cherta**: Instant effect vs. gradual construction (1520s-1680s)
-
----
-
-## GAMEPLAY IMPACT
-
-### As Crimean Khanate
-- **Early Game**: Use raids to generate income and horde unity
-- **Mid Game**: Balance Ottoman vassalage with raiding autonomy
-- **Late Game**: Face Zasechnaya Cherta effectiveness, shift to diplomacy
-
-### As Muscovy/Russia
-- **Early Game**: Suffer raids, prioritize border defense
-- **Mid Game**: Build Zasechnaya Cherta (after ADM 10)
-- **Late Game**: Turn tables, push into Crimean territory
-
-### As Poland-Lithuania/Ukraine
-- **Strategy**: Use Registered Cossacks for defense, permit counter-raids for Cossack loyalty
-- **Dilemma**: Support Cossacks (loyalty) vs. maintain relations with Ottomans/Crimea
-
----
-
-## TESTING CHECKLIST
-
-- [ ] Raid events fire with correct MTTH
-- [ ] Yasyr system generates appropriate income
-- [ ] AI makes reasonable raiding decisions
-- [ ] Zasechnaya Cherta reduces raid frequency
-- [ ] Kalmyk/Nogai migrations trigger in correct date ranges
-- [ ] Cossack revenge raids work correctly
-- [ ] Opinion modifiers apply properly
-- [ ] Province modifiers stack correctly
-- [ ] No conflicts with existing steppe horde mechanics
-- [ ] Localization displays properly
-
----
-
-## FILES CREATED/MODIFIED
-
-### Event Files
-- **events/SteppeRaiding.txt** (new, 500+ lines)
-  - 10 event chains with historical context
-
-### Modifier Files
-- **common/event_modifiers/steppe_raid_modifiers.txt** (new)
-  - 25+ country and province modifiers
-
-### Opinion Files
-- **common/opinion_modifiers/RIP_opinion_modifiers.txt** (modified)
-  - Added 6 raiding-related opinion modifiers
-
-### Localization Files
-- **localisation/steppe_raiding_l_english.yml** (new)
-  - Complete English localization for all events/modifiers
-
----
-
-## FUTURE EXPANSION IDEAS
-
-1. **Decision to Form Raiding Party**: Player-controlled raids instead of only events
-2. **Yasyr Liberation Missions**: Special missions for Ukraine/Russia to free captives
-3. **Kaffa Slave Market Building**: Special building in Crimea increasing trade income
-4. **Steppe Migration OPM Mechanic**: Allow one-province hordes to migrate
-5. **Don Cossack Raids**: Extend system to Don Cossack Host
-6. **Circassian Slave Trade**: Expand to North Caucasus region
-7. **Ottoman Intervention**: Events where Ottomans defend Crimean vassals
-
----
-
-## CREDITS & ACKNOWLEDGMENTS
-
-**Historical Sources**:
-- Kivelson, Valerie: "Cartographies of Tsardom"
-- Fisher, Alan: "Crimean Tatars"
-- Khodarkovsky, Michael: "Russia's Steppe Frontier"
-
-**Inspiration**: Paradox forums threads on steppe mechanics (2015-2017)
-
-**Implementation**: Yamtom
-
----
-
-**END OF DOCUMENTATION**
-
-*"The steppe remembers, and the steppe takes what is owed."*
+The helper is called by the Don chain and by the valid Zaporozhian/Hetmanate
+Crimean or Ottoman raid paths. It does not fire merely because TUR exists.
+
+### 7. Circassian raid and Kaffa policy (`steppe_raid.14-.16`)
+
+At peace and off cooldown, CRI can select a non-allied, non-subject, non-truce
+owner of land in `circassia_area`. The country is selected directly so the target
+event receives `FROM = CRI` without an ambiguous province-owner scope hop.
+
+The target can pay military power to defend or accept bounded devastation and a
+yasyr loss. The latter rewards Crimea and calls the Kaffa feed helper.
+
+`steppe_raid.16` is a province event fixed to Kaffa (`285`). It is blocked while
+any of the three mutually exclusive policy modifiers is present:
+
+- `crimean_yasyr_market` — permanent until disrupted;
+- `trade_route_disrupted` — five years after a successful anti-market raid;
+- `kaffa_ransom_exchange` — ten years from the event choice.
+
+The permanent market option is visible only to GEN, CRI, TUR, a Muslim owner,
+or a steppe-horde owner. Every other owner has the regulated ransom exchange as
+the safe fallback.
+
+The mission `ZAZ_TUR_slave_trade` now targets Kaffa (`285`), not Azov (`286`).
+Completion removes the market/disruption state, establishes a twenty-year
+ransom exchange, removes the owner's temporary slave-trade income, and preserves
+the mission's port/trade upgrade. Its trade modifier is displayed as **Black Sea
+Ransom Network**.
+
+## Shared effects
+
+### `rip_feed_kaffa_market_effect`
+
+May be called from any scope. If Kaffa has `crimean_yasyr_market`, its owner
+receives 0.05 years of income and two years of `slave_trade_income`.
+
+### `rip_disrupt_kaffa_market_effect`
+
+May be called from country or province scope. It resolves province `285`
+internally, removes the market, applies five years of `trade_route_disrupted`,
+removes `slave_trade_income` from the owner, and costs the owner prestige.
+
+### `rip_request_ottoman_crimean_reaction_effect`
+
+Called in the raider's country scope. It schedules `steppe_raid.13` only when
+CRI is a TUR subject and TUR is off the reaction cooldown. The event receives
+the raider as FROM.
+
+## Active modifiers
+
+| Modifier | Scope | Main effects | Typical duration |
+|---|---|---|---|
+| `steppe_raid_party` | country | speed, maintenance, cavalry cost | 1 year |
+| `steppe_raid_cooldown` | country | marker | 2 or 5 years by chain |
+| `steppe_successful_raid` | country | horde unity, prestige, cavalry | 3-5 years |
+| `cossack_raid_cooldown` | country | marker | 2 or 5 years by chain |
+| `steppe_border_defense` | province | defense, manpower, attrition | 1-2 years |
+| `steppe_raid_devastation` | province | unrest and economic penalties | 2-5 years |
+| `cossack_raid_damage` | province | unrest and economic penalties | 3 years |
+| `zasechnaya_cherta` | country | attrition, fort upkeep, defense | permanent |
+| `zasechnaya_cherta_province` | province | defense, attrition, development | permanent |
+| `nogai_settlers` | country | cavalry and manpower recovery | 20 years |
+| `kalmyk_cavalry` | country | cavalry and horde unity | permanent |
+| `cossack_retaliatory_raid` | country | speed and flanking | 3 years |
+| `slave_trade_income` | country | trade bonus, diplomatic penalty | 2 years per feed |
+| `crimean_yasyr_market` | province | Kaffa trade/production/tax, unrest | until disrupted |
+| `trade_route_disrupted` | province | trade and production penalty | 5 years |
+| `kaffa_ransom_exchange` | province | smaller trade/tax bonus, lower unrest | 10 or 20 years |
+| `ottoman_vassal_support` | country | maintenance, cavalry, tactics | 5 years |
+| `ottoman_crimean_reaction_cooldown` | country | marker | 5 years |
+
+Unused prototype modifiers were removed rather than retained as undocumented
+dead content.
+
+## Cross-system cleanup
+
+- `raid_mechanics.1` now treats March and May as alternatives; the former
+  impossible month AND is gone.
+- `raid_mechanics.2` has a live caller again.
+- Chaiky target discovery uses known coastal targets rather than requiring a
+  land border with TUR/CRI.
+- Province raid weighting checks province modifiers in province scope.
+- ZAZ/HET raid flags use a reusable contract: the decision is available when
+  the flag has never existed or has aged past its 5/10-year window. The earlier
+  inverted `NOT had_country_flag` form is gone.
+
+## Verification
+
+Run from the mod root with a real Python interpreter:
+
+```powershell
+python tests/check_steppe_expansions.py
+python tests/check_border_principalities.py
+python tests/check_clausewitz_braces.py
+python tests/check_script_layer.py
+```
+
+Current evidence:
+
+- [x] dedicated static expansion contract;
+- [x] braces and BOM contract;
+- [x] corrected Steppe province IDs;
+- [x] event/option/modifier English localisation contract;
+- [x] bounded Ottoman CB, cooldown, and no forced war;
+- [x] protected-border integration;
+- [ ] EU4 startup/parser smoke after these edits;
+- [ ] targeted event firing through every option;
+- [ ] observer evidence for MTTH frequency and AI choice balance;
+- [ ] save/load persistence of permanent and timed modifiers.
+
+Unchecked runtime items are not implied by the implementation-complete status.
+
+## Compatibility and maintenance
+
+- Province IDs and areas are verified against EU4 1.37.5. Recheck them after a
+  map-version upgrade.
+- `cb_insult`, subject scopes, event FROM, and scripted-effect behavior depend on
+  engine semantics; the startup smoke catches parser/load failures but not every
+  branch outcome.
+- Do not replace the three Kaffa helpers with duplicated inline effects. Their
+  explicit province-285 resolution is the scope contract used by all callers.
+- Keep `tests/check_steppe_expansions.py` synchronized with any renamed event,
+  modifier, mission, or helper.
+
+## Future Expansion Ideas
+
+1. Add a player-facing target selector with cost and risk previews.
+2. Add an OPM migration decision with strict anti-exploit checks.
+3. Tune MTTH and AI weights from reproducible observer evidence.
+4. Add a deeper captive-ransom ledger only if it remains performant and avoids
+   presenting speculative population figures as measured history.
+
+## Sources and design notes
+
+The following sources support the broad historical frame; event costs, MTTH,
+AI weights, and exact modifiers are game design:
+
+- [“The Consequences of the Black Sea Slave Trade: Long-Run Development in Eastern Europe”](https://www.cambridge.org/core/journals/american-political-science-review/article/consequences-of-the-black-sea-slave-trade-longrun-development-in-eastern-europe/E6074298B3135E3B858CF9E64BE45F99) — Kaffa/Caffa and the Black Sea captive trade.
+- [“Cossacks as Captive-Takers in the Ottoman Black Sea Region and Crimea”](https://www.nmc.utoronto.ca/research-publications/faculty-publications/cossacks-captive-takers-ottoman-black-sea-region-and) — Zaporozhian and Don Cossack captive-taking.
+- [“The Ottoman Crimea in the Mid-Seventeenth Century: Some Problems and Preliminary Considerations”](https://www.husj.harvard.edu/articles/the-ottoman-crimea-in-the-mid-seventeenth-century-some-problems-and-preliminary-considerations) — damage from Cossack raids and Ottoman-Crimean context.
+- [The Crimean Khanate and Ottoman relationship](https://brill.com/view/journals/thr/9/1/article-p86_86.pdf) — reason to document the EU4 subject model as an abstraction.

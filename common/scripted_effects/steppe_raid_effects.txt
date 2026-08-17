@@ -1,0 +1,67 @@
+# Reusable effects for the bounded Don, Circassian, Ottoman, and Kaffa
+# extensions to the steppe-raiding system.
+
+# May be called from any scope. Kaffa's owner receives only a small, temporary
+# cut, and only while the market in province 285 actually exists.
+rip_feed_kaffa_market_effect = {
+	if = {
+		limit = {
+			285 = {
+				is_empty = no
+				has_province_modifier = crimean_yasyr_market
+			}
+		}
+		285 = {
+			owner = {
+				add_years_of_income = 0.05
+				add_country_modifier = {
+					name = slave_trade_income
+					duration = 730
+				}
+			}
+		}
+	}
+}
+
+# May be called from country or province scope. A disrupted market must be
+# re-established by steppe_raid.16 after the five-year penalty has expired.
+rip_disrupt_kaffa_market_effect = {
+	if = {
+		limit = {
+			285 = {
+				has_province_modifier = crimean_yasyr_market
+			}
+		}
+		285 = {
+			remove_province_modifier = crimean_yasyr_market
+			add_province_modifier = {
+				name = trade_route_disrupted
+				duration = 1825
+			}
+			owner = {
+				remove_country_modifier = slave_trade_income
+				add_prestige = -5
+			}
+		}
+	}
+}
+
+# Call in the raider's country scope after a raid on Crimea. Because TUR is
+# scoped from the raider ROOT, steppe_raid.13 receives FROM = the raider.
+rip_request_ottoman_crimean_reaction_effect = {
+	if = {
+		limit = {
+			exists = CRI
+			exists = TUR
+			CRI = {
+				is_subject_of = TUR
+			}
+			TUR = {
+				NOT = { has_country_modifier = ottoman_crimean_reaction_cooldown }
+			}
+		}
+		TUR = {
+			country_event = { id = steppe_raid.13 days = 45 }
+		}
+	}
+}

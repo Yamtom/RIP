@@ -37,7 +37,13 @@ country_decisions = {
 			tag = HET
 			has_reform = rip_cossacks_reform
 			has_country_flag = het_raid_doctrine_unlocked
-			NOT = { has_country_flag = het_deep_raid_cooldown }
+			OR = {
+				NOT = { has_country_flag = het_deep_raid_cooldown }
+				had_country_flag = {
+					flag = het_deep_raid_cooldown
+					days = 1825
+				}
+			}
 		}
 		allow = {
 			is_at_war = no
