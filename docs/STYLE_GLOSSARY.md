@@ -1,5 +1,14 @@
 # Style and toponym glossary
 
+> **Цей документ виконується, а не лише читається.** `tests/check_glossary.py`
+> перевіряє англійську локалізацію проти розділів 1 і 3 і завершується з
+> кодом 1 при порушенні, тож його можна ставити на гейт злиття.
+>
+> Звірено 2026-08-17: п'ять правил розділу 1 - Halych/Galich, Kamianets,
+> Vilnius/Wilno, Kraków/Cracow і «the Porte» - були в таблиці, але тест їх не
+> перевіряв. Саме тому в `ZAZ_HET_missions` уціліло «neither Moscow nor
+> Istanbul». Виправлено, правила додано до тесту.
+
 The spellings and terms below are what the mod already uses in the great
 majority of cases; this file records the choice so the next writer does not
 have to re-derive it, and so a reviewer can tell a deliberate variant from a

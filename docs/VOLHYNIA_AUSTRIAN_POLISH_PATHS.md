@@ -1,4 +1,9 @@
 # VOLHYNIA (VOL) - AUSTRIAN & POLISH DEVELOPMENT PATHS
+
+> **Звірено з кодом 2026-08-17 - розбіжностей немає.** Усі згадані місії
+> існують у `missions/Volhynia_Missions.txt`, і всі п'ятнадцять модифікаторів
+> із довідника - у `common/event_modifiers/`. `VOL_PATHS_QUICKREF.md` подає
+> те саме стисло; він теж точний. Правлячи одне, звіряйте друге.
 ## Comprehensive Mission System Documentation
 
 **Last Updated**: January 30, 2026
