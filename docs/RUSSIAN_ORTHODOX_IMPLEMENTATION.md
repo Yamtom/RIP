@@ -2,6 +2,21 @@
 
 ---
 
+## Про три документи
+
+Систему описують три файли, і кожен повторює ті самі підрахунки:
+
+| Файл | Для кого |
+|---|---|
+| `RUSSIAN_ORTHODOX_IMPLEMENTATION.md` | моддер: структура файлів, шаблони, чеклист |
+| `RUSSIAN_ORTHODOX_QUICKREF.md` | гравець: стратегія й порядок дій |
+| `RUSSIAN_ORTHODOX_README.md` | опис системи українською |
+
+Аудиторії різні, тож усі три лишаються. Але ціна цього видно: числа
+розійшлися з кодом одночасно в усіх трьох, і синхронізувати їх довелося теж
+у трьох місцях. Змінюючи склад системи, правте всі три - або звіряйте
+командою нижче.
+
 ## Стан на 16 серпня 2026
 
 Три поправки до опису нижче.
@@ -41,6 +56,13 @@ holy_sites = {
 
 Це закриває пункт 2 зі списку «Future Expansion Ideas» нижче.
 
+**Province decisions нарешті існують.** Пункти 8 і 9 у переліку рішень нижче
+(`Force Convert Province`, `Russify Province`) документувалися з самого
+початку, і навіть мали готову локалізацію, але самих рішень у
+`decisions/RussianOrthodoxDecisions.txt` не було - `force_convert_province_effect`
+і `russify_province_effect` не викликалися нізвідки. Тепер додано блок
+`province_decisions` із двома рішеннями, які їх викликають.
+
 ---
 
 ## 📦 Complete File Structure
@@ -51,7 +73,7 @@ RIP Mod/
 │   ├── religions/
 │   │   └── russian_orthodox.txt                    [Religion Definition]
 │   ├── event_modifiers/
-│   │   └── russian_orthodox_modifiers.txt          [40+ Modifiers]
+│   │   └── russian_orthodox_modifiers.txt          [55 Modifiers]
 │   ├── scripted_triggers/
 │   │   └── russian_orthodox_triggers.txt           [9 Triggers]
 │   ├── scripted_effects/
@@ -59,9 +81,9 @@ RIP Mod/
 │   └── on_actions/
 │       └── russian_orthodox_on_actions.txt         [Event Integration]
 ├── events/
-│   └── RussianOrthodox.txt                         [15 Events]
+│   └── RussianOrthodox.txt                         [17 Events]
 ├── decisions/
-│   └── RussianOrthodoxDecisions.txt                [8 Decisions]
+│   └── RussianOrthodoxDecisions.txt                [7 country + 2 province decisions]
 ├── localisation/
 │   ├── russian_orthodox_l_english.yml              [250+ English entries]
 │   └── russian_orthodox_l_ukrainian.yml            [250+ Ukrainian entries]
@@ -118,7 +140,7 @@ russian_orthodox = {
 
 ---
 
-### 2. Aspects System (6 Total)
+### 2. Aspects System (7 Total)
 
 Each aspect follows this template:
 ```
@@ -159,7 +181,7 @@ aspect_name = {
 
 ---
 
-### 3. Blessings System (5 Total)
+### 3. Blessings System (7 Total)
 
 Template:
 ```
@@ -655,8 +677,8 @@ aspect_name_desc         → Aspect description
 
 **Version 1.0.0** (2025)
 - Initial release
-- 15 events, 8 decisions, 40+ modifiers
-- 6 aspects, 5 blessings
+- 17 events, 7 country + 2 province decisions, 55 modifiers
+- 7 aspects, 7 blessings
 - Full English and Ukrainian localization
 - Complete documentation
 
