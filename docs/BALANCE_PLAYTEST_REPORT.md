@@ -53,6 +53,35 @@ These are review criteria, not claimed outcomes.
 
 ## Static implementation verification
 
+Runtime playtesting is still pending, but the static checks now cover more
+than they did, and their results are worth recording here because they are
+the only evidence that exists until the ten runs happen.
+
+Run from the mod root; `check_script_layer.py` needs the EU4 install and
+finds it automatically or takes `EU4_DIR`.
+
+| Check | Covers | State as of 2026-08-17 |
+|---|---|---|
+| `check_clausewitz_braces.py` | BOM and brace balance | pass |
+| `check_claim_pacing.py` | KIE/KRU, Russia, long-range claims | pass |
+| `check_subject_cb_limits.py` | subject-CB duration and exclusivity | pass |
+| `check_glossary.py` | toponyms and register | pass |
+| `check_script_layer.py` | structure, localisation, reachability | 10 errors, all listed below |
+
+What `check_script_layer.py` gained since this report was written:
+
+- **merge conflict markers.** `events/QasimKhanate.txt` reached `origin/main`
+  with `<<<<<<<` / `=======` / `>>>>>>>` still in it. Braces balanced around
+  them, so every other check passed while the file could not be parsed at all.
+- **event pictures and opinion modifiers**, both of which fail silently - a
+  bad picture renders an empty frame, a bad opinion modifier does nothing.
+- **flags tested but never set**, which makes whatever they gate unreachable.
+- **orphan `is_triggered_only` events**. This check existed but never worked;
+  it counted each event as its own caller.
+
+The ten remaining errors are province references whose right answer is a
+design call rather than a lookup - see section 7 of `docs/WORKSHOP_LISTING.md`.
+
 The current source passes the targeted contracts in
 `tests/check_claim_pacing.py`, `tests/check_subject_cb_limits.py`,
 `tests/check_clausewitz_braces.py`, and `tests/check_glossary.py`.

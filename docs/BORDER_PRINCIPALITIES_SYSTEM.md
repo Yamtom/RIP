@@ -67,6 +67,18 @@ The one defect was in `qasim_khanate.1`, which called `create_subject` on a
 country that did not exist yet. `release = QAS` now runs first, as it already
 did in `qasim_khanate.3`.
 
+The chain has since been reworked further: `qasim_khanate.2` and `.3` now
+guard themselves with `qasim_kazan_intervention_resolved` and
+`qasim_kazan_fate_resolved`, and `.3` handles Kazan surviving as a subject
+rather than only as a conquest. Both also carry `fire_only_once` - `.3`
+needed it, because its trigger stays true after either option and the event
+was returning every six months.
+
+That rework reached `origin/main` with unresolved merge conflict markers in
+the file, which meant EU4 could not parse `QasimKhanate.txt` at all. Resolved,
+and `tests/check_script_layer.py` now fails on conflict markers so it cannot
+happen quietly again.
+
 Two comments elsewhere in the repository misname these same provinces and are
 worth not trusting: `events/SteppeRaiding.txt` calls `1082` the Lower Yayik,
 which it is not. See the triage list in `docs/WORKSHOP_LISTING.md`.

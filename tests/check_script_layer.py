@@ -121,6 +121,16 @@ for path in loc_files():
     if not raw.startswith(b"\xef\xbb\xbf"):
         err(f"{path}: localisation .yml is missing its required UTF-8 BOM")
 
+# Unresolved merge markers. Braces still balance around them, so the brace
+# check passes and the file still looks fine - but the game cannot parse it.
+# This reached origin/main once already.
+CONFLICT = re.compile(r"^(<<<<<<< |=======$|>>>>>>> )", re.M)
+for path in list(script_files()) + list(loc_files()):
+    text, _ = decode(read(path))
+    for m in CONFLICT.finditer(text):
+        err(f"{path}:{text.count(chr(10), 0, m.start()) + 1}: unresolved merge "
+            f"conflict marker - the game cannot parse this file")
+
 # --- 2. localisation index -------------------------------------------------
 
 LOC_ENTRY = re.compile(r'^\s*([A-Za-z0-9_.\-]+):\s*\d*\s*"', re.M)
