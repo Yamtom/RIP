@@ -1,5 +1,16 @@
 # RutheniaNew Extraction Audit Matrix (for RIP)
 
+> **Історичний запис. Джерела більше немає.** Теки `ruthenianew/` у
+> репозиторії не існує, тож матрицю нижче не можна ані перевірити проти неї,
+> ані повторити. Вона лишається з двох причин: фіксує правило `POD -> PDL`
+> для будь-якої майбутньої міграції зі старих файлів, і пояснює, **чому карту
+> не імпортували** - конвеєр 1.28 несумісний з поточним.
+>
+> Перевірено 2026-08-17: результат міграції на місці
+> (`decisions/HetmanateLegacyErasDecisions.txt`, `events/HetmanateLegacyEras.txt`,
+> `localisation/het_legacy_eras_l_english.yml`), а `history/wars/` справді вже
+> вживає `PDL` і жодного `POD`. Один рядок матриці застарів - див. поправку.
+
 ## Scope and rule set
 - Source: `ruthenianew/`
 - Mode: audit-only extraction (no direct import of map/tradenodes/history blobs from legacy files).
@@ -12,7 +23,7 @@
 | `ruthenianew/common/countries/*.txt` | countries | obsolete/renamed | n/a (reference-only) | deferred | Legacy definitions overlap current country setup; no direct merge needed. |
 | `ruthenianew/common/country_tags/00_countries.txt` | tags | obsolete/renamed | `common/country_tags/01_countries.txt` | deferred | Legacy uses `POD`; active war/history flows in RIP use `PDL` for Podillia timeline. |
 | `ruthenianew/common/province_names/east_slavic.txt` | province_names | already integrated | `common/province_names/*` + localization layers | done | Most useful naming has already been incorporated earlier. |
-| `ruthenianew/common/province_names/HET.txt` | province_names | safe candidate | `common/province_names/HET.txt` | done | Safe-candidate verified via normalization pass; direct legacy import not performed due to naming-model conflict. |
+| `ruthenianew/common/province_names/HET.txt` | province_names | safe candidate | ~~`common/province_names/HET.txt`~~ | **застаріло** | Файл згодом видалено з репозиторію - у `common/province_names/` лишилися `CHR`, `UZH`, `ZAZ` і `ruthenian`. Див. `PROVINCE_NAMES_NORMALIZATION_NOTES.md`. |
 | `ruthenianew/common/province_names/ZAZ.txt` | province_names | safe candidate | `common/province_names/ZAZ.txt` | done | Safe-candidate verified via normalization pass; direct legacy import not performed due to naming-model conflict. |
 | `ruthenianew/history/countries/HET - Hetmanate.txt` | history | already integrated | `history/countries/HET - Hetmanate.txt` | done | Chronology and flavor were already reused via current Hetmanate systems. |
 | `ruthenianew/history/wars/*.txt` | wars | already integrated | `history/wars/*.txt` | done | Same war set exists in RIP; active files already use normalized tags (notably `PDL`). |
