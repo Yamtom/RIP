@@ -175,7 +175,7 @@ bookmarks.
 
 Поточний inventory:
 
-- 53 event files і 598 top-level events;
+- 57 event files і 623 top-level events;
 - 27 active decision files і 131 decisions;
 - 26 country histories, 67 province histories, 4 diplomacy histories,
   8 historical wars та 1 advisor history.
@@ -327,7 +327,7 @@ RIP/
 ```
 
 `docs`, tests і tooling не входять до Workshop ZIP. Поточний canonical
-release inventory: 414 tracked engine-layer files — `common` 122, `events` 53,
+release inventory: 418 tracked engine-layer files — `common` 122, `events` 57,
 `missions` 11, `decisions` 27, `history` 106, `localisation` 42, `gfx` 45,
 `interface` 6 і `customizable_localization` 2. У локальному worktree можуть
 залишатися чотири ignored `.tga.bak`, але Git і release archive їх не містять.

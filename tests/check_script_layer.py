@@ -121,6 +121,16 @@ for path in loc_files():
     if not raw.startswith(b"\xef\xbb\xbf"):
         err(f"{path}: localisation .yml is missing its required UTF-8 BOM")
 
+# Unresolved merge markers. Braces still balance around them, so the brace
+# check passes and the file still looks fine - but the game cannot parse it.
+# This reached origin/main once already.
+CONFLICT = re.compile(r"^(<<<<<<< |=======$|>>>>>>> )", re.M)
+for path in list(script_files()) + list(loc_files()):
+    text, _ = decode(read(path))
+    for m in CONFLICT.finditer(text):
+        err(f"{path}:{text.count(chr(10), 0, m.start()) + 1}: unresolved merge "
+            f"conflict marker - the game cannot parse this file")
+
 # --- 2. localisation index -------------------------------------------------
 
 LOC_ENTRY = re.compile(r'^\s*([A-Za-z0-9_.\-]+):\s*\d*\s*"', re.M)
@@ -145,6 +155,27 @@ if EU4_DIR:
         text, _ = decode(read(path))
         vanilla_english.update(LOC_ENTRY.findall(text))
     english = english | vanilla_english
+
+# --- 2b. duplicate localisation keys --------------------------------------
+
+# EU4 keeps the last definition in load order, so a key defined twice means
+# one of the two texts is never on screen and nobody can tell which. The
+# consolidation pass that removed the last of these is recorded in git; this
+# keeps the count at zero without needing a document to list them.
+for lang, _ in (("english", None),):
+    seen = {}
+    for path in loc_files():
+        if f"_l_{lang}" not in os.path.basename(path):
+            continue
+        text, _ = decode(read(path))
+        for m in LOC_ENTRY.finditer(text):
+            key, line = m.group(1), text.count("\n", 0, m.start()) + 1
+            if key in seen:
+                first_path, first_line = seen[key]
+                err(f"{path}:{line}: '{key}' is already defined at "
+                    f"{first_path}:{first_line} - only the last one is used")
+            else:
+                seen[key] = (path, line)
 
 # --- 3. events: ids, namespaces, loc coverage, orphan chains --------------
 

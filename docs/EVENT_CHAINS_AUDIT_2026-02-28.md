@@ -1,5 +1,14 @@
 # Event Chains Audit (2026-02-28)
 
+> **Історичний запис.** Це звіт про завершений прохід, а не живий трекер.
+> Перевірено проти коду 2026-08-17: пункти 2, 3 і 4 нижче досі відповідають
+> репозиторію - вікна хрестових походів 1525/1600, `orthodox_crusade_cooldown`
+> і розведення сповіщень на 45/60 днів на місці. Документ вартий збереження
+> саме тому: він пояснює, **звідки взялися ці числа**, щоб їх випадково не
+> «оптимізували» назад.
+>
+> Пункт 1 не відповідає дійсності - див. поправку нижче.
+
 ## Scope
 
 - ZAZ-related events
@@ -48,8 +57,14 @@
 
 ### 1) Idea override hygiene
 
-- Moved `MSK_ideas` from `common/ideas/01_ideas.txt` to `common/ideas/replace/01_country_ideas.txt`.
-- Result: vanilla-like override keys are consolidated in replace ideas file (hybrid policy).
+- ~~Moved `MSK_ideas` from `common/ideas/01_ideas.txt` to `common/ideas/replace/01_country_ideas.txt`.~~
+- ~~Result: vanilla-like override keys are consolidated in replace ideas file (hybrid policy).~~
+
+> **Поправка (2026-08-17).** Цього не сталося, і правильно, що не сталося.
+> `MSK` - тег самого мода (Мінськ); ані `MSK`, ані `MSK_ideas` у ванілі не
+> існують, тож це не «vanilla-like override key» і в `replace/` йому не місце.
+> Теки `common/ideas/replace/` у репозиторії взагалі немає. `MSK_ideas`
+> лишається в `common/ideas/01_ideas.txt`, і це коректно.
 
 ### 2) Formation decision density (2x province rule)
 
