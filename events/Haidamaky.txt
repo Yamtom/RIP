@@ -1,0 +1,223 @@
+# ========================================================================
+# The haidamaka risings on the Right Bank, from the bands of the 1730s to
+# the Koliivshchyna of 1768.
+# Authenticity: A - documented. Follows recorded events, people and dates.
+# Sources:
+#   Verlan in 1734, the rising of 1750, and Zalizniak and Gonta at Uman in
+#   1768. The pattern throughout is the same: bands wintering in the ravines
+#   of Kholodnyi Yar and the Zaporozhian lands, the magnates answering with
+#   their own private militias, and Russian troops finally putting it down
+#   because the Empress had guaranteed order in the Commonwealth.
+# ========================================================================
+
+namespace = haidamaky
+
+country_event = {
+	id = haidamaky.1
+	title = haidamaky.1.t
+	desc = haidamaky.1.d
+	picture = ANGRY_MOB_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		is_year = 1715
+		NOT = { is_year = 1765 }
+		NOT = { has_country_flag = haidamaka_bands_answered }
+		any_owned_province = {
+			OR = {
+				province_id = 1944   # Cherkasy
+				province_id = 1943   # Bratslav
+				province_id = 1942   # Zhytomyr
+			}
+			OR = {
+				local_autonomy = 30
+				unrest = 2
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 60
+		modifier = {
+			factor = 0.7
+			is_at_war = yes
+		}
+		modifier = {
+			factor = 0.8
+			NOT = { religion_group = christian }
+		}
+	}
+
+	immediate = {
+		hidden_effect = { set_country_flag = haidamaka_bands_answered }
+	}
+
+	option = {  # Raise the magnates' own militias
+		name = haidamaky.1.a
+		ai_chance = { factor = 45 }
+
+		add_country_modifier = {
+			name = nadvirna_militia
+			duration = 10950
+		}
+		add_years_of_income = -0.15
+	}
+
+	option = {  # Send a punitive column
+		name = haidamaky.1.b
+		ai_chance = { factor = 35 }
+
+		random_owned_province = {
+			limit = {
+				OR = {
+					province_id = 1944
+					province_id = 1943
+					province_id = 1942
+				}
+			}
+			add_province_modifier = {
+				name = haidamaka_country
+				duration = 7300
+			}
+			add_devastation = 15
+		}
+		add_mil_power = -50
+	}
+
+	option = {  # Hear the villages out
+		name = haidamaky.1.c
+		ai_chance = { factor = 20 }
+
+		every_owned_province = {
+			limit = {
+				OR = {
+					province_id = 1944
+					province_id = 1943
+					province_id = 1942
+				}
+			}
+			add_local_autonomy = 10
+			add_unrest = -2
+		}
+		add_prestige = -5
+	}
+}
+
+country_event = {
+	id = haidamaky.2
+	title = haidamaky.2.t
+	desc = haidamaky.2.d
+	picture = CIVIL_WAR_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		has_country_flag = haidamaka_bands_answered
+		is_year = 1768
+		NOT = { is_year = 1775 }
+		NOT = { has_country_modifier = nadvirna_militia }
+		any_owned_province = {
+			OR = {
+				province_id = 1944
+				province_id = 1943
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 12
+	}
+
+	option = {  # Put it down with whatever comes to hand
+		name = haidamaky.2.a
+		ai_chance = { factor = 60 }
+
+		random_owned_province = {
+			limit = {
+				OR = {
+					province_id = 1944
+					province_id = 1943
+				}
+			}
+			spawn_rebels = {
+				type = peasant_rebels
+				size = 3
+			}
+			add_province_modifier = {
+				name = koliivshchyna_reprisals
+				duration = 7300
+			}
+		}
+		add_stability = -1
+	}
+
+	option = {  # Ask the Empress for troops
+		name = haidamaky.2.b
+		ai_chance = { factor = 40 }
+		trigger = { exists = RUS }
+
+		random_owned_province = {
+			limit = {
+				OR = {
+					province_id = 1944
+					province_id = 1943
+				}
+			}
+			add_devastation = 25
+		}
+		add_country_modifier = {
+			name = order_kept_by_foreign_troops
+			duration = 7300
+		}
+		if = {
+			limit = { exists = RUS }
+			RUS = {
+				add_opinion = {
+					who = ROOT
+					modifier = chr_tsar_gratitude
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = haidamaky.3
+	title = haidamaky.3.t
+	desc = haidamaky.3.d
+	picture = HUSSARS_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = ZAZ
+		is_year = 1730
+		NOT = { is_year = 1775 }
+		NOT = { owns = 1944 }
+	}
+
+	mean_time_to_happen = {
+		months = 72
+	}
+
+	option = {  # The ravines keep their own counsel
+		name = haidamaky.3.a
+		ai_chance = { factor = 70 }
+
+		add_country_modifier = {
+			name = sich_shelters_haidamaky
+			duration = 10950
+		}
+		add_army_tradition = 5
+	}
+
+	option = {  # Hand the ringleaders over
+		name = haidamaky.3.b
+		ai_chance = { factor = 30 }
+
+		add_prestige = -5
+		add_republican_tradition = -5
+		add_dip_power = 50
+	}
+}

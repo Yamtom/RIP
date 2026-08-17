@@ -1,4 +1,29 @@
 # КИЇВЩИНА ТА НАДДНІПРЯНЩИНА: ІСТОРИЧНІ ПРОЦЕСИ
+
+---
+
+## Стан на 16 серпня 2026
+
+Документ звірено з кодом: **усі 12 модифікаторів із розділу «Модифікатори»
+існують**, і всі 13 подій `kyiv_dnieper_history.*` реалізовані.
+
+Зокрема **подія 1.2 про грецьких і вірменських купців** працює: тригер
+вимагає Київ, прапорець `dnieper_trade_network_established` і мир, а нагорода
+- `kyiv_foreign_trading_quarters`. Текст живе в
+`localisation/kyiv_dnieper_l_english.yml`, а не в самій події, тому пошук по
+`.txt` її не показує - це не прогалина.
+
+Вірменська й єврейська міські мережі в моді представлені трьома окремими
+місцями: ця київська подія, `dniester_armenian_merchants` на Дністрі, та
+єврейський стан із власними привілеями (`events/JewishEstate.txt`,
+`common/estate_privileges/jewish_privileges.txt`). Православні братства -
+`orthodox_brotherhoods`, `pl_orthodox_brotherhoods`, `prl_brotherhood_schools`,
+`KIE_brotherhood_schools` і далі - теж на місці й задіяні подіями.
+
+Прогалиною була гайдамаччина, і її закрито в `events/Haidamaky.txt` - див.
+`docs/WEST_UKRAINE_HISTORY.md`.
+
+---
 ## Kyiv and Dnieper Region: Historical Processes
 
 **Дата створення / Created**: 5 лютого 2026 / February 5, 2026  
