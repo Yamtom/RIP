@@ -3,7 +3,7 @@
 ## Game Design Document
 
 | Поле | Значення |
-|---|---|
+| --- | --- |
 | Проєкт | Alternative Ruthenian Immersion Pack (RIP) |
 | Гра | Europa Universalis IV |
 | Цільова версія | 1.37.5.0 |
@@ -19,7 +19,7 @@
 
 ---
 
-# 1. Core vision, історична достовірність та занурення
+## 1. Core vision, історична достовірність та занурення
 
 ## 1.1. High concept
 
@@ -116,7 +116,7 @@ Definition of done для історичного пакета:
 
 ---
 
-# 2. Новий контент
+## 2. Новий контент
 
 ## 2.1. Зареєстровані нові держави
 
@@ -155,7 +155,7 @@ Khanate.
 взаємовиключні, тому сума не дорівнює кількості місій одного проходження.
 
 | Файл / напрям | Місій | Дизайнерська роль |
-|---|---:|---|
+| --- | ---: | --- |
 | Chernihiv | 62 | Сіверщина, Ока, grain economy, Крим, Київ, відновлення Русі |
 | DOM Russia | 74 | повний тематичний override російського дерева |
 | Kyiv | 49 | київська реставрація та KIE/UKR/KRU маршрути |
@@ -200,7 +200,7 @@ Orthodox Crusade; Dniester, Moldova, South Ukraine та eastward expansion.
 ## 2.4. Системний контент і assets
 
 | Категорія | Поточний обсяг |
-|---|---:|
+| --- | ---: |
 | Government reforms | 85 |
 | National idea groups | 18 |
 | Disasters | 12 |
@@ -220,7 +220,7 @@ Orthodox Crusade; Dniester, Moldova, South Ukraine та eastward expansion.
 
 ---
 
-# 3. Системи, механіки та зміни
+## 3. Системи, механіки та зміни
 
 ## 3.1. State formation та identity state machine
 
@@ -304,7 +304,7 @@ Monument tiers мають давати 3–6 сфокусованих ефект
 
 ---
 
-# 4. Технічна імплементація, структура файлів і GitHub workflow
+## 4. Технічна імплементація, структура файлів і GitHub workflow
 
 ## 4.1. Canonical root і loader contract
 
@@ -441,7 +441,7 @@ tagged release. Локальну й Workshop-копію моду не можна
 
 ---
 
-# 5. Roadmap
+## 5. Roadmap
 
 ## Milestone 0 — Canonical Root Recovery
 
@@ -521,4 +521,5 @@ package. Далі:  - [x] Old Believers,  - [x] expanded appanages, - [x] Don/Ci
 
 Версія готова до публікації, коли - [x] advertised systems не просто присутні у
 файлах, а - [x] **reachable, локалізовані, збалансовані, сумісні із save/load,
-працюють для AI та не створюють незадокументованих vanilla overrides**.
+
+- [x] працюють для AI та не створюють незадокументованих vanilla overrides**.
