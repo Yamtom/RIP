@@ -1435,19 +1435,28 @@ ZAZ_TUR_missions_3 = {
 			ZAZ_TUR_side_tur
 		}
 		provinces_to_highlight = {
-			province_id = 286
+			province_id = 285
 			NOT = {
 				owned_by = ROOT
 			}
 		}
 		trigger = {
-			286 = {
+			285 = {
 				owned_by = ROOT
 			}
 			num_of_light_ship = 10
 		}
 		effect = {
-			286 = {
+			285 = {
+				remove_province_modifier = crimean_yasyr_market
+				remove_province_modifier = trade_route_disrupted
+				add_province_modifier = {
+					name = kaffa_ransom_exchange
+					duration = 7300
+				}
+				ROOT = {
+					remove_country_modifier = slave_trade_income
+				}
 				if = {
 					limit = {
 						NOT = {
