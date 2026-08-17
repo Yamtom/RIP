@@ -7,9 +7,14 @@ As of 2026-08-16, execution against the current worktree is **pending**:
 - valid AI observer runs to 1650: **0 / 10**;
 - completed manual representative campaigns: **0 / 3**.
 
-The harness is present under `tests/observer/`, but its startup automation still
-requires a one-run GUI smoke test. Old November 2025 observer saves and January
-2026 logs predate the current August 2026 code and are not counted.
+The automated startup gate now passes. The latest snapshot-backed smoke entered
+observer mode, archived an uncompressed save dated `1446.1.1`, and completed
+without a crash. It is evidence that the harness works, but it is intentionally
+not counted as one of the ten runs to 1650. Old November 2025 observer saves and
+January 2026 logs predate the current August 2026 code and are not counted.
+
+Latest smoke evidence:
+[`smoke_20260816_190251Z/run_01/manifest.json`](../diagnostics/observer_runs/smoke_20260816_190251Z/run_01/manifest.json).
 
 Do not convert any row below to Pass or Fail without linking the run manifest,
 endpoint save, archived logs, and measured results. A launch attempt or a save
@@ -38,13 +43,33 @@ These are review criteria, not claimed outcomes.
 
 | Field | Required value/evidence | Actual |
 |---|---|---|
-| Git revision | Clean commit, recorded in every manifest | Pending |
-| EU4 version | `v1.37.5.0` | Pending run manifest |
-| Enabled mods | Exactly `mod/RIP.mod` | Pending run manifest |
-| Start date | `1444.11.11` | Pending checkpoint verification |
+| Source identity | Git revision plus immutable source snapshot and SHA-256 inventory | Smoke: HEAD `0ec6e4fc`, 425 files, SHA-256 `28E915AB…D57` |
+| EU4 version | `v1.37.5.0` | Confirmed by smoke manifest |
+| Enabled mods | Exactly `mod/RIP.mod` | Confirmed by archived `dlc_load.json` |
+| Start date | `1444.11.11` | Confirmed by archived `game.log` |
 | End date | `>= 1650.1.1` | Pending endpoint save |
-| Saves | Uncompressed EU4 text saves | Pending |
-| Logs | Archived before the next launch | Pending |
+| Saves | Uncompressed EU4 text saves | Smoke checkpoint `1446.1.1` validated; full checkpoints pending |
+| Logs | Archived before the next launch | 29 fresh smoke logs archived; full-run logs pending |
+
+## Static implementation verification
+
+The current source passes the targeted contracts in
+`tests/check_claim_pacing.py`, `tests/check_subject_cb_limits.py`,
+`tests/check_clausewitz_braces.py`, and `tests/check_glossary.py`.
+
+- KIE/KRU formation claims require 20 Ruthenia provinces; Russia requires 23
+  provinces before the broad follow-up reward.
+- Russia formation no longer grants the former Crimea/Ural permanent burst.
+  Baltic, Scandinavian, Siberian, and other distant rewards use temporary or
+  staged claims.
+- The Asian trade reward is mutually exclusive and grants only Shanshan+Tarim
+  (7 provinces) or Lahore (5), replacing whole Mongolia/Hindusthan rewards.
+- Mission-granted PU, vassalization, and tributary CBs use bounded 60–120 month
+  windows, eligibility/no-refresh guards, and one-target cleanup where a chain
+  could otherwise accumulate simultaneous targets.
+
+These checks prove source contracts, not 1650 AI behavior; the observer and
+manual matrices remain required.
 
 ## AI observer matrix
 
@@ -118,7 +143,7 @@ and 1650, plus notes for:
 
 | Run/campaign | CTD/hang | New parser error | New missing localisation | Repeating event/decision | Save/load result | Verdict |
 |---|---|---|---|---|---|---|
-| — | — | — | — | — | — | Pending |
+| Smoke 20260816_190251Z | No | No new claim/CB parser error | No | No | Checkpoint read as `1446.1.1` | Harness gate Pass |
 
 Classify errors against a clean pre-run baseline. Existing unrelated vanilla
 warnings must be listed separately; absence of a crash is not proof that the

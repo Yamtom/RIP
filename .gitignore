@@ -21,3 +21,22 @@ Thumbs.db
 
 # A mod repository must never contain a second Git repository.
 RIP-fresh2/
+
+# EU4 run artefacts: load tests and observer runs drop logs, crash folders and
+# memory dumps here, several hundred megabytes at a time. The tooling that
+# produces them lives in tests/observer and is tracked; its output is not.
+# diagnostics/parser_recovery_20260219_195115 predates this rule and stays.
+/diagnostics/*_load_*/
+/diagnostics/*_smoke_*/
+/diagnostics/observer_runs/**
+# ...except the run manifests, which are the evidence BALANCE_PLAYTEST_REPORT
+# links to. 12 of them, 1.7 MB, against 275 MB of logs and dumps beside them.
+!/diagnostics/observer_runs/**/
+!/diagnostics/observer_runs/**/manifest.json
+# The un-ignore of directories above would otherwise expose source_snapshot,
+# which copies the whole tree including .claude/worktrees - and a worktree
+# carries a .git file, which git records as a submodule gitlink. README
+# forbids nested repositories; this keeps them out.
+/diagnostics/**/source_snapshot/
+/diagnostics/*.mod
+/diagnostics/dlc_load_baseline_*.json

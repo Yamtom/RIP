@@ -1344,9 +1344,34 @@ nov_rus_eastern_europe = {
 				name = nov_rus_asian_market_access
 				duration = 9125
 			}
-			custom_tooltip = nov_rus_involve_in_asian_trade_at
-			if = {
-				limit = {
+			simple_dynamic_effect_without_alternative = {
+				first_custom_tooltip = nov_rus_involve_in_asian_trade_at
+				first_limit = "
+				707 = {
+					trade_share = {
+						country = ROOT
+						share = 20
+					}
+					has_merchant = ROOT
+				}"
+				first_effect = "
+				shanshan_area = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					rip_add_temporary_claim_to_root = yes
+				}
+				tarim_basin_area = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					rip_add_temporary_claim_to_root = yes
+				}"
+				second_custom_tooltip = nov_rus_involve_in_asian_trade_bt
+				second_limit = "
+				NOT = {
 					707 = {
 						trade_share = {
 							country = ROOT
@@ -1355,115 +1380,21 @@ nov_rus_eastern_europe = {
 						has_merchant = ROOT
 					}
 				}
-				custom_tooltip = BONUS_REWARD_YES
-			}
-			else = { custom_tooltip = BONUS_REWARD_NO }
-			tooltip = {
-				shanshan_area = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
+				507 = {
+					trade_share = {
+						country = ROOT
+						share = 20
 					}
-					add_claim = ROOT
-				}
-				tarim_basin_area = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_claim = ROOT
-				}
-				mongolia_region = {
-					limit = {
-						NOT = { is_core = ROOT }
-						NOT = { is_permanent_claim = ROOT }
-					}
-					add_claim = ROOT
-				}
-			}
-			custom_tooltip = nov_rus_involve_in_asian_trade_bt
-			if = {
-				limit = {
-					NOT = {
-						707 = {
-							trade_share = {
-								country = ROOT
-								share = 20
-							}
-							has_merchant = ROOT
-						}
-					}
-					507 = {
-						trade_share = {
-							country = ROOT
-							share = 20
-						}
-						has_merchant = ROOT
-					}
-				}
-				custom_tooltip = BONUS_REWARD_YES
-			}
-			else = { custom_tooltip = BONUS_REWARD_NO }
-			tooltip = {
-				hindusthan_region = {
+					has_merchant = ROOT
+				}"
+				second_effect = "
+				lahore_area = {
 					limit = {
 						NOT = { is_permanent_claim = ROOT }
 						NOT = { is_core = ROOT }
 					}
-					add_claim = ROOT
-				}
-			}
-			hidden_effect = {
-				if = {
-					limit = {
-						707 = {
-							trade_share = {
-								country = ROOT
-								share = 20
-							}
-							has_merchant = ROOT
-						}
-					}
-					shanshan_area = {
-						limit = {
-							NOT = { is_core = ROOT }
-							NOT = { is_permanent_claim = ROOT }
-						}
-						add_claim = ROOT
-					}
-					tarim_basin_area = {
-						limit = {
-							NOT = { is_core = ROOT }
-							NOT = { is_permanent_claim = ROOT }
-						}
-						add_claim = ROOT
-					}
-					mongolia_region = {
-						limit = {
-							NOT = { is_core = ROOT }
-							NOT = { is_permanent_claim = ROOT }
-						}
-						add_claim = ROOT
-					}
-				}
-				else_if = {
-					limit = {
-						507 = {
-							trade_share = {
-								country = ROOT
-								share = 20
-							}
-							has_merchant = ROOT
-						}
-					}
-					hindusthan_region = {
-						limit = {
-							NOT = { is_permanent_claim = ROOT }
-							NOT = { is_core = ROOT }
-						}
-						add_claim = ROOT
-					}
-				}
+					rip_add_temporary_claim_to_root = yes
+				}"
 			}
 		}
 

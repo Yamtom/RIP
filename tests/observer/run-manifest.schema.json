@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/rip/run-manifest.schema.json",
+  "title": "RIP EU4 observer run manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "status",
+    "seed",
+    "started_at_utc",
+    "repository",
+    "game",
+    "user_data_root",
+    "completion",
+    "artifacts",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["running", "completed", "failed", "timed_out"]
+    },
+    "seed": { "type": "integer" },
+    "started_at_utc": { "type": "string", "format": "date-time" },
+    "completed_at_utc": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "repository": {
+      "type": "object",
+      "required": [
+        "root",
+        "head",
+        "dirty",
+        "status_lines",
+        "source_snapshot",
+        "source_inventory",
+        "source_inventory_sha256",
+        "source_file_count"
+      ],
+      "properties": {
+        "root": { "type": "string" },
+        "head": { "type": "string" },
+        "dirty": { "type": "boolean" },
+        "status_lines": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "source_snapshot": { "type": "string" },
+        "source_inventory": { "type": "string" },
+        "source_inventory_sha256": {
+          "type": "string",
+          "pattern": "^[A-F0-9]{64}$"
+        },
+        "source_file_count": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "game": {
+      "type": "object",
+      "required": [
+        "executable",
+        "version",
+        "supported_version",
+        "bootstrap_mode",
+        "no_gui",
+        "smoke",
+        "command_file",
+        "arguments"
+      ],
+      "properties": {
+        "executable": { "type": "string" },
+        "version": { "type": "string" },
+        "supported_version": { "type": "string" },
+        "bootstrap_mode": { "enum": ["AutoRun", "ManualConsole"] },
+        "no_gui": { "type": "boolean" },
+        "smoke": { "type": "boolean" },
+        "command_file": { "type": "string" },
+        "arguments": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "user_data_root": { "type": "string" },
+    "completion": {
+      "type": "object",
+      "required": [
+        "target_year",
+        "detected_save",
+        "detected_date",
+        "process_exit_code",
+        "forced_stop"
+      ],
+      "properties": {
+        "target_year": { "enum": [1446, 1650] },
+        "detected_save": { "type": ["string", "null"] },
+        "detected_date": { "type": ["string", "null"] },
+        "process_exit_code": { "type": ["integer", "null"] },
+        "forced_stop": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "artifacts": {
+      "type": "object",
+      "required": ["saves", "logs", "configuration"],
+      "properties": {
+        "saves": { "type": "array", "items": { "type": "string" } },
+        "logs": { "type": "array", "items": { "type": "string" } },
+        "configuration": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}
