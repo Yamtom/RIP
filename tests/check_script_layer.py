@@ -216,9 +216,26 @@ for path in script_files():
 for path in script_files():
     text, _ = decode(read(path))
     body = uncomment(text)
-    for m in re.finditer(
-            r'(?:country_event|province_event)\s*=\s*\{[^{}]*?\bid\s*=\s*"?([A-Za-z0-9_.\-]+)"?',
-            body):
+    # Anything that names an event id outside its own `id = ` declaration is
+    # a reference to it. That covers country_event calls, but also the forms
+    # this mod actually uses most: `on_start = podillia_disasters.1` in a
+    # disaster, and `events = { ruina_events.1 ... }` in an on_action.
+    #
+    # An earlier version matched `country_event = { id = X }` alone, which
+    # also matched every event's own definition - so fired_ids contained
+    # every event and nothing was ever reported as an orphan.
+    # A definition's own id is the first `id =` after a `country_event = {`
+    # that starts a line. Calls write `id = zaz.2` too, but always indented
+    # inside an effect, so position is what separates them.
+    own_ids = set()
+    for dm in re.finditer(r"^(?:country_event|province_event)\s*=\s*\{", body, re.M):
+        im = re.compile(r"\bid\s*=\s*\"?([A-Za-z0-9_.\-]+)\"?").search(body, dm.end())
+        if im:
+            own_ids.add(im.start(1))
+
+    for m in re.finditer(r"\b([a-z][a-z0-9_]*\.\d+)\b", body):
+        if m.start() in own_ids:
+            continue        # the event's own declaration
         fired_ids.add(m.group(1))
 
 for eid, (path, line) in sorted(triggered_only.items()):
@@ -542,6 +559,45 @@ if EU4_DIR:
                 line = body.count("\n", 0, m.start()) + 1
                 err(f"{path}:{line}: opinion modifier '{m.group(1)}' is not "
                     f"defined (the effect does nothing)")
+
+# --- 9. flags that are tested but never set -------------------------------
+
+# A condition on a flag nothing sets is never true, so whatever it gates is
+# unreachable - or, in a weight block, simply dead. Vanilla sets thousands of
+# flags the mod legitimately reads, so this only reports flags neither side
+# sets.
+if EU4_DIR:
+    def flags_set_in(root):
+        country, glob_ = set(), set()
+        for d in SCRIPT_DIRS:
+            pattern = os.path.join(root, d, "**", "*.txt") if root else \
+                      os.path.join(d, "**", "*.txt")
+            for path in glob.glob(pattern, recursive=True):
+                try:
+                    body = uncomment(decode(read(path))[0])
+                except OSError:
+                    continue
+                country.update(re.findall(
+                    r'\bset_country_flag\s*=\s*"?([A-Za-z0-9_]+)"?', body))
+                glob_.update(re.findall(
+                    r'\bset_global_flag\s*=\s*"?([A-Za-z0-9_]+)"?', body))
+        return country, glob_
+
+    van_country, van_global = flags_set_in(EU4_DIR)
+    mod_country, mod_global = flags_set_in(None)
+
+    for kind, tested_re, known in (
+            ("country", r'\bhas_country_flag\s*=\s*"?([A-Za-z0-9_]+)"?',
+             mod_country | van_country),
+            ("global", r'\bhas_global_flag\s*=\s*"?([A-Za-z0-9_]+)"?',
+             mod_global | van_global)):
+        for path in script_files():
+            body = uncomment(decode(read(path))[0])
+            for m in re.finditer(tested_re, body):
+                if m.group(1) not in known:
+                    line = body.count("\n", 0, m.start()) + 1
+                    warn(f"{path}:{line}: {kind} flag '{m.group(1)}' is tested "
+                         f"but never set by the mod or vanilla")
 
 # --- report ----------------------------------------------------------------
 

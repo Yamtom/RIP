@@ -157,7 +157,12 @@ country_event = {
 	title = qasim_khanate.3.t
 	desc = qasim_khanate.3.d
 	picture = DIPLOMACY_eventPicture
-	
+
+	# The fate of a conquered Kazan is settled once. Without this the trigger
+	# stays true after either option - QAS still a vassal, KAZ still gone,
+	# Kazan still ours - and the event returns every six months.
+	fire_only_once = yes
+
 	trigger = {
 		tag = MOS
 		is_year = 1467
