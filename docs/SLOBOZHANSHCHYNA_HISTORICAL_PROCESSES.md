@@ -1,5 +1,18 @@
 # СЛОБОЖАНЩИНА: ІСТОРИЧНІ ПРОЦЕСИ
 
+> **Це специфікація, а не опис реалізованого.** Перевірено 2026-08-17:
+> усі 13 подій `sloboda_history.*` існують в `events/RIP.txt`, і шість
+> модифікаторів із тексту теж - `sloboda_settlement_compacts`,
+> `sloboda_regimental_chancery`, `sloboda_fortified_line`,
+> `sloboda_grain_contract_hall`, `sloboda_imperial_integration`,
+> `chr_black_soil_silos`.
+>
+> Прапорці, які документ називає умовами («прапор `X` або аналогічний»),
+> реалізовані частково: `chr_black_soil_silos_flag` і
+> `chr_grain_corridors_built` є, а `sloboda_settlement_wave` і
+> `sloboda_regimental_order` - ні. Це очікувано для специфікації й не
+> помилка; читати її як інвентар готового не можна.
+
 ## Slobozhanshchyna: Historical Processes
 
 **Дата створення / Created**: 22 лютого 2026 / February 22, 2026  

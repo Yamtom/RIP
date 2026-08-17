@@ -26,6 +26,13 @@ BANNED_SPELLING = [
     (r'\bsotnya\b',       "sotnia"),
     (r'\bataman\b',       "otaman"),
     (r'\bKish Otaman\b',  "Kosh Otaman"),
+    # Glossary section 1 lists these too, and they were never enforced -
+    # which is how "neither Moscow nor Istanbul" survived in ZAZ_HET_missions.
+    (r'\bGalich\b',       "Halych"),
+    (r'\bKamieniec\b|\bKamenets\b', "Kamianets"),
+    (r'\bWilno\b|\bVilna\b', "Vilnius"),
+    (r'\bCracow\b',       "Kraków"),
+    (r'\bSublime Porte\b|\bIstanbul\b', "the Porte"),
 ]
 BANNED_REGISTER = [
     (r'\bidentity\b',   "name a concrete thing instead"),
