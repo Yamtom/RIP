@@ -95,7 +95,7 @@ RIP Mod/
 
 ---
 
-## 🔧 Technical Implementation Details
+## Технічні подробиці реалізації
 
 ### 1. Religion Definition (`common/religions/russian_orthodox.txt`)
 
@@ -147,7 +147,7 @@ Each aspect follows this template:
 > специфічне для мода. Чинні аспекти дивіться в `common/church_aspects/RIP_church_aspects.txt`.
 
 **Aspect Triggers Design:**
-- Third Rome Mission: `owns = 295` (Moscow)
+- Third Rome Mission: `володіє = 295` (Moscow)
 - Patriarch Authority: `has_country_modifier = moscow_patriarchate_authority`
 - Orthodox Inquisition: `has_country_modifier = orthodox_inquisition`
 - Forced Russification: `has_country_modifier = forced_russification`
@@ -171,7 +171,7 @@ Template:
 - 50 CP cost = half of aspect cost
 - 20 year duration = long enough to matter, short enough to recast
 - Stackable with aspects for synergy
-- No cooldowns (can be maintained permanently if CP allows)
+- No cooldволодіє (can be maintained постійнийly if CP allows)
 
 ---
 
@@ -183,7 +183,7 @@ Template:
 
 **Event Categories:**
 
-**Historical Events (Dated):**
+**Історичні події (з датами):**
 - `russian_orthodox.1`: Fall of Constantinople (1453 trigger)
 - `russian_orthodox.2`: Moscow Patriarchate (1589+, requires development)
 - `russian_orthodox.6`: Old Believer Schism (1650+)
@@ -372,9 +372,9 @@ Template:
 
 ---
 
-## 🎨 Localization System
+## Система локалізації
 
-### File Structure
+### Структура файлів
 
 **English (`russian_orthodox_l_english.yml`):**
 - 250+ localization keys
@@ -416,7 +416,7 @@ aspect_name_desc         → Aspect description
 
 ---
 
-## 🧪 Testing Checklist
+## Перелік для перевірки
 
 ### Religion System
 - [ ] Can convert to Russian Orthodox via decision
@@ -470,40 +470,40 @@ aspect_name_desc         → Aspect description
 
 ---
 
-## 🔍 Common Issues & Solutions
+## Часті проблеми й розв'язання
 
 ### Issue: Religion doesn't appear in game
-**Solution:** Check `common/religions/` file syntax. Ensure file is in correct folder and properly formatted.
+**Розв'язання:** Check `common/religions/` file syntax. Ensure file is in correct folder and properly formatted.
 
 ### Issue: Events not firing
-**Solution:**
+**Розв'язання:**
 1. Check `on_actions` integration
 2. Verify trigger conditions
 3. Check MTTH values (might be too high)
 4. Look for conflicting event IDs
 
 ### Issue: Decision doesn't appear
-**Solution:**
+**Розв'язання:**
 1. Check `potential` scope (who can see it)
 2. Verify `allow` conditions aren't too restrictive
 3. Check for conflicting decision IDs
 
 ### Issue: Missing localization
-**Solution:**
+**Розв'язання:**
 1. Verify `.yml` file encoding (UTF-8 with BOM)
 2. Check localization key spelling
 3. Ensure proper indentation
 4. Verify `l_english:`/`l_ukrainian:` header
 
 ### Issue: Modifiers not applying
-**Solution:**
+**Розв'язання:**
 1. Check modifier scope (country vs province)
 2. Verify trigger conditions
 3. Check modifier naming consistency
 4. Look for conflicting modifiers
 
 ### Issue: AI behaves weirdly
-**Solution:**
+**Розв'язання:**
 1. Adjust `ai_will_do` factors
 2. Add/modify AI modifiers
 3. Check for conflicting AI logic
@@ -511,7 +511,7 @@ aspect_name_desc         → Aspect description
 
 ---
 
-## 📊 Performance Considerations
+## Міркування щодо швидкодії
 
 ### Event Frequency
 - **Too frequent**: Lags game, spam player with events
@@ -519,17 +519,17 @@ aspect_name_desc         → Aspect description
 - **Optimal**: 1-3 events per 10 years for flavor, 1-2 per year for mechanics
 
 ### Trigger Complexity
-- **Simple triggers**: `religion = X`, `owns = Y` → Fast
+- **Simple triggers**: `religion = X`, `володіє = Y` → Fast
 - **Complex triggers**: Multiple `any_owned_province`, nested loops → Slow
 - **Optimization**: Use scripted_triggers for complex checks, cache results
 
 ### Modifier Stacking
 - **Issue**: Too many modifiers slow calculation
-- **Solution**: Consolidate similar modifiers, use duration limits
+- **Розв'язання**: Consolidate similar modifiers, use duration limits
 
 ### AI Decision Making
 - **Issue**: AI evaluates all decisions constantly
-- **Solution**: Restrictive `potential` scopes, reasonable `ai_will_do` weights
+- **Розв'язання**: Restrictive `potential` scopes, reasonable `ai_will_do` weights
 
 ---
 
@@ -561,9 +561,9 @@ aspect_name_desc         → Aspect description
 
 ---
 
-## 🚀 Future Expansion Ideas
+## Ідеї майбутніх розширень
 
-### Potential Features
+### Можливі можливості
 1. **Russian Colonialism**: Special colonist for Siberia
 2. **Old Believers**: Heresy mechanics for Raskol
 3. **Cossack Integration**: Special estates/units
@@ -575,7 +575,7 @@ aspect_name_desc         → Aspect description
 9. **Church Slavonic**: Cultural spread mechanics
 10. **Byzantine Restoration**: Special mission tree
 
-### Balance Adjustments
+### Балансні правки
 - Monitor player feedback on AE impact
 - Adjust MTTH based on event frequency reports
 - Tweak modifier values based on balance testing
@@ -583,7 +583,7 @@ aspect_name_desc         → Aspect description
 
 ---
 
-## 📝 Version History
+## Історія версій
 
 **Version 1.0.0** (2025)
 - Initial release
@@ -594,7 +594,7 @@ aspect_name_desc         → Aspect description
 
 ---
 
-## 👥 Credits
+## Подяки
 
 **Design & Implementation:** RIP Mod Team (Yamtom)
 **Historical Research:** Byzantine/Russian Orthodox Church history
@@ -604,7 +604,7 @@ aspect_name_desc         → Aspect description
 
 ---
 
-## 📚 Technical References
+## Технічні посилання
 
 ### EU4 Modding Wiki
 - Religion modding: https://eu4.paradoxwikis.com/Religion_modding
@@ -622,7 +622,7 @@ aspect_name_desc         → Aspect description
 
 ---
 
-## 🐛 Bug Reporting
+## Як повідомляти про вади
 
 If you encounter issues:
 1. Check error.log in EU4 directory

@@ -298,7 +298,7 @@ localisation/
 
 ### Сумісність
 - **EU4 Version**: 1.35+
-- **DLC Requirements**: Rights of Man (для Great Power mechanics), Dharma (для government reforms)
+- **DLC Requirements**: Rights of Man (для велика держава mechanics), Dharma (для government reforms)
 - **Mod Compatibility**: Сумісний з більшістю модів, що не змінюють релігійні системи
 
 ---

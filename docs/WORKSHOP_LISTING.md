@@ -1,29 +1,33 @@
-# Steam Workshop listing
+# Матеріали для сторінки Steam Workshop
 
-Everything needed for the store page, kept in the repository so the copy and
-the content stay in step. Workshop item `2563577714`, EU4 `1.37.5`.
+Усе потрібне для сторінки в майстерні, зібране в репозиторії, щоб текст і
+вміст мода не розходилися. Елемент майстерні `2563577714`, EU4 `1.37.5`.
 
-## 1. Thumbnail
+> **Розділ 3 навмисно лишається англійською.** Це готовий текст для
+> англомовної вітрини Steam: переклад зламав би його призначення. Українською
+> подано все пояснювальне навколо.
 
-`thumbnail.png` in the mod root, referenced by `picture=` in `descriptor.mod`.
+## 1. Мініатюра
 
-- 512x512, PNG, 447 KB - inside the Workshop's 1 MB preview limit.
-- It previously shipped as a progressive JPEG with EXIF data under a `.png`
-  name. The Paradox launcher picks the loader by extension, so re-encoding it
-  as an actual PNG is what makes it render. If the image is ever replaced,
-  re-encode rather than rename.
+`thumbnail.png` у корені мода, на нього вказує `picture=` в `descriptor.mod`.
 
-## 2. Short description
+- 512×512, PNG, 447 КБ — уміщається в ліміт майстерні на 1 МБ.
+- Раніше це був прогресивний JPEG з даними EXIF під іменем `.png`. Лаунчер
+  Paradox добирає завантажувач за розширенням, тож саме перекодування у
+  справжній PNG змушує зображення показуватися. Якщо колись заміните картинку —
+  перекодуйте, а не перейменовуйте.
 
-One line, shown under the title in search results.
+## 2. Короткий опис
+
+Один рядок, показується під назвою в результатах пошуку.
 
 > A regional immersion pack for Ruthenia, the Cossack frontier and the
 > Carpathian borderlands - nineteen playable tags, eleven mission trees and the
 > Sich as a working institution.
 
-## 3. Store description
+## 3. Опис для вітрини (англійською)
 
-Paste as-is; Steam Workshop accepts BBCode.
+Вставляти як є; Steam Workshop приймає BBCode.
 
 ```
 [h2]Alternative Ruthenian Immersion Pack[/h2]
@@ -75,9 +79,9 @@ translated so far. Not compatible with other mods that rewrite the same
 provinces or the Commonwealth mission tree.
 ```
 
-## 4. Feature list (plain text)
+## 4. Перелік можливостей (звичайний текст)
 
-For the Workshop's change notes, forum posts and the README.
+Для нотаток про зміни в майстерні, дописів на форумі та README.
 
 - 19 new playable tags with national ideas, government reforms and flags
 - 11 mission trees, 524 missions in total
@@ -94,14 +98,14 @@ For the Workshop's change notes, forum posts and the README.
   actually translated, the remaining ~7,400 carry the English string so those
   clients see prose rather than raw keys. Do not advertise this as translation.
 
-## 5. Screenshots
+## 5. Знімки екрана
 
-**These have to be captured in-game and are not in the repository.** Steam
-shows the first five in the header strip, so shoot at least those, in order.
-1920x1080, F12 in-game or Steam's own capture, no debug overlays, no console
-open, and no mod list visible.
+**Їх треба зняти в грі; у репозиторії їх немає.** Steam показує перші п'ять у
+шапці, тож знімайте принаймні ці, за порядком. 1920×1080, F12 у грі або
+власний знімок Steam, без налагоджувальних оверлеїв, без відкритої консолі й
+без видимого списку модів.
 
-| # | Shot | Setup |
+| № | Кадр | Як налаштувати |
 |---|---|---|
 | 1 | Zaporozhia mission tree, upper third | Start as ZAZ 1444, open missions, scroll to the top of the tree. It is the largest in the mod and reads as the headline feature. |
 | 2 | The 1444 bookmark | Main menu, single player, the Ruthenian bookmark - shows all six starting tags at once. |
@@ -114,12 +118,12 @@ open, and no mod list visible.
 | 9 | Volhynia mission tree | Second-largest tree; shows the mod is not only about the Sich. |
 | 10 | A formed nation | Belarus or the Hetmanate after formation, country panel with ideas visible. |
 
-Avoid: shots of the launcher, of file listings, of the mission tree zoomed out
-past legibility, or of any window with placeholder text in it.
+Уникайте: знімків лаунчера, переліків файлів, дерева місій, віддаленого до
+нечитабельності, і будь-якого вікна з текстом-заглушкою.
 
-## 6. Before publishing
+## 6. Перед публікацією
 
-Run both checks from the mod root and read the output:
+Запустіть обидві перевірки з кореня мода й прочитайте вивід:
 
 ```
 python tests/check_script_layer.py
@@ -129,19 +133,19 @@ python tests/check_script_layer.py
 python tests/check_glossary.py
 ```
 
-`check_script_layer.py` needs the EU4 install to give a true answer, because
-the mod inherits most of its localisation from vanilla. It finds the install
-automatically or takes `EU4_DIR`; without it, localisation findings drop to
-warnings rather than being guessed at.
+`check_script_layer.py` потребує встановленої EU4, щоб дати правдиву
+відповідь: мод успадковує більшу частину локалізації від ванілі. Він знаходить
+гру сам або бере шлях із `EU4_DIR`; без неї висновки щодо локалізації
+знижуються до попереджень, а не вигадуються.
 
-## 7. Province IDs still to settle
+## 7. Посилання на провінції, які ще треба вирішити
 
-`check_script_layer.py` compares every `owns = N  # Name` against the province
+`check_script_layer.py` compares every `володіє = N  # Name` against the province
 that N actually is. These are the ones left where the right answer is a design
 call rather than a lookup. Each is a trigger that currently points somewhere
 the author did not mean.
 
-| Where | Written | Actually | Comment says |
+| Де | Написано | Насправді | У коментарі |
 |---|---|---|---|
 | `events/SteppeRaiding.txt:435` | `2410` | Theodoro | Yedisan |
 | `events/SteppeRaiding.txt:436` | `2447` | Mantrega | Budjak |

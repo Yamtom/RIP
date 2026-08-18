@@ -138,9 +138,9 @@ This document outlines comprehensive map rework proposals for the Ukrainian/Ruth
 
 ### **Tier 0: Minimal (Border Fixes Only, 0 New Provinces)**
 
-**Primary Goal:** Fix glaring historical errors without adding provinces
+**Головна ціль:** Fix glaring historical errors without adding provinces
 
-#### Changes:
+#### Зміни:
 1. **Cherkasy Border**: Move southern border ~50km north to historical line
    - Rationale: Current border crosses into territory that was part of Wild Field/Ottoman sphere
    - Historical maps show clear demarcation along river systems
@@ -169,56 +169,56 @@ This document outlines comprehensive map rework proposals for the Ukrainian/Ruth
 
 ### **Tier 1: Moderate (5 New Provinces)**
 
-**Primary Goal:** Add most critical strategic locations while respecting development density concerns
+**Головна ціль:** Add most critical strategic locations while respecting development density concerns
 
 #### New Provinces:
 
 **1. Belgorod (Province ID TBD)**
-- **Location:** Between Kursk and Voronezh
-- **Historical Context:**
+- **Розташування:** Between Kursk and Voronezh
+- **Історичний контекст:**
   - Jagoldai Tatar settlement (Golden Horde remnant vassal to Lithuania, later Muscovy)
   - Strategic fortress on Zasechnaya Cherta defensive line
   - Border buffer between Lithuania/Muscovy (1444-1494)
-- **Gameplay:** Integrates with Border Principalities system (already implemented in mod)
-- **Development:** 5-7 (frontier fortress, low population)
+- **Геймплей:** Integrates with Border Principalities system (already implemented in mod)
+- **Розвиток:** 5-7 (frontier fortress, low population)
 
 **2. Dnipro/Kodak (Province ID TBD)**
-- **Location:** East bank of Dnieper, north of current Zaporozhia
-- **Historical Context:**
+- **Розташування:** East bank of Dnieper, north of current Zaporozhia
+- **Історичний контекст:**
   - Kodak Fortress (1635) built to suppress Cossacks
   - Future site of Yekaterinoslav (Dnipropetrovsk/Dnipro city)
   - Strategic Dnieper crossing
-- **Gameplay:** Correctly places Kodak event target (currently wrongly in Poltava!)
-- **Development:** 4-6 (fortress, later grows)
+- **Геймплей:** Correctly places Kodak event target (currently wrongly in Poltava!)
+- **Розвиток:** 4-6 (fortress, later grows)
 
 **3. Bila Tserkva (Province ID TBD)**
-- **Location:** Between Kiev and Cherkasy
-- **Historical Context:**
+- **Розташування:** Between Kiev and Cherkasy
+- **Історичний контекст:**
   - Ancient Yuriev, renamed after "White Church" ruins
   - Major Right Bank Ukraine city (as large as Kiev in 1444)
   - Key Cossack regiment center
   - On Tatar raid path to Poland
-- **Gameplay:** Critical for Khmelnytsky Uprising events, Right Bank Hetmanate mechanics
-- **Development:** 8-10 (major city)
+- **Геймплей:** Critical for Khmelnytsky Uprising events, Right Bank Hetmanate mechanics
+- **Розвиток:** 8-10 (major city)
 
 **4. Ochakov/Özü (Province ID TBD)**
-- **Location:** Black Sea coast, Dnieper estuary
-- **Historical Context:**
+- **Розташування:** Black Sea coast, Dnieper estuary
+- **Історичний контекст:**
   - Ottoman fortress controlling Dnieper-Bug estuary
   - Key naval base for Black Sea dominance
   - Frequently contested (Ottoman-Russian wars, Crimean raids)
-- **Gameplay:** Strategic chokepoint for naval/steppe warfare
-- **Development:** 6-8 (fortress, small port)
+- **Геймплей:** Strategic chokepoint for naval/steppe warfare
+- **Розвиток:** 6-8 (fortress, small port)
 
 **5. Odesa/Khajibey (Province ID TBD)**
-- **Location:** Black Sea coast, Dniester estuary
-- **Historical Context:**
+- **Розташування:** Black Sea coast, Dniester estuary
+- **Історичний контекст:**
   - Genoa colony "Ginestra" (1440s)
   - Multiple Genoese Black Sea colonies in region
   - Future site of Odessa (major port city)
   - Trade route: Istanbul-Odessa-Krakow-Kiev
-- **Gameplay:** Adds historical Center of Trade potential, Genoese colonization flavor
-- **Development:** 7-9 (trade colony, grows significantly)
+- **Геймплей:** Adds historical Center of Trade potential, Genoese colonization flavor
+- **Розвиток:** 7-9 (trade colony, grows significantly)
 
 #### Additional Changes:
 - **Cherkasy**: Border moved north (from Tier 0)
@@ -241,27 +241,27 @@ Total increase: +5 provinces (from ~15 to ~20 in Ukrainian region)
 
 ### **Tier 2: Expanded (7 New Provinces)**
 
-**Primary Goal:** Full Right Bank Ukraine + Wild Field representation
+**Головна ціль:** Full Right Bank Ukraine + Wild Field representation
 
 **Adds to Tier 1:**
 
 **6. Chyhyryn (Province ID TBD)**
-- **Location:** Right Bank Ukraine, south of Cherkasy
-- **Historical Context:**
+- **Розташування:** Right Bank Ukraine, south of Cherkasy
+- **Історичний контекст:**
   - Hetmanate capital under Khmelnytsky and successors (1648-1676)
   - Site of major Cossack uprising spark
   - Utterly destroyed after Right Bank collapse
-- **Gameplay:** Essential for Hetmanate mechanics, capital of Cossack state
-- **Development:** 6-8 (grows to 10+ as capital, devastated in 1670s-1680s)
+- **Геймплей:** Essential for Hetmanate mechanics, capital of Cossack state
+- **Розвиток:** 6-8 (grows to 10+ as capital, devastated in 1670s-1680s)
 
 **7. Kremenchuk (Province ID TBD)**
-- **Location:** Left Bank Ukraine, Dnieper region
-- **Historical Context:**
+- **Розташування:** Left Bank Ukraine, Dnieper region
+- **Історичний контекст:**
   - Important Left Bank city
   - Cossack regiment center
   - Near-Dnieper economic zone
-- **Gameplay:** Fills gap in Left Bank representation
-- **Development:** 6-8
+- **Геймплей:** Fills gap in Left Bank representation
+- **Розвиток:** 6-8
 
 **Map Illustration:** Expanded Proposal (7 New Provinces)
 ```
@@ -276,7 +276,7 @@ Total increase: +7 provinces
 
 ### **Tier 3: Comprehensive (13 New Provinces) - For Reference**
 
-**Note:** This tier is from original forum proposals but may be too dense for implementation. Included for historical completeness.
+**Примітка:** This tier is from original forum proposals but may be too dense for implementation. Included for historical completeness.
 
 **Additional provinces beyond Tier 2:**
 - Korsun (Right Bank Ukraine)
@@ -288,7 +288,7 @@ Total increase: +7 provinces
 - Zhovti Vody (Wild Field)
 - Syni Vody (Wild Field)
 
-**Rationale:** Full historical administrative division representation, optimal for comprehensive Cossack/Tatar raid mechanics
+**Обґрунтування:** Full historical administrative division representation, optimal for comprehensive Cossack/Tatar raid mechanics
 
 **Concerns:** May be too province-dense compared to surrounding regions
 
@@ -296,7 +296,7 @@ Total increase: +7 provinces
 
 ## Moldova Region Rework
 
-### Current Issues:
+### Поточні проблеми:
 - Only 5 provinces for entire historical Moldovan Principality
 - Khotyn (major fortress, site of 1621 battle) not represented
 - No Bessarabia split (Russian annexation 1812)
@@ -326,7 +326,7 @@ Total increase: +7 provinces
   - **Bessarabia** (Tighina, Orhei, Soroca) - for Russian annexation
   - **Southern Moldova** (Khotyn area) - for Ottoman/Polish contests
 
-**Justification:** Moldova was powerful in 1444, but fragmented by Ottoman (south), Russian (Bessarabia), and Austrian (Bukovina) partitions. Current 5-province model doesn't allow this historical trajectory.
+**Обґрунтування:** Moldova was powerful in 1444, but fragmented by Ottoman (south), Russian (Bessarabia), and Austrian (Bukovina) partitions. Current 5-province model doesn't allow this historical trajectory.
 
 ---
 
@@ -341,13 +341,13 @@ Total increase: +7 provinces
   - Cossack counter-raids into Crimea
   - Ottoman campaigns northward
 
-### Current Problem:
+### Поточна проблема:
 - Only 1-2 provinces represent entire Wild Field
 - Single fort completely blocks all raid mechanics
 - No space for army maneuvering or historical raid paths
 - Zaporozhia Cossacks = 1-province OPM joke instead of major regional power
 
-### Proposal:
+### Пропозиція:
 
 **Minimum (Tier 1):** Add Kodak/Dnipro province
 - Allows basic fort bypassing
@@ -384,7 +384,7 @@ Historical Hetmanate armies:
 - Battle evidence: 60,000 regulars
 - Maximum estimates: 100,000+ (including militia)
 
-**Solution:** More provinces = more development = realistic force limits without breaking ideas/buildings
+**Розв'язання:** More provinces = more development = realistic force limits without breaking ideas/buildings
 
 **2. Religious Conversion:**
 - Current: Poland easily converts all Ruthenia to Catholic in 50 years
@@ -412,7 +412,7 @@ Historical Hetmanate armies:
 
 ### 1. **Steppe Raiding System** (Already Implemented)
 - 10 events for yasyr trade, Crimean raids, Nogai/Kalmyk migrations
-- **Map Requirements:**
+- **Потрібно від карти:**
   - Multiple Wild Field provinces for raid paths
   - Province modifiers for hostile attrition (Tatar settlements)
   - Zasechnaya Cherta defensive line provinces
@@ -421,7 +421,7 @@ Historical Hetmanate armies:
 
 ### 2. **Border Principalities System** (Already Implemented)
 - 18 events for Rylsk (Shemyaka), Glinski lands, Jagoldai, Qasim Khanate
-- **Map Requirements:**
+- **Потрібно від карти:**
   - Belgorod province (Jagoldai settlement)
   - Rylsk province (Shemyaka descendants)
   - Kursk area adjustments
@@ -432,7 +432,7 @@ Historical Hetmanate armies:
 - Khmelnytsky Uprising disaster
 - Right Bank vs Left Bank Hetmanate split
 - Cossack regiment administration
-- **Map Requirements:**
+- **Потрібно від карти:**
   - Bila Tserkva, Cherkasy, Chyhyryn (Right Bank centers)
   - Kremenchuk, Poltava, Pereyaslav (Left Bank centers)
   - Zaporozhia, Wild Field (Sich territory)
@@ -442,7 +442,7 @@ Historical Hetmanate armies:
 ### 4. **Greek Catholic/Uniate Church** (Planned)
 - Church Union of Brest (1596) intermediate religion
 - Gradual conversion mechanics vs forced conversion
-- **Map Requirements:**
+- **Потрібно від карти:**
   - More provinces = slower conversion
   - Western Ukraine vs Eastern Ukraine distinction
 
@@ -453,71 +453,71 @@ Historical Hetmanate armies:
 ## Recommended Implementation Path
 
 ### **Phase 1: Critical Fixes (Tier 0)**
-**Effort:** Low (border adjustments only)
-**Impact:** High (fixes glaring errors)
+**Зусилля:** Low (border adjustments only)
+**Вплив:** High (fixes glaring errors)
 
 - Fix Cherkasy border
 - Fix Starodub/Trubchevsk naming
 - Realign Dniester River
 - Adjust Severia area borders
 
-**Time Estimate:** 1-2 hours (definition.csv edits)
+**Оцінка часу:** 1-2 hours (definition.csv edits)
 
 ---
 
 ### **Phase 2: Strategic Additions (Tier 1 Partial - 3 provinces)**
-**Effort:** Medium (3 new provinces)
-**Impact:** High (enables Border Principalities + Steppe Raids)
+**Зусилля:** Medium (3 new provinces)
+**Вплив:** High (enables Border Principalities + Steppe Raids)
 
 Priority provinces:
 1. **Belgorod** - Essential for Jagoldai/Border Principalities events (already implemented!)
 2. **Kodak/Dnipro** - Fixes Kodak fortress misplacement, enables Wild Field raids
 3. **Bila Tserkva** - Major city, enables Right Bank Hetmanate events
 
-**Time Estimate:** 4-6 hours (province creation, history files, localization)
+**Оцінка часу:** 4-6 hours (province creation, history files, localization)
 
 ---
 
 ### **Phase 3: Full Moderate (Tier 1 Complete - 5 provinces)**
-**Effort:** Medium-High (2 additional provinces)
-**Impact:** Medium (trade/strategic depth)
+**Зусилля:** Medium-High (2 additional provinces)
+**Вплив:** Medium (trade/strategic depth)
 
 Additional provinces:
 4. **Ochakov** - Ottoman fortress, Black Sea control
 5. **Odesa** - Genoa colony, trade hub, future major port
 
-**Time Estimate:** 3-4 hours
+**Оцінка часу:** 3-4 hours
 
 ---
 
 ### **Phase 4: Hetmanate Support (Tier 2 - 7 provinces)**
-**Effort:** High (2 more provinces + Hetmanate mechanics)
-**Impact:** Very High (enables full Hetmanate simulation)
+**Зусилля:** High (2 more provinces + Hetmanate mechanics)
+**Вплив:** Very High (enables full Hetmanate simulation)
 
 Additional provinces:
 6. **Chyhyryn** - Hetmanate capital
 7. **Kremenchuk** - Left Bank city
 
-**Time Estimate:** 6-8 hours (includes Hetmanate government reform, disaster, missions)
+**Оцінка часу:** 6-8 hours (includes Hetmanate government reform, disaster, missions)
 
 ---
 
 ### **Phase 5: Moldova Rework (Optional)**
-**Effort:** Medium (2-3 provinces)
-**Impact:** Medium (historical partitions)
+**Зусилля:** Medium (2-3 provinces)
+**Вплив:** Medium (historical partitions)
 
 Priority:
 1. **Khotyn** - Major fortress, battle site
 2. **Cernauti** - Bukovina, Austrian partition
 3. Optional: **Tighina** - Dniester crossing
 
-**Time Estimate:** 3-5 hours
+**Оцінка часу:** 3-5 hours
 
 ---
 
 ## Technical Implementation Notes
 
-### Province Creation Checklist:
+### Перелік для створення провінції:
 - [ ] `definition.csv` - Add province ID, RGB color, province name
 - [ ] `default.map` - Update max_provinces, province ranges
 - [ ] `area.txt` - Assign provinces to areas
@@ -540,13 +540,13 @@ Priority:
   - [ ] `rivers.bmp` - Add river connections
   - [ ] `terrain.bmp` - Set terrain texture
 
-### Development Guidelines:
+### Настанови щодо розвитку:
 - **Wild Field provinces:** 3-6 base development (devastated by raids)
 - **Frontier fortresses:** 5-8 base development (military focus, low population)
 - **Major cities:** 8-12 base development (Bila Tserkva, Odesa)
 - **Trade colonies:** 7-10 base development (Genoese holdings)
 
-### Culture/Religion Guidelines:
+### Настанови щодо культури й релігії:
 - **Right Bank Ukraine:** Ruthenian culture, Orthodox religion
   - After 1596: Some provinces convert to Uniate (when implemented)
 - **Wild Field:** Ruthenian culture (Cossack settlers), Orthodox
@@ -557,9 +557,9 @@ Priority:
 
 ---
 
-## Historical Sources Referenced
+## Використані історичні джерела
 
-**Maps:**
+**Мапи:**
 - [Hetmanate administrative divisions](https://commons.wikimedia.org/wiki/File:Getmanshchyna.jpg)
 - [Oryol Namestnichestvo 1792 with Trubchevsk](https://commons.wikimedia.org/wiki/File:Map_of_Oryol_Namestnichestvo_1792_(small_atlas).jpg)
 - [Poland after Truce of Deulino 1618-1619](https://pl.wikipedia.org/wiki/Plik:Truce_of_Deulino_1618-1619.PNG)
@@ -568,7 +568,7 @@ Priority:
 - [Sloboda Ukraine development](https://commons.wikimedia.org/wiki/File:Slob_uk_dev.png)
 - [Hetmanate in 1648 post-Uprising](https://uk.wikipedia.org/wiki/Файл:Гетьманщина-полки_(за_Кривошеєм).png)
 
-**Books/Articles:**
+**Книги й статті:**
 - Krivosheev's works on Hetmanate administrative structure
 - Studies on Cossack regiments and their territories
 - Ottoman-Crimean fortification systems
@@ -603,11 +603,11 @@ If adding provinces is not feasible, alternative solutions:
 - Simulates Sloboda Ukraine settlement, New Serbia, Novorossiya colonization
 - Transforms Wild Field from 4 dev → 10-12 dev provinces
 
-**Note:** These are inferior to proper province additions but provide some historical accuracy if map changes impossible.
+**Примітка:** These are inferior to proper province additions but provide some historical accuracy if map changes impossible.
 
 ---
 
-## Conclusion
+## Висновок
 
 The map rework proposals range from minimal border corrections (Tier 0) to comprehensive historical representation (Tier 3). **Recommended implementation: Tier 1-2** (5-7 new provinces), focusing on:
 
@@ -633,7 +633,7 @@ The map rework proposals range from minimal border corrections (Tier 0) to compr
 - Strategic importance (fortresses, battles, capitals)
 - Economic significance (trade colonies, river crossings)
 
-**Next Steps:**
+**Наступні кроки:**
 1. Review proposals with mod team
 2. Select implementation tier (recommend Tier 1 minimum)
 3. Create province history files

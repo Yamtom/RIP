@@ -51,7 +51,7 @@ RIP Mod/
 #### Constantinople Crusade Requirements:
 - Orthodox or Russian Orthodox religion
 - Not a subject nation
-- At peace
+- у мирі
 - 200+ development
 - 100+ church power
 - 50+ prestige
@@ -191,12 +191,12 @@ If crusade expires without success:
 - Has Third Rome ideology (2x more likely)
 - Is Russia/Muscovy/Kiev (2x more likely)
 - Has 40+ (Constantinople) or 50+ (Jerusalem) army size
-- Not at war
+- не воювати
 - Has 100+ military power
 
 **AI will join crusades when:**
 - Allied to leader (1.5x more likely)
-- Not at war (3x more likely if at war)
+- не воювати (3x more likely if at war)
 - 60-50% base chance depending on crusade type
 
 ---

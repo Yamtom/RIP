@@ -1,14 +1,14 @@
-# Integration from Legacy Ruthenia Mod
+# Інтеграція зі старого мода Ruthenia
 
-**Source:** `ruthenianew` folder (Ukraine region update mod)  
-**Date:** February 2026  
-**Integration Status:** Complete and Validated
+**Джерело:** тека `ruthenianew` — мод оновлення українського регіону  
+**Дата:** лютий 2026  
+**Стан інтеграції:** завершено й перевірено
 
 ---
 
-## 1. Localization Extracted
+## 1. Вилучена локалізація
 
-### Country Tags & Names
+### Теги й назви країн
 - **HET:** Hetmanate
 - **HAL:** Halych
 - **HVL:** Halych-Volhynia
@@ -41,56 +41,56 @@
 
 ---
 
-## 2. Historical Hetmanate Monarchs & Eras
+## 2. Історичні гетьмани та епохи
 
-Integrated into `history/countries/HET - Hetmanate.txt`:
+Внесено до `history/countries/HET - Hetmanate.txt`:
 
-### Early Cossack Leadership (1506–1577)
+### Раннє козацьке проводирство (1506–1577)
 - Lyantskoronsky (1506)
 - Kishka (1534)
 - Vishnevetsky-Bayda (1550)
 - Ivan Svirgovsky (1573)
 
-### Khmelnytsky Era (1648)
+### Доба Хмельницького (1648)
 - **1648.1.25:** Khmelnytsky Uprising  
-  - Nationalist rebels take control; civil war begins
+  - націоналістичні повстанці беруть гору, починається війна
 - **1649.8.18:** Treaty of Zboriv  
-  - Hetmanate gains formal recognition
-- Added modifier: **khmelnitsky_uprising**
+  - Гетьманщина здобуває формальне визнання
+- Доданий модифікатор: **khmelnitsky_uprising**
 
-### Ruina Period & Doroshenko (1663–1668)
+### Доба Руїни й Дорошенко (1663–1668)
 - Pavlo Teteria (1663)
 - Petro Doroshenko (1665)
-- Added modifier: **het_divided_state** (Polish-Russian split)
+- Доданий модифікатор: **het_divided_state** (Polish-Russian split)
 
-### Mazepa Golden Age (1687–1708)
+### Золота доба Мазепи (1687–1708)
 - **Ivan Mazepa** (1687–1708)  
-  - Cultural and military renaissance
-- Added modifier: **mazepa_golden_age** (+legitimacy, -idea cost, +global manpower)
+  - культурне й військове відродження
+- Доданий модифікатор: **mazepa_golden_age** (+legitimacy, -idea cost, +global manpower)
 - **1708.11.1:** Great Northern War independence attempt
 
-### Post-Mazepa & Russian Repression (1709–1722)
+### Після Мазепи: російські репресії (1709–1722)
 - Ivan Skoropadsky (1709)
-- Added modifier: **het_russian_repression** (-legitimacy, -diplomatic reputation)
+- Доданий модифікатор: **het_russian_repression** (-legitimacy, -diplomatic reputation)
 - **1722–1727:** Abolished; Little Russian Collegium installed
-  - Added modifier: **het_little_russian_collegium**
+  - Доданий модифікатор: **het_little_russian_collegium**
 
-### Late Hetmanate Restoration (1727–1764)
+### Пізнє відновлення Гетьманщини (1727–1764)
 - Danylo Apostol (1727)
 - Kyrylo Rozumovsky (1750, last elected Hetman)
-- Added modifier: **het_reformed_election_system**
+- Доданий модифікатор: **het_reformed_election_system**
 - **1764.11.10:** Final abolition of Hetmanate
-  - Added modifier: **het_abolished** (-diplomatic reputation, -legitimacy, +local autonomy)
+  - Доданий модифікатор: **het_abolished** (-diplomatic reputation, -legitimacy, +local autonomy)
 
 ---
 
-## 3. Historical Modifier Library
+## 3. Бібліотека історичних модифікаторів
 
-Created in `common/event_modifiers/ruthenian_eastward_modifiers.txt`:
+Створено у `common/event_modifiers/ruthenian_eastward_modifiers.txt`:
 
-| Modifier | Effects | Context |
+| Модифікатор | Ефекти | Контекст |
 |----------|---------|---------|
-| **khmelnitsky_uprising** | +land force limit, +morale damage | 1648 revolt |
+| **khmelnitsky_uprising** | +ліміт сухопутних військ, +шкода бойовому духу | повстання 1648 |
 | **mazepa_golden_age** | +legitimacy, -idea cost, +global manpower | 1687 renaissance |
 | **het_ruina_period** | +war exhaustion, +development cost, +global unrest | Civil conflict era |
 | **het_divided_state** | -legitimacy, -diplomatic reputation | Poland-Russia split |
@@ -102,9 +102,9 @@ Created in `common/event_modifiers/ruthenian_eastward_modifiers.txt`:
 
 ---
 
-## 4. Diplomatic Relations Template
+## 4. Шаблон дипломатичних відносин
 
-Extracted structure from `history/diplomacy/Russian_alliances.txt`:
+Структуру взято з `history/diplomacy/Russian_alliances.txt`:
 - Vassal relationships (MOS → PSK, RUS, regional principalities, etc.)
 - Royal marriage patterns
 - Alliance period dating
@@ -113,9 +113,9 @@ Extracted structure from `history/diplomacy/Russian_alliances.txt`:
 
 ---
 
-## 5. Ruthenian Dynasty Names
+## 5. Руські династичні прізвища
 
-Added to localization:
+Додано до локалізації:
 - Dharynsky
 - Vishnevetsky-Bayda
 - Khmelnytski
@@ -128,13 +128,13 @@ Added to localization:
 
 ---
 
-## 6. Geographic Integration
+## 6. Географічна інтеграція
 
-### Regions & Areas Referenced
+### Згадані регіони й області
 - **Moldavia Area** (moldavia_area) – for Moldova expansion path
 - **Black Ruthenia** (black_ruthenia_area) – Podolia and Volyn heartland
 
-### Strategic Provinces
+### Стратегічні провінції
 - Kyiv (280) – capital of religious and cultural gravity
 - Poltava (290) – Hetmanate power center
 - Chernihiv (289) – northern Rus stronghold
@@ -143,30 +143,30 @@ Added to localization:
 
 ---
 
-## 7. Content Reuse Rationale
+## 7. Чому цей вміст перевикористано
 
-### Why These Elements
+### Чому саме ці елементи
 1. **Localization:** Provides consistent translation and naming conventions across the mod
 2. **Historical Accuracy:** Hetmanate eras align with documented succession and treaties
 3. **Modifier Framework:** Encodes historical turning points as gameplay consequences
 4. **Dynasty Authenticity:** Enables historical ruler flavor and decision chains
 
-### What Was Excluded
+### Що виключено
 - Full map region/area redefinition (already integrated in V2+)
 - Duplicate country file definitions (HET already exists in main RIP mod)
 - Overlapping war history (managed separately in mission trees)
 
 ---
 
-## 8. Integration Points
+## 8. Точки інтеграції
 
-### Active Files Modified
+### Змінені активні файли
 - `localisation/ruthenian_eastward_l_english.yml` – Added all tags, provinces, dynasties
 - `common/event_modifiers/ruthenian_eastward_modifiers.txt` – Hetmanate historical modifiers
 - `decisions/RuthenianEastwardExpansion.txt` – MOL tag support
 - `localisation/replace/zzz_RIP_l_english.yml` – Dynasty names
 
-### Validation Status
+### Стан перевірки
 
 Перевірено проти коду 2026-08-17, і твердження тримаються:
 
@@ -184,9 +184,9 @@ Added to localization:
 
 ---
 
-## 9. Next Steps
+## 9. Наступні кроки
 
-**Recommended Expansions:**
+**Рекомендовані розширення:**
 1. Hetmanate-specific mission tree with Khmelnytsky → Mazepa → Rozumovsky arcs
 2. Cossack raid decisions branching from Hetmanate government reform
 3. Orthodox crusade integration (Khmelnytsky vs Catholic Poland context)

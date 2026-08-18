@@ -87,20 +87,20 @@ Majar, and Kazan respectively and are no longer used by these events.
 
 `steppe_raid.8` is a one-shot post-1500 event for CRI/TUR after NOG disappears.
 `steppe_raid.9` is a one-shot 1620-1649 event for MOS/RUS; acceptance changes
-the two named provinces and grants the permanent `kalmyk_cavalry` modifier.
+the two named provinces and grants the постійний `kalmyk_cavalry` modifier.
 
 ### 4. Zasechnaya Cherta (`steppe_raid.10`)
 
 MOS/RUS at administrative technology 10 can invest in the defensive line when
 an owned Russian-region province borders CRI, NOG, or AST. Acceptance grants the
-permanent country modifier and applies `zasechnaya_cherta_province` to the
+постійний country modifier and applies `zasechnaya_cherta_province` to the
 qualifying frontier provinces. Those province modifiers are recognized by the
 raid target-selection and damage logic.
 
 ### 5. Don/Azov Cossack raid (`steppe_raid.11-.12`)
 
 There is no separate DON tag in EU4 1.37.5. “Don Host” is therefore represented
-by a ZAZ/HET or Cossack-reform country that owns a province in `lower_don_area`
+by a ZAZ/HET or Cossack-reform country that володіє a province in `lower_don_area`
 or `azov_area`. The custom host-name text can display **Don Host** and
 **Don Ataman** for a qualifying Cossack government.
 
@@ -110,7 +110,7 @@ raid calls the Crimean response and, only if CRI is a TUR subject, requests the
 Ottoman reaction.
 
 Crimea may fund a border interception or accept bounded damage. Protected
-provinces receive the reduced branch. If Crimea owns Kaffa and the raid succeeds,
+provinces receive the reduced branch. If Crimea володіє Kaffa and the raid succeeds,
 the licensed market is removed and replaced with five years of disrupted trade.
 
 ### 6. Ottoman reaction (`steppe_raid.13`)
@@ -139,7 +139,7 @@ Crimean or Ottoman raid paths. It does not fire merely because TUR exists.
 
 ### 7. Circassian raid and Kaffa policy (`steppe_raid.14-.16`)
 
-At peace and off cooldown, CRI can select a non-allied, non-subject, non-truce
+у мирі and off cooldown, CRI can select a non-allied, non-subject, non-truce
 owner of land in `circassia_area`. The country is selected directly so the target
 event receives `FROM = CRI` without an ambiguous province-owner scope hop.
 
@@ -149,11 +149,11 @@ yasyr loss. The latter rewards Crimea and calls the Kaffa feed helper.
 `steppe_raid.16` is a province event fixed to Kaffa (`285`). It is blocked while
 any of the three mutually exclusive policy modifiers is present:
 
-- `crimean_yasyr_market` — permanent until disrupted;
+- `crimean_yasyr_market` — постійний until disrupted;
 - `trade_route_disrupted` — five years after a successful anti-market raid;
 - `kaffa_ransom_exchange` — ten years from the event choice.
 
-The permanent market option is visible only to GEN, CRI, TUR, a Muslim owner,
+The постійний market option is visible only to GEN, CRI, TUR, a Muslim owner,
 or a steppe-horde owner. Every other owner has the regulated ransom exchange as
 the safe fallback.
 
@@ -193,10 +193,10 @@ the raider as FROM.
 | `steppe_border_defense` | province | defense, manpower, attrition | 1-2 years |
 | `steppe_raid_devastation` | province | unrest and economic penalties | 2-5 years |
 | `cossack_raid_damage` | province | unrest and economic penalties | 3 years |
-| `zasechnaya_cherta` | country | attrition, fort upkeep, defense | permanent |
-| `zasechnaya_cherta_province` | province | defense, attrition, development | permanent |
+| `zasechnaya_cherta` | country | attrition, fort upkeep, defense | постійний |
+| `zasechnaya_cherta_province` | province | defense, attrition, development | постійний |
 | `nogai_settlers` | country | cavalry and manpower recovery | 20 years |
-| `kalmyk_cavalry` | country | cavalry and horde unity | permanent |
+| `kalmyk_cavalry` | country | cavalry and horde unity | постійний |
 | `cossack_retaliatory_raid` | country | speed and flanking | 3 years |
 | `slave_trade_income` | country | trade bonus, diplomatic penalty | 2 years per feed |
 | `crimean_yasyr_market` | province | Kaffa trade/production/tax, unrest | until disrupted |
@@ -242,7 +242,7 @@ Current evidence:
 - [ ] EU4 startup/parser smoke after these edits;
 - [ ] targeted event firing through every option;
 - [ ] observer evidence for MTTH frequency and AI choice balance;
-- [ ] save/load persistence of permanent and timed modifiers.
+- [ ] save/load persistence of постійний and timed modifiers.
 
 Unchecked runtime items are not implied by the implementation-complete status.
 
@@ -258,7 +258,7 @@ Unchecked runtime items are not implied by the implementation-complete status.
 - Keep `tests/check_steppe_expansions.py` synchronized with any renamed event,
   modifier, mission, or helper.
 
-## Future Expansion Ideas
+## Ідеї майбутніх розширень
 
 1. Add a player-facing target selector with cost and risk previews.
 2. Add an OPM migration decision with strict anti-exploit checks.

@@ -282,7 +282,7 @@ Monument tiers мають давати 3–6 сфокусованих ефект
 
 ## 3.7. Claims, CB та pacing
 
-Регіональні minor paths мають орієнтир 50–120 permanent-claim provinces за
+Регіональні minor paths мають орієнтир 50–120 постійний-claim provinces за
 повний маршрут. Великі `region` rewards дозволені після контролю 40–60%
 регіону; ранні або віддалені claims краще робити 25-річними чи замінювати CB.
 Особливої ревізії потребують Kyiv/KRU expansion, повні Russia rewards та
@@ -297,7 +297,7 @@ Monument tiers мають давати 3–6 сфокусованих ефект
 - administrative efficiency: не більше 5% за один рідкісний late reward;
 - yearly patriarch authority: звіряти з vanilla scale (`0.005`, а не `0.5`);
 - estate loyalty equilibrium/influence: decimal scale (`0.10`, не `10`);
-- permanent global autonomy: обережно, типово не нижче `-0.05` за один source;
+- постійний global autonomy: обережно, типово не нижче `-0.05` за один source;
 - mission reward: стандартно 50–200 mana, 1,200+ лише для унікального
   endgame-моменту з великим opportunity cost;
 - попередній tier modifier видаляється перед додаванням наступного.
@@ -494,7 +494,7 @@ EU4 `error.log` не містить mod-caused engine errors; нова гра т
 
 - [x] Виправити scale errors loyalty, autonomy, patriarch authority та інші
   значення, що відрізняються від vanilla приблизно у 10–100 разів.
-- [x] Прибрати накопичення permanent tier modifiers.
+- [x] Прибрати накопичення постійний tier modifiers.
 - [x] Нормалізувати надсильні ideas, reforms, privileges і Sich monument.
 - [x] Скоротити надмірні mana rewards і income-independent raid payouts.
 - [x] Переглянути KIE/KRU, Russia та long-range claim bursts.

@@ -65,7 +65,7 @@ This system recreates key historical processes of the Kyiv and Dnieper regions f
 **ID**: `kyiv_dnieper_history.1`
 
 **Тригери / Triggers:**
-- Володіння Києвом (провінція 280) / Owns Kyiv (province 280)
+- Володіння Києвом (провінція 280) / Володіє Kyiv (province 280)
 - Теги: KIE, LIT, POL, PLC, CHR, HET, UKR, KRU
 - Мир / Peace
 - Скарбниця ≥ 100 дукатів / Treasury ≥ 100 ducats

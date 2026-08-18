@@ -1,4 +1,4 @@
-# Style and toponym glossary
+# Глосарій стилю й топонімів
 
 > **Цей документ виконується, а не лише читається.** `tests/check_glossary.py`
 > перевіряє англійську локалізацію проти розділів 1 і 3 і завершується з
@@ -22,14 +22,14 @@ picks it up.
 
 ---
 
-## 1. Toponyms
+## 1. Топоніми
 
-Ukrainian forms for places in the mod's own territory; established English
-forms for rivers and for places outside it. That is the rule the mod follows,
-and it is why *Kyiv* sits beside *Dnieper* without inconsistency: the city is
-ours to name, the river has an English name older than the mod.
+Українські форми для місць на власній території мода; усталені англійські —
+для річок і для того, що поза нею. Саме тому *Kyiv* стоїть поруч із *Dnieper*
+без суперечності: місто наше й нам його називати, а річка має англійську назву
+старшу за мод.
 
-| Use | Not | Note |
+| Вживати | Не вживати | Примітка |
 |---|---|---|
 | Kyiv | Kiev | 156 : 4 before this pass; the strays are fixed |
 | Lviv | Lwów, Lemberg | 24 : 0 |
@@ -46,14 +46,13 @@ ours to name, the river has an English name older than the mod.
 | Kraków | Cracow | 17 : 0 |
 | the Porte | Sublime Porte, Istanbul | for the Ottoman government |
 
-## 2. Institutions and offices
+## 2. Інституції та уряди
 
-Do not translate these into an English abstraction. "The Rada elects the
-hetman" carries the world; "democratic traditions" does not — that substitution
-was the single largest tone defect found in the mod, and it is why this
-section exists.
+Не перекладайте це англійською абстракцією. «The Rada elects the hetman» несе
+світ; «democratic traditions» — ні. Саме така підміна була найбільшою вадою
+тону в моді, і через неї цей розділ існує.
 
-| Term | Means | Note |
+| Термін | Означає | Примітка |
 |---|---|---|
 | **Kish** | the Host as a body, the camp below the rapids | *the* institution |
 | **Kosh Otaman** | its elected head | always *Kosh*, never *Kish Otaman* |
@@ -74,11 +73,11 @@ section exists.
 | **yasyr** | captives taken in a raid | |
 | **metropolitan**, **brotherhood** | the Kyiv see; lay guilds keeping schools and presses | |
 
-## 3. Register
+## 3. Регістр
 
 The benchmark is the VLN and HLC reform descriptions:
 
-> Chartered towns exercise municipal self-government under the protections of
+> Chartered tволодіє exercise municipal self-government under the protections of
 > Magdeburg law.
 >
 > The Sich Rada still gathers to guard Cossack privileges, yet the hetman's
@@ -108,19 +107,19 @@ century sociology, and each ran 15–70× the vanilla rate before being replaced
 Avoid exclamation marks in descriptions; vanilla uses them in 7.8% of lines and
 the mod now uses fewer. No references to anything outside the period.
 
-## 4. Deliberate exceptions
+## 4. Свідомі винятки
 
-These look like inconsistencies and are not. Leave them alone unless the
-naming itself is being reconsidered.
+Це має вигляд непослідовності, але нею не є. Не чіпайте, доки не переглядають
+саму систему назв.
 
-| Key | Value | Why |
+| Ключ | Значення | Чому |
 |---|---|---|
 | `VLN` | Volyn | distinguishes the principality from `VOL` "Halycia-Volhynia" |
 | `POD` | Podolia | the tag's established name |
 | `KHK` | Kharkov Host | the historical host's own name |
 | `*_mechanic_desc` | empty | vanilla leaves basic government mechanics undescribed |
 
-## 5. Where the decisions are recorded
+## 5. Де записано рішення
 
 - `docs/localisation_duplicate_variants.md` — 284 wordings that lost to a
   later file during consolidation, including several worth reconsidering

@@ -81,7 +81,7 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 
 ## 🎲 Player Decisions (What You Can Do)
 
-### Country Decisions
+### Рішення країни
 
 1. **Embrace Third Rome Orthodoxy**
    - Converts you to Russian Orthodox
@@ -119,7 +119,7 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
    - Requirements: Empire rank, control 3+ Orthodox holy sites
    - Endgame decision for RP
 
-### Province Decisions
+### Рішення провінції
 
 8. **Force Convert Province**
    - Instantly converts province to Russian Orthodox
@@ -135,7 +135,7 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 
 ## 📜 Key Events to Watch
 
-### Historical Events (Dated)
+### Історичні події (з датами)
 
 | Event | Date | What Happens |
 |-------|------|--------------|
@@ -144,7 +144,7 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 | Conquest of Kazan | 1552 | Policy towards Muslim subjects (force convert vs tolerance) |
 | Old Believer Schism | 1650s | Church reforms cause split - suppress or tolerate? |
 
-### Random Events (Can Fire Anytime)
+### Випадкові події (можуть спрацювати будь-коли)
 
 - **Newly Conquered Province** (when you take land)
   - Choose: Force conversion / Establish missions / Allow freedom
@@ -164,7 +164,7 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 
 ## ⚔️ Military Strategy
 
-### Army Bonuses
+### Армійські бонуси
 - Third Rome Mission: +10% Morale
 - Third Rome Blessing: +10% Morale, +10% Discipline
 - Subjugation of Heretics: +0.5 Yearly Army Tradition, +15% Fort Defense
@@ -179,19 +179,19 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 
 ## 🌍 Expansion Strategy
 
-### Early Game (1444-1550)
+### Рання гра (1444–1550)
 1. Convert to Russian Orthodox ASAP (if Muscovy/Russia)
 2. Take "Third Rome Mission" aspect
 3. Use "Gathering Russian Lands" decision for claims
 4. Expand into Orthodox lands first (less AE)
 
-### Mid Game (1550-1650)
+### Середня гра (1550–1650)
 1. Establish Moscow Patriarchate (decision)
 2. Take "Orthodox Inquisition" aspect
 3. Use "Orthodox Conquest" blessing during wars
 4. Start Russification of non-Russian cores
 
-### Late Game (1650-1821)
+### Пізня гра (1650–1821)
 1. Take "Imperial Orthodox Church" aspect
 2. Establish Symphonia (if high Absolutism)
 3. Proclaim Orthodox Empire (if Empire rank)
@@ -204,7 +204,7 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 ### Church Power Management
 - Don't spend all CP immediately
 - Save 50 CP for "Orthodox Conquest" blessing before big wars
-- Prioritize aspects over blessings (permanent vs temporary)
+- Prioritize aspects over blessings (постійний vs temporary)
 
 ### Culture Conversion
 - Use "Russification Campaign" decision before manual conversions
@@ -283,7 +283,7 @@ A: Only if you're actively culture converting. Otherwise, skip it for military/e
 A: When you have many heretic/heathen provinces causing religious unity problems. Not needed early game.
 
 **Q: Can I switch back to regular Orthodox?**
-A: No, conversion is permanent (like Protestant/Reformed split)
+A: No, conversion is постійний (like Protestant/Reformed split)
 
 ---
 

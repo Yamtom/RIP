@@ -44,10 +44,10 @@ The Polish missions demonstrate:
 ### Path Selection (Position 5, Slot 5)
 **Місія**: `VOL_choose_development_path`
 - **Тригер**:
-  - Not at war
+  - не воювати
   - Stability ≥ 1
   - Total development ≥ 200
-- **Effect**: Fires event `vol_path_events.1` for path selection
+- **Ефект**: Fires event `vol_path_events.1` for path selection
 
 ### Austrian Imperial Path (Slots 1-2)
 
@@ -64,14 +64,14 @@ The Polish missions demonstrate:
 
 3. **VOL_welcome_all_cultures** (Position 8)
    - Requires accepting Polish culture + 2 accepted cultures
-   - Grants permanent `vol_cultural_tolerance` modifier
+   - Grants постійний `vol_cultural_tolerance` modifier
    - Auto-accepts Lithuanian culture
 
 #### Slot 2: Diplomatic & Dynastic Network
 1. **VOL_develop_capitals** (Position 7)
    - Develop Volhynia (280) and Halych (279) to 20 dev
    - Grants `vol_twin_capitals` modifier
-   - Adds permanent province modifiers
+   - Adds постійний province modifiers
 
 2. **VOL_balance_of_power** (Position 8)
    - Alliance with major power (POL/LIT/HUN/MOS/HLC)
@@ -93,7 +93,7 @@ The Polish missions demonstrate:
 2. **VOL_establish_sejm** (Position 7)
    - Costs 100 ADM
    - Noble loyalty ≥ 70%
-   - Grants permanent `vol_ruthenian_sejm` modifier
+   - Grants постійний `vol_ruthenian_sejm` modifier
 
 3. **VOL_constitutional_compact** (Position 8)
    - ADM tech ≥ 10
@@ -104,7 +104,7 @@ The Polish missions demonstrate:
    - Stability ≥ 2
    - Legitimacy ≥ 90
    - Prestige ≥ 50
-   - Grants permanent `vol_golden_liberty` modifier
+   - Grants постійний `vol_golden_liberty` modifier
 
 #### Slot 4: Cultural & Educational Development
 1. **VOL_church_relations** (Position 7)
@@ -123,7 +123,7 @@ The Polish missions demonstrate:
 
 4. **VOL_education_edict** (Position 10)
    - 5 provinces with 15+ dev
-   - Grants permanent `vol_enlightened_realm` modifier
+   - Grants постійний `vol_enlightened_realm` modifier
 
 ### Synergy Missions (Slot 5, Both Paths)
 
@@ -143,7 +143,7 @@ The Polish missions demonstrate:
 
 4. **VOL_ruthenia_triumphant** (Position 9)
    - Total development ≥ 600
-   - Great Power status
+   - велика держава status
    - Path-specific requirements:
      - **Austrian**: 3 countries with your dynasty, 3 subjects
      - **Polish**: Golden Liberty + Stability 3 + Legitimacy 95
@@ -194,7 +194,7 @@ The Polish missions demonstrate:
 ### Main Path Selection Event
 **ID**: `vol_path_events.1`
 - **Тригер**: Mission `VOL_choose_development_path` completion
-- **Options**:
+- **Варіанти**:
   1. Austrian Path → Sets `vol_austrian_path` flag, grants `vol_diplomatic_focus` (20 years)
   2. Polish Path → Sets `vol_constitutional_path` flag, grants `vol_constitutional_focus` (20 years)
 
@@ -239,7 +239,7 @@ The Polish missions demonstrate:
 - Does NOT replace HLC-VOL alliance mechanics, adds parallel development
 
 ### Province References
-- **Capital**: Volhynia (280)
+- **Столиця**: Volhynia (280)
 - **Secondary Capital**: Halych (279)
 - **Core Areas**: volhynia_area, red_ruthenia_area, podolia_volhynia_area
 
@@ -284,13 +284,13 @@ Reflects PLC constitutional uniqueness:
 1. **Early Game**: Secure independence, ally with HLC or major power
 2. **Mid Game**: Balance estates (mission 1), develop capitals, start marriage network
 3. **Late Game**: Focus on dynastic spread, manage minorities, aim for 3+ thrones
-4. **Victory Condition**: 600 dev, 3 dynasties, 3 subjects, Great Power status
+4. **Умова перемоги**: 600 dev, 3 dynasties, 3 subjects, велика держава status
 
 ### Polish Path Strategy
 1. **Early Game**: Build noble loyalty, stabilize realm
 2. **Mid Game**: Establish Sejm (ADM cost!), secure church support
 3. **Late Game**: University chain, constitutional framework, Golden Liberty
-4. **Victory Condition**: 600 dev, Golden Liberty + Stability 3 + Legitimacy 95, Great Power
+4. **Умова перемоги**: 600 dev, Golden Liberty + Stability 3 + Legitimacy 95, велика держава
 
 ### Hybrid Approach
 - **Not possible**: Flags are mutually exclusive
@@ -377,7 +377,7 @@ Reflects PLC constitutional uniqueness:
 
 ### Modifier Not Applying
 - Check spelling in event/mission effect and modifier file
-- Verify duration syntax (years vs. days vs. permanent with -1)
+- Verify duration syntax (years vs. days vs. постійний with -1)
 - Confirm modifier file loaded (no syntax errors blocking it)
 
 ---

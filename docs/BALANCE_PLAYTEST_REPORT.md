@@ -28,7 +28,7 @@
 1. Розширення KIE та KRU лишається в регіональному темпі, без неконтрольованих
    сплесків далеких претензій.
 2. Нагороди місій та розширення MOS і RUS лишаються в тому самому темпі.
-3. A full regional minor route normally grants about 50–120 permanent-claim
+3. A full regional minor route normally grants about 50–120 постійний-claim
    provinces; broad region rewards follow control of roughly 40–60% of that
    region.
 4. Early or distant claims are temporary (the design target is 25 years) or
@@ -91,7 +91,7 @@ The current source passes the targeted contracts in
 
 - KIE/KRU formation claims require 20 Ruthenia provinces; Russia requires 23
   provinces before the broad follow-up reward.
-- Russia formation no longer grants the former Crimea/Ural permanent burst.
+- Russia formation no longer grants the former Crimea/Ural постійний burst.
   Baltic, Scandinavian, Siberian, and other distant rewards use temporary or
   staged claims.
 - The Asian trade reward is mutually exclusive and grants only Shanshan+Tarim
@@ -131,10 +131,10 @@ Add one row per observed tag and checkpoint. Preserve extinct tags as explicit
 
 ### Claims review
 
-Count normal and permanent claims from the checkpoint saves and compare each
+Count normal and постійний claims from the checkpoint saves and compare each
 checkpoint with the preceding one. Record the mission/event source when known.
 
-| Run | Date | Actor | Source | New normal claims | New permanent claims | Region | Long-range anomaly | Verdict |
+| Run | Date | Actor | Source | New normal claims | New постійний claims | Region | Long-range anomaly | Verdict |
 |---|---|---|---|---:|---:|---|---|---|
 | — | — | — | — | — | — | — | — | очікує |
 
