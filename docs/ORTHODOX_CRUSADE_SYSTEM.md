@@ -21,25 +21,25 @@ The Orthodox Crusade system allows Orthodox and Russian Orthodox nations to decl
 ```
 RIP Mod/
 ├── decisions/
-│   └── OrthodoxCrusadeDecisions.txt         [3 Decisions]
+│   └── OrthodoxCrusadeDecisions.txt         [3 рішення]
 ├── events/
-│   └── OrthodoxCrusade.txt                  [20 Events]
+│   └── OrthodoxCrusade.txt                  [20 подій]
 ├── common/
 │   ├── event_modifiers/
-│   │   └── russian_orthodox_modifiers.txt   [Added 14 Crusade Modifiers]
+│   │   └── russian_orthodox_modifiers.txt   [+14 модифікаторів походу]
 │   ├── scripted_effects/
-│   │   └── russian_orthodox_effects.txt     [Added 7 Crusade Effects]
+│   │   └── russian_orthodox_effects.txt     [+7 ефектів походу]
 │   ├── scripted_triggers/
-│   │   └── russian_orthodox_triggers.txt    [Added 8 Crusade Triggers]
+│   │   └── russian_orthodox_triggers.txt    [+8 тригерів походу]
 │   ├── opinion_modifiers/
-│   │   └── orthodox_crusade_opinion_modifiers.txt [4 Opinion Modifiers]
+│   │   └── orthodox_crusade_opinion_modifiers.txt [4 модифікатори думки]
 │   ├── casus_belli/
-│   │   └── orthodox_crusade_cb.txt          [2 Casus Belli]
+│   │   └── orthodox_crusade_cb.txt          [2 приводи до війни]
 │   └── wargoal_types/
-│       └── orthodox_crusade_wargoals.txt    [2 War Goals]
+│       └── orthodox_crusade_wargoals.txt    [2 воєнні цілі]
 └── localisation/
-    ├── orthodox_crusade_l_english.yml       [Complete English]
-    └── orthodox_crusade_l_ukrainian.yml     [PLANNED - does not exist]
+    ├── orthodox_crusade_l_english.yml       [повна англійська]
+    └── orthodox_crusade_l_ukrainian.yml     [ЗАПЛАНОВАНО — не існує]
 ```
 
 ---
@@ -48,113 +48,113 @@ RIP Mod/
 
 ### 1. Оголошення хрестових походів
 
-#### Constantinople Crusade Requirements:
-- Orthodox or Russian Orthodox religion
-- Not a subject nation
+#### Вимоги до походу на Константинополь
+- православна або російсько-православна релігія
+- не бути васалом
 - у мирі
-- 200+ development
-- 100+ church power
-- 50+ prestige
-- 75+ legitimacy
-- Less than 1 war exhaustion
-- No active crusade cooldown
-- Constantinople not Orthodox
+- від 200 розвитку
+- від 100 церковної влади
+- від 50 престижу
+- від 75 легітимності
+- менш ніж 1 виснаження від війни
+- без чинного відкату походу
+- Константинополь не православний
 
-#### Jerusalem Crusade Requirements:
-- Same as above, BUT:
-- 300+ development (higher requirement)
-- 150+ church power
-- 75+ prestige
-- 80+ legitimacy
+#### Вимоги до походу на Єрусалим
+- те саме, що вище, але:
+- від 300 розвитку — вища вимога
+- від 150 церковної влади
+- від 75 престижу
+- від 80 легітимності
 
 ### 2. Бонуси хрестового походу
 
-**For Constantinople Crusade Leader:**
-- +15% Land Morale
-- +1 Army Tradition/year
-- -15% Aggressive Expansion
-- -3% War Exhaustion
-- +15% Manpower Recovery
-- +2 Prestige/year
-- +20% Church Power
+**Провідникові походу на Константинополь:**
+- +15% бойового духу
+- +1 армійської традиції на рік
+- −15% агресивного розширення
+- −3% виснаження від війни
+- +15% відновлення живої сили
+- +2 престижу на рік
+- +20% церковної влади
 
-**For Jerusalem Crusade Leader:**
-- +20% Land Morale
-- +1.5 Army Tradition/year
-- -20% Aggressive Expansion
-- -5% War Exhaustion
-- +20% Manpower Recovery
-- +3 Prestige/year
-- +30% Church Power
-- +2% Missionary Strength
+**Провідникові походу на Єрусалим:**
+- +20% бойового духу
+- +1.5 армійської традиції на рік
+- −20% агресивного розширення
+- −5% виснаження від війни
+- +20% відновлення живої сили
+- +3 престижу на рік
+- +30% церковної влади
+- +2% сили місіонерів
 
-**For Crusade Participants:**
-- +8% Land Morale
-- +0.5 Army Tradition/year
-- +1 Prestige/year
-- +15% Church Power
-- +10% Manpower Recovery
+**Учасникам походу:**
+- +8% бойового духу
+- +0.5 армійської традиції на рік
+- +1 престижу на рік
+- +15% церковної влади
+- +10% відновлення живої сили
 
 ### 3. Нагороди за перемогу
 
-#### Constantinople Liberation:
-- +100 Prestige
-- +25 Legitimacy
-- +100 of each monarch power
-- +200 Church Power
-- Постійний "Liberator of Constantinople" modifier
-- Constantinople gets +3 to all development
-- Постійний bonuses to Constantinople province
-- Patriarch of Constantinople restored (Russian Orthodox only)
+#### Визволення Константинополя
+- +100 престижу
+- +25 легітимності
+- +100 кожної монаршої сили
+- +200 церковної влади
+- постійний модифікатор «Визволитель Константинополя»
+- Константинополь дістає +3 до всього розвитку
+- постійні бонуси провінції Константинополь
+- відновлено Константинопольського патріарха (лише для російського православ'я)
 
-#### Jerusalem Liberation:
-- +150 Prestige
-- +50 Legitimacy
-- +150 of each monarch power
-- +300 Church Power
-- Постійний "Liberator of Jerusalem" modifier
-- Jerusalem gets +4 to all development
-- Becomes Defender of the Faith (if not already)
-- Постійний bonuses to Jerusalem province
+#### Визволення Єрусалима
+- +150 престижу
+- +50 легітимності
+- +150 кожної монаршої сили
+- +300 церковної влади
+- постійний модифікатор «Визволитель Єрусалима»
+- Єрусалим дістає +4 до всього розвитку
+- стаєте Захисником віри, якщо ще ні
+- постійні бонуси провінції Єрусалим
 
 ### 4. Покарання за поразку
 
-If crusade expires without success:
-- -50/-75 Prestige
-- -10/-15 Legitimacy
-- -50/-100 Church Power
-- 20-30 year "Failed Crusade" penalty modifier
-- 20 year cooldown before another crusade
+Якщо похід згасає без успіху:
+- −50/−75 престижу
+- −10/−15 легітимності
+- −50/−100 церковної влади
+- штрафний модифікатор «Невдалий похід» на 20–30 років
+- 20 років відкату до наступного походу
 
 ---
 
 ## Ігровий процес
 
 ### Фаза 1: оголошення
-1. Player meets requirements
-2. Makes decision to declare crusade
-3. Spends church power (100/150)
-4. Receives crusade modifier (50 year duration)
-5. Gets special CB on target
+1. Гравець виконує вимоги.
+2. Ухвалює рішення оголосити похід.
+3. Витрачає церковну владу: 100 або 150.
+4. Дістає модифікатор походу на 50 років.
+5. Дістає особливий привід до війни проти цілі.
 
 ### Фаза 2: участь
-1. Other Orthodox nations receive event
-2. Can choose to join, support, or refuse
-3. Joining nations get participant modifier
-4. Opinion modifiers apply
+1. Інші православні держави дістають подію.
+2. Можуть пристати, підтримати або відмовити.
+3. Ті, хто пристав, дістають модифікатор учасника.
+4. Застосовуються модифікатори думки.
 
 ### Фаза 3: війна
-1. Leader declares war using crusade CB
-2. Various events fire during crusade:
-   - Battle victories
-   - Religious fervor
-   - Progress updates
-3. Crusade bonuses help in combat
+1. Провідник оголошує війну за приводом походу.
+2. Під час походу спрацьовують події:
+   - перемоги в битвах;
+   - релігійне завзяття;
+   - звіти про поступ.
+3. Бонуси походу допомагають у бою.
 
 ### Фаза 4: завершення
-1. If successful: Massive rewards for all participants
-2. If failed: Penalties for all involved
-3. Cooldown period begins (20 років)
+1. За успіху — великі нагороди всім учасникам.
+2. За поразки — кари всім причетним.
+3. Починається відкат на 20 років.
 
 ---
 
@@ -163,66 +163,66 @@ If crusade expires without success:
 ### Постійні модифікатори перемоги
 
 **Визволитель Константинополя:**
-- +2 Prestige/year
-- +1 Legitimacy/year
-- +3 Diplomatic Reputation
-- -20% AE Impact
-- +3% Missionary Strength
-- +25% Church Power
-- -15% Core Creation Cost
-- +25% Improve Relations
+- +2 престижу на рік
+- +1 легітимності на рік
+- +3 дипломатичної репутації
+- −20% агресивного розширення
+- +3% сили місіонерів
+- +25% церковної влади
+- −15% вартості створення ядер
+- +25% поліпшення стосунків
 
 **Визволитель Єрусалима:**
-- +3 Prestige/year
-- +2 Legitimacy/year
-- +5 Diplomatic Reputation
-- -25% AE Impact
-- +5% Missionary Strength
-- +35% Church Power
-- -20% Core Creation Cost
-- +30% Improve Relations
-- +3 Tolerance of True Faith
+- +3 престижу на рік
+- +2 легітимності на рік
+- +5 дипломатичної репутації
+- −25% агресивного розширення
+- +5% сили місіонерів
+- +35% церковної влади
+- −20% вартості створення ядер
+- +30% поліпшення стосунків
+- +3 терпимості до істинної віри
 
 ---
 
 ## Поведінка ШІ
 
-**AI will declare crusades when:**
-- Has Third Rome ideology (2x more likely)
-- Is Russia/Muscovy/Kiev (2x more likely)
-- Has 40+ (Constantinople) or 50+ (Jerusalem) army size
+**ШІ оголошує похід, коли:**
+- має доктрину Третього Риму — удвічі вірогідніше
+- це Росія, Московія або Київ — удвічі вірогідніше
+- має військо від 40 полків на Константинополь або від 50 на Єрусалим
 - не воювати
-- Has 100+ military power
+- має від 100 воєнної сили
 
-**AI will join crusades when:**
-- Allied to leader (1.5x more likely)
-- не воювати (3x more likely if at war)
-- 60-50% base chance depending on crusade type
+**ШІ пристає до походу, коли:**
+- є союзником провідника — у півтора раза вірогідніше
+- не воює; якщо воює, утричі менш вірогідно
+- базовий шанс 50–60% залежно від типу походу
 
 ---
 
 ## Стратегічні поради
 
-1. **Wait for the Right Moment:**
-   - Declare when target is weak or distracted
-   - Build up alliance network first
+1. **Дочекайтеся слушної миті.**
+   - Оголошуйте, коли ціль слабка або відвернена.
+   - Спершу збудуйте мережу союзів.
    
-2. **Use Church Power Wisely:**
-   - Save 100-150 church power for declaration
-   - Don't spend on aspects right before crusade
+2. **Витрачайте церковну владу з розумом.**
+   - Тримайте 100–150 на саме оголошення.
+   - Не витрачайте на аспекти перед самим походом.
 
-3. **Coordinate with Allies:**
-   - Improve relations with Orthodox nations before declaring
-   - Call them into war as participants
+3. **Узгодьте дії з союзниками.**
+   - Поліпшіть стосунки з православними державами до оголошення.
+   - Кличте їх до війни як учасників.
 
-4. **Plan for Long War:**
-   - Crusade lasts 50 років but war may be shorter
-   - Benefits are worth extended conflict
+4. **Готуйтеся до довгої війни.**
+   - Похід триває 50 років, війна може бути коротшою.
+   - Вигоди виправдовують затяжний конфлікт.
 
-5. **Jerusalem is Harder:**
-   - Higher requirements reflect difficulty
-   - Better rewards justify the challenge
-   - Consider conquering Constantinople first
+5. **Єрусалим важчий.**
+   - Вищі вимоги відповідають складності.
+   - Кращі нагороди виправдовують виклик.
+   - Подумайте, чи не взяти спершу Константинополь.
 
 ---
 

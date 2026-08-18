@@ -28,68 +28,67 @@
 | Події 1–16 | `events/SteppeRaiding.txt` |
 | Спільні ефекти ринку й реакцій | `common/scripted_effects/steppe_raid_effects.txt` |
 | Модифікатори подій і провінцій | `common/event_modifiers/steppe_raid_modifiers.txt` |
-| Opinion modifiers | `common/opinion_modifiers/RIP_opinion_modifiers.txt` |
-| English localisation | `localisation/zzz_steppe_raiding_l_english.yml` |
-| General raid integration | `events/RaidMechanics.txt` |
-| Zaporozhian/HET integration | `events/ZaporizhiaFixes.txt`, `events/HetmanateCossackRaids.txt`, `common/scripted_effects/zaz_het_effects.txt` |
-| Kaffa mission policy | `missions/Zaporozhie_Missions.txt` (`ZAZ_TUR_slave_trade`) |
-| Static regression contract | `tests/check_steppe_expansions.py` |
+| Модифікатори думки | `common/opinion_modifiers/RIP_opinion_modifiers.txt` |
+| Англійська локалізація | `localisation/zzz_steppe_raiding_l_english.yml` |
+| Загальна інтеграція набігів | `events/RaidMechanics.txt` |
+| Інтеграція Запорожжя й Гетьманщини | `events/ZaporizhiaFixes.txt`, `events/HetmanateCossackRaids.txt`, `common/scripted_effects/zaz_het_effects.txt` |
+| Політика місій щодо Кафи | `missions/Zaporozhie_Missions.txt` (`ZAZ_TUR_slave_trade`) |
+| Статичний регресійний контракт | `tests/check_steppe_expansions.py` |
 
-## Event chains
+## Ланцюги подій
 
-### 1. Horde raid and yasyr cycle (`steppe_raid.1-.5`)
+### 1. Ординський набіг і цикл ясиру (`steppe_raid.1-.5`)
 
-`steppe_raid.1` may fire for CRI, NOG, KAZ, AST, GOL, or a country with the
-steppe-horde/Great Mongol State reform. The earlier `government_rank = 1`
-fallback was removed because it accidentally made every eligible OPM a horde
-raider.
+`steppe_raid.1` може спрацювати для CRI, NOG, KAZ, AST, GOL або країни з
+реформою степової орди чи Великої Монгольської держави. Колишній запасний
+варіант `government_rank = 1` прибрано: він випадково робив набігачем кожну
+придатну однопровінційну державу.
 
-The raider must be at peace, have at least 30% manpower, be off the two-year
-raid cooldown, and have a valid non-allied neighboring target. The launch option
-costs military power and income, creates a one-year raid party, and calls
-`steppe_raid.2` for a filtered neighbor.
+Набігач має бути в мирі, мати щонайменше 30% живої сили, вийти з дворічного
+відкату й мати придатного сусіда, який не є союзником. Варіант запуску коштує
+воєнної сили та доходу, створює однорічну ватагу й кличе `steppe_raid.2` для
+відібраного сусіда.
 
-The target then chooses between:
+Ціль тоді обирає між:
 
-- spending military power on a one-year border defense and repelling the raid;
-- taking devastation and allowing the raider to reach the yasyr reward.
+- витратити воєнну силу на однорічну оборону кордону й відбити набіг;
+- прийняти спустошення й дати набігачеві дійти до ясиру.
 
-Glinski, Jagoldai, Lipka, Zasechnaya Cherta, and ordinary border-defense
-modifiers affect province selection and/or reduce damage. A successful yasyr
-sale calls `rip_feed_kaffa_market_effect`; this produces extra market income only
-when province 285 currently has the licensed market.
+Модифікатори Глинських, Ягольдая, липків, засічної риси та звичайної оборони
+кордону впливають на добір провінції й зменшують шкоду. Успішний продаж ясиру
+кличе `rip_feed_kaffa_market_effect`; додатковий ринковий дохід виникає лише
+тоді, коли провінція 285 має чинний ліцензований ринок.
 
-The target receives a later ransom choice in `steppe_raid.5`. The opinion trail
-uses the victim-to-raider direction consistently, so `steppe_raid.6` can find a
-country whose people were actually taken.
+Ціль згодом дістає вибір щодо викупу в `steppe_raid.5`. Слід думки послідовно
+йде від жертви до набігача, тож `steppe_raid.6` може знайти країну, чиїх людей
+справді забрали.
 
-### 2. Cossack retaliation (`steppe_raid.6-.7`)
+### 2. Козацька відплата (`steppe_raid.6-.7`)
 
-VOL, HLC, PDL, ZAZ, countries with the Cossack estate, and countries with a
-supported Cossack reform can sponsor a counter-raid against CRI or NOG after a
-yasyr grievance. Estate loyalty effects are guarded by `has_estate`, so a
-Cossack-reform country without the estate does not execute an invalid estate
-effect.
+VOL, HLC, PDL, ZAZ, країни з козацьким станом і країни з підтримуваною
+козацькою реформою можуть спорядити відплатний набіг на CRI чи NOG після кривди
+з ясиром. Ефекти лояльності стану захищено через `has_estate`, тож країна з
+козацькою реформою, але без стану, не виконує недійсного ефекту.
 
-The sponsor receives a two-year cooldown. The target suffers bounded province
-damage; the Cossack country receives a small temporary retaliatory modifier.
+Спорядник дістає дворічний відкат. Ціль зазнає обмеженої шкоди провінції, а
+козацька країна — невеликий тимчасовий відплатний модифікатор.
 
-### 3. Nogai and Kalmyk settlement (`steppe_raid.8-.9`)
+### 3. Осідання ногайців і калмиків (`steppe_raid.8-.9`)
 
-The province contract is fixed to the EU4 1.37.5 map:
+Контракт провінцій прив'язано до карти EU4 1.37.5:
 
-- Yedisan (`282`), Budjak (`1756`), and Kouban (`287`) are the possible Nogai
-  settlement provinces;
-- Astrakhan (`464`) and Yaik (`474`) are required for the Kalmyk event.
+- Єдисан (`282`), Буджак (`1756`) і Кубань (`287`) — можливі провінції
+  ногайського осідання;
+- Астрахань (`464`) і Яїк (`474`) потрібні для калмицької події.
 
-The old values `2410`, `2447`, `2416`, and `1082` pointed to Theodoro, Mantrega,
-Majar, and Kazan respectively and are no longer used by these events.
+Старі значення `2410`, `2447`, `2416` і `1082` вказували відповідно на Теодоро,
+Мантрегу, Маджар і Казань, і ці події їх більше не вживають.
 
-`steppe_raid.8` is a one-shot post-1500 event for CRI/TUR after NOG disappears.
+`steppe_raid.8` — одноразова подія після 1500 року для CRI чи TUR, коли NOG зникає.
 `steppe_raid.9` is a one-shot 1620-1649 event for MOS/RUS; acceptance changes
 the two named provinces and grants the постійний `kalmyk_cavalry` modifier.
 
-### 4. Zasechnaya Cherta (`steppe_raid.10`)
+### 4. Засічна риса (`steppe_raid.10`)
 
 MOS/RUS at administrative technology 10 can invest in the defensive line when
 an owned Russian-region province borders CRI, NOG, or AST. Acceptance grants the
@@ -97,7 +96,7 @@ an owned Russian-region province borders CRI, NOG, or AST. Acceptance grants the
 qualifying frontier provinces. Those province modifiers are recognized by the
 raid target-selection and damage logic.
 
-### 5. Don/Azov Cossack raid (`steppe_raid.11-.12`)
+### 5. Донський і азовський козацький набіг (`steppe_raid.11-.12`)
 
 There is no separate DON tag in EU4 1.37.5. “Don Host” is therefore represented
 by a ZAZ/HET or Cossack-reform country that володіє a province in `lower_don_area`
@@ -109,82 +108,82 @@ alliance or truce, and no active five-year Cossack raid cooldown. Launching the
 raid calls the Crimean response and, only if CRI is a TUR subject, requests the
 Ottoman reaction.
 
-Crimea may fund a border interception or accept bounded damage. Protected
-provinces receive the reduced branch. If Crimea володіє Kaffa and the raid succeeds,
-the licensed market is removed and replaced with five років of disrupted trade.
+Крим може оплатити перехоплення на кордоні або прийняти обмежену шкоду.
+Захищені провінції дістають пом'якшену гілку. Якщо Крим володіє Кафою і набіг
+удався, ліцензований ринок зникає, а на п'ять років настає розлад торгівлі.
 
-### 6. Ottoman reaction (`steppe_raid.13`)
+### 6. Османська відповідь (`steppe_raid.13`)
 
-This is a triggered-only country event. It is valid only when:
+Це подія країни, яку можна лише викликати. Вона дійсна тільки коли:
 
-- ROOT is TUR;
-- CRI exists and `CRI = { is_subject_of = ROOT }`;
-- FROM is an existing non-Ottoman raider and is not allied to TUR;
-- the five-year `ottoman_crimean_reaction_cooldown` is absent.
+- ROOT — це TUR;
+- CRI існує і `CRI = { is_subject_of = ROOT }`;
+- FROM — наявний неосманський набігач, не союзний із TUR;
+- немає п'ятирічного `ottoman_crimean_reaction_cooldown`.
 
-The cooldown is applied in `immediate`, so no option can refresh the event. The
-Porte may:
+Відкат накладається в `immediate`, тож жоден варіант не може оновити подію.
+Порта може:
 
-1. demand satisfaction, receiving a guarded `cb_insult` for **60 місяців** when
-   there is no truce, alliance, or already-active copy;
-2. spend income to give CRI five років of `ottoman_vassal_support` and manpower;
-3. ignore the appeal at a prestige cost.
+1. вимагати сатисфакції, дістаючи захищений `cb_insult` на **60 місяців**, якщо
+   немає перемир'я, союзу чи вже чинної копії;
+2. витратити дохід, щоб дати CRI п'ять років `ottoman_vassal_support` і живої сили;
+3. знехтувати проханням ціною престижу.
 
-No option automatically declares war. Treating the Crimean-Ottoman relationship
-as EU4 subject status is a gameplay abstraction, not a claim that the historical
-relationship was equivalent to a simple vassal contract.
+Жоден варіант не оголошує війну сам. Трактування кримсько-османських стосунків
+як васалітету EU4 — ігрова абстракція, а не твердження, що історично це був
+простий васальний договір.
 
-The helper is called by the Don chain and by the valid Zaporozhian/Hetmanate
-Crimean or Ottoman raid paths. It does not fire merely because TUR exists.
+Помічник кличуть донський ланцюг і придатні запорозькі чи гетьманські шляхи
+набігів на Крим або Порту. Сама лише наявність TUR його не запускає.
 
-### 7. Circassian raid and Kaffa policy (`steppe_raid.14-.16`)
+### 7. Черкеський набіг і політика щодо Кафи (`steppe_raid.14-.16`)
 
-у мирі and off cooldown, CRI can select a non-allied, non-subject, non-truce
-owner of land in `circassia_area`. The country is selected directly so the target
-event receives `FROM = CRI` without an ambiguous province-owner scope hop.
+У мирі та поза відкатом CRI може вибрати власника земель у `circassia_area`,
+який не є союзником, васалом і не має перемир'я. Країну обирають напряму, тож
+подія цілі дістає `FROM = CRI` без двозначного стрибка через власника провінції.
 
-The target can pay military power to defend or accept bounded devastation and a
-yasyr loss. The latter rewards Crimea and calls the Kaffa feed helper.
+Ціль може заплатити воєнною силою за оборону або прийняти обмежене спустошення
+й утрату ясиру. Друге винагороджує Крим і кличе помічника постачання Кафи.
 
-`steppe_raid.16` is a province event fixed to Kaffa (`285`). It is blocked while
-any of the three mutually exclusive policy modifiers is present:
+`steppe_raid.16` — подія провінції, прив'язана до Кафи (`285`). Її заблоковано,
+доки є хоч один із трьох взаємовиключних модифікаторів політики:
 
-- `crimean_yasyr_market` — постійний until disrupted;
-- `trade_route_disrupted` — five років after a successful anti-market raid;
-- `kaffa_ransom_exchange` — ten років from the event choice.
+- `crimean_yasyr_market` — постійний, доки не розладнано;
+- `trade_route_disrupted` — п'ять років після вдалого набігу на ринок;
+- `kaffa_ransom_exchange` — десять років від вибору в події.
 
-The постійний market option is visible only to GEN, CRI, TUR, a Muslim owner,
-or a steppe-horde owner. Every other owner has the regulated ransom exchange as
-the safe fallback.
+Варіант постійного ринку видно лише GEN, CRI, TUR, мусульманському власникові
+або власникові зі степовою ордою. Для всіх інших безпечним запасним варіантом є
+впорядкований викупний обмін.
 
-The mission `ZAZ_TUR_slave_trade` now targets Kaffa (`285`), not Azov (`286`).
-Completion removes the market/disruption state, establishes a twenty-year
-ransom exchange, removes the owner's temporary slave-trade income, and preserves
-the mission's port/trade upgrade. Its trade modifier is displayed as **Black Sea
-Ransom Network**.
+Місія `ZAZ_TUR_slave_trade` тепер націлена на Кафу (`285`), а не на Азов
+(`286`). Завершення прибирає стан ринку чи розладу, встановлює двадцятирічний
+викупний обмін, знімає тимчасовий дохід власника з работоргівлі та зберігає
+портове й торгове поліпшення місії. Її торговий модифікатор показується як
+**Black Sea Ransom Network**.
 
-## Shared effects
+## Спільні ефекти
 
 ### `rip_feed_kaffa_market_effect`
 
-May be called from any scope. If Kaffa has `crimean_yasyr_market`, its owner
-receives 0.05 років of income and two років of `slave_trade_income`.
+Можна кликати з будь-якої області. Якщо Кафа має `crimean_yasyr_market`, її
+власник дістає 0,05 річного доходу і два роки `slave_trade_income`.
 
 ### `rip_disrupt_kaffa_market_effect`
 
-May be called from country or province scope. It resolves province `285`
-internally, removes the market, applies five років of `trade_route_disrupted`,
-removes `slave_trade_income` from the owner, and costs the owner prestige.
+Можна кликати з області країни або провінції. Усередині сам визначає провінцію
+`285`, прибирає ринок, накладає п'ять років `trade_route_disrupted`, знімає
+`slave_trade_income` з власника й коштує йому престижу.
 
 ### `rip_request_ottoman_crimean_reaction_effect`
 
-Called in the raider's country scope. It schedules `steppe_raid.13` only when
-CRI is a TUR subject and TUR is off the reaction cooldown. The event receives
-the raider as FROM.
+Кличеться в області країни-набігача. Планує `steppe_raid.13` лише тоді, коли
+CRI є васалом TUR і TUR вийшов з відкату відповіді. Подія дістає набігача як
+FROM.
 
-## Active modifiers
+## Чинні модифікатори
 
-| Modifier | Scope | Main effects | Typical duration |
+| Модифікатор | Область | Головні ефекти | Типова тривалість |
 |---|---|---|---|
 | `steppe_raid_party` | country | speed, maintenance, cavalry cost | 1 year |
 | `steppe_raid_cooldown` | country | marker | 2 or 5 років by chain |
