@@ -11,7 +11,9 @@ ENTRY   = re.compile(r'^\s*([A-Za-z0-9_.\-]+):\s*(\d*)\s*"(.*)"\s*$')
 BRACKET = re.compile(r'\[[^\]]*\]')
 
 # Country display names are deliberate - see glossary section 4.
-SKIP_KEYS = {"VLN", "POD", "KHK", "VOL", "ZAZ", "VLN_ADJ", "POD_ADJ", "KHK_ADJ"}
+SKIP_KEYS = {"VLN", "POD", "KHK", "VOL", "ZAZ", "VLN_ADJ", "POD_ADJ", "KHK_ADJ",
+             # The Don host really is an ataman. The rule is about our otamans.
+             "DON_ATAMAN_TITLE"}
 
 BANNED_SPELLING = [
     (r'\bKiev\b',         "Kyiv"),
@@ -24,7 +26,7 @@ BANNED_SPELLING = [
     (r'\bZaporizhz?hia\b', "Zaporozhia"),
     (r'\bDnipro\b',       "Dnieper"),
     (r'\bsotnya\b',       "sotnia"),
-    (r'\bataman\b',       "otaman"),
+    (r'\b[Aa]taman\b',    "otaman"),
     (r'\bKish Otaman\b',  "Kosh Otaman"),
     # Glossary section 1 lists these too, and they were never enforced -
     # which is how "neither Moscow nor Istanbul" survived in ZAZ_HET_missions.
