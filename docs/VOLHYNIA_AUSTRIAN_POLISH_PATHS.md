@@ -156,36 +156,36 @@ The Polish missions demonstrate:
 
 | Modifier | Effects | Duration |
 |----------|---------|----------|
-| `vol_balanced_estates` | -10% Stability Cost, +0.5 Yearly Absolutism | 20 years |
-| `vol_multicultural_realm` | +1 Tolerance Heretic/Heathen, -15% Foreign Advisor Cost | 25 years |
-| `vol_minority_rights` | -2 Local Unrest, -0.05 Local Autonomy | Permanent |
-| `vol_cultural_tolerance` | +1 Accepted Culture, -25% Promote Culture Cost | Permanent |
-| `vol_twin_capitals` | +1 Prestige, +1 Diplomatic Reputation, +0.5 Legitimacy | 30 years |
-| `vol_diplomatic_ascendancy` | +2 Diplomatic Reputation, +20% Improve Relations | 25 years |
-| `vol_dynastic_prestige` | +1 Legitimacy, +50% Heir Chance, +1 Diplomatic Slot | 30 years |
+| `vol_balanced_estates` | -10% Stability Cost, +0.5 Yearly Absolutism | 20 років |
+| `vol_multicultural_realm` | +1 Tolerance Heretic/Heathen, -15% Foreign Advisor Cost | 25 років |
+| `vol_minority_rights` | -2 Local Unrest, -0.05 Local Autonomy | Постійний |
+| `vol_cultural_tolerance` | +1 Accepted Culture, -25% Promote Culture Cost | Постійний |
+| `vol_twin_capitals` | +1 Prestige, +1 Diplomatic Reputation, +0.5 Legitimacy | 30 років |
+| `vol_diplomatic_ascendancy` | +2 Diplomatic Reputation, +20% Improve Relations | 25 років |
+| `vol_dynastic_prestige` | +1 Legitimacy, +50% Heir Chance, +1 Diplomatic Slot | 30 років |
 
 ### Polish Path Modifiers
 
 | Modifier | Effects | Duration |
 |----------|---------|----------|
-| `vol_magnate_support` | +10% Noble Loyalty, +5% Noble Influence, +5% Morale | 20 years |
-| `vol_ruthenian_sejm` | -15% Stability Cost, +10% Governing Capacity, +10% Reform Progress | Permanent |
-| `vol_constitutional_framework` | +5% Admin Efficiency, -15% State Maintenance, -0.10 Corruption | 30 years |
-| `vol_golden_liberty` | -20% Stability Cost, -15% Liberty Desire, +1 Diplomat | Permanent |
-| `vol_center_of_learning` | -20% Dev Cost, +25% Institution Spread, +1 Building Slot | Permanent |
-| `vol_educational_reform` | -5% Idea Cost, -5% Tech Cost, +0.25 Innovativeness | 25 years |
-| `vol_cultural_flowering` | +1 Prestige, -15% Advisor Cost, +25% Institution Spread | 30 years |
-| `vol_enlightened_realm` | -15% Embrace Cost, -10% Tech/Idea Cost | Permanent |
+| `vol_magnate_support` | +10% Noble Loyalty, +5% Noble Influence, +5% Morale | 20 років |
+| `vol_ruthenian_sejm` | -15% Stability Cost, +10% Governing Capacity, +10% Reform Progress | Постійний |
+| `vol_constitutional_framework` | +5% Admin Efficiency, -15% State Maintenance, -0.10 Corruption | 30 років |
+| `vol_golden_liberty` | -20% Stability Cost, -15% Liberty Desire, +1 Diplomat | Постійний |
+| `vol_center_of_learning` | -20% Dev Cost, +25% Institution Spread, +1 Building Slot | Постійний |
+| `vol_educational_reform` | -5% Idea Cost, -5% Tech Cost, +0.25 Innovativeness | 25 років |
+| `vol_cultural_flowering` | +1 Prestige, -15% Advisor Cost, +25% Institution Spread | 30 років |
+| `vol_enlightened_realm` | -15% Embrace Cost, -10% Tech/Idea Cost | Постійний |
 
 ### Synergy Modifiers (Both Paths)
 
 | Modifier | Effects | Duration |
 |----------|---------|----------|
-| `vol_prosperous_realm` | +15% Tax, +10% Production/Trade Efficiency | 25 years |
-| `vol_religious_harmony` | +15% Religious Unity, +2 Tolerance Own | 30 years |
-| `vol_ruthenian_empire` | +1 Prestige/Legitimacy, +150 Gov Capacity, +5% Admin Efficiency | Permanent |
-| `vol_imperial_triumph` | +3 Diplo Rep, +30% Improve Relations, +20% Vassal Income, -25% LD | Permanent |
-| `vol_constitutional_triumph` | -33% Stability Cost, +25% Reform Progress, +25% Gov Capacity, +10% Admin Efficiency | Permanent |
+| `vol_prosperous_realm` | +15% Tax, +10% Production/Trade Efficiency | 25 років |
+| `vol_religious_harmony` | +15% Religious Unity, +2 Tolerance Own | 30 років |
+| `vol_ruthenian_empire` | +1 Prestige/Legitimacy, +150 Gov Capacity, +5% Admin Efficiency | Постійний |
+| `vol_imperial_triumph` | +3 Diplo Rep, +30% Improve Relations, +20% Vassal Income, -25% LD | Постійний |
+| `vol_constitutional_triumph` | -33% Stability Cost, +25% Reform Progress, +25% Gov Capacity, +10% Admin Efficiency | Постійний |
 
 ---
 
@@ -195,19 +195,19 @@ The Polish missions demonstrate:
 **ID**: `vol_path_events.1`
 - **Тригер**: Mission `VOL_choose_development_path` completion
 - **Варіанти**:
-  1. Austrian Path → Sets `vol_austrian_path` flag, grants `vol_diplomatic_focus` (20 years)
-  2. Polish Path → Sets `vol_constitutional_path` flag, grants `vol_constitutional_focus` (20 years)
+  1. Austrian Path → Sets `vol_austrian_path` flag, grants `vol_diplomatic_focus` (20 років)
+  2. Polish Path → Sets `vol_constitutional_path` flag, grants `vol_constitutional_focus` (20 років)
 
 ### Recurring Events
 
 | Event ID | Title | Trigger | Mean Time to Happen |
 |----------|-------|---------|---------------------|
-| `vol_path_events.2` | Royal Marriage Success | Austrian path, dynastic prestige modifier, 4+ marriages | 120 months |
-| `vol_path_events.3` | Sejm Deliberation | Polish path, Sejm modifier, stability 1+ | 120 months |
-| `vol_path_events.4` | Cultural Flowering | Either path, cultural modifier, university in capital | 180 months |
-| `vol_path_events.5` | Minority Integration | Austrian path, multicultural modifier, minority provinces | 120 months |
-| `vol_path_events.6` | Constitutional Reform | Polish path, constitutional framework, 50+ reform progress | 150 months |
-| `vol_path_events.7` | Empire Proclaimed | Empire flag set | 7 days |
+| `vol_path_events.2` | Royal Marriage Success | Austrian path, dynastic prestige modifier, 4+ marriages | 120 місяців |
+| `vol_path_events.3` | Sejm Deliberation | Polish path, Sejm modifier, stability 1+ | 120 місяців |
+| `vol_path_events.4` | Cultural Flowering | Either path, cultural modifier, university in capital | 180 місяців |
+| `vol_path_events.5` | Minority Integration | Austrian path, multicultural modifier, minority provinces | 120 місяців |
+| `vol_path_events.6` | Constitutional Reform | Polish path, constitutional framework, 50+ reform progress | 150 місяців |
+| `vol_path_events.7` | Empire Proclaimed | Empire flag set | 7 днів |
 
 ---
 
@@ -304,7 +304,7 @@ Reflects PLC constitutional uniqueness:
 ### Mission Files
 - **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\missions\Volhynia_Missions.txt**
   - Added 3 new mission branches (VOL_austrian_imperial_path_slot1/2, VOL_polish_constitutional_path_slot3/4, VOL_synergy_missions_slot5)
-  - Total: 20 new missions
+  - Разом: 20 new missions
 
 ### Modifier Files
 - **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\common\event_modifiers\VOL_mission_modifiers.txt**
@@ -314,7 +314,7 @@ Reflects PLC constitutional uniqueness:
 - **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\events\VOL_path_events.txt**
   - 7 events for path choice, recurring events, and empire proclamation
 
-### Localization Files
+### Локалізація Files
 - **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\localisation\VOL_austrian_polish_missions_l_english.yml**
   - Mission titles, descriptions, tooltips, modifier names/descriptions
 - **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\localisation\VOL_path_events_l_english.yml**
@@ -373,11 +373,11 @@ Reflects PLC constitutional uniqueness:
 ### Event Not Firing
 - Verify trigger conditions (modifiers, flags, etc.)
 - Check event namespace (vol_path_events)
-- Confirm MTTH is reasonable (120-180 months standard)
+- Confirm MTTH is reasonable (120-180 місяців standard)
 
 ### Modifier Not Applying
 - Check spelling in event/mission effect and modifier file
-- Verify duration syntax (years vs. days vs. постійний with -1)
+- Verify duration syntax (років vs. днів vs. постійний with -1)
 - Confirm modifier file loaded (no syntax errors blocking it)
 
 ---
@@ -426,7 +426,7 @@ effect = {
     }
     else_if = {
         limit = { has_country_flag = vol_constitutional_path }
-        add_years_of_income = 1.0
+        add_років_of_income = 1.0
     }
 }
 ```

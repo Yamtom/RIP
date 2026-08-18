@@ -1,4 +1,4 @@
-# RUSSIAN ORTHODOX CHURCH - QUICK REFERENCE GUIDE
+# Російська православна церква — коротка довідка
 
 > **Звірено з кодом 2026-08-17.** Числа нижче були застарілі й тепер
 > виправлені: подій **17** (не 15 - додано `.16` і `.17` про Розкол),
@@ -11,133 +11,133 @@
 > рішень не було - ефекти не викликалися нізвідки. Тепер викликаються.
 
 
-## 🚀 Quick Start
+## Швидкий старт
 
-**What is Russian Orthodox?**
-Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Orthodox tradition. Focus: expansion, conquest, Russification, Third Rome ideology.
+**Що це таке?**
+Наступальний варіант православ'я, що поєднує протестантські й мусульманські механіки поширення з православною традицією. Ставка на розширення, завоювання, русифікацію та доктрину Третього Риму.
 
-**How to Convert:**
-1. Be Orthodox nation
-2. Control Moscow OR have event trigger
-3. Use decision "Embrace Third Rome Orthodoxy"
-4. AI (Russia, Muscovy) auto-converts
-
----
-
-## 📊 Core Mechanics
-
-### Church Power System
-- Generated same as regular Orthodox
-- Spend on Aspects (100 CP each) and Blessings (50 CP each)
-- Extra generation from conquests and conversions
-
-### Spread Mechanics
-**Muslim-Style Expansion:**
-- Gain bonuses for conquering non-Orthodox land
-- Forced conversion options in provinces
-- Missionary strength bonuses
-- Culture conversion benefits
-
-**Key Difference from Greek Catholic:**
-- Greek Catholic = Diplomatic spread (like Protestant centers)
-- Russian Orthodox = Conquest spread (like Muslim/Jihad)
+**Як навернутися:**
+1. бути православною державою
+2. тримати Москву або дочекатися події
+3. ухвалити рішення «Прийняти православ'я Третього Риму»
+4. ШІ за Росію чи Московію навертається сам
 
 ---
 
-## 🎯 7 Aspects (Choose Carefully!)
+## Основні механіки
 
-| Aspect | Cost | Main Bonuses | When to Take |
+### Церковна влада
+- накопичується так само, як у звичайному православ'ї
+- витрачається на аспекти (по 100) і благословення (по 50)
+- додатковий приріст від завоювань і навернень
+
+### Механіка поширення
+**Розширення мусульманського типу:**
+- бонуси за завоювання неправославних земель
+- можливість примусового навернення провінцій
+- бонуси до сили місіонерів
+- переваги при наверненні культури
+
+**Головна відмінність від греко-католицтва:**
+- греко-католицтво поширюється дипломатично, як протестантські центри
+- російське православ'я поширюється завоюванням
+
+---
+
+## Сім аспектів — вибирайте зважено
+
+| Аспект | Ціна | Головні бонуси | Коли брати |
 |--------|------|--------------|--------------|
-| **Third Rome Mission** | 100 CP | +10% Morale, +1 Diplomat | First choice (foundational) |
-| **Patriarch Authority** | 100 CP | +10% Tax, +5% Admin Efficiency | After establishing Patriarchate |
-| **Orthodox Inquisition** | 100 CP | +2% Missionary Strength | When dealing with heresy |
-| **Forced Russification** | 100 CP | -25% Culture Conversion Cost | Mid-game expansion |
-| **Imperial Orthodox Church** | 100 CP | +10% Production, +1 Absolutism | Late game (after reforms) |
-| **Subjugation of Heretics** | 100 CP | +15% Fort Defense, +0.5 Army Tradition | Constant warfare |
+| **Third Rome Mission** | 100 CP | +10% Morale, +1 Diplomat | перший вибір, основа |
+| **Patriarch Authority** | 100 CP | +10% Tax, +5% Admin Efficiency | після заснування патріархату |
+| **Orthodox Inquisition** | 100 CP | +2% Missionary Strength | коли маєте справу з єрессю |
+| **Forced Russification** | 100 CP | -25% Culture Conversion Cost | розширення в середній грі |
+| **Imperial Orthodox Church** | 100 CP | +10% Production, +1 Absolutism | пізня гра, після реформ |
+| **Subjugation of Heretics** | 100 CP | +15% Fort Defense, +0.5 Army Tradition | постійна війна |
 
-**Recommended Build (Early → Late):**
-1. Third Rome Mission (foundation)
-2. Patriarch Authority (economy)
-3. Orthodox Inquisition (religious unity)
-4. Subjugation of Heretics (military)
-5. Forced Russification (culture)
-6. Imperial Orthodox Church (endgame)
+**Рекомендований порядок від ранньої до пізньої гри:**
+1. Місія Третього Риму — основа
+2. Влада патріарха — економіка
+3. Православна інквізиція — релігійна єдність
+4. Упокорення єретиків — військо
+5. Примусова русифікація — культура
+6. Імперська православна церква — фінал
 
 ---
 
 ## 🙏 7 Blessings (Temporary Buffs - 20 Years)
 
-| Blessing | Cost | Effect | Best Use Case |
+| Благословення | Ціна | Ефект | Коли найкраще |
 |----------|------|--------|---------------|
-| Third Rome | 50 CP | +10% Morale, +10% Discipline | Before major wars |
-| Patriarch of Moscow | 50 CP | +10% Tax, +10% Production | Economic recovery |
-| Orthodox Conquest | 50 CP | -10% Coring, -20% AE | During expansion |
-| Cultural Dominance | 50 CP | -25% Culture Conversion | Culture campaigns |
-| Religious Unity | 50 CP | +3% Missionary, -2 Unrest | After conquests |
+| Третій Рим | 50 | +10% бойового духу, +10% дисципліни | перед великими війнами |
+| Патріарх Московський | 50 | +10% податків, +10% виробництва | відновлення економіки |
+| Православне завоювання | 50 | −10% вартості ядер, −20% агресивного розширення | під час розширення |
+| Культурне панування | 50 | −25% вартості навернення культури | культурні кампанії |
+| Релігійна єдність | 50 | +3% місіонерів, −2 заворушень | після завоювань |
 
-**Pro Tip:** Always have "Orthodox Conquest" active when coring new land. The AE reduction is massive.
+**Порада.** Тримайте «Православне завоювання» ввімкненим, коли робите ядра на нових землях: зниження агресивного розширення тут дуже відчутне.
 
 ---
 
-## 🎲 Player Decisions (What You Can Do)
+## Рішення гравця
 
 ### Рішення країни
 
-1. **Embrace Third Rome Orthodoxy**
-   - Converts you to Russian Orthodox
-   - Requirements: Be Orthodox, control Moscow OR be Russian culture
-   - Do this ASAP for bonuses
+1. **Прийняти православ'я Третього Риму**
+   - навертає вас у російське православ'я
+   - потребує: бути православним, тримати Москву або мати російську культуру
+   - робіть якнайраніше заради бонусів
 
-2. **Establish Moscow Patriarchate** ⭐
-   - Unlocks "Patriarch Authority" aspect
-   - Requirements: Control Moscow, be Russian Orthodox, NOT have patriarchate yet
-   - Major prestige boost (+100)
+2. **Заснувати Московський патріархат** ⭐
+   - відкриває аспект «Влада патріарха»
+   - потребує: тримати Москву, бути російсько-православним і ще не мати патріархату
+   - великий приріст престижу (+100)
 
-3. **Launch Russification Campaign**
-   - 20 years: -25% Culture Conversion Cost
-   - Requirements: Have non-Russian cultures in your realm
-   - Warning: Increases unrest in affected provinces
+3. **Розпочати кампанію русифікації**
+   - на 20 років: −25% вартості навернення культури
+   - потребує: мати неросійські культури в державі
+   - увага: підвищує заворушення в зачеплених провінціях
 
-4. **Establish Orthodox Inquisition**
-   - 20 years: +2% Missionary Strength, +1 Intolerance
-   - Requirements: Have heretic/heathen provinces
-   - Warning: Harsh stability penalties
+4. **Заснувати православну інквізицію**
+   - на 20 років: +2% сили місіонерів, +1 нетерпимості
+   - потребує: мати єретичні чи іновірні провінції
+   - увага: суворі штрафи до стабільності
 
-5. **Gathering of Russian Lands** ⭐
-   - Permanent claims on ALL Russian culture provinces
-   - CB against nations holding Russian land
-   - Requirements: Be Russian Orthodox, Russian culture, NOT own all Russian land
-   - Historical RP: "Moscow gathers the Russian lands"
+5. **Збирання руських земель** ⭐
+   - постійні претензії на всі провінції російської культури
+   - привід до війни проти держав, що тримають руські землі
+   - потребує: бути російсько-православним, російської культури й не володіти всіма руськими землями
+   - історичний відіграш: «Москва збирає руські землі»
 
-6. **Establish Symphonia of Powers**
-   - Permanent: +1 Absolutism, +5% Admin Efficiency
-   - Requirements: Have Patriarchate, Absolutism > 50
-   - Represents church-state unity (Byzantine ideal)
+6. **Встановити симфонію влад**
+   - постійно: +1 абсолютизму, +5% адмін-ефективності
+   - потребує: мати патріархат і абсолютизм понад 50
+   - втілює єдність церкви й держави за візантійським ідеалом
 
-7. **Proclaim Orthodox Empire**
-   - Massive prestige modifier
-   - Requirements: Empire rank, control 3+ Orthodox holy sites
-   - Endgame decision for RP
+7. **Проголосити православну імперію**
+   - величезний модифікатор престижу
+   - потребує: ранг імперії й контроль щонайменше трьох православних святинь
+   - фінальне рішення для відіграшу
 
 ### Рішення провінції
 
-8. **Force Convert Province**
-   - Instantly converts province to Russian Orthodox
-   - Warning: +10 unrest for 10 years, devastation
-   - Use sparingly (only strategic provinces)
+8. **Примусово навернути провінцію**
+   - миттєво навертає провінцію в російське православ'я
+   - увага: +10 заворушень на 10 років і спустошення
+   - вживайте ощадливо, лише для стратегічних провінцій
 
-9. **Russify Province**
-   - Instantly converts to Russian culture
-   - Warning: +8 unrest for 8 years
-   - Faster than standard culture conversion
+9. **Русифікувати провінцію**
+   - миттєво навертає культуру на російську
+   - увага: +8 заворушень на 8 років
+   - швидше за звичайне навернення культури
 
 ---
 
-## 📜 Key Events to Watch
+## Ключові події, за якими варто стежити
 
 ### Історичні події (з датами)
 
-| Event | Date | What Happens |
+| Подія | Дата | Що стається |
 |-------|------|--------------|
 | Fall of Constantinople | 1453 | Choose to embrace Third Rome ideology or stay traditional |
 | Moscow Patriarchate | 1589 | Establish independent patriarchate (massive prestige) |
@@ -162,7 +162,7 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 
 ---
 
-## ⚔️ Military Strategy
+## Військова стратегія
 
 ### Армійські бонуси
 - Third Rome Mission: +10% Morale
@@ -177,7 +177,7 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 
 ---
 
-## 🌍 Expansion Strategy
+## Стратегія розширення
 
 ### Рання гра (1444–1550)
 1. Convert to Russian Orthodox ASAP (if Muscovy/Russia)
@@ -199,9 +199,9 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 
 ---
 
-## 💡 Pro Tips
+## Поради досвідченим
 
-### Church Power Management
+### Керування церковною владою
 - Don't spend all CP immediately
 - Save 50 CP for "Orthodox Conquest" blessing before big wars
 - Prioritize aspects over blessings (постійний vs temporary)
@@ -212,7 +212,7 @@ Aggressive Orthodox variant combining Protestant/Muslim spread mechanics with Or
 - Use "Cultural Dominance" blessing
 - **Stack all three for -50% culture conversion cost!**
 
-### AE Management
+### Керування агресивним розширенням
 - Always use "Orthodox Conquest" blessing when expanding
 - -20% AE is huge for large conquests
 - Combine with Improve Relations advisors and diplomats

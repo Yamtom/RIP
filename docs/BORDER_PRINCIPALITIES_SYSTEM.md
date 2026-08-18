@@ -72,7 +72,7 @@ guard themselves with `qasim_kazan_intervention_resolved` and
 `qasim_kazan_fate_resolved`, and `.3` handles Kazan surviving as a subject
 rather than only as a conquest. Both also carry `fire_only_once` - `.3`
 needed it, because its trigger stays true after either option and the event
-was returning every six months.
+was returning every six місяців.
 
 That rework reached `origin/main` with unresolved merge conflict markers in
 the file, which meant EU4 could not parse `QasimKhanate.txt` at all. Resolved,
@@ -166,49 +166,49 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 
 #### Event 1: Shemyaka Heirs in Rylsk
 **Тригер**: Lithuania or Chernihiv володіє Rylsk (`4543`), 1444-1500
-**Середній час**: 12 months
+**Середній час**: 12 місяців
 **Вибір A** (AI 80%): Grant vassal autonomy → modifier `shemyaka_rurikid_rule` on province, `border_vassal_buffer` country modifier
 **Вибір B** (AI 20%): Direct control → stability or adm power, +3 unrest in Rylsk
 
 #### Event 2: Glinski Family and Mamai's Descendants
 **Тригер**: Lithuania or Chernihiv володіє Bryansk (`297`) or Novgorod-Seversky (`1945`), 1444-1500
-**Середній час**: 18 months
-**Вибір A** (AI 70%): Grant lands to Glinski → `glinski_tatar_settlement` modifier on random Severia/Bryansk province, +1 base manpower, `tatar_border_defense` country modifier (25 years)
-**Вибір B** (AI 30%): Refuse petition → +5 prestige, `refused_powerful_family` negative modifier (10 years)
+**Середній час**: 18 місяців
+**Вибір A** (AI 70%): Grant lands to Glinski → `glinski_tatar_settlement` modifier on random Severia/Bryansk province, +1 base manpower, `tatar_border_defense` country modifier (25 років)
+**Вибір B** (AI 30%): Refuse petition → +5 prestige, `refused_powerful_family` negative modifier (10 років)
 
 #### Event 3: Jagoldai Khanate Settlement
 **Тригер**: Lithuania or Chernihiv володіє Kursk (`298`), 1444-1480
-**Середній час**: 24 months
-**Вибір A** (AI 75%): Accept Jagoldai → `jagoldai_horde_settlement` modifier on Kursk, +50 mil power, `horde_vassal_buffer` country modifier (25 years)
+**Середній час**: 24 місяців
+**Вибір A** (AI 75%): Accept Jagoldai → `jagoldai_horde_settlement` modifier on Kursk, +50 mil power, `horde_vassal_buffer` country modifier (25 років)
 **Вибір B** (AI 25%): Refuse → +10 legitimacy, +2 unrest in Kursk
 
 #### Event 4: Rylsk Defects to Muscovy
 **Тригер**: Lithuania or Chernihiv володіє Rylsk with `shemyaka_rurikid_rule`, 1500-1510, Muscovy exists and neighbors Lithuania
-**Середній час**: 36 months (faster if low legitimacy or at war)
+**Середній час**: 36 місяців (faster if low legitimacy or at war)
 **Вибір A** (AI 60%): Keep loyal → -10 prestige, +10 legitimacy, 30% defects anyway triggering Event 5, 70% keeps `strengthened_border_vassals`
 **Вибір B** (AI 10%): Peaceful transfer → Rylsk cedes to Muscovy, -15 prestige, truce
 **Вибір C** (AI 30%): War → Declares restoration war on Muscovy
 
 #### Event 5: Muscovy Receives Rylsk (triggered by Event 4)
-**Результат**: Muscovy gains Rylsk, +10 prestige, +5 legitimacy, core CB on Lithuania (10 years)
+**Результат**: Muscovy gains Rylsk, +10 prestige, +5 legitimacy, core CB on Lithuania (10 років)
 
 #### Event 6: Glinski Rebellion Brewing
 **Тригер**: Lithuania or Chernihiv has Glinski province, 1507-1515, Muscovy exists
-**Середній час**: 24 months (faster if low legitimacy or revolts present)
-**Вибір A** (AI 40%): Negotiate → -10 prestige, -0.3 years income, 60% Glinski stays loyal (`glinski_appeasement`), 40% triggers Event 7
+**Середній час**: 24 місяців (faster if low legitimacy or revolts present)
+**Вибір A** (AI 40%): Negotiate → -10 prestige, -0.3 років income, 60% Glinski stays loyal (`glinski_appeasement`), 40% triggers Event 7
 **Вибір B** (AI 30%): Suppress → -50 mil power, 2 noble rebel stacks spawn (friendly to Muscovy)
 **Вибір C** (AI 30%): Exile Glinski → triggers Event 8, removes modifier, +20 devastation on province
 
 #### Event 7: Glinski Full Rebellion (triggered by Event 6)
-**Результат**: 3 noble rebel stacks spawn, Muscovy gets support rebels CB (5 years)
+**Результат**: 3 noble rebel stacks spawn, Muscovy gets support rebels CB (5 років)
 
 #### Event 8: Muscovy Receives Glinski Defectors (triggered by Event 6.c)
-**Результат**: +15 prestige, +10 legitimacy, +50 adm power, `glinski_advisors_muscovy` modifier (20 years), core CB on Lithuania (10 years)
+**Результат**: +15 prestige, +10 legitimacy, +50 adm power, `glinski_advisors_muscovy` modifier (20 років), core CB on Lithuania (10 років)
 
 #### Event 9: Jagoldai Switches Allegiance
 **Тригер**: Lithuania or Chernihiv володіє Kursk with `jagoldai_horde_settlement`, 1492-1505, Muscovy exists
-**Середній час**: 48 months (faster if Muscovy stronger or Lithuania at war)
-**Вибір A** (AI 50%): Retain loyalty → -0.25 years income, 40% stays loyal, 60% triggers Event 10
+**Середній час**: 48 місяців (faster if Muscovy stronger or Lithuania at war)
+**Вибір A** (AI 50%): Retain loyalty → -0.25 років income, 40% stays loyal, 60% triggers Event 10
 **Вибір B** (AI 20%): Let go → Kursk cedes to Muscovy, -10 prestige
 **Вибір C** (AI 30%): War → Declares annexation war on Muscovy
 
@@ -217,50 +217,50 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 
 #### Event 11: Starodub Switching Allegiance
 **Тригер**: Lithuania or Chernihiv володіє Starodub (`4244`) or Novgorod-Seversky (`1945`), 1500-1510, Muscovy neighbor
-**Середній час**: 30 months (faster if at war or Muscovy militarily stronger)
-**Вибір A** (AI 70%): Fight → Muscovy gets core CB (10 years), triggers Event 12
+**Середній час**: 30 місяців (faster if at war or Muscovy militarily stronger)
+**Вибір A** (AI 70%): Fight → Muscovy gets core CB (10 років), triggers Event 12
 **Вибір B** (AI 30%): Let go → -20 prestige, random Severia/Bryansk province cedes to Muscovy, truce
 
 #### Event 12: Muscovy Receives Starodub Offer (triggered by Event 11)
-**Результат**: +15 prestige, +10 legitimacy, core CB on Lithuania (10 years)
+**Результат**: +15 prestige, +10 legitimacy, core CB on Lithuania (10 років)
 
 ### Qasim Khanate Events (qasim_khanate namespace)
 
 #### Event 1: Foundation of Qasim Khanate
 **Тригер**: Muscovy володіє Qasim province, 1450-1460, Kazan exists and not allied
-**Середній час**: 24 months (faster if rival to Kazan or at war with Kazan)
+**Середній час**: 24 місяців (faster if rival to Kazan or at war with Kazan)
 **Вибір A** (AI 80%): Create khanate → `qasim_khanate_capital` on province, `qasim_khanate_vassal` country modifier (постійний), release and vassalize QAS, QAS gets `kazan_pretender_claims`, Kazan gets negative opinion
 **Вибір B** (AI 20%): Direct control → +50 adm power, +1 base tax on Qasim
 
 #### Event 2: Qasim Attacks Kazan
 **Тригер**: Muscovy has QAS vassal with claims, 1467-1550, Kazan exists, not at war/allied with Kazan
-**Середній час**: 120 months (faster if rival to Kazan or Kazan weak)
+**Середній час**: 120 місяців (faster if rival to Kazan or Kazan weak)
 **Вибір A** (AI 60%): Military support → Declares restoration PU war on Kazan, QAS -20 liberty desire
 **Вибір B** (AI 30%): Diplomatic pressure → Kazan gets threatened opinion, -5 prestige
 **Вибір C** (AI 10%): Restrain vassal → QAS +10 liberty desire, +25 dip power
 
 #### Event 3: Fate of Conquered Kazan
 **Тригер**: Muscovy володіє Kazan capital, 1467-1552, QAS exists as vassal, Kazan doesn't exist
-**Середній час**: 6 months
+**Середній час**: 6 місяців
 **Вибір A** (AI 40%): Install Qasim Khan → Kazan area gets QAS core, release and vassalize QAS (now ruling Kazan), QAS gets `muscovite_puppet_khan`, QAS -30 liberty desire
-**Вибір B** (AI 60%): Annex directly → Kazan area gets `conquered_khanate` modifier (20 years), QAS +20 liberty desire
+**Вибір B** (AI 60%): Annex directly → Kazan area gets `conquered_khanate` modifier (20 років), QAS +20 liberty desire
 
 #### Event 4: Qasim Khanate Integration
 **Тригер**: Muscovy has QAS vassal, 1550-1700
-**Середній час**: 240 months (faster if Kazan conquered or high ADM)
+**Середній час**: 240 місяців (faster if Kazan conquered or high ADM)
 **Вибір A** (AI 70%): Integrate → Inherit QAS, Qasim province gets `former_qasim_khanate`, country gets `tatar_nobility_integrated` (постійний)
 **Вибір B** (AI 30%): Keep vassal → QAS -20 liberty desire, QAS gets `loyal_tatar_vassal`
 
 #### Event 5: Lipka Tatars Seek Settlement
 **Тригер**: Lithuania, 1440-1500, володіє provinces in White Ruthenia/Minsk/Pripyat areas
-**Середній час**: 60 months
+**Середній час**: 60 місяців
 **Вибір A** (AI 80%): Welcome Lipka → Random qualifying province gets `lipka_tatar_settlement`, +1 base manpower, country gets `lipka_tatar_cavalry_tradition` (постійний)
 **Вибір B** (AI 20%): Refuse → +5 prestige, +25 adm power
 
 #### Event 6: Lipka Tatars' Loyalty
 **Тригер**: Commonwealth (tag PLC), 1569-1700, has province with `lipka_tatar_settlement`
-**Середній час**: 120 months
-**Вибір A** (AI 70%): Reward loyalty → -0.2 years income, all Lipka provinces get `lipka_tatar_privileges` (20 years), country gets `tatar_nobility_service` (25 years)
+**Середній час**: 120 місяців
+**Вибір A** (AI 70%): Reward loyalty → -0.2 років income, all Lipka provinces get `lipka_tatar_privileges` (20 років), country gets `tatar_nobility_service` (25 років)
 **Вибір B** (AI 30%): Status quo → +25 mil power
 
 ## Modifier Reference
@@ -269,39 +269,39 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 
 | Modifier | Effects | Duration | Applied By |
 |----------|---------|----------|------------|
-| `shemyaka_rurikid_rule` | -1 unrest, +15% defensiveness, +10% garrison | Permanent | border_principalities.1 |
-| `glinski_tatar_settlement` | +20% local manpower, +1 local hostile attrition | Permanent | border_principalities.2 |
-| `jagoldai_horde_settlement` | +25% local manpower, +1.5 local hostile attrition | Permanent | border_principalities.3 |
-| `glinski_appeasement` | -2 unrest, -15% local tax | 10 years | border_principalities.6.a |
-| `jagoldai_muscovite_service` | +15% manpower, +10% garrison, +1 hostile attrition | Permanent | border_principalities.10 |
-| `qasim_khanate_capital` | +20% local manpower, +10% garrison | Permanent | qasim_khanate.1 |
-| `conquered_khanate` | +5 unrest, +10% local autonomy | 20 years | qasim_khanate.3.b |
-| `former_qasim_khanate` | +10% local manpower | Permanent | qasim_khanate.4.a |
-| `lipka_tatar_settlement` | +20% local manpower, +15% garrison | Permanent | qasim_khanate.5 |
-| `lipka_tatar_privileges` | -2 unrest, +15% manpower, +20% garrison | 20 years | qasim_khanate.6.a |
+| `shemyaka_rurikid_rule` | -1 unrest, +15% defensiveness, +10% garrison | Постійний | border_principalities.1 |
+| `glinski_tatar_settlement` | +20% local manpower, +1 local hostile attrition | Постійний | border_principalities.2 |
+| `jagoldai_horde_settlement` | +25% local manpower, +1.5 local hostile attrition | Постійний | border_principalities.3 |
+| `glinski_appeasement` | -2 unrest, -15% local tax | 10 років | border_principalities.6.a |
+| `jagoldai_muscovite_service` | +15% manpower, +10% garrison, +1 hostile attrition | Постійний | border_principalities.10 |
+| `qasim_khanate_capital` | +20% local manpower, +10% garrison | Постійний | qasim_khanate.1 |
+| `conquered_khanate` | +5 unrest, +10% local autonomy | 20 років | qasim_khanate.3.b |
+| `former_qasim_khanate` | +10% local manpower | Постійний | qasim_khanate.4.a |
+| `lipka_tatar_settlement` | +20% local manpower, +15% garrison | Постійний | qasim_khanate.5 |
+| `lipka_tatar_privileges` | -2 unrest, +15% manpower, +20% garrison | 20 років | qasim_khanate.6.a |
 
 ### Country Modifiers
 
 | Modifier | Effects | Duration | Applied By |
 |----------|---------|----------|------------|
-| `border_vassal_buffer` | +0.5 hostile attrition, -10% fort maintenance, +1 diplomat | 20 years | border_principalities.1 |
-| `tatar_border_defense` | +5% cavalry power, +25% flanking, -15% fort maint, +0.75 hostile attrition | 25 years | border_principalities.2 |
-| `refused_powerful_family` | -0.25 legitimacy | 10 years | border_principalities.2.b |
-| `horde_vassal_buffer` | -10% cavalry cost, +10% cavalry power, +1 hostile attrition | 25 years | border_principalities.3 |
-| `strengthened_border_vassals` | +15% vassal income, +1 diplomatic reputation, -10% fort maintenance | 10 years | border_principalities.4.a success |
-| `glinski_loyalty` | +0.5 legitimacy, +10% cavalry power, +1 diplomatic reputation | 20 years | border_principalities.6.a success |
-| `jagoldai_loyalty` | +10% cavalry power, -10% cavalry cost, +0.5 hostile attrition | 15 years | border_principalities.9.a success |
-| `glinski_advisors_muscovy` | +2 diplomatic reputation, +0.5 legitimacy, -15% advisor cost, +5% cav power | 20 years | border_principalities.8 |
-| `lipka_tatar_cavalry_tradition` | +15% cavalry power, +25% flanking, -10% cavalry cost | Permanent | qasim_khanate.5 |
-| `tatar_nobility_service` | +10% cavalry power, +1 diplomatic reputation, +2 tolerance heathen | 25 years | qasim_khanate.6.a |
+| `border_vassal_buffer` | +0.5 hostile attrition, -10% fort maintenance, +1 diplomat | 20 років | border_principalities.1 |
+| `tatar_border_defense` | +5% cavalry power, +25% flanking, -15% fort maint, +0.75 hostile attrition | 25 років | border_principalities.2 |
+| `refused_powerful_family` | -0.25 legitimacy | 10 років | border_principalities.2.b |
+| `horde_vassal_buffer` | -10% cavalry cost, +10% cavalry power, +1 hostile attrition | 25 років | border_principalities.3 |
+| `strengthened_border_vassals` | +15% vassal income, +1 diplomatic reputation, -10% fort maintenance | 10 років | border_principalities.4.a success |
+| `glinski_loyalty` | +0.5 legitimacy, +10% cavalry power, +1 diplomatic reputation | 20 років | border_principalities.6.a success |
+| `jagoldai_loyalty` | +10% cavalry power, -10% cavalry cost, +0.5 hostile attrition | 15 років | border_principalities.9.a success |
+| `glinski_advisors_muscovy` | +2 diplomatic reputation, +0.5 legitimacy, -15% advisor cost, +5% cav power | 20 років | border_principalities.8 |
+| `lipka_tatar_cavalry_tradition` | +15% cavalry power, +25% flanking, -10% cavalry cost | Постійний | qasim_khanate.5 |
+| `tatar_nobility_service` | +10% cavalry power, +1 diplomatic reputation, +2 tolerance heathen | 25 років | qasim_khanate.6.a |
 | `severian_princes_defection` | -1.0 prestige, -1 diplomatic reputation, -0.5 legitimacy | **defined, never applied** | - |
 | `muscovite_expansion_momentum` | +1.0 prestige, +1.0 legitimacy, +1 dipl rep, -10% core creation | **defined, never applied** | - |
 | `border_war_preparation` | +5% morale, +10% manpower recovery, -15% fort maintenance | **defined, never applied** | - |
-| `qasim_khanate_vassal` | +10% cavalry power, +1 diplomatic reputation, +20% vassal income | Permanent | qasim_khanate.1 |
-| `kazan_pretender_claims` | -10% AE impact, -15% unjustified demands | Permanent | qasim_khanate.1 |
-| `muscovite_puppet_khan` | -20 liberty desire, -1 diplomatic reputation | Permanent | qasim_khanate.3.a |
-| `tatar_nobility_integrated` | +10% cavalry power, +2 tolerance heathen, +1 diplomatic reputation | Permanent | qasim_khanate.4.a |
-| `loyal_tatar_vassal` | +15% cavalry power, -30 liberty desire | Permanent | qasim_khanate.4.b |
+| `qasim_khanate_vassal` | +10% cavalry power, +1 diplomatic reputation, +20% vassal income | Постійний | qasim_khanate.1 |
+| `kazan_pretender_claims` | -10% AE impact, -15% unjustified demands | Постійний | qasim_khanate.1 |
+| `muscovite_puppet_khan` | -20 liberty desire, -1 diplomatic reputation | Постійний | qasim_khanate.3.a |
+| `tatar_nobility_integrated` | +10% cavalry power, +2 tolerance heathen, +1 diplomatic reputation | Постійний | qasim_khanate.4.a |
+| `loyal_tatar_vassal` | +15% cavalry power, -30 liberty desire | Постійний | qasim_khanate.4.b |
 
 ## Інтеграція з наявними системами
 
@@ -371,7 +371,7 @@ For Lithuania/Commonwealth, the system creates internal challenges:
 ⚠️ Vassal mechanics: EU4 system doesn't perfectly capture period's feudal complexity
 ⚠️ Qasim tag: May need creation via event (not in base game)
 
-### Balance Considerations
+### Баланс Considerations
 - Tatar cavalry bonuses strong but historically justified
 - Defection risks force player investment in legitimacy/military
 - Muscovy gains significant but require player action
@@ -398,11 +398,11 @@ For Lithuania/Commonwealth, the system creates internal challenges:
 - [ ] Jagoldai defection triggers Muscovy reception
 - [ ] Starodub switch triggers Muscovy reception
 
-### Modifiers Application
+### Модифікатори Application
 - [ ] Province modifiers apply correctly
 - [ ] Country modifiers stack appropriately
 - [ ] Duration timers work as intended
-- [ ] Permanent modifiers remain after save/load
+- [ ] Постійний modifiers remain after save/load
 - [ ] Negative modifiers (conquest, refusal) apply penalties
 
 ### AI Behavior
@@ -419,7 +419,7 @@ For Lithuania/Commonwealth, the system creates internal challenges:
 - [ ] Lipka Tatars provide cavalry bonuses
 - [ ] Border wars trigger correctly
 
-### Balance
+### Баланс
 - [ ] Muscovy doesn't blob too fast
 - [ ] Lithuania isn't crippled by defections
 - [ ] Tatar bonuses aren't overpowered

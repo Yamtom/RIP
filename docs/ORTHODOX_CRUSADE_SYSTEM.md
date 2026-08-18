@@ -102,9 +102,9 @@ RIP Mod/
 - +25 Legitimacy
 - +100 of each monarch power
 - +200 Church Power
-- Permanent "Liberator of Constantinople" modifier
+- Постійний "Liberator of Constantinople" modifier
 - Constantinople gets +3 to all development
-- Permanent bonuses to Constantinople province
+- Постійний bonuses to Constantinople province
 - Patriarch of Constantinople restored (Russian Orthodox only)
 
 #### Jerusalem Liberation:
@@ -112,10 +112,10 @@ RIP Mod/
 - +50 Legitimacy
 - +150 of each monarch power
 - +300 Church Power
-- Permanent "Liberator of Jerusalem" modifier
+- Постійний "Liberator of Jerusalem" modifier
 - Jerusalem gets +4 to all development
 - Becomes Defender of the Faith (if not already)
-- Permanent bonuses to Jerusalem province
+- Постійний bonuses to Jerusalem province
 
 ### 4. Покарання за поразку
 
@@ -154,7 +154,7 @@ If crusade expires without success:
 ### Фаза 4: завершення
 1. If successful: Massive rewards for all participants
 2. If failed: Penalties for all involved
-3. Cooldown period begins (20 years)
+3. Cooldown period begins (20 років)
 
 ---
 
@@ -216,7 +216,7 @@ If crusade expires without success:
    - Call them into war as participants
 
 4. **Plan for Long War:**
-   - Crusade lasts 50 years but war may be shorter
+   - Crusade lasts 50 років but war may be shorter
    - Benefits are worth extended conflict
 
 5. **Jerusalem is Harder:**

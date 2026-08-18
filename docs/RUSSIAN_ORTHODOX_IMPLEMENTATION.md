@@ -203,10 +203,10 @@ Template:
 - `russian_orthodox.15`: Cultural resistance (quarterly_pulse)
 
 **MTTH Tuning:**
-- Critical events: 1200 months (100 years) → rare but impactful
-- Flavor events: 600 months (50 years) → occasional
-- Frequent events: 120 months (10 years) → regular
-- Rapid events: 12 months (1 year) → very frequent
+- Critical events: 1200 місяців (100 років) → rare but impactful
+- Flavor events: 600 місяців (50 років) → occasional
+- Frequent events: 120 місяців (10 років) → regular
+- Rapid events: 12 місяців (1 year) → very frequent
 
 **Modifier Design:**
 - Reduce MTTH by 50-80% for appropriate nations (Russia, Muscovy)
@@ -269,10 +269,10 @@ Template:
 - `garrison_and_mission`: +15% fort defense, +1% missionary strength
 
 **Duration Standards:**
-- Permanent modifiers: No duration (-1)
-- Long-term campaigns: 7300 days (20 years)
-- Medium-term effects: 3650 days (10 years)
-- Short-term penalties: 1825 days (5 years)
+- Постійний modifiers: No duration (-1)
+- Long-term campaigns: 7300 днів (20 років)
+- Medium-term effects: 3650 днів (10 років)
+- Short-term penalties: 1825 днів (5 років)
 
 ---
 
@@ -389,7 +389,7 @@ Template:
 - Culturally appropriate terminology
 - Historical context preservation
 
-### Localization Naming Convention
+### Локалізація Naming Convention
 
 ```
 # Events
@@ -426,7 +426,7 @@ aspect_name_desc         → Aspect description
 - [ ] Patriarchs function correctly
 - [ ] Holy sites provide bonuses
 
-### Events
+### Події
 - [ ] Historical events fire at correct dates
 - [ ] Random events fire with appropriate MTTH
 - [ ] All event options work correctly
@@ -434,14 +434,14 @@ aspect_name_desc         → Aspect description
 - [ ] Province owner change events trigger
 - [ ] No script errors in error.log
 
-### Decisions
+### Рішення
 - [ ] All decisions appear when potential met
 - [ ] All decisions require correct conditions
 - [ ] All decision effects apply correctly
 - [ ] AI takes appropriate decisions
 - [ ] Province decisions work on correct provinces
 
-### Modifiers
+### Модифікатори
 - [ ] All modifiers display correctly in UI
 - [ ] Modifier effects apply to correct scopes
 - [ ] Duration calculations work correctly
@@ -454,14 +454,14 @@ aspect_name_desc         → Aspect description
 - [ ] No infinite event loops
 - [ ] Performance acceptable (no lag)
 
-### Localization
+### Локалізація
 - [ ] All keys have English translations
 - [ ] All keys have Ukrainian translations
 - [ ] No "missing localization" errors in UI
 - [ ] Text fits in UI elements
 - [ ] Formatting (bold, italics, colors) works
 
-### Balance
+### Баланс
 - [ ] Not overpowered compared to other religions
 - [ ] AI expands appropriately
 - [ ] AE penalties balanced with expansion bonuses
@@ -516,7 +516,7 @@ aspect_name_desc         → Aspect description
 ### Event Frequency
 - **Too frequent**: Lags game, spam player with events
 - **Too rare**: Players never see content, feels empty
-- **Optimal**: 1-3 events per 10 years for flavor, 1-2 per year for mechanics
+- **Optimal**: 1-3 events per 10 років for flavor, 1-2 per year for mechanics
 
 ### Trigger Complexity
 - **Simple triggers**: `religion = X`, `володіє = Y` → Fast

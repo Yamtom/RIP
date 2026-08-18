@@ -111,7 +111,7 @@ Ottoman reaction.
 
 Crimea may fund a border interception or accept bounded damage. Protected
 provinces receive the reduced branch. If Crimea володіє Kaffa and the raid succeeds,
-the licensed market is removed and replaced with five years of disrupted trade.
+the licensed market is removed and replaced with five років of disrupted trade.
 
 ### 6. Ottoman reaction (`steppe_raid.13`)
 
@@ -125,9 +125,9 @@ This is a triggered-only country event. It is valid only when:
 The cooldown is applied in `immediate`, so no option can refresh the event. The
 Porte may:
 
-1. demand satisfaction, receiving a guarded `cb_insult` for **60 months** when
+1. demand satisfaction, receiving a guarded `cb_insult` for **60 місяців** when
    there is no truce, alliance, or already-active copy;
-2. spend income to give CRI five years of `ottoman_vassal_support` and manpower;
+2. spend income to give CRI five років of `ottoman_vassal_support` and manpower;
 3. ignore the appeal at a prestige cost.
 
 No option automatically declares war. Treating the Crimean-Ottoman relationship
@@ -150,8 +150,8 @@ yasyr loss. The latter rewards Crimea and calls the Kaffa feed helper.
 any of the three mutually exclusive policy modifiers is present:
 
 - `crimean_yasyr_market` — постійний until disrupted;
-- `trade_route_disrupted` — five years after a successful anti-market raid;
-- `kaffa_ransom_exchange` — ten years from the event choice.
+- `trade_route_disrupted` — five років after a successful anti-market raid;
+- `kaffa_ransom_exchange` — ten років from the event choice.
 
 The постійний market option is visible only to GEN, CRI, TUR, a Muslim owner,
 or a steppe-horde owner. Every other owner has the regulated ransom exchange as
@@ -168,12 +168,12 @@ Ransom Network**.
 ### `rip_feed_kaffa_market_effect`
 
 May be called from any scope. If Kaffa has `crimean_yasyr_market`, its owner
-receives 0.05 years of income and two years of `slave_trade_income`.
+receives 0.05 років of income and two років of `slave_trade_income`.
 
 ### `rip_disrupt_kaffa_market_effect`
 
 May be called from country or province scope. It resolves province `285`
-internally, removes the market, applies five years of `trade_route_disrupted`,
+internally, removes the market, applies five років of `trade_route_disrupted`,
 removes `slave_trade_income` from the owner, and costs the owner prestige.
 
 ### `rip_request_ottoman_crimean_reaction_effect`
@@ -187,23 +187,23 @@ the raider as FROM.
 | Modifier | Scope | Main effects | Typical duration |
 |---|---|---|---|
 | `steppe_raid_party` | country | speed, maintenance, cavalry cost | 1 year |
-| `steppe_raid_cooldown` | country | marker | 2 or 5 years by chain |
-| `steppe_successful_raid` | country | horde unity, prestige, cavalry | 3-5 years |
-| `cossack_raid_cooldown` | country | marker | 2 or 5 years by chain |
-| `steppe_border_defense` | province | defense, manpower, attrition | 1-2 years |
-| `steppe_raid_devastation` | province | unrest and economic penalties | 2-5 years |
-| `cossack_raid_damage` | province | unrest and economic penalties | 3 years |
+| `steppe_raid_cooldown` | country | marker | 2 or 5 років by chain |
+| `steppe_successful_raid` | country | horde unity, prestige, cavalry | 3-5 років |
+| `cossack_raid_cooldown` | country | marker | 2 or 5 років by chain |
+| `steppe_border_defense` | province | defense, manpower, attrition | 1-2 років |
+| `steppe_raid_devastation` | province | unrest and economic penalties | 2-5 років |
+| `cossack_raid_damage` | province | unrest and economic penalties | 3 років |
 | `zasechnaya_cherta` | country | attrition, fort upkeep, defense | постійний |
 | `zasechnaya_cherta_province` | province | defense, attrition, development | постійний |
-| `nogai_settlers` | country | cavalry and manpower recovery | 20 years |
+| `nogai_settlers` | country | cavalry and manpower recovery | 20 років |
 | `kalmyk_cavalry` | country | cavalry and horde unity | постійний |
-| `cossack_retaliatory_raid` | country | speed and flanking | 3 years |
-| `slave_trade_income` | country | trade bonus, diplomatic penalty | 2 years per feed |
+| `cossack_retaliatory_raid` | country | speed and flanking | 3 років |
+| `slave_trade_income` | country | trade bonus, diplomatic penalty | 2 років per feed |
 | `crimean_yasyr_market` | province | Kaffa trade/production/tax, unrest | until disrupted |
-| `trade_route_disrupted` | province | trade and production penalty | 5 years |
-| `kaffa_ransom_exchange` | province | smaller trade/tax bonus, lower unrest | 10 or 20 years |
-| `ottoman_vassal_support` | country | maintenance, cavalry, tactics | 5 years |
-| `ottoman_crimean_reaction_cooldown` | country | marker | 5 years |
+| `trade_route_disrupted` | province | trade and production penalty | 5 років |
+| `kaffa_ransom_exchange` | province | smaller trade/tax bonus, lower unrest | 10 or 20 років |
+| `ottoman_vassal_support` | country | maintenance, cavalry, tactics | 5 років |
+| `ottoman_crimean_reaction_cooldown` | country | marker | 5 років |
 
 Unused prototype modifiers were removed rather than retained as undocumented
 dead content.

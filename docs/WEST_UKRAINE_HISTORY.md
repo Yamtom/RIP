@@ -125,12 +125,12 @@
 **Варіанти**:
 1. **Accept Polish influence** (ШІ 60%)
    - Прапорець: `polonization_started`
-   - Модифікатор: `west_ukr_polish_influence` (20 years)
+   - Модифікатор: `west_ukr_polish_influence` (20 років)
    - Accept Polish culture
    - -5 prestige
 
 2. **Resist Polish culture** (ШІ 40%)
-   - Модифікатор: `west_ukr_cultural_resistance` (10 years)
+   - Модифікатор: `west_ukr_cultural_resistance` (10 років)
    - штраф до думки сюзерена
 
 **Історичний контекст**: Polish culture gradually influenced Ruthenian nobility through education in Kraków, intermarriage, and administrative integration.
@@ -153,7 +153,7 @@
 
 2. **Maintain Ruthenian language**
    - +ADM power
-   - Модифікатор: `west_ukr_ruthenian_pride` (15 years)
+   - Модифікатор: `west_ukr_ruthenian_pride` (15 років)
 
 **Історичний контекст**: By 1600s, Polish became the language of administration and high culture in most of Western Ukraine, though Ruthenian persisted among commoners.
 
@@ -179,13 +179,13 @@
    - Convert to Catholic (representing Greek Catholic)
    - Модифікатор: `west_ukr_church_union` (постійний)
    - All Orthodox provinces convert to Catholic
-   - Province modifier: `west_ukr_converted_uniate` (20 years)
+   - Province modifier: `west_ukr_converted_uniate` (20 років)
    - +Opinion with overlord
    - +10 prestige
 
 2. **Refuse Church Union** (ШІ 60%)
    - Прапорець: `rejected_uniate_church`
-   - Модифікатор: `west_ukr_orthodox_faithful` (25 years)
+   - Модифікатор: `west_ukr_orthodox_faithful` (25 років)
    - -Opinion with overlord
    - +15 liberty desire
    - +100 church power
@@ -203,16 +203,16 @@
 
 **Варіанти**:
 1. **Suppress Orthodox resistance** (requires accepted union, AI 50%)
-   - Province modifier: `west_ukr_forced_conversion` (10 years)
+   - Province modifier: `west_ukr_forced_conversion` (10 років)
    - Convert province to Catholic
    - +10 papal influence
 
 2. **Protect Orthodox faithful** (requires rejected union, AI 50%)
-   - Province modifier: `west_ukr_orthodox_protection` (15 years)
+   - Province modifier: `west_ukr_orthodox_protection` (15 років)
    - +25 church power
 
 3. **Promote tolerance** (ШІ 30%)
-   - Province modifier: `west_ukr_religious_peace` (20 years)
+   - Province modifier: `west_ukr_religious_peace` (20 років)
    - +25 ADM power
 
 **Історичний контекст**: Religious conflict between Orthodox and Uniate communities persisted for generations, with churches seized, clergy expelled, and violence common.
@@ -237,13 +237,13 @@
 1. **Suppress Cossack rights** (ШІ 30%)
    - Прапорець: `cossack_uprising_chain`
    - Spawn 2 regiments of Cossack rebels
-   - Province modifier: `west_ukr_cossack_unrest` (15 years)
+   - Province modifier: `west_ukr_cossack_unrest` (15 років)
    - -1 stability
 
 2. **Grant Cossack privileges** (ШІ 70%)
    - Прапорець: `cossack_uprising_chain` + `granted_cossack_rights`
-   - Модифікатор: `west_ukr_cossack_privileges` (20 years)
-   - -0.5 years income
+   - Модифікатор: `west_ukr_cossack_privileges` (20 років)
+   - -0.5 років income
    - штраф до думки сюзерена
 
 **Історичний контекст**: Cossacks resisted Polish efforts to reduce them to serfdom, leading to series of uprisings culminating in Khmelnytsky Uprising (1648-1657).
@@ -264,7 +264,7 @@
    - -Opinion with Crimea/Ottomans
 
 2. **Punish the Cossacks** (ШІ 40%)
-   - Модифікатор: `west_ukr_cossack_discipline` (10 years)
+   - Модифікатор: `west_ukr_cossack_discipline` (10 років)
    - +5 unrest in steppe province
 
 **Історичний контекст**: Cossack raids (chaiky raids via Black Sea) were constant source of tension with Ottomans and their Crimean vassals.
@@ -289,12 +289,12 @@
 **Варіанти**:
 1. **Fortify the borders** (ШІ 40%)
    - -50 MIL power
-   - Province modifier: `west_ukr_border_fortifications` (15 years)
+   - Province modifier: `west_ukr_border_fortifications` (15 років)
 
 2. **Accept the risk** (ШІ 60%)
    - +10 devastation to province
    - -1 base manpower
-   - Province modifier: `west_ukr_tatar_raid_damage` (10 years)
+   - Province modifier: `west_ukr_tatar_raid_damage` (10 років)
    - -5 prestige
 
 **Історичний контекст**: Crimean Tatar raids devastated southern borderlands for centuries, carrying off up to 2 million captives into slavery (1500-1700).
@@ -308,7 +308,7 @@
 
 **Варіанти**:
 1. **Ransom the captives** (ШІ 60%, factor 0.1 if poor)
-   - -0.3 years income
+   - -0.3 років income
    - +1 base manpower to province
    - Remove `west_ukr_tatar_raid_damage`
    - +5 prestige
@@ -334,7 +334,7 @@
 **Варіанти**:
 1. **Invest in the fair** (ШІ 60%, factor 0.1 if poor)
    - -100 ducats
-   - Province modifier: `west_ukr_lviv_trade_fair` (20 years)
+   - Province modifier: `west_ukr_lviv_trade_fair` (20 років)
    - +1 base production
 
 2. **Let it develop naturally** (ШІ 40%)
@@ -376,11 +376,11 @@
 
 **Варіанти**:
 1. **Support the Chumaks** (ШІ 70%)
-   - Province modifier: `west_ukr_chumak_trade` (20 years)
+   - Province modifier: `west_ukr_chumak_trade` (20 років)
    - +1 mercantilism
 
 2. **Tax the Chumaks** (ШІ 30%)
-   - +0.25 years income
+   - +0.25 років income
 
 **Історичний контекст**: Chumaks were Ukrainian salt traders who traveled in wagon caravans from Black Sea and Crimea to Polish lands, becoming iconic figures of Ukrainian economic life.
 
@@ -404,7 +404,7 @@
    - +15 noble loyalty
 
 2. **Maintain Ruthenian traditions** (ШІ 30%)
-   - Модифікатор: `west_ukr_ruthenian_nobility` (25 years)
+   - Модифікатор: `west_ukr_ruthenian_nobility` (25 років)
    - +10 legitimacy
 
 **Історичний контекст**: Sarmatism - ideology claiming Polish-Lithuanian nobility descended from ancient Sarmatians, emphasizing equality among nobles, military prowess, and distinctive culture.
@@ -421,7 +421,7 @@
 **Варіанти**:
 1. **Support Golden Liberty** (ШІ 50%)
    - Прапорець: `liberty_vs_absolutism_choice`
-   - Модифікатор: `west_ukr_golden_liberty_support` (25 years)
+   - Модифікатор: `west_ukr_golden_liberty_support` (25 років)
    - -10 absolutism
    - +20 noble loyalty
 
@@ -441,51 +441,51 @@
 
 | Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
-| `west_ukr_polish_influence` | -5% Idea Cost, +1 Diplomatic Reputation, -10% Advisor Cost | 20 years | Accept Polish influence |
-| `west_ukr_cultural_resistance` | -10% Stability Cost, -1 Unrest, +0.5 Legitimacy | 10 years | Resist Polish culture |
-| `west_ukr_ruthenian_pride` | +0.5 Prestige, +1 Legitimacy, +1 Tolerance Own | 15 years | Maintain Ruthenian language |
+| `west_ukr_polish_influence` | -5% Idea Cost, +1 Diplomatic Reputation, -10% Advisor Cost | 20 років | Accept Polish influence |
+| `west_ukr_cultural_resistance` | -10% Stability Cost, -1 Unrest, +0.5 Legitimacy | 10 років | Resist Polish culture |
+| `west_ukr_ruthenian_pride` | +0.5 Prestige, +1 Legitimacy, +1 Tolerance Own | 15 років | Maintain Ruthenian language |
 
 ### Модифікатори церковної унії
 
 | Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
-| `west_ukr_church_union` | +2 Papal Influence, +2 Tolerance Own, -1 Tolerance Heretic, +2% Missionary Strength vs Heretics | Permanent | Accept Church Union |
-| `west_ukr_converted_uniate` | +3 Local Unrest, +2% Local Missionary Strength | 20 years | Province converted to Uniate |
-| `west_ukr_orthodox_faithful` | +15% Church Power, +2 Tolerance Own, -10% Stability Cost | 25 years | Refuse Church Union |
-| `west_ukr_forced_conversion` | +5 Local Unrest, +5% Local Missionary Strength, -10% Local Autonomy | 10 years | Suppress Orthodox |
-| `west_ukr_orthodox_protection` | -2 Local Unrest, +10% Local Tax, -50% Local Missionary Strength | 15 years | Protect Orthodox |
-| `west_ukr_religious_peace` | -3 Local Unrest, +1 Tolerance Heretic, +10% Local Prosperity Growth | 20 years | Promote tolerance |
+| `west_ukr_church_union` | +2 Papal Influence, +2 Tolerance Own, -1 Tolerance Heretic, +2% Missionary Strength vs Heretics | Постійний | Accept Church Union |
+| `west_ukr_converted_uniate` | +3 Local Unrest, +2% Local Missionary Strength | 20 років | Province converted to Uniate |
+| `west_ukr_orthodox_faithful` | +15% Church Power, +2 Tolerance Own, -10% Stability Cost | 25 років | Refuse Church Union |
+| `west_ukr_forced_conversion` | +5 Local Unrest, +5% Local Missionary Strength, -10% Local Autonomy | 10 років | Suppress Orthodox |
+| `west_ukr_orthodox_protection` | -2 Local Unrest, +10% Local Tax, -50% Local Missionary Strength | 15 років | Protect Orthodox |
+| `west_ukr_religious_peace` | -3 Local Unrest, +1 Tolerance Heretic, +10% Local Prosperity Growth | 20 років | Promote tolerance |
 
 ### Козацькі модифікатори
 
 | Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
-| `west_ukr_cossack_unrest` | +8 Local Unrest, +5% Local Autonomy | 15 years | Suppress Cossacks |
-| `west_ukr_cossack_privileges` | +10% Cavalry Power, -10% Cavalry Cost, +5% Global Autonomy, +10% Cossack Loyalty | 20 years | Grant privileges |
-| `west_ukr_cossack_discipline` | +3% Discipline, +5% Morale, -5% Cossack Loyalty | 10 years | Punish Cossacks |
+| `west_ukr_cossack_unrest` | +8 Local Unrest, +5% Local Autonomy | 15 років | Suppress Cossacks |
+| `west_ukr_cossack_privileges` | +10% Cavalry Power, -10% Cavalry Cost, +5% Global Autonomy, +10% Cossack Loyalty | 20 років | Grant privileges |
+| `west_ukr_cossack_discipline` | +3% Discipline, +5% Morale, -5% Cossack Loyalty | 10 років | Punish Cossacks |
 
 ### Модифікатори татарських набігів
 
 | Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
-| `west_ukr_border_fortifications` | +20% Local Defensiveness, -10% Local Development Cost, -15% Fort Maintenance | 15 years | Fortify borders |
-| `west_ukr_tatar_raid_damage` | +10% Local Autonomy, +3 Local Unrest, -25% Local Manpower, -20% Local Tax | 10 years | Raid occurs |
+| `west_ukr_border_fortifications` | +20% Local Defensiveness, -10% Local Development Cost, -15% Fort Maintenance | 15 років | Fortify borders |
+| `west_ukr_tatar_raid_damage` | +10% Local Autonomy, +3 Local Unrest, -25% Local Manpower, -20% Local Tax | 10 років | Raid occurs |
 
 ### Торгові модифікатори
 
 | Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
-| `west_ukr_lviv_trade_fair` | +10% Trade Efficiency, +20% Local Production Efficiency, +15 Province Trade Power | 20 years | Invest in Lviv fair |
-| `west_ukr_magdeburg_law` | -15% Local Development Cost, +20% Local Tax, +15% Local Production, +10% Local Autonomy | Permanent | Grant Magdeburg Law |
-| `west_ukr_chumak_trade` | +25% Local Production Efficiency, +15% Province Trade Power, +10% Trade Goods Size | 20 years | Support Chumaks |
+| `west_ukr_lviv_trade_fair` | +10% Trade Efficiency, +20% Local Production Efficiency, +15 Province Trade Power | 20 років | Invest in Lviv fair |
+| `west_ukr_magdeburg_law` | -15% Local Development Cost, +20% Local Tax, +15% Local Production, +10% Local Autonomy | Постійний | Grant Magdeburg Law |
+| `west_ukr_chumak_trade` | +25% Local Production Efficiency, +15% Province Trade Power, +10% Trade Goods Size | 20 років | Support Chumaks |
 
 ### Модифікатори шляхетської культури
 
 | Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
-| `west_ukr_sarmatism` | +15% Cavalry Power, +10% Noble Loyalty, +5% Noble Influence, -1% Army Tradition Decay | Permanent | Embrace Sarmatism |
-| `west_ukr_ruthenian_nobility` | +1 Legitimacy, +0.5 Prestige, -10% Stability Cost, +25% Culture Conversion Cost | 25 years | Maintain traditions |
-| `west_ukr_golden_liberty_support` | -20% Liberty Desire from Development, -15% Stability Cost, +10% Governing Capacity, -0.5 Yearly Absolutism | 25 years | Support Golden Liberty |
+| `west_ukr_sarmatism` | +15% Cavalry Power, +10% Noble Loyalty, +5% Noble Influence, -1% Army Tradition Decay | Постійний | Embrace Sarmatism |
+| `west_ukr_ruthenian_nobility` | +1 Legitimacy, +0.5 Prestige, -10% Stability Cost, +25% Culture Conversion Cost | 25 років | Maintain traditions |
+| `west_ukr_golden_liberty_support` | -20% Liberty Desire from Development, -15% Stability Cost, +10% Governing Capacity, -0.5 Yearly Absolutism | 25 років | Support Golden Liberty |
 
 ---
 
@@ -493,12 +493,12 @@
 
 | Modifier | Opinion | Duration | Source |
 |----------|---------|----------|--------|
-| `west_ukr_cultural_defiance` | -20 | 10 years | Resist Polish culture |
-| `west_ukr_loyal_vassal` | +30 | 20 years | Adopt Polish at court |
-| `west_ukr_church_loyalty` | +50 | 30 years | Accept Church Union |
-| `west_ukr_religious_defiance` | -40 | 25 years | Refuse Church Union |
-| `west_ukr_soft_on_cossacks` | -15 | 15 years | Grant Cossack privileges |
-| `west_ukr_cossack_raid` | -30 | 10 years | Endorse Cossack raid |
+| `west_ukr_cultural_defiance` | -20 | 10 років | Resist Polish culture |
+| `west_ukr_loyal_vassal` | +30 | 20 років | Adopt Polish at court |
+| `west_ukr_church_loyalty` | +50 | 30 років | Accept Church Union |
+| `west_ukr_religious_defiance` | -40 | 25 років | Refuse Church Union |
+| `west_ukr_soft_on_cossacks` | -15 | 15 років | Grant Cossack privileges |
+| `west_ukr_cossack_raid` | -30 | 10 років | Endorse Cossack raid |
 
 ---
 
@@ -590,7 +590,7 @@
 - **common/opinion_modifiers/RIP_opinion_modifiers.txt** (modified)
   - Added 6 opinion modifiers
 
-### Localization Files
+### Локалізація Files
 - **localisation/west_ukraine_history_l_english.yml** (new)
   - 13 event titles and descriptions
   - 39 event options

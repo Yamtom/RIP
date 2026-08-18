@@ -1,5 +1,5 @@
-# Map Rework Suggestions for RIP Mod
-## Based on Paradox Forum Proposals by fr-rein
+# Пропозиції з переробки карти для мода RIP
+## За пропозиціями fr-rein на форумі Paradox
 
 ---
 
@@ -100,7 +100,7 @@
 Одеса й Чигирин з цього переліку вийшли — вони тепер живуть у хронології
 `282` та `1944`, хоча власних провінцій так само не мають.
 
-**Source Threads:**
+**Гілки-джерела:**
 - [Ruthenia & Cossack Immersion Pack](https://forum.paradoxplaza.com/forum/threads/ruthenia-cossack-immersion-pack.1121263/page-2#post-24736853)
 - [Update to Ukrainian Region, Cossacks Content](https://forum.paradoxplaza.com/forum/threads/update-to-ukrainian-region-cossacks-content.1140129/)
 
@@ -108,35 +108,39 @@
 
 ## Огляд
 
-This document outlines comprehensive map rework proposals for the Ukrainian/Ruthenian region based on extensive historical research and EU4 mapping best practices. The proposals range from minimal border corrections to moderate province additions, designed to better represent the historical geography and political dynamics of 1444-1821.
+Документ окреслює пропозиції з переробки карти українського й руського
+регіону, спираючись на історичні дослідження та усталені практики картування
+в EU4. Пропозиції простягаються від мінімальних правок кордонів до помірного
+додавання провінцій і мають краще передати історичну географію й політичну
+динаміку 1444–1821 років.
 
 ---
 
-## Core Issues Addressed
+## Які проблеми розв'язуються
 
-### 1. **Historical Border Inaccuracies**
-- **Cherkasy**: Current southern border is ~50-100km too far south, crossing historical territorial boundaries
-- **Starodub vs Trubchevsk**: Province labeled "Trubchevsk" actually contains Starodub; real Trubchevsk is in Severia
-- **Dniester River**: Misaligned, affecting Moldova/Ruthenia border accuracy
-- **Desna River**: River course doesn't match historical geography
+### 1. **Неточності історичних кордонів**
+- **Черкаси**: південний кордон зараз на 50–100 км південніше, ніж має бути, і перетинає історичні межі
+- **Стародуб і Трубчевськ**: провінція з підписом «Трубчевськ» насправді містить Стародуб, а справжній Трубчевськ — у Сіверщині
+- **Дністер**: русло зміщене, що псує точність молдовсько-руського кордону
+- **Десна**: русло не відповідає історичній географії
 
-### 2. **Missing Historical Cities**
-- **Odesa/Khajibey**: Genoa colony "Ginestra", major Black Sea port, strategic trade hub
-- **Ochakov (Özü)**: Ottoman fortress, key to Black Sea naval supremacy
-- **Belgorod**: Jagoldai Tatar settlement, strategic border fortress
-- **Dnipro (Kodak)**: Kodak fortress location (currently misplaced in Poltava!)
+### 2. **Відсутні історичні міста**
+- **Одеса й Хаджибей**: генуезька колонія «Джінестра», великий чорноморський порт, вузол торгівлі
+- **Очаків (Özü)**: османська фортеця, ключ до панування на Чорному морі
+- **Бєлгород**: татарське поселення Ягольдая, стратегічна прикордонна фортеця
+- **Дніпро (Кодак)**: місце Кодацької фортеці — зараз помилково в Полтаві
 
-### 3. **Gameplay Issues**
-- **Wild Field**: Only 1-2 provinces make Tatar raids impossible to simulate (single fort blocks everything)
-- **Cossack Force Limits**: Current 15 provinces with ~80 development = ~20k force limit vs historical 40-100k Hetmanate armies
-- **Religious Conversion**: Too easy to paint-convert without representing historical Uniate Church complexity
-- **Hetmanate**: No representation of this century-long state that shaped Eastern European history
+### 3. **Ігрові проблеми**
+- **Дике Поле**: лише одна-дві провінції роблять симуляцію татарських набігів неможливою — один форт блокує все
+- **Ліміт козацьких військ**: нинішні 15 провінцій із розвитком близько 80 дають ліміт близько 20 тисяч, тоді як історичні війська Гетьманщини сягали 40–100 тисяч
+- **Релігійне навернення**: надто легко перефарбувати карту, не показавши складності унійної Церкви
+- **Гетьманщина**: столітня держава, щоформувала історію Східної Європи, ніяк не представлена
 
 ---
 
-## Proposal Tiers
+## Рівні пропозицій
 
-### **Tier 0: Minimal (Border Fixes Only, 0 New Provinces)**
+### **Рівень 0: мінімальний — лише правки кордонів, без нових провінцій**
 
 **Головна ціль:** Fix glaring historical errors without adding provinces
 
@@ -157,7 +161,7 @@ This document outlines comprehensive map rework proposals for the Ukrainian/Ruth
    - Rylsk historically part of Kursk area
    - Severia = Chernigov, Novgorod-Seversky, Starodub core
 
-**Map Illustration:** Zero Proposal
+**Ілюстрація карти:** нульова пропозиція
 ```
 - Cherkasy: Southern border moves north to Ingulets River
 - Starodub: Rename current "Trubchevsk" province
@@ -167,11 +171,11 @@ This document outlines comprehensive map rework proposals for the Ukrainian/Ruth
 
 ---
 
-### **Tier 1: Moderate (5 New Provinces)**
+### **Рівень 1: помірний — 5 нових провінцій**
 
 **Головна ціль:** Add most critical strategic locations while respecting development density concerns
 
-#### New Provinces:
+#### Нові провінції:
 
 **1. Belgorod (Province ID TBD)**
 - **Розташування:** Between Kursk and Voronezh
@@ -220,7 +224,7 @@ This document outlines comprehensive map rework proposals for the Ukrainian/Ruth
 - **Геймплей:** Adds historical Center of Trade potential, Genoese colonization flavor
 - **Розвиток:** 7-9 (trade colony, grows significantly)
 
-#### Additional Changes:
+#### Додаткові зміни:
 - **Cherkasy**: Border moved north (from Tier 0)
 - **Mansur**: Rename to "Bakhmut", adjust borders
 - **Yedisan**: Split development with Ochakov/Odesa (currently has unnatural 10-11 dev for empty steppe)
@@ -239,7 +243,7 @@ Total increase: +5 provinces (from ~15 to ~20 in Ukrainian region)
 
 ---
 
-### **Tier 2: Expanded (7 New Provinces)**
+### **Рівень 2: розширений — 7 нових провінцій**
 
 **Головна ціль:** Full Right Bank Ukraine + Wild Field representation
 
@@ -274,7 +278,7 @@ Total increase: +7 provinces
 
 ---
 
-### **Tier 3: Comprehensive (13 New Provinces) - For Reference**
+### **Рівень 3: повний — 13 нових провінцій, для довідки**
 
 **Примітка:** This tier is from original forum proposals but may be too dense for implementation. Included for historical completeness.
 
@@ -294,7 +298,7 @@ Total increase: +7 provinces
 
 ---
 
-## Moldova Region Rework
+## Переробка молдовського регіону
 
 ### Поточні проблеми:
 - Only 5 provinces for entire historical Moldovan Principality
@@ -330,7 +334,7 @@ Total increase: +7 provinces
 
 ---
 
-## Wild Field Area Rework
+## Переробка Дикого Поля
 
 ### Історичний контекст:
 **Wild Field (Дике Поле)** = Pontic Steppe region between settled Ruthenia and Crimean/Nogai territories
@@ -372,9 +376,9 @@ Total increase: +7 provinces
 
 ---
 
-## Historical Justifications
+## Історичні обґрунтування
 
-### Why More Provinces?
+### Навіщо більше провінцій?
 
 **1. Force Limit Issue:**
 Current Hetmanate territory = 15 provinces, ~80 development = ~20k force limit
@@ -387,8 +391,8 @@ Historical Hetmanate armies:
 **Розв'язання:** More provinces = more development = realistic force limits without breaking ideas/buildings
 
 **2. Religious Conversion:**
-- Current: Poland easily converts all Ruthenia to Catholic in 50 years
-- Historical: 200 years of Uniate Church compromise, persistent Orthodoxy, religious revolts
+- Current: Poland easily converts all Ruthenia to Catholic in 50 років
+- Historical: 200 років of Uniate Church compromise, persistent Orthodoxy, religious revolts
 - Solution: More provinces = more missionaries needed, slower conversion
 
 **3. Cossack Estate Mechanics:**
@@ -408,7 +412,7 @@ Historical Hetmanate armies:
 
 ---
 
-## Integration with Existing Mod Systems
+## Інтеграція з наявними системами мода
 
 ### 1. **Steppe Raiding System** (Already Implemented)
 - 10 events for yasyr trade, Crimean raids, Nogai/Kalmyk migrations
@@ -450,7 +454,7 @@ Historical Hetmanate armies:
 
 ---
 
-## Recommended Implementation Path
+## Рекомендований шлях реалізації
 
 ### **Phase 1: Critical Fixes (Tier 0)**
 **Зусилля:** Low (border adjustments only)
@@ -576,7 +580,7 @@ Priority:
 
 ---
 
-## Alternative Minimal Approach (If Province Addition Undesirable)
+## Мінімальна альтернатива, якщо додавати провінції небажано
 
 If adding provinces is not feasible, alternative solutions:
 
@@ -643,7 +647,7 @@ The map rework proposals range from minimal border corrections (Tier 0) to compr
 
 ---
 
-**Document Version:** 1.0
-**Date:** January 30, 2026
+**Версія документа:** 1.0
+**Дата:** 30 січня 2026
 **Author:** Based on fr-rein forum proposals, compiled for RIP mod
-**Status:** Proposal for implementation
+**Стан:** пропозиція до впровадження

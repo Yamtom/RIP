@@ -31,7 +31,7 @@
 3. A full regional minor route normally grants about 50–120 постійний-claim
    provinces; broad region rewards follow control of roughly 40–60% of that
    region.
-4. Early or distant claims are temporary (the design target is 25 years) or
+4. Early or distant claims are temporary (the design target is 25 років) or
    replaced by a bounded CB.
 5. PU, vassalization, and tributary CBs have an explicit finite duration,
    geographically valid targets, and mutually exclusive choices where a reward

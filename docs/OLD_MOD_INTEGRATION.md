@@ -109,7 +109,7 @@
 - Royal marriage patterns
 - Alliance period dating
 
-**Integration Note:** Can be extended for Hetmanate's diplomatic relationships with Poland-Lithuania, Ottoman Empire, and Crimean Khanate.
+**Integration Примітка:** Can be extended for Hetmanate's diplomatic relationships with Poland-Lithuania, Ottoman Empire, and Crimean Khanate.
 
 ---
 

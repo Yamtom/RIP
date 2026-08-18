@@ -91,11 +91,11 @@
   - Розподіл перемог і поразок учасників: з 15/30/45 на 30/45/60.
 - `events/HetmanateCossackRaids.txt`:
   - Відповіді-продовження: з 30 на 45 днів.
-  - Deep raid consequence changed from `15` to `45` days.
+  - Deep raid consequence changed from `15` to `45` днів.
 - `events/CossackRevolts.txt`:
-  - Early diplomatic escalations changed from `30` to `45` days.
+  - Early diplomatic escalations changed from `30` to `45` днів.
 - `events/ZAZmission.txt`:
-  - Ultra-short dispatches changed `10 -> 45` and `2 -> 60` days.
+  - Ultra-short dispatches changed `10 -> 45` and `2 -> 60` днів.
 
 ## Рекомендації на наступний прохід
 
