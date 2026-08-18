@@ -75,27 +75,27 @@
 ### 3. Благословення (7 доступних)
 
 #### **Благословення Третього Риму**
-- +10% Land Morale, +10% Discipline
+- +10% бойового духу, +10% вишколу
 - Вартість: 50 Church Power
 - Тривалість: 20 років
 
 #### **Благословення Патріарха Московського**
-- +10% Tax Income, +10% Production Efficiency
+- +10% податку, +10% справності виробництва
 - Вартість: 50 Church Power
 - Тривалість: 20 років
 
 #### **Благословення Православного Завоювання**
-- -10% Core Creation Cost, -20% Aggressive Expansion
+- -10% ціни осердь, -20% агресивної експансії
 - Вартість: 50 Church Power
 - Тривалість: 20 років
 
 #### **Благословення Культурного Домінування**
-- -25% Culture Conversion Cost, +1 Tolerance of True Faith
+- -25% ціни зміни культури, +1 терпимості до своєї віри
 - Вартість: 50 Church Power
 - Тривалість: 20 років
 
 #### **Благословення Релігійної Єдності**
-- +3% Missionary Strength, -2 National Unrest
+- +3% сили місіонерів, -2 заворушення в державі
 - Вартість: 50 Church Power
 - Тривалість: 20 років
 
@@ -205,7 +205,7 @@
 - Придушення опору
 - Адміністративний контроль
 
-### On_Actions Integration
+### Підключення через on_actions
 Події інтегровані в:
 - `on_yearly_pulse` - Щорічні перевірки
 - `on_quarterly_pulse` - Квартальні події
@@ -258,8 +258,8 @@ AI націлені на:
 |--------|------------------|----------------|------------------|
 | Фокус | Експансія/Асиміляція | Синтез/Дипломатія | Традиція/Стабільність |
 | Механіка | Conquest-based | Spread-based | Patriarch-based |
-| Culture Policy | Russification | Integration | Tolerance |
-| Military | Very Strong | Moderate | Moderate |
+| Політика щодо культур | Русифікація | Прилучення | Терпимість |
+| Військо | Дуже сильне | Середнє | Середнє |
 | Diplomacy | Weak | Strong | Moderate |
 | AE Impact | High | Low | Moderate |
 
@@ -297,7 +297,7 @@ localisation/
 ```
 
 ### Сумісність
-- **EU4 Version**: 1.35+
+- **Версія EU4**: 1.35 і новіші
 - **DLC Requirements**: Rights of Man (для велика держава mechanics), Dharma (для government reforms)
 - **Mod Compatibility**: Сумісний з більшістю модів, що не змінюють релігійні системи
 
@@ -317,16 +317,16 @@ localisation/
 - **Greek Catholic Church** - Дипломатична альтернатива для Київської Русі
 - **Orthodox Religion** - Базова православна система
 - **Catholic Religion** - Західна церква-конкурент
-- **Uniate Mechanics** - Hybrid religious systems
+- **Механіка унії** — мішані церковні системи
 
 ---
 
 ## 📞 Підтримка
 
 Для багів, пропозицій або питань:
-- GitHub Issues: [RIP Mod Repository]
-- Discord: [RIP Mod Community]
-- Forums: [Paradox Interactive Forums]
+- Issues на GitHub: [репозиторій мода RIP]
+- Discord: [спільнота мода RIP]
+- Форуми: [форуми Paradox Interactive]
 
 ---
 

@@ -1,10 +1,10 @@
-# VOLHYNIA (VOL) - AUSTRIAN & POLISH DEVELOPMENT PATHS
+# Волинь (VOL): австрійський і польський шляхи розвитку
 
 > **Звірено з кодом 2026-08-17 - розбіжностей немає.** Усі згадані місії
 > існують у `missions/Volhynia_Missions.txt`, і всі п'ятнадцять модифікаторів
 > із довідника - у `common/event_modifiers/`. `VOL_PATHS_QUICKREF.md` подає
 > те саме стисло; він теж точний. Правлячи одне, звіряйте друге.
-## Comprehensive Mission System Documentation
+## Повний опис системи місій
 
 **Останнє оновлення**: 30 січня 2026
 **Версія**: 1.0
@@ -47,40 +47,40 @@
 **Місія**: `VOL_choose_development_path`
 - **Тригер**:
   - не воювати
-  - Stability ≥ 1
-  - Total development ≥ 200
+  - Стабільність ≥ 1
+  - Сукупний розвиток ≥ 200
 - **Ефект**: запускає подію `vol_path_events.1` для вибору шляху
 
 ### Австрійський імперський шлях (стовпці 1-2)
 
 #### Стовпець 1: стани й меншини
-1. **VOL_balance_estates** (Position 6)
+1. **VOL_balance_estates** (позиція 6)
    - Потрібна рівна вірність станів (по 60%)
    - Коронних земель ≥ 30%
    - Відмикає врядування меншинами
 
-2. **VOL_manage_minorities** (Position 7)
+2. **VOL_manage_minorities** (позиція 7)
    - Потрібно 5+ провінцій чужої культури з низьким заворушенням
    - Дає модифікатор `vol_multicultural_realm`
    - Накладає `vol_minority_rights` на провінції меншин
 
-3. **VOL_welcome_all_cultures** (Position 8)
+3. **VOL_welcome_all_cultures** (позиція 8)
    - Потрібно прийняти польську культуру + 2 прийняті культури
    - Дає постійний модифікатор `vol_cultural_tolerance`
    - Литовська культура приймається сама
 
 #### Стовпець 2: дипломатична й династична мережа
-1. **VOL_develop_capitals** (Position 7)
+1. **VOL_develop_capitals** (позиція 7)
    - Розвинути Волинь (280) і Галич (279) до 20 розвитку
    - Дає модифікатор `vol_twin_capitals`
    - Додає постійні модифікатори провінцій
 
-2. **VOL_balance_of_power** (Position 8)
+2. **VOL_balance_of_power** (позиція 8)
    - Союз із великою державою (POL/LIT/HUN/MOS/HLC)
    - 2 васали АБО 300+ розвитку у васалів
    - Престиж ≥ 40
 
-3. **VOL_dynastic_marriages** (Position 9)
+3. **VOL_dynastic_marriages** (позиція 9)
    - 5 королівських шлюбів
    - 3 країни з вашою династією АБО висока приязнь
    - Дає модифікатор `vol_dynastic_prestige`
@@ -88,62 +88,62 @@
 ### Польський конституційний шлях (стовпці 3-4)
 
 #### Стовпець 3: устроєвий розвиток
-1. **VOL_manage_magnates** (Position 6)
+1. **VOL_manage_magnates** (позиція 6)
    - Вплив шляхти ≥ 40%, вірність ≥ 60%
    - Дає модифікатор `vol_magnate_support`
 
-2. **VOL_establish_sejm** (Position 7)
+2. **VOL_establish_sejm** (позиція 7)
    - Коштує 100 адмінсили
    - Вірність шляхти ≥ 70%
    - Дає постійний модифікатор `vol_ruthenian_sejm`
 
-3. **VOL_constitutional_compact** (Position 8)
+3. **VOL_constitutional_compact** (позиція 8)
    - Адміністративна техніка ≥ 10
    - Повна група ідей (аристократія / плутократія / адміністрація)
    - Дає модифікатор `vol_constitutional_framework`
 
-4. **VOL_ruthenian_liberty** (Position 9)
+4. **VOL_ruthenian_liberty** (позиція 9)
    - Стабільність ≥ 2
    - Легітимність ≥ 90
    - Престиж ≥ 50
    - Дає постійний модифікатор `vol_golden_liberty`
 
 #### Стовпець 4: культура й освіта
-1. **VOL_church_relations** (Position 7)
+1. **VOL_church_relations** (позиція 7)
    - Вірність духівництва ≥ 60%
    - Релігійна єдність ≥ 80%
 
-2. **VOL_university_expansion** (Position 8)
+2. **VOL_university_expansion** (позиція 8)
    - Університет у столиці (280)
    - Новаторство ≥ 5
    - Дає столиці `vol_center_of_learning`
 
-3. **VOL_renaissance_court** (Position 9)
+3. **VOL_renaissance_court** (позиція 9)
    - 3 провінції з університетами
    - Новаторство ≥ 10
    - Установа Відродження АБО друкарський верстат
 
-4. **VOL_education_edict** (Position 10)
+4. **VOL_education_edict** (позиція 10)
    - 5 провінцій із розвитком 15+
    - Дає постійний модифікатор `vol_enlightened_realm`
 
 ### Спільні місії (стовпець 5, обидва шляхи)
 
-1. **VOL_prosperity** (Position 6)
+1. **VOL_prosperity** (позиція 6)
    - 10 провінцій у корінних областях із розвитком 15+, без спустошення
    - Різні винагороди: меркантилізм (австрійський) або дохід (польський)
 
-2. **VOL_religious_settlement** (Position 7)
+2. **VOL_religious_settlement** (позиція 7)
    - Релігійна єдність ≥ 90%
    - Модифікатор багатокультурності або підтримки магнатів
 
-3. **VOL_ruthenian_hegemony** (Position 8)
+3. **VOL_ruthenian_hegemony** (позиція 8)
    - Сукупний розвиток ≥ 400
    - Військо ≥ 40 полків
    - Ранг імперії АБО (престиж ≥ 75 І легітимність ≥ 90)
    - Підносить до рангу імперії, якщо його ще немає
 
-4. **VOL_ruthenia_triumphant** (Position 9)
+4. **VOL_ruthenia_triumphant** (позиція 9)
    - Сукупний розвиток ≥ 600
    - велика держава status
    - Вимоги залежно від шляху:
@@ -304,26 +304,26 @@
 ## Створені та змінені файли
 
 ### Файли місій
-- **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\missions\Volhynia_Missions.txt**
+- **`missions/Volhynia_Missions.txt`**
   - Додано 3 гілки місій (VOL_austrian_imperial_path_slot1/2, VOL_polish_constitutional_path_slot3/4, VOL_synergy_missions_slot5)
   - Разом: 20 нових місій
 
 ### Файли модифікаторів
-- **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\common\event_modifiers\VOL_mission_modifiers.txt**
+- **`common/event_modifiers/VOL_mission_modifiers.txt`**
   - 28 нових модифікаторів (для шляхів, спільні та подієві)
 
 ### Файли подій
-- **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\events\VOL_path_events.txt**
+- **`events/VOL_path_events.txt`**
   - 7 подій: вибір шляху, повторювані події, проголошення імперії
 
 ### Файли локалізації
-- **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\localisation\VOL_austrian_polish_missions_l_english.yml**
+- **`localisation/VOL_austrian_polish_missions_l_english.yml`**
   - Назви місій, описи, підказки, назви й описи модифікаторів
-- **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\localisation\VOL_path_events_l_english.yml**
+- **`localisation/VOL_path_events_l_english.yml`**
   - Текст і варіанти подій
 
 ### Файли модифікаторів приязні
-- **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\common\opinion_modifiers\RIP_opinion_modifiers.txt**
+- **`common/opinion_modifiers/RIP_opinion_modifiers.txt`**
   - 3 нові модифікатори приязні для династичних та устроєвих стосунків
 
 ---
@@ -450,4 +450,4 @@ ai_chance = {
 
 ---
 
-**END OF DOCUMENTATION**
+**КІНЕЦЬ ДОКУМЕНТА**

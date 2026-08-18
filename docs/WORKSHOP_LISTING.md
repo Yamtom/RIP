@@ -83,20 +83,21 @@ provinces or the Commonwealth mission tree.
 
 Для нотаток про зміни в майстерні, дописів на форумі та README.
 
-- 19 new playable tags with national ideas, government reforms and flags
-- 11 mission trees, 524 missions in total
-- 623 events, 131 decisions
-- Russian Orthodox religion with 21 church aspects
-- Uniate church and the Union of Brest as a confessional fault line
-- Cossack estate rebuilt on the Rada, the bulava and the register
-- Jewish estate with its own privileges
-- 12 disasters
-- 2 great projects: the Zaporozhian Sich, Palanok Fortress
-- Orthodox crusade casus belli, Kyivan princedom subject type
-- 1444 bookmark: Kyiv, Volyn, Chernihiv, Zaporozhia, Halych, Uzhhorod
-- English source text. FR/DE/ES ship as fallback files: about 64 keys each are
-  actually translated, the remaining ~7,400 carry the English string so those
-  clients see prose rather than raw keys. Do not advertise this as translation.
+- 19 нових ігрових країн із національними ідеями, урядовими реформами й прапорами
+- 11 дерев місій, разом 524 місії
+- 623 події, 131 рішення
+- Російське православ'я з 21 церковним аспектом
+- Унійна церква та Берестейська унія як лінія розлому у вірі
+- Козацький стан, перебудований навколо ради, булави й реєстру
+- Єврейський стан із власними привілеями
+- 12 лих
+- 2 великі споруди: Запорозька Січ і Паланок
+- Привід до православного походу, васальний тип «київське князівство»
+- Закладка 1444 року: Київ, Волинь, Чернігів, Запорожжя, Галич, Ужгород
+- Текст-джерело англійський. Французька, німецька та іспанська йдуть як
+  запасні файли: справді перекладено близько 64 ключів у кожному, решта ~7400
+  несуть англійський рядок, щоб гравець бачив текст, а не голий ключ. Це не
+  переклад, і подавати його як переклад не можна.
 
 ## 5. Знімки екрана
 
@@ -107,16 +108,16 @@ provinces or the Commonwealth mission tree.
 
 | № | Кадр | Як налаштувати |
 |---|---|---|
-| 1 | Zaporozhia mission tree, upper third | Start as ZAZ 1444, open missions, scroll to the top of the tree. It is the largest in the mod and reads as the headline feature. |
-| 2 | The 1444 bookmark | Main menu, single player, the Ruthenian bookmark - shows all six starting tags at once. |
-| 3 | Political map of the region | Load 1444, zoom on Kyiv to Lviv to Smolensk, political mapmode. Shows the new tags on the map rather than in a list. |
-| 4 | Cossack estate panel | As ZAZ or HET, open the estates tab with the Cossack estate expanded, privileges visible. |
-| 5 | An event with its picture | Fire a border principalities or Sich event and shoot the window whole - shows the writing, which is where most of the work went. |
-| 6 | Church aspects | As an Orthodox tag, open the religion tab with aspects showing. |
-| 7 | The Zaporozhian Sich great project | Province view of the Sich with the project panel open. |
-| 8 | A disaster in progress | The Ruina or Khmelnytsky uprising, disaster panel with progress bar. |
-| 9 | Volhynia mission tree | Second-largest tree; shows the mod is not only about the Sich. |
-| 10 | A formed nation | Belarus or the Hetmanate after formation, country panel with ideas visible. |
+| 1 | Дерево місій Запорожжя, верхня третина | Почати за ZAZ 1444, відкрити місії, прокрутити догори. Найбільше дерево мода й головна принада. |
+| 2 | Закладка 1444 року | Головне меню, одиночна гра, руська закладка — показує всі шість початкових країн разом. |
+| 3 | Політична мапа краю | Завантажити 1444, наблизити від Києва через Львів до Смоленська, політичний режим мапи. Нові країни видно на карті, а не списком. |
+| 4 | Вікно козацького стану | За ZAZ або HET відкрити вкладку станів із розгорнутим козацьким і видимими привілеями. |
+| 5 | Подія разом із картинкою | Запустити подію порубіжних князівств або Січі й зняти вікно цілком — видно текст, а саме в нього вкладено найбільше праці. |
+| 6 | Церковні аспекти | За православну країну відкрити вкладку релігії з видимими аспектами. |
+| 7 | Велика споруда «Запорозька Січ» | Вікно провінції Січі з відкритою панеллю споруди. |
+| 8 | Лихо в розпалі | Руїна або повстання Хмельницького, панель лиха зі смугою поступу. |
+| 9 | Дерево місій Волині | Друге за розміром; показує, що мод не лише про Січ. |
+| 10 | Постала країна | Білорусь або Гетьманщина після постання, вікно країни з видимими ідеями. |
 
 Уникайте: знімків лаунчера, переліків файлів, дерева місій, віддаленого до
 нечитабельності, і будь-якого вікна з текстом-заглушкою.
@@ -140,39 +141,39 @@ python tests/check_glossary.py
 
 ## 7. Посилання на провінції, які ще треба вирішити
 
-`check_script_layer.py` compares every `owns = N  # Name` against the province
-that N actually is. These are the ones left where the right answer is a design
-call rather than a lookup. Each is a trigger that currently points somewhere
-the author did not mean.
+`check_script_layer.py` звіряє кожен `owns = N  # Назва` з тим, яка провінція
+насправді має номер N. Нижче — ті випадки, де правильна відповідь залежить від
+задуму, а не від довідника. Кожен рядок — тригер, що зараз указує не туди, куди
+хотів автор.
 
 | Де | Написано | Насправді | У коментарі |
 |---|---|---|---|
 | `events/SteppeRaiding.txt:435` | `2410` | Theodoro | Yedisan |
 | `events/SteppeRaiding.txt:436` | `2447` | Mantrega | Budjak |
 | `events/SteppeRaiding.txt:437` | `2416` | Majar | Kuban |
-| `events/SteppeRaiding.txt:504` | `1082` | **Kazan** | Lower Yayik |
+| `events/SteppeRaiding.txt:504` | `1082` | **Казань** | Нижній Яїк |
 | `common/scripted_triggers/zaz_het_triggers.txt:51` | `2410` | Theodoro | Khortytsia |
 | `common/scripted_triggers/zaz_het_triggers.txt:52` | `2411` | Mansur | Samara |
 | `common/scripted_triggers/zaz_het_triggers.txt:267` | `2408` | Lipetsk | Sumy |
-| `missions/Podillia_Missions.txt:158` | `4749` | Stargard | "Example province in Pontic Steppe" |
-| `missions/Podillia_Missions.txt:159` | `4750` | Kruje | "Add more Pontic Steppe province IDs as needed" |
+| `missions/Podillia_Missions.txt:158` | `4749` | Штаргард | «Example province in Pontic Steppe» |
+| `missions/Podillia_Missions.txt:159` | `4750` | Круя | «Add more Pontic Steppe province IDs as needed» |
 | `missions/Zakarpatta_Missions.txt:761` | `2960` | Sadecki | Novi Sad |
 | `missions/zzz_Hetmanate_Missions.txt:587` | `153` | Pest | Dobruja |
 | `decisions/Podillia_Decisions.txt:786` | `280` | Kiev | Halych |
 | `decisions/Podillia_Decisions.txt:787` | `282` | Yedisan | Lutsk |
 | `decisions/Podillia_Decisions.txt:788` | `283` | Zaporozhia | Vladimir-Volynsky |
 
-Two of these are worth doing before anything else:
+Два з них варто виправити першими:
 
-- **`SteppeRaiding.txt:504`** converts `1082` to Oirat culture and Vajrayana.
-  `1082` is Kazan, so the Kalmyk settlement event currently converts Kazan
-  rather than the lower Yaik. There is no "Lower Yayik" province in 1.37;
-  `466` Sarai or `468` Khazaria are the plausible substitutes.
-- **`Podillia_Decisions.txt:786-788`** is one requirement set, so the three
-  lines have to move together. It currently demands cores on Kyiv, Yedisan and
-  Zaporozhia instead of Halych, Lutsk and Volodymyr. Note that 1.37 has no
-  Lutsk or Volodymyr-Volynskyi province - both fall inside `279` Volhynia -
-  so the set needs rethinking rather than remapping.
+- **`SteppeRaiding.txt:504`** переводить `1082` на ойратську культуру й
+  ваджраяну. Але `1082` — це Казань, тобто подія про калмицьке осадження зараз
+  навертає Казань замість пониззя Яїка. Провінції «Нижній Яїк» у версії 1.37
+  немає; на заміну годяться `466` Сарай або `468` Хазарія.
+- **`Podillia_Decisions.txt:786-788`** — це один набір вимог, тож усі три
+  рядки треба міняти разом. Зараз він вимагає осердь на Києві, Єдисані й
+  Запорожжі замість Галича, Луцька й Володимира. Зауважте: у 1.37 немає ні
+  Луцька, ні Володимира-Волинського — обидва лежать усередині `279` Волині, —
+  тож набір треба переосмислити, а не просто перенумерувати.
 
-- **`Podillia_Missions.txt:158-159`** are placeholder IDs that shipped: they
-  point at Stargard in Pomerania and Kruje in Albania.
+- **`Podillia_Missions.txt:158-159`** — це тимчасові номери, що потрапили у
+  випуск: вони вказують на Штаргард у Помор'ї та Крую в Албанії.

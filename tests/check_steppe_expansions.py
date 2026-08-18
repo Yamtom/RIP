@@ -236,16 +236,15 @@ def check_localisation_and_docs(failures: list[str]) -> None:
         require(failures, key in loc, f"missing English localisation {key}")
 
     doc = read("docs/STEPPE_RAIDING_SYSTEM.md")
-    future_match = re.search(r"(?is)## Future Expansion Ideas(.*)", doc)
+    future_match = re.search(r"(?is)## Ідеї майбутніх розширень(.*)", doc)
     future = future_match.group(1) if future_match else ""
     require(failures, bool(future_match), "STEPPE_RAIDING_SYSTEM: Future section is missing")
-    for completed in ("Kaffa Slave Market", "Don Cossack Raids",
-                      "Circassian Slave Trade", "Ottoman Intervention"):
+    for completed in ("ринок Кафи", "донськ", "черкес", "османська відповідь"):
         require(failures, completed.lower() not in future.lower(),
                 f"STEPPE_RAIDING_SYSTEM: completed feature remains FUTURE: {completed}")
     require(failures, "localisation/zzz_steppe_raiding_l_english.yml" in doc,
             "STEPPE_RAIDING_SYSTEM: localisation path is stale")
-    require(failures, "Yedisan (`282`)" in doc and "Yaik (`474`)" in doc,
+    require(failures, "Єдисан (`282`)" in doc and "Яїк (`474`)" in doc,
             "STEPPE_RAIDING_SYSTEM: corrected migration IDs are not documented")
 
 

@@ -165,103 +165,103 @@ was returning every six місяців.
 ### Події порубіжних князівств (простір імен border_principalities)
 
 #### Подія 1: Шемячичі в Рильську
-**Тригер**: Lithuania or Chernihiv володіє Rylsk (`4543`), 1444-1500
+**Тригер**: Литва або Чернігів володіє Рильськом (`4543`), 1444-1500
 **Середній час**: 12 місяців
-**Вибір A** (AI 80%): Grant vassal autonomy → modifier `shemyaka_rurikid_rule` on province, `border_vassal_buffer` country modifier
-**Вибір B** (AI 20%): Direct control → stability or adm power, +3 unrest in Rylsk
+**Вибір A** (ШІ 80%): дати васалові самоуправу → провінція дістає `shemyaka_rurikid_rule`, країна — `border_vassal_buffer`
+**Вибір B** (ШІ 20%): пряме врядування → стабільність або адмінсила, +3 заворушення в Рильську
 
 #### Подія 2: Глинські, нащадки Мамая
-**Тригер**: Lithuania or Chernihiv володіє Bryansk (`297`) or Novgorod-Seversky (`1945`), 1444-1500
+**Тригер**: Литва або Чернігів володіє Брянськом (`297`) чи Новгородом-Сіверським (`1945`), 1444-1500
 **Середній час**: 18 місяців
-**Вибір A** (AI 70%): Grant lands to Glinski → `glinski_tatar_settlement` modifier on random Severia/Bryansk province, +1 base manpower, `tatar_border_defense` country modifier (25 років)
-**Вибір B** (AI 30%): Refuse petition → +5 prestige, `refused_powerful_family` negative modifier (10 років)
+**Вибір A** (ШІ 70%): надати Глинським землі → випадкова сіверська чи брянська провінція дістає `glinski_tatar_settlement`, +1 базової живої сили, країна — `tatar_border_defense` (25 років)
+**Вибір B** (ШІ 30%): відмовити → +5 престижу, збитковий `refused_powerful_family` (10 років)
 
 #### Подія 3: Ягольдаєве осадження
-**Тригер**: Lithuania or Chernihiv володіє Kursk (`298`), 1444-1480
+**Тригер**: Литва або Чернігів володіє Курськом (`298`), 1444-1480
 **Середній час**: 24 місяців
-**Вибір A** (AI 75%): Accept Jagoldai → `jagoldai_horde_settlement` modifier on Kursk, +50 mil power, `horde_vassal_buffer` country modifier (25 років)
-**Вибір B** (AI 25%): Refuse → +10 legitimacy, +2 unrest in Kursk
+**Вибір A** (ШІ 75%): прийняти Ягольдая → Курськ дістає `jagoldai_horde_settlement`, +50 воєнної сили, країна — `horde_vassal_buffer` (25 років)
+**Вибір B** (ШІ 25%): відмовити → +10 легітимності, +2 заворушення в Курську
 
 #### Подія 4: Рильськ відходить до Москви
-**Тригер**: Lithuania or Chernihiv володіє Rylsk with `shemyaka_rurikid_rule`, 1500-1510, Muscovy exists and neighbors Lithuania
-**Середній час**: 36 місяців (faster if low legitimacy or at war)
-**Вибір A** (AI 60%): Keep loyal → -10 prestige, +10 legitimacy, 30% defects anyway triggering Event 5, 70% keeps `strengthened_border_vassals`
-**Вибір B** (AI 10%): Peaceful transfer → Rylsk cedes to Muscovy, -15 prestige, truce
-**Вибір C** (AI 30%): War → Declares restoration war on Muscovy
+**Тригер**: Литва або Чернігів володіє Рильськом із `shemyaka_rurikid_rule`, 1500-1510, Москва існує й межує з Литвою
+**Середній час**: 36 місяців (швидше за низької легітимності або під час війни)
+**Вибір A** (ШІ 60%): утримати вірність → -10 престижу, +10 легітимності; у 30% випадків Рильськ усе одно відходить і настає подія 5, у 70% лишається `strengthened_border_vassals`
+**Вибір B** (ШІ 10%): мирно віддати → Рильськ переходить до Москви, -15 престижу, перемир'я
+**Вибір C** (ШІ 30%): війна → країна дістає `cb_insult` на Москву й негайно кличе подію 5; сама подія війни не оголошує
 
 #### Подія 5: Москва приймає Рильськ (кличе подія 4)
-**Результат**: Muscovy gains Rylsk, +10 prestige, +5 legitimacy, core CB on Lithuania (10 років)
+**Результат**: Рильськ переходить до Москви, +10 престижу, +5 легітимності, `cb_insult` на Литву
 
 #### Подія 6: Глинські готують повстання
-**Тригер**: Lithuania or Chernihiv has Glinski province, 1507-1515, Muscovy exists
-**Середній час**: 24 місяців (faster if low legitimacy or revolts present)
-**Вибір A** (AI 40%): Negotiate → -10 prestige, -0.3 років income, 60% Glinski stays loyal (`glinski_appeasement`), 40% triggers Event 7
-**Вибір B** (AI 30%): Suppress → -50 mil power, 2 noble rebel stacks spawn (friendly to Muscovy)
-**Вибір C** (AI 30%): Exile Glinski → triggers Event 8, removes modifier, +20 devastation on province
+**Тригер**: Литва або Чернігів має провінцію Глинських, 1507-1515, Москва існує
+**Середній час**: 24 місяці (швидше за низької легітимності або за наявних бунтів)
+**Вибір A** (ШІ 40%): домовлятися → -10 престижу, -0,3 річного доходу; у 60% Глинські лишаються вірні (`glinski_appeasement`), у 40% настає подія 7
+**Вибір B** (ШІ 30%): придушити → -50 воєнної сили, з'являються 2 загони шляхетських бунтівників, прихильних до Москви
+**Вибір C** (ШІ 30%): вигнати Глинських → настає подія 8, модифікатор знято, +20 спустошення провінції
 
 #### Подія 7: повстання Глинських (кличе подія 6)
-**Результат**: 3 noble rebel stacks spawn, Muscovy gets support rebels CB (5 років)
+**Результат**: з'являються 3 загони шляхетських бунтівників; окремого приводу до війни подія не дає
 
 #### Подія 8: Москва приймає Глинських (кличе варіант 6.c)
-**Результат**: +15 prestige, +10 legitimacy, +50 adm power, `glinski_advisors_muscovy` modifier (20 років), core CB on Lithuania (10 років)
+**Результат**: +15 престижу, +10 легітимності, +50 адмінсили, `glinski_advisors_muscovy` (20 років), `cb_insult` на Литву
 
 #### Подія 9: Ягольдаєвичі міняють зверхника
-**Тригер**: Lithuania or Chernihiv володіє Kursk with `jagoldai_horde_settlement`, 1492-1505, Muscovy exists
-**Середній час**: 48 місяців (faster if Muscovy stronger or Lithuania at war)
-**Вибір A** (AI 50%): Retain loyalty → -0.25 років income, 40% stays loyal, 60% triggers Event 10
-**Вибір B** (AI 20%): Let go → Kursk cedes to Muscovy, -10 prestige
-**Вибір C** (AI 30%): War → Declares annexation war on Muscovy
+**Тригер**: Литва або Чернігів володіє Курськом із `jagoldai_horde_settlement`, 1492-1505, Москва існує
+**Середній час**: 48 місяців (швидше, якщо Москва сильніша або Литва воює)
+**Вибір A** (ШІ 50%): утримати вірність → -0,25 річного доходу; у 40% лишається вірним, у 60% настає подія 10
+**Вибір B** (ШІ 20%): відпустити → Курськ переходить до Москви, -10 престижу
+**Вибір C** (ШІ 30%): війна → країна дістає `cb_insult` на Москву й кличе подію 10; війни подія не оголошує
 
 #### Подія 10: Москва приймає Ягольдаєвичів (кличе подія 9)
-**Результат**: Kursk cedes to Muscovy, removes old modifier, applies `jagoldai_muscovite_service`, +10 prestige, +50 mil power
+**Результат**: Курськ переходить до Москви, старий модифікатор знято, накладено `jagoldai_muscovite_service`, +10 престижу, +50 воєнної сили
 
 #### Подія 11: Стародуб міняє зверхника
-**Тригер**: Lithuania or Chernihiv володіє Starodub (`4244`) or Novgorod-Seversky (`1945`), 1500-1510, Muscovy neighbor
-**Середній час**: 30 місяців (faster if at war or Muscovy militarily stronger)
-**Вибір A** (AI 70%): Fight → Muscovy gets core CB (10 років), triggers Event 12
-**Вибір B** (AI 30%): Let go → -20 prestige, random Severia/Bryansk province cedes to Muscovy, truce
+**Тригер**: Литва або Чернігів володіє Стародубом (`4244`) чи Новгородом-Сіверським (`1945`), 1500-1510, Москва по сусідству
+**Середній час**: 30 місяців (швидше під час війни або коли Москва сильніша)
+**Вибір A** (ШІ 70%): боротися → Москва дістає претензію на провінцію й модифікатор, настає подія 12
+**Вибір B** (ШІ 30%): відпустити → -20 престижу, випадкова сіверська чи брянська провінція переходить до Москви, перемир'я
 
 #### Подія 12: Москва дістає стародубську пропозицію (кличе подія 11)
-**Результат**: +15 prestige, +10 legitimacy, core CB on Lithuania (10 років)
+**Результат**: +15 престижу, +10 легітимності; приводу до війни подія не дає
 
 ### Події Касимовського ханства (простір імен qasim_khanate)
 
 #### Подія 1: заснування Касимовського ханства
-**Тригер**: Muscovy володіє Qasim province, 1450-1460, Kazan exists and not allied
-**Середній час**: 24 місяців (faster if rival to Kazan or at war with Kazan)
-**Вибір A** (AI 80%): Create khanate → `qasim_khanate_capital` on province, `qasim_khanate_vassal` country modifier (постійний), release and vassalize QAS, QAS gets `kazan_pretender_claims`, Kazan gets negative opinion
-**Вибір B** (AI 20%): Direct control → +50 adm power, +1 base tax on Qasim
+**Тригер**: Москва володіє Касимовом, 1450-1460, Казань існує й не в союзі
+**Середній час**: 24 місяці (швидше, якщо Казань — суперник або йде війна з нею)
+**Вибір A** (ШІ 80%): створити ханство → провінція дістає `qasim_khanate_capital`, країна — постійний `qasim_khanate_vassal`, QAS звільняють і роблять васалом, QAS дістає `kazan_pretender_claims`, Казань — погіршення приязні
+**Вибір B** (ШІ 20%): пряме врядування → +50 адмінсили, +1 базового податку в Касимові
 
 #### Подія 2: Касимов б'є на Казань
-**Тригер**: Muscovy has QAS vassal with claims, 1467-1550, Kazan exists, not at war/allied with Kazan
-**Середній час**: 120 місяців (faster if rival to Kazan or Kazan weak)
-**Вибір A** (AI 60%): Military support → Declares restoration PU war on Kazan, QAS -20 liberty desire
-**Вибір B** (AI 30%): Diplomatic pressure → Kazan gets threatened opinion, -5 prestige
-**Вибір C** (AI 10%): Restrain vassal → QAS +10 liberty desire, +25 dip power
+**Тригер**: Москва має васала QAS із претензіями, 1467-1550, Казань існує, немає ні війни, ні союзу з нею
+**Середній час**: 120 місяців (швидше, якщо Казань — суперник або ослабла)
+**Вибір A** (ШІ 60%): підтримати військом → QAS і Москва дістають претензії на Казань, Москва — `cb_vassalize_mission` на 120 місяців, QAS -20 жаги свободи; війну гравець оголошує сам
+**Вибір B** (ШІ 30%): тиснути дипломатією → Казань дістає модифікатор погрози, -5 престижу
+**Вибір C** (ШІ 10%): стримати васала → QAS +10 жаги свободи, +25 дипломатичної сили
 
 #### Подія 3: доля завойованої Казані
-**Тригер**: Muscovy володіє Kazan capital, 1467-1552, QAS exists as vassal, Kazan doesn't exist
+**Тригер**: Москва володіє столицею Казані, 1467-1552, QAS існує як васал, Казані немає
 **Середній час**: 6 місяців
-**Вибір A** (AI 40%): Install Qasim Khan → Kazan area gets QAS core, release and vassalize QAS (now ruling Kazan), QAS gets `muscovite_puppet_khan`, QAS -30 liberty desire
-**Вибір B** (AI 60%): Annex directly → Kazan area gets `conquered_khanate` modifier (20 років), QAS +20 liberty desire
+**Вибір A** (ШІ 40%): посадити касимовського хана → Казанська область дістає осердя QAS, QAS звільняють і роблять васалом уже в Казані, QAS дістає `muscovite_puppet_khan` і -30 жаги свободи
+**Вибір B** (ШІ 60%): прилучити напряму → Казанська область дістає `conquered_khanate` (20 років), QAS +20 жаги свободи
 
 #### Подія 4: прилучення Касимовського ханства
-**Тригер**: Muscovy has QAS vassal, 1550-1700
-**Середній час**: 240 місяців (faster if Kazan conquered or high ADM)
-**Вибір A** (AI 70%): Integrate → Inherit QAS, Qasim province gets `former_qasim_khanate`, country gets `tatar_nobility_integrated` (постійний)
-**Вибір B** (AI 30%): Keep vassal → QAS -20 liberty desire, QAS gets `loyal_tatar_vassal`
+**Тригер**: Москва має васала QAS, 1550-1700
+**Середній час**: 240 місяців (швидше, якщо Казань завойовано або висока адмінтехніка)
+**Вибір A** (ШІ 70%): прилучити → Москва успадковує QAS, Касимов дістає `former_qasim_khanate`, країна — постійний `tatar_nobility_integrated`
+**Вибір B** (ШІ 30%): лишити васалом → QAS -20 жаги свободи і модифікатор `loyal_tatar_vassal`
 
 #### Подія 5: липки просяться на осідок
-**Тригер**: Lithuania, 1440-1500, володіє provinces in White Ruthenia/Minsk/Pripyat areas
+**Тригер**: Литва, 1440-1500, володіє провінціями в Білій Русі, Мінщині чи Прип'ятті
 **Середній час**: 60 місяців
-**Вибір A** (AI 80%): Welcome Lipka → Random qualifying province gets `lipka_tatar_settlement`, +1 base manpower, country gets `lipka_tatar_cavalry_tradition` (постійний)
-**Вибір B** (AI 20%): Refuse → +5 prestige, +25 adm power
+**Вибір A** (ШІ 80%): прийняти липків → випадкова придатна провінція дістає `lipka_tatar_settlement` і +1 базової живої сили, країна — постійний `lipka_tatar_cavalry_tradition`
+**Вибір B** (ШІ 20%): відмовити → +5 престижу, +25 адмінсили
 
 #### Подія 6: вірність липків
-**Тригер**: Commonwealth (tag PLC), 1569-1700, has province with `lipka_tatar_settlement`
+**Тригер**: Річ Посполита (тег PLC), 1569-1700, має провінцію з `lipka_tatar_settlement`
 **Середній час**: 120 місяців
-**Вибір A** (AI 70%): Reward loyalty → -0.2 років income, all Lipka provinces get `lipka_tatar_privileges` (20 років), country gets `tatar_nobility_service` (25 років)
-**Вибір B** (AI 30%): Status quo → +25 mil power
+**Вибір A** (ШІ 70%): віддячити за вірність → -0,2 річного доходу, всі липківські провінції дістають `lipka_tatar_privileges` (20 років), країна — `tatar_nobility_service` (25 років)
+**Вибір B** (ШІ 30%): лишити як є → +25 воєнної сили
 
 ## Довідник модифікаторів
 
@@ -313,7 +313,9 @@ was returning every six місяців.
 - Провінції з татарськими модифікаторами рідше стають ціллю набігів
 
 ### Козацький стан
-Порубіжні князівства впливають на козацький стан:
+Прямих ефектів на козацький стан ці події не мають — у жодній із вісімнадцяти
+немає ні `add_estate_influence_modifier`, ні `add_estate_loyalty`. Нижче — те,
+що система робить із козацтвом опосередковано, через сусідні механіки:
 - Татарська кіннота Глинських змагається з козацтвом за вплив
 - Відхід сіверських князів може хитнути вірність козацтва
 - Перехід православних князівств до Москви скріплює козацьке прилучення
@@ -441,7 +443,11 @@ was returning every six місяців.
 
 ### Перевірки
 
-`python tests/check_script_layer.py` покриває цю систему: ловить розбіжні
+У системи є власний регресійний тест — `tests/check_border_principalities.py`.
+Він звіряє ID провінцій, тригери, наявність локалізації подій Касимова і те,
+щоб цей документ не приписував подіям наслідків, яких у коді немає.
+
+Ширше покриття дає `python tests/check_script_layer.py`: він ловить розбіжні
 дужки й хибне кодування, повторені ID подій, необ'явлені простори імен, текст
 подій без локалізації, модифікатори без локалізації та записи модифікаторів у
 хибній області. ID провінцій він не знає — їх треба звіряти з

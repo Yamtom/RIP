@@ -91,12 +91,16 @@
 2. **Жодних дат, за які текст не ручається.** Подія, що оголошує 1596 рік, а
    настає 1631-го, ламає власну рамку. Минулу дію назвати роком можна («the
    oath of 1573»), теперішню — ніколи.
-3. **Наслідок, а не оцінка.** Не «this brings civilization and prestige», а
-   «at Kraków our sons learn Latin and law; they come home in Polish dress, and
-   some come home Catholic».
+3. **Наслідок, а не оцінка.** Не «this brings civilization and prestige», а:
+
+   > at Kraków our sons learn Latin and law; they come home in Polish dress,
+   > and some come home Catholic
 4. **Кінчайте сухим застереженням.** Почерк Paradox — тінь сумніву, а не
-   фанфари: *Whether the parishes will hear it that way is another matter.*
-   *A list serves whoever holds it.* *Two of the three usually suffice.*
+   фанфари:
+
+   > Whether the parishes will hear it that way is another matter.
+   > A list serves whoever holds it.
+   > Two of the three usually suffice.
 5. **Варіанти — це голос ради.** Коротко й наказово: «Let the Sich stand
    surety for the old rite», а не «Support the Orthodox resistance». Серединна
    довжина варіанта в моді — чотири слова; тримайтеся її.

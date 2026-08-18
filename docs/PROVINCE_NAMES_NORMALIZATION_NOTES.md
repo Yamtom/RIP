@@ -117,17 +117,17 @@
 - `2447` -> збережено: "Autumn Gathering"; прибрано: Tokmak; Tokmak Herds
 - `2448` -> збережено: "Luhansk Palanka"; прибрано: Luhansk
 
-## 2026 Adjacent Frontier Expansion for `common/province_names/ZAZ.txt`
-- This pass does not restore the old flavor model for ZAZ.
-- Method used: `mod-semantic stand-in` for adjacent frontier territories already implied by the mod's broader Zaporozhian geography.
-- Only strict toponyms were restored or added in this pass; no event-title or descriptive flavor names were reintroduced.
-- The conservative core block was preserved without revision:
+## Прохід 2026 року: суміжне порубіжжя для `common/province_names/ZAZ.txt`
+- Цей прохід не повертає старої описової моделі для ZAZ.
+- Спосіб: підставні назви за змістом мода для суміжних порубіжних земель, які вже випливають із запорозької географії мода.
+- Повернуто й додано лише строгі топоніми; назв із заголовків подій і описових назв не вертали.
+- Обережне ядро лишилося без змін:
   - `282 = "Ochakiv"`
   - `283 = "Sich"`
   - `286 = "Azov"`
   - `2406 = "Inhul"`
   - `2409 = "Bakhmut"`
-- The earlier dedup list above remains a record of the old normalization pass and no longer reflects the current active effective map for `ZAZ.txt`.
+- Перелік дублікатів вище — це запис старого нормалізаційного проходу; чинного стану `ZAZ.txt` він більше не описує.
 
 ### Додані суміжні та підставні топоніми
 - `238 = "Kodak"`

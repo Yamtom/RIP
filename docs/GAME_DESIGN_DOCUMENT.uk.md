@@ -1,6 +1,6 @@
-# Alternative Ruthenian Immersion Pack
+# Alternative Ruthenian Immersion Pack — альтернативний пакет занурення в Русь
 
-## Game Design Document
+## Проєктний документ
 
 | Поле | Значення |
 | --- | --- |
@@ -21,7 +21,7 @@
 
 ## 1. Core vision, історична достовірність та занурення
 
-## 1.1. High concept
+## 1.1. Загальний задум
 
 RIP — це регіональний immersion expansion, який перетворює Русь із периферії
 між Польщею-Литвою, Московією, Кримом, Османською імперією та Габсбургами на
@@ -147,7 +147,7 @@ Definition of done для історичного пакета:
 Vanilla-теги `KIE`, `CHR`, `VOL`, `ZAZ`, `UKR`, `PLT`, `MOS/RUS` та російські
 князівства отримують розширення або overrides. Для Харківського полку
 використовується вільний тег `KHK`; vanilla `KHA` залишається за Mongol
-Khanate.
+ханством.
 
 ## 2.2. Місійні дерева
 
@@ -160,7 +160,7 @@ Khanate.
 | DOM Russia | 74 | повний тематичний override російського дерева |
 | Kyiv | 49 | київська реставрація та KIE/UKR/KRU маршрути |
 | Pereiaslav | 20 | полкова адміністрація, Дніпро, зерно, дипломатична спадщина |
-| Podillia | 25 | Carpathian Bastion, Frontier Republic, Magnate Dominion |
+| Поділля | 25 | Карпатський бастіон, Порубіжна республіка, Панування магнатів |
 | Poland/Commonwealth | 10 | польсько-руський і козацький шар PLC |
 | Russian Minors | 10 | тематичний override vanilla minors |
 | Volhynia/Halych/Volyn | 66 | карпатський, балтійський, австрійський і польський paths |
@@ -169,7 +169,7 @@ Khanate.
 | Hetmanate | 16 | Khmelnytsky, Mazepa й Rozumovsky arcs |
 
 Окрема 1444 bookmark додає рекомендовані старти, не замінюючи vanilla
-bookmarks.
+закладок.
 
 ## 2.3. Події та рішення
 
@@ -177,7 +177,7 @@ bookmarks.
 
 - 57 event files і 623 top-level events;
 - 27 active decision files і 131 decisions;
-- 26 country histories, 67 province histories, 4 diplomacy histories,
+- 26 історій країн, 67 історій провінцій, 4 історії дипломатії,
   8 historical wars та 1 advisor history.
 
 Основні event families:
@@ -186,7 +186,7 @@ bookmarks.
 - Cossack Revolts, Steppe Raiding, chaiky й Zaporizhian Crisis;
 - Гетьманщина, succession, Legacy Eras, Moldova та Khmelnytsky;
 - Greek Catholic, Russian Orthodox, Raskol, Union of Brest і Crusades;
-- Uzhhorod, Volhynia, Galicia, Podillia, Polesia/Belarus;
+- Ужгород, Волинь, Галичина, Поділля, Полісся й Білорусь;
 - Border Principalities, Qasim Khanate, Dniester й Moldavian frontier;
 - Kyiv–Dnieper та South/West Ukraine historical packages;
 - Women in History — навмисний exact-filename override vanilla, який потребує
@@ -194,26 +194,26 @@ bookmarks.
 
 Основні decision packages: формування Ruthenia, Hetmanate, Kuyaba,
 Volyn–Halych, Polesia та Belarus; київські імперські моделі; Great Rada,
-register, chaiky, Sloboda; Podillia paths; Greek Catholic/Russian Orthodox;
+реєстр, чайки, слободи; подільські шляхи; греко-католицтво й російське православ'я;
 Orthodox Crusade; Dniester, Moldova, South Ukraine та eastward expansion.
 
 ## 2.4. Системний контент і assets
 
 | Категорія | Поточний обсяг |
 | --- | ---: |
-| Government reforms | 85 |
-| National idea groups | 18 |
+| Урядові реформи | 85 |
+| Групи національних ідей | 18 |
 | Disasters | 12 |
 | Religions | 2 |
-| Church aspect / blessing definitions | 21 |
-| Estates | 4 active vanilla-estate overrides |
+| Описи церковних аспектів і благословень | 21 |
+| Стани | 4 чинні перекриття станів ванілі |
 | Custom estate privileges | 17, з них 4 Jewish/Burgher |
-| Great projects | 2 |
-| Subject types | 1 (`princedom`) |
-| CB / wargoal types | 2 / 2 |
-| Event modifier definitions | 1,054 (1,028 unique IDs) |
-| Localisation | 42 files, 8,728 key lines; 8,486 use standard indentation |
-| Visuals | 23 TGA, 18 DDS, 6 interface GFX, thumbnail |
+| Великі споруди | 2 |
+| Типи васалітету | 1 (`princedom`) |
+| Приводи до війни й воєнні цілі | 2 / 2 |
+| Описи подієвих модифікаторів | 1054 (1028 неповторних ID) |
+| Локалізація | 42 файли, 8728 рядків-ключів; 8486 зі звичним відступом |
+| Зображення | 23 TGA, 18 DDS, 6 файлів інтерфейсу, обкладинка |
 
 Усі 19 зареєстрованих нових тегів уже мають прапори. У release assets не
 враховуються чотири `.tga.bak`; це резервні копії, а не ігровий контент.
@@ -257,7 +257,7 @@ blessings без підтвердженої підтримки engine.
 ## 3.4. Уряд, стани та внутрішня політика
 
 Реформи охоплюють князівські assemblies, appanages, Cossack Host, Kosh
-elections, Sich brotherhood, Hetman for Life, Starshyna oligarchy, Collegium
+вибори коша, січове братство, довічне гетьманство, олігархію старшини, урядування
 control, Podillian, Galician, Volhynian, Pereiaslav і Uzhhorod models.
 
 Jewish economic content інтегровано через чотири Burgher privileges — tax
@@ -327,7 +327,7 @@ RIP/
 ```
 
 `docs`, tests і tooling не входять до Workshop ZIP. Поточний canonical
-release inventory: 418 tracked engine-layer files — `common` 122, `events` 57,
+випуску: 418 стежених файлів рушійного шару — `common` 122, `events` 57,
 `missions` 11, `decisions` 27, `history` 106, `localisation` 42, `gfx` 45,
 `interface` 6 і `customizable_localization` 2. У локальному worktree можуть
 залишатися чотири ignored `.tga.bak`, але Git і release archive їх не містять.
@@ -369,9 +369,9 @@ archive/rip-fresh2 @ 07cf176d ─┘
 - `common/modifiers/RIP_VOL_modifiers.txt` видалено після reference audit;
 - `restored_ruthenia` розділено на namespaced province/country modifiers у
   `common/event_modifiers`, тому він не конфліктує з vanilla ID і не змішує
-  scopes.
+  областей.
 
-## 4.4. Country integrity contract
+## 4.4. Умова цілості країн
 
 Кожний новий тег проходить ланцюг:
 
@@ -388,7 +388,7 @@ CI має відхиляти PR, якщо бракує хоча б одного 
 Filename може зберігати vanilla spelling для VFS override, тоді як UI
 localisation використовує style guide.
 
-## 4.5. Vanilla override policy
+## 4.5. Правила перекривання ванілі
 
 Є два типи зміни:
 
@@ -413,7 +413,7 @@ localisation використовує style guide.
 
 Один PR вирішує одну subsystem-проблему. PR template повинен містити:
 
-- player-facing impact;
+- що це змінює для гравця;
 - перелік файлів і vanilla overrides;
 - migration notes для IDs/flags;
 - test matrix і error-log delta;
@@ -425,11 +425,11 @@ localisation використовує style guide.
 Мінімальні checks:
 
 1. `git diff --check`, відсутність conflict markers.
-2. Clausewitz/CWTools parse validation.
+2. Перевірка розбору Clausewitz і CWTools.
 3. Duplicate ID і unresolved-reference scans.
-4. Tag-integrity check.
-5. Localisation: UTF-8 BOM, `l_english:` header, indentation, duplicate keys.
-6. Vanilla collision allowlist.
+4. Перевірка цілості тегів.
+5. Локалізація: UTF-8 з BOM, заголовок `l_english:`, відступи, повторені ключі.
+6. Дозвільний перелік зіткнень із ваніллю.
 7. Заборона nested `.git`, mode `160000`, nested `descriptor.mod`, невідомих
    loader directories і `.bak` у release.
 8. Smoke load, новий `error.log`, save/load і AI observer run.
@@ -441,9 +441,9 @@ tagged release. Локальну й Workshop-копію моду не можна
 
 ---
 
-## 5. Roadmap
+## 5. Дорожня карта
 
-## Milestone 0 — Canonical Root Recovery
+## Віха 0 — відновлення канонічного кореня
 
 **Стан: виконано в integration branch.**
 
@@ -457,9 +457,9 @@ tagged release. Локальну й Workshop-копію моду не можна
 - [x] Розділити `restored_ruthenia` за scope та namespace.
 - [x] Пройти smoke-load і regression review перед merge у `main`.
 
-## Milestone 1 — Engine Correctness
+## Віха 1 — правильність для рушія
 
-**Release blocker.**
+**Без цього випуску не буде.**
 
 - [x] Призначити Харківському полку вільний тег `KHK` замість vanilla `KHA`.
 - [x] Виправити mappings або filenames `Chernihiv`, `Kyiv`, `Zaporizhia`,
@@ -467,7 +467,7 @@ tagged release. Локальну й Workshop-копію моду не можна
 - [x] Додати flags для RPS, MSK, TRV, VTB, MSL, BLR.
 - [x] Додати RPS/VTB name й adjective localisation та ODS country colour.
 - [x] Консолідувати 26 duplicate event-modifier IDs, 10 opinion IDs і
-  duplicate scripted triggers.
+  повторені скриптові тригери.
 - [x] Завершити aspects/blessings wiring.
 - [x] Виправити mission series/slot collisions і case typo `NOt`.
 - [x] Перевірити всі province IDs та same-ID/different-filename histories.
@@ -477,7 +477,7 @@ Exit criteria: CWTools без parse errors; tag/reference checks зелені; �
 EU4 `error.log` не містить mod-caused engine errors; нова гра та save/load
 проходять успішно.
 
-## Milestone 2 — Localisation and Historical QA
+## Віха 2 — локалізація та історична перевірка
 
 - [x] Уніфікувати BOM/header/indentation за vanilla 1.37.5.
 - [x] Додати стандартний відступ до 242 zero-indented English keys.
@@ -490,7 +490,7 @@ EU4 `error.log` не містить mod-caused engine errors; нова гра т
 - [x] Прибрати анахронічні династії та сучасні політичні прізвища.
 - [x] Додати source note й authenticity tier до ключових event chains.
 
-## Milestone 3 — Balance and Pacing Alpha
+## Віха 3 — альфа балансу й темпу
 
 - [x] Виправити scale errors loyalty, autonomy, patriarch authority та інші
   значення, що відрізняються від vanilla приблизно у 10–100 разів.
@@ -501,7 +501,7 @@ EU4 `error.log` не містить mod-caused engine errors; нова гра т
 - [x] Обмежити PU/vassal/tributary CB duration і кількість одночасних цілей.
 - [x] Провести 10 AI observer runs до 1650 та 3 ручні representative campaigns.
 
-## Milestone 4 — Visual and UI Beta
+## Віха 4 — бета зображень та інтерфейсу
 
 - [x] Замінити placeholder icons для CHR/UZH missions.
 - [x] Завершити bespoke reform, privilege й event-picture assets.
@@ -509,15 +509,15 @@ EU4 `error.log` не містить mod-caused engine errors; нова гра т
 - [x] Перевірити readability місійних ліній і tooltip completeness.
 - [x] Підготувати Workshop thumbnail, screenshots і feature list.
 
-## Milestone 5 — Map and Late-game Expansion
+## Віха 5 — карта й розширення пізньої гри
 
 - [x] Після стабілізації script layer: - [x] border fixes;  - [x] Belgorod;  - [x] Kodak/Dnipro;  - [x] Bila
 Tserkva;  - [x] Ochakov;  - [x] Odesa/Khajibey;  - [x] Chyhyryn;  - [x] опційно Kremenchuk і Moldova
 package. Далі:  - [x] Old Believers,  - [x] expanded appanages, - [x] Don/Circassian raids,
-- [x] Ottoman reaction, - [x] Kaffa slave market, - [x] Haidamaky, - [x] Orthodox brotherhoods,
+- [x] османська відповідь, - [x] невільничий ринок Кафи, - [x] гайдамаччина, - [x] братства,
 - [x] Armenian/Jewish urban networks, - [x] partitions і late-game Galicia/Volhynia.
 
-## Release definition of done
+## Що вважати готовим до випуску
 
 Версія готова до публікації, коли - [x] advertised systems не просто присутні у
 файлах, а - [x] **reachable, локалізовані, збалансовані, сумісні із save/load,
