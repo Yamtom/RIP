@@ -140,7 +140,7 @@ python tests/check_glossary.py
 
 ## 7. Посилання на провінції, які ще треба вирішити
 
-`check_script_layer.py` compares every `володіє = N  # Name` against the province
+`check_script_layer.py` compares every `owns = N  # Name` against the province
 that N actually is. These are the ones left where the right answer is a design
 call rather than a lookup. Each is a trigger that currently points somewhere
 the author did not mean.

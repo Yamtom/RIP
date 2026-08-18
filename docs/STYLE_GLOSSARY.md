@@ -77,7 +77,7 @@ picks it up.
 
 The benchmark is the VLN and HLC reform descriptions:
 
-> Chartered tволодіє exercise municipal self-government under the protections of
+> Chartered towns exercise municipal self-government under the protections of
 > Magdeburg law.
 >
 > The Sich Rada still gathers to guard Cossack privileges, yet the hetman's
