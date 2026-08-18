@@ -1,0 +1,28 @@
+# Display gate for the Ruthenian government reform family.
+#
+# A reform without a potential block is listed in every country's reform
+# slots and only greyed out by its trigger, which is why Castile and Ming
+# were being offered the boyar elite and the legislative rada. potential
+# decides what is shown; trigger stays the eligibility check.
+#
+# A country qualifies when Ruthenian is its own culture - primary or
+# accepted - or when Ruthenian is the dominant culture of the land it holds.
+# Sitting on one of the Ruthenian government types also qualifies, so a
+# country that already took these reforms keeps seeing them.
+
+ruthenian_reform_visible = {
+	OR = {
+		OR = {
+			primary_culture = ruthenian
+			primary_culture = rusyn
+			primary_culture = ruthenian_new
+			primary_culture = rusyn_new
+			primary_culture = rusyn_new_new
+		}
+		accepted_culture = ruthenian
+		dominant_culture = ruthenian
+		has_reform = ruthenian_principality_reform
+		has_reform = kyivan_rus_reform
+		has_reform = principality_appanage
+	}
+}
