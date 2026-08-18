@@ -1,12 +1,12 @@
-# Border Principalities System - Technical Documentation
+# Порубіжні князівства — технічний опис
 
 ## Стан
 
-Both chains are wired and should fire. Three separate faults had to clear
-first: every province ID in `border_principalities.1-12` pointed at the wrong
-place, every trigger demanded a tag that does not hold the land at game start,
-and `qasim_khanate.1` could not create its vassal. Nothing in either chain is
-known to be blocked now.
+Обидва ланцюги підключені й мають спрацьовувати. Спершу довелося усунути три
+окремі вади: всі ID провінцій у `border_principalities.1-12` указували не туди,
+кожен тригер вимагав тег, який на початку партії тими землями не володіє, а
+`qasim_khanate.1` не міг створити свого васала. Заблокованих місць у жодному з
+ланцюгів більше не видно.
 
 Одне залишається на розсуд автора: **Бєлгород**. Документ
 `MAP_REWORK_SUGGESTIONS.md` пропонує окрему провінцію під Ягольдаєву
@@ -39,53 +39,53 @@ CHR — незалежна республіка Сіверського віча 
 для того, хто справді тримає землю. Описи подій 5, 8, 10 і 12 називають
 сюзерена через `[From.GetName]`, а не «Литву».
 
-## Province IDs
+## ID провінцій
 
-The chain originally shipped with province IDs that did not match the comments
-beside them; every trigger in it referred to the wrong place, most damagingly
-`295`, which is Moskva rather than Rylsk. The IDs below are the ones the mod's
+Ланцюг початково мав ID провінцій, які не збігалися з коментарями поруч; кожен
+тригер указував не туди, і найгірше — `295`, це Москва, а не Рильськ. Нижче
+наведено ті ID, які справді відповідають описові в
 own `history/provinces/` files define. On who володіє them at game start, see the
-section above.
+розділі вище.
 
-| Province | ID | Was (wrong) | Used by |
+| Провінція | ID | Було (хибно) | Де вживається |
 |---|---|---|---|
-| Rylsk | `4543` | `295` - Moskva | events 1, 4, 5 |
-| Kursk | `298` | `2408` - Lipetsk | events 3, 9, 10 |
-| Bryansk | `297` | `296` - Myrhorod | event 2 |
-| Novgorod-Seversky | `1945` | `1960` - no such province | events 2, 11 |
-| Starodub | `4244` | `1960` - no such province | event 11 |
+| Рильськ | `4543` | `295` — Москва | події 1, 4, 5 |
+| Курськ | `298` | `2408` — Липецьк | події 3, 9, 10 |
+| Брянськ | `297` | `296` — Миргород | подія 2 |
+| Новгород-Сіверський | `1945` | `1960` — такої провінції немає | події 2, 11 |
+| Стародуб | `4244` | `1960` — такої провінції немає | подія 11 |
 
-## The Qasim chain
+## Касимовський ланцюг
 
-`QAS` is a vanilla tag - `common/country_tags/00_countries.txt` maps it to
-`countries/QasimKhanate.txt`, and vanilla gives it a core on `1778` Kasimov.
+`QAS` — тег із ванілі: `common/country_tags/00_countries.txt` відсилає до
+`countries/QasimKhanate.txt`, а ваніль дає йому осердя на `1778` Касимові.
 It is dormant rather than absent: Muscovy володіє Kasimov in 1444 and no vanilla
-event ever releases QAS, so the mod is free to. The province IDs the chain
-uses are right - `1778` is Kasimov and `1082` is Kazan.
+жодна подія ванілі QAS не звільняє, тож мод може це зробити сам. ID провінцій
+у ланцюгу правильні: `1778` — Касимов, `1082` — Казань.
 
-The one defect was in `qasim_khanate.1`, which called `create_subject` on a
-country that did not exist yet. `release = QAS` now runs first, as it already
-did in `qasim_khanate.3`.
+Єдина вада була в `qasim_khanate.1`: він кликав `create_subject` для країни,
+якої ще не існувало. Тепер спершу виконується `release = QAS` — так, як це вже
+було в `qasim_khanate.3`.
 
-The chain has since been reworked further: `qasim_khanate.2` and `.3` now
-guard themselves with `qasim_kazan_intervention_resolved` and
-`qasim_kazan_fate_resolved`, and `.3` handles Kazan surviving as a subject
-rather than only as a conquest. Both also carry `fire_only_once` - `.3`
-needed it, because its trigger stays true after either option and the event
+Відтоді ланцюг переробили далі: `qasim_khanate.2` і `.3` тепер захищають себе
+прапорцями `qasim_kazan_intervention_resolved` і `qasim_kazan_fate_resolved`, а
+`.3` враховує, що Казань може вціліти як васал, а не лише бути завойованою.
+Обидві мають `fire_only_once` — для `.3` це було конче потрібно, бо її тригер
+лишається істинним після будь-якого варіанта, і подія
 was returning every six місяців.
 
-That rework reached `origin/main` with unresolved merge conflict markers in
-the file, which meant EU4 could not parse `QasimKhanate.txt` at all. Resolved,
-and `tests/check_script_layer.py` now fails on conflict markers so it cannot
-happen quietly again.
+Ця переробка потрапила в `origin/main` із нерозв'язаними маркерами конфлікту
+злиття, тобто EU4 узагалі не могла розібрати `QasimKhanate.txt`. Маркери
+прибрано, а `tests/check_script_layer.py` тепер падає на них, тож тихо це вже
+не повториться.
 
-Two comments elsewhere in the repository misname these same provinces and are
-worth not trusting: `events/SteppeRaiding.txt` calls `1082` the Lower Yayik,
-which it is not. See the triage list in `docs/WORKSHOP_LISTING.md`.
+Ще два коментарі в репозиторії називають ці самі провінції неправильно, і
+довіряти їм не варто: `events/SteppeRaiding.txt` зве `1082` Нижнім Яїком, а це
+не так. Розбір див. у `docs/WORKSHOP_LISTING.md`.
 
 ## Історичний контекст
 
-Between 1444 and 1520, the border region between the Grand Duchy of Lithuania and Muscovy was characterized by numerous small semi-autonomous principalities that could switch allegiance between the two powers. This instability was a key factor in the Muscovite-Lithuanian Wars of 1500-1503 and 1507-1508, which resulted in significant territorial gains for Moscow.
+Між 1444 і 1520 роками порубіжжя Великого князівства Литовського й Московії складалося з багатьох дрібних напівсамостійних князівств, які могли переходити від однієї держави до іншої. Ця хиткість стала однією з головних причин московсько-литовських воєн 1500-1503 і 1507-1508 років, які принесли Москві значні здобутки.
 
 ### Ключові історичні князівства
 
@@ -113,7 +113,7 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
    - **Головні міста**: Starodub, Chernigov, Novgorod-Seversky
    - **Перехід**: 1500-1503, major territorial loss for Lithuania
    - **Причина**: Orthodox Rus' princes preferred Muscovite rule
-   - **Impact**: Shifted balance of power significantly toward Moscow
+   - **Наслідок**: рівновага сил помітно схилилася до Москви
 
 ### The Qasim Khanate (Касимовское ханство)
 
@@ -123,17 +123,17 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 **Тривалість**: 1452-1681
 **Столиця**: Qasim (Gorodets-Meshchersky)
 
-**Historical Functions**:
-- Provided loyal Tatar cavalry for Muscovite campaigns
-- Served as rival claimant to Kazan throne, justifying interventions
-- Demonstrated Muscovite tolerance and ability to rule Muslim subjects
-- After Kazan's conquest (1552), became ceremonial but prestigious title
+**Історична роль**:
+- Давало Москві вірну татарську кінноту
+- Тримало суперника на казанський престол, чим виправдовувало втручання
+- Показувало, що Москва вміє врядувати мусульманськими підданими
+- Після взяття Казані (1552) лишилося почесним титулом
 
-**Key Moments**:
-- 1467-1469: Qasim Khan attacks Kazan with Muscovite support
-- 1487: Qasim pretender installed as Khan of Kazan (puppet rule)
-- 1552: After Ivan IV conquers Kazan, Qasim loses relevance
-- 1681: Formally annexed into Russian state
+**Головні віхи**:
+- 1467-1469: Касим-хан б'є на Казань за московської підтримки
+- 1487: касимовського претендента саджають на казанський престол як ляльку
+- 1552: після взяття Казані Іваном IV Касимов утрачає вагу
+- 1681: остаточно прилучено до Московської держави
 
 ### Lipka Tatars (Липки)
 
@@ -142,132 +142,132 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 **Релігія**: Sunni Islam
 **Мова**: Turkic languages, later Polish/Belarusian
 
-**Military Service**:
-- Elite light cavalry in Lithuanian/Polish armies
-- Fought against Teutonic Knights, Muscovy, Ottoman Empire
-- Renowned for speed, reconnaissance, and skirmishing
-- Maintained steppe warfare traditions in European context
+**Військова служба**:
+- Добірна легка кіннота литовського й польського війська
+- Билися з тевтонцями, Москвою, Портою
+- Славилися прудкістю, розвідкою та сутичками
+- Тримали степовий спосіб воювання посеред Європи
 
-**Settlements**:
-- Concentrated in modern Belarus and Lithuania
-- Given land grants in exchange for military service
-- Maintained mosques and Islamic culture
-- Integrated into nobility (szlachta) while keeping Muslim faith
+**Оселі**:
+- Осідали здебільшого на теренах теперішніх Білорусі й Литви
+- Діставали землю за військову службу
+- Тримали мечеті й мусульманський звичай
+- Увійшли до шляхти, не зрікшись віри
 
-**Legal Status**:
-- Religious freedom guaranteed by Warsaw Confederation (1573)
-- Noble privileges (szlachta rights)
-- Autonomy in internal affairs
-- Military service obligations to Crown
+**Правове становище**:
+- Свободу віри забезпечила Варшавська конфедерація 1573 року
+- Шляхетські привілеї
+- Самоуправа у внутрішніх справах
+- Обов'язок військової служби короні
 
-## Event System Structure
+## Будова системи подій
 
-### Border Principalities Events (border_principalities namespace)
+### Події порубіжних князівств (простір імен border_principalities)
 
-#### Event 1: Shemyaka Heirs in Rylsk
+#### Подія 1: Шемячичі в Рильську
 **Тригер**: Lithuania or Chernihiv володіє Rylsk (`4543`), 1444-1500
 **Середній час**: 12 місяців
 **Вибір A** (AI 80%): Grant vassal autonomy → modifier `shemyaka_rurikid_rule` on province, `border_vassal_buffer` country modifier
 **Вибір B** (AI 20%): Direct control → stability or adm power, +3 unrest in Rylsk
 
-#### Event 2: Glinski Family and Mamai's Descendants
+#### Подія 2: Глинські, нащадки Мамая
 **Тригер**: Lithuania or Chernihiv володіє Bryansk (`297`) or Novgorod-Seversky (`1945`), 1444-1500
 **Середній час**: 18 місяців
 **Вибір A** (AI 70%): Grant lands to Glinski → `glinski_tatar_settlement` modifier on random Severia/Bryansk province, +1 base manpower, `tatar_border_defense` country modifier (25 років)
 **Вибір B** (AI 30%): Refuse petition → +5 prestige, `refused_powerful_family` negative modifier (10 років)
 
-#### Event 3: Jagoldai Khanate Settlement
+#### Подія 3: Ягольдаєве осадження
 **Тригер**: Lithuania or Chernihiv володіє Kursk (`298`), 1444-1480
 **Середній час**: 24 місяців
 **Вибір A** (AI 75%): Accept Jagoldai → `jagoldai_horde_settlement` modifier on Kursk, +50 mil power, `horde_vassal_buffer` country modifier (25 років)
 **Вибір B** (AI 25%): Refuse → +10 legitimacy, +2 unrest in Kursk
 
-#### Event 4: Rylsk Defects to Muscovy
+#### Подія 4: Рильськ відходить до Москви
 **Тригер**: Lithuania or Chernihiv володіє Rylsk with `shemyaka_rurikid_rule`, 1500-1510, Muscovy exists and neighbors Lithuania
 **Середній час**: 36 місяців (faster if low legitimacy or at war)
 **Вибір A** (AI 60%): Keep loyal → -10 prestige, +10 legitimacy, 30% defects anyway triggering Event 5, 70% keeps `strengthened_border_vassals`
 **Вибір B** (AI 10%): Peaceful transfer → Rylsk cedes to Muscovy, -15 prestige, truce
 **Вибір C** (AI 30%): War → Declares restoration war on Muscovy
 
-#### Event 5: Muscovy Receives Rylsk (triggered by Event 4)
+#### Подія 5: Москва приймає Рильськ (кличе подія 4)
 **Результат**: Muscovy gains Rylsk, +10 prestige, +5 legitimacy, core CB on Lithuania (10 років)
 
-#### Event 6: Glinski Rebellion Brewing
+#### Подія 6: Глинські готують повстання
 **Тригер**: Lithuania or Chernihiv has Glinski province, 1507-1515, Muscovy exists
 **Середній час**: 24 місяців (faster if low legitimacy or revolts present)
 **Вибір A** (AI 40%): Negotiate → -10 prestige, -0.3 років income, 60% Glinski stays loyal (`glinski_appeasement`), 40% triggers Event 7
 **Вибір B** (AI 30%): Suppress → -50 mil power, 2 noble rebel stacks spawn (friendly to Muscovy)
 **Вибір C** (AI 30%): Exile Glinski → triggers Event 8, removes modifier, +20 devastation on province
 
-#### Event 7: Glinski Full Rebellion (triggered by Event 6)
+#### Подія 7: повстання Глинських (кличе подія 6)
 **Результат**: 3 noble rebel stacks spawn, Muscovy gets support rebels CB (5 років)
 
-#### Event 8: Muscovy Receives Glinski Defectors (triggered by Event 6.c)
+#### Подія 8: Москва приймає Глинських (кличе варіант 6.c)
 **Результат**: +15 prestige, +10 legitimacy, +50 adm power, `glinski_advisors_muscovy` modifier (20 років), core CB on Lithuania (10 років)
 
-#### Event 9: Jagoldai Switches Allegiance
+#### Подія 9: Ягольдаєвичі міняють зверхника
 **Тригер**: Lithuania or Chernihiv володіє Kursk with `jagoldai_horde_settlement`, 1492-1505, Muscovy exists
 **Середній час**: 48 місяців (faster if Muscovy stronger or Lithuania at war)
 **Вибір A** (AI 50%): Retain loyalty → -0.25 років income, 40% stays loyal, 60% triggers Event 10
 **Вибір B** (AI 20%): Let go → Kursk cedes to Muscovy, -10 prestige
 **Вибір C** (AI 30%): War → Declares annexation war on Muscovy
 
-#### Event 10: Muscovy Receives Jagoldai (triggered by Event 9)
+#### Подія 10: Москва приймає Ягольдаєвичів (кличе подія 9)
 **Результат**: Kursk cedes to Muscovy, removes old modifier, applies `jagoldai_muscovite_service`, +10 prestige, +50 mil power
 
-#### Event 11: Starodub Switching Allegiance
+#### Подія 11: Стародуб міняє зверхника
 **Тригер**: Lithuania or Chernihiv володіє Starodub (`4244`) or Novgorod-Seversky (`1945`), 1500-1510, Muscovy neighbor
 **Середній час**: 30 місяців (faster if at war or Muscovy militarily stronger)
 **Вибір A** (AI 70%): Fight → Muscovy gets core CB (10 років), triggers Event 12
 **Вибір B** (AI 30%): Let go → -20 prestige, random Severia/Bryansk province cedes to Muscovy, truce
 
-#### Event 12: Muscovy Receives Starodub Offer (triggered by Event 11)
+#### Подія 12: Москва дістає стародубську пропозицію (кличе подія 11)
 **Результат**: +15 prestige, +10 legitimacy, core CB on Lithuania (10 років)
 
-### Qasim Khanate Events (qasim_khanate namespace)
+### Події Касимовського ханства (простір імен qasim_khanate)
 
-#### Event 1: Foundation of Qasim Khanate
+#### Подія 1: заснування Касимовського ханства
 **Тригер**: Muscovy володіє Qasim province, 1450-1460, Kazan exists and not allied
 **Середній час**: 24 місяців (faster if rival to Kazan or at war with Kazan)
 **Вибір A** (AI 80%): Create khanate → `qasim_khanate_capital` on province, `qasim_khanate_vassal` country modifier (постійний), release and vassalize QAS, QAS gets `kazan_pretender_claims`, Kazan gets negative opinion
 **Вибір B** (AI 20%): Direct control → +50 adm power, +1 base tax on Qasim
 
-#### Event 2: Qasim Attacks Kazan
+#### Подія 2: Касимов б'є на Казань
 **Тригер**: Muscovy has QAS vassal with claims, 1467-1550, Kazan exists, not at war/allied with Kazan
 **Середній час**: 120 місяців (faster if rival to Kazan or Kazan weak)
 **Вибір A** (AI 60%): Military support → Declares restoration PU war on Kazan, QAS -20 liberty desire
 **Вибір B** (AI 30%): Diplomatic pressure → Kazan gets threatened opinion, -5 prestige
 **Вибір C** (AI 10%): Restrain vassal → QAS +10 liberty desire, +25 dip power
 
-#### Event 3: Fate of Conquered Kazan
+#### Подія 3: доля завойованої Казані
 **Тригер**: Muscovy володіє Kazan capital, 1467-1552, QAS exists as vassal, Kazan doesn't exist
 **Середній час**: 6 місяців
 **Вибір A** (AI 40%): Install Qasim Khan → Kazan area gets QAS core, release and vassalize QAS (now ruling Kazan), QAS gets `muscovite_puppet_khan`, QAS -30 liberty desire
 **Вибір B** (AI 60%): Annex directly → Kazan area gets `conquered_khanate` modifier (20 років), QAS +20 liberty desire
 
-#### Event 4: Qasim Khanate Integration
+#### Подія 4: прилучення Касимовського ханства
 **Тригер**: Muscovy has QAS vassal, 1550-1700
 **Середній час**: 240 місяців (faster if Kazan conquered or high ADM)
 **Вибір A** (AI 70%): Integrate → Inherit QAS, Qasim province gets `former_qasim_khanate`, country gets `tatar_nobility_integrated` (постійний)
 **Вибір B** (AI 30%): Keep vassal → QAS -20 liberty desire, QAS gets `loyal_tatar_vassal`
 
-#### Event 5: Lipka Tatars Seek Settlement
+#### Подія 5: липки просяться на осідок
 **Тригер**: Lithuania, 1440-1500, володіє provinces in White Ruthenia/Minsk/Pripyat areas
 **Середній час**: 60 місяців
 **Вибір A** (AI 80%): Welcome Lipka → Random qualifying province gets `lipka_tatar_settlement`, +1 base manpower, country gets `lipka_tatar_cavalry_tradition` (постійний)
 **Вибір B** (AI 20%): Refuse → +5 prestige, +25 adm power
 
-#### Event 6: Lipka Tatars' Loyalty
+#### Подія 6: вірність липків
 **Тригер**: Commonwealth (tag PLC), 1569-1700, has province with `lipka_tatar_settlement`
 **Середній час**: 120 місяців
 **Вибір A** (AI 70%): Reward loyalty → -0.2 років income, all Lipka provinces get `lipka_tatar_privileges` (20 років), country gets `tatar_nobility_service` (25 років)
 **Вибір B** (AI 30%): Status quo → +25 mil power
 
-## Modifier Reference
+## Довідник модифікаторів
 
-### Province Modifiers
+### Модифікатори провінцій
 
-| Modifier | Effects | Duration | Applied By |
+| Модифікатор | Дія | Тривалість | Хто накладає |
 |----------|---------|----------|------------|
 | `shemyaka_rurikid_rule` | -1 unrest, +15% defensiveness, +10% garrison | Постійний | border_principalities.1 |
 | `glinski_tatar_settlement` | +20% local manpower, +1 local hostile attrition | Постійний | border_principalities.2 |
@@ -280,9 +280,9 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 | `lipka_tatar_settlement` | +20% local manpower, +15% garrison | Постійний | qasim_khanate.5 |
 | `lipka_tatar_privileges` | -2 unrest, +15% manpower, +20% garrison | 20 років | qasim_khanate.6.a |
 
-### Country Modifiers
+### Модифікатори країни
 
-| Modifier | Effects | Duration | Applied By |
+| Модифікатор | Дія | Тривалість | Хто накладає |
 |----------|---------|----------|------------|
 | `border_vassal_buffer` | +0.5 hostile attrition, -10% fort maintenance, +1 diplomat | 20 років | border_principalities.1 |
 | `tatar_border_defense` | +5% cavalry power, +25% flanking, -15% fort maint, +0.75 hostile attrition | 25 років | border_principalities.2 |
@@ -294,9 +294,9 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 | `glinski_advisors_muscovy` | +2 diplomatic reputation, +0.5 legitimacy, -15% advisor cost, +5% cav power | 20 років | border_principalities.8 |
 | `lipka_tatar_cavalry_tradition` | +15% cavalry power, +25% flanking, -10% cavalry cost | Постійний | qasim_khanate.5 |
 | `tatar_nobility_service` | +10% cavalry power, +1 diplomatic reputation, +2 tolerance heathen | 25 років | qasim_khanate.6.a |
-| `severian_princes_defection` | -1.0 prestige, -1 diplomatic reputation, -0.5 legitimacy | **defined, never applied** | - |
-| `muscovite_expansion_momentum` | +1.0 prestige, +1.0 legitimacy, +1 dipl rep, -10% core creation | **defined, never applied** | - |
-| `border_war_preparation` | +5% morale, +10% manpower recovery, -15% fort maintenance | **defined, never applied** | - |
+| `severian_princes_defection` | -1,0 престижу, -1 дипломатичної поваги, -0,5 легітимності | **описаний, ніде не накладається** | — |
+| `muscovite_expansion_momentum` | +1,0 престижу, +1,0 легітимності, +1 дипломатичної поваги, -10% ціни осердь | **описаний, ніде не накладається** | — |
+| `border_war_preparation` | +5% бойового духу, +10% відновлення живої сили, -15% утримання фортець | **описаний, ніде не накладається** | — |
 | `qasim_khanate_vassal` | +10% cavalry power, +1 diplomatic reputation, +20% vassal income | Постійний | qasim_khanate.1 |
 | `kazan_pretender_claims` | -10% AE impact, -15% unjustified demands | Постійний | qasim_khanate.1 |
 | `muscovite_puppet_khan` | -20 liberty desire, -1 diplomatic reputation | Постійний | qasim_khanate.3.a |
@@ -305,157 +305,157 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 
 ## Інтеграція з наявними системами
 
-### Steppe Raiding System
-The border principalities system integrates with the steppe raiding mechanics:
-- Tatar settlements (Glinski, Jagoldai, Lipka) provide `local_hostile_attrition` bonuses
-- These settlements reduce raid damage from `steppe_raid.1-7` events
-- `tatar_border_defense` country modifier stacks with `zasechnaya_cherta`
-- Provinces with Tatar modifiers are less likely to be targeted by raids
+### Степові набіги
+Порубіжні князівства стикуються з механікою степових набігів:
+- Татарські осади (Глинські, Ягольдаєві, липківські) дають `local_hostile_attrition`
+- Вони зменшують шкоду від подій `steppe_raid.1-7`
+- Модифікатор країни `tatar_border_defense` складається із `zasechnaya_cherta`
+- Провінції з татарськими модифікаторами рідше стають ціллю набігів
 
-### Cossack Estate System
-Border principalities affect Cossack estate interactions:
-- Glinski Tatar cavalry compete with Cossack hosts for influence
-- Severian princes' defection can trigger Cossack loyalty shifts
-- Orthodox principalities switching to Muscovy strengthen Cossack integration
-- Lipka Tatars in PLC provide alternative cavalry, reducing Cossack monopoly
+### Козацький стан
+Порубіжні князівства впливають на козацький стан:
+- Татарська кіннота Глинських змагається з козацтвом за вплив
+- Відхід сіверських князів може хитнути вірність козацтва
+- Перехід православних князівств до Москви скріплює козацьке прилучення
+- Липки в Речі Посполитій дають іншу кінноту, розбиваючи козацьку однину
 
-### Muscovite Expansion
-The system provides historical justification for Muscovite westward expansion:
-- Shemyaka heirs give claims to Lithuanian border regions
-- Glinski defection provides military intelligence and commanders
-- Severian princes' switch simulates "gathering of Russian lands"
-- Qasim Khanate demonstrates ability to rule non-Russian subjects
+### Московське розширення
+Система дає історичне підґрунтя московському рухові на захід:
+- Шемячичі дають претензії на литовське порубіжжя
+- Відхід Глинських приносить відомості й воєвод
+- Перехід сіверських князів відтворює «збирання руських земель»
+- Касимовське ханство показує вміння врядувати неруськими підданими
 
-### Lithuanian Internal Dynamics
-For Lithuania/Commonwealth, the system creates internal challenges:
-- Border vassals drain resources (tribute payments)
-- Risk of defection forces military spending
-- Tatar settlements create multi-faith issues
-- Orthodox principalities resist integration
+### Внутрішнє життя Литви
+Литві та Речі Посполитій система дає внутрішні клопоти:
+- Порубіжні васали тягнуть кошти (данина)
+- Загроза відходу змушує тримати військо
+- Татарські осади породжують багатовірʼя
+- Православні князівства опираються прилученню
 
-## AI Behavior
+## Поведінка ШІ
 
-### Lithuania AI Weights
-- **Grant vassal autonomy**: 70-80% (border security valued)
-- **Accept Tatar settlements**: 70-80% (pragmatic military need)
-- **Fight to keep vassals**: 60-70% (prestige matters)
-- **Negotiate with rebels**: 40% (cost-averse)
+### Ваги для литовського ШІ
+- **Дати васалові самоуправу**: 70-80% (безпека кордону цінна)
+- **Прийняти татарські осади**: 70-80% (військова потреба)
+- **Боротися за васалів**: 60-70% (престиж важить)
+- **Домовлятися з бунтівниками**: 40% (шкода витрат)
 
-### Muscovy AI Weights
-- **Create Qasim Khanate**: 80% (strategic value high)
-- **Support Qasim claims**: 60% (expansionist but cautious)
-- **Accept defectors**: 100% (free territory)
-- **Annex vs puppet Kazan**: 60% annex / 40% puppet (direct control preferred)
+### Ваги для московського ШІ
+- **Створити Касимовське ханство**: 80% (велика стратегічна вага)
+- **Підтримати касимовські претензії**: 60% (хижо, але обачно)
+- **Прийняти перебіжчиків**: 100% (дармова земля)
+- **Прилучити чи посадити ляльку в Казані**: 60% прилучити / 40% лялька
 
-### Modifier Impact on AI
-- Low legitimacy: Faster vassal defection (x0.7-0.8 MTTH)
-- At war: Increased defection risk (x0.6-0.8 MTTH)
-- Strong military: Slower defection (x1.2-1.5 MTTH)
-- Alliance with rival: Blocks some events
+### Як модифікатори змінюють ШІ
+- Мала легітимність: васали відходять швидше (×0,7-0,8 MTTH)
+- Під час війни: більший ризик відходу (×0,6-0,8 MTTH)
+- Сильне військо: відхід повільніший (×1,2-1,5 MTTH)
+- Союз із суперником: частину подій замикає
 
-## Historical Accuracy vs Gameplay
+## Історичність проти гри
 
-### Authentic Elements
-✅ Shemyaka descendants' role in Rylsk
-✅ Glinski rebellion and defection (1508)
-✅ Jagoldai settlement as buffer state
-✅ Severian princes' switch (1500-1503)
-✅ Qasim Khanate as Muscovite tool
-✅ Lipka Tatars in Polish-Lithuanian service
-✅ Religious tensions Orthodox vs Catholic
+### Що взято з історії
+✅ Роль Шемячичів у Рильську
+✅ Повстання й відхід Глинських (1508)
+✅ Ягольдаєве осадження як прокладка
+✅ Перехід сіверських князів (1500-1503)
+✅ Касимовське ханство як московське знаряддя
+✅ Липки на польсько-литовській службі
+✅ Напруга між православними й католиками
 
-### Simplified for Gameplay
-⚠️ Timeline compression: Events can fire within narrower windows
-⚠️ Player agency: Historical outcomes can be avoided
-⚠️ Mechanical effects: Some modifiers more powerful than historical impact
-⚠️ Vassal mechanics: EU4 system doesn't perfectly capture period's feudal complexity
-⚠️ Qasim tag: May need creation via event (not in base game)
+### Що спрощено заради гри
+⚠️ Стиснення часу: події настають у вужчих вікнах
+⚠️ Воля гравця: історичного кінця можна уникнути
+⚠️ Механіка: окремі модифікатори сильніші за історичну вагу події
+⚠️ Васалітет: система EU4 не передає всієї плутанини тодішніх залежностей
+⚠️ Тег Касимова: у грі він є, але звільняти його доводиться подією
 
 ### Баланс Considerations
-- Tatar cavalry bonuses strong but historically justified
-- Defection risks force player investment in legitimacy/military
-- Muscovy gains significant but require player action
-- Lithuania can maintain control with proper management
-- Rewards historical play style (tolerant Lithuania, expansionist Muscovy)
+- Вигоди татарської кінноти сильні, але історично виправдані
+- Загроза відходу змушує гравця вкладатися в легітимність і військо
+- Здобутки Москви вагомі, але вимагають дій гравця
+- Литва може все втримати, якщо врядує вправно
+- Винагороджує історичний спосіб гри: терпима Литва, хижа Москва
 
 ## Перелік для перевірки
 
-### Event Triggers
-- [ ] Shemyaka event fires for Lithuania 1444-1500
-- [ ] Glinski event fires for Lithuania with Severia/Bryansk
-- [ ] Jagoldai event fires for Lithuania with Kursk
-- [ ] Rylsk defection event fires 1500-1510
-- [ ] Glinski rebellion fires 1507-1515
-- [ ] Starodub defection fires 1500-1510
-- [ ] Qasim foundation fires 1450-1460 for Muscovy
-- [ ] Qasim attacks Kazan fires after 1467
-- [ ] Lipka settlement fires 1440-1500 for Lithuania
+### Тригери подій
+- [ ] Подія про Шемячичів настає в Литви 1444-1500
+- [ ] Подія про Глинських настає в Литви із Сіверщиною чи Брянськом
+- [ ] Подія про Ягольдая настає в Литви з Курськом
+- [ ] Подія про відхід Рильська настає 1500-1510
+- [ ] Повстання Глинських настає 1507-1515
+- [ ] Відхід Стародуба настає 1500-1510
+- [ ] Заснування Касимова настає в Москви 1450-1460
+- [ ] Похід Касимова на Казань настає після 1467
+- [ ] Осадження липків настає в Литви 1440-1500
 
-### Event Chains
-- [ ] Rylsk defection triggers Muscovy reception event
-- [ ] Glinski rebellion leads to full uprising if negotiation fails
-- [ ] Glinski exile triggers Muscovy reception
-- [ ] Jagoldai defection triggers Muscovy reception
-- [ ] Starodub switch triggers Muscovy reception
+### Ланцюги подій
+- [ ] Відхід Рильська кличе подію прийняття в Москви
+- [ ] Якщо перемовини провалились, бунт Глинських переростає в повстання
+- [ ] Вигнання Глинських кличе подію прийняття в Москви
+- [ ] Відхід Ягольдаєвичів кличе подію прийняття в Москви
+- [ ] Перехід Стародуба кличе подію прийняття в Москви
 
 ### Модифікатори Application
-- [ ] Province modifiers apply correctly
-- [ ] Country modifiers stack appropriately
-- [ ] Duration timers work as intended
+- [ ] Модифікатори провінцій накладаються правильно
+- [ ] Модифікатори країни складаються як слід
+- [ ] Строки відлічуються правильно
 - [ ] Постійний modifiers remain after save/load
-- [ ] Negative modifiers (conquest, refusal) apply penalties
+- [ ] Збиткові модифікатори (завоювання, відмова) накладають кари
 
-### AI Behavior
-- [ ] AI Lithuania accepts vassal arrangements >70%
-- [ ] AI Muscovy creates Qasim Khanate >80%
-- [ ] AI Lithuania fights for important vassals
-- [ ] AI accepts peaceful transfers occasionally
-- [ ] AI Muscovy supports Qasim claims
+### Поведінка ШІ
+- [ ] Литва під ШІ пристає на васальні угоди понад 70% разів
+- [ ] Москва під ШІ створює Касимовське ханство понад 80% разів
+- [ ] Литва під ШІ б'ється за важливих васалів
+- [ ] ШІ час від часу пристає на мирну передачу
+- [ ] Москва під ШІ підтримує касимовські претензії
 
-### Integration
-- [ ] Tatar settlements reduce steppe raid damage
-- [ ] Defections provide CBs and claims
-- [ ] Qasim provides Kazan intervention justification
-- [ ] Lipka Tatars provide cavalry bonuses
-- [ ] Border wars trigger correctly
+### Стик із рештою
+- [ ] Татарські осади зменшують шкоду від набігів
+- [ ] Відходи дають приводи до війни й претензії
+- [ ] Касимов виправдовує втручання в Казань
+- [ ] Липки дають вигоди кінноті
+- [ ] Порубіжні війни починаються правильно
 
 ### Баланс
-- [ ] Muscovy doesn't blob too fast
-- [ ] Lithuania isn't crippled by defections
-- [ ] Tatar bonuses aren't overpowered
-- [ ] Player has meaningful choices
-- [ ] Historical outcomes achievable but not guaranteed
+- [ ] Москва не розповзається надто швидко
+- [ ] Відходи не ламають Литву
+- [ ] Татарські вигоди не завеликі
+- [ ] Вибір гравця важить
+- [ ] Історичний кінець досяжний, але не гарантований
 
 ## Створені файли/Modified
 
 ### Нові файли
-1. **events/BorderPrincipalities.txt** - 12 events for vassal switching
-2. **events/QasimKhanate.txt** - 6 events for Qasim and Lipka Tatars
-3. **common/event_modifiers/border_principalities_modifiers.txt** - 30+ modifiers
-4. **localisation/border_principalities_l_english.yml** - Event and modifier localization
-5. **localisation/qasim_khanate_l_english.yml** - Qasim event localization
-6. **docs/BORDER_PRINCIPALITIES_SYSTEM.md** - This documentation
+1. **events/BorderPrincipalities.txt** — 12 подій про зміну зверхника
+2. **events/QasimKhanate.txt** — 6 подій про Касимов і липків
+3. **common/event_modifiers/border_principalities_modifiers.txt** — понад 30 модифікаторів
+4. **localisation/border_principalities_l_english.yml** — локалізація подій і модифікаторів
+5. **localisation/qasim_khanate_l_english.yml** — локалізація касимовських подій
+6. **docs/BORDER_PRINCIPALITIES_SYSTEM.md** — цей опис
 
 ### Змінені файли
-None (all new content in separate files)
+Жодного: усе нове лежить в окремих файлах
 
-### Checks
+### Перевірки
 
-`python tests/check_script_layer.py` covers this system: it catches brace and
-encoding faults, duplicate event ids, undeclared namespaces, event text with no
-localisation, modifiers with no localisation, and modifier entries written in
-the wrong scope. It does not know province IDs - those have to be read off
-`history/provinces/`, which is how the errors above were found.
+`python tests/check_script_layer.py` покриває цю систему: ловить розбіжні
+дужки й хибне кодування, повторені ID подій, необ'явлені простори імен, текст
+подій без локалізації, модифікатори без локалізації та записи модифікаторів у
+хибній області. ID провінцій він не знає — їх треба звіряти з
+`history/provinces/`, саме так і знайшлися помилки вище.
 
 ## Ідеї майбутніх розширень
 
-1. **Appanage System**: Expand to other regions (Tver, Ryazan, Yaroslavl principalities)
-2. **Dynastic Claims**: Implement Rurikid family tree for claim mechanics
-3. **Tatar Integration**: Deeper mechanics for Tatar nobility in Russian service
-4. **Lithuanian Reforms**: Counter-measures to prevent defections
-5. **Qasim Succession**: Events for changing Qasim khans, internal conflicts
-6. **Lipka Culture**: Create Lipka Tatar culture group with unique traits
-7. **Religious Conversion**: Mechanics for converting Tatar vassals to Orthodoxy
-8. **Estate Interactions**: Integrate with nobility/clergy estates for conflicts
-9. **Map Changes**: Add more provinces for Severia, split Bryansk area
-10. **PLC Formation**: Special events when Lithuania forms Commonwealth affecting vassals
+1. **Уділи**: поширити на інші краї (Твер, Рязань, Ярославль)
+2. **Династичні претензії**: родовід Рюриковичів як підстава для претензій
+3. **Татари на службі**: глибша механіка татарської знаті в московському війську
+4. **Литовські реформи**: засоби проти відходів
+5. **Спадкоємство в Касимові**: події про зміну ханів і внутрішні чвари
+6. **Культура липків**: окрема культурна група з власними рисами
+7. **Навернення**: механіка переходу татарських васалів у православ'я
+8. **Стани**: стик зі шляхтою й духівництвом задля чвар
+9. **Зміни на карті**: більше провінцій на Сіверщині, поділ Брянської області
+10. **Постання Речі Посполитої**: окремі події про долю васалів після унії
