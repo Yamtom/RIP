@@ -1,4 +1,4 @@
-﻿# Province Names Normalization Notes (HET/ZAZ)
+﻿# Нотатки про нормалізацію назв провінцій (HET/ZAZ)
 
 ---
 
@@ -60,76 +60,76 @@
 
 ---
 
-## Scope
-- Files normalized: `common/province_names/HET.txt`, `common/province_names/ZAZ.txt`.
-- Method: dedup to `1 province ID = 1 active name` using **last-entry-wins** baseline.
-- Legacy policy: no direct import from `ruthenianew/common/province_names/*`.
+## Обсяг
+- Нормалізовані файли: `common/province_names/HET.txt`, `common/province_names/ZAZ.txt`.
+- Метод: усунення дублікатів до правила «один ID = одна активна назва» за базою «виграє останній запис».
+- Політика щодо старого: жодного прямого імпорту з `ruthenianew/common/province_names/*`.
 
-## Before/After Statistics
-| File | Rows Before | Unique IDs Before | Duplicate IDs Before | Rows After | Unique IDs After | Duplicate IDs After | Effective Equivalent |
+## Статистика до і після
+| Файл | Рядків до | Унікальних ID до | Дублікатів до | Рядків після | Унікальних ID після | Дублікатів після | Еквівалентно |
 |---|---:|---:|---:|---:|---:|---:|---|
 | `common/province_names/HET.txt` | 123 | 18 | 14 | 18 | 18 | 0 | True |
 | `common/province_names/ZAZ.txt` | 80 | 37 | 18 | 37 | 37 | 0 | True |
 
-## Legacy 3 Keys Non-Import
-- Not imported into active files:
+## Три старі ключі, які не імпортували
+- Не внесено до активних файлів:
   - `2406 = "Perevizka"`
   - `2411 = "Bakhmut"`
   - `2412 = "Domakha"`
-- Reason: they conflict with current effective naming model and would change active in-game outputs.
+- Причина: вони суперечать чинній моделі назв і змінили б те, що бачить гравець.
 
-## Removed Historical Aliases (Dedup)
-Each entry shows the kept effective value and the aliases removed from earlier duplicate rows.
+## Прибрані історичні синоніми
+У кожному записі — збережене чинне значення й синоніми, прибрані з попередніх дублікатів.
 
 ### `common/province_names/HET.txt`
-- `278` -> kept: "Land of Learning"; removed: Pechersk; Collegium District
-- `280` -> kept: "Lavra Estates"; removed: Kyiv; Mother of Ruthenian Cities; Academy Quarter; Bohdan's Kyiv; Kyiv Ford; Kyiv-Pechersk Lavra; Mazepa's Kyiv; Kyiv Market; Kyiv Fortress; Imperial Kyiv; Treaty City; Little Russian Athens; Kyiv Siege; Contested Kyiv; Kochubey Holdings; Kyiv Negotiations; Winter Court; City of the Trident; Imperial Little Russia; Lost Autonomy; Kyiv Armenians
-- `281` -> kept: "Church Lands"; removed: Chernihiv; Chernihiv Regiment; Siversk Chernihiv; Chernihiv Collegium; Chernihiv Hundred; Chernihiv Breadbasket; Eletsky Monastery; Chernihiv Baroque; Chernihiv Commerce; Supervised Chernihiv; Scholarly Chernihiv; Governed Chernihiv
-- `282` -> kept: "Trinity Holdings"; removed: Nizhyn Regiment; Nizhyn College; Nizhyn Hundred; Nizhyn Cossacks; Holy Trinity; Nizhyn Fair; Nizhyn Registry; Hundred Court; Nizhyn Greeks
-- `294` -> kept: "Bila Tserkva Treaty"; removed: Bila Tserkva; Polish Border
-- `295` -> kept: "Pereiaslav Articles"; removed: Pereiaslav; Pereiaslav Regiment; Pereiaslav Settlement; Vyhovsky's Pereiaslav; Pereiaslav Crossing; Pereiaslav Compact; Berestechko Memory; Treaty Border
-- `296` -> kept: "Foreign Quarter"; removed: Poltava Regiment; Poltava Estates; Poltava Colony; Poltava Hundred; Poltava Granary; Poltava Host; Poltava Cathedral; Poltava Trade; Poltava Defenses; Poltava Field; Poltava Registers; Polubotok Lands; Harvest Capital; Regimental Court
-- `297` -> kept: "Spring Muster"; removed: Myrhorod Regiment; Myrhorod Ranches; Myrhorod Township; Myrhorod Hundred; Myrhorod Fields; Myrhorod Roster
-- `298` -> kept: "Lubny Harvest"; removed: Lubny Regiment; Lubny Holdings
-- `463` -> kept: "Tsar's Fortress"; removed: Putyvl
-- `1946` -> kept: "Destroyed Capital"; removed: Baturyn; Starodub Regiment; Baturyn Court; Mazepa's Baturyn; Starodub Cossacks; Baturyn Palace; Baturyn Arsenal; Mazepa's Diplomacy; Iskra Estates; Hetman's Justice; Mace Capital
-- `1952` -> kept: "Imperial Frontier"; removed: Novhorod-Siverskyi
-- `2404` -> kept: "Former Glory"; removed: Hlukhiv; Hlukhiv Regiment; Hlukhiv Manors; Skoropadsky's Hlukhiv; Apostol's Capital; Rozumovsky's Court; Hlukhiv Residency; Hlukhiv Garrison; Collegium Capital; Muscovite Border; Rozumovsky Domains; Seal City; Last Hetman's Seat
-- `2750` -> kept: "Konotop Victory"; removed: Hadiach Regiment; Konotop
+- `278` -> збережено: "Land of Learning"; прибрано: Pechersk; Collegium District
+- `280` -> збережено: "Lavra Estates"; прибрано: Kyiv; Mother of Ruthenian Cities; Academy Quarter; Bohdan's Kyiv; Kyiv Ford; Kyiv-Pechersk Lavra; Mazepa's Kyiv; Kyiv Market; Kyiv Fortress; Imperial Kyiv; Treaty City; Little Russian Athens; Kyiv Siege; Contested Kyiv; Kochubey Holdings; Kyiv Negotiations; Winter Court; City of the Trident; Imperial Little Russia; Lost Autonomy; Kyiv Armenians
+- `281` -> збережено: "Church Lands"; прибрано: Chernihiv; Chernihiv Regiment; Siversk Chernihiv; Chernihiv Collegium; Chernihiv Hundred; Chernihiv Breadbasket; Eletsky Monastery; Chernihiv Baroque; Chernihiv Commerce; Supervised Chernihiv; Scholarly Chernihiv; Governed Chernihiv
+- `282` -> збережено: "Trinity Holdings"; прибрано: Nizhyn Regiment; Nizhyn College; Nizhyn Hundred; Nizhyn Cossacks; Holy Trinity; Nizhyn Fair; Nizhyn Registry; Hundred Court; Nizhyn Greeks
+- `294` -> збережено: "Bila Tserkva Treaty"; прибрано: Bila Tserkva; Polish Border
+- `295` -> збережено: "Pereiaslav Articles"; прибрано: Pereiaslav; Pereiaslav Regiment; Pereiaslav Settlement; Vyhovsky's Pereiaslav; Pereiaslav Crossing; Pereiaslav Compact; Berestechko Memory; Treaty Border
+- `296` -> збережено: "Foreign Quarter"; прибрано: Poltava Regiment; Poltava Estates; Poltava Colony; Poltava Hundred; Poltava Granary; Poltava Host; Poltava Cathedral; Poltava Trade; Poltava Defenses; Poltava Field; Poltava Registers; Polubotok Lands; Harvest Capital; Regimental Court
+- `297` -> збережено: "Spring Muster"; прибрано: Myrhorod Regiment; Myrhorod Ranches; Myrhorod Township; Myrhorod Hundred; Myrhorod Fields; Myrhorod Roster
+- `298` -> збережено: "Lubny Harvest"; прибрано: Lubny Regiment; Lubny Holdings
+- `463` -> збережено: "Tsar's Fortress"; прибрано: Putyvl
+- `1946` -> збережено: "Destroyed Capital"; прибрано: Baturyn; Starodub Regiment; Baturyn Court; Mazepa's Baturyn; Starodub Cossacks; Baturyn Palace; Baturyn Arsenal; Mazepa's Diplomacy; Iskra Estates; Hetman's Justice; Mace Capital
+- `1952` -> збережено: "Imperial Frontier"; прибрано: Novhorod-Siverskyi
+- `2404` -> збережено: "Former Glory"; прибрано: Hlukhiv; Hlukhiv Regiment; Hlukhiv Manors; Skoropadsky's Hlukhiv; Apostol's Capital; Rozumovsky's Court; Hlukhiv Residency; Hlukhiv Garrison; Collegium Capital; Muscovite Border; Rozumovsky Domains; Seal City; Last Hetman's Seat
+- `2750` -> збережено: "Konotop Victory"; прибрано: Hadiach Regiment; Konotop
 
 ### `common/province_names/ZAZ.txt`
-- `238` -> kept: "Kodak Siege"; removed: Kodak; Gates of the Sich; Kodak Redoubt
-- `283` -> kept: "Kalnishevsky's Sich"; removed: Zaporizhia; Sich of 38 Kurens; Velykyi Luh; Sich Pokrova; Land of the Free; Sich Shipyards
-- `284` -> kept: "Turkish Ochakiv"; removed: Ochakiv
-- `286` -> kept: "Samara Fair"; removed: Samara
-- `287` -> kept: "Nikopol Docks"; removed: Nikopol; Sukhyi Kaharlyk; Nikopol Market; Dnieper Fisheries
-- `288` -> kept: "Dnieper Trade"; removed: Dnipro
-- `466` -> kept: "Bakhmut Salt"; removed: Bakhmut
-- `1943` -> kept: "Kamyanska Sich"; removed: Kamyanka
-- `1951` -> kept: "Winter Stations"; removed: Kalmius; Kalmius Palanka; Kalmius Horses
-- `2406` -> kept: "Northern Redoubts"; removed: Mala Sich; Mykytyn Rih; Cossack Paradise
-- `2407` -> kept: "Ottoman Border"; removed: Beryslav
-- `2410` -> kept: "Sich Destruction Site"; removed: Nova Sich; Chaplynka; Pidpilnenska Sich; Oleshkivska Sich; Last Sich
-- `2411` -> kept: "Mazepa's Choice"; removed: Chortomlyk; Chortomlytska Sich; Chortomlyk Waters; Chortomlyk Cathedral; Sich Fortifications; Chortomlyk Yards
-- `2412` -> kept: "Bazavluk Waters"; removed: Bazavluk
-- `2413` -> kept: "Kinburn Fisheries"; removed: Kinburn
-- `2446` -> kept: "Summer Pastures"; removed: Melitopol; Melitopol Steppes
-- `2447` -> kept: "Autumn Gathering"; removed: Tokmak; Tokmak Herds
-- `2448` -> kept: "Luhansk Palanka"; removed: Luhansk
+- `238` -> збережено: "Kodak Siege"; прибрано: Kodak; Gates of the Sich; Kodak Redoubt
+- `283` -> збережено: "Kalnishevsky's Sich"; прибрано: Zaporizhia; Sich of 38 Kurens; Velykyi Luh; Sich Pokrova; Land of the Free; Sich Shipyards
+- `284` -> збережено: "Turkish Ochakiv"; прибрано: Ochakiv
+- `286` -> збережено: "Samara Fair"; прибрано: Samara
+- `287` -> збережено: "Nikopol Docks"; прибрано: Nikopol; Sukhyi Kaharlyk; Nikopol Market; Dnieper Fisheries
+- `288` -> збережено: "Dnieper Trade"; прибрано: Dnipro
+- `466` -> збережено: "Bakhmut Salt"; прибрано: Bakhmut
+- `1943` -> збережено: "Kamyanska Sich"; прибрано: Kamyanka
+- `1951` -> збережено: "Winter Stations"; прибрано: Kalmius; Kalmius Palanka; Kalmius Horses
+- `2406` -> збережено: "Northern Redoubts"; прибрано: Mala Sich; Mykytyn Rih; Cossack Paradise
+- `2407` -> збережено: "Ottoman Border"; прибрано: Beryslav
+- `2410` -> збережено: "Sich Destruction Site"; прибрано: Nova Sich; Chaplynka; Pidpilnenska Sich; Oleshkivska Sich; Last Sich
+- `2411` -> збережено: "Mazepa's Choice"; прибрано: Chortomlyk; Chortomlytska Sich; Chortomlyk Waters; Chortomlyk Cathedral; Sich Fortifications; Chortomlyk Yards
+- `2412` -> збережено: "Bazavluk Waters"; прибрано: Bazavluk
+- `2413` -> збережено: "Kinburn Fisheries"; прибрано: Kinburn
+- `2446` -> збережено: "Summer Pastures"; прибрано: Melitopol; Melitopol Steppes
+- `2447` -> збережено: "Autumn Gathering"; прибрано: Tokmak; Tokmak Herds
+- `2448` -> збережено: "Luhansk Palanka"; прибрано: Luhansk
 
-## 2026 Adjacent Frontier Expansion for `common/province_names/ZAZ.txt`
-- This pass does not restore the old flavor model for ZAZ.
-- Method used: `mod-semantic stand-in` for adjacent frontier territories already implied by the mod's broader Zaporozhian geography.
-- Only strict toponyms were restored or added in this pass; no event-title or descriptive flavor names were reintroduced.
-- The conservative core block was preserved without revision:
+## Прохід 2026 року: суміжне порубіжжя для `common/province_names/ZAZ.txt`
+- Цей прохід не повертає старої описової моделі для ZAZ.
+- Спосіб: підставні назви за змістом мода для суміжних порубіжних земель, які вже випливають із запорозької географії мода.
+- Повернуто й додано лише строгі топоніми; назв із заголовків подій і описових назв не вертали.
+- Обережне ядро лишилося без змін:
   - `282 = "Ochakiv"`
   - `283 = "Sich"`
   - `286 = "Azov"`
   - `2406 = "Inhul"`
   - `2409 = "Bakhmut"`
-- The earlier dedup list above remains a record of the old normalization pass and no longer reflects the current active effective map for `ZAZ.txt`.
+- Перелік дублікатів вище — це запис старого нормалізаційного проходу; чинного стану `ZAZ.txt` він більше не описує.
 
-### Added Adjacent / Stand-In Toponyms
+### Додані суміжні та підставні топоніми
 - `238 = "Kodak"`
 - `287 = "Kuban"`
 - `291 = "Kharkiv"`
@@ -145,7 +145,7 @@ Each entry shows the kept effective value and the aliases removed from earlier d
 - `2447 = "Tokmak"`
 - `2448 = "Luhansk"`
 
-### Omitted In This Pass
+### Пропущено в цьому проході
 - `2405`
 - `2414`
 - `1974`
@@ -157,9 +157,9 @@ Each entry shows the kept effective value and the aliases removed from earlier d
 - `2415`
 - `2416`
 - `2417`
-- Reason: no sufficiently stable, strictly topological, and internally consistent stand-in mapping for the current mod state.
+- Причина: для поточного стану мода немає досить стійкого, строго топологічного й внутрішньо несуперечливого відображення.
 
-## Verification Checklist
-- Duplicate IDs after normalization: `0` for both files.
-- Baseline effective map vs normalized map: exact match for both files.
-- `ruthenianew` legacy values used only as reference; no direct merge performed.
+## Перелік перевірки
+- Дублікатів ID після нормалізації: `0` в обох файлах.
+- Базова чинна мапа проти нормалізованої: повний збіг в обох файлах.
+- Старі значення `ruthenianew` вжито лише як довідку; прямого злиття не було.

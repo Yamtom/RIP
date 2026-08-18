@@ -170,7 +170,7 @@ def check_localisation_and_docs(failures: list[str]) -> None:
             "BORDER_PRINCIPALITIES_SYSTEM: stale prerequisite-driven CB claims remain")
     require(failures, "defined, never applied" not in doc,
             "BORDER_PRINCIPALITIES_SYSTEM: removed orphan modifiers remain documented")
-    require(failures, "no direct Cossack-estate effects" in doc,
+    require(failures, "Прямих ефектів на козацький стан" in doc,
             "BORDER_PRINCIPALITIES_SYSTEM: indirect Cossack integration is still overclaimed")
 
 

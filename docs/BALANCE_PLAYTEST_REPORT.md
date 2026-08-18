@@ -1,192 +1,195 @@
-# Balance and playtest report
+# Звіт про баланс і ігрові випробування
 
-## Status
+## Стан
 
-As of 2026-08-16, execution against the current worktree is **pending**:
+Станом на 16 серпня 2026 прогони проти поточного дерева **ще не виконано**:
 
-- valid AI observer runs to 1650: **0 / 10**;
-- completed manual representative campaigns: **0 / 3**.
+- дійсних прогонів ШІ-спостерігача до 1650 року: **0 / 10**;
+- завершених ручних показових кампаній: **0 / 3**.
 
-The automated startup gate now passes. The latest snapshot-backed smoke entered
-observer mode, archived an uncompressed save dated `1446.1.1`, and completed
-without a crash. It is evidence that the harness works, but it is intentionally
-not counted as one of the ten runs to 1650. Old November 2025 observer saves and
-January 2026 logs predate the current August 2026 code and are not counted.
+Автоматичний бар'єр запуску тепер проходить. Останній димовий прогін зі
+знімком джерела ввійшов у режим спостерігача, зберіг нестиснене збереження з
+датою `1446.1.1` і завершився без падіння. Це доказ, що оснастка працює, але
+його свідомо не зараховують як один із десяти прогонів до 1650 року. Старі
+збереження спостерігача з листопада 2025 і логи з січня 2026 давніші за
+поточний код серпня 2026 і не зараховуються.
 
-Latest smoke evidence:
+Доказ останнього димового прогону:
 [`smoke_20260816_190251Z/run_01/manifest.json`](../diagnostics/observer_runs/smoke_20260816_190251Z/run_01/manifest.json).
 
-Do not convert any row below to Pass or Fail without linking the run manifest,
-endpoint save, archived logs, and measured results. A launch attempt or a save
-file by itself is not completion evidence.
+Не переводьте жоден рядок нижче в «пройдено» чи «провалено» без посилання на
+маніфест прогону, кінцеве збереження, заархівовані логи та виміряні
+результати. Сама лише спроба запуску чи файл збереження доказом завершення не є.
 
-## Test target
+## Ціль випробування
 
-The tested revision must satisfy all of the following:
+Перевірювана ревізія має задовольняти все наведене нижче:
 
-1. KIE/KRU expansion remains regionally paced rather than issuing uncontrolled
-   long-range claim bursts.
-2. MOS/RUS mission rewards and expansion stay within the same pacing envelope.
-3. A full regional minor route normally grants about 50–120 permanent-claim
-   provinces; broad region rewards follow control of roughly 40–60% of that
-   region.
-4. Early or distant claims are temporary (the design target is 25 years) or
-   replaced by a bounded CB.
-5. PU, vassalization, and tributary CBs have an explicit finite duration,
-   geographically valid targets, and mutually exclusive choices where a reward
-   offers alternatives.
-6. No actor accumulates unintended simultaneous subject-CB targets.
+1. Розширення KIE та KRU лишається в регіональному темпі, без неконтрольованих
+   сплесків далеких претензій.
+2. Нагороди місій та розширення MOS і RUS лишаються в тому самому темпі.
+3. A full regional minor route normally grants about 50–120 постійний-claim
+   провінцій; широкі крайові винагороди настають після контролю приблизно
+   40–60% того краю.
+4. Early or distant claims are temporary (the design target is 25 років) or
+   замінено обмеженим приводом до війни.
+5. Приводи на унію, васалізацію й данину мають чіткий кінцевий строк,
+   географічно доречні цілі та взаємовиключний вибір там, де винагорода дає
+   кілька шляхів.
+6. Жоден гравець не накопичує ненавмисно кілька цілей для васальних приводів водночас.
 
-These are review criteria, not claimed outcomes.
+Це критерії перевірки, а не заявлені результати.
 
-## Environment record
+## Запис середовища
 
-| Field | Required value/evidence | Actual |
+| Поле | Потрібне значення й доказ | Фактично |
 |---|---|---|
-| Source identity | Git revision plus immutable source snapshot and SHA-256 inventory | Smoke: HEAD `0ec6e4fc`, 425 files, SHA-256 `28E915AB…D57` |
-| EU4 version | `v1.37.5.0` | Confirmed by smoke manifest |
-| Enabled mods | Exactly `mod/RIP.mod` | Confirmed by archived `dlc_load.json` |
-| Start date | `1444.11.11` | Confirmed by archived `game.log` |
-| End date | `>= 1650.1.1` | Pending endpoint save |
-| Saves | Uncompressed EU4 text saves | Smoke checkpoint `1446.1.1` validated; full checkpoints pending |
-| Logs | Archived before the next launch | 29 fresh smoke logs archived; full-run logs pending |
+| Тотожність джерела | Ревізія git плюс незмінний зліпок і опис SHA-256 | Димовий прогін: HEAD `0ec6e4fc`, 425 файлів, SHA-256 `28E915AB…D57` |
+| Версія EU4 | `v1.37.5.0` | Підтверджено маніфестом димового прогону |
+| Увімкнені моди | Тільки `mod/RIP.mod` | Підтверджено збереженим `dlc_load.json` |
+| Дата початку | `1444.11.11` | Підтверджено збереженим `game.log` |
+| End date | `>= 1650.1.1` | чекає кінцевого збереження |
+| Збереження | Нестиснені текстові збереження EU4 | Контрольну точку `1446.1.1` перевірено; повні — попереду |
+| Журнали | Зберігаються перед наступним запуском | 29 свіжих журналів збережено; журнали повного прогону попереду |
 
-## Static implementation verification
+## Статична перевірка реалізації
 
-Runtime playtesting is still pending, but the static checks now cover more
-than they did, and their results are worth recording here because they are
-the only evidence that exists until the ten runs happen.
+Ігрові випробування ще попереду, але статичні перевірки тепер охоплюють
+більше, ніж раніше, і їхні результати варто записати тут — бо іншого доказу
+до тих десяти прогонів не існує.
 
-Run from the mod root; `check_script_layer.py` needs the EU4 install and
-finds it automatically or takes `EU4_DIR`.
+Запускати з кореня мода; `check_script_layer.py` потребує встановленої EU4 —
+знаходить її сам або бере шлях із `EU4_DIR`.
 
-| Check | Covers | State as of 2026-08-17 |
+| Перевірка | Що охоплює | Стан на 17 серпня 2026 |
 |---|---|---|
-| `check_clausewitz_braces.py` | BOM and brace balance | pass |
-| `check_claim_pacing.py` | KIE/KRU, Russia, long-range claims | pass |
-| `check_subject_cb_limits.py` | subject-CB duration and exclusivity | pass |
-| `check_glossary.py` | toponyms and register | pass |
-| `check_script_layer.py` | structure, localisation, reachability | 10 errors, all listed below |
+| `check_clausewitz_braces.py` | BOM і баланс дужок | пройдено |
+| `check_claim_pacing.py` | KIE/KRU, Росія, далекі претензії | пройдено |
+| `check_subject_cb_limits.py` | тривалість і винятковість CB на васалів | пройдено |
+| `check_glossary.py` | топоніми й регістр | пройдено |
+| `check_script_layer.py` | структура, локалізація, досяжність | 10 помилок, перелічені нижче |
 
-What `check_script_layer.py` gained since this report was written:
+Що додалося в `check_script_layer.py` після написання цього звіту:
 
-- **merge conflict markers.** `events/QasimKhanate.txt` reached `origin/main`
-  with `<<<<<<<` / `=======` / `>>>>>>>` still in it. Braces balanced around
-  them, so every other check passed while the file could not be parsed at all.
-- **event pictures and opinion modifiers**, both of which fail silently - a
-  bad picture renders an empty frame, a bad opinion modifier does nothing.
-- **flags tested but never set**, which makes whatever they gate unreachable.
-- **orphan `is_triggered_only` events**. This check existed but never worked;
-  it counted each event as its own caller.
+- **маркери конфлікту злиття.** `events/QasimKhanate.txt` дійшов до
+  `origin/main` із `<<<<<<<` / `=======` / `>>>>>>>` усередині. Дужки навколо
+  них балансували, тож усі інші перевірки проходили, поки файл узагалі не
+  розбирався.
+- **картинки подій і модифікатори думки** — обидва відмовляють мовчки: хибна
+  картинка дає порожню рамку, хибний модифікатор думки не робить нічого.
+- **прапорці, які перевіряють, але ніде не ставлять** — усе, що вони стережуть, стає недосяжним.
+- **осиротілі події `is_triggered_only`.** Перевірка існувала, але не
+  працювала: кожну подію вона зараховувала як власного викликача.
 
-The ten remaining errors are province references whose right answer is a
-design call rather than a lookup - see section 7 of `docs/WORKSHOP_LISTING.md`.
+Десять помилок, що лишилися, — це посилання на провінції, де правильна
+відповідь є рішенням дизайну, а не пошуком; див. розділ 7 у
+`docs/WORKSHOP_LISTING.md`.
 
-The current source passes the targeted contracts in
-`tests/check_claim_pacing.py`, `tests/check_subject_cb_limits.py`,
-`tests/check_clausewitz_braces.py`, and `tests/check_glossary.py`.
+Теперішній код проходить перевірки в `tests/check_claim_pacing.py`,
+`tests/check_subject_cb_limits.py`, `tests/check_clausewitz_braces.py` і
+`tests/check_glossary.py`.
 
-- KIE/KRU formation claims require 20 Ruthenia provinces; Russia requires 23
-  provinces before the broad follow-up reward.
-- Russia formation no longer grants the former Crimea/Ural permanent burst.
-  Baltic, Scandinavian, Siberian, and other distant rewards use temporary or
-  staged claims.
-- The Asian trade reward is mutually exclusive and grants only Shanshan+Tarim
-  (7 provinces) or Lahore (5), replacing whole Mongolia/Hindusthan rewards.
-- Mission-granted PU, vassalization, and tributary CBs use bounded 60–120 month
-  windows, eligibility/no-refresh guards, and one-target cleanup where a chain
-  could otherwise accumulate simultaneous targets.
+- Претензії на постання KIE/KRU вимагають 20 провінцій Русі; Росії потрібно 23
+  провінції до широкої дальшої винагороди.
+- Russia formation no longer grants the former Crimea/Ural постійний burst.
+  Балтійські, скандинавські, сибірські та інші далекі винагороди дають
+  тимчасові або поступові претензії.
+- Азійська торгова винагорода взаємовиключна й дає тільки Шаньшань із Таримом
+  (7 провінцій) або Лахор (5) замість цілих Монголії чи Індостану.
+- Приводи на унію, васалізацію й данину з місій обмежені вікном 60–120 місяців,
+  мають запобіжники проти поновлення і прибирання зайвих цілей там, де ланцюг
+  міг би накопичити кілька водночас.
 
-These checks prove source contracts, not 1650 AI behavior; the observer and
-manual matrices remain required.
+Ці перевірки доводять умови в коді, а не поведінку ШІ до 1650 року; матриці
+спостереження та ручні партії однаково потрібні.
 
-## AI observer matrix
+## Матриця спостереження за ШІ
 
-Default seeds are fixed by the harness for reproducibility.
+Зерна випадковості закріплені прогонником задля повторюваності.
 
-| Run | Seed | Status | 1500 | 1550 | 1600 | 1650 | Manifest/evidence | Notes |
+| Прогін | Зерно | Стан | 1500 | 1550 | 1600 | 1650 | Маніфест і докази | Нотатки |
 |---:|---:|---|---|---|---|---|---|---|
-| 01 | 1001 | Pending | — | — | — | — | — | — |
-| 02 | 1002 | Pending | — | — | — | — | — | — |
-| 03 | 1003 | Pending | — | — | — | — | — | — |
-| 04 | 1004 | Pending | — | — | — | — | — | — |
-| 05 | 1005 | Pending | — | — | — | — | — | — |
-| 06 | 1006 | Pending | — | — | — | — | — | — |
-| 07 | 1007 | Pending | — | — | — | — | — | — |
-| 08 | 1008 | Pending | — | — | — | — | — | — |
-| 09 | 1009 | Pending | — | — | — | — | — | — |
-| 10 | 1010 | Pending | — | — | — | — | — | — |
+| 01 | 1001 | очікує | — | — | — | — | — | — |
+| 02 | 1002 | очікує | — | — | — | — | — | — |
+| 03 | 1003 | очікує | — | — | — | — | — | — |
+| 04 | 1004 | очікує | — | — | — | — | — | — |
+| 05 | 1005 | очікує | — | — | — | — | — | — |
+| 06 | 1006 | очікує | — | — | — | — | — | — |
+| 07 | 1007 | очікує | — | — | — | — | — | — |
+| 08 | 1008 | очікує | — | — | — | — | — | — |
+| 09 | 1009 | очікує | — | — | — | — | — | — |
+| 10 | 1010 | очікує | — | — | — | — | — | — |
 
-### Per-checkpoint country metrics
+### Показники країн у контрольних точках
 
-Add one row per observed tag and checkpoint. Preserve extinct tags as explicit
-`exists=no` rows rather than omitting them.
+По рядку на кожен спостережений тег і кожну точку. Зниклі теги лишайте рядком
+із `exists=no`, а не викидайте.
 
-| Run | Date | Tag | Exists | Formed from | Provinces | Development | Subjects | Active wars | Notes |
+| Прогін | Дата | Тег | Існує | Постав із | Провінцій | Розвиток | Васалів | Воєн | Нотатки |
 |---|---|---|---|---|---:|---:|---:|---:|---|
-| — | — | KIE/KRU/MOS/RUS | — | — | — | — | — | — | Pending |
+| — | — | KIE/KRU/MOS/RUS | — | — | — | — | — | — | очікує |
 
-### Claims review
+### Розгляд претензій
 
-Count normal and permanent claims from the checkpoint saves and compare each
-checkpoint with the preceding one. Record the mission/event source when known.
+Count normal and постійний claims from the checkpoint saves and compare each
+точку з попередньою. Де відомо, записуйте, з якої місії чи події претензія.
 
-| Run | Date | Actor | Source | New normal claims | New permanent claims | Region | Long-range anomaly | Verdict |
+| Run | Date | Actor | Source | New normal claims | New постійний claims | Region | Long-range anomaly | Verdict |
 |---|---|---|---|---:|---:|---|---|---|
-| — | — | — | — | — | — | — | — | Pending |
+| — | — | — | — | — | — | — | — | очікує |
 
-For every suspected burst, attach the province list and explain why it is or is
-not contiguous with the actor's owned/core/claimed frontier.
+На кожен підозрілий сплеск додайте перелік провінцій і поясніть, чи прилягають
+вони до власних, осердних і претендованих земель гравця.
 
-### Subject-CB review
+### Розгляд васальних приводів
 
-| Run | Date | Actor | CB type | Target | Start | End | Duration | Concurrent subject-CB count | Geography valid | Exclusive choice respected | Verdict |
+| Прогін | Дата | Гравець | Тип приводу | Ціль | Початок | Кінець | Тривалість | Скільки васальних приводів водночас | Географія доречна | Взаємовиключність збережено | Присуд |
 |---|---|---|---|---|---|---|---|---:|---|---|---|
-| — | — | — | — | — | — | — | — | — | — | — | Pending |
+| — | — | — | — | — | — | — | — | — | — | — | очікує |
 
-Immediate failures include a subject CB without `end_date`, a duration beyond
-the implemented design cap, a target outside the stated geographic scope, or
-multiple alternative rewards active at once.
+Одразу провал: васальний привід без `end_date`, тривалість понад закладену
+межу, ціль поза оголошеними межами або кілька взаємовиключних винагород
+одночасно.
 
-## Manual representative campaigns
+## Показові ручні партії
 
-Observer behavior cannot replace human validation of mission readability,
-choice pressure, reward timing, or save/load continuity.
+Спостереження за ШІ не заміняє людської перевірки: чи зрозумілі місії, чи
+тисне вибір, чи вчасні винагороди, чи витримує гра збереження й завантаження.
 
-| Campaign | Route | Required coverage | Status | Evidence | Findings |
+| Партія | Шлях | Що треба покрити | Стан | Докази | Висновки |
 |---:|---|---|---|---|---|
-| 1 | KIE → KRU | Full Kyiv/KRU expansion route; claim growth and mission gates through 1650 | Pending | — | — |
-| 2 | MOS → RUS | Russia mission rewards, pacing, and distant claims through 1650 | Pending | — | — |
-| 3 | Subject-CB stress route | Route containing the densest PU/vassal/tributary reward choices identified by the static audit | Pending | — | — |
+| 1 | KIE → KRU | Full Kyiv/KRU expansion route; claim growth and mission gates through 1650 | очікує | — | — |
+| 2 | MOS → RUS | Russia mission rewards, pacing, and distant claims through 1650 | очікує | — | — |
+| 3 | Subject-CB stress route | Route containing the densest PU/vassal/tributary reward choices identified by the static audit | очікує | — | — |
 
-Each campaign requires milestone saves and screenshots at 1500, 1550, 1600,
-and 1650, plus notes for:
+Кожна партія вимагає збережень і знімків на 1500, 1550, 1600 і 1650 роки, а
+також нотаток про:
 
-- mission completion date and prerequisite friction;
-- claim/CB state immediately before and after each relevant reward;
-- alternative-choice exclusivity;
-- whether the reward was useful without being compulsory;
-- save/load success at least once after a relevant CB was granted.
+- дату завершення місії та опір передумов;
+- стан претензій і приводів безпосередньо до й після кожної винагороди;
+- взаємовиключність варіантів;
+- чи винагорода була корисна, не бувши обов'язковою;
+- принаймні одне вдале збереження й завантаження після надання приводу.
 
-## Runtime and error-log review
+## Розгляд роботи гри та журналу помилок
 
-| Run/campaign | CTD/hang | New parser error | New missing localisation | Repeating event/decision | Save/load result | Verdict |
+| Прогін чи партія | Виліт або зависання | Нова помилка розбору | Нова відсутня локалізація | Подія чи рішення, що повторюється | Збереження й завантаження | Присуд |
 |---|---|---|---|---|---|---|
-| Smoke 20260816_190251Z | No | No new claim/CB parser error | No | No | Checkpoint read as `1446.1.1` | Harness gate Pass |
+| Димовий 20260816_190251Z | Ні | Нових помилок розбору претензій і приводів немає | Ні | Ні | Точку прочитано як `1446.1.1` | Ворота прогонника пройдено |
 
-Classify errors against a clean pre-run baseline. Existing unrelated vanilla
-warnings must be listed separately; absence of a crash is not proof that the
-mod produced no engine errors.
+Помилки звіряйте з чистим станом до прогону. Сторонні застереження ванілі
+виписуйте окремо; відсутність вильоту не доводить, що мод не спричинив помилок
+рушія.
 
-## Completion gate
+## Умова завершення
 
-This report is complete only after:
+Цей звіт завершено лише тоді, коли:
 
-- all ten observer rows have endpoint evidence and reviewed metrics;
-- all three manual campaigns have saves, screenshots, and notes;
-- every KIE/KRU, MOS/RUS, claim-burst, and subject-CB anomaly has a disposition;
-- the final run uses the same committed code that is proposed for release;
-- no unresolved mod-caused runtime error remains.
+- усі десять рядків спостереження мають кінцеві докази й переглянуті показники;
+- усі три ручні партії мають збереження, знімки й нотатки;
+- кожна дивина з KIE/KRU, MOS/RUS, сплесками претензій і васальними приводами дістала присуд;
+- останній прогін іде на тому самому коді, який пропонують до випуску;
+- не лишилося нерозв'язаних помилок, спричинених модом.
 
-Until then, the status remains **Pending**.
+Доти стан лишається **у роботі**.
 

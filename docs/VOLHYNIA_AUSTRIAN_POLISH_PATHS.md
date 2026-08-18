@@ -1,415 +1,417 @@
-# VOLHYNIA (VOL) - AUSTRIAN & POLISH DEVELOPMENT PATHS
+# Волинь (VOL): австрійський і польський шляхи розвитку
 
 > **Звірено з кодом 2026-08-17 - розбіжностей немає.** Усі згадані місії
 > існують у `missions/Volhynia_Missions.txt`, і всі п'ятнадцять модифікаторів
 > із довідника - у `common/event_modifiers/`. `VOL_PATHS_QUICKREF.md` подає
 > те саме стисло; він теж точний. Правлячи одне, звіряйте друге.
-## Comprehensive Mission System Documentation
+## Повний опис системи місій
 
-**Last Updated**: January 30, 2026
-**Version**: 1.0
-**Author**: Yamtom
-
----
-
-## EXECUTIVE SUMMARY
-
-This document describes the new dual-path mission system for Volhynia (VOL), inspired by historical developments of Austria-Hungary (HAB) and the Polish-Lithuanian Commonwealth (PLC). The system allows players to choose between two distinct development paths:
-
-1. **Austrian Imperial Path**: Emphasizes diplomatic marriages, managing diverse ethnic groups, and building a prestige-based empire
-2. **Polish Constitutional Path**: Focuses on constitutional reforms, noble participation in government, and cultural flowering
+**Останнє оновлення**: 30 січня 2026
+**Версія**: 1.0
+**Автор**: Yamtom
 
 ---
 
-## HISTORICAL INSPIRATION
+## КОРОТКИЙ ПІДСУМОК
 
-### Austrian Habsburg Model (HAB)
-The Habsburg missions in EU4 showcase:
-- **Multi-ethnic Empire Management**: `emp_hab_the_hungarian_question`, `emp_hab_all_minorities_are_welcome`
-- **Diplomatic Web**: `emp_hab_balance_of_power`, `emp_hab_spread_dynasties`
-- **Imperial Prestige**: `emp_hab_imperial_capitals`, dynastic marriages
-- **Balance of Power**: Playing great powers against each other
+Документ описує систему місій Волині (VOL) із двома гілками розвитку, натхнену
+історією Австро-Угорщини (HAB) і Речі Посполитої (PLC). Гравець обирає одну з
+двох окремих доріг:
 
-### Polish-Lithuanian Commonwealth Model (PLC)
-The Polish missions demonstrate:
-- **Constitutional Development**: `pol_great_sejm`, `plc_golden_liberty`, `plc_articles_agreement`
-- **Magnate Management**: `pol_leverage_magnates`
-- **Cultural Renaissance**: `plc_cultural_flowering`
-- **Educational Investment**: `pol_expand_krakow_university`
+1. **Австрійський імперський шлях**: династичні шлюби, урядування над різними народами, імперія на престижі
+2. **Польський конституційний шлях**: устроєві реформи, участь шляхти в урядуванні, культурний розквіт
 
 ---
 
-## MISSION TREE STRUCTURE
+## Історичне тло
 
-### Path Selection (Position 5, Slot 5)
-**Mission**: `VOL_choose_development_path`
-- **Trigger**:
-  - Not at war
-  - Stability ≥ 1
-  - Total development ≥ 200
-- **Effect**: Fires event `vol_path_events.1` for path selection
+### Габсбурзький взірець (HAB)
+Місії Габсбургів у EU4 показують:
+- **Урядування багатонародною імперією**: `emp_hab_the_hungarian_question`, `emp_hab_all_minorities_are_welcome`
+- **Дипломатична павутина**: `emp_hab_balance_of_power`, `emp_hab_spread_dynasties`
+- **Імперський престиж**: `emp_hab_imperial_capitals`, династичні шлюби
+- **Рівновага сил**: зіштовхування великих держав між собою
 
-### Austrian Imperial Path (Slots 1-2)
-
-#### Slot 1: Estate & Minority Management
-1. **VOL_balance_estates** (Position 6)
-   - Requires balanced estate loyalty (60% each)
-   - Crown land ≥ 30%
-   - Unlocks minority management
-
-2. **VOL_manage_minorities** (Position 7)
-   - Requires 5+ provinces of foreign culture with low unrest
-   - Grants `vol_multicultural_realm` modifier
-   - Applies `vol_minority_rights` to minority provinces
-
-3. **VOL_welcome_all_cultures** (Position 8)
-   - Requires accepting Polish culture + 2 accepted cultures
-   - Grants permanent `vol_cultural_tolerance` modifier
-   - Auto-accepts Lithuanian culture
-
-#### Slot 2: Diplomatic & Dynastic Network
-1. **VOL_develop_capitals** (Position 7)
-   - Develop Volhynia (280) and Halych (279) to 20 dev
-   - Grants `vol_twin_capitals` modifier
-   - Adds permanent province modifiers
-
-2. **VOL_balance_of_power** (Position 8)
-   - Alliance with major power (POL/LIT/HUN/MOS/HLC)
-   - 2 subjects OR 300+ subject development
-   - Prestige ≥ 40
-
-3. **VOL_dynastic_marriages** (Position 9)
-   - 5 royal marriages
-   - 3 countries with your dynasty OR high opinion
-   - Grants `vol_dynastic_prestige` modifier
-
-### Polish Constitutional Path (Slots 3-4)
-
-#### Slot 3: Constitutional Development
-1. **VOL_manage_magnates** (Position 6)
-   - Noble estate influence ≥ 40%, loyalty ≥ 60%
-   - Grants `vol_magnate_support` modifier
-
-2. **VOL_establish_sejm** (Position 7)
-   - Costs 100 ADM
-   - Noble loyalty ≥ 70%
-   - Grants permanent `vol_ruthenian_sejm` modifier
-
-3. **VOL_constitutional_compact** (Position 8)
-   - ADM tech ≥ 10
-   - Full idea group (Aristocracy/Plutocracy/Administrative)
-   - Grants `vol_constitutional_framework` modifier
-
-4. **VOL_ruthenian_liberty** (Position 9)
-   - Stability ≥ 2
-   - Legitimacy ≥ 90
-   - Prestige ≥ 50
-   - Grants permanent `vol_golden_liberty` modifier
-
-#### Slot 4: Cultural & Educational Development
-1. **VOL_church_relations** (Position 7)
-   - Church estate loyalty ≥ 60%
-   - Religious unity ≥ 80%
-
-2. **VOL_university_expansion** (Position 8)
-   - University in capital (280)
-   - Innovativeness ≥ 5
-   - Grants `vol_center_of_learning` to capital
-
-3. **VOL_renaissance_court** (Position 9)
-   - 3 provinces with universities
-   - Innovativeness ≥ 10
-   - Renaissance OR Printing Press institution
-
-4. **VOL_education_edict** (Position 10)
-   - 5 provinces with 15+ dev
-   - Grants permanent `vol_enlightened_realm` modifier
-
-### Synergy Missions (Slot 5, Both Paths)
-
-1. **VOL_prosperity** (Position 6)
-   - 10 provinces in core areas with 15+ dev, no devastation
-   - Path-specific bonuses: Mercantilism (Austrian) or Income (Polish)
-
-2. **VOL_religious_settlement** (Position 7)
-   - Religious unity ≥ 90%
-   - Either multicultural or magnate support modifier
-
-3. **VOL_ruthenian_hegemony** (Position 8)
-   - Total development ≥ 400
-   - Army size ≥ 40
-   - Empire rank OR (Prestige ≥ 75 AND Legitimacy ≥ 90)
-   - Promotes to Empire rank if not already
-
-4. **VOL_ruthenia_triumphant** (Position 9)
-   - Total development ≥ 600
-   - Great Power status
-   - Path-specific requirements:
-     - **Austrian**: 3 countries with your dynasty, 3 subjects
-     - **Polish**: Golden Liberty + Stability 3 + Legitimacy 95
+### Взірець Речі Посполитої (PLC)
+Польські місії показують:
+- **Устроєвий розвиток**: `pol_great_sejm`, `plc_golden_liberty`, `plc_articles_agreement`
+- **Урядування магнатами**: `pol_leverage_magnates`
+- **Культурне відродження**: `plc_cultural_flowering`
+- **Вкладення в освіту**: `pol_expand_krakow_university`
 
 ---
 
-## MODIFIERS REFERENCE
+## Будова дерева місій
 
-### Austrian Path Modifiers
+### Вибір шляху (позиція 5, стовпець 5)
+**Місія**: `VOL_choose_development_path`
+- **Тригер**:
+  - не воювати
+  - Стабільність ≥ 1
+  - Сукупний розвиток ≥ 200
+- **Ефект**: запускає подію `vol_path_events.1` для вибору шляху
 
-| Modifier | Effects | Duration |
+### Австрійський імперський шлях (стовпці 1-2)
+
+#### Стовпець 1: стани й меншини
+1. **VOL_balance_estates** (позиція 6)
+   - Потрібна рівна вірність станів (по 60%)
+   - Коронних земель ≥ 30%
+   - Відмикає врядування меншинами
+
+2. **VOL_manage_minorities** (позиція 7)
+   - Потрібно 5+ провінцій чужої культури з низьким заворушенням
+   - Дає модифікатор `vol_multicultural_realm`
+   - Накладає `vol_minority_rights` на провінції меншин
+
+3. **VOL_welcome_all_cultures** (позиція 8)
+   - Потрібно прийняти польську культуру + 2 прийняті культури
+   - Дає постійний модифікатор `vol_cultural_tolerance`
+   - Литовська культура приймається сама
+
+#### Стовпець 2: дипломатична й династична мережа
+1. **VOL_develop_capitals** (позиція 7)
+   - Розвинути Волинь (280) і Галич (279) до 20 розвитку
+   - Дає модифікатор `vol_twin_capitals`
+   - Додає постійні модифікатори провінцій
+
+2. **VOL_balance_of_power** (позиція 8)
+   - Союз із великою державою (POL/LIT/HUN/MOS/HLC)
+   - 2 васали АБО 300+ розвитку у васалів
+   - Престиж ≥ 40
+
+3. **VOL_dynastic_marriages** (позиція 9)
+   - 5 королівських шлюбів
+   - 3 країни з вашою династією АБО висока приязнь
+   - Дає модифікатор `vol_dynastic_prestige`
+
+### Польський конституційний шлях (стовпці 3-4)
+
+#### Стовпець 3: устроєвий розвиток
+1. **VOL_manage_magnates** (позиція 6)
+   - Вплив шляхти ≥ 40%, вірність ≥ 60%
+   - Дає модифікатор `vol_magnate_support`
+
+2. **VOL_establish_sejm** (позиція 7)
+   - Коштує 100 адмінсили
+   - Вірність шляхти ≥ 70%
+   - Дає постійний модифікатор `vol_ruthenian_sejm`
+
+3. **VOL_constitutional_compact** (позиція 8)
+   - Адміністративна техніка ≥ 10
+   - Повна група ідей (аристократія / плутократія / адміністрація)
+   - Дає модифікатор `vol_constitutional_framework`
+
+4. **VOL_ruthenian_liberty** (позиція 9)
+   - Стабільність ≥ 2
+   - Легітимність ≥ 90
+   - Престиж ≥ 50
+   - Дає постійний модифікатор `vol_golden_liberty`
+
+#### Стовпець 4: культура й освіта
+1. **VOL_church_relations** (позиція 7)
+   - Вірність духівництва ≥ 60%
+   - Релігійна єдність ≥ 80%
+
+2. **VOL_university_expansion** (позиція 8)
+   - Університет у столиці (280)
+   - Новаторство ≥ 5
+   - Дає столиці `vol_center_of_learning`
+
+3. **VOL_renaissance_court** (позиція 9)
+   - 3 провінції з університетами
+   - Новаторство ≥ 10
+   - Установа Відродження АБО друкарський верстат
+
+4. **VOL_education_edict** (позиція 10)
+   - 5 провінцій із розвитком 15+
+   - Дає постійний модифікатор `vol_enlightened_realm`
+
+### Спільні місії (стовпець 5, обидва шляхи)
+
+1. **VOL_prosperity** (позиція 6)
+   - 10 провінцій у корінних областях із розвитком 15+, без спустошення
+   - Різні винагороди: меркантилізм (австрійський) або дохід (польський)
+
+2. **VOL_religious_settlement** (позиція 7)
+   - Релігійна єдність ≥ 90%
+   - Модифікатор багатокультурності або підтримки магнатів
+
+3. **VOL_ruthenian_hegemony** (позиція 8)
+   - Сукупний розвиток ≥ 400
+   - Військо ≥ 40 полків
+   - Ранг імперії АБО (престиж ≥ 75 І легітимність ≥ 90)
+   - Підносить до рангу імперії, якщо його ще немає
+
+4. **VOL_ruthenia_triumphant** (позиція 9)
+   - Сукупний розвиток ≥ 600
+   - велика держава status
+   - Вимоги залежно від шляху:
+     - **Австрійський**: 3 країни з вашою династією, 3 васали
+     - **Польський**: Золота вольність + стабільність 3 + легітимність 95
+
+---
+
+## Довідник модифікаторів
+
+### Модифікатори австрійського шляху
+
+| Модифікатор | Дія | Тривалість |
 |----------|---------|----------|
-| `vol_balanced_estates` | -10% Stability Cost, +0.5 Yearly Absolutism | 20 years |
-| `vol_multicultural_realm` | +1 Tolerance Heretic/Heathen, -15% Foreign Advisor Cost | 25 years |
-| `vol_minority_rights` | -2 Local Unrest, -0.05 Local Autonomy | Permanent |
-| `vol_cultural_tolerance` | +1 Accepted Culture, -25% Promote Culture Cost | Permanent |
-| `vol_twin_capitals` | +1 Prestige, +1 Diplomatic Reputation, +0.5 Legitimacy | 30 years |
-| `vol_diplomatic_ascendancy` | +2 Diplomatic Reputation, +20% Improve Relations | 25 years |
-| `vol_dynastic_prestige` | +1 Legitimacy, +50% Heir Chance, +1 Diplomatic Slot | 30 years |
+| `vol_balanced_estates` | -10% Stability Cost, +0.5 Yearly Absolutism | 20 років |
+| `vol_multicultural_realm` | +1 Tolerance Heretic/Heathen, -15% Foreign Advisor Cost | 25 років |
+| `vol_minority_rights` | -2 Local Unrest, -0.05 Local Autonomy | Постійний |
+| `vol_cultural_tolerance` | +1 Accepted Culture, -25% Promote Culture Cost | Постійний |
+| `vol_twin_capitals` | +1 Prestige, +1 Diplomatic Reputation, +0.5 Legitimacy | 30 років |
+| `vol_diplomatic_ascendancy` | +2 Diplomatic Reputation, +20% Improve Relations | 25 років |
+| `vol_dynastic_prestige` | +1 Legitimacy, +50% Heir Chance, +1 Diplomatic Slot | 30 років |
 
-### Polish Path Modifiers
+### Модифікатори польського шляху
 
-| Modifier | Effects | Duration |
+| Модифікатор | Дія | Тривалість |
 |----------|---------|----------|
-| `vol_magnate_support` | +10% Noble Loyalty, +5% Noble Influence, +5% Morale | 20 years |
-| `vol_ruthenian_sejm` | -15% Stability Cost, +10% Governing Capacity, +10% Reform Progress | Permanent |
-| `vol_constitutional_framework` | +5% Admin Efficiency, -15% State Maintenance, -0.10 Corruption | 30 years |
-| `vol_golden_liberty` | -20% Stability Cost, -15% Liberty Desire, +1 Diplomat | Permanent |
-| `vol_center_of_learning` | -20% Dev Cost, +25% Institution Spread, +1 Building Slot | Permanent |
-| `vol_educational_reform` | -5% Idea Cost, -5% Tech Cost, +0.25 Innovativeness | 25 years |
-| `vol_cultural_flowering` | +1 Prestige, -15% Advisor Cost, +25% Institution Spread | 30 years |
-| `vol_enlightened_realm` | -15% Embrace Cost, -10% Tech/Idea Cost | Permanent |
+| `vol_magnate_support` | +10% Noble Loyalty, +5% Noble Influence, +5% Morale | 20 років |
+| `vol_ruthenian_sejm` | -15% Stability Cost, +10% Governing Capacity, +10% Reform Progress | Постійний |
+| `vol_constitutional_framework` | +5% Admin Efficiency, -15% State Maintenance, -0.10 Corruption | 30 років |
+| `vol_golden_liberty` | -20% Stability Cost, -15% Liberty Desire, +1 Diplomat | Постійний |
+| `vol_center_of_learning` | -20% Dev Cost, +25% Institution Spread, +1 Building Slot | Постійний |
+| `vol_educational_reform` | -5% Idea Cost, -5% Tech Cost, +0.25 Innovativeness | 25 років |
+| `vol_cultural_flowering` | +1 Prestige, -15% Advisor Cost, +25% Institution Spread | 30 років |
+| `vol_enlightened_realm` | -15% Embrace Cost, -10% Tech/Idea Cost | Постійний |
 
-### Synergy Modifiers (Both Paths)
+### Спільні модифікатори (обидва шляхи)
 
-| Modifier | Effects | Duration |
+| Модифікатор | Дія | Тривалість |
 |----------|---------|----------|
-| `vol_prosperous_realm` | +15% Tax, +10% Production/Trade Efficiency | 25 years |
-| `vol_religious_harmony` | +15% Religious Unity, +2 Tolerance Own | 30 years |
-| `vol_ruthenian_empire` | +1 Prestige/Legitimacy, +150 Gov Capacity, +5% Admin Efficiency | Permanent |
-| `vol_imperial_triumph` | +3 Diplo Rep, +30% Improve Relations, +20% Vassal Income, -25% LD | Permanent |
-| `vol_constitutional_triumph` | -33% Stability Cost, +25% Reform Progress, +25% Gov Capacity, +10% Admin Efficiency | Permanent |
+| `vol_prosperous_realm` | +15% Tax, +10% Production/Trade Efficiency | 25 років |
+| `vol_religious_harmony` | +15% Religious Unity, +2 Tolerance Own | 30 років |
+| `vol_ruthenian_empire` | +1 Prestige/Legitimacy, +150 Gov Capacity, +5% Admin Efficiency | Постійний |
+| `vol_imperial_triumph` | +3 Diplo Rep, +30% Improve Relations, +20% Vassal Income, -25% LD | Постійний |
+| `vol_constitutional_triumph` | -33% Stability Cost, +25% Reform Progress, +25% Gov Capacity, +10% Admin Efficiency | Постійний |
 
 ---
 
-## EVENT SYSTEM
+## Система подій
 
-### Main Path Selection Event
+### Головна подія вибору шляху
 **ID**: `vol_path_events.1`
-- **Trigger**: Mission `VOL_choose_development_path` completion
-- **Options**:
-  1. Austrian Path → Sets `vol_austrian_path` flag, grants `vol_diplomatic_focus` (20 years)
-  2. Polish Path → Sets `vol_constitutional_path` flag, grants `vol_constitutional_focus` (20 years)
+- **Тригер**: завершення місії `VOL_choose_development_path`
+- **Варіанти**:
+  1. Австрійський шлях → ставить прапорець `vol_austrian_path`, дає `vol_diplomatic_focus` (20 років)
+  2. Польський шлях → ставить прапорець `vol_constitutional_path`, дає `vol_constitutional_focus` (20 років)
 
-### Recurring Events
+### Повторювані події
 
-| Event ID | Title | Trigger | Mean Time to Happen |
+| ID події | Назва | Тригер | Середній час до настання |
 |----------|-------|---------|---------------------|
-| `vol_path_events.2` | Royal Marriage Success | Austrian path, dynastic prestige modifier, 4+ marriages | 120 months |
-| `vol_path_events.3` | Sejm Deliberation | Polish path, Sejm modifier, stability 1+ | 120 months |
-| `vol_path_events.4` | Cultural Flowering | Either path, cultural modifier, university in capital | 180 months |
-| `vol_path_events.5` | Minority Integration | Austrian path, multicultural modifier, minority provinces | 120 months |
-| `vol_path_events.6` | Constitutional Reform | Polish path, constitutional framework, 50+ reform progress | 150 months |
-| `vol_path_events.7` | Empire Proclaimed | Empire flag set | 7 days |
+| `vol_path_events.2` | Вдалий королівський шлюб | Австрійський шлях, модифікатор династичного престижу, 4+ шлюби | 120 місяців |
+| `vol_path_events.3` | Сеймові наради | Польський шлях, модифікатор сейму, стабільність 1+ | 120 місяців |
+| `vol_path_events.4` | Культурний розквіт | Будь-який шлях, культурний модифікатор, університет у столиці | 180 місяців |
+| `vol_path_events.5` | Заживлення меншин | Австрійський шлях, багатокультурний модифікатор, провінції меншин | 120 місяців |
+| `vol_path_events.6` | Устроєва реформа | Польський шлях, устроєві рамки, 50+ поступу реформ | 150 місяців |
+| `vol_path_events.7` | Проголошення імперії | Поставлено прапорець імперії | 7 днів |
 
 ---
 
-## AI BEHAVIOR
+## Поведінка ШІ
 
-### Path Selection AI Weights
-**Austrian Path** favored by:
-- Diplomat personality (×2)
-- 2+ subjects (×2)
-- Alliance with HUN/POL (×1.5)
+### Ваги вибору шляху для ШІ
+**Австрійський шлях** ШІ обирає охочіше за:
+- Вдача дипломата (×2)
+- 2+ васали (×2)
+- Союз із HUN/POL (×1,5)
 
-**Polish Path** favored by:
-- Balanced personality (×2)
-- Elective monarchy reform (×2)
-- Noble estate influence ≥ 50% (×1.5)
+**Польський шлях** ШІ обирає охочіше за:
+- Врівноважена вдача (×2)
+- Реформа виборної монархії (×2)
+- Вплив шляхти ≥ 50% (×1,5)
 
-### Mission Priorities
-- Austrian missions have AI weight 500 for conquest missions (historical accuracy)
-- Constitutional missions weight administrative efficiency over expansion
-- Synergy missions prioritize development over warfare
-
----
-
-## INTEGRATION WITH EXISTING SYSTEMS
-
-### Compatibility with HLC Synergy
-- Both paths work with existing `rip_vol_eastern_path` and `rip_vol_baltic_path` flags
-- VOL_choose_development_path mission can be taken after VOL_invest_in_west_rus_mission
-- Does NOT replace HLC-VOL alliance mechanics, adds parallel development
-
-### Province References
-- **Capital**: Volhynia (280)
-- **Secondary Capital**: Halych (279)
-- **Core Areas**: volhynia_area, red_ruthenia_area, podolia_volhynia_area
-
-### Flag Management
-- `vol_austrian_path` / `vol_constitutional_path`: Exclusive flags set by path choice
-- `vol_can_manage_minorities`: Unlocked after balancing estates (Austrian)
-- `vol_magnate_alliance`: Unlocked after magnate management (Polish)
-- `vol_sejm_established`: Set after establishing Sejm
-- `vol_constitutional_ready`: Set after constitutional compact
-- `vol_balance_master`: Set after balance of power mission
-- `vol_empire_proclaimed`: Set after hegemony mission
-- `vol_empire_celebration`: Prevents duplicate empire event
+### Пріоритети місій
+- Австрійські місії мають вагу ШІ 500 для завойовницьких місій (задля історичності)
+- Устроєві місії цінують адміністративну справність вище за розширення
+- Спільні місії ставлять розвиток вище за війну
 
 ---
 
-## DESIGN PHILOSOPHY
+## Стик із наявними системами
 
-### Austrian Path Philosophy
-Emulates Habsburg multi-ethnic empire management:
-- **Diplomatic Over Military**: Prestige and marriages trump conquest
-- **Tolerance**: Managing diversity as strength, not weakness
-- **Dynastic Networks**: Spreading influence through bloodlines
-- **Balance of Power**: Playing great powers against each other
+### Сумісність із взаємодією HLC
+- Обидва шляхи працюють із наявними прапорцями `rip_vol_eastern_path` і `rip_vol_baltic_path`
+- Місію VOL_choose_development_path можна взяти після VOL_invest_in_west_rus_mission
+- Не заміняє механіку союзу HLC-VOL, а додає паралельний розвиток
 
-### Polish Path Philosophy
-Reflects PLC constitutional uniqueness:
-- **Participatory Government**: Nobles as partners, not subjects
-- **Legal Framework**: Constitution as source of legitimacy
-- **Cultural Investment**: Education and enlightenment as power base
-- **Institutional Strength**: Sejm and reforms as stability mechanism
+### Провінції, на які спирається система
+- **Столиця**: Volhynia (280)
+- **Друга столиця**: Галич (279)
+- **Корінні області**: volhynia_area, red_ruthenia_area, podolia_volhynia_area
 
-### Key Differences from Historical Models
-1. **VOL lacks HRE mechanics** → Austrian path uses dynasty spread instead of imperial authority
-2. **VOL lacks elective monarchy baseline** → Polish path can unlock it but doesn't require it
-3. **Both paths converge on Ruthenian Empire** → Unlike HAB/PLC separation, VOL creates unified endpoint with path-specific bonuses
-
----
-
-## RECOMMENDED STRATEGIES
-
-### Austrian Path Strategy
-1. **Early Game**: Secure independence, ally with HLC or major power
-2. **Mid Game**: Balance estates (mission 1), develop capitals, start marriage network
-3. **Late Game**: Focus on dynastic spread, manage minorities, aim for 3+ thrones
-4. **Victory Condition**: 600 dev, 3 dynasties, 3 subjects, Great Power status
-
-### Polish Path Strategy
-1. **Early Game**: Build noble loyalty, stabilize realm
-2. **Mid Game**: Establish Sejm (ADM cost!), secure church support
-3. **Late Game**: University chain, constitutional framework, Golden Liberty
-4. **Victory Condition**: 600 dev, Golden Liberty + Stability 3 + Legitimacy 95, Great Power
-
-### Hybrid Approach
-- **Not possible**: Flags are mutually exclusive
-- **Choose based on**: Starting alliances (HUN/POL favors Austrian), noble estate power (high favors Polish)
-- **AI will pick**: Based on personality and diplomatic situation
+### Прапорці
+- `vol_austrian_path` / `vol_constitutional_path`: взаємовиключні прапорці, які ставить вибір шляху
+- `vol_can_manage_minorities`: відмикається після зрівноваження станів (австрійський)
+- `vol_magnate_alliance`: відмикається після врядування магнатами (польський)
+- `vol_sejm_established`: ставиться після заснування сейму
+- `vol_constitutional_ready`: ставиться після устроєвої угоди
+- `vol_balance_master`: ставиться після місії рівноваги сил
+- `vol_empire_proclaimed`: ставиться після місії гегемонії
+- `vol_empire_celebration`: не дає події про імперію повторитися
 
 ---
 
-## FILES CREATED/MODIFIED
+## Задум
 
-### Mission Files
-- **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\missions\Volhynia_Missions.txt**
-  - Added 3 new mission branches (VOL_austrian_imperial_path_slot1/2, VOL_polish_constitutional_path_slot3/4, VOL_synergy_missions_slot5)
-  - Total: 20 new missions
+### Задум австрійського шляху
+Відтворює габсбурзьке врядування багатонародною імперією:
+- **Дипломатія понад військо**: престиж і шлюби б'ють завоювання
+- **Терпимість**: різнорідність як сила, а не слабкість
+- **Династичні мережі**: вплив через кров
+- **Рівновага сил**: зіштовхування великих держав між собою
 
-### Modifier Files
-- **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\common\event_modifiers\VOL_mission_modifiers.txt**
-  - 28 new modifiers (path-specific + synergy + event modifiers)
+### Задум польського шляху
+Відбиває устроєву окремішність Речі Посполитої:
+- **Спільне урядування**: шляхта як спільник, а не підданий
+- **Правові рамки**: устрій як джерело легітимності
+- **Вкладення в культуру**: освіта й просвіта як опора влади
+- **Міцність установ**: сейм і реформи як опора стабільності
 
-### Event Files
-- **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\events\VOL_path_events.txt**
-  - 7 events for path choice, recurring events, and empire proclamation
-
-### Localization Files
-- **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\localisation\VOL_austrian_polish_missions_l_english.yml**
-  - Mission titles, descriptions, tooltips, modifier names/descriptions
-- **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\localisation\VOL_path_events_l_english.yml**
-  - Event text and options
-
-### Opinion Modifier Files
-- **d:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\common\opinion_modifiers\RIP_opinion_modifiers.txt**
-  - 3 new opinion modifiers for dynastic/constitutional relations
+### Головні відмінності від історичних взірців
+1. **У VOL немає механіки Священної Римської імперії** → австрійський шлях спирається на поширення династії, а не на імперську владу
+2. **У VOL немає виборної монархії від початку** → польський шлях може її відімкнути, але не вимагає
+3. **Обидва шляхи сходяться на Руській імперії** → на відміну від розходження HAB/PLC, VOL має спільний кінець із різними винагородами
 
 ---
 
-## TESTING CHECKLIST
+## Рекомендовані стратегії
 
-- [ ] Path selection event fires correctly after VOL_choose_development_path
-- [ ] Austrian path missions appear only with `vol_austrian_path` flag
-- [ ] Polish path missions appear only with `vol_constitutional_path` flag
-- [ ] Synergy missions appear with either flag set
-- [ ] Modifiers apply correctly with specified durations
-- [ ] Events fire with correct MTTH
-- [ ] Opinion modifiers work in diplomacy screen
-- [ ] Mission completion grants correct claims/modifiers
-- [ ] AI selects path based on personality/situation
-- [ ] Final missions (triumphant) check path-specific requirements
-- [ ] No syntax errors in mission/event/modifier files
-- [ ] Localization displays correctly in English
+### Стратегія австрійського шляху
+1. **Ранок партії**: закріпити незалежність, стати в союз із HLC або великою державою
+2. **Середина**: зрівноважити стани (місія 1), розвинути столиці, почати шлюбну мережу
+3. **Пізня гра**: поширювати династію, врядувати меншинами, цілитися в 3+ престоли
+4. **Умова перемоги**: 600 розвитку, 3 династії, 3 васали, статус великої держави
 
----
+### Стратегія польського шляху
+1. **Ранок партії**: здобути вірність шляхти, устаткувати державу
+2. **Середина**: заснувати сейм (коштує адмінсили!), заручитися підтримкою церкви
+3. **Пізня гра**: низка університетів, устроєві рамки, Золота вольність
+4. **Умова перемоги**: 600 розвитку, Золота вольність + стабільність 3 + легітимність 95, велика держава
 
-## FUTURE EXPANSION IDEAS
-
-1. **Government Reforms**: Create VOL-specific reforms for each path
-   - Austrian: "Multinational Administration" (+tolerance, +diplomat)
-   - Polish: "Ruthenian Sejm" (+reform progress, -absolutism)
-
-2. **Unique Units**: Path-specific unit models/pips
-   - Austrian: "Imperial Hussars" (cavalry focus)
-   - Polish: "Sejm Levy" (infantry focus, reduced cost)
-
-3. **Religious Mechanics**: Path interaction with Orthodox/Uniate churches
-   - Austrian: Tolerance-based
-   - Polish: Synod-based (like PLC mechanics)
-
-4. **Trade Company Integration**: Austrian path could get trade company bonuses in Black Sea
-5. **Cultural Union Mechanics**: Polish path could form "West Ruthenian" cultural union
+### Змішаний підхід
+- **Неможливий**: прапорці взаємовиключні
+- **На що зважати**: початкові союзи (HUN/POL хилять до австрійського), сила шляхти (велика хилить до польського)
+- **ШІ обирає**: за вдачею та дипломатичним становищем
 
 ---
 
-## TROUBLESHOOTING
+## Створені та змінені файли
 
-### Mission Not Appearing
-- Check country tag (VOL only)
-- Verify flag is set (`vol_austrian_path` or `vol_constitutional_path`)
-- Confirm position slot is not occupied by another mission
-- Check potential triggers (DLC requirements if any added later)
+### Файли місій
+- **`missions/Volhynia_Missions.txt`**
+  - Додано 3 гілки місій (VOL_austrian_imperial_path_slot1/2, VOL_polish_constitutional_path_slot3/4, VOL_synergy_missions_slot5)
+  - Разом: 20 нових місій
 
-### Event Not Firing
-- Verify trigger conditions (modifiers, flags, etc.)
-- Check event namespace (vol_path_events)
-- Confirm MTTH is reasonable (120-180 months standard)
+### Файли модифікаторів
+- **`common/event_modifiers/VOL_mission_modifiers.txt`**
+  - 28 нових модифікаторів (для шляхів, спільні та подієві)
 
-### Modifier Not Applying
-- Check spelling in event/mission effect and modifier file
-- Verify duration syntax (years vs. days vs. permanent with -1)
-- Confirm modifier file loaded (no syntax errors blocking it)
+### Файли подій
+- **`events/VOL_path_events.txt`**
+  - 7 подій: вибір шляху, повторювані події, проголошення імперії
 
----
+### Файли локалізації
+- **`localisation/VOL_austrian_polish_missions_l_english.yml`**
+  - Назви місій, описи, підказки, назви й описи модифікаторів
+- **`localisation/VOL_path_events_l_english.yml`**
+  - Текст і варіанти подій
 
-## CREDITS & ACKNOWLEDGMENTS
-
-**Paradox Interactive**: Base game mechanics and historical mission inspiration
-**EU4 Modding Community**: Tools and documentation
-**Historical Sources**: Habsburg and PLC political history research
-
-**Special Thanks**:
-- Austrian mission tree designers for multi-ethnic management framework
-- Polish mission tree designers for constitutional development mechanics
-- RIP mod team for existing Volhynia/HLC synergy system
+### Файли модифікаторів приязні
+- **`common/opinion_modifiers/RIP_opinion_modifiers.txt`**
+  - 3 нові модифікатори приязні для династичних та устроєвих стосунків
 
 ---
 
-## CHANGELOG
+## Перелік перевірки
 
-### Version 1.0 (January 30, 2026)
-- Initial implementation of dual-path system
-- 20 new missions across 5 slots
-- 28 modifiers for path progression
-- 7 events for path choice and progression
-- Complete English localization
-- Documentation created
+- [ ] Подія вибору шляху спрацьовує після VOL_choose_development_path
+- [ ] Місії австрійського шляху видно лише з прапорцем `vol_austrian_path`
+- [ ] Місії польського шляху видно лише з прапорцем `vol_constitutional_path`
+- [ ] Спільні місії видно з будь-яким із двох прапорців
+- [ ] Модифікатори накладаються із зазначеною тривалістю
+- [ ] Події спрацьовують із правильним MTTH
+- [ ] Модифікатори приязні працюють на екрані дипломатії
+- [ ] Завершення місії дає правильні претензії та модифікатори
+- [ ] ШІ обирає шлях за вдачею та становищем
+- [ ] Кінцеві місії перевіряють вимоги свого шляху
+- [ ] У файлах місій, подій і модифікаторів немає синтаксичних помилок
+- [ ] Англійська локалізація показується правильно
 
 ---
 
-## APPENDIX: CODE SNIPPETS
+## Задуми на майбутнє
 
-### Example: Checking Path in Trigger
+1. **Урядові реформи**: окремі реформи VOL для кожного шляху
+   - Австрійський: «Багатонародна управа» (+терпимість, +дипломат)
+   - Польський: «Руський сейм» (+поступ реформ, -абсолютизм)
+
+2. **Окремі війська**: моделі та показники під шлях
+   - Австрійський: «Імперські гусари» (упор на кінноту)
+   - Польський: «Сеймове ополчення» (упор на піхоту, дешевше)
+
+3. **Церковна механіка**: стик шляху з православною та унійною церквами
+   - Австрійський: через терпимість
+   - Польський: через синод (як у Речі Посполитій)
+
+4. **Торгові компанії**: австрійський шлях міг би давати переваги торгових компаній на Чорному морі
+5. **Культурна унія**: польський шлях міг би творити «західноруську» культурну унію
+
+---
+
+## Що робити, коли не працює
+
+### Місія не з'являється
+- Перевірте тег країни (лише VOL)
+- Переконайтеся, що прапорець поставлено (`vol_austrian_path` або `vol_constitutional_path`)
+- Перевірте, що позицію не займає інша місія
+- Перегляньте блок `potential` (вимоги DLC, якщо їх колись додадуть)
+
+### Подія не спрацьовує
+- Звірте умови тригера (модифікатори, прапорці тощо)
+- Перевірте простір імен події (vol_path_events)
+- Переконайтеся, що MTTH розумний (звично 120-180 місяців)
+
+### Модифікатор не накладається
+- Звірте написання в ефекті події чи місії та у файлі модифікаторів
+- Перевірте запис тривалості (`years` / `days` / постійний через -1)
+- Переконайтеся, що файл модифікаторів завантажився (синтаксична помилка блокує його цілком)
+
+---
+
+## Подяки
+
+**Paradox Interactive**: механіка базової гри й приклад історичних місій
+**Спільнота модерів EU4**: інструменти й документація
+**Історичні джерела**: праці з політичної історії Габсбургів і Речі Посполитої
+
+**Окрема подяка**:
+- Авторам австрійського дерева місій за модель урядування багатьма народами
+- Авторам польського дерева місій за механіку устроєвого розвитку
+- Команді мода RIP за наявну взаємодію Волині та HLC
+
+---
+
+## Журнал змін
+
+### Версія 1.0 (30 січня 2026)
+- Перше втілення системи з двома шляхами
+- 20 нових місій у 5 стовпцях
+- 28 модифікаторів поступу шляхами
+- 7 подій вибору шляху та поступу
+- Повна англійська локалізація
+- Створено документацію
+
+---
+
+## Додаток: приклади коду
+
+### Приклад: перевірка шляху в тригері
 ```
 trigger = {
     has_country_flag = vol_austrian_path
@@ -417,7 +419,7 @@ trigger = {
 }
 ```
 
-### Example: Path-Specific Reward
+### Приклад: винагорода залежно від шляху
 ```
 effect = {
     if = {
@@ -431,7 +433,7 @@ effect = {
 }
 ```
 
-### Example: AI Path Selection Weighting
+### Приклад: ваги вибору шляху для ШІ
 ```
 ai_chance = {
     factor = 50
@@ -448,4 +450,4 @@ ai_chance = {
 
 ---
 
-**END OF DOCUMENTATION**
+**КІНЕЦЬ ДОКУМЕНТА**

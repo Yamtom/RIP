@@ -1,52 +1,55 @@
-# Canonical-root migration record
+# Запис про перехід на канонічний корінь
 
-## Decision
+## Рішення
 
-`RIP/` is the single source of truth and the only Europa Universalis IV mod
-root. The former nested `RIP-fresh2` tree must not reappear in a release or in
-the Git index.
+`RIP/` — єдине джерело істини і єдиний корінь мода для Europa Universalis IV.
+Колишнє вкладене дерево `RIP-fresh2` не має з'являтися ані в релізі, ані в
+індексі Git.
 
-## Preserved history
+## Збережена історія
 
-- `archive/pre-flatten-root` preserves the outer tree before integration.
-- `archive/rip-fresh2` preserves the former nested repository at commit
+- `archive/pre-flatten-root` зберігає зовнішнє дерево до інтеграції.
+- `archive/rip-fresh2` зберігає колишній вкладений репозиторій на коміті
   `07cf176d953f90a2e827939e96f79b0df8f934a2`.
-- merge commit `1b51af9b5c24551781e6a8ae95f960766b0c8bb1`
-  connects both histories with a real two-parent merge.
-- commit `2691c70a` removes the obsolete mode-`160000` gitlink from the
-  canonical tree after the history has been preserved.
+- Коміт злиття `1b51af9b5c24551781e6a8ae95f960766b0c8bb1` з'єднує обидві
+  історії справжнім злиттям із двома батьками.
+- Коміт `2691c70a` прибирає застарілий gitlink режиму `160000` з канонічного
+  дерева вже після того, як історію збережено.
 
-No reset, force-push, or mechanical copy-over was used. The merge restores
-nested-only content at the canonical root while retaining non-conflicting
-outer changes. Content conflicts were resolved in favour of the nested line
-only at the conflicting hunks, then reviewed as normal source files.
+Ані reset, ані force-push, ані механічного копіювання не застосовували.
+Злиття повертає вміст, що існував лише у вкладеному дереві, до канонічного
+кореня, зберігаючи при цьому неконфліктні зовнішні зміни. Конфлікти вмісту
+розв'язували на користь вкладеної лінії лише в самих конфліктних ділянках, а
+далі переглядали як звичайні вихідні файли.
 
-## Loader normalization
+## Нормалізація завантажувача
 
-The canonical tree uses only supported engine locations:
+Канонічне дерево вживає лише ті розташування, які підтримує рушій:
 
-- decisions live in `/decisions`, not `/common/decisions`;
-- modifiers live in the appropriate `/common/event_modifiers` or other
-  supported subsystem, not `/common/modifiers`;
-- church aspects and blessings live in `/common/church_aspects`;
-- country flags are runtime state and do not require declarations under
+- рішення живуть у `/decisions`, а не в `/common/decisions`;
+- модифікатори — у `/common/event_modifiers` або іншій підсистемі, що їх
+  підтримує, а не в `/common/modifiers`;
+- аспекти й благословення церкви — у `/common/church_aspects`;
+- прапорці країн є станом часу виконання й не потребують оголошення в
   `/common/country_flags`;
-- placeholder files directly under `/common` are not loader input.
+- файли-заглушки просто в `/common` завантажувач не читає.
 
-`restored_ruthenia` required a semantic migration rather than a file move.
-Vanilla EU4 already owns that ID as a province modifier. The mod therefore
-uses the namespaced IDs `rip_vol_restored_ruthenia_province` and
-`rip_vol_restored_ruthenia_country`, with mission references split by scope.
+`restored_ruthenia` потребував не переміщення файлу, а семантичного переходу.
+Ванільна EU4 вже володіє цим ID як провінційним модифікатором. Тому мод
+вживає ID з простором імен — `rip_vol_restored_ruthenia_province` та
+`rip_vol_restored_ruthenia_country`, — а посилання в місіях розведено за
+областю дії.
 
-## Rules for future changes
+## Правила для майбутніх змін
 
-1. Never copy a complete historical tree over the repository root.
-2. Recover historical files from `archive/*` in subsystem-sized branches.
-3. Give every new tag a country definition, history, flag, colour, and
-   localisation before merging.
-4. Record every intentional vanilla filename or semantic-ID override in the
-   PR description and the collision allowlist.
-5. Build release archives from an allowlist of EU4 loader directories; never
-   package `.git`, tooling caches, `docs`, tests, `.bak`, or diagnostic ZIPs.
-6. Never enable the local and Workshop copies of remote item `2563577714` at
-   the same time.
+1. Ніколи не копіювати ціле історичне дерево поверх кореня репозиторію.
+2. Відновлювати історичні файли з `archive/*` гілками розміром з підсистему.
+3. Давати кожному новому тегу визначення країни, історію, прапор, колір і
+   локалізацію ще до злиття.
+4. Записувати кожне свідоме перекриття ванільного імені файлу чи семантичного
+   ID в описі PR і в списку дозволених колізій.
+5. Збирати релізні архіви за списком дозволених тек завантажувача EU4; ніколи
+   не пакувати `.git`, кеші інструментів, `docs`, тести, `.bak` чи
+   діагностичні ZIP-архіви.
+6. Ніколи не вмикати локальну копію й копію з Workshop для віддаленого
+   елемента `2563577714` одночасно.

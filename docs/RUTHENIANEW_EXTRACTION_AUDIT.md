@@ -1,4 +1,4 @@
-# RutheniaNew Extraction Audit Matrix (for RIP)
+# Матриця аудиту вилучення з RutheniaNew (для RIP)
 
 > **Історичний запис. Джерела більше немає.** Теки `ruthenianew/` у
 > репозиторії не існує, тож матрицю нижче не можна ані перевірити проти неї,
@@ -11,41 +11,41 @@
 > `localisation/het_legacy_eras_l_english.yml`), а `history/wars/` справді вже
 > вживає `PDL` і жодного `POD`. Один рядок матриці застарів - див. поправку.
 
-## Scope and rule set
-- Source: `ruthenianew/`
-- Mode: audit-only extraction (no direct import of map/tradenodes/history blobs from legacy files).
-- Target: useful additions for current RIP Ruthenian/Hetmanate content with minimal conflict risk.
+## Обсяг і правила
+- Джерело: `ruthenianew/`
+- Режим: лише аудит, без прямого імпорту карти, торгових вузлів чи історичних блобів зі старих файлів.
+- Ціль: корисні доповнення до чинного руського й гетьманського вмісту RIP з мінімальним ризиком конфлікту.
 
-## Classification matrix
+## Матриця класифікації
 
-| Source block | Category | Classification | Target path in RIP | Status | Notes |
+| Блок джерела | Категорія | Класифікація | Шлях у RIP | Стан | Примітки |
 |---|---|---|---|---|---|
-| `ruthenianew/common/countries/*.txt` | countries | obsolete/renamed | n/a (reference-only) | deferred | Legacy definitions overlap current country setup; no direct merge needed. |
-| `ruthenianew/common/country_tags/00_countries.txt` | tags | obsolete/renamed | `common/country_tags/01_countries.txt` | deferred | Legacy uses `POD`; active war/history flows in RIP use `PDL` for Podillia timeline. |
-| `ruthenianew/common/province_names/east_slavic.txt` | province_names | already integrated | `common/province_names/*` + localization layers | done | Most useful naming has already been incorporated earlier. |
+| `ruthenianew/common/countries/*.txt` | країни | застаріле або перейменоване | немає (лише як довідка) | відкладено | Старі описи накладаються на теперішні; зливати нічого. |
+| `ruthenianew/common/country_tags/00_countries.txt` | теги | застаріле або перейменоване | `common/country_tags/01_countries.txt` | відкладено | Старе вживає `POD`; чинні війни й історія RIP уживають `PDL` для подільської лінії. |
+| `ruthenianew/common/province_names/east_slavic.txt` | назви провінцій | уже внесено | `common/province_names/*` і шари локалізації | зроблено | Найкорисніші назви внесено раніше. |
 | `ruthenianew/common/province_names/HET.txt` | province_names | safe candidate | ~~`common/province_names/HET.txt`~~ | **застаріло** | Файл згодом видалено з репозиторію - у `common/province_names/` лишилися `CHR`, `UZH`, `ZAZ` і `ruthenian`. Див. `PROVINCE_NAMES_NORMALIZATION_NOTES.md`. |
-| `ruthenianew/common/province_names/ZAZ.txt` | province_names | safe candidate | `common/province_names/ZAZ.txt` | done | Safe-candidate verified via normalization pass; direct legacy import not performed due to naming-model conflict. |
-| `ruthenianew/history/countries/HET - Hetmanate.txt` | history | already integrated | `history/countries/HET - Hetmanate.txt` | done | Chronology and flavor were already reused via current Hetmanate systems. |
-| `ruthenianew/history/wars/*.txt` | wars | already integrated | `history/wars/*.txt` | done | Same war set exists in RIP; active files already use normalized tags (notably `PDL`). |
-| `ruthenianew/history/provinces/*.txt` | history | incompatible (1.28 map pipeline) | n/a | deferred | Direct province-history import can desync with current map/province ownership balance. |
-| `ruthenianew/history/provinces.rar` | history | incompatible (1.28 map pipeline) | n/a | deferred | Archived blob is not diff-friendly and unsuitable for direct integration workflow. |
-| `ruthenianew/common/tradenodes/00_tradenodes.txt` | trade/map | incompatible (1.28 map pipeline) | n/a | deferred | Trade graph changes require coordinated map update and global balance pass. |
-| `ruthenianew/map/*` | map | incompatible (1.28 map pipeline) | n/a | deferred | `default.map`, `definition.csv`, `area/region/continent`, and bitmaps require full map rebuild pipeline. |
-| `ruthenianew/localisation/Ruthenia_mod_l_english.yml` | localisation | already integrated | `localisation/ruthenian_eastward_l_english.yml` and other RIP loc files | done | Core names/strings are already represented in current localization layers. |
-| `ruthenianew/gfx/flags/*.tga` | assets | safe candidate | `gfx/flags/*.tga` | deferred | Optional visual backlog; can be imported per-tag if custom flag direction is approved. |
+| `ruthenianew/common/province_names/ZAZ.txt` | назви провінцій | безпечний кандидат | `common/province_names/ZAZ.txt` | зроблено | Кандидата перевірено нормалізаційним проходом; прямого імпорту не було через суперечність моделей іменування. |
+| `ruthenianew/history/countries/HET - Hetmanate.txt` | історія | уже внесено | `history/countries/HET - Hetmanate.txt` | зроблено | Хронологію й дух уже перебрали чинні системи Гетьманщини. |
+| `ruthenianew/history/wars/*.txt` | війни | уже внесено | `history/wars/*.txt` | зроблено | Той самий набір воєн є в RIP; чинні файли вже вживають унормовані теги (зокрема `PDL`). |
+| `ruthenianew/history/provinces/*.txt` | історія | несумісне (мапа з 1.28) | немає | відкладено | Прямий імпорт історії провінцій розсинхронить теперішню карту й розподіл володінь. |
+| `ruthenianew/history/provinces.rar` | історія | несумісне (мапа з 1.28) | немає | відкладено | Архів не показує різниці й не годиться для прямого внесення. |
+| `ruthenianew/common/tradenodes/00_tradenodes.txt` | торгівля й карта | несумісне (мапа з 1.28) | немає | відкладено | Зміна торгового графа вимагає узгодженого оновлення карти й повного балансного проходу. |
+| `ruthenianew/map/*` | карта | несумісне (мапа з 1.28) | немає | відкладено | `default.map`, `definition.csv`, області, краї, континенти й растри вимагають повної перебудови карти. |
+| `ruthenianew/localisation/Ruthenia_mod_l_english.yml` | локалізація | уже внесено | `localisation/ruthenian_eastward_l_english.yml` та інші файли RIP | зроблено | Головні назви й рядки вже є в чинних шарах локалізації. |
+| `ruthenianew/gfx/flags/*.tga` | ресурси | безпечний кандидат | `gfx/flags/*.tga` | відкладено | Необов'язковий візуальний запас; можна вносити потегово, якщо схвалять власні прапори. |
 
-## Legacy tag normalization
-- Required mapping for any future legacy extraction: `POD -> PDL`.
-- Impact: legacy war/history snippets that still reference `POD` must be remapped before reuse.
-- Current RIP evidence: `history/wars/*.txt` already uses `PDL` in active war scripts.
+## Нормалізація старих тегів
+- Обов'язкове відображення для будь-якого майбутнього вилучення: `POD -> PDL`.
+- Наслідок: старі уривки воєн та історії, що й досі згадують `POD`, треба перемапити перед повторним ужитком.
+- Підтвердження в RIP: `history/wars/*.txt` уже вживає `PDL` в активних скриптах воєн.
 
-## Extraction outcome for this iteration
-- Kept audit-only stance for legacy raw data.
-- Expanded existing Hetmanate event-chain architecture instead of adding a new mission tree:
+## Результат вилучення в цій ітерації
+- Збережено позицію «лише аудит» щодо старих сирих даних.
+- Розширено наявну архітектуру гетьманських ланцюгів подій замість додавання нового дерева місій:
   - `decisions/HetmanateLegacyErasDecisions.txt`
   - `events/HetmanateLegacyEras.txt`
   - `localisation/het_legacy_eras_l_english.yml`
 
-## Backlog candidates
-- Optional flag art migration from `ruthenianew/gfx/flags/*.tga` after art direction is confirmed.
-- Optional selective province-name diff pass for `HET` and `ZAZ` only.
+## Кандидати в беклог
+- Необов'язкове перенесення графіки прапорів із `ruthenianew/gfx/flags/*.tga` після узгодження арт-напрямку.
+- Необов'язковий вибірковий прохід по різниці назв провінцій лише для `HET` і `ZAZ`.

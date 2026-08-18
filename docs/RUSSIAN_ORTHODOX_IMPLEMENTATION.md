@@ -1,4 +1,4 @@
-# RUSSIAN ORTHODOX CHURCH - IMPLEMENTATION SUMMARY
+# Російська православна церква — підсумок реалізації
 
 ---
 
@@ -65,41 +65,40 @@ holy_sites = {
 
 ---
 
-## 📦 Complete File Structure
+## 📦 Повна структура файлів
 
 ```
 RIP Mod/
 ├── common/
 │   ├── religions/
-│   │   └── russian_orthodox.txt                    [Religion Definition]
+│   │   └── russian_orthodox.txt                    [опис релігії]
 │   ├── event_modifiers/
-│   │   └── russian_orthodox_modifiers.txt          [55 Modifiers]
+│   │   └── russian_orthodox_modifiers.txt          [55 модифікаторів]
 │   ├── scripted_triggers/
-│   │   └── russian_orthodox_triggers.txt           [9 Triggers]
+│   │   └── russian_orthodox_triggers.txt           [9 тригерів]
 │   ├── scripted_effects/
-│   │   └── russian_orthodox_effects.txt            [15 Effects]
+│   │   └── russian_orthodox_effects.txt            [15 ефектів]
 │   └── on_actions/
-│       └── russian_orthodox_on_actions.txt         [Event Integration]
+│       └── russian_orthodox_on_actions.txt         [підключення подій]
 ├── events/
-│   └── RussianOrthodox.txt                         [17 Events]
+│   └── RussianOrthodox.txt                         [17 подій]
 ├── decisions/
-│   └── RussianOrthodoxDecisions.txt                [7 country + 2 province decisions]
+│   └── RussianOrthodoxDecisions.txt                [7 рішень країни + 2 провінції]
 ├── localisation/
-│   ├── russian_orthodox_l_english.yml              [250+ English entries]
-│   └── russian_orthodox_l_ukrainian.yml            [250+ Ukrainian entries]
+│   └── russian_orthodox_l_english.yml              [250+ записів англійською]
 └── docs/
-    ├── RUSSIAN_ORTHODOX_README.md                  [Full documentation]
-    ├── RUSSIAN_ORTHODOX_QUICKREF.md                [Quick reference]
-    └── RUSSIAN_ORTHODOX_IMPLEMENTATION.md          [This file]
+    ├── RUSSIAN_ORTHODOX_README.md                  [повний опис]
+    ├── RUSSIAN_ORTHODOX_QUICKREF.md                [швидкий довідник]
+    └── RUSSIAN_ORTHODOX_IMPLEMENTATION.md          [цей файл]
 ```
 
 ---
 
-## 🔧 Technical Implementation Details
+## Технічні подробиці реалізації
 
-### 1. Religion Definition (`common/religions/russian_orthodox.txt`)
+### 1. Опис релігії (`common/religions/russian_orthodox.txt`)
 
-**Structure:**
+**Будова:**
 ```
 russian_orthodox = {
     icon = 43
@@ -127,604 +126,512 @@ russian_orthodox = {
 }
 ```
 
-**Key Properties:**
-- `has_patriarchs = yes` → Enables Orthodox patriarch mechanics
-- `aspects_and_blessings` structure → Combines aspects + blessings system
-- `holy_sites` → Constantinople (151), Kiev (358), Jerusalem (112), Antioch (1401), Alexandria (2313)
+**Головні властивості:**
+- `has_patriarchs = yes` → вмикає механіку православних патріархів
+- Блок `aspects_and_blessings` → поєднує аспекти й благословення
+- `holy_sites` → див. виправлений набір у розділі «Стан на 16 серпня 2026» вище: цей рядок у файлі релігії хибний
 
-**Design Choices:**
-- More aggressive than regular Orthodox (+0.02 missionary strength vs +0.01)
-- Higher manpower (+10% vs +5%) for conquest focus
-- Increased AE (+10%) as balancing factor
-- Higher intolerance (-3 heathen vs -2) for religious uniformity theme
-
----
-
-### 2. Aspects System (7 Total)
-
-Each aspect follows this template:
-```
-aspect_name = {
-    sprite = 1
-    cost = 100
-
-    trigger = {
-        # Conditions for availability
-    }
-
-    effect = {
-        # Stat modifiers
-    }
-
-    modifiers = {
-        # Country modifiers
-    }
-
-    ai_will_do = {
-        factor = X
-    }
-}
-```
-
-**Aspect Triggers Design:**
-- Third Rome Mission: `owns = 295` (Moscow)
-- Patriarch Authority: `has_country_modifier = moscow_patriarchate_authority`
-- Orthodox Inquisition: `has_country_modifier = orthodox_inquisition`
-- Forced Russification: `has_country_modifier = forced_russification`
-- Imperial Orthodox Church: `has_country_modifier = imperial_orthodox_state`
-- Subjugation of Heretics: Province count checks
-
-**AI Weights:**
-- Military aspects: factor 3-5 (AI loves military)
-- Economic aspects: factor 2-3
-- Diplomatic aspects: factor 1-2 (AI deprioritizes)
+**Задум:**
+- Наступальніша за звичайне православ'я (+0,02 сили місіонерів проти +0,01)
+- Більше живої сили (+10% проти +5%) під упор на завоювання
+- Підвищена агресивна експансія (+10%) як противага
+- Менша терпимість (-3 до іновірців проти -2) задля теми віросповідної одності
 
 ---
 
-### 3. Blessings System (7 Total)
+### 2. Аспекти (усього 7)
 
-Template:
-```
-blessing_name = {
-    cost = 50
-    duration = 7300  # 20 years
+Кожен аспект будується за таким шаблоном:
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні аспекти дивіться в `common/church_aspects/RIP_church_aspects.txt`.
 
-    modifiers = {
-        # Temporary bonuses
-    }
-}
-```
+**Умови аспектів:**
+- Місія Третього Риму: `owns = 295` (Москва)
+- Влада патріарха: `has_country_modifier = moscow_patriarchate_authority`
+- Православна інквізиція: `has_country_modifier = orthodox_inquisition`
+- Примусова русифікація: `has_country_modifier = forced_russification`
+- Імперська православна церква: `has_country_modifier = imperial_orthodox_state`
+- Упокорення єретиків: перевірка кількості провінцій
 
-**Balance Rationale:**
-- 50 CP cost = half of aspect cost
-- 20 year duration = long enough to matter, short enough to recast
-- Stackable with aspects for synergy
-- No cooldowns (can be maintained permanently if CP allows)
-
----
-
-### 4. Event System (`events/RussianOrthodox.txt`)
-
-**Event Structure:**
-```
-namespace = russian_orthodox
-
-country_event = {
-    id = russian_orthodox.X
-    title = russian_orthodox.X.t
-    desc = russian_orthodox.X.d
-    picture = ORTHODOX_ICON_eventPicture
-
-    trigger = {
-        # Firing conditions
-    }
-
-    mean_time_to_happen = {
-        months = Y
-        modifier = { ... }
-    }
-
-    option = {
-        name = russian_orthodox.X.a
-        # Effects
-    }
-}
-```
-
-**Event Categories:**
-
-**Historical Events (Dated):**
-- `russian_orthodox.1`: Fall of Constantinople (1453 trigger)
-- `russian_orthodox.2`: Moscow Patriarchate (1589+, requires development)
-- `russian_orthodox.6`: Old Believer Schism (1650+)
-- `russian_orthodox.7`: Conquest of Kazan (province_id 1082 owner change)
-
-**Mechanical Events (Random/Triggered):**
-- `russian_orthodox.3`: Province conversion policy (on_province_owner_change)
-- `russian_orthodox.4`: Russification campaign (bi_yearly_pulse)
-- `russian_orthodox.5`: Inquisition establishment (yearly_pulse)
-- `russian_orthodox.8`: Gathering Russian lands (quarterly_pulse)
-- `russian_orthodox.9`: Symphonia (five_year_pulse)
-- `russian_orthodox.10`: Constantinople conquest (province 151 owner change)
-- `russian_orthodox.11`: Imperial Church (five_year_pulse)
-- `russian_orthodox.12`: Siberian missions (yearly_pulse)
-- `russian_orthodox.13`: Defender of Orthodoxy (yearly_pulse)
-- `russian_orthodox.14`: Patriarch of All Rus' (five_year_pulse)
-- `russian_orthodox.15`: Cultural resistance (quarterly_pulse)
-
-**MTTH Tuning:**
-- Critical events: 1200 months (100 years) → rare but impactful
-- Flavor events: 600 months (50 years) → occasional
-- Frequent events: 120 months (10 years) → regular
-- Rapid events: 12 months (1 year) → very frequent
-
-**Modifier Design:**
-- Reduce MTTH by 50-80% for appropriate nations (Russia, Muscovy)
-- Increase MTTH by 300-400% for inappropriate situations
-- Weight by development, ideas, missions
+**Ваги для ШІ:**
+- Воєнні аспекти: множник 3-5 (ШІ любить військо)
+- Господарські аспекти: множник 2-3
+- Дипломатичні аспекти: множник 1-2 (ШІ ставить їх нижче)
 
 ---
 
-### 5. Decision System (`decisions/RussianOrthodoxDecisions.txt`)
+### 3. Благословення (усього 7)
 
-**Decision Template:**
-```
-decision_name = {
-    major = yes/no
+Шаблон:
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні благословення дивіться в `common/church_aspects/RIP_church_aspects.txt`.
 
-    potential = {
-        # Who can see this decision
-    }
-
-    allow = {
-        # Requirements to take decision
-    }
-
-    effect = {
-        # What happens when taken
-    }
-
-    ai_will_do = {
-        factor = X
-        modifier = { ... }
-    }
-}
-```
-
-**Decision Types:**
-
-**One-Time Decisions:**
-1. Convert to Russian Orthodox
-2. Establish Moscow Patriarchate
-3. Establish Symphonia
-4. Proclaim Orthodox Empire
-
-**Repeatable Decisions:**
-5. Launch Russification Campaign
-6. Establish Orthodox Inquisition
-7. Gathering of Russian Lands
-
-**Province Decisions:**
-8. Force Convert Province
-9. Russify Province
-
-**AI Logic:**
-- Russia/Muscovy: Always takes conversion decision
-- High development nations: Take economic decisions
-- Low prestige nations: Avoid prestige-costly decisions
-- High unrest nations: Avoid unrest-increasing decisions
+**Чому саме такі числа:**
+- 50 церковної сили — удвічі дешевше за аспект
+- 20 років — досить довго, щоб важити, і досить коротко, щоб поновлювати
+- Складається з аспектами
+- Відкату немає: за наявності церковної сили можна тримати постійно
 
 ---
 
-### 6. Modifier System (`common/event_modifiers/russian_orthodox_modifiers.txt`)
+### 4. Події (`events/RussianOrthodox.txt`)
 
-**40+ Modifiers in Categories:**
+**Будова події:**
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні події дивіться в `events/RussianOrthodox.txt`.
 
-**Positive Modifiers (Rewards):**
-- `third_rome_ideology`: +0.5 prestige/year, +10% morale, +1 diplomat
-- `moscow_patriarchate_authority`: +10% tax, +5% admin efficiency
-- `orthodox_manifest_destiny`: +15% manpower, +10% fort defense
-- `symphonia_of_powers`: +1 absolutism, +5% admin efficiency
-- `defender_of_orthodoxy`: +15% improve relations, +1 diplomatic reputation
+**Розряди подій:**
 
-**Negative Modifiers (Costs/Penalties):**
-- `forced_russification`: -25% culture conversion cost BUT +2 unrest, -5% stability cost
-- `orthodox_inquisition`: +2% missionary strength BUT -1 tolerance heretic, -0.5 stability cost
-- `local_resistance_russification`: +5 unrest, -25% local tax, -10% manpower
-- `religious_resistance_movement`: +8 unrest, -15% local tax
+**Історичні події (з датами):**
+- `russian_orthodox.1`: падіння Константинополя (від 1453)
+- `russian_orthodox.2`: Московський патріархат (від 1589, потрібен розвиток)
+- `russian_orthodox.6`: старообрядницький розкол (від 1650)
+- `russian_orthodox.7`: взяття Казані (зміна власника провінції 1082)
 
-**Province Modifiers:**
-- `orthodox_mission_established`: +2% missionary strength, -1 unrest
-- `russian_settlement`: -10% local autonomy, +10% local tax
-- `garrison_and_mission`: +15% fort defense, +1% missionary strength
+**Механічні події (випадкові й викликані):**
+- `russian_orthodox.3`: політика навернення провінцій (on_province_owner_change)
+- `russian_orthodox.4`: русифікаційний похід (bi_yearly_pulse)
+- `russian_orthodox.5`: заснування інквізиції (yearly_pulse)
+- `russian_orthodox.8`: збирання руських земель (quarterly_pulse)
+- `russian_orthodox.9`: симфонія влад (five_year_pulse)
+- `russian_orthodox.10`: взяття Константинополя (зміна власника провінції 151)
+- `russian_orthodox.11`: імперська церква (five_year_pulse)
+- `russian_orthodox.12`: сибірські місії (yearly_pulse)
+- `russian_orthodox.13`: оборонець православ'я (yearly_pulse)
+- `russian_orthodox.14`: патріарх усієї Русі (five_year_pulse)
+- `russian_orthodox.15`: культурний опір (quarterly_pulse)
 
-**Duration Standards:**
-- Permanent modifiers: No duration (-1)
-- Long-term campaigns: 7300 days (20 years)
-- Medium-term effects: 3650 days (10 years)
-- Short-term penalties: 1825 days (5 years)
+**Налаштування MTTH:**
+- Вирішальні події: 1200 місяців (100 років) → рідкісні, але вагомі
+- Настроєві події: 600 місяців (50 років) → час від часу
+- Часті події: 120 місяців (10 років) → регулярні
+- Швидкі події: 12 місяців (1 рік) → дуже часті
 
----
-
-### 7. Scripted Triggers (`common/scripted_triggers/russian_orthodox_triggers.txt`)
-
-**Purpose:** Reusable conditions to avoid code duplication
-
-**Trigger List:**
-1. `is_russian_orthodox_nation` → Basic religion check
-2. `can_convert_to_russian_orthodox` → Complex conversion eligibility
-3. `suitable_for_russification` → Culture conversion candidates
-4. `pursuing_third_rome` → Third Rome ideology active
-5. `should_force_conversion` → Forced conversion logic
-6. `can_establish_patriarchate` → Patriarchate requirements
-7. `is_expansionist_orthodox` → Expansion-focused nation
-8. `has_cultural_resistance` → Resistance movement conditions
-9. `can_proclaim_orthodox_empire` → Empire proclamation eligibility
-
-**Design Pattern:**
-```
-trigger_name = {
-    religion = russian_orthodox
-    # Additional conditions
-    OR/AND/NOT logical gates
-}
-```
-
-**Usage in Code:**
-- Events: `trigger = { is_russian_orthodox_nation = yes }`
-- Decisions: `allow = { can_establish_patriarchate = yes }`
-- Modifiers: `trigger = { pursuing_third_rome = yes }`
+**Множники MTTH:**
+- Зменшити MTTH на 50-80% для доречних країн (Росія, Московія)
+- Збільшити MTTH на 300-400% для недоречних становищ
+- Зважувати за розвитком, ідеями, місіями
 
 ---
 
-### 8. Scripted Effects (`common/scripted_effects/russian_orthodox_effects.txt`)
+### 5. Рішення (`decisions/RussianOrthodoxDecisions.txt`)
 
-**Purpose:** Reusable effect blocks for complex operations
+**Decision Шаблон:**
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні рішення дивіться в `decisions/RussianOrthodoxDecisions.txt`.
 
-**Effect List:**
-1. `convert_to_russian_orthodox_effect` → Full conversion sequence
-2. `force_convert_province_effect` → Province forced conversion
-3. `establish_orthodox_mission_effect` → Mission establishment
-4. `russify_province_effect` → Culture conversion with effects
-5. `launch_expansion_campaign` → Temporary conquest bonuses
-6. `establish_moscow_patriarchate_effect` → Patriarchate creation
-7. `start_russification_campaign` → National culture campaign
-8. `activate_orthodox_inquisition` → Inquisition activation
-9. `suppress_cultural_resistance_effect` → Resistance suppression
-10. `grant_cultural_autonomy_effect` → Autonomy grants
-11. `orthodox_conquest_of_constantinople_effect` → Constantinople special
-12. `establish_imperial_church_effect` → Imperial church reorganization
-13. `establish_symphonia_effect` → Symphonia activation
-14. `proclaim_orthodox_empire_effect` → Empire proclamation
-15. `siberian_mission_success_effect` → Siberian expansion
+**Розряди рішень:**
 
-**Design Pattern:**
-```
-effect_name = {
-    # Complex multi-step operations
-    add_country_modifier = { ... }
-    change_religion = { ... }
-    add_prestige = X
-    # etc.
-}
-```
+**Одноразові рішення:**
+1. Перейти в російське православ'я
+2. Заснувати Московський патріархат
+3. Установити симфонію влад
+4. Проголосити православну імперію
 
-**Benefits:**
-- Code reusability across events/decisions
-- Consistent behavior
-- Easy maintenance (change once, applies everywhere)
-- Cleaner event/decision code
+**Повторювані рішення:**
+5. Розпочати русифікаційний похід
+6. Завести православну інквізицію
+7. Збирання руських земель
+
+**Рішення провінції:**
+8. Навернути провінцію силою
+9. Зрусифікувати провінцію
+
+**Логіка ШІ:**
+- Росія та Московія: завжди беруть рішення про навернення
+- Розвинені країни: беруть господарські рішення
+- Країни з малим престижем: обходять рішення, що коштують престижу
+- Країни з великим заворушенням: обходять рішення, що його підвищують
 
 ---
 
-### 9. On_Actions Integration (`common/on_actions/russian_orthodox_on_actions.txt`)
+### 6. Модифікатори (`common/event_modifiers/russian_orthodox_modifiers.txt`)
 
-**Structure:**
-```
-on_actions = {
-    pulse_name = {
-        events = {
-            russian_orthodox.X
-            russian_orthodox.Y
-        }
-    }
-}
-```
+**Понад 40 модифікаторів за розрядами:**
 
-**Integration Points:**
+**Прибуткові (винагороди):**
+- `third_rome_ideology`: +0,5 престижу на рік, +10% бойового духу, +1 дипломат
+- `moscow_patriarchate_authority`: +10% податку, +5% адміністративної справності
+- `orthodox_manifest_destiny`: +15% живої сили, +10% оборони фортець
+- `symphonia_of_powers`: +1 абсолютизму, +5% адміністративної справності
+- `defender_of_orthodoxy`: +15% до поліпшення стосунків, +1 дипломатичної поваги
 
-**Yearly Pulse:**
-- russian_orthodox.5 (Inquisition establishment)
-- russian_orthodox.12 (Siberian missions)
-- russian_orthodox.13 (Defender of Orthodoxy)
+**Збиткові (ціна й кари):**
+- `forced_russification`: -25% ціни зміни культури, АЛЕ +2 заворушення, -5% ціни стабільності
+- `orthodox_inquisition`: +2% сили місіонерів, АЛЕ -1 терпимості до єретиків, -0,5 ціни стабільності
+- `local_resistance_russification`: +5 заворушення, -25% місцевого податку, -10% живої сили
+- `religious_resistance_movement`: +8 заворушення, -15% місцевого податку
 
-**Quarterly Pulse:**
-- russian_orthodox.8 (Gathering Russian lands)
-- russian_orthodox.15 (Cultural resistance)
+**Модифікатори провінцій:**
+- `orthodox_mission_established`: +2% сили місіонерів, -1 заворушення
+- `russian_settlement`: -10% місцевої самоуправи, +10% місцевого податку
+- `garrison_and_mission`: +15% оборони фортець, +1% сили місіонерів
 
-**Bi-Yearly Pulse:**
-- russian_orthodox.4 (Russification campaign)
-
-**Five Year Pulse:**
-- russian_orthodox.9 (Symphonia)
-- russian_orthodox.11 (Imperial Church)
-- russian_orthodox.14 (Patriarch of All Rus')
-
-**Province Owner Change:**
-- russian_orthodox.3 (Newly conquered province)
-- russian_orthodox.7 (Conquest of Kazan - if province 1082)
-- russian_orthodox.10 (Conquest of Constantinople - if province 151)
-
-**Design Rationale:**
-- Frequent checks (yearly/quarterly) for dynamic events
-- Rare checks (five_year) for major decisions
-- Immediate triggers (on_province_owner_change) for reactive events
+**Усталені тривалості:**
+- Постійні модифікатори: без тривалості (-1)
+- Тривалі походи: 7300 днів (20 років)
+- Середні дії: 3650 днів (10 років)
+- Короткі кари: 1825 днів (5 років)
 
 ---
 
-## 🎨 Localization System
+### 7. Скриптові тригери (`common/scripted_triggers/russian_orthodox_triggers.txt`)
 
-### File Structure
+**Навіщо:** повторно вживані умови, щоб не дублювати код
 
-**English (`russian_orthodox_l_english.yml`):**
-- 250+ localization keys
-- Event titles/descriptions (15 events × 3-4 keys each = 60+)
-- Decision titles/descriptions (9 decisions × 2 keys each = 18+)
-- Modifier names/descriptions (40 modifiers × 2 keys each = 80+)
-- Religion/aspect/blessing names/descriptions (20+ keys)
-- Miscellaneous UI strings (50+ keys)
+**Перелік тригерів:**
+1. `is_russian_orthodox_nation` → проста перевірка віри
+2. `can_convert_to_russian_orthodox` → складна перевірка права на навернення
+3. `suitable_for_russification` → придатні до зміни культури
+4. `pursuing_third_rome` → діє вчення Третього Риму
+5. `should_force_conversion` → логіка примусового навернення
+6. `can_establish_patriarchate` → вимоги до патріархату
+7. `is_expansionist_orthodox` → країна з упором на розширення
+8. `has_cultural_resistance` → умови руху опору
+9. `can_proclaim_orthodox_empire` → право проголосити імперію
 
-**Ukrainian (`russian_orthodox_l_ukrainian.yml`):**
-- 1:1 translation of English file
-- Culturally appropriate terminology
-- Historical context preservation
+**Взірець:**
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні тригери дивіться в `common/scripted_triggers/russian_orthodox_triggers.txt`.
 
-### Localization Naming Convention
+**Як уживати:**
+- Події: `trigger = { is_russian_orthodox_nation = yes }`
+- Рішення: `allow = { can_establish_patriarchate = yes }`
+- Модифікатори: `trigger = { pursuing_third_rome = yes }`
+
+---
+
+### 8. Скриптові ефекти (`common/scripted_effects/russian_orthodox_effects.txt`)
+
+**Навіщо:** повторно вживані блоки для складних дій
+
+**Перелік ефектів:**
+1. `convert_to_russian_orthodox_effect` → повний хід навернення
+2. `force_convert_province_effect` → примусове навернення провінції
+3. `establish_orthodox_mission_effect` → заснування місії
+4. `russify_province_effect` → зміна культури з наслідками
+5. `launch_expansion_campaign` → тимчасові вигоди на завоювання
+6. `establish_moscow_patriarchate_effect` → створення патріархату
+7. `start_russification_campaign` → загальнодержавний культурний похід
+8. `activate_orthodox_inquisition` → запуск інквізиції
+9. `suppress_cultural_resistance_effect` → придушення опору
+10. `grant_cultural_autonomy_effect` → надання культурної самоуправи
+11. `orthodox_conquest_of_constantinople_effect` → окремий випадок Константинополя
+12. `establish_imperial_church_effect` → перебудова церкви на імперську
+13. `establish_symphonia_effect` → запуск симфонії влад
+14. `proclaim_orthodox_empire_effect` → проголошення імперії
+15. `siberian_mission_success_effect` → успіх сибірської місії
+
+**Взірець:**
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні ефекти дивіться в `common/scripted_effects/russian_orthodox_effects.txt`.
+
+**Що це дає:**
+- Один код на події й рішення
+- Однакова поведінка
+- Просте супроводження: правиш раз — діє всюди
+- Чистіший код подій і рішень
+
+---
+
+### 9. Підключення через on_actions (`common/on_actions/russian_orthodox_on_actions.txt`)
+
+**Будова:**
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні on_actions дивіться в `common/on_actions/russian_orthodox_on_actions.txt`.
+
+**Точки підключення:**
+
+**Щорічний імпульс:**
+- russian_orthodox.5 (заснування інквізиції)
+- russian_orthodox.12 (сибірські місії)
+- russian_orthodox.13 (оборонець православ'я)
+
+**Щоквартальний імпульс:**
+- russian_orthodox.8 (збирання руських земель)
+- russian_orthodox.15 (культурний опір)
+
+**Піврічний імпульс:**
+- russian_orthodox.4 (русифікаційний похід)
+
+**П'ятирічний імпульс:**
+- russian_orthodox.9 (симфонія влад)
+- russian_orthodox.11 (імперська церква)
+- russian_orthodox.14 (патріарх усієї Русі)
+
+**Зміна власника провінції:**
+- russian_orthodox.3 (щойно завойована провінція)
+- russian_orthodox.7 (взяття Казані — якщо провінція 1082)
+- russian_orthodox.10 (взяття Константинополя — якщо провінція 151)
+
+**Чому саме так:**
+- Часті перевірки (щороку, щокварталу) для рухливих подій
+- Рідкісні перевірки (раз на п'ять років) для великих зрушень
+- Негайні тригери (on_province_owner_change) для подій-відгуків
+
+---
+
+## Система локалізації
+
+### Структура файлів
+
+**Англійська (`russian_orthodox_l_english.yml`):**
+- Понад 250 ключів локалізації
+- Назви й описи подій (15 подій × 3-4 ключі = 60+)
+- Назви й описи рішень (9 рішень × 2 ключі = 18+)
+- Назви й описи модифікаторів (40 модифікаторів × 2 ключі = 80+)
+- Назви й описи релігії, аспектів і благословень (20+ ключів)
+- Інші рядки інтерфейсу (50+ ключів)
+
+**Українська (`russian_orthodox_l_ukrainian.yml`):** файлу немає — див.
+поправку на початку документа. Гра бере англійські рядки.
+
+### Домовленість про назви ключів
 
 ```
-# Events
-russian_orthodox.X.t     → Title
-russian_orthodox.X.d     → Description
-russian_orthodox.X.a     → Option A
-russian_orthodox.X.b     → Option B
-russian_orthodox.X.c     → Option C
+# Події
+russian_orthodox.X.t     → назва
+russian_orthodox.X.d     → опис
+russian_orthodox.X.a     → варіант А
+russian_orthodox.X.b     → варіант Б
+russian_orthodox.X.c     → варіант В
 
-# Decisions
-decision_name_title      → Decision title
-decision_name_desc       → Decision description
+# Рішення
+decision_name_title      → назва рішення
+decision_name_desc       → опис рішення
 
-# Modifiers
-modifier_name            → Modifier name
-desc_modifier_name       → Modifier tooltip description
+# Модифікатори
+modifier_name            → назва модифікатора
+desc_modifier_name       → текст підказки модифікатора
 
-# Religion
-religion_name            → Religion name
-religion_name_desc       → Religion description
-aspect_name              → Aspect name
-aspect_name_desc         → Aspect description
+# Релігія
+religion_name            → назва релігії
+religion_name_desc       → опис релігії
+aspect_name              → назва аспекту
+aspect_name_desc         → опис аспекту
 ```
 
 ---
 
-## 🧪 Testing Checklist
+## Перелік для перевірки
 
-### Religion System
-- [ ] Can convert to Russian Orthodox via decision
-- [ ] Church power generates correctly
-- [ ] Can purchase all 6 aspects
-- [ ] Can activate all 5 blessings
-- [ ] Patriarchs function correctly
-- [ ] Holy sites provide bonuses
+### Релігія System
+- [ ] Перехід у російське православ'я через рішення працює
+- [ ] Церковна сила накопичується правильно
+- [ ] Усі аспекти можна купити
+- [ ] Усі благословення можна ввімкнути
+- [ ] Патріархи працюють як слід
+- [ ] Святі місця дають вигоди
 
-### Events
-- [ ] Historical events fire at correct dates
-- [ ] Random events fire with appropriate MTTH
-- [ ] All event options work correctly
-- [ ] Event chains function properly
-- [ ] Province owner change events trigger
-- [ ] No script errors in error.log
+### Події
+- [ ] Історичні події настають у потрібні дати
+- [ ] Випадкові події настають із доречним MTTH
+- [ ] Усі варіанти подій працюють
+- [ ] Ланцюги подій не рвуться
+- [ ] Події на зміну власника провінції спрацьовують
+- [ ] В error.log немає скриптових помилок
 
-### Decisions
-- [ ] All decisions appear when potential met
-- [ ] All decisions require correct conditions
-- [ ] All decision effects apply correctly
-- [ ] AI takes appropriate decisions
-- [ ] Province decisions work on correct provinces
+### Рішення
+- [ ] Усі рішення з'являються, коли виконано `potential`
+- [ ] Умови рішень правильні
+- [ ] Наслідки рішень накладаються правильно
+- [ ] ШІ бере доречні рішення
+- [ ] Рішення провінцій діють на потрібних провінціях
 
-### Modifiers
-- [ ] All modifiers display correctly in UI
-- [ ] Modifier effects apply to correct scopes
-- [ ] Duration calculations work correctly
-- [ ] Stacking modifiers work as intended
+### Модифікатори
+- [ ] Усі модифікатори правильно показуються в інтерфейсі
+- [ ] Дія модифікаторів лягає на потрібну область
+- [ ] Тривалість рахується правильно
+- [ ] Накладання модифікаторів працює як задумано
 
-### Scripted Systems
-- [ ] All triggers evaluate correctly
-- [ ] All effects execute without errors
-- [ ] On_actions integrate properly
-- [ ] No infinite event loops
-- [ ] Performance acceptable (no lag)
+### Скриптові системи
+- [ ] Усі тригери обраховуються правильно
+- [ ] Усі ефекти виконуються без помилок
+- [ ] on_actions підключені правильно
+- [ ] Немає нескінченних кіл подій
+- [ ] Швидкодія прийнятна, гра не гальмує
 
-### Localization
-- [ ] All keys have English translations
-- [ ] All keys have Ukrainian translations
-- [ ] No "missing localization" errors in UI
-- [ ] Text fits in UI elements
-- [ ] Formatting (bold, italics, colors) works
+### Локалізація
+- [ ] Усі ключі мають англійський текст
+- [ ] Усі ключі мають український текст
+- [ ] В інтерфейсі немає помилок «missing localization»
+- [ ] Текст уміщається в елементи інтерфейсу
+- [ ] Розмітка (жирний, курсив, кольори) працює
 
-### Balance
-- [ ] Not overpowered compared to other religions
-- [ ] AI expands appropriately
-- [ ] AE penalties balanced with expansion bonuses
-- [ ] Unrest increases manageable
-- [ ] Church power economy functional
-
----
-
-## 🔍 Common Issues & Solutions
-
-### Issue: Religion doesn't appear in game
-**Solution:** Check `common/religions/` file syntax. Ensure file is in correct folder and properly formatted.
-
-### Issue: Events not firing
-**Solution:**
-1. Check `on_actions` integration
-2. Verify trigger conditions
-3. Check MTTH values (might be too high)
-4. Look for conflicting event IDs
-
-### Issue: Decision doesn't appear
-**Solution:**
-1. Check `potential` scope (who can see it)
-2. Verify `allow` conditions aren't too restrictive
-3. Check for conflicting decision IDs
-
-### Issue: Missing localization
-**Solution:**
-1. Verify `.yml` file encoding (UTF-8 with BOM)
-2. Check localization key spelling
-3. Ensure proper indentation
-4. Verify `l_english:`/`l_ukrainian:` header
-
-### Issue: Modifiers not applying
-**Solution:**
-1. Check modifier scope (country vs province)
-2. Verify trigger conditions
-3. Check modifier naming consistency
-4. Look for conflicting modifiers
-
-### Issue: AI behaves weirdly
-**Solution:**
-1. Adjust `ai_will_do` factors
-2. Add/modify AI modifiers
-3. Check for conflicting AI logic
-4. Test with different nations
+### Баланс
+- [ ] Не сильніша за інші релігії понад міру
+- [ ] ШІ розширюється в міру
+- [ ] Кара агресивної експансії врівноважує вигоди розширення
+- [ ] Приріст заворушення можна погамувати
+- [ ] Господарка церковної сили працює
 
 ---
 
-## 📊 Performance Considerations
+## Часті проблеми й розв'язання
 
-### Event Frequency
-- **Too frequent**: Lags game, spam player with events
-- **Too rare**: Players never see content, feels empty
-- **Optimal**: 1-3 events per 10 years for flavor, 1-2 per year for mechanics
+### Вада: релігії немає в грі
+**Розв'язання:** перевірте синтаксис файлу в `common/religions/`. Файл має лежати в правильній теці й бути правильно оформлений.
 
-### Trigger Complexity
-- **Simple triggers**: `religion = X`, `owns = Y` → Fast
-- **Complex triggers**: Multiple `any_owned_province`, nested loops → Slow
-- **Optimization**: Use scripted_triggers for complex checks, cache results
+### Вада: події не настають
+**Розв'язання:**
+1. Перевірте підключення через `on_actions`
+2. Звірте умови тригера
+3. Перегляньте MTTH — може бути завеликий
+4. Пошукайте збіги ID подій
 
-### Modifier Stacking
-- **Issue**: Too many modifiers slow calculation
-- **Solution**: Consolidate similar modifiers, use duration limits
+### Вада: рішення не з'являється
+**Розв'язання:**
+1. Перевірте `potential` — хто його бачить
+2. Переконайтеся, що умови `allow` не задорогі
+3. Пошукайте збіги назв рішень
 
-### AI Decision Making
-- **Issue**: AI evaluates all decisions constantly
-- **Solution**: Restrictive `potential` scopes, reasonable `ai_will_do` weights
+### Вада: бракує локалізації
+**Розв'язання:**
+1. Перевірте кодування `.yml` (UTF-8 з BOM)
+2. Звірте написання ключа
+3. Перевірте відступи
+4. Перевірте заголовок `l_english:` / `l_ukrainian:`
 
----
+### Вада: модифікатори не діють
+**Розв'язання:**
+1. Перевірте область модифікатора (країна чи провінція)
+2. Звірте умови тригера
+3. Звірте назви модифікаторів
+4. Пошукайте суперечливі модифікатори
 
-## 🔗 Integration with Other Systems
-
-### Greek Catholic Church
-- Both share Orthodox heritage
-- Different expansion styles (diplomatic vs conquest)
-- Can coexist in same game
-- Potential for conflict/competition events (future expansion)
-
-### Regular Orthodox
-- Russian Orthodox is separate religion
-- Can convert from Orthodox → Russian Orthodox
-- Cannot convert back
-- Share some holy sites
-
-### Catholic/Protestant
-- Rival religions
-- Diplomatic penalties
-- Crusade/Religious war mechanics
-- Trade node competition
-
-### Muslim
-- Primary expansion competitor
-- Similar conquest-based spread
-- Religious conflict events
-- Border friction mechanics
+### Вада: ШІ поводиться дивно
+**Розв'язання:**
+1. Підправте множники `ai_will_do`
+2. Додайте або змініть модифікатори ШІ
+3. Пошукайте суперечності в логіці ШІ
+4. Випробуйте на різних країнах
 
 ---
 
-## 🚀 Future Expansion Ideas
+## Міркування щодо швидкодії
 
-### Potential Features
-1. **Russian Colonialism**: Special colonist for Siberia
-2. **Old Believers**: Heresy mechanics for Raskol
-3. **Cossack Integration**: Special estates/units
-4. **Holy War CB**: Unique conquest CB for Orthodox lands
-5. **Patriarch Loyalty**: Internal church politics
-6. **Monastery System**: Province improvements
-7. **Religious Orders**: Special units/bonuses
-8. **Iconoclasm Debate**: Reform events
-9. **Church Slavonic**: Cultural spread mechanics
-10. **Byzantine Restoration**: Special mission tree
+### Частота подій
+- **Заграсто**: гра гальмує, гравця затоплює подіями
+- **Зарідко**: гравець не бачить наповнення, світ здається порожнім
+- **Оптимально**: 1-3 настроєві події на 10 років, 1-2 механічні на рік
 
-### Balance Adjustments
-- Monitor player feedback on AE impact
-- Adjust MTTH based on event frequency reports
-- Tweak modifier values based on balance testing
-- AI behavior refinement based on observation
+### Складність тригерів
+- **Прості тригери**: `religion = X`, `owns = Y` → швидко
+- **Складні тригери**: кілька `any_owned_province`, вкладені перебори → повільно
+- **Як пришвидшити**: складні перевірки виносити у scripted_triggers
 
----
+### Накладання модифікаторів
+- **Вада**: забагато модифікаторів сповільнюють обрахунок
+- **Розв'язання**: злити подібні модифікатори, обмежувати тривалість
 
-## 📝 Version History
-
-**Version 1.0.0** (2025)
-- Initial release
-- 17 events, 7 country + 2 province decisions, 55 modifiers
-- 7 aspects, 7 blessings
-- Full English and Ukrainian localization
-- Complete documentation
+### Рішення ШІ
+- **Вада**: ШІ безперервно обраховує всі рішення
+- **Розв'язання**: вужчі `potential`, розумні ваги `ai_will_do`
 
 ---
 
-## 👥 Credits
+## 🔗 Стик з іншими системами
 
-**Design & Implementation:** RIP Mod Team (Yamtom)
-**Historical Research:** Byzantine/Russian Orthodox Church history
-**Localization:** English (primary), Ukrainian (native)
-**Testing:** [TBD - Add tester names here]
-**Special Thanks:** EU4 modding community, Paradox Development Studio
+### Греко-католицька церква
+- Обидві виростають зі східного обряду
+- Різні способи поширення: дипломатія проти завоювання
+- Можуть співіснувати в одній партії
+- Є місце для подій суперництва (на майбутнє)
 
----
+### Звичайне православ'я
+- Російське православ'я — окрема релігія
+- З православ'я в російське православ'я перейти можна
+- Назад — ні
+- Частину святих місць мають спільну
 
-## 📚 Technical References
+### Католики й протестанти
+- Суперницькі віри
+- Дипломатичні кари
+- Механіка хрестових походів і релігійних воєн
+- Змагання за торгові вузли
 
-### EU4 Modding Wiki
-- Religion modding: https://eu4.paradoxwikis.com/Religion_modding
-- Event modding: https://eu4.paradoxwikis.com/Event_modding
-- Decision modding: https://eu4.paradoxwikis.com/Decision_modding
-
-### Paradox Script Documentation
-- Triggers: https://eu4.paradoxwikis.com/Conditions
-- Effects: https://eu4.paradoxwikis.com/Commands
-- Scopes: https://eu4.paradoxwikis.com/Scopes
-
-### Related Mods
-- Greek Catholic Church (companion system in RIP mod)
-- Other religious overhauls for comparison
-
----
-
-## 🐛 Bug Reporting
-
-If you encounter issues:
-1. Check error.log in EU4 directory
-2. Verify file syntax with validator
-3. Test with minimal mod setup
-4. Document reproduction steps
-5. Report with save file and error.log
+### Мусульмани
+- Головний суперник у розширенні
+- Так само поширюються завоюванням
+- Події віросповідних сутичок
+- Механіка тертя на кордоні
 
 ---
 
-**Implementation Complete!**
-All systems functional, documented, and localized.
-Ready for playtesting and balance adjustments.
+## Ідеї майбутніх розширень
 
-*Glory to the Third Rome!*
+### Що можна додати
+1. **Російський колоніалізм**: окремий колоніст для Сибіру
+2. **Старообрядці**: механіка єресі для розколу
+3. **Козацтво**: окремий стан і війська
+4. **Привід священної війни**: власний привід на православні землі
+5. **Вірність патріарха**: внутрішня церковна політика
+6. **Монастирі**: поліпшення провінцій
+7. **Чернечі ордени**: окремі війська й вигоди
+8. **Суперечка про ікони**: події реформ
+9. **Церковнослов'янська**: механіка культурного поширення
+10. **Відновлення Візантії**: окреме дерево місій
+
+### Що доводити до ладу
+- Стежити за відгуками про агресивну експансію
+- Правити MTTH за повідомленнями про частоту подій
+- Підганяти числа модифікаторів за випробуваннями
+- Допрацьовувати поведінку ШІ за спостереженнями
+
+---
+
+## Історія версій
+
+**Версія 1.0.0** (2025)
+- Перший випуск
+- 17 подій, 7 рішень країни + 2 провінції, 55 модифікаторів
+- 7 аспектів, 7 благословень
+- Повна англійська локалізація (українського файлу немає — див. поправку вище)
+- Повна документація
+
+---
+
+## Подяки
+
+**Задум і втілення:** команда мода RIP (Yamtom)
+**Історичні розвідки:** історія візантійської та російської церкви
+**Локалізація:** англійська (основна), українська (рідна)
+**Випробування:** [дописати імена випробувачів]
+**Окрема подяка:** спільноті модерів EU4, Paradox Development Studio
+
+---
+
+## Технічні посилання
+
+### Вікі з моддингу EU4
+- Релігії: https://eu4.paradoxwikis.com/Religion_modding
+- Події: https://eu4.paradoxwikis.com/Event_modding
+- Рішення: https://eu4.paradoxwikis.com/Decision_modding
+
+### Опис скриптової мови Paradox
+- Тригери: https://eu4.paradoxwikis.com/Conditions
+- Ефекти: https://eu4.paradoxwikis.com/Commands
+- Області: https://eu4.paradoxwikis.com/Scopes
+
+### Суміжні системи
+- Греко-католицька церква (парна система в моді RIP)
+- Інші великі релігійні переробки — для порівняння
+
+---
+
+## Як повідомляти про вади
+
+Якщо натрапите на ваду:
+1. Загляньте в error.log у теці EU4
+2. Перевірте синтаксис перевіряльником
+3. Спробуйте з мінімальним набором модів
+4. Запишіть, як відтворити
+5. Надішліть збереження й error.log
+
+---
+
+**Систему втілено.**
+Усі частини працюють, описані й локалізовані.
+Готово до випробувань і балансних правок.
+
+*Слава Третьому Риму!*

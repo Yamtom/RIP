@@ -24,7 +24,7 @@
 `docs/WEST_UKRAINE_HISTORY.md`.
 
 ---
-## Kyiv and Dnieper Region: Historical Processes
+## Київ і Наддніпрянщина: історичні процеси
 
 **Дата створення / Created**: 5 лютого 2026 / February 5, 2026  
 **Версія / Version**: 1.0  
@@ -48,14 +48,14 @@
 
 ### English
 
-This system recreates key historical processes of the Kyiv and Dnieper regions from 1444 to 1821. The system includes 13 events organized into 5 thematic chains covering trade, urbanization, colonization, cultural development, and defense.
+Система відтворює головні історичні процеси Києва й Наддніпрянщини від 1444 до 1821 року. Це 13 подій, зведених у 5 тематичних ланцюгів: торгівля, зростання міст, заселення, культура й оборона.
 
-**Main Themes:**
-- Dnieper river trade (Baltic — Black Sea)
-- Urban development (Kyiv, Chernihiv, Pereiaslav)
-- Middle Dnieper colonization
-- Cultural-educational development (Kyiv-Mohyla Academy)
-- Military defense and Tatar raids
+**Головні теми:**
+- Дніпровська торгівля (Балтика — Чорне море)
+- Зростання міст (Київ, Чернігів, Переяслав)
+- Заселення Середнього Подніпров'я
+- Культура й освіта (Києво-Могилянська академія)
+- Оборона й татарські набіги
 
 ---
 
@@ -65,7 +65,7 @@ This system recreates key historical processes of the Kyiv and Dnieper regions f
 **ID**: `kyiv_dnieper_history.1`
 
 **Тригери / Triggers:**
-- Володіння Києвом (провінція 280) / Owns Kyiv (province 280)
+- Володіння Києвом (провінція 280) / Володіє Kyiv (province 280)
 - Теги: KIE, LIT, POL, PLC, CHR, HET, UKR, KRU
 - Мир / Peace
 - Скарбниця ≥ 100 дукатів / Treasury ≥ 100 ducats
@@ -330,11 +330,11 @@ This system recreates key historical processes of the Kyiv and Dnieper regions f
 
 ### Існуючі системи моду / Existing Mod Systems
 Ця система доповнює:
-- **Kyiv Trade Houses** (KyivTradeHouses.txt)
-- **Hetmanate Events** (HetmanateEnhanced.txt, HetmanateFlavor.txt)
-- **Chernihiv Missions** (Chernihiv_Missions.txt)
-- **Border Principalities** (BorderPrincipalities.txt)
-- **Steppe Raiding** (SteppeRaiding.txt)
+- **Київські торгові доми** (KyivTradeHouses.txt)
+- **Події Гетьманщини** (HetmanateEnhanced.txt, HetmanateFlavor.txt)
+- **Місії Чернігова** (Chernihiv_Missions.txt)
+- **Порубіжні князівства** (BorderPrincipalities.txt)
+- **Степові набіги** (SteppeRaiding.txt)
 
 ### Рекомендовані комбінації / Recommended Combinations
 1. **Торговий Київ / Trading Kyiv**: Дніпровська торговельна мережа + Торгові доми + Іноземні купці
@@ -348,7 +348,7 @@ This system recreates key historical processes of the Kyiv and Dnieper regions f
 ### Файли / Files
 - **Події / Events**: `events/KyivDnieperHistorical.txt`
 - **Модифікатори / Modifiers**: `common/event_modifiers/kyiv_dnieper_modifiers.txt`
-- **On Actions**: `common/on_actions/kyiv_dnieper_on_actions.txt`
+- **Підключення подій**: `common/on_actions/kyiv_dnieper_on_actions.txt`
 - **Локалізація / Localization**: 
   - `localisation/kyiv_dnieper_l_english.yml`
   - ~~`localisation/kyiv_dnieper_l_ukrainian.yml`~~ - не існує, лише планувався
@@ -359,7 +359,7 @@ This system recreates key historical processes of the Kyiv and Dnieper regions f
 - Середні події (1550-1650): Розвиток інфраструктури, значні бонуси
 - Пізні події (1650-1821): Зрілі інституції, довготривалі переваги
 
-### AI Behaviour
+### Поведінка ШІ
 AI має бонус до вибору історично точних опцій:
 - 60-80% для інвестиційних рішень
 - 70-90% для культурних проектів
@@ -407,10 +407,10 @@ AI має бонус до вибору історично точних опці�
 
 ## ЛІЦЕНЗІЯ ТА КРЕДИТИ / LICENSE AND CREDITS
 
-**Mod**: RIP (Ruthenia Improvement Project)  
-**Authors**: Yamtom and Contributors  
-**Kyiv-Dnieper System**: Created February 5, 2026  
-**License**: See main mod descriptor
+**Мод**: RIP (Ruthenia Improvement Project)  
+**Автори**: Yamtom і дописувачі  
+**Київсько-дніпровська система**: створено 5 лютого 2026  
+**Ліцензія**: див. головний дескриптор мода
 
 ---
 

@@ -13,7 +13,7 @@
 > `sloboda_regimental_order` - ні. Це очікувано для специфікації й не
 > помилка; читати її як інвентар готового не можна.
 
-## Slobozhanshchyna: Historical Processes
+## Слобожанщина: історичні процеси
 
 **Дата створення / Created**: 22 лютого 2026 / February 22, 2026  
 **Версія / Version**: 1.0  
@@ -36,17 +36,17 @@
 - Чорноземна аграрна спеціалізація та зернові коридори
 - Напруга між місцевими вольностями та централізаторськими реформами
 
-**English:**
+**Стисло:**
 
-This system recreates the key historical processes of Sloboda Ukraine in 1550-1821: frontier settlement waves, sloboda charters, regimental governance, fortified line infrastructure, agro-export growth, and gradual integration into imperial institutions.
+Система відтворює головні історичні процеси Слобідської України 1550-1821 років: хвилі заселення порубіжжя, слобідські привілеї, полковий устрій, укріплені лінії, зростання вивозу збіжжя й поступове входження в імперські установи.
 
-**Main Themes:**
+**Головні теми:**
 
-- Migration and sloboda privileges as colonization tools
-- Regimental-hundred military-administrative order
-- Kharkiv-Sumy-Okhtyrka as urban self-government core
-- Chernozem agrarian specialization and grain corridors
-- Tension between frontier liberties and centralizing reforms
+- Переселення й слобідські привілеї як знаряддя заселення
+- Полково-сотенний військово-адміністративний устрій
+- Харків, Суми й Охтирка як осердя міської самоуправи
+- Чорноземне рільництво й хлібні шляхи
+- Напруга між порубіжними вольностями й централізацією
 
 ---
 
@@ -59,12 +59,12 @@ This system recreates the key historical processes of Sloboda Ukraine in 1550-18
 - Суміжні зв'язки: Лівобережжя, Сіверщина, Бєлгородська лінія, Донецький напрям
 - Історичний темп: від раннього прикордонного заселення до пізньої бюрократичної інтеграції
 
-**EN (geography):**
+**Географія:**
 
-- Core area: `sloboda_ukraine_area`
-- Anchor cities: Kharkiv, Sumy, Okhtyrka
-- Adjacencies: Left Bank, Sivershchyna, Belgorod line, Donets axis
-- Historical tempo: from frontier colonization to late bureaucratic integration
+- Головна область: `sloboda_ukraine_area`
+- Опорні міста: Харків, Суми, Охтирка
+- Сусідство: Лівобережжя, Сіверщина, білгородська лінія, донецька вісь
+- Хід часу: від заселення порубіжжя до пізнього канцелярського прилучення
 
 ---
 
@@ -324,7 +324,7 @@ This system recreates the key historical processes of Sloboda Ukraine in 1550-18
 ### 1) Події / Events
 
 - Файл: `events/SlobodaHistorical.txt`
-- Namespace: `sloboda_history`
+- Простір імен: `sloboda_history`
 - Кількість подій: 13 (IDs 1-13)
 
 ### 2) Локалізація / Localisation
@@ -359,12 +359,12 @@ This system recreates the key historical processes of Sloboda Ukraine in 1550-18
 - Формування ярмаркової і зернової економіки Харківського вузла
 - Поступова бюрократизація та уніфікація у XVIII столітті
 
-**EN (anchors):**
+**Опорні точки:**
 
-- Sloboda regiments and privileges as frontier state-building tools
-- Settlement waves driven by war, insecurity, and land opportunities
-- Fair-based and grain-export economy centered around Kharkiv
-- 18th-century bureaucratization and administrative uniformization
+- Слобідські полки й привілеї як знаряддя розбудови на порубіжжі
+- Хвилі заселення, гнані війною, небезпекою й вільною землею
+- Ярмаркова й хлібовивізна господарка навколо Харкова
+- Канцеляризація й одноманітність управи у XVIII столітті
 
 ---
 
