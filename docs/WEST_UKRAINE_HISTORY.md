@@ -110,7 +110,7 @@
 
 ### Ланцюг 1: полонізація (1444–1700)
 
-#### Подія 1.1: Polish Cultural Influence
+#### Подія 1.1: польський культурний вплив
 **ID**: `west_ukraine_history.1`
 **Тригер**:
 - тег: VOL, HLC або PDL
@@ -123,13 +123,13 @@
 - ×1.5 якщо стабільність від'ємна
 
 **Варіанти**:
-1. **Accept Polish influence** (ШІ 60%)
+1. **Пристати на польський вплив** (ШІ 60%)
    - Прапорець: `polonization_started`
    - Модифікатор: `west_ukr_polish_influence` (20 років)
-   - Accept Polish culture
-   - -5 prestige
+   - Польська культура стає прийнятою
+   - -5 престижу
 
-2. **Resist Polish culture** (ШІ 40%)
+2. **Опиратися польській культурі** (ШІ 40%)
    - Модифікатор: `west_ukr_cultural_resistance` (10 років)
    - штраф до думки сюзерена
 
@@ -138,21 +138,21 @@
 #### Подія 1.2: Polish Language at Court
 **ID**: `west_ukraine_history.2`
 **Тригер**:
-- Has `polonization_started` flag
-- Has `west_ukr_polish_influence` modifier
+- Є прапорець `polonization_started`
+- Є модифікатор `west_ukr_polish_influence`
 
 **Середній час**: 120 місяців
 
 **Варіанти**:
 1. **Adopt Polish at court** (ШІ default)
    - Прапорець: `polish_court_language`
-   - +10 prestige
-   - +5 legitimacy
-   - Improve relations with overlord
-   - One Ruthenian province converts to Polish culture
+   - +10 престижу
+   - +5 легітимності
+   - Стосунки із сюзереном ліпшають
+   - Одна руська провінція переходить на польську культуру
 
-2. **Maintain Ruthenian language**
-   - +ADM power
+2. **Триматися руської мови**
+   - + адміністративної сили
    - Модифікатор: `west_ukr_ruthenian_pride` (15 років)
 
 **Історичний контекст**: By 1600s, Polish became the language of administration and high culture in most of Western Ukraine, though Ruthenian persisted among commoners.
@@ -165,80 +165,80 @@
 **ID**: `west_ukraine_history.3`
 **Тригер**:
 - тег: VOL, HLC або PDL
-- Subject of POL/PLC
-- Religion: Orthodox
-- Age of Reformation
+- Васал POL чи PLC
+- Віра: православна
+- Доба Реформації
 
 **Середній час**: 200 місяців
-- ×0.5 after 1590
-- ×0.3 after 1595 (historical Union of Brest)
+- ×0,5 після 1590
+- ×0,3 після 1595 (історична Берестейська унія)
 
 **Варіанти**:
 1. **Accept Church Union** (ШІ 40%)
    - Прапорець: `accepted_uniate_church`
-   - Convert to Catholic (representing Greek Catholic)
+   - Перехід у католицтво (позначає греко-католицтво)
    - Модифікатор: `west_ukr_church_union` (постійний)
-   - All Orthodox provinces convert to Catholic
+   - Усі православні провінції переходять у католицтво
    - Province modifier: `west_ukr_converted_uniate` (20 років)
-   - +Opinion with overlord
-   - +10 prestige
+   - + приязні сюзерена
+   - +10 престижу
 
 2. **Refuse Church Union** (ШІ 60%)
    - Прапорець: `rejected_uniate_church`
    - Модифікатор: `west_ukr_orthodox_faithful` (25 років)
-   - -Opinion with overlord
-   - +15 liberty desire
-   - +100 church power
+   - - приязні сюзерена
+   - +15 жаги свободи
+   - +100 церковної сили
 
 **Історичний контекст**: Union of Brest (1596) created Greek Catholic Church under Polish pressure. Many Ruthenian nobles accepted it, but Orthodox faithful resisted.
 
 #### Подія 2.2: Orthodox-Uniate Conflict
 **ID**: `west_ukraine_history.4`
 **Тригер**:
-- Has church union flag
-- Mix of Orthodox and Catholic provinces
-- Province without `west_ukr_religious_peace` modifier
+- Є прапорець церковної унії
+- Є і православні, і католицькі провінції
+- Є провінція без модифікатора `west_ukr_religious_peace`
 
 **Середній час**: 150 місяців
 
 **Варіанти**:
-1. **Suppress Orthodox resistance** (requires accepted union, AI 50%)
-   - Province modifier: `west_ukr_forced_conversion` (10 років)
-   - Convert province to Catholic
-   - +10 papal influence
+1. **Придушити православний опір** (потрібна прийнята унія, ШІ 50%)
+   - Модифікатор провінції: `west_ukr_forced_conversion` (10 років)
+   - Провінція переходить у католицтво
+   - +10 папського впливу
 
-2. **Protect Orthodox faithful** (requires rejected union, AI 50%)
-   - Province modifier: `west_ukr_orthodox_protection` (15 років)
-   - +25 church power
+2. **Обороняти православних** (потрібна відкинута унія, ШІ 50%)
+   - Модифікатор провінції: `west_ukr_orthodox_protection` (15 років)
+   - +25 церковної сили
 
-3. **Promote tolerance** (ШІ 30%)
-   - Province modifier: `west_ukr_religious_peace` (20 років)
-   - +25 ADM power
+3. **Насаджувати терпимість** (ШІ 30%)
+   - Модифікатор провінції: `west_ukr_religious_peace` (20 років)
+   - +25 адміністративної сили
 
-**Історичний контекст**: Religious conflict between Orthodox and Uniate communities persisted for generations, with churches seized, clergy expelled, and violence common.
+**Історичний контекст**: чвара між православними й унійними громадами тяглася поколіннями: церкви відбирали, священиків виганяли, доходило й до крові.
 
 ---
 
 ### Ланцюг 3: козацькі повстання (1590–1680)
 
-#### Подія 3.1: Cossack Discontent
+#### Подія 3.1: козацьке невдоволення
 **ID**: `west_ukraine_history.5`
 **Тригер**:
 - тег: VOL, HLC або PDL
-- Subject of POL/PLC
+- Васал POL чи PLC
 - Володіє steppe provinces with Ruthenian/Ukrainian culture
 
 **Середній час**: 240 місяців
-- ×0.5 after 1590
-- ×0.3 after 1630 (approaching Khmelnytsky Uprising)
-- ×2.0 if stability 2+
+- ×0,5 після 1590
+- ×0,3 після 1630 (наближається повстання Хмельницького)
+- ×2,0 якщо стабільність 2 і вище
 
 **Варіанти**:
 1. **Suppress Cossack rights** (ШІ 30%)
    - Прапорець: `cossack_uprising_chain`
-   - Spawn 2 regiments of Cossack rebels
+   - З'являються 2 полки козацьких бунтівників
    - Province modifier: `west_ukr_cossack_unrest` (15 років)
-   - -1 stability
+   - -1 стабільності
 
 2. **Grant Cossack privileges** (ШІ 70%)
    - Прапорець: `cossack_uprising_chain` + `granted_cossack_rights`
@@ -251,21 +251,21 @@
 #### Подія 3.2: Cossack Raid
 **ID**: `west_ukraine_history.6`
 **Тригер**:
-- Has `granted_cossack_rights` flag
+- Є прапорець `granted_cossack_rights`
 - Володіє steppe provinces
-- Neighbor is CRI or TUR
+- Сусідить із CRI або TUR
 
 **Середній час**: 180 місяців
 
 **Варіанти**:
 1. **Endorse the raid** (ШІ 60%)
-   - +25 MIL power
-   - +5 prestige
-   - -Opinion with Crimea/Ottomans
+   - +25 воєнної сили
+   - +5 престижу
+   - - приязні Криму та Порти
 
 2. **Punish the Cossacks** (ШІ 40%)
    - Модифікатор: `west_ukr_cossack_discipline` (10 років)
-   - +5 unrest in steppe province
+   - +5 заворушення в степовій провінції
 
 **Історичний контекст**: Cossack raids (chaiky raids via Black Sea) were constant source of tension with Ottomans and their Crimean vassals.
 
@@ -279,43 +279,43 @@
 - тег: VOL, HLC або PDL
 - Володіє province in Ruthenia region bordering Crimean territory
 - не воювати
-- Before 1700
+- До 1700
 
 **Середній час**: 200 місяців
-- ×0.7 if MIL tech < 8
-- ×1.5 if MIL tech 12+
-- ×2.0 after 1650
+- ×0,7 якщо воєнна техніка нижча за 8
+- ×1,5 якщо воєнна техніка 12 і вище
+- ×2,0 після 1650
 
 **Варіанти**:
 1. **Fortify the borders** (ШІ 40%)
-   - -50 MIL power
+   - -50 воєнної сили
    - Province modifier: `west_ukr_border_fortifications` (15 років)
 
 2. **Accept the risk** (ШІ 60%)
-   - +10 devastation to province
-   - -1 base manpower
+   - +10 спустошення провінції
+   - -1 базової живої сили
    - Province modifier: `west_ukr_tatar_raid_damage` (10 років)
-   - -5 prestige
+   - -5 престижу
 
 **Історичний контекст**: Crimean Tatar raids devastated southern borderlands for centuries, carrying off up to 2 million captives into slavery (1500-1700).
 
 #### Подія 4.2: Yasyr - Tatar Captives
 **ID**: `west_ukraine_history.8`
 **Тригер**:
-- Has province with `west_ukr_tatar_raid_damage` modifier
+- Є провінція з модифікатором `west_ukr_tatar_raid_damage`
 
 **Середній час**: 60 місяців
 
 **Варіанти**:
 1. **Ransom the captives** (ШІ 60%, factor 0.1 if poor)
    - -0.3 років income
-   - +1 base manpower to province
-   - Remove `west_ukr_tatar_raid_damage`
-   - +5 prestige
+   - +1 базової живої сили провінції
+   - Знімає `west_ukr_tatar_raid_damage`
+   - +5 престижу
 
 2. **Accept the loss** (ШІ 40%)
-   - -1 base manpower
-   - -10 prestige
+   - -1 базової живої сили
+   - -10 престижу
 
 **Історичний контекст**: Yasyr (ясир) - captives taken in raids and sold in Crimean slave markets. Ransom was common but expensive.
 
@@ -327,18 +327,18 @@
 **ID**: `west_ukraine_history.9`
 **Тригер**:
 - Tag HLC or володіє province 279 (Halych/Lviv)
-- Province 279 has 5+ base production
+- Провінція 279 має 5+ базового виробництва
 
 **Середній час**: 300 місяців
 
 **Варіанти**:
 1. **Invest in the fair** (ШІ 60%, factor 0.1 if poor)
-   - -100 ducats
+   - -100 дукатів
    - Province modifier: `west_ukr_lviv_trade_fair` (20 років)
-   - +1 base production
+   - +1 базового виробництва
 
 2. **Let it develop naturally** (ШІ 40%)
-   - +1 base tax
+   - +1 базового податку
 
 **Історичний контекст**: Lviv was major trading center between East and West, hosting international trade fairs that attracted merchants from Venice, Genoa, Ottoman Empire, and Muscovy.
 
@@ -347,29 +347,29 @@
 **Тригер**:
 - тег: VOL, HLC або PDL
 - Володіє Halych (279) or Volhynia (280)
-- Province has 15+ development
-- Province lacks `west_ukr_magdeburg_law` modifier
+- Провінція має 15+ розвитку
+- Провінція не має модифікатора `west_ukr_magdeburg_law`
 
 **Середній час**: 400 місяців
 
 **Варіанти**:
 1. **Grant Magdeburg Law** (ШІ 80%)
    - Province modifier: `west_ukr_magdeburg_law` (постійний)
-   - +1 base tax
-   - +1 base production
-   - +5 prestige
-   - +10 burgher loyalty
+   - +1 базового податку
+   - +1 базового виробництва
+   - +5 престижу
+   - +10 вірності міщан
 
 2. **Maintain direct control** (ШІ 20%)
-   - +25 ADM power
-   - -5 burgher loyalty
+   - +25 адміністративної сили
+   - -5 вірності міщан
 
 **Історичний контекст**: Magdeburg Law (German legal code) granted cities self-government and economic freedoms. Lviv received it in 1356, becoming major commercial center.
 
 #### Подія 5.3: Chumak Trade Route
 **ID**: `west_ukraine_history.11`
 **Тригер**:
-- Tag: VOL or HLC
+- Тег: VOL або HLC
 - Володіє steppe province with salt trade good
 
 **Середній час**: 360 місяців
@@ -377,7 +377,7 @@
 **Варіанти**:
 1. **Support the Chumaks** (ШІ 70%)
    - Province modifier: `west_ukr_chumak_trade` (20 років)
-   - +1 mercantilism
+   - +1 меркантилізму
 
 2. **Tax the Chumaks** (ШІ 30%)
    - +0.25 років income
@@ -392,8 +392,8 @@
 **ID**: `west_ukraine_history.12`
 **Тригер**:
 - тег: VOL, HLC або PDL
-- Has `polonization_started` flag
-- Subject of or accepted culture Polish
+- Є прапорець `polonization_started`
+- Васал Польщі або польська культура прийнята
 
 **Середній час**: 300 місяців
 
@@ -401,20 +401,20 @@
 1. **Embrace Sarmatism** (ШІ 70%)
    - Прапорець: `sarmatism_adopted`
    - Модифікатор: `west_ukr_sarmatism` (постійний)
-   - +15 noble loyalty
+   - +15 вірності шляхти
 
 2. **Maintain Ruthenian traditions** (ШІ 30%)
    - Модифікатор: `west_ukr_ruthenian_nobility` (25 років)
-   - +10 legitimacy
+   - +10 легітимності
 
 **Історичний контекст**: Sarmatism - ideology claiming Polish-Lithuanian nobility descended from ancient Sarmatians, emphasizing equality among nobles, military prowess, and distinctive culture.
 
 #### Подія 6.2: Golden Liberty vs Absolutism
 **ID**: `west_ukraine_history.13`
 **Тригер**:
-- Tag: VOL or HLC
-- Has `sarmatism_adopted` flag
-- Age of Absolutism
+- Тег: VOL або HLC
+- Є прапорець `sarmatism_adopted`
+- Доба абсолютизму
 
 **Середній час**: 120 місяців
 
@@ -422,14 +422,14 @@
 1. **Support Golden Liberty** (ШІ 50%)
    - Прапорець: `liberty_vs_absolutism_choice`
    - Модифікатор: `west_ukr_golden_liberty_support` (25 років)
-   - -10 absolutism
-   - +20 noble loyalty
+   - -10 абсолютизму
+   - +20 вірності шляхти
 
 2. **Strengthen royal power** (ШІ 50%)
    - Прапорець: `liberty_vs_absolutism_choice`
-   - +10 absolutism
-   - +15 legitimacy
-   - -10 noble loyalty
+   - +10 абсолютизму
+   - +15 легітимності
+   - -10 вірності шляхти
 
 **Історичний контекст**: Age of Absolutism challenged Polish-Lithuanian "Golden Liberty" (extensive noble privileges limiting royal power). This tension ultimately weakened the Commonwealth.
 
@@ -442,7 +442,7 @@
 | Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
 | `west_ukr_polish_influence` | -5% Idea Cost, +1 Diplomatic Reputation, -10% Advisor Cost | 20 років | Accept Polish influence |
-| `west_ukr_cultural_resistance` | -10% Stability Cost, -1 Unrest, +0.5 Legitimacy | 10 років | Resist Polish culture |
+| `west_ukr_cultural_resistance` | -10% Stability Cost, -1 Unrest, +0.5 Legitimacy | 10 років | Опиратися польській культурі |
 | `west_ukr_ruthenian_pride` | +0.5 Prestige, +1 Legitimacy, +1 Tolerance Own | 15 років | Maintain Ruthenian language |
 
 ### Модифікатори церковної унії
@@ -451,7 +451,7 @@
 |----------|---------|----------|--------|
 | `west_ukr_church_union` | +2 Papal Influence, +2 Tolerance Own, -1 Tolerance Heretic, +2% Missionary Strength vs Heretics | Постійний | Accept Church Union |
 | `west_ukr_converted_uniate` | +3 Local Unrest, +2% Local Missionary Strength | 20 років | Province converted to Uniate |
-| `west_ukr_orthodox_faithful` | +15% Church Power, +2 Tolerance Own, -10% Stability Cost | 25 років | Refuse Church Union |
+| `west_ukr_orthodox_faithful` | +15% Church Power, +2 Tolerance Own, -10% Stability Cost | 25 років | Відкинути унію |
 | `west_ukr_forced_conversion` | +5 Local Unrest, +5% Local Missionary Strength, -10% Local Autonomy | 10 років | Suppress Orthodox |
 | `west_ukr_orthodox_protection` | -2 Local Unrest, +10% Local Tax, -50% Local Missionary Strength | 15 років | Protect Orthodox |
 | `west_ukr_religious_peace` | -3 Local Unrest, +1 Tolerance Heretic, +10% Local Prosperity Growth | 20 років | Promote tolerance |
@@ -484,20 +484,20 @@
 | Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
 | `west_ukr_sarmatism` | +15% Cavalry Power, +10% Noble Loyalty, +5% Noble Influence, -1% Army Tradition Decay | Постійний | Embrace Sarmatism |
-| `west_ukr_ruthenian_nobility` | +1 Legitimacy, +0.5 Prestige, -10% Stability Cost, +25% Culture Conversion Cost | 25 років | Maintain traditions |
-| `west_ukr_golden_liberty_support` | -20% Liberty Desire from Development, -15% Stability Cost, +10% Governing Capacity, -0.5 Yearly Absolutism | 25 років | Support Golden Liberty |
+| `west_ukr_ruthenian_nobility` | +1 Legitimacy, +0.5 Prestige, -10% Stability Cost, +25% Culture Conversion Cost | 25 років | Триматися звичаю |
+| `west_ukr_golden_liberty_support` | -20% Liberty Desire from Development, -15% Stability Cost, +10% Governing Capacity, -0.5 Yearly Absolutism | 25 років | Підтримати Золоту вольність |
 
 ---
 
 ## Модифікатори думки
 
-| Modifier | Opinion | Duration | Source |
+| Модифікатор | Приязнь | Тривалість | Джерело |
 |----------|---------|----------|--------|
-| `west_ukr_cultural_defiance` | -20 | 10 років | Resist Polish culture |
-| `west_ukr_loyal_vassal` | +30 | 20 років | Adopt Polish at court |
-| `west_ukr_church_loyalty` | +50 | 30 років | Accept Church Union |
-| `west_ukr_religious_defiance` | -40 | 25 років | Refuse Church Union |
-| `west_ukr_soft_on_cossacks` | -15 | 15 років | Grant Cossack privileges |
+| `west_ukr_cultural_defiance` | -20 | 10 років | Опиратися польській культурі |
+| `west_ukr_loyal_vassal` | +30 | 20 років | Польська мова при дворі |
+| `west_ukr_church_loyalty` | +50 | 30 років | Пристати на унію |
+| `west_ukr_religious_defiance` | -40 | 25 років | Відкинути унію |
+| `west_ukr_soft_on_cossacks` | -15 | 15 років | Надати козацькі привілеї |
 | `west_ukr_cossack_raid` | -30 | 10 років | Endorse Cossack raid |
 
 ---
@@ -506,189 +506,189 @@
 
 ### Ваги ухвалення рішень
 
-**Polonization**: 60% accept, 40% resist (balanced personality +2 to resist)
-**Church Union**: 40% accept, 60% refuse (reflects historical resistance)
+**Полонізація**: 60% пристати, 40% опиратися (врівноважена вдача додає +2 до опору)
+**Церковна унія**: 40% пристати, 60% відмовити (відбиває історичний опір)
 **Cossack Privileges**: 70% grant, 30% suppress (ШІ avoids instability)
-**Cossack Raids**: 60% endorse, 40% punish
-**Fortifications**: 40% build, 60% risk (cost consideration)
-**Ransom Captives**: 60% pay, 40% refuse (factor 0.1 if treasury < 50)
-**Lviv Fair**: 60% invest, 40% natural (factor 0.1 if treasury < 150)
-**Magdeburg Law**: 80% grant, 20% refuse (strong economic benefit)
-**Chumak Support**: 70% support, 30% tax
-**Sarmatism**: 70% embrace, 30% resist
-**Liberty vs Absolutism**: 50-50 split
+**Козацькі походи**: 60% схвалити, 40% покарати
+**Укріплення**: 40% будувати, 60% ризикнути (через ціну)
+**Викуп бранців**: 60% платити, 40% відмовити (×0,1 якщо в скарбниці менше 50)
+**Львівський ярмарок**: 60% укласти кошти, 40% лишити як є (×0,1 якщо в скарбниці менше 150)
+**Магдебурзьке право**: 80% надати, 20% відмовити (велика господарська вигода)
+**Чумаки**: 70% підтримати, 30% обкласти податком
+**Сарматизм**: 70% прийняти, 30% опиратися
+**Вольність проти абсолютизму**: порівну
 
 ---
 
-## INTEGRATION WITH EXISTING SYSTEMS
+## Стик із наявними системами
 
 ### Сумісність
-- Works alongside VOL-HLC synergy missions
-- Integrates with Polish/Lithuanian mission trees
-- Compatible with Cossack estate mechanics
-- Works with existing Crimean/Ottoman relations
+- Працює поруч зі спільними місіями VOL і HLC
+- Стикується з польським і литовським деревами місій
+- Сумісне з механікою козацького стану
+- Працює з наявними стосунками з Кримом і Портою
 
 ### Потрібні теги
-- Primary: VOL, HLC, PDL
-- Secondary: Any tag owning these provinces
-- Overlord checks: POL, PLC
+- Головні: VOL, HLC, PDL
+- Другорядні: будь-який тег, що володіє цими провінціями
+- Перевірка сюзерена: POL, PLC
 
 ### Залежності від провінцій
-- **Halych/Lviv** (279): Major trade events
-- **Volhynia** (280): Magdeburg Law, development
-- **Ruthenia region**: Tatar raids, Cossack events
-- **Podolia-Volhynia area**: Border events
+- **Галич і Львів** (279): великі торгові події
+- **Волинь** (280): магдебурзьке право, розвиток
+- **Край Русь**: татарські набіги, козацькі події
+- **Подільсько-волинська область**: порубіжні події
 
 ### Система прапорців
-- `polonization_started`: Triggers cultural events
-- `polish_court_language`: Language adoption
-- `church_union_decision`: Church Union chosen
-- `accepted_uniate_church` / `rejected_uniate_church`: Union path
-- `cossack_uprising_chain`: Cossack events active
-- `granted_cossack_rights`: Cossack autonomy granted
-- `sarmatism_adopted`: Noble culture changed
-- `liberty_vs_absolutism_choice`: Absolutism decision made
+- `polonization_started`: відмикає культурні події
+- `polish_court_language`: мова двору
+- `church_union_decision`: унію вибрано
+- `accepted_uniate_church` / `rejected_uniate_church`: гілка унії
+- `cossack_uprising_chain`: козацькі події ввімкнено
+- `granted_cossack_rights`: козацьку самоуправу надано
+- `sarmatism_adopted`: шляхетський звичай змінено
+- `liberty_vs_absolutism_choice`: вибір щодо абсолютизму зроблено
 
 ---
 
 ## Історична достовірність
 
 ### Джерела й натхнення
-1. **Magocsi, Paul Robert**: "A History of Ukraine: The Land and Its Peoples"
-2. **Subtelny, Orest**: "Ukraine: A History"
-3. **Davies, Norman**: "God's Playground: A History of Poland"
-4. **Wilson, Andrew**: "The Ukrainians: Unexpected Nation"
-5. **Historical records**: Union of Brest (1596), Cossack uprisings, Tatar raids
+1. **Магочій, Павло Роберт**: «A History of Ukraine: The Land and Its Peoples»
+2. **Субтельний, Орест**: «Ukraine: A History»
+3. **Дейвіс, Норман**: «God's Playground: A History of Poland»
+4. **Вілсон, Ендрю**: «The Ukrainians: Unexpected Nation»
+5. **Документи доби**: Берестейська унія (1596), козацькі повстання, татарські набіги
 
-### Deviations from History
-1. **Timing**: Events spread across EU4 timeframe (1444-1821) vs. concentrated periods
-2. **Choice**: Player can avoid historical outcomes (e.g., refuse Church Union)
-3. **Simplification**: Complex processes condensed into single events
-4. **Game Balance**: Modifiers balanced for gameplay, not perfect historical simulation
+### Відступи від історії
+1. **Час**: події розтягнуто на весь проміжок EU4 (1444-1821), а не стиснуто в кілька десятиліть
+2. **Вибір**: гравець може обійти історичний кінець (скажімо, відкинути унію)
+3. **Спрощення**: тривалі процеси зведено до окремих подій
+4. **Баланс**: числа підібрано під гру, а не під точне відтворення
 
-### Authentic Elements
-1. **Church Union**: Based on real Union of Brest (1596)
-2. **Sarmatism**: Authentic noble ideology of Polish-Lithuanian Commonwealth
-3. **Cossack Culture**: Reflects actual Cossack autonomy and raiding
-4. **Tatar Raids**: Based on centuries of Crimean raids
-5. **Trade**: Lviv, Magdeburg Law, Chumaks all historically accurate
+### Що взято з історії
+1. **Церковна унія**: за Берестейською унією 1596 року
+2. **Сарматизм**: справжнє шляхетське вчення Речі Посполитої
+3. **Козацький звичай**: відбиває справжню козацьку самоуправу й походи
+4. **Татарські набіги**: за сторіччями кримських нападів
+5. **Торгівля**: Львів, магдебурзьке право, чумаки — усе історичне
 
 ---
 
-## FILES CREATED/MODIFIED
+## Створені та змінені файли
 
-### Event Files
-- **events/WestUkraineHistory.txt** (new, 1,200+ lines)
+### Файли подій
+- **events/WestUkraineHistory.txt** (новий, понад 1200 рядків)
   - 13 ланцюгів історичних подій
-  - Namespace: `west_ukraine_history`
+  - Простір імен: `west_ukraine_history`
 
-### Modifier Files
-- **common/event_modifiers/west_ukraine_modifiers.txt** (new)
+### Файли модифікаторів
+- **common/event_modifiers/west_ukraine_modifiers.txt** (новий)
   - 22 модифікатори країни й провінції
 
-### Opinion Modifier Files
-- **common/opinion_modifiers/RIP_opinion_modifiers.txt** (modified)
-  - Added 6 opinion modifiers
+### Файли модифікаторів приязні
+- **common/opinion_modifiers/RIP_opinion_modifiers.txt** (змінено)
+  - Додано 6 модифікаторів приязні
 
 ### Локалізація Files
-- **localisation/west_ukraine_history_l_english.yml** (new)
-  - 13 event titles and descriptions
-  - 39 event options
-  - 22 modifier descriptions
-  - 6 opinion modifier names
+- **localisation/west_ukraine_history_l_english.yml** (новий)
+  - 13 назв і описів подій
+  - 39 варіантів у подіях
+  - 22 описи модифікаторів
+  - 6 назв модифікаторів приязні
 
 ---
 
-## TESTING CHECKLIST
+## Перелік перевірки
 
-- [ ] Events fire with correct triggers and MTTH
-- [ ] AI makes reasonable decisions based on weights
-- [ ] Modifiers apply correctly with specified durations
-- [ ] Opinion modifiers work in diplomacy screen
-- [ ] Flags prevent duplicate events
-- [ ] Church Union path works correctly
-- [ ] Cossack rebellion spawns properly
-- [ ] Tatar raid devastation applies
-- [ ] Trade modifiers boost economy
-- [ ] No conflicts with existing VOL/HLC missions
-- [ ] Localization displays correctly
-- [ ] No syntax errors in files
-
----
-
-## RECOMMENDED GAMEPLAY
-
-### As Volhynia (VOL)
-1. **Early Game (1444-1500)**: Navigate Polish/Lithuanian influence, decide on cultural identity
-2. **Mid Game (1500-1600)**: Handle Church Union crisis, manage Cossacks
-3. **Late Game (1600-1700)**: Choose between Golden Liberty and absolutism, deal with Tatar raids
-
-### As Galicia (HLC)
-1. **Trade Focus**: Maximize Lviv trade fair and Magdeburg Law benefits
-2. **Cultural Choice**: Balance Polish influence vs. Ruthenian identity
-3. **Religious Policy**: Church Union decision shapes entire playthrough
-
-### As Poland/Lithuania
-- Subject nations will face these events, requiring diplomatic management
-- Loyalist vassals (accept union, grant privileges) vs. defiant ones (resist culture, reject union)
+- [ ] Події настають за правильними тригерами й MTTH
+- [ ] ШІ вибирає розумно за вагами
+- [ ] Модифікатори накладаються із зазначеною тривалістю
+- [ ] Модифікатори приязні працюють на екрані дипломатії
+- [ ] Прапорці не дають подіям повторюватися
+- [ ] Гілка церковної унії працює
+- [ ] Козацький бунт з'являється як слід
+- [ ] Спустошення від набігу накладається
+- [ ] Торгові модифікатори підіймають господарку
+- [ ] Немає суперечок із наявними місіями VOL і HLC
+- [ ] Локалізація показується правильно
+- [ ] У файлах немає синтаксичних помилок
 
 ---
 
-## FUTURE EXPANSION IDEAS
+## Як це грати
 
-1. **Cossack Register System**: Events about official Cossack register size
-2. **Haydamak Uprisings**: Peasant rebellions (1700s)
-3. **Orthodox Brotherhood Movement**: Cultural resistance organizations
-4. **Uniate Metropolitanate**: Church hierarchy development
-5. **Armenian Merchant Community**: Lviv's Armenian trading network
-6. **Jewish Shtetl Life**: Events about Jewish communities in Western Ukraine
-7. **Partitions**: Events leading to Polish-Lithuanian partitions (1772-1795)
+### За Волинь (VOL)
+1. **Ранок партії (1444-1500)**: лавірувати між польським і литовським впливом, визначитися з культурою
+2. **Середина (1500-1600)**: пережити унійну кризу, дати раду козацтву
+3. **Пізня гра (1600-1700)**: вибрати між Золотою вольністю й абсолютизмом, відбивати татар
+
+### За Галичину (HLC)
+1. **Упор на торгівлю**: вичавити все з львівського ярмарку й магдебурзького права
+2. **Культурний вибір**: тримати рівновагу між польським впливом і руським звичаєм
+3. **Церковна політика**: вибір щодо унії визначає всю партію
+
+### За Польщу чи Литву
+- Ці події настають у ваших васалів, і з ними доведеться щось робити
+- Вірні васали (пристали на унію, дістали привілеї) проти непокірних (опираються культурі, відкинули унію)
 
 ---
 
-## TROUBLESHOOTING
+## Задуми на майбутнє
 
-### Event Not Firing
-- Check tag (VOL, HLC, PDL)
-- Verify trigger conditions (religion, overlord, provinces)
-- Check if flag already set (preventing duplicate)
-- Confirm age requirements (Reformation, Absolutism)
+1. **Козацький реєстр**: події про його розмір
+2. **Гайдамаччина**: селянські повстання XVIII століття
+3. **Братства**: осередки культурного опору
+4. **Унійна митрополія**: розбудова церковної ієрархії
+5. **Вірменське купецтво**: львівська вірменська торгова мережа
+6. **Життя містечок**: події про єврейські громади заходу України
+7. **Поділи**: події, що ведуть до поділів Речі Посполитої (1772-1795)
 
-### Modifier Not Applying
-- Check spelling in event effect and modifier file
+---
+
+## Що робити, коли не працює
+
+### Подія не настає
+- Перевірте тег (VOL, HLC, PDL)
+- Звірте умови тригера (віра, сюзерен, провінції)
+- Погляньте, чи прапорець уже стоїть (він і не пускає)
+- Перевірте добу (Реформація, абсолютизм)
+
+### Модифікатор не накладається
+- Звірте написання в ефекті події та у файлі модифікаторів
 - Verify duration syntax (-1 for постійний)
-- Confirm modifier file loaded without syntax errors
+- Переконайтеся, що файл модифікаторів завантажився без помилок
 
-### AI Behavior Issues
-- AI weights in events determine choices
-- Factor modifiers (treasury, personality) affect decisions
-- AI generally makes historically plausible choices
-
----
-
-## CREDITS & ACKNOWLEDGMENTS
-
-**Historical Research**: Ukrainian and Polish historiography
-**Paradox Interactive**: EU4 base game mechanics
-**RIP Mod Team**: Existing Ukrainian/Cossack content
-
-**Implementation**: Yamtom
-**Testing**: [Pending]
+### ШІ поводиться дивно
+- Вибір визначають ваги ШІ в подіях
+- Множники (скарбниця, вдача) зміщують вибір
+- Загалом ШІ вибирає історично правдоподібно
 
 ---
 
-## CHANGELOG
+## Подяки
 
-### Version 1.0 (January 30, 2026)
-**Initial Release**
+**Історичні розвідки**: українська й польська історіографія
+**Paradox Interactive**: механіка базової гри
+**Команда мода RIP**: наявне українське й козацьке наповнення
+
+**Втілення**: Yamtom
+**Випробування**: [попереду]
+
+---
+
+## Журнал змін
+
+### Версія 1.0 (30 січня 2026)
+**Перший випуск**
 - 13 ланцюгів історичних подій implemented
-- 22 modifiers created
+- Створено 22 модифікатори
 - 6 модифікаторів думки added
 - повна англійська локалізація
-- Full documentation
+- Повна документація
 
 ---
 
-**END OF DOCUMENTATION**
+**КІНЕЦЬ ДОКУМЕНТА**
 
-*"Through these storms of history, the Ruthenian spirit endures"*
+*«Крізь ці бурі історії руський дух вистоює»*
