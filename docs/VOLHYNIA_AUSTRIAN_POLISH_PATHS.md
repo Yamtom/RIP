@@ -12,7 +12,7 @@
 
 ---
 
-## EXECUTIVE SUMMARY
+## КОРОТКИЙ ПІДСУМОК
 
 This document describes the new dual-path mission system for Volhynia (VOL), inspired by historical developments of Austria-Hungary (HAB) and the Polish-Lithuanian Commonwealth (PLC). The system allows players to choose between two distinct development paths:
 
@@ -42,8 +42,8 @@ The Polish missions demonstrate:
 ## MISSION TREE STRUCTURE
 
 ### Path Selection (Position 5, Slot 5)
-**Mission**: `VOL_choose_development_path`
-- **Trigger**:
+**Місія**: `VOL_choose_development_path`
+- **Тригер**:
   - Not at war
   - Stability ≥ 1
   - Total development ≥ 200
@@ -150,7 +150,7 @@ The Polish missions demonstrate:
 
 ---
 
-## MODIFIERS REFERENCE
+## Довідник модифікаторів
 
 ### Austrian Path Modifiers
 
@@ -193,7 +193,7 @@ The Polish missions demonstrate:
 
 ### Main Path Selection Event
 **ID**: `vol_path_events.1`
-- **Trigger**: Mission `VOL_choose_development_path` completion
+- **Тригер**: Mission `VOL_choose_development_path` completion
 - **Options**:
   1. Austrian Path → Sets `vol_austrian_path` flag, grants `vol_diplomatic_focus` (20 years)
   2. Polish Path → Sets `vol_constitutional_path` flag, grants `vol_constitutional_focus` (20 years)
@@ -211,7 +211,7 @@ The Polish missions demonstrate:
 
 ---
 
-## AI BEHAVIOR
+## Поведінка ШІ
 
 ### Path Selection AI Weights
 **Austrian Path** favored by:
@@ -233,7 +233,7 @@ The Polish missions demonstrate:
 
 ## INTEGRATION WITH EXISTING SYSTEMS
 
-### Compatibility with HLC Synergy
+### Сумісність with HLC Synergy
 - Both paths work with existing `rip_vol_eastern_path` and `rip_vol_baltic_path` flags
 - VOL_choose_development_path mission can be taken after VOL_invest_in_west_rus_mission
 - Does NOT replace HLC-VOL alliance mechanics, adds parallel development

@@ -1,33 +1,33 @@
-# Steppe Raiding System
+# Система степових набігів
 
-**Implementation status:** complete in script; dedicated static contract passing  
-**Runtime status:** startup/parser smoke pending  
-**Game version:** EU4 1.37.5  
-**Document revision:** 2026-08-17
+**Стан реалізації:** у скрипті завершено; власні статичні контракти проходять  
+**Стан у грі:** димовий прогін запуску й розбору ще попереду  
+**Версія гри:** EU4 1.37.5  
+**Ревізія документа:** 17 серпня 2026
 
-## Scope
+## Обсяг
 
-The system models four connected pressures around the Pontic steppe:
+Система моделює чотири пов'язані тиски навколо Понтійського степу:
 
-- horde raids and yasyr-taking against sedentary border states;
-- Cossack retaliation, including a Don/Azov route;
-- Crimean raids into Circassia and the movement of captives through Kaffa;
-- an Ottoman response when Crimea is represented in-game as an Ottoman subject.
+- ординські набіги й захоплення ясиру проти осілих прикордонних держав;
+- козацька відплата, зокрема донським і азовським маршрутом;
+- кримські набіги на Черкесію й рух бранців через Кафу;
+- османська відповідь, коли Крим у грі є османським васалом.
 
-Captives are deliberately abstracted as income, manpower, devastation, opinion,
-and temporary modifiers. There is no population ledger or slave commodity. The
-system does not treat its event outcomes as claims about a particular historical
-raid unless a source is named; most events are repeatable gameplay abstractions.
+Бранців свідомо абстраговано як дохід, живу силу, спустошення, думку й
+тимчасові модифікатори. Ані обліку населення, ані товару-невільника тут немає.
+Наслідки подій не претендують на опис конкретного історичного набігу, якщо не
+названо джерело; більшість подій — повторювані ігрові абстракції.
 
-There are **16 events in seven connected chains**, not 16 independent chains.
+Тут **16 подій у семи пов'язаних ланцюгах**, а не 16 окремих ланцюгів.
 
-## Live files
+## Чинні файли
 
-| Role | File |
+| Роль | Файл |
 |---|---|
-| Events 1-16 | `events/SteppeRaiding.txt` |
-| Shared market/reaction effects | `common/scripted_effects/steppe_raid_effects.txt` |
-| Event and province modifiers | `common/event_modifiers/steppe_raid_modifiers.txt` |
+| Події 1–16 | `events/SteppeRaiding.txt` |
+| Спільні ефекти ринку й реакцій | `common/scripted_effects/steppe_raid_effects.txt` |
+| Модифікатори подій і провінцій | `common/event_modifiers/steppe_raid_modifiers.txt` |
 | Opinion modifiers | `common/opinion_modifiers/RIP_opinion_modifiers.txt` |
 | English localisation | `localisation/zzz_steppe_raiding_l_english.yml` |
 | General raid integration | `events/RaidMechanics.txt` |

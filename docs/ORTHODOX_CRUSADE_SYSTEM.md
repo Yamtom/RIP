@@ -1,4 +1,4 @@
-# ORTHODOX CRUSADE SYSTEM - DOCUMENTATION
+# Система православного хрестового походу
 
 > **Звірено з кодом 2026-08-17.** Документ точний: усі перелічені файли на
 > місці, крім українського перекладу (див. нижче), а числа в довіднику
@@ -6,9 +6,9 @@
 > дає +2 престижу, +1 легітимності, +3 дипрепутації та -20% AE, Єрусалим
 > +3 престижу. Вікна 1525/1600 і `orthodox_crusade_cooldown` теж на місці;
 > звідки взялися саме ці числа, описано в `EVENT_CHAINS_AUDIT_2026-02-28.md`.
-# Механіка православного хрестового походу
 
-## 📋 Overview / Огляд
+
+## Огляд
 
 The Orthodox Crusade system allows Orthodox and Russian Orthodox nations to declare holy wars to reclaim Constantinople (Byzantium) and Jerusalem from non-Christian rulers. This mechanic provides historical flavor and strategic gameplay options for Orthodox powers.
 
@@ -16,7 +16,7 @@ The Orthodox Crusade system allows Orthodox and Russian Orthodox nations to decl
 
 ---
 
-## 📦 File Structure / Структура файлів
+## Структура файлів
 
 ```
 RIP Mod/
@@ -44,9 +44,9 @@ RIP Mod/
 
 ---
 
-## 🎯 Core Mechanics / Основні механіки
+## Основні механіки
 
-### 1. Declaring Crusades / Оголошення хрестових походів
+### 1. Оголошення хрестових походів
 
 #### Constantinople Crusade Requirements:
 - Orthodox or Russian Orthodox religion
@@ -67,7 +67,7 @@ RIP Mod/
 - 75+ prestige
 - 80+ legitimacy
 
-### 2. Crusade Benefits / Бонуси хрестового походу
+### 2. Бонуси хрестового походу
 
 **For Constantinople Crusade Leader:**
 - +15% Land Morale
@@ -95,7 +95,7 @@ RIP Mod/
 - +15% Church Power
 - +10% Manpower Recovery
 
-### 3. Victory Rewards / Нагороди за перемогу
+### 3. Нагороди за перемогу
 
 #### Constantinople Liberation:
 - +100 Prestige
@@ -117,7 +117,7 @@ RIP Mod/
 - Becomes Defender of the Faith (if not already)
 - Permanent bonuses to Jerusalem province
 
-### 4. Failure Penalties / Покарання за поразку
+### 4. Покарання за поразку
 
 If crusade expires without success:
 - -50/-75 Prestige
@@ -128,22 +128,22 @@ If crusade expires without success:
 
 ---
 
-## 🎮 Gameplay Flow / Ігровий процес
+## Ігровий процес
 
-### Phase 1: Declaration / Оголошення
+### Фаза 1: оголошення
 1. Player meets requirements
 2. Makes decision to declare crusade
 3. Spends church power (100/150)
 4. Receives crusade modifier (50 year duration)
 5. Gets special CB on target
 
-### Phase 2: Participation / Участь
+### Фаза 2: участь
 1. Other Orthodox nations receive event
 2. Can choose to join, support, or refuse
 3. Joining nations get participant modifier
 4. Opinion modifiers apply
 
-### Phase 3: War / Війна
+### Фаза 3: війна
 1. Leader declares war using crusade CB
 2. Various events fire during crusade:
    - Battle victories
@@ -151,18 +151,18 @@ If crusade expires without success:
    - Progress updates
 3. Crusade bonuses help in combat
 
-### Phase 4: Conclusion / Завершення
+### Фаза 4: завершення
 1. If successful: Massive rewards for all participants
 2. If failed: Penalties for all involved
 3. Cooldown period begins (20 years)
 
 ---
 
-## 📊 Modifiers Reference / Довідник модифікаторів
+## Довідник модифікаторів
 
-### Permanent Victory Modifiers:
+### Постійні модифікатори перемоги
 
-**Liberator of Constantinople:**
+**Визволитель Константинополя:**
 - +2 Prestige/year
 - +1 Legitimacy/year
 - +3 Diplomatic Reputation
@@ -172,7 +172,7 @@ If crusade expires without success:
 - -15% Core Creation Cost
 - +25% Improve Relations
 
-**Liberator of Jerusalem:**
+**Визволитель Єрусалима:**
 - +3 Prestige/year
 - +2 Legitimacy/year
 - +5 Diplomatic Reputation
@@ -185,7 +185,7 @@ If crusade expires without success:
 
 ---
 
-## 🤖 AI Behavior / Поведінка ШІ
+## Поведінка ШІ
 
 **AI will declare crusades when:**
 - Has Third Rome ideology (2x more likely)
@@ -201,7 +201,7 @@ If crusade expires without success:
 
 ---
 
-## 🎯 Strategic Tips / Стратегічні поради
+## Стратегічні поради
 
 1. **Wait for the Right Moment:**
    - Declare when target is weak or distracted
@@ -226,7 +226,7 @@ If crusade expires without success:
 
 ---
 
-## 🔗 Integration with Existing Systems
+## Інтеграція з наявними системами
 
 **Works with:**
 - Russian Orthodox mechanics
@@ -242,7 +242,7 @@ If crusade expires without success:
 
 ---
 
-## 🐛 Known Limitations
+## Відомі обмеження
 
 1. Custom CBs may need wargoal types properly configured
 2. AI evaluation might need balancing after testing

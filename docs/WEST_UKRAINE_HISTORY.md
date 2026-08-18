@@ -42,7 +42,7 @@
 
 ---
 
-## EXECUTIVE SUMMARY
+## КОРОТКИЙ ПІДСУМОК
 
 This system recreates historical processes in Western Ukraine (modern western regions of Ukraine including Galicia, Volhynia, and surrounding areas) during the EU4 timeframe (1444-1821). The events reflect the complex interplay of Polish-Lithuanian influence, religious conflict, Cossack culture, Tatar raids, and economic development that characterized this region.
 
@@ -55,15 +55,15 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ---
 
-## HISTORICAL CONTEXT
+## ІСТОРИЧНИЙ КОНТЕКСТ
 
-### Geographic Scope
+### Географічний обсяг
 - **Galicia** (Halych/HLC): Capital of Red Ruthenia, major trade center (Lviv)
 - **Volhynia** (VOL): Border region between Poland, Lithuania, and Rus'
 - **Podolia** (PDL): Southern borderland exposed to Tatar raids
 - **Red Ruthenia**: Historical region straddling Polish-Ruthenian cultural divide
 
-### Key Historical Themes
+### Ключові історичні теми
 
 #### 1. Polish-Lithuanian Dominance (1340s-1795)
 - Polish conquest of Galicia-Volhynia (1340s-1370s)
@@ -103,18 +103,18 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ---
 
-## EVENT CHAINS DOCUMENTATION
+## Опис ланцюгів подій
 
 ### CHAIN 1: Polonization (1444-1700)
 
 #### Event 1.1: Polish Cultural Influence
 **ID**: `west_ukraine_history.1`
-**Trigger**:
+**Тригер**:
 - Tag: VOL, HLC, or PDL
 - Subject of or allied with POL/PLC
 - Owns provinces with Ruthenian/Byelorussian culture
 
-**MTTH**: 60 months
+**Середній час**: 60 months
 - ×0.5 if subject of POL
 - ×0.5 if subject of PLC
 - ×1.5 if negative stability
@@ -134,11 +134,11 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 #### Event 1.2: Polish Language at Court
 **ID**: `west_ukraine_history.2`
-**Trigger**:
+**Тригер**:
 - Has `polonization_started` flag
 - Has `west_ukr_polish_influence` modifier
 
-**MTTH**: 120 months
+**Середній час**: 120 months
 
 **Options**:
 1. **Adopt Polish at court** (AI default)
@@ -160,13 +160,13 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 #### Event 2.1: Pressure for Church Union
 **ID**: `west_ukraine_history.3`
-**Trigger**:
+**Тригер**:
 - Tag: VOL, HLC, or PDL
 - Subject of POL/PLC
 - Religion: Orthodox
 - Age of Reformation
 
-**MTTH**: 200 months
+**Середній час**: 200 months
 - ×0.5 after 1590
 - ×0.3 after 1595 (historical Union of Brest)
 
@@ -191,12 +191,12 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 #### Event 2.2: Orthodox-Uniate Conflict
 **ID**: `west_ukraine_history.4`
-**Trigger**:
+**Тригер**:
 - Has church union flag
 - Mix of Orthodox and Catholic provinces
 - Province without `west_ukr_religious_peace` modifier
 
-**MTTH**: 150 months
+**Середній час**: 150 months
 
 **Options**:
 1. **Suppress Orthodox resistance** (requires accepted union, AI 50%)
@@ -220,12 +220,12 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 #### Event 3.1: Cossack Discontent
 **ID**: `west_ukraine_history.5`
-**Trigger**:
+**Тригер**:
 - Tag: VOL, HLC, or PDL
 - Subject of POL/PLC
 - Owns steppe provinces with Ruthenian/Ukrainian culture
 
-**MTTH**: 240 months
+**Середній час**: 240 months
 - ×0.5 after 1590
 - ×0.3 after 1630 (approaching Khmelnytsky Uprising)
 - ×2.0 if stability 2+
@@ -247,12 +247,12 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 #### Event 3.2: Cossack Raid
 **ID**: `west_ukraine_history.6`
-**Trigger**:
+**Тригер**:
 - Has `granted_cossack_rights` flag
 - Owns steppe provinces
 - Neighbor is CRI or TUR
 
-**MTTH**: 180 months
+**Середній час**: 180 months
 
 **Options**:
 1. **Endorse the raid** (AI 60%)
@@ -272,13 +272,13 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 #### Event 4.1: Tatar Raid Warning
 **ID**: `west_ukraine_history.7`
-**Trigger**:
+**Тригер**:
 - Tag: VOL, HLC, or PDL
 - Owns province in Ruthenia region bordering Crimean territory
 - Not at war
 - Before 1700
 
-**MTTH**: 200 months
+**Середній час**: 200 months
 - ×0.7 if MIL tech < 8
 - ×1.5 if MIL tech 12+
 - ×2.0 after 1650
@@ -298,10 +298,10 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 #### Event 4.2: Yasyr - Tatar Captives
 **ID**: `west_ukraine_history.8`
-**Trigger**:
+**Тригер**:
 - Has province with `west_ukr_tatar_raid_damage` modifier
 
-**MTTH**: 60 months
+**Середній час**: 60 months
 
 **Options**:
 1. **Ransom the captives** (AI 60%, factor 0.1 if poor)
@@ -322,11 +322,11 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 #### Event 5.1: Lviv Trade Fair
 **ID**: `west_ukraine_history.9`
-**Trigger**:
+**Тригер**:
 - Tag HLC or owns province 279 (Halych/Lviv)
 - Province 279 has 5+ base production
 
-**MTTH**: 300 months
+**Середній час**: 300 months
 
 **Options**:
 1. **Invest in the fair** (AI 60%, factor 0.1 if poor)
@@ -341,13 +341,13 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 #### Event 5.2: Magdeburg Law
 **ID**: `west_ukraine_history.10`
-**Trigger**:
+**Тригер**:
 - Tag: VOL, HLC, or PDL
 - Owns Halych (279) or Volhynia (280)
 - Province has 15+ development
 - Province lacks `west_ukr_magdeburg_law` modifier
 
-**MTTH**: 400 months
+**Середній час**: 400 months
 
 **Options**:
 1. **Grant Magdeburg Law** (AI 80%)
@@ -365,11 +365,11 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 #### Event 5.3: Chumak Trade Route
 **ID**: `west_ukraine_history.11`
-**Trigger**:
+**Тригер**:
 - Tag: VOL or HLC
 - Owns steppe province with salt trade good
 
-**MTTH**: 360 months
+**Середній час**: 360 months
 
 **Options**:
 1. **Support the Chumaks** (AI 70%)
@@ -387,12 +387,12 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 #### Event 6.1: Sarmatism Ideology
 **ID**: `west_ukraine_history.12`
-**Trigger**:
+**Тригер**:
 - Tag: VOL, HLC, or PDL
 - Has `polonization_started` flag
 - Subject of or accepted culture Polish
 
-**MTTH**: 300 months
+**Середній час**: 300 months
 
 **Options**:
 1. **Embrace Sarmatism** (AI 70%)
@@ -408,12 +408,12 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 #### Event 6.2: Golden Liberty vs Absolutism
 **ID**: `west_ukraine_history.13`
-**Trigger**:
+**Тригер**:
 - Tag: VOL or HLC
 - Has `sarmatism_adopted` flag
 - Age of Absolutism
 
-**MTTH**: 120 months
+**Середній час**: 120 months
 
 **Options**:
 1. **Support Golden Liberty** (AI 50%)
@@ -432,11 +432,11 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ---
 
-## MODIFIERS REFERENCE
+## Довідник модифікаторів
 
 ### Polonization Modifiers
 
-| Modifier | Effects | Duration | Source |
+| Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
 | `west_ukr_polish_influence` | -5% Idea Cost, +1 Diplomatic Reputation, -10% Advisor Cost | 20 years | Accept Polish influence |
 | `west_ukr_cultural_resistance` | -10% Stability Cost, -1 Unrest, +0.5 Legitimacy | 10 years | Resist Polish culture |
@@ -444,7 +444,7 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ### Church Union Modifiers
 
-| Modifier | Effects | Duration | Source |
+| Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
 | `west_ukr_church_union` | +2 Papal Influence, +2 Tolerance Own, -1 Tolerance Heretic, +2% Missionary Strength vs Heretics | Permanent | Accept Church Union |
 | `west_ukr_converted_uniate` | +3 Local Unrest, +2% Local Missionary Strength | 20 years | Province converted to Uniate |
@@ -455,7 +455,7 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ### Cossack Modifiers
 
-| Modifier | Effects | Duration | Source |
+| Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
 | `west_ukr_cossack_unrest` | +8 Local Unrest, +5% Local Autonomy | 15 years | Suppress Cossacks |
 | `west_ukr_cossack_privileges` | +10% Cavalry Power, -10% Cavalry Cost, +5% Global Autonomy, +10% Cossack Loyalty | 20 years | Grant privileges |
@@ -463,14 +463,14 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ### Tatar Raid Modifiers
 
-| Modifier | Effects | Duration | Source |
+| Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
 | `west_ukr_border_fortifications` | +20% Local Defensiveness, -10% Local Development Cost, -15% Fort Maintenance | 15 years | Fortify borders |
 | `west_ukr_tatar_raid_damage` | +10% Local Autonomy, +3 Local Unrest, -25% Local Manpower, -20% Local Tax | 10 years | Raid occurs |
 
 ### Trade Modifiers
 
-| Modifier | Effects | Duration | Source |
+| Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
 | `west_ukr_lviv_trade_fair` | +10% Trade Efficiency, +20% Local Production Efficiency, +15 Province Trade Power | 20 years | Invest in Lviv fair |
 | `west_ukr_magdeburg_law` | -15% Local Development Cost, +20% Local Tax, +15% Local Production, +10% Local Autonomy | Permanent | Grant Magdeburg Law |
@@ -478,7 +478,7 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ### Noble Culture Modifiers
 
-| Modifier | Effects | Duration | Source |
+| Модифікатор | Ефекти | Тривалість | Джерело |
 |----------|---------|----------|--------|
 | `west_ukr_sarmatism` | +15% Cavalry Power, +10% Noble Loyalty, +5% Noble Influence, -1% Army Tradition Decay | Permanent | Embrace Sarmatism |
 | `west_ukr_ruthenian_nobility` | +1 Legitimacy, +0.5 Prestige, -10% Stability Cost, +25% Culture Conversion Cost | 25 years | Maintain traditions |
@@ -486,7 +486,7 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ---
 
-## OPINION MODIFIERS
+## Модифікатори думки
 
 | Modifier | Opinion | Duration | Source |
 |----------|---------|----------|--------|
@@ -499,9 +499,9 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ---
 
-## AI BEHAVIOR
+## Поведінка ШІ
 
-### Decision-Making Weights
+### Ваги ухвалення рішень
 
 **Polonization**: 60% accept, 40% resist (balanced personality +2 to resist)
 **Church Union**: 40% accept, 60% refuse (reflects historical resistance)
@@ -519,24 +519,24 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ## INTEGRATION WITH EXISTING SYSTEMS
 
-### Compatibility
+### Сумісність
 - Works alongside VOL-HLC synergy missions
 - Integrates with Polish/Lithuanian mission trees
 - Compatible with Cossack estate mechanics
 - Works with existing Crimean/Ottoman relations
 
-### Tag Requirements
+### Потрібні теги
 - Primary: VOL, HLC, PDL
 - Secondary: Any tag owning these provinces
 - Overlord checks: POL, PLC
 
-### Province Dependencies
+### Залежності від провінцій
 - **Halych/Lviv** (279): Major trade events
 - **Volhynia** (280): Magdeburg Law, development
 - **Ruthenia region**: Tatar raids, Cossack events
 - **Podolia-Volhynia area**: Border events
 
-### Flag System
+### Система прапорців
 - `polonization_started`: Triggers cultural events
 - `polish_court_language`: Language adoption
 - `church_union_decision`: Church Union chosen
@@ -548,9 +548,9 @@ This system recreates historical processes in Western Ukraine (modern western re
 
 ---
 
-## HISTORICAL ACCURACY
+## Історична достовірність
 
-### Sources and Inspirations
+### Джерела й натхнення
 1. **Magocsi, Paul Robert**: "A History of Ukraine: The Land and Its Peoples"
 2. **Subtelny, Orest**: "Ukraine: A History"
 3. **Davies, Norman**: "God's Playground: A History of Poland"

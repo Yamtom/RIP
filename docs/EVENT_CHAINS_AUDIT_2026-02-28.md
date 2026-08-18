@@ -1,4 +1,4 @@
-# Event Chains Audit (2026-02-28)
+# Аудит ланцюгів подій (28 лютого 2026)
 
 > **Історичний запис.** Це звіт про завершений прохід, а не живий трекер.
 > Перевірено проти коду 2026-08-17: пункти 2, 3 і 4 нижче досі відповідають
@@ -9,56 +9,56 @@
 >
 > Пункт 1 не відповідає дійсності - див. поправку нижче.
 
-## Scope
+## Обсяг
 
-- ZAZ-related events
-- Religious events (Orthodox Crusade, Russian Orthodox, Uniate)
-- Cossack raid/revolt events
-- Timing burst risk and pacing
+- події, пов'язані з ZAZ
+- релігійні події: православний хрестовий похід, російське православ'я, унія
+- козацькі набіги й повстання
+- ризик сплесків у часі та темп
 
-## Event Inventory
+## Перелік подій
 
-### ZAZ-related
+### Пов'язані з ZAZ
 
 - `events/ZaporizhiaFlavor.txt` (`zaz_flavor.*`)
 - `events/ZaporizhiaFixes.txt` (`zaz_fixes.*`)
 - `events/ZAZmission.txt` (`zaz_flavor_m_*`)
 - `events/CossackRevolts.txt` (`zaz.*`)
 
-### Religious
+### Релігійні
 
 - `events/OrthodoxCrusade.txt` (`orthodox_crusade.*`)
 - `events/HetmanateOrthodoxCrusade.txt`
 - `events/RussianOrthodox.txt`
 - `events/UniateChurch.txt`
 
-### Cossack-focused
+### Козацькі
 
 - `events/HetmanateCossackRaids.txt` (`het_cossack_raids.*`)
 - `events/SteppeRaiding.txt`
 - `events/CossackRevolts.txt`
 
-## Balance and Coherence Assessment
+## Оцінка балансу й узгодженості
 
-### Strong points
+### Сильні місця
 
-- Core crusade chain has clear declare -> target reaction -> participant outcomes.
-- ZAZ and Hetmanate content has good thematic separation (Sich, raids, frontier, religious legitimacy).
-- Most chains are already internally gated by tags, tech/year, and flags.
+- Основний ланцюг хрестового походу має чітку послідовність: оголошення, реакція цілі, наслідки для учасників.
+- Вміст ZAZ і Гетьманщини добре розведено тематично: Січ, набіги, порубіжжя, релігійна легітимність.
+- Більшість ланцюгів уже обмежено зсередини тегами, технологією чи роком і прапорцями.
 
-### Issues observed before this pass
+### Проблеми, помічені до цього проходу
 
-- Notification and reaction bursts clustered in short windows (2-15-30 days), causing event spam.
-- Some formation decisions had duplicated province checks in `potential` and `allow`.
-- One vanilla-like idea key (`MSK_ideas`) was outside the replace idea bundle.
-- Orthodox crusade visibility was available earlier than intended campaign pacing.
+- Сповіщення й реакції збивалися у вузькі вікна (2, 15, 30 днів), даючи спам подій.
+- Деякі рішення про утворення держав дублювали перевірки провінцій у `potential` і `allow`.
+- Один ключ ідей, схожий на ванільний (`MSK_ideas`), лежав поза набором заміщення.
+- Православний хрестовий похід ставав доступним раніше, ніж передбачав задуманий темп кампанії.
 
-## Implemented Improvements in this pass
+## Що зроблено в цьому проході
 
-### 1) Idea override hygiene
+### 1) Гігієна заміщення ідей
 
-- ~~Moved `MSK_ideas` from `common/ideas/01_ideas.txt` to `common/ideas/replace/01_country_ideas.txt`.~~
-- ~~Result: vanilla-like override keys are consolidated in replace ideas file (hybrid policy).~~
+- ~~Перенесено `MSK_ideas` з `common/ideas/01_ideas.txt` до `common/ideas/replace/01_country_ideas.txt`.~~
+- ~~Результат: ключі заміщення, схожі на ванільні, зібрано в файлі заміщення ідей (гібридна політика).~~
 
 > **Поправка (2026-08-17).** Цього не сталося, і правильно, що не сталося.
 > `MSK` - тег самого мода (Мінськ); ані `MSK`, ані `MSK_ideas` у ванілі не
@@ -66,46 +66,46 @@
 > Теки `common/ideas/replace/` у репозиторії взагалі немає. `MSK_ideas`
 > лишається в `common/ideas/01_ideas.txt`, і це коректно.
 
-### 2) Formation decision density (2x province rule)
+### 2) Щільність рішень про утворення держав (подвійна перевірка провінцій)
 
-- Removed duplicated `num_of_owned_provinces_with` blocks from `potential` where `calc_true_if` already exists:
+- Прибрано дубльовані блоки `num_of_owned_provinces_with` з `potential` там, де вже є `calc_true_if`:
   - `decisions/RuthenianNation.txt`
   - `decisions/KuyabaNation.txt`
   - `decisions/PolesianBelarusianNations.txt`
   - `decisions/VHKNation.txt`
   - `decisions/KyivTriggers.txt` (Kyiv former paths)
-- Result: cleaner visibility logic and lower province-check inflation.
+- Результат: чистіша логіка видимості й менше роздутих перевірок провінцій.
 
-### 3) Orthodox crusade appropriateness and pacing
+### 3) Доречність і темп православного хрестового походу
 
-- Delayed availability windows:
-  - Constantinople crusade: `is_year = 1525` (was 1500)
-  - Jerusalem crusade: `is_year = 1600` (was 1550)
-- Added potential-level cooldown hiding (`NOT = { has_country_modifier = orthodox_crusade_cooldown }`).
-- Staggered call-to-arms fanout in decisions to `30/45/60` days.
+- Відсунуто вікна доступності:
+  - похід на Константинополь: `is_year = 1525` (було 1500)
+  - похід на Єрусалим: `is_year = 1600` (було 1550)
+- Додано приховування за відкатом на рівні `potential` (`NOT = { has_country_modifier = orthodox_crusade_cooldown }`).
+- Розведено розсилання закликів до зброї в рішеннях на 30, 45 і 60 днів.
 
-### 4) Event timing anti-burst changes
+### 4) Зміни проти сплесків у часі подій
 
 - `events/OrthodoxCrusade.txt`:
-  - Direct target alerts changed from `15` to `45` days.
-  - Participant win/fail distribution switched from `15/30/45` to `30/45/60`.
+  - Прямі сповіщення цілі: з 15 на 45 днів.
+  - Розподіл перемог і поразок учасників: з 15/30/45 на 30/45/60.
 - `events/HetmanateCossackRaids.txt`:
-  - Follow-up responses changed from `30` to `45` days.
+  - Відповіді-продовження: з 30 на 45 днів.
   - Deep raid consequence changed from `15` to `45` days.
 - `events/CossackRevolts.txt`:
   - Early diplomatic escalations changed from `30` to `45` days.
 - `events/ZAZmission.txt`:
   - Ultra-short dispatches changed `10 -> 45` and `2 -> 60` days.
 
-## Remaining Recommendations (next pass)
+## Рекомендації на наступний прохід
 
 - Add bridge events between `UniateChurch` and `RussianOrthodox` outcomes so confessional state transitions feel less siloed.
 - Standardize long-chain cooldown patterns (`country_modifier` vs `country_flag`) across all raid systems.
-- Add explicit player-facing tooltips for major flag-gated decisions where ambiguity remains.
+- Додати явні підказки гравцеві для великих рішень за прапорцями там, де лишається двозначність.
 
-## Practical Outcome
+## Практичний результат
 
-- Fewer short-interval event clusters.
+- Менше скупчень подій з короткими інтервалами.
 - More consistent mid-game entry for crusade content.
 - Cleaner formable visibility gating without over-constraining province checks.
 - Better override hygiene for vanilla-adjacent idea keys.

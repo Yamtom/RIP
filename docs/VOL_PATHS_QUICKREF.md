@@ -1,109 +1,116 @@
-# VOLHYNIA AUSTRIAN & POLISH PATHS - QUICK REFERENCE
+# Волинь: австрійський і польський шляхи — коротка довідка
 
-## PATH SELECTION (Position 5)
-**Mission**: `VOL_choose_development_path`
-- Requires: Not at war, Stability 1+, 200+ dev
-- Fires event with two choices:
-  1. **Austrian Imperial Path** → Diplomacy & Dynasties
-  2. **Polish Constitutional Path** → Sejm & Liberty
+Повний опис — у `docs/VOLHYNIA_AUSTRIAN_POLISH_PATHS.md`.
 
----
+## Вибір шляху (позиція 5)
 
-## AUSTRIAN IMPERIAL PATH
+**Місія**: `VOL_choose_development_path`
 
-### Key Missions
-1. **Balance Estates** → Unlock minority management
-2. **Manage Minorities** → Tolerance for foreign cultures
-3. **Welcome All Cultures** → Accept more cultures
-4. **Develop Capitals** → Volhynia + Halych to 20 dev
-5. **Balance of Power** → Alliances + subjects
-6. **Dynastic Marriages** → Spread dynasty
-
-### Victory Condition
-- 600 dev, 3 countries with dynasty, 3 subjects, Great Power
-
-### Key Modifiers
-- `vol_multicultural_realm`: +1 tolerance, -15% foreign advisor cost
-- `vol_dynastic_prestige`: +1 legitimacy, +50% heir chance
-- `vol_imperial_triumph`: +3 diplo rep, +20% vassal income
+- Потребує: не воювати, стабільність від 1, розвиток від 200.
+- Запускає подію з двома варіантами:
+  1. **Австрійський імперський шлях** — дипломатія і династії.
+  2. **Польський конституційний шлях** — сейм і вольності.
 
 ---
 
-## POLISH CONSTITUTIONAL PATH
+## Австрійський імперський шлях
 
-### Key Missions
-1. **Manage Magnates** → Balance noble power
-2. **Establish Sejm** → Costs 100 ADM, permanent assembly
-3. **Constitutional Compact** → Requires ADM tech 10
-4. **Ruthenian Liberty** → Golden Liberty analogue
-5. **University Expansion** → Education focus
-6. **Renaissance Court** → Cultural flowering
+### Ключові місії
 
-### Victory Condition
-- 600 dev, Golden Liberty + Stability 3 + Legitimacy 95, Great Power
+1. **Урівноважити стани** — відкриває управління меншинами.
+2. **Дати раду меншинам** — толерантність до чужих культур.
+3. **Прийняти всі культури** — більше прийнятих культур.
+4. **Розбудувати столиці** — Волинь і Халич до 20 розвитку.
+5. **Рівновага сил** — союзи й васали.
+6. **Династичні шлюби** — поширення династії.
 
-### Key Modifiers
-- `vol_golden_liberty`: -20% stability cost, -15% liberty desire
-- `vol_center_of_learning`: -20% dev cost, +25% institution spread
-- `vol_constitutional_triumph`: -33% stability cost, +10% admin efficiency
+### Умова перемоги
 
----
+600 розвитку, три країни з нашою династією, три васали, статус великої держави.
 
-## SYNERGY MISSIONS (Both Paths)
+### Ключові модифікатори
 
-1. **Prosperity** → Develop core provinces
-2. **Religious Settlement** → 90% religious unity
-3. **Ruthenian Hegemony** → 400 dev, promote to Empire
-4. **Ruthenia Triumphant** → 600 dev, final mission
+| Модифікатор | Дає |
+|---|---|
+| `vol_multicultural_realm` | +1 толерантність, −15% вартість чужих радників |
+| `vol_dynastic_prestige` | +1 легітимність, +50% шанс спадкоємця |
+| `vol_imperial_triumph` | +3 дипрепутація, +20% дохід з васалів |
 
 ---
 
-## FAST STRATEGY GUIDE
+## Польський конституційний шлях
 
-### Austrian Path
-1. Early: Ally major power (HLC/HUN/POL)
-2. Mid: Focus on royal marriages (5+)
-3. Late: Spread dynasty to 3+ countries
-4. Endgame: Manage multi-ethnic empire
+### Ключові місії
 
-### Polish Path
-1. Early: Build noble loyalty
-2. Mid: Establish Sejm (save 100 ADM!)
-3. Late: Build 3+ universities
-4. Endgame: Golden Liberty + high stability
+1. **Дати раду магнатам** — рівновага шляхетської сили.
+2. **Заснувати сейм** — коштує 100 адмінки, постійна асамблея.
+3. **Конституційний компакт** — потребує адмін-технології 10.
+4. **Руські вольності** — відповідник Золотої вольності.
+5. **Розширення університетів** — ставка на освіту.
+6. **Ренесансний двір** — культурне піднесення.
 
----
+### Умова перемоги
 
-## IMPORTANT FLAGS
+600 розвитку, Золота вольність зі стабільністю 3 і легітимністю 95, статус
+великої держави.
 
-- `vol_austrian_path` / `vol_constitutional_path`: Path choice (exclusive)
-- `vol_sejm_established`: Sejm is active
-- `vol_empire_proclaimed`: Empire rank achieved
+### Ключові модифікатори
 
----
-
-## FILES REFERENCE
-
-- **Missions**: missions/Volhynia_Missions.txt (lines 2580+)
-- **Modifiers**: common/event_modifiers/VOL_mission_modifiers.txt
-- **Events**: events/VOL_path_events.txt
-- **Localization**:
-  - localisation/VOL_austrian_polish_missions_l_english.yml
-  - localisation/VOL_path_events_l_english.yml
+| Модифікатор | Дає |
+|---|---|
+| `vol_golden_liberty` | −20% вартість стабільності, −15% прагнення волі |
+| `vol_center_of_learning` | −20% вартість розвитку, +25% поширення інституцій |
+| `vol_constitutional_triumph` | −33% вартість стабільності, +10% адмін-ефективність |
 
 ---
 
-## COMMON ISSUES
+## Спільні місії обох шляхів
 
-**Q: Mission not appearing?**
-A: Check flag is set (console: `country_event vol_path_events.1`)
-
-**Q: Can I switch paths?**
-A: No, choice is permanent (flags are exclusive)
-
-**Q: AI path preference?**
-A: Diplomats choose Austrian, Balanced choose Polish
+1. **Процвітання** — розбудувати корінні провінції.
+2. **Релігійна згода** — 90% релігійної єдності.
+3. **Руська гегемонія** — 400 розвитку, піднесення до імперії.
+4. **Русь тріумфує** — 600 розвитку, фінальна місія.
 
 ---
 
-**For full documentation, see**: docs/VOLHYNIA_AUSTRIAN_POLISH_PATHS.md
+## Швидкий стратегічний порядок
+
+**Австрійський шлях.** Спочатку союз із великою державою (HLC, HUN або POL);
+далі королівські шлюби, щонайменше п'ять; потім поширення династії на три й
+більше країн; наприкінці — управління багатонаціональною імперією.
+
+**Польський шлях.** Спочатку лояльність шляхти; далі заснування сейму (тримайте
+100 адмінки напоготові); потім три й більше університетів; наприкінці — Золота
+вольність за високої стабільності.
+
+---
+
+## Важливі прапорці
+
+| Прапорець | Значення |
+|---|---|
+| `vol_austrian_path` / `vol_constitutional_path` | вибір шляху, взаємовиключні |
+| `vol_sejm_established` | сейм діє |
+| `vol_empire_proclaimed` | здобуто ранг імперії |
+
+---
+
+## Де що лежить
+
+- **Місії**: `missions/Volhynia_Missions.txt`, від рядка 2580.
+- **Модифікатори**: `common/event_modifiers/VOL_mission_modifiers.txt`
+- **Події**: `events/VOL_path_events.txt`
+- **Локалізація**: `localisation/VOL_austrian_polish_missions_l_english.yml`
+  та `localisation/VOL_path_events_l_english.yml`
+
+---
+
+## Часті питання
+
+**Місія не з'являється.** Перевірте, чи виставлено прапорець; у консолі —
+`country_event vol_path_events.1`.
+
+**Чи можна змінити шлях?** Ні, вибір остаточний: прапорці взаємовиключні.
+
+**Що обирає ШІ?** Дипломатичні особистості схиляються до австрійського шляху,
+врівноважені — до польського.

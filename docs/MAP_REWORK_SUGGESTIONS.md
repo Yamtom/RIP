@@ -106,7 +106,7 @@
 
 ---
 
-## Overview
+## Огляд
 
 This document outlines comprehensive map rework proposals for the Ukrainian/Ruthenian region based on extensive historical research and EU4 mapping best practices. The proposals range from minimal border corrections to moderate province additions, designed to better represent the historical geography and political dynamics of 1444-1821.
 
@@ -332,7 +332,7 @@ Total increase: +7 provinces
 
 ## Wild Field Area Rework
 
-### Historical Context:
+### Історичний контекст:
 **Wild Field (Дике Поле)** = Pontic Steppe region between settled Ruthenia and Crimean/Nogai territories
 - Largely unpopulated due to constant Tatar raids (yasyr slave trade)
 - Home to Zaporozhian Cossack Sich (nomadic war camps)

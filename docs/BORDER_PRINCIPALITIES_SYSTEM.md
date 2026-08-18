@@ -1,6 +1,6 @@
 # Border Principalities System - Technical Documentation
 
-## Status
+## Стан
 
 Both chains are wired and should fire. Three separate faults had to clear
 first: every province ID in `border_principalities.1-12` pointed at the wrong
@@ -83,7 +83,7 @@ Two comments elsewhere in the repository misname these same provinces and are
 worth not trusting: `events/SteppeRaiding.txt` calls `1082` the Lower Yayik,
 which it is not. See the triage list in `docs/WORKSHOP_LISTING.md`.
 
-## Historical Context
+## Історичний контекст
 
 Between 1444 and 1520, the border region between the Grand Duchy of Lithuania and Muscovy was characterized by numerous small semi-autonomous principalities that could switch allegiance between the two powers. This instability was a key factor in the Muscovite-Lithuanian Wars of 1500-1503 and 1507-1508, which resulted in significant territorial gains for Moscow.
 
@@ -120,7 +120,7 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 **Foundation**: 1452
 **Founder**: Qasim, son of Kazan Khan
 **Purpose**: Muscovite puppet state to control Tatar vassals and justify claims on Kazan
-**Duration**: 1452-1681
+**Тривалість**: 1452-1681
 **Capital**: Qasim (Gorodets-Meshchersky)
 
 **Historical Functions**:
@@ -165,101 +165,101 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 ### Border Principalities Events (border_principalities namespace)
 
 #### Event 1: Shemyaka Heirs in Rylsk
-**Trigger**: Lithuania or Chernihiv owns Rylsk (`4543`), 1444-1500
-**MTTH**: 12 months
+**Тригер**: Lithuania or Chernihiv owns Rylsk (`4543`), 1444-1500
+**Середній час**: 12 months
 **Choice A** (AI 80%): Grant vassal autonomy → modifier `shemyaka_rurikid_rule` on province, `border_vassal_buffer` country modifier
 **Choice B** (AI 20%): Direct control → stability or adm power, +3 unrest in Rylsk
 
 #### Event 2: Glinski Family and Mamai's Descendants
-**Trigger**: Lithuania or Chernihiv owns Bryansk (`297`) or Novgorod-Seversky (`1945`), 1444-1500
-**MTTH**: 18 months
+**Тригер**: Lithuania or Chernihiv owns Bryansk (`297`) or Novgorod-Seversky (`1945`), 1444-1500
+**Середній час**: 18 months
 **Choice A** (AI 70%): Grant lands to Glinski → `glinski_tatar_settlement` modifier on random Severia/Bryansk province, +1 base manpower, `tatar_border_defense` country modifier (25 years)
 **Choice B** (AI 30%): Refuse petition → +5 prestige, `refused_powerful_family` negative modifier (10 years)
 
 #### Event 3: Jagoldai Khanate Settlement
-**Trigger**: Lithuania or Chernihiv owns Kursk (`298`), 1444-1480
-**MTTH**: 24 months
+**Тригер**: Lithuania or Chernihiv owns Kursk (`298`), 1444-1480
+**Середній час**: 24 months
 **Choice A** (AI 75%): Accept Jagoldai → `jagoldai_horde_settlement` modifier on Kursk, +50 mil power, `horde_vassal_buffer` country modifier (25 years)
 **Choice B** (AI 25%): Refuse → +10 legitimacy, +2 unrest in Kursk
 
 #### Event 4: Rylsk Defects to Muscovy
-**Trigger**: Lithuania or Chernihiv owns Rylsk with `shemyaka_rurikid_rule`, 1500-1510, Muscovy exists and neighbors Lithuania
-**MTTH**: 36 months (faster if low legitimacy or at war)
+**Тригер**: Lithuania or Chernihiv owns Rylsk with `shemyaka_rurikid_rule`, 1500-1510, Muscovy exists and neighbors Lithuania
+**Середній час**: 36 months (faster if low legitimacy or at war)
 **Choice A** (AI 60%): Keep loyal → -10 prestige, +10 legitimacy, 30% defects anyway triggering Event 5, 70% keeps `strengthened_border_vassals`
 **Choice B** (AI 10%): Peaceful transfer → Rylsk cedes to Muscovy, -15 prestige, truce
 **Choice C** (AI 30%): War → Declares restoration war on Muscovy
 
 #### Event 5: Muscovy Receives Rylsk (triggered by Event 4)
-**Result**: Muscovy gains Rylsk, +10 prestige, +5 legitimacy, core CB on Lithuania (10 years)
+**Результат**: Muscovy gains Rylsk, +10 prestige, +5 legitimacy, core CB on Lithuania (10 years)
 
 #### Event 6: Glinski Rebellion Brewing
-**Trigger**: Lithuania or Chernihiv has Glinski province, 1507-1515, Muscovy exists
-**MTTH**: 24 months (faster if low legitimacy or revolts present)
+**Тригер**: Lithuania or Chernihiv has Glinski province, 1507-1515, Muscovy exists
+**Середній час**: 24 months (faster if low legitimacy or revolts present)
 **Choice A** (AI 40%): Negotiate → -10 prestige, -0.3 years income, 60% Glinski stays loyal (`glinski_appeasement`), 40% triggers Event 7
 **Choice B** (AI 30%): Suppress → -50 mil power, 2 noble rebel stacks spawn (friendly to Muscovy)
 **Choice C** (AI 30%): Exile Glinski → triggers Event 8, removes modifier, +20 devastation on province
 
 #### Event 7: Glinski Full Rebellion (triggered by Event 6)
-**Result**: 3 noble rebel stacks spawn, Muscovy gets support rebels CB (5 years)
+**Результат**: 3 noble rebel stacks spawn, Muscovy gets support rebels CB (5 years)
 
 #### Event 8: Muscovy Receives Glinski Defectors (triggered by Event 6.c)
-**Result**: +15 prestige, +10 legitimacy, +50 adm power, `glinski_advisors_muscovy` modifier (20 years), core CB on Lithuania (10 years)
+**Результат**: +15 prestige, +10 legitimacy, +50 adm power, `glinski_advisors_muscovy` modifier (20 years), core CB on Lithuania (10 years)
 
 #### Event 9: Jagoldai Switches Allegiance
-**Trigger**: Lithuania or Chernihiv owns Kursk with `jagoldai_horde_settlement`, 1492-1505, Muscovy exists
-**MTTH**: 48 months (faster if Muscovy stronger or Lithuania at war)
+**Тригер**: Lithuania or Chernihiv owns Kursk with `jagoldai_horde_settlement`, 1492-1505, Muscovy exists
+**Середній час**: 48 months (faster if Muscovy stronger or Lithuania at war)
 **Choice A** (AI 50%): Retain loyalty → -0.25 years income, 40% stays loyal, 60% triggers Event 10
 **Choice B** (AI 20%): Let go → Kursk cedes to Muscovy, -10 prestige
 **Choice C** (AI 30%): War → Declares annexation war on Muscovy
 
 #### Event 10: Muscovy Receives Jagoldai (triggered by Event 9)
-**Result**: Kursk cedes to Muscovy, removes old modifier, applies `jagoldai_muscovite_service`, +10 prestige, +50 mil power
+**Результат**: Kursk cedes to Muscovy, removes old modifier, applies `jagoldai_muscovite_service`, +10 prestige, +50 mil power
 
 #### Event 11: Starodub Switching Allegiance
-**Trigger**: Lithuania or Chernihiv owns Starodub (`4244`) or Novgorod-Seversky (`1945`), 1500-1510, Muscovy neighbor
-**MTTH**: 30 months (faster if at war or Muscovy militarily stronger)
+**Тригер**: Lithuania or Chernihiv owns Starodub (`4244`) or Novgorod-Seversky (`1945`), 1500-1510, Muscovy neighbor
+**Середній час**: 30 months (faster if at war or Muscovy militarily stronger)
 **Choice A** (AI 70%): Fight → Muscovy gets core CB (10 years), triggers Event 12
 **Choice B** (AI 30%): Let go → -20 prestige, random Severia/Bryansk province cedes to Muscovy, truce
 
 #### Event 12: Muscovy Receives Starodub Offer (triggered by Event 11)
-**Result**: +15 prestige, +10 legitimacy, core CB on Lithuania (10 years)
+**Результат**: +15 prestige, +10 legitimacy, core CB on Lithuania (10 years)
 
 ### Qasim Khanate Events (qasim_khanate namespace)
 
 #### Event 1: Foundation of Qasim Khanate
-**Trigger**: Muscovy owns Qasim province, 1450-1460, Kazan exists and not allied
-**MTTH**: 24 months (faster if rival to Kazan or at war with Kazan)
+**Тригер**: Muscovy owns Qasim province, 1450-1460, Kazan exists and not allied
+**Середній час**: 24 months (faster if rival to Kazan or at war with Kazan)
 **Choice A** (AI 80%): Create khanate → `qasim_khanate_capital` on province, `qasim_khanate_vassal` country modifier (permanent), release and vassalize QAS, QAS gets `kazan_pretender_claims`, Kazan gets negative opinion
 **Choice B** (AI 20%): Direct control → +50 adm power, +1 base tax on Qasim
 
 #### Event 2: Qasim Attacks Kazan
-**Trigger**: Muscovy has QAS vassal with claims, 1467-1550, Kazan exists, not at war/allied with Kazan
-**MTTH**: 120 months (faster if rival to Kazan or Kazan weak)
+**Тригер**: Muscovy has QAS vassal with claims, 1467-1550, Kazan exists, not at war/allied with Kazan
+**Середній час**: 120 months (faster if rival to Kazan or Kazan weak)
 **Choice A** (AI 60%): Military support → Declares restoration PU war on Kazan, QAS -20 liberty desire
 **Choice B** (AI 30%): Diplomatic pressure → Kazan gets threatened opinion, -5 prestige
 **Choice C** (AI 10%): Restrain vassal → QAS +10 liberty desire, +25 dip power
 
 #### Event 3: Fate of Conquered Kazan
-**Trigger**: Muscovy owns Kazan capital, 1467-1552, QAS exists as vassal, Kazan doesn't exist
-**MTTH**: 6 months
+**Тригер**: Muscovy owns Kazan capital, 1467-1552, QAS exists as vassal, Kazan doesn't exist
+**Середній час**: 6 months
 **Choice A** (AI 40%): Install Qasim Khan → Kazan area gets QAS core, release and vassalize QAS (now ruling Kazan), QAS gets `muscovite_puppet_khan`, QAS -30 liberty desire
 **Choice B** (AI 60%): Annex directly → Kazan area gets `conquered_khanate` modifier (20 years), QAS +20 liberty desire
 
 #### Event 4: Qasim Khanate Integration
-**Trigger**: Muscovy has QAS vassal, 1550-1700
-**MTTH**: 240 months (faster if Kazan conquered or high ADM)
+**Тригер**: Muscovy has QAS vassal, 1550-1700
+**Середній час**: 240 months (faster if Kazan conquered or high ADM)
 **Choice A** (AI 70%): Integrate → Inherit QAS, Qasim province gets `former_qasim_khanate`, country gets `tatar_nobility_integrated` (permanent)
 **Choice B** (AI 30%): Keep vassal → QAS -20 liberty desire, QAS gets `loyal_tatar_vassal`
 
 #### Event 5: Lipka Tatars Seek Settlement
-**Trigger**: Lithuania, 1440-1500, owns provinces in White Ruthenia/Minsk/Pripyat areas
-**MTTH**: 60 months
+**Тригер**: Lithuania, 1440-1500, owns provinces in White Ruthenia/Minsk/Pripyat areas
+**Середній час**: 60 months
 **Choice A** (AI 80%): Welcome Lipka → Random qualifying province gets `lipka_tatar_settlement`, +1 base manpower, country gets `lipka_tatar_cavalry_tradition` (permanent)
 **Choice B** (AI 20%): Refuse → +5 prestige, +25 adm power
 
 #### Event 6: Lipka Tatars' Loyalty
-**Trigger**: Commonwealth (tag PLC), 1569-1700, has province with `lipka_tatar_settlement`
-**MTTH**: 120 months
+**Тригер**: Commonwealth (tag PLC), 1569-1700, has province with `lipka_tatar_settlement`
+**Середній час**: 120 months
 **Choice A** (AI 70%): Reward loyalty → -0.2 years income, all Lipka provinces get `lipka_tatar_privileges` (20 years), country gets `tatar_nobility_service` (25 years)
 **Choice B** (AI 30%): Status quo → +25 mil power
 
@@ -303,7 +303,7 @@ Between 1444 and 1520, the border region between the Grand Duchy of Lithuania an
 | `tatar_nobility_integrated` | +10% cavalry power, +2 tolerance heathen, +1 diplomatic reputation | Permanent | qasim_khanate.4.a |
 | `loyal_tatar_vassal` | +15% cavalry power, -30 liberty desire | Permanent | qasim_khanate.4.b |
 
-## Integration with Existing Systems
+## Інтеграція з наявними системами
 
 ### Steppe Raiding System
 The border principalities system integrates with the steppe raiding mechanics:

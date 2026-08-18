@@ -60,7 +60,7 @@
 
 ---
 
-## Scope
+## Обсяг
 - Files normalized: `common/province_names/HET.txt`, `common/province_names/ZAZ.txt`.
 - Method: dedup to `1 province ID = 1 active name` using **last-entry-wins** baseline.
 - Legacy policy: no direct import from `ruthenianew/common/province_names/*`.
