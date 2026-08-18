@@ -1,4 +1,4 @@
-# RutheniaNew Extraction Audit Matrix (for RIP)
+# Матриця аудиту вилучення з RutheniaNew (для RIP)
 
 > **Історичний запис. Джерела більше немає.** Теки `ruthenianew/` у
 > репозиторії не існує, тож матрицю нижче не можна ані перевірити проти неї,
@@ -11,14 +11,14 @@
 > `localisation/het_legacy_eras_l_english.yml`), а `history/wars/` справді вже
 > вживає `PDL` і жодного `POD`. Один рядок матриці застарів - див. поправку.
 
-## Scope and rule set
-- Source: `ruthenianew/`
-- Mode: audit-only extraction (no direct import of map/tradenodes/history blobs from legacy files).
-- Target: useful additions for current RIP Ruthenian/Hetmanate content with minimal conflict risk.
+## Обсяг і правила
+- Джерело: `ruthenianew/`
+- Режим: лише аудит, без прямого імпорту карти, торгових вузлів чи історичних блобів зі старих файлів.
+- Ціль: корисні доповнення до чинного руського й гетьманського вмісту RIP з мінімальним ризиком конфлікту.
 
-## Classification matrix
+## Матриця класифікації
 
-| Source block | Category | Classification | Target path in RIP | Status | Notes |
+| Блок джерела | Категорія | Класифікація | Шлях у RIP | Стан | Примітки |
 |---|---|---|---|---|---|
 | `ruthenianew/common/countries/*.txt` | countries | obsolete/renamed | n/a (reference-only) | deferred | Legacy definitions overlap current country setup; no direct merge needed. |
 | `ruthenianew/common/country_tags/00_countries.txt` | tags | obsolete/renamed | `common/country_tags/01_countries.txt` | deferred | Legacy uses `POD`; active war/history flows in RIP use `PDL` for Podillia timeline. |
@@ -34,18 +34,18 @@
 | `ruthenianew/localisation/Ruthenia_mod_l_english.yml` | localisation | already integrated | `localisation/ruthenian_eastward_l_english.yml` and other RIP loc files | done | Core names/strings are already represented in current localization layers. |
 | `ruthenianew/gfx/flags/*.tga` | assets | safe candidate | `gfx/flags/*.tga` | deferred | Optional visual backlog; can be imported per-tag if custom flag direction is approved. |
 
-## Legacy tag normalization
-- Required mapping for any future legacy extraction: `POD -> PDL`.
-- Impact: legacy war/history snippets that still reference `POD` must be remapped before reuse.
-- Current RIP evidence: `history/wars/*.txt` already uses `PDL` in active war scripts.
+## Нормалізація старих тегів
+- Обов'язкове відображення для будь-якого майбутнього вилучення: `POD -> PDL`.
+- Наслідок: старі уривки воєн та історії, що й досі згадують `POD`, треба перемапити перед повторним ужитком.
+- Підтвердження в RIP: `history/wars/*.txt` уже вживає `PDL` в активних скриптах воєн.
 
-## Extraction outcome for this iteration
-- Kept audit-only stance for legacy raw data.
-- Expanded existing Hetmanate event-chain architecture instead of adding a new mission tree:
+## Результат вилучення в цій ітерації
+- Збережено позицію «лише аудит» щодо старих сирих даних.
+- Розширено наявну архітектуру гетьманських ланцюгів подій замість додавання нового дерева місій:
   - `decisions/HetmanateLegacyErasDecisions.txt`
   - `events/HetmanateLegacyEras.txt`
   - `localisation/het_legacy_eras_l_english.yml`
 
-## Backlog candidates
-- Optional flag art migration from `ruthenianew/gfx/flags/*.tga` after art direction is confirmed.
-- Optional selective province-name diff pass for `HET` and `ZAZ` only.
+## Кандидати в беклог
+- Необов'язкове перенесення графіки прапорів із `ruthenianew/gfx/flags/*.tga` після узгодження арт-напрямку.
+- Необов'язковий вибірковий прохід по різниці назв провінцій лише для `HET` і `ZAZ`.

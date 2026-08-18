@@ -143,28 +143,8 @@ russian_orthodox = {
 ### 2. Aspects System (7 Total)
 
 Each aspect follows this template:
-```
-aspect_name = {
-    sprite = 1
-    cost = 100
-
-    trigger = {
-        # Conditions for availability
-    }
-
-    effect = {
-        # Stat modifiers
-    }
-
-    modifiers = {
-        # Country modifiers
-    }
-
-    ai_will_do = {
-        factor = X
-    }
-}
-```
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні аспекти дивіться в `common/church_aspects/RIP_church_aspects.txt`.
 
 **Aspect Triggers Design:**
 - Third Rome Mission: `owns = 295` (Moscow)
@@ -184,16 +164,8 @@ aspect_name = {
 ### 3. Blessings System (7 Total)
 
 Template:
-```
-blessing_name = {
-    cost = 50
-    duration = 7300  # 20 years
-
-    modifiers = {
-        # Temporary bonuses
-    }
-}
-```
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні благословення дивіться в `common/church_aspects/RIP_church_aspects.txt`.
 
 **Balance Rationale:**
 - 50 CP cost = half of aspect cost
@@ -206,30 +178,8 @@ blessing_name = {
 ### 4. Event System (`events/RussianOrthodox.txt`)
 
 **Event Structure:**
-```
-namespace = russian_orthodox
-
-country_event = {
-    id = russian_orthodox.X
-    title = russian_orthodox.X.t
-    desc = russian_orthodox.X.d
-    picture = ORTHODOX_ICON_eventPicture
-
-    trigger = {
-        # Firing conditions
-    }
-
-    mean_time_to_happen = {
-        months = Y
-        modifier = { ... }
-    }
-
-    option = {
-        name = russian_orthodox.X.a
-        # Effects
-    }
-}
-```
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні події дивіться в `events/RussianOrthodox.txt`.
 
 **Event Categories:**
 
@@ -268,28 +218,8 @@ country_event = {
 ### 5. Decision System (`decisions/RussianOrthodoxDecisions.txt`)
 
 **Decision Template:**
-```
-decision_name = {
-    major = yes/no
-
-    potential = {
-        # Who can see this decision
-    }
-
-    allow = {
-        # Requirements to take decision
-    }
-
-    effect = {
-        # What happens when taken
-    }
-
-    ai_will_do = {
-        factor = X
-        modifier = { ... }
-    }
-}
-```
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні рішення дивіться в `decisions/RussianOrthodoxDecisions.txt`.
 
 **Decision Types:**
 
@@ -362,13 +292,8 @@ decision_name = {
 9. `can_proclaim_orthodox_empire` → Empire proclamation eligibility
 
 **Design Pattern:**
-```
-trigger_name = {
-    religion = russian_orthodox
-    # Additional conditions
-    OR/AND/NOT logical gates
-}
-```
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні тригери дивіться в `common/scripted_triggers/russian_orthodox_triggers.txt`.
 
 **Usage in Code:**
 - Events: `trigger = { is_russian_orthodox_nation = yes }`
@@ -399,15 +324,8 @@ trigger_name = {
 15. `siberian_mission_success_effect` → Siberian expansion
 
 **Design Pattern:**
-```
-effect_name = {
-    # Complex multi-step operations
-    add_country_modifier = { ... }
-    change_religion = { ... }
-    add_prestige = X
-    # etc.
-}
-```
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні ефекти дивіться в `common/scripted_effects/russian_orthodox_effects.txt`.
 
 **Benefits:**
 - Code reusability across events/decisions
@@ -420,16 +338,8 @@ effect_name = {
 ### 9. On_Actions Integration (`common/on_actions/russian_orthodox_on_actions.txt`)
 
 **Structure:**
-```
-on_actions = {
-    pulse_name = {
-        events = {
-            russian_orthodox.X
-            russian_orthodox.Y
-        }
-    }
-}
-```
+> Шаблон прибрано: це загальний синтаксис EU4, а не щось
+> специфічне для мода. Чинні on_actions дивіться в `common/on_actions/russian_orthodox_on_actions.txt`.
 
 **Integration Points:**
 

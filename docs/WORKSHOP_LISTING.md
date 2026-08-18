@@ -62,7 +62,7 @@ crisis, hetman succession, the Opryshky rising in the Carpathians, and the
 confessional, Cossack and Ottoman crises in Podillia.
 
 [h3]Depth[/h3]
-608 events and 131 decisions, written to a documented style: named
+623 events and 131 decisions, written to a documented style: named
 institutions rather than abstractions, and no anachronism. Every event carries
 an authenticity grade in its file header - A for documented, B for
 extrapolated - so you can see where the mod follows the record and where it
@@ -81,7 +81,7 @@ For the Workshop's change notes, forum posts and the README.
 
 - 19 new playable tags with national ideas, government reforms and flags
 - 11 mission trees, 524 missions in total
-- 608 events, 131 decisions
+- 623 events, 131 decisions
 - Russian Orthodox religion with 21 church aspects
 - Uniate church and the Union of Brest as a confessional fault line
 - Cossack estate rebuilt on the Rada, the bulava and the register
@@ -149,7 +149,7 @@ the author did not mean.
 | `events/SteppeRaiding.txt:504` | `1082` | **Kazan** | Lower Yayik |
 | `common/scripted_triggers/zaz_het_triggers.txt:51` | `2410` | Theodoro | Khortytsia |
 | `common/scripted_triggers/zaz_het_triggers.txt:52` | `2411` | Mansur | Samara |
-| `common/scripted_triggers/zaz_het_triggers.txt:269` | `2408` | Lipetsk | Sumy |
+| `common/scripted_triggers/zaz_het_triggers.txt:267` | `2408` | Lipetsk | Sumy |
 | `missions/Podillia_Missions.txt:158` | `4749` | Stargard | "Example province in Pontic Steppe" |
 | `missions/Podillia_Missions.txt:159` | `4750` | Kruje | "Add more Pontic Steppe province IDs as needed" |
 | `missions/Zakarpatta_Missions.txt:761` | `2960` | Sadecki | Novi Sad |
