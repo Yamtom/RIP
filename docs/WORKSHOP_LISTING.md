@@ -3,6 +3,10 @@
 Усе потрібне для сторінки в майстерні, зібране в репозиторії, щоб текст і
 вміст мода не розходилися. Елемент майстерні `2563577714`, EU4 `1.37.5`.
 
+> **Числа звірено з файлами 18 серпня 2026.** 19 тегів, 11 файлів місій на 555
+> місій, 133 рішення, 623 події, 12 лих, 21 церковний аспект, дві великі
+> споруди. Розійшлися були тільки підсумки місій і рішень.
+
 > **Розділ 3 навмисно лишається англійською.** Це готовий текст для
 > англомовної вітрини Steam: переклад зламав би його призначення. Українською
 > подано все пояснювальне навколо.
@@ -44,8 +48,8 @@ the Kharkov Host), the Polishchuks, and the northern principalities of Minsk,
 Turov, Vitebsk and Mstislav, with Belarus as their union.
 
 [h3]Missions[/h3]
-Eleven mission trees and 524 missions in all, including full-length trees for
-Zaporozhia (142 missions), Russia (74), Volhynia (66), Chernihiv (62),
+Eleven mission trees and 555 missions in all, including full-length trees for
+Zaporozhia (142 missions), Russia (100), Volhynia (66), Chernihiv (62),
 Transcarpathia (50) and Kyiv (49), plus Podillia, Pereiaslav, the Hetmanate,
 the Commonwealth rework and the Russian minors.
 
@@ -66,7 +70,7 @@ crisis, hetman succession, the Opryshky rising in the Carpathians, and the
 confessional, Cossack and Ottoman crises in Podillia.
 
 [h3]Depth[/h3]
-623 events and 131 decisions, written to a documented style: named
+623 events and 133 decisions, written to a documented style: named
 institutions rather than abstractions, and no anachronism. Every event carries
 an authenticity grade in its file header - A for documented, B for
 extrapolated - so you can see where the mod follows the record and where it
@@ -84,8 +88,8 @@ provinces or the Commonwealth mission tree.
 Для нотаток про зміни в майстерні, дописів на форумі та README.
 
 - 19 нових ігрових країн із національними ідеями, урядовими реформами й прапорами
-- 11 дерев місій, разом 524 місії
-- 623 події, 131 рішення
+- 11 дерев місій, разом 555 місій
+- 623 події, 133 рішення
 - Російське православ'я з 21 церковним аспектом
 - Унійна церква та Берестейська унія як лінія розлому у вірі
 - Козацький стан, перебудований навколо ради, булави й реєстру
@@ -124,15 +128,21 @@ provinces or the Commonwealth mission tree.
 
 ## 6. Перед публікацією
 
-Запустіть обидві перевірки з кореня мода й прочитайте вивід:
+Запустіть усі вісім перевірок з кореня мода й прочитайте вивід:
 
 ```
 python tests/check_script_layer.py
+python tests/check_glossary.py
+python tests/check_clausewitz_braces.py
+python tests/check_claim_pacing.py
+python tests/check_subject_cb_limits.py
+python tests/check_border_principalities.py
+python tests/check_steppe_expansions.py
+python tests/check_docs_language.py
 ```
 
-```
-python tests/check_glossary.py
-```
+Сім із них мають пройти мовчки. `check_script_layer.py` дає десять помилок, і
+всі десять — свідомо лишені рішення автора; їхній перелік у розділі 7 нижче.
 
 `check_script_layer.py` потребує встановленої EU4, щоб дати правдиву
 відповідь: мод успадковує більшу частину локалізації від ванілі. Він знаходить

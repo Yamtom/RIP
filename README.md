@@ -1,11 +1,12 @@
 # Alternative Ruthenian Immersion Pack
 
-A regional immersion expansion for Europa Universalis IV 1.37.5 focused on
-Ruthenia, the Cossack frontier, Polesia, and the Carpathian borderlands.
+Регіональне занурення для Europa Universalis IV 1.37.5: Русь, козацьке
+порубіжжя, Полісся й карпатські марки.
 
-- [Game Design Document](docs/GAME_DESIGN_DOCUMENT.uk.md)
-- [Technical migration record](docs/CANONICAL_ROOT_MIGRATION.md)
+- [Проєктний документ](docs/GAME_DESIGN_DOCUMENT.uk.md)
+- [Запис технічної міграції](docs/CANONICAL_ROOT_MIGRATION.md)
+- [Передача контексту](docs/HANDOFF.md) — стан мода, перевірки й рішення, що чекають на автора
 
-The only playable mod root is this repository root. Do not add nested
-`descriptor.mod` files, nested Git repositories, or files outside EU4's
-supported loader directories.
+Ігровий корінь мода — і тільки він — це корінь цього репозиторію. Не додавайте
+вкладених `descriptor.mod`, вкладених репозиторіїв Git і файлів поза теками,
+які завантажує EU4.

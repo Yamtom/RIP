@@ -44,7 +44,7 @@ CHR — незалежна республіка Сіверського віча 
 Ланцюг початково мав ID провінцій, які не збігалися з коментарями поруч; кожен
 тригер указував не туди, і найгірше — `295`, це Москва, а не Рильськ. Нижче
 наведено ті ID, які справді відповідають описові в
-own `history/provinces/` files define. On who володіє them at game start, see the
+власні файли `history/provinces/`. Про те, хто ними володіє на початку гри, — у
 розділі вище.
 
 | Провінція | ID | Було (хибно) | Де вживається |
@@ -59,7 +59,7 @@ own `history/provinces/` files define. On who володіє them at game start,
 
 `QAS` — тег із ванілі: `common/country_tags/00_countries.txt` відсилає до
 `countries/QasimKhanate.txt`, а ваніль дає йому осердя на `1778` Касимові.
-It is dormant rather than absent: Muscovy володіє Kasimov in 1444 and no vanilla
+Воно радше спить, ніж відсутнє: Касимовом 1444 року володіє Москва, і жодна ванільна
 жодна подія ванілі QAS не звільняє, тож мод може це зробити сам. ID провінцій
 у ланцюгу правильні: `1778` — Касимов, `1082` — Казань.
 
@@ -90,21 +90,21 @@ was returning every six місяців.
 ### Ключові історичні князівства
 
 1. **Rylsk Principality (Рыльское княжество)**
-   - **Правителі**: Descendants of Dmitri Shemyaka, a Rurikid prince who contested the throne of Moscow
-   - **Стан**: Lithuanian vassal with considerable autonomy
+   - **Правителі**: нащадки Дмитра Шемяки, Рюриковича, який змагався за московський стіл
+   - **Стан**: литовський васал зі значною автономією
    - **Історична доля**: Switched to Muscovy during 1500-1503 war
-   - **Значення**: Shemyaka's descendants had legitimate claims to Russian lands, making them valuable diplomatic assets
+   - **Значення**: Шемячичі мали законні права на руські землі, а отже були цінною картою в дипломатії
 
 2. **Hlinsk/Glinski Lands (Глинские земли)**
-   - **Правителі**: Glinski family, claiming descent from Mamai (Mongol general)
+   - **Правителі**: рід Глинських, що виводив себе від темника Мамая
    - **Військо**: Commanded Tatar cavalry loyal to the family
    - **Повстання**: 1507-1508 Glinski rebellion, switched to Muscovy
-   - **Спадок**: Elena Glinskaya (from this family) became mother of Ivan IV (the Terrible)
-   - **Значення**: Provided crucial border defense against steppe raids using Tatar troops
+   - **Спадок**: Олена Глинська з цього роду стала матір'ю Івана IV Грозного
+   - **Значення**: тримали рубіж проти степових набігів татарською кіннотою
 
 3. **Jagoldai Settlement (Ягольдаева волость)**
    - **Правитель**: Jagoldai, Golden Horde pretender
-   - **Стан**: Tatar military settlement under Lithuanian protection
+   - **Стан**: татарська військова осада під литовським захистом
    - **Розташування**: South of Kursk, modern Belgorod region
    - **Історична доля**: Passed to Muscovy in 1492-1494 border war
    - **Роль**: Buffer zone against Nogai and Crimean raids
@@ -112,14 +112,14 @@ was returning every six місяців.
 4. **Severian Principalities (Северские княжества)**
    - **Головні міста**: Starodub, Chernigov, Novgorod-Seversky
    - **Перехід**: 1500-1503, major territorial loss for Lithuania
-   - **Причина**: Orthodox Rus' princes preferred Muscovite rule
+   - **Причина**: православні руські князі воліли московську руку
    - **Наслідок**: рівновага сил помітно схилилася до Москви
 
 ### The Qasim Khanate (Касимовское ханство)
 
 **Заснування**: 1452
 **Засновник**: Qasim, son of Kazan Khan
-**Призначення**: Muscovite puppet state to control Tatar vassals and justify claims on Kazan
+**Призначення**: московська маріонеткова держава, щоб тримати татарських васалів і виправдати права на Казань
 **Тривалість**: 1452-1681
 **Столиця**: Qasim (Gorodets-Meshchersky)
 
@@ -137,7 +137,7 @@ was returning every six місяців.
 
 ### Lipka Tatars (Липки)
 
-**Походження**: Tatars who settled in Grand Duchy of Lithuania/Polish-Lithuanian Commonwealth
+**Походження**: татари, що осіли у Великому князівстві Литовському та Речі Посполитій
 **Хронологія**: 14th-17th centuries
 **Релігія**: Sunni Islam
 **Мова**: Turkic languages, later Polish/Belarusian

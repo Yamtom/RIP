@@ -1,19 +1,20 @@
-# Dev tools
+# Інструменти розробки
 
-Not loaded by the game. EU4 reads `events/` and `localisation/` at the mod
-root only, so anything here is inert until it is copied back.
+Гра цього не завантажує. EU4 читає `events/` і `localisation/` тільки в корені
+мода, тож усе, що лежить тут, лишається мертвим, доки його не скопіюють назад.
 
 ## ZAZ_branch_debug
 
-Jumps the Zaporozhian tree to any of its five alliance branches by clearing
-the `zaz_allied_*` flags and setting one, then calling
-`swap_non_generic_missions`. It is `is_triggered_only` and nothing fires it,
-so it was only ever reachable from the console — which is exactly why it does
-not belong in a release build.
+Перекидає запорізьке дерево на будь-яку з п'яти союзних гілок: чистить прапорці
+`zaz_allied_*`, ставить один із них і викликає `swap_non_generic_missions`.
+Подія має `is_triggered_only`, і ніщо її не викликає, тож дістатися до неї можна
+було лише з консолі — саме тому їй і не місце в збірці для гравців.
 
-To use it while testing, copy both files back to `events/` and
-`localisation/`, then in the console:
+Щоб скористатися нею під час випробувань, скопіюйте обидва файли назад до
+`events/` і `localisation/`, а тоді в консолі:
 
-    event zaz_branch_debug.1
+```text
+event zaz_branch_debug.1
+```
 
-Remove them again before packaging.
+Перед пакуванням приберіть їх знову.

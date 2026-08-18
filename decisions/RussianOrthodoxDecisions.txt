@@ -231,73 +231,103 @@ country_decisions = {
 		}
 	}
 
-
-}
-
-# The two province decisions the documentation has always listed as items 8
-# and 9. force_convert_province_effect and russify_province_effect were
-# written and then never called by anything; these are the callers.
-province_decisions = {
+	# EU4 has no province_decisions table, so the earlier version of these two
+	# was parsed as a corrupt entry and dropped, which left
+	# force_convert_province_effect and russify_province_effect uncalled. As
+	# country decisions they take one qualifying province per use, which keeps
+	# the price the province version asked for.
 
 	force_convert_province_decision = {
 		potential = {
-			owner = {
-				religion = russian_orthodox
-				has_country_modifier = orthodox_inquisition
+			religion = russian_orthodox
+			has_country_modifier = orthodox_inquisition
+			any_owned_province = {
+				NOT = { religion = russian_orthodox }
+				is_city = yes
 			}
-			NOT = { religion = russian_orthodox }
-			is_city = yes
 		}
 
-		allow = {
-			owner = {
-				adm_power = 50
-				religious_unity = 0.5
-			}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = { religion = russian_orthodox }
+			is_city = yes
 			NOT = { unrest = 5 }
 		}
 
+		allow = {
+			adm_power = 50
+			religious_unity = 0.5
+			any_owned_province = {
+				NOT = { religion = russian_orthodox }
+				is_city = yes
+				NOT = { unrest = 5 }
+			}
+		}
+
 		effect = {
-			owner = { add_adm_power = -50 }
-			force_convert_province_effect = yes
+			add_adm_power = -50
+			random_owned_province = {
+				limit = {
+					NOT = { religion = russian_orthodox }
+					is_city = yes
+					NOT = { unrest = 5 }
+				}
+				force_convert_province_effect = yes
+			}
 		}
 
 		ai_will_do = {
 			factor = 1
 			modifier = {
 				factor = 0
-				development = 20
+				NOT = { religious_unity = 0.7 }
 			}
 		}
 	}
 
 	russify_province_decision = {
 		potential = {
-			owner = {
-				religion = russian_orthodox
-				has_country_modifier = forced_russification
+			religion = russian_orthodox
+			has_country_modifier = forced_russification
+			any_owned_province = {
+				NOT = { culture_group = east_slavic }
+				is_city = yes
 			}
-			NOT = { culture_group = east_slavic }
-			is_city = yes
 		}
 
-		allow = {
-			owner = { dip_power = 50 }
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = { culture_group = east_slavic }
+			is_city = yes
 			religion = russian_orthodox
 			NOT = { unrest = 5 }
 		}
 
+		allow = {
+			dip_power = 50
+			any_owned_province = {
+				NOT = { culture_group = east_slavic }
+				is_city = yes
+				religion = russian_orthodox
+				NOT = { unrest = 5 }
+			}
+		}
+
 		effect = {
-			owner = { add_dip_power = -50 }
-			russify_province_effect = yes
+			add_dip_power = -50
+			random_owned_province = {
+				limit = {
+					NOT = { culture_group = east_slavic }
+					is_city = yes
+					religion = russian_orthodox
+					NOT = { unrest = 5 }
+				}
+				russify_province_effect = yes
+			}
 		}
 
 		ai_will_do = {
 			factor = 1
-			modifier = {
-				factor = 0
-				development = 20
-			}
 		}
 	}
 }
