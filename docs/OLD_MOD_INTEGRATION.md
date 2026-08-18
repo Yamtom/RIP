@@ -9,14 +9,14 @@
 ## 1. Вилучена локалізація
 
 ### Теги й назви країн
-- **HET:** Hetmanate
-- **HAL:** Halych
-- **HVL:** Halych-Volhynia
-- **POD:** Podolia
-- **VOL:** Volyn
-- **ZAZ:** Zaporozhie
+- **HET:** Гетьманщина
+- **HAL:** Галич
+- **HVL:** Галицько-Волинська держава
+- **POD:** Поділля
+- **VOL:** Волинь
+- **ZAZ:** Запорожжя
 
-### Historical Province Names (East Slavic)
+### Історичні назви провінцій (східнослов'янські)
 
 > **Знято у серпні 2026.** Цей блок був перенесений із legacy-моду разом із
 > припущенням, що 4651-4655 - вільні ID під українські провінції. Це не так:
@@ -46,40 +46,40 @@
 Внесено до `history/countries/HET - Hetmanate.txt`:
 
 ### Раннє козацьке проводирство (1506–1577)
-- Lyantskoronsky (1506)
-- Kishka (1534)
-- Vishnevetsky-Bayda (1550)
-- Ivan Svirgovsky (1573)
+- Лянцкоронський (1506)
+- Кішка (1534)
+- Вишневецький-Байда (1550)
+- Іван Свірговський (1573)
 
 ### Доба Хмельницького (1648)
-- **1648.1.25:** Khmelnytsky Uprising  
+- **1648.1.25:** повстання Хмельницького  
   - націоналістичні повстанці беруть гору, починається війна
-- **1649.8.18:** Treaty of Zboriv  
+- **1649.8.18:** Зборівський договір  
   - Гетьманщина здобуває формальне визнання
 - Доданий модифікатор: **khmelnitsky_uprising**
 
 ### Доба Руїни й Дорошенко (1663–1668)
-- Pavlo Teteria (1663)
-- Petro Doroshenko (1665)
+- Павло Тетеря (1663)
+- Петро Дорошенко (1665)
 - Доданий модифікатор: **het_divided_state** (Polish-Russian split)
 
 ### Золота доба Мазепи (1687–1708)
-- **Ivan Mazepa** (1687–1708)  
+- **Іван Мазепа** (1687–1708)  
   - культурне й військове відродження
 - Доданий модифікатор: **mazepa_golden_age** (+legitimacy, -idea cost, +global manpower)
-- **1708.11.1:** Great Northern War independence attempt
+- **1708.11.1:** спроба здобути волю за Великої Північної війни
 
 ### Після Мазепи: російські репресії (1709–1722)
-- Ivan Skoropadsky (1709)
+- Іван Скоропадський (1709)
 - Доданий модифікатор: **het_russian_repression** (-legitimacy, -diplomatic reputation)
-- **1722–1727:** Abolished; Little Russian Collegium installed
+- **1722–1727:** гетьманство скасовано, заведено Малоросійську колегію
   - Доданий модифікатор: **het_little_russian_collegium**
 
 ### Пізнє відновлення Гетьманщини (1727–1764)
-- Danylo Apostol (1727)
-- Kyrylo Rozumovsky (1750, last elected Hetman)
+- Данило Апостол (1727)
+- Кирило Розумовський (1750, останній обраний гетьман)
 - Доданий модифікатор: **het_reformed_election_system**
-- **1764.11.10:** Final abolition of Hetmanate
+- **1764.11.10:** остаточне скасування Гетьманщини
   - Доданий модифікатор: **het_abolished** (-diplomatic reputation, -legitimacy, +local autonomy)
 
 ---
@@ -91,23 +91,23 @@
 | Модифікатор | Ефекти | Контекст |
 |----------|---------|---------|
 | **khmelnitsky_uprising** | +ліміт сухопутних військ, +шкода бойовому духу | повстання 1648 |
-| **mazepa_golden_age** | +legitimacy, -idea cost, +global manpower | 1687 renaissance |
-| **het_ruina_period** | +war exhaustion, +development cost, +global unrest | Civil conflict era |
-| **het_divided_state** | -legitimacy, -diplomatic reputation | Poland-Russia split |
-| **het_independence_struggle** | +army tradition, +siege ability | Great Northern War |
-| **het_russian_repression** | -legitimacy, -diplomatic reputation | Post-1709 subjugation |
-| **het_little_russian_collegium** | -administrative efficiency, -diplomatic reputation | Imperial administration |
-| **het_reformed_election_system** | +legitimacy, -idea cost, +diplomatic reputation | Late restoration |
-| **het_abolished** | -legitimacy, -diplomatic reputation, +local autonomy | 1764 abolition |
+| **mazepa_golden_age** | +легітимності, -ціна ідей, +жива сила | Піднесення від 1687 |
+| **het_ruina_period** | +утома від війни, +ціна розвитку, +заворушення | Доба Руїни |
+| **het_divided_state** | -легітимності, -дипломатичної поваги | Поділ між Польщею й Москвою |
+| **het_independence_struggle** | +військової звички, +облогової вправності | Велика Північна війна |
+| **het_russian_repression** | -легітимності, -дипломатичної поваги | Утиски після 1709 |
+| **het_little_russian_collegium** | -адміністративної справності, -дипломатичної поваги | Імперська управа |
+| **het_reformed_election_system** | +легітимності, -ціна ідей, +дипломатичної поваги | Пізнє відновлення |
+| **het_abolished** | -легітимності, -дипломатичної поваги, +місцевої самоуправи | Скасування 1764 |
 
 ---
 
 ## 4. Шаблон дипломатичних відносин
 
 Структуру взято з `history/diplomacy/Russian_alliances.txt`:
-- Vassal relationships (MOS → PSK, RUS, regional principalities, etc.)
-- Royal marriage patterns
-- Alliance period dating
+- Васальні зв'язки (MOS → PSK, RUS, місцеві князівства тощо)
+- Візерунок королівських шлюбів
+- Датування союзів
 
 **Integration Примітка:** Can be extended for Hetmanate's diplomatic relationships with Poland-Lithuania, Ottoman Empire, and Crimean Khanate.
 
@@ -116,55 +116,55 @@
 ## 5. Руські династичні прізвища
 
 Додано до локалізації:
-- Dharynsky
-- Vishnevetsky-Bayda
-- Khmelnytski
-- Teteria
-- Doroshenko
-- Mazepa
-- Skoropadsky
-- Apostol
-- Rozumovsky
+- Дашкевич
+- Вишневецький-Байда
+- Хмельницькі
+- Тетеря
+- Дорошенко
+- Мазепа
+- Скоропадський
+- Апостол
+- Розумовський
 
 ---
 
 ## 6. Географічна інтеграція
 
 ### Згадані регіони й області
-- **Moldavia Area** (moldavia_area) – for Moldova expansion path
-- **Black Ruthenia** (black_ruthenia_area) – Podolia and Volyn heartland
+- **Молдавська область** (moldavia_area) — під молдавський напрям розширення
+- **Чорна Русь** (black_ruthenia_area) — осердя Поділля й Волині
 
 ### Стратегічні провінції
-- Kyiv (280) – capital of religious and cultural gravity
-- Poltava (290) – Hetmanate power center
-- Chernihiv (289) – northern Rus stronghold
-- Lviv (2961) – western Ruthenia
-- Zaporozhia (283) – Cossack homeland
+- Київ (280) — осередок віри й культури
+- Полтава (290) — опора Гетьманщини
+- Чернігів (289) — північна твердиня Русі
+- Львів (2961) — західна Русь
+- Запорожжя (283) — козацька вітчизна
 
 ---
 
 ## 7. Чому цей вміст перевикористано
 
 ### Чому саме ці елементи
-1. **Localization:** Provides consistent translation and naming conventions across the mod
-2. **Historical Accuracy:** Hetmanate eras align with documented succession and treaties
-3. **Modifier Framework:** Encodes historical turning points as gameplay consequences
-4. **Dynasty Authenticity:** Enables historical ruler flavor and decision chains
+1. **Локалізація:** дає єдиний переклад і єдині правила назв у всьому моді
+2. **Історичність:** доби Гетьманщини збігаються з відомою чергою гетьманів і договорами
+3. **Модифікатори:** переломні події стають ігровими наслідками
+4. **Династії:** дає справжніх правителів і ланцюги рішень
 
 ### Що виключено
-- Full map region/area redefinition (already integrated in V2+)
-- Duplicate country file definitions (HET already exists in main RIP mod)
-- Overlapping war history (managed separately in mission trees)
+- Повне перевизначення країв і областей (уже внесено у V2+)
+- Повторні файли країн (HET уже є в самому RIP)
+- Історія воєн, що накладається (нею відає дерево місій)
 
 ---
 
 ## 8. Точки інтеграції
 
 ### Змінені активні файли
-- `localisation/ruthenian_eastward_l_english.yml` – Added all tags, provinces, dynasties
-- `common/event_modifiers/ruthenian_eastward_modifiers.txt` – Hetmanate historical modifiers
-- `decisions/RuthenianEastwardExpansion.txt` – MOL tag support
-- `localisation/replace/zzz_RIP_l_english.yml` – Dynasty names
+- `localisation/ruthenian_eastward_l_english.yml` — усі теги, провінції, династії
+- `common/event_modifiers/ruthenian_eastward_modifiers.txt` — історичні модифікатори Гетьманщини
+- `decisions/RuthenianEastwardExpansion.txt` — підтримка тега MOL
+- `localisation/replace/zzz_RIP_l_english.yml` — назви династій
 
 ### Стан перевірки
 
@@ -178,17 +178,17 @@
 Єдине, що не витримало перевірки, - блок історичних назв провінцій вище;
 він виправлений окремо й позначений закресленням.
 
-✅ **No syntax errors**  
-✅ **All modifier keys EU4-valid**  
-✅ **All localization keys in place**  
+✅ **Синтаксичних помилок немає**  
+✅ **Усі ключі модифікаторів чинні в EU4**  
+✅ **Усі ключі локалізації на місці**  
 
 ---
 
 ## 9. Наступні кроки
 
 **Рекомендовані розширення:**
-1. Hetmanate-specific mission tree with Khmelnytsky → Mazepa → Rozumovsky arcs
-2. Cossack raid decisions branching from Hetmanate government reform
-3. Orthodox crusade integration (Khmelnytsky vs Catholic Poland context)
-4. Moldovan expansion via hetmanic support or vassalization
+1. Окреме дерево місій Гетьманщини: Хмельницький → Мазепа → Розумовський
+2. Рішення про козацькі походи, що виростають із гетьманської реформи
+3. Стик із православним походом (Хмельницький проти католицької Польщі)
+4. Похід на Молдову через гетьманську підтримку або васалізацію
 
