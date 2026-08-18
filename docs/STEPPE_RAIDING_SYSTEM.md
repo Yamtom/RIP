@@ -85,28 +85,27 @@ VOL, HLC, PDL, ZAZ, країни з козацьким станом і краї�
 Мантрегу, Маджар і Казань, і ці події їх більше не вживають.
 
 `steppe_raid.8` — одноразова подія після 1500 року для CRI чи TUR, коли NOG зникає.
-`steppe_raid.9` is a one-shot 1620-1649 event for MOS/RUS; acceptance changes
-the two named provinces and grants the постійний `kalmyk_cavalry` modifier.
+`steppe_raid.9` — одноразова подія 1620-1649 років для MOS чи RUS; згода змінює
+дві названі провінції й дає постійний модифікатор `kalmyk_cavalry`.
 
 ### 4. Засічна риса (`steppe_raid.10`)
 
-MOS/RUS at administrative technology 10 can invest in the defensive line when
-an owned Russian-region province borders CRI, NOG, or AST. Acceptance grants the
-постійний country modifier and applies `zasechnaya_cherta_province` to the
-qualifying frontier provinces. Those province modifiers are recognized by the
-raid target-selection and damage logic.
+MOS чи RUS з адміністративною технікою 10 можуть укласти кошти в засічну рису,
+якщо їхня провінція в російському краї межує з CRI, NOG або AST. Згода дає
+постійний модифікатор країни й накладає `zasechnaya_cherta_province` на
+придатні порубіжні провінції. Ці модифікатори враховує і вибір цілі набігу, і
+обрахунок шкоди.
 
 ### 5. Донський і азовський козацький набіг (`steppe_raid.11-.12`)
 
-There is no separate DON tag in EU4 1.37.5. “Don Host” is therefore represented
-by a ZAZ/HET or Cossack-reform country that володіє a province in `lower_don_area`
-or `azov_area`. The custom host-name text can display **Don Host** and
-**Don Ataman** for a qualifying Cossack government.
+Окремого тега DON у EU4 1.37.5 немає. Тому Донське військо зображує ZAZ, HET
+або країна з козацькою реформою, що володіє провінцією в `lower_don_area` чи
+`azov_area`. Для придатного козацького устрою підписи можуть показувати
+**Don Host** і **Don Ataman**.
 
-The opportunity requires peace, 30% manpower, a valid neighboring CRI, no
-alliance or truce, and no active five-year Cossack raid cooldown. Launching the
-raid calls the Crimean response and, only if CRI is a TUR subject, requests the
-Ottoman reaction.
+Нагода вимагає миру, 30% живої сили, придатного сусіда CRI, відсутності союзу
+й перемир'я та вичерпаного п'ятирічного відкату козацьких набігів. Похід кличе
+кримську відповідь, а якщо CRI васал TUR — ще й османську.
 
 Крим може оплатити перехоплення на кордоні або прийняти обмежену шкоду.
 Захищені провінції дістають пом'якшену гілку. Якщо Крим володіє Кафою і набіг
@@ -185,7 +184,7 @@ FROM.
 
 | Модифікатор | Область | Головні ефекти | Типова тривалість |
 |---|---|---|---|
-| `steppe_raid_party` | country | speed, maintenance, cavalry cost | 1 year |
+| `steppe_raid_party` | країна | швидкість, утримання, ціна кінноти | 1 рік |
 | `steppe_raid_cooldown` | country | marker | 2 or 5 років by chain |
 | `steppe_successful_raid` | country | horde unity, prestige, cavalry | 3-5 років |
 | `cossack_raid_cooldown` | country | marker | 2 or 5 років by chain |
@@ -198,30 +197,30 @@ FROM.
 | `kalmyk_cavalry` | country | cavalry and horde unity | постійний |
 | `cossack_retaliatory_raid` | country | speed and flanking | 3 років |
 | `slave_trade_income` | country | trade bonus, diplomatic penalty | 2 років per feed |
-| `crimean_yasyr_market` | province | Kaffa trade/production/tax, unrest | until disrupted |
+| `crimean_yasyr_market` | провінція | торгівля, виробництво, податок і заворушення в Кафі | доки не розладнано |
 | `trade_route_disrupted` | province | trade and production penalty | 5 років |
 | `kaffa_ransom_exchange` | province | smaller trade/tax bonus, lower unrest | 10 or 20 років |
 | `ottoman_vassal_support` | country | maintenance, cavalry, tactics | 5 років |
 | `ottoman_crimean_reaction_cooldown` | country | marker | 5 років |
 
-Unused prototype modifiers were removed rather than retained as undocumented
-dead content.
+Невживані чорнові модифікатори прибрано, а не лишено мертвим неописаним
+вантажем.
 
-## Cross-system cleanup
+## Чищення на стику систем
 
-- `raid_mechanics.1` now treats March and May as alternatives; the former
-  impossible month AND is gone.
-- `raid_mechanics.2` has a live caller again.
-- Chaiky target discovery uses known coastal targets rather than requiring a
-  land border with TUR/CRI.
-- Province raid weighting checks province modifiers in province scope.
-- ZAZ/HET raid flags use a reusable contract: the decision is available when
-  the flag has never existed or has aged past its 5/10-year window. The earlier
-  inverted `NOT had_country_flag` form is gone.
+- `raid_mechanics.1` тепер бере березень і травень як варіанти; неможливого
+  «І» між двома місяцями більше немає.
+- `raid_mechanics.2` знову має того, хто його кличе.
+- Чайки шукають ціль серед відомих узбережних, а не вимагають суходільної межі
+  з TUR чи CRI.
+- Ваги набігів звіряють модифікатори провінції в області провінції.
+- Прапорці набігів ZAZ і HET працюють за спільним правилом: рішення доступне,
+  якщо прапорця ніколи не було або він старший за своє вікно в 5 чи 10 років.
+  Колишньої перевернутої форми `NOT had_country_flag` більше немає.
 
-## Verification
+## Перевірка
 
-Run from the mod root with a real Python interpreter:
+Запускати з кореня мода справжнім Python:
 
 ```powershell
 python tests/check_steppe_expansions.py
@@ -230,47 +229,48 @@ python tests/check_clausewitz_braces.py
 python tests/check_script_layer.py
 ```
 
-Current evidence:
+Що вже доведено:
 
-- [x] dedicated static expansion contract;
-- [x] braces and BOM contract;
-- [x] corrected Steppe province IDs;
-- [x] event/option/modifier English localisation contract;
-- [x] bounded Ottoman CB, cooldown, and no forced war;
-- [x] protected-border integration;
-- [ ] EU4 startup/parser smoke after these edits;
-- [ ] targeted event firing through every option;
-- [ ] observer evidence for MTTH frequency and AI choice balance;
+- [x] окрема статична перевірка розширень;
+- [x] перевірка дужок і BOM;
+- [x] виправлені ID степових провінцій;
+- [x] англійська локалізація подій, варіантів і модифікаторів;
+- [x] обмежений османський привід, відкат і жодної примусової війни;
+- [x] стик із захищеним кордоном;
+- [ ] димовий запуск EU4 і розбір файлів після цих правок;
+- [ ] прогін кожної події через усі варіанти;
+- [ ] дані спостереження про частоту MTTH і рівновагу виборів ШІ;
 - [ ] save/load persistence of постійний and timed modifiers.
 
-Unchecked runtime items are not implied by the implementation-complete status.
+Непозначені пункти стосуються поведінки в грі; готовність коду їх не доводить.
 
-## Compatibility and maintenance
+## Сумісність і супровід
 
-- Province IDs and areas are verified against EU4 1.37.5. Recheck them after a
-  map-version upgrade.
-- `cb_insult`, subject scopes, event FROM, and scripted-effect behavior depend on
-  engine semantics; the startup smoke catches parser/load failures but not every
-  branch outcome.
-- Do not replace the three Kaffa helpers with duplicated inline effects. Their
-  explicit province-285 resolution is the scope contract used by all callers.
-- Keep `tests/check_steppe_expansions.py` synchronized with any renamed event,
-  modifier, mission, or helper.
+- ID провінцій і області звірено з EU4 1.37.5. Після зміни версії карти
+  перевірте наново.
+- `cb_insult`, області васалів, FROM у подіях і поведінка скриптових ефектів
+  залежать від рушія; димовий запуск ловить помилки розбору й завантаження, але
+  не кожну гілку.
+- Не заміняйте три кафські помічники вбудованими копіями. Їхнє явне зведення до
+  провінції 285 — та сама домовленість про область, на яку спираються всі, хто
+  їх кличе.
+- Тримайте `tests/check_steppe_expansions.py` у злагоді з будь-яким
+  перейменуванням події, модифікатора, місії чи помічника.
 
 ## Ідеї майбутніх розширень
 
-1. Add a player-facing target selector with cost and risk previews.
-2. Add an OPM migration decision with strict anti-exploit checks.
-3. Tune MTTH and AI weights from reproducible observer evidence.
-4. Add a deeper captive-ransom ledger only if it remains performant and avoids
-   presenting speculative population figures as measured history.
+1. Додати гравцеві вибір цілі з попереднім показом ціни й ризику.
+2. Додати рішення про переселення однопровінційних країн зі строгими запобіжниками проти зловживань.
+3. Підправити MTTH і ваги ШІ за повторюваними даними спостереження.
+4. Завести докладніший облік викупу бранців — але лише якщо він не сповільнить
+   гру й не подаватиме здогадні числа людності за виміряну історію.
 
-## Sources and design notes
+## Джерела й нотатки до задуму
 
-The following sources support the broad historical frame; event costs, MTTH,
-AI weights, and exact modifiers are game design:
+Ці джерела підпирають загальну історичну рамку; ціна подій, MTTH, ваги ШІ й
+точні числа модифікаторів — це вже ігровий задум:
 
-- [“The Consequences of the Black Sea Slave Trade: Long-Run Development in Eastern Europe”](https://www.cambridge.org/core/journals/american-political-science-review/article/consequences-of-the-black-sea-slave-trade-longrun-development-in-eastern-europe/E6074298B3135E3B858CF9E64BE45F99) — Kaffa/Caffa and the Black Sea captive trade.
-- [“Cossacks as Captive-Takers in the Ottoman Black Sea Region and Crimea”](https://www.nmc.utoronto.ca/research-publications/faculty-publications/cossacks-captive-takers-ottoman-black-sea-region-and) — Zaporozhian and Don Cossack captive-taking.
-- [“The Ottoman Crimea in the Mid-Seventeenth Century: Some Problems and Preliminary Considerations”](https://www.husj.harvard.edu/articles/the-ottoman-crimea-in-the-mid-seventeenth-century-some-problems-and-preliminary-considerations) — damage from Cossack raids and Ottoman-Crimean context.
-- [The Crimean Khanate and Ottoman relationship](https://brill.com/view/journals/thr/9/1/article-p86_86.pdf) — reason to document the EU4 subject model as an abstraction.
+- [“The Consequences of the Black Sea Slave Trade: Long-Run Development in Eastern Europe”](https://www.cambridge.org/core/journals/american-political-science-review/article/consequences-of-the-black-sea-slave-trade-longrun-development-in-eastern-europe/E6074298B3135E3B858CF9E64BE45F99) — Кафа й чорноморська торгівля бранцями.
+- [“Cossacks as Captive-Takers in the Ottoman Black Sea Region and Crimea”](https://www.nmc.utoronto.ca/research-publications/faculty-publications/cossacks-captive-takers-ottoman-black-sea-region-and) — захоплення бранців запорожцями й донцями.
+- [“The Ottoman Crimea in the Mid-Seventeenth Century: Some Problems and Preliminary Considerations”](https://www.husj.harvard.edu/articles/the-ottoman-crimea-in-the-mid-seventeenth-century-some-problems-and-preliminary-considerations) — шкода від козацьких набігів і османсько-кримське тло.
+- [The Crimean Khanate and Ottoman relationship](https://brill.com/view/journals/thr/9/1/article-p86_86.pdf) — підстава описувати васальну модель EU4 як абстракцію.

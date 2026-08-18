@@ -10,7 +10,7 @@
 
 ## Огляд
 
-The Orthodox Crusade system allows Orthodox and Russian Orthodox nations to declare holy wars to reclaim Constantinople (Byzantium) and Jerusalem from non-Christian rulers. This mechanic provides historical flavor and strategic gameplay options for Orthodox powers.
+Система православного походу дає православним і російсько-православним державам оголошувати священні війни, щоб відібрати Константинополь і Єрусалим у нехристиянських володарів. Це додає історичного духу й нових стратегічних шляхів.
 
 Система православного хрестового походу дозволяє православним і російським православним державам оголошувати священні війни для відвоювання Константинополя (Візантії) та Єрусалима від нехристиянських правителів. Ця механіка надає історичний колорит та стратегічні ігрові можливості для православних держав.
 
@@ -228,88 +228,88 @@ RIP Mod/
 
 ## Інтеграція з наявними системами
 
-**Works with:**
-- Russian Orthodox mechanics
-- Third Rome ideology
-- Church power system
-- Patriarch mechanics
-- Holy sites system
+**Працює разом із:**
+- механікою російського православ'я
+- вченням Третього Риму
+- церковною силою
+- патріархами
+- святими місцями
 
-**Compatible with:**
-- Missions (can be crusade objectives)
-- Events (triggers special crusade events)
-- Modifiers (stacks with other religious bonuses)
+**Сумісна з:**
+- місіями (похід може бути їхньою метою)
+- подіями (запускає окремі події походу)
+- модифікаторами (складається з іншими церковними вигодами)
 
 ---
 
 ## Відомі обмеження
 
-1. Custom CBs may need wargoal types properly configured
-2. AI evaluation might need balancing after testing
-3. Only one crusade can be active at a time
-4. Cooldown prevents rapid crusade spam
-5. Requires proper province IDs (151=Constantinople, 379=Jerusalem)
+1. Власним приводам може бракувати правильно налаштованого типу воєнної мети
+2. Оцінку для ШІ, ймовірно, доведеться підправити після випробувань
+3. Водночас триває лише один похід
+4. Відкат не дає оголошувати походи один за одним
+5. Потрібні правильні ID провінцій (151 — Константинополь, 379 — Єрусалим)
 
 ---
 
 ## 📝 Historical Context / Історичний контекст
 
-The Orthodox Crusade concept reflects several historical ideas:
+Задум православного походу спирається на кілька історичних уявлень:
 
-1. **Reconquest aspirations** - Byzantine Greeks and Orthodox Slavs long desired to reclaim Constantinople after 1453
+1. **Прагнення відвоювати** — греки й православні слов'яни довго мріяли повернути Константинополь після 1453 року
 
-2. **Third Rome ideology** - Moscow saw itself as the successor to Rome and Constantinople
+2. **Вчення Третього Риму** — Москва вважала себе спадкоємицею Рима й Константинополя
 
-3. **Holy Land pilgrimage** - Jerusalem remained spiritually important to Orthodox Christianity
+3. **Прощі до Святої землі** — Єрусалим лишався духовно важливим для православних
 
-4. **Pan-Orthodox unity** - Crusades could unite Orthodox nations against common enemies
+4. **Всеправославна єдність** — похід міг згуртувати православні держави проти спільного ворога
 
-5. **Religious motivation** - Orthodox powers often justified expansion through religious duty
-
----
-
-## 🎨 Future Expansion Ideas
-
-Potential additions:
-- Antioch crusade (third holy site)
-- Alexandria crusade (fourth holy site) 
-- Mount Athos protection events
-- Crusader orders for Orthodox
-- Relic recovery mechanics
-- Multiple crusades simultaneously (if balanced)
-- Excommunication for refusing crusade
-- Crusade tax collection
-- Papal response events for Catholic nations
+5. **Церковне виправдання** — православні держави часто пояснювали розширення обов'язком віри
 
 ---
 
-## 📞 Testing Checklist
+## 🎨 Задуми на майбутнє
 
-Before playing:
-- [ ] All files copied to correct folders
-- [ ] Localization files use UTF-8 with BOM encoding
-- [ ] Province IDs verified (151, 379)
-- [ ] Test with Orthodox nation
-- [ ] Test with Russian Orthodox nation
-- [ ] Verify CB grants properly
-- [ ] Check event chain triggers
-- [ ] Confirm AI declares crusades
-- [ ] Test success path
-- [ ] Test failure path
-- [ ] Verify cooldown works
+Що можна додати:
+- похід на Антіохію (третє святе місце)
+- похід на Александрію (четверте святе місце) 
+- події про оборону Афону
+- православні лицарські ордени
+- механіка повернення реліквій
+- кілька походів водночас (якщо вдасться врівноважити)
+- відлучення за відмову від походу
+- збір податку на похід
+- події про відповідь папи для католицьких держав
 
 ---
 
-## 🏆 Achievement Ideas (If Making Full Conversion Mod)
+## 📞 Перелік перевірки
 
-- **Deus Vult!** - Win any Orthodox crusade
-- **Second Rome Restored** - Successfully complete Constantinople crusade
-- **Kingdom of Heaven** - Successfully complete Jerusalem crusade
-- **Crusader King** - Complete both crusades
-- **The True Faith** - Form Byzantium through crusade conquest
-- **Pilgrims' Path** - Control all Orthodox holy sites after crusade
+Перед грою:
+- [ ] Усі файли лежать у потрібних теках
+- [ ] Файли локалізації в UTF-8 з BOM
+- [ ] ID провінцій звірено (151, 379)
+- [ ] Випробувано православною державою
+- [ ] Випробувано російсько-православною державою
+- [ ] Привід до війни надається як слід
+- [ ] Ланцюг подій запускається
+- [ ] ШІ оголошує походи
+- [ ] Перевірено гілку успіху
+- [ ] Перевірено гілку невдачі
+- [ ] Відкат працює
 
 ---
 
-Made with ❤️ for the RIP EU4 Mod
-Created: 2026-02-05
+## 🏆 Задуми досягнень (якщо робити повну переробку)
+
+- **Deus Vult!** — виграти будь-який православний похід
+- **Другий Рим відновлено** — довести до кінця похід на Константинополь
+- **Царство небесне** — довести до кінця похід на Єрусалим
+- **Король-хрестоносець** — звершити обидва походи
+- **Істинна віра** — постати Візантією через завоювання в поході
+- **Дорога прочан** — володіти всіма православними святими місцями після походу
+
+---
+
+Зроблено з ❤️ для мода RIP до EU4
+Створено: 5 лютого 2026

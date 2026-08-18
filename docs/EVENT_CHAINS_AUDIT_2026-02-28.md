@@ -73,7 +73,7 @@
   - `decisions/KuyabaNation.txt`
   - `decisions/PolesianBelarusianNations.txt`
   - `decisions/VHKNation.txt`
-  - `decisions/KyivTriggers.txt` (Kyiv former paths)
+  - `decisions/KyivTriggers.txt` (колишні київські шляхи)
 - Результат: чистіша логіка видимості й менше роздутих перевірок провінцій.
 
 ### 3) Доречність і темп православного хрестового походу
@@ -99,13 +99,13 @@
 
 ## Рекомендації на наступний прохід
 
-- Add bridge events between `UniateChurch` and `RussianOrthodox` outcomes so confessional state transitions feel less siloed.
-- Standardize long-chain cooldown patterns (`country_modifier` vs `country_flag`) across all raid systems.
+- Додати перехідні події між наслідками `UniateChurch` і `RussianOrthodox`, щоб зміна віри не здавалася відрізаною від решти.
+- Звести відкати довгих ланцюгів до одного взірця (`country_modifier` чи `country_flag`) в усіх системах набігів.
 - Додати явні підказки гравцеві для великих рішень за прапорцями там, де лишається двозначність.
 
 ## Практичний результат
 
 - Менше скупчень подій з короткими інтервалами.
-- More consistent mid-game entry for crusade content.
-- Cleaner formable visibility gating without over-constraining province checks.
-- Better override hygiene for vanilla-adjacent idea keys.
+- Рівніший вхід у похідне наповнення в середині партії.
+- Чіткіші умови видимості формованих країн без надмірних перевірок провінцій.
+- Охайніше перекривання ключів ідей, суміжних із ваніллю.
