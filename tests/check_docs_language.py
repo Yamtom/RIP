@@ -21,7 +21,12 @@ def is_translatable(line, in_code):
     # службові й неперекладні рядки
     if s.startswith(("```", "|---", "---", ">", "#!", "http")):
         return False
-    if re.match(r"^[-*]?\s*`[^`]+`\s*$", s):          # самотній ідентифікатор
+    # рядок без прози: приберемо код у зворотних лапках, посилання й розмітку -
+    # якщо не лишилось жодного слова з трьох літер, перекладати нема чого
+    bare = re.sub(r"`[^`]*`", " ", s)
+    bare = re.sub(r"\]\([^)]*\)", " ", bare)
+    bare = re.sub(r"[-*+#>|:.,()\[\]/\_=]", " ", bare)
+    if not re.search(r"[A-Za-zЀ-ӿ]{3,}", bare):
         return False
     if re.match(r"^\|[\s`|A-Za-z0-9_./:+-]*\|$", s) and not re.search(r"[A-Za-z]{4,}\s+[A-Za-z]{4,}", s):
         return False                                    # таблиця самих ID
@@ -31,8 +36,13 @@ def is_translatable(line, in_code):
         return False
     return True
 
+LIST = "--list" in sys.argv          # показати самі неперекладені рядки
+ONLY = [a for a in sys.argv[1:] if not a.startswith("--")]
+
 rows = []
 for path in sorted(glob.glob("docs/*.md")):
+    if ONLY and not any(o in path for o in ONLY):
+        continue
     text = io.open(path, encoding="utf-8", errors="replace").read().split("\n")
     in_code = False
     total = uk = 0
@@ -45,6 +55,8 @@ for path in sorted(glob.glob("docs/*.md")):
         total += 1
         if is_cyrillic(line):
             uk += 1
+        elif LIST:
+            print(f"{path}| {line.rstrip()}")
     if total:
         rows.append((uk * 100 // total, uk, total, os.path.basename(path)))
 
