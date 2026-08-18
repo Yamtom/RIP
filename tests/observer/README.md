@@ -1,40 +1,42 @@
-# RIP observer-run harness
+# Оснастка прогонів-спостережень RIP
 
-This directory contains a reproducible, opt-in harness for the balance runs
-required by Milestone 3. It does **not** claim that any run has happened. The
-authoritative status and result tables live in
+У цій теці лежить відтворювана оснастка для балансових прогонів, яких вимагає
+Milestone 3. Вмикати її треба самому. Вона **не** стверджує, що якийсь прогін
+відбувся: правдиві статус і таблиці результатів живуть у
 [`docs/BALANCE_PLAYTEST_REPORT.md`](../../docs/BALANCE_PLAYTEST_REPORT.md).
 
-## Safety model
+## Що оснастка не робить без дозволу
 
-- `run_observer.ps1` is a dry run unless `-Launch` is supplied.
-- Output is accepted only below `diagnostics/observer_runs/` (or another
-  explicitly supplied directory inside the repository).
-- Existing saves and logs are copied, never moved or deleted.
-- A dirty worktree is rejected for launched runs unless `-AllowDirty` is
-  supplied. Official results should always use a committed, clean tree.
-- The game is never force-stopped unless `-ForceStopAfterCompletion` is
-  supplied. Even then, stopping is allowed only after the target-year EU4 text
-  autosave has been copied and revalidated as an immutable checkpoint.
+- `run_observer.ps1` без `-Launch` лише перевіряє й друкує; гру не запускає.
+- Вивід приймається тільки нижче `diagnostics/observer_runs/` (або в іншій явно
+  зазначеній теці всередині репозиторію).
+- Наявні збереження й логи копіюються, ніколи не переносяться й не видаляються.
+- Брудне дерево для запущеного прогону відхиляється, доки не додано
+  `-AllowDirty`. Офіційні результати завжди беруться з чистого закомітованого
+  дерева.
+- Гру ніколи не зупиняють силою, доки не додано `-ForceStopAfterCompletion`.
+  Та навіть тоді зупинка дозволена лише після того, як текстове автозбереження
+  EU4 цільового року скопійовано й перевірено ще раз як незмінну контрольну
+  точку.
 
-## Local prerequisites
+## Що має бути на місці
 
-The harness validates these before launch:
+Оснастка перевіряє це перед запуском:
 
-1. EU4 `v1.37.5.0` and this mod's `supported_version` agree.
-2. `dlc_load.json` enables exactly `mod/RIP.mod`.
-3. the external `RIP.mod` descriptor points at this repository root.
-4. normal and yearly autosaves are uncompressed (`compress_saves=no`,
-   `compress_autosave=no`, `autosave="YEARLY"`), so their headers can be
-   checked and milestone autosaves copied before rotation.
-5. all command/checkpoint files exist.
+1. EU4 `v1.37.5.0` і `supported_version` цього мода збігаються.
+2. `dlc_load.json` вмикає рівно `mod/RIP.mod`.
+3. зовнішній дескриптор `RIP.mod` указує на корінь цього репозиторію.
+4. звичайні та щорічні автозбереження нестиснені (`compress_saves=no`,
+   `compress_autosave=no`, `autosave="YEARLY"`), щоб їхні заголовки можна було
+   прочитати, а віхові автозбереження скопіювати до того, як гра їх перезапише.
+5. усі файли команд і контрольних точок існують.
 
-The validated user-data path is passed explicitly through EU4's `-userdir`
-startup option. This keeps a clean observer fixture isolated from unrelated
-launcher descriptors in the normal Documents directory.
+Перевірений шлях до даних користувача передається явно через опцію запуску
+`-userdir`. Так чиста оснастка спостережень лишається осторонь від сторонніх
+дескрипторів лаунчера у звичайній теці Documents.
 
-The defaults match the currently discovered Windows installation, but every
-path can be overridden:
+Типові значення відповідають знайденій установці Windows, але кожен шлях можна
+перевизначити:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\observer\run_observer.ps1 `
@@ -42,117 +44,118 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\observer\run_observe
   -UserDataRoot 'D:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV'
 ```
 
-## First: dry run
+## Спершу — холостий прогін
 
-Run this from the mod root:
+Запускати з кореня мода:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\observer\run_observer.ps1
 ```
 
-It performs preflight checks and prints the ten planned seeds (`1001` through
-`1010`) and launch arguments. It does not create directories or start EU4.
+Він виконує передпольотні перевірки й друкує десять запланованих зерен (`1001`
+по `1010`) та аргументи запуску. Тек не створює й EU4 не стартує.
 
-## Short automation smoke test
+## Коротка димова перевірка автоматизації
 
-The installed EU4 binary exposes the startup options `start_tag`, `seed`, and
-`auto_run`, and the console commands `run_commands`, `runyear`, `observe`,
-and `speed`. EU4 prefixes the `auto_run` value with
-`run_commands`. The command only resolves files placed directly in the EU4
-user-data root. On launch the harness therefore stages a uniquely prefixed,
-BOM-free command bundle there, rewrites nested checkpoint references to those
-generated filenames, and passes the setup filename (without a path). First
-validate this with a short 1444 to 1446 run:
+Встановлений двійковий файл EU4 має опції запуску `start_tag`, `seed` та
+`auto_run`, а також консольні команди `run_commands`, `runyear`, `observe` і
+`speed`. EU4 додає до значення `auto_run` префікс `run_commands`. Команда
+знаходить лише файли, покладені просто в корінь даних користувача. Тому під час
+запуску оснастка розкладає там пакунок команд з унікальним префіксом і без BOM,
+переписує вкладені посилання на контрольні точки під ці згенеровані імена й
+передає ім'я файлу налаштування без шляху. Спершу звірте це коротким прогоном
+з 1444 по 1446 рік:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\observer\run_observer.ps1 -Launch -Smoke -Seeds 1001 -AllowDirty
 ```
 
-Expected behavior:
+Чого чекати:
 
-1. EU4 starts directly at 1444 as KIE with RIP as the only enabled mod.
-2. `commands/smoke_setup.txt` schedules the 1446 checkpoint, selects speed 5, and
-   enters observer mode before the first daily tick.
-3. when the yearly autosave reaches 1446, the harness copies it to
-   `checkpoint_1446.eu4` and re-reads the archived date.
-4. at 1446 the game pauses and the harness reports the detected endpoint.
-5. without `-ForceStopAfterCompletion`, close EU4 normally when prompted in
-   the terminal; the harness then archives the flushed logs.
+1. EU4 стартує просто в 1444 за KIE, і RIP — єдиний увімкнений мод.
+2. `commands/smoke_setup.txt` призначає контрольну точку 1446, вибирає
+   швидкість 5 і входить у режим спостерігача ще до першого денного такту.
+3. коли щорічне автозбереження доходить до 1446, оснастка копіює його в
+   `checkpoint_1446.eu4` і перечитує дату з копії.
+4. на 1446 гра стає на паузу, і оснастка повідомляє знайдену кінцеву точку.
+5. без `-ForceStopAfterCompletion` закрийте EU4 звичайно, коли термінал про це
+   попросить; після того оснастка складе до себе скинуті логи.
 
-If `auto_run` does not execute on this build, use the explicit fallback:
+Якщо на цій збірці `auto_run` не спрацьовує, є явний запасний шлях:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\observer\run_observer.ps1 -Launch -Smoke -Seeds 1001 -AllowDirty -BootstrapMode ManualConsole
 ```
 
-After the map loads, open the EU4 console and enter:
+Коли карта завантажиться, відкрийте консоль EU4 і введіть:
 
 ```text
-run_commands <generated_setup_filename_printed_by_the_harness>
+run_commands <згенероване_ім'я_файлу_налаштування_яке_надрукувала_оснастка>
 ```
 
-Do not begin the ten-run batch until the short smoke has produced its 1446 save
-and a manifest with `"status": "completed"`. Then run one full seed and verify
-all four checkpoints before starting the remaining nine seeds.
+Не починайте партію з десяти прогонів, доки коротка димова перевірка не дала
+збереження 1446 року й маніфест зі `"status": "completed"`. Тоді проженіть одне
+повне зерно й звірте всі чотири контрольні точки, перш ніж запускати решту
+дев'ять.
 
-## Full ten-run batch
+## Повна партія з десяти прогонів
 
-After committing the exact code being tested and confirming the smoke test:
+Після коміту саме того коду, що випробовується, і після успішної димової
+перевірки:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\observer\run_observer.ps1 -Launch
 ```
 
-This runs the ten seeds sequentially. At each 1650 endpoint, close EU4 normally
-so the next seed can begin. For an explicitly unattended batch, the following
-option force-stops EU4 only after the verified endpoint save has been copied:
+Це прожене десять зерен послідовно. На кожній кінцевій точці 1650 закривайте
+EU4 звичайно, щоб почалося наступне зерно. Для явно безнаглядної партії є опція,
+яка зупиняє EU4 силою тільки після того, як перевірене кінцеве збереження вже
+скопійовано:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\observer\run_observer.ps1 -Launch -ForceStopAfterCompletion
 ```
 
-Force-stop mode trades graceful log flushing for unattended execution. The
-endpoint save is archived first; logs are copied after the process exits.
-For faster headless simulation, add `-NoGui`; the harness requires it to be
-paired with `-ForceStopAfterCompletion` because the hidden UI cannot be closed
-interactively:
+Силова зупинка виміняє охайне скидання логів на безнаглядність. Кінцеве
+збереження складається першим; логи копіюються після виходу процесу. Для швидшої
+симуляції без вікна додайте `-NoGui`; оснастка вимагає пари з
+`-ForceStopAfterCompletion`, бо приховане вікно неможливо закрити руками:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\observer\run_observer.ps1 -Launch -ForceStopAfterCompletion -NoGui
 ```
 
-## Generated evidence
+## Які докази лишаються після прогону
 
-Each invocation creates a timestamped batch below
-`diagnostics/observer_runs/`. Every run directory contains:
+Кожен виклик створює партію з відміткою часу нижче
+`diagnostics/observer_runs/`. У теці кожного прогону лежить:
 
-- `manifest.json`, conforming to `run-manifest.schema.json`;
-- immutable `checkpoint_<year>.eu4` copies captured from the uncompressed
-  yearly autosaves before EU4 rotates them;
-- fresh `.log`, `.csv`, and `.xml` files from the EU4 logs directory;
-- copies of `dlc_load.json`, `settings.txt`, `RIP.mod`, and the mod descriptor.
+- `manifest.json`, що відповідає `run-manifest.schema.json`;
+- незмінні копії `checkpoint_<рік>.eu4`, зняті з нестиснених щорічних
+  автозбережень до того, як EU4 їх перезапише;
+- свіжі `.log`, `.csv` і `.xml` із теки логів EU4;
+- копії `dlc_load.json`, `settings.txt`, `RIP.mod` і дескриптора мода.
 
-The batch root also contains `source_snapshot/` plus
-`source-inventory.json`. The harness hashes every engine-loaded source file
-before and after each run and fails the batch if that fingerprint changes.
-This preserves the exact dirty-worktree content used by non-release smoke or
-overnight runs instead of recording only the Git commit name.
+У корені партії лежать ще `source_snapshot/` і `source-inventory.json`.
+Оснастка хешує кожен файл-джерело, який завантажує рушій, до прогону й після
+нього, і валить партію, якщо цей відбиток змінився. Так зберігається точний
+вміст брудного дерева, ужитий у нерелізних димових чи нічних прогонах, замість
+самої лише назви коміту Git.
 
-The harness also writes `batch-summary.json`. Results are not complete merely
-because files exist: transfer the measured claim/CB/country metrics into the
-balance report and review every error-log delta.
+Оснастка також пише `batch-summary.json`. Результати не стають повними від
+самої наявності файлів: виміряні показники претензій, приводів і країн треба
+перенести до балансового звіту, а кожну різницю в лозі помилок — переглянути.
 
-## What counts as a valid observer run
+## Що вважається дійсним прогоном-спостереженням
 
-A row may be changed from `Pending` to `Pass`/`Fail` only when all of these are
-present:
+Рядок можна перевести з `Pending` у `Pass`/`Fail` лише тоді, коли є все з цього:
 
-- seed and exact Git commit/worktree state;
-- game version, launch arguments, and enabled-mod configuration;
-- a readable archived endpoint checkpoint dated 1650 or later;
-- checkpoint saves for 1500, 1550, 1600, and 1650;
-- logs archived before the next EU4 launch;
-- explicit review of KIE/KRU, MOS/RUS, long-range claims, and subject CBs.
+- зерно й точний коміт Git або стан дерева;
+- версія гри, аргументи запуску й перелік увімкнених модів;
+- читабельна складена кінцева контрольна точка, датована 1650 роком або пізніше;
+- контрольні точки за 1500, 1550, 1600 і 1650;
+- логи, складені до наступного запуску EU4;
+- явний перегляд KIE/KRU, MOS/RUS, далекобійних претензій і приводів на васалів.
 
-Observer runs do not satisfy the three manual representative campaigns. Those
-need human decisions, milestone saves/screenshots, and written play notes.
+Прогони-спостереження не заміняють трьох ручних показових кампаній. Ті вимагають
+людських рішень, віхових збережень зі знімками екрана й письмових нотаток про гру.

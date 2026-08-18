@@ -110,6 +110,55 @@
 ванілі, доки їх не замінили. Уникайте знаків оклику в описах: ваніль уживає їх
 у 7,8% рядків, мод тепер менше. Жодних згадок про те, що поза добою.
 
+## 3a. Назви реформ
+
+Взірцем є ваніль, а не власна вигадка. Три її звички варто перейняти:
+
+1. **Кожне значуще слово з великої.** «Boyar Rada», не «Boyar elite». Ваніль
+   не знає назв у стилі речення; мод мав дев'ять таких.
+2. **Рідний термін лишається неперекладеним, коли він і є установою.** Ваніль
+   пише `Iqta`, `Devshirme System`, `Tysyatsky Office`, `Namestnik Office`,
+   `Legislative Sejm`, `Veche Republic` — і вже має `Sich Rada` та
+   `Ruthenian Tsardom`. Отже `Rada`, `veche`, `udil`, `Cesarstvo` не
+   потребують англійського відповідника — і не варто міняти їх на ближчий
+   англійський синонім, як це сталося з «Kyivan Cesarstvo».
+3. **Чужа доба й чужий світ не позичаються.** Механіка може повторювати
+   сьоґунат, назва — ні. І жодних слів, молодших за добу: комісар, прем'єр,
+   народна республіка.
+
+Перейменування 18 серпня 2026 — механіку не змінено, лише назви:
+
+| Ключ | Було | Стало | Чому |
+|---|---|---|---|
+| `kyivan_shogunate_reform` | Kyivan Shogunate | Kyivan Seniorate | японський термін на руському дворі; сеньйорат — саме той лад, який механіка й описує |
+| `uzh_palatial_ruthenian_reform` | Triatomic Palatinate | Palatinate of Three Nations | triatomic — слово про молекули; ідеться про три нації |
+| `ruthenian_principality_reform` | Ruthenian principality | Ruthenian Principality | регістр |
+| `elected_assemblies_reform` | Elective assemblies | Veche Assemblies | названо установу: віче, а не розряд зборів |
+| `boyar_elite_reform` | Boyar elite | Boyar Rada | боярська дума — установа Москви; тут князеві радить рада |
+| `sacred_regulation_reform` | Sacred law | Sacred Law | регістр |
+| `patriarch_engagement_reform` | Choose of Saints | Blessing of the Patriarch | «Choose of Saints» — зламана англійська |
+| `merchant_nobility_reform` | Merchant nobility | Merchant Nobility | регістр |
+| `open_trading_ports_reform` | Open trading ports | Open Trading Ports | регістр |
+| `assembly_houses_reform` | Residents' assembly | Burgher Assemblies | названо станову громаду міщан, а не «мешканців» |
+| `considerable_bloodline_reform` | Great Dynasty | Unbroken Dynasty | ідеться про безперервність лінії, а не про велич роду |
+| `representation_monarchy_reform` | Representation in the monarchy | Crown and Estates | корона й стани — те, що реформа справді врівноважує |
+| `legislative_rada_reform` | Legislative Viche Reformed | Legislative Rada | за взірцем ванільного Legislative Sejm; «Reformed» ні до чого |
+
+**Однакова назва буває навмисною.** Три `ruthenian_factional_empire_*` звуться
+однаково, бо це один уряд, що підміняє сам себе, коли змінюється панівна пара;
+пару називає опис, не заголовок. Перш ніж розрізняти назви, перевірте, чи
+реформи не є станами однієї механіки.
+
+Разом із назвами пішли й титули правителів: `SHOGUN` став `SENIOR_KNIAZ`,
+`KYIVAN_SHOGUNATE` — `KYIVAN_SENIORATE`, і так усі дев'ять ключів сходинки.
+Подільські «People's Commissar», «Premier» і «Supreme Commissar» стали
+«Citizen-Voivode», «First Consul» і «Consul of the Republic».
+
+**Ключ `PRINCIPALITY` належить ванілі.** Мод перекривав його на «The
+Principalities», а отже перейменовував ранг кожного ванільного руського
+князівства. Тепер рангова назва мода зветься `RUTHENIAN_PRINCIPALITY`, а
+ваніль знову каже «Principality».
+
 ## 4. Свідомі винятки
 
 Це має вигляд непослідовності, але нею не є. Не чіпайте, доки не переглядають
