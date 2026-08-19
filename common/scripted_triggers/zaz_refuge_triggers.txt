@@ -1,0 +1,75 @@
+# Where a Host can put itself down again.
+#
+# The two real moves were to Ottoman ground: Oleshky on the lower Dnieper after
+# 1709, and the Danube Sich after 1775, with the Black Sea Host going east to
+# the Kuban after that. These are the areas the 1.37 map has for those roads.
+
+is_host_refuge = {
+	rip_is_steppe_or_grasslands = yes
+	is_city = yes
+	OR = {
+		area = yedisan_area
+		area = zaporizhia_area
+		area = azov_area
+		area = lower_don_area
+		area = nogai_area
+		area = circassia_area
+		area = crimea_area
+		area = moldavia_area
+		area = wallachia_area
+	}
+}
+
+# The named hosts the frontier actually raised. Each is a stretch of country
+# rather than a tag: the 1.37 map has no room to split the Don or the Kuban
+# into a country, so the identity is carried by a modifier and read by the
+# dynamic names.
+
+holds_the_lower_don = {
+	is_cossack_polity = yes
+	num_of_owned_provinces_with = {
+		value = 2
+		area = lower_don_area
+	}
+}
+
+holds_the_sich_country = {
+	is_cossack_polity = yes
+	num_of_owned_provinces_with = {
+		value = 2
+		OR = {
+			area = zaporizhia_area
+			area = yedisan_area
+		}
+	}
+}
+
+holds_the_danube_bank = {
+	is_cossack_polity = yes
+	num_of_owned_provinces_with = {
+		value = 1
+		OR = {
+			area = moldavia_area
+			area = wallachia_area
+		}
+	}
+}
+
+holds_the_eastern_steppe = {
+	is_cossack_polity = yes
+	num_of_owned_provinces_with = {
+		value = 1
+		OR = {
+			area = circassia_area
+			area = nogai_area
+		}
+	}
+}
+
+holds_the_sloboda_country = {
+	is_cossack_polity = yes
+	num_of_owned_provinces_with = {
+		value = 2
+		region = ruthenia_region
+	}
+}
