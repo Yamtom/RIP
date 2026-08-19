@@ -1,0 +1,107 @@
+# Effects behind the three roads out of the Siversk Veche and behind Great
+# Chernihiv.
+
+# Taking a road at all. Whichever body loses the argument remembers it: the
+# towns on the road of the houses, the houses on the road of the towns.
+chr_take_the_road_effect = {
+	add_prestige = 10
+	add_stability_or_adm_power = yes
+	set_country_flag = chr_path_chosen
+	add_country_modifier = {
+		name = chr_road_taken
+		duration = 3650
+	}
+}
+
+# Every later stage is a statute, argued over and then written down.
+chr_advance_the_road_effect = {
+	add_prestige = 10
+	add_country_modifier = {
+		name = chr_new_statute
+		duration = 3650
+	}
+}
+
+# Road A charters the towns it already has: the staple is worth nothing
+# without the wharves that unload under it.
+chr_charter_the_staple_effect = {
+	every_owned_province = {
+		limit = {
+			is_state_core = ROOT
+			NOT = { has_province_modifier = chr_staple_charter }
+		}
+		add_province_modifier = {
+			name = chr_staple_charter
+			duration = -1
+		}
+	}
+}
+
+# Road B writes the houses into the ledger of whatever the province produces.
+chr_open_the_ledger_effect = {
+	every_owned_province = {
+		limit = {
+			is_state_core = ROOT
+			NOT = { has_province_modifier = chr_house_ledger }
+			OR = {
+				trade_goods = grain
+				trade_goods = salt
+				trade_goods = naval_supplies
+				trade_goods = iron
+			}
+		}
+		add_province_modifier = {
+			name = chr_house_ledger
+			duration = -1
+		}
+	}
+}
+
+# Road C starts a roll of service that outlives every clerk written into it.
+chr_open_the_roll_effect = {
+	add_country_modifier = {
+		name = chr_roll_of_service
+		duration = -1
+	}
+	add_adm_power = 25
+}
+
+# Great Chernihiv. The six towns of the Siverian land are held as our own; what
+# the old principality reached beyond them becomes a claim rather than a story.
+chr_proclaim_great_chernihiv_effect = {
+	set_country_flag = chr_great_chernihiv
+	add_prestige = 25
+	add_country_modifier = {
+		name = chr_great_chernihiv
+		duration = -1
+	}
+	add_permanent_claim = 2407	# Pereiaslav
+	add_permanent_claim = 4542	# Lubny
+	add_permanent_claim = 290	# Poltava
+	add_permanent_claim = 291	# Kharkiv
+	add_permanent_claim = 1754	# Orel
+	add_permanent_claim = 4116	# Upper Oka
+	every_owned_province = {
+		limit = {
+			is_state_core = ROOT
+			OR = {
+				province_id = 289	# Chernihiv
+				province_id = 1945	# Novgorod-Seversky
+				province_id = 4244	# Starodub
+				province_id = 4543	# Rylsk
+				province_id = 297	# Bryansk
+				province_id = 298	# Kursk
+			}
+		}
+		add_province_modifier = {
+			name = chr_siverian_town
+			duration = -1
+		}
+	}
+	if = {
+		limit = {
+			government_rank = 1
+		}
+		set_government_rank = 2
+	}
+}

@@ -1,0 +1,278 @@
+country_decisions = {
+
+	# Three roads out of the Siversk Veche, one choice. Each sets
+	# chr_path_chosen through chr_take_the_road_effect, which shuts the other
+	# two, and each hands over a tier-1 government type that locks its level.
+	# The second stage of a road is a statute; the third waits on Great
+	# Chernihiv, in common/scripted_triggers/chr_path_triggers.txt.
+
+	# ======================= ROAD A - THE TOWNS =======================
+
+	chr_road_of_the_towns = {
+		major = yes
+		potential = {
+			chr_at_the_crossroads = yes
+			NOT = { has_country_flag = chr_road_towns_open }
+		}
+		allow = {
+			chr_can_take_towns_road = yes
+		}
+		effect = {
+			set_country_flag = chr_road_towns_open
+			add_government_reform = chr_desna_staple_reform
+			chr_take_the_road_effect = yes
+			chr_charter_the_staple_effect = yes
+			add_republican_tradition = 10
+			country_event = { id = chr_paths.1 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				republican_tradition = 70
+			}
+			modifier = {
+				factor = 0
+				num_of_cities = 12
+			}
+		}
+	}
+
+	chr_union_of_the_towns = {
+		major = yes
+		potential = {
+			has_reform = chr_desna_staple_reform
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			is_state_core = ROOT
+			NOT = { has_province_modifier = chr_staple_charter }
+		}
+		allow = {
+			chr_can_open_town_union = yes
+		}
+		effect = {
+			add_government_reform = chr_town_union_reform
+			chr_advance_the_road_effect = yes
+			chr_charter_the_staple_effect = yes
+			add_republican_tradition = 5
+			country_event = { id = chr_paths.2 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				republican_tradition = 75
+			}
+		}
+	}
+
+	chr_rada_of_all_the_lands = {
+		major = yes
+		potential = {
+			has_reform = chr_town_union_reform
+		}
+		allow = {
+			chr_can_open_rada_of_lands = yes
+		}
+		effect = {
+			add_government_reform = chr_rada_of_lands_reform
+			chr_advance_the_road_effect = yes
+			add_republican_tradition = 5
+			add_prestige = 10
+			country_event = { id = chr_paths.3 days = 3 }
+		}
+		ai_will_do = {
+			factor = 2
+		}
+	}
+
+	# ======================= ROAD B - THE HOUSES =======================
+
+	chr_road_of_the_houses = {
+		major = yes
+		potential = {
+			chr_at_the_crossroads = yes
+			NOT = { has_country_flag = chr_road_houses_open }
+		}
+		allow = {
+			chr_can_take_houses_road = yes
+		}
+		effect = {
+			set_country_flag = chr_road_houses_open
+			add_government_reform = chr_magistrat_rule_reform
+			chr_take_the_road_effect = yes
+			chr_open_the_ledger_effect = yes
+			add_treasury = -100
+			add_republican_tradition = -10
+			country_event = { id = chr_paths.4 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				treasury = 500
+			}
+		}
+	}
+
+	chr_call_a_prince = {
+		major = yes
+		potential = {
+			has_reform = chr_magistrat_rule_reform
+		}
+		allow = {
+			chr_can_open_siversk_principality = yes
+		}
+		effect = {
+			add_treasury = -200
+			change_government = monarchy
+			add_government_reform = chr_siversk_principality_reform
+			chr_advance_the_road_effect = yes
+			chr_open_the_ledger_effect = yes
+			add_legitimacy = 10
+			country_event = { id = chr_paths.5 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				NOT = { republican_tradition = 40 }
+			}
+		}
+	}
+
+	chr_crown_the_prykaz_tsardom = {
+		major = yes
+		potential = {
+			has_reform = chr_siversk_principality_reform
+		}
+		allow = {
+			chr_can_open_prykaz_tsardom = yes
+		}
+		effect = {
+			add_adm_power = -200
+			add_government_reform = chr_prykaz_tsardom_reform
+			chr_advance_the_road_effect = yes
+			add_prestige = 10
+			add_legitimacy = 10
+			country_event = { id = chr_paths.6 days = 3 }
+		}
+		ai_will_do = {
+			factor = 2
+		}
+	}
+
+	# ====================== ROAD C - THE CHANCERY ======================
+
+	chr_road_of_the_chancery = {
+		major = yes
+		potential = {
+			chr_at_the_crossroads = yes
+			NOT = { has_country_flag = chr_road_chancery_open }
+		}
+		allow = {
+			chr_can_take_chancery_road = yes
+		}
+		effect = {
+			set_country_flag = chr_road_chancery_open
+			add_government_reform = chr_kanceliaryst_republic_reform
+			chr_take_the_road_effect = yes
+			chr_open_the_roll_effect = yes
+			add_dip_power = -100
+			country_event = { id = chr_paths.7 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				adm_tech = 12
+			}
+		}
+	}
+
+	chr_raise_the_dzhury = {
+		major = yes
+		potential = {
+			has_reform = chr_kanceliaryst_republic_reform
+		}
+		allow = {
+			chr_can_open_dzhura_corps = yes
+		}
+		effect = {
+			add_mil_power = -200
+			change_government = monarchy
+			add_government_reform = chr_dzhura_corps_reform
+			chr_advance_the_road_effect = yes
+			add_army_tradition = 10
+			country_event = { id = chr_paths.8 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				army_tradition = 60
+			}
+		}
+	}
+
+	chr_union_of_many_nations = {
+		major = yes
+		potential = {
+			has_reform = chr_dzhura_corps_reform
+		}
+		allow = {
+			chr_can_open_many_nations_union = yes
+		}
+		effect = {
+			add_adm_power = -200
+			add_government_reform = chr_many_nations_union_reform
+			chr_advance_the_road_effect = yes
+			add_prestige = 10
+			country_event = { id = chr_paths.9 days = 3 }
+		}
+		ai_will_do = {
+			factor = 2
+		}
+	}
+
+	# ========================= GREAT CHERNIHIV =========================
+	# The hinge of all three roads. Whatever government the Siverian land ends
+	# up with, it cannot take its last step until the six towns of the old
+	# principality answer to one chancery again.
+
+	chr_proclaim_great_chernihiv = {
+		major = yes
+		potential = {
+			chr_on_a_path = yes
+			NOT = { has_country_flag = chr_great_chernihiv }
+		}
+		provinces_to_highlight = {
+			OR = {
+				province_id = 289	# Chernihiv
+				province_id = 1945	# Novgorod-Seversky
+				province_id = 4244	# Starodub
+				province_id = 4543	# Rylsk
+				province_id = 297	# Bryansk
+				province_id = 298	# Kursk
+			}
+			NOT = {
+				AND = {
+					owned_by = ROOT
+					is_core = ROOT
+				}
+			}
+		}
+		allow = {
+			chr_can_proclaim_great_chernihiv = yes
+		}
+		effect = {
+			add_adm_power = -200
+			chr_proclaim_great_chernihiv_effect = yes
+			country_event = { id = chr_paths.10 days = 3 }
+		}
+		ai_will_do = {
+			factor = 5
+		}
+	}
+}
