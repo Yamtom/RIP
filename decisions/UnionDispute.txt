@@ -1,0 +1,190 @@
+country_decisions = {
+
+	# The union question, from both ends. Vilnius decides what the Grand Duchy
+	# is; Krakow decides how hard to press for the Ruthenian palatinates. The
+	# flag lit_union_question_settled closes the question once a government has
+	# been chosen for it, in common/scripted_triggers/lit_union_triggers.txt.
+
+	# --- Vilnius: the Commonwealth kept as two nations
+
+	lit_hold_the_union_on_our_terms = {
+		major = yes
+		potential = {
+			lit_at_the_union_question = yes
+			has_country_flag = lit_union_path_open
+		}
+		allow = {
+			lit_can_hold_union_on_our_terms = yes
+		}
+		effect = {
+			add_adm_power = -100
+			add_dip_power = -100
+			add_government_reform = lit_union_of_two_nations_reform
+			lit_settle_the_union_question_effect = yes
+			random_country = {
+				limit = {
+					OR = {
+						tag = POL
+						tag = PLC
+					}
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = lit_union_confirmed
+				}
+			}
+			country_event = { id = union_dispute.7 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				OR = {
+					is_subject_of = POL
+					is_subject_of = PLC
+				}
+			}
+		}
+	}
+
+	# --- Vilnius: a crown of its own
+
+	lit_take_a_separate_crown = {
+		major = yes
+		potential = {
+			lit_at_the_union_question = yes
+			has_country_flag = lit_separate_path_open
+		}
+		allow = {
+			lit_can_take_separate_crown = yes
+		}
+		effect = {
+			add_adm_power = -100
+			add_mil_power = -100
+			add_government_reform = lit_separate_crown_reform
+			lit_settle_the_union_question_effect = yes
+			every_country = {
+				limit = {
+					OR = {
+						tag = POL
+						tag = PLC
+					}
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = lit_union_grievance
+				}
+			}
+			country_event = { id = union_dispute.8 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				is_subject = no
+				army_size_percentage = 0.9
+			}
+		}
+	}
+
+	# --- Krakow: press for the palatinates
+	#
+	# At Lublin the Crown did not have to win a war for Podlasie, Volhynia,
+	# Bratslav and Kyiv. It had to win a diet, with the king's signature at the
+	# bottom of the act and the Lithuanian delegation out of the room.
+
+	pol_press_the_incorporation = {
+		major = yes
+		potential = {
+			pol_at_the_union_question = yes
+			NOT = { has_country_flag = pol_pressed_incorporation }
+			exists = LIT
+		}
+		provinces_to_highlight = {
+			owned_by = LIT
+			OR = {
+				province_id = 269	# Podlasia
+				province_id = 279	# Volhynia
+				province_id = 1943	# Bratslav
+				province_id = 280	# Kiev
+			}
+		}
+		allow = {
+			pol_can_press_incorporation = yes
+		}
+		effect = {
+			set_country_flag = pol_pressed_incorporation
+			add_dip_power = -100
+			LIT = {
+				country_event = { id = union_dispute.5 days = 5 }
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 4
+				LIT = { is_subject_of = ROOT }
+			}
+		}
+	}
+
+	# --- the Grand Duchy's own business, on either road
+
+	lit_guarantee_the_orthodox_lords = {
+		major = yes
+		potential = {
+			lit_rules_an_orthodox_country = yes
+			NOT = { has_country_modifier = lit_orthodox_guarantee }
+		}
+		allow = {
+			adm_power = 100
+			is_at_war = no
+			stability = 1
+			num_of_cities = 10
+		}
+		effect = {
+			add_adm_power = -100
+			add_country_modifier = {
+				name = lit_orthodox_guarantee
+				duration = -1
+			}
+			add_country_modifier = {
+				name = lit_ruthenian_lords_content
+				duration = 9125
+			}
+			add_papal_influence = -20
+			country_event = { id = lit_confession.8 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				NOT = { religious_unity = 0.6 }
+			}
+		}
+	}
+
+	lit_confirm_the_statute = {
+		potential = {
+			lit_ladder_visible = yes
+			has_reform = lit_statute_reform
+			NOT = { has_country_modifier = lit_statute_supremacy }
+		}
+		allow = {
+			adm_power = 100
+			is_at_war = no
+			stability = 1
+		}
+		effect = {
+			add_adm_power = -100
+			add_country_modifier = {
+				name = lit_statute_supremacy
+				duration = -1
+			}
+			add_legitimacy = 5
+		}
+		ai_will_do = {
+			factor = 5
+		}
+	}
+}

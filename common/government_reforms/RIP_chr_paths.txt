@@ -1,0 +1,436 @@
+# The three roads out of the Siversk Veche.
+#
+# Chernihiv starts as a merchant veche of chartered towns and does not have to
+# stay one. Each road is a tier-1 government type in three stages, taken
+# through decisions in decisions/ChernihivPaths.txt. The flag chr_path_chosen
+# shuts the other two roads the moment one is opened; stage 3 of every road
+# waits on Great Chernihiv.
+#
+# Every reform carries a potential block, or EU4 lists it in the reform slot of
+# every country in the game and merely greys it out. Every reform is registered
+# in common/governments/00_governments.txt, or it is never offered at all.
+#
+# Stage 1 locks its level, so the tier cannot be swapped from the government
+# view; the later stages arrive only through their decision.
+
+# ============================ ROAD A - THE TOWNS ============================
+# The road Chernihiv is already on: chartered towns on a river system, a staple
+# on the Desna, and an assembly that bargains rather than commands. It reaches
+# for what the Dutch reached and stops one step short of it, on purpose - there
+# is no sea at the end of the Desna.
+
+chr_desna_staple_reform = {
+	icon = "trading_city"
+	legacy_equivalent = merchant_republic
+	potential = {
+		chr_desna_staple_visible = yes
+	}
+	trigger = {
+		chr_desna_staple_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	republic = yes
+	republican_name = yes
+	has_term_election = yes
+	duration = 4
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = yes
+	boost_income = yes
+	modifiers = {
+		merchants = 1
+		global_trade_power = 0.1
+		trade_efficiency = 0.05
+		burghers_loyalty_modifier = 0.1
+		development_cost = -0.05
+		global_unrest = -1
+		max_absolutism = -10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+		}
+		has_parliament = yes
+	}
+}
+
+chr_town_union_reform = {
+	icon = "states_general"
+	legacy_equivalent = dutch_republic_legacy
+	potential = {
+		chr_town_union_visible = yes
+	}
+	trigger = {
+		chr_town_union_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	republic = yes
+	republican_name = yes
+	has_term_election = yes
+	duration = 5
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = yes
+	boost_income = yes
+	max_states = 100
+	modifiers = {
+		merchants = 1
+		trade_efficiency = 0.1
+		global_trade_power = 0.1
+		global_prosperity_growth = 0.25
+		defensiveness = 0.15
+		republican_tradition = 0.1
+		province_warscore_cost = 0.2
+		max_absolutism = -20
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+		}
+		has_parliament = yes
+	}
+}
+
+chr_rada_of_lands_reform = {
+	icon = "assembly_hall"
+	legacy_equivalent = veche_republic_legacy
+	potential = {
+		chr_rada_of_lands_visible = yes
+	}
+	trigger = {
+		chr_rada_of_lands_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	republic = yes
+	republican_name = yes
+	has_term_election = yes
+	duration = 6
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = yes
+	boost_income = yes
+	max_states = 100
+	modifiers = {
+		merchants = 1
+		governing_capacity = 250
+		trade_efficiency = 0.1
+		global_trade_power = 0.1
+		global_unrest = -2
+		global_autonomy = -0.05
+		republican_tradition = 0.2
+		max_absolutism = -20
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+		}
+		has_parliament = yes
+	}
+}
+
+# =========================== ROAD B - THE HOUSES ===========================
+# The grain and salt houses buy the magistrat, the magistrat buys a prince, and
+# the prince keeps the houses. Each step is paid for by the one before it, and
+# each step costs the towns a liberty they do not get back.
+
+chr_magistrat_rule_reform = {
+	icon = "plutocracy_reform"
+	legacy_equivalent = oligarchic_republic
+	potential = {
+		chr_magistrat_rule_visible = yes
+	}
+	trigger = {
+		chr_magistrat_rule_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	republic = yes
+	republican_name = yes
+	has_term_election = yes
+	duration = 6
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = yes
+	modifiers = {
+		global_tax_modifier = 0.1
+		production_efficiency = 0.1
+		interest = -0.5
+		burghers_influence_modifier = 0.1
+		nobles_influence_modifier = 0.1
+		global_unrest = 1
+		republican_tradition = -0.1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+}
+
+chr_siversk_principality_reform = {
+	icon = "russian_principality"
+	legacy_equivalent = principality_legacy
+	potential = {
+		chr_siversk_principality_visible = yes
+	}
+	trigger = {
+		chr_siversk_principality_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	monarchy = yes
+	fixed_rank = 2
+	modifiers = {
+		governing_capacity = 200
+		global_unrest = -1
+		global_regiment_cost = -0.05
+		legitimacy = 0.5
+		global_tax_modifier = 0.1
+		nobles_loyalty_modifier = 0.1
+		yearly_absolutism = 0.25
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_aristocratic_idea_group = yes
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Third Rome"
+				has_dlc = "Domination"
+			}
+		}
+		government_abilities = {
+			russian_mechanic
+		}
+		custom_attributes = {
+			weaker_russian_ability = yes
+		}
+	}
+}
+
+chr_prykaz_tsardom_reform = {
+	icon = "general_eastern_administrative"
+	legacy_equivalent = tsardom_legacy
+	potential = {
+		chr_prykaz_tsardom_visible = yes
+	}
+	trigger = {
+		chr_prykaz_tsardom_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	monarchy = yes
+	fixed_rank = 3
+	claim_states = yes
+	modifiers = {
+		governing_capacity = 350
+		administrative_efficiency = 0.05
+		global_autonomy = -0.05
+		advisor_cost = -0.1
+		global_manpower_modifier = 0.15
+		yearly_absolutism = 0.5
+		global_unrest = 1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_aristocratic_idea_group = yes
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Third Rome"
+				has_dlc = "Domination"
+			}
+		}
+		government_abilities = {
+			russian_mechanic
+		}
+	}
+}
+
+# ========================== ROAD C - THE CHANCERY ==========================
+# Office by service, not by birth: first the clerks, then the boys the corps
+# raises to be clerks, and at the end a realm of many peoples held together by
+# the roll they are all written into.
+
+chr_kanceliaryst_republic_reform = {
+	icon = "examination_system_reform"
+	legacy_equivalent = administrative_republic
+	potential = {
+		chr_kanceliaryst_republic_visible = yes
+	}
+	trigger = {
+		chr_kanceliaryst_republic_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	republic = yes
+	republican_name = yes
+	has_term_election = yes
+	duration = 5
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = yes
+	modifiers = {
+		merchants = 1
+		advisor_cost = -0.15
+		advisor_pool = 1
+		global_trade_power = 0.05
+		technology_cost = -0.05
+		monarch_admin_power = 1
+		republican_tradition = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+}
+
+chr_dzhura_corps_reform = {
+	icon = "mamluk_government"
+	legacy_equivalent = mamluk_government_legacy
+	potential = {
+		chr_dzhura_corps_visible = yes
+	}
+	trigger = {
+		chr_dzhura_corps_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	monarchy = yes
+	fixed_rank = 2
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = yes
+	modifiers = {
+		num_accepted_cultures = 2
+		monarch_admin_power = 1
+		monarch_mil_power = 1
+		same_culture_advisor_cost = -0.25
+		promote_culture_cost = -0.5
+		global_autonomy = -0.025
+		army_tradition = 0.5
+		legitimacy = -0.5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_aristocratic_idea_group = yes
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Cradle of Civilization"
+				has_dlc = "King of Kings"
+			}
+		}
+		foreign_slave_rulers = yes
+		government_abilities = {
+			mamluk_mechanic
+		}
+	}
+}
+
+chr_many_nations_union_reform = {
+	icon = "map_2"
+	legacy_equivalent = feudal_monarchy
+	potential = {
+		chr_many_nations_union_visible = yes
+	}
+	trigger = {
+		chr_many_nations_union_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	monarchy = yes
+	fixed_rank = 3
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = yes
+	max_states = 100
+	modifiers = {
+		num_accepted_cultures = 3
+		governing_capacity = 300
+		tolerance_own = 1
+		tolerance_heathen = 1
+		promote_culture_cost = -0.5
+		diplomatic_upkeep = 1
+		global_unrest = -1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_aristocratic_idea_group = yes
+	}
+	# The Mughal bargain, on the Desna: every people brought under the roll
+	# writes its own clause into it, and the clause outlives the conquest.
+	assimilation_cultures = {
+		west_slavic = {
+			mercenary_cost = -0.1
+		}
+		south_slavic = {
+			land_morale = 0.05
+		}
+		carpathian = {
+			hostile_attrition = 1
+		}
+		byzantine = {
+			legitimacy = 0.25
+		}
+		caucasian = {
+			cavalry_power = 0.05
+		}
+		altaic = {
+			movement_speed = 0.1
+		}
+		finno_ugric = {
+			prestige_decay = -0.01
+		}
+		germanic = {
+			technology_cost = -0.025
+		}
+	}
+}

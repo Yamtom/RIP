@@ -1,0 +1,593 @@
+# ========================================================================
+# Historical processes of the Siverian land, in the order they happened.
+# Authenticity: A - documented, with the choices left open.
+# Sources:
+#   the service princes Mozhaisky and Shemyachich, who held Chernihiv and
+#   Novhorod-Siverskyi between Vilnius and Moscow and changed sides twice;
+#   the Muscovite watch line along the Desna from the 1490s;
+#   the Starodub hemp and potash trade to Riga and Danzig;
+#   Magdeburg charters for Chernihiv (1623) and Nizhyn (1625);
+#   the Chernihiv voivodeship of 1635 and the szlachta grants inside it;
+#   the regimental order of 1648 that replaced it;
+#   Baturyn as the hetman's seat and its building in brick;
+#   Doroshenko's protection from the Porte after 1669;
+#   the Chernihiv Collegium of 1700 and the chancery men it trained;
+#   the codification finished in 1743 as the Rights by which the land is
+#   judged.
+# ========================================================================
+
+namespace = chr_history
+
+# --- 1. The service princes. They came from Moscow with retinues and a claim
+#        to udils, and whoever took them in also took in their quarrel.
+country_event = {
+	id = chr_history.1
+	title = chr_history.1.t
+	desc = chr_history.1.d
+	picture = COURT_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = CHR
+			chr_on_a_path = yes
+		}
+		NOT = { is_year = 1490 }
+		owns_core_province = 289	# Chernihiv
+	}
+
+	mean_time_to_happen = {
+		months = 60
+	}
+
+	option = {
+		name = chr_history.1.a
+		ai_chance = { factor = 40 }
+		add_country_modifier = {
+			name = chr_service_princes
+			duration = -1
+		}
+		add_mil_power = 25
+	}
+
+	option = {
+		name = chr_history.1.b
+		ai_chance = { factor = 40 }
+		add_republican_tradition = 5
+		add_adm_power = 25
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+	}
+
+	option = {
+		name = chr_history.1.c
+		ai_chance = { factor = 20 }
+		add_dip_power = 50
+		add_prestige = -5
+	}
+}
+
+# --- 2. The Desna becomes a border. Muscovite watchtowers went up along it in
+#        the 1490s and the towns behind them had to decide what they were.
+country_event = {
+	id = chr_history.2
+	title = chr_history.2.t
+	desc = chr_history.2.d
+	picture = FORT_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = CHR
+			chr_on_a_path = yes
+		}
+		is_year = 1490
+		NOT = { is_year = 1545 }
+		owns_core_province = 289	# Chernihiv
+	}
+
+	mean_time_to_happen = {
+		months = 48
+		modifier = {
+			factor = 0.6
+			any_neighbor_country = {
+				OR = {
+					tag = MOS
+					tag = RUS
+				}
+			}
+		}
+	}
+
+	option = {
+		name = chr_history.2.a
+		ai_chance = { factor = 50 }
+		add_mil_power = -50
+		add_country_modifier = {
+			name = chr_desna_line
+			duration = 9125
+		}
+	}
+
+	option = {
+		name = chr_history.2.b
+		ai_chance = { factor = 30 }
+		add_treasury = -100
+		add_dip_power = 25
+		random_country = {
+			limit = {
+				OR = {
+					tag = MOS
+					tag = RUS
+				}
+				NOT = { war_with = ROOT }
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = chr_border_compact_support
+			}
+		}
+	}
+
+	option = {
+		name = chr_history.2.c
+		ai_chance = { factor = 20 }
+		add_adm_power = 50
+		add_prestige = -10
+		every_owned_province = {
+			limit = { is_state_core = ROOT }
+			add_unrest = 2
+		}
+	}
+}
+
+# --- 3. Starodub hemp. Rope for other people's fleets, carted north to Riga
+#        and Danzig, was the one export the Siverian land could not be talked
+#        out of.
+country_event = {
+	id = chr_history.3
+	title = chr_history.3.t
+	desc = chr_history.3.d
+	picture = TRADEGOODS_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = CHR
+			chr_on_a_path = yes
+		}
+		is_year = 1550
+		NOT = { is_year = 1660 }
+		owns = 4244	# Starodub
+	}
+
+	mean_time_to_happen = {
+		months = 72
+	}
+
+	option = {
+		name = chr_history.3.a
+		ai_chance = { factor = 50 }
+		add_country_modifier = {
+			name = chr_hemp_contract
+			duration = -1
+		}
+	}
+
+	option = {
+		name = chr_history.3.b
+		ai_chance = { factor = 30 }
+		add_treasury = -150
+		4244 = {			# Starodub
+			add_base_production = 1
+		}
+	}
+
+	option = {
+		name = chr_history.3.c
+		ai_chance = { factor = 20 }
+		add_years_of_income = 0.5
+		every_owned_province = {
+			limit = { trade_goods = naval_supplies }
+			add_unrest = 3
+		}
+	}
+}
+
+# --- 4. Magdeburg law. Chernihiv had its charter in 1623 and Nizhyn in 1625,
+#        and a chartered town answers to its own court before it answers to
+#        anybody else's.
+country_event = {
+	id = chr_history.4
+	title = chr_history.4.t
+	desc = chr_history.4.d
+	picture = MERCHANTS_TALKING_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = CHR
+			chr_on_a_path = yes
+		}
+		is_year = 1600
+		NOT = { is_year = 1680 }
+		num_of_cities = 4
+	}
+
+	mean_time_to_happen = {
+		months = 60
+	}
+
+	option = {
+		name = chr_history.4.a
+		ai_chance = { factor = 60 }
+		add_adm_power = -50
+		add_country_modifier = {
+			name = chr_charter_of_the_towns
+			duration = -1
+		}
+	}
+
+	option = {
+		name = chr_history.4.b
+		ai_chance = { factor = 40 }
+		capital_scope = {
+			add_province_modifier = {
+				name = chr_staple_charter
+				duration = -1
+			}
+		}
+		add_treasury = 100
+	}
+}
+
+# --- 5. The voivodeship of 1635 and the grants inside it. The crown gave land
+#        in Siveria to men who had never seen it.
+country_event = {
+	id = chr_history.5
+	title = chr_history.5.t
+	desc = chr_history.5.d
+	picture = SEJM_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = CHR
+			chr_on_a_path = yes
+		}
+		is_year = 1630
+		NOT = { is_year = 1700 }
+	}
+
+	mean_time_to_happen = {
+		months = 60
+	}
+
+	option = {
+		name = chr_history.5.a
+		ai_chance = { factor = 50 }
+		add_country_modifier = {
+			name = chr_szlachta_roll
+			duration = -1
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+
+	option = {
+		name = chr_history.5.b
+		ai_chance = { factor = 50 }
+		add_republican_tradition = 5
+		every_owned_province = {
+			limit = { is_state_core = ROOT }
+			add_unrest = 2
+		}
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 10
+			}
+		}
+	}
+}
+
+# --- 6. 1648. The regiments took the districts the voivodes had held, and the
+#        question was only whether the colonel or the magistrat outranked the
+#        other.
+country_event = {
+	id = chr_history.6
+	title = chr_history.6.t
+	desc = chr_history.6.d
+	picture = LAND_MILITARY_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = CHR
+			chr_on_a_path = yes
+		}
+		is_year = 1648
+		NOT = { is_year = 1720 }
+	}
+
+	mean_time_to_happen = {
+		months = 48
+	}
+
+	option = {
+		name = chr_history.6.a
+		ai_chance = { factor = 50 }
+		add_country_modifier = {
+			name = chr_regimental_order
+			duration = -1
+		}
+		add_army_tradition = 10
+		add_republican_tradition = -5
+	}
+
+	option = {
+		name = chr_history.6.b
+		ai_chance = { factor = 50 }
+		add_republican_tradition = 10
+		add_army_tradition = -5
+		add_adm_power = 50
+	}
+}
+
+# --- 7. Baturyn. A hetman's seat built in brick, with a press, a mint and a
+#        church front that everyone from Vilnius to Moscow recognised on
+#        sight.
+country_event = {
+	id = chr_history.7
+	title = chr_history.7.t
+	desc = chr_history.7.d
+	picture = COURT_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = CHR
+			chr_on_a_path = yes
+		}
+		is_year = 1660
+		NOT = { is_year = 1740 }
+		num_of_cities = 8
+	}
+
+	mean_time_to_happen = {
+		months = 72
+	}
+
+	option = {
+		name = chr_history.7.a
+		ai_chance = { factor = 70 }
+		add_treasury = -200
+		add_country_modifier = {
+			name = chr_baroque_glory
+			duration = -1
+		}
+		capital_scope = {
+			add_province_modifier = {
+				name = chr_baroque_capital
+				duration = -1
+			}
+		}
+	}
+
+	option = {
+		name = chr_history.7.b
+		ai_chance = { factor = 30 }
+		add_treasury = 100
+		add_prestige = -5
+	}
+}
+
+# --- 8. The Porte's word. Doroshenko took it in 1669 and the land argued
+#        about it for a generation.
+country_event = {
+	id = chr_history.8
+	title = chr_history.8.t
+	desc = chr_history.8.d
+	picture = DIPLOMACY_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = CHR
+			chr_on_a_path = yes
+		}
+		is_year = 1665
+		NOT = { is_year = 1730 }
+		exists = TUR
+	}
+
+	mean_time_to_happen = {
+		months = 60
+		modifier = {
+			factor = 0.5
+			any_neighbor_country = {
+				OR = {
+					tag = MOS
+					tag = RUS
+					tag = PLC
+				}
+				is_rival = ROOT
+			}
+		}
+	}
+
+	option = {
+		name = chr_history.8.a
+		ai_chance = { factor = 40 }
+		add_country_modifier = {
+			name = chr_ottoman_protection_turmoil
+			duration = 7300
+		}
+		random_country = {
+			limit = { tag = TUR }
+			add_opinion = {
+				who = ROOT
+				modifier = chr_border_compact_support
+			}
+		}
+	}
+
+	option = {
+		name = chr_history.8.b
+		ai_chance = { factor = 60 }
+		add_prestige = 10
+		add_mil_power = -50
+	}
+}
+
+# --- 9. The Collegium of 1700. It taught Latin, rhetoric and enough law to
+#        argue with a chancery, and it filled the chanceries for a century.
+country_event = {
+	id = chr_history.9
+	title = chr_history.9.t
+	desc = chr_history.9.d
+	picture = UNIVERSITY_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = CHR
+			chr_on_a_path = yes
+		}
+		is_year = 1690
+		NOT = { is_year = 1780 }
+		NOT = { has_country_modifier = chr_cherhiniv_collegium }
+	}
+
+	mean_time_to_happen = {
+		months = 60
+	}
+
+	option = {
+		name = chr_history.9.a
+		ai_chance = { factor = 70 }
+		add_adm_power = -50
+		add_country_modifier = {
+			name = chr_cherhiniv_collegium
+			duration = -1
+		}
+	}
+
+	option = {
+		name = chr_history.9.b
+		ai_chance = { factor = 30 }
+		add_dip_power = 50
+		add_prestige = 5
+	}
+}
+
+# --- 10. The chancery men. Sons of priests and sotnia clerks who could draft
+#         in three languages, and who ended up owning the villages they had
+#         been sent to register.
+country_event = {
+	id = chr_history.10
+	title = chr_history.10.t
+	desc = chr_history.10.d
+	picture = BIG_BOOK_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = CHR
+			chr_on_a_path = yes
+		}
+		is_year = 1700
+		NOT = { is_year = 1790 }
+		NOT = { has_country_modifier = chr_bunchuk_tovaryshi }
+	}
+
+	mean_time_to_happen = {
+		months = 72
+	}
+
+	option = {
+		name = chr_history.10.a
+		ai_chance = { factor = 60 }
+		add_country_modifier = {
+			name = chr_bunchuk_tovaryshi
+			duration = -1
+		}
+		add_adm_power = 25
+	}
+
+	option = {
+		name = chr_history.10.b
+		ai_chance = { factor = 40 }
+		add_army_tradition = 5
+		every_owned_province = {
+			limit = { is_state_core = ROOT }
+			add_unrest = 1
+		}
+	}
+}
+
+# --- 11. The codification finished in 1743. Three legal traditions, one book,
+#         and a court that had to choose between them anyway.
+country_event = {
+	id = chr_history.11
+	title = chr_history.11.t
+	desc = chr_history.11.d
+	picture = REFORM_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = CHR
+			chr_on_a_path = yes
+		}
+		is_year = 1730
+		NOT = { has_country_modifier = chr_siverian_law_codified }
+	}
+
+	mean_time_to_happen = {
+		months = 72
+	}
+
+	option = {
+		name = chr_history.11.a
+		ai_chance = { factor = 70 }
+		add_adm_power = -100
+		add_country_modifier = {
+			name = chr_siverian_law_codified
+			duration = -1
+		}
+	}
+
+	option = {
+		name = chr_history.11.b
+		ai_chance = { factor = 30 }
+		add_adm_power = 50
+		add_republican_tradition = 5
+		every_owned_province = {
+			limit = { is_state_core = ROOT }
+			add_unrest = 1
+		}
+	}
+}

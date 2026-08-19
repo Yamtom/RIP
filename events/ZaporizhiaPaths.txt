@@ -1,0 +1,94 @@
+# ========================================================================
+# The four roads out of the Sich, and the road the Host took twice.
+# Authenticity: B - extrapolated. The Hetmanate, the flight to Ottoman
+# ground in 1709 and the Danube Sich after 1775 are documented; the
+# cantonal and the order roads are counterfactuals built on real arguments
+# inside the Host.
+# Sources:
+#   the Constitution of Pylyp Orlyk (1710); the Oleshky and Danube Sich;
+#   the transfer of the Black Sea Host to the Kuban (1792).
+# ========================================================================
+
+namespace = zaz_paths
+
+country_event = {
+	id = zaz_paths.1
+	title = zaz_paths.1.t
+	desc = zaz_paths.1.d
+	picture = DIPLOMACY_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_paths.1.a
+		ai_chance = { factor = 100 }
+		add_republican_tradition = 5
+	}
+}
+
+country_event = {
+	id = zaz_paths.2
+	title = zaz_paths.2.t
+	desc = zaz_paths.2.d
+	picture = LAND_MILITARY_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_paths.2.a
+		ai_chance = { factor = 100 }
+		add_army_tradition = 5
+	}
+}
+
+country_event = {
+	id = zaz_paths.3
+	title = zaz_paths.3.t
+	desc = zaz_paths.3.d
+	picture = RELIGIOUS_CONVERSION_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_paths.3.a
+		ai_chance = { factor = 100 }
+		add_papal_influence = 10
+	}
+}
+
+country_event = {
+	id = zaz_paths.4
+	title = zaz_paths.4.t
+	desc = zaz_paths.4.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_paths.4.a
+		ai_chance = { factor = 100 }
+		add_army_tradition = 5
+	}
+}
+
+country_event = {
+	id = zaz_paths.5
+	title = zaz_paths.5.t
+	desc = zaz_paths.5.d
+	picture = MILITARY_CAMP_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_paths.5.a
+		ai_chance = { factor = 100 }
+		add_manpower = 2
+	}
+
+	option = {
+		name = zaz_paths.5.b
+		ai_chance = { factor = 50 }
+		add_prestige = 5
+		add_republican_tradition = -5
+	}
+}

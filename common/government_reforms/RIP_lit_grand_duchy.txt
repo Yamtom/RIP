@@ -1,0 +1,282 @@
+# The Grand Duchy of Lithuania, reworked.
+#
+# Vanilla's grand_duchy_reform is a stub: one modifier, governing capacity 200,
+# and nothing that says what the Grand Duchy actually was - a Catholic dynasty
+# over a country that was mostly Orthodox, ruled through a council of lords, a
+# chancery that wrote in Ruthenian, and a levy of boyars who held land for it.
+# This file replaces that stub by key, so anything that already tests
+# has_reform = grand_duchy_reform keeps working, and hangs a ladder of six
+# Lithuanian institutions off it.
+#
+# The two tier-1 reforms at the bottom are the ends of the union quarrel in
+# decisions/UnionDispute.txt: the Commonwealth kept as two nations, or the
+# Grand Duchy under a crown of its own. Each replaces grand_duchy_reform in the
+# same tier, the way the Siversk roads replace the veche.
+#
+# Every reform here is registered in common/governments/00_governments.txt, or
+# it would never be offered, and every one carries a potential block, or it
+# would be offered to every country in the game.
+
+# --- tier 1: the Grand Duchy itself ----------------------------------------
+
+grand_duchy_reform = {
+	icon = "king_2"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			AND = {
+				tag = LIT
+				NOT = { map_setup = map_setup_random }
+			}
+			has_reform = grand_duchy_reform
+			AND = {
+				is_playing_custom_nation = yes
+				have_had_reform = grand_duchy_reform
+			}
+		}
+	}
+	legacy_equivalent = despotic_monarchy
+	fixed_rank = 1
+	valid_for_nation_designer = yes
+	nation_designer_cost = 10
+	modifiers = {
+		governing_capacity = 200
+		num_accepted_cultures = 2
+		cavalry_power = 0.1
+		global_unrest = -1
+		diplomatic_reputation = 1
+		global_autonomy = 0.05
+	}
+	custom_attributes = {
+		enables_aristocratic_idea_group = yes
+	}
+}
+
+# --- the ladder: six institutions of the Grand Duchy ------------------------
+
+lit_pany_rada_reform = {
+	icon = "nobleman"
+	potential = {
+		OR = {
+			has_reform = lit_pany_rada_reform
+			lit_ladder_visible = yes
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = lit_pany_rada_reform
+			lit_ladder_visible = yes
+		}
+	}
+	modifiers = {
+		nobles_loyalty_modifier = 0.1
+		nobles_influence_modifier = 0.1
+		advisor_cost = -0.1
+		legitimacy = 0.5
+		max_absolutism = -10
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+lit_ruthenian_chancery_reform = {
+	icon = "paper_with_seal"
+	potential = {
+		OR = {
+			has_reform = lit_ruthenian_chancery_reform
+			lit_ladder_visible = yes
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = lit_ruthenian_chancery_reform
+			lit_ladder_visible = yes
+		}
+	}
+	modifiers = {
+		core_creation = -0.15
+		promote_culture_cost = -0.25
+		global_autonomy = -0.05
+		governing_capacity = 100
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+lit_confessional_guarantee_reform = {
+	icon = "church_and_state_reform"
+	potential = {
+		OR = {
+			has_reform = lit_confessional_guarantee_reform
+			lit_ladder_visible = yes
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = lit_confessional_guarantee_reform
+			lit_ladder_visible = yes
+		}
+	}
+	modifiers = {
+		tolerance_heretic = 2
+		tolerance_heathen = 1
+		global_unrest = -2
+		church_loyalty_modifier = -0.05
+		papal_influence = -1
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+lit_boyar_levy_reform = {
+	icon = "soldiers_3"
+	potential = {
+		OR = {
+			has_reform = lit_boyar_levy_reform
+			lit_ladder_visible = yes
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = lit_boyar_levy_reform
+			lit_ladder_visible = yes
+		}
+	}
+	modifiers = {
+		cavalry_power = 0.1
+		cav_to_inf_ratio = 0.2
+		land_maintenance_modifier = -0.1
+		global_manpower_modifier = 0.1
+		infantry_power = -0.05
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+lit_grand_diet_reform = {
+	icon = "parliament"
+	potential = {
+		OR = {
+			has_reform = lit_grand_diet_reform
+			lit_ladder_visible = yes
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = lit_grand_diet_reform
+			lit_ladder_visible = yes
+		}
+	}
+	modifiers = {
+		global_tax_modifier = 0.1
+		stability_cost_modifier = -0.1
+		yearly_corruption = -0.05
+		max_absolutism = -5
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+		}
+		has_parliament = yes
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+lit_statute_reform = {
+	icon = "judge"
+	potential = {
+		OR = {
+			has_reform = lit_statute_reform
+			lit_ladder_visible = yes
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = lit_statute_reform
+			lit_ladder_visible = yes
+		}
+	}
+	modifiers = {
+		administrative_efficiency = 0.05
+		global_unrest = -1
+		state_maintenance_modifier = -0.1
+		legitimacy = 0.5
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+# --- the two ends of the union quarrel, both tier 1 -------------------------
+
+lit_union_of_two_nations_reform = {
+	icon = "elective_monarchy"
+	legacy_equivalent = elective_monarchy_legacy
+	potential = {
+		lit_union_of_two_nations_visible = yes
+	}
+	trigger = {
+		lit_union_of_two_nations_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	monarchy = yes
+	fixed_rank = 2
+	modifiers = {
+		governing_capacity = 300
+		num_accepted_cultures = 3
+		diplomatic_reputation = 2
+		diplomatic_upkeep = 1
+		global_unrest = -1
+		reform_progress_growth = -0.1
+		max_absolutism = -15
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_aristocratic_idea_group = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+		}
+		has_parliament = yes
+	}
+}
+
+lit_separate_crown_reform = {
+	icon = "crown_highlighted"
+	legacy_equivalent = feudal_monarchy
+	potential = {
+		lit_separate_crown_visible = yes
+	}
+	trigger = {
+		lit_separate_crown_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	monarchy = yes
+	fixed_rank = 2
+	modifiers = {
+		governing_capacity = 250
+		legitimacy = 1
+		army_tradition = 0.5
+		global_manpower_modifier = 0.1
+		yearly_absolutism = 0.25
+		diplomatic_reputation = -1
+		global_unrest = 1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_aristocratic_idea_group = yes
+	}
+}

@@ -1,0 +1,191 @@
+country_decisions = {
+
+	# Four roads, one choice. Each sets zaz_path_chosen, which shuts the other
+	# three, and each hands over a tier-1 government type that locks its level.
+
+	zaz_road_of_the_cantons = {
+		major = yes
+		potential = {
+			zaz_at_the_crossroads = yes
+			NOT = { has_country_flag = zaz_path_cantons_open }
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			rip_is_steppe_or_grasslands = yes
+		}
+		allow = {
+			zaz_can_take_cantons_road = yes
+		}
+		effect = {
+			set_country_flag = zaz_path_cantons_open
+			set_country_flag = zaz_path_chosen
+			add_government_reform = zaz_cossack_cantons_reform
+			zaz_take_the_road_effect = yes
+			add_republican_tradition = 10
+			every_owned_province = {
+				limit = { is_state_core = ROOT }
+				add_province_modifier = {
+					name = zaz_canton_charter
+					duration = -1
+				}
+			}
+			country_event = { id = zaz_paths.1 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				num_of_cities = 8
+			}
+			modifier = {
+				factor = 0
+				army_size_percentage = 1
+			}
+		}
+	}
+
+	zaz_road_of_host_and_state = {
+		major = yes
+		potential = {
+			zaz_at_the_crossroads = yes
+			NOT = { has_country_flag = zaz_path_host_state_open }
+		}
+		allow = {
+			zaz_can_take_host_state_road = yes
+		}
+		effect = {
+			set_country_flag = zaz_path_host_state_open
+			set_country_flag = zaz_path_chosen
+			add_government_reform = zaz_host_and_state_reform
+			zaz_take_the_road_effect = yes
+			add_army_tradition = 10
+			add_republican_tradition = -10
+			country_event = { id = zaz_paths.2 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 4
+				army_size_percentage = 1
+			}
+		}
+	}
+
+	zaz_road_of_the_sacred_order = {
+		major = yes
+		potential = {
+			zaz_at_the_crossroads = yes
+			NOT = { has_country_flag = zaz_path_sacred_order_open }
+		}
+		allow = {
+			zaz_can_take_sacred_order_road = yes
+		}
+		effect = {
+			set_country_flag = zaz_path_sacred_order_open
+			set_country_flag = zaz_path_chosen
+			change_government = theocracy
+			add_government_reform = zaz_sacred_host_order_reform
+			zaz_take_the_road_effect = yes
+			add_stability = 1
+			country_event = { id = zaz_paths.3 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				religious_unity = 1
+			}
+		}
+	}
+
+	zaz_road_of_the_sacred_horde = {
+		major = yes
+		potential = {
+			zaz_at_the_crossroads = yes
+			NOT = { has_country_flag = zaz_path_sacred_horde_open }
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			rip_is_steppe_or_grasslands = yes
+		}
+		allow = {
+			zaz_can_take_sacred_horde_road = yes
+		}
+		effect = {
+			set_country_flag = zaz_path_sacred_horde_open
+			set_country_flag = zaz_path_chosen
+			change_government = tribal
+			add_government_reform = zaz_sacred_horde_reform
+			zaz_take_the_road_effect = yes
+			add_army_tradition = 5
+			country_event = { id = zaz_paths.4 days = 3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				cavalry_fraction = 0.7
+			}
+			modifier = {
+				factor = 0
+				num_of_cities = 12
+			}
+		}
+	}
+
+	# --- the Host is a camp before it is a capital, and a camp can be moved.
+	# zaz_relocate_sich in ZaporizhiaDecisions.txt moves the Sich inside the
+	# old country's own steppe. This one is the harder move: a whole Cossack
+	# polity carrying its seat somewhere it does not yet hold, which is what
+	# the Host did in 1709 and again in 1775.
+
+	cossack_carry_the_host = {
+		major = yes
+		potential = {
+			can_carry_the_host = yes
+			any_known_country = {
+				any_owned_province = {
+					is_host_refuge = yes
+					NOT = { owned_by = ROOT }
+				}
+			}
+		}
+		provinces_to_highlight = {
+			is_host_refuge = yes
+			NOT = { owned_by = ROOT }
+		}
+		allow = {
+			adm_power = 100
+			mil_power = 100
+			custom_trigger_tooltip = {
+				tooltip = cossack_carry_the_host_tt
+				any_known_country = {
+					any_owned_province = {
+						is_host_refuge = yes
+						NOT = { owned_by = ROOT }
+					}
+					OR = {
+						alliance_with = ROOT
+						is_subject_of = ROOT
+						has_opinion = { who = ROOT value = 100 }
+					}
+				}
+			}
+		}
+		effect = {
+			add_adm_power = -100
+			add_mil_power = -100
+			cossack_carry_the_host_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				factor = 1
+				num_of_cities = 2
+				any_neighbor_country = {
+					war_with = ROOT
+				}
+			}
+		}
+	}
+}
