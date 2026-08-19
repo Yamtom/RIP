@@ -1,0 +1,124 @@
+# Visibility gates for the four roads out of the Sich.
+#
+# Each reform is shown to a country that either already holds it - otherwise a
+# country loses sight of its own government - or is still at the crossroads
+# with that road's flag set. zaz_path_chosen closes the other three.
+
+zaz_at_the_crossroads = {
+	OR = {
+		tag = ZAZ
+		AND = {
+			tag = HET
+			has_reform = rip_cossacks_reform
+		}
+	}
+	NOT = { has_country_flag = zaz_path_chosen }
+}
+
+zaz_path_cantons_visible = {
+	OR = {
+		has_reform = zaz_cossack_cantons_reform
+		AND = {
+			zaz_at_the_crossroads = yes
+			has_country_flag = zaz_path_cantons_open
+		}
+	}
+}
+
+zaz_path_host_state_visible = {
+	OR = {
+		has_reform = zaz_host_and_state_reform
+		AND = {
+			zaz_at_the_crossroads = yes
+			has_country_flag = zaz_path_host_state_open
+		}
+	}
+}
+
+zaz_path_sacred_order_visible = {
+	OR = {
+		has_reform = zaz_sacred_host_order_reform
+		AND = {
+			zaz_at_the_crossroads = yes
+			has_country_flag = zaz_path_sacred_order_open
+		}
+	}
+}
+
+zaz_path_sacred_horde_visible = {
+	OR = {
+		has_reform = zaz_sacred_horde_reform
+		AND = {
+			zaz_at_the_crossroads = yes
+			has_country_flag = zaz_path_sacred_horde_open
+		}
+	}
+}
+
+# --- what each road asks of the Host before it will open
+
+zaz_can_take_cantons_road = {
+	zaz_at_the_crossroads = yes
+	num_of_cities = 4
+	republican_tradition = 60
+	is_at_war = no
+	stability = 1
+}
+
+zaz_can_take_host_state_road = {
+	zaz_at_the_crossroads = yes
+	num_of_cities = 6
+	army_size_percentage = 0.9
+	army_tradition = 40
+	stability = 1
+}
+
+zaz_can_take_sacred_order_road = {
+	zaz_at_the_crossroads = yes
+	num_of_cities = 4
+	religious_unity = 0.9
+	stability = 2
+	OR = {
+		religion = orthodox
+		religion = russian_orthodox
+		religion = greek_catholic
+		religion = catholic
+	}
+}
+
+zaz_can_take_sacred_horde_road = {
+	zaz_at_the_crossroads = yes
+	num_of_cities = 4
+	cavalry_fraction = 0.5
+	army_tradition = 30
+	any_owned_province = {
+		rip_is_steppe_or_grasslands = yes
+	}
+}
+
+# --- a Cossack polity that can pick its seat up and carry it
+
+is_cossack_polity = {
+	OR = {
+		has_reform = rip_cossacks_reform
+		has_reform = zaz_sich_brotherhood_reform
+		has_reform = zaz_kosh_elections_reform
+		has_reform = zaz_free_host_reform
+		has_reform = zaz_chaiky_trade_reform
+		has_reform = zaz_last_sich_reform
+		has_reform = het_starshyna_oligarchy_reform
+		has_reform = zaz_cossack_cantons_reform
+		has_reform = zaz_host_and_state_reform
+		has_reform = zaz_sacred_host_order_reform
+		has_reform = zaz_sacred_horde_reform
+		has_reform = cossacks_reform
+		has_reform = cossacks_legacy_reform
+	}
+}
+
+can_carry_the_host = {
+	is_cossack_polity = yes
+	NOT = { has_country_flag = host_recently_moved }
+	is_at_war = no
+	stability = 0
+}
