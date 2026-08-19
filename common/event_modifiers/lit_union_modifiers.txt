@@ -1,0 +1,97 @@
+# Modifiers for the Grand Duchy rework, the union quarrel with Poland, and the
+# confessional split inside the Grand Duchy.
+
+# --- the union quarrel
+
+lit_vilnius_council = {
+	legitimacy = 0.5
+	nobles_loyalty_modifier = 0.1
+	diplomatic_reputation = 1
+}
+
+lit_crown_refused = {
+	army_tradition = 0.5
+	legitimacy = 1
+	diplomatic_reputation = -1
+	global_unrest = 1
+}
+
+lit_palatinates_conceded = {
+	prestige = -0.5
+	global_unrest = 1
+	nobles_loyalty_modifier = -0.05
+	stability_cost_modifier = 0.1
+}
+
+pol_palatinates_incorporated = {
+	governing_capacity = 100
+	core_creation = -0.1
+	global_unrest = 1
+}
+
+lit_separate_treasury = {
+	global_tax_modifier = 0.1
+	interest = -0.5
+	diplomatic_upkeep = 1
+	reform_progress_growth = -0.05
+}
+
+lit_statute_supremacy = {
+	global_unrest = -1
+	legitimacy = 0.5
+	administrative_efficiency = 0.05
+	papal_influence = -1
+}
+
+lit_offices_closed = {
+	nobles_influence_modifier = 0.1
+	advisor_cost = 0.1
+	global_unrest = 1
+}
+
+lit_garrisoned_castle = {
+	local_defensiveness = 0.2
+	garrison_size = 0.15
+	local_unrest = -1
+}
+
+# --- the confessional split
+
+lit_orthodox_guarantee = {
+	tolerance_heathen = 1
+	tolerance_heretic = 1
+	global_unrest = -2
+	papal_influence = -2
+}
+
+lit_slavonic_press = {
+	global_institution_spread = 0.1
+	idea_cost = -0.05
+	prestige = 0.25
+}
+
+lit_calvinist_vilnius = {
+	global_institution_spread = 0.1
+	technology_cost = -0.05
+	church_loyalty_modifier = -0.1
+	global_unrest = 1
+}
+
+lit_jesuit_academy = {
+	missionaries = 1
+	global_missionary_strength = 0.01
+	church_loyalty_modifier = 0.1
+	tolerance_heretic = -1
+}
+
+lit_parallel_hierarchy = {
+	global_unrest = 2
+	stability_cost_modifier = 0.1
+	tolerance_own = 1
+}
+
+lit_ruthenian_lords_content = {
+	nobles_loyalty_modifier = 0.1
+	global_unrest = -1
+	manpower_recovery_speed = 0.1
+}

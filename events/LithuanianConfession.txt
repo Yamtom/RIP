@@ -1,0 +1,583 @@
+# ========================================================================
+# The confessional split inside the Grand Duchy, and how it diverges from
+# the Crown's.
+# Authenticity: A - documented. Follows recorded institutions and people.
+# Sources:
+#   the Horodlo privilege reserving council seats for Catholic lords, and
+#   its long erosion; the metropolitan of Kyiv seated in the Grand Duchy
+#   against Moscow's claim to all Rus; Skaryna's Slavonic press in Vilnius;
+#   the Radziwill court at Vilnius and Lithuanian Calvinism, which went
+#   further than the Crown's; the Jesuit academy at Vilnius; the Statute's
+#   own confessional guarantees beside the Warsaw Confederation; the two
+#   parallel hierarchies left in the Grand Duchy after Brest.
+#
+# This chain is the Grand Duchy's half of a story the mod already tells for
+# the Commonwealth as a whole in events/CommonwealthReformation.txt and
+# events/UniateChurch.txt. It reads their flags - pl_magnate_reformation,
+# pl_warsaw_confederation, pl_catholic_recovery, uniate_union_proposed - and
+# asks the question those chains do not: what happens when the court and the
+# country are not of the same faith.
+# ========================================================================
+
+namespace = lit_confession
+
+# --- 1. A Catholic court over a country that is not.
+country_event = {
+	id = lit_confession.1
+	title = lit_confession.1.t
+	desc = lit_confession.1.d
+	picture = RELIGION_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		lit_rules_an_orthodox_country = yes
+		NOT = { is_year = 1520 }
+	}
+
+	mean_time_to_happen = {
+		months = 60
+	}
+
+	option = {
+		name = lit_confession.1.a
+		ai_chance = { factor = 50 }
+		add_country_modifier = {
+			name = lit_ruthenian_lords_content
+			duration = 9125
+		}
+		add_papal_influence = -20
+		add_legitimacy = -5
+	}
+
+	option = {
+		name = lit_confession.1.b
+		ai_chance = { factor = 50 }
+		add_papal_influence = 20
+		add_legitimacy = 5
+		every_owned_province = {
+			limit = {
+				religion = orthodox
+				is_state_core = ROOT
+			}
+			add_unrest = 2
+		}
+	}
+}
+
+# --- 2. The metropolitan's seat, and who pays for it.
+country_event = {
+	id = lit_confession.2
+	title = lit_confession.2.t
+	desc = lit_confession.2.d
+	picture = ORTHODOX_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		lit_rules_an_orthodox_country = yes
+		is_year = 1450
+		NOT = { is_year = 1560 }
+	}
+
+	mean_time_to_happen = {
+		months = 84
+		modifier = {
+			factor = 0.7
+			any_neighbor_country = {
+				OR = {
+					tag = MOS
+					tag = RUS
+				}
+			}
+		}
+	}
+
+	option = {
+		name = lit_confession.2.a
+		ai_chance = { factor = 50 }
+		add_adm_power = -50
+		add_prestige = 10
+		add_country_modifier = {
+			name = lit_ruthenian_lords_content
+			duration = 7300
+		}
+	}
+
+	option = {
+		name = lit_confession.2.b
+		ai_chance = { factor = 20 }
+		add_treasury = 100
+		every_owned_province = {
+			limit = {
+				religion = orthodox
+				is_state_core = ROOT
+			}
+			add_unrest = 3
+		}
+	}
+
+	option = {
+		name = lit_confession.2.c
+		ai_chance = { factor = 30 }
+		add_papal_influence = 25
+		set_country_flag = uniate_pressure_mounting
+		every_owned_province = {
+			limit = {
+				religion = orthodox
+				is_state_core = ROOT
+			}
+			add_unrest = 1
+		}
+	}
+}
+
+# --- 3. A press in Vilnius, setting Slavonic type.
+country_event = {
+	id = lit_confession.3
+	title = lit_confession.3.t
+	desc = lit_confession.3.d
+	picture = BIG_BOOK_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		lit_rules_an_orthodox_country = yes
+		is_year = 1517
+		NOT = { is_year = 1600 }
+	}
+
+	mean_time_to_happen = {
+		months = 60
+		modifier = {
+			factor = 0.6
+			has_institution = printing_press
+		}
+	}
+
+	option = {
+		name = lit_confession.3.a
+		ai_chance = { factor = 70 }
+		add_dip_power = -50
+		add_country_modifier = {
+			name = lit_slavonic_press
+			duration = -1
+		}
+	}
+
+	option = {
+		name = lit_confession.3.b
+		ai_chance = { factor = 30 }
+		add_papal_influence = 15
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 10
+			}
+		}
+		every_owned_province = {
+			limit = {
+				religion = orthodox
+				is_state_core = ROOT
+			}
+			add_unrest = 1
+		}
+	}
+}
+
+# --- 4. The Radziwill turn. The Crown's magnates flirted with the Reformation;
+#        the Grand Duchy's ran a Calvinist capital.
+country_event = {
+	id = lit_confession.4
+	title = lit_confession.4.t
+	desc = lit_confession.4.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		lit_ladder_visible = yes
+		religion = catholic
+		has_country_flag = pl_magnate_reformation
+		NOT = { is_year = 1600 }
+	}
+
+	mean_time_to_happen = {
+		months = 48
+	}
+
+	option = {
+		name = lit_confession.4.a
+		ai_chance = { factor = 45 }
+		add_country_modifier = {
+			name = lit_calvinist_vilnius
+			duration = -1
+		}
+		add_papal_influence = -25
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+
+	option = {
+		name = lit_confession.4.b
+		ai_chance = { factor = 55 }
+		add_papal_influence = 25
+		add_stability_or_adm_power = yes
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+	}
+}
+
+# --- 5. Two guarantees, and the question of which one a Ruthenian lord pleads.
+country_event = {
+	id = lit_confession.5
+	title = lit_confession.5.t
+	desc = lit_confession.5.d
+	picture = SEJM_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		lit_ladder_visible = yes
+		has_country_flag = pl_warsaw_confederation
+		NOT = { is_year = 1650 }
+	}
+
+	mean_time_to_happen = {
+		months = 60
+	}
+
+	option = {
+		name = lit_confession.5.a
+		ai_chance = { factor = 55 }
+		add_legitimacy = 10
+		if = {
+			limit = {
+				NOT = { has_country_modifier = lit_statute_supremacy }
+			}
+			add_country_modifier = {
+				name = lit_statute_supremacy
+				duration = -1
+			}
+		}
+	}
+
+	option = {
+		name = lit_confession.5.b
+		ai_chance = { factor = 45 }
+		add_dip_power = 50
+		random_country = {
+			limit = {
+				OR = {
+					tag = POL
+					tag = PLC
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_confirmed
+			}
+		}
+	}
+}
+
+# --- 6. The academy at Vilnius, once the recovery has begun.
+country_event = {
+	id = lit_confession.6
+	title = lit_confession.6.t
+	desc = lit_confession.6.d
+	picture = UNIVERSITY_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		lit_ladder_visible = yes
+		religion = catholic
+		has_country_flag = pl_catholic_recovery
+		NOT = { is_year = 1680 }
+	}
+
+	mean_time_to_happen = {
+		months = 48
+	}
+
+	option = {
+		name = lit_confession.6.a
+		ai_chance = { factor = 60 }
+		add_adm_power = -50
+		add_country_modifier = {
+			name = lit_jesuit_academy
+			duration = -1
+		}
+	}
+
+	option = {
+		name = lit_confession.6.b
+		ai_chance = { factor = 40 }
+		add_dip_power = -50
+		add_country_modifier = {
+			name = lit_ruthenian_lords_content
+			duration = 9125
+		}
+		add_papal_influence = -15
+	}
+}
+
+# --- 7. After Brest: two hierarchies, one duchy.
+country_event = {
+	id = lit_confession.7
+	title = lit_confession.7.t
+	desc = lit_confession.7.d
+	picture = RELIGIOUS_WARS_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		lit_ladder_visible = yes
+		OR = {
+			has_country_flag = uniate_union_proposed
+			has_country_flag = pursuing_uniate_union
+			has_country_flag = uniate_pressure_mounting
+		}
+		is_year = 1596
+		NOT = { is_year = 1700 }
+	}
+
+	mean_time_to_happen = {
+		months = 48
+	}
+
+	option = {
+		name = lit_confession.7.a
+		ai_chance = { factor = 35 }
+		add_country_modifier = {
+			name = lit_parallel_hierarchy
+			duration = 9125
+		}
+		add_papal_influence = 20
+		every_owned_province = {
+			limit = {
+				religion = orthodox
+				is_state_core = ROOT
+			}
+			add_unrest = 3
+		}
+	}
+
+	option = {
+		name = lit_confession.7.b
+		ai_chance = { factor = 45 }
+		add_country_modifier = {
+			name = lit_parallel_hierarchy
+			duration = 5475
+		}
+		add_stability_or_adm_power = yes
+	}
+
+	option = {
+		name = lit_confession.7.c
+		ai_chance = { factor = 20 }
+		add_papal_influence = -30
+		add_country_modifier = {
+			name = lit_ruthenian_lords_content
+			duration = 9125
+		}
+		random_country = {
+			limit = {
+				OR = {
+					tag = POL
+					tag = PLC
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_grievance
+			}
+		}
+	}
+}
+
+# --- 8. The guarantee sealed. Fired by lit_guarantee_the_orthodox_lords.
+country_event = {
+	id = lit_confession.8
+	title = lit_confession.8.t
+	desc = lit_confession.8.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = lit_confession.8.a
+		ai_chance = { factor = 100 }
+		add_prestige = 5
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+}
+
+# --- 9. The Crown's clergy look east. The Grand Duchy tolerates what the
+#        Crown's bishops have spent a generation rolling back.
+country_event = {
+	id = lit_confession.9
+	title = lit_confession.9.t
+	desc = lit_confession.9.d
+	picture = RELIGION_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = POL
+			tag = PLC
+		}
+		religion = catholic
+		is_year = 1570
+		NOT = { is_year = 1700 }
+		exists = LIT
+		LIT = {
+			lit_rules_an_orthodox_country = yes
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 72
+		modifier = {
+			factor = 0.6
+			has_country_flag = pl_catholic_recovery
+		}
+	}
+
+	option = {
+		name = lit_confession.9.a
+		ai_chance = { factor = 45 }
+		add_papal_influence = 25
+		LIT = {
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_grievance
+			}
+			country_event = { id = lit_confession.11 days = 20 }
+		}
+	}
+
+	option = {
+		name = lit_confession.9.b
+		ai_chance = { factor = 55 }
+		add_papal_influence = -20
+		add_dip_power = 25
+		LIT = {
+			add_opinion = {
+				who = ROOT
+				modifier = lit_lords_courted
+			}
+		}
+	}
+}
+
+# --- 10. Rome asks the Crown to have the Statute's clause struck.
+country_event = {
+	id = lit_confession.10
+	title = lit_confession.10.t
+	desc = lit_confession.10.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = POL
+			tag = PLC
+		}
+		religion = catholic
+		exists = LIT
+		LIT = {
+			has_country_modifier = lit_orthodox_guarantee
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 48
+	}
+
+	option = {
+		name = lit_confession.10.a
+		ai_chance = { factor = 40 }
+		add_papal_influence = 30
+		add_prestige = -5
+		LIT = {
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_grievance
+			}
+			country_event = { id = lit_confession.11 days = 20 }
+		}
+	}
+
+	option = {
+		name = lit_confession.10.b
+		ai_chance = { factor = 60 }
+		add_papal_influence = -25
+		add_prestige = 10
+		LIT = {
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_confirmed
+			}
+		}
+	}
+}
+
+# --- 11. Vilnius is told the Crown has raised its rite at the diet.
+country_event = {
+	id = lit_confession.11
+	title = lit_confession.11.t
+	desc = lit_confession.11.d
+	picture = SEJM_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = lit_confession.11.a
+		ai_chance = { factor = 55 }
+		add_legitimacy = 5
+		if = {
+			limit = {
+				NOT = { has_country_modifier = lit_statute_supremacy }
+			}
+			add_country_modifier = {
+				name = lit_statute_supremacy
+				duration = -1
+			}
+		}
+		lit_open_separate_path_effect = yes
+	}
+
+	option = {
+		name = lit_confession.11.b
+		ai_chance = { factor = 45 }
+		add_papal_influence = 15
+		every_owned_province = {
+			limit = {
+				religion = orthodox
+				is_state_core = ROOT
+			}
+			add_unrest = 2
+		}
+	}
+}

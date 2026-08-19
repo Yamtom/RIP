@@ -1,0 +1,427 @@
+# ========================================================================
+# The quarrel between Vilnius and Krakow, from the interregnum to Lublin.
+# Authenticity: A - documented, with the outcome left open.
+# Sources:
+#   the union lapses on 10 November 1444 with Wladyslaw at Varna, and the
+#   mod's bookmark is the next day; Kazimierz is Grand Duke in Vilnius
+#   before he is King in Krakow, and is crowned there only in 1447;
+#   the long quarrel over the Volhynian and Podillian castles;
+#   separate treasuries, separate armies and separate offices under the
+#   union; the act of Lublin in 1569, which moved Podlasie, Volhynia,
+#   Bratslav and Kyiv from the Grand Duchy to the Crown at a diet, with the
+#   Lithuanian delegation absent from the room.
+# ========================================================================
+
+namespace = union_dispute
+
+# --- 1. The interregnum. Krakow has no king; Vilnius has a grand duke.
+country_event = {
+	id = union_dispute.1
+	title = union_dispute.1.t
+	desc = union_dispute.1.d
+	picture = COURT_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = LIT
+		lit_at_the_union_question = yes
+		NOT = { is_year = 1462 }
+		exists = POL
+	}
+
+	mean_time_to_happen = {
+		months = 36
+	}
+
+	option = {
+		name = union_dispute.1.a
+		ai_chance = { factor = 55 }
+		lit_open_union_path_effect = yes
+		add_dip_power = 50
+		random_country = {
+			limit = { tag = POL }
+			add_opinion = {
+				who = ROOT
+				modifier = lit_lords_courted
+			}
+			country_event = { id = union_dispute.2 days = 10 }
+		}
+	}
+
+	option = {
+		name = union_dispute.1.b
+		ai_chance = { factor = 35 }
+		lit_open_separate_path_effect = yes
+		add_legitimacy = 10
+		random_country = {
+			limit = { tag = POL }
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_grievance
+			}
+			country_event = { id = union_dispute.2 days = 10 }
+		}
+	}
+
+	option = {
+		name = union_dispute.1.c
+		ai_chance = { factor = 10 }
+		add_dip_power = 25
+		add_adm_power = 25
+	}
+}
+
+# --- 2. Krakow reads the terms from Vilnius.
+country_event = {
+	id = union_dispute.2
+	title = union_dispute.2.t
+	desc = union_dispute.2.d
+	picture = DIPLOMACY_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = union_dispute.2.a
+		ai_chance = { factor = 60 }
+		add_prestige = 5
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = lit_lords_courted
+			}
+		}
+	}
+
+	option = {
+		name = union_dispute.2.b
+		ai_chance = { factor = 40 }
+		add_legitimacy = 5
+		add_adm_power = 25
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_grievance
+			}
+		}
+	}
+}
+
+# --- 3. The castles of Volhynia and Podillia, claimed by both chanceries for a
+#        century and a half.
+country_event = {
+	id = union_dispute.3
+	title = union_dispute.3.t
+	desc = union_dispute.3.d
+	picture = FORT_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		tag = LIT
+		is_year = 1450
+		NOT = { is_year = 1540 }
+		lit_holds_any_ruthenian_palatinate = yes
+		exists = POL
+	}
+
+	mean_time_to_happen = {
+		months = 96
+	}
+
+	option = {
+		name = union_dispute.3.a
+		ai_chance = { factor = 45 }
+		add_mil_power = -50
+		every_owned_province = {
+			limit = {
+				OR = {
+					province_id = 279	# Volhynia
+					province_id = 1943	# Bratslav
+					province_id = 280	# Kiev
+				}
+			}
+			add_province_modifier = {
+				name = lit_garrisoned_castle
+				duration = -1
+			}
+		}
+	}
+
+	option = {
+		name = union_dispute.3.b
+		ai_chance = { factor = 30 }
+		add_dip_power = -50
+		random_country = {
+			limit = { tag = POL }
+			add_opinion = {
+				who = ROOT
+				modifier = lit_lords_courted
+			}
+		}
+	}
+
+	option = {
+		name = union_dispute.3.c
+		ai_chance = { factor = 25 }
+		add_country_modifier = {
+			name = lit_ruthenian_lords_content
+			duration = 9125
+		}
+		add_prestige = -5
+	}
+}
+
+# --- 4. Two treasuries, two armies, one king.
+country_event = {
+	id = union_dispute.4
+	title = union_dispute.4.t
+	desc = union_dispute.4.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		lit_at_the_union_question = yes
+		is_year = 1500
+		NOT = { is_year = 1620 }
+		exists = POL
+		OR = {
+			alliance_with = POL
+			is_subject_of = POL
+			junior_union_with = POL
+			senior_union_with = POL
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 84
+	}
+
+	option = {
+		name = union_dispute.4.a
+		ai_chance = { factor = 60 }
+		add_country_modifier = {
+			name = lit_separate_treasury
+			duration = -1
+		}
+	}
+
+	option = {
+		name = union_dispute.4.b
+		ai_chance = { factor = 40 }
+		change_government_reform_progress = 50
+		random_country = {
+			limit = { tag = POL }
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_confirmed
+			}
+		}
+	}
+}
+
+# --- 5. The act at the diet. Fired by pol_press_the_incorporation.
+country_event = {
+	id = union_dispute.5
+	title = union_dispute.5.t
+	desc = union_dispute.5.d
+	picture = SEJM_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		FROM = { save_event_target_as = union_crown }
+	}
+
+	option = {
+		name = union_dispute.5.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 3
+				is_subject_of = FROM
+			}
+		}
+		lit_concede_the_palatinates_effect = yes
+		lit_open_union_path_effect = yes
+		lit_tell_the_ruthenian_lands_effect = yes
+		FROM = { country_event = { id = union_dispute.6 days = 3 } }
+	}
+
+	option = {
+		name = union_dispute.5.b
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 3
+				is_subject = no
+			}
+		}
+		lit_refuse_the_palatinates_effect = yes
+		lit_open_separate_path_effect = yes
+		FROM = { country_event = { id = union_dispute.10 days = 3 } }
+	}
+}
+
+# --- 6. Krakow is told the act passed.
+country_event = {
+	id = union_dispute.6
+	title = union_dispute.6.t
+	desc = union_dispute.6.d
+	picture = SEJM_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = union_dispute.6.a
+		ai_chance = { factor = 100 }
+		add_prestige = 10
+		set_country_flag = pol_union_question_settled
+	}
+}
+
+# --- 7. Vilnius settles for the union of two nations.
+country_event = {
+	id = union_dispute.7
+	title = union_dispute.7.t
+	desc = union_dispute.7.d
+	picture = ELECTION_REPUBLICAN_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = union_dispute.7.a
+		ai_chance = { factor = 100 }
+		add_dip_power = 50
+	}
+}
+
+# --- 8. Vilnius takes a crown of its own.
+country_event = {
+	id = union_dispute.8
+	title = union_dispute.8.t
+	desc = union_dispute.8.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = union_dispute.8.a
+		ai_chance = { factor = 100 }
+		add_legitimacy = 10
+		add_army_tradition = 5
+	}
+}
+
+# --- 9. The Ruthenian lands hear what was agreed about them.
+country_event = {
+	id = union_dispute.9
+	title = union_dispute.9.t
+	desc = union_dispute.9.d
+	picture = BIG_BOOK_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = union_dispute.9.a
+		ai_chance = { factor = 60 }
+		add_prestige = -5
+		every_owned_province = {
+			limit = { is_state_core = ROOT }
+			add_unrest = 2
+		}
+		add_mil_power = 25
+	}
+
+	option = {
+		name = union_dispute.9.b
+		ai_chance = { factor = 40 }
+		add_adm_power = 25
+		add_dip_power = 25
+	}
+}
+
+# --- 10. Krakow is told the act failed.
+country_event = {
+	id = union_dispute.10
+	title = union_dispute.10.t
+	desc = union_dispute.10.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = union_dispute.10.a
+		ai_chance = { factor = 60 }
+		add_prestige = -5
+		add_dip_power = 25
+	}
+
+	option = {
+		name = union_dispute.10.b
+		ai_chance = { factor = 40 }
+		add_mil_power = 25
+		every_owned_province = {
+			limit = { is_state_core = ROOT }
+			add_unrest = 1
+		}
+	}
+}
+
+# --- 11. The offices question.
+country_event = {
+	id = union_dispute.11
+	title = union_dispute.11.t
+	desc = union_dispute.11.d
+	picture = COURT_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		lit_at_the_union_question = yes
+		is_year = 1520
+		NOT = { is_year = 1650 }
+		exists = POL
+	}
+
+	mean_time_to_happen = {
+		months = 96
+	}
+
+	option = {
+		name = union_dispute.11.a
+		ai_chance = { factor = 55 }
+		add_country_modifier = {
+			name = lit_offices_closed
+			duration = -1
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+
+	option = {
+		name = union_dispute.11.b
+		ai_chance = { factor = 45 }
+		add_adm_power = 50
+		random_country = {
+			limit = { tag = POL }
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_confirmed
+			}
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+	}
+}
