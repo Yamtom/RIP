@@ -51,10 +51,15 @@ chr_magistrat_rule_visible = {
 	}
 }
 
+# The two stages that change the government type also drop the reform that led
+# to them - change_government empties the republican tier before the monarchic
+# reform is added. The flag is set by the decision first, so the reform is
+# still visible at the moment it is granted.
 chr_siversk_principality_visible = {
 	OR = {
 		has_reform = chr_siversk_principality_reform
 		has_reform = chr_magistrat_rule_reform
+		has_country_flag = chr_stage_principality_open
 	}
 }
 
@@ -81,6 +86,7 @@ chr_dzhura_corps_visible = {
 	OR = {
 		has_reform = chr_dzhura_corps_reform
 		has_reform = chr_kanceliaryst_republic_reform
+		has_country_flag = chr_stage_dzhura_open
 	}
 }
 
@@ -201,8 +207,10 @@ chr_holds_the_siverian_land = {
 	owns_core_province = 298	# Kursk
 }
 
+# Great Chernihiv asks about the land, not about the government: a Siversk
+# Veche that never took a road can still proclaim it. What the roads need it
+# for is their own third stage.
 chr_can_proclaim_great_chernihiv = {
-	has_country_flag = chr_path_chosen
 	NOT = { has_country_flag = chr_great_chernihiv }
 	is_at_war = no
 	stability = 1

@@ -19,6 +19,11 @@ country_decisions = {
 		}
 		effect = {
 			set_country_flag = chr_road_towns_open
+			# A road that starts in a republic has to start in a republic.
+			if = {
+				limit = { NOT = { government = republic } }
+				change_government = republic
+			}
 			add_government_reform = chr_desna_staple_reform
 			chr_take_the_road_effect = yes
 			chr_charter_the_staple_effect = yes
@@ -100,6 +105,11 @@ country_decisions = {
 		}
 		effect = {
 			set_country_flag = chr_road_houses_open
+			# A road that starts in a republic has to start in a republic.
+			if = {
+				limit = { NOT = { government = republic } }
+				change_government = republic
+			}
 			add_government_reform = chr_magistrat_rule_reform
 			chr_take_the_road_effect = yes
 			chr_open_the_ledger_effect = yes
@@ -126,6 +136,10 @@ country_decisions = {
 		}
 		effect = {
 			add_treasury = -200
+			# change_government empties the republican tier, so the reform
+			# that led here is gone by the time the new one is added. The flag
+			# keeps the new reform visible across that moment.
+			set_country_flag = chr_stage_principality_open
 			change_government = monarchy
 			add_government_reform = chr_siversk_principality_reform
 			chr_advance_the_road_effect = yes
@@ -176,6 +190,11 @@ country_decisions = {
 		}
 		effect = {
 			set_country_flag = chr_road_chancery_open
+			# A road that starts in a republic has to start in a republic.
+			if = {
+				limit = { NOT = { government = republic } }
+				change_government = republic
+			}
 			add_government_reform = chr_kanceliaryst_republic_reform
 			chr_take_the_road_effect = yes
 			chr_open_the_roll_effect = yes
@@ -201,6 +220,7 @@ country_decisions = {
 		}
 		effect = {
 			add_mil_power = -200
+			set_country_flag = chr_stage_dzhura_open
 			change_government = monarchy
 			add_government_reform = chr_dzhura_corps_reform
 			chr_advance_the_road_effect = yes
@@ -244,7 +264,10 @@ country_decisions = {
 	chr_proclaim_great_chernihiv = {
 		major = yes
 		potential = {
-			chr_on_a_path = yes
+			OR = {
+				tag = CHR
+				chr_on_a_path = yes
+			}
 			NOT = { has_country_flag = chr_great_chernihiv }
 		}
 		provinces_to_highlight = {
