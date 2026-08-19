@@ -1,0 +1,100 @@
+# Effects behind the four roads and behind carrying the Host.
+
+zaz_take_the_road_effect = {
+	add_prestige = 10
+	add_stability_or_adm_power = yes
+	set_country_flag = zaz_road_taken_recently
+	add_country_modifier = {
+		name = zaz_road_taken
+		duration = 3650
+	}
+	# The starshyna are not asked twice. Whoever loses the argument sulks.
+	if = {
+		limit = { has_estate = estate_cossacks }
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = -10
+		}
+	}
+}
+
+# Carrying the Host is the move the Sich actually made twice: out of reach of
+# the power that had just broken it, onto ground held by somebody else. The
+# seat goes to a refuge province owned by a country that will have us, and the
+# old lands are left behind rather than kept.
+cossack_carry_the_host_effect = {
+	random_known_country = {
+		limit = {
+			any_owned_province = {
+				is_host_refuge = yes
+				NOT = { owned_by = ROOT }
+			}
+			OR = {
+				alliance_with = ROOT
+				is_subject_of = ROOT
+				has_opinion = { who = ROOT value = 100 }
+			}
+		}
+		save_event_target_as = host_refuge_holder
+		random_owned_province = {
+			limit = {
+				is_host_refuge = yes
+				NOT = { owned_by = ROOT }
+			}
+			save_event_target_as = host_new_seat
+		}
+	}
+	if = {
+		limit = { has_saved_event_target = host_new_seat }
+		event_target:host_new_seat = {
+			cede_province = ROOT
+			add_core = ROOT
+			change_culture = ROOT
+			add_province_modifier = {
+				name = zaz_new_sich_camp
+				duration = -1
+			}
+		}
+		set_capital = event_target:host_new_seat
+		event_target:host_refuge_holder = {
+			add_opinion = {
+				who = ROOT
+				modifier = zaz_gave_the_host_refuge
+			}
+		}
+		add_country_modifier = {
+			name = zaz_host_in_exile
+			duration = 7300
+		}
+		set_country_flag = host_recently_moved
+		add_prestige = -10
+		add_republican_tradition = 5
+		country_event = { id = zaz_paths.5 days = 5 }
+	}
+}
+
+# Turning a stretch of frontier into a named host. Used by the formation
+# decisions in decisions/CossackHostFormation.txt: no new tag, because the map
+# has no room for one, but a standing identity the dynamic names read.
+found_cossack_host_effect = {
+	add_country_modifier = {
+		name = cossack_host_founded
+		duration = -1
+	}
+	add_army_tradition = 10
+	add_mil_power = -50
+	every_owned_province = {
+		limit = {
+			rip_is_steppe_or_grasslands = yes
+			is_state_core = ROOT
+		}
+		add_province_modifier = {
+			name = cossack_host_muster
+			duration = -1
+		}
+	}
+	if = {
+		limit = { has_estate = estate_cossacks }
+		set_estate_privilege = estate_cossacks_land_rights
+	}
+}
