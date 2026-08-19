@@ -3,7 +3,10 @@
 *.zip
 
 # Local tooling and caches
-.claude/
+.claude/*
+# ...except the skill: git will not descend into an excluded directory, so the
+# contents are excluded and the skill added back
+!.claude/skills/
 .cpatch/
 .pytest_cache/
 .venv/
