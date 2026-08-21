@@ -169,13 +169,7 @@ country_event = {
 		name = lit_confession.3.b
 		ai_chance = { factor = 30 }
 		add_papal_influence = 15
-		if = {
-			limit = { has_estate = estate_church }
-			add_estate_loyalty = {
-				estate = estate_church
-				loyalty = 10
-			}
-		}
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = 10 }
 		every_owned_province = {
 			limit = {
 				religion = orthodox
@@ -215,13 +209,7 @@ country_event = {
 			duration = -1
 		}
 		add_papal_influence = -25
-		if = {
-			limit = { has_estate = estate_nobles }
-			add_estate_loyalty = {
-				estate = estate_nobles
-				loyalty = 10
-			}
-		}
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 10 }
 	}
 
 	option = {
@@ -229,13 +217,7 @@ country_event = {
 		ai_chance = { factor = 55 }
 		add_papal_influence = 25
 		add_stability_or_adm_power = yes
-		if = {
-			limit = { has_estate = estate_nobles }
-			add_estate_loyalty = {
-				estate = estate_nobles
-				loyalty = -10
-			}
-		}
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = -10 }
 	}
 }
 
@@ -421,13 +403,7 @@ country_event = {
 		name = lit_confession.8.a
 		ai_chance = { factor = 100 }
 		add_prestige = 5
-		if = {
-			limit = { has_estate = estate_nobles }
-			add_estate_loyalty = {
-				estate = estate_nobles
-				loyalty = 10
-			}
-		}
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 10 }
 	}
 }
 

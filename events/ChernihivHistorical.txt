@@ -56,13 +56,7 @@ country_event = {
 		ai_chance = { factor = 40 }
 		add_republican_tradition = 5
 		add_adm_power = 25
-		if = {
-			limit = { has_estate = estate_nobles }
-			add_estate_loyalty = {
-				estate = estate_nobles
-				loyalty = -10
-			}
-		}
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = -10 }
 	}
 
 	option = {
@@ -280,13 +274,7 @@ country_event = {
 			name = chr_szlachta_roll
 			duration = -1
 		}
-		if = {
-			limit = { has_estate = estate_nobles }
-			add_estate_loyalty = {
-				estate = estate_nobles
-				loyalty = 10
-			}
-		}
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 10 }
 	}
 
 	option = {
@@ -297,13 +285,7 @@ country_event = {
 			limit = { is_state_core = ROOT }
 			add_unrest = 2
 		}
-		if = {
-			limit = { has_estate = estate_burghers }
-			add_estate_loyalty = {
-				estate = estate_burghers
-				loyalty = 10
-			}
-		}
+		rip_estate_mood_effect = { ESTATE = estate_burghers LOYALTY = 10 }
 	}
 }
 

@@ -1,0 +1,98 @@
+# The Josephite and the Non-Possessor: the piety axis, rebuilt as privileges.
+#
+# The fourth donor of Russian Orthodoxy was Shia Islam, and what Shia Islam
+# actually contributes is piety - one bar between two poles, each pole paying
+# for itself with what the other pole would have given. uses_piety cannot be
+# declared here: it opens muslim_specific_window, which sits in the same
+# rectangle as the holy-site panel this faith already spends its one slot on.
+#
+# The quarrel that ran through the Muscovite church for a century is the same
+# shape, and it is native: the Josephites held that the church should own land,
+# serve the ruler and burn heretics; the Non-Possessors held that it should own
+# nothing and pray. Granting one privilege bars the other, exactly as a piety
+# bar cannot be at both ends at once.
+#
+# Payloads are vanilla's positive_piety and negative_piety, halved and
+# de-Islamised.
+
+rip_privilege_josephite_discipline = {
+	icon = privilege_religious
+	max_absolutism = 5
+	loyalty = 0.1
+	influence = 0.1
+
+	is_valid = {
+		OR = {
+			religion = russian_orthodox
+			religion = greek_catholic
+		}
+		NOT = { has_estate_privilege = rip_privilege_nonpossessor_rule }
+	}
+
+	can_select = {
+		OR = {
+			religion = russian_orthodox
+			religion = greek_catholic
+		}
+		NOT = { has_estate_privilege = rip_privilege_nonpossessor_rule }
+	}
+
+	penalties = {
+		idea_cost = 0.05
+	}
+
+	benefits = {
+		technology_cost = -0.05
+		global_tax_modifier = 0.1
+		global_manpower_modifier = 0.1
+	}
+
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 3
+			is_at_war = yes
+		}
+	}
+}
+
+rip_privilege_nonpossessor_rule = {
+	icon = privilege_seek_support_of_clergy
+	max_absolutism = -5
+	loyalty = 0.15
+	influence = -0.05
+
+	is_valid = {
+		OR = {
+			religion = russian_orthodox
+			religion = greek_catholic
+		}
+		NOT = { has_estate_privilege = rip_privilege_josephite_discipline }
+	}
+
+	can_select = {
+		OR = {
+			religion = russian_orthodox
+			religion = greek_catholic
+		}
+		NOT = { has_estate_privilege = rip_privilege_josephite_discipline }
+	}
+
+	penalties = {
+		global_tax_modifier = -0.05
+	}
+
+	benefits = {
+		land_morale = 0.05
+		global_missionary_strength = 0.015
+		idea_cost = -0.05
+	}
+
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 3
+			is_at_war = no
+		}
+	}
+}

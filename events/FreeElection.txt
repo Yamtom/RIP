@@ -1,0 +1,189 @@
+# ========================================================================
+# The free election, and what it costs each time it is held.
+# Authenticity: A - documented institutions, outcomes left open.
+# Sources:
+#   the interregnum and the primate as interrex; the election field at Wola;
+#   the pacta conventa every candidate signed before the crown was his; the
+#   Henrician Articles; the rokosz as the legal right to refuse a king.
+#
+# The mod had one interregnum - the 1444 vacancy in union_dispute.1 - and no
+# cycle. This is the cycle: it fires whenever the throne actually falls
+# vacant, and every turn of it hands something to the magnates.
+#
+# It reads the magnate estate added in common/estates/RIP_magnates.txt, and
+# it reads and sets the union flags in
+# common/scripted_triggers/lit_union_triggers.txt, because in this realm the
+# two quarrels are the same quarrel.
+# ========================================================================
+
+namespace = free_election
+
+# --- 1. The throne falls vacant.
+country_event = {
+	id = free_election.1
+	title = free_election.1.t
+	desc = free_election.1.d
+	picture = SEJM_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			tag = PLC
+			tag = POL
+			AND = {
+				tag = LIT
+				has_reform = lit_union_of_two_nations_reform
+			}
+		}
+		OR = {
+			has_reform = polish_elective_monarchy
+			has_reform = polish_great_sejm
+			has_reform = lit_union_of_two_nations_reform
+			has_reform = elective_monarchy
+		}
+		is_year = 1450
+	}
+
+	option = {
+		name = free_election.1.a
+		ai_chance = { factor = 50 }
+		add_stability_or_adm_power = yes
+		country_event = { id = free_election.2 days = 30 }
+	}
+
+	option = {
+		name = free_election.1.b
+		ai_chance = { factor = 30 }
+		add_prestige = 5
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = 10 }
+		country_event = { id = free_election.2 days = 60 }
+	}
+
+	option = {
+		name = free_election.1.c
+		ai_chance = { factor = 20 }
+		add_years_of_income = 0.25
+		if = {
+			limit = { has_estate = estate_magnates }
+			add_estate_influence = {
+				estate = estate_magnates
+				influence = 10
+			}
+		}
+		country_event = { id = free_election.2 days = 30 }
+	}
+}
+
+# --- 2. The pacta conventa: what the candidate signs before the crown is his.
+country_event = {
+	id = free_election.2
+	title = free_election.2.t
+	desc = free_election.2.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = free_election.2.a
+		ai_chance = { factor = 45 }
+		add_country_modifier = {
+			name = rip_pacta_conventa
+			duration = 7300
+		}
+		rip_estate_mood_effect = { ESTATE = estate_magnates LOYALTY = 15 }
+		add_legitimacy = 10
+	}
+
+	option = {
+		name = free_election.2.b
+		ai_chance = { factor = 25 }
+		add_absolutism = 5
+		add_legitimacy = -10
+		rip_estate_mood_effect = { ESTATE = estate_magnates LOYALTY = -20 }
+		country_event = { id = free_election.4 days = 120 }
+	}
+
+	option = {
+		name = free_election.2.c
+		ai_chance = { factor = 30 }
+		add_treasury = -200
+		add_legitimacy = 5
+		add_prestige = -5
+		country_event = { id = free_election.3 days = 20 }
+	}
+}
+
+# --- 3. A candidate from outside.
+country_event = {
+	id = free_election.3
+	title = free_election.3.t
+	desc = free_election.3.d
+	picture = DIPLOMACY_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = free_election.3.a
+		ai_chance = { factor = 50 }
+		add_dip_power = 50
+		add_prestige = 5
+		random_country = {
+			limit = {
+				is_neighbor_of = ROOT
+				NOT = { war_with = ROOT }
+				is_great_power = yes
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = lit_lords_courted
+			}
+		}
+	}
+
+	option = {
+		name = free_election.3.b
+		ai_chance = { factor = 50 }
+		add_legitimacy = 10
+		rip_estate_mood_effect = { ESTATE = estate_magnates LOYALTY = 10 }
+	}
+}
+
+# --- 4. The rokosz: refusing a king, legally.
+country_event = {
+	id = free_election.4
+	title = free_election.4.t
+	desc = free_election.4.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = free_election.4.a
+		ai_chance = { factor = 45 }
+		add_mil_power = -50
+		add_country_modifier = {
+			name = rip_rokosz_put_down
+			duration = 5475
+		}
+		every_owned_province = {
+			limit = {
+				is_state_core = ROOT
+				development = 15
+			}
+			add_unrest = 4
+		}
+	}
+
+	option = {
+		name = free_election.4.b
+		ai_chance = { factor = 55 }
+		add_absolutism = -10
+		add_stability_or_adm_power = yes
+		rip_estate_mood_effect = { ESTATE = estate_magnates LOYALTY = 20 }
+		add_country_modifier = {
+			name = rip_pacta_conventa
+			duration = 7300
+		}
+	}
+}

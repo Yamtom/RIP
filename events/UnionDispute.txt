@@ -396,13 +396,7 @@ country_event = {
 			name = lit_offices_closed
 			duration = -1
 		}
-		if = {
-			limit = { has_estate = estate_nobles }
-			add_estate_loyalty = {
-				estate = estate_nobles
-				loyalty = 10
-			}
-		}
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 10 }
 	}
 
 	option = {
@@ -416,12 +410,6 @@ country_event = {
 				modifier = lit_union_confirmed
 			}
 		}
-		if = {
-			limit = { has_estate = estate_nobles }
-			add_estate_loyalty = {
-				estate = estate_nobles
-				loyalty = -10
-			}
-		}
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = -10 }
 	}
 }

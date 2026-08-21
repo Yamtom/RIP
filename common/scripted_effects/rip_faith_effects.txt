@@ -1,0 +1,391 @@
+# Effects behind the two faiths' script-side mechanics.
+
+# Vanilla lets one icon stand at a time and swaps it when another is chosen.
+# The decisions in decisions/RIP_OrthodoxIcons.txt reproduce that by clearing
+# all five before adding their own.
+rip_ro_clear_the_icons_effect = {
+	hidden_effect = {
+		remove_country_modifier = rip_ro_icon_michael
+		remove_country_modifier = rip_ro_icon_eleusa
+		remove_country_modifier = rip_ro_icon_pancreator
+		remove_country_modifier = rip_ro_icon_nicholas
+		remove_country_modifier = rip_ro_icon_climacus
+	}
+}
+
+# The zeal of the Sobor: Reformed fervour, rebuilt as a counter.
+#
+# Fervour fills on its own, is spent on one of three focuses, and drains while
+# a focus runs. fervor = yes would be a second panel in the same rectangle as
+# the holy sites, so the counter is a country variable ticked from
+# common/on_actions/russian_orthodox_on_actions.txt instead.
+rip_ro_zeal_tick_effect = {
+	if = {
+		limit = {
+			religion = russian_orthodox
+			NOT = { check_variable = { which = rip_ro_zeal value = 100 } }
+		}
+		change_variable = {
+			which = rip_ro_zeal
+			value = 5
+		}
+		# A church that is listened to fills the treasury of zeal faster.
+		if = {
+			limit = { patriarch_authority = 0.6 }
+			change_variable = {
+				which = rip_ro_zeal
+				value = 2
+			}
+		}
+		if = {
+			limit = { religious_unity = 0.95 }
+			change_variable = {
+				which = rip_ro_zeal
+				value = 2
+			}
+		}
+	}
+	# A focus is not free to hold: it drains what it was bought with.
+	if = {
+		limit = {
+			religion = russian_orthodox
+			OR = {
+				has_country_modifier = rip_ro_zeal_war
+				has_country_modifier = rip_ro_zeal_trade
+				has_country_modifier = rip_ro_zeal_stability
+			}
+		}
+		subtract_variable = {
+			which = rip_ro_zeal
+			value = 3
+		}
+		# Zeal spent to nothing puts the focus out.
+		if = {
+			limit = {
+				NOT = { check_variable = { which = rip_ro_zeal value = 1 } }
+			}
+			rip_ro_clear_the_zeal_effect = yes
+			set_variable = {
+				which = rip_ro_zeal
+				value = 0
+			}
+			country_event = { id = rip_faith.3 days = 3 }
+		}
+	}
+}
+
+rip_ro_clear_the_zeal_effect = {
+	hidden_effect = {
+		remove_country_modifier = rip_ro_zeal_war
+		remove_country_modifier = rip_ro_zeal_trade
+		remove_country_modifier = rip_ro_zeal_stability
+	}
+}
+
+# Taking a focus: pay the zeal, drop whichever focus was standing.
+rip_ro_take_the_focus_effect = {
+	subtract_variable = {
+		which = rip_ro_zeal
+		value = 25
+	}
+	rip_ro_clear_the_zeal_effect = yes
+}
+
+# A petition costs more than its fee: the curia expects the standing to be
+# maintained, and will not read two letters in the same year.
+rip_uc_petition_cost_effect = {
+	add_prestige = -2
+	add_country_modifier = {
+		name = rip_uc_petition_cooldown
+		duration = 1825
+	}
+	if = {
+		limit = { has_estate = estate_church }
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = 5
+		}
+	}
+}
+
+# Weld between the two Union of Brest implementations.
+#
+# A Catholic power enforcing the union (khmelnytsky_events.7) and a Ruthenian
+# see signing it (uniate_church.1 and .2) were two stories that never spoke to
+# each other. When the Crown presses, the Orthodox courts inside and next to it
+# feel the pressure the Uniate chain already reads.
+rip_uc_press_the_union_effect = {
+	every_subject_country = {
+		limit = {
+			religion = orthodox
+			NOT = { has_country_flag = uniate_pressure_mounting }
+		}
+		set_country_flag = uniate_pressure_mounting
+	}
+	every_neighbor_country = {
+		limit = {
+			religion = orthodox
+			NOT = { has_country_flag = uniate_pressure_mounting }
+			any_owned_province = {
+				region = ruthenia_region
+			}
+		}
+		set_country_flag = uniate_pressure_mounting
+	}
+}
+
+# ===========================================================================
+# THE ROAD AND THE RIVER - how Russian Orthodoxy travels
+# ===========================================================================
+#
+# The fourth donor of this faith was Islam, and what Islam really contributes
+# is not piety but the shape of its spread: a religion that moves along the
+# routes its merchants already hold. Vanilla does the same thing in its own
+# church agenda - random_active_trade_node gated on trade_share, then work on
+# the member provinces - so this is the engine's own idiom, not an invention.
+#
+# Two tiers. In a node we dominate, our own parishes preach harder; in the
+# same node, an Orthodox parish that is not ours hears the Muscovite office
+# often enough that the jurisdiction, not the faith, starts to shift. Foreign
+# provinces never flip in one step: they take the preaching modifier first,
+# and only a province that already carries it can change rite.
+rip_ro_trade_spread_effect = {
+	if = {
+		limit = {
+			religion = russian_orthodox
+			patriarch_authority = 0.3
+		}
+		every_active_trade_node = {
+			limit = {
+				trade_share = {
+					country = ROOT
+					share = 30
+				}
+			}
+			# our own houses in the node
+			every_trade_node_member_province = {
+				limit = {
+					owned_by = ROOT
+					is_city = yes
+					religion = russian_orthodox
+					NOT = { has_province_modifier = rip_ro_merchant_preaching }
+				}
+				add_province_modifier = {
+					name = rip_ro_merchant_preaching
+					duration = 7300
+				}
+			}
+			# somebody else's, of the same rite
+			random_trade_node_member_province = {
+				limit = {
+					is_city = yes
+					NOT = { owned_by = ROOT }
+					OR = {
+						religion = orthodox
+						religion = greek_catholic
+					}
+					NOT = { has_province_modifier = rip_ro_merchant_parish }
+				}
+				add_province_modifier = {
+					name = rip_ro_merchant_parish
+					duration = 7300
+				}
+			}
+			# and a parish that has heard it long enough
+			random_trade_node_member_province = {
+				limit = {
+					is_city = yes
+					NOT = { owned_by = ROOT }
+					religion = orthodox
+					has_province_modifier = rip_ro_merchant_parish
+					NOT = {
+						owner = {
+							religion = russian_orthodox
+						}
+					}
+				}
+				random = {
+					chance = 20
+					change_religion = russian_orthodox
+					remove_province_modifier = rip_ro_merchant_parish
+					add_unrest = 2
+				}
+			}
+		}
+	}
+}
+
+# ===========================================================================
+# THE SEE OF THE UNION - how Greek Catholicism spreads
+# ===========================================================================
+#
+# The Union gets one Center of Reformation, and the religion file lets it
+# convert Orthodox, Russian Orthodox and Catholic provinces alike. What the
+# engine's own spread cannot express is that the Union was not equally likely
+# everywhere, so the weighting is scripted here, in the four cases it really
+# had:
+#
+#   - a province of the eastern rite whose ruler is NOT of it: the standard
+#     case, and the one Brest was actually about. Fastest.
+#   - a Latin province whose ruler is not Latin: the same bargain from the
+#     other side, and slower - the Union asked less of an Orthodox parish
+#     than of a Latin one.
+#   - a province of the same rite as its own ruler, with a Uniate neighbour:
+#     minimal. Nothing is being contested; the neighbour is only an example.
+#   - anything with no Uniate neighbour at all: nothing. The Union travelled
+#     by adjacency, parish to parish, not by proclamation.
+rip_uc_union_spread_effect = {
+	if = {
+		limit = {
+			religion = greek_catholic
+		}
+		every_owned_province = {
+			limit = {
+				is_city = yes
+				NOT = { religion = greek_catholic }
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+					religion = catholic
+				}
+				# the whole mechanic hangs on this: no Uniate neighbour, no work
+				any_neighbor_province = {
+					religion = greek_catholic
+				}
+				NOT = { has_province_modifier = rip_uc_union_preaching }
+			}
+			rip_uc_weigh_the_parish_effect = yes
+		}
+		# a parish that has carried the preaching long enough comes over
+		random_owned_province = {
+			limit = {
+				is_city = yes
+				has_province_modifier = rip_uc_union_preaching
+				NOT = { religion = greek_catholic }
+			}
+			random = {
+				chance = 25
+				change_religion = greek_catholic
+				remove_province_modifier = rip_uc_union_preaching
+				add_unrest = 3
+			}
+		}
+	}
+}
+
+# The four cases, in province scope. Splitting them explicitly rather than
+# comparing the province's religion to its owner's in one line keeps the
+# reading unambiguous - and these are the author's four cases exactly.
+rip_uc_weigh_the_parish_effect = {
+	# 1. eastern rite, ruler of another faith - the standard case
+	if = {
+		limit = {
+			OR = {
+				religion = orthodox
+				religion = russian_orthodox
+			}
+			owner = {
+				NOT = { religion = orthodox }
+				NOT = { religion = russian_orthodox }
+			}
+		}
+		random = {
+			chance = 30
+			add_province_modifier = {
+				name = rip_uc_union_preaching
+				duration = 7300
+			}
+		}
+	}
+	# 2. Latin parish, ruler of another faith - the same bargain, slower
+	else_if = {
+		limit = {
+			religion = catholic
+			owner = {
+				NOT = { religion = catholic }
+			}
+		}
+		random = {
+			chance = 18
+			add_province_modifier = {
+				name = rip_uc_union_preaching
+				duration = 7300
+			}
+		}
+	}
+	# 3. parish and ruler of one faith, with a Uniate neighbour - minimal
+	else = {
+		random = {
+			chance = 6
+			add_province_modifier = {
+				name = rip_uc_union_preaching
+				duration = 7300
+			}
+		}
+	}
+	# neighbours compound: a parish ringed by the Union hears it from every side
+	if = {
+		limit = {
+			calc_true_if = {
+				all_neighbor_province = {
+					religion = greek_catholic
+				}
+				amount = 2
+			}
+			NOT = { has_province_modifier = rip_uc_union_preaching }
+		}
+		random = {
+			chance = 25
+			add_province_modifier = {
+				name = rip_uc_union_preaching
+				duration = 7300
+			}
+		}
+	}
+}
+
+# The Siverian lands hear that they changed hands at Deulino. Same shape as
+# the Lublin notification in common/scripted_effects/lit_union_effects.txt:
+# the mod's protagonists should see the treaty that moved them.
+rip_tot_tell_the_siverian_lands_effect = {
+	every_country = {
+		limit = {
+			NOT = { tag = ROOT }
+			OR = {
+				tag = CHR
+				tag = KIE
+				tag = HET
+				tag = ZAZ
+				tag = PRL
+			}
+			any_owned_province = {
+				region = ruthenia_region
+			}
+		}
+		country_event = { id = troubles.6 days = 10 }
+	}
+}
+
+# 1448: the metropolitanate splits along the border it will keep. The Ruthenian
+# courts are told, because for this mod that is the founding fact - the see at
+# Kyiv is now somebody else's argument, and every later quarrel about it, up to
+# Brest, starts here.
+rip_ro_tell_the_kyivan_church_effect = {
+	every_country = {
+		limit = {
+			NOT = { tag = ROOT }
+			religion = orthodox
+			OR = {
+				tag = LIT
+				tag = KIE
+				tag = VLN
+				tag = VOL
+				tag = PDL
+				tag = HLC
+				tag = CHR
+				tag = RPS
+			}
+		}
+		country_event = { id = russian_orthodox.18 days = 20 }
+	}
+}

@@ -1,0 +1,183 @@
+# Privileges of the magnates. Six, which is what the estate lists.
+#
+# Every one of these is a thing the Commonwealth's magnates actually held or
+# actually demanded, and every one costs the crown something it would rather
+# keep: land, absolutism, or the right to raise soldiers.
+
+estate_magnates_land_rights = {
+	icon = privilege_land_rights
+	land_share = 10
+	max_absolutism = -5
+	loyalty = 0.1
+	influence = 0.1
+
+	is_valid = {
+		has_estate = estate_magnates
+	}
+	can_select = {
+		has_estate = estate_magnates
+	}
+
+	penalties = {
+		global_autonomy = 0.05
+	}
+	benefits = {
+		governing_capacity = 100
+		global_tax_modifier = 0.05
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+}
+
+estate_magnates_folwarks = {
+	icon = privilege_serf
+	land_share = 5
+	max_absolutism = -5
+	loyalty = 0.1
+	influence = 0.1
+
+	is_valid = {
+		has_estate = estate_magnates
+	}
+	can_select = {
+		has_estate = estate_magnates
+	}
+
+	penalties = {
+		global_unrest = 1
+	}
+	benefits = {
+		production_efficiency = 0.1
+		global_trade_goods_size_modifier = 0.05
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+}
+
+estate_magnates_private_banners = {
+	icon = privilege_raise_host
+	max_absolutism = -5
+	loyalty = 0.15
+	influence = 0.1
+
+	is_valid = {
+		has_estate = estate_magnates
+	}
+	can_select = {
+		has_estate = estate_magnates
+	}
+
+	penalties = {
+		land_maintenance_modifier = 0.1
+	}
+	benefits = {
+		cavalry_power = 0.1
+		land_forcelimit_modifier = 0.15
+		mercenary_cost = -0.1
+	}
+
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 3
+			is_at_war = yes
+		}
+	}
+}
+
+estate_magnates_supremacy_over_szlachta = {
+	icon = privilege_golden_liberty
+	max_absolutism = -10
+	loyalty = 0.15
+	influence = 0.2
+
+	is_valid = {
+		has_estate = estate_magnates
+	}
+	can_select = {
+		has_estate = estate_magnates
+		has_estate = estate_nobles
+	}
+
+	penalties = {
+		nobles_loyalty_modifier = -0.1
+	}
+	benefits = {
+		advisor_cost = -0.1
+		diplomatic_reputation = 1
+	}
+
+	ai_will_do = {
+		factor = 5
+	}
+}
+
+estate_magnates_anti_absolutism = {
+	icon = privilege_broken_crown
+	max_absolutism = -15
+	loyalty = 0.2
+	influence = 0.1
+
+	is_valid = {
+		has_estate = estate_magnates
+	}
+	can_select = {
+		has_estate = estate_magnates
+	}
+
+	penalties = {
+		yearly_absolutism = -0.5
+	}
+	benefits = {
+		stability_cost_modifier = -0.1
+		global_unrest = -1
+	}
+
+	ai_will_do = {
+		factor = 5
+		modifier = {
+			factor = 0
+			absolutism = 50
+		}
+	}
+}
+
+# The one privilege that is about the mod's own subject: the magnates buying
+# out the register, which is how the Cossack question became a Cossack war.
+estate_magnates_curtail_cossacks = {
+	icon = privilege_revoke
+	max_absolutism = 5
+	loyalty = 0.1
+	influence = 0.1
+
+	is_valid = {
+		has_estate = estate_magnates
+	}
+	can_select = {
+		has_estate = estate_magnates
+	}
+
+	penalties = {
+		global_unrest = 2
+	}
+	benefits = {
+		global_tax_modifier = 0.1
+		land_maintenance_modifier = -0.1
+	}
+
+	on_granted = {
+		rip_estate_mood_effect = { ESTATE = estate_cossacks LOYALTY = -20 }
+	}
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 0
+			has_estate = estate_cossacks
+		}
+	}
+}

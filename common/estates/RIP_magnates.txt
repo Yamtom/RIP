@@ -1,0 +1,155 @@
+# The magnates.
+#
+# The mod already had magnate government reforms - hlc_magnate_assembly_reform,
+# pdl_magnate_republic_reform, pdl_magnate_dominion_reform - and no magnates.
+# The whole union quarrel in decisions/UnionDispute.txt turns on them: the men
+# who bought land in Volhynia before Lublin moved it, who kept the Statute's
+# offices for their own families, and who signed at Kedainiai when the Crown
+# could not pay.
+#
+# This is a NEW estate in a new file. It does not override any vanilla estate
+# file, and the four the mod already overrides - church, nobility, burghers,
+# cossacks - are untouched.
+#
+# Where WFAS gates its magnates on tag = PLC/POL plus elective monarchy, this
+# one also admits the Ruthenian palatinates that carry a magnate reform, because
+# that is where the mod actually lives.
+
+estate_magnates = {
+	# Frame index into GFX_estates_icons, which vanilla declares with
+	# noOfFrames = 15 - all fifteen taken. Frame 12 is the janissary, which
+	# is what this said before. Frame 2 is the nobility, and the magnates are
+	# the great nobility, so that is the reuse that reads correctly. A
+	# picture of our own means extending BOTH strips - estates_icons.dds and
+	# estates_icons_colour-stroke.dds - to sixteen frames and redeclaring
+	# both sprites; that is art work, not script.
+	icon = 2
+
+	trigger = {
+		OR = {
+			AND = {
+				OR = {
+					tag = PLC
+					tag = POL
+					tag = LIT
+				}
+				OR = {
+					has_reform = polish_elective_monarchy
+					has_reform = polish_great_sejm
+					has_reform = grand_duchy_reform
+					has_reform = lit_union_of_two_nations_reform
+					has_reform = lit_separate_crown_reform
+				}
+			}
+			has_reform = hlc_magnate_assembly_reform
+			has_reform = pdl_magnate_republic_reform
+			has_reform = pdl_magnate_dominion_reform
+			has_reform = vln_voivode_council
+		}
+		NOT = { has_estate = estate_vaisyas }
+		NOT = { has_estate = estate_jains }
+		NOT = { has_estate = estate_brahmins }
+		is_nomad = no
+		is_colonial_nation = no
+		government = monarchy
+	}
+
+	# The magnates are worth having and expensive to keep. Angry, they are the
+	# reason a levy does not arrive.
+	country_modifier_happy = {
+		production_efficiency = 0.1
+		yearly_corruption = -0.1
+		cavalry_power = 0.05
+	}
+	country_modifier_neutral = {
+		production_efficiency = 0.05
+	}
+	country_modifier_angry = {
+		global_unrest = 2
+		stability_cost_to_declare_war = 2
+		global_trade_goods_size_modifier = -0.1
+	}
+
+	land_ownership_modifier = {
+		magnates_loyalty_modifier = 0.2
+	}
+
+	province_independence_weight = {
+		factor = 1
+		modifier = {
+			factor = 0.1
+			NOT = { development = 5 }
+		}
+		modifier = {
+			factor = 2
+			development = 20
+		}
+		modifier = {
+			factor = 1.5
+			region = ruthenia_region
+		}
+		modifier = {
+			factor = 0.5
+			is_territorial_core = owner
+		}
+	}
+
+	base_influence = 10
+	influence_from_dev_modifier = 1
+
+	influence_modifier = {
+		desc = EST_HIGH_DEVELOPMENT_PROVINCE
+		trigger = {
+			any_owned_province = {
+				development = 30
+			}
+		}
+		influence = 5
+	}
+
+	influence_modifier = {
+		desc = rip_est_magnates_latifundia
+		trigger = {
+			calc_true_if = {
+				all_owned_province = {
+					region = ruthenia_region
+					base_production = 5
+				}
+				amount = 5
+			}
+		}
+		influence = 10
+	}
+
+	loyalty_modifier = {
+		desc = rip_est_magnates_the_offices_are_ours
+		trigger = {
+			has_country_modifier = lit_offices_closed
+		}
+		loyalty = 10
+	}
+
+	loyalty_modifier = {
+		desc = rip_est_magnates_the_crown_presses
+		trigger = {
+			absolutism = 60
+		}
+		loyalty = -15
+	}
+
+	color = { 175 35 196 }
+
+	privileges = {
+		estate_magnates_land_rights
+		estate_magnates_folwarks
+		estate_magnates_private_banners
+		estate_magnates_supremacy_over_szlachta
+		estate_magnates_anti_absolutism
+		estate_magnates_curtail_cossacks
+	}
+
+	agendas = {
+		estate_magnates_agenda_develop_latifundium
+		estate_magnates_agenda_hire_advisor
+	}
+}

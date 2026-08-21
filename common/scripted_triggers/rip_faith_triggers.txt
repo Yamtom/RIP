@@ -1,0 +1,25 @@
+# Gates for the script-side halves of the two faiths.
+
+# A Uniate country may petition Rome when Rome exists, is not at war with it,
+# and thinks well enough of it to read the letter.
+#
+# These petitions are now the FALLBACK, not the mechanic. The faith carries a
+# real papacy block naming PAP and Rome, so a Uniate country should accrue papal
+# influence and buy the papal actions directly. If that works, influence climbs
+# past 1 within the first years and every petition below disappears on its own;
+# if the engine refuses a second religion its curia, influence stays at zero and
+# the petitions remain the way in. The gate is the test.
+rip_uc_can_petition_the_curia = {
+	religion = greek_catholic
+	NOT = { papal_influence = 1 }
+	exists = PAP
+	NOT = { war_with = PAP }
+	NOT = { has_country_modifier = rip_uc_petition_cooldown }
+	PAP = {
+		has_opinion = {
+			who = ROOT
+			value = 25
+		}
+	}
+	stability = 0
+}

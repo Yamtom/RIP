@@ -22,7 +22,12 @@ country_event = {
 		tag = MOS
 		religion = orthodox
 		is_russian_orthodox_culture_eligible = yes
-		is_year = 1453
+		# Stage one of three. The metropolitan was elected at Moscow without
+		# Constantinople on 15 December 1448, and that is the day this church
+		# begins - hence the religion's own date. The window used to open in
+		# 1453, five years after the fact and 136 years before the engine had
+		# switched the religion on at all.
+		is_year = 1448
 		NOT = { is_year = 1500 }
 	}
 	
@@ -35,12 +40,16 @@ country_event = {
 		ai_chance = { factor = 80 }
 		
 		change_religion = russian_orthodox
+		set_country_flag = rip_ro_stage_autocephaly
+		# The doctrine of the Third Rome is Filofei's, and it is seventy years
+		# away yet. What happens in 1448 is the election itself.
 		add_country_modifier = {
-			name = third_rome_ideology
+			name = rip_ro_autocephaly
 			duration = -1
 		}
 		add_prestige = 25
 		add_legitimacy = 15
+		rip_ro_tell_the_kyivan_church_effect = yes
 	}
 	
 	option = { # Remain traditional Orthodox
@@ -62,8 +71,11 @@ country_event = {
 	trigger = {
 		religion = russian_orthodox
 		is_russian_orthodox_culture_eligible = yes
-		is_year = 1585
-		NOT = { is_year = 1600 }
+		# Stage two: a metropolitan becomes a patriarch. It cannot precede the
+		# break that made the metropolitanate its own.
+		has_country_flag = rip_ro_stage_autocephaly
+		is_year = 1589
+		NOT = { is_year = 1620 }
 		OR = {
 			tag = MOS
 			tag = RUS
@@ -78,11 +90,12 @@ country_event = {
 		name = russian_orthodox.2.a
 		ai_chance = { factor = 90 }
 		
+		set_country_flag = rip_ro_stage_patriarchate
 		add_country_modifier = {
 			name = moscow_patriarchate_authority
 			duration = -1
 		}
-		add_church_power = 100
+		add_patriarch_authority = 0.2
 		add_legitimacy = 20
 		add_prestige = 30
 	}
@@ -245,7 +258,7 @@ country_event = {
 			name = orthodox_inquisition
 			duration = 10950
 		}
-		add_church_power = 50
+		add_patriarch_authority = 0.1
 	}
 	
 	option = { # Moderate persecution only
@@ -276,8 +289,11 @@ country_event = {
 	
 	trigger = {
 		religion = russian_orthodox
-		is_year = 1650
-		NOT = { is_year = 1680 }
+		# Stage three: Nikon's books, and the schism inside the church itself.
+		# There has to be a patriarch before there can be a quarrel with one.
+		has_country_flag = rip_ro_stage_patriarchate
+		is_year = 1653
+		NOT = { is_year = 1700 }
 		OR = {
 			tag = RUS
 			tag = MOS
@@ -293,6 +309,7 @@ country_event = {
 		ai_chance = { factor = 50 }
 		
 		set_global_flag = raskol_schism
+		set_country_flag = rip_ro_stage_raskol
 		add_country_modifier = {
 			name = suppression_old_believers
 			duration = 7300
@@ -312,6 +329,7 @@ country_event = {
 		ai_chance = { factor = 30 }
 		
 		set_global_flag = raskol_schism
+		set_country_flag = rip_ro_stage_raskol
 		add_country_modifier = {
 			name = old_believer_underground
 			duration = 10950
@@ -323,7 +341,8 @@ country_event = {
 		ai_chance = { factor = 20 }
 		
 		set_global_flag = raskol_schism
-		add_church_power = -50
+		set_country_flag = rip_ro_stage_raskol
+		add_patriarch_authority = -0.1
 		add_stability = 1
 	}
 }
@@ -479,7 +498,7 @@ country_event = {
 			name = symphonia_of_powers
 			duration = -1
 		}
-		add_church_power = 100
+		add_patriarch_authority = 0.2
 		add_legitimacy = 15
 	}
 	
@@ -689,7 +708,7 @@ country_event = {
 			name = patriarch_of_all_rus
 			duration = -1
 		}
-		add_church_power = 100
+		add_patriarch_authority = 0.2
 		add_legitimacy = 20
 	}
 	
@@ -858,6 +877,42 @@ country_event = {
 		ai_chance = { factor = 25 }
 
 		add_prestige = 5
-		add_church_power = 25
+		add_patriarch_authority = 0.05
+	}
+}
+
+# --- 18. The Kyivan half of the metropolitanate hears that it has been left.
+#
+# This is the mod's own angle on 1448: not that Moscow gained a church, but
+# that Kyiv stopped sharing one with it. Everything from the Union of Brest to
+# the quarrel over the metropolitan's seat follows from this day.
+country_event = {
+	id = russian_orthodox.18
+	title = russian_orthodox.18.t
+	desc = russian_orthodox.18.d
+	picture = ORTHODOX_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = russian_orthodox.18.a
+		ai_chance = { factor = 55 }
+		add_prestige = 5
+		set_country_flag = rip_kyiv_metropolitanate_split
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 10
+			}
+		}
+	}
+
+	option = {
+		name = russian_orthodox.18.b
+		ai_chance = { factor = 45 }
+		add_dip_power = 25
+		set_country_flag = rip_kyiv_metropolitanate_split
+		set_country_flag = uniate_pressure_mounting
 	}
 }

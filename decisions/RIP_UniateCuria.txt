@@ -1,0 +1,256 @@
+country_decisions = {
+
+	# Communion with Rome, for a church Rome does not seat.
+	#
+	# Greek Catholicism was meant to be the Orthodox church plus access to the
+	# papal curia. The first half is a religion mechanic and is kept:
+	# has_patriarchs and the five icons are this faith's one panel. The second
+	# half cannot be. The engine resolves a papacy from the country's own
+	# religion - the console refuses a cardinal with "No papacy for that
+	# country's religion" - so a papacy block on greek_catholic would not open
+	# Rome's curia, it would raise a second and separate one, with its own
+	# papal tag, its own cardinals and its own controller election.
+	#
+	# What a Uniate country can really have is what the Uniate metropolitans
+	# really had: standing to petition, and no seat. Each petition below buys
+	# the same country modifier the matching papal action grants a Catholic
+	# power, for the same duration, paid in coin and prestige rather than in
+	# papal influence - which is inert for a religion that owns no papacy.
+	#
+	# What is NOT delivered, and is not pretended: cardinals, excommunication,
+	# calling a crusade, golden bulls, the curia treasury, and any vote on who
+	# controls it. Those are engine actions gated on holding a papacy.
+
+	rip_uc_petition_church_tax = {
+		potential = {
+			religion = greek_catholic
+			exists = PAP
+			NOT = { has_country_modifier = papal_sanction_for_church_taxes }
+		}
+		allow = {
+			rip_uc_can_petition_the_curia = yes
+			treasury = 200
+		}
+		effect = {
+			add_treasury = -200
+			rip_uc_petition_cost_effect = yes
+			add_country_modifier = {
+				name = papal_sanction_for_church_taxes
+				duration = 7300
+			}
+		}
+		ai_will_do = {
+			factor = 2
+		}
+	}
+
+	rip_uc_petition_blessing = {
+		potential = {
+			religion = greek_catholic
+			exists = PAP
+			NOT = { has_country_modifier = papal_blessing }
+		}
+		allow = {
+			rip_uc_can_petition_the_curia = yes
+			treasury = 150
+		}
+		effect = {
+			add_treasury = -150
+			rip_uc_petition_cost_effect = yes
+			add_country_modifier = {
+				name = papal_blessing
+				duration = 7300
+			}
+		}
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				factor = 3
+				is_at_war = yes
+			}
+		}
+	}
+
+	rip_uc_petition_indulgence = {
+		potential = {
+			religion = greek_catholic
+			exists = PAP
+			NOT = { has_country_modifier = papal_indulgence }
+		}
+		allow = {
+			rip_uc_can_petition_the_curia = yes
+			treasury = 150
+		}
+		effect = {
+			add_treasury = -150
+			rip_uc_petition_cost_effect = yes
+			add_country_modifier = {
+				name = papal_indulgence
+				duration = 7300
+			}
+		}
+		ai_will_do = {
+			factor = 2
+		}
+	}
+
+	rip_uc_petition_usury = {
+		potential = {
+			religion = greek_catholic
+			exists = PAP
+			NOT = { has_country_modifier = usury_forgiven }
+		}
+		allow = {
+			rip_uc_can_petition_the_curia = yes
+			treasury = 100
+		}
+		effect = {
+			add_treasury = -100
+			rip_uc_petition_cost_effect = yes
+			add_country_modifier = {
+				name = usury_forgiven
+				duration = 7300
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 4
+				num_of_loans = 3
+			}
+		}
+	}
+
+	rip_uc_petition_legate = {
+		potential = {
+			religion = greek_catholic
+			exists = PAP
+			NOT = { has_country_modifier = papal_legate }
+		}
+		allow = {
+			rip_uc_can_petition_the_curia = yes
+			treasury = 250
+			prestige = 25
+		}
+		effect = {
+			add_treasury = -250
+			rip_uc_petition_cost_effect = yes
+			add_country_modifier = {
+				name = papal_legate
+				duration = 7300
+			}
+		}
+		ai_will_do = {
+			factor = 2
+		}
+	}
+
+	rip_uc_petition_holy_war = {
+		potential = {
+			religion = greek_catholic
+			exists = PAP
+			NOT = { has_country_modifier = papal_sanction_for_holy_war }
+		}
+		allow = {
+			rip_uc_can_petition_the_curia = yes
+			is_at_war = yes
+			treasury = 200
+		}
+		effect = {
+			add_treasury = -200
+			rip_uc_petition_cost_effect = yes
+			add_country_modifier = {
+				name = papal_sanction_for_holy_war
+				duration = 7300
+			}
+		}
+		ai_will_do = {
+			factor = 3
+		}
+	}
+
+	# --- the articles of the Union
+	#
+	# Eight acts written as church aspects that nothing could reach. A synod
+	# settles one at a sitting, permanently, and cannot sit twice in a decade.
+
+	rip_uc_hold_a_synod = {
+		major = yes
+		potential = {
+			religion = greek_catholic
+			NOT = { has_country_modifier = rip_uc_synod_recently_sat }
+		}
+		allow = {
+			adm_power = 100
+			is_at_war = no
+			stability = 1
+			patriarch_authority = 0.3
+		}
+		effect = {
+			add_adm_power = -100
+			add_country_modifier = {
+				name = rip_uc_synod_recently_sat
+				duration = 3650
+			}
+			country_event = { id = rip_faith.2 days = 3 }
+		}
+		ai_will_do = {
+			factor = 2
+		}
+	}
+
+	# --- the See of the Union
+	#
+	# One centre, as the author asked, and one only: the flag closes the
+	# decision behind it. What the centre may convert is declared on the
+	# religion itself - orthodox, russian_orthodox and catholic alike - and how
+	# fast it works on which parish is weighted in rip_uc_union_spread_effect,
+	# because the engine's own spread cannot tell a contested parish from a
+	# settled one.
+
+	rip_uc_raise_the_see = {
+		major = yes
+		potential = {
+			religion = greek_catholic
+			NOT = { has_country_flag = rip_uc_see_raised }
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			religion = greek_catholic
+			development = 10
+			is_reformation_center = no
+		}
+		allow = {
+			adm_power = 100
+			is_at_war = no
+			stability = 1
+			any_owned_province = {
+				religion = greek_catholic
+				development = 10
+				is_reformation_center = no
+				is_island = no
+			}
+		}
+		effect = {
+			add_adm_power = -100
+			set_country_flag = rip_uc_see_raised
+			random_owned_province = {
+				limit = {
+					religion = greek_catholic
+					development = 10
+					is_reformation_center = no
+					is_island = no
+				}
+				add_reform_center = greek_catholic
+				add_province_modifier = {
+					name = rip_uc_see_of_the_union
+					duration = -1
+				}
+			}
+			add_prestige = 10
+		}
+		ai_will_do = {
+			factor = 5
+		}
+	}
+}

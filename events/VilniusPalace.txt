@@ -1,0 +1,84 @@
+# ========================================================================
+# The Palace of the Grand Dukes at Vilnius.
+# Authenticity: A - documented.
+# Sources:
+#   the lower castle rebuilt in the Italian manner under Sigismund the Old
+#   and Bona Sforza; the council, the chancery and the press housed there;
+#   the Muscovite occupation of 1655 that stripped it; the demolition of
+#   1801, which is outside the game's reach.
+# The monument itself is common/great_projects/vilnius_palace.txt.
+# ========================================================================
+
+namespace = lit_palace
+
+# --- 1. Fired when the palace is finished.
+country_event = {
+	id = lit_palace.1
+	title = lit_palace.1.t
+	desc = lit_palace.1.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = lit_palace.1.a
+		ai_chance = { factor = 60 }
+		add_country_modifier = {
+			name = rip_palace_seat_of_the_chancery
+			duration = -1
+		}
+		add_legitimacy = 5
+	}
+
+	option = {
+		name = lit_palace.1.b
+		ai_chance = { factor = 40 }
+		add_adm_power = 50
+		add_prestige = 5
+	}
+}
+
+# --- 2. 1655: the palace is stripped.
+country_event = {
+	id = lit_palace.2
+	title = lit_palace.2.t
+	desc = lit_palace.2.d
+	picture = ANGRY_MOB_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		owns = 272	# Lithuania
+		is_year = 1655
+		NOT = { is_year = 1700 }
+		272 = {
+			NOT = { controlled_by = ROOT }
+		}
+		has_great_project = {
+			type = vilnius_palace
+			tier = 1
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 12
+	}
+
+	option = {
+		name = lit_palace.2.a
+		ai_chance = { factor = 55 }
+		add_treasury = -300
+		add_prestige = 5
+	}
+
+	option = {
+		name = lit_palace.2.b
+		ai_chance = { factor = 45 }
+		add_prestige = -10
+		add_country_modifier = {
+			name = rip_palace_stripped
+			duration = 9125
+		}
+		rip_estate_mood_effect = { ESTATE = estate_magnates LOYALTY = -10 }
+	}
+}

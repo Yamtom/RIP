@@ -1,0 +1,23 @@
+# One estate helper, because the same six lines were written eight times.
+#
+# Every event in this mod that nudges an estate had to guard the call: an
+# add_estate_loyalty on a country that does not have that estate is a silent
+# no-op at best. So the guard and the call were copied together, over and over.
+#
+# Parameterised scripted effects are vanilla's own answer to that - see
+# add_or_extend_province_modifier_effect in
+# common/scripted_effects/00_scripted_effects.txt, which takes $MODIFIER$ and
+# $DURATION$ the same way.
+#
+# Call it as:
+#     rip_estate_mood_effect = { ESTATE = estate_magnates LOYALTY = 15 }
+
+rip_estate_mood_effect = {
+	if = {
+		limit = { has_estate = $ESTATE$ }
+		add_estate_loyalty = {
+			estate = $ESTATE$
+			loyalty = $LOYALTY$
+		}
+	}
+}

@@ -1,0 +1,245 @@
+# ========================================================================
+# The sittings: what the two faiths enact when their church is convened.
+# Authenticity: B - extrapolated from real institutions.
+# Sources:
+#   the Muscovite church councils and the patriarchate of 1589; the
+#   Josephite and Non-Possessor quarrel; the Union of Brest and the synod
+#   of Zamosc; the Basilian order and its schools.
+#
+# These options carry the payloads that used to be church aspects. Neither
+# faith declares church power any more - every religion mechanic draws into
+# the same rectangle of interface/countryreligionview.gui, so a faith gets
+# one panel, and these two spend theirs on holy sites and on the icons.
+# See common/religions/russian_orthodox.txt for the whole accounting.
+# ========================================================================
+
+namespace = rip_faith
+
+# --- 1. The Sobor sits.
+country_event = {
+	id = rip_faith.1
+	title = rip_faith.1.t
+	desc = rip_faith.1.d
+	picture = ORTHODOX_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = rip_faith.1.a
+		trigger = {
+			NOT = { has_country_modifier = third_rome_mission }
+		}
+		ai_chance = { factor = 20 }
+		add_country_modifier = {
+			name = third_rome_mission
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.1.b
+		trigger = {
+			NOT = { has_country_modifier = rip_ro_patriarchal_office }
+		}
+		ai_chance = { factor = 20 }
+		add_country_modifier = {
+			name = rip_ro_patriarchal_office
+			duration = -1
+		}
+		add_patriarch_authority = 0.1
+	}
+
+	option = {
+		name = rip_faith.1.c
+		trigger = {
+			NOT = { has_country_modifier = orthodox_inquisition }
+		}
+		ai_chance = {
+			factor = 15
+			modifier = {
+				factor = 3
+				NOT = { religious_unity = 0.8 }
+			}
+		}
+		add_country_modifier = {
+			name = orthodox_inquisition
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.1.e
+		trigger = {
+			NOT = { has_country_modifier = forced_russification }
+		}
+		ai_chance = { factor = 15 }
+		add_country_modifier = {
+			name = forced_russification
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.1.f
+		trigger = {
+			NOT = { has_country_modifier = imperial_orthodox_church }
+		}
+		ai_chance = {
+			factor = 15
+			modifier = {
+				factor = 3
+				num_of_cities = 30
+			}
+		}
+		add_country_modifier = {
+			name = imperial_orthodox_church
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.1.g
+		trigger = {
+			NOT = { has_country_modifier = subjugation_of_heretics }
+		}
+		ai_chance = { factor = 15 }
+		add_country_modifier = {
+			name = subjugation_of_heretics
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.1.h
+		ai_chance = { factor = 1 }
+		add_adm_power = 50
+	}
+}
+
+# --- 2. The Synod sits.
+country_event = {
+	id = rip_faith.2
+	title = rip_faith.2.t
+	desc = rip_faith.2.d
+	picture = RELIGION_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = rip_faith.2.a
+		trigger = {
+			NOT = { has_country_modifier = embrace_eastern_rite }
+		}
+		ai_chance = { factor = 20 }
+		add_country_modifier = {
+			name = embrace_eastern_rite
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.2.b
+		trigger = {
+			NOT = { has_country_modifier = accept_papal_supremacy }
+		}
+		ai_chance = { factor = 15 }
+		add_country_modifier = {
+			name = accept_papal_supremacy
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.2.c
+		trigger = {
+			NOT = { has_country_modifier = basilian_monasteries }
+		}
+		ai_chance = { factor = 15 }
+		add_country_modifier = {
+			name = basilian_monasteries
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.2.e
+		trigger = {
+			NOT = { has_country_modifier = uniate_educational_network_aspect }
+		}
+		ai_chance = { factor = 15 }
+		add_country_modifier = {
+			name = uniate_educational_network_aspect
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.2.f
+		trigger = {
+			NOT = { has_country_modifier = defender_of_union }
+		}
+		ai_chance = { factor = 15 }
+		add_country_modifier = {
+			name = defender_of_union
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.2.g
+		trigger = {
+			NOT = { has_country_modifier = blessing_of_basilian_order }
+		}
+		ai_chance = { factor = 10 }
+		add_country_modifier = {
+			name = blessing_of_basilian_order
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.2.h
+		trigger = {
+			NOT = { has_country_modifier = blessing_of_papal_protection }
+		}
+		ai_chance = { factor = 10 }
+		add_country_modifier = {
+			name = blessing_of_papal_protection
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.2.i
+		trigger = {
+			NOT = { has_country_modifier = blessing_of_uniate_missionaries }
+		}
+		ai_chance = { factor = 10 }
+		add_country_modifier = {
+			name = blessing_of_uniate_missionaries
+			duration = -1
+		}
+	}
+
+	option = {
+		name = rip_faith.2.j
+		ai_chance = { factor = 1 }
+		add_dip_power = 50
+	}
+}
+
+# --- 3. The zeal runs out and the focus goes dark.
+country_event = {
+	id = rip_faith.3
+	title = rip_faith.3.t
+	desc = rip_faith.3.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = rip_faith.3.a
+		ai_chance = { factor = 100 }
+		add_patriarch_authority = 0.05
+	}
+}

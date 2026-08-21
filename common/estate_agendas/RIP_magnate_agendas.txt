@@ -1,0 +1,151 @@
+# Agendas of the magnates. Two, which is what the estate lists, and both are
+# the same demand in different clothes: put something of ours where we can see
+# it, and pay for it out of the crown's pocket.
+
+estate_magnates_agenda_develop_latifundium = {
+	can_select = {
+		any_owned_province = {
+			region = ruthenia_region
+			is_state_core = ROOT
+			NOT = { base_production = 8 }
+		}
+	}
+
+	provinces_to_highlight = {
+		region = ruthenia_region
+		is_state_core = ROOT
+		NOT = { base_production = 8 }
+	}
+
+	selection_weight = {
+		factor = 1
+	}
+
+	pre_effect = {
+		random_owned_province = {
+			limit = {
+				region = ruthenia_region
+				is_state_core = ROOT
+				NOT = { base_production = 8 }
+			}
+			save_event_target_as = magnate_agenda_province
+		}
+	}
+
+	task_requirements = {
+		if = {
+			limit = {
+				has_estate_agenda_auto_completion = {
+					estate = estate_magnates
+				}
+			}
+			has_estate_agenda_auto_completion = {
+				estate = estate_magnates
+			}
+		}
+		else = {
+			event_target:magnate_agenda_province = {
+				base_production = 8
+			}
+		}
+	}
+
+	task_completed_effect = {
+		on_completed_agenda_effect = {
+			estate = estate_magnates
+		}
+		add_estate_loyalty = {
+			estate = estate_magnates
+			loyalty = 10
+		}
+		event_target:magnate_agenda_province = {
+			add_province_modifier = {
+				name = rip_magnate_folwark
+				duration = 7300
+			}
+		}
+	}
+
+	failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
+		add_estate_loyalty = {
+			estate = estate_magnates
+			loyalty = -10
+		}
+	}
+
+	task_failed_effect = {
+		add_estate_loyalty = {
+			estate = estate_magnates
+			loyalty = -10
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+}
+
+estate_magnates_agenda_hire_advisor = {
+	can_select = {
+		NOT = {
+			employed_advisor = {
+				category = DIP
+			}
+		}
+	}
+
+	selection_weight = {
+		factor = 1
+	}
+
+	task_requirements = {
+		if = {
+			limit = {
+				has_estate_agenda_auto_completion = {
+					estate = estate_magnates
+				}
+			}
+			has_estate_agenda_auto_completion = {
+				estate = estate_magnates
+			}
+		}
+		else = {
+			employed_advisor = {
+				category = DIP
+			}
+			is_in_deficit = no
+		}
+	}
+
+	task_completed_effect = {
+		on_completed_agenda_effect = {
+			estate = estate_magnates
+		}
+		add_estate_loyalty = {
+			estate = estate_magnates
+			loyalty = 10
+		}
+	}
+
+	failing_effect = {
+		on_failed_agenda_effect = yes
+		clr_auto_complete_flag = yes
+		add_estate_loyalty = {
+			estate = estate_magnates
+			loyalty = -10
+		}
+	}
+
+	task_failed_effect = {
+		add_estate_loyalty = {
+			estate = estate_magnates
+			loyalty = -10
+		}
+	}
+
+	ai_will_do = {
+		factor = 10
+	}
+}

@@ -1,0 +1,136 @@
+country_decisions = {
+
+	# The zeal of the Sobor - Reformed fervour, rebuilt in script.
+	#
+	# Vanilla fervour fills by itself, buys one of three toggled focuses, and
+	# drains while that focus runs. It cannot be declared here: fervor = yes
+	# opens fervor_specific_window, which sits in the same rectangle as the
+	# holy-site panel this faith already spends its one slot on.
+	#
+	# So zeal is a country variable, rip_ro_zeal, filled every two years from
+	# common/on_actions/russian_orthodox_on_actions.txt, spent 25 at a time on
+	# one of three focuses, and drained 3 every two years while one stands. Run
+	# it dry and the focus goes out on its own.
+
+	rip_ro_zeal_of_war = {
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = rip_ro_zeal_war }
+		}
+		allow = {
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_zeal_cost_tt
+				check_variable = {
+					which = rip_ro_zeal
+					value = 25
+				}
+			}
+		}
+		effect = {
+			rip_ro_take_the_focus_effect = yes
+			add_country_modifier = {
+				name = rip_ro_zeal_war
+				duration = -1
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 4
+				is_at_war = yes
+			}
+		}
+	}
+
+	rip_ro_zeal_of_trade = {
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = rip_ro_zeal_trade }
+		}
+		allow = {
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_zeal_cost_tt
+				check_variable = {
+					which = rip_ro_zeal
+					value = 25
+				}
+			}
+		}
+		effect = {
+			rip_ro_take_the_focus_effect = yes
+			add_country_modifier = {
+				name = rip_ro_zeal_trade
+				duration = -1
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				is_at_war = no
+			}
+		}
+	}
+
+	rip_ro_zeal_of_the_land = {
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = rip_ro_zeal_stability }
+		}
+		allow = {
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_zeal_cost_tt
+				check_variable = {
+					which = rip_ro_zeal
+					value = 25
+				}
+			}
+		}
+		effect = {
+			rip_ro_take_the_focus_effect = yes
+			add_country_modifier = {
+				name = rip_ro_zeal_stability
+				duration = -1
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 4
+				NOT = { stability = 1 }
+			}
+		}
+	}
+
+	# --- the standing canons of the church
+	#
+	# Six acts that were written as church aspects and could never be reached,
+	# because this faith no longer declares church power. The Sobor enacts one
+	# at a sitting, permanently, and the same sitting cannot be called twice in
+	# a decade.
+
+	rip_ro_convene_the_sobor = {
+		major = yes
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = rip_ro_sobor_recently_sat }
+		}
+		allow = {
+			adm_power = 100
+			is_at_war = no
+			stability = 1
+			patriarch_authority = 0.3
+		}
+		effect = {
+			add_adm_power = -100
+			add_country_modifier = {
+				name = rip_ro_sobor_recently_sat
+				duration = 3650
+			}
+			country_event = { id = rip_faith.1 days = 3 }
+		}
+		ai_will_do = {
+			factor = 2
+		}
+	}
+}

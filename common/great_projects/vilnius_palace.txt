@@ -1,0 +1,167 @@
+# The Palace of the Grand Dukes at Vilnius.
+#
+# The lower castle was rebuilt in the Italian manner under Sigismund the Old
+# and Bona Sforza, and for a century and a half it was where the Grand Duchy
+# actually happened: the council sat there, the chancery wrote there, the
+# Statute was printed under its roof, and every envoy who wanted the Grand
+# Duchy rather than the Crown was lodged there. Muscovite troops stripped it in
+# 1655 and it never recovered; what was left was pulled down in 1801.
+#
+# Ladder and payloads stay inside the envelope measured across all 138 vanilla
+# monuments: costs 1000 / 2500 / 5000, times 120 / 240 / 480 months, at most
+# six country modifiers a tier, no combat pips, prestige never above 1.
+
+vilnius_palace = {
+	start = 272	# Vilnius
+	date = 1520.1.1
+	time = {
+		months = 60
+	}
+	build_cost = 1000
+	can_be_moved = no
+	starting_tier = 0
+	type = monument
+
+	build_trigger = {
+		owner = {
+			OR = {
+				tag = LIT
+				tag = PLC
+				tag = POL
+				has_reform = grand_duchy_reform
+				has_reform = lit_union_of_two_nations_reform
+				has_reform = lit_separate_crown_reform
+			}
+		}
+		is_year = 1520
+	}
+
+	on_built = {
+		owner = {
+			country_event = { id = lit_palace.1 days = 5 }
+		}
+	}
+	on_destroyed = {
+	}
+
+	can_use_modifiers_trigger = {
+		custom_trigger_tooltip = {
+			tooltip = vilnius_palace_seat_tt
+			owner = {
+				OR = {
+					tag = LIT
+					tag = PLC
+					tag = POL
+					has_reform = grand_duchy_reform
+					has_reform = lit_union_of_two_nations_reform
+					has_reform = lit_separate_crown_reform
+				}
+			}
+		}
+	}
+
+	can_upgrade_trigger = {
+		custom_trigger_tooltip = {
+			tooltip = vilnius_palace_upgrade_tt
+			owner = {
+				is_at_war = no
+			}
+		}
+	}
+
+	keep_trigger = {
+	}
+
+	tier_0 = {
+		upgrade_time = {
+			months = 0
+		}
+		cost_to_upgrade = {
+			factor = 0
+		}
+		province_modifiers = {
+			local_development_cost = -0.1
+		}
+		area_modifier = {
+		}
+		country_modifiers = {
+			diplomatic_reputation = 1
+		}
+		on_upgraded = {
+		}
+	}
+
+	tier_1 = {
+		upgrade_time = {
+			months = 120
+		}
+		cost_to_upgrade = {
+			factor = 1000
+		}
+		province_modifiers = {
+			local_development_cost = -0.15
+			local_institution_spread = 0.15
+		}
+		area_modifier = {
+		}
+		country_modifiers = {
+			diplomatic_reputation = 1
+			advisor_cost = -0.1
+			legitimacy = 0.5
+		}
+		on_upgraded = {
+		}
+	}
+
+	tier_2 = {
+		upgrade_time = {
+			months = 240
+		}
+		cost_to_upgrade = {
+			factor = 2500
+		}
+		province_modifiers = {
+			local_development_cost = -0.2
+			local_institution_spread = 0.25
+		}
+		area_modifier = {
+			local_unrest = -1
+		}
+		country_modifiers = {
+			diplomatic_reputation = 1
+			advisor_cost = -0.15
+			legitimacy = 0.5
+			governing_capacity = 100
+			diplomats = 1
+		}
+		on_upgraded = {
+		}
+	}
+
+	tier_3 = {
+		upgrade_time = {
+			months = 480
+		}
+		cost_to_upgrade = {
+			factor = 5000
+		}
+		province_modifiers = {
+			local_development_cost = -0.25
+			local_institution_spread = 0.3
+		}
+		area_modifier = {
+			local_unrest = -1
+			local_development_cost = -0.1
+		}
+		country_modifiers = {
+			diplomatic_reputation = 2
+			advisor_cost = -0.15
+			legitimacy = 1
+			governing_capacity = 200
+			diplomats = 1
+			prestige = 1
+		}
+		on_upgraded = {
+		}
+	}
+}

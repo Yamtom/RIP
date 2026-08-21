@@ -1,0 +1,112 @@
+# Modifiers for the Muscovite Troubles as the Ruthenian lands experienced them.
+# See events/TimeOfTroubles.txt.
+
+# A magnate venture with a claimant at the head of it. Profitable while it
+# lasts, and the neighbour remembers who paid for it.
+rip_tot_pretender_venture = {
+	nobles_influence_modifier = 0.1
+	cavalry_power = 0.05
+	prestige = 0.5
+	ae_impact = 0.1
+}
+
+# The register hired out eastward: it comes back richer, harder, and used to
+# being paid by somebody else.
+rip_tot_eastern_campaign = {
+	army_tradition = 0.5
+	loot_amount = 0.25
+	land_maintenance_modifier = -0.1
+	global_unrest = 1
+}
+
+# Deulino: Siveria on paper, and a frontier that has to be garrisoned.
+rip_tot_deulino_terms = {
+	core_creation = -0.1
+	global_unrest = 1
+	defensiveness = 0.1
+}
+
+# The Host has been to Moscow and back, and has done the arithmetic.
+rip_tot_the_register_remembers = {
+	cossacks_loyalty_modifier = 0.1
+	manpower_recovery_speed = 0.1
+	global_unrest = 1
+}
+
+# --- 1448: the church that elected its own metropolitan
+#
+# Stage one of the three dates in common/religions/russian_orthodox.txt. The
+# Third Rome doctrine is Filofei's and is seventy years later; this is only the
+# election, and what it costs is Constantinople.
+rip_ro_autocephaly = {
+	legitimacy = 0.5
+	church_loyalty_modifier = 0.1
+	global_heretic_missionary_strength = 0.01
+}
+
+# A magnate latifundium, developed because the estate asked for it and the
+# crown paid. See common/estate_agendas/RIP_magnate_agendas.txt.
+rip_magnate_folwark = {
+	local_production_efficiency = 0.15
+	local_unrest = 1
+	trade_goods_size_modifier = 0.1
+}
+
+# --- the free election
+
+# What the candidate signed to get the crown. It is kept, mostly.
+rip_pacta_conventa = {
+	max_absolutism = -10
+	global_unrest = -1
+	legitimacy = 0.5
+	yearly_corruption = 0.05
+}
+
+# A rokosz put down by force. The estate remembers who did it.
+rip_rokosz_put_down = {
+	yearly_absolutism = 0.5
+	global_unrest = 1
+	magnates_loyalty_modifier = -0.1
+}
+
+# --- the palace at Vilnius
+
+rip_palace_seat_of_the_chancery = {
+	advisor_cost = -0.05
+	legitimacy = 0.25
+	diplomatic_reputation = 1
+}
+
+rip_palace_stripped = {
+	prestige = -0.5
+	legitimacy = -0.25
+	global_unrest = 1
+}
+
+# --- the diplomatic actions
+
+rip_hadiach_compact = {
+	diplomatic_reputation = 1
+	global_unrest = -1
+	num_accepted_cultures = 1
+}
+
+rip_princely_charter = {
+	global_unrest = -2
+	legitimacy = 0.5
+	liberty_desire = -10
+}
+
+# The Sejm ratified a thinner text than the one agreed at Hadiach.
+rip_hadiach_thinned = {
+	global_unrest = 2
+	legitimacy = -0.5
+	liberty_desire = 10
+}
+
+# Held as an udil: a kinsman's portion, not a governor's district.
+rip_held_as_an_udil = {
+	global_unrest = -1
+	legitimacy = 0.5
+	global_manpower_modifier = 0.1
+}

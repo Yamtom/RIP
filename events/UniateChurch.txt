@@ -32,7 +32,15 @@ country_event = {
 			tag = POL
 		}
 		religion = orthodox
-		has_idea_group = religious_ideas
+		# Religious ideas used to be a hard gate here, which meant one idea-group
+		# pick decided whether Greek Catholicism existed in the game at all. It is
+		# a reason to look to Rome, not the only door to it; the pressure the
+		# Reformation chain builds up is the other one.
+		OR = {
+			has_idea_group = religious_ideas
+			has_country_flag = uniate_pressure_mounting
+			has_country_flag = pl_catholic_recovery
+		}
 		OR = {
 			alliance_with = PAP
 			any_neighbor_country = {
@@ -54,6 +62,10 @@ country_event = {
 		modifier = {
 			factor = 0.5
 			alliance_with = PAP
+		}
+		modifier = {
+			factor = 0.5
+			has_idea_group = religious_ideas
 		}
 		# The Catholic recovery after the 1570s is the historical push toward
 		# Brest: once the Protestant magnates fold, the shelter their quarrel
@@ -140,6 +152,11 @@ country_event = {
 		name = uniate_church.2.a
 		ai_chance = { factor = 30 }
 		
+		# Signing the union used to leave the country Orthodox: the religion was
+		# never adopted, so events .11 to .20 could not fire and the faith existed
+		# on the map only where one random province had been converted.
+		change_religion = greek_catholic
+		set_country_flag = union_of_brest_happened
 		add_country_modifier = {
 			name = forced_religious_union
 			duration = 5475
@@ -164,6 +181,8 @@ country_event = {
 		name = uniate_church.2.b
 		ai_chance = { factor = 50 }
 		
+		change_religion = greek_catholic
+		set_country_flag = union_of_brest_happened
 		add_country_modifier = {
 			name = dual_communion_compromise
 			duration = 7300

@@ -1,0 +1,146 @@
+# ========================================================================
+# The Hadiach compact, and the ratification that killed it.
+# Authenticity: A - documented, with the outcome left open.
+# Sources:
+#   the articles agreed at Hadiach in 1658 between Vyhovsky and the Crown -
+#   a Grand Duchy of Ruthenia standing beside Poland and Lithuania, with its
+#   own chancery, courts, treasury, army and seat at the diet; the Sejm's
+#   ratification of a thinner text in 1659, which struck the Duchy's army
+#   down to a token and left the Uniate question open; and the war that
+#   resumed anyway.
+#
+# WHY THIS IS SPLIT ACROSS THREE TOOLS, since the author asked:
+#   - the OFFER is a diplomatic action (common/new_diplomatic_actions/
+#     RIP_diplomatic_actions.txt). Only a diplomatic action can model a
+#     proposal that the other side is free to refuse; a decision would let
+#     the Crown impose it, and a mission would make it a milestone rather
+#     than a bargain.
+#   - the RATIFICATION is these events. It is where the thing actually died,
+#     and it needs both courts to answer in sequence, which is what events
+#     are for.
+#   - nothing here is a mission, because a mission cannot be refused either.
+# ========================================================================
+
+namespace = hadiach
+
+# --- 1. The articles go to the Sejm.
+country_event = {
+	id = hadiach.1
+	title = hadiach.1.t
+	desc = hadiach.1.d
+	picture = SEJM_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = hadiach.1.a
+		ai_chance = { factor = 40 }
+		add_absolutism = -10
+		add_country_modifier = {
+			name = rip_hadiach_compact
+			duration = -1
+		}
+		rip_estate_mood_effect = { ESTATE = estate_magnates LOYALTY = -20 }
+		if = {
+			limit = { has_saved_event_target = hadiach_ruthenia }
+			event_target:hadiach_ruthenia = {
+				add_country_modifier = {
+					name = rip_hadiach_compact
+					duration = -1
+				}
+				country_event = { id = hadiach.3 days = 10 }
+			}
+		}
+	}
+
+	option = {
+		name = hadiach.1.b
+		ai_chance = { factor = 45 }
+		add_absolutism = -5
+		add_country_modifier = {
+			name = rip_hadiach_thinned
+			duration = 9125
+		}
+		rip_estate_mood_effect = { ESTATE = estate_magnates LOYALTY = 5 }
+		if = {
+			limit = { has_saved_event_target = hadiach_ruthenia }
+			event_target:hadiach_ruthenia = {
+				country_event = { id = hadiach.2 days = 10 }
+			}
+		}
+	}
+
+	option = {
+		name = hadiach.1.c
+		ai_chance = { factor = 15 }
+		add_prestige = -10
+		if = {
+			limit = { has_saved_event_target = hadiach_ruthenia }
+			event_target:hadiach_ruthenia = {
+				add_liberty_desire = 50
+				add_opinion = {
+					who = ROOT
+					modifier = lit_union_grievance
+				}
+				country_event = { id = hadiach.2 days = 10 }
+			}
+		}
+	}
+}
+
+# --- 2. What came back from the Sejm.
+country_event = {
+	id = hadiach.2
+	title = hadiach.2.t
+	desc = hadiach.2.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = hadiach.2.a
+		ai_chance = { factor = 45 }
+		add_country_modifier = {
+			name = rip_hadiach_thinned
+			duration = 9125
+		}
+		add_liberty_desire = 20
+		every_owned_province = {
+			limit = { is_state_core = ROOT }
+			add_unrest = 3
+		}
+	}
+
+	option = {
+		name = hadiach.2.b
+		ai_chance = { factor = 55 }
+		add_liberty_desire = 50
+		add_prestige = 10
+		rip_estate_mood_effect = { ESTATE = estate_cossacks LOYALTY = 15 }
+		overlord = {
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_grievance
+			}
+		}
+	}
+}
+
+# --- 3. The compact stands.
+country_event = {
+	id = hadiach.3
+	title = hadiach.3.t
+	desc = hadiach.3.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = hadiach.3.a
+		ai_chance = { factor = 100 }
+		add_prestige = 15
+		add_legitimacy = 10
+		add_liberty_desire = -25
+		set_country_flag = rip_hadiach_ratified
+	}
+}

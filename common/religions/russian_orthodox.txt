@@ -25,14 +25,52 @@ christian = {
 			local_missionary_strength = -0.01	# as vanilla orthodox
 		}
 
-		uses_church_power = yes
+		# One panel, and only one.
+		#
+		# Every religion mechanic draws into the same rectangle of
+		# interface/countryreligionview.gui: orthodox_specific_window at
+		# x=-24 y=0, coptic_specific_window at x=0 y=0, and the protestant,
+		# muslim, catholic and fervor windows all at x=32 y=300, each 280x50.
+		# Declaring several of them on one faith stacks windows on top of one
+		# another. So this faith takes the holy-site panel, and the four donors
+		# of the original concept are served like this:
+		#
+		#   Orthodox     - has_patriarchs below. Authority still accrues, the
+		#                  passive patriarch modifiers still apply and Consecrate
+		#                  Patriarch still sits in the province view, which is a
+		#                  different window. The five icons, which do live in the
+		#                  contested panel, are decisions instead - see
+		#                  decisions/RIP_OrthodoxIcons.txt.
+		#   Miaphysite   - the holy sites and blessings below: this faith's panel.
+		#   Shia         - the piety axis is two exclusive Church privileges,
+		#                  Josephite and Non-Possessor, in
+		#                  common/estate_privileges/RIP_orthodox_zeal_privileges.txt.
+		#   Reformed     - fervour is a counter and three exclusive focuses in
+		#                  decisions/RIP_SoborZeal.txt, ticked from
+		#                  common/on_actions/russian_orthodox_on_actions.txt.
 
 		# Patriarchs
 		has_patriarchs = yes
 
 		heretic = { "BOGOMILIST" }
 
-		date = 1589.1.26
+		# THE THREE DATES OF THIS CHURCH
+		#
+		# 1448.12.15 - the metropolitan is elected at Moscow without
+		#              Constantinople's blessing, and the metropolitanate splits
+		#              along the border it will keep. This is the birth of the
+		#              faith, so it is the religion's own date: `date` is what
+		#              is_religion_enabled reads, and setting it to 1589 left the
+		#              mod offering a religion the engine had not switched on for
+		#              another 136 years - convert_to_russian_orthodox_decision
+		#              opens at 1450 and russian_orthodox.1 fired from 1453.
+		# 1589.1.26  - the metropolitan becomes a patriarch: russian_orthodox.2.
+		# 1653       - Nikon's books, and the Raskol: russian_orthodox.6.
+		#
+		# The three are a ladder, not three separate stories. Each stage sets its
+		# flag and the next one asks for it:
+		#   rip_ro_stage_autocephaly -> rip_ro_stage_patriarchate -> rip_ro_stage_raskol
+		date = 1448.12.15
 
 		on_convert = {
 			add_prestige = 15
@@ -44,12 +82,40 @@ christian = {
 		}
 
 
+		# Five sites, as vanilla does it.
+		#
+		# Both vanilla holy-site religions declare exactly five - coptic and
+		# zoroastrian - and interface/countryreligionview.gui has widgets for
+		# exactly five: holy_site_icon_1..5 and holy_site_name_1..5. A sixth
+		# still works in the engine, but its row has nowhere to draw in the
+		# small panel, which is what the game's own error.log was reporting:
+		# "Missing Icon 'holy_site_icon_6' in window 'coptic_specific_window'".
+		# Showing it would mean overriding the whole 3486-line vanilla file and
+		# relocating the blessings box, for one row.
+		#
+		# Rome is the site that left, and it is the right one to drop: it is the
+		# only see here the Muscovite church never held or claimed to hold. The
+		# doctrine this faith runs on says Rome fell, which is the whole point of
+		# there being a third one. Holding Rome is a trophy instead - see
+		# rip_ro_the_first_rome in decisions/RIP_OrthodoxIcons.txt.
 		holy_sites = {
-			280 # Kyiv - Mother of Russian cities
-			295 # Moscow - Third Rome
-			151 # Constantinople - Second Rome (if conquered)
-			379 # Jerusalem - Holy Land
-			118 # Rome - First Rome (symbolic)
+			310 # Novgorod - the Sophia of the north, and the older see
+			295 # Moscow - the Third Rome
+			280 # Kyiv - where the baptism happened
+			151 # Constantinople - the Second Rome, which fell
+			379 # Jerusalem - the beginning
+		}
+
+		# One blessing may run for each holy site held, as with the Copts. Seven
+		# are offered against five sites, so the choice stays real at the ceiling.
+		blessings = {
+			blessing_of_third_rome
+			blessing_of_patriarch_of_moscow
+			blessing_of_orthodox_conquest
+			blessing_of_cultural_dominance
+			blessing_of_religious_unity
+			blessing_of_saints_cyril_and_methodius
+			blessing_of_eastern_liturgy
 		}
 	}
 
@@ -60,7 +126,6 @@ christian = {
 		country = {
 			tolerance_own = 2
 			tolerance_heretic = 1
-			papal_influence = 1
 			diplomatic_reputation = 1
 			advisor_cost = -0.05
 		}
@@ -74,9 +139,457 @@ christian = {
 			local_missionary_strength = 0.01
 		}
 
-		uses_church_power = yes
+		# One See of the Union, and what it may convert.
+		#
+		# A Center of Reformation of this faith may take parishes of either
+		# rite: the eastern one it came from and the Latin one it entered
+		# communion with. That is the whole point of a union church, and it is
+		# also the only religion mechanic this faith gets besides its panel -
+		# centres do not draw into the contested rectangle.
+		#
+		# The centre itself is planted once, by rip_uc_raise_the_see in
+		# decisions/RIP_UniateCuria.txt. How fast it works on which parish is
+		# weighted in rip_uc_union_spread_effect.
+		allowed_center_conversion = {
+			orthodox
+			russian_orthodox
+			catholic
+		}
 
+		# COMMUNION WITH ROME, AS THE ENGINE CAN ACTUALLY GIVE IT
+		#
+		# The earlier reading here said a papacy block was impossible because the
+		# engine resolves a papacy from the country's own religion. That is true
+		# and it is not an obstacle: the block is data, and it NAMES the tag and
+		# the seat. This one is vanilla's own, copied whole - papal_tag = PAP,
+		# seat_of_papacy = 118, the same Council of Trent positions, the same
+		# concessions, the same papal actions. A Uniate country therefore accrues
+		# real papal influence, buys the real papal actions and sits under the
+		# same pope in the same Rome, which is what communion with Rome meant.
+		#
+		# And it costs this faith nothing, because the panels do not collide.
+		# Measured in interface/countryreligionview.gui, the religion windows fall
+		# into two groups, not one: orthodox (x=-24 y=0) and coptic (x=0 y=0)
+		# overlap each other, while catholic, muslim, protestant and fervor all
+		# sit at x=32 y=300. Orthodox and catholic are in different rectangles, so
+		# this faith keeps BOTH - patriarch authority and the icons above, the
+		# curia below.
+		#
+		# What is not certain, and is written down rather than hidden: whether the
+		# engine treats two religions naming the same papal_tag as one curia or as
+		# two instances that happen to share a tag and a seat. Either way a Uniate
+		# country has papal influence, cardinals and the papal actions; if it is
+		# two, it competes for its own controller rather than Rome's. The petition
+		# decisions in decisions/RIP_UniateCuria.txt stay as a fallback and gate
+		# themselves off as soon as papal influence actually accrues.
+		papacy = {
+			papal_tag = PAP
+			election_cost = 5
+			seat_of_papacy = 118 # rome
+			
+			
+			#Council of Trent Positions
+			harsh = {
+				relation_with_heretics = -10
+				global_religious_conversion_resistance = 0.25
+				global_institution_spread = -0.25
+				global_missionary_strength = 0.02
+			}
+			neutral = {
+				global_religious_conversion_resistance = -0.33
+			}
+			concilatory = {
+				relation_with_heretics = 5
+				global_religious_conversion_resistance = 0.25
+				global_heretic_missionary_strength = -0.05
+				improve_relation_modifier = 0.25
+			}
+			
+			#Council of Trent Concessions
+			concessions = {
+				first_concession = {
+					harsh = {
+						relation_with_heretics = -10
+						global_heretic_missionary_strength  = 0.02
+					}	
+					concilatory = {
+						relation_with_heretics = 5
+						tolerance_heretic = 2
+					}
+				}
+				second_concession = {
+					harsh = {
+						relation_with_heretics = -10
+						institution_spread_from_true_faith = 0.30
+					}	
+					concilatory = {
+						relation_with_heretics = 5
+						global_institution_spread = 0.10
+					}
+				}
+				third_concession = {
+					harsh = {
+						relation_with_heretics = -10
+						manpower_in_true_faith_provinces  = 0.1
+					}	
+					concilatory = {
+						relation_with_heretics = 5
+						global_manpower_modifier = 0.05
+					}
+				}
+				fourth_concession = {
+					harsh = {
+						relation_with_heretics = -10
+						warscore_cost_vs_other_religion  = -0.10
+					}	
+					concilatory = {
+						relation_with_heretics = 5
+						curia_powers_cost = -0.10
+					}
+				}
+			}
+			
+
+
+			
+			
+			
+			
+			# Papal Actions below!
+			
+			levy_church_tax = {
+				cost = 50
+				potential = {
+					NOT = { tag = PAP }
+				}
+				allow = {
+					NOT = { war_with = PAP }
+					NOT = { has_country_modifier = papal_sanction_for_church_taxes }
+				}
+				effect = {
+					add_country_modifier = {
+						name = "papal_sanction_for_church_taxes"
+						duration = 7300
+					}
+				}
+				ai_will_do = {
+					factor = 1
+				}				
+			}			
+			bless_monarch = {
+				cost = 50
+				potential = {
+					NOT = { tag = PAP }
+				}
+				allow = {
+					NOT = { war_with = PAP }
+					NOT = { has_country_modifier = papal_blessing }
+				}
+				effect = {
+					add_country_modifier = {
+						name = "papal_blessing"
+						duration = 7300
+					}
+				}
+				ai_will_do = {
+					factor = 1
+				}
+			}
+			indulgence_for_sins = {
+				cost = 50
+				potential = {
+					NOT = { tag = PAP }
+				}
+				allow = {
+					NOT = { war_with = PAP }
+					NOT = { has_country_modifier = papal_indulgence }
+				}
+				effect = {
+					add_country_modifier = {
+						name = "papal_indulgence"
+						duration = 7300
+					}
+				}
+				ai_will_do = {
+					factor = 1
+				}
+			}	
+			local_saint = {
+				cost = 100
+				potential = {
+					NOT = { tag = PAP }
+				}
+				allow = {
+					NOT = { war_with = PAP }
+					NOT = { stability = 3 }
+				}
+				effect = {
+					add_stability = 1
+				}
+				ai_will_do = {
+					factor = 1
+					modifier = {
+						factor = 2
+						NOT = { stability = 0 }
+					}
+				}
+			}
+			forgiveness_for_usury = {
+				cost = 50
+				potential = {
+					NOT = { tag = PAP }
+				}
+				allow = {
+					NOT = { war_with = PAP }
+					NOT = { has_country_modifier = usury_forgiven }
+				}
+				effect = {
+					add_country_modifier = {
+						name = "usury_forgiven"
+						duration = 7300
+					}
+				}
+				ai_will_do = {
+					factor = 1
+					modifier = {
+						factor = 0
+						NOT = { num_of_loans = 1 }
+					}
+				}
+			}			
+			proclaim_holy_war = {
+				cost = 50
+				potential = {
+					NOT = { tag = PAP }
+				}
+				allow = {
+					is_at_war = yes
+					NOT = { war_with = PAP }
+					NOT = { has_country_modifier = papal_sanction_for_holy_war }
+				}
+				effect = {
+					add_country_modifier = {
+						name = "papal_sanction_for_holy_war"
+						duration = 7300
+					}
+				}
+				ai_will_do = {
+					factor = 1
+					modifier = {
+						factor = 0
+						manpower_percentage = 0.5
+					}
+				}
+			}
+			send_papal_legate = {
+				cost = 50
+				potential = {
+					NOT = { tag = PAP }
+					is_papal_controller = no
+				}
+				allow = {
+					NOT = { war_with = PAP }
+					NOT = { has_country_modifier = papal_legate }
+				}
+				effect = {
+					add_country_modifier = {
+						name = "papal_legate"
+						duration = 7300
+					}
+				}
+				ai_will_do = {
+					factor = 1
+				}
+			}	
+			sanction_commercial_monopoly = {
+				cost = 50
+				potential = {
+					NOT = { tag = PAP }
+				}
+				allow = {
+					NOT = { war_with = PAP }
+					NOT = { mercantilism = 100 }
+				}
+				effect = {
+					add_mercantilism = 1
+				}
+				ai_will_do = {
+					factor = 1
+					modifier = {
+						factor = 0
+						NOT = { has_idea_group = trade_ideas }
+					}
+				}
+			}
+			investigate_heresy = {
+				curia_treasury_cost = 500
+				potential = {
+					has_dlc = "Emperor"
+					is_papal_controller = yes
+					tag = PAP
+				}
+				allow = {
+					is_papal_controller = yes
+					reform_desire = 0.05
+				}
+				effect = {
+					add_reform_desire = -0.05
+					add_reform_desire_scale = 0.5
+				}
+				ai_will_do = {
+					factor = 0
+				}
+			}
+		}
+
+		# The upper panel: patriarch authority and the five icons. This faith
+		# declares no holy sites and no church power, so nothing contests the
+		# y=0 rectangle with it.
 		has_patriarchs = yes
+
+		# The frame is chosen by the entry's POSITION in this block, not by its
+		# name - vanilla carries no sprite field and the save stores a bare index -
+		# so these five keep vanilla's five paintings while carrying our own keys
+		# and our own text. Renaming matters: one vanilla scripted trigger and five
+		# vanilla mission files test current_icon = icon_michael and the rest, so
+		# overriding those keys would rename the icons of Russia, Byzantium, Serbia
+		# and Georgia too. Do not reorder them or the pictures shuffle.
+		orthodox_icons = {
+			# If no icon has ai_will_do above 1 - <current patriarch authority> , the AI will not enact it. (60% PA = 0.6 -> ai_will_do has to be at least 0.4)
+
+			rip_gc_icon_michael = {
+				discipline = 0.05
+				manpower_recovery_speed = 0.1
+				
+				allow = {
+					always = yes
+				}
+
+				visible = {
+					always = yes
+				}
+
+				ai_will_do = {
+					factor = 0.05
+					modifier = {
+						factor = 0
+						is_at_war = no
+					}
+					modifier = {
+						factor = 3
+						is_in_important_war = yes
+					}
+				}
+			}
+
+			rip_gc_icon_eleusa = {
+				global_unrest = -3
+				harsh_treatment_cost = -0.25
+				
+				allow = {
+					always = yes
+				}
+
+				visible = {
+					always = yes
+				}
+				
+				ai_will_do = {
+					factor = 0.02
+					modifier = {
+						factor = 0
+						NOT = {
+							calc_true_if = {
+								all_owned_province = {
+									unrest = 1
+								}
+								amount = 2
+							}
+						}
+					}
+					modifier = {
+						factor = 3
+						calc_true_if = {
+							all_owned_province = {
+								unrest = 1
+							}
+							amount = 5
+						}
+					}
+				}
+			}
+
+			rip_gc_icon_pancreator = {
+				development_cost = -0.10
+				build_cost = -0.1
+				
+				allow = {
+					always = yes
+				}
+
+				visible = {
+					always = yes
+				}
+				
+				ai_will_do = {
+					factor = 0
+				}
+			}
+	
+			rip_gc_icon_nicholas = {
+				improve_relation_modifier = 0.25
+				ae_impact = -0.1
+				
+				visible = {
+					always = yes
+				}
+				
+				allow = {
+					always = yes
+				}
+				ai_will_do = {
+					factor = 0.01
+				}
+			}
+
+			rip_gc_icon_climacus = {
+				global_institution_spread = 0.25
+				embracement_cost = -0.2
+
+				visible = {
+					always = yes
+				}
+
+				allow = {
+					always = yes
+				}
+				ai_will_do = {
+					factor = 0.02
+					modifier = {
+						factor = 0
+						NOT = {
+							calc_true_if = {
+								all_owned_province = {
+									current_institution = 1
+									NOT = { current_institution = 95 }
+								}
+								amount = 1
+							}
+						}
+					}
+					modifier = {
+						factor = 3
+						calc_true_if = {
+							all_owned_province = {
+								current_institution = 1
+								NOT = { current_institution = 95 }
+							}
+							amount = 5
+						}
+					}
+				}
+			}
+		}
 
 		hre_heretic_religion = yes
 
