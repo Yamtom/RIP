@@ -3,8 +3,13 @@
 # Ordered as vanilla orders a disaster: potential, can_start, can_stop,
 # progress, can_end, modifier, on_start, on_end, on_monthly.
 
+# ZAZ - the Zaporozhian Sich
+# zaporozhian_sich_crisis.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
 # ZAZ. The Sich splits over the Crimean and Ottoman question.
 zaporozhian_sich_crisis = {
+	ended_by_country_breaking_to_rebels = no
 	potential = {
 		tag = ZAZ
 		normal_or_historical_nations = yes
@@ -45,6 +50,14 @@ zaporozhian_sich_crisis = {
 	}
 	can_stop = {
 		has_any_disaster = yes
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			NOT = { num_of_rebel_armies = 1 }
+			OR = { republican_tradition = 60 legitimacy = 60 }
+		}
 	}
 	progress = {
 		modifier = {

@@ -3,6 +3,10 @@
 # Ordered as vanilla orders a disaster: potential, can_start, can_stop,
 # progress, can_end, modifier, on_start, on_end, on_monthly.
 
+# HET - the Hetmanate
+# hetman_succession_crisis.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
 # HET. The Rada cannot agree on a successor and the mace changes hands by force.
 hetman_succession_crisis = {
 	potential = {
@@ -56,6 +60,15 @@ hetman_succession_crisis = {
 	}
 	can_stop = {
 		has_any_disaster = yes
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			has_regency = no
+			NOT = { num_of_rebel_armies = 1 }
+			stability = 1
+		}
 	}
 	progress = {
 		modifier = {
@@ -129,7 +142,10 @@ hetman_succession_crisis = {
 	}
 	can_end = {
 		stability = 0
-		legitimacy = 60
+		OR = {
+			legitimacy = 60
+			republican_tradition = 60
+		}
 		NOT = { has_regency = yes }
 		NOT = { num_of_rebel_armies = 1 }
 		OR = {

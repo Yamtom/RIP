@@ -3,6 +3,10 @@
 # Ordered as vanilla orders a disaster: potential, can_start, can_stop,
 # progress, can_end, modifier, on_start, on_end, on_monthly.
 
+# PDL - Podillia
+# podillia_confessional_crisis, podillia_cossack_upheaval, podillia_jewish_emancipation, podillia_ottoman_menace.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
 # PDL. Uniate, Orthodox and Latin claims to the same parishes come to a head.
 podillia_confessional_crisis = {
 	potential = {
@@ -73,6 +77,14 @@ podillia_confessional_crisis = {
 			has_country_modifier = pdl_confessional_peace_enacted
 		}
 	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			religious_unity = 0.8
+			stability = 1
+		}
+	}
 	progress = {
 		modifier = {
 			factor = 1
@@ -132,6 +144,11 @@ podillia_confessional_crisis = {
 		church_power_modifier = -0.25
 		devotion = -0.5
 	}
+	on_start_effect = {
+		hidden_effect = {
+			remove_country_modifier = pdl_confessional_peace_enacted
+		}
+	}
 	on_start = podillia_disasters.1
 	on_end = podillia_disasters.11
 	on_monthly = {
@@ -152,6 +169,7 @@ podillia_confessional_crisis = {
 
 # PDL. The registered companies turn on the starosta who registered them.
 podillia_cossack_upheaval = {
+	ended_by_country_breaking_to_rebels = no
 	potential = {
 		tag = PDL
 		has_estate = estate_cossacks
@@ -203,6 +221,14 @@ podillia_cossack_upheaval = {
 			}
 
 			has_country_modifier = pdl_cossack_autonomy_granted
+		}
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			estate_loyalty = { estate = estate_cossacks loyalty = 55 }
+			NOT = { num_of_rebel_armies = 1 }
 		}
 	}
 	progress = {
@@ -274,6 +300,11 @@ podillia_cossack_upheaval = {
 		land_morale = -0.10
 		war_exhaustion = 0.03
 	}
+	on_start_effect = {
+		hidden_effect = {
+			remove_country_modifier = pdl_cossack_autonomy_granted
+		}
+	}
 	on_start = podillia_disasters.21
 	on_end = podillia_disasters.31
 	on_monthly = {
@@ -341,6 +372,14 @@ podillia_jewish_emancipation = {
 			}
 		}
 	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			estate_loyalty = { estate = estate_dhimmi loyalty = 50 }
+			stability = 1
+		}
+	}
 	progress = {
 		modifier = {
 			factor = 1
@@ -405,6 +444,11 @@ podillia_jewish_emancipation = {
 		global_unrest = 3
 		tolerance_heathen = -2
 		production_efficiency = -0.10
+	}
+	on_start_effect = {
+		hidden_effect = {
+			clr_country_flag = pdl_jewish_emancipation_resolved
+		}
 	}
 	on_start = podillia_disasters.61
 	on_end = podillia_disasters.71
@@ -523,6 +567,14 @@ podillia_ottoman_menace = {
 			}
 		}
 	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			NOT = { war_with = TUR }
+			army_size_percentage = 0.9
+		}
+	}
 	progress = {
 		modifier = {
 			factor = 1
@@ -600,6 +652,11 @@ podillia_ottoman_menace = {
 		land_morale = -0.10
 		defensiveness = -0.15
 		yearly_army_professionalism = -0.01
+	}
+	on_start_effect = {
+		hidden_effect = {
+			clr_country_flag = pdl_ottoman_menace_resolved
+		}
 	}
 	on_start = podillia_disasters.41
 	on_end = podillia_disasters.51

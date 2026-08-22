@@ -3,8 +3,13 @@
 # Ordered as vanilla orders a disaster: potential, can_start, can_stop,
 # progress, can_end, modifier, on_start, on_end, on_monthly.
 
+# Disasters that several countries can enter
+# chernihiv_ruina, khmelnytsky_uprising, governmental_disruption.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
 # CHR HET KIE PRL VOL ZAZ. The Ruin, with Crimea, Muscovy, Poland, Russia and the Porte reacting.
 chernihiv_ruina = {
+	ended_by_country_breaking_to_rebels = no
 	potential = {
 		OR = {
 			tag = CHR
@@ -56,6 +61,15 @@ chernihiv_ruina = {
 	}
 	can_stop = {
 		has_any_disaster = yes
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			is_at_war = no
+			stability = 1
+			NOT = { num_of_rebel_armies = 1 }
+		}
 	}
 	progress = {
 		modifier = {
@@ -158,6 +172,7 @@ chernihiv_ruina = {
 
 # CHR HET KIE PRL VOL ZAZ, and POL LIT PLC while they hold cores in ruthenia_region.
 khmelnytsky_uprising = {
+	ended_by_country_breaking_to_rebels = no
 	potential = {
 		OR = {
 			AND = {
@@ -226,6 +241,14 @@ khmelnytsky_uprising = {
 	}
 	can_stop = {
 		NOT = { has_any_disaster = yes }
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			NOT = { num_of_rebel_armies = 1 }
+			stability = 1
+		}
 	}
 	progress = {
 		modifier = {
@@ -371,6 +394,14 @@ governmental_disruption = {
 			has_reform = kyivan_rus_reform
 		}
 		is_subject = yes
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			stability = 2
+			NOT = { num_of_rebel_controlled_provinces = 1 }
+		}
 	}
 	progress = {
 		modifier = {
