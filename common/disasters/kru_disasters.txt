@@ -1,9 +1,14 @@
+# KRU - the Kyivan Confederation
+# ruthenian_court_crisis.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
+
+# KRU. The factional empire's court decays past the point the reform can carry it.
 ruthenian_court_crisis = {
 	potential = {
 		tag = KRU
 		normal_or_historical_nations = yes
 	}
-
 	can_start = {
 		has_any_disaster = no
 		OR = {
@@ -13,18 +18,9 @@ ruthenian_court_crisis = {
 		}
 		check_variable = { which = ruthenian_decadence value = 90 }
 	}
-
 	can_stop = {
 		has_any_disaster = yes
 	}
-
-	modifier = {
-		global_unrest = 3
-		stability_cost_modifier = 0.2
-		advisor_cost = 0.2
-		discipline = -0.03
-	}
-
 	progress = {
 		modifier = {
 			factor = 6
@@ -43,9 +39,14 @@ ruthenian_court_crisis = {
 			has_country_modifier = ruina_recovery_south
 		}
 	}
-
 	can_end = {
 		stability = 1
 		NOT = { check_variable = { which = ruthenian_decadence value = 60 } }
+	}
+	modifier = {
+		global_unrest = 3
+		stability_cost_modifier = 0.2
+		advisor_cost = 0.2
+		discipline = -0.03
 	}
 }

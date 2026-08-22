@@ -1,0 +1,628 @@
+# PDL - Podillia
+# podillia_confessional_crisis, podillia_cossack_upheaval, podillia_jewish_emancipation, podillia_ottoman_menace.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
+
+# PDL. Uniate, Orthodox and Latin claims to the same parishes come to a head.
+podillia_confessional_crisis = {
+	potential = {
+		tag = PDL
+		normal_or_historical_nations = yes
+		has_dlc = "Dharma"
+	}
+	can_start = {
+		has_regency = no
+		is_subject = no
+		is_at_war = no
+		stability = 0
+
+		religious_unity = 0.65
+
+		OR = {
+			AND = {
+				has_estate = estate_church
+				estate_loyalty = {
+					estate = estate_church
+					loyalty = 40
+				}
+				NOT = {
+					estate_loyalty = {
+						estate = estate_church
+						loyalty = 60
+					}
+				}
+			}
+			AND = {
+				has_estate = estate_dhimmi
+				estate_loyalty = {
+					estate = estate_dhimmi
+					loyalty = 40
+				}
+				NOT = {
+					estate_loyalty = {
+						estate = estate_dhimmi
+						loyalty = 60
+					}
+				}
+			}
+		}
+
+		OR = {
+			has_country_modifier = religious_intolerance
+			has_country_modifier = forced_conversion
+			pdl_0_tolerance = yes
+		}
+	}
+	can_stop = {
+		OR = {
+			stability = 2
+			religious_unity = 0.85
+
+			AND = {
+				pdl_2_tolerance = yes
+			}
+
+			AND = {
+				has_estate = estate_church
+				estate_loyalty = {
+					estate = estate_church
+					loyalty = 60
+				}
+			}
+
+			has_country_modifier = pdl_confessional_peace_enacted
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 1
+			custom_trigger_tooltip = {
+				tooltip = pdl_crisis_base_progress
+				always = yes
+			}
+		}
+		modifier = {
+			factor = 2
+			NOT = { stability = 0 }
+		}
+		modifier = {
+			factor = 1.5
+			NOT = { religious_unity = 0.6 }
+		}
+		modifier = {
+			factor = 1.5
+			num_of_rebel_armies = 1
+		}
+		modifier = {
+			factor = 2
+			num_of_rebel_controlled_provinces = 3
+		}
+		modifier = {
+			factor = -1
+			has_country_modifier = pdl_religious_tolerance
+		}
+		modifier = {
+			factor = -1
+			has_country_flag = pdl_tolerance_path
+		}
+	}
+	can_end = {
+		OR = {
+			AND = {
+				stability = 2
+				religious_unity = 0.85
+				pdl_more2_tolerance = yes
+			}
+
+			AND = {
+				NOT = { num_of_rebel_armies = 1 }
+				NOT = { num_of_rebel_controlled_provinces = 1 }
+				stability = 1
+			}
+
+			has_country_modifier = pdl_confessional_peace_enacted
+		}
+	}
+	modifier = {
+		stability_cost_modifier = 0.25
+		global_unrest = 3
+		tolerance_heretic = -2
+		tolerance_heathen = -2
+		papal_influence = -0.5
+		church_power_modifier = -0.25
+		devotion = -0.5
+	}
+	on_start = podillia_disasters.1
+	on_end = podillia_disasters.11
+	on_monthly = {
+		events = {
+			podillia_disasters.2  # Orthodox-Catholic tensions
+			podillia_disasters.3  # Jewish persecution risk
+			podillia_disasters.4  # Religious riots
+			podillia_disasters.5  # Estate pressure
+		}
+		random_events = {
+			1000 = 0
+			100 = podillia_disasters.6  # Moderate clergy intervention
+			100 = podillia_disasters.7  # Radical factions emerge
+			50 = podillia_disasters.8   # Foreign interference
+		}
+	}
+}
+
+# PDL. The registered companies turn on the starosta who registered them.
+podillia_cossack_upheaval = {
+	potential = {
+		tag = PDL
+		has_estate = estate_cossacks
+		normal_or_historical_nations = yes
+		has_dlc = "The Cossacks"
+	}
+	can_start = {
+		has_regency = no
+		is_subject = no
+
+		has_estate = estate_cossacks
+		estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = 30
+		}
+		NOT = {
+			estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 50
+			}
+		}
+
+		estate_influence = {
+			estate = estate_cossacks
+			influence = 60
+		}
+
+		OR = {
+			num_of_loans = 3
+			war_exhaustion = 5
+			NOT = { prestige = -10 }
+			NOT = { has_won_war_against = { who = TUR } }
+			NOT = { has_won_war_against = { who = CRI } }
+		}
+	}
+	can_stop = {
+		OR = {
+			AND = {
+				has_estate = estate_cossacks
+				estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 60
+				}
+			}
+
+			AND = {
+				stability = 2
+				legitimacy = 75
+			}
+
+			has_country_modifier = pdl_cossack_autonomy_granted
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 1
+			custom_trigger_tooltip = {
+				tooltip = pdl_cossack_upheaval_base_progress
+				always = yes
+			}
+		}
+		modifier = {
+			factor = 2
+			NOT = {
+				estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 40
+				}
+			}
+		}
+		modifier = {
+			factor = 1.5
+			war_exhaustion = 8
+		}
+		modifier = {
+			factor = 1.5
+			num_of_rebel_armies = 1
+		}
+		modifier = {
+			factor = 2
+			estate_influence = {
+				estate = estate_cossacks
+				influence = 80
+			}
+		}
+		modifier = {
+			factor = -1
+		}
+		modifier = {
+			factor = -1
+			has_country_modifier = pdl_cossack_integration
+		}
+	}
+	can_end = {
+		OR = {
+			AND = {
+				has_estate = estate_cossacks
+				estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 65
+				}
+				NOT = { num_of_rebel_armies = 1 }
+			}
+
+			AND = {
+				NOT = { num_of_rebel_armies = 1 }
+				NOT = { num_of_rebel_controlled_provinces = 1 }
+				stability = 1
+				army_size = 20
+			}
+
+			has_country_modifier = pdl_cossack_autonomy_granted
+		}
+	}
+	modifier = {
+		global_unrest = 4
+		cavalry_cost = 0.25
+		cav_to_inf_ratio = -0.25
+		stability_cost_modifier = 0.30
+		land_morale = -0.10
+		war_exhaustion = 0.03
+	}
+	on_start = podillia_disasters.21
+	on_end = podillia_disasters.31
+	on_monthly = {
+		events = {
+			podillia_disasters.22  # Cossack demands
+			podillia_disasters.23  # Raids intensify
+			podillia_disasters.24  # Desertions
+			podillia_disasters.25  # Leadership crisis
+		}
+		random_events = {
+			1000 = 0
+			100 = podillia_disasters.26  # Hetman intervention
+			100 = podillia_disasters.27  # Compromise offer
+			50 = podillia_disasters.28   # Foreign support for rebels
+		}
+	}
+}
+
+# PDL. The arenda system and the towns' charters pull against each other.
+podillia_jewish_emancipation = {
+	potential = {
+		tag = PDL
+		has_estate = estate_dhimmi
+	}
+	can_start = {
+		has_dlc = "Dharma"
+		is_subject = no
+		NOT = { has_regency = yes }
+
+		has_estate = estate_dhimmi
+		estate_influence = {
+			estate = estate_dhimmi
+			influence = 40
+		}
+
+		OR = {
+			has_idea_group = humanist_ideas
+			religious_unity = 0.8
+			has_country_flag = pdl_tolerance_path
+		}
+
+		OR = {
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 60
+			}
+			estate_loyalty = {
+				estate = estate_church
+				loyalty = 60
+			}
+		}
+
+		NOT = { has_country_modifier = pdl_jewish_emancipation_enacted }
+	}
+	can_stop = {
+		AND = {
+			stability = 2
+			estate_loyalty = {
+				estate = estate_dhimmi
+				loyalty = 60
+			}
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 60
+			}
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 1
+		}
+
+		# Accelerators
+		modifier = {
+			factor = 2
+			estate_influence = {
+				estate = estate_dhimmi
+				influence = 60
+			}
+		}
+
+		modifier = {
+			factor = 1.5
+			has_idea_group = humanist_ideas
+		}
+
+		modifier = {
+			factor = 1.5
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 40
+			}
+		}
+
+		# Reducers
+		modifier = {
+			factor = -1
+			has_country_flag = pdl_tolerance_path
+		}
+
+		modifier = {
+			factor = -0.5
+			stability = 2
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 60
+			}
+			estate_loyalty = {
+				estate = estate_dhimmi
+				loyalty = 60
+			}
+		}
+	}
+	can_end = {
+		OR = {
+			has_country_flag = pdl_jewish_emancipation_resolved
+
+			AND = {
+				stability = 2
+				estate_loyalty = {
+					estate = estate_dhimmi
+					loyalty = 50
+				}
+			}
+		}
+	}
+	modifier = {
+		stability_cost_modifier = 0.25
+		global_unrest = 3
+		tolerance_heathen = -2
+		production_efficiency = -0.10
+	}
+	on_start = podillia_disasters.61
+	on_end = podillia_disasters.71
+	on_monthly = {
+		events = {
+			podillia_disasters.62
+			podillia_disasters.63
+			podillia_disasters.64
+			podillia_disasters.65
+			podillia_disasters.66
+			podillia_disasters.67
+			podillia_disasters.68
+		}
+
+		random_events = {
+			100 = 0
+			10 = podillia_disasters.62
+			10 = podillia_disasters.63
+			10 = podillia_disasters.64
+			10 = podillia_disasters.65
+			10 = podillia_disasters.66
+			10 = podillia_disasters.67
+			10 = podillia_disasters.68
+		}
+	}
+}
+
+# PDL. Kamianets under Ottoman pressure, with Crimea, Hungary, Lithuania and Poland reacting.
+podillia_ottoman_menace = {
+	potential = {
+		tag = PDL
+	}
+	can_start = {
+		has_dlc = "Dharma"
+		is_subject = no
+		is_at_war = no
+		NOT = { has_regency = yes }
+
+		OR = {
+			any_neighbor_country = {
+				tag = TUR
+				army_size = ROOT
+			}
+			any_neighbor_country = {
+				tag = CRI
+			}
+		}
+
+		OR = {
+			AND = {
+				num_of_owned_provinces_with = {
+					has_building = fort_15th
+					value = 2
+				}
+				NOT = {
+					num_of_owned_provinces_with = {
+						has_building = fort_15th
+						value = 3
+					}
+				}
+			}
+			NOT = {
+				num_of_owned_provinces_with = {
+					has_building = fort_15th
+					value = 2
+				}
+			}
+		}
+
+		OR = {
+			army_size_percentage = 0.7
+			manpower_percentage = 0.4
+		}
+
+		NOT = {
+			any_ally = {
+				army_size = ROOT
+				is_great_power = yes
+			}
+		}
+	}
+	can_stop = {
+		OR = {
+			AND = {
+				stability = 1
+				army_size_percentage = 0.9
+				num_of_owned_provinces_with = {
+					has_building = fort_15th
+					value = 3
+				}
+			}
+
+			AND = {
+				stability = 2
+				any_ally = {
+					OR = {
+						tag = POL
+						tag = HUN
+						tag = LIT
+						is_great_power = yes
+					}
+					has_opinion = {
+						who = ROOT
+						value = 150
+					}
+				}
+			}
+
+			NOT = {
+				any_neighbor_country = {
+					OR = {
+						tag = TUR
+						tag = CRI
+					}
+				}
+			}
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 1
+		}
+
+		# Accelerators
+		modifier = {
+			factor = 2
+			manpower_percentage = 0.3
+		}
+
+		modifier = {
+			factor = 1.5
+			NOT = {
+				num_of_owned_provinces_with = {
+					has_building = fort_15th
+					value = 2
+				}
+			}
+		}
+
+		modifier = {
+			factor = 1.5
+			any_neighbor_country = {
+				tag = TUR
+			}
+		}
+
+		modifier = {
+			factor = 1.5
+			any_owned_province = {
+				has_province_modifier = devastation
+			}
+		}
+
+		# Reducers
+		modifier = {
+			factor = -1
+			has_country_flag = pdl_carpathian_path
+			num_of_owned_provinces_with = {
+				has_building = fort_15th
+				value = 3
+			}
+		}
+
+		modifier = {
+			factor = -0.5
+			any_ally = {
+				is_great_power = yes
+				has_opinion = {
+					who = ROOT
+					value = 150
+				}
+			}
+		}
+	}
+	can_end = {
+		OR = {
+			has_country_flag = pdl_ottoman_menace_resolved
+
+			AND = {
+				stability = 2
+				army_size_percentage = 1.0
+				manpower_percentage = 0.6
+				num_of_owned_provinces_with = {
+					has_building = fort_15th
+					value = 3
+				}
+			}
+		}
+	}
+	modifier = {
+		stability_cost_modifier = 0.25
+		fort_maintenance_modifier = 0.30
+		land_morale = -0.10
+		defensiveness = -0.15
+		yearly_army_professionalism = -0.01
+	}
+	on_start = podillia_disasters.41
+	on_end = podillia_disasters.51
+	on_monthly = {
+		events = {
+			podillia_disasters.42
+			podillia_disasters.43
+			podillia_disasters.44
+			podillia_disasters.45
+			podillia_disasters.46
+			podillia_disasters.47
+			podillia_disasters.48
+		}
+
+		random_events = {
+			100 = 0
+			10 = podillia_disasters.42
+			10 = podillia_disasters.43
+			10 = podillia_disasters.44
+			10 = podillia_disasters.45
+			10 = podillia_disasters.46
+			10 = podillia_disasters.47
+			10 = podillia_disasters.48
+		}
+	}
+}
