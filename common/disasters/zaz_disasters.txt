@@ -1,11 +1,14 @@
+# ZAZ - the Zaporozhian Sich
+# zaporozhian_sich_crisis.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
 
+# ZAZ. The Sich splits over the Crimean and Ottoman question.
 zaporozhian_sich_crisis = {
-
 	potential = {
 		tag = ZAZ
 		normal_or_historical_nations = yes
 	}
-
 	can_start = {
 		has_any_disaster = no
 		OR = {
@@ -40,21 +43,9 @@ zaporozhian_sich_crisis = {
 			}
 		}
 	}
-	on_start = zaz_crisis.1
-
 	can_stop = {
 		has_any_disaster = yes
 	}
-
-	modifier = {
-		global_unrest = 4
-		global_autonomy = 0.05
-		land_morale = -0.15
-		diplomatic_reputation = -1
-		shock_damage = -0.1
-		loot_amount = 0.15
-	}
-
 	progress = {
 		modifier = {
 			factor = 2
@@ -94,7 +85,6 @@ zaporozhian_sich_crisis = {
 			prestige = 50
 		}
 	}
-
 	can_end = {
 		stability = 0
 		NOT = { war_exhaustion = 3 }
@@ -112,8 +102,16 @@ zaporozhian_sich_crisis = {
 			NOT = { liberty_desire = 50 }
 		}
 	}
+	modifier = {
+		global_unrest = 4
+		global_autonomy = 0.05
+		land_morale = -0.15
+		diplomatic_reputation = -1
+		shock_damage = -0.1
+		loot_amount = 0.15
+	}
+	on_start = zaz_crisis.1
 	on_end = zaz_crisis.2
-
 	on_monthly = {
 		random_events = {
 			100 = zaz_crisis.3
