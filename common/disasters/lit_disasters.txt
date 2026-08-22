@@ -1,11 +1,16 @@
+# LIT - Lithuania
+# disorderly_princes.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
 
+# LIT. Kyiv strains at the vassal's leash and the other princes take note.
 disorderly_princes = {
 	potential = {
 		tag = LIT
-		NOT = { 
-			KIE = { 
-			is_subject_of = ROOT
-			liberty_desire = 50
+		NOT = {
+			KIE = {
+				is_subject_of = ROOT
+				liberty_desire = 50
 			}
 		}
 		KIE = {
@@ -20,7 +25,6 @@ disorderly_princes = {
 		}
 		current_age = age_of_discovery
 	}
-	
 	can_start = {
 		government = monarchy
 		has_any_disaster = no
@@ -28,25 +32,17 @@ disorderly_princes = {
 		NOT = { has_country_flag = aftermath_of_revolt }
 		NOT = { has_country_flag = disorderly_princes }
 		current_age = age_of_discovery
-		KIE = { 
-		is_subject_of = ROOT
-		liberty_desire = 50
+		KIE = {
+			is_subject_of = ROOT
+			liberty_desire = 50
 		}
 	}
-	on_start = princes_revolt.1
-	
 	can_stop = {
 		OR = {
 			has_any_disaster = yes
 			has_country_flag = aftermath_of_revolt
 		}
 	}
-	
-	modifier = {
-		stability_cost_modifier = 0.4
-		global_unrest = 2
-	}
-
 	progress = {
 		modifier = {
 			factor = 2
@@ -57,11 +53,13 @@ disorderly_princes = {
 			stability = 1
 		}
 	}
-	
 	can_end = {
 		stability = 1
 		has_country_flag = disorderly_princes
 	}
-	
-	
+	modifier = {
+		stability_cost_modifier = 0.4
+		global_unrest = 2
+	}
+	on_start = princes_revolt.1
 }

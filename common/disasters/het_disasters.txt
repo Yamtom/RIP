@@ -1,12 +1,15 @@
+# HET - the Hetmanate
+# hetman_succession_crisis.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
 
+# HET. The Rada cannot agree on a successor and the mace changes hands by force.
 hetman_succession_crisis = {
-
 	potential = {
 		tag = HET
 		normal_or_historical_nations = yes
 		government = monarchy
 	}
-
 	can_start = {
 		has_any_disaster = no
 		OR = {
@@ -51,22 +54,9 @@ hetman_succession_crisis = {
 			}
 		}
 	}
-	on_start = het_succession.1
-
 	can_stop = {
 		has_any_disaster = yes
 	}
-
-	modifier = {
-		global_unrest = 3
-		legitimacy = -1.5
-		stability_cost_modifier = 0.4
-		reform_progress_growth = -0.3
-		diplomatic_reputation = -2
-		fort_maintenance_modifier = 0.2
-		liberty_desire = 15
-	}
-
 	progress = {
 		modifier = {
 			factor = 2
@@ -137,7 +127,6 @@ hetman_succession_crisis = {
 			NOT = { legitimacy = 50 }
 		}
 	}
-
 	can_end = {
 		stability = 0
 		legitimacy = 60
@@ -153,8 +142,17 @@ hetman_succession_crisis = {
 			}
 		}
 	}
+	modifier = {
+		global_unrest = 3
+		legitimacy = -1.5
+		stability_cost_modifier = 0.4
+		reform_progress_growth = -0.3
+		diplomatic_reputation = -2
+		fort_maintenance_modifier = 0.2
+		liberty_desire = 15
+	}
+	on_start = het_succession.1
 	on_end = het_succession.2
-
 	on_monthly = {
 		random_events = {
 			120 = het_succession.3
