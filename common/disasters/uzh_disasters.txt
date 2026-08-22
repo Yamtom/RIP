@@ -3,8 +3,13 @@
 # Ordered as vanilla orders a disaster: potential, can_start, can_stop,
 # progress, can_end, modifier, on_start, on_end, on_monthly.
 
+# UZH / HLC / HUN - whoever holds Zakarpattia (province 1952)
+# uzh_opryshky_uprising.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
 # Gated on owns = 1952, so it follows the province, not one tag.
 uzh_opryshky_uprising = {
+	ended_by_country_breaking_to_rebels = no
 	potential = {
 		OR = {
 			tag = HLC
@@ -30,6 +35,14 @@ uzh_opryshky_uprising = {
 	}
 	can_stop = {
 		has_any_disaster = yes
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			NOT = { num_of_rebel_controlled_provinces = 1 }
+			stability = 1
+		}
 	}
 	progress = {
 		modifier = {

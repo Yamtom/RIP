@@ -139,3 +139,162 @@ country_event = {
 		}
 	}
 }
+
+# The ruthenian_court_crisis disaster. Before this it had no on_start, no on_end and
+# no on_monthly: it opened silently, held its modifiers and closed silently. All 55
+# vanilla disasters fire an event on start.
+
+country_event = {
+	id = ruthenian_decadence.10
+	title = "ruthenian_decadence.10.t"
+	desc = "ruthenian_decadence.10.d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = kru_court_crisis_active
+		}
+	}
+
+	option = {
+		name = "ruthenian_decadence.10.a"
+		add_adm_power = -50
+		add_country_modifier = {
+			name = rip_princely_charter
+			duration = 3650
+		}
+		change_variable = { which = ruthenian_decadence value = -5 }
+	}
+
+	option = {
+		name = "ruthenian_decadence.10.b"
+		add_treasury = -200
+		add_country_modifier = {
+			name = general_rada_authority
+			duration = 3650
+		}
+		change_variable = { which = ruthenian_decadence value = -8 }
+	}
+
+	option = {
+		name = "ruthenian_decadence.10.c"
+		add_mil_power = -50
+		add_army_tradition = 5
+		add_country_modifier = {
+			name = hetman_faction_conflict
+			duration = 3650
+		}
+	}
+}
+
+country_event = {
+	id = ruthenian_decadence.11
+	title = "ruthenian_decadence.11.t"
+	desc = "ruthenian_decadence.11.d"
+	picture = GOOD_WITH_MONARCH_eventPicture
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			clr_country_flag = kru_court_crisis_active
+		}
+	}
+
+	option = {
+		name = "ruthenian_decadence.11.a"
+		add_prestige = 10
+		add_country_modifier = {
+			name = kru_confederation_balance
+			duration = 5475
+		}
+	}
+
+	option = {
+		name = "ruthenian_decadence.11.b"
+		trigger = {
+			NOT = { check_variable = { which = ruthenian_decadence value = 40 } }
+		}
+		add_prestige = 20
+		add_country_modifier = {
+			name = kru_confederation_established
+			duration = 7300
+		}
+	}
+}
+
+country_event = {
+	id = ruthenian_decadence.12
+	title = "ruthenian_decadence.12.t"
+	desc = "ruthenian_decadence.12.d"
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		has_disaster = ruthenian_court_crisis
+	}
+
+	option = {
+		name = "ruthenian_decadence.12.a"
+		add_treasury = -150
+		change_variable = { which = ruthenian_decadence value = -5 }
+	}
+
+	option = {
+		name = "ruthenian_decadence.12.b"
+		add_corruption = 0.5
+		change_variable = { which = ruthenian_decadence value = 2 }
+	}
+}
+
+country_event = {
+	id = ruthenian_decadence.13
+	title = "ruthenian_decadence.13.t"
+	desc = "ruthenian_decadence.13.d"
+	picture = BORDER_TENSION_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		has_disaster = ruthenian_court_crisis
+	}
+
+	option = {
+		name = "ruthenian_decadence.13.a"
+		add_adm_power = -40
+		change_variable = { which = ruthenian_decadence value = -4 }
+	}
+
+	option = {
+		name = "ruthenian_decadence.13.b"
+		add_stability = -1
+		change_variable = { which = ruthenian_decadence value = 3 }
+	}
+}
+
+country_event = {
+	id = ruthenian_decadence.14
+	title = "ruthenian_decadence.14.t"
+	desc = "ruthenian_decadence.14.d"
+	picture = REVOLUTION_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		has_disaster = ruthenian_court_crisis
+	}
+
+	option = {
+		name = "ruthenian_decadence.14.a"
+		add_stability = -1
+		add_prestige = -5
+		change_variable = { which = ruthenian_decadence value = -10 }
+	}
+
+	option = {
+		name = "ruthenian_decadence.14.b"
+		add_country_modifier = {
+			name = KRU_decadence_appeased
+			duration = 1825
+		}
+		change_variable = { which = ruthenian_decadence value = 1 }
+	}
+}
