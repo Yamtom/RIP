@@ -3,6 +3,10 @@
 # Ordered as vanilla orders a disaster: potential, can_start, can_stop,
 # progress, can_end, modifier, on_start, on_end, on_monthly.
 
+# KRU - the Kyivan Confederation
+# ruthenian_court_crisis.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
 # KRU. The factional empire's court decays past the point the reform can carry it.
 ruthenian_court_crisis = {
 	potential = {
@@ -20,6 +24,13 @@ ruthenian_court_crisis = {
 	}
 	can_stop = {
 		has_any_disaster = yes
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			NOT = { check_variable = { which = ruthenian_decadence value = 75 } }
+		}
 	}
 	progress = {
 		modifier = {
@@ -48,5 +59,14 @@ ruthenian_court_crisis = {
 		stability_cost_modifier = 0.2
 		advisor_cost = 0.2
 		discipline = -0.03
+	}
+	on_start = ruthenian_decadence.10
+	on_end = ruthenian_decadence.11
+	on_monthly = {
+		random_events = {
+			100 = ruthenian_decadence.12
+			80 = ruthenian_decadence.13
+			60 = ruthenian_decadence.14
+		}
 	}
 }
