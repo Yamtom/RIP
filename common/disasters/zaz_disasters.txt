@@ -23,7 +23,7 @@ zaporozhian_sich_crisis = {
 		}
 		OR = {
 			AND = {
-				NOT = { legitimacy = 50 }
+				NOT = { legitimacy_equivalent = 50 }
 				NOT = { republican_tradition = 40 }
 				average_autonomy = 30
 			}
@@ -56,7 +56,7 @@ zaporozhian_sich_crisis = {
 		modifier = {
 			factor = 1
 			NOT = { num_of_rebel_armies = 1 }
-			OR = { republican_tradition = 60 legitimacy = 60 }
+			legitimacy_equivalent = 60
 		}
 	}
 	progress = {
@@ -66,7 +66,7 @@ zaporozhian_sich_crisis = {
 		}
 		modifier = {
 			factor = 2
-			NOT = { legitimacy = 40 }
+			NOT = { legitimacy_equivalent = 40 }
 		}
 		modifier = {
 			factor = 2
@@ -82,19 +82,19 @@ zaporozhian_sich_crisis = {
 			liberty_desire = 70
 		}
 		modifier = {
-			factor = 1.3
+			factor = 1.5
 			num_of_rebel_armies = 1
 		}
 		modifier = {
-			factor = 0.75
+			factor = -0.5
 			stability = 1
 		}
 		modifier = {
-			factor = 0.6
+			factor = -0.75
 			has_idea_group = defensive_ideas
 		}
 		modifier = {
-			factor = 0.8
+			factor = -0.5
 			prestige = 50
 		}
 	}
@@ -103,7 +103,7 @@ zaporozhian_sich_crisis = {
 		NOT = { war_exhaustion = 3 }
 		OR = {
 			AND = {
-				legitimacy = 60
+				legitimacy_equivalent = 60
 			}
 			AND = {
 				republican_tradition = 50
@@ -120,8 +120,6 @@ zaporozhian_sich_crisis = {
 		global_autonomy = 0.05
 		land_morale = -0.15
 		diplomatic_reputation = -1
-		shock_damage = -0.1
-		loot_amount = 0.15
 	}
 	on_start = zaz_crisis.1
 	on_end = zaz_crisis.2
