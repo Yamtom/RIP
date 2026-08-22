@@ -19,6 +19,39 @@ rip_ro_clear_the_icons_effect = {
 # a focus runs. fervor = yes would be a second panel in the same rectangle as
 # the holy sites, so the counter is a country variable ticked from
 # common/on_actions/russian_orthodox_on_actions.txt instead.
+# Which band of zeal is standing. Called from the two-yearly tick and from the
+# moment a focus is bought, so the readout never lags the counter by more than
+# one pulse. check_variable is a "greater than or equal", so the chain reads
+# from the top down.
+rip_ro_show_the_zeal_effect = {
+	hidden_effect = {
+		remove_country_modifier = rip_ro_zeal_band_spent
+		remove_country_modifier = rip_ro_zeal_band_gathering
+		remove_country_modifier = rip_ro_zeal_band_ready
+		remove_country_modifier = rip_ro_zeal_band_laid_by
+		remove_country_modifier = rip_ro_zeal_band_full
+		if = {
+			limit = { check_variable = { which = rip_ro_zeal value = 80 } }
+			add_country_modifier = { name = rip_ro_zeal_band_full duration = -1 }
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_ro_zeal value = 50 } }
+			add_country_modifier = { name = rip_ro_zeal_band_laid_by duration = -1 }
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_ro_zeal value = 25 } }
+			add_country_modifier = { name = rip_ro_zeal_band_ready duration = -1 }
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_ro_zeal value = 10 } }
+			add_country_modifier = { name = rip_ro_zeal_band_gathering duration = -1 }
+		}
+		else = {
+			add_country_modifier = { name = rip_ro_zeal_band_spent duration = -1 }
+		}
+	}
+}
+
 rip_ro_zeal_tick_effect = {
 	if = {
 		limit = {
@@ -72,6 +105,7 @@ rip_ro_zeal_tick_effect = {
 			country_event = { id = rip_faith.3 days = 3 }
 		}
 	}
+	rip_ro_show_the_zeal_effect = yes
 }
 
 rip_ro_clear_the_zeal_effect = {
@@ -89,6 +123,7 @@ rip_ro_take_the_focus_effect = {
 		value = 25
 	}
 	rip_ro_clear_the_zeal_effect = yes
+	rip_ro_show_the_zeal_effect = yes
 }
 
 # A petition costs more than its fee: the curia expects the standing to be
