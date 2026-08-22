@@ -23,6 +23,7 @@ country_decisions = {
 
 	rip_uc_petition_church_tax = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			exists = PAP
 			NOT = { has_country_modifier = papal_sanction_for_church_taxes }
@@ -46,6 +47,7 @@ country_decisions = {
 
 	rip_uc_petition_blessing = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			exists = PAP
 			NOT = { has_country_modifier = papal_blessing }
@@ -73,6 +75,7 @@ country_decisions = {
 
 	rip_uc_petition_indulgence = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			exists = PAP
 			NOT = { has_country_modifier = papal_indulgence }
@@ -96,6 +99,7 @@ country_decisions = {
 
 	rip_uc_petition_usury = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			exists = PAP
 			NOT = { has_country_modifier = usury_forgiven }
@@ -123,6 +127,7 @@ country_decisions = {
 
 	rip_uc_petition_legate = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			exists = PAP
 			NOT = { has_country_modifier = papal_legate }
@@ -147,6 +152,7 @@ country_decisions = {
 
 	rip_uc_petition_holy_war = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			exists = PAP
 			NOT = { has_country_modifier = papal_sanction_for_holy_war }
@@ -177,6 +183,7 @@ country_decisions = {
 	rip_uc_hold_a_synod = {
 		major = yes
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			NOT = { has_country_modifier = rip_uc_synod_recently_sat }
 		}
@@ -187,6 +194,7 @@ country_decisions = {
 			patriarch_authority = 0.3
 		}
 		effect = {
+			set_country_flag = rip_uc_synod_held
 			add_adm_power = -100
 			add_country_modifier = {
 				name = rip_uc_synod_recently_sat
@@ -211,6 +219,7 @@ country_decisions = {
 	rip_uc_raise_the_see = {
 		major = yes
 		potential = {
+			has_country_modifier = greek_catholic_reformation_active	# the union first
 			religion = greek_catholic
 			NOT = { has_country_flag = rip_uc_see_raised }
 		}

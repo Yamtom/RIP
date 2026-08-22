@@ -3,11 +3,15 @@ country_decisions = {
 
 	convert_to_greek_catholic_decision = {
 		major = yes
+		# The Union of Brest was an ORTHODOX hierarchy accepting Rome while keeping
+		# the Byzantine rite. A Latin-rite country has no rite to keep and no reason
+		# to take an eastern one, and none ever did - Rome's interest in the union
+		# was precisely that it did not have to latinise anybody. Catholic sponsors
+		# press the union onto their Orthodox subjects instead; that is
+		# rip_uc_press_the_union_effect, and it is a different action.
 		potential = {
-			OR = {
-				religion = orthodox
-				religion = catholic
-			}
+			religion = orthodox
+			is_ruthenian_culture_area = yes
 			is_year = 1590
 		}
 		
@@ -22,17 +26,35 @@ country_decisions = {
 		allow = {
 			is_at_war = no
 			stability = 1
-			OR = {
-				any_neighbor_country = {
-					religion = greek_catholic
-				}
-				any_owned_province = {
-					religion = greek_catholic
-				}
-				has_country_flag = pursuing_uniate_union
-			}
 			adm_power = 100
 			dip_power = 100
+			# Brest 1596, Uzhhorod 1646, Peremyshl 1691, Lviv 1700, Lutsk 1702: every
+			# one of them was signed by bishops living under a Catholic crown, and
+			# none by a church that answered to nobody.
+			OR = {
+				has_country_flag = pursuing_uniate_union
+				has_country_flag = uniate_pressure_mounting
+				overlord = { religion = catholic }
+				AND = {
+					any_neighbor_country = {
+						religion = catholic
+						NOT = { war_with = ROOT }
+					}
+					any_owned_province = { religion = greek_catholic }
+				}
+			}
+			# and by sees that had Ruthenian parishes to bring with them
+			num_of_owned_provinces_with = {
+				value = 3
+				religion = orthodox
+				OR = {
+					culture = ruthenian
+					culture = byelorussian
+					culture = rusyn
+					culture = rusyn_new
+					culture = rusyn_new_new
+				}
+			}
 		}
 		
 		effect = {
@@ -52,10 +74,7 @@ country_decisions = {
 			}
 			every_owned_province = {
 				limit = {
-					OR = {
-						religion = orthodox
-						religion = catholic
-					}
+					religion = orthodox
 					development = 10
 				}
 				random = {
@@ -84,6 +103,7 @@ country_decisions = {
 
 	establish_greek_catholic_center_decision = {
 		potential = {
+			has_country_flag = rip_uc_see_raised		# the metropolitan see comes first
 			religion = greek_catholic
 			NOT = { has_country_flag = greek_catholic_center_established }
 			any_owned_province = {
@@ -117,6 +137,7 @@ country_decisions = {
 
 	greek_catholic_missionary_campaign_decision = {
 		potential = {
+			has_country_flag = greek_catholic_center_established
 			religion = greek_catholic
 			NOT = { has_country_modifier = greek_catholic_missionary_activity }
 			any_owned_province = {
@@ -149,7 +170,7 @@ country_decisions = {
 				duration = 5475
 			}
 			add_papal_influence = 10
-			add_church_power = 25
+			add_patriarch_authority = 0.05
 		}
 		
 		ai_will_do = {
@@ -159,6 +180,7 @@ country_decisions = {
 
 	greek_catholic_education_decision = {
 		potential = {
+			has_country_flag = greek_catholic_center_established
 			religion = greek_catholic
 			NOT = { has_country_modifier = uniate_educational_network }
 		}
@@ -186,6 +208,7 @@ country_decisions = {
 
 	patronize_greek_catholic_culture_decision = {
 		potential = {
+			has_country_modifier = uniate_educational_network
 			religion = greek_catholic
 			NOT = { has_country_modifier = uniate_cultural_flowering }
 			is_ruthenian_culture_area = yes
@@ -219,6 +242,7 @@ country_decisions = {
 
 	seek_orthodox_reconciliation_decision = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			NOT = { has_country_modifier = greek_catholic_orthodox_dialogue }
 			any_neighbor_country = {
@@ -255,6 +279,7 @@ country_decisions = {
 
 	strengthen_papal_ties_decision = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			NOT = { has_country_modifier = papal_protection_greek_catholic }
 			PAP = { exists = yes }
@@ -284,19 +309,20 @@ country_decisions = {
 
 	preserve_eastern_rite_decision = {
 		potential = {
+			has_country_flag = rip_uc_synod_held		# a synod has to have said so
 			religion = greek_catholic
 			NOT = { has_country_modifier = eastern_rite_tradition_preserved }
 		}
 		
 		allow = {
 			adm_power = 50
-			church_power = 50
+			patriarch_authority = 0.1
 			stability = 1
 		}
 		
 		effect = {
 			add_adm_power = -50
-			add_church_power = -50
+			add_patriarch_authority = -0.1
 			add_country_modifier = {
 				name = eastern_rite_tradition_preserved
 				duration = -1
