@@ -18,6 +18,8 @@ on_bi_yearly_pulse = {
 	# common/scripted_effects/rip_faith_effects.txt.
 	effect = {
 		rip_uc_union_spread_effect = yes
+		# standing at the Curia decays and is paid for - see greek_catholic_effects.txt
+		rip_uc_standing_tick_effect = yes
 	}
 
 	random_events = {
@@ -39,6 +41,10 @@ on_five_year_pulse = {
 }
 
 on_religion_change = {
+	effect = {
+		rip_uc_show_the_standing_effect = yes
+	}
+
 	events = {
 		uniate_church.9  # Establishment of Greek Catholic Center
 		uniate_church.12 # Establish Metropolitan See

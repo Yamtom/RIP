@@ -11,7 +11,10 @@
 # the petitions remain the way in. The gate is the test.
 rip_uc_can_petition_the_curia = {
 	religion = greek_catholic
-	NOT = { papal_influence = 1 }
+	custom_trigger_tooltip = {
+		tooltip = rip_uc_standing_tt
+		check_variable = { which = rip_uc_standing value = 25 }
+	}
 	exists = PAP
 	NOT = { war_with = PAP }
 	NOT = { has_country_modifier = rip_uc_petition_cooldown }

@@ -169,7 +169,8 @@ country_decisions = {
 				name = greek_catholic_missionary_activity
 				duration = 5475
 			}
-			add_papal_influence = 10
+			change_variable = { which = rip_uc_standing value = 10 }
+			rip_uc_show_the_standing_effect = yes
 			add_patriarch_authority = 0.05
 		}
 		
@@ -288,13 +289,14 @@ country_decisions = {
 		allow = {
 			dip_power = 75
 			treasury = 100
-			papal_influence = 25
+			check_variable = { which = rip_uc_standing value = 50 }
 		}
 		
 		effect = {
 			add_dip_power = -75
 			add_treasury = -100
-			add_papal_influence = -25
+			subtract_variable = { which = rip_uc_standing value = 25 }
+			rip_uc_show_the_standing_effect = yes
 			papal_protection_effect = yes
 		}
 		
