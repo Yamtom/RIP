@@ -163,3 +163,92 @@ activate_greek_catholic_reformation = {
 		duration = 10950 # 30 years
 	}
 }
+
+# ---------------------------------------------------------------- the Curia
+#
+# Rome as the union actually met it: a court you have standing at, not a college you
+# sit in. rip_uc_standing runs 0 to 100. It decays, because a court that hears
+# nothing from a province forgets it, and it is raised by sending money - which is
+# what the Ruthenian sees did, and complained about doing, for two centuries.
+
+rip_uc_standing_tick_effect = {
+	if = {
+		limit = {
+			religion = greek_catholic
+			check_variable = { which = rip_uc_standing value = 3 }
+		}
+		subtract_variable = {
+			which = rip_uc_standing
+			value = 2
+		}
+	}
+	# a legate resident at the court keeps the name in front of it
+	if = {
+		limit = {
+			religion = greek_catholic
+			has_country_modifier = papal_legate
+			NOT = { check_variable = { which = rip_uc_standing value = 100 } }
+		}
+		change_variable = {
+			which = rip_uc_standing
+			value = 3
+		}
+	}
+	rip_uc_show_the_standing_effect = yes
+}
+
+rip_uc_show_the_standing_effect = {
+	hidden_effect = {
+		remove_country_modifier = rip_uc_curia_unknown
+		remove_country_modifier = rip_uc_curia_heard
+		remove_country_modifier = rip_uc_curia_favoured
+		remove_country_modifier = rip_uc_curia_protected
+		if = {
+			limit = { check_variable = { which = rip_uc_standing value = 75 } }
+			add_country_modifier = { name = rip_uc_curia_protected duration = -1 }
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_uc_standing value = 50 } }
+			add_country_modifier = { name = rip_uc_curia_favoured duration = -1 }
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_uc_standing value = 25 } }
+			add_country_modifier = { name = rip_uc_curia_heard duration = -1 }
+		}
+		else = {
+			add_country_modifier = { name = rip_uc_curia_unknown duration = -1 }
+		}
+	}
+}
+
+# A donation. The see pays, the court remembers, and it will not be asked twice in
+# the same three years.
+rip_uc_donation_effect = {
+	add_treasury = -150
+	change_variable = {
+		which = rip_uc_standing
+		value = 12
+	}
+	if = {
+		limit = { check_variable = { which = rip_uc_standing value = 101 } }
+		set_variable = {
+			which = rip_uc_standing
+			value = 100
+		}
+	}
+	add_country_modifier = {
+		name = rip_uc_donation_recently_sent
+		duration = 1095
+	}
+	rip_uc_show_the_standing_effect = yes
+}
+
+# A petition spends the standing it needs. The court does a favour once and then
+# expects to be reminded who asked for it.
+rip_uc_spend_the_standing_effect = {
+	subtract_variable = {
+		which = rip_uc_standing
+		value = 15
+	}
+	rip_uc_show_the_standing_effect = yes
+}

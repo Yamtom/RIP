@@ -44,7 +44,7 @@ orthodox_crusade_constantinople = {
 			religious_unity = 0.75
 			has_country_modifier = third_rome_ideology
 		}
-		church_power = 100
+		patriarch_authority = 0.2
 		prestige = 50
 		legitimacy_equivalent = 75
 		NOT = { war_exhaustion = 1 }
@@ -55,7 +55,7 @@ orthodox_crusade_constantinople = {
 	}
 	
 	effect = {
-		add_church_power = -100
+		add_patriarch_authority = -0.2
 		add_prestige = 25
 		set_country_flag = orthodox_crusade_constantinople_active
 		set_variable = { which = orthodox_crusade_contribution value = 0 }
@@ -207,7 +207,7 @@ orthodox_crusade_jerusalem = {
 			religious_unity = 0.80
 			has_country_modifier = third_rome_ideology
 		}
-		church_power = 150
+		patriarch_authority = 0.3
 		prestige = 75
 		legitimacy_equivalent = 80
 		NOT = { war_exhaustion = 1 }
@@ -218,7 +218,7 @@ orthodox_crusade_jerusalem = {
 	}
 	
 	effect = {
-		add_church_power = -150
+		add_patriarch_authority = -0.3
 		add_prestige = 35
 		set_country_flag = orthodox_crusade_jerusalem_active
 		set_variable = { which = orthodox_crusade_contribution value = 0 }
@@ -455,7 +455,7 @@ orthodox_crusade_join = {
 			duration = 18250
 		}
 		set_variable = { which = orthodox_crusade_contribution value = 0 }
-		add_church_power = 25
+		add_patriarch_authority = 0.05
 
 		if = {
 			limit = { any_country = { has_country_flag = orthodox_crusade_target_constantinople } }

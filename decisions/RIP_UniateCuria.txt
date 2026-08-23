@@ -23,6 +23,7 @@ country_decisions = {
 
 	rip_uc_petition_church_tax = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			exists = PAP
 			NOT = { has_country_modifier = papal_sanction_for_church_taxes }
@@ -34,6 +35,7 @@ country_decisions = {
 		effect = {
 			add_treasury = -200
 			rip_uc_petition_cost_effect = yes
+			rip_uc_spend_the_standing_effect = yes
 			add_country_modifier = {
 				name = papal_sanction_for_church_taxes
 				duration = 7300
@@ -46,6 +48,7 @@ country_decisions = {
 
 	rip_uc_petition_blessing = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			exists = PAP
 			NOT = { has_country_modifier = papal_blessing }
@@ -57,6 +60,7 @@ country_decisions = {
 		effect = {
 			add_treasury = -150
 			rip_uc_petition_cost_effect = yes
+			rip_uc_spend_the_standing_effect = yes
 			add_country_modifier = {
 				name = papal_blessing
 				duration = 7300
@@ -73,6 +77,7 @@ country_decisions = {
 
 	rip_uc_petition_indulgence = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			exists = PAP
 			NOT = { has_country_modifier = papal_indulgence }
@@ -84,6 +89,7 @@ country_decisions = {
 		effect = {
 			add_treasury = -150
 			rip_uc_petition_cost_effect = yes
+			rip_uc_spend_the_standing_effect = yes
 			add_country_modifier = {
 				name = papal_indulgence
 				duration = 7300
@@ -96,6 +102,7 @@ country_decisions = {
 
 	rip_uc_petition_usury = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			exists = PAP
 			NOT = { has_country_modifier = usury_forgiven }
@@ -107,6 +114,7 @@ country_decisions = {
 		effect = {
 			add_treasury = -100
 			rip_uc_petition_cost_effect = yes
+			rip_uc_spend_the_standing_effect = yes
 			add_country_modifier = {
 				name = usury_forgiven
 				duration = 7300
@@ -123,6 +131,7 @@ country_decisions = {
 
 	rip_uc_petition_legate = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			exists = PAP
 			NOT = { has_country_modifier = papal_legate }
@@ -135,6 +144,7 @@ country_decisions = {
 		effect = {
 			add_treasury = -250
 			rip_uc_petition_cost_effect = yes
+			rip_uc_spend_the_standing_effect = yes
 			add_country_modifier = {
 				name = papal_legate
 				duration = 7300
@@ -147,6 +157,7 @@ country_decisions = {
 
 	rip_uc_petition_holy_war = {
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			exists = PAP
 			NOT = { has_country_modifier = papal_sanction_for_holy_war }
@@ -159,6 +170,7 @@ country_decisions = {
 		effect = {
 			add_treasury = -200
 			rip_uc_petition_cost_effect = yes
+			rip_uc_spend_the_standing_effect = yes
 			add_country_modifier = {
 				name = papal_sanction_for_holy_war
 				duration = 7300
@@ -177,6 +189,7 @@ country_decisions = {
 	rip_uc_hold_a_synod = {
 		major = yes
 		potential = {
+			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			NOT = { has_country_modifier = rip_uc_synod_recently_sat }
 		}
@@ -187,6 +200,7 @@ country_decisions = {
 			patriarch_authority = 0.3
 		}
 		effect = {
+			set_country_flag = rip_uc_synod_held
 			add_adm_power = -100
 			add_country_modifier = {
 				name = rip_uc_synod_recently_sat
@@ -211,6 +225,7 @@ country_decisions = {
 	rip_uc_raise_the_see = {
 		major = yes
 		potential = {
+			has_country_modifier = greek_catholic_reformation_active	# the union first
 			religion = greek_catholic
 			NOT = { has_country_flag = rip_uc_see_raised }
 		}
@@ -251,6 +266,36 @@ country_decisions = {
 		}
 		ai_will_do = {
 			factor = 5
+		}
+	}
+
+	# Presence at the Curia is bought, and the Ruthenian sees complained about buying
+	# it for two centuries. This is the whole of the mechanic that replaces the
+	# cardinals: send money, be remembered, be forgotten again if you stop.
+	rip_uc_send_a_donation = {
+		potential = {
+			religion = greek_catholic
+			has_country_flag = rip_uc_see_raised
+			exists = PAP
+			NOT = { has_country_modifier = rip_uc_donation_recently_sent }
+			NOT = { check_variable = { which = rip_uc_standing value = 100 } }
+		}
+
+		allow = {
+			treasury = 150
+			NOT = { war_with = PAP }
+		}
+
+		effect = {
+			rip_uc_donation_effect = yes
+		}
+
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				factor = 3
+				NOT = { check_variable = { which = rip_uc_standing value = 25 } }
+			}
 		}
 	}
 }
