@@ -10,6 +10,7 @@ scripts = [
     "tests/check_culture_key_compatibility.py",
     "tests/check_estate_layer.py",
     "tests/check_event_modifier_layer.py",
+    "tests/check_government_names.py",
     "tests/check_glossary.py",
     "tests/check_claim_pacing.py",
     "tests/check_subject_cb_limits.py",
