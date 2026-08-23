@@ -1378,6 +1378,28 @@ on_province_owner_change_government_effect = {
 	}
 	if = {
 		limit = {
+			has_province_modifier = chr_grain_directorate_province
+			OR = {
+				NOT = { trade_goods = grain }
+				NOT = { owner = { has_reform = chr_grain_directorate_reform } }
+			}
+		}
+		remove_province_modifier = chr_grain_directorate_province
+	}
+	if = {
+		limit = {
+			trade_goods = grain
+			NOT = { has_province_modifier = chr_grain_directorate_province }
+			owner = { has_reform = chr_grain_directorate_reform }
+		}
+		add_province_modifier = {
+			name = chr_grain_directorate_province
+			duration = -1
+			hidden = yes
+		}
+	}
+	if = {
+		limit = {
 			has_province_modifier = naval_supplies_bonus_prod
 			FROM = { has_government_attribute = extra_trade_goods_from_naval_supplies }
 			NOT = { owner = { has_government_attribute = extra_trade_goods_from_naval_supplies } }
@@ -1774,6 +1796,25 @@ on_trade_good_changed_government_effect = {
 		else = { remove_province_modifier = grain_vodka_bonus_prod }
 	}
 	else = { remove_province_modifier = grain_vodka_bonus_prod }
+	if = {
+		limit = {
+			trade_goods = grain
+			owner = { has_reform = chr_grain_directorate_reform }
+		}
+		if = {
+			limit = {
+				NOT = { has_province_modifier = chr_grain_directorate_province }
+			}
+			add_province_modifier = {
+				name = chr_grain_directorate_province
+				duration = -1
+				hidden = yes
+			}
+		}
+	}
+	else = {
+		remove_province_modifier = chr_grain_directorate_province
+	}
 	if = {
 		limit = {
 			owner = { has_government_attribute = extra_trade_goods_from_naval_supplies }

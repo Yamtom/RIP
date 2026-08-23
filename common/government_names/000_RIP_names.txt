@@ -1,3 +1,51 @@
+chr_grain_directorate_reform = {
+	rank = {
+		1 = GRAIN_COLLEGIUM
+		2 = SIVERSK_GRAIN_DIRECTORATE
+		3 = BLACK_SOIL_COMMONWEALTH
+	}
+
+	ruler_male = {
+		1 = GRANARY_ATAMAN
+		2 = GREAT_GRAIN_DIRECTOR
+		3 = ARCH_HARVEST_HETMAN
+	}
+
+	ruler_female = {
+		1 = GRANARY_ATAMANKA
+		2 = GREAT_GRAIN_DIRECTRESS
+		3 = ARCH_HARVEST_HETMANKA
+	}
+
+	trigger = {
+		has_reform = chr_grain_directorate_reform
+	}
+}
+
+representation_monarchy_reform = {
+	rank = {
+		1 = REPRESENTATIVE_DUCHY
+		2 = REPRESENTATIVE_KINGDOM
+		3 = REPRESENTATIVE_GRAND_KINGDOM
+	}
+
+	ruler_male = {
+		1 = CONSTITUENT_DUKE
+		2 = CONSTITUENT_KING
+		3 = CONSTITUENT_EMPEROR
+	}
+
+	ruler_female = {
+		1 = CONSTITUENT_DUCHESS
+		2 = CONSTITUENT_QUEEN
+		3 = CONSTITUENT_EMPRESS
+	}
+
+	trigger = {
+		has_reform = representation_monarchy_reform
+	}
+}
+
 ruthenian_principality_reform = {
 	rank = {
 		1 = RUTHENIAN_PRINCIPALITY
@@ -19,6 +67,8 @@ ruthenian_principality_reform = {
 
 	trigger = {
 		has_reform = ruthenian_principality_reform
+		NOT = { tag = VLN }
+		NOT = { tag = PDL }
 	}
 }
 
@@ -55,13 +105,13 @@ kyivan_rus_reform = {
 
 	ruler_male = {
 		1 = PRINCE_DUKE
-		2 = GRAND_PRINCE
+		2 = GREAT_PRINCE
 		3 = HIGH_PRINCE
 	}
 
 	ruler_female = {
 		1 = PRINCESS_DUCHESS
-		2 = GRAND_PRINCESS
+		2 = GREAT_PRINCESS
 		3 = HIGH_PRINCESS
 	}
 
@@ -127,13 +177,13 @@ ruthenian_factional_empire_reform = {
 
 	ruler_male = {
 		1 = RUTHENIAN_PRINCE
-		2 = RUTHENIAN_PRINCE
+		2 = RUTHENIAN_KING
 		3 = CESAR
 	}
 
 	ruler_female = {
 		1 = RUTHENIAN_PRINCESS
-		2 = RUTHENIAN_PRINCESS
+		2 = RUTHENIAN_QUEEN
 		3 = CESARINA
 	}
 
@@ -143,54 +193,6 @@ ruthenian_factional_empire_reform = {
 			has_reform = ruthenian_factional_empire_princes_hetmans_reform
 			has_reform = ruthenian_factional_empire_boyars_hetmans_reform
 		}
-	}
-}
-
-representation_monarchy_reform = {
-	rank = {
-		1 = REPRESENTATIVE_DUCHY
-		2 = REPRESENTATIVE_KINGDOM
-		3 = REPRESENTATIVE_GRAND_KINGDOM
-	}
-
-	ruler_male = {
-		1 = CONSTITUENT_DUKE
-		2 = CONSTITUENT_KING
-		3 = CONSTITUENT_EMPEROR
-	}
-
-	ruler_female = {
-		1 = CONSTITUENT_DUCHESS
-		2 = CONSTITUENT_QUEEN
-		3 = CONSTITUENT_EMPRESS
-	}
-
-	trigger = {
-		has_reform = representation_monarchy_reform
-	}
-}
-
-rip_cossacks_reform = {
-	rank = {
-		1 = COSSACKS_DUCHY
-		2 = COSSACKS_KINGDOM
-		3 = COSSACKS_EMPIRE
-	}
-
-	ruler_male = {
-		1 = COSSACKS_DUKE
-		2 = COSSACKS_KING
-		3 = COSSACKS_EMPEROR
-	}
-
-	ruler_female = {
-		1 = COSSACKS_DUCHESS
-		2 = COSSACKS_QUEEN
-		3 = COSSACKS_EMPRESS
-	}
-
-	trigger = {
-		has_reform = rip_cossacks_reform
 	}
 }
 
@@ -218,884 +220,27 @@ uzh_palanok_captaincy_reform = {
 	}
 }
 
-	uzh_komitat_system_reform = {
-		rank = {
-			1 = MARCH
-			2 = POLK
-			3 = GOVERNORATE
-		}
-
-		ruler_male = {
-			1 = NADKOMIT
-			2 = KORONNY_MARSHAL
-			3 = PALATINE
-		}
-
-		ruler_female = {
-			1 = NADKOMITKA
-			2 = KORONNA_MARSHALKA
-			3 = PALATINESS
-		}
-
-		trigger = {
-			has_reform = uzh_komitat_system_reform
-		}
-	}
-
-chr_grain_directorate_reform = {
+uzh_komitat_system_reform = {
 	rank = {
-		1 = GRAIN_COLLEGIUM
-		2 = SIVERSK_GRAIN_DIRECTORATE
-		3 = BLACK_SOIL_COMMONWEALTH
+		1 = MARCH
+		2 = POLK
+		3 = GOVERNORATE
 	}
 
 	ruler_male = {
-		1 = GRANARY_ATAMAN
-		2 = GREAT_GRAIN_DIRECTOR
-		3 = ARCH_HARVEST_HETMAN
+		1 = NADKOMIT
+		2 = KORONNY_MARSHAL
+		3 = PALATINE
 	}
 
 	ruler_female = {
-		1 = GRANARY_ATAMAN
-		2 = GREAT_GRAIN_DIRECTRESS
-		3 = ARCH_HARVEST_HETMANKA
+		1 = NADKOMITKA
+		2 = KORONNA_MARSHALKA
+		3 = PALATINESS
 	}
 
 	trigger = {
-		has_reform = chr_grain_directorate_reform
-	}
-}
-
-
-zaz_sich_brotherhood_reform = {
-	rank = {
-		1 = SICH_COMMUNE
-		2 = COSSACK_COMMONWEALTH
-		3 = ZAPOROZHIAN_HOST
-	}
-
-	ruler_male = {
-		1 = KOSH_OTAMAN
-		2 = HETMAN_OTAMAN
-		3 = GREAT_KOSH_OTAMAN
-	}
-
-	ruler_female = {
-		1 = KOSH_OTAMANKA
-		2 = HETMANKA_OTAMAN
-		3 = GREAT_KOSH_OTAMANKA
-	}
-
-	trigger = {
-		has_reform = zaz_sich_brotherhood_reform
-	}
-}
-
-zaz_kosh_elections_reform = {
-	rank = {
-		1 = SICH_KOSH
-		2 = ZAPOROZHIAN_KOSH
-		3 = FREE_ZAPOROZHIAN_HOST
-	}
-
-	ruler_male = {
-		1 = ELECTED_OTAMAN
-		2 = KOSH_HETMAN
-		3 = HOST_COMMANDER
-	}
-
-	ruler_female = {
-		1 = ELECTED_OTAMANKA
-		2 = KOSH_HETMANKA
-		3 = HOST_COMMANDRESS
-	}
-
-	trigger = {
-		has_reform = zaz_kosh_elections_reform
-	}
-}
-
-zaz_free_host_reform = {
-	rank = {
-		1 = ZAPOROZHIAN_SICH
-		2 = GLORIOUS_HOST
-		3 = FREE_COSSACK_REPUBLIC
-	}
-
-	ruler_male = {
-		1 = HOST_OTAMAN
-		2 = SICH_HETMAN
-		3 = KOSH_ATAMAN_SUPREME
-	}
-
-	ruler_female = {
-		1 = HOST_OTAMANKA
-		2 = SICH_HETMANKA
-		3 = KOSH_ATAMANKA_SUPREME
-	}
-
-	trigger = {
-		has_reform = zaz_free_host_reform
-	}
-}
-
-zaz_last_sich_reform = {
-	rank = {
-		1 = NEW_SICH
-		2 = BASTION_OF_LIBERTY
-		3 = LAST_FREE_SICH
-	}
-
-	ruler_male = {
-		1 = DEFIANT_OTAMAN
-		2 = LAST_KOSH_HETMAN
-		3 = LIBERTY_GUARDIAN
-	}
-
-	ruler_female = {
-		1 = DEFIANT_OTAMANKA
-		2 = LAST_KOSH_HETMANKA
-		3 = LIBERTY_GUARDIANESS
-	}
-
-	trigger = {
-		has_reform = zaz_last_sich_reform
-	}
-}
-
-
-het_starshyna_oligarchy_reform = {
-	rank = {
-		1 = COSSACK_HETMANATE
-		2 = STARSHYNA_COMMONWEALTH
-		3 = HETMAN_STATE
-	}
-
-	ruler_male = {
-		1 = CHOSEN_HETMAN
-		2 = HETMAN_COMMANDER
-		3 = GREAT_HETMAN
-	}
-
-	ruler_female = {
-		1 = CHOSEN_HETMANKA
-		2 = HETMANKA_COMMANDER
-		3 = GREAT_HETMANKA
-	}
-
-	trigger = {
-		has_reform = het_starshyna_oligarchy_reform
-	}
-}
-
-het_hetman_for_life_reform = {
-	rank = {
-		1 = HETMANATE
-		2 = COSSACK_PRINCIPALITY
-		3 = HETMAN_DOMINION
-	}
-
-	ruler_male = {
-		1 = HETMAN_FOR_LIFE
-		2 = HEREDITARY_HETMAN
-		3 = SOVEREIGN_HETMAN
-	}
-
-	ruler_female = {
-		1 = HETMANKA_FOR_LIFE
-		2 = HEREDITARY_HETMANKA
-		3 = SOVEREIGN_HETMANKA
-	}
-
-	trigger = {
-		has_reform = het_hetman_for_life_reform
-	}
-}
-
-het_academy_enlightenment_reform = {
-	rank = {
-		1 = LEARNED_HETMANATE
-		2 = ACADEMY_STATE
-		3 = RUTHENIAN_ENLIGHTENMENT
-	}
-
-	ruler_male = {
-		1 = ENLIGHTENED_HETMAN
-		2 = PATRON_HETMAN
-		3 = PHILOSOPHER_HETMAN
-	}
-
-	ruler_female = {
-		1 = ENLIGHTENED_HETMANKA
-		2 = PATRON_HETMANKA
-		3 = PHILOSOPHER_HETMANKA
-	}
-
-	trigger = {
-		has_reform = het_academy_enlightenment_reform
-	}
-}
-
-het_mazepist_autocracy_reform = {
-	rank = {
-		1 = MAZEPIST_HETMANATE
-		2 = AUTOCRATIC_HETMANATE
-		3 = HETMAN_MONARCHY
-	}
-
-	ruler_male = {
-		1 = AUTOCRAT_HETMAN
-		2 = HETMAN_SOVEREIGN
-		3 = IMPERIAL_HETMAN
-	}
-
-	ruler_female = {
-		1 = AUTOCRAT_HETMANKA
-		2 = HETMANKA_SOVEREIGN
-		3 = IMPERIAL_HETMANKA
-	}
-
-	trigger = {
-		has_reform = het_mazepist_autocracy_reform
-	}
-}
-
-het_collegium_control_reform = {
-	rank = {
-		1 = SUPERVISED_HETMANATE
-		2 = LITTLE_RUSSIAN_STATE
-		3 = AUTONOMOUS_HETMANATE
-	}
-
-	ruler_male = {
-		1 = SUPERVISED_HETMAN
-		2 = COLLEGIUM_HETMAN
-		3 = RESTRICTED_HETMAN
-	}
-
-	ruler_female = {
-		1 = SUPERVISED_HETMANKA
-		2 = COLLEGIUM_HETMANKA
-		3 = RESTRICTED_HETMANKA
-	}
-
-	trigger = {
-		has_reform = het_collegium_control_reform
-	}
-}
-
-
-vln_voivodeship_reform = {
-	rank = {
-		1 = VOIVODESHIP
-		2 = GRAND_VOIVODESHIP
-		3 = VOIVODE_STATE
-	}
-
-	ruler_male = {
-		1 = VOIVODE
-		2 = GRAND_VOIVODE
-		3 = HIGH_VOIVODE
-	}
-
-	ruler_female = {
-		1 = VOIVODESSA
-		2 = GRAND_VOIVODESSA
-		3 = HIGH_VOIVODESSA
-	}
-
-	trigger = {
-		has_reform = vln_voivodeship_reform
-	}
-}
-
-vln_confessional_reform = {
-	rank = {
-		1 = CONFESSIONAL_VOIVODESHIP
-		2 = UNITED_VOIVODESHIP
-		3 = SYNODAL_STATE
-	}
-
-	ruler_male = {
-		1 = CONFESSIONAL_VOIVODE
-		2 = METROPOLITAN_VOIVODE
-		3 = SYNODAL_HETMAN
-	}
-
-	ruler_female = {
-		1 = CONFESSIONAL_VOIVODESSA
-		2 = METROPOLITAN_VOIVODESSA
-		3 = SYNODAL_HETMANKA
-	}
-
-	trigger = {
-		has_reform = vln_confessional_reform
-	}
-}
-
-vln_cossack_host_reform = {
-	rank = {
-		1 = COSSACK_VOIVODESHIP
-		2 = STARSHYNA_COMMONWEALTH
-		3 = HOST_STATE
-	}
-
-	ruler_male = {
-		1 = HOST_VOIVODE
-		2 = STARSHYNA_HETMAN
-		3 = HOST_COMMANDER
-	}
-
-	ruler_female = {
-		1 = HOST_VOIVODESSA
-		2 = STARSHYNA_HETMANKA
-		3 = HOST_COMMANDRESS
-	}
-
-	trigger = {
-		has_reform = vln_cossack_host_reform
-	}
-}
-
-vln_confessional_academy = {
-	rank = {
-		1 = ACADEMY_VOIVODESHIP
-		2 = ACADEMY_COMMONWEALTH
-		3 = ENLIGHTENED_STATE
-	}
-
-	ruler_male = {
-		1 = ACADEMY_VOIVODE
-		2 = SCHOLARLY_HETMAN
-		3 = ENLIGHTENED_HETMAN
-	}
-
-	ruler_female = {
-		1 = ACADEMY_VOIVODESSA
-		2 = SCHOLARLY_HETMANKA
-		3 = ENLIGHTENED_HETMANKA
-	}
-
-	trigger = {
-		has_reform = vln_confessional_academy
-	}
-}
-
-vln_magdeburg_rights = {
-	rank = {
-		1 = MAGDEBURG_VOIVODESHIP
-		2 = CHARTERED_COMMONWEALTH
-		3 = FREE_VOIVODESHIP
-	}
-
-	ruler_male = {
-		1 = MAGDEBURG_VOIVODE
-		2 = BURGOMASTER_HETMAN
-		3 = FREE_VOIVODE
-	}
-
-	ruler_female = {
-		1 = MAGDEBURG_VOIVODESSA
-		2 = BURGOMASTER_HETMANKA
-		3 = FREE_VOIVODESSA
-	}
-
-	trigger = {
-		has_reform = vln_magdeburg_rights
-	}
-}
-
-vln_voivode_council = {
-	rank = {
-		1 = COUNCIL_VOIVODESHIP
-		2 = NOBLE_COMMONWEALTH
-		3 = VOIVODE_DOMINION
-	}
-
-	ruler_male = {
-		1 = COUNCIL_VOIVODE
-		2 = NOBLE_VOIVODE
-		3 = DOMINANT_VOIVODE
-	}
-
-	ruler_female = {
-		1 = COUNCIL_VOIVODESSA
-		2 = NOBLE_VOIVODESSA
-		3 = DOMINANT_VOIVODESSA
-	}
-
-	trigger = {
-		has_reform = vln_voivode_council
-	}
-}
-
-vln_black_voivode_legion = {
-	rank = {
-		1 = MILITARY_VOIVODESHIP
-		2 = LEGION_COMMONWEALTH
-		3 = WARRIOR_STATE
-	}
-
-	ruler_male = {
-		1 = MILITARY_VOIVODE
-		2 = LEGION_HETMAN
-		3 = WAR_VOIVODE
-	}
-
-	ruler_female = {
-		1 = MILITARY_VOIVODESSA
-		2 = LEGION_HETMANKA
-		3 = WAR_VOIVODESSA
-	}
-
-	trigger = {
-		has_reform = vln_black_voivode_legion
-	}
-}
-
-vln_ruthenian_renaissance_reform = {
-	rank = {
-		1 = RENAISSANCE_VOIVODESHIP
-		2 = CULTURAL_COMMONWEALTH
-		3 = RUTHENIAN_ENLIGHTENMENT
-	}
-
-	ruler_male = {
-		1 = RENAISSANCE_VOIVODE
-		2 = CULTURED_HETMAN
-		3 = ENLIGHTENED_VOIVODE
-	}
-
-	ruler_female = {
-		1 = RENAISSANCE_VOIVODESSA
-		2 = CULTURED_HETMANKA
-		3 = ENLIGHTENED_VOIVODESSA
-	}
-
-	trigger = {
-		has_reform = vln_ruthenian_renaissance_reform
-	}
-}
-
-vln_ruthenia_reform = {
-	rank = {
-		1 = RUTHENIAN_VOIVODESHIP
-		2 = RUTHENIAN_KINGDOM
-		3 = GRAND_RUTHENIA
-	}
-
-	ruler_male = {
-		1 = RUTHENIAN_VOIVODE
-		2 = RUTHENIAN_KING
-		3 = GRAND_VOIVODE
-	}
-
-	ruler_female = {
-		1 = RUTHENIAN_VOIVODESSA
-		2 = RUTHENIAN_QUEEN
-		3 = GRAND_VOIVODESSA
-	}
-
-	trigger = {
-		has_reform = vln_ruthenia_reform
-	}
-}
-
-vln_grand_ruthenia_reform = {
-	rank = {
-		1 = GRAND_RUTHENIAN_VOIVODESHIP
-		2 = GRAND_RUTHENIAN_KINGDOM
-		3 = RUTHENIAN_EMPIRE
-	}
-
-	ruler_male = {
-		1 = GRAND_RUTHENIAN_VOIVODE
-		2 = GRAND_RUTHENIAN_KING
-		3 = RUTHENIAN_EMPEROR
-	}
-
-	ruler_female = {
-		1 = GRAND_RUTHENIAN_VOIVODESSA
-		2 = GRAND_RUTHENIAN_QUEEN
-		3 = RUTHENIAN_EMPRESS
-	}
-
-	trigger = {
-		has_reform = vln_grand_ruthenia_reform
-	}
-}
-
-
-pdl_frontier_voivodeship = {
-	rank = {
-		1 = FRONTIER_VOIVODESHIP
-		2 = BORDER_VOIVODESHIP
-		3 = VOIVODE_PALATINATE
-	}
-
-	ruler_male = {
-		1 = FRONTIER_VOIVODE
-		2 = BORDER_VOIVODE
-		3 = PALATINE_VOIVODE
-	}
-
-	ruler_female = {
-		1 = FRONTIER_VOIVODESSA
-		2 = BORDER_VOIVODESSA
-		3 = PALATINE_VOIVODESSA
-	}
-
-	trigger = {
-		tag = PDL
-	}
-}
-
-pdl_carpathian_bastion = {
-	rank = {
-		1 = BORDER_GARRISON
-		2 = FORTRESS_COMMAND
-		3 = BASTION_STATE
-	}
-
-	ruler_male = {
-		1 = FORT_CAPTAIN
-		2 = GARRISON_COMMANDER
-		3 = BASTION_VOIVODE
-	}
-
-	ruler_female = {
-		1 = FORT_CAPTAINESS
-		2 = GARRISON_COMMANDRESS
-		3 = BASTION_VOIVODESSA
-	}
-
-	trigger = {
-		tag = PDL
-		has_country_flag = pdl_carpathian_path
-	}
-}
-
-pdl_frontier_republic = {
-	rank = {
-		1 = COSSACK_VOIVODESHIP
-		2 = HOST_VOIVODESHIP
-		3 = FRONTIER_HOST_STATE
-	}
-
-	ruler_male = {
-		1 = HOST_VOIVODE
-		2 = HETMAN_VOIVODE
-		3 = HOST_COMMANDER
-	}
-
-	ruler_female = {
-		1 = HOST_VOIVODESSA
-		2 = HETMANKA_VOIVODE
-		3 = HOST_COMMANDRESS
-	}
-
-	trigger = {
-		tag = PDL
-		has_country_flag = pdl_cossack_recruited
-	}
-}
-
-pdl_magnate_dominion = {
-	rank = {
-		1 = MAGNATE_DUCHY
-		2 = MAGNATE_KINGDOM
-		3 = AUTONOMOUS_DOMINION
-	}
-
-	ruler_male = {
-		1 = MAGNATE_DUKE
-		2 = MAGNATE_KING
-		3 = AUTONOMOUS_VOIVODE
-	}
-
-	ruler_female = {
-		1 = MAGNATE_DUCHESS
-		2 = MAGNATE_QUEEN
-		3 = AUTONOMOUS_VOIVODESSA
-	}
-
-	trigger = {
-		tag = PDL
-		has_country_flag = pdl_magnate_path
-	}
-}
-
-pdl_grand_podillia = {
-	rank = {
-		1 = GRAND_PODILLIA_VOIVODESHIP
-		2 = GRAND_PODILLIA_KINGDOM
-		3 = PODILLIAN_EMPIRE
-	}
-
-	ruler_male = {
-		1 = GRAND_VOIVODE
-		2 = GRAND_KING
-		3 = PODILLIAN_EMPEROR
-	}
-
-	ruler_female = {
-		1 = GRAND_VOIVODESSA
-		2 = GRAND_QUEEN
-		3 = PODILLIAN_EMPRESS
-	}
-
-	trigger = {
-		tag = PDL
-		has_country_flag = pdl_grand_podillia
-	}
-}
-pdl_clan_assembly = {
-	rank = {
-		1 = CLAN_COUNCIL
-		2 = TRIBAL_ASSEMBLY
-		3 = UNITED_CLANS
-	}
-
-	ruler_male = {
-		1 = CLAN_CHIEF
-		2 = ELDER_CHIEFTAIN
-		3 = SUPREME_ELDER
-	}
-
-	ruler_female = {
-		1 = CLAN_MATRIARCH
-		2 = ELDER_MATRIARCH
-		3 = SUPREME_MATRIARCH
-	}
-
-	trigger = {
-		tag = PDL
-		has_reform = pdl_clan_assembly_reform
-	}
-}
-
-pdl_steppe_principality = {
-	rank = {
-		1 = STEPPE_PRINCIPALITY
-		2 = FRONTIER_PRINCIPALITY
-		3 = STEPPES_PRINCEDOM
-	}
-
-	ruler_male = {
-		1 = STEPPE_PRINCE
-		2 = BORDER_PRINCE
-		3 = PRINCEDOM_REGENT
-	}
-
-	ruler_female = {
-		1 = STEPPE_PRINCESS
-		2 = BORDER_PRINCESS
-		3 = PRINCEDOM_REGENT
-	}
-
-	trigger = {
-		tag = PDL
-		has_reform = pdl_steppe_principality_reform
-	}
-}
-
-pdl_voivodeship_kingdom = {
-	rank = {
-		1 = VOIVODE_KINGDOM
-		2 = VOIVODESHIP_REALM
-		3 = VOIVODESHIP_DOMINION
-	}
-
-	ruler_male = {
-		1 = KINGDOM_VOIVODE
-		2 = VOIVODE_KING
-		3 = VOIVODESHIP_EMPEROR
-	}
-
-	ruler_female = {
-		1 = KINGDOM_VOIVODESSA
-		2 = VOIVODESSA_QUEEN
-		3 = VOIVODESHIP_EMPRESS
-	}
-
-	trigger = {
-		tag = PDL
-		has_reform = pdl_voivodeship_kingdom_reform
-	}
-}
-
-pdl_palatine_court = {
-	rank = {
-		1 = PALATINE_DUCHY
-		2 = PALATINE_KINGDOM
-		3 = PALATINE_DOMINION
-	}
-
-	ruler_male = {
-		1 = PALATINE_DUKE
-		2 = PALATINE_KING
-		3 = LORD_PALATINE
-	}
-
-	ruler_female = {
-		1 = PALATINE_DUCHESS
-		2 = PALATINE_QUEEN
-		3 = LADY_PALATINE
-	}
-
-	trigger = {
-		tag = PDL
-		has_reform = pdl_palatine_court_reform
-	}
-}
-
-pdl_aristocratic_assembly = {
-	rank = {
-		1 = NOBLE_ASSEMBLY
-		2 = ARISTOCRATIC_REPUBLIC
-		3 = NOBLE_DOMINION
-	}
-
-	ruler_male = {
-		1 = ASSEMBLY_LEADER
-		2 = ARISTOCRATIC_REGENT
-		3 = NOBLE_OVERLORD
-	}
-
-	ruler_female = {
-		1 = ASSEMBLY_LEADER
-		2 = ARISTOCRATIC_REGENT
-		3 = NOBLE_OVERLADY
-	}
-
-	trigger = {
-		tag = PDL
-		has_reform = pdl_aristocratic_assembly_reform
-	}
-}
-
-pdl_magnate_republic = {
-	rank = {
-		1 = OLIGARCHY
-		2 = MERCHANT_REPUBLIC
-		3 = MAGNATE_STATE
-	}
-
-	ruler_male = {
-		1 = OLIGARCH
-		2 = MERCHANT_LORD
-		3 = MAGNATE_SUPREME
-	}
-
-	ruler_female = {
-		1 = OLIGARCH
-		2 = MERCHANT_LADY
-		3 = MAGNATE_SUPREME
-	}
-
-	trigger = {
-		tag = PDL
-		has_reform = pdl_magnate_republic_reform
-	}
-}
-
-pdl_enlightened_voivodeship = {
-	rank = {
-		1 = ENLIGHTENED_VOIVODESHIP
-		2 = REFORMED_KINGDOM
-		3 = REFORMED_DOMINION
-	}
-
-	ruler_male = {
-		1 = ENLIGHTENED_VOIVODE
-		2 = REFORM_KING
-		3 = REFORM_EMPEROR
-	}
-
-	ruler_female = {
-		1 = ENLIGHTENED_VOIVODESSA
-		2 = REFORM_QUEEN
-		3 = REFORM_EMPRESS
-	}
-
-	trigger = {
-		tag = PDL
-		has_reform = pdl_enlightened_voivodeship_reform
-	}
-}
-
-pdl_absolute_dominion = {
-	rank = {
-		1 = VOIVODESHIP_ABSOLUTE
-		2 = ABSOLUTE_KINGDOM
-		3 = ABSOLUTE_EMPIRE
-	}
-
-	ruler_male = {
-		1 = ABSOLUTE_VOIVODE
-		2 = ABSOLUTE_KING
-		3 = ABSOLUTE_EMPEROR
-	}
-
-	ruler_female = {
-		1 = ABSOLUTE_VOIVODESSA
-		2 = ABSOLUTE_QUEEN
-		3 = ABSOLUTE_EMPRESS
-	}
-
-	trigger = {
-		tag = PDL
-		has_reform = pdl_absolute_dominion_reform
-	}
-}
-
-pdl_revolutionary_republic = {
-	rank = {
-		1 = PEOPLES_REPUBLIC
-		2 = DEMOCRATIC_REPUBLIC
-		3 = UNIFIED_REPUBLIC
-	}
-
-	ruler_male = {
-		1 = PEOPLES_COMMISSAR
-		2 = PREMIER
-		3 = SUPREME_COMMISSAR
-	}
-
-	ruler_female = {
-		1 = PEOPLES_COMMISSAR
-		2 = PREMIER
-		3 = SUPREME_COMMISSAR
-	}
-
-	trigger = {
-		tag = PDL
-		has_reform = pdl_revolutionary_republic_reform
-	}
-}
-
-odesa_trade_republic_reform = {
-	rank = {
-		1 = ODS_FREE_PORT_REPUBLIC
-		2 = ODS_BLACK_SEA_MARITIME_REPUBLIC
-		3 = ODS_PONTIC_FREE_PORT_COMMONWEALTH
-	}
-
-	ruler_male = {
-		1 = ODS_PORT_SYNDIC
-		2 = ODS_HARBOR_CONSUL
-		3 = ODS_GRAND_HARBOR_CONSUL
-	}
-
-	ruler_female = {
-		1 = ODS_PORT_SYNDICA
-		2 = ODS_HARBOR_CONSULESS
-		3 = ODS_GRAND_HARBOR_CONSULESS
-	}
-
-	trigger = {
-		tag = ODS
-		has_reform = odesa_trade_republic_reform
+		has_reform = uzh_komitat_system_reform
 	}
 }
 
@@ -1192,6 +337,874 @@ zaz_sacred_horde_reform = {
 
 	trigger = {
 		has_reform = zaz_sacred_horde_reform
+	}
+}
+
+zaz_last_sich_reform = {
+	rank = {
+		1 = NEW_SICH
+		2 = BASTION_OF_LIBERTY
+		3 = LAST_FREE_SICH
+	}
+
+	ruler_male = {
+		1 = DEFIANT_OTAMAN
+		2 = LAST_KOSH_HETMAN
+		3 = LIBERTY_GUARDIAN
+	}
+
+	ruler_female = {
+		1 = DEFIANT_OTAMANKA
+		2 = LAST_KOSH_HETMANKA
+		3 = LIBERTY_GUARDIANESS
+	}
+
+	trigger = {
+		tag = ZAZ
+		has_reform = zaz_last_sich_reform
+	}
+}
+
+zaz_free_host_reform = {
+	rank = {
+		1 = ZAPOROZHIAN_SICH
+		2 = GLORIOUS_HOST
+		3 = FREE_COSSACK_REPUBLIC
+	}
+
+	ruler_male = {
+		1 = HOST_OTAMAN
+		2 = SICH_HETMAN
+		3 = KOSH_ATAMAN_SUPREME
+	}
+
+	ruler_female = {
+		1 = HOST_OTAMANKA
+		2 = SICH_HETMANKA
+		3 = KOSH_ATAMANKA_SUPREME
+	}
+
+	trigger = {
+		tag = ZAZ
+		has_reform = zaz_free_host_reform
+	}
+}
+
+zaz_kosh_elections_reform = {
+	rank = {
+		1 = SICH_KOSH
+		2 = ZAPOROZHIAN_KOSH
+		3 = FREE_ZAPOROZHIAN_HOST
+	}
+
+	ruler_male = {
+		1 = ELECTED_OTAMAN
+		2 = KOSH_HETMAN
+		3 = HOST_COMMANDER
+	}
+
+	ruler_female = {
+		1 = ELECTED_OTAMANKA
+		2 = KOSH_HETMANKA
+		3 = HOST_COMMANDRESS
+	}
+
+	trigger = {
+		tag = ZAZ
+		has_reform = zaz_kosh_elections_reform
+	}
+}
+
+zaz_sich_brotherhood_reform = {
+	rank = {
+		1 = SICH_COMMUNE
+		2 = COSSACK_COMMONWEALTH
+		3 = ZAPOROZHIAN_HOST
+	}
+
+	ruler_male = {
+		1 = KOSH_OTAMAN
+		2 = HETMAN_OTAMAN
+		3 = GREAT_KOSH_OTAMAN
+	}
+
+	ruler_female = {
+		1 = KOSH_OTAMANKA
+		2 = HETMANKA_OTAMAN
+		3 = GREAT_KOSH_OTAMANKA
+	}
+
+	trigger = {
+		tag = ZAZ
+		has_reform = zaz_sich_brotherhood_reform
+	}
+}
+
+het_collegium_control_reform = {
+	rank = {
+		1 = SUPERVISED_HETMANATE
+		2 = LITTLE_RUSSIAN_STATE
+		3 = AUTONOMOUS_HETMANATE
+	}
+
+	ruler_male = {
+		1 = SUPERVISED_HETMAN
+		2 = COLLEGIUM_HETMAN
+		3 = RESTRICTED_HETMAN
+	}
+
+	ruler_female = {
+		1 = SUPERVISED_HETMANKA
+		2 = COLLEGIUM_HETMANKA
+		3 = RESTRICTED_HETMANKA
+	}
+
+	trigger = {
+		tag = HET
+		has_reform = het_collegium_control_reform
+	}
+}
+
+het_mazepist_autocracy_reform = {
+	rank = {
+		1 = MAZEPIST_HETMANATE
+		2 = AUTOCRATIC_HETMANATE
+		3 = HETMAN_MONARCHY
+	}
+
+	ruler_male = {
+		1 = AUTOCRAT_HETMAN
+		2 = HETMAN_SOVEREIGN
+		3 = IMPERIAL_HETMAN
+	}
+
+	ruler_female = {
+		1 = AUTOCRAT_HETMANKA
+		2 = HETMANKA_SOVEREIGN
+		3 = IMPERIAL_HETMANKA
+	}
+
+	trigger = {
+		tag = HET
+		has_reform = het_mazepist_autocracy_reform
+	}
+}
+
+het_academy_enlightenment_reform = {
+	rank = {
+		1 = LEARNED_HETMANATE
+		2 = ACADEMY_STATE
+		3 = RUTHENIAN_ENLIGHTENMENT
+	}
+
+	ruler_male = {
+		1 = ENLIGHTENED_HETMAN
+		2 = PATRON_HETMAN
+		3 = PHILOSOPHER_HETMAN
+	}
+
+	ruler_female = {
+		1 = ENLIGHTENED_HETMANKA
+		2 = PATRON_HETMANKA
+		3 = PHILOSOPHER_HETMANKA
+	}
+
+	trigger = {
+		tag = HET
+		has_reform = het_academy_enlightenment_reform
+	}
+}
+
+het_hetman_for_life_reform = {
+	rank = {
+		1 = HETMANATE
+		2 = COSSACK_PRINCIPALITY
+		3 = HETMAN_DOMINION
+	}
+
+	ruler_male = {
+		1 = HETMAN_FOR_LIFE
+		2 = HEREDITARY_HETMAN
+		3 = SOVEREIGN_HETMAN
+	}
+
+	ruler_female = {
+		1 = HETMANKA_FOR_LIFE
+		2 = HEREDITARY_HETMANKA
+		3 = SOVEREIGN_HETMANKA
+	}
+
+	trigger = {
+		tag = HET
+		has_reform = het_hetman_for_life_reform
+	}
+}
+
+het_starshyna_oligarchy_reform = {
+	rank = {
+		1 = COSSACK_HETMANATE
+		2 = STARSHYNA_COMMONWEALTH
+		3 = HETMAN_STATE
+	}
+
+	ruler_male = {
+		1 = CHOSEN_HETMAN
+		2 = HETMAN_COMMANDER
+		3 = GREAT_HETMAN
+	}
+
+	ruler_female = {
+		1 = CHOSEN_HETMANKA
+		2 = HETMANKA_COMMANDER
+		3 = GREAT_HETMANKA
+	}
+
+	trigger = {
+		tag = HET
+		has_reform = het_starshyna_oligarchy_reform
+	}
+}
+
+rip_cossacks_reform = {
+	rank = {
+		1 = COSSACKS_DUCHY
+		2 = COSSACKS_KINGDOM
+		3 = COSSACKS_EMPIRE
+	}
+
+	ruler_male = {
+		1 = COSSACKS_DUKE
+		2 = COSSACKS_KING
+		3 = COSSACKS_EMPEROR
+	}
+
+	ruler_female = {
+		1 = COSSACKS_DUCHESS
+		2 = COSSACKS_QUEEN
+		3 = COSSACKS_EMPRESS
+	}
+
+	trigger = {
+		has_reform = rip_cossacks_reform
+	}
+}
+
+
+vln_grand_ruthenia_reform = {
+	rank = {
+		1 = GRAND_RUTHENIAN_VOIVODESHIP
+		2 = GRAND_RUTHENIAN_KINGDOM
+		3 = RUTHENIAN_EMPIRE
+	}
+
+	ruler_male = {
+		1 = GRAND_RUTHENIAN_VOIVODE
+		2 = GRAND_RUTHENIAN_KING
+		3 = RUTHENIAN_EMPEROR
+	}
+
+	ruler_female = {
+		1 = GRAND_RUTHENIAN_VOIVODESSA
+		2 = GRAND_RUTHENIAN_QUEEN
+		3 = RUTHENIAN_EMPRESS
+	}
+
+	trigger = {
+		has_reform = vln_grand_ruthenia_reform
+	}
+}
+
+vln_ruthenia_reform = {
+	rank = {
+		1 = RUTHENIAN_VOIVODESHIP
+		2 = RUTHENIAN_KINGDOM
+		3 = GRAND_RUTHENIA
+	}
+
+	ruler_male = {
+		1 = RUTHENIAN_VOIVODE
+		2 = RUTHENIAN_KING
+		3 = GRAND_VOIVODE
+	}
+
+	ruler_female = {
+		1 = RUTHENIAN_VOIVODESSA
+		2 = RUTHENIAN_QUEEN
+		3 = GRAND_VOIVODESSA
+	}
+
+	trigger = {
+		has_reform = vln_ruthenia_reform
+	}
+}
+
+vln_ruthenian_renaissance_reform = {
+	rank = {
+		1 = RENAISSANCE_VOIVODESHIP
+		2 = CULTURAL_COMMONWEALTH
+		3 = RUTHENIAN_ENLIGHTENMENT
+	}
+
+	ruler_male = {
+		1 = RENAISSANCE_VOIVODE
+		2 = CULTURED_HETMAN
+		3 = ENLIGHTENED_VOIVODE
+	}
+
+	ruler_female = {
+		1 = RENAISSANCE_VOIVODESSA
+		2 = CULTURED_HETMANKA
+		3 = ENLIGHTENED_VOIVODESSA
+	}
+
+	trigger = {
+		has_reform = vln_ruthenian_renaissance_reform
+	}
+}
+
+vln_voivode_council = {
+	rank = {
+		1 = COUNCIL_VOIVODESHIP
+		2 = NOBLE_COMMONWEALTH
+		3 = VOIVODE_DOMINION
+	}
+
+	ruler_male = {
+		1 = COUNCIL_VOIVODE
+		2 = NOBLE_VOIVODE
+		3 = DOMINANT_VOIVODE
+	}
+
+	ruler_female = {
+		1 = COUNCIL_VOIVODESSA
+		2 = NOBLE_VOIVODESSA
+		3 = DOMINANT_VOIVODESSA
+	}
+
+	trigger = {
+		has_reform = vln_voivode_council
+	}
+}
+
+vln_magdeburg_rights = {
+	rank = {
+		1 = MAGDEBURG_VOIVODESHIP
+		2 = CHARTERED_COMMONWEALTH
+		3 = FREE_VOIVODESHIP
+	}
+
+	ruler_male = {
+		1 = MAGDEBURG_VOIVODE
+		2 = BURGOMASTER_HETMAN
+		3 = FREE_VOIVODE
+	}
+
+	ruler_female = {
+		1 = MAGDEBURG_VOIVODESSA
+		2 = BURGOMASTER_HETMANKA
+		3 = FREE_VOIVODESSA
+	}
+
+	trigger = {
+		has_reform = vln_magdeburg_rights
+	}
+}
+
+vln_black_voivode_legion = {
+	rank = {
+		1 = MILITARY_VOIVODESHIP
+		2 = LEGION_COMMONWEALTH
+		3 = WARRIOR_STATE
+	}
+
+	ruler_male = {
+		1 = MILITARY_VOIVODE
+		2 = LEGION_HETMAN
+		3 = WAR_VOIVODE
+	}
+
+	ruler_female = {
+		1 = MILITARY_VOIVODESSA
+		2 = LEGION_HETMANKA
+		3 = WAR_VOIVODESSA
+	}
+
+	trigger = {
+		has_reform = vln_black_voivode_legion
+	}
+}
+
+vln_confessional_reform = {
+	rank = {
+		1 = CONFESSIONAL_VOIVODESHIP
+		2 = UNITED_VOIVODESHIP
+		3 = SYNODAL_STATE
+	}
+
+	ruler_male = {
+		1 = CONFESSIONAL_VOIVODE
+		2 = METROPOLITAN_VOIVODE
+		3 = SYNODAL_HETMAN
+	}
+
+	ruler_female = {
+		1 = CONFESSIONAL_VOIVODESSA
+		2 = METROPOLITAN_VOIVODESSA
+		3 = SYNODAL_HETMANKA
+	}
+
+	trigger = {
+		has_reform = vln_confessional_reform
+	}
+}
+
+vln_confessional_academy = {
+	rank = {
+		1 = ACADEMY_VOIVODESHIP
+		2 = ACADEMY_COMMONWEALTH
+		3 = ENLIGHTENED_STATE
+	}
+
+	ruler_male = {
+		1 = ACADEMY_VOIVODE
+		2 = SCHOLARLY_HETMAN
+		3 = ENLIGHTENED_HETMAN
+	}
+
+	ruler_female = {
+		1 = ACADEMY_VOIVODESSA
+		2 = SCHOLARLY_HETMANKA
+		3 = ENLIGHTENED_HETMANKA
+	}
+
+	trigger = {
+		has_reform = vln_confessional_academy
+	}
+}
+
+vln_cossack_host_reform = {
+	rank = {
+		1 = COSSACK_VOIVODESHIP
+		2 = STARSHYNA_COMMONWEALTH
+		3 = HOST_STATE
+	}
+
+	ruler_male = {
+		1 = HOST_VOIVODE
+		2 = STARSHYNA_HETMAN
+		3 = HOST_COMMANDER
+	}
+
+	ruler_female = {
+		1 = HOST_VOIVODESSA
+		2 = STARSHYNA_HETMANKA
+		3 = HOST_COMMANDRESS
+	}
+
+	trigger = {
+		has_reform = vln_cossack_host_reform
+	}
+}
+
+vln_voivodeship_reform = {
+	rank = {
+		1 = VOIVODESHIP
+		2 = GRAND_VOIVODESHIP
+		3 = VOIVODE_STATE
+	}
+
+	ruler_male = {
+		1 = VOIVODE
+		2 = GRAND_VOIVODE
+		3 = HIGH_VOIVODE
+	}
+
+	ruler_female = {
+		1 = VOIVODESSA
+		2 = GRAND_VOIVODESSA
+		3 = HIGH_VOIVODESSA
+	}
+
+	trigger = {
+		has_reform = vln_voivodeship_reform
+	}
+}
+
+
+pdl_grand_podillia = {
+	rank = {
+		1 = GRAND_PODILLIA_VOIVODESHIP
+		2 = GRAND_PODILLIA_KINGDOM
+		3 = PODILLIAN_EMPIRE
+	}
+
+	ruler_male = {
+		1 = GRAND_VOIVODE
+		2 = GRAND_KING
+		3 = PODILLIAN_EMPEROR
+	}
+
+	ruler_female = {
+		1 = GRAND_VOIVODESSA
+		2 = GRAND_QUEEN
+		3 = PODILLIAN_EMPRESS
+	}
+
+	trigger = {
+		tag = PDL
+		OR = {
+			has_country_flag = pdl_grand_podillia
+			has_reform = pdl_grand_podillia_reform
+		}
+	}
+}
+
+pdl_absolute_dominion = {
+	rank = {
+		1 = VOIVODESHIP_ABSOLUTE
+		2 = ABSOLUTE_KINGDOM
+		3 = ABSOLUTE_EMPIRE
+	}
+
+	ruler_male = {
+		1 = ABSOLUTE_VOIVODE
+		2 = ABSOLUTE_KING
+		3 = ABSOLUTE_EMPEROR
+	}
+
+	ruler_female = {
+		1 = ABSOLUTE_VOIVODESSA
+		2 = ABSOLUTE_QUEEN
+		3 = ABSOLUTE_EMPRESS
+	}
+
+	trigger = {
+		tag = PDL
+		has_reform = pdl_absolute_dominion_reform
+	}
+}
+
+pdl_magnate_republic = {
+	rank = {
+		1 = MAGNATE_DUCHY
+		2 = NOBLE_COMMONWEALTH
+		3 = MAGNATE_STATE
+	}
+
+	ruler_male = {
+		1 = MAGNATE_DUKE
+		2 = CONSTITUENT_KING
+		3 = MAGNATE_SUPREME
+	}
+
+	ruler_female = {
+		1 = MAGNATE_DUCHESS
+		2 = CONSTITUENT_QUEEN
+		3 = MAGNATE_SUPREME
+	}
+
+	trigger = {
+		tag = PDL
+		has_reform = pdl_magnate_republic_reform
+	}
+}
+
+pdl_magnate_dominion = {
+	rank = {
+		1 = MAGNATE_DUCHY
+		2 = MAGNATE_KINGDOM
+		3 = AUTONOMOUS_DOMINION
+	}
+
+	ruler_male = {
+		1 = MAGNATE_DUKE
+		2 = MAGNATE_KING
+		3 = AUTONOMOUS_VOIVODE
+	}
+
+	ruler_female = {
+		1 = MAGNATE_DUCHESS
+		2 = MAGNATE_QUEEN
+		3 = AUTONOMOUS_VOIVODESSA
+	}
+
+	trigger = {
+		tag = PDL
+		has_country_flag = pdl_magnate_path
+	}
+}
+
+pdl_enlightened_voivodeship = {
+	rank = {
+		1 = ENLIGHTENED_VOIVODESHIP
+		2 = REFORMED_KINGDOM
+		3 = REFORMED_DOMINION
+	}
+
+	ruler_male = {
+		1 = ENLIGHTENED_VOIVODE
+		2 = REFORM_KING
+		3 = REFORM_EMPEROR
+	}
+
+	ruler_female = {
+		1 = ENLIGHTENED_VOIVODESSA
+		2 = REFORM_QUEEN
+		3 = REFORM_EMPRESS
+	}
+
+	trigger = {
+		tag = PDL
+		has_reform = pdl_enlightened_voivodeship_reform
+	}
+}
+
+pdl_revolutionary_republic = {
+	rank = {
+		1 = PEOPLES_REPUBLIC
+		2 = REPRESENTATIVE_KINGDOM
+		3 = UNIFIED_REPUBLIC
+	}
+
+	ruler_male = {
+		1 = PEOPLES_COMMISSAR
+		2 = CONSTITUENT_KING
+		3 = SUPREME_COMMISSAR
+	}
+
+	ruler_female = {
+		1 = PEOPLES_COMMISSAR
+		2 = CONSTITUENT_QUEEN
+		3 = SUPREME_COMMISSAR
+	}
+
+	trigger = {
+		tag = PDL
+		has_reform = pdl_revolutionary_republic_reform
+	}
+}
+
+pdl_carpathian_bastion = {
+	rank = {
+		1 = BORDER_GARRISON
+		2 = FORTRESS_COMMAND
+		3 = BASTION_STATE
+	}
+
+	ruler_male = {
+		1 = FORT_CAPTAIN
+		2 = GARRISON_COMMANDER
+		3 = BASTION_VOIVODE
+	}
+
+	ruler_female = {
+		1 = FORT_CAPTAINESS
+		2 = GARRISON_COMMANDRESS
+		3 = BASTION_VOIVODESSA
+	}
+
+	trigger = {
+		tag = PDL
+		has_country_flag = pdl_carpathian_path
+	}
+}
+
+pdl_frontier_republic = {
+	rank = {
+		1 = COSSACK_VOIVODESHIP
+		2 = HOST_VOIVODESHIP
+		3 = FRONTIER_HOST_STATE
+	}
+
+	ruler_male = {
+		1 = HOST_VOIVODE
+		2 = HETMAN_VOIVODE
+		3 = HOST_COMMANDER
+	}
+
+	ruler_female = {
+		1 = HOST_VOIVODESSA
+		2 = HETMANKA_VOIVODE
+		3 = HOST_COMMANDRESS
+	}
+
+	trigger = {
+		tag = PDL
+		has_country_flag = pdl_frontier_path
+	}
+}
+
+pdl_palatine_court = {
+	rank = {
+		1 = PALATINE_DUCHY
+		2 = PALATINE_KINGDOM
+		3 = PALATINE_DOMINION
+	}
+
+	ruler_male = {
+		1 = PALATINE_DUKE
+		2 = PALATINE_KING
+		3 = LORD_PALATINE
+	}
+
+	ruler_female = {
+		1 = PALATINE_DUCHESS
+		2 = PALATINE_QUEEN
+		3 = LADY_PALATINE
+	}
+
+	trigger = {
+		tag = PDL
+		has_reform = pdl_palatine_court_reform
+	}
+}
+
+pdl_aristocratic_assembly = {
+	rank = {
+		1 = NOBLE_ASSEMBLY
+		2 = NOBLE_COMMONWEALTH
+		3 = NOBLE_DOMINION
+	}
+
+	ruler_male = {
+		1 = ASSEMBLY_LEADER
+		2 = ARISTOCRATIC_REGENT
+		3 = NOBLE_OVERLORD
+	}
+
+	ruler_female = {
+		1 = ASSEMBLY_LEADER
+		2 = ARISTOCRATIC_REGENT
+		3 = NOBLE_OVERLADY
+	}
+
+	trigger = {
+		tag = PDL
+		has_reform = pdl_aristocratic_assembly_reform
+	}
+}
+
+pdl_clan_assembly = {
+	rank = {
+		1 = CLAN_COUNCIL
+		2 = TRIBAL_ASSEMBLY
+		3 = UNITED_CLANS
+	}
+
+	ruler_male = {
+		1 = CLAN_CHIEF
+		2 = ELDER_CHIEFTAIN
+		3 = SUPREME_ELDER
+	}
+
+	ruler_female = {
+		1 = CLAN_MATRIARCH
+		2 = ELDER_MATRIARCH
+		3 = SUPREME_MATRIARCH
+	}
+
+	trigger = {
+		tag = PDL
+		has_reform = pdl_clan_assembly_reform
+	}
+}
+
+pdl_steppe_principality = {
+	rank = {
+		1 = STEPPE_PRINCIPALITY
+		2 = FRONTIER_PRINCIPALITY
+		3 = STEPPES_PRINCEDOM
+	}
+
+	ruler_male = {
+		1 = STEPPE_PRINCE
+		2 = BORDER_PRINCE
+		3 = PRINCEDOM_REGENT
+	}
+
+	ruler_female = {
+		1 = STEPPE_PRINCESS
+		2 = BORDER_PRINCESS
+		3 = PRINCEDOM_REGENT
+	}
+
+	trigger = {
+		tag = PDL
+		has_reform = pdl_steppe_principality_reform
+	}
+}
+
+pdl_voivodeship_kingdom = {
+	rank = {
+		1 = VOIVODE_KINGDOM
+		2 = VOIVODESHIP_REALM
+		3 = VOIVODESHIP_DOMINION
+	}
+
+	ruler_male = {
+		1 = KINGDOM_VOIVODE
+		2 = VOIVODE_KING
+		3 = VOIVODESHIP_EMPEROR
+	}
+
+	ruler_female = {
+		1 = KINGDOM_VOIVODESSA
+		2 = VOIVODESSA_QUEEN
+		3 = VOIVODESHIP_EMPRESS
+	}
+
+	trigger = {
+		tag = PDL
+		has_reform = pdl_voivodeship_kingdom_reform
+	}
+}
+
+pdl_frontier_voivodeship = {
+	rank = {
+		1 = FRONTIER_VOIVODESHIP
+		2 = BORDER_VOIVODESHIP
+		3 = VOIVODE_PALATINATE
+	}
+
+	ruler_male = {
+		1 = FRONTIER_VOIVODE
+		2 = BORDER_VOIVODE
+		3 = PALATINE_VOIVODE
+	}
+
+	ruler_female = {
+		1 = FRONTIER_VOIVODESSA
+		2 = BORDER_VOIVODESSA
+		3 = PALATINE_VOIVODESSA
+	}
+
+	trigger = {
+		tag = PDL
+	}
+}
+
+odesa_trade_republic_reform = {
+	rank = {
+		1 = ODS_FREE_PORT_REPUBLIC
+		2 = ODS_BLACK_SEA_MARITIME_REPUBLIC
+		3 = ODS_PONTIC_FREE_PORT_COMMONWEALTH
+	}
+
+	ruler_male = {
+		1 = ODS_PORT_SYNDIC
+		2 = ODS_HARBOR_CONSUL
+		3 = ODS_GRAND_HARBOR_CONSUL
+	}
+
+	ruler_female = {
+		1 = ODS_PORT_SYNDICA
+		2 = ODS_HARBOR_CONSULESS
+		3 = ODS_GRAND_HARBOR_CONSULESS
+	}
+
+	trigger = {
+		tag = ODS
+		has_reform = odesa_trade_republic_reform
 	}
 }
 

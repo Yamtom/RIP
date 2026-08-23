@@ -78,3 +78,42 @@ chr_left_bank_grain_exchange_integration = {
 		}
 	}
 }
+
+# Reconcile the permanent grain bonus after loading an older save. Ownership
+# and trade-good changes are handled immediately by the vanilla on-action
+# override; this effect is only the save-compatible backstop.
+chr_refresh_grain_directorate_effect = {
+	if = {
+		limit = {
+			has_reform = chr_grain_directorate_reform
+		}
+		every_owned_province = {
+			if = {
+				limit = {
+					trade_goods = grain
+					NOT = { has_province_modifier = chr_grain_directorate_province }
+				}
+				add_province_modifier = {
+					name = chr_grain_directorate_province
+					duration = -1
+					hidden = yes
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = { trade_goods = grain }
+					has_province_modifier = chr_grain_directorate_province
+				}
+				remove_province_modifier = chr_grain_directorate_province
+			}
+		}
+	}
+	else = {
+		every_owned_province = {
+			limit = {
+				has_province_modifier = chr_grain_directorate_province
+			}
+			remove_province_modifier = chr_grain_directorate_province
+		}
+	}
+}

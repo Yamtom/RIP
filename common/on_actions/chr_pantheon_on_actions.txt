@@ -3,3 +3,16 @@ on_monarch_death = {
 		chr_pantheon.0
 	}
 }
+
+on_startup = {
+	chr_refresh_grain_directorate_effect = yes
+}
+
+on_yearly_pulse = {
+	if = {
+		limit = {
+			has_reform = chr_grain_directorate_reform
+		}
+		chr_refresh_grain_directorate_effect = yes
+	}
+}
