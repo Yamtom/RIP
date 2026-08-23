@@ -15,8 +15,8 @@
 
 Вірменська й єврейська міські мережі в моді представлені трьома окремими
 місцями: ця київська подія, `dniester_armenian_merchants` на Дністрі, та
-єврейський стан із власними привілеями (`events/JewishEstate.txt`,
-`common/estate_privileges/jewish_privileges.txt`). Православні братства -
+єврейські купецькі привілеї міщанського стану (`events/JewishEstate.txt`,
+`common/estate_privileges/RIP_shared_jewish_privileges.txt`). Православні братства -
 `orthodox_brotherhoods`, `pl_orthodox_brotherhoods`, `prl_brotherhood_schools`,
 `KIE_brotherhood_schools` і далі - теж на місці й задіяні подіями.
 

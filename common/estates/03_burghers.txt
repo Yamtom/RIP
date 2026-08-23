@@ -1,6 +1,7 @@
 estate_burghers = {
 	icon = 3
 
+	# If true, country will get estate
 	trigger = {	
 		NOT = { has_government_attribute = disables_estate_burghers }
 		NOT = { has_disabled_estate = { estate = estate_burghers } }
@@ -20,8 +21,16 @@ estate_burghers = {
 				NOT = { has_estate = estate_jains }
 			}
 		}
+		#NOT = { has_government_attribute = is_merchant_republic }
+		#NOT = { has_reform = veche_republic }
+		#NOT = { has_reform = trading_city }
+		#OR = {
+		#	NOT = { has_reform = celestial_empire }
+		#	has_dlc = "Mandate of Heaven"
+		#}
 	}
 
+	# These scale with loyalty & power
 	country_modifier_happy = {
 		trade_efficiency = 0.2
 		development_cost = -0.1
@@ -73,6 +82,7 @@ estate_burghers = {
 		}
 	}
 
+	# Influence modifiers
 	base_influence = 10
 	influence_modifier = {	
 		desc = EST_HIGH_DEVELOPMENT_PROVINCE
@@ -99,11 +109,11 @@ estate_burghers = {
 			NOT = { has_reform = free_city }
 			OR = {
 				capital = 1 #Stockholm
-				capital = 6 #Skne
+				capital = 6 #Skane
 				capital = 23 #Bergen
 				capital = 36 #Reval
 				capital = 38 #Riga
-				capital = 41 #Knigsberg
+				capital = 41 #Konigsberg
 				capital = 43 #Danzig
 				capital = 44 #Hamburg
 				capital = 45 #Lubeck
@@ -114,7 +124,7 @@ estate_burghers = {
 				capital = 54 #Stade
 				capital = 56 #Osnabruck
 				capital = 57 #Brunswick
-				capital = 85 #Kln
+				capital = 85 #Koln
 				capital = 86 #Munster
 				capital = 90 #Bruges
 				capital = 100 #Groningen
@@ -190,24 +200,12 @@ estate_burghers = {
 		}
 		loyalty = -20
 	}
+	#Custom Names
 	custom_name = {
 		desc = estate_emporoi
 		trigger = {
 			tag = BYZ
 			culture_group = byzantine
-		}
-	}
-	
-	custom_name = {
-		desc = estate_mecenates
-		trigger = {
-			OR ={
-			culture = ruthenian
-			culture = ruthenian_new
-			culture = rusyn
-			culture = rusyn_new
-			culture = byelorussian
-			}
 		}
 	}
 	custom_name = {
@@ -244,12 +242,29 @@ estate_burghers = {
 		desc = estate_merchant_guilds
 		trigger = {
 			OR = {	#Just like "NOT = { religion_group = Christian }", but at least it doesn't override estate names for new religion groups
+				#Still needs more diversity
 				religion_group = muslim
 				religion_group = eastern
 				religion_group = dharmic
 				religion_group = pagan
 				religion_group = jewish_group
 				religion_group = zoroastrian_group
+			}
+		}
+	}
+
+	# RIP - Ruthenian and Belarusian estate name
+	custom_name = {
+		desc = estate_mecenates
+		trigger = {
+			OR = {
+				culture = ruthenian
+				culture = ruthenian_new
+				culture = rusyn
+				culture = rusyn_new
+				culture = rusyn_new_new
+				culture = byelorussian
+				culture = byelorussian_new
 			}
 		}
 	}
@@ -330,8 +345,11 @@ estate_burghers = {
 		estate_burghers_AZT_mexican_gold_mines
 		estate_burghers_fugger_family
 		estate_burghers_TIM_gulf_toll
-		estate_burghers_het_left_bank
+		# RIP - CHR
 		estate_burghers_chr_grain_cartels
+		# RIP - HET
+		estate_burghers_het_left_bank
+		# RIP - shared Jewish merchant privileges
 		estate_jewish_tax_farmers
 		estate_jewish_loan_banks
 		estate_jewish_kahal_autonomy

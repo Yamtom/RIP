@@ -1,7 +1,11 @@
 estate_nobles = {
 	icon = 2
 
+	# If true, country will get estate
 	trigger = {
+		#NOT = { has_government_attribute = is_merchant_republic }
+		#NOT = { has_reform = veche_republic }
+		#NOT = { has_reform = trading_city }
 		NOT = { has_government_attribute = disables_estate_nobles }
 		NOT = { has_disabled_estate = { estate = estate_nobles } }
 		OR = {
@@ -29,6 +33,10 @@ estate_nobles = {
 				}
 			}
 		}
+		#OR = {
+		#	NOT = { has_reform = celestial_empire }
+		#	has_dlc = "Mandate of Heaven"
+		#}
 	}
 
 	country_modifier_happy = {
@@ -73,6 +81,7 @@ estate_nobles = {
 		}
 	}
 
+	# Influence modifiers
 	base_influence = 10
 	influence_modifier = {
 		desc = EST_VAL_EASTERN_TECH
@@ -82,6 +91,7 @@ estate_nobles = {
 		influence = 5
 	}
 	
+	# Influence modifiers from Events:
 	influence_modifier = {
 		desc = EST_HUN_MAGNATES
 		trigger = {
@@ -116,6 +126,7 @@ estate_nobles = {
 		loyalty = 5
 	}
 	
+	# Great Peasants' War Modifiers
 	
 	influence_modifier = {
 		desc = EST_VAL_GREAT_PEASANTS_WAR_NOBLES_WIN_MINOR_INFLUENCE
@@ -189,6 +200,7 @@ estate_nobles = {
 		loyalty = -10
 	}
 	
+	#Alternative naming of estates
 	custom_name = {
 		desc = estate_mamluks
 		trigger = {
@@ -508,7 +520,9 @@ estate_nobles = {
 		estate_nobles_four_class_system
 		estate_nobles_hungarian_nobility_privileges
 		estate_nobles_austrian_nobility_privileges
+		# RIP - CHR
 		estate_nobles_chr_seimski_statuty
+		# RIP - HET
 		estate_nobles_het_starshyna_class
 		estate_nobles_het_hetman_power
 	}

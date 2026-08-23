@@ -1,6 +1,4 @@
-# Agendas of the magnates. Two, which is what the estate lists, and both are
-# the same demand in different clothes: put something of ours where we can see
-# it, and pay for it out of the crown's pocket.
+# RIP - Magnates estate agendas.
 
 estate_magnates_agenda_develop_latifundium = {
 	can_select = {
@@ -69,16 +67,11 @@ estate_magnates_agenda_develop_latifundium = {
 	failing_effect = {
 		on_failed_agenda_effect = yes
 		clr_auto_complete_flag = yes
-		add_estate_loyalty = {
+		add_estate_loyalty_modifier = {
 			estate = estate_magnates
-			loyalty = -10
-		}
-	}
-
-	task_failed_effect = {
-		add_estate_loyalty = {
-			estate = estate_magnates
-			loyalty = -10
+			desc = EST_VAL_AGENDA_DENIED
+			loyalty = -5
+			duration = 7300
 		}
 	}
 
@@ -132,16 +125,11 @@ estate_magnates_agenda_hire_advisor = {
 	failing_effect = {
 		on_failed_agenda_effect = yes
 		clr_auto_complete_flag = yes
-		add_estate_loyalty = {
+		add_estate_loyalty_modifier = {
 			estate = estate_magnates
-			loyalty = -10
-		}
-	}
-
-	task_failed_effect = {
-		add_estate_loyalty = {
-			estate = estate_magnates
-			loyalty = -10
+			desc = EST_VAL_AGENDA_DENIED
+			loyalty = -5
+			duration = 7300
 		}
 	}
 

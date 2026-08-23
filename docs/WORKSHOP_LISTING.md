@@ -62,7 +62,7 @@ cutting the register all feed the same politics.
 [h3]Faith[/h3]
 A Russian Orthodox religion with its own church aspects, the Union of Brest
 and the Uniate church as a live confessional fault line, an Orthodox crusade
-casus belli, and a Jewish estate with its own privileges.
+casus belli, and Jewish merchant privileges for the Burghers estate.
 
 [h3]Crisis[/h3]
 Twelve disasters - the Ruina, the Khmelnytsky uprising, the Zaporozhian Sich
@@ -93,7 +93,7 @@ provinces or the Commonwealth mission tree.
 - Російське православ'я з 21 церковним аспектом
 - Унійна церква та Берестейська унія як лінія розлому у вірі
 - Козацький стан, перебудований навколо ради, булави й реєстру
-- Єврейський стан із власними привілеями
+- Єврейські купецькі привілеї міщанського стану
 - 12 лих
 - 2 великі споруди: Запорозька Січ і Паланок
 - Привід до православного походу, васальний тип «київське князівство»

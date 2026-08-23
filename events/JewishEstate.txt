@@ -1,12 +1,26 @@
 namespace = rip_jewish
 
 country_event = {
-		id = rip_jewish.1
-		title = rip_jewish.1.t
-		desc = rip_jewish.1.d
+	id = rip_jewish.1
+	title = rip_jewish.1.t
+	desc = rip_jewish.1.d
 	picture = rip_gfx_event_jewish_estate_invite_merchants_eventPicture
 
 	trigger = {
+		OR = {
+			tag = POL
+			tag = LIT
+			tag = PLC
+			tag = HLC
+			tag = VOL
+			tag = VLN
+			tag = KRU
+			tag = HET
+			tag = PRL
+			tag = PDL
+			tag = KUY
+			tag = UKR
+		}
 		OR = {
 			any_owned_province = { religion = jewish }
 			any_owned_province = {
@@ -31,8 +45,8 @@ country_event = {
 		}
 	}
 
-		option = {
-			name = rip_jewish.1.a # Invite and guarantee protections
+	option = {
+		name = rip_jewish.1.a # Invite and guarantee protections
 		set_country_flag = rip_jewish_estate_resolved
 		add_country_modifier = {
 			name = jewish_merchant_charters
@@ -49,8 +63,8 @@ country_event = {
 		}
 	}
 
-		option = {
-			name = rip_jewish.1.b # Restrict charters
+	option = {
+		name = rip_jewish.1.b # Restrict charters
 		set_country_flag = rip_jewish_estate_resolved
 		add_country_modifier = {
 			name = jewish_communities_restricted

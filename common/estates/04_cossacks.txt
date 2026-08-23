@@ -1,8 +1,9 @@
-#   force.
 estate_cossacks = {
 	icon = 4
 
+	# Used for when declaring independence
 	independence_government = republic
+	# RIP - independent Cossack estates use the mod's compatible base reform.
 	starting_reform = rip_cossacks_reform
 	independence_tech_group = eastern
 
@@ -37,6 +38,7 @@ estate_cossacks = {
 		}
 	}
 
+	# If true, country will get estate
 
 	trigger = {
 		has_dlc = "The Cossacks"
@@ -60,6 +62,7 @@ estate_cossacks = {
 					}
 				}
 				NOT = { has_government_attribute = is_pirate_republic_reform }
+				#NOT = { has_reform = cossacks_reform }
 				NOT = { is_revolutionary_republic_trigger = yes }
 				NOT = { government = native }
 				NOT = { has_reform = siberian_tribe }
@@ -69,8 +72,12 @@ estate_cossacks = {
 				NOT = { has_reform = revolutionary_empire_reform }
 			}
 		}
+		#NOT = { has_government_attribute = is_merchant_republic }
+		#NOT = { has_reform = trading_city }
+		#NOT = { has_reform = veche_republic }
 	}
 
+	# These scale with loyalty & power
 	country_modifier_happy = {
 		cavalry_cost = -0.2
 		cavalry_power = 0.2
@@ -88,6 +95,7 @@ estate_cossacks = {
 		cossacks_loyalty_modifier = 0.2
 	}
 
+	# Influence modifiers
 	base_influence = 0
 	influence_modifier = {
 		desc = EST_STEPPE_PROVINCES
@@ -132,12 +140,15 @@ estate_cossacks = {
 		estate_cossacks_exempt_from_bureaucracy
 		estate_cossacks_military_service
 		estate_cossacks_expand_cossacks_raiders
+		# RIP - CHR
 		estate_cossacks_chr_starshyna_collegium
+		# RIP - HET
+		estate_cossacks_het_registered_host
+		# RIP - ZAZ
 		estate_cossacks_zaz_sich_rada
 		estate_cossacks_zaz_chaiky_raids
 		estate_cossacks_zaz_free_steppe
 		estate_cossacks_zaz_wild_field
-		estate_cossacks_het_registered_host
 	}
 
 	agendas = {

@@ -1,7 +1,7 @@
-#   pressure.
 estate_church = {
 	icon = 1
 
+	# If true, country will get estate
 	trigger = {
 		NOT = { has_government_attribute = disables_estate_church }
 		NOT = { has_disabled_estate = { estate = estate_church } }
@@ -32,8 +32,16 @@ estate_church = {
 				is_colonial_nation = no
 			}
 		}
+		#NOT = { has_government_attribute = is_merchant_republic }
+		#NOT = { has_reform = veche_republic }
+		#NOT = { has_reform = trading_city }
+		#OR = {
+		#	NOT = { has_reform = celestial_empire }
+		#	has_dlc = "Mandate of Heaven"
+		#}
 	}
 
+	# These scale with loyalty & power
 	country_modifier_happy = {
 		global_tax_modifier = 0.2
 		papal_influence = 1
@@ -79,6 +87,7 @@ estate_church = {
 		}
 	}
 
+	# Influence modifiers
 	base_influence = 10
 	influence_modifier = {
 		desc = EST_VAL_SHARIFS
@@ -253,6 +262,13 @@ estate_church = {
 		}
 	}
 	custom_name = {
+		desc = HORDE_SHAMANS
+		trigger = {
+			has_country_flag = hordes_devout_tengri_completion_flag
+			religion = tengri_pagan_reformed
+		}
+	}
+	custom_name = {
 		desc = estate_gurus
 		trigger = {
 			religion = sikhism
@@ -370,10 +386,6 @@ estate_church = {
 
 	privileges = {
 		estate_church_land_rights
-		# The piety axis of the two eastern-rite faiths - see
-		# common/estate_privileges/RIP_orthodox_zeal_privileges.txt
-		rip_privilege_josephite_discipline
-		rip_privilege_nonpossessor_rule
 		estate_church_papal_emissary
 		estate_church_religious_state
 		estate_church_independent_inquisition
@@ -429,7 +441,12 @@ estate_church = {
 		estate_church_TIM_yasa_supremacy
 		estate_church_TIM_promote_ijazah
 		estate_church_MUG_promote_divine_religion
+		# RIP - shared Eastern-rite privileges
+		rip_privilege_josephite_discipline
+		rip_privilege_nonpossessor_rule
+		# RIP - CHR
 		estate_church_chr_chernihiv_collegium
+		# RIP - HET
 		estate_church_het_academy
 	}
 

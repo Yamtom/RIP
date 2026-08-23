@@ -1,8 +1,4 @@
-# Privileges of the magnates. Six, which is what the estate lists.
-#
-# Every one of these is a thing the Commonwealth's magnates actually held or
-# actually demanded, and every one costs the crown something it would rather
-# keep: land, absolutism, or the right to raise soldiers.
+# RIP - Shared Magnates estate privileges.
 
 estate_magnates_land_rights = {
 	icon = privilege_land_rights
@@ -97,6 +93,7 @@ estate_magnates_supremacy_over_szlachta = {
 
 	is_valid = {
 		has_estate = estate_magnates
+		has_estate = estate_nobles
 	}
 	can_select = {
 		has_estate = estate_magnates
@@ -146,8 +143,6 @@ estate_magnates_anti_absolutism = {
 	}
 }
 
-# The one privilege that is about the mod's own subject: the magnates buying
-# out the register, which is how the Cossack question became a Cossack war.
 estate_magnates_curtail_cossacks = {
 	icon = privilege_revoke
 	max_absolutism = 5
@@ -156,9 +151,11 @@ estate_magnates_curtail_cossacks = {
 
 	is_valid = {
 		has_estate = estate_magnates
+		has_estate = estate_cossacks
 	}
 	can_select = {
 		has_estate = estate_magnates
+		has_estate = estate_cossacks
 	}
 
 	penalties = {
@@ -175,9 +172,5 @@ estate_magnates_curtail_cossacks = {
 
 	ai_will_do = {
 		factor = 1
-		modifier = {
-			factor = 0
-			has_estate = estate_cossacks
-		}
 	}
 }

@@ -1,19 +1,5 @@
-# The magnates.
-#
-# The mod already had magnate government reforms - hlc_magnate_assembly_reform,
-# pdl_magnate_republic_reform, pdl_magnate_dominion_reform - and no magnates.
-# The whole union quarrel in decisions/UnionDispute.txt turns on them: the men
-# who bought land in Volhynia before Lublin moved it, who kept the Statute's
-# offices for their own families, and who signed at Kedainiai when the Crown
-# could not pay.
-#
-# This is a NEW estate in a new file. It does not override any vanilla estate
-# file, and the four the mod already overrides - church, nobility, burghers,
-# cossacks - are untouched.
-#
-# Where WFAS gates its magnates on tag = PLC/POL plus elective monarchy, this
-# one also admits the Ruthenian palatinates that carry a magnate reform, because
-# that is where the mod actually lives.
+# RIP - Shared Magnates estate.
+# Country access is grouped below: Commonwealth, Halych, Podillia, Volhynia.
 
 estate_magnates = {
 	# Frame index into GFX_estates_icons, which vanilla declares with
@@ -27,6 +13,7 @@ estate_magnates = {
 
 	trigger = {
 		OR = {
+			# Commonwealth crowns
 			AND = {
 				OR = {
 					tag = PLC
@@ -41,9 +28,12 @@ estate_magnates = {
 					has_reform = lit_separate_crown_reform
 				}
 			}
+			# Halych
 			has_reform = hlc_magnate_assembly_reform
+			# Podillia
 			has_reform = pdl_magnate_republic_reform
 			has_reform = pdl_magnate_dominion_reform
+			# Volhynia
 			has_reform = vln_voivode_council
 		}
 		NOT = { has_estate = estate_vaisyas }
@@ -95,7 +85,6 @@ estate_magnates = {
 	}
 
 	base_influence = 10
-	influence_from_dev_modifier = 1
 
 	influence_modifier = {
 		desc = EST_HIGH_DEVELOPMENT_PROVINCE
@@ -152,4 +141,6 @@ estate_magnates = {
 		estate_magnates_agenda_develop_latifundium
 		estate_magnates_agenda_hire_advisor
 	}
+
+	influence_from_dev_modifier = 1
 }
