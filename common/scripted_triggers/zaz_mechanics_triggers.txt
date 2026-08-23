@@ -11,7 +11,10 @@ is_zaporozhian_nation = {
 is_hetmanate_nation = {
 	OR = {
 		tag = HET
-		has_country_modifier = hetmanate_capital
+		AND = {
+			owns = 280
+			280 = { has_province_modifier = hetmanate_capital }
+		}
 	}
 }
 

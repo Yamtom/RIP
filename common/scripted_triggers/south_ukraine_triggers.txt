@@ -79,8 +79,13 @@ su_is_secondary_process_owner = {
 su_has_existing_chumak_stack = {
 	OR = {
 		has_country_modifier = chumak_salt_trade
-		has_country_modifier = west_ukr_chumak_trade
-		has_country_modifier = VOL_chumak_modifier
+		has_country_modifier = zaz_dniester_chumak_route
+		any_owned_province = {
+			OR = {
+				has_province_modifier = west_ukr_chumak_trade
+				has_province_modifier = VOL_chumak_modifier
+			}
+		}
 	}
 }
 
