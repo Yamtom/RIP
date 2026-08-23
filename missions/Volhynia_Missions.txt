@@ -1785,7 +1785,27 @@ VLN_alt_history_galician_synergy = {
 			if = {
 				limit = { HLC = { hlc_has_confessional_settlement = yes } }
 				set_country_flag = rip_vol_confessional_allied
-				add_church_power = 50
+				if = {
+					limit = {
+						OR = {
+							religion = orthodox
+							religion = russian_orthodox
+							religion = greek_catholic
+						}
+					}
+					add_patriarch_authority = 0.1
+				}
+				else_if = {
+					limit = {
+						OR = {
+							religion = protestant
+							religion = anglican
+							religion = hussite
+							religion = jewish
+						}
+					}
+					add_church_power = 50
+				}
 				add_papal_influence = 25
 			}
 			country_event = {
@@ -2769,7 +2789,27 @@ VOL_synergy_missions_slot5 = {
 			}
 			else_if = {
 				limit = { west_ukraine_constitutional_path = yes }
-				add_church_power = 50
+				if = {
+					limit = {
+						OR = {
+							religion = orthodox
+							religion = russian_orthodox
+							religion = greek_catholic
+						}
+					}
+					add_patriarch_authority = 0.1
+				}
+				else_if = {
+					limit = {
+						OR = {
+							religion = protestant
+							religion = anglican
+							religion = hussite
+							religion = jewish
+						}
+					}
+					add_church_power = 50
+				}
 			}
 		}
 	}

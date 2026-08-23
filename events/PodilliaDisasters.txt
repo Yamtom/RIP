@@ -748,8 +748,31 @@ country_event = {
 			estate = estate_dhimmi
 			loyalty = -15
 		}
-		add_papal_influence = 15
-		add_church_power = 25
+		if = {
+			limit = { religion = catholic }
+			add_papal_influence = 15
+		}
+		else_if = {
+			limit = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+					religion = greek_catholic
+				}
+			}
+			add_patriarch_authority = 0.05
+		}
+		else_if = {
+			limit = {
+				OR = {
+					religion = protestant
+					religion = anglican
+					religion = hussite
+					religion = jewish
+				}
+			}
+			add_church_power = 25
+		}
 		add_disaster_progress = {
 			disaster = podillia_jewish_emancipation
 			value = -10

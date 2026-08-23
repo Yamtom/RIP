@@ -75,7 +75,7 @@ country_event = {
 			who = FROM
 			modifier = joined_orthodox_crusade
 		}
-		add_church_power = 25
+		add_patriarch_authority = 0.05
 	}
 	
 	option = { # Refuse but support spiritually
@@ -84,7 +84,7 @@ country_event = {
 			factor = 30
 		}
 		
-		add_church_power = 10
+		add_patriarch_authority = 0.02
 		add_prestige = 5
 	}
 	
@@ -153,7 +153,7 @@ country_event = {
 		name = orthodox_crusade.4.a
 		
 		add_army_tradition = 5
-		add_church_power = 25
+		add_patriarch_authority = 0.05
 		add_war_exhaustion = -1
 	}
 }
@@ -176,12 +176,11 @@ country_event = {
 		add_adm_power = 100
 		add_dip_power = 100
 		add_mil_power = 100
-		add_church_power = 200
-
+		add_patriarch_authority = 0.4
 		if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 20 } }
 			add_prestige = 35
-			add_church_power = 75
+			add_patriarch_authority = 0.15
 			add_country_modifier = {
 				name = crusade_contributor_gold
 				duration = 7300
@@ -190,7 +189,7 @@ country_event = {
 		else_if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 12 } }
 			add_prestige = 20
-			add_church_power = 50
+			add_patriarch_authority = 0.1
 			add_country_modifier = {
 				name = crusade_contributor_silver
 				duration = 5475
@@ -199,7 +198,7 @@ country_event = {
 		else_if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 6 } }
 			add_prestige = 10
-			add_church_power = 25
+			add_patriarch_authority = 0.05
 			add_country_modifier = {
 				name = crusade_contributor_bronze
 				duration = 3650
@@ -256,7 +255,7 @@ country_event = {
 		
 		add_prestige = -50
 		add_legitimacy_equivalent = { amount = -10 }
-		add_church_power = -50
+		add_patriarch_authority = -0.1
 		set_variable = { which = orthodox_crusade_contribution value = 0 }
 		
 		add_country_modifier = {
@@ -291,7 +290,7 @@ country_event = {
 		if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 20 } }
 			add_prestige = 35
-			add_church_power = 75
+			add_patriarch_authority = 0.15
 			add_country_modifier = {
 				name = crusade_contributor_gold
 				duration = 7300
@@ -300,7 +299,7 @@ country_event = {
 		else_if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 12 } }
 			add_prestige = 20
-			add_church_power = 50
+			add_patriarch_authority = 0.1
 			add_country_modifier = {
 				name = crusade_contributor_silver
 				duration = 5475
@@ -309,7 +308,7 @@ country_event = {
 		else_if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 6 } }
 			add_prestige = 10
-			add_church_power = 25
+			add_patriarch_authority = 0.05
 			add_country_modifier = {
 				name = crusade_contributor_bronze
 				duration = 3650
@@ -333,7 +332,7 @@ country_event = {
 		name = orthodox_crusade.8.a
 		
 		add_prestige = -20
-		add_church_power = -25
+		add_patriarch_authority = -0.05
 		set_variable = { which = orthodox_crusade_contribution value = 0 }
 		
 		remove_country_modifier = orthodox_crusade_participant
@@ -394,7 +393,7 @@ country_event = {
 	option = { # The faithful are inspired
 		name = orthodox_crusade.10.a
 		
-		add_church_power = 50
+		add_patriarch_authority = 0.1
 		add_stability_or_adm_power = yes
 		
 		random_owned_province = {
@@ -477,7 +476,7 @@ country_event = {
 			who = FROM
 			modifier = joined_orthodox_crusade
 		}
-		add_church_power = 50
+		add_patriarch_authority = 0.1
 	}
 	
 	option = { # Refuse but support spiritually
@@ -486,7 +485,7 @@ country_event = {
 			factor = 35
 		}
 		
-		add_church_power = 15
+		add_patriarch_authority = 0.03
 		add_prestige = 5
 	}
 	
@@ -555,7 +554,7 @@ country_event = {
 		name = orthodox_crusade.14.a
 		
 		add_army_tradition = 10
-		add_church_power = 50
+		add_patriarch_authority = 0.1
 		add_war_exhaustion = -2
 	}
 }
@@ -578,12 +577,11 @@ country_event = {
 		add_adm_power = 80
 		add_dip_power = 80
 		add_mil_power = 80
-		add_church_power = 120
-
+		add_patriarch_authority = 0.24
 		if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 20 } }
 			add_prestige = 25
-			add_church_power = 45
+			add_patriarch_authority = 0.09
 			add_country_modifier = {
 				name = crusade_contributor_gold
 				duration = 7300
@@ -592,7 +590,7 @@ country_event = {
 		else_if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 12 } }
 			add_prestige = 15
-			add_church_power = 30
+			add_patriarch_authority = 0.06
 			add_country_modifier = {
 				name = crusade_contributor_silver
 				duration = 5475
@@ -601,7 +599,7 @@ country_event = {
 		else_if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 6 } }
 			add_prestige = 8
-			add_church_power = 15
+			add_patriarch_authority = 0.03
 			add_country_modifier = {
 				name = crusade_contributor_bronze
 				duration = 3650
@@ -650,7 +648,7 @@ country_event = {
 		
 		add_prestige = -75
 		add_legitimacy_equivalent = { amount = -15 }
-		add_church_power = -100
+		add_patriarch_authority = -0.2
 		set_variable = { which = orthodox_crusade_contribution value = 0 }
 		
 		add_country_modifier = {
@@ -685,7 +683,7 @@ country_event = {
 		if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 20 } }
 			add_prestige = 35
-			add_church_power = 75
+			add_patriarch_authority = 0.15
 			add_country_modifier = {
 				name = crusade_contributor_gold
 				duration = 7300
@@ -694,7 +692,7 @@ country_event = {
 		else_if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 12 } }
 			add_prestige = 20
-			add_church_power = 50
+			add_patriarch_authority = 0.1
 			add_country_modifier = {
 				name = crusade_contributor_silver
 				duration = 5475
@@ -703,7 +701,7 @@ country_event = {
 		else_if = {
 			limit = { check_variable = { which = orthodox_crusade_contribution value = 6 } }
 			add_prestige = 10
-			add_church_power = 25
+			add_patriarch_authority = 0.05
 			add_country_modifier = {
 				name = crusade_contributor_bronze
 				duration = 3650
@@ -727,7 +725,7 @@ country_event = {
 		name = orthodox_crusade.18.a
 		
 		add_prestige = -30
-		add_church_power = -50
+		add_patriarch_authority = -0.1
 		set_variable = { which = orthodox_crusade_contribution value = 0 }
 		
 		remove_country_modifier = orthodox_crusade_participant
@@ -762,7 +760,7 @@ country_event = {
 	option = { # Welcome the pilgrims
 		name = orthodox_crusade.19.a
 		
-		add_church_power = 50
+		add_patriarch_authority = 0.1
 		add_prestige = 15
 		379 = {
 			add_base_tax = 1
@@ -791,7 +789,7 @@ country_event = {
 	option = { # United in faith
 		name = orthodox_crusade.20.a
 		
-		add_church_power = 25
+		add_patriarch_authority = 0.05
 		add_stability_or_adm_power = yes
 		
 		every_country = {

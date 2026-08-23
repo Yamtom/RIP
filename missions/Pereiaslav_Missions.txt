@@ -348,7 +348,27 @@ prl_missions_4 = {
 				name = prl_orthodox_center
 				duration = 9125
 			}
-			add_church_power = 50
+			if = {
+				limit = {
+					OR = {
+						religion = orthodox
+						religion = russian_orthodox
+						religion = greek_catholic
+					}
+				}
+				add_patriarch_authority = 0.1
+			}
+			else_if = {
+				limit = {
+					OR = {
+						religion = protestant
+						religion = anglican
+						religion = hussite
+						religion = jewish
+					}
+				}
+				add_church_power = 50
+			}
 		}
 	}
 	
@@ -372,7 +392,27 @@ prl_missions_4 = {
 				name = prl_monastic_network
 				duration = 9125
 			}
-			add_patriarch_authority = 0.1
+			if = {
+				limit = {
+					OR = {
+						religion = orthodox
+						religion = russian_orthodox
+						religion = greek_catholic
+					}
+				}
+				add_patriarch_authority = 0.1
+			}
+			else_if = {
+				limit = {
+					OR = {
+						religion = protestant
+						religion = anglican
+						religion = hussite
+						religion = jewish
+					}
+				}
+				add_church_power = 50
+			}
 		}
 	}
 	
