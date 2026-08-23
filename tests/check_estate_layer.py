@@ -99,6 +99,7 @@ CUSTOM_SCRIPT_FILES = (
     "common/estate_privileges/RIP_orthodox_zeal_privileges.txt",
     "common/estate_privileges/RIP_shared_jewish_privileges.txt",
     "common/estates/RIP_magnates.txt",
+    "common/estates_preload/RIP_magnates_modifiers.txt",
 )
 
 
@@ -266,6 +267,26 @@ def check_style_and_dependencies(failures: list[str]) -> None:
     require(failures, len(re.findall(r"(?m)^rip_estate_mood_effect\s*=\s*\{", effects)) == 1,
             "rip_estate_mood_effect is not defined exactly once")
 
+    preload = read("common/estates_preload/RIP_magnates_modifiers.txt")
+    require(failures, top_level_keys(preload) == {"estate_magnates"},
+            "Magnates estates_preload ownership drifted")
+    preload_block = named_block(preload, "estate_magnates")
+    definitions = [normalized(block) for _, block in keyed_blocks(preload_block, "modifier_definition")]
+    for modifier_type, key in (
+        ("loyalty", "magnates_loyalty_modifier"),
+        ("influence", "magnates_influence_modifier"),
+        ("privileges", "magnates_privilege_slots"),
+    ):
+        matches = [block for block in definitions
+                   if f"type = {modifier_type}" in block and f"key = {key}" in block]
+        require(failures, len(matches) == 1 and "has_estate = estate_magnates" in matches[0],
+                f"Magnates estates_preload registration is invalid: {key}")
+
+    magnates = named_block(read("common/estates/RIP_magnates.txt"), "estate_magnates")
+    land_modifier = named_block(magnates, "land_ownership_modifier")
+    require(failures, "magnates_loyalty_modifier = 0.2" in normalized(land_modifier),
+            "Magnates land ownership does not use its registered loyalty modifier")
+
     gfx = read("interface/rip_privilege_icons.gfx")
     for key in ("tax_farmers", "loan_banks", "kahal_autonomy", "black_sea_network"):
         sprite = f"rip_gfx_privilege_jewish_{key}_icon"
@@ -283,6 +304,9 @@ def check_localisation(failures: list[str], keys: set[str]) -> None:
         for suffix in ("", "_desc"):
             require(failures, key + suffix in loc_keys,
                     f"English localisation missing: {key + suffix}")
+    for key in ("magnates_loyalty_modifier", "magnates_influence_modifier",
+                "magnates_privilege_slots", "desc_lit_offices_closed"):
+        require(failures, key in loc_keys, f"English localisation missing: {key}")
 
 
 def main() -> int:
