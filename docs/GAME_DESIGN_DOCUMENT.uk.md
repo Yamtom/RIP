@@ -201,7 +201,7 @@ Orthodox Crusade; Dniester, Moldova, South Ukraine та eastward expansion.
 
 | Категорія | Поточний обсяг |
 | --- | ---: |
-| Урядові реформи | 85 |
+| Урядові реформи | 107 |
 | Групи національних ідей | 18 |
 | Disasters | 12 |
 | Religions | 2 |
@@ -211,6 +211,9 @@ Orthodox Crusade; Dniester, Moldova, South Ukraine та eastward expansion.
 | Великі споруди | 2 |
 | Типи васалітету | 1 (`princedom`) |
 | Приводи до війни й воєнні цілі | 2 / 2 |
+
+Повна карта тегів, тірів, взаємовиключних шляхів і переходів між реформами:
+[GOVERNMENT_REFORMS_MAP.uk.md](GOVERNMENT_REFORMS_MAP.uk.md).
 | Описи подієвих модифікаторів | 1054 (1028 неповторних ID) |
 | Локалізація | 42 файли, 8728 рядків-ключів; 8486 зі звичним відступом |
 | Зображення | 23 TGA, 18 DDS, 6 файлів інтерфейсу, обкладинка |

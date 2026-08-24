@@ -167,7 +167,6 @@ python tests/check_docs_language.py
 | `common/scripted_triggers/zaz_het_triggers.txt:267` | `2408` | Lipetsk | Sumy |
 | `missions/Podillia_Missions.txt:158` | `4749` | Штаргард | «Example province in Pontic Steppe» |
 | `missions/Podillia_Missions.txt:159` | `4750` | Круя | «Add more Pontic Steppe province IDs as needed» |
-| `missions/Zakarpatta_Missions.txt:761` | `2960` | Sadecki | Novi Sad |
 | `missions/zzz_Hetmanate_Missions.txt:587` | `153` | Pest | Dobruja |
 | `decisions/Podillia_Decisions.txt:786` | `280` | Kiev | Halych |
 | `decisions/Podillia_Decisions.txt:787` | `282` | Yedisan | Lutsk |

@@ -23,7 +23,7 @@
 
 Ванільна `grand_duchy_reform` — заглушка: один модифікатор
 (`governing_capacity = 200`) і жодного слова про те, чим князівство було.
-`common/government_reforms/RIP_lit_grand_duchy.txt` **перекриває її за ключем**,
+`common/government_reforms/RIP_LIT_government_reforms.txt` **перекриває її за ключем**,
 тож усе, що вже перевіряє `has_reform = grand_duchy_reform` (ванільні місії
 Литви), працює далі, а на реформу навішано драбину власних установ.
 
@@ -31,7 +31,7 @@
 |---|---|---|---|
 | 1 | `grand_duchy_reform` | саме князівство | governing capacity 200, дві прийняті культури, кіннота, менший неспокій, +5% автономії |
 | 2 | `lit_pany_rada_reform` | пани-рада, рада панів | вірність і вплив шляхти, дешевші радники, `max_absolutism` -10 |
-| 3 | `lit_ruthenian_chancery_reform` | руська канцелярія | дешевші ядра, дешеве просування культур, менша автономія |
+| 3 | `lit_ruthenian_chancery_reform` | руська канцелярія | дешевші ядра й просування культур, +50 governing capacity, менша корупція |
 | 4 | `lit_confessional_guarantee_reform` | гарантія обрядів | віротерпимість до єретиків і чужих, неспокій -2, папський вплив -1 |
 | 5 | `lit_boyar_levy_reform` | боярське ополчення | кіннота, дешеве утримання, людність — ціною піхоти |
 | 6 | `lit_grand_diet_reform` | сейм Великого князівства | податок, дешевша стабільність, менша корупція, парламент |
@@ -162,7 +162,7 @@
 Два, обидва навмисні й позначені в самих файлах:
 
 - **`grand_duchy_reform` за ключем** — реформу переписано в
-  `common/government_reforms/RIP_lit_grand_duchy.txt`. Ім'я реформи лишається
+  `common/government_reforms/RIP_LIT_government_reforms.txt`. Ім'я реформи лишається
   ванільним.
 - **`grand_duchy_reform_desc` у локалізації** — опис мусив описувати нову
   реформу, тож лежить у `localisation/zzz_lit_grand_duchy_override_l_english.yml`.

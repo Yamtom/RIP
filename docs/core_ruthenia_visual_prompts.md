@@ -45,7 +45,7 @@
 
 ## rip_gfx_reform_cossack_host_icon
 
-- Призначення: Government reform icon for `cossacks_reform`.
+- Призначення: Government reform icon for `rip_cossacks_reform`.
 - Нотатки про стиль: Square reform icon, single dominant figure or emblem, painterly EU4 style, readable cavalry-institution identity, no text, no UI.
 - Промпт (англійською): Create a square Europa Universalis IV government reform icon for the Cossack Host, showing a mounted Cossack officer with raised mace and fluttering banner over open steppe, disciplined host rather than a nomad horde, lamellar and cloth detail appropriate to the seventeenth-century Pontic frontier, muted ochre, iron, and deep red palette, strong silhouette, painterly historical style, no text, no border, no interface, no modern objects.
 
