@@ -3,10 +3,7 @@ country_decisions = {
 	het_organize_major_raid = {
 		potential = {
 			tag = HET
-			OR = {
-				has_reform = rip_cossacks_reform
-				mission_completed = het_cossack_host
-			}
+			is_cossack_polity = yes
 			NOT = { has_country_modifier = het_raid_preparation }
 		}
 		allow = {
@@ -35,7 +32,7 @@ country_decisions = {
 	het_deep_penetration_raid = {
 		potential = {
 			tag = HET
-			has_reform = rip_cossacks_reform
+			is_cossack_polity = yes
 			has_country_flag = het_raid_doctrine_unlocked
 			OR = {
 				NOT = { has_country_flag = het_deep_raid_cooldown }
@@ -69,7 +66,7 @@ country_decisions = {
 	het_punitive_expedition = {
 		potential = {
 			tag = HET
-			has_reform = rip_cossacks_reform
+			is_cossack_polity = yes
 		}
 		allow = {
 			is_at_war = yes
@@ -99,7 +96,7 @@ country_decisions = {
 	het_steppe_domination = {
 		potential = {
 			tag = HET
-			has_reform = rip_cossacks_reform
+			is_cossack_polity = yes
 		}
 		provinces_to_highlight = {
 			has_terrain = steppe
@@ -137,7 +134,7 @@ country_decisions = {
 	het_modernize_host = {
 		potential = {
 			tag = HET
-			has_reform = rip_cossacks_reform
+			is_cossack_polity = yes
 			mil_tech = 15
 		}
 		allow = {

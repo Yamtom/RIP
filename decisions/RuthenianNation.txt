@@ -145,10 +145,33 @@ country_decisions = {
 				add_permanent_claim = UKR
 			}
 			add_prestige = 25
+			# Preserve a western Ruthenian constitutional lineage when the
+			# country forms UKR directly instead of passing through VOL.
+			if = {
+				limit = { tag = HLC }
+				set_country_flag = rip_vol_origin_hlc
+			}
+			if = {
+				limit = { tag = VLN }
+				set_country_flag = rip_vol_origin_vln
+			}
+			if = {
+				limit = { tag = PDL }
+				set_country_flag = rip_vol_origin_pdl
+			}
 			change_tag = UKR
-			on_change_tag_effect = yes
 			set_country_flag = formed_ruthenia_flag
 			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+			# A direct HLC-origin formation can replace the Volhynian mission that
+			# normally presents this foundational constitutional choice.
+			if = {
+				limit = {
+					has_country_flag = rip_vol_origin_hlc
+					NOT = { hlc_has_any_path = yes }
+				}
+				country_event = { id = rip_galicia.1 days = 1 }
+			}
 			set_government_rank = 3
 			if = { 
 				limit = { 

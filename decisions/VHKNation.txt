@@ -107,11 +107,20 @@ country_decisions = {
 				limit = { tag = HLC }
 				set_country_flag = rip_vol_origin_hlc
 			}
+			if = {
+				limit = { tag = VLN }
+				set_country_flag = rip_vol_origin_vln
+			}
+			if = {
+				limit = { tag = PDL }
+				set_country_flag = rip_vol_origin_pdl
+			}
 			change_tag = VOL
 			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
 			set_country_flag = rip_vol_missions_synced
 			VOL = {
-				set_capital = 279 
+				set_capital = 279
 			}
 			if = {
 				limit = {

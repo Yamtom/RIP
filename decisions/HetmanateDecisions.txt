@@ -12,7 +12,7 @@ country_decisions = {
 		}
 		allow = {
 			adm_power = 100
-			legitimacy = 60
+			republican_tradition = 60
 			stability = 1
 			is_at_war = no
 		}
@@ -25,7 +25,7 @@ country_decisions = {
 			factor = 1
 			modifier = {
 				factor = 2
-				NOT = { legitimacy = 75 }
+				NOT = { republican_tradition = 75 }
 			}
 		}
 	}
@@ -68,6 +68,7 @@ country_decisions = {
 		major = yes
 		potential = {
 			tag = HET
+			government = republic
 			NOT = { has_country_flag = regiments_established }
 			NOT = { has_reform = het_regimental_system_reform }
 			num_of_cities = 5
@@ -98,11 +99,12 @@ country_decisions = {
 				}
 				het_establish_regiment_effect = yes
 			}
+			set_country_flag = regiments_established
+			add_government_reform = het_regimental_system_reform
 			add_country_modifier = {
 				name = "het_regimental_administration"
-				duration = -1
+				duration = 7300
 			}
-			set_country_flag = regiments_established
 		}
 		ai_will_do = {
 			factor = 1
@@ -116,6 +118,7 @@ country_decisions = {
 	het_expand_academy = {
 		potential = {
 			tag = HET
+			government = republic
 			owns = 280  # Kyiv
 			NOT = { has_country_flag = academy_expanded }
 			OR = {
@@ -184,6 +187,7 @@ country_decisions = {
 				add_base_tax = 2
 			}
 			set_country_flag = academy_expanded
+			add_government_reform = het_academy_enlightenment_reform
 		}
 		ai_will_do = {
 			factor = 1
@@ -548,6 +552,7 @@ country_decisions = {
 	het_reform_elections = {
 		potential = {
 			tag = HET
+			government = republic
 			NOT = { has_country_flag = elections_reformed }
 			NOT = { has_reform = het_collegium_control_reform }
 		}

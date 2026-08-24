@@ -5,10 +5,7 @@ country_decisions = {
 		major = yes
 		potential = {
 			primary_culture = ruthenian
-			OR = {
-				has_reform = rip_cossacks_reform
-				has_reform = zaz_sich_brotherhood_reform
-			}
+			is_cossack_polity = yes
 			NOT = { has_country_flag = declared_cossack_host }
 			NOT = { tag = HET }  # Hetmanate has separate path
 		}
@@ -35,7 +32,7 @@ country_decisions = {
 				}
 			}
 			if = {
-				limit = { government_rank = 1 }
+				limit = { NOT = { government_rank = 2 } }
 				set_government_rank = 2
 			}
 		}

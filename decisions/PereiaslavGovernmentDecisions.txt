@@ -1,0 +1,39 @@
+country_decisions = {
+	prl_establish_regimental_republic = {
+		major = yes
+		potential = {
+			tag = PRL
+			government = monarchy
+			has_country_flag = prl_regimental_republic_unlocked
+			NOT = { has_country_flag = prl_regimental_republic_established }
+		}
+		allow = {
+			is_at_war = no
+			stability = 1
+			num_of_cities = 5
+			army_tradition = 30
+			adm_power = 100
+			mil_power = 100
+		}
+		effect = {
+			add_adm_power = -100
+			add_mil_power = -100
+			set_country_flag = prl_regimental_republic_established
+			change_government = republic
+			add_government_reform = prl_regimental_republic_reform
+			add_republican_tradition = 20
+			add_prestige = 10
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				army_tradition = 50
+			}
+			modifier = {
+				factor = 0.5
+				legitimacy = 80
+			}
+		}
+	}
+}

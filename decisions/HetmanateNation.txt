@@ -13,8 +13,11 @@ country_decisions = {
 				is_playing_custom_nation = no
 			}
 			OR = {
-				tag = ZAZ
 				tag = PRL
+				AND = {
+					tag = ZAZ
+					government = republic
+				}
 			}
 			NOT = { has_reform = celestial_empire }
 			NOT = { exists = HET }
@@ -109,6 +112,20 @@ country_decisions = {
 			}
 			change_tag = HET
 			if = {
+				limit = {
+					has_country_flag = rip_hetmanate_origin_prl
+					NOT = { government = republic }
+				}
+				change_government = republic
+			}
+			if = {
+				limit = {
+					has_country_flag = rip_hetmanate_origin_prl
+					NOT = { has_reform = rip_cossacks_reform }
+				}
+				add_government_reform = rip_cossacks_reform
+			}
+			if = {
 				limit = { has_country_flag = rip_preserve_zaz_sich_brotherhood_reform }
 				add_government_reform = zaz_sich_brotherhood_reform
 				clr_country_flag = rip_preserve_zaz_sich_brotherhood_reform
@@ -156,6 +173,7 @@ country_decisions = {
 				set_government_rank = 3
 			}
 			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
 			set_country_flag = rip_hetmanate_missions_synced
 		}
 
