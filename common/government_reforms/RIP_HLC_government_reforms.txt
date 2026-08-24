@@ -1,0 +1,432 @@
+# =============================================================================
+# RIP_HLC_government_reforms
+# Definitions are grouped by polity or by an explicitly shared reform family.
+# =============================================================================
+
+hlc_galician_voivodeship_reform = {
+	icon = "assembly_hall"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		OR = {
+			tag = HLC
+			has_reform = hlc_galician_voivodeship_reform
+		}
+	}
+	trigger = {
+		OR = {
+			tag = HLC
+			has_reform = hlc_galician_voivodeship_reform
+		}
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.05
+		state_maintenance_modifier = -0.10
+		global_unrest = -0.5
+		diplomatic_reputation = 0.5
+		max_absolutism = -5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_magnate_assembly_reform = {
+	icon = "states_general"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			tag = HLC
+			has_reform = hlc_magnate_assembly_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_magnate_assembly_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		prestige = 1
+		stability_cost_modifier = -0.10
+		max_absolutism = -10
+		yearly_absolutism = -0.25
+		monthly_reform_progress = 0.05
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+		}
+		is_elective = yes
+		custom_attributes = {
+			has_polish_election = yes
+		}
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_centralized_voivodeship_reform = {
+	icon = "provincial_government"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			tag = HLC
+			has_reform = hlc_centralized_voivodeship_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_centralized_voivodeship_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_austria_req_tt
+					hlc_has_austria_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		development_cost = -0.05
+		state_maintenance_modifier = -0.10
+		administrative_efficiency = 0.025
+		max_absolutism = 5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_galician_sejm_reform = {
+	icon = "assembly_hall"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			tag = HLC
+			has_reform = hlc_galician_sejm_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_galician_sejm_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		free_adm_policy = 1
+		envoy_travel_time = -0.15
+		reform_progress_growth = 0.25
+		stability_cost_modifier = -0.10
+		max_absolutism = -10
+		global_unrest = -1
+	}
+	effect = {
+		add_country_modifier = {
+			name = galician_sejm_assembly
+			duration = -1
+		}
+	}
+	removed_effect = {
+		remove_country_modifier = galician_sejm_assembly
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
+		}
+		has_parliament = yes
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_austrian_bureaucracy_reform = {
+	icon = "royal_court"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			tag = HLC
+			has_reform = hlc_austrian_bureaucracy_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_austrian_bureaucracy_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_austria_req_tt
+					hlc_has_austria_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		advisor_cost = -0.10
+		meritocracy = 0.25
+		governing_capacity_modifier = 0.05
+		monthly_reform_progress = 0.10
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
+		}
+		has_parliament = yes
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_merchant_privileges_reform = {
+	icon = "merchant_aristocracy_reform"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			tag = HLC
+			has_reform = hlc_merchant_privileges_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_merchant_privileges_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_constitution_done_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		trade_efficiency = 0.10
+		trade_steering = 0.05
+		merchants = 1
+		global_own_trade_power = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_confessional_dualism_reform = {
+	icon = "holy_state_reform"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			tag = HLC
+			has_reform = hlc_confessional_dualism_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_confessional_dualism_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_confessional_dualism_confessional_req_tt
+					hlc_has_confessional_settlement = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		tolerance_heretic = 3
+		tolerance_heathen = 2
+		religious_unity = 0.25
+		stability_cost_modifier = -0.10
+		prestige = 0.5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_crown_authority_reform = {
+	icon = "paper_with_seal"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			tag = HLC
+			has_reform = hlc_crown_authority_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_crown_authority_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_austria_req_tt
+					hlc_has_austria_path = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_constitution_done_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		max_absolutism = 5
+		yearly_absolutism = 0.25
+		diplomatic_reputation = 0.5
+		stability_cost_modifier = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_crown_and_sejm_reform = {
+	icon = "crown"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			tag = HLC
+			has_reform = hlc_crown_and_sejm_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_crown_and_sejm_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_crown_and_sejm_constitution_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		max_absolutism = 10
+		reform_progress_growth = 0.15
+		administrative_efficiency = 0.05
+		global_tax_modifier = 0.10
+		stability_cost_modifier = -0.10
+		legitimacy = 1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_enlightened_monarchy_reform = {
+	icon = "enlightened_monarchy_reform"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			tag = HLC
+			has_reform = hlc_enlightened_monarchy_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_enlightened_monarchy_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_constitution_done_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		global_unrest = -2
+		meritocracy = 0.25
+		culture_conversion_cost = -0.10
+		development_cost = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_military_modernization_reform = {
+	icon = "cavalry"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			tag = HLC
+			has_reform = hlc_military_modernization_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_military_modernization_reform
+			AND = {
+				tag = HLC
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_austria_req_tt
+					hlc_has_austria_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		cavalry_cost = -0.10
+		cavalry_power = 0.10
+		morale_damage = 0.05
+		cavalry_flanking = 0.25
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}

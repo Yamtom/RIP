@@ -1,0 +1,400 @@
+# =============================================================================
+# RIP_PDL_government_reforms
+# Definitions are grouped by polity or by an explicitly shared reform family.
+# =============================================================================
+
+pdl_clan_assembly_reform = {
+	icon = "tribal_council"
+	allow_normal_conversion = no
+	valid_for_nation_designer = yes
+	valid_for_new_country = yes
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		global_unrest = -1
+		land_forcelimit_modifier = 0.10
+		global_manpower_modifier = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 5
+	}
+}
+
+pdl_steppe_principality_reform = {
+	icon = "russian_principality"
+	allow_normal_conversion = no
+	valid_for_nation_designer = yes
+	valid_for_new_country = yes
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.10
+		global_unrest = -1
+		cavalry_cost = -0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 6
+	}
+}
+
+pdl_voivodeship_kingdom_reform = {
+	icon = "crown_highlighted"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.15
+		reform_progress_growth = 0.15
+		state_maintenance_modifier = -0.10
+		diplomatic_reputation = 0.5
+		global_unrest = -1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+pdl_palatine_court_reform = {
+	icon = "royal_court"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		diplomatic_reputation = 1
+		nobles_influence_modifier = 0.15
+		governing_capacity_modifier = 0.20
+		state_maintenance_modifier = -0.10
+		global_unrest = -1.5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 8
+	}
+}
+
+pdl_aristocratic_assembly_reform = {
+	icon = "states_general"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		nobles_influence_modifier = 0.25
+		stability_cost_modifier = -0.15
+		governing_capacity_modifier = 0.25
+		max_absolutism = -10
+		global_unrest = -1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 9
+	}
+}
+
+pdl_magnate_republic_reform = {
+	icon = "merchant_representation_reform"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		global_tax_modifier = 0.10
+		trade_efficiency = 0.10
+		merchants = 1
+		nobles_influence_modifier = 0.10
+		max_absolutism = -20
+	}
+	start_territory_to_estates = 0.25
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 8
+	}
+}
+
+pdl_frontier_voivodeship_reform = {
+	icon = "assembly_hall"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.15
+		reform_progress_growth = 0.15
+		state_maintenance_modifier = -0.10
+		diplomatic_reputation = 0.5
+		global_unrest = -1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+pdl_carpathian_bastion_reform = {
+	icon = "mountain_fort"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		fort_maintenance_modifier = -0.20
+		defensiveness = 0.25
+		garrison_size = 0.20
+		army_tradition_decay = -0.01
+		hostile_attrition = 1.5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 8
+	}
+}
+
+pdl_frontier_republic_reform = {
+	icon = "cossacks"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		cavalry_cost = -0.10
+		cavalry_flanking = 0.25
+		land_forcelimit_modifier = 0.15
+		army_tradition = 0.25
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	government_abilities = {
+		cossacks_mechanic
+	}
+	ai = {
+		factor = 8
+	}
+}
+
+pdl_magnate_dominion_reform = {
+	icon = "boyar"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		global_tax_modifier = 0.10
+		trade_efficiency = 0.10
+		governing_capacity_modifier = 0.10
+		nobles_influence_modifier = 0.10
+		max_absolutism = 10
+	}
+	start_territory_to_estates = 0.25
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 8
+	}
+}
+
+pdl_enlightened_voivodeship_reform = {
+	icon = "enlightenment"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		technology_cost = -0.05
+		idea_cost = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 7
+	}
+}
+
+pdl_absolute_dominion_reform = {
+	icon = "letat_cest_moi"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		max_absolutism = 10
+		global_tax_modifier = 0.10
+		state_maintenance_modifier = -0.15
+		governing_capacity_modifier = 0.10
+		diplomatic_reputation = 1
+		fort_maintenance_modifier = -0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 7
+	}
+}
+
+pdl_revolutionary_republic_reform = {
+	icon = "revolutionary_republic"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.10
+		all_estate_loyalty_equilibrium = 0.05
+		stability_cost_modifier = -0.10
+		max_absolutism = -20
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 5
+	}
+}
+
+pdl_grand_podillia_reform = {
+	icon = "king_highlighted"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		prestige = 2
+		stability_cost_modifier = -0.15
+		diplomatic_reputation = 1
+		max_absolutism = 20
+		reform_progress_growth = 0.10
+		global_manpower_modifier = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+pdl_religious_tolerance_reform = {
+	icon = "holy_state_reform"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		tag = PDL
+	}
+	trigger = {
+		tag = PDL
+	}
+	modifiers = {
+		tolerance_heretic = 2
+		tolerance_heathen = 1
+		religious_unity = 0.25
+		stability_cost_modifier = -0.15
+		missionary_maintenance_cost = -0.25
+		global_missionary_strength = 0.02
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 6
+		modifier = {
+			factor = 1.5
+			OR = {
+				religion = jewish
+				religion = orthodox
+			}
+		}
+	}
+}

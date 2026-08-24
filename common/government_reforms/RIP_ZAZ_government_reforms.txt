@@ -1,0 +1,297 @@
+# =============================================================================
+# RIP_ZAZ_government_reforms
+# Definitions are grouped by polity or by an explicitly shared reform family.
+# =============================================================================
+
+zaz_sich_brotherhood_reform = {
+	icon = "rip_gfx_reform_zaz_sich_brotherhood_icon"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = zaz_sich_brotherhood_reform
+			AND = {
+				tag = ZAZ
+				has_reform = rip_cossacks_reform
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = zaz_sich_brotherhood_reform
+			AND = {
+				tag = ZAZ
+				has_reform = rip_cossacks_reform
+			}
+		}
+	}
+	modifiers = {
+		republican_tradition = 0.5
+		global_unrest = -2
+		monthly_militarized_society = 0.2
+		governing_capacity_modifier = -0.1
+		max_absolutism = -20
+	}
+	custom_attributes = {
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+zaz_kosh_elections_reform = {
+	icon = "man_on_podium"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = zaz_kosh_elections_reform
+			tag = ZAZ
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = zaz_kosh_elections_reform
+			tag = ZAZ
+		}
+	}
+	duration = 2
+	has_term_election = yes
+	modifiers = {
+		reelection_cost = -0.5
+		yearly_corruption = -0.1
+		possible_mil_policy = 1
+		reform_progress_growth = -0.05
+		max_absolutism = -10
+		election_cycle = 6
+	}
+	ai = {
+		factor = 8
+	}
+}
+
+zaz_chaiky_trade_reform = {
+	icon = "sea_raiders"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = zaz_chaiky_trade_reform
+			tag = ZAZ
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = zaz_chaiky_trade_reform
+			tag = ZAZ
+		}
+	}
+	modifiers = {
+		privateer_efficiency = 0.33
+		trade_efficiency = 0.1
+		merchants = 1
+		diplomatic_reputation = -1
+		improve_relation_modifier = -0.15
+		pr_buccaneers_influence = 0.1
+		allowed_marine_fraction = 0.25
+		global_sailors_modifier = 0.25
+		may_perform_slave_raid = yes
+		may_perform_slave_raid_on_same_religion = yes
+	}
+	custom_attributes = {
+		raiding_increases_pp = yes
+		winning_battles_increases_legitimacy = yes
+	}
+	ai = {
+		factor = 7
+	}
+}
+
+zaz_general_rada_reform = {
+	icon = "assembly_hall"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = zaz_general_rada_reform
+			tag = ZAZ
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = zaz_general_rada_reform
+			tag = ZAZ
+		}
+	}
+	different_religion_acceptance = 30
+	modifiers = {
+		global_unrest = -1
+		years_of_nationalism = -5
+		stability_cost_modifier = 0.1
+		war_exhaustion = -0.02
+		global_trade_goods_size_modifier = 0.05
+		maratha_muslim_influence_modifier = 0.1
+		rajput_muslim_influence_modifier = 0.1
+		burghers_influence_modifier = 0.1
+		burghers_loyalty_modifier = 0.05
+		vaisyas_non_muslim_influence_modifier = 0.1
+		may_recruit_female_generals = yes
+		female_advisor_chance = 0.25
+		candidate_random_bonus = 2
+	}
+
+	custom_attributes = {
+		can_force_election = yes
+		elections_increase_factions_influence = yes
+	}
+
+	ai = {
+		factor = 8
+	}
+}
+
+zaz_free_host_reform = {
+	icon = "rip_gfx_reform_zaz_free_host_icon"
+	allow_normal_conversion = no
+	potential = {
+		OR = {
+			has_reform = zaz_free_host_reform
+			tag = ZAZ
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = zaz_free_host_reform
+			AND = {
+				tag = ZAZ
+				OR = {
+					is_year = 1650
+					AND = {
+						NOT = { is_year = 1650 }
+						OR = {
+							has_institution = renaissance
+							current_age = age_of_reformation
+						}
+						army_size_percentage = 1
+						manpower_percentage = 1
+					}
+				}
+			}
+		}
+	}
+	modifiers = {
+		cavalry_power = 0.10
+		cavalry_cost = -0.10
+		monthly_militarized_society = 0.025
+		mil_tech_cost_modifier = -0.025
+		republican_tradition = 0.25
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Cradle of Civilization"
+		}
+		government_abilities = {
+			militarization_mechanic
+		}
+	}
+	custom_attributes = {
+		recruiting_generals_increases_nobles_loyalty = yes
+		monastic_order = yes
+		winning_wars_gives_rt = yes
+		manpower_from_defeating_armies = yes
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+zaz_last_sich_reform = {
+	icon = "rip_gfx_reform_zaz_last_sich_icon"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = zaz_last_sich_reform
+			tag = ZAZ
+			AND ={
+				culture = ruthenian
+				OR = {
+					has_reform = revolutionary_republic_reform
+					has_reform = revolutionary_empire_reform
+					is_revolutionary = yes
+				}
+				OR = {
+					is_year = 1734
+				}
+			}
+			is_subject = yes
+				AND = {
+					OR = {
+						has_institution = global_trade
+						current_age = age_of_absolutism
+					}
+					liberty_desire = 80
+					army_size_percentage = 1
+					manpower_percentage = 1
+				}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = zaz_last_sich_reform
+			tag = ZAZ
+			is_subject = yes
+			AND ={
+				culture = ruthenian
+				OR = {
+					has_reform = revolutionary_republic_reform
+					has_reform = revolutionary_empire_reform
+					is_revolutionary = yes
+				}
+				OR = {
+					is_year = 1734
+				}
+			}
+		}
+		OR = {
+			is_year = 1734
+			AND = {
+				NOT = { is_year = 1734 }
+				OR = {
+					has_institution = global_trade
+					current_age = age_of_absolutism
+				}
+				liberty_desire = 80
+				army_size_percentage = 1
+				manpower_percentage = 1
+			}
+		}
+	}
+	modifiers = {
+		defensiveness = 0.20
+		fort_maintenance_modifier = -0.15
+		global_unrest = -1
+		diplomatic_reputation = -1
+		manpower_recovery_speed = 0.10
+		liberty_desire = 15
+		rr_jacobins_influence = 0.10
+		rr_royalists_influence = 0.05
+		rr_girondists_influence = 0.05
+	}
+	factions = {
+		rr_jacobins
+		rr_royalists
+		rr_girondists
+	}
+	custom_attributes = {
+		mercs_do_not_cost_army_professionalism = yes
+		elections_increase_factions_influence = yes
+	}
+	ai = {
+		factor = 5
+		modifier = {
+			factor = 0
+			OR ={
+				is_subject = no
+				NOT = { is_revolutionary = yes }
+			}
+		}
+	}
+}

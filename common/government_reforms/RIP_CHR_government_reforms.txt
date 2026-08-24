@@ -1,23 +1,120 @@
-# The three roads out of the Siversk Veche.
-#
-# Chernihiv starts as a merchant veche of chartered towns and does not have to
-# stay one. Each road is a tier-1 government type in three stages, taken
-# through decisions in decisions/ChernihivPaths.txt. The flag chr_path_chosen
-# shuts the other two roads the moment one is opened; stage 3 of every road
-# waits on Great Chernihiv.
-#
-# Every reform carries a potential block, or EU4 lists it in the reform slot of
-# every country in the game and merely greys it out. Every reform is registered
-# in common/governments/00_governments.txt, or it is never offered at all.
-#
-# Stage 1 locks its level, so the tier cannot be swapped from the government
-# view; the later stages arrive only through their decision.
+# =============================================================================
+# RIP_CHR_government_reforms
+# Definitions are grouped by polity or by an explicitly shared reform family.
+# =============================================================================
 
-# ============================ ROAD A - THE TOWNS ============================
-# The road Chernihiv is already on: chartered towns on a river system, a staple
-# on the Desna, and an assembly that bargains rather than commands. It reaches
-# for what the Dutch reached and stops one step short of it, on purpose - there
-# is no sea at the end of the Desna.
+siversk_veche_reform = {
+	icon = "merchant"
+	boost_income = yes
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = no
+	heir = no
+	duration = 4
+	has_term_election = yes
+	rulers_can_be_generals = yes
+	royal_marriage = no
+	government_abilities = {
+		cossacks_mechanic
+	}
+	allow_force_tributary = yes
+	potential = {
+		tag = CHR
+	}
+	trigger = {
+		tag = CHR
+	}
+	modifiers = {
+		merchants = 1
+		governing_capacity = 100
+		all_estate_loyalty_equilibrium = 0.05
+		burghers_loyalty_modifier = 0.1
+		nobles_loyalty_modifier = 0.05
+		global_trade_power = 0.1
+		production_efficiency = 0.05
+		republican_tradition = 0.1
+		manpower_recovery_speed = 0.06
+		parliament_backing_chance = 0.15
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+		has_parliament = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+		}
+	}
+	conditional = {
+		allow = {
+			has_dlc = "The Cossacks"
+		}
+		custom_attributes = {
+			enables_estate_cossacks = yes
+		}
+	}
+}
+
+chr_grain_directorate_reform = {
+	icon = "paper_money_map"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	rulers_can_be_generals = yes
+	potential = {
+		tag = CHR
+	}
+	trigger = {
+		tag = CHR
+		custom_trigger_tooltip = {
+			tooltip = chr_agro_hypercorp_complete_req_tt
+			chr_agro_hypercorp_completed = yes
+		}
+	}
+	modifiers = {
+		global_unrest = -1
+		global_trade_goods_size_modifier = 0.05
+		production_efficiency = 0.05
+		burghers_loyalty_modifier = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		extra_trade_goods_from_grain = yes
+		chinampa_farms_mechanic = yes
+	}
+	effect = {
+		custom_tooltip = chr_grain_directorate_reform_tt
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					trade_goods = grain
+				}
+				add_province_modifier = {
+					name = chr_grain_directorate_province
+					duration = -1
+					hidden = yes
+				}
+			}
+		}
+	}
+	removed_effect = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					has_province_modifier = chr_grain_directorate_province
+				}
+				remove_province_modifier = chr_grain_directorate_province
+			}
+		}
+	}
+	ai = {
+		factor = 1
+	}
+}
 
 chr_desna_staple_reform = {
 	icon = "trading_city"
@@ -155,11 +252,6 @@ chr_rada_of_lands_reform = {
 	}
 }
 
-# =========================== ROAD B - THE HOUSES ===========================
-# The grain and salt houses buy the magistrat, the magistrat buys a prince, and
-# the prince keeps the houses. Each step is paid for by the one before it, and
-# each step costs the towns a liberty they do not get back.
-
 chr_magistrat_rule_reform = {
 	icon = "plutocracy_reform"
 	legacy_equivalent = oligarchic_republic
@@ -282,11 +374,6 @@ chr_prykaz_tsardom_reform = {
 		}
 	}
 }
-
-# ========================== ROAD C - THE CHANCERY ==========================
-# Office by service, not by birth: first the clerks, then the boys the corps
-# raises to be clerks, and at the end a realm of many peoples held together by
-# the roll they are all written into.
 
 chr_kanceliaryst_republic_reform = {
 	icon = "examination_system_reform"
