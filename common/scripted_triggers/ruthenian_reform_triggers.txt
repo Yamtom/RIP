@@ -5,12 +5,12 @@
 # were being offered the boyar elite and the legislative rada. potential
 # decides what is shown; trigger stays the eligibility check.
 #
-# A country qualifies when Ruthenian is its own culture - primary or
-# accepted - or when Ruthenian is the dominant culture of the land it holds.
+# A country qualifies when a Ruthenian or Rusyn culture is its own culture -
+# primary or accepted - or when one of those cultures dominates its land.
 # Sitting on one of the Ruthenian government types also qualifies, so a
 # country that already took these reforms keeps seeing them.
 
-ruthenian_reform_visible = {
+ruthenian_reform_eligible = {
 	OR = {
 		OR = {
 			primary_culture = ruthenian
@@ -19,10 +19,26 @@ ruthenian_reform_visible = {
 			primary_culture = rusyn_new
 			primary_culture = rusyn_new_new
 		}
-		accepted_culture = ruthenian
-		dominant_culture = ruthenian
+		OR = {
+			accepted_culture = ruthenian
+			accepted_culture = rusyn
+			accepted_culture = ruthenian_new
+			accepted_culture = rusyn_new
+			accepted_culture = rusyn_new_new
+		}
+		OR = {
+			dominant_culture = ruthenian
+			dominant_culture = rusyn
+			dominant_culture = ruthenian_new
+			dominant_culture = rusyn_new
+			dominant_culture = rusyn_new_new
+		}
 		has_reform = ruthenian_principality_reform
 		has_reform = kyivan_rus_reform
 		has_reform = principality_appanage
 	}
+}
+
+ruthenian_reform_visible = {
+	ruthenian_reform_eligible = yes
 }

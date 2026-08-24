@@ -59,6 +59,18 @@ uzh_identity_core_culture = {
 	}
 }
 
+# Before an identity has been selected, measure every culture that can
+# plausibly take part in the choice rather than its still-unknown outcome.
+uzh_pre_identity_candidate_culture = {
+	OR = {
+		culture = rusyn
+		culture = rusyn_new
+		culture = ruthenian
+		culture = ruthenian_new
+		culture = rusyn_new_new
+	}
+}
+
 uzh_has_courthouse_infrastructure = {
 	OR = {
 		has_building = courthouse
@@ -81,4 +93,3 @@ uzh_has_workshop_infrastructure = {
 		has_building = counting_house
 	}
 }
-

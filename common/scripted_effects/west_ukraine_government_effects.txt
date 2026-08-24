@@ -1,0 +1,156 @@
+# Reconcile saves made before the country-specific base reforms were assigned
+# in country history. Path decisions replace the Podillian fallback directly,
+# just as the CHR and ZAZ road decisions replace their locked first tier.
+
+# Before the union decision was corrected, the Podillian sovereign inherited
+# Galicia and then changed into HLC without a mission or government migration.
+# Restore PDL when its tag is free. If another PDL already exists, keep HLC and
+# normalize the old country instead of risking a duplicate tag.
+pdl_migrate_legacy_galician_union_effect = {
+	if = {
+		limit = {
+			tag = HLC
+			has_country_flag = pdl_united_with_galicia
+			NOT = { has_country_flag = rip_legacy_pdl_hlc_migrated }
+		}
+		if = {
+			limit = { NOT = { exists = PDL } }
+			change_tag = PDL
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+			set_country_flag = rip_legacy_pdl_hlc_migrated
+		}
+		else = {
+			if = {
+				limit = { has_reform = pdl_clan_assembly_reform }
+				remove_government_reform = pdl_clan_assembly_reform
+			}
+			if = {
+				limit = { has_reform = pdl_steppe_principality_reform }
+				remove_government_reform = pdl_steppe_principality_reform
+			}
+			if = {
+				limit = { has_reform = pdl_voivodeship_kingdom_reform }
+				remove_government_reform = pdl_voivodeship_kingdom_reform
+			}
+			if = {
+				limit = { has_reform = pdl_palatine_court_reform }
+				remove_government_reform = pdl_palatine_court_reform
+			}
+			if = {
+				limit = { has_reform = pdl_aristocratic_assembly_reform }
+				remove_government_reform = pdl_aristocratic_assembly_reform
+			}
+			if = {
+				limit = { has_reform = pdl_magnate_republic_reform }
+				remove_government_reform = pdl_magnate_republic_reform
+			}
+			if = {
+				limit = { has_reform = pdl_frontier_voivodeship_reform }
+				remove_government_reform = pdl_frontier_voivodeship_reform
+			}
+			if = {
+				limit = { has_reform = pdl_carpathian_bastion_reform }
+				remove_government_reform = pdl_carpathian_bastion_reform
+			}
+			if = {
+				limit = { has_reform = pdl_frontier_republic_reform }
+				remove_government_reform = pdl_frontier_republic_reform
+			}
+			if = {
+				limit = { has_reform = pdl_magnate_dominion_reform }
+				remove_government_reform = pdl_magnate_dominion_reform
+			}
+			if = {
+				limit = { has_reform = pdl_enlightened_voivodeship_reform }
+				remove_government_reform = pdl_enlightened_voivodeship_reform
+			}
+			if = {
+				limit = { has_reform = pdl_absolute_dominion_reform }
+				remove_government_reform = pdl_absolute_dominion_reform
+			}
+			if = {
+				limit = { has_reform = pdl_revolutionary_republic_reform }
+				remove_government_reform = pdl_revolutionary_republic_reform
+			}
+			if = {
+				limit = { has_reform = pdl_grand_podillia_reform }
+				remove_government_reform = pdl_grand_podillia_reform
+			}
+			if = {
+				limit = { has_reform = pdl_religious_tolerance_reform }
+				remove_government_reform = pdl_religious_tolerance_reform
+			}
+			if = {
+				limit = { NOT = { has_reform = hlc_galician_voivodeship_reform } }
+				add_government_reform = hlc_galician_voivodeship_reform
+			}
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+			if = {
+				limit = { NOT = { hlc_has_any_path = yes } }
+				country_event = { id = rip_galicia.1 days = 1 }
+			}
+			set_country_flag = rip_legacy_pdl_hlc_migrated
+		}
+	}
+	# A legacy HLC-union country may already have formed VOL or UKR before this
+	# migration runs. Recover the unambiguous PDL lineage without changing tag.
+	if = {
+		limit = {
+			OR = {
+				tag = VOL
+				tag = UKR
+			}
+			has_country_flag = pdl_united_with_galicia
+			NOT = { has_country_flag = rip_legacy_pdl_hlc_migrated }
+		}
+		clr_country_flag = rip_vol_origin_hlc
+		clr_country_flag = rip_vol_origin_vln
+		set_country_flag = rip_vol_origin_pdl
+		set_country_flag = rip_legacy_pdl_hlc_migrated
+	}
+}
+
+pdl_reconcile_base_reform_effect = {
+	if = {
+		limit = {
+			government = monarchy
+			west_ukraine_pdl_origin_country = yes
+			NOT = {
+				OR = {
+					has_reform = pdl_clan_assembly_reform
+					has_reform = pdl_steppe_principality_reform
+					has_reform = pdl_voivodeship_kingdom_reform
+					has_reform = pdl_frontier_voivodeship_reform
+				}
+			}
+		}
+		if = {
+			limit = { has_country_flag = pdl_carpathian_path }
+			add_government_reform = pdl_steppe_principality_reform
+		}
+		else_if = {
+			limit = { has_country_flag = pdl_frontier_path }
+			add_government_reform = pdl_clan_assembly_reform
+		}
+		else_if = {
+			limit = { has_country_flag = pdl_magnate_path }
+			add_government_reform = pdl_voivodeship_kingdom_reform
+		}
+		else = {
+			add_government_reform = pdl_frontier_voivodeship_reform
+		}
+	}
+}
+
+vln_reconcile_base_reform_effect = {
+	if = {
+		limit = {
+			government = monarchy
+			west_ukraine_vln_origin_country = yes
+			NOT = { has_reform = vln_voivodeship_reform }
+		}
+		add_government_reform = vln_voivodeship_reform
+	}
+}

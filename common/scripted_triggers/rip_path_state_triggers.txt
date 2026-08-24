@@ -36,12 +36,43 @@ west_ukraine_shared_missions = {
 	}
 }
 
+# The rip_vol_origin_* names are retained for existing saves. They now mark
+# lineage through both supported Ruthenian formables: VOL and UKR.
 west_ukraine_hlc_origin_country = {
 	OR = {
 		tag = HLC
 		AND = {
-			tag = VOL
+			OR = {
+				tag = VOL
+				tag = UKR
+			}
 			has_country_flag = rip_vol_origin_hlc
+		}
+	}
+}
+
+west_ukraine_vln_origin_country = {
+	OR = {
+		tag = VLN
+		AND = {
+			OR = {
+				tag = VOL
+				tag = UKR
+			}
+			has_country_flag = rip_vol_origin_vln
+		}
+	}
+}
+
+west_ukraine_pdl_origin_country = {
+	OR = {
+		tag = PDL
+		AND = {
+			OR = {
+				tag = VOL
+				tag = UKR
+			}
+			has_country_flag = rip_vol_origin_pdl
 		}
 	}
 }

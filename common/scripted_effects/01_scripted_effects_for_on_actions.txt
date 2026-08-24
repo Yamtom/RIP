@@ -1550,6 +1550,32 @@ on_province_owner_change_government_effect = {
 		}
 		add_province_modifier = { name = mongol_banners_location duration = -1 hidden = yes }
 	}
+	# Keep the Hetmanate's regimental province layer synchronized after conquest
+	# or cession; the reform's effect/removed_effect handles the initial toggle.
+	if = {
+		limit = {
+			is_city = yes
+			OR = {
+				area = west_dniepr_area
+				area = east_dniepr_area
+				area = sloboda_ukraine_area
+			}
+			owner = { has_reform = het_regimental_system_reform }
+			NOT = { has_province_modifier = het_regimental_province_administration }
+		}
+		add_province_modifier = {
+			name = het_regimental_province_administration
+			duration = -1
+			hidden = yes
+		}
+	}
+	if = {
+		limit = {
+			has_province_modifier = het_regimental_province_administration
+			NOT = { owner = { has_reform = het_regimental_system_reform } }
+		}
+		remove_province_modifier = het_regimental_province_administration
+	}
 }
 
 on_province_religion_changed_effect = {

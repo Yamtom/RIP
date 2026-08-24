@@ -4,6 +4,17 @@
 # country loses sight of its own government - or is still at the crossroads
 # with that road's flag set. zaz_path_chosen closes the other three.
 
+# A later tag change does not erase the political lineage of the Sich. This is
+# deliberately narrower than is_cossack_polity: the Last Sich is a Zaporozhian
+# survival path, not a generic reward for every Cossack host.
+zaz_lineage_country = {
+	OR = {
+		tag = ZAZ
+		was_tag = ZAZ
+		has_country_flag = rip_hetmanate_origin_zaz
+	}
+}
+
 zaz_at_the_crossroads = {
 	OR = {
 		tag = ZAZ
@@ -105,6 +116,7 @@ is_cossack_polity = {
 		has_reform = zaz_kosh_elections_reform
 		has_reform = zaz_free_host_reform
 		has_reform = zaz_chaiky_trade_reform
+		has_reform = zaz_general_rada_reform
 		has_reform = zaz_last_sich_reform
 		has_reform = het_starshyna_oligarchy_reform
 		has_reform = zaz_cossack_cantons_reform

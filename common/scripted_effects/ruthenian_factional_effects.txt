@@ -70,7 +70,9 @@ kru_recalculate_faction_influence_effect = {
 	if = { limit = { stability = 2 } change_variable = { which = kru_boyary_influence value = 10 } }
 	if = { limit = { average_autonomy = 40 } change_variable = { which = kru_boyary_influence value = 10 } }
 	if = { limit = { average_autonomy = 60 } change_variable = { which = kru_boyary_influence value = 8 } }
-	if = { limit = { treasury = 200 } change_variable = { which = kru_boyary_influence value = 5 } }
+	# A prosperous treasury must be sufficient to let the Boyary reach the
+	# 70-point coalition threshold; the old +5 capped their total at 68.
+	if = { limit = { treasury = 200 } change_variable = { which = kru_boyary_influence value = 10 } }
 	if = { limit = { inflation = 3 } change_variable = { which = kru_boyary_influence value = -5 } }
 
 	if = { limit = { army_tradition = 30 } change_variable = { which = kru_hetmany_influence value = 10 } }

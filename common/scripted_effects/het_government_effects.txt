@@ -1,0 +1,92 @@
+# Sacred ZAZ routes could form HET before the republican formable gate existed.
+# Restore the capstone tag where possible; otherwise normalize the duplicate HET.
+het_migrate_legacy_sacred_origin_effect = {
+	if = {
+		limit = {
+			tag = HET
+			has_country_flag = rip_hetmanate_origin_zaz
+			NOT = { has_country_flag = rip_legacy_sacred_hetmanate_migrated }
+			OR = {
+				has_reform = zaz_sacred_host_order_reform
+				has_reform = zaz_sacred_horde_reform
+			}
+		}
+		if = {
+			limit = { NOT = { exists = ZAZ } }
+			change_tag = ZAZ
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+			clr_country_flag = rip_hetmanate_origin_zaz
+		}
+		else = {
+			if = {
+				limit = { has_reform = zaz_sacred_host_order_reform }
+				remove_government_reform = zaz_sacred_host_order_reform
+			}
+			if = {
+				limit = { has_reform = zaz_sacred_horde_reform }
+				remove_government_reform = zaz_sacred_horde_reform
+			}
+			if = {
+				limit = { NOT = { government = republic } }
+				change_government = republic
+			}
+			if = {
+				limit = { NOT = { has_reform = rip_cossacks_reform } }
+				add_government_reform = rip_cossacks_reform
+			}
+			swap_non_generic_missions = yes
+			set_country_flag = rip_hetmanate_missions_synced
+		}
+		set_country_flag = rip_legacy_sacred_hetmanate_migrated
+	}
+}
+
+# Migrate saves made while the HET regimental reform reused the vanilla
+# Ottoman pasha modifier. The tag/reform guard prevents touching real pashas.
+het_reconcile_regimental_province_modifiers_effect = {
+	if = {
+		limit = {
+			OR = {
+				tag = HET
+				has_reform = het_regimental_system_reform
+			}
+		}
+		every_owned_province = {
+			limit = {
+				is_city = yes
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+					area = sloboda_ukraine_area
+				}
+			}
+			if = {
+				limit = { has_province_modifier = the_provincial_system }
+				remove_province_modifier = the_provincial_system
+			}
+			if = {
+				limit = {
+					owner = { has_reform = het_regimental_system_reform }
+					NOT = {
+						has_province_modifier = het_regimental_province_administration
+					}
+				}
+				add_province_modifier = {
+					name = het_regimental_province_administration
+					duration = -1
+					hidden = yes
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						NOT = { has_reform = het_regimental_system_reform }
+					}
+					has_province_modifier = het_regimental_province_administration
+				}
+				remove_province_modifier = het_regimental_province_administration
+			}
+		}
+	}
+}
