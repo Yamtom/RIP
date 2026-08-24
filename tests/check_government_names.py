@@ -4,11 +4,18 @@ from __future__ import annotations
 
 import re
 import sys
+from pathlib import Path
 
-from clausewitz_testlib import named_block, normalized, read
+from clausewitz_testlib import ROOT, named_block, normalized, read
 
 
 NAMES_PATH = "common/government_names/000_RIP_names.txt"
+REFORMS_DIR = ROOT / "common/government_reforms"
+
+
+def read_reforms() -> str:
+    """Read the whole VFS directory after the country/shared file split."""
+    return "\n".join(path.read_text(encoding="utf-8-sig") for path in sorted(REFORMS_DIR.glob("*.txt")))
 
 
 def require(failures: list[str], condition: bool, message: str) -> None:
@@ -212,9 +219,35 @@ def check_triggers_and_mappings(failures: list[str], text: str) -> None:
             f"monarchic PDL name still selects republican key {stale_key}",
         )
 
+    podillian_land = normalized(named_block(text, "pdl_clan_assembly"))
+    dniester = normalized(named_block(text, "pdl_steppe_principality"))
+    royal_voivodeship = normalized(named_block(text, "pdl_voivodeship_kingdom"))
+    require(
+        failures,
+        "PDL_LAND_ASSEMBLY" in podillian_land
+        and "CLAN_COUNCIL" not in podillian_land
+        and "TRIBAL_ASSEMBLY" not in podillian_land,
+        "Podillian Land Assembly still exposes tribal government names",
+    )
+    require(
+        failures,
+        "PDL_DNIESTER_PRINCIPALITY" in dniester
+        and "STEPPE_PRINCIPALITY" not in dniester
+        and "BORDER_PRINCE" not in dniester,
+        "Dniester Principality still exposes generic steppe government names",
+    )
+    require(
+        failures,
+        re.search(r"\bVOIVODE_KING\b", royal_voivodeship) is None
+        and "VOIVODESSA_QUEEN" not in royal_voivodeship
+        and "ruler_male = { 1 = VOIVODE 2 = KING 3 = EMPEROR" in royal_voivodeship
+        and "ruler_female = { 1 = VOIVODE 2 = QUEEN 3 = EMPRESS" in royal_voivodeship,
+        "Royal Voivodeship still uses synthetic compound ruler titles",
+    )
+
 
 def check_rank_reachability(failures: list[str]) -> None:
-    reforms = read("common/government_reforms/RIP_government_reforms.txt")
+    reforms = read_reforms()
     for name in ("rip_cossacks_reform", "vln_voivodeship_reform"):
         block = normalized(named_block(reforms, name))
         require(
@@ -234,12 +267,13 @@ def check_rank_reachability(failures: list[str]) -> None:
     )
     require(
         failures,
-        'has_dlc = "Rights of Man"' in legion_raw
-        and "discipline = 0.025" in legion
+        "discipline = 0.025" in legion
         and "land_morale = 0.10" in legion
+        and "militarization_mechanic" not in legion
+        and "monthly_militarized_society" not in legion
         and "infantry_cost" not in legion
         and "infantry_fire" not in legion,
-        "Black Voivode Legion no longer matches its DLC and vanilla-tier balance contract",
+        "Volhynian Court Regiment still borrows foreign militarization or exceeds its balance contract",
     )
 
     require(
@@ -251,7 +285,7 @@ def check_rank_reachability(failures: list[str]) -> None:
 
 
 def check_reform_balance_and_lifecycle(failures: list[str]) -> None:
-    reforms = read("common/government_reforms/RIP_government_reforms.txt")
+    reforms = read_reforms()
     grain = normalized(named_block(reforms, "chr_grain_directorate_reform"))
     require(
         failures,
@@ -268,18 +302,21 @@ def check_reform_balance_and_lifecycle(failures: list[str]) -> None:
         failures,
         "tolerance_heretic = 3" in confessional
         and "religious_unity = 0.10" in confessional
+        and "tolerance_own = 1" in confessional
+        and "global_unrest = -1" in confessional
         and "tolerance_heathen" not in confessional
-        and "stability_cost_modifier" not in confessional,
-        "Volhynian Confessional State exceeds its focused tolerance contract",
+        and "add_country_modifier" not in confessional,
+        "Volhynian Confessional State is not a visible, self-contained tolerance contract",
     )
     ruthenia = normalized(named_block(reforms, "vln_ruthenia_reform"))
     require(
         failures,
         "max_absolutism = 10" in ruthenia
         and "legitimacy = 0.5" in ruthenia
-        and "administrative_efficiency" not in ruthenia
-        and "reform_progress_growth" not in ruthenia,
-        "Crown of Ruthenia exceeds its base reform contract",
+        and "administrative_efficiency = 0.025" in ruthenia
+        and "nobles_loyalty_modifier = 0.05" in ruthenia
+        and "add_country_modifier" not in ruthenia,
+        "Crown of Ruthenia does not expose its complete late-tier contract",
     )
     academy = normalized(named_block(reforms, "vln_confessional_academy"))
     require(
@@ -302,24 +339,15 @@ def check_reform_balance_and_lifecycle(failures: list[str]) -> None:
         "Left-Bank Grain Combine does not match its displayed +10%/+10% effects",
     )
 
-    vln_modifiers = read("common/event_modifiers/VLN_government_modifiers.txt")
-    diet = normalized(named_block(vln_modifiers, "vln_confessional_diet"))
-    statutes = normalized(named_block(vln_modifiers, "vln_crown_statutes"))
     require(
         failures,
-        "tolerance_own = 1" in diet
-        and "global_unrest = -1" in diet
-        and "tolerance_heretic" not in diet
-        and "stability_cost_modifier" not in diet,
-        "Confessional Diet hidden modifier duplicates the base reform",
+        "vln_confessional_diet" not in confessional,
+        "Confessional State still depends on a hidden permanent modifier",
     )
     require(
         failures,
-        "administrative_efficiency = 0.025" in statutes
-        and "nobles_loyalty_modifier = 0.05" in statutes
-        and "global_autonomy" not in statutes
-        and "legitimacy" not in statutes,
-        "Crown Statutes hidden modifier exceeds its balance contract",
+        "vln_crown_statutes" not in ruthenia,
+        "Crown of Ruthenia still depends on a hidden permanent modifier",
     )
 
     on_actions = read("common/scripted_effects/01_scripted_effects_for_on_actions.txt")
@@ -405,6 +433,9 @@ def check_visible_language(failures: list[str]) -> None:
         "before Russian pressure forces submission",
         "The Hetmanate is abolished",
         "Under Hetman Ivan Mazepa's patronage",
+        "Tsar Peter II has abolished the Hetmanate's independence",
+        "Embrace Carpathian Defense Doctrine",
+        "Following Croatian traditions of border defense",
         "Volyn's Orthodox",
         "across Volyn.",
         "Noble autonomy and trade power define this path",

@@ -15,6 +15,7 @@ UZH_missions_1 = {
             OR = {
                 religion = orthodox
                 religion = catholic
+                religion = greek_catholic
             }
             religious_unity = 0.8
             any_owned_province = {
@@ -304,7 +305,19 @@ UZH_missions_1 = {
         trigger = {
             has_country_flag = uzh_scholars_network
             army_size_percentage = 0.6
-            num_of_royal_marriages = 1
+            OR = {
+                AND = {
+                    government = monarchy
+                    num_of_royal_marriages = 1
+                }
+                AND = {
+                    government = republic
+                    OR = {
+                        diplomatic_reputation = 2
+                        republican_tradition = 70
+                    }
+                }
+            }
             custom_trigger_tooltip = {
                 tooltip = UZH_resist_habsburgs_pressure_tt
                 uzh_powerful_monarchy_pressure = yes
@@ -352,7 +365,7 @@ UZH_missions_1 = {
             custom_tooltip = UZH_resist_habsburgs_habsburg_tt
             tooltip = {
                 add_prestige = 20
-                add_legitimacy = 10
+                add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
                 add_army_tradition = 5
             }
             hidden_effect = {
@@ -361,7 +374,6 @@ UZH_missions_1 = {
                     duration = 9125
                 }
                 add_dip_power = 100
-                set_country_flag = uzh_select_dynasty_patron_unlocked
                 uzh_select_dynasty_patron = yes
                 if = {
                     limit = {
@@ -398,7 +410,7 @@ UZH_missions_1 = {
                         has_country_flag = uzh_dynasty_source_habsburg
                     }
                     add_prestige = 20
-                    add_legitimacy = 10
+                    add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
                     add_army_tradition = 5
                 }
                 country_event = {
@@ -510,6 +522,7 @@ UZH_missions_1 = {
                 tooltip = UZH_revival_komitat_condition_tt
                 OR = {
                     has_reform = uzh_komitat_system_reform
+                    has_reform = uzh_republican_komitat_system_reform
                     has_country_flag = uzh_komitat_restructured
                 }
             }
@@ -540,6 +553,7 @@ UZH_missions_1 = {
             }
         }
         trigger = {
+            is_subject = no
             owns_core_province = 1952
             total_development = 200
             stability = 2
@@ -667,7 +681,7 @@ UZH_missions_2 = {
 					area = alfold_area
 					owned_by = ROOT
 				}
-			    change_culture = rusyn
+			    uzh_set_identity_culture = yes
 			    add_province_modifier = {
                     name = "uz_rusin_settlement"
                     duration = 7300
@@ -729,7 +743,7 @@ UZH_missions_2 = {
 					area = southern_transylvania_area
 					owned_by = ROOT
 				}
-				change_culture = rusyn
+				uzh_set_identity_culture = yes
 				add_base_manpower = 1
 			}
 			add_country_modifier = {
@@ -752,26 +766,32 @@ UZH_missions_2 = {
         }
         position = 5
         provinces_to_highlight = {
-            2960 = {
+            4173 = {
                 owned_by = ROOT
             }
         }
         trigger = {
             has_country_flag = uzh_banat_settled
-            owns = 2960 # Novi Sad
-            2960 = {
-                religion = orthodox
+            owns = 4173 # Syrmia (Srem; Karlóca / Novi Sad metropolitan region)
+            4173 = {
+                religion = ROOT
                 has_building = cathedral
             }
         }
         effect = {
-            2960 = {
+            4173 = {
                 add_province_modifier = {
                     name = "uz_orthodox_metropolis"
                     duration = -1
                 }
             }
-            add_patriarch_authority = 0.15
+            if = {
+                limit = { religion = catholic }
+                add_papal_influence = 15
+            }
+            else = {
+                add_patriarch_authority = 0.15
+            }
             country_event = {
                 id = uzh.201
             }
@@ -1254,7 +1274,7 @@ UZH_missions_3 = {
                 override_country_name = UZH_Zakarpattia_Name
                 set_country_flag = uzh_name_zakarpattia
             }
-            add_legitimacy = 15
+            add_legitimacy_equivalent = { amount = 15 republican_tradition = 8 }
             add_prestige = 25
         }
         ai_weight = {
@@ -1272,6 +1292,7 @@ UZH_missions_3 = {
             OR = {
                 religion = orthodox
                 religion = catholic
+                religion = greek_catholic
             }
             religious_unity = 0.8
         }
@@ -1283,12 +1304,36 @@ UZH_missions_3 = {
                     name = "uz_old_rite_resilience"
                     duration = 9125
                 }
+                hidden_effect = {
+                    set_country_flag = uzh_union_old_rite_confirmed
+                }
             }
             else = {
-                add_papal_influence = 25
+                if = {
+                    limit = { religion = catholic }
+                    add_papal_influence = 25
+                }
+                else_if = {
+                    limit = { religion = greek_catholic }
+                    add_patriarch_authority = 0.15
+                }
                 add_country_modifier = {
                     name = "uz_greek_catholic_concord"
                     duration = 7300
+                }
+                hidden_effect = {
+                    set_country_flag = uzh_union_synod_established
+                }
+                if = {
+                    limit = {
+                        is_year = 1646
+                        OR = {
+                            government = monarchy
+                            government = republic
+                        }
+                        NOT = { has_reform = uzh_union_synod_reform }
+                    }
+                    add_government_reform = uzh_union_synod_reform
                 }
             }
             add_prestige = 15
@@ -1473,24 +1518,16 @@ UZH_missions_3 = {
             OR = {
                 primary_culture = rusyn
                 primary_culture = rusyn_new
-                AND = {
-                    has_country_flag = chose_ruthenian_identity
-                    OR = {
-                        primary_culture = ruthenian
-                        primary_culture = ruthenian_new
-                    }
-                }
-                AND = {
-                    has_country_flag = chose_uhro_rusyn_identity
-                    primary_culture = rusyn_new_new
-                }
+                primary_culture = ruthenian
+                primary_culture = ruthenian_new
+                primary_culture = rusyn_new_new
             }
             custom_trigger_tooltip = {
                 tooltip = UZH_this_is_a_branching_mission
                 hidden_trigger = { always = yes }
             }
             num_of_owned_provinces_with = {
-                uzh_identity_core_culture = yes
+                uzh_pre_identity_candidate_culture = yes
                 value = 5
             }
             stability = 1
@@ -1686,7 +1723,7 @@ UZH_missions_3_ruthenian = {
                 add_permanent_claim = ROOT
             }
             add_prestige = 20
-            add_legitimacy = 10
+            add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
             hidden_effect = {
                 set_country_flag = uzh_kyivan_claims_asserted
             }
@@ -1716,21 +1753,29 @@ UZH_missions_3_ruthenian = {
         position = 10
         provinces_to_highlight = {
             owned_by = ROOT
-            NOT = {
-                AND = {
-                    religion = orthodox
-                    uzh_identity_core_culture = yes
-                }
-            }
+            uzh_identity_core_culture = yes
+            NOT = { religion = ROOT }
         }
         trigger = {
             has_country_flag = chose_ruthenian_identity
-            patriarch_authority = 0.75
+            OR = {
+                AND = {
+                    OR = {
+                        religion = orthodox
+                        religion = greek_catholic
+                    }
+                    patriarch_authority = 0.75
+                }
+                AND = {
+                    religion = catholic
+                    papal_influence = 50
+                }
+            }
             custom_trigger_tooltip = {
                 tooltip = UZH_orthodox_unity_culture_tt
                 hidden_trigger = {
                     num_of_owned_provinces_with = {
-                        religion = orthodox
+                        religion = ROOT
                         uzh_identity_core_culture = yes
                         value = 8
                     }
@@ -1744,14 +1789,21 @@ UZH_missions_3_ruthenian = {
             }
             every_owned_province = {
                 limit = {
-                    religion = orthodox
+                    religion = ROOT
+                    uzh_identity_core_culture = yes
                 }
                 add_province_modifier = {
                     name = "uz_orthodox_metropolis"
                     duration = -1
                 }
             }
-            add_patriarch_authority = 0.25
+            if = {
+                limit = { religion = catholic }
+                add_papal_influence = 25
+            }
+            else = {
+                add_patriarch_authority = 0.25
+            }
             hidden_effect = {
                 set_country_flag = uzh_orthodox_unity_achieved
             }
@@ -1898,7 +1950,7 @@ UZH_missions_3_ruthenian = {
                 }
                 add_permanent_claim = ROOT
             }
-            add_legitimacy = 10
+            add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
             add_prestige = 25
         }
         ai_weight = {
@@ -1939,7 +1991,6 @@ UZH_missions_3_rusyn = {
         trigger = {
             has_country_flag = chose_rusyn_identity
             has_country_flag = uzh_language_standardized
-            government = republic
             num_accepted_cultures = 3
             diplomatic_reputation = 3
         }
@@ -1949,7 +2000,7 @@ UZH_missions_3_rusyn = {
                 duration = -1
             }
             change_government_reform_progress = 50
-            add_republican_tradition = 20
+            add_legitimacy_equivalent = { amount = 20 republican_tradition = 10 }
             every_owned_province = {
                 limit = {
                     OR = {
@@ -2007,7 +2058,6 @@ UZH_missions_3_rusyn = {
         }
         trigger = {
             has_country_flag = chose_rusyn_identity
-            government = republic
             num_accepted_cultures = 4
             diplomatic_reputation = 5
             num_of_owned_provinces_with = {
@@ -2035,7 +2085,7 @@ UZH_missions_3_rusyn = {
                 duration = -1
             }
             change_government_reform_progress = 100
-            add_republican_tradition = 30
+            add_legitimacy_equivalent = { amount = 30 republican_tradition = 15 }
             add_country_modifier = {
                 name = "uz_carpathian_federation_diprep"
                 duration = 7300
@@ -2091,7 +2141,7 @@ UZH_missions_3_rusyn = {
                 duration = -1
             }
             change_government_reform_progress = 100
-            add_republican_tradition = 15
+            add_legitimacy_equivalent = { amount = 15 republican_tradition = 8 }
             add_dip_power = 100
         }
         ai_weight = {
@@ -2121,18 +2171,29 @@ UZH_missions_3_uhro_rusyn = {
             has_country_flag = chose_uhro_rusyn_identity
             has_country_flag = uzh_language_standardized
             has_country_flag = uzh_charter_signed
-            HUN = { exists = yes }
-            has_opinion = {
-                who = HUN
-                value = 120
-            }
-            HUN = {
-                has_opinion = {
-                    who = ROOT
-                    value = 120
+            OR = {
+                AND = {
+                    HUN = { exists = yes }
+                    has_opinion = {
+                        who = HUN
+                        value = 120
+                    }
+                    HUN = {
+                        has_opinion = {
+                            who = ROOT
+                            value = 120
+                        }
+                    }
+                }
+                AND = {
+                    owns_or_subject_of = 1772 # Pozsony / Pressburg
+                    num_of_owned_provinces_with = {
+                        region = carpathia_region
+                        value = 8
+                    }
                 }
             }
-            legitimacy = 70
+            legitimacy_equivalent = 70
         }
         effect = {
             add_country_modifier = {
@@ -2151,7 +2212,7 @@ UZH_missions_3_uhro_rusyn = {
                 }
             }
             add_prestige = 10
-            add_legitimacy = 10
+            add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
             hidden_effect = {
                 set_country_flag = uzh_pressburg_compact_signed
             }
@@ -2194,6 +2255,13 @@ UZH_missions_3_uhro_rusyn = {
                 alliance_with = HUN
                 is_subject_of = HUN
                 overlord_of = HUN
+                AND = {
+                    owns_or_subject_of = 1772 # Pozsony / Pressburg
+                    num_of_owned_provinces_with = {
+                        region = carpathia_region
+                        value = 8
+                    }
+                }
             }
         }
         effect = {
@@ -2274,7 +2342,7 @@ UZH_missions_3_uhro_rusyn = {
                 name = "uz_crown_of_saint_stephen"
                 duration = -1
             }
-            add_legitimacy = 15
+            add_legitimacy_equivalent = { amount = 15 republican_tradition = 7 }
             if = {
                 limit = {
                     valid_for_personal_unions_trigger = yes
@@ -2347,6 +2415,14 @@ UZH_missions_3_uhro_rusyn = {
                     }
                     government = monarchy
                 }
+                AND = {
+                    owns_or_subject_of = 153 # Pest
+                    owns_or_subject_of = 1772 # Pozsony / Pressburg
+                    num_of_owned_provinces_with = {
+                        region = carpathia_region
+                        value = 15
+                    }
+                }
             }
         }
         effect = {
@@ -2397,6 +2473,10 @@ UZH_missions_4 = {
 	ai = yes
 	potential = {
 		tag = UZH
+		OR = {
+			government = monarchy
+			government = republic
+		}
 	}
     has_country_shield = yes
 	
@@ -2413,12 +2493,10 @@ UZH_missions_4 = {
                 tooltip = uzh_komitat_captains_party_tt
                 if = {
                     limit = {
-                        has_government_attribute = has_dutch_election
+                        has_dlc = "Res Publica"
+                        has_reform = uzh_palanok_captaincy_reform
                     }
-                    OR = {
-                        statists_vs_orangists = 0.7
-                        NOT = { 	statists_vs_orangists = -0.7 }
-                    }
+                    statists_vs_orangists = 0.7
                 }
             }
             crown_land_share = 30
@@ -2435,11 +2513,17 @@ UZH_missions_4 = {
             }
             if = {
                 limit = {
-                    NOT = {
-                        has_reform = uzh_komitat_system_reform
-                    }
+                    government = monarchy
+                    NOT = { has_reform = uzh_komitat_system_reform }
                 }
                 add_government_reform = uzh_komitat_system_reform
+            }
+            else_if = {
+                limit = {
+                    government = republic
+                    NOT = { has_reform = uzh_republican_komitat_system_reform }
+                }
+                add_government_reform = uzh_republican_komitat_system_reform
             }
 			add_country_modifier = {
 				name = "uz_komitat_administration"
@@ -2515,27 +2599,35 @@ UZH_missions_4 = {
             icon = mission_noble_council
             required_missions = {
                 uzh_rusin_nobility
+                uz_identity_question
             }
             position = 5
             trigger = {
-                has_parliament = yes
-                custom_trigger_tooltip = {
-                    tooltip = UZH_palatial_reform_subject_seats_tt
-                    hidden_trigger = {
-                        calc_true_if = {
-                            amount = 5
-                            any_owned_province = {
+                OR = {
+                    AND = {
+                        OR = {
+                            has_dlc = "Common Sense"
+                            has_dlc = "Domination"
+                        }
+                        has_parliament = yes
+                        custom_trigger_tooltip = {
+                            tooltip = UZH_palatial_reform_subject_seats_tt
+                            num_of_owned_provinces_with = {
                                 region = carpathia_region
                                 has_seat_in_parliament = yes
+                                value = 5
                             }
                         }
                     }
-                }
-                calc_true_if = {
-                    amount = 5
-                    any_owned_province = {
-                        region = carpathia_region
-                        has_seat_in_parliament = yes
+                    AND = {
+                        NOT = {
+                            OR = {
+                                has_dlc = "Common Sense"
+                                has_dlc = "Domination"
+                            }
+                        }
+                        stability = 2
+                        num_of_cities = 8
                     }
                 }
             }
@@ -2552,13 +2644,6 @@ UZH_missions_4 = {
                     limit = { government = republic }
                     add_republican_tradition = 10
                 }
-                else_if = {
-                    limit = { government = theocracy }
-                    add_devotion = 10
-                }
-                else = {
-                    change_government_reform_progress = 25
-                }
                 hidden_effect = {
                     if = {
                         limit = { has_country_flag = chose_ruthenian_identity }
@@ -2570,7 +2655,14 @@ UZH_missions_4 = {
                     }
                     else_if = {
                         limit = { has_country_flag = chose_uhro_rusyn_identity }
-                        add_government_reform = uzh_palatial_uhro_reform
+                        if = {
+                            limit = { government = monarchy }
+                            add_government_reform = uzh_palatial_uhro_reform
+                        }
+                        else_if = {
+                            limit = { government = republic }
+                            add_government_reform = uzh_palatial_uhro_republic_reform
+                        }
                     }
                     set_country_flag = uzh_palatial_reform_enacted
                 }
@@ -2588,7 +2680,18 @@ UZH_missions_4 = {
         position = 6
 		trigger = {
             has_country_flag = uzh_rusin_nobility_crowned
-			has_reform = parliamentary_reform
+			OR = {
+				has_reform = parliamentary_reform
+				AND = {
+					NOT = {
+						OR = {
+							has_dlc = "Common Sense"
+							has_dlc = "Domination"
+						}
+					}
+					reform_level = 6
+				}
+			}
 			stability = 2
             government = monarchy
             NOT = { has_country_flag = uzh_pannonian_republic_established }
@@ -2643,7 +2746,6 @@ UZH_missions_4 = {
 	uzh_federalization = {
 		icon = mission_empire
         required_missions = {
-            uzh_constitutional_monarchy
             uzh_pannonian_republic
         }
 		position = 11
@@ -2709,14 +2811,7 @@ UZH_missions_4 = {
                 }
                 change_government_reform_progress = 75
             }
-            custom_tooltip = UZH_federalization_monarchy_tt
-            tooltip = {
-                add_legitimacy = 10
-            }
-            custom_tooltip = UZH_federalization_republic_tt
-            tooltip = {
-                add_republican_tradition = 15
-            }
+            custom_tooltip = UZH_federalization_authority_tt
             hidden_effect = {
                 add_country_modifier = {
                     name = "uz_federal_structure"
@@ -2726,14 +2821,7 @@ UZH_missions_4 = {
                     add_liberty_desire = -10
                 }
                 change_government_reform_progress = 75
-                if = {
-                    limit = { has_country_flag = uzh_constitutional_framework }
-                    add_legitimacy = 10
-                }
-                else_if = {
-                    limit = { has_country_flag = uzh_pannonian_republic_established }
-                    add_republican_tradition = 15
-                }
+                add_legitimacy_equivalent = { amount = 15 republican_tradition = 8 }
                 set_country_flag = uzh_federal_project_realized
             }
         }
@@ -2752,21 +2840,11 @@ UZH_missions_4 = {
             has_country_flag = uzh_federal_project_realized
             custom_trigger_tooltip = {
                 tooltip = UZH_federative_statutes_loyal_subjects_tt
-                hidden_trigger = {
-                    calc_true_if = {
-                        amount = 2
-                        any_subject_country = {
-                            NOT = { liberty_desire = 50 }
-                            always = yes
-                        }
+                num_of_subjects = 2
+                NOT = {
+                    any_subject_country = {
+                        liberty_desire = 50
                     }
-                }
-            }
-            calc_true_if = {
-                amount = 2
-                any_subject_country = {
-                    NOT = { liberty_desire = 50 }
-                    always = yes
                 }
             }
             num_accepted_cultures = 5
@@ -3038,22 +3116,10 @@ UZH_missions_5 = {
                 tooltip = UZH_tisza_customs_downstream_tt
                 hidden_trigger = {
                     OR = {
-                        118 = {
+                        134 = { # Wien
                             is_strongest_trade_power = ROOT
                         }
-                        120 = {
-                            is_strongest_trade_power = ROOT
-                        }
-                        121 = {
-                            is_strongest_trade_power = ROOT
-                        }
-                        122 = {
-                            is_strongest_trade_power = ROOT
-                        }
-                        123 = {
-                            is_strongest_trade_power = ROOT
-                        }
-                        124 = {
+                        137 = { # Ragusa
                             is_strongest_trade_power = ROOT
                         }
                     }

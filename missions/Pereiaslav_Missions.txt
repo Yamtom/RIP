@@ -302,7 +302,7 @@ prl_missions_3 = {
 				name = prl_diplomatic_network
 				duration = 9125
 			}
-			add_legitimacy = 20
+			add_legitimacy_equivalent = { amount = 20 republican_tradition = 10 }
 		}
 	}
 	
@@ -320,7 +320,10 @@ prl_missions_3 = {
 				name = prl_left_bank_hegemony
 				duration = -1
 			}
-			set_government_rank = 2
+			if = {
+				limit = { NOT = { government_rank = 2 } }
+				set_government_rank = 2
+			}
 		}
 	}
 }
@@ -475,6 +478,7 @@ prl_missions_5 = {
 		}
 		effect = {
 			set_country_flag = prl_statute_prepared
+			set_country_flag = prl_regimental_republic_unlocked
 			add_country_modifier = {
 				name = prl_sotnya_system
 				duration = 9125
