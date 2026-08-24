@@ -533,20 +533,25 @@ country_event = {
 	
 	trigger = {
 		tag = HET
+		government = republic
 		is_year = 1722
-		NOT = { is_year = 1734 }
-		is_subject_of = RUS
-		has_reform = het_collegium_control_reform
+		NOT = { is_year = 1728 }
+		OR = {
+			is_subject_of = RUS
+			is_subject_of = MOS
+		}
+		NOT = { has_reform = het_collegium_control_reform }
 	}
 	
 	mean_time_to_happen = {
-		months = 48
+		months = 24
 	}
 	
 	option = {
 		name = "het_flavor.12.a"
+		add_government_reform = het_collegium_control_reform
 		add_liberty_desire = -20
-		add_legitimacy = -10
+		add_republican_tradition = -10
 		overlord = {
 			add_opinion = {
 				who = ROOT
@@ -564,7 +569,7 @@ country_event = {
 		add_liberty_desire = 10
 		add_prestige = 5
 		add_country_modifier = {
-			name = centralization_modifier
+			name = het_autonomy_guaranteed
 			duration = 5475
 		}
 	}
