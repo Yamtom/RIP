@@ -17,6 +17,12 @@
 # province modifier, zaporozhian_sich_founded a country modifier, and
 # zaporozhian_sich_crisis the ZAZ disaster in common/disasters/zaz_disasters.txt.
 #
+# build_trigger carries area = zaporizhia_area: `start` is only the game-start
+# seat and does not constrain where a project may be BUILT. Without that gate a
+# 1.37.5 save has the Sich standing in province 4539 Kremenets, in Volhynia,
+# under a German owner. The area (283 2411 2412) still leaves the Host room to
+# move the Sich along the rapids, which is the point of can_be_moved = yes.
+#
 # Ladder and payloads stay inside the envelope measured across all 138 vanilla
 # monuments: costs 1000 / 2500 / 5000, times 120 / 240 / 480 months, at most
 # six country modifiers a tier, no combat pips, prestige never above 1.
@@ -46,6 +52,7 @@ zaporozhian_sich = {
 			}
 			culture = ruthenian
 		}
+		area = zaporizhia_area
 		is_year = 1552
 		has_owner_accepted_culture = yes
 		OR = {
@@ -56,6 +63,9 @@ zaporozhian_sich = {
 	}
 
 	on_built = {
+		owner = {
+			country_event = { id = zaz_monument.1 days = 3 }
+		}
 	}
 
 	on_destroyed = {
@@ -96,13 +106,10 @@ zaporozhian_sich = {
 			factor = 0
 		}
 		province_modifiers = {
-			local_defensiveness = 0.1
 		}
 		area_modifier = {
 		}
 		country_modifiers = {
-			cavalry_power = 0.05
-			cossacks_loyalty_modifier = 0.05
 		}
 		on_upgraded = {
 		}
@@ -155,6 +162,9 @@ zaporozhian_sich = {
 			cossacks_influence_modifier = 0.1
 		}
 		on_upgraded = {
+			owner = {
+				country_event = { id = zaz_monument.2 days = 3 }
+			}
 		}
 	}
 
@@ -186,6 +196,9 @@ zaporozhian_sich = {
 		}
 		on_upgraded = {
 			custom_tooltip = zaporozhian_sich_tier_3_tt
+			owner = {
+				country_event = { id = zaz_monument.3 days = 3 }
+			}
 		}
 	}
 }

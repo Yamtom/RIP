@@ -15,6 +15,13 @@
 # mod has no separate Mukachevo province, so the castle sits in the capital.
 # The area payload therefore reaches transylvania_area (157 158 1952 4127).
 #
+# date = 1400.01.01 is before every bookmark the mod ships, so the castle is
+# placed at start and upgraded from tier 0; build_trigger is therefore reached
+# only on a rebuild after destruction. It still has to carry the culture gate,
+# or an owner could pay 1800 for a castle whose modifiers it can never use.
+# Spelled with province_is_or_accepts_culture, the monument idiom in vanilla
+# (130 uses); has_owner_accepted_culture has none.
+#
 # Ladder and payloads stay inside the envelope measured across all 138 vanilla
 # monuments: costs 1000 / 2500 / 5000, times 120 / 240 / 480 months, at most
 # six country modifiers a tier, no combat pips, prestige never above 1.
@@ -32,7 +39,17 @@ palanok_fortress = {
 	type = monument
 
 	build_trigger = {
-		is_date = 1500.01.01
+		custom_trigger_tooltip = {
+			tooltip = palanok_fortress_culture_tt
+			OR = {
+				culture = ruthenian
+				culture = rusyn
+				culture = hungarian
+				culture = slovak
+				culture = romanian
+			}
+			province_is_or_accepts_culture = yes
+		}
 	}
 
 	on_built = {
@@ -42,17 +59,24 @@ palanok_fortress = {
 	}
 
 	can_use_modifiers_trigger = {
-		OR = {
-			culture = ruthenian
-			culture = hungarian
-			culture = slovak
-			culture = romanian
-			culture = rusyn
+		custom_trigger_tooltip = {
+			tooltip = palanok_fortress_culture_tt
+			OR = {
+				culture = ruthenian
+				culture = rusyn
+				culture = hungarian
+				culture = slovak
+				culture = romanian
+			}
+			province_is_or_accepts_culture = yes
 		}
 	}
 
 	can_upgrade_trigger = {
-		has_owner_accepted_culture = yes
+		custom_trigger_tooltip = {
+			tooltip = palanok_fortress_upgrade_tt
+			province_is_or_accepts_culture = yes
+		}
 	}
 
 	keep_trigger = {
@@ -66,13 +90,10 @@ palanok_fortress = {
 			factor = 0
 		}
 		province_modifiers = {
-			local_defensiveness = 0.1
 		}
 		area_modifier = {
-			local_manpower_modifier = 0.025
 		}
 		country_modifiers = {
-			fort_maintenance_modifier = -0.05
 		}
 		on_upgraded = {
 		}
@@ -94,8 +115,12 @@ palanok_fortress = {
 		}
 		country_modifiers = {
 			siege_ability = 0.05
+			fort_maintenance_modifier = -0.05
 		}
 		on_upgraded = {
+			owner = {
+				country_event = { id = uzh_palanok.1 days = 3 }
+			}
 		}
 	}
 
@@ -119,6 +144,9 @@ palanok_fortress = {
 			fort_maintenance_modifier = -0.1
 		}
 		on_upgraded = {
+			owner = {
+				country_event = { id = uzh_palanok.2 days = 3 }
+			}
 		}
 	}
 
@@ -144,6 +172,9 @@ palanok_fortress = {
 			prestige = 1
 		}
 		on_upgraded = {
+			owner = {
+				country_event = { id = uzh_palanok.3 days = 3 }
+			}
 		}
 	}
 }

@@ -1,0 +1,100 @@
+# ========================================================================
+# The Zaporozhian Sich as a great project.
+# Authenticity: B - documented institution, invented council scenes.
+# Sources:
+#   the fortified seat of the Host below the Dnieper rapids; the chaiky
+#   yards that carried the Black Sea raids; the General Rada against the
+#   register; the winter stores the Kish shared out.
+# The monument itself is common/great_projects/RIP_ZAZ_great_projects.txt.
+#
+# These events deliberately do NOT touch zaporozhian_sich_capital. That
+# province modifier has a fixed lifecycle in history/provinces/283 -
+# Zaporozhia.txt (added 1552, swapped for sich_outpost 1593, re-added
+# 1687, removed 1709, re-added 1734, sich_destroyed 1775). Moving it from
+# script would leave those dated calls to no-op or to plant a second seat.
+# ========================================================================
+
+namespace = zaz_monument
+
+# --- 1. The Sich is walled. Fired from the monument's on_built: unlike
+#        Palanok this one is constructed during play - a 1.37.5 save has
+#        the AI finishing it on 1556.12.30, four years after its date.
+country_event = {
+	id = zaz_monument.1
+	title = zaz_monument.1.t
+	desc = zaz_monument.1.d
+	picture = MILITARY_CAMP_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_monument.1.a
+		ai_chance = { factor = 60 }
+		add_country_modifier = {
+			name = zaz_cossack_democracy
+			duration = -1
+		}
+		rip_estate_mood_effect = { ESTATE = estate_cossacks LOYALTY = 10 }
+	}
+
+	option = {
+		name = zaz_monument.1.b
+		ai_chance = { factor = 40 }
+		add_army_tradition = 10
+		add_mil_power = 50
+		rip_estate_mood_effect = { ESTATE = estate_cossacks LOYALTY = -5 }
+	}
+}
+
+# --- 2. Tier 2: the chaiky yards below the rapids.
+country_event = {
+	id = zaz_monument.2
+	title = zaz_monument.2.t
+	desc = zaz_monument.2.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_monument.2.a
+		ai_chance = { factor = 45 }
+		add_country_modifier = {
+			name = zaz_chaiky_fleet_active
+			duration = -1
+		}
+	}
+
+	option = {
+		name = zaz_monument.2.b
+		ai_chance = { factor = 55 }
+		add_army_tradition = 5
+		add_mil_power = 50
+	}
+}
+
+# --- 3. Tier 3: the treasury of the Host.
+country_event = {
+	id = zaz_monument.3
+	title = zaz_monument.3.t
+	desc = zaz_monument.3.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_monument.3.a
+		ai_chance = { factor = 50 }
+		add_country_modifier = {
+			name = zaz_taxes
+			duration = -1
+		}
+		rip_estate_mood_effect = { ESTATE = estate_cossacks LOYALTY = -5 }
+	}
+
+	option = {
+		name = zaz_monument.3.b
+		ai_chance = { factor = 50 }
+		add_prestige = 10
+		rip_estate_mood_effect = { ESTATE = estate_cossacks LOYALTY = 10 }
+	}
+}

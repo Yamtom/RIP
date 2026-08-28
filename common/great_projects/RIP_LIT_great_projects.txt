@@ -19,6 +19,10 @@
 # The events are events/VilniusPalace.txt: lit_palace.1 fires from on_built,
 # lit_palace.2 reads this monument back through has_great_project in 1655.
 #
+# build_trigger carries province_id = 272: `start` is only the game-start seat
+# and does not constrain where a project may be BUILT, so without it the Palace
+# of the Grand Dukes is constructible in any province LIT/PLC/POL owns.
+#
 # Ladder and payloads stay inside the envelope measured across all 138 vanilla
 # monuments: costs 1000 / 2500 / 5000, times 120 / 240 / 480 months, at most
 # six country modifiers a tier, no combat pips, prestige never above 1.
@@ -36,6 +40,7 @@ vilnius_palace = {
 	type = monument
 
 	build_trigger = {
+		province_id = 272
 		owner = {
 			OR = {
 				tag = LIT
@@ -94,12 +99,10 @@ vilnius_palace = {
 			factor = 0
 		}
 		province_modifiers = {
-			local_development_cost = -0.1
 		}
 		area_modifier = {
 		}
 		country_modifiers = {
-			diplomatic_reputation = 1
 		}
 		on_upgraded = {
 		}
@@ -145,7 +148,7 @@ vilnius_palace = {
 			diplomatic_reputation = 1
 			advisor_cost = -0.15
 			legitimacy = 0.5
-			governing_capacity = 100
+			governing_capacity = 50
 			diplomats = 1
 		}
 		on_upgraded = {
@@ -171,7 +174,7 @@ vilnius_palace = {
 			diplomatic_reputation = 2
 			advisor_cost = -0.15
 			legitimacy = 1
-			governing_capacity = 200
+			governing_capacity = 100
 			diplomats = 1
 			prestige = 1
 		}

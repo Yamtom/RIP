@@ -1,0 +1,93 @@
+# ========================================================================
+# Palanok, the castle above Mukachevo.
+# Authenticity: B - documented castle, invented council scenes.
+# Sources:
+#   the castle on the volcanic hill commanding the Verecke and Uzhok
+#   passes; the Solotvyno salt coming down the Upper Tisza past the only
+#   lockable roof on the road; the Transcarpathian counties that met in
+#   its great hall; the Rakoczi princes who held it against Vienna.
+# The monument itself is common/great_projects/RIP_UZH_great_projects.txt.
+# Hooked from tier on_upgraded, not on_built: date = 1400.01.01 puts the
+# castle on the map at every bookmark the mod ships, so on_built is never
+# reached. No vanilla monument fires an event from either hook.
+# ========================================================================
+
+namespace = uzh_palanok
+
+# --- 1. Tier 1: the passes are closed.
+country_event = {
+	id = uzh_palanok.1
+	title = uzh_palanok.1.t
+	desc = uzh_palanok.1.d
+	picture = FORT_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = uzh_palanok.1.a
+		ai_chance = { factor = 60 }
+		add_country_modifier = {
+			name = uz_palank_border_watch
+			duration = -1
+		}
+	}
+
+	option = {
+		name = uzh_palanok.1.b
+		ai_chance = { factor = 40 }
+		add_mil_power = 50
+		add_army_tradition = 5
+	}
+}
+
+# --- 2. Tier 2: the salt road runs under the walls.
+country_event = {
+	id = uzh_palanok.2
+	title = uzh_palanok.2.t
+	desc = uzh_palanok.2.d
+	picture = TRADEGOODS_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = uzh_palanok.2.a
+		ai_chance = { factor = 55 }
+		add_years_of_income = 0.25
+		rip_estate_mood_effect = { ESTATE = estate_burghers LOYALTY = -5 }
+	}
+
+	option = {
+		name = uzh_palanok.2.b
+		ai_chance = { factor = 45 }
+		add_prestige = 5
+		rip_estate_mood_effect = { ESTATE = estate_burghers LOYALTY = 10 }
+	}
+}
+
+# --- 3. Tier 3: whose hall is it.
+country_event = {
+	id = uzh_palanok.3
+	title = uzh_palanok.3.t
+	desc = uzh_palanok.3.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = uzh_palanok.3.a
+		ai_chance = { factor = 50 }
+		add_country_modifier = {
+			name = uz_granichar_loyalty
+			duration = -1
+		}
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 10 }
+	}
+
+	option = {
+		name = uzh_palanok.3.b
+		ai_chance = { factor = 50 }
+		add_army_tradition = 10
+		add_mil_power = 50
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = -5 }
+	}
+}
