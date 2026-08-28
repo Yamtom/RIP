@@ -126,7 +126,7 @@ def check_registration(failures: list[str], owners: dict[str, Path]) -> None:
             f"late Podillian monarchical settlement is not aligned with vanilla M11: {reform}",
         )
 
-    m1 = normalized(named_block(governments, "power_structure"))
+    m1 = normalized(named_block(governments, "feudalism_vs_autocracy"))
     m2 = normalized(named_block(governments, "hereditary_vs_nobility"))
     m10 = normalized(named_block(governments, "absolute_rule_vs_constitutional"))
     for pair, tier in (
@@ -415,9 +415,9 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     palatial_effect = normalized(palatial_mission)
     require(
         failures,
-        "government = monarchy add_government_reform = uzh_palatial_uhro_reform"
+        "government = monarchy } add_government_reform = uzh_palatial_uhro_reform"
         in palatial_effect
-        and "government = republic add_government_reform = uzh_palatial_uhro_republic_reform"
+        and "government = republic } add_government_reform = uzh_palatial_uhro_republic_reform"
         in palatial_effect,
         "UZH Palatial mission does not grant the government-specific Ugro-Rusyn reform",
     )
@@ -493,7 +493,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "region = carpathia_region value = 15" in danubian_ascendancy,
         "UZH Ugro-Rusyn branch still becomes unreachable after Hungary is conquered or inherited",
     )
-    revival = normalized(named_block(uzh_missions_raw, "uzh_revival"))
+    revival = normalized(named_block(uzh_missions_raw, "uz_national_revival"))
     require(
         failures,
         "has_reform = uzh_komitat_system_reform" in revival
@@ -617,7 +617,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         "papal_influence" not in basilian_modifier
         and "tolerance_own = 1" in basilian_modifier
         and "yearly_patriarch_authority" not in karloca_modifier
-        and "church_loyalty_modifier = 0.10" in karloca_modifier,
+        and "church_loyalty_modifier = 0.1" in karloca_modifier,
         "UZH permanent rite modifiers still give a supported faith a dead currency",
     )
     tisza_customs = normalized(
@@ -751,13 +751,12 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "add_republican_tradition = 10" not in identity_choice_event,
         "UZH identity choices still give monarchy- or republic-only authority no-ops",
     )
-    synod_event = normalized(
-        next(
-            block
-            for _, block in keyed_blocks(uzh_events, "country_event")
-            if "id = uzh.51" in normalized(block)
-        )
+    synod_event_raw = next(
+        block
+        for _, block in keyed_blocks(uzh_events, "country_event")
+        if re.search(r"\bid = uzh\.51\b", normalized(block))
     )
+    synod_event = normalized(synod_event_raw)
     require(
         failures,
         "set_country_flag = uzh_union_synod_established" in synod_event
@@ -766,7 +765,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "set_country_flag = uzh_union_old_rite_confirmed" in synod_event,
         "UZH 1646 union event outcomes do not persist or grant their supported Synod reform",
     )
-    synod_event_trigger = normalized(named_block(synod_event, "trigger"))
+    synod_event_trigger = normalized(named_block(synod_event_raw, "trigger"))
     require(
         failures,
         "religion = orthodox" in synod_event_trigger
@@ -791,13 +790,12 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         in ruthenian_identity_event,
         "UZH Ruthenian identity consequence still gives Catholics a Patriarch Authority no-op",
     )
-    synod_migration = normalized(
-        next(
-            block
-            for _, block in keyed_blocks(uzh_events, "country_event")
-            if "id = uzh.204" in normalized(block)
-        )
+    synod_migration_raw = next(
+        block
+        for _, block in keyed_blocks(uzh_events, "country_event")
+        if re.search(r"\bid = uzh\.204\b", normalized(block))
     )
+    synod_migration = normalized(synod_migration_raw)
     require(
         failures,
         "hidden = yes" in synod_migration
@@ -808,7 +806,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "set_country_flag = uzh_union_old_rite_confirmed" in synod_migration,
         "UZH old saves with active union outcomes are not migrated to permanent flags",
     )
-    migration_trigger = normalized(named_block(synod_migration, "trigger"))
+    migration_trigger = normalized(named_block(synod_migration_raw, "trigger"))
     require(
         failures,
         migration_trigger.startswith("trigger = { OR = {")
@@ -1330,10 +1328,8 @@ def check_linked_lifecycle(failures: list[str]) -> None:
         and "153 = {" not in danube,
         "HET Danube Frontier does not consistently target Silistria/Dobruja (159)",
     )
-    ottoman_threat = normalized(
-        named_block(read("missions/Podillia_Missions.txt"), "PDL_withstand_ottoman_threat")
-    )
-    ottoman_highlight = normalized(named_block(ottoman_threat, "provinces_to_highlight"))
+    ottoman_threat_raw = named_block(read("missions/Podillia_Missions.txt"), "PDL_withstand_ottoman_threat")
+    ottoman_highlight = normalized(named_block(ottoman_threat_raw, "provinces_to_highlight"))
     require(
         failures,
         "area = podolia_volhynia_area" in ottoman_highlight
