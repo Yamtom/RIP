@@ -6,13 +6,14 @@
 pdl_clan_assembly_reform = {
 	icon = "tribal_council"
 	allow_normal_conversion = no
-	valid_for_nation_designer = yes
+	lock_level_when_selected = yes
+	valid_for_nation_designer = no
 	valid_for_new_country = yes
 	potential = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 	}
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 	}
 	modifiers = {
 		global_unrest = -1
@@ -30,13 +31,14 @@ pdl_clan_assembly_reform = {
 pdl_steppe_principality_reform = {
 	icon = "russian_principality"
 	allow_normal_conversion = no
-	valid_for_nation_designer = yes
+	lock_level_when_selected = yes
+	valid_for_nation_designer = no
 	valid_for_new_country = yes
 	potential = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 	}
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.10
@@ -54,13 +56,14 @@ pdl_steppe_principality_reform = {
 pdl_voivodeship_kingdom_reform = {
 	icon = "crown_highlighted"
 	allow_normal_conversion = no
+	lock_level_when_selected = yes
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 	}
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.15
@@ -83,10 +86,10 @@ pdl_palatine_court_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		pdl_carpathian_reform_visible = yes
 	}
 	trigger = {
-		tag = PDL
+		pdl_carpathian_reform_visible = yes
 	}
 	modifiers = {
 		diplomatic_reputation = 1
@@ -109,10 +112,10 @@ pdl_aristocratic_assembly_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		pdl_magnate_reforms_visible = yes
 	}
 	trigger = {
-		tag = PDL
+		pdl_magnate_reforms_visible = yes
 	}
 	modifiers = {
 		nobles_influence_modifier = 0.25
@@ -135,10 +138,10 @@ pdl_magnate_republic_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		pdl_magnate_reforms_visible = yes
 	}
 	trigger = {
-		tag = PDL
+		pdl_magnate_reforms_visible = yes
 	}
 	modifiers = {
 		global_tax_modifier = 0.10
@@ -159,13 +162,14 @@ pdl_magnate_republic_reform = {
 pdl_frontier_voivodeship_reform = {
 	icon = "assembly_hall"
 	allow_normal_conversion = no
+	lock_level_when_selected = yes
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 	}
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.15
@@ -188,10 +192,10 @@ pdl_carpathian_bastion_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		pdl_carpathian_reform_visible = yes
 	}
 	trigger = {
-		tag = PDL
+		pdl_carpathian_reform_visible = yes
 	}
 	modifiers = {
 		fort_maintenance_modifier = -0.20
@@ -214,10 +218,10 @@ pdl_frontier_republic_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		pdl_frontier_reform_visible = yes
 	}
 	trigger = {
-		tag = PDL
+		pdl_frontier_reform_visible = yes
 	}
 	modifiers = {
 		cavalry_cost = -0.10
@@ -242,17 +246,17 @@ pdl_magnate_dominion_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		pdl_magnate_reforms_visible = yes
 	}
 	trigger = {
-		tag = PDL
+		pdl_magnate_reforms_visible = yes
 	}
 	modifiers = {
-		global_tax_modifier = 0.10
-		trade_efficiency = 0.10
-		governing_capacity_modifier = 0.10
-		nobles_influence_modifier = 0.10
+		governing_capacity_modifier = 0.15
+		global_autonomy = -0.025
+		nobles_influence_modifier = 0.15
 		max_absolutism = 10
+		global_unrest = 1
 	}
 	start_territory_to_estates = 0.25
 	custom_attributes = {
@@ -269,10 +273,11 @@ pdl_enlightened_voivodeship_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		pdl_carpathian_reform_visible = yes
 	}
 	trigger = {
-		tag = PDL
+		pdl_carpathian_reform_visible = yes
+		has_institution = enlightenment
 	}
 	modifiers = {
 		technology_cost = -0.05
@@ -292,10 +297,10 @@ pdl_absolute_dominion_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		pdl_magnate_reforms_visible = yes
 	}
 	trigger = {
-		tag = PDL
+		pdl_magnate_reforms_visible = yes
 	}
 	modifiers = {
 		max_absolutism = 10
@@ -319,10 +324,14 @@ pdl_revolutionary_republic_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		pdl_frontier_reform_visible = yes
 	}
 	trigger = {
-		tag = PDL
+		pdl_frontier_reform_visible = yes
+		OR = {
+			current_age = age_of_revolutions
+			is_revolutionary = yes
+		}
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.10
@@ -344,10 +353,10 @@ pdl_grand_podillia_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		pdl_grand_reform_visible = yes
 	}
 	trigger = {
-		tag = PDL
+		pdl_grand_reform_visible = yes
 	}
 	modifiers = {
 		prestige = 2
@@ -371,10 +380,10 @@ pdl_religious_tolerance_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PDL
+		pdl_tolerance_reform_visible = yes
 	}
 	trigger = {
-		tag = PDL
+		pdl_tolerance_reform_visible = yes
 	}
 	modifiers = {
 		tolerance_heretic = 2
@@ -382,7 +391,6 @@ pdl_religious_tolerance_reform = {
 		religious_unity = 0.25
 		stability_cost_modifier = -0.15
 		missionary_maintenance_cost = -0.25
-		global_missionary_strength = 0.02
 	}
 	custom_attributes = {
 		locked_government_type = yes

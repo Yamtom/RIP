@@ -15,13 +15,13 @@ hlc_galician_voivodeship_reform = {
 	allow_convert = no
 	potential = {
 		OR = {
-			tag = HLC
+			west_ukraine_hlc_origin_country = yes
 			has_reform = hlc_galician_voivodeship_reform
 		}
 	}
 	trigger = {
 		OR = {
-			tag = HLC
+			west_ukraine_hlc_origin_country = yes
 			has_reform = hlc_galician_voivodeship_reform
 		}
 	}
@@ -44,7 +44,7 @@ hlc_magnate_assembly_reform = {
 	valid_for_new_country = no
 	potential = {
 		OR = {
-			tag = HLC
+			west_ukraine_hlc_origin_country = yes
 			has_reform = hlc_magnate_assembly_reform
 		}
 	}
@@ -52,7 +52,7 @@ hlc_magnate_assembly_reform = {
 		OR = {
 			has_reform = hlc_magnate_assembly_reform
 			AND = {
-				tag = HLC
+				west_ukraine_hlc_origin_country = yes
 				custom_trigger_tooltip = {
 					tooltip = hlc_path_poland_req_tt
 					hlc_has_poland_path = yes
@@ -73,6 +73,8 @@ hlc_magnate_assembly_reform = {
 		}
 		is_elective = yes
 		custom_attributes = {
+			# Intentional: the Polish constitutional path uses the vanilla
+			# elective-monarchy event and succession system.
 			has_polish_election = yes
 		}
 	}
@@ -88,7 +90,7 @@ hlc_centralized_voivodeship_reform = {
 	valid_for_new_country = no
 	potential = {
 		OR = {
-			tag = HLC
+			west_ukraine_hlc_origin_country = yes
 			has_reform = hlc_centralized_voivodeship_reform
 		}
 	}
@@ -96,7 +98,7 @@ hlc_centralized_voivodeship_reform = {
 		OR = {
 			has_reform = hlc_centralized_voivodeship_reform
 			AND = {
-				tag = HLC
+				west_ukraine_hlc_origin_country = yes
 				custom_trigger_tooltip = {
 					tooltip = hlc_path_austria_req_tt
 					hlc_has_austria_path = yes
@@ -122,7 +124,7 @@ hlc_galician_sejm_reform = {
 	valid_for_new_country = no
 	potential = {
 		OR = {
-			tag = HLC
+			west_ukraine_hlc_origin_country = yes
 			has_reform = hlc_galician_sejm_reform
 		}
 	}
@@ -130,7 +132,7 @@ hlc_galician_sejm_reform = {
 		OR = {
 			has_reform = hlc_galician_sejm_reform
 			AND = {
-				tag = HLC
+				west_ukraine_hlc_origin_country = yes
 				custom_trigger_tooltip = {
 					tooltip = hlc_path_poland_req_tt
 					hlc_has_poland_path = yes
@@ -141,19 +143,12 @@ hlc_galician_sejm_reform = {
 	modifiers = {
 		free_adm_policy = 1
 		envoy_travel_time = -0.15
-		reform_progress_growth = 0.25
+		reform_progress_growth = 0.15
 		stability_cost_modifier = -0.10
 		max_absolutism = -10
 		global_unrest = -1
-	}
-	effect = {
-		add_country_modifier = {
-			name = galician_sejm_assembly
-			duration = -1
-		}
-	}
-	removed_effect = {
-		remove_country_modifier = galician_sejm_assembly
+		governing_capacity = 75
+		legitimacy = 0.5
 	}
 	conditional = {
 		allow = {
@@ -176,7 +171,7 @@ hlc_austrian_bureaucracy_reform = {
 	valid_for_new_country = no
 	potential = {
 		OR = {
-			tag = HLC
+			west_ukraine_hlc_origin_country = yes
 			has_reform = hlc_austrian_bureaucracy_reform
 		}
 	}
@@ -184,7 +179,7 @@ hlc_austrian_bureaucracy_reform = {
 		OR = {
 			has_reform = hlc_austrian_bureaucracy_reform
 			AND = {
-				tag = HLC
+				west_ukraine_hlc_origin_country = yes
 				custom_trigger_tooltip = {
 					tooltip = hlc_path_austria_req_tt
 					hlc_has_austria_path = yes
@@ -194,7 +189,8 @@ hlc_austrian_bureaucracy_reform = {
 	}
 	modifiers = {
 		advisor_cost = -0.10
-		meritocracy = 0.25
+		advisor_pool = 1
+		yearly_corruption = -0.05
 		governing_capacity_modifier = 0.05
 		monthly_reform_progress = 0.10
 	}
@@ -219,7 +215,7 @@ hlc_merchant_privileges_reform = {
 	valid_for_new_country = no
 	potential = {
 		OR = {
-			tag = HLC
+			west_ukraine_hlc_origin_country = yes
 			has_reform = hlc_merchant_privileges_reform
 		}
 	}
@@ -227,7 +223,7 @@ hlc_merchant_privileges_reform = {
 		OR = {
 			has_reform = hlc_merchant_privileges_reform
 			AND = {
-				tag = HLC
+				west_ukraine_hlc_origin_country = yes
 				custom_trigger_tooltip = {
 					tooltip = hlc_path_poland_req_tt
 					hlc_has_poland_path = yes
@@ -257,7 +253,7 @@ hlc_confessional_dualism_reform = {
 	valid_for_new_country = no
 	potential = {
 		OR = {
-			tag = HLC
+			west_ukraine_hlc_origin_country = yes
 			has_reform = hlc_confessional_dualism_reform
 		}
 	}
@@ -265,7 +261,7 @@ hlc_confessional_dualism_reform = {
 		OR = {
 			has_reform = hlc_confessional_dualism_reform
 			AND = {
-				tag = HLC
+				west_ukraine_hlc_origin_country = yes
 				custom_trigger_tooltip = {
 					tooltip = hlc_confessional_dualism_confessional_req_tt
 					hlc_has_confessional_settlement = yes
@@ -279,6 +275,8 @@ hlc_confessional_dualism_reform = {
 		religious_unity = 0.25
 		stability_cost_modifier = -0.10
 		prestige = 0.5
+		global_missionary_strength = -0.01
+		max_absolutism = -5
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -292,7 +290,7 @@ hlc_crown_authority_reform = {
 	valid_for_new_country = no
 	potential = {
 		OR = {
-			tag = HLC
+			west_ukraine_hlc_origin_country = yes
 			has_reform = hlc_crown_authority_reform
 		}
 	}
@@ -300,7 +298,7 @@ hlc_crown_authority_reform = {
 		OR = {
 			has_reform = hlc_crown_authority_reform
 			AND = {
-				tag = HLC
+				west_ukraine_hlc_origin_country = yes
 				custom_trigger_tooltip = {
 					tooltip = hlc_path_austria_req_tt
 					hlc_has_austria_path = yes
@@ -313,10 +311,11 @@ hlc_crown_authority_reform = {
 		}
 	}
 	modifiers = {
-		max_absolutism = 5
-		yearly_absolutism = 0.25
+		max_absolutism = 10
+		yearly_absolutism = 0.5
 		diplomatic_reputation = 0.5
-		stability_cost_modifier = -0.05
+		global_autonomy = -0.025
+		governing_capacity_modifier = 0.05
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -330,7 +329,7 @@ hlc_crown_and_sejm_reform = {
 	valid_for_new_country = no
 	potential = {
 		OR = {
-			tag = HLC
+			west_ukraine_hlc_origin_country = yes
 			has_reform = hlc_crown_and_sejm_reform
 		}
 	}
@@ -338,7 +337,7 @@ hlc_crown_and_sejm_reform = {
 		OR = {
 			has_reform = hlc_crown_and_sejm_reform
 			AND = {
-				tag = HLC
+				west_ukraine_hlc_origin_country = yes
 				custom_trigger_tooltip = {
 					tooltip = hlc_path_poland_req_tt
 					hlc_has_poland_path = yes
@@ -351,9 +350,9 @@ hlc_crown_and_sejm_reform = {
 		}
 	}
 	modifiers = {
-		max_absolutism = 10
+		max_absolutism = -5
 		reform_progress_growth = 0.15
-		administrative_efficiency = 0.05
+		administrative_efficiency = 0.025
 		global_tax_modifier = 0.10
 		stability_cost_modifier = -0.10
 		legitimacy = 1
@@ -370,7 +369,7 @@ hlc_enlightened_monarchy_reform = {
 	valid_for_new_country = no
 	potential = {
 		OR = {
-			tag = HLC
+			west_ukraine_hlc_origin_country = yes
 			has_reform = hlc_enlightened_monarchy_reform
 		}
 	}
@@ -378,7 +377,7 @@ hlc_enlightened_monarchy_reform = {
 		OR = {
 			has_reform = hlc_enlightened_monarchy_reform
 			AND = {
-				tag = HLC
+				west_ukraine_hlc_origin_country = yes
 				custom_trigger_tooltip = {
 					tooltip = hlc_constitution_done_req_tt
 					hlc_has_constitution_settlement = yes
@@ -388,7 +387,8 @@ hlc_enlightened_monarchy_reform = {
 	}
 	modifiers = {
 		global_unrest = -2
-		meritocracy = 0.25
+		idea_cost = -0.05
+		yearly_corruption = -0.05
 		culture_conversion_cost = -0.10
 		development_cost = -0.05
 	}
@@ -404,7 +404,7 @@ hlc_military_modernization_reform = {
 	valid_for_new_country = no
 	potential = {
 		OR = {
-			tag = HLC
+			west_ukraine_hlc_origin_country = yes
 			has_reform = hlc_military_modernization_reform
 		}
 	}
@@ -412,7 +412,7 @@ hlc_military_modernization_reform = {
 		OR = {
 			has_reform = hlc_military_modernization_reform
 			AND = {
-				tag = HLC
+				west_ukraine_hlc_origin_country = yes
 				custom_trigger_tooltip = {
 					tooltip = hlc_path_austria_req_tt
 					hlc_has_austria_path = yes

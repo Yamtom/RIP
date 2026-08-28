@@ -1,3 +1,5 @@
+# =============================================================================
+# RIP_LIT_government_reforms
 # The Grand Duchy of Lithuania, reworked.
 #
 # Vanilla's grand_duchy_reform is a stub: one modifier, governing capacity 200,
@@ -7,6 +9,8 @@
 # This file replaces that stub by key, so anything that already tests
 # has_reform = grand_duchy_reform keeps working, and hangs a ladder of six
 # Lithuanian institutions off it.
+# Version-sensitive override: audited against vanilla 1.37.5. Recompare this
+# definition whenever the supported EU4 version changes.
 #
 # The two tier-1 reforms at the bottom are the ends of the union quarrel in
 # decisions/UnionDispute.txt: the Commonwealth kept as two nations, or the
@@ -16,6 +20,7 @@
 # Every reform here is registered in common/governments/00_governments.txt, or
 # it would never be offered, and every one carries a potential block, or it
 # would be offered to every country in the game.
+# =============================================================================
 
 # --- tier 1: the Grand Duchy itself ----------------------------------------
 
@@ -95,10 +100,10 @@ lit_ruthenian_chancery_reform = {
 		}
 	}
 	modifiers = {
-		core_creation = -0.15
-		promote_culture_cost = -0.25
-		global_autonomy = -0.05
-		governing_capacity = 100
+		core_creation = -0.10
+		promote_culture_cost = -0.15
+		governing_capacity = 50
+		yearly_corruption = -0.05
 	}
 	ai = {
 		factor = 10
@@ -179,7 +184,10 @@ lit_grand_diet_reform = {
 	}
 	conditional = {
 		allow = {
-			has_dlc = "Common Sense"
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
 		}
 		has_parliament = yes
 	}
@@ -203,10 +211,11 @@ lit_statute_reform = {
 		}
 	}
 	modifiers = {
-		administrative_efficiency = 0.05
+		administrative_efficiency = 0.025
 		global_unrest = -1
 		state_maintenance_modifier = -0.1
 		legitimacy = 0.5
+		yearly_corruption = -0.05
 	}
 	ai = {
 		factor = 10

@@ -6,7 +6,7 @@
 prl_ancient_principality_reform = {
 	icon = "russian_principality"
 	allow_normal_conversion = no
-	valid_for_nation_designer = yes
+	valid_for_nation_designer = no
 	valid_for_new_country = yes
 	lock_level_when_selected = yes
 	queen = yes
@@ -16,10 +16,16 @@ prl_ancient_principality_reform = {
 	heirs_can_be_generals = yes
 	allow_convert = no
 	potential = {
-		tag = PRL
+		OR = {
+			has_reform = prl_ancient_principality_reform
+			tag = PRL
+		}
 	}
 	trigger = {
-		tag = PRL
+		OR = {
+			has_reform = prl_ancient_principality_reform
+			tag = PRL
+		}
 	}
 	modifiers = {
 		legitimacy = 1
@@ -42,12 +48,27 @@ prl_regimental_republic_reform = {
 	valid_for_new_country = yes
 	rulers_can_be_generals = yes
 	republic = yes
+	republican_name = yes
+	has_term_election = yes
+	royal_marriage = no
 	duration = 4
 	potential = {
-		tag = PRL
+		OR = {
+			has_reform = prl_regimental_republic_reform
+			AND = {
+				tag = PRL
+				has_country_flag = prl_regimental_republic_unlocked
+			}
+		}
 	}
 	trigger = {
-		tag = PRL
+		OR = {
+			has_reform = prl_regimental_republic_reform
+			AND = {
+				tag = PRL
+				has_country_flag = prl_regimental_republic_unlocked
+			}
+		}
 	}
 	modifiers = {
 		army_tradition = 0.5
@@ -58,10 +79,12 @@ prl_regimental_republic_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
 	}
 	conditional = {
 		allow = {
-			has_dlc = "Dharma"
+			has_dlc = "The Cossacks"
 		}
 		government_abilities = {
 			cossacks_mechanic
@@ -78,11 +101,22 @@ prl_treaty_diplomacy_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PRL
+		OR = {
+			has_reform = prl_treaty_diplomacy_reform
+			tag = PRL
+		}
 	}
 	trigger = {
-		tag = PRL
-		adm_tech = 8
+		OR = {
+			has_reform = prl_treaty_diplomacy_reform
+			AND = {
+				tag = PRL
+				OR = {
+					mission_completed = prl_diplomatic_prestige
+					adm_tech = 8
+				}
+			}
+		}
 	}
 	modifiers = {
 		diplomatic_reputation = 1
@@ -102,15 +136,26 @@ prl_chernozem_economy_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PRL
+		OR = {
+			has_reform = prl_chernozem_economy_reform
+			tag = PRL
+		}
 	}
 	trigger = {
-		tag = PRL
-		adm_tech = 12
+		OR = {
+			has_reform = prl_chernozem_economy_reform
+			AND = {
+				tag = PRL
+				OR = {
+					mission_completed = prl_chernozem_development
+					adm_tech = 12
+				}
+			}
+		}
 	}
 	modifiers = {
 		production_efficiency = 0.15
-		trade_goods_size_modifier = 0.10
+		global_trade_goods_size_modifier = 0.10
 		development_cost = -0.10
 		global_tax_modifier = 0.10
 	}
@@ -125,11 +170,22 @@ prl_border_fortress_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PRL
+		OR = {
+			has_reform = prl_border_fortress_reform
+			tag = PRL
+		}
 	}
 	trigger = {
-		tag = PRL
-		mil_tech = 12
+		OR = {
+			has_reform = prl_border_fortress_reform
+			AND = {
+				tag = PRL
+				OR = {
+					mission_completed = prl_border_defenses
+					mil_tech = 12
+				}
+			}
+		}
 	}
 	modifiers = {
 		fort_maintenance_modifier = -0.25
@@ -148,18 +204,41 @@ prl_episcopal_authority_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		tag = PRL
+		OR = {
+			has_reform = prl_episcopal_authority_reform
+			AND = {
+				tag = PRL
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+					religion = greek_catholic
+				}
+			}
+		}
 	}
 	trigger = {
-		tag = PRL
-		adm_tech = 15
+		OR = {
+			has_reform = prl_episcopal_authority_reform
+			AND = {
+				tag = PRL
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+					religion = greek_catholic
+				}
+				OR = {
+					mission_completed = prl_episcopal_authority
+					adm_tech = 15
+				}
+			}
+		}
 	}
 	modifiers = {
 		tolerance_own = 2
 		church_loyalty_modifier = 0.15
 		stability_cost_modifier = -0.15
 		global_missionary_strength = 0.02
-		monthly_fervor_increase = 0.5
+		yearly_patriarch_authority = 0.005
 	}
 	ai = {
 		factor = 5

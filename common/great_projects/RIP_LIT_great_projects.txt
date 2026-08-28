@@ -1,3 +1,12 @@
+# =============================================================================
+# RIP_LIT_great_projects
+# LIT / PLC / POL - the Grand Duchy. One monument: vilnius_palace.
+# Ordered as vanilla orders a monument: start, date, time, build_cost,
+# can_be_moved, move_days_per_unit_distance, starting_tier, type, build_trigger,
+# on_built, on_destroyed, can_use_modifiers_trigger, can_upgrade_trigger,
+# keep_trigger, tier_0 .. tier_3.
+# =============================================================================
+
 # The Palace of the Grand Dukes at Vilnius.
 #
 # The lower castle was rebuilt in the Italian manner under Sigismund the Old
@@ -6,6 +15,9 @@
 # Statute was printed under its roof, and every envoy who wanted the Grand
 # Duchy rather than the Crown was lodged there. Muscovite troops stripped it in
 # 1655 and it never recovered; what was left was pulled down in 1801.
+#
+# The events are events/VilniusPalace.txt: lit_palace.1 fires from on_built,
+# lit_palace.2 reads this monument back through has_great_project in 1655.
 #
 # Ladder and payloads stay inside the envelope measured across all 138 vanilla
 # monuments: costs 1000 / 2500 / 5000, times 120 / 240 / 480 months, at most
@@ -19,6 +31,7 @@ vilnius_palace = {
 	}
 	build_cost = 1000
 	can_be_moved = no
+	move_days_per_unit_distance = 1
 	starting_tier = 0
 	type = monument
 
@@ -41,6 +54,7 @@ vilnius_palace = {
 			country_event = { id = lit_palace.1 days = 5 }
 		}
 	}
+
 	on_destroyed = {
 	}
 

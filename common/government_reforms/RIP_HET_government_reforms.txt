@@ -11,7 +11,7 @@ het_starshyna_oligarchy_reform = {
 			has_reform = het_starshyna_oligarchy_reform
 			AND = {
 				tag = HET
-				has_reform = rip_cossacks_reform
+				is_cossack_polity = yes
 			}
 		}
 	}
@@ -20,7 +20,7 @@ het_starshyna_oligarchy_reform = {
 			has_reform = het_starshyna_oligarchy_reform
 			AND = {
 				tag = HET
-				has_reform = rip_cossacks_reform
+				is_cossack_polity = yes
 			}
 		}
 	}
@@ -44,17 +44,23 @@ het_hetman_for_life_reform = {
 	icon = "king_highlighted"
 	allow_normal_conversion = yes
 	potential = {
-		tag = HET
+		OR = {
+			has_reform = het_hetman_for_life_reform
+			tag = HET
+		}
 	}
 	trigger = {
-		tag = HET
+		OR = {
+			has_reform = het_hetman_for_life_reform
+			tag = HET
+		}
 	}
 	has_term_election = no
 	modifiers = {
-		legitimacy = 1
+		prestige = 1
 		max_absolutism = 20
-		republican_tradition = -1
-		stability_cost_modifier = -0.33
+		republican_tradition = -0.5
+		stability_cost_modifier = -0.15
 		reform_progress_growth = 0.1
 	}
 	ai = {
@@ -66,21 +72,17 @@ het_regimental_system_reform = {
 	icon = "soldiers_2"
 	allow_normal_conversion = yes
 	potential = {
-		tag = HET
+		OR = {
+			has_reform = het_regimental_system_reform
+			tag = HET
+		}
 	}
 	trigger = {
-		tag = HET
 		OR = {
-			is_year = 1650
+			has_reform = het_regimental_system_reform
 			AND = {
-				NOT = { is_year = 1650 }
-				OR = {
-					has_institution = global_trade
-					current_age = age_of_absolutism
-				}
-				num_of_cities = 10
-				army_size_percentage = 1
-				manpower_percentage = 1
+				tag = HET
+				has_country_flag = regiments_established
 			}
 		}
 	}
@@ -94,7 +96,6 @@ het_regimental_system_reform = {
 		min_autonomy_in_territories = -0.05
 	}
 	custom_attributes = {
-		regimental_provincial_system = yes
 		improved_military_buildings = yes
 	}
 	effect = {
@@ -109,7 +110,7 @@ het_regimental_system_reform = {
 					}
 				}
 				add_province_modifier = {
-					name = the_provincial_system
+					name = het_regimental_province_administration
 					duration = -1
 					hidden = yes
 				}
@@ -120,9 +121,9 @@ het_regimental_system_reform = {
 		hidden_effect = {
 			every_owned_province = {
 				limit = {
-					has_province_modifier = the_provincial_system
+					has_province_modifier = het_regimental_province_administration
 				}
-				remove_province_modifier = the_provincial_system
+				remove_province_modifier = het_regimental_province_administration
 			}
 		}
 	}
@@ -135,10 +136,19 @@ het_academy_enlightenment_reform = {
 	icon = "rip_gfx_reform_het_academy_enlightenment_icon"
 	allow_normal_conversion = yes
 	potential = {
-		tag = HET
+		OR = {
+			has_reform = het_academy_enlightenment_reform
+			tag = HET
+		}
 	}
 	trigger = {
-		tag = HET
+		OR = {
+			has_reform = het_academy_enlightenment_reform
+			AND = {
+				tag = HET
+				has_country_flag = academy_expanded
+			}
+		}
 	}
 	modifiers = {
 		idea_cost = -0.05
@@ -160,33 +170,40 @@ het_mazepist_autocracy_reform = {
 	icon = "crown_highlighted"
 	allow_normal_conversion = no
 	potential = {
-		tag = HET
+		OR = {
+			has_reform = het_mazepist_autocracy_reform
+			tag = HET
+		}
 	}
 	trigger = {
-		tag = HET
 		OR = {
-			is_year = 1687
+			has_reform = het_mazepist_autocracy_reform
 			AND = {
-				NOT = { is_year = 1687 }
+				tag = HET
 				OR = {
-					has_institution = printing_press
-					current_age = age_of_absolutism
+					is_year = 1687
+					AND = {
+						NOT = { is_year = 1687 }
+						OR = {
+							has_institution = printing_press
+							current_age = age_of_absolutism
+						}
+						republican_tradition = 80
+						army_tradition = 60
+					}
 				}
-				legitimacy = 100
-				army_tradition = 60
 			}
 		}
 	}
 	maintain_dynasty = yes
 	modifiers = {
-		max_absolutism = 30
-		legitimacy = 1
+		max_absolutism = 20
 		reform_progress_growth = 0.10
 		diplomatic_reputation = 1
 		advisor_pool = 1
 		yearly_corruption = -0.05
-		republican_tradition = -1
-		all_power_cost = -0.025
+		republican_tradition = -0.5
+		all_power_cost = -0.01
 		election_cycle = 8
 	}
 	custom_attributes = {
@@ -211,20 +228,18 @@ het_collegium_control_reform = {
 	icon = "provincial_government"
 	allow_normal_conversion = yes
 	potential = {
-		tag = HET
+		has_reform = het_collegium_control_reform
 	}
 	trigger = {
-		tag = HET
-		is_year = 1722
-		overlord = {
-			tag = RUS
-		}
+		has_reform = het_collegium_control_reform
 	}
 	modifiers = {
 		republican_tradition = -0.25
 		max_absolutism = -10
 		governing_capacity_modifier = 0.10
-		stability_cost_modifier = -0.2
+		state_maintenance_modifier = -0.15
+		reform_progress_growth = 0.10
+		stability_cost_modifier = -0.10
 		diplomatic_upkeep = 1
 		diplomatic_reputation = -0.5
 		liberty_desire = -10

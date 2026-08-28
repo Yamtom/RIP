@@ -5,6 +5,7 @@
 
 odesa_trade_republic_reform = {
 	icon = "merchant"
+	legacy_equivalent = merchant_republic
 	boost_income = yes
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
@@ -16,11 +17,19 @@ odesa_trade_republic_reform = {
 	has_term_election = yes
 	rulers_can_be_generals = yes
 	royal_marriage = no
+	republic = yes
+	republican_name = yes
 	potential = {
-		tag = ODS
+		OR = {
+			has_reform = odesa_trade_republic_reform
+			tag = ODS
+		}
 	}
 	trigger = {
-		tag = ODS
+		OR = {
+			has_reform = odesa_trade_republic_reform
+			tag = ODS
+		}
 	}
 	modifiers = {
 		merchants = 1
@@ -34,5 +43,30 @@ odesa_trade_republic_reform = {
 		locked_government_type = yes
 		enables_plutocratic_idea_group = yes
 		enables_aristocratic_idea_group = no
+		is_merchant_republic = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			NOT = { has_dlc = "Mare Nostrum" }
+		}
+		can_use_trade_post = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Mare Nostrum"
+			NOT = { has_dlc = "Res Publica" }
+		}
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			has_dlc = "Mare Nostrum"
+		}
+		can_use_trade_post = yes
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
 	}
 }

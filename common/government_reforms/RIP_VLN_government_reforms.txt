@@ -10,7 +10,7 @@ vln_voivodeship_reform = {
 	valid_for_new_country = no
 	potential = {
 		OR = {
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 			has_reform = vln_voivodeship_reform
 		}
 	}
@@ -18,7 +18,7 @@ vln_voivodeship_reform = {
 		OR = {
 			has_reform = vln_voivodeship_reform
 			AND = {
-				tag = VLN
+				west_ukraine_vln_origin_country = yes
 			}
 		}
 	}
@@ -27,23 +27,12 @@ vln_voivodeship_reform = {
 	heir = yes
 	royal_marriage = yes
 	allow_convert = no
-	government_abilities = {
-		cossacks_mechanic
-	}
 	modifiers = {
-		governing_capacity = 10
+		governing_capacity = 100
 		reform_progress_growth = 0.10
 		diplomatic_reputation = 0.5
-		monthly_reform_progress = 0.10
-	}
-	effect = {
-		add_country_modifier = {
-			name = vln_voivodeship_assembly
-			duration = -1
-		}
-	}
-	removed_effect = {
-		remove_country_modifier = vln_voivodeship_assembly
+		global_manpower_modifier = 0.10
+		nobles_loyalty_modifier = 0.05
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -55,34 +44,30 @@ vln_confessional_reform = {
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 			has_reform = vln_confessional_reform
 		}
 	}
 	trigger = {
 		OR = {
 			has_reform = vln_confessional_reform
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 		}
 	}
 	modifiers = {
 		tolerance_heretic = 3
 		religious_unity = 0.10
+		tolerance_own = 1
+		global_unrest = -1
 	}
 	conditional = {
 		allow = {
-			has_dlc = "Common Sense"
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
 		}
 		has_parliament = yes
-	}
-	effect = {
-		add_country_modifier = {
-			name = vln_confessional_diet
-			duration = -1
-		}
-	}
-	removed_effect = {
-		remove_country_modifier = vln_confessional_diet
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -94,23 +79,28 @@ vln_ruthenia_reform = {
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 			has_reform = vln_ruthenia_reform
 		}
 	}
 	trigger = {
 		OR = {
 			has_reform = vln_ruthenia_reform
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 		}
 	}
 	modifiers = {
 		max_absolutism = 10
 		legitimacy = 0.5
+		administrative_efficiency = 0.025
+		nobles_loyalty_modifier = 0.05
 	}
 	conditional = {
 		allow = {
-			has_dlc = "Common Sense"
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
 		}
 		has_parliament = yes
 	}
@@ -119,15 +109,6 @@ vln_ruthenia_reform = {
 			has_dlc = "Res Publica"
 		}
 		is_elective = yes
-	}
-	effect = {
-		add_country_modifier = {
-			name = vln_crown_statutes
-			duration = -1
-		}
-	}
-	removed_effect = {
-		remove_country_modifier = vln_crown_statutes
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -139,32 +120,24 @@ vln_cossack_host_reform = {
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 			has_reform = vln_cossack_host_reform
 		}
 	}
 	trigger = {
 		OR = {
 			has_reform = vln_cossack_host_reform
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 		}
 	}
 	modifiers = {
 		cavalry_cost = -0.15
 		cavalry_flanking = 0.25
-		mil_tech_cost_modifier = -0.05
 		land_forcelimit_modifier = 0.10
+		max_absolutism = -10
 	}
 	government_abilities = {
 		cossacks_mechanic
-	}
-	conditional = {
-		allow = {
-			has_dlc = "Cradle of Civilization"
-		}
-		government_abilities = {
-			militarization_mechanic
-		}
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -177,14 +150,14 @@ vln_confessional_academy = {
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 			has_reform = vln_confessional_academy
 		}
 	}
 	trigger = {
 		OR = {
 			has_reform = vln_confessional_academy
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 		}
 	}
 	modifiers = {
@@ -197,51 +170,19 @@ vln_confessional_academy = {
 	}
 }
 
-vln_magdeburg_rights = {
-	icon = "free_city"
-	allow_normal_conversion = yes
-	potential = {
-		OR = {
-			tag = VLN
-			has_reform = vln_magdeburg_rights
-		}
-	}
-	trigger = {
-		OR = {
-			has_reform = vln_magdeburg_rights
-			AND = {
-				tag = VLN
-				num_of_owned_provinces_with = {
-					value = 5
-					development = 10
-				}
-			}
-		}
-	}
-	modifiers = {
-		local_autonomy = -0.05
-		local_governing_cost = -0.10
-		production_efficiency = 0.10
-		trade_efficiency = 0.10
-	}
-	custom_attributes = {
-		locked_government_type = yes
-	}
-}
-
 vln_voivode_council = {
 	icon = "council"
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 			has_reform = vln_voivode_council
 		}
 	}
 	trigger = {
 		OR = {
 			has_reform = vln_voivode_council
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 		}
 	}
 	modifiers = {
@@ -257,11 +198,11 @@ vln_voivode_council = {
 }
 
 vln_black_voivode_legion = {
-	icon = "black_army_reform"
+	icon = "soldiers_4"
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 			has_reform = vln_black_voivode_legion
 		}
 	}
@@ -269,7 +210,7 @@ vln_black_voivode_legion = {
 		OR = {
 			has_reform = vln_black_voivode_legion
 			AND = {
-				tag = VLN
+				west_ukraine_vln_origin_country = yes
 				if = {
 					limit = {
 						has_dlc = "Cradle of Civilization"
@@ -286,52 +227,11 @@ vln_black_voivode_legion = {
 		discipline = 0.025
 		land_morale = 0.10
 		army_tradition = 0.5
-	}
-	conditional = {
-		allow = {
-			has_dlc = "Rights of Man"
-		}
-		government_abilities = {
-			militarization_mechanic
-		}
+		land_maintenance_modifier = -0.05
 	}
 	custom_attributes = {
 		locked_government_type = yes
 		recruiting_generals_increases_nobles_loyalty = yes
-	}
-}
-
-vln_ruthenian_renaissance_reform = {
-	icon = "man_on_podium"
-	allow_normal_conversion = yes
-	potential = {
-		OR = {
-			tag = VLN
-			has_reform = vln_ruthenian_renaissance_reform
-		}
-	}
-	trigger = {
-		OR = {
-			has_reform = vln_ruthenian_renaissance_reform
-			AND = {
-				tag = VLN
-				has_institution = renaissance
-				num_of_owned_provinces_with = {
-					value = 3
-					culture = ruthenian
-					development = 20
-				}
-			}
-		}
-	}
-	modifiers = {
-		development_cost = -0.10
-		idea_cost = -0.05
-		prestige = 1
-		advisor_cost = -0.05
-	}
-	custom_attributes = {
-		locked_government_type = yes
 	}
 }
 
@@ -340,14 +240,17 @@ vln_grand_ruthenia_reform = {
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
-			tag = VLN
+			west_ukraine_vln_origin_country = yes
 			has_reform = vln_grand_ruthenia_reform
 		}
 	}
 	trigger = {
 		OR = {
 			has_reform = vln_grand_ruthenia_reform
-			tag = VLN
+			AND = {
+				west_ukraine_vln_origin_country = yes
+				vol_has_grand_ruthenia = yes
+			}
 		}
 	}
 	modifiers = {
@@ -358,7 +261,10 @@ vln_grand_ruthenia_reform = {
 	}
 	conditional = {
 		allow = {
-			has_dlc = "Common Sense"
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
 		}
 		has_parliament = yes
 	}

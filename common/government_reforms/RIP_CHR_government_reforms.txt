@@ -21,10 +21,16 @@ siversk_veche_reform = {
 	}
 	allow_force_tributary = yes
 	potential = {
-		tag = CHR
+		OR = {
+			tag = CHR
+			has_reform = siversk_veche_reform
+		}
 	}
 	trigger = {
-		tag = CHR
+		OR = {
+			tag = CHR
+			has_reform = siversk_veche_reform
+		}
 	}
 	modifiers = {
 		merchants = 1
@@ -42,12 +48,15 @@ siversk_veche_reform = {
 		locked_government_type = yes
 		enables_plutocratic_idea_group = yes
 		enables_aristocratic_idea_group = no
-		has_parliament = yes
 	}
 	conditional = {
 		allow = {
-			has_dlc = "Res Publica"
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
 		}
+		has_parliament = yes
 	}
 	conditional = {
 		allow = {
@@ -66,13 +75,21 @@ chr_grain_directorate_reform = {
 	valid_for_new_country = no
 	rulers_can_be_generals = yes
 	potential = {
-		tag = CHR
+		OR = {
+			tag = CHR
+			has_reform = chr_grain_directorate_reform
+		}
 	}
 	trigger = {
-		tag = CHR
-		custom_trigger_tooltip = {
-			tooltip = chr_agro_hypercorp_complete_req_tt
-			chr_agro_hypercorp_completed = yes
+		OR = {
+			has_reform = chr_grain_directorate_reform
+			AND = {
+				tag = CHR
+				custom_trigger_tooltip = {
+					tooltip = chr_agro_hypercorp_complete_req_tt
+					chr_agro_hypercorp_completed = yes
+				}
+			}
 		}
 	}
 	modifiers = {
@@ -83,8 +100,6 @@ chr_grain_directorate_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
-		extra_trade_goods_from_grain = yes
-		chinampa_farms_mechanic = yes
 	}
 	effect = {
 		custom_tooltip = chr_grain_directorate_reform_tt
@@ -151,10 +166,38 @@ chr_desna_staple_reform = {
 		locked_government_type = yes
 		enables_plutocratic_idea_group = yes
 		enables_aristocratic_idea_group = no
+		is_merchant_republic = yes
 	}
 	conditional = {
 		allow = {
-			has_dlc = "Common Sense"
+			has_dlc = "Res Publica"
+			NOT = { has_dlc = "Mare Nostrum" }
+		}
+		can_use_trade_post = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Mare Nostrum"
+			NOT = { has_dlc = "Res Publica" }
+		}
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			has_dlc = "Mare Nostrum"
+		}
+		can_use_trade_post = yes
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
 		}
 		has_parliament = yes
 	}
@@ -182,15 +225,15 @@ chr_town_union_reform = {
 	royal_marriage = no
 	rulers_can_be_generals = yes
 	boost_income = yes
-	max_states = 100
 	modifiers = {
 		merchants = 1
+		governing_capacity = 150
 		trade_efficiency = 0.1
 		global_trade_power = 0.1
-		global_prosperity_growth = 0.25
+		global_prosperity_growth = 0.1
 		defensiveness = 0.15
 		republican_tradition = 0.1
-		province_warscore_cost = 0.2
+		province_warscore_cost = 0.1
 		max_absolutism = -20
 	}
 	custom_attributes = {
@@ -200,7 +243,10 @@ chr_town_union_reform = {
 	}
 	conditional = {
 		allow = {
-			has_dlc = "Common Sense"
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
 		}
 		has_parliament = yes
 	}
@@ -228,13 +274,12 @@ chr_rada_of_lands_reform = {
 	royal_marriage = no
 	rulers_can_be_generals = yes
 	boost_income = yes
-	max_states = 100
 	modifiers = {
 		merchants = 1
-		governing_capacity = 250
-		trade_efficiency = 0.1
-		global_trade_power = 0.1
-		global_unrest = -2
+		governing_capacity = 200
+		trade_efficiency = 0.05
+		global_trade_power = 0.05
+		global_unrest = -1
 		global_autonomy = -0.05
 		republican_tradition = 0.2
 		max_absolutism = -20
@@ -246,7 +291,10 @@ chr_rada_of_lands_reform = {
 	}
 	conditional = {
 		allow = {
-			has_dlc = "Common Sense"
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
 		}
 		has_parliament = yes
 	}
@@ -348,7 +396,6 @@ chr_prykaz_tsardom_reform = {
 	lock_level_when_selected = yes
 	monarchy = yes
 	fixed_rank = 3
-	claim_states = yes
 	modifiers = {
 		governing_capacity = 350
 		administrative_efficiency = 0.05
@@ -361,6 +408,12 @@ chr_prykaz_tsardom_reform = {
 	custom_attributes = {
 		locked_government_type = yes
 		enables_aristocratic_idea_group = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Third Rome"
+		}
+		claim_states = yes
 	}
 	conditional = {
 		allow = {
@@ -413,8 +466,8 @@ chr_kanceliaryst_republic_reform = {
 }
 
 chr_dzhura_corps_reform = {
-	icon = "mamluk_government"
-	legacy_equivalent = mamluk_government_legacy
+	icon = "soldiers_6"
+	legacy_equivalent = feudal_monarchy
 	potential = {
 		chr_dzhura_corps_visible = yes
 	}
@@ -427,16 +480,16 @@ chr_dzhura_corps_reform = {
 	lock_level_when_selected = yes
 	monarchy = yes
 	fixed_rank = 2
-	queen = no
+	queen = yes
 	heir = no
-	royal_marriage = no
+	royal_marriage = yes
 	rulers_can_be_generals = yes
 	modifiers = {
 		num_accepted_cultures = 2
 		monarch_admin_power = 1
-		monarch_mil_power = 1
+		monarch_military_power = 1
 		same_culture_advisor_cost = -0.25
-		promote_culture_cost = -0.5
+		promote_culture_cost = -0.25
 		global_autonomy = -0.025
 		army_tradition = 0.5
 		legitimacy = -0.5
@@ -444,18 +497,7 @@ chr_dzhura_corps_reform = {
 	custom_attributes = {
 		locked_government_type = yes
 		enables_aristocratic_idea_group = yes
-	}
-	conditional = {
-		allow = {
-			OR = {
-				has_dlc = "Cradle of Civilization"
-				has_dlc = "King of Kings"
-			}
-		}
-		foreign_slave_rulers = yes
-		government_abilities = {
-			mamluk_mechanic
-		}
+		generals_become_rulers = yes
 	}
 }
 
@@ -474,50 +516,23 @@ chr_many_nations_union_reform = {
 	lock_level_when_selected = yes
 	monarchy = yes
 	fixed_rank = 3
-	queen = no
-	heir = no
-	royal_marriage = no
+	queen = yes
+	heir = yes
+	royal_marriage = yes
 	rulers_can_be_generals = yes
-	max_states = 100
 	modifiers = {
 		num_accepted_cultures = 3
 		governing_capacity = 300
 		tolerance_own = 1
+		tolerance_heretic = 1
 		tolerance_heathen = 1
-		promote_culture_cost = -0.5
+		promote_culture_cost = -0.25
 		diplomatic_upkeep = 1
+		years_of_nationalism = -5
 		global_unrest = -1
 	}
 	custom_attributes = {
 		locked_government_type = yes
 		enables_aristocratic_idea_group = yes
-	}
-	# The Mughal bargain, on the Desna: every people brought under the roll
-	# writes its own clause into it, and the clause outlives the conquest.
-	assimilation_cultures = {
-		west_slavic = {
-			mercenary_cost = -0.1
-		}
-		south_slavic = {
-			land_morale = 0.05
-		}
-		carpathian = {
-			hostile_attrition = 1
-		}
-		byzantine = {
-			legitimacy = 0.25
-		}
-		caucasian = {
-			cavalry_power = 0.05
-		}
-		altaic = {
-			movement_speed = 0.1
-		}
-		finno_ugric = {
-			prestige_decay = -0.01
-		}
-		germanic = {
-			technology_cost = -0.025
-		}
 	}
 }

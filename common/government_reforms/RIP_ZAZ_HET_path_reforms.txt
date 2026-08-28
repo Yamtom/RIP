@@ -20,18 +20,16 @@ zaz_cossack_cantons_reform = {
 	republican_name = yes
 	has_term_election = yes
 	duration = 6
-	max_states = 100
 	government_abilities = {
 		cossacks_mechanic
 	}
 	modifiers = {
-		defensiveness = 0.25
-		merc_maintenance_modifier = -0.25
+		governing_capacity = 100
+		defensiveness = 0.2
+		merc_maintenance_modifier = -0.15
 		mercenary_manpower = 0.25
-		land_morale = 0.1
-		global_unrest = -2
-		province_warscore_cost = 0.25
-		diplomatic_reputation = 1
+		global_unrest = -1
+		province_warscore_cost = 0.1
 		max_absolutism = -20
 	}
 	custom_attributes = {
@@ -42,7 +40,7 @@ zaz_cossack_cantons_reform = {
 
 zaz_host_and_state_reform = {
 	icon = "soldiers_6"
-	legacy_equivalent = prussian_republic_legacy
+	legacy_equivalent = prussian_republic
 	potential = {
 		zaz_path_host_state_visible = yes
 	}
@@ -61,13 +59,13 @@ zaz_host_and_state_reform = {
 		cossacks_mechanic
 	}
 	modifiers = {
-		discipline = 0.05
-		land_forcelimit_modifier = 0.2
-		global_manpower_modifier = 0.15
+		discipline = 0.025
+		land_forcelimit_modifier = 0.15
+		global_manpower_modifier = 0.1
 		army_tradition = 0.5
-		land_maintenance_modifier = -0.1
-		development_cost = 0.1
-		global_trade_power = -0.1
+		land_maintenance_modifier = -0.05
+		development_cost = 0.05
+		global_trade_power = -0.05
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -76,8 +74,8 @@ zaz_host_and_state_reform = {
 }
 
 zaz_sacred_host_order_reform = {
-	icon = "monastic_order"
-	legacy_equivalent = monastic_order_legacy
+	icon = "monks"
+	legacy_equivalent = monastic_order_government
 	potential = {
 		zaz_path_sacred_order_visible = yes
 	}
@@ -90,7 +88,6 @@ zaz_sacred_host_order_reform = {
 	lock_level_when_selected = yes
 	religion = yes
 	monastic = yes
-	claim_states = yes
 	modifiers = {
 		defensiveness = 0.2
 		cavalry_power = 0.1
@@ -102,6 +99,13 @@ zaz_sacred_host_order_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
+		monastic_order = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Third Rome"
+		}
+		claim_states = yes
 	}
 }
 

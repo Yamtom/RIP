@@ -1,6 +1,28 @@
+# =============================================================================
+# RIP_ZAZ_great_projects
+# ZAZ / HET / RUS - the Zaporozhian Host. One monument: zaporozhian_sich.
+# Ordered as vanilla orders a monument: start, date, time, build_cost,
+# can_be_moved, move_days_per_unit_distance, starting_tier, type, build_trigger,
+# on_built, on_destroyed, can_use_modifiers_trigger, can_upgrade_trigger,
+# keep_trigger, tier_0 .. tier_3.
+# =============================================================================
+
+# The Zaporozhian Sich, the fortified seat of the Host below the Dnieper
+# rapids. Founded in the middle of the sixteenth century, it was fortress,
+# rada and school at once, and the Host moved it whenever the river, the
+# Tatars or an overlord made the old site untenable - which is why this is one
+# of the few monuments the mod leaves movable.
+#
+# Distinct from the objects that share the name: zaporozhian_sich_capital is a
+# province modifier, zaporozhian_sich_founded a country modifier, and
+# zaporozhian_sich_crisis the ZAZ disaster in common/disasters/zaz_disasters.txt.
+#
+# Ladder and payloads stay inside the envelope measured across all 138 vanilla
+# monuments: costs 1000 / 2500 / 5000, times 120 / 240 / 480 months, at most
+# six country modifiers a tier, no combat pips, prestige never above 1.
 
 zaporozhian_sich = {
-	start = 283
+	start = 283	# Zaporozhia
 	date = 1552.01.01
 	time = {
 		months = 60
@@ -10,6 +32,7 @@ zaporozhian_sich = {
 	move_days_per_unit_distance = 5
 	starting_tier = 0
 	type = monument
+
 	build_trigger = {
 		OR = {
 			owner = {
@@ -31,10 +54,13 @@ zaporozhian_sich = {
 			has_terrain = grasslands
 		}
 	}
+
 	on_built = {
 	}
+
 	on_destroyed = {
 	}
+
 	can_use_modifiers_trigger = {
 		custom_trigger_tooltip = {
 			tooltip = zaporozhian_sich_culture_tt
@@ -46,6 +72,7 @@ zaporozhian_sich = {
 			}
 		}
 	}
+
 	can_upgrade_trigger = {
 		custom_trigger_tooltip = {
 			tooltip = zaporozhian_sich_upgrade_tt
@@ -57,8 +84,10 @@ zaporozhian_sich = {
 			}
 		}
 	}
+
 	keep_trigger = {
 	}
+
 	tier_0 = {
 		upgrade_time = {
 			months = 0
@@ -78,6 +107,7 @@ zaporozhian_sich = {
 		on_upgraded = {
 		}
 	}
+
 	tier_1 = {
 		upgrade_time = {
 			months = 120
@@ -100,6 +130,7 @@ zaporozhian_sich = {
 		on_upgraded = {
 		}
 	}
+
 	tier_2 = {
 		upgrade_time = {
 			months = 240
@@ -126,6 +157,7 @@ zaporozhian_sich = {
 		on_upgraded = {
 		}
 	}
+
 	tier_3 = {
 		upgrade_time = {
 			months = 480

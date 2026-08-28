@@ -6,7 +6,10 @@
 uzh_palanok_captaincy_reform = {
 	icon = "trading_city"
 	potential = {
-		tag = UZH
+		OR = {
+			has_reform = uzh_palanok_captaincy_reform
+			tag = UZH
+		}
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
@@ -19,12 +22,11 @@ uzh_palanok_captaincy_reform = {
 	rulers_can_be_generals = yes
 	royal_marriage = yes
 	allow_convert = no
-	government_abilities = {
-		cossacks_mechanic
-	}
-	allow_force_tributary = yes
 	trigger = {
-		tag = UZH
+		OR = {
+			has_reform = uzh_palanok_captaincy_reform
+			tag = UZH
+		}
 	}
 	modifiers = {
 		defensiveness = 0.2
@@ -35,8 +37,7 @@ uzh_palanok_captaincy_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
-		has_dutch_election = yes
-		enables_natives_idea_group = yes
+		enables_plutocratic_idea_group = yes
 		enables_aristocratic_idea_group = no
 	}
 	conditional = {
@@ -48,16 +49,16 @@ uzh_palanok_captaincy_reform = {
 				trade_efficiency = 0.10
 				build_cost = -0.10
 				diplomatic_reputation = 1
-				republican_tradition = 0.5
-				native_assimilation = 0.25
+				global_trade_power = 0.10
+				land_morale = -0.05
 			}
 
 			partia_kapitaniv = { # Captains party (military democracy)
 				land_morale = 0.10
 				global_manpower_modifier = 0.15
 				defensiveness = 0.10
-				republican_tradition = -0.5
 				army_tradition = 0.25
+				global_unrest = 1
 			}
 		}
 	}
@@ -66,7 +67,10 @@ uzh_palanok_captaincy_reform = {
 uzh_komitat_system_reform = {
 	icon = "nobleman"
 	potential = {
-		tag = UZH
+		OR = {
+			has_reform = uzh_komitat_system_reform
+			tag = UZH
+		}
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
@@ -77,12 +81,11 @@ uzh_komitat_system_reform = {
 	rulers_can_be_generals = yes
 	royal_marriage = yes
 	allow_convert = no
-	government_abilities = {
-		cossacks_mechanic
-	}
-	allow_force_tributary = yes
 	trigger = {
-		tag = UZH
+		OR = {
+			has_reform = uzh_komitat_system_reform
+			tag = UZH
+		}
 	}
 	modifiers = {
 		state_maintenance_modifier = -0.2
@@ -95,15 +98,60 @@ uzh_komitat_system_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
-		enables_natives_idea_group = yes
+		enables_plutocratic_idea_group = no
 		enables_aristocratic_idea_group = yes
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+uzh_republican_komitat_system_reform = {
+	icon = "nobleman"
+	potential = {
+		OR = {
+			has_reform = uzh_republican_komitat_system_reform
+			tag = UZH
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	rulers_can_be_generals = yes
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = uzh_republican_komitat_system_reform
+			tag = UZH
+		}
+	}
+	modifiers = {
+		state_maintenance_modifier = -0.2
+		governing_capacity_modifier = 0.2
+		nobles_loyalty_modifier = 0.1
+		all_estate_loyalty_equilibrium = 0.05
+		autonomy_change_time = -0.1
+		max_absolutism = 5
+		manpower_recovery_speed = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	ai = {
+		factor = 1
 	}
 }
 
 uzh_palatial_ruthenian_reform = {
 	icon = "british_monarchy"
 	potential = {
-		tag = UZH
+		OR = {
+			has_reform = uzh_palatial_ruthenian_reform
+			tag = UZH
+		}
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
@@ -111,10 +159,15 @@ uzh_palatial_ruthenian_reform = {
 
 	start_territory_to_estates = 0.3
 	trigger = {
-		tag = UZH
-		custom_trigger_tooltip = {
-			tooltip = uzh_palatial_ruthenian_identity_req_tt
-			uzh_identity_ruthenian_selected = yes
+		OR = {
+			has_reform = uzh_palatial_ruthenian_reform
+			AND = {
+				tag = UZH
+				custom_trigger_tooltip = {
+					tooltip = uzh_palatial_ruthenian_identity_req_tt
+					uzh_identity_ruthenian_selected = yes
+				}
+			}
 		}
 	}
 	modifiers = {
@@ -128,6 +181,7 @@ uzh_palatial_ruthenian_reform = {
 	conditional = {
 		allow = {
 			has_dlc = "Common Sense"
+			NOT = { has_dlc = "Domination" }
 		}
 		has_parliament = yes
 		custom_attributes = {
@@ -136,18 +190,11 @@ uzh_palatial_ruthenian_reform = {
 	}
 	conditional = {
 		allow = {
-			has_dlc = "Common Sense"
-			NOT = { has_dlc = "Domination" }
-		}
-		has_parliament = yes
-	}
-	conditional = {
-		allow = {
 			has_dlc = "Domination"
 		}
 		has_parliament = yes
 		custom_attributes = {
-			english_parliament = yes
+			blocked_call_diet = yes
 		}
 	}
 	ai = {
@@ -158,16 +205,24 @@ uzh_palatial_ruthenian_reform = {
 uzh_palatial_rusyn_reform = {
 	icon = "assembly_hall"
 	potential = {
-		tag = UZH
+		OR = {
+			has_reform = uzh_palatial_rusyn_reform
+			tag = UZH
+		}
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	trigger = {
-		tag = UZH
-		custom_trigger_tooltip = {
-			tooltip = uzh_palatial_rusyn_identity_req_tt
-			uzh_identity_rusyn_selected = yes
+		OR = {
+			has_reform = uzh_palatial_rusyn_reform
+			AND = {
+				tag = UZH
+				custom_trigger_tooltip = {
+					tooltip = uzh_palatial_rusyn_identity_req_tt
+					uzh_identity_rusyn_selected = yes
+				}
+			}
 		}
 	}
 	modifiers = {
@@ -188,53 +243,79 @@ uzh_palatial_rusyn_reform = {
 uzh_palatial_uhro_reform = {
 	icon = "paper_money_map"
 	potential = {
-		tag = UZH
+		OR = {
+			has_reform = uzh_palatial_uhro_reform
+			tag = UZH
+		}
 	}
-    fixed_rank = 1
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
-	raze_province = yes
 	trigger = {
-		tag = UZH
-		custom_trigger_tooltip = {
-			tooltip = uzh_palatial_uhro_identity_req_tt
-			uzh_identity_uhro_selected = yes
+		OR = {
+			has_reform = uzh_palatial_uhro_reform
+			AND = {
+				tag = UZH
+				custom_trigger_tooltip = {
+					tooltip = uzh_palatial_uhro_identity_req_tt
+					uzh_identity_uhro_selected = yes
+				}
+			}
 		}
 	}
 	modifiers = {
-		legitimacy = 1
+		legitimacy = 0.5
 		nobles_loyalty_modifier = 0.1
 		max_absolutism = 10
-		governing_capacity_modifier = -0.15
+		governing_capacity_modifier = -0.10
 		technology_cost = 0.05
+		army_tradition = 0.5
+		cavalry_power = 0.10
+		fort_maintenance_modifier = -0.10
 	}
 	custom_attributes = {
 		locked_government_type = yes
 	}
-	conditional = {
-		allow = {
-			OR = {
-				has_dlc = "Rights of Man"
-				has_dlc = "Domination"
-			}
-		}
-		custom_attributes = {
-			GER_buff_prussian_militarization = yes
+	ai = {
+		factor = 1
+	}
+}
+
+uzh_palatial_uhro_republic_reform = {
+	icon = "paper_money_map"
+	potential = {
+		OR = {
+			has_reform = uzh_palatial_uhro_republic_reform
+			tag = UZH
 		}
 	}
-	conditional = {
-		allow = {
-			NOT = {
-				OR = {
-					has_dlc = "Rights of Man"
-					has_dlc = "Domination"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	trigger = {
+		OR = {
+			has_reform = uzh_palatial_uhro_republic_reform
+			AND = {
+				tag = UZH
+				custom_trigger_tooltip = {
+					tooltip = uzh_palatial_uhro_identity_req_tt
+					uzh_identity_uhro_selected = yes
 				}
 			}
 		}
-		custom_attributes = {
-			free_noble_levies = yes
-		}
+	}
+	modifiers = {
+		republican_tradition = 0.25
+		nobles_loyalty_modifier = 0.1
+		max_absolutism = 10
+		governing_capacity_modifier = -0.10
+		technology_cost = 0.05
+		army_tradition = 0.5
+		cavalry_power = 0.10
+		fort_maintenance_modifier = -0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
 	}
 	ai = {
 		factor = 1
@@ -244,20 +325,30 @@ uzh_palatial_uhro_reform = {
 uzh_union_synod_reform = {
 	icon = "clergyman"
 	potential = {
-		tag = UZH
+		OR = {
+			has_reform = uzh_union_synod_reform
+			tag = UZH
+			has_country_flag = uzh_union_synod_established
+		}
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	trigger = {
-		tag = UZH
+		OR = {
+			has_reform = uzh_union_synod_reform
+			AND = {
+				is_year = 1646
+				has_country_flag = uzh_union_synod_established
+			}
+		}
 	}
 	modifiers = {
 		tolerance_own = 1
 		tolerance_heretic = 2
 		missionary_maintenance_cost = -0.25
 		religious_unity = 0.1
-		papal_influence = 1
+		church_loyalty_modifier = 0.10
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -267,13 +358,19 @@ uzh_union_synod_reform = {
 uzh_carpathian_border_commissariat_reform = {
 	icon = "mountain_fort"
 	potential = {
-		tag = UZH
+		OR = {
+			has_reform = uzh_carpathian_border_commissariat_reform
+			tag = UZH
+		}
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	trigger = {
-		tag = UZH
+		OR = {
+			has_reform = uzh_carpathian_border_commissariat_reform
+			tag = UZH
+		}
 	}
 	modifiers = {
 		army_tradition = 0.5
