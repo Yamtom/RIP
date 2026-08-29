@@ -22,25 +22,110 @@ zaz_failed_raid_effect = {
 	}
 }
 
+# Moves the Sich. The seat modifier, the capital and the zaporozhian_sich
+# monument all travel together, and the Host pays for it by dropping the
+# monument one rung and getting back half of what that rung cost.
+#
+# The old body sent the seat to `set_capital = 284`, which is Crimea - 283 is
+# Zaporozhia, and 284 is the line PROV283 sits on in prov_names_l_english.yml.
+# It also ignored the province the decision highlights, so the choice offered
+# by provinces_to_highlight was never honoured. Both are fixed here: the seat
+# goes to an owned province that passes is_sich_location.
+#
+# add_great_project_tier only ever adds, so the demotion is done by destroying
+# the monument and rebuilding it at the lower rung in the new seat.
+#
+# UNVERIFIED IN GAME: `instant = yes`. Vanilla writes only `instant = no`
+# (events/flavorMAM.txt suez_canal), so the yes branch is inferred, not
+# observed. If the Sich comes back as a building site instead of a standing
+# monument after a move, that parameter is the thing to change.
 zaz_relocate_sich_effect = {
-	capital_scope = {
-		remove_province_modifier = zaporozhian_sich_capital
-	}
-	set_capital = 284  # Default Zaporizhia
-	capital_scope = {
-		add_province_modifier = {
-			name = zaporozhian_sich_capital
-			duration = -1
+	if = {
+		limit = {
+			any_owned_province = {
+				is_sich_location = yes
+				NOT = { province_id = capital }
+			}
 		}
-		add_base_manpower = 2
-		add_base_production = 1
+		random_owned_province = {
+			limit = {
+				is_sich_location = yes
+				NOT = { province_id = capital }
+			}
+			save_event_target_as = zaz_new_sich_seat
+		}
+
+		capital_scope = {
+			remove_province_modifier = zaporozhian_sich_capital
+		}
+
+		# The monument follows the seat, one tier down, half the rung refunded.
 		if = {
-			limit = { NOT = { fort_level = 1 } }
-			add_building = fort_15th
+			limit = {
+				any_owned_province = {
+					has_great_project = { type = zaporozhian_sich tier = 3 }
+				}
+			}
+			add_treasury = 2500
+			random_owned_province = {
+				limit = { has_great_project = { type = zaporozhian_sich tier = 3 } }
+				destroy_great_project = { type = zaporozhian_sich }
+			}
+			event_target:zaz_new_sich_seat = {
+				add_great_project = { type = zaporozhian_sich instant = yes }
+				add_great_project_tier = { type = zaporozhian_sich tier = 1 }
+				add_great_project_tier = { type = zaporozhian_sich tier = 1 }
+			}
 		}
+		else_if = {
+			limit = {
+				any_owned_province = {
+					has_great_project = { type = zaporozhian_sich tier = 2 }
+				}
+			}
+			add_treasury = 1250
+			random_owned_province = {
+				limit = { has_great_project = { type = zaporozhian_sich tier = 2 } }
+				destroy_great_project = { type = zaporozhian_sich }
+			}
+			event_target:zaz_new_sich_seat = {
+				add_great_project = { type = zaporozhian_sich instant = yes }
+				add_great_project_tier = { type = zaporozhian_sich tier = 1 }
+			}
+		}
+		else_if = {
+			limit = {
+				any_owned_province = {
+					has_great_project = { type = zaporozhian_sich tier = 1 }
+				}
+			}
+			add_treasury = 500
+			random_owned_province = {
+				limit = { has_great_project = { type = zaporozhian_sich tier = 1 } }
+				destroy_great_project = { type = zaporozhian_sich }
+			}
+			event_target:zaz_new_sich_seat = {
+				add_great_project = { type = zaporozhian_sich instant = yes }
+			}
+		}
+
+		set_capital = event_target:zaz_new_sich_seat
+		capital_scope = {
+			add_province_modifier = {
+				name = zaporozhian_sich_capital
+				duration = -1
+			}
+			add_base_manpower = 2
+			add_base_production = 1
+			if = {
+				limit = { NOT = { fort_level = 1 } }
+				add_building = fort_15th
+			}
+		}
+		add_prestige = 10
+		add_stability_or_adm_power = yes
+		custom_tooltip = zaz_relocate_sich_monument_tt
 	}
-	add_prestige = 10
-	add_stability_or_adm_power = yes
 }
 
 establish_cossack_settlement_effect = {
