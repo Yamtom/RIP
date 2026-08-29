@@ -1,6 +1,6 @@
 ---
 name: eu4-rip-mod
-description: Working knowledge of the RIP mod for Europa Universalis IV 1.37 - how EU4 silently drops content that looks correct, the measured art and balance standards, the encoding traps, the eight checks, and how to tie an in-game symptom back to script. Use for any edit to this repository: government reforms, decisions, events, missions, religions, cultures, great projects, localisation, graphics, or the Ukrainian documentation.
+description: Working knowledge of the RIP mod for Europa Universalis IV 1.37 - how EU4 silently drops content that looks correct, the measured art and balance standards, the encoding traps, the thirteen checks, and how to tie an in-game symptom back to script. Use for any edit to this repository: government reforms, decisions, events, missions, religions, cultures, great projects, localisation, graphics, or the Ukrainian documentation.
 ---
 
 # RIP: Alternative Ruthenian Immersion Pack
@@ -13,18 +13,26 @@ carries what that document does not: the rules the engine enforces silently.
 
 ```bash
 git log --oneline -5 && git status          # expect a clean tree
-python tests/check_script_layer.py | tail -1
+python tests/run_all_tests.py | tail -3
 ```
 
-Eight checks live in `tests/`. Seven pass silently. `check_script_layer.py` reports
-**10 errors, 173 warnings** - all ten are deliberate decisions left for the author,
-listed in section 7 of `docs/WORKSHOP_LISTING.md`. **A different number means
-something changed; find out what before working.**
+**Thirteen** checks live in `tests/`, and `run_all_tests.py` runs them all - it is
+wider than the eight `CLAUDE.md` lists, and `check_event_modifier_layer` and
+`check_government_reforms` are the two that catch the most. The last line to read is
+`ALL CRITICAL TESTS PASS: True`.
 
 ```
-check_script_layer  check_glossary          check_clausewitz_braces  check_claim_pacing
-check_subject_cb_limits  check_border_principalities  check_steppe_expansions  check_docs_language
+check_script_layer      check_glossary            check_clausewitz_braces
+check_claim_pacing      check_subject_cb_limits   check_border_principalities
+check_steppe_expansions check_docs_language       check_culture_key_compatibility
+check_estate_layer      check_event_modifier_layer
+check_government_names  check_government_reforms
 ```
+
+`check_script_layer.py` is the noisy one. It now reports **0 errors, 164 warnings**.
+The "10 errors" this file used to quote were real once and have since been fixed;
+if you meet a number you did not cause, find out what changed before working -
+that is the point of reading it first, not the specific number.
 
 `check_border_principalities` and `check_steppe_expansions` read the Ukrainian
 **documents** and fail if the prose stops matching the code. That is deliberate.
@@ -54,6 +62,49 @@ exactly zero or a very large number, plant a violation and confirm it is seen.
 
 This is the most valuable thing in this skill. Every item below was found in this
 repository, in content that parsed, passed every check, and did nothing.
+
+**`common/` is flat. EU4 reads no subfolder under it.** Vanilla has not one
+subdirectory anywhere inside `common/`, so a `common/ideas/replace/` or
+`common/disasters/replace/` is dead script - the files are never loaded. The only
+two replace mechanisms that exist are `localisation/replace/`, which is a real
+engine feature, and `replace_path` in `descriptor.mod`, which swaps a whole vanilla
+folder. Overriding one file is done by giving it a name that sorts later.
+
+**Disaster `progress` factors are SUMMED as percent-per-month, not multiplied.**
+Vanilla writes `factor = -1` in eleven places, in `castilian_civil_war` and
+`court_and_country` among others, and a negative multiplier is meaningless. So a
+"damper" written as `factor = 0.75` adds 0.75% a month instead of slowing anything:
+a stable, allied, pacified country fills the bar faster than a collapsing one.
+Dampers are negative addends. Every vanilla factor is a half-step - 0.5, 1, 1.5, 2,
+3, 5, 10, and -0.5, -1, -3 - and no vanilla disaster has an unconditional base.
+
+**A national idea that grants one government currency must grant all five.** All
+149 vanilla national ideas that touch `legitimacy`, `republican_tradition`,
+`devotion`, `horde_unity` or `meritocracy` list every one of the five, so the idea
+pays out whatever government the holder has. Picking one silently gives nothing to
+every other government - and in this mod HET and ZAZ start as republics.
+
+**`church_power` does not exist outside four religions.** Only `anglican`,
+`hussite`, `jewish` and `protestant` declare `aspects`. Orthodox has
+`has_patriarchs` and nothing else, and both of this mod's faiths copy that, so
+`add_church_power` on them is a no-op that charges nothing and grants nothing.
+Patriarch authority is the currency they actually hold, and `legitimacy_equivalent`
+is the trigger that reads whichever currency a government uses.
+
+**`take_capital` targets the enemy's capital, not the province you meant.** To pin
+a war goal to one province use `type = take_province` with an `allowed_provinces`
+block, the way vanilla's `take_province_hre` does. A crusade CB granted against the
+owner of Jerusalem with a `take_capital` goal points at Cairo.
+
+**`red_ruthenia_area` is in `poland_region`, not `ruthenia_region`.** Every "the
+Ruthenian lands" condition written as `region = ruthenia_region` silently drops
+Halych, Belz, Peremyshl, Lviv and Drohobych - which is most of what a Galician
+country owns, and the city the Khmelnytsky host besieged.
+
+**`severian` and `severian_new` are empty save-compatibility aliases, on purpose.**
+`tests/check_culture_key_compatibility.py` fails the build if either block gains a
+body, and fails it again if any loaded script so much as reads `culture = severian`.
+New work uses the vanilla keys `ryazanian` and `ryazanian_new`.
 
 **A reform absent from `common/governments/00_governments.txt` is never offered.**
 Whatever its `potential` and `trigger` say, it will not appear in any slot. 25 reforms

@@ -856,9 +856,16 @@ country_event = {
                 add_government_reform = uzh_union_synod_reform
             }
         }
-        else_if = {
+        # Independent of the concord branch above, not chained to it. A country
+        # can hold both modifiers at once while their multi-year durations
+        # overlap, and as an else_if this could never run: the concord branch
+        # always matched first, the old-rite flag was never set, and uzh.204's
+        # trigger stayed true - a hidden event on a one-day MTTH firing every
+        # day until the modifier expired.
+        if = {
             limit = {
                 has_country_modifier = uz_old_rite_resilience
+                NOT = { has_country_flag = uzh_union_old_rite_confirmed }
             }
             set_country_flag = uzh_union_old_rite_confirmed
         }

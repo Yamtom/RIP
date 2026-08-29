@@ -1,0 +1,36 @@
+# =============================================================================
+# zaz_sich_seat_on_actions
+# Keeps exactly one Zaporozhian Sich seat on the map.
+#
+# history/provinces/283 - Zaporozhia.txt drives zaporozhian_sich_capital on
+# fixed dates (added 1552, swapped for sich_outpost 1593, re-added 1687,
+# removed 1709, re-added 1734, sich_destroyed 1775). Province history cannot be
+# made conditional, so once zaz_relocate_sich_effect has carried the seat
+# somewhere else, the 1687 and 1734 entries plant a second permanent seat back
+# at 283 while the 1709 removal fires at a province that no longer holds it.
+#
+# zaz_relocate_sich_effect always moves the capital with the seat, so
+# "the seat is the capital" is the invariant. This strips anything else.
+# =============================================================================
+
+on_yearly_pulse = {
+	if = {
+		limit = {
+			OR = {
+				tag = ZAZ
+				is_cossack_polity = yes
+			}
+			any_owned_province = {
+				has_province_modifier = zaporozhian_sich_capital
+				NOT = { province_id = capital }
+			}
+		}
+		every_owned_province = {
+			limit = {
+				has_province_modifier = zaporozhian_sich_capital
+				NOT = { province_id = capital }
+			}
+			remove_province_modifier = zaporozhian_sich_capital
+		}
+	}
+}

@@ -19,6 +19,13 @@
 # The events are events/VilniusPalace.txt: lit_palace.1 fires from on_built,
 # lit_palace.2 reads this monument back through has_great_project in 1655.
 #
+# The 1520 rebuild is gated on the Renaissance reaching Vilnius rather than on
+# is_year, so the palace tracks the institution instead of the calendar and can
+# arrive early or late. date stays 1520.1.1: it is the game-start placement gate
+# only, and keeping it past every bookmark is what makes this a built monument
+# rather than a tier-0 ruin standing in 1444. No vanilla great project uses
+# is_year or is_date anywhere.
+#
 # build_trigger carries province_id = 272: `start` is only the game-start seat
 # and does not constrain where a project may be BUILT, so without it the Palace
 # of the Grand Dukes is constructible in any province LIT/PLC/POL owns.
@@ -51,7 +58,10 @@ vilnius_palace = {
 				has_reform = lit_separate_crown_reform
 			}
 		}
-		is_year = 1520
+		custom_trigger_tooltip = {
+			tooltip = vilnius_palace_renaissance_tt
+			has_institution = renaissance
+		}
 	}
 
 	on_built = {
@@ -149,7 +159,6 @@ vilnius_palace = {
 			advisor_cost = -0.15
 			legitimacy = 0.5
 			governing_capacity = 50
-			diplomats = 1
 		}
 		on_upgraded = {
 		}
@@ -163,20 +172,17 @@ vilnius_palace = {
 			factor = 5000
 		}
 		province_modifiers = {
-			local_development_cost = -0.25
+			local_development_cost = -0.2
 			local_institution_spread = 0.3
 		}
 		area_modifier = {
-			local_unrest = -1
-			local_development_cost = -0.1
+			local_unrest = -2
 		}
 		country_modifiers = {
 			diplomatic_reputation = 2
-			advisor_cost = -0.15
+			advisor_cost = -0.2
 			legitimacy = 1
 			governing_capacity = 100
-			diplomats = 1
-			prestige = 1
 		}
 		on_upgraded = {
 		}
