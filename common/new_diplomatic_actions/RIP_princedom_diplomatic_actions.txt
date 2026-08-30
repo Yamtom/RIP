@@ -26,7 +26,7 @@ rip_grant_the_princely_charter = {
 
 	is_allowed = {
 		is_at_war = no
-		adm_power = 50
+		prestige = 5
 		FROM = {
 			is_at_war = no
 			NOT = { has_country_modifier = rip_princely_charter }
@@ -34,8 +34,21 @@ rip_grant_the_princely_charter = {
 	}
 
 	on_accept = {
-		add_adm_power = -50
-		add_absolutism = -5
+		# add_absolutism was the stated price and it is arithmetically nothing
+		# before 1620, while the reforms that reach these actions are live from
+		# 1444. A charter is a thing written down in front of the nobility, so
+		# the nobility is what it costs: they gain ground the crown gives up.
+		add_prestige = -5
+		add_estate_influence_modifier = {
+			estate = estate_nobles
+			desc = EST_VAL_RIP_PRINCELY_CHARTER
+			influence = 5
+			duration = 9125
+		}
+		add_favors = {
+			who = FROM
+			amount = 10
+		}
 		FROM = {
 			add_country_modifier = {
 				name = rip_princely_charter
@@ -86,15 +99,23 @@ rip_grant_the_udil = {
 
 	is_allowed = {
 		is_at_war = no
-		adm_power = 100
+		prestige = 10
 		FROM = {
 			is_at_war = no
 		}
 	}
 
 	on_accept = {
-		add_adm_power = -100
-		add_absolutism = -5
+		# The cost is the rota itself, and it stacks: one rip_the_rota for every
+		# udil standing, each -0.25 legitimacy, +0.5 unrest and -5% vassal force
+		# limit. The first is cheap. The fifth is what the comment above means by
+		# "it is also how it came apart", and it is felt from 1444 rather than
+		# from 1620, which is all add_absolutism ever managed.
+		add_prestige = -10
+		add_country_modifier = {
+			name = rip_the_rota
+			duration = -1
+		}
 		create_subject = {
 			subject_type = princedom
 			subject = FROM
@@ -123,5 +144,74 @@ rip_grant_the_udil = {
 			liberty_desire = 50
 		}
 		NOT = { num_of_subjects = 8 }
+	}
+}
+
+# --- Taking it back.
+#
+# There was no orderly way to un-give an udil, which is the point: the senior
+# prince who tried it was making an enemy of a kinsman with a claim, and every
+# other kinsman watched him do it. So this is cheap in coin and expensive in
+# everything else - the ex-udil gets a claim on you, every other princedom hears
+# about it, and the nobility that witnessed the grant remembers the revocation.
+rip_revoke_the_udil = {
+	category = influence
+
+	require_acceptance = no
+
+	is_visible = {
+		overlord_of = FROM
+		FROM = {
+			is_subject_of_type = princedom
+			has_country_modifier = rip_held_as_an_udil
+		}
+	}
+
+	is_allowed = {
+		is_at_war = no
+		prestige = 20
+		FROM = {
+			NOT = { liberty_desire = 75 }
+		}
+	}
+
+	on_accept = {
+		add_prestige = -20
+		add_country_modifier = {
+			name = rip_the_udil_revoked
+			duration = 7300
+		}
+		remove_country_modifier = rip_the_rota
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = -15
+		}
+		FROM = {
+			remove_country_modifier = rip_held_as_an_udil
+			add_liberty_desire = 40
+			add_casus_belli = {
+				target = ROOT
+				type = cb_disloyal_vassal
+				months = 300
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_grievance
+			}
+		}
+		every_subject_country = {
+			limit = {
+				is_subject_of_type = princedom
+				NOT = { tag = FROM }
+			}
+			add_liberty_desire = 15
+		}
+	}
+
+	# A trigger, not a weight block.
+	ai_will_do = {
+		FROM = {
+			liberty_desire = 70
+		}
 	}
 }

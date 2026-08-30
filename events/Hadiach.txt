@@ -32,25 +32,14 @@ country_event = {
 
 	is_triggered_only = yes
 
+	# The Crown puts the text before the diet. It does not decide what comes back
+	# out of it - that is hadiach.4, and it is the whole reason this chain exists.
 	option = {
 		name = hadiach.1.a
 		ai_chance = { factor = 40 }
-		add_absolutism = -10
-		add_country_modifier = {
-			name = rip_hadiach_compact
-			duration = -1
-		}
+		add_prestige = -5
 		rip_estate_mood_effect = { ESTATE = estate_magnates LOYALTY = -20 }
-		if = {
-			limit = { has_saved_event_target = hadiach_ruthenia }
-			event_target:hadiach_ruthenia = {
-				add_country_modifier = {
-					name = rip_hadiach_compact
-					duration = -1
-				}
-				country_event = { id = hadiach.3 days = 10 }
-			}
-		}
+		country_event = { id = hadiach.4 days = 30 }
 	}
 
 	option = {
@@ -77,10 +66,21 @@ country_event = {
 		if = {
 			limit = { has_saved_event_target = hadiach_ruthenia }
 			event_target:hadiach_ruthenia = {
-				add_liberty_desire = 50
+				# The princedom was created by the diplomatic action as the price of
+				# the articles. Withdrawing the articles and keeping the vassal was
+				# the one outcome the old chain allowed and history did not.
+				if = {
+					limit = { is_subject_of = ROOT }
+					grant_independence = yes
+				}
 				add_opinion = {
 					who = ROOT
 					modifier = lit_union_grievance
+				}
+				add_casus_belli = {
+					target = ROOT
+					type = cb_disloyal_vassal
+					months = 300
 				}
 				country_event = { id = hadiach.2 days = 10 }
 			}
@@ -114,13 +114,25 @@ country_event = {
 	option = {
 		name = hadiach.2.b
 		ai_chance = { factor = 55 }
-		add_liberty_desire = 50
 		add_prestige = 10
 		rip_estate_mood_effect = { ESTATE = estate_cossacks LOYALTY = 15 }
-		overlord = {
-			add_opinion = {
-				who = ROOT
-				modifier = lit_union_grievance
+		# Repudiating the compact and staying a subject of the crown that thinned
+		# it is not a thing the Host did. Vyhovsky broke with Warsaw and the war
+		# resumed; so does this.
+		if = {
+			limit = { is_subject = yes }
+			overlord = {
+				add_opinion = {
+					who = ROOT
+					modifier = lit_union_grievance
+				}
+				save_event_target_as = hadiach_the_crown
+			}
+			grant_independence = yes
+			add_casus_belli = {
+				target = event_target:hadiach_the_crown
+				type = cb_disloyal_vassal
+				months = 300
 			}
 		}
 	}
@@ -142,5 +154,123 @@ country_event = {
 		add_legitimacy = 10
 		add_liberty_desire = -25
 		set_country_flag = rip_hadiach_ratified
+	}
+}
+
+# --- 4. The Sejm answers.
+#
+# Historically it did not ratify what was signed. The articles agreed in September
+# 1658 gave the Duchy a chancery, courts, a treasury, an army of thirty thousand
+# and a seat at the diet; what the Sejm passed in May 1659 struck the army down to
+# a token, left the Union standing and cut the nobilitations to a hundred once.
+# The Host read that as the bargain being broken, and it was.
+#
+# So the full text passes only for a Crown that has actually built the ground for
+# it - magnates it has kept loyal and has not let grow too strong, and a realm
+# steady enough to carry a constitutional change. Otherwise the diet does what the
+# diet did.
+country_event = {
+	id = hadiach.4
+	title = hadiach.4.t
+	desc = hadiach.4.d
+	picture = SEJM_eventPicture
+
+	is_triggered_only = yes
+	hidden = yes
+
+	immediate = {
+		random_list = {
+			# ratified as signed
+			15 = {
+				modifier = {
+					factor = 3
+					estate_loyalty = { estate = estate_magnates loyalty = 60 }
+				}
+				modifier = {
+					factor = 2
+					NOT = { estate_influence = { estate = estate_magnates influence = 60 } }
+				}
+				modifier = {
+					factor = 2
+					stability = 2
+				}
+				modifier = {
+					factor = 0.25
+					estate_influence = { estate = estate_magnates influence = 80 }
+				}
+				country_event = { id = hadiach.5 days = 1 }
+			}
+			# ratified thin, which is what happened
+			85 = {
+				modifier = {
+					factor = 2
+					estate_influence = { estate = estate_magnates influence = 60 }
+				}
+				modifier = {
+					factor = 0.5
+					estate_loyalty = { estate = estate_magnates loyalty = 70 }
+				}
+				country_event = { id = hadiach.6 days = 1 }
+			}
+		}
+	}
+
+	option = {
+		name = hadiach.4.a
+	}
+}
+
+# --- 5. The diet carried it.
+country_event = {
+	id = hadiach.5
+	title = hadiach.5.t
+	desc = hadiach.5.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = hadiach.5.a
+		add_country_modifier = {
+			name = rip_hadiach_compact
+			duration = -1
+		}
+		set_country_flag = rip_hadiach_ratified
+		if = {
+			limit = { has_saved_event_target = hadiach_ruthenia }
+			event_target:hadiach_ruthenia = {
+				add_country_modifier = {
+					name = rip_hadiach_compact
+					duration = -1
+				}
+				country_event = { id = hadiach.3 days = 10 }
+			}
+		}
+	}
+}
+
+# --- 6. The diet gutted it.
+country_event = {
+	id = hadiach.6
+	title = hadiach.6.t
+	desc = hadiach.6.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = hadiach.6.a
+		add_prestige = -10
+		add_country_modifier = {
+			name = rip_hadiach_thinned
+			duration = 9125
+		}
+		rip_estate_mood_effect = { ESTATE = estate_magnates LOYALTY = 10 }
+		if = {
+			limit = { has_saved_event_target = hadiach_ruthenia }
+			event_target:hadiach_ruthenia = {
+				country_event = { id = hadiach.2 days = 10 }
+			}
+		}
 	}
 }

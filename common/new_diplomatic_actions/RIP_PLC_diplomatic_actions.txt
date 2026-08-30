@@ -39,8 +39,11 @@ rip_offer_hadiach_terms = {
 
 	is_allowed = {
 		is_at_war = no
-		adm_power = 100
-		dip_power = 100
+		# Priced in diplomacy rather than in monarch power. Vanilla charges adm or
+		# dip in 2 of its 40 actions; for an influence action the currencies are
+		# favours, trust, opinion and prestige, and the Crown pays all four here.
+		prestige = 10
+		NOT = { has_country_modifier = rip_hadiach_offer_refused }
 		FROM = {
 			is_at_war = no
 			NOT = { war_with = ROOT }
@@ -57,8 +60,17 @@ rip_offer_hadiach_terms = {
 	# off to events/Hadiach.txt here.
 	on_accept = {
 		set_country_flag = rip_hadiach_offered
-		add_adm_power = -100
-		add_dip_power = -100
+		add_prestige = -10
+		# The earnest of the bargain: the Crown binds itself in front of everyone.
+		add_trust = {
+			who = FROM
+			value = 15
+			mutual = yes
+		}
+		add_favors = {
+			who = FROM
+			amount = 25
+		}
 		create_subject = {
 			subject_type = princedom
 			subject = FROM
@@ -72,6 +84,18 @@ rip_offer_hadiach_terms = {
 
 	on_decline = {
 		add_prestige = -5
+		# Hadiach was offered once. A court that has refused it is not asked again
+		# next month - the twenty years is the span between the offer and the
+		# generation that could have made it again.
+		add_country_modifier = {
+			name = rip_hadiach_offer_refused
+			duration = 7300
+		}
+		add_trust = {
+			who = FROM
+			value = -10
+			mutual = yes
+		}
 		FROM = {
 			add_opinion = {
 				who = ROOT
