@@ -1,0 +1,141 @@
+# PLC / POL / LIT - the Commonwealth side of the table.
+#
+# One action. It is the offer the Crown actually made to the Cossacks in 1658
+# and then failed to ratify, so accepting it is not the end of the story - the
+# chain hands off to events/Hadiach.txt, where the Sejm still gets its say.
+
+# --- Hadiach: the third member.
+#
+# In 1658 Vyhovsky and the Crown agreed a Grand Duchy of Ruthenia standing
+# beside Poland and Lithuania - its own chancery, its own courts, its own army,
+# its own seat at the diet. The Sejm ratified a thinner version and the war
+# resumed. Here it is an offer that can actually be made and actually accepted.
+rip_offer_hadiach_terms = {
+	category = influence
+
+	require_acceptance = yes
+
+	is_visible = {
+		OR = {
+			tag = PLC
+			tag = POL
+			tag = LIT
+		}
+		is_subject = no
+		FROM = {
+			is_subject = no
+			NOT = { war_with = ROOT }
+			OR = {
+				religion = orthodox
+				religion = russian_orthodox
+				religion = greek_catholic
+			}
+			any_owned_province = {
+				region = ruthenia_region
+			}
+		}
+		NOT = { has_country_flag = rip_hadiach_offered }
+	}
+
+	is_allowed = {
+		is_at_war = no
+		adm_power = 100
+		dip_power = 100
+		FROM = {
+			is_at_war = no
+			NOT = { war_with = ROOT }
+			has_opinion = {
+				who = ROOT
+				value = 25
+			}
+		}
+	}
+
+	# Accepting is not the end of it. The articles were agreed at Hadiach and
+	# then had to pass a Sejm, which ratified a thinner version - and the war
+	# resumed. That is the part a diplomatic action cannot express, so it hands
+	# off to events/Hadiach.txt here.
+	on_accept = {
+		set_country_flag = rip_hadiach_offered
+		add_adm_power = -100
+		add_dip_power = -100
+		create_subject = {
+			subject_type = princedom
+			subject = FROM
+		}
+		FROM = {
+			save_event_target_as = hadiach_ruthenia
+			add_prestige = 10
+		}
+		country_event = { id = hadiach.1 days = 20 }
+	}
+
+	on_decline = {
+		add_prestige = -5
+		FROM = {
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_grievance
+			}
+		}
+	}
+
+	# A trigger, not a weight block. Vanilla writes 40 of these and not one
+	# carries factor or modifier; the Crown offers when it is already in trouble.
+	ai_will_do = {
+		OR = {
+			num_of_rebel_armies = 1
+			is_in_war = {
+				attacker_leader = ROOT
+			}
+		}
+	}
+
+	# An add_entry arithmetic list, which is what this slot reads - all 16 vanilla
+	# ai_acceptance blocks use it and none uses factor. Written as MTTH weights it
+	# decided nothing, and this is the mod's only require_acceptance action.
+	# The entry names are vanilla's, so they carry their own tooltip lines.
+	ai_acceptance = {
+		add_entry = {
+			name = DIPLO_OPPINION
+			export_to_variable = {
+				variable_name = ai_value
+				value = opinion
+				who = FROM
+				with = ROOT
+			}
+			multiply_variable = {
+				which = ai_value
+				value = 0.2
+			}
+		}
+		add_entry = {
+			name = AI_TRUST_TOWARDS_ROOT
+			export_to_variable = {
+				variable_name = ai_value
+				value = trust
+				who = FROM
+				with = ROOT
+			}
+			subtract_variable = {
+				which = ai_value
+				value = 50
+			}
+			multiply_variable = {
+				which = ai_value
+				value = 0.4
+			}
+		}
+		add_entry = {
+			name = AI_DIPLOMATIC_REPUTATION
+			export_to_variable = {
+				variable_name = ai_value
+				value = trigger_value:diplomatic_reputation
+			}
+			multiply_variable = {
+				which = ai_value
+				value = 4
+			}
+		}
+	}
+}
