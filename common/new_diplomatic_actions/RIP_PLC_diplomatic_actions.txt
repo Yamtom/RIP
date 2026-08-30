@@ -1,3 +1,9 @@
+# PLC / POL / LIT - the Commonwealth side of the table.
+#
+# One action. It is the offer the Crown actually made to the Cossacks in 1658
+# and then failed to ratify, so accepting it is not the end of the story - the
+# chain hands off to events/Hadiach.txt, where the Sejm still gets its say.
+
 # The mod's first diplomatic actions.
 #
 # RIP had none at all. WFAS showed the shape: an action is a category, a
@@ -112,132 +118,6 @@ rip_offer_hadiach_terms = {
 		modifier = {
 			factor = -50
 			army_size_percentage = 1
-		}
-	}
-}
-
-# --- The charter of a princedom.
-#
-# The overlord side, and the WFAS shape: no acceptance, the overlord simply
-# writes down what the princedom may keep. It costs absolutism and buys quiet.
-rip_grant_the_princely_charter = {
-	category = influence
-
-	require_acceptance = no
-
-	is_visible = {
-		overlord_of = FROM
-		FROM = {
-			is_subject_of_type = princedom
-		}
-	}
-
-	is_allowed = {
-		is_at_war = no
-		adm_power = 50
-		FROM = {
-			is_at_war = no
-			NOT = { has_country_modifier = rip_princely_charter }
-		}
-	}
-
-	on_accept = {
-		add_adm_power = -50
-		add_absolutism = -5
-		FROM = {
-			add_country_modifier = {
-				name = rip_princely_charter
-				duration = -1
-			}
-			add_liberty_desire = -25
-			add_legitimacy = 5
-		}
-	}
-
-	ai_will_do = {
-		factor = 1
-		modifier = {
-			factor = 4
-			FROM = {
-				liberty_desire = 50
-			}
-		}
-	}
-}
-
-# --- The udil.
-#
-# The Kyivan Rus reform rules through kinsmen holding land, not through
-# governors holding office, and this is the instrument of it: any subject can
-# be made an udil - a princedom, which in this mod's subject types is a vassal
-# that can never be annexed or integrated, ranked no higher than a duchy, and
-# paying half.
-#
-# It is deliberately one-sided and needs no acceptance. Handing a kinsman a
-# province was not a negotiation; it was how the realm was held together, and
-# it is also how it came apart.
-rip_grant_the_udil = {
-	category = influence
-
-	require_acceptance = no
-
-	is_visible = {
-		overlord_of = FROM
-		OR = {
-			has_reform = kyivan_rus_reform
-			has_reform = kyivan_cesarstvo_reform
-			has_reform = kyivan_shogunate_reform
-			has_reform = ruthenian_principality_reform
-			has_reform = principality_appanage
-		}
-		FROM = {
-			NOT = { is_subject_of_type = princedom }
-		}
-	}
-
-	is_allowed = {
-		is_at_war = no
-		adm_power = 100
-		FROM = {
-			is_at_war = no
-		}
-	}
-
-	on_accept = {
-		add_adm_power = -100
-		add_absolutism = -5
-		create_subject = {
-			subject_type = princedom
-			subject = FROM
-		}
-		FROM = {
-			add_liberty_desire = -20
-			add_legitimacy = 5
-			add_country_modifier = {
-				name = rip_held_as_an_udil
-				duration = -1
-			}
-		}
-		if = {
-			limit = { has_estate = estate_nobles }
-			add_estate_loyalty = {
-				estate = estate_nobles
-				loyalty = 10
-			}
-		}
-	}
-
-	ai_will_do = {
-		factor = 1
-		modifier = {
-			factor = 4
-			FROM = {
-				liberty_desire = 50
-			}
-		}
-		modifier = {
-			factor = 0
-			num_of_subjects = 8
 		}
 	}
 }
