@@ -55,6 +55,13 @@ rip_ask_to_expand_the_register = {
 
 	on_decline = {
 		add_prestige = -5
+		# The cooldown is what is_allowed checks, so a refusal has to start it as
+		# well as an acceptance - otherwise the Crown simply asks again next month
+		# until the answer changes, and the acceptance roll means nothing.
+		add_country_modifier = {
+			name = rip_register_asked_recently
+			duration = 3650
+		}
 		FROM = {
 			add_liberty_desire = 10
 		}

@@ -106,16 +106,12 @@ rip_grant_the_udil = {
 	}
 
 	on_accept = {
-		# The cost is the rota itself, and it stacks: one rip_the_rota for every
-		# udil standing, each -0.25 legitimacy, +0.5 unrest and -5% vassal force
-		# limit. The first is cheap. The fifth is what the comment above means by
-		# "it is also how it came apart", and it is felt from 1444 rather than
-		# from 1620, which is all add_absolutism ever managed.
+		# The cost is the rota, counted from the udils actually standing: one tier
+		# of rip_the_rota_1..5, from -0.25 legitimacy and +0.5 unrest at one udil
+		# to -1.5 and +3 at five. The first is cheap. The fifth is what the comment
+		# above means by "it is also how it came apart", and it is felt from 1444
+		# rather than from 1620, which is all add_absolutism ever managed.
 		add_prestige = -10
-		add_country_modifier = {
-			name = rip_the_rota
-			duration = -1
-		}
 		create_subject = {
 			subject_type = princedom
 			subject = FROM
@@ -135,6 +131,9 @@ rip_grant_the_udil = {
 				loyalty = 10
 			}
 		}
+		# Counted from the udils actually standing, not accumulated - see
+		# common/scripted_effects/rip_rota_effects.txt.
+		rip_recalculate_the_rota_effect = yes
 	}
 
 	# A trigger, not a weight block. The eight-subject brake was written as a
@@ -181,7 +180,6 @@ rip_revoke_the_udil = {
 			name = rip_the_udil_revoked
 			duration = 7300
 		}
-		remove_country_modifier = rip_the_rota
 		add_estate_loyalty = {
 			estate = estate_nobles
 			loyalty = -15
@@ -199,6 +197,14 @@ rip_revoke_the_udil = {
 				modifier = lit_union_grievance
 			}
 		}
+		# Taking the portion back is what the action is for. Without this the
+		# princedom stood exactly as it had - unannexable, never above a duchy,
+		# paying half - and merely lost a marker while gaining a claim on you.
+		# He keeps his throne and loses his birthright: an ordinary vassal now.
+		create_subject = {
+			subject_type = vassal
+			subject = FROM
+		}
 		every_subject_country = {
 			limit = {
 				is_subject_of_type = princedom
@@ -206,6 +212,7 @@ rip_revoke_the_udil = {
 			}
 			add_liberty_desire = 15
 		}
+		rip_recalculate_the_rota_effect = yes
 	}
 
 	# A trigger, not a weight block.

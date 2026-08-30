@@ -119,14 +119,45 @@ rip_held_as_an_udil = {
 
 # --- what the rota costs
 
-# One of these for every udil standing. The realm is held together by kinsmen
-# holding land, and every kinsman holding land is one more claim on the seniority
-# that decides who follows. It stacks, which is the whole point: the first udil
-# is cheap and the fifth is what pulls the realm apart.
-rip_the_rota = {
+# One tier for however many udils are standing, and exactly one at a time. The
+# realm is held together by kinsmen holding land, and every kinsman holding land
+# is one more claim on the seniority that decides who follows. The first udil is
+# cheap; the fifth is what pulls the realm apart.
+#
+# Tiers rather than a stack of one modifier, which is vanilla's own idiom for a
+# counted cost - it ships fourteen such families. A stack cannot stay honest: an
+# udil lost to a won independence war, to conquest or to annexation by a third
+# party would leave its share of the cost behind for ever.
+# rip_recalculate_the_rota_effect counts what is actually standing and applies
+# the matching tier; it runs on every grant, on every revocation, and yearly.
+rip_the_rota_1 = {
 	legitimacy = -0.25
 	global_unrest = 0.5
 	vassal_forcelimit_bonus = -0.05
+}
+
+rip_the_rota_2 = {
+	legitimacy = -0.5
+	global_unrest = 1
+	vassal_forcelimit_bonus = -0.1
+}
+
+rip_the_rota_3 = {
+	legitimacy = -0.75
+	global_unrest = 1.5
+	vassal_forcelimit_bonus = -0.15
+}
+
+rip_the_rota_4 = {
+	legitimacy = -1
+	global_unrest = 2
+	vassal_forcelimit_bonus = -0.2
+}
+
+rip_the_rota_5 = {
+	legitimacy = -1.5
+	global_unrest = 3
+	vassal_forcelimit_bonus = -0.3
 }
 
 # A refused offer is not a repeatable one. The court remembers being asked.
