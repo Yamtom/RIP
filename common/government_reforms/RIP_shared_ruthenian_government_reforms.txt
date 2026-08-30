@@ -30,6 +30,27 @@ ruthenian_principality_reform = {
 	}
 }
 
+# The udil as a government, not only as a tenure.
+#
+# Granted by script only, which is what potential = { has_reform = <itself> }
+# means - vanilla writes fourteen reforms that way, kalmar_union among them. It
+# had exactly one grant site, trade_city_reform inside kyivan_shogunate_reform,
+# which is the engine hook that fires when a country turns a province into a
+# trading city. That was the original design: Kyivan Rus made a trading city and
+# the new subject came out an appanage. It can never fire as written, because
+# only a merchant republic makes trading cities and kyivan_shogunate_reform sits
+# in the monarchy tier, so no country could ever hold this reform.
+#
+# The second grant site is rip_grant_the_udil in
+# common/new_diplomatic_actions/RIP_princedom_diplomatic_actions.txt, which turns
+# an ordinary vassal into an udil - the subject type from
+# common/subject_types/Kyivan_princedom.txt and this government together. The
+# trade_city_reform line is left where it is: it is the original intent, and it
+# costs nothing to keep should a Kyivan republic ever exist.
+#
+# The payload is still the trading city's - trade efficiency, burgher influence,
+# plutocratic ideas, the free city icon - because that is where it came from. Now
+# that a kinsman's portion can reach it, that is worth a second look.
 principality_appanage = {
 	icon = "free_city"
 	allow_normal_conversion = no

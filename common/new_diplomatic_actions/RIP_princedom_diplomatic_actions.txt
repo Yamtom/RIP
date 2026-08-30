@@ -127,6 +127,18 @@ rip_grant_the_udil = {
 				name = rip_held_as_an_udil
 				duration = -1
 			}
+			# An udil is a government as well as a tenure. principality_appanage
+			# keeps the dynasty - queen, heir, royal marriages - and fixes the
+			# holder at a duchy for good, which is what a kinsman's portion is.
+			# It is a monarchy reform, so a republic keeps its own government and
+			# only the tenure changes.
+			if = {
+				limit = {
+					government = monarchy
+					NOT = { has_reform = principality_appanage }
+				}
+				add_government_reform = principality_appanage
+			}
 		}
 		if = {
 			limit = { has_estate = estate_nobles }
@@ -188,6 +200,13 @@ rip_revoke_the_udil = {
 		}
 		FROM = {
 			remove_country_modifier = rip_held_as_an_udil
+			# principality_appanage carries allow_normal_conversion = no and
+			# locked_government_type = yes, so an ex-udil left holding it could
+			# never change government again. The hand that gave it takes it back.
+			if = {
+				limit = { has_reform = principality_appanage }
+				add_government_reform = ruthenian_principality_reform
+			}
 			add_liberty_desire = 40
 			add_casus_belli = {
 				target = ROOT
