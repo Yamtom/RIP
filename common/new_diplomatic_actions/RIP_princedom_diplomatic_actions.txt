@@ -42,17 +42,14 @@ rip_grant_the_princely_charter = {
 				duration = -1
 			}
 			add_liberty_desire = -25
-			add_legitimacy = 5
+			add_legitimacy_equivalent = { amount = 5 }
 		}
 	}
 
+	# A trigger, not a weight block - see the note in the PLC file.
 	ai_will_do = {
-		factor = 1
-		modifier = {
-			factor = 4
-			FROM = {
-				liberty_desire = 50
-			}
+		FROM = {
+			liberty_desire = 50
 		}
 	}
 }
@@ -104,7 +101,7 @@ rip_grant_the_udil = {
 		}
 		FROM = {
 			add_liberty_desire = -20
-			add_legitimacy = 5
+			add_legitimacy_equivalent = { amount = 5 }
 			add_country_modifier = {
 				name = rip_held_as_an_udil
 				duration = -1
@@ -119,17 +116,12 @@ rip_grant_the_udil = {
 		}
 	}
 
+	# A trigger, not a weight block. The eight-subject brake was written as a
+	# zero-weight modifier, which this slot does not read; it is a NOT now.
 	ai_will_do = {
-		factor = 1
-		modifier = {
-			factor = 4
-			FROM = {
-				liberty_desire = 50
-			}
+		FROM = {
+			liberty_desire = 50
 		}
-		modifier = {
-			factor = 0
-			num_of_subjects = 8
-		}
+		NOT = { num_of_subjects = 8 }
 	}
 }
