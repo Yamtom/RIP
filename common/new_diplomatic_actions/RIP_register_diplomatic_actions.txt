@@ -1,0 +1,191 @@
+# ZAZ / HET and their overlord - the register.
+#
+# The recurring bargain of the whole period, and the one thing both courts kept
+# coming back to. The Crown wanted the register large before a campaign and small
+# after it; the Host wanted it large always and written down. Every enlargement -
+# Kurukove 1625, Pereiaslav 1630, Boryspil 1638 - was negotiated, broken and
+# negotiated again.
+#
+# It was a decision in decisions/ZaporizhiaUniqueMechanics.txt with
+# potential = { always = no }, which is to say it was written and switched off.
+# A decision is the wrong shape for it: the register is a thing two courts agree,
+# so it is two diplomatic actions, one from each side of the table.
+
+# --- The Crown asks for more men.
+rip_ask_to_expand_the_register = {
+	category = influence
+
+	require_acceptance = yes
+
+	is_visible = {
+		overlord_of = FROM
+		FROM = {
+			is_zaporozhian_nation = yes
+			can_expand_register = yes
+		}
+	}
+
+	is_allowed = {
+		prestige = 5
+		NOT = { has_country_modifier = rip_register_asked_recently }
+		FROM = {
+			NOT = { liberty_desire = 50 }
+		}
+	}
+
+	on_accept = {
+		add_prestige = -5
+		add_country_modifier = {
+			name = rip_register_asked_recently
+			duration = 3650
+		}
+		add_favors = {
+			who = FROM
+			amount = 15
+		}
+		FROM = {
+			zaz_expand_register = yes
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 10
+			}
+			add_liberty_desire = -10
+		}
+	}
+
+	on_decline = {
+		add_prestige = -5
+		FROM = {
+			add_liberty_desire = 10
+		}
+	}
+
+	# A trigger, not a weight block - the same condition the mod already reads in
+	# overlord_wants_register_expanded.
+	ai_will_do = {
+		OR = {
+			is_at_war = yes
+			any_rival_country = {
+				army_size = ROOT
+			}
+		}
+	}
+
+	ai_acceptance = {
+		add_entry = {
+			name = DIPLO_OPPINION
+			export_to_variable = {
+				variable_name = ai_value
+				value = opinion
+				who = FROM
+				with = ROOT
+			}
+			multiply_variable = {
+				which = ai_value
+				value = 0.2
+			}
+		}
+		add_entry = {
+			name = AI_LIBERTY_DESIRE
+			export_to_variable = {
+				variable_name = ai_value
+				value = liberty_desire
+				who = FROM
+			}
+			multiply_variable = {
+				which = ai_value
+				value = -1
+			}
+		}
+	}
+}
+
+# --- The Host asks for it in writing.
+#
+# The other half of the same bargain, and the half that kept failing: the register
+# was enlarged for a war and quietly cut back after it. A Host that gets the thing
+# confirmed stops asking; one that is refused remembers.
+rip_petition_to_confirm_the_register = {
+	category = influence
+
+	require_acceptance = yes
+
+	is_visible = {
+		is_zaporozhian_nation = yes
+		is_subject_of = FROM
+		has_cossack_register = yes
+		NOT = { has_country_modifier = rip_register_confirmed }
+	}
+
+	is_allowed = {
+		is_at_war = no
+		NOT = { has_country_modifier = rip_register_asked_recently }
+		FROM = {
+			NOT = { war_with = ROOT }
+		}
+	}
+
+	on_accept = {
+		add_country_modifier = {
+			name = rip_register_confirmed
+			duration = -1
+		}
+		add_liberty_desire = -15
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = 15
+		}
+		FROM = {
+			add_prestige = -5
+		}
+	}
+
+	on_decline = {
+		add_liberty_desire = 15
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = -10
+		}
+		add_country_modifier = {
+			name = rip_register_asked_recently
+			duration = 3650
+		}
+	}
+
+	ai_will_do = {
+		NOT = { has_country_modifier = rip_register_confirmed }
+	}
+
+	ai_acceptance = {
+		add_entry = {
+			name = DIPLO_OPPINION
+			export_to_variable = {
+				variable_name = ai_value
+				value = opinion
+				who = FROM
+				with = ROOT
+			}
+			multiply_variable = {
+				which = ai_value
+				value = 0.2
+			}
+		}
+		add_entry = {
+			name = AI_TRUST_TOWARDS_ROOT
+			export_to_variable = {
+				variable_name = ai_value
+				value = trust
+				who = FROM
+				with = ROOT
+			}
+			subtract_variable = {
+				which = ai_value
+				value = 50
+			}
+			multiply_variable = {
+				which = ai_value
+				value = 0.4
+			}
+		}
+	}
+}

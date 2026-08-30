@@ -89,6 +89,12 @@ rip_hadiach_compact = {
 	diplomatic_reputation = 1
 	global_unrest = -1
 	num_accepted_cultures = 1
+	# What a third member costs the other two. Admitting the Duchy means a
+	# chancery, courts and an army the Crown does not appoint, and a diet that
+	# now has to be carried three ways instead of two.
+	max_absolutism = -10
+	global_autonomy = 0.05
+	land_forcelimit_modifier = -0.05
 }
 
 rip_princely_charter = {
@@ -109,4 +115,40 @@ rip_held_as_an_udil = {
 	global_unrest = -1
 	legitimacy = 0.5
 	global_manpower_modifier = 0.1
+}
+
+# --- what the rota costs
+
+# One of these for every udil standing. The realm is held together by kinsmen
+# holding land, and every kinsman holding land is one more claim on the seniority
+# that decides who follows. It stacks, which is the whole point: the first udil
+# is cheap and the fifth is what pulls the realm apart.
+rip_the_rota = {
+	legitimacy = -0.25
+	global_unrest = 0.5
+	vassal_forcelimit_bonus = -0.05
+}
+
+# A refused offer is not a repeatable one. The court remembers being asked.
+rip_hadiach_offer_refused = {
+}
+
+# The Crown revoked an udil. Every other kinsman heard about it.
+rip_the_udil_revoked = {
+	legitimacy = -1
+	global_unrest = 1
+}
+
+# --- the register
+
+# Asked for, one way or the other, and not asked again this decade.
+rip_register_asked_recently = {
+}
+
+# The register set down in writing rather than agreed before a campaign and cut
+# after it. It is what the Host asked for at every negotiation and got at none.
+rip_register_confirmed = {
+	liberty_desire = -10
+	cossacks_loyalty_modifier = 0.1
+	yearly_army_professionalism = 0.005
 }
