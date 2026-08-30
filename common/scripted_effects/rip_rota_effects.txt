@@ -1,0 +1,54 @@
+# The rota, counted rather than accumulated.
+#
+# A stack of one modifier cannot stay honest: an udil lost to a won independence
+# war, to conquest, or to annexation by somebody else would leave its share of
+# the cost behind for ever, and a revocation would clear one share whether or not
+# it was the right one. So the cost is recomputed from what is actually standing.
+#
+# Called from both princedom diplomatic actions and from on_yearly_pulse, which
+# is what catches an udil lost by any route the mod does not own.
+
+rip_recalculate_the_rota_effect = {
+	hidden_effect = {
+		set_variable = {
+			which = rip_udil_count
+			value = 0
+		}
+		every_subject_country = {
+			limit = {
+				has_country_modifier = rip_held_as_an_udil
+			}
+			PREV = {
+				change_variable = {
+					which = rip_udil_count
+					value = 1
+				}
+			}
+		}
+		remove_country_modifier = rip_the_rota_1
+		remove_country_modifier = rip_the_rota_2
+		remove_country_modifier = rip_the_rota_3
+		remove_country_modifier = rip_the_rota_4
+		remove_country_modifier = rip_the_rota_5
+		if = {
+			limit = { check_variable = { which = rip_udil_count value = 5 } }
+			add_country_modifier = { name = rip_the_rota_5 duration = -1 }
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_udil_count value = 4 } }
+			add_country_modifier = { name = rip_the_rota_4 duration = -1 }
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_udil_count value = 3 } }
+			add_country_modifier = { name = rip_the_rota_3 duration = -1 }
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_udil_count value = 2 } }
+			add_country_modifier = { name = rip_the_rota_2 duration = -1 }
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_udil_count value = 1 } }
+			add_country_modifier = { name = rip_the_rota_1 duration = -1 }
+		}
+	}
+}
