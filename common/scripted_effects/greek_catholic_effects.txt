@@ -194,7 +194,26 @@ rip_uc_standing_tick_effect = {
 			value = 3
 		}
 	}
-	rip_uc_show_the_standing_effect = yes
+	# Same guard as the Sobor's: on_bi_yearly_pulse is global, and unguarded this
+	# put "The Curia: unknown at Rome" on every country on the map. The else
+	# sheds the band for a country that leaves the faith.
+	if = {
+		limit = { religion = greek_catholic }
+		rip_uc_show_the_standing_effect = yes
+	}
+	else = {
+		rip_uc_clear_the_bands_effect = yes
+	}
+}
+
+# Every band off, and none back on.
+rip_uc_clear_the_bands_effect = {
+	hidden_effect = {
+		remove_country_modifier = rip_uc_curia_unknown
+		remove_country_modifier = rip_uc_curia_heard
+		remove_country_modifier = rip_uc_curia_favoured
+		remove_country_modifier = rip_uc_curia_protected
+	}
 }
 
 rip_uc_show_the_standing_effect = {
