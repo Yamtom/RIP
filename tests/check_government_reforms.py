@@ -1141,7 +1141,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
 
     migration = read("common/scripted_effects/west_ukraine_government_effects.txt")
     normalized_migration = normalized(migration)
-    startup = normalized(read("common/on_actions/west_ukraine_government_on_actions.txt"))
+    startup = normalized(read("common/on_actions/west_ukraine_on_actions.txt"))
     for effect in ("pdl_reconcile_base_reform_effect", "vln_reconcile_base_reform_effect"):
         require(
             failures,
@@ -1278,7 +1278,7 @@ def check_linked_lifecycle(failures: list[str]) -> None:
     het_reforms = read("common/government_reforms/RIP_HET_government_reforms.txt")
     owner_change = read("common/scripted_effects/01_scripted_effects_for_on_actions.txt")
     het_migration = read("common/scripted_effects/het_government_effects.txt")
-    het_startup = read("common/on_actions/het_government_on_actions.txt")
+    het_startup = read("common/on_actions/het_on_actions.txt")
     require(
         failures,
         "het_regimental_province_administration" in het_reforms
