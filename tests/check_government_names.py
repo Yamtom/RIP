@@ -376,7 +376,7 @@ def check_reform_balance_and_lifecycle(failures: list[str]) -> None:
             "chr_refresh_grain_directorate_effect",
         )
     )
-    chr_on_actions = read("common/on_actions/chr_pantheon_on_actions.txt")
+    chr_on_actions = read("common/on_actions/chr_on_actions.txt")
     startup = normalized(named_block(chr_on_actions, "on_startup"))
     yearly = normalized(named_block(chr_on_actions, "on_yearly_pulse"))
     require(
