@@ -48,11 +48,21 @@ ruthenian_principality_reform = {
 # trade_city_reform line is left where it is: it is the original intent, and it
 # costs nothing to keep should a Kyivan republic ever exist.
 #
-# The payload is still the trading city's - trade efficiency, burgher influence,
-# plutocratic ideas, the free city icon - because that is where it came from. Now
-# that a kinsman's portion can reach it, that is worth a second look.
+# The payload used to be the trading city's - trade efficiency, burgher influence,
+# plutocratic ideas, the free city icon - because that is where it came from. It
+# is the udil's now. What an udil is for is putting men in the field for the
+# senior prince, and what holds it is the family, so that is what it pays:
+# force limit and manpower for the levy, noble influence for the backing, and no
+# absolutism at all, because a prince holding of a prince has none. The cheaper
+# development is the one thing kept from the trading-city origin, since a portion
+# granted to be settled is still a portion granted to be settled.
+#
+# All five values sit inside the range vanilla uses for the same modifiers in its
+# own reforms - force limit 0.15 against a vanilla span of -0.33 to 0.25, manpower
+# 0.15 at vanilla's median, noble influence 0.1 under vanilla's 0.15 ceiling - and
+# five modifiers is inside vanilla's own median of three and maximum of eight.
 principality_appanage = {
-	icon = "free_city"
+	icon = "nobleman"
 	allow_normal_conversion = no
 	potential = {
 		has_reform = principality_appanage
@@ -60,19 +70,23 @@ principality_appanage = {
 	lock_level_when_selected = yes
 	queen = yes
 	heir = yes
-	rulers_can_be_generals = no
 	royal_marriage = yes
+	rulers_can_be_generals = yes
 	modifiers = {
-		trade_efficiency = 0.1
+		land_forcelimit_modifier = 0.15
+		global_manpower_modifier = 0.15
+		nobles_influence_modifier = 0.1
 		development_cost = -0.1
 		max_absolutism = -20
-		burghers_influence_modifier = 0.15
 	}
 	fixed_rank = 1
 	custom_attributes = {
 		locked_government_type = yes
-		enables_plutocratic_idea_group = yes
-		enables_aristocratic_idea_group = no
+		# The other way round from the trading city it used to be. A portion held
+		# by a kinsman and kept by his family is the aristocratic case, not the
+		# plutocratic one.
+		enables_aristocratic_idea_group = yes
+		enables_plutocratic_idea_group = no
 	}
 }
 
