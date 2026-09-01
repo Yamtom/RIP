@@ -75,3 +75,6 @@ ok, rejected = run_batch(
 `python tests/check_glossary.py`; після зміни скрипту — його вузький чек та
 `python tests/check_clausewitz_braces.py`. Кеш і звіти є тимчасовими файлами
 розробки: не додавати їх до мода чи коміту.
+
+> Заміряні межі моделі, правило маршрутизації задач і пастки харнеса —
+> `.claude/skills/local-llm/SKILL.md`. Цей файл лишається довідкою по API.

@@ -132,9 +132,23 @@ def _post(prompt, max_tokens, stop, temperature):
         return json.loads(r.read().decode("utf-8"))
 
 
+MARKERS = ("<|im_end|>", "<|im_start|>", "</s>")
+
+
 def _clean(text):
-    """Strip the chat-template residue and framing the model likes to add."""
-    text = text.split("<|im_end|>")[0].strip()
+    """Strip the chat-template residue and framing the model likes to add.
+
+    A short max_tokens can cut the end marker in half, so "INSIDE<|im_" comes
+    back and a plain split on the whole marker leaves it in place. That cost a
+    whole benchmark run reading as 0%. Trim any prefix of a marker too.
+    """
+    for mark in MARKERS:
+        text = text.split(mark)[0]
+        for n in range(len(mark) - 1, 1, -1):       # "<|im_", "<|i", "<|"
+            if text.endswith(mark[:n]):
+                text = text[:-n]
+                break
+    text = text.strip()
     text = re.sub(r'^(sure|here(\s+is|\'s)[^:]*|answer)\s*:\s*', '', text, flags=re.I)
     return text.strip().strip('"').strip()
 
@@ -208,14 +222,19 @@ def preflight(tasks, context_limit=CONTEXT_LIMIT):
                              (task.key, estimated_tokens))
 
 
-def run_batch(tasks, workers=SLOTS, progress=True, unique=True, cache_path=None,
+def run_batch(tasks, workers=SLOTS, progress=True, unique=False, cache_path=None,
               report_path=None):
     """Run tasks across the server's slots. Returns (accepted, rejected).
 
-    `unique` rejects an answer that repeats one another task already gave. A
-    per-task `check` only sees its own answer, so it cannot notice that the
+    `unique=True` rejects an answer that repeats one another task already gave.
+    A per-task `check` only sees its own answer, so it cannot notice that the
     model handed back the same phrase for two different keys - which is exactly
     what it does when two prompts differ only in a proper noun.
+
+    It is OFF by default because it is right for generation and ruinous for
+    classification: on a closed set every answer is legitimately a duplicate,
+    and turning it on there rejected 58 of 58 correct-format answers. Switch it
+    on when each task is supposed to produce a distinct string.
     """
     cached = _read_cache(cache_path)
     pending = []
