@@ -29,6 +29,7 @@ Usage:
 Run this file directly for a self-test against the live server.
 """
 import collections
+import hashlib
 import json
 import re
 import sys
@@ -37,11 +38,67 @@ import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Callable, Optional
 
 ENDPOINT = "http://localhost:8080/v1/chat/completions"
 SLOTS = 4          # llama.cpp total_slots; more requests than this just queue
 TIMEOUT = 180
+CONTEXT_LIMIT = 8192
+
+
+def one_line(answer):
+    return "answer must be one line" if "\n" in answer else True
+
+
+def word_count(minimum, maximum):
+    def check(answer):
+        count = len(answer.split())
+        return True if minimum <= count <= maximum else (
+            "expected %d-%d words, got %d" % (minimum, maximum, count))
+    return check
+
+
+def title_case(answer):
+    return "answer must start with an uppercase letter" if not answer[:1].isupper() else True
+
+
+def forbid(*terms):
+    def check(answer):
+        found = next((term for term in terms if term.casefold() in answer.casefold()), None)
+        return True if found is None else "forbidden term: %s" % found
+    return check
+
+
+def matches(pattern):
+    compiled = re.compile(pattern)
+    return lambda answer: True if compiled.fullmatch(answer) else "answer does not match %s" % pattern
+
+
+def choice_from(*choices):
+    allowed = set(choices)
+    return lambda answer: True if answer in allowed else "answer is not an allowed choice"
+
+
+def all_of(*checks):
+    def check(answer):
+        for candidate in checks:
+            result = candidate(answer)
+            if result is not True:
+                return result if isinstance(result, str) else "validator rejected answer"
+        return True
+    return check
+
+
+def constrained_prompt(task, facts, contract):
+    """Build the only prompt shape appropriate for the local Q3 model."""
+    return (
+        "You generate one short draft only from the facts below.\n"
+        "Do not verify facts, find errors, or invent missing information.\n"
+        "Return only the requested format, with no explanation.\n"
+        "If the format cannot be met, return REJECT.\n\n"
+        "Task: %s\nFacts: %s\nAnswer contract: %s"
+    ) % (task, facts, contract)
 
 
 @dataclass
@@ -51,6 +108,9 @@ class Task:
     check: Callable[[str], bool] = lambda s: bool(s.strip())
     max_tokens: int = 48
     stop: tuple = ("\n", "<|im_end|>")
+    source: Optional[str] = None
+    normalizer: Callable[[str], str] = str.casefold
+    metadata: dict = field(default_factory=dict)
     answer: Optional[str] = None
     error: Optional[str] = None
     tokens: int = 0
@@ -91,14 +151,65 @@ def _run_one(task):
         task.seconds += time.time() - t0
         task.tokens += data.get("usage", {}).get("completion_tokens", 0)
         answer = _clean(data["choices"][0]["message"]["content"])
-        if task.check(answer):
+        checked = task.check(answer)
+        if checked is True:
             task.answer, task.error = answer, None
             return task
-        task.error = "rejected: %r" % answer[:80]
+        reason = checked if isinstance(checked, str) else "validator rejected answer"
+        task.error = "rejected (%s): %r" % (reason, answer[:80])
     return task
 
 
-def run_batch(tasks, workers=SLOTS, progress=True, unique=True):
+def _fingerprint(task):
+    payload = json.dumps({"prompt": task.prompt, "max_tokens": task.max_tokens,
+                          "stop": task.stop}, sort_keys=True)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _read_cache(path):
+    if not path or not Path(path).is_file():
+        return {}
+    return {item["fingerprint"]: item["answer"]
+            for line in Path(path).read_text(encoding="utf-8").splitlines()
+            if (item := json.loads(line)).get("answer")}
+
+
+def _write_cache(path, tasks):
+    if not path:
+        return
+    with Path(path).open("w", encoding="utf-8", newline="\n") as handle:
+        for task in tasks:
+            if task.answer is not None:
+                handle.write(json.dumps({"fingerprint": _fingerprint(task),
+                                         "answer": task.answer}, ensure_ascii=False) + "\n")
+
+
+def _write_report(path, tasks):
+    if not path:
+        return
+    with Path(path).open("w", encoding="utf-8", newline="\n") as handle:
+        for task in tasks:
+            handle.write(json.dumps({
+                "key": task.key, "source": task.source, "fingerprint": _fingerprint(task),
+                "answer": task.answer, "error": task.error, "attempts": task.attempts,
+                "tokens": task.tokens, "seconds": round(task.seconds, 3),
+                "metadata": task.metadata,
+            }, ensure_ascii=False) + "\n")
+
+
+def preflight(tasks, context_limit=CONTEXT_LIMIT):
+    """Reject task batches that cannot fit the live server's 8192-token context."""
+    if not health():
+        raise RuntimeError("no llama.cpp server on localhost:8080")
+    for task in tasks:
+        estimated_tokens = len(task.prompt) // 3 + task.max_tokens
+        if estimated_tokens >= context_limit - 256:
+            raise ValueError("%s may exceed context: ~%d tokens" %
+                             (task.key, estimated_tokens))
+
+
+def run_batch(tasks, workers=SLOTS, progress=True, unique=True, cache_path=None,
+              report_path=None):
     """Run tasks across the server's slots. Returns (accepted, rejected).
 
     `unique` rejects an answer that repeats one another task already gave. A
@@ -106,20 +217,31 @@ def run_batch(tasks, workers=SLOTS, progress=True, unique=True):
     model handed back the same phrase for two different keys - which is exactly
     what it does when two prompts differ only in a proper noun.
     """
+    cached = _read_cache(cache_path)
+    pending = []
+    for task in tasks:
+        answer = cached.get(_fingerprint(task))
+        if answer is not None and task.check(answer) is True:
+            task.answer = answer
+        else:
+            pending.append(task)
+
     t0 = time.time()
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        done = list(pool.map(_run_one, tasks))
+        done = list(pool.map(_run_one, pending))
     if unique:
-        seen = collections.Counter(t.answer for t in done if t.answer is not None)
-        for t in done:
-            if t.answer is not None and seen[t.answer] > 1:
+        seen = collections.Counter(t.normalizer(t.answer) for t in tasks if t.answer is not None)
+        for t in tasks:
+            if t.answer is not None and seen[t.normalizer(t.answer)] > 1:
                 t.error = "duplicate answer: %r" % t.answer
                 t.answer = None
-    ok = [t for t in done if t.answer is not None]
-    bad = [t for t in done if t.answer is None]
+    ok = [t for t in tasks if t.answer is not None]
+    bad = [t for t in tasks if t.answer is None]
+    _write_cache(cache_path, ok)
+    _write_report(report_path, tasks)
     if progress:
         wall = time.time() - t0
-        toks = sum(t.tokens for t in done)
+        toks = sum(t.tokens for t in tasks)
         print("local_llm: %d/%d accepted, %d tok in %.0fs (%.1f tok/s aggregate)"
               % (len(ok), len(done), toks, wall, toks / wall if wall else 0),
               file=sys.stderr)
