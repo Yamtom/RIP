@@ -204,8 +204,13 @@ country_event = {
 				who = ROOT
 				modifier = zaz_joined_confederation
 			}
+			add_opinion = {
+				who = ROOT
+				modifier = svydrigaylo_restored_legitimacy
+			}
 		}
 		add_prestige = 10
+		kru_confederation_recognised_effect = yes
 	}
 }
 
@@ -225,8 +230,13 @@ country_event = {
 				who = ROOT
 				modifier = het_joined_confederation
 			}
+			add_opinion = {
+				who = ROOT
+				modifier = svydrigaylo_restored_legitimacy
+			}
 		}
 		add_prestige = 10
+		kru_confederation_recognised_effect = yes
 	}
 }
 
@@ -246,8 +256,13 @@ country_event = {
 				who = ROOT
 				modifier = chr_joined_confederation
 			}
+			add_opinion = {
+				who = ROOT
+				modifier = svydrigaylo_restored_legitimacy
+			}
 		}
 		add_prestige = 10
+		kru_confederation_recognised_effect = yes
 	}
 }
 
@@ -267,7 +282,314 @@ country_event = {
 				who = ROOT
 				modifier = kie_joined_confederation
 			}
+			add_opinion = {
+				who = ROOT
+				modifier = svydrigaylo_restored_legitimacy
+			}
 		}
 		add_prestige = 10
+		kru_confederation_recognised_effect = yes
+	}
+}
+
+# ========================================================================
+# Recognition. Fired once from kru_confederation_recognised_effect, the first
+# time a member joins. Each neighbour answers the same question in its own
+# interest, and the answer is the modifier it carries afterwards.
+# ========================================================================
+
+country_event = {
+	id = svydrigaylo.300
+	title = "svydrigaylo.300.t"
+	desc = "svydrigaylo.300.d"
+	picture = SEJM_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # Recognise the confederation
+		name = "svydrigaylo.300.a"
+
+		add_opinion = {
+			who = FROM
+			modifier = lithuania_recognizes_ruthenian_independence
+		}
+		add_prestige = -15
+		add_stability = 1
+
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 3
+				is_at_war = yes
+			}
+			modifier = {
+				factor = 0.3
+				army_strength = { who = FROM value = 2 }
+			}
+		}
+	}
+
+	option = { # The palatinates are ours by charter
+		name = "svydrigaylo.300.b"
+
+		add_casus_belli = {
+			target = FROM
+			type = cb_vassalize_mission
+			months = 120
+		}
+		add_prestige = 10
+
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 0.2
+				is_at_war = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = svydrigaylo.301
+	title = "svydrigaylo.301.t"
+	desc = "svydrigaylo.301.d"
+	picture = SEJM_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # Let the Sejm recognise what it cannot undo
+		name = "svydrigaylo.301.a"
+
+		add_opinion = {
+			who = FROM
+			modifier = poland_recognizes_ruthenian_independence
+		}
+		add_prestige = -20
+		add_stability = 1
+
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 3
+				is_at_war = yes
+			}
+			modifier = {
+				factor = 2
+				NOT = { stability = 0 }
+			}
+		}
+	}
+
+	option = { # The Crown does not give up its lands
+		name = "svydrigaylo.301.b"
+
+		add_casus_belli = {
+			target = FROM
+			type = cb_vassalize_mission
+			months = 120
+		}
+		add_legitimacy = 5
+
+		ai_chance = {
+			factor = 70
+			modifier = {
+				factor = 0.2
+				is_at_war = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = svydrigaylo.302
+	title = "svydrigaylo.302.t"
+	desc = "svydrigaylo.302.d"
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # Kyiv is a rival claim, not a brother
+		name = "svydrigaylo.302.a"
+
+		add_opinion = {
+			who = FROM
+			modifier = muscovy_suspects_ruthenian_confederation
+		}
+		add_legitimacy = 5
+
+		ai_chance = {
+			factor = 75
+		}
+	}
+
+	option = { # Orthodoxy before the succession
+		name = "svydrigaylo.302.b"
+
+		add_trust = {
+			who = FROM
+			value = 15
+			mutual = yes
+		}
+		add_prestige = -10
+
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 3
+				is_at_war = yes
+			}
+		}
+	}
+}
+
+country_event = {
+	id = svydrigaylo.303
+	title = "svydrigaylo.303.t"
+	desc = "svydrigaylo.303.d"
+	picture = MERCHANTS_TALKING_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # A wedge between Krakow and Moscow serves the Porte
+		name = "svydrigaylo.303.a"
+
+		add_opinion = {
+			who = FROM
+			modifier = ottoman_supports_ruthenian_confederation
+		}
+
+		ai_chance = {
+			factor = 70
+			modifier = {
+				factor = 2
+				OR = {
+					is_rival = PLC
+					is_rival = POL
+					is_rival = MOS
+				}
+			}
+		}
+	}
+
+	option = { # The Porte has raiders enough on that frontier
+		name = "svydrigaylo.303.b"
+
+		add_prestige = 5
+
+		ai_chance = {
+			factor = 30
+		}
+	}
+}
+
+country_event = {
+	id = svydrigaylo.304
+	title = "svydrigaylo.304.t"
+	desc = "svydrigaylo.304.d"
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # Recognise them, and keep the road to Poland open
+		name = "svydrigaylo.304.a"
+
+		add_opinion = {
+			who = FROM
+			modifier = crimea_supports_ruthenian_independence
+		}
+
+		ai_chance = {
+			factor = 60
+		}
+	}
+
+	option = { # A sworn peace on the steppe frontier
+		name = "svydrigaylo.304.b"
+
+		trigger = {
+			NOT = { war_with = FROM }
+		}
+
+		add_opinion = {
+			who = FROM
+			modifier = crimea_respects_ruthenian_confederation
+		}
+		add_prestige = -10
+		add_yearly_manpower = -0.5
+
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_opinion = {
+					who = FROM
+					value = 50
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = svydrigaylo.305
+	title = "svydrigaylo.305.t"
+	desc = "svydrigaylo.305.d"
+	picture = RELIGION_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # Another Orthodox principality between us and the powers
+		name = "svydrigaylo.305.a"
+
+		add_opinion = {
+			who = FROM
+			modifier = moldavia_supports_ruthenian_path
+		}
+
+		ai_chance = {
+			factor = 70
+		}
+	}
+
+	option = { # Moldavia keeps its own counsel
+		name = "svydrigaylo.305.b"
+
+		add_prestige = 5
+
+		ai_chance = {
+			factor = 30
+		}
+	}
+}
+
+country_event = {
+	id = svydrigaylo.306
+	title = "svydrigaylo.306.t"
+	desc = "svydrigaylo.306.d"
+	picture = RELIGION_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # The Danube watches the Dnieper with sympathy
+		name = "svydrigaylo.306.a"
+
+		add_opinion = {
+			who = FROM
+			modifier = wallachia_supports_ruthenian_path
+		}
+
+		ai_chance = {
+			factor = 70
+		}
+	}
+
+	option = { # Wallachia has the Porte to answer to
+		name = "svydrigaylo.306.b"
+
+		add_prestige = 5
+
+		ai_chance = {
+			factor = 30
+		}
 	}
 }

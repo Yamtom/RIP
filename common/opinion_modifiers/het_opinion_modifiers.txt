@@ -72,47 +72,7 @@ het_pereiaslav_oath = {
 	years = 50
 }
 
-pereiaslav_oath_signed = {
-	opinion = 80
-	yearly_decay = 1
-}
-
-hadyach_treaty_agreement = {
-	opinion = 100
-	years = 25
-}
-
-kolomakky_statutes_accepted = {
-	opinion = 60
-	yearly_decay = 2
-}
-
-het_autonomy_respected = {
-	opinion = 100
-	years = 30
-}
-
-het_autonomy_violated = {
-	opinion = -150
-	years = 40
-}
-
 ### Foreign patrons
-
-het_polish_alliance = {
-	opinion = 80
-	years = 25
-}
-
-het_ottoman_protection = {
-	opinion = 100
-	years = 30
-}
-
-het_swedish_compact = {
-	opinion = 100
-	years = 20
-}
 
 hetmanate_swedish_alliance = {
 	opinion = 50
@@ -126,70 +86,11 @@ hetmanate_remained_loyal = {
 	max = 80
 }
 
-### Hetman succession and the starshyna
-
-hetman_succession_disputed = {
-	opinion = -60
-	yearly_decay = 4
-}
-
-hetman_elected_legitimately = {
-	opinion = 75
-	yearly_decay = 1
-}
-
-hetman_imposed_by_overlord = {
-	opinion = -100
-	yearly_decay = 3
-}
-
-het_starshyna_diplomacy = {
-	opinion = 60
-	years = 20
-}
-
-starshyna_cooperation = {
-	opinion = 50
-	yearly_decay = 2
-}
-
-starshyna_rivalry = {
-	opinion = -75
-	yearly_decay = 3
-}
-
 ### Mazepa and Poltava
-
-mazepa_reforms_accepted = {
-	opinion = 90
-	yearly_decay = 1
-}
-
-mazepa_swedish_gambit = {
-	opinion = -150
-	years = 30
-	yearly_decay = 2
-}
 
 het_mazepa_treason = {
 	opinion = -200
 	years = 100
-}
-
-batuuryn_destroyed = {
-	opinion = -200
-	years = 50
-	yearly_decay = 1
-}
-
-chernihiv_loyalist = {
-	opinion = 75
-	yearly_decay = 1
-}
-
-het_poltava_loyalty = {
-	opinion = 150
-	years = 50
 }
 
 ### The Russian candidate and the collegium
@@ -203,12 +104,7 @@ accepted_russian_candidate = {
 rejected_russian_candidate = {
 	opinion = -40
 	yearly_decay = 3
-	max = -15
-}
-
-collegia_imposed = {
-	opinion = -60
-	yearly_decay = 3
+	min = -40
 }
 
 accepted_collegium = {
@@ -220,12 +116,7 @@ accepted_collegium = {
 resisted_collegium = {
 	opinion = -50
 	yearly_decay = 3
-	max = -20
-}
-
-het_collegium_graduates = {
-	opinion = 40
-	years = 15
+	min = -50
 }
 
 negotiated_autonomy = {
@@ -236,34 +127,14 @@ negotiated_autonomy = {
 
 ### Army, church and grain
 
-het_registered_army_support = {
-	opinion = 70
-	years = 25
-}
-
-het_military_support = {
-	opinion = 80
-	years = 15
-}
-
-het_orthodox_protector = {
-	opinion = 80
-	years = 30
-}
-
 het_orthodox_cooperation = {
 	opinion = 25
-	yearly_decay = -1
+	yearly_decay = 1
 }
 
 het_religious_tension = {
 	opinion = -60
 	years = 20
-}
-
-het_grain_trade = {
-	opinion = 50
-	yearly_decay = 1
 }
 
 ### Ruthenian confederation
@@ -278,3 +149,125 @@ het_refused_confederation = {
 	years = 20
 	yearly_decay = 2
 }
+
+##########################################################################
+# RESERVE - defined, localised, but no script applies them.
+# Uncomment together with the content that would use them.
+##########################################################################
+
+### Hetman succession and the starshyna - needs an election/faction chain
+
+#hetman_succession_disputed = {
+#	opinion = -60
+#	yearly_decay = 4
+#}
+
+#hetman_elected_legitimately = {
+#	opinion = 75
+#	yearly_decay = 1
+#}
+
+#hetman_imposed_by_overlord = {
+#	opinion = -100
+#	yearly_decay = 3
+#}
+
+#het_starshyna_diplomacy = {
+#	opinion = 60
+#	years = 20
+#}
+
+#starshyna_cooperation = {
+#	opinion = 50
+#	yearly_decay = 2
+#}
+
+#starshyna_rivalry = {
+#	opinion = -75
+#	yearly_decay = 3
+#}
+
+
+### Mazepa and Poltava - HetmanateEnhanced.txt covers the collegium half only
+
+#mazepa_reforms_accepted = {
+#	opinion = 90
+#	yearly_decay = 1
+#}
+
+#batuuryn_destroyed = {
+#	opinion = -200
+#	years = 50
+#	yearly_decay = 1
+#}
+
+#chernihiv_loyalist = {
+#	opinion = 75
+#	yearly_decay = 1
+#}
+
+#het_poltava_loyalty = {
+#	opinion = 150
+#	years = 50
+#}
+
+
+### Treaty menu - only the Pereiaslav oath is written
+
+#hadyach_treaty_agreement = {
+#	opinion = 100
+#	years = 25
+#}
+
+#kolomakky_statutes_accepted = {
+#	opinion = 60
+#	yearly_decay = 2
+#}
+
+#het_autonomy_respected = {
+#	opinion = 100
+#	years = 30
+#}
+
+#het_autonomy_violated = {
+#	opinion = -150
+#	years = 40
+#}
+
+
+### Patrons and services - needs a Hetmanate foreign-policy chain
+
+#het_polish_alliance = {
+#	opinion = 80
+#	years = 25
+#}
+
+#het_ottoman_protection = {
+#	opinion = 100
+#	years = 30
+#}
+
+#het_military_support = {
+#	opinion = 80
+#	years = 15
+#}
+
+#het_registered_army_support = {
+#	opinion = 70
+#	years = 25
+#}
+
+#het_orthodox_protector = {
+#	opinion = 80
+#	years = 30
+#}
+
+#het_collegium_graduates = {
+#	opinion = 40
+#	years = 15
+#}
+
+#het_grain_trade = {
+#	opinion = 50
+#	yearly_decay = 1
+#}

@@ -1,0 +1,106 @@
+# ========================================================================
+# Recognition of the Kyivan Confederation.
+#
+# The invitation half of the chain already exists in
+# events/svydrigaylo_independence.txt: KRU invites ZAZ, HET, CHR and KIE, and
+# each accepts or refuses. What was missing is the other half - whether the
+# neighbours accept a Ruthenian state on the map at all. That is the question
+# the whole counterfactual turns on, so it is asked of every power that has a
+# stake in the answer.
+#
+# Called from svydrigaylo.200-203, i.e. the first time any member actually
+# joins. The flag makes it run once no matter how many members join after.
+# ========================================================================
+
+kru_confederation_recognised_effect = {
+	if = {
+		limit = { NOT = { has_country_flag = kru_confederation_recognised } }
+		set_country_flag = kru_confederation_recognised
+
+		# The former overlords have to answer first - they are the ones losing
+		# the palatinates.
+		if = {
+			limit = { exists = LIT }
+			LIT = { country_event = { id = svydrigaylo.300 days = 5 } }
+		}
+		if = {
+			limit = { exists = PLC }
+			PLC = { country_event = { id = svydrigaylo.301 days = 5 } }
+		}
+		else_if = {
+			limit = { exists = POL }
+			POL = { country_event = { id = svydrigaylo.301 days = 5 } }
+		}
+
+		# Moscow holds the rival claim to the Rus succession.
+		if = {
+			limit = { exists = RUS }
+			RUS = { country_event = { id = svydrigaylo.302 days = 10 } }
+		}
+		else_if = {
+			limit = { exists = MOS }
+			MOS = { country_event = { id = svydrigaylo.302 days = 10 } }
+		}
+
+		# The southern powers weigh a Ruthenian state against Poland.
+		if = {
+			limit = { exists = TUR }
+			TUR = { country_event = { id = svydrigaylo.303 days = 15 } }
+		}
+		if = {
+			limit = { exists = CRI }
+			CRI = { country_event = { id = svydrigaylo.304 days = 15 } }
+		}
+		if = {
+			limit = { exists = MOL }
+			MOL = { country_event = { id = svydrigaylo.305 days = 20 } }
+		}
+		if = {
+			limit = { exists = WAL }
+			WAL = { country_event = { id = svydrigaylo.306 days = 20 } }
+		}
+
+		# Everyone else settles into one of two positions without an event:
+		# the Orthodox world accepts Kyiv as the senior seat of the Rus, and
+		# whoever already favours us backs the confederation politically.
+		every_known_country = {
+			limit = {
+				NOT = { tag = ROOT }
+				religion = orthodox
+				NOT = { tag = MOS }
+				NOT = { tag = RUS }
+				NOT = { tag = ZAZ }
+				NOT = { tag = HET }
+				NOT = { tag = CHR }
+				NOT = { tag = KIE }
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = kyivan_confederation_successor
+			}
+		}
+		every_known_country = {
+			limit = {
+				NOT = { tag = ROOT }
+				NOT = { religion = orthodox }
+				NOT = { tag = LIT }
+				NOT = { tag = POL }
+				NOT = { tag = PLC }
+				NOT = { tag = MOS }
+				NOT = { tag = RUS }
+				NOT = { tag = TUR }
+				NOT = { tag = CRI }
+				NOT = { tag = MOL }
+				NOT = { tag = WAL }
+				has_opinion = {
+					who = ROOT
+					value = 50
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = supports_ruthenian_confederation
+			}
+		}
+	}
+}

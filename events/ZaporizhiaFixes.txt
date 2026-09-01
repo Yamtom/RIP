@@ -327,3 +327,119 @@ country_event = {
 		name = "OK"
 	}
 }
+
+# ------------------------------------------------------------------------
+# The Ordinance. Historical anchor: the Ordynacja of 1638, which cut the
+# register, replaced the elected hetman with a Commonwealth commissioner and
+# ordered the Host away from the lower Dnieper. It is the counterpart of
+# zaz_fixes.3, where the register is expanded instead.
+#
+# Direction of the opinions is chosen for what the tooltip reads like:
+# the Host resents the register and the commissioner, so those sit on ZAZ;
+# the relocation order is the overlord's own standing demand, so it sits on
+# the overlord - sich_relocation_necessary reads it from there.
+# ------------------------------------------------------------------------
+country_event = {
+	id = zaz_fixes.10
+	title = "zaz_fixes.10.t"
+	desc = "zaz_fixes.10.d"
+	picture = SEJM_eventPicture
+
+	trigger = {
+		tag = ZAZ
+		is_subject = yes
+		overlord = {
+			OR = {
+				tag = PLC
+				tag = POL
+				tag = LIT
+			}
+		}
+		is_year = 1630
+		NOT = { is_year = 1690 }
+		NOT = { has_country_flag = zaz_ordinance_imposed }
+	}
+
+	mean_time_to_happen = {
+		months = 180
+
+		modifier = {
+			factor = 0.5
+			liberty_desire = 50
+		}
+		modifier = {
+			factor = 0.6
+			has_country_flag = register_expanded
+		}
+		modifier = {
+			factor = 1.5
+			overlord = { is_at_war = yes }
+		}
+	}
+
+	option = { # Enrol in the reduced register
+		name = "zaz_fixes.10.a"
+		set_country_flag = zaz_ordinance_imposed
+
+		overlord = {
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = abolished_register
+			}
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = demanded_hetman_change
+			}
+			add_trust = {
+				who = ROOT
+				value = 10
+				mutual = no
+			}
+		}
+		add_liberty_desire = -15
+		add_manpower = -3
+		add_republican_tradition = -10
+	}
+
+	option = { # Give up the register, keep the elected hetman
+		name = "zaz_fixes.10.b"
+		set_country_flag = zaz_ordinance_imposed
+
+		overlord = {
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = abolished_register
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = demanded_sich_relocation
+			}
+		}
+		add_liberty_desire = 10
+		add_manpower = -2
+	}
+
+	option = { # The Sich answers to no commissioner
+		name = "zaz_fixes.10.c"
+		set_country_flag = zaz_ordinance_imposed
+
+		overlord = {
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = demanded_hetman_change
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = demanded_sich_relocation
+			}
+			add_casus_belli = {
+				target = ROOT
+				type = cb_disloyal_vassal
+				months = 120
+			}
+		}
+		add_liberty_desire = 25
+		add_republican_tradition = 10
+		add_prestige = 10
+	}
+}
