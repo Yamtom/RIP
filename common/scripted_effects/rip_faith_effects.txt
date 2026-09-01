@@ -23,6 +23,18 @@ rip_ro_clear_the_icons_effect = {
 # moment a focus is bought, so the readout never lags the counter by more than
 # one pulse. check_variable is a "greater than or equal", so the chain reads
 # from the top down.
+# Every band off, and none back on. Used for a country that is not or is no longer
+# of this faith.
+rip_ro_clear_the_bands_effect = {
+	hidden_effect = {
+		remove_country_modifier = rip_ro_zeal_band_spent
+		remove_country_modifier = rip_ro_zeal_band_gathering
+		remove_country_modifier = rip_ro_zeal_band_ready
+		remove_country_modifier = rip_ro_zeal_band_laid_by
+		remove_country_modifier = rip_ro_zeal_band_full
+	}
+}
+
 rip_ro_show_the_zeal_effect = {
 	hidden_effect = {
 		remove_country_modifier = rip_ro_zeal_band_spent
@@ -105,7 +117,17 @@ rip_ro_zeal_tick_effect = {
 			country_event = { id = rip_faith.3 days = 3 }
 		}
 	}
-	rip_ro_show_the_zeal_effect = yes
+	# on_bi_yearly_pulse runs for every country in the world, so the readout has
+	# to be gated too - unguarded it hung "The Sobor: the zeal is spent" on every
+	# court on the map. The else is the cleanup path for a country that leaves
+	# the faith: it sheds the band rather than carrying it for ever.
+	if = {
+		limit = { religion = russian_orthodox }
+		rip_ro_show_the_zeal_effect = yes
+	}
+	else = {
+		rip_ro_clear_the_bands_effect = yes
+	}
 }
 
 rip_ro_clear_the_zeal_effect = {
