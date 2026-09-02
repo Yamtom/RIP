@@ -1,24 +1,73 @@
-# Перейменування провінцій для тегу CHR (Чернігів).
+##########################################################################
+# CHERNIHIV (CHR)
+##########################################################################
+# CHR is ryazanian culture, so it inherits nothing from ruthenian.txt. Whatever
+# Chernihiv should see has to be in this file. Siverian register throughout.
 #
-# Знято дев'ять записів, що лежали не на тих провінціях: вони припускали
-# послідовність ID уздовж Лівобережжя, тоді як 294-297 - це Твер, Москва,
-# Калуга й Брянськ. Чернігів, узявши Твер, називав її "Білою Церквою".
-#
-# Знято: 281 (Поділля -> "Oster"), 282 (Єдисан -> "Nizhyn"),
-#        294 (Твер -> "Bila Tserkva"), 295 (Москва -> "Pereiaslavl"),
-#        296 (Калуга -> "Myrhorod"), 297 (Брянськ -> "Hadiach"),
-#        463 (Черкесія -> "Putyvl"), 2404 (Мергуї в Бірмі -> "Hlukhiv"),
-#        2750 (Пловдив -> "Konotop").
-#
-# Біла Церква, Остер, Ніжин, Глухів, Конотоп, Путивль, Миргород і Гадяч
-# власних провінцій у 1.37 не мають - див. docs/MAP_REWORK_SUGGESTIONS.md.
+# 32 names: 24 attested, 8 built from a real institution, 0 speculative.
+# Speculative entries are marked inline. ASCII only - vanilla stores these
+# files as Windows-1252 and a diacritic would render as mojibake.
 
-289  = "Chernihiv"           # Ruthenia: chernigov_area
-1945 = "Novhorod-Siverskyi"  # Ruthenia: chernigov_area
-4543 = "Rylsk"               # Ruthenia: chernigov_area
-4244 = "Starodub"            # Ruthenia: smolensk_area
-2407 = "Pereiaslav"          # Ruthenia: east_dniepr_area
-4542 = "Lubny"               # Ruthenia: east_dniepr_area
-290  = "Poltava"             # Ruthenia: east_dniepr_area
-291  = "Kharkiv"             # Ruthenia: sloboda_ukraine_area
-298  = "Kursk"               # Ruthenia: sloboda_ukraine_area
+### Ruthenia - chernigov_area
+289  = "Chernihiv"                     # the see of Chernihiv and Novhorod-Siverskyi and the Desna crossing; the seat of the Olhovychi line
+1945 = "Novhorod-Siverskyi"            # the senior Siverian appanage on the Desna, Ihor Svyatoslavych's seat in 1185
+4543 = "Putyvl"                        # the Seim district is named for Putyvl (1146), the frontier castle of the Novhorod-Siverskyi princes, rather than for neighbouring Rylsk
+
+### Ruthenia - east_dniepr_area
+290  = "Ltava"                         # the Hypatian Chronicle name of the Vorskla town under 1174, the pre-Poltava form
+2407 = "Pereiaslav"                    # Pereiaslav on the Trubizh, the third Rus principality and its bishopric, the Siverian gate to the steppe
+4542 = "Lubny"                         # the Posullia line town on the Sula, chronicled 1107 as Lubno, the old Rus frontier fortification
+
+### Ruthenia - minsk_area
+276  = "Mensk"                         # the chronicle Menesk of the 1067 battle on the Niamiha, the older form of the Svisloch town
+4115 = "Mozyr"                         # the Pripyat castle of the Kyivan and later Lithuanian starosty, chronicled 1155
+4544 = "Bobruisk"                      # the Berezina crossing and beaver fishery, in the grand ducal registers from 1387
+
+### Ruthenia - podolia_volhynia_area
+281  = "Podillia"                      # the Ruthenian name of the land below the Bug and Dniester, the palatinate seated at Kamianets
+4540 = "Vinnytsia"                     # the Bug castle of the Koriatovychi, 1363, seat of the Bratslav starosty courts
+
+### Ruthenia - pripyat_area
+278  = "Polissia"                      # the Ruthenian name of the marsh land between the Pripyat and the Horyn, used as the district name rather than a single castle
+1941 = "Turiv"                         # the Turiv and Pinsk bishopric, the oldest see of the Pripyat basin
+4537 = "Novhorodok"                    # the Rus chronicle form of the Nioman town, Mindaugas' first seat and the Ruthenian metropolitan see of Lithuania
+4545 = "Slutsk"                        # chronicled Sluchesk 1116 on the Sluch; the Olelkovych principality
+
+### Ruthenia - sloboda_ukraine_area
+291  = "Donets"                        # the Rus town on the Udy where Ihor Svyatoslavych came out of Polovtsian captivity in 1185, on the site later taken by Kharkiv
+299  = "Podonnia"                      # the upper Don land named from the title of the bishopric of Sarai and the Podonie, the church jurisdiction over the Don steppe
+
+### Ruthenia - smolensk_area
+297  = "Debriansk"                     # the chronicle form Dbryansk, from the debri woods; refuge of the Chernihiv princes after 1239
+4244 = "Starodub Siverskyi"            # the standing qualifier that separates the Desna Starodub from the Kliazma one; a Siverian appanage seat
+
+### Ruthenia - volhynia_area
+2962 = "Rivne"                         # the Ruthenian form Rovnoie of the Horyn town, against the Polish Rowne
+
+### Ruthenia - west_dniepr_area
+280  = "Kyiv"                          # the metropolitan see and the Dnieper crossing; the mother church of the Siverian eparchies
+4247 = "Ovruch"                        # the Derevlian seat and slate quarry town, Ruthenian Ovruch against the chancery Polish Owrucz
+
+### Ruthenia - white_ruthenia_area
+292  = "Mohyliv"                       # the Dnieper castle and staple town, Ruthenian Mohyliv in the chancery books
+4246 = "Mstyslavl"                     # the chronicle Mstislavl founded by Rostislav in 1156, an appanage of the Smolensk line
+
+### Crimea - azov_area
+286  = "Azov"                          # the Don mouth and the old Tana staple, in Ruthenian usage Azov rather than the Ottoman Azak
+
+### Crimea - crimea_area
+285  = "Kafa"                          # Kafa in the Ruthenian sources, the slave market to which the Siverian and Dnieper captives were carried
+
+### Crimea - lower_don_area
+467  = "Borysohlibsk"                  # the Don frontier fort under the dedication of Borys and Hlib, the princely saints of the Chernihiv cathedral
+2409 = "Bakhmut"                       # the salt pans on the Bakhmutka worked by Siverian and Don salters before the fort of 1703
+
+### Russia - novgorod_area
+310  = "Novhorod Velykyi"              # the Ruthenian form, and the qualifier that keeps it apart from Novhorod-Siverskyi
+
+### Russia - oka_area
+296  = "Kaluha"                        # Kaluga is listed among the towns Moscow took in Algirdas' 1371 letter to the Patriarch, so the Ruthenian claim and spelling stand
+4116 = "Bilev"                         # Belev of the Verkhovsky principalities, an Upper Oka appanage of the Chernihiv Rurikid line, in Ruthenian orthography
+
+### Russia - pskov_area
+274  = "Pleskov"                       # the chronicle and Ruthenian chancery form Pleskov for Pskov

@@ -488,10 +488,27 @@ if EU4_DIR:
     area_of, region_of = {}, {}
     atext = re.sub(r"#.*", "", read_text := decode(read(
         os.path.join(EU4_DIR, "map", "area.txt")))[0])
-    for m in re.finditer(r"([a-z_0-9]+)\s*=\s*\{([^{}]*)\}", atext):
-        for i in m.group(2).split():
+    # Fifty areas carry a nested `color = { r g b }`. A `\{[^{}]*\}` match takes
+    # that colour and never sees the area around it, which loses 182 provinces and
+    # mislabels 90 more - enough to report a real province as being in no area.
+    # Walk the braces instead, then strip the nested blocks out of the body.
+    def _area_blocks(text):
+        i, opener = 0, re.compile(r"([a-z_0-9]+)\s*=\s*\{")
+        while True:
+            m = opener.search(text, i)
+            if not m:
+                return
+            depth, j = 1, m.end()
+            while depth and j < len(text):
+                depth += (text[j] == "{") - (text[j] == "}")
+                j += 1
+            yield m.group(1), text[m.end():j - 1]
+            i = j
+
+    for name, body in _area_blocks(atext):
+        for i in re.sub(r"[a-z_0-9]+\s*=\s*\{[^{}]*\}", "", body).split():
             if i.isdigit():
-                area_of[int(i)] = m.group(1)
+                area_of[int(i)] = name
     rtext = re.sub(r"#.*", "", decode(read(
         os.path.join(EU4_DIR, "map", "region.txt")))[0])
     for m in re.finditer(r"([a-z_0-9]+)\s*=\s*\{(.*?)\n\}", rtext, re.S):

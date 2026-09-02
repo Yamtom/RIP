@@ -11,6 +11,7 @@ scripts = [
     "tests/check_estate_layer.py",
     "tests/check_event_modifier_layer.py",
     "tests/check_opinion_modifier_layer.py",
+    "tests/check_province_names.py",
     "tests/check_government_reforms.py",
     "tests/check_government_names.py",
     "tests/check_glossary.py",
