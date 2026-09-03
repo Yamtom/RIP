@@ -35,117 +35,12 @@ rip_ro_clear_the_bands_effect = {
 	}
 }
 
-rip_ro_show_the_zeal_effect = {
-	hidden_effect = {
-		remove_country_modifier = rip_ro_zeal_band_spent
-		remove_country_modifier = rip_ro_zeal_band_gathering
-		remove_country_modifier = rip_ro_zeal_band_ready
-		remove_country_modifier = rip_ro_zeal_band_laid_by
-		remove_country_modifier = rip_ro_zeal_band_full
-		if = {
-			limit = { check_variable = { which = rip_ro_zeal value = 80 } }
-			add_country_modifier = { name = rip_ro_zeal_band_full duration = -1 }
-		}
-		else_if = {
-			limit = { check_variable = { which = rip_ro_zeal value = 50 } }
-			add_country_modifier = { name = rip_ro_zeal_band_laid_by duration = -1 }
-		}
-		else_if = {
-			limit = { check_variable = { which = rip_ro_zeal value = 25 } }
-			add_country_modifier = { name = rip_ro_zeal_band_ready duration = -1 }
-		}
-		else_if = {
-			limit = { check_variable = { which = rip_ro_zeal value = 10 } }
-			add_country_modifier = { name = rip_ro_zeal_band_gathering duration = -1 }
-		}
-		else = {
-			add_country_modifier = { name = rip_ro_zeal_band_spent duration = -1 }
-		}
-	}
-}
-
-rip_ro_zeal_tick_effect = {
-	if = {
-		limit = {
-			religion = russian_orthodox
-			NOT = { check_variable = { which = rip_ro_zeal value = 100 } }
-		}
-		change_variable = {
-			which = rip_ro_zeal
-			value = 5
-		}
-		# A church that is listened to fills the treasury of zeal faster.
-		if = {
-			limit = { patriarch_authority = 0.6 }
-			change_variable = {
-				which = rip_ro_zeal
-				value = 2
-			}
-		}
-		if = {
-			limit = { religious_unity = 0.95 }
-			change_variable = {
-				which = rip_ro_zeal
-				value = 2
-			}
-		}
-	}
-	# A focus is not free to hold: it drains what it was bought with.
-	if = {
-		limit = {
-			religion = russian_orthodox
-			OR = {
-				has_country_modifier = rip_ro_zeal_war
-				has_country_modifier = rip_ro_zeal_trade
-				has_country_modifier = rip_ro_zeal_stability
-			}
-		}
-		subtract_variable = {
-			which = rip_ro_zeal
-			value = 3
-		}
-		# Zeal spent to nothing puts the focus out.
-		if = {
-			limit = {
-				NOT = { check_variable = { which = rip_ro_zeal value = 1 } }
-			}
-			rip_ro_clear_the_zeal_effect = yes
-			set_variable = {
-				which = rip_ro_zeal
-				value = 0
-			}
-			country_event = { id = rip_faith.3 days = 3 }
-		}
-	}
-	# on_bi_yearly_pulse runs for every country in the world, so the readout has
-	# to be gated too - unguarded it hung "The Sobor: the zeal is spent" on every
-	# court on the map. The else is the cleanup path for a country that leaves
-	# the faith: it sheds the band rather than carrying it for ever.
-	if = {
-		limit = { religion = russian_orthodox }
-		rip_ro_show_the_zeal_effect = yes
-	}
-	else = {
-		rip_ro_clear_the_bands_effect = yes
-	}
-}
-
 rip_ro_clear_the_zeal_effect = {
 	hidden_effect = {
 		remove_country_modifier = rip_ro_zeal_war
 		remove_country_modifier = rip_ro_zeal_trade
 		remove_country_modifier = rip_ro_zeal_stability
 	}
-}
-
-# Taking a focus: pay the zeal, drop whichever focus was standing.
-rip_ro_take_the_focus_effect = {
-	subtract_variable = {
-		which = rip_ro_zeal
-		value = 25
-	}
-	rip_ro_clear_the_zeal_effect = yes
-	rip_ro_show_the_zeal_effect = yes
 }
 
 # A petition costs more than its fee: the curia expects the standing to be
@@ -446,3 +341,8 @@ rip_ro_tell_the_kyivan_church_effect = {
 		country_event = { id = russian_orthodox.18 days = 20 }
 	}
 }
+
+# The zeal of the Sobor used to be built here out of a variable, five fake
+# progress-bar modifiers and a two-yearly tick. It is the engine's fervour
+# bar now - `fervor = yes` in common/religions/russian_orthodox.txt, focuses
+# in common/fervor/RIP_sobor_fervor.txt - so all of that is gone.

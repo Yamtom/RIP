@@ -22,32 +22,149 @@ christian = {
 			local_missionary_strength = -0.01	# as vanilla orthodox
 		}
 
-		# One panel, and only one.
+		# THREE PANELS, STACKED - and why that is now possible.
 		#
-		# Every religion mechanic draws into the same rectangle of
-		# interface/countryreligionview.gui: orthodox_specific_window at
-		# x=-24 y=0, coptic_specific_window at x=0 y=0, and the protestant,
-		# muslim, catholic and fervor windows all at x=32 y=300, each 280x50.
-		# Declaring several of them on one faith stacks windows on top of one
-		# another. So this faith takes the holy-site panel, and the four donors
-		# of the original concept are served like this:
+		# Every faith mechanic in vanilla draws into one rectangle of
+		# interface/countryreligionview.gui, roughly y 231..320:
+		# orthodox_specific_window at x=-24 y=0, coptic_specific_window at
+		# x=0 y=0, and the protestant, muslim, catholic and fervor windows all
+		# at x=32 y=300. Declaring several on one faith stacks them on top of
+		# one another, which is why this faith used to take the holy-site panel
+		# and push its icons and its Sobor out into decisions.
 		#
-		#   Orthodox     - has_patriarchs below. Authority still accrues, the
-		#                  passive patriarch modifiers still apply and Consecrate
-		#                  Patriarch still sits in the province view, which is a
-		#                  different window. The five icons, which do live in the
-		#                  contested panel, are decisions instead - see
-		#                  decisions/RIP_OrthodoxIcons.txt.
-		#   Miaphysite   - the holy sites and blessings below: this faith's panel.
-		#   Shia         - the piety axis is two exclusive Church privileges,
+		# EU4 has no scripted GUI - there is no common/scripted_guis, and a new
+		# .gui window has no engine code behind it - so the only way to give a
+		# mechanic a panel is to use a hardcoded one. What CAN be changed is
+		# where those panels sit. The religion view is 1024x600 and its own
+		# widgets stop at y=197, so the band below 330 was simply empty.
+		# interface/countryreligionview.gui in this mod moves two windows down
+		# by one `position` line each, and now three fit:
+		#
+		#   orthodox_specific_window  y=0    unchanged  231..320  patriarch + icons
+		#   coptic_specific_window    y=0 -> y=130      361..460  holy sites + blessings
+		#   fervor_specific_window    y=300 -> y=540    472..590  the Sobor
+		#
+		# So the four donors of the original concept are now served natively:
+		#
+		#   Orthodox     - has_patriarchs and orthodox_icons below. The five
+		#                  icons are the panel again, not decisions.
+		#   Miaphysite   - the holy sites and blessings below.
+		#   Reformed     - fervor below. The zeal of the Sobor is vanilla
+		#                  fervour, with its own three focuses in
+		#                  common/fervor/RIP_sobor_fervor.txt.
+		#   Shia         - the piety axis stays two exclusive Church privileges,
 		#                  Josephite and Non-Possessor, in
 		#                  common/estate_privileges/RIP_orthodox_zeal_privileges.txt.
-		#   Reformed     - fervour is a counter and three exclusive focuses in
-		#                  decisions/RIP_SoborZeal.txt, ticked from
-		#                  common/on_actions/russian_orthodox_on_actions.txt.
 
 		# Patriarchs
 		has_patriarchs = yes
+
+		# The icons of the Muscovite church.
+		#
+		# The frame is chosen by POSITION in this block, not by name - vanilla
+		# carries no sprite field and the save stores a bare index - so these
+		# five keep vanilla's five paintings under our own keys. Do not reorder
+		# them or the pictures shuffle. Payloads are carried over unchanged from
+		# the decisions they replace, so nothing is lost in the move.
+		orthodox_icons = {
+			rip_ro_icon_michael = {
+				discipline = 0.05
+				manpower_recovery_speed = 0.1
+
+				allow = { always = yes }
+				visible = { always = yes }
+
+				ai_will_do = {
+					factor = 0.05
+					modifier = {
+						factor = 0
+						is_at_war = no
+					}
+					modifier = {
+						factor = 3
+						is_in_important_war = yes
+					}
+				}
+			}
+
+			rip_ro_icon_eleusa = {
+				global_unrest = -3
+				harsh_treatment_cost = -0.25
+
+				allow = { always = yes }
+				visible = { always = yes }
+
+				ai_will_do = {
+					factor = 0.02
+					modifier = {
+						factor = 4
+						NOT = { stability = 0 }
+					}
+					modifier = {
+						factor = 3
+						num_of_rebel_armies = 1
+					}
+				}
+			}
+
+			rip_ro_icon_pancreator = {
+				development_cost = -0.1
+				build_cost = -0.1
+
+				allow = { always = yes }
+				visible = { always = yes }
+
+				ai_will_do = {
+					factor = 0.05
+					modifier = {
+						factor = 2
+						is_at_war = no
+					}
+				}
+			}
+
+			rip_ro_icon_nicholas = {
+				improve_relation_modifier = 0.25
+				ae_impact = -0.1
+
+				allow = { always = yes }
+				visible = { always = yes }
+
+				ai_will_do = {
+					factor = 0.03
+					modifier = {
+						factor = 3
+						is_at_war = no
+					}
+				}
+			}
+
+			rip_ro_icon_climacus = {
+				global_institution_spread = 0.25
+				embracement_cost = -0.2
+
+				allow = { always = yes }
+				visible = { always = yes }
+
+				ai_will_do = {
+					factor = 0.03
+					modifier = {
+						factor = 4
+						NOT = { has_institution = printing_press }
+					}
+				}
+			}
+		}
+
+		# The Sobor.
+		#
+		# Vanilla fervour is exactly the shape the Sobor already had in script:
+		# a pool that fills by itself, buys one of three exclusive focuses, and
+		# drains while that focus runs. It is scriptable - common/fervor - so the
+		# hand-rolled version is retired: decisions/RIP_SoborZeal.txt is deleted,
+		# and with it the rip_ro_zeal variable, its two-yearly tick and the five
+		# rip_ro_zeal_band_* modifiers that faked a progress bar out of tooltips.
+		fervor = yes
 
 		# Five sites, as vanilla does it.
 		#
@@ -112,7 +229,6 @@ christian = {
 				name = third_rome_ideology
 				duration = 5475
 			}
-			rip_ro_show_the_zeal_effect = yes
 		}
 	}
 }

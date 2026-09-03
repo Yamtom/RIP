@@ -9,11 +9,15 @@ on_yearly_pulse = {
 }
 
 on_bi_yearly_pulse = {
-	# The zeal of the Sobor fills here and drains here - Reformed fervour
-	# rebuilt in script, because fervor = yes would be a second religion
-	# panel in the same rectangle as the holy sites. See
-	# common/scripted_effects/rip_faith_effects.txt.
-	rip_ro_zeal_tick_effect = yes
+	# The zeal of the Sobor is the engine's fervour bar now - see
+	# `fervor = yes` in common/religions/russian_orthodox.txt. What is left
+	# here is the migration: a save started before the change still carries the
+	# hand-rolled focus modifiers and the five fake progress-bar modifiers, and
+	# nothing else would ever take them off. Both effects are idempotent, so
+	# running them on the pulse costs a save that never had them nothing.
+	rip_ro_clear_the_bands_effect = yes
+	rip_ro_clear_the_zeal_effect = yes
+
 	# the faith travels with the merchants - see rip_faith_effects.txt
 	rip_ro_trade_spread_effect = yes
 
