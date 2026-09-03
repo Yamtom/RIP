@@ -660,6 +660,17 @@ country_event = {
 	mean_time_to_happen = {
 		months = 24
 
+		# THE COMPROMISE CASE.
+		# An empire that holds these lands cannot convert them and will not be
+		# converted by them. For a Catholic crown with Orthodox subjects, or an
+		# Orthodox one with Catholic subjects, the union is the only settlement
+		# that costs nothing to either side's conscience - so it arrives fastest
+		# exactly where neither missionary can work.
+		modifier = {
+			factor = 0.5
+			rip_uc_is_extraregional_power = yes
+		}
+
 		modifier = {
 			factor = 0.6
 			capital_scope = { religion = greek_catholic }

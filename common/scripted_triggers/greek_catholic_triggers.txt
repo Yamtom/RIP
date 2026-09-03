@@ -112,3 +112,76 @@ same_dynasty_as_root = {
 		dynasty = ROOT
 	}
 }
+
+# ==========================================================================
+# WHO MAY TAKE THE UNION AS AN ACT OF STATE, AND WHO MUST RECEIVE IT
+#
+# The union was a regional settlement. A metropolitanate of a few million
+# people, living under a crown that was Catholic and could not convert it,
+# found a third answer. That is a thing a Ruthenian state does, or a state
+# whose whole weight is in these lands.
+#
+# An empire is a different case. Poland-Lithuania, Austria, the Porte and
+# Muscovy did not adopt the union; they ACQUIRED it, because it appeared in
+# their provinces and it was cheaper to live with than to fight. For them
+# it has to come from below - the See, the parishes and the schools in
+# events/UniateReformationSpread.txt - and arrive as a compromise nobody at
+# the centre chose.
+#
+# So the top-down decision asks for a state whose centre of gravity is here.
+# ==========================================================================
+rip_uc_is_regional_state = {
+	is_ruthenian_culture_area = yes
+	capital_scope = {
+		OR = {
+			region = ruthenia_region
+			region = carpathia_region
+			area = red_ruthenia_area
+		}
+	}
+	# Not an empire that happens to hold Ruthenia. A crown with sixty
+	# provinces from the Baltic to the Black Sea is not settling a local
+	# quarrel between rites, it is administering a possession.
+	NOT = { num_of_cities = 40 }
+	NOT = { is_emperor = yes }
+}
+
+# The mirror: a state too big or too foreign to choose the union, which can
+# still end up with it. Used by the spread chain, where the union arrives in
+# the provinces and the centre has to answer for it.
+rip_uc_is_extraregional_power = {
+	NOT = { rip_uc_is_regional_state = yes }
+	any_owned_province = {
+		OR = {
+			region = ruthenia_region
+			region = carpathia_region
+			area = red_ruthenia_area
+		}
+		OR = {
+			religion = orthodox
+			religion = greek_catholic
+			religion = russian_orthodox
+		}
+	}
+	# and the reason the compromise is worth anything to it: it cannot
+	# simply convert what it holds, in either direction
+	OR = {
+		AND = {
+			religion = catholic
+			num_of_owned_provinces_with = {
+				value = 3
+				religion = orthodox
+			}
+		}
+		AND = {
+			OR = {
+				religion = orthodox
+				religion = russian_orthodox
+			}
+			num_of_owned_provinces_with = {
+				value = 3
+				religion = catholic
+			}
+		}
+	}
+}
