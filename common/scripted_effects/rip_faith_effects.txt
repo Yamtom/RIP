@@ -101,7 +101,12 @@ rip_uc_press_the_union_effect = {
 # often enough that the jurisdiction, not the faith, starts to shift. Foreign
 # provinces never flip in one step: they take the preaching modifier first,
 # and only a province that already carries it can change rite.
-rip_ro_trade_spread_effect = {
+# rip_ro_trade_spread_effect stood here: a hand-rolled copy of the trade node
+# policy Propagate Religion, written because the policy looked hardcoded. It is
+# not - common/trading_policies/00_trading_policies.txt:239. The faith now
+# unlocks the real policy instead; see
+# common/scripted_effects/rip_faith_spread_effects.txt.
+ip_ro_trade_spread_effect = {
 	if = {
 		limit = {
 			religion = russian_orthodox
@@ -208,20 +213,11 @@ rip_uc_union_spread_effect = {
 			}
 			rip_uc_weigh_the_parish_effect = yes
 		}
-		# a parish that has carried the preaching long enough comes over
-		random_owned_province = {
-			limit = {
-				is_city = yes
-				has_province_modifier = rip_uc_union_preaching
-				NOT = { religion = greek_catholic }
-			}
-			random = {
-				chance = 25
-				change_religion = greek_catholic
-				remove_province_modifier = rip_uc_union_preaching
-				add_unrest = 3
-			}
-		}
+		# The turning is no longer here. A flat 25% on one province per pulse
+		# ignored both the size of the realm and whether its church agreed
+		# with itself; it is now a development budget bought with religious
+		# unity - see rip_gc_unity_spread_effect in
+		# common/scripted_effects/rip_faith_spread_effects.txt.
 	}
 }
 

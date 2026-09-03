@@ -221,3 +221,80 @@ rip_ro_zeal_band_laid_by = {
 
 rip_ro_zeal_band_full = {
 }
+
+# --- the union taken by the crown ------------------------------------------
+#
+# Payloads for events/UniateCrownUnion.txt and decisions/UniateCrownUnion.txt.
+# Counterfactual: a Ruthenian sovereign who takes his own church in hand and
+# then walks it into communion with Rome, on the pattern of the English
+# settlement. The rite does not move; the chain of command does, and the
+# clergy estate is where that is paid for.
+
+# The standing cost. The church answers to the palace, and everyone in it knows.
+rip_ucr_church_of_the_palace = {
+	church_loyalty_modifier = -0.15
+	church_influence_modifier = -0.1
+	global_unrest = 1
+	yearly_absolutism = 0.25
+	legitimacy = 0.5
+}
+
+# The crown fills the sees from the chancery list. Cheap theologians, poor synod.
+rip_ucr_crown_names_the_bishops = {
+	church_influence_modifier = -0.15
+	church_loyalty_modifier = -0.05
+	advisor_cost = -0.1
+	global_missionary_strength = 0.01
+}
+
+# The synod dissolved and the church run by decree out of the chancery.
+rip_ucr_synod_by_decree = {
+	max_absolutism = 10
+	church_influence_modifier = -0.2
+	church_loyalty_modifier = -0.1
+	global_unrest = 1
+	stability_cost_modifier = 0.1
+}
+
+# The metropolitan received at another Orthodox court, writing letters home.
+rip_ucr_metropolitan_in_exile = {
+	prestige = -0.5
+	global_unrest = 1
+	church_loyalty_modifier = 0.05
+}
+
+# What Rome actually handed over, once the articles were signed.
+rip_ucr_recognition_of_rome = {
+	diplomatic_reputation = 1
+	prestige = 0.5
+	improve_relation_modifier = 0.15
+}
+
+# Two generations on: the arrangement stops being an outrage and becomes an office.
+rip_ucr_palace_church_settled = {
+	church_loyalty_modifier = -0.05
+	max_absolutism = 5
+	global_tax_modifier = 0.05
+	tolerance_own = 1
+}
+
+# The crown lets go of the church it took.
+rip_ucr_synod_restored = {
+	church_loyalty_modifier = 0.15
+	church_influence_modifier = 0.1
+	global_unrest = -1
+	max_absolutism = -5
+}
+
+# A parish that learned of the union from the reader's desk.
+rip_ucr_parish_disquiet = {
+	local_unrest = 2
+	local_missionary_strength = -0.02
+	local_religious_unity_contribution = -0.25
+}
+
+# Preachers sent out on the chancery's warrant rather than the synod's.
+rip_ucr_crown_preachers = {
+	local_missionary_strength = 0.02
+	local_unrest = -1
+}

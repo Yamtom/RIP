@@ -1,6 +1,27 @@
 
 convert_to_russian_orthodox_effect = {
 	change_religion = russian_orthodox
+
+	# THE SEES GO WITH THE SEE.
+	#
+	# This is not the union, which spread parish by parish over a century.
+	# 1448 was a metropolitanate electing its own metropolitan without
+	# Constantinople: the rite did not change, nobody in a village noticed,
+	# and the whole Muscovite church was on the far side of the line the
+	# following morning. Converting only the capital left a country whose own
+	# DOMINANT religion was still plain orthodox - which, besides being wrong,
+	# silently locked it out of the trade node policy Propagate Religion,
+	# whose vanilla gate is `dominant_religion = ROOT`.
+	#
+	# Only Orthodox provinces move. Catholic, Sunni and everything else the
+	# realm holds are somebody else's problem and stay where they are.
+	every_owned_province = {
+		limit = {
+			is_city = yes
+			religion = orthodox
+		}
+		change_religion = russian_orthodox
+	}
 	add_country_modifier = {
 		name = third_rome_ideology
 		duration = 5475

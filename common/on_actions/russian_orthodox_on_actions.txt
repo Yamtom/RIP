@@ -18,8 +18,21 @@ on_bi_yearly_pulse = {
 	rip_ro_clear_the_bands_effect = yes
 	rip_ro_clear_the_zeal_effect = yes
 
-	# the faith travels with the merchants - see rip_faith_effects.txt
-	rip_ro_trade_spread_effect = yes
+	# The faith travels with the merchants through the real trade node policy
+	# Propagate Religion - see common/scripted_effects/rip_faith_spread_effects.txt.
+	#
+	# The unlock also has to be applied HERE, not only in the religion's
+	# on_convert. A country that was already of this faith when the mechanic
+	# was added never runs on_convert again, so it would never receive the
+	# flags and the policy would stay greyed out for ever. Both effects only
+	# set country flags, so re-running them costs nothing.
+	if = {
+		limit = {
+			religion = russian_orthodox
+			NOT = { has_country_flag = can_use_propagate_religion }
+		}
+		rip_faith_unlock_trade_propagation_effect = yes
+	}
 
 	random_events = {
 		15 = russian_orthodox.5  # Orthodox Inquisition

@@ -1,5 +1,10 @@
 
 on_yearly_pulse = {
+	# One linear sweep that stands in for an area-to-area adjacency trigger
+	# EU4 does not have. Read by the See's weight table in
+	# common/religious_conversions/zz_RIP_greek_catholic.txt.
+	rip_uc_mark_uniate_areas_effect = yes
+
 	random_events = {
 		15 = uniate_church.1  # Proposal for Union
 		10 = uniate_church.3  # Orthodox Brotherhood Resistance
@@ -17,6 +22,16 @@ on_bi_yearly_pulse = {
 	# lives in rip_uc_union_spread_effect in
 	# common/scripted_effects/rip_faith_effects.txt.
 	rip_uc_union_spread_effect = yes
+
+	# What the preaching actually converts is bought with religious unity: a
+	# development budget, spent one parish at a time, remainder lost. Both this
+	# and the merchants' engine below are in
+	# common/scripted_effects/rip_faith_spread_effects.txt.
+	if = {
+		limit = { religion = greek_catholic }
+		rip_gc_unity_spread_effect = yes
+	}
+
 	# standing at the Curia decays and is paid for - see greek_catholic_effects.txt
 	rip_uc_standing_tick_effect = yes
 

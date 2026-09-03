@@ -1,0 +1,840 @@
+# ========================================================================
+# The union taken by the crown.
+# Authenticity: C - counterfactual. Tier: SPECULATIVE. The mod's own
+# alternate history, and it says so where the player can read it: the
+# opening event and the capstone both carry the alternate-history line.
+#
+# Sources and the shape of the counterfactual:
+#   Every union that was actually signed - Brest 1596, Uzhhorod 1646,
+#   Peremyshl 1691, Lviv 1700, Lutsk 1702 - was signed by bishops living
+#   under a Catholic crown, and Rome's whole interest was that it did not
+#   have to latinise anybody. That road is already in the mod, as
+#   convert_to_greek_catholic_decision in decisions/GreekCatholicDecisions.txt
+#   and the twenty flavour events of namespace uniate_church. The bishops
+#   act; the crown follows.
+#
+#   This chain is the mirror image, and it did not happen. It is built on
+#   the English settlement instead: Henry did not take the church out of
+#   conviction, he took it because Rome would not give him what he wanted,
+#   and he kept nearly every outward form. Here a Ruthenian sovereign wants
+#   something Rome can give and Constantinople cannot - a dispensation for
+#   the marriage that settles the succession, or the word kingdom written by
+#   a hand the western courts read - and pays for it in the obedience of a
+#   metropolitanate that was never asked. The rite does not move. The chain
+#   of command does.
+#
+#   Note what is deliberately NOT set here: pursuing_uniate_union and
+#   union_of_brest_happened. Those flags belong to the bishops' union and
+#   gate its flavour. A church taken by the palace has not been to Brest and
+#   should not inherit Brest's story; what it inherits is everything gated on
+#   religion = greek_catholic, which is most of the later chain anyway.
+#
+#   The cost is the clergy estate, the parishes, and one permanent country
+#   modifier, rip_ucr_church_of_the_palace, that says out loud who the
+#   bishops answer to. All payloads are in
+#   common/event_modifiers/RIP_faith_modifiers.txt.
+# ========================================================================
+
+
+namespace = uniate_crown
+
+
+# ------------------------------------------------------------------ 1
+# The reason of state. No church is touched here; the chancery is only
+# reading its own list out loud, and the metropolitan is not in the room.
+country_event = {
+	id = uniate_crown.1
+	title = uniate_crown.1.t
+	desc = uniate_crown.1.d
+	picture = COURT_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		religion = orthodox
+		is_ruthenian_culture_area = yes
+		# The whole point of this entry is that it is NOT the Brest entry: no
+		# Catholic overlord, no Catholic neighbour leaning on the sees. An
+		# independent crown with a want of its own.
+		is_subject = no
+		NOT = { has_country_flag = rip_ucr_reason_of_state }
+		NOT = { has_country_flag = rip_ucr_declined }
+		NOT = { has_country_flag = union_of_brest_happened }
+		NOT = { has_country_flag = pursuing_uniate_union }
+		NOT = { tag = MOS }
+		NOT = { tag = RUS }
+		OR = {
+			primary_culture = ruthenian
+			primary_culture = byelorussian
+			primary_culture = rusyn
+			capital_scope = { region = ruthenia_region }
+		}
+		is_year = 1500
+		NOT = { is_year = 1700 }
+		# A crown strong enough to act over the head of its own synod. A prince
+		# who cannot make his own sejm sit will not make his own bishops sign.
+		stability = 1
+		OR = {
+			legitimacy = 90
+			absolutism = 30
+			republican_tradition = 85
+		}
+		# Somebody has to be able to deliver what is being bought.
+		exists = PAP
+		any_known_country = {
+			religion = catholic
+			is_great_power = yes
+			NOT = { war_with = ROOT }
+		}
+		# and the crown has to want something it cannot get at home
+		OR = {
+			NOT = { has_heir = yes }
+			NOT = { government_rank = 2 }
+			any_rival_country = {
+				NOT = { religion = orthodox }
+				NOT = { religion = russian_orthodox }
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 300
+		modifier = {
+			factor = 0.6
+			NOT = { has_heir = yes }
+		}
+		modifier = {
+			factor = 0.7
+			absolutism = 50
+		}
+		modifier = {
+			factor = 0.7
+			any_known_country = {
+				religion = catholic
+				is_great_power = yes
+				alliance_with = ROOT
+			}
+		}
+		# A crown whose own clergy already run the country is a crown with less
+		# reason to look for a second master.
+		modifier = {
+			factor = 1.5
+			estate_influence = {
+				estate = estate_church
+				influence = 60
+			}
+		}
+	}
+
+	option = { # Name the title as the price
+		name = uniate_crown.1.a
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 3
+				NOT = { government_rank = 2 }
+			}
+		}
+
+		set_country_flag = rip_ucr_reason_of_state
+		set_country_flag = rip_ucr_want_title
+
+		add_dip_power = -25
+		# Asking to be called something is a small humiliation before it is a
+		# large promotion.
+		add_prestige = -5
+	}
+
+	option = { # Name the succession as the price
+		name = uniate_crown.1.b
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 4
+				NOT = { has_heir = yes }
+			}
+		}
+
+		set_country_flag = rip_ucr_reason_of_state
+		set_country_flag = rip_ucr_want_dispensation
+
+		add_dip_power = -25
+		add_legitimacy = -5
+	}
+
+	option = { # Name nothing
+		name = uniate_crown.1.c
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 3
+				estate_influence = {
+					estate = estate_church
+					influence = 60
+				}
+			}
+		}
+
+		set_country_flag = rip_ucr_declined
+
+		add_prestige = 5
+		add_patriarch_authority = 0.05
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = 10 }
+	}
+}
+
+
+# ------------------------------------------------------------------ 2
+# Fired by rip_ucr_treat_with_rome in decisions/UniateCrownUnion.txt.
+# The terms come back written, and they are the same terms every time: the
+# obedience of the metropolitanate, in exchange for the named thing.
+country_event = {
+	id = uniate_crown.2
+	title = uniate_crown.2.t
+	desc = uniate_crown.2.d
+	picture = POPE_PREACHING_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # Sign the articles as they stand
+		name = uniate_crown.2.a
+		ai_chance = { factor = 55 }
+
+		rip_ucr_take_the_church_effect = yes
+		set_country_flag = rip_ucr_terms_as_written
+
+		change_variable = { which = rip_uc_standing value = 25 }
+		rip_uc_show_the_standing_effect = yes
+
+		country_event = { id = uniate_crown.3 days = 21 }
+	}
+
+	option = { # Sign, and ask further for a legate with authority to judge
+		name = uniate_crown.2.b
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 3
+				any_rival_country = {
+					NOT = { religion = orthodox }
+					NOT = { religion = russian_orthodox }
+				}
+			}
+		}
+
+		rip_ucr_take_the_church_effect = yes
+		set_country_flag = rip_ucr_want_legate
+
+		add_treasury = -200
+		# A second ask is answered, and remembered as a second ask.
+		change_variable = { which = rip_uc_standing value = 15 }
+		rip_uc_show_the_standing_effect = yes
+		add_prestige = -5
+
+		country_event = { id = uniate_crown.3 days = 21 }
+	}
+
+	option = { # Break off the embassy
+		name = uniate_crown.2.c
+		ai_chance = { factor = 20 }
+
+		set_country_flag = rip_ucr_declined
+		clr_country_flag = rip_ucr_reason_of_state
+
+		add_prestige = -10
+		add_legitimacy = -5
+		add_patriarch_authority = 0.05
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = 10 }
+	}
+}
+
+
+# ------------------------------------------------------------------ 3
+# The metropolitan learns of it from the chancery, not from Rome, and not
+# before it is done.
+country_event = {
+	id = uniate_crown.3
+	title = uniate_crown.3.t
+	desc = uniate_crown.3.d
+	picture = RELIGION_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # Keep him, and let him set his hand to what is already signed
+		name = uniate_crown.3.a
+		ai_chance = { factor = 45 }
+
+		set_country_flag = rip_ucr_metropolitan_kept
+
+		add_legitimacy = 5
+		add_patriarch_authority = 0.05
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = -10 }
+
+		country_event = { id = uniate_crown.4 days = 365 }
+	}
+
+	option = { # Fill the see from the chancery list
+		name = uniate_crown.3.b
+		ai_chance = {
+			factor = 35
+			modifier = {
+				factor = 2
+				absolutism = 50
+			}
+		}
+
+		set_country_flag = rip_ucr_metropolitan_replaced
+
+		add_country_modifier = {
+			name = rip_ucr_crown_names_the_bishops
+			duration = -1
+		}
+		add_adm_power = -50
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = -20 }
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_influence_modifier = {
+				estate = estate_church
+				influence = -10
+				duration = 7300
+			}
+		}
+		if = {
+			limit = {
+				owns = 280 # Kyiv
+			}
+			280 = {
+				add_province_modifier = {
+					name = rip_ucr_parish_disquiet
+					duration = 3650
+				}
+			}
+		}
+
+		country_event = { id = uniate_crown.4 days = 365 }
+	}
+
+	option = { # Let him take the road east, and his archive with him
+		name = uniate_crown.3.c
+		ai_chance = { factor = 20 }
+
+		set_country_flag = rip_ucr_metropolitan_gone
+
+		add_country_modifier = {
+			name = rip_ucr_metropolitan_in_exile
+			duration = 7300
+		}
+		add_prestige = -10
+		# The estate is quieter for it, and the case against the crown is now
+		# being made from a court the crown cannot reach.
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = -5 }
+		every_known_country = {
+			limit = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+				NOT = { tag = ROOT }
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = rip_ucr_opinion_took_the_church
+			}
+		}
+
+		country_event = { id = uniate_crown.4 days = 365 }
+	}
+}
+
+
+# ------------------------------------------------------------------ 4
+# The synod is not asked. It is told, and it is told in a hall the crown
+# pays for.
+country_event = {
+	id = uniate_crown.4
+	title = uniate_crown.4.t
+	desc = uniate_crown.4.d
+	picture = REFORM_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # Let it sit, under the chancellor's eye, and ratify
+		name = uniate_crown.4.a
+		ai_chance = { factor = 45 }
+
+		set_country_flag = rip_ucr_synod_answered
+		# The synod has sat, whatever it was told beforehand - which opens
+		# preserve_eastern_rite_decision in decisions/GreekCatholicDecisions.txt.
+		set_country_flag = rip_uc_synod_held
+
+		add_adm_power = -100
+		add_stability = -1
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = -10 }
+
+		country_event = { id = uniate_crown.5 days = 60 }
+	}
+
+	option = { # Pay the sitting, canon by canon
+		name = uniate_crown.4.b
+		ai_chance = { factor = 30 }
+
+		set_country_flag = rip_ucr_synod_answered
+		set_country_flag = rip_uc_synod_held
+
+		add_treasury = -300
+		add_adm_power = -50
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = 5 }
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_influence_modifier = {
+				estate = estate_church
+				influence = 5
+				duration = 3650
+			}
+		}
+
+		country_event = { id = uniate_crown.5 days = 60 }
+	}
+
+	option = { # Do not let it sit at all
+		name = uniate_crown.4.c
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 3
+				absolutism = 60
+			}
+		}
+
+		set_country_flag = rip_ucr_synod_answered
+		set_country_flag = rip_ucr_synod_dissolved
+
+		add_country_modifier = {
+			name = rip_ucr_synod_by_decree
+			duration = -1
+		}
+		add_absolutism = 5
+		add_stability = -1
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = -25 }
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_influence_modifier = {
+				estate = estate_church
+				influence = -15
+				duration = -1
+			}
+		}
+		# The chapter and the brotherhood at Lviv were the two bodies that
+		# refused the bishops' union in 1596. A crown that dissolves the synod
+		# gives them the same quarrel with better grounds.
+		if = {
+			limit = {
+				owns = 2961 # Lviv
+			}
+			2961 = {
+				add_province_modifier = {
+					name = rip_ucr_parish_disquiet
+					duration = 5475
+				}
+			}
+		}
+
+		country_event = { id = uniate_crown.5 days = 60 }
+	}
+}
+
+
+# ------------------------------------------------------------------ 5
+# The parishes hear it last, from the reader's desk, in the announcement
+# that the commemoration has changed.
+country_event = {
+	id = uniate_crown.5
+	title = uniate_crown.5.t
+	desc = uniate_crown.5.d
+	picture = ANGRY_MOB_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # Send out the crown's preachers on a chancery warrant
+		name = uniate_crown.5.a
+		ai_chance = { factor = 40 }
+
+		add_adm_power = -50
+		add_treasury = -100
+		every_owned_province = {
+			limit = {
+				religion = greek_catholic
+				development = 10
+			}
+			add_province_modifier = {
+				name = rip_ucr_crown_preachers
+				duration = 5475
+			}
+		}
+		random_owned_province = {
+			limit = { religion = orthodox }
+			add_province_modifier = {
+				name = rip_ucr_parish_disquiet
+				duration = 3650
+			}
+		}
+
+		country_event = { id = uniate_crown.6 days = 1095 }
+	}
+
+	option = { # Quarter companies on the districts that will not read it
+		name = uniate_crown.5.b
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 2
+				has_country_flag = rip_ucr_synod_dissolved
+			}
+		}
+
+		add_mil_power = -50
+		add_years_of_income = -0.1
+		every_owned_province = {
+			limit = {
+				religion = orthodox
+				development = 12
+			}
+			add_province_modifier = {
+				name = rip_ucr_parish_disquiet
+				duration = 5475
+			}
+			add_unrest = 3
+		}
+		random_owned_province = {
+			limit = {
+				religion = orthodox
+				development = 12
+			}
+			spawn_rebels = {
+				type = orthodox_rebels
+				size = 2
+			}
+		}
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = -10 }
+
+		country_event = { id = uniate_crown.6 days = 1095 }
+	}
+
+	option = { # Suspend the church tax for a year and say nothing further
+		name = uniate_crown.5.c
+		ai_chance = { factor = 30 }
+
+		add_years_of_income = -0.2
+		add_stability_or_adm_power = yes
+		every_owned_province = {
+			limit = { religion = orthodox }
+			add_unrest = -2
+		}
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = 5 }
+		# The old see at Halych keeps its books and its silence.
+		if = {
+			limit = {
+				owns = 261 # Halych
+			}
+			261 = {
+				add_unrest = -3
+			}
+		}
+
+		country_event = { id = uniate_crown.6 days = 1095 }
+	}
+}
+
+
+# ------------------------------------------------------------------ 6
+# What was actually bought. The description branches on the want named in
+# event 1 and in event 2's second option.
+country_event = {
+	id = uniate_crown.6
+	title = uniate_crown.6.t
+	desc = {
+		trigger = { has_country_flag = rip_ucr_want_legate }
+		text = uniate_crown.6.d.legate
+	}
+	desc = {
+		trigger = { has_country_flag = rip_ucr_want_dispensation }
+		text = uniate_crown.6.d.marriage
+	}
+	desc = {
+		trigger = { has_country_flag = rip_ucr_want_title }
+		text = uniate_crown.6.d.title
+	}
+	desc = {
+		trigger = { always = yes }
+		text = uniate_crown.6.d.title
+	}
+	picture = DIPLOMACY_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # Take what was promised and let the account close
+		name = uniate_crown.6.a
+		ai_chance = { factor = 60 }
+
+		set_country_flag = rip_ucr_rome_delivered
+
+		add_country_modifier = {
+			name = rip_ucr_recognition_of_rome
+			duration = 9125
+		}
+
+		if = {
+			limit = { has_country_flag = rip_ucr_want_title }
+			add_prestige = 25
+			add_legitimacy = 10
+			if = {
+				limit = { NOT = { government_rank = 2 } }
+				set_government_rank = 2
+			}
+		}
+		else_if = {
+			limit = { has_country_flag = rip_ucr_want_dispensation }
+			add_legitimacy = 15
+			add_stability = 1
+			if = {
+				limit = { NOT = { has_heir = yes } }
+				define_heir = {
+					dynasty = ROOT
+					claim = 90
+					adm = 2
+					dip = 2
+					mil = 2
+				}
+			}
+		}
+		if = {
+			limit = { has_country_flag = rip_ucr_want_legate }
+			add_prestige = 15
+			add_stability = 1
+			every_rival_country = {
+				add_opinion = {
+					who = ROOT
+					modifier = rip_ucr_legate_judged_between_us
+				}
+			}
+		}
+	}
+
+	option = { # Take it, and bind the see closer to the court that gave it
+		name = uniate_crown.6.b
+		ai_chance = { factor = 40 }
+
+		set_country_flag = rip_ucr_rome_delivered
+
+		add_country_modifier = {
+			name = rip_ucr_recognition_of_rome
+			duration = -1
+		}
+		add_treasury = -200
+		change_variable = { which = rip_uc_standing value = 25 }
+		if = {
+			limit = { check_variable = { which = rip_uc_standing value = 101 } }
+			set_variable = { which = rip_uc_standing value = 100 }
+		}
+		rip_uc_show_the_standing_effect = yes
+
+		if = {
+			limit = { has_country_flag = rip_ucr_want_title }
+			if = {
+				limit = { NOT = { government_rank = 2 } }
+				set_government_rank = 2
+			}
+		}
+		else_if = {
+			limit = { has_country_flag = rip_ucr_want_dispensation }
+			add_legitimacy = 10
+			if = {
+				limit = { NOT = { has_heir = yes } }
+				define_heir = {
+					dynasty = ROOT
+					claim = 90
+					adm = 2
+					dip = 2
+					mil = 2
+				}
+			}
+		}
+
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = -10 }
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_influence_modifier = {
+				estate = estate_church
+				influence = -10
+				duration = 7300
+			}
+		}
+	}
+}
+
+
+# ------------------------------------------------------------------ 7
+# The standing bill. Fires while the palace still holds the church and the
+# clergy have worked out what that means for them.
+country_event = {
+	id = uniate_crown.7
+	title = uniate_crown.7.t
+	desc = uniate_crown.7.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		religion = greek_catholic
+		has_country_flag = rip_ucr_church_taken
+		has_country_modifier = rip_ucr_church_of_the_palace
+		has_estate = estate_church
+		NOT = {
+			estate_loyalty = {
+				estate = estate_church
+				loyalty = 45
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 60
+		modifier = {
+			factor = 0.6
+			has_country_flag = rip_ucr_synod_dissolved
+		}
+		modifier = {
+			factor = 0.7
+			has_country_modifier = rip_ucr_crown_names_the_bishops
+		}
+	}
+
+	option = { # Give the sees their own courts back, in writing
+		name = uniate_crown.7.a
+		ai_chance = { factor = 40 }
+
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = 20 }
+		add_estate_influence_modifier = {
+			estate = estate_church
+			influence = 15
+			duration = -1
+		}
+		add_absolutism = -5
+		add_stability = 1
+	}
+
+	option = { # Fund the seminary and answer nothing else
+		name = uniate_crown.7.b
+		ai_chance = { factor = 35 }
+
+		add_treasury = -250
+		add_adm_power = -50
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = 10 }
+		add_prestige = 5
+	}
+
+	option = { # Read them the articles again
+		name = uniate_crown.7.c
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 3
+				absolutism = 70
+			}
+		}
+
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = -15 }
+		add_estate_influence_modifier = {
+			estate = estate_church
+			influence = -10
+			duration = -1
+		}
+		add_absolutism = 5
+		every_owned_province = {
+			limit = {
+				religion = greek_catholic
+				development = 12
+			}
+			add_unrest = 2
+		}
+	}
+}
+
+
+# ------------------------------------------------------------------ 8
+# Two generations on. The capstone, and the second place the player is told
+# in plain words that this road was not taken in life.
+country_event = {
+	id = uniate_crown.8
+	title = uniate_crown.8.t
+	desc = uniate_crown.8.d
+	picture = BIG_BOOK_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		religion = greek_catholic
+		has_country_flag = rip_ucr_church_taken
+		has_country_flag = rip_ucr_rome_delivered
+		NOT = { has_country_flag = rip_ucr_settled }
+		num_of_owned_provinces_with = {
+			value = 8
+			religion = greek_catholic
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 240
+		modifier = {
+			factor = 0.7
+			num_of_owned_provinces_with = {
+				value = 20
+				religion = greek_catholic
+			}
+		}
+	}
+
+	option = { # Leave the church where the crown put it
+		name = uniate_crown.8.a
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 2
+				absolutism = 60
+			}
+		}
+
+		set_country_flag = rip_ucr_settled
+
+		add_country_modifier = {
+			name = rip_ucr_palace_church_settled
+			duration = -1
+		}
+		add_prestige = 20
+		add_legitimacy = 10
+	}
+
+	option = { # Hand it back to the synod and keep the communion
+		name = uniate_crown.8.b
+		ai_chance = { factor = 40 }
+
+		set_country_flag = rip_ucr_settled
+
+		remove_country_modifier = rip_ucr_church_of_the_palace
+		remove_country_modifier = rip_ucr_synod_by_decree
+		remove_country_modifier = rip_ucr_crown_names_the_bishops
+		add_country_modifier = {
+			name = rip_ucr_synod_restored
+			duration = -1
+		}
+		set_country_flag = rip_uc_synod_held
+		add_patriarch_authority = 0.2
+		add_absolutism = -10
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = 25 }
+		add_estate_influence_modifier = {
+			estate = estate_church
+			influence = 15
+			duration = -1
+		}
+	}
+}

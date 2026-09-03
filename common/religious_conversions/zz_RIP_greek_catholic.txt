@@ -1,0 +1,151 @@
+# ==========================================================================
+# THE SEE OF THE UNION AS A CENTRE OF REFORMATION
+#
+# decisions/RIP_UniateCuria.txt calls `add_reform_center = greek_catholic`.
+# Until this file existed that call had nothing to land on: vanilla keys a
+# centre's behaviour by religion in common/religious_conversions, and ships
+# eight profiles - hussite, anglican, protestant, reformed, catholic, coptic,
+# shiite, zoroastrian. Every faith the game ever spawns a centre for has one,
+# and the engine carries a string for the case where it does not:
+# CENTER_OF_REFORMATION_RELIGION_NOT_POSSIBLE, "$RELIGION$ cannot have
+# religious centers". So the See was decorative. This is the missing half.
+#
+# THE FILE MUST ADD, NOT REPLACE. Naming it 00_religious_conversions.txt would
+# override vanilla's file and delete all eight profiles with it, breaking the
+# Reformation for the whole world. Hence zz_.
+#
+# ONE CENTRE, AND WHY IT STAYS ONE
+#
+# Three things could spawn more, and all three are shut:
+#   - greek_catholic declares no `will_get_center` block, which is what makes
+#     the engine spawn centres two and three for protestant and reformed;
+#   - rip_uc_see_raised caps it at one per country in the decision itself;
+#   - the engine's own MAX_CHRISTIAN_RELIGIOUS_CENTERS = 3 is the backstop.
+#
+# BOTH RITES
+#
+# What the centre may actually take is `allowed_center_conversion` in
+# common/religions/greek_catholic.txt: { orthodox russian_orthodox catholic }.
+# That is a hard whitelist, and coptic proves it may cross religion groups.
+# The weights below are only priority on top of it.
+# ==========================================================================
+
+greek_catholic_center_of_reformation = {
+
+	religion = greek_catholic
+
+	# All eight vanilla types reuse the protestant sprite; interface/mapicons.gfx
+	# defines no other centre icon, so a new one would need a new .tga.
+	map_icon = GFX_religious_conversion_center_protestant
+
+	max_distance = 150.0
+	base_conversion_speed = 2.0
+
+	target_province_weights = {
+		factor = 2
+
+		# --- vanilla's own exclusions, carried over unchanged ---------------
+		modifier = {
+			factor = 0
+			has_missionary = yes
+		}
+		modifier = {
+			factor = 0
+			is_empty = yes
+		}
+		modifier = {
+			factor = 0
+			province_id = 118 # Roma - the seat of the Papacy, as vanilla excludes it
+		}
+		modifier = {
+			factor = 0
+			has_province_modifier = religious_center
+		}
+		modifier = {
+			factor = 0
+			has_province_modifier = religious_zeal_at_conv
+		}
+
+		# --- the union takes two rites and nothing else ---------------------
+		# allowed_center_conversion is the real gate; these keep the weight
+		# table honest about it and stop the centre eyeing ground it may
+		# never have.
+		modifier = {
+			factor = 0
+			NOT = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+					religion = catholic
+				}
+			}
+		}
+
+		# --- THE EXTRA CONDITION --------------------------------------------
+		# The union spreads where it is already established, or up against a
+		# solid block of itself. Two clauses, either of which is enough:
+		#
+		#   1. the province's own AREA already holds a centre; or
+		#   2. the province borders an area that is ENTIRELY greek_catholic.
+		#
+		# Clause 1 is a vanilla idiom - `area = PREV` inside `any_province` is
+		# how 00_scripted_triggers.txt:499 compares two provinces' areas.
+		#
+		# Clause 2 has no direct expression: EU4 1.37 has no area-to-area
+		# adjacency trigger at all. any_area_province, all_province_in_area,
+		# every_area and the rest return zero hits install-wide. Written
+		# naively it needs three nested levels and costs on the order of 10^4
+		# trigger evaluations per candidate province, every tick. So it is
+		# PRECOMPUTED instead: rip_uc_mark_uniate_areas_effect sweeps once a
+		# month and flags every province whose whole area is Uniate, and the
+		# clause here reads one cheap flag on a neighbour.
+		modifier = {
+			factor = 0
+			NOT = {
+				OR = {
+					any_province = {
+						area = PREV
+						is_reformation_center = yes
+					}
+					any_neighbor_province = {
+						has_province_flag = rip_uc_area_all_uniate
+						NOT = { area = PREV }
+					}
+				}
+			}
+		}
+
+		# --- priority inside what is left -----------------------------------
+		modifier = {
+			factor = 2
+			religion = orthodox
+		}
+		modifier = {
+			factor = 1.5
+			religion = catholic
+		}
+		modifier = {
+			# Moscow's own church is the hardest ground the union ever tried
+			factor = 0.5
+			religion = russian_orthodox
+		}
+		modifier = {
+			factor = 2
+			has_port = yes
+		}
+		modifier = {
+			factor = 1.5
+			culture_group = east_slavic
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { culture_group = east_slavic }
+		}
+		modifier = {
+			factor = 0.25
+			owner = {
+				religion = russian_orthodox
+			}
+		}
+	}
+}

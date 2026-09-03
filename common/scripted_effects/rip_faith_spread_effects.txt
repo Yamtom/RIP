@@ -1,0 +1,224 @@
+# ==========================================================================
+# HOW A FAITH SPREADS IN THIS MOD
+#
+# Two engines, deliberately different in feel:
+#
+#   1. THE BUDGET. A church that already agrees with itself has clergy to
+#      spare. Religious unity buys an amount of DEVELOPMENT each pulse, and
+#      that development is spent converting parishes. High unity and a big
+#      realm convert fast; a realm torn between rites converts barely at all.
+#
+#   2. THE MERCHANTS. The vanilla trade-node policy Propagate Religion, simply
+#      unlocked for this faith. It is a scripted policy, not engine code - see
+#      the note above rip_faith_unlock_trade_propagation_effect below.
+#
+# WHY A BUDGET AND NOT A PERCENTAGE CHANCE
+#
+# The old spread was `random = { chance = 30 }` on every neighbouring owned
+# province, which meant a one-province minor and an empire converted at the
+# same rate per province and neither had any reason to care about unity. A
+# development budget ties the speed to the two things the player controls.
+#
+# WHY THE LADDER AND NOT export_to_variable
+#
+# `religious_unity` is not one of the values export_to_variable accepts in
+# 1.37 - vanilla exports total_development, treasury, manpower and the like,
+# never religious_unity. It IS a threshold trigger, so the ladder below is the
+# multiplication, in twentieths. That is also where the rounding down happens,
+# and it is visible rather than hidden in a float.
+# ==========================================================================
+
+# budget = floor( religious_unity * total development ), in development points
+rip_faith_unity_budget_effect = {
+	export_to_variable = {
+		which = rip_faith_budget
+		value = total_development
+		who = ROOT
+	}
+
+	if = {
+		limit = { religious_unity = 0.95 }
+		multiply_variable = { which = rip_faith_budget value = 0.95 }
+	}
+	else_if = {
+		limit = { religious_unity = 0.9 }
+		multiply_variable = { which = rip_faith_budget value = 0.9 }
+	}
+	else_if = {
+		limit = { religious_unity = 0.85 }
+		multiply_variable = { which = rip_faith_budget value = 0.85 }
+	}
+	else_if = {
+		limit = { religious_unity = 0.8 }
+		multiply_variable = { which = rip_faith_budget value = 0.8 }
+	}
+	else_if = {
+		limit = { religious_unity = 0.75 }
+		multiply_variable = { which = rip_faith_budget value = 0.75 }
+	}
+	else_if = {
+		limit = { religious_unity = 0.7 }
+		multiply_variable = { which = rip_faith_budget value = 0.7 }
+	}
+	else_if = {
+		limit = { religious_unity = 0.6 }
+		multiply_variable = { which = rip_faith_budget value = 0.6 }
+	}
+	else_if = {
+		limit = { religious_unity = 0.5 }
+		multiply_variable = { which = rip_faith_budget value = 0.5 }
+	}
+	else_if = {
+		limit = { religious_unity = 0.4 }
+		multiply_variable = { which = rip_faith_budget value = 0.4 }
+	}
+	else_if = {
+		limit = { religious_unity = 0.3 }
+		multiply_variable = { which = rip_faith_budget value = 0.3 }
+	}
+	else = {
+		# Below a third, the church is arguing with itself and converts nobody.
+		set_variable = { which = rip_faith_budget value = 0 }
+	}
+}
+
+# One parish costs RIP_PARISH_COST development points out of the budget.
+#
+# Six is the cost, and it is a flat literal on purpose: vanilla's own variable
+# arithmetic only ever subtracts a literal inside a `while` (see
+# trade_income_variable in 00_scripted_effects.txt), and there is no
+# cross-scope `subtract_variable = { who = ... }` to charge a province's real
+# development against a country variable. Six is a little above the 1444
+# median for the Ruthenian provinces, so a realm at full unity converts
+# roughly one parish per six development it holds, per pulse.
+#
+# The loop is what makes the rounding down real: the budget buys whole
+# parishes and the remainder is simply lost when the pulse ends.
+rip_gc_unity_spread_effect = {
+	rip_faith_unity_budget_effect = yes
+
+	# The preaching itself is not touched: rip_uc_union_spread_effect still
+	# plants rip_uc_union_preaching on parishes that border a Uniate one, and
+	# still refuses to work where there is no Uniate neighbour. What changes is
+	# the TURNING. That used to be one province per pulse at a flat 25%, which
+	# meant a one-province minor and an empire converted at the same speed and
+	# neither had any reason to care about unity. Now the budget buys it.
+	while = {
+		limit = {
+			check_variable = { which = rip_faith_budget value = 6 }
+			any_owned_province = {
+				is_city = yes
+				has_province_modifier = rip_uc_union_preaching
+				NOT = { religion = greek_catholic }
+			}
+		}
+
+		subtract_variable = { which = rip_faith_budget value = 6 }
+
+		random_owned_province = {
+			limit = {
+				is_city = yes
+				has_province_modifier = rip_uc_union_preaching
+				NOT = { religion = greek_catholic }
+			}
+			# the union took the parish, not the province: the rite stays, the
+			# obedience changes, and the congregation notices
+			change_religion = greek_catholic
+			remove_province_modifier = rip_uc_union_preaching
+			add_province_modifier = {
+				name = greek_catholic_diocese
+				duration = 3650
+			}
+			add_unrest = 3
+		}
+	}
+
+	set_variable = { which = rip_faith_budget value = 0 }
+}
+
+# ==========================================================================
+# PROPAGATE RELIGION - THE REAL ONE
+#
+# I first wrote an imitation of this here, on the belief that the trade node
+# policies were hardcoded. They are not. The directory is
+# common/trading_policies (not trade_policies, which is what I looked for and
+# failed to find), the policy is common/trading_policies/00_trading_policies.txt
+# line 239, and its conversion behaviour is
+# common/religious_conversions/00_religious_conversions.txt line 4. Neither
+# file carries a has_dlc gate.
+#
+# So the imitation is deleted and the mechanic is simply UNLOCKED. Vanilla
+# gates the policy behind a country flag and offers scripted effects to set it:
+# 02_scripted_effects_unlocks.txt lines 306-360.
+#
+# What unlocking buys that the imitation could never have had:
+#   - a real button in the trade node view, with vanilla's own art
+#   - a conversion PROGRESS BAR instead of a coin flip, which means the mod's
+#     local_missionary_strength modifiers finally affect trade conversion
+#   - unique = yes: one country per node, so two Uniate AIs cannot both work
+#     the same node at once
+#   - vanilla's weighted target picking (port, neighbouring parish of the same
+#     rite, owner's religion, autonomy, development) instead of a flat random
+#   - the factor-0 exclusions: no targeting a province a missionary is already
+#     working, an empty province, a religious centre, or one still under
+#     religious_zeal_at_conv
+#   - a 30-year zeal lock after conversion (CONVERSION_ZEAL_DURATION = 10950)
+#   - the 12-month policy cooldown and the "policy lost" alert
+#   - the on_convert_by_trade_policy hook for flavour
+#
+# The abrahamic unlock is the one that matters here: by default the weight
+# table gives factor 0 to orthodox, coptic and every christian_group province,
+# which is precisely what a union church needs to reach. The flag clears both.
+# ==========================================================================
+rip_faith_unlock_trade_propagation_effect = {
+	enable_propogate_religion_effect = yes
+
+	# without this the policy may not touch a single Orthodox or Catholic
+	# parish - see the factor = 0 blocks in 00_religious_conversions.txt
+	enable_propagate_religion_in_abrahamic_provinces = yes
+}
+
+# rip_gc_unlock_trade_propagation_effect stood here. The union does NOT get
+# the trade node policy: it spreads by the See, by the parish and by the
+# unity budget, which is a different story from a merchant church. Only
+# russian_orthodox unlocks the policy.
+
+
+# ==========================================================================
+# THE PRECOMPUTE BEHIND CLAUSE 2 OF THE CENTRE'S WEIGHT TABLE
+#
+# "my area borders an area that is entirely greek_catholic" cannot be asked
+# directly: EU4 1.37 has no area-to-area adjacency trigger. Written out it is
+# three nested scopes - any_neighbor_province -> any_province with area = PREV
+# -> the religion test - evaluated for every candidate province on every tick
+# the centre looks for work. That is on the order of ten thousand trigger
+# evaluations per candidate and it is not shippable.
+#
+# So it is turned inside out. Once a month, one linear pass flags every
+# province whose WHOLE area is Uniate, and the weight table then reads a
+# single province flag on a neighbour. Cubic scan becomes one sweep.
+#
+# The flag is cleared in the same pass, so it can never go stale: a province
+# that leaves the faith drops its area's flag the following month.
+# ==========================================================================
+rip_uc_mark_uniate_areas_effect = {
+	every_province = {
+		limit = { has_province_flag = rip_uc_area_all_uniate }
+		clr_province_flag = rip_uc_area_all_uniate
+	}
+	every_province = {
+		limit = {
+			is_city = yes
+			religion = greek_catholic
+			# nobody in my area is anything else
+			NOT = {
+				any_province = {
+					area = PREV
+					is_city = yes
+					NOT = { religion = greek_catholic }
+				}
+			}
+		}
+		set_province_flag = rip_uc_area_all_uniate
+	}
+}

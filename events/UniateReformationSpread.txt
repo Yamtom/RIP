@@ -1,0 +1,1013 @@
+# ========================================================================
+# THE UNION THAT ARRIVES FROM BELOW
+#
+# Authenticity tier: PLAUSIBLE (house grade B - extrapolated).
+#
+# Everything below the country conversion is documented. Brest 1596 bound
+# bishops, not parishes, and the bishops' signatures settled almost nothing:
+# the union took Galicia and Transcarpathia parish by parish across the whole
+# seventeenth century, long after the act. Peremyshl went in 1691, Lviv in
+# 1700, Lutsk in 1702 - a hundred years after the metropolitan had already
+# signed - and they went because the Basilian schools taught the priests'
+# sons, because the consistory court settled a marriage case faster and
+# cheaper than the one down the road, and because the local lord had gone
+# over and his tenants followed. Maramaros and Zemplen took it the same way
+# after Uzhhorod 1646, village by village, with no crown involved at all.
+#
+# The COUNTRY-LEVEL conversion at the end of this chain is the counterfactual
+# half: no crown in this period ever followed its own parishes into the union
+# after the fact. That step is offered here the way vanilla offers the
+# Reformation - a realm whose provinces have gone over is asked whether the
+# crown will follow, and may refuse. uniate_spread.5.d says so to the player
+# in as many words.
+#
+# WHY THIS IS A SECOND PATH AND NOT A SECOND BREST
+#
+# decisions/GreekCatholicDecisions.txt already models Brest: the bishops act,
+# the crown follows, and it is an act of state taken from the top with adm
+# and dip power. Nothing in this file is available to the crown. Every event
+# here is something the crown is TOLD, after the fact, by a chapter or a
+# starosta or a dean, and the only decisions on offer are what to do about it.
+#
+# HOW IT IS DRIVEN
+#
+# No new on_action hook. Every event here is an ordinary triggered country
+# event with a mean_time_to_happen, which is exactly how vanilla drives the
+# Protestant Reformation (events/Protestant.txt, event 2001), and the two
+# follow-ups are fired by the fork. What actually moves the provinces
+# underneath is already built:
+#
+#   - the See of the Union, one per country, planted by rip_uc_raise_the_see
+#     in decisions/RIP_UniateCuria.txt;
+#   - its Center of Reformation profile in
+#     common/religious_conversions/zz_RIP_greek_catholic.txt, which may take
+#     orthodox, russian_orthodox and catholic parishes and does not stop at
+#     a border;
+#   - the religious-unity development budget, rip_gc_unity_spread_effect.
+#
+# This file is the human side of those three: what the owner of the ground
+# sees, what the neighbour does about it, and what the crown decides when
+# there is more of the union in the realm than there is of its own rite.
+#
+# Sources for the flavour: the Peremyshl and Lviv eparchies' long refusal and
+# late accession; the Lviv and Vilnius brotherhoods and their schools; the
+# Basilian order's teaching houses; the consistory courts; Uzhhorod 1646 and
+# the Maramaros parishes.
+# ========================================================================
+
+namespace = uniate_spread
+
+
+# ------------------------------------------------------------------------
+# uniate_spread.1 - A UNIATE CENTRE UNDER A CROWN THAT IS NOT
+#
+# The See is planted by its own country, but ground changes hands. A crown
+# that takes Lviv, or a crown that leaves the faith, wakes up owning the
+# chapter. The chapter does not consider that its problem.
+# ------------------------------------------------------------------------
+country_event = {
+	id = uniate_spread.1
+	title = uniate_spread.1.t
+	desc = uniate_spread.1.d
+	picture = CHURCH_ESTATE_1_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		NOT = { religion = greek_catholic }
+		NOT = { has_country_flag = rip_us_chapter_answered }
+		any_owned_province = {
+			is_reformation_center = yes
+			religion = greek_catholic
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 12
+
+		modifier = {
+			factor = 0.5
+			OR = {
+				religion = orthodox
+				religion = russian_orthodox
+			}
+		}
+		# a Latin crown has less quarrel with a chapter that names the Pope
+		modifier = {
+			factor = 2
+			religion = catholic
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { stability = 1 }
+		}
+	}
+
+	option = { # Let the consistory sit
+		name = uniate_spread.1.a
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 3
+				religion = catholic
+			}
+			modifier = {
+				factor = 0.25
+				religion = russian_orthodox
+			}
+		}
+
+		set_country_flag = rip_us_chapter_answered
+
+		add_country_modifier = {
+			name = orthodox_uniate_coexistence
+			duration = 7300
+		}
+		random_owned_province = {
+			limit = {
+				is_reformation_center = yes
+				religion = greek_catholic
+			}
+			add_province_modifier = {
+				name = provincial_uniate_acceptance
+				duration = 7300
+			}
+		}
+	}
+
+	option = { # Put the seal on the consistory and close the school
+		name = uniate_spread.1.b
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 3
+				religion = russian_orthodox
+			}
+			modifier = {
+				factor = 0.2
+				religion = catholic
+			}
+		}
+
+		trigger = { adm_power = 50 }
+
+		set_country_flag = rip_us_chapter_answered
+		add_adm_power = -50
+		add_stability = -1
+
+		random_owned_province = {
+			limit = {
+				is_reformation_center = yes
+				religion = greek_catholic
+			}
+			# the seat can be taken away; the parishes around it cannot
+			remove_reform_center = greek_catholic
+			add_province_modifier = {
+				name = resistance_to_greek_catholic_spread
+				duration = 5475
+			}
+			add_unrest = 5
+			heretic_rebels = 2
+		}
+
+		add_country_modifier = {
+			name = orthodox_resistance_to_union
+			duration = 5475
+		}
+	}
+}
+
+
+# ------------------------------------------------------------------------
+# uniate_spread.2 - THE FIRST PARISH
+#
+# The common case, and the one the whole chain rests on: the centre reaches
+# across a border and one village changes its obedience without asking
+# anybody. The rite does not change. Only the commemoration does.
+# ------------------------------------------------------------------------
+country_event = {
+	id = uniate_spread.2
+	title = uniate_spread.2.t
+	desc = uniate_spread.2.d
+	picture = RELIGION_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		NOT = { religion = greek_catholic }
+		NOT = { has_country_flag = rip_us_first_parish_seen }
+		any_owned_province = {
+			religion = greek_catholic
+			is_reformation_center = no
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 8
+
+		# Red Ruthenia and the Carpathian foothills are where this actually
+		# happened, and where the schools stood to make it happen again.
+		modifier = {
+			factor = 0.6
+			OR = {
+				owns = 2961 # Lviv
+				owns = 261 # Halych
+				owns = 2424 # Peremyshl
+			}
+		}
+		modifier = {
+			factor = 0.7
+			OR = {
+				owns = 1952 # Maramaros (Mukachevo)
+				owns = 162 # Zemplen
+			}
+		}
+		modifier = {
+			factor = 0.8
+			OR = {
+				owns = 1940 # Belz
+				owns = 4538 # Chelm
+			}
+		}
+		modifier = {
+			factor = 1.5
+			religion = russian_orthodox
+		}
+	}
+
+	option = { # Send the dean to bring the parish back
+		name = uniate_spread.2.a
+		ai_chance = {
+			factor = 55
+			modifier = {
+				factor = 2
+				religion = russian_orthodox
+			}
+		}
+
+		set_country_flag = rip_us_first_parish_seen
+		add_adm_power = -25
+
+		random_owned_province = {
+			limit = {
+				religion = greek_catholic
+				is_reformation_center = no
+			}
+			random_list = {
+				55 = {
+					# the dean is heard, and the village goes back
+					change_religion = ROOT
+					add_unrest = 3
+				}
+				45 = {
+					# the priest is married, local, and has the school behind
+					# him; the dean is from somewhere else
+					add_province_modifier = {
+						name = provincial_uniate_resistance
+						duration = 3650
+					}
+					add_unrest = 2
+				}
+			}
+		}
+	}
+
+	option = { # One village, and a long way from the capital
+		name = uniate_spread.2.b
+		ai_chance = {
+			factor = 45
+			modifier = {
+				factor = 2
+				religion = catholic
+			}
+		}
+
+		set_country_flag = rip_us_first_parish_seen
+
+		random_owned_province = {
+			limit = {
+				religion = greek_catholic
+				is_reformation_center = no
+			}
+			add_province_modifier = {
+				name = provincial_uniate_acceptance
+				duration = 5475
+			}
+			# the neighbouring parishes hear that nothing happened to it
+			random_neighbor_province = {
+				limit = {
+					owned_by = ROOT
+					OR = {
+						religion = orthodox
+						religion = russian_orthodox
+						religion = catholic
+					}
+				}
+				add_province_modifier = {
+					name = rip_uc_union_preaching
+					duration = 3650
+				}
+			}
+		}
+	}
+}
+
+
+# ------------------------------------------------------------------------
+# uniate_spread.3 - THE SCHOOL ACROSS THE BORDER
+#
+# What a hostile Orthodox neighbour does about a Uniate centre it cannot
+# reach: charter the brotherhoods against it, have it pronounced against, or
+# leave the parishes to answer for themselves - which is what the brotherhood
+# statutes, the anathemas and the eventual wars all were, in that order.
+# ------------------------------------------------------------------------
+country_event = {
+	id = uniate_spread.3
+	title = uniate_spread.3.t
+	desc = uniate_spread.3.d
+	picture = ORTHODOX_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		NOT = { has_country_flag = rip_us_border_school_answered }
+		any_neighbor_country = {
+			any_owned_province = {
+				is_reformation_center = yes
+				religion = greek_catholic
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 18
+
+		modifier = {
+			factor = 0.5
+			any_rival_country = {
+				any_owned_province = {
+					is_reformation_center = yes
+					religion = greek_catholic
+				}
+			}
+		}
+		modifier = {
+			factor = 0.6
+			any_owned_province = { religion = greek_catholic }
+		}
+		modifier = {
+			factor = 0.7
+			is_defender_of_faith = yes
+		}
+		modifier = {
+			factor = 2
+			is_at_war = yes
+		}
+	}
+
+	option = { # Charter the brotherhoods
+		name = uniate_spread.3.a
+		ai_chance = { factor = 45 }
+
+		trigger = { adm_power = 50 }
+
+		set_country_flag = rip_us_border_school_answered
+		add_adm_power = -50
+		add_treasury = -100
+
+		# The Lviv and Vilnius brotherhoods held their own schools and their
+		# own presses, and answered to the patriarch over the bishops' heads.
+		add_country_modifier = {
+			name = orthodox_brotherhood_resistance
+			duration = 7300
+		}
+		every_owned_province = {
+			limit = {
+				religion = greek_catholic
+			}
+			add_province_modifier = {
+				name = resistance_to_greek_catholic_spread
+				duration = 5475
+			}
+		}
+	}
+
+	option = { # Let it be pronounced against from the ambo
+		name = uniate_spread.3.b
+		ai_chance = {
+			factor = 30
+			modifier = {
+				factor = 2
+				religion = russian_orthodox
+			}
+			modifier = {
+				factor = 2
+				is_defender_of_faith = yes
+			}
+		}
+
+		set_country_flag = rip_us_border_school_answered
+
+		add_country_modifier = {
+			name = orthodox_revival_movement
+			duration = 5475
+		}
+		add_patriarch_authority = 0.05
+
+		random_neighbor_country = {
+			limit = {
+				any_owned_province = {
+					is_reformation_center = yes
+					religion = greek_catholic
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_hates_us
+			}
+			reverse_add_opinion = {
+				who = ROOT
+				modifier = opinion_hates_us
+			}
+			ROOT = {
+				# ten years to act on it, and no longer - a pronouncement is
+				# not a standing licence
+				add_casus_belli = {
+					type = cb_heretic
+					target = PREV
+					months = 120
+				}
+			}
+		}
+	}
+
+	option = { # The parishes will answer for themselves
+		name = uniate_spread.3.c
+		ai_chance = {
+			factor = 25
+			modifier = {
+				factor = 0.3
+				is_defender_of_faith = yes
+			}
+		}
+
+		set_country_flag = rip_us_border_school_answered
+		add_prestige = -5
+
+		random_owned_province = {
+			limit = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+				any_neighbor_province = {
+					NOT = { owned_by = ROOT }
+				}
+			}
+			add_province_modifier = {
+				name = rip_uc_union_preaching
+				duration = 5475
+			}
+		}
+	}
+}
+
+
+# ------------------------------------------------------------------------
+# uniate_spread.4 - THE COURTS ARE QUICKER
+#
+# The mechanism, said out loud, at the point where it is still reversible.
+# This is the lever between the first parish and the fork: the crown may pay
+# to put an Orthodox school and an Orthodox court beside every Uniate one, or
+# it may start hiring the graduates of the ones already standing.
+# ------------------------------------------------------------------------
+country_event = {
+	id = uniate_spread.4
+	title = uniate_spread.4.t
+	desc = uniate_spread.4.d
+	picture = BIG_BOOK_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		NOT = { religion = greek_catholic }
+		NOT = { has_country_flag = rip_us_schools_answered }
+		num_of_owned_provinces_with = {
+			value = 3
+			religion = greek_catholic
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 30
+
+		modifier = {
+			factor = 0.6
+			num_of_owned_provinces_with = {
+				value = 6
+				religion = greek_catholic
+			}
+		}
+		modifier = {
+			factor = 0.6
+			NOT = { religious_unity = 0.7 }
+		}
+		modifier = {
+			factor = 0.8
+			has_country_flag = rip_us_first_parish_seen
+		}
+		modifier = {
+			factor = 1.5
+			has_country_modifier = orthodox_brotherhood_resistance
+		}
+	}
+
+	option = { # Put a brotherhood school beside every Basilian one
+		name = uniate_spread.4.a
+		ai_chance = {
+			factor = 55
+			modifier = {
+				factor = 2
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = { treasury = 200 }
+			}
+		}
+
+		trigger = {
+			adm_power = 50
+			treasury = 200
+		}
+
+		set_country_flag = rip_us_schools_answered
+		add_adm_power = -50
+		add_treasury = -200
+
+		add_country_modifier = {
+			name = orthodox_revival_movement
+			duration = 7300
+		}
+		random_owned_province = {
+			limit = { religion = greek_catholic }
+			add_province_modifier = {
+				name = resistance_to_greek_catholic_spread
+				duration = 5475
+			}
+		}
+		random_owned_province = {
+			limit = {
+				religion = greek_catholic
+				NOT = { has_province_modifier = resistance_to_greek_catholic_spread }
+			}
+			add_province_modifier = {
+				name = resistance_to_greek_catholic_spread
+				duration = 5475
+			}
+		}
+	}
+
+	option = { # Take the school's graduates into the chancery
+		name = uniate_spread.4.b
+		ai_chance = {
+			factor = 45
+			modifier = {
+				factor = 3
+				religion = catholic
+			}
+			modifier = {
+				factor = 2
+				NOT = { treasury = 200 }
+			}
+		}
+
+		set_country_flag = rip_us_schools_answered
+		add_adm_power = 25
+
+		# The Basilians taught Latin, rhetoric and law, and a chancery that
+		# needs clerks does not ask twice where they learned it.
+		add_country_modifier = {
+			name = basilian_monastic_order
+			duration = 9125
+		}
+		every_owned_province = {
+			limit = { religion = greek_catholic }
+			add_province_modifier = {
+				name = provincial_uniate_acceptance
+				duration = 5475
+			}
+		}
+	}
+}
+
+
+# ------------------------------------------------------------------------
+# uniate_spread.5 - THE REALM HAS GONE OVER
+#
+# The fork, and the counterfactual step. Vanilla asks this question of a
+# Catholic prince whose towns have turned Lutheran; this asks it of a crown
+# whose parishes have gone into the union without it.
+#
+# THE THRESHOLD, AND WHY IT IS TWO CLAUSES
+#
+# religious_unity scales with the realm - it weighs provinces by development,
+# so a Muscovy with four Uniate towns is nowhere near it and a Halych with
+# four is - and the flat count of six stops a two-province minor flipping on
+# a single conversion. The third clause is the one that makes it a moment:
+# either the union has reached the crown's own capital, or it holds fifteen
+# parishes and no longer needs to.
+# ------------------------------------------------------------------------
+country_event = {
+	id = uniate_spread.5
+	title = uniate_spread.5.t
+	desc = uniate_spread.5.d
+	picture = RELIGIOUS_CONVERSION_eventPicture
+
+	major = yes
+	fire_only_once = yes
+
+	trigger = {
+		NOT = { religion = greek_catholic }
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+			religion = catholic
+		}
+		NOT = { has_country_flag = rip_us_union_refused }
+		NOT = { has_country_flag = rip_us_union_accepted }
+		num_of_owned_provinces_with = {
+			value = 6
+			religion = greek_catholic
+		}
+		NOT = { religious_unity = 0.45 }
+		OR = {
+			capital_scope = { religion = greek_catholic }
+			num_of_owned_provinces_with = {
+				value = 15
+				religion = greek_catholic
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 24
+
+		modifier = {
+			factor = 0.6
+			capital_scope = { religion = greek_catholic }
+		}
+		modifier = {
+			factor = 0.7
+			NOT = { religious_unity = 0.3 }
+		}
+		modifier = {
+			factor = 0.7
+			has_country_modifier = basilian_monastic_order
+		}
+		modifier = {
+			factor = 0.8
+			any_neighbor_country = { religion = greek_catholic }
+		}
+		modifier = {
+			factor = 1.5
+			has_country_modifier = orthodox_revival_movement
+		}
+		modifier = {
+			factor = 1.5
+			has_country_modifier = orthodox_brotherhood_resistance
+		}
+		modifier = {
+			factor = 2
+			is_defender_of_faith = yes
+		}
+	}
+
+	option = { # Follow the parishes into the union
+		name = uniate_spread.5.a
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				religion = catholic
+			}
+			modifier = {
+				factor = 2
+				any_neighbor_country = { religion = greek_catholic }
+			}
+			modifier = {
+				factor = 0.1
+				religion = russian_orthodox
+			}
+			modifier = {
+				factor = 0.2
+				is_defender_of_faith = yes
+			}
+		}
+
+		set_country_flag = rip_us_union_accepted
+
+		# on_religion_change carries the rest: the Curia band, the trade node
+		# policy, and the existing chain in events/UniateChurch.txt.
+		change_religion = greek_catholic
+		add_stability = -1
+		add_prestige = -10
+
+		country_event = { id = uniate_spread.7 days = 60 }
+	}
+
+	option = { # The crown does not follow
+		name = uniate_spread.5.b
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 3
+				religion = russian_orthodox
+			}
+			modifier = {
+				factor = 2
+				is_defender_of_faith = yes
+			}
+			modifier = {
+				factor = 0.5
+				religion = catholic
+			}
+		}
+
+		set_country_flag = rip_us_union_refused
+
+		add_prestige = 10
+		add_legitimacy = 5
+		add_country_modifier = {
+			name = uniate_church_suppression
+			duration = 7300
+		}
+
+		country_event = { id = uniate_spread.6 days = 30 }
+	}
+}
+
+
+# ------------------------------------------------------------------------
+# uniate_spread.6 - THE STAROSTAS ARE SENT
+#
+# What refusing costs. The crown has said no; the parishes have not, and now
+# somebody has to go and tell them. This is fired only by the refusal branch
+# of uniate_spread.5.
+# ------------------------------------------------------------------------
+country_event = {
+	id = uniate_spread.6
+	title = uniate_spread.6.t
+	desc = uniate_spread.6.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # Press it to the end
+		name = uniate_spread.6.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				religion = russian_orthodox
+			}
+			modifier = {
+				factor = 0
+				NOT = { treasury = 300 }
+			}
+		}
+
+		trigger = { treasury = 300 }
+
+		add_treasury = -300
+		add_stability = -1
+		add_country_modifier = {
+			name = forced_religious_union
+			duration = 7300
+		}
+
+		# three parishes taken back by the starosta, and the country hears
+		# about it from all three
+		random_owned_province = {
+			limit = { religion = greek_catholic }
+			change_religion = ROOT
+			add_unrest = 6
+			add_local_autonomy = 15
+		}
+		random_owned_province = {
+			limit = { religion = greek_catholic }
+			change_religion = ROOT
+			add_unrest = 6
+			add_local_autonomy = 15
+		}
+		random_owned_province = {
+			limit = { religion = greek_catholic }
+			change_religion = ROOT
+			add_unrest = 6
+			heretic_rebels = 3
+		}
+	}
+
+	option = { # Stop short of the sabre
+		name = uniate_spread.6.b
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 2
+				NOT = { treasury = 300 }
+			}
+			modifier = {
+				factor = 2
+				NOT = { stability = 0 }
+			}
+		}
+
+		# The refusal stands, but nothing is taken back, and a crown that
+		# stops here will be asked again in a generation.
+		set_country_flag = rip_us_refusal_soft
+
+		add_country_modifier = {
+			name = orthodox_resistance_to_union
+			duration = 5475
+		}
+		every_owned_province = {
+			limit = { religion = greek_catholic }
+			add_local_autonomy = 10
+			add_unrest = 2
+		}
+	}
+}
+
+
+# ------------------------------------------------------------------------
+# uniate_spread.7 - WHAT THE CROWN INHERITS
+#
+# Fired by the acceptance branch of uniate_spread.5, and by the late
+# acceptance in uniate_spread.8. A crown that follows its parishes into the
+# union does not get a quiet realm: it gets a metropolitan with no seat among
+# the Latin bishops, and the parishes that refused to go.
+# ------------------------------------------------------------------------
+country_event = {
+	id = uniate_spread.7
+	title = uniate_spread.7.t
+	desc = uniate_spread.7.d
+	picture = PROTESTANT_CATHOLIC_DEBATE_eventPicture
+
+	is_triggered_only = yes
+
+	option = { # Seat the metropolitan where the Latin bishops sit
+		name = uniate_spread.7.a
+		ai_chance = { factor = 50 }
+
+		add_country_modifier = {
+			name = uniate_metropolitan_authority
+			duration = 9125
+		}
+		# The Latin chapters did not want an eastern metropolitan among them,
+		# and said so at every sejm for a century.
+		add_country_modifier = {
+			name = uniate_catholic_tensions
+			duration = 5475
+		}
+		add_prestige = 10
+	}
+
+	option = { # Leave the old rite its own courts
+		name = uniate_spread.7.b
+		ai_chance = { factor = 50 }
+
+		add_country_modifier = {
+			name = dual_communion_compromise
+			duration = 7300
+		}
+		add_stability = 1
+
+		# the parishes that would not go, left standing
+		random_owned_province = {
+			limit = { religion = greek_catholic }
+			change_religion = orthodox
+			add_province_modifier = {
+				name = provincial_uniate_resistance
+				duration = 5475
+			}
+		}
+		random_owned_province = {
+			limit = { religion = greek_catholic }
+			change_religion = orthodox
+			add_province_modifier = {
+				name = provincial_uniate_resistance
+				duration = 5475
+			}
+		}
+	}
+}
+
+
+# ------------------------------------------------------------------------
+# uniate_spread.8 - THE SAME QUESTION, A GENERATION ON
+#
+# The refusal is not final unless the crown makes it final. If the parishes
+# are still going over twenty years later, the question comes back to a
+# different reign - and this time there is an answer that closes it for good.
+# ------------------------------------------------------------------------
+country_event = {
+	id = uniate_spread.8
+	title = uniate_spread.8.t
+	desc = uniate_spread.8.d
+	picture = PRAYING_eventPicture
+
+	major = yes
+	fire_only_once = yes
+
+	trigger = {
+		has_country_flag = rip_us_union_refused
+		NOT = { has_country_flag = rip_us_union_accepted }
+		NOT = { has_country_flag = rip_us_union_held_out }
+		NOT = { religion = greek_catholic }
+		num_of_owned_provinces_with = {
+			value = 6
+			religion = greek_catholic
+		}
+		NOT = { religious_unity = 0.5 }
+	}
+
+	mean_time_to_happen = {
+		months = 300
+
+		modifier = {
+			factor = 0.5
+			has_country_flag = rip_us_refusal_soft
+		}
+		modifier = {
+			factor = 0.7
+			NOT = { religious_unity = 0.35 }
+		}
+		modifier = {
+			factor = 0.7
+			capital_scope = { religion = greek_catholic }
+		}
+		modifier = {
+			factor = 1.5
+			has_country_modifier = forced_religious_union
+		}
+		modifier = {
+			factor = 1.5
+			is_defender_of_faith = yes
+		}
+	}
+
+	option = { # Take the union now
+		name = uniate_spread.8.a
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 2
+				has_country_flag = rip_us_refusal_soft
+			}
+			modifier = {
+				factor = 0.1
+				religion = russian_orthodox
+			}
+		}
+
+		set_country_flag = rip_us_union_accepted
+
+		change_religion = greek_catholic
+		add_stability = -1
+
+		country_event = { id = uniate_spread.7 days = 60 }
+	}
+
+	option = { # Hold, and let the next reign answer it too
+		name = uniate_spread.8.b
+		ai_chance = {
+			factor = 60
+			modifier = {
+				factor = 2
+				religion = russian_orthodox
+			}
+			modifier = {
+				factor = 2
+				has_country_modifier = forced_religious_union
+			}
+		}
+
+		set_country_flag = rip_us_union_held_out
+
+		# permanent, and it is not free: a crown at odds with its own
+		# parishes for good pays for it for good
+		add_country_modifier = {
+			name = orthodox_resistance_to_union
+			duration = -1
+		}
+		add_legitimacy = 10
+		add_patriarch_authority = 0.05
+	}
+}

@@ -1,0 +1,110 @@
+country_decisions = {
+
+	# ====================================================================
+	# THE BRIDGE OF THE CROWN CHAIN
+	#
+	# events/UniateCrownUnion.txt fires uniate_crown.1 on its own timer: the
+	# chancery names what the crown wants and cannot get at home. Everything
+	# after it is is_triggered_only and waits for THIS decision. Without it
+	# the chain stops at event one and the other seven are dead script.
+	#
+	# It is a decision rather than an option on event 1 on purpose. Opening
+	# a negotiation with Rome is a thing the player should do deliberately,
+	# with the cost visible in the tooltip, at a moment of their choosing -
+	# and a crown that named a want in 1540 may not send the embassy until
+	# 1560. Event 1 sets the want; this sends the letter.
+	#
+	# Authenticity: SPECULATIVE, as the whole chain is. See the header of
+	# events/UniateCrownUnion.txt for why.
+	# ====================================================================
+	rip_ucr_treat_with_rome = {
+		major = yes
+
+		potential = {
+			religion = orthodox
+			has_country_flag = rip_ucr_reason_of_state
+			NOT = { has_country_flag = rip_ucr_declined }
+			NOT = { has_country_flag = rip_ucr_embassy_sent }
+			NOT = { has_country_flag = union_of_brest_happened }
+			NOT = { has_country_flag = pursuing_uniate_union }
+		}
+
+		provinces_to_highlight = {
+			owned_by = ROOT
+			religion = orthodox
+		}
+
+		allow = {
+			is_at_war = no
+			stability = 1
+			dip_power = 100
+
+			# The embassy has to reach somebody who can answer it.
+			exists = PAP
+			custom_trigger_tooltip = {
+				tooltip = rip_ucr_needs_a_catholic_broker_tt
+				any_known_country = {
+					religion = catholic
+					is_great_power = yes
+					NOT = { war_with = ROOT }
+				}
+			}
+
+			# A crown that cannot hold its own church cannot sell its
+			# obedience. This is the same test event 1 made, re-made at the
+			# moment of sending, because years may have passed.
+			custom_trigger_tooltip = {
+				tooltip = rip_ucr_needs_a_strong_crown_tt
+				OR = {
+					legitimacy = 80
+					absolutism = 25
+					republican_tradition = 80
+				}
+			}
+		}
+
+		effect = {
+			set_country_flag = rip_ucr_embassy_sent
+
+			add_dip_power = -50
+			add_years_of_income = -0.25
+
+			# The metropolitan is still not in the room.
+			custom_tooltip = rip_ucr_synod_not_consulted_tt
+
+			country_event = {
+				id = uniate_crown.2
+				days = 90
+			}
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				NOT = { has_heir = yes }
+			}
+			modifier = {
+				factor = 2
+				absolutism = 50
+			}
+			modifier = {
+				factor = 2
+				any_known_country = {
+					religion = catholic
+					is_great_power = yes
+					alliance_with = ROOT
+				}
+			}
+			# A church estate that already runs the country will fight this,
+			# and the AI should feel that before it spends the embassy.
+			modifier = {
+				factor = 0.2
+				estate_influence = {
+					estate = estate_church
+					influence = 60
+				}
+			}
+		}
+	}
+}

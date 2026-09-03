@@ -264,9 +264,17 @@ for path in script_files():
         if im:
             own_ids.add(im.start(1))
 
-    for m in re.finditer(r"\b([a-z][a-z0-9_]*\.\d+)\b", body):
+    # A second way this check went quiet: an event's OWN localisation keys
+    # name it. `title = uniate_crown.2.t` contains the token uniate_crown.2,
+    # so every event with a title counted as fired by itself and the orphan
+    # was never reported. Anything followed by another `.name` segment is a
+    # localisation key, not a call - `country_event = { id = X }`, `events = {
+    # X }` and `on_start = X` all end the token at the number.
+    for m in re.finditer(r"\b([a-z][a-z0-9_]*\.\d+)(\.[A-Za-z_])?\b", body):
         if m.start() in own_ids:
             continue        # the event's own declaration
+        if m.group(2):
+            continue        # a localisation key: <id>.t, <id>.d, <id>.a
         fired_ids.add(m.group(1))
 
 for eid, (path, line) in sorted(triggered_only.items()):

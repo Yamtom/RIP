@@ -24,6 +24,7 @@ COUNTRY_FILES = {
     "pdl_opinion_modifiers.txt": (re.compile(r"^pdl_"), set()),
     "plc_opinion_modifiers.txt": (re.compile(r"^(?:plc_|poland_)"), set()),
     "tur_opinion_modifiers.txt": (re.compile(r"^ottoman_"), set()),
+    "uniate_opinion_modifiers.txt": (re.compile(r"^rip_ucr_"), set()),
     "uzh_opinion_modifiers.txt": (re.compile(r"^opinion_uz_"), set()),
     "vol_opinion_modifiers.txt": (re.compile(r"^vol_"), set()),
     "west_ukr_opinion_modifiers.txt": (re.compile(r"^west_ukr_"), set()),
