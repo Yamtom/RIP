@@ -1,9 +1,6 @@
-
 christian = {
-	crusade_name = CRUSADE
-
 	russian_orthodox = {
-		color = { 0.8 0.2 0.2 }
+		color = { 204 51 51 }
 		icon = 30
 
 		# Scope kept at vanilla parity: every vanilla religion has 2-3 country
@@ -52,37 +49,6 @@ christian = {
 		# Patriarchs
 		has_patriarchs = yes
 
-		heretic = { "BOGOMILIST" }
-
-		# THE THREE DATES OF THIS CHURCH
-		#
-		# 1448.12.15 - the metropolitan is elected at Moscow without
-		#              Constantinople's blessing, and the metropolitanate splits
-		#              along the border it will keep. This is the birth of the
-		#              faith, so it is the religion's own date: `date` is what
-		#              is_religion_enabled reads, and setting it to 1589 left the
-		#              mod offering a religion the engine had not switched on for
-		#              another 136 years - convert_to_russian_orthodox_decision
-		#              opens at 1450 and russian_orthodox.1 fired from 1453.
-		# 1589.1.26  - the metropolitan becomes a patriarch: russian_orthodox.2.
-		# 1653       - Nikon's books, and the Raskol: russian_orthodox.6.
-		#
-		# The three are a ladder, not three separate stories. Each stage sets its
-		# flag and the next one asks for it:
-		#   rip_ro_stage_autocephaly -> rip_ro_stage_patriarchate -> rip_ro_stage_raskol
-		date = 1448.12.15
-
-		on_convert = {
-			add_prestige = 15
-			add_legitimacy = 10
-			add_country_modifier = {
-				name = third_rome_ideology
-				duration = 5475
-			}
-			rip_ro_show_the_zeal_effect = yes
-		}
-
-
 		# Five sites, as vanilla does it.
 		#
 		# Both vanilla holy-site religions declare exactly five - coptic and
@@ -118,249 +84,35 @@ christian = {
 			blessing_of_saints_cyril_and_methodius
 			blessing_of_eastern_liturgy
 		}
-	}
 
-	greek_catholic = {
-		color = { 0.7 0.5 0.8 }
-		icon = 31
+		heretic = { BOGOMILIST }
 
-		country = {
-			tolerance_own = 2
-			tolerance_heretic = 1
-			diplomatic_reputation = 1
-			advisor_cost = -0.05
-		}
-
-		country_as_secondary = {
-			tolerance_heretic = 1
-			diplomatic_reputation = 0.5
-		}
-
-		province = {
-			local_missionary_strength = 0.01
-		}
-
-		# One See of the Union, and what it may convert.
+		# THE THREE DATES OF THIS CHURCH
 		#
-		# A Center of Reformation of this faith may take parishes of either
-		# rite: the eastern one it came from and the Latin one it entered
-		# communion with. That is the whole point of a union church, and it is
-		# also the only religion mechanic this faith gets besides its panel -
-		# centres do not draw into the contested rectangle.
+		# 1448.12.15 - the metropolitan is elected at Moscow without
+		#              Constantinople's blessing, and the metropolitanate splits
+		#              along the border it will keep. This is the birth of the
+		#              faith, so it is the religion's own date: `date` is what
+		#              is_religion_enabled reads, and setting it to 1589 left the
+		#              mod offering a religion the engine had not switched on for
+		#              another 136 years - convert_to_russian_orthodox_decision
+		#              opens at 1450 and russian_orthodox.1 fired from 1453.
+		# 1589.1.26  - the metropolitan becomes a patriarch: russian_orthodox.2.
+		# 1653       - Nikon's books, and the Raskol: russian_orthodox.6.
 		#
-		# The centre itself is planted once, by rip_uc_raise_the_see in
-		# decisions/RIP_UniateCuria.txt. How fast it works on which parish is
-		# weighted in rip_uc_union_spread_effect.
-		allowed_center_conversion = {
-			orthodox
-			russian_orthodox
-			catholic
-		}
-
-		# COMMUNION WITH ROME, AS THE ENGINE CAN ACTUALLY GIVE IT
-		#
-		# The earlier reading here said a papacy block was impossible because the
-		# engine resolves a papacy from the country's own religion. That is true
-		# and it is not an obstacle: the block is data, and it NAMES the tag and
-		# the seat. This one is vanilla's own, copied whole - papal_tag = PAP,
-		# seat_of_papacy = 118, the same Council of Trent positions, the same
-		# concessions, the same papal actions. A Uniate country therefore accrues
-		# real papal influence, buys the real papal actions and sits under the
-		# same pope in the same Rome, which is what communion with Rome meant.
-		#
-		# And it costs this faith nothing, because the panels do not collide.
-		# Measured in interface/countryreligionview.gui, the religion windows fall
-		# into two groups, not one: orthodox (x=-24 y=0) and coptic (x=0 y=0)
-		# overlap each other, while catholic, muslim, protestant and fervor all
-		# sit at x=32 y=300. Orthodox and catholic are in different rectangles, so
-		# this faith keeps BOTH - patriarch authority and the icons above, the
-		# curia below.
-		#
-		# What is not certain, and is written down rather than hidden: whether the
-		# engine treats two religions naming the same papal_tag as one curia or as
-		# two instances that happen to share a tag and a seat. Either way a Uniate
-		# country has papal influence, cardinals and the papal actions; if it is
-		# two, it competes for its own controller rather than Rome's. The petition
-		# decisions in decisions/RIP_UniateCuria.txt stay as a fallback and gate
-		# themselves off as soon as papal influence actually accrues.
-		# NO papacy BLOCK, DELIBERATELY.
-		#
-		# It used to declare the whole vanilla Catholic mechanic here - papal_tag,
-		# seat_of_papacy, the curia, the concessions - which made a Uniate country a
-		# full member of the college: cardinals, papal influence, a vote on the
-		# throne of Peter. That is not what a Uniate church was. The union put the
-		# Ruthenian metropolitanate UNDER Rome while it kept its own rite, its own
-		# hierarchy and its own synod; it never gave it a seat among the cardinals,
-		# and no Uniate metropolitan was ever one.
-		#
-		# So the faith keeps the eastern half - has_patriarchs and orthodox_icons,
-		# below - and Rome is modelled the way the union actually met it: as a court
-		# you have standing at and send money to. That is rip_uc_standing, a country
-		# variable in common/scripted_effects/greek_catholic_effects.txt, spent on
-		# the petitions in decisions/RIP_UniateCuria.txt.
-
-		# The upper panel: patriarch authority and the five icons. This faith
-		# declares no holy sites and no church power, so nothing contests the
-		# y=0 rectangle with it.
-		has_patriarchs = yes
-
-		# The frame is chosen by the entry's POSITION in this block, not by its
-		# name - vanilla carries no sprite field and the save stores a bare index -
-		# so these five keep vanilla's five paintings while carrying our own keys
-		# and our own text. Renaming matters: one vanilla scripted trigger and five
-		# vanilla mission files test current_icon = icon_michael and the rest, so
-		# overriding those keys would rename the icons of Russia, Byzantium, Serbia
-		# and Georgia too. Do not reorder them or the pictures shuffle.
-		orthodox_icons = {
-			# If no icon has ai_will_do above 1 - <current patriarch authority> , the AI will not enact it. (60% PA = 0.6 -> ai_will_do has to be at least 0.4)
-
-			rip_gc_icon_michael = {
-				discipline = 0.05
-				manpower_recovery_speed = 0.1
-				
-				allow = {
-					always = yes
-				}
-
-				visible = {
-					always = yes
-				}
-
-				ai_will_do = {
-					factor = 0.05
-					modifier = {
-						factor = 0
-						is_at_war = no
-					}
-					modifier = {
-						factor = 3
-						is_in_important_war = yes
-					}
-				}
-			}
-
-			rip_gc_icon_eleusa = {
-				global_unrest = -3
-				harsh_treatment_cost = -0.25
-				
-				allow = {
-					always = yes
-				}
-
-				visible = {
-					always = yes
-				}
-				
-				ai_will_do = {
-					factor = 0.02
-					modifier = {
-						factor = 0
-						NOT = {
-							calc_true_if = {
-								all_owned_province = {
-									unrest = 1
-								}
-								amount = 2
-							}
-						}
-					}
-					modifier = {
-						factor = 3
-						calc_true_if = {
-							all_owned_province = {
-								unrest = 1
-							}
-							amount = 5
-						}
-					}
-				}
-			}
-
-			rip_gc_icon_pancreator = {
-				development_cost = -0.10
-				build_cost = -0.1
-				
-				allow = {
-					always = yes
-				}
-
-				visible = {
-					always = yes
-				}
-				
-				ai_will_do = {
-					factor = 0
-				}
-			}
-	
-			rip_gc_icon_nicholas = {
-				improve_relation_modifier = 0.25
-				ae_impact = -0.1
-				
-				visible = {
-					always = yes
-				}
-				
-				allow = {
-					always = yes
-				}
-				ai_will_do = {
-					factor = 0.01
-				}
-			}
-
-			rip_gc_icon_climacus = {
-				global_institution_spread = 0.25
-				embracement_cost = -0.2
-
-				visible = {
-					always = yes
-				}
-
-				allow = {
-					always = yes
-				}
-				ai_will_do = {
-					factor = 0.02
-					modifier = {
-						factor = 0
-						NOT = {
-							calc_true_if = {
-								all_owned_province = {
-									current_institution = 1
-									NOT = { current_institution = 95 }
-								}
-								amount = 1
-							}
-						}
-					}
-					modifier = {
-						factor = 3
-						calc_true_if = {
-							all_owned_province = {
-								current_institution = 1
-								NOT = { current_institution = 95 }
-							}
-							amount = 5
-						}
-					}
-				}
-			}
-		}
-
-		hre_heretic_religion = yes
-
-		heretic = { "BOGOMILIST" }
-
-		date = 1596.10.6
+		# The three are a ladder, not three separate stories. Each stage sets its
+		# flag and the next one asks for it:
+		#   rip_ro_stage_autocephaly -> rip_ro_stage_patriarchate -> rip_ro_stage_raskol
+		date = 1448.12.15
 
 		on_convert = {
-			add_prestige = 10
+			add_prestige = 15
+			add_legitimacy = 10
 			add_country_modifier = {
-				name = uniate_church_consolidation
-				duration = 3650
+				name = third_rome_ideology
+				duration = 5475
 			}
+			rip_ro_show_the_zeal_effect = yes
 		}
-
 	}
 }

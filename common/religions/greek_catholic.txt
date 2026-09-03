@@ -1,0 +1,220 @@
+christian = {
+	greek_catholic = {
+		color = { 178 128 204 }
+		icon = 31
+
+		country = {
+			tolerance_own = 2
+			tolerance_heretic = 1
+			diplomatic_reputation = 1
+			advisor_cost = -0.05
+		}
+
+		country_as_secondary = {
+			tolerance_heretic = 1
+			diplomatic_reputation = 0.5
+		}
+
+		province = {
+			local_missionary_strength = 0.01
+		}
+
+		# One See of the Union, and what it may convert.
+		#
+		# A Center of Reformation of this faith may take parishes of either
+		# rite: the eastern one it came from and the Latin one it entered
+		# communion with. That is the whole point of a union church, and it is
+		# also the only religion mechanic this faith gets besides its panel -
+		# centres do not draw into the contested rectangle.
+		#
+		# The centre itself is planted once, by rip_uc_raise_the_see in
+		# decisions/RIP_UniateCuria.txt. How fast it works on which parish is
+		# weighted in rip_uc_union_spread_effect.
+		allowed_center_conversion = {
+			orthodox
+			russian_orthodox
+			catholic
+		}
+
+		# COMMUNION WITH ROME AND THE CURIA
+		#
+		# NO papacy block, deliberately.
+		# Declaring the vanilla Catholic curia here would make a Uniate country a
+		# full member of the college of cardinals: cardinals, papal influence, a
+		# vote on the throne of Peter. That is not what a Uniate church was. The
+		# union put the Ruthenian metropolitanate UNDER Rome while it kept its own
+		# rite, its own hierarchy and its own synod; it never gave it a seat among
+		# the cardinals, and no Uniate metropolitan was ever one.
+		#
+		# So the faith keeps the eastern half - has_patriarchs and orthodox_icons
+		# below - and Rome is modelled the way the union actually met it: as a
+		# court you have standing at and send money to. That is rip_uc_standing,
+		# a country variable in common/scripted_effects/greek_catholic_effects.txt,
+		# spent on the petitions in decisions/RIP_UniateCuria.txt.
+
+		# The upper panel: patriarch authority and the five icons. This faith
+		# declares no holy sites and no church power, so nothing contests the
+		# y=0 rectangle with it.
+		has_patriarchs = yes
+
+		# The frame is chosen by the entry's POSITION in this block, not by its
+		# name - vanilla carries no sprite field and the save stores a bare index -
+		# so these five keep vanilla's five paintings while carrying our own keys
+		# and our own text. Renaming matters: one vanilla scripted trigger and five
+		# vanilla mission files test current_icon = icon_michael and the rest, so
+		# overriding those keys would rename the icons of Russia, Byzantium, Serbia
+		# and Georgia too. Do not reorder them or the pictures shuffle.
+		orthodox_icons = {
+			# If no icon has ai_will_do above 1 - <current patriarch authority> , the AI will not enact it. (60% PA = 0.6 -> ai_will_do has to be at least 0.4)
+
+			rip_gc_icon_michael = {
+				discipline = 0.05
+				manpower_recovery_speed = 0.1
+
+				allow = {
+					always = yes
+				}
+
+				visible = {
+					always = yes
+				}
+
+				ai_will_do = {
+					factor = 0.05
+					modifier = {
+						factor = 0
+						is_at_war = no
+					}
+					modifier = {
+						factor = 3
+						is_in_important_war = yes
+					}
+				}
+			}
+
+			rip_gc_icon_eleusa = {
+				global_unrest = -3
+				harsh_treatment_cost = -0.25
+
+				allow = {
+					always = yes
+				}
+
+				visible = {
+					always = yes
+				}
+
+				ai_will_do = {
+					factor = 0.02
+					modifier = {
+						factor = 0
+						NOT = {
+							calc_true_if = {
+								all_owned_province = {
+									unrest = 1
+								}
+								amount = 2
+							}
+						}
+					}
+					modifier = {
+						factor = 3
+						calc_true_if = {
+							all_owned_province = {
+								unrest = 1
+							}
+							amount = 5
+						}
+					}
+				}
+			}
+
+			rip_gc_icon_pancreator = {
+				development_cost = -0.10
+				build_cost = -0.10
+
+				allow = {
+					always = yes
+				}
+
+				visible = {
+					always = yes
+				}
+
+				ai_will_do = {
+					factor = 0
+				}
+			}
+
+			rip_gc_icon_nicholas = {
+				improve_relation_modifier = 0.25
+				ae_impact = -0.10
+
+				allow = {
+					always = yes
+				}
+
+				visible = {
+					always = yes
+				}
+
+				ai_will_do = {
+					factor = 0.01
+				}
+			}
+
+			rip_gc_icon_climacus = {
+				global_institution_spread = 0.25
+				embracement_cost = -0.20
+
+				allow = {
+					always = yes
+				}
+
+				visible = {
+					always = yes
+				}
+
+				ai_will_do = {
+					factor = 0.02
+					modifier = {
+						factor = 0
+						NOT = {
+							calc_true_if = {
+								all_owned_province = {
+									current_institution = 1
+									NOT = { current_institution = 95 }
+								}
+								amount = 1
+							}
+						}
+					}
+					modifier = {
+						factor = 3
+						calc_true_if = {
+							all_owned_province = {
+								current_institution = 1
+								NOT = { current_institution = 95 }
+							}
+							amount = 5
+						}
+					}
+				}
+			}
+		}
+
+		hre_heretic_religion = yes
+
+		heretic = { BOGOMILIST }
+
+		date = 1596.10.6
+
+		on_convert = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = uniate_church_consolidation
+				duration = 3650
+			}
+		}
+	}
+}
