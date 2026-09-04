@@ -225,3 +225,31 @@ rip_uc_donation_effect = {
 rip_uc_spend_the_standing_effect = {
 	add_patriarch_authority = -0.15
 }
+
+# ==========================================================================
+# STANDING WITH ROME - THE LOOP, CLOSED
+#
+#   religious unity -> the union spreads -> standing at Rome -> petitions
+#
+# The union church never sat in the college of cardinals and never voted on
+# the throne of Peter, so it has no papal influence and no curia. What its
+# metropolitans really had was standing: a court that would read their letters
+# because they arrived with something behind them.
+#
+# What is behind them is the union itself. Every parish that comes over is
+# evidence the union works, and evidence is what a petition is argued from -
+# so rip_gc_unity_spread_effect calls this on every conversion, and the loop
+# is closed: unity buys parishes, parishes buy standing, standing buys
+# petitions, and petitions spend it back down.
+#
+# It is carried on patriarch authority rather than on a variable of its own,
+# and that is deliberate. greek_catholic declares has_patriarchs, so the bar
+# already exists, is already drawn with a number on it, and already prices the
+# icons and province modifiers of this rite. A separate rip_uc_standing
+# counter would need its own bar, EU4 gives no way to draw one, and the mod
+# has twice tried to fake it out of tooltip modifiers. It is the same
+# quantity: what the metropolitan can spend.
+# ==========================================================================
+rip_uc_gain_standing_effect = {
+	add_patriarch_authority = 0.02
+}

@@ -36,7 +36,15 @@ rip_faith_unity_budget_effect = {
 		who = ROOT
 	}
 
+	# The top rung is 1.0, not 0.95. The old ladder started at
+	# `religious_unity = 0.95 -> x0.95`, which meant a church in perfect
+	# agreement with itself still lost a twentieth of its budget for no
+	# reason - the one case where it should lose nothing at all.
 	if = {
+		limit = { religious_unity = 1 }
+		# budget = total development, untouched
+	}
+	else_if = {
 		limit = { religious_unity = 0.95 }
 		multiply_variable = { which = rip_faith_budget value = 0.95 }
 	}
@@ -82,18 +90,21 @@ rip_faith_unity_budget_effect = {
 	}
 }
 
-# One parish costs RIP_PARISH_COST development points out of the budget.
+# WHAT A PARISH COSTS
 #
-# Six is the cost, and it is a flat literal on purpose: vanilla's own variable
-# arithmetic only ever subtracts a literal inside a `while` (see
-# trade_income_variable in 00_scripted_effects.txt), and there is no
-# cross-scope `subtract_variable = { who = ... }` to charge a province's real
-# development against a country variable. Six is a little above the 1444
-# median for the Ruthenian provinces, so a realm at full unity converts
-# roughly one parish per six development it holds, per pulse.
+# It used to cost a flat six, which made a three-development hamlet and a
+# thirty-development see the same purchase and emptied the whole point out of a
+# development budget. It now costs by tier:
 #
-# The loop is what makes the rounding down real: the budget buys whole
-# parishes and the remainder is simply lost when the pulse ends.
+#     development 24+   ->  24        development 7+    ->   7
+#     development 16+   ->  16        below 7           ->   4
+#     development 11+   ->  11
+#
+# Five steps rather than the province's exact development, because EU4 has no
+# cross-scope `subtract_variable = { who = ... }` - a country variable cannot be
+# charged the value read from a province scope. The loop walks the tiers from
+# the top down, so it takes the cathedral cities while the budget is fat and the
+# hamlets as it runs out, and stops the moment nothing affordable is left.
 rip_gc_unity_spread_effect = {
 	rip_faith_unity_budget_effect = yes
 
@@ -105,7 +116,7 @@ rip_gc_unity_spread_effect = {
 	# neither had any reason to care about unity. Now the budget buys it.
 	while = {
 		limit = {
-			check_variable = { which = rip_faith_budget value = 6 }
+			check_variable = { which = rip_faith_budget value = 4 }
 			any_owned_province = {
 				is_city = yes
 				has_province_modifier = rip_uc_union_preaching
@@ -113,26 +124,169 @@ rip_gc_unity_spread_effect = {
 			}
 		}
 
-		subtract_variable = { which = rip_faith_budget value = 6 }
-
-		random_owned_province = {
+		if = {
 			limit = {
-				is_city = yes
-				has_province_modifier = rip_uc_union_preaching
-				NOT = { religion = greek_catholic }
+				check_variable = { which = rip_faith_budget value = 24 }
+				any_owned_province = {
+					is_city = yes
+					has_province_modifier = rip_uc_union_preaching
+					NOT = { religion = greek_catholic }
+					development = 24
+				}
 			}
-			# the union took the parish, not the province: the rite stays, the
-			# obedience changes, and the congregation notices
-			change_religion = greek_catholic
-			remove_province_modifier = rip_uc_union_preaching
-			add_province_modifier = {
-				name = greek_catholic_diocese
-				duration = 3650
+			subtract_variable = { which = rip_faith_budget value = 24 }
+			random_owned_province = {
+				limit = {
+					is_city = yes
+					has_province_modifier = rip_uc_union_preaching
+					NOT = { religion = greek_catholic }
+					development = 24
+				}
+				# the union took the parish, not the province: the rite stays,
+				# the obedience changes, and the congregation notices
+				change_religion = greek_catholic
+				remove_province_modifier = rip_uc_union_preaching
+				add_province_modifier = {
+					name = greek_catholic_diocese
+					duration = 3650
+				}
+				add_unrest = 3
+				# every parish that comes over is a letter the metropolitan can
+				# write to Rome from strength - this closes the standing loop
+				rip_uc_gain_standing_effect = yes
 			}
-			add_unrest = 3
+		}
+		else_if = {
+			limit = {
+				check_variable = { which = rip_faith_budget value = 16 }
+				any_owned_province = {
+					is_city = yes
+					has_province_modifier = rip_uc_union_preaching
+					NOT = { religion = greek_catholic }
+					development = 16
+				}
+			}
+			subtract_variable = { which = rip_faith_budget value = 16 }
+			random_owned_province = {
+				limit = {
+					is_city = yes
+					has_province_modifier = rip_uc_union_preaching
+					NOT = { religion = greek_catholic }
+					development = 16
+				}
+				# the union took the parish, not the province: the rite stays,
+				# the obedience changes, and the congregation notices
+				change_religion = greek_catholic
+				remove_province_modifier = rip_uc_union_preaching
+				add_province_modifier = {
+					name = greek_catholic_diocese
+					duration = 3650
+				}
+				add_unrest = 3
+				# every parish that comes over is a letter the metropolitan can
+				# write to Rome from strength - this closes the standing loop
+				rip_uc_gain_standing_effect = yes
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = { which = rip_faith_budget value = 11 }
+				any_owned_province = {
+					is_city = yes
+					has_province_modifier = rip_uc_union_preaching
+					NOT = { religion = greek_catholic }
+					development = 11
+				}
+			}
+			subtract_variable = { which = rip_faith_budget value = 11 }
+			random_owned_province = {
+				limit = {
+					is_city = yes
+					has_province_modifier = rip_uc_union_preaching
+					NOT = { religion = greek_catholic }
+					development = 11
+				}
+				# the union took the parish, not the province: the rite stays,
+				# the obedience changes, and the congregation notices
+				change_religion = greek_catholic
+				remove_province_modifier = rip_uc_union_preaching
+				add_province_modifier = {
+					name = greek_catholic_diocese
+					duration = 3650
+				}
+				add_unrest = 3
+				# every parish that comes over is a letter the metropolitan can
+				# write to Rome from strength - this closes the standing loop
+				rip_uc_gain_standing_effect = yes
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = { which = rip_faith_budget value = 7 }
+				any_owned_province = {
+					is_city = yes
+					has_province_modifier = rip_uc_union_preaching
+					NOT = { religion = greek_catholic }
+					development = 7
+				}
+			}
+			subtract_variable = { which = rip_faith_budget value = 7 }
+			random_owned_province = {
+				limit = {
+					is_city = yes
+					has_province_modifier = rip_uc_union_preaching
+					NOT = { religion = greek_catholic }
+					development = 7
+				}
+				# the union took the parish, not the province: the rite stays,
+				# the obedience changes, and the congregation notices
+				change_religion = greek_catholic
+				remove_province_modifier = rip_uc_union_preaching
+				add_province_modifier = {
+					name = greek_catholic_diocese
+					duration = 3650
+				}
+				add_unrest = 3
+				# every parish that comes over is a letter the metropolitan can
+				# write to Rome from strength - this closes the standing loop
+				rip_uc_gain_standing_effect = yes
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = { which = rip_faith_budget value = 4 }
+				any_owned_province = {
+					is_city = yes
+					has_province_modifier = rip_uc_union_preaching
+					NOT = { religion = greek_catholic }
+				}
+			}
+			subtract_variable = { which = rip_faith_budget value = 4 }
+			random_owned_province = {
+				limit = {
+					is_city = yes
+					has_province_modifier = rip_uc_union_preaching
+					NOT = { religion = greek_catholic }
+				}
+				# the union took the parish, not the province: the rite stays,
+				# the obedience changes, and the congregation notices
+				change_religion = greek_catholic
+				remove_province_modifier = rip_uc_union_preaching
+				add_province_modifier = {
+					name = greek_catholic_diocese
+					duration = 3650
+				}
+				add_unrest = 3
+				# every parish that comes over is a letter the metropolitan can
+				# write to Rome from strength - this closes the standing loop
+				rip_uc_gain_standing_effect = yes
+			}
+		}
+		else = {
+			# nothing affordable is left; drain so the loop cannot spin
+			set_variable = { which = rip_faith_budget value = 0 }
 		}
 	}
-
 	set_variable = { which = rip_faith_budget value = 0 }
 }
 
@@ -220,5 +374,176 @@ rip_uc_mark_uniate_areas_effect = {
 			}
 		}
 		set_province_flag = rip_uc_area_all_uniate
+	}
+}
+
+
+# ==========================================================================
+# THE SCHISM ITSELF, PAID FOR IN DEVELOPMENT
+#
+# 1448 was not a pastoral campaign. The metropolitanate elected its own
+# metropolitan without Constantinople, and the sees that answered to Moscow
+# were on the far side of the line the following morning - but only the sees
+# that answered to Moscow. A metropolitanate reaches as far as its own
+# obedience reaches, and no further.
+#
+# So the schism converts an amount of DEVELOPMENT, not a list of provinces:
+#   floor( religious unity * total development ), spent six at a time.
+# A church that already agrees with itself carries nearly all of its ground
+# across at once. A realm holding a quarter of its people in another rite
+# carries a quarter, and has to work for the rest.
+#
+# This replaces two earlier attempts, both wrong: converting only the capital
+# (which left dominant_religion as plain orthodox and silently locked the
+# country out of Propagate Religion), and converting every Orthodox province
+# outright (which was free and made unity meaningless at the one moment it
+# should matter most).
+# ==========================================================================
+rip_ro_schism_conversion_effect = {
+	rip_faith_unity_budget_effect = yes
+
+	while = {
+		limit = {
+			check_variable = { which = rip_faith_budget value = 4 }
+			any_owned_province = {
+				is_city = yes
+				religion = orthodox
+			}
+		}
+
+		if = {
+			limit = {
+				check_variable = { which = rip_faith_budget value = 24 }
+				any_owned_province = {
+					is_city = yes
+					religion = orthodox
+					development = 24
+				}
+			}
+			subtract_variable = { which = rip_faith_budget value = 24 }
+			random_owned_province = {
+				limit = {
+					is_city = yes
+					religion = orthodox
+					development = 24
+				}
+				change_religion = russian_orthodox
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = { which = rip_faith_budget value = 16 }
+				any_owned_province = {
+					is_city = yes
+					religion = orthodox
+					development = 16
+				}
+			}
+			subtract_variable = { which = rip_faith_budget value = 16 }
+			random_owned_province = {
+				limit = {
+					is_city = yes
+					religion = orthodox
+					development = 16
+				}
+				change_religion = russian_orthodox
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = { which = rip_faith_budget value = 11 }
+				any_owned_province = {
+					is_city = yes
+					religion = orthodox
+					development = 11
+				}
+			}
+			subtract_variable = { which = rip_faith_budget value = 11 }
+			random_owned_province = {
+				limit = {
+					is_city = yes
+					religion = orthodox
+					development = 11
+				}
+				change_religion = russian_orthodox
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = { which = rip_faith_budget value = 7 }
+				any_owned_province = {
+					is_city = yes
+					religion = orthodox
+					development = 7
+				}
+			}
+			subtract_variable = { which = rip_faith_budget value = 7 }
+			random_owned_province = {
+				limit = {
+					is_city = yes
+					religion = orthodox
+					development = 7
+				}
+				change_religion = russian_orthodox
+			}
+		}
+		else_if = {
+			limit = {
+				check_variable = { which = rip_faith_budget value = 4 }
+				any_owned_province = {
+					is_city = yes
+					religion = orthodox
+				}
+			}
+			subtract_variable = { which = rip_faith_budget value = 4 }
+			random_owned_province = {
+				limit = {
+					is_city = yes
+					religion = orthodox
+				}
+				change_religion = russian_orthodox
+			}
+		}
+		else = {
+			# nothing affordable is left; drain so the loop cannot spin
+			set_variable = { which = rip_faith_budget value = 0 }
+		}
+	}
+	# The capital goes across whatever the arithmetic says. A metropolitan
+	# who has broken with Constantinople does not leave his own cathedral
+	# commemorating the Patriarch.
+	capital_scope = {
+		if = {
+			limit = { religion = orthodox }
+			change_religion = russian_orthodox
+		}
+	}
+
+	set_variable = { which = rip_faith_budget value = 0 }
+}
+
+
+# ==========================================================================
+# THE CHURCH CONSOLIDATING ITSELF
+#
+# The schism is one moment; this is the century after it. The same budget,
+# run on every pulse: a Muscovite church that agrees with itself keeps
+# bringing the parishes that stayed Orthodox across, and one that is arguing
+# barely moves at all.
+#
+# It is the internal half of the Russian Orthodox loop - the icons and the
+# Sobor are the external half - and it is why religious unity matters to this
+# faith outside the one turn it converts.
+# ==========================================================================
+rip_ro_consolidation_effect = {
+	if = {
+		limit = {
+			religion = russian_orthodox
+			any_owned_province = {
+				is_city = yes
+				religion = orthodox
+			}
+		}
+		rip_ro_schism_conversion_effect = yes
 	}
 }

@@ -2,26 +2,28 @@
 convert_to_russian_orthodox_effect = {
 	change_religion = russian_orthodox
 
-	# THE SEES GO WITH THE SEE.
+	# THE SEES GO WITH THE SEE - AS FAR AS THE OBEDIENCE REACHES.
 	#
 	# This is not the union, which spread parish by parish over a century.
 	# 1448 was a metropolitanate electing its own metropolitan without
 	# Constantinople: the rite did not change, nobody in a village noticed,
-	# and the whole Muscovite church was on the far side of the line the
-	# following morning. Converting only the capital left a country whose own
-	# DOMINANT religion was still plain orthodox - which, besides being wrong,
-	# silently locked it out of the trade node policy Propagate Religion,
-	# whose vanilla gate is `dominant_religion = ROOT`.
+	# and the sees that answered to Moscow were on the far side of the line the
+	# following morning. But only the sees that answered to Moscow - a
+	# metropolitanate reaches exactly as far as its own obedience does.
 	#
-	# Only Orthodox provinces move. Catholic, Sunni and everything else the
-	# realm holds are somebody else's problem and stay where they are.
-	every_owned_province = {
-		limit = {
-			is_city = yes
-			religion = orthodox
-		}
-		change_religion = russian_orthodox
-	}
+	# So the schism converts a BUDGET of development rather than a list:
+	# floor( religious unity * total development ), spent six at a time. See
+	# rip_ro_schism_conversion_effect in
+	# common/scripted_effects/rip_faith_spread_effects.txt.
+	#
+	# Two earlier versions of this were wrong in opposite directions.
+	# Converting only the capital left a country whose DOMINANT religion was
+	# still plain orthodox, which silently locked it out of the trade node
+	# policy Propagate Religion - vanilla's gate there is
+	# `dominant_religion = ROOT`. Converting every Orthodox province outright
+	# was free, and made religious unity meaningless at the one moment it
+	# ought to decide the most.
+	rip_ro_schism_conversion_effect = yes
 	add_country_modifier = {
 		name = third_rome_ideology
 		duration = 5475

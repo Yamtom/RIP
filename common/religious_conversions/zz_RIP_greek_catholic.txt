@@ -67,8 +67,8 @@ greek_catholic_center_of_reformation = {
 		}
 
 		# --- the union takes two rites and nothing else ---------------------
-		# allowed_center_conversion is the real gate; these keep the weight
-		# table honest about it and stop the centre eyeing ground it may
+		# allowed_center_conversion is the real gate; this keeps the weight
+		# table honest about it and stops the centre eyeing ground it may
 		# never have.
 		modifier = {
 			factor = 0
@@ -78,6 +78,38 @@ greek_catholic_center_of_reformation = {
 					religion = russian_orthodox
 					religion = catholic
 				}
+			}
+		}
+
+		# --- AND IT TAKES THE SIDE ITS OWNER IS NOT -------------------------
+		# The union was never a way of converting your own people. It was the
+		# answer a ruler reached for when he held subjects of the OTHER rite
+		# and could not move them: a Catholic crown with Orthodox parishes it
+		# was not allowed to latinise, or an Orthodox one with Latin subjects
+		# it had no standing over. The union let each keep its own and take
+		# the other's without anybody apostatising.
+		#
+		# So the centre works against the owner's own rite, never with it. A
+		# Catholic owner's Orthodox parishes go over; an Orthodox owner's
+		# Catholic ones do. A province of the owner's own confession is
+		# untouchable, which is what stops this being a free conversion engine
+		# pointed at your own realm.
+		modifier = {
+			factor = 0
+			owner = { religion = catholic }
+			religion = catholic
+		}
+		modifier = {
+			factor = 0
+			owner = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+			}
+			OR = {
+				religion = orthodox
+				religion = russian_orthodox
 			}
 		}
 
@@ -116,12 +148,21 @@ greek_catholic_center_of_reformation = {
 		}
 
 		# --- priority inside what is left -----------------------------------
+		# A Catholic crown's Orthodox parishes are the historical case and the
+		# likeliest one; the mirror is rarer and slower.
 		modifier = {
 			factor = 2
+			owner = { religion = catholic }
 			religion = orthodox
 		}
 		modifier = {
-			factor = 1.5
+			factor = 1.25
+			owner = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+			}
 			religion = catholic
 		}
 		modifier = {
