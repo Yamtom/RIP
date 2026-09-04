@@ -172,37 +172,16 @@ activate_greek_catholic_reformation = {
 # what the Ruthenian sees did, and complained about doing, for two centuries.
 
 rip_uc_standing_tick_effect = {
-	if = {
-		limit = {
-			religion = greek_catholic
-			check_variable = { which = rip_uc_standing value = 3 }
-		}
-		subtract_variable = {
-			which = rip_uc_standing
-			value = 2
-		}
-	}
-	# a legate resident at the court keeps the name in front of it
+	# The legate resident at the court keeps the see's name in front of it, and
+	# that is worth authority at home as much as at Rome. This is the only
+	# thing left of the old rip_uc_standing counter: the counter, its decay and
+	# its five band modifiers are gone, because the faith has a real bar.
 	if = {
 		limit = {
 			religion = greek_catholic
 			has_country_modifier = papal_legate
-			NOT = { check_variable = { which = rip_uc_standing value = 100 } }
 		}
-		change_variable = {
-			which = rip_uc_standing
-			value = 3
-		}
-	}
-	# Same guard as the Sobor's: on_bi_yearly_pulse is global, and unguarded this
-	# put "The Curia: unknown at Rome" on every country on the map. The else
-	# sheds the band for a country that leaves the faith.
-	if = {
-		limit = { religion = greek_catholic }
-		rip_uc_show_the_standing_effect = yes
-	}
-	else = {
-		rip_uc_clear_the_bands_effect = yes
+		add_patriarch_authority = 0.02
 	}
 }
 
@@ -216,45 +195,21 @@ rip_uc_clear_the_bands_effect = {
 	}
 }
 
+# The four rip_uc_curia_* band modifiers stood here, switched by the value of
+# rip_uc_standing to fake a progress bar out of tooltips. The faith has a real
+# one - patriarch authority, from has_patriarchs - so the bands are retired and
+# this effect only sheds them from saves that still carry one.
 rip_uc_show_the_standing_effect = {
-	hidden_effect = {
-		remove_country_modifier = rip_uc_curia_unknown
-		remove_country_modifier = rip_uc_curia_heard
-		remove_country_modifier = rip_uc_curia_favoured
-		remove_country_modifier = rip_uc_curia_protected
-		if = {
-			limit = { check_variable = { which = rip_uc_standing value = 75 } }
-			add_country_modifier = { name = rip_uc_curia_protected duration = -1 }
-		}
-		else_if = {
-			limit = { check_variable = { which = rip_uc_standing value = 50 } }
-			add_country_modifier = { name = rip_uc_curia_favoured duration = -1 }
-		}
-		else_if = {
-			limit = { check_variable = { which = rip_uc_standing value = 25 } }
-			add_country_modifier = { name = rip_uc_curia_heard duration = -1 }
-		}
-		else = {
-			add_country_modifier = { name = rip_uc_curia_unknown duration = -1 }
-		}
-	}
+	rip_uc_clear_the_bands_effect = yes
 }
 
 # A donation. The see pays, the court remembers, and it will not be asked twice in
 # the same three years.
 rip_uc_donation_effect = {
 	add_treasury = -150
-	change_variable = {
-		which = rip_uc_standing
-		value = 12
-	}
-	if = {
-		limit = { check_variable = { which = rip_uc_standing value = 101 } }
-		set_variable = {
-			which = rip_uc_standing
-			value = 100
-		}
-	}
+	# money sent to Rome comes back as standing the metropolitan can spend at
+	# home; the engine caps patriarch authority at 1.0 by itself
+	add_patriarch_authority = 0.12
 	add_country_modifier = {
 		name = rip_uc_donation_recently_sent
 		duration = 1095
@@ -264,10 +219,9 @@ rip_uc_donation_effect = {
 
 # A petition spends the standing it needs. The court does a favour once and then
 # expects to be reminded who asked for it.
+# A petition is not free and it is not paid in coin alone. What it costs is
+# the metropolitan's own authority: every letter to Rome is a letter that says
+# the see could not settle the matter itself, and the parishes hear about it.
 rip_uc_spend_the_standing_effect = {
-	subtract_variable = {
-		which = rip_uc_standing
-		value = 15
-	}
-	rip_uc_show_the_standing_effect = yes
+	add_patriarch_authority = -0.15
 }

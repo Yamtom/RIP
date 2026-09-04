@@ -203,7 +203,7 @@ country_event = {
 		rip_ucr_take_the_church_effect = yes
 		set_country_flag = rip_ucr_terms_as_written
 
-		change_variable = { which = rip_uc_standing value = 25 }
+		add_patriarch_authority = 0.25
 		rip_uc_show_the_standing_effect = yes
 
 		country_event = { id = uniate_crown.3 days = 21 }
@@ -227,7 +227,7 @@ country_event = {
 
 		add_treasury = -200
 		# A second ask is answered, and remembered as a second ask.
-		change_variable = { which = rip_uc_standing value = 15 }
+		add_patriarch_authority = 0.15
 		rip_uc_show_the_standing_effect = yes
 		add_prestige = -5
 
@@ -631,12 +631,9 @@ country_event = {
 			duration = -1
 		}
 		add_treasury = -200
-		change_variable = { which = rip_uc_standing value = 25 }
-		if = {
-			limit = { check_variable = { which = rip_uc_standing value = 101 } }
-			set_variable = { which = rip_uc_standing value = 100 }
-		}
-		rip_uc_show_the_standing_effect = yes
+		# the engine caps patriarch authority at 1.0 by itself, so the old
+		# manual clamp on rip_uc_standing goes with the counter
+		add_patriarch_authority = 0.25
 
 		if = {
 			limit = { has_country_flag = rip_ucr_want_title }

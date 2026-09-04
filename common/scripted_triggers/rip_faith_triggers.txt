@@ -11,10 +11,17 @@
 # the petitions remain the way in. The gate is the test.
 rip_uc_can_petition_the_curia = {
 	religion = greek_catholic
-	custom_trigger_tooltip = {
-		tooltip = rip_uc_standing_tt
-		check_variable = { which = rip_uc_standing value = 25 }
-	}
+	# Standing at Rome IS patriarch authority for this faith.
+	#
+	# It used to be rip_uc_standing, a country variable with no bar, faked in
+	# the tooltips with five band modifiers. greek_catholic declares
+	# has_patriarchs, so it already owns a real engine bar with a real number
+	# on it - and that bar already does what the Uniate metropolitan's standing
+	# should do, because patriarch authority is what the icons and the province
+	# modifiers of this rite are priced in. So the petitions read it, and
+	# spend it. A church that has spent itself at Rome has nothing left to
+	# spend at home, which is the whole argument the brotherhoods made.
+	patriarch_authority = 0.25
 	exists = PAP
 	NOT = { war_with = PAP }
 	NOT = { has_country_modifier = rip_uc_petition_cooldown }

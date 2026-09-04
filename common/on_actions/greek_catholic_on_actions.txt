@@ -48,16 +48,10 @@ on_bi_yearly_pulse = {
 }
 
 on_religion_change = {
-	# This hook fires on ANY religion change, so it has to ask which one. It is
-	# also the right place for the cleanup: a country that has just left the
-	# faith sheds its Curia band here rather than carrying it for ever.
-	if = {
-		limit = { religion = greek_catholic }
-		rip_uc_show_the_standing_effect = yes
-	}
-	else = {
-		rip_uc_clear_the_bands_effect = yes
-	}
+	# Migration only. The four rip_uc_curia_* band modifiers faked a progress
+	# bar for a faith that turned out to own a real one; a save from before
+	# the change still carries one, and nothing else would take it off.
+	rip_uc_clear_the_bands_effect = yes
 
 	events = {
 		uniate_church.9  # Establishment of Greek Catholic Center

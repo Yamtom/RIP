@@ -278,7 +278,7 @@ country_decisions = {
 			has_country_flag = rip_uc_see_raised
 			exists = PAP
 			NOT = { has_country_modifier = rip_uc_donation_recently_sent }
-			NOT = { check_variable = { which = rip_uc_standing value = 100 } }
+			NOT = { patriarch_authority = 1.00 }
 		}
 
 		allow = {
@@ -294,7 +294,7 @@ country_decisions = {
 			factor = 2
 			modifier = {
 				factor = 3
-				NOT = { check_variable = { which = rip_uc_standing value = 25 } }
+				NOT = { patriarch_authority = 0.25 }
 			}
 		}
 	}
