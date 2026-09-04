@@ -1,0 +1,77 @@
+# ==========================================================================
+# WHICH ICONS EXIST, AND HOW MANY MAY STAND
+#
+# These were `allow` blocks inside orthodox_icons in
+# common/religions/russian_orthodox.txt. The native mechanic holds one icon at
+# a time and could not carry the four-slot iconostasis, so it is switched off
+# and the gates move here, where the decisions in
+# decisions/RIP_OrthodoxIcons.txt can read them.
+#
+# The unlock is the holy sites. Nothing else. A church that holds no see of its
+# own has the Archangel and that is all; every other icon is a city.
+# ==========================================================================
+
+# The Archangel needs no see behind him. This is the icon a church has before
+# it has anything else.
+rip_ro_icon_michael_unlocked = {
+	always = yes
+}
+
+# Held from the first, but only by a church with parishes of its own to carry
+# her through. Three is a metropolitanate, not a chapel.
+rip_ro_icon_eleusa_unlocked = {
+	num_of_owned_provinces_with = {
+		value = 3
+		religion = russian_orthodox
+	}
+}
+
+# Moscow. The Almighty over the builders is the Third Rome's own icon and it
+# belongs to whoever holds the city.
+rip_ro_icon_pancreator_unlocked = {
+	owns_or_non_sovereign_subject_of = 295
+}
+
+# Novgorod or Kyiv - the two sees that traded and negotiated for the Rus long
+# before Moscow did.
+rip_ro_icon_nicholas_unlocked = {
+	OR = {
+		owns_or_non_sovereign_subject_of = 310
+		owns_or_non_sovereign_subject_of = 280
+	}
+}
+
+# Constantinople or Jerusalem. The Ladder is a Sinai book and the learning it
+# stands for comes up the pilgrim roads, not out of the forest.
+rip_ro_icon_climacus_unlocked = {
+	OR = {
+		owns_or_non_sovereign_subject_of = 151
+		owns_or_non_sovereign_subject_of = 379
+	}
+}
+
+# IS THERE A LAMP FREE?
+#
+#     any authority at all  ->  1        0.55  ->  3
+#     0.30                  ->  2        0.80  ->  4
+#
+# Read straight off patriarch authority rather than off a cached count, so a
+# slot opens the moment the authority reaches the tier. The first clause is
+# the floor: a metropolitan nobody obeys still gets one icon.
+rip_ro_icon_slot_free = {
+	OR = {
+		NOT = { check_variable = { which = rip_ro_icon_count value = 1 } }
+		AND = {
+			patriarch_authority = 0.3
+			NOT = { check_variable = { which = rip_ro_icon_count value = 2 } }
+		}
+		AND = {
+			patriarch_authority = 0.55
+			NOT = { check_variable = { which = rip_ro_icon_count value = 3 } }
+		}
+		AND = {
+			patriarch_authority = 0.8
+			NOT = { check_variable = { which = rip_ro_icon_count value = 4 } }
+		}
+	}
+}

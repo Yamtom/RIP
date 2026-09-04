@@ -1,0 +1,219 @@
+# ==========================================================================
+# THE ICONOSTASIS - FOUR LAMPS, NOT ONE
+#
+# WHY THIS IS SCRIPT AND NOT THE PANEL
+#
+# The engine's own mechanic, `orthodox_icons` in the religion file, holds
+# EXACTLY ONE icon at a time. That is not a setting anywhere; picking a second
+# icon takes the first one down, and no field in the block changes it. The
+# design this file implements - four standing at once, unlocked by holy sites,
+# equipped against patriarch authority, kept alight with fervour - cannot be
+# expressed in that mechanic at all.
+#
+# So the native icons are switched off (every entry in
+# common/religions/russian_orthodox.txt is now `visible = no`, which leaves
+# vanilla's GFX_icon_none in the panel and the SELECT button opening an empty
+# picker) and the iconostasis is rebuilt here out of the three things EU4 does
+# let script hold: country modifiers, a counter, and fervour.
+#
+# THE LOOP, END TO END
+#
+#   holy sites  ->  which icons exist for this church at all
+#   patriarch authority ->  how many may stand at once (1, 2, 3 or 4)
+#   fervour ->  lights them, and keeps them alight
+#
+# Nothing here is free. An icon that is standing is being paid for every
+# pulse, and a church that stops paying watches the lamps go out from the
+# outside in.
+#
+# WHAT THE UPKEEP COSTS, AND WHY THOSE NUMBERS
+#
+# monthly_fervor_increase is 1 in common/static_modifiers, so a bi-yearly
+# pulse is worth about 24 fervour, against a cap of 100. The table below is
+# deliberately not linear:
+#
+#     1 icon  ->  2      3 icons ->  9
+#     2 icons ->  5      4 icons -> 14
+#
+# One or two lamps cost almost nothing. The fourth is what hurts: four
+# standing is 14 of the 24 a pulse brings in, which leaves 10 - and a sitting
+# of the Sobor costs 8. So a church CAN run a full iconostasis and a fervour
+# focus at once, and it will be living hand to mouth doing it. That is the
+# intended shape of the choice, not an accident of the arithmetic.
+# ==========================================================================
+
+# HOW MANY MAY STAND
+#
+#     any authority at all  ->  1        0.55  ->  3
+#     0.30                  ->  2        0.80  ->  4
+#
+# A metropolitan who is not obeyed does not get to decide what hangs in every
+# church in the realm; one who is obeyed decides all of it. There is no cached
+# slot count anywhere - both the decision gate
+# (rip_ro_icon_slot_free, common/scripted_triggers/rip_ro_icon_triggers.txt)
+# and the upkeep below read patriarch authority straight off the country, so a
+# slot opens the moment the authority reaches the tier rather than at the next
+# pulse, and the two can never disagree about how many are allowed.
+
+# Count what is actually standing, from the modifiers rather than from the
+# counter. Anything that removes an icon behind this file's back - a save from
+# before the change, a modifier expiring, a religion change - is corrected the
+# next time this runs, so the counter can never drift out of step with the
+# iconostasis it is counting.
+rip_ro_icon_recount_effect = {
+	set_variable = { which = rip_ro_icon_count value = 0 }
+	if = {
+		limit = { has_country_modifier = rip_ro_icon_michael }
+		change_variable = { which = rip_ro_icon_count value = 1 }
+	}
+	if = {
+		limit = { has_country_modifier = rip_ro_icon_eleusa }
+		change_variable = { which = rip_ro_icon_count value = 1 }
+	}
+	if = {
+		limit = { has_country_modifier = rip_ro_icon_pancreator }
+		change_variable = { which = rip_ro_icon_count value = 1 }
+	}
+	if = {
+		limit = { has_country_modifier = rip_ro_icon_nicholas }
+		change_variable = { which = rip_ro_icon_count value = 1 }
+	}
+	if = {
+		limit = { has_country_modifier = rip_ro_icon_climacus }
+		change_variable = { which = rip_ro_icon_count value = 1 }
+	}
+}
+
+# One lamp out, and always the same order: the outermost first. The Ladder is
+# a Sinai book and the two Greek brothers are a borrowing; the Archangel is
+# the icon a Rus church has before it has anything else, and he is the last to
+# go dark.
+rip_ro_icon_douse_one_effect = {
+	if = {
+		limit = { has_country_modifier = rip_ro_icon_climacus }
+		remove_country_modifier = rip_ro_icon_climacus
+	}
+	else_if = {
+		limit = { has_country_modifier = rip_ro_icon_nicholas }
+		remove_country_modifier = rip_ro_icon_nicholas
+	}
+	else_if = {
+		limit = { has_country_modifier = rip_ro_icon_pancreator }
+		remove_country_modifier = rip_ro_icon_pancreator
+	}
+	else_if = {
+		limit = { has_country_modifier = rip_ro_icon_eleusa }
+		remove_country_modifier = rip_ro_icon_eleusa
+	}
+	else_if = {
+		limit = { has_country_modifier = rip_ro_icon_michael }
+		remove_country_modifier = rip_ro_icon_michael
+	}
+	rip_ro_icon_recount_effect = yes
+}
+
+# Everything down. A church that changes obedience does not keep the previous
+# one's iconostasis standing.
+rip_ro_icon_douse_all_effect = {
+	hidden_effect = {
+		remove_country_modifier = rip_ro_icon_michael
+		remove_country_modifier = rip_ro_icon_eleusa
+		remove_country_modifier = rip_ro_icon_pancreator
+		remove_country_modifier = rip_ro_icon_nicholas
+		remove_country_modifier = rip_ro_icon_climacus
+	}
+	set_variable = { which = rip_ro_icon_count value = 0 }
+}
+
+# The pulse. Recount, re-read the slots, take the fervour, and if either the
+# fervour or the authority has run short, put a lamp out.
+rip_ro_icon_upkeep_effect = {
+	if = {
+		limit = { religion = russian_orthodox }
+		rip_ro_icon_recount_effect = yes
+
+		# AUTHORITY LOST TAKES A LAMP WITH IT.
+		# The slots are not a ratchet. A metropolitan whose authority falls
+		# below the tier that equipped a slot loses the slot, and the icon in
+		# it comes down - one a pulse, so a collapse is visible rather than
+		# instant. One slot is the floor, so a single standing icon is never in
+		# surplus and the case does not appear here.
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						check_variable = { which = rip_ro_icon_count value = 2 }
+						NOT = { patriarch_authority = 0.3 }
+					}
+					AND = {
+						check_variable = { which = rip_ro_icon_count value = 3 }
+						NOT = { patriarch_authority = 0.55 }
+					}
+					AND = {
+						check_variable = { which = rip_ro_icon_count value = 4 }
+						NOT = { patriarch_authority = 0.8 }
+					}
+				}
+			}
+			rip_ro_icon_douse_one_effect = yes
+		}
+
+		# THE OIL.
+		if = {
+			limit = { check_variable = { which = rip_ro_icon_count value = 4 } }
+			if = {
+				limit = { fervor = 14 }
+				add_fervor = -14
+			}
+			else = {
+				rip_ro_icon_douse_one_effect = yes
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_ro_icon_count value = 3 } }
+			if = {
+				limit = { fervor = 9 }
+				add_fervor = -9
+			}
+			else = {
+				rip_ro_icon_douse_one_effect = yes
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_ro_icon_count value = 2 } }
+			if = {
+				limit = { fervor = 5 }
+				add_fervor = -5
+			}
+			else = {
+				rip_ro_icon_douse_one_effect = yes
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_ro_icon_count value = 1 } }
+			if = {
+				limit = { fervor = 2 }
+				add_fervor = -2
+			}
+			else = {
+				rip_ro_icon_douse_one_effect = yes
+			}
+		}
+	}
+	else = {
+		# Not this faith any more, or never was. Nothing standing, nothing owed.
+		rip_ro_icon_douse_all_effect = yes
+	}
+}
+
+# What every lighting decision pays. Kept here rather than repeated five times
+# so the price is in one place when it needs changing.
+#
+# Fifteen fervour is about fifteen months of accumulation at the base rate, and
+# it is charged again on every relighting - which is what makes swapping the
+# iconostasis around a real decision rather than a free rearrangement.
+rip_ro_icon_light_cost_effect = {
+	add_fervor = -15
+	change_variable = { which = rip_ro_icon_count value = 1 }
+	add_prestige = 2
+}

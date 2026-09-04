@@ -390,14 +390,7 @@ country_event = {
 		ai_chance = { factor = 30 }
 		
 		1082 = {
-			add_province_modifier = {
-				name = orthodox_mission_established
-				duration = -1
-			}
-			if = {
-				limit = { NOT = { has_building = temple } }
-				add_building = temple
-			}
+			establish_orthodox_mission_effect = yes
 		}
 	}
 	
@@ -625,11 +618,7 @@ country_event = {
 				region = west_siberia_region
 				NOT = { religion = russian_orthodox }
 			}
-			change_religion = russian_orthodox
-			add_province_modifier = {
-				name = russian_monastery_established
-				duration = -1
-			}
+			establish_monastery_mission_effect = yes
 		}
 	}
 	
@@ -749,14 +738,7 @@ province_event = {
 		name = russian_orthodox.15.a
 		ai_chance = { factor = 60 }
 		
-		add_province_modifier = {
-			name = garrison_and_mission
-			duration = 5475
-		}
-		spawn_rebels = {
-			type = nationalist_rebels
-			size = 1
-		}
+		suppress_cultural_resistance_effect = yes
 	}
 	
 	option = { # Grant concessions

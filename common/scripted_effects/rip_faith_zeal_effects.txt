@@ -1,0 +1,216 @@
+# ==========================================================================
+# WHAT CONVERSION COSTS THE PARISHES
+#
+# The budget in rip_faith_spread_effects.txt moves parishes from one obedience
+# to another every pulse, and until now it did that in silence. A church does
+# not reassign a province the way a chancery reassigns a district. Somebody in
+# it refuses, and this file is where the refusal happens.
+#
+# Two refusals, and they are not the same people:
+#
+#   THE OLD RITE. Those who would not follow Moscow out of Constantinople's
+#   obedience, or Kyiv into Rome's. They are in the provinces that have NOT
+#   come over yet, and they rise hardest while the wave is still moving -
+#   which is why the chance is read off rip_faith_stage: half on the first
+#   step, a fifth once it has settled to a quarter.
+#
+#   THE OLD BELIEVERS. The other end entirely: not people who refused the new
+#   obedience but people who kept the OLD books after their own church changed
+#   them. They are inside the faith, in its own provinces, and they appear
+#   only after the Raskol. The more icons the church has standing, the more of
+#   them - an iconostasis is the church declaring what is correct, and that is
+#   the argument they are having.
+#
+# Both are chance. What is NOT chance is the unrest: every pulse that converts
+# anybody raises it, whether or not anyone marches.
+# ==========================================================================
+
+# One rising of the old rite, wherever it has somewhere to stand.
+rip_ro_old_rite_rising_effect = {
+	random_owned_province = {
+		limit = {
+			is_city = yes
+			religion = orthodox
+		}
+		spawn_rebels = {
+			type = orthodox_rebels
+			size = 1
+		}
+		add_unrest = 4
+	}
+}
+
+# One rising of the Old Believers, inside the faith's own ground.
+rip_ro_old_believer_rising_effect = {
+	random_owned_province = {
+		limit = {
+			is_city = yes
+			religion = russian_orthodox
+		}
+		spawn_rebels = {
+			type = heretic_rebels
+			size = 1
+		}
+		add_unrest = 3
+	}
+}
+
+rip_ro_zealot_backlash_effect = {
+	if = {
+		limit = {
+			religion = russian_orthodox
+			any_owned_province = {
+				is_city = yes
+				religion = orthodox
+			}
+		}
+
+		# The standing pressure. Not a rising - a parish that reads the wrong
+		# name at the liturgy and is told to stop.
+		random_owned_province = {
+			limit = {
+				is_city = yes
+				religion = orthodox
+			}
+			add_unrest = 1
+		}
+
+		# The rising itself, hardest while the wave is moving.
+		if = {
+			limit = { NOT = { check_variable = { which = rip_faith_stage value = 2 } } }
+			random = {
+				chance = 50
+				rip_ro_old_rite_rising_effect = yes
+			}
+		}
+		else_if = {
+			limit = { NOT = { check_variable = { which = rip_faith_stage value = 3 } } }
+			random = {
+				chance = 35
+				rip_ro_old_rite_rising_effect = yes
+			}
+		}
+		else = {
+			random = {
+				chance = 20
+				rip_ro_old_rite_rising_effect = yes
+			}
+		}
+	}
+
+	# THE OLD BELIEVERS
+	#
+	# Only after the church has changed its own books - rip_ro_stage_raskol is
+	# set by russian_orthodox.6 and by the disaster in
+	# common/disasters/rip_faith_disasters.txt. Before that there is nothing
+	# for them to be old believers about.
+	if = {
+		limit = {
+			religion = russian_orthodox
+			has_country_flag = rip_ro_stage_raskol
+			any_owned_province = {
+				is_city = yes
+				religion = russian_orthodox
+			}
+		}
+		if = {
+			limit = { check_variable = { which = rip_ro_icon_count value = 3 } }
+			random = {
+				chance = 30
+				rip_ro_old_believer_rising_effect = yes
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = rip_ro_icon_count value = 1 } }
+			random = {
+				chance = 20
+				rip_ro_old_believer_rising_effect = yes
+			}
+		}
+		else = {
+			random = {
+				chance = 10
+				rip_ro_old_believer_rising_effect = yes
+			}
+		}
+	}
+}
+
+
+# ==========================================================================
+# THE BROTHERHOODS
+#
+# The Uniate half of the same problem, and it had a name: the stauropegial
+# brotherhoods of Lviv and Vilnius, lay confraternities that answered to
+# Constantinople directly and spent two centuries refusing to answer to
+# anybody in communion with Rome. They are the Orthodox parishes the union
+# has not taken, and the ones it has just taken and not yet digested.
+#
+# No Old Believers here. That quarrel is about Muscovite service books and
+# has nothing to do with a church that never adopted them.
+# ==========================================================================
+rip_uc_brotherhood_rising_effect = {
+	random_owned_province = {
+		limit = {
+			is_city = yes
+			OR = {
+				religion = orthodox
+				religion = russian_orthodox
+				# a parish taken within the last ten years, still arguing
+				has_province_modifier = greek_catholic_diocese
+			}
+		}
+		spawn_rebels = {
+			type = orthodox_rebels
+			size = 1
+		}
+		add_unrest = 4
+	}
+}
+
+rip_uc_zealot_backlash_effect = {
+	if = {
+		limit = {
+			religion = greek_catholic
+			any_owned_province = {
+				is_city = yes
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+			}
+		}
+
+		random_owned_province = {
+			limit = {
+				is_city = yes
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+			}
+			add_unrest = 1
+		}
+
+		if = {
+			limit = { NOT = { check_variable = { which = rip_faith_stage value = 2 } } }
+			random = {
+				chance = 50
+				rip_uc_brotherhood_rising_effect = yes
+			}
+		}
+		else_if = {
+			limit = { NOT = { check_variable = { which = rip_faith_stage value = 3 } } }
+			random = {
+				chance = 35
+				rip_uc_brotherhood_rising_effect = yes
+			}
+		}
+		else = {
+			random = {
+				chance = 20
+				rip_uc_brotherhood_rising_effect = yes
+			}
+		}
+	}
+}

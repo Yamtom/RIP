@@ -28,7 +28,9 @@
 # and it is visible rather than hidden in a float.
 # ==========================================================================
 
-# budget = floor( religious_unity * total development ), in development points
+# budget = floor( religious_unity * total development / 10 * step ), in
+# development points, where step is 0.75 on the first pulse, 0.50 on the
+# second and 0.25 on every pulse after that.
 rip_faith_unity_budget_effect = {
 	export_to_variable = {
 		which = rip_faith_budget
@@ -88,6 +90,76 @@ rip_faith_unity_budget_effect = {
 		# Below a third, the church is arguing with itself and converts nobody.
 		set_variable = { which = rip_faith_budget value = 0 }
 	}
+
+	# THE TITHE.
+	#
+	# A tenth of the realm's development, not all of it. The whole development
+	# of a country is what it IS, not what its church can put on the road in two
+	# years, and using the raw figure made the mechanic finish in one pulse:
+	# a 502-development Muscovy at full unity converted all forty-eight of its
+	# remaining parishes on the first tick. With the tithe the same realm takes
+	# twenty-five pulses - fifty years - and a realm at 0.6 unity takes ninety.
+	divide_variable = { which = rip_faith_budget value = 10 }
+
+	# THE THREE STEPS.
+	#
+	# 0.75, then 0.50, then 0.25 for ever. A schism carries most of the
+	# obedience it is ever going to carry in the first years, and what follows
+	# is slower work by the same clergy - so the wave decays instead of running
+	# flat. The third step does not expire: this is a permanent mechanic, and
+	# the quarter is its floor, not its end.
+	#
+	# rip_faith_stage is 0 on a country that has never run this, which is why
+	# the first rung tests `< 2` rather than `= 1`.
+	if = {
+		limit = { NOT = { check_variable = { which = rip_faith_stage value = 2 } } }
+		multiply_variable = { which = rip_faith_budget value = 0.75 }
+	}
+	else_if = {
+		limit = { NOT = { check_variable = { which = rip_faith_stage value = 3 } } }
+		multiply_variable = { which = rip_faith_budget value = 0.5 }
+	}
+	else = {
+		multiply_variable = { which = rip_faith_budget value = 0.25 }
+	}
+	rip_faith_advance_stage_effect = yes
+
+	# THE ONE PRIEST FLOOR.
+	#
+	# The cheapest tier below costs four, so any budget under four buys nothing
+	# at all - and a small realm's tithe is under four permanently. An
+	# eighty-four-development Ruthenian minor at 0.9 unity came out at 1.9 and
+	# converted nobody for the whole game. A see that can afford nothing still
+	# sends one priest, so a church that is at least a third in agreement with
+	# itself always gets one hamlet's worth.
+	if = {
+		limit = {
+			religious_unity = 0.3
+			NOT = { check_variable = { which = rip_faith_budget value = 4 } }
+		}
+		set_variable = { which = rip_faith_budget value = 4 }
+	}
+}
+
+# The step ladder walks 1 -> 2 -> 3 and stops. A country that has never run the
+# budget sits at 0 and has just spent its first pulse at 0.75, so it goes
+# straight to 2 rather than to 1, or it would spend two pulses on the top step.
+rip_faith_advance_stage_effect = {
+	if = {
+		limit = { NOT = { check_variable = { which = rip_faith_stage value = 1 } } }
+		set_variable = { which = rip_faith_stage value = 2 }
+	}
+	else_if = {
+		limit = { NOT = { check_variable = { which = rip_faith_stage value = 3 } } }
+		change_variable = { which = rip_faith_stage value = 1 }
+	}
+}
+
+# A church that changes obedience starts its own wave. Called from both
+# faiths' conversion effects, so a country that leaves one and joins the other
+# gets the first step again rather than inheriting the other church's decay.
+rip_faith_reset_stage_effect = {
+	set_variable = { which = rip_faith_stage value = 1 }
 }
 
 # WHAT A PARISH COSTS

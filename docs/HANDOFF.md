@@ -79,12 +79,15 @@
   Володимира-Волинського — обидва в межах `279` Волинь, тож набір треба
   переосмислити, а не перемапити.
 
-**П'ять scripted effects, які нічим не викликаються**, у
-`common/scripted_effects/russian_orthodox_effects.txt`:
-`establish_orthodox_mission_effect`, `suppress_cultural_resistance_effect`,
-`establish_monastery_mission_effect`, `start_constantinople_crusade_effect`,
-`start_jerusalem_crusade_effect`. Останні два дублюють робочі рішення
-хрестових походів. Заготовки це чи залишки — вирішувати авторові.
+**П'ять scripted effects, які нічим не викликалися**, у
+`common/scripted_effects/russian_orthodox_effects.txt`, тепер закриті:
+`establish_orthodox_mission_effect`, `suppress_cultural_resistance_effect` і
+`establish_monastery_mission_effect` замінили собою байт-у-байт ідентичні
+inline-блоки в `events/RussianOrthodox.txt` (russian_orthodox.7.b, .12.a,
+.15.a) — дублювання зникло, effects тепер викликані. `start_constantinople_
+crusade_effect` і `start_jerusalem_crusade_effect` видалені: вони дублювали
+робочі рішення хрестових походів у `decisions/OrthodoxCrusadeDecisions.txt`,
+які вже інлайнять той самий прапорець і модифікатор.
 
 Було сім; `force_convert_province_effect` і `russify_province_effect` тепер
 викликають province decisions, додані в PR #22.
