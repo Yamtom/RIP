@@ -3,14 +3,10 @@ christian = {
 		color = { 204 51 51 }
 		icon = 30
 
-		# Scope kept at vanilla parity: every vanilla religion has 2-3 country
-		# modifiers, and none grants administrative_efficiency, core_creation,
-		# culture_conversion_cost, missionaries or legitimacy. The zeal against
-		# heretics is what sets the state church apart, so that is what it keeps.
+		# 95% of vanilla Orthodox intrinsic country bonuses.
 		country = {
-			tolerance_own = 2					# vanilla ceiling (inti)
-			tolerance_heretic = -2
-			global_heretic_missionary_strength = 0.02	# matches hussite
+			stability_cost_modifier = -0.095
+			tolerance_own = 0.95
 		}
 
 		country_as_secondary = {
@@ -22,167 +18,109 @@ christian = {
 			local_missionary_strength = -0.01	# as vanilla orthodox
 		}
 
-		# ONE PANEL, AND WHERE THE REST OF IT LIVES.
-		#
-		# Every faith mechanic in vanilla draws into one rectangle of
-		# interface/countryreligionview.gui, roughly y 231..320. I tried moving
-		# them apart and it was wrong: `province_listbox` sits at y=402 and is
-		# 530x450, so the band below the panel is not free at all - the holy-site
-		# rows landed on top of the province list in game. That override is
-		# reverted and this mod ships no countryreligionview.gui.
-		#
-		# EU4 has no scripted GUI either - there is no common/scripted_guis, the
-		# eleven *_specific_window names are hardcoded in the executable, and no
-		# vanilla .gui carries a trigger or visible block. So the panel is what
-		# vanilla gives and no more.
-		#
-		# What that leaves, and it is enough:
-		#
-		#   orthodox_specific_window - patriarch authority as the scale, the
-		#     standing icon, and the SELECT button. That button opens
-		#     icon_selection_screen, which is a SEPARATE window with its own
-		#     listbox - the picker, exactly like the blessings picker.
-		#   coptic_specific_window   - the five holy sites, and the popup they
-		#     open (interface/blessings.gui, untouched vanilla).
-		#   fervor_specific_window   - the Sobor.
-		#
-		# These three do overlap in the tab. That is the cost of running three
-		# mechanics on one faith and it cannot be fixed from script; cutting the
-		# blessings below removes the worst of the clutter.
-
-		# Patriarchs
+		# One native religion panel. No shared GUI override and no extra resource panel.
 		has_patriarchs = yes
-
-		# The icons of the Muscovite church.
-		#
-		# The frame is chosen by POSITION in this block, not by name - vanilla
-		# carries no sprite field and the save stores a bare index - so these
-		# five keep vanilla's five paintings under our own keys. Do not reorder
-		# them or the pictures shuffle. Payloads are carried over unchanged from
-		# the decisions they replace, so nothing is lost in the move.
-		# THE NATIVE ICON MECHANIC IS SWITCHED OFF. HERE IS WHY.
-		#
-		# `orthodox_icons` holds EXACTLY ONE icon at a time. Choosing a second
-		# takes the first down, and there is no field in this block, in the
-		# religion, or in defines that changes it. The iconostasis this faith is
-		# supposed to have - four standing at once, unlocked by holy sites,
-		# equipped against patriarch authority, kept alight with fervour - cannot
-		# be said in this mechanic at all.
-		#
-		# So it is rebuilt in script: country modifiers of the same names, granted
-		# by the decisions in decisions/RIP_OrthodoxIcons.txt, gated by
-		# common/scripted_triggers/rip_ro_icon_triggers.txt and paid for by
-		# common/scripted_effects/rip_ro_icon_effects.txt.
-		#
-		# The block STAYS, emptied, rather than being deleted. `pick_icon_button`
-		# and the GFX_icon_none sprite both live inside orthodox_specific_window
-		# in interface/countryreligionview.gui, so the panel needs a list to point
-		# at; with every entry invisible it draws "no icon" and the SELECT button
-		# opens an empty picker, which is inert rather than broken.
-		#
-		# The payloads are zeroed too. `current_icon` is a TRIGGER only - forty
-		# uses in vanilla, no effect form anywhere - so script cannot take a
-		# native icon down once the engine has set one. A save made before this
-		# change would otherwise carry one standing icon's bonus for ever, free,
-		# which is the exact thing the four-slot system exists to stop. What each
-		# icon actually grants now lives in
-		# common/event_modifiers/RIP_faith_modifiers.txt.
-		#
-		# The five entries are RENAMED rather than left under the icon names. The
-		# country modifiers the decisions grant carry those names, and an icon and
-		# an event modifier sharing a string is a coincidence this mod does not
-		# need to find out the engine's opinion of. These are dead objects; they
-		# only have to exist.
+		misguided_heretic = yes
 		orthodox_icons = {
-			rip_ro_retired_icon_1 = {
-				discipline = 0	# emptied; the real payload is the country modifier
-				allow = { always = no }
-				visible = { always = no }
-				ai_will_do = { factor = 0 }
-			}
+			rip_ro_native_michael = {
+				discipline = 0.0475
+				manpower_recovery_speed = 0.095
 
-			rip_ro_retired_icon_2 = {
-				discipline = 0	# emptied; the real payload is the country modifier
-				allow = { always = no }
-				visible = { always = no }
-				ai_will_do = { factor = 0 }
-			}
+				allow = {
+					always = yes
+				}
 
-			rip_ro_retired_icon_3 = {
-				discipline = 0	# emptied; the real payload is the country modifier
-				allow = { always = no }
-				visible = { always = no }
-				ai_will_do = { factor = 0 }
-			}
+				visible = {
+					always = yes
+				}
 
-			rip_ro_retired_icon_4 = {
-				discipline = 0	# emptied; the real payload is the country modifier
-				allow = { always = no }
-				visible = { always = no }
-				ai_will_do = { factor = 0 }
+				ai_will_do = {
+					factor = 0.05
+					modifier = {
+						factor = 0
+						is_at_war = no
+					}
+					modifier = {
+						factor = 3
+						is_in_important_war = yes
+					}
+				}
 			}
+			rip_ro_native_eleusa = {
+				global_unrest = -2.85
+				harsh_treatment_cost = -0.2375
 
-			rip_ro_retired_icon_5 = {
-				discipline = 0	# emptied; the real payload is the country modifier
+				allow = {
+					always = yes
+				}
+
+				visible = {
+					always = yes
+				}
+
+				ai_will_do = {
+					factor = 0.02
+					modifier = {
+						factor = 0
+						NOT = {
+							calc_true_if = {
+								all_owned_province = {
+									unrest = 1
+								}
+								amount = 2
+							}
+						}
+					}
+					modifier = {
+						factor = 3
+						calc_true_if = {
+							all_owned_province = {
+								unrest = 1
+							}
+							amount = 5
+						}
+					}
+				}
+			}
+			rip_ro_native_pancreator = {
+				development_cost = -0.095
+				build_cost = -0.095
+
+				allow = {
+					always = yes
+				}
+
+				visible = {
+					always = yes
+				}
+
+				ai_will_do = {
+					factor = 0
+				}
+			}
+			rip_ro_native_nicholas = {
+				improve_relation_modifier = 0.2375
+				ae_impact = -0.095
+
+				visible = {
+					always = yes
+				}
+
+				allow = {
+					always = yes
+				}
+				ai_will_do = {
+					factor = 0.01
+				}
+			}
+			# Preserve the fifth vanilla frame/save index, but offer only four icons.
+			rip_ro_native_retired_climacus = {
+				discipline = 0
 				allow = { always = no }
 				visible = { always = no }
 				ai_will_do = { factor = 0 }
 			}
 		}
-
-		# The Sobor.
-		#
-		# Vanilla fervour is exactly the shape the Sobor already had in script:
-		# a pool that fills by itself, buys one of three exclusive focuses, and
-		# drains while that focus runs. It is scriptable - common/fervor - so the
-		# hand-rolled version is retired: decisions/RIP_SoborZeal.txt is deleted,
-		# and with it the rip_ro_zeal variable, its two-yearly tick and the five
-		# rip_ro_zeal_band_* modifiers that faked a progress bar out of tooltips.
-		fervor = yes
-
-		# Five sites, as vanilla does it.
-		#
-		# Both vanilla holy-site religions declare exactly five - coptic and
-		# zoroastrian - and interface/countryreligionview.gui has widgets for
-		# exactly five: holy_site_icon_1..5 and holy_site_name_1..5. A sixth
-		# still works in the engine, but its row has nowhere to draw in the
-		# small panel, which is what the game's own error.log was reporting:
-		# "Missing Icon 'holy_site_icon_6' in window 'coptic_specific_window'".
-		# Showing it would mean overriding the whole 3486-line vanilla file and
-		# relocating the blessings box, for one row.
-		#
-		# Rome is the site that left, and it is the right one to drop: it is the
-		# only see here the Muscovite church never held or claimed to hold. The
-		# doctrine this faith runs on says Rome fell, which is the whole point of
-		# there being a third one. Holding Rome is a trophy instead - see
-		# rip_ro_the_first_rome in decisions/RIP_OrthodoxIcons.txt.
-		holy_sites = {
-			310 # Novgorod - the Sophia of the north, and the older see
-			295 # Moscow - the Third Rome
-			280 # Kyiv - where the baptism happened
-			151 # Constantinople - the Second Rome, which fell
-			379 # Jerusalem - the beginning
-		}
-
-		# THE BLESSINGS ARE GONE, AND THE ICONS TOOK THEM.
-		#
-		# Seven blessings, one running for every holy site held, stacked to five
-		# at the ceiling. That is five permanent country modifiers on top of a
-		# standing icon, which is more than any vanilla faith carries and more
-		# than this one should. They are cut.
-		#
-		# Nothing good is lost: the five best payloads are folded into the five
-		# icons below, one apiece. Because exactly ONE icon stands at a time,
-		# the faith now carries one modifier where it used to carry six, and the
-		# choice between them is a real choice rather than a collection.
-		#
-		# Cut outright as the strongest and least interesting: the missionary
-		# strength of blessing_of_religious_unity and the -25% culture
-		# conversion of blessing_of_cultural_dominance.
-		#
-		# common/church_aspects/RIP_blessings.txt still defines them - nothing
-		# references it now, and it is left in place so the payloads stay
-		# readable next to the icons that inherited them.
 
 		# THE SECTS THIS CHURCH ACTUALLY BRED.
 		#

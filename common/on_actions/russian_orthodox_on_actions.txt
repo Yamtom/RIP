@@ -9,14 +9,7 @@ on_yearly_pulse = {
 }
 
 on_bi_yearly_pulse = {
-	# The zeal of the Sobor is the engine's fervour bar now - see
-	# `fervor = yes` in common/religions/russian_orthodox.txt. What is left
-	# here is the migration: a save started before the change still carries the
-	# hand-rolled focus modifiers and the five fake progress-bar modifiers, and
-	# nothing else would ever take them off. Both effects are idempotent, so
-	# running them on the pulse costs a save that never had them nothing.
-	rip_ro_clear_the_bands_effect = yes
-	rip_ro_clear_the_zeal_effect = yes
+	# Retired scripted resource/modifier cleanup is included in icon_upkeep below.
 
 	# The faith travels with the merchants through the real trade node policy
 	# Propagate Religion - see common/scripted_effects/rip_faith_spread_effects.txt.
@@ -40,10 +33,7 @@ on_bi_yearly_pulse = {
 	# and slow afterwards without ever stopping.
 	rip_ro_consolidation_effect = yes
 
-	# THE OIL FOR THE LAMPS.
-	# Must run AFTER the consolidation and BEFORE the backlash: the icons cost
-	# fervour every pulse, and how many are standing is what the Old Believers
-	# are rising about. See common/scripted_effects/rip_ro_icon_effects.txt.
+	# Compatibility cleanup for old saves with several icons.
 	rip_ro_icon_upkeep_effect = yes
 
 	# WHO OBJECTS.
@@ -73,5 +63,9 @@ on_religion_change = {
 	rip_faith_reset_stage_effect = yes
 
 	# And it does not keep the previous church's iconostasis standing.
-	rip_ro_icon_douse_all_effect = yes
+	rip_ro_icon_upkeep_effect = yes
+}
+
+on_startup = {
+	rip_ro_icon_upkeep_effect = yes
 }

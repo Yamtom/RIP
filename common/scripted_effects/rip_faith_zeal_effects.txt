@@ -17,9 +17,8 @@
 #   THE OLD BELIEVERS. The other end entirely: not people who refused the new
 #   obedience but people who kept the OLD books after their own church changed
 #   them. They are inside the faith, in its own provinces, and they appear
-#   only after the Raskol. The more icons the church has standing, the more of
-#   them - an iconostasis is the church declaring what is correct, and that is
-#   the argument they are having.
+#   only after the Raskol. Higher patriarch authority increases the pressure
+#   to enforce the revised service books.
 #
 # Both are chance. What is NOT chance is the unrest: every pulse that converts
 # anybody raises it, whether or not anyone marches.
@@ -114,14 +113,14 @@ rip_ro_zealot_backlash_effect = {
 			}
 		}
 		if = {
-			limit = { check_variable = { which = rip_ro_icon_count value = 3 } }
+			limit = { patriarch_authority = 0.85 }
 			random = {
 				chance = 30
 				rip_ro_old_believer_rising_effect = yes
 			}
 		}
 		else_if = {
-			limit = { check_variable = { which = rip_ro_icon_count value = 1 } }
+			limit = { patriarch_authority = 0.7 }
 			random = {
 				chance = 20
 				rip_ro_old_believer_rising_effect = yes
