@@ -303,3 +303,36 @@ rip_ucr_crown_preachers = {
 	local_missionary_strength = 0.02
 	local_unrest = -1
 }
+
+# --- what the two faith disasters leave behind -----------------------------
+#
+# common/disasters/rip_faith_disasters.txt and events/RIP_FaithDisasters.txt.
+# Each disaster ends in exactly one of these, and they are the reason surviving
+# one is worth something rather than merely being over.
+
+# The Raskol argued out and the service books finally agreed on. It cost a
+# generation and it is the last time anyone asks.
+rip_ro_books_settled = {
+	church_loyalty_modifier = 0.1
+	stability_cost_modifier = -0.1
+	global_heretic_missionary_strength = 0.02
+	yearly_patriarch_authority = 0.01
+}
+
+# The see gave up trying to close the brotherhoods' schools and presses. The
+# quarrel goes quiet; the schools stay, and they are good ones.
+rip_uc_brotherhoods_tolerated = {
+	global_unrest = -1
+	innovativeness_gain = 0.5
+	church_influence_modifier = -0.1
+	tolerance_heretic = 1
+}
+
+# Two generations on, the union has stopped being an imposition and become the
+# church people were baptised in.
+rip_uc_union_accepted = {
+	religious_unity = 0.15
+	tolerance_own = 1
+	global_missionary_strength = 0.01
+	yearly_patriarch_authority = 0.01
+}

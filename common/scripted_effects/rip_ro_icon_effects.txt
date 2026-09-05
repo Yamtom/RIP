@@ -32,14 +32,18 @@
 # pulse is worth about 24 fervour, against a cap of 100. The table below is
 # deliberately not linear:
 #
-#     1 icon  ->  2      3 icons ->  9
-#     2 icons ->  5      4 icons -> 14
+#     1 icon  ->  3      3 icons -> 14
+#     2 icons ->  8      4 icons -> 20
 #
-# One or two lamps cost almost nothing. The fourth is what hurts: four
-# standing is 14 of the 24 a pulse brings in, which leaves 10 - and a sitting
-# of the Sobor costs 8. So a church CAN run a full iconostasis and a fervour
-# focus at once, and it will be living hand to mouth doing it. That is the
-# intended shape of the choice, not an accident of the arithmetic.
+# One or two lamps cost almost nothing. The fourth is what hurts: four standing
+# is 20 of the 24 a pulse brings in, which leaves 4 - and a sitting of the Sobor
+# costs 8. So a full iconostasis and a fervour focus are EXCLUSIVE. Three icons
+# leave exactly 10, which is a focus and very little else.
+#
+# The first draft of this table read 2/5/9/14 and was wrong. Simulated over two
+# centuries it left 10 spare at four icons, which is a focus AND a growing
+# reserve - so no lamp ever went out, on any run, and the upkeep was decoration.
+# The prices above are what makes the fourth slot a decision.
 # ==========================================================================
 
 # HOW MANY MAY STAND
@@ -162,8 +166,8 @@ rip_ro_icon_upkeep_effect = {
 		if = {
 			limit = { check_variable = { which = rip_ro_icon_count value = 4 } }
 			if = {
-				limit = { fervor = 14 }
-				add_fervor = -14
+				limit = { fervor = 20 }
+				add_fervor = -20
 			}
 			else = {
 				rip_ro_icon_douse_one_effect = yes
@@ -172,8 +176,8 @@ rip_ro_icon_upkeep_effect = {
 		else_if = {
 			limit = { check_variable = { which = rip_ro_icon_count value = 3 } }
 			if = {
-				limit = { fervor = 9 }
-				add_fervor = -9
+				limit = { fervor = 14 }
+				add_fervor = -14
 			}
 			else = {
 				rip_ro_icon_douse_one_effect = yes
@@ -182,8 +186,8 @@ rip_ro_icon_upkeep_effect = {
 		else_if = {
 			limit = { check_variable = { which = rip_ro_icon_count value = 2 } }
 			if = {
-				limit = { fervor = 5 }
-				add_fervor = -5
+				limit = { fervor = 8 }
+				add_fervor = -8
 			}
 			else = {
 				rip_ro_icon_douse_one_effect = yes
@@ -192,8 +196,8 @@ rip_ro_icon_upkeep_effect = {
 		else_if = {
 			limit = { check_variable = { which = rip_ro_icon_count value = 1 } }
 			if = {
-				limit = { fervor = 2 }
-				add_fervor = -2
+				limit = { fervor = 3 }
+				add_fervor = -3
 			}
 			else = {
 				rip_ro_icon_douse_one_effect = yes

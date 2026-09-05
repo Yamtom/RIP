@@ -1,10 +1,316 @@
 country_decisions = {
 
-	# The five icons used to live here, because orthodox_specific_window was
-	# spent on holy sites. It is not any more: interface/countryreligionview.gui
-	# moves the holy-site and fervour panels down, so the icons are back in the
-	# panel where vanilla puts them - see common/religions/russian_orthodox.txt.
-	# What stays here is the one thing that is not an icon.
+	# ==================================================================
+	# THE ICONOSTASIS
+	#
+	# Four lamps may stand at once. Which icons exist at all is decided by
+	# the holy sites; how many may stand is decided by the patriarch's
+	# authority; lighting one and keeping it alight is paid for in fervour.
+	# The whole system is documented at the head of
+	# common/scripted_effects/rip_ro_icon_effects.txt.
+	#
+	# WHY THESE ARE DECISIONS AGAIN
+	#
+	# They were decisions, then they were the engine's own orthodox_icons in
+	# the religion panel, and now they are decisions once more - not because
+	# the panel was worse but because the panel holds ONE icon. Choosing a
+	# second there takes the first down, and no field in the block changes
+	# that. Four at once is not something the native mechanic can be talked
+	# into, so the native entries are switched off (visible = no, in
+	# common/religions/russian_orthodox.txt) and the iconostasis is built
+	# here.
+	#
+	# Each icon contributes exactly ONE entry to the decision list at any
+	# moment: the lighting decision while it is dark, the taking-down
+	# decision while it stands. The list is five long whatever the church is
+	# doing.
+	#
+	# The lighting decisions keep the keys the old ones had, so the
+	# localisation written for them still applies and a save that had one
+	# taken carries on with the same name.
+	# ==================================================================
+
+
+	# --- the Archangel ---------------------------------------------------------
+	# The regiments want him at the head of the column.
+	rip_ro_icon_michael = {
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = rip_ro_icon_michael }
+		}
+		allow = {
+			rip_ro_icon_michael_unlocked = yes
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_icon_slot_free_tt
+				rip_ro_icon_slot_free = yes
+			}
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_icon_light_cost_tt
+				fervor = 15
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = rip_ro_icon_michael
+				duration = -1
+			}
+			rip_ro_icon_light_cost_effect = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				is_at_war = yes
+			}
+			modifier = {
+				factor = 2
+				is_in_important_war = yes
+			}
+		}
+	}
+
+	rip_ro_douse_michael = {
+		potential = {
+			religion = russian_orthodox
+			has_country_modifier = rip_ro_icon_michael
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			remove_country_modifier = rip_ro_icon_michael
+			rip_ro_icon_recount_effect = yes
+		}
+		# The church does not take its own icons down to save oil. When the
+		# fervour runs out, rip_ro_icon_upkeep_effect does it instead.
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+
+	# --- Tenderness ---------------------------------------------------------
+	# She is carried through the districts that have been hardest handled.
+	rip_ro_icon_eleusa = {
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = rip_ro_icon_eleusa }
+		}
+		allow = {
+			rip_ro_icon_eleusa_unlocked = yes
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_icon_slot_free_tt
+				rip_ro_icon_slot_free = yes
+			}
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_icon_light_cost_tt
+				fervor = 15
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = rip_ro_icon_eleusa
+				duration = -1
+			}
+			rip_ro_icon_light_cost_effect = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				num_of_rebel_armies = 1
+			}
+			modifier = {
+				factor = 2
+				NOT = { stability = 0 }
+			}
+		}
+	}
+
+	rip_ro_douse_eleusa = {
+		potential = {
+			religion = russian_orthodox
+			has_country_modifier = rip_ro_icon_eleusa
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			remove_country_modifier = rip_ro_icon_eleusa
+			rip_ro_icon_recount_effect = yes
+		}
+		# The church does not take its own icons down to save oil. When the
+		# fervour runs out, rip_ro_icon_upkeep_effect does it instead.
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+
+	# --- the Pantocrator ---------------------------------------------------------
+	# Building under his icon is building the church has already blessed.
+	rip_ro_icon_pancreator = {
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = rip_ro_icon_pancreator }
+		}
+		allow = {
+			rip_ro_icon_pancreator_unlocked = yes
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_icon_slot_free_tt
+				rip_ro_icon_slot_free = yes
+			}
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_icon_light_cost_tt
+				fervor = 15
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = rip_ro_icon_pancreator
+				duration = -1
+			}
+			rip_ro_icon_light_cost_effect = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				is_at_war = no
+			}
+		}
+	}
+
+	rip_ro_douse_pancreator = {
+		potential = {
+			religion = russian_orthodox
+			has_country_modifier = rip_ro_icon_pancreator
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			remove_country_modifier = rip_ro_icon_pancreator
+			rip_ro_icon_recount_effect = yes
+		}
+		# The church does not take its own icons down to save oil. When the
+		# fervour runs out, rip_ro_icon_upkeep_effect does it instead.
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+
+	# --- Saint Nicholas ---------------------------------------------------------
+	# The saint every court from Novgorod to the Danube recognises.
+	rip_ro_icon_nicholas = {
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = rip_ro_icon_nicholas }
+		}
+		allow = {
+			rip_ro_icon_nicholas_unlocked = yes
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_icon_slot_free_tt
+				rip_ro_icon_slot_free = yes
+			}
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_icon_light_cost_tt
+				fervor = 15
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = rip_ro_icon_nicholas
+				duration = -1
+			}
+			rip_ro_icon_light_cost_effect = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				is_at_war = no
+			}
+		}
+	}
+
+	rip_ro_douse_nicholas = {
+		potential = {
+			religion = russian_orthodox
+			has_country_modifier = rip_ro_icon_nicholas
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			remove_country_modifier = rip_ro_icon_nicholas
+			rip_ro_icon_recount_effect = yes
+		}
+		# The church does not take its own icons down to save oil. When the
+		# fervour runs out, rip_ro_icon_upkeep_effect does it instead.
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+
+	# --- the Ladder ---------------------------------------------------------
+	# Hung in the schools and the scriptoria.
+	rip_ro_icon_climacus = {
+		potential = {
+			religion = russian_orthodox
+			NOT = { has_country_modifier = rip_ro_icon_climacus }
+		}
+		allow = {
+			rip_ro_icon_climacus_unlocked = yes
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_icon_slot_free_tt
+				rip_ro_icon_slot_free = yes
+			}
+			custom_trigger_tooltip = {
+				tooltip = rip_ro_icon_light_cost_tt
+				fervor = 15
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = rip_ro_icon_climacus
+				duration = -1
+			}
+			rip_ro_icon_light_cost_effect = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				NOT = { has_institution = printing_press }
+			}
+		}
+	}
+
+	rip_ro_douse_climacus = {
+		potential = {
+			religion = russian_orthodox
+			has_country_modifier = rip_ro_icon_climacus
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			remove_country_modifier = rip_ro_icon_climacus
+			rip_ro_icon_recount_effect = yes
+		}
+		# The church does not take its own icons down to save oil. When the
+		# fervour runs out, rip_ro_icon_upkeep_effect does it instead.
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+
+	# Rome held, and kept in our rite. Not a holy site - see the note in
+	# common/religions/russian_orthodox.txt.
 	rip_ro_the_first_rome = {
 		major = yes
 		potential = {

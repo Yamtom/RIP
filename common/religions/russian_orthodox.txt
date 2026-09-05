@@ -60,126 +60,73 @@ christian = {
 		# five keep vanilla's five paintings under our own keys. Do not reorder
 		# them or the pictures shuffle. Payloads are carried over unchanged from
 		# the decisions they replace, so nothing is lost in the move.
+		# THE NATIVE ICON MECHANIC IS SWITCHED OFF. HERE IS WHY.
+		#
+		# `orthodox_icons` holds EXACTLY ONE icon at a time. Choosing a second
+		# takes the first down, and there is no field in this block, in the
+		# religion, or in defines that changes it. The iconostasis this faith is
+		# supposed to have - four standing at once, unlocked by holy sites,
+		# equipped against patriarch authority, kept alight with fervour - cannot
+		# be said in this mechanic at all.
+		#
+		# So it is rebuilt in script: country modifiers of the same names, granted
+		# by the decisions in decisions/RIP_OrthodoxIcons.txt, gated by
+		# common/scripted_triggers/rip_ro_icon_triggers.txt and paid for by
+		# common/scripted_effects/rip_ro_icon_effects.txt.
+		#
+		# The block STAYS, emptied, rather than being deleted. `pick_icon_button`
+		# and the GFX_icon_none sprite both live inside orthodox_specific_window
+		# in interface/countryreligionview.gui, so the panel needs a list to point
+		# at; with every entry invisible it draws "no icon" and the SELECT button
+		# opens an empty picker, which is inert rather than broken.
+		#
+		# The payloads are zeroed too. `current_icon` is a TRIGGER only - forty
+		# uses in vanilla, no effect form anywhere - so script cannot take a
+		# native icon down once the engine has set one. A save made before this
+		# change would otherwise carry one standing icon's bonus for ever, free,
+		# which is the exact thing the four-slot system exists to stop. What each
+		# icon actually grants now lives in
+		# common/event_modifiers/RIP_faith_modifiers.txt.
+		#
+		# The five entries are RENAMED rather than left under the icon names. The
+		# country modifiers the decisions grant carry those names, and an icon and
+		# an event modifier sharing a string is a coincidence this mod does not
+		# need to find out the engine's opinion of. These are dead objects; they
+		# only have to exist.
 		orthodox_icons = {
-			rip_ro_icon_michael = {
-				discipline = 0.05
-				manpower_recovery_speed = 0.1
-				core_creation = -0.15	# from blessing_of_orthodox_conquest
-
-				# HOLY SITES UNLOCK THIS ICON.
-				# The Archangel needs no see behind him. This is the icon a church has
-				# before it has anything else.
-				allow = {
-					always = yes
-				}
-				visible = { always = yes }
-
-				ai_will_do = {
-					factor = 0.05
-					modifier = {
-						factor = 0
-						is_at_war = no
-					}
-					modifier = {
-						factor = 3
-						is_in_important_war = yes
-					}
-				}
+			rip_ro_retired_icon_1 = {
+				discipline = 0	# emptied; the real payload is the country modifier
+				allow = { always = no }
+				visible = { always = no }
+				ai_will_do = { factor = 0 }
 			}
 
-			rip_ro_icon_eleusa = {
-				global_unrest = -3
-				harsh_treatment_cost = -0.25
-				tolerance_own = 1	# from blessing_of_eastern_liturgy, halved
-
-				# HOLY SITES UNLOCK THIS ICON.
-				# Held from the first, but only by a church with parishes of its own
-				# to carry her through. Three is a metropolitanate, not a chapel.
-				allow = {
-					num_of_owned_provinces_with = {
-						value = 3
-						religion = russian_orthodox
-					}
-				}
-				visible = { always = yes }
-
-				ai_will_do = {
-					factor = 0.02
-					modifier = {
-						factor = 4
-						NOT = { stability = 0 }
-					}
-					modifier = {
-						factor = 3
-						num_of_rebel_armies = 1
-					}
-				}
+			rip_ro_retired_icon_2 = {
+				discipline = 0	# emptied; the real payload is the country modifier
+				allow = { always = no }
+				visible = { always = no }
+				ai_will_do = { factor = 0 }
 			}
 
-			rip_ro_icon_pancreator = {
-				development_cost = -0.1
-				build_cost = -0.1
-				church_loyalty_modifier = 0.1	# from blessing_of_patriarch_of_moscow
-
-				# HOLY SITES UNLOCK THIS ICON.
-				# Moscow. The Almighty over the builders is the Third Rome's own icon and
-				# it belongs to whoever holds the city.
-				allow = {
-					owns_or_non_sovereign_subject_of = 295
-				}
-				visible = { always = yes }
-
-				ai_will_do = {
-					factor = 0.05
-					modifier = {
-						factor = 2
-						is_at_war = no
-					}
-				}
+			rip_ro_retired_icon_3 = {
+				discipline = 0	# emptied; the real payload is the country modifier
+				allow = { always = no }
+				visible = { always = no }
+				ai_will_do = { factor = 0 }
 			}
 
-			rip_ro_icon_nicholas = {
-				improve_relation_modifier = 0.25
-				ae_impact = -0.1
-				prestige_decay = -0.01	# from blessing_of_third_rome
-
-				# HOLY SITES UNLOCK THIS ICON.
-				# Novgorod or Kyiv - the two sees that traded and negotiated for the Rus
-				# long before Moscow did.
-				allow = {
-					OR = { owns_or_non_sovereign_subject_of = 310 owns_or_non_sovereign_subject_of = 280 }
-				}
-				visible = { always = yes }
-
-				ai_will_do = {
-					factor = 0.03
-					modifier = {
-						factor = 3
-						is_at_war = no
-					}
-				}
+			rip_ro_retired_icon_4 = {
+				discipline = 0	# emptied; the real payload is the country modifier
+				allow = { always = no }
+				visible = { always = no }
+				ai_will_do = { factor = 0 }
 			}
 
-			rip_ro_icon_climacus = {
-				global_institution_spread = 0.25
-				embracement_cost = -0.2
-				culture_conversion_cost = -0.15	# from blessing_of_saints_cyril_and_methodius
-
-				# HOLY SITES UNLOCK THIS ICON.
-				# Constantinople or Jerusalem. The Ladder is a Sinai book and the learning
-				# it stands for comes up the pilgrim roads, not out of the forest.
-				allow = {
-					OR = { owns_or_non_sovereign_subject_of = 151 owns_or_non_sovereign_subject_of = 379 }
-				}
-				visible = { always = yes }
-
-				ai_will_do = {
-					factor = 0.03
-					modifier = {
-						factor = 4
-						NOT = { has_institution = printing_press }
-					}
-				}
+			rip_ro_retired_icon_5 = {
+				discipline = 0	# emptied; the real payload is the country modifier
+				allow = { always = no }
+				visible = { always = no }
+				ai_will_do = { factor = 0 }
 			}
 		}
 
@@ -237,7 +184,19 @@ christian = {
 		# references it now, and it is left in place so the payloads stay
 		# readable next to the icons that inherited them.
 
-		heretic = { BOGOMILIST }
+		# THE SECTS THIS CHURCH ACTUALLY BRED.
+		#
+		# BOGOMILIST stood here, inherited from plain orthodox and wrong for a
+		# Muscovite church - the Bogomils were a Balkan movement three centuries
+		# dead by 1448. These five are vanilla's own list for orthodox
+		# (00_religion.txt line 667) and every one of them has a vanilla
+		# localisation key already, so no new text is needed.
+		#
+		# OLD_BELIEVER leads it because it is the one the mod uses: heretic_rebels
+		# spawned by rip_ro_zealot_backlash_effect and by the Raskol disaster are
+		# these people, and they can only carry the name if the name is in the
+		# list.
+		heretic = { OLD_BELIEVER MOLOKAN DUKHOBOR KHLYST SKOPTSY }
 
 		# THE THREE DATES OF THIS CHURCH
 		#

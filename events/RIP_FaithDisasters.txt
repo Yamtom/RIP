@@ -1,0 +1,289 @@
+##############################################################
+# The two disasters of the faith mechanics.
+#
+# rip_ro_raskol and rip_uc_brotherhoods, both in
+# common/disasters/rip_faith_disasters.txt. The Raskol starts because the
+# Muscovite church succeeded; the Brotherhoods start because the Uniate one
+# did not. Everything they read - the three-step wave, the iconostasis, the
+# standing at Rome - is the same machinery the pulses run on.
+##############################################################
+
+namespace = rip_faith_disaster
+
+# ---------------------------------------------------------------- THE RASKOL
+
+country_event = {
+	id = rip_faith_disaster.1
+	title = rip_faith_disaster.1.t
+	desc = rip_faith_disaster.1.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			# The Old Believers now exist. rip_ro_zealot_backlash_effect reads
+			# this flag on every pulse - before it is set there is nothing for
+			# anyone to be an old believer about.
+			set_country_flag = rip_ro_stage_raskol
+			set_global_flag = raskol_schism
+		}
+	}
+
+	option = {	# Correct the books. The church decides what is correct.
+		name = rip_faith_disaster.1.a
+		ai_chance = { factor = 55 }
+
+		add_patriarch_authority = 0.05
+		add_stability = -1
+		every_owned_province = {
+			limit = {
+				is_city = yes
+				religion = russian_orthodox
+			}
+			add_unrest = 2
+		}
+		random_owned_province = {
+			limit = {
+				is_city = yes
+				religion = russian_orthodox
+			}
+			spawn_rebels = {
+				type = heretic_rebels
+				size = 2
+			}
+		}
+	}
+
+	option = {	# Let the old rite stand where it stands.
+		name = rip_faith_disaster.1.b
+		ai_chance = { factor = 45 }
+
+		add_patriarch_authority = -0.15
+		add_prestige = -10
+		add_country_modifier = {
+			name = old_believer_underground
+			duration = 10950
+		}
+	}
+}
+
+country_event = {
+	id = rip_faith_disaster.2
+	title = rip_faith_disaster.2.t
+	desc = rip_faith_disaster.2.d
+	picture = ORTHODOX_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = rip_ro_raskol_settled
+		}
+	}
+
+	option = {
+		name = rip_faith_disaster.2.a
+		add_prestige = 15
+		add_stability = 1
+		add_country_modifier = {
+			name = rip_ro_books_settled
+			duration = 10950
+		}
+	}
+}
+
+country_event = {
+	id = rip_faith_disaster.3
+	title = rip_faith_disaster.3.t
+	desc = rip_faith_disaster.3.d
+	picture = RELIGION_eventPicture
+
+	is_triggered_only = yes
+
+	option = {	# Send the archimandrite and take the press.
+		name = rip_faith_disaster.3.a
+		ai_chance = { factor = 60 }
+
+		add_patriarch_authority = 0.03
+		random_owned_province = {
+			limit = {
+				is_city = yes
+				religion = russian_orthodox
+			}
+			add_unrest = 4
+			add_local_autonomy = 5
+		}
+	}
+
+	option = {	# Leave the house alone.
+		name = rip_faith_disaster.3.b
+		ai_chance = { factor = 40 }
+
+		add_patriarch_authority = -0.03
+		add_adm_power = 25
+	}
+}
+
+country_event = {
+	id = rip_faith_disaster.4
+	title = rip_faith_disaster.4.t
+	desc = rip_faith_disaster.4.d
+	picture = COLONIZATION_eventPicture
+
+	is_triggered_only = yes
+
+	option = {	# Bring them back.
+		name = rip_faith_disaster.4.a
+		ai_chance = { factor = 50 }
+
+		add_mil_power = -25
+		random_owned_province = {
+			limit = {
+				is_city = yes
+				religion = russian_orthodox
+			}
+			add_unrest = 3
+		}
+	}
+
+	option = {	# Let the forest have them.
+		name = rip_faith_disaster.4.b
+		ai_chance = { factor = 50 }
+
+		random_owned_province = {
+			limit = {
+				is_city = yes
+				religion = russian_orthodox
+				development = 8
+			}
+			add_base_manpower = -1
+		}
+		add_fervor = -10
+	}
+}
+
+# ------------------------------------------------------- THE BROTHERHOODS
+
+country_event = {
+	id = rip_faith_disaster.5
+	title = rip_faith_disaster.5.t
+	desc = rip_faith_disaster.5.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	is_triggered_only = yes
+
+	option = {	# The see answers them from Rome's authority.
+		name = rip_faith_disaster.5.a
+		ai_chance = { factor = 50 }
+
+		add_patriarch_authority = -0.1
+		add_stability = -1
+		every_owned_province = {
+			limit = {
+				is_city = yes
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+				}
+			}
+			add_unrest = 2
+		}
+	}
+
+	option = {	# Let the brotherhoods keep their schools and their presses.
+		name = rip_faith_disaster.5.b
+		ai_chance = { factor = 50 }
+
+		add_prestige = -10
+		add_country_modifier = {
+			name = rip_uc_brotherhoods_tolerated
+			duration = 10950
+		}
+	}
+}
+
+country_event = {
+	id = rip_faith_disaster.6
+	title = rip_faith_disaster.6.t
+	desc = rip_faith_disaster.6.d
+	picture = RELIGION_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = rip_uc_brotherhoods_settled
+		}
+	}
+
+	option = {
+		name = rip_faith_disaster.6.a
+		add_prestige = 15
+		add_stability = 1
+		add_patriarch_authority = 0.1
+		add_country_modifier = {
+			name = rip_uc_union_accepted
+			duration = 10950
+		}
+	}
+}
+
+country_event = {
+	id = rip_faith_disaster.7
+	title = rip_faith_disaster.7.t
+	desc = rip_faith_disaster.7.d
+	picture = UNIVERSITY_eventPicture
+
+	is_triggered_only = yes
+
+	option = {	# Close the school.
+		name = rip_faith_disaster.7.a
+		ai_chance = { factor = 45 }
+
+		add_patriarch_authority = 0.03
+		add_innovativeness = -2
+		random_owned_province = {
+			limit = { is_city = yes }
+			add_unrest = 4
+		}
+	}
+
+	option = {	# Endow a rival school of our own rite.
+		name = rip_faith_disaster.7.b
+		ai_chance = { factor = 55 }
+
+		add_treasury = -100
+		add_adm_power = -25
+		add_country_modifier = {
+			name = uniate_educational_network
+			duration = 7300
+		}
+	}
+}
+
+country_event = {
+	id = rip_faith_disaster.8
+	title = rip_faith_disaster.8.t
+	desc = rip_faith_disaster.8.d
+	picture = DIPLOMACY_eventPicture
+
+	is_triggered_only = yes
+
+	option = {	# Receive the visitor and pay for his stay.
+		name = rip_faith_disaster.8.a
+		ai_chance = { factor = 60 }
+
+		add_treasury = -100
+		add_patriarch_authority = 0.08
+	}
+
+	option = {	# The metropolitanate settles its own houses.
+		name = rip_faith_disaster.8.b
+		ai_chance = { factor = 40 }
+
+		add_patriarch_authority = -0.05
+		add_prestige = 5
+		add_stability = 1
+	}
+}

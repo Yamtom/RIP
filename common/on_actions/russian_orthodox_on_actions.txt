@@ -35,8 +35,22 @@ on_bi_yearly_pulse = {
 	}
 
 	# The church keeps consolidating after the schism, at the speed its own
-	# unity allows - see rip_ro_consolidation_effect.
+	# unity allows - see rip_ro_consolidation_effect. The budget runs in three
+	# steps, 0.75 then 0.50 then 0.25 for ever, so this pulse is fast at first
+	# and slow afterwards without ever stopping.
 	rip_ro_consolidation_effect = yes
+
+	# THE OIL FOR THE LAMPS.
+	# Must run AFTER the consolidation and BEFORE the backlash: the icons cost
+	# fervour every pulse, and how many are standing is what the Old Believers
+	# are rising about. See common/scripted_effects/rip_ro_icon_effects.txt.
+	rip_ro_icon_upkeep_effect = yes
+
+	# WHO OBJECTS.
+	# The old rite that would not follow Moscow, and - once the books have been
+	# corrected - the Old Believers who would not follow it either. See
+	# common/scripted_effects/rip_faith_zeal_effects.txt.
+	rip_ro_zealot_backlash_effect = yes
 
 	random_events = {
 		15 = russian_orthodox.5  # Orthodox Inquisition
@@ -48,4 +62,16 @@ on_bi_yearly_pulse = {
 		8 = russian_orthodox.14  # Patriarch of All Rus'
 		700 = 0 # Nothing
 	}
+}
+
+# Fires for EVERY country that changes religion, not only this one - EU4 merges
+# on_action blocks across files and this hook has no faith of its own. Both
+# effects below are written to be harmless where they do not apply.
+on_religion_change = {
+	# A church that changes obedience starts its own three-step wave rather
+	# than inheriting the decay of the one it left.
+	rip_faith_reset_stage_effect = yes
+
+	# And it does not keep the previous church's iconostasis standing.
+	rip_ro_icon_douse_all_effect = yes
 }

@@ -1,0 +1,242 @@
+# ==========================================================================
+# WHAT THE TWO CHURCHES BREAK ON
+#
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# down_progress, progress, can_end, modifier, on_start, on_end, on_monthly.
+#
+# These are the far end of the conversion machinery in
+# common/scripted_effects/rip_faith_spread_effects.txt. That machinery moves
+# parishes; rip_faith_zeal_effects.txt makes the parishes object; and when the
+# objecting has gone on long enough and the church has not changed course, one
+# of these two starts.
+#
+# They break on OPPOSITE things, which is the point of having both:
+#
+#   THE RASKOL breaks on success. A Muscovite church that has finished
+#   consolidating, holds its patriarch in high authority and has a full
+#   iconostasis standing is a church that has begun deciding what is correct -
+#   and that is what the Old Believers refused. Nothing here fires for a weak
+#   church. You have to have won first.
+#
+#   THE BROTHERHOODS break on failure. A Uniate church still pushing the union
+#   into a realm that does not agree with it - the wave spent, the unity low,
+#   the Orthodox parishes still there and still Orthodox - is the church the
+#   stauropegial confraternities of Lviv and Vilnius spent two centuries
+#   refusing. Nothing here fires for a church that carried its people with it.
+# ==========================================================================
+
+rip_ro_raskol = {
+	ended_by_country_breaking_to_rebels = no
+
+	potential = {
+		religion = russian_orthodox
+		normal_or_historical_nations = yes
+		# The books have to have been printed before they can be corrected.
+		is_year = 1550
+		NOT = { has_country_flag = rip_ro_raskol_settled }
+	}
+
+	can_start = {
+		has_any_disaster = no
+		# The three-step wave has run out to its permanent quarter: the church
+		# has stopped gathering and started governing.
+		check_variable = { which = rip_faith_stage value = 3 }
+		# A patriarch who is obeyed, with most of the iconostasis standing.
+		# Both are read by rip_ro_icon_effects.txt; both are things the player
+		# spent to get, and this is the bill.
+		patriarch_authority = 0.7
+		check_variable = { which = rip_ro_icon_count value = 3 }
+	}
+
+	can_stop = {
+		OR = {
+			has_any_disaster = yes
+			NOT = { patriarch_authority = 0.7 }
+			NOT = { check_variable = { which = rip_ro_icon_count value = 3 } }
+		}
+	}
+
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			NOT = { check_variable = { which = rip_ro_icon_count value = 3 } }
+		}
+		modifier = {
+			factor = 1
+			NOT = { patriarch_authority = 0.7 }
+		}
+	}
+
+	progress = {
+		modifier = {
+			factor = 1
+			always = yes
+		}
+		# The harder the uniformity, the faster the quarrel.
+		modifier = {
+			factor = 0.5
+			patriarch_authority = 0.85
+		}
+		modifier = {
+			factor = 0.5
+			check_variable = { which = rip_ro_icon_count value = 4 }
+		}
+		# A church that has convinced everybody is a church nobody can argue
+		# with, and that is exactly when the argument starts.
+		modifier = {
+			factor = 0.5
+			religious_unity = 0.95
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { stability = 1 }
+		}
+		modifier = {
+			factor = 0.5
+			num_of_rebel_armies = 1
+		}
+	}
+
+	can_end = {
+		custom_trigger_tooltip = {
+			tooltip = rip_ro_raskol_end_tt
+			OR = {
+				NOT = { patriarch_authority = 0.6 }
+				NOT = { check_variable = { which = rip_ro_icon_count value = 2 } }
+			}
+		}
+		NOT = { num_of_rebel_controlled_provinces = 1 }
+	}
+
+	modifier = {
+		global_unrest = 3
+		church_loyalty_modifier = -0.2
+		stability_cost_modifier = 0.25
+		global_missionary_strength = -0.02
+		yearly_patriarch_authority = -0.02
+		# The zeal that keeps the lamps alight goes first. A church in schism
+		# with itself cannot pay the upkeep in
+		# common/scripted_effects/rip_ro_icon_effects.txt, so the iconostasis
+		# comes down of its own accord while this runs - which is also the way
+		# out of the disaster.
+		monthly_fervor_increase = -1
+	}
+
+	on_start = rip_faith_disaster.1
+	on_end = rip_faith_disaster.2
+
+	on_monthly = {
+		events = {
+		}
+		random_events = {
+			1200 = 0
+			10 = rip_faith_disaster.3	# a monastery keeps the old books
+			10 = rip_faith_disaster.4	# a congregation goes to the forests
+		}
+	}
+}
+
+
+rip_uc_brotherhoods = {
+	ended_by_country_breaking_to_rebels = no
+
+	potential = {
+		religion = greek_catholic
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = rip_uc_brotherhoods_settled }
+	}
+
+	can_start = {
+		has_any_disaster = no
+		# The wave is spent and the union still has not carried the country.
+		check_variable = { which = rip_faith_stage value = 3 }
+		NOT = { religious_unity = 0.6 }
+		num_of_owned_provinces_with = {
+			value = 3
+			is_city = yes
+			religion = orthodox
+		}
+	}
+
+	can_stop = {
+		OR = {
+			has_any_disaster = yes
+			religious_unity = 0.6
+			NOT = {
+				num_of_owned_provinces_with = {
+					value = 3
+					is_city = yes
+					religion = orthodox
+				}
+			}
+		}
+	}
+
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			religious_unity = 0.6
+		}
+	}
+
+	progress = {
+		modifier = {
+			factor = 1
+			always = yes
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { religious_unity = 0.45 }
+		}
+		modifier = {
+			factor = 0.75
+			NOT = { religious_unity = 0.3 }
+		}
+		# Standing at Rome is what a metropolitan answers the brotherhoods
+		# with. Without it he is arguing on his own.
+		modifier = {
+			factor = 0.5
+			NOT = { patriarch_authority = 0.4 }
+		}
+		modifier = {
+			factor = 0.5
+			num_of_rebel_armies = 1
+		}
+		modifier = {
+			factor = 0.5
+			NOT = { stability = 1 }
+		}
+	}
+
+	can_end = {
+		custom_trigger_tooltip = {
+			tooltip = rip_uc_brotherhoods_end_tt
+			religious_unity = 0.6
+		}
+		NOT = { num_of_rebel_controlled_provinces = 1 }
+	}
+
+	modifier = {
+		global_unrest = 3
+		church_influence_modifier = -0.15
+		stability_cost_modifier = 0.25
+		global_missionary_strength = -0.02
+		yearly_patriarch_authority = -0.02
+		advisor_cost = 0.15
+	}
+
+	on_start = rip_faith_disaster.5
+	on_end = rip_faith_disaster.6
+
+	on_monthly = {
+		events = {
+		}
+		random_events = {
+			1200 = 0
+			10 = rip_faith_disaster.7	# a brotherhood school defies the see
+			10 = rip_faith_disaster.8	# Rome sends a visitation
+		}
+	}
+}
