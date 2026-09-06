@@ -29,7 +29,13 @@ def payload(block):
     inside = re.sub(r'#.*', '', inside)
     return {k: Decimal(v) for k,v in re.findall(r'(\w+)\s*=\s*(-?\d+(?:\.\d+)?)', inside)}
 
-install = Path(os.environ.get('EU4_GAME_DIR', 'D:/Programs Files(x86)/Steam/steamapps/common/Europa Universalis IV'))
+# EU4_DIR is the variable CLAUDE.md documents and the other five vanilla-aware
+# checks read. This one read only EU4_GAME_DIR, so anyone who set the documented
+# variable got the hardcoded path instead - and on a machine where that path is
+# wrong, every vanilla assertion below is skipped in silence rather than failing.
+install = Path(os.environ.get('EU4_DIR')
+               or os.environ.get('EU4_GAME_DIR')
+               or 'D:/Programs Files(x86)/Steam/steamapps/common/Europa Universalis IV')
 vanilla_path = install / 'common/religions/00_religion.txt'
 if vanilla_path.exists():
     vanilla = named_block(vanilla_path.read_text(encoding='utf-8-sig'), 'orthodox')

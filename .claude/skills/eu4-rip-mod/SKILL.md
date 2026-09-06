@@ -1,6 +1,6 @@
 ---
 name: eu4-rip-mod
-description: Working knowledge of the RIP mod for Europa Universalis IV 1.37 - how EU4 silently drops content that looks correct, the measured art and balance standards, the encoding traps, the thirteen checks, and how to tie an in-game symptom back to script. Use for any edit to this repository: government reforms, decisions, events, missions, religions, cultures, great projects, localisation, graphics, or the Ukrainian documentation.
+description: Working knowledge of the RIP mod for Europa Universalis IV 1.37 - how EU4 silently drops content that looks correct, the measured art and balance standards, the encoding traps, the sixteen checks, and how to tie an in-game symptom back to script. Use for any edit to this repository: government reforms, decisions, events, missions, religions, cultures, great projects, localisation, graphics, or the Ukrainian documentation.
 ---
 
 # RIP: Alternative Ruthenian Immersion Pack
@@ -16,20 +16,29 @@ git log --oneline -5 && git status          # expect a clean tree
 python tests/run_all_tests.py | tail -3
 ```
 
-**Thirteen** checks live in `tests/`, and `run_all_tests.py` runs them all - it is
-wider than the eight `CLAUDE.md` lists, and `check_event_modifier_layer` and
-`check_government_reforms` are the two that catch the most. The last line to read is
-`ALL CRITICAL TESTS PASS: True`.
+**Sixteen** checks live in `tests/`, and `run_all_tests.py` runs them all.
+`check_event_modifier_layer` and `check_government_reforms` are the two that catch
+the most. The last line to read is `ALL CRITICAL TESTS PASS: True`; every check is
+critical except `check_script_layer.py`, which may exit non-zero without failing the
+gate because it carries deliberate open questions.
 
 ```
 check_script_layer      check_glossary            check_clausewitz_braces
 check_claim_pacing      check_subject_cb_limits   check_border_principalities
 check_steppe_expansions check_docs_language       check_culture_key_compatibility
-check_estate_layer      check_event_modifier_layer
-check_government_names  check_government_reforms
+check_estate_layer      check_event_modifier_layer check_opinion_modifier_layer
+check_government_names  check_government_reforms   check_province_names
+check_ro_blessing_window
 ```
 
-`check_script_layer.py` is the noisy one. It now reports **0 errors, 164 warnings**.
+Set `EU4_DIR` before running: six of the sixteen compare against the installed
+vanilla and silently skip those assertions without it.
+
+**None of the sixteen evaluates gameplay arithmetic.** They are static contracts over
+script text. A mechanic can be perfectly wired, pass every gate, and still convert an
+entire realm in one tick - see "Simulate the numbers" below.
+
+`check_script_layer.py` is the noisy one. It now reports **0 errors, 184 warnings**.
 The "10 errors" this file used to quote were real once and have since been fixed;
 if you meet a number you did not cause, find out what changed before working -
 that is the point of reading it first, not the specific number.
@@ -90,6 +99,67 @@ every other government - and in this mod HET and ZAZ start as republics.
 `add_church_power` on them is a no-op that charges nothing and grants nothing.
 Patriarch authority is the currency they actually hold, and `legitimacy_equivalent`
 is the trigger that reads whichever currency a government uses.
+
+**`aspects` and `blessings` are two different fields.** Vanilla declares `aspects`
+in four religions (`00_religion.txt` 335, 372, 412, 2450) and `blessings` in two
+(841, 2585). They are not synonyms and do not share a panel; a file in
+`common/church_aspects/` that nothing declares is dead weight, not a mechanic.
+
+**`orthodox_icons` holds AT MOST ONE icon - and the whole mechanic is Third Rome
+DLC.** Zero is a valid state (`NO_ICON_COMMISSIONED`), commissioning a second
+replaces the first (the engine's own confirm dialog, `ORTHIC_LOSE`: "You will lose
+the benefits you currently have from..."), and a commission LAPSES on its own after
+`ORTHODOX_ICON_DURATION_MONTHS = 240` - twenty years. It costs
+`ORTHODOX_ICON_AUTHORITY_COST = 0.1` patriarch authority. Those two are the only
+icon defines that exist; there is no count, slot or duration field in the religion,
+the icon entry, or `defines.lua`. Every icon event in vanilla carries
+`has_dlc = "Third Rome"`, so a player without it sees none of this.
+
+**`current_icon` is a trigger with no effect form.** Added in 1.22 as a trigger,
+never given a setter. About forty uses in vanilla, all in trigger position. Script
+therefore cannot take a standing icon down - which is why an icon that grants a
+payload can never be revoked, and why an emptied icon block must also zero its
+payloads. Vanilla hits this itself: `BYZ_double_current_icon`
+(`missions/KoK_Byzantine_Missions.txt`:3034) "doubles" an icon with an
+`add_country_modifier` chain, because it cannot commission a second one.
+
+**The faith panel draws exactly five holy sites.** `countryreligionview.gui`
+defines `holy_site_icon_1..5` and `holy_site_name_1..5` and nothing further; both
+vanilla holy-site religions declare exactly five. A sixth works in the engine and
+has nowhere to draw, which surfaces as
+`Missing Icon 'holy_site_icon_6' in window 'coptic_specific_window'` in `error.log`.
+
+**Religion mechanics all draw into one rectangle, and that is the real constraint.**
+`has_patriarchs`, `holy_sites`, `fervor` and the rest each claim the same band of
+`countryreligionview.gui`. Three mechanics on one faith means three overlapping
+panels. Moving one is not the fix: `province_listbox` sits at `y=402`, size
+530x450, so the band below it is occupied, and an override that relocates a panel
+draws on top of the province list. This mod tried that and reverted it; it ships no
+`countryreligionview.gui`. **The design that worked was the opposite** - one native
+panel, no GUI override at all, and payloads set to a fixed fraction of vanilla's
+(`check_ro_blessing_window.py` enforces 95%). Reach for that before reaching for a
+scripted imitation.
+
+**`religious_unity` is not an `export_to_variable` value.** Vanilla exports
+`opinion`, `trust`, `total_development`, `border_distance` and a long tail of
+`trigger_value:<trigger>` forms - never `religious_unity`. It is a threshold
+trigger, so a ladder of `else_if` rungs is how you multiply by it, and that also
+puts the rounding somewhere visible. The `trigger_value:` prefix is the general
+escape hatch for reading a trigger into a variable; it has not been tested against
+`religious_unity` here.
+
+**A comment inside commented-out vanilla code is not documentation.**
+`00_diplomatic_actions.txt` carries "This trigger is only allowed inside a
+variable_arithmetic_trigger" above `check_variable` - and the whole example, lines
+70-140, is `#`-prefixed dead text the engine never parses. It is also wrong:
+`check_variable = { which = A which = B }` works in a plain `limit`/`trigger`,
+27 times in vanilla files that contain no `variable_arithmetic_trigger` at all
+(`events/Elections.txt`, `events/ConsortEvents.txt`). The real rule is about where
+the operands come from: a trigger context cannot run `export_to_variable`, so the
+wrapper is needed only when the operands must be computed at evaluation time. If an
+earlier effect already set them, compare them directly. `set_variable` and
+`subtract_variable` take the same two-`which` form in effect contexts
+(`ConsortEvents.txt`:1761, 1783) - not audited here, so check before relying on it.
 
 **`take_capital` targets the enemy's capital, not the province you meant.** To pin
 a war goal to one province use `type = take_province` with an `allowed_provinces`
@@ -251,8 +321,20 @@ block.
 - **Measure vanilla before deciding.** Every standard in this skill is a number taken
   from the install, which is why "too expensive" became "outside the only ladder
   vanilla uses in 135 of 138 cases".
-- **Parallel sessions are real in this repository.** `git fetch` and check whether
-  `main` moved before merging.
+- **Simulate the numbers before shipping them.** No check in `tests/` evaluates
+  gameplay arithmetic, and script cannot print from inside a `while` loop. A short
+  C++ model of the loop, built through `vcvars64.bat` (there is no compiler on
+  `PATH`; MSVC 2022 Community is installed), found three defects in one sitting that
+  every gate passed over: a conversion budget that took a whole realm in one tick, a
+  cost floor small realms could never reach so they converted nobody for the entire
+  game, and an upkeep table so cheap that over 200 simulated years the resource it
+  was meant to cost never once ran out. The third is the instructive one - the
+  script was flawless and the mechanic did nothing. `tests/dev_tools/balance_sim/`.
+- **Parallel sessions are real in this repository, and they commit.** `git fetch`
+  and check whether `main` moved before merging - but also re-read the files you are
+  about to document. Work here has been committed mid-edit by another session, and a
+  design has been reversed between one turn and the next. Before writing anything
+  down as current, confirm it against the working tree rather than against memory.
 - **Commit only when asked**, and branch off `main` first.
 - Scratch scripts belong in the session scratchpad, never in a directory the game
   loads. `tests/dev_tools/` exists for content deliberately kept out of the build.

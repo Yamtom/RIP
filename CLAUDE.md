@@ -22,11 +22,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```
 common/  decisions/  events/  history/  interface/  gfx/  localisation/
-missions/  customizable_localization/
+missions/  customizable_localization/  sound/
 ```
 
-`docs/`, `tests/`, `diagnostics/`, `.claude/`, `.venv/` гра не читає взагалі —
-безпечне місце для нескриптових файлів. `tests/dev_tools/` навмисно тримає
+`docs/`, `tests/`, `tools/`, `diagnostics/`, `.claude/`, `.venv/` гра не читає
+взагалі — безпечне місце для нескриптових файлів. `tests/dev_tools/` навмисно тримає
 файли поза цими теками (наприклад, налагоджувальну подію) — вони мертві, доки
 їх не скопіювати назад.
 
@@ -38,19 +38,42 @@ missions/  customizable_localization/
 Усі скрипти запускаються з кореня мода звичайним `python`, без pytest і без
 залежностей поза стандартною бібліотекою:
 
+**Гейт злиття — один прогін:**
+
 ```powershell
-python tests/check_script_layer.py        # структура, кодування, конфлікт-маркери, локалізація, дублікати ключів, досяжність, картинки, прапорці, ID провінцій
-python tests/check_glossary.py            # топоніми й регістр за docs/STYLE_GLOSSARY.md — гейт злиття
-python tests/check_clausewitz_braces.py   # BOM і баланс дужок
-python tests/check_claim_pacing.py        # темп претензій KIE/KRU та Росії
-python tests/check_subject_cb_limits.py   # тривалість і винятковість CB на васалів
-python tests/check_border_principalities.py  # ID, тригери й локалізація прикордонних/касимовських подій
-python tests/check_steppe_expansions.py   # донські/черкеські/кафські ланцюги проти опису
-python tests/check_docs_language.py       # частка перекладеної документації; --list показує неперекладені рядки
+python tests/run_all_tests.py
 ```
 
-Кожен скрипт завершується кодом 1 при порушенні — придатні для гейта. Один
-тест — один прогін; окремого тест-раннера немає.
+Він запускає **всі шістнадцять** перевірок і друкує підсумок
+`ALL CRITICAL TESTS PASS`. Критичними вважає всі, **крім
+`check_script_layer.py`** — та єдина може завершитись ненульовим кодом і не
+завалити гейт, бо в ній лишені навмисні рішення для автора.
+
+| Перевірка | Що тримає |
+|---|---|
+| `check_clausewitz_braces.py` | BOM і баланс дужок |
+| `check_ro_blessing_window.py` | нативна панель православ'я: 95% ванільних чисел, відсутність GUI-оверрайдів, прибирання спадщини |
+| `check_culture_key_compatibility.py` | ключі культур проти ванільних |
+| `check_estate_layer.py` | стани, розділені по країнах |
+| `check_event_modifier_layer.py` | **дублікати й змішування country/province API** — найтиповіша тиха помилка |
+| `check_opinion_modifier_layer.py` | модифікатори думки: унікальність і використання |
+| `check_province_names.py` | назви провінцій: ID, ареї, кодування, шарування |
+| `check_government_reforms.py` | реформи: тири, гейти, життєвий цикл |
+| `check_government_names.py` | назви урядів: пріоритет і досяжність |
+| `check_glossary.py` | топоніми й регістр в англійській локалізації |
+| `check_claim_pacing.py` | темп претензій KIE/KRU та Росії |
+| `check_subject_cb_limits.py` | тривалість і винятковість CB на васалів |
+| `check_border_principalities.py` | прикордонні/касимовські події проти опису |
+| `check_steppe_expansions.py` | донські/черкеські/кафські ланцюги проти опису |
+| `check_docs_language.py` | частка перекладеної документації (`--list` покаже рядки) |
+| `check_script_layer.py` | структура, кодування, локалізація, досяжність, картинки, ID провінцій |
+
+Кожен скрипт запускається й окремо і завершується кодом 1 при порушенні.
+
+**Чого ці шістнадцять не бачать.** Усі вони — статичні контракти над текстом
+скрипту. Жодна не рахує ігрову арифметику: механіка може бути бездоганно
+з'єднана, пройти всі гейти й при цьому навертати цілу державу за один такт.
+Числа перевіряють окремо, поза грою — `tests/dev_tools/balance_sim/`.
 
 `check_script_layer.py` шукає встановлену EU4 сам (`EU4_DIR` або типові шляхи
 Steam); без неї локалізаційні перевірки переходять у режим попереджень, а не
@@ -98,9 +121,12 @@ $env:EU4_DIR = "D:\...\steamapps\common\Europa Universalis IV"
 
 ## Тексти й локалізація
 
-`docs/STYLE_GLOSSARY.md` — виконуваний документ: `check_glossary.py` звіряє
-англійську локалізацію проти його розділів 1 і 3 і падає з кодом 1 при
-порушенні. Головне з нього:
+`docs/STYLE_GLOSSARY.md` — гейт злиття, але **не виконуваний документ**.
+`check_glossary.py` звіряє англійську локалізацію з правилами розділів 1 і 3,
+проте самих правил у документі не читає: вони вписані в її код (файл згадує
+глосарій лише в докстрінгу, а відкриває тільки `localisation/*.yml`). Тобто
+змінивши глосарій, ви **не** змінюєте гейт — обидва треба правити разом.
+Головне з нього:
 
 - Українські топоніми для власної території мода (Kyiv, не Kiev; Halych, не
   Galich), усталені англійські — для того, що поза нею (Dnieper, не Dnipro).
