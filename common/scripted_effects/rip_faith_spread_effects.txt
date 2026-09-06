@@ -178,6 +178,8 @@ rip_faith_reset_stage_effect = {
 # the top down, so it takes the cathedral cities while the budget is fat and the
 # hamlets as it runs out, and stops the moment nothing affordable is left.
 rip_gc_unity_spread_effect = {
+	# Country reward budget: at most four owner-scoped grants per pulse.
+	set_variable = { which = rip_uc_conversion_authority_budget value = 4 }
 	rip_faith_unity_budget_effect = yes
 
 	# The preaching itself is not touched: rip_uc_union_spread_effect still

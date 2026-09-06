@@ -1,0 +1,22 @@
+namespace = rip_uc_curia
+
+# Standard event panel: an information page, not a copied native Curia window.
+country_event = {
+	id = rip_uc_curia.1
+	title = rip_uc_curia.1.t
+	desc = {
+		trigger = { NOT = { exists = PAP } }
+		desc = rip_uc_curia.1.no_rome
+	}
+	desc = {
+		trigger = { exists = PAP war_with = PAP }
+		desc = rip_uc_curia.1.war
+	}
+	desc = {
+		trigger = { exists = PAP NOT = { war_with = PAP } }
+		desc = rip_uc_curia.1.communion
+	}
+	picture = RELIGION_eventPicture
+	is_triggered_only = yes
+	option = { name = rip_uc_curia.1.close }
+}

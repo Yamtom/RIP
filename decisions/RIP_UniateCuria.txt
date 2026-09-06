@@ -1,46 +1,26 @@
 country_decisions = {
+	# EU4 1.37: native authority bar plus guarded, country-scoped petitions.
+	# Catholic papacy definitions and the shared religion GUI stay vanilla.
 
-	# Communion with Rome, for a church Rome does not seat.
-	#
-	# Greek Catholicism was meant to be the Orthodox church plus access to the
-	# papal curia. The first half is a religion mechanic and is kept:
-	# has_patriarchs and the five icons are this faith's one panel. The second
-	# half cannot be. The engine resolves a papacy from the country's own
-	# religion - the console refuses a cardinal with "No papacy for that
-	# country's religion" - so a papacy block on greek_catholic would not open
-	# Rome's curia, it would raise a second and separate one, with its own
-	# papal tag, its own cardinals and its own controller election.
-	#
-	# What a Uniate country can really have is what the Uniate metropolitans
-	# really had: standing to petition, and no seat. Each petition below buys
-	# the same country modifier the matching papal action grants a Catholic
-	# power, for the same duration, paid in coin and prestige rather than in
-	# papal influence - which is inert for a religion that owns no papacy.
-	#
-	# What is NOT delivered, and is not pretended: cardinals, excommunication,
-	# calling a crusade, golden bulls, the curia treasury, and any vote on who
-	# controls it. Those are engine actions gated on holding a papacy.
+	rip_uc_view_communion = {
+		potential = { religion = greek_catholic ai = no }
+		allow = { always = yes }
+		effect = {
+			if = {
+				limit = { religion = greek_catholic }
+				country_event = { id = rip_uc_curia.1 }
+			}
+		}
+		ai_will_do = { factor = 0 }
+	}
 
 	rip_uc_petition_church_tax = {
 		potential = {
-			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
-			exists = PAP
-			NOT = { has_country_modifier = papal_sanction_for_church_taxes }
+			has_country_flag = rip_uc_see_raised
 		}
-		allow = {
-			rip_uc_can_petition_the_curia = yes
-			treasury = 200
-		}
-		effect = {
-			add_treasury = -200
-			rip_uc_petition_cost_effect = yes
-			rip_uc_spend_the_standing_effect = yes
-			add_country_modifier = {
-				name = papal_sanction_for_church_taxes
-				duration = 7300
-			}
-		}
+		allow = { rip_uc_can_petition_church_tax = yes }
+		effect = { rip_uc_petition_church_tax_effect = yes }
 		ai_will_do = {
 			factor = 2
 		}
@@ -48,24 +28,11 @@ country_decisions = {
 
 	rip_uc_petition_blessing = {
 		potential = {
-			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
-			exists = PAP
-			NOT = { has_country_modifier = papal_blessing }
+			has_country_flag = rip_uc_see_raised
 		}
-		allow = {
-			rip_uc_can_petition_the_curia = yes
-			treasury = 150
-		}
-		effect = {
-			add_treasury = -150
-			rip_uc_petition_cost_effect = yes
-			rip_uc_spend_the_standing_effect = yes
-			add_country_modifier = {
-				name = papal_blessing
-				duration = 7300
-			}
-		}
+		allow = { rip_uc_can_petition_blessing = yes }
+		effect = { rip_uc_petition_blessing_effect = yes }
 		ai_will_do = {
 			factor = 2
 			modifier = {
@@ -77,24 +44,11 @@ country_decisions = {
 
 	rip_uc_petition_indulgence = {
 		potential = {
-			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
-			exists = PAP
-			NOT = { has_country_modifier = papal_indulgence }
+			has_country_flag = rip_uc_see_raised
 		}
-		allow = {
-			rip_uc_can_petition_the_curia = yes
-			treasury = 150
-		}
-		effect = {
-			add_treasury = -150
-			rip_uc_petition_cost_effect = yes
-			rip_uc_spend_the_standing_effect = yes
-			add_country_modifier = {
-				name = papal_indulgence
-				duration = 7300
-			}
-		}
+		allow = { rip_uc_can_petition_indulgence = yes }
+		effect = { rip_uc_petition_indulgence_effect = yes }
 		ai_will_do = {
 			factor = 2
 		}
@@ -102,24 +56,11 @@ country_decisions = {
 
 	rip_uc_petition_usury = {
 		potential = {
-			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
-			exists = PAP
-			NOT = { has_country_modifier = usury_forgiven }
+			has_country_flag = rip_uc_see_raised
 		}
-		allow = {
-			rip_uc_can_petition_the_curia = yes
-			treasury = 100
-		}
-		effect = {
-			add_treasury = -100
-			rip_uc_petition_cost_effect = yes
-			rip_uc_spend_the_standing_effect = yes
-			add_country_modifier = {
-				name = usury_forgiven
-				duration = 7300
-			}
-		}
+		allow = { rip_uc_can_petition_usury = yes }
+		effect = { rip_uc_petition_usury_effect = yes }
 		ai_will_do = {
 			factor = 1
 			modifier = {
@@ -131,25 +72,11 @@ country_decisions = {
 
 	rip_uc_petition_legate = {
 		potential = {
-			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
-			exists = PAP
-			NOT = { has_country_modifier = papal_legate }
+			has_country_flag = rip_uc_see_raised
 		}
-		allow = {
-			rip_uc_can_petition_the_curia = yes
-			treasury = 250
-			prestige = 25
-		}
-		effect = {
-			add_treasury = -250
-			rip_uc_petition_cost_effect = yes
-			rip_uc_spend_the_standing_effect = yes
-			add_country_modifier = {
-				name = papal_legate
-				duration = 7300
-			}
-		}
+		allow = { rip_uc_can_petition_legate = yes }
+		effect = { rip_uc_petition_legate_effect = yes }
 		ai_will_do = {
 			factor = 2
 		}
@@ -157,70 +84,31 @@ country_decisions = {
 
 	rip_uc_petition_holy_war = {
 		potential = {
-			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
-			exists = PAP
-			NOT = { has_country_modifier = papal_sanction_for_holy_war }
+			has_country_flag = rip_uc_see_raised
 		}
-		allow = {
-			rip_uc_can_petition_the_curia = yes
-			is_at_war = yes
-			treasury = 200
-		}
-		effect = {
-			add_treasury = -200
-			rip_uc_petition_cost_effect = yes
-			rip_uc_spend_the_standing_effect = yes
-			add_country_modifier = {
-				name = papal_sanction_for_holy_war
-				duration = 7300
-			}
-		}
+		allow = { rip_uc_can_petition_holy_war = yes }
+		effect = { rip_uc_petition_holy_war_effect = yes }
 		ai_will_do = {
 			factor = 3
 		}
 	}
 
-	# --- the articles of the Union
-	#
-	# Eight acts written as church aspects that nothing could reach. A synod
-	# settles one at a sitting, permanently, and cannot sit twice in a decade.
-
 	rip_uc_hold_a_synod = {
 		major = yes
 		potential = {
-			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
-			NOT = { has_country_modifier = rip_uc_synod_recently_sat }
+			has_country_flag = rip_uc_see_raised
 		}
-		allow = {
-			adm_power = 100
-			is_at_war = no
-			stability = 1
-			patriarch_authority = 0.3
-		}
+		allow = { rip_uc_can_hold_synod = yes }
 		effect = {
-			set_country_flag = rip_uc_synod_held
-			add_adm_power = -100
-			add_country_modifier = {
-				name = rip_uc_synod_recently_sat
-				duration = 3650
+			if = {
+				limit = { rip_uc_can_hold_synod = yes }
+				country_event = { id = rip_faith.2 }
 			}
-			country_event = { id = rip_faith.2 days = 3 }
 		}
-		ai_will_do = {
-			factor = 2
-		}
+		ai_will_do = { factor = 2 }
 	}
-
-	# --- the See of the Union
-	#
-	# One centre, as the author asked, and one only: the flag closes the
-	# decision behind it. What the centre may convert is declared on the
-	# religion itself - orthodox, russian_orthodox and catholic alike - and how
-	# fast it works on which parish is weighted in rip_uc_union_spread_effect,
-	# because the engine's own spread cannot tell a contested parish from a
-	# settled one.
 
 	rip_uc_raise_the_see = {
 		major = yes
@@ -234,6 +122,7 @@ country_decisions = {
 			religion = greek_catholic
 			development = 10
 			is_reformation_center = no
+			is_island = no
 		}
 		allow = {
 			adm_power = 100
@@ -269,9 +158,6 @@ country_decisions = {
 		}
 	}
 
-	# Presence at the Curia is bought, and the Ruthenian sees complained about buying
-	# it for two centuries. This is the whole of the mechanic that replaces the
-	# cardinals: send money, be remembered, be forgotten again if you stop.
 	rip_uc_send_a_donation = {
 		potential = {
 			religion = greek_catholic
@@ -281,10 +167,7 @@ country_decisions = {
 			NOT = { patriarch_authority = 1.00 }
 		}
 
-		allow = {
-			treasury = 150
-			NOT = { war_with = PAP }
-		}
+		allow = { rip_uc_can_donate = yes }
 
 		effect = {
 			rip_uc_donation_effect = yes

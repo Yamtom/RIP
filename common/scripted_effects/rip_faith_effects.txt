@@ -42,19 +42,12 @@ rip_ro_clear_the_zeal_effect = {
 }
 
 # A petition costs more than its fee: the curia expects the standing to be
-# maintained, and will not read two letters in the same year.
+# maintained; the five-year cooldown has no hidden positive payload.
 rip_uc_petition_cost_effect = {
 	add_prestige = -2
 	add_country_modifier = {
 		name = rip_uc_petition_cooldown
 		duration = 1825
-	}
-	if = {
-		limit = { has_estate = estate_church }
-		add_estate_loyalty = {
-			estate = estate_church
-			loyalty = 5
-		}
 	}
 }
 

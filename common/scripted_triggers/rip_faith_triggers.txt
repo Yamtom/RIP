@@ -1,35 +1,91 @@
-# Gates for the script-side halves of the two faiths.
+# Country-scope gates shared by decisions and their effects.
+# One church benefit: a petition OR a synod article, for twenty years.
+rip_uc_has_church_benefit = {
+	OR = {
+		has_country_modifier = rip_uc_curia_church_tax
+		has_country_modifier = rip_uc_curia_blessing
+		has_country_modifier = rip_uc_curia_indulgence
+		has_country_modifier = rip_uc_curia_usury
+		has_country_modifier = rip_uc_curia_legate
+		has_country_modifier = rip_uc_curia_holy_war
+		has_country_modifier = embrace_eastern_rite
+		has_country_modifier = accept_papal_supremacy
+		has_country_modifier = basilian_monasteries
+		has_country_modifier = uniate_educational_network_aspect
+		has_country_modifier = defender_of_union
+		has_country_modifier = blessing_of_basilian_order
+		has_country_modifier = blessing_of_papal_protection
+		has_country_modifier = blessing_of_uniate_missionaries
+	}
+}
 
-# A Uniate country may petition Rome when Rome exists, is not at war with it,
-# and thinks well enough of it to read the letter.
-#
-# These petitions are now the FALLBACK, not the mechanic. The faith carries a
-# real papacy block naming PAP and Rome, so a Uniate country should accrue papal
-# influence and buy the papal actions directly. If that works, influence climbs
-# past 1 within the first years and every petition below disappears on its own;
-# if the engine refuses a second religion its curia, influence stays at zero and
-# the petitions remain the way in. The gate is the test.
 rip_uc_can_petition_the_curia = {
 	religion = greek_catholic
-	# Standing at Rome IS patriarch authority for this faith.
-	#
-	# It used to be rip_uc_standing, a country variable with no bar, faked in
-	# the tooltips with five band modifiers. greek_catholic declares
-	# has_patriarchs, so it already owns a real engine bar with a real number
-	# on it - and that bar already does what the Uniate metropolitan's standing
-	# should do, because patriarch authority is what the icons and the province
-	# modifiers of this rite are priced in. So the petitions read it, and
-	# spend it. A church that has spent itself at Rome has nothing left to
-	# spend at home, which is the whole argument the brotherhoods made.
+	has_country_flag = rip_uc_see_raised
 	patriarch_authority = 0.25
 	exists = PAP
 	NOT = { war_with = PAP }
 	NOT = { has_country_modifier = rip_uc_petition_cooldown }
-	PAP = {
-		has_opinion = {
-			who = ROOT
-			value = 25
-		}
+	custom_trigger_tooltip = {
+		tooltip = rip_uc_church_benefit_slot_free_tt
+		NOT = { rip_uc_has_church_benefit = yes }
 	}
+	PAP = { has_opinion = { who = ROOT value = 25 } }
 	stability = 0
+}
+
+rip_uc_can_petition_church_tax = {
+	rip_uc_can_petition_the_curia = yes
+	treasury = 200
+}
+
+rip_uc_can_petition_blessing = {
+	rip_uc_can_petition_the_curia = yes
+	treasury = 150
+}
+
+rip_uc_can_petition_indulgence = {
+	rip_uc_can_petition_the_curia = yes
+	treasury = 150
+}
+
+rip_uc_can_petition_usury = {
+	rip_uc_can_petition_the_curia = yes
+	treasury = 100
+}
+
+rip_uc_can_petition_legate = {
+	rip_uc_can_petition_the_curia = yes
+	treasury = 250
+	prestige = 25
+}
+
+rip_uc_can_petition_holy_war = {
+	rip_uc_can_petition_the_curia = yes
+	treasury = 200
+	is_at_war = yes
+}
+
+rip_uc_can_hold_synod = {
+	religion = greek_catholic
+	has_country_flag = rip_uc_see_raised
+	adm_power = 100
+	is_at_war = no
+	stability = 1
+	patriarch_authority = 0.25
+	NOT = { has_country_modifier = rip_uc_synod_recently_sat }
+	custom_trigger_tooltip = {
+		tooltip = rip_uc_church_benefit_slot_free_tt
+		NOT = { rip_uc_has_church_benefit = yes }
+	}
+}
+
+rip_uc_can_donate = {
+	religion = greek_catholic
+	has_country_flag = rip_uc_see_raised
+	exists = PAP
+	NOT = { war_with = PAP }
+	NOT = { has_country_modifier = rip_uc_donation_recently_sent }
+	NOT = { patriarch_authority = 1 }
+	treasury = 150
 }

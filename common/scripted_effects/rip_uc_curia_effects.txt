@@ -1,0 +1,223 @@
+# COUNTRY scope. Every public transaction validates the same gate as its UI.
+
+rip_uc_petition_church_tax_effect = {
+	if = {
+		limit = { rip_uc_can_petition_church_tax = yes }
+		add_treasury = -200
+		rip_uc_petition_cost_effect = yes
+		rip_uc_spend_the_standing_effect = yes
+		add_country_modifier = {
+			name = rip_uc_curia_church_tax
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_petition_blessing_effect = {
+	if = {
+		limit = { rip_uc_can_petition_blessing = yes }
+		add_treasury = -150
+		rip_uc_petition_cost_effect = yes
+		rip_uc_spend_the_standing_effect = yes
+		add_country_modifier = {
+			name = rip_uc_curia_blessing
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_petition_indulgence_effect = {
+	if = {
+		limit = { rip_uc_can_petition_indulgence = yes }
+		add_treasury = -150
+		rip_uc_petition_cost_effect = yes
+		rip_uc_spend_the_standing_effect = yes
+		add_country_modifier = {
+			name = rip_uc_curia_indulgence
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_petition_usury_effect = {
+	if = {
+		limit = { rip_uc_can_petition_usury = yes }
+		add_treasury = -100
+		rip_uc_petition_cost_effect = yes
+		rip_uc_spend_the_standing_effect = yes
+		add_country_modifier = {
+			name = rip_uc_curia_usury
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_petition_legate_effect = {
+	if = {
+		limit = { rip_uc_can_petition_legate = yes }
+		add_treasury = -250
+		rip_uc_petition_cost_effect = yes
+		rip_uc_spend_the_standing_effect = yes
+		add_country_modifier = {
+			name = rip_uc_curia_legate
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_petition_holy_war_effect = {
+	if = {
+		limit = { rip_uc_can_petition_holy_war = yes }
+		add_treasury = -200
+		rip_uc_petition_cost_effect = yes
+		rip_uc_spend_the_standing_effect = yes
+		add_country_modifier = {
+			name = rip_uc_curia_holy_war
+			duration = 7300
+		}
+	}
+}
+
+# Charged when an article is SELECTED, so cancel/stale events cannot mint mana
+# or grant a free second article. The historical milestone flag is retained.
+rip_uc_synod_cost_effect = {
+	add_adm_power = -100
+	rip_uc_spend_the_standing_effect = yes
+	set_country_flag = rip_uc_synod_held
+	add_country_modifier = {
+		name = rip_uc_synod_recently_sat
+		duration = 3650
+	}
+}
+
+rip_uc_synod_a_effect = {
+	if = {
+		limit = { rip_uc_can_hold_synod = yes }
+		rip_uc_synod_cost_effect = yes
+		add_country_modifier = {
+			name = embrace_eastern_rite
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_synod_b_effect = {
+	if = {
+		limit = { rip_uc_can_hold_synod = yes }
+		rip_uc_synod_cost_effect = yes
+		add_country_modifier = {
+			name = accept_papal_supremacy
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_synod_c_effect = {
+	if = {
+		limit = { rip_uc_can_hold_synod = yes }
+		rip_uc_synod_cost_effect = yes
+		add_country_modifier = {
+			name = basilian_monasteries
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_synod_e_effect = {
+	if = {
+		limit = { rip_uc_can_hold_synod = yes }
+		rip_uc_synod_cost_effect = yes
+		add_country_modifier = {
+			name = uniate_educational_network_aspect
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_synod_f_effect = {
+	if = {
+		limit = { rip_uc_can_hold_synod = yes }
+		rip_uc_synod_cost_effect = yes
+		add_country_modifier = {
+			name = defender_of_union
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_synod_g_effect = {
+	if = {
+		limit = { rip_uc_can_hold_synod = yes }
+		rip_uc_synod_cost_effect = yes
+		add_country_modifier = {
+			name = blessing_of_basilian_order
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_synod_h_effect = {
+	if = {
+		limit = { rip_uc_can_hold_synod = yes }
+		rip_uc_synod_cost_effect = yes
+		add_country_modifier = {
+			name = blessing_of_papal_protection
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_synod_i_effect = {
+	if = {
+		limit = { rip_uc_can_hold_synod = yes }
+		rip_uc_synod_cost_effect = yes
+		add_country_modifier = {
+			name = blessing_of_uniate_missionaries
+			duration = 7300
+		}
+	}
+}
+
+rip_uc_clear_church_benefits_effect = {
+	remove_country_modifier = rip_uc_curia_church_tax
+	remove_country_modifier = rip_uc_curia_blessing
+	remove_country_modifier = rip_uc_curia_indulgence
+	remove_country_modifier = rip_uc_curia_usury
+	remove_country_modifier = rip_uc_curia_legate
+	remove_country_modifier = rip_uc_curia_holy_war
+	remove_country_modifier = embrace_eastern_rite
+	remove_country_modifier = accept_papal_supremacy
+	remove_country_modifier = basilian_monasteries
+	remove_country_modifier = uniate_educational_network_aspect
+	remove_country_modifier = defender_of_union
+	remove_country_modifier = blessing_of_basilian_order
+	remove_country_modifier = blessing_of_papal_protection
+	remove_country_modifier = blessing_of_uniate_missionaries
+}
+
+# Once per old save; repeated startup does not erase a new paid benefit.
+# The migration flag is never cleared: switching religion cannot reset timers.
+rip_uc_curia_migration_effect = {
+	if = {
+		limit = { religion = greek_catholic }
+		rip_uc_clear_the_bands_effect = yes
+		# Old petitions used Catholic IDs. Remove only while Greek Catholic;
+		# Catholics and their native papal actions are never touched.
+		remove_country_modifier = papal_sanction_for_church_taxes
+		remove_country_modifier = papal_blessing
+		remove_country_modifier = papal_indulgence
+		remove_country_modifier = usury_forgiven
+		remove_country_modifier = papal_legate
+		remove_country_modifier = papal_sanction_for_holy_war
+		if = {
+			limit = { NOT = { has_country_flag = rip_uc_curia_v2_migrated } }
+			rip_uc_clear_church_benefits_effect = yes
+			set_country_flag = rip_uc_curia_v2_migrated
+		}
+	}
+	else_if = {
+		limit = { has_country_flag = rip_uc_curia_v2_migrated }
+		rip_uc_clear_church_benefits_effect = yes
+		rip_uc_clear_the_bands_effect = yes
+	}
+}

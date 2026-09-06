@@ -8,6 +8,7 @@ sys.stderr.reconfigure(encoding="utf-8")
 scripts = [
     "tests/check_clausewitz_braces.py",
     "tests/check_ro_blessing_window.py",
+    "tests/check_uc_curia.py",
     "tests/check_culture_key_compatibility.py",
     "tests/check_estate_layer.py",
     "tests/check_event_modifier_layer.py",
