@@ -6,6 +6,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 sys.stderr.reconfigure(encoding="utf-8")
 
 scripts = [
+    "tests/check_vanilla_version.py",
     "tests/check_clausewitz_braces.py",
     "tests/check_ro_blessing_window.py",
     "tests/check_uc_curia.py",
@@ -37,3 +38,4 @@ for s in scripts:
         all_ok = False
 
 print(f"\nALL CRITICAL TESTS PASS: {all_ok}")
+raise SystemExit(0 if all_ok else 1)

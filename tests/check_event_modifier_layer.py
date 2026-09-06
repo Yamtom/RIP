@@ -12,23 +12,12 @@ import os
 from pathlib import Path
 import re
 import sys
+from clausewitz_testlib import vanilla_root
 
 
 ROOT = Path(__file__).resolve().parents[1]
 MODIFIER_DIR = ROOT / "common" / "event_modifiers"
-EU4_CANDIDATES = (
-    os.environ.get("EU4_DIR"),
-    r"D:\Programs Files(x86)\Steam\steamapps\common\Europa Universalis IV",
-    r"C:\Program Files (x86)\Steam\steamapps\common\Europa Universalis IV",
-)
-EU4_DIR = next(
-    (
-        Path(path)
-        for path in EU4_CANDIDATES
-        if path and Path(path, "common", "event_modifiers").is_dir()
-    ),
-    None,
-)
+EU4_DIR = vanilla_root()
 
 COUNTRY_FILES = {
     "VOL_alt_history_modifiers.txt": (re.compile(r"^vol_"), set()),

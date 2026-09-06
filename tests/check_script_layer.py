@@ -11,19 +11,14 @@ answer; without it the localisation checks are skipped rather than guessed at.
     set EU4_DIR=D:\\...\\steamapps\\common\\Europa Universalis IV
 """
 import re, glob, io, sys, os, collections
+from clausewitz_testlib import vanilla_root
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
 SCRIPT_DIRS = ["events", "common", "missions", "decisions",
                "customizable_localization", "history", "interface"]
 
-EU4_CANDIDATES = [
-    os.environ.get("EU4_DIR"),
-    r"D:\Programs Files(x86)\Steam\steamapps\common\Europa Universalis IV",
-    r"C:\Program Files (x86)\Steam\steamapps\common\Europa Universalis IV",
-]
-EU4_DIR = next((d for d in EU4_CANDIDATES
-                if d and os.path.isdir(os.path.join(d, "localisation"))), None)
+EU4_DIR = vanilla_root()
 
 # --- helpers ---------------------------------------------------------------
 

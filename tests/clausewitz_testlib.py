@@ -140,6 +140,7 @@ def brace_error(text: str) -> str | None:
 # ==========================================================================
 
 import os
+import json
 
 _UNSET = object()
 _vanilla_root = _UNSET
@@ -157,27 +158,63 @@ _VANILLA_CANDIDATES = (
 )
 
 
-def vanilla_root():
-    """The installed EU4, or None if it cannot be found.
+def vanilla_version(path):
+    """Read game version from launcher metadata, never from the generic EXE 1.0."""
+    try:
+        data = json.loads((Path(path) / "launcher-settings.json").read_text(encoding="utf-8-sig"))
+    except (OSError, ValueError):
+        return None
+    for key in ("rawVersion", "version"):
+        match = re.search(r"\b(?:v)?(\d+\.\d+(?:\.\d+)*)", str(data.get(key, "")))
+        if match:
+            return match.group(1)
+    return None
 
-    EU4_DIR is the documented variable; EU4_GAME_DIR is honoured because one
-    check shipped with it. A directory only counts if it actually holds
-    common/religions, so a stale path fails discovery instead of silently
-    presenting an empty install.
-    """
+
+def target_vanilla_series():
+    """Version family declared by the mod, e.g. 1.37; donor installs stay separate."""
+    match = re.search(r'supported_version\s*=\s*"v?(\d+\.\d+)', read("descriptor.mod"))
+    return match.group(1) if match else None
+
+
+def vanilla_matches_target(path, target=None):
+    version = vanilla_version(path)
+    target = target or target_vanilla_series()
+    return bool(version and target and (version == target or version.startswith(target + ".")))
+
+
+def _installed_candidates():
+    seen = set()
+    values = [v for v in (os.environ.get("EU4_DIR"), os.environ.get("EU4_GAME_DIR")) if v]
+    for value in values + list(_VANILLA_CANDIDATES):
+        path = Path(value)
+        key = str(path).lower()
+        if key not in seen and (path / "common" / "religions").is_dir():
+            seen.add(key)
+            yield path
+
+
+def vanilla_installation_root():
+    """First installed game of ANY version. Use only for explicitly labelled donor audits."""
+    return next(_installed_candidates(), None)
+
+
+def vanilla_root():
+    """A target-compatible install, or None. Old donors cannot certify new content."""
     global _vanilla_root
     if _vanilla_root is not _UNSET:
         return _vanilla_root
 
-    seen = [v for v in (os.environ.get("EU4_DIR"), os.environ.get("EU4_GAME_DIR")) if v]
-    seen.extend(_VANILLA_CANDIDATES)
-
     _vanilla_root = None
-    for value in seen:
-        path = Path(value)
-        if (path / "common" / "religions").is_dir():
+    rejected = []
+    for path in _installed_candidates():
+        if vanilla_matches_target(path):
             _vanilla_root = path
             break
+        rejected.append(f"{vanilla_version(path) or 'unknown version'} at {path}")
+    if _vanilla_root is None and rejected:
+        print("SKIP: target EU4 " + str(target_vanilla_series()) +
+              " data unavailable; donor install excluded: " + "; ".join(rejected))
     return _vanilla_root
 
 
