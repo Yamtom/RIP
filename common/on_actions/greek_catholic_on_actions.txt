@@ -19,18 +19,11 @@ on_yearly_pulse = {
 
 on_bi_yearly_pulse = {
 	rip_uc_curia_migration_effect = yes
-	# The See of the Union preaches on both sides of the rite. The weighting
-	# lives in rip_uc_union_spread_effect in
-	# common/scripted_effects/rip_faith_effects.txt.
-	rip_uc_union_spread_effect = yes
-
-	# What the preaching actually converts is bought with religious unity: a
-	# development budget, spent one parish at a time, remainder lost. Both this
-	# and the merchants' engine below are in
-	# common/scripted_effects/rip_faith_spread_effects.txt.
+	# The native See and paid parish visits support ordinary missionaries.
+	# Retire the duplicate free development-budget conversion engine.
 	if = {
 		limit = { religion = greek_catholic }
-		rip_gc_unity_spread_effect = yes
+		rip_faith_advance_stage_effect = yes
 	}
 
 	# Stable communion raises authority; schism/low unity reduces it.

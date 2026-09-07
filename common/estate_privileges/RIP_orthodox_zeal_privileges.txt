@@ -1,40 +1,23 @@
-# RIP - Shared Eastern-rite Church estate privileges.
-#
-# The Josephite and the Non-Possessor: the piety axis, rebuilt as privileges.
-#
-# The fourth donor of Russian Orthodoxy was Shia Islam, and what Shia Islam
-# actually contributes is piety - one bar between two poles, each pole paying
-# for itself with what the other pole would have given. uses_piety cannot be
-# declared here: it opens muslim_specific_window, which sits in the same
-# rectangle as the holy-site panel this faith already spends its one slot on.
-#
-# The quarrel that ran through the Muscovite church for a century is the same
-# shape, and it is native: the Josephites held that the church should own land,
-# serve the ruler and burn heretics; the Non-Possessors held that it should own
-# nothing and pray. Granting one privilege bars the other, exactly as a piety
-# bar cannot be at both ends at once.
-#
-# Payloads are vanilla's positive_piety and negative_piety, halved and
-# de-Islamised.
-
+# Two alternative monastic settlements for the two Orthodox confessions.
+# Available to vanilla Orthodoxy too: no exclusive second piety bonus.
 rip_privilege_josephite_discipline = {
 	icon = privilege_religious
-	max_absolutism = 5
+	max_absolutism = -5
 	loyalty = 0.1
 	influence = 0.1
 
 	is_valid = {
 		OR = {
+			religion = orthodox
 			religion = russian_orthodox
-			religion = greek_catholic
 		}
 		NOT = { has_estate_privilege = rip_privilege_nonpossessor_rule }
 	}
 
 	can_select = {
 		OR = {
+			religion = orthodox
 			religion = russian_orthodox
-			religion = greek_catholic
 		}
 		NOT = { has_estate_privilege = rip_privilege_nonpossessor_rule }
 	}
@@ -44,9 +27,8 @@ rip_privilege_josephite_discipline = {
 	}
 
 	benefits = {
-		technology_cost = -0.05
-		global_tax_modifier = 0.1
-		global_manpower_modifier = 0.1
+		stability_cost_modifier = -0.05
+		global_tax_modifier = 0.05
 	}
 
 	ai_will_do = {
@@ -66,16 +48,16 @@ rip_privilege_nonpossessor_rule = {
 
 	is_valid = {
 		OR = {
+			religion = orthodox
 			religion = russian_orthodox
-			religion = greek_catholic
 		}
 		NOT = { has_estate_privilege = rip_privilege_josephite_discipline }
 	}
 
 	can_select = {
 		OR = {
+			religion = orthodox
 			religion = russian_orthodox
-			religion = greek_catholic
 		}
 		NOT = { has_estate_privilege = rip_privilege_josephite_discipline }
 	}
@@ -85,9 +67,8 @@ rip_privilege_nonpossessor_rule = {
 	}
 
 	benefits = {
-		land_morale = 0.05
-		global_missionary_strength = 0.015
-		idea_cost = -0.05
+		tolerance_own = 0.5
+		global_missionary_strength = 0.005
 	}
 
 	ai_will_do = {

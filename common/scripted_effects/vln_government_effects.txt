@@ -1,0 +1,16 @@
+# ========================================================================
+# VOLYN (VLN)
+#
+# From: west_ukraine_government_effects.txt, which held two countries.
+# ========================================================================
+
+vln_reconcile_base_reform_effect = {
+	if = {
+		limit = {
+			government = monarchy
+			west_ukraine_vln_origin_country = yes
+			NOT = { has_reform = vln_voivodeship_reform }
+		}
+		add_government_reform = vln_voivodeship_reform
+	}
+}

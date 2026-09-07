@@ -1,3 +1,9 @@
+# ========================================================================
+# CHERNIHIV (CHR)
+#
+# From: chr_effects.txt and chr_pantheon_effects.txt, merged - one country, one
+# file. chr_path_effects.txt stays separate: it is the path tree, not the flavour.
+# ========================================================================
 
 chr_left_bank_monastery_investment = {
 	every_owned_province = {
@@ -115,5 +121,13 @@ chr_refresh_grain_directorate_effect = {
 			}
 			remove_province_modifier = chr_grain_directorate_province
 		}
+	}
+}
+
+chr_pantheon_cooldown_effect = {
+	add_country_modifier = {
+		name = "chr_pantheon_min_interval"
+		duration = 7300
+		desc = "chr_pantheon_min_interval_desc"
 	}
 }

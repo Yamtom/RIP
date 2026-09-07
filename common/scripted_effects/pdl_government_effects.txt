@@ -1,6 +1,8 @@
-# Reconcile saves made before the country-specific base reforms were assigned
-# in country history. Path decisions replace the Podillian fallback directly,
-# just as the CHR and ZAZ road decisions replace their locked first tier.
+# ========================================================================
+# PODILLIA (PDL)
+#
+# From: west_ukraine_government_effects.txt, which held two countries.
+# ========================================================================
 
 # Before the union decision was corrected, the Podillian sovereign inherited
 # Galicia and then changed into HLC without a mission or government migration.
@@ -141,16 +143,5 @@ pdl_reconcile_base_reform_effect = {
 		else = {
 			add_government_reform = pdl_frontier_voivodeship_reform
 		}
-	}
-}
-
-vln_reconcile_base_reform_effect = {
-	if = {
-		limit = {
-			government = monarchy
-			west_ukraine_vln_origin_country = yes
-			NOT = { has_reform = vln_voivodeship_reform }
-		}
-		add_government_reform = vln_voivodeship_reform
 	}
 }

@@ -1,0 +1,50 @@
+# Country transaction. MODIFIER is selected by the two fixed event options.
+rip_fund_parish_visit_effect = {
+	if = {
+		limit = { rip_can_fund_parish_visit = yes }
+		add_treasury = -100
+		add_adm_power = -25
+		add_patriarch_authority = -0.05
+		add_country_modifier = { name = rip_parish_visit_recent duration = 3650 }
+		random_owned_province = {
+			limit = { rip_parish_visit_target = yes }
+			add_province_modifier = { name = $MODIFIER$ duration = 3650 }
+		}
+	}
+}
+
+# One jurisdictional change per country. Only its already Orthodox core sees
+# follow the metropolitan; conquests and other religions need missionaries.
+rip_ro_initial_obedience_effect = {
+	if = {
+		limit = {
+			religion = russian_orthodox
+			NOT = { has_country_flag = rip_ro_obedience_recorded }
+		}
+		set_country_flag = rip_ro_obedience_recorded
+		set_country_flag = rip_ro_stage_autocephaly
+		every_owned_province = {
+			limit = { religion = orthodox is_city = yes is_core = ROOT }
+			change_religion = russian_orthodox
+		}
+	}
+}
+
+# Keep old canon IDs loadable without retaining their permanent stack. Do not
+# erase payment timers when changing faith: switching religion is no refund.
+rip_faith_balance_migration_effect = {
+	if = {
+		limit = {
+			religion = russian_orthodox
+			NOT = { has_country_flag = rip_ro_balance_202609_migrated }
+		}
+		set_country_flag = rip_ro_balance_202609_migrated
+		# Existing saves must not receive the initial conversion a second time.
+		set_country_flag = rip_ro_obedience_recorded
+		remove_country_modifier = third_rome_mission
+		remove_country_modifier = rip_ro_patriarchal_office
+		remove_country_modifier = imperial_orthodox_church
+		remove_country_modifier = subjugation_of_heretics
+		clr_country_flag = can_use_propagate_religion
+	}
+}

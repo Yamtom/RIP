@@ -55,10 +55,9 @@ vln_confessional_reform = {
 		}
 	}
 	modifiers = {
-		tolerance_heretic = 3
-		religious_unity = 0.10
-		tolerance_own = 1
-		global_unrest = -1
+		tolerance_heretic = 2
+		religious_unity = 0.1
+		tolerance_own = 0.5
 	}
 	conditional = {
 		allow = {
@@ -92,7 +91,6 @@ vln_ruthenia_reform = {
 	modifiers = {
 		max_absolutism = 10
 		legitimacy = 0.5
-		administrative_efficiency = 0.025
 		nobles_loyalty_modifier = 0.05
 	}
 	conditional = {
@@ -142,6 +140,9 @@ vln_cossack_host_reform = {
 	custom_attributes = {
 		locked_government_type = yes
 		recruiting_generals_increases_nobles_loyalty = yes
+	}
+	removed_effect = {
+		rip_gov_clear_register_effect = yes
 	}
 }
 
@@ -225,9 +226,7 @@ vln_black_voivode_legion = {
 	}
 	modifiers = {
 		discipline = 0.025
-		land_morale = 0.10
-		army_tradition = 0.5
-		land_maintenance_modifier = -0.05
+		land_morale = 0.1
 	}
 	custom_attributes = {
 		locked_government_type = yes

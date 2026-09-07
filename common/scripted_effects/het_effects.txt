@@ -1,0 +1,225 @@
+# ========================================================================
+# THE HETMANATE (HET)
+#
+# From: zaz_het_effects.txt - the het_ block plus establish_sloboda_effect, which
+# only Hetmanate decisions call - and het_government_effects.txt.
+# ========================================================================
+
+het_strengthen_hetman_effect = {
+	add_republican_tradition = 10
+	add_absolutism = 5
+	add_country_modifier = {
+		name = het_strong_hetman
+		duration = 3650
+	}
+	add_estate_loyalty = {
+		estate = estate_nobles
+		loyalty = -10
+	}
+}
+
+het_empower_starshyna_effect = {
+	add_stability_or_adm_power = yes
+	add_country_modifier = {
+		name = het_starshyna_council
+		duration = 3650
+	}
+	add_estate_loyalty = {
+		estate = estate_nobles
+		loyalty = 15
+	}
+}
+
+het_establish_regiment_effect = {
+	add_province_modifier = {
+		name = "regimental_headquarters"
+		duration = -1
+	}
+	add_base_manpower = 2
+	add_base_tax = 1
+	if = {
+		limit = { NOT = { fort_level = 1 } }
+		add_building = fort_15th
+	}
+}
+
+het_academy_boost_effect = {
+	add_adm_power = 50
+	add_dip_power = 50
+	add_country_modifier = {
+		name = "het_academy_excellence"
+		duration = 3650
+	}
+	add_innovativeness_small_effect = yes
+}
+
+het_pereiaslav_treaty_effect = {
+	if = {
+		limit = {
+			exists = RUS
+		}
+		RUS = {
+			create_subject = {
+				subject_type = vassal
+				subject = ROOT
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = het_pereiaslav_oath
+			}
+		}
+		add_country_modifier = {
+			name = "het_russian_protection"
+			duration = -1
+		}
+	}
+	else_if = {
+		limit = {
+			exists = MOS
+		}
+		MOS = {
+			create_subject = {
+				subject_type = vassal
+				subject = ROOT
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = het_pereiaslav_oath
+			}
+		}
+		add_country_modifier = {
+			name = "het_russian_protection"
+			duration = -1
+		}
+	}
+}
+
+het_break_with_overlord_effect = {
+	if = {
+		limit = { is_subject = yes }
+		overlord = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_mazepa_treason
+			}
+			add_casus_belli = {
+				target = ROOT
+				type = cb_vassalize_mission
+				months = 120
+			}
+		}
+	}
+	add_liberty_desire = 100
+	add_prestige = 15
+	add_legitimacy = 10
+	add_country_modifier = {
+		name = "het_independence_struggle"
+		duration = 3650
+	}
+}
+
+establish_sloboda_effect = {
+	add_base_tax = 1
+	add_base_production = 1
+	add_base_manpower = 1
+	change_culture = ruthenian
+	change_religion = orthodox
+	add_province_modifier = {
+		name = "sloboda_settlement"
+		duration = -1
+	}
+	add_nationalism = -5
+}
+
+# Sacred ZAZ routes could form HET before the republican formable gate existed.
+# Restore the capstone tag where possible; otherwise normalize the duplicate HET.
+het_migrate_legacy_sacred_origin_effect = {
+	if = {
+		limit = {
+			tag = HET
+			has_country_flag = rip_hetmanate_origin_zaz
+			NOT = { has_country_flag = rip_legacy_sacred_hetmanate_migrated }
+			OR = {
+				has_reform = zaz_sacred_host_order_reform
+				has_reform = zaz_sacred_horde_reform
+			}
+		}
+		if = {
+			limit = { NOT = { exists = ZAZ } }
+			change_tag = ZAZ
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+			clr_country_flag = rip_hetmanate_origin_zaz
+		}
+		else = {
+			if = {
+				limit = { has_reform = zaz_sacred_host_order_reform }
+				remove_government_reform = zaz_sacred_host_order_reform
+			}
+			if = {
+				limit = { has_reform = zaz_sacred_horde_reform }
+				remove_government_reform = zaz_sacred_horde_reform
+			}
+			if = {
+				limit = { NOT = { government = republic } }
+				change_government = republic
+			}
+			if = {
+				limit = { NOT = { has_reform = rip_cossacks_reform } }
+				add_government_reform = rip_cossacks_reform
+			}
+			swap_non_generic_missions = yes
+			set_country_flag = rip_hetmanate_missions_synced
+		}
+		set_country_flag = rip_legacy_sacred_hetmanate_migrated
+	}
+}
+
+# Migrate saves made while the HET regimental reform reused the vanilla
+# Ottoman pasha modifier. The tag/reform guard prevents touching real pashas.
+het_reconcile_regimental_province_modifiers_effect = {
+	if = {
+		limit = {
+			OR = {
+				tag = HET
+				has_reform = het_regimental_system_reform
+			}
+		}
+		every_owned_province = {
+			limit = {
+				is_city = yes
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+					area = sloboda_ukraine_area
+				}
+			}
+			if = {
+				limit = { has_province_modifier = the_provincial_system }
+				remove_province_modifier = the_provincial_system
+			}
+			if = {
+				limit = {
+					owner = { has_reform = het_regimental_system_reform }
+					NOT = {
+						has_province_modifier = het_regimental_province_administration
+					}
+				}
+				add_province_modifier = {
+					name = het_regimental_province_administration
+					duration = -1
+					hidden = yes
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						NOT = { has_reform = het_regimental_system_reform }
+					}
+					has_province_modifier = het_regimental_province_administration
+				}
+				remove_province_modifier = het_regimental_province_administration
+			}
+		}
+	}
+}

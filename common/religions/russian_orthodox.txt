@@ -7,6 +7,10 @@ christian = {
 		country = {
 			stability_cost_modifier = -0.095
 			tolerance_own = 0.95
+			# Fixed upkeep offsets the uneditable native authority coefficients.
+			global_missionary_strength = -0.001
+			global_manpower_modifier = -0.0165
+			global_unrest = 0.15
 		}
 
 		country_as_secondary = {
@@ -158,9 +162,8 @@ christian = {
 			add_prestige = 15
 			add_legitimacy = 10
 
-			# The trade node policy Propagate Religion, unlocked once and for
-			# good - see common/scripted_effects/rip_faith_spread_effects.txt.
-			rip_faith_unlock_trade_propagation_effect = yes
+			# The initial change of obedience is bounded; missionaries handle later expansion.
+			rip_ro_initial_obedience_effect = yes
 			add_country_modifier = {
 				name = third_rome_ideology
 				duration = 5475

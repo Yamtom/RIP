@@ -1,3 +1,9 @@
+# ========================================================================
+# ZAPORIZHIA (ZAZ)
+#
+# From: zaz_het_effects.txt, which held two countries. The Hetmanate half is in
+# het_effects.txt; the two effects both of them call are in 00_rip_shared_effects.txt.
+# ========================================================================
 
 zaz_successful_raid_effect = {
 	add_treasury = 100
@@ -179,153 +185,6 @@ zaz_chaiky_raid_effect = {
 	rip_request_ottoman_crimean_reaction_effect = yes
 }
 
-het_strengthen_hetman_effect = {
-	add_republican_tradition = 10
-	add_absolutism = 5
-	add_country_modifier = {
-		name = het_strong_hetman
-		duration = 3650
-	}
-	add_estate_loyalty = {
-		estate = estate_nobles
-		loyalty = -10
-	}
-}
-
-het_empower_starshyna_effect = {
-	add_stability_or_adm_power = yes
-	add_country_modifier = {
-		name = het_starshyna_council
-		duration = 3650
-	}
-	add_estate_loyalty = {
-		estate = estate_nobles
-		loyalty = 15
-	}
-}
-
-het_establish_regiment_effect = {
-	add_province_modifier = {
-		name = "regimental_headquarters"
-		duration = -1
-	}
-	add_base_manpower = 2
-	add_base_tax = 1
-	if = {
-		limit = { NOT = { fort_level = 1 } }
-		add_building = fort_15th
-	}
-}
-
-het_academy_boost_effect = {
-	add_adm_power = 50
-	add_dip_power = 50
-	add_country_modifier = {
-		name = "het_academy_excellence"
-		duration = 3650
-	}
-	add_innovativeness_small_effect = yes
-}
-
-het_pereiaslav_treaty_effect = {
-	if = {
-		limit = {
-			exists = RUS
-		}
-		RUS = {
-			create_subject = {
-				subject_type = vassal
-				subject = ROOT
-			}
-			add_opinion = {
-				who = ROOT
-				modifier = het_pereiaslav_oath
-			}
-		}
-		add_country_modifier = {
-			name = "het_russian_protection"
-			duration = -1
-		}
-	}
-	else_if = {
-		limit = {
-			exists = MOS
-		}
-		MOS = {
-			create_subject = {
-				subject_type = vassal
-				subject = ROOT
-			}
-			add_opinion = {
-				who = ROOT
-				modifier = het_pereiaslav_oath
-			}
-		}
-		add_country_modifier = {
-			name = "het_russian_protection"
-			duration = -1
-		}
-	}
-}
-
-	zaz_evolve_to_hetmanate_effect = {
-		add_republican_tradition = -15
-		add_legitimacy = 20
-		add_absolutism = 5
-		add_country_modifier = {
-			name = "kru_confederation_balance"
-			duration = 3650
-		}
-		add_prestige = 10
-		add_stability_or_adm_power = yes
-	}
-
-het_break_with_overlord_effect = {
-	if = {
-		limit = { is_subject = yes }
-		overlord = {
-			add_opinion = {
-				who = ROOT
-				modifier = het_mazepa_treason
-			}
-			add_casus_belli = {
-				target = ROOT
-				type = cb_vassalize_mission
-				months = 120
-			}
-		}
-	}
-	add_liberty_desire = 100
-	add_prestige = 15
-	add_legitimacy = 10
-	add_country_modifier = {
-		name = "het_independence_struggle"
-		duration = 3650
-	}
-}
-
-establish_black_sea_trade_effect = {
-	add_mercantilism = 2
-	add_country_modifier = {
-		name = "black_sea_commerce"
-		duration = 5475
-	}
-	random_owned_province = {
-		limit = {
-			has_port = yes
-			OR = {
-				area = yedisan_area
-				region = crimea_region
-			}
-		}
-		add_province_modifier = {
-			name = cossack_trade_port
-			duration = -1
-		}
-		add_base_production = 1
-	}
-}
-
 fortify_wild_fields_effect = {
 	random_owned_province = {
 		limit = {
@@ -359,24 +218,6 @@ colonize_wild_fields_effect = {
 	}
 }
 
-defend_orthodox_faith_effect = {
-	add_patriarch_authority = 0.1
-	add_patriarch_authority = 0.1
-	add_country_modifier = {
-		name = "orthodox_champions"
-		duration = 5475
-	}
-	every_owned_province = {
-		limit = {
-			religion = orthodox
-		}
-		add_province_modifier = {
-			name = "orthodox_protected"
-			duration = 3650
-		}
-	}
-}
-
 zaz_great_rada_effect = {
 	add_republican_tradition = 10
 	add_stability_or_adm_power = yes
@@ -393,19 +234,6 @@ zaz_great_rada_effect = {
 		}
 		add_adm_power = 50
 	}
-}
-
-establish_sloboda_effect = {
-	add_base_tax = 1
-	add_base_production = 1
-	add_base_manpower = 1
-	change_culture = ruthenian
-	change_religion = orthodox
-	add_province_modifier = {
-		name = "sloboda_settlement"
-		duration = -1
-	}
-	add_nationalism = -5
 }
 
 alliance_with_nomads_effect = {

@@ -5,7 +5,6 @@
 
 siversk_veche_reform = {
 	icon = "merchant"
-	boost_income = yes
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -16,10 +15,6 @@ siversk_veche_reform = {
 	has_term_election = yes
 	rulers_can_be_generals = yes
 	royal_marriage = no
-	government_abilities = {
-		cossacks_mechanic
-	}
-	allow_force_tributary = yes
 	potential = {
 		OR = {
 			tag = CHR
@@ -50,14 +45,6 @@ siversk_veche_reform = {
 			}
 		}
 		has_parliament = yes
-	}
-	conditional = {
-		allow = {
-			has_dlc = "The Cossacks"
-		}
-		custom_attributes = {
-			enables_estate_cossacks = yes
-		}
 	}
 }
 
@@ -179,15 +166,6 @@ chr_desna_staple_reform = {
 		can_form_trade_league = yes
 		trade_city_reform = trading_city
 	}
-	conditional = {
-		allow = {
-			OR = {
-				has_dlc = "Common Sense"
-				has_dlc = "Domination"
-			}
-		}
-		has_parliament = yes
-	}
 }
 
 chr_town_union_reform = {
@@ -211,7 +189,6 @@ chr_town_union_reform = {
 	heir = no
 	royal_marriage = no
 	rulers_can_be_generals = yes
-	boost_income = yes
 	modifiers = {
 		governing_capacity = 100
 		trade_efficiency = 0.05
@@ -257,7 +234,6 @@ chr_rada_of_lands_reform = {
 	heir = no
 	royal_marriage = no
 	rulers_can_be_generals = yes
-	boost_income = yes
 	modifiers = {
 		governing_capacity = 100
 		global_unrest = -1
@@ -430,6 +406,9 @@ chr_kanceliaryst_republic_reform = {
 		locked_government_type = yes
 		enables_plutocratic_idea_group = yes
 		enables_aristocratic_idea_group = no
+	}
+	removed_effect = {
+		rip_gov_clear_chancery_effect = yes
 	}
 }
 

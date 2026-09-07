@@ -1,0 +1,130 @@
+# Country-scope effects. Recheck the complete contract on payment, not only
+# when the decision opens: a queued event cannot bypass money, power or term.
+
+rip_gov_review_cost_effect = {
+	add_treasury = -50
+	set_country_flag = rip_gov_review_recent
+}
+
+rip_gov_municipal_charters_effect = {
+	if = {
+		limit = {
+			rip_gov_can_review_municipal = yes
+			dip_power = 50
+		}
+		add_dip_power = -50
+		rip_gov_review_cost_effect = yes
+		add_country_modifier = {
+			name = rip_gov_municipal_charters
+			duration = 3650
+		}
+	}
+}
+
+rip_gov_municipal_accounts_effect = {
+	if = {
+		limit = {
+			rip_gov_can_review_municipal = yes
+			adm_power = 50
+		}
+		add_adm_power = -50
+		rip_gov_review_cost_effect = yes
+		add_country_modifier = {
+			name = rip_gov_municipal_accounts
+			duration = 3650
+		}
+	}
+}
+
+rip_gov_clear_municipal_effect = {
+	remove_country_modifier = rip_gov_municipal_charters
+	remove_country_modifier = rip_gov_municipal_accounts
+	# Never clear rip_gov_review_recent: replacing a reform cannot reset time.
+}
+
+rip_gov_chancery_service_effect = {
+	if = {
+		limit = {
+			rip_gov_can_review_chancery = yes
+			adm_power = 50
+		}
+		add_adm_power = -50
+		rip_gov_review_cost_effect = yes
+		add_country_modifier = {
+			name = rip_gov_chancery_service
+			duration = 3650
+		}
+	}
+}
+
+rip_gov_chancery_rights_effect = {
+	if = {
+		limit = {
+			rip_gov_can_review_chancery = yes
+			dip_power = 50
+		}
+		add_dip_power = -50
+		rip_gov_review_cost_effect = yes
+		add_country_modifier = {
+			name = rip_gov_chancery_rights
+			duration = 3650
+		}
+	}
+}
+
+rip_gov_clear_chancery_effect = {
+	remove_country_modifier = rip_gov_chancery_service
+	remove_country_modifier = rip_gov_chancery_rights
+	# Never clear rip_gov_review_recent: replacing a reform cannot reset time.
+}
+
+rip_gov_register_muster_effect = {
+	if = {
+		limit = {
+			rip_gov_can_review_register = yes
+			mil_power = 50
+		}
+		add_mil_power = -50
+		rip_gov_review_cost_effect = yes
+		add_country_modifier = {
+			name = rip_gov_register_muster
+			duration = 3650
+		}
+	}
+}
+
+rip_gov_register_settlement_effect = {
+	if = {
+		limit = {
+			rip_gov_can_review_register = yes
+			dip_power = 50
+		}
+		add_dip_power = -50
+		rip_gov_review_cost_effect = yes
+		add_country_modifier = {
+			name = rip_gov_register_settlement
+			duration = 3650
+		}
+	}
+}
+
+rip_gov_clear_register_effect = {
+	remove_country_modifier = rip_gov_register_muster
+	remove_country_modifier = rip_gov_register_settlement
+	# Never clear rip_gov_review_recent: replacing a reform cannot reset time.
+}
+
+rip_gov_review_cleanup_effect = {
+	if = {
+		limit = { NOT = { rip_gov_has_municipal_review = yes } }
+		rip_gov_clear_municipal_effect = yes
+	}
+	if = {
+		limit = { NOT = { rip_gov_has_chancery_review = yes } }
+		rip_gov_clear_chancery_effect = yes
+	}
+	if = {
+		limit = { NOT = { rip_gov_has_register_review = yes } }
+		rip_gov_clear_register_effect = yes
+	}
+}

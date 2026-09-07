@@ -2,28 +2,8 @@
 convert_to_russian_orthodox_effect = {
 	change_religion = russian_orthodox
 
-	# THE SEES GO WITH THE SEE - AS FAR AS THE OBEDIENCE REACHES.
-	#
-	# This is not the union, which spread parish by parish over a century.
-	# 1448 was a metropolitanate electing its own metropolitan without
-	# Constantinople: the rite did not change, nobody in a village noticed,
-	# and the sees that answered to Moscow were on the far side of the line the
-	# following morning. But only the sees that answered to Moscow - a
-	# metropolitanate reaches exactly as far as its own obedience does.
-	#
-	# So the schism converts a BUDGET of development rather than a list:
-	# floor( religious unity * total development ), spent six at a time. See
-	# rip_ro_schism_conversion_effect in
-	# common/scripted_effects/rip_faith_spread_effects.txt.
-	#
-	# Two earlier versions of this were wrong in opposite directions.
-	# Converting only the capital left a country whose DOMINANT religion was
-	# still plain orthodox, which silently locked it out of the trade node
-	# policy Propagate Religion - vanilla's gate there is
-	# `dominant_religion = ROOT`. Converting every Orthodox province outright
-	# was free, and made religious unity meaningless at the one moment it
-	# ought to decide the most.
-	rip_ro_schism_conversion_effect = yes
+	# Only existing Orthodox core sees follow the initial change of obedience.
+	rip_ro_initial_obedience_effect = yes
 	add_country_modifier = {
 		name = third_rome_ideology
 		duration = 5475
@@ -33,7 +13,7 @@ convert_to_russian_orthodox_effect = {
 }
 
 force_convert_province_effect = {
-	change_religion = russian_orthodox
+	# Paid missionary assistance; no instant conversion bypass.
 	add_province_modifier = {
 		name = forced_conversions
 		duration = 3650
@@ -79,11 +59,11 @@ launch_expansion_campaign = {
 }
 
 establish_moscow_patriarchate_effect = {
+	set_country_flag = rip_ro_stage_patriarchate
 	add_country_modifier = {
 		name = moscow_patriarchate_authority
-		duration = -1
+		duration = 7300
 	}
-	add_patriarch_authority = 0.2
 	add_legitimacy = 20
 	add_prestige = 30
 }
@@ -139,7 +119,7 @@ suppress_cultural_resistance_effect = {
 conquer_constantinople_benefits = {
 	add_country_modifier = {
 		name = conquest_of_constantinople
-		duration = -1
+		duration = 7300
 	}
 	add_prestige = 50
 	add_legitimacy = 25
@@ -149,11 +129,11 @@ conquer_constantinople_benefits = {
 proclaim_orthodox_empire_effect = {
 	add_country_modifier = {
 		name = orthodox_empire_proclaimed
-		duration = -1
+		duration = 7300
 	}
 	add_country_modifier = {
 		name = imperial_orthodox_state
-		duration = -1
+		duration = 7300
 	}
 	add_prestige = 50
 	add_legitimacy = 25
@@ -162,11 +142,9 @@ proclaim_orthodox_empire_effect = {
 establish_symphonia_effect = {
 	add_country_modifier = {
 		name = symphonia_of_powers
-		duration = -1
+		duration = 7300
 	}
-	add_patriarch_authority = 0.2
 	add_legitimacy = 15
-	add_adm_power = 50
 }
 
 spread_russian_orthodox_neighbors = {
@@ -187,8 +165,7 @@ establish_monastery_mission_effect = {
 		name = russian_monastery_established
 		duration = -1
 	}
-	add_base_tax = 1
-	change_religion = russian_orthodox
+	# A monastery helps a missionary; it does not convert the province on click.
 }
 
 activate_gathering_lands_effect = {
@@ -215,21 +192,21 @@ activate_gathering_lands_effect = {
 constantinople_liberation_rewards = {
 	add_prestige = 100
 	add_legitimacy_equivalent = { amount = 25 }
-	add_adm_power = 100
-	add_dip_power = 100
-	add_mil_power = 100
-	add_patriarch_authority = 0.4
+	add_adm_power = 25
+	add_dip_power = 25
+	add_mil_power = 25
+	add_patriarch_authority = 0.05
 	add_country_modifier = {
 		name = liberator_of_constantinople
-		duration = -1
+		duration = 7300
 	}
 	
 	151 = {
 		if = {
 			limit = { owned_by = ROOT }
-			add_base_tax = 3
-			add_base_production = 3
-			add_base_manpower = 3
+			add_base_tax = 1
+			add_base_production = 1
+			add_base_manpower = 1
 			add_province_modifier = {
 				name = restored_orthodox_constantinople
 				duration = -1
@@ -241,21 +218,21 @@ constantinople_liberation_rewards = {
 jerusalem_liberation_rewards = {
 	add_prestige = 150
 	add_legitimacy = 50
-	add_adm_power = 150
-	add_dip_power = 150
-	add_mil_power = 150
-	add_patriarch_authority = 0.4
+	add_adm_power = 25
+	add_dip_power = 25
+	add_mil_power = 25
+	add_patriarch_authority = 0.05
 	add_country_modifier = {
 		name = rip_ro_liberator_of_jerusalem
-		duration = -1
+		duration = 7300
 	}
 	
 	379 = {
 		if = {
 			limit = { owned_by = ROOT }
-			add_base_tax = 4
-			add_base_production = 4
-			add_base_manpower = 4
+			add_base_tax = 1
+			add_base_production = 1
+			add_base_manpower = 1
 			add_province_modifier = {
 				name = restored_orthodox_jerusalem
 				duration = -1

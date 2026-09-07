@@ -63,30 +63,6 @@ kyivan_shogunate_reform = {
 	rulers_can_be_generals = yes
 	heirs_can_be_generals = yes
 	allow_convert = no
-	conditional = {
-		allow = {
-			has_dlc = "Res Publica"
-			NOT = { has_dlc = "Mare Nostrum" }
-		}
-		can_use_trade_post = yes
-	}
-	conditional = {
-		allow = {
-			has_dlc = "Mare Nostrum"
-			NOT = { has_dlc = "Res Publica" }
-		}
-		can_form_trade_league = yes
-		trade_city_reform = principality_appanage
-	}
-	conditional = {
-		allow = {
-			has_dlc = "Res Publica"
-			has_dlc = "Mare Nostrum"
-		}
-		can_use_trade_post = yes
-		can_form_trade_league = yes
-		trade_city_reform = principality_appanage
-	}
 	allow_vassal_war = yes
 	allow_vassal_alliance = yes
 	allow_force_tributary = yes
@@ -168,9 +144,7 @@ ruthenian_factional_empire_reform = {
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.1
-		reform_progress_growth = 0.1
-		global_unrest = -1
-		vassal_income = 0.25
+		vassal_income = 0.15
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -183,7 +157,6 @@ ruthenian_factional_empire_reform = {
 			knyazi = {
 				legitimacy = 0.5
 				diplomatic_reputation = 1
-				global_tax_modifier = 0.1
 				manpower_recovery_speed = -0.05
 			}
 			boyary = {
@@ -221,9 +194,7 @@ ruthenian_factional_empire_princes_hetmans_reform = {
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.1
-		reform_progress_growth = 0.1
-		global_unrest = -1
-		vassal_income = 0.25
+		vassal_income = 0.15
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -236,13 +207,11 @@ ruthenian_factional_empire_princes_hetmans_reform = {
 			knyazi = {
 				legitimacy = 0.5
 				diplomatic_reputation = 1
-				global_tax_modifier = 0.1
 				manpower_recovery_speed = -0.05
 			}
 			hetmany = {
 				discipline = 0.025
 				land_morale = 0.1
-				manpower_recovery_speed = 0.1
 				development_cost = 0.05
 			}
 		}
@@ -274,9 +243,7 @@ ruthenian_factional_empire_boyars_hetmans_reform = {
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.1
-		reform_progress_growth = 0.1
-		global_unrest = -1
-		vassal_income = 0.25
+		vassal_income = 0.15
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -295,7 +262,6 @@ ruthenian_factional_empire_boyars_hetmans_reform = {
 			hetmany = {
 				discipline = 0.025
 				land_morale = 0.1
-				manpower_recovery_speed = 0.1
 				development_cost = 0.05
 			}
 		}
