@@ -36,18 +36,14 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from clausewitz_testlib import ROOT  # noqa: E402
+from clausewitz_testlib import ROOT, vanilla_root, vanilla_installation_root, vanilla_version  # noqa: E402
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
 PN_DIR = ROOT / "common" / "province_names"
-EU4_CANDIDATES = [
-    os.environ.get("EU4_DIR"),
-    r"D:\Programs Files(x86)\Steam\steamapps\common\Europa Universalis IV",
-    r"C:\Program Files (x86)\Steam\steamapps\common\Europa Universalis IV",
-]
-EU4_DIR = next((d for d in EU4_CANDIDATES
-                if d and os.path.isdir(os.path.join(d, "common", "province_names"))), None)
+EU4_DIR = vanilla_root()
+DONOR_SNAPSHOT = ROOT / "diagnostics/vanilla_donors/eu4_1.30.3"
+DONOR_DIR = DONOR_SNAPSHOT if (DONOR_SNAPSHOT / "map/definition.csv").is_file() else vanilla_installation_root()
 
 ENTRY = re.compile(r'^\s*(\d+)\s*=\s*"([^"]*)"\s*(?:#.*)?$')
 ASCII_NAME = re.compile(r"^[A-Za-z0-9 '\-.()/]+$")
@@ -60,7 +56,18 @@ MOD_REGIONS = {
     "ural_region",
 }
 # Culture files legitimately name the whole world - vanilla's east_slavic.txt does.
-WORLD_FILES = {"ruthenian.txt", "byelorussian.txt", "rusyn.txt"}
+WORLD_FILES = {
+    "ruthenian.txt", "byelorussian.txt", "ryazanian.txt", "rusyn.txt",
+    "ruthenian_new.txt", "byelorussian_new.txt", "ryazanian_new.txt",
+    "rusyn_new.txt", "rusyn_new_new.txt",
+}
+TRANSITION_FILES = {
+    "ruthenian_new.txt": "ruthenian.txt",
+    "byelorussian_new.txt": "byelorussian.txt",
+    "ryazanian_new.txt": "ryazanian.txt",
+    "rusyn_new.txt": "rusyn.txt",
+    "rusyn_new_new.txt": "rusyn.txt",
+}
 
 # Founded, or first given this name, after 1750.
 POST_1750 = {
@@ -81,6 +88,7 @@ FALLBACK = {
     "ODS.txt": "ruthenian.txt", "UZH.txt": "rusyn.txt",
     "MSK.txt": "byelorussian.txt", "VTB.txt": "byelorussian.txt",
     "MSL.txt": "byelorussian.txt", "BLR.txt": "byelorussian.txt",
+    "CHR.txt": "ryazanian.txt", "RYA.txt": "ryazanian.txt",
 }
 
 
@@ -145,9 +153,11 @@ def parse(path: Path):
     return rows, raw
 
 
-def audit(eu4: str) -> list[str]:
-    defn, area_of, region_of = load_map(eu4)
-    vanilla_files = {p.name for p in Path(eu4, "common", "province_names").glob("*.txt")}
+def audit(eu4: str | Path | None) -> list[str]:
+    # Structural checks remain live without compatible game data. The donor
+    # map may illustrate coverage but cannot certify a 1.37 province contract.
+    defn, area_of, region_of = load_map(eu4) if eu4 else ({}, {}, {})
+    vanilla_files = {p.name for p in Path(eu4, "common", "province_names").glob("*.txt")} if eu4 else set()
     failures: list[str] = []
     parsed: dict[str, dict[int, str]] = {}
 
@@ -170,11 +180,11 @@ def audit(eu4: str) -> list[str]:
                                 f"({seen[pid]!r} then {name!r})")
                 continue
             seen[pid] = name
-            if pid not in defn:
+            if eu4 and pid not in defn:
                 failures.append(f"{rel}:{line}: province {pid} does not exist")
                 continue
             area = area_of.get(pid)
-            if not area:
+            if eu4 and not area:
                 failures.append(f"{rel}:{line}: province {pid} ({defn[pid]}) is in no "
                                 f"area - a sea zone or wasteland never shows a name")
                 continue
@@ -187,7 +197,7 @@ def audit(eu4: str) -> list[str]:
                 failures.append(f"{rel}:{line}: {name!r} names a place founded after "
                                 f"1750 ({hit}); the game ends in 1821")
             region = region_of.get(area, "")
-            if path.name not in WORLD_FILES and region not in MOD_REGIONS:
+            if eu4 and path.name not in WORLD_FILES and region not in MOD_REGIONS:
                 failures.append(f"{rel}:{line}: renames {pid} to {name!r}, but {pid} is "
                                 f"{defn[pid]} in {area} ({region or 'no region'}) - far "
                                 f"outside this tag's horizon")
@@ -217,6 +227,9 @@ def audit(eu4: str) -> list[str]:
                 f"common/province_names/{tag}: {len(repeats)} entries repeat "
                 f"{culture} verbatim ({sample}) - EU4 falls through per province, so "
                 f"these change nothing and hide who actually disagrees")
+    for alias, base in TRANSITION_FILES.items():
+        if base in parsed and parsed.get(alias) != parsed[base]:
+            failures.append(f"common/province_names/{alias}: transition culture must retain the complete {base} name map")
     return failures
 
 
@@ -253,11 +266,12 @@ def self_test(eu4: str) -> int:
 
 
 def main() -> int:
-    if not EU4_DIR:
-        print("PROVINCE NAME CHECK: SKIPPED - no EU4 install found; set EU4_DIR")
-        return 0
     if "--self-test" in sys.argv:
-        return 1 if self_test(EU4_DIR) else 0
+        fixture_map = EU4_DIR or DONOR_DIR
+        if not fixture_map:
+            print("PROVINCE NAME SELF-TEST: map fixtures unavailable")
+            return 1
+        return 1 if self_test(fixture_map) else 0
     if not PN_DIR.is_dir():
         print("PROVINCE NAME CHECK: no common/province_names directory")
         return 0
@@ -269,8 +283,19 @@ def main() -> int:
         for f in failures:
             print(f"  {f}")
         return 1
-    print("PROVINCE NAME CHECK: PASS (%d files, %d names; ids, areas, encoding, "
-          "period and layering hold)" % (len(files), total))
+    if EU4_DIR:
+        print("PROVINCE NAME CHECK: PASS (%d files, %d names; target ids, areas, "
+              "encoding, period, layering and transition continuity hold)" % (len(files), total))
+    else:
+        print("PROVINCE NAME CHECK: PASS (%d files, %d names; mod-only encoding, "
+              "uniqueness, period, layering and transition continuity)" % (len(files), total))
+        print("SKIP: target 1.37 map and vanilla filename collisions remain unverified")
+        if DONOR_DIR:
+            defn, area_of, _ = load_map(DONOR_DIR)
+            ids = {pid for p in files for pid, _, _ in parse(p)[0] if pid is not None}
+            matched = sum(pid in defn and pid in area_of for pid in ids)
+            print(f"DONOR ONLY: {matched}/{len(ids)} distinct ids are land in EU4 "
+                  f"{vanilla_version(DONOR_DIR) or 'unknown'}; this is not target validation")
     return 0
 
 

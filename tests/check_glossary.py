@@ -12,6 +12,8 @@ BRACKET = re.compile(r'\[[^\]]*\]')
 
 # Country display names are deliberate - see glossary section 4.
 SKIP_KEYS = {"VLN", "POD", "KHK", "VOL", "ZAZ", "VLN_ADJ", "POD_ADJ", "KHK_ADJ",
+             # A cultural colony name follows local transcription, like VLN.
+             "RIP_COLONIAL_CANADA_RUTHENIAN",
              # The Don host really is an ataman. The rule is about our otamans.
              "DON_ATAMAN_TITLE"}
 

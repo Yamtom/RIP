@@ -150,7 +150,7 @@ def check_new_chains(failures: list[str]) -> None:
 
 
 def check_helpers_and_callers(failures: list[str]) -> None:
-    effects = read("common/scripted_effects/steppe_raid_effects.txt")
+    effects = read("common/scripted_effects/00_rip_shared_effects.txt")
     feed = named_block(effects, "rip_feed_kaffa_market_effect")
     disrupt = named_block(effects, "rip_disrupt_kaffa_market_effect")
     reaction = named_block(effects, "rip_request_ottoman_crimean_reaction_effect")
@@ -179,7 +179,7 @@ def check_helpers_and_callers(failures: list[str]) -> None:
             and "rip_request_ottoman_crimean_reaction_effect = yes" in chaiky,
             "raid_mechanics.42: valid target/reaction wiring is incomplete")
 
-    zaz_effects = read("common/scripted_effects/zaz_het_effects.txt")
+    zaz_effects = read("common/scripted_effects/zaz_effects.txt")
     chaiky_effect = named_block(zaz_effects, "zaz_chaiky_raid_effect")
     require(failures, "rip_request_ottoman_crimean_reaction_effect = yes" in chaiky_effect,
             "Zaporozhian chaiky success does not request an Ottoman reaction")

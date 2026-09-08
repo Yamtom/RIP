@@ -377,7 +377,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     )
     pre_identity_culture = normalized(
         named_block(
-            read("common/scripted_triggers/uzh_triggers.txt"),
+            read("common/scripted_triggers/uzh_uzh_triggers.txt"),
             "uzh_pre_identity_candidate_culture",
         )
     )
@@ -1066,7 +1066,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "has_institution = enlightenment" in pdl_enlightened,
         "PDL Enlightened Voivodeship lacks its Dniester path or Enlightenment gate",
     )
-    pdl_gates = read("common/scripted_triggers/pdl_reform_triggers.txt")
+    pdl_gates = read("common/scripted_triggers/pdl_pdl_reform_triggers.txt")
     pdl_magnate_gate = normalized(named_block(pdl_gates, "pdl_magnate_reforms_visible"))
     require(
         failures,
@@ -1139,8 +1139,10 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
             f"PDL path selector has no positive AI weight: {decision}",
         )
 
-    migration = read("common/scripted_effects/west_ukraine_government_effects.txt")
-    normalized_migration = normalized(migration)
+    migration = read("common/scripted_effects/pdl_government_effects.txt")
+    normalized_migration = normalized(
+        migration + read("common/scripted_effects/vln_government_effects.txt")
+    )
     startup = normalized(read("common/on_actions/west_ukraine_on_actions.txt"))
     for effect in ("pdl_reconcile_base_reform_effect", "vln_reconcile_base_reform_effect"):
         require(
@@ -1277,7 +1279,7 @@ def check_linked_lifecycle(failures: list[str]) -> None:
 
     het_reforms = read("common/government_reforms/RIP_HET_government_reforms.txt")
     owner_change = read("common/scripted_effects/01_scripted_effects_for_on_actions.txt")
-    het_migration = read("common/scripted_effects/het_government_effects.txt")
+    het_migration = read("common/scripted_effects/het_effects.txt")
     het_startup = read("common/on_actions/het_on_actions.txt")
     require(
         failures,

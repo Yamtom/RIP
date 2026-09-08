@@ -268,7 +268,7 @@ def check_rank_reachability(failures: list[str]) -> None:
     require(
         failures,
         "discipline = 0.025" in legion
-        and "land_morale = 0.10" in legion
+        and "land_morale = 0.1" in legion
         and "militarization_mechanic" not in legion
         and "monthly_militarized_society" not in legion
         and "infantry_cost" not in legion
@@ -289,8 +289,8 @@ def check_reform_balance_and_lifecycle(failures: list[str]) -> None:
     grain = normalized(named_block(reforms, "chr_grain_directorate_reform"))
     require(
         failures,
-        "global_trade_goods_size_modifier = 0.05" in grain
-        and "production_efficiency = 0.05" in grain
+        "global_trade_goods_size_modifier" not in grain
+        and "production_efficiency" not in grain
         and "burghers_loyalty_modifier = 0.05" in grain
         and "extra_trade_goods_from_grain" not in grain
         and "chinampa_farms_mechanic" not in grain,
@@ -300,10 +300,10 @@ def check_reform_balance_and_lifecycle(failures: list[str]) -> None:
     confessional = normalized(named_block(reforms, "vln_confessional_reform"))
     require(
         failures,
-        "tolerance_heretic = 3" in confessional
-        and "religious_unity = 0.10" in confessional
-        and "tolerance_own = 1" in confessional
-        and "global_unrest = -1" in confessional
+        "tolerance_heretic = 2" in confessional
+        and "religious_unity = 0.1" in confessional
+        and "tolerance_own = 0.5" in confessional
+        and "global_unrest" not in confessional
         and "tolerance_heathen" not in confessional
         and "add_country_modifier" not in confessional,
         "Volhynian Confessional State is not a visible, self-contained tolerance contract",
@@ -313,7 +313,7 @@ def check_reform_balance_and_lifecycle(failures: list[str]) -> None:
         failures,
         "max_absolutism = 10" in ruthenia
         and "legitimacy = 0.5" in ruthenia
-        and "administrative_efficiency = 0.025" in ruthenia
+        and "administrative_efficiency" not in ruthenia
         and "nobles_loyalty_modifier = 0.05" in ruthenia
         and "add_country_modifier" not in ruthenia,
         "Crown of Ruthenia does not expose its complete late-tier contract",
@@ -335,8 +335,8 @@ def check_reform_balance_and_lifecycle(failures: list[str]) -> None:
     require(
         failures,
         "trade_goods_size_modifier = 0.1" in grain_province
-        and "local_production_efficiency = 0.1" in grain_province,
-        "Left-Bank Grain Combine does not match its displayed +10%/+10% effects",
+        and "local_production_efficiency" not in grain_province,
+        "Grain Chamber must grant only the displayed +10% grain output",
     )
 
     require(

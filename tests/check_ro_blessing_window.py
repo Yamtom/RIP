@@ -3,7 +3,7 @@ from decimal import Decimal
 from pathlib import Path
 import os
 import re
-from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized
+from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized, vanilla_root
 
 icons = ('michael', 'eleusa', 'pancreator', 'nicholas')
 faith = read('common/religions/russian_orthodox.txt')
@@ -29,15 +29,10 @@ def payload(block):
     inside = re.sub(r'#.*', '', inside)
     return {k: Decimal(v) for k,v in re.findall(r'(\w+)\s*=\s*(-?\d+(?:\.\d+)?)', inside)}
 
-# EU4_DIR is the variable CLAUDE.md documents and the other five vanilla-aware
-# checks read. This one read only EU4_GAME_DIR, so anyone who set the documented
-# variable got the hardcoded path instead - and on a machine where that path is
-# wrong, every vanilla assertion below is skipped in silence rather than failing.
-install = Path(os.environ.get('EU4_DIR')
-               or os.environ.get('EU4_GAME_DIR')
-               or 'D:/Programs Files(x86)/Steam/steamapps/common/Europa Universalis IV')
-vanilla_path = install / 'common/religions/00_religion.txt'
-if vanilla_path.exists():
+# Only target-version data may refresh this snapshot; 1.30 is a donor.
+install = vanilla_root()
+if install is not None:
+    vanilla_path = install / 'common/religions/00_religion.txt'
     vanilla = named_block(vanilla_path.read_text(encoding='utf-8-sig'), 'orthodox')
     for name, values in baseline.items():
         block = named_block(vanilla, 'country' if name == 'country' else 'icon_' + name)
@@ -49,6 +44,10 @@ if vanilla_path.exists():
 for name, values in baseline.items():
     actual = payload(named_block(faith, 'country' if name == 'country' else 'rip_ro_native_' + name))
     expected = {k: Decimal(v) * Decimal('.95') for k,v in values.items()}
+    if name == 'country':
+        expected.update(global_missionary_strength=Decimal('-.001'),
+                        global_manpower_modifier=Decimal('-.0165'),
+                        global_unrest=Decimal('.15'))
     assert actual == expected, (name, actual, expected)
     print('95% payload:', name, ', '.join(k + '=' + str(v) for k,v in actual.items()))
 native = named_block(faith, 'orthodox_icons')

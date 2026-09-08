@@ -203,7 +203,7 @@ def main() -> int:
             )
 
     contracts = {
-        "common/scripted_triggers/south_ukraine_triggers.txt": (
+        "common/scripted_triggers/su_south_ukraine_triggers.txt": (
             "has_province_modifier = VOL_chumak_modifier",
             "has_province_modifier = west_ukr_chumak_trade",
         ),

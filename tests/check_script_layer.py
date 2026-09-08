@@ -453,6 +453,18 @@ if EU4_DIR:
     PROV_COMMENT = re.compile(
         r"^[^#\n]*?\b(?:owns|province_id|owns_core_province|owns_or_non_sovereign_subject_of)"
         r"\s*=\s*(\d+)\s*#\s*([^\n]+)$", re.M)
+    # The native colonial file carries five stale province comments. Its map
+    # and native choices must stay byte-identical outside our names insertions.
+    # Downgrade only verifiably inherited comments, never a mod-authored ID.
+    colonial_path = "common/colonial_regions/00_colonial_regions.txt"
+    colonial_preserved, colonial_native_lines = False, set()
+    native_colonial_path = os.path.join(EU4_DIR, colonial_path)
+    if os.path.isfile(colonial_path) and os.path.isfile(native_colonial_path):
+        sys.path.insert(0, "tools")
+        from build_colonial_names import strip_insertions
+        colonial_native = read(native_colonial_path)
+        colonial_preserved = strip_insertions(read(colonial_path).decode("latin-1")).encode("latin-1") == colonial_native
+        colonial_native_lines = {line.strip() for line in decode(colonial_native)[0].splitlines()}
     for path in script_files():
         text, _ = decode(read(path))
         for m in PROV_COMMENT.finditer(text):
@@ -464,8 +476,12 @@ if EU4_DIR:
                 err(f"{path}:{line}: province {pid} does not exist "
                     f"(comment says '{comment}')")
             elif not looks_like(comment, real):
-                err(f"{path}:{line}: province {pid} is '{real}', "
-                    f"but the comment says '{comment}'")
+                message = (f"{path}:{line}: province {pid} is '{real}', "
+                           f"but the comment says '{comment}'")
+                if path == colonial_path and colonial_preserved and m.group(0).strip() in colonial_native_lines:
+                    warn(message + " (unchanged native comment)")
+                else:
+                    err(message)
 
 # --- 7. province renames must land on provinces the mod is actually about --
 

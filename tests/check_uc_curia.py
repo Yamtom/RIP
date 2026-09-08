@@ -29,7 +29,15 @@ def payload(text):
         r'(?m)^\s*(\w+)\s*=\s*(-?\d+(?:\.\d+)?)\s*$', text)}
 
 
-faith = read('common/religions/greek_catholic.txt')
+# zz_ prefix is load-bearing: EU4 parses common/religions/ alphabetically and
+# allowed_center_conversion cannot forward-reference a religion declared in a
+# later file. greek_catholic.txt sorted BEFORE russian_orthodox.txt, so the
+# engine rejected the russian_orthodox entry outright -
+#   error.log: [religion.cpp:900] Unknown religion russian_orthodox defined
+#              for center of reformation conversion
+# and the See silently stopped converting the mod's own main faith. Vanilla has
+# zero forward references across its 160 religions.
+faith = read('common/religions/zz_greek_catholic.txt')
 triggers = read('common/scripted_triggers/rip_faith_triggers.txt')
 effects = read('common/scripted_effects/rip_uc_curia_effects.txt')
 resource = read('common/scripted_effects/greek_catholic_effects.txt')
@@ -60,7 +68,7 @@ if install is not None:
 else:
     print('SKIP: installed vanilla unavailable; only the versioned 1.37.5 snapshot is checked')
 assert payload(named_block(faith, 'country')) == {
-    k: v * Decimal('.95') for k, v in COUNTRY.items()
+    k: v * Decimal('1.05') for k, v in COUNTRY.items()
 }
 assert 'has_patriarchs = yes' in normalized(faith)
 assert not re.search(r'\b(?:papacy|fervor|holy_sites|blessings|uses_church_power)\s*=', normalized(faith))
@@ -83,7 +91,7 @@ for clause in ('religion = greek_catholic', 'has_country_flag = rip_uc_see_raise
     assert clause in common_gate, clause
 for name, (vanilla, ducats) in PETS.items():
     actual = named_block(modifiers, 'rip_uc_curia_' + name)
-    assert payload(actual) == {k: Decimal(v) * Decimal('.95') for k, v in BASELINE[name].items()}, name
+    assert payload(actual) == {k: Decimal(v) * Decimal('1.05') for k, v in BASELINE[name].items()}, name
     assert 'religion = yes' in actual
     gate = 'rip_uc_can_petition_' + name
     decision = named_block(decisions, 'rip_uc_petition_' + name)
@@ -97,7 +105,7 @@ for name, (vanilla, ducats) in PETS.items():
     assert guarded.count('rip_uc_petition_cost_effect = yes') == 1
     assert f'name = rip_uc_curia_{name}' in guarded and 'duration = 7300' in guarded
     assert 'add_country_modifier' not in named_block(decision, 'effect')
-    print('PASS: 95% vanilla payload and guarded payment:', name)
+    print('PASS: 105% vanilla payload and guarded payment:', name)
 assert 'prestige = 25' in named_block(triggers, 'rip_uc_can_petition_legate')
 assert 'is_at_war = yes' in named_block(triggers, 'rip_uc_can_petition_holy_war')
 assert 'add_patriarch_authority = -0.25' in named_block(resource, 'rip_uc_spend_the_standing_effect')
@@ -124,17 +132,11 @@ synod_cost = named_block(effects, 'rip_uc_synod_cost_effect')
 assert 'add_adm_power = -100' in synod_cost
 assert 'rip_uc_spend_the_standing_effect = yes' in synod_cost
 
-# Correct province -> owner scope and bounded country-wide conversion rewards.
-gain = named_block(resource, 'rip_uc_gain_standing_effect')
-owner = named_block(gain, 'owner')
-assert 'add_patriarch_authority = 0.005' in owner
-assert 'religion = greek_catholic' in named_block(owner, 'limit')
-assert 'check_variable = { which = rip_uc_conversion_authority_budget value = 1 }' in owner
-assert 'subtract_variable = { which = rip_uc_conversion_authority_budget value = 1 }' in owner
-spread = named_block(read('common/scripted_effects/rip_faith_spread_effects.txt'), 'rip_gc_unity_spread_effect')
-assert spread.count('set_variable = { which = rip_uc_conversion_authority_budget value = 4 }') == 1
-assert spread.count('rip_uc_gain_standing_effect = yes') == 5
-assert normalized(spread).index('rip_uc_conversion_authority_budget value = 4') < normalized(spread).index('rip_uc_gain_standing_effect = yes')
+# Retired free conversion loops cannot grant province-scoped authority.
+assert 'rip_uc_gain_standing_effect =' not in resource
+spread = read('common/scripted_effects/rip_faith_spread_effects.txt')
+assert 'rip_gc_unity_spread_effect =' not in spread
+assert 'rip_gc_unity_spread_effect = yes' not in hooks
 tick = named_block(resource, 'rip_uc_standing_tick_effect')
 assert 'papal_legate' not in tick
 assert 'add_patriarch_authority = 0.02' in tick and 'add_patriarch_authority = -0.02' in tick
@@ -168,5 +170,5 @@ assert loc_path.read_bytes().startswith(b'\xef\xbb\xbf')
 loc = loc_path.read_text(encoding='utf-8-sig')
 for key in expected_benefits - set(SYNOD.values()):
     assert f' {key}:0 ' in loc
-print('PASS: one benefit, no free cancel, owner rewards, migration, native GUI isolation')
-print('LIMIT: 95% compares matching numeric bonuses, not total religion/campaign effectiveness')
+print('PASS: one benefit, no free cancel, retired conversion rewards, migration, native GUI isolation')
+print('LIMIT: 105% compares matching numeric bonuses, not total religion/campaign effectiveness')
