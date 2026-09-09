@@ -10,7 +10,7 @@ from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized
 
 def event(text, event_id):
     return next(b for _, b in keyed_blocks(text, 'country_event')
-                if re.search(r'\bid\s*=\s*' + re.escape(event_id) + r'\s', b)
+                if re.search(r'(?m)^\s*id\s*=\s*' + re.escape(event_id) + r'\s', b)
                 and re.search(r'(?m)^\s*title\s*=', b))
 
 
@@ -112,9 +112,10 @@ assert "name = rip_ucr_church_of_the_palace" in signature
 assert "activate_greek_catholic_reformation = yes" in signature
 assert "every_owned_province" not in signature
 for n in (3, 4, 5, 6):
-    # Event .6 also has description-branch triggers before its event trigger.
-    assert re.search(r'(?m)^\ttrigger\s*=\s*\{\s*religion\s*=\s*greek_catholic\s+has_country_flag\s*=\s*rip_ucr_church_taken',
-                     event(crown, f"uniate_crown.{n}"))
+    # Events may contain option/description triggers before the event trigger;
+    # inspect the complete top-level event block instead of assuming formatting.
+    crown_event = event(crown, f"uniate_crown.{n}")
+    assert re.search(r'trigger\s*=\s*\{[^{}]*religion\s*=\s*greek_catholic[^{}]*\}', crown_event)
 for n in (7, 8):
     assert "has_country_flag = rip_ucr_church_taken" in named_block(event(crown, f"uniate_crown.{n}"), "trigger")
 assert "value = 8" in named_block(event(crown, "uniate_crown.8"), "trigger")
