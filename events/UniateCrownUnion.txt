@@ -198,6 +198,7 @@ country_event = {
 
 	option = { # Sign the articles as they stand
 		name = uniate_crown.2.a
+		trigger = { rip_ucr_can_sign_the_union = yes }
 		ai_chance = { factor = 55 }
 
 		rip_ucr_take_the_church_effect = yes
@@ -211,6 +212,7 @@ country_event = {
 
 	option = { # Sign, and ask further for a legate with authority to judge
 		name = uniate_crown.2.b
+		trigger = { rip_ucr_can_sign_the_union = yes treasury = 200 }
 		ai_chance = {
 			factor = 25
 			modifier = {
@@ -259,6 +261,7 @@ country_event = {
 	picture = RELIGION_eventPicture
 
 	is_triggered_only = yes
+	trigger = { religion = greek_catholic has_country_flag = rip_ucr_church_taken }
 
 	option = { # Keep him, and let him set his hand to what is already signed
 		name = uniate_crown.3.a
@@ -357,6 +360,7 @@ country_event = {
 	picture = REFORM_eventPicture
 
 	is_triggered_only = yes
+	trigger = { religion = greek_catholic has_country_flag = rip_ucr_church_taken }
 
 	option = { # Let it sit, under the chancellor's eye, and ratify
 		name = uniate_crown.4.a
@@ -454,6 +458,7 @@ country_event = {
 	picture = ANGRY_MOB_eventPicture
 
 	is_triggered_only = yes
+	trigger = { religion = greek_catholic has_country_flag = rip_ucr_church_taken }
 
 	option = { # Send out the crown's preachers on a chancery warrant
 		name = uniate_crown.5.a
@@ -571,6 +576,7 @@ country_event = {
 	picture = DIPLOMACY_eventPicture
 
 	is_triggered_only = yes
+	trigger = { religion = greek_catholic has_country_flag = rip_ucr_church_taken }
 
 	option = { # Take what was promised and let the account close
 		name = uniate_crown.6.a

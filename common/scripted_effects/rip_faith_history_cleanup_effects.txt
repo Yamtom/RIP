@@ -1,0 +1,93 @@
+# Country history follows its confession. Local property and payment timers
+# are deliberately excluded; ownership of a book does not depend on its donor.
+rip_faith_track_and_clear_history_effect = {
+	if = {
+		limit = { religion = russian_orthodox }
+		set_country_flag = rip_ro_historical_rewards_held
+	}
+	else_if = {
+		limit = { has_country_flag = rip_ro_historical_rewards_held }
+		remove_country_modifier = third_rome_ideology
+		remove_country_modifier = imperial_orthodox_state
+		remove_country_modifier = moscow_patriarchate_authority
+		remove_country_modifier = orthodox_manifest_destiny
+		remove_country_modifier = divine_right_of_conquest
+		remove_country_modifier = gathering_russian_lands
+		remove_country_modifier = conquest_of_pagan_lands
+		remove_country_modifier = forced_russification
+		remove_country_modifier = cultural_integration_program
+		remove_country_modifier = settler_colonialism
+		remove_country_modifier = orthodox_inquisition
+		remove_country_modifier = persecution_of_heretics
+		remove_country_modifier = suppression_old_believers
+		remove_country_modifier = religious_uniformity_enforcement
+		remove_country_modifier = rip_ro_state_controlled_church
+		remove_country_modifier = symphonia_of_powers
+		remove_country_modifier = orthodox_caesaropapism
+		remove_country_modifier = imperial_church_hierarchy
+		remove_country_modifier = conquest_of_constantinople
+		remove_country_modifier = patriarch_of_all_rus
+		remove_country_modifier = orthodox_empire_proclaimed
+		remove_country_modifier = defender_of_orthodoxy
+		remove_country_modifier = orthodox_crusade_for_constantinople
+		remove_country_modifier = orthodox_crusade_for_jerusalem
+		remove_country_modifier = orthodox_crusade_leader
+		remove_country_modifier = orthodox_crusade_participant
+		remove_country_modifier = liberator_of_constantinople
+		remove_country_modifier = rip_ro_liberator_of_jerusalem
+		remove_country_modifier = victorious_crusader
+		remove_country_modifier = crusade_contributor_bronze
+		remove_country_modifier = crusade_contributor_silver
+		remove_country_modifier = crusade_contributor_gold
+		remove_country_modifier = patriarch_of_constantinople_restored
+		remove_country_modifier = rip_ro_autocephaly
+		remove_country_modifier = rip_ro_books_settled
+		remove_country_modifier = rip_ro_the_first_rome
+		remove_country_modifier = third_rome_mission
+		remove_country_modifier = rip_ro_patriarchal_office
+		remove_country_modifier = imperial_orthodox_church
+		remove_country_modifier = subjugation_of_heretics
+		clr_country_flag = rip_ro_historical_rewards_held
+	}
+	if = {
+		limit = { religion = greek_catholic }
+		set_country_flag = rip_uc_historical_rewards_held
+	}
+	else_if = {
+		limit = { has_country_flag = rip_uc_historical_rewards_held }
+		remove_country_modifier = uniate_union_established
+		remove_country_modifier = catholic_backing_uniate
+		remove_country_modifier = uniate_church_consolidation
+		remove_country_modifier = uniate_metropolitan_authority
+		remove_country_modifier = dual_communion_compromise
+		remove_country_modifier = orthodox_uniate_coexistence
+		remove_country_modifier = zamosc_synod_latinization
+		remove_country_modifier = eastern_rite_preservation
+		remove_country_modifier = uniate_educational_network
+		remove_country_modifier = basilian_monastic_order
+		remove_country_modifier = uniate_orthodox_reconciliation
+		remove_country_modifier = uniate_cultural_flowering
+		remove_country_modifier = ruthenian_religious_pluralism
+		remove_country_modifier = greek_catholic_reformation_active
+		remove_country_modifier = greek_catholic_missionary_activity
+		remove_country_modifier = greek_catholic_church_patronage
+		remove_country_modifier = greek_catholic_synodal_administration
+		remove_country_modifier = eastern_rite_tradition_preserved
+		remove_country_modifier = papal_protection_greek_catholic
+		remove_country_modifier = greek_catholic_orthodox_dialogue
+		remove_country_modifier = greek_catholic_latin_cooperation
+		remove_country_modifier = rip_uc_curia_heard
+		remove_country_modifier = rip_uc_curia_favoured
+		remove_country_modifier = rip_uc_curia_protected
+		remove_country_modifier = rip_uc_brotherhoods_tolerated
+		remove_country_modifier = rip_uc_union_accepted
+		remove_country_modifier = rip_ucr_recognition_of_rome
+		remove_country_modifier = rip_ucr_palace_church_settled
+		remove_country_modifier = rip_ucr_church_of_the_palace
+		remove_country_modifier = rip_ucr_crown_names_the_bishops
+		remove_country_modifier = rip_ucr_synod_by_decree
+		remove_country_modifier = rip_ucr_metropolitan_in_exile
+		remove_country_modifier = rip_ucr_synod_restored
+		clr_country_flag = rip_uc_historical_rewards_held
+	}
+}

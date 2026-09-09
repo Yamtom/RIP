@@ -1,29 +1,10 @@
 
-convert_to_greek_catholic_effect = {
-	change_religion = greek_catholic
-	add_province_modifier = {
-		name = greek_catholic_diocese
-		duration = 5475
-	}
-	if = {
-		limit = { has_building = temple }
-		add_base_tax = 1
-	}
-	if = {
-		limit = { has_building = cathedral }
-		add_base_tax = 2
-	}
-}
-
 establish_greek_catholic_center_effect = {
 	change_religion = greek_catholic
 	add_province_modifier = {
 		name = greek_catholic_center
 		duration = -1
 	}
-	add_base_tax = 2
-	add_base_production = 1
-	add_base_manpower = 1
 	if = {
 		limit = {
 			NOT = { has_building = temple }
@@ -144,9 +125,8 @@ activate_greek_catholic_reformation = {
 # ---------------------------------------------------------------- the Curia
 #
 # Rome as the union actually met it: a court you have standing at, not a college you
-# sit in. rip_uc_standing runs 0 to 100. It decays, because a court that hears
-# nothing from a province forgets it, and it is raised by sending money - which is
-# what the Ruthenian sees did, and complained about doing, for two centuries.
+# sit in. Native patriarch authority carries the number. The stable-communion
+# conditions and the donation below are explicit game abstractions.
 
 rip_uc_standing_tick_effect = {
 	if = {
@@ -181,7 +161,7 @@ rip_uc_show_the_standing_effect = {
 }
 
 # A donation. The see pays, the court remembers, and it will not be asked twice in
-# the same three years.
+# the same five years.
 rip_uc_donation_effect = {
 	if = {
 		limit = { rip_uc_can_donate = yes }

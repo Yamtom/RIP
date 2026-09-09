@@ -29,6 +29,7 @@ country_decisions = {
 		}
 		
 		allow = {
+			is_religion_enabled = greek_catholic
 			is_at_war = no
 			stability = 1
 			adm_power = 100
@@ -123,13 +124,14 @@ country_decisions = {
 		
 		allow = {
 			adm_power = 50
-			owns = 2961 # Lviv - or another suitable province
+			any_owned_province = { is_suitable_greek_catholic_center = yes }
 		}
 		
 		effect = {
 			add_adm_power = -50
 			set_country_flag = greek_catholic_center_established
-			2961 = {
+			random_owned_province = {
+				limit = { is_suitable_greek_catholic_center = yes }
 				establish_greek_catholic_center_effect = yes
 			}
 			add_prestige = 10
@@ -174,7 +176,6 @@ country_decisions = {
 				name = greek_catholic_missionary_activity
 				duration = 5475
 			}
-			add_patriarch_authority = 0.10
 			rip_uc_show_the_standing_effect = yes
 			add_patriarch_authority = 0.05
 		}

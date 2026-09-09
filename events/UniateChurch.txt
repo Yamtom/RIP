@@ -32,6 +32,7 @@ country_event = {
 			tag = POL
 		}
 		religion = orthodox
+		is_religion_enabled = greek_catholic
 		# Religious ideas used to be a hard gate here, which meant one idea-group
 		# pick decided whether Greek Catholicism existed in the game at all. It is
 		# a reason to look to Rome, not the only door to it; the pressure the
@@ -191,7 +192,6 @@ country_event = {
 		random_owned_province = {
 			limit = { religion = orthodox }
 			change_religion = greek_catholic
-			add_base_tax = 1
 		}
 	}
 	
@@ -204,8 +204,7 @@ country_event = {
 			duration = 5475
 		}
 		
-		add_papal_influence = 20
-		add_curia_treasury = 50
+		improve_relation_with_pope = yes
 	}
 }
 
@@ -435,7 +434,7 @@ country_event = {
 		
 		add_country_modifier = {
 			name = zamosc_synod_latinization
-			duration = -1
+			duration = 7300
 		}
 	}
 	
@@ -448,7 +447,7 @@ country_event = {
 		
 		add_country_modifier = {
 			name = eastern_rite_preservation
-			duration = -1
+			duration = 7300
 		}
 	}
 }
@@ -480,7 +479,7 @@ country_event = {
 		
 		add_country_modifier = {
 			name = uniate_educational_network
-			duration = -1
+			duration = 7300
 		}
 	}
 	
@@ -520,7 +519,7 @@ country_event = {
 		
 		add_country_modifier = {
 			name = uniate_cultural_flowering
-			duration = -1
+			duration = 7300
 		}
 	}
 	
@@ -540,9 +539,10 @@ country_event = {
 	
 	trigger = {
 		has_country_flag = pursuing_uniate_union
+		NOT = { has_country_flag = moscow_interference_handled }
 		any_neighbor_country = {
 			tag = MOS
-			religion = orthodox
+			OR = { religion = orthodox religion = russian_orthodox }
 		}
 	}
 	
@@ -636,6 +636,8 @@ province_event = {
 	desc = uniate_church.10.d
 	picture = RELIGION_eventPicture
 	
+	immediate = { set_province_flag = rip_uc_parish_answered }
+
 	trigger = {
 		owner = { has_country_flag = pursuing_uniate_union }
 		religion = orthodox
@@ -643,6 +645,7 @@ province_event = {
 			religion = greek_catholic
 		}
 		NOT = { has_province_modifier = resistance_to_greek_catholic_spread }
+		NOT = { has_province_flag = rip_uc_parish_answered }
 	}
 	
 	mean_time_to_happen = {
@@ -665,12 +668,11 @@ province_event = {
 		name = uniate_church.10.a
 		ai_chance = { factor = 60 }
 		
-		change_religion = greek_catholic
+		# A diocesan mission assists native conversion; acceptance is not automatic.
 		add_province_modifier = {
 			name = greek_catholic_diocese
 			duration = 7300
 		}
-		add_base_tax = 1
 	}
 	
 	option = { # Province resists
@@ -690,7 +692,13 @@ country_event = {
 	desc = uniate_church.11.d
 	picture = RELIGION_eventPicture
 	
+	immediate = { set_country_flag = rip_uc_mission_debate_recent }
+
 	trigger = {
+		OR = {
+			NOT = { has_country_flag = rip_uc_mission_debate_recent }
+			had_country_flag = { flag = rip_uc_mission_debate_recent days = 3650 }
+		}
 		religion = greek_catholic
 		NOT = { has_country_modifier = greek_catholic_missionary_activity }
 		any_owned_province = {
@@ -714,7 +722,6 @@ country_event = {
 			duration = 5475
 		}
 		
-		add_papal_influence = 10
 		add_patriarch_authority = 0.05
 	}
 	
@@ -773,7 +780,7 @@ country_event = {
 		
 		add_country_modifier = {
 			name = greek_catholic_synodal_administration
-			duration = -1
+			duration = 7300
 		}
 		
 		greek_catholic_faith_bonus = yes
@@ -783,7 +790,6 @@ country_event = {
 		name = uniate_church.12.b
 		ai_chance = { factor = 20 }
 		
-		add_adm_power = 25
 	}
 }
 
@@ -819,7 +825,7 @@ country_event = {
 		
 		add_country_modifier = {
 			name = uniate_cultural_flowering
-			duration = -1
+			duration = 7300
 		}
 		
 		add_prestige = 20
@@ -864,7 +870,6 @@ country_event = {
 			duration = 7300
 		}
 		
-		add_papal_influence = 15
 	}
 	
 	option = { # Emphasize Eastern tradition
@@ -984,7 +989,7 @@ country_event = {
 		
 		add_country_modifier = {
 			name = uniate_educational_network
-			duration = -1
+			duration = 7300
 		}
 		
 		add_adm_power = 50
@@ -995,7 +1000,6 @@ country_event = {
 		ai_chance = { factor = 20 }
 		
 		set_country_flag = greek_catholic_printing_established
-		add_papal_influence = 10
 	}
 }
 
@@ -1031,12 +1035,11 @@ country_event = {
 		
 		add_country_modifier = {
 			name = greek_catholic_church_patronage
-			duration = -1
+			duration = 7300
 		}
 		
 		add_prestige = 50
 		add_legitimacy = 25
-		add_papal_influence = 25
 		
 		every_country = {
 			limit = { religion = greek_catholic }
@@ -1102,7 +1105,6 @@ country_event = {
 			duration = 5475
 		}
 		
-		add_papal_influence = 20
 	}
 }
 
@@ -1136,7 +1138,7 @@ country_event = {
 		
 		add_country_modifier = {
 			name = greek_catholic_synodal_administration
-			duration = -1
+			duration = 7300
 		}
 		
 		add_adm_power = 100
@@ -1150,10 +1152,9 @@ country_event = {
 		
 		add_country_modifier = {
 			name = papal_protection_greek_catholic
-			duration = -1
+			duration = 7300
 		}
 		
-		add_papal_influence = 30
 	}
 	
 	option = { # Emphasize independence
@@ -1164,7 +1165,7 @@ country_event = {
 		
 		add_country_modifier = {
 			name = eastern_rite_tradition_preserved
-			duration = -1
+			duration = 7300
 		}
 		
 		add_patriarch_authority = 0.2

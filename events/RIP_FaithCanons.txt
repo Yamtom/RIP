@@ -15,104 +15,16 @@
 
 namespace = rip_faith
 
-# --- 1. The Sobor sits.
+# Legacy Sobor event: native icons replaced the permanent stacking canons.
 country_event = {
 	id = rip_faith.1
 	title = rip_faith.1.t
-	desc = rip_faith.1.d
+	desc = rip_ro_retired_sobor_desc
 	picture = ORTHODOX_eventPicture
-
 	is_triggered_only = yes
-
-	option = {
-		name = rip_faith.1.a
-		trigger = {
-			NOT = { has_country_modifier = third_rome_mission }
-		}
-		ai_chance = { factor = 20 }
-		add_country_modifier = {
-			name = third_rome_mission
-			duration = -1
-		}
-	}
-
-	option = {
-		name = rip_faith.1.b
-		trigger = {
-			NOT = { has_country_modifier = rip_ro_patriarchal_office }
-		}
-		ai_chance = { factor = 20 }
-		add_country_modifier = {
-			name = rip_ro_patriarchal_office
-			duration = -1
-		}
-		add_patriarch_authority = 0.1
-	}
-
-	option = {
-		name = rip_faith.1.c
-		trigger = {
-			NOT = { has_country_modifier = orthodox_inquisition }
-		}
-		ai_chance = {
-			factor = 15
-			modifier = {
-				factor = 3
-				NOT = { religious_unity = 0.8 }
-			}
-		}
-		add_country_modifier = {
-			name = orthodox_inquisition
-			duration = -1
-		}
-	}
-
-	option = {
-		name = rip_faith.1.e
-		trigger = {
-			NOT = { has_country_modifier = forced_russification }
-		}
-		ai_chance = { factor = 15 }
-		add_country_modifier = {
-			name = forced_russification
-			duration = -1
-		}
-	}
-
-	option = {
-		name = rip_faith.1.f
-		trigger = {
-			NOT = { has_country_modifier = imperial_orthodox_church }
-		}
-		ai_chance = {
-			factor = 15
-			modifier = {
-				factor = 3
-				num_of_cities = 30
-			}
-		}
-		add_country_modifier = {
-			name = imperial_orthodox_church
-			duration = -1
-		}
-	}
-
-	option = {
-		name = rip_faith.1.g
-		trigger = {
-			NOT = { has_country_modifier = subjugation_of_heretics }
-		}
-		ai_chance = { factor = 15 }
-		add_country_modifier = {
-			name = subjugation_of_heretics
-			duration = -1
-		}
-	}
-
 	option = {
 		name = rip_faith.1.h
 		ai_chance = { factor = 1 }
-		add_adm_power = 50
 	}
 }
 
