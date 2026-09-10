@@ -140,7 +140,7 @@ opportunity cost, а не постійний стек модифікаторів
 |---|---|---|---|
 | `kyivan_rus_reform`, `kyivan_cesarstvo_reform` | `russian_mechanic` (московський цар) | `kyivan_seniority_mechanic` | снем · переуділення · збір дружин |
 | `kyivan_shogunate_reform` | `shogunate_mechanic` (японський даймьо) | `kyivan_seniorate_mechanic` + новий тип суб'єктів `senior_udil` | княжий збір · пересадка столів · переконфірмація надань |
-| `ruthenian_factional_empire_reform` ×3 | `states_general_mechanic` (голландський) | `ruthenian_factional_court_mechanic` | залицяння до Князів / Бояр / Старшини |
+| `ruthenian_factional_empire_reform` ×3 | `states_general_mechanic` (голландський фейк) | ванільна `factions` (3 блоки, як Небесна імперія) + `ruthenian_factional_court_mechanic` | залицяння до Князів / Бояр / Старшини = `add_faction_influence` |
 
 Решта кандидатів за спаданням цінності:
 
@@ -154,16 +154,21 @@ opportunity cost, а не постійний стек модифікаторів
 безповий шаблон (Гетьманщина краще на шкалу `18_parliament_vs_monarchy`, а це
 вже вимагає `.gui` й DDS).
 
-### R2. Уніфікувати ключі факцій
+### R2. Ключі факцій і вибір ванільного механізму
 
-**Частково зроблено.** `states_general_mechanic` прибрано з усіх трьох
-`ruthenian_factional_empire_*` (заміна — `ruthenian_factional_court_mechanic`);
-взаємодії й модифікатори нового механізму вживають **`starshyna`** у назвах і
-локалізації. Збережена змінна `kru_hetmany_influence` (save-сумісність) із
-приміткою — рушій пише змінні у збереження, тож перейменування ключа їх ламає.
-**Лишилось:** `representation_monarchy_reform` усе ще має
-`states_general_mechanic { boyars = {} princes = {} }` (Res Publica) — його теж
-слід звести до `boyary`/`knyazi` або перевести на власний механізм.
+**Здебільшого зроблено для KRU.** Рада тепер на ванільній `factions` з трьома
+блоками `kru_knyazi` / `kru_boyary` / `kru_starshyna` (base-game, шаблон трьох
+міністерств Небесної імперії); `states_general` прибрано з усіх трьох
+`ruthenian_factional_empire_*`; кастомні змінні `kru_*_influence` вилучено.
+Взаємодії, модифікатори й локалізація вживають **`starshyna`**. Стара змінна
+`kru_hetmany_influence` більше не пишеться (мігрує через `kru_clear_faction_
+modifiers_effect`).
+
+**Лишилось:** `representation_monarchy_reform` (M10, окрема реформа) усе ще має
+`states_general_mechanic { boyars = {} princes = {} }` під Res Publica — той
+самий перехід: або власні дві фракції `boyary`/`knyazi`, або (краще) `factions`
+на два блоки. Це монархія з парламентом-думою, тож шкала «дума ↔ корона» тут
+доречніша за трифракційну раду.
 
 ### R3. Згорнути паралельні стат-палиці M2–M11 у менше, різкіших виборів
 
@@ -301,16 +306,27 @@ opportunity cost, а не постійний стек модифікаторів
   - `on_monarch_death` (`kie_on_actions.txt`): смерть старшого князя гасить усі
     надання — senior_udil'и отримують `rip_tenure_lapsed` (LD +20) до
     переконфірмації. Це і є рота: успадкування = драбина крутиться.
-- **`ruthenian_factional_court_mechanic`** (усі три `ruthenian_factional_empire_*`,
-  замінила `states_general_mechanic`, **БЕЗ DLC-гейта**):
-  - `kru_court_the_knyazi` / `_boyary` / `_starshyna` (по 50 очок відповідного
-    типу, кулдаун 6 р.) — `KRU_courting_*` на 10 років: +20 до відповідної
-    шкали впливу в `kru_recalculate_faction_influence_effect` + тематичний
-    дивіденд (легітимність / податок / традиція армії). Це прямий важіль
-    гравця на автоматичний доти зсув пари.
-  - `kru_has_factional_empire_reform` більше не вимагає Res Publica — симуляція
-    впливу (`ruthenian_factions.20`) працює base-game. Пакети `KRU_pair_*`
-    збагачено (єдине джерело парних бонусів). `ruthenian_factions.2` вимкнено.
+- **Рада KRU = ванільна механіка FACTION** (усі три `ruthenian_factional_empire_*`):
+  - `common/factions/RIP_kru_factions.txt` — три блоки `kru_knyazi` (DIP),
+    `kru_boyary` (ADM), `kru_starshyna` (MIL), без блоку `allow` → base-game,
+    як три міністерства Небесної імперії. Реформи вмикають їх
+    `factions = { kru_knyazi kru_boyary kru_starshyna }`.
+  - Рушій сам накопичує вплив, називає блок при владі, застосовує його
+    модифікатор, малює панель. Раніше все це фейкав кастомний скрипт
+    (`kru_*_influence` + `states_general`) — тепер прибрано.
+  - `ruthenian_factional_court_mechanic` (без DLC-гейта): три кнопки роблять
+    `add_faction_influence = { faction = kru_X influence = 25 }` + разовий
+    дивіденд — прямий важіль гравця на ванільну шкалу.
+  - `kru_effects.txt`: `kru_sync_reform_to_faction_effect` (id реформи слідує
+    за `faction_in_power` до правлячої пари, кулдаун 5 р.),
+    `kru_apply_junior_blocs_effect` (блок не при владі, але з `faction_influence
+    ≥ 38` — половина голосу, `KRU_junior_*`), `kru_faction_state_drift_effect`
+    (малий річний зсув від стану держави). `ruthenian_factions.2` вимкнено.
+  - `states_general` (голландська шкала на 2 фракції) — неправильний
+    інструмент; `factions` (3, як революційна республіка / Небесна імперія) —
+    правильний. `representation_monarchy_reform` усе ще має
+    `states_general_mechanic { boyars princes }` (окрема M10) — той самий
+    перехід чекає на неї.
 
 Урядові / субʼєктні / модифікаторні / brace / glossary перевірки зелені.
 `run_all_tests` наразі червоний **лише через паралельну сесію релігії**
