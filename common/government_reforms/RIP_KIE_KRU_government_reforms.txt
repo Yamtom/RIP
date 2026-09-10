@@ -46,6 +46,10 @@ kyivan_rus_reform = {
 		allow = { has_dlc = "Third Rome" }
 		claim_states = yes
 	}
+	# Seniority of the Rus, not the Tsar's toolkit. russian_mechanic (Sudebnik /
+	# Oprichnina / Streltsy) is a 16th-17th century anachronism for the Kyivan
+	# order; kyivan_seniority_mechanic models the rota, the snem and the
+	# druzhyna levy. common/government_mechanics/rip_kyivan_seniority.txt.
 	conditional = {
 		allow = {
 			OR = {
@@ -54,7 +58,7 @@ kyivan_rus_reform = {
 			}
 		}
 		government_abilities = {
-			russian_mechanic
+			kyivan_seniority_mechanic
 		}
 	}
 }
@@ -159,6 +163,19 @@ kyivan_cesarstvo_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
+	}
+	# The imperial Kyivan court still rests on the seniority of the house of
+	# Rurik - the same mechanic as kyivan_rus_reform, not the Muscovite one.
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Third Rome"
+				has_dlc = "Domination"
+			}
+		}
+		government_abilities = {
+			kyivan_seniority_mechanic
+		}
 	}
 }
 

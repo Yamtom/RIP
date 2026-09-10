@@ -1,0 +1,135 @@
+# =============================================================================
+# rip_kyivan_seniority - the government of Kyivan Rus was not a monarchy in the
+# Muscovite sense, and russian_mechanic (the Tsar's Sudebnik / Oprichnina /
+# Streltsy toolkit, all 15th-17th century) is an anachronism for it.
+#
+# Kyivan Rus ran on AGNATIC SENIORITY - the lestvytsia, the rung-ladder / rota:
+# the throne of Kyiv passed to the eldest of the house of Rurik, not father to
+# son; princes rotated up a hierarchy of thrones (Kyiv, then Chernihiv, then
+# Pereiaslav...); and the senior prince held a loose suzerainty whose one real
+# function was calling the junior princes' druzhyny for a common campaign,
+# in practice against the Polovtsians in the steppe. The dynasty settled its
+# quarrels at the SNEM, the princely congress - Liubech 1097, "kozhdo da
+# derzhit otchinu svoyu", let each hold his patrimony, which formalised
+# appanage inheritance and hastened the fragmentation it was meant to stop.
+#
+# Buttons-only mechanic (the devshirme_mechanic pattern): no powers block, no
+# custom .gui - the three interactions render through the default government
+# interactions list and spend monarch power inside their own effect. Icons
+# reuse the vanilla Cossack ability sprites; bespoke Kyivan art (rota ladder /
+# princes' congress / druzhyna muster) is a follow-up, see
+# docs/GOVERNMENT_REDESIGN_PROPOSAL.uk.md.
+#
+# Enabled by kyivan_rus_reform and kyivan_cesarstvo_reform in
+# common/government_reforms/RIP_KIE_KRU_government_reforms.txt, under the same
+# Third Rome / Domination DLC gate that russian_mechanic used, so there is no
+# regression for a player without those DLCs (who got nothing before either).
+# =============================================================================
+
+kyivan_seniority_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		OR = {
+			has_dlc = "Third Rome"
+			has_dlc = "Domination"
+		}
+		OR = {
+			has_reform = kyivan_rus_reform
+			has_reform = kyivan_cesarstvo_reform
+		}
+	}
+
+	interactions = {
+		# The princely congress. The house of Rurik reaffirms the seniority of
+		# Kyiv and the subjects' unrest subsides - but, as at Liubech, each
+		# prince leaves confirmed in his own patrimony.
+		kyiv_call_the_snem = {
+			icon = GFX_cossacks_ability_ADM
+			trigger = {
+				adm_power = 50
+				NOT = { num_of_subjects = 0 }
+			}
+			effect = {
+				add_adm_power = -50
+				every_subject_country = {
+					add_liberty_desire = -20
+				}
+				add_country_modifier = {
+					name = kyiv_snem_convened
+					duration = 5475
+				}
+			}
+			cooldown_years = 15
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 8
+					any_subject_country = { liberty_desire = 50 }
+				}
+			}
+		}
+		# Move a prince up the ladder of thrones, or invest a kinsman with a
+		# fresh appanage. A new grant of tenure binds the holder to the senior
+		# prince for a time.
+		kyiv_regrant_the_udil = {
+			icon = GFX_cossacks_ability_DIP
+			trigger = {
+				dip_power = 50
+				any_subject_country = { liberty_desire = 35 }
+			}
+			effect = {
+				add_dip_power = -50
+				random_subject_country = {
+					limit = { liberty_desire = 35 }
+					add_liberty_desire = -35
+					add_opinion = {
+						who = ROOT
+						modifier = kyivan_confirmed_in_the_udil
+					}
+				}
+				add_legitimacy_equivalent = {
+					amount = 3
+					republican_tradition = 2
+				}
+			}
+			cooldown_years = 10
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 10
+					any_subject_country = { liberty_desire = 60 }
+				}
+			}
+		}
+		# The senior prince calls the retinues of the junior princes to ride
+		# with his own - the one duty of seniority the ladder still enforces,
+		# and the reason it holds against the steppe at all.
+		kyiv_summon_the_druzhyny = {
+			icon = GFX_cossacks_ability_MIL
+			trigger = {
+				mil_power = 50
+			}
+			effect = {
+				add_mil_power = -50
+				add_country_modifier = {
+					name = kyiv_druzhyna_muster
+					duration = 3650
+				}
+			}
+			cooldown_years = 10
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 10
+					is_at_war = yes
+				}
+				modifier = {
+					factor = 5
+					any_neighbor_country = { government = tribal }
+				}
+			}
+		}
+	}
+}
