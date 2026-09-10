@@ -134,31 +134,36 @@ opportunity cost, а не постійний стек модифікаторів
 баром (`powers` + `scaled_modifier`) потребує `.gui` з `windowType`,
 `progressbartype` і текстур — тут DDS вже неминучий.
 
-**Зроблено в цій сесії:** `kyivan_seniority_mechanic` для Києва (див. нижче й
-розділ 6). Решта кандидатів за спаданням цінності:
+**Зроблено в цій сесії — три механіки, усі за шаблоном devshirme:**
+
+| Реформа | Замінила | Механіка | Взаємодії |
+|---|---|---|---|
+| `kyivan_rus_reform`, `kyivan_cesarstvo_reform` | `russian_mechanic` (московський цар) | `kyivan_seniority_mechanic` | снем · переуділення · збір дружин |
+| `kyivan_shogunate_reform` | `shogunate_mechanic` (японський даймьо) | `kyivan_seniorate_mechanic` + новий тип суб'єктів `senior_udil` | княжий збір · пересадка столів · переконфірмація надань |
+| `ruthenian_factional_empire_reform` ×3 | `states_general_mechanic` (голландський) | `ruthenian_factional_court_mechanic` | залицяння до Князів / Бояр / Старшини |
+
+Решта кандидатів за спаданням цінності:
 
 | Механіка | Клонувати з | `powers` / `interactions` |
 |---|---|---|
 | **Січ: Кошова скарбниця й козацька воля** | `00_cossacks` + `16_prussian_militarization` (бар+кнопки) | бар `cossack_liberty` (0–100): високий — `republican_tradition`, `land_morale`, менше `governing_capacity`; кнопки «Розписати похід» (−воля, +дохід/претензія), «Скликати Раду» (скинути на нового кошового) |
-| **Гетьманщина: Старшина ↔ Гетьман** | `18_parliament_vs_monarchy` (шкала −100…+100) | шкала: бік старшини — `nobles_influence`, `advisor_cost`, дешевша стабільність; бік гетьмана — `max_absolutism`, `reform_progress`, `army_tradition`. Події й рішення штовхають шкалу. Замінює три окремі HET-реформи одним рухомим протистоянням |
-| **KRU: Факційна імперія** | вже фейкається `states_general_mechanic` | перевести на справжню механіку з трьома `powers` (knyazi / boyary / hetmany), щорічний перерахунок впливу як `base_monthly_growth` + `scaled_modifier` |
+| **Гетьманщина: Старшина ↔ Гетьман** | `18_parliament_vs_monarchy` (шкала −100…+100) | шкала: бік старшини — `nobles_influence`, `advisor_cost`, дешевша стабільність; бік гетьмана — `max_absolutism`, `reform_progress`, `army_tradition`. Замінює три окремі HET-реформи одним рухомим протистоянням |
 | **Магнатські сеймики (HLC/VLN)** | `23_cultural_disunity` (бар) | бар `magnate_concord`: низький — `global_unrest`, повільніші реформи; кнопка «Сеймик» (адмін-очки → підняти) |
-| ~~**Київ: Сеніорат / Рота**~~ | — | **ЗРОБЛЕНО: `kyivan_seniority_mechanic`** (розділ 6). Три кнопки — снем, переуділення, збір дружин — на місце анахронічного `russian_mechanic` |
 
-Не робити всі одразу. **Січ і Гетьманщина** — найбільша віддача з решти: обидві
-центральні для мода, обидві зараз фейкаються, обидві мають чисту фікцію
-(«Рада обирає кошового», «старшина захоплює булаву»). Обидві лягають на той
-самий безризиковий шаблон, що й Київ (Гетьманщина — краще на шкалу
-`18_parliament_vs_monarchy`, але це вимагатиме `.gui` й DDS).
+Січ і Гетьманщина — найбільша віддача з решти; обидві лягають на той самий
+безповий шаблон (Гетьманщина краще на шкалу `18_parliament_vs_monarchy`, а це
+вже вимагає `.gui` й DDS).
 
-### R2. Уніфікувати ключі факцій `states_general_mechanic`
+### R2. Уніфікувати ключі факцій
 
-Єдиний словник: `knyazi`, `boyary`, `starshyna` (замість `hetmany` —
-«старшина» точніше за глосарієм; `hetmany` як множина від «гетьман»
-некоректна). Оновити `representation_monarchy_reform`
-(`boyars`/`princes` → `boyary`/`knyazi`) і всі три `ruthenian_factional_empire_*`.
-Додати локалізацію для кожного ключа в `RIP_l_english.yml`. Це чистий рефактор
-без зміни балансу.
+**Частково зроблено.** `states_general_mechanic` прибрано з усіх трьох
+`ruthenian_factional_empire_*` (заміна — `ruthenian_factional_court_mechanic`);
+взаємодії й модифікатори нового механізму вживають **`starshyna`** у назвах і
+локалізації. Збережена змінна `kru_hetmany_influence` (save-сумісність) із
+приміткою — рушій пише змінні у збереження, тож перейменування ключа їх ламає.
+**Лишилось:** `representation_monarchy_reform` усе ще має
+`states_general_mechanic { boyars = {} princes = {} }` (Res Publica) — його теж
+слід звести до `boyary`/`knyazi` або перевести на власний механізм.
 
 ### R3. Згорнути паралельні стат-палиці M2–M11 у менше, різкіших виборів
 
@@ -278,20 +283,56 @@ opportunity cost, а не постійний стек модифікаторів
   (ключ думки — `kyivan_` префікс, вимога `check_opinion_modifier_layer`);
   локалізація EN + FR/DE/ES-фолбек.
 
-`python tests/run_all_tests.py` → `ALL CRITICAL TESTS PASS: True`.
+Коміт `feat(government): Механіки для сеніорату та факційної імперії KRU`:
+
+- **`kyivan_seniorate_mechanic`** (`kyivan_shogunate_reform`, замінила
+  `shogunate_mechanic`):
+  - Новий тип суб'єктів **`senior_udil`** (`common/subject_types/rip_senior_udil.txt`)
+    — ротаційний стіл проти вотчинного `princedom`: `forcelimit_to_overlord 0.5`
+    (левій замість ренти), `pays_overlord 0.25`, `place_relative_on_throne` і
+    `send_officers` увімкнені, `base_liberty_desire 40`,
+    `liberty_desire_same_dynasty -12`. `rip_grant_the_udil` розгалужується за
+    реформою — Сеніорат робить `senior_udil`, решта Київських урядів `princedom`.
+  - Взаємодії: `kyiv_call_the_princely_levy` (MIL 60, кулдаун 10 р. —
+    `rip_kyiv_princely_levy`: forcelimit +15%, vassal FL +20%, рекрути +15%,
+    ціна +10% утримання); `kyiv_rotate_the_seats` (DIP 60, кулдаун 12 р. —
+    випадковому senior_udil з LD ≥30 знімає 40 LD + думка); `kyiv_reconfirm_the_grants`
+    (ADM 40, кулдаун 5 р. — знімає `rip_tenure_lapsed`, +довіра).
+  - `on_monarch_death` (`kie_on_actions.txt`): смерть старшого князя гасить усі
+    надання — senior_udil'и отримують `rip_tenure_lapsed` (LD +20) до
+    переконфірмації. Це і є рота: успадкування = драбина крутиться.
+- **`ruthenian_factional_court_mechanic`** (усі три `ruthenian_factional_empire_*`,
+  замінила `states_general_mechanic`, **БЕЗ DLC-гейта**):
+  - `kru_court_the_knyazi` / `_boyary` / `_starshyna` (по 50 очок відповідного
+    типу, кулдаун 6 р.) — `KRU_courting_*` на 10 років: +20 до відповідної
+    шкали впливу в `kru_recalculate_faction_influence_effect` + тематичний
+    дивіденд (легітимність / податок / традиція армії). Це прямий важіль
+    гравця на автоматичний доти зсув пари.
+  - `kru_has_factional_empire_reform` більше не вимагає Res Publica — симуляція
+    впливу (`ruthenian_factions.20`) працює base-game. Пакети `KRU_pair_*`
+    збагачено (єдине джерело парних бонусів). `ruthenian_factions.2` вимкнено.
+
+Урядові / субʼєктні / модифікаторні / brace / glossary перевірки зелені.
+`run_all_tests` наразі червоний **лише через паралельну сесію релігії**
+(`check_faith_content_balance`, `check_opinion_modifier_layer`,
+`check_script_layer` — файли `zzzz_RIP_religion_settlement_*`); жодна з 17
+помилок не стосується урядових комітів, жоден релігійний файл не в staged.
 
 Що НЕ засвідчено (потребує запуску EU4): чи панель урядових механік рендериться
-без Domination; фактичний вигляд і розміщення трьох кнопок; ігрова арифметика
-(кулдауни, сила `kyiv_druzhyna_muster`) — симулювати в
-`tests/dev_tools/balance_sim/`.
+без Domination; вигляд/розміщення кнопок; чи `place_relative_on_throne` /
+`send_officers` на кастомному типі суб'єктів працюють як гадалось; чи
+`on_monarch_death` спрацьовує до того, як рушій розв'яже спадкування; ігрова
+арифметика — симулювати в `tests/dev_tools/balance_sim/`.
 
 ---
 
 ## 7. Відкриті питання
 
-1. `kyivan_seniority_mechanic` зроблено для Києва — розширити цей підхід на
-   Січ і Гетьманщину (рекомендація: так), і чи потрібен бесповий київський арт
-   замість позичених козацьких спрайтів?
+1. Три київські/KRU механіки зроблено (сеніорат, сеніорат-левій із новим типом
+   суб'єктів, факційний двір) — розширити підхід на Січ і Гетьманщину
+   (рекомендація: так)? Чи потрібен бесповий арт замість позичених козацьких
+   спрайтів? Чи лишається `icon = "shogunate"` / `legacy_equivalent =
+   shogunate_legacy` на реформі-сеніораті, чи їх теж міняти?
 2. Скільки паралельних стат-палиць M2–M11 згорнути (R3), і за яким принципом?
 3. Повертати п'ять знятих реформ (R5)? Якщо так — чи потрібен четвертий
    R1-козацький варіант (`zaz_sich_cossack_republic_reform`), чи це дублювання
