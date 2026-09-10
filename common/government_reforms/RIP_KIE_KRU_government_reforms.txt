@@ -34,13 +34,28 @@ kyivan_rus_reform = {
 		}
 	}
 	modifiers = {
-		min_autonomy = -5
+		global_autonomy = -0.025
 		global_manpower_modifier = 0.15
 		core_creation = -0.10
 		vassal_forcelimit_bonus = 0.15
 	}
 	custom_attributes = {
 		locked_government_type = yes
+	}
+	conditional = {
+		allow = { has_dlc = "Third Rome" }
+		claim_states = yes
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Third Rome"
+				has_dlc = "Domination"
+			}
+		}
+		government_abilities = {
+			russian_mechanic
+		}
 	}
 }
 
@@ -66,6 +81,34 @@ kyivan_shogunate_reform = {
 	allow_vassal_war = yes
 	allow_vassal_alliance = yes
 	allow_force_tributary = yes
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			NOT = { has_dlc = "Mare Nostrum" }
+		}
+		can_use_trade_post = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Mare Nostrum"
+			NOT = { has_dlc = "Res Publica" }
+		}
+		can_form_trade_league = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			has_dlc = "Mare Nostrum"
+		}
+		can_use_trade_post = yes
+		can_form_trade_league = yes
+	}
+	conditional = {
+		allow = { has_dlc = "Mandate of Heaven" }
+		government_abilities = {
+			shogunate_mechanic
+		}
+	}
 	trigger = {
 		OR = {
 			has_reform = kyivan_shogunate_reform

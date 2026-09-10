@@ -73,6 +73,9 @@ uzh_komitat_system_reform = {
 	heir = yes
 	rulers_can_be_generals = yes
 	royal_marriage = yes
+	has_term_election = yes
+	republic = yes
+	duration = 8
 	allow_convert = no
 	trigger = {
 		OR = {
@@ -308,7 +311,7 @@ uzh_palatial_uhro_republic_reform = {
 }
 
 uzh_union_synod_reform = {
-	icon = "clergyman"
+	icon = "conciliarism_reform"
 	potential = {
 		OR = {
 			has_reform = uzh_union_synod_reform
@@ -330,8 +333,8 @@ uzh_union_synod_reform = {
 	}
 	modifiers = {
 		tolerance_own = 1
-		tolerance_heretic = 1
-		church_loyalty_modifier = 0.05
+		tolerance_heretic = 2
+		church_loyalty_modifier = 0.1
 	}
 	custom_attributes = {
 		locked_government_type = yes
