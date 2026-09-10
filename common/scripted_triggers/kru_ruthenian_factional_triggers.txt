@@ -1,4 +1,8 @@
 
+# The rada is the vanilla FACTION mechanic (common/factions/RIP_kru_factions.txt).
+# Res Publica only ever supplied the states_general scale the reforms used to
+# fake, so this gate no longer requires it - faction_in_power, faction_influence
+# and add_faction_influence are all base-game.
 kru_has_factional_empire_reform = {
 	tag = KRU
 	OR = {
@@ -6,25 +10,4 @@ kru_has_factional_empire_reform = {
 		has_reform = ruthenian_factional_empire_princes_hetmans_reform
 		has_reform = ruthenian_factional_empire_boyars_hetmans_reform
 	}
-	# No longer gated on Res Publica: the influence sim and the pair shift now
-	# rest on the KRU_pair_* modifiers and ruthenian_factional_court_mechanic,
-	# all of which are base-game. Res Publica only ever supplied the
-	# states_general_mechanic scale, which the reforms no longer carry.
-}
-
-kru_pair_knyazi_boyary_active = {
-	has_reform = ruthenian_factional_empire_reform
-}
-
-kru_pair_knyazi_hetmany_active = {
-	has_reform = ruthenian_factional_empire_princes_hetmans_reform
-}
-
-kru_pair_boyary_hetmany_active = {
-	has_reform = ruthenian_factional_empire_boyars_hetmans_reform
-}
-
-kru_can_shift_pair = {
-	NOT = { has_country_modifier = KRU_factional_pair_shift_cooldown }
-	stability = 0
 }

@@ -1,25 +1,20 @@
 # =============================================================================
-# rip_ruthenian_factional_court - the player-facing half of the KRU "factional
-# empire". The three ruthenian_factional_empire_*_reform ids are ONE government
-# that swaps itself as the dominant faction pair changes:
+# rip_ruthenian_factional_court - the ruler's hand on the rada.
 #
-#   ruthenian_factional_empire_reform                 = Knyazi + Boyary
-#   ruthenian_factional_empire_princes_hetmans_reform = Knyazi + Starshyna
-#   ruthenian_factional_empire_boyars_hetmans_reform  = Boyary + Starshyna
+# The three ruthenian_factional_empire_*_reform ids are ONE government whose
+# rada is the vanilla FACTION mechanic (common/factions/RIP_kru_factions.txt,
+# enabled by `factions = { kru_knyazi kru_boyary kru_starshyna }` in the
+# reforms). Vanilla runs the influence, names the bloc in power and applies its
+# modifier, and draws the faction panel. This mechanic is the direct lever:
+# three buttons, each pours monarch power into one bloc's vanilla influence
+# (add_faction_influence) and pays a one-off dividend in that bloc's coin.
 #
-# The pair is decided by three influence tracks (kru_knyazi_influence,
-# kru_boyary_influence, kru_hetmany_influence - the last keeps its saved
-# variable id although the faction is now localised "Starshyna"), recomputed on
-# a hidden pulse from the country's own state
-# (common/scripted_effects/kru_effects.txt : kru_recalculate_faction_influence_
-# effect / kru_update_dominant_pair_effect).
+# kru_update_dominant_pair_effect (common/scripted_effects/kru_effects.txt)
+# reads faction_in_power + faction_influence to set this reform id to the ruling
+# PAIR and to give the second bloc a partial voice (KRU_junior_*).
 #
-# What was missing: the player had no lever on it. With Res Publica the shift
-# was fully automatic; without Res Publica only the AI got the fallback court
-# event. This mechanic gives every holder of the reform three buttons to court
-# a faction directly - each raises that track for a decade and pays a small
-# themed dividend. Buttons-only (devshirme pattern): no powers, no .gui, monarch
-# power spent inside the effect, vanilla ability sprites for the icons.
+# Buttons-only (devshirme pattern): no powers, no .gui, vanilla Cossack ability
+# sprites, no DLC gate - the faction mechanic itself is base-game.
 # =============================================================================
 
 ruthenian_factional_court_mechanic = {
@@ -35,70 +30,75 @@ ruthenian_factional_court_mechanic = {
 	}
 
 	interactions = {
-		# Court the princes of the blood. Legitimacy and standing follow; the
-		# Knyazi track climbs for a decade.
+		# Court the princes of the blood - honours, precedence, a hearing at
+		# every rada. Their standing in the faction rises; the crown's own
+		# legitimacy rises with theirs.
 		kru_court_the_knyazi = {
 			icon = GFX_cossacks_ability_DIP
 			trigger = {
 				dip_power = 50
-				NOT = { has_country_modifier = KRU_courting_knyazi }
+				NOT = { faction_influence = { faction = kru_knyazi influence = 70 } }
 			}
 			effect = {
 				add_dip_power = -50
-				add_country_modifier = {
-					name = KRU_courting_knyazi
-					duration = 3650
+				add_faction_influence = {
+					faction = kru_knyazi
+					influence = 25
 				}
+				add_legitimacy_equivalent = { amount = 2 republican_tradition = 1 }
 			}
 			cooldown_years = 6
 			ai_chance = {
 				factor = 1
 				modifier = {
 					factor = 6
-					check_variable = { which = kru_knyazi_influence value = 55 }
-					NOT = { check_variable = { which = kru_knyazi_influence value = 70 } }
+					NOT = { faction_in_power = kru_knyazi }
+					faction_influence = { faction = kru_knyazi influence = 40 }
 				}
 			}
 		}
-		# Court the boyar houses and the chartered towns. The treasury and the
-		# ledgers steady; the Boyary track climbs.
+		# Court the boyar houses and the chartered towns - offices, charters, a
+		# share of the customs. Their standing rises; the treasury takes it in.
 		kru_court_the_boyary = {
 			icon = GFX_cossacks_ability_ADM
 			trigger = {
 				adm_power = 50
-				NOT = { has_country_modifier = KRU_courting_boyary }
+				NOT = { faction_influence = { faction = kru_boyary influence = 70 } }
 			}
 			effect = {
 				add_adm_power = -50
-				add_country_modifier = {
-					name = KRU_courting_boyary
-					duration = 3650
+				add_faction_influence = {
+					faction = kru_boyary
+					influence = 25
 				}
+				add_treasury = 50
 			}
 			cooldown_years = 6
 			ai_chance = {
 				factor = 1
 				modifier = {
 					factor = 6
-					check_variable = { which = kru_boyary_influence value = 55 }
-					NOT = { check_variable = { which = kru_boyary_influence value = 70 } }
+					NOT = { faction_in_power = kru_boyary }
+					faction_influence = { faction = kru_boyary influence = 40 }
 				}
 			}
 		}
-		# Court the Cossack starshyna. The host answers more readily; the
-		# Starshyna track climbs.
+		# Court the Cossack starshyna - regimental appointments, land for the
+		# officers, the register widened. Their standing rises; the host is
+		# readier for it.
 		kru_court_the_starshyna = {
 			icon = GFX_cossacks_ability_MIL
 			trigger = {
 				mil_power = 50
-				NOT = { has_country_modifier = KRU_courting_starshyna }
+				NOT = { faction_influence = { faction = kru_starshyna influence = 70 } }
 			}
 			effect = {
 				add_mil_power = -50
-				add_country_modifier = {
-					name = KRU_courting_starshyna
-					duration = 3650
+				add_faction_influence = {
+					faction = kru_starshyna
+					influence = 25
 				}
+				add_army_tradition = 5
 			}
 			cooldown_years = 6
 			ai_chance = {
@@ -109,8 +109,8 @@ ruthenian_factional_court_mechanic = {
 				}
 				modifier = {
 					factor = 6
-					check_variable = { which = kru_hetmany_influence value = 55 }
-					NOT = { check_variable = { which = kru_hetmany_influence value = 70 } }
+					NOT = { faction_in_power = kru_starshyna }
+					faction_influence = { faction = kru_starshyna influence = 40 }
 				}
 			}
 		}

@@ -1,191 +1,112 @@
 # ========================================================================
-# KRU
+# KRU - the Kyivan Confederation.
 #
-# From: ruthenian_factional_effects.txt - whose seven effects are all kru_ and
-# whose name said nothing about that - and kru_confederation_effects.txt.
+# The rada is the vanilla FACTION mechanic. common/factions/RIP_kru_factions.txt
+# defines the three blocs (kru_knyazi / kru_boyary / kru_starshyna); the three
+# ruthenian_factional_empire_*_reform ids turn it on with
+# `factions = { ... }`. Vanilla accrues the influence, names the bloc in power
+# and applies its modifier, and draws the panel. This file only:
+#   - drifts influence slightly toward the bloc the country's state favours,
+#   - keeps the reform id in sync with faction_in_power (the ruling pair),
+#   - gives a second bloc that still commands the rada a partial voice.
+# Former custom variables (kru_*_influence) and the states_general fake are
+# retired; kru_clear_faction_modifiers_effect also migrates the old KRU_pair_*
+# modifiers off a loaded save.
 # ========================================================================
 
-kru_clear_active_pair_modifiers_effect = {
+# A small yearly nudge, on top of vanilla drift, events and the court buttons.
+kru_faction_state_drift_effect = {
+	if = { limit = { legitimacy_equivalent = 60 } add_faction_influence = { faction = kru_knyazi influence = 1 } }
+	if = { limit = { num_of_subjects = 2 } add_faction_influence = { faction = kru_knyazi influence = 1 } }
+	if = { limit = { stability = 2 } add_faction_influence = { faction = kru_boyary influence = 1 } }
+	if = { limit = { treasury = 300 } add_faction_influence = { faction = kru_boyary influence = 1 } }
+	if = { limit = { army_tradition = 40 } add_faction_influence = { faction = kru_starshyna influence = 1 } }
+	if = { limit = { is_at_war = yes } add_faction_influence = { faction = kru_starshyna influence = 1 } }
+}
+
+kru_clear_faction_modifiers_effect = {
+	remove_country_modifier = KRU_junior_knyazi
+	remove_country_modifier = KRU_junior_boyary
+	remove_country_modifier = KRU_junior_starshyna
+	# migration - the retired pair modifiers
 	remove_country_modifier = KRU_pair_knyazi_boyary
 	remove_country_modifier = KRU_pair_knyazi_hetmany
 	remove_country_modifier = KRU_pair_boyary_hetmany
+	remove_country_modifier = KRU_courting_knyazi
+	remove_country_modifier = KRU_courting_boyary
+	remove_country_modifier = KRU_courting_starshyna
 }
 
-kru_apply_pair_knyazi_boyary_effect = {
-	kru_clear_active_pair_modifiers_effect = yes
-	add_country_modifier = {
-		name = KRU_pair_knyazi_boyary
-		duration = -1
-	}
+# The reform id is the ruling pair - it names which bloc is sidelined. That is
+# the bloc in power plus whichever of the other two still holds the rada:
+#   knyazi in power -> excludes starshyna or boyary; etc.
+# The id therefore follows faction_in_power to the pair that keeps the strongest
+# runner-up. Guarded by KRU_factional_pair_shift_cooldown so it does not thrash.
+kru_sync_reform_to_faction_effect = {
 	if = {
-		limit = { NOT = { has_reform = ruthenian_factional_empire_reform } }
-		remove_government_reform = ruthenian_factional_empire_princes_hetmans_reform
-		remove_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
-		add_government_reform = ruthenian_factional_empire_reform
+		limit = { NOT = { has_country_modifier = KRU_factional_pair_shift_cooldown } }
+		if = {
+			limit = {
+				faction_in_power = kru_knyazi
+				faction_influence = { faction = kru_boyary influence = 33 }
+				NOT = { has_reform = ruthenian_factional_empire_reform }
+			}
+			remove_government_reform = ruthenian_factional_empire_princes_hetmans_reform
+			remove_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
+			add_government_reform = ruthenian_factional_empire_reform
+			add_country_modifier = { name = KRU_factional_pair_shift_cooldown duration = 1825 }
+		}
+		else_if = {
+			limit = {
+				OR = {
+					AND = { faction_in_power = kru_knyazi  faction_influence = { faction = kru_starshyna influence = 33 } }
+					AND = { faction_in_power = kru_starshyna  faction_influence = { faction = kru_knyazi influence = 33 } }
+				}
+				NOT = { has_reform = ruthenian_factional_empire_princes_hetmans_reform }
+			}
+			remove_government_reform = ruthenian_factional_empire_reform
+			remove_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
+			add_government_reform = ruthenian_factional_empire_princes_hetmans_reform
+			add_country_modifier = { name = KRU_factional_pair_shift_cooldown duration = 1825 }
+		}
+		else_if = {
+			limit = {
+				OR = {
+					AND = { faction_in_power = kru_boyary  faction_influence = { faction = kru_starshyna influence = 33 } }
+					AND = { faction_in_power = kru_starshyna  faction_influence = { faction = kru_boyary influence = 33 } }
+				}
+				NOT = { has_reform = ruthenian_factional_empire_boyars_hetmans_reform }
+			}
+			remove_government_reform = ruthenian_factional_empire_reform
+			remove_government_reform = ruthenian_factional_empire_princes_hetmans_reform
+			add_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
+			add_country_modifier = { name = KRU_factional_pair_shift_cooldown duration = 1825 }
+		}
 	}
 }
 
-kru_apply_pair_knyazi_hetmany_effect = {
-	kru_clear_active_pair_modifiers_effect = yes
-	add_country_modifier = {
-		name = KRU_pair_knyazi_hetmany
-		duration = -1
+# A bloc not in power but still above 38 influence sits in the ruling coalition
+# and keeps a partial voice - half of what it would give in power.
+kru_apply_junior_blocs_effect = {
+	if = {
+		limit = { NOT = { faction_in_power = kru_knyazi }  faction_influence = { faction = kru_knyazi influence = 38 } }
+		add_country_modifier = { name = KRU_junior_knyazi duration = -1 }
 	}
 	if = {
-		limit = { NOT = { has_reform = ruthenian_factional_empire_princes_hetmans_reform } }
-		remove_government_reform = ruthenian_factional_empire_reform
-		remove_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
-		add_government_reform = ruthenian_factional_empire_princes_hetmans_reform
-	}
-}
-
-kru_apply_pair_boyary_hetmany_effect = {
-	kru_clear_active_pair_modifiers_effect = yes
-	add_country_modifier = {
-		name = KRU_pair_boyary_hetmany
-		duration = -1
+		limit = { NOT = { faction_in_power = kru_boyary }  faction_influence = { faction = kru_boyary influence = 38 } }
+		add_country_modifier = { name = KRU_junior_boyary duration = -1 }
 	}
 	if = {
-		limit = { NOT = { has_reform = ruthenian_factional_empire_boyars_hetmans_reform } }
-		remove_government_reform = ruthenian_factional_empire_reform
-		remove_government_reform = ruthenian_factional_empire_princes_hetmans_reform
-		add_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
-	}
-}
-
-kru_add_pair_shift_cooldown_effect = {
-	add_country_modifier = {
-		name = KRU_factional_pair_shift_cooldown
-		duration = 1825
-	}
-}
-
-kru_recalculate_faction_influence_effect = {
-	set_variable = { which = kru_knyazi_influence value = 25 }
-	set_variable = { which = kru_boyary_influence value = 25 }
-	set_variable = { which = kru_hetmany_influence value = 25 }
-
-	# The court buttons - ruthenian_factional_court_mechanic. Courting a faction
-	# holds its track up for a decade, the player's direct lever on the pair.
-	if = { limit = { has_country_modifier = KRU_courting_knyazi } change_variable = { which = kru_knyazi_influence value = 20 } }
-	if = { limit = { has_country_modifier = KRU_courting_boyary } change_variable = { which = kru_boyary_influence value = 20 } }
-	if = { limit = { has_country_modifier = KRU_courting_starshyna } change_variable = { which = kru_hetmany_influence value = 20 } }
-
-	if = { limit = { legitimacy_equivalent = 50 } change_variable = { which = kru_knyazi_influence value = 10 } }
-	if = { limit = { legitimacy_equivalent = 75 } change_variable = { which = kru_knyazi_influence value = 10 } }
-	if = { limit = { diplomatic_reputation = 1 } change_variable = { which = kru_knyazi_influence value = 8 } }
-	if = { limit = { diplomatic_reputation = 2 } change_variable = { which = kru_knyazi_influence value = 7 } }
-	if = { limit = { num_of_subjects = 1 } change_variable = { which = kru_knyazi_influence value = 8 } }
-	if = { limit = { num_of_subjects = 3 } change_variable = { which = kru_knyazi_influence value = 7 } }
-
-	if = { limit = { stability = 1 } change_variable = { which = kru_boyary_influence value = 10 } }
-	if = { limit = { stability = 2 } change_variable = { which = kru_boyary_influence value = 10 } }
-	if = { limit = { average_autonomy = 40 } change_variable = { which = kru_boyary_influence value = 10 } }
-	if = { limit = { average_autonomy = 60 } change_variable = { which = kru_boyary_influence value = 8 } }
-	# A prosperous treasury must be sufficient to let the Boyary reach the
-	# 70-point coalition threshold; the old +5 capped their total at 68.
-	if = { limit = { treasury = 200 } change_variable = { which = kru_boyary_influence value = 10 } }
-	if = { limit = { inflation = 3 } change_variable = { which = kru_boyary_influence value = -5 } }
-
-	if = { limit = { army_tradition = 30 } change_variable = { which = kru_hetmany_influence value = 10 } }
-	if = { limit = { army_tradition = 50 } change_variable = { which = kru_hetmany_influence value = 10 } }
-	if = { limit = { manpower_percentage = 0.5 } change_variable = { which = kru_hetmany_influence value = 10 } }
-	if = { limit = { manpower_percentage = 0.75 } change_variable = { which = kru_hetmany_influence value = 8 } }
-	if = { limit = { army_size = 40 } change_variable = { which = kru_hetmany_influence value = 8 } }
-	if = { limit = { is_at_war = yes } change_variable = { which = kru_hetmany_influence value = 10 } }
-
-	if = {
-		limit = { check_variable = { which = kru_knyazi_influence value = 101 } }
-		set_variable = { which = kru_knyazi_influence value = 100 }
-	}
-	if = {
-		limit = { check_variable = { which = kru_boyary_influence value = 101 } }
-		set_variable = { which = kru_boyary_influence value = 100 }
-	}
-	if = {
-		limit = { check_variable = { which = kru_hetmany_influence value = 101 } }
-		set_variable = { which = kru_hetmany_influence value = 100 }
+		limit = { NOT = { faction_in_power = kru_starshyna }  faction_influence = { faction = kru_starshyna influence = 38 } }
+		add_country_modifier = { name = KRU_junior_starshyna duration = -1 }
 	}
 }
 
 kru_update_dominant_pair_effect = {
-	if = {
-		limit = {
-			NOT = { has_reform = ruthenian_factional_empire_reform }
-			NOT = { has_reform = ruthenian_factional_empire_princes_hetmans_reform }
-			NOT = { has_reform = ruthenian_factional_empire_boyars_hetmans_reform }
-		}
-		kru_apply_pair_knyazi_boyary_effect = yes
-	}
-
-	if = {
-		limit = {
-			kru_pair_knyazi_boyary_active = yes
-			kru_can_shift_pair = yes
-			check_variable = { which = kru_hetmany_influence value = 70 }
-			OR = {
-				NOT = { check_variable = { which = kru_knyazi_influence value = 65 } }
-				NOT = { check_variable = { which = kru_boyary_influence value = 65 } }
-			}
-		}
-		if = {
-			limit = {
-				check_variable = { which = kru_knyazi_influence value = 65 }
-				NOT = { check_variable = { which = kru_boyary_influence value = 65 } }
-			}
-			kru_apply_pair_knyazi_hetmany_effect = yes
-		}
-		else = {
-			kru_apply_pair_boyary_hetmany_effect = yes
-		}
-		kru_add_pair_shift_cooldown_effect = yes
-	}
-
-	if = {
-		limit = {
-			kru_pair_knyazi_hetmany_active = yes
-			kru_can_shift_pair = yes
-			check_variable = { which = kru_boyary_influence value = 70 }
-			OR = {
-				NOT = { check_variable = { which = kru_knyazi_influence value = 65 } }
-				NOT = { check_variable = { which = kru_hetmany_influence value = 65 } }
-			}
-		}
-		if = {
-			limit = {
-				check_variable = { which = kru_knyazi_influence value = 65 }
-				NOT = { check_variable = { which = kru_hetmany_influence value = 65 } }
-			}
-			kru_apply_pair_knyazi_boyary_effect = yes
-		}
-		else = {
-			kru_apply_pair_boyary_hetmany_effect = yes
-		}
-		kru_add_pair_shift_cooldown_effect = yes
-	}
-
-	if = {
-		limit = {
-			kru_pair_boyary_hetmany_active = yes
-			kru_can_shift_pair = yes
-			check_variable = { which = kru_knyazi_influence value = 70 }
-			OR = {
-				NOT = { check_variable = { which = kru_boyary_influence value = 65 } }
-				NOT = { check_variable = { which = kru_hetmany_influence value = 65 } }
-			}
-		}
-		if = {
-			limit = {
-				check_variable = { which = kru_boyary_influence value = 65 }
-				NOT = { check_variable = { which = kru_hetmany_influence value = 65 } }
-			}
-			kru_apply_pair_knyazi_boyary_effect = yes
-		}
-		else = {
-			kru_apply_pair_knyazi_hetmany_effect = yes
-		}
-		kru_add_pair_shift_cooldown_effect = yes
-	}
+	kru_faction_state_drift_effect = yes
+	kru_clear_faction_modifiers_effect = yes
+	kru_sync_reform_to_faction_effect = yes
+	kru_apply_junior_blocs_effect = yes
 }
 
 kru_confederation_recognised_effect = {

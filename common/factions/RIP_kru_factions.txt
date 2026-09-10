@@ -1,0 +1,59 @@
+# The three power blocs of the Kyivan Confederation's court - the rada.
+#
+# ruthenian_factional_empire_reform and its two siblings are one government; the
+# rada is the vanilla FACTION mechanic, the same one that runs the Celestial
+# Empire's three ministries (temples / enuchs / bureaucrats in
+# common/factions/00_factions.txt): influence accrues, the most influential
+# bloc is "in power" and its modifier below applies, and the player sees the
+# vanilla faction panel.
+#
+# No `allow` block, so - like the Celestial Empire's factions and unlike the
+# revolutionary rr_* set - these are base-game. Enabled by
+# `factions = { kru_knyazi kru_boyary kru_starshyna }` in the three reforms
+# (common/government_reforms/RIP_KIE_KRU_government_reforms.txt).
+#
+# ruthenian_factional_court_mechanic gives the ruler three buttons to add
+# influence to a bloc directly; kru_update_dominant_pair_effect
+# (common/scripted_effects/kru_effects.txt) reads faction_in_power and
+# faction_influence to name the ruling PAIR (the reform id) and to give the
+# second bloc a partial voice (KRU_junior_*).
+
+kru_knyazi = {
+	monarch_power = DIP
+	always = yes
+
+	# The princes of the blood - the dynastic and diplomatic bloc.
+	modifier = {
+		legitimacy = 1
+		diplomatic_reputation = 1
+		vassal_forcelimit_bonus = 0.15
+		manpower_recovery_speed = -0.05
+	}
+}
+
+kru_boyary = {
+	monarch_power = ADM
+	always = yes
+
+	# The boyar houses and the chartered towns - the treasury and the ledgers.
+	modifier = {
+		global_tax_modifier = 0.1
+		stability_cost_modifier = -0.1
+		advisor_cost = -0.1
+		nobles_influence_modifier = 0.1
+		global_autonomy = 0.02
+	}
+}
+
+kru_starshyna = {
+	monarch_power = MIL
+	always = yes
+
+	# The Cossack officers - the host.
+	modifier = {
+		discipline = 0.025
+		land_morale = 0.1
+		cavalry_power = 0.1
+		development_cost = 0.05
+	}
+}

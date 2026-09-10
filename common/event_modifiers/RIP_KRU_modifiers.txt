@@ -9,31 +9,26 @@ KRU_factional_pair_shift_cooldown = {
 	prestige_decay = 0
 }
 
-# The dominant-pair packages. Since the reforms dropped their Res Publica
-# states_general_mechanic sub-modifiers, these are now the sole pair-bonus
-# source: each folds in the character of its two factions (knyazi = crown and
-# dynasty; boyary = treasury and administration; starshyna = the host).
-KRU_pair_knyazi_boyary = {
+# The junior bloc's partial voice. Vanilla applies the in-power faction's full
+# modifier (common/factions/RIP_kru_factions.txt); this is roughly half of a
+# bloc's own modifier, added by kru_apply_junior_blocs_effect when that bloc is
+# not in power but still commands the rada (>=38 influence).
+KRU_junior_knyazi = {
 	legitimacy = 0.5
-	stability_cost_modifier = -0.1
-	advisor_cost = -0.1
-	nobles_influence_modifier = 0.1
+	diplomatic_reputation = 0.5
+	vassal_forcelimit_bonus = 0.07
+}
+
+KRU_junior_boyary = {
 	global_tax_modifier = 0.05
+	stability_cost_modifier = -0.05
+	advisor_cost = -0.05
 }
 
-KRU_pair_knyazi_hetmany = {
-	legitimacy = 0.5
-	diplomatic_reputation = 1
-	discipline = 0.025
-	land_morale = 0.1
-}
-
-KRU_pair_boyary_hetmany = {
-	stability_cost_modifier = -0.1
-	advisor_cost = -0.1
-	discipline = 0.025
-	land_morale = 0.1
-	development_cost = 0.05
+KRU_junior_starshyna = {
+	land_morale = 0.05
+	cavalry_power = 0.05
+	development_cost = 0.025
 }
 
 KRU_princes_court = {
@@ -159,21 +154,5 @@ kyiv_druzhyna_muster = {
 	land_maintenance_modifier = 0.1
 }
 
-# --- ruthenian_factional_court_mechanic (common/government_mechanics/rip_ruthenian_factional_court.txt) ---
-# Each raises its influence track by +20 for ten years (read in
-# kru_recalculate_faction_influence_effect) and pays a small themed dividend.
-
-KRU_courting_knyazi = {
-	legitimacy = 0.5
-	diplomatic_reputation = 1
-}
-
-KRU_courting_boyary = {
-	global_tax_modifier = 0.05
-	stability_cost_modifier = -0.05
-}
-
-KRU_courting_starshyna = {
-	army_tradition = 0.25
-	land_morale = 0.05
-}
+# (ruthenian_factional_court_mechanic now feeds vanilla add_faction_influence
+# directly and pays a one-off dividend in the effect, so it needs no modifier.)

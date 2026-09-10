@@ -218,9 +218,18 @@ ruthenian_factional_empire_reform = {
 	custom_attributes = {
 		locked_government_type = yes
 	}
-	# The three ruthenian_factional_empire_* ids are one government; the court
-	# mechanic and the influence sim (kru_effects.txt) carry the faction
-	# competition, base-game, so no more Res Publica states_general scale.
+	# The three ruthenian_factional_empire_* ids are one government. The rada is
+	# the vanilla FACTION mechanic (the Celestial Empire's three ministries),
+	# base-game, not the Res Publica states_general scale it used to fake:
+	# influence accrues, the in-power bloc's modifier applies, the faction panel
+	# shows. common/factions/RIP_kru_factions.txt. ruthenian_factional_court_
+	# mechanic feeds add_faction_influence; kru_update_dominant_pair_effect names
+	# the ruling PAIR (this reform id) and gives the second bloc a partial voice.
+	factions = {
+		kru_knyazi
+		kru_boyary
+		kru_starshyna
+	}
 	government_abilities = {
 		ruthenian_factional_court_mechanic
 	}
@@ -256,6 +265,11 @@ ruthenian_factional_empire_princes_hetmans_reform = {
 	custom_attributes = {
 		locked_government_type = yes
 	}
+	factions = {
+		kru_knyazi
+		kru_boyary
+		kru_starshyna
+	}
 	government_abilities = {
 		ruthenian_factional_court_mechanic
 	}
@@ -290,6 +304,11 @@ ruthenian_factional_empire_boyars_hetmans_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
+	}
+	factions = {
+		kru_knyazi
+		kru_boyary
+		kru_starshyna
 	}
 	government_abilities = {
 		ruthenian_factional_court_mechanic
