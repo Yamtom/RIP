@@ -65,6 +65,12 @@ kru_recalculate_faction_influence_effect = {
 	set_variable = { which = kru_boyary_influence value = 25 }
 	set_variable = { which = kru_hetmany_influence value = 25 }
 
+	# The court buttons - ruthenian_factional_court_mechanic. Courting a faction
+	# holds its track up for a decade, the player's direct lever on the pair.
+	if = { limit = { has_country_modifier = KRU_courting_knyazi } change_variable = { which = kru_knyazi_influence value = 20 } }
+	if = { limit = { has_country_modifier = KRU_courting_boyary } change_variable = { which = kru_boyary_influence value = 20 } }
+	if = { limit = { has_country_modifier = KRU_courting_starshyna } change_variable = { which = kru_hetmany_influence value = 20 } }
+
 	if = { limit = { legitimacy_equivalent = 50 } change_variable = { which = kru_knyazi_influence value = 10 } }
 	if = { limit = { legitimacy_equivalent = 75 } change_variable = { which = kru_knyazi_influence value = 10 } }
 	if = { limit = { diplomatic_reputation = 1 } change_variable = { which = kru_knyazi_influence value = 8 } }
