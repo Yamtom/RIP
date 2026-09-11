@@ -4,7 +4,7 @@ import re
 
 from clausewitz_testlib import ROOT, _mask_comments_and_strings
 
-PREFIX = r'rip_(?:ro|uc|ucr|faith|parish)_[A-Za-z0-9_]+_(?:effect|trigger)'
+PREFIX = r'rip_(?:ro|uc|ucr|faith|parish|crusade|kyiv)_[A-Za-z0-9_]+_(?:effect|trigger)'
 CALL = re.compile(r'\b(' + PREFIX + r')\s*=\s*(?:yes\b|no\b|\{)')
 
 

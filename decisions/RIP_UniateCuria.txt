@@ -113,49 +113,14 @@ country_decisions = {
 	rip_uc_raise_the_see = {
 		major = yes
 		potential = {
-			has_country_modifier = greek_catholic_reformation_active	# the union first
 			religion = greek_catholic
-			NOT = { has_country_flag = rip_uc_see_raised }
+			has_country_flag = rip_uc_hierarchy_initialized
+			NOT = { any_owned_province = { religion = greek_catholic is_reformation_center = yes } }
 		}
-		provinces_to_highlight = {
-			owned_by = ROOT
-			religion = greek_catholic
-			development = 10
-			is_reformation_center = no
-			is_island = no
-		}
-		allow = {
-			adm_power = 100
-			is_at_war = no
-			stability = 1
-			any_owned_province = {
-				religion = greek_catholic
-				development = 10
-				is_reformation_center = no
-				is_island = no
-			}
-		}
-		effect = {
-			add_adm_power = -100
-			set_country_flag = rip_uc_see_raised
-			random_owned_province = {
-				limit = {
-					religion = greek_catholic
-					development = 10
-					is_reformation_center = no
-					is_island = no
-				}
-				add_reform_center = greek_catholic
-				add_province_modifier = {
-					name = rip_uc_see_of_the_union
-					duration = -1
-				}
-			}
-			add_prestige = 10
-		}
-		ai_will_do = {
-			factor = 5
-		}
+		provinces_to_highlight = { rip_uc_see_province_trigger = yes }
+		allow = { rip_uc_can_raise_see_trigger = yes }
+		effect = { rip_uc_raise_see_effect = yes }
+		ai_will_do = { factor = 5 }
 	}
 
 	rip_uc_send_a_donation = {

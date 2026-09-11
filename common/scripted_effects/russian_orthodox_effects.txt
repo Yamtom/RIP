@@ -1,15 +1,6 @@
 
 convert_to_russian_orthodox_effect = {
-	change_religion = russian_orthodox
-
-	# Only existing Orthodox core sees follow the initial change of obedience.
-	rip_ro_initial_obedience_effect = yes
-	add_country_modifier = {
-		name = third_rome_ideology
-		duration = 5475
-	}
-	add_prestige = 15
-	add_legitimacy = 10
+	rip_faith_adopt_muscovite_church_effect = yes
 }
 
 force_convert_province_effect = {
@@ -23,12 +14,8 @@ force_convert_province_effect = {
 
 establish_orthodox_mission_effect = {
 	add_province_modifier = {
-		name = orthodox_mission_established
-		duration = -1
-	}
-	if = {
-		limit = { NOT = { has_building = temple } }
-		add_building = temple
+		name = rip_faith_funded_mission
+		duration = 3650
 	}
 }
 
@@ -42,6 +29,8 @@ russify_province_effect = {
 }
 
 launch_expansion_campaign = {
+
+	rip_ro_clear_historical_policy_effect = yes
 	add_country_modifier = {
 		name = orthodox_manifest_destiny
 		duration = 5475
@@ -60,6 +49,8 @@ launch_expansion_campaign = {
 
 establish_moscow_patriarchate_effect = {
 	set_country_flag = rip_ro_stage_patriarchate
+
+	rip_ro_clear_historical_policy_effect = yes
 	add_country_modifier = {
 		name = moscow_patriarchate_authority
 		duration = 7300
@@ -69,6 +60,8 @@ establish_moscow_patriarchate_effect = {
 }
 
 start_russification_campaign = {
+
+	rip_ro_clear_historical_policy_effect = yes
 	add_country_modifier = {
 		name = forced_russification
 		duration = 7300
@@ -89,9 +82,11 @@ start_russification_campaign = {
 }
 
 activate_orthodox_inquisition = {
+
+	rip_ro_clear_historical_policy_effect = yes
 	add_country_modifier = {
 		name = orthodox_inquisition
-		duration = 10950
+		duration = 7300
 	}
 	every_owned_province = {
 		limit = {
@@ -117,6 +112,8 @@ suppress_cultural_resistance_effect = {
 }
 
 conquer_constantinople_benefits = {
+
+	rip_ro_clear_historical_policy_effect = yes
 	add_country_modifier = {
 		name = conquest_of_constantinople
 		duration = 7300
@@ -127,10 +124,14 @@ conquer_constantinople_benefits = {
 }
 
 proclaim_orthodox_empire_effect = {
+
+	rip_ro_clear_historical_policy_effect = yes
 	add_country_modifier = {
 		name = orthodox_empire_proclaimed
 		duration = 7300
 	}
+
+	rip_ro_clear_historical_policy_effect = yes
 	add_country_modifier = {
 		name = imperial_orthodox_state
 		duration = 7300
@@ -140,6 +141,8 @@ proclaim_orthodox_empire_effect = {
 }
 
 establish_symphonia_effect = {
+
+	rip_ro_clear_historical_policy_effect = yes
 	add_country_modifier = {
 		name = symphonia_of_powers
 		duration = 7300
@@ -148,16 +151,7 @@ establish_symphonia_effect = {
 }
 
 spread_russian_orthodox_neighbors = {
-	every_neighbor_province = {
-		limit = {
-			religion = orthodox
-			owned_by = ROOT
-		}
-		random = {
-			chance = 40
-			change_religion = russian_orthodox
-		}
-	}
+	# Retired: saved event callers may resolve this ID, but no free conversions.
 }
 
 establish_monastery_mission_effect = {
@@ -169,99 +163,55 @@ establish_monastery_mission_effect = {
 }
 
 activate_gathering_lands_effect = {
-	add_country_modifier = {
-		name = gathering_russian_lands
-		duration = 7300
-	}
-	every_neighbor_country = {
-		limit = {
-			culture_group = east_slavic
-			NOT = { alliance_with = ROOT }
-		}
-		ROOT = {
-			add_casus_belli = {
-				target = PREV
-				type = cb_core
-				months = 120
-			}
-		}
+	rip_ro_clear_historical_policy_effect = yes
+	add_country_modifier = { name = gathering_russian_lands duration = 7300 }
+	random_neighbor_province = {
+		limit = { has_owner = yes NOT = { owned_by = ROOT } NOT = { is_core = ROOT } NOT = { is_claim = ROOT } culture_group = east_slavic owner = { NOT = { alliance_with = ROOT } NOT = { truce_with = ROOT } is_subject = no } }
+		add_claim = ROOT
 	}
 }
 
-
 constantinople_liberation_rewards = {
-	add_prestige = 100
-	add_legitimacy_equivalent = { amount = 25 }
-	add_adm_power = 25
-	add_dip_power = 25
-	add_mil_power = 25
-	add_patriarch_authority = 0.05
-	add_country_modifier = {
-		name = liberator_of_constantinople
-		duration = 7300
-	}
-	
-	151 = {
-		if = {
-			limit = { owned_by = ROOT }
-			add_base_tax = 1
-			add_base_production = 1
-			add_base_manpower = 1
-			add_province_modifier = {
-				name = restored_orthodox_constantinople
-				duration = -1
-			}
-		}
+	if = {
+		limit = { NOT = { has_country_flag = rip_crusade_constantinople_rewarded } owns = 151 }
+		set_country_flag = rip_crusade_constantinople_rewarded
+		add_prestige = 10
+		add_adm_power = 25
+		add_dip_power = 25
+		add_mil_power = 25
+		add_patriarch_authority = 0.05
+		remove_country_modifier = liberator_of_constantinople
+		remove_country_modifier = rip_ro_liberator_of_jerusalem
+		remove_country_modifier = patriarch_of_constantinople_restored
+		remove_country_modifier = rip_ro_the_first_rome
+		add_country_modifier = { name = liberator_of_constantinople duration = 7300 }
 	}
 }
 
 jerusalem_liberation_rewards = {
-	add_prestige = 150
-	add_legitimacy = 50
-	add_adm_power = 25
-	add_dip_power = 25
-	add_mil_power = 25
-	add_patriarch_authority = 0.05
-	add_country_modifier = {
-		name = rip_ro_liberator_of_jerusalem
-		duration = 7300
-	}
-	
-	379 = {
-		if = {
-			limit = { owned_by = ROOT }
-			add_base_tax = 1
-			add_base_production = 1
-			add_base_manpower = 1
-			add_province_modifier = {
-				name = restored_orthodox_jerusalem
-				duration = -1
-			}
-		}
+	if = {
+		limit = { NOT = { has_country_flag = rip_crusade_jerusalem_rewarded } owns = 379 }
+		set_country_flag = rip_crusade_jerusalem_rewarded
+		add_prestige = 10
+		add_adm_power = 25
+		add_dip_power = 25
+		add_mil_power = 25
+		add_patriarch_authority = 0.05
+		remove_country_modifier = liberator_of_constantinople
+		remove_country_modifier = rip_ro_liberator_of_jerusalem
+		remove_country_modifier = patriarch_of_constantinople_restored
+		remove_country_modifier = rip_ro_the_first_rome
+		add_country_modifier = { name = rip_ro_liberator_of_jerusalem duration = 7300 }
 	}
 }
 
 crusade_failure_penalties = {
-	add_prestige = -50
-	add_legitimacy_equivalent = { amount = -10 }
-	add_patriarch_authority = -0.1
-	add_country_modifier = {
-		name = failed_orthodox_crusade
-		duration = 7300
-	}
+	add_prestige = -10
+	if = { limit = { uses_patriarch_authority = yes } add_patriarch_authority = -0.05 }
+	add_country_modifier = { name = failed_orthodox_crusade duration = 3650 }
 }
 
-end_crusade_cooldown = {
-	clr_country_flag = orthodox_crusade_constantinople_active
-	clr_country_flag = orthodox_crusade_jerusalem_active
-	remove_country_modifier = orthodox_crusade_for_constantinople
-	remove_country_modifier = orthodox_crusade_for_jerusalem
-	
-	add_country_modifier = {
-		name = orthodox_crusade_cooldown
-		duration = 7300
-	}
-}
+end_crusade_cooldown = { rip_crusade_end_effect = yes }
 
 rally_orthodox_nations = {
 	every_country = {
@@ -281,19 +231,9 @@ rally_orthodox_nations = {
 
 reward_crusade_participants = {
 	every_country = {
-		limit = {
-			has_country_modifier = orthodox_crusade_participant
-		}
-		add_prestige = 50
-		add_patriarch_authority = 0.2
-		add_legitimacy_equivalent = { amount = 10 }
-		
-		add_country_modifier = {
-			name = victorious_crusader
-			duration = 7300
-		}
-		
-		remove_country_modifier = orthodox_crusade_participant
+		limit = { has_country_modifier = orthodox_crusade_participant rip_faith_is_eastern_orthodox = yes check_variable = { which = orthodox_crusade_contribution value = 1 } }
+		add_prestige = 5
+		add_patriarch_authority = 0.02
+		add_country_modifier = { name = victorious_crusader duration = 3650 }
 	}
 }
-

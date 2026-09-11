@@ -18,11 +18,10 @@ christian = {
 			local_missionary_strength = 0.01
 		}
 
-		# The existing See converts both eastern and Latin-rite parishes.
+		# The See works among eastern parishes; Latin parishes are excluded.
 		allowed_center_conversion = {
 			orthodox
 			russian_orthodox
-			catholic
 		}
 
 		# One native authority panel. Petitions are country decisions, not a
@@ -66,24 +65,14 @@ christian = {
 
 		hre_heretic_religion = yes
 
-		# BOGOMILIST stood here - a Balkan movement three centuries dead by
-		# 1596 and, in vanilla, a CATHOLIC heretic name, not an Eastern one.
-		# The union's real opposition was the non-uniate Orthodox (the
-		# "dysunites") and the traditionalist parishes that refused the new
-		# course. OLD_BELIEVER carries that sense and already has vanilla
-		# localisation, matching how russian_orthodox reuses vanilla heretic
-		# names. A bespoke DYZUNITE name with its own loc is the fuller
-		# option - see docs/RELIGION_REDESIGN_PROPOSAL.uk.md.
-		heretic = { OLD_BELIEVER }
+		# Non-uniate opposition is distinct from the Muscovite Old Believers.
+		# Orthodox zealots in the union event chain retain vanilla Orthodox demands.
+		heretic = { RIP_UNION_OPPONENT }
 
 		date = 1596.10.6
 
 		on_convert = {
-			add_prestige = 10
-			add_country_modifier = {
-				name = uniate_church_consolidation
-				duration = 3650
-			}
+			rip_faith_initialize_hierarchy_effect = yes
 		}
 	}
 }

@@ -32,9 +32,6 @@ country_decisions = {
 			add_adm_power = -150
 			add_dip_power = -100
 			convert_to_russian_orthodox_effect = yes
-			capital_scope = {
-				change_religion = russian_orthodox
-			}
 		}
 		
 		ai_will_do = {
@@ -53,6 +50,7 @@ country_decisions = {
 	establish_moscow_patriarchate_decision = {
 		major = yes
 		potential = {
+			NOT = { has_country_flag = rip_once_establish_moscow_patriarchate_decision }
 			religion = russian_orthodox
 			is_russian_orthodox_culture_eligible = yes
 			NOT = { has_country_modifier = moscow_patriarchate_authority }
@@ -73,6 +71,7 @@ country_decisions = {
 		}
 		
 		effect = {
+			set_country_flag = rip_once_establish_moscow_patriarchate_decision
 			add_adm_power = -100
 			add_patriarch_authority = -0.2
 			establish_moscow_patriarchate_effect = yes
@@ -85,6 +84,7 @@ country_decisions = {
 
 	russification_campaign_decision = {
 		potential = {
+			NOT = { has_country_flag = rip_once_russification_campaign_decision }
 			religion = russian_orthodox
 			is_russian_orthodox_culture_eligible = yes
 			NOT = { has_country_modifier = forced_russification }
@@ -101,6 +101,7 @@ country_decisions = {
 		}
 		
 		effect = {
+			set_country_flag = rip_once_russification_campaign_decision
 			add_adm_power = -100
 			add_mil_power = -50
 			start_russification_campaign = yes
@@ -120,6 +121,7 @@ country_decisions = {
 
 	establish_orthodox_inquisition_decision = {
 		potential = {
+			NOT = { has_country_flag = rip_once_establish_orthodox_inquisition_decision }
 			religion = russian_orthodox
 			NOT = { has_country_modifier = orthodox_inquisition }
 			has_idea_group = religious_ideas
@@ -132,6 +134,7 @@ country_decisions = {
 		}
 		
 		effect = {
+			set_country_flag = rip_once_establish_orthodox_inquisition_decision
 			add_adm_power = -75
 			add_patriarch_authority = -0.15
 			activate_orthodox_inquisition = yes
@@ -151,6 +154,7 @@ country_decisions = {
 
 	gathering_russian_lands_decision = {
 		potential = {
+			NOT = { has_country_flag = rip_once_gathering_russian_lands_decision }
 			religion = russian_orthodox
 			is_russian_orthodox_culture_eligible = yes
 			NOT = { has_country_modifier = gathering_russian_lands }
@@ -165,6 +169,7 @@ country_decisions = {
 		}
 		
 		effect = {
+			set_country_flag = rip_once_gathering_russian_lands_decision
 			add_mil_power = -100
 			activate_gathering_lands_effect = yes
 		}
@@ -180,6 +185,7 @@ country_decisions = {
 
 	establish_symphonia_decision = {
 		potential = {
+			NOT = { has_country_flag = rip_once_establish_symphonia_decision }
 			religion = russian_orthodox
 			NOT = { has_country_modifier = symphonia_of_powers }
 			government_rank = 3
@@ -193,6 +199,7 @@ country_decisions = {
 		}
 		
 		effect = {
+			set_country_flag = rip_once_establish_symphonia_decision
 			add_adm_power = -100
 			add_patriarch_authority = -0.2
 			establish_symphonia_effect = yes
@@ -206,6 +213,7 @@ country_decisions = {
 	proclaim_orthodox_empire_decision = {
 		major = yes
 		potential = {
+			NOT = { has_country_flag = rip_once_proclaim_orthodox_empire_decision }
 			religion = russian_orthodox
 			NOT = { has_country_modifier = orthodox_empire_proclaimed }
 			government_rank = 3
@@ -223,6 +231,7 @@ country_decisions = {
 		}
 		
 		effect = {
+			set_country_flag = rip_once_proclaim_orthodox_empire_decision
 			add_adm_power = -150
 			proclaim_orthodox_empire_effect = yes
 		}

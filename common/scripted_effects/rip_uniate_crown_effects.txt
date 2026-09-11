@@ -7,14 +7,10 @@ rip_ucr_take_the_church_effect = {
 		set_country_flag = rip_ucr_church_taken
 		set_country_flag = pursuing_uniate_union
 		set_country_flag = union_of_brest_happened
-		change_religion = greek_catholic
-		add_country_modifier = { name = rip_ucr_church_of_the_palace duration = -1 }
+		rip_faith_adopt_union_effect = yes
+		rip_ucr_clear_historical_policy_effect = yes
+		add_country_modifier = { name = rip_ucr_church_of_the_palace duration = 7300 }
 		activate_greek_catholic_reformation = yes
-		capital_scope = {
-			if = {
-				limit = { religion = orthodox }
-				change_religion = greek_catholic
-			}
-		}
+
 	}
 }

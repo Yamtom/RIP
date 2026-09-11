@@ -1,17 +1,6 @@
 
 establish_greek_catholic_center_effect = {
-	change_religion = greek_catholic
-	add_province_modifier = {
-		name = greek_catholic_center
-		duration = -1
-	}
-	if = {
-		limit = {
-			NOT = { has_building = temple }
-			NOT = { has_building = cathedral }
-		}
-		add_building = temple
-	}
+	add_province_modifier = { name = rip_faith_funded_mission duration = 3650 }
 }
 
 greek_catholic_faith_bonus = {
@@ -44,6 +33,8 @@ greek_catholic_persecution_effect = {
 }
 
 papal_protection_effect = {
+
+	rip_uc_clear_historical_policy_effect = yes
 	add_country_modifier = {
 		name = papal_protection_greek_catholic
 		duration = 7300
@@ -52,6 +43,8 @@ papal_protection_effect = {
 }
 
 establish_greek_catholic_education = {
+
+	rip_uc_clear_historical_policy_effect = yes
 	add_country_modifier = {
 		name = uniate_educational_network
 		duration = 7300
@@ -67,6 +60,8 @@ establish_greek_catholic_education = {
 }
 
 greek_catholic_cultural_boom = {
+
+	rip_uc_clear_historical_policy_effect = yes
 	add_country_modifier = {
 		name = uniate_cultural_flowering
 		duration = 7300
@@ -79,7 +74,7 @@ greek_catholic_cultural_boom = {
 		}
 		add_province_modifier = {
 			name = greek_catholic_printing_press
-			duration = -1
+			duration = 7300
 		}
 	}
 }
@@ -101,6 +96,8 @@ improve_relation_with_pope = {
 }
 
 orthodox_greek_catholic_reconciliation = {
+
+	rip_uc_clear_historical_policy_effect = yes
 	add_country_modifier = {
 		name = greek_catholic_orthodox_dialogue
 		duration = 5475

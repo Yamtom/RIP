@@ -517,7 +517,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "2960" not in srem
         and "religion = ROOT" in srem
         and "limit = { religion = catholic } add_papal_influence = 15" in srem
-        and "else = { add_patriarch_authority = 0.15" in srem,
+        and "else = { rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }" in srem,
         "UZH Srem Metropolis has the wrong province or gives a faith-currency no-op",
     )
     security_congress = normalized(
@@ -553,7 +553,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         "religion = greek_catholic" in preserve_faith
         and "religion = greek_catholic" in union_mission
         and "limit = { religion = catholic } add_papal_influence = 25" in union_mission
-        and "limit = { religion = greek_catholic } add_patriarch_authority = 0.15"
+        and "limit = { religion = greek_catholic } rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }"
         in union_mission,
         "UZH mission tree excludes its own Greek Catholic religious path",
     )
@@ -562,13 +562,13 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     )
     require(
         failures,
-        "religion = orthodox religion = greek_catholic" in rite_settlement
+        "religion = orthodox religion = russian_orthodox religion = greek_catholic" in rite_settlement
         and "religion = catholic papal_influence = 50" in rite_settlement
         and "religion = ROOT uzh_identity_core_culture = yes value = 8"
         in rite_settlement
         and "limit = { religion = catholic } add_papal_influence = 25"
         in rite_settlement
-        and "else = { add_patriarch_authority = 0.25" in rite_settlement,
+        and "else = { rip_faith_mission_resource_effect = { PA = 0.25 PI = 25 ADM = 25 }" in rite_settlement,
         "UZH Ruthenian identity branch still requires Orthodox-only currency or provinces",
     )
     uzh_modifiers_raw = read("common/event_modifiers/RIP_UZH_modifiers.txt")

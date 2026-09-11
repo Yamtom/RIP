@@ -62,32 +62,11 @@ country_decisions = {
 				}
 			}
 		}
-		
+
 		effect = {
 			add_adm_power = -100
 			add_dip_power = -100
-			change_religion = greek_catholic
-			add_country_modifier = {
-				name = greek_catholic_reformation_active
-				duration = 10950
-			}
-			capital_scope = {
-				change_religion = greek_catholic
-				add_province_modifier = {
-					name = greek_catholic_center
-					duration = -1
-				}
-			}
-			every_owned_province = {
-				limit = {
-					religion = orthodox
-					development = 10
-				}
-				random = {
-					chance = 40
-					change_religion = greek_catholic
-				}
-			}
+			rip_faith_adopt_union_effect = yes
 		}
 		
 		ai_will_do = {
@@ -109,6 +88,7 @@ country_decisions = {
 
 	establish_greek_catholic_center_decision = {
 		potential = {
+			NOT = { has_country_flag = rip_once_establish_greek_catholic_center_decision }
 			has_country_flag = rip_uc_see_raised		# the metropolitan see comes first
 			religion = greek_catholic
 			NOT = { has_country_flag = greek_catholic_center_established }
@@ -128,6 +108,7 @@ country_decisions = {
 		}
 		
 		effect = {
+			set_country_flag = rip_once_establish_greek_catholic_center_decision
 			add_adm_power = -50
 			set_country_flag = greek_catholic_center_established
 			random_owned_province = {
@@ -144,6 +125,7 @@ country_decisions = {
 
 	greek_catholic_missionary_campaign_decision = {
 		potential = {
+			NOT = { has_country_flag = rip_once_greek_catholic_missionary_campaign_decision }
 			has_country_flag = greek_catholic_center_established
 			religion = greek_catholic
 			NOT = { has_country_modifier = greek_catholic_missionary_activity }
@@ -170,8 +152,11 @@ country_decisions = {
 		}
 		
 		effect = {
+			set_country_flag = rip_once_greek_catholic_missionary_campaign_decision
 			add_adm_power = -50
 			add_dip_power = -50
+
+			rip_uc_clear_historical_policy_effect = yes
 			add_country_modifier = {
 				name = greek_catholic_missionary_activity
 				duration = 5475
@@ -187,6 +172,7 @@ country_decisions = {
 
 	greek_catholic_education_decision = {
 		potential = {
+			NOT = { has_country_flag = rip_once_greek_catholic_education_decision }
 			has_country_flag = greek_catholic_center_established
 			religion = greek_catholic
 			NOT = { has_country_modifier = uniate_educational_network }
@@ -205,6 +191,7 @@ country_decisions = {
 		effect = {
 			add_adm_power = -100
 			add_treasury = -200
+			set_country_flag = rip_once_greek_catholic_education_decision
 			establish_greek_catholic_education = yes
 		}
 		
@@ -215,7 +202,8 @@ country_decisions = {
 
 	patronize_greek_catholic_culture_decision = {
 		potential = {
-			has_country_modifier = uniate_educational_network
+			NOT = { has_country_flag = rip_once_patronize_greek_catholic_culture_decision }
+			OR = { has_country_modifier = uniate_educational_network has_country_flag = rip_once_greek_catholic_education_decision }
 			religion = greek_catholic
 			NOT = { has_country_modifier = uniate_cultural_flowering }
 			is_ruthenian_culture_area = yes
@@ -232,6 +220,7 @@ country_decisions = {
 			add_adm_power = -50
 			add_dip_power = -50
 			add_treasury = -150
+			set_country_flag = rip_once_patronize_greek_catholic_culture_decision
 			greek_catholic_cultural_boom = yes
 		}
 		
@@ -249,6 +238,7 @@ country_decisions = {
 
 	seek_orthodox_reconciliation_decision = {
 		potential = {
+			NOT = { has_country_flag = rip_once_seek_orthodox_reconciliation_decision }
 			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			NOT = { has_country_modifier = greek_catholic_orthodox_dialogue }
@@ -270,6 +260,7 @@ country_decisions = {
 		
 		effect = {
 			add_dip_power = -100
+			set_country_flag = rip_once_seek_orthodox_reconciliation_decision
 			orthodox_greek_catholic_reconciliation = yes
 		}
 		
@@ -286,6 +277,7 @@ country_decisions = {
 
 	strengthen_papal_ties_decision = {
 		potential = {
+			NOT = { has_country_flag = rip_once_strengthen_papal_ties_decision }
 			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			NOT = { has_country_modifier = papal_protection_greek_catholic }
@@ -299,6 +291,7 @@ country_decisions = {
 		}
 		
 		effect = {
+			set_country_flag = rip_once_strengthen_papal_ties_decision
 			add_dip_power = -75
 			add_treasury = -100
 			add_patriarch_authority = -0.25
@@ -317,6 +310,7 @@ country_decisions = {
 
 	preserve_eastern_rite_decision = {
 		potential = {
+			NOT = { has_country_flag = rip_once_preserve_eastern_rite_decision }
 			has_country_flag = rip_uc_synod_held		# a synod has to have said so
 			religion = greek_catholic
 			NOT = { has_country_modifier = eastern_rite_tradition_preserved }
@@ -329,11 +323,14 @@ country_decisions = {
 		}
 		
 		effect = {
+			set_country_flag = rip_once_preserve_eastern_rite_decision
 			add_adm_power = -50
 			add_patriarch_authority = -0.1
+
+			rip_uc_clear_historical_policy_effect = yes
 			add_country_modifier = {
 				name = eastern_rite_tradition_preserved
-				duration = -1
+				duration = 7300
 			}
 			add_legitimacy = 10
 		}

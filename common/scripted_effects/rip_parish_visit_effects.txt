@@ -23,9 +23,11 @@ rip_ro_initial_obedience_effect = {
 		}
 		set_country_flag = rip_ro_obedience_recorded
 		set_country_flag = rip_ro_stage_autocephaly
-		every_owned_province = {
-			limit = { religion = orthodox is_city = yes is_core = ROOT }
-			change_religion = russian_orthodox
+		capital_scope = {
+			if = {
+				limit = { religion = orthodox is_city = yes is_core = ROOT controlled_by = ROOT }
+				change_religion = russian_orthodox
+			}
 		}
 	}
 }
