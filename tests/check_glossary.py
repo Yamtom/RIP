@@ -14,6 +14,9 @@ BRACKET = re.compile(r'\[[^\]]*\]')
 SKIP_KEYS = {"VLN", "POD", "KHK", "VOL", "ZAZ", "VLN_ADJ", "POD_ADJ", "KHK_ADJ",
              # A cultural colony name follows local transcription, like VLN.
              "RIP_COLONIAL_CANADA_RUTHENIAN",
+             # These missions name the same Canadian colony by that transcription.
+             "rip_colonize_canada_title", "rip_colonize_canada_desc",
+             "rip_colonize_canada_flavor_tt",
              # The Don host really is an ataman. The rule is about our otamans.
              "DON_ATAMAN_TITLE"}
 

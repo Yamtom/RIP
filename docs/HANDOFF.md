@@ -1,5 +1,15 @@
 # Передача контексту: що зроблено і як продовжити
 
+> **Оновлення 2026-09-11 (друга хвиля):** додано найманську роту
+> `rip_cossack_host_mercenaries` (гейт на `estate_cossacks`/`rip_cossacks_reform`),
+> двоступеневу еволюцію символіки держави (`decisions/RIP_StateSymbolsDecisions.txt`:
+> `adopt_the_trident` → тег `RUT` «Ruthenian Empire», `proclaim_ruthenian_empire`)
+> і гілку місій діаспори (`missions/RuthenianDiaspora_Missions.txt`, 9 місій,
+> нова колоніальна назва «Nova Tavriya» для Австралії). Прапор тега `RUT` —
+> тимчасовий плейсхолдер, буквальна копія ванільної текстури UKR; потребує
+> власної геральдики від художника. `run_all_tests.py` проходить без нових
+> помилок понад п'ять раніше наявних у `check_script_layer.py`.
+
 > **Оновлення 11 вересня 2026:** поточні релігійні правила та вікітаблиці —
 > [церковне врегулювання](RELIGION_SETTLEMENT_20260911.uk.md), докази перевірки —
 > [окремий протокол](RELIGION_SETTLEMENT_VERIFICATION.uk.md). Додано спільне

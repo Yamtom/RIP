@@ -1,0 +1,184 @@
+RIP_diaspora_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = UKR
+	}
+	has_country_shield = yes
+
+	rip_diaspora_root = {
+		icon = mission_exploration
+		position = 0
+		trigger = {
+			is_subject = no
+			any_owned_province = {
+				is_coastal = yes
+			}
+			government_rank = 1
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_diaspora_root_flag
+		}
+	}
+
+	rip_colonize_canada = {
+		icon = mission_rb_colonise_canada
+		required_missions = { rip_diaspora_root }
+		position = 1
+		trigger = {
+			any_owned_province = {
+				colonial_region = colonial_canada
+			}
+		}
+		effect = {
+			add_prestige = 10
+			custom_tooltip = rip_colonize_canada_flavor_tt
+			set_country_flag = rip_colonize_canada_flag
+		}
+	}
+
+	rip_lysianskyi_circumnavigation = {
+		icon = mission_explore_the_world
+		required_missions = { rip_diaspora_root }
+		position = 2
+		trigger = {
+			has_country_flag = circumnavigation_done
+		}
+		effect = {
+			add_prestige = 15
+			add_country_modifier = {
+				name = rip_diaspora_of_rus_legacy
+				duration = 3650
+			}
+			set_country_flag = rip_lysianskyi_circumnavigation_flag
+		}
+	}
+
+	rip_diaspora_usa = {
+		icon = mission_rb_the_thirteen_colonies
+		required_missions = { rip_colonize_canada }
+		position = 3
+		trigger = {
+			any_owned_province = {
+				colonial_region = colonial_eastern_america
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_years_of_income = 0.25
+			set_country_flag = rip_diaspora_usa_flag
+		}
+	}
+
+	rip_diaspora_south_america = {
+		icon = mission_colonise_brazil
+		required_missions = { rip_lysianskyi_circumnavigation }
+		position = 4
+		trigger = {
+			OR = {
+				any_owned_province = {
+					colonial_region = colonial_brazil
+				}
+				any_owned_province = {
+					colonial_region = colonial_la_plata
+				}
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_years_of_income = 0.5
+			set_country_flag = rip_diaspora_south_america_flag
+		}
+	}
+
+	rip_diaspora_australia = {
+		icon = mission_naval_kingdom
+		required_missions = { rip_lysianskyi_circumnavigation }
+		position = 5
+		trigger = {
+			any_owned_province = {
+				colonial_region = colonial_australia
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_navy_tradition = 10
+			set_country_flag = rip_diaspora_australia_flag
+		}
+	}
+
+	rip_green_wedge = {
+		icon = mission_afghan_frontier
+		required_missions = { rip_diaspora_root }
+		position = 6
+		trigger = {
+			is_subject = no
+			total_development = 300
+			NOT = {
+				any_owned_province = {
+					region = manchuria_region
+				}
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = rip_green_wedge_presence
+				duration = 18250
+			}
+			set_country_flag = rip_green_wedge_flag
+		}
+	}
+
+	rip_grey_wedge = {
+		icon = mission_rajputana_frontier
+		required_missions = { rip_diaspora_root }
+		position = 7
+		trigger = {
+			is_subject = no
+			total_development = 300
+			NOT = {
+				any_owned_province = {
+					region = central_asia_region
+				}
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = rip_grey_wedge_presence
+				duration = 18250
+			}
+			set_country_flag = rip_grey_wedge_flag
+		}
+	}
+
+	rip_diaspora_of_rus = {
+		icon = mission_new_world_power
+		required_missions = {
+			rip_diaspora_usa
+			rip_diaspora_south_america
+			rip_diaspora_australia
+			rip_green_wedge
+			rip_grey_wedge
+		}
+		position = 8
+		trigger = {
+			has_country_flag = rip_diaspora_usa_flag
+			has_country_flag = rip_diaspora_south_america_flag
+			has_country_flag = rip_diaspora_australia_flag
+			has_country_flag = rip_green_wedge_flag
+			has_country_flag = rip_grey_wedge_flag
+		}
+		effect = {
+			add_prestige = 25
+			add_country_modifier = {
+				name = rip_diaspora_of_rus_legacy
+				duration = -1
+			}
+			set_country_flag = rip_diaspora_of_rus_completed_flag
+		}
+	}
+}
