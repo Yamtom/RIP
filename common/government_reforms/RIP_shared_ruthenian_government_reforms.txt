@@ -309,16 +309,17 @@ representation_monarchy_reform = {
 		}
 		duration = 4
 		has_term_election = yes
-		states_general_mechanic = {
-			boyars = {
-				global_tax_modifier = 0.1
-				liberty_desire_from_subject_development = -0.1
-			}
-			princes = {
-				max_absolutism = 5
-				global_autonomy = -0.025
-			}
-		}
+	}
+	# The boyar and princely interests as a real vanilla FACTION contest
+	# (base-game, no DLC gate - the states_general scale used to fake this),
+	# same pattern as common/factions/RIP_kru_factions.txt.
+	# common/factions/RIP_representation_monarchy_factions.txt. No dedicated
+	# button mechanic: kyivan_rus_reform (this reform's own prerequisite)
+	# already carries kyivan_seniority_mechanic's three buttons, and a second
+	# panel on the same country is exactly the stacking to avoid.
+	factions = {
+		rep_boyary
+		rep_knyazi
 	}
 	trigger = {
 		OR = {
