@@ -33,13 +33,13 @@
 | Kyiv | Kiev | 156 : 4 до цього проходу; поодинокі виправлено |
 | Lviv | Lwów, Lemberg | 24 : 0 |
 | Chernihiv | Chernigov | 77 : 0 |
-| Kharkiv | Kharkov | у прозі. **Назва країни KHK лишається «Kharkov Host»** — див. §4 |
+| Kharkiv | Kharkov | у прозі. Назва країни `KHK` тепер теж «Kharkiv» — динамічний «Host» більше не хардкодиться, див. §4 |
 | Halych | Galich | 24 : 0 |
 | Kamianets | Kamieniec, Kamenets | 13 : 0 |
 | Podillia | Podolia | у прозі. **Назва країни POD лишається «Podolia»** — див. §4 |
 | Volhynia | Volyn | у прозі. **Назва країни VLN лишається «Volyn»** — див. §4 |
 | Bratslav | Braclaw | польську форму прибрано |
-| Zaporozhia | Zaporizhia, Zaporizhzhia | за `ZAZ:0 "Zaporozhian Host"` |
+| Zaporozhia | Zaporizhia, Zaporizhzhia | за `ZAZ:0 "Zaporozhia"` — плоска назва без «Host», див. §4 |
 | Dnieper | Dnipro | усталена англійська назва річки |
 | Vilnius | Wilno, Vilna | 19 : 0 |
 | Kraków | Cracow | 17 : 0 |
@@ -172,8 +172,18 @@ Principalities», а отже перейменовував ранг кожног
 |---|---|---|
 | `VLN` | Volyn | відрізняє князівство від `VOL` «Halycia-Volhynia» |
 | `POD` | Podolia | усталена назва тега |
-| `KHK` | Kharkov Host | власна назва історичного війська |
 | `*_mechanic_desc` | порожньо | ваніль не описує базові урядові механіки |
+
+**Більше не виняток (перегляд 2026-09-11):** `KHK`, `ZAZ`, `SMY`, `OKH`, `IZM`
+раніше мали плоску назву на кшталт «Kharkov Host» / «Sumy Regiment», яка не
+змінювалася, хоч би яку реформу країна тримала. Тепер базова назва тега —
+проста («Kharkiv», «Zaporozhia», «Sumy», «Okhtyrka», «Izium»), а «X Host»
+з'являється й зникає динамічно через `rip_cossack_host_name_effect`
+(`common/scripted_effects/rip_cossack_host_naming_effects.txt`), поки країна
+задовольняє `is_cossack_polity`. Оскільки «Kharkov Host» більше не єдина
+жорстко прописана назва, а частина загальної системи, орфографію вирівняно з
+правилом розділу 1 (Kharkiv, не Kharkov) замість збереження старого винятку.
+`HET` (Hetmanate) до цієї системи свідомо не входить і лишається як є.
 
 ## 5. Де записано рішення
 
