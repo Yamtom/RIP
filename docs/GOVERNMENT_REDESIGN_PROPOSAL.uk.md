@@ -134,25 +134,42 @@ opportunity cost, а не постійний стек модифікаторів
 баром (`powers` + `scaled_modifier`) потребує `.gui` з `windowType`,
 `progressbartype` і текстур — тут DDS вже неминучий.
 
-**Зроблено в цій сесії — три механіки, усі за шаблоном devshirme:**
+**Зроблено — вісім реформ/груп реформ, усі за шаблоном devshirme (крім двох,
+які свідомо лишені без кнопок — див. нижче):**
 
 | Реформа | Замінила | Механіка | Взаємодії |
 |---|---|---|---|
 | `kyivan_rus_reform`, `kyivan_cesarstvo_reform` | `russian_mechanic` (московський цар) | `kyivan_seniority_mechanic` | снем · переуділення · збір дружин |
 | `kyivan_shogunate_reform` | `shogunate_mechanic` (японський даймьо) | `kyivan_seniorate_mechanic` + новий тип суб'єктів `senior_udil` | княжий збір · пересадка столів · переконфірмація надань |
 | `ruthenian_factional_empire_reform` ×3 | `states_general_mechanic` (голландський фейк) | ванільна `factions` (3 блоки, як Небесна імперія) + `ruthenian_factional_court_mechanic` | залицяння до Князів / Бояр / Старшини = `add_faction_influence` |
+| `representation_monarchy_reform` | `states_general_mechanic { boyars princes }` | ванільна `factions` (`rep_boyary`/`rep_knyazi`), **без кнопок** | — (дрейф впливу; кнопки не додано — `kyivan_rus_reform`, власна передумова цієї реформи, уже несе `kyivan_seniority_mechanic` на іншому тірі) |
+| `uzh_palanok_captaincy_reform` | `states_general_mechanic { partia_soymu partia_kapitaniv }` | ванільна `factions` (`uzh_partia_soymu`/`uzh_partia_kapitaniv`), **без кнопок** | — (сестра-реформа `uzh_komitat_system_reform` без гейту, не вершина дерева) |
+| `hlc_galician_voivodeship_reform` | нічого (уся лінія HLC, 11 реформ, була без гейту) | `hlc_boyar_council_mechanic` | підтвердити бояр в уряді · протидіяти чужому претенденту · покарати неслухняного боярина |
+| `vln_voivodeship_reform` | нічого (лінія VLN мала гейт лише на альт-шляху козацького коша) | `vln_magnate_senate_mechanic` (гаситься, якщо обрано `vln_cossack_host_reform`) | скликати сенат · відкупити магнатський дім · скликати магнатські корогви |
+| `grand_duchy_reform`, `lit_union_of_two_nations_reform`, `lit_separate_crown_reform` | нічого (уся лінія LIT, 9 реформ, була без гейту) | `lit_pany_rada_mechanic` | добитись підтвердження Ради · перетягнути вагомого пана · власні загони Ради |
 
-Решта кандидатів за спаданням цінності:
+Ключовий урок для «не задовбати гравця»: `representation_monarchy_reform` і
+`uzh_palanok_captaincy_reform` **отримали ванільну `factions` без нового
+кнопкового механізму** — обидві діляться тіром з реформою, що вже має свою
+панель (`kyivan_rus_reform`, `uzh_komitat_system_reform`-сестра), тож друга
+панель кнопок була б саме тим накопиченням, якого просили уникати. `vln_voivodeship_reform`
+мала реальний конфлікт тіру з `vln_cossack_host_reform` (`cossacks_mechanic`,
+інший тір, могли стояти одночасно) — розв'язано гейтом `available`, а не
+відмовою від механіки.
+
+Решта кандидатів за спаданням цінності (незроблено):
 
 | Механіка | Клонувати з | `powers` / `interactions` |
 |---|---|---|
-| **Січ: Кошова скарбниця й козацька воля** | `00_cossacks` + `16_prussian_militarization` (бар+кнопки) | бар `cossack_liberty` (0–100): високий — `republican_tradition`, `land_morale`, менше `governing_capacity`; кнопки «Розписати похід» (−воля, +дохід/претензія), «Скликати Раду» (скинути на нового кошового) |
-| **Гетьманщина: Старшина ↔ Гетьман** | `18_parliament_vs_monarchy` (шкала −100…+100) | шкала: бік старшини — `nobles_influence`, `advisor_cost`, дешевша стабільність; бік гетьмана — `max_absolutism`, `reform_progress`, `army_tradition`. Замінює три окремі HET-реформи одним рухомим протистоянням |
-| **Магнатські сеймики (HLC/VLN)** | `23_cultural_disunity` (бар) | бар `magnate_concord`: низький — `global_unrest`, повільніші реформи; кнопка «Сеймик» (адмін-очки → підняти) |
+| **Січ: Кошова скарбниця й козацька воля** | `00_cossacks` + `16_prussian_militarization` (бар+кнопки) | бар `cossack_liberty` (0–100): високий — `republican_tradition`, `land_morale`, менше `governing_capacity`; кнопки «Розписати похід» (−воля, +дохід/претензія), «Скликати Раду» (скинути на нового кошового). **Обережно:** уся лінія Cossack (ZAZ/HET/PDL/PRL через `rip_cossacks_reform`) уже несе ванільний `cossacks_mechanic` — новий бар додавав би ДРУГУ панель на ту саму державу, а не заповнював порожнечу, як у HLC/VLN/LIT. Вартий розгляду лише як заміна, не доповнення. |
+| **Гетьманщина: Старшина ↔ Гетьман** | `18_parliament_vs_monarchy` (шкала −100…+100) | шкала: бік старшини — `nobles_influence`, `advisor_cost`, дешевша стабільність; бік гетьмана — `max_absolutism`, `reform_progress`, `army_tradition`. Замінює три окремі HET-реформи одним рухомим протистоянням. Той самий застереження: HET теж уже тримає `cossacks_mechanic`. |
+| **CHR: річкова торгова конфедерація** | шаблон devshirme (безризиковий) | п'ять взаємовиключних R1/T1-карт CHR (`siversk_veche_reform`, `chr_desna_staple_reform`, `chr_town_union_reform`, `chr_rada_of_lands_reform`, `chr_magistrat_rule_reform`) досі без жодного гейту (лише московська гілка `chr_prykaz_tsardom_reform`/`chr_siversk_principality_reform` має `russian_mechanic`); ганзейська/вічова фікція просить спільну механіку на кшталт HLC/VLN/LIT |
+| **UZH: комітатський шлях, PDL, ODS, `ruthenian_principality_reform`** | шаблон devshirme | нижчий пріоритет: вужчий наратив (ODS — одна пізня реформа), ширший бланкет-ризик (`ruthenian_principality_reform` — родовий фолбек для будь-якої регіональної руської держави без власного тегу) |
 
-Січ і Гетьманщина — найбільша віддача з решти; обидві лягають на той самий
-безповий шаблон (Гетьманщина краще на шкалу `18_parliament_vs_monarchy`, а це
-вже вимагає `.gui` й DDS).
+Січ і Гетьманщина лишаються найбільшою потенційною віддачею з незробленого, але
+обидві вимагають ЗАМІНИ наявного `cossacks_mechanic`, а не простого додавання
+(інакше саме той стек, якого просили уникати) — це складніша, ризикованіша
+робота за один прохід, ніж HLC/VLN/LIT, де порожнеча була абсолютна.
 
 ### R2. Ключі факцій і вибір ванільного механізму
 
