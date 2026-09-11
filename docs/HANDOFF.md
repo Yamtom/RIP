@@ -5,10 +5,26 @@
 > двоступеневу еволюцію символіки держави (`decisions/RIP_StateSymbolsDecisions.txt`:
 > `adopt_the_trident` → тег `RUT` «Ruthenian Empire», `proclaim_ruthenian_empire`)
 > і гілку місій діаспори (`missions/RuthenianDiaspora_Missions.txt`, 9 місій,
-> нова колоніальна назва «Nova Tavriya» для Австралії). Прапор тега `RUT` —
-> тимчасовий плейсхолдер, буквальна копія ванільної текстури UKR; потребує
-> власної геральдики від художника. `run_all_tests.py` проходить без нових
-> помилок понад п'ять раніше наявних у `check_script_layer.py`.
+> включно з австралійською «Nova Tavriya» — назва оселення живе лише у
+> флейвор-тексті місії, **не** в `tools/data/rip_colonial_names.json`: перша
+> спроба дописати Австралію просто в `common/colonial_regions/00_colonial_regions.txt`
+> зламала `check_colonial_names.py`, бо той файл — навмисно зачинений контракт
+> рівно на 11 американських регіонів (`tests/check_colonial_names.py:12,62`
+> рахує `44 = 11 × 4` жорстко); зайвий запис прибрано, а не розширено список).
+> Прапор тега `RUT` — тимчасовий плейсхолдер, буквальна копія ванільної
+> текстури UKR; потребує власної геральдики від художника. `run_all_tests.py`
+> проходить без нових помилок понад п'ять раніше наявних у
+> `check_script_layer.py`.
+
+> **Оновлення 2026-09-11 (третя хвиля):** динамічні назви Козацьких Військ —
+> `common/scripted_effects/rip_cossack_host_naming_effects.txt` +
+> `common/on_actions/rip_cossack_host_naming_on_actions.txt` перевіряють
+> `is_cossack_polity` на старті, щороку й при зміні уряду; будь-яка держава з
+> будь-якою козацькою реформою (не лише ZAZ/KHK/IZM/OKH/SMY) отримує назву
+> «... Host» через `override_country_name`, а втративши реформу — повертає
+> звичайну назву через `restore_country_name`. KHK/IZM/OKH/SMY/ZAZ отримали
+> нейтральні базові назви (Kharkiv/Izium/Okhtyrka/Sumy/Zaporozhia) на випадок
+> втрати реформи.
 
 > **Оновлення 11 вересня 2026:** поточні релігійні правила та вікітаблиці —
 > [церковне врегулювання](RELIGION_SETTLEMENT_20260911.uk.md), докази перевірки —
