@@ -2643,49 +2643,55 @@ guiTypes = {
 	
 # RIP church custom controls, descendants of the supported host.
 windowType = {
- name = "rip_church_ro_panel" scripted = yes position = { x=540 y=8 } size = { x=475 y=550 }
+ name = "rip_church_ro_panel" scripted = yes position = { x=540 y=8 } size = { x=475 y=680 }
  moveable = 0
-
- iconType = { name = "rip_church_ro_panel_bg" spriteType = "GFX_country_religion_view_bg" position = { x=0 y=0 } scale = 0.86  }
- instantTextBoxType = {
- name = "rip_church_ro_heading" scripted = yes position = { x=18 y=12 } font = "vic_18"
- text = "rip_church_ro_heading" maxWidth = 440 maxHeight = 42 format = left
+backGround = "rip_church_ro_panel_bg"
+ iconType = { name = "rip_church_ro_panel_bg" spriteType = "GFX_rip_church_union_frame" position = { x=0 y=0 }  alwaystransparent = no }
+ iconType = { name = "rip_church_ro_title_band" spriteType = "GFX_message_band" position = { x=28 y=14 } scale = 0.79 alwaystransparent = yes }instantTextBoxType = {
+ name = "rip_church_ro_heading" scripted = yes position = { x=28 y=28 } font = "vic_22"
+ text = "rip_church_ro_heading" maxWidth = 419 maxHeight = 30 format = center
 }instantTextBoxType = {
- name = "rip_church_ro_resources" scripted = yes position = { x=18 y=52 } font = "vic_18"
- text = "rip_church_ro_resources" maxWidth = 440 maxHeight = 76 format = left
+ name = "rip_church_ro_status" scripted = yes position = { x=28 y=66 } font = "vic_18"
+ text = "rip_church_ro_status" maxWidth = 419 maxHeight = 26 format = center
+}iconType = { name = "rip_church_ro_resources_frame" spriteType = "GFX_rip_church_union_section" position = { x=28 y=102 } alwaystransparent = yes }instantTextBoxType = {
+ name = "rip_church_ro_resources" scripted = yes position = { x=44 y=120 } font = "vic_18"
+ text = "rip_church_ro_resources" maxWidth = 387 maxHeight = 76 format = left
 }guiButtonType = {
- name = "rip_church_icon_war_button" scripted = yes position = { x=18 y=140 }
+ name = "rip_church_icon_war_button" scripted = yes position = { x=44 y=236 }
  quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_icon_war_button" buttonFont = "vic_18"
 }instantTextBoxType = {
- name = "rip_church_icon_war_state" scripted = yes position = { x=250 y=143 } font = "vic_18"
- text = "rip_church_icon_war_state" maxWidth = 185 maxHeight = 30 format = left
+ name = "rip_church_icon_war_state" scripted = yes position = { x=294 y=243 } font = "vic_18"
+ text = "rip_church_icon_war_state" maxWidth = 145 maxHeight = 24 format = left
 }guiButtonType = {
- name = "rip_church_icon_mercy_button" scripted = yes position = { x=18 y=182 }
+ name = "rip_church_icon_mercy_button" scripted = yes position = { x=44 y=280 }
  quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_icon_mercy_button" buttonFont = "vic_18"
 }instantTextBoxType = {
- name = "rip_church_icon_mercy_state" scripted = yes position = { x=250 y=185 } font = "vic_18"
- text = "rip_church_icon_mercy_state" maxWidth = 185 maxHeight = 30 format = left
+ name = "rip_church_icon_mercy_state" scripted = yes position = { x=294 y=287 } font = "vic_18"
+ text = "rip_church_icon_mercy_state" maxWidth = 145 maxHeight = 24 format = left
 }guiButtonType = {
- name = "rip_church_icon_building_button" scripted = yes position = { x=18 y=224 }
+ name = "rip_church_icon_building_button" scripted = yes position = { x=44 y=324 }
  quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_icon_building_button" buttonFont = "vic_18"
 }instantTextBoxType = {
- name = "rip_church_icon_building_state" scripted = yes position = { x=250 y=227 } font = "vic_18"
- text = "rip_church_icon_building_state" maxWidth = 185 maxHeight = 30 format = left
+ name = "rip_church_icon_building_state" scripted = yes position = { x=294 y=331 } font = "vic_18"
+ text = "rip_church_icon_building_state" maxWidth = 145 maxHeight = 24 format = left
 }guiButtonType = {
- name = "rip_church_icon_mission_button" scripted = yes position = { x=18 y=266 }
+ name = "rip_church_icon_mission_button" scripted = yes position = { x=44 y=368 }
  quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_icon_mission_button" buttonFont = "vic_18"
 }instantTextBoxType = {
- name = "rip_church_icon_mission_state" scripted = yes position = { x=250 y=269 } font = "vic_18"
- text = "rip_church_icon_mission_state" maxWidth = 185 maxHeight = 30 format = left
+ name = "rip_church_icon_mission_state" scripted = yes position = { x=294 y=375 } font = "vic_18"
+ text = "rip_church_icon_mission_state" maxWidth = 145 maxHeight = 24 format = left
+}instantTextBoxType = {
+ name = "rip_church_ro_mission_cost" scripted = yes position = { x=28 y=414 } font = "vic_18"
+ text = "rip_church_ro_mission_cost" maxWidth = 419 maxHeight = 42 format = center
 }guiButtonType = {
- name = "rip_church_nodes_button" scripted = yes position = { x=18 y=324 }
+ name = "rip_church_nodes_button" scripted = yes position = { x=125 y=468 }
  quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_nodes_button" buttonFont = "vic_18"
 }guiButtonType = {
- name = "rip_church_reconcile_button" scripted = yes position = { x=18 y=366 }
+ name = "rip_church_reconcile_button" scripted = yes position = { x=125 y=516 }
  quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_reconcile_button" buttonFont = "vic_18"
 }instantTextBoxType = {
- name = "rip_church_ro_help" scripted = yes position = { x=18 y=414 } font = "Main_14"
- text = "rip_church_ro_help" maxWidth = 440 maxHeight = 100 format = left
+ name = "rip_church_ro_help" scripted = yes position = { x=28 y=566 } font = "Main_14"
+ text = "rip_church_ro_help" maxWidth = 419 maxHeight = 86 format = left
 }
 }
 windowType = {

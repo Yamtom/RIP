@@ -423,6 +423,13 @@ DATA={
 }
 
 DATA.update({
+ 'rip_church_ro_heading': 'The Muscovite Church',
+ 'rip_church_ro_status': '[Root.GetChurchROStatus]',
+ 'rip_church_ro_resources': 'Fervor: [Root.rip_church_fervor.GetValue] / 100   Icons: [Root.rip_church_icons.GetValue] / [Root.rip_church_capacity.GetValue]\\nMonthly Fervor: +[Root.rip_church_fervor_income.GetValue] / -[Root.rip_church_fervor_cost.GetValue]\\nFunded trade nodes: [Root.rip_church_nodes.GetValue]',
+ 'rip_church_ro_mission_cost': 'Each trade node: 2 Fervor now + 2 per month\\nRequires an active Apostolic Mission',
+ 'rip_church_nodes_button': 'Fund / close trade missions',
+ 'rip_church_nodes_button_tt': 'Requires a funded node to manage, or an eligible node you can afford. Each node costs 2 Fervor immediately and 2 each month, in addition to icon upkeep. No ducat fee. Opening the menu itself makes no payment. Activate Apostolic Mission first; a new node requires at least 12 Fervor, a merchant, 50% trade power, connected church infrastructure and an eligible target.',
+ 'rip_church_mission_network_desc': 'Muscovite Orthodox missionary network. A registered node costs 2 Fervor now and 2 per month, in addition to Apostolic Mission upkeep. No ducat fee. Requires a merchant, 50% trade power and connected controlled church infrastructure. Fund or close nodes from the church panel.',
  'rip_church_break_communion_title': 'Renounce the patriarchal settlement',
  'rip_church_break_communion_desc': 'Deliberate alternative history: abandon recognized communion and claim an independent universal church. This enables a second funded mission node, increases confessional conflict and imposes -1 diplomatic reputation. Earlier reconciliation payments are not refunded.',
  'rip_church_oppose_union_title': 'Change our policy toward the Union',
@@ -471,6 +478,8 @@ DATA.update({
  'rip_church_opinion_gc_ro_schism': 'Conflicting ecclesiastical claims',
  'rip_church_opinion_propagation_conflict': 'Missionary intervention in our parishes',
 })
+for key in ('heading','status','resources','mission_cost'):
+ DATA['rip_church_ro_'+key+'_tt']=DATA['rip_church_ro_'+key]
 for icon in ('war','mercy','building','mission'):
     DATA['rip_church_icon_'+icon]=DATA['rip_church_icon_'+icon+'_button']
     DATA['desc_rip_church_icon_'+icon]=DATA['rip_church_icon_'+icon+'_button_tt']

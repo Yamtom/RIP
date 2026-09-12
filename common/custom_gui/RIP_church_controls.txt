@@ -1,5 +1,6 @@
 # ROOT/FROM contracts follow common/custom_gui/example.txt in EU4 1.37.
 custom_text_box = { name = rip_church_ro_heading potential = { always = yes } tooltip = rip_church_ro_heading_tt }
+custom_text_box = { name = rip_church_ro_status potential = { always = yes } tooltip = rip_church_ro_status_tt }
 custom_text_box = { name = rip_church_ro_resources potential = { always = yes } tooltip = rip_church_ro_resources_tt }
 custom_button = {
  name = rip_church_icon_war_button potential = { always = yes } trigger = { religion = russian_orthodox OR = { has_country_flag = rip_church_icon_war rip_church_can_activate_war = yes } }
@@ -21,8 +22,9 @@ custom_button = {
  effect = { rip_church_toggle_mission_effect = yes } tooltip = rip_church_icon_mission_button_tt
 }
 custom_text_box = { name = rip_church_icon_mission_state potential = { always = yes } tooltip = rip_church_icon_mission_state_tt }
+custom_text_box = { name = rip_church_ro_mission_cost potential = { always = yes } tooltip = rip_church_ro_mission_cost_tt }
 custom_button = {
- name = rip_church_nodes_button potential = { always = yes } trigger = { religion = russian_orthodox }
+ name = rip_church_nodes_button potential = { always = yes } trigger = { rip_church_ro_can_open_network_menu = yes }
  effect = { country_event = { id = rip_church_nodes.1 } } tooltip = rip_church_nodes_button_tt
 }
 custom_button = {

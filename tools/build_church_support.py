@@ -80,6 +80,9 @@ trigger += 'rip_church_ro_registered_node = { OR = {\n'
 for name, anchor in nodes:
     trigger += f'AND = {{ has_country_flag = rip_church_node_{name} FROM = {{ province_id = {anchor} }} }}\n'
 trigger += '} }\n'
+trigger += 'rip_church_ro_can_open_network_menu = { religion = russian_orthodox OR = {\n check_variable = { which = rip_church_nodes value = 1 }\n'
+trigger += ''.join(f'rip_church_node_{name}_can_open = yes\n' for name,_ in nodes)
+trigger += '} }\n'
 output('common/scripted_triggers/rip_church_nodes_generated.txt', trigger)
 output('common/scripted_effects/rip_church_nodes_generated.txt', effects)
 output('events/RIP_ChurchNodes_generated.txt', '''namespace = rip_church_nodes

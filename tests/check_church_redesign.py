@@ -290,9 +290,20 @@ for schism,dlc in ((False,True),(True,True),(True,False)):
     if schism: c['flags']['rip_church_ro_schismatic']=0
     w.run('rip_church_ro_refresh_connections_effect',c)
     assert w.gate(TRIGGERS['rip_church_node_novgorod_can_open'],c)==(schism and dlc)
+    assert w.gate(TRIGGERS['rip_church_ro_can_open_network_menu'],c)==(schism and dlc)
+    checked()
     if schism and dlc:
+        fuel=c['variables']['rip_church_fervor']
+        c['variables']['rip_church_fervor']=0
+        assert not w.gate(TRIGGERS['rip_church_ro_can_open_network_menu'],c)
+        c['variables']['rip_church_fervor']=fuel
         w.run('rip_church_node_novgorod_toggle_effect',c)
+        assert c['variables']['rip_church_fervor']==fuel-2
         assert c['variables']['rip_church_nodes']==1 and c['variables']['rip_church_fervor_cost']==4
+        c['variables']['rip_church_fervor']=0
+        assert w.gate(TRIGGERS['rip_church_ro_can_open_network_menu'],c) # Closing remains free.
+        c['variables']['rip_church_fervor']=fuel-2
+        checked()
         assert 'rip_church_ro_trade_target@MOS' in q['flags']
         w.run('rip_church_refresh_conversion_resistance_effect',c)
         assert 'rip_church_conversion_resistance' in q['modifiers']
@@ -351,6 +362,8 @@ for path,host in [('countryreligionview.gui','countryreligionview'),('provincevi
     donor=(vanilla_root()/'interface'/path).read_text(encoding='utf-8-sig')
     assert normalized(before+tail)==normalized(donor),path
 assert 'center_of_reformation = yes' in read('common/trading_policies/RIP_church_mission_network.txt')
+assert 'button_gfx = GFX_rip_ro_mission_policy' in read('common/trading_policies/RIP_church_mission_network.txt')
+assert 'name = "GFX_Trading_Policy_Propagate_Religion"' not in read('interface/RIP_church_mission.gfx')
 policies=read('common/trading_policies/00_trading_policies.txt')
 donor_policies=(vanilla_root()/'common/trading_policies/00_trading_policies.txt').read_text(encoding='utf-8-sig')
 guard='\n\t\tNOT = { religion = greek_catholic }\n\t\tNOT = { religion = russian_orthodox }'

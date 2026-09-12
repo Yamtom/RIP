@@ -2,17 +2,24 @@
 Checks text overflow while rendering the generated GC pane at native pixel size.
 """
 from pathlib import Path
-import re, sys
+import argparse, re, sys
 from PIL import Image
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tests'))
 from clausewitz_testlib import ROOT, vanilla_root, keyed_blocks
 from church_testlib import parse
 GAME=vanilla_root()
+ap=argparse.ArgumentParser(); ap.add_argument('--ro',action='store_true'); args=ap.parse_args()
+branch='ro' if args.ro else 'gc'
 loc=dict(re.findall(r'^\s+(\w+):0 "(.*)"$',(ROOT/'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'),re.M))
 sample={'Root.GetChurchGCOrientation':'Balanced communion', 'Root.rip_church_communion.GetValue':'-20',
  'Root.rip_church_papal_standing.GetValue':'100', 'Root.GetChurchStandingRate':'+0.00 (Roman support unavailable)',
  'Root.rip_church_recognized_parishes.GetValue':'999', 'Root.GetChurchCenterStatus':'Centre suspended while its province is occupied',
  'Root.GetChurchPrivilege':'Agreement on coexistence'}
+sample.update({'Root.GetChurchROStatus':'Reconciliation in progress',
+ 'Root.rip_church_fervor.GetValue':'100','Root.rip_church_icons.GetValue':'4',
+ 'Root.rip_church_capacity.GetValue':'4','Root.rip_church_fervor_income.GetValue':'5',
+ 'Root.rip_church_fervor_cost.GetValue':'18','Root.rip_church_nodes.GetValue':'2'})
+for key in ('War','Mercy','Building','Mission'): sample['Root.GetChurchIcon'+key]='Active'
 def resolve(key):
     return re.sub(r'\[([^]]+)\]',lambda m:sample[m[1]],loc[key]).replace('\\n','\n')
 def asset(path):
@@ -58,7 +65,7 @@ def draw_text(canvas,s,x,y,w,h,name,center=False):
             cursor+=c['xadvance']
         y+=line_height
 source=(ROOT/'interface/countryreligionview.gui').read_text()
-panel=next(block for _,block in keyed_blocks(source,'windowType') if re.search(r'name\s*=\s*"rip_church_gc_panel"',block) and 'name = "countryreligionview"' not in block)
+panel=next(block for _,block in keyed_blocks(source,'windowType') if re.search(r'name\s*=\s*"rip_church_'+branch+r'_panel"',block) and 'name = "countryreligionview"' not in block)
 entries=dict(parse(panel))['windowType']
 canvas=Image.new('RGBA',(475,680),(22,30,33,255))
 rects=[]
@@ -88,7 +95,7 @@ for kind,payload in entries:
     for a,b,c,e,label in rects:
         assert x+w<=a or a+c<=x or y+h<=b or b+e<=y,(d['name'],label)
     rects.append((x,y,w,h,d['name']))
-output=ROOT/'diagnostics/church_redesign_20260911/gc_layout_preview.png'
+output=ROOT/f'diagnostics/church_redesign_20260911/{branch}_layout_preview.png'
 canvas.save(output)
 print(f'SOURCE LAYOUT PASS: {len(rects)} non-overlapping controls; native font metrics; {output}')
 print('Preview uses sample values and is not an engine render or click test.')

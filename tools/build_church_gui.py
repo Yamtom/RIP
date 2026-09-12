@@ -36,19 +36,23 @@ def panel(name,condition,body,x=540,y=8,clean=False):
  iconType = {{ name = "{name}_bg" spriteType = "{background}" position = {{ x=0 y=0 }} {scale} {hit_test} }}
  {body}
 }}'''
-ro=text('rip_church_ro_heading',18,12)
-ro+=text('rip_church_ro_resources',18,52,h=76)
+ro='iconType = { name = "rip_church_ro_title_band" spriteType = "GFX_message_band" position = { x=28 y=14 } scale = 0.79 alwaystransparent = yes }'
+ro+=text('rip_church_ro_heading',28,28,w=419,h=30,font='vic_22',align='center')
+ro+=text('rip_church_ro_status',28,66,w=419,h=26,align='center')
+ro+='iconType = { name = "rip_church_ro_resources_frame" spriteType = "GFX_rip_church_union_section" position = { x=28 y=102 } alwaystransparent = yes }'
+ro+=text('rip_church_ro_resources',44,120,w=387,h=76)
 for i,k in enumerate(('war','mercy','building','mission')):
-    ro+=button(f'rip_church_icon_{k}_button',18,140+i*42,
+    ro+=button(f'rip_church_icon_{k}_button',44,236+i*44,
                f'religion = russian_orthodox OR = {{ has_country_flag = rip_church_icon_{k} rip_church_can_activate_{k} = yes }}',
                f'rip_church_toggle_{k}_effect = yes')
-    ro+=text(f'rip_church_icon_{k}_state',250,143+i*42,w=185,h=30)
-ro+=button('rip_church_nodes_button',18,324,'religion = russian_orthodox',
+    ro+=text(f'rip_church_icon_{k}_state',294,243+i*44,w=145,h=24)
+ro+=text('rip_church_ro_mission_cost',28,414,w=419,h=42,align='center')
+ro+=button('rip_church_nodes_button',125,468,'rip_church_ro_can_open_network_menu = yes',
            'country_event = { id = rip_church_nodes.1 }')
-ro+=button('rip_church_reconcile_button',18,366,'rip_church_can_reconcile = yes',
+ro+=button('rip_church_reconcile_button',125,516,'rip_church_can_reconcile = yes',
            'rip_church_ro_begin_reconciliation_effect = yes',
            'has_country_flag = rip_church_ro_schismatic')
-ro+=text('rip_church_ro_help',18,414,h=100,font='Main_14')
+ro+=text('rip_church_ro_help',28,566,w=419,h=86,font='Main_14')
 gc='iconType = { name = "rip_church_gc_title_band" spriteType = "GFX_message_band" position = { x=28 y=14 } scale = 0.79 alwaystransparent = yes }'
 gc+=text('rip_church_gc_heading',28,28,w=419,h=30,font='vic_22',align='center')
 gc+=text('rip_church_gc_orientation',28,66,w=419,h=26,align='center')
@@ -71,7 +75,7 @@ gc+=button('rip_church_privileges_button',125,504,'religion = greek_catholic',
 gc+=button('rip_church_center_button',125,548,'rip_church_can_found_center = yes','rip_church_found_center_effect = yes')
 gc+=button('rip_church_ecumenism_button',125,592,'rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes')
 gc+=text('rip_church_gc_help',28,636,w=419,h=24,font='Main_14',align='center')
-religion_panels=panel('rip_church_ro_panel','religion = russian_orthodox',ro)+'\n'+panel('rip_church_gc_panel','religion = greek_catholic',gc,clean=True)
+religion_panels=panel('rip_church_ro_panel','religion = russian_orthodox',ro,clean=True)+'\n'+panel('rip_church_gc_panel','religion = greek_catholic',gc,clean=True)
 outputs['interface/RIP_church_panels.gfx']='''spriteTypes = {
  corneredTileSpriteType = {
   name = "GFX_rip_church_union_frame"
