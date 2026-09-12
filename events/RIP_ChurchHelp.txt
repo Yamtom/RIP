@@ -1,0 +1,27 @@
+namespace = rip_church_help
+# Read-only, user-opened help. Navigation never charges resources or changes policy.
+country_event = {
+ id = rip_church_help.1
+ title = rip_church_help.1.t desc = rip_church_help.1.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes trigger = { religion = greek_catholic }
+ option = { name = rip_church_help.actions country_event = { id = rip_church_help.2 } }
+ option = { name = rip_church_close }
+}
+country_event = {
+ id = rip_church_help.2
+ title = rip_church_help.2.t desc = rip_church_help.2.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes trigger = { religion = greek_catholic }
+ option = { name = rip_church_help.parishes country_event = { id = rip_church_help.3 } }
+ option = { name = rip_church_help.back country_event = { id = rip_church_help.1 } }
+ option = { name = rip_church_close }
+}
+country_event = {
+ id = rip_church_help.3
+ title = rip_church_help.3.t desc = rip_church_help.3.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes trigger = { religion = greek_catholic }
+ option = { name = rip_church_help.back country_event = { id = rip_church_help.2 } }
+ option = { name = rip_church_close }
+}

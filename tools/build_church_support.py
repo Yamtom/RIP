@@ -84,6 +84,31 @@ trigger += 'rip_church_ro_can_open_network_menu = { religion = russian_orthodox 
 trigger += ''.join(f'rip_church_node_{name}_can_open = yes\n' for name,_ in nodes)
 trigger += '} }\n'
 output('common/scripted_triggers/rip_church_nodes_generated.txt', trigger)
+# Trade policies are parsed before these scripted triggers are available in EU4.
+# Expand the same authoritative gates instead of leaving unresolved references.
+policy_triggers = trigger + '\n' + (ROOT/'common/scripted_triggers/rip_church_propagation_triggers.txt').read_text(encoding='utf-8-sig')
+def expand_policy_gate(name, stack=()):
+    assert name not in stack, ('Recursive policy gate', stack, name)
+    block = named_block(policy_triggers, name)
+    body = block[block.index('{')+1:block.rfind('}')]
+    return re.sub(r'\b(rip_church_\w+)\s*=\s*yes\b',
+                  lambda m: expand_policy_gate(m[1], stack+(name,)), body)
+native_gate = '\n'.join(line.rstrip() for line in expand_policy_gate('rip_church_ro_can_maintain_policy').splitlines())
+output('common/trading_policies/RIP_church_mission_network.txt', '''# Generated: native gates only, because trading policies load before scripted triggers.
+rip_church_mission_network = {
+ unique = yes
+ potential = { religion = russian_orthodox }
+ can_select = {
+'''+native_gate+'''
+ }
+ can_maintain = {
+'''+native_gate+'''
+ }
+ show_alert = yes
+ center_of_reformation = yes
+ button_gfx = GFX_rip_ro_mission_policy
+}
+''')
 output('common/scripted_effects/rip_church_nodes_generated.txt', effects)
 output('events/RIP_ChurchNodes_generated.txt', '''namespace = rip_church_nodes
 country_event = {

@@ -67,12 +67,22 @@ def draw_text(canvas,s,x,y,w,h,name,center=False):
 source=(ROOT/'interface/countryreligionview.gui').read_text()
 panel=next(block for _,block in keyed_blocks(source,'windowType') if re.search(r'name\s*=\s*"rip_church_'+branch+r'_panel"',block) and 'name = "countryreligionview"' not in block)
 entries=dict(parse(panel))['windowType']
-canvas=Image.new('RGBA',(475,680),(22,30,33,255))
+dimensions=dict(dict(entries)['size']); panel_w,panel_h=int(dimensions['x']),int(dimensions['y'])
+canvas=Image.new('RGBA',(panel_w,panel_h),(22,30,33,255))
+sprite_paths={}
+for _,block in keyed_blocks((ROOT/'interface/RIP_church_panels.gfx').read_text(),'spriteType'):
+    d=dict(dict(parse(block))['spriteType']); sprite_paths[d['name']]=d['textureFile']
 rects=[]
 for kind,payload in entries:
     if kind not in ('iconType','instantTextBoxType','guiButtonType'): continue
     d=dict(payload); pos=dict(d['position']); x,y=int(pos['x']),int(pos['y'])
     if kind=='iconType':
+        if d['spriteType'] in sprite_paths:
+            art=asset(sprite_paths[d['spriteType']])
+            if 'scale' in d:
+                factor=float(d['scale']); art=art.resize((round(art.width*factor),round(art.height*factor)))
+            canvas.alpha_composite(art,(x,y))
+            continue
         if d['spriteType']=='GFX_message_band':
             banner=asset('gfx/interface/message_band.tga')
             banner=banner.resize((round(banner.width*float(d['scale'])),round(banner.height*float(d['scale']))))
@@ -83,7 +93,7 @@ for kind,payload in entries:
         continue
     if kind=='guiButtonType':
         small=d['quadTextureSprite']=='GFX_standard_button_142_34_button'
-        sprite=asset('gfx/interface/buttons/button_142_animated.dds' if small else 'gfx/interface/standard_button_224.dds')
+        sprite=asset('gfx/interface/buttons/button_142_animated.dds' if small else 'gfx/interface/standard_button_105.dds' if d['quadTextureSprite']=='GFX_standard_button_105' else 'gfx/interface/standard_button_224.dds')
         if small: sprite=sprite.crop((0,0,sprite.width//3,sprite.height))
         w,h=sprite.size
         canvas.alpha_composite(sprite,(x,y))
@@ -91,7 +101,7 @@ for kind,payload in entries:
     else:
         w,h=int(d['maxWidth']),int(d['maxHeight'])
         draw_text(canvas,resolve(d['text']),x,y,w,h,d['font'],d['format']=='center')
-    assert x>=0 and y>=0 and x+w<=475 and y+h<=680,d['name']
+    assert x>=0 and y>=0 and x+w<=panel_w and y+h<=panel_h,d['name']
     for a,b,c,e,label in rects:
         assert x+w<=a or a+c<=x or y+h<=b or b+e<=y,(d['name'],label)
     rects.append((x,y,w,h,d['name']))

@@ -27,66 +27,69 @@ def panel(name,condition,body,x=540,y=8,clean=False):
     defs.append(f'custom_window = {{ name = {name} potential = {{ {condition} }} }}')
     background = ('GFX_rip_church_union_frame' if clean else 'GFX_country_religion_view_bg')
     scale = '' if clean else 'scale = 0.86'
-    background_binding = f'backGround = "{name}_bg"' if clean else ''
     hit_test = 'alwaystransparent = no' if clean else ''
+    native_church = name in ('rip_church_ro_panel','rip_church_gc_panel')
+    if native_church:
+        background='GFX_rip_church_ro_frame'
+        scale='scale = 0.782537'
     return f'''windowType = {{
- name = "{name}" scripted = yes position = {{ x={x} y={y} }} size = {{ x=475 y={680 if clean else 550} }}
+ name = "{name}" scripted = yes position = {{ x={x} y={y} }} size = {{ x=475 y={560 if native_church else 680 if clean else 550} }}
  moveable = 0
-{background_binding}
  iconType = {{ name = "{name}_bg" spriteType = "{background}" position = {{ x=0 y=0 }} {scale} {hit_test} }}
  {body}
 }}'''
-ro='iconType = { name = "rip_church_ro_title_band" spriteType = "GFX_message_band" position = { x=28 y=14 } scale = 0.79 alwaystransparent = yes }'
-ro+=text('rip_church_ro_heading',28,28,w=419,h=30,font='vic_22',align='center')
-ro+=text('rip_church_ro_status',28,66,w=419,h=26,align='center')
-ro+='iconType = { name = "rip_church_ro_resources_frame" spriteType = "GFX_rip_church_union_section" position = { x=28 y=102 } alwaystransparent = yes }'
-ro+=text('rip_church_ro_resources',44,120,w=387,h=76)
+ro=text('rip_church_ro_heading',28,28,w=419,h=26,font='vic_22',align='center')
+ro+=text('rip_church_ro_status',28,76,w=419,h=20,align='center')
+ro+=text('rip_church_ro_resources',44,100,w=387,h=54)
+ro+=text('rip_church_ro_policies_title',28,166,w=419,h=22,align='center')
 for i,k in enumerate(('war','mercy','building','mission')):
-    ro+=button(f'rip_church_icon_{k}_button',44,236+i*44,
+    x=26+i*106
+    ro+=f'iconType = {{ name = "rip_church_{k}_slot" spriteType = "GFX_rip_church_policy_slot" position = {{ x={x+23} y=208 }} alwaystransparent = yes }}'
+    ro+=f'iconType = {{ name = "rip_church_{k}_art" spriteType = "GFX_rip_church_policy_{k}" position = {{ x={x+20} y=205 }} alwaystransparent = yes }}'
+    defs.append(f'custom_icon = {{ name = rip_church_{k}_active_frame potential = {{ has_country_flag = rip_church_icon_{k} }} frame = {{ number = 1 trigger = {{ always = yes }} }} }}')
+    ro+=f'iconType = {{ name = "rip_church_{k}_active_frame" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x={x+23} y=208 }} alwaystransparent = yes }}'
+    ro+=button(f'rip_church_icon_{k}_button',x,278,
                f'religion = russian_orthodox OR = {{ has_country_flag = rip_church_icon_{k} rip_church_can_activate_{k} = yes }}',
-               f'rip_church_toggle_{k}_effect = yes')
-    ro+=text(f'rip_church_icon_{k}_state',294,243+i*44,w=145,h=24)
-ro+=text('rip_church_ro_mission_cost',28,414,w=419,h=42,align='center')
-ro+=button('rip_church_nodes_button',125,468,'rip_church_ro_can_open_network_menu = yes',
+               f'rip_church_toggle_{k}_effect = yes',sprite='GFX_standard_button_105')
+    ro+=text(f'rip_church_icon_{k}_state',x,317,w=105,h=18,align='center')
+ro+=text('rip_church_ro_mission_cost',28,346,w=419,h=40,align='center')
+ro+=button('rip_church_nodes_button',125,394,'rip_church_ro_can_open_network_menu = yes',
            'country_event = { id = rip_church_nodes.1 }')
-ro+=button('rip_church_reconcile_button',125,516,'rip_church_can_reconcile = yes',
+ro+=button('rip_church_reconcile_button',125,438,'rip_church_can_reconcile = yes',
            'rip_church_ro_begin_reconciliation_effect = yes',
            'has_country_flag = rip_church_ro_schismatic')
-ro+=text('rip_church_ro_help',28,566,w=419,h=86,font='Main_14')
-gc='iconType = { name = "rip_church_gc_title_band" spriteType = "GFX_message_band" position = { x=28 y=14 } scale = 0.79 alwaystransparent = yes }'
-gc+=text('rip_church_gc_heading',28,28,w=419,h=30,font='vic_22',align='center')
-gc+=text('rip_church_gc_orientation',28,66,w=419,h=26,align='center')
-for key,y in [('resources',102),('parishes',220)]:
-    gc+=f'iconType = {{ name = "rip_church_gc_{key}_frame" spriteType = "GFX_rip_church_union_section" position = {{ x=28 y={y} }} alwaystransparent = yes }}'
-gc+=text('rip_church_gc_resources',44,120,w=387,h=76)
-gc+=text('rip_church_gc_parishes',44,238,w=387,h=26)
-gc+=text('rip_church_gc_center_state',44,274,w=387,h=40)
-gc+=text('rip_church_gc_policy_label',28,330,w=419,h=18,align='center')
-gc+=button('rip_church_east_button',44,354,
+ro+=text('rip_church_ro_help',40,481,w=395,h=54,font='Main_14')
+gc=text('rip_church_gc_heading',28,28,w=419,h=26,font='vic_22',align='center')
+gc+=text('rip_church_gc_orientation',28,76,w=419,h=20,align='center')
+gc+=text('rip_church_gc_resources',44,100,w=387,h=54)
+gc+=text('rip_church_gc_policy_label',28,166,w=419,h=22,align='center')
+gc+=text('rip_church_gc_parishes',44,199,w=387,h=18)
+gc+=text('rip_church_gc_center_state',44,221,w=387,h=36)
+gc+=button('rip_church_east_button',44,260,
            'rip_church_can_shift_communion = yes check_variable = { which = rip_church_communion value = -99.999 }',
            'rip_church_gc_shift_east_effect = yes',sprite='GFX_standard_button_142_34_button')
-gc+=button('rip_church_rome_button',265,354,
+gc+=button('rip_church_rome_button',265,260,
            'rip_church_can_shift_communion = yes NOT = { check_variable = { which = rip_church_communion value = 100 } }',
            'rip_church_gc_shift_rome_effect = yes',sprite='GFX_standard_button_142_34_button')
-gc+=text('rip_church_gc_policy_cost',28,420,w=419,h=20,align='center')
-gc+=text('rip_church_gc_privilege_state',28,450,w=419,h=42,align='center')
-gc+=button('rip_church_privileges_button',125,504,'religion = greek_catholic',
+gc+=text('rip_church_gc_policy_cost',28,324,w=419,h=18,align='center')
+gc+=text('rip_church_gc_privilege_state',28,348,w=419,h=36,align='center')
+gc+=button('rip_church_privileges_button',125,392,'religion = greek_catholic',
            'country_event = { id = rip_church.6 }')
-gc+=button('rip_church_center_button',125,548,'rip_church_can_found_center = yes','rip_church_found_center_effect = yes')
-gc+=button('rip_church_ecumenism_button',125,592,'rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes')
-gc+=text('rip_church_gc_help',28,636,w=419,h=24,font='Main_14',align='center')
+gc+=button('rip_church_center_button',125,432,'rip_church_can_found_center = yes','rip_church_found_center_effect = yes')
+gc+=button('rip_church_ecumenism_button',125,472,'rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes')
+gc+=button('rip_church_gc_guide_button',185,512,'religion = greek_catholic','country_event = { id = rip_church_help.1 }',sprite='GFX_standard_button_105')
 religion_panels=panel('rip_church_ro_panel','religion = russian_orthodox',ro,clean=True)+'\n'+panel('rip_church_gc_panel','religion = greek_catholic',gc,clean=True)
 outputs['interface/RIP_church_panels.gfx']='''spriteTypes = {
- corneredTileSpriteType = {
-  name = "GFX_rip_church_union_frame"
-  textureFile = "gfx/interface/tiles_dialog.dds"
-  size = { x=475 y=680 } borderSize = { x=32 y=32 }
+ spriteType = {
+  name = "GFX_rip_church_ro_frame"
+  textureFile = "gfx/interface/copts_bg.dds"
  }
- corneredTileSpriteType = {
-  name = "GFX_rip_church_union_section"
-  textureFile = "gfx/interface/small_tiles_dialog.dds"
-  size = { x=419 y=106 } borderSize = { x=8 y=8 }
- }
+ spriteType = { name = "GFX_rip_church_policy_slot" textureFile = "gfx/interface/copts_blessing_slot.dds" }
+ spriteType = { name = "GFX_rip_church_policy_active" textureFile = "gfx/interface/copts_blessing_select_glow.dds" }
+ spriteType = { name = "GFX_rip_church_policy_war" textureFile = "gfx/interface/ideas_EU4/land_morale.dds" }
+ spriteType = { name = "GFX_rip_church_policy_mercy" textureFile = "gfx/interface/ideas_EU4/global_unrest.dds" }
+ spriteType = { name = "GFX_rip_church_policy_building" textureFile = "gfx/interface/ideas_EU4/development_cost.dds" }
+ spriteType = { name = "GFX_rip_church_policy_mission" textureFile = "gfx/interface/ideas_EU4/global_missionary_strength.dds" }
 }
 '''
 # Province ROOT, clicking country FROM. Never allow buttons on somebody else's land.
@@ -99,8 +102,24 @@ province+=button('rip_church_latin_consent_button',18,210,
                  'rip_church_latin_consent_effect = yes')
 province+=text('rip_church_rite_help',18,262,w=440,h=120,font='Main_14')
 prov_panel=panel('rip_church_rite_panel','owned_by = FROM FROM = { rip_church_union_supporter = yes } OR = { religion = orthodox religion = russian_orthodox religion = catholic }',province,x=480,y=0)
+
+# Retain native widget names and parents for the engine and old saves.
+# A GC-only guide occupies the native empty icon-selector area, drawn last.
+defs.append('custom_window = { name = rip_church_gc_native_guide potential = { religion = greek_catholic } }')
+defs.append('custom_icon = { name = rip_church_gc_guide_symbol potential = { always = yes } frame = { number = 31 trigger = { always = yes } } }')
+native_guide='''windowType = {
+ name = "rip_church_gc_native_guide" scripted = yes
+ position = { x=0 y=0 } size = { x=280 y=50 } moveable = 0
+ iconType = { name = "rip_church_gc_guide_cover" spriteType = "GFX_rip_church_policy_slot" position = { x=310 y=235 } scale = 1.2 alwaystransparent = no }
+ iconType = { name = "rip_church_gc_guide_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
+'''+button('rip_church_gc_native_guide_button',304,300,'religion = greek_catholic','country_event = { id = rip_church_help.1 }',sprite='GFX_standard_button_71').replace('buttonFont = "vic_18"','buttonFont = "vic_18" Orientation = "LEFT"')+'\n}\n'
 def attach(file,host,body):
     s=(GAME/'interface'/file).read_text(encoding='utf-8-sig')
+    if file=='countryreligionview.gui':
+        native_name=re.search(r'name\s*=\s*"orthodox_specific_window"',s)
+        native_start=s.rfind('windowType',0,native_name.start())
+        native_end=matching_brace(s,s.index('{',native_start))
+        s=s[:native_end]+'\n# RIP GC guide over the empty native icon selector.\n'+native_guide+s[native_end:]
     name=re.search(r'name\s*=\s*"'+re.escape(host)+r'"',s)
     assert name, host
     start=s.rfind('windowType',0,name.start())

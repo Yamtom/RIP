@@ -1,10 +1,202 @@
-# A distinct native trade policy; other faiths keep their original policy.
+# Generated: native gates only, because trading policies load before scripted triggers.
 rip_church_mission_network = {
  unique = yes
  potential = { religion = russian_orthodox }
- can_select = { has_dlc = "Cradle of Civilization" rip_church_ro_can_maintain_policy = yes }
- can_maintain = { rip_church_ro_can_maintain_policy = yes }
- show_alert = yes center_of_reformation = yes
+ can_select = {
+
+ religion = russian_orthodox has_country_flag = rip_church_icon_mission
+ has_dlc = "Cradle of Civilization"
+  OR = {
+AND = { has_country_flag = rip_church_node_african_great_lakes FROM = { province_id = 4064 } }
+AND = { has_country_flag = rip_church_node_kongo FROM = { province_id = 4097 } }
+AND = { has_country_flag = rip_church_node_zambezi FROM = { province_id = 1191 } }
+AND = { has_country_flag = rip_church_node_patagonia FROM = { province_id = 2868 } }
+AND = { has_country_flag = rip_church_node_amazonas_node FROM = { province_id = 2935 } }
+AND = { has_country_flag = rip_church_node_rio_grande FROM = { province_id = 2499 } }
+AND = { has_country_flag = rip_church_node_james_bay FROM = { province_id = 1486 } }
+AND = { has_country_flag = rip_church_node_california FROM = { province_id = 2021 } }
+AND = { has_country_flag = rip_church_node_girin FROM = { province_id = 730 } }
+AND = { has_country_flag = rip_church_node_mississippi_river FROM = { province_id = 1507 } }
+AND = { has_country_flag = rip_church_node_ohio FROM = { province_id = 2526 } }
+AND = { has_country_flag = rip_church_node_mexico FROM = { province_id = 1551 } }
+AND = { has_country_flag = rip_church_node_lhasa FROM = { province_id = 677 } }
+AND = { has_country_flag = rip_church_node_chengdu FROM = { province_id = 679 } }
+AND = { has_country_flag = rip_church_node_burma FROM = { province_id = 584 } }
+AND = { has_country_flag = rip_church_node_gulf_of_siam FROM = { province_id = 1365 } }
+AND = { has_country_flag = rip_church_node_canton FROM = { province_id = 1371 } }
+AND = { has_country_flag = rip_church_node_philippines FROM = { province_id = 1397 } }
+AND = { has_country_flag = rip_church_node_cuiaba FROM = { province_id = 800 } }
+AND = { has_country_flag = rip_church_node_lima FROM = { province_id = 809 } }
+AND = { has_country_flag = rip_church_node_polynesia_node FROM = { province_id = 1997 } }
+AND = { has_country_flag = rip_church_node_australia FROM = { province_id = 1411 } }
+AND = { has_country_flag = rip_church_node_nippon FROM = { province_id = 1376 } }
+AND = { has_country_flag = rip_church_node_hangzhou FROM = { province_id = 684 } }
+AND = { has_country_flag = rip_church_node_xian FROM = { province_id = 700 } }
+AND = { has_country_flag = rip_church_node_beijing FROM = { province_id = 4233 } }
+AND = { has_country_flag = rip_church_node_the_moluccas FROM = { province_id = 1357 } }
+AND = { has_country_flag = rip_church_node_siberia FROM = { province_id = 1064 } }
+AND = { has_country_flag = rip_church_node_yumen FROM = { province_id = 707 } }
+AND = { has_country_flag = rip_church_node_malacca FROM = { province_id = 1361 } }
+AND = { has_country_flag = rip_church_node_ganges_delta FROM = { province_id = 1343 } }
+AND = { has_country_flag = rip_church_node_doab FROM = { province_id = 524 } }
+AND = { has_country_flag = rip_church_node_lahore FROM = { province_id = 507 } }
+AND = { has_country_flag = rip_church_node_deccan FROM = { province_id = 1948 } }
+AND = { has_country_flag = rip_church_node_comorin_cape FROM = { province_id = 1340 } }
+AND = { has_country_flag = rip_church_node_gujarat FROM = { province_id = 504 } }
+AND = { has_country_flag = rip_church_node_katsina FROM = { province_id = 1149 } }
+AND = { has_country_flag = rip_church_node_ethiopia FROM = { province_id = 2772 } }
+AND = { has_country_flag = rip_church_node_gulf_of_aden FROM = { province_id = 4346 } }
+AND = { has_country_flag = rip_church_node_hormuz FROM = { province_id = 1334 } }
+AND = { has_country_flag = rip_church_node_zanzibar FROM = { province_id = 1448 } }
+AND = { has_country_flag = rip_church_node_cape_of_good_hope FROM = { province_id = 1460 } }
+AND = { has_country_flag = rip_church_node_basra FROM = { province_id = 1335 } }
+AND = { has_country_flag = rip_church_node_samarkand FROM = { province_id = 454 } }
+AND = { has_country_flag = rip_church_node_persia FROM = { province_id = 4341 } }
+AND = { has_country_flag = rip_church_node_aleppo FROM = { province_id = 377 } }
+AND = { has_country_flag = rip_church_node_alexandria FROM = { province_id = 358 } }
+AND = { has_country_flag = rip_church_node_astrakhan FROM = { province_id = 464 } }
+AND = { has_country_flag = rip_church_node_crimea FROM = { province_id = 1322 } }
+AND = { has_country_flag = rip_church_node_constantinople FROM = { province_id = 1320 } }
+AND = { has_country_flag = rip_church_node_kiev FROM = { province_id = 280 } }
+AND = { has_country_flag = rip_church_node_kazan FROM = { province_id = 1082 } }
+AND = { has_country_flag = rip_church_node_novgorod FROM = { province_id = 33 } }
+AND = { has_country_flag = rip_church_node_laplata FROM = { province_id = 1536 } }
+AND = { has_country_flag = rip_church_node_brazil FROM = { province_id = 1531 } }
+AND = { has_country_flag = rip_church_node_timbuktu FROM = { province_id = 1132 } }
+AND = { has_country_flag = rip_church_node_ivory_coast FROM = { province_id = 1466 } }
+AND = { has_country_flag = rip_church_node_tunis FROM = { province_id = 341 } }
+AND = { has_country_flag = rip_church_node_ragusa FROM = { province_id = 137 } }
+AND = { has_country_flag = rip_church_node_safi FROM = { province_id = 1110 } }
+AND = { has_country_flag = rip_church_node_pest FROM = { province_id = 153 } }
+AND = { has_country_flag = rip_church_node_krakow FROM = { province_id = 262 } }
+AND = { has_country_flag = rip_church_node_wien FROM = { province_id = 134 } }
+AND = { has_country_flag = rip_church_node_saxony FROM = { province_id = 61 } }
+AND = { has_country_flag = rip_church_node_baltic_sea FROM = { province_id = 1926 } }
+AND = { has_country_flag = rip_church_node_rheinland FROM = { province_id = 1876 } }
+AND = { has_country_flag = rip_church_node_panama FROM = { province_id = 835 } }
+AND = { has_country_flag = rip_church_node_carribean_trade FROM = { province_id = 1516 } }
+AND = { has_country_flag = rip_church_node_chesapeake_bay FROM = { province_id = 1500 } }
+AND = { has_country_flag = rip_church_node_st_lawrence FROM = { province_id = 1490 } }
+AND = { has_country_flag = rip_church_node_white_sea FROM = { province_id = 1652 } }
+AND = { has_country_flag = rip_church_node_north_sea FROM = { province_id = 1975 } }
+AND = { has_country_flag = rip_church_node_lubeck FROM = { province_id = 45 } }
+AND = { has_country_flag = rip_church_node_bordeaux FROM = { province_id = 1276 } }
+AND = { has_country_flag = rip_church_node_sevilla FROM = { province_id = 1293 } }
+AND = { has_country_flag = rip_church_node_champagne FROM = { province_id = 186 } }
+AND = { has_country_flag = rip_church_node_valencia FROM = { province_id = 1295 } }
+AND = { has_country_flag = rip_church_node_genua FROM = { province_id = 1298 } }
+AND = { has_country_flag = rip_church_node_venice FROM = { province_id = 1308 } }
+AND = { has_country_flag = rip_church_node_english_channel FROM = { province_id = 1269 } }
+}
+ FROM = { has_trader = ROOT trade_share = { country = ROOT share = 50 }
+ any_trade_node_member_province = {  is_city = yes NOT = { religion = russian_orthodox } NOT = { has_missionary = yes }
+ NOT = { province_id = 118 } NOT = { has_province_modifier = religious_center }
+ NOT = { has_province_modifier = religious_zeal_at_conv } NOT = { has_province_flag = rip_church_rite_recognized }
+ any_neighbor_province = { religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT }
+ NOT = { AND = { religion = orthodox owner = { religion = orthodox is_subject = no } ROOT = { NOT = { has_country_flag = rip_church_ro_schismatic } } } }
+  }
+ any_trade_node_member_province = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox
+ has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } }
+ }
+ }
+ can_maintain = {
+
+ religion = russian_orthodox has_country_flag = rip_church_icon_mission
+ has_dlc = "Cradle of Civilization"
+  OR = {
+AND = { has_country_flag = rip_church_node_african_great_lakes FROM = { province_id = 4064 } }
+AND = { has_country_flag = rip_church_node_kongo FROM = { province_id = 4097 } }
+AND = { has_country_flag = rip_church_node_zambezi FROM = { province_id = 1191 } }
+AND = { has_country_flag = rip_church_node_patagonia FROM = { province_id = 2868 } }
+AND = { has_country_flag = rip_church_node_amazonas_node FROM = { province_id = 2935 } }
+AND = { has_country_flag = rip_church_node_rio_grande FROM = { province_id = 2499 } }
+AND = { has_country_flag = rip_church_node_james_bay FROM = { province_id = 1486 } }
+AND = { has_country_flag = rip_church_node_california FROM = { province_id = 2021 } }
+AND = { has_country_flag = rip_church_node_girin FROM = { province_id = 730 } }
+AND = { has_country_flag = rip_church_node_mississippi_river FROM = { province_id = 1507 } }
+AND = { has_country_flag = rip_church_node_ohio FROM = { province_id = 2526 } }
+AND = { has_country_flag = rip_church_node_mexico FROM = { province_id = 1551 } }
+AND = { has_country_flag = rip_church_node_lhasa FROM = { province_id = 677 } }
+AND = { has_country_flag = rip_church_node_chengdu FROM = { province_id = 679 } }
+AND = { has_country_flag = rip_church_node_burma FROM = { province_id = 584 } }
+AND = { has_country_flag = rip_church_node_gulf_of_siam FROM = { province_id = 1365 } }
+AND = { has_country_flag = rip_church_node_canton FROM = { province_id = 1371 } }
+AND = { has_country_flag = rip_church_node_philippines FROM = { province_id = 1397 } }
+AND = { has_country_flag = rip_church_node_cuiaba FROM = { province_id = 800 } }
+AND = { has_country_flag = rip_church_node_lima FROM = { province_id = 809 } }
+AND = { has_country_flag = rip_church_node_polynesia_node FROM = { province_id = 1997 } }
+AND = { has_country_flag = rip_church_node_australia FROM = { province_id = 1411 } }
+AND = { has_country_flag = rip_church_node_nippon FROM = { province_id = 1376 } }
+AND = { has_country_flag = rip_church_node_hangzhou FROM = { province_id = 684 } }
+AND = { has_country_flag = rip_church_node_xian FROM = { province_id = 700 } }
+AND = { has_country_flag = rip_church_node_beijing FROM = { province_id = 4233 } }
+AND = { has_country_flag = rip_church_node_the_moluccas FROM = { province_id = 1357 } }
+AND = { has_country_flag = rip_church_node_siberia FROM = { province_id = 1064 } }
+AND = { has_country_flag = rip_church_node_yumen FROM = { province_id = 707 } }
+AND = { has_country_flag = rip_church_node_malacca FROM = { province_id = 1361 } }
+AND = { has_country_flag = rip_church_node_ganges_delta FROM = { province_id = 1343 } }
+AND = { has_country_flag = rip_church_node_doab FROM = { province_id = 524 } }
+AND = { has_country_flag = rip_church_node_lahore FROM = { province_id = 507 } }
+AND = { has_country_flag = rip_church_node_deccan FROM = { province_id = 1948 } }
+AND = { has_country_flag = rip_church_node_comorin_cape FROM = { province_id = 1340 } }
+AND = { has_country_flag = rip_church_node_gujarat FROM = { province_id = 504 } }
+AND = { has_country_flag = rip_church_node_katsina FROM = { province_id = 1149 } }
+AND = { has_country_flag = rip_church_node_ethiopia FROM = { province_id = 2772 } }
+AND = { has_country_flag = rip_church_node_gulf_of_aden FROM = { province_id = 4346 } }
+AND = { has_country_flag = rip_church_node_hormuz FROM = { province_id = 1334 } }
+AND = { has_country_flag = rip_church_node_zanzibar FROM = { province_id = 1448 } }
+AND = { has_country_flag = rip_church_node_cape_of_good_hope FROM = { province_id = 1460 } }
+AND = { has_country_flag = rip_church_node_basra FROM = { province_id = 1335 } }
+AND = { has_country_flag = rip_church_node_samarkand FROM = { province_id = 454 } }
+AND = { has_country_flag = rip_church_node_persia FROM = { province_id = 4341 } }
+AND = { has_country_flag = rip_church_node_aleppo FROM = { province_id = 377 } }
+AND = { has_country_flag = rip_church_node_alexandria FROM = { province_id = 358 } }
+AND = { has_country_flag = rip_church_node_astrakhan FROM = { province_id = 464 } }
+AND = { has_country_flag = rip_church_node_crimea FROM = { province_id = 1322 } }
+AND = { has_country_flag = rip_church_node_constantinople FROM = { province_id = 1320 } }
+AND = { has_country_flag = rip_church_node_kiev FROM = { province_id = 280 } }
+AND = { has_country_flag = rip_church_node_kazan FROM = { province_id = 1082 } }
+AND = { has_country_flag = rip_church_node_novgorod FROM = { province_id = 33 } }
+AND = { has_country_flag = rip_church_node_laplata FROM = { province_id = 1536 } }
+AND = { has_country_flag = rip_church_node_brazil FROM = { province_id = 1531 } }
+AND = { has_country_flag = rip_church_node_timbuktu FROM = { province_id = 1132 } }
+AND = { has_country_flag = rip_church_node_ivory_coast FROM = { province_id = 1466 } }
+AND = { has_country_flag = rip_church_node_tunis FROM = { province_id = 341 } }
+AND = { has_country_flag = rip_church_node_ragusa FROM = { province_id = 137 } }
+AND = { has_country_flag = rip_church_node_safi FROM = { province_id = 1110 } }
+AND = { has_country_flag = rip_church_node_pest FROM = { province_id = 153 } }
+AND = { has_country_flag = rip_church_node_krakow FROM = { province_id = 262 } }
+AND = { has_country_flag = rip_church_node_wien FROM = { province_id = 134 } }
+AND = { has_country_flag = rip_church_node_saxony FROM = { province_id = 61 } }
+AND = { has_country_flag = rip_church_node_baltic_sea FROM = { province_id = 1926 } }
+AND = { has_country_flag = rip_church_node_rheinland FROM = { province_id = 1876 } }
+AND = { has_country_flag = rip_church_node_panama FROM = { province_id = 835 } }
+AND = { has_country_flag = rip_church_node_carribean_trade FROM = { province_id = 1516 } }
+AND = { has_country_flag = rip_church_node_chesapeake_bay FROM = { province_id = 1500 } }
+AND = { has_country_flag = rip_church_node_st_lawrence FROM = { province_id = 1490 } }
+AND = { has_country_flag = rip_church_node_white_sea FROM = { province_id = 1652 } }
+AND = { has_country_flag = rip_church_node_north_sea FROM = { province_id = 1975 } }
+AND = { has_country_flag = rip_church_node_lubeck FROM = { province_id = 45 } }
+AND = { has_country_flag = rip_church_node_bordeaux FROM = { province_id = 1276 } }
+AND = { has_country_flag = rip_church_node_sevilla FROM = { province_id = 1293 } }
+AND = { has_country_flag = rip_church_node_champagne FROM = { province_id = 186 } }
+AND = { has_country_flag = rip_church_node_valencia FROM = { province_id = 1295 } }
+AND = { has_country_flag = rip_church_node_genua FROM = { province_id = 1298 } }
+AND = { has_country_flag = rip_church_node_venice FROM = { province_id = 1308 } }
+AND = { has_country_flag = rip_church_node_english_channel FROM = { province_id = 1269 } }
+}
+ FROM = { has_trader = ROOT trade_share = { country = ROOT share = 50 }
+ any_trade_node_member_province = {  is_city = yes NOT = { religion = russian_orthodox } NOT = { has_missionary = yes }
+ NOT = { province_id = 118 } NOT = { has_province_modifier = religious_center }
+ NOT = { has_province_modifier = religious_zeal_at_conv } NOT = { has_province_flag = rip_church_rite_recognized }
+ any_neighbor_province = { religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT }
+ NOT = { AND = { religion = orthodox owner = { religion = orthodox is_subject = no } ROOT = { NOT = { has_country_flag = rip_church_ro_schismatic } } } }
+  }
+ any_trade_node_member_province = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox
+ has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } }
+ }
+ }
+ show_alert = yes
+ center_of_reformation = yes
  button_gfx = GFX_rip_ro_mission_policy
 }
-

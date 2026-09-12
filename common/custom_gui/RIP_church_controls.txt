@@ -2,21 +2,26 @@
 custom_text_box = { name = rip_church_ro_heading potential = { always = yes } tooltip = rip_church_ro_heading_tt }
 custom_text_box = { name = rip_church_ro_status potential = { always = yes } tooltip = rip_church_ro_status_tt }
 custom_text_box = { name = rip_church_ro_resources potential = { always = yes } tooltip = rip_church_ro_resources_tt }
+custom_text_box = { name = rip_church_ro_policies_title potential = { always = yes } tooltip = rip_church_ro_policies_title_tt }
+custom_icon = { name = rip_church_war_active_frame potential = { has_country_flag = rip_church_icon_war } frame = { number = 1 trigger = { always = yes } } }
 custom_button = {
  name = rip_church_icon_war_button potential = { always = yes } trigger = { religion = russian_orthodox OR = { has_country_flag = rip_church_icon_war rip_church_can_activate_war = yes } }
  effect = { rip_church_toggle_war_effect = yes } tooltip = rip_church_icon_war_button_tt
 }
 custom_text_box = { name = rip_church_icon_war_state potential = { always = yes } tooltip = rip_church_icon_war_state_tt }
+custom_icon = { name = rip_church_mercy_active_frame potential = { has_country_flag = rip_church_icon_mercy } frame = { number = 1 trigger = { always = yes } } }
 custom_button = {
  name = rip_church_icon_mercy_button potential = { always = yes } trigger = { religion = russian_orthodox OR = { has_country_flag = rip_church_icon_mercy rip_church_can_activate_mercy = yes } }
  effect = { rip_church_toggle_mercy_effect = yes } tooltip = rip_church_icon_mercy_button_tt
 }
 custom_text_box = { name = rip_church_icon_mercy_state potential = { always = yes } tooltip = rip_church_icon_mercy_state_tt }
+custom_icon = { name = rip_church_building_active_frame potential = { has_country_flag = rip_church_icon_building } frame = { number = 1 trigger = { always = yes } } }
 custom_button = {
  name = rip_church_icon_building_button potential = { always = yes } trigger = { religion = russian_orthodox OR = { has_country_flag = rip_church_icon_building rip_church_can_activate_building = yes } }
  effect = { rip_church_toggle_building_effect = yes } tooltip = rip_church_icon_building_button_tt
 }
 custom_text_box = { name = rip_church_icon_building_state potential = { always = yes } tooltip = rip_church_icon_building_state_tt }
+custom_icon = { name = rip_church_mission_active_frame potential = { has_country_flag = rip_church_icon_mission } frame = { number = 1 trigger = { always = yes } } }
 custom_button = {
  name = rip_church_icon_mission_button potential = { always = yes } trigger = { religion = russian_orthodox OR = { has_country_flag = rip_church_icon_mission rip_church_can_activate_mission = yes } }
  effect = { rip_church_toggle_mission_effect = yes } tooltip = rip_church_icon_mission_button_tt
@@ -35,9 +40,9 @@ custom_text_box = { name = rip_church_ro_help potential = { always = yes } toolt
 custom_text_box = { name = rip_church_gc_heading potential = { always = yes } tooltip = rip_church_gc_heading_tt }
 custom_text_box = { name = rip_church_gc_orientation potential = { always = yes } tooltip = rip_church_gc_orientation_tt }
 custom_text_box = { name = rip_church_gc_resources potential = { always = yes } tooltip = rip_church_gc_resources_tt }
+custom_text_box = { name = rip_church_gc_policy_label potential = { always = yes } tooltip = rip_church_gc_policy_label_tt }
 custom_text_box = { name = rip_church_gc_parishes potential = { always = yes } tooltip = rip_church_gc_parishes_tt }
 custom_text_box = { name = rip_church_gc_center_state potential = { always = yes } tooltip = rip_church_gc_center_state_tt }
-custom_text_box = { name = rip_church_gc_policy_label potential = { always = yes } tooltip = rip_church_gc_policy_label_tt }
 custom_button = {
  name = rip_church_east_button potential = { always = yes } trigger = { rip_church_can_shift_communion = yes check_variable = { which = rip_church_communion value = -99.999 } }
  effect = { rip_church_gc_shift_east_effect = yes } tooltip = rip_church_east_button_tt
@@ -60,7 +65,10 @@ custom_button = {
  name = rip_church_ecumenism_button potential = { always = yes } trigger = { rip_church_can_ecumenism = yes }
  effect = { rip_church_achieve_ecumenism_effect = yes } tooltip = rip_church_ecumenism_button_tt
 }
-custom_text_box = { name = rip_church_gc_help potential = { always = yes } tooltip = rip_church_gc_help_tt }
+custom_button = {
+ name = rip_church_gc_guide_button potential = { always = yes } trigger = { religion = greek_catholic }
+ effect = { country_event = { id = rip_church_help.1 } } tooltip = rip_church_gc_guide_button_tt
+}
 custom_window = { name = rip_church_ro_panel potential = { religion = russian_orthodox } }
 custom_window = { name = rip_church_gc_panel potential = { religion = greek_catholic } }
 custom_text_box = { name = rip_church_rite_heading potential = { always = yes } tooltip = rip_church_rite_heading_tt }
@@ -79,3 +87,9 @@ custom_button = {
 }
 custom_text_box = { name = rip_church_rite_help potential = { always = yes } tooltip = rip_church_rite_help_tt }
 custom_window = { name = rip_church_rite_panel potential = { owned_by = FROM FROM = { rip_church_union_supporter = yes } OR = { religion = orthodox religion = russian_orthodox religion = catholic } } }
+custom_window = { name = rip_church_gc_native_guide potential = { religion = greek_catholic } }
+custom_icon = { name = rip_church_gc_guide_symbol potential = { always = yes } frame = { number = 31 trigger = { always = yes } } }
+custom_button = {
+ name = rip_church_gc_native_guide_button potential = { always = yes } trigger = { religion = greek_catholic }
+ effect = { country_event = { id = rip_church_help.1 } } tooltip = rip_church_gc_native_guide_button_tt
+}

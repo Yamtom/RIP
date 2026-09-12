@@ -281,6 +281,8 @@ chain[1]['religion']='orthodox'; w.run('rip_church_rebuild_union_network_effect'
 assert 'rip_church_union_ring_2' not in chain[2]['flags']; checked()
 
 # A merchant far from the controlled core network cannot create a missionary wave.
+trade_policy=dict(dict(parse(read('common/trading_policies/RIP_church_mission_network.txt')))['rip_church_mission_network'])
+assert not re.search(r'\brip_church_\w+\s*=\s*yes\b',read('common/trading_policies/RIP_church_mission_network.txt'))
 for schism,dlc in ((False,True),(True,True),(True,False)):
     w,c,p=fixture(); anchor=w.province(33,c,'russian_orthodox'); link(p,anchor)
     if dlc: c['dlcs'].add('Cradle of Civilization')
@@ -298,6 +300,11 @@ for schism,dlc in ((False,True),(True,True),(True,False)):
         assert not w.gate(TRIGGERS['rip_church_ro_can_open_network_menu'],c)
         c['variables']['rip_church_fervor']=fuel
         w.run('rip_church_node_novgorod_toggle_effect',c)
+        w.from_scope=anchor
+        for gate_name in ('can_select','can_maintain'):
+            assert w.gate(trade_policy[gate_name],c)
+            assert w.gate(trade_policy[gate_name],c)==w.gate(TRIGGERS['rip_church_ro_can_maintain_policy'],c)
+        checked()
         assert c['variables']['rip_church_fervor']==fuel-2
         assert c['variables']['rip_church_nodes']==1 and c['variables']['rip_church_fervor_cost']==4
         c['variables']['rip_church_fervor']=0
@@ -308,6 +315,9 @@ for schism,dlc in ((False,True),(True,True),(True,False)):
         w.run('rip_church_refresh_conversion_resistance_effect',c)
         assert 'rip_church_conversion_resistance' in q['modifiers']
         anchor['traders'].clear(); w.run('rip_church_ro_maintain_nodes_effect',c)
+        w.from_scope=anchor
+        assert not w.gate(trade_policy['can_maintain'],c)
+        checked()
         assert c['variables']['rip_church_nodes']==0
         anchor['traders'].add('MOS'); p['neighbors'].clear(); anchor['neighbors'].discard(p['id'])
         w.run('rip_church_ro_maintain_nodes_effect',c)
@@ -340,13 +350,35 @@ for balance,expected in [(-50,'east'),(0,'middle'),(50,'rome')]:
         checked()
 gc_gui=next(block for _,block in keyed_blocks(read('interface/countryreligionview.gui'),'windowType') if 'name = "rip_church_gc_panel"' in block and 'name = "countryreligionview"' not in block)
 assert 'GFX_country_religion_view_bg' not in gc_gui
-assert 'GFX_rip_church_union_frame' in gc_gui
+assert 'GFX_rip_church_ro_frame' in gc_gui
 assert 'rip_church_pa_display' not in read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml').split('rip_church_gc_resources:0',1)[1].split('\n',1)[0]
 for file in (ROOT/'common/scripted_effects').glob('rip_church_*.txt'):
     assert not re.search(r'\bvalue\s*=\s*rip_church_',file.read_text()),file
 for generator in ('build_church_support.py','build_church_gui.py','build_church_localisation.py'):
     subprocess.run([sys.executable,'-B',str(ROOT/'tools'/generator),'--check'],check=True)
 gui=read('common/custom_gui/RIP_church_controls.txt')
+guide_window=next(block for _,block in keyed_blocks(gui,'custom_window') if 'name = rip_church_gc_native_guide ' in block)
+guide_gate=dict(dict(parse(guide_window))['custom_window'])['potential']
+for faith in ('greek_catholic','russian_orthodox','orthodox','catholic'):
+    w,c,p=fixture(faith)
+    assert w.gate(guide_gate,c)==(faith=='greek_catholic')
+    checked()
+for _,block in keyed_blocks(read('events/RIP_ChurchHelp.txt'),'country_event'):
+    entries=dict(parse(block))['country_event']
+    assert dict(entries)['is_triggered_only']=='yes'
+    for key,option in entries:
+        if key=='option':
+            assert set(dict(option))<={'name','country_event'},'Help must not change resources or policy'
+for key in ('war','mercy','building','mission'):
+    block=next(block for _,block in keyed_blocks(gui,'custom_icon') if 'name = rip_church_'+key+'_active_frame ' in block)
+    gate=dict(dict(parse(block))['custom_icon'])['potential']
+    frame=dict(dict(dict(parse(block))['custom_icon'])['frame'])
+    assert str(frame['number'])=='1'
+    w,c,p=fixture()
+    assert not w.gate(gate,c)
+    c['flags']['rip_church_icon_'+key]=0
+    assert w.gate(gate,c)
+    checked()
 for _,button in keyed_blocks(gui,'custom_button'):
     assert 'trigger =' in button and 'effect =' in button and 'tooltip =' in button
     if re.search(r'name = rip_church_(?:recognize_rite|revoke_rite|latin_consent)_button',button):
@@ -356,6 +388,21 @@ for path,host in [('countryreligionview.gui','countryreligionview'),('provincevi
     marker='# RIP church custom controls, descendants of the supported host.'
     assert actual.count(marker)==1
     before,tail=actual.split(marker)
+    if path=='countryreligionview.gui':
+        overlays=[block for _,block in keyed_blocks(actual,'windowType') if re.match(r'\s*windowType\s*=\s*\{\s*name\s*=\s*"rip_church_gc_native_guide"',block)]
+        assert len(overlays)==1
+        overlay=overlays[0]
+        overlay_data=dict(dict(parse(overlay))['windowType'])
+        guide_button=dict(overlay_data['guiButtonType'])
+        assert guide_button['Orientation']=='LEFT'
+        assert dict(guide_button['position'])=={'x':'304','y':'300'}
+        assert dict(overlay_data['size'])=={'x':'280','y':'50'}
+        before=before.replace(overlay,'',1)
+    # A named background binding expects a background widget, not our iconType.
+    # These panels paint their explicit sprites without that extra lookup.
+    for _,block in keyed_blocks(tail,'windowType'):
+        if 'scripted = yes' in block:
+            assert not re.search(r'backGround\s*=\s*"[^"]+"',block)
     # All injected windows are complete; remove them before comparing the host.
     for _,block in keyed_blocks(tail,'windowType'):
         if 'scripted = yes' in block: tail=tail.replace(block,'',1)
