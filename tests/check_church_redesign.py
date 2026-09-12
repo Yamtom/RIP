@@ -316,6 +316,21 @@ assert ('NOV','rip_church_opinion_ro_recognized') not in c['opinion_modifiers']
 assert ('NOV','rip_church_opinion_ro_schism') in c['opinion_modifiers']; checked()
 
 # Source contracts: engine-specific syntax, preserved vanilla hosts/profiles and scopes.
+rate_block=next(block for _,block in keyed_blocks(read('customizable_localization/rip_church_redesign.txt'),'defined_text') if 'name = GetChurchStandingRate' in block)
+rate_rows=[dict(row) for key,row in dict(parse(rate_block))['defined_text'] if key=='text']
+for balance,expected in [(-50,'east'),(0,'middle'),(50,'rome')]:
+    for support in ('supported','war','opinion','absent'):
+        w,c,p=fixture('greek_catholic'); c['variables']['rip_church_communion']=balance
+        if support=='war': c['wars'].add('PAP')
+        elif support=='opinion': w.countries['PAP']['opinions']['MOS']=49
+        elif support=='absent': del w.countries['PAP']
+        displayed=next(row['localisation_key'] for row in rate_rows if w.gate(row['trigger'],c))
+        assert displayed=='rip_church_standing_rate_'+(expected if support=='supported' else 'zero')
+        checked()
+gc_gui=next(block for _,block in keyed_blocks(read('interface/countryreligionview.gui'),'windowType') if 'name = "rip_church_gc_panel"' in block and 'name = "countryreligionview"' not in block)
+assert 'GFX_country_religion_view_bg' not in gc_gui
+assert 'GFX_rip_church_union_frame' in gc_gui
+assert 'rip_church_pa_display' not in read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml').split('rip_church_gc_resources:0',1)[1].split('\n',1)[0]
 for file in (ROOT/'common/scripted_effects').glob('rip_church_*.txt'):
     assert not re.search(r'\bvalue\s*=\s*rip_church_',file.read_text()),file
 for generator in ('build_church_support.py','build_church_gui.py','build_church_localisation.py'):

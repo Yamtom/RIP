@@ -475,8 +475,25 @@ for icon in ('war','mercy','building','mission'):
     DATA['rip_church_icon_'+icon]=DATA['rip_church_icon_'+icon+'_button']
     DATA['desc_rip_church_icon_'+icon]=DATA['rip_church_icon_'+icon+'_button_tt']
     DATA['rip_church_icon_'+icon+'_button_tt']+='\\n[Root.GetChurchIcon'+icon.title()+'Access]'
-DATA['rip_church_gc_resources']+='\\nRecognized parishes: [Root.rip_church_recognized_parishes.GetValue]\\n[Root.GetChurchCenterStatus]'
-DATA['rip_church_gc_resources_tt']=DATA['rip_church_gc_resources']
+DATA.update({
+ 'rip_church_gc_heading': 'Union of the Churches',
+ 'rip_church_gc_orientation': '[Root.GetChurchGCOrientation]',
+ 'rip_church_gc_resources': 'Communion balance: [Root.rip_church_communion.GetValue]\\nPapal Standing: [Root.rip_church_papal_standing.GetValue] / 100\\nMonthly rate: [Root.GetChurchStandingRate]',
+ 'rip_church_gc_parishes': 'Recognized parishes: [Root.rip_church_recognized_parishes.GetValue]',
+ 'rip_church_gc_center_state': '[Root.GetChurchCenterStatus]',
+ 'rip_church_gc_policy_label': 'EASTERN AUTONOMY  /  ROMAN COMMUNION',
+ 'rip_church_gc_policy_cost': '25 ADM  |  20 balance  |  Once every 5 years',
+ 'rip_church_gc_privilege_state': 'ACTIVE SETTLEMENT\\n[Root.GetChurchPrivilege]',
+ 'rip_church_gc_help': 'Local rites: select an owned province. Hover actions for conditions.',
+ 'rip_church_ecumenism_button': 'Ecumenical settlement',
+ 'rip_church_standing_rate_zero': '+0.00 (Roman support unavailable)',
+ 'rip_church_standing_rate_east': '+0.10',
+ 'rip_church_standing_rate_middle': '+0.25',
+ 'rip_church_standing_rate_rome': '+0.50',
+})
+for key in ('heading','orientation','resources','parishes','center_state','policy_label','policy_cost','privilege_state'):
+ DATA['rip_church_gc_'+key+'_tt']=DATA['rip_church_gc_'+key]
+DATA['rip_church_gc_resources_tt']+='\\nBalance runs from -100 (East) to +100 (Rome).\\nStanding grows only with Rome present, at peace with you, and at least +50 opinion.\\nPatriarch Authority is shown by the main religion window.'
 DATA['rip_church_nodes.1.d']+=' Requires Cradle of Civilization; without that DLC, no node can be funded.'
 DATA['rip_church_center_button_tt']+=' Occupation suspends the centre and reserves the world slot. Liberation restarts native conversion; its previous in-flight progress may be lost.'
 for key in list(DATA):
@@ -502,6 +519,11 @@ custom=defined('GetChurchROStatus',[
  ('rip_church_ro_recognized = yes','rip_church_ro_recognized'),
  ('has_country_flag = rip_church_ro_provisional','rip_church_ro_provisional'),
  ('always = yes','rip_church_ro_unrecognized')])
+custom+=defined('GetChurchStandingRate',[
+ ('NOT = { exists = PAP NOT = { war_with = PAP } PAP = { has_opinion = { who = ROOT value = 50 } } }','rip_church_standing_rate_zero'),
+ ('rip_church_gc_eastern = yes','rip_church_standing_rate_east'),
+ ('rip_church_gc_roman = yes','rip_church_standing_rate_rome'),
+ ('always = yes','rip_church_standing_rate_middle')])
 custom+=defined('GetChurchGCOrientation',[
  ('rip_church_gc_eastern = yes','rip_church_gc_east'),
  ('rip_church_gc_roman = yes','rip_church_gc_rome'),

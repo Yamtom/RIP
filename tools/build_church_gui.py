@@ -8,11 +8,11 @@ from clausewitz_testlib import matching_brace,vanilla_root
 ROOT=Path(__file__).resolve().parents[1]; GAME=vanilla_root()
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()
 defs=[]; outputs={}
-def text(name,x,y,w=440,h=42,font='vic_18'):
+def text(name,x,y,w=440,h=42,font='vic_18',align='left'):
     defs.append(f'custom_text_box = {{ name = {name} potential = {{ always = yes }} tooltip = {name}_tt }}')
     return f'''instantTextBoxType = {{
  name = "{name}" scripted = yes position = {{ x={x} y={y} }} font = "{font}"
- text = "{name}" maxWidth = {w} maxHeight = {h} format = left
+ text = "{name}" maxWidth = {w} maxHeight = {h} format = {align}
 }}'''
 def button(name,x,y,trigger,effect,potential='always = yes',sprite='GFX_standard_button_224'):
     defs.append(f'''custom_button = {{
@@ -23,12 +23,17 @@ def button(name,x,y,trigger,effect,potential='always = yes',sprite='GFX_standard
  name = "{name}" scripted = yes position = {{ x={x} y={y} }}
  quadTextureSprite = "{sprite}" buttonText = "{name}" buttonFont = "vic_18"
 }}'''
-def panel(name,condition,body,x=540,y=8):
+def panel(name,condition,body,x=540,y=8,clean=False):
     defs.append(f'custom_window = {{ name = {name} potential = {{ {condition} }} }}')
+    background = ('GFX_rip_church_union_frame' if clean else 'GFX_country_religion_view_bg')
+    scale = '' if clean else 'scale = 0.86'
+    background_binding = f'backGround = "{name}_bg"' if clean else ''
+    hit_test = 'alwaystransparent = no' if clean else ''
     return f'''windowType = {{
- name = "{name}" scripted = yes position = {{ x={x} y={y} }} size = {{ x=475 y=550 }}
+ name = "{name}" scripted = yes position = {{ x={x} y={y} }} size = {{ x=475 y={680 if clean else 550} }}
  moveable = 0
- iconType = {{ name = "{name}_bg" spriteType = "GFX_country_religion_view_bg" position = {{ x=0 y=0 }} scale = 0.86 }}
+{background_binding}
+ iconType = {{ name = "{name}_bg" spriteType = "{background}" position = {{ x=0 y=0 }} {scale} {hit_test} }}
  {body}
 }}'''
 ro=text('rip_church_ro_heading',18,12)
@@ -44,21 +49,42 @@ ro+=button('rip_church_reconcile_button',18,366,'rip_church_can_reconcile = yes'
            'rip_church_ro_begin_reconciliation_effect = yes',
            'has_country_flag = rip_church_ro_schismatic')
 ro+=text('rip_church_ro_help',18,414,h=100,font='Main_14')
-gc=text('rip_church_gc_heading',18,12)
-gc+=text('rip_church_gc_resources',18,52,h=102,font='Main_14')
-gc+=button('rip_church_east_button',18,158,
+gc='iconType = { name = "rip_church_gc_title_band" spriteType = "GFX_message_band" position = { x=28 y=14 } scale = 0.79 alwaystransparent = yes }'
+gc+=text('rip_church_gc_heading',28,28,w=419,h=30,font='vic_22',align='center')
+gc+=text('rip_church_gc_orientation',28,66,w=419,h=26,align='center')
+for key,y in [('resources',102),('parishes',220)]:
+    gc+=f'iconType = {{ name = "rip_church_gc_{key}_frame" spriteType = "GFX_rip_church_union_section" position = {{ x=28 y={y} }} alwaystransparent = yes }}'
+gc+=text('rip_church_gc_resources',44,120,w=387,h=76)
+gc+=text('rip_church_gc_parishes',44,238,w=387,h=26)
+gc+=text('rip_church_gc_center_state',44,274,w=387,h=40)
+gc+=text('rip_church_gc_policy_label',28,330,w=419,h=18,align='center')
+gc+=button('rip_church_east_button',44,354,
            'rip_church_can_shift_communion = yes check_variable = { which = rip_church_communion value = -99.999 }',
            'rip_church_gc_shift_east_effect = yes',sprite='GFX_standard_button_142_34_button')
-gc+=button('rip_church_rome_button',238,158,
+gc+=button('rip_church_rome_button',265,354,
            'rip_church_can_shift_communion = yes NOT = { check_variable = { which = rip_church_communion value = 100 } }',
            'rip_church_gc_shift_rome_effect = yes',sprite='GFX_standard_button_142_34_button')
-gc+=text('rip_church_gc_privilege_state',18,204,h=42)
-gc+=button('rip_church_privileges_button',18,256,'religion = greek_catholic',
+gc+=text('rip_church_gc_policy_cost',28,420,w=419,h=20,align='center')
+gc+=text('rip_church_gc_privilege_state',28,450,w=419,h=42,align='center')
+gc+=button('rip_church_privileges_button',125,504,'religion = greek_catholic',
            'country_event = { id = rip_church.6 }')
-gc+=button('rip_church_center_button',18,298,'rip_church_can_found_center = yes','rip_church_found_center_effect = yes')
-gc+=button('rip_church_ecumenism_button',18,340,'rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes')
-gc+=text('rip_church_gc_help',18,388,h=135,font='Main_14')
-religion_panels=panel('rip_church_ro_panel','religion = russian_orthodox',ro)+'\n'+panel('rip_church_gc_panel','religion = greek_catholic',gc)
+gc+=button('rip_church_center_button',125,548,'rip_church_can_found_center = yes','rip_church_found_center_effect = yes')
+gc+=button('rip_church_ecumenism_button',125,592,'rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes')
+gc+=text('rip_church_gc_help',28,636,w=419,h=24,font='Main_14',align='center')
+religion_panels=panel('rip_church_ro_panel','religion = russian_orthodox',ro)+'\n'+panel('rip_church_gc_panel','religion = greek_catholic',gc,clean=True)
+outputs['interface/RIP_church_panels.gfx']='''spriteTypes = {
+ corneredTileSpriteType = {
+  name = "GFX_rip_church_union_frame"
+  textureFile = "gfx/interface/tiles_dialog.dds"
+  size = { x=475 y=680 } borderSize = { x=32 y=32 }
+ }
+ corneredTileSpriteType = {
+  name = "GFX_rip_church_union_section"
+  textureFile = "gfx/interface/small_tiles_dialog.dds"
+  size = { x=419 y=106 } borderSize = { x=8 y=8 }
+ }
+}
+'''
 # Province ROOT, clicking country FROM. Never allow buttons on somebody else's land.
 province=text('rip_church_rite_heading',18,12,w=440,h=40)
 province+=text('rip_church_rite_state',18,52,w=440,h=66)
