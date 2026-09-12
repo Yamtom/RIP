@@ -351,7 +351,26 @@ for path,host in [('countryreligionview.gui','countryreligionview'),('provincevi
     donor=(vanilla_root()/'interface'/path).read_text(encoding='utf-8-sig')
     assert normalized(before+tail)==normalized(donor),path
 assert 'center_of_reformation = yes' in read('common/trading_policies/RIP_church_mission_network.txt')
+policies=read('common/trading_policies/00_trading_policies.txt')
+donor_policies=(vanilla_root()/'common/trading_policies/00_trading_policies.txt').read_text(encoding='utf-8-sig')
+guard='\n\t\tNOT = { religion = greek_catholic }\n\t\tNOT = { religion = russian_orthodox }'
+assert normalized(policies.replace(guard,''))==normalized(donor_policies)
+policy=dict(parse(named_block(policies,'propagate_religion')))['propagate_religion']
+for gate in ('potential','can_select','can_maintain'):
+    requirements=dict(policy)[gate][:2]
+    for faith,allowed in [('greek_catholic',False),('russian_orthodox',False),('sunni',True),('catholic',True)]:
+        w,c,p=fixture(faith)
+        c['flags']['can_use_propagate_religion']=0
+        assert w.gate(requirements,c)==allowed
+        checked()
+mission=dict(parse(read('common/trading_policies/RIP_church_mission_network.txt')))['rip_church_mission_network']
+for faith,allowed in [('greek_catholic',False),('russian_orthodox',True)]:
+    w,c,p=fixture(faith)
+    assert w.gate(dict(mission)['potential'],c)==allowed
+    checked()
 native=read('common/religious_conversions/00_religious_conversions.txt')
+weights=named_block(named_block(native,'propagate_religion_policy'),'target_province_weights')
+assert re.search(r'modifier\s*=\s*\{\s*factor\s*=\s*0\s+FROM\s*=\s*\{\s*religion\s*=\s*greek_catholic\s*\}',weights)
 donor=(vanilla_root()/'common/religious_conversions/00_religious_conversions.txt').read_text(encoding='utf-8-sig')
 for name in re.findall(r'(?m)^(\w+)\s*=\s*\{',donor):
     if name!='propagate_religion_policy': assert normalized(named_block(native,name))==normalized(named_block(donor,name)),name

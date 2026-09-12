@@ -92,11 +92,23 @@ country_event = {
  option = { name = rip_church_close }
 }
 ''')
-# Preserve the complete native conversion file; add RO constraints to the shared trade profile only.
+# Preserve native policies; the church branches cannot bypass their own mechanics.
+policies = (GAME/'common/trading_policies/00_trading_policies.txt').read_text(encoding='utf-8-sig')
+policy = named_block(policies, 'propagate_religion')
+guard = '\n\t\tNOT = { religion = greek_catholic }\n\t\tNOT = { religion = russian_orthodox }'
+restricted = policy
+for gate in ('potential', 'can_select', 'can_maintain'):
+    restricted = restricted.replace(gate + ' = {', gate + ' = {' + guard, 1)
+output('common/trading_policies/00_trading_policies.txt', policies.replace(policy, restricted, 1))
+# Preserve the complete native conversion file; constrain only the shared trade profile.
 conversions = (GAME/'common/religious_conversions/00_religious_conversions.txt').read_text(encoding='utf-8-sig')
 profile = named_block(conversions, 'propagate_religion_policy')
 weights = named_block(profile, 'target_province_weights')
 new_weights = weights.replace('factor = 5', '''factor = 5
+        modifier = {
+            factor = 0
+            FROM = { religion = greek_catholic }
+        }
         modifier = {
             factor = 0
             FROM = { religion = russian_orthodox }
