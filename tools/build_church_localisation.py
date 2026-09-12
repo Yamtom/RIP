@@ -26,8 +26,8 @@ DATA={
   "rip_church_gc_resources": "Communion Balance: [Root.rip_church_communion.GetValue] (-100 East / +100 Rome)\\nAuthority band: [Root.rip_church_pa_display.GetValue]%\\nPapal Standing: [Root.rip_church_papal_standing.GetValue] / 100\\nMonthly Standing: +[Root.rip_church_standing_income.GetValue]",
   "rip_church_gc_help": "Authority belongs to the Eastern hierarchy. Papal Standing pays for limited Roman support. Shift policy by 20 for 25 ADM, once in five years. Recognize local rites from an owned province's panel; concessions protect stability but reduce direct taxation and recruitment.",
   "rip_church_gc_privilege_state": "Active settlement: [Root.GetChurchPrivilege]",
-  "rip_church_east_button": "Toward the East",
-  "rip_church_rome_button": "Toward Rome",
+  "rip_church_east_button": "Favor the East",
+  "rip_church_rome_button": "Favor Rome",
   "rip_church_nodes_button": "Missionary networks",
   "rip_church_reconcile_button": "Negotiate reconciliation",
   "rip_church_privileges_button": "Church privileges",
@@ -430,9 +430,9 @@ DATA.update({
  'rip_church_help.1.t': 'The Union panel: resources',
  'rip_church_help.1.d': 'Greek Catholics manage communion with Rome through this panel; they do not select Orthodox icons.\\n\\nPatriarch Authority is shown in the main religion window and supports the Eastern hierarchy. Communion balance runs from -100 (Eastern autonomy) to +100 (Roman integration). The middle is balanced communion.\\n\\nPapal Standing is a separate reserve for Roman privileges. Monthly growth requires Rome to exist, peace with Rome and at least +50 opinion. The displayed rate explains when support is unavailable.',
  'rip_church_help.2.t': 'The Union panel: first actions',
- 'rip_church_help.2.d': 'Toward the East / Toward Rome changes balance by 20 for 25 ADM, once every five years. You may also keep your current direction.\\n\\nChurch privileges opens the available contracts. Only one may run at a time, normally for ten years. Eastern privileges spend Authority and ducats; Roman privileges spend Papal Standing and ducats. Hover an option for its effects and exact price.\\n\\nGrey buttons mean a requirement is missing. Hover before paying; opening menus and this guide is free.',
+ 'rip_church_help.2.d': 'Start with Privileges, the first button in the row of four illustrations. This opens the church contracts without spending resources. Only one privilege may run at a time, normally for ten years. Eastern privileges spend Authority and ducats; Roman privileges spend Papal Standing and ducats. Hover an option for its effects and exact price.\\n\\nThe two blue buttons above this row, Favor the East / Favor Rome, change balance by 20 for 25 ADM, once every five years. You may keep your current direction.\\n\\nGrey buttons mean a requirement is missing. Hover for the unmet conditions. The illustrations identify actions; they are not selectable Orthodox icons.',
  'rip_church_help.3.t': 'The Union panel: parishes and long-term goals',
- 'rip_church_help.3.d': 'Select an owned Orthodox, Muscovite Orthodox or Catholic province to recognize its rite. Recognition costs one ADM per development, leaves its faith intact and trades tax and recruitment for stability. Revocation requires ten years.\\n\\nFound the Union seat creates the single world centre when an eligible parish, peace, stability and funding permit. Occupation suspends its work.\\n\\nEcumenical settlement is a late goal: a mature Union, sustained balance, Roman support, recognized Orthodox and Catholic rites and an Orthodox ally. Hover for the complete requirements.',
+ 'rip_church_help.3.d': 'Select an owned Orthodox, Muscovite Orthodox or Catholic province to recognize its rite. Recognition costs one ADM per development, leaves its faith intact and trades tax and recruitment for stability. Revocation requires ten years.\\n\\nUnion seat, the second illustrated button, creates the single world centre when an eligible parish, peace, stability and funding permit. Occupation suspends its work.\\n\\nEcumenism, the third button, is a late goal: a mature Union, sustained balance, Roman support, recognized Orthodox and Catholic rites and an Orthodox ally. Hover for the complete requirements. Guide is the fourth button.',
  'rip_church_help.actions': 'How do I use the buttons?',
  'rip_church_help.parishes': 'Local rites and long-term goals',
  'rip_church_help.back': 'Previous page',
@@ -509,17 +509,19 @@ DATA.update({
  'rip_church_gc_resources': 'Communion balance: [Root.rip_church_communion.GetValue]\\nPapal Standing: [Root.rip_church_papal_standing.GetValue] / 100\\nMonthly rate: [Root.GetChurchStandingRate]',
  'rip_church_gc_parishes': 'Recognized parishes: [Root.rip_church_recognized_parishes.GetValue]',
  'rip_church_gc_center_state': '[Root.GetChurchCenterStatus]',
- 'rip_church_gc_policy_label': 'EASTERN AUTONOMY  /  ROMAN COMMUNION',
+ 'rip_church_gc_policy_label': 'Communion policy',
  'rip_church_gc_policy_cost': '25 ADM  |  20 balance  |  Once every 5 years',
- 'rip_church_gc_privilege_state': 'ACTIVE SETTLEMENT\\n[Root.GetChurchPrivilege]',
- 'rip_church_gc_help': 'Local rites: select an owned province. Hover actions for conditions.',
- 'rip_church_ecumenism_button': 'Ecumenical settlement',
+ 'rip_church_gc_privilege_state': 'Active privilege\\n[Root.GetChurchPrivilege]',
+ 'rip_church_gc_help': 'Start with Privileges. Local rites: select an owned province.\\nHover buttons for conditions; Guide explains this window.',
+ 'rip_church_privileges_button': 'Privileges',
+ 'rip_church_center_button': 'Union seat',
+ 'rip_church_ecumenism_button': 'Ecumenism',
  'rip_church_standing_rate_zero': '+0.00 (Roman support unavailable)',
  'rip_church_standing_rate_east': '+0.10',
  'rip_church_standing_rate_middle': '+0.25',
  'rip_church_standing_rate_rome': '+0.50',
 })
-for key in ('heading','orientation','resources','parishes','center_state','policy_label','policy_cost','privilege_state'):
+for key in ('heading','orientation','resources','parishes','center_state','policy_label','policy_cost','privilege_state','help'):
  DATA['rip_church_gc_'+key+'_tt']=DATA['rip_church_gc_'+key]
 DATA['rip_church_gc_resources_tt']+='\\nBalance runs from -100 (East) to +100 (Rome).\\nStanding grows only with Rome present, at peace with you, and at least +50 opinion.\\nPatriarch Authority is shown by the main religion window.'
 DATA['rip_church_nodes.1.d']+=' Requires Cradle of Civilization; without that DLC, no node can be funded.'

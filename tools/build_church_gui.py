@@ -63,21 +63,29 @@ gc=text('rip_church_gc_heading',28,28,w=419,h=26,font='vic_22',align='center')
 gc+=text('rip_church_gc_orientation',28,76,w=419,h=20,align='center')
 gc+=text('rip_church_gc_resources',44,100,w=387,h=54)
 gc+=text('rip_church_gc_policy_label',28,166,w=419,h=22,align='center')
-gc+=text('rip_church_gc_parishes',44,199,w=387,h=18)
-gc+=text('rip_church_gc_center_state',44,221,w=387,h=36)
-gc+=button('rip_church_east_button',44,260,
+gc+=button('rip_church_east_button',125,198,
            'rip_church_can_shift_communion = yes check_variable = { which = rip_church_communion value = -99.999 }',
-           'rip_church_gc_shift_east_effect = yes',sprite='GFX_standard_button_142_34_button')
-gc+=button('rip_church_rome_button',265,260,
+           'rip_church_gc_shift_east_effect = yes')
+gc+=button('rip_church_rome_button',125,234,
            'rip_church_can_shift_communion = yes NOT = { check_variable = { which = rip_church_communion value = 100 } }',
-           'rip_church_gc_shift_rome_effect = yes',sprite='GFX_standard_button_142_34_button')
-gc+=text('rip_church_gc_policy_cost',28,324,w=419,h=18,align='center')
-gc+=text('rip_church_gc_privilege_state',28,348,w=419,h=36,align='center')
-gc+=button('rip_church_privileges_button',125,392,'religion = greek_catholic',
-           'country_event = { id = rip_church.6 }')
-gc+=button('rip_church_center_button',125,432,'rip_church_can_found_center = yes','rip_church_found_center_effect = yes')
-gc+=button('rip_church_ecumenism_button',125,472,'rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes')
-gc+=button('rip_church_gc_guide_button',185,512,'religion = greek_catholic','country_event = { id = rip_church_help.1 }',sprite='GFX_standard_button_105')
+           'rip_church_gc_shift_rome_effect = yes')
+gc+=text('rip_church_gc_policy_cost',28,273,w=419,h=18,align='center')
+# Match the RO panel's four native framed illustrations and compact buttons.
+# These are action shortcuts, so they deliberately have no policy-active glow.
+for i,(key,name,trigger,effect) in enumerate((
+    ('privileges','rip_church_privileges_button','religion = greek_catholic','country_event = { id = rip_church.6 }'),
+    ('center','rip_church_center_button','rip_church_can_found_center = yes','rip_church_found_center_effect = yes'),
+    ('ecumenism','rip_church_ecumenism_button','rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes'),
+    ('guide','rip_church_gc_guide_button','religion = greek_catholic','country_event = { id = rip_church_help.1 }'),
+)):
+    x=26+i*106
+    gc+=f'iconType = {{ name = "rip_church_gc_{key}_slot" spriteType = "GFX_rip_church_policy_slot" position = {{ x={x+23} y=305 }} alwaystransparent = yes }}'
+    gc+=f'iconType = {{ name = "rip_church_gc_{key}_art" spriteType = "GFX_rip_church_gc_{key}" position = {{ x={x+20} y=302 }} alwaystransparent = yes }}'
+    gc+=button(name,x,372,trigger,effect,sprite='GFX_standard_button_105')
+gc+=text('rip_church_gc_privilege_state',28,412,w=419,h=36,align='center')
+gc+=text('rip_church_gc_parishes',44,451,w=387,h=18)
+gc+=text('rip_church_gc_center_state',44,475,w=387,h=36)
+gc+=text('rip_church_gc_help',40,515,w=395,h=28,font='Main_14')
 religion_panels=panel('rip_church_ro_panel','religion = russian_orthodox',ro,clean=True)+'\n'+panel('rip_church_gc_panel','religion = greek_catholic',gc,clean=True)
 outputs['interface/RIP_church_panels.gfx']='''spriteTypes = {
  spriteType = {
@@ -90,6 +98,10 @@ outputs['interface/RIP_church_panels.gfx']='''spriteTypes = {
  spriteType = { name = "GFX_rip_church_policy_mercy" textureFile = "gfx/interface/ideas_EU4/global_unrest.dds" }
  spriteType = { name = "GFX_rip_church_policy_building" textureFile = "gfx/interface/ideas_EU4/development_cost.dds" }
  spriteType = { name = "GFX_rip_church_policy_mission" textureFile = "gfx/interface/ideas_EU4/global_missionary_strength.dds" }
+ spriteType = { name = "GFX_rip_church_gc_privileges" textureFile = "gfx/interface/ideas_EU4/church_privilege_slots.dds" }
+ spriteType = { name = "GFX_rip_church_gc_center" textureFile = "gfx/interface/ideas_EU4/global_missionary_strength.dds" }
+ spriteType = { name = "GFX_rip_church_gc_ecumenism" textureFile = "gfx/interface/ideas_EU4/improve_relation_modifier.dds" }
+ spriteType = { name = "GFX_rip_church_gc_guide" textureFile = "gfx/interface/ideas_EU4/may_study_technology.dds" }
 }
 '''
 # Province ROOT, clicking country FROM. Never allow buttons on somebody else's land.
