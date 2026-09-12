@@ -3,29 +3,9 @@ rip_faith_is_eastern_orthodox = {
 	OR = { religion = orthodox religion = russian_orthodox }
 }
 
-rip_uc_see_province_trigger = {
-	owned_by = ROOT
-	controlled_by = ROOT
-	is_core = ROOT
-	is_city = yes
-	religion = greek_catholic
-	development = 10
-	is_reformation_center = no
-	is_island = no
-}
+rip_uc_see_province_trigger = { rip_church_center_site = yes }
 
-rip_uc_can_raise_see_trigger = {
-	religion = greek_catholic
-	has_country_flag = rip_uc_hierarchy_initialized
-	is_religion_enabled = greek_catholic
-	adm_power = 100
-	is_at_war = no
-	stability = 1
-	NOT = { has_country_modifier = rip_uc_see_recently_raised }
-	NOT = { any_owned_province = { religion = greek_catholic is_reformation_center = yes } }
-	NOT = { calc_true_if = { all_province = { religion = greek_catholic is_reformation_center = yes } amount = 3 } }
-	any_owned_province = { rip_uc_see_province_trigger = yes }
-}
+rip_uc_can_raise_see_trigger = { rip_church_can_found_center = yes }
 
 rip_uc_can_accept_brest_trigger = {
 	religion = orthodox

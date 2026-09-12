@@ -1,138 +1,21 @@
-# A paid See converts eastern parishes only. Latin-rite parishes are excluded.
-# One owned centre per country, a twenty-year founding interval and a global cap
-# of three are checked at creation. A centre must be Greek Catholic to qualify
-# its area; whole-Unite-area neighbour flags are refreshed annually.
-
+# Native gradual conversion. Source seat and connected area waves are cached.
 greek_catholic_center_of_reformation = {
-
-	religion = greek_catholic
-
-	# All eight vanilla types reuse the protestant sprite; interface/mapicons.gfx
-	# defines no other centre icon, so a new one would need a new .tga.
-	map_icon = GFX_religious_conversion_center_protestant
-
-	max_distance = 150.0
-	base_conversion_speed = 2.0
-
-	target_province_weights = {
-		factor = 2
-
-		# --- vanilla's own exclusions, carried over unchanged ---------------
-		modifier = {
-			factor = 0
-			has_missionary = yes
-		}
-		modifier = {
-			factor = 0
-			is_empty = yes
-		}
-		modifier = {
-			factor = 0
-			province_id = 118 # Roma - the seat of the Papacy, as vanilla excludes it
-		}
-		modifier = {
-			factor = 0
-			has_province_modifier = religious_center
-		}
-		modifier = {
-			factor = 0
-			has_province_modifier = religious_zeal_at_conv
-		}
-
-		# --- the union takes two rites and nothing else ---------------------
-		# allowed_center_conversion is the real gate; this keeps the weight
-		# table honest about it and stops the centre eyeing ground it may
-		# never have.
-		modifier = {
-			factor = 0
-			NOT = {
-				OR = {
-					religion = orthodox
-					religion = russian_orthodox
-				}
-			}
-		}
-
-		# Orthodox rulers retain protection for their own eastern parishes.
-		modifier = {
-			factor = 0
-			owner = {
-				OR = {
-					religion = orthodox
-					religion = russian_orthodox
-				}
-			}
-			OR = {
-				religion = orthodox
-				religion = russian_orthodox
-			}
-		}
-
-		# --- THE EXTRA CONDITION --------------------------------------------
-		# The union spreads where it is already established, or up against a
-		# solid block of itself. Two clauses, either of which is enough:
-		#
-		#   1. the province's own AREA already holds a Greek Catholic centre; or
-		#   2. the province borders an area that is ENTIRELY greek_catholic.
-		#
-		# Clause 1 is a vanilla idiom - `area = PREV` inside `any_province` is
-		# how 00_scripted_triggers.txt:499 compares two provinces' areas.
-		#
-		# Clause 2 has no direct expression: EU4 1.37 has no area-to-area
-		# adjacency trigger at all. any_area_province, all_province_in_area,
-		# every_area and the rest return zero hits install-wide. Written
-		# naively it needs three nested levels and costs on the order of 10^4
-		# trigger evaluations per candidate province, every tick. So it is
-		# PRECOMPUTED instead: rip_uc_mark_uniate_areas_effect sweeps once a
-		# year and flags every province whose whole area is Uniate, and the
-		# clause here reads one cheap flag on a neighbour.
-		modifier = {
-			factor = 0
-			NOT = {
-				OR = {
-					any_province = {
-						area = PREV
-						is_reformation_center = yes
-						religion = greek_catholic
-					}
-					any_neighbor_province = {
-						has_province_flag = rip_uc_area_all_uniate
-						NOT = { area = PREV }
-					}
-				}
-			}
-		}
-
-		# --- priority inside what is left -----------------------------------
-		# A Catholic crown's Orthodox parishes are the historical case and the
-		# likeliest one; the mirror is rarer and slower.
-		modifier = {
-			factor = 2
-			owner = { religion = catholic }
-			religion = orthodox
-		}
-		modifier = {
-			# Moscow's own church is the hardest ground the union ever tried
-			factor = 0.5
-			religion = russian_orthodox
-		}
-		modifier = {
-			factor = 2
-			has_port = yes
-		}
-		modifier = {
-			factor = 1.5
-			culture_group = east_slavic
-		}
-		modifier = {
-			factor = 0.5
-			NOT = { culture_group = east_slavic }
-		}
-		modifier = {
-			factor = 0.25
-			owner = {
-				religion = russian_orthodox
-			}
-		}
-	}
+ religion = greek_catholic
+ map_icon = GFX_religious_conversion_center_protestant
+ max_distance = 150.0
+ base_conversion_speed = 1.0
+ target_province_weights = {
+ factor = 10
+ modifier = { factor = 0 NOT = { rip_church_union_target = yes } }
+ modifier = { factor = 10 NOT = { religion = catholic } has_province_flag = rip_church_union_ring_0 }
+ modifier = { factor = 4 NOT = { religion = catholic } has_province_flag = rip_church_union_ring_1 }
+ modifier = { factor = 0.1 religion = catholic }
+ modifier = { factor = 5 religion = catholic event_target:rip_church_union_patron = { has_country_flag = rip_church_ecumenical } }
+ modifier = { factor = 2 culture = event_target:rip_church_union_seat }
+ modifier = { factor = 1.5 culture_group = event_target:rip_church_union_seat NOT = { culture = event_target:rip_church_union_seat } }
+ modifier = { factor = 2 owner = { religion = greek_catholic } }
+ modifier = { factor = 2 any_neighbor_province = { religion = greek_catholic } }
+ modifier = { factor = 0.25 owner = { OR = { war_with = event_target:rip_church_union_patron is_rival = event_target:rip_church_union_patron has_country_flag = rip_church_opposes_union } } }
+ modifier = { factor = 0.5 has_province_modifier = resistance_to_greek_catholic_spread }
+ }
 }

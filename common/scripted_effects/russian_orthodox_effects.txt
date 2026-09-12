@@ -31,7 +31,8 @@ russify_province_effect = {
 launch_expansion_campaign = {
 
 	rip_ro_clear_historical_policy_effect = yes
-	add_country_modifier = {
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 		name = orthodox_manifest_destiny
 		duration = 5475
 	}
@@ -48,21 +49,14 @@ launch_expansion_campaign = {
 }
 
 establish_moscow_patriarchate_effect = {
-	set_country_flag = rip_ro_stage_patriarchate
-
-	rip_ro_clear_historical_policy_effect = yes
-	add_country_modifier = {
-		name = moscow_patriarchate_authority
-		duration = 7300
-	}
-	add_legitimacy = 20
-	add_prestige = 30
+ rip_church_ro_accept_recognition_effect = yes
 }
 
 start_russification_campaign = {
 
 	rip_ro_clear_historical_policy_effect = yes
-	add_country_modifier = {
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 		name = forced_russification
 		duration = 7300
 	}
@@ -84,7 +78,8 @@ start_russification_campaign = {
 activate_orthodox_inquisition = {
 
 	rip_ro_clear_historical_policy_effect = yes
-	add_country_modifier = {
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 		name = orthodox_inquisition
 		duration = 7300
 	}
@@ -114,7 +109,8 @@ suppress_cultural_resistance_effect = {
 conquer_constantinople_benefits = {
 
 	rip_ro_clear_historical_policy_effect = yes
-	add_country_modifier = {
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 		name = conquest_of_constantinople
 		duration = 7300
 	}
@@ -126,13 +122,15 @@ conquer_constantinople_benefits = {
 proclaim_orthodox_empire_effect = {
 
 	rip_ro_clear_historical_policy_effect = yes
-	add_country_modifier = {
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 		name = orthodox_empire_proclaimed
 		duration = 7300
 	}
 
 	rip_ro_clear_historical_policy_effect = yes
-	add_country_modifier = {
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 		name = imperial_orthodox_state
 		duration = 7300
 	}
@@ -143,7 +141,8 @@ proclaim_orthodox_empire_effect = {
 establish_symphonia_effect = {
 
 	rip_ro_clear_historical_policy_effect = yes
-	add_country_modifier = {
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 		name = symphonia_of_powers
 		duration = 7300
 	}
@@ -164,7 +163,8 @@ establish_monastery_mission_effect = {
 
 activate_gathering_lands_effect = {
 	rip_ro_clear_historical_policy_effect = yes
-	add_country_modifier = { name = gathering_russian_lands duration = 7300 }
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = { name = gathering_russian_lands duration = 7300 }
 	random_neighbor_province = {
 		limit = { has_owner = yes NOT = { owned_by = ROOT } NOT = { is_core = ROOT } NOT = { is_claim = ROOT } culture_group = east_slavic owner = { NOT = { alliance_with = ROOT } NOT = { truce_with = ROOT } is_subject = no } }
 		add_claim = ROOT

@@ -19,20 +19,7 @@ rip_uc_has_church_benefit = {
 	}
 }
 
-rip_uc_can_petition_the_curia = {
-	religion = greek_catholic
-	has_country_flag = rip_uc_see_raised
-	patriarch_authority = 0.25
-	exists = PAP
-	NOT = { war_with = PAP }
-	NOT = { has_country_modifier = rip_uc_petition_cooldown }
-	custom_trigger_tooltip = {
-		tooltip = rip_uc_church_benefit_slot_free_tt
-		NOT = { rip_uc_has_church_benefit = yes }
-	}
-	PAP = { has_opinion = { who = ROOT value = 25 } }
-	stability = 0
-}
+rip_uc_can_petition_the_curia = { always = no }
 
 rip_uc_can_petition_church_tax = {
 	rip_uc_can_petition_the_curia = yes
@@ -66,26 +53,6 @@ rip_uc_can_petition_holy_war = {
 	is_at_war = yes
 }
 
-rip_uc_can_hold_synod = {
-	religion = greek_catholic
-	has_country_flag = rip_uc_see_raised
-	adm_power = 100
-	is_at_war = no
-	stability = 1
-	patriarch_authority = 0.25
-	NOT = { has_country_modifier = rip_uc_synod_recently_sat }
-	custom_trigger_tooltip = {
-		tooltip = rip_uc_church_benefit_slot_free_tt
-		NOT = { rip_uc_has_church_benefit = yes }
-	}
-}
+rip_uc_can_hold_synod = { always = no }
 
-rip_uc_can_donate = {
-	religion = greek_catholic
-	has_country_flag = rip_uc_see_raised
-	exists = PAP
-	NOT = { war_with = PAP }
-	NOT = { has_country_modifier = rip_uc_donation_recently_sent }
-	NOT = { patriarch_authority = 1 }
-	treasury = 150
-}
+rip_uc_can_donate = { always = no }

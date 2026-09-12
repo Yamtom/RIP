@@ -2186,26 +2186,19 @@ mos_rus_russian_consolidation = {
 			owned_by = ROOT
 			NOT = { has_tax_building_trigger = yes }
 		}
-		trigger = {
-			num_of_owned_provinces_with = {
-				value = 20
-				has_tax_building_trigger = yes
-			}
-			if = {
-				limit = {
-					has_dlc = "Third Rome"
-					rip_faith_is_eastern_orthodox = yes
-				}
-				OR = {
-					has_orthodox_religious_icon_trigger = yes
-					current_icon = rip_ro_native_michael
-					current_icon = rip_ro_native_eleusa
-					current_icon = rip_ro_native_pancreator
-					current_icon = rip_ro_native_nicholas
-				}
-			}
-		}
-		effect = {
+trigger = {
+ num_of_owned_provinces_with = { value = 20 has_tax_building_trigger = yes }
+ if = { limit = { religion = russian_orthodox } check_variable = { which = rip_church_icons value = 1 } }
+ else_if = { limit = { religion = orthodox has_dlc = "Third Rome" } has_orthodox_religious_icon_trigger = yes }
+ }
+effect = {
+ if = { limit = { religion = russian_orthodox }
+ add_patriarch_authority = 0.1
+ change_variable = { which = rip_church_fervor value = 20 }
+ if = { limit = { check_variable = { which = rip_church_fervor value = 100 } } set_variable = { which = rip_church_fervor value = 100 } }
+ rip_church_ro_recount_effect = yes
+ }
+ else = { 
 			if = {
 				limit = { rip_faith_is_eastern_orthodox = yes }
 				if = {
@@ -2291,7 +2284,8 @@ mos_rus_russian_consolidation = {
 					amount = 25
 				}
 			}
-		}
+		 }
+ }
 
 		ai_weight = {
 			factor = 250

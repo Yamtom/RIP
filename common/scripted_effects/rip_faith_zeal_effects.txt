@@ -58,6 +58,7 @@ rip_ro_zealot_backlash_effect = {
 	if = {
 		limit = {
 			religion = russian_orthodox
+ OR = { has_country_flag = rip_church_ro_schismatic has_country_modifier = forced_russification has_country_modifier = orthodox_inquisition }
 			any_owned_province = {
 				is_city = yes
 				religion = orthodox
@@ -107,6 +108,7 @@ rip_ro_zealot_backlash_effect = {
 		limit = {
 			religion = russian_orthodox
 			has_country_flag = rip_ro_stage_raskol
+ NOT = { has_country_flag = rip_ro_raskol_settled }
 			any_owned_province = {
 				is_city = yes
 				religion = russian_orthodox
@@ -152,6 +154,7 @@ rip_uc_brotherhood_rising_effect = {
 	random_owned_province = {
 		limit = {
 			is_city = yes
+ NOT = { has_province_flag = rip_church_rite_recognized }
 			OR = {
 				religion = orthodox
 				religion = russian_orthodox
@@ -171,8 +174,10 @@ rip_uc_zealot_backlash_effect = {
 	if = {
 		limit = {
 			religion = greek_catholic
+ OR = { rip_church_gc_roman = yes has_country_modifier = uniate_church_consolidation AND = { has_country_flag = rip_church_forced_integration NOT = { had_country_flag = { flag = rip_church_forced_integration days = 3650 } } } }
 			any_owned_province = {
 				is_city = yes
+ NOT = { has_province_flag = rip_church_rite_recognized }
 				OR = {
 					religion = orthodox
 					religion = russian_orthodox
@@ -183,6 +188,7 @@ rip_uc_zealot_backlash_effect = {
 		random_owned_province = {
 			limit = {
 				is_city = yes
+ NOT = { has_province_flag = rip_church_rite_recognized }
 				OR = {
 					religion = orthodox
 					religion = russian_orthodox

@@ -15,7 +15,7 @@ rip_faith_initialize_hierarchy_effect = {
 		if = {
 			limit = { NOT = { has_country_flag = rip_uc_hierarchy_initialized } }
 			set_country_flag = rip_uc_hierarchy_initialized
-			set_country_flag = union_of_brest_happened
+			if = { limit = { is_year = 1596 } set_country_flag = union_of_brest_happened }
 			set_country_flag = pursuing_uniate_union
 			activate_greek_catholic_reformation = yes
 			add_country_modifier = { name = uniate_church_consolidation duration = 3650 }
@@ -40,40 +40,11 @@ rip_faith_adopt_union_effect = {
 	rip_faith_initialize_hierarchy_effect = yes
 }
 
-rip_uc_raise_see_effect = {
-	if = {
-		limit = { rip_uc_can_raise_see_trigger = yes }
-		add_adm_power = -100
-		set_country_flag = rip_uc_see_raised
-		add_country_modifier = { name = rip_uc_see_recently_raised duration = 7300 }
-		random_owned_province = {
-			limit = { rip_uc_see_province_trigger = yes }
-			add_reform_center = greek_catholic
-			add_province_modifier = { name = rip_uc_see_of_the_union duration = -1 }
-		}
-	}
-}
+rip_uc_raise_see_effect = { rip_church_found_center_effect = yes }
 
 # The institution survives loss of its building; the building's religious
 # modifier does not survive a new owner/rite or destruction of the centre.
-rip_faith_maintain_local_property_effect = {
-	# Taking over an existing Uniate centre also inherits its institution.
-	if = {
-		limit = { religion = greek_catholic any_owned_province = { religion = greek_catholic is_reformation_center = yes } }
-		set_country_flag = rip_uc_see_raised
-	}
-	every_owned_province = {
-		limit = {
-			has_province_modifier = rip_uc_see_of_the_union
-			OR = { NOT = { religion = greek_catholic } NOT = { is_reformation_center = yes } owner = { NOT = { religion = greek_catholic } } }
-		}
-		if = {
-			limit = { is_reformation_center = yes }
-			remove_reform_center = greek_catholic
-		}
-		remove_province_modifier = rip_uc_see_of_the_union
-	}
-}
+rip_faith_maintain_local_property_effect = { rip_church_union_global_maintenance_effect = yes }
 
 rip_faith_fund_mission_effect = {
 	if = {
@@ -96,15 +67,13 @@ rip_ro_clear_council_policy_effect = {
 }
 
 rip_ro_enact_council_policy_effect = {
-	if = {
-		limit = { rip_ro_can_hold_sobor_trigger = yes }
-		add_treasury = -100
-		add_adm_power = -50
-		add_patriarch_authority = -0.1
-		rip_ro_clear_council_policy_effect = yes
-		add_country_modifier = { name = $POLICY$ duration = 3650 }
-		add_country_modifier = { name = rip_ro_sobor_recently_sat duration = 3650 }
-	}
+ if = { limit = { rip_ro_can_hold_sobor_trigger = yes }
+ add_treasury = -100 add_adm_power = -50 add_patriarch_authority = -0.1
+ rip_ro_clear_council_policy_effect = yes
+ add_country_modifier = { name = rip_ro_sobor_recently_sat duration = 3650 }
+ rip_church_council_$POLICY$_effect = yes
+ rip_church_ro_enforce_capacity_effect = yes
+ }
 }
 
 rip_kyiv_enact_council_policy_effect = {

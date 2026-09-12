@@ -1,0 +1,68 @@
+country_decisions = {
+ rip_church_break_communion = {
+ potential = { religion = russian_orthodox rip_church_ro_recognized = yes is_year = 1589 }
+ allow = { stability = 1 is_at_war = no NOT = { has_country_flag = rip_church_reconciliation_pending } }
+ effect = { rip_church_ro_choose_schism_effect = yes }
+ ai_will_do = { factor = 0 }
+ }
+ rip_church_oppose_union = {
+ potential = { OR = { religion = orthodox religion = russian_orthodox religion = catholic } NOT = { has_country_flag = rip_church_supports_union } }
+ allow = { dip_power = 25 OR = { NOT = { has_country_flag = rip_church_union_policy_changed } had_country_flag = { flag = rip_church_union_policy_changed days = 1825 } } }
+ effect = {
+ if = { limit = { dip_power = 25 OR = { NOT = { has_country_flag = rip_church_union_policy_changed } had_country_flag = { flag = rip_church_union_policy_changed days = 1825 } } }
+ add_dip_power = -25 set_country_flag = rip_church_union_policy_changed
+ if = { limit = { has_country_flag = rip_church_opposes_union } clr_country_flag = rip_church_opposes_union }
+ else = { set_country_flag = rip_church_opposes_union }
+ rip_church_refresh_relations_effect = yes
+ }
+ }
+ ai_will_do = { factor = 0.1 modifier = { factor = 0 has_country_flag = rip_church_opposes_union } modifier = { factor = 0 NOT = { any_rival_country = { religion = greek_catholic } } } }
+ }
+ rip_church_request_recognition = {
+ potential = { religion = russian_orthodox is_year = 1589 NOT = { rip_church_ro_recognized = yes } NOT = { has_country_flag = rip_church_ro_schismatic } NOT = { has_country_flag = rip_church_ro_provisional } }
+ allow = { is_at_war = no stability = 1 OR = { NOT = { has_country_flag = rip_church_recognition_requested } had_country_flag = { flag = rip_church_recognition_requested days = 365 } } }
+ effect = { if = { limit = { religion = russian_orthodox NOT = { has_country_flag = rip_church_ro_schismatic } } country_event = { id = russian_orthodox.2 } } }
+ ai_will_do = { factor = 1 }
+ }
+ rip_church_reconcile = {
+ potential = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic }
+ allow = { rip_church_can_reconcile = yes }
+ effect = { rip_church_ro_begin_reconciliation_effect = yes }
+ ai_will_do = { factor = 0.1 modifier = { factor = 5 num_of_loans = 3 } }
+ }
+ rip_church_florence = {
+ potential = { OR = { religion = orthodox religion = catholic } is_year = 1444 NOT = { is_year = 1502 } NOT = { has_country_flag = rip_church_florence_attempted } any_owned_province = { rip_church_florence_parish = yes } }
+ allow = { rip_church_can_begin_florence = yes }
+ effect = { rip_church_begin_florence_effect = yes }
+ ai_will_do = { factor = 0.05 modifier = { factor = 0 num_of_loans = 1 } }
+ }
+ rip_church_sponsor_union = {
+ potential = { religion = catholic is_year = 1596 NOT = { has_country_flag = rip_church_supports_union } }
+ allow = { rip_church_can_sponsor_union = yes }
+ effect = { rip_church_sponsor_union_effect = yes }
+ ai_will_do = { factor = 1 modifier = { factor = 0 num_of_loans = 1 } }
+ }
+ rip_church_withdraw_union_support = {
+ potential = { religion = catholic has_country_flag = rip_church_supports_union }
+ allow = { is_at_war = no stability = 1 }
+ effect = { if = { limit = { religion = catholic has_country_flag = rip_church_supports_union is_at_war = no stability = 1 }
+ clr_country_flag = rip_church_supports_union
+ clr_global_flag = rip_church_union_swept
+ rip_church_union_global_maintenance_effect = yes
+ } }
+ ai_will_do = { factor = 0 }
+ }
+ rip_church_ecumenism = {
+ potential = { religion = greek_catholic NOT = { has_country_flag = rip_church_ecumenical } }
+ allow = { rip_church_can_ecumenism = yes }
+ effect = { rip_church_achieve_ecumenism_effect = yes }
+ ai_will_do = { factor = 10 }
+ }
+ rip_church_union_seat = {
+ potential = { rip_church_union_supporter = yes }
+ provinces_to_highlight = { rip_church_center_site = yes }
+ allow = { rip_church_can_found_center = yes }
+ effect = { rip_church_found_center_effect = yes }
+ ai_will_do = { factor = 2 modifier = { factor = 0 num_of_loans = 1 } }
+ }
+}

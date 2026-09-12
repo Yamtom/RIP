@@ -35,7 +35,8 @@ greek_catholic_persecution_effect = {
 papal_protection_effect = {
 
 	rip_uc_clear_historical_policy_effect = yes
-	add_country_modifier = {
+	rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 		name = papal_protection_greek_catholic
 		duration = 7300
 	}
@@ -45,7 +46,8 @@ papal_protection_effect = {
 establish_greek_catholic_education = {
 
 	rip_uc_clear_historical_policy_effect = yes
-	add_country_modifier = {
+	rip_church_historical_east_effect = yes
+ add_country_modifier = {
 		name = uniate_educational_network
 		duration = 7300
 	}
@@ -62,7 +64,8 @@ establish_greek_catholic_education = {
 greek_catholic_cultural_boom = {
 
 	rip_uc_clear_historical_policy_effect = yes
-	add_country_modifier = {
+	rip_church_historical_east_effect = yes
+ add_country_modifier = {
 		name = uniate_cultural_flowering
 		duration = 7300
 	}
@@ -98,7 +101,8 @@ improve_relation_with_pope = {
 orthodox_greek_catholic_reconciliation = {
 
 	rip_uc_clear_historical_policy_effect = yes
-	add_country_modifier = {
+	rip_church_historical_east_effect = yes
+ add_country_modifier = {
 		name = greek_catholic_orthodox_dialogue
 		duration = 5475
 	}
@@ -126,17 +130,7 @@ activate_greek_catholic_reformation = {
 # conditions and the donation below are explicit game abstractions.
 
 rip_uc_standing_tick_effect = {
-	if = {
-		limit = { religion = greek_catholic has_country_flag = rip_uc_see_raised }
-		if = {
-			limit = { OR = { NOT = { exists = PAP } war_with = PAP NOT = { religious_unity = 0.7 } } }
-			add_patriarch_authority = -0.02
-		}
-		else_if = {
-			limit = { stability = 1 religious_unity = 0.9 PAP = { has_opinion = { who = ROOT value = 25 } } }
-			add_patriarch_authority = 0.02
-		}
-	}
+ # Replaced by monthly rip_church_gc_monthly_effect. PA is internal authority.
 }
 
 # Every band off, and none back on.

@@ -1,0 +1,51 @@
+# All public transactions recheck their complete country/province gate.
+rip_church_is_new_faith = { OR = { religion = russian_orthodox religion = greek_catholic } }
+rip_church_gc_eastern = { NOT = { check_variable = { which = rip_church_communion value = -40 } } }
+rip_church_gc_roman = { check_variable = { which = rip_church_communion value = 40.001 } }
+rip_church_gc_balanced = { NOT = { rip_church_gc_eastern = yes } NOT = { rip_church_gc_roman = yes } }
+rip_church_ro_recognized = { has_country_flag = rip_church_ro_recognized NOT = { has_country_flag = rip_church_ro_schismatic } }
+rip_church_ro_over_capacity = {
+ OR = {
+ AND = { NOT = { patriarch_authority = 0.3 } check_variable = { which = rip_church_icons value = 2 } }
+ AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = rip_church_icons value = 3 } }
+ AND = { NOT = { patriarch_authority = 0.9 } check_variable = { which = rip_church_icons value = 4 } }
+ }
+}
+rip_church_ro_slot_available = {
+ OR = {
+ NOT = { check_variable = { which = rip_church_icons value = 1 } }
+ AND = { patriarch_authority = 0.3 NOT = { check_variable = { which = rip_church_icons value = 2 } } }
+ AND = { patriarch_authority = 0.65 NOT = { check_variable = { which = rip_church_icons value = 3 } } }
+ AND = { patriarch_authority = 0.9 NOT = { check_variable = { which = rip_church_icons value = 4 } } }
+ }
+}
+rip_church_can_reconcile = {
+ religion = russian_orthodox has_country_flag = rip_church_ro_schismatic
+ NOT = { has_country_flag = rip_church_reconciliation_pending }
+ is_at_war = no stability = 1 dip_power = 100 patriarch_authority = 0.2
+}
+rip_church_can_activate_war = {
+ religion = russian_orthodox rip_church_ro_slot_available = yes
+ NOT = { has_country_flag = rip_church_icon_war }
+ check_variable = { which = rip_church_fervor value = 10 }
+ OR = { NOT = { has_country_flag = rip_church_icon_war_used } had_country_flag = { flag = rip_church_icon_war_used days = 365 } }
+}
+rip_church_can_activate_mercy = {
+ religion = russian_orthodox rip_church_ro_slot_available = yes
+ NOT = { has_country_flag = rip_church_icon_mercy }
+ check_variable = { which = rip_church_fervor value = 10 }
+ OR = { NOT = { has_country_flag = rip_church_icon_mercy_used } had_country_flag = { flag = rip_church_icon_mercy_used days = 365 } }
+}
+rip_church_can_activate_building = {
+ religion = russian_orthodox rip_church_ro_slot_available = yes
+ NOT = { has_country_flag = rip_church_icon_building }
+ check_variable = { which = rip_church_fervor value = 10 }
+ OR = { NOT = { has_country_flag = rip_church_icon_building_used } had_country_flag = { flag = rip_church_icon_building_used days = 365 } }
+}
+rip_church_can_activate_mission = {
+ religion = russian_orthodox rip_church_ro_slot_available = yes
+ NOT = { has_country_flag = rip_church_icon_mission }
+ check_variable = { which = rip_church_fervor value = 10 }
+ OR = { NOT = { has_country_flag = rip_church_icon_mission_used } had_country_flag = { flag = rip_church_icon_mission_used days = 365 } }
+}
+
