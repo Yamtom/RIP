@@ -8,13 +8,10 @@ DONOR AUDIT PASS: definitions, nested callers, quoted braces, DLC and reform dep
 
 
 
-=== tests/check_colonial_names.py -> Exit code 1 ===
+=== tests/check_colonial_names.py -> Exit code 0 ===
+VERIFIED 44 native choices; all other source bytes preserved.
+COLONIAL NAMES PASS: 44 choices, 9 culture keys, all 11 American regions; source and rejection checks.
 
-Traceback (most recent call last):
-  File "D:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\tests\check_colonial_names.py", line 52, in <module>
-    assert (ROOT / builder.LOC).read_bytes() == builder.localization(data)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError
 
 
 === tests/check_clausewitz_braces.py -> Exit code 0 ===
@@ -55,9 +52,9 @@ LIMIT: EU4 branch execution, old-save loading and 50-year effectiveness are not 
 
 === tests/check_church_redesign.py -> Exit code 0 ===
 GENERATED: 80 nodes; 3884 province IDs; 0 files
-GENERATED: 31 scripted UI bindings, 0 files
-GENERATED: 433 keys; 0 files
-CHURCH REDESIGN PASS: 191 source-executed cases; transactions, migration, geography and vanilla-isolation contracts.
+GENERATED: 36 scripted UI bindings, 0 files
+GENERATED: 447 keys; 0 files
+CHURCH REDESIGN PASS: 523 source-executed cases; transactions, migration, geography and vanilla-isolation contracts.
 LIMIT: native propagation, save loading, GUI and 50-year campaign effectiveness require EU4 evidence.
 
 
@@ -88,7 +85,7 @@ Estate files are separated by country and all RIP links are registered
 
 
 === tests/check_event_modifier_layer.py -> Exit code 0 ===
-EVENT MODIFIER CHECK: PASS (1364 unique definitions; no mixed-scope calls)
+EVENT MODIFIER CHECK: PASS (1363 unique definitions; no mixed-scope calls)
 
 
 
@@ -177,8 +174,10 @@ Don/Circassian raids, Ottoman reaction, and Kaffa market contracts hold
   100%  [####################]  PROVINCE_NAMES_NORMALIZATION_NOTES.md  (66/66)
   100%  [####################]  VOL_PATHS_QUICKREF.md  (66/66)
   100%  [####################]  GREEK_CATHOLIC_CURIA_BALANCE.uk.md  (74/74)
+  100%  [####################]  CHURCH_REDESIGN_VERIFICATION.uk.md  (75/75)
   100%  [####################]  WORKSHOP_LISTING.md  (78/78)
   100%  [####################]  ZAPORIZHIA_PATHS.md  (81/81)
+  100%  [####################]  CHURCH_BALANCE_PROTOCOL.uk.md  (87/87)
   100%  [####################]  RUSSIAN_ORTHODOX_BLESSING_WINDOW.uk.md  (93/93)
   100%  [####################]  README.md  (95/95)
   100%  [####################]  RELIGION_CONTENT_REVIEW_20260907.uk.md  (103/103)
@@ -190,15 +189,16 @@ Don/Circassian raids, Ottoman reaction, and Kaffa market contracts hold
   100%  [####################]  FAITH_MECHANICS_REWORK.md  (197/197)
   100%  [####################]  ORTHODOX_CRUSADE_SYSTEM.md  (203/203)
   100%  [####################]  RELIGION_SETTLEMENT_20260911.uk.md  (203/203)
+  100%  [####################]  CHURCH_REDESIGN_20260911.uk.md  (219/219)
   100%  [####################]  GOVERNMENT_AUTHENTICITY_105.uk.md  (269/269)
   100%  [####################]  BORDER_PRINCIPALITIES_SYSTEM.md  (351/351)
   100%  [####################]  RUSSIAN_ORTHODOX_IMPLEMENTATION.md  (385/385)
 
-  Разом: 7469/7575 перекладних рядків українською (98%)
+  Разом: 7850/7956 перекладних рядків українською (98%)
 
 
 
-=== tests/check_script_layer.py -> Exit code 1 ===
+=== tests/check_script_layer.py -> Exit code 0 ===
 WARN  events/KIEmission.txt:3: M_UKR_Events.1 is is_triggered_only but nothing fires it
 WARN  events/VOLmission.txt:3: M_VOL_Events.1 is is_triggered_only but nothing fires it
 WARN  events/RIP.txt:769: bs_flavor.1 is is_triggered_only but nothing fires it
@@ -437,30 +437,45 @@ WARN  common/scripted_triggers/rus_russian_orthodox_triggers.txt:214: country fl
 WARN  common/scripted_triggers/rus_russian_orthodox_triggers.txt:215: country flag 'orthodox_crusade_jerusalem_active' is tested but never set by the mod or vanilla
 WARN  common/scripted_triggers/rus_russian_orthodox_triggers.txt:232: country flag 'orthodox_crusade_target_constantinople' is tested but never set by the mod or vanilla
 WARN  common/scripted_triggers/rus_russian_orthodox_triggers.txt:236: country flag 'orthodox_crusade_target_jerusalem' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:5: country flag 'disabled_trading_policy_maximize_profit' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:10: country flag 'locked_trading_policy_maximize_profit' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:31: country flag 'disabled_trading_policy_maximize_profit_upgraded' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:32: country flag 'enabled_trading_policy_maximize_profit_upgraded' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:37: country flag 'locked_trading_policy_maximize_profit_upgraded' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:57: country flag 'disabled_trading_policy_hostile_trading' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:62: country flag 'locked_trading_policy_hostile_trading' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:80: country flag 'disabled_trading_policy_hostile_trading_upgraded' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:81: country flag 'enabled_trading_policy_hostile_trading_upgraded' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:86: country flag 'locked_trading_policy_hostile_trading_upgraded' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:103: country flag 'disabled_trading_policy_improve_inland_routes' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:108: country flag 'locked_trading_policy_improve_inland_routes' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:148: country flag 'disabled_trading_policy_improve_inland_routes_upgraded' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:149: country flag 'enabled_trading_policy_improve_inland_routes_upgraded' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:154: country flag 'locked_trading_policy_improve_inland_routes_upgraded' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:196: country flag 'disabled_trading_policy_establish_communities' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:204: country flag 'locked_trading_policy_establish_communities' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:220: country flag 'disabled_trading_policy_establish_communities_upgraded' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:226: country flag 'locked_trading_policy_establish_communities_upgraded' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:244: country flag 'disabled_trading_policy_propagate_religion' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:251: country flag 'locked_trading_policy_propagate_religion' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:289: country flag '5_trade_power_for_propogate_religion' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:290: country flag '10_trade_power_for_propogate_religion' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:292: country flag '20_trade_power_for_propogate_religion' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:293: country flag '25_trade_power_for_propogate_religion' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:297: country flag '45_trade_power_for_propogate_religion' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:341: country flag '5_trade_power_for_propogate_religion' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:342: country flag '10_trade_power_for_propogate_religion' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:344: country flag '20_trade_power_for_propogate_religion' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:345: country flag '25_trade_power_for_propogate_religion' is tested but never set by the mod or vanilla
+WARN  common/trading_policies/00_trading_policies.txt:349: country flag '45_trade_power_for_propogate_religion' is tested but never set by the mod or vanilla
 WARN  decisions/OrthodoxCrusadeDecisions.txt:43: country flag 'orthodox_crusade_constantinople_active' is tested but never set by the mod or vanilla
 WARN  decisions/OrthodoxCrusadeDecisions.txt:43: country flag 'orthodox_crusade_jerusalem_active' is tested but never set by the mod or vanilla
-ERROR common/event_modifiers/RIP_faith_modifiers.txt:198: 'rip_ucr_church_of_the_palace' is applied with add_country_modifier but sets province-scope 'local_unrest' (silently ignored in game)
-ERROR common/event_modifiers/RIP_faith_modifiers.txt:199: 'rip_ucr_church_of_the_palace' is applied with add_country_modifier but sets province-scope 'local_missionary_strength' (silently ignored in game)
-ERROR common/event_modifiers/RIP_faith_modifiers.txt:200: 'rip_ucr_church_of_the_palace' is applied with add_country_modifier but sets province-scope 'local_religious_unity_contribution' (silently ignored in game)
-ERROR common/event_modifiers/rip_troubles_modifiers.txt:46: 'rip_ro_autocephaly' is applied with add_country_modifier but sets province-scope 'local_production_efficiency' (silently ignored in game)
-ERROR common/event_modifiers/rip_troubles_modifiers.txt:47: 'rip_ro_autocephaly' is applied with add_country_modifier but sets province-scope 'local_unrest' (silently ignored in game)
-ERROR common/event_modifiers/rip_troubles_modifiers.txt:48: 'rip_ro_autocephaly' is applied with add_country_modifier but sets province-scope 'trade_goods_size_modifier' (silently ignored in game)
-ERROR common/event_modifiers/uniate_church_modifiers.txt:85: 'uniate_cultural_flowering' is applied with add_country_modifier but sets province-scope 'local_missionary_strength' (silently ignored in game)
-ERROR common/event_modifiers/uniate_church_modifiers.txt:86: 'uniate_cultural_flowering' is applied with add_country_modifier but sets province-scope 'local_institution_spread' (silently ignored in game)
-ERROR common/event_modifiers/uniate_church_modifiers.txt:87: 'uniate_cultural_flowering' is applied with add_country_modifier but sets province-scope 'local_tax_modifier' (silently ignored in game)
-ERROR common/event_modifiers/uniate_church_modifiers.txt:88: 'uniate_cultural_flowering' is applied with add_country_modifier but sets province-scope 'local_development_cost' (silently ignored in game)
-ERROR common/event_modifiers/uniate_church_modifiers.txt:95: 'greek_catholic_reformation_active' is applied with add_country_modifier but sets province-scope 'local_missionary_strength' (silently ignored in game)
-ERROR common/event_modifiers/uniate_church_modifiers.txt:96: 'greek_catholic_reformation_active' is applied with add_country_modifier but sets province-scope 'local_unrest' (silently ignored in game)
-ERROR common/event_modifiers/uniate_church_modifiers.txt:97: 'greek_catholic_reformation_active' is applied with add_country_modifier but sets province-scope 'local_tax_modifier' (silently ignored in game)
-ERROR common/event_modifiers/uniate_church_modifiers.txt:116: 'greek_catholic_missionary_activity' is applied with add_country_modifier but sets province-scope 'local_institution_spread' (silently ignored in game)
-ERROR common/event_modifiers/uniate_church_modifiers.txt:117: 'greek_catholic_missionary_activity' is applied with add_country_modifier but sets province-scope 'local_development_cost' (silently ignored in game)
-ERROR common/event_modifiers/uniate_church_modifiers.txt:118: 'greek_catholic_missionary_activity' is applied with add_country_modifier but sets province-scope 'province_trade_power_modifier' (silently ignored in game)
 
-541 script files, 110 localisation files
+550 script files, 110 localisation files
 vanilla localisation: 126744 keys from D:\Programs Files(x86)\Steam\steamapps\common\Europa Universalis IV
-761 events, 1364 event modifiers
-16 error(s), 240 warning(s)
+767 events, 1363 event modifiers
+0 error(s), 271 warning(s)
 
 
 
-ALL CRITICAL TESTS PASS: False
+ALL CRITICAL TESTS PASS: True
