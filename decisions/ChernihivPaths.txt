@@ -7,12 +7,18 @@ country_decisions = {
 	# Chernihiv, in common/scripted_triggers/chr/chr_path_triggers.txt.
 
 	# ======================= ROAD A - THE TOWNS =======================
+	# Each road's potential now also asks for chr_ready_<reform>, set by
+	# common/scripted_effects/chr_path_progress_effects.txt once the matching
+	# chr_history capacity crosses its threshold. The old numeric conditions
+	# stay in allow unchanged - a country still has to qualify - but it no
+	# longer sees the choice before the history behind it exists.
 
 	chr_road_of_the_towns = {
 		major = yes
 		potential = {
 			chr_at_the_crossroads = yes
 			NOT = { has_country_flag = chr_road_towns_open }
+			has_country_flag = chr_ready_desna_staple
 		}
 		allow = {
 			chr_can_take_towns_road = yes
@@ -47,6 +53,7 @@ country_decisions = {
 		major = yes
 		potential = {
 			has_reform = chr_desna_staple_reform
+			has_country_flag = chr_ready_town_union
 		}
 		provinces_to_highlight = {
 			owned_by = ROOT
@@ -76,6 +83,7 @@ country_decisions = {
 		major = yes
 		potential = {
 			has_reform = chr_town_union_reform
+			has_country_flag = chr_ready_rada_of_lands
 		}
 		allow = {
 			chr_can_open_rada_of_lands = yes
@@ -99,6 +107,7 @@ country_decisions = {
 		potential = {
 			chr_at_the_crossroads = yes
 			NOT = { has_country_flag = chr_road_houses_open }
+			has_country_flag = chr_ready_magistrat_rule
 		}
 		allow = {
 			chr_can_take_houses_road = yes
@@ -130,6 +139,7 @@ country_decisions = {
 		major = yes
 		potential = {
 			has_reform = chr_magistrat_rule_reform
+			has_country_flag = chr_ready_siversk_principality
 		}
 		allow = {
 			chr_can_open_siversk_principality = yes
@@ -160,6 +170,7 @@ country_decisions = {
 		major = yes
 		potential = {
 			has_reform = chr_siversk_principality_reform
+			has_country_flag = chr_ready_prykaz_tsardom
 		}
 		allow = {
 			chr_can_open_prykaz_tsardom = yes
@@ -184,6 +195,7 @@ country_decisions = {
 		potential = {
 			chr_at_the_crossroads = yes
 			NOT = { has_country_flag = chr_road_chancery_open }
+			has_country_flag = chr_ready_kanceliaryst_republic
 		}
 		allow = {
 			chr_can_take_chancery_road = yes
@@ -214,6 +226,7 @@ country_decisions = {
 		major = yes
 		potential = {
 			has_reform = chr_kanceliaryst_republic_reform
+			has_country_flag = chr_ready_dzhura_corps
 		}
 		allow = {
 			chr_can_open_dzhura_corps = yes
@@ -240,6 +253,7 @@ country_decisions = {
 		major = yes
 		potential = {
 			has_reform = chr_dzhura_corps_reform
+			has_country_flag = chr_ready_many_nations_union
 		}
 		allow = {
 			chr_can_open_many_nations_union = yes

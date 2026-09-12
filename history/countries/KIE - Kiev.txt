@@ -37,6 +37,13 @@ fixed_capital = 280 # Cannot move capital away from this province & no power cos
 }
 
 
+# Marks the Kyivan lineage for events/KyivSuccessionHistory.txt and the two
+# decisions it gates (decisions/KyivTriggers.txt: kyiv_shogunate_path,
+# kyiv_cesarstvo_path). The flag survives change_tag, so a KIE that later
+# becomes UKR through decisions/RuthenianNation.txt keeps the eligibility a
+# UKR formed from HLC/VLN/PDL never had.
+1444.1.1 = { set_country_flag = rip_kyivan_lineage_flag }
+
 1497.9.12 = { leader = { name = "Kostyantyn Ostrozs'kiy"	type = general	fire = 3	shock = 4	manuever = 3	siege = 1	death_date = 1530.8.10 } }
 
 1536.1.1 = { leader = {	name = "Andriy Nemyrovych"     	type = general	fire = 1	shock = 2	manuever = 3	siege = 0	death_date = 1541.1.1 } }

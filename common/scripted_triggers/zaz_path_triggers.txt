@@ -67,44 +67,38 @@ zaz_path_sacred_horde_visible = {
 }
 
 # --- what each road asks of the Host before it will open
+#
+# Replaced 2026-09: these used to be an instant numeric snapshot
+# (num_of_cities, republican_tradition and the like), which meant all four
+# roads sat visible from the first day at the crossroads, waiting on stats a
+# player could just watch tick over. The argument is not settled by a
+# census. events/ZaporizhianCrossroadsHistory.txt now runs a decades-long
+# chain of events (namespace zaz_crossroads, no rarer than every 45 months
+# per candidate road) that nudges one hidden lean variable per road
+# (zaz_lean_cantons and its three siblings, in
+# common/scripted_effects/zaz_crossroads_effects.txt) and sets the matching
+# zaz_path_*_ascendant flag the moment a lean crosses its threshold. That
+# flag is the only thing these four triggers check now; nothing else in the
+# mod reads zaz_path_*_ascendant, so this is a safe, self-contained swap.
 
 zaz_can_take_cantons_road = {
 	zaz_at_the_crossroads = yes
-	num_of_cities = 4
-	republican_tradition = 60
-	is_at_war = no
-	stability = 1
+	has_country_flag = zaz_path_cantons_ascendant
 }
 
 zaz_can_take_host_state_road = {
 	zaz_at_the_crossroads = yes
-	num_of_cities = 6
-	army_size_percentage = 0.9
-	army_tradition = 40
-	stability = 1
+	has_country_flag = zaz_path_host_state_ascendant
 }
 
 zaz_can_take_sacred_order_road = {
 	zaz_at_the_crossroads = yes
-	num_of_cities = 4
-	religious_unity = 0.9
-	stability = 2
-	OR = {
-		religion = orthodox
-		religion = russian_orthodox
-		religion = greek_catholic
-		religion = catholic
-	}
+	has_country_flag = zaz_path_sacred_order_ascendant
 }
 
 zaz_can_take_sacred_horde_road = {
 	zaz_at_the_crossroads = yes
-	num_of_cities = 4
-	cavalry_fraction = 0.5
-	army_tradition = 30
-	any_owned_province = {
-		rip_is_steppe_or_grasslands = yes
-	}
+	has_country_flag = zaz_path_sacred_horde_ascendant
 }
 
 # --- a Cossack polity that can pick its seat up and carry it

@@ -1,0 +1,168 @@
+# Hidden capacity behind the nine reforms of decisions/ChernihivPaths.txt.
+# Historical options in the chr_history namespace (events/ChernihivHistorical.txt)
+# nudge one country variable per reform instead of changing government
+# directly. Once a variable reaches CHR_PATH_THRESHOLD (40) the matching
+# chr_ready_<reform> flag is set; that flag is required, alongside the
+# existing conditions, by the corresponding decision's potential.
+#
+# The three first-stage reforms (chr_desna_staple_reform, chr_magistrat_rule_reform,
+# chr_kanceliaryst_republic_reform - one per road) also compete: whichever
+# reaches the threshold first sets its road's chr_road_x_committed flag, and
+# that flag permanently blocks the other two from ever reaching "ready", even
+# if their own counters keep climbing on later flavour picks. The four
+# second- and third-stage reforms behind each road have no siblings to
+# dampen - the road itself already picked one of them by the time either can
+# be reached - so their checks are a plain threshold test.
+#
+# Usage, following rip_estate_mood_effect's parameter style:
+#   chr_gain_desna_staple_effect = { AMOUNT = 15 }
+
+# --- Road A, the towns
+
+chr_check_desna_staple_ready_effect = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = chr_ready_desna_staple }
+			NOT = { has_country_flag = chr_road_b_committed }
+			NOT = { has_country_flag = chr_road_c_committed }
+			check_variable = { which = chr_desna_staple_progress value = 40 }
+		}
+		set_country_flag = chr_ready_desna_staple
+		set_country_flag = chr_road_a_committed
+	}
+}
+
+chr_gain_desna_staple_effect = {
+	change_variable = { which = chr_desna_staple_progress value = $AMOUNT$ }
+	chr_check_desna_staple_ready_effect = yes
+}
+
+chr_check_town_union_ready_effect = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = chr_ready_town_union }
+			check_variable = { which = chr_town_union_progress value = 40 }
+		}
+		set_country_flag = chr_ready_town_union
+	}
+}
+
+chr_gain_town_union_effect = {
+	change_variable = { which = chr_town_union_progress value = $AMOUNT$ }
+	chr_check_town_union_ready_effect = yes
+}
+
+chr_check_rada_of_lands_ready_effect = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = chr_ready_rada_of_lands }
+			check_variable = { which = chr_rada_of_lands_progress value = 40 }
+		}
+		set_country_flag = chr_ready_rada_of_lands
+	}
+}
+
+chr_gain_rada_of_lands_effect = {
+	change_variable = { which = chr_rada_of_lands_progress value = $AMOUNT$ }
+	chr_check_rada_of_lands_ready_effect = yes
+}
+
+# --- Road B, the houses
+
+chr_check_magistrat_rule_ready_effect = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = chr_ready_magistrat_rule }
+			NOT = { has_country_flag = chr_road_a_committed }
+			NOT = { has_country_flag = chr_road_c_committed }
+			check_variable = { which = chr_magistrat_rule_progress value = 40 }
+		}
+		set_country_flag = chr_ready_magistrat_rule
+		set_country_flag = chr_road_b_committed
+	}
+}
+
+chr_gain_magistrat_rule_effect = {
+	change_variable = { which = chr_magistrat_rule_progress value = $AMOUNT$ }
+	chr_check_magistrat_rule_ready_effect = yes
+}
+
+chr_check_siversk_principality_ready_effect = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = chr_ready_siversk_principality }
+			check_variable = { which = chr_siversk_principality_progress value = 40 }
+		}
+		set_country_flag = chr_ready_siversk_principality
+	}
+}
+
+chr_gain_siversk_principality_effect = {
+	change_variable = { which = chr_siversk_principality_progress value = $AMOUNT$ }
+	chr_check_siversk_principality_ready_effect = yes
+}
+
+chr_check_prykaz_tsardom_ready_effect = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = chr_ready_prykaz_tsardom }
+			check_variable = { which = chr_prykaz_tsardom_progress value = 40 }
+		}
+		set_country_flag = chr_ready_prykaz_tsardom
+	}
+}
+
+chr_gain_prykaz_tsardom_effect = {
+	change_variable = { which = chr_prykaz_tsardom_progress value = $AMOUNT$ }
+	chr_check_prykaz_tsardom_ready_effect = yes
+}
+
+# --- Road C, the chancery
+
+chr_check_kanceliaryst_republic_ready_effect = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = chr_ready_kanceliaryst_republic }
+			NOT = { has_country_flag = chr_road_a_committed }
+			NOT = { has_country_flag = chr_road_b_committed }
+			check_variable = { which = chr_kanceliaryst_republic_progress value = 40 }
+		}
+		set_country_flag = chr_ready_kanceliaryst_republic
+		set_country_flag = chr_road_c_committed
+	}
+}
+
+chr_gain_kanceliaryst_republic_effect = {
+	change_variable = { which = chr_kanceliaryst_republic_progress value = $AMOUNT$ }
+	chr_check_kanceliaryst_republic_ready_effect = yes
+}
+
+chr_check_dzhura_corps_ready_effect = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = chr_ready_dzhura_corps }
+			check_variable = { which = chr_dzhura_corps_progress value = 40 }
+		}
+		set_country_flag = chr_ready_dzhura_corps
+	}
+}
+
+chr_gain_dzhura_corps_effect = {
+	change_variable = { which = chr_dzhura_corps_progress value = $AMOUNT$ }
+	chr_check_dzhura_corps_ready_effect = yes
+}
+
+chr_check_many_nations_union_ready_effect = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = chr_ready_many_nations_union }
+			check_variable = { which = chr_many_nations_union_progress value = 40 }
+		}
+		set_country_flag = chr_ready_many_nations_union
+	}
+}
+
+chr_gain_many_nations_union_effect = {
+	change_variable = { which = chr_many_nations_union_progress value = $AMOUNT$ }
+	chr_check_many_nations_union_ready_effect = yes
+}

@@ -1,0 +1,460 @@
+# ========================================================================
+# The long argument at the Sich, 1490-1555 (and past it, if nobody wins).
+# Four roads (decisions/ZaporizhiaPaths.txt) used to sit open the day a
+# country reached the crossroads, gated only by an instant stat snapshot -
+# num_of_cities, republican_tradition and the like. This file replaces that
+# snapshot with a decades-long argument: four hidden lean variables
+# (zaz_lean_cantons, zaz_lean_host_state, zaz_lean_sacred_order,
+# zaz_lean_sacred_horde - common/scripted_effects/zaz_crossroads_effects.txt)
+# that these events nudge, no rarer than every 45 months per candidate road.
+# Crossing 100 sets the matching zaz_path_*_ascendant flag, which is now the
+# whole content of zaz_can_take_*_road in
+# common/scripted_triggers/zaz_path_triggers.txt - the decisions themselves
+# are untouched.
+#
+# Shape: one recurring pulse event carries all four roads at once
+# (zaz_crossroads.1). Each road gets a one-shot "mid" reflection once its
+# lean passes 35 and a one-shot "late" reflection once it passes 70 - both
+# can reverse the argument, not just accelerate it. A forcing event from
+# 1550 keeps nudging all four so an undecided country is not left stateless
+# forever. zaz_crossroads.60-63 announce whichever road won; the actual
+# government change stays with the decision that fires from it.
+#
+# Authenticity: C - invented council debate. The four roads themselves are
+# documented or extrapolated (see events/ZaporizhiaPaths.txt); the argument
+# that gets a country from the crossroads to one of them is not.
+# ========================================================================
+
+namespace = zaz_crossroads
+
+# --- 1. the recurring argument. Every ~3 years the kish takes the question
+#        up again; whichever case the country presses gains ground, and the
+#        other three lose a little.
+country_event = {
+	id = zaz_crossroads.1
+	title = zaz_crossroads.1.t
+	desc = zaz_crossroads.1.d
+	picture = COURT_eventPicture
+
+	trigger = {
+		zaz_at_the_crossroads = yes
+		is_year = 1490
+		NOT = { has_country_flag = zaz_crossroads_resolved }
+	}
+
+	mean_time_to_happen = {
+		months = 36
+	}
+
+	option = {
+		name = zaz_crossroads.1.a
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 3 num_of_cities = 4 }
+			modifier = { factor = 2 republican_tradition = 40 }
+		}
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_cantons AMOUNT = 12 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_host_state AMOUNT = -2 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_order AMOUNT = -2 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_horde AMOUNT = -2 }
+		add_republican_tradition = 1
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+	option = {
+		name = zaz_crossroads.1.b
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 3 army_size_percentage = 0.8 }
+			modifier = { factor = 2 army_tradition = 30 }
+		}
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_host_state AMOUNT = 12 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_cantons AMOUNT = -2 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_order AMOUNT = -2 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_horde AMOUNT = -2 }
+		add_army_tradition = 1
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+	option = {
+		name = zaz_crossroads.1.c
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 3 religious_unity = 0.8 }
+			modifier = { factor = 2 stability = 1 }
+		}
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_order AMOUNT = 12 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_cantons AMOUNT = -2 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_host_state AMOUNT = -2 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_horde AMOUNT = -2 }
+		add_papal_influence = 2
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+	option = {
+		name = zaz_crossroads.1.e
+		ai_chance = {
+			factor = 1
+			modifier = { factor = 3 cavalry_fraction = 0.4 }
+			modifier = {
+				factor = 2
+				any_owned_province = { rip_is_steppe_or_grasslands = yes }
+			}
+		}
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_horde AMOUNT = 12 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_cantons AMOUNT = -2 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_host_state AMOUNT = -2 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_order AMOUNT = -2 }
+		add_army_tradition = 1
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+}
+
+# --- mid reflections (lean >= 35). Each can still turn back toward its own
+#      opposite number: cantons against the register, the order against the
+#      horde.
+
+country_event = {
+	id = zaz_crossroads.10
+	title = zaz_crossroads.10.t
+	desc = zaz_crossroads.10.d
+	picture = ELECTION_REPUBLICAN_eventPicture
+
+	trigger = {
+		zaz_at_the_crossroads = yes
+		NOT = { has_country_flag = zaz_crossroads_resolved }
+		NOT = { has_country_flag = zaz_crossroads_reflect_cantons_done }
+		check_variable = { which = zaz_lean_cantons value = 35 }
+	}
+	mean_time_to_happen = { months = 30 }
+	immediate = { set_country_flag = zaz_crossroads_reflect_cantons_done }
+
+	option = {
+		name = zaz_crossroads.10.a
+		ai_chance = { factor = 65 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_cantons AMOUNT = 18 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_host_state AMOUNT = -8 }
+		add_republican_tradition = 3
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+	option = {
+		name = zaz_crossroads.10.b
+		ai_chance = { factor = 35 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_cantons AMOUNT = -12 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_host_state AMOUNT = 10 }
+		add_army_tradition = 2
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+}
+
+country_event = {
+	id = zaz_crossroads.11
+	title = zaz_crossroads.11.t
+	desc = zaz_crossroads.11.d
+	picture = LAND_MILITARY_eventPicture
+
+	trigger = {
+		zaz_at_the_crossroads = yes
+		NOT = { has_country_flag = zaz_crossroads_resolved }
+		NOT = { has_country_flag = zaz_crossroads_reflect_host_state_done }
+		check_variable = { which = zaz_lean_host_state value = 35 }
+	}
+	mean_time_to_happen = { months = 30 }
+	immediate = { set_country_flag = zaz_crossroads_reflect_host_state_done }
+
+	option = {
+		name = zaz_crossroads.11.a
+		ai_chance = { factor = 65 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_host_state AMOUNT = 18 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_cantons AMOUNT = -8 }
+		add_army_tradition = 3
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+	option = {
+		name = zaz_crossroads.11.b
+		ai_chance = { factor = 35 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_host_state AMOUNT = -12 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_cantons AMOUNT = 10 }
+		add_republican_tradition = 2
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+}
+
+country_event = {
+	id = zaz_crossroads.12
+	title = zaz_crossroads.12.t
+	desc = zaz_crossroads.12.d
+	picture = RELIGIOUS_CONVERSION_eventPicture
+
+	trigger = {
+		zaz_at_the_crossroads = yes
+		NOT = { has_country_flag = zaz_crossroads_resolved }
+		NOT = { has_country_flag = zaz_crossroads_reflect_sacred_order_done }
+		check_variable = { which = zaz_lean_sacred_order value = 35 }
+	}
+	mean_time_to_happen = { months = 30 }
+	immediate = { set_country_flag = zaz_crossroads_reflect_sacred_order_done }
+
+	option = {
+		name = zaz_crossroads.12.a
+		ai_chance = { factor = 65 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_order AMOUNT = 18 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_horde AMOUNT = -8 }
+		add_papal_influence = 3
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+	option = {
+		name = zaz_crossroads.12.b
+		ai_chance = { factor = 35 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_order AMOUNT = -12 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_horde AMOUNT = 10 }
+		add_army_tradition = 2
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+}
+
+country_event = {
+	id = zaz_crossroads.13
+	title = zaz_crossroads.13.t
+	desc = zaz_crossroads.13.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	trigger = {
+		zaz_at_the_crossroads = yes
+		NOT = { has_country_flag = zaz_crossroads_resolved }
+		NOT = { has_country_flag = zaz_crossroads_reflect_sacred_horde_done }
+		check_variable = { which = zaz_lean_sacred_horde value = 35 }
+	}
+	mean_time_to_happen = { months = 30 }
+	immediate = { set_country_flag = zaz_crossroads_reflect_sacred_horde_done }
+
+	option = {
+		name = zaz_crossroads.13.a
+		ai_chance = { factor = 65 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_horde AMOUNT = 18 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_order AMOUNT = -8 }
+		add_army_tradition = 3
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+	option = {
+		name = zaz_crossroads.13.b
+		ai_chance = { factor = 35 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_horde AMOUNT = -12 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_order AMOUNT = 10 }
+		add_papal_influence = 2
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+}
+
+# --- late reflections (lean >= 70). Committing all but guarantees the
+#      threshold; stepping back hands real ground to the rival.
+
+country_event = {
+	id = zaz_crossroads.14
+	title = zaz_crossroads.14.t
+	desc = zaz_crossroads.14.d
+	picture = ELECTION_REPUBLICAN_eventPicture
+
+	trigger = {
+		zaz_at_the_crossroads = yes
+		NOT = { has_country_flag = zaz_crossroads_resolved }
+		NOT = { has_country_flag = zaz_crossroads_final_cantons_done }
+		check_variable = { which = zaz_lean_cantons value = 70 }
+	}
+	mean_time_to_happen = { months = 24 }
+	immediate = { set_country_flag = zaz_crossroads_final_cantons_done }
+
+	option = {
+		name = zaz_crossroads.14.a
+		ai_chance = { factor = 70 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_cantons AMOUNT = 30 }
+		add_republican_tradition = 5
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+	option = {
+		name = zaz_crossroads.14.b
+		ai_chance = { factor = 30 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_cantons AMOUNT = -20 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_host_state AMOUNT = 20 }
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+}
+
+country_event = {
+	id = zaz_crossroads.15
+	title = zaz_crossroads.15.t
+	desc = zaz_crossroads.15.d
+	picture = LAND_MILITARY_eventPicture
+
+	trigger = {
+		zaz_at_the_crossroads = yes
+		NOT = { has_country_flag = zaz_crossroads_resolved }
+		NOT = { has_country_flag = zaz_crossroads_final_host_state_done }
+		check_variable = { which = zaz_lean_host_state value = 70 }
+	}
+	mean_time_to_happen = { months = 24 }
+	immediate = { set_country_flag = zaz_crossroads_final_host_state_done }
+
+	option = {
+		name = zaz_crossroads.15.a
+		ai_chance = { factor = 70 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_host_state AMOUNT = 30 }
+		add_army_tradition = 5
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+	option = {
+		name = zaz_crossroads.15.b
+		ai_chance = { factor = 30 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_host_state AMOUNT = -20 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_cantons AMOUNT = 20 }
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+}
+
+country_event = {
+	id = zaz_crossroads.16
+	title = zaz_crossroads.16.t
+	desc = zaz_crossroads.16.d
+	picture = RELIGIOUS_CONVERSION_eventPicture
+
+	trigger = {
+		zaz_at_the_crossroads = yes
+		NOT = { has_country_flag = zaz_crossroads_resolved }
+		NOT = { has_country_flag = zaz_crossroads_final_sacred_order_done }
+		check_variable = { which = zaz_lean_sacred_order value = 70 }
+	}
+	mean_time_to_happen = { months = 24 }
+	immediate = { set_country_flag = zaz_crossroads_final_sacred_order_done }
+
+	option = {
+		name = zaz_crossroads.16.a
+		ai_chance = { factor = 70 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_order AMOUNT = 30 }
+		add_papal_influence = 5
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+	option = {
+		name = zaz_crossroads.16.b
+		ai_chance = { factor = 30 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_order AMOUNT = -20 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_horde AMOUNT = 20 }
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+}
+
+country_event = {
+	id = zaz_crossroads.17
+	title = zaz_crossroads.17.t
+	desc = zaz_crossroads.17.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	trigger = {
+		zaz_at_the_crossroads = yes
+		NOT = { has_country_flag = zaz_crossroads_resolved }
+		NOT = { has_country_flag = zaz_crossroads_final_sacred_horde_done }
+		check_variable = { which = zaz_lean_sacred_horde value = 70 }
+	}
+	mean_time_to_happen = { months = 24 }
+	immediate = { set_country_flag = zaz_crossroads_final_sacred_horde_done }
+
+	option = {
+		name = zaz_crossroads.17.a
+		ai_chance = { factor = 70 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_horde AMOUNT = 30 }
+		add_army_tradition = 5
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+	option = {
+		name = zaz_crossroads.17.b
+		ai_chance = { factor = 30 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_horde AMOUNT = -20 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_order AMOUNT = 20 }
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+}
+
+# --- 50. the forcing pulse. If nobody has won by 1550 the Kish stops
+#         waiting for consensus; every lean keeps climbing until one of them
+#         crosses the line, so the country the argument has been leaning
+#         toward all along is still the one that gets there first.
+country_event = {
+	id = zaz_crossroads.50
+	title = zaz_crossroads.50.t
+	desc = zaz_crossroads.50.d
+	picture = CIVIL_WAR_eventPicture
+
+	trigger = {
+		zaz_at_the_crossroads = yes
+		is_year = 1550
+		NOT = { has_country_flag = zaz_crossroads_resolved }
+	}
+	mean_time_to_happen = { months = 18 }
+
+	option = {
+		name = zaz_crossroads.50.a
+		ai_chance = { factor = 100 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_cantons AMOUNT = 15 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_host_state AMOUNT = 15 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_order AMOUNT = 15 }
+		zaz_crossroads_advance_effect = { PATH = zaz_lean_sacred_horde AMOUNT = 15 }
+		zaz_crossroads_check_thresholds_effect = yes
+	}
+}
+
+# --- 60-63. the argument ends. is_triggered_only, fired from
+#            zaz_crossroads_check_thresholds_effect the moment a lean
+#            crosses 100. The government change itself waits for the
+#            decision in decisions/ZaporizhiaPaths.txt.
+
+country_event = {
+	id = zaz_crossroads.60
+	title = zaz_crossroads.60.t
+	desc = zaz_crossroads.60.d
+	picture = ELECTION_REPUBLICAN_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_crossroads.60.a
+		ai_chance = { factor = 100 }
+		add_prestige = 5
+	}
+}
+
+country_event = {
+	id = zaz_crossroads.61
+	title = zaz_crossroads.61.t
+	desc = zaz_crossroads.61.d
+	picture = LAND_MILITARY_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_crossroads.61.a
+		ai_chance = { factor = 100 }
+		add_prestige = 5
+	}
+}
+
+country_event = {
+	id = zaz_crossroads.62
+	title = zaz_crossroads.62.t
+	desc = zaz_crossroads.62.d
+	picture = RELIGIOUS_CONVERSION_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_crossroads.62.a
+		ai_chance = { factor = 100 }
+		add_prestige = 5
+	}
+}
+
+country_event = {
+	id = zaz_crossroads.63
+	title = zaz_crossroads.63.t
+	desc = zaz_crossroads.63.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_crossroads.63.a
+		ai_chance = { factor = 100 }
+		add_prestige = 5
+	}
+}
