@@ -258,6 +258,27 @@ uzh_palatial_uhro_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
+		# The Uhro-Rusyn road ends where its Hungarian model does: a noble
+		# class assimilated far enough into the Kingdom of Hungary's own
+		# court life to draw on the same crown privileges. Real vanilla
+		# government_attributes, confirmed against Hungary's own
+		# apostolic_kingdom / extend_the_unio_trium_nationum_reform /
+		# continue_the_renaissance_reform / cuman_lancers_reform
+		# (common/government_reforms/06_government_reforms_common.txt) and
+		# black_army_reform (01_government_reforms_monarchies.txt) - not
+		# invented names.
+		seizing_land_no_rebels_from_estate_nobles = yes
+		monarch_power_on_institutions = yes
+		mercs_do_not_cost_army_professionalism = yes
+		army_tradition_on_stackwipe = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Winds of Change"
+		}
+		custom_attributes = {
+			order_of_the_dragon_unlocked = yes
+		}
 	}
 	ai = {
 		factor = 1
@@ -299,6 +320,19 @@ uzh_palatial_uhro_republic_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
+		# See uzh_palatial_uhro_reform above for the source of these four.
+		seizing_land_no_rebels_from_estate_nobles = yes
+		monarch_power_on_institutions = yes
+		mercs_do_not_cost_army_professionalism = yes
+		army_tradition_on_stackwipe = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Winds of Change"
+		}
+		custom_attributes = {
+			order_of_the_dragon_unlocked = yes
+		}
 	}
 	ai = {
 		factor = 1
