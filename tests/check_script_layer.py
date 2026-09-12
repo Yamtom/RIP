@@ -11,7 +11,7 @@ answer; without it the localisation checks are skipped rather than guessed at.
     set EU4_DIR=D:\\...\\steamapps\\common\\Europa Universalis IV
 """
 import re, glob, io, sys, os, collections
-from clausewitz_testlib import vanilla_root
+from clausewitz_testlib import vanilla_root, matching_brace
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
@@ -374,8 +374,10 @@ for path in glob.glob("common/event_modifiers/*.txt"):
     path = path.replace("\\", "/")
     text, _ = decode(read(path))
     body = strip_comments(text)
-    for m in re.finditer(r"^([A-Za-z0-9_]+)\s*=\s*\{(.*?)^\}", body, re.M | re.S):
-        name, inner = m.group(1), m.group(2)
+    for m in re.finditer(r"^([A-Za-z0-9_]+)\s*=\s*\{", body, re.M):
+        # A same-line empty marker must not consume the following modifier.
+        closing = matching_brace(body, m.end() - 1)
+        name, inner = m.group(1), body[m.end():closing]
         line0 = body.count("\n", 0, m.start()) + 1
         scopes = applied_as.get(name, set())
         if len(scopes) != 1:
