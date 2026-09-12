@@ -100,8 +100,8 @@ assert 'change_religion' not in named_block(ro_effects, 'force_convert_province_
 assert 'change_culture' not in named_block(ro_effects, 'russify_province_effect')
 gc_effects = read('common/scripted_effects/greek_catholic_effects.txt')
 assert not re.search(r'\badd_base_(?:tax|production|manpower)\s*=', gc_effects)
-assert 'rip_ro_stage_patriarchate' in named_block(ro_effects, 'establish_moscow_patriarchate_effect')
-assert 'NOT = { has_country_flag = rip_ro_stage_patriarchate }' in event(ro_events, 'russian_orthodox.2')
+assert 'rip_church_ro_accept_recognition_effect = yes' in named_block(ro_effects, 'establish_moscow_patriarchate_effect')
+assert 'NOT = { has_country_flag = rip_church_ro_provisional }' in event(ro_events, 'russian_orthodox.2')
 
 # The fixed country upkeep is conservative, not a hidden per-faith redefinition
 # The crown-chain signature must establish the state used by its late events.
@@ -130,10 +130,6 @@ if install:
     assert 'global_missionary_strength = 0.02' in named_block(static, 'patriarch_authority_global')
     assert 'local_manpower_modifier = 0.33' in named_block(static, 'patriarch_authority_local')
     assert 'local_unrest = -3' in named_block(static, 'patriarch_authority_local')
-for n in range(101):
-    authority = Decimal(n) / 100
-    assert Decimal('.02') * authority - Decimal('.001') <= Decimal('.019') * authority
-    assert Decimal('3') * authority - Decimal('.15') <= Decimal('2.85') * authority
-# Manpower is not tested as an additive identity: global and provincial stacks differ.
+# Dynamic native-PA compensation at all 101 levels is executed by check_church_redesign.
 print('PASS: paid parish transaction, conversion retirement, event caps, history/modifier limits, target PA sources')
-print('LIMIT: 95/105 numeric packets and source constraints do not prove total campaign effectiveness')
+print('LIMIT: source constraints do not prove total campaign effectiveness')

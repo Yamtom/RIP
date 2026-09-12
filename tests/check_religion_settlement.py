@@ -233,8 +233,7 @@ def run_cases():
             cases += 1
     # All council choices recheck payment, faith and the ten-year term.
     for faith, helper, choices in (
-        ('russian_orthodox', 'rip_ro_enact_council_policy_effect', ('rip_ro_sobor_lands', 'rip_ro_sobor_books', 'rip_ro_sobor_courts')),
-        ('orthodox', 'rip_kyiv_enact_council_policy_effect', ('rip_kyiv_elected_metropolitan', 'rip_kyiv_brotherhood_charters', 'rip_kyiv_church_rights'))):
+        ('orthodox', 'rip_kyiv_enact_council_policy_effect', ('rip_kyiv_elected_metropolitan', 'rip_kyiv_brotherhood_charters', 'rip_kyiv_church_rights')),):
         for choice in choices:
             w, c = fixture(faith)
             w.run(helper, c, POLICY=choice)
@@ -260,43 +259,7 @@ def run_cases():
                 w.run(helper, c, POLICY=choice)
                 assert c == before, update
                 cases += 1
-    # See creation, global cap, lost building, conquest and replacement term.
-    w, c = fixture('greek_catholic')
-    w.run('rip_faith_initialize_hierarchy_effect', c)
-    w.run('rip_uc_raise_see_effect', c)
-    assert c['adm_power'] == 400 and w.provinces['280']['is_reformation_center']
-    w.provinces['280']['religion'] = 'orthodox'
-    w.run('rip_faith_maintain_local_property_effect', c)
-    assert not w.provinces['280']['is_reformation_center'], 'changed province faith retained its old centre'
-    # Independent conquest fixture for the same formerly funded building.
-    w.provinces['280'].update(religion='greek_catholic', is_reformation_center=True)
-    w.provinces['280']['modifiers']['rip_uc_see_of_the_union'] = float('inf')
-    w.provinces['280']['owner'] = 'PAP'
-    w.run('rip_faith_maintain_local_property_effect', w.countries['PAP'])
-    assert not w.provinces['280']['is_reformation_center']
-    assert 'rip_uc_see_of_the_union' not in w.provinces['280']['modifiers']
-    w.provinces['281']['religion'] = 'greek_catholic'
-    w.day = 7299
-    w.run('rip_uc_raise_see_effect', c)
-    assert c['adm_power'] == 400
-    w.day = 7300
-    w.run('rip_uc_raise_see_effect', c)
-    assert c['adm_power'] == 300 and w.provinces['281']['is_reformation_center']
-    assert 'rip_uc_see_raised' in c['flags']
-    cases += 1
-    successor = w.country('HLC', 'greek_catholic')
-    w.provinces['281']['owner'] = 'HLC'
-    w.run('rip_faith_maintain_local_property_effect', successor)
-    assert 'rip_uc_see_raised' in successor['flags'] and w.provinces['281']['is_reformation_center']
-    w.provinces['281']['owner'] = 'KIE'
-    cases += 1
-    for number in range(3):
-        other = w.country('X' + str(number), 'greek_catholic')
-        w.province(300 + number, other, 'greek_catholic')['is_reformation_center'] = True
-    c['modifiers'].clear()
-    w.provinces['281']['is_reformation_center'] = False
-    assert not w.gate(TRIGGERS['rip_uc_can_raise_see_trigger'], c)
-    cases += 1
+    # Moscow council fuel and the sole global centre are executed in check_church_redesign.
     # A stale Brest response cannot change faith after PAP disappears or a prior signature.
     for update in ('valid', 'no_pope', 'war_pope', 'signed', 'wrong_faith', 'poor'):
         w, c = fixture()
@@ -387,9 +350,9 @@ def contracts():
     assert 'rip_faith_adopt_union_effect = yes' in read('common/scripted_effects/rip_uniate_crown_effects.txt')
     assert 'rip_faith_adopt_muscovite_church_effect = yes' in read('common/scripted_effects/russian_orthodox_effects.txt')
     whitelist = named_block(read('common/religions/zz_greek_catholic.txt'), 'allowed_center_conversion')
-    assert 'catholic' not in whitelist and 'orthodox' in whitelist and 'russian_orthodox' in whitelist
+    assert 'catholic' in whitelist and 'orthodox' in whitelist and 'russian_orthodox' in whitelist
     profile = normalized(read('common/religious_conversions/zz_RIP_greek_catholic.txt'))
-    assert 'area = PREV is_reformation_center = yes religion = greek_catholic' in profile
+    assert 'rip_church_union_target = yes' in profile
     events = read('events/OrthodoxCrusade.txt')
     assert not re.search(r'add_base_|change_religion\s*=', events)
     assert 'rip_faith_pilgrimage_recent duration = 3650' in events
@@ -415,5 +378,5 @@ def contracts():
 if __name__ == '__main__':
     count = run_cases()
     contracts()
-    print(f'RELIGION SETTLEMENT PASS: {count} source-executed transition cases; adoption, payments, See, migration, crusades, monuments.')
+    print(f'RELIGION SETTLEMENT PASS: {count} source-executed transition cases; adoption, Kyiv payments, migration, crusades, monuments.')
     print('LIMIT: EU4 branch execution, old-save loading and 50-year effectiveness are not certified by this model.')
