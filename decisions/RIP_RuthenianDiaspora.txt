@@ -1,0 +1,271 @@
+country_decisions = {
+
+	# Unlocked once the matching "settlers" mission (missions/RuthenianDiaspora_
+	# Missions.txt) has been completed for at least one colonial region. Stays
+	# available as long as some qualifying partner still holds land there on
+	# good terms with us - it is not consumed on use, only paced by a cooldown,
+	# since the same partner (or a different one, later) may qualify again.
+	rip_diaspora_colonial_settlers = {
+		potential = {
+			OR = {
+				has_country_flag = rip_colonize_canada_settlers_flag
+				has_country_flag = rip_diaspora_usa_settlers_flag
+				has_country_flag = rip_diaspora_south_america_settlers_flag
+				has_country_flag = rip_diaspora_australia_settlers_flag
+			}
+		}
+		allow = {
+			is_at_war = no
+			NOT = { has_country_modifier = rip_diaspora_settlers_cooldown }
+			OR = {
+				AND = {
+					has_country_flag = rip_colonize_canada_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_canada THRESHOLD = 100 }
+				}
+				AND = {
+					has_country_flag = rip_diaspora_usa_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_eastern_america THRESHOLD = 100 }
+				}
+				AND = {
+					has_country_flag = rip_diaspora_south_america_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_brazil THRESHOLD = 100 }
+				}
+				AND = {
+					has_country_flag = rip_diaspora_south_america_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_la_plata THRESHOLD = 100 }
+				}
+				AND = {
+					has_country_flag = rip_diaspora_australia_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_australia THRESHOLD = 100 }
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					has_country_flag = rip_colonize_canada_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_canada THRESHOLD = 100 }
+				}
+				set_country_flag = rip_diaspora_target_colonial_canada
+			}
+			else_if = {
+				limit = {
+					has_country_flag = rip_diaspora_usa_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_eastern_america THRESHOLD = 100 }
+				}
+				set_country_flag = rip_diaspora_target_colonial_eastern_america
+			}
+			else_if = {
+				limit = {
+					has_country_flag = rip_diaspora_south_america_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_brazil THRESHOLD = 100 }
+				}
+				set_country_flag = rip_diaspora_target_colonial_brazil
+			}
+			else_if = {
+				limit = {
+					has_country_flag = rip_diaspora_south_america_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_la_plata THRESHOLD = 100 }
+				}
+				set_country_flag = rip_diaspora_target_colonial_la_plata
+			}
+			else_if = {
+				limit = {
+					has_country_flag = rip_diaspora_australia_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_australia THRESHOLD = 100 }
+				}
+				set_country_flag = rip_diaspora_target_colonial_australia
+			}
+			add_country_modifier = {
+				name = rip_diaspora_settlers_cooldown
+				duration = 1825
+			}
+			country_event = { id = rip_diaspora.10 days = 1 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# The costlier twin: also brings the chosen province to our religion, at
+	# a higher opinion floor and a stability cost.
+	rip_diaspora_colonial_settlers_faith = {
+		potential = {
+			OR = {
+				has_country_flag = rip_colonize_canada_settlers_flag
+				has_country_flag = rip_diaspora_usa_settlers_flag
+				has_country_flag = rip_diaspora_south_america_settlers_flag
+				has_country_flag = rip_diaspora_australia_settlers_flag
+			}
+		}
+		allow = {
+			is_at_war = no
+			NOT = { has_country_modifier = rip_diaspora_settlers_cooldown }
+			OR = {
+				AND = {
+					has_country_flag = rip_colonize_canada_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_canada THRESHOLD = 140 }
+				}
+				AND = {
+					has_country_flag = rip_diaspora_usa_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_eastern_america THRESHOLD = 140 }
+				}
+				AND = {
+					has_country_flag = rip_diaspora_south_america_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_brazil THRESHOLD = 140 }
+				}
+				AND = {
+					has_country_flag = rip_diaspora_south_america_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_la_plata THRESHOLD = 140 }
+				}
+				AND = {
+					has_country_flag = rip_diaspora_australia_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_australia THRESHOLD = 140 }
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					has_country_flag = rip_colonize_canada_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_canada THRESHOLD = 140 }
+				}
+				set_country_flag = rip_diaspora_target_colonial_canada_faith
+			}
+			else_if = {
+				limit = {
+					has_country_flag = rip_diaspora_usa_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_eastern_america THRESHOLD = 140 }
+				}
+				set_country_flag = rip_diaspora_target_colonial_eastern_america_faith
+			}
+			else_if = {
+				limit = {
+					has_country_flag = rip_diaspora_south_america_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_brazil THRESHOLD = 140 }
+				}
+				set_country_flag = rip_diaspora_target_colonial_brazil_faith
+			}
+			else_if = {
+				limit = {
+					has_country_flag = rip_diaspora_south_america_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_la_plata THRESHOLD = 140 }
+				}
+				set_country_flag = rip_diaspora_target_colonial_la_plata_faith
+			}
+			else_if = {
+				limit = {
+					has_country_flag = rip_diaspora_australia_settlers_flag
+					rip_diaspora_colonial_partner_trigger = { REGION = colonial_australia THRESHOLD = 140 }
+				}
+				set_country_flag = rip_diaspora_target_colonial_australia_faith
+			}
+			add_stability = -1
+			add_country_modifier = {
+				name = rip_diaspora_settlers_cooldown
+				duration = 1825
+			}
+			country_event = { id = rip_diaspora.11 days = 1 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Mainland twin of the above pair, for the Green and Grey Wedge's own
+	# "settlers" fork rather than the colonial one.
+	rip_diaspora_mainland_settlers = {
+		potential = {
+			OR = {
+				has_country_flag = rip_green_wedge_settlers_flag
+				has_country_flag = rip_grey_wedge_settlers_flag
+			}
+		}
+		allow = {
+			is_at_war = no
+			NOT = { has_country_modifier = rip_diaspora_settlers_cooldown }
+			OR = {
+				AND = {
+					has_country_flag = rip_green_wedge_settlers_flag
+					rip_diaspora_mainland_partner_trigger = { REGION = manchuria_region THRESHOLD = 100 }
+				}
+				AND = {
+					has_country_flag = rip_grey_wedge_settlers_flag
+					rip_diaspora_mainland_partner_trigger = { REGION = central_asia_region THRESHOLD = 100 }
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					has_country_flag = rip_green_wedge_settlers_flag
+					rip_diaspora_mainland_partner_trigger = { REGION = manchuria_region THRESHOLD = 100 }
+				}
+				set_country_flag = rip_diaspora_target_manchuria
+			}
+			else_if = {
+				limit = {
+					has_country_flag = rip_grey_wedge_settlers_flag
+					rip_diaspora_mainland_partner_trigger = { REGION = central_asia_region THRESHOLD = 100 }
+				}
+				set_country_flag = rip_diaspora_target_central_asia
+			}
+			add_country_modifier = {
+				name = rip_diaspora_settlers_cooldown
+				duration = 1825
+			}
+			country_event = { id = rip_diaspora.12 days = 1 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	rip_diaspora_mainland_settlers_faith = {
+		potential = {
+			OR = {
+				has_country_flag = rip_green_wedge_settlers_flag
+				has_country_flag = rip_grey_wedge_settlers_flag
+			}
+		}
+		allow = {
+			is_at_war = no
+			NOT = { has_country_modifier = rip_diaspora_settlers_cooldown }
+			OR = {
+				AND = {
+					has_country_flag = rip_green_wedge_settlers_flag
+					rip_diaspora_mainland_partner_trigger = { REGION = manchuria_region THRESHOLD = 140 }
+				}
+				AND = {
+					has_country_flag = rip_grey_wedge_settlers_flag
+					rip_diaspora_mainland_partner_trigger = { REGION = central_asia_region THRESHOLD = 140 }
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					has_country_flag = rip_green_wedge_settlers_flag
+					rip_diaspora_mainland_partner_trigger = { REGION = manchuria_region THRESHOLD = 140 }
+				}
+				set_country_flag = rip_diaspora_target_manchuria_faith
+			}
+			else_if = {
+				limit = {
+					has_country_flag = rip_grey_wedge_settlers_flag
+					rip_diaspora_mainland_partner_trigger = { REGION = central_asia_region THRESHOLD = 140 }
+				}
+				set_country_flag = rip_diaspora_target_central_asia_faith
+			}
+			add_stability = -1
+			add_country_modifier = {
+				name = rip_diaspora_settlers_cooldown
+				duration = 1825
+			}
+			country_event = { id = rip_diaspora.13 days = 1 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}

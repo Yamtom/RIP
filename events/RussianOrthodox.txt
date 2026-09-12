@@ -40,7 +40,7 @@ country_event = {
 		name = russian_orthodox.1.a
 		ai_chance = { factor = 80 }
 		
-		change_religion = russian_orthodox
+		rip_faith_adopt_muscovite_church_effect = yes
 		set_country_flag = rip_ro_stage_autocephaly
 		# The doctrine of the Third Rome is Filofei's, and it is seventy years
 		# away yet. What happens in 1448 is the election itself.
@@ -62,52 +62,20 @@ country_event = {
 }
 
 country_event = {
-	id = russian_orthodox.2
-	title = russian_orthodox.2.t
-	desc = russian_orthodox.2.d
-	picture = RELIGION_eventPicture
-	
-	fire_only_once = yes
-	
-	trigger = {
-		religion = russian_orthodox
-		is_russian_orthodox_culture_eligible = yes
-		# Stage two: a metropolitan becomes a patriarch. It cannot precede the
-		# break that made the metropolitanate its own.
-		has_country_flag = rip_ro_stage_autocephaly
-		NOT = { has_country_flag = rip_ro_stage_patriarchate }
-		is_year = 1589
-		NOT = { is_year = 1620 }
-		OR = {
-			tag = MOS
-			tag = RUS
-		}
-	}
-	
-	mean_time_to_happen = {
-		months = 24
-	}
-	
-	option = { # Establish independent Patriarchate
-		name = russian_orthodox.2.a
-		ai_chance = { factor = 90 }
-		
-		set_country_flag = rip_ro_stage_patriarchate
-		add_country_modifier = {
-			name = moscow_patriarchate_authority
-			duration = 7300
-		}
-		add_patriarch_authority = 0.2
-		add_legitimacy = 20
-		add_prestige = 30
-	}
-	
-	option = { # Delay for better timing
-		name = russian_orthodox.2.b
-		ai_chance = { factor = 10 }
-		
-		add_adm_power = 50
-	}
+ id = russian_orthodox.2
+ title = russian_orthodox.2.t
+ desc = russian_orthodox.2.d
+ picture = RELIGION_eventPicture
+ trigger = {
+ religion = russian_orthodox is_year = 1589 NOT = { rip_church_ro_recognized = yes }
+ NOT = { has_country_flag = rip_church_ro_schismatic } NOT = { has_country_flag = rip_church_ro_provisional }
+ OR = { NOT = { has_country_flag = rip_church_recognition_requested } had_country_flag = { flag = rip_church_recognition_requested days = 365 } }
+ }
+ mean_time_to_happen = { months = 24 }
+ immediate = { set_country_flag = rip_church_recognition_requested }
+ option = { name = russian_orthodox.2.a ai_chance = { factor = 90 } rip_church_ro_accept_recognition_effect = yes }
+ option = { name = russian_orthodox.2.b ai_chance = { factor = 0 } }
+ option = { name = rip_church_recognition_refuse ai_chance = { factor = 10 modifier = { factor = 2 has_country_flag = rip_church_third_rome_claim } modifier = { factor = 2 any_rival_country = { religion = orthodox } } } rip_church_ro_choose_schism_effect = yes }
 }
 
 province_event = {
@@ -198,8 +166,11 @@ country_event = {
 	option = { # Launch aggressive Russification
 		name = russian_orthodox.4.a
 		ai_chance = { factor = 70 }
+
+		rip_ro_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 			name = forced_russification
 			duration = 7300
 		}
@@ -223,8 +194,11 @@ country_event = {
 	option = { # Gradual cultural integration
 		name = russian_orthodox.4.b
 		ai_chance = { factor = 25 }
+
+		rip_ro_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 			name = cultural_integration_program
 			duration = 7300
 		}
@@ -266,10 +240,13 @@ country_event = {
 	option = { # Establish Orthodox Inquisition
 		name = russian_orthodox.5.a
 		ai_chance = { factor = 60 }
+
+		rip_ro_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 			name = orthodox_inquisition
-			duration = 10950
+			duration = 7300
 		}
 		add_patriarch_authority = 0.1
 	}
@@ -277,8 +254,11 @@ country_event = {
 	option = { # Moderate persecution only
 		name = russian_orthodox.5.b
 		ai_chance = { factor = 30 }
+
+		rip_ro_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 			name = persecution_of_heretics
 			duration = 5475
 		}
@@ -323,7 +303,10 @@ country_event = {
 		
 		set_global_flag = raskol_schism
 		set_country_flag = rip_ro_stage_raskol
-		add_country_modifier = {
+
+		rip_ro_clear_historical_policy_effect = yes
+		rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 			name = suppression_old_believers
 			duration = 7300
 		}
@@ -385,10 +368,13 @@ country_event = {
 	
 	option = { # Convert and Russify aggressively
 		name = russian_orthodox.7.a
+		trigger = { treasury = 100 adm_power = 25 1082 = { owned_by = ROOT controlled_by = ROOT is_core = ROOT } }
+		add_treasury = -100
+		add_adm_power = -25
 		ai_chance = { factor = 60 }
 		
 		1082 = {
-			change_religion = russian_orthodox
+
 			add_province_modifier = {
 				name = forced_conversions
 				duration = 5475
@@ -402,6 +388,9 @@ country_event = {
 	
 	option = { # Build Orthodox mission
 		name = russian_orthodox.7.b
+		trigger = { religion = russian_orthodox treasury = 100 adm_power = 25 1082 = { owned_by = ROOT controlled_by = ROOT is_core = ROOT NOT = { religion = ROOT } } }
+		add_treasury = -100
+		add_adm_power = -25
 		ai_chance = { factor = 30 }
 		
 		1082 = {
@@ -456,8 +445,11 @@ country_event = {
 	option = { # Pursue unification
 		name = russian_orthodox.8.a
 		ai_chance = { factor = 80 }
+
+		rip_ro_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 			name = gathering_russian_lands
 			duration = 7300
 		}
@@ -509,8 +501,11 @@ country_event = {
 	option = { # Establish Symphonia
 		name = russian_orthodox.9.a
 		ai_chance = { factor = 70 }
+
+		rip_ro_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 			name = symphonia_of_powers
 			duration = 7300
 		}
@@ -548,22 +543,23 @@ country_event = {
 	
 	option = { # Restore Orthodox Constantinople
 		name = russian_orthodox.10.a
+		trigger = { treasury = 100 adm_power = 25 151 = { owned_by = ROOT controlled_by = ROOT is_core = ROOT } }
+		add_treasury = -100
+		add_adm_power = -25
 		ai_chance = { factor = 90 }
 		
-		151 = {
-			change_religion = russian_orthodox
-			add_base_tax = 1
-			add_base_production = 1
-			add_base_manpower = 1
-		}
+		151 = { add_province_modifier = { name = rip_faith_funded_mission duration = 3650 } }
+
+		rip_ro_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 			name = conquest_of_constantinople
 			duration = 7300
 		}
 		
-		add_prestige = 50
-		add_legitimacy = 25
+		add_prestige = 10
+		add_legitimacy = 5
 	}
 	
 	option = { # Religious tolerance
@@ -596,12 +592,18 @@ country_event = {
 	option = { # Proclaim Imperial Church
 		name = russian_orthodox.11.a
 		ai_chance = { factor = 80 }
+
+		rip_ro_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 			name = imperial_orthodox_state
 			duration = 7300
 		}
-		add_country_modifier = {
+
+		rip_ro_clear_historical_policy_effect = yes
+		rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 			name = orthodox_empire_proclaimed
 			duration = 7300
 		}
@@ -686,8 +688,11 @@ country_event = {
 	option = { # Accept the mantle
 		name = russian_orthodox.13.a
 		ai_chance = { factor = 90 }
+
+		rip_ro_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 			name = defender_of_orthodoxy
 			duration = 7300
 		}
@@ -727,8 +732,11 @@ country_event = {
 	option = { # Proclaim Patriarch of All Rus'
 		name = russian_orthodox.14.a
 		ai_chance = { factor = 80 }
+
+		rip_ro_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_ro_effect = yes
+ add_country_modifier = {
 			name = patriarch_of_all_rus
 			duration = 7300
 		}
@@ -825,7 +833,7 @@ country_event = {
 		4244 = {
 			add_province_modifier = {
 				name = old_believer_slobodas
-				duration = -1
+				duration = 7300
 			}
 		}
 		add_country_modifier = {

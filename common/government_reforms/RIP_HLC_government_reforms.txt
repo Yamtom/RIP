@@ -35,6 +35,11 @@ hlc_galician_voivodeship_reform = {
 	custom_attributes = {
 		locked_government_type = yes
 	}
+	# The Galician boyar council that made and unmade princes.
+	# common/government_mechanics/rip_hlc_boyar_council.txt.
+	government_abilities = {
+		hlc_boyar_council_mechanic
+	}
 }
 
 hlc_magnate_assembly_reform = {
@@ -66,6 +71,7 @@ hlc_magnate_assembly_reform = {
 		max_absolutism = -10
 		yearly_absolutism = -0.25
 		monthly_reform_progress = 0.05
+		nobles_influence_modifier = 0.15
 	}
 	conditional = {
 		allow = {
@@ -184,6 +190,8 @@ hlc_austrian_bureaucracy_reform = {
 	modifiers = {
 		advisor_cost = -0.1
 		yearly_corruption = -0.05
+		state_governing_cost = -0.1
+		global_autonomy = -0.05
 	}
 	conditional = {
 		allow = {
@@ -310,6 +318,7 @@ hlc_crown_and_sejm_reform = {
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
+	has_term_election = yes
 	potential = {
 		OR = {
 			west_ukraine_hlc_origin_country = yes

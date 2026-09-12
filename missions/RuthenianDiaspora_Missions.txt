@@ -1,0 +1,332 @@
+# Slot 8: no vanilla or RIP mission group ever reaches this slot number
+# (vanilla stops at 5, the widest RIP tree - Podillia - stops at 7), so a
+# tree gated on culture family rather than a single tag cannot collide with
+# any per-country tree that a Ruthenian- or Rusyn-culture kingdom already
+# carries at slots 1-7.
+RIP_diaspora_missions_1 = {
+	slot = 8
+	generic = no
+	ai = yes
+	potential = {
+		NOT = { map_setup = map_setup_random }
+		rip_diaspora_eligible_culture = yes
+		government_rank = 2
+	}
+	has_country_shield = yes
+
+	rip_diaspora_root = {
+		icon = mission_exploration
+		position = 0
+		trigger = {
+			is_subject = no
+			any_owned_province = {
+				is_coastal = yes
+			}
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_diaspora_root_flag
+		}
+	}
+
+	# --- Canada: found it ourselves, or settle into an existing colony ---
+
+	rip_colonize_canada = {
+		icon = mission_rb_colonise_canada
+		required_missions = { rip_diaspora_root }
+		position = 1
+		trigger = {
+			any_owned_province = {
+				colonial_region = colonial_canada
+			}
+		}
+		effect = {
+			add_prestige = 10
+			custom_tooltip = rip_colonize_canada_flavor_tt
+			set_country_flag = rip_colonize_canada_flag
+		}
+	}
+
+	rip_colonize_canada_settlers = {
+		icon = mission_settlers_north_america
+		required_missions = { rip_diaspora_root }
+		position = 1
+		trigger = {
+			NOT = { any_owned_province = { colonial_region = colonial_canada } }
+			rip_diaspora_colonial_partner_trigger = { REGION = colonial_canada THRESHOLD = 100 }
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_colonize_canada_settlers_flag
+		}
+	}
+
+	rip_lysianskyi_circumnavigation = {
+		icon = mission_explore_the_world
+		required_missions = { rip_diaspora_root }
+		position = 2
+		trigger = {
+			has_country_flag = circumnavigation_done
+		}
+		effect = {
+			add_prestige = 15
+			add_country_modifier = {
+				name = rip_diaspora_of_rus_legacy
+				duration = 3650
+			}
+			set_country_flag = rip_lysianskyi_circumnavigation_flag
+		}
+	}
+
+	# --- The Thirteen Colonies: same two roads, gated on the Canada fork ---
+
+	rip_diaspora_usa = {
+		icon = mission_rb_the_thirteen_colonies
+		required_missions = { rip_diaspora_root }
+		position = 3
+		trigger = {
+			OR = {
+				has_country_flag = rip_colonize_canada_flag
+				has_country_flag = rip_colonize_canada_settlers_flag
+			}
+			any_owned_province = {
+				colonial_region = colonial_eastern_america
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_years_of_income = 0.25
+			set_country_flag = rip_diaspora_usa_flag
+		}
+	}
+
+	rip_diaspora_usa_settlers = {
+		icon = mission_diplomatic_relation
+		required_missions = { rip_diaspora_root }
+		position = 3
+		trigger = {
+			OR = {
+				has_country_flag = rip_colonize_canada_flag
+				has_country_flag = rip_colonize_canada_settlers_flag
+			}
+			NOT = { any_owned_province = { colonial_region = colonial_eastern_america } }
+			rip_diaspora_colonial_partner_trigger = { REGION = colonial_eastern_america THRESHOLD = 100 }
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_diaspora_usa_settlers_flag
+		}
+	}
+
+	# --- Brazil and La Plata: either sea, either road ---
+
+	rip_diaspora_south_america = {
+		icon = mission_colonise_brazil
+		required_missions = { rip_diaspora_root }
+		position = 4
+		trigger = {
+			has_country_flag = rip_lysianskyi_circumnavigation_flag
+			OR = {
+				any_owned_province = {
+					colonial_region = colonial_brazil
+				}
+				any_owned_province = {
+					colonial_region = colonial_la_plata
+				}
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_years_of_income = 0.5
+			set_country_flag = rip_diaspora_south_america_flag
+		}
+	}
+
+	rip_diaspora_south_america_settlers = {
+		icon = mission_ottoman_diplomacy
+		required_missions = { rip_diaspora_root }
+		position = 4
+		trigger = {
+			has_country_flag = rip_lysianskyi_circumnavigation_flag
+			NOT = { any_owned_province = { colonial_region = colonial_brazil } }
+			NOT = { any_owned_province = { colonial_region = colonial_la_plata } }
+			OR = {
+				rip_diaspora_colonial_partner_trigger = { REGION = colonial_brazil THRESHOLD = 100 }
+				rip_diaspora_colonial_partner_trigger = { REGION = colonial_la_plata THRESHOLD = 100 }
+			}
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_diaspora_south_america_settlers_flag
+		}
+	}
+
+	# --- Australia ---
+
+	rip_diaspora_australia = {
+		icon = mission_naval_kingdom
+		required_missions = { rip_diaspora_root }
+		position = 5
+		trigger = {
+			has_country_flag = rip_lysianskyi_circumnavigation_flag
+			any_owned_province = {
+				colonial_region = colonial_australia
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_navy_tradition = 10
+			set_country_flag = rip_diaspora_australia_flag
+		}
+	}
+
+	rip_diaspora_australia_settlers = {
+		icon = mission_friends_or_enemies
+		required_missions = { rip_diaspora_root }
+		position = 5
+		trigger = {
+			has_country_flag = rip_lysianskyi_circumnavigation_flag
+			NOT = { any_owned_province = { colonial_region = colonial_australia } }
+			rip_diaspora_colonial_partner_trigger = { REGION = colonial_australia THRESHOLD = 100 }
+		}
+		effect = {
+			add_prestige = 5
+			add_navy_tradition = 5
+			set_country_flag = rip_diaspora_australia_settlers_flag
+		}
+	}
+
+	# --- The Green Wedge (Far East): settle among strangers, or found a ---
+	# --- breakaway of our own kin ---
+
+	rip_green_wedge = {
+		icon = mission_afghan_frontier
+		required_missions = { rip_diaspora_root }
+		position = 6
+		trigger = {
+			is_subject = no
+			num_of_owned_provinces_with = {
+				region = manchuria_region
+				value = 3
+			}
+			NOT = {
+				any_owned_province = {
+					region = manchuria_region
+					NOT = { rip_diaspora_eligible_culture_province = yes }
+				}
+			}
+		}
+		effect = {
+			add_prestige = 10
+			set_country_flag = rip_green_wedge_flag
+			country_event = { id = rip_diaspora.20 days = 5 }
+		}
+	}
+
+	rip_green_wedge_settlers = {
+		icon = mission_trade_company_region_abroad
+		required_missions = { rip_diaspora_root }
+		position = 6
+		trigger = {
+			is_subject = no
+			total_development = 300
+			NOT = {
+				any_owned_province = {
+					region = manchuria_region
+				}
+			}
+			rip_diaspora_mainland_partner_trigger = { REGION = manchuria_region THRESHOLD = 100 }
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_green_wedge_settlers_flag
+		}
+	}
+
+	# --- The Grey Wedge (Central Asia): the same choice, the other steppe ---
+
+	rip_grey_wedge = {
+		icon = mission_rajputana_frontier
+		required_missions = { rip_diaspora_root }
+		position = 7
+		trigger = {
+			is_subject = no
+			num_of_owned_provinces_with = {
+				region = central_asia_region
+				value = 3
+			}
+			NOT = {
+				any_owned_province = {
+					region = central_asia_region
+					NOT = { rip_diaspora_eligible_culture_province = yes }
+				}
+			}
+		}
+		effect = {
+			add_prestige = 10
+			set_country_flag = rip_grey_wedge_flag
+			country_event = { id = rip_diaspora.21 days = 5 }
+		}
+	}
+
+	rip_grey_wedge_settlers = {
+		icon = mission_trade_company_region_abroad
+		required_missions = { rip_diaspora_root }
+		position = 7
+		trigger = {
+			is_subject = no
+			total_development = 300
+			NOT = {
+				any_owned_province = {
+					region = central_asia_region
+				}
+			}
+			rip_diaspora_mainland_partner_trigger = { REGION = central_asia_region THRESHOLD = 100 }
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_grey_wedge_settlers_flag
+		}
+	}
+
+	# --- Capstone. required_missions cannot express "either sibling of each
+	# pair", so it only names the shared root; the actual gate is the OR of
+	# each pair's two flags below, exactly mirroring what each single mission
+	# used to guarantee on its own before the fork. ---
+
+	rip_diaspora_of_rus = {
+		icon = mission_new_world_power
+		required_missions = { rip_diaspora_root }
+		position = 8
+		trigger = {
+			OR = {
+				has_country_flag = rip_diaspora_usa_flag
+				has_country_flag = rip_diaspora_usa_settlers_flag
+			}
+			OR = {
+				has_country_flag = rip_diaspora_south_america_flag
+				has_country_flag = rip_diaspora_south_america_settlers_flag
+			}
+			OR = {
+				has_country_flag = rip_diaspora_australia_flag
+				has_country_flag = rip_diaspora_australia_settlers_flag
+			}
+			OR = {
+				has_country_flag = rip_green_wedge_flag
+				has_country_flag = rip_green_wedge_settlers_flag
+			}
+			OR = {
+				has_country_flag = rip_grey_wedge_flag
+				has_country_flag = rip_grey_wedge_settlers_flag
+			}
+		}
+		effect = {
+			add_prestige = 25
+			add_country_modifier = {
+				name = rip_diaspora_of_rus_legacy
+				duration = -1
+			}
+			set_country_flag = rip_diaspora_of_rus_completed_flag
+		}
+	}
+}

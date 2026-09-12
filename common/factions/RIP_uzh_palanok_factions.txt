@@ -1,0 +1,23 @@
+# The two parties of the Palanok captaincy - a real vanilla FACTION contest
+# (base-game, no `allow` gate, same pattern as common/factions/RIP_kru_factions.txt),
+# not the Res Publica states_general scale it used to fake.
+# Enabled by uzh_palanok_captaincy_reform's `factions = { }` block in
+# common/government_reforms/RIP_UZH_government_reforms.txt.
+
+uzh_partia_soymu = {        # Sejm party - the trade oligarchy
+	monarch_power = DIP
+	always = yes
+	modifier = {
+		trade_efficiency = 0.10
+		build_cost = -0.10
+	}
+}
+
+uzh_partia_kapitaniv = {    # Captains' party - the military democracy
+	monarch_power = MIL
+	always = yes
+	modifier = {
+		land_morale = 0.10
+		global_manpower_modifier = 0.1
+	}
+}

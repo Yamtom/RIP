@@ -1,0 +1,65 @@
+# Country gates, repeated at the transaction boundary.
+rip_faith_is_eastern_orthodox = {
+	OR = { religion = orthodox religion = russian_orthodox }
+}
+
+rip_uc_see_province_trigger = { rip_church_center_site = yes }
+
+rip_uc_can_raise_see_trigger = { rip_church_can_found_center = yes }
+
+rip_uc_can_accept_brest_trigger = {
+	religion = orthodox
+	is_religion_enabled = greek_catholic
+	has_country_flag = pursuing_uniate_union
+	NOT = { has_country_flag = union_of_brest_happened }
+	exists = PAP
+	NOT = { war_with = PAP }
+	is_at_war = no
+	adm_power = 100
+	dip_power = 100
+	stability = 1
+}
+
+rip_ro_can_hold_sobor_trigger = {
+	religion = russian_orthodox
+	is_at_war = no
+	stability = 1
+	adm_power = 50
+	treasury = 100
+	patriarch_authority = 0.1
+	NOT = { has_country_modifier = rip_ro_sobor_recently_sat }
+}
+
+rip_kyiv_can_hold_council_trigger = {
+	religion = orthodox
+	is_at_war = no
+	stability = 1
+	adm_power = 50
+	treasury = 100
+	patriarch_authority = 0.1
+	NOT = { has_country_modifier = rip_kyiv_council_recent }
+	OR = {
+		capital_scope = { region = ruthenia_region }
+		tag = CHR tag = PRL tag = VLN tag = VOL tag = HLC tag = KIE tag = KRU
+	}
+}
+
+# One controlled core parish, including non-Christian mission fields.
+rip_faith_mission_province_trigger = {
+	owned_by = ROOT
+	controlled_by = ROOT
+	is_core = ROOT
+	is_city = yes
+	NOT = { religion = ROOT }
+	NOT = { has_province_modifier = rip_faith_funded_mission }
+}
+
+rip_faith_can_fund_mission_trigger = {
+	OR = { religion = orthodox religion = russian_orthodox religion = greek_catholic }
+	is_at_war = no
+	treasury = 100
+	adm_power = 25
+	patriarch_authority = 0.05
+	NOT = { has_country_modifier = rip_parish_visit_recent }
+	any_owned_province = { rip_faith_mission_province_trigger = yes }
+}

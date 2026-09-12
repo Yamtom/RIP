@@ -7,7 +7,7 @@ from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized
 
 icons = ('michael', 'eleusa', 'pancreator', 'nicholas')
 faith = read('common/religions/russian_orthodox.txt')
-assert not (ROOT / 'interface/countryreligionview.gui').exists()
+assert (ROOT / 'interface/countryreligionview.gui').exists()
 assert not (ROOT / 'interface/blessings.gui').exists()
 for forbidden in ('fervor = yes', 'holy_sites =', 'blessings =', 'uses_piety ='):
     assert forbidden not in normalized(faith), forbidden
@@ -41,20 +41,18 @@ if install is not None:
     assert re.search(r'ORTHODOX_ICON_DURATION_MONTHS\s*=\s*240', defines)
     assert re.search(r'ORTHODOX_ICON_AUTHORITY_COST\s*=\s*0\.1', defines)
     print('PASS: balance baseline and icon cost/duration match installed vanilla')
-for name, values in baseline.items():
-    actual = payload(named_block(faith, 'country' if name == 'country' else 'rip_ro_native_' + name))
-    expected = {k: Decimal(v) * Decimal('.95') for k,v in values.items()}
-    if name == 'country':
-        expected.update(global_missionary_strength=Decimal('-.001'),
-                        global_manpower_modifier=Decimal('-.0165'),
-                        global_unrest=Decimal('.15'))
-    assert actual == expected, (name, actual, expected)
-    print('95% payload:', name, ', '.join(k + '=' + str(v) for k,v in actual.items()))
+assert payload(named_block(faith, 'country')) == {
+    'stability_cost_modifier': Decimal('-.05'), 'tolerance_own': Decimal('.5')}
+for name in icons:
+    old = named_block(faith, 'rip_ro_native_' + name)
+    assert all(v == 0 for v in payload(old).values())
+    assert 'always = no' in named_block(old, 'allow')
+
 native = named_block(faith, 'orthodox_icons')
 assert re.findall(r'(?m)^\s*(rip_ro_native_\w+)\s*=\s*\{', native) == [
     *('rip_ro_native_' + name for name in icons), 'rip_ro_native_retired_climacus']
 for name in icons:
-    assert 'always = yes' in named_block(named_block(native, 'rip_ro_native_' + name), 'visible')
+    assert 'always = no' in named_block(named_block(native, 'rip_ro_native_' + name), 'visible')
 assert 'always = no' in named_block(named_block(native, 'rip_ro_native_retired_climacus'), 'visible')
 assert 'rip_ro_select_' not in read('decisions/RIP_OrthodoxIcons.txt')
 
@@ -91,4 +89,4 @@ assert 'has_country_flag = rip_ro_stage_raskol' in named_block(raskol, 'can_star
 assert 'stability = 1 religious_unity = 0.9' in named_block(raskol, 'can_end')
 assert 'monthly_fervor_increase' not in raskol
 assert 'rip_ro_icon_count' not in read('common/scripted_effects/rip_faith_zeal_effects.txt')
-print('PASS: one native panel, 95% configurable bonuses, legacy cleanup, site navigation and reachable Raskol conditions')
+print('PASS: half-sized base, retired native icons, custom host, legacy cleanup, site navigation and Raskol guards')

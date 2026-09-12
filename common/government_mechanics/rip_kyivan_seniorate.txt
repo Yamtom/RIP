@@ -1,0 +1,129 @@
+# =============================================================================
+# rip_kyivan_seniorate - kyivan_shogunate_reform (localised "Kyivan Seniorate")
+# was mapped onto shogunate_mechanic, which is the Japanese daimyo UI and wrong
+# for it. This is the Seniorate proper: the senior prince at Kyiv holds junior
+# Rurikid princes as senior_udil subjects (common/subject_types/rip_senior_udil.txt)
+# - a rotational seat, not a fixed patrimony, owing the levy rather than the
+# rent, held at the senior prince's pleasure and lapsing when a new senior
+# prince takes the throne (kie_on_actions.txt : on_new_monarch).
+#
+# Buttons-only (devshirme pattern): no powers, no .gui, monarch power spent in
+# the effect, vanilla Cossack ability sprites for the icons. Gated on Third Rome
+# / Domination like kyivan_seniority_mechanic - the UI panel comes with those.
+# =============================================================================
+
+kyivan_seniorate_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		OR = {
+			has_dlc = "Third Rome"
+			has_dlc = "Domination"
+		}
+		has_reform = kyivan_shogunate_reform
+	}
+
+	interactions = {
+		# Call up the senior udils' full retinues for a campaign - more than the
+		# standing forcelimit the seat already owes.
+		kyiv_call_the_princely_levy = {
+			icon = GFX_cossacks_ability_MIL
+			trigger = {
+				mil_power = 60
+				any_subject_country = {
+					is_subject_of_type = senior_udil
+				}
+				NOT = { has_country_modifier = rip_kyiv_princely_levy }
+			}
+			effect = {
+				add_mil_power = -60
+				add_country_modifier = {
+					name = rip_kyiv_princely_levy
+					duration = 3650
+				}
+			}
+			cooldown_years = 10
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 10
+					is_at_war = yes
+				}
+			}
+		}
+		# Move a junior prince up the ladder of thrones. A rotation the senior
+		# prince controls resets the seat-holder's standing toward Kyiv.
+		kyiv_rotate_the_seats = {
+			icon = GFX_cossacks_ability_DIP
+			trigger = {
+				dip_power = 60
+				any_subject_country = {
+					is_subject_of_type = senior_udil
+					liberty_desire = 30
+				}
+			}
+			effect = {
+				add_dip_power = -60
+				random_subject_country = {
+					limit = {
+						is_subject_of_type = senior_udil
+						liberty_desire = 30
+					}
+					add_liberty_desire = -40
+					add_opinion = {
+						who = ROOT
+						modifier = kyivan_confirmed_in_the_udil
+					}
+				}
+				add_legitimacy_equivalent = {
+					amount = 3
+					republican_tradition = 2
+				}
+			}
+			cooldown_years = 12
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 10
+					any_subject_country = {
+						is_subject_of_type = senior_udil
+						liberty_desire = 55
+					}
+				}
+			}
+		}
+		# Reconfirm every seat after a succession has lapsed the grants.
+		kyiv_reconfirm_the_grants = {
+			icon = GFX_cossacks_ability_ADM
+			trigger = {
+				adm_power = 40
+				any_subject_country = {
+					is_subject_of_type = senior_udil
+					has_country_modifier = rip_tenure_lapsed
+				}
+			}
+			effect = {
+				add_adm_power = -40
+				add_prestige = -5
+				every_subject_country = {
+					limit = {
+						is_subject_of_type = senior_udil
+						has_country_modifier = rip_tenure_lapsed
+					}
+					remove_country_modifier = rip_tenure_lapsed
+					add_liberty_desire = -15
+					add_trust = {
+						who = ROOT
+						value = 10
+						mutual = yes
+					}
+				}
+			}
+			cooldown_years = 5
+			ai_chance = {
+				factor = 20
+			}
+		}
+	}
+}

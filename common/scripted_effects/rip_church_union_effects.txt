@@ -1,0 +1,151 @@
+rip_church_gc_clamp_effect = {
+ if = { limit = { check_variable = { which = rip_church_communion value = 100 } } set_variable = { which = rip_church_communion value = 100 } }
+ if = { limit = { NOT = { check_variable = { which = rip_church_communion value = -100 } } } set_variable = { which = rip_church_communion value = -100 } }
+ if = { limit = { check_variable = { which = rip_church_papal_standing value = 100 } } set_variable = { which = rip_church_papal_standing value = 100 } }
+ if = { limit = { NOT = { check_variable = { which = rip_church_papal_standing value = 0 } } } set_variable = { which = rip_church_papal_standing value = 0 } }
+ if = { limit = { rip_church_gc_balanced = yes NOT = { has_country_flag = rip_church_balanced_since } } set_country_flag = rip_church_balanced_since }
+ else_if = { limit = { NOT = { rip_church_gc_balanced = yes } } clr_country_flag = rip_church_balanced_since }
+}
+rip_church_gc_shift_east_effect = {
+ if = { limit = { rip_church_can_shift_communion = yes check_variable = { which = rip_church_communion value = -99.999 } }
+ add_adm_power = -25 subtract_variable = { which = rip_church_communion value = 20 }
+ set_country_flag = rip_church_balance_shifted rip_church_gc_clamp_effect = yes rip_church_refresh_pa_effect = yes rip_church_refresh_relations_effect = yes }
+}
+rip_church_gc_shift_rome_effect = {
+ if = { limit = { rip_church_can_shift_communion = yes NOT = { check_variable = { which = rip_church_communion value = 100 } } }
+ add_adm_power = -25 change_variable = { which = rip_church_communion value = 20 }
+ set_country_flag = rip_church_balance_shifted rip_church_gc_clamp_effect = yes rip_church_refresh_pa_effect = yes rip_church_refresh_relations_effect = yes }
+}
+rip_church_gc_clear_privilege_effect = {
+ remove_country_modifier = rip_church_gc_infrastructure
+ remove_country_modifier = rip_church_gc_coexistence
+ remove_country_modifier = rip_church_gc_legate
+ remove_country_modifier = rip_church_gc_dynastic
+ remove_country_modifier = rip_church_gc_prestige
+}
+rip_church_gc_infrastructure_effect = {
+ if = { limit = { rip_church_gc_can_eastern_privilege = yes }
+ add_patriarch_authority = -0.2
+ if = { limit = { rip_church_gc_eastern = yes } add_treasury = -75 } else = { add_treasury = -100 }
+ subtract_variable = { which = rip_church_communion value = 10 }
+ add_country_modifier = { name = rip_church_gc_infrastructure duration = 3650 }
+ rip_church_gc_clamp_effect = yes rip_church_refresh_pa_effect = yes
+ }
+}
+rip_church_gc_coexistence_effect = {
+ if = { limit = { rip_church_gc_can_eastern_privilege = yes rip_church_gc_balanced = yes }
+ add_patriarch_authority = -0.2 add_treasury = -100
+ add_country_modifier = { name = rip_church_gc_coexistence duration = 3650 }
+ }
+}
+rip_church_gc_legate_effect = {
+ if = { limit = { rip_church_gc_can_roman_privilege = yes rip_church_gc_roman = yes }
+ subtract_variable = { which = rip_church_papal_standing value = 30 } add_treasury = -100
+ change_variable = { which = rip_church_communion value = 10 }
+ add_country_modifier = { name = rip_church_gc_legate duration = 3650 }
+ rip_church_gc_clamp_effect = yes
+ }
+}
+rip_church_gc_papal_support_effect = {
+ if = { limit = { rip_church_gc_can_roman_privilege = yes }
+ subtract_variable = { which = rip_church_papal_standing value = 30 } add_treasury = -100
+ change_variable = { which = rip_church_communion value = 10 }
+ if = { limit = { government = monarchy } add_country_modifier = { name = rip_church_gc_dynastic duration = 3650 } }
+ else = { add_country_modifier = { name = rip_church_gc_prestige duration = 3650 } }
+ rip_church_gc_clamp_effect = yes
+ }
+}
+# Province: charge exactly one ADM per current development, using native integer effects.
+rip_church_recognize_rite_effect = {
+ if = { limit = { rip_church_can_recognize_rite = yes }
+ export_to_variable = { which = rip_church_rite_price value = development }
+ while = { limit = { check_variable = { which = rip_church_rite_price value = 1 } }
+ owner = { add_adm_power = -1 } subtract_variable = { which = rip_church_rite_price value = 1 }
+ }
+ set_province_flag = rip_church_rite_recognized
+ add_province_modifier = { name = rip_church_rite duration = -1 }
+ owner = { rip_church_gc_refresh_parishes_effect = yes }
+ }
+}
+rip_church_clear_rite_effect = {
+ clr_province_flag = rip_church_rite_recognized
+ remove_province_modifier = rip_church_rite
+ remove_province_modifier = rip_church_rite_favoured
+ remove_province_modifier = rip_church_rite_ecumenical
+}
+rip_church_revoke_rite_effect = {
+ if = { limit = { rip_church_can_revoke_rite = yes }
+ rip_church_clear_rite_effect = yes
+ add_province_modifier = { name = rip_church_rite_revoked duration = 3650 }
+ owner = { set_country_flag = rip_church_forced_integration clr_country_flag = rip_church_balanced_since }
+ }
+}
+rip_church_gc_refresh_parishes_effect = {
+ set_variable = { which = rip_church_recognized_parishes value = 0 }
+ every_owned_province = {
+ remove_province_modifier = rip_church_rite_favoured
+ remove_province_modifier = rip_church_rite_ecumenical
+ remove_province_modifier = rip_church_gc_roman_resistance
+ if = { limit = { has_province_flag = rip_church_rite_recognized }
+ if = { limit = { NOT = { owner = { religion = greek_catholic } } } rip_church_clear_rite_effect = yes }
+ else_if = { limit = { NOT = { OR = { religion = orthodox religion = russian_orthodox religion = catholic } } } rip_church_clear_rite_effect = yes }
+ else = {
+ owner = { change_variable = { which = rip_church_recognized_parishes value = 1 } }
+ if = { limit = {
+ OR = { owner = { rip_church_gc_balanced = yes }
+ AND = { OR = { religion = orthodox religion = russian_orthodox } owner = { rip_church_gc_eastern = yes } }
+ AND = { religion = catholic owner = { rip_church_gc_roman = yes } } }
+ } add_province_modifier = { name = rip_church_rite_favoured duration = -1 } }
+ if = { limit = { owner = { has_country_flag = rip_church_ecumenical } } add_province_modifier = { name = rip_church_rite_ecumenical duration = -1 } }
+ }
+ }
+ else_if = { limit = { OR = { religion = orthodox religion = russian_orthodox } owner = { religion = greek_catholic rip_church_gc_roman = yes } }
+ add_province_modifier = { name = rip_church_gc_roman_resistance duration = -1 }
+ }
+ }
+}
+rip_church_gc_monthly_effect = {
+ rip_church_gc_clamp_effect = yes
+ set_variable = { which = rip_church_standing_income value = 0 }
+ if = { limit = { exists = PAP NOT = { war_with = PAP } PAP = { has_opinion = { who = ROOT value = 50 } } }
+ if = { limit = { rip_church_gc_eastern = yes } set_variable = { which = rip_church_standing_income value = 0.1 } }
+ else_if = { limit = { rip_church_gc_roman = yes } set_variable = { which = rip_church_standing_income value = 0.5 } }
+ else = { set_variable = { which = rip_church_standing_income value = 0.25 } }
+ change_variable = { which = rip_church_papal_standing which = rip_church_standing_income }
+ }
+ rip_church_gc_clamp_effect = yes
+ rip_church_gc_refresh_parishes_effect = yes
+}
+rip_church_begin_florence_effect = {
+ if = { limit = { rip_church_can_begin_florence = yes }
+ add_adm_power = -200 add_dip_power = -100 add_years_of_income = -1
+ set_country_flag = rip_church_florence_attempted set_country_flag = rip_church_florence_pending
+ }
+}
+rip_church_complete_florence_effect = {
+ if = { limit = {
+ has_country_flag = rip_church_florence_pending had_country_flag = { flag = rip_church_florence_pending days = 1825 }
+ OR = { religion = catholic religion = orthodox } exists = PAP NOT = { war_with = PAP }
+ is_at_war = no stability = 2 PAP = { has_opinion = { who = ROOT value = 100 } }
+ any_owned_province = { rip_church_florence_parish = yes }
+ }
+ clr_country_flag = rip_church_florence_pending
+ set_country_flag = rip_church_florentine_union
+ enable_religion = greek_catholic
+ if = { limit = { religion = catholic }
+ set_country_flag = rip_church_supports_union
+ clr_country_flag = rip_church_opposes_union
+ random_owned_province = { limit = { rip_church_florence_parish = yes } change_religion = greek_catholic }
+ }
+ else = { rip_faith_adopt_union_effect = yes }
+ set_country_flag = rip_church_union_founded
+ country_event = { id = rip_church.5 }
+ }
+}
+rip_church_achieve_ecumenism_effect = {
+ if = { limit = { rip_church_can_ecumenism = yes }
+ set_country_flag = rip_church_ecumenical
+ rip_church_gc_refresh_parishes_effect = yes
+ rip_church_refresh_relations_effect = yes
+ }
+}

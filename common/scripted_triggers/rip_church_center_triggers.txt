@@ -1,0 +1,32 @@
+# Province scope. ROOT is the sponsoring country for construction.
+rip_church_center_site = {
+ is_city = yes religion = greek_catholic owned_by = ROOT controlled_by = ROOT is_core = ROOT development = 10
+ OR = { has_building = temple has_building = cathedral } is_reformation_center = no
+}
+rip_church_can_found_center = {
+ rip_church_union_supporter = yes is_at_war = no stability = 1 adm_power = 100 years_of_income = 1
+ is_religion_enabled = greek_catholic
+ NOT = { any_province = { religion = greek_catholic OR = { is_reformation_center = yes has_province_flag = rip_church_center_suspended } } }
+ OR = { NOT = { has_country_flag = rip_church_center_founded_recently } had_country_flag = { flag = rip_church_center_founded_recently days = 7300 } }
+ any_owned_province = { rip_church_center_site = yes }
+}
+rip_church_center_alive = {
+ religion = greek_catholic is_reformation_center = yes is_city = yes
+ owner = { rip_church_union_supporter = yes }
+}
+rip_church_union_target = {
+ is_city = yes NOT = { has_missionary = yes } NOT = { province_id = 118 }
+ NOT = { has_province_modifier = religious_center } NOT = { has_province_modifier = religious_zeal_at_conv }
+ NOT = { has_province_flag = rip_church_rite_recognized }
+ OR = { religion = orthodox religion = russian_orthodox religion = catholic }
+ event_target:rip_church_union_seat = { rip_church_center_alive = yes controlled_by = owner }
+ OR = {
+ has_province_flag = rip_church_union_ring_0 has_province_flag = rip_church_union_ring_1 has_province_flag = rip_church_union_ring_2
+ AND = { event_target:rip_church_union_patron = { has_country_flag = rip_church_ecumenical }
+ OR = { has_province_flag = rip_church_union_ring_3 has_province_flag = rip_church_union_ring_4 } }
+ }
+ if = { limit = { religion = catholic }
+ has_province_flag = rip_church_latin_consent
+ OR = { has_province_flag = rip_church_union_ring_0 event_target:rip_church_union_patron = { has_country_flag = rip_church_ecumenical } }
+ }
+}

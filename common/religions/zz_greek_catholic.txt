@@ -3,11 +3,11 @@ christian = {
 		color = { 178 128 204 }
 		icon = 31
 
-		# Same two intrinsic bonuses as Catholicism, each at 105%.
-		country = {
-			tolerance_own = 1.05
-			global_heathen_missionary_strength = 0.0105
-		}
+		# Communion-management base; no native papacy.
+country = {
+ tolerance_own = 0.5
+ diplomatic_reputation = 0.5
+}
 
 		country_as_secondary = {
 			tolerance_heretic = 1
@@ -18,19 +18,19 @@ christian = {
 			local_missionary_strength = 0.01
 		}
 
-		# The existing See converts both eastern and Latin-rite parishes.
+		# Latin parishes require explicit local consent; target weights enforce this.
 		allowed_center_conversion = {
+ 			catholic
 			orthodox
 			russian_orthodox
-			catholic
 		}
 
-		# One native authority panel. Petitions are country decisions, not a
-		# second papacy or a custom GUI controller. See the current balance doc.
+		# Native internal authority; the scripted pane also shows separate Papal Standing.
+		# Limited privileges replace the old petitions and synod.
 		has_patriarchs = yes
 
 		# Preserve the five legacy save indices with zero payloads. No selectable
-		# Orthodox icons may stack with the new Curia/synod benefit.
+		# Orthodox icons may stack with the scripted church privilege.
 		orthodox_icons = {
 			rip_gc_icon_michael = {
 				discipline = 0
@@ -66,16 +66,14 @@ christian = {
 
 		hre_heretic_religion = yes
 
-		heretic = { BOGOMILIST }
+		# Non-uniate opposition is distinct from the Muscovite Old Believers.
+		# Orthodox zealots in the union event chain retain vanilla Orthodox demands.
+		heretic = { RIP_UNION_OPPONENT }
 
 		date = 1596.10.6
 
 		on_convert = {
-			add_prestige = 10
-			add_country_modifier = {
-				name = uniate_church_consolidation
-				duration = 3650
-			}
+			rip_faith_initialize_hierarchy_effect = yes
 		}
 	}
 }

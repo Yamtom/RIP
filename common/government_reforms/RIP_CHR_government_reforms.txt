@@ -5,6 +5,7 @@
 
 siversk_veche_reform = {
 	icon = "merchant"
+	boost_income = yes
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -15,6 +16,8 @@ siversk_veche_reform = {
 	has_term_election = yes
 	rulers_can_be_generals = yes
 	royal_marriage = no
+	republic = yes
+	allow_force_tributary = yes
 	potential = {
 		OR = {
 			tag = CHR
@@ -36,6 +39,7 @@ siversk_veche_reform = {
 		locked_government_type = yes
 		enables_plutocratic_idea_group = yes
 		enables_aristocratic_idea_group = no
+		elections_increase_factions_influence = yes
 	}
 	conditional = {
 		allow = {
@@ -45,6 +49,36 @@ siversk_veche_reform = {
 			}
 		}
 		has_parliament = yes
+	}
+	conditional = {
+		allow = { has_dlc = "The Cossacks" }
+		custom_attributes = {
+			enables_estate_cossacks = yes
+		}
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			NOT = { has_dlc = "Mare Nostrum" }
+		}
+		can_use_trade_post = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Mare Nostrum"
+			NOT = { has_dlc = "Res Publica" }
+		}
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			has_dlc = "Mare Nostrum"
+		}
+		can_use_trade_post = yes
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
 	}
 }
 
@@ -166,6 +200,15 @@ chr_desna_staple_reform = {
 		can_form_trade_league = yes
 		trade_city_reform = trading_city
 	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
+		}
+		has_parliament = yes
+	}
 }
 
 chr_town_union_reform = {
@@ -189,6 +232,7 @@ chr_town_union_reform = {
 	heir = no
 	royal_marriage = no
 	rulers_can_be_generals = yes
+	boost_income = yes
 	modifiers = {
 		governing_capacity = 100
 		trade_efficiency = 0.05
@@ -210,6 +254,30 @@ chr_town_union_reform = {
 			}
 		}
 		has_parliament = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			NOT = { has_dlc = "Mare Nostrum" }
+		}
+		can_use_trade_post = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Mare Nostrum"
+			NOT = { has_dlc = "Res Publica" }
+		}
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			has_dlc = "Mare Nostrum"
+		}
+		can_use_trade_post = yes
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
 	}
 }
 
@@ -234,6 +302,7 @@ chr_rada_of_lands_reform = {
 	heir = no
 	royal_marriage = no
 	rulers_can_be_generals = yes
+	boost_income = yes
 	modifiers = {
 		governing_capacity = 100
 		global_unrest = -1

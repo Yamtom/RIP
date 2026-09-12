@@ -68,7 +68,7 @@ if install is not None:
 else:
     print('SKIP: installed vanilla unavailable; only the versioned 1.37.5 snapshot is checked')
 assert payload(named_block(faith, 'country')) == {
-    k: v * Decimal('1.05') for k, v in COUNTRY.items()
+    'tolerance_own': Decimal('.5'), 'diplomatic_reputation': Decimal('.5')
 }
 assert 'has_patriarchs = yes' in normalized(faith)
 assert not re.search(r'\b(?:papacy|fervor|holy_sites|blessings|uses_church_power)\s*=', normalized(faith))
@@ -77,18 +77,17 @@ for icon in ('michael', 'eleusa', 'pancreator', 'nicholas', 'climacus'):
     assert all(v == 0 for v in payload(old).values())
     assert 'always = no' in named_block(old, 'allow')
     assert 'always = no' in named_block(old, 'visible')
-for gui in ('countryreligionview.gui', 'papacy.gui', 'blessings.gui'):
+assert (ROOT / 'interface/countryreligionview.gui').exists()
+for gui in ('papacy.gui', 'blessings.gui'):
     assert not (ROOT / 'interface' / gui).exists(), gui
 
 slot = named_block(triggers, 'rip_uc_has_church_benefit')
 expected_benefits = {'rip_uc_curia_' + n for n in PETS} | set(SYNOD.values())
 assert set(re.findall(r'has_country_modifier\s*=\s*(\w+)', slot)) == expected_benefits
 common_gate = normalized(named_block(triggers, 'rip_uc_can_petition_the_curia'))
-for clause in ('religion = greek_catholic', 'has_country_flag = rip_uc_see_raised',
-               'patriarch_authority = 0.25', 'exists = PAP', 'NOT = { war_with = PAP }',
-               'stability = 0', 'who = ROOT value = 25',
-               'NOT = { rip_uc_has_church_benefit = yes }'):
-    assert clause in common_gate, clause
+assert 'always = no' in common_gate
+assert 'always = no' in named_block(triggers, 'rip_uc_can_hold_synod')
+assert 'always = no' in named_block(triggers, 'rip_uc_can_donate')
 for name, (vanilla, ducats) in PETS.items():
     actual = named_block(modifiers, 'rip_uc_curia_' + name)
     assert payload(actual) == {k: Decimal(v) * Decimal('1.05') for k, v in BASELINE[name].items()}, name
@@ -105,7 +104,7 @@ for name, (vanilla, ducats) in PETS.items():
     assert guarded.count('rip_uc_petition_cost_effect = yes') == 1
     assert f'name = rip_uc_curia_{name}' in guarded and 'duration = 7300' in guarded
     assert 'add_country_modifier' not in named_block(decision, 'effect')
-    print('PASS: 105% vanilla payload and guarded payment:', name)
+    print('PASS: retired legacy packet remains gated off:', name)
 assert 'prestige = 25' in named_block(triggers, 'rip_uc_can_petition_legate')
 assert 'is_at_war = yes' in named_block(triggers, 'rip_uc_can_petition_holy_war')
 assert 'add_patriarch_authority = -0.25' in named_block(resource, 'rip_uc_spend_the_standing_effect')
@@ -119,7 +118,7 @@ synod = next(b for _, b in keyed_blocks(read('events/RIP_FaithCanons.txt'), 'cou
              if re.search(r'id\s*=\s*rip_faith\.2\b', b) and 'title =' in b)
 assert 'duration = -1' not in synod and 'add_dip_power' not in synod
 assert 'add_adm_power' not in named_block(decisions, 'rip_uc_hold_a_synod')
-assert 'NOT = { rip_uc_has_church_benefit = yes }' in normalized(named_block(triggers, 'rip_uc_can_hold_synod'))
+assert 'always = no' in normalized(named_block(triggers, 'rip_uc_can_hold_synod'))
 for letter, modifier in SYNOD.items():
     option = next(b for _, b in keyed_blocks(synod, 'option') if f'name = rip_faith.2.{letter}' in b)
     assert 'rip_uc_can_hold_synod = yes' in named_block(option, 'trigger')
@@ -139,7 +138,7 @@ assert 'rip_gc_unity_spread_effect =' not in spread
 assert 'rip_gc_unity_spread_effect = yes' not in hooks
 tick = named_block(resource, 'rip_uc_standing_tick_effect')
 assert 'papal_legate' not in tick
-assert 'add_patriarch_authority = 0.02' in tick and 'add_patriarch_authority = -0.02' in tick
+assert 'add_patriarch_authority' not in tick, 'retired standing tick must remain inert'
 donation = named_block(resource, 'rip_uc_donation_effect')
 assert 'rip_uc_can_donate = yes' in named_block(donation, 'limit')
 assert 'add_treasury = -150' in donation and 'add_patriarch_authority = 0.10' in donation
@@ -170,5 +169,5 @@ assert loc_path.read_bytes().startswith(b'\xef\xbb\xbf')
 loc = loc_path.read_text(encoding='utf-8-sig')
 for key in expected_benefits - set(SYNOD.values()):
     assert f' {key}:0 ' in loc
-print('PASS: one benefit, no free cancel, retired conversion rewards, migration, native GUI isolation')
-print('LIMIT: 105% compares matching numeric bonuses, not total religion/campaign effectiveness')
+print('PASS: legacy petitions/synod/donations disabled, save cleanup retained, vanilla papacy untouched')
+print('LIMIT: legacy numeric packets are inactive; campaign balance is checked separately')

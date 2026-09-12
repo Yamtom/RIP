@@ -1,0 +1,28 @@
+# Country hooks; maintenance never awards monthly income during startup/reload.
+on_startup = {
+ rip_church_v3_initialize_effect = yes
+ rip_church_union_center_migration_effect = yes
+ clr_global_flag = rip_church_union_swept
+ rip_church_union_global_maintenance_effect = yes
+ if = { limit = { rip_church_is_new_faith = yes }
+ rip_church_refresh_pa_effect = yes rip_church_ro_isolation_effect = yes rip_church_refresh_relations_effect = yes
+ if = { limit = { religion = russian_orthodox } rip_church_ro_maintain_nodes_effect = yes rip_church_ro_enforce_capacity_effect = yes }
+ else = { rip_church_gc_clamp_effect = yes rip_church_gc_refresh_parishes_effect = yes }
+ }
+}
+on_monthly_pulse = { rip_church_v3_monthly_effect = yes }
+on_religion_change = { rip_church_v3_religion_change_effect = yes }
+on_province_owner_change = { rip_church_province_change_effect = yes }
+on_province_religion_changed = { rip_church_province_change_effect = yes }
+on_province_religion_converted = {
+ if = { limit = { owner = { religion = greek_catholic } }
+ owner = { set_country_flag = rip_church_forced_integration clr_country_flag = rip_church_balanced_since }
+ }
+ rip_church_province_change_effect = yes
+}
+on_convert_by_trade_policy = {
+ if = { limit = { FROM = { religion = russian_orthodox } }
+ add_province_modifier = { name = rip_church_conversion_pressure duration = 3650 }
+ owner = { if = { limit = { NOT = { tag = FROM } } add_opinion = { who = FROM modifier = rip_church_opinion_propagation_conflict } } }
+ }
+}

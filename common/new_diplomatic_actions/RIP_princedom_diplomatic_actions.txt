@@ -94,6 +94,7 @@ rip_grant_the_udil = {
 		}
 		FROM = {
 			NOT = { is_subject_of_type = princedom }
+			NOT = { is_subject_of_type = senior_udil }
 		}
 	}
 
@@ -112,9 +113,21 @@ rip_grant_the_udil = {
 		# above means by "it is also how it came apart", and it is felt from 1444
 		# rather than from 1620, which is all add_absolutism ever managed.
 		add_prestige = -10
-		create_subject = {
-			subject_type = princedom
-			subject = FROM
+		# Under the Kyivan Seniorate the udil is a rotational seat, not a fixed
+		# patrimony - a senior_udil, which owes the levy and lapses on succession.
+		# common/subject_types/rip_senior_udil.txt.
+		if = {
+			limit = { has_reform = kyivan_shogunate_reform }
+			create_subject = {
+				subject_type = senior_udil
+				subject = FROM
+			}
+		}
+		else = {
+			create_subject = {
+				subject_type = princedom
+				subject = FROM
+			}
 		}
 		FROM = {
 			add_liberty_desire = -20
@@ -173,7 +186,10 @@ rip_revoke_the_udil = {
 	is_visible = {
 		overlord_of = FROM
 		FROM = {
-			is_subject_of_type = princedom
+			OR = {
+				is_subject_of_type = princedom
+				is_subject_of_type = senior_udil
+			}
 			has_country_modifier = rip_held_as_an_udil
 		}
 	}
@@ -198,6 +214,7 @@ rip_revoke_the_udil = {
 		}
 		FROM = {
 			remove_country_modifier = rip_held_as_an_udil
+			remove_country_modifier = rip_tenure_lapsed
 			# principality_appanage carries allow_normal_conversion = no and
 			# locked_government_type = yes, so an ex-udil left holding it could
 			# never change government again. The hand that gave it takes it back.

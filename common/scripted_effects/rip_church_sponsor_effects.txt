@@ -1,0 +1,30 @@
+rip_church_sponsor_union_effect = {
+ if = { limit = { rip_church_can_sponsor_union = yes }
+ add_adm_power = -100 add_dip_power = -100 add_years_of_income = -1
+ enable_religion = greek_catholic set_country_flag = rip_church_supports_union
+ clr_country_flag = rip_church_opposes_union
+ set_country_flag = rip_church_union_founded
+ random_owned_province = { limit = { rip_church_florence_parish = yes } change_religion = greek_catholic }
+ }
+}
+rip_church_latin_consent_effect = {
+ # Province, consent to gradual adoption of the Byzantine rite; no immediate conversion.
+ if = { limit = {
+ religion = catholic controlled_by = owner
+ NOT = { has_province_flag = rip_church_latin_consent } NOT = { has_province_flag = rip_church_rite_recognized }
+ owner = { rip_church_union_supporter = yes adm_power = 25 }
+ }
+ owner = { add_adm_power = -25 }
+ set_province_flag = rip_church_latin_consent
+ }
+}
+rip_church_council_rip_ro_sobor_lands_effect = { add_patriarch_authority = 0.2 }
+rip_church_council_rip_ro_sobor_books_effect = {
+ change_variable = { which = rip_church_fervor value = 30 }
+ if = { limit = { check_variable = { which = rip_church_fervor value = 100 } } set_variable = { which = rip_church_fervor value = 100 } }
+}
+rip_church_council_rip_ro_sobor_courts_effect = {
+ every_owned_province = { limit = { religion = orthodox } remove_province_modifier = forced_conversions }
+ clr_country_flag = rip_church_forced_integration
+ add_patriarch_authority = 0.1
+}

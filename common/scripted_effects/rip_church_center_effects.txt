@@ -1,0 +1,123 @@
+# The sole global seat makes source comparisons unambiguous for native weights.
+rip_church_found_center_effect = {
+ if = { limit = { rip_church_can_found_center = yes }
+ add_adm_power = -100 add_years_of_income = -1
+ set_country_flag = rip_church_center_founded_recently
+ set_country_flag = rip_uc_see_raised
+ random_owned_province = {
+ limit = { rip_church_center_site = yes }
+ add_reform_center = greek_catholic
+ add_province_modifier = { name = rip_uc_see_of_the_union duration = -1 }
+ save_global_event_target_as = rip_church_union_seat
+ }
+ save_global_event_target_as = rip_church_union_patron
+ rip_church_rebuild_union_network_effect = yes
+ }
+}
+rip_church_clear_union_network_effect = {
+ every_province = { limit = { OR = { has_province_flag = rip_church_union_ring_0 has_province_flag = rip_church_union_ring_1 has_province_flag = rip_church_union_ring_2 has_province_flag = rip_church_union_ring_3 has_province_flag = rip_church_union_ring_4 has_province_flag = rip_church_union_frontier } }
+ clr_province_flag = rip_church_union_ring_0
+clr_province_flag = rip_church_union_ring_1
+clr_province_flag = rip_church_union_ring_2
+clr_province_flag = rip_church_union_ring_3
+clr_province_flag = rip_church_union_ring_4
+ clr_province_flag = rip_church_union_frontier
+ }
+}
+rip_church_rebuild_union_network_effect = {
+ rip_church_clear_union_network_effect = yes
+ if = { limit = { any_province = { rip_church_center_alive = yes } }
+ random_province = { limit = { rip_church_center_alive = yes }
+ save_global_event_target_as = rip_church_union_seat owner = { save_global_event_target_as = rip_church_union_patron }
+ }
+ every_province = { limit = { is_city = yes area = event_target:rip_church_union_seat } set_province_flag = rip_church_union_ring_0 }
+
+ # Snapshot wave 1: only an existing Greek Catholic parish can bridge an area boundary.
+ every_province = { limit = { religion = greek_catholic has_province_flag = rip_church_union_ring_0 }
+ every_neighbor_province = { limit = { is_city = yes NOT = { area = PREV } } set_province_flag = rip_church_union_frontier }
+ }
+ every_province = { limit = { has_province_flag = rip_church_union_frontier }
+ area = { limit = { is_city = yes NOT = { OR = { has_province_flag = rip_church_union_ring_0 } } }
+ set_province_flag = rip_church_union_ring_1 }
+ }
+ every_province = { limit = { has_province_flag = rip_church_union_frontier } clr_province_flag = rip_church_union_frontier }
+
+ # Snapshot wave 2: only an existing Greek Catholic parish can bridge an area boundary.
+ every_province = { limit = { religion = greek_catholic has_province_flag = rip_church_union_ring_1 }
+ every_neighbor_province = { limit = { is_city = yes NOT = { area = PREV } } set_province_flag = rip_church_union_frontier }
+ }
+ every_province = { limit = { has_province_flag = rip_church_union_frontier }
+ area = { limit = { is_city = yes NOT = { OR = { has_province_flag = rip_church_union_ring_0 has_province_flag = rip_church_union_ring_1 } } }
+ set_province_flag = rip_church_union_ring_2 }
+ }
+ every_province = { limit = { has_province_flag = rip_church_union_frontier } clr_province_flag = rip_church_union_frontier }
+
+ # Snapshot wave 3: only an existing Greek Catholic parish can bridge an area boundary.
+ every_province = { limit = { religion = greek_catholic has_province_flag = rip_church_union_ring_2 }
+ every_neighbor_province = { limit = { is_city = yes NOT = { area = PREV } } set_province_flag = rip_church_union_frontier }
+ }
+ every_province = { limit = { has_province_flag = rip_church_union_frontier }
+ area = { limit = { is_city = yes NOT = { OR = { has_province_flag = rip_church_union_ring_0 has_province_flag = rip_church_union_ring_1 has_province_flag = rip_church_union_ring_2 } } }
+ set_province_flag = rip_church_union_ring_3 }
+ }
+ every_province = { limit = { has_province_flag = rip_church_union_frontier } clr_province_flag = rip_church_union_frontier }
+
+ # Snapshot wave 4: only an existing Greek Catholic parish can bridge an area boundary.
+ every_province = { limit = { religion = greek_catholic has_province_flag = rip_church_union_ring_3 }
+ every_neighbor_province = { limit = { is_city = yes NOT = { area = PREV } } set_province_flag = rip_church_union_frontier }
+ }
+ every_province = { limit = { has_province_flag = rip_church_union_frontier }
+ area = { limit = { is_city = yes NOT = { OR = { has_province_flag = rip_church_union_ring_0 has_province_flag = rip_church_union_ring_1 has_province_flag = rip_church_union_ring_2 has_province_flag = rip_church_union_ring_3 } } }
+ set_province_flag = rip_church_union_ring_4 }
+ }
+ every_province = { limit = { has_province_flag = rip_church_union_frontier } clr_province_flag = rip_church_union_frontier }
+ }
+}
+rip_church_union_global_maintenance_effect = {
+ if = { limit = { OR = { NOT = { has_global_flag = rip_church_union_swept } had_global_flag = { flag = rip_church_union_swept days = 28 } } }
+ set_global_flag = rip_church_union_swept
+ rip_church_refresh_conversion_resistance_effect = yes
+ every_province = { limit = {
+ OR = { has_province_modifier = rip_uc_see_of_the_union has_province_flag = rip_church_center_suspended }
+ NOT = { AND = { religion = greek_catholic owner = { rip_church_union_supporter = yes } OR = { is_reformation_center = yes has_province_flag = rip_church_center_suspended } } }
+ }
+ if = { limit = { is_reformation_center = yes } remove_reform_center = greek_catholic }
+ remove_province_modifier = rip_uc_see_of_the_union
+ clr_province_flag = rip_church_center_suspended
+ }
+ # Native in-flight conversions cannot be stopped by target weights alone.
+ # Suspend the engine centre while occupied, retaining the single world reservation.
+ every_province = { limit = { rip_church_center_alive = yes NOT = { controlled_by = owner } }
+ remove_reform_center = greek_catholic
+ set_province_flag = rip_church_center_suspended
+ }
+ every_province = { limit = {
+ has_province_flag = rip_church_center_suspended religion = greek_catholic controlled_by = owner
+ owner = { rip_church_union_supporter = yes } is_reformation_center = no
+ }
+ add_reform_center = greek_catholic
+ clr_province_flag = rip_church_center_suspended
+ }
+ rip_church_rebuild_union_network_effect = yes
+ }
+}
+rip_church_union_center_migration_effect = {
+ if = { limit = { NOT = { has_global_flag = rip_church_center_v3_migrated } }
+ set_global_flag = rip_church_center_v3_migrated
+ # A consenting Catholic patron may inherit an old seat; no free new centre.
+ every_province = { limit = { religion = greek_catholic is_reformation_center = yes owner = { religion = catholic } }
+ owner = { set_country_flag = rip_church_supports_union }
+ }
+ rip_church_pick_migration_seat_effect = yes
+ every_province = { limit = { religion = greek_catholic is_reformation_center = yes NOT = { has_province_flag = rip_church_seat_selected } }
+ remove_reform_center = greek_catholic
+ remove_province_modifier = rip_uc_see_of_the_union
+ add_province_modifier = { name = rip_church_gc_local_see duration = -1 }
+ }
+ every_province = { limit = { has_province_flag = rip_church_seat_selected }
+ clr_province_flag = rip_church_seat_selected
+ add_province_modifier = { name = rip_uc_see_of_the_union duration = -1 }
+ }
+ rip_church_rebuild_union_network_effect = yes
+ }
+}

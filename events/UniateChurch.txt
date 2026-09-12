@@ -110,7 +110,9 @@ country_event = {
 		set_country_flag = uniate_union_proposed
 		set_country_flag = pursuing_uniate_union
 		
-		add_papal_influence = 10
+		add_prestige = 5
+
+		rip_uc_clear_historical_policy_effect = yes
 		add_country_modifier = {
 			name = uniate_union_established
 			duration = 7300
@@ -151,14 +153,19 @@ country_event = {
 	
 	option = { # Enforce union aggressively
 		name = uniate_church.2.a
+		trigger = { rip_uc_can_accept_brest_trigger = yes }
 		ai_chance = { factor = 30 }
 		
 		# Signing the union used to leave the country Orthodox: the religion was
 		# never adopted, so events .11 to .20 could not fire and the faith existed
 		# on the map only where one random province had been converted.
-		change_religion = greek_catholic
+		add_adm_power = -100
+		add_dip_power = -100
+		rip_faith_adopt_union_effect = yes
 		set_country_flag = union_of_brest_happened
-		add_country_modifier = {
+		set_country_flag = rip_church_forced_integration
+ clr_country_flag = rip_church_balanced_since
+ add_country_modifier = {
 			name = forced_religious_union
 			duration = 5475
 		}
@@ -180,32 +187,39 @@ country_event = {
 	
 	option = { # Allow gradual transition
 		name = uniate_church.2.b
+		trigger = { rip_uc_can_accept_brest_trigger = yes }
 		ai_chance = { factor = 50 }
 		
-		change_religion = greek_catholic
+		add_adm_power = -100
+		add_dip_power = -100
+		rip_faith_adopt_union_effect = yes
 		set_country_flag = union_of_brest_happened
-		add_country_modifier = {
+
+		rip_uc_clear_historical_policy_effect = yes
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = dual_communion_compromise
 			duration = 7300
 		}
-		
-		random_owned_province = {
-			limit = { religion = orthodox }
-			change_religion = greek_catholic
-		}
+
 	}
 	
 	option = { # Seek Catholic support
 		name = uniate_church.2.c
+		trigger = { religion = orthodox has_country_flag = pursuing_uniate_union NOT = { has_country_flag = union_of_brest_happened } }
 		ai_chance = { factor = 20 }
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 			name = catholic_backing_uniate
 			duration = 5475
 		}
 		
 		improve_relation_with_pope = yes
 	}
+	option = { name = rip_church_council.cancel ai_chance = { factor = 1 } }
 }
 
 country_event = {
@@ -234,7 +248,9 @@ country_event = {
 		set_country_flag = orthodox_brotherhoods_suppressed
 		set_country_flag = uniate_brotherhood_resolution_done
 		
-		add_country_modifier = {
+		set_country_flag = rip_church_forced_integration
+ clr_country_flag = rip_church_balanced_since
+ add_country_modifier = {
 			name = forced_religious_union
 			duration = 3650
 		}
@@ -257,8 +273,11 @@ country_event = {
 		
 		set_country_flag = orthodox_brotherhoods_resisted
 		set_country_flag = uniate_brotherhood_resolution_done
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = orthodox_uniate_coexistence
 			duration = 5475
 		}
@@ -346,7 +365,9 @@ country_event = {
 		set_country_flag = cossack_orthodox_stance_forced
 		set_country_flag = cossack_orthodox_stance_determined
 		
-		add_country_modifier = {
+		set_country_flag = rip_church_forced_integration
+ clr_country_flag = rip_church_balanced_since
+ add_country_modifier = {
 			name = forced_religious_union
 			duration = 3650
 		}
@@ -388,8 +409,11 @@ country_event = {
 		
 		set_country_flag = cossack_orthodox_stance_compromise
 		set_country_flag = cossack_orthodox_stance_determined
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = dual_communion_compromise
 			duration = 5475
 		}
@@ -431,8 +455,11 @@ country_event = {
 		
 		set_country_flag = zamosc_synod_latinized
 		set_country_flag = zamosc_synod_held
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 			name = zamosc_synod_latinization
 			duration = 7300
 		}
@@ -444,8 +471,11 @@ country_event = {
 		
 		set_country_flag = zamosc_synod_eastern_rite
 		set_country_flag = zamosc_synod_held
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = eastern_rite_preservation
 			duration = 7300
 		}
@@ -476,8 +506,13 @@ country_event = {
 		ai_chance = { factor = 70 }
 		
 		set_country_flag = uniate_education_established
+
+		rip_uc_clear_historical_policy_effect = yes
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = uniate_educational_network
 			duration = 7300
 		}
@@ -516,8 +551,13 @@ country_event = {
 		ai_chance = { factor = 80 }
 		
 		set_country_flag = uniate_culture_flourished
+
+		rip_uc_clear_historical_policy_effect = yes
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = uniate_cultural_flowering
 			duration = 7300
 		}
@@ -572,7 +612,8 @@ country_event = {
 		set_country_flag = moscow_interference_ignored
 		set_country_flag = moscow_interference_handled
 		
-		add_country_modifier = {
+		set_country_flag = rip_church_opposes_union
+ add_country_modifier = {
 			name = moscow_anti_union_campaign
 			duration = 3650
 		}
@@ -587,6 +628,8 @@ country_event = {
 	picture = RELIGION_eventPicture
 	
 	trigger = {
+		religion = greek_catholic
+		is_religion_enabled = greek_catholic
 		has_country_flag = pursuing_uniate_union
 		NOT = { has_country_flag = greek_catholic_center_established }
 		owns = 2961 # Lviv
@@ -598,28 +641,15 @@ country_event = {
 	mean_time_to_happen = {
 		months = 24
 	}
-	
-	option = { # Establish Lviv as center
+
+	option = {
 		name = uniate_church.9.a
+		trigger = { treasury = 100 adm_power = 25 owns = 2961 2961 = { controlled_by = ROOT is_core = ROOT religion = orthodox } }
 		ai_chance = { factor = 70 }
-		
+		add_treasury = -100
+		add_adm_power = -25
 		set_country_flag = greek_catholic_center_established
-		
-		2961 = {
-			change_religion = greek_catholic
-			add_province_modifier = {
-				name = greek_catholic_center
-				duration = -1
-			}
-			add_base_tax = 2
-			add_base_production = 1
-			add_base_manpower = 1
-		}
-		
-		add_country_modifier = {
-			name = greek_catholic_reformation_active
-			duration = 10950 # 30 years
-		}
+		2961 = { add_province_modifier = { name = rip_faith_funded_mission duration = 3650 } }
 	}
 	
 	option = { # Wait for better time
@@ -716,8 +746,11 @@ country_event = {
 	option = { # Launch missionary campaign
 		name = uniate_church.11.a
 		ai_chance = { factor = 70 }
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = greek_catholic_missionary_activity
 			duration = 5475
 		}
@@ -758,6 +791,9 @@ country_event = {
 	
 	option = { # Establish metropolitan see
 		name = uniate_church.12.a
+		trigger = { treasury = 100 adm_power = 50 }
+		add_treasury = -100
+		add_adm_power = -50
 		ai_chance = { factor = 80 }
 		
 		set_country_flag = greek_catholic_metropolitan_established
@@ -773,17 +809,20 @@ country_event = {
 			}
 			add_province_modifier = {
 				name = uniate_metropolitan_see
-				duration = -1
+				duration = 7300
 			}
-			add_base_tax = 1
 		}
+
+		rip_uc_clear_historical_policy_effect = yes
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = greek_catholic_synodal_administration
 			duration = 7300
 		}
-		
-		greek_catholic_faith_bonus = yes
+
 	}
 	
 	option = { # Delay establishment
@@ -823,7 +862,8 @@ country_event = {
 		
 		set_country_flag = ruthenian_renaissance_occurred
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = uniate_cultural_flowering
 			duration = 7300
 		}
@@ -864,8 +904,11 @@ country_event = {
 		ai_chance = { factor = 40 }
 		
 		set_country_flag = greek_catholic_debate_held
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 			name = greek_catholic_latin_cooperation
 			duration = 7300
 		}
@@ -877,8 +920,13 @@ country_event = {
 		ai_chance = { factor = 40 }
 		
 		set_country_flag = greek_catholic_debate_held
+
+		rip_uc_clear_historical_policy_effect = yes
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = eastern_rite_tradition_preserved
 			duration = 7300
 		}
@@ -921,8 +969,11 @@ country_event = {
 		ai_chance = { factor = 50 }
 		
 		set_country_flag = reconciliation_attempt_made
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = greek_catholic_orthodox_dialogue
 			duration = 5475
 		}
@@ -983,11 +1034,12 @@ country_event = {
 		2961 = {
 			add_province_modifier = {
 				name = greek_catholic_printing_press
-				duration = -1
+				duration = 7300
 			}
 		}
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = uniate_educational_network
 			duration = 7300
 		}
@@ -1032,8 +1084,11 @@ country_event = {
 		ai_chance = { factor = 60 }
 		
 		set_country_flag = greek_catholic_empire_proclaimed
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = greek_catholic_church_patronage
 			duration = 7300
 		}
@@ -1099,8 +1154,11 @@ country_event = {
 		ai_chance = { factor = 40 }
 		
 		set_country_flag = suffered_orthodox_persecution
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 			name = papal_protection_greek_catholic
 			duration = 5475
 		}
@@ -1136,7 +1194,8 @@ country_event = {
 		
 		set_country_flag = ecumenical_council_held
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = greek_catholic_synodal_administration
 			duration = 7300
 		}
@@ -1149,8 +1208,11 @@ country_event = {
 		ai_chance = { factor = 30 }
 		
 		set_country_flag = ecumenical_council_held
+
+		rip_uc_clear_historical_policy_effect = yes
 		
-		add_country_modifier = {
+		rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 			name = papal_protection_greek_catholic
 			duration = 7300
 		}
@@ -1163,7 +1225,8 @@ country_event = {
 		
 		set_country_flag = ecumenical_council_held
 		
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = eastern_rite_tradition_preserved
 			duration = 7300
 		}
@@ -1204,7 +1267,10 @@ country_event = {
 		add_prestige = 15
 		add_legitimacy = 10
 		add_patriarch_authority = 0.1
-		add_country_modifier = {
+
+		rip_uc_clear_historical_policy_effect = yes
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = greek_catholic_church_patronage
 			duration = 5475
 		}

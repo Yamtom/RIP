@@ -1,0 +1,29 @@
+namespace = rip_church_council
+
+# The Kyivan metropolitanate remains Orthodox. No third faith or extra panel.
+country_event = {
+	id = rip_church_council.1
+	title = rip_church_council.1.t
+	desc = rip_church_council.1.d
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_church_council.1.a
+		trigger = { rip_kyiv_can_hold_council_trigger = yes }
+		ai_chance = { factor = 35 }
+		rip_kyiv_enact_council_policy_effect = { POLICY = rip_kyiv_elected_metropolitan }
+	}
+	option = {
+		name = rip_church_council.1.b
+		trigger = { rip_kyiv_can_hold_council_trigger = yes }
+		ai_chance = { factor = 35 }
+		rip_kyiv_enact_council_policy_effect = { POLICY = rip_kyiv_brotherhood_charters }
+	}
+	option = {
+		name = rip_church_council.1.c
+		trigger = { rip_kyiv_can_hold_council_trigger = yes }
+		ai_chance = { factor = 30 }
+		rip_kyiv_enact_council_policy_effect = { POLICY = rip_kyiv_church_rights }
+	}
+	option = { name = rip_church_council.cancel ai_chance = { factor = 1 } }
+}

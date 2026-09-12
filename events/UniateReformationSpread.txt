@@ -119,7 +119,9 @@ country_event = {
 
 		set_country_flag = rip_us_chapter_answered
 
-		add_country_modifier = {
+		rip_uc_clear_historical_policy_effect = yes
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = orthodox_uniate_coexistence
 			duration = 7300
 		}
@@ -256,7 +258,7 @@ country_event = {
 			random_list = {
 				55 = {
 					# the dean is heard, and the village goes back
-					change_religion = ROOT
+					add_province_modifier = { name = rip_faith_funded_mission duration = 3650 }
 					add_unrest = 3
 				}
 				45 = {
@@ -592,11 +594,13 @@ country_event = {
 		set_country_flag = rip_us_schools_answered
 		add_adm_power = 25
 
+		rip_uc_clear_historical_policy_effect = yes
 		# The Basilians taught Latin, rhetoric and law, and a chancery that
 		# needs clerks does not ask twice where they learned it.
-		add_country_modifier = {
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = basilian_monastic_order
-			duration = 9125
+			duration = 7300
 		}
 		every_owned_province = {
 			limit = { religion = greek_catholic }
@@ -727,7 +731,7 @@ country_event = {
 
 		# on_religion_change carries the rest: the Curia band, the trade node
 		# policy, and the existing chain in events/UniateChurch.txt.
-		change_religion = greek_catholic
+		rip_faith_adopt_union_effect = yes
 		add_stability = -1
 		add_prestige = -10
 
@@ -780,6 +784,7 @@ country_event = {
 	picture = RELIGIOUS_TURMOIL_eventPicture
 
 	is_triggered_only = yes
+	trigger = { has_country_flag = rip_us_union_refused NOT = { religion = greek_catholic } }
 
 	option = { # Press it to the end
 		name = uniate_spread.6.a
@@ -799,7 +804,9 @@ country_event = {
 
 		add_treasury = -300
 		add_stability = -1
-		add_country_modifier = {
+		set_country_flag = rip_church_forced_integration
+ clr_country_flag = rip_church_balanced_since
+ add_country_modifier = {
 			name = forced_religious_union
 			duration = 7300
 		}
@@ -807,20 +814,20 @@ country_event = {
 		# three parishes taken back by the starosta, and the country hears
 		# about it from all three
 		random_owned_province = {
-			limit = { religion = greek_catholic }
-			change_religion = ROOT
+			limit = { religion = greek_catholic controlled_by = ROOT is_core = ROOT NOT = { has_province_modifier = rip_faith_funded_mission } }
+			add_province_modifier = { name = rip_faith_funded_mission duration = 3650 }
 			add_unrest = 6
 			add_local_autonomy = 15
 		}
 		random_owned_province = {
-			limit = { religion = greek_catholic }
-			change_religion = ROOT
+			limit = { religion = greek_catholic controlled_by = ROOT is_core = ROOT NOT = { has_province_modifier = rip_faith_funded_mission } }
+			add_province_modifier = { name = rip_faith_funded_mission duration = 3650 }
 			add_unrest = 6
 			add_local_autonomy = 15
 		}
 		random_owned_province = {
-			limit = { religion = greek_catholic }
-			change_religion = ROOT
+			limit = { religion = greek_catholic controlled_by = ROOT is_core = ROOT NOT = { has_province_modifier = rip_faith_funded_mission } }
+			add_province_modifier = { name = rip_faith_funded_mission duration = 3650 }
 			add_unrest = 6
 			heretic_rebels = 3
 		}
@@ -872,14 +879,17 @@ country_event = {
 	picture = PROTESTANT_CATHOLIC_DEBATE_eventPicture
 
 	is_triggered_only = yes
+	trigger = { religion = greek_catholic }
 
 	option = { # Seat the metropolitan where the Latin bishops sit
 		name = uniate_spread.7.a
 		ai_chance = { factor = 50 }
 
-		add_country_modifier = {
+		rip_uc_clear_historical_policy_effect = yes
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = uniate_metropolitan_authority
-			duration = 9125
+			duration = 7300
 		}
 		# The Latin chapters did not want an eastern metropolitan among them,
 		# and said so at every sejm for a century.
@@ -894,7 +904,9 @@ country_event = {
 		name = uniate_spread.7.b
 		ai_chance = { factor = 50 }
 
-		add_country_modifier = {
+		rip_uc_clear_historical_policy_effect = yes
+		rip_church_historical_east_effect = yes
+ add_country_modifier = {
 			name = dual_communion_compromise
 			duration = 7300
 		}
@@ -990,7 +1002,7 @@ country_event = {
 
 		set_country_flag = rip_us_union_accepted
 
-		change_religion = greek_catholic
+		rip_faith_adopt_union_effect = yes
 		add_stability = -1
 
 		country_event = { id = uniate_spread.7 days = 60 }

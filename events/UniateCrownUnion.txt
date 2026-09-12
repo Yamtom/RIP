@@ -29,7 +29,7 @@
 #   should not inherit Brest's story; what it inherits is everything gated on
 #   religion = greek_catholic, which is most of the later chain anyway.
 #
-#   The cost is the clergy estate, the parishes, and one permanent country
+#   The cost is the clergy estate, the parishes, and one twenty-year country
 #   modifier, rip_ucr_church_of_the_palace, that says out loud who the
 #   bishops answer to. All payloads are in
 #   common/event_modifiers/RIP_faith_modifiers.txt.
@@ -288,9 +288,11 @@ country_event = {
 
 		set_country_flag = rip_ucr_metropolitan_replaced
 
-		add_country_modifier = {
+		rip_ucr_clear_historical_policy_effect = yes
+		rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 			name = rip_ucr_crown_names_the_bishops
-			duration = -1
+			duration = 7300
 		}
 		add_adm_power = -50
 		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = -20 }
@@ -323,7 +325,9 @@ country_event = {
 
 		set_country_flag = rip_ucr_metropolitan_gone
 
-		add_country_modifier = {
+		rip_ucr_clear_historical_policy_effect = yes
+		rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 			name = rip_ucr_metropolitan_in_exile
 			duration = 7300
 		}
@@ -413,9 +417,11 @@ country_event = {
 		set_country_flag = rip_ucr_synod_answered
 		set_country_flag = rip_ucr_synod_dissolved
 
-		add_country_modifier = {
+		rip_ucr_clear_historical_policy_effect = yes
+		rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 			name = rip_ucr_synod_by_decree
-			duration = -1
+			duration = 7300
 		}
 		add_absolutism = 5
 		add_stability = -1
@@ -425,7 +431,7 @@ country_event = {
 			add_estate_influence_modifier = {
 				estate = estate_church
 				influence = -15
-				duration = -1
+				duration = 7300
 			}
 		}
 		# The chapter and the brotherhood at Lviv were the two bodies that
@@ -584,7 +590,9 @@ country_event = {
 
 		set_country_flag = rip_ucr_rome_delivered
 
-		add_country_modifier = {
+		rip_ucr_clear_historical_policy_effect = yes
+		rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 			name = rip_ucr_recognition_of_rome
 			duration = 9125
 		}
@@ -632,9 +640,11 @@ country_event = {
 
 		set_country_flag = rip_ucr_rome_delivered
 
-		add_country_modifier = {
+		rip_ucr_clear_historical_policy_effect = yes
+		rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 			name = rip_ucr_recognition_of_rome
-			duration = -1
+			duration = 7300
 		}
 		add_treasury = -200
 		# the engine caps patriarch authority at 1.0 by itself, so the old
@@ -720,7 +730,7 @@ country_event = {
 		add_estate_influence_modifier = {
 			estate = estate_church
 			influence = 15
-			duration = -1
+			duration = 7300
 		}
 		add_absolutism = -5
 		add_stability = 1
@@ -750,7 +760,7 @@ country_event = {
 		add_estate_influence_modifier = {
 			estate = estate_church
 			influence = -10
-			duration = -1
+			duration = 7300
 		}
 		add_absolutism = 5
 		every_owned_province = {
@@ -809,9 +819,11 @@ country_event = {
 
 		set_country_flag = rip_ucr_settled
 
-		add_country_modifier = {
+		rip_ucr_clear_historical_policy_effect = yes
+		rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 			name = rip_ucr_palace_church_settled
-			duration = -1
+			duration = 7300
 		}
 		add_prestige = 20
 		add_legitimacy = 10
@@ -826,9 +838,11 @@ country_event = {
 		remove_country_modifier = rip_ucr_church_of_the_palace
 		remove_country_modifier = rip_ucr_synod_by_decree
 		remove_country_modifier = rip_ucr_crown_names_the_bishops
-		add_country_modifier = {
+		rip_ucr_clear_historical_policy_effect = yes
+		rip_church_historical_rome_effect = yes
+ add_country_modifier = {
 			name = rip_ucr_synod_restored
-			duration = -1
+			duration = 7300
 		}
 		set_country_flag = rip_uc_synod_held
 		add_patriarch_authority = 0.2
@@ -837,7 +851,7 @@ country_event = {
 		add_estate_influence_modifier = {
 			estate = estate_church
 			influence = 15
-			duration = -1
+			duration = 7300
 		}
 	}
 }

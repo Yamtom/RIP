@@ -2186,22 +2186,21 @@ mos_rus_russian_consolidation = {
 			owned_by = ROOT
 			NOT = { has_tax_building_trigger = yes }
 		}
-		trigger = {
-			num_of_owned_provinces_with = {
-				value = 20
-				has_tax_building_trigger = yes
-			}
+trigger = {
+ num_of_owned_provinces_with = { value = 20 has_tax_building_trigger = yes }
+ if = { limit = { religion = russian_orthodox } check_variable = { which = rip_church_icons value = 1 } }
+ else_if = { limit = { religion = orthodox has_dlc = "Third Rome" } has_orthodox_religious_icon_trigger = yes }
+ }
+effect = {
+ if = { limit = { religion = russian_orthodox }
+ add_patriarch_authority = 0.1
+ change_variable = { which = rip_church_fervor value = 20 }
+ if = { limit = { check_variable = { which = rip_church_fervor value = 100 } } set_variable = { which = rip_church_fervor value = 100 } }
+ rip_church_ro_recount_effect = yes
+ }
+ else = { 
 			if = {
-				limit = {
-					has_dlc = "Third Rome"
-					religion = orthodox
-				}
-				has_orthodox_religious_icon_trigger = yes
-			}
-		}
-		effect = {
-			if = {
-				limit = { religion = orthodox }
+				limit = { rip_faith_is_eastern_orthodox = yes }
 				if = {
 					limit = { has_dlc = "Third Rome" }
 					add_patriarch_authority = 0.1
@@ -2215,7 +2214,7 @@ mos_rus_russian_consolidation = {
 
 					custom_tooltip = icon_eleusa_reward_tt
 					if = {
-						limit = { current_icon = icon_eleusa }
+						limit = { OR = { current_icon = icon_eleusa current_icon = rip_ro_native_eleusa } }
 						custom_tooltip = BONUS_REWARD_YES
 					}
 					else = { custom_tooltip = BONUS_REWARD_NO }
@@ -2223,7 +2222,7 @@ mos_rus_russian_consolidation = {
 
 					custom_tooltip = icon_michael_reward_tt
 					if = {
-						limit = { current_icon = icon_michael }
+						limit = { OR = { current_icon = icon_michael current_icon = rip_ro_native_michael } }
 						custom_tooltip = BONUS_REWARD_YES
 					}
 					else = { custom_tooltip = BONUS_REWARD_NO }
@@ -2231,7 +2230,7 @@ mos_rus_russian_consolidation = {
 
 					custom_tooltip = icon_nicholas_reward_tt
 					if = {
-						limit = { current_icon = icon_nicholas }
+						limit = { OR = { current_icon = icon_nicholas current_icon = rip_ro_native_nicholas } }
 						custom_tooltip = BONUS_REWARD_YES
 					}
 					else = { custom_tooltip = BONUS_REWARD_NO }
@@ -2239,7 +2238,7 @@ mos_rus_russian_consolidation = {
 
 					custom_tooltip = icon_pancreator_reward_tt
 					if = {
-						limit = { current_icon = icon_pancreator }
+						limit = { OR = { current_icon = icon_pancreator current_icon = rip_ro_native_pancreator } }
 						custom_tooltip = BONUS_REWARD_YES
 					}
 					else = { custom_tooltip = BONUS_REWARD_NO }
@@ -2251,19 +2250,19 @@ mos_rus_russian_consolidation = {
 							add_country_modifier = { name = rus_icon_climacus_bonus duration = 9125 }
 						}
 						if = {
-							limit = { current_icon = icon_eleusa }
+							limit = { OR = { current_icon = icon_eleusa current_icon = rip_ro_native_eleusa } }
 							add_country_modifier = { name = rus_icon_eleusa_bonus duration = 9125 }
 						}
 						if = {
-							limit = { current_icon = icon_michael }
+							limit = { OR = { current_icon = icon_michael current_icon = rip_ro_native_michael } }
 							add_country_modifier = { name = rus_icon_michael_bonus duration = 9125 }
 						}
 						if = {
-							limit = { current_icon = icon_nicholas }
+							limit = { OR = { current_icon = icon_nicholas current_icon = rip_ro_native_nicholas } }
 							add_country_modifier = { name = rus_icon_nicholas_bonus duration = 9125 }
 						}
 						if = {
-							limit = { current_icon = icon_pancreator }
+							limit = { OR = { current_icon = icon_pancreator current_icon = rip_ro_native_pancreator } }
 							add_country_modifier = { name = rus_icon_pancreator_bonus duration = 9125 }
 						}
 					}
@@ -2285,7 +2284,8 @@ mos_rus_russian_consolidation = {
 					amount = 25
 				}
 			}
-		}
+		 }
+ }
 
 		ai_weight = {
 			factor = 250

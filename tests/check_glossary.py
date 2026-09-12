@@ -11,9 +11,15 @@ ENTRY   = re.compile(r'^\s*([A-Za-z0-9_.\-]+):\s*(\d*)\s*"(.*)"\s*$')
 BRACKET = re.compile(r'\[[^\]]*\]')
 
 # Country display names are deliberate - see glossary section 4.
-SKIP_KEYS = {"VLN", "POD", "KHK", "VOL", "ZAZ", "VLN_ADJ", "POD_ADJ", "KHK_ADJ",
+# KHK/KHK_ADJ used to be exempt (flat "Kharkov Host"/"Kharkovian") but as of
+# the dynamic Cossack Host naming pass the tag's own name is the plain
+# "Kharkiv"/"Kharkivian" spelling, so the general rule now applies to it too.
+SKIP_KEYS = {"VLN", "POD", "VOL", "ZAZ", "VLN_ADJ", "POD_ADJ",
              # A cultural colony name follows local transcription, like VLN.
              "RIP_COLONIAL_CANADA_RUTHENIAN",
+             # These missions name the same Canadian colony by that transcription.
+             "rip_colonize_canada_title", "rip_colonize_canada_desc",
+             "rip_colonize_canada_flavor_tt",
              # The Don host really is an ataman. The rule is about our otamans.
              "DON_ATAMAN_TITLE"}
 

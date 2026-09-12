@@ -1,7 +1,13 @@
 
+# NOTE: this file is not currently called from anywhere (no bracket call, no
+# loc string references it) and is not what drives the nameplate override -
+# see common/scripted_effects/rip_cossack_host_naming_effects.txt for the
+# actual mechanism, which mirrors this file's branches with literal
+# override_country_name targets instead. Kept here as reference/tooltip
+# material for anyone who later wants "[GetCossackHostName]" inside prose.
 defined_text = {
 	name = GetCossackHostName
-	
+
 	text = {
 		trigger = {
 			tag = ZAZ
@@ -41,15 +47,10 @@ defined_text = {
 	
 	
 	text = {
+		# Simplified to the shared trigger rather than re-enumerating reforms
+		# a second time - is_cossack_polity is the single list to maintain.
 		trigger = {
-			OR = {
-				has_reform = cossacks_reform
-				has_reform = cossacks_legacy_reform
-				has_reform = rip_cossacks_reform
-				has_reform = zaz_sich_brotherhood_reform
-				has_reform = het_starshyna_oligarchy_reform
-			}
-			primary_culture = ruthenian
+			is_cossack_polity = yes
 		}
 		localisation_key = COSSACK_HOST_GENERIC
 	}

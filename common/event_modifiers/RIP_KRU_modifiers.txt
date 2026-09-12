@@ -9,19 +9,26 @@ KRU_factional_pair_shift_cooldown = {
 	prestige_decay = 0
 }
 
-KRU_pair_knyazi_boyary = {
-	stability_cost_modifier = -0.05
+# The junior bloc's partial voice. Vanilla applies the in-power faction's full
+# modifier (common/factions/RIP_kru_factions.txt); this is roughly half of a
+# bloc's own modifier, added by kru_apply_junior_blocs_effect when that bloc is
+# not in power but still commands the rada (>=38 influence).
+KRU_junior_knyazi = {
+	legitimacy = 0.5
+	diplomatic_reputation = 0.5
+	vassal_forcelimit_bonus = 0.07
+}
+
+KRU_junior_boyary = {
 	global_tax_modifier = 0.05
+	stability_cost_modifier = -0.05
+	advisor_cost = -0.05
 }
 
-KRU_pair_knyazi_hetmany = {
-	diplomatic_reputation = 1
-	manpower_recovery_speed = 0.05
-}
-
-KRU_pair_boyary_hetmany = {
-	global_autonomy = -0.02
-	discipline = 0.01
+KRU_junior_starshyna = {
+	land_morale = 0.05
+	cavalry_power = 0.05
+	development_cost = 0.025
 }
 
 KRU_princes_court = {
@@ -126,3 +133,26 @@ kru_confederation_balance = {
 	global_autonomy = -0.03
 	stability_cost_modifier = -0.05
 }
+
+# --- kyivan_seniority_mechanic (common/government_mechanics/rip_kyivan_seniority.txt) ---
+
+# After a snem: the princes reaffirm the seniority of Kyiv, but leave
+# confirmed in their patrimonies (the Liubech settlement, +autonomy).
+kyiv_snem_convened = {
+	liberty_desire_from_subject_development = -0.15
+	diplomatic_upkeep = 1
+	vassal_forcelimit_bonus = 0.1
+	global_autonomy = 0.025
+}
+
+# The junior princes' druzhyny in the field with the senior prince's own.
+kyiv_druzhyna_muster = {
+	manpower_recovery_speed = 0.2
+	cavalry_power = 0.1
+	land_forcelimit_modifier = 0.1
+	mercenary_manpower = 0.25
+	land_maintenance_modifier = 0.1
+}
+
+# (ruthenian_factional_court_mechanic now feeds vanilla add_faction_influence
+# directly and pays a one-off dividend in the effect, so it needs no modifier.)

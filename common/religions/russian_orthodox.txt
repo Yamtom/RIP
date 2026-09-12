@@ -3,15 +3,12 @@ christian = {
 		color = { 204 51 51 }
 		icon = 30
 
-		# 95% of vanilla Orthodox intrinsic country bonuses.
-		country = {
-			stability_cost_modifier = -0.095
-			tolerance_own = 0.95
-			# Fixed upkeep offsets the uneditable native authority coefficients.
-			global_missionary_strength = -0.001
-			global_manpower_modifier = -0.0165
-			global_unrest = 0.15
-		}
+		# Initial v3 base; 95% is a campaign-index target, not a scalar for every modifier.
+country = {
+ stability_cost_modifier = -0.05
+ tolerance_own = 0.5
+ # Native PA is compensated by the faith-specific five-point bands.
+ }
 
 		country_as_secondary = {
 			tolerance_own = 1
@@ -22,108 +19,41 @@ christian = {
 			local_missionary_strength = -0.01	# as vanilla orthodox
 		}
 
-		# One native religion panel. No shared GUI override and no extra resource panel.
+		# Native authority plus the scripted church pane in the religion host.
 		has_patriarchs = yes
 		misguided_heretic = yes
 		orthodox_icons = {
-			rip_ro_native_michael = {
-				discipline = 0.0475
-				manpower_recovery_speed = 0.095
-
-				allow = {
-					always = yes
-				}
-
-				visible = {
-					always = yes
-				}
-
-				ai_will_do = {
-					factor = 0.05
-					modifier = {
-						factor = 0
-						is_at_war = no
-					}
-					modifier = {
-						factor = 3
-						is_in_important_war = yes
-					}
-				}
-			}
-			rip_ro_native_eleusa = {
-				global_unrest = -2.85
-				harsh_treatment_cost = -0.2375
-
-				allow = {
-					always = yes
-				}
-
-				visible = {
-					always = yes
-				}
-
-				ai_will_do = {
-					factor = 0.02
-					modifier = {
-						factor = 0
-						NOT = {
-							calc_true_if = {
-								all_owned_province = {
-									unrest = 1
-								}
-								amount = 2
-							}
-						}
-					}
-					modifier = {
-						factor = 3
-						calc_true_if = {
-							all_owned_province = {
-								unrest = 1
-							}
-							amount = 5
-						}
-					}
-				}
-			}
-			rip_ro_native_pancreator = {
-				development_cost = -0.095
-				build_cost = -0.095
-
-				allow = {
-					always = yes
-				}
-
-				visible = {
-					always = yes
-				}
-
-				ai_will_do = {
-					factor = 0
-				}
-			}
-			rip_ro_native_nicholas = {
-				improve_relation_modifier = 0.2375
-				ae_impact = -0.095
-
-				visible = {
-					always = yes
-				}
-
-				allow = {
-					always = yes
-				}
-				ai_will_do = {
-					factor = 0.01
-				}
-			}
+rip_ro_native_michael = {
+ discipline = 0
+ allow = { always = no }
+ visible = { always = no }
+ ai_will_do = { factor = 0 }
+}
+rip_ro_native_eleusa = {
+ discipline = 0
+ allow = { always = no }
+ visible = { always = no }
+ ai_will_do = { factor = 0 }
+}
+rip_ro_native_pancreator = {
+ discipline = 0
+ allow = { always = no }
+ visible = { always = no }
+ ai_will_do = { factor = 0 }
+}
+rip_ro_native_nicholas = {
+ discipline = 0
+ allow = { always = no }
+ visible = { always = no }
+ ai_will_do = { factor = 0 }
+}
 			# Preserve the fifth vanilla frame/save index, but offer only four icons.
-			rip_ro_native_retired_climacus = {
-				discipline = 0
-				allow = { always = no }
-				visible = { always = no }
-				ai_will_do = { factor = 0 }
-			}
+rip_ro_native_retired_climacus = {
+ discipline = 0
+ allow = { always = no }
+ visible = { always = no }
+ ai_will_do = { factor = 0 }
+}
 		}
 
 		# THE SECTS THIS CHURCH ACTUALLY BRED.
@@ -159,15 +89,7 @@ christian = {
 		date = 1448.12.15
 
 		on_convert = {
-			add_prestige = 15
-			add_legitimacy = 10
-
-			# The initial change of obedience is bounded; missionaries handle later expansion.
-			rip_ro_initial_obedience_effect = yes
-			add_country_modifier = {
-				name = third_rome_ideology
-				duration = 5475
-			}
+			rip_faith_initialize_hierarchy_effect = yes
 		}
 	}
 }

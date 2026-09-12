@@ -1,0 +1,167 @@
+# Idempotent country initialization, also used by startup and religion hooks.
+# A jurisdictional change is not a free missionary wave.
+rip_faith_initialize_hierarchy_effect = {
+	if = {
+		limit = { religion = russian_orthodox }
+		rip_ro_initial_obedience_effect = yes
+		if = {
+			limit = { NOT = { has_country_flag = rip_ro_hierarchy_initialized } }
+			set_country_flag = rip_ro_hierarchy_initialized
+			add_prestige = 10
+		}
+	}
+	else_if = {
+		limit = { religion = greek_catholic }
+		if = {
+			limit = { NOT = { has_country_flag = rip_uc_hierarchy_initialized } }
+			set_country_flag = rip_uc_hierarchy_initialized
+			if = { limit = { is_year = 1596 } set_country_flag = union_of_brest_happened }
+			set_country_flag = pursuing_uniate_union
+			activate_greek_catholic_reformation = yes
+			add_country_modifier = { name = uniate_church_consolidation duration = 3650 }
+			add_prestige = 10
+			capital_scope = {
+				if = {
+					limit = { religion = orthodox is_core = ROOT controlled_by = ROOT is_city = yes }
+					change_religion = greek_catholic
+				}
+			}
+		}
+	}
+}
+
+rip_faith_adopt_muscovite_church_effect = {
+	change_religion = russian_orthodox
+	rip_faith_initialize_hierarchy_effect = yes
+}
+
+rip_faith_adopt_union_effect = {
+	change_religion = greek_catholic
+	rip_faith_initialize_hierarchy_effect = yes
+}
+
+rip_uc_raise_see_effect = { rip_church_found_center_effect = yes }
+
+# The institution survives loss of its building; the building's religious
+# modifier does not survive a new owner/rite or destruction of the centre.
+rip_faith_maintain_local_property_effect = { rip_church_union_global_maintenance_effect = yes }
+
+rip_faith_fund_mission_effect = {
+	if = {
+		limit = { rip_faith_can_fund_mission_trigger = yes }
+		add_treasury = -100
+		add_adm_power = -25
+		add_patriarch_authority = -0.05
+		add_country_modifier = { name = rip_parish_visit_recent duration = 3650 }
+		random_owned_province = {
+			limit = { rip_faith_mission_province_trigger = yes }
+			add_province_modifier = { name = rip_faith_funded_mission duration = 3650 }
+		}
+	}
+}
+
+rip_ro_clear_council_policy_effect = {
+	remove_country_modifier = rip_ro_sobor_lands
+	remove_country_modifier = rip_ro_sobor_books
+	remove_country_modifier = rip_ro_sobor_courts
+}
+
+rip_ro_enact_council_policy_effect = {
+ if = { limit = { rip_ro_can_hold_sobor_trigger = yes }
+ add_treasury = -100 add_adm_power = -50 add_patriarch_authority = -0.1
+ rip_ro_clear_council_policy_effect = yes
+ add_country_modifier = { name = rip_ro_sobor_recently_sat duration = 3650 }
+ rip_church_council_$POLICY$_effect = yes
+ rip_church_ro_enforce_capacity_effect = yes
+ }
+}
+
+rip_kyiv_enact_council_policy_effect = {
+	if = {
+		limit = { rip_kyiv_can_hold_council_trigger = yes }
+		add_treasury = -100
+		add_adm_power = -50
+		add_patriarch_authority = -0.1
+		remove_country_modifier = rip_kyiv_elected_metropolitan
+		remove_country_modifier = rip_kyiv_brotherhood_charters
+		remove_country_modifier = rip_kyiv_church_rights
+		add_country_modifier = { name = $POLICY$ duration = 3650 }
+		add_country_modifier = { name = rip_kyiv_council_recent duration = 3650 }
+	}
+}
+
+# Religious mission rewards must use a resource the recipient can spend.
+rip_faith_mission_resource_effect = {
+	if = { limit = { uses_patriarch_authority = yes } add_patriarch_authority = $PA$ }
+	else_if = { limit = { religion = catholic } add_papal_influence = $PI$ }
+	else = { add_adm_power = $ADM$ }
+}
+
+rip_faith_settlement_upkeep_effect = {
+	rip_crusade_maintenance_effect = yes
+	if = {
+		limit = { NOT = { religion = russian_orthodox } }
+		rip_ro_clear_council_policy_effect = yes
+	}
+	if = {
+		limit = { NOT = { religion = orthodox } }
+		remove_country_modifier = rip_kyiv_elected_metropolitan
+		remove_country_modifier = rip_kyiv_brotherhood_charters
+		remove_country_modifier = rip_kyiv_church_rights
+	}
+	if = {
+		limit = { NOT = { rip_faith_is_eastern_orthodox = yes } }
+		remove_country_modifier = liberator_of_constantinople
+		remove_country_modifier = rip_ro_liberator_of_jerusalem
+		remove_country_modifier = victorious_crusader
+		remove_country_modifier = patriarch_of_constantinople_restored
+	}
+}
+
+# First load of an existing country. Never grant another capital conversion,
+# prestige payment or a fresh policy term when loading a save.
+rip_faith_settlement_migration_effect = {
+	if = {
+		limit = { NOT = { has_country_flag = rip_faith_settlement_20260910_migrated } }
+		set_country_flag = rip_faith_settlement_20260910_migrated
+		if = { limit = { religion = russian_orthodox } set_country_flag = rip_ro_hierarchy_initialized set_country_flag = rip_ro_obedience_recorded }
+		if = { limit = { religion = greek_catholic } set_country_flag = rip_uc_hierarchy_initialized }
+		if = { limit = { has_country_modifier = rip_ro_the_first_rome } set_country_flag = rip_first_rome_rewarded }
+		if = { limit = { has_country_modifier = liberator_of_constantinople } set_country_flag = rip_crusade_constantinople_rewarded }
+		if = { limit = { has_country_modifier = rip_ro_liberator_of_jerusalem } set_country_flag = rip_crusade_jerusalem_rewarded }
+		if = { limit = { has_country_modifier = uniate_educational_network } set_country_flag = rip_once_greek_catholic_education_decision }
+		if = { limit = { has_country_modifier = uniate_cultural_flowering } set_country_flag = rip_once_patronize_greek_catholic_culture_decision }
+		if = { limit = { has_country_modifier = uniate_orthodox_reconciliation } set_country_flag = rip_once_seek_orthodox_reconciliation_decision }
+		rip_ro_clear_historical_policy_effect = yes
+		rip_uc_clear_historical_policy_effect = yes
+		rip_ucr_clear_historical_policy_effect = yes
+		remove_country_modifier = rip_ro_the_first_rome
+		remove_country_modifier = liberator_of_constantinople
+		remove_country_modifier = rip_ro_liberator_of_jerusalem
+		remove_country_modifier = patriarch_of_constantinople_restored
+		remove_country_modifier = crusade_contributor_bronze
+		remove_country_modifier = crusade_contributor_silver
+		remove_country_modifier = crusade_contributor_gold
+		remove_country_modifier = victorious_crusader
+		if = {
+			limit = { is_crusade_participant = yes }
+			add_country_modifier = { name = orthodox_crusade_cooldown duration = 7300 }
+		}
+		# Old saves may have lost target flags or kept an unlimited legacy CB.
+		# This one-time country sweep removes only the two retired campaign CBs.
+		every_country = {
+			ROOT = {
+				remove_casus_belli = { type = cb_crusade_for_constantinople target = PREV }
+				remove_casus_belli = { type = cb_crusade_for_jerusalem target = PREV }
+			}
+		}
+		rip_crusade_clear_country_effect = yes
+		# Retired province bonus stacks are migrated, not free development clawbacks.
+		every_owned_province = {
+			remove_province_modifier = greek_catholic_center
+			remove_province_modifier = uniate_metropolitan_see
+			remove_province_modifier = restored_orthodox_constantinople
+			remove_province_modifier = restored_orthodox_jerusalem
+		}
+	}
+}

@@ -1,0 +1,27 @@
+# Historic names retain their terms as markers, while rewards use the active loop.
+# A country cannot harvest multiple old political events in one year for fuel.
+rip_church_historical_ro_effect = {
+ if = { limit = { religion = russian_orthodox OR = { NOT = { has_country_flag = rip_church_historical_fuel_recent } had_country_flag = { flag = rip_church_historical_fuel_recent days = 365 } } }
+ set_country_flag = rip_church_historical_fuel_recent
+ change_variable = { which = rip_church_fervor value = 20 }
+ if = { limit = { check_variable = { which = rip_church_fervor value = 100 } } set_variable = { which = rip_church_fervor value = 100 } }
+ }
+}
+rip_church_historical_east_effect = {
+ if = { limit = { religion = greek_catholic }
+ subtract_variable = { which = rip_church_communion value = 10 }
+ rip_church_gc_clamp_effect = yes
+ rip_church_refresh_pa_effect = yes
+ rip_church_gc_refresh_parishes_effect = yes
+ rip_church_refresh_relations_effect = yes
+ }
+}
+rip_church_historical_rome_effect = {
+ if = { limit = { religion = greek_catholic }
+ change_variable = { which = rip_church_communion value = 10 }
+ rip_church_gc_clamp_effect = yes
+ rip_church_refresh_pa_effect = yes
+ rip_church_gc_refresh_parishes_effect = yes
+ rip_church_refresh_relations_effect = yes
+ }
+}

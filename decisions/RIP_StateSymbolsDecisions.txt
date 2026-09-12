@@ -1,0 +1,48 @@
+country_decisions = {
+
+	adopt_the_trident = {
+		major = yes
+		potential = {
+			tag = UKR
+		}
+		allow = {
+			has_reform = ruthenian_tsardom
+			is_at_war = no
+			is_free_or_tributary_trigger = yes
+		}
+		effect = {
+			change_tag = RUT
+			on_change_tag_effect = yes
+			swap_non_generic_missions = yes
+			set_country_flag = rip_adopted_the_trident_flag
+			add_prestige = 25
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 100
+	}
+
+	proclaim_ruthenian_empire = {
+		major = yes
+		potential = {
+			tag = RUT
+			NOT = { has_country_flag = rip_proclaimed_ruthenian_empire_flag }
+		}
+		allow = {
+			OR = {
+				government_rank = 3
+				mission_completed = rip_diaspora_of_rus
+			}
+		}
+		effect = {
+			override_country_name = RIP_RUTHENIAN_EMPIRE_STRING
+			set_country_flag = rip_proclaimed_ruthenian_empire_flag
+			add_prestige = 25
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 100
+	}
+}

@@ -1,0 +1,92 @@
+# The senior udil - the udil as the Kyivan Seniorate holds it, not as the
+# Liubech settlement did.
+#
+# princedom (common/subject_types/Kyivan_princedom.txt) is a fixed patrimony:
+# "kozhdo da derzhit otchinu svoyu", each prince keeps his own, and pays half in
+# coin while owing the overlord no forcelimit at all. The senior udil is the
+# other arrangement - the seat is held at the senior prince's pleasure, the
+# junior prince rotates up the ladder of thrones, and the levy, not the rent, is
+# what the overlord takes. The grant lapses when a new senior prince takes the
+# throne of Kyiv and must be reconfirmed (kie_on_actions.txt + the
+# kyivan_seniorate_mechanic interaction).
+#
+# Only kyivan_shogunate_reform creates these - rip_grant_the_udil branches on the
+# reform. Every other Kyivan government makes a plain princedom.
+#
+# copy_from names a base vanilla type only, so the princedom rules are repeated
+# here rather than chained.
+
+senior_udil = {
+	copy_from = vassal
+
+	sprite = GFX_icon_vassal
+	diplomacy_overlord_sprite = GFX_diplomacy_leadvassal
+	diplomacy_subject_sprite = GFX_diplomacy_amvassal
+
+	transfer_trade_if_merchant_republic = no
+	can_be_annexed = no
+	can_be_integrated = no
+	has_power_projection = no
+	gets_help_with_rebels = yes
+	takes_diplo_slot = yes
+	gives_daimyo_bonuses = yes
+	can_release_in_peace = no
+	can_use_claims = yes
+	overlord_can_fabricate_for = yes
+	separatists_become_subjects = yes
+	allows_taking_land_without_independence = yes
+	forms_trade_companies = no
+	can_concentrate_development = no
+
+	max_government_rank = 1
+	trust_on_start = 0
+	relative_power_class = 1
+	upgrade_subject_type = yes
+	should_quit_wars_on_activation = yes
+
+	# The levy, not the rent. princedom pays 0.5 coin / 0.0 forcelimit; the
+	# senior udil owes men and keeps more of its own money.
+	pays_overlord = 0.25
+	forcelimit_to_overlord = 0.5
+	military_focus = 3.0
+
+	# The rotational seat is less secure than a patrimony, but kinship counts
+	# for more when the senior prince can move you up the ladder.
+	base_liberty_desire = 40.0
+	liberty_desire_same_dynasty = -12.0
+	liberty_desire_development_ratio = 0.2
+
+	can_fight = { same_overlord = senior_udil }
+	can_rival = { same_overlord = senior_udil }
+	can_ally = { same_overlord = senior_udil }
+	can_marry = { same_overlord = senior_udil }
+
+	restoration_cb = cb_disloyal_vassal
+
+	# Disabled
+	enforce_culture = no
+	seize_territory = no
+	grant_province = no
+	bestow_gifts = no
+
+	# Enabled - the senior prince rotates and staffs the seats.
+	place_relative_on_throne = yes
+	send_officers = yes
+	scutage = yes
+	grant_core_claim = yes
+	divert_trade = yes
+	enforce_religion = yes
+	contribute_to_capital = yes
+	return_land = yes
+	conscript_general = yes
+
+	overlord_opinion_modifier = is_vassal
+	subject_opinion_modifier = is_vassal
+
+	modifier_subject = {
+		modifier = subject_nation
+	}
+	modifier_overlord = {
+		modifier = subject_nation
+	}
+}

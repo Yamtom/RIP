@@ -58,23 +58,16 @@ country_event = {
 	picture = COURT_eventPicture
 	is_triggered_only = yes
 
+	# Superseded. This was the non-Res-Publica AI fallback for the factional
+	# court; the influence sim in ruthenian_factions.20 now runs for every
+	# holder of the reform, base-game, and ruthenian_factional_court_mechanic
+	# gives the player the direct lever. ruthenian_factions.1 keeps its caller
+	# in decisions/KyivTriggers.txt.
 	trigger = {
-		tag = KRU
-		OR = {
-			has_reform = ruthenian_factional_empire_reform
-			has_reform = ruthenian_factional_empire_princes_hetmans_reform
-			has_reform = ruthenian_factional_empire_boyars_hetmans_reform
-		}
-		NOT = { has_dlc = "Res Publica" }
-		ai = yes
-		NOT = { has_country_modifier = KRU_factional_court_cooldown }
+		always = no
 	}
 
 	immediate = {
-		add_country_modifier = {
-			name = KRU_factional_court_cooldown
-			duration = 3650
-		}
 		country_event = { id = ruthenian_factions.1 days = 1 }
 	}
 
@@ -96,7 +89,9 @@ country_event = {
 	}
 
 	immediate = {
-		kru_recalculate_faction_influence_effect = yes
+		# Vanilla runs the faction influence and names the bloc in power. This
+		# drifts it slightly toward the country's condition, keeps the reform id
+		# on the ruling pair, and gives the coalition's second bloc a voice.
 		kru_update_dominant_pair_effect = yes
 	}
 

@@ -15,13 +15,31 @@
 
 namespace = rip_faith
 
-# Legacy Sobor event: native icons replaced the permanent stacking canons.
+# One paid ten-year policy. Old queued events use the same payment gates.
 country_event = {
 	id = rip_faith.1
 	title = rip_faith.1.t
-	desc = rip_ro_retired_sobor_desc
+	desc = rip_ro_sobor_current_desc
 	picture = ORTHODOX_eventPicture
 	is_triggered_only = yes
+	option = {
+		name = rip_ro_sobor_lands_option
+		trigger = { rip_ro_can_hold_sobor_trigger = yes }
+		ai_chance = { factor = 30 }
+		rip_ro_enact_council_policy_effect = { POLICY = rip_ro_sobor_lands }
+	}
+	option = {
+		name = rip_ro_sobor_books_option
+		trigger = { rip_ro_can_hold_sobor_trigger = yes }
+		ai_chance = { factor = 40 }
+		rip_ro_enact_council_policy_effect = { POLICY = rip_ro_sobor_books }
+	}
+	option = {
+		name = rip_ro_sobor_courts_option
+		trigger = { rip_ro_can_hold_sobor_trigger = yes }
+		ai_chance = { factor = 30 }
+		rip_ro_enact_council_policy_effect = { POLICY = rip_ro_sobor_courts }
+	}
 	option = {
 		name = rip_faith.1.h
 		ai_chance = { factor = 1 }
