@@ -389,7 +389,7 @@ for path,host in [('countryreligionview.gui','countryreligionview'),('provincevi
     assert actual.count(marker)==1
     before,tail=actual.split(marker)
     if path=='countryreligionview.gui':
-        overlays=[block for _,block in keyed_blocks(actual,'windowType') if re.match(r'\s*windowType\s*=\s*\{\s*name\s*=\s*"rip_church_gc_native_guide"',block)]
+        overlays=[block for _,block in keyed_blocks(actual,'windowType') if dict(dict(parse(block))['windowType']).get('name')=='rip_church_gc_native_guide']
         assert len(overlays)==1
         overlay=overlays[0]
         overlay_data=dict(dict(parse(overlay))['windowType'])
