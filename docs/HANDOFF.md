@@ -1,5 +1,11 @@
 # Передача контексту: що зроблено і як продовжити
 
+> **Церковна схема v3, 11 вересня 2026:** чинні правила Moscow/Union наведено в
+> [новій специфікації](CHURCH_REDESIGN_20260911.uk.md),
+> [перевірках](CHURCH_REDESIGN_VERIFICATION.uk.md) та
+> [методиці кампаній](CHURCH_BALANCE_PROTOCOL.uk.md).
+> Старі описи однієї нативної ікони, петицій і кількох центрів нижче є історичними.
+
 > **Оновлення 2026-09-11 (друга хвиля):** додано найманську роту
 > `rip_cossack_host_mercenaries` (гейт на `estate_cossacks`/`rip_cossacks_reform`),
 > двоступеневу еволюцію символіки держави (`decisions/RIP_StateSymbolsDecisions.txt`:

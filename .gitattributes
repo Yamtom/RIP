@@ -1,1 +1,8 @@
 *.txt whitespace=cr-at-eol
+
+# tools/build_colonial_names.py generates these two byte-for-byte and
+# tests/check_colonial_names.py enforces the result verbatim (LF-only).
+# core.autocrlf otherwise flips them to CRLF on every checkout/stash/branch
+# switch, which reads as a false "regression" each time. See docs/HANDOFF.md.
+localisation/rip_colonial_names_l_english.yml eol=lf
+common/colonial_regions/00_colonial_regions.txt eol=lf
