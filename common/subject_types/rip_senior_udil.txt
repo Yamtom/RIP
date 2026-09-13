@@ -28,7 +28,13 @@ senior_udil = {
 	can_be_integrated = no
 	has_power_projection = no
 	gets_help_with_rebels = yes
-	takes_diplo_slot = yes
+	# Daimyo shape, not princedom's: a senior udil is the senior prince's own
+	# government at one remove, not a foreign relation, so it costs no
+	# diplomatic slot (daimyo_vassal in vanilla's 17_shogunate.txt subject
+	# types, takes_diplo_slot = no). can_fight/can_rival/can_ally below already
+	# let one senior udil make war or peace on another without the senior
+	# prince's leave - the other half of the same vanilla daimyo_vassal shape.
+	takes_diplo_slot = no
 	gives_daimyo_bonuses = yes
 	can_release_in_peace = no
 	can_use_claims = yes

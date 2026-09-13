@@ -1,5 +1,13 @@
 namespace = kyiv_shogunate
 
+# Every option below used to create subject_type = princedom, though this
+# event only ever fires under kyivan_shogunate_reform (see the trigger). That
+# left kyivan_seniorate_mechanic's three interactions - all gated on
+# any_subject_country = { is_subject_of_type = senior_udil } - with nothing to
+# act on except whatever a player separately granted by hand through
+# rip_grant_the_udil. Now senior_udil throughout, matching that diplomatic
+# action's own branch and decisions/KyivTriggers.txt : kyiv_establish_princedoms.
+
 country_event = {
 	id = kyiv_shogunate.1
 	title = kyiv_shogunate.1.t
@@ -24,7 +32,7 @@ country_event = {
 			cede_province = CHR
 		}
 		create_subject = {
-			subject_type = princedom
+			subject_type = senior_udil
 			subject = CHR
 		}
 		CHR = {
@@ -47,7 +55,7 @@ country_event = {
 			cede_province = VLN
 		}
 		create_subject = {
-			subject_type = princedom
+			subject_type = senior_udil
 			subject = VLN
 		}
 		VLN = {
@@ -70,7 +78,7 @@ country_event = {
 			cede_province = PDL
 		}
 		create_subject = {
-			subject_type = princedom
+			subject_type = senior_udil
 			subject = PDL
 		}
 		PDL = {
@@ -93,7 +101,7 @@ country_event = {
 			cede_province = PRL
 		}
 		create_subject = {
-			subject_type = princedom
+			subject_type = senior_udil
 			subject = PRL
 		}
 		PRL = {
@@ -116,7 +124,7 @@ country_event = {
 			cede_province = HLC
 		}
 		create_subject = {
-			subject_type = princedom
+			subject_type = senior_udil
 			subject = HLC
 		}
 		HLC = {
@@ -130,5 +138,91 @@ country_event = {
 
 	option = {
 		name = kyiv_shogunate.1.d
+	}
+}
+
+# The senior line has failed to leave an heir and no longer even holds Kyiv
+# itself - one of the senior udily does. Fired from kie_on_actions.txt :
+# on_monarch_death through rip_kyiv_seniorate_line_broken_trigger (common/
+# scripted_triggers/rip_kyivan_seniorate_triggers.txt). No vanilla rule of this
+# exact shape exists to copy (checked events/Japan.txt, flavorJAP.txt,
+# decisions/JapaneseNation.txt, and every common/scripted_trigger and
+# common/scripted_effect file for "shogun"/"Kyoto"/"mantle" - the shogunate's
+# own succession-by-holding-the-capital is flavour, not a scripted rule); this
+# reuses the mechanic's own ladder-of-thrones logic instead. All the real work
+# happens in immediate, guarded by exists = event_target - the option is an
+# acknowledgement only, so a failed lookup never leaves the event without a
+# valid option.
+country_event = {
+	id = kyiv_shogunate.2
+	title = kyiv_shogunate.2.t
+	desc = kyiv_shogunate.2.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_reform = kyivan_shogunate_reform
+	}
+
+	immediate = {
+		random_subject_country = {
+			limit = {
+				is_subject_of_type = senior_udil
+				owns = 280
+			}
+			save_event_target_as = rip_kyiv_new_senior_prince
+		}
+		if = {
+			limit = { exists = event_target:rip_kyiv_new_senior_prince }
+			free_vassal = event_target:rip_kyiv_new_senior_prince
+			# Every senior udil still standing answers to Kyiv's new holder
+			# now, not to a house that could not keep the city.
+			every_subject_country = {
+				limit = { is_subject_of_type = senior_udil }
+				ROOT = {
+					free_vassal = PREV
+				}
+				event_target:rip_kyiv_new_senior_prince = {
+					create_subject = {
+						subject_type = senior_udil
+						subject = PREV
+					}
+				}
+			}
+			event_target:rip_kyiv_new_senior_prince = {
+				# The lapse this same on_monarch_death just marked him with,
+				# on his way out the door as a subject, means nothing now.
+				remove_country_modifier = rip_tenure_lapsed
+				add_government_reform = kyivan_shogunate_reform
+				add_prestige = 10
+				add_legitimacy_equivalent = {
+					amount = 10
+					republican_tradition = 5
+				}
+				create_subject = {
+					subject_type = senior_udil
+					subject = ROOT
+				}
+			}
+			# The old house keeps its name and its lands; only the seniority
+			# has moved. principality_appanage is the same tenure-and-government
+			# reform rip_grant_the_udil hands to any new udil-holder.
+			if = {
+				limit = {
+					government = monarchy
+					NOT = { has_reform = principality_appanage }
+				}
+				add_government_reform = principality_appanage
+			}
+			add_country_modifier = {
+				name = rip_tenure_lapsed
+				duration = -1
+			}
+		}
+	}
+
+	option = {
+		name = kyiv_shogunate.2.a
 	}
 }

@@ -345,6 +345,39 @@ modifiers_effect`).
     `states_general_mechanic { boyars princes }` (окрема M10) — той самий
     перехід чекає на неї.
 
+Сесія 13.09.2026 (накопичувальний лічильник + спадковість Сеніорату):
+
+- `kyivan_seniorate_mechanic` отримав блок `powers` (три лічильники —
+  `kyiv_princely_levy_power` MIL 0.7/міс, `kyiv_seat_rotation_power` DIP
+  0.6/міс, `kyiv_grant_reconfirmation_power` ADM 1.2/міс, стеля 100, форма
+  ванільного `russian_mechanic` з `04_russian.txt`). `cost_type`/`cost` (100,
+  100, 80) замінили пороги `mil/dip/adm_power` + `cooldown_years` — назви,
+  іконки, ефекти трьох кнопок не змінені. `kyiv_grant_reconfirmation_power`
+  навмисно `reset_on_new_ruler = yes`: новий старший князь не має спадкового
+  права одразу знімати `rip_tenure_lapsed`.
+- Виявлено й виправлено розсинхрон: `decisions/KyivTriggers.txt` →
+  `kyiv_establish_princedoms` і всі п'ять варіантів `events/KyivShogunate.txt`
+  →  `kyiv_shogunate.1` створювали `subject_type = princedom`, хоча обидва
+  доступні лише під `kyivan_shogunate_reform`, а всі три кнопки сеніорату
+  читають `is_subject_of_type = senior_udil`. Тепер обидва місця роблять
+  `senior_udil`, як і раніше робив лише `rip_grant_the_udil`.
+  `common/subject_types/rip_senior_udil.txt`: `takes_diplo_slot = no` (даймьо
+  вантажу з `daimyo_vassal`, `17_shogunate.txt`) — `can_fight`/`can_rival`/
+  `can_ally = { same_overlord = senior_udil }` (друга половина того ж
+  ванільного даймьо) вже існували. Спільний `princedom` (`Kyivan_princedom.txt`)
+  свідомо не займали — його ж використовують KRU/PLC/Hadiach/kyiv_independence.
+- Спадковість при обриві лінії: `rip_kyiv_seniorate_line_broken_trigger`
+  (`common/scripted_triggers/rip_kyivan_seniorate_triggers.txt`) +
+  `events/KyivShogunate.txt : kyiv_shogunate.2`, з `kie_on_actions.txt :
+  on_monarch_death`. Умова: `has_reform kyivan_shogunate_reform`, немає
+  спадкоємця, ROOT більше не володіє Києвом (280), а один із його senior_udil
+  володіє. Ванільного скриптового правила «спадкоємець той, хто володіє
+  Кіото» **не знайдено** (перевірено `events/Japan.txt`, `flavorJAP.txt`,
+  `decisions/JapaneseNation.txt`, усі `common/scripted_triggers`,
+  `scripted_effects`, `on_actions` на «shogun»/«Kyoto»/«mantle») — це
+  флаворний опис механіки, не тригер; реалізовано на власній логіці ротації
+  сходинок. Не сертифіковано в грі.
+
 Урядові / субʼєктні / модифікаторні / brace / glossary перевірки зелені.
 `run_all_tests` наразі червоний **лише через паралельну сесію релігії**
 (`check_faith_content_balance`, `check_opinion_modifier_layer`,
@@ -376,4 +409,12 @@ modifiers_effect`).
    trade_city_reform у shogunate) — чи ці асерти лишаються?
 6. `hessian_militarization_mechanic` на карпатській заставі — замінити на
    `militarization_mechanic`, на скриптовий бар, чи лишити?
+7. `rip_kyiv_seniorate_line_broken_trigger` (сесія 13.09.2026) читає
+   `NOT = { has_heir = yes }` усередині `on_monarch_death` — це той самий
+   незасвідчений момент з рядка вище («чи `on_monarch_death` спрацьовує до
+   того, як рушій розв'яже спадкування»), тепер із конкретним наслідком: якщо
+   рушій встигає підставити спадкоємця чи нову династію до цього хука,
+   `has_heir` побачить НОВОГО монарха, а не відсутність спадкоємця в старого,
+   і подія `kyiv_shogunate.2` ніколи не спрацює по цій умові. Перевірити в
+   грі; якщо підтвердиться, потрібен інший сигнал обриву лінії.
 7. Ключі факцій — `starshyna` чи `hetmany`? (Рекомендація: `starshyna`.)

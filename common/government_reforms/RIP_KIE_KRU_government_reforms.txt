@@ -172,9 +172,19 @@ kyivan_cesarstvo_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
+		# See uzh_palatial_uhro_reform in RIP_UZH_government_reforms.txt for
+		# the source of these four - not invented names.
+		seizing_land_no_rebels_from_estate_nobles = yes
+		monarch_power_on_institutions = yes
+		mercs_do_not_cost_army_professionalism = yes
+		army_tradition_on_stackwipe = yes
 	}
 	# The imperial Kyivan court still rests on the seniority of the house of
 	# Rurik - the same mechanic as kyivan_rus_reform, not the Muscovite one.
+	# Alongside it, two counters of its own - boyar concord and the gathering
+	# of the Cesarstvo's non-Rus peoples - in
+	# common/government_mechanics/rip_kyivan_cesarstvo.txt, which does not
+	# touch kyivan_seniority_mechanic or its file.
 	conditional = {
 		allow = {
 			OR = {
@@ -184,6 +194,8 @@ kyivan_cesarstvo_reform = {
 		}
 		government_abilities = {
 			kyivan_seniority_mechanic
+			kyivan_throne_concord_mechanic
+			kyivan_peoples_gathering_mechanic
 		}
 	}
 }

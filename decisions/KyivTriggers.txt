@@ -363,6 +363,11 @@ country_decisions = {
 			}
 		}
 		effect = {
+			# senior_udil (common/subject_types/rip_senior_udil.txt), not the
+			# plain princedom - only kyivan_shogunate_reform reaches this
+			# decision, and kyivan_seniorate_mechanic's three interactions all
+			# read any_subject_country = { is_subject_of_type = senior_udil }.
+			# A princedom here would sit outside every one of them.
 			every_subject_country = {
 				limit = {
 					OR = {
@@ -372,7 +377,7 @@ country_decisions = {
 				}
 				ROOT = {
 					create_subject = {
-						subject_type = princedom
+						subject_type = senior_udil
 						subject = PREV
 					}
 				}

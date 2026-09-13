@@ -7,6 +7,11 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_church_ro_unrecognized }
 }
 defined_text = {
+ name = GetChurchBalanceValue
+ text = { trigger = { check_variable = { which = rip_church_communion value = 0 } } localisation_key = rip_church_gc_balance_positive }
+ text = { trigger = { always = yes } localisation_key = rip_church_gc_balance_negative }
+}
+defined_text = {
  name = GetChurchStandingRate
  text = { trigger = { NOT = { rip_church_gc_rome_present = yes NOT = { war_with = PAP } PAP = { has_opinion = { who = ROOT value = 50 } } } } localisation_key = rip_church_standing_rate_zero }
  text = { trigger = { rip_church_gc_eastern = yes } localisation_key = rip_church_standing_rate_east }

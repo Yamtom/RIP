@@ -5,11 +5,23 @@
 # Rurikid princes as senior_udil subjects (common/subject_types/rip_senior_udil.txt)
 # - a rotational seat, not a fixed patrimony, owing the levy rather than the
 # rent, held at the senior prince's pleasure and lapsing when a new senior
-# prince takes the throne (kie_on_actions.txt : on_new_monarch).
+# prince takes the throne (kie_on_actions.txt : on_monarch_death).
 #
-# Buttons-only (devshirme pattern): no powers, no .gui, monarch power spent in
-# the effect, vanilla Cossack ability sprites for the icons. Gated on Third Rome
-# / Domination like kyivan_seniority_mechanic - the UI panel comes with those.
+# Three accumulating powers, one per interaction, the same shape vanilla uses
+# for russian_mechanic (common/government_mechanics/04_russian.txt): each power
+# takes base_monthly_growth plus monarch_power, so the ruler's own ADM/DIP/MIL
+# skill adds to the monthly gain - that scaling is the engine's own behaviour
+# once monarch_power is named on the power, not a literal number written here,
+# same as vanilla's file. Each interaction's cost_type/cost is its power and
+# its threshold at once: below cost the button is unavailable, and progress
+# cannot climb past max, so a reign that never spends a power still loses the
+# overflow past the ceiling every month. This replaces the old flat mil/dip/adm
+# cost plus cooldown_years scheme; the three interactions keep their prior
+# names, icons and effects.
+#
+# Buttons render through the default government interactions list, no custom
+# .gui, vanilla Cossack ability sprites for the icons. Gated on Third Rome /
+# Domination like kyivan_seniority_mechanic - the UI panel comes with those.
 # =============================================================================
 
 kyivan_seniorate_mechanic = {
@@ -24,26 +36,55 @@ kyivan_seniorate_mechanic = {
 		has_reform = kyivan_shogunate_reform
 	}
 
+	powers = {
+		# The levy: the seat's one standing due to Kyiv, so it leans on the
+		# same skill that mans it.
+		kyiv_princely_levy_power = {
+			max = 100
+			base_monthly_growth = 0.7
+			monarch_power = MIL
+			reset_on_new_ruler = no
+		}
+		# The rota: a diplomatic act, moving a prince up the ladder of
+		# thrones, so it leans on DIP rather than MIL or ADM.
+		kyiv_seat_rotation_power = {
+			max = 100
+			base_monthly_growth = 0.6
+			monarch_power = DIP
+			reset_on_new_ruler = no
+		}
+		# Resets on succession on purpose: a new senior prince has not yet
+		# earned the standing to reconfirm anyone, which is exactly the gap
+		# rip_tenure_lapsed (kie_on_actions.txt : on_monarch_death) opens
+		# under him that same month.
+		kyiv_grant_reconfirmation_power = {
+			max = 100
+			base_monthly_growth = 1.2
+			monarch_power = ADM
+			reset_on_new_ruler = yes
+		}
+	}
+
 	interactions = {
 		# Call up the senior udils' full retinues for a campaign - more than the
 		# standing forcelimit the seat already owes.
 		kyiv_call_the_princely_levy = {
 			icon = GFX_cossacks_ability_MIL
+			cost_type = kyiv_princely_levy_power
+			cost = 100
 			trigger = {
-				mil_power = 60
 				any_subject_country = {
 					is_subject_of_type = senior_udil
 				}
 				NOT = { has_country_modifier = rip_kyiv_princely_levy }
 			}
 			effect = {
-				add_mil_power = -60
 				add_country_modifier = {
 					name = rip_kyiv_princely_levy
 					duration = 3650
 				}
 			}
-			cooldown_years = 10
+			cooldown_years = 0
 			ai_chance = {
 				factor = 1
 				modifier = {
@@ -56,15 +97,15 @@ kyivan_seniorate_mechanic = {
 		# prince controls resets the seat-holder's standing toward Kyiv.
 		kyiv_rotate_the_seats = {
 			icon = GFX_cossacks_ability_DIP
+			cost_type = kyiv_seat_rotation_power
+			cost = 100
 			trigger = {
-				dip_power = 60
 				any_subject_country = {
 					is_subject_of_type = senior_udil
 					liberty_desire = 30
 				}
 			}
 			effect = {
-				add_dip_power = -60
 				random_subject_country = {
 					limit = {
 						is_subject_of_type = senior_udil
@@ -81,7 +122,7 @@ kyivan_seniorate_mechanic = {
 					republican_tradition = 2
 				}
 			}
-			cooldown_years = 12
+			cooldown_years = 0
 			ai_chance = {
 				factor = 1
 				modifier = {
@@ -96,15 +137,15 @@ kyivan_seniorate_mechanic = {
 		# Reconfirm every seat after a succession has lapsed the grants.
 		kyiv_reconfirm_the_grants = {
 			icon = GFX_cossacks_ability_ADM
+			cost_type = kyiv_grant_reconfirmation_power
+			cost = 80
 			trigger = {
-				adm_power = 40
 				any_subject_country = {
 					is_subject_of_type = senior_udil
 					has_country_modifier = rip_tenure_lapsed
 				}
 			}
 			effect = {
-				add_adm_power = -40
 				add_prestige = -5
 				every_subject_country = {
 					limit = {
@@ -120,7 +161,7 @@ kyivan_seniorate_mechanic = {
 					}
 				}
 			}
-			cooldown_years = 5
+			cooldown_years = 0
 			ai_chance = {
 				factor = 20
 			}

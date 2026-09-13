@@ -4,6 +4,11 @@
 # rip_kyivan_seniorate.txt): the grants of tenure lapse when the senior prince
 # dies. The new senior prince reconfirms them with the kyiv_reconfirm_the_grants
 # interaction; until he does, every senior udil carries rip_tenure_lapsed.
+#
+# If that death also breaks the senior line itself (no heir) while Kyiv has
+# already passed out of his hands into one of his own senior udily, that udil
+# takes the seniority - see common/scripted_triggers/
+# rip_kyivan_seniorate_triggers.txt and events/KyivShogunate.txt : kyiv_shogunate.2.
 on_monarch_death = {
 	effect = {
 		if = {
@@ -21,6 +26,10 @@ on_monarch_death = {
 					duration = -1
 				}
 			}
+		}
+		if = {
+			limit = { rip_kyiv_seniorate_line_broken_trigger = yes }
+			country_event = { id = kyiv_shogunate.2 days = 1 }
 		}
 	}
 }
