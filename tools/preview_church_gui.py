@@ -113,6 +113,7 @@ for kind,payload in entries:
         native=d['quadTextureSprite']
         if native in tiles: sprite=tiles[native]
         elif native in sprite_paths: sprite=asset(sprite_paths[native])
+        elif native=='button_type_1': sprite=asset('gfx/interface/button_type_1.tga')
         elif native=='GFX_tab_small_116':
             sprite=asset('gfx/interface/tab_small_116.dds')
             n=int(dict(bindings[d['name']]['frame'])['number'])-1

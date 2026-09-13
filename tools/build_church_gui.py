@@ -46,10 +46,10 @@ def art(name,sprite,x,y,scale=1):
 
 def inset(name,x,y,w,h):
     sprite='GFX_rip_church_inset_'+name
-    insets.append(f'corneredTileSpriteType = {{ name = "{sprite}" textureFile = "gfx/interface/small_tiles_dialog.dds" size = {{ x={w} y={h} }} borderSize = {{ x=8 y=8 }} }}')
+    insets.append(f'corneredTileSpriteType = {{ name = "{sprite}" textureFile = "gfx/interface/copts_blessing_slot.dds" size = {{ x={w} y={h} }} borderSize = {{ x=8 y=8 }} }}')
     return art('rip_church_inset_'+name,sprite,x,y)
 
-insets=['corneredTileSpriteType = { name = "GFX_rip_church_action_slot" textureFile = "gfx/interface/small_tiles_dialog.dds" size = { x=58 y=58 } borderSize = { x=8 y=8 } }']
+insets=['corneredTileSpriteType = { name = "GFX_rip_church_action_slot" textureFile = "gfx/interface/copts_blessing_slot.dds" size = { x=58 y=58 } borderSize = { x=8 y=8 } }']
 def panel(name,condition,body,x=540,y=8,clean=False):
     defs.append(f'custom_window = {{ name = {name} potential = {{ {condition} }} }}')
     background = ('GFX_rip_church_union_frame' if clean else 'GFX_country_religion_view_bg')
@@ -91,14 +91,14 @@ gc+=text('rip_church_gc_heading',28,28,w=419,h=26,font='vic_22',align='center')
 gc+=text('rip_church_gc_orientation',28,76,w=419,h=20,align='center')
 gc+=text('rip_church_gc_resources',44,100,w=387,h=54)
 gc+=text('rip_church_gc_policy_label',28,166,w=419,h=22,align='center')
-gc+=button('rip_church_east_button',51,200,
+gc+=button('rip_church_east_button',73,211,
            'rip_church_can_shift_communion = yes check_variable = { which = rip_church_communion value = -99.999 }',
-           'rip_church_gc_shift_east_effect = yes',sprite='GFX_standard_button_142_34_button')
-gc+=button('rip_church_rome_button',258,200,
+           'rip_church_gc_shift_east_effect = yes',sprite='button_type_1')
+gc+=button('rip_church_rome_button',253,211,
            'rip_church_can_shift_communion = yes NOT = { check_variable = { which = rip_church_communion value = 100 } }',
-           'rip_church_gc_shift_rome_effect = yes',sprite='GFX_standard_button_142_34_button')
-gc+=art('rip_church_gc_adm_icon','GFX_icon_powers_administrative',143,258,0.7)
-gc+=text('rip_church_gc_policy_cost',167,259,w=210,h=18)
+           'rip_church_gc_shift_rome_effect = yes',sprite='button_type_1')
+gc+=art('rip_church_gc_adm_icon','GFX_icon_powers_administrative',173,258,0.7)
+gc+=text('rip_church_gc_policy_cost',197,259,w=150,h=18)
 # Reuse the RO panel's native framed illustrations and compact buttons.
 # These are action shortcuts, so they deliberately have no policy-active glow.
 for i,(key,name,trigger,effect) in enumerate((
@@ -120,7 +120,7 @@ gc+=gc_tabs('union')
 curia=inset('rome_status',34,98,407,64)+inset('petitions',34,195,407,150)+inset('curia_privilege',34,356,407,60)+inset('donation',34,426,407,84)
 curia+=text('rip_church_gc_curia_heading',28,28,w=419,h=26,font='vic_22',align='center')
 curia+=text('rip_church_gc_curia_status',28,76,w=419,h=20,align='center')
-curia+=shield('rip_church_gc_pope_shield',46,102,'rip_church_gc_rome',
+curia+=shield('rip_church_gc_pope_shield',41,98,'rip_church_gc_rome',
               'has_global_flag = rip_church_gc_rome_known rip_church_gc_rome_present = yes','GFX_shield_medium')
 curia+=text('rip_church_gc_rome_resources',116,102,w=247,h=54)
 curia+=shield('rip_church_gc_controller_shield',386,114,'rip_church_gc_controller',
@@ -128,7 +128,7 @@ curia+=shield('rip_church_gc_controller_shield',386,114,'rip_church_gc_controlle
 curia+=text('rip_church_gc_petitions_title',28,166,w=419,h=22,align='center')
 # Identical frame order to Catholic papal actions in 00_religion.txt / papacy.gfx.
 for i,key in enumerate(('church_tax','blessing','indulgence','saint','usury','holy_war','legate','monopoly')):
-    x=26+(i%4)*106; y=211+(i//4)*68
+    x=22+(i%4)*106; y=211+(i//4)*68
     curia+=button('rip_church_gc_petition_'+key+'_button',x+32,y,
                   'rip_church_gc_can_petition_'+key+' = yes','rip_church_gc_petition_'+key+'_effect = yes',
                   sprite='GFX_papacy_action_strip',frame=i+1,label=False)
