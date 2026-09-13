@@ -12,7 +12,8 @@ ap=argparse.ArgumentParser(); group=ap.add_mutually_exclusive_group(); group.add
 branch='ro' if args.ro else 'gc_curia' if args.curia else 'gc'
 loc=dict(re.findall(r'^\s+(\w+):0 "(.*)"$',(ROOT/'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'),re.M))
 sample={'Root.GetChurchGCOrientation':'Balanced communion', 'Root.rip_church_communion.GetValue':'-20',
- 'Root.rip_church_papal_standing.GetValue':'100', 'Root.GetChurchStandingRate':'+0.00 (Roman support unavailable)',
+ 'Root.GetChurchBalanceValue':'§R-20§!',
+ 'Root.rip_church_papal_standing.GetValue':'100', 'Root.GetChurchStandingRate':'§G+0.25§!',
  'Root.rip_church_recognized_parishes.GetValue':'999', 'Root.GetChurchCenterStatus':'Centre suspended while its province is occupied',
  'Root.GetChurchPrivilege':'Agreement on coexistence'}
 sample.update({'Root.GetChurchROStatus':'Reconciliation in progress',
@@ -21,7 +22,7 @@ sample.update({'Root.GetChurchROStatus':'Reconciliation in progress',
  'Root.rip_church_fervor_cost.GetValue':'18','Root.rip_church_nodes.GetValue':'2'})
 for key in ('War','Mercy','Building','Mission'): sample['Root.GetChurchIcon'+key]='Active'
 sample.update({'Root.GetChurchCuriaStatus':'Communion with Rome recognized',
- 'Root.GetChurchPapalOpinion':'-200', 'Root.GetChurchCuriaRate':'Paused',
+ 'Root.GetChurchPapalOpinion':'15', 'Root.GetChurchCuriaRate':'§G+0.25§!',
  'Root.GetChurchDonationState':'Available again five years after the last donation',
  'Root.GetChurchLocalInstitution':'Agreement on coexistence'})
 def resolve(key):
@@ -50,7 +51,9 @@ def font(name):
     return fonts[name]
 def draw_text(canvas,s,x,y,w,h,name,center=False):
     line_height,chars,atlas=font(name)
-    def width(t): return sum(chars[ord(c)]['xadvance'] for c in t)
+    def width(t): return sum(chars[ord(c)]['xadvance'] for c in re.sub('§.','',t))
+    palette={'Y':(255,215,80),'G':(100,220,95),'R':(235,90,80),'H':(240,175,80)}
+    color=None
     lines=[]
     for paragraph in s.split('\n'):
         line=''
@@ -63,8 +66,13 @@ def draw_text(canvas,s,x,y,w,h,name,center=False):
     for line in lines:
         assert width(line)<=w,(line,width(line),w)
         cursor=x+(w-width(line))//2 if center else x
-        for ch in line:
+        tokens=re.findall('§.|[^§]',line)
+        for ch in tokens:
+            if ch.startswith('§'):
+                color=palette.get(ch[1]); continue
             c=chars[ord(ch)]; glyph=atlas.crop((c['x'],c['y'],c['x']+c['width'],c['y']+c['height']))
+            if color and c['width'] and c['height']:
+                tint=Image.new('RGBA',glyph.size,color); tint.putalpha(glyph.getchannel('A')); glyph=tint
             if c['width'] and c['height']: canvas.alpha_composite(glyph,(cursor+c['xoffset'],y+c['yoffset']))
             cursor+=c['xadvance']
         y+=line_height
@@ -74,6 +82,10 @@ entries=dict(parse(panel))['windowType']
 dimensions=dict(dict(entries)['size']); panel_w,panel_h=int(dimensions['x']),int(dimensions['y'])
 canvas=Image.new('RGBA',(panel_w,panel_h),(22,30,33,255))
 sprite_paths={}
+tiles={}
+for _,block in keyed_blocks((ROOT/'interface/RIP_church_panels.gfx').read_text(),'corneredTileSpriteType'):
+    d=dict(dict(parse(block))['corneredTileSpriteType']); dims=dict(d['size'])
+    tiles[d['name']]=tile(d['textureFile'],int(dims['x']),int(dims['y']),int(dict(d['borderSize'])['x']))
 for _,block in keyed_blocks((ROOT/'interface/RIP_church_panels.gfx').read_text(),'spriteType'):
     d=dict(dict(parse(block))['spriteType']); sprite_paths[d['name']]=d['textureFile']
 rects=[]
@@ -82,8 +94,8 @@ for kind,payload in entries:
     if kind not in ('iconType','instantTextBoxType','guiButtonType'): continue
     d=dict(payload); pos=dict(d['position']); x,y=int(pos['x']),int(pos['y'])
     if kind=='iconType':
-        if d['spriteType'] in sprite_paths:
-            art=asset(sprite_paths[d['spriteType']])
+        if d['spriteType'] in sprite_paths or d['spriteType'] in tiles or d['spriteType']=='GFX_icon_powers_administrative':
+            art=tiles[d['spriteType']] if d['spriteType'] in tiles else asset('gfx/interface/icon_powers_administrative.tga' if d['spriteType']=='GFX_icon_powers_administrative' else sprite_paths[d['spriteType']])
             if 'scale' in d:
                 factor=float(d['scale']); art=art.resize((round(art.width*factor),round(art.height*factor)))
             canvas.alpha_composite(art,(x,y))
@@ -99,7 +111,13 @@ for kind,payload in entries:
     if kind=='guiButtonType':
         small=d['quadTextureSprite']=='GFX_standard_button_142_34_button'
         native=d['quadTextureSprite']
-        if native in ('GFX_shield_medium','GFX_shield_small'):
+        if native in tiles: sprite=tiles[native]
+        elif native in sprite_paths: sprite=asset(sprite_paths[native])
+        elif native=='GFX_tab_small_116':
+            sprite=asset('gfx/interface/tab_small_116.dds')
+            n=int(dict(bindings[d['name']]['frame'])['number'])-1
+            sprite=sprite.crop((n*116,0,(n+1)*116,36))
+        elif native in ('GFX_shield_medium','GFX_shield_small'):
             mini=native=='GFX_shield_small'
             sprite=asset('gfx/interface/small_shield_overlay.dds' if mini else 'gfx/interface/shield_medium_overlay.dds')
             mask=asset('gfx/interface/small_shield_mask.tga' if mini else 'gfx/interface/shield_medium_mask.tga')
