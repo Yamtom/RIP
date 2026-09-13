@@ -204,6 +204,12 @@ hlc_austrian_bureaucracy_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
+		# Gates hlc_incorporate_appanage
+		# (common/new_diplomatic_actions/RIP_HLC_diplomatic_actions.txt), a
+		# Galician analog of Habsburg "Incorporate Vassal"
+		# (common/new_diplomatic_actions/00_diplomatic_actions.txt,
+		# incorporate_vassal, gated there on can_have_incorporated_vassals).
+		hlc_enables_incorporated_appanages = yes
 	}
 }
 
@@ -310,6 +316,19 @@ hlc_crown_authority_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
+		# Real prototype: great_council_of_mechelen_reform's no_more_dutch_
+		# revolt (common/government_reforms/01_government_reforms_
+		# monarchies.txt), read by dutch_revolt_disaster's potential
+		# (common/disasters/dutch_revolt.txt). A settled frontier crown
+		# stares down the Ruin instead - see chernihiv_ruina's potential
+		# (common/disasters/shared_ruthenian_disasters.txt).
+		hlc_disables_chernihiv_ruina = yes
+	}
+	# The Habsburg-style chancery ordinances the Austrian fork never had a
+	# mechanic for. common/government_mechanics/rip_hlc_austrian_
+	# reorganization.txt.
+	government_abilities = {
+		hlc_austrian_reorganization_mechanic
 	}
 }
 
@@ -345,6 +364,20 @@ hlc_crown_and_sejm_reform = {
 		max_absolutism = -5
 		reform_progress_growth = 0.1
 		global_tax_modifier = 0.1
+	}
+	# Restates hlc_magnate_assembly_reform's elective settlement on the
+	# mature Poland-path statute - a foreign house may still inherit the
+	# seat the assembly grants it. Real prototype: polish_elective_monarchy
+	# (common/government_reforms/01_government_reforms_monarchies.txt),
+	# whose has_polish_election drives the vanilla ElectiveMonarchy.txt
+	# event chain (heir support, foreign candidates) for any government
+	# that carries it, not only vanilla Poland.
+	conditional = {
+		allow = { has_dlc = "Res Publica" }
+		is_elective = yes
+		custom_attributes = {
+			has_polish_election = yes
+		}
 	}
 	custom_attributes = {
 		locked_government_type = yes

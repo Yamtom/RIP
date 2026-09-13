@@ -21,3 +21,22 @@ rip_estate_mood_effect = {
 		}
 	}
 }
+
+# Fired from on_province_culture_converted
+# (common/on_actions/west_ukraine_on_actions.txt) while the Chancery's
+# Settlement Ordinance is active
+# (common/government_mechanics/rip_hlc_austrian_reorganization.txt). Runs in
+# province scope and switches to owner before touching estates; the flag it
+# reads is set only by that mechanic's own interaction, so no country-tag
+# guard is needed here.
+hlc_settlement_ordinance_conversion_effect = {
+	if = {
+		limit = { owner = { has_country_flag = hlc_settlement_ordinance_active } }
+		owner = {
+			rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 1 }
+			rip_estate_mood_effect = { ESTATE = estate_burghers LOYALTY = 1 }
+			rip_estate_mood_effect = { ESTATE = estate_clergy LOYALTY = 1 }
+			rip_estate_mood_effect = { ESTATE = estate_magnates LOYALTY = 1 }
+		}
+	}
+}

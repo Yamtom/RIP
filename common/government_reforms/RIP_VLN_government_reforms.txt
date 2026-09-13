@@ -259,11 +259,32 @@ vln_grand_ruthenia_reform = {
 			}
 		}
 	}
+	# The reunited Halych-Volhynia crown, so the tolerance and administrative
+	# habits of both halves of the union ride together: no_religion_penalty
+	# is the real vanilla modifier behind Lithuania's kingdom/empire tiers
+	# (lithuanian_grand_kingdom, lithuanian_grand_empire -
+	# common/government_reforms/01_government_reforms_monarchies.txt), not a
+	# custom_attribute, and it is why a state holding Orthodox, Catholic and
+	# Jewish provinces alike does not bleed unrest for it. The other four are
+	# the same Austro-Hungarian-and-Commonwealth set already confirmed and
+	# used on uzh_palatial_uhro_reform in RIP_UZH_government_reforms.txt,
+	# themselves sourced from black_army_reform
+	# (01_government_reforms_monarchies.txt) and the Hungarian court reforms
+	# in 06_government_reforms_common.txt.
+	#
+	# fixed_rank was deliberately left out: VOL's own rank escalation is
+	# already mission-driven (VOL_ruthenian_hegemony sets government_rank = 3
+	# directly, missions/Volhynia_Missions.txt) and independent of any reform.
+	# A fixed_rank reform sitting active in a different reform-category slot
+	# would fight that effect on every rank recalculation and snap the
+	# country back down - so the Lithuanian ladder's rank-locking half is not
+	# reproduced here, only its tolerance modifier.
 	modifiers = {
 		prestige = 2
 		stability_cost_modifier = -0.15
 		diplomatic_reputation = 1
 		max_absolutism = 15
+		no_religion_penalty = yes
 	}
 	conditional = {
 		allow = {
@@ -276,5 +297,17 @@ vln_grand_ruthenia_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
+		# See uzh_palatial_uhro_reform in RIP_UZH_government_reforms.txt for
+		# the source of these four - not invented names.
+		seizing_land_no_rebels_from_estate_nobles = yes
+		monarch_power_on_institutions = yes
+		mercs_do_not_cost_army_professionalism = yes
+		army_tradition_on_stackwipe = yes
 	}
+	# The Grand Host of Halych-Volhynia, a standing mercenary company the
+	# united crown never has to hire twice - common vanilla shorthand for
+	# this is Hungary's Institutionalized Black Army (black_army_reform); the
+	# company itself is common/mercenary_companies/rip_grand_ruthenia_mercenaries.txt,
+	# gated directly on has_reform = vln_grand_ruthenia_reform the same way
+	# rip_cossack_host_mercenaries gates on has_reform = rip_cossacks_reform.
 }

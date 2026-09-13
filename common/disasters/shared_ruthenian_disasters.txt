@@ -23,6 +23,12 @@ chernihiv_ruina = {
 		}
 		normal_or_historical_nations = yes
 		NOT = { has_country_flag = survived_the_ruina }
+		# Real prototype: dutch_revolt_disaster's NOT has_government_
+		# attribute = no_more_dutch_revolt (common/disasters/dutch_revolt.
+		# txt), set by great_council_of_mechelen_reform. HLC's Austrian
+		# fork sets the Galician equivalent on hlc_crown_authority_reform
+		# (common/government_reforms/RIP_HLC_government_reforms.txt).
+		NOT = { has_government_attribute = hlc_disables_chernihiv_ruina }
 	}
 	can_start = {
 		has_any_disaster = no
