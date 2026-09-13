@@ -8,8 +8,8 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tests'))
 from clausewitz_testlib import ROOT, vanilla_root, keyed_blocks
 from church_testlib import parse
 GAME=vanilla_root()
-ap=argparse.ArgumentParser(); ap.add_argument('--ro',action='store_true'); args=ap.parse_args()
-branch='ro' if args.ro else 'gc'
+ap=argparse.ArgumentParser(); group=ap.add_mutually_exclusive_group(); group.add_argument('--ro',action='store_true'); group.add_argument('--curia',action='store_true'); args=ap.parse_args()
+branch='ro' if args.ro else 'gc_curia' if args.curia else 'gc'
 loc=dict(re.findall(r'^\s+(\w+):0 "(.*)"$',(ROOT/'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'),re.M))
 sample={'Root.GetChurchGCOrientation':'Balanced communion', 'Root.rip_church_communion.GetValue':'-20',
  'Root.rip_church_papal_standing.GetValue':'100', 'Root.GetChurchStandingRate':'+0.00 (Roman support unavailable)',
@@ -20,6 +20,10 @@ sample.update({'Root.GetChurchROStatus':'Reconciliation in progress',
  'Root.rip_church_capacity.GetValue':'4','Root.rip_church_fervor_income.GetValue':'5',
  'Root.rip_church_fervor_cost.GetValue':'18','Root.rip_church_nodes.GetValue':'2'})
 for key in ('War','Mercy','Building','Mission'): sample['Root.GetChurchIcon'+key]='Active'
+sample.update({'Root.GetChurchCuriaStatus':'Communion with Rome recognized',
+ 'Root.GetChurchPapalOpinion':'-200', 'Root.GetChurchCuriaRate':'Paused',
+ 'Root.GetChurchDonationState':'Available again five years after the last donation',
+ 'Root.GetChurchLocalInstitution':'Agreement on coexistence'})
 def resolve(key):
     return re.sub(r'\[([^]]+)\]',lambda m:sample[m[1]],loc[key]).replace('\\n','\n')
 def asset(path):
@@ -73,6 +77,7 @@ sprite_paths={}
 for _,block in keyed_blocks((ROOT/'interface/RIP_church_panels.gfx').read_text(),'spriteType'):
     d=dict(dict(parse(block))['spriteType']); sprite_paths[d['name']]=d['textureFile']
 rects=[]
+bindings={dict(dict(parse(b))['custom_button'])['name']:dict(dict(parse(b))['custom_button']) for _,b in keyed_blocks((ROOT/'common/custom_gui/RIP_church_controls.txt').read_text(),'custom_button')}
 for kind,payload in entries:
     if kind not in ('iconType','instantTextBoxType','guiButtonType'): continue
     d=dict(payload); pos=dict(d['position']); x,y=int(pos['x']),int(pos['y'])
@@ -93,11 +98,25 @@ for kind,payload in entries:
         continue
     if kind=='guiButtonType':
         small=d['quadTextureSprite']=='GFX_standard_button_142_34_button'
-        sprite=asset('gfx/interface/buttons/button_142_animated.dds' if small else 'gfx/interface/standard_button_105.dds' if d['quadTextureSprite']=='GFX_standard_button_105' else 'gfx/interface/standard_button_224.dds')
+        native=d['quadTextureSprite']
+        if native in ('GFX_shield_medium','GFX_shield_small'):
+            mini=native=='GFX_shield_small'
+            sprite=asset('gfx/interface/small_shield_overlay.dds' if mini else 'gfx/interface/shield_medium_overlay.dds')
+            mask=asset('gfx/interface/small_shield_mask.tga' if mini else 'gfx/interface/shield_medium_mask.tga')
+            flag=asset('gfx/flags/FRA.tga' if mini else 'gfx/flags/PAP.tga').resize(mask.size)
+            flag.putalpha(mask.getchannel('A')); flag.alpha_composite(sprite); sprite=flag
+        elif native=='GFX_papacy_action_strip':
+            sprite=asset('gfx/interface/papacy_action_strip.dds'); w=sprite.width//9
+            n=int(dict(bindings[d['name']]['frame'])['number'])-1
+            sprite=sprite.crop((n*w,0,(n+1)*w,sprite.height))
+        elif native=='GFX_buy_indulgence_button': sprite=asset('gfx/interface/buy_indulgence_button.dds')
+        else:
+            assert native in ('GFX_standard_button_142_34_button','GFX_standard_button_105','GFX_standard_button_224'),native
+            sprite=asset('gfx/interface/buttons/button_142_animated.dds' if small else 'gfx/interface/standard_button_105.dds' if native=='GFX_standard_button_105' else 'gfx/interface/standard_button_224.dds')
         if small: sprite=sprite.crop((0,0,sprite.width//3,sprite.height))
         w,h=sprite.size
         canvas.alpha_composite(sprite,(x,y))
-        draw_text(canvas,resolve(d['buttonText']),x+8,y+(h-18)//2,w-16,18,'vic_18',True)
+        if d.get('buttonText'): draw_text(canvas,resolve(d['buttonText']),x+8,y+(h-18)//2,w-16,18,'vic_18',True)
     else:
         w,h=int(d['maxWidth']),int(d['maxHeight'])
         draw_text(canvas,resolve(d['text']),x,y,w,h,d['font'],d['format']=='center')

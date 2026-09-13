@@ -22,6 +22,12 @@ rip_church_gc_clear_privilege_effect = {
  remove_country_modifier = rip_church_gc_legate
  remove_country_modifier = rip_church_gc_dynastic
  remove_country_modifier = rip_church_gc_prestige
+ remove_country_modifier = rip_church_gc_church_tax
+ remove_country_modifier = rip_church_gc_blessing
+ remove_country_modifier = rip_church_gc_usury
+ remove_country_modifier = rip_church_gc_holy_war
+ remove_country_modifier = rip_church_gc_saint
+ remove_country_modifier = rip_church_gc_monopoly
 }
 rip_church_gc_infrastructure_effect = {
  if = { limit = { rip_church_gc_can_eastern_privilege = yes }
@@ -107,7 +113,7 @@ rip_church_gc_refresh_parishes_effect = {
 rip_church_gc_monthly_effect = {
  rip_church_gc_clamp_effect = yes
  set_variable = { which = rip_church_standing_income value = 0 }
- if = { limit = { exists = PAP NOT = { war_with = PAP } PAP = { has_opinion = { who = ROOT value = 50 } } }
+ if = { limit = { rip_church_gc_rome_present = yes NOT = { war_with = PAP } PAP = { has_opinion = { who = ROOT value = 50 } } }
  if = { limit = { rip_church_gc_eastern = yes } set_variable = { which = rip_church_standing_income value = 0.1 } }
  else_if = { limit = { rip_church_gc_roman = yes } set_variable = { which = rip_church_standing_income value = 0.5 } }
  else = { set_variable = { which = rip_church_standing_income value = 0.25 } }
@@ -115,6 +121,7 @@ rip_church_gc_monthly_effect = {
  }
  rip_church_gc_clamp_effect = yes
  rip_church_gc_refresh_parishes_effect = yes
+ rip_church_gc_refresh_rome_effect = yes
 }
 rip_church_begin_florence_effect = {
  if = { limit = { rip_church_can_begin_florence = yes }

@@ -357,18 +357,17 @@ for file in (ROOT/'common/scripted_effects').glob('rip_church_*.txt'):
 for generator in ('build_church_support.py','build_church_gui.py','build_church_localisation.py'):
     subprocess.run([sys.executable,'-B',str(ROOT/'tools'/generator),'--check'],check=True)
 gui=read('common/custom_gui/RIP_church_controls.txt')
-guide_window=next(block for _,block in keyed_blocks(gui,'custom_window') if 'name = rip_church_gc_native_guide ' in block)
+guide_window=next(block for _,block in keyed_blocks(gui,'custom_window') if 'name = rip_church_gc_native_controls ' in block)
 guide_gate=dict(dict(parse(guide_window))['custom_window'])['potential']
 for faith in ('greek_catholic','russian_orthodox','orthodox','catholic'):
     w,c,p=fixture(faith)
     assert w.gate(guide_gate,c)==(faith=='greek_catholic')
     checked()
-for _,block in keyed_blocks(read('events/RIP_ChurchHelp.txt'),'country_event'):
-    entries=dict(parse(block))['country_event']
-    assert dict(entries)['is_triggered_only']=='yes'
-    for key,option in entries:
-        if key=='option':
-            assert set(dict(option))<={'name','country_event'},'Help must not change resources or policy'
+assert 'rip_church_help.' not in gui
+assert '_guide_button' not in gui
+assert not (ROOT/'events/RIP_ChurchHelp.txt').exists()
+shortcut=next(block for _,block in keyed_blocks(gui,'custom_button') if 'name = rip_church_gc_native_privileges_button ' in block)
+assert 'rip_church_gc_open_synod_effect = yes' in shortcut
 for key in ('war','mercy','building','mission'):
     block=next(block for _,block in keyed_blocks(gui,'custom_icon') if 'name = rip_church_'+key+'_active_frame ' in block)
     gate=dict(dict(parse(block))['custom_icon'])['potential']
@@ -389,7 +388,7 @@ for path,host in [('countryreligionview.gui','countryreligionview'),('provincevi
     assert actual.count(marker)==1
     before,tail=actual.split(marker)
     if path=='countryreligionview.gui':
-        overlays=[block for _,block in keyed_blocks(actual,'windowType') if dict(dict(parse(block))['windowType']).get('name')=='rip_church_gc_native_guide']
+        overlays=[block for _,block in keyed_blocks(actual,'windowType') if dict(dict(parse(block))['windowType']).get('name')=='rip_church_gc_native_controls']
         assert len(overlays)==1
         overlay=overlays[0]
         overlay_data=dict(dict(parse(overlay))['windowType'])

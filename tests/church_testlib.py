@@ -20,11 +20,22 @@ class World(SettlementWorld):
         super().__init__()
         self.targets = {}
         self.from_scope = None
+        self.curia_treasury = 0
 
     def country(self, tag, religion='orthodox'):
         c = super().country(tag, religion)
-        c.update(annual_income=120, opinions={}, government='monarchy', ai=False)
+        c.update(annual_income=120, opinions={}, government='monarchy', ai=False,
+                 is_papal_controller=False, mercantilism=0, num_of_loans=0)
         return c
+
+    def opinion(self, source, target):
+        result = source['opinions'].get(target['id'], 0)
+        definitions = dict(parse(read('common/opinion_modifiers/RIP_church_curia.txt')))
+        for (who, modifier), day in source.get('opinion_dates', {}).items():
+            if who == target['id'] and modifier in definitions:
+                fields = dict(definitions[modifier])
+                result += max(0, float(fields['opinion']) - float(fields['yearly_decay']) * (self.day-day)/365)
+        return min(200, max(-200, result))
 
     def province(self, number, owner, religion='orthodox'):
         p = super().province(number, owner, religion)
@@ -104,7 +115,7 @@ class World(SettlementWorld):
             return scope['shares'].get(self.ref(fields['country'],scope,root,prev)['id'],0) >= float(fields['share'])
         if key == 'has_opinion':
             fields=dict(value); ref=self.ref(fields['who'],scope,root,prev)
-            return scope['opinions'].get(ref['id'] if ref else fields['who'],0) >= float(fields['value'])
+            return (self.opinion(scope,ref) if ref else 0) >= float(fields['value'])
         if key == 'years_of_income': return scope['treasury'] >= scope['annual_income'] * float(value)
         if key == 'government': return scope['government'] == value
         if key == 'province_id': return scope['id'] == value
@@ -135,7 +146,8 @@ class World(SettlementWorld):
                 scope['variables'][name] = number if key=='set_variable' else old+number if key=='change_variable' else old-number if key=='subtract_variable' else old*number if key=='multiply_variable' else old/number
             elif key == 'export_to_variable':
                 fields=dict(value); source=self.ref(fields['who'],scope,root,prev) if 'who' in fields else scope
-                scope['variables'][fields['which']]=source[fields['value'].removeprefix('trigger_value:')]
+                scope['variables'][fields['which']]=(self.opinion(source,self.ref(fields['with'],scope,root,prev))
+                    if fields['value']=='opinion' else source[fields['value'].removeprefix('trigger_value:')])
             elif key == 'while':
                 fields=dict(value); count=0
                 while self.gate(fields['limit'],scope,root,prev):
@@ -152,7 +164,7 @@ class World(SettlementWorld):
                 fields=dict(value)
                 for p in self.collection(key,scope):
                     if self.gate(fields.get('limit',[]),p,root,scope): self.execute([(k,v) for k,v in value if k!='limit'],p,root,scope)
-            elif key.isdigit() or key in ('FROM',) or key.startswith('event_target:'):
+            elif key.isdigit() or key in self.countries or key in ('FROM',) or key.startswith('event_target:'):
                 ref=self.ref(key,scope,root,prev)
                 if ref: self.execute(value,ref,root,scope)
             elif key == 'add_years_of_income': scope['treasury'] += float(value) * scope['annual_income']
@@ -161,6 +173,10 @@ class World(SettlementWorld):
                 pair=(ref['id'],fields['modifier'])
                 if key=='add_opinion': scope.setdefault('opinion_modifiers',set()).add(pair)
                 else: scope.setdefault('opinion_modifiers',set()).discard(pair)
+                if key=='add_opinion': scope.setdefault('opinion_dates',{})[pair]=self.day
+                else: scope.setdefault('opinion_dates',{}).pop(pair,None)
+            elif key == 'add_curia_treasury': self.curia_treasury += float(value)
+            elif key == 'add_mercantilism': scope['mercantilism']=min(100,max(0,scope['mercantilism']+float(value)))
             elif key == 'enable_religion': self.enabled=getattr(self,'enabled',set())|{value}
             elif key in ('hidden_effect','custom_tooltip'):
                 if isinstance(value,list): self.execute(value,scope,root,prev)

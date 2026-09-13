@@ -1,0 +1,105 @@
+# Public effects recheck their complete UI gate; navigation never pays a petition.
+rip_church_gc_petition_payment_effect = {
+ subtract_variable = { which = rip_church_papal_standing value = 30 }
+ add_treasury = -100
+}
+rip_church_gc_petition_church_tax_effect = {
+ if = { limit = { rip_church_gc_can_petition_church_tax = yes }
+  rip_church_gc_petition_payment_effect = yes
+  add_country_modifier = { name = rip_church_gc_church_tax duration = 3650 }
+ }
+}
+rip_church_gc_petition_blessing_effect = {
+ if = { limit = { rip_church_gc_can_petition_blessing = yes }
+  rip_church_gc_petition_payment_effect = yes
+  add_country_modifier = { name = rip_church_gc_blessing duration = 3650 }
+ }
+}
+rip_church_gc_petition_indulgence_effect = {
+ if = { limit = { rip_church_gc_can_petition_indulgence = yes }
+  rip_church_gc_papal_support_effect = yes
+ }
+}
+rip_church_gc_petition_saint_effect = {
+ if = { limit = { rip_church_gc_can_petition_saint = yes }
+  rip_church_gc_petition_payment_effect = yes
+  subtract_variable = { which = rip_church_papal_standing value = 30 }
+  add_stability = 1
+  add_country_modifier = { name = rip_church_gc_saint duration = 3650 }
+ }
+}
+rip_church_gc_petition_usury_effect = {
+ if = { limit = { rip_church_gc_can_petition_usury = yes }
+  rip_church_gc_petition_payment_effect = yes
+  add_country_modifier = { name = rip_church_gc_usury duration = 3650 }
+ }
+}
+rip_church_gc_petition_holy_war_effect = {
+ if = { limit = { rip_church_gc_can_petition_holy_war = yes }
+  rip_church_gc_petition_payment_effect = yes
+  add_country_modifier = { name = rip_church_gc_holy_war duration = 3650 }
+ }
+}
+rip_church_gc_petition_legate_effect = {
+ if = { limit = { rip_church_gc_can_petition_legate = yes }
+  rip_church_gc_legate_effect = yes
+ }
+}
+rip_church_gc_petition_monopoly_effect = {
+ if = { limit = { rip_church_gc_can_petition_monopoly = yes }
+  rip_church_gc_petition_payment_effect = yes
+  add_mercantilism = 1
+  add_country_modifier = { name = rip_church_gc_monopoly duration = 3650 }
+ }
+}
+rip_church_gc_donate_effect = {
+ if = { limit = { rip_church_gc_can_donate = yes }
+  add_treasury = -100
+  if = { limit = { has_dlc = "Emperor" }
+   add_curia_treasury = 50
+   PAP = { add_treasury = 50 }
+  }
+  else = { PAP = { add_treasury = 100 } }
+  change_variable = { which = rip_church_papal_standing value = 10 }
+  PAP = { add_opinion = { who = ROOT modifier = rip_church_gc_donation_opinion } }
+  set_country_flag = rip_church_gc_donated
+  rip_church_gc_refresh_rome_effect = yes
+ }
+}
+# Shared targets identify world offices, not the currently selected player.
+# The displayed opinion is country-local and is never shared between GC states.
+rip_church_gc_refresh_rome_effect = {
+ clear_global_event_target = rip_church_gc_rome
+ clear_global_event_target = rip_church_gc_controller
+ clr_global_flag = rip_church_gc_rome_known
+ clr_global_flag = rip_church_gc_controller_known
+ if = { limit = { rip_church_gc_rome_present = yes }
+  PAP = { save_global_event_target_as = rip_church_gc_rome }
+  set_global_flag = rip_church_gc_rome_known
+ }
+ every_country = {
+  limit = { is_papal_controller = yes }
+  save_global_event_target_as = rip_church_gc_controller
+  set_global_flag = rip_church_gc_controller_known
+ }
+ if = { limit = { religion = greek_catholic }
+  set_variable = { which = rip_church_papal_opinion value = 0 }
+  if = { limit = { rip_church_gc_rome_present = yes }
+   export_to_variable = { which = rip_church_papal_opinion value = opinion who = PAP with = ROOT }
+  }
+ }
+}
+rip_church_gc_open_curia_effect = {
+ if = { limit = { religion = greek_catholic }
+  rip_church_gc_refresh_rome_effect = yes
+  set_country_flag = rip_church_gc_curia_view
+ }
+}
+rip_church_gc_open_union_effect = {
+ clr_country_flag = rip_church_gc_curia_view
+}
+rip_church_gc_open_synod_effect = {
+ if = { limit = { religion = greek_catholic }
+  country_event = { id = rip_church.6 }
+ }
+}

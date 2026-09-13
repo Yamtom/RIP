@@ -52,7 +52,7 @@ custom_button = {
 custom_text_box = { name = rip_church_gc_policy_cost potential = { always = yes } tooltip = rip_church_gc_policy_cost_tt }
 custom_button = {
  name = rip_church_privileges_button potential = { always = yes } trigger = { religion = greek_catholic }
- effect = { country_event = { id = rip_church.6 } } tooltip = rip_church_privileges_button_tt
+ effect = { rip_church_gc_open_synod_effect = yes } tooltip = rip_church_privileges_button_tt
 }
 custom_button = {
  name = rip_church_center_button potential = { always = yes } trigger = { rip_church_can_found_center = yes }
@@ -62,16 +62,89 @@ custom_button = {
  name = rip_church_ecumenism_button potential = { always = yes } trigger = { rip_church_can_ecumenism = yes }
  effect = { rip_church_achieve_ecumenism_effect = yes } tooltip = rip_church_ecumenism_button_tt
 }
-custom_button = {
- name = rip_church_gc_guide_button potential = { always = yes } trigger = { religion = greek_catholic }
- effect = { country_event = { id = rip_church_help.1 } } tooltip = rip_church_gc_guide_button_tt
-}
 custom_text_box = { name = rip_church_gc_privilege_state potential = { always = yes } tooltip = rip_church_gc_privilege_state_tt }
 custom_text_box = { name = rip_church_gc_parishes potential = { always = yes } tooltip = rip_church_gc_parishes_tt }
 custom_text_box = { name = rip_church_gc_center_state potential = { always = yes } tooltip = rip_church_gc_center_state_tt }
-custom_text_box = { name = rip_church_gc_help potential = { always = yes } tooltip = rip_church_gc_help_tt }
+custom_button = {
+ name = rip_church_gc_union_tab_union potential = { always = yes } trigger = { has_country_flag = rip_church_gc_curia_view }
+ effect = { rip_church_gc_open_union_effect = yes } tooltip = rip_church_gc_union_tab_union_tt
+}
+custom_button = {
+ name = rip_church_gc_curia_tab_union potential = { always = yes } trigger = { NOT = { has_country_flag = rip_church_gc_curia_view } }
+ effect = { rip_church_gc_open_curia_effect = yes } tooltip = rip_church_gc_curia_tab_union_tt
+}
+custom_text_box = { name = rip_church_gc_curia_heading potential = { always = yes } tooltip = rip_church_gc_curia_heading_tt }
+custom_text_box = { name = rip_church_gc_curia_status potential = { always = yes } tooltip = rip_church_gc_curia_status_tt }
+custom_shield = {
+ name = rip_church_gc_pope_shield potential = { has_global_flag = rip_church_gc_rome_known rip_church_gc_rome_present = yes } trigger = { always = yes }
+ global_event_target = rip_church_gc_rome open_country = yes tooltip = rip_church_gc_pope_shield_tt
+}
+custom_text_box = { name = rip_church_gc_rome_resources potential = { always = yes } tooltip = rip_church_gc_rome_resources_tt }
+custom_shield = {
+ name = rip_church_gc_controller_shield potential = { has_global_flag = rip_church_gc_controller_known event_target:rip_church_gc_controller = { is_papal_controller = yes } } trigger = { always = yes }
+ global_event_target = rip_church_gc_controller open_country = yes tooltip = rip_church_gc_controller_shield_tt
+}
+custom_text_box = { name = rip_church_gc_controller_label potential = { always = yes } tooltip = rip_church_gc_controller_label_tt }
+custom_text_box = { name = rip_church_gc_petitions_title potential = { always = yes } tooltip = rip_church_gc_petitions_title_tt }
+custom_button = {
+ name = rip_church_gc_petition_church_tax_button potential = { always = yes } trigger = { rip_church_gc_can_petition_church_tax = yes }
+ effect = { rip_church_gc_petition_church_tax_effect = yes } tooltip = rip_church_gc_petition_church_tax_button_tt frame = { number = 1 trigger = { always = yes } }
+}
+custom_text_box = { name = rip_church_gc_petition_church_tax_label potential = { always = yes } tooltip = rip_church_gc_petition_church_tax_label_tt }
+custom_button = {
+ name = rip_church_gc_petition_blessing_button potential = { always = yes } trigger = { rip_church_gc_can_petition_blessing = yes }
+ effect = { rip_church_gc_petition_blessing_effect = yes } tooltip = rip_church_gc_petition_blessing_button_tt frame = { number = 2 trigger = { always = yes } }
+}
+custom_text_box = { name = rip_church_gc_petition_blessing_label potential = { always = yes } tooltip = rip_church_gc_petition_blessing_label_tt }
+custom_button = {
+ name = rip_church_gc_petition_indulgence_button potential = { always = yes } trigger = { rip_church_gc_can_petition_indulgence = yes }
+ effect = { rip_church_gc_petition_indulgence_effect = yes } tooltip = rip_church_gc_petition_indulgence_button_tt frame = { number = 3 trigger = { always = yes } }
+}
+custom_text_box = { name = rip_church_gc_petition_indulgence_label potential = { always = yes } tooltip = rip_church_gc_petition_indulgence_label_tt }
+custom_button = {
+ name = rip_church_gc_petition_saint_button potential = { always = yes } trigger = { rip_church_gc_can_petition_saint = yes }
+ effect = { rip_church_gc_petition_saint_effect = yes } tooltip = rip_church_gc_petition_saint_button_tt frame = { number = 4 trigger = { always = yes } }
+}
+custom_text_box = { name = rip_church_gc_petition_saint_label potential = { always = yes } tooltip = rip_church_gc_petition_saint_label_tt }
+custom_button = {
+ name = rip_church_gc_petition_usury_button potential = { always = yes } trigger = { rip_church_gc_can_petition_usury = yes }
+ effect = { rip_church_gc_petition_usury_effect = yes } tooltip = rip_church_gc_petition_usury_button_tt frame = { number = 5 trigger = { always = yes } }
+}
+custom_text_box = { name = rip_church_gc_petition_usury_label potential = { always = yes } tooltip = rip_church_gc_petition_usury_label_tt }
+custom_button = {
+ name = rip_church_gc_petition_holy_war_button potential = { always = yes } trigger = { rip_church_gc_can_petition_holy_war = yes }
+ effect = { rip_church_gc_petition_holy_war_effect = yes } tooltip = rip_church_gc_petition_holy_war_button_tt frame = { number = 6 trigger = { always = yes } }
+}
+custom_text_box = { name = rip_church_gc_petition_holy_war_label potential = { always = yes } tooltip = rip_church_gc_petition_holy_war_label_tt }
+custom_button = {
+ name = rip_church_gc_petition_legate_button potential = { always = yes } trigger = { rip_church_gc_can_petition_legate = yes }
+ effect = { rip_church_gc_petition_legate_effect = yes } tooltip = rip_church_gc_petition_legate_button_tt frame = { number = 7 trigger = { always = yes } }
+}
+custom_text_box = { name = rip_church_gc_petition_legate_label potential = { always = yes } tooltip = rip_church_gc_petition_legate_label_tt }
+custom_button = {
+ name = rip_church_gc_petition_monopoly_button potential = { always = yes } trigger = { rip_church_gc_can_petition_monopoly = yes }
+ effect = { rip_church_gc_petition_monopoly_effect = yes } tooltip = rip_church_gc_petition_monopoly_button_tt frame = { number = 8 trigger = { always = yes } }
+}
+custom_text_box = { name = rip_church_gc_petition_monopoly_label potential = { always = yes } tooltip = rip_church_gc_petition_monopoly_label_tt }
+custom_text_box = { name = rip_church_gc_curia_privilege potential = { always = yes } tooltip = rip_church_gc_curia_privilege_tt }
+custom_button = {
+ name = rip_church_gc_donate_button potential = { always = yes } trigger = { rip_church_gc_can_donate = yes }
+ effect = { rip_church_gc_donate_effect = yes } tooltip = rip_church_gc_donate_button_tt
+}
+custom_text_box = { name = rip_church_gc_donate_label potential = { always = yes } tooltip = rip_church_gc_donate_label_tt }
+custom_text_box = { name = rip_church_gc_donation_cost potential = { always = yes } tooltip = rip_church_gc_donation_cost_tt }
+custom_text_box = { name = rip_church_gc_donation_state potential = { always = yes } tooltip = rip_church_gc_donation_state_tt }
+custom_button = {
+ name = rip_church_gc_union_tab_curia potential = { always = yes } trigger = { has_country_flag = rip_church_gc_curia_view }
+ effect = { rip_church_gc_open_union_effect = yes } tooltip = rip_church_gc_union_tab_curia_tt
+}
+custom_button = {
+ name = rip_church_gc_curia_tab_curia potential = { always = yes } trigger = { NOT = { has_country_flag = rip_church_gc_curia_view } }
+ effect = { rip_church_gc_open_curia_effect = yes } tooltip = rip_church_gc_curia_tab_curia_tt
+}
 custom_window = { name = rip_church_ro_panel potential = { religion = russian_orthodox } }
-custom_window = { name = rip_church_gc_panel potential = { religion = greek_catholic } }
+custom_window = { name = rip_church_gc_panel potential = { religion = greek_catholic NOT = { has_country_flag = rip_church_gc_curia_view } } }
+custom_window = { name = rip_church_gc_curia_panel potential = { religion = greek_catholic has_country_flag = rip_church_gc_curia_view } }
 custom_text_box = { name = rip_church_rite_heading potential = { always = yes } tooltip = rip_church_rite_heading_tt }
 custom_text_box = { name = rip_church_rite_state potential = { always = yes } tooltip = rip_church_rite_state_tt }
 custom_button = {
@@ -88,9 +161,11 @@ custom_button = {
 }
 custom_text_box = { name = rip_church_rite_help potential = { always = yes } tooltip = rip_church_rite_help_tt }
 custom_window = { name = rip_church_rite_panel potential = { owned_by = FROM FROM = { rip_church_union_supporter = yes } OR = { religion = orthodox religion = russian_orthodox religion = catholic } } }
-custom_window = { name = rip_church_gc_native_guide potential = { religion = greek_catholic } }
-custom_icon = { name = rip_church_gc_guide_symbol potential = { always = yes } frame = { number = 31 trigger = { always = yes } } }
+custom_window = { name = rip_church_gc_native_controls potential = { religion = greek_catholic } }
+custom_icon = { name = rip_church_gc_union_symbol potential = { NOT = { has_country_modifier = rip_church_gc_infrastructure } NOT = { has_country_modifier = rip_church_gc_coexistence } } frame = { number = 31 trigger = { always = yes } } }
+custom_icon = { name = rip_church_gc_synod_infrastructure_symbol potential = { has_country_modifier = rip_church_gc_infrastructure } frame = { number = 1 trigger = { always = yes } } }
+custom_icon = { name = rip_church_gc_synod_coexistence_symbol potential = { has_country_modifier = rip_church_gc_coexistence } frame = { number = 1 trigger = { always = yes } } }
 custom_button = {
- name = rip_church_gc_native_guide_button potential = { always = yes } trigger = { religion = greek_catholic }
- effect = { country_event = { id = rip_church_help.1 } } tooltip = rip_church_gc_native_guide_button_tt
+ name = rip_church_gc_native_privileges_button potential = { always = yes } trigger = { religion = greek_catholic }
+ effect = { rip_church_gc_open_synod_effect = yes } tooltip = rip_church_gc_native_privileges_button_tt
 }
