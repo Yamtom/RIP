@@ -241,12 +241,27 @@ flowchart LR
   H --> A2["M2 Centralized"] --> A6["M6 Bureaucracy"] --> A10["M10 Crown Authority"]
   P10 --> V["VOL/UKR with HLC origin †"]
   A10 --> V
+  H --> R1["R1 Boyar Republic"] --> R2["R2 Rule of the Great Houses"]
+  H --> Th1["Th1 Halych Metropolitanate"]
 ```
 
 Польська M2-гілка навмисно вмикає ванільну систему польських виборів: це
 конституційний зв’язок із Річчю Посполитою, а не випадковий імпорт чужого UI.
 Власні HLC-бонуси при цьому лишаються видимими без прихованих дублюючих
 модифікаторів.
+
+Третій і четвертий форки — `decisions/HLCRepublicPaths.txt`, взаємовиключні
+з польським/австрійським через `hlc_has_any_path`
+(`common/scripted_triggers/rip_path_state_triggers.txt`). `hlc_boyar_republic_reform`
+(R1, `oligarchy_merchant_class_noble_elite`) робить боярську раду виборчим
+органом замість дорадчого — реальна опора: бояри неодноразово скидали й
+запрошували князів (Володислав Кормильчич, запрошення Андрія Угорського й
+Коломана), тема вже центральна для `hlc_boyar_council_mechanic`.
+`hlc_boyar_oligarchy_reform` (R2, `republican_virtues`) заглиблює олігархію.
+`hlc_halych_metropolitanate_reform` (Th1, `theocratic_leadership`) — окремий,
+незалежний від польсько-австрійського розколу шлях, доступний лише
+православним/греко-католицьким Галичинам: галицькі князі неодноразово
+просили в Константинополя власну митрополичу кафедру з 1303 року.
 
 ## VLN та регіональні інститути
 
@@ -262,6 +277,8 @@ flowchart LR
 | `M8 regional` | `vln_magdeburg_rights` |
 | `M9` | `vln_ruthenia_reform` |
 | `M10` | `vln_grand_ruthenia_reform`, лише після `rip_vol_grand_ruthenia` |
+| `R1` | `vln_sejmik_republic_reform`, окремий шлях через `decisions/VLNRepublicPaths.txt` |
+| `R3` | `vln_dietine_instructions_reform`, після `vln_sejmik_republic_reform` |
 
 `VLN → VOL†/UKR†` зберігає волинський lineage. `VLN` тепер стартує з
 `vln_voivodeship_reform`, а startup-reconciliation виправляє старі saves.
@@ -270,7 +287,17 @@ Renaissance і Magdeburg Rights
 якщо вони виконують культурні, інституційні та міські умови.
 `vln_cossack_host_reform` використовує одну тематичну систему — Cossacks — без
 паралельного прусського Militarization UI; військові привілеї натомість знижують
-`max_absolutism` на 10.
+`max_absolutism` на 10. Це свідомо лишається монархічним тіром (M2): реєстрове
+військо служило воєводі й короні, а не собі самому.
+
+Республіканський шлях Волині — інша лінія: `vln_sejmik_republic_reform`
+розвиває вже наявний магнатський сенат (`vln_magnate_senate_mechanic`) до
+виборного інституту, за зразком сеймика сусідньої Речі Посполитої.
+`vln_dietine_instructions_reform` (R3) додає інструкції сеймика — реальну
+практику зв'язування депутатів письмовим мандатом. Теократичного шляху для
+Волині немає: Почаївська лавра — пізній (XVI–XVIII ст.) василіанський
+монастир-святиня, а не інститут, що очолював цивільне управління
+воєводством, тож переконливої опори для окремого уряду немає.
 
 ## PDL
 

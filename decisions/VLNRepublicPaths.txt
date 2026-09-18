@@ -1,0 +1,48 @@
+country_decisions = {
+
+	# A republican path for Volhynia distinct from vln_cossack_host_reform,
+	# which stays a monarchy on purpose - the registered Host answered to the
+	# voivode and the Crown, not to itself (docs/data/government_authenticity_
+	# inventory.json, vln_cossack_host_reform, tier M2). Here the magnate
+	# senate that already co-rules the palatinate (vln_magnate_senate_mechanic)
+	# stops advising the voivode and starts electing one.
+
+	vln_the_sejmik_asserts_itself = {
+		major = yes
+		potential = {
+			west_ukraine_vln_origin_country = yes
+			tag = VLN
+			has_reform = vln_voivodeship_reform
+			NOT = { has_reform = vln_sejmik_republic_reform }
+			NOT = { has_reform = vln_cossack_host_reform }
+		}
+		allow = {
+			NOT = { government = republic }
+			OR = {
+				NOT = { has_heir = yes }
+				legitimacy < 50
+			}
+		}
+		effect = {
+			set_country_flag = rip_vln_path_sejmik
+			change_government = republic
+			add_government_reform = vln_sejmik_republic_reform
+			add_republican_tradition = 10
+			add_country_modifier = {
+				name = rip_vln_sejmik_asserts_itself
+				duration = 3650
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				NOT = { has_heir = yes }
+			}
+			modifier = {
+				factor = 0
+				legitimacy = 70
+			}
+		}
+	}
+}

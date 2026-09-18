@@ -2,6 +2,8 @@ hlc_has_any_path = {
 	OR = {
 		has_country_flag = rip_galicia_path_austria
 		has_country_flag = rip_galicia_path_poland
+		has_country_flag = rip_galicia_path_boyar
+		has_country_flag = rip_galicia_path_metropolitanate
 	}
 }
 
@@ -11,6 +13,20 @@ hlc_has_poland_path = {
 
 hlc_has_austria_path = {
 	has_country_flag = rip_galicia_path_austria
+}
+
+# decisions/HLCRepublicPaths.txt - the boyars depose the dynasty outright
+# instead of settling into either patron's institutions.
+hlc_has_boyar_path = {
+	has_country_flag = rip_galicia_path_boyar
+}
+
+# decisions/HLCRepublicPaths.txt - the Metropolitan of Halych becomes head of
+# state. Requires Orthodox or Greek Catholic on its own decision's potential;
+# folded into hlc_has_any_path above so the founding event does not re-offer
+# the Poland/Austria/Boyar forks afterward.
+hlc_has_metropolitanate_path = {
+	has_country_flag = rip_galicia_path_metropolitanate
 }
 
 # Gates hlc_incorporate_appanage
@@ -188,4 +204,10 @@ vol_has_constitutional_ready = {
 
 vol_has_empire_proclaimed = {
 	has_country_flag = vol_empire_proclaimed
+}
+
+# decisions/VLNRepublicPaths.txt - the Volhynian sejmik of magnates starts
+# electing the voivode instead of merely advising one.
+vln_has_sejmik_path = {
+	has_country_flag = rip_vln_path_sejmik
 }
