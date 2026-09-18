@@ -108,7 +108,7 @@ flowchart LR
 
 ## KIE / KRU
 
-Усі шість національних форм стоять на `M1`:
+Шість монархічних національних форм стоять на `M1`:
 
 - `kyivan_rus_reform`;
 - `kyivan_shogunate_reform` — локалізований як Kyivan Seniorate;
@@ -117,16 +117,33 @@ flowchart LR
 - `ruthenian_factional_empire_princes_hetmans_reform`;
 - `ruthenian_factional_empire_boyars_hetmans_reform`.
 
+Поряд з ними — дві недержавні лінії формування, кожна у два тіри свого типу
+уряду. Обидві доступні лише як пряме рішення від KIE (той самий набір
+передумов, що й `rus_nation`/`kyiv_factional_ruthenia`: володіння Києвом,
+Черніговом і Полоцьком, стабільність, 20 провінцій в `ruthenia_region`) і так
+само переводять країну в `KRU`:
+
+- `R1` `kyivan_veche_reform` (віче й обраний посадник) → `kyivan_boyar_republic_reform`
+  (постійна рада бояр і купецтва; рішення `kyiv_convene_boyar_council`
+  відкриває другий тір, фракції — ванільні `mr_aristocrats`/`mr_traders`/`mr_guilds`);
+- `Th1` `kyivan_metropolitanate_reform` (митрополит як світський голова держави,
+  вимагає православ'я) → `kyivan_church_synod_reform` (постійний собор
+  єпископів; рішення `kyiv_convene_church_sobor` відкриває другий тір).
+
 ```mermaid
 flowchart TB
   KIE[KIE] -->|decision: Kyivan Rus / factional state| KRU[KRU]
   KIE -->|decision: form Ruthenia| UKR[UKR]
   KIE -->|Seniorate| S["M1 Kyivan Seniorate"]
   KIE -->|Cesarstvo| C["M1 Kyivan Cesarstvo"]
+  KIE -->|decision: veche republic| KRU
+  KIE -->|decision: metropolitan theocracy| KRU
   KRU --> F1["M1 Princes + Boyars"]
   F1 <-->|annual influence recalculation| F2["M1 Princes + Hetmans"]
   F2 <-->|annual influence recalculation| F3["M1 Boyars + Hetmans"]
   F3 <-->|annual influence recalculation| F1
+  KRU --> V1["R1 Kyivan Veche"] --> V2["R1 Boyar Republic"]
+  KRU --> T1["Th1 Metropolitanate"] --> T2["Th1 Church Synod"]
   KRU --> SR["Shared Ruthenian M2–M11"]
 ```
 
@@ -314,6 +331,7 @@ Enlightenment/Age of Revolutions умовами, не змінюючи save-су
 | `M10` | `uzh_palatial_uhro_reform` |
 | `R10` | `uzh_palatial_uhro_republic_reform` |
 | `M11/R9` | `uzh_carpathian_border_commissariat_reform` |
+| `Th1` | `uzh_mukachevo_eparchy_reform` (додано паралельною сесією; див. `RIP_UZH_government_reforms.txt`) |
 
 ```mermaid
 flowchart LR
@@ -489,7 +507,7 @@ flowchart LR
 
 ## Перевірені інваріанти
 
-- 109 унікальних definition-ID; дублів немає.
+- 114 унікальних definition-ID; дублів немає.
 - Кожен definition-ID присутній у government registration; навмисні
   багатотипові реформи — сумісні UZH-форми та CHR Grain Directorate.
 - `assembly_houses_reform` більше не є source-unreachable.

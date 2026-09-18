@@ -36,9 +36,9 @@ def shield(name,x,y,target,potential,sprite):
 }}'''
 
 def gc_tabs(page):
-    return (button('rip_church_gc_union_tab_'+page,121,520,'religion = greek_catholic',
+    return (button('rip_church_gc_union_tab_'+page,121,524,'religion = greek_catholic',
                    'rip_church_gc_open_union_effect = yes',sprite='GFX_tab_small_116',frame=2 if page=='union' else 1)+
-            button('rip_church_gc_curia_tab_'+page,237,520,'religion = greek_catholic',
+            button('rip_church_gc_curia_tab_'+page,237,524,'religion = greek_catholic',
                    'rip_church_gc_open_curia_effect = yes',sprite='GFX_tab_small_116',frame=2 if page=='curia' else 1))
 
 def art(name,sprite,x,y,scale=1):
@@ -49,7 +49,7 @@ def inset(name,x,y,w,h):
     insets.append(f'corneredTileSpriteType = {{ name = "{sprite}" textureFile = "gfx/interface/copts_blessing_slot.dds" size = {{ x={w} y={h} }} borderSize = {{ x=8 y=8 }} }}')
     return art('rip_church_inset_'+name,sprite,x,y)
 
-insets=['corneredTileSpriteType = { name = "GFX_rip_church_action_slot" textureFile = "gfx/interface/copts_blessing_slot.dds" size = { x=58 y=58 } borderSize = { x=8 y=8 } }']
+insets=['corneredTileSpriteType = { name = "GFX_rip_church_action_slot" textureFile = "gfx/interface/small_tiles_dialog.dds" size = { x=58 y=58 } borderSize = { x=8 y=8 } }']
 def panel(name,condition,body,x=540,y=8,clean=False):
     defs.append(f'custom_window = {{ name = {name} potential = {{ {condition} }} }}')
     background = ('GFX_rip_church_union_frame' if clean else 'GFX_country_religion_view_bg')
@@ -107,13 +107,11 @@ for i,(key,name,trigger,effect) in enumerate((
     ('ecumenism','rip_church_ecumenism_button','rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes'),
 )):
     x=53+i*132
-    gc+=button(name,x+23,304,trigger,effect,sprite='GFX_rip_church_action_slot',label=False)
-    gc+=art('rip_church_gc_'+key+'_art','GFX_rip_church_gc_'+key,x+28,309,0.75)
-    gc+=text(name+'_label',x,370,w=105,h=18,align='center')
+    gc+=button(name,x+23,315,trigger,effect,sprite='GFX_rip_church_action_slot',label=False)
+    gc+=art('rip_church_gc_'+key+'_art','GFX_rip_church_gc_'+key,x+28,320,0.75)
 gc+=text('rip_church_gc_privilege_state',28,412,w=419,h=36,align='center')
-gc+=art('rip_church_gc_parish_icon','GFX_rip_church_gc_privileges',45,452,0.375)
-gc+=text('rip_church_gc_parishes',77,454,w=305,h=18)
-gc+=text('rip_church_gc_parish_count',389,454,w=40,h=18,align='right')
+gc+=art('rip_church_gc_parish_icon','GFX_rip_church_gc_privileges',46,453,0.3125)
+gc+=text('rip_church_gc_parishes',78,454,w=351,h=18)
 gc+=text('rip_church_gc_center_state',44,475,w=387,h=36)
 gc+=gc_tabs('union')
 
@@ -133,9 +131,9 @@ for i,key in enumerate(('church_tax','blessing','indulgence','saint','usury','ho
                   'rip_church_gc_can_petition_'+key+' = yes','rip_church_gc_petition_'+key+'_effect = yes',
                   sprite='GFX_papacy_action_strip',frame=i+1,label=False)
 curia+=text('rip_church_gc_curia_privilege',28,367,w=419,h=36,align='center')
-curia+=button('rip_church_gc_donate_button',64,445,'rip_church_gc_can_donate = yes',
+curia+=button('rip_church_gc_donate_button',64,448,'rip_church_gc_can_donate = yes',
               'rip_church_gc_donate_effect = yes',sprite='GFX_buy_indulgence_button',label=False)
-curia+=text('rip_church_gc_donation_cost',133,443,w=300,h=54)
+curia+=text('rip_church_gc_donation_cost',133,441,w=300,h=54)
 curia+=gc_tabs('curia')
 religion_panels=(panel('rip_church_ro_panel','religion = russian_orthodox',ro,clean=True)+'\n'+
                 panel('rip_church_gc_panel','religion = greek_catholic NOT = { has_country_flag = rip_church_gc_curia_view }',gc,clean=True)+'\n'+

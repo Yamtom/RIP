@@ -1,0 +1,24 @@
+# =============================================================================
+# uzh_eparchy_triggers
+# Gates decisions/UzhEparchyPath.txt and the theocracy reform it grants,
+# uzh_mukachevo_eparchy_reform
+# (common/government_reforms/RIP_UZH_government_reforms.txt).
+# =============================================================================
+
+# The see needs the fortress that anchors it and enough of its own flock to
+# rule outright, not just tolerate. Real prototype for has_great_project on
+# a province scope: common/scripted_effects/zaz_effects.txt on
+# zaporozhian_sich.
+uzh_can_take_eparchy_road = {
+	is_at_war = no
+	stability = 1
+	adm_power = 100
+	dip_power = 50
+	num_of_owned_provinces_with = {
+		value = 3
+		religion = greek_catholic
+	}
+	any_owned_province = {
+		has_great_project = { type = palanok_fortress tier = 1 }
+	}
+}

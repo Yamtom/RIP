@@ -1,0 +1,50 @@
+country_decisions = {
+
+	# The Union of Uzhhorod (uzh_union_synod_reform,
+	# common/government_reforms/RIP_UZH_government_reforms.txt) already put
+	# a Latin bishop over Uzhhorod's chancery in name; this decision makes it
+	# literal. change_government clears the sitting secular reform tiers on
+	# its own (see events/Uzh.txt, uzh.204, for the same behaviour on a
+	# monarchy/republic switch), so nothing here has to remove them by hand.
+	uzh_road_of_the_eparchy = {
+		major = yes
+		potential = {
+			tag = UZH
+			NOT = { has_country_flag = uzh_eparchial_rule_established }
+			NOT = { government = theocracy }
+			religion = greek_catholic
+			has_country_flag = uzh_union_synod_established
+			is_year = 1771
+		}
+
+		allow = {
+			uzh_can_take_eparchy_road = yes
+		}
+
+		effect = {
+			set_country_flag = uzh_eparchial_rule_established
+			if = {
+				limit = { NOT = { government = theocracy } }
+				change_government = theocracy
+			}
+			add_government_reform = uzh_mukachevo_eparchy_reform
+			add_adm_power = -100
+			add_dip_power = -50
+			add_stability = 1
+			add_prestige = 10
+			add_patriarch_authority = 0.2
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				religious_unity = 0.9
+			}
+			modifier = {
+				factor = 0
+				num_of_cities = 15
+			}
+		}
+	}
+}

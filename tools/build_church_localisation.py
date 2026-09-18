@@ -448,7 +448,7 @@ DATA.update({
  'rip_church_center_active': 'Our Centre of Union is active',
  'rip_church_center_suspended': 'Our Centre is suspended by occupation',
  'rip_church_center_elsewhere': 'The single Centre is held by another country',
- 'rip_church_center_absent': 'No Centre of Union is established',
+ 'rip_church_center_absent': '§RNo Centre of Union is established§!',
  'rip_church_icon_no_fuel': 'Blocked: at least 10 Fervor is required.',
  'rip_church_icon_no_slot': 'Blocked: authority currently provides no vacant icon slot.',
  'rip_church_icon_cooldown': 'Blocked: one year must pass after the previous activation of this icon.',
@@ -496,7 +496,7 @@ DATA.update({
  'rip_church_gc_heading': 'Union of the Churches',
  'rip_church_gc_orientation': '[Root.GetChurchGCOrientation]',
  'rip_church_gc_resources': 'Communion balance: [Root.GetChurchBalanceValue]\\nPapal Standing: §Y[Root.rip_church_papal_standing.GetValue] / 100§!\\nMonthly rate: [Root.GetChurchStandingRate]',
- 'rip_church_gc_parishes': 'Recognized parishes',
+ 'rip_church_gc_parishes': 'Recognized parishes: §Y[Root.rip_church_recognized_parishes.GetValue]§!',
  'rip_church_gc_parish_count': '§Y[Root.rip_church_recognized_parishes.GetValue]§!',
  'rip_church_gc_parish_count_tt': 'Recognized parishes: [Root.rip_church_recognized_parishes.GetValue]',
  'rip_church_gc_balance_negative': '§R[Root.rip_church_communion.GetValue]§!',
@@ -527,8 +527,9 @@ DATA.update({
  'rip_church_gc_curia_cold': 'Roman support requires better relations',
  'rip_church_gc_curia_war': 'At war with the Papal State',
  'rip_church_gc_curia_absent': 'The Catholic Papal State is absent',
- 'rip_church_gc_rome_resources': 'Papal opinion: §Y[Root.GetChurchPapalOpinion]§!\\nStanding: §Y[Root.rip_church_papal_standing.GetValue] / 100§!\\nMonthly growth: [Root.GetChurchCuriaRate]',
- 'rip_church_gc_opinion_value': '[Root.rip_church_papal_opinion.GetValue]',
+ 'rip_church_gc_rome_resources': 'Papal opinion: [Root.GetChurchPapalOpinion]\\nStanding: §Y[Root.rip_church_papal_standing.GetValue] / 100§!\\nMonthly growth: [Root.GetChurchCuriaRate]',
+ 'rip_church_gc_opinion_value': '§Y[Root.rip_church_papal_opinion.GetValue]§!',
+ 'rip_church_gc_opinion_negative': '§R[Root.rip_church_papal_opinion.GetValue]§!',
  'rip_church_gc_opinion_absent': 'Unavailable',
  'rip_church_gc_rate_paused': 'Paused',
  'rip_church_gc_controller_label': 'Controller',
@@ -592,6 +593,7 @@ DATA['rip_church_gc_policy_cost_tt']='§Y25 ADM§! to move communion balance by 
 DATA['rip_church_gc_donate_button_tt']+='\\n[Root.GetChurchDonationState]'
 DATA['rip_church_gc_donation_cost_tt']=DATA['rip_church_gc_donate_button_tt']
 for name in ('privileges','center','ecumenism'):
+ DATA['rip_church_'+name+'_button_tt']='§Y'+DATA['rip_church_'+name+'_button']+'§!\\n'+DATA['rip_church_'+name+'_button_tt']
  DATA['rip_church_'+name+'_button_label']=DATA['rip_church_'+name+'_button']
  DATA['rip_church_'+name+'_button_label_tt']=DATA['rip_church_'+name+'_button_tt']
 DATA['rip_church_nodes.1.d']+=' Requires Cradle of Civilization; without that DLC, no node can be funded.'
@@ -643,6 +645,7 @@ custom+=defined('GetChurchCuriaStatus',[
  ('PAP = { has_opinion = { who = ROOT value = 50 } }','rip_church_gc_curia_good'),
  ('always = yes','rip_church_gc_curia_cold')])
 custom+=defined('GetChurchPapalOpinion',[
+ ('rip_church_gc_rome_present = yes NOT = { check_variable = { which = rip_church_papal_opinion value = 0 } }','rip_church_gc_opinion_negative'),
  ('rip_church_gc_rome_present = yes','rip_church_gc_opinion_value'),
  ('always = yes','rip_church_gc_opinion_absent')])
 custom+=defined('GetChurchCuriaController',[

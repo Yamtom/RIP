@@ -395,3 +395,68 @@ uzh_carpathian_border_commissariat_reform = {
 		locked_government_type = yes
 	}
 }
+
+# =============================================================================
+# The Eparchial Road - a genuine theocracy exit for UZH, not another add-on
+# to a secular crown. decisions/UzhEparchyPath.txt fires change_government =
+# theocracy and hands this reform over once
+# common/scripted_triggers/uzh_eparchy_triggers.txt is satisfied. Built on
+# the Union of Uzhhorod (uzh_union_synod_reform above) rather than
+# duplicating it: that reform never registers under theocracy's
+# reform_levels (common/governments/00_governments.txt), so change_government
+# clears it the same way it already clears uzh_komitat_system_reform and
+# its siblings on a type switch (events/Uzh.txt, uzh.204). It also stays
+# clear of the Greek Catholic religion's own hierarchy mechanics
+# (common/religions/zz_greek_catholic.txt, decisions/GreekCatholicDecisions.txt)
+# - those are read, never edited, here. Same celibate-elective shape as
+# kyivan_metropolitanate_reform and zaz_sacred_host_order_reform: a
+# consecrated bishop cannot found a dynasty, so queen/heir/royal_marriage
+# stay off.
+# =============================================================================
+
+uzh_mukachevo_eparchy_reform = {
+	icon = "clergyman"
+	legacy_equivalent = theocratic_government
+	potential = {
+		OR = {
+			has_reform = uzh_mukachevo_eparchy_reform
+			AND = {
+				tag = UZH
+				has_country_flag = uzh_eparchial_rule_established
+			}
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	religion = yes
+	monastic = yes
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = no
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = uzh_mukachevo_eparchy_reform
+			AND = {
+				tag = UZH
+				has_country_flag = uzh_eparchial_rule_established
+			}
+		}
+	}
+	modifiers = {
+		tolerance_own = 2
+		church_loyalty_modifier = 0.15
+		global_missionary_strength = 0.02
+		max_absolutism = -10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		monastic_order = yes
+	}
+	ai = {
+		factor = 1
+	}
+}

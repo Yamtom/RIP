@@ -200,6 +200,151 @@ kyivan_cesarstvo_reform = {
 	}
 }
 
+kyivan_veche_reform = {
+	icon = "assembly_hall"
+	legacy_equivalent = veche_republic_legacy
+	potential = {
+		OR = {
+			has_reform = kyivan_veche_reform
+			tag = KIE
+			tag = KRU
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = yes
+	lock_level_when_selected = yes
+	republic = yes
+	republican_name = yes
+	has_term_election = yes
+	duration = 4
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = yes
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = kyivan_veche_reform
+			tag = KIE
+			tag = KRU
+		}
+	}
+	modifiers = {
+		merchants = 1
+		global_trade_power = 0.1
+		global_unrest = -1
+		max_absolutism = -15
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	# The veche and its elected posadnik, not the tsardom. The vanilla
+	# veche_republic reform is culture-gated (east_slavic/slavic) and cannot be
+	# handed out by add_government_reform on demand for a formation decision
+	# that also has to change_tag; this reform carries the same legacy and the
+	# same trade-post conditionals by hand instead.
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			NOT = { has_dlc = "Mare Nostrum" }
+		}
+		can_use_trade_post = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Mare Nostrum"
+			NOT = { has_dlc = "Res Publica" }
+		}
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			has_dlc = "Mare Nostrum"
+		}
+		can_use_trade_post = yes
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
+		}
+		has_parliament = yes
+	}
+}
+
+kyivan_boyar_republic_reform = {
+	icon = "plutocracy_reform"
+	legacy_equivalent = oligarchic_republic
+	potential = {
+		OR = {
+			has_reform = kyivan_boyar_republic_reform
+			AND = {
+				OR = {
+					tag = KIE
+					tag = KRU
+				}
+				has_country_flag = kyiv_boyar_council_established
+			}
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	republic = yes
+	republican_name = yes
+	has_term_election = yes
+	duration = 6
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = yes
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = kyivan_boyar_republic_reform
+			AND = {
+				OR = {
+					tag = KIE
+					tag = KRU
+				}
+				has_country_flag = kyiv_boyar_council_established
+			}
+		}
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.1
+		global_trade_power = 0.1
+		republican_tradition = 0.1
+		max_absolutism = -10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+		elections_increase_factions_influence = yes
+	}
+	# The upgrade from the town veche to a standing boyar-and-merchant council.
+	# Vanilla's own merchant-republic contest (mr_aristocrats / mr_traders /
+	# mr_guilds, common/factions/00_factions.txt) fits a Kyivan council of
+	# lineages, traders, and guildsmen without inventing a fourth RIP faction
+	# set for a single reform.
+	factions = {
+		mr_aristocrats
+		mr_traders
+		mr_guilds
+	}
+}
+
 ruthenian_factional_empire_reform = {
 	icon = "imperial_nobility_reform"
 	legacy_equivalent = principality_legacy
@@ -325,4 +470,111 @@ ruthenian_factional_empire_boyars_hetmans_reform = {
 	government_abilities = {
 		ruthenian_factional_court_mechanic
 	}
+}
+
+kyivan_metropolitanate_reform = {
+	icon = "monks"
+	legacy_equivalent = theocratic_government
+	potential = {
+		OR = {
+			has_reform = kyivan_metropolitanate_reform
+			tag = KIE
+			tag = KRU
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = yes
+	lock_level_when_selected = yes
+	religion = yes
+	monastic = yes
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = no
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = kyivan_metropolitanate_reform
+			tag = KIE
+			tag = KRU
+		}
+	}
+	modifiers = {
+		church_loyalty_modifier = 0.15
+		tolerance_own = 1
+		global_missionary_strength = 0.02
+		max_absolutism = -5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		monastic_order = yes
+	}
+	# The Kyivan Metropolitanate as a secular power in its own right, not the
+	# Orthodox religion's own icon/blessing mechanics (those stay untouched in
+	# common/religions and are read only, never edited, here). Same monastic
+	# elective shape as zaz_sacred_host_order_reform
+	# (RIP_ZAZ_HET_path_reforms.txt) - a celibate hierarch cannot found a
+	# dynasty, so queen/heir/royal_marriage stay off and the chair passes by
+	# election within the clergy, not by blood.
+	conditional = {
+		allow = {
+			has_dlc = "Third Rome"
+		}
+		claim_states = yes
+	}
+}
+
+kyivan_church_synod_reform = {
+	icon = "conciliarism_reform"
+	legacy_equivalent = holy_state_legacy
+	potential = {
+		OR = {
+			has_reform = kyivan_church_synod_reform
+			AND = {
+				OR = {
+					tag = KIE
+					tag = KRU
+				}
+				has_country_flag = kyiv_church_synod_established
+			}
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	religion = yes
+	monastic = yes
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = no
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = kyivan_church_synod_reform
+			AND = {
+				OR = {
+					tag = KIE
+					tag = KRU
+				}
+				has_country_flag = kyiv_church_synod_established
+			}
+		}
+	}
+	modifiers = {
+		church_loyalty_modifier = 0.1
+		tolerance_own = 1
+		tolerance_heretic = 1
+		global_institution_spread = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		monastic_order = yes
+	}
+	# A permanent sobor of bishops beside the metropolitan once the see's writ
+	# covers more than one people's faith - wider tolerance of the rites
+	# already inside the realm in exchange for the metropolitan no longer
+	# ruling alone.
 }

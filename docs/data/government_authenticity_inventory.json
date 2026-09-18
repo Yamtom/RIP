@@ -888,6 +888,125 @@
       "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
     },
     {
+      "id": "kyivan_veche_reform",
+      "file": "RIP_KIE_KRU_government_reforms.txt",
+      "tiers": [
+        "R1"
+      ],
+      "modifiers": {
+        "merchants": "1",
+        "global_trade_power": "0.1",
+        "global_unrest": "-1",
+        "max_absolutism": "-15"
+      },
+      "features": [
+        "has_term_election",
+        "can_use_trade_post",
+        "can_form_trade_league",
+        "has_parliament",
+        "custom_attributes"
+      ],
+      "audit": "numeric_bundle_reduced",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "R1": [
+          "veche_republic"
+        ]
+      },
+      "comparator_role": "Міське віче й обраний посадник замість князя",
+      "comparator_role_match": "відповідна",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
+      "id": "kyivan_boyar_republic_reform",
+      "file": "RIP_KIE_KRU_government_reforms.txt",
+      "tiers": [
+        "R1"
+      ],
+      "modifiers": {
+        "governing_capacity_modifier": "0.1",
+        "global_trade_power": "0.1",
+        "republican_tradition": "0.1",
+        "max_absolutism": "-10"
+      },
+      "features": [
+        "has_term_election",
+        "factions",
+        "custom_attributes"
+      ],
+      "audit": "numeric_bundle_reduced",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "R1": [
+          "oligarchy_reform",
+          "veche_republic"
+        ]
+      },
+      "comparator_role": "Постійна рада боярських і купецьких родів",
+      "comparator_role_match": "відповідна",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
+      "id": "kyivan_metropolitanate_reform",
+      "file": "RIP_KIE_KRU_government_reforms.txt",
+      "tiers": [
+        "Th1"
+      ],
+      "modifiers": {
+        "church_loyalty_modifier": "0.15",
+        "tolerance_own": "1",
+        "global_missionary_strength": "0.02",
+        "max_absolutism": "-5"
+      },
+      "features": [
+        "monastic",
+        "religion",
+        "custom_attributes"
+      ],
+      "audit": "numeric_bundle_reduced",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "Th1": [
+          "orthodox_patriarchate_reform"
+        ]
+      },
+      "comparator_role": "Митрополит як світський голова держави замість князя",
+      "comparator_role_match": "відповідна",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
+      "id": "kyivan_church_synod_reform",
+      "file": "RIP_KIE_KRU_government_reforms.txt",
+      "tiers": [
+        "Th1"
+      ],
+      "modifiers": {
+        "church_loyalty_modifier": "0.1",
+        "tolerance_own": "1",
+        "tolerance_heretic": "1",
+        "global_institution_spread": "0.05"
+      },
+      "features": [
+        "monastic",
+        "religion",
+        "custom_attributes"
+      ],
+      "audit": "numeric_bundle_reduced",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "Th1": [
+          "holy_state_reform"
+        ]
+      },
+      "comparator_role": "Постійний собор єпископів поряд з митрополитом",
+      "comparator_role_match": "відповідна",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
       "id": "ruthenian_factional_empire_reform",
       "file": "RIP_KIE_KRU_government_reforms.txt",
       "tiers": [
@@ -3032,6 +3151,35 @@
       "comparator_role_match": "відповідна",
       "quantitative_certified": false,
       "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
+      "id": "uzh_mukachevo_eparchy_reform",
+      "file": "RIP_UZH_government_reforms.txt",
+      "tiers": [
+        "Th1"
+      ],
+      "modifiers": {
+        "tolerance_own": "2",
+        "church_loyalty_modifier": "0.15",
+        "global_missionary_strength": "0.02",
+        "max_absolutism": "-10"
+      },
+      "features": [
+        "monastic",
+        "religion",
+        "custom_attributes"
+      ],
+      "audit": "numeric_bundle_reduced",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "Th1": [
+          "monastic_order_reform"
+        ]
+      },
+      "comparator_role": "Єпархіальна теократія Мукачева (додано паралельною сесією)",
+      "comparator_role_match": "відповідна",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
     }
   ],
   "vanilla_comparators": [
@@ -3885,6 +4033,29 @@
       "modifiers": {
         "fort_maintenance_modifier": "-0.25",
         "army_tradition": "0.25"
+      }
+    },
+    {
+      "id": "orthodox_patriarchate_reform",
+      "file": "03_government_reforms_theocracies.txt",
+      "tiers": [
+        "Th1"
+      ],
+      "modifiers": {
+        "church_privilege_slots": "1",
+        "church_loyalty_modifier": "0.1",
+        "tolerance_own": "1"
+      }
+    },
+    {
+      "id": "holy_state_reform",
+      "file": "06_government_reforms_common.txt",
+      "tiers": [
+        "Th1"
+      ],
+      "modifiers": {
+        "cb_on_religious_enemies": "yes",
+        "manpower_recovery_speed": "0.15"
       }
     },
     {

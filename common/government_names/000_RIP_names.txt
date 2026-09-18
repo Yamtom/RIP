@@ -169,6 +169,60 @@ kyivan_cesarstvo_reform = {
 	}
 }
 
+kyivan_veche_reform = {
+	rank = {
+		1 = KYIVAN_VECHE
+		2 = GREAT_VECHE_OF_KYIV
+		3 = RUTHENIAN_VECHE_REPUBLIC
+	}
+
+	ruler_male = {
+		1 = POSADNIK
+		2 = GRAND_POSADNIK
+		3 = POSADNIK_OF_ALL_RUS
+	}
+
+	ruler_female = {
+		1 = POSADNITSA
+		2 = GRAND_POSADNITSA
+		3 = POSADNITSA_OF_ALL_RUS
+	}
+
+	trigger = {
+		OR = {
+			has_reform = kyivan_veche_reform
+			has_reform = kyivan_boyar_republic_reform
+		}
+	}
+}
+
+kyivan_metropolitanate_reform = {
+	rank = {
+		1 = KYIVAN_METROPOLITANATE
+		2 = METROPOLITANATE_OF_ALL_RUS
+		3 = PATRIARCHATE_OF_KYIV
+	}
+
+	ruler_male = {
+		1 = METROPOLITAN
+		2 = METROPOLITAN_OF_ALL_RUS
+		3 = PATRIARCH_OF_KYIV
+	}
+
+	ruler_female = {
+		1 = METROPOLITAN
+		2 = METROPOLITAN_OF_ALL_RUS
+		3 = PATRIARCH_OF_KYIV
+	}
+
+	trigger = {
+		OR = {
+			has_reform = kyivan_metropolitanate_reform
+			has_reform = kyivan_church_synod_reform
+		}
+	}
+}
+
 ruthenian_factional_empire_reform = {
 	rank = {
 		1 = RUTHENIAN_PRINCEDOM
@@ -245,6 +299,30 @@ uzh_komitat_system_reform = {
 			has_reform = uzh_komitat_system_reform
 			has_reform = uzh_republican_komitat_system_reform
 		}
+	}
+}
+
+uzh_mukachevo_eparchy_reform = {
+	rank = {
+		1 = RIP_UZH_EPARCHY
+		2 = RIP_UZH_EPARCHY_METROPOLIA
+		3 = RIP_UZH_EPARCHIAL_PATRIARCHATE
+	}
+
+	ruler_male = {
+		1 = EPARCH_BISHOP
+		2 = METROPOLITAN_OF_MUKACHEVO
+		3 = PATRIARCH_OF_THE_CARPATHIANS
+	}
+
+	ruler_female = {
+		1 = EPARCH_BISHOP
+		2 = METROPOLITAN_OF_MUKACHEVO
+		3 = PATRIARCH_OF_THE_CARPATHIANS
+	}
+
+	trigger = {
+		has_reform = uzh_mukachevo_eparchy_reform
 	}
 }
 

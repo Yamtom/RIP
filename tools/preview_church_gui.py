@@ -14,15 +14,15 @@ loc=dict(re.findall(r'^\s+(\w+):0 "(.*)"$',(ROOT/'localisation/replace/zzzz_RIP_
 sample={'Root.GetChurchGCOrientation':'Balanced communion', 'Root.rip_church_communion.GetValue':'-20',
  'Root.GetChurchBalanceValue':'§R-20§!',
  'Root.rip_church_papal_standing.GetValue':'100', 'Root.GetChurchStandingRate':'§G+0.25§!',
- 'Root.rip_church_recognized_parishes.GetValue':'999', 'Root.GetChurchCenterStatus':'Centre suspended while its province is occupied',
+ 'Root.rip_church_recognized_parishes.GetValue':'999', 'Root.GetChurchCenterStatus':'§RNo Centre of Union is established§!',
  'Root.GetChurchPrivilege':'Agreement on coexistence'}
 sample.update({'Root.GetChurchROStatus':'Reconciliation in progress',
  'Root.rip_church_fervor.GetValue':'100','Root.rip_church_icons.GetValue':'4',
  'Root.rip_church_capacity.GetValue':'4','Root.rip_church_fervor_income.GetValue':'5',
  'Root.rip_church_fervor_cost.GetValue':'18','Root.rip_church_nodes.GetValue':'2'})
 for key in ('War','Mercy','Building','Mission'): sample['Root.GetChurchIcon'+key]='Active'
-sample.update({'Root.GetChurchCuriaStatus':'Communion with Rome recognized',
- 'Root.GetChurchPapalOpinion':'15', 'Root.GetChurchCuriaRate':'§G+0.25§!',
+sample.update({'Root.GetChurchCuriaStatus':'Roman support requires better relations',
+ 'Root.GetChurchPapalOpinion':'§R-10§!', 'Root.GetChurchCuriaRate':'§Y+0.00§!',
  'Root.GetChurchDonationState':'Available again five years after the last donation',
  'Root.GetChurchLocalInstitution':'Agreement on coexistence'})
 def resolve(key):

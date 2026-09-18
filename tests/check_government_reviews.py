@@ -230,7 +230,7 @@ def comparator_coverage():
     live_ids = set()
     for path in (ROOT / "common/government_reforms").glob("*.txt"):
         live_ids.update(re.findall(r"^([a-z0-9_]+)\s*=\s*\{", path.read_text(encoding="cp1252"), re.M))
-    assert len(rows) == len(data["reforms"]) == 109 and set(rows) == live_ids
+    assert len(rows) == len(data["reforms"]) == 114 and set(rows) == live_ids
     own_tiers = reform_tiers(read("common/governments/00_governments.txt"))
     snapshots = {row["id"]: row for row in data["vanilla_comparators"]}
     installed = vanilla_root()
@@ -255,11 +255,11 @@ def comparator_coverage():
                 assert comparator in snapshots and tier in snapshots[comparator]["tiers"], (reform, tier, comparator)
                 if native_tiers is not None:
                     assert comparator in native_definitions and tier in native_tiers.get(comparator, set()), (reform, tier, comparator)
-    assert count == 115
+    assert count == 120
     if installed:
-        print("GOVERNMENT COMPARATOR COVERAGE: PASS (109 definitions; 115 tier rows verified against installed 1.37)")
+        print("GOVERNMENT COMPARATOR COVERAGE: PASS (114 definitions; 120 tier rows verified against installed 1.37)")
     else:
-        print("GOVERNMENT COMPARATOR COVERAGE: PASS (109 definitions; 115 saved tier rows); SKIP live vanilla tier check")
+        print("GOVERNMENT COMPARATOR COVERAGE: PASS (114 definitions; 120 saved tier rows); SKIP live vanilla tier check")
 
 
 def main():
