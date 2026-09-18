@@ -311,3 +311,87 @@ vln_grand_ruthenia_reform = {
 	# gated directly on has_reform = vln_grand_ruthenia_reform the same way
 	# rip_cossack_host_mercenaries gates on has_reform = rip_cossacks_reform.
 }
+
+# =============================================================================
+# The Sejmik Republic - a separate republican path for Volhynia, distinct
+# from vln_cossack_host_reform. That reform stays a monarchy on purpose: the
+# registered Host served under the voivode's - and ultimately the Crown's -
+# authority, not as a sovereign body (see docs/data/government_authenticity_
+# inventory.json, vln_cossack_host_reform, tier M2). This path instead grows
+# from the magnate senate that already co-rules the palatinate
+# (vln_magnate_senate_mechanic): the local sejmik of Volhynia, a real
+# institution of the wider Commonwealth already available next door in the
+# Ruthenian and Kyivan Voivodeships, stops merely advising and starts
+# electing the voivode outright. decisions/VLNRepublicPaths.txt opens it.
+# =============================================================================
+
+vln_sejmik_republic_reform = {
+	icon = "states_general"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	has_term_election = yes
+	duration = 10
+	rulers_can_be_generals = yes
+	allow_convert = no
+	potential = {
+		OR = {
+			has_reform = vln_sejmik_republic_reform
+			west_ukraine_vln_origin_country = yes
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = vln_sejmik_republic_reform
+			AND = {
+				west_ukraine_vln_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = vln_path_sejmik_req_tt
+					vln_has_sejmik_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		republican_tradition = 0.25
+		diplomatic_reputation = 0.5
+		max_absolutism = -10
+		global_manpower_modifier = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	legacy_equivalent = noble_republic
+}
+
+vln_dietine_instructions_reform = {
+	icon = "paper_with_seal"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			has_reform = vln_dietine_instructions_reform
+			has_reform = vln_sejmik_republic_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = vln_dietine_instructions_reform
+			has_reform = vln_sejmik_republic_reform
+		}
+	}
+	# The instrukcje sejmikowe: local sejmiks bound their own deputies to a
+	# written mandate before every session of the wider assembly - real
+	# Commonwealth practice, not an invented mechanic.
+	modifiers = {
+		diplomatic_reputation = 1
+		reform_progress_growth = 0.1
+		max_absolutism = -5
+		stability_cost_modifier = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
