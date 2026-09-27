@@ -154,40 +154,6 @@ conversions = conversions.replace(profile, profile.replace(weights, new_weights)
 # Comment-only localization of the province name keeps the repository's ID audit precise.
 conversions = re.sub(r'(province_id\s*=\s*118)\s*#.*', r'\1 # Roma', conversions)
 output('common/religious_conversions/00_religious_conversions.txt', conversions)
-# Construction migration picks Brest, then greatest development, then lowest numeric ID.
-province_ids = sorted({int(p.name.split(' ')[0]) for p in (GAME/'history/provinces').glob('*.txt') if p.name.split(' ')[0].isdigit()}, reverse=True)
-pick = '''# Generated deterministic ordering; not a random choice.
-rip_church_pick_migration_seat_effect = {
- every_province = { limit = { has_province_flag = rip_church_seat_selected } clr_province_flag = rip_church_seat_selected }
- clear_global_event_target = rip_church_migration_best
- clr_global_flag = rip_church_migration_best_found
- if = { limit = { 277 = { rip_church_center_alive = yes } }
- 277 = { set_province_flag = rip_church_seat_selected save_global_event_target_as = rip_church_union_seat }
- }
- else = {
-'''
-for pid in province_ids:
-    pick += f'''{pid} = {{
- if = {{ limit = {{ rip_church_center_alive = yes }}
- if = {{ limit = {{ NOT = {{ has_global_flag = rip_church_migration_best_found }} }} save_global_event_target_as = rip_church_migration_best set_global_flag = rip_church_migration_best_found }}
- else_if = {{ limit = {{
- variable_arithmetic_trigger = {{
- export_to_variable = {{ which = rip_church_candidate_dev value = development }}
- export_to_variable = {{ which = rip_church_best_dev value = development who = event_target:rip_church_migration_best }}
- check_variable = {{ which = rip_church_candidate_dev which = rip_church_best_dev }}
- }}
- }} save_global_event_target_as = rip_church_migration_best }}
- }}
-}}
-'''
-pick += '''
- event_target:rip_church_migration_best = { set_province_flag = rip_church_seat_selected save_global_event_target_as = rip_church_union_seat }
- }
- clear_global_event_target = rip_church_migration_best
- clr_global_flag = rip_church_migration_best_found
-}
-'''
-output('common/scripted_effects/rip_church_center_migration_generated.txt', pick)
 # Primary keys for generated node menu options.
 node_loc = ''.join(f' {"rip_church_node_"+name+"_button"}:0 "Fund / close mission: ${name}$"\n' for name,_ in nodes)
 for lang in ('english','french','german','spanish'):
@@ -201,6 +167,6 @@ for path, text in outputs.items():
         if not args.check:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(text, encoding='utf-8', newline='\n')
-print(('STALE' if args.check and changed else 'GENERATED')+f': {len(nodes)} nodes; {len(province_ids)} province IDs; {len(changed)} files')
+print(('STALE' if args.check and changed else 'GENERATED')+f': {len(nodes)} nodes; {len(changed)} files')
 if args.check and changed:
     print('\n'.join(changed)); sys.exit(1)

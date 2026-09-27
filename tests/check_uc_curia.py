@@ -68,7 +68,13 @@ if install is not None:
 else:
     print('SKIP: installed vanilla unavailable; only the versioned 1.37.5 snapshot is checked')
 assert payload(named_block(faith, 'country')) == {
-    'tolerance_own': Decimal('.5'), 'diplomatic_reputation': Decimal('.5')
+    'church_loyalty_modifier': Decimal('.05')
+}
+assert payload(named_block(faith, 'country_as_secondary')) == {
+    'church_loyalty_modifier': Decimal('.025')
+}
+assert payload(named_block(faith, 'province')) == {
+    'local_missionary_strength': Decimal('.01')
 }
 assert 'has_patriarchs = yes' in normalized(faith)
 assert not re.search(r'\b(?:papacy|fervor|holy_sites|blessings|uses_church_power)\s*=', normalized(faith))

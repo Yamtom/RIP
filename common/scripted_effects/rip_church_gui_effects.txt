@@ -2,7 +2,6 @@
 rip_church_gui_refresh_parishes_effect = {
  set_variable = { which = rip_church_gui_eastern_parishes value = 0 }
  set_variable = { which = rip_church_gui_latin_parishes value = 0 }
- set_variable = { which = rip_church_gui_latin_consents value = 0 }
  every_owned_province = {
   if = { limit = { has_province_flag = rip_church_rite_recognized OR = { religion = orthodox religion = russian_orthodox } }
    ROOT = { change_variable = { which = rip_church_gui_eastern_parishes value = 1 } }
@@ -10,16 +9,5 @@ rip_church_gui_refresh_parishes_effect = {
   if = { limit = { has_province_flag = rip_church_rite_recognized religion = catholic }
    ROOT = { change_variable = { which = rip_church_gui_latin_parishes value = 1 } }
   }
-  if = { limit = { has_province_flag = rip_church_latin_consent religion = catholic }
-   ROOT = { change_variable = { which = rip_church_gui_latin_consents value = 1 } }
-  }
- }
-}
-rip_church_gui_open_parishes_effect = {
- if = { limit = { rip_church_union_supporter = yes }
-  rip_church_union_global_maintenance_effect = yes
-  rip_church_gui_refresh_parishes_effect = yes
-  clr_country_flag = rip_church_gc_curia_view
-  set_country_flag = rip_church_gui_parishes_view
  }
 }

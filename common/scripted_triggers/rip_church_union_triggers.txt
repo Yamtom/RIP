@@ -1,37 +1,29 @@
-rip_church_can_shift_communion = {
- religion = greek_catholic adm_power = 25
- OR = { NOT = { has_country_flag = rip_church_balance_shifted } had_country_flag = { flag = rip_church_balance_shifted days = 1825 } }
-}
 rip_church_gc_has_privilege = {
- OR = {
-  has_country_modifier = rip_church_gc_infrastructure has_country_modifier = rip_church_gc_coexistence
-  has_country_modifier = rip_church_gc_legate has_country_modifier = rip_church_gc_dynastic has_country_modifier = rip_church_gc_prestige
-  has_country_modifier = rip_church_gc_church_tax has_country_modifier = rip_church_gc_blessing
-  has_country_modifier = rip_church_gc_usury has_country_modifier = rip_church_gc_holy_war
-  has_country_modifier = rip_church_gc_saint has_country_modifier = rip_church_gc_monopoly
- }
+ OR = { has_country_modifier = rip_church_gc_infrastructure has_country_modifier = rip_church_gc_coexistence }
 }
+rip_church_gc_can_infrastructure = {
+ religion = greek_catholic NOT = { rip_church_gc_has_privilege = yes }
+ patriarch_authority = 0.2 treasury = 75 is_at_war = no
+}
+rip_church_gc_can_coexistence = {
+ religion = greek_catholic NOT = { rip_church_gc_has_privilege = yes }
+ patriarch_authority = 0.2 treasury = 100 is_at_war = no
+ any_owned_province = { has_province_flag = rip_church_rite_recognized }
+}
+# Compatibility alias for older event options. It grants no Roman petition path.
 rip_church_gc_can_eastern_privilege = {
- religion = greek_catholic NOT = { rip_church_gc_has_privilege = yes }
- NOT = { rip_church_gc_roman = yes } patriarch_authority = 0.2 is_at_war = no
- OR = { AND = { rip_church_gc_eastern = yes treasury = 75 } treasury = 100 }
+ OR = { rip_church_gc_can_infrastructure = yes rip_church_gc_can_coexistence = yes }
 }
-rip_church_gc_can_roman_privilege = {
- religion = greek_catholic NOT = { rip_church_gc_has_privilege = yes }
- NOT = { rip_church_gc_eastern = yes } check_variable = { which = rip_church_papal_standing value = 30 }
- treasury = 100 rip_church_gc_rome_present = yes NOT = { war_with = PAP } PAP = { has_opinion = { who = ROOT value = 50 } }
-}
-# Province scope; owner is the payer. Arithmetic trigger does not mutate saves.
 rip_church_can_recognize_rite = {
  is_city = yes controlled_by = owner
  OR = { religion = orthodox religion = russian_orthodox religion = catholic }
  NOT = { has_province_flag = rip_church_rite_recognized }
  owner = { religion = greek_catholic }
  variable_arithmetic_trigger = {
- custom_tooltip = rip_church_rite_affordable_tt
- export_to_variable = { which = rip_church_rite_price value = development }
- export_to_variable = { which = rip_church_rite_available value = trigger_value:adm_power who = owner }
- check_variable = { which = rip_church_rite_available which = rip_church_rite_price }
+  custom_tooltip = rip_church_rite_affordable_tt
+  export_to_variable = { which = rip_church_rite_price value = development }
+  export_to_variable = { which = rip_church_rite_available value = trigger_value:adm_power who = owner }
+  check_variable = { which = rip_church_rite_available which = rip_church_rite_price }
  }
 }
 rip_church_can_revoke_rite = {
@@ -57,10 +49,8 @@ rip_church_can_begin_florence = {
 rip_church_can_ecumenism = {
  religion = greek_catholic NOT = { has_country_flag = rip_church_ecumenical }
  had_country_flag = { flag = rip_church_union_founded days = 7300 }
- had_country_flag = { flag = rip_church_balanced_since days = 3650 }
  OR = { NOT = { has_country_flag = rip_church_forced_integration } had_country_flag = { flag = rip_church_forced_integration days = 3650 } }
- rip_church_gc_balanced = yes stability = 2 is_at_war = no
- check_variable = { which = rip_church_papal_standing value = 60 }
+ stability = 2 is_at_war = no
  any_owned_province = { religion = orthodox has_province_flag = rip_church_rite_recognized }
  any_owned_province = { religion = catholic has_province_flag = rip_church_rite_recognized }
  any_country = { religion = orthodox alliance_with = ROOT has_opinion = { who = ROOT value = 100 } }

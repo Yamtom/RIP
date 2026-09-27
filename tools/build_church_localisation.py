@@ -675,6 +675,45 @@ for key in list(DATA):
  if key.startswith('rip_church_gui_') and not key.endswith('_tt'): DATA.setdefault(key+'_tt',DATA[key])
 for key in ('rip_church_gc_privilege_state_tt','rip_church_gc_curia_privilege_tt'): DATA[key]=DATA['rip_church_gui_slot_state_tt']
 
+# The September simplification removed the global conversion centre, numerical
+# Communion/Standing resources, Curia petitions, donations and their GUI.
+retired_fragments=(
+ 'communion','standing','curia','petition','donat','center','centre','network',
+ 'union_ring','latin_consent','course_range','policy_cost','policy_label',
+ 'east_button','rome_button','papal_support','legate','dynastic','gc_prestige',
+ 'church_tax','blessing','usury','holy_war','saint','monopoly','controller_shield',
+ 'pope_shield','province_ring','province_union_access','patron_network')
+for key in list(DATA):
+ if any(fragment in key.lower() for fragment in retired_fragments): del DATA[key]
+DATA.update({
+ 'rip_church.6.d':'The Eastern hierarchy may organize church infrastructure or conclude a compact protecting recognized local rites. Both are local synodal institutions, spend Patriarch Authority and ducats, and last ten years. Only one may operate at a time.',
+ 'rip_church_gc_heading':'THE UNION OF THE CHURCHES',
+ 'rip_church_gc_resources':'Eastern hierarchy in communion with Rome\\nLocal rites are managed parish by parish',
+ 'rip_church_gc_resources_tt':'The main religion window shows Patriarch Authority. This panel has no Communion Balance or accumulated Papal Standing resource.',
+ 'rip_church_gui_parishes_title':'Recognized parishes',
+ 'rip_church_gui_parish_counts':'Recognized Eastern parishes: §Y[Root.rip_church_gui_eastern_parishes.GetValue]§!\\nRecognized Latin parishes: §Y[Root.rip_church_gui_latin_parishes.GetValue]§!',
+ 'rip_church_gui_parish_counts_tt':'Counts only our provinces and refreshes monthly. Recognition preserves the province religion and grants local autonomy. Select an owned province to recognize or revoke its rite.',
+ 'rip_church_gui_institutions_title':'Local synodal institutions',
+ 'rip_church_gui_slot_state':'[Root.GetChurchSlotState]',
+ 'rip_church_gui_slot_free':'Synodal institution: §G0 / 1§!',
+ 'rip_church_gui_slot_used':'Synodal institution: §Y1 / 1§!',
+ 'rip_church_gui_slot_state_tt':'Infrastructure and coexistence share one ten-year local synodal slot. Opening the synod is free.',
+ 'rip_church_gui_active_institution':'Active institution\\n§H[Root.GetChurchPrivilege]§!',
+ 'rip_church_gui_synod':'Local synod',
+ 'rip_church_gui_synod_tt':'Choose Eastern infrastructure or a compact protecting recognized local rites. These use Patriarch Authority and ducats and last ten years.',
+ 'rip_church_gui_ecumenism':'Ecumenism',
+ 'rip_church_gui_ecumenism_tt':'A long-term settlement requiring twenty years of union, stability +2, peace, recognized Orthodox and Latin parishes, and an Orthodox ally with opinion +100.',
+ 'rip_church_gui_local_note':'No automatic centre converts neighbouring provinces.',
+ 'rip_church_gui_patron_state':'[Root.GetChurchPatronState]',
+ 'rip_church_gui_patron_active':'§GCatholic patronage is established§!\\nThe state remains Catholic; parish changes require explicit events or decisions.',
+ 'rip_church_gui_patron_inactive':'Patronage has not been established',
+ 'rip_church_gui_sponsor_tt':'From 1596, pay §Y100 ADM, 100 DIP and one year of income§! to support the Union while remaining Catholic. Requires peace, stability +1, PAP without war, and a qualifying Orthodox core parish. One eligible parish becomes Greek Catholic.',
+ 'rip_church_rite_help':'Recognition costs §Y1 ADM per current development§!, preserves the local confession, removes its religious-unity penalty and reduces direct taxation and recruitment. It lasts at least ten years. Revocation causes ten years of unrest.',
+ 'rip_church_rite_help_tt':'Recognition is local autonomy, not automatic conversion. Orthodox, Muscovite Orthodox and Latin parishes are counted separately in the country panel.',
+})
+for key in list(DATA):
+ if key.startswith('rip_church_gui_') and not key.endswith('_tt'): DATA.setdefault(key+'_tt',DATA[key])
+
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()
 # Generated variable/modifier definitions may add display-only compensation IDs.
 for p in (ROOT/'common/event_modifiers').glob('RIP_church*.txt'):
@@ -692,53 +731,13 @@ custom=defined('GetChurchROStatus',[
  ('rip_church_ro_recognized = yes','rip_church_ro_recognized'),
  ('has_country_flag = rip_church_ro_provisional','rip_church_ro_provisional'),
  ('always = yes','rip_church_ro_unrecognized')])
-custom+=defined('GetChurchBalanceValue',[
- ('check_variable = { which = rip_church_communion value = 0 }','rip_church_gc_balance_positive'),
- ('always = yes','rip_church_gc_balance_negative')])
-custom+=defined('GetChurchStandingRate',[
- ('NOT = { rip_church_gc_rome_present = yes NOT = { war_with = PAP } PAP = { has_opinion = { who = ROOT value = 50 } } }','rip_church_standing_rate_zero'),
- ('rip_church_gc_eastern = yes','rip_church_standing_rate_east'),
- ('rip_church_gc_roman = yes','rip_church_standing_rate_rome'),
- ('always = yes','rip_church_standing_rate_middle')])
-custom+=defined('GetChurchGCOrientation',[
- ('rip_church_gc_eastern = yes','rip_church_gc_east'),
- ('rip_church_gc_roman = yes','rip_church_gc_rome'),
- ('always = yes','rip_church_gc_middle')])
-custom+=defined('GetChurchPrivilege',[(f'has_country_modifier = rip_church_gc_{key}',f'rip_church_gc_{key}') for key in ('infrastructure','coexistence','legate','dynastic','prestige','church_tax','blessing','usury','holy_war','saint','monopoly')]+[('always = yes','rip_church_none')])
+custom+=defined('GetChurchPrivilege',[(f'has_country_modifier = rip_church_gc_{key}',f'rip_church_gc_{key}') for key in ('infrastructure','coexistence')]+[('always = yes','rip_church_none')])
 custom+=defined('GetChurchLocalInstitution',[
  ('has_country_modifier = rip_church_gc_infrastructure','rip_church_gc_infrastructure'),
  ('has_country_modifier = rip_church_gc_coexistence','rip_church_gc_coexistence'),
- ('rip_church_gc_has_privilege = yes','rip_church_gc_local_reserved'),
  ('always = yes','rip_church_none')])
-custom+=defined('GetChurchCuriaStatus',[
- ('NOT = { rip_church_gc_rome_present = yes }','rip_church_gc_curia_absent'),
- ('war_with = PAP','rip_church_gc_curia_war'),
- ('PAP = { has_opinion = { who = ROOT value = 50 } }','rip_church_gc_curia_good'),
- ('always = yes','rip_church_gc_curia_cold')])
-custom+=defined('GetChurchPapalOpinion',[
- ('rip_church_gc_rome_present = yes NOT = { check_variable = { which = rip_church_papal_opinion value = 0 } }','rip_church_gc_opinion_negative'),
- ('rip_church_gc_rome_present = yes','rip_church_gc_opinion_value'),
- ('always = yes','rip_church_gc_opinion_absent')])
-custom+=defined('GetChurchCuriaController',[
- ('has_global_flag = rip_church_gc_controller_known event_target:rip_church_gc_controller = { is_papal_controller = yes }','rip_church_gc_controller_name'),
- ('always = yes','rip_church_gc_controller_none')])
-custom+=defined('GetChurchCuriaRate',[
- ('NOT = { rip_church_gc_rome_present = yes NOT = { war_with = PAP } PAP = { has_opinion = { who = ROOT value = 50 } } }','rip_church_gc_rate_paused'),
- ('rip_church_gc_eastern = yes','rip_church_standing_rate_east'),
- ('rip_church_gc_roman = yes','rip_church_standing_rate_rome'),
- ('always = yes','rip_church_standing_rate_middle')])
-custom+=defined('GetChurchDonationState',[
- ('has_country_flag = rip_church_gc_donated NOT = { had_country_flag = { flag = rip_church_gc_donated days = 1825 } }','rip_church_gc_donation_wait'),
- ('rip_church_gc_can_donate = yes','rip_church_gc_donation_ready'),
- ('always = yes','rip_church_gc_donation_blocked')])
-custom+=defined('GetChurchCenterStatus',[
- ('any_owned_province = { has_province_flag = rip_church_center_suspended }','rip_church_center_suspended'),
- ('any_owned_province = { rip_church_center_alive = yes }','rip_church_center_active'),
- ('any_province = { religion = greek_catholic OR = { is_reformation_center = yes has_province_flag = rip_church_center_suspended } }','rip_church_center_elsewhere'),
- ('always = yes','rip_church_center_absent')])
 custom+=defined('GetChurchRiteStatus',[
  ('has_province_flag = rip_church_rite_recognized','rip_church_rite_recognized'),
- ('has_province_flag = rip_church_latin_consent','rip_church_rite_consent'),
  ('always = yes','rip_church_rite_unrecognized')])
 for key in ('war','mercy','building','mission'):
     custom+=defined('GetChurchIcon'+key.title(),[(f'has_country_flag = rip_church_icon_{key}','rip_church_active'),('always = yes','rip_church_inactive')])
@@ -749,14 +748,10 @@ for key in ('war','mercy','building','mission'):
         (f'has_country_flag = rip_church_icon_{key}_used NOT = {{ had_country_flag = {{ flag = rip_church_icon_{key}_used days = 365 }} }}','rip_church_icon_cooldown'),
         ('always = yes','rip_church_icon_can_activate')])
 custom+=defined('GetChurchSlotState',[
- ('NOT = { religion = greek_catholic }','rip_church_gui_slot_patron'),
  ('rip_church_gc_has_privilege = yes','rip_church_gui_slot_used'),('always = yes','rip_church_gui_slot_free')])
 custom+=defined('GetChurchCoexistenceState',[
  ('has_country_flag = rip_church_ecumenical','rip_church_gui_coexistence_ecumenical'),
  ('has_country_modifier = rip_church_gc_coexistence','rip_church_gui_coexistence_active'),('always = yes','rip_church_gui_coexistence_local')])
-custom+=defined('GetChurchNetworkScope',[
- ('NOT = { any_province = { rip_church_center_alive = yes } }','rip_church_gui_network_none'),
- ('event_target:rip_church_union_patron = { has_country_flag = rip_church_ecumenical }','rip_church_gui_network_extended'),('always = yes','rip_church_gui_network_normal')])
 custom+=defined('GetChurchUnionPathState',[
  ('religion = orthodox','rip_church_gui_path_orthodox'),('has_country_flag = rip_church_supports_union','rip_church_gui_path_patron'),('always = yes','rip_church_gui_path_catholic')])
 custom+=defined('GetChurchUnionPathIdentity',[
@@ -766,10 +761,9 @@ custom+=defined('GetChurchFlorenceProgress',[
  ('has_country_flag = rip_church_florence_pending had_country_flag = { flag = rip_church_florence_pending days = 1825 }','rip_church_gui_florence_due'),
  ('has_country_flag = rip_church_florence_pending','rip_church_gui_florence_wait'),('always = yes','rip_church_gui_florence_none')])
 custom+=defined('GetChurchRiteFamily',[('religion = catholic','rip_church_gui_rite_latin'),('always = yes','rip_church_gui_rite_eastern')])
-custom+=defined('GetChurchProvinceRing',[(f'has_province_flag = rip_church_union_ring_{i}',f'rip_church_gui_ring_{i}') for i in range(5)]+[('always = yes','rip_church_gui_ring_outside')])
-custom+=defined('GetChurchProvinceUnionAccess',[
- ('has_province_flag = rip_church_rite_recognized','rip_church_gui_protected'),
- ('rip_church_union_target = yes','rip_church_gui_access_yes'),('always = yes','rip_church_gui_access_no')])
+custom+=defined('GetChurchPatronState',[
+ ('has_country_flag = rip_church_supports_union','rip_church_gui_patron_active'),
+ ('always = yes','rip_church_gui_patron_inactive')])
 outputs={'customizable_localization/rip_church_redesign.txt':custom}
 for lang in ('english','french','german','spanish'):
     outputs[f'localisation/replace/zzzz_RIP_church_redesign_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(f' {k}:0 "{v.replace(chr(34),chr(39))}"\n' for k,v in sorted(DATA.items()))
