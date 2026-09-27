@@ -223,6 +223,34 @@ kyivan_metropolitanate_reform = {
 	}
 }
 
+hlc_halych_metropolitanate_reform = {
+	rank = {
+		1 = HALYCH_METROPOLITANATE
+		2 = METROPOLITANATE_OF_GALICIA
+		3 = PATRIARCHATE_OF_HALYCH
+	}
+
+	ruler_male = {
+		1 = METROPOLITAN_OF_HALYCH
+		2 = METROPOLITAN_OF_GALICIA
+		3 = PATRIARCH_OF_HALYCH
+	}
+
+	ruler_female = {
+		1 = METROPOLITAN_OF_HALYCH
+		2 = METROPOLITAN_OF_GALICIA
+		3 = PATRIARCH_OF_HALYCH
+	}
+
+	trigger = {
+		OR = {
+			has_reform = hlc_halych_metropolitanate_reform
+			has_reform = hlc_halych_synodal_confirmation_reform
+			has_reform = hlc_lviv_uniate_synod_reform
+		}
+	}
+}
+
 ruthenian_factional_empire_reform = {
 	rank = {
 		1 = RUTHENIAN_PRINCEDOM
@@ -322,7 +350,11 @@ uzh_mukachevo_eparchy_reform = {
 	}
 
 	trigger = {
-		has_reform = uzh_mukachevo_eparchy_reform
+		OR = {
+			has_reform = uzh_mukachevo_eparchy_reform
+			has_reform = uzh_uzhhorod_seat_translation_reform
+			has_reform = uzh_presov_eparchy_reform
+		}
 	}
 }
 

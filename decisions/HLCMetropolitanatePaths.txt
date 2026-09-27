@@ -1,0 +1,76 @@
+country_decisions = {
+
+	# Two further chapters for the see hlc_elevate_the_metropolitan
+	# (decisions/HLCRepublicPaths.txt) already seated as head of state.
+	# Neither requires the other - common/government_reforms/RIP_HLC_
+	# government_reforms.txt keeps them in separate reform slots so both can
+	# be held at once, or neither.
+
+	hlc_confirm_the_metropolitan_see = {
+		major = yes
+		potential = {
+			west_ukraine_hlc_origin_country = yes
+			tag = HLC
+			has_reform = hlc_halych_metropolitanate_reform
+			NOT = { has_country_flag = rip_galicia_metropolitanate_confirmed }
+		}
+		allow = {
+			is_subject = no
+			stability = 1
+			OR = {
+				AND = {
+					religion = orthodox
+					patriarch_authority = 0.5
+				}
+				AND = {
+					religion = greek_catholic
+					papal_influence = 50
+				}
+			}
+		}
+		effect = {
+			set_country_flag = rip_galicia_metropolitanate_confirmed
+			add_country_modifier = {
+				name = rip_galicia_metropolitanate_confirmed
+				duration = 3650
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				stability = 2
+			}
+		}
+	}
+
+	hlc_complete_the_union_of_lviv = {
+		major = yes
+		potential = {
+			west_ukraine_hlc_origin_country = yes
+			tag = HLC
+			religion = greek_catholic
+			has_reform = hlc_halych_metropolitanate_reform
+			NOT = { has_country_flag = rip_galicia_lviv_union_synod }
+		}
+		allow = {
+			is_subject = no
+			stability = 1
+			papal_influence = 60
+		}
+		effect = {
+			set_country_flag = rip_galicia_lviv_union_synod
+			add_country_modifier = {
+				name = rip_galicia_lviv_union_synod
+				duration = 3650
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				stability = 2
+			}
+		}
+	}
+}

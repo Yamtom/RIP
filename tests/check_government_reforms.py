@@ -11,8 +11,8 @@ from clausewitz_testlib import ROOT, keyed_blocks, named_block, normalized, read
 
 
 REFORMS_DIR = ROOT / "common/government_reforms"
-EXPECTED_REFORM_COUNT = 114
-EXPECTED_REFORM_ID_SHA256 = "a3362d22fb95f441dc1d88ad60054e7fa0ed293d760c28fc8cd6e3033e2c9a7e"
+EXPECTED_REFORM_COUNT = 123
+EXPECTED_REFORM_ID_SHA256 = "045b458ff6ba9b8c43316ef849b71a359a19113090241a2be738ed527cb046cb"
 
 
 def require(failures: list[str], condition: bool, message: str) -> None:
@@ -833,6 +833,37 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         "has_reform = uzh_komitat_system_reform" in uzh_name
         and "has_reform = uzh_republican_komitat_system_reform" in uzh_name,
         "UZH Komitat government name does not recognize the republican reform ID",
+    )
+    uzh_eparchy_name = normalized(
+        named_block(read("common/government_names/000_RIP_names.txt"), "uzh_mukachevo_eparchy_reform")
+    )
+    require(
+        failures,
+        "has_reform = uzh_mukachevo_eparchy_reform" in uzh_eparchy_name
+        and "has_reform = uzh_uzhhorod_seat_translation_reform" in uzh_eparchy_name
+        and "has_reform = uzh_presov_eparchy_reform" in uzh_eparchy_name,
+        "UZH eparchy government name does not recognize its Th2/Th3 reform IDs",
+    )
+    uzh_eparchy_reforms = read("common/government_reforms/RIP_UZH_government_reforms.txt")
+    seat_translation = normalized(named_block(uzh_eparchy_reforms, "uzh_uzhhorod_seat_translation_reform"))
+    presov_split = normalized(named_block(uzh_eparchy_reforms, "uzh_presov_eparchy_reform"))
+    require(
+        failures,
+        "has_reform = uzh_mukachevo_eparchy_reform" in seat_translation
+        and "has_reform = uzh_uzhhorod_seat_translation_reform" in presov_split
+        and "is_year = 1771" not in seat_translation
+        and "is_year = 1771" not in presov_split,
+        "UZH eparchy Th2/Th3 reforms do not chain from Th1 or duplicate its 1771 gate",
+    )
+    uzh_eparchy_path = read("decisions/UzhEparchyPath.txt")
+    seat_translate_decision = normalized(named_block(uzh_eparchy_path, "uzh_translate_the_episcopal_seat"))
+    presov_decision = normalized(named_block(uzh_eparchy_path, "uzh_establish_the_presov_eparchy"))
+    require(
+        failures,
+        "has_reform = uzh_mukachevo_eparchy_reform" in seat_translate_decision
+        and "has_reform = uzh_uzhhorod_seat_translation_reform" in presov_decision
+        and "is_year = 1818" in presov_decision,
+        "UZH eparchy Th2/Th3 decisions do not gate on the prior tier's reform",
     )
     for path in (
         "localisation/RIP_l_english.yml",
