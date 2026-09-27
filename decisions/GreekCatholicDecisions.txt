@@ -17,7 +17,9 @@ country_decisions = {
 			# common/scripted_triggers/gre/greek_catholic_triggers.txt and the
 			# spread chain in events/UniateReformationSpread.txt.
 			rip_uc_is_regional_state = yes
-			is_year = 1590
+			# Florence is a separate early route; this decision concludes the
+			# later Union of Brest and must not fire before its 1596 date.
+			is_year = 1596
 		}
 		
 		provinces_to_highlight = {
@@ -66,15 +68,13 @@ country_decisions = {
 		effect = {
 			add_adm_power = -100
 			add_dip_power = -100
+			set_country_flag = pursuing_uniate_union
 			rip_faith_adopt_union_effect = yes
+			set_country_flag = union_of_brest_happened
 		}
 		
 		ai_will_do = {
 			factor = 1
-			modifier = {
-				factor = 0
-				NOT = { is_year = 1596 }
-			}
 			modifier = {
 				factor = 2
 				has_country_flag = pursuing_uniate_union

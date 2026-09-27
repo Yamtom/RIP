@@ -175,7 +175,8 @@ country_event = {
 			tag = HLC
 			tag = PDL
 		}
-		is_year = 1550
+		# This is the regional Brest signature, not the earlier Florentine path.
+		is_year = 1596
 		NOT = { is_year = 1680 }
 		OR = {
 			overlord = { tag = POL }
@@ -203,19 +204,18 @@ country_event = {
 		
 		set_country_flag = church_union_decision
 		set_country_flag = accepted_uniate_church
-		
-		change_religion = catholic
-		add_country_modifier = {
-			name = west_ukr_church_union
-			duration = -1
-		}
-		
+
+		set_country_flag = pursuing_uniate_union
+		rip_faith_adopt_union_effect = yes
+		set_country_flag = union_of_brest_happened
+		rip_church_historical_east_effect = yes
+
+		# The hierarchy signs; parishes keep their rite until their own settlement.
 		every_owned_province = {
 			limit = { religion = orthodox }
-			change_religion = catholic
 			add_province_modifier = {
-				name = west_ukr_converted_uniate
-				duration = 7300
+				name = provincial_uniate_resistance
+				duration = 3650
 			}
 		}
 		
@@ -228,8 +228,6 @@ country_event = {
 				}
 			}
 		}
-		
-		add_prestige = 10
 		
 		ai_chance = {
 			factor = 40
@@ -291,6 +289,7 @@ country_event = {
 				religion = orthodox
 				religion = catholic
 			}
+			NOT = { has_province_flag = rip_church_rite_recognized }
 			NOT = { has_province_modifier = west_ukr_religious_peace }
 		}
 	}
@@ -306,6 +305,7 @@ country_event = {
 					religion = orthodox
 					religion = catholic
 				}
+				NOT = { has_province_flag = rip_church_rite_recognized }
 				NOT = { has_province_modifier = west_ukr_religious_peace }
 			}
 			save_event_target_as = conflict_province
@@ -321,13 +321,11 @@ country_event = {
 				name = west_ukr_forced_conversion
 				duration = 3650
 			}
-			if = {
-				limit = { religion = orthodox }
-				change_religion = catholic
-			}
 		}
-		
-		add_papal_influence = 10
+
+		set_country_flag = rip_church_forced_integration
+		clr_country_flag = rip_church_balanced_since
+		rip_church_historical_rome_effect = yes
 		
 		ai_chance = {
 			factor = 50

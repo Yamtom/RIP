@@ -142,3 +142,59 @@ defined_text = {
  text = { trigger = { has_country_flag = rip_church_icon_mission_used NOT = { had_country_flag = { flag = rip_church_icon_mission_used days = 365 } } } localisation_key = rip_church_icon_cooldown }
  text = { trigger = { always = yes } localisation_key = rip_church_icon_can_activate }
 }
+defined_text = {
+ name = GetChurchSlotState
+ text = { trigger = { NOT = { religion = greek_catholic } } localisation_key = rip_church_gui_slot_patron }
+ text = { trigger = { rip_church_gc_has_privilege = yes } localisation_key = rip_church_gui_slot_used }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_slot_free }
+}
+defined_text = {
+ name = GetChurchCoexistenceState
+ text = { trigger = { has_country_flag = rip_church_ecumenical } localisation_key = rip_church_gui_coexistence_ecumenical }
+ text = { trigger = { has_country_modifier = rip_church_gc_coexistence } localisation_key = rip_church_gui_coexistence_active }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_coexistence_local }
+}
+defined_text = {
+ name = GetChurchNetworkScope
+ text = { trigger = { NOT = { any_province = { rip_church_center_alive = yes } } } localisation_key = rip_church_gui_network_none }
+ text = { trigger = { event_target:rip_church_union_patron = { has_country_flag = rip_church_ecumenical } } localisation_key = rip_church_gui_network_extended }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_network_normal }
+}
+defined_text = {
+ name = GetChurchUnionPathState
+ text = { trigger = { religion = orthodox } localisation_key = rip_church_gui_path_orthodox }
+ text = { trigger = { has_country_flag = rip_church_supports_union } localisation_key = rip_church_gui_path_patron }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_path_catholic }
+}
+defined_text = {
+ name = GetChurchUnionPathIdentity
+ text = { trigger = { religion = orthodox } localisation_key = rip_church_gui_identity_orthodox }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_identity_catholic }
+}
+defined_text = {
+ name = GetChurchFlorenceProgress
+ text = { trigger = { has_country_flag = rip_church_florentine_union } localisation_key = rip_church_gui_florence_done }
+ text = { trigger = { has_country_flag = rip_church_florence_pending had_country_flag = { flag = rip_church_florence_pending days = 1825 } } localisation_key = rip_church_gui_florence_due }
+ text = { trigger = { has_country_flag = rip_church_florence_pending } localisation_key = rip_church_gui_florence_wait }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_florence_none }
+}
+defined_text = {
+ name = GetChurchRiteFamily
+ text = { trigger = { religion = catholic } localisation_key = rip_church_gui_rite_latin }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_rite_eastern }
+}
+defined_text = {
+ name = GetChurchProvinceRing
+ text = { trigger = { has_province_flag = rip_church_union_ring_0 } localisation_key = rip_church_gui_ring_0 }
+ text = { trigger = { has_province_flag = rip_church_union_ring_1 } localisation_key = rip_church_gui_ring_1 }
+ text = { trigger = { has_province_flag = rip_church_union_ring_2 } localisation_key = rip_church_gui_ring_2 }
+ text = { trigger = { has_province_flag = rip_church_union_ring_3 } localisation_key = rip_church_gui_ring_3 }
+ text = { trigger = { has_province_flag = rip_church_union_ring_4 } localisation_key = rip_church_gui_ring_4 }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_ring_outside }
+}
+defined_text = {
+ name = GetChurchProvinceUnionAccess
+ text = { trigger = { has_province_flag = rip_church_rite_recognized } localisation_key = rip_church_gui_protected }
+ text = { trigger = { rip_church_union_target = yes } localisation_key = rip_church_gui_access_yes }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_access_no }
+}
