@@ -243,6 +243,8 @@ flowchart LR
   A10 --> V
   H --> R1["R1 Boyar Republic"] --> R2["R2 Rule of the Great Houses"]
   H --> Th1["Th1 Halych Metropolitanate"]
+  Th1 --> Th2["Th2 Synodal Confirmation"]
+  Th1 --> Th3["Th3 Lviv Uniate Synod"]
 ```
 
 Польська M2-гілка навмисно вмикає ванільну систему польських виборів: це
@@ -262,6 +264,16 @@ flowchart LR
 незалежний від польсько-австрійського розколу шлях, доступний лише
 православним/греко-католицьким Галичинам: галицькі князі неодноразово
 просили в Константинополя власну митрополичу кафедру з 1303 року.
+`decisions/HLCMetropolitanatePaths.txt` додає до Th1 два незалежні один від
+одного продовження, кожне у власному слоті реформ (тому й тримається обидва
+одночасно): `hlc_halych_synodal_confirmation_reform` (Th2,
+`internal_vs_external_mission`) — тому ж 1370-71 тому Патріарха Філофея
+Коккіноса, що остаточно підтвердив Галицьку кафедру проти постійних претензій
+Києва й Москви на всю руську церкву, після двох попередніх закриттів кафедри;
+`hlc_lviv_uniate_synod_reform` (Th3, `education_of_the_state`) — власному
+собору Львівської єпархії, що приєднується до унії за єпископа Йосифа
+Шумлянського (публічно з 1700, прийнято Римом 1708-09) вже за греко-католицької
+релігії, майже століття після Берестя.
 
 ## VLN та регіональні інститути
 
@@ -359,6 +371,8 @@ Enlightenment/Age of Revolutions умовами, не змінюючи save-су
 | `R10` | `uzh_palatial_uhro_republic_reform` |
 | `M11/R9` | `uzh_carpathian_border_commissariat_reform` |
 | `Th1` | `uzh_mukachevo_eparchy_reform` (додано паралельною сесією; див. `RIP_UZH_government_reforms.txt`) |
+| `Th2` | `uzh_uzhhorod_seat_translation_reform`, після `uzh_mukachevo_eparchy_reform` |
+| `Th3` | `uzh_presov_eparchy_reform`, після `uzh_uzhhorod_seat_translation_reform` та не раніше 1818 року |
 
 ```mermaid
 flowchart LR
@@ -376,6 +390,9 @@ flowchart LR
   F --> X["M4/R4 Union Synod"]
   X -.coexists.- I
   B["M11/R9 Border Commissariat"] -.capstone.- I
+  X --> Th1["Th1 Mukachevo Eparchy, 1771"]
+  Th1 --> Th2["Th2 Seat Translated to Uzhhorod, 1778"]
+  Th2 --> Th3["Th3 Presov Eparchy, 1818"]
 ```
 
 Palanok тепер описаний як статутна капітанія зі спільним голосом замкових
@@ -443,6 +460,25 @@ flag. Сама подія обмежена православною, катол�
 модифікатори Concord/Old Rite у постійні outcome-flags. Вона також замінює у
 старих республіканських saves спільні Komitat/Uhro ID на нові R-only варіанти,
 навіть якщо UZH уже сформував інший тег і зберіг самопідтримувану реформу.
+
+Єпархіальна теократія (`Th1` `uzh_mukachevo_eparchy_reform`) отримала два
+подальші тіри на зразок галицького `hlc_halych_metropolitanate_reform`: кожен
+у власному слоті `reform_levels` (`common/governments/00_governments.txt`),
+тому обидва тримаються одночасно, а не заміняють Th1. Перед додаванням
+перевірено хронологію: сам грант Th1 (`decisions/UzhEparchyPath.txt`,
+`uzh_road_of_the_eparchy`) уже вимагає `is_year = 1771` — реальну булу Eximia
+Regalium Principum, що звільнила Мукачівську єпархію від латинської юрисдикції
+Егера (це вже в англійському описі реформи: «Freed from Eger's tutelage»).
+Боротьба єпископа Василя Тарасовича за ту саму юрисдикційну незалежність 1646
+року, отже, передує власному гейту Th1 і не може стати пізнішим тіром без
+того, щоб зробити Th1 недосяжним раніше за нього. Замість того, щоб знову
+відкривати щойно відновлений Th1, обидва нові тіри прив'язані до реальних,
+пізніших розділів тієї самої кафедри: `Th2` `uzh_uzhhorod_seat_translation_reform`
+— перенесення осідку й канцелярії з Мукачівського замку до самого Ужгорода
+за єпископа Андрія Бачинського (1772–1809), що 1778 року заснував там
+семінарію; `Th3` `uzh_presov_eparchy_reform` — виділення 1818 року Пряшівської
+єпархії для північних русинських парафій з території самого Мукачева (не
+друга унія, а розрослена кафедра, якій замало однієї канцелярії).
 
 ## LIT
 
@@ -534,7 +570,7 @@ flowchart LR
 
 ## Перевірені інваріанти
 
-- 119 унікальних definition-ID; дублів немає.
+- 123 унікальних definition-ID; дублів немає.
 - Кожен definition-ID присутній у government registration; навмисні
   багатотипові реформи — сумісні UZH-форми та CHR Grain Directorate.
 - `assembly_houses_reform` більше не є source-unreachable.

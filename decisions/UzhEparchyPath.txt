@@ -47,4 +47,76 @@ country_decisions = {
 			}
 		}
 	}
+
+	# Two further chapters for the see, on the model of
+	# decisions/HLCMetropolitanatePaths.txt: neither requires the other, since
+	# common/government_reforms/RIP_UZH_government_reforms.txt keeps each in
+	# its own reform slot so both can be held at once.
+
+	uzh_translate_the_episcopal_seat = {
+		major = yes
+		potential = {
+			tag = UZH
+			has_reform = uzh_mukachevo_eparchy_reform
+			NOT = { has_country_flag = uzh_uzhhorod_see_translated }
+		}
+
+		allow = {
+			is_subject = no
+			uzh_can_translate_the_see = yes
+		}
+
+		effect = {
+			set_country_flag = uzh_uzhhorod_see_translated
+			add_government_reform = uzh_uzhhorod_seat_translation_reform
+			add_adm_power = -50
+			add_prestige = 5
+			add_country_modifier = {
+				name = uzh_uzhhorod_see_translated
+				duration = 3650
+			}
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				stability = 2
+			}
+		}
+	}
+
+	uzh_establish_the_presov_eparchy = {
+		major = yes
+		potential = {
+			tag = UZH
+			has_reform = uzh_uzhhorod_seat_translation_reform
+			NOT = { has_country_flag = uzh_presov_eparchy_established }
+			is_year = 1818
+		}
+
+		allow = {
+			is_subject = no
+			uzh_can_split_presov_eparchy = yes
+		}
+
+		effect = {
+			set_country_flag = uzh_presov_eparchy_established
+			add_government_reform = uzh_presov_eparchy_reform
+			add_stability = -1
+			add_prestige = 10
+			add_country_modifier = {
+				name = uzh_presov_eparchy_established
+				duration = 3650
+			}
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				stability = 2
+			}
+		}
+	}
 }

@@ -470,3 +470,116 @@ uzh_mukachevo_eparchy_reform = {
 		factor = 1
 	}
 }
+
+# =============================================================================
+# Two further chapters for the eparchy, on the model of HLC's own two-fork
+# continuation (hlc_halych_synodal_confirmation_reform,
+# hlc_lviv_uniate_synod_reform - RIP_HLC_government_reforms.txt): each sits in
+# its own reform_levels category (common/governments/00_governments.txt) so
+# both stack on top of uzh_mukachevo_eparchy_reform instead of replacing it,
+# and neither requires the other.
+#
+# Chronology check performed before writing these: decisions/UzhEparchyPath.txt
+# already gates uzh_mukachevo_eparchy_reform's own grant on is_year = 1771 -
+# the historical bull Eximia Regalium Principum that freed Mukachevo from
+# Eger's Latin jurisdiction for good (the reform's own English desc already
+# says as much: "Freed from Eger's tutelage"). Bishop Vasyl Tarasovych's 1646
+# fight for the same jurisdictional independence therefore predates this
+# mod's own Th1 gate and cannot be a later tier without making Th1
+# unreachable before it. Rather than reopen the just-restored Th1 decision,
+# both new tiers are anchored to real, later chapters of the same see:
+#
+# Th2 - Bishop Andriy Bachynskyi (1772-1809) moved the bishopric's own
+# residence and chancery from Mukachevo Castle into Uzhhorod itself, founding
+# the town's theological seminary in 1778. The see's institutional life
+# finally catches up to the country's own name.
+# Th3 - in 1818 Rome carved the Presov eparchy for the northern Rusyn
+# parishes out of Mukachevo's own territory - the mature see outgrowing a
+# single cathedra, not a second union.
+# =============================================================================
+
+uzh_uzhhorod_seat_translation_reform = {
+	icon = "church"
+	legacy_equivalent = theocratic_government
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	potential = {
+		OR = {
+			has_reform = uzh_uzhhorod_seat_translation_reform
+			AND = {
+				tag = UZH
+				has_reform = uzh_mukachevo_eparchy_reform
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = uzh_uzhhorod_seat_translation_reform
+			AND = {
+				tag = UZH
+				has_reform = uzh_mukachevo_eparchy_reform
+				custom_trigger_tooltip = {
+					tooltip = uzh_path_seat_translated_req_tt
+					has_country_flag = uzh_uzhhorod_see_translated
+				}
+			}
+		}
+	}
+	modifiers = {
+		tolerance_own = 1
+		advisor_pool = 1
+		global_missionary_strength = 0.01
+		max_absolutism = -3
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+uzh_presov_eparchy_reform = {
+	icon = "papal_embassy_reform"
+	legacy_equivalent = theocratic_government
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	potential = {
+		OR = {
+			has_reform = uzh_presov_eparchy_reform
+			AND = {
+				tag = UZH
+				has_reform = uzh_uzhhorod_seat_translation_reform
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = uzh_presov_eparchy_reform
+			AND = {
+				tag = UZH
+				has_reform = uzh_uzhhorod_seat_translation_reform
+				custom_trigger_tooltip = {
+					tooltip = uzh_path_presov_split_req_tt
+					has_country_flag = uzh_presov_eparchy_established
+				}
+			}
+		}
+	}
+	modifiers = {
+		tolerance_heretic = 1
+		diplomatic_reputation = 1
+		church_loyalty_modifier = 0.1
+		max_absolutism = -3
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 1
+	}
+}

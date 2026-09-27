@@ -583,3 +583,106 @@ hlc_halych_metropolitanate_reform = {
 	}
 	legacy_equivalent = theocratic_government
 }
+
+# =============================================================================
+# The see's own two later chapters, both optional and both independent of one
+# another - neither requires the other, since they answer to different
+# centuries and different pressures. decisions/HLCMetropolitanatePaths.txt
+# gates each on the country's own standing with its patriarch or Rome.
+# =============================================================================
+
+hlc_halych_synodal_confirmation_reform = {
+	icon = "conciliarism_reform"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	potential = {
+		OR = {
+			has_reform = hlc_halych_synodal_confirmation_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				has_reform = hlc_halych_metropolitanate_reform
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_halych_synodal_confirmation_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				has_reform = hlc_halych_metropolitanate_reform
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_confirmed_metropolitanate_req_tt
+					hlc_has_confirmed_metropolitanate_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		tolerance_own = 1
+		global_missionary_strength = 0.01
+		prestige = 1
+		max_absolutism = -3
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	legacy_equivalent = theocratic_government
+	# Real anchor: Constantinople opened the Halych see in 1303, closed it
+	# within a few years, reopened it under Yurii II Boleslav around 1332, and
+	# closed it again - until Patriarch Philotheos Kokkinos's 1370-71 tomos,
+	# pressed for by Casimir III and Louis I, confirmed Antony as Metropolitan
+	# of Halych against Kyiv's and Moscow's standing claim to the whole Rus
+	# church. This reform is that confirmation, re-earned rather than assumed.
+}
+
+hlc_lviv_uniate_synod_reform = {
+	icon = "papal_embassy_reform"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	potential = {
+		OR = {
+			has_reform = hlc_lviv_uniate_synod_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				religion = greek_catholic
+				has_reform = hlc_halych_metropolitanate_reform
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_lviv_uniate_synod_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				religion = greek_catholic
+				has_reform = hlc_halych_metropolitanate_reform
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_lviv_union_req_tt
+					hlc_has_lviv_union_synod_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		tolerance_heretic = 1
+		global_missionary_strength = 0.01
+		diplomatic_reputation = 1
+		max_absolutism = -3
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	legacy_equivalent = theocratic_government
+	# Real anchor: the Halych see's eventual successor, the Lviv eparchy, was
+	# the last major Ruthenian see in the Commonwealth to accept Rome - Bishop
+	# Yosyf Shumliansky converted quietly from the 1670s, declared it publicly
+	# in 1700, and Rome received the eparchy's union in 1708-09, more than a
+	# century after Brest. decisions/GreekCatholicDecisions.txt still governs
+	# whether the country's religion itself becomes greek_catholic; this
+	# reform is the see's own synod joining that settlement, not the act of
+	# state conversion.
+}

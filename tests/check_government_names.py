@@ -44,7 +44,7 @@ def require_order(
 def check_priority(failures: list[str], text: str) -> None:
     entries = re.findall(r"(?m)^([A-Za-z0-9_]+)\s*=\s*\{", text)
     order = positions(text)
-    require(failures, len(entries) == 63, f"expected 63 blocks, found {len(entries)}")
+    require(failures, len(entries) == 64, f"expected 64 blocks, found {len(entries)}")
     require(
         failures,
         len(order) == len(entries),
@@ -460,7 +460,7 @@ def main() -> int:
 
     print(
         "GOVERNMENT NAME CHECK: PASS "
-        "(63 blocks; priority, reachability, lifecycle, and title contracts hold)"
+        "(64 blocks; priority, reachability, lifecycle, and title contracts hold)"
     )
     return 0
 

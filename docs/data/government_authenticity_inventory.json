@@ -3182,6 +3182,62 @@
       "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
     },
     {
+      "id": "uzh_uzhhorod_seat_translation_reform",
+      "file": "RIP_UZH_government_reforms.txt",
+      "tiers": [
+        "Th2"
+      ],
+      "modifiers": {
+        "tolerance_own": "1",
+        "advisor_pool": "1",
+        "global_missionary_strength": "0.01",
+        "max_absolutism": "-3"
+      },
+      "features": [
+        "custom_attributes"
+      ],
+      "audit": "numeric_bundle_reduced",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "Th2": [
+          "internal_mission_reform"
+        ]
+      },
+      "comparator_role": "Внутрішня консолідація кафедри (перенесення осідку до Ужгорода 1778 року) як опора того самого reform_levels-слоту",
+      "comparator_role_match": "часткова",
+      "comparator_limit": "У Th2 немає тотожного дублера перенесення осідку єпархії; зіставлено внутрішньоцерковний фокус тієї ж reform_levels-групи, як і в hlc_halych_synodal_confirmation_reform.",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
+      "id": "uzh_presov_eparchy_reform",
+      "file": "RIP_UZH_government_reforms.txt",
+      "tiers": [
+        "Th3"
+      ],
+      "modifiers": {
+        "tolerance_heretic": "1",
+        "diplomatic_reputation": "1",
+        "church_loyalty_modifier": "0.1",
+        "max_absolutism": "-3"
+      },
+      "features": [
+        "custom_attributes"
+      ],
+      "audit": "numeric_bundle_reduced",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "Th3": [
+          "education_of_the_missionaries_reform"
+        ]
+      },
+      "comparator_role": "Розширення церковної структури (виділення Пряшівської єпархії 1818 року) як опора того самого reform_levels-слоту",
+      "comparator_role_match": "часткова",
+      "comparator_limit": "У Th3 немає тотожного дублера виділення суфраганної єпархії; зіставлено місіонерський фокус тієї ж reform_levels-групи, як і в hlc_lviv_uniate_synod_reform.",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
       "id": "hlc_boyar_republic_reform",
       "file": "RIP_HLC_government_reforms.txt",
       "tiers": [
@@ -3262,6 +3318,62 @@
       },
       "comparator_role": "Галицький митрополит як світський голова держави замість князя",
       "comparator_role_match": "відповідна",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
+      "id": "hlc_halych_synodal_confirmation_reform",
+      "file": "RIP_HLC_government_reforms.txt",
+      "tiers": [
+        "Th2"
+      ],
+      "modifiers": {
+        "tolerance_own": "1",
+        "global_missionary_strength": "0.01",
+        "prestige": "1",
+        "max_absolutism": "-3"
+      },
+      "features": [
+        "custom_attributes"
+      ],
+      "audit": "numeric_bundle_reduced",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "Th2": [
+          "internal_mission_reform"
+        ]
+      },
+      "comparator_role": "Внутрішня дисципліна й лояльність кліру як опора підтвердженої кафедри",
+      "comparator_role_match": "часткова",
+      "comparator_limit": "У Th2 немає тотожного дублера підтвердження кафедри проти суперника-патріархату; зіставлено вужчий внутрішньоцерковний фокус тієї ж reform_levels-групи.",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
+      "id": "hlc_lviv_uniate_synod_reform",
+      "file": "RIP_HLC_government_reforms.txt",
+      "tiers": [
+        "Th3"
+      ],
+      "modifiers": {
+        "tolerance_heretic": "1",
+        "global_missionary_strength": "0.01",
+        "diplomatic_reputation": "1",
+        "max_absolutism": "-3"
+      },
+      "features": [
+        "custom_attributes"
+      ],
+      "audit": "numeric_bundle_reduced",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "Th3": [
+          "education_of_the_missionaries_reform"
+        ]
+      },
+      "comparator_role": "Місіонерське поширення віри як опора приєднання єпархії до ширшої церковної структури",
+      "comparator_role_match": "часткова",
+      "comparator_limit": "У Th3 немає тотожного дублера унійного приєднання єпархії; зіставлено місіонерський фокус тієї ж reform_levels-групи.",
       "quantitative_certified": false,
       "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
     },
@@ -4186,6 +4298,28 @@
         "church_privilege_slots": "1",
         "church_loyalty_modifier": "0.1",
         "tolerance_own": "1"
+      }
+    },
+    {
+      "id": "internal_mission_reform",
+      "file": "03_government_reforms_theocracies.txt",
+      "tiers": [
+        "Th2"
+      ],
+      "modifiers": {
+        "tolerance_own": "2"
+      }
+    },
+    {
+      "id": "education_of_the_missionaries_reform",
+      "file": "03_government_reforms_theocracies.txt",
+      "tiers": [
+        "Th3"
+      ],
+      "modifiers": {
+        "global_missionary_strength": "0.02",
+        "missionary_maintenance_cost": "-0.5",
+        "max_absolutism": "5"
       }
     },
     {
