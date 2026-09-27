@@ -13,7 +13,7 @@ DATA={
   "rip_church.5.t": "The Florentine Settlement Endures",
   "rip_church.5.d": "Our negotiated settlement has sustained a union that historically failed to gain lasting general acceptance. This is an alternative historical path: the Byzantine rite and its bishops remain, while communion with Rome is accepted. Parish integration will proceed locally.",
   "rip_church.6.t": "The Institutions of Communion",
-  "rip_church.6.d": "Only one ten-year privilege may operate at a time. Eastern institutions draw on internal church authority; Roman support draws on Papal Standing. All options cost money. The position of Communion Balance determines which instruments are available.",
+  "rip_church.6.d": "Eastern institutions draw on internal church authority; Roman petitions draw on Papal Standing. One ten-year local synod institution may coexist with one separate Curia petition. Communion Balance determines which instruments are available.",
   "rip_church_recognition_refuse": "Claim an independent universal church — alternative history",
   "rip_church_nodes.1.t": "Fund the Missionary Network",
   "rip_church_nodes.1.d": "Register an eligible node, then select Missionary Network in its native merchant policies. Registration prepays 2 Fervor and reserves 2 Fervor each month until closed, even if a different trade policy is selected. Each node needs a merchant, 50% trade power, a controlled core parish with a temple connected to the capital's Muscovite church, and neighbouring missionary targets. One node is allowed; the schismatic branch allows two.",
@@ -516,11 +516,11 @@ DATA.update({
 })
 DATA.update({
  'rip_church_privileges_button': 'Synod',
- 'rip_church_privileges_button_tt': 'Convene the local Greek Catholic synod. Choose Eastern infrastructure or a compact protecting local rites. These use Patriarch Authority and ducats, and share one ten-year privilege slot with papal petitions. Opening the menu is free.\\nCurrent institution: [Root.GetChurchLocalInstitution]',
+ 'rip_church_privileges_button_tt': 'Convene the local Greek Catholic synod. Choose Eastern infrastructure or a compact protecting local rites. These use Patriarch Authority and ducats, and occupy a separate local ten-year slot. One Curia petition may run at the same time. Opening the menu is free.\\nCurrent institution: [Root.GetChurchLocalInstitution]',
  'rip_church_gc_native_privileges_button': 'Synod',
  'rip_church_gc_native_privileges_button_tt': 'Choose an institution of the Greek Catholic hierarchy. The picture shows the active local institution; these are not Orthodox icon bonuses. Opening the synod is free.\\nCurrent institution: [Root.GetChurchLocalInstitution]',
  'rip_church.6.t': 'The Local Synod',
- 'rip_church.6.d': 'Our Eastern hierarchy can organize church infrastructure or agree protections for the rites of its parishes. These institutions spend Patriarch Authority and ducats. Only one church privilege may operate at a time, including petitions granted by Rome. Each lasts ten years.\\n\\nCurrent institution: [Root.GetChurchLocalInstitution]\\nPapal petitions are available in the Curia tab of the church panel.',
+ 'rip_church.6.d': 'Our Eastern hierarchy can organize church infrastructure or agree protections for the rites of its parishes. These local institutions spend Patriarch Authority and ducats and share a separate ten-year synod slot. One bounded Curia petition may operate at the same time; only one Curia petition can be active.\\n\\nCurrent local institution: [Root.GetChurchLocalInstitution]\\nPapal petitions are available in the Curia tab of the church panel.',
  'rip_church_gc_curia_heading': 'The Holy See and the Union',
  'rip_church_gc_curia_status': '[Root.GetChurchCuriaStatus]',
  'rip_church_gc_curia_good': 'In communion with Rome',
@@ -547,7 +547,9 @@ DATA.update({
  'rip_church_gc_donation_wait': 'Wait five years after the last donation',
  'rip_church_gc_donation_blocked': 'Donation requirements are not met',
  'rip_church_gc_donation_opinion': 'Donation from an Eastern Catholic church',
- 'rip_church_gc_local_reserved': 'The common slot is reserved by a papal petition',
+ 'rip_church_opinion_gc_deputation': 'Audience by an Eastern Catholic deputation',
+ 'rip_church_opinion_gc_donation': 'Donation from an Eastern Catholic church',
+ 'rip_church_gc_local_reserved': 'A local synod institution is already active',
  'rip_church_gc_church_tax': 'Papal licence for church revenues',
  'desc_rip_church_gc_church_tax': 'A ten-year curial privilege: +10% national tax and -5% building cost.',
  'rip_church_gc_blessing': 'Papal blessing of the Union',
@@ -557,9 +559,9 @@ DATA.update({
  'rip_church_gc_holy_war': 'Papal support for the war effort',
  'desc_rip_church_gc_holy_war': 'A ten-year curial privilege: +7.5% manpower recovery and -2.5% land maintenance.',
  'rip_church_gc_saint': 'Recognition of a local saint',
- 'desc_rip_church_gc_saint': 'The petition granted +1 stability immediately. It reserves the common church privilege slot for ten years and gives no additional ongoing bonus.',
+ 'desc_rip_church_gc_saint': 'The petition granted +1 stability immediately. It reserves the Curia petition slot for ten years and gives no additional ongoing bonus.',
  'rip_church_gc_monopoly': 'Papal commercial charter',
- 'desc_rip_church_gc_monopoly': 'The petition granted +1 mercantilism immediately. It reserves the common church privilege slot for ten years and gives no additional ongoing bonus.',
+ 'desc_rip_church_gc_monopoly': 'The petition granted +1 mercantilism immediately. It reserves the Curia petition slot for ten years and gives no additional ongoing bonus.',
 })
 for page in ('union','curia'):
  for tab in ('union','curia'):
@@ -569,16 +571,23 @@ for page in ('union','curia'):
 for key,label,payload in (
  ('church_tax','Church tax','+10% national tax; -5% building cost.'),
  ('blessing','Blessing','+1 yearly prestige; +5% army morale.'),
- ('indulgence','Indulgence','+1 yearly legitimacy for a monarchy; otherwise +1 yearly prestige. Move balance 10 toward Rome.'),
- ('saint','Local saint','Gain +1 stability now. Requires stability below +3. The privilege slot remains reserved for ten years.'),
+ ('indulgence','Indulgence','+1 yearly legitimacy or devotion; +0.2 yearly republican tradition; +5% improve relations.'),
+ ('saint','Local saint','Gain +1 stability now. Requires stability below +3. The Curia petition slot remains reserved for ten years.'),
  ('usury','Usury','-0.25 interest; +0.05 yearly inflation reduction; -0.02 yearly corruption.'),
  ('holy_war','Holy war','+7.5% manpower recovery; -2.5% land maintenance. Requires an ongoing war.'),
- ('legate','Papal legate','+1 diplomatic reputation; +10% improve relations. Requires Roman orientation. Move balance 10 toward Rome.'),
- ('monopoly','Trade charter','Gain +1 mercantilism now. Requires mercantilism below 100. The privilege slot remains reserved for ten years.'),
+ ('legate','Papal legate','+1 diplomatic reputation; +10% improve relations.'),
+ ('monopoly','Trade charter','Gain +1 mercantilism now. Requires mercantilism below 100. The Curia petition slot remains reserved for ten years.'),
 ):
  name='rip_church_gc_petition_'+key
  cost=60 if key=='saint' else 30
- tip=f'{payload}\\nCosts {cost} Papal Standing and 100 ducats. One common church privilege at a time, for ten years. Requires balanced or Roman orientation, the Catholic Papal State, peace with it and its opinion of us at least +50.'
+ tip=f'{payload}\\nCosts {cost} Papal Standing and 100 ducats. One Curia petition at a time, for ten years; one local synod institution can coexist. Requires communion balance at least -40, a Catholic Papal State at peace, and its opinion of us at least +50.'
+ DATA[name]=label
+ DATA['desc_'+name]=(
+  'The ten-year Curia petition granted +1 stability immediately; its slot remains reserved for the full term.'
+  if key=='saint' else
+  'The ten-year Curia petition granted +1 mercantilism immediately; its slot remains reserved for the full term.'
+  if key=='monopoly' else
+  'A ten-year Curia petition: '+payload)
  DATA[name+'_label']=label
  DATA[name+'_label_tt']=tip
  DATA[name+'_button_tt']='§Y'+label+'§!\\n'+tip
@@ -628,7 +637,7 @@ DATA.update({
  'rip_church_gui_slot_free':'Shared privilege: §G0 / 1§!',
  'rip_church_gui_slot_used':'Shared privilege: §Y1 / 1§!',
  'rip_church_gui_slot_patron':'Catholic patron: local GC slot unavailable',
- 'rip_church_gui_slot_state_tt':'The local synod and all eight Roman petitions share one ten-year slot. A saint or trade charter gives an immediate reward but reserves the slot for ten years. Opening menus never pays for a privilege.',
+ 'rip_church_gui_slot_state_tt':'Eastern infrastructure and coexistence share one ten-year local synod slot. One Curia petition may operate at the same time, but Curia petitions share their own ten-year slot. A saint or trade charter gives an immediate reward but reserves the Curia slot. Opening menus never pays for an institution or petition.',
  'rip_church_gui_active_institution':'Active institution\\n§H[Root.GetChurchPrivilege]§!',
  'rip_church_gui_synod':'Local synod',
  'rip_church_gui_ecumenism':'Ecumenism',
@@ -670,26 +679,16 @@ for page in ('union','curia','parishes'):
  for tab in ('union','curia','parishes'):
   key=f'rip_church_gc_{tab}_tab_{page}'
   DATA[key]=tab.title()
-  DATA[key+'_tt']={'union':'Communion policy; Catholic patrons return to their Union paths.', 'curia':'Papal relations and paid petitions for a Greek Catholic state.', 'parishes':'Recognized Eastern and Latin rites, consent, centre network and the shared privilege.'}[tab]
+  DATA[  key+'_tt']={'union':'Communion policy; Catholic patrons return to their Union paths.', 'curia':'Papal relations and paid petitions for a Greek Catholic state.', 'parishes':'Recognized Eastern and Latin rites, consent, centre network and separate local synod and Curia petition slots.'}[tab]
 for key in list(DATA):
  if key.startswith('rip_church_gui_') and not key.endswith('_tt'): DATA.setdefault(key+'_tt',DATA[key])
 for key in ('rip_church_gc_privilege_state_tt','rip_church_gc_curia_privilege_tt'): DATA[key]=DATA['rip_church_gui_slot_state_tt']
 
-# The September simplification removed the global conversion centre, numerical
-# Communion/Standing resources, Curia petitions, donations and their GUI.
-retired_fragments=(
- 'communion','standing','curia','petition','donat','center','centre','network',
- 'union_ring','latin_consent','course_range','policy_cost','policy_label',
- 'east_button','rome_button','papal_support','legate','dynastic','gc_prestige',
- 'church_tax','blessing','usury','holy_war','saint','monopoly','controller_shield',
- 'pope_shield','province_ring','province_union_access','patron_network')
-for key in list(DATA):
- if any(fragment in key.lower() for fragment in retired_fragments): del DATA[key]
 DATA.update({
- 'rip_church.6.d':'The Eastern hierarchy may organize church infrastructure or conclude a compact protecting recognized local rites. Both are local synodal institutions, spend Patriarch Authority and ducats, and last ten years. Only one may operate at a time.',
+ 'rip_church.6.d':'The Eastern hierarchy may organize church infrastructure or conclude a compact protecting recognized local rites. Both are local synodal institutions, spend Patriarch Authority and ducats, and share a separate ten-year slot. One Curia petition may operate at the same time; only one Curia petition can be active.',
  'rip_church_gc_heading':'THE UNION OF THE CHURCHES',
  'rip_church_gc_resources':'Eastern hierarchy in communion with Rome\\nLocal rites are managed parish by parish',
- 'rip_church_gc_resources_tt':'The main religion window shows Patriarch Authority. This panel has no Communion Balance or accumulated Papal Standing resource.',
+ 'rip_church_gc_resources_tt':'The main religion window shows Patriarch Authority. Local agreements are tracked separately for each recognized parish.',
  'rip_church_gui_parishes_title':'Recognized parishes',
  'rip_church_gui_parish_counts':'Recognized Eastern parishes: §Y[Root.rip_church_gui_eastern_parishes.GetValue]§!\\nRecognized Latin parishes: §Y[Root.rip_church_gui_latin_parishes.GetValue]§!',
  'rip_church_gui_parish_counts_tt':'Counts only our provinces and refreshes monthly. Recognition preserves the province religion and grants local autonomy. Select an owned province to recognize or revoke its rite.',
@@ -697,7 +696,7 @@ DATA.update({
  'rip_church_gui_slot_state':'[Root.GetChurchSlotState]',
  'rip_church_gui_slot_free':'Synodal institution: §G0 / 1§!',
  'rip_church_gui_slot_used':'Synodal institution: §Y1 / 1§!',
- 'rip_church_gui_slot_state_tt':'Infrastructure and coexistence share one ten-year local synodal slot. Opening the synod is free.',
+ 'rip_church_gui_slot_state_tt':'Infrastructure and coexistence share one ten-year local synod slot. One Curia petition can coexist, with its own one-at-a-time ten-year slot. Opening the synod is free.',
  'rip_church_gui_active_institution':'Active institution\\n§H[Root.GetChurchPrivilege]§!',
  'rip_church_gui_synod':'Local synod',
  'rip_church_gui_synod_tt':'Choose Eastern infrastructure or a compact protecting recognized local rites. These use Patriarch Authority and ducats and last ten years.',
@@ -708,9 +707,91 @@ DATA.update({
  'rip_church_gui_patron_active':'§GCatholic patronage is established§!\\nThe state remains Catholic; parish changes require explicit events or decisions.',
  'rip_church_gui_patron_inactive':'Patronage has not been established',
  'rip_church_gui_sponsor_tt':'From 1596, pay §Y100 ADM, 100 DIP and one year of income§! to support the Union while remaining Catholic. Requires peace, stability +1, PAP without war, and a qualifying Orthodox core parish. One eligible parish becomes Greek Catholic.',
+ 'rip_church_gc_curia_heading':'The Holy See and the Union',
+ 'rip_church_gc_curia_status':'[Root.GetChurchCuriaStatus]',
+ 'rip_church_gc_curia_good':'In communion with Rome',
+ 'rip_church_gc_curia_cold':'Roman support requires better relations',
+ 'rip_church_gc_curia_war':'At war with the Papal State',
+ 'rip_church_gc_curia_absent':'The Catholic Papal State is absent',
+ 'rip_church_gc_rome_resources':'Papal opinion: [Root.GetChurchPapalOpinion]\\nStanding: §Y[Root.rip_church_papal_standing.GetValue] / 100§!\\nMonthly growth: [Root.GetChurchCuriaRate]',
+ 'rip_church_gc_opinion_value':'§Y[Root.rip_church_papal_opinion.GetValue]§!',
+ 'rip_church_gc_opinion_negative':'§R[Root.rip_church_papal_opinion.GetValue]§!',
+ 'rip_church_gc_opinion_absent':'Unavailable',
+ 'rip_church_gc_rate_paused':'Paused',
+ 'rip_church_gc_controller_label':'Current Curia controller',
+ 'rip_church_gc_controller_name':'[rip_church_gc_controller.GetName]',
+ 'rip_church_gc_controller_none':'No current controller',
+ 'rip_church_gc_petitions_title':'Papal petitions',
+ 'rip_church_gc_curia_privilege':'Active Curia petition\\n§H[Root.GetChurchCuriaPrivilege]§!',
+ 'rip_church_gc_donate_button_tt':'Donate §Y100 ducats§! for §G+10 Papal Standing§! and +25 Papal opinion, decaying by 5 per year. Once every five years; requires a Catholic Papal State at peace with us and at most 90 Standing. With Emperor, half enters the Curia Treasury and half the Papal State; otherwise all 100 ducats go to the Papal State. This grants no vote or invested papal influence.',
+ 'rip_church_gc_donation_cost':'§Y100 ducats§!\\n§G+10 Standing§!\\n§G+25 Papal opinion§!',
+ 'rip_church_gc_deputation_button':'Eastern deputation',
+ 'rip_church_gc_deputation_button_tt':'Send an Eastern deputation to the Holy See. Costs §Y50 ducats§! and §Y10 Patriarch Authority§!, grants +5 Papal Standing and +10 Papal opinion (decays by 2 yearly). Once every five years. This is diplomatic access only: it appoints no cardinal, casts no Curia vote, and changes no papal election.',
+ 'rip_church_gc_deputation_note':'§Y50¤ / 10 PA§!\\nFive-year interval; no vote',
+ 'rip_church_gc_icons_title':'Eastern devotional icons',
+ 'rip_church_gc_icons_note':'One icon at a time · §Y20 PA§! · five years',
+ 'rip_church_gc_icon_liturgy_button':'Liturgy',
+ 'rip_church_gc_icon_liturgy_button_tt':'Activate the icon of the Divine Liturgy for five years. Costs §Y20 Patriarch Authority§!. +0.5 yearly prestige. Only one Greek Catholic icon can be active.',
+ 'rip_church_gc_icon_liturgy_state':'Liturgy',
+ 'rip_church_gc_icon_learning_button':'Learning',
+ 'rip_church_gc_icon_learning_button_tt':'Activate the icon of Eastern learning for five years. Costs §Y20 Patriarch Authority§!. −5% development cost. Only one Greek Catholic icon can be active.',
+ 'rip_church_gc_icon_learning_state':'Learning',
+ 'rip_church_gc_icon_charity_button':'Almsgiving',
+ 'rip_church_gc_icon_charity_button_tt':'Activate the icon of almsgiving for five years. Costs §Y20 Patriarch Authority§!. −0.5 national unrest. Only one Greek Catholic icon can be active.',
+ 'rip_church_gc_icon_charity_state':'Almsgiving',
+ 'rip_church_gc_curia_vote_disclaimer':'Greek Catholic deputations and petitions do not confer cardinalship, electoral votes or control of the Catholic Curia.',
  'rip_church_rite_help':'Recognition costs §Y1 ADM per current development§!, preserves the local confession, removes its religious-unity penalty and reduces direct taxation and recruitment. It lasts at least ten years. Revocation causes ten years of unrest.',
  'rip_church_rite_help_tt':'Recognition is local autonomy, not automatic conversion. Orthodox, Muscovite Orthodox and Latin parishes are counted separately in the country panel.',
 })
+DATA['rip_church_gc_curia_privilege_tt']='One Curia petition at a time; it can coexist with one local synod institution. Both slots last ten years.'
+DATA['rip_church_gc_curia_vote_disclaimer_tt']=DATA['rip_church_gc_curia_vote_disclaimer']
+for key in ('icons_title','icons_note','deputation_note',
+            'icon_liturgy_state','icon_learning_state','icon_charity_state'):
+ DATA['rip_church_gc_'+key+'_tt']=DATA['rip_church_gc_'+key]
+DATA['rip_church_gc_donate_button_tt']+='\\n[Root.GetChurchDonationState]'
+DATA['rip_church_gc_donation_cost_tt']=DATA['rip_church_gc_donate_button_tt']
+# Retired mechanics must not leave visible labels or scripted localization.
+retired_fragments=(
+ 'communion','standing','curia','petition','donat','center','centre','network',
+ 'union_ring','latin_consent','course_range','policy_cost','policy_label',
+ 'east_button','rome_button','papal_support','legate','dynastic','gc_prestige',
+ 'church_tax','indulgence','usury','holy_war','controller_shield','pope_shield',
+ 'province_ring','province_union_access','patron_network')
+retired_prefixes=(
+ 'rip_church_gc_balance_', 'rip_church_gc_rome_resources',
+ 'rip_church_gc_local_reserved', 'rip_church_gc_privilege_state',
+ 'rip_church_gui_parishes_heading', 'rip_church_union_seat',
+ 'rip_church_gc_middle', 'rip_church_gc_east', 'rip_church_gc_rome',
+ 'rip_church_ecumenism_button', 'rip_church_privileges_button')
+live_curia_keys={
+ 'rip_church_gc_curia_heading','rip_church_gc_curia_heading_tt',
+ 'rip_church_gc_curia_status','rip_church_gc_curia_status_tt',
+ 'rip_church_gc_curia_good','rip_church_gc_curia_cold',
+ 'rip_church_gc_curia_war','rip_church_gc_curia_absent',
+ 'rip_church_gc_curia_privilege','rip_church_gc_curia_privilege_tt',
+ 'rip_church_gc_curia_vote_disclaimer','rip_church_gc_curia_vote_disclaimer_tt','rip_church_gc_petitions_title',
+ 'rip_church_gc_petitions_title_tt','rip_church_gc_rome_resources',
+ 'rip_church_gc_rome_resources_tt','rip_church_gc_opinion_value',
+ 'rip_church_gc_opinion_negative','rip_church_gc_opinion_absent',
+ 'rip_church_gc_rate_paused','rip_church_gc_donate_label',
+ 'rip_church_gc_donate_button_tt','rip_church_gc_donation_cost',
+ 'rip_church_gc_donation_cost_tt','rip_church_gc_donation_state',
+ 'rip_church_gc_donation_ready','rip_church_gc_donation_wait',
+ 'rip_church_gc_donation_blocked','rip_church_gc_controller_label',
+ 'rip_church_gc_controller_label_tt','rip_church_gc_controller_name',
+ 'rip_church_gc_controller_none','rip_church_gc_pope_shield_tt',
+ 'rip_church_gc_controller_shield_tt','rip_church_opinion_gc_donation',
+}
+def keep_live_curia_key(key):
+ if key in live_curia_keys: return True
+ if re.fullmatch(r'(?:desc_)?rip_church_gc_petition_(?:church_tax|blessing|indulgence|saint|usury|holy_war|legate|monopoly)(?:_(?:label|label_tt|button_tt))?',key):
+  return True
+ if re.fullmatch(r'rip_church_gc_(?:union|curia|parishes)_tab_(?:union|curia|parishes)(?:_tt)?',key):
+  return True
+ return False
+for key in list(DATA):
+ if (any(fragment in key.lower() for fragment in retired_fragments) or key.startswith(retired_prefixes)) and not keep_live_curia_key(key):
+  del DATA[key]
 for key in list(DATA):
  if key.startswith('rip_church_gui_') and not key.endswith('_tt'): DATA.setdefault(key+'_tt',DATA[key])
 
@@ -735,6 +816,32 @@ custom+=defined('GetChurchPrivilege',[(f'has_country_modifier = rip_church_gc_{k
 custom+=defined('GetChurchLocalInstitution',[
  ('has_country_modifier = rip_church_gc_infrastructure','rip_church_gc_infrastructure'),
  ('has_country_modifier = rip_church_gc_coexistence','rip_church_gc_coexistence'),
+ ('always = yes','rip_church_none')])
+custom+=defined('GetChurchCuriaStatus',[
+ ('NOT = { rip_church_gc_rome_present = yes }','rip_church_gc_curia_absent'),
+ ('war_with = PAP','rip_church_gc_curia_war'),
+ ('PAP = { has_opinion = { who = ROOT value = 50 } }','rip_church_gc_curia_good'),
+ ('always = yes','rip_church_gc_curia_cold')])
+custom+=defined('GetChurchPapalOpinion',[
+ ('rip_church_gc_rome_present = yes NOT = { check_variable = { which = rip_church_papal_opinion value = 0 } }','rip_church_gc_opinion_negative'),
+ ('rip_church_gc_rome_present = yes','rip_church_gc_opinion_value'),
+ ('always = yes','rip_church_gc_opinion_absent')])
+custom+=defined('GetChurchCuriaRate',[
+ ('NOT = { rip_church_gc_rome_present = yes }','rip_church_gc_rate_paused'),
+ ('war_with = PAP','rip_church_gc_rate_paused'),
+ ('NOT = { PAP = { has_opinion = { who = ROOT value = 50 } } }','rip_church_gc_rate_paused'),
+ ('NOT = { check_variable = { which = rip_church_communion value = -40.001 } }','rip_church_standing_rate_east'),
+ ('check_variable = { which = rip_church_communion value = 40.001 }','rip_church_standing_rate_rome'),
+ ('always = yes','rip_church_standing_rate_middle')])
+custom+=defined('GetChurchCuriaController',[
+ ('has_global_flag = rip_church_gc_controller_known event_target:rip_church_gc_controller = { is_papal_controller = yes }','rip_church_gc_controller_name'),
+ ('always = yes','rip_church_gc_controller_none')])
+custom+=defined('GetChurchDonationState',[
+ ('rip_church_gc_can_donate = yes','rip_church_gc_donation_ready'),
+ ('had_country_flag = { flag = rip_church_gc_donated days = 1825 }','rip_church_gc_donation_wait'),
+ ('always = yes','rip_church_gc_donation_blocked')])
+custom+=defined('GetChurchCuriaPrivilege',[
+ (f'has_country_modifier = rip_church_gc_petition_{key}',f'rip_church_gc_petition_{key}_label') for key in ('church_tax','blessing','indulgence','saint','usury','holy_war','legate','monopoly')]+[
  ('always = yes','rip_church_none')])
 custom+=defined('GetChurchRiteStatus',[
  ('has_province_flag = rip_church_rite_recognized','rip_church_rite_recognized'),

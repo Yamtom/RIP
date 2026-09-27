@@ -36,6 +36,7 @@ rip_church_ro_isolation_effect = {
 }
 rip_church_v3_exit_effect = {
  rip_church_ro_clear_active_effect = yes rip_church_gc_clear_privilege_effect = yes
+ rip_church_gc_clear_curia_petitions_effect = yes
  rip_church_ro_isolation_effect = yes rip_church_refresh_pa_effect = yes rip_church_gc_refresh_parishes_effect = yes
  set_variable = { which = rip_church_fervor value = 0 }
  clr_country_flag = rip_church_v3_active
@@ -119,6 +120,7 @@ rip_church_retire_removed_union_mechanics_effect = {
   remove_country_modifier = rip_church_gc_holy_war
   remove_country_modifier = rip_church_gc_saint
   remove_country_modifier = rip_church_gc_monopoly
+  rip_church_gc_clear_curia_petitions_effect = yes
  }
  if = { limit = { NOT = { has_global_flag = rip_church_removed_centers_retired } }
   set_global_flag = rip_church_removed_centers_retired

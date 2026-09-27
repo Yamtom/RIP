@@ -1,0 +1,14 @@
+rip_church_gc_activate_icon_liturgy_effect = {
+ if = { limit = { rip_church_gc_can_activate_icon_liturgy = yes } add_patriarch_authority = -0.2 add_country_modifier = { name = rip_church_gc_icon_liturgy duration = 1825 } }
+}
+rip_church_gc_activate_icon_learning_effect = {
+ if = { limit = { rip_church_gc_can_activate_icon_learning = yes } add_patriarch_authority = -0.2 add_country_modifier = { name = rip_church_gc_icon_learning duration = 1825 } }
+}
+rip_church_gc_activate_icon_charity_effect = {
+ if = { limit = { rip_church_gc_can_activate_icon_charity = yes } add_patriarch_authority = -0.2 add_country_modifier = { name = rip_church_gc_icon_charity duration = 1825 } }
+}
+rip_church_gc_clear_interaction_effects = {
+ remove_country_modifier = rip_church_gc_icon_liturgy
+ remove_country_modifier = rip_church_gc_icon_learning
+ remove_country_modifier = rip_church_gc_icon_charity
+}
