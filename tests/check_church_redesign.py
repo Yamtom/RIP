@@ -158,10 +158,17 @@ for religion in ('orthodox','catholic'):
     assert sum(x['religion']=='greek_catholic' for x in w.provinces.values())==1
     assert q['religion']=='orthodox'
     assert ('rip_church_supports_union' in c['flags'])==(religion=='catholic')
+    assert 'rip_church_florentine_union' in c['flags']
+    assert 'union_of_brest_happened' not in c['flags']
+    assert 'pursuing_uniate_union' not in c['flags']
     snapshot=deepcopy(w.provinces); w.run('rip_church_complete_florence_effect',c); assert w.provinces==snapshot; checked()
 for year,eligible in [(1443,False),(1444,True),(1501,True),(1502,False)]:
     w,c,p=fixture('orthodox'); w.year=year
     assert w.gate(TRIGGERS['rip_church_can_begin_florence'],c)==eligible; checked()
+for year,enabled in [(1438,False),(1439,True),(1444,True),(1595,True)]:
+    w,c,p=fixture('orthodox'); w.year=year
+    assert w.condition('is_religion_enabled','greek_catholic',c,c,None)==enabled
+    checked()
 
 # Ecumenical eligibility includes every prerequisite and restarts after coercion.
 w,c,p=fixture('greek_catholic'); p['religion']='orthodox'; p['flags']['rip_church_rite_recognized']=0

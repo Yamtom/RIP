@@ -6,7 +6,7 @@ contract test, not the EU4 engine, a save loader or a campaign balance simulator
 from copy import deepcopy
 import re
 
-from clausewitz_testlib import ROOT, read, named_block, normalized, vanilla_root
+from clausewitz_testlib import ROOT, read, named_block, normalized, vanilla_root, keyed_blocks
 
 
 def parse(text):
@@ -109,7 +109,7 @@ class World:
             return scope['religion'] == religion
         if key == 'uses_patriarch_authority':
             return (scope['religion'] in ('orthodox', 'russian_orthodox', 'greek_catholic')) == (value == 'yes')
-        if key == 'is_religion_enabled': return self.year >= (1596 if value == 'greek_catholic' else 1448)
+        if key == 'is_religion_enabled': return self.year >= (1439 if value == 'greek_catholic' else 1448)
         if key == 'exists': return value in self.countries
         if key == 'has_owner': return (scope.get('owner') in self.countries) == (value == 'yes')
         if key == 'has_dlc': return value in scope['dlcs']
@@ -261,9 +261,10 @@ def run_cases():
                 cases += 1
     # Moscow council fuel and the sole global centre are executed in check_church_redesign.
     # A stale Brest response cannot change faith after PAP disappears or a prior signature.
-    for update in ('valid', 'no_pope', 'war_pope', 'signed', 'wrong_faith', 'poor'):
+    for update in ('valid', 'before_brest', 'no_pope', 'war_pope', 'signed', 'wrong_faith', 'poor'):
         w, c = fixture()
         c['flags']['pursuing_uniate_union'] = 0
+        if update == 'before_brest': w.year = 1595
         if update == 'no_pope': del w.countries['PAP']
         if update == 'war_pope': c['wars'].add('PAP')
         if update == 'signed': c['flags']['union_of_brest_happened'] = 0
@@ -349,8 +350,61 @@ def contracts():
         assert 'rip_faith_initialize_hierarchy_effect = yes' in named_block(read('common/religions/' + filename + '.txt'), 'on_convert')
     assert 'rip_faith_adopt_union_effect = yes' in read('common/scripted_effects/rip_uniate_crown_effects.txt')
     assert 'rip_faith_adopt_muscovite_church_effect = yes' in read('common/scripted_effects/russian_orthodox_effects.txt')
+    crown = named_block(read('common/scripted_effects/rip_uniate_crown_effects.txt'), 'rip_ucr_take_the_church_effect')
+    assert 'set_country_flag = pursuing_uniate_union' not in crown
+    assert 'set_country_flag = union_of_brest_happened' not in crown
     whitelist = named_block(read('common/religions/zz_greek_catholic.txt'), 'allowed_center_conversion')
     assert 'catholic' in whitelist and 'orthodox' in whitelist and 'russian_orthodox' in whitelist
+    gc = named_block(read('common/religions/zz_greek_catholic.txt'), 'greek_catholic')
+    assert re.search(r'(?m)^\s*date\s*=\s*1439\.7\.6\s*$', gc)
+    assert re.search(r'(?m)^\s*has_patriarchs\s*=\s*yes\s*$', gc)
+    assert re.search(r'(?m)^\s*orthodox_icons\s*=\s*\{', gc)
+    assert not re.search(r'(?m)^\s*hre_heretic_religion\s*=', gc)
+    # Internal hierarchy (native PA), Rome (two scripted country resources),
+    # and local rite (province agreement) remain independent data systems.
+    union_triggers = read('common/scripted_triggers/rip_church_union_triggers.txt')
+    union_effects = read('common/scripted_effects/rip_church_union_effects.txt')
+    assert 'which = rip_church_communion' in union_effects
+    assert 'which = rip_church_papal_standing' in union_effects
+    assert 'set_province_flag = rip_church_rite_recognized' in union_effects
+    assert 'owner = { religion = greek_catholic }' in named_block(union_triggers, 'rip_church_can_recognize_rite')
+    brest = named_block(read('decisions/GreekCatholicDecisions.txt'), 'convert_to_greek_catholic_decision')
+    assert 'is_year = 1596' in named_block(brest, 'potential')
+    brest_effect = named_block(brest, 'effect')
+    assert 'set_country_flag = pursuing_uniate_union' in brest_effect
+    assert 'set_country_flag = union_of_brest_happened' in brest_effect
+    brest_event = read('events/UniateChurch.txt')
+    assert brest_event.count('trigger = { rip_uc_can_accept_brest_trigger = yes }') == 2
+    assert brest_event.count('set_country_flag = union_of_brest_happened') == 2
+    khmelnytsky = next(block for _, block in keyed_blocks(read('events/KhmelnytskyUprisings.txt'), 'country_event')
+                       if 'id = khmelnytsky_events.7' in block)
+    assert 'is_year = 1596' in named_block(khmelnytsky, 'trigger')
+    west_events = read('events/WestUkraineHistory.txt')
+    west_union = next(block for _, block in keyed_blocks(west_events, 'country_event')
+                      if 'id = west_ukraine_history.3' in block)
+    assert 'is_year = 1596' in named_block(west_union, 'trigger')
+    west_accept = next(block for _, block in keyed_blocks(west_union, 'option')
+                       if 'name = west_ukraine_history.3.a' in block)
+    assert 'rip_faith_adopt_union_effect = yes' in west_accept
+    assert 'set_country_flag = union_of_brest_happened' in west_accept
+    assert 'provincial_uniate_resistance' in west_accept
+    assert 'change_religion = catholic' not in west_accept
+    west_resistance = named_block(west_accept, 'every_owned_province')
+    assert 'religion = orthodox' in named_block(west_resistance, 'limit')
+    assert 'change_religion' not in west_resistance
+    west_dispute = next(block for _, block in keyed_blocks(west_events, 'country_event')
+                        if 'id = west_ukraine_history.4' in block)
+    west_press = next(block for _, block in keyed_blocks(west_dispute, 'option')
+                      if 'name = west_ukraine_history.4.a' in block)
+    assert 'rip_church_historical_rome_effect = yes' in west_press
+    assert 'add_papal_influence' not in west_press
+    assert 'change_religion' not in west_press
+    assert 'has_province_flag = rip_church_rite_recognized' in named_block(west_dispute, 'trigger')
+    hierarchy_init = named_block(read('common/scripted_effects/rip_religion_settlement_effects.txt'), 'rip_faith_initialize_hierarchy_effect')
+    assert 'set_country_flag = pursuing_uniate_union' not in hierarchy_init
+    assert 'set_country_flag = union_of_brest_happened' not in hierarchy_init
+    brest_gate = dict(parse(read('common/scripted_triggers/rip_religion_settlement_triggers.txt')))['rip_uc_can_accept_brest_trigger']
+    assert ('is_year', '1596') in brest_gate
     profile = normalized(read('common/religious_conversions/zz_RIP_greek_catholic.txt'))
     assert 'rip_church_union_target = yes' in profile
     events = read('events/OrthodoxCrusade.txt')

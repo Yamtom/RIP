@@ -8,8 +8,10 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tests'))
 from clausewitz_testlib import ROOT, vanilla_root, keyed_blocks
 from church_testlib import parse
 GAME=vanilla_root()
-ap=argparse.ArgumentParser(); group=ap.add_mutually_exclusive_group(); group.add_argument('--ro',action='store_true'); group.add_argument('--curia',action='store_true'); args=ap.parse_args()
-branch='ro' if args.ro else 'gc_curia' if args.curia else 'gc'
+ap=argparse.ArgumentParser(); group=ap.add_mutually_exclusive_group()
+for option in ('ro','curia','parishes','paths','province'): group.add_argument('--'+option,action='store_true')
+args=ap.parse_args()
+branch='ro' if args.ro else 'gc_curia' if args.curia else 'gc_parishes' if args.parishes else 'union_paths' if args.paths else 'rite' if args.province else 'gc'
 loc=dict(re.findall(r'^\s+(\w+):0 "(.*)"$',(ROOT/'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'),re.M))
 sample={'Root.GetChurchGCOrientation':'Balanced communion', 'Root.rip_church_communion.GetValue':'-20',
  'Root.GetChurchBalanceValue':'§R-20§!',
@@ -25,6 +27,18 @@ sample.update({'Root.GetChurchCuriaStatus':'Roman support requires better relati
  'Root.GetChurchPapalOpinion':'§R-10§!', 'Root.GetChurchCuriaRate':'§Y+0.00§!',
  'Root.GetChurchDonationState':'Available again five years after the last donation',
  'Root.GetChurchLocalInstitution':'Agreement on coexistence'})
+sample.update({'Root.GetChurchSlotState':'Shared privilege: §Y1 / 1§!',
+ 'Root.GetChurchCoexistenceState':'§GCompact of coexistence active§!',
+ 'Root.rip_church_gui_eastern_parishes.GetValue':'999',
+ 'Root.rip_church_gui_latin_parishes.GetValue':'999',
+ 'Root.rip_church_gui_latin_consents.GetValue':'999',
+ 'Root.GetChurchNetworkScope':'Network access: §Yrings 0-4§!\\nLatin consent: §Yextended network§!',
+ 'Root.GetChurchUnionPathState':'Catholic patronage of Eastern parishes',
+ 'Root.GetChurchUnionPathIdentity':'Patronage preserves our Catholic confession.\\nAn Eastern founding parish enters the Union.',
+ 'Root.GetChurchFlorenceProgress':'Term complete: settlement conditions must hold',
+ 'Root.GetChurchRiteStatus':'The Latin parish has consented to gradual Byzantine integration.',
+ 'Root.GetChurchRiteFamily':'Latin', 'Root.GetChurchProvinceRing':'ring 4',
+ 'Root.GetChurchProvinceUnionAccess':'Network permits conversion; native range applies'})
 def resolve(key):
     return re.sub(r'\[([^]]+)\]',lambda m:sample[m[1]],loc[key]).replace('\\n','\n')
 def asset(path):
@@ -76,12 +90,12 @@ def draw_text(canvas,s,x,y,w,h,name,center=False):
             if c['width'] and c['height']: canvas.alpha_composite(glyph,(cursor+c['xoffset'],y+c['yoffset']))
             cursor+=c['xadvance']
         y+=line_height
-source=(ROOT/'interface/countryreligionview.gui').read_text()
-panel=next(block for _,block in keyed_blocks(source,'windowType') if re.search(r'name\s*=\s*"rip_church_'+branch+r'_panel"',block) and 'name = "countryreligionview"' not in block)
+source=(ROOT/('interface/provinceview.gui' if args.province else 'interface/countryreligionview.gui')).read_text()
+panel=next(block for _,block in keyed_blocks(source,'windowType') if re.search(r'\bname\s*=\s*"([^"]+)"',block)[1]=='rip_church_'+branch+'_panel')
 entries=dict(parse(panel))['windowType']
 dimensions=dict(dict(entries)['size']); panel_w,panel_h=int(dimensions['x']),int(dimensions['y'])
 canvas=Image.new('RGBA',(panel_w,panel_h),(22,30,33,255))
-sprite_paths={}
+sprite_paths={'GFX_country_religion_view_bg':'gfx/interface/defender_of_the_faith/country_religion_view_bg.dds'}
 tiles={}
 for _,block in keyed_blocks((ROOT/'interface/RIP_church_panels.gfx').read_text(),'corneredTileSpriteType'):
     d=dict(dict(parse(block))['corneredTileSpriteType']); dims=dict(d['size'])

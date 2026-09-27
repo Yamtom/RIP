@@ -122,7 +122,7 @@ class World(SettlementWorld):
         if key == 'num_of_owned_provinces_with':
             fields=dict(value)
             return sum(self.gate([(k,v) for k,v in value if k!='value'],p,root,scope) for p in self.collection('any_owned_province',scope)) >= float(fields['value'])
-        if key == 'is_religion_enabled': return self.year >= 1596 or value in getattr(self,'enabled',set())
+        if key == 'is_religion_enabled': return self.year >= (1439 if value == 'greek_catholic' else 1448) or value in getattr(self,'enabled',set())
         return super().condition(key,value,scope,root,prev)
 
     def execute(self, items, scope, root=None, prev=None):

@@ -77,7 +77,7 @@ DATA={
   "rip_church_reconcile_title": "Reconcile with the eastern patriarchates",
   "rip_church_reconcile_desc": "Costs 100 DIP and 20 Authority. Negotiations last at least five years and conclude at peace with stability 1. Universal claims are renounced; internal discontent lasts ten years.",
   "rip_church_florence_title": "Sustain the Florentine union",
-  "rip_church_florence_desc": "Alternative history, 1444–1501. Pay 200 ADM, 100 DIP and one year's income for five years of negotiations. Requires stability 2, peace and PAP opinion 100. Catholic patrons retain their state religion.",
+  "rip_church_florence_desc": "Alternative history, 1444-1501. The 1439 Florentine union is an earlier, separate path from the 1596 Union of Brest. Pay 200 ADM, 100 DIP and one year's income for five years of negotiations. Requires stability 2, peace and PAP opinion 100. The Eastern hierarchy keeps its rite while entering communion with Rome; Catholic patrons retain their state religion.",
   "rip_church_sponsor_union_title": "Sponsor an Eastern Catholic union",
   "rip_church_sponsor_union_desc": "From 1596, a Catholic crown may support an Eastern union without changing its state religion. Pay 100 ADM, 100 DIP and one year's income. One eligible core parish accepts the founding settlement; the others remain unchanged.",
   "rip_church_ecumenism_title": "Conclude the ecumenical settlement",
@@ -604,6 +604,77 @@ for key in list(DATA):
         DATA[key]='Church authority adjustment: '+str(int(match[4])*5)+'%'
         DATA['desc_'+key]='Offsets the inherited Orthodox authority bonus for this confession. Recalculated in five-point authority bands; the native Orthodox faith is unchanged.'
 
+DATA.update({
+ 'rip_church_gc_course_range':'East -100     |     Balanced -40 ... +40     |     Rome +100',
+ 'rip_church_gc_course_range_tt':'The current orientation controls access to local and Roman privileges. Monthly Standing is +0.10 / +0.25 / +0.50 only while a Catholic PAP exists, is at peace with us and has at least +50 opinion of us.',
+ 'rip_church_gc_privilege_state':'[Root.GetChurchSlotState]\\n§H[Root.GetChurchPrivilege]§!',
+ 'rip_church_gc_curia_privilege':'[Root.GetChurchSlotState]\\n§H[Root.GetChurchPrivilege]§!',
+ 'rip_church_gui_parishes_heading':'Parishes and the Centre of Union',
+ 'rip_church_gui_coexistence':'[Root.GetChurchCoexistenceState]',
+ 'rip_church_gui_coexistence_active':'§GCompact of coexistence active§!',
+ 'rip_church_gui_coexistence_ecumenical':'§GEcumenical settlement recognized§!',
+ 'rip_church_gui_coexistence_local':'Local rites retain their own agreements',
+ 'rip_church_gui_parish_counts':'Recognized Eastern parishes: §Y[Root.rip_church_gui_eastern_parishes.GetValue]§!\\nRecognized Latin parishes: §Y[Root.rip_church_gui_latin_parishes.GetValue]§!\\nLatin consent to conversion: §Y[Root.rip_church_gui_latin_consents.GetValue]§!',
+ 'rip_church_gui_parish_counts_tt':'Counts only our provinces; refreshed on opening this tab and monthly. Recognition preserves the province religion and excludes it from Union conversion. Latin consent is a separate paid permission for gradual conversion. Select an owned province to recognize, revoke or grant consent.',
+ 'rip_church_gui_network_title':'One shared Centre of Union',
+ 'rip_church_gui_network_scope':'[Root.GetChurchNetworkScope]',
+ 'rip_church_gui_network_normal':'Network access: §Yrings 0-2§!\\nLatin consent: §Yring 0 only§!',
+ 'rip_church_gui_network_extended':'Network access: §Yrings 0-4§!\\nLatin consent: §Yextended network§!',
+ 'rip_church_gui_network_none':'No active network\\nEstablish or restore the shared Union seat',
+ 'rip_church_gui_network_scope_tt':'Rings are connected areas, bridged by existing Greek Catholic parishes. The native centre also checks its 150 distance limit. Nearby Eastern targets have higher weights; Latin targets need explicit consent and have lower base priority. Recognized rites are excluded. Occupation suspends the centre while retaining the one world slot.',
+ 'rip_church_gui_found_center':'Establish Union seat',
+ 'rip_church_gui_found_center_tt':'Pay §Y100 ADM and one year of income§! to establish the sole Centre of Union. Requires peace, stability +1, an eligible controlled Greek Catholic core with development 10 and a temple or cathedral. An occupied centre still reserves the world slot. Founding cooldown: twenty years.',
+ 'rip_church_gui_slot_state':'[Root.GetChurchSlotState]',
+ 'rip_church_gui_slot_free':'Shared privilege: §G0 / 1§!',
+ 'rip_church_gui_slot_used':'Shared privilege: §Y1 / 1§!',
+ 'rip_church_gui_slot_patron':'Catholic patron: local GC slot unavailable',
+ 'rip_church_gui_slot_state_tt':'The local synod and all eight Roman petitions share one ten-year slot. A saint or trade charter gives an immediate reward but reserves the slot for ten years. Opening menus never pays for a privilege.',
+ 'rip_church_gui_active_institution':'Active institution\\n§H[Root.GetChurchPrivilege]§!',
+ 'rip_church_gui_synod':'Local synod',
+ 'rip_church_gui_ecumenism':'Ecumenism',
+ 'rip_church_gui_paths_heading':'Paths to the Union',
+ 'rip_church_gui_path_status':'[Root.GetChurchUnionPathState]',
+ 'rip_church_gui_path_orthodox':'Orthodox acceptance of the Union',
+ 'rip_church_gui_path_catholic':'Catholic patronage of Eastern parishes',
+ 'rip_church_gui_path_patron':'§GCatholic patron of the Union§!',
+ 'rip_church_gui_path_identity':'[Root.GetChurchUnionPathIdentity]',
+ 'rip_church_gui_identity_orthodox':'State acceptance changes our confession.\\nExisting parish rites require separate agreements.',
+ 'rip_church_gui_identity_catholic':'Patronage preserves our Catholic confession.\\nAn Eastern founding parish enters the Union.',
+ 'rip_church_gui_paths_title':'Negotiations and settlement',
+ 'rip_church_gui_florence':'Florentine negotiations',
+ 'rip_church_gui_florence_tt':'Begin the early route in 1444-1501: §Y200 ADM, 100 DIP and one year of income§!. Requires peace, stability +2, PAP opinion +100 and an eligible Orthodox core parish. After five years, peace, stability and relations are checked again. Orthodox acceptance changes state faith; Catholic completion grants patronage and one founding parish. One attempt.',
+ 'rip_church_gui_adopt':'Accept the Union',
+ 'rip_church_gui_adopt_tt':'Conclude the later Orthodox state route from 1596, paying §Y100 ADM and 100 DIP§!. Uses exactly the current national decision gates: regional state, enabled faith, peace, stability, Catholic contact or union pressure, and qualifying Orthodox parishes. Catholic countries cannot use this action.',
+ 'rip_church_gui_sponsor':'Sponsor the Union',
+ 'rip_church_gui_sponsor_tt':'From 1596, pay §Y100 ADM, 100 DIP and one year of income§! to support the Union while remaining Catholic. Requires peace, stability +1, PAP without war, and a qualifying Orthodox core parish. One eligible parish becomes Greek Catholic. This does not create a centre for free.',
+ 'rip_church_gui_path_progress':'[Root.GetChurchFlorenceProgress]',
+ 'rip_church_gui_florence_wait':'Florentine negotiations: five-year term underway',
+ 'rip_church_gui_florence_due':'Term complete: settlement conditions must hold',
+ 'rip_church_gui_florence_done':'§GFlorentine settlement concluded§!',
+ 'rip_church_gui_florence_none':'No Florentine negotiations in progress',
+ 'rip_church_gui_patron_network':'Parishes and Union seat',
+ 'rip_church_gui_patron_network_tt':'Open the parish and centre panel. Catholic patrons can establish the centre and grant Latin consent; the Greek Catholic synod and petitions require that state confession.',
+ 'rip_church_gui_province_network':'Rite: [Root.GetChurchRiteFamily]\\nNetwork: [Root.GetChurchProvinceRing]\\n[Root.GetChurchProvinceUnionAccess]',
+ 'rip_church_gui_rite_eastern':'Eastern', 'rip_church_gui_rite_latin':'Latin',
+ 'rip_church_gui_ring_outside':'outside the connected rings',
+ 'rip_church_gui_protected':'§GRecognized rite: protected from Union conversion§!',
+ 'rip_church_gui_access_yes':'Network permits conversion; native range applies',
+ 'rip_church_gui_access_no':'§YUnion conversion conditions are not met§!',
+ 'rip_church_gui_province_network_tt':'Recognition keeps the local confession. Latin consent permits gradual conversion and is not recognition. Rings describe the game network, not historical jurisdiction. Native distance and conversion rules still apply. Refreshes with monthly network maintenance.',
+})
+DATA['rip_church_center_button_tt']='§YCentre and parishes§!\\nOpen the network panel, review recognized rites and Latin consent, or establish the sole Centre of Union.'
+DATA['rip_church_gui_synod_tt']=DATA['rip_church_privileges_button_tt']
+DATA['rip_church_gui_ecumenism_tt']=DATA['rip_church_ecumenism_button_tt']+' The 60 Standing requirement is a threshold; this settlement does not spend it.'
+for i in range(5): DATA['rip_church_gui_ring_'+str(i)]='ring '+str(i)
+for page in ('union','curia','parishes'):
+ for tab in ('union','curia','parishes'):
+  key=f'rip_church_gc_{tab}_tab_{page}'
+  DATA[key]=tab.title()
+  DATA[key+'_tt']={'union':'Communion policy; Catholic patrons return to their Union paths.', 'curia':'Papal relations and paid petitions for a Greek Catholic state.', 'parishes':'Recognized Eastern and Latin rites, consent, centre network and the shared privilege.'}[tab]
+for key in list(DATA):
+ if key.startswith('rip_church_gui_') and not key.endswith('_tt'): DATA.setdefault(key+'_tt',DATA[key])
+for key in ('rip_church_gc_privilege_state_tt','rip_church_gc_curia_privilege_tt'): DATA[key]=DATA['rip_church_gui_slot_state_tt']
+
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()
 # Generated variable/modifier definitions may add display-only compensation IDs.
 for p in (ROOT/'common/event_modifiers').glob('RIP_church*.txt'):
@@ -677,6 +748,28 @@ for key in ('war','mercy','building','mission'):
         ('NOT = { rip_church_ro_slot_available = yes }','rip_church_icon_no_slot'),
         (f'has_country_flag = rip_church_icon_{key}_used NOT = {{ had_country_flag = {{ flag = rip_church_icon_{key}_used days = 365 }} }}','rip_church_icon_cooldown'),
         ('always = yes','rip_church_icon_can_activate')])
+custom+=defined('GetChurchSlotState',[
+ ('NOT = { religion = greek_catholic }','rip_church_gui_slot_patron'),
+ ('rip_church_gc_has_privilege = yes','rip_church_gui_slot_used'),('always = yes','rip_church_gui_slot_free')])
+custom+=defined('GetChurchCoexistenceState',[
+ ('has_country_flag = rip_church_ecumenical','rip_church_gui_coexistence_ecumenical'),
+ ('has_country_modifier = rip_church_gc_coexistence','rip_church_gui_coexistence_active'),('always = yes','rip_church_gui_coexistence_local')])
+custom+=defined('GetChurchNetworkScope',[
+ ('NOT = { any_province = { rip_church_center_alive = yes } }','rip_church_gui_network_none'),
+ ('event_target:rip_church_union_patron = { has_country_flag = rip_church_ecumenical }','rip_church_gui_network_extended'),('always = yes','rip_church_gui_network_normal')])
+custom+=defined('GetChurchUnionPathState',[
+ ('religion = orthodox','rip_church_gui_path_orthodox'),('has_country_flag = rip_church_supports_union','rip_church_gui_path_patron'),('always = yes','rip_church_gui_path_catholic')])
+custom+=defined('GetChurchUnionPathIdentity',[
+ ('religion = orthodox','rip_church_gui_identity_orthodox'),('always = yes','rip_church_gui_identity_catholic')])
+custom+=defined('GetChurchFlorenceProgress',[
+ ('has_country_flag = rip_church_florentine_union','rip_church_gui_florence_done'),
+ ('has_country_flag = rip_church_florence_pending had_country_flag = { flag = rip_church_florence_pending days = 1825 }','rip_church_gui_florence_due'),
+ ('has_country_flag = rip_church_florence_pending','rip_church_gui_florence_wait'),('always = yes','rip_church_gui_florence_none')])
+custom+=defined('GetChurchRiteFamily',[('religion = catholic','rip_church_gui_rite_latin'),('always = yes','rip_church_gui_rite_eastern')])
+custom+=defined('GetChurchProvinceRing',[(f'has_province_flag = rip_church_union_ring_{i}',f'rip_church_gui_ring_{i}') for i in range(5)]+[('always = yes','rip_church_gui_ring_outside')])
+custom+=defined('GetChurchProvinceUnionAccess',[
+ ('has_province_flag = rip_church_rite_recognized','rip_church_gui_protected'),
+ ('rip_church_union_target = yes','rip_church_gui_access_yes'),('always = yes','rip_church_gui_access_no')])
 outputs={'customizable_localization/rip_church_redesign.txt':custom}
 for lang in ('english','french','german','spanish'):
     outputs[f'localisation/replace/zzzz_RIP_church_redesign_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(f' {k}:0 "{v.replace(chr(34),chr(39))}"\n' for k,v in sorted(DATA.items()))
