@@ -18,16 +18,12 @@ on_yearly_pulse = {
 }
 
 on_bi_yearly_pulse = {
-	rip_uc_curia_migration_effect = yes
 	# The native See and paid parish visits support ordinary missionaries.
 	# Retire the duplicate free development-budget conversion engine.
 	if = {
 		limit = { religion = greek_catholic }
 		rip_faith_advance_stage_effect = yes
 	}
-
-	# Stable communion raises authority; schism/low unity reduces it.
-	rip_uc_standing_tick_effect = yes
 
 	# WHO OBJECTS.
 	# The stauropegial brotherhoods of Lviv and Vilnius, and the parishes the
@@ -49,14 +45,9 @@ on_bi_yearly_pulse = {
 }
 
 on_religion_change = {
-	rip_uc_curia_migration_effect = yes
-
 	events = {
 		uniate_church.9  # Establishment of Greek Catholic Center
 		uniate_church.12 # Establish Metropolitan See
 	}
 }
 
-on_startup = {
-	rip_uc_curia_migration_effect = yes
-}

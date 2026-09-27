@@ -1,0 +1,66 @@
+# Petitions share a Curia-only slot, independent of the local synod modifier.
+rip_church_gc_pay_curia_petition_effect = {
+	add_treasury = -100
+	change_variable = { which = rip_church_papal_standing value = -$STANDING$ }
+	add_country_modifier = { name = $MODIFIER$ duration = 3650 }
+}
+rip_church_gc_petition_church_tax_effect = {
+	if = { limit = { rip_church_gc_can_petition_church_tax = yes } rip_church_gc_pay_curia_petition_effect = { STANDING = 30 MODIFIER = rip_church_gc_petition_church_tax } }
+}
+rip_church_gc_petition_blessing_effect = {
+	if = { limit = { rip_church_gc_can_petition_blessing = yes } rip_church_gc_pay_curia_petition_effect = { STANDING = 30 MODIFIER = rip_church_gc_petition_blessing } }
+}
+rip_church_gc_petition_indulgence_effect = {
+	if = { limit = { rip_church_gc_can_petition_indulgence = yes } rip_church_gc_pay_curia_petition_effect = { STANDING = 30 MODIFIER = rip_church_gc_petition_indulgence } }
+}
+rip_church_gc_petition_saint_effect = {
+	if = { limit = { rip_church_gc_can_petition_saint = yes } rip_church_gc_pay_curia_petition_effect = { STANDING = 60 MODIFIER = rip_church_gc_petition_saint } add_stability = 1 }
+}
+rip_church_gc_petition_usury_effect = {
+	if = { limit = { rip_church_gc_can_petition_usury = yes } rip_church_gc_pay_curia_petition_effect = { STANDING = 30 MODIFIER = rip_church_gc_petition_usury } }
+}
+rip_church_gc_petition_holy_war_effect = {
+	if = { limit = { rip_church_gc_can_petition_holy_war = yes } rip_church_gc_pay_curia_petition_effect = { STANDING = 30 MODIFIER = rip_church_gc_petition_holy_war } }
+}
+rip_church_gc_petition_legate_effect = {
+	if = { limit = { rip_church_gc_can_petition_legate = yes } rip_church_gc_pay_curia_petition_effect = { STANDING = 30 MODIFIER = rip_church_gc_petition_legate } }
+}
+rip_church_gc_petition_monopoly_effect = {
+	if = { limit = { rip_church_gc_can_petition_monopoly = yes } rip_church_gc_pay_curia_petition_effect = { STANDING = 30 MODIFIER = rip_church_gc_petition_monopoly } add_mercantilism = 1 }
+}
+
+rip_church_gc_depute_to_curia_effect = {
+	if = {
+		limit = { rip_church_gc_can_depute_to_curia = yes }
+		add_treasury = -50
+		add_patriarch_authority = -0.1
+		change_variable = { which = rip_church_papal_standing value = 5 }
+		if = { limit = { check_variable = { which = rip_church_papal_standing value = 100 } } set_variable = { which = rip_church_papal_standing value = 100 } }
+		PAP = { add_opinion = { who = ROOT modifier = rip_church_opinion_gc_deputation } }
+		set_country_flag = rip_church_gc_deputation_sent
+	}
+}
+
+# No check here reads the local synod slot or Curia petition slot.
+rip_church_gc_activate_icon_liturgy_effect = {
+	if = { limit = { rip_church_gc_can_activate_icon_liturgy = yes } add_patriarch_authority = -0.2 add_country_modifier = { name = rip_church_gc_icon_liturgy duration = 1825 } }
+}
+rip_church_gc_activate_icon_learning_effect = {
+	if = { limit = { rip_church_gc_can_activate_icon_learning = yes } add_patriarch_authority = -0.2 add_country_modifier = { name = rip_church_gc_icon_learning duration = 1825 } }
+}
+rip_church_gc_activate_icon_charity_effect = {
+	if = { limit = { rip_church_gc_can_activate_icon_charity = yes } add_patriarch_authority = -0.2 add_country_modifier = { name = rip_church_gc_icon_charity duration = 1825 } }
+}
+rip_church_gc_clear_interaction_effects = {
+	remove_country_modifier = rip_church_gc_petition_church_tax
+	remove_country_modifier = rip_church_gc_petition_blessing
+	remove_country_modifier = rip_church_gc_petition_indulgence
+	remove_country_modifier = rip_church_gc_petition_saint
+	remove_country_modifier = rip_church_gc_petition_usury
+	remove_country_modifier = rip_church_gc_petition_holy_war
+	remove_country_modifier = rip_church_gc_petition_legate
+	remove_country_modifier = rip_church_gc_petition_monopoly
+	remove_country_modifier = rip_church_gc_icon_liturgy
+	remove_country_modifier = rip_church_gc_icon_learning
+	remove_country_modifier = rip_church_gc_icon_charity
+}

@@ -7,7 +7,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tests'))
 from clausewitz_testlib import matching_brace,vanilla_root,named_block
 ROOT=Path(__file__).resolve().parents[1]; GAME=vanilla_root()
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()
-defs=[]; outputs={}; text_bindings=set()
+defs=[]; feature_defs=[]; outputs={}; text_bindings=set()
 # Derive the GUI transaction from the live decision, including regional and
 # historical gates. Do not maintain a weaker parallel path to state conversion.
 adoption=named_block((ROOT/'decisions/GreekCatholicDecisions.txt').read_text(encoding='utf-8-sig'),'convert_to_greek_catholic_decision')
@@ -36,6 +36,24 @@ def button(name,x,y,trigger,effect,potential='always = yes',sprite='GFX_standard
  quadTextureSprite = "{sprite}" buttonText = "{name if label else ''}" buttonFont = "vic_18"
 }}'''
 
+def feature_button(name,x,y,trigger,effect,sprite='GFX_standard_button_71',frame=None,label=False):
+    frame_clause='' if frame is None else f' frame = {{ number = {frame} trigger = {{ always = yes }} }}'
+    feature_defs.append(f'''custom_button = {{
+ name = {name} potential = {{ always = yes }} trigger = {{ {trigger} }}
+ effect = {{ {effect} }} tooltip = {name}_tt{frame_clause}
+}}''')
+    return f'''guiButtonType = {{
+ name = "{name}" scripted = yes position = {{ x={x} y={y} }}
+ quadTextureSprite = "{sprite}" buttonText = "{name if label else ''}" buttonFont = "vic_18"
+}}'''
+
+def feature_text(name,x,y,w=440,h=42,font='vic_18',align='left'):
+    feature_defs.append(f'custom_text_box = {{ name = {name} potential = {{ always = yes }} tooltip = {name}_tt }}')
+    return f'''instantTextBoxType = {{
+ name = "{name}" scripted = yes position = {{ x={x} y={y} }} font = "{font}"
+ text = "{name}" maxWidth = {w} maxHeight = {h} format = {align}
+}}'''
+
 def shield(name,x,y,target,potential,sprite):
     defs.append(f'''custom_shield = {{
  name = {name} potential = {{ {potential} }} trigger = {{ always = yes }}
@@ -47,11 +65,12 @@ def shield(name,x,y,target,potential,sprite):
 }}'''
 
 def gc_tabs(page):
-    return (button('rip_church_gc_union_tab_'+page,63,524,'OR = { religion = greek_catholic religion = catholic }',
+    y=644 if page=='curia' else 524
+    return (button('rip_church_gc_union_tab_'+page,63,y,'OR = { religion = greek_catholic religion = catholic }',
                    'rip_church_gc_open_union_effect = yes',sprite='GFX_tab_small_116',frame=2 if page=='union' else 1)+
-            button('rip_church_gc_curia_tab_'+page,179,524,'religion = greek_catholic',
+            button('rip_church_gc_curia_tab_'+page,179,y,'religion = greek_catholic',
                    'rip_church_gc_open_curia_effect = yes',sprite='GFX_tab_small_116',frame=2 if page=='curia' else 1)+
-            button('rip_church_gc_parishes_tab_'+page,295,524,'rip_church_union_supporter = yes',
+            button('rip_church_gc_parishes_tab_'+page,295,y,'rip_church_union_supporter = yes',
                    'rip_church_gui_open_parishes_effect = yes',sprite='GFX_tab_small_116',frame=2 if page=='parishes' else 1))
 
 def art(name,sprite,x,y,scale=1):
@@ -72,8 +91,9 @@ def panel(name,condition,body,x=540,y=8,clean=False):
     if native_church:
         background='GFX_rip_church_ro_frame'
         scale='scale = 0.782537'
+    height=680 if name=='rip_church_gc_curia_panel' else 560 if native_church else 680 if clean else 550
     return f'''windowType = {{
- name = "{name}" scripted = yes position = {{ x={x} y={y} }} size = {{ x=475 y={560 if native_church else 680 if clean else 550} }}
+ name = "{name}" scripted = yes position = {{ x={x} y={y} }} size = {{ x=475 y={height} }}
  moveable = 0
  iconType = {{ name = "{name}_bg" spriteType = "{background}" position = {{ x=0 y=0 }} {scale} {hit_test} }}
  {body}
@@ -148,6 +168,28 @@ curia+=text('rip_church_gc_curia_privilege',28,367,w=419,h=36,align='center')
 curia+=button('rip_church_gc_donate_button',64,448,'rip_church_gc_can_donate = yes',
               'rip_church_gc_donate_effect = yes',sprite='GFX_buy_indulgence_button',label=False)
 curia+=text('rip_church_gc_donation_cost',133,441,w=300,h=54)
+curia+=feature_button('rip_church_gc_deputation_button',345,440,
+                      'rip_church_gc_can_depute_to_curia = yes',
+                      'rip_church_gc_depute_to_curia_effect = yes',
+                      sprite='GFX_standard_button_71')
+curia+=art('rip_church_gc_deputation_art','GFX_shield_small',365,446,0.7)
+curia+=feature_text('rip_church_gc_deputation_note',282,477,w=150,h=34,font='Main_14',align='center')
+curia+=inset('gc_icons',34,520,407,105)
+curia+=feature_text('rip_church_gc_icons_title',28,522,w=419,h=20,align='center')
+for i,(key,sprite) in enumerate((
+    ('liturgy','GFX_rip_church_gc_icon_liturgy'),
+    ('learning','GFX_rip_church_gc_icon_learning'),
+    ('charity','GFX_rip_church_gc_icon_charity'),
+)):
+    x=76+i*124
+    feature_defs.append(f'custom_icon = {{ name = rip_church_gc_icon_{key}_active_frame potential = {{ has_country_modifier = rip_church_gc_icon_{key} }} frame = {{ number = 1 trigger = {{ always = yes }} }} }}')
+    curia+=art(f'rip_church_gc_icon_{key}_art',sprite,x+20,552)
+    curia+=f'iconType = {{ name = "rip_church_gc_icon_{key}_active_frame" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x={x+20} y=552 }} alwaystransparent = yes }}'
+    curia+=feature_button(f'rip_church_gc_icon_{key}_button',x,548,
+        f'rip_church_gc_can_activate_icon_{key} = yes',
+        f'rip_church_gc_activate_icon_{key}_effect = yes')
+    curia+=feature_text(f'rip_church_gc_icon_{key}_state',x-8,588,w=100,h=22,align='center')
+curia+=feature_text('rip_church_gc_icons_note',44,608,w=387,h=20,font='Main_14',align='center')
 curia+=gc_tabs('curia')
 parishes=inset('parishes_counts',34,98,407,64)+inset('parishes_network',34,195,407,151)+inset('parishes_privilege',34,355,407,151)
 parishes+=text('rip_church_gui_parishes_heading',28,28,w=419,h=26,font='vic_22',align='center')
@@ -235,6 +277,7 @@ def attach(file,host,body):
 attach('countryreligionview.gui','countryreligionview',religion_panels)
 attach('provinceview.gui','province_window',prov_panel)
 outputs['common/custom_gui/RIP_church_controls.txt']='# ROOT/FROM contracts follow common/custom_gui/example.txt in EU4 1.37.\n'+'\n'.join(defs)+'\n'
+outputs['common/custom_gui/RIP_church_gc_features.txt']='# Greek Catholic icons and a non-electoral Curia deputation.\n'+'\n'.join(feature_defs)+'\n'
 stale=[]
 for path,s in outputs.items():
     target=ROOT/path

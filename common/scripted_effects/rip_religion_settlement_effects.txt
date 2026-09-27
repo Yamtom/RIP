@@ -15,7 +15,6 @@ rip_faith_initialize_hierarchy_effect = {
 		if = {
 			limit = { NOT = { has_country_flag = rip_uc_hierarchy_initialized } }
 			set_country_flag = rip_uc_hierarchy_initialized
-			activate_greek_catholic_reformation = yes
 			add_country_modifier = { name = uniate_church_consolidation duration = 3650 }
 			add_prestige = 10
 			capital_scope = {
@@ -38,11 +37,9 @@ rip_faith_adopt_union_effect = {
 	rip_faith_initialize_hierarchy_effect = yes
 }
 
-rip_uc_raise_see_effect = { rip_church_found_center_effect = yes }
-
-# The institution survives loss of its building; the building's religious
-# modifier does not survive a new owner/rite or destruction of the centre.
-rip_faith_maintain_local_property_effect = { rip_church_union_global_maintenance_effect = yes }
+# Compatibility hook retained for merged on_actions; no global conversion
+# centre or local property sweep remains.
+rip_faith_maintain_local_property_effect = { }
 
 rip_faith_fund_mission_effect = {
 	if = {
