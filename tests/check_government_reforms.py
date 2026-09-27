@@ -11,8 +11,8 @@ from clausewitz_testlib import ROOT, keyed_blocks, named_block, normalized, read
 
 
 REFORMS_DIR = ROOT / "common/government_reforms"
-EXPECTED_REFORM_COUNT = 114
-EXPECTED_REFORM_ID_SHA256 = "a3362d22fb95f441dc1d88ad60054e7fa0ed293d760c28fc8cd6e3033e2c9a7e"
+EXPECTED_REFORM_COUNT = 119
+EXPECTED_REFORM_ID_SHA256 = "7f0ee52f1afd902df9aa5307d6cf1e6a918a515b3340a411042a7a0d7d526e85"
 
 
 def require(failures: list[str], condition: bool, message: str) -> None:

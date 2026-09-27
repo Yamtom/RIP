@@ -534,7 +534,7 @@ flowchart LR
 
 ## Перевірені інваріанти
 
-- 114 унікальних definition-ID; дублів немає.
+- 119 унікальних definition-ID; дублів немає.
 - Кожен definition-ID присутній у government registration; навмисні
   багатотипові реформи — сумісні UZH-форми та CHR Grain Directorate.
 - `assembly_houses_reform` більше не є source-unreachable.
