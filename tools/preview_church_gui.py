@@ -9,9 +9,9 @@ from clausewitz_testlib import ROOT, vanilla_root, keyed_blocks
 from church_testlib import parse
 GAME=vanilla_root()
 ap=argparse.ArgumentParser(); group=ap.add_mutually_exclusive_group()
-for option in ('ro','curia','parishes','paths','province'): group.add_argument('--'+option,action='store_true')
+for option in ('ro','paths','province'): group.add_argument('--'+option,action='store_true')
 args=ap.parse_args()
-branch='ro' if args.ro else 'gc_curia' if args.curia else 'gc_parishes' if args.parishes else 'union_paths' if args.paths else 'rite' if args.province else 'gc'
+branch='ro' if args.ro else 'union_paths' if args.paths else 'rite' if args.province else 'gc'
 loc=dict(re.findall(r'^\s+(\w+):0 "(.*)"$',(ROOT/'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'),re.M))
 sample={'Root.GetChurchGCOrientation':'Balanced communion', 'Root.rip_church_communion.GetValue':'-20',
  'Root.GetChurchBalanceValue':'§R-20§!',
@@ -32,10 +32,11 @@ sample.update({'Root.GetChurchSlotState':'Shared privilege: §Y1 / 1§!',
  'Root.rip_church_gui_eastern_parishes.GetValue':'999',
  'Root.rip_church_gui_latin_parishes.GetValue':'999',
  'Root.rip_church_gui_latin_consents.GetValue':'999',
- 'Root.GetChurchNetworkScope':'Network access: §Yrings 0-4§!\\nLatin consent: §Yextended network§!',
+ 'Root.GetChurchNetworkScope':'Network access: §Yrings 0-2§!\\nLatin consent: §Ycentre area only§!',
  'Root.GetChurchUnionPathState':'Catholic patronage of Eastern parishes',
  'Root.GetChurchUnionPathIdentity':'Patronage preserves our Catholic confession.\\nAn Eastern founding parish enters the Union.',
  'Root.GetChurchFlorenceProgress':'Term complete: settlement conditions must hold',
+ 'Root.GetChurchPatronState':'Catholic patronage is established',
  'Root.GetChurchRiteStatus':'The Latin parish has consented to gradual Byzantine integration.',
  'Root.GetChurchRiteFamily':'Latin', 'Root.GetChurchProvinceRing':'ring 4',
  'Root.GetChurchProvinceUnionAccess':'Network permits conversion; native range applies'})

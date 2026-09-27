@@ -353,19 +353,16 @@ def contracts():
     crown = named_block(read('common/scripted_effects/rip_uniate_crown_effects.txt'), 'rip_ucr_take_the_church_effect')
     assert 'set_country_flag = pursuing_uniate_union' not in crown
     assert 'set_country_flag = union_of_brest_happened' not in crown
-    whitelist = named_block(read('common/religions/zz_greek_catholic.txt'), 'allowed_center_conversion')
-    assert 'catholic' in whitelist and 'orthodox' in whitelist and 'russian_orthodox' in whitelist
     gc = named_block(read('common/religions/zz_greek_catholic.txt'), 'greek_catholic')
     assert re.search(r'(?m)^\s*date\s*=\s*1439\.7\.6\s*$', gc)
     assert re.search(r'(?m)^\s*has_patriarchs\s*=\s*yes\s*$', gc)
     assert re.search(r'(?m)^\s*orthodox_icons\s*=\s*\{', gc)
     assert not re.search(r'(?m)^\s*hre_heretic_religion\s*=', gc)
-    # Internal hierarchy (native PA), Rome (two scripted country resources),
-    # and local rite (province agreement) remain independent data systems.
+    # Internal hierarchy and local rite recognition remain independent systems.
     union_triggers = read('common/scripted_triggers/rip_church_union_triggers.txt')
     union_effects = read('common/scripted_effects/rip_church_union_effects.txt')
-    assert 'which = rip_church_communion' in union_effects
-    assert 'which = rip_church_papal_standing' in union_effects
+    assert 'which = rip_church_communion' not in union_effects
+    assert 'which = rip_church_papal_standing' not in union_effects
     assert 'set_province_flag = rip_church_rite_recognized' in union_effects
     assert 'owner = { religion = greek_catholic }' in named_block(union_triggers, 'rip_church_can_recognize_rite')
     brest = named_block(read('decisions/GreekCatholicDecisions.txt'), 'convert_to_greek_catholic_decision')

@@ -3,10 +3,7 @@ rip_church_v3_initialize_effect = {
  if = { limit = { rip_church_is_new_faith = yes NOT = { has_country_flag = rip_church_v3_migrated } }
  set_country_flag = rip_church_v3_migrated
  set_variable = { which = rip_church_fervor value = 0 }
- set_variable = { which = rip_church_communion value = 0 }
- set_variable = { which = rip_church_papal_standing value = 0 }
  rip_church_ro_clear_active_effect = yes
- rip_uc_clear_church_benefits_effect = yes
  rip_ro_clear_council_policy_effect = yes
  rip_ro_clear_historical_policy_effect = yes
  rip_uc_clear_historical_policy_effect = yes
@@ -39,10 +36,9 @@ rip_church_ro_isolation_effect = {
 }
 rip_church_v3_exit_effect = {
  rip_church_ro_clear_active_effect = yes rip_church_gc_clear_privilege_effect = yes
+ rip_church_gc_clear_curia_petitions_effect = yes
  rip_church_ro_isolation_effect = yes rip_church_refresh_pa_effect = yes rip_church_gc_refresh_parishes_effect = yes
  set_variable = { which = rip_church_fervor value = 0 }
- set_variable = { which = rip_church_papal_standing value = 0 }
- clr_country_flag = rip_church_balanced_since
  clr_country_flag = rip_church_v3_active
  clr_country_flag = rip_church_reconciliation_pending
  clr_country_flag = rip_church_gc_curia_view
@@ -50,9 +46,7 @@ rip_church_v3_exit_effect = {
  rip_church_refresh_relations_effect = yes
 }
 rip_church_v3_monthly_effect = {
- if = { limit = { religion = catholic has_country_flag = rip_church_gui_parishes_view } rip_church_gui_refresh_parishes_effect = yes }
  rip_church_v3_initialize_effect = yes
- rip_church_union_global_maintenance_effect = yes
  rip_church_complete_florence_effect = yes
  if = { limit = { religion = russian_orthodox }
  rip_church_ro_monthly_effect = yes
@@ -77,19 +71,13 @@ rip_church_v3_religion_change_effect = {
  rip_church_v3_initialize_effect = yes
  rip_church_refresh_pa_effect = yes
  rip_church_refresh_relations_effect = yes
- if = { limit = { religion = greek_catholic } rip_church_gc_refresh_rome_effect = yes }
- clr_global_flag = rip_church_union_swept
- rip_church_union_global_maintenance_effect = yes
 }
 rip_church_province_change_effect = {
  # Province hooks for all countries: remove only this system's local payload.
  rip_church_clear_rite_effect = yes
  rip_church_clear_pa_province_effect = yes
- clr_province_flag = rip_church_latin_consent
  remove_province_modifier = rip_church_gc_roman_resistance
- clr_global_flag = rip_church_union_swept
  owner = { if = { limit = { rip_church_is_new_faith = yes } rip_church_refresh_pa_effect = yes } }
- rip_church_union_global_maintenance_effect = yes
 }
 rip_church_ai_effect = {
  if = { limit = { religion = russian_orthodox }
@@ -103,15 +91,50 @@ rip_church_ai_effect = {
  rip_church_ro_ai_nodes_effect = yes
  }
  else_if = { limit = { religion = greek_catholic }
- if = { limit = { rip_church_can_shift_communion = yes rip_church_gc_roman = yes num_of_owned_provinces_with = { value = 3 religion = orthodox } } rip_church_gc_shift_east_effect = yes }
- else_if = { limit = { rip_church_can_shift_communion = yes NOT = { rip_church_gc_roman = yes } NOT = { any_owned_province = { religion = orthodox } } exists = PAP PAP = { has_opinion = { who = ROOT value = 100 } } } rip_church_gc_shift_rome_effect = yes }
  if = { limit = { adm_power = 150 any_owned_province = { rip_church_can_recognize_rite = yes unrest = 1 } }
  random_owned_province = { limit = { rip_church_can_recognize_rite = yes unrest = 1 } rip_church_recognize_rite_effect = yes }
  }
- if = { limit = { rip_church_gc_can_eastern_privilege = yes rip_church_gc_balanced = yes any_owned_province = { has_province_flag = rip_church_rite_recognized } } rip_church_gc_coexistence_effect = yes }
- else_if = { limit = { rip_church_gc_can_eastern_privilege = yes rip_church_gc_eastern = yes } rip_church_gc_infrastructure_effect = yes }
- else_if = { limit = { rip_church_gc_can_roman_privilege = yes rip_church_gc_roman = yes } rip_church_gc_legate_effect = yes }
- else_if = { limit = { rip_church_gc_can_roman_privilege = yes } rip_church_gc_papal_support_effect = yes }
+ if = { limit = { rip_church_gc_can_coexistence = yes } rip_church_gc_coexistence_effect = yes }
+ else_if = { limit = { rip_church_gc_can_infrastructure = yes } rip_church_gc_infrastructure_effect = yes }
  if = { limit = { rip_church_can_ecumenism = yes } rip_church_achieve_ecumenism_effect = yes }
+ }
+}
+
+# One-time retirement of removed Union abstractions. This only cleans old saves.
+rip_church_retire_removed_union_mechanics_effect = {
+ if = { limit = { NOT = { has_country_flag = rip_church_removed_mechanics_retired } }
+  set_country_flag = rip_church_removed_mechanics_retired
+  set_variable = { which = rip_church_communion value = 0 }
+  set_variable = { which = rip_church_papal_standing value = 0 }
+  set_variable = { which = rip_church_standing_income value = 0 }
+  clr_country_flag = rip_church_balance_shifted
+  clr_country_flag = rip_church_balanced_since
+  clr_country_flag = rip_church_gc_curia_view
+  clr_country_flag = rip_church_gui_parishes_view
+  remove_country_modifier = rip_church_gc_legate
+  remove_country_modifier = rip_church_gc_dynastic
+  remove_country_modifier = rip_church_gc_prestige
+  remove_country_modifier = rip_church_gc_church_tax
+  remove_country_modifier = rip_church_gc_blessing
+  remove_country_modifier = rip_church_gc_usury
+  remove_country_modifier = rip_church_gc_holy_war
+  remove_country_modifier = rip_church_gc_saint
+  remove_country_modifier = rip_church_gc_monopoly
+  rip_church_gc_clear_curia_petitions_effect = yes
+ }
+ if = { limit = { NOT = { has_global_flag = rip_church_removed_centers_retired } }
+  set_global_flag = rip_church_removed_centers_retired
+  every_province = {
+   if = { limit = { religion = greek_catholic is_reformation_center = yes } remove_reform_center = greek_catholic }
+   remove_province_modifier = rip_uc_see_of_the_union
+   clr_province_flag = rip_church_center_suspended
+   clr_province_flag = rip_church_union_ring_0
+   clr_province_flag = rip_church_union_ring_1
+   clr_province_flag = rip_church_union_ring_2
+   clr_province_flag = rip_church_union_ring_3
+   clr_province_flag = rip_church_union_ring_4
+   clr_province_flag = rip_church_union_frontier
+   clr_province_flag = rip_church_latin_consent
+  }
  }
 }

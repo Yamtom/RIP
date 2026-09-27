@@ -19,6 +19,33 @@ def active(c): return {k for k in ('war','mercy','building','mission') if 'rip_c
 
 # Every PA point, including all three capacity boundaries and native offsets.
 mods=dict(parse(read('common/event_modifiers/RIP_church_redesign_modifiers.txt')))
+gc_faith=named_block(read('common/religions/zz_greek_catholic.txt'),'greek_catholic')
+gc_country=named_block(gc_faith,'country')
+gc_secondary=named_block(gc_faith,'country_as_secondary')
+gc_province=named_block(gc_faith,'province')
+assert 'has_patriarchs = yes' in gc_faith
+assert 'church_loyalty_modifier = 0.05' in gc_country
+assert 'church_loyalty_modifier = 0.025' in gc_secondary
+assert 'local_missionary_strength = 0.01' in gc_province
+for placeholder in ('tolerance_own', 'tolerance_heretic', 'diplomatic_reputation'):
+    assert not re.search(r'\b'+placeholder+r'\s*=', gc_country+gc_secondary), placeholder
+gc_localisation=read('localisation/uniate_and_raid_l_english.yml')
+assert 'greek_catholic:0 "Greek Catholic"' in gc_localisation
+assert 'greek_catholic_religion_desc:1' in gc_localisation
+assert 'native Patriarch Authority bar' in gc_localisation
+assert 'Papal Standing measures relations with Rome separately' in gc_localisation
+gc_pa=read('common/scripted_effects/rip_church_pa_effects.txt')
+gc_union=read('common/scripted_effects/rip_church_union_effects.txt')
+gc_view=read('interface/countryreligionview.gui')
+assert 'patriarch_authority' in gc_pa and 'rip_church_pa_display' in gc_pa
+gc_monthly=named_block(gc_union,'rip_church_gc_monthly_effect')
+assert 'rip_church_papal_standing' in gc_monthly and 'patriarch_authority' not in gc_monthly
+assert 'add_patriarch_authority = -0.2' in named_block(gc_union,'rip_church_gc_infrastructure_effect')
+assert 'which = rip_church_papal_standing value = 30' in named_block(gc_union,'rip_church_gc_legate_effect')
+assert 'name ="current_patriarch_authority_progress_bg"' in gc_view
+gc_panel_localisation=read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
+assert 'Papal Standing:' in gc_panel_localisation and 'rip_church_pa_display' not in gc_panel_localisation.split('rip_church_gc_resources:0',1)[1].split('\\n',1)[0]
+assert 'Patriarch Authority is shown by the main religion window' in gc_panel_localisation
 for authority in range(101):
     w,c,p=fixture(); c['patriarch_authority']=authority/100
     w.run('rip_church_ro_recount_effect',c)

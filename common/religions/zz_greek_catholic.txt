@@ -3,31 +3,21 @@ christian = {
 		color = { 178 128 204 }
 		icon = 31
 
-		# Eastern hierarchy in communion with Rome: PA remains internal authority;
-		# scripted Standing tracks Rome separately and province flags track local rite.
-country = {
- tolerance_own = 0.5
- diplomatic_reputation = 0.5
-}
+		# The estate effect represents the church's standing in the realm.
+		country = {
+			church_loyalty_modifier = 0.05
+		}
 
+		# Secondary-faith clerical influence is deliberately smaller.
 		country_as_secondary = {
-			tolerance_heretic = 1
-			diplomatic_reputation = 0.5
+			church_loyalty_modifier = 0.025
 		}
 
 		province = {
 			local_missionary_strength = 0.01
 		}
 
-		# Latin parishes require explicit local consent; target weights enforce this.
-		allowed_center_conversion = {
-			catholic
-			orthodox
-			russian_orthodox
-		}
-
-		# Native internal authority; the scripted pane also shows separate Papal Standing.
-		# Limited privileges replace the old petitions and synod.
+		# Native internal authority funds local synodal institutions.
 		has_patriarchs = yes
 
 		# Preserve the five legacy save indices with zero payloads. No selectable

@@ -7,43 +7,15 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_church_ro_unrecognized }
 }
 defined_text = {
- name = GetChurchBalanceValue
- text = { trigger = { check_variable = { which = rip_church_communion value = 0 } } localisation_key = rip_church_gc_balance_positive }
- text = { trigger = { always = yes } localisation_key = rip_church_gc_balance_negative }
-}
-defined_text = {
- name = GetChurchStandingRate
- text = { trigger = { NOT = { rip_church_gc_rome_present = yes NOT = { war_with = PAP } PAP = { has_opinion = { who = ROOT value = 50 } } } } localisation_key = rip_church_standing_rate_zero }
- text = { trigger = { rip_church_gc_eastern = yes } localisation_key = rip_church_standing_rate_east }
- text = { trigger = { rip_church_gc_roman = yes } localisation_key = rip_church_standing_rate_rome }
- text = { trigger = { always = yes } localisation_key = rip_church_standing_rate_middle }
-}
-defined_text = {
- name = GetChurchGCOrientation
- text = { trigger = { rip_church_gc_eastern = yes } localisation_key = rip_church_gc_east }
- text = { trigger = { rip_church_gc_roman = yes } localisation_key = rip_church_gc_rome }
- text = { trigger = { always = yes } localisation_key = rip_church_gc_middle }
-}
-defined_text = {
  name = GetChurchPrivilege
  text = { trigger = { has_country_modifier = rip_church_gc_infrastructure } localisation_key = rip_church_gc_infrastructure }
  text = { trigger = { has_country_modifier = rip_church_gc_coexistence } localisation_key = rip_church_gc_coexistence }
- text = { trigger = { has_country_modifier = rip_church_gc_legate } localisation_key = rip_church_gc_legate }
- text = { trigger = { has_country_modifier = rip_church_gc_dynastic } localisation_key = rip_church_gc_dynastic }
- text = { trigger = { has_country_modifier = rip_church_gc_prestige } localisation_key = rip_church_gc_prestige }
- text = { trigger = { has_country_modifier = rip_church_gc_church_tax } localisation_key = rip_church_gc_church_tax }
- text = { trigger = { has_country_modifier = rip_church_gc_blessing } localisation_key = rip_church_gc_blessing }
- text = { trigger = { has_country_modifier = rip_church_gc_usury } localisation_key = rip_church_gc_usury }
- text = { trigger = { has_country_modifier = rip_church_gc_holy_war } localisation_key = rip_church_gc_holy_war }
- text = { trigger = { has_country_modifier = rip_church_gc_saint } localisation_key = rip_church_gc_saint }
- text = { trigger = { has_country_modifier = rip_church_gc_monopoly } localisation_key = rip_church_gc_monopoly }
  text = { trigger = { always = yes } localisation_key = rip_church_none }
 }
 defined_text = {
  name = GetChurchLocalInstitution
  text = { trigger = { has_country_modifier = rip_church_gc_infrastructure } localisation_key = rip_church_gc_infrastructure }
  text = { trigger = { has_country_modifier = rip_church_gc_coexistence } localisation_key = rip_church_gc_coexistence }
- text = { trigger = { rip_church_gc_has_privilege = yes } localisation_key = rip_church_gc_local_reserved }
  text = { trigger = { always = yes } localisation_key = rip_church_none }
 }
 defined_text = {
@@ -60,34 +32,40 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_church_gc_opinion_absent }
 }
 defined_text = {
+ name = GetChurchCuriaRate
+ text = { trigger = { NOT = { rip_church_gc_rome_present = yes } } localisation_key = rip_church_gc_rate_paused }
+ text = { trigger = { war_with = PAP } localisation_key = rip_church_gc_rate_paused }
+ text = { trigger = { NOT = { PAP = { has_opinion = { who = ROOT value = 50 } } } } localisation_key = rip_church_gc_rate_paused }
+ text = { trigger = { NOT = { check_variable = { which = rip_church_communion value = -40.001 } } } localisation_key = rip_church_standing_rate_east }
+ text = { trigger = { check_variable = { which = rip_church_communion value = 40.001 } } localisation_key = rip_church_standing_rate_rome }
+ text = { trigger = { always = yes } localisation_key = rip_church_standing_rate_middle }
+}
+defined_text = {
  name = GetChurchCuriaController
  text = { trigger = { has_global_flag = rip_church_gc_controller_known event_target:rip_church_gc_controller = { is_papal_controller = yes } } localisation_key = rip_church_gc_controller_name }
  text = { trigger = { always = yes } localisation_key = rip_church_gc_controller_none }
 }
 defined_text = {
- name = GetChurchCuriaRate
- text = { trigger = { NOT = { rip_church_gc_rome_present = yes NOT = { war_with = PAP } PAP = { has_opinion = { who = ROOT value = 50 } } } } localisation_key = rip_church_gc_rate_paused }
- text = { trigger = { rip_church_gc_eastern = yes } localisation_key = rip_church_standing_rate_east }
- text = { trigger = { rip_church_gc_roman = yes } localisation_key = rip_church_standing_rate_rome }
- text = { trigger = { always = yes } localisation_key = rip_church_standing_rate_middle }
-}
-defined_text = {
  name = GetChurchDonationState
- text = { trigger = { has_country_flag = rip_church_gc_donated NOT = { had_country_flag = { flag = rip_church_gc_donated days = 1825 } } } localisation_key = rip_church_gc_donation_wait }
  text = { trigger = { rip_church_gc_can_donate = yes } localisation_key = rip_church_gc_donation_ready }
+ text = { trigger = { had_country_flag = { flag = rip_church_gc_donated days = 1825 } } localisation_key = rip_church_gc_donation_wait }
  text = { trigger = { always = yes } localisation_key = rip_church_gc_donation_blocked }
 }
 defined_text = {
- name = GetChurchCenterStatus
- text = { trigger = { any_owned_province = { has_province_flag = rip_church_center_suspended } } localisation_key = rip_church_center_suspended }
- text = { trigger = { any_owned_province = { rip_church_center_alive = yes } } localisation_key = rip_church_center_active }
- text = { trigger = { any_province = { religion = greek_catholic OR = { is_reformation_center = yes has_province_flag = rip_church_center_suspended } } } localisation_key = rip_church_center_elsewhere }
- text = { trigger = { always = yes } localisation_key = rip_church_center_absent }
+ name = GetChurchCuriaPrivilege
+ text = { trigger = { has_country_modifier = rip_church_gc_petition_church_tax } localisation_key = rip_church_gc_petition_church_tax_label }
+ text = { trigger = { has_country_modifier = rip_church_gc_petition_blessing } localisation_key = rip_church_gc_petition_blessing_label }
+ text = { trigger = { has_country_modifier = rip_church_gc_petition_indulgence } localisation_key = rip_church_gc_petition_indulgence_label }
+ text = { trigger = { has_country_modifier = rip_church_gc_petition_saint } localisation_key = rip_church_gc_petition_saint_label }
+ text = { trigger = { has_country_modifier = rip_church_gc_petition_usury } localisation_key = rip_church_gc_petition_usury_label }
+ text = { trigger = { has_country_modifier = rip_church_gc_petition_holy_war } localisation_key = rip_church_gc_petition_holy_war_label }
+ text = { trigger = { has_country_modifier = rip_church_gc_petition_legate } localisation_key = rip_church_gc_petition_legate_label }
+ text = { trigger = { has_country_modifier = rip_church_gc_petition_monopoly } localisation_key = rip_church_gc_petition_monopoly_label }
+ text = { trigger = { always = yes } localisation_key = rip_church_none }
 }
 defined_text = {
  name = GetChurchRiteStatus
  text = { trigger = { has_province_flag = rip_church_rite_recognized } localisation_key = rip_church_rite_recognized }
- text = { trigger = { has_province_flag = rip_church_latin_consent } localisation_key = rip_church_rite_consent }
  text = { trigger = { always = yes } localisation_key = rip_church_rite_unrecognized }
 }
 defined_text = {
@@ -144,7 +122,6 @@ defined_text = {
 }
 defined_text = {
  name = GetChurchSlotState
- text = { trigger = { NOT = { religion = greek_catholic } } localisation_key = rip_church_gui_slot_patron }
  text = { trigger = { rip_church_gc_has_privilege = yes } localisation_key = rip_church_gui_slot_used }
  text = { trigger = { always = yes } localisation_key = rip_church_gui_slot_free }
 }
@@ -153,12 +130,6 @@ defined_text = {
  text = { trigger = { has_country_flag = rip_church_ecumenical } localisation_key = rip_church_gui_coexistence_ecumenical }
  text = { trigger = { has_country_modifier = rip_church_gc_coexistence } localisation_key = rip_church_gui_coexistence_active }
  text = { trigger = { always = yes } localisation_key = rip_church_gui_coexistence_local }
-}
-defined_text = {
- name = GetChurchNetworkScope
- text = { trigger = { NOT = { any_province = { rip_church_center_alive = yes } } } localisation_key = rip_church_gui_network_none }
- text = { trigger = { event_target:rip_church_union_patron = { has_country_flag = rip_church_ecumenical } } localisation_key = rip_church_gui_network_extended }
- text = { trigger = { always = yes } localisation_key = rip_church_gui_network_normal }
 }
 defined_text = {
  name = GetChurchUnionPathState
@@ -184,17 +155,7 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_church_gui_rite_eastern }
 }
 defined_text = {
- name = GetChurchProvinceRing
- text = { trigger = { has_province_flag = rip_church_union_ring_0 } localisation_key = rip_church_gui_ring_0 }
- text = { trigger = { has_province_flag = rip_church_union_ring_1 } localisation_key = rip_church_gui_ring_1 }
- text = { trigger = { has_province_flag = rip_church_union_ring_2 } localisation_key = rip_church_gui_ring_2 }
- text = { trigger = { has_province_flag = rip_church_union_ring_3 } localisation_key = rip_church_gui_ring_3 }
- text = { trigger = { has_province_flag = rip_church_union_ring_4 } localisation_key = rip_church_gui_ring_4 }
- text = { trigger = { always = yes } localisation_key = rip_church_gui_ring_outside }
-}
-defined_text = {
- name = GetChurchProvinceUnionAccess
- text = { trigger = { has_province_flag = rip_church_rite_recognized } localisation_key = rip_church_gui_protected }
- text = { trigger = { rip_church_union_target = yes } localisation_key = rip_church_gui_access_yes }
- text = { trigger = { always = yes } localisation_key = rip_church_gui_access_no }
+ name = GetChurchPatronState
+ text = { trigger = { has_country_flag = rip_church_supports_union } localisation_key = rip_church_gui_patron_active }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_patron_inactive }
 }

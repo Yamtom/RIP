@@ -1,8 +1,10 @@
 # All public transactions recheck their complete country/province gate.
 rip_church_is_new_faith = { OR = { religion = russian_orthodox religion = greek_catholic } }
-rip_church_gc_eastern = { NOT = { check_variable = { which = rip_church_communion value = -40 } } }
-rip_church_gc_roman = { check_variable = { which = rip_church_communion value = 40.001 } }
-rip_church_gc_balanced = { NOT = { rip_church_gc_eastern = yes } NOT = { rip_church_gc_roman = yes } }
+# Legacy names remain only so older generated PA compensation can select its
+# neutral band. No player-controlled orientation or numerical balance exists.
+rip_church_gc_eastern = { always = no }
+rip_church_gc_roman = { always = no }
+rip_church_gc_balanced = { always = yes }
 rip_church_ro_recognized = { has_country_flag = rip_church_ro_recognized NOT = { has_country_flag = rip_church_ro_schismatic } }
 rip_church_ro_over_capacity = {
  OR = {
