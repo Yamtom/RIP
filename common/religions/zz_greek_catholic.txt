@@ -3,7 +3,8 @@ christian = {
 		color = { 178 128 204 }
 		icon = 31
 
-		# Communion-management base; no native papacy.
+		# Eastern hierarchy in communion with Rome: PA remains internal authority;
+		# scripted Standing tracks Rome separately and province flags track local rite.
 country = {
  tolerance_own = 0.5
  diplomatic_reputation = 0.5
@@ -64,13 +65,16 @@ country = {
 			}
 		}
 
-		hre_heretic_religion = yes
+		# This is not the Protestant HRE-heretic track: Greek Catholics remain in
+		# communion with Rome, while their Eastern hierarchy has its own identity.
 
 		# Non-uniate opposition is distinct from the Muscovite Old Believers.
 		# Orthodox zealots in the union event chain retain vanilla Orthodox demands.
 		heretic = { RIP_UNION_OPPONENT }
 
-		date = 1596.10.6
+		# The Florentine union is the earliest historical precedent; Brest is a
+		# separate later route, not the date on which this faith first exists.
+		date = 1439.7.6
 
 		on_convert = {
 			rip_faith_initialize_hierarchy_effect = yes

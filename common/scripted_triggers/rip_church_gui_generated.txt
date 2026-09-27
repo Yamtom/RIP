@@ -1,0 +1,48 @@
+# Generated from convert_to_greek_catholic_decision.
+rip_church_gui_can_adopt_union = {
+
+			religion = orthodox
+			# The union as an ACT OF STATE belongs to a state whose weight is
+			# in these lands. An empire that merely holds Ruthenia receives the
+			# union from below instead - see rip_uc_is_regional_state in
+			# common/scripted_triggers/gre/greek_catholic_triggers.txt and the
+			# spread chain in events/UniateReformationSpread.txt.
+			rip_uc_is_regional_state = yes
+			# Florence is a separate early route; this decision concludes the
+			# later Union of Brest and must not fire before its 1596 date.
+			is_year = 1596
+		
+			is_religion_enabled = greek_catholic
+			is_at_war = no
+			stability = 1
+			adm_power = 100
+			dip_power = 100
+			# Brest 1596, Uzhhorod 1646, Peremyshl 1691, Lviv 1700, Lutsk 1702: every
+			# one of them was signed by bishops living under a Catholic crown, and
+			# none by a church that answered to nobody.
+			OR = {
+				has_country_flag = pursuing_uniate_union
+				has_country_flag = uniate_pressure_mounting
+				overlord = { religion = catholic }
+				AND = {
+					any_neighbor_country = {
+						religion = catholic
+						NOT = { war_with = ROOT }
+					}
+					any_owned_province = { religion = greek_catholic }
+				}
+			}
+			# and by sees that had Ruthenian parishes to bring with them
+			num_of_owned_provinces_with = {
+				value = 3
+				religion = orthodox
+				OR = {
+					culture = ruthenian
+					culture = byelorussian
+					culture = rusyn
+					culture = rusyn_new
+					culture = rusyn_new_new
+				}
+			}
+		
+}

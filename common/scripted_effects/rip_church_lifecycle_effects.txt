@@ -46,9 +46,11 @@ rip_church_v3_exit_effect = {
  clr_country_flag = rip_church_v3_active
  clr_country_flag = rip_church_reconciliation_pending
  clr_country_flag = rip_church_gc_curia_view
+ clr_country_flag = rip_church_gui_parishes_view
  rip_church_refresh_relations_effect = yes
 }
 rip_church_v3_monthly_effect = {
+ if = { limit = { religion = catholic has_country_flag = rip_church_gui_parishes_view } rip_church_gui_refresh_parishes_effect = yes }
  rip_church_v3_initialize_effect = yes
  rip_church_union_global_maintenance_effect = yes
  rip_church_complete_florence_effect = yes

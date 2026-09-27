@@ -5,8 +5,8 @@ rip_ucr_take_the_church_effect = {
 	if = {
 		limit = { rip_ucr_can_sign_the_union = yes }
 		set_country_flag = rip_ucr_church_taken
-		set_country_flag = pursuing_uniate_union
-		set_country_flag = union_of_brest_happened
+		# This is a separate speculative crown settlement, not the bishops'
+		# Union of Brest; do not start Brest's event chain or record its milestone.
 		rip_faith_adopt_union_effect = yes
 		rip_ucr_clear_historical_policy_effect = yes
 		add_country_modifier = { name = rip_ucr_church_of_the_palace duration = 7300 }
