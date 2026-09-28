@@ -50,28 +50,6 @@ is_ruthenian_culture_area = {
 	}
 }
 
-is_suitable_greek_catholic_center = {
-	religion = orthodox
-	development = 15
-	OR = {
-		province_id = 2961 # Lviv
-		province_id = 280 # Kyiv
-		province_id = 272 # Vilnius
-		province_id = 276 # Minsk
-		province_id = 275 # Polotsk
-	}
-}
-
-greek_catholic_reformation_spreading = {
-	OR = {
-		has_country_modifier = greek_catholic_reformation_active
-		has_country_modifier = greek_catholic_missionary_activity
-		any_owned_province = {
-			has_province_modifier = greek_catholic_center
-		}
-	}
-}
-
 has_orthodox_greek_catholic_tensions = {
 	OR = {
 		any_owned_province = {

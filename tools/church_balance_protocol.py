@@ -1,7 +1,9 @@
-"""Frozen church benchmark protocol and evidence-gated score calculation.
+"""ARCHIVE: frozen benchmark protocol for the superseded church design.
 
 Preparation is not observation. No score is printed for unrun campaigns.
 Each branch/entry-route/DLC/control-environment stratum needs all four scenarios.
+The protocol encoded the retired Communion, Standing, centre and Curia systems;
+it is retained for audit only and must not generate or evaluate current results.
 """
 from datetime import datetime, timezone
 from pathlib import Path
@@ -9,6 +11,7 @@ import argparse, hashlib, json, math, subprocess
 
 ROOT=Path(__file__).resolve().parents[1]
 DEST=ROOT/'diagnostics/church_redesign_20260911/campaign_protocol.json'
+ARCHIVED=True
 METRICS={
  'net_financial_position_delta': {'direction':1,'unit':'ducats'},
  'recovery_days_total': {'direction':-1,'unit':'days'},
@@ -90,6 +93,7 @@ def source_manifest():
     return hashes
 
 def prepare(destination=DEST):
+    raise ValueError('Archived protocol: its Communion/Standing/centre assumptions no longer describe RIP.')
     if destination.exists():
         old=json.loads(destination.read_text(encoding='utf-8'))
         if any(arm.get('observed') or any(v is not None for v in arm['measurements'].values()) for p in old['pairs'] for arm in p['arms']):
@@ -127,6 +131,7 @@ def prepare(destination=DEST):
     print(f'Prepared {len(pairs)} pairs, {len(pairs)*2} unobserved arms; no balance scores. {destination}')
 
 def evaluate(path):
+    raise ValueError('Archived protocol: its Communion/Standing/centre assumptions no longer describe RIP.')
     data=json.loads(path.read_text(encoding='utf-8'))
     if data['protocol_sha256']!=protocol_hash() or data['rules']!=RULES: raise ValueError('The frozen protocol was changed.')
     expected={(branch,route,scenario,env,dlc,1001) for branch,spec in BRANCHES.items() for route in spec['routes']

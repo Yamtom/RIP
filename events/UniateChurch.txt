@@ -621,45 +621,6 @@ country_event = {
 }
 
 
-country_event = {
-	id = uniate_church.9
-	title = uniate_church.9.t
-	desc = uniate_church.9.d
-	picture = RELIGION_eventPicture
-	
-	trigger = {
-		religion = greek_catholic
-		is_religion_enabled = greek_catholic
-		has_country_flag = pursuing_uniate_union
-		NOT = { has_country_flag = greek_catholic_center_established }
-		owns = 2961 # Lviv
-		2961 = {
-			religion = orthodox
-		}
-	}
-	
-	mean_time_to_happen = {
-		months = 24
-	}
-
-	option = {
-		name = uniate_church.9.a
-		trigger = { treasury = 100 adm_power = 25 owns = 2961 2961 = { controlled_by = ROOT is_core = ROOT religion = orthodox } }
-		ai_chance = { factor = 70 }
-		add_treasury = -100
-		add_adm_power = -25
-		set_country_flag = greek_catholic_center_established
-		2961 = { add_province_modifier = { name = rip_faith_funded_mission duration = 3650 } }
-	}
-	
-	option = { # Wait for better time
-		name = uniate_church.9.b
-		ai_chance = { factor = 30 }
-		
-		add_prestige = -5
-	}
-}
-
 province_event = {
 	id = uniate_church.10
 	title = uniate_church.10.t
@@ -1284,5 +1245,4 @@ country_event = {
 		add_stability = 1
 	}
 }
-
 

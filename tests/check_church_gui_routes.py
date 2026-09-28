@@ -15,14 +15,14 @@ assert len(transaction) == 1 and transaction[0][0] == 'if'
 assert transaction[0][1] == [('limit', [('rip_church_gui_can_adopt_union', 'yes')])] + adoption['effect']
 cases += 1
 
-# Counts follow owned provinces and current faith; recognition and consent differ.
+# Counts follow owned recognized parishes and current faith.
 w, c, p = fixture('greek_catholic')
 foreign = w.country('FRA', 'catholic')
 for number, owner, faith, flags in [
     (301,c,'orthodox',['rip_church_rite_recognized']),
     (302,c,'russian_orthodox',['rip_church_rite_recognized']),
     (303,c,'catholic',['rip_church_rite_recognized']),
-    (304,c,'catholic',['rip_church_latin_consent']),
+    (304,c,'catholic',[]),
     (305,c,'protestant',['rip_church_rite_recognized']),
     (306,foreign,'orthodox',['rip_church_rite_recognized']),
 ]:
@@ -31,8 +31,8 @@ for number, owner, faith, flags in [
 before = deepcopy(w.provinces)
 resources = {key:c[key] for key in ('adm_power','dip_power','treasury','religion')}
 w.run('rip_church_gui_refresh_parishes_effect',c)
-names = ['rip_church_gui_'+suffix for suffix in ('eastern_parishes','latin_parishes','latin_consents')]
-assert [c['variables'][name] for name in names] == [2,1,1]
+names = ['rip_church_gui_'+suffix for suffix in ('eastern_parishes','latin_parishes')]
+assert [c['variables'][name] for name in names] == [2,1]
 assert before == w.provinces
 assert resources == {key:c[key] for key in resources}
 snapshot = deepcopy(c)
@@ -41,7 +41,7 @@ assert c == snapshot
 w.provinces['301']['owner'] = foreign['id']
 w.provinces['304']['religion'] = 'greek_catholic'
 w.run('rip_church_gui_refresh_parishes_effect',c)
-assert [c['variables'][name] for name in names] == [1,1,0]
+assert [c['variables'][name] for name in names] == [1,1]
 cases += 3
 
 windows = {dict(body)['name']:dict(body)['potential']

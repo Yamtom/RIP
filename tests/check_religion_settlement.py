@@ -259,7 +259,7 @@ def run_cases():
                 w.run(helper, c, POLICY=choice)
                 assert c == before, update
                 cases += 1
-    # Moscow council fuel and the sole global centre are executed in check_church_redesign.
+    # Moscow council fuel is covered by the focused church redesign contract.
     # A stale Brest response cannot change faith after PAP disappears or a prior signature.
     for update in ('valid', 'before_brest', 'no_pope', 'war_pope', 'signed', 'wrong_faith', 'poor'):
         w, c = fixture()
