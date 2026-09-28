@@ -149,31 +149,21 @@ for i,(key,sprite) in enumerate((
 gc+=feature_text('rip_church_gc_icons_note',44,608,w=387,h=20,font='Main_14',align='center')
 gc+=gc_tabs('union')
 
-curia=inset('rome_status',34,98,407,64)+inset('petitions',34,195,407,150)+inset('curia_privilege',34,356,407,60)+inset('donation',34,426,407,84)
+curia=inset('rome_status',34,98,407,92)+inset('audience',34,220,407,105)
 curia+=text('rip_church_gc_curia_heading',28,28,w=419,h=26,font='vic_22',align='center')
 curia+=text('rip_church_gc_curia_status',28,76,w=419,h=20,align='center')
 curia+=shield('rip_church_gc_pope_shield',41,98,'rip_church_gc_rome',
               'has_global_flag = rip_church_gc_rome_known rip_church_gc_rome_present = yes','GFX_shield_medium')
-curia+=text('rip_church_gc_rome_resources',116,102,w=247,h=54)
+curia+=feature_text('rip_church_gc_curia_note',116,102,w=247,h=54,font='Main_14')
 curia+=shield('rip_church_gc_controller_shield',386,114,'rip_church_gc_controller',
               'has_global_flag = rip_church_gc_controller_known event_target:rip_church_gc_controller = { is_papal_controller = yes }','GFX_shield_small')
-curia+=feature_text('rip_church_gc_curia_vote_disclaimer',44,158,w=387,h=18,font='Main_14',align='center')
-curia+=text('rip_church_gc_petitions_title',28,179,w=419,h=22,align='center')
-for i,key in enumerate(('church_tax','blessing','indulgence','saint','usury','holy_war','legate','monopoly')):
-    x=22+(i%4)*106; y=211+(i//4)*68
-    curia+=button('rip_church_gc_petition_'+key+'_button',x+32,y,
-                  'rip_church_gc_can_petition_'+key+' = yes','rip_church_gc_petition_'+key+'_effect = yes',
-                  sprite='GFX_papacy_action_strip',frame=i+1,label=False)
-curia+=text('rip_church_gc_curia_privilege',28,367,w=419,h=36,align='center')
-curia+=button('rip_church_gc_donate_button',64,448,'rip_church_gc_can_donate = yes',
-              'rip_church_gc_donate_effect = yes',sprite='GFX_buy_indulgence_button',label=False)
-curia+=text('rip_church_gc_donation_cost',133,441,w=155,h=54)
-curia+=feature_button('rip_church_gc_deputation_button',330,443,
+curia+=feature_text('rip_church_gc_curia_vote_disclaimer',44,194,w=387,h=24,font='Main_14',align='center')
+curia+=feature_button('rip_church_gc_deputation_button',64,265,
                       'rip_church_gc_can_depute_to_curia = yes',
                       'rip_church_gc_depute_to_curia_effect = yes',
                       sprite='GFX_standard_button_71')
-curia+=art('rip_church_gc_deputation_art','GFX_shield_small',350,449,0.7)
-curia+=feature_text('rip_church_gc_deputation_note',291,475,w=142,h=34,font='Main_14',align='center')
+curia+=art('rip_church_gc_deputation_art','GFX_shield_small',84,271,0.7)
+curia+=feature_text('rip_church_gc_deputation_note',128,258,w=285,h=54,font='Main_14',align='left')
 curia+=gc_tabs('curia')
 paths=inset('paths_status',34,98,407,64)+inset('paths_actions',34,195,407,195)+inset('paths_patron',34,402,407,108)
 paths+=text('rip_church_gui_paths_heading',28,28,w=419,h=26,font='vic_22',align='center')

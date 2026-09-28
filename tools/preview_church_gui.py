@@ -13,33 +13,24 @@ for option in ('ro','paths','province'): group.add_argument('--'+option,action='
 args=ap.parse_args()
 branch='ro' if args.ro else 'union_paths' if args.paths else 'rite' if args.province else 'gc'
 loc=dict(re.findall(r'^\s+(\w+):0 "(.*)"$',(ROOT/'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'),re.M))
-sample={'Root.GetChurchGCOrientation':'Balanced communion', 'Root.rip_church_communion.GetValue':'-20',
- 'Root.GetChurchBalanceValue':'§R-20§!',
- 'Root.rip_church_papal_standing.GetValue':'100', 'Root.GetChurchStandingRate':'§G+0.25§!',
- 'Root.rip_church_recognized_parishes.GetValue':'999', 'Root.GetChurchCenterStatus':'§RNo Centre of Union is established§!',
- 'Root.GetChurchPrivilege':'Agreement on coexistence'}
+sample={'Root.GetChurchPrivilege':'Agreement on coexistence'}
 sample.update({'Root.GetChurchROStatus':'Reconciliation in progress',
  'Root.rip_church_fervor.GetValue':'100','Root.rip_church_icons.GetValue':'4',
  'Root.rip_church_capacity.GetValue':'4','Root.rip_church_fervor_income.GetValue':'5',
  'Root.rip_church_fervor_cost.GetValue':'18','Root.rip_church_nodes.GetValue':'2'})
 for key in ('War','Mercy','Building','Mission'): sample['Root.GetChurchIcon'+key]='Active'
-sample.update({'Root.GetChurchCuriaStatus':'Roman support requires better relations',
- 'Root.GetChurchPapalOpinion':'§R-10§!', 'Root.GetChurchCuriaRate':'§Y+0.00§!',
- 'Root.GetChurchDonationState':'Available again five years after the last donation',
+sample.update({'Root.GetChurchCuriaStatus':'Rome is present; diplomatic audience available',
  'Root.GetChurchLocalInstitution':'Agreement on coexistence'})
-sample.update({'Root.GetChurchSlotState':'Shared privilege: §Y1 / 1§!',
+sample.update({'Root.GetChurchSlotState':'Synodal institution: §Y1 / 1§!',
  'Root.GetChurchCoexistenceState':'§GCompact of coexistence active§!',
  'Root.rip_church_gui_eastern_parishes.GetValue':'999',
  'Root.rip_church_gui_latin_parishes.GetValue':'999',
- 'Root.rip_church_gui_latin_consents.GetValue':'999',
- 'Root.GetChurchNetworkScope':'Network access: §Yrings 0-2§!\\nLatin consent: §Ycentre area only§!',
  'Root.GetChurchUnionPathState':'Catholic patronage of Eastern parishes',
  'Root.GetChurchUnionPathIdentity':'Patronage preserves our Catholic confession.\\nAn Eastern founding parish enters the Union.',
  'Root.GetChurchFlorenceProgress':'Term complete: settlement conditions must hold',
  'Root.GetChurchPatronState':'Catholic patronage is established',
  'Root.GetChurchRiteStatus':'The Latin parish has consented to gradual Byzantine integration.',
- 'Root.GetChurchRiteFamily':'Latin', 'Root.GetChurchProvinceRing':'ring 4',
- 'Root.GetChurchProvinceUnionAccess':'Network permits conversion; native range applies'})
+ 'Root.GetChurchRiteFamily':'Latin'})
 def resolve(key):
     return re.sub(r'\[([^]]+)\]',lambda m:sample[m[1]],loc[key]).replace('\\n','\n')
 def asset(path):

@@ -1,179 +1,69 @@
-"""Greek Catholic transaction, migration and vanilla-balance source contracts.
+"""Contracts for retiring the artificial Union centre and Curia economy."""
+from clausewitz_testlib import ROOT, read
 
-These checks do not execute EU4 or establish overall campaign strength.
-"""
-from decimal import Decimal
-import re
-from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized, vanilla_root
+triggers = read('common/scripted_triggers/rip_church_gc_curia_triggers.txt')
+effects = read('common/scripted_effects/rip_church_gc_curia_effects.txt')
+controls = read('common/custom_gui/RIP_church_controls.txt')
+features = read('common/custom_gui/RIP_church_gc_features.txt')
+gui_source = read('interface/countryreligionview.gui')
+gui_builder = read('tools/build_church_gui.py')
+loc_builder = read('tools/build_church_localisation.py')
+lifecycle = read('common/scripted_effects/rip_church_lifecycle_effects.txt')
+religion_events = read('events/UniateChurch.txt')
+union_decisions = read('decisions/GreekCatholicDecisions.txt')
+crown_effect = read('common/scripted_effects/rip_uniate_crown_effects.txt')
+on_actions = read('common/on_actions/greek_catholic_on_actions.txt')
 
+# The old balance, Standing store, purchasable petition menu and bonuses are
+# not connected to any live trigger, effect, GUI binding or generator.
+for source in (triggers, effects, controls, features, gui_source, gui_builder):
+    for retired in ('rip_church_gc_petition_', 'rip_church_gc_can_donate',
+                    'rip_church_gc_donate_effect', 'rip_church_communion.GetValue',
+                    'rip_church_papal_standing.GetValue',
+                    'rip_church_standing_income.GetValue'):
+        assert retired not in source, retired
+assert "custom+=defined('GetChurchCuriaRate'" not in loc_builder
+assert "custom+=defined('GetChurchDonationState'" not in loc_builder
+assert "custom+=defined('GetChurchCuriaPrivilege'" not in loc_builder
+assert 'for key in list(DATA)' in loc_builder
+assert not (ROOT / 'common/event_modifiers/RIP_church_gc_curia_modifiers.txt').exists()
 
-PETS = {
-    'church_tax': ('papal_sanction_for_church_taxes', 200),
-    'blessing': ('papal_blessing', 150),
-    'indulgence': ('papal_indulgence', 150),
-    'usury': ('usury_forgiven', 100),
-    'legate': ('papal_legate', 250),
-    'holy_war': ('papal_sanction_for_holy_war', 200),
-}
-SYNOD = dict(zip('abcefghi', (
-    'embrace_eastern_rite', 'accept_papal_supremacy', 'basilian_monasteries',
-    'uniate_educational_network_aspect', 'defender_of_union',
-    'blessing_of_basilian_order', 'blessing_of_papal_protection',
-    'blessing_of_uniate_missionaries',
-)))
+# A Curia visit remains only as a limited diplomatic audience; no invented
+# electoral standing or authority payment is attached to it.
+assert 'rip_church_gc_can_depute_to_curia = {' in triggers
+assert 'treasury = 50' in triggers and 'patriarch_authority' not in triggers
+assert 'add_treasury = -50' in effects and 'add_opinion' in effects
+assert 'rip_church_papal_standing' not in effects
+assert 'rip_church_papal_standing' not in triggers
+assert 'rip_church_gc_deputation_button' in features
 
+# Local synod and devotional icons remain wired and separately accessible.
+for name in ('rip_church_gc_can_infrastructure', 'rip_church_gc_can_coexistence'):
+    assert name in read('common/scripted_triggers/rip_church_union_triggers.txt')
+for name in ('rip_church_gc_infrastructure_effect', 'rip_church_gc_coexistence_effect'):
+    assert name in read('common/scripted_effects/rip_church_union_effects.txt')
+for name in ('liturgy', 'learning', 'charity'):
+    assert f'rip_church_gc_activate_icon_{name}_effect' in read(
+        'common/scripted_effects/rip_church_gc_interaction_effects.txt')
+assert 'rip_church_gc_petition_' not in controls
 
-def payload(text):
-    text = re.sub(r'#[^\n]*', '', text)
-    return {k: Decimal(v) for k, v in re.findall(
-        r'(?m)^\s*(\w+)\s*=\s*(-?\d+(?:\.\d+)?)\s*$', text)}
+# No active route can establish a global Greek Catholic center or run its
+# former auto-conversion event chain. Historical faith adoption is retained.
+assert 'establish_greek_catholic_center_decision' not in union_decisions
+assert 'greek_catholic_missionary_campaign_decision' not in union_decisions
+assert 'greek_catholic_education_decision' in union_decisions
+assert 'activate_greek_catholic_reformation' not in crown_effect
+assert 'uniate_church.9' not in on_actions
+assert 'id = uniate_church.9' not in religion_events
+assert not (ROOT / 'events/UniateReformationSpread.txt').exists()
+assert not (ROOT / 'decisions/RIP_UniateCuria.txt').exists()
 
+# One-time old-save cleanup is intentional: it removes, rather than revives,
+# old numeric state, province-ring flags and obsolete modifiers.
+retirement = lifecycle.split('rip_church_retire_removed_union_mechanics_effect =', 1)[1]
+assert 'rip_church_communion value = 0' in retirement
+assert 'rip_church_papal_standing value = 0' in retirement
+assert 'rip_church_union_ring_0' in retirement
+assert 'remove_reform_center = greek_catholic' in retirement
 
-# zz_ prefix is load-bearing: EU4 parses common/religions/ alphabetically and
-# allowed_center_conversion cannot forward-reference a religion declared in a
-# later file. greek_catholic.txt sorted BEFORE russian_orthodox.txt, so the
-# engine rejected the russian_orthodox entry outright -
-#   error.log: [religion.cpp:900] Unknown religion russian_orthodox defined
-#              for center of reformation conversion
-# and the See silently stopped converting the mod's own main faith. Vanilla has
-# zero forward references across its 160 religions.
-faith = read('common/religions/zz_greek_catholic.txt')
-triggers = read('common/scripted_triggers/rip_faith_triggers.txt')
-effects = read('common/scripted_effects/rip_uc_curia_effects.txt')
-resource = read('common/scripted_effects/greek_catholic_effects.txt')
-decisions = read('decisions/RIP_UniateCuria.txt')
-modifiers = read('common/event_modifiers/RIP_UniateCuria_modifiers.txt')
-shared = read('common/event_modifiers/RIP_faith_modifiers.txt')
-hooks = read('common/on_actions/greek_catholic_on_actions.txt')
-
-# Snapshot from EU4 1.37.5; absence of an install is unknown, not a mod error.
-BASELINE = {
-    'church_tax': {'global_tax_modifier': '.15', 'build_cost': '-.1'},
-    'blessing': {'prestige': '1', 'land_morale': '.1'},
-    'indulgence': {'legitimacy': '1', 'horde_unity': '1', 'meritocracy': '1',
-                   'devotion': '1', 'republican_tradition': '.2', 'improve_relation_modifier': '.1'},
-    'usury': {'interest': '-.25', 'inflation_reduction': '.1', 'yearly_corruption': '-.04'},
-    'legate': {'diplomatic_reputation': '1', 'diplomatic_annexation_cost': '-.1'},
-    'holy_war': {'manpower_recovery_speed': '.15', 'land_maintenance_modifier': '-.05'},
-}
-COUNTRY = {'tolerance_own': Decimal('1'), 'global_heathen_missionary_strength': Decimal('.01')}
-install = vanilla_root()
-if install is not None:
-    vanilla_mods = (install / 'common/event_modifiers/00_event_modifiers.txt').read_text(encoding='cp1252')
-    vanilla_faith = named_block((install / 'common/religions/00_religion.txt').read_text(encoding='utf-8-sig'), 'catholic')
-    assert payload(named_block(vanilla_faith, 'country')) == COUNTRY
-    for name, (vanilla, _) in PETS.items():
-        assert payload(named_block(vanilla_mods, vanilla)) == {k: Decimal(v) for k, v in BASELINE[name].items()}
-    print('PASS: all baselines match the installed vanilla')
-else:
-    print('SKIP: installed vanilla unavailable; only the versioned 1.37.5 snapshot is checked')
-assert payload(named_block(faith, 'country')) == {
-    'church_loyalty_modifier': Decimal('.05')
-}
-assert payload(named_block(faith, 'country_as_secondary')) == {
-    'church_loyalty_modifier': Decimal('.025')
-}
-assert payload(named_block(faith, 'province')) == {
-    'local_missionary_strength': Decimal('.01')
-}
-assert 'has_patriarchs = yes' in normalized(faith)
-assert not re.search(r'\b(?:papacy|fervor|holy_sites|blessings|uses_church_power)\s*=', normalized(faith))
-for icon in ('michael', 'eleusa', 'pancreator', 'nicholas', 'climacus'):
-    old = named_block(faith, 'rip_gc_icon_' + icon)
-    assert all(v == 0 for v in payload(old).values())
-    assert 'always = no' in named_block(old, 'allow')
-    assert 'always = no' in named_block(old, 'visible')
-assert (ROOT / 'interface/countryreligionview.gui').exists()
-for gui in ('papacy.gui', 'blessings.gui'):
-    assert not (ROOT / 'interface' / gui).exists(), gui
-
-slot = named_block(triggers, 'rip_uc_has_church_benefit')
-expected_benefits = {'rip_uc_curia_' + n for n in PETS} | set(SYNOD.values())
-assert set(re.findall(r'has_country_modifier\s*=\s*(\w+)', slot)) == expected_benefits
-common_gate = normalized(named_block(triggers, 'rip_uc_can_petition_the_curia'))
-assert 'always = no' in common_gate
-assert 'always = no' in named_block(triggers, 'rip_uc_can_hold_synod')
-assert 'always = no' in named_block(triggers, 'rip_uc_can_donate')
-for name, (vanilla, ducats) in PETS.items():
-    actual = named_block(modifiers, 'rip_uc_curia_' + name)
-    assert payload(actual) == {k: Decimal(v) * Decimal('1.05') for k, v in BASELINE[name].items()}, name
-    assert 'religion = yes' in actual
-    gate = 'rip_uc_can_petition_' + name
-    decision = named_block(decisions, 'rip_uc_petition_' + name)
-    assert gate + ' = yes' in named_block(decision, 'allow')
-    transaction = named_block(effects, 'rip_uc_petition_' + name + '_effect')
-    guarded = named_block(transaction, 'if')
-    assert gate + ' = yes' in named_block(guarded, 'limit')
-    assert f'add_treasury = -{ducats}' in guarded
-    assert f'treasury = {ducats}' in named_block(triggers, gate)
-    assert guarded.count('rip_uc_spend_the_standing_effect = yes') == 1
-    assert guarded.count('rip_uc_petition_cost_effect = yes') == 1
-    assert f'name = rip_uc_curia_{name}' in guarded and 'duration = 7300' in guarded
-    assert 'add_country_modifier' not in named_block(decision, 'effect')
-    print('PASS: retired legacy packet remains gated off:', name)
-assert 'prestige = 25' in named_block(triggers, 'rip_uc_can_petition_legate')
-assert 'is_at_war = yes' in named_block(triggers, 'rip_uc_can_petition_holy_war')
-assert 'add_patriarch_authority = -0.25' in named_block(resource, 'rip_uc_spend_the_standing_effect')
-
-# No free diplomatic slot, loyalty or monarch points hidden behind UI/cooldowns.
-cost = named_block(read('common/scripted_effects/rip_faith_effects.txt'), 'rip_uc_petition_cost_effect')
-assert 'add_prestige = -2' in cost and 'add_estate_loyalty' not in cost
-for timer in ('rip_uc_petition_cooldown', 'rip_uc_synod_recently_sat'):
-    assert payload(named_block(shared, timer)) == {}
-synod = next(b for _, b in keyed_blocks(read('events/RIP_FaithCanons.txt'), 'country_event')
-             if re.search(r'id\s*=\s*rip_faith\.2\b', b) and 'title =' in b)
-assert 'duration = -1' not in synod and 'add_dip_power' not in synod
-assert 'add_adm_power' not in named_block(decisions, 'rip_uc_hold_a_synod')
-assert 'always = no' in normalized(named_block(triggers, 'rip_uc_can_hold_synod'))
-for letter, modifier in SYNOD.items():
-    option = next(b for _, b in keyed_blocks(synod, 'option') if f'name = rip_faith.2.{letter}' in b)
-    assert 'rip_uc_can_hold_synod = yes' in named_block(option, 'trigger')
-    body = named_block(effects, 'rip_uc_synod_' + letter + '_effect')
-    assert 'rip_uc_can_hold_synod = yes' in named_block(body, 'limit')
-    assert body.count('rip_uc_synod_cost_effect = yes') == 1
-    assert 'name = ' + modifier in body and 'duration = 7300' in body
-    assert 'papal_influence' not in named_block(shared, modifier)
-synod_cost = named_block(effects, 'rip_uc_synod_cost_effect')
-assert 'add_adm_power = -100' in synod_cost
-assert 'rip_uc_spend_the_standing_effect = yes' in synod_cost
-
-# Retired free conversion loops cannot grant province-scoped authority.
-assert 'rip_uc_gain_standing_effect =' not in resource
-spread = read('common/scripted_effects/rip_faith_spread_effects.txt')
-assert 'rip_gc_unity_spread_effect =' not in spread
-assert 'rip_gc_unity_spread_effect = yes' not in hooks
-tick = named_block(resource, 'rip_uc_standing_tick_effect')
-assert 'papal_legate' not in tick
-assert 'add_patriarch_authority' not in tick, 'retired standing tick must remain inert'
-donation = named_block(resource, 'rip_uc_donation_effect')
-assert 'rip_uc_can_donate = yes' in named_block(donation, 'limit')
-assert 'add_treasury = -150' in donation and 'add_patriarch_authority = 0.10' in donation
-assert 'duration = 1825' in donation
-
-# Reopening a save keeps its new benefit; leaving the faith removes the benefit
-# but retains zero-payload payment timers and the one-time migration flag.
-migration = named_block(effects, 'rip_uc_curia_migration_effect')
-greek = named_block(migration, 'if')
-assert 'religion = greek_catholic' in named_block(greek, 'limit')
-for original, _ in PETS.values():
-    assert f'remove_country_modifier = {original}' in greek
-    assert migration.count(f'remove_country_modifier = {original}') == 1
-once = named_block(greek, 'if', occurrence=2)
-assert 'NOT = { has_country_flag = rip_uc_curia_v2_migrated }' in named_block(once, 'limit')
-assert 'rip_uc_clear_church_benefits_effect = yes' in once
-assert 'clr_country_flag = rip_uc_curia_v2_migrated' not in effects
-assert 'remove_country_modifier = rip_uc_donation_recently_sent' not in effects
-for hook in ('on_startup', 'on_religion_change', 'on_bi_yearly_pulse'):
-    assert 'rip_uc_curia_migration_effect = yes' in named_block(hooks, hook)
-assert 'rip_uc_standing_tick_effect = yes' in named_block(hooks, 'on_bi_yearly_pulse')
-
-info = read('events/RIP_UniateCuria.txt')
-assert 'rip_uc_curia.1' in decisions and 'is_triggered_only = yes' in info
-assert not re.search(r'\badd_\w+\s*=', info)
-loc_path = ROOT / 'localisation/rip_uc_curia_l_english.yml'
-assert loc_path.read_bytes().startswith(b'\xef\xbb\xbf')
-loc = loc_path.read_text(encoding='utf-8-sig')
-for key in expected_benefits - set(SYNOD.values()):
-    assert f' {key}:0 ' in loc
-print('PASS: legacy petitions/synod/donations disabled, save cleanup retained, vanilla papacy untouched')
-print('LIMIT: legacy numeric packets are inactive; campaign balance is checked separately')
+print('PASS: obsolete Union centre and Curia resource contracts retired; local synod retained')
