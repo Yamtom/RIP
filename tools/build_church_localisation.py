@@ -837,16 +837,22 @@ for key in list(DATA):
 for key in list(DATA):
  if key.startswith('rip_church_gui_') and not key.endswith('_tt'): DATA.setdefault(key+'_tt',DATA[key])
 
+# The historical unions were signed by bishops under Catholic crowns and no crown changed its own
+# faith. Where the adopter has no Catholic overlord the whole state takes the union, which is the
+# mod's own departure from that record and is stated where the player acts.
+STATE_UNION_ALT=('Alternative history when the state has no Catholic overlord: the historical unions were concluded by bishops '
+ 'living under Catholic crowns, and none of those crowns changed its own faith. Here the whole state takes the union.')
 # Shared mechanics abstract several local church histories, not one jurisdiction.
 REGIONAL_UNION_NOTE=('Shared rules model several local Ruthenian and Carpathian Eastern Catholic union traditions under a broad game category, not one church institution. '
  'Brest, Uzhhorod, Peremyshl, Lviv and Lutsk have distinct local histories, chronologies and jurisdictions; '
  'these rules do not imply that every region followed the same path or belonged to one institution.')
 DATA.update({
  'convert_to_greek_catholic_decision_title':'Accept a local church union',
- 'convert_to_greek_catholic_decision_desc':'Bring our local hierarchy into communion with Rome while retaining its Byzantine rite. '+REGIONAL_UNION_NOTE,
+ 'convert_to_greek_catholic_decision_desc':STATE_UNION_ALT+' Bring our local hierarchy into communion with Rome while retaining its Byzantine rite. '+REGIONAL_UNION_NOTE,
  'rip_church_gui_paths_title':'Local routes to communion',
  'rip_church_gui_paths_title_tt':REGIONAL_UNION_NOTE,
 })
+DATA['rip_church_gui_adopt_tt']+=' '+STATE_UNION_ALT
 for key in ('rip_church_sponsor_union_desc','rip_church_gui_adopt_tt',
             'rip_church_gui_sponsor_tt'):
  DATA[key]+=' '+REGIONAL_UNION_NOTE
