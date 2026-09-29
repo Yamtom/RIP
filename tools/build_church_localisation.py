@@ -2,6 +2,50 @@
 from pathlib import Path
 import json,argparse,re
 ROOT=Path(__file__).resolve().parents[1]
+# The province action GUARANTEES another confessional community its rights
+# (rite, clergy, local church jurisdiction). It is not that community accepting
+# the Union. Player-visible name: 'Guarantee community rights'. Internal ids
+# keep the older 'recognize' spelling on purpose: the province flag
+# rip_church_rite_recognized lives in savegames, and modifiers, effects,
+# triggers and GUI widgets are named after it.
+# Numbers: common/event_modifiers/RIP_church_redesign_modifiers.txt (rip_church_rite,
+# _favoured, _ecumenical, _revoked) and common/scripted_effects/rip_church_union_effects.txt
+# (1 ADM per development; 3650-day revoke lock). Net on a guaranteed province:
+# normal -2.5 unrest / -15% tax / -20% levies; ecumenical -3 / -10% / -15%.
+RITE_KEEPS='The province keeps its religion; it is not converted and does not enter the Union.'
+RITE_TERMS=('Costs 1 ADM per development and lasts at least ten years. Unrest falls by 2, plus 0.5 from the protected local tradition; '
+            'local tax falls by 15% and levies by 20%. After the ecumenical settlement: unrest -3, tax -10%, levies -15%.')
+COMMUNITIES_TT=('Communities whose rights we guarantee, Eastern and Latin. '
+                'A guarantee does not convert a province or bring it into the Union.')
+RITE_REVOKE=('No refund. The province gains +3 unrest for ten years. Revoking counts as forced integration, which invites Orthodox '
+             'backlash and bars the ecumenical settlement for ten years.')
+# Requirements: rip_church_can_ecumenism. Benefits: rip_church_rite_ecumenical vs
+# rip_church_rite_favoured, and rip_church_opinion_gc_ecumenical (+15, mutual, no decay).
+ECUMENISM_REQUIRES=('Requires twenty years of union, no forced integration in the last ten, stability +2, peace, '
+                    'guaranteed community rights in an Orthodox and in a Latin province, and an Orthodox ally with opinion +100. '
+                    'Muscovite Orthodox provinces and states do not count.')
+ECUMENISM_BENEFITS=('In every province with guaranteed rights the extra unrest reduction rises from 0.5 to 1 and the tax and levy '
+                    'penalties shrink by 5 points each (net unrest -3, tax -10%, levies -15%). '
+                    'Orthodox and Catholic states gain +15 opinion of us, and we of them; Muscovite Orthodox states are not affected. '
+                    'The settlement costs nothing and is not withdrawn once concluded.')
+ECUMENISM_TT='A long-term settlement between the Eastern and Latin churches.\\n'+ECUMENISM_REQUIRES+'\\n'+ECUMENISM_BENEFITS
+ECUMENISM_DESC=('Conclude a settlement between the Eastern and Latin church communities once community rights are guaranteed in both '
+                'and the historical and diplomatic conditions are met. It deepens every guarantee and earns the goodwill of Orthodox and Catholic states.')
+# Province panel: rip_church_recognize_rite_button tooltip (custom_button), then the help block under the buttons.
+RITE_BUTTON_TT=("Guarantee the rights of this province's Orthodox or Catholic community: its rite, clergy and local church jurisdiction. "
+                +RITE_KEEPS+' '+RITE_TERMS)
+# On-panel text (Main_14, 440 x 150 px, at most ten lines even at 7 px per character): the essentials only.
+RITE_HELP=("Guaranteeing community rights secures this province's rite, clergy and local church jurisdiction. "+RITE_KEEPS+' '
+           "Costs §Y1 ADM per current development§!; lasts at least ten years. "
+           "Unrest -2 (-0.5 more from the protected local tradition), local tax -15%, levies -20%, no religious-unity penalty. "
+           "After the ecumenical settlement: unrest -3, tax -10%, levies -15%. "
+           "Revoking gives +3 unrest for ten years.")
+# Hover text on that block: the details.
+RITE_HELP_TT=(RITE_KEEPS+' While the guarantee stands, Union backlash events and Muscovite missionary networks skip the province. '
+              'The ecumenical settlement deepens it to unrest -3, tax -10% and levies -15%. '
+              'It lapses if the owner leaves the Union or the province changes faith. '
+              'Orthodox and Muscovite Orthodox provinces count as Eastern in the country panel, Catholic provinces as Latin. '
+              'Only a Greek Catholic owner can guarantee rights.')
 DATA={
   "rip_church_close": "Close",
   "rip_church.2.t": "Moscow and the Third Rome",
@@ -24,7 +68,7 @@ DATA={
   "rip_church_ro_help": "Authority supplies capacity; Fervor pays for active policies. Activation: 10 Fervor. Upkeep for 1/2/3/4 icons: 2/4/8/14 monthly, plus 2 per funded node. The newest icon closes first if capacity or fuel runs out.",
   "rip_church_gc_heading": "THE UNION OF THE CHURCHES",
   "rip_church_gc_resources": "Eastern hierarchy: [Root.rip_church_pa_display.GetValue]% authority",
-  "rip_church_gc_help": "Patriarchal Authority belongs to the Eastern hierarchy. Local synodal institutions are separate from diplomatic contact with Rome. Recognize local rites from an owned province's panel.",
+  "rip_church_gc_help": "Patriarchal Authority belongs to the Eastern hierarchy. Local synodal institutions are separate from diplomatic contact with Rome. Guarantee community rights from an owned province's panel.",
   "rip_church_gc_privilege_state": "Active settlement: [Root.GetChurchPrivilege]",
   "rip_church_nodes_button": "Missionary networks",
   "rip_church_reconcile_button": "Negotiate reconciliation",
@@ -32,12 +76,12 @@ DATA={
   "rip_church_ecumenism_button": "Conclude ecumenical settlement",
   "rip_church_gc_infrastructure_button": "Eastern infrastructure",
   "rip_church_gc_coexistence_button": "Agreement of coexistence",
-  "rip_church_rite_heading": "CONFESSIONAL AUTONOMY",
+  "rip_church_rite_heading": "COMMUNITY RIGHTS",
   "rip_church_rite_state": "[Root.GetChurchRiteStatus]",
-  "rip_church_rite_help": "Recognizing a rite costs 1 ADM per current development. It excludes the parish from religious disunity, reduces unrest by 2, and reduces tax by 15% and manpower by 20%. The agreement lasts at least ten years. Revocation causes unrest for ten years.",
-  "rip_church_recognize_rite_button": "Recognize the local rite",
-  "rip_church_revoke_rite_button": "Revoke confessional autonomy",
-  "rip_church_rite_affordable_tt": "Our treasury of administrative power covers 1 ADM per development of this province.",
+  "rip_church_rite_help": RITE_HELP,
+  "rip_church_recognize_rite_button": "Guarantee community rights",
+  "rip_church_revoke_rite_button": "Revoke community rights",
+  "rip_church_rite_affordable_tt": "We hold 1 ADM for every point of development in this province.",
   "rip_church_ro_unrecognized": "Unrecognized autocephaly",
   "rip_church_ro_provisional": "Patriarchate recognized; conciliar confirmation pending",
   "rip_church_ro_recognized": "Recognized patriarchate within Orthodox communion",
@@ -46,13 +90,13 @@ DATA={
   "rip_church_active": "ACTIVE",
   "rip_church_inactive": "Inactive",
   "rip_church_none": "None",
-  "rip_church_rite_recognized": "The local rite has a binding agreement of confessional autonomy.",
-  "rip_church_rite_unrecognized": "The local rite has no agreement of confessional autonomy.",
+  "rip_church_rite_recognized": "Community rights are guaranteed: the province keeps its faith, rite and clergy.",
+  "rip_church_rite_unrecognized": "Community rights are not guaranteed in this province.",
   "rip_church_nodes_button_tt": "Register or close missionary networks. Registration prepays 2 Fervor; each registered node reserves 2 per month. Choose the native Missionary Network trade policy after funding.",
   "rip_church_reconcile_button_tt": "Costs 100 DIP and 20 Authority. Negotiations last at least five years and conclude at peace with stability 1. Universal claims are renounced; internal discontent lasts ten years.",
-  "rip_church_ecumenism_button_tt": "Conclude the local ecumenical settlement when its current historical and diplomatic conditions are met.",
-  "rip_church_recognize_rite_button_tt": "Pay 1 ADM per current development; recognize the rite for at least ten years.",
-  "rip_church_revoke_rite_button_tt": "After ten years, revoke the agreement. No refund; +3 local unrest for ten years and a new record of forced integration.",
+  "rip_church_ecumenism_button_tt": ECUMENISM_TT,
+  "rip_church_recognize_rite_button_tt": RITE_BUTTON_TT,
+  "rip_church_revoke_rite_button_tt": "After at least ten years, revoke the guarantee. "+RITE_REVOKE,
   "rip_church_gc_infrastructure_button_tt": "The local synod's infrastructure decision costs Patriarchal Authority and ducats and lasts ten years.",
   "rip_church_gc_coexistence_button_tt": "The local synod's agreement of coexistence costs Patriarchal Authority and ducats and lasts ten years.",
   "rip_church_request_recognition_title": "Seek recognition of our patriarchate",
@@ -64,7 +108,7 @@ DATA={
   "rip_church_sponsor_union_title": "Sponsor an Eastern Catholic union",
   "rip_church_sponsor_union_desc": "From 1596, a Catholic crown may support an Eastern union without changing its state religion. Pay 100 ADM, 100 DIP and one year's income. One eligible core parish accepts the founding settlement; the others remain unchanged.",
   "rip_church_ecumenism_title": "Conclude the ecumenical settlement",
-  "rip_church_ecumenism_desc": "Conclude a local settlement between eastern and Latin church communities when the current historical and diplomatic conditions are met.",
+  "rip_church_ecumenism_desc": ECUMENISM_DESC,
   "rip_church_icon_war_button": "Military Intercession",
   "rip_church_icon_war_button_tt": "+2.5% discipline; +5% manpower recovery. Activate for 10 Fervor; each icon may be reactivated only after one year. Deactivation is immediate and gives no refund.",
   "rip_church_icon_war_state": "[Root.GetChurchIconWar]",
@@ -82,11 +126,11 @@ DATA={
   "rip_church_ro_help_tt": "Authority supplies capacity; Fervor pays for active policies. Activation: 10 Fervor. Upkeep for 1/2/3/4 icons: 2/4/8/14 monthly, plus 2 per funded node. The newest icon closes first if capacity or fuel runs out.",
   "rip_church_gc_heading_tt": "THE UNION OF THE CHURCHES",
   "rip_church_gc_resources_tt": "The displayed authority belongs to the Eastern hierarchy; it is not a Curia resource.",
-  "rip_church_gc_help_tt": "Local synod decisions and diplomatic contact with Rome are separate. Recognize local rites from an owned province's panel.",
+  "rip_church_gc_help_tt": "Local synod decisions and diplomatic contact with Rome are separate. Guarantee community rights from an owned province's panel.",
   "rip_church_gc_privilege_state_tt": "Active settlement: [Root.GetChurchPrivilege]",
-  "rip_church_rite_heading_tt": "CONFESSIONAL AUTONOMY",
+  "rip_church_rite_heading_tt": "COMMUNITY RIGHTS",
   "rip_church_rite_state_tt": "[Root.GetChurchRiteStatus]",
-  "rip_church_rite_help_tt": "Recognizing a rite costs 1 ADM per current development. It excludes the parish from religious disunity, reduces unrest by 2, and reduces tax by 15% and manpower by 20%. The agreement lasts at least ten years. Revocation causes unrest for ten years.",
+  "rip_church_rite_help_tt": RITE_HELP_TT,
   "rip_church_icon_war_state_tt": "[Root.GetChurchIconWar]",
   "rip_church_icon_mercy_state_tt": "[Root.GetChurchIconMercy]",
   "rip_church_icon_building_state_tt": "[Root.GetChurchIconBuilding]",
@@ -122,13 +166,13 @@ DATA={
   "rip_church_gc_prestige": "gc prestige",
   "desc_rip_church_gc_prestige": "An adjustment belonging to the current church settlement; its effects end or change when its conditions cease to apply.",
   "rip_church_rite": "rite",
-  "desc_rip_church_rite": "An adjustment belonging to the current church settlement; its effects end or change when its conditions cease to apply.",
+  "desc_rip_church_rite": "Our Greek Catholic government guarantees this community its rite, clergy and local church jurisdiction. "+RITE_KEEPS+" Lasts at least ten years.",
   "rip_church_rite_favoured": "rite favoured",
-  "desc_rip_church_rite_favoured": "An adjustment belonging to the current church settlement; its effects end or change when its conditions cease to apply.",
+  "desc_rip_church_rite_favoured": "The guarantee of community rights also protects local tradition: a further -0.5 unrest. Replaced by the ecumenical accommodation once the ecumenical settlement is concluded; the two never stack.",
   "rip_church_rite_ecumenical": "rite ecumenical",
-  "desc_rip_church_rite_ecumenical": "An adjustment belonging to the current church settlement; its effects end or change when its conditions cease to apply.",
+  "desc_rip_church_rite_ecumenical": "The ecumenical settlement deepens the guarantee: -1 unrest instead of -0.5, and the tax and levy penalties of the guarantee shrink by 5 points each. Replaces the protected local tradition.",
   "rip_church_rite_revoked": "rite revoked",
-  "desc_rip_church_rite_revoked": "An adjustment belonging to the current church settlement; its effects end or change when its conditions cease to apply.",
+  "desc_rip_church_rite_revoked": "The guarantee of community rights was revoked: +3 unrest for ten years.",
   "rip_church_gc_roman_resistance": "gc roman resistance",
   "desc_rip_church_gc_roman_resistance": "An adjustment belonging to the current church settlement; its effects end or change when its conditions cease to apply.",
   "rip_church_conversion_resistance": "conversion resistance",
@@ -406,31 +450,33 @@ DATA={
 DATA.update({
     'rip_church_gui_status_title': 'STATUS',
     'rip_church_gui_status_title_tt': 'Status of the Union hierarchy.',
-    'rip_church_gui_parishes_title': 'PARISHES',
+    'rip_church_gui_parishes_title': 'COMMUNITY RIGHTS',
+    'rip_church_gui_parishes_title_tt': COMMUNITIES_TT,
     'rip_church_gui_parish_counts':
-        'Eastern: §Y[Root.rip_church_gui_eastern_parishes.GetValue]§!\\nLatin: §Y[Root.rip_church_gui_latin_parishes.GetValue]§!',
-    'rip_church_gui_manage_parishes': 'Manage parishes',
+        'Eastern communities: §Y[Root.rip_church_gui_eastern_parishes.GetValue]§!\\nLatin communities: §Y[Root.rip_church_gui_latin_parishes.GetValue]§!',
+    'rip_church_gui_manage_parishes': 'Manage community rights',
     'rip_church_gui_manage_parishes_tt':
-        'Open the parish register. Select an owned province to recognize or revoke its local rite.',
+        'Open the register of guaranteed community rights. Select an owned province to guarantee or revoke its rights.',
     'rip_church_gui_institutions_title': 'SYNOD',
     'rip_church_gui_active_institution': 'Institution: §H[Root.GetChurchPrivilege]§!',
     'rip_church_gui_policy_help':
         'Church policy · Ecumenism is locked until every requirement in its tooltip is met.',
     'rip_church_gui_policy_help_tt':
-        'Local Synod opens the institution choices. Ecumenism requires twenty years of union, stability +2, peace, recognized Eastern and Latin parishes, and an Orthodox ally with opinion +100.',
-    'rip_church_gui_parish_list_title': 'RECOGNIZED PARISHES',
+        'Local Synod opens the institution choices.\\n'+ECUMENISM_TT,
+    'rip_church_gui_parish_list_title': 'COMMUNITY RIGHTS',
+    'rip_church_gui_parish_list_title_tt': COMMUNITIES_TT,
     'rip_church_gui_parish_empty_state': '[Root.GetChurchParishRegisterState]',
     'rip_church_gui_parish_empty_state_tt':
-        'Recognized parishes are managed from the selected province panel. The summary above updates monthly.',
+        'Community rights are guaranteed and revoked from the selected province panel. The summary above updates monthly.',
     'rip_church_gui_parish_register_empty':
-        '§HNo recognized parishes.§!\\n\\nRecognize parishes to establish local religious rights and integrate communities into the Union.\\n\\nProvince · Rite · Status',
+        '§HNo community rights are guaranteed.§!\\n\\nA guarantee protects a province\'s rite and clergy without converting it or bringing it into the Union.\\n\\nProvince · Rite · Status',
     'rip_church_gui_parish_register_active':
-        '§HEastern rites§!\\nProvince · Rite · Recognized\\n\\n§HLatin rites§!\\nProvince · Rite · Recognized\\n\\nSelect an owned recognized province to inspect or revoke its agreement.',
-    'rip_church_gui_recognize_parish': 'Recognize Parish',
+        '§HEastern rites§!\\nProvince · Rite · Rights\\n\\n§HLatin rites§!\\nProvince · Rite · Rights\\n\\nSelect an owned province with guaranteed rights to inspect or revoke its guarantee.',
+    'rip_church_gui_recognize_parish': 'Guarantee community rights',
     'rip_church_gui_recognize_parish_tt':
-        'Select an owned Orthodox, Muscovite Orthodox, or Catholic province, then use Recognize Parish in its province panel.',
+        'Select an owned Orthodox, Muscovite Orthodox or Catholic province, then use Guarantee community rights in its province panel. '+RITE_KEEPS+' '+RITE_TERMS,
     'rip_church_gui_recognize_help': 'Requires an eligible owned province to be selected.',
-    'rip_church_gui_recognize_help_tt': 'Recognition is performed from the selected province panel.',
+    'rip_church_gui_recognize_help_tt': 'Community rights are guaranteed from the selected province panel.',
     'rip_church_gc_curia_heading': 'CURIA RELATIONS',
     'rip_church_gc_contact_title': 'PAPAL CONTACT',
     'rip_church_gc_contact_title_tt': 'A limited diplomatic audience with the Holy See.',
@@ -481,10 +527,10 @@ DATA.update({
  'rip_church_gc_legate': 'Papal legate',
  'rip_church_gc_dynastic': 'Papal support for legitimacy',
  'rip_church_gc_prestige': 'Papal recognition of standing',
- 'rip_church_rite': 'Confessional autonomy',
+ 'rip_church_rite': 'Guaranteed community rights',
  'rip_church_rite_favoured': 'Protected local tradition',
  'rip_church_rite_ecumenical': 'Ecumenical accommodation',
- 'rip_church_rite_revoked': 'Revoked confessional autonomy',
+ 'rip_church_rite_revoked': 'Revoked community rights',
  'rip_church_gc_roman_resistance': 'Resistance to Roman integration',
  'rip_church_conversion_resistance': 'Resistance to jurisdictional pressure',
  'rip_church_gc_local_see': 'Local Eastern Catholic see',
@@ -512,16 +558,16 @@ DATA.update({
  'rip_church_gc_heading': 'Union of the Churches',
  'rip_church_gc_orientation': '[Root.GetChurchGCOrientation]',
  'rip_church_gc_resources': 'Communion balance: [Root.GetChurchBalanceValue]\\nPapal Standing: §Y[Root.rip_church_papal_standing.GetValue] / 100§!\\nMonthly rate: [Root.GetChurchStandingRate]',
- 'rip_church_gc_parishes': 'Recognized parishes: §Y[Root.rip_church_recognized_parishes.GetValue]§!',
+ 'rip_church_gc_parishes': 'Communities with guaranteed rights: §Y[Root.rip_church_recognized_parishes.GetValue]§!',
  'rip_church_gc_parish_count': '§Y[Root.rip_church_recognized_parishes.GetValue]§!',
- 'rip_church_gc_parish_count_tt': 'Recognized parishes: [Root.rip_church_recognized_parishes.GetValue]',
+ 'rip_church_gc_parish_count_tt': 'Communities with guaranteed rights: [Root.rip_church_recognized_parishes.GetValue]',
  'rip_church_gc_balance_negative': '§R[Root.rip_church_communion.GetValue]§!',
  'rip_church_gc_balance_positive': '§Y[Root.rip_church_communion.GetValue]§!',
  'rip_church_gc_center_state': '[Root.GetChurchCenterStatus]',
  'rip_church_gc_policy_label': 'Communion policy',
  'rip_church_gc_policy_cost': '§Y25§!   |   §Y20§! balance',
  'rip_church_gc_privilege_state': 'Active privilege\\n§H[Root.GetChurchPrivilege]§!',
- 'rip_church_gc_help': 'Start with Privileges. Local rites: select an owned province.\\nHover buttons for costs and conditions.',
+ 'rip_church_gc_help': 'Start with Privileges. Community rights: select an owned province.\\nHover buttons for costs and conditions.',
  'rip_church_privileges_button': 'Privileges',
  'rip_church_center_button': 'Union seat',
  'rip_church_ecumenism_button': 'Ecumenism',
@@ -532,7 +578,7 @@ DATA.update({
 })
 DATA.update({
  'rip_church_privileges_button': 'Synod',
- 'rip_church_privileges_button_tt': 'Convene the local Greek Catholic synod. Choose Eastern infrastructure or a compact protecting local rites. These use Patriarch Authority and ducats, and occupy a separate local ten-year slot. One Curia petition may run at the same time. Opening the menu is free.\\nCurrent institution: [Root.GetChurchLocalInstitution]',
+ 'rip_church_privileges_button_tt': 'Convene the local Greek Catholic synod. Choose Eastern infrastructure or a compact of coexistence, which needs guaranteed community rights in at least one province. These use Patriarch Authority and ducats, and occupy a separate local ten-year slot. One Curia petition may run at the same time. Opening the menu is free.\\nCurrent institution: [Root.GetChurchLocalInstitution]',
  'rip_church_gc_native_privileges_button': 'Synod',
  'rip_church_gc_native_privileges_button_tt': 'Choose an institution of the Greek Catholic hierarchy. The picture shows the active local institution; these are not Orthodox icon bonuses. Opening the synod is free.\\nCurrent institution: [Root.GetChurchLocalInstitution]',
  'rip_church.6.t': 'The Local Synod',
@@ -583,7 +629,6 @@ for page in ('union','curia'):
  for tab in ('union','curia'):
   key=f'rip_church_gc_{tab}_tab_{page}'
   DATA[key]=tab.title()
-  DATA[key+'_tt']=('Show communion policy, the local synod, parishes and the Centre of Union.' if tab=='union' else 'Show Papal relations, the current Curia controller, petitions and donations.')+' Switching tabs is free.'
 for key in list(DATA):
     match=re.fullmatch(r'rip_church_(ro|gc)(?:_(east|middle|rome))?_pa_(country|local)_(\d+)',key)
     if match:
@@ -598,10 +643,10 @@ DATA.update({
  'rip_church_gui_parishes_heading':'Parishes and the Centre of Union',
  'rip_church_gui_coexistence':'[Root.GetChurchCoexistenceState]',
  'rip_church_gui_coexistence_active':'§GCompact of coexistence active§!',
- 'rip_church_gui_coexistence_ecumenical':'§GEcumenical settlement recognized§!',
- 'rip_church_gui_coexistence_local':'Local rites retain their own agreements',
- 'rip_church_gui_parish_counts':'Recognized Eastern parishes: §Y[Root.rip_church_gui_eastern_parishes.GetValue]§!\\nRecognized Latin parishes: §Y[Root.rip_church_gui_latin_parishes.GetValue]§!\\nLatin consent to conversion: §Y[Root.rip_church_gui_latin_consents.GetValue]§!',
- 'rip_church_gui_parish_counts_tt':'Counts only our provinces; refreshed on opening this tab and monthly. Recognition preserves the province religion and excludes it from Union conversion. Latin consent is a separate paid permission for gradual conversion. Select an owned province to recognize, revoke or grant consent.',
+ 'rip_church_gui_coexistence_ecumenical':'§GEcumenical settlement concluded§!',
+ 'rip_church_gui_coexistence_local':'Community rights stay guaranteed province by province',
+ 'rip_church_gui_parish_counts':'Eastern communities: §Y[Root.rip_church_gui_eastern_parishes.GetValue]§!\\nLatin communities: §Y[Root.rip_church_gui_latin_parishes.GetValue]§!',
+ 'rip_church_gui_parish_counts_tt':'Counts only our provinces; refreshed on opening this tab and monthly. Guaranteeing community rights preserves the province religion; it is not converted and does not enter the Union. Select an owned province to guarantee or revoke its rights.',
  'rip_church_gui_network_title':'One shared Centre of Union',
  'rip_church_gui_network_scope':'[Root.GetChurchNetworkScope]',
  'rip_church_gui_network_normal':'Network access: §Yrings 0-2§!\\nLatin consent: §Yring 0 only§!',
@@ -624,7 +669,7 @@ DATA.update({
  'rip_church_gui_path_catholic':'Catholic patronage of Eastern parishes',
  'rip_church_gui_path_patron':'§GCatholic patron of the Union§!',
  'rip_church_gui_path_identity':'[Root.GetChurchUnionPathIdentity]',
- 'rip_church_gui_identity_orthodox':'State acceptance changes our confession.\\nExisting parish rites require separate agreements.',
+ 'rip_church_gui_identity_orthodox':'State acceptance changes our confession.\\nExisting communities need separate guarantees of their rights.',
  'rip_church_gui_identity_catholic':'Patronage preserves our Catholic confession.\\nAn Eastern founding parish enters the Union.',
  'rip_church_gui_paths_title':'Negotiations and settlement',
  'rip_church_gui_florence':'Florentine negotiations',
@@ -643,32 +688,39 @@ DATA.update({
  'rip_church_gui_province_network':'Rite: [Root.GetChurchRiteFamily]\\nNetwork: [Root.GetChurchProvinceRing]\\n[Root.GetChurchProvinceUnionAccess]',
  'rip_church_gui_rite_eastern':'Eastern', 'rip_church_gui_rite_latin':'Latin',
  'rip_church_gui_ring_outside':'outside the connected rings',
- 'rip_church_gui_protected':'§GRecognized rite: protected from Union conversion§!',
+ 'rip_church_gui_protected':'§GCommunity rights guaranteed: spared Union backlash§!',
  'rip_church_gui_access_yes':'Network permits conversion; native range applies',
  'rip_church_gui_access_no':'§YUnion conversion conditions are not met§!',
  'rip_church_gui_province_network_tt':'Recognition keeps the local confession. Latin consent permits gradual conversion and is not recognition. Rings describe the game network, not historical jurisdiction. Native distance and conversion rules still apply. Refreshes with monthly network maintenance.',
 })
 DATA['rip_church_center_button_tt']='§YCentre and parishes§!\\nOpen the network panel, review recognized rites and Latin consent, or establish the sole Centre of Union.'
 DATA['rip_church_gui_synod_tt']=DATA['rip_church_privileges_button_tt']
-DATA['rip_church_gui_ecumenism_tt']=DATA['rip_church_ecumenism_button_tt']+' The 60 Standing requirement is a threshold; this settlement does not spend it.'
+DATA['rip_church_gui_ecumenism_tt']=ECUMENISM_TT
 for i in range(5): DATA['rip_church_gui_ring_'+str(i)]='ring '+str(i)
+# The button is named rip_church_gc_{tab}_tab_{page}, so its label and tooltip depend on the tab alone
+# (tests/check_gc_curia_window.py pins that naming). The third tab lists communities whose rights are guaranteed.
+TAB_LABEL={'union':'Union','curia':'Curia','parishes':'Communities'}
+TAB_TT={
+ 'union':'The Union of the Churches: status, local synod, ecumenism and devotional icons. Orthodox and Catholic states see their historical paths to the Union here.',
+ 'curia':'Rome as a diplomatic contact; no numerical standing or electoral rights.',
+ 'parishes':COMMUNITIES_TT}
 for page in ('union','curia','parishes'):
  for tab in ('union','curia','parishes'):
   key=f'rip_church_gc_{tab}_tab_{page}'
-  DATA[key]=tab.title()
-  DATA[  key+'_tt']={'union':'Communion policy; Catholic patrons return to their Union paths.', 'curia':'Papal relations and paid petitions for a Greek Catholic state.', 'parishes':'Recognized Eastern and Latin rites, consent, centre network and separate local synod and Curia petition slots.'}[tab]
+  DATA[key]=TAB_LABEL[tab]
+  DATA[key+'_tt']=TAB_TT[tab]
 for key in list(DATA):
  if key.startswith('rip_church_gui_') and not key.endswith('_tt'): DATA.setdefault(key+'_tt',DATA[key])
 for key in ('rip_church_gc_privilege_state_tt','rip_church_gc_curia_privilege_tt'): DATA[key]=DATA['rip_church_gui_slot_state_tt']
 
 DATA.update({
- 'rip_church.6.d':'The Eastern hierarchy may organize church infrastructure or conclude a compact protecting recognized local rites. Both are local synodal institutions, spend Patriarch Authority and ducats, and share a separate ten-year slot. One Curia petition may operate at the same time; only one Curia petition can be active.',
+ 'rip_church.6.d':'The Eastern hierarchy may organize church infrastructure or conclude a compact of coexistence, which needs community rights guaranteed in at least one province. Both are local synodal institutions, spend Patriarch Authority and ducats, and share a separate ten-year slot. One Curia petition may operate at the same time; only one Curia petition can be active.',
  'rip_church_gc_heading':'THE UNION OF THE CHURCHES',
- 'rip_church_gc_resources':'Eastern hierarchy in communion with Rome\\nLocal rites are managed parish by parish',
- 'rip_church_gc_resources_tt':'The main religion window shows Patriarch Authority. Local agreements are tracked separately for each recognized parish.',
- 'rip_church_gui_parishes_title':'Recognized parishes',
- 'rip_church_gui_parish_counts':'Recognized Eastern parishes: §Y[Root.rip_church_gui_eastern_parishes.GetValue]§!\\nRecognized Latin parishes: §Y[Root.rip_church_gui_latin_parishes.GetValue]§!',
- 'rip_church_gui_parish_counts_tt':'Counts only our provinces and refreshes monthly. Recognition preserves the province religion and grants local autonomy. Select an owned province to recognize or revoke its rite.',
+ 'rip_church_gc_resources':'Eastern hierarchy in communion with Rome\\nCommunity rights are guaranteed province by province',
+ 'rip_church_gc_resources_tt':'The main religion window shows Patriarch Authority. Guaranteed community rights are tracked separately for each province.',
+ 'rip_church_gui_parishes_title':'Community rights',
+ 'rip_church_gui_parish_counts':'Eastern communities: §Y[Root.rip_church_gui_eastern_parishes.GetValue]§!\\nLatin communities: §Y[Root.rip_church_gui_latin_parishes.GetValue]§!',
+ 'rip_church_gui_parish_counts_tt':'Counts only our provinces and refreshes monthly. Guaranteeing community rights preserves the province religion; it is not converted and does not enter the Union. Select an owned province to guarantee or revoke its rights.',
  'rip_church_gui_institutions_title':'Local synodal institutions',
  'rip_church_gui_slot_state':'[Root.GetChurchSlotState]',
  'rip_church_gui_slot_free':'Synodal institution: §G0 / 1§!',
@@ -676,9 +728,9 @@ DATA.update({
  'rip_church_gui_slot_state_tt':'Infrastructure and coexistence share one ten-year local synod slot. One Curia petition can coexist, with its own one-at-a-time ten-year slot. Opening the synod is free.',
  'rip_church_gui_active_institution':'Active institution\\n§H[Root.GetChurchPrivilege]§!',
  'rip_church_gui_synod':'Local synod',
- 'rip_church_gui_synod_tt':'Choose Eastern infrastructure or a compact protecting recognized local rites. These use Patriarch Authority and ducats and last ten years.',
+ 'rip_church_gui_synod_tt':'Choose Eastern infrastructure, or a compact of coexistence once community rights are guaranteed in at least one province. These use Patriarch Authority and ducats and last ten years.',
  'rip_church_gui_ecumenism':'Ecumenism',
- 'rip_church_gui_ecumenism_tt':'A long-term settlement requiring twenty years of union, stability +2, peace, recognized Orthodox and Latin parishes, and an Orthodox ally with opinion +100.',
+ 'rip_church_gui_ecumenism_tt':ECUMENISM_TT,
  'rip_church_gui_local_note':'No automatic centre converts neighbouring provinces.',
  'rip_church_gui_patron_state':'[Root.GetChurchPatronState]',
  'rip_church_gui_patron_active':'§GCatholic patronage is established§!\\nThe state remains Catholic; parish changes require explicit events or decisions.',
@@ -717,8 +769,8 @@ DATA.update({
  'rip_church_gc_icon_charity_button_tt':'Activate the icon of almsgiving for five years. Costs §Y20 Patriarch Authority§!. −0.5 national unrest. Only one Greek Catholic icon can be active.',
  'rip_church_gc_icon_charity_state':'Almsgiving',
  'rip_church_gc_curia_vote_disclaimer':'Greek Catholic deputations and petitions do not confer cardinalship, electoral votes or control of the Catholic Curia.',
- 'rip_church_rite_help':'Recognition costs §Y1 ADM per current development§!, preserves the local confession, removes its religious-unity penalty and reduces direct taxation and recruitment. It lasts at least ten years. Revocation causes ten years of unrest.',
- 'rip_church_rite_help_tt':'Recognition is local autonomy, not automatic conversion. Orthodox, Muscovite Orthodox and Latin parishes are counted separately in the country panel.',
+ 'rip_church_rite_help':RITE_HELP,
+ 'rip_church_rite_help_tt':RITE_HELP_TT,
 })
 DATA['rip_church_gc_curia_privilege_tt']='One Curia petition at a time; it can coexist with one local synod institution. Both slots last ten years.'
 DATA['rip_church_gc_curia_vote_disclaimer_tt']=DATA['rip_church_gc_curia_vote_disclaimer']
@@ -861,12 +913,6 @@ for key in list(DATA):
                        'rip_church_gc_prestige', 'desc_rip_church_gc_prestige'}):
         del DATA[key]
 DATA.update({
-    'rip_church_gc_parishes_tab_curia_tt':
-        'Recognized Eastern and Latin rites, local synodal institutions, and a limited diplomatic audience with Rome.',
-    'rip_church_gc_parishes_tab_parishes_tt':
-        'Recognized Eastern and Latin rites and their local agreements of confessional autonomy.',
-    'rip_church_gc_parishes_tab_union_tt':
-        'Recognized Eastern and Latin rites and their local agreements of confessional autonomy.',
     'rip_church_gui_slot_state_tt':
         'Eastern infrastructure and coexistence share one ten-year local synod slot. Opening the synod is free.',
     'rip_church_gui_slot_free_tt': 'Local synod institution: §G0 / 1§!',
@@ -874,7 +920,7 @@ DATA.update({
     'rip_church_gc_infrastructure_button_tt':
         'Costs 20 Patriarch Authority and 100 ducats; establishes Eastern church infrastructure for ten years.',
     'rip_church_gc_coexistence_button_tt':
-        'Costs 20 Patriarch Authority and 100 ducats; establishes an agreement of coexistence for ten years.',
+        'Costs 20 Patriarch Authority and 100 ducats, and needs community rights guaranteed in at least one province. For ten years: -0.5 national unrest and +10% improve relations.',
     'rip_church_gc_pope_shield_tt':
         'The Catholic Papal State. Click to open its country view. Opinion of us: [Root.GetChurchPapalOpinion].',
     'rip_church_gc_curia_note':
@@ -887,34 +933,21 @@ DATA.update({
         'Send a diplomatic audience request to the Holy See. Costs §Y50 ducats§! and may improve the Pope’s opinion temporarily. Once every five years; no electoral rights or resource are gained.',
     'rip_church_gc_deputation_note':
         'Cooldown: §Y5 years§!\\nRequires: Catholic Papal State, peace, and §Y50 ducats§!\\nEffect: improves Papal opinion; diplomatic contact only.',
-    'rip_church_gc_union_tab_curia_tt':
-        'The Curia panel records Rome and permits a limited diplomatic audience; it grants no electoral rights or numerical standing.',
-    'rip_church_gc_union_tab_parishes_tt':
-        'Local parish agreements and synodal institutions.',
-    'rip_church_gc_union_tab_union_tt':
-        'Historical paths to communion and patronage; no global centre or automatic conversion.',
-    'rip_church_gc_curia_tab_curia_tt':
-        'Rome as a diplomatic contact; no numerical standing or electoral rights.',
-    'rip_church_gc_curia_tab_parishes_tt':
-        'Local parish agreements and synodal institutions.',
-    'rip_church_gc_curia_tab_union_tt':
-        'Historical paths to communion and patronage; no global centre or automatic conversion.',
     'rip_church_gc_help':
-        'Use the local synod and devotional icons. Select an owned province to recognize its rite.\\nHover buttons for costs and conditions.',
+        'Use the local synod and devotional icons. Select an owned province to guarantee its community rights.\\nHover buttons for costs and conditions.',
     'rip_church_withdraw_union_support_desc':
         "End the Catholic crown's patronage of the Union. Existing parish faiths do not change; earlier foundation and negotiation payments are not refunded.",
     'rip_church_oppose_union_desc':
         'For 25 DIP, adopt or end state opposition to the Union. Opposition imposes a mutual -10 opinion with Greek Catholic countries. The policy can be changed once every five years.',
-    'rip_church_recognize_rite_button_tt':
-        'Pay 1 ADM per current development; recognize the rite for at least ten years. The agreement excludes this parish from local integration.',
+    'rip_church_recognize_rite_button_tt': RITE_BUTTON_TT,
 })
 DATA.update({
  'rip_church_gui_communion_cell':'§WCommunion§!\\n§GIn communion with Rome§!',
- 'rip_church_gui_rite_cell':'§WRite rule§!\\n§bParish-by-parish§!',
- 'rip_church_gui_count_eastern':'Eastern: [Root.GetChurchEasternCount]',
- 'rip_church_gui_count_latin':'Latin: [Root.GetChurchLatinCount]',
- 'rip_church_gui_count_eastern_tt':'Open the parish register. Counts recognized Eastern parishes owned by this country.',
- 'rip_church_gui_count_latin_tt':'Open the parish register. Counts recognized Latin parishes owned by this country.',
+ 'rip_church_gui_rite_cell':'§WCommunity rights§!\\n§bProvince by province§!',
+ 'rip_church_gui_count_eastern':'Eastern communities: [Root.GetChurchEasternCount]',
+ 'rip_church_gui_count_latin':'Latin communities: [Root.GetChurchLatinCount]',
+ 'rip_church_gui_count_eastern_tt':'Open the community register. Counts owned Orthodox and Muscovite Orthodox provinces whose community rights are guaranteed.',
+ 'rip_church_gui_count_latin_tt':'Open the community register. Counts owned Catholic provinces whose community rights are guaranteed.',
  'rip_church_gui_zero_count':'§R0§!',
  'rip_church_gui_eastern_count_value':'§Y[Root.rip_church_gui_eastern_parishes.GetValue]§!',
  'rip_church_gui_latin_count_value':'§Y[Root.rip_church_gui_latin_parishes.GetValue]§!',
@@ -941,8 +974,8 @@ DATA.update({
  'rip_church_gui_contact_recent':'§bDeputation sent · cooldown active§!',
  'rip_church_gui_contact_ready':'§GFive-year interval completed§!',
  'rip_church_gui_register_columns':'§WProvince          Rite          Status          Action§!',
- 'rip_church_gui_parish_register_empty':'§bNo recognized parishes§!',
- 'rip_church_gui_parish_register_active':'§bRecognized parishes exist.§!\\nSelect a province to inspect its rite and agreement.',
+ 'rip_church_gui_parish_register_empty':'§bNo community rights guaranteed§!',
+ 'rip_church_gui_parish_register_active':'§bCommunity rights are guaranteed in some of our provinces.§!\\nSelect a province to inspect or revoke its guarantee.',
 })
 for family in ('eastern','latin'):
  custom+=defined('GetChurch'+family.title()+'Count',[
@@ -959,10 +992,10 @@ custom+=defined('GetChurchContactHistory',[
 # Live readouts use trigger-backed localization, never dynamic button labels.
 DATA.update({
  'rip_church_gui_shared_status':'§GIn communion§! · Rome: [Root.GetChurchPapalOpinion] · PA: [Root.GetChurchAuthorityReadout]',
- 'rip_church_gui_count_eastern_value':'Eastern: [Root.GetChurchEasternCount]',
- 'rip_church_gui_count_latin_value':'Latin: [Root.GetChurchLatinCount]',
- 'rip_church_gui_rite_cell':'Rite: §Yparish-by-parish§!',
- 'rip_church_gui_rite_cell_tt':'Each recognized parish retains its religion and local agreement. Recognition does not convert nearby provinces.',
+ 'rip_church_gui_count_eastern_value':'Eastern communities: [Root.GetChurchEasternCount]',
+ 'rip_church_gui_count_latin_value':'Latin communities: [Root.GetChurchLatinCount]',
+ 'rip_church_gui_rite_cell':'Rights: §Yprovince by province§!',
+ 'rip_church_gui_rite_cell_tt':'Each community keeps its own religion and local agreement. Guaranteeing rights does not convert nearby provinces or bring any province into the Union.',
  'rip_church_gui_slot_free':'Slots used\\n§R0§! / §Y1§!',
  'rip_church_gui_slot_used':'Slots used\\n§Y1§! / §Y1§!',
  'rip_church_gui_rights_title':'Rights',
@@ -972,9 +1005,9 @@ DATA.update({
  'rip_church_gui_contact_rome':'Recipient: [Root.GetChurchMissionRome]',
  'rip_church_gui_contact_cooldown':'Cooldown: [Root.GetChurchMissionCooldown]',
  'rip_church_gui_contact_history':'[Root.GetChurchMissionReason]',
- 'rip_church_gui_recognition_cost':'§Y1 ADM per development§!\\nOwned, controlled Orthodox or Catholic city.',
+ 'rip_church_gui_recognition_cost':'§Y1 ADM per development§! · lasts at least ten years\\nOwned, controlled Orthodox, Muscovite Orthodox or Catholic city. Its religion does not change.',
  'rip_church_gui_recognition_reason':'[Root.GetChurchRecognitionReason]',
- 'rip_church_gui_parish_register_empty':'§WNo recognized parishes.§!\\n\\nRecognition protects the local rite and removes its religious-unity penalty, with lower tax and recruitment.',
+ 'rip_church_gui_parish_register_empty':'§WNo community rights are guaranteed.§!\\n\\nA guarantee protects a province\'s rite and clergy and removes its religious-unity penalty, at the price of lower tax and levies. It does not convert the province.',
  'rip_church_gui_register_columns':'[Root.GetChurchRegisterColumns]',
  'rip_church_gui_register_header_empty':'§WProvince          Rite          Status§!',
  'rip_church_gui_register_header_full':'§WProvince          Rite          Status          Action§!',
@@ -997,8 +1030,8 @@ ui_readout('GetChurchEcumenismReason',[
  ('has_country_flag = rip_church_forced_integration NOT = { had_country_flag = { flag = rip_church_forced_integration days = 3650 } }','§R10 years since forced integration§!'),
  ('NOT = { stability = 2 }','§RRequires stability +2§!'),
  ('is_at_war = yes','§RRequires peace§!'),
- ('NOT = { any_owned_province = { religion = orthodox has_province_flag = rip_church_rite_recognized } }','§RRecognize an Orthodox parish§!'),
- ('NOT = { any_owned_province = { religion = catholic has_province_flag = rip_church_rite_recognized } }','§RRecognize a Latin parish§!'),
+ ('NOT = { any_owned_province = { religion = orthodox has_province_flag = rip_church_rite_recognized } }','§RGuarantee rights of an Orthodox community§!'),
+ ('NOT = { any_owned_province = { religion = catholic has_province_flag = rip_church_rite_recognized } }','§RGuarantee rights of a Latin community§!'),
  ('NOT = { any_country = { religion = orthodox alliance_with = ROOT has_opinion = { who = ROOT value = 100 } } }','§ROrthodox ally: opinion +100§!'),
  ('always = yes','§GAll requirements met§!')])
 ui_readout('GetChurchMissionCost',[('treasury = 50','§G50 ducats§!'),('always = yes','§R50 ducats needed§!')])
@@ -1017,9 +1050,9 @@ ui_readout('GetChurchMissionReason',[
  ('always = yes','§RFive-year interval has not elapsed§!')])
 ui_readout('GetChurchRecognitionReason',[
  ('NOT = { religion = greek_catholic }','§RRequires Greek Catholic faith§!'),
- ('NOT = { any_owned_province = { is_city = yes controlled_by = owner OR = { religion = orthodox religion = russian_orthodox religion = catholic } NOT = { has_province_flag = rip_church_rite_recognized } } }','§RNo eligible controlled parish§!'),
- ('NOT = { any_owned_province = { rip_church_can_recognize_rite = yes } }','§RInsufficient ADM for an eligible parish§!'),
- ('always = yes','§YSelect a province; recognize it in its province panel§!')])
+ ('NOT = { any_owned_province = { is_city = yes controlled_by = owner OR = { religion = orthodox religion = russian_orthodox religion = catholic } NOT = { has_province_flag = rip_church_rite_recognized } } }','§RNo eligible controlled community§!'),
+ ('NOT = { any_owned_province = { rip_church_can_recognize_rite = yes } }','§RInsufficient ADM for an eligible community§!'),
+ ('always = yes','§YSelect a province; guarantee its community rights in the province panel§!')])
 custom+=defined('GetChurchRegisterColumns',[
  ('any_owned_province = { has_province_flag = rip_church_rite_recognized }','rip_church_gui_register_header_full'),
  ('always = yes','rip_church_gui_register_header_empty')])
@@ -1043,6 +1076,13 @@ for key,value in list(DATA.items()):
   DATA.setdefault(key+'_tt',value)
 for lang in ('english','french','german','spanish'):
     outputs[f'localisation/replace/zzzz_RIP_church_redesign_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(f' {k}:0 "{v.replace(chr(34),chr(39))}"\n' for k,v in sorted(DATA.items()))
+# Regression guard: the province action is a guarantee of community rights, never the
+# recognition of a parish or a rite. Patriarchate recognition (rip_church.3, ro_recognized)
+# is a different mechanic and does not match.
+old_framing=re.compile(r'\b(?:recogni[sz]e[sd]?|recognition of)\s+(?:the\s+|a\s+|an\s+)?(?:local\s+|eastern\s+|latin\s+|orthodox\s+)?(?:parish|parishes|rite|rites)\b'
+                       r'|\bconfessional autonomy\b|\brecogni[sz]ed\s+(?:\w+\s+)?(?:parish|parishes|rite|rites)\b',re.I)
+bad=sorted(k for k,v in DATA.items() if old_framing.search(v))
+if bad: raise SystemExit('Old recognition framing of the province action in: '+', '.join(bad))
 stale=[]
 for path,text in outputs.items():
     p=ROOT/path

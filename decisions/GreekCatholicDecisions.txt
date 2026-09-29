@@ -87,28 +87,16 @@ country_decisions = {
 	greek_catholic_education_decision = {
 		potential = {
 			NOT = { has_country_flag = rip_once_greek_catholic_education_decision }
-			religion = greek_catholic
+			rip_church_union_supporter = yes
 			NOT = { has_country_modifier = uniate_educational_network }
-			num_of_owned_provinces_with = {
-				value = 5
-				religion = greek_catholic
-			}
+			any_owned_province = { religion = greek_catholic }
 		}
 		
 		allow = {
-			adm_tech = 10
-			adm_power = 100
-			treasury = 200
-			num_of_owned_provinces_with = {
-				value = 5
-				religion = greek_catholic
-			}
+			rip_uc_can_found_schools = yes
 		}
 		
 		effect = {
-			add_adm_power = -100
-			add_treasury = -200
-			set_country_flag = rip_once_greek_catholic_education_decision
 			establish_greek_catholic_education = yes
 		}
 		

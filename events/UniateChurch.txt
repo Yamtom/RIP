@@ -391,16 +391,6 @@ country_event = {
 			}
 		}
 
-		every_neighbor_country = {
-			limit = {
-				religion = russian_orthodox
-				OR = {
-					tag = MOS
-					tag = RUS
-				}
-			}
-			country_event = { id = uniate_church.18 days = 45 }
-		}
 	}
 	
 	option = { # Seek compromise
@@ -513,12 +503,8 @@ country_event = {
 	picture = UNIVERSITY_eventPicture
 	
 	trigger = {
-		has_country_flag = pursuing_uniate_union
+		rip_uc_can_found_schools = yes
 		NOT = { has_country_flag = uniate_education_established }
-		num_of_owned_provinces_with = {
-			value = 5
-			has_building = university
-		}
 	}
 	
 	mean_time_to_happen = {
@@ -527,22 +513,13 @@ country_event = {
 	
 	option = { # Establish Uniate seminaries
 		name = uniate_church.6.a
+		trigger = { rip_uc_can_found_schools = yes }
 		ai_chance = { factor = 70 }
 		
-		set_country_flag = uniate_education_established
-
-		rip_uc_clear_historical_policy_effect = yes
-
-		rip_uc_clear_historical_policy_effect = yes
-		
-		rip_church_historical_east_effect = yes
- add_country_modifier = {
-			name = uniate_educational_network
-			duration = 7300
-		}
+		establish_greek_catholic_education = yes
 	}
 	
-	option = { # Focus on secular education
+	option = { # Defer; the decision remains available later
 		name = uniate_church.6.b
 		ai_chance = { factor = 30 }
 		
@@ -1081,7 +1058,7 @@ country_event = {
 		add_prestige = 50
 		add_legitimacy = 25
 		
-		every_country = {
+		every_neighbor_country = {
 			limit = { religion = greek_catholic }
 			add_opinion = {
 				who = ROOT
@@ -1106,17 +1083,19 @@ country_event = {
 	picture = BAD_WITH_MONARCH_eventPicture
 	
 	trigger = {
-		religion = greek_catholic
-		NOT = { has_country_flag = suffered_orthodox_persecution }
-		any_neighbor_country = {
-			religion = orthodox
-			army_size = ROOT
-			NOT = { alliance_with = ROOT }
+		rip_uc_persecution_context = yes
+		NOT = { has_country_flag = rip_uc_persecution_recorded }
+	}
+	# The incident itself records persecution; mere hostility never does.
+	immediate = {
+		if = {
+			limit = { rip_uc_persecution_context = yes }
+			set_country_flag = rip_uc_persecution_recorded
 		}
 	}
 	
 	mean_time_to_happen = {
-		months = 96
+		months = 12
 	}
 	
 	option = { # Resist persecution
@@ -1230,34 +1209,26 @@ country_event = {
 	trigger = {
 		religion = greek_catholic
 		NOT = { has_country_flag = greek_catholic_martyrs_honored }
-		OR = {
-			had_recent_war = 10
-			num_of_owned_provinces_with = {
-				value = 5
-				religion = greek_catholic
-			}
-		}
+		has_country_flag = rip_uc_persecution_recorded
 	}
 	
 	mean_time_to_happen = {
 		months = 72
 	}
 	
-	option = { # Canonize martyrs
+	option = { # Support an inquiry; no beatification or canonization is granted
 		name = uniate_church.20.a
+		trigger = { exists = PAP NOT = { war_with = PAP } treasury = 50 dip_power = 25 }
 		ai_chance = { factor = 70 }
 		
 		set_country_flag = greek_catholic_martyrs_honored
 		
-		add_prestige = 15
-		add_legitimacy = 10
-		add_patriarch_authority = 0.1
-
-		rip_uc_clear_historical_policy_effect = yes
-		rip_church_historical_east_effect = yes
- add_country_modifier = {
-			name = greek_catholic_church_patronage
-			duration = 5475
+		if = {
+			limit = { exists = PAP NOT = { war_with = PAP } treasury = 50 dip_power = 25 }
+			add_treasury = -50
+			add_dip_power = -25
+			set_country_flag = rip_uc_beatification_cause_supported
+			add_prestige = 5
 		}
 	}
 	
@@ -1266,6 +1237,6 @@ country_event = {
 		ai_chance = { factor = 30 }
 		
 		set_country_flag = greek_catholic_martyrs_honored
-		add_stability = 1
+		add_prestige = 5
 	}
 }

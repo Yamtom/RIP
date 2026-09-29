@@ -1,0 +1,53 @@
+# Test harness only. Minimal shapes: where does an add_opinion inside if / else_if / else survive, and what is ROOT there?
+rip_gcr_shapes_effect = {
+ POL = {
+  if = { limit = { always = no } set_country_flag = rip_gcr_x }
+  else_if = { limit = { always = yes }
+   set_country_flag = rip_gcr_shape1_body
+   ROOT = { set_country_flag = rip_gcr_shape1_rootprobe }
+   ROOT = { PREV = { set_country_flag = rip_gcr_shape1_prevprobe } }
+   add_opinion = { who = ROOT modifier = rip_gcr_shape1 }
+   ROOT = { add_opinion = { who = PREV modifier = rip_gcr_shape1 } }
+  }
+ }
+ DAN = {
+  if = { limit = { always = yes }
+   set_country_flag = rip_gcr_shape2_body
+   ROOT = { set_country_flag = rip_gcr_shape2_rootprobe }
+   ROOT = { PREV = { set_country_flag = rip_gcr_shape2_prevprobe } }
+   add_opinion = { who = ROOT modifier = rip_gcr_shape2 }
+   ROOT = { add_opinion = { who = PREV modifier = rip_gcr_shape2 } }
+  }
+ }
+ FRA = {
+  if = { limit = { always = no } set_country_flag = rip_gcr_x }
+  else = {
+   set_country_flag = rip_gcr_shape3_body
+   ROOT = { set_country_flag = rip_gcr_shape3_rootprobe }
+   ROOT = { PREV = { set_country_flag = rip_gcr_shape3_prevprobe } }
+   add_opinion = { who = ROOT modifier = rip_gcr_shape3 }
+   ROOT = { add_opinion = { who = PREV modifier = rip_gcr_shape3 } }
+  }
+ }
+ every_country = { limit = { OR = { tag = AUS tag = BOH tag = HAB } }
+  if = { limit = { always = no } set_country_flag = rip_gcr_x }
+  else_if = { limit = { always = yes }
+   set_country_flag = rip_gcr_shape5_body
+   ROOT = { set_country_flag = rip_gcr_shape5_rootprobe }
+   add_opinion = { who = ROOT modifier = rip_gcr_shape5 }
+   ROOT = { add_opinion = { who = PREV modifier = rip_gcr_shape5 } }
+  }
+ }
+ every_country = { limit = { OR = { tag = BAV tag = SAX tag = BRA } }
+  if = { limit = { always = yes }
+   set_country_flag = rip_gcr_shape6_body
+   add_opinion = { who = ROOT modifier = rip_gcr_shape6 }
+   ROOT = { add_opinion = { who = PREV modifier = rip_gcr_shape6 } }
+  }
+ }
+ every_country = { limit = { OR = { tag = ULM tag = WUR tag = HES } }
+  set_country_flag = rip_gcr_shape7_body
+  add_opinion = { who = ROOT modifier = rip_gcr_shape7 }
+  ROOT = { add_opinion = { who = PREV modifier = rip_gcr_shape7 } }
+ }
+}

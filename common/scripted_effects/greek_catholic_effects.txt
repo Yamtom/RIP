@@ -17,6 +17,7 @@ orthodox_resistance_effect = {
 }
 
 greek_catholic_persecution_effect = {
+	set_country_flag = rip_uc_persecution_recorded
 	add_country_modifier = {
 		name = persecution_of_greek_catholics
 		duration = 5475
@@ -40,19 +41,15 @@ papal_protection_effect = {
 }
 
 establish_greek_catholic_education = {
-
-	rip_uc_clear_historical_policy_effect = yes
-	rip_church_historical_east_effect = yes
- add_country_modifier = {
-		name = uniate_educational_network
-		duration = 7300
-	}
-	capital_scope = {
-		if = {
-			limit = {
-				NOT = { has_building = university }
-			}
-			add_building = university
+	if = {
+		limit = { rip_uc_can_found_schools = yes }
+		add_adm_power = -50
+		add_treasury = -75
+		set_country_flag = rip_once_greek_catholic_education_decision
+		set_country_flag = uniate_education_established
+		add_country_modifier = {
+			name = uniate_educational_network
+			duration = 7300
 		}
 	}
 }
