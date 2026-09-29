@@ -4,6 +4,7 @@ from clausewitz_testlib import named_block, keyed_blocks, read
 
 curia_triggers = read('common/scripted_triggers/rip_church_gc_curia_triggers.txt')
 curia_effects = read('common/scripted_effects/rip_church_gc_curia_effects.txt')
+opinion_modifiers = read('common/opinion_modifiers/RIP_church_relations.txt')
 icon_triggers = read('common/scripted_triggers/rip_church_gc_interaction_triggers.txt')
 icon_effects = read('common/scripted_effects/rip_church_gc_interaction_effects.txt')
 union_triggers = read('common/scripted_triggers/rip_church_union_triggers.txt')
@@ -11,6 +12,7 @@ union_effects = read('common/scripted_effects/rip_church_union_effects.txt')
 controls = read('common/custom_gui/RIP_church_controls.txt')
 features = read('common/custom_gui/RIP_church_gc_features.txt')
 gui_generator = read('tools/build_church_gui.py')
+localisation_generator = read('tools/build_church_localisation.py')
 english = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
 interface = read('interface/countryreligionview.gui')
 custom_text = read('customizable_localization/rip_church_redesign.txt')
@@ -55,10 +57,21 @@ gate = named_block(curia_triggers, 'rip_church_gc_can_depute_to_curia')
 effect = named_block(curia_effects, 'rip_church_gc_depute_to_curia_effect')
 assert 'treasury = 50' in gate and 'patriarch_authority' not in gate
 assert 'had_country_flag = { flag = rip_church_gc_deputation_sent days = 1825 }' in gate
-assert 'add_treasury = -50' in effect and 'add_opinion' in effect
+assert 'add_treasury = -50' in effect
+assert 'PAP = { add_opinion = { who = ROOT modifier = rip_church_opinion_gc_deputation } }' in effect
+assert 'add_opinion = { who = PAP modifier = rip_church_opinion_gc_deputation }' in effect
+deputation_opinion = named_block(opinion_modifiers, 'rip_church_opinion_gc_deputation')
+assert 'opinion = 25' in deputation_opinion and 'yearly_decay = 2' in deputation_opinion
 assert 'rip_church_gc_deputation_button' in features
 assert 'rip_church_gc_curia_note' in gui_generator
 assert 'name = "rip_church_gc_curia_note"' in interface
+assert 'grants +25 opinion in both directions, decaying by 2 per year' in localisation_generator
+for language in ('english', 'french', 'german', 'spanish'):
+    localisation = read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
+    assert 'grants +25 opinion in both directions, decaying by 2 per year' in localisation
+    assert 'Effect: +25 opinion in both directions, decaying by 2 per year' in localisation
+assert 'grants +10 opinion in both directions' not in english
+assert 'may improve the Pope’s opinion temporarily' not in english
 
 # All three pages share a fixed header/navigation rail.  Devotional icon art is
 # the click target's card, not an empty blue button floating above the icon.
