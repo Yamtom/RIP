@@ -13,10 +13,12 @@ ROOT=Path(__file__).resolve().parents[1]
 # (1 ADM per development; 3650-day revoke lock). Net on a guaranteed province:
 # normal -2.5 unrest / -15% tax / -20% levies; ecumenical -3 / -10% / -15%.
 RITE_KEEPS='The province keeps its religion; it is not converted and does not enter the Union.'
+RITE_MODEL=('This province-level marker is a gameplay abstraction, not an exact historical parish or canonical status, '
+            'and not evidence of voluntary acceptance of the Union.')
 RITE_TERMS=('Costs 1 ADM per development and lasts at least ten years. Unrest falls by 2, plus 0.5 from the protected local tradition; '
             'local tax falls by 15% and levies by 20%. After the ecumenical settlement: unrest -3, tax -10%, levies -15%.')
 COMMUNITIES_TT=('Communities whose rights we guarantee, Eastern and Latin. '
-                'A guarantee does not convert a province or bring it into the Union.')
+                'These province counts are a gameplay abstraction, not canonical parish status or evidence of voluntary Union acceptance.')
 RITE_REVOKE=('No refund. The province gains +3 unrest for ten years. Revoking counts as forced integration, which invites Orthodox '
              'backlash and bars the ecumenical settlement for ten years.')
 # Requirements: rip_church_can_ecumenism. Benefits: rip_church_rite_ecumenical vs
@@ -32,21 +34,22 @@ ECUMENISM_TT='A long-term settlement between the Eastern and Latin churches.\\n'
 ECUMENISM_DESC=('Conclude a settlement between the Eastern and Latin church communities once community rights are guaranteed in both '
                 'and the historical and diplomatic conditions are met. It deepens every guarantee and earns the goodwill of Orthodox and Catholic states.')
 # Province panel: rip_church_recognize_rite_button tooltip (custom_button), then the help block under the buttons.
-RITE_BUTTON_TT=("Guarantee the rights of this province's Orthodox or Catholic community: its rite, clergy and local church jurisdiction. "
-                +RITE_KEEPS+' '+RITE_TERMS)
+RITE_BUTTON_TT=("Gameplay abstraction: guarantee the rights represented for this province's Orthodox or Catholic community. "
+                +RITE_MODEL+' '+RITE_KEEPS+' '+RITE_TERMS)
 # On-panel text (Main_14, 440 x 150 px, at most ten lines even at 7 px per character): the essentials only.
-RITE_HELP=("Guaranteeing community rights secures this province's rite, clergy and local church jurisdiction. "+RITE_KEEPS+' '
+RITE_HELP=("Gameplay abstraction: a province-level guarantee of community rights. It is not a canonical status or proof of voluntary Union acceptance. "+RITE_KEEPS+' '
            "Costs §Y1 ADM per current development§!; lasts at least ten years. "
            "Unrest -2 (-0.5 more from the protected local tradition), local tax -15%, levies -20%, no religious-unity penalty. "
            "After the ecumenical settlement: unrest -3, tax -10%, levies -15%. "
            "Revoking gives +3 unrest for ten years.")
 # Hover text on that block: the details.
-RITE_HELP_TT=(RITE_KEEPS+' While the guarantee stands, Union backlash events and Muscovite missionary networks skip the province. '
+RITE_HELP_TT=(RITE_MODEL+' '+RITE_KEEPS+' While the guarantee stands, Union backlash events and Muscovite missionary networks skip the province. '
               'The ecumenical settlement deepens it to unrest -3, tax -10% and levies -15%. '
               'It lapses if the owner leaves the Union or the province changes faith. '
               'Orthodox and Muscovite Orthodox provinces count as Eastern in the country panel, Catholic provinces as Latin. '
               'Only a Greek Catholic owner can guarantee rights.')
 DATA={
+  "greek_catholic_religion_desc": "A broad game label for distinct Ruthenian and Carpathian Eastern churches in communion with Rome, not one institution identical to the modern Ukrainian Greek Catholic Church. Availability from 6 July 1439 represents the Florentine precedent for an alternative historical path, not the founding of the UGCC or an established separate confession. The Union of Brest in 1596 is a distinct later milestone. Their hierarchies retain internal authority, represented by Patriarch Authority. The Curia panel records diplomatic relations only.",
   "rip_church_close": "Close",
   "rip_church.2.t": "Moscow and the Third Rome",
   "rip_church.2.d": "Writers at the Muscovite court describe Moscow as a guardian of the Orthodox inheritance. This sixteenth-century political theology does not itself create a new creed or end communion with the eastern patriarchates. Universal jurisdiction would require a separate, deliberate claim.",
@@ -54,8 +57,8 @@ DATA={
   "rip_church.2.b": "Emphasize our place among the Orthodox churches",
   "rip_church.3.t": "A Recognized Patriarchate",
   "rip_church.3.d": "The ecclesiastical settlement recognizes our patriarchate within the wider Orthodox communion. Moscow accepts its place after the four ancient eastern patriarchates. Our centralized church remains a distinct political institution; recognition does not abolish its internal responsibilities.",
-  "rip_church.5.t": "The Florentine Settlement Endures",
-  "rip_church.5.d": "Our negotiated settlement has sustained a union that historically failed to gain lasting general acceptance. This is an alternative historical path: the Byzantine rite and its bishops remain, while communion with Rome is accepted. Parish integration will proceed locally.",
+  "rip_church.5.t": "The Florentine Alternative Endures",
+  "rip_church.5.d": "Our negotiated settlement has sustained the Florentine union of 1439, which historically failed to gain lasting general acceptance. This alternative outcome does not represent the founding of the UGCC in 1439 or an unbroken institutional line to Brest in 1596: the Byzantine rite and its bishops remain, while communion with Rome is accepted. Integration is represented province by province; that game abstraction does not establish a canonical parish status or local voluntary consent.",
   "rip_church.6.t": "The Institutions of Communion",
   "rip_church.6.d": "The Eastern hierarchy keeps its own institutions. A local synod may establish infrastructure or an agreement of coexistence. The Curia panel records Rome and permits a diplomatic audience; it grants no electoral rights or numerical standing.",
   "rip_church_recognition_refuse": "Claim an independent universal church — alternative history",
@@ -90,7 +93,7 @@ DATA={
   "rip_church_active": "ACTIVE",
   "rip_church_inactive": "Inactive",
   "rip_church_none": "None",
-  "rip_church_rite_recognized": "Community rights are guaranteed: the province keeps its faith, rite and clergy.",
+  "rip_church_rite_recognized": "Gameplay abstraction: community rights are guaranteed in this province. This is not an exact canonical status or evidence of voluntary Union acceptance; the province keeps its faith.",
   "rip_church_rite_unrecognized": "Community rights are not guaranteed in this province.",
   "rip_church_nodes_button_tt": "Register or close missionary networks. Registration prepays 2 Fervor; each registered node reserves 2 per month. Choose the native Missionary Network trade policy after funding.",
   "rip_church_reconcile_button_tt": "Costs 100 DIP and 20 Authority. Negotiations last at least five years and conclude at peace with stability 1. Universal claims are renounced; internal discontent lasts ten years.",
@@ -103,10 +106,10 @@ DATA={
   "rip_church_request_recognition_desc": "Seek recognition within the wider Orthodox communion from 1589. Delay leaves the question open; rejection is a deliberate alternative schism. Constantinople need not be an independent state.",
   "rip_church_reconcile_title": "Reconcile with the eastern patriarchates",
   "rip_church_reconcile_desc": "Costs 100 DIP and 20 Authority. Negotiations last at least five years and conclude at peace with stability 1. Universal claims are renounced; internal discontent lasts ten years.",
-  "rip_church_florence_title": "Sustain the Florentine union",
-  "rip_church_florence_desc": "Alternative history, 1444-1501. The 1439 Florentine union is an earlier, separate path from the 1596 Union of Brest. Pay 200 ADM, 100 DIP and one year's income for five years of negotiations. Requires stability 2, peace and PAP opinion 100. The Eastern hierarchy keeps its rite while entering communion with Rome; Catholic patrons retain their state religion.",
+  "rip_church_florence_title": "Pursue the Florentine alternative",
+  "rip_church_florence_desc": "Alternative history, 1444-1501. The union of 6 July 1439 supplies a Florentine precedent for this alternative path, not a founding date for the UGCC or an established separate confession. The Union of Brest in 1596 remains a distinct later milestone. Pay 200 ADM, 100 DIP and one year's income for five years of negotiations. Requires stability 2, peace and PAP opinion 100. The Eastern hierarchy keeps its rite while entering communion with Rome; Catholic patrons retain their state religion.",
   "rip_church_sponsor_union_title": "Sponsor an Eastern Catholic union",
-  "rip_church_sponsor_union_desc": "From 1596, a Catholic crown may support an Eastern union without changing its state religion. Pay 100 ADM, 100 DIP and one year's income. One eligible core parish accepts the founding settlement; the others remain unchanged.",
+  "rip_church_sponsor_union_desc": "From 1596, a Catholic crown may support an Eastern union without changing its state religion. Pay 100 ADM, 100 DIP and one year's income. One eligible core province enters the founding settlement; other provinces remain unchanged. This province-level game model does not establish an exact canonical parish status or prove voluntary local acceptance.",
   "rip_church_ecumenism_title": "Conclude the ecumenical settlement",
   "rip_church_ecumenism_desc": ECUMENISM_DESC,
   "rip_church_icon_war_button": "Military Intercession",
@@ -166,7 +169,7 @@ DATA={
   "rip_church_gc_prestige": "gc prestige",
   "desc_rip_church_gc_prestige": "An adjustment belonging to the current church settlement; its effects end or change when its conditions cease to apply.",
   "rip_church_rite": "rite",
-  "desc_rip_church_rite": "Our Greek Catholic government guarantees this community its rite, clergy and local church jurisdiction. "+RITE_KEEPS+" Lasts at least ten years.",
+  "desc_rip_church_rite": "Gameplay abstraction: our Greek Catholic government marks community rights as guaranteed in this province. This is not an exact canonical status or evidence of voluntary Union acceptance. "+RITE_KEEPS+" Lasts at least ten years.",
   "rip_church_rite_favoured": "rite favoured",
   "desc_rip_church_rite_favoured": "The guarantee of community rights also protects local tradition: a further -0.5 unrest. Replaced by the ecumenical accommodation once the ecumenical settlement is concluded; the two never stack.",
   "rip_church_rite_ecumenical": "rite ecumenical",
@@ -672,17 +675,17 @@ DATA.update({
  'rip_church_gui_identity_orthodox':'State acceptance changes our confession.\\nExisting communities need separate guarantees of their rights.',
  'rip_church_gui_identity_catholic':'Patronage preserves our Catholic confession.\\nAn Eastern founding parish enters the Union.',
  'rip_church_gui_paths_title':'Negotiations and settlement',
- 'rip_church_gui_florence':'Florentine negotiations',
- 'rip_church_gui_florence_tt':'Begin the early route in 1444-1501: §Y200 ADM, 100 DIP and one year of income§!. Requires peace, stability +2, PAP opinion +100 and an eligible Orthodox core parish. After five years, peace, stability and relations are checked again. Orthodox acceptance changes state faith; Catholic completion grants patronage and one founding parish. One attempt.',
+ 'rip_church_gui_florence':'Florentine alternative',
+ 'rip_church_gui_florence_tt':'Pursue an alternative settlement based on the Florentine precedent of 1439, not the founding of the UGCC. Separate from the Brest route of 1596. Begin in 1444-1501: §Y200 ADM, 100 DIP and one year of income§!. Requires peace, stability +2, PAP opinion +100 and an eligible Orthodox core parish. After five years, peace, stability and relations are checked again. Orthodox acceptance changes state faith; Catholic completion grants patronage and one founding parish. One attempt.',
  'rip_church_gui_adopt':'Accept the Union',
  'rip_church_gui_adopt_tt':'Conclude the later Orthodox state route from 1596, paying §Y100 ADM and 100 DIP§!. Uses exactly the current national decision gates: regional state, enabled faith, peace, stability, Catholic contact or union pressure, and qualifying Orthodox parishes. Catholic countries cannot use this action.',
  'rip_church_gui_sponsor':'Sponsor the Union',
  'rip_church_gui_sponsor_tt':'From 1596, pay §Y100 ADM, 100 DIP and one year of income§! to support the Union while remaining Catholic. Requires peace, stability +1, PAP without war, and a qualifying Orthodox core parish. One eligible parish becomes Greek Catholic. This does not create a centre for free.',
  'rip_church_gui_path_progress':'[Root.GetChurchFlorenceProgress]',
- 'rip_church_gui_florence_wait':'Florentine negotiations: five-year term underway',
+ 'rip_church_gui_florence_wait':'Florentine alternative: five-year negotiations',
  'rip_church_gui_florence_due':'Term complete: settlement conditions must hold',
- 'rip_church_gui_florence_done':'§GFlorentine settlement concluded§!',
- 'rip_church_gui_florence_none':'No Florentine negotiations in progress',
+ 'rip_church_gui_florence_done':'§GFlorentine alternative concluded§!',
+ 'rip_church_gui_florence_none':'No Florentine alternative in progress',
  'rip_church_gui_patron_network':'Parishes and Union seat',
  'rip_church_gui_patron_network_tt':'Open the parish and centre panel. Catholic patrons can establish the centre and grant Latin consent; the Greek Catholic synod and petitions require that state confession.',
  'rip_church_gui_province_network':'Rite: [Root.GetChurchRiteFamily]\\nNetwork: [Root.GetChurchProvinceRing]\\n[Root.GetChurchProvinceUnionAccess]',
@@ -824,6 +827,21 @@ for key in list(DATA):
 for key in list(DATA):
  if key.startswith('rip_church_gui_') and not key.endswith('_tt'): DATA.setdefault(key+'_tt',DATA[key])
 
+# Shared mechanics abstract several local church histories, not one jurisdiction.
+REGIONAL_UNION_NOTE=('Shared rules model a generalized Ruthenian Eastern Catholic route. '
+ 'Brest, Uzhhorod, Peremyshl, Lviv and Lutsk have distinct local histories, chronologies and jurisdictions; '
+ 'these rules do not imply that every region followed the same path or belonged to one institution.')
+DATA.update({
+ 'convert_to_greek_catholic_decision_title':'Accept a local church union',
+ 'convert_to_greek_catholic_decision_desc':'Bring our local hierarchy into communion with Rome while retaining its Byzantine rite. '+REGIONAL_UNION_NOTE,
+ 'rip_church_gui_paths_title':'Local routes to communion',
+ 'rip_church_gui_paths_title_tt':REGIONAL_UNION_NOTE,
+})
+for key in ('greek_catholic_religion_desc','rip_church_sponsor_union_desc',
+            'rip_church_gui_adopt_tt','rip_church_gui_sponsor_tt'):
+ DATA[key]+=' '+REGIONAL_UNION_NOTE
+for key in ('rip_church_gui_parishes_title_tt','rip_church_gui_parish_list_title_tt','rip_church_rite_help_tt'):
+ DATA[key]+=' Eastern and Latin are gameplay groupings, not historical diocesan boundaries. '+REGIONAL_UNION_NOTE
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()
 # Generated variable/modifier definitions may add display-only compensation IDs.
 for p in (ROOT/'common/event_modifiers').glob('RIP_church*.txt'):
