@@ -35,7 +35,8 @@ def parse(text):
 
 TRIGGERS = {}
 EFFECTS = {}
-for file in ('rip_religion_settlement_triggers', 'rip_crusade_triggers', 'rus_russian_orthodox_triggers', 'rip_faith_triggers'):
+# Faith triggers were consolidated into the settlement trigger file.
+for file in ('rip_religion_settlement_triggers', 'rip_crusade_triggers', 'rus_russian_orthodox_triggers'):
     TRIGGERS.update(parse(read('common/scripted_triggers/' + file + '.txt')))
 for file in ('rip_religion_settlement_effects', 'rip_crusade_effects', 'rip_parish_visit_effects', 'rip_faith_policy_effects', 'russian_orthodox_effects', 'greek_catholic_effects'):
     EFFECTS.update(parse(read('common/scripted_effects/' + file + '.txt')))
@@ -342,7 +343,9 @@ def contracts():
             assert f'NOT = {{ has_country_flag = {flag} }}' in named_block(body, 'potential')
             assert f'set_country_flag = {flag}' in named_block(body, 'effect')
     # All country paths use the same idempotent bridge; province loops cannot call it.
-    for filename in ('events/RussianOrthodox.txt', 'events/UniateChurch.txt', 'events/UniateReformationSpread.txt', 'decisions/GreekCatholicDecisions.txt'):
+    # The old automatic Union-centre event file is intentionally retired.
+    assert not (ROOT / 'events/UniateReformationSpread.txt').exists()
+    for filename in ('events/RussianOrthodox.txt', 'events/UniateChurch.txt', 'decisions/GreekCatholicDecisions.txt'):
         source = normalized(read(filename))
         assert not re.search(r'change_religion = (?:russian_orthodox|greek_catholic)', source), filename
         assert not re.search(r'add_base_(?:tax|production|manpower)\s*=', source), filename
@@ -402,8 +405,8 @@ def contracts():
     assert 'set_country_flag = union_of_brest_happened' not in hierarchy_init
     brest_gate = dict(parse(read('common/scripted_triggers/rip_religion_settlement_triggers.txt')))['rip_uc_can_accept_brest_trigger']
     assert ('is_year', '1596') in brest_gate
-    profile = normalized(read('common/religious_conversions/zz_RIP_greek_catholic.txt'))
-    assert 'rip_church_union_target = yes' in profile
+    # The Greek Catholic conversion profile belonged to the retired Union centre.
+    assert not (ROOT / 'common/religious_conversions/zz_RIP_greek_catholic.txt').exists()
     events = read('events/OrthodoxCrusade.txt')
     assert not re.search(r'add_base_|change_religion\s*=', events)
     assert 'rip_faith_pilgrimage_recent duration = 3650' in events
