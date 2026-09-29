@@ -1,0 +1,22 @@
+In-engine before/after harness, 2026-09-29 (EU4 1.37.5, isolated -userdir, harness mod outside the game tree).
+
+Per run: python tools/prep_userdir.py <A|B> <suffix>   builds <scratch>/gcr/ud_<run><suffix>/ with
+  mod/RIP.mod (path = the BASE or NEW git worktree), mod/rip_gcr_harness.mod (path = the harness folder),
+  dlc_load.json enabling both, settings.txt (autosave="MONTHLY", compress_saves=no, window 1280x720),
+  and the -auto_run commands file (event rip_gcr.1 / .2 / .3 [/ .4], speed 5).
+Launch (PowerShell tool, not a .ps1 file):
+  Start-Process -FilePath "<game>\eu4.exe" -WorkingDirectory "<game>" -PassThru -ArgumentList
+    @('-debug_mode','-start_tag=MOS','-seed=1001','-userdir="<ud>"','-auto_run=rip_gcr_run.txt')
+  poll every 250 ms for "<ud>\save games\autosave.eu4" (first autosave = date 1444.12.1), wait 1.8 s, copy it,
+  Stop-Process -Id <own pid> -Force. Only the started PID was ever stopped; no other eu4.exe existed at any time.
+Runs (each in its own fresh userdir):
+  A  = BASE worktree, harness v3   -> runA3_first_autosave.eu4   (harness_v3_runs_A_B/)
+  B  = NEW  worktree, harness v3   -> runB3_first_autosave.eu4   (harness_v3_runs_A_B/)
+  C  = NEW  worktree, harness v4   -> runB4_first_autosave.eu4   (harness_v4_run_C/, adds rip_gcr.4 = flat top-level if replica)
+  (three earlier exploratory runs on BASE with smaller harnesses gave the same picture and are not kept.)
+Harness content: rip_gcr.1 makes MOS greek_catholic, guarantees rights in two Orthodox provinces (one with the mod's own
+  rip_church_recognize_rite_effect, one with only set_province_flag = rip_church_rite_recognized), runs
+  rip_church_gc_refresh_parishes_effect, sets country flag rip_church_ecumenical, runs the parishes refresh again and then
+  rip_church_refresh_relations_effect (the real effect under test). rip_gcr.2 / .3 / .4 run replicas and minimal shapes that
+  set a country flag next to every add_opinion, to show which branch ran and whether the opinion survived.
+Saves are 36 MB each and are not kept here; the tools/ scripts regenerate every transcript from a save.
