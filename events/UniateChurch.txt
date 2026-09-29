@@ -449,7 +449,7 @@ country_event = {
 		months = 60
 	}
 	
-	option = { # Embrace Latinization
+	option = { # Adopt Latinizing liturgical changes
 		name = uniate_church.5.a
 		ai_chance = { factor = 40 }
 		
@@ -465,18 +465,42 @@ country_event = {
 		}
 	}
 	
-	option = { # Preserve Eastern rite
+	option = { # Reform dioceses and educate clergy
 		name = uniate_church.5.b
-		ai_chance = { factor = 60 }
-		
-		set_country_flag = zamosc_synod_eastern_rite
+		ai_chance = { factor = 35 }
+
 		set_country_flag = zamosc_synod_held
 
 		rip_uc_clear_historical_policy_effect = yes
 		
 		rip_church_historical_east_effect = yes
- add_country_modifier = {
+		add_adm_power = -50
+		add_country_modifier = {
+			name = greek_catholic_synodal_administration
+			duration = 7300
+		}
+		add_country_modifier = {
+			name = uniate_educational_network
+			duration = 7300
+		}
+	}
+
+	option = { # Preserve Eastern liturgy and strengthen monasteries
+		name = uniate_church.5.c
+		ai_chance = { factor = 25 }
+
+		set_country_flag = zamosc_synod_eastern_rite
+		set_country_flag = zamosc_synod_held
+
+		rip_uc_clear_historical_policy_effect = yes
+
+		rip_church_historical_east_effect = yes
+		add_country_modifier = {
 			name = eastern_rite_preservation
+			duration = 7300
+		}
+		add_country_modifier = {
+			name = basilian_monastic_order
 			duration = 7300
 		}
 	}
@@ -1245,4 +1269,3 @@ country_event = {
 		add_stability = 1
 	}
 }
-

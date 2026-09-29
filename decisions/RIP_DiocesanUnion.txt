@@ -1,0 +1,18 @@
+country_decisions = {
+ rip_du_negotiate = {
+  potential = { religion = catholic has_country_flag = rip_church_supports_union is_year = 1596 }
+  allow = { rip_du_can_negotiate = yes }
+  provinces_to_highlight = { owned_by = ROOT rip_du_eligible_diocese = yes }
+  effect = {
+   if = {
+    limit = { rip_du_can_negotiate = yes }
+    set_country_flag = rip_du_negotiated
+    random_owned_province = {
+     limit = { rip_du_eligible_diocese = yes }
+     province_event = { id = rip_diocesan_union.1 }
+    }
+   }
+  }
+  ai_will_do = { factor = 1 modifier = { factor = 0 num_of_loans = 1 } }
+ }
+}

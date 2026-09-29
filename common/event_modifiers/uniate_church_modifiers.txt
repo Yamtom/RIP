@@ -1,4 +1,7 @@
-uniate_union_established = {  }
+uniate_union_established = {
+	tolerance_heretic = 1
+	stability_cost_modifier = -0.05
+}
 
 orthodox_resistance_to_union = {
 	tolerance_heretic = -1
@@ -6,7 +9,11 @@ orthodox_resistance_to_union = {
 	global_missionary_strength = -0.01
 	stability_cost_modifier = 0.1
 }
-catholic_backing_uniate = {  }
+catholic_backing_uniate = {
+	papal_influence = 1.5
+	improve_relation_modifier = 0.1
+	tolerance_heretic = 1
+}
 uniate_church_consolidation = { global_unrest = 1 }
 
 orthodox_brotherhood_resistance = {
@@ -16,12 +23,32 @@ orthodox_brotherhood_resistance = {
 	culture_conversion_cost = 0.25
 }
 uniate_metropolitan_authority = {  }
-dual_communion_compromise = {  }
+dual_communion_compromise = {
+	tolerance_own = 1
+	tolerance_heretic = 1
+	global_unrest = -1
+}
 forced_religious_union = { global_unrest = 1 }
-orthodox_uniate_coexistence = {  }
-zamosc_synod_latinization = {  }
-eastern_rite_preservation = {  }
-uniate_educational_network = {  }
+orthodox_uniate_coexistence = {
+	tolerance_own = 1
+	global_unrest = -1
+	culture_conversion_cost = 0.1
+}
+zamosc_synod_latinization = {
+	papal_influence = 1
+	diplomatic_reputation = 1
+	tolerance_own = -1
+	stability_cost_modifier = -0.05
+}
+eastern_rite_preservation = {
+	tolerance_own = 2
+	global_unrest = -1
+	global_missionary_strength = 0.01
+}
+uniate_educational_network = {
+	advisor_pool = 1
+	global_missionary_strength = 0.02
+}
 
 orthodox_revival_movement = {
 	tolerance_own = 2
@@ -70,7 +97,11 @@ uniate_catholic_tensions = {
 	diplomatic_reputation = -1
 }
 uniate_orthodox_reconciliation = {  }
-moscow_anti_union_campaign = {  }
+moscow_anti_union_campaign = {
+	tolerance_heretic = -1
+	global_unrest = 1
+	stability_cost_modifier = 0.05
+}
 
 uniate_church_suppression = {
 	global_unrest = 2
@@ -78,7 +109,10 @@ uniate_church_suppression = {
 	stability_cost_modifier = 0.15
 	global_missionary_strength = 0.03
 }
-uniate_cultural_flowering = {  }
+uniate_cultural_flowering = {
+	tolerance_own = 1
+	culture_conversion_cost = -0.1
+}
 ruthenian_religious_pluralism = {  }
 
 greek_catholic_center = {
@@ -109,19 +143,41 @@ resistance_to_greek_catholic_spread = {
 	local_autonomy = 0.15
 	local_missionary_strength = -0.04
 }
-greek_catholic_missionary_activity = {  }
-greek_catholic_church_patronage = {  }
+greek_catholic_missionary_activity = {
+	global_missionary_strength = 0.02
+	culture_conversion_cost = -0.1
+}
+greek_catholic_church_patronage = {
+	tolerance_own = 1
+	improve_relation_modifier = 0.1
+}
 
 greek_catholic_printing_press = {
 	local_institution_spread = 0.15
 	local_development_cost = -0.05
 	province_trade_power_modifier = 0.1
 }
-greek_catholic_synodal_administration = {  }
-eastern_rite_tradition_preserved = {  }
-papal_protection_greek_catholic = {  }
-greek_catholic_orthodox_dialogue = {  }
-greek_catholic_latin_cooperation = {  }
+greek_catholic_synodal_administration = {
+	tolerance_own = 1
+	stability_cost_modifier = -0.1
+}
+eastern_rite_tradition_preserved = {
+	tolerance_own = 2
+	global_unrest = -1
+	papal_influence = -0.5
+}
+papal_protection_greek_catholic = {
+	papal_influence = 1
+	tolerance_heretic = 1
+}
+greek_catholic_orthodox_dialogue = {
+	tolerance_heretic = 1
+	improve_relation_modifier = 0.1
+}
+greek_catholic_latin_cooperation = {
+	papal_influence = 1
+	improve_relation_modifier = 0.1
+}
 
 persecution_of_greek_catholics = {
 	global_unrest = 3

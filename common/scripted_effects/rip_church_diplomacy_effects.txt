@@ -60,10 +60,10 @@ rip_church_refresh_relations_effect = {
   } }
    add_opinion = { who = ROOT modifier = rip_church_opinion_gc_orthodox_middle }
    ROOT = { add_opinion = { who = PREV modifier = rip_church_opinion_gc_orthodox_middle } }
-   if = { limit = { OR = {
-    AND = { OR = { religion = orthodox religion = catholic } ROOT = { religion = greek_catholic has_country_flag = rip_church_ecumenical } }
-    AND = { religion = greek_catholic has_country_flag = rip_church_ecumenical ROOT = { OR = { religion = orthodox religion = catholic } } }
-   } } add_opinion = { who = ROOT modifier = rip_church_opinion_gc_ecumenical } ROOT = { add_opinion = { who = PREV modifier = rip_church_opinion_gc_ecumenical } } }
   }
+  if = { limit = { OR = {
+   AND = { OR = { religion = orthodox religion = catholic } ROOT = { religion = greek_catholic has_country_flag = rip_church_ecumenical } }
+   AND = { religion = greek_catholic has_country_flag = rip_church_ecumenical ROOT = { OR = { religion = orthodox religion = catholic } } }
+  } } add_opinion = { who = ROOT modifier = rip_church_opinion_gc_ecumenical } ROOT = { add_opinion = { who = PREV modifier = rip_church_opinion_gc_ecumenical } } }
  }
 }

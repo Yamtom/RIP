@@ -1,0 +1,62 @@
+namespace = rip_diocesan_union
+
+# FROM is the country which opened negotiations. No delayed shared target.
+province_event = {
+ id = rip_diocesan_union.1
+ title = rip_diocesan_union.1.t
+ desc = rip_diocesan_union.1.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ option = {
+  name = rip_diocesan_union.1.a
+  trigger = {
+   owned_by = FROM
+   rip_du_eligible_diocese = yes
+   owner = { rip_du_catholic_patron = yes dip_power = 50 years_of_income = 0.25 }
+  }
+  ai_chance = { factor = 80 }
+  # Recheck at execution; a stale dialog cannot spend another owner's money.
+  if = {
+   limit = {
+    owned_by = FROM
+    rip_du_eligible_diocese = yes
+    owner = { rip_du_catholic_patron = yes dip_power = 50 years_of_income = 0.25 }
+   }
+   set_province_flag = rip_du_approached
+   owner = { add_dip_power = -50 add_years_of_income = -0.25 }
+   random_list = {
+    60 = {
+     change_religion = greek_catholic
+     add_local_autonomy = 10
+     add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }
+     province_event = { id = rip_diocesan_union.2 }
+    }
+    40 = {
+     add_province_modifier = { name = resistance_to_greek_catholic_spread duration = 3650 }
+     province_event = { id = rip_diocesan_union.3 }
+    }
+   }
+  }
+ }
+ option = {
+  name = rip_diocesan_union.1.b
+  ai_chance = { factor = 20 }
+  # Also available if ownership, patronage or resources changed.
+ }
+}
+province_event = {
+ id = rip_diocesan_union.2
+ title = rip_diocesan_union.2.t
+ desc = rip_diocesan_union.2.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ option = { name = rip_diocesan_union.2.a }
+}
+province_event = {
+ id = rip_diocesan_union.3
+ title = rip_diocesan_union.3.t
+ desc = rip_diocesan_union.3.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ option = { name = rip_diocesan_union.3.a }
+}

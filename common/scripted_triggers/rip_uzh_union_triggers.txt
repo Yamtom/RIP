@@ -1,0 +1,24 @@
+# Province scope. 1952 is RIP's Maramaros/Huszt abstraction, not an exact
+# Uzhhorod city province. No country tag or core requirement for the clergy.
+rip_uzh_local_union_possible = {
+ province_id = 1952
+ is_year = 1646
+ is_city = yes controlled_by = owner
+ OR = { religion = orthodox religion = greek_catholic }
+ NOT = { has_missionary = yes }
+ owner = {
+  is_at_war = no
+  NOT = { has_country_flag = rip_church_opposes_union }
+  OR = {
+   religion = catholic
+   religion = greek_catholic
+   AND = {
+    religion = orthodox
+    OR = {
+     overlord = { religion = catholic }
+     any_known_country = { religion = catholic alliance_with = PREV }
+    }
+   }
+  }
+ }
+}
