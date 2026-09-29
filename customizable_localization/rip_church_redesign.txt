@@ -132,3 +132,210 @@ defined_text = {
  text = { trigger = { has_country_flag = rip_church_supports_union } localisation_key = rip_church_gui_patron_active }
  text = { trigger = { always = yes } localisation_key = rip_church_gui_patron_inactive }
 }
+defined_text = {
+ name = GetChurchParishRegisterState
+ text = { trigger = { OR = { check_variable = { which = rip_church_gui_eastern_parishes value = 1 } check_variable = { which = rip_church_gui_latin_parishes value = 1 } } } localisation_key = rip_church_gui_parish_register_active }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_parish_register_empty }
+}
+defined_text = {
+ name = GetChurchEasternCount
+ text = { trigger = { check_variable = { which = rip_church_gui_eastern_parishes value = 1 } } localisation_key = rip_church_gui_eastern_count_value }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_zero_count }
+}
+defined_text = {
+ name = GetChurchLatinCount
+ text = { trigger = { check_variable = { which = rip_church_gui_latin_parishes value = 1 } } localisation_key = rip_church_gui_latin_count_value }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_zero_count }
+}
+defined_text = {
+ name = GetChurchEcumenismAccess
+ text = { trigger = { has_country_flag = rip_church_ecumenical } localisation_key = rip_church_gui_policy_done }
+ text = { trigger = { rip_church_can_ecumenism = yes } localisation_key = rip_church_gui_policy_ready }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_policy_locked }
+}
+defined_text = {
+ name = GetChurchContactHistory
+ text = { trigger = { NOT = { has_country_flag = rip_church_gc_deputation_sent } } localisation_key = rip_church_gui_contact_none }
+ text = { trigger = { had_country_flag = { flag = rip_church_gc_deputation_sent days = 1825 } } localisation_key = rip_church_gui_contact_ready }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_contact_recent }
+}
+defined_text = {
+ name = GetChurchAuthorityReadout
+ text = { trigger = { patriarch_authority = 1.00 } localisation_key = rip_church_readout_getchurchauthorityreadout_0 }
+ text = { trigger = { patriarch_authority = 0.99 } localisation_key = rip_church_readout_getchurchauthorityreadout_1 }
+ text = { trigger = { patriarch_authority = 0.98 } localisation_key = rip_church_readout_getchurchauthorityreadout_2 }
+ text = { trigger = { patriarch_authority = 0.97 } localisation_key = rip_church_readout_getchurchauthorityreadout_3 }
+ text = { trigger = { patriarch_authority = 0.96 } localisation_key = rip_church_readout_getchurchauthorityreadout_4 }
+ text = { trigger = { patriarch_authority = 0.95 } localisation_key = rip_church_readout_getchurchauthorityreadout_5 }
+ text = { trigger = { patriarch_authority = 0.94 } localisation_key = rip_church_readout_getchurchauthorityreadout_6 }
+ text = { trigger = { patriarch_authority = 0.93 } localisation_key = rip_church_readout_getchurchauthorityreadout_7 }
+ text = { trigger = { patriarch_authority = 0.92 } localisation_key = rip_church_readout_getchurchauthorityreadout_8 }
+ text = { trigger = { patriarch_authority = 0.91 } localisation_key = rip_church_readout_getchurchauthorityreadout_9 }
+ text = { trigger = { patriarch_authority = 0.90 } localisation_key = rip_church_readout_getchurchauthorityreadout_10 }
+ text = { trigger = { patriarch_authority = 0.89 } localisation_key = rip_church_readout_getchurchauthorityreadout_11 }
+ text = { trigger = { patriarch_authority = 0.88 } localisation_key = rip_church_readout_getchurchauthorityreadout_12 }
+ text = { trigger = { patriarch_authority = 0.87 } localisation_key = rip_church_readout_getchurchauthorityreadout_13 }
+ text = { trigger = { patriarch_authority = 0.86 } localisation_key = rip_church_readout_getchurchauthorityreadout_14 }
+ text = { trigger = { patriarch_authority = 0.85 } localisation_key = rip_church_readout_getchurchauthorityreadout_15 }
+ text = { trigger = { patriarch_authority = 0.84 } localisation_key = rip_church_readout_getchurchauthorityreadout_16 }
+ text = { trigger = { patriarch_authority = 0.83 } localisation_key = rip_church_readout_getchurchauthorityreadout_17 }
+ text = { trigger = { patriarch_authority = 0.82 } localisation_key = rip_church_readout_getchurchauthorityreadout_18 }
+ text = { trigger = { patriarch_authority = 0.81 } localisation_key = rip_church_readout_getchurchauthorityreadout_19 }
+ text = { trigger = { patriarch_authority = 0.80 } localisation_key = rip_church_readout_getchurchauthorityreadout_20 }
+ text = { trigger = { patriarch_authority = 0.79 } localisation_key = rip_church_readout_getchurchauthorityreadout_21 }
+ text = { trigger = { patriarch_authority = 0.78 } localisation_key = rip_church_readout_getchurchauthorityreadout_22 }
+ text = { trigger = { patriarch_authority = 0.77 } localisation_key = rip_church_readout_getchurchauthorityreadout_23 }
+ text = { trigger = { patriarch_authority = 0.76 } localisation_key = rip_church_readout_getchurchauthorityreadout_24 }
+ text = { trigger = { patriarch_authority = 0.75 } localisation_key = rip_church_readout_getchurchauthorityreadout_25 }
+ text = { trigger = { patriarch_authority = 0.74 } localisation_key = rip_church_readout_getchurchauthorityreadout_26 }
+ text = { trigger = { patriarch_authority = 0.73 } localisation_key = rip_church_readout_getchurchauthorityreadout_27 }
+ text = { trigger = { patriarch_authority = 0.72 } localisation_key = rip_church_readout_getchurchauthorityreadout_28 }
+ text = { trigger = { patriarch_authority = 0.71 } localisation_key = rip_church_readout_getchurchauthorityreadout_29 }
+ text = { trigger = { patriarch_authority = 0.70 } localisation_key = rip_church_readout_getchurchauthorityreadout_30 }
+ text = { trigger = { patriarch_authority = 0.69 } localisation_key = rip_church_readout_getchurchauthorityreadout_31 }
+ text = { trigger = { patriarch_authority = 0.68 } localisation_key = rip_church_readout_getchurchauthorityreadout_32 }
+ text = { trigger = { patriarch_authority = 0.67 } localisation_key = rip_church_readout_getchurchauthorityreadout_33 }
+ text = { trigger = { patriarch_authority = 0.66 } localisation_key = rip_church_readout_getchurchauthorityreadout_34 }
+ text = { trigger = { patriarch_authority = 0.65 } localisation_key = rip_church_readout_getchurchauthorityreadout_35 }
+ text = { trigger = { patriarch_authority = 0.64 } localisation_key = rip_church_readout_getchurchauthorityreadout_36 }
+ text = { trigger = { patriarch_authority = 0.63 } localisation_key = rip_church_readout_getchurchauthorityreadout_37 }
+ text = { trigger = { patriarch_authority = 0.62 } localisation_key = rip_church_readout_getchurchauthorityreadout_38 }
+ text = { trigger = { patriarch_authority = 0.61 } localisation_key = rip_church_readout_getchurchauthorityreadout_39 }
+ text = { trigger = { patriarch_authority = 0.60 } localisation_key = rip_church_readout_getchurchauthorityreadout_40 }
+ text = { trigger = { patriarch_authority = 0.59 } localisation_key = rip_church_readout_getchurchauthorityreadout_41 }
+ text = { trigger = { patriarch_authority = 0.58 } localisation_key = rip_church_readout_getchurchauthorityreadout_42 }
+ text = { trigger = { patriarch_authority = 0.57 } localisation_key = rip_church_readout_getchurchauthorityreadout_43 }
+ text = { trigger = { patriarch_authority = 0.56 } localisation_key = rip_church_readout_getchurchauthorityreadout_44 }
+ text = { trigger = { patriarch_authority = 0.55 } localisation_key = rip_church_readout_getchurchauthorityreadout_45 }
+ text = { trigger = { patriarch_authority = 0.54 } localisation_key = rip_church_readout_getchurchauthorityreadout_46 }
+ text = { trigger = { patriarch_authority = 0.53 } localisation_key = rip_church_readout_getchurchauthorityreadout_47 }
+ text = { trigger = { patriarch_authority = 0.52 } localisation_key = rip_church_readout_getchurchauthorityreadout_48 }
+ text = { trigger = { patriarch_authority = 0.51 } localisation_key = rip_church_readout_getchurchauthorityreadout_49 }
+ text = { trigger = { patriarch_authority = 0.50 } localisation_key = rip_church_readout_getchurchauthorityreadout_50 }
+ text = { trigger = { patriarch_authority = 0.49 } localisation_key = rip_church_readout_getchurchauthorityreadout_51 }
+ text = { trigger = { patriarch_authority = 0.48 } localisation_key = rip_church_readout_getchurchauthorityreadout_52 }
+ text = { trigger = { patriarch_authority = 0.47 } localisation_key = rip_church_readout_getchurchauthorityreadout_53 }
+ text = { trigger = { patriarch_authority = 0.46 } localisation_key = rip_church_readout_getchurchauthorityreadout_54 }
+ text = { trigger = { patriarch_authority = 0.45 } localisation_key = rip_church_readout_getchurchauthorityreadout_55 }
+ text = { trigger = { patriarch_authority = 0.44 } localisation_key = rip_church_readout_getchurchauthorityreadout_56 }
+ text = { trigger = { patriarch_authority = 0.43 } localisation_key = rip_church_readout_getchurchauthorityreadout_57 }
+ text = { trigger = { patriarch_authority = 0.42 } localisation_key = rip_church_readout_getchurchauthorityreadout_58 }
+ text = { trigger = { patriarch_authority = 0.41 } localisation_key = rip_church_readout_getchurchauthorityreadout_59 }
+ text = { trigger = { patriarch_authority = 0.40 } localisation_key = rip_church_readout_getchurchauthorityreadout_60 }
+ text = { trigger = { patriarch_authority = 0.39 } localisation_key = rip_church_readout_getchurchauthorityreadout_61 }
+ text = { trigger = { patriarch_authority = 0.38 } localisation_key = rip_church_readout_getchurchauthorityreadout_62 }
+ text = { trigger = { patriarch_authority = 0.37 } localisation_key = rip_church_readout_getchurchauthorityreadout_63 }
+ text = { trigger = { patriarch_authority = 0.36 } localisation_key = rip_church_readout_getchurchauthorityreadout_64 }
+ text = { trigger = { patriarch_authority = 0.35 } localisation_key = rip_church_readout_getchurchauthorityreadout_65 }
+ text = { trigger = { patriarch_authority = 0.34 } localisation_key = rip_church_readout_getchurchauthorityreadout_66 }
+ text = { trigger = { patriarch_authority = 0.33 } localisation_key = rip_church_readout_getchurchauthorityreadout_67 }
+ text = { trigger = { patriarch_authority = 0.32 } localisation_key = rip_church_readout_getchurchauthorityreadout_68 }
+ text = { trigger = { patriarch_authority = 0.31 } localisation_key = rip_church_readout_getchurchauthorityreadout_69 }
+ text = { trigger = { patriarch_authority = 0.30 } localisation_key = rip_church_readout_getchurchauthorityreadout_70 }
+ text = { trigger = { patriarch_authority = 0.29 } localisation_key = rip_church_readout_getchurchauthorityreadout_71 }
+ text = { trigger = { patriarch_authority = 0.28 } localisation_key = rip_church_readout_getchurchauthorityreadout_72 }
+ text = { trigger = { patriarch_authority = 0.27 } localisation_key = rip_church_readout_getchurchauthorityreadout_73 }
+ text = { trigger = { patriarch_authority = 0.26 } localisation_key = rip_church_readout_getchurchauthorityreadout_74 }
+ text = { trigger = { patriarch_authority = 0.25 } localisation_key = rip_church_readout_getchurchauthorityreadout_75 }
+ text = { trigger = { patriarch_authority = 0.24 } localisation_key = rip_church_readout_getchurchauthorityreadout_76 }
+ text = { trigger = { patriarch_authority = 0.23 } localisation_key = rip_church_readout_getchurchauthorityreadout_77 }
+ text = { trigger = { patriarch_authority = 0.22 } localisation_key = rip_church_readout_getchurchauthorityreadout_78 }
+ text = { trigger = { patriarch_authority = 0.21 } localisation_key = rip_church_readout_getchurchauthorityreadout_79 }
+ text = { trigger = { patriarch_authority = 0.20 } localisation_key = rip_church_readout_getchurchauthorityreadout_80 }
+ text = { trigger = { patriarch_authority = 0.19 } localisation_key = rip_church_readout_getchurchauthorityreadout_81 }
+ text = { trigger = { patriarch_authority = 0.18 } localisation_key = rip_church_readout_getchurchauthorityreadout_82 }
+ text = { trigger = { patriarch_authority = 0.17 } localisation_key = rip_church_readout_getchurchauthorityreadout_83 }
+ text = { trigger = { patriarch_authority = 0.16 } localisation_key = rip_church_readout_getchurchauthorityreadout_84 }
+ text = { trigger = { patriarch_authority = 0.15 } localisation_key = rip_church_readout_getchurchauthorityreadout_85 }
+ text = { trigger = { patriarch_authority = 0.14 } localisation_key = rip_church_readout_getchurchauthorityreadout_86 }
+ text = { trigger = { patriarch_authority = 0.13 } localisation_key = rip_church_readout_getchurchauthorityreadout_87 }
+ text = { trigger = { patriarch_authority = 0.12 } localisation_key = rip_church_readout_getchurchauthorityreadout_88 }
+ text = { trigger = { patriarch_authority = 0.11 } localisation_key = rip_church_readout_getchurchauthorityreadout_89 }
+ text = { trigger = { patriarch_authority = 0.10 } localisation_key = rip_church_readout_getchurchauthorityreadout_90 }
+ text = { trigger = { patriarch_authority = 0.09 } localisation_key = rip_church_readout_getchurchauthorityreadout_91 }
+ text = { trigger = { patriarch_authority = 0.08 } localisation_key = rip_church_readout_getchurchauthorityreadout_92 }
+ text = { trigger = { patriarch_authority = 0.07 } localisation_key = rip_church_readout_getchurchauthorityreadout_93 }
+ text = { trigger = { patriarch_authority = 0.06 } localisation_key = rip_church_readout_getchurchauthorityreadout_94 }
+ text = { trigger = { patriarch_authority = 0.05 } localisation_key = rip_church_readout_getchurchauthorityreadout_95 }
+ text = { trigger = { patriarch_authority = 0.04 } localisation_key = rip_church_readout_getchurchauthorityreadout_96 }
+ text = { trigger = { patriarch_authority = 0.03 } localisation_key = rip_church_readout_getchurchauthorityreadout_97 }
+ text = { trigger = { patriarch_authority = 0.02 } localisation_key = rip_church_readout_getchurchauthorityreadout_98 }
+ text = { trigger = { patriarch_authority = 0.01 } localisation_key = rip_church_readout_getchurchauthorityreadout_99 }
+ text = { trigger = { patriarch_authority = 0.00 } localisation_key = rip_church_readout_getchurchauthorityreadout_100 }
+}
+defined_text = {
+ name = GetChurchEcumenismReason
+ text = { trigger = { has_country_flag = rip_church_ecumenical } localisation_key = rip_church_readout_getchurchecumenismreason_0 }
+ text = { trigger = { NOT = { religion = greek_catholic } } localisation_key = rip_church_readout_getchurchecumenismreason_1 }
+ text = { trigger = { NOT = { had_country_flag = { flag = rip_church_union_founded days = 7300 } } } localisation_key = rip_church_readout_getchurchecumenismreason_2 }
+ text = { trigger = { has_country_flag = rip_church_forced_integration NOT = { had_country_flag = { flag = rip_church_forced_integration days = 3650 } } } localisation_key = rip_church_readout_getchurchecumenismreason_3 }
+ text = { trigger = { NOT = { stability = 2 } } localisation_key = rip_church_readout_getchurchecumenismreason_4 }
+ text = { trigger = { is_at_war = yes } localisation_key = rip_church_readout_getchurchecumenismreason_5 }
+ text = { trigger = { NOT = { any_owned_province = { religion = orthodox has_province_flag = rip_church_rite_recognized } } } localisation_key = rip_church_readout_getchurchecumenismreason_6 }
+ text = { trigger = { NOT = { any_owned_province = { religion = catholic has_province_flag = rip_church_rite_recognized } } } localisation_key = rip_church_readout_getchurchecumenismreason_7 }
+ text = { trigger = { NOT = { any_country = { religion = orthodox alliance_with = ROOT has_opinion = { who = ROOT value = 100 } } } } localisation_key = rip_church_readout_getchurchecumenismreason_8 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchecumenismreason_9 }
+}
+defined_text = {
+ name = GetChurchMissionCost
+ text = { trigger = { treasury = 50 } localisation_key = rip_church_readout_getchurchmissioncost_0 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchmissioncost_1 }
+}
+defined_text = {
+ name = GetChurchMissionPeace
+ text = { trigger = { is_at_war = no } localisation_key = rip_church_readout_getchurchmissionpeace_0 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchmissionpeace_1 }
+}
+defined_text = {
+ name = GetChurchMissionRome
+ text = { trigger = { rip_church_gc_rome_present = yes } localisation_key = rip_church_readout_getchurchmissionrome_0 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchmissionrome_1 }
+}
+defined_text = {
+ name = GetChurchMissionCooldown
+ text = { trigger = { NOT = { has_country_flag = rip_church_gc_deputation_sent } } localisation_key = rip_church_readout_getchurchmissioncooldown_0 }
+ text = { trigger = { had_country_flag = { flag = rip_church_gc_deputation_sent days = 1825 } } localisation_key = rip_church_readout_getchurchmissioncooldown_1 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchmissioncooldown_2 }
+}
+defined_text = {
+ name = GetChurchMissionReason
+ text = { trigger = { NOT = { religion = greek_catholic } } localisation_key = rip_church_readout_getchurchmissionreason_0 }
+ text = { trigger = { NOT = { rip_church_gc_rome_present = yes } } localisation_key = rip_church_readout_getchurchmissionreason_1 }
+ text = { trigger = { is_at_war = yes } localisation_key = rip_church_readout_getchurchmissionreason_2 }
+ text = { trigger = { NOT = { treasury = 50 } } localisation_key = rip_church_readout_getchurchmissionreason_3 }
+ text = { trigger = { rip_church_gc_can_depute_to_curia = yes } localisation_key = rip_church_readout_getchurchmissionreason_4 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchmissionreason_5 }
+}
+defined_text = {
+ name = GetChurchRecognitionReason
+ text = { trigger = { NOT = { religion = greek_catholic } } localisation_key = rip_church_readout_getchurchrecognitionreason_0 }
+ text = { trigger = { NOT = { any_owned_province = { is_city = yes controlled_by = owner OR = { religion = orthodox religion = russian_orthodox religion = catholic } NOT = { has_province_flag = rip_church_rite_recognized } } } } localisation_key = rip_church_readout_getchurchrecognitionreason_1 }
+ text = { trigger = { NOT = { any_owned_province = { rip_church_can_recognize_rite = yes } } } localisation_key = rip_church_readout_getchurchrecognitionreason_2 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchrecognitionreason_3 }
+}
+defined_text = {
+ name = GetChurchRegisterColumns
+ text = { trigger = { any_owned_province = { has_province_flag = rip_church_rite_recognized } } localisation_key = rip_church_gui_register_header_full }
+ text = { trigger = { always = yes } localisation_key = rip_church_gui_register_header_empty }
+}
+defined_text = {
+ name = GetChurchDevotionalLiturgy
+ text = { trigger = { has_country_modifier = rip_church_gc_icon_liturgy } localisation_key = rip_church_readout_getchurchdevotionalliturgy_0 }
+ text = { trigger = { rip_church_gc_has_active_icon = yes } localisation_key = rip_church_readout_getchurchdevotionalliturgy_1 }
+ text = { trigger = { NOT = { patriarch_authority = 0.2 } } localisation_key = rip_church_readout_getchurchdevotionalliturgy_2 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchdevotionalliturgy_3 }
+}
+defined_text = {
+ name = GetChurchDevotionalLearning
+ text = { trigger = { has_country_modifier = rip_church_gc_icon_learning } localisation_key = rip_church_readout_getchurchdevotionallearning_0 }
+ text = { trigger = { rip_church_gc_has_active_icon = yes } localisation_key = rip_church_readout_getchurchdevotionallearning_1 }
+ text = { trigger = { NOT = { patriarch_authority = 0.2 } } localisation_key = rip_church_readout_getchurchdevotionallearning_2 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchdevotionallearning_3 }
+}
+defined_text = {
+ name = GetChurchDevotionalCharity
+ text = { trigger = { has_country_modifier = rip_church_gc_icon_charity } localisation_key = rip_church_readout_getchurchdevotionalcharity_0 }
+ text = { trigger = { rip_church_gc_has_active_icon = yes } localisation_key = rip_church_readout_getchurchdevotionalcharity_1 }
+ text = { trigger = { NOT = { patriarch_authority = 0.2 } } localisation_key = rip_church_readout_getchurchdevotionalcharity_2 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchdevotionalcharity_3 }
+}

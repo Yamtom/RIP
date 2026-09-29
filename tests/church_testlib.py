@@ -11,7 +11,9 @@ from clausewitz_testlib import ROOT, read
 for directory, registry in [('scripted_triggers', TRIGGERS), ('scripted_effects', EFFECTS)]:
     for path in (ROOT / 'common' / directory).glob('rip_church_*.txt'):
         registry.update(parse(path.read_text(encoding='utf-8-sig')))
-for name in ['rip_uc_curia_effects', 'rip_faith_effects', 'rip_ro_icon_effects']:
+# Church-prefixed effects (including the Greek Catholic Curia) are loaded
+# above; these remaining helpers use their own legacy file prefixes.
+for name in ['rip_faith_effects', 'rip_ro_icon_effects']:
     EFFECTS.update(parse(read('common/scripted_effects/' + name + '.txt')))
 
 
@@ -30,7 +32,7 @@ class World(SettlementWorld):
 
     def opinion(self, source, target):
         result = source['opinions'].get(target['id'], 0)
-        definitions = dict(parse(read('common/opinion_modifiers/RIP_church_curia.txt')))
+        definitions = dict(parse(read('common/opinion_modifiers/RIP_church_relations.txt')))
         for (who, modifier), day in source.get('opinion_dates', {}).items():
             if who == target['id'] and modifier in definitions:
                 fields = dict(definitions[modifier])

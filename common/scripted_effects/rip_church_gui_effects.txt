@@ -11,3 +11,18 @@ rip_church_gui_refresh_parishes_effect = {
   }
  }
 }
+
+# The parish tab is available to Greek Catholics and countries backing the
+# Union. Switching tabs only changes the read-only GUI route.
+rip_church_gui_open_parishes_effect = {
+ if = {
+  limit = {
+   OR = {
+    religion = greek_catholic
+    rip_church_union_supporter = yes
+   }
+  }
+  set_country_flag = rip_church_gui_parishes_view
+  clr_country_flag = rip_church_gc_curia_view
+ }
+}

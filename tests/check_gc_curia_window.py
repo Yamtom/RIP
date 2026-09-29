@@ -60,4 +60,34 @@ assert 'rip_church_gc_deputation_button' in features
 assert 'rip_church_gc_curia_note' in gui_generator
 assert 'name = "rip_church_gc_curia_note"' in interface
 
-print('GC CURIA PASS: local synod/icons retained; Curia is a non-electoral diplomatic audience only')
+# All three pages share a fixed header/navigation rail.  Devotional icon art is
+# the click target's card, not an empty blue button floating above the icon.
+for page in ('union', 'curia', 'parishes'):
+    for tab in ('union', 'curia', 'parishes'):
+        marker = f'name = "rip_church_gc_{tab}_tab_{page}" scripted = yes position = {{ x='
+        start = interface.index(marker)
+        assert ' y=76 }' in interface[start:start + 140]
+assert interface.count('name = "rip_church_gc_heading" scripted = yes position = { x=28 y=15 }') >= 3
+assert interface.count('spriteType = "GFX_rip_church_window_banner"') >= 3
+assert interface.count('spriteType = "GFX_rip_church_section_banner"') >= 7
+assert 'GFX_standard_button_140' not in gui_generator
+for key in ('liturgy', 'learning', 'charity'):
+    start = interface.index(f'name = "rip_church_gc_icon_{key}_button"')
+    assert 'quadTextureSprite = "GFX_coptic_blessing_select"' in interface[start:interface.index('buttonFont', start)]
+assert 'name = "rip_church_gui_parish_empty_state"' in interface
+assert 'name = GetChurchParishRegisterState' in custom_text
+
+from church_testlib import fixture, TRIGGERS
+w,c,p = fixture('greek_catholic')
+c['treasury'] = 100
+if 'PAP' not in w.countries:
+    w.country('PAP','catholic')
+deputation_gate = TRIGGERS['rip_church_gc_can_depute_to_curia']
+assert w.gate(deputation_gate,c)
+c['flags']['rip_church_gc_deputation_sent'] = w.day
+assert not w.gate(deputation_gate,c)
+w.day += 1824
+assert not w.gate(deputation_gate,c)
+w.day += 1
+assert w.gate(deputation_gate,c)
+print('GC CURIA PASS: UI contracts and deputation cooldown boundaries')
