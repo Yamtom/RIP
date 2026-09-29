@@ -1,0 +1,52 @@
+# The Incorporated Appanage.
+#
+# The Poland fork of the Galician Voivodeship got a mechanic of its own
+# (rip_hlc_boyar_council.txt, elective succession via has_polish_election on
+# hlc_magnate_assembly_reform). The Austria fork never had one. This is the
+# first piece of its counterpart, in the shape of a real vanilla mechanic
+# rather than copied from it:
+#
+# Real prototype: incorporate_vassal
+# (common/new_diplomatic_actions/00_diplomatic_actions.txt). There,
+# is_visible reads can_have_incorporated_vassals
+# (common/scripted_triggers/00_scripted_triggers.txt), which is true only for
+# the German reform GER_unlock_integrated_vassal or the Habsburg
+# hab_integrated_vassals_flag - so the action itself is not Habsburg-locked
+# in the engine, only in which reforms grant the gate. HLC gets its own gate,
+# hlc_can_incorporate_appanages
+# (common/scripted_triggers/rip_path_state_triggers.txt), set by
+# hlc_austrian_bureaucracy_reform
+# (common/government_reforms/RIP_HLC_government_reforms.txt), and its own
+# name and description. The mechanical core - require_acceptance = no,
+# create_subject with the vanilla incorporated_vassal subject type - is
+# identical, because that subject type (annex_cost_per_development = 6.0
+# against a vassal's default, -100 governing capacity while held) is
+# generic engine content, not Habsburg flavour.
+hlc_incorporate_appanage = {
+	category = influence
+
+	require_acceptance = no
+
+	is_visible = {
+		hlc_can_incorporate_appanages = yes
+		FROM = {
+			is_subject_of = ROOT
+			is_subject_of_type = vassal
+		}
+	}
+
+	is_allowed = {
+	}
+
+	on_accept = {
+		create_subject = {
+			subject_type = incorporated_vassal
+			subject = FROM
+			keep_liberty_desire = yes
+		}
+	}
+
+	ai_will_do = {
+		always = yes
+	}
+}

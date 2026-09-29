@@ -1,0 +1,44 @@
+namespace = rip_uzh_union
+
+# Historical clergy initiative; the secular owner receives the local petition.
+province_event = {
+ id = rip_uzh_union.1
+ title = rip_uzh_union.1.t
+ desc = rip_uzh_union.1.d
+ picture = RELIGION_eventPicture
+ trigger = {
+  rip_uzh_local_union_possible = yes
+  NOT = { has_province_flag = rip_uzh_union_answered }
+ }
+ mean_time_to_happen = { months = 12 }
+ immediate = { set_province_flag = rip_uzh_union_answered }
+ option = {
+  name = rip_uzh_union.1.a
+  trigger = { rip_uzh_local_union_possible = yes }
+  ai_chance = { factor = 80 }
+  if = {
+   limit = { rip_uzh_local_union_possible = yes }
+   set_province_flag = rip_uzh_union_accepted
+   owner = {
+    enable_religion = greek_catholic
+    if = {
+     limit = { religion = catholic }
+     set_country_flag = rip_church_supports_union
+     if = {
+      limit = { NOT = { has_country_flag = rip_church_union_founded } }
+      set_country_flag = rip_church_union_founded
+     }
+    }
+   }
+   # One local community represented through EU4's single province religion.
+   change_religion = greek_catholic
+   add_local_autonomy = 10
+   add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }
+  }
+ }
+ option = {
+  name = rip_uzh_union.1.b
+  ai_chance = { factor = 20 }
+  # Always available if patronage or local conditions changed meanwhile.
+ }
+}

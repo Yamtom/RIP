@@ -1,0 +1,8 @@
+# Drain queued events from the retired 30-day authority loop without rescheduling.
+namespace = rip_ro_authority
+country_event = {
+	id = rip_ro_authority.1
+	hidden = yes
+	is_triggered_only = yes
+	immediate = { clr_country_flag = rip_ro_authority_tick_pending }
+}

@@ -1,0 +1,95 @@
+uzh_powerful_monarchy_pressure = {
+	OR = {
+		AND = {
+			is_subject = yes
+			overlord = {
+				exists = yes
+				government = monarchy
+				total_development = 150
+			}
+		}
+		any_neighbor_country = {
+			government = monarchy
+			total_development = 150
+		}
+	}
+}
+
+uzh_loyal_subject_network = {
+	NOT = {
+		any_subject_country = {
+			liberty_desire = 60
+		}
+	}
+}
+
+uzh_identity_core_culture = {
+	OR = {
+		AND = {
+			owner = { has_country_flag = chose_ruthenian_identity }
+			OR = {
+				culture = ruthenian
+				culture = ruthenian_new
+			}
+		}
+		AND = {
+			owner = { has_country_flag = chose_rusyn_identity }
+			OR = {
+				culture = rusyn
+				culture = rusyn_new
+			}
+		}
+		AND = {
+			owner = { has_country_flag = chose_uhro_rusyn_identity }
+			OR = {
+				culture = rusyn_new_new
+			}
+		}
+		AND = {
+			owner = {
+				NOT = { has_country_flag = chose_ruthenian_identity }
+				NOT = { has_country_flag = chose_rusyn_identity }
+				NOT = { has_country_flag = chose_uhro_rusyn_identity }
+			}
+			OR = {
+				culture = rusyn
+				culture = rusyn_new
+			}
+		}
+	}
+}
+
+# Before an identity has been selected, measure every culture that can
+# plausibly take part in the choice rather than its still-unknown outcome.
+uzh_pre_identity_candidate_culture = {
+	OR = {
+		culture = rusyn
+		culture = rusyn_new
+		culture = ruthenian
+		culture = ruthenian_new
+		culture = rusyn_new_new
+	}
+}
+
+uzh_has_courthouse_infrastructure = {
+	OR = {
+		has_building = courthouse
+		has_building = town_hall
+		has_building = state_house
+	}
+}
+
+uzh_has_market_infrastructure = {
+	OR = {
+		has_building = marketplace
+		has_building = trade_depot
+		has_building = stock_exchange
+	}
+}
+
+uzh_has_workshop_infrastructure = {
+	OR = {
+		has_building = workshop
+		has_building = counting_house
+	}
+}

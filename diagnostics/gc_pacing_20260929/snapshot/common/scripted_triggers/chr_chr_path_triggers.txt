@@ -1,0 +1,236 @@
+# Visibility gates and entry conditions for the three roads out of the Siversk
+# Veche, and for Great Chernihiv.
+#
+# Every reform is shown to a country that either already holds it - otherwise a
+# country loses sight of its own government - or is on the road that leads to
+# it. chr_path_chosen closes the two roads not taken.
+
+chr_at_the_crossroads = {
+	OR = {
+		tag = CHR
+		has_reform = siversk_veche_reform
+	}
+	NOT = { has_country_flag = chr_path_chosen }
+}
+
+# --- Road A, the towns
+
+chr_desna_staple_visible = {
+	OR = {
+		has_reform = chr_desna_staple_reform
+		AND = {
+			chr_at_the_crossroads = yes
+			has_country_flag = chr_road_towns_open
+		}
+	}
+}
+
+chr_town_union_visible = {
+	OR = {
+		has_reform = chr_town_union_reform
+		has_reform = chr_desna_staple_reform
+	}
+}
+
+chr_rada_of_lands_visible = {
+	OR = {
+		has_reform = chr_rada_of_lands_reform
+		has_reform = chr_town_union_reform
+	}
+}
+
+# --- Road B, the houses
+
+chr_magistrat_rule_visible = {
+	OR = {
+		has_reform = chr_magistrat_rule_reform
+		AND = {
+			chr_at_the_crossroads = yes
+			has_country_flag = chr_road_houses_open
+		}
+	}
+}
+
+# The two stages that change the government type also drop the reform that led
+# to them - change_government empties the republican tier before the monarchic
+# reform is added. The flag is set by the decision first, so the reform is
+# still visible at the moment it is granted.
+chr_siversk_principality_visible = {
+	OR = {
+		has_reform = chr_siversk_principality_reform
+		has_reform = chr_magistrat_rule_reform
+		has_country_flag = chr_stage_principality_open
+	}
+}
+
+chr_prykaz_tsardom_visible = {
+	OR = {
+		has_reform = chr_prykaz_tsardom_reform
+		has_reform = chr_siversk_principality_reform
+	}
+}
+
+# --- Road C, the chancery
+
+chr_kanceliaryst_republic_visible = {
+	OR = {
+		has_reform = chr_kanceliaryst_republic_reform
+		AND = {
+			chr_at_the_crossroads = yes
+			has_country_flag = chr_road_chancery_open
+		}
+	}
+}
+
+chr_dzhura_corps_visible = {
+	OR = {
+		has_reform = chr_dzhura_corps_reform
+		has_reform = chr_kanceliaryst_republic_reform
+		has_country_flag = chr_stage_dzhura_open
+	}
+}
+
+chr_many_nations_union_visible = {
+	OR = {
+		has_reform = chr_many_nations_union_reform
+		has_reform = chr_dzhura_corps_reform
+	}
+}
+
+# --- what each road asks before it opens
+
+chr_can_take_towns_road = {
+	chr_at_the_crossroads = yes
+	is_at_war = no
+	stability = 1
+	num_of_cities = 4
+	republican_tradition = 55
+	owns_core_province = 289	# Chernihiv
+}
+
+chr_can_take_houses_road = {
+	chr_at_the_crossroads = yes
+	is_at_war = no
+	stability = 1
+	num_of_cities = 5
+	treasury = 200
+	adm_power = 100
+}
+
+chr_can_take_chancery_road = {
+	chr_at_the_crossroads = yes
+	is_at_war = no
+	stability = 2
+	num_of_cities = 4
+	adm_tech = 8
+	dip_power = 100
+}
+
+# --- the second stage of each road
+
+chr_can_open_town_union = {
+	has_reform = chr_desna_staple_reform
+	is_at_war = no
+	stability = 1
+	num_of_cities = 8
+	republican_tradition = 60
+	owns_core_province = 1945	# Novgorod-Seversky
+	owns_core_province = 4244	# Starodub
+}
+
+chr_can_open_siversk_principality = {
+	has_reform = chr_magistrat_rule_reform
+	is_at_war = no
+	stability = 1
+	num_of_cities = 8
+	treasury = 400
+	NOT = { republican_tradition = 60 }
+}
+
+chr_can_open_dzhura_corps = {
+	has_reform = chr_kanceliaryst_republic_reform
+	is_at_war = no
+	stability = 1
+	num_of_cities = 8
+	army_tradition = 40
+	mil_power = 200
+}
+
+# --- the third stage of each road. All three wait on Great Chernihiv: the
+#     road can only end where the land it was drawn for is whole.
+
+chr_can_open_rada_of_lands = {
+	has_reform = chr_town_union_reform
+	has_country_flag = chr_great_chernihiv
+	is_at_war = no
+	stability = 2
+	num_of_cities = 12
+	republican_tradition = 70
+}
+
+chr_can_open_prykaz_tsardom = {
+	has_reform = chr_siversk_principality_reform
+	has_country_flag = chr_great_chernihiv
+	is_at_war = no
+	stability = 1
+	num_of_cities = 15
+	adm_tech = 15
+	legitimacy = 80
+}
+
+chr_can_open_many_nations_union = {
+	has_reform = chr_dzhura_corps_reform
+	has_country_flag = chr_great_chernihiv
+	is_at_war = no
+	stability = 1
+	num_of_cities = 15
+	adm_tech = 15
+	custom_trigger_tooltip = {
+		tooltip = chr_four_lands_beyond_tt
+		calc_true_if = {
+			all_owned_province = {
+				NOT = { culture_group = east_slavic }
+			}
+			amount = 4
+		}
+	}
+}
+
+# --- Great Chernihiv: the six towns of the Siverian land, held as our own
+
+chr_holds_the_siverian_land = {
+	owns_core_province = 289	# Chernihiv
+	owns_core_province = 1945	# Novgorod-Seversky
+	owns_core_province = 4244	# Starodub
+	owns_core_province = 4543	# Rylsk
+	owns_core_province = 297	# Bryansk
+	owns_core_province = 298	# Kursk
+}
+
+# Great Chernihiv asks about the land, not about the government: a Siversk
+# Veche that never took a road can still proclaim it. What the roads need it
+# for is their own third stage.
+chr_can_proclaim_great_chernihiv = {
+	NOT = { has_country_flag = chr_great_chernihiv }
+	is_at_war = no
+	stability = 1
+	adm_power = 200
+	prestige = 25
+	chr_holds_the_siverian_land = yes
+}
+
+# --- a country walking one of the three roads, whatever stage it stands on
+
+chr_on_a_path = {
+	OR = {
+		has_reform = chr_desna_staple_reform
+		has_reform = chr_town_union_reform
+		has_reform = chr_rada_of_lands_reform
+		has_reform = chr_magistrat_rule_reform
+		has_reform = chr_siversk_principality_reform
+		has_reform = chr_prykaz_tsardom_reform
+		has_reform = chr_kanceliaryst_republic_reform
+		has_reform = chr_dzhura_corps_reform
+		has_reform = chr_many_nations_union_reform
+	}
+}

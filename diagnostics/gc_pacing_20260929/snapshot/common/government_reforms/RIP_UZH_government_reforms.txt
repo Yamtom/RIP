@@ -1,0 +1,585 @@
+# =============================================================================
+# RIP_UZH_government_reforms
+# Definitions are grouped by polity or by an explicitly shared reform family.
+# =============================================================================
+
+uzh_palanok_captaincy_reform = {
+	icon = "trading_city"
+	potential = {
+		OR = {
+			has_reform = uzh_palanok_captaincy_reform
+			tag = UZH
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = no
+	duration = 20
+	has_term_election = yes
+	rulers_can_be_generals = yes
+	royal_marriage = yes
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = uzh_palanok_captaincy_reform
+			tag = UZH
+		}
+	}
+	modifiers = {
+		defensiveness = 0.1
+		fort_maintenance_modifier = -0.1
+		# The captaincy's structural drag, constant whichever party is in
+		# power; the dynamic trade/military upside sits on the faction
+		# modifiers below instead. Kept literal (check_government_reforms.py)
+		# so the burden never becomes a no-op under one party.
+		land_morale = -0.05
+		global_unrest = 1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	# The Sejm party and the Captains' party - a real vanilla FACTION contest
+	# (base-game, like the KRU rada), not the Res Publica states_general scale
+	# it used to fake. common/factions/RIP_uzh_palanok_factions.txt.
+	factions = {
+		uzh_partia_soymu
+		uzh_partia_kapitaniv
+	}
+}
+
+uzh_komitat_system_reform = {
+	icon = "nobleman"
+	potential = {
+		OR = {
+			has_reform = uzh_komitat_system_reform
+			tag = UZH
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	rulers_can_be_generals = yes
+	royal_marriage = yes
+	has_term_election = yes
+	republic = yes
+	duration = 8
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = uzh_komitat_system_reform
+			tag = UZH
+		}
+	}
+	modifiers = {
+		state_maintenance_modifier = -0.1
+		governing_capacity_modifier = 0.1
+		nobles_loyalty_modifier = 0.05
+		max_absolutism = -5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = no
+		enables_aristocratic_idea_group = yes
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+uzh_republican_komitat_system_reform = {
+	icon = "nobleman"
+	potential = {
+		OR = {
+			has_reform = uzh_republican_komitat_system_reform
+			tag = UZH
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	rulers_can_be_generals = yes
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = uzh_republican_komitat_system_reform
+			tag = UZH
+		}
+	}
+	modifiers = {
+		state_maintenance_modifier = -0.1
+		governing_capacity_modifier = 0.1
+		nobles_loyalty_modifier = 0.05
+		max_absolutism = -5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+uzh_palatial_ruthenian_reform = {
+	icon = "british_monarchy"
+	potential = {
+		OR = {
+			has_reform = uzh_palatial_ruthenian_reform
+			tag = UZH
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+
+	start_territory_to_estates = 0.3
+	trigger = {
+		OR = {
+			has_reform = uzh_palatial_ruthenian_reform
+			AND = {
+				tag = UZH
+				custom_trigger_tooltip = {
+					tooltip = uzh_palatial_ruthenian_identity_req_tt
+					uzh_identity_ruthenian_selected = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		num_accepted_cultures = 1
+		diplomatic_reputation = 1
+		parliament_backing_chance = 0.1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Common Sense"
+			NOT = { has_dlc = "Domination" }
+		}
+		has_parliament = yes
+		custom_attributes = {
+			blocked_call_diet = yes
+		}
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Domination"
+		}
+		has_parliament = yes
+		custom_attributes = {
+			blocked_call_diet = yes
+		}
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+uzh_palatial_rusyn_reform = {
+	icon = "assembly_hall"
+	potential = {
+		OR = {
+			has_reform = uzh_palatial_rusyn_reform
+			tag = UZH
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	trigger = {
+		OR = {
+			has_reform = uzh_palatial_rusyn_reform
+			AND = {
+				tag = UZH
+				custom_trigger_tooltip = {
+					tooltip = uzh_palatial_rusyn_identity_req_tt
+					uzh_identity_rusyn_selected = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.1
+		years_of_nationalism = -5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		seizing_land_no_rebels_from_estate_burghers = yes
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+uzh_palatial_uhro_reform = {
+	icon = "paper_money_map"
+	potential = {
+		OR = {
+			has_reform = uzh_palatial_uhro_reform
+			tag = UZH
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	trigger = {
+		OR = {
+			has_reform = uzh_palatial_uhro_reform
+			AND = {
+				tag = UZH
+				custom_trigger_tooltip = {
+					tooltip = uzh_palatial_uhro_identity_req_tt
+					uzh_identity_uhro_selected = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		legitimacy = 0.5
+		nobles_loyalty_modifier = 0.1
+		max_absolutism = 10
+		governing_capacity_modifier = -0.10
+		technology_cost = 0.05
+		army_tradition = 0.5
+		cavalry_power = 0.10
+		fort_maintenance_modifier = -0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		# The Uhro-Rusyn road ends where its Hungarian model does: a noble
+		# class assimilated far enough into the Kingdom of Hungary's own
+		# court life to draw on the same crown privileges. Real vanilla
+		# government_attributes, confirmed against Hungary's own
+		# apostolic_kingdom / extend_the_unio_trium_nationum_reform /
+		# continue_the_renaissance_reform / cuman_lancers_reform
+		# (common/government_reforms/06_government_reforms_common.txt) and
+		# black_army_reform (01_government_reforms_monarchies.txt) - not
+		# invented names.
+		seizing_land_no_rebels_from_estate_nobles = yes
+		monarch_power_on_institutions = yes
+		mercs_do_not_cost_army_professionalism = yes
+		army_tradition_on_stackwipe = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Winds of Change"
+		}
+		custom_attributes = {
+			order_of_the_dragon_unlocked = yes
+		}
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+uzh_palatial_uhro_republic_reform = {
+	icon = "paper_money_map"
+	potential = {
+		OR = {
+			has_reform = uzh_palatial_uhro_republic_reform
+			tag = UZH
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	trigger = {
+		OR = {
+			has_reform = uzh_palatial_uhro_republic_reform
+			AND = {
+				tag = UZH
+				custom_trigger_tooltip = {
+					tooltip = uzh_palatial_uhro_identity_req_tt
+					uzh_identity_uhro_selected = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		republican_tradition = 0.25
+		nobles_loyalty_modifier = 0.1
+		max_absolutism = 10
+		governing_capacity_modifier = -0.10
+		technology_cost = 0.05
+		army_tradition = 0.5
+		cavalry_power = 0.10
+		fort_maintenance_modifier = -0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		# See uzh_palatial_uhro_reform above for the source of these four.
+		seizing_land_no_rebels_from_estate_nobles = yes
+		monarch_power_on_institutions = yes
+		mercs_do_not_cost_army_professionalism = yes
+		army_tradition_on_stackwipe = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Winds of Change"
+		}
+		custom_attributes = {
+			order_of_the_dragon_unlocked = yes
+		}
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+uzh_union_synod_reform = {
+	icon = "conciliarism_reform"
+	potential = {
+		OR = {
+			has_reform = uzh_union_synod_reform
+			tag = UZH
+			has_country_flag = uzh_union_synod_established
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	trigger = {
+		OR = {
+			has_reform = uzh_union_synod_reform
+			AND = {
+				is_year = 1646
+				has_country_flag = uzh_union_synod_established
+			}
+		}
+	}
+	modifiers = {
+		tolerance_own = 1
+		tolerance_heretic = 2
+		church_loyalty_modifier = 0.1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+uzh_carpathian_border_commissariat_reform = {
+	icon = "mountain_fort"
+	potential = {
+		OR = {
+			has_reform = uzh_carpathian_border_commissariat_reform
+			tag = UZH
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	trigger = {
+		OR = {
+			has_reform = uzh_carpathian_border_commissariat_reform
+			tag = UZH
+		}
+	}
+	modifiers = {
+		army_tradition = 0.5
+		land_forcelimit_modifier = 0.1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# =============================================================================
+# The Eparchial Road - a genuine theocracy exit for UZH, not another add-on
+# to a secular crown. decisions/UzhEparchyPath.txt fires change_government =
+# theocracy and hands this reform over once
+# common/scripted_triggers/uzh_eparchy_triggers.txt is satisfied. Built on
+# the Union of Uzhhorod (uzh_union_synod_reform above) rather than
+# duplicating it: that reform never registers under theocracy's
+# reform_levels (common/governments/00_governments.txt), so change_government
+# clears it the same way it already clears uzh_komitat_system_reform and
+# its siblings on a type switch (events/Uzh.txt, uzh.204). It also stays
+# clear of the Greek Catholic religion's own hierarchy mechanics
+# (common/religions/zz_greek_catholic.txt, decisions/GreekCatholicDecisions.txt)
+# - those are read, never edited, here. Same celibate-elective shape as
+# kyivan_metropolitanate_reform and zaz_sacred_host_order_reform: a
+# consecrated bishop cannot found a dynasty, so queen/heir/royal_marriage
+# stay off.
+#
+# Restored 2026-09-27: e3d2c80d deleted this block ("simplification and
+# integration of theocracy mechanics") while leaving every reference to it
+# intact (decisions/UzhEparchyPath.txt still grants it, common/governments/
+# 00_governments.txt still lists it in a tier, common/government_names/
+# 000_RIP_names.txt still names its ranks) - check_government_reforms.py
+# failed (114 expected, 118 found) the moment that happened. No replacement
+# mechanic exists anywhere in the church-redesign files for the same role
+# (head of state via consecrated eparch), so this restores the working
+# reform rather than guessing at an unfinished integration.
+# =============================================================================
+
+uzh_mukachevo_eparchy_reform = {
+	icon = "clergyman"
+	legacy_equivalent = theocratic_government
+	potential = {
+		OR = {
+			has_reform = uzh_mukachevo_eparchy_reform
+			AND = {
+				tag = UZH
+				has_country_flag = uzh_eparchial_rule_established
+			}
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	religion = yes
+	monastic = yes
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = no
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = uzh_mukachevo_eparchy_reform
+			AND = {
+				tag = UZH
+				has_country_flag = uzh_eparchial_rule_established
+			}
+		}
+	}
+	modifiers = {
+		tolerance_own = 2
+		church_loyalty_modifier = 0.15
+		global_missionary_strength = 0.02
+		max_absolutism = -10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		monastic_order = yes
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+# =============================================================================
+# Two further chapters for the eparchy, on the model of HLC's own two-fork
+# continuation (hlc_halych_synodal_confirmation_reform,
+# hlc_lviv_uniate_synod_reform - RIP_HLC_government_reforms.txt): each sits in
+# its own reform_levels category (common/governments/00_governments.txt) so
+# both stack on top of uzh_mukachevo_eparchy_reform instead of replacing it,
+# and neither requires the other.
+#
+# Chronology check performed before writing these: decisions/UzhEparchyPath.txt
+# already gates uzh_mukachevo_eparchy_reform's own grant on is_year = 1771 -
+# the historical bull Eximia Regalium Principum that freed Mukachevo from
+# Eger's Latin jurisdiction for good (the reform's own English desc already
+# says as much: "Freed from Eger's tutelage"). Bishop Vasyl Tarasovych's 1646
+# fight for the same jurisdictional independence therefore predates this
+# mod's own Th1 gate and cannot be a later tier without making Th1
+# unreachable before it. Rather than reopen the just-restored Th1 decision,
+# both new tiers are anchored to real, later chapters of the same see:
+#
+# Th2 - Bishop Andriy Bachynskyi (1772-1809) moved the bishopric's own
+# residence and chancery from Mukachevo Castle into Uzhhorod itself, founding
+# the town's theological seminary in 1778. The see's institutional life
+# finally catches up to the country's own name.
+# Th3 - in 1818 Rome carved the Presov eparchy for the northern Rusyn
+# parishes out of Mukachevo's own territory - the mature see outgrowing a
+# single cathedra, not a second union.
+# =============================================================================
+
+uzh_uzhhorod_seat_translation_reform = {
+	icon = "church"
+	legacy_equivalent = theocratic_government
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	potential = {
+		OR = {
+			has_reform = uzh_uzhhorod_seat_translation_reform
+			AND = {
+				tag = UZH
+				has_reform = uzh_mukachevo_eparchy_reform
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = uzh_uzhhorod_seat_translation_reform
+			AND = {
+				tag = UZH
+				has_reform = uzh_mukachevo_eparchy_reform
+				custom_trigger_tooltip = {
+					tooltip = uzh_path_seat_translated_req_tt
+					has_country_flag = uzh_uzhhorod_see_translated
+				}
+			}
+		}
+	}
+	modifiers = {
+		tolerance_own = 1
+		advisor_pool = 1
+		global_missionary_strength = 0.01
+		max_absolutism = -3
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+uzh_presov_eparchy_reform = {
+	icon = "papal_embassy_reform"
+	legacy_equivalent = theocratic_government
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	potential = {
+		OR = {
+			has_reform = uzh_presov_eparchy_reform
+			AND = {
+				tag = UZH
+				has_reform = uzh_uzhhorod_seat_translation_reform
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = uzh_presov_eparchy_reform
+			AND = {
+				tag = UZH
+				has_reform = uzh_uzhhorod_seat_translation_reform
+				custom_trigger_tooltip = {
+					tooltip = uzh_path_presov_split_req_tt
+					has_country_flag = uzh_presov_eparchy_established
+				}
+			}
+		}
+	}
+	modifiers = {
+		tolerance_heretic = 1
+		diplomatic_reputation = 1
+		church_loyalty_modifier = 0.1
+		max_absolutism = -3
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 1
+	}
+}

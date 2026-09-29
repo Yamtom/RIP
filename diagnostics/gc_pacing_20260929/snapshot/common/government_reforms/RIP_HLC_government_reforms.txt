@@ -1,0 +1,688 @@
+# =============================================================================
+# RIP_HLC_government_reforms
+# Definitions are grouped by polity or by an explicitly shared reform family.
+# =============================================================================
+
+hlc_galician_voivodeship_reform = {
+	icon = "assembly_hall"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	potential = {
+		OR = {
+			west_ukraine_hlc_origin_country = yes
+			has_reform = hlc_galician_voivodeship_reform
+		}
+	}
+	trigger = {
+		OR = {
+			west_ukraine_hlc_origin_country = yes
+			has_reform = hlc_galician_voivodeship_reform
+		}
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.05
+		state_maintenance_modifier = -0.10
+		global_unrest = -0.5
+		diplomatic_reputation = 0.5
+		max_absolutism = -5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	# The Galician boyar council that made and unmade princes.
+	# common/government_mechanics/rip_hlc_boyar_council.txt.
+	government_abilities = {
+		hlc_boyar_council_mechanic
+	}
+}
+
+hlc_magnate_assembly_reform = {
+	icon = "states_general"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			west_ukraine_hlc_origin_country = yes
+			has_reform = hlc_magnate_assembly_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_magnate_assembly_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		prestige = 1
+		stability_cost_modifier = -0.10
+		max_absolutism = -10
+		yearly_absolutism = -0.25
+		monthly_reform_progress = 0.05
+		nobles_influence_modifier = 0.15
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+		}
+		is_elective = yes
+		custom_attributes = {
+			# Intentional: the Polish constitutional path uses the vanilla
+			# elective-monarchy event and succession system.
+			has_polish_election = yes
+		}
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_centralized_voivodeship_reform = {
+	icon = "provincial_government"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			west_ukraine_hlc_origin_country = yes
+			has_reform = hlc_centralized_voivodeship_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_centralized_voivodeship_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_austria_req_tt
+					hlc_has_austria_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		development_cost = -0.05
+		state_maintenance_modifier = -0.1
+		max_absolutism = 5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_galician_sejm_reform = {
+	icon = "assembly_hall"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			west_ukraine_hlc_origin_country = yes
+			has_reform = hlc_galician_sejm_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_galician_sejm_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		free_adm_policy = 1
+		stability_cost_modifier = -0.1
+		max_absolutism = -10
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
+		}
+		has_parliament = yes
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_austrian_bureaucracy_reform = {
+	icon = "royal_court"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			west_ukraine_hlc_origin_country = yes
+			has_reform = hlc_austrian_bureaucracy_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_austrian_bureaucracy_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_austria_req_tt
+					hlc_has_austria_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		advisor_cost = -0.1
+		yearly_corruption = -0.05
+		state_governing_cost = -0.1
+		global_autonomy = -0.05
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
+		}
+		has_parliament = yes
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		# Gates hlc_incorporate_appanage
+		# (common/new_diplomatic_actions/RIP_HLC_diplomatic_actions.txt), a
+		# Galician analog of Habsburg "Incorporate Vassal"
+		# (common/new_diplomatic_actions/00_diplomatic_actions.txt,
+		# incorporate_vassal, gated there on can_have_incorporated_vassals).
+		hlc_enables_incorporated_appanages = yes
+	}
+}
+
+hlc_merchant_privileges_reform = {
+	icon = "merchant_aristocracy_reform"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			west_ukraine_hlc_origin_country = yes
+			has_reform = hlc_merchant_privileges_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_merchant_privileges_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_constitution_done_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		merchants = 1
+		trade_efficiency = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_confessional_dualism_reform = {
+	icon = "holy_state_reform"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			west_ukraine_hlc_origin_country = yes
+			has_reform = hlc_confessional_dualism_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_confessional_dualism_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = hlc_confessional_dualism_confessional_req_tt
+					hlc_has_confessional_settlement = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		tolerance_heretic = 2
+		tolerance_heathen = 1
+		global_missionary_strength = -0.01
+		max_absolutism = -5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_crown_authority_reform = {
+	icon = "paper_with_seal"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			west_ukraine_hlc_origin_country = yes
+			has_reform = hlc_crown_authority_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_crown_authority_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_austria_req_tt
+					hlc_has_austria_path = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_constitution_done_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		max_absolutism = 10
+		yearly_absolutism = 0.25
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		# Real prototype: great_council_of_mechelen_reform's no_more_dutch_
+		# revolt (common/government_reforms/01_government_reforms_
+		# monarchies.txt), read by dutch_revolt_disaster's potential
+		# (common/disasters/dutch_revolt.txt). A settled frontier crown
+		# stares down the Ruin instead - see chernihiv_ruina's potential
+		# (common/disasters/shared_ruthenian_disasters.txt).
+		hlc_disables_chernihiv_ruina = yes
+	}
+	# The Habsburg-style chancery ordinances the Austrian fork never had a
+	# mechanic for. common/government_mechanics/rip_hlc_austrian_
+	# reorganization.txt.
+	government_abilities = {
+		hlc_austrian_reorganization_mechanic
+	}
+}
+
+hlc_crown_and_sejm_reform = {
+	icon = "crown"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	has_term_election = yes
+	potential = {
+		OR = {
+			west_ukraine_hlc_origin_country = yes
+			has_reform = hlc_crown_and_sejm_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_crown_and_sejm_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_crown_and_sejm_constitution_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		max_absolutism = -5
+		reform_progress_growth = 0.1
+		global_tax_modifier = 0.1
+	}
+	# Restates hlc_magnate_assembly_reform's elective settlement on the
+	# mature Poland-path statute - a foreign house may still inherit the
+	# seat the assembly grants it. Real prototype: polish_elective_monarchy
+	# (common/government_reforms/01_government_reforms_monarchies.txt),
+	# whose has_polish_election drives the vanilla ElectiveMonarchy.txt
+	# event chain (heir support, foreign candidates) for any government
+	# that carries it, not only vanilla Poland.
+	conditional = {
+		allow = { has_dlc = "Res Publica" }
+		is_elective = yes
+		custom_attributes = {
+			has_polish_election = yes
+		}
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_enlightened_monarchy_reform = {
+	icon = "enlightened_monarchy_reform"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			west_ukraine_hlc_origin_country = yes
+			has_reform = hlc_enlightened_monarchy_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_enlightened_monarchy_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = hlc_constitution_done_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		global_unrest = -1
+		idea_cost = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+hlc_military_modernization_reform = {
+	icon = "cavalry"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			west_ukraine_hlc_origin_country = yes
+			has_reform = hlc_military_modernization_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_military_modernization_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_austria_req_tt
+					hlc_has_austria_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		cavalry_cost = -0.10
+		cavalry_power = 0.10
+		morale_damage = 0.05
+		cavalry_flanking = 0.25
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# =============================================================================
+# The Boyar Republic - a third fork off hlc_galician_voivodeship_reform,
+# alongside the Poland and Austria paths (decisions/HLCRepublicPaths.txt).
+# Real anchor: the Galician boyars repeatedly deposed and installed princes
+# of their own choosing (Volodyslav Kormylchych briefly reigned as a boyar in
+# the 1210s, and the council invited Andrew of Hungary and Coloman over the
+# native line - see hlc_hlc_boyar_council_mechanic's own flavor). This path
+# takes that constraint to its conclusion: the council stops confirming
+# princes and starts electing a term-limited voivode outright.
+# =============================================================================
+
+hlc_boyar_republic_reform = {
+	icon = "nobleman"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	has_term_election = yes
+	duration = 10
+	rulers_can_be_generals = yes
+	allow_convert = no
+	potential = {
+		OR = {
+			has_reform = hlc_boyar_republic_reform
+			west_ukraine_hlc_origin_country = yes
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_boyar_republic_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_boyar_req_tt
+					hlc_has_boyar_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		republican_tradition = 0.25
+		nobles_loyalty_modifier = 0.15
+		max_absolutism = -15
+		stability_cost_modifier = -0.1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	legacy_equivalent = oligarchic_republic
+}
+
+hlc_boyar_oligarchy_reform = {
+	icon = "people_walking"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			has_reform = hlc_boyar_oligarchy_reform
+			has_reform = hlc_boyar_republic_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_boyar_oligarchy_reform
+			has_reform = hlc_boyar_republic_reform
+		}
+	}
+	modifiers = {
+		advisor_pool = 1
+		diplomatic_reputation = 1
+		max_absolutism = -5
+		yearly_corruption = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+# =============================================================================
+# The Halych Metropolitanate - a theocratic fork available to any Orthodox or
+# Greek Catholic Galician voivodeship, independent of the Poland/Austria/Boyar
+# split. Real anchor: Galician princes petitioned Constantinople for their own
+# metropolitan see repeatedly from 1303, breaking (twice, briefly) the
+# jurisdiction of the Kyiv metropolitan - see decisions/GreekCatholicDecisions.txt
+# for the later Uniate settlement this see could still reach.
+# =============================================================================
+
+hlc_halych_metropolitanate_reform = {
+	icon = "patriarch"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	potential = {
+		OR = {
+			has_reform = hlc_halych_metropolitanate_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				OR = {
+					religion = orthodox
+					religion = greek_catholic
+				}
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_halych_metropolitanate_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				OR = {
+					religion = orthodox
+					religion = greek_catholic
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_metropolitanate_req_tt
+					hlc_has_metropolitanate_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		church_privilege_slots = 1
+		church_loyalty_modifier = 0.1
+		tolerance_own = 1
+		max_absolutism = -5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	legacy_equivalent = theocratic_government
+}
+
+# =============================================================================
+# The see's own two later chapters, both optional and both independent of one
+# another - neither requires the other, since they answer to different
+# centuries and different pressures. decisions/HLCMetropolitanatePaths.txt
+# gates each on the country's own standing with its patriarch or Rome.
+# =============================================================================
+
+hlc_halych_synodal_confirmation_reform = {
+	icon = "conciliarism_reform"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	potential = {
+		OR = {
+			has_reform = hlc_halych_synodal_confirmation_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				has_reform = hlc_halych_metropolitanate_reform
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_halych_synodal_confirmation_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				has_reform = hlc_halych_metropolitanate_reform
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_confirmed_metropolitanate_req_tt
+					hlc_has_confirmed_metropolitanate_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		tolerance_own = 1
+		global_missionary_strength = 0.01
+		prestige = 1
+		max_absolutism = -3
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	legacy_equivalent = theocratic_government
+	# Real anchor: Constantinople opened the Halych see in 1303, closed it
+	# within a few years, reopened it under Yurii II Boleslav around 1332, and
+	# closed it again - until Patriarch Philotheos Kokkinos's 1370-71 tomos,
+	# pressed for by Casimir III and Louis I, confirmed Antony as Metropolitan
+	# of Halych against Kyiv's and Moscow's standing claim to the whole Rus
+	# church. This reform is that confirmation, re-earned rather than assumed.
+}
+
+hlc_lviv_uniate_synod_reform = {
+	icon = "papal_embassy_reform"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	potential = {
+		OR = {
+			has_reform = hlc_lviv_uniate_synod_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				religion = greek_catholic
+				has_reform = hlc_halych_metropolitanate_reform
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = hlc_lviv_uniate_synod_reform
+			AND = {
+				west_ukraine_hlc_origin_country = yes
+				religion = greek_catholic
+				has_reform = hlc_halych_metropolitanate_reform
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_lviv_union_req_tt
+					hlc_has_lviv_union_synod_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		tolerance_heretic = 1
+		global_missionary_strength = 0.01
+		diplomatic_reputation = 1
+		max_absolutism = -3
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	legacy_equivalent = theocratic_government
+	# Real anchor: the Halych see's eventual successor, the Lviv eparchy, was
+	# the last major Ruthenian see in the Commonwealth to accept Rome - Bishop
+	# Yosyf Shumliansky converted quietly from the 1670s, declared it publicly
+	# in 1700, and Rome received the eparchy's union in 1708-09, more than a
+	# century after Brest. decisions/GreekCatholicDecisions.txt still governs
+	# whether the country's religion itself becomes greek_catholic; this
+	# reform is the see's own synod joining that settlement, not the act of
+	# state conversion.
+}

@@ -1,0 +1,720 @@
+# ========================================================================
+# The Kyivan succession question, 1444-1569, in the order it was argued.
+# Two claims on the old table at Kyiv compete for the whole chain: the
+# rotating seniorate (the ladder of thrones the Rurikids once climbed) and
+# the cesarstvo (one seat, held outright). Every option nudges one of two
+# hidden leanings; whichever reaches the threshold first opens the matching
+# decision in decisions/KyivTriggers.txt (kyiv_shogunate_path for the
+# seniorate, kyiv_cesarstvo_path for the cesarstvo) and closes off the other
+# for good. See common/scripted_effects/rip_kyiv_succession_effects.txt for
+# the threshold check and common/scripted_triggers/rip_kyiv_succession_triggers.txt
+# for who is eligible.
+#
+# Authenticity: B - the frame is documented (the Olelkovichi princedom, its
+# 1471 abolition into a voivodeship, the 1481 conspiracy, the Lithuanian
+# Statute, Moscow's 1547 coronation, the approach of Lublin), the choices
+# inside it are the mod's own.
+# Sources:
+#   Casimir IV's restoration of the Kyiv princedom for Olelko Volodymyrovych
+#   after 1440; Semen Olelkovych's tenure from 1454; his death in 1470 and
+#   Casimir's refusal to seat another Olelkovich, replaced by a crown
+#   voivode from 1471; the 1481 conspiracy of Mykhailo Olelkovych, Ivan
+#   Holshansky and Fedir Belsky; the first Lithuanian Statute, finished in
+#   1529; Ivan IV's coronation as tsar in Moscow in 1547; the Union of
+#   Lublin negotiations that closed the window in 1569 (history/provinces/280
+#   already hands Kyiv to PLC on that date).
+# ========================================================================
+
+namespace = kyiv_succession_history
+
+# --- 1. The princedom restored. Casimir has given Kyiv back a prince of its
+#        own line, and nobody has written down whether the seat rotates or
+#        descends.
+country_event = {
+	id = kyiv_succession_history.1
+	title = kyiv_succession_history.1.t
+	desc = kyiv_succession_history.1.d
+	picture = easterngfx_COURT_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		NOT = { is_year = 1455 }
+	}
+
+	mean_time_to_happen = {
+		months = 36
+	}
+
+	immediate = {
+		set_variable = { which = rip_kyiv_seniorate_lean value = 0 }
+		set_variable = { which = rip_kyiv_cesarstvo_lean value = 0 }
+	}
+
+	option = {
+		name = kyiv_succession_history.1.a
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 25 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.1.b
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 25 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.1.c
+		ai_chance = { factor = 20 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 10 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 5 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 2. Semen takes the table. The old prince is dead and his son sits at
+#        Kyiv, confirmed by somebody - the question is by whom.
+country_event = {
+	id = kyiv_succession_history.2
+	title = kyiv_succession_history.2.t
+	desc = kyiv_succession_history.2.d
+	picture = NEW_HEIR_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1454
+		NOT = { is_year = 1466 }
+	}
+
+	mean_time_to_happen = {
+		months = 36
+	}
+
+	option = {
+		name = kyiv_succession_history.2.a
+		ai_chance = { factor = 45 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 25 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.2.b
+		ai_chance = { factor = 35 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 25 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.2.c
+		ai_chance = { factor = 20 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 10 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 3. The vacant table. Semen is dead and Casimir has not said who follows
+#        him.
+country_event = {
+	id = kyiv_succession_history.3
+	title = kyiv_succession_history.3.t
+	desc = kyiv_succession_history.3.d
+	picture = DEATH_OF_HEIR_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1466
+		NOT = { is_year = 1478 }
+	}
+
+	mean_time_to_happen = {
+		months = 40
+	}
+
+	option = {
+		name = kyiv_succession_history.3.a
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 30 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.3.b
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 30 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.3.c
+		ai_chance = { factor = 20 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 10 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 4. The voivodeship question. Casimir can seat another prince of the old
+#        line, or send a governor who answers to Vilnius alone.
+country_event = {
+	id = kyiv_succession_history.4
+	title = kyiv_succession_history.4.t
+	desc = kyiv_succession_history.4.d
+	picture = easterngfx_COUNTRY_COLLAPSE_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1471
+		NOT = { is_year = 1483 }
+	}
+
+	mean_time_to_happen = {
+		months = 36
+	}
+
+	option = {
+		name = kyiv_succession_history.4.a
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 25 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = -10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.4.b
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 25 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = -10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.4.c
+		ai_chance = { factor = 20 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 10 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 5. A plot among the princes. Mykhailo Olelkovych, Ivan Holshansky and
+#        Fedir Belsky are conspiring against the voivode's rule.
+country_event = {
+	id = kyiv_succession_history.5
+	title = kyiv_succession_history.5.t
+	desc = kyiv_succession_history.5.d
+	picture = ACCUSATION_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1480
+		NOT = { is_year = 1492 }
+	}
+
+	mean_time_to_happen = {
+		months = 40
+	}
+
+	option = {
+		name = kyiv_succession_history.5.a
+		ai_chance = { factor = 35 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 25 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = -10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.5.b
+		ai_chance = { factor = 35 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 25 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = -10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.5.c
+		ai_chance = { factor = 30 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 5 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 5 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 6. The boyars petition. Every udil wants its old grants confirmed in
+#        writing, before anyone forgets what they were.
+country_event = {
+	id = kyiv_succession_history.6
+	title = kyiv_succession_history.6.t
+	desc = kyiv_succession_history.6.d
+	picture = NOBLE_ESTATE_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1492
+		NOT = { is_year = 1504 }
+	}
+
+	mean_time_to_happen = {
+		months = 40
+	}
+
+	option = {
+		name = kyiv_succession_history.6.a
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 20 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.6.b
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 20 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.6.c
+		ai_chance = { factor = 20 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 10 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 7. Word of a Third Rome. A monk's letter from Moscow claims the whole
+#        inheritance of Constantinople for one tsar; some at Kyiv want it
+#        read the other way.
+country_event = {
+	id = kyiv_succession_history.7
+	title = kyiv_succession_history.7.t
+	desc = kyiv_succession_history.7.d
+	picture = ORTHODOX_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1504
+		NOT = { is_year = 1516 }
+	}
+
+	mean_time_to_happen = {
+		months = 42
+	}
+
+	option = {
+		name = kyiv_succession_history.7.a
+		ai_chance = { factor = 35 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 20 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.7.b
+		ai_chance = { factor = 45 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 25 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.7.c
+		ai_chance = { factor = 20 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 5 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 5 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 8. The statute committee. The grand duchy's law is being written down
+#        in one book, and the udils' custom has to fit inside it or go
+#        unwritten.
+country_event = {
+	id = kyiv_succession_history.8
+	title = kyiv_succession_history.8.t
+	desc = kyiv_succession_history.8.d
+	picture = BIG_BOOK_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1516
+		NOT = { is_year = 1531 }
+	}
+
+	mean_time_to_happen = {
+		months = 42
+	}
+
+	option = {
+		name = kyiv_succession_history.8.a
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 25 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.8.b
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 25 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.8.c
+		ai_chance = { factor = 20 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 10 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 9. The chancery grows. Clerks keep asking whether accounts are kept by
+#        udil or by one office at Kyiv.
+country_event = {
+	id = kyiv_succession_history.9
+	title = kyiv_succession_history.9.t
+	desc = kyiv_succession_history.9.d
+	picture = REFORM_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1531
+		NOT = { is_year = 1543 }
+	}
+
+	mean_time_to_happen = {
+		months = 42
+	}
+
+	option = {
+		name = kyiv_succession_history.9.a
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 20 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.9.b
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 20 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.9.c
+		ai_chance = { factor = 20 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 10 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 10. Word from Moscow's coronation. Ivan IV has had himself crowned
+#         tsar, and the news has reached Kyiv within the week.
+country_event = {
+	id = kyiv_succession_history.10
+	title = kyiv_succession_history.10.t
+	desc = kyiv_succession_history.10.d
+	picture = AULIC_COUNCIL_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1543
+		NOT = { is_year = 1550 }
+	}
+
+	mean_time_to_happen = {
+		months = 36
+	}
+
+	option = {
+		name = kyiv_succession_history.10.a
+		ai_chance = { factor = 45 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 25 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.10.b
+		ai_chance = { factor = 35 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 20 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.10.c
+		ai_chance = { factor = 20 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 5 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 5 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 11. Magnates on the march. Families that once served the Olelkovichi
+#         now hold the districts in their own right.
+country_event = {
+	id = kyiv_succession_history.11
+	title = kyiv_succession_history.11.t
+	desc = kyiv_succession_history.11.d
+	picture = NOBLE_ESTATE_DEMANDS_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1550
+		NOT = { is_year = 1558 }
+	}
+
+	mean_time_to_happen = {
+		months = 36
+	}
+
+	option = {
+		name = kyiv_succession_history.11.a
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 20 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.11.b
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 20 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.11.c
+		ai_chance = { factor = 20 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 10 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 12. The ladder of thrones contested. Several houses now count
+#         themselves senior, and each can name a precedent.
+country_event = {
+	id = kyiv_succession_history.12
+	title = kyiv_succession_history.12.t
+	desc = kyiv_succession_history.12.d
+	picture = easterngfx_DEBATE_REPUBLICAN_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1558
+		NOT = { is_year = 1564 }
+	}
+
+	mean_time_to_happen = {
+		months = 36
+	}
+
+	option = {
+		name = kyiv_succession_history.12.a
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 25 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = -10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.12.b
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 25 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = -10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.12.c
+		ai_chance = { factor = 20 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 10 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 13. Whispers of Lublin. The crown and the grand duchy are talking about
+#         one Commonwealth, and about who answers to whom inside it.
+country_event = {
+	id = kyiv_succession_history.13
+	title = kyiv_succession_history.13.t
+	desc = kyiv_succession_history.13.d
+	picture = easterngfx_LIBERUM_VETO_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1560
+		NOT = { is_year = 1567 }
+	}
+
+	mean_time_to_happen = {
+		months = 36
+	}
+
+	option = {
+		name = kyiv_succession_history.13.a
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 30 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = -10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.13.b
+		ai_chance = { factor = 40 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 30 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = -10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.13.c
+		ai_chance = { factor = 20 }
+		change_variable = { which = rip_kyiv_seniorate_lean value = 10 }
+		change_variable = { which = rip_kyiv_cesarstvo_lean value = 10 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}
+
+# --- 14. The table is settled. Lublin is close and the question cannot wait
+#         any longer: the assembled princes and boyars must choose one form
+#         outright.
+country_event = {
+	id = kyiv_succession_history.14
+	title = kyiv_succession_history.14.t
+	desc = kyiv_succession_history.14.d
+	picture = SEJM_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		kyiv_succession_eligible_country = yes
+		NOT = { has_country_flag = rus_flag }
+		NOT = { has_country_flag = kyiv_path_chosen }
+		NOT = { has_country_flag = kyiv_seniorate_road_open }
+		NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+		owns_or_non_sovereign_subject_of = 280 # Kyiv
+		is_year = 1564
+		NOT = { is_year = 1569 }
+	}
+
+	mean_time_to_happen = {
+		months = 30
+	}
+
+	option = {
+		name = kyiv_succession_history.14.a
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 5
+				check_variable = { which = rip_kyiv_seniorate_lean value = 50 }
+			}
+		}
+		set_variable = { which = rip_kyiv_seniorate_lean value = 100 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+
+	option = {
+		name = kyiv_succession_history.14.b
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 5
+				check_variable = { which = rip_kyiv_cesarstvo_lean value = 50 }
+			}
+		}
+		set_variable = { which = rip_kyiv_cesarstvo_lean value = 100 }
+		rip_kyiv_succession_check_threshold_effect = yes
+	}
+}

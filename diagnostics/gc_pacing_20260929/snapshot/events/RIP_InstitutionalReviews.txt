@@ -1,0 +1,91 @@
+namespace = rip_gov_review
+
+country_event = {
+	id = rip_gov_review.1
+	title = rip_gov_review.1.t
+	desc = rip_gov_review.1.d
+	picture = ADVISOR_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_gov_review.1.a
+		trigger = {
+			rip_gov_can_review_municipal = yes
+			dip_power = 50
+		}
+		ai_chance = { factor = 50 }
+		rip_gov_municipal_charters_effect = yes
+	}
+	option = {
+		name = rip_gov_review.1.b
+		trigger = {
+			rip_gov_can_review_municipal = yes
+			adm_power = 50
+		}
+		ai_chance = { factor = 50 }
+		rip_gov_municipal_accounts_effect = yes
+	}
+	option = {
+		name = rip_gov_review.cancel
+		ai_chance = { factor = 1 }
+	}
+}
+
+country_event = {
+	id = rip_gov_review.2
+	title = rip_gov_review.2.t
+	desc = rip_gov_review.2.d
+	picture = ADVISOR_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_gov_review.2.a
+		trigger = {
+			rip_gov_can_review_chancery = yes
+			adm_power = 50
+		}
+		ai_chance = { factor = 50 }
+		rip_gov_chancery_service_effect = yes
+	}
+	option = {
+		name = rip_gov_review.2.b
+		trigger = {
+			rip_gov_can_review_chancery = yes
+			dip_power = 50
+		}
+		ai_chance = { factor = 50 }
+		rip_gov_chancery_rights_effect = yes
+	}
+	option = {
+		name = rip_gov_review.cancel
+		ai_chance = { factor = 1 }
+	}
+}
+
+country_event = {
+	id = rip_gov_review.3
+	title = rip_gov_review.3.t
+	desc = rip_gov_review.3.d
+	picture = ADVISOR_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_gov_review.3.a
+		trigger = {
+			rip_gov_can_review_register = yes
+			mil_power = 50
+		}
+		ai_chance = { factor = 50 }
+		rip_gov_register_muster_effect = yes
+	}
+	option = {
+		name = rip_gov_review.3.b
+		trigger = {
+			rip_gov_can_review_register = yes
+			dip_power = 50
+		}
+		ai_chance = { factor = 50 }
+		rip_gov_register_settlement_effect = yes
+	}
+	option = {
+		name = rip_gov_review.cancel
+		ai_chance = { factor = 1 }
+	}
+}

@@ -1,0 +1,20 @@
+# CHR - Chernihiv.
+
+on_monarch_death = {
+	events = {
+		chr_pantheon.0
+	}
+}
+
+on_startup = {
+	chr_refresh_grain_directorate_effect = yes
+}
+
+on_yearly_pulse = {
+	if = {
+		limit = {
+			has_reform = chr_grain_directorate_reform
+		}
+		chr_refresh_grain_directorate_effect = yes
+	}
+}

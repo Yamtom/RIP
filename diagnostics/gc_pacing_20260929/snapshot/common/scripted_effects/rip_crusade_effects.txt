@@ -1,0 +1,139 @@
+rip_crusade_clear_country_effect = {
+	clr_country_flag = orthodox_crusade_constantinople_active
+	clr_country_flag = orthodox_crusade_jerusalem_active
+	clr_country_flag = orthodox_crusade_target_constantinople
+	clr_country_flag = orthodox_crusade_target_jerusalem
+	clr_country_flag = rip_crusade_answered
+	remove_country_modifier = orthodox_crusade_for_constantinople
+	remove_country_modifier = orthodox_crusade_for_jerusalem
+	remove_country_modifier = orthodox_crusade_leader
+	remove_country_modifier = orthodox_crusade_participant
+	set_variable = { which = orthodox_crusade_contribution value = 0 }
+}
+
+rip_crusade_end_effect = {
+	if = {
+		limit = { OR = { has_country_flag = orthodox_crusade_constantinople_active has_country_flag = orthodox_crusade_jerusalem_active } }
+		add_country_modifier = { name = orthodox_crusade_cooldown duration = 7300 }
+		every_country = {
+			limit = { OR = { is_crusade_participant = yes has_country_flag = rip_crusade_answered has_country_flag = orthodox_crusade_constantinople_active has_country_flag = orthodox_crusade_jerusalem_active } }
+			every_country = {
+				limit = { OR = { has_country_flag = orthodox_crusade_target_constantinople has_country_flag = orthodox_crusade_target_jerusalem } }
+				PREV = {
+					remove_casus_belli = { type = cb_crusade_for_constantinople target = PREV }
+					remove_casus_belli = { type = cb_crusade_for_jerusalem target = PREV }
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				OR = { is_crusade_participant = yes has_country_flag = orthodox_crusade_target_constantinople has_country_flag = orthodox_crusade_target_jerusalem has_country_flag = rip_crusade_answered has_country_flag = orthodox_crusade_constantinople_active has_country_flag = orthodox_crusade_jerusalem_active }
+			}
+			rip_crusade_clear_country_effect = yes
+		}
+		clr_global_flag = rip_crusade_active
+		set_global_flag = rip_crusade_last_ended
+	}
+}
+
+rip_crusade_start_effect = {
+	if = {
+		limit = { rip_crusade_can_start_trigger = yes $PROVINCE$ = { rip_crusade_target_province_trigger = yes } is_year = $YEAR$ }
+		add_treasury = -200
+		add_patriarch_authority = -0.2
+		set_global_flag = rip_crusade_active
+		set_country_flag = $ACTIVE_FLAG$
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		add_country_modifier = { name = orthodox_crusade_leader duration = 3650 }
+		# Campaign marker has no second military payload.
+		add_country_modifier = { name = $CAMPAIGN$ duration = 3650 }
+		$PROVINCE$ = {
+			owner = {
+				set_country_flag = $TARGET_FLAG$
+				ROOT = { add_casus_belli = { type = $CB$ target = PREV months = 120 } }
+				add_opinion = { who = ROOT modifier = declared_orthodox_crusade }
+			}
+		}
+		every_country = {
+			limit = { NOT = { tag = ROOT } rip_faith_is_eastern_orthodox = yes alliance_with = ROOT }
+			country_event = { id = $INVITATION$ days = 30 }
+		}
+		country_event = { id = $ANNOUNCEMENT$ }
+	}
+}
+
+rip_crusade_join_effect = {
+	if = {
+		limit = { rip_crusade_can_join_trigger = yes }
+		set_country_flag = rip_crusade_answered
+		add_patriarch_authority = -0.05
+		add_country_modifier = { name = orthodox_crusade_participant duration = 3650 }
+		every_country = {
+			limit = { has_country_modifier = orthodox_crusade_leader }
+			add_opinion = { who = ROOT modifier = joined_orthodox_crusade }
+		}
+		set_variable = { which = orthodox_crusade_contribution value = 0 }
+		every_country = {
+			limit = { has_country_flag = orthodox_crusade_target_constantinople }
+			ROOT = { add_casus_belli = { type = cb_crusade_for_constantinople target = PREV months = 120 } }
+		}
+		every_country = {
+			limit = { has_country_flag = orthodox_crusade_target_jerusalem }
+			ROOT = { add_casus_belli = { type = cb_crusade_for_jerusalem target = PREV months = 120 } }
+		}
+	}
+}
+
+# Rewards run before cleanup, synchronously. Queued presentation events cannot
+# award a second victory or attach themselves to a later campaign.
+rip_crusade_resolve_effect = {
+	if = {
+		limit = { OR = { has_country_flag = orthodox_crusade_constantinople_active has_country_flag = orthodox_crusade_jerusalem_active } }
+		if = {
+			limit = { rip_faith_is_eastern_orthodox = yes OR = { is_constantinople_crusade_successful = yes is_jerusalem_crusade_successful = yes } }
+			if = {
+				limit = { is_constantinople_crusade_successful = yes }
+				constantinople_liberation_rewards = yes
+				country_event = { id = orthodox_crusade.5 }
+			}
+			else = { jerusalem_liberation_rewards = yes country_event = { id = orthodox_crusade.15 } }
+			reward_crusade_participants = yes
+		}
+		else = { crusade_failure_penalties = yes }
+		rip_crusade_end_effect = yes
+	}
+}
+
+rip_crusade_maintenance_effect = {
+	if = { limit = { rip_crusade_should_finish_trigger = yes } rip_crusade_resolve_effect = yes }
+	# A participant leaving the rite loses its own benefits immediately.
+	if = {
+		limit = { has_country_modifier = orthodox_crusade_participant NOT = { rip_faith_is_eastern_orthodox = yes } }
+		every_country = {
+			limit = { OR = { has_country_flag = orthodox_crusade_target_constantinople has_country_flag = orthodox_crusade_target_jerusalem } }
+			ROOT = {
+				remove_casus_belli = { type = cb_crusade_for_constantinople target = PREV }
+				remove_casus_belli = { type = cb_crusade_for_jerusalem target = PREV }
+			}
+		}
+		rip_crusade_clear_country_effect = yes
+	}
+	# An annexed leader cannot execute a monthly country pulse.
+	if = {
+		limit = { has_global_flag = rip_crusade_active NOT = { any_country = { OR = { has_country_flag = orthodox_crusade_constantinople_active has_country_flag = orthodox_crusade_jerusalem_active } } } }
+		every_country = {
+			limit = { OR = { is_crusade_participant = yes has_country_flag = rip_crusade_answered } }
+			every_country = {
+				limit = { OR = { has_country_flag = orthodox_crusade_target_constantinople has_country_flag = orthodox_crusade_target_jerusalem } }
+				PREV = {
+					remove_casus_belli = { type = cb_crusade_for_constantinople target = PREV }
+					remove_casus_belli = { type = cb_crusade_for_jerusalem target = PREV }
+				}
+			}
+			rip_crusade_clear_country_effect = yes
+		}
+		every_country = { limit = { OR = { has_country_flag = orthodox_crusade_target_constantinople has_country_flag = orthodox_crusade_target_jerusalem has_country_flag = rip_crusade_answered } } rip_crusade_clear_country_effect = yes }
+		clr_global_flag = rip_crusade_active
+		set_global_flag = rip_crusade_last_ended
+	}
+}

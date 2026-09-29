@@ -1,0 +1,155 @@
+# Visibility gates for the reworked Grand Duchy and the conditions of the
+# union quarrel with Poland.
+#
+# The mod starts on 1444.11.11, one day after the first Polish-Lithuanian union
+# lapsed with Wladyslaw at Varna. Vanilla history puts it back in 1447. In game
+# nothing puts it back, so the question of what the Grand Duchy is stays open
+# from the first day, which is what this file exists to gate.
+
+lit_ladder_visible = {
+	OR = {
+		has_reform = grand_duchy_reform
+		has_reform = lit_union_of_two_nations_reform
+		has_reform = lit_separate_crown_reform
+	}
+}
+
+lit_at_the_union_question = {
+	OR = {
+		tag = LIT
+		has_reform = grand_duchy_reform
+	}
+	NOT = { has_country_flag = lit_union_question_settled }
+}
+
+lit_union_of_two_nations_visible = {
+	OR = {
+		has_reform = lit_union_of_two_nations_reform
+		AND = {
+			lit_at_the_union_question = yes
+			has_country_flag = lit_union_path_open
+		}
+	}
+}
+
+lit_separate_crown_visible = {
+	OR = {
+		has_reform = lit_separate_crown_reform
+		AND = {
+			lit_at_the_union_question = yes
+			has_country_flag = lit_separate_path_open
+		}
+	}
+}
+
+# --- the palatinates the quarrel is actually about
+#
+# Podlasie, Volhynia, Bratslav and Kyiv were moved from the Grand Duchy to the
+# Crown at Lublin in 1569 without a shot fired, and the Lithuanian delegation
+# had walked out of the diet before it happened. Brest and Pinsk stayed
+# Lithuanian, so they are not in this list.
+
+lit_holds_the_ruthenian_palatinates = {
+	owns_core_province = 279	# Volhynia
+	owns_core_province = 280	# Kiev
+	owns_core_province = 1943	# Bratslav
+}
+
+lit_holds_any_ruthenian_palatinate = {
+	OR = {
+		owns = 269	# Podlasia
+		owns = 279	# Volhynia
+		owns = 2962	# Rowne
+		owns = 4539	# Kremenets
+		owns = 1943	# Bratslav
+		owns = 280	# Kiev
+		owns = 1942	# Zhytomyr
+	}
+}
+
+# --- Poland's side of the quarrel
+
+pol_at_the_union_question = {
+	OR = {
+		tag = POL
+		tag = PLC
+	}
+	NOT = { has_country_flag = pol_union_question_settled }
+}
+
+pol_can_press_incorporation = {
+	pol_at_the_union_question = yes
+	is_year = 1540
+	is_at_war = no
+	stability = 1
+	adm_power = 100
+	dip_power = 100
+	NOT = { has_country_flag = pol_pressed_incorporation }
+	exists = LIT
+	LIT = {
+		lit_holds_any_ruthenian_palatinate = yes
+		OR = {
+			is_subject_of = ROOT
+			alliance_with = ROOT
+			junior_union_with = ROOT
+		}
+	}
+}
+
+# --- the two ends of the quarrel, from Vilnius
+
+lit_can_hold_union_on_our_terms = {
+	lit_at_the_union_question = yes
+	has_country_flag = lit_union_path_open
+	is_at_war = no
+	stability = 1
+	adm_power = 100
+	dip_power = 100
+	num_of_cities = 15
+	OR = {
+		exists = PLC
+		AND = {
+			exists = POL
+			OR = {
+				is_subject_of = POL
+				alliance_with = POL
+				junior_union_with = POL
+				senior_union_with = POL
+			}
+		}
+	}
+}
+
+lit_can_take_separate_crown = {
+	lit_at_the_union_question = yes
+	has_country_flag = lit_separate_path_open
+	is_at_war = no
+	is_subject = no
+	stability = 1
+	legitimacy = 70
+	adm_power = 100
+	mil_power = 100
+	num_of_cities = 15
+}
+
+# --- the confessional split inside the Grand Duchy
+#
+# The Crown was Catholic and the Grand Duchy was mostly not. Every event in
+# events/LithuanianConfession.txt asks about a country in that position, which
+# is not the same as asking about a Catholic country with Orthodox neighbours.
+
+lit_rules_an_orthodox_country = {
+	OR = {
+		tag = LIT
+		has_reform = grand_duchy_reform
+		has_reform = lit_union_of_two_nations_reform
+		has_reform = lit_separate_crown_reform
+	}
+	NOT = { religion = orthodox }
+	calc_true_if = {
+		all_owned_province = {
+			religion = orthodox
+		}
+		amount = 5
+	}
+}

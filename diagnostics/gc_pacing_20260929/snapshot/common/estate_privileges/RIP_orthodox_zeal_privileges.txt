@@ -1,0 +1,81 @@
+# Two alternative monastic settlements for the two Orthodox confessions.
+# Available to vanilla Orthodoxy too: no exclusive second piety bonus.
+rip_privilege_josephite_discipline = {
+	icon = privilege_religious
+	max_absolutism = -5
+	loyalty = 0.1
+	influence = 0.1
+
+	is_valid = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		NOT = { has_estate_privilege = rip_privilege_nonpossessor_rule }
+	}
+
+	can_select = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		NOT = { has_estate_privilege = rip_privilege_nonpossessor_rule }
+	}
+
+	penalties = {
+		idea_cost = 0.05
+	}
+
+	benefits = {
+		stability_cost_modifier = -0.05
+		global_tax_modifier = 0.05
+	}
+
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 3
+			is_at_war = yes
+		}
+	}
+}
+
+rip_privilege_nonpossessor_rule = {
+	icon = privilege_seek_support_of_clergy
+	max_absolutism = -5
+	loyalty = 0.15
+	influence = -0.05
+
+	is_valid = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		NOT = { has_estate_privilege = rip_privilege_josephite_discipline }
+	}
+
+	can_select = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		NOT = { has_estate_privilege = rip_privilege_josephite_discipline }
+	}
+
+	penalties = {
+		global_tax_modifier = -0.05
+	}
+
+	benefits = {
+		tolerance_own = 0.5
+		global_missionary_strength = 0.005
+	}
+
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 3
+			is_at_war = no
+		}
+	}
+}

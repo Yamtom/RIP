@@ -1,0 +1,29 @@
+# Compatibility cleanup only. Native icons now own selection, price and duration.
+# Do not remove the legacy modifier IDs: old saves may still contain them.
+rip_ro_icon_douse_all_effect = {
+	remove_country_modifier = rip_ro_icon_michael
+	remove_country_modifier = rip_ro_icon_eleusa
+	remove_country_modifier = rip_ro_icon_pancreator
+	remove_country_modifier = rip_ro_icon_nicholas
+	remove_country_modifier = rip_ro_icon_climacus
+	set_variable = { which = rip_ro_icon_count value = 0 }
+}
+
+rip_ro_icon_upkeep_effect = {
+	rip_ro_icon_douse_all_effect = yes
+	rip_ro_clear_the_bands_effect = yes
+	rip_ro_clear_the_zeal_effect = yes
+	clr_country_flag = rip_ro_authority_tick_pending
+	if = {
+		limit = { has_active_fervor = sobor_of_war }
+		remove_active_fervor = sobor_of_war
+	}
+	if = {
+		limit = { has_active_fervor = sobor_of_the_market }
+		remove_active_fervor = sobor_of_the_market
+	}
+	if = {
+		limit = { has_active_fervor = sobor_of_the_canons }
+		remove_active_fervor = sobor_of_the_canons
+	}
+}

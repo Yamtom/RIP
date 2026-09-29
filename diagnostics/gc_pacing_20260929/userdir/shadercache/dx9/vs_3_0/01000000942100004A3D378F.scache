@@ -1,0 +1,187 @@
+#define VERTEX_SHADER
+#define MAP_SIZE_X 5632.000
+#define MAP_SIZE_Y 2048.000
+#define MAP_POW2_X 1.000
+#define MAP_POW2_Y 1.000
+#define FOW_POW2_X 1.000
+#define FOW_POW2_Y 1.000
+#define PDX_DIRECTX_9
+
+#define mod( X, Y ) ( X % Y )
+
+float fmod_loop( float x, float y )
+{
+  return x - y * floor( x / y );
+}
+
+#define GetMatrixData( Matrix, row, col ) ( Matrix [ row ] [ col ] )
+#define FLIP_SCREEN_POS( X ) ( X )
+#define FLIP_TEXTURE_V( vCoordinate ) ( vCoordinate )
+
+#define sampler2DShadow sampler2D
+
+float3x3 CastTo3x3( in float4x4 M )
+{
+	return (float3x3)M;
+}
+#define Create3x3 float3x3
+
+float2 vec2(float vValue) { return float2(vValue, vValue); }
+float3 vec3(float vValue) { return float3(vValue, vValue, vValue); }
+float4 vec4(float vValue) { return float4(vValue, vValue, vValue, vValue); }
+
+#define tex2Dlod0(samp,uv) tex2Dlod(samp, float4((uv), 0.0, 0.0))
+
+#define PDX_POSITION POSITION
+
+#define PDX_COLOR COLOR
+float4x4 WorldViewProjectionMatrix : register(c0);
+float4 Color : register(c4);
+float4 BATCHED_VARIABLES_1 : register(c5);
+#define Offset BATCHED_VARIABLES_1.xy
+#define NextOffset BATCHED_VARIABLES_1.zw
+float4 BATCHED_VARIABLES_2 : register(c6);
+#define Time BATCHED_VARIABLES_2.x
+#define AnimationTime BATCHED_VARIABLES_2.y
+
+float4 ConstantData[10] : register(c7);
+
+float4x4 TextMat : register(c0);
+float4 ModColor : register(c4);
+
+struct VS_INPUT
+{
+	float3 vPosition : POSITION;
+	float2 vTexCoord : TEXCOORD0;
+};
+struct VS_OUTPUT
+{
+	float4 vPosition : PDX_POSITION;
+	float2 vTexCoord : TEXCOORD0;
+#ifdef ANIMATED
+	float4 vAnimatedTexCoord : TEXCOORD1;
+#endif
+};
+struct VS_INPUT_TEXT
+{
+	float4 vPosition : POSITION;
+	float2 vTexCoord : TEXCOORD0;
+	float4 vFillColor : COLOR;
+	float4 vBorderColor : TEXCOORD1;
+};
+struct VS_OUTPUT_TEXT
+{
+	float4 vPosition : PDX_POSITION;
+	float2 vTexCoord : TEXCOORD0;
+	float4 vFillColor : COLOR;
+	float4 vBorderColor : TEXCOORD1;
+};
+struct AnimationData
+{
+	float4 Rotation;
+	float4 UVScale;
+	float2 RotationOffset;
+	float2 TextureStretch;
+	float AnimationOffset;
+	float BlendFactor;
+	float Type; // 1 = Scrolling, 2 = Rotating, 3 = Pulse
+	float BlendMode; // 0 = Add, 1 = Multiply, 2 = Overlay
+	float ClampAnimation;
+};
+
+AnimationData GetAnimationData(int nIndex)
+{
+	AnimationData data;
+	
+	data.Rotation = ConstantData[nIndex * 5];
+	data.UVScale = ConstantData[nIndex * 5 + 1];
+	data.RotationOffset = ConstantData[nIndex * 5 + 2].xy;
+	data.TextureStretch = ConstantData[nIndex * 5 + 2].zw;
+	data.AnimationOffset = ConstantData[nIndex * 5 + 3].x;
+	data.BlendFactor = ConstantData[nIndex * 5 + 3].y;
+	data.Type = ConstantData[nIndex * 5 + 3].z;
+	data.BlendMode = ConstantData[nIndex * 5 + 3].w;
+	data.ClampAnimation = ConstantData[nIndex * 5 + 4].x;
+
+	return data;
+}
+
+float2 GetAnimatedTexcoord(float2 Texcoord, AnimationData Data)
+{
+	float2 AnimatedTexcoord = vec2(0.0);
+	float2 OffsetAndScaledTexcoord = (Data.RotationOffset + Texcoord - vec2(0.5)) * Data.UVScale.xy * Data.TextureStretch;
+	
+	if (Data.Type == 1) // Scrolling
+	{
+		AnimatedTexcoord = float2(dot(OffsetAndScaledTexcoord, Data.Rotation.xy), dot(OffsetAndScaledTexcoord, Data.Rotation.zw));
+		
+		AnimatedTexcoord /= Data.UVScale.xy;
+		AnimatedTexcoord *= Data.UVScale.zw;
+		AnimatedTexcoord.y += Data.AnimationOffset;
+
+		AnimatedTexcoord += float2(0.5, 0.5 * Data.UVScale.w);
+	}
+	else if (Data.Type == 2) // Scrolling
+	{
+		AnimatedTexcoord = float2(dot(OffsetAndScaledTexcoord, Data.Rotation.xy), dot(OffsetAndScaledTexcoord, Data.Rotation.zw));
+		
+		AnimatedTexcoord /= Data.UVScale.xy;
+		AnimatedTexcoord *= Data.UVScale.zw;
+		
+		AnimatedTexcoord += float2(0.5, 0.5);
+	}
+	
+	return AnimatedTexcoord;
+}
+
+float3 Blend(float3 Base, float3 Blend, AnimationData Data)
+{
+	float3 Result = vec3(0.0);
+	
+	if (Data.BlendMode == 0) // Add
+	{
+		Result = Base + Blend;
+	}
+
+	if (Data.BlendMode == 1) // Multiply
+	{
+		Result = Base * Blend;
+	}
+
+	if (Data.BlendMode == 2) // Overlay
+	{
+		Result = lerp(Base * Blend * 2.0, 1.0 - (2.0 * (1.0 - Base) * (1.0 - Blend)), step(0.5, Base));
+	}
+
+	return Result;
+}
+
+float4 GetAnimatedTexcoord(float2 Texcoord)
+{
+	float4 AnimatedTexcoord = vec4(0.0);
+	
+	AnimationData data = GetAnimationData(0);
+	AnimatedTexcoord.xy = GetAnimatedTexcoord(Texcoord, data);
+	
+#ifdef NUM_ANIMATIONS_2
+	data = GetAnimationData(1);
+	AnimatedTexcoord.zw = GetAnimatedTexcoord(Texcoord, data);
+#endif	
+	
+	return AnimatedTexcoord;
+}
+VS_OUTPUT main(const VS_INPUT v )
+		{
+		    VS_OUTPUT Out;
+		    Out.vPosition  = mul( WorldViewProjectionMatrix, float4( v.vPosition.xyz, 1 ) );
+		
+		    Out.vTexCoord = v.vTexCoord;
+			Out.vTexCoord += Offset;
+			
+		#ifdef ANIMATED
+			Out.vAnimatedTexCoord = GetAnimatedTexcoord(v.vTexCoord);	
+		#endif
+		
+		    return Out;
+		}
+	

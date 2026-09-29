@@ -1,0 +1,21 @@
+# Eligibility for the Kyivan succession-history chain
+# (events/KyivSuccessionHistory.txt) and the two decisions it gates in
+# decisions/KyivTriggers.txt (kyiv_shogunate_path, kyiv_cesarstvo_path).
+#
+# Kyiv itself qualifies, and so does a UKR that carries the Kyivan lineage
+# flag set once in history/countries/"KIE - Kiev.txt": country flags survive
+# change_tag, so a KIE that becomes UKR through
+# decisions/RuthenianNation.txt:ruthenian_nation keeps the flag and the
+# eligibility. A UKR formed instead from HLC, VLN or PDL never held that flag
+# and so never qualifies - that branch already has its own ruthenian_tsardom
+# reform and is not touched here.
+
+kyiv_succession_eligible_country = {
+	OR = {
+		tag = KIE
+		AND = {
+			tag = UKR
+			has_country_flag = rip_kyivan_lineage_flag
+		}
+	}
+}

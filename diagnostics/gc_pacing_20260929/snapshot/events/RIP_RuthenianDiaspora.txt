@@ -1,0 +1,217 @@
+namespace = rip_diaspora
+
+# Fired by decisions/RIP_RuthenianDiaspora.txt's rip_diaspora_colonial_settlers.
+# The decision only sets a country flag naming which colonial region to act
+# on; the actual province change happens here, not silently in the decision.
+country_event = {
+	id = rip_diaspora.10
+	title = rip_diaspora.10.t
+	desc = rip_diaspora.10.d
+	picture = COLONIZATION_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { has_country_flag = rip_diaspora_target_colonial_canada }
+			clr_country_flag = rip_diaspora_target_colonial_canada
+			rip_diaspora_convert_colonial_culture_effect = { REGION = colonial_canada THRESHOLD = 100 }
+		}
+		else_if = {
+			limit = { has_country_flag = rip_diaspora_target_colonial_eastern_america }
+			clr_country_flag = rip_diaspora_target_colonial_eastern_america
+			rip_diaspora_convert_colonial_culture_effect = { REGION = colonial_eastern_america THRESHOLD = 100 }
+		}
+		else_if = {
+			limit = { has_country_flag = rip_diaspora_target_colonial_brazil }
+			clr_country_flag = rip_diaspora_target_colonial_brazil
+			rip_diaspora_convert_colonial_culture_effect = { REGION = colonial_brazil THRESHOLD = 100 }
+		}
+		else_if = {
+			limit = { has_country_flag = rip_diaspora_target_colonial_la_plata }
+			clr_country_flag = rip_diaspora_target_colonial_la_plata
+			rip_diaspora_convert_colonial_culture_effect = { REGION = colonial_la_plata THRESHOLD = 100 }
+		}
+		else_if = {
+			limit = { has_country_flag = rip_diaspora_target_colonial_australia }
+			clr_country_flag = rip_diaspora_target_colonial_australia
+			rip_diaspora_convert_colonial_culture_effect = { REGION = colonial_australia THRESHOLD = 100 }
+		}
+	}
+
+	option = {
+		name = rip_diaspora.10.a
+		add_prestige = 1
+	}
+}
+
+# Fired by rip_diaspora_colonial_settlers_faith, the costlier tier.
+country_event = {
+	id = rip_diaspora.11
+	title = rip_diaspora.11.t
+	desc = rip_diaspora.11.d
+	picture = COLONIZATION_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { has_country_flag = rip_diaspora_target_colonial_canada_faith }
+			clr_country_flag = rip_diaspora_target_colonial_canada_faith
+			rip_diaspora_convert_colonial_faith_effect = { REGION = colonial_canada THRESHOLD = 140 }
+		}
+		else_if = {
+			limit = { has_country_flag = rip_diaspora_target_colonial_eastern_america_faith }
+			clr_country_flag = rip_diaspora_target_colonial_eastern_america_faith
+			rip_diaspora_convert_colonial_faith_effect = { REGION = colonial_eastern_america THRESHOLD = 140 }
+		}
+		else_if = {
+			limit = { has_country_flag = rip_diaspora_target_colonial_brazil_faith }
+			clr_country_flag = rip_diaspora_target_colonial_brazil_faith
+			rip_diaspora_convert_colonial_faith_effect = { REGION = colonial_brazil THRESHOLD = 140 }
+		}
+		else_if = {
+			limit = { has_country_flag = rip_diaspora_target_colonial_la_plata_faith }
+			clr_country_flag = rip_diaspora_target_colonial_la_plata_faith
+			rip_diaspora_convert_colonial_faith_effect = { REGION = colonial_la_plata THRESHOLD = 140 }
+		}
+		else_if = {
+			limit = { has_country_flag = rip_diaspora_target_colonial_australia_faith }
+			clr_country_flag = rip_diaspora_target_colonial_australia_faith
+			rip_diaspora_convert_colonial_faith_effect = { REGION = colonial_australia THRESHOLD = 140 }
+		}
+	}
+
+	option = {
+		name = rip_diaspora.11.a
+		add_prestige = 2
+	}
+}
+
+# Fired by rip_diaspora_mainland_settlers (Green or Grey Wedge, culture only).
+country_event = {
+	id = rip_diaspora.12
+	title = rip_diaspora.12.t
+	desc = rip_diaspora.12.d
+	picture = FARMING_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { has_country_flag = rip_diaspora_target_manchuria }
+			clr_country_flag = rip_diaspora_target_manchuria
+			rip_diaspora_convert_mainland_culture_effect = { REGION = manchuria_region THRESHOLD = 100 }
+		}
+		else_if = {
+			limit = { has_country_flag = rip_diaspora_target_central_asia }
+			clr_country_flag = rip_diaspora_target_central_asia
+			rip_diaspora_convert_mainland_culture_effect = { REGION = central_asia_region THRESHOLD = 100 }
+		}
+	}
+
+	option = {
+		name = rip_diaspora.12.a
+		add_prestige = 1
+	}
+}
+
+# Fired by rip_diaspora_mainland_settlers_faith, the costlier tier.
+country_event = {
+	id = rip_diaspora.13
+	title = rip_diaspora.13.t
+	desc = rip_diaspora.13.d
+	picture = FARMING_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { has_country_flag = rip_diaspora_target_manchuria_faith }
+			clr_country_flag = rip_diaspora_target_manchuria_faith
+			rip_diaspora_convert_mainland_faith_effect = { REGION = manchuria_region THRESHOLD = 140 }
+		}
+		else_if = {
+			limit = { has_country_flag = rip_diaspora_target_central_asia_faith }
+			clr_country_flag = rip_diaspora_target_central_asia_faith
+			rip_diaspora_convert_mainland_faith_effect = { REGION = central_asia_region THRESHOLD = 140 }
+		}
+	}
+
+	option = {
+		name = rip_diaspora.13.a
+		add_prestige = 2
+	}
+}
+
+# Fired once by the rip_green_wedge mission itself: we already hold a small,
+# uniformly Ruthenian or Rusyn pocket of Manchuria, so it is released as our
+# own subject rather than merely noted with a modifier.
+country_event = {
+	id = rip_diaspora.20
+	title = rip_diaspora.20.t
+	desc = rip_diaspora.20.d
+	picture = COLONIZATION_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { exists = ZLK }
+	}
+
+	immediate = {
+		every_owned_province = {
+			limit = {
+				region = manchuria_region
+				rip_diaspora_eligible_culture_province = yes
+			}
+			add_core = ZLK
+		}
+	}
+
+	option = {
+		name = rip_diaspora.20.a
+		release = ZLK
+		vassalize = ZLK
+		ZLK = {
+			change_primary_culture = ROOT
+			change_religion = ROOT
+		}
+		add_prestige = 10
+	}
+}
+
+# The Grey Wedge's own breakaway, in Central Asia.
+country_event = {
+	id = rip_diaspora.21
+	title = rip_diaspora.21.t
+	desc = rip_diaspora.21.d
+	picture = COLONIZATION_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { exists = SRK }
+	}
+
+	immediate = {
+		every_owned_province = {
+			limit = {
+				region = central_asia_region
+				rip_diaspora_eligible_culture_province = yes
+			}
+			add_core = SRK
+		}
+	}
+
+	option = {
+		name = rip_diaspora.21.a
+		release = SRK
+		vassalize = SRK
+		SRK = {
+			change_primary_culture = ROOT
+			change_religion = ROOT
+		}
+		add_prestige = 10
+	}
+}

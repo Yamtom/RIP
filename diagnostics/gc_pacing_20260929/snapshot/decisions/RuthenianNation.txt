@@ -1,0 +1,216 @@
+country_decisions = {
+
+	ruthenian_nation = {
+		major = yes
+		potential = {
+			has_institution = renaissance
+			normal_or_historical_nations = yes
+			was_never_end_game_tag_trigger = yes
+			NOT = { has_country_flag = formed_ruthenia_flag }
+			NOT = { has_country_flag = rus_flag }
+			OR = {
+				ai = no
+				is_playing_custom_nation = no
+			}
+			NOT = { tag = PAP }
+			NOT = { tag = HLR }
+			NOT = { tag = HET }
+			NOT = { tag = ZAZ }
+			NOT = { exists = UKR }
+			NOT = { exists = HET }
+			NOT = { exists = KUY }
+			NOT = { exists = KRU }
+			NOT = { religion_group = muslim }
+			OR = {
+				primary_culture = byelorussian
+				primary_culture = ruthenian
+			}
+			OR = {
+				ai = no
+				AND = {
+					ai = yes
+					num_of_cities = 3
+				}
+			}
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+			calc_true_if = {
+				amount = 3
+				owns = 280
+				owns = 283
+				owns = 261
+				owns = 279
+				owns = 289
+				owns = 291
+			}
+		}
+		provinces_to_highlight = {
+			OR = {	
+				AND = {
+					ROOT = { DIP = 5 }
+					OR = {
+						province_id = 280		#kyiv -center
+						province_id = 283		#Zaporozhie -southern center of rebellions
+					}
+				}
+				AND = {
+					ROOT = { NOT = { DIP = 5 } }
+					if = {
+						limit = { NOT = {is_date = 1775.1.1 } }
+						OR = {
+							province_id = 280		#kyiv -center
+							province_id = 283		#Zaporozhie -eastern/southern center of rebellions
+							province_id = 261		#Halych -western
+							province_id = 279		#Volhynia -western
+							province_id = 289		#Chernihiv -eastern
+						}
+					}
+					OR = {
+						province_id = 280		#kyiv -center
+						province_id = 283		#Zaporozhie -eastern/southern center of rebellions
+						province_id = 261		#Halych -western
+						province_id = 279		#Volhynia -western
+						province_id = 289		#Chernihiv -eastern
+						province_id = 291		#Kharkiv -easter
+					}
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			adm_tech = 10
+			is_free_or_tributary_trigger = yes
+			is_nomad = no
+			is_at_war = no
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				region = ruthenia_region
+				value = 20
+			}
+
+			280 = { is_state = yes }					#kyiv -center
+			OR = {
+				AND = {
+					owns_core_province = 283		#Zaporozhie -southern center of rebellions
+					owns_core_province = 280		#kyiv -center
+					dip = 5
+				}
+				AND = {
+					ROOT = { NOT = { DIP = 5 } }
+					if = {
+						limit = { NOT = {is_date = 1775.1.1 } }
+						AND = {
+							owns_core_province = 261		#Halych -western
+							owns_core_province = 279		#Volhynia -western
+							owns_core_province = 283		#Zaporozhie southern center of rebellions
+							owns_core_province = 280		#kyiv -center
+							owns_core_province = 289		#Chernihiv -eastern
+						}
+					}
+					AND = {
+						owns_core_province = 261		#Halych -western
+						owns_core_province = 279		#Volhynia -western
+						owns_core_province = 283		#Zaporozhie southern center of rebellions
+						owns_core_province = 280		#kyiv -center
+						owns_core_province = 289		#Chernihiv -eastern
+						owns_core_province = 291		#Kharkiv -eastern
+					}				
+				}
+			}
+		}
+		effect = {
+			280 = {
+				move_capital_effect = yes
+			}
+			ruthenia_region = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_permanent_claim = UKR
+			}
+			red_ruthenia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_permanent_claim = UKR
+			}
+			add_prestige = 25
+			# Preserve a western Ruthenian constitutional lineage when the
+			# country forms UKR directly instead of passing through VOL.
+			if = {
+				limit = { tag = HLC }
+				set_country_flag = rip_vol_origin_hlc
+			}
+			if = {
+				limit = { tag = VLN }
+				set_country_flag = rip_vol_origin_vln
+			}
+			if = {
+				limit = { tag = PDL }
+				set_country_flag = rip_vol_origin_pdl
+			}
+			change_tag = UKR
+			set_country_flag = formed_ruthenia_flag
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+			# A direct HLC-origin formation can replace the Volhynian mission that
+			# normally presents this foundational constitutional choice.
+			if = {
+				limit = {
+					has_country_flag = rip_vol_origin_hlc
+					NOT = { hlc_has_any_path = yes }
+				}
+				country_event = { id = rip_galicia.1 days = 1 }
+			}
+			set_government_rank = 3
+			if = { 
+				limit = { 
+					OR = {
+						has_reform = kyivan_rus_reform
+						has_reform = ruthenian_principality_reform
+					}
+				} 
+				add_government_reform = ruthenian_tsardom 
+			}
+			if = {
+				limit = {
+					technology_group = nomad_group
+				}
+				change_technology_group = eastern
+				change_unit_type = eastern
+			}
+			if = {
+				limit = {
+					is_part_of_hre = yes
+					is_elector = no
+					is_emperor = no
+				}
+				every_owned_province = {
+					limit = {
+						is_part_of_hre = yes
+					}
+					set_in_empire = no
+				}
+			}
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+			remove_non_electors_emperors_from_empire_effect = yes
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 500		
+	}
+}

@@ -1,0 +1,35 @@
+country_decisions = {
+	rip_gov_review_municipal = {
+		potential = { rip_gov_has_municipal_review = yes }
+		allow = { rip_gov_can_review_municipal = yes }
+		effect = {
+			if = {
+				limit = { rip_gov_can_review_municipal = yes }
+				country_event = { id = rip_gov_review.1 }
+			}
+		}
+		ai_will_do = { factor = 1 }
+	}
+	rip_gov_review_chancery = {
+		potential = { rip_gov_has_chancery_review = yes }
+		allow = { rip_gov_can_review_chancery = yes }
+		effect = {
+			if = {
+				limit = { rip_gov_can_review_chancery = yes }
+				country_event = { id = rip_gov_review.2 }
+			}
+		}
+		ai_will_do = { factor = 1 }
+	}
+	rip_gov_review_register = {
+		potential = { rip_gov_has_register_review = yes }
+		allow = { rip_gov_can_review_register = yes }
+		effect = {
+			if = {
+				limit = { rip_gov_can_review_register = yes }
+				country_event = { id = rip_gov_review.3 }
+			}
+		}
+		ai_will_do = { factor = 1 }
+	}
+}

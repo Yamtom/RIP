@@ -1,0 +1,453 @@
+namespace = qasim_khanate
+
+country_event = {
+	id = qasim_khanate.1
+	title = qasim_khanate.1.t
+	desc = qasim_khanate.1.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = MOS
+		is_year = 1450
+		NOT = { is_year = 1460 }
+		owns = 1778  # Qasim province
+		exists = KAZ
+		KAZ = {
+			NOT = { alliance_with = ROOT }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 24
+		modifier = {
+			factor = 0.7
+			is_rival = KAZ
+		}
+		modifier = {
+			factor = 0.8
+			war_with = KAZ
+		}
+	}
+	
+	option = {  # Create Qasim Khanate with Kazan pretender
+		name = qasim_khanate.1.a
+		ai_chance = { factor = 80 }
+		
+		1778 = {
+			add_province_modifier = {
+				name = qasim_khanate_capital
+				duration = -1
+			}
+		}
+		add_country_modifier = {
+			name = qasim_khanate_vassal
+			duration = -1
+		}
+		# QAS is a vanilla tag with a core on 1778, but no country at start -
+		# it has to be released before it can be made a subject.
+		release = QAS
+		create_subject = {
+			subject_type = vassal
+			subject = QAS
+		}
+		QAS = {
+			add_country_modifier = {
+				name = kazan_pretender_claims
+				duration = -1
+			}
+		}
+		KAZ = {
+			add_opinion = {
+				who = ROOT
+				modifier = insulted
+			}
+		}
+	}
+	
+	option = {  # Keep direct control
+		name = qasim_khanate.1.b
+		ai_chance = { factor = 20 }
+		
+		add_adm_power = 50
+		1778 = {
+			add_base_tax = 1
+		}
+	}
+}
+
+country_event = {
+	id = qasim_khanate.2
+	title = qasim_khanate.2.t
+	desc = qasim_khanate.2.d
+	picture = BATTLE_eventPicture
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = MOS
+		is_subject = no
+		is_year = 1467
+		NOT = { is_year = 1550 }
+		NOT = { has_country_flag = qasim_kazan_intervention_resolved }
+		exists = QAS
+		QAS = {
+			is_subject_of = ROOT
+			has_country_modifier = kazan_pretender_claims
+		}
+		KAZ = {
+			exists = yes
+			is_subject = no
+		}
+		NOT = { war_with = KAZ }
+		NOT = { alliance_with = KAZ }
+		NOT = { truce_with = KAZ }
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+		modifier = {
+			factor = 0.6
+			is_rival = KAZ
+		}
+		modifier = {
+			factor = 0.7
+			KAZ = {
+				NOT = { army_size = 10 }
+			}
+		}
+	}
+	
+	option = {  # Support Qasim's claim with military force
+		name = qasim_khanate.2.a
+		ai_chance = { factor = 60 }
+
+		set_country_flag = qasim_kazan_intervention_resolved
+		kazan_area = {
+			limit = { owned_by = KAZ }
+			if = {
+				limit = {
+					NOT = { is_claim = QAS }
+					NOT = { is_core = QAS }
+				}
+				add_claim = QAS
+			}
+			if = {
+				limit = {
+					NOT = { is_claim = MOS }
+					NOT = { is_core = MOS }
+				}
+				add_claim = MOS
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_casus_belli = {
+						type = cb_vassalize_mission
+						target = KAZ
+					}
+				}
+			}
+			add_casus_belli = {
+				target = KAZ
+				type = cb_vassalize_mission
+				months = 120
+			}
+		}
+		QAS = {
+			add_liberty_desire = -20
+		}
+	}
+	
+	option = {  # Diplomatic pressure only
+		name = qasim_khanate.2.b
+		ai_chance = { factor = 30 }
+
+		set_country_flag = qasim_kazan_intervention_resolved
+		KAZ = {
+			add_opinion = {
+				who = ROOT
+				modifier = insulted
+			}
+		}
+		add_prestige = -5
+	}
+	
+	option = {  # Restrain Qasim for now
+		name = qasim_khanate.2.c
+		ai_chance = { factor = 10 }
+
+		set_country_flag = qasim_kazan_intervention_resolved
+		QAS = {
+			add_liberty_desire = 10
+		}
+		add_dip_power = 25
+	}
+}
+
+country_event = {
+	id = qasim_khanate.3
+	title = qasim_khanate.3.t
+	desc = qasim_khanate.3.d
+	picture = DIPLOMACY_eventPicture
+
+	# The fate of a conquered Kazan is settled once. Without this the trigger
+	# stays true after either option - QAS still a vassal, KAZ still gone,
+	# Kazan still ours - and the event returns every six months.
+	fire_only_once = yes
+
+	trigger = {
+		tag = MOS
+		is_year = 1467
+		NOT = { is_year = 1552 }
+		exists = QAS
+		QAS = {
+			is_subject_of = ROOT
+		}
+		NOT = { has_country_flag = qasim_kazan_fate_resolved }
+		OR = {
+			owns = 1082  # Kazan capital after direct conquest
+			KAZ = {
+				owns = 1082
+				is_subject_of = ROOT
+			}
+		}
+		OR = {
+			NOT = { exists = KAZ }
+			KAZ = { is_subject_of = ROOT }
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 6
+	}
+	
+	option = {  # Install Qasim Khan as ruler of Kazan
+		name = qasim_khanate.3.a
+		ai_chance = { factor = 40 }
+
+		set_country_flag = qasim_kazan_fate_resolved
+		if = {
+			limit = {
+				exists = KAZ
+				KAZ = { is_subject_of = ROOT }
+			}
+			inherit = KAZ
+		}
+		kazan_area = {
+			if = {
+				limit = { NOT = { is_core = QAS } }
+				add_core = QAS
+			}
+			if = {
+				limit = { owned_by = ROOT }
+				cede_province = QAS
+			}
+		}
+		QAS = {
+			add_liberty_desire = -30
+			add_country_modifier = {
+				name = muscovite_puppet_khan
+				duration = -1
+			}
+		}
+	}
+	
+	option = {  # Annex Kazan directly
+		name = qasim_khanate.3.b
+		ai_chance = { factor = 60 }
+
+		set_country_flag = qasim_kazan_fate_resolved
+		if = {
+			limit = {
+				exists = KAZ
+				KAZ = { is_subject_of = ROOT }
+			}
+			inherit = KAZ
+		}
+		kazan_area = {
+			limit = { owned_by = ROOT }
+			add_province_modifier = {
+				name = conquered_khanate
+				duration = 7300
+			}
+		}
+		QAS = {
+			add_liberty_desire = 20
+		}
+	}
+}
+
+country_event = {
+	id = qasim_khanate.4
+	title = qasim_khanate.4.t
+	desc = qasim_khanate.4.d
+	picture = COURT_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = MOS
+		is_year = 1550
+		NOT = { is_year = 1700 }
+		exists = QAS
+		QAS = {
+			is_subject_of = ROOT
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 240
+		modifier = {
+			factor = 0.7
+			NOT = { exists = KAZ }
+		}
+		modifier = {
+			factor = 0.8
+			adm = 4
+		}
+	}
+	
+	option = {  # Integrate Qasim Khanate
+		name = qasim_khanate.4.a
+		ai_chance = { factor = 70 }
+		
+		inherit = QAS
+		1778 = {
+			remove_province_modifier = qasim_khanate_capital
+			add_province_modifier = {
+				name = former_qasim_khanate
+				duration = -1
+			}
+		}
+		add_country_modifier = {
+			name = tatar_nobility_integrated
+			duration = -1
+		}
+	}
+	
+	option = {  # Keep as loyal vassal
+		name = qasim_khanate.4.b
+		ai_chance = { factor = 30 }
+		
+		QAS = {
+			add_liberty_desire = -20
+			add_country_modifier = {
+				name = loyal_tatar_vassal
+				duration = -1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = qasim_khanate.5
+	title = qasim_khanate.5.t
+	desc = qasim_khanate.5.d
+	picture = DIPLOMACY_eventPicture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		tag = LIT
+		is_year = 1440
+		NOT = { is_year = 1500 }
+		any_owned_province = {
+			OR = {
+				area = white_ruthenia_area
+				area = minsk_area
+				area = pripyat_area
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 60
+	}
+	
+	option = {  # Welcome Lipka Tatars
+		name = qasim_khanate.5.a
+		ai_chance = { factor = 80 }
+		
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = white_ruthenia_area
+					area = minsk_area
+					area = pripyat_area
+				}
+			}
+			add_province_modifier = {
+				name = lipka_tatar_settlement
+				duration = -1
+			}
+			add_base_manpower = 1
+		}
+		add_country_modifier = {
+			name = lipka_tatar_cavalry_tradition
+			duration = -1
+		}
+	}
+	
+	option = {  # Refuse their settlement
+		name = qasim_khanate.5.b
+		ai_chance = { factor = 20 }
+		
+		add_prestige = 5
+		add_adm_power = 25
+	}
+}
+
+country_event = {
+	id = qasim_khanate.6
+	title = qasim_khanate.6.t
+	desc = qasim_khanate.6.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	fire_only_once = yes
+	
+	trigger = {
+		tag = PLC
+		is_year = 1569
+		NOT = { is_year = 1700 }
+		NOT = { has_country_flag = lipka_loyalty_settled }
+		any_owned_province = {
+			has_province_modifier = lipka_tatar_settlement
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 120
+	}
+	
+	option = {  # Reward their loyalty
+		name = qasim_khanate.6.a
+		ai_chance = { factor = 70 }
+
+		set_country_flag = lipka_loyalty_settled
+		add_years_of_income = -0.2
+		every_owned_province = {
+			limit = {
+				has_province_modifier = lipka_tatar_settlement
+			}
+			add_province_modifier = {
+				name = lipka_tatar_privileges
+				duration = 7300
+			}
+		}
+		add_country_modifier = {
+			name = tatar_nobility_service
+			duration = 9125
+		}
+	}
+	
+	option = {  # Maintain current arrangement
+		name = qasim_khanate.6.b
+		ai_chance = { factor = 30 }
+
+		set_country_flag = lipka_loyalty_settled
+		add_mil_power = 25
+	}
+}

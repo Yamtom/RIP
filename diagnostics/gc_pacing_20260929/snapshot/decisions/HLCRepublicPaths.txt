@@ -1,0 +1,88 @@
+country_decisions = {
+
+	# Two forks off hlc_galician_voivodeship_reform besides the Poland and
+	# Austria paths in events/RIP_Galicia_AltHistory.txt. Both are mutually
+	# exclusive with those two and with each other through hlc_has_any_path
+	# (common/scripted_triggers/rip_path_state_triggers.txt), which the
+	# founding event also reads before it offers its own two options again.
+
+	hlc_the_boyars_take_power = {
+		major = yes
+		potential = {
+			west_ukraine_hlc_origin_country = yes
+			tag = HLC
+			has_reform = hlc_galician_voivodeship_reform
+			NOT = { hlc_has_any_path = yes }
+		}
+		allow = {
+			NOT = { government = republic }
+			OR = {
+				NOT = { has_heir = yes }
+				legitimacy < 50
+			}
+		}
+		effect = {
+			set_country_flag = rip_galicia_path_boyar
+			change_government = republic
+			add_government_reform = hlc_boyar_republic_reform
+			add_republican_tradition = 10
+			add_country_modifier = {
+				name = rip_galicia_boyar_supremacy
+				duration = 3650
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				NOT = { has_heir = yes }
+			}
+			modifier = {
+				factor = 0
+				legitimacy = 70
+			}
+		}
+	}
+
+	hlc_elevate_the_metropolitan = {
+		major = yes
+		potential = {
+			west_ukraine_hlc_origin_country = yes
+			tag = HLC
+			has_reform = hlc_galician_voivodeship_reform
+			NOT = { hlc_has_any_path = yes }
+			OR = {
+				religion = orthodox
+				religion = greek_catholic
+			}
+		}
+		allow = {
+			NOT = { government = theocracy }
+			is_subject = no
+		}
+		effect = {
+			set_country_flag = rip_galicia_path_metropolitanate
+			change_government = theocracy
+			add_government_reform = hlc_halych_metropolitanate_reform
+			if = {
+				limit = { religion = orthodox }
+				add_patriarch_authority = 0.1
+			}
+			if = {
+				limit = { religion = greek_catholic }
+				add_papal_influence = 10
+			}
+			add_country_modifier = {
+				name = rip_galicia_halych_see
+				duration = 3650
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				religious_unity = 0.7
+			}
+		}
+	}
+}

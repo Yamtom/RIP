@@ -1,0 +1,53 @@
+# Sounds for the mod's two faiths.
+#
+# The game logged "Missing sound: religion_russian_orthodox": EU4 asks for a
+# sound named religion_<religion key> when the religion tab is opened, and for
+# start_convert_<key> and defender_of_the_<key>_faith at the other two moments
+# a faith makes a noise. Neither of this mod's faiths had any.
+#
+# No audio is shipped. Pointing several names at one existing wav is vanilla's
+# own habit - start_convert_coptic uses the Orthodox conversion sting, and all
+# seven Christian religion_* entries share tab_religion_christian.wav.
+#
+# This file must NOT be called all_sounds.asset. Clausewitz matches mod files
+# to vanilla ones by filename, so a mod file with that name would replace
+# vanilla's wholesale and silence every sound in the game. Differently named
+# .asset files in sound/ are read additively.
+#
+# Vanilla ships no Russian-specific religious audio, so "more Russian" here
+# means: take the Orthodox assets everywhere vanilla has one, rather than the
+# generic Christian sting. The tab sound stays the shared Christian one because
+# vanilla's own religion_orthodox uses exactly that, and the conversion stings
+# are too long to fire on a tab click.
+
+sound = {
+	name = religion_russian_orthodox
+	file = "tab_religion_christian.wav"
+}
+
+sound = {
+	name = religion_greek_catholic
+	file = "tab_religion_christian.wav"
+}
+
+sound = {
+	name = start_convert_russian_orthodox
+	file = "start_conversion_christian_orthodox.wav"
+}
+
+# The Uniate church kept the eastern rite, so it converts to the eastern sound
+# rather than the Latin one.
+sound = {
+	name = start_convert_greek_catholic
+	file = "start_conversion_christian_orthodox.wav"
+}
+
+sound = {
+	name = defender_of_the_russian_orthodox_faith
+	file = "claim_defender_faith_orthodox.wav"
+}
+
+sound = {
+	name = defender_of_the_greek_catholic_faith
+	file = "claim_defender_faith_orthodox.wav"
+}

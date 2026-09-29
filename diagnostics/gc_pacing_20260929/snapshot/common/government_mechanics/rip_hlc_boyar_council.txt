@@ -1,0 +1,115 @@
+# =============================================================================
+# rip_hlc_boyar_council - after Roman Mstyslavych's death the Galician boyars
+# repeatedly deposed, exiled or crowned foreign princes over the native line
+# (Andrew of Hungary crowned "king of Galicia and Lodomeria" 1215, Coloman
+# 1214); Danylo Romanovych's early reign was spent suppressing boyar factions
+# before he could rule at all. The Voivodeship's own governing_capacity /
+# max_absolutism penalty (RIP_HLC_government_reforms.txt) is that constraint
+# already priced in - this mechanic is the ruler's hand against it.
+#
+# common/estates/RIP_magnates.txt's estate_magnates only attaches to HLC via
+# the T2 Poland-path reform (hlc_magnate_assembly_reform), never at T1 and
+# never on the Austria fork, so this uses plain country modifiers plus the
+# always-present vanilla estate_nobles rather than a bespoke estate.
+#
+# Buttons-only (devshirme pattern): no powers, no .gui, vanilla Cossack
+# ability sprites, no DLC gate - the whole HLC lineage has none of its
+# eleven reforms hooked to a mechanic otherwise.
+# =============================================================================
+
+hlc_boyar_council_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		has_reform = hlc_galician_voivodeship_reform
+	}
+
+	interactions = {
+		# Grants and confirmations of office bought a prince a few years of
+		# boyar cooperation.
+		hlc_confirm_the_boyars_in_office = {
+			icon = GFX_cossacks_ability_ADM
+			trigger = {
+				adm_power = 50
+			}
+			effect = {
+				add_adm_power = -50
+				add_estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 10
+				}
+				add_country_modifier = {
+					name = hlc_boyars_confirmed
+					duration = 1825
+				}
+			}
+			cooldown_years = 8
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 6
+					NOT = { has_country_modifier = hlc_boyars_confirmed }
+				}
+			}
+		}
+		# Forecloses the boyars' historical recourse of inviting a foreign
+		# prince over the native one.
+		hlc_counter_the_foreign_claimant = {
+			icon = GFX_cossacks_ability_DIP
+			trigger = {
+				dip_power = 50
+				NOT = { has_country_modifier = hlc_foreign_claimant_countered }
+			}
+			effect = {
+				add_dip_power = -50
+				add_legitimacy_equivalent = {
+					amount = 3
+					republican_tradition = 1
+				}
+				add_country_modifier = {
+					name = hlc_foreign_claimant_countered
+					duration = 3650
+				}
+			}
+			cooldown_years = 12
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 8
+					legitimacy_equivalent = 40
+				}
+			}
+		}
+		# Danylo's suppression of the boyar opposition - a temporary
+		# suspension of the constraint the Voivodeship itself imposes.
+		hlc_make_an_example_of_a_defiant_boyar = {
+			icon = GFX_cossacks_ability_MIL
+			trigger = {
+				mil_power = 60
+				has_estate = estate_nobles
+			}
+			effect = {
+				add_mil_power = -60
+				add_estate_loyalty = {
+					estate = estate_nobles
+					loyalty = -5
+				}
+				add_army_tradition = 3
+				add_country_modifier = {
+					name = hlc_boyars_made_example
+					duration = 2555
+				}
+			}
+			cooldown_years = 15
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 6
+					is_at_war = no
+					stability = 1
+				}
+			}
+		}
+	}
+}

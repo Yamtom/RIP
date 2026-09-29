@@ -1,0 +1,74 @@
+christian = {
+	greek_catholic = {
+		color = { 178 128 204 }
+		icon = 31
+
+		# The estate effect represents the church's standing in the realm.
+		country = {
+			church_loyalty_modifier = 0.05
+		}
+
+		# Secondary-faith clerical influence is deliberately smaller.
+		country_as_secondary = {
+			church_loyalty_modifier = 0.025
+		}
+
+		province = {
+			local_missionary_strength = -0.01
+		}
+
+		# Native internal authority funds local synodal institutions.
+		has_patriarchs = yes
+
+		# Preserve the five legacy save indices with zero payloads. No selectable
+		# Orthodox icons may stack with the scripted church privilege.
+		orthodox_icons = {
+			rip_gc_icon_michael = {
+				discipline = 0
+				allow = { always = no }
+				visible = { always = no }
+				ai_will_do = { factor = 0 }
+			}
+			rip_gc_icon_eleusa = {
+				discipline = 0
+				allow = { always = no }
+				visible = { always = no }
+				ai_will_do = { factor = 0 }
+			}
+			rip_gc_icon_pancreator = {
+				discipline = 0
+				allow = { always = no }
+				visible = { always = no }
+				ai_will_do = { factor = 0 }
+			}
+			rip_gc_icon_nicholas = {
+				discipline = 0
+				allow = { always = no }
+				visible = { always = no }
+				ai_will_do = { factor = 0 }
+			}
+			rip_gc_icon_climacus = {
+				discipline = 0
+				allow = { always = no }
+				visible = { always = no }
+				ai_will_do = { factor = 0 }
+			}
+		}
+
+		# This is not the Protestant HRE-heretic track: Greek Catholics remain in
+		# communion with Rome, while their Eastern hierarchy has its own identity.
+
+		# Non-uniate opposition is distinct from the Muscovite Old Believers.
+		# Orthodox zealots in the union event chain retain vanilla Orthodox demands.
+		heretic = { RIP_UNION_OPPONENT }
+
+		# Engine availability for the alternative Florentine route, based on the
+		# union of 6 July 1439. This is NOT the founding date of the UGCC or an
+		# already established separate confession. Brest (1596) is a distinct route.
+		date = 1439.7.6
+
+		on_convert = {
+			rip_faith_initialize_hierarchy_effect = yes
+		}
+	}
+}

@@ -1,0 +1,64 @@
+#Cherkasy
+
+owner = LIT
+controller = LIT 
+culture = ruthenian
+religion = orthodox
+hre = no
+base_tax = 2
+base_production = 2
+trade_goods = livestock
+base_manpower = 2
+capital = "Cherkasy"
+is_city = yes
+add_local_autonomy = 25
+add_core = KIE
+add_core = LIT
+discovered_by = western
+discovered_by = eastern
+discovered_by = muslim
+discovered_by = ottoman
+discovered_by = nomad_group
+
+1444.11.1 = { owner = KIE controller = KIE remove_core = LIT add_claim = ZAZ add_claim = CHR }
+
+1569.3.26 = { owner = POL controller = POL add_core = POL } # annexed by Poland
+1569.7.1 = {
+	remove_core = LIT	# Union of Lublin, western part ceded to Poland & southern part still belonged to Lithuania
+	owner = PLC
+	controller = PLC
+	add_core = PLC
+} # Union of Lublin
+1635.1.1 = { fort_16th = yes }
+# Kodak, raised by the Commonwealth above the first cataract to sit on the
+# Sich. The fort belongs on the right bank of the Dnieper; it stood here
+# rather than in Poltava, which is the left bank and nowhere near the
+# cataracts. Kodak has no province of its own in 1.37 - see
+# docs/MAP_REWORK_SUGGESTIONS.md - so Cherkasy carries it.
+
+1648.1.1 = {
+	revolt = { type = nationalist_rebels size = 0 }
+	controller = REB
+	add_core = ZAZ
+	capital = "Chyhyryn"
+} # Chmielnicki uprising; the hetman's seat moves to his own estates
+1654.1.1 = { revolt = {} controller = PLC remove_core = ZAZ }
+1667.1.30 = {
+	owner = PDL
+	controller = PDL
+} # Andrusovo truce, but goes war with Doroshenko
+1678.8.12 = { capital = "Cherkasy" }
+# Chyhyryn razed at the end of the second campaign against it, and never
+# recovered as a seat of government. Like Kodak above, it has no province of
+# its own in 1.37 - see docs/MAP_REWORK_SUGGESTIONS.md.
+
+1685.1.1 = {
+	controller = PLC
+} # Right bank Hetmanate effectively defeated
+1699.1.26 = { owner = PLC controller = PLC } # Treaty of Karlowitz
+1793.1.23 = {
+	owner = RUS
+	controller = RUS
+	add_core = RUS
+	remove_core = PLC
+} # Second Partition
