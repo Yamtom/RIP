@@ -1,0 +1,130 @@
+# ========================================================================
+# The Habsburg settlement of the Greek Catholic church, 1771-1774.
+# Authenticity: A - documented.
+# Sources:
+#   19 September 1771: Clement XIV, bull Eximia regalium, makes the
+#   Eparchy of Mukachevo independent of the Latin Bishop of Eger, under
+#   Maria Theresa. 1774: an imperial decree approves the name Greek
+#   Catholic for the church earlier called Uniate, and the Barbareum
+#   seminary is founded at Saint Barbara's in Vienna for Eastern-rite
+#   clergy of the monarchy.
+#   The 1646 Union of Uzhhorod is a different act and stays in
+#   events/RIP_UzhLocalUnion.txt; 1771 is not a union.
+# Gate: province 1952 (Mukachevo, the seat of the eparchy) must already
+# be Greek Catholic, so the bull follows the local union instead of
+# replacing it. UZH has its own road in decisions/UzhEparchyPath.txt.
+# ========================================================================
+
+namespace = rip_hgc
+
+country_event = {
+	id = rip_hgc.1
+	title = rip_hgc.1.t
+	desc = rip_hgc.1.d
+	picture = RELIGION_eventPicture
+
+	trigger = {
+		is_year = 1771
+		NOT = { is_year = 1830 }
+		NOT = { tag = UZH }
+		NOT = { has_country_flag = rip_hgc_mukachevo_bull }
+		OR = {
+			religion = catholic
+			religion = greek_catholic
+		}
+		owns = 1952
+		1952 = { religion = greek_catholic }
+	}
+
+	mean_time_to_happen = {
+		months = 18
+		modifier = {
+			factor = 0.5
+			tag = AUS
+		}
+	}
+
+	immediate = { set_country_flag = rip_hgc_mukachevo_bull }
+
+	option = { # Publish the bull
+		name = rip_hgc.1.a
+		ai_chance = { factor = 80 }
+
+		add_prestige = 2
+		add_country_modifier = {
+			name = greek_catholic_synodal_administration
+			duration = 7300
+		}
+		rip_church_historical_east_effect = yes
+	}
+
+	option = { # Leave the parishes in Eger's care for now
+		name = rip_hgc.1.b
+		ai_chance = { factor = 20 }
+
+		add_adm_power = 25
+		1952 = {
+			if = {
+				limit = { owned_by = ROOT }
+				add_unrest = 2
+			}
+		}
+	}
+}
+
+country_event = {
+	id = rip_hgc.2
+	title = rip_hgc.2.t
+	desc = rip_hgc.2.d
+	picture = UNIVERSITY_eventPicture
+
+	trigger = {
+		is_year = 1774
+		NOT = { is_year = 1850 }
+		NOT = { has_country_flag = rip_hgc_greek_catholic_name }
+		OR = {
+			religion = catholic
+			religion = greek_catholic
+		}
+		OR = {
+			tag = AUS
+			has_country_flag = rip_hgc_mukachevo_bull
+		}
+		any_owned_province = { religion = greek_catholic }
+	}
+
+	mean_time_to_happen = {
+		months = 12
+		modifier = {
+			factor = 0.5
+			tag = AUS
+		}
+	}
+
+	immediate = { set_country_flag = rip_hgc_greek_catholic_name }
+
+	option = { # Adopt the name and found the seminary
+		name = rip_hgc.2.a
+		trigger = {
+			adm_power = 50
+			treasury = 75
+		}
+		ai_chance = { factor = 80 }
+
+		add_adm_power = -50
+		add_treasury = -75
+		add_prestige = 2
+		add_country_modifier = {
+			name = uniate_educational_network
+			duration = 7300
+		}
+		rip_church_historical_east_effect = yes
+	}
+
+	option = { # Keep the old name in the chancery
+		name = rip_hgc.2.b
+		ai_chance = { factor = 20 }
+
+		add_adm_power = 25
+	}
+}

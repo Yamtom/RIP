@@ -443,7 +443,13 @@ country_event = {
 	fire_only_once = yes
 	
 	trigger = {
-		has_country_flag = pursuing_uniate_union
+		# The 1720 provincial synod belongs to the church, not to the Brest chain:
+		# a state that took the union by the Florentine or the crown road holds
+		# the same church and meets the same synod.
+		OR = {
+			has_country_flag = pursuing_uniate_union
+			religion = greek_catholic
+		}
 		is_year = 1710
 		NOT = { is_year = 1750 }
 	}
