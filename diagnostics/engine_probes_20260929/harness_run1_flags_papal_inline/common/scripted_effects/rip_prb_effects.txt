@@ -1,0 +1,41 @@
+# Test harness only.
+rip_prb_addop_effect = {
+	add_opinion = { who = ROOT modifier = rip_prb_op_se_$K$ }
+}
+
+rip_prb_se_chain_effect = {
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_cm_$K$ add_country_modifier = { name = rip_prb_cm_$K$ duration = -1 } }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_tre_$K$ add_treasury = 100000 }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_pre_$K$ add_prestige = -300 }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_stab_$K$ add_stability = -6 }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_dip_$K$ add_dip_power = 900 }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_pm_$K$ capital_scope = { add_province_modifier = { name = rip_prb_pm_$K$ duration = -1 } } }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_rel_$K$ capital_scope = { change_religion = sunni } }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_aut_$K$ capital_scope = { add_local_autonomy = 50 } }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_evt_$K$ country_event = { id = rip_prb.35 days = 1 } }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_opr_$K$ add_opinion = { who = ROOT modifier = rip_prb_op_root_$K$ } }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_opt_$K$ add_opinion = { who = FRA modifier = rip_prb_op_tag_$K$ } }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_rev_$K$ reverse_add_opinion = { who = ROOT modifier = rip_prb_op_rev_$K$ } }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_rbk_$K$ ROOT = { add_opinion = { who = PREV modifier = rip_prb_op_rootblk_$K$ } } }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_nst_$K$ if = { limit = { always = yes } add_opinion = { who = ROOT modifier = rip_prb_op_nest_$K$ } } }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_hid_$K$ hidden_effect = { add_opinion = { who = ROOT modifier = rip_prb_op_hid_$K$ } } }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_ses_$K$ rip_prb_addop_effect = { K = $K$ } }
+	if = { limit = { always = no } set_country_flag = rip_prb_never }
+	else_if = { limit = { always = yes } add_opinion = { who = ROOT modifier = rip_prb_op_pure_$K$ } }
+}

@@ -35,7 +35,8 @@ def parse(text):
 
 TRIGGERS = {}
 EFFECTS = {}
-for file in ('rip_religion_settlement_triggers', 'rip_crusade_triggers', 'rus_russian_orthodox_triggers', 'rip_faith_triggers'):
+# Faith triggers were consolidated into the settlement trigger file.
+for file in ('rip_religion_settlement_triggers', 'rip_crusade_triggers', 'rus_russian_orthodox_triggers'):
     TRIGGERS.update(parse(read('common/scripted_triggers/' + file + '.txt')))
 for file in ('rip_religion_settlement_effects', 'rip_crusade_effects', 'rip_parish_visit_effects', 'rip_faith_policy_effects', 'russian_orthodox_effects', 'greek_catholic_effects'):
     EFFECTS.update(parse(read('common/scripted_effects/' + file + '.txt')))
@@ -259,7 +260,7 @@ def run_cases():
                 w.run(helper, c, POLICY=choice)
                 assert c == before, update
                 cases += 1
-    # Moscow council fuel and the sole global centre are executed in check_church_redesign.
+    # Moscow council fuel is covered by the focused church redesign contract.
     # A stale Brest response cannot change faith after PAP disappears or a prior signature.
     for update in ('valid', 'before_brest', 'no_pope', 'war_pope', 'signed', 'wrong_faith', 'poor'):
         w, c = fixture()
@@ -340,9 +341,17 @@ def contracts():
             body = named_block(source, name)
             flag = 'rip_once_' + name
             assert f'NOT = {{ has_country_flag = {flag} }}' in named_block(body, 'potential')
-            assert f'set_country_flag = {flag}' in named_block(body, 'effect')
+            payout = named_block(body, 'effect')
+            if name == 'greek_catholic_education_decision':
+                assert 'establish_greek_catholic_education = yes' in payout
+                payout = named_block(read('common/scripted_effects/greek_catholic_effects.txt'),
+                                     'establish_greek_catholic_education')
+                assert 'limit = { rip_uc_can_found_schools = yes }' in payout
+            assert f'set_country_flag = {flag}' in payout
     # All country paths use the same idempotent bridge; province loops cannot call it.
-    for filename in ('events/RussianOrthodox.txt', 'events/UniateChurch.txt', 'events/UniateReformationSpread.txt', 'decisions/GreekCatholicDecisions.txt'):
+    # The old automatic Union-centre event file is intentionally retired.
+    assert not (ROOT / 'events/UniateReformationSpread.txt').exists()
+    for filename in ('events/RussianOrthodox.txt', 'events/UniateChurch.txt', 'decisions/GreekCatholicDecisions.txt'):
         source = normalized(read(filename))
         assert not re.search(r'change_religion = (?:russian_orthodox|greek_catholic)', source), filename
         assert not re.search(r'add_base_(?:tax|production|manpower)\s*=', source), filename
@@ -402,8 +411,8 @@ def contracts():
     assert 'set_country_flag = union_of_brest_happened' not in hierarchy_init
     brest_gate = dict(parse(read('common/scripted_triggers/rip_religion_settlement_triggers.txt')))['rip_uc_can_accept_brest_trigger']
     assert ('is_year', '1596') in brest_gate
-    profile = normalized(read('common/religious_conversions/zz_RIP_greek_catholic.txt'))
-    assert 'rip_church_union_target = yes' in profile
+    # The Greek Catholic conversion profile belonged to the retired Union centre.
+    assert not (ROOT / 'common/religious_conversions/zz_RIP_greek_catholic.txt').exists()
     events = read('events/OrthodoxCrusade.txt')
     assert not re.search(r'add_base_|change_religion\s*=', events)
     assert 'rip_faith_pilgrimage_recent duration = 3650' in events
@@ -426,8 +435,563 @@ def contracts():
         assert prefix in read('common/scripted_effects/rip_religion_settlement_effects.txt')
 
 
+# ---------------------------------------------------------------------------
+# Guarantee of community rights (29 September 2026).
+#
+# The province action (internal ids still say "recognize") guarantees another
+# confessional community its rights; it is not that community accepting the
+# Union. The review that named it also found that the ecumenical settlement
+# changed nothing in the province and never reached Catholic states.
+#
+# Every contract below is a PURE function of text: it takes the source of a file
+# (it never reads the repository) and returns a list of problems, empty when the
+# text honours the contract. That is what makes each one provable - the same
+# function can be pointed at an older revision, or at a deliberately damaged
+# copy, to show that it fails when it should. guarantee_of_rights_contracts()
+# feeds them the live files.
+# ---------------------------------------------------------------------------
+RITE_FAVOURED = 'rip_church_rite_favoured'
+RITE_ECUMENICAL = 'rip_church_rite_ecumenical'
+RELATIONS_EFFECT = 'rip_church_refresh_relations_effect'
+ECUMENICAL_OPINION = 'rip_church_opinion_gc_ecumenical'
+
+
+def _subtree(key, value):
+    """The node itself and every node below it, depth first."""
+    yield key, value
+    if isinstance(value, list):
+        for child_key, child_value in value:
+            yield from _subtree(child_key, child_value)
+
+
+def _walk(nodes):
+    for key, value in nodes:
+        yield from _subtree(key, value)
+
+
+def _body(text, name):
+    """Children of the top-level block `name`, or None when it is absent."""
+    try:
+        return dict(parse(named_block(text, name)))[name]
+    except KeyError:
+        return None
+
+
+def modifier_offsets(text, name):
+    """{key: number} of one flat modifier definition, or None when it is absent."""
+    body = _body(text, name)
+    return None if body is None else {key: float(value) for key, value in body}
+
+
+def ecumenical_rite_problems(modifiers_text):
+    """The twenty-year settlement must deepen the province guarantee, not repeat it.
+
+    rip_church_rite_favoured and rip_church_rite_ecumenical were both
+    { local_unrest = -0.5 }, so concluding the settlement changed nothing here.
+    """
+    rite, favoured, ecumenical = (modifier_offsets(modifiers_text, name)
+                                  for name in ('rip_church_rite', RITE_FAVOURED, RITE_ECUMENICAL))
+    if None in (rite, favoured, ecumenical):
+        return ['rip_church_rite, rip_church_rite_favoured or rip_church_rite_ecumenical is missing']
+    problems = []
+    if ecumenical == favoured:
+        problems.append('ecumenical is identical to favoured: concluding the settlement changes nothing in the province')
+    unrest, plain = ecumenical.get('local_unrest', 0), favoured.get('local_unrest', 0)
+    if not unrest < plain < 0:
+        problems.append(f'ecumenical local_unrest {unrest:g} is not strictly below favoured {plain:g}')
+    for key in ('local_tax_modifier', 'local_manpower_modifier'):
+        if not ecumenical.get(key, 0) > 0:
+            problems.append(f'ecumenical has no positive {key}')
+        if favoured.get(key, 0) != 0:
+            problems.append(f'favoured must not carry {key}: only the settlement eases the tax and levy cost')
+        # The guarantee stays a cost; the settlement only makes it smaller.
+        if not rite.get(key, 0) < rite.get(key, 0) + ecumenical.get(key, 0) < 0:
+            problems.append(f'net {key} with the settlement is not between the ordinary cost and zero')
+    return problems
+
+
+def alternative_rite_modifier_problems(union_effects_text):
+    """favoured and ecumenical are alternatives, never stacked.
+
+    The ecumenical offsets are positive and the net figures in the tooltips assume
+    the province holds exactly one of them.
+    """
+    name = 'rip_church_gc_refresh_parishes_effect'
+    body = _body(union_effects_text, name)
+    if body is None:
+        return [name + ' is missing']
+    wanted = {RITE_FAVOURED, RITE_ECUMENICAL}
+
+    def added(nodes):
+        return sorted(dict(value)['name'] for key, value in nodes
+                      if key == 'add_province_modifier' and dict(value)['name'] in wanted)
+
+    problems = []
+    if added(_walk(body)) != sorted(wanted):
+        problems.append('favoured and ecumenical must each be added exactly once in ' + name)
+    pairs = []
+
+    def visit(nodes):
+        for index, (key, value) in enumerate(nodes):
+            if isinstance(value, list):
+                if key == 'if' and index + 1 < len(nodes) and nodes[index + 1][0] == 'else':
+                    pairs.append((value, nodes[index + 1][1]))
+                visit(value)
+    visit(body)
+    if not any(added(then) == [RITE_ECUMENICAL] and added(other) == [RITE_FAVOURED]
+               and ('has_country_flag', 'rip_church_ecumenical') in list(_walk(dict(then).get('limit', [])))
+               for then, other in pairs):
+        problems.append('ecumenical (if the owner is ecumenical) and favoured (else) are not exclusive branches of one if/else')
+    return problems
+
+
+def _every_country(effect_text):
+    body = _body(effect_text, RELATIONS_EFFECT)
+    loops = [] if body is None else [value for key, value in body if key == 'every_country']
+    return loops[0] if len(loops) == 1 else None
+
+
+def _scoped_values(nodes, wanted, under_root=False, found=None):
+    """Values of trigger `wanted` as (country side, ROOT side) sets."""
+    found = (set(), set()) if found is None else found
+    for key, value in nodes:
+        if key == wanted:
+            found[under_root].add(value)
+        elif isinstance(value, list):
+            _scoped_values(value, wanted, under_root or key == 'ROOT', found)
+    return found
+
+
+def relation_ecumenical_problems(effect_text):
+    """The ecumenical opinion must be reachable by the states it is meant for.
+
+    It used to sit inside the else_if branch for Orthodox <-> Greek Catholic. A
+    Catholic country is consumed by the earlier catholic <-> greek_catholic
+    else_if, so the +15 never reached it although its condition named catholic.
+    """
+    body = _every_country(effect_text)
+    if body is None:
+        return [RELATIONS_EFFECT + ' has no single every_country loop']
+    body = [node for node in body if node[0] != 'limit']
+
+    def opinion_with(node, verb):
+        return any(key == verb and ('modifier', ECUMENICAL_OPINION) in value
+                   for key, value in _subtree(*node) if isinstance(value, list))
+
+    def grants(nodes, who):
+        return any(key == 'add_opinion' and dict(value) == {'who': who, 'modifier': ECUMENICAL_OPINION}
+                   for key, value in nodes)
+
+    carriers = [index for index, node in enumerate(body) if opinion_with(node, 'add_opinion')]
+    if not carriers:
+        return ['the ecumenical opinion is never added']
+    problems = []
+    for index in carriers:
+        key, value = body[index]
+        if key != 'if':
+            problems.append(f'the ecumenical opinion is added inside a `{key}` branch of the country loop, '
+                            'so an earlier branch of that chain can consume the country before it')
+            continue
+        if any(child_key in ('if', 'else_if', 'else') for child_key, _ in value):
+            problems.append('the ecumenical opinion sits under a second conditional inside its own `if`')
+        if not grants(value, 'ROOT') or not any(
+                child_key == 'ROOT' and grants(child, 'PREV') for child_key, child in value):
+            problems.append('the ecumenical opinion is not granted in both directions, directly inside its `if`')
+        if any(later[0] in ('else_if', 'else') for later in body[index + 1:]):
+            problems.append('the ecumenical `if` is not placed after the whole if / else_if chain')
+        if any(opinion_with(later, 'remove_opinion') for later in body[index + 1:]):
+            problems.append('the ecumenical opinion is removed after it is added')
+        if not any(opinion_with(earlier, 'remove_opinion') for earlier in body[:index]):
+            problems.append('the ecumenical opinion is never removed before it is re-added')
+        limit = dict(value).get('limit', [])
+        religions, root_religions = _scoped_values(limit, 'religion')
+        for side, seen in (('country', religions), ('ROOT', root_religions)):
+            for faith in ('orthodox', 'catholic', 'greek_catholic'):
+                if faith not in seen:
+                    problems.append(f'the ecumenical condition never tests religion = {faith} on the {side} side')
+            if 'russian_orthodox' in seen:
+                problems.append(f'the ecumenical condition includes russian_orthodox on the {side} side; it is excluded')
+        flags = _scoped_values(limit, 'has_country_flag')
+        if not all('rip_church_ecumenical' in side for side in flags):
+            problems.append('the ecumenical condition must test rip_church_ecumenical on the Greek Catholic side in both directions')
+    return problems
+
+
+def _holds(items, scope, root):
+    return all(_trigger(key, value, scope, root) for key, value in items)
+
+
+def _trigger(key, value, scope, root):
+    if key == 'religion': return scope['religion'] == value
+    if key == 'has_country_flag': return value in scope['flags']
+    if key == 'AND': return _holds(value, scope, root)
+    if key == 'OR': return any(_trigger(k, v, scope, root) for k, v in value)
+    if key == 'NOT': return not _holds(value, scope, root)
+    if key == 'ROOT': return _holds(value, root, root)
+    raise ValueError('trigger outside the relation model: ' + key)
+
+
+def _apply(nodes, scope, root, prev, opinions):
+    """Run one effect body over two country fixtures; opinions holds (holder, target, modifier)."""
+    chain_done = False
+    for key, value in nodes:
+        if key in ('if', 'else_if', 'else'):
+            if key == 'if': chain_done = False
+            if chain_done: continue
+            if key == 'else' or _holds(dict(value)['limit'], scope, root):
+                chain_done = True
+                _apply([node for node in value if node[0] != 'limit'], scope, root, prev, opinions)
+        elif key in ('add_opinion', 'remove_opinion'):
+            fields = dict(value)
+            triple = (scope['id'], {'ROOT': root, 'PREV': prev}[fields['who']]['id'], fields['modifier'])
+            (opinions.add if key == 'add_opinion' else opinions.discard)(triple)
+        elif key == 'ROOT':
+            _apply(value, root, root, scope, opinions)
+        else:
+            raise ValueError('effect outside the relation model: ' + key)
+
+
+def relation_outcome_problems(effect_text):
+    """Run the country loop for each pairing and compare the opinions that result.
+
+    Catholic states get the ecumenical +15 on top of the +40 of the middle
+    course; Orthodox states keep it; russian_orthodox never had it; nobody gets
+    it before the Greek Catholic side has concluded the settlement, and a bonus
+    already held is withdrawn when the settlement lapses.
+    """
+    body = _every_country(effect_text)
+    if body is None:
+        return [RELATIONS_EFFECT + ' has no single every_country loop']
+    body = [node for node in body if node[0] != 'limit']
+    catholic, orthodox = 'rip_church_opinion_gc_catholic_middle', 'rip_church_opinion_gc_orthodox_middle'
+    cases = (
+        ('catholic', 'greek_catholic', True, {catholic, ECUMENICAL_OPINION}),
+        ('orthodox', 'greek_catholic', True, {orthodox, ECUMENICAL_OPINION}),
+        ('russian_orthodox', 'greek_catholic', True, {orthodox}),
+        ('greek_catholic', 'catholic', True, {catholic, ECUMENICAL_OPINION}),
+        ('greek_catholic', 'orthodox', True, {orthodox, ECUMENICAL_OPINION}),
+        ('catholic', 'greek_catholic', False, {catholic}),
+        ('orthodox', 'greek_catholic', False, {orthodox}),
+        ('catholic', 'greek_catholic', False, {catholic}, 'the +15 is already held'),
+    )
+    problems = []
+    for other_faith, root_faith, settled, expected, *lapsed in cases:
+        other = dict(id='OTHER', religion=other_faith, flags=set())
+        root = dict(id='ROOT', religion=root_faith, flags=set())
+        if settled:
+            (other if other_faith == 'greek_catholic' else root)['flags'].add('rip_church_ecumenical')
+        opinions = {('OTHER', 'ROOT', ECUMENICAL_OPINION), ('ROOT', 'OTHER', ECUMENICAL_OPINION)} if lapsed else set()
+        try:
+            _apply(body, other, root, None, opinions)
+        except ValueError as error:
+            return [str(error)]
+        for holder, target in (('OTHER', 'ROOT'), ('ROOT', 'OTHER')):
+            got = {modifier for who, whom, modifier in opinions
+                   if (who, whom) == (holder, target) and modifier in {catholic, orthodox, ECUMENICAL_OPINION}}
+            if got != expected:
+                problems.append(f'{other_faith} state with ROOT {root_faith}, settlement {"concluded" if settled else "lapsed" if lapsed else "not concluded"}: '
+                                f'{holder} holds {sorted(m.replace("rip_church_opinion_gc_", "") for m in got)}, '
+                                f'expected {sorted(m.replace("rip_church_opinion_gc_", "") for m in expected)}')
+    return problems
+
+
+# Player-visible names of the province action. The internal ids keep the older
+# "recognize" spelling because rip_church_rite_recognized lives in savegames.
+STALE_RITE_NAMING = re.compile(
+    r'recogni[sz]e\s+(?:the\s+|a\s+|an\s+)?(?:local\s+|eastern\s+|latin\s+|orthodox\s+)?(?:parish|rite)\b', re.I)
+RITE_LABELS = {'rip_church_recognize_rite_button': 'Guarantee',
+               'rip_church_gui_recognize_parish': 'Guarantee',
+               'rip_church_revoke_rite_button': 'community rights'}
+
+
+def _literals(text, key):
+    """Quoted values bound to `key`, in the yml (key:0 "v") or in the generator ("key": "v")."""
+    pattern = r'''(?<!\w)['"]?''' + re.escape(key) + r'''(?!\w)['"]?\s*:\s*\d*\s*(['"])(.*?)(?<!\\)\1'''
+    return [match.group(2) for match in re.finditer(pattern, text)]
+
+
+def _literals_or_whole(text, key):
+    """The yml always holds a literal. The generator may build a key from named
+    constants, and then its whole source stands in for the value."""
+    return _literals(text, key) or [text]
+
+
+def _without_comments(text):
+    return re.sub(r'(?m)^\s*#.*$', '', text)
+
+
+def guarantee_naming_problems(text):
+    """`text` is the generated English yml or the generator that writes it."""
+    body = _without_comments(text)
+    problems = [f'the action is still presented as {match.group(0)!r}' for match in STALE_RITE_NAMING.finditer(body)]
+    for key, word in RITE_LABELS.items():
+        values = _literals(body, key)
+        if not values:
+            problems.append(f'{key}: no literal label')
+        problems += [f'{key}: {value!r} does not say {word!r}' for value in values if word not in value]
+    for value in _literals_or_whole(body, 'rip_church_recognize_rite_button_tt'):
+        if 'not converted' not in value:
+            problems.append('the province button tooltip does not say the province is not converted')
+    model_keys = (
+        'rip_church_recognize_rite_button_tt',
+        'rip_church_rite_help',
+        'rip_church_rite_help_tt',
+        'rip_church_rite_recognized',
+        'desc_rip_church_rite',
+        'rip_church_gui_parish_counts_tt',
+        'rip_church_gui_parish_list_title_tt',
+        'rip_church_gui_parishes_title_tt',
+        'rip_church_gui_count_eastern_tt',
+        'rip_church_gui_count_latin_tt',
+    )
+    for key in model_keys:
+        values = _literals_or_whole(body, key)
+        for value in values:
+            lower = value.lower()
+            if (not all(phrase in lower for phrase in ('gameplay', 'canonical', 'not an exact'))
+                    or not re.search(r'\bvoluntary (?:acceptance|union acceptance)\b', lower)):
+                problems.append(f'{key}: wording must disclaim exact status, canonical status and voluntary acceptance')
+    return problems
+
+
+def rite_interpretation_problems(text):
+    """The tax/manpower trade-off is an explicit game-design interpretation, not faith punishment or history."""
+    phrases = (
+        'game-design interpretation',
+        'administrative compromise',
+        'protecting local arrangements and autonomy',
+        'not a penalty for another faith',
+        'not a documented historical formula',
+    )
+    keys = ['rip_church_recognize_rite_button_tt', 'rip_church_rite_help']
+    generated = 'RITE_INTERPRETATION=' not in text
+    if generated:
+        keys.extend(('rip_church_gui_recognize_parish_tt', 'desc_rip_church_rite'))
+    problems = []
+    for key in keys:
+        values = _literals_or_whole(text, key)
+        for value in values:
+            lower = value.lower()
+            problems += [f'{key}: missing {phrase!r}' for phrase in phrases if phrase not in lower]
+            if key != 'desc_rip_church_rite':
+                tax = 'local tax falls by 15%' if key != 'rip_church_rite_help' else 'tax -15%'
+                manpower = 'manpower by 20%' if key != 'rip_church_rite_help' else 'manpower -20%'
+                for phrase in (tax, manpower):
+                    if phrase not in lower:
+                        problems.append(f'{key}: missing unchanged modifier {phrase!r}')
+    return problems
+
+
+def rite_documentation_problems(text):
+    """Ukrainian guide/atlas retain the game-design framing and historical caveat."""
+    lower = re.sub(r'\s+', ' ', text.lower())
+    phrases = (
+        'адміністративного компромісу',
+        'місцевих порядків і автономії',
+        'покарання за іншу віру',
+    )
+    problems = [f'missing {phrase!r}' for phrase in phrases if phrase not in lower]
+    if not ('історичної формули' in lower or 'історична формула' in lower):
+        problems.append('does not disclaim a documented historical formula')
+    if not re.search(r'добровільн\w*.{0,50}уні', lower):
+        problems.append('does not disclaim proof of voluntary Union acceptance')
+    return problems
+
+
+def ecumenism_facts(modifiers_text, opinion_text):
+    """What the ecumenical settlement really does, read from the code."""
+    rite, ecumenical = (modifier_offsets(modifiers_text, name) for name in ('rip_church_rite', RITE_ECUMENICAL))
+    net = lambda key: round((rite.get(key, 0) + ecumenical.get(key, 0)) * 100, 6)
+    return dict(opinion=modifier_offsets(opinion_text, ECUMENICAL_OPINION)['opinion'],
+                unrest=rite['local_unrest'] + ecumenical['local_unrest'],
+                tax=net('local_tax_modifier'), levies=net('local_manpower_modifier'))
+
+
+def ecumenism_text_problems(text, facts):
+    """The ecumenism tooltip states the opinion bonus and the province effect the code gives."""
+    needed = (f"+{facts['opinion']:g} mutual opinion", f"unrest {facts['unrest']:g}",
+              f"tax {facts['tax']:g}%", f"levies {facts['levies']:g}%")
+    return [f'the ecumenism tooltip lacks {phrase!r}'
+            for value in _literals_or_whole(_without_comments(text), 'rip_church_gui_ecumenism_tt')
+            for phrase in needed if phrase not in value]
+
+
+def ecumenism_scope_problems(text):
+    """The settlement is diplomatic/local accommodation, never restoration of full communion."""
+    lower = _without_comments(text).lower()
+    required = (
+        'limited diplomatic and local administrative settlement',
+        'not a restoration of full ecclesial communion',
+        'diplomatic goodwill only',
+        'orthodox and catholic states gain +15 mutual opinion',
+        'russian orthodox states are excluded',
+    )
+    problems = [f'missing ecumenism clarification {phrase!r}'
+                for phrase in required if phrase not in lower]
+    # The generated localisation must carry the clarification on every active
+    # tooltip path, not merely somewhere else in the file.
+    output_keys = (
+        'rip_church_gui_ecumenism_tt',
+        'rip_church_gui_ecumenism_reason_tt',
+        'rip_church_gui_ecumenism_state_tt',
+        'rip_church_gui_policy_help_tt',
+        'rip_church_ecumenism_desc',
+    )
+    if re.search(r'(?m)^\s+rip_church_gui_ecumenism_tt:0', text):
+        for key in output_keys:
+            values = _literals(text, key)
+            if not values:
+                problems.append(f'{key}: no generated localisation value')
+            for value in values:
+                value_lower = value.lower()
+                problems += [f'{key}: missing {phrase!r}'
+                             for phrase in required if phrase not in value_lower]
+    return problems
+
+
+def florentine_precedent_problems(text):
+    """1439 is a precedent for an alternative campaign path, never the UGCC's origin."""
+    requirements = {
+        'greek_catholic_religion_desc': (
+            'broad game category covering several distinct Ruthenian and Carpathian Eastern Catholic union traditions',
+            'not the modern Ukrainian Greek Catholic Church in its narrow sense',
+            'Florentine union as a precedent',
+            'not as the founding of the UGCC',
+        ),
+        'rip_church.5.t': ('Florentine Legacy',),
+        'rip_church.5.d': (
+            'as a precedent',
+            'campaign-created alternative',
+            'does not represent the founding of the UGCC in 1439',
+        ),
+        'rip_church_florence_title': ('Florentine precedent',),
+        'rip_church_florence_desc': (
+            'Florentine precedent',
+            'not the founding of the UGCC',
+        ),
+        'rip_church_gui_florence': ('Florentine precedent',),
+        'rip_church_gui_florence_tt': (
+            'Florentine precedent of 1439',
+            'not the founding of the UGCC',
+            'campaign-created alternative',
+        ),
+        'rip_church_gui_florence_wait': ('Florentine precedent',),
+        'rip_church_gui_florence_done': ('Florentine precedent carried forward',),
+        'rip_church_gui_florence_none': ('Florentine-precedent negotiations',),
+    }
+    problems = []
+    for key, phrases in requirements.items():
+        values = _literals(_without_comments(text), key)
+        if not values:
+            problems.append(f'{key}: no literal localisation value')
+        for value in values:
+            problems += [f'{key}: missing {phrase!r}'
+                         for phrase in phrases if phrase not in value]
+    body = _without_comments(text)
+    for stale in ('The Florentine Alternative Endures',
+                  'has sustained the Florentine union of 1439',
+                  'one founding province'):
+        if stale in body:
+            problems.append(f'obsolete origin/continuity wording remains: {stale!r}')
+    note = _literals(body, 'rip_church_gui_paths_title_tt')
+    for value in note:
+        if 'several local Ruthenian and Carpathian Eastern Catholic union traditions' not in value:
+            problems.append('shared route note does not identify the model as several local union traditions')
+    return problems
+
+
+def ecumenism_documentation_problems(text):
+    """Current Ukrainian references distinguish diplomatic goodwill from ecclesial communion."""
+    lower = re.sub(r'\s+', ' ', text.lower())
+    required = (
+        'обмежене дипломатичне',
+        'відновлення повного церковного спілкування',
+        'russian_orthodox',
+        'дипломатичн',
+    )
+    return [f'missing Ukrainian ecumenism clarification {phrase!r}'
+            for phrase in required if phrase not in lower]
+
+
+def guarantee_of_rights_contracts():
+    modifiers = read('common/event_modifiers/RIP_church_redesign_modifiers.txt')
+    relations = read('common/scripted_effects/rip_church_diplomacy_effects.txt')
+    facts = ecumenism_facts(modifiers, read('common/opinion_modifiers/RIP_church_relations.txt'))
+    generator = read('tools/build_church_localisation.py')
+    english = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
+    fallback_localisations = {
+        f'guarantee_naming_{language}': guarantee_naming_problems(
+            read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml'))
+        for language in ('french', 'german', 'spanish')
+    }
+    rite_texts = {
+        'rite_interpretation_generator': generator,
+        'rite_interpretation_english': english,
+        **{f'rite_interpretation_{language}': read(
+            f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
+           for language in ('french', 'german', 'spanish')},
+    }
+    rite_docs = {
+        'rite_documentation_guide': read('docs/GREEK_CATHOLIC_WINDOW_GUIDE.uk.md'),
+        'rite_documentation_atlas': read('docs/RELIGION_MECHANICS_ATLAS.uk.md'),
+    }
+    ecumenism_fallbacks = {
+        f'ecumenism_clarification_{language}': ecumenism_scope_problems(
+            read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml'))
+        for language in ('french', 'german', 'spanish')
+    }
+    ecumenism_docs = {
+        f'ecumenism_documentation_{name}': ecumenism_documentation_problems(
+            read(f'docs/{filename}'))
+        for name, filename in (
+            ('guide', 'GREEK_CATHOLIC_WINDOW_GUIDE.uk.md'),
+            ('redesign', 'CHURCH_REDESIGN_20260911.uk.md'),
+            ('atlas', 'RELIGION_MECHANICS_ATLAS.uk.md'),
+        )
+    }
+    florentine_localisations = {
+        f'florentine_precedent_{name}': florentine_precedent_problems(text)
+        for name, text in {
+            'generator': generator,
+            'english': english,
+            **{language: read(
+                f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
+               for language in ('french', 'german', 'spanish')},
+        }.items()
+    }
+    checks = {
+        'ecumenical_rite_strictly_deeper': ecumenical_rite_problems(modifiers),
+        'rite_modifiers_are_alternatives': alternative_rite_modifier_problems(
+            read('common/scripted_effects/rip_church_union_effects.txt')),
+        'ecumenical_opinion_reachable': relation_ecumenical_problems(relations),
+        'ecumenical_opinion_outcomes': relation_outcome_problems(relations),
+        'guarantee_naming_generator': guarantee_naming_problems(generator),
+        'guarantee_naming_english': guarantee_naming_problems(english),
+        **fallback_localisations,
+        **{name: rite_interpretation_problems(text) for name, text in rite_texts.items()},
+        **{name: rite_documentation_problems(text) for name, text in rite_docs.items()},
+        'ecumenism_text_generator': ecumenism_text_problems(generator, facts),
+        'ecumenism_text_english': ecumenism_text_problems(english, facts),
+        'ecumenism_scope_generator': ecumenism_scope_problems(generator),
+        'ecumenism_scope_english': ecumenism_scope_problems(english),
+        **ecumenism_fallbacks,
+        **ecumenism_docs,
+        **florentine_localisations,
+    }
+    failed = {name: problems for name, problems in checks.items() if problems}
+    assert not failed, 'Guarantee-of-rights contract broken:\n' + '\n'.join(
+        f'  {name}: {problem}' for name, problems in failed.items() for problem in problems)
+    return len(checks)
+
+
 if __name__ == '__main__':
     count = run_cases()
     contracts()
-    print(f'RELIGION SETTLEMENT PASS: {count} source-executed transition cases; adoption, Kyiv payments, migration, crusades, monuments.')
+    rights = guarantee_of_rights_contracts()
+    print(f'RELIGION SETTLEMENT PASS: {count} source-executed transition cases; adoption, Kyiv payments, migration, crusades, monuments; '
+          f'{rights} contracts (rite modifiers, ecumenical opinion, naming, Florentine precedent in EFIGS).')
     print('LIMIT: EU4 branch execution, old-save loading and 50-year effectiveness are not certified by this model.')
+    # In-engine finding (EU4 1.37.5, diagnostics/gc_rights_ecumenism_20260929): add_opinion inside an else_if / else body
+    # leaves no opinion in the save, so the +40 / 0 / ro_* base modifiers of the refresh effect never appear and this
+    # model (standard chain semantics) is stricter than the game. Only the top-level ecumenical +15 is engine-proven.
+    print('LIMIT: the engine drops add_opinion inside else_if / else bodies; only the top-level ecumenical +15 is proven in game.')

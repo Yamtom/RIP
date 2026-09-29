@@ -12,10 +12,8 @@ country_decisions = {
 		potential = {
 			religion = orthodox
 			# The union as an ACT OF STATE belongs to a state whose weight is
-			# in these lands. An empire that merely holds Ruthenia receives the
-			# union from below instead - see rip_uc_is_regional_state in
-			# common/scripted_triggers/gre/greek_catholic_triggers.txt and the
-			# spread chain in events/UniateReformationSpread.txt.
+			# in these lands. An empire that merely holds Ruthenia receives it
+			# through the locally available historical conversion routes.
 			rip_uc_is_regional_state = yes
 			# Florence is a separate early route; this decision concludes the
 			# later Union of Brest and must not fire before its 1596 date.
@@ -86,113 +84,19 @@ country_decisions = {
 		}
 	}
 
-	establish_greek_catholic_center_decision = {
-		potential = {
-			NOT = { has_country_flag = rip_once_establish_greek_catholic_center_decision }
-			has_country_flag = rip_uc_hierarchy_initialized
-			religion = greek_catholic
-			NOT = { has_country_flag = greek_catholic_center_established }
-			any_owned_province = {
-				is_suitable_greek_catholic_center = yes
-			}
-		}
-		
-		provinces_to_highlight = {
-			owned_by = ROOT
-			is_suitable_greek_catholic_center = yes
-		}
-		
-		allow = {
-			adm_power = 50
-			any_owned_province = { is_suitable_greek_catholic_center = yes }
-		}
-		
-		effect = {
-			set_country_flag = rip_once_establish_greek_catholic_center_decision
-			add_adm_power = -50
-			set_country_flag = greek_catholic_center_established
-			random_owned_province = {
-				limit = { is_suitable_greek_catholic_center = yes }
-				establish_greek_catholic_center_effect = yes
-			}
-			add_prestige = 10
-		}
-		
-		ai_will_do = {
-			factor = 1
-		}
-	}
-
-	greek_catholic_missionary_campaign_decision = {
-		potential = {
-			NOT = { has_country_flag = rip_once_greek_catholic_missionary_campaign_decision }
-			has_country_flag = greek_catholic_center_established
-			religion = greek_catholic
-			NOT = { has_country_modifier = greek_catholic_missionary_activity }
-			any_owned_province = {
-				OR = {
-					religion = orthodox
-					religion = catholic
-				}
-			}
-		}
-		
-		provinces_to_highlight = {
-			owned_by = ROOT
-			OR = {
-				religion = orthodox
-				religion = catholic
-			}
-		}
-		
-		allow = {
-			adm_power = 50
-			dip_power = 50
-			stability = 1
-		}
-		
-		effect = {
-			set_country_flag = rip_once_greek_catholic_missionary_campaign_decision
-			add_adm_power = -50
-			add_dip_power = -50
-
-			rip_uc_clear_historical_policy_effect = yes
-			rip_church_historical_east_effect = yes
- add_country_modifier = {
-				name = greek_catholic_missionary_activity
-				duration = 5475
-			}
-			rip_uc_show_the_standing_effect = yes
-			add_patriarch_authority = 0.05
-		}
-		
-		ai_will_do = {
-			factor = 1
-		}
-	}
-
 	greek_catholic_education_decision = {
 		potential = {
 			NOT = { has_country_flag = rip_once_greek_catholic_education_decision }
-			has_country_flag = greek_catholic_center_established
-			religion = greek_catholic
+			rip_church_union_supporter = yes
 			NOT = { has_country_modifier = uniate_educational_network }
+			any_owned_province = { religion = greek_catholic }
 		}
 		
 		allow = {
-			adm_tech = 10
-			adm_power = 100
-			treasury = 200
-			num_of_owned_provinces_with = {
-				value = 5
-				religion = greek_catholic
-			}
+			rip_uc_can_found_schools = yes
 		}
 		
 		effect = {
-			add_adm_power = -100
-			add_treasury = -200
-			set_country_flag = rip_once_greek_catholic_education_decision
 			establish_greek_catholic_education = yes
 		}
 		
@@ -240,7 +144,6 @@ country_decisions = {
 	seek_orthodox_reconciliation_decision = {
 		potential = {
 			NOT = { has_country_flag = rip_once_seek_orthodox_reconciliation_decision }
-			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			NOT = { has_country_modifier = greek_catholic_orthodox_dialogue }
 			any_neighbor_country = {
@@ -279,7 +182,6 @@ country_decisions = {
 	strengthen_papal_ties_decision = {
 		potential = {
 			NOT = { has_country_flag = rip_once_strengthen_papal_ties_decision }
-			has_country_flag = rip_uc_see_raised
 			religion = greek_catholic
 			NOT = { has_country_modifier = papal_protection_greek_catholic }
 			PAP = { exists = yes }
@@ -296,7 +198,6 @@ country_decisions = {
 			add_dip_power = -75
 			add_treasury = -100
 			add_patriarch_authority = -0.25
-			rip_uc_show_the_standing_effect = yes
 			papal_protection_effect = yes
 		}
 		

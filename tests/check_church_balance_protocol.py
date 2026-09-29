@@ -1,4 +1,4 @@
-"""Synthetic arithmetic tests, never campaign observations."""
+"""Archived score-arithmetic unit test; it does not validate current mechanics."""
 from copy import deepcopy
 import importlib.util
 import math
@@ -28,4 +28,4 @@ mixed=deepcopy(rows); mixed[0]['dlc_profile']='other'
 try: module.score_stratum(mixed)
 except ValueError: pass
 else: raise AssertionError('Mixed strata accepted.')
-print('CHURCH BALANCE PROTOCOL PASS: frozen weights, zero/negative controls, direction, invalid inputs and scenario coverage; synthetic data only.')
+print('ARCHIVED SCORE ARITHMETIC PASS: synthetic math only; no current church mechanics are tested.')

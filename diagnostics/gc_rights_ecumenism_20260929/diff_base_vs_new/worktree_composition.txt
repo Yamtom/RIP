@@ -1,0 +1,13 @@
+BASE worktree: detached HEAD c8c8a5444b8861e79cf33e5b6b89e01c5851bde6 with two game files restored to the c8c8a544^ (2ae550e2) versions:
+  common/scripted_effects/rip_church_diplomacy_effects.txt  (pre-fix: ecumenical block nested in the Orthodox/Russian-Orthodox <-> GC else_if)
+  common/event_modifiers/RIP_church_redesign_modifiers.txt  (pre-change: rip_church_rite_ecumenical = local_unrest -0.5)
+  Reason: HEAD c8c8a544 (committed 2026-09-29 10:30 by the parallel session) ALREADY contains the diplomacy fix and the new modifier values,
+  so a BASE = plain HEAD would not reproduce the bug.
+NEW worktree: detached HEAD c8c8a5444b8861e79cf33e5b6b89e01c5851bde6 + copies of the current working-tree task files:
+  common/event_modifiers/RIP_church_redesign_modifiers.txt, common/scripted_effects/rip_church_diplomacy_effects.txt (both identical to HEAD),
+  localisation/replace/zzzz_RIP_church_redesign_l_{english,french,german,spanish}.yml (uncommitted edits at copy time 11:19),
+  customizable_localization/rip_church_redesign.txt and common/custom_gui/RIP_church_controls.txt (content identical to HEAD, only line endings differ; no interface/ file changed).
+
+sha256 base 2c24f700230ed1d6  new 47018e4558b02327  common/scripted_effects/rip_church_diplomacy_effects.txt  (CR stripped)
+sha256 base 0a7ebe3136318f51  new 2ee24bbace2f18c9  common/event_modifiers/RIP_church_redesign_modifiers.txt  (CR stripped)
+sha256 base b970d48dc81e51b9  new 63e95ca63a19e714  localisation/replace/zzzz_RIP_church_redesign_l_english.yml  (CR stripped)

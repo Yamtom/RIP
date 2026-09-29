@@ -1,5 +1,6 @@
 # One-time migration plus idempotent maintenance. Never refill resources on load.
 rip_church_v3_initialize_effect = {
+ rip_church_retire_removed_union_mechanics_effect = yes
  if = { limit = { rip_church_is_new_faith = yes NOT = { has_country_flag = rip_church_v3_migrated } }
  set_country_flag = rip_church_v3_migrated
  set_variable = { which = rip_church_fervor value = 0 }
@@ -36,7 +37,6 @@ rip_church_ro_isolation_effect = {
 }
 rip_church_v3_exit_effect = {
  rip_church_ro_clear_active_effect = yes rip_church_gc_clear_privilege_effect = yes
- rip_church_gc_clear_curia_petitions_effect = yes
  rip_church_ro_isolation_effect = yes rip_church_refresh_pa_effect = yes rip_church_gc_refresh_parishes_effect = yes
  set_variable = { which = rip_church_fervor value = 0 }
  clr_country_flag = rip_church_v3_active
@@ -91,6 +91,7 @@ rip_church_ai_effect = {
  rip_church_ro_ai_nodes_effect = yes
  }
  else_if = { limit = { religion = greek_catholic }
+ rip_church_gc_ai_icons_effect = yes
  if = { limit = { adm_power = 150 any_owned_province = { rip_church_can_recognize_rite = yes unrest = 1 } }
  random_owned_province = { limit = { rip_church_can_recognize_rite = yes unrest = 1 } rip_church_recognize_rite_effect = yes }
  }
@@ -120,13 +121,17 @@ rip_church_retire_removed_union_mechanics_effect = {
   remove_country_modifier = rip_church_gc_holy_war
   remove_country_modifier = rip_church_gc_saint
   remove_country_modifier = rip_church_gc_monopoly
-  rip_church_gc_clear_curia_petitions_effect = yes
+  if = { limit = { exists = PAP }
+   PAP = { remove_opinion = { who = ROOT modifier = rip_church_opinion_gc_donation } }
+  }
  }
  if = { limit = { NOT = { has_global_flag = rip_church_removed_centers_retired } }
   set_global_flag = rip_church_removed_centers_retired
   every_province = {
    if = { limit = { religion = greek_catholic is_reformation_center = yes } remove_reform_center = greek_catholic }
    remove_province_modifier = rip_uc_see_of_the_union
+   remove_province_modifier = rip_church_gc_roman_resistance
+   remove_province_modifier = rip_church_gc_local_see
    clr_province_flag = rip_church_center_suspended
    clr_province_flag = rip_church_union_ring_0
    clr_province_flag = rip_church_union_ring_1

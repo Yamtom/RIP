@@ -4,11 +4,12 @@ rip_church_gc_refresh_curia_effect = {
 		limit = { rip_church_gc_rome_present = yes }
 		PAP = {
 			save_global_event_target_as = rip_church_gc_rome
-			export_to_variable = {
-				which = rip_church_papal_opinion
-				value = opinion
-				with = ROOT
-			}
+		}
+		export_to_variable = {
+			which = rip_church_papal_opinion
+			value = opinion
+			who = PAP
+			with = ROOT
 		}
 		set_global_flag = rip_church_gc_rome_known
 	}
