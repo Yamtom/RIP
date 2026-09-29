@@ -1,0 +1,27 @@
+In-engine probes, 2026-09-29 (EU4 1.37.5.0). Four engine questions answered by measurement, not by reading script.
+
+Setup (same recipe as diagnostics/gc_rights_ecumenism_20260929/):
+  * detached git worktree of HEAD (ee9a27b4) under the session scratchpad: <scratch>/probes/wt_head (removed at the end with git worktree remove --force);
+  * harness mod OUTSIDE the repo (three variants, copies kept here without the descriptor: harness_run*/; the descriptor is renamed harness_descriptor.txt);
+  * per launch an isolated -userdir (tools/prep_userdir*.py): mod/RIP.mod (path = the worktree), mod/rip_*_harness.mod, dlc_load.json, settings.txt
+    (autosave="MONTHLY", compress_saves=no), commands file "event <id>" lines + "speed 5";
+  * launch from the PowerShell tool (not a .ps1 file): Start-Process eu4.exe -PassThru -ArgumentList -debug_mode -start_tag=MOS -seed=1001
+    -userdir="<ud>" -auto_run=<commands file>; poll save games/autosave.eu4, copy every distinct autosave, Stop-Process only the started PID;
+    from launch C on the poll loop also stops when a crashes/ sub-folder appears. Get-Process eu4 was empty before every start and after every stop.
+  * saves are 36-38 MB each and are not kept; tools/analyze_probes.py, analyze2.py and q3_table.py regenerate every table in analysis/ from a save.
+
+Launches:
+  1  harness_run1 (tools/gen_harness.py), events rip_prb.11 (Q1 flags), .21 (Q2 papal), .30 (Q3 inline chains + one else_if chain in a scripted effect)
+     -> 3 autosaves 1444.12.1 / 1445.1.1 / 1445.2.1 (analysis/analysis_save1..3.txt, q3_table_run1_save1.txt)
+     Q4 starters are province events with MTTH and fire without a console command.
+  2  harness_run2 master event: ENGINE CRASH (EXCEPTION_ACCESS_VIOLATION, no save). See error_logs/crash_run2_*.
+  C  harness_run2, events .90 .91 .92 .1 .2 -> 3 autosaves (analysis_runC_save1/3.txt): inline vs scripted-effect matrix over 7 countries,
+     direct is_month / is_year readings, papal accrual modifier, delayed-event chain dates.
+  D  harness_run2, events .3-.6 (effect-class test in scripted effects, safe set) -> analysis_runD_save1.txt
+  E  harness_run2, events .7-.10 (add_trust alone) -> analysis_runE_save1.txt
+  F  harness_run2, events .11-.14 (add_casus_belli alone) -> ENGINE CRASH again at the same address (error_logs/crash_runF_*).
+  G  harness_run3 (tools/gen_harness3.py), event rip_prb.30 with EVERY branch kind (if / else_if / else / unconditional) inside a scripted effect
+     -> q3_table_runG_scripted_effect_all_kinds.txt
+Key numbers per question: analysis/key_evidence_lines.txt.
+error.log of every launch (C, D, E, F, G) is 207 lines like launch 1 and has no line that launch 1 lacks; all entries are pre-existing RIP content errors and none mentions the harness (error_logs/).
+A dropped effect inside an else_if of a scripted effect writes NOTHING to error.log (silent drop).

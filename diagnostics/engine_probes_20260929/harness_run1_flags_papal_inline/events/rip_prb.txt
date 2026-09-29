@@ -1,0 +1,826 @@
+namespace = rip_prb
+
+# Q1 day 0: set the flags, schedule the two chains.
+country_event = {
+	id = rip_prb.11
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_prb_F
+		set_country_flag = rip_prb_G
+		set_country_flag = rip_prb_Fs
+		set_country_flag = rip_prb_Gs
+		capital_scope = {
+			set_province_flag = rip_prb_PF
+			set_province_flag = rip_prb_PG
+			set_province_flag = rip_prb_PFs
+			set_province_flag = rip_prb_PGs
+		}
+		set_country_flag = rip_prb_q1_day0_done
+		country_event = { id = rip_prb.12 days = 40 }
+		country_event = { id = rip_prb.14 days = 12 }
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q1 day 40: record T1 (first date kept?), then re-set F, clr+set G, fresh H, schedule day 50.
+country_event = {
+	id = rip_prb.12
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = { limit = { had_country_flag = { flag = rip_prb_F days = 30 } } set_country_flag = rip_prb_t1_F_30_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_F days = 30 } } } set_country_flag = rip_prb_t1_F_30_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_F days = 45 } } set_country_flag = rip_prb_t1_F_45_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_F days = 45 } } } set_country_flag = rip_prb_t1_F_45_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_G days = 30 } } set_country_flag = rip_prb_t1_G_30_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_G days = 30 } } } set_country_flag = rip_prb_t1_G_30_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_G days = 45 } } set_country_flag = rip_prb_t1_G_45_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_G days = 45 } } } set_country_flag = rip_prb_t1_G_45_F }
+		capital_scope = {
+			if = { limit = { had_province_flag = { flag = rip_prb_PF days = 30 } } set_province_flag = rip_prb_t1_PF_30_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PF days = 30 } } } set_province_flag = rip_prb_t1_PF_30_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PF days = 45 } } set_province_flag = rip_prb_t1_PF_45_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PF days = 45 } } } set_province_flag = rip_prb_t1_PF_45_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PG days = 30 } } set_province_flag = rip_prb_t1_PG_30_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PG days = 30 } } } set_province_flag = rip_prb_t1_PG_30_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PG days = 45 } } set_province_flag = rip_prb_t1_PG_45_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PG days = 45 } } } set_province_flag = rip_prb_t1_PG_45_F }
+		}
+		set_country_flag = rip_prb_F
+		clr_country_flag = rip_prb_G
+		set_country_flag = rip_prb_G
+		set_country_flag = rip_prb_H
+		capital_scope = {
+			set_province_flag = rip_prb_PF
+			clr_province_flag = rip_prb_PG
+			set_province_flag = rip_prb_PG
+			set_province_flag = rip_prb_PH
+		}
+		set_country_flag = rip_prb_q1_day40_done
+		country_event = { id = rip_prb.13 days = 10 }
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q1 day 50: record T2.
+country_event = {
+	id = rip_prb.13
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = { limit = { had_country_flag = { flag = rip_prb_F days = 5 } } set_country_flag = rip_prb_t2_F_5_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_F days = 5 } } } set_country_flag = rip_prb_t2_F_5_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_F days = 15 } } set_country_flag = rip_prb_t2_F_15_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_F days = 15 } } } set_country_flag = rip_prb_t2_F_15_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_F days = 30 } } set_country_flag = rip_prb_t2_F_30_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_F days = 30 } } } set_country_flag = rip_prb_t2_F_30_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_F days = 45 } } set_country_flag = rip_prb_t2_F_45_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_F days = 45 } } } set_country_flag = rip_prb_t2_F_45_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_G days = 5 } } set_country_flag = rip_prb_t2_G_5_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_G days = 5 } } } set_country_flag = rip_prb_t2_G_5_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_G days = 15 } } set_country_flag = rip_prb_t2_G_15_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_G days = 15 } } } set_country_flag = rip_prb_t2_G_15_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_G days = 30 } } set_country_flag = rip_prb_t2_G_30_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_G days = 30 } } } set_country_flag = rip_prb_t2_G_30_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_G days = 45 } } set_country_flag = rip_prb_t2_G_45_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_G days = 45 } } } set_country_flag = rip_prb_t2_G_45_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_H days = 5 } } set_country_flag = rip_prb_t2_H_5_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_H days = 5 } } } set_country_flag = rip_prb_t2_H_5_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_H days = 15 } } set_country_flag = rip_prb_t2_H_15_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_H days = 15 } } } set_country_flag = rip_prb_t2_H_15_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_H days = 30 } } set_country_flag = rip_prb_t2_H_30_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_H days = 30 } } } set_country_flag = rip_prb_t2_H_30_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_H days = 45 } } set_country_flag = rip_prb_t2_H_45_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_H days = 45 } } } set_country_flag = rip_prb_t2_H_45_F }
+		capital_scope = {
+			if = { limit = { had_province_flag = { flag = rip_prb_PF days = 5 } } set_province_flag = rip_prb_t2_PF_5_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PF days = 5 } } } set_province_flag = rip_prb_t2_PF_5_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PF days = 15 } } set_province_flag = rip_prb_t2_PF_15_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PF days = 15 } } } set_province_flag = rip_prb_t2_PF_15_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PF days = 30 } } set_province_flag = rip_prb_t2_PF_30_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PF days = 30 } } } set_province_flag = rip_prb_t2_PF_30_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PF days = 45 } } set_province_flag = rip_prb_t2_PF_45_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PF days = 45 } } } set_province_flag = rip_prb_t2_PF_45_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PG days = 5 } } set_province_flag = rip_prb_t2_PG_5_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PG days = 5 } } } set_province_flag = rip_prb_t2_PG_5_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PG days = 15 } } set_province_flag = rip_prb_t2_PG_15_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PG days = 15 } } } set_province_flag = rip_prb_t2_PG_15_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PG days = 30 } } set_province_flag = rip_prb_t2_PG_30_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PG days = 30 } } } set_province_flag = rip_prb_t2_PG_30_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PG days = 45 } } set_province_flag = rip_prb_t2_PG_45_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PG days = 45 } } } set_province_flag = rip_prb_t2_PG_45_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PH days = 5 } } set_province_flag = rip_prb_t2_PH_5_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PH days = 5 } } } set_province_flag = rip_prb_t2_PH_5_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PH days = 15 } } set_province_flag = rip_prb_t2_PH_15_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PH days = 15 } } } set_province_flag = rip_prb_t2_PH_15_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PH days = 30 } } set_province_flag = rip_prb_t2_PH_30_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PH days = 30 } } } set_province_flag = rip_prb_t2_PH_30_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PH days = 45 } } set_province_flag = rip_prb_t2_PH_45_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PH days = 45 } } } set_province_flag = rip_prb_t2_PH_45_F }
+		}
+		set_country_flag = rip_prb_q1_day50_done
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q1 short chain day 12.
+country_event = {
+	id = rip_prb.14
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = { limit = { had_country_flag = { flag = rip_prb_Fs days = 8 } } set_country_flag = rip_prb_s1_F_8_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Fs days = 8 } } } set_country_flag = rip_prb_s1_F_8_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Fs days = 15 } } set_country_flag = rip_prb_s1_F_15_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Fs days = 15 } } } set_country_flag = rip_prb_s1_F_15_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Gs days = 8 } } set_country_flag = rip_prb_s1_G_8_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Gs days = 8 } } } set_country_flag = rip_prb_s1_G_8_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Gs days = 15 } } set_country_flag = rip_prb_s1_G_15_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Gs days = 15 } } } set_country_flag = rip_prb_s1_G_15_F }
+		capital_scope = {
+			if = { limit = { had_province_flag = { flag = rip_prb_PFs days = 8 } } set_province_flag = rip_prb_s1_PF_8_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PFs days = 8 } } } set_province_flag = rip_prb_s1_PF_8_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PFs days = 15 } } set_province_flag = rip_prb_s1_PF_15_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PFs days = 15 } } } set_province_flag = rip_prb_s1_PF_15_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PGs days = 8 } } set_province_flag = rip_prb_s1_PG_8_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PGs days = 8 } } } set_province_flag = rip_prb_s1_PG_8_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PGs days = 15 } } set_province_flag = rip_prb_s1_PG_15_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PGs days = 15 } } } set_province_flag = rip_prb_s1_PG_15_F }
+		}
+		set_country_flag = rip_prb_Fs
+		clr_country_flag = rip_prb_Gs
+		set_country_flag = rip_prb_Gs
+		set_country_flag = rip_prb_Hs
+		capital_scope = {
+			set_province_flag = rip_prb_PFs
+			clr_province_flag = rip_prb_PGs
+			set_province_flag = rip_prb_PGs
+			set_province_flag = rip_prb_PHs
+		}
+		set_country_flag = rip_prb_q1_day12_done
+		country_event = { id = rip_prb.15 days = 6 }
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q1 short chain day 18.
+country_event = {
+	id = rip_prb.15
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = { limit = { had_country_flag = { flag = rip_prb_Fs days = 3 } } set_country_flag = rip_prb_s2_F_3_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Fs days = 3 } } } set_country_flag = rip_prb_s2_F_3_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Fs days = 8 } } set_country_flag = rip_prb_s2_F_8_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Fs days = 8 } } } set_country_flag = rip_prb_s2_F_8_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Fs days = 12 } } set_country_flag = rip_prb_s2_F_12_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Fs days = 12 } } } set_country_flag = rip_prb_s2_F_12_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Fs days = 15 } } set_country_flag = rip_prb_s2_F_15_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Fs days = 15 } } } set_country_flag = rip_prb_s2_F_15_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Gs days = 3 } } set_country_flag = rip_prb_s2_G_3_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Gs days = 3 } } } set_country_flag = rip_prb_s2_G_3_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Gs days = 8 } } set_country_flag = rip_prb_s2_G_8_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Gs days = 8 } } } set_country_flag = rip_prb_s2_G_8_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Gs days = 12 } } set_country_flag = rip_prb_s2_G_12_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Gs days = 12 } } } set_country_flag = rip_prb_s2_G_12_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Gs days = 15 } } set_country_flag = rip_prb_s2_G_15_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Gs days = 15 } } } set_country_flag = rip_prb_s2_G_15_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Hs days = 3 } } set_country_flag = rip_prb_s2_H_3_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Hs days = 3 } } } set_country_flag = rip_prb_s2_H_3_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Hs days = 8 } } set_country_flag = rip_prb_s2_H_8_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Hs days = 8 } } } set_country_flag = rip_prb_s2_H_8_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Hs days = 12 } } set_country_flag = rip_prb_s2_H_12_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Hs days = 12 } } } set_country_flag = rip_prb_s2_H_12_F }
+		if = { limit = { had_country_flag = { flag = rip_prb_Hs days = 15 } } set_country_flag = rip_prb_s2_H_15_T }
+		if = { limit = { NOT = { had_country_flag = { flag = rip_prb_Hs days = 15 } } } set_country_flag = rip_prb_s2_H_15_F }
+		capital_scope = {
+			if = { limit = { had_province_flag = { flag = rip_prb_PFs days = 3 } } set_province_flag = rip_prb_s2_PF_3_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PFs days = 3 } } } set_province_flag = rip_prb_s2_PF_3_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PFs days = 8 } } set_province_flag = rip_prb_s2_PF_8_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PFs days = 8 } } } set_province_flag = rip_prb_s2_PF_8_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PFs days = 12 } } set_province_flag = rip_prb_s2_PF_12_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PFs days = 12 } } } set_province_flag = rip_prb_s2_PF_12_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PFs days = 15 } } set_province_flag = rip_prb_s2_PF_15_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PFs days = 15 } } } set_province_flag = rip_prb_s2_PF_15_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PGs days = 3 } } set_province_flag = rip_prb_s2_PG_3_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PGs days = 3 } } } set_province_flag = rip_prb_s2_PG_3_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PGs days = 8 } } set_province_flag = rip_prb_s2_PG_8_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PGs days = 8 } } } set_province_flag = rip_prb_s2_PG_8_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PGs days = 12 } } set_province_flag = rip_prb_s2_PG_12_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PGs days = 12 } } } set_province_flag = rip_prb_s2_PG_12_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PGs days = 15 } } set_province_flag = rip_prb_s2_PG_15_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PGs days = 15 } } } set_province_flag = rip_prb_s2_PG_15_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PHs days = 3 } } set_province_flag = rip_prb_s2_PH_3_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PHs days = 3 } } } set_province_flag = rip_prb_s2_PH_3_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PHs days = 8 } } set_province_flag = rip_prb_s2_PH_8_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PHs days = 8 } } } set_province_flag = rip_prb_s2_PH_8_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PHs days = 12 } } set_province_flag = rip_prb_s2_PH_12_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PHs days = 12 } } } set_province_flag = rip_prb_s2_PH_12_F }
+			if = { limit = { had_province_flag = { flag = rip_prb_PHs days = 15 } } set_province_flag = rip_prb_s2_PH_15_T }
+			if = { limit = { NOT = { had_province_flag = { flag = rip_prb_PHs days = 15 } } } set_province_flag = rip_prb_s2_PH_15_F }
+		}
+		set_country_flag = rip_prb_q1_day18_done
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q2 day 0: make MOS greek_catholic, add papal influence to MOS (GC), POL (catholic control), BYZ (orthodox control).
+country_event = {
+	id = rip_prb.21
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_prb_q2_start
+		enable_religion = greek_catholic
+		change_religion = greek_catholic
+		set_country_flag = rip_prb_q2_gc_set
+		if = { limit = { papal_influence = 10 } set_country_flag = rip_prb_q2_pre_ge10 }
+		if = { limit = { papal_influence = 20 } set_country_flag = rip_prb_q2_pre_ge20 }
+		if = { limit = { papal_influence = 30 } set_country_flag = rip_prb_q2_pre_ge30 }
+		if = { limit = { papal_influence = 40 } set_country_flag = rip_prb_q2_pre_ge40 }
+		if = { limit = { papal_influence = 45 } set_country_flag = rip_prb_q2_pre_ge45 }
+		if = { limit = { papal_influence = 50 } set_country_flag = rip_prb_q2_pre_ge50 }
+		if = { limit = { papal_influence = 55 } set_country_flag = rip_prb_q2_pre_ge55 }
+		if = { limit = { papal_influence = 60 } set_country_flag = rip_prb_q2_pre_ge60 }
+		if = { limit = { religion = greek_catholic } set_country_flag = rip_prb_q2_pre_rel_gc }
+		if = { limit = { religion = catholic } set_country_flag = rip_prb_q2_pre_rel_cath }
+		if = { limit = { religion = orthodox } set_country_flag = rip_prb_q2_pre_rel_orth }
+		add_papal_influence = 50
+		if = { limit = { papal_influence = 10 } set_country_flag = rip_prb_q2_d0_ge10 }
+		if = { limit = { papal_influence = 20 } set_country_flag = rip_prb_q2_d0_ge20 }
+		if = { limit = { papal_influence = 30 } set_country_flag = rip_prb_q2_d0_ge30 }
+		if = { limit = { papal_influence = 40 } set_country_flag = rip_prb_q2_d0_ge40 }
+		if = { limit = { papal_influence = 45 } set_country_flag = rip_prb_q2_d0_ge45 }
+		if = { limit = { papal_influence = 50 } set_country_flag = rip_prb_q2_d0_ge50 }
+		if = { limit = { papal_influence = 55 } set_country_flag = rip_prb_q2_d0_ge55 }
+		if = { limit = { papal_influence = 60 } set_country_flag = rip_prb_q2_d0_ge60 }
+		if = { limit = { religion = greek_catholic } set_country_flag = rip_prb_q2_d0_rel_gc }
+		if = { limit = { religion = catholic } set_country_flag = rip_prb_q2_d0_rel_cath }
+		if = { limit = { religion = orthodox } set_country_flag = rip_prb_q2_d0_rel_orth }
+		POL = {
+			if = { limit = { papal_influence = 10 } set_country_flag = rip_prb_q2_pre_ge10 }
+			if = { limit = { papal_influence = 20 } set_country_flag = rip_prb_q2_pre_ge20 }
+			if = { limit = { papal_influence = 30 } set_country_flag = rip_prb_q2_pre_ge30 }
+			if = { limit = { papal_influence = 40 } set_country_flag = rip_prb_q2_pre_ge40 }
+			if = { limit = { papal_influence = 45 } set_country_flag = rip_prb_q2_pre_ge45 }
+			if = { limit = { papal_influence = 50 } set_country_flag = rip_prb_q2_pre_ge50 }
+			if = { limit = { papal_influence = 55 } set_country_flag = rip_prb_q2_pre_ge55 }
+			if = { limit = { papal_influence = 60 } set_country_flag = rip_prb_q2_pre_ge60 }
+			if = { limit = { religion = greek_catholic } set_country_flag = rip_prb_q2_pre_rel_gc }
+			if = { limit = { religion = catholic } set_country_flag = rip_prb_q2_pre_rel_cath }
+			if = { limit = { religion = orthodox } set_country_flag = rip_prb_q2_pre_rel_orth }
+			add_papal_influence = 50
+			if = { limit = { papal_influence = 10 } set_country_flag = rip_prb_q2_d0_ge10 }
+			if = { limit = { papal_influence = 20 } set_country_flag = rip_prb_q2_d0_ge20 }
+			if = { limit = { papal_influence = 30 } set_country_flag = rip_prb_q2_d0_ge30 }
+			if = { limit = { papal_influence = 40 } set_country_flag = rip_prb_q2_d0_ge40 }
+			if = { limit = { papal_influence = 45 } set_country_flag = rip_prb_q2_d0_ge45 }
+			if = { limit = { papal_influence = 50 } set_country_flag = rip_prb_q2_d0_ge50 }
+			if = { limit = { papal_influence = 55 } set_country_flag = rip_prb_q2_d0_ge55 }
+			if = { limit = { papal_influence = 60 } set_country_flag = rip_prb_q2_d0_ge60 }
+			if = { limit = { religion = greek_catholic } set_country_flag = rip_prb_q2_d0_rel_gc }
+			if = { limit = { religion = catholic } set_country_flag = rip_prb_q2_d0_rel_cath }
+			if = { limit = { religion = orthodox } set_country_flag = rip_prb_q2_d0_rel_orth }
+		}
+		BYZ = {
+			if = { limit = { papal_influence = 10 } set_country_flag = rip_prb_q2_pre_ge10 }
+			if = { limit = { papal_influence = 20 } set_country_flag = rip_prb_q2_pre_ge20 }
+			if = { limit = { papal_influence = 30 } set_country_flag = rip_prb_q2_pre_ge30 }
+			if = { limit = { papal_influence = 40 } set_country_flag = rip_prb_q2_pre_ge40 }
+			if = { limit = { papal_influence = 45 } set_country_flag = rip_prb_q2_pre_ge45 }
+			if = { limit = { papal_influence = 50 } set_country_flag = rip_prb_q2_pre_ge50 }
+			if = { limit = { papal_influence = 55 } set_country_flag = rip_prb_q2_pre_ge55 }
+			if = { limit = { papal_influence = 60 } set_country_flag = rip_prb_q2_pre_ge60 }
+			if = { limit = { religion = greek_catholic } set_country_flag = rip_prb_q2_pre_rel_gc }
+			if = { limit = { religion = catholic } set_country_flag = rip_prb_q2_pre_rel_cath }
+			if = { limit = { religion = orthodox } set_country_flag = rip_prb_q2_pre_rel_orth }
+			add_papal_influence = 50
+			if = { limit = { papal_influence = 10 } set_country_flag = rip_prb_q2_d0_ge10 }
+			if = { limit = { papal_influence = 20 } set_country_flag = rip_prb_q2_d0_ge20 }
+			if = { limit = { papal_influence = 30 } set_country_flag = rip_prb_q2_d0_ge30 }
+			if = { limit = { papal_influence = 40 } set_country_flag = rip_prb_q2_d0_ge40 }
+			if = { limit = { papal_influence = 45 } set_country_flag = rip_prb_q2_d0_ge45 }
+			if = { limit = { papal_influence = 50 } set_country_flag = rip_prb_q2_d0_ge50 }
+			if = { limit = { papal_influence = 55 } set_country_flag = rip_prb_q2_d0_ge55 }
+			if = { limit = { papal_influence = 60 } set_country_flag = rip_prb_q2_d0_ge60 }
+			if = { limit = { religion = greek_catholic } set_country_flag = rip_prb_q2_d0_rel_gc }
+			if = { limit = { religion = catholic } set_country_flag = rip_prb_q2_d0_rel_cath }
+			if = { limit = { religion = orthodox } set_country_flag = rip_prb_q2_d0_rel_orth }
+		}
+		country_event = { id = rip_prb.22 days = 10 }
+		country_event = { id = rip_prb.23 days = 30 }
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q2 day 10 record.
+country_event = {
+	id = rip_prb.22
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = { limit = { papal_influence = 10 } set_country_flag = rip_prb_q2_d10_ge10 }
+		if = { limit = { papal_influence = 20 } set_country_flag = rip_prb_q2_d10_ge20 }
+		if = { limit = { papal_influence = 30 } set_country_flag = rip_prb_q2_d10_ge30 }
+		if = { limit = { papal_influence = 40 } set_country_flag = rip_prb_q2_d10_ge40 }
+		if = { limit = { papal_influence = 45 } set_country_flag = rip_prb_q2_d10_ge45 }
+		if = { limit = { papal_influence = 50 } set_country_flag = rip_prb_q2_d10_ge50 }
+		if = { limit = { papal_influence = 55 } set_country_flag = rip_prb_q2_d10_ge55 }
+		if = { limit = { papal_influence = 60 } set_country_flag = rip_prb_q2_d10_ge60 }
+		if = { limit = { religion = greek_catholic } set_country_flag = rip_prb_q2_d10_rel_gc }
+		if = { limit = { religion = catholic } set_country_flag = rip_prb_q2_d10_rel_cath }
+		if = { limit = { religion = orthodox } set_country_flag = rip_prb_q2_d10_rel_orth }
+		set_country_flag = rip_prb_q2_d10_done
+		POL = {
+			if = { limit = { papal_influence = 10 } set_country_flag = rip_prb_q2_d10_ge10 }
+			if = { limit = { papal_influence = 20 } set_country_flag = rip_prb_q2_d10_ge20 }
+			if = { limit = { papal_influence = 30 } set_country_flag = rip_prb_q2_d10_ge30 }
+			if = { limit = { papal_influence = 40 } set_country_flag = rip_prb_q2_d10_ge40 }
+			if = { limit = { papal_influence = 45 } set_country_flag = rip_prb_q2_d10_ge45 }
+			if = { limit = { papal_influence = 50 } set_country_flag = rip_prb_q2_d10_ge50 }
+			if = { limit = { papal_influence = 55 } set_country_flag = rip_prb_q2_d10_ge55 }
+			if = { limit = { papal_influence = 60 } set_country_flag = rip_prb_q2_d10_ge60 }
+			if = { limit = { religion = greek_catholic } set_country_flag = rip_prb_q2_d10_rel_gc }
+			if = { limit = { religion = catholic } set_country_flag = rip_prb_q2_d10_rel_cath }
+			if = { limit = { religion = orthodox } set_country_flag = rip_prb_q2_d10_rel_orth }
+			set_country_flag = rip_prb_q2_d10_done
+		}
+		BYZ = {
+			if = { limit = { papal_influence = 10 } set_country_flag = rip_prb_q2_d10_ge10 }
+			if = { limit = { papal_influence = 20 } set_country_flag = rip_prb_q2_d10_ge20 }
+			if = { limit = { papal_influence = 30 } set_country_flag = rip_prb_q2_d10_ge30 }
+			if = { limit = { papal_influence = 40 } set_country_flag = rip_prb_q2_d10_ge40 }
+			if = { limit = { papal_influence = 45 } set_country_flag = rip_prb_q2_d10_ge45 }
+			if = { limit = { papal_influence = 50 } set_country_flag = rip_prb_q2_d10_ge50 }
+			if = { limit = { papal_influence = 55 } set_country_flag = rip_prb_q2_d10_ge55 }
+			if = { limit = { papal_influence = 60 } set_country_flag = rip_prb_q2_d10_ge60 }
+			if = { limit = { religion = greek_catholic } set_country_flag = rip_prb_q2_d10_rel_gc }
+			if = { limit = { religion = catholic } set_country_flag = rip_prb_q2_d10_rel_cath }
+			if = { limit = { religion = orthodox } set_country_flag = rip_prb_q2_d10_rel_orth }
+			set_country_flag = rip_prb_q2_d10_done
+		}
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q2 day 30 record.
+country_event = {
+	id = rip_prb.23
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = { limit = { papal_influence = 10 } set_country_flag = rip_prb_q2_d30_ge10 }
+		if = { limit = { papal_influence = 20 } set_country_flag = rip_prb_q2_d30_ge20 }
+		if = { limit = { papal_influence = 30 } set_country_flag = rip_prb_q2_d30_ge30 }
+		if = { limit = { papal_influence = 40 } set_country_flag = rip_prb_q2_d30_ge40 }
+		if = { limit = { papal_influence = 45 } set_country_flag = rip_prb_q2_d30_ge45 }
+		if = { limit = { papal_influence = 50 } set_country_flag = rip_prb_q2_d30_ge50 }
+		if = { limit = { papal_influence = 55 } set_country_flag = rip_prb_q2_d30_ge55 }
+		if = { limit = { papal_influence = 60 } set_country_flag = rip_prb_q2_d30_ge60 }
+		if = { limit = { religion = greek_catholic } set_country_flag = rip_prb_q2_d30_rel_gc }
+		if = { limit = { religion = catholic } set_country_flag = rip_prb_q2_d30_rel_cath }
+		if = { limit = { religion = orthodox } set_country_flag = rip_prb_q2_d30_rel_orth }
+		set_country_flag = rip_prb_q2_d30_done
+		POL = {
+			if = { limit = { papal_influence = 10 } set_country_flag = rip_prb_q2_d30_ge10 }
+			if = { limit = { papal_influence = 20 } set_country_flag = rip_prb_q2_d30_ge20 }
+			if = { limit = { papal_influence = 30 } set_country_flag = rip_prb_q2_d30_ge30 }
+			if = { limit = { papal_influence = 40 } set_country_flag = rip_prb_q2_d30_ge40 }
+			if = { limit = { papal_influence = 45 } set_country_flag = rip_prb_q2_d30_ge45 }
+			if = { limit = { papal_influence = 50 } set_country_flag = rip_prb_q2_d30_ge50 }
+			if = { limit = { papal_influence = 55 } set_country_flag = rip_prb_q2_d30_ge55 }
+			if = { limit = { papal_influence = 60 } set_country_flag = rip_prb_q2_d30_ge60 }
+			if = { limit = { religion = greek_catholic } set_country_flag = rip_prb_q2_d30_rel_gc }
+			if = { limit = { religion = catholic } set_country_flag = rip_prb_q2_d30_rel_cath }
+			if = { limit = { religion = orthodox } set_country_flag = rip_prb_q2_d30_rel_orth }
+			set_country_flag = rip_prb_q2_d30_done
+		}
+		BYZ = {
+			if = { limit = { papal_influence = 10 } set_country_flag = rip_prb_q2_d30_ge10 }
+			if = { limit = { papal_influence = 20 } set_country_flag = rip_prb_q2_d30_ge20 }
+			if = { limit = { papal_influence = 30 } set_country_flag = rip_prb_q2_d30_ge30 }
+			if = { limit = { papal_influence = 40 } set_country_flag = rip_prb_q2_d30_ge40 }
+			if = { limit = { papal_influence = 45 } set_country_flag = rip_prb_q2_d30_ge45 }
+			if = { limit = { papal_influence = 50 } set_country_flag = rip_prb_q2_d30_ge50 }
+			if = { limit = { papal_influence = 55 } set_country_flag = rip_prb_q2_d30_ge55 }
+			if = { limit = { papal_influence = 60 } set_country_flag = rip_prb_q2_d30_ge60 }
+			if = { limit = { religion = greek_catholic } set_country_flag = rip_prb_q2_d30_rel_gc }
+			if = { limit = { religion = catholic } set_country_flag = rip_prb_q2_d30_rel_cath }
+			if = { limit = { religion = orthodox } set_country_flag = rip_prb_q2_d30_rel_orth }
+			set_country_flag = rip_prb_q2_d30_done
+		}
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q3: per body kind one country; every effect in its own chain.
+country_event = {
+	id = rip_prb.30
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		POR = {
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_cm_if add_country_modifier = { name = rip_prb_cm_if duration = -1 } }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_tre_if add_treasury = 100000 }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_pre_if add_prestige = -300 }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_stab_if add_stability = -6 }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_dip_if add_dip_power = 900 }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_pm_if capital_scope = { add_province_modifier = { name = rip_prb_pm_if duration = -1 } } }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_rel_if capital_scope = { change_religion = sunni } }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_aut_if capital_scope = { add_local_autonomy = 50 } }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_evt_if country_event = { id = rip_prb.31 days = 1 } }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_opr_if add_opinion = { who = ROOT modifier = rip_prb_op_root_if } }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_opt_if add_opinion = { who = FRA modifier = rip_prb_op_tag_if } }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_rev_if reverse_add_opinion = { who = ROOT modifier = rip_prb_op_rev_if } }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_rbk_if ROOT = { add_opinion = { who = PREV modifier = rip_prb_op_rootblk_if } } }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_nst_if if = { limit = { always = yes } add_opinion = { who = ROOT modifier = rip_prb_op_nest_if } } }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_hid_if hidden_effect = { add_opinion = { who = ROOT modifier = rip_prb_op_hid_if } } }
+			if = { limit = { always = yes } set_country_flag = rip_prb_ran_ses_if rip_prb_addop_effect = { K = if } }
+			if = { limit = { always = yes } add_opinion = { who = ROOT modifier = rip_prb_op_pure_if } }
+			if = { limit = { treasury = 100000 } set_country_flag = rip_prb_rb_tre_if }
+			if = { limit = { NOT = { prestige = -99 } } set_country_flag = rip_prb_rb_pre_if }
+			if = { limit = { NOT = { stability = -2 } } set_country_flag = rip_prb_rb_stab_if }
+			if = { limit = { dip_power = 800 } set_country_flag = rip_prb_rb_dip_if }
+			set_country_flag = rip_prb_q3_done_if
+		}
+		CAS = {
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_cm_ei add_country_modifier = { name = rip_prb_cm_ei duration = -1 } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_tre_ei add_treasury = 100000 }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_pre_ei add_prestige = -300 }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_stab_ei add_stability = -6 }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_dip_ei add_dip_power = 900 }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_pm_ei capital_scope = { add_province_modifier = { name = rip_prb_pm_ei duration = -1 } } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_rel_ei capital_scope = { change_religion = sunni } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_aut_ei capital_scope = { add_local_autonomy = 50 } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_evt_ei country_event = { id = rip_prb.32 days = 1 } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_opr_ei add_opinion = { who = ROOT modifier = rip_prb_op_root_ei } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_opt_ei add_opinion = { who = FRA modifier = rip_prb_op_tag_ei } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_rev_ei reverse_add_opinion = { who = ROOT modifier = rip_prb_op_rev_ei } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_rbk_ei ROOT = { add_opinion = { who = PREV modifier = rip_prb_op_rootblk_ei } } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_nst_ei if = { limit = { always = yes } add_opinion = { who = ROOT modifier = rip_prb_op_nest_ei } } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_hid_ei hidden_effect = { add_opinion = { who = ROOT modifier = rip_prb_op_hid_ei } } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_prb_ran_ses_ei rip_prb_addop_effect = { K = ei } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else_if = { limit = { always = yes } add_opinion = { who = ROOT modifier = rip_prb_op_pure_ei } }
+			if = { limit = { treasury = 100000 } set_country_flag = rip_prb_rb_tre_ei }
+			if = { limit = { NOT = { prestige = -99 } } set_country_flag = rip_prb_rb_pre_ei }
+			if = { limit = { NOT = { stability = -2 } } set_country_flag = rip_prb_rb_stab_ei }
+			if = { limit = { dip_power = 800 } set_country_flag = rip_prb_rb_dip_ei }
+			set_country_flag = rip_prb_q3_done_ei
+		}
+		ARA = {
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_cm_el add_country_modifier = { name = rip_prb_cm_el duration = -1 } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_tre_el add_treasury = 100000 }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_pre_el add_prestige = -300 }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_stab_el add_stability = -6 }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_dip_el add_dip_power = 900 }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_pm_el capital_scope = { add_province_modifier = { name = rip_prb_pm_el duration = -1 } } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_rel_el capital_scope = { change_religion = sunni } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_aut_el capital_scope = { add_local_autonomy = 50 } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_evt_el country_event = { id = rip_prb.33 days = 1 } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_opr_el add_opinion = { who = ROOT modifier = rip_prb_op_root_el } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_opt_el add_opinion = { who = FRA modifier = rip_prb_op_tag_el } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_rev_el reverse_add_opinion = { who = ROOT modifier = rip_prb_op_rev_el } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_rbk_el ROOT = { add_opinion = { who = PREV modifier = rip_prb_op_rootblk_el } } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_nst_el if = { limit = { always = yes } add_opinion = { who = ROOT modifier = rip_prb_op_nest_el } } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_hid_el hidden_effect = { add_opinion = { who = ROOT modifier = rip_prb_op_hid_el } } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { set_country_flag = rip_prb_ran_ses_el rip_prb_addop_effect = { K = el } }
+			if = { limit = { always = no } set_country_flag = rip_prb_never }
+			else = { add_opinion = { who = ROOT modifier = rip_prb_op_pure_el } }
+			if = { limit = { treasury = 100000 } set_country_flag = rip_prb_rb_tre_el }
+			if = { limit = { NOT = { prestige = -99 } } set_country_flag = rip_prb_rb_pre_el }
+			if = { limit = { NOT = { stability = -2 } } set_country_flag = rip_prb_rb_stab_el }
+			if = { limit = { dip_power = 800 } set_country_flag = rip_prb_rb_dip_el }
+			set_country_flag = rip_prb_q3_done_el
+		}
+		NAV = {
+			set_country_flag = rip_prb_ran_cm_ct add_country_modifier = { name = rip_prb_cm_ct duration = -1 }
+			set_country_flag = rip_prb_ran_tre_ct add_treasury = 100000
+			set_country_flag = rip_prb_ran_pre_ct add_prestige = -300
+			set_country_flag = rip_prb_ran_stab_ct add_stability = -6
+			set_country_flag = rip_prb_ran_dip_ct add_dip_power = 900
+			set_country_flag = rip_prb_ran_pm_ct capital_scope = { add_province_modifier = { name = rip_prb_pm_ct duration = -1 } }
+			set_country_flag = rip_prb_ran_rel_ct capital_scope = { change_religion = sunni }
+			set_country_flag = rip_prb_ran_aut_ct capital_scope = { add_local_autonomy = 50 }
+			set_country_flag = rip_prb_ran_evt_ct country_event = { id = rip_prb.34 days = 1 }
+			set_country_flag = rip_prb_ran_opr_ct add_opinion = { who = ROOT modifier = rip_prb_op_root_ct }
+			set_country_flag = rip_prb_ran_opt_ct add_opinion = { who = FRA modifier = rip_prb_op_tag_ct }
+			set_country_flag = rip_prb_ran_rev_ct reverse_add_opinion = { who = ROOT modifier = rip_prb_op_rev_ct }
+			set_country_flag = rip_prb_ran_rbk_ct ROOT = { add_opinion = { who = PREV modifier = rip_prb_op_rootblk_ct } }
+			set_country_flag = rip_prb_ran_nst_ct if = { limit = { always = yes } add_opinion = { who = ROOT modifier = rip_prb_op_nest_ct } }
+			set_country_flag = rip_prb_ran_hid_ct hidden_effect = { add_opinion = { who = ROOT modifier = rip_prb_op_hid_ct } }
+			set_country_flag = rip_prb_ran_ses_ct rip_prb_addop_effect = { K = ct }
+			add_opinion = { who = ROOT modifier = rip_prb_op_pure_ct }
+			if = { limit = { treasury = 100000 } set_country_flag = rip_prb_rb_tre_ct }
+			if = { limit = { NOT = { prestige = -99 } } set_country_flag = rip_prb_rb_pre_ct }
+			if = { limit = { NOT = { stability = -2 } } set_country_flag = rip_prb_rb_stab_ct }
+			if = { limit = { dip_power = 800 } set_country_flag = rip_prb_rb_dip_ct }
+			set_country_flag = rip_prb_q3_done_ct
+		}
+		GRA = {
+			rip_prb_se_chain_effect = { K = se }
+			set_country_flag = rip_prb_q3_done_se
+		}
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q3 delayed event for body kind if.
+country_event = {
+	id = rip_prb.31
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_prb_evt_fired_if
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q3 delayed event for body kind ei.
+country_event = {
+	id = rip_prb.32
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_prb_evt_fired_ei
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q3 delayed event for body kind el.
+country_event = {
+	id = rip_prb.33
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_prb_evt_fired_el
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q3 delayed event for body kind ct.
+country_event = {
+	id = rip_prb.34
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_prb_evt_fired_ct
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q3 delayed event for body kind se.
+country_event = {
+	id = rip_prb.35
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_prb_evt_fired_se
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q4 starter: is_month = 10 (November?) on the MOS capital.
+province_event = {
+	id = rip_prb.41
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	fire_only_once = yes
+	trigger = { province_id = 295 is_year = 1444 is_month = 10 }
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		set_province_flag = rip_prb_q4_nov_fired
+		province_event = { id = rip_prb.42 days = 12 }
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q4 X, scheduled 12 days after starter 41.
+province_event = {
+	id = rip_prb.42
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_province_flag = rip_prb_q4_X_fired
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q4 starter: is_month = 11 (December?) on the MOS capital; must not fire before December.
+province_event = {
+	id = rip_prb.43
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	fire_only_once = yes
+	trigger = { province_id = 295 is_year = 1444 is_month = 11 }
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		set_province_flag = rip_prb_q4_dec_fired
+		province_event = { id = rip_prb.44 days = 12 }
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q4 X for starter 43.
+province_event = {
+	id = rip_prb.44
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_province_flag = rip_prb_q4_Xdec_fired
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q4 control: is_month = 9 must not fire in the run.
+province_event = {
+	id = rip_prb.45
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	fire_only_once = yes
+	trigger = { province_id = 295 is_year = 1444 is_month = 9 }
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		set_province_flag = rip_prb_q4_oct_fired
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q4: is_month = 0 (January) fires from 1445.1.1 if 0 = January.
+province_event = {
+	id = rip_prb.46
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	fire_only_once = yes
+	trigger = { province_id = 295 is_year = 1444 is_month = 0 }
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		set_province_flag = rip_prb_q4_jan_fired
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q4: same starter on an unrelated province (Stockholm, owned by SWE).
+province_event = {
+	id = rip_prb.47
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	fire_only_once = yes
+	trigger = { province_id = 1 is_year = 1444 is_month = 10 }
+	mean_time_to_happen = { days = 1 }
+
+	immediate = {
+		set_province_flag = rip_prb_q4_nov_fired
+		province_event = { id = rip_prb.48 days = 12 }
+	}
+
+	option = { name = rip_prb.a }
+}
+
+# Q4 X for starter 47.
+province_event = {
+	id = rip_prb.48
+	title = rip_prb.t
+	desc = rip_prb.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_province_flag = rip_prb_q4_X_fired
+	}
+
+	option = { name = rip_prb.a }
+}
+
