@@ -37,6 +37,40 @@ for payment in ('add_treasury = -100', 'add_adm_power = -25', 'add_patriarch_aut
 assert normalized(transaction).count('duration = 3650') == 2
 assert '$MODIFIER$' in transaction
 assert 'change_religion' not in transaction
+
+# The separate funded-mission route works outside Ruthenia and gives only
+# Greek Catholic missions a meaningful local-strength advantage.
+settlement_effects = read('common/scripted_effects/rip_religion_settlement_effects.txt')
+settlement_triggers = read('common/scripted_triggers/rip_religion_settlement_triggers.txt')
+mission_decisions = read('decisions/RIP_ChurchCouncils.txt')
+mission_effect = named_block(settlement_effects, 'rip_faith_fund_mission_effect')
+mission_target = named_block(settlement_triggers, 'rip_faith_mission_province_trigger')
+mission_gate = named_block(settlement_triggers, 'rip_faith_can_fund_mission_trigger')
+assert 'region =' not in normalized(mission_target + mission_gate), 'funded missions must not be Ruthenia-locked'
+assert 'has_province_modifier = rip_gc_faith_funded_mission' in normalized(mission_target)
+mission_decision = named_block(mission_decisions, 'rip_fund_a_parish_mission')
+assert 'rip_faith_fund_mission_effect = yes' in normalized(mission_decision)
+for payment in ('add_treasury = -100', 'add_adm_power = -25', 'add_patriarch_authority = -0.05'):
+    assert mission_effect.count(payment) == 1, payment
+assert 'name = rip_parish_visit_recent duration = 3650' in normalized(mission_effect)
+assert normalized(mission_effect).count('duration = 3650') == 3
+assert 'change_religion' not in mission_effect
+mission_province = named_block(mission_effect, 'random_owned_province')
+assert 'rip_faith_mission_province_trigger = yes' in normalized(named_block(mission_province, 'limit'))
+greek_catholic_branch = named_block(mission_province, 'if')
+assert 'ROOT = { religion = greek_catholic }' in normalized(named_block(greek_catholic_branch, 'limit'))
+assert 'name = rip_gc_faith_funded_mission duration = 3650' in normalized(greek_catholic_branch)
+assert 'name = rip_faith_funded_mission duration = 3650' in normalized(named_block(mission_province, 'else'))
+mission_modifiers = read('common/event_modifiers/RIP_religion_settlement_modifiers.txt')
+assert 'local_missionary_strength = 0.03' in named_block(mission_modifiers, 'rip_gc_faith_funded_mission')
+assert 'local_unrest = 1' in named_block(mission_modifiers, 'rip_gc_faith_funded_mission')
+assert 'local_tax_modifier = -0.05' in named_block(mission_modifiers, 'rip_gc_faith_funded_mission')
+assert 'local_missionary_strength = 0.01' in named_block(mission_modifiers, 'rip_faith_funded_mission')
+for language in ('english', 'german', 'french', 'spanish'):
+    mission_localisation = read(f'localisation/replace/zzzz_RIP_religion_settlement_l_{language}.yml')
+    assert 'rip_gc_faith_funded_mission:0' in mission_localisation, language
+    assert 'desc_rip_gc_faith_funded_mission:0' in mission_localisation, language
+    assert '+3 percentage points' in mission_localisation, language
 options = [b for _, b in keyed_blocks(visit, 'option')]
 assert len(options) == 3
 for option, modifier in zip(options[:2], ('rip_parish_service_books', 'rip_parish_alms_register')):

@@ -732,6 +732,25 @@ def guarantee_naming_problems(text):
     for value in _literals_or_whole(body, 'rip_church_recognize_rite_button_tt'):
         if 'not converted' not in value:
             problems.append('the province button tooltip does not say the province is not converted')
+    model_keys = (
+        'rip_church_recognize_rite_button_tt',
+        'rip_church_rite_help',
+        'rip_church_rite_help_tt',
+        'rip_church_rite_recognized',
+        'desc_rip_church_rite',
+        'rip_church_gui_parish_counts_tt',
+        'rip_church_gui_parish_list_title_tt',
+        'rip_church_gui_parishes_title_tt',
+        'rip_church_gui_count_eastern_tt',
+        'rip_church_gui_count_latin_tt',
+    )
+    for key in model_keys:
+        values = _literals_or_whole(body, key)
+        for value in values:
+            lower = value.lower()
+            if (not all(phrase in lower for phrase in ('gameplay', 'canonical', 'not an exact'))
+                    or not re.search(r'\bvoluntary (?:acceptance|union acceptance)\b', lower)):
+                problems.append(f'{key}: wording must disclaim exact status, canonical status and voluntary acceptance')
     return problems
 
 
@@ -759,6 +778,11 @@ def guarantee_of_rights_contracts():
     facts = ecumenism_facts(modifiers, read('common/opinion_modifiers/RIP_church_relations.txt'))
     generator = read('tools/build_church_localisation.py')
     english = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
+    fallback_localisations = {
+        f'guarantee_naming_{language}': guarantee_naming_problems(
+            read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml'))
+        for language in ('french', 'german', 'spanish')
+    }
     checks = {
         'ecumenical_rite_strictly_deeper': ecumenical_rite_problems(modifiers),
         'rite_modifiers_are_alternatives': alternative_rite_modifier_problems(
@@ -767,6 +791,7 @@ def guarantee_of_rights_contracts():
         'ecumenical_opinion_outcomes': relation_outcome_problems(relations),
         'guarantee_naming_generator': guarantee_naming_problems(generator),
         'guarantee_naming_english': guarantee_naming_problems(english),
+        **fallback_localisations,
         'ecumenism_text_generator': ecumenism_text_problems(generator, facts),
         'ecumenism_text_english': ecumenism_text_problems(english, facts),
     }

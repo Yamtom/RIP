@@ -293,6 +293,7 @@ native_controls='''windowType = {
 def attach(file,host,body):
     s=(GAME/'interface'/file).read_text(encoding='utf-8-sig')
     if file=='countryreligionview.gui':
+        s=re.sub(r'text = "CURRENT_PATRIARCH_AUTHORITY"[ \t]*', 'text = "rip_church_authority_heading"', s)
         native_name=re.search(r'name\s*=\s*"orthodox_specific_window"',s)
         native_start=s.rfind('windowType',0,native_name.start())
         native_end=matching_brace(s,s.index('{',native_start))
