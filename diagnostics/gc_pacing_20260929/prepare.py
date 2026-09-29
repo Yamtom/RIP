@@ -1,8 +1,11 @@
 """Prepare an isolated, non-historical 20-year church pacing experiment."""
 from pathlib import Path
-import hashlib, json, shutil, subprocess
+import hashlib, json, shutil, subprocess, sys
 ROOT=Path(__file__).resolve().parents[2]
 OUT=Path(__file__).resolve().parent
+if len(sys.argv)>1:
+    assert sys.argv[1] in ('run2','run3')
+    OUT=OUT/sys.argv[1]
 SNAP=OUT/'snapshot'
 HARNESS=OUT/'harness'
 UD=OUT/'userdir'
@@ -12,7 +15,7 @@ def write(path,text):
 assert not (OUT/'manifest.json').exists(), 'Use a fresh experiment directory'
 inventory={}
 for folder in ('common','events','decisions','missions','history','map','interface','gfx','localisation','customizable_localization','music','sound'):
-    source=ROOT/folder
+    source=(OUT.parent/'snapshot'/folder) if len(sys.argv)>1 else ROOT/folder
     if source.exists():
         shutil.copytree(source,SNAP/folder)
         for p in (SNAP/folder).rglob('*'):
@@ -54,10 +57,13 @@ sample='change_variable = { which = rip_gcpace_n value = 1 }\n'
 for key,trigger in categories.items():
     sample+=f'if = {{ limit = {{ {trigger} }} change_variable = {{ which = rip_gcpace_{key} value = 1 }} }}\n'
 sample+='export_to_variable = { which = rip_gcpace_hc value = trigger_value:patriarch_authority }\n'
-fields=['n','hc']+list(categories)
-sample+='log = "GC_PACE [Root.GetName] '+ ' '.join(k+'=[Root.rip_gcpace_'+k+'.GetValue]' for k in fields)+'"\n'
+fields=['n','hc']
+for offset in range(0,len(fields),4):
+    sample+='log = "GC_PACE [Root.GetName] '+ ' '.join(k+'=[Root.rip_gcpace_'+k+'.GetValue]' for k in fields[offset:offset+4])+'"\n'
 sample+='if = { limit = { NOT = { is_year = 1465 } } country_event = { id = rip_gcpace.2 days = 30 } }\n'
-write(HARNESS/'events/rip_gcpace.txt','namespace = rip_gcpace\ncountry_event = { id = rip_gcpace.1 hidden = yes is_triggered_only = yes immediate = {\n'+''.join(setup)+'log = "GC_PACE_SETUP_COMPLETE"\n} }\ncountry_event = { id = rip_gcpace.2 hidden = yes is_triggered_only = yes trigger = { religion = greek_catholic } immediate = {\n'+sample+'} }\n')
+metadata=' title = rip_gcpace_title desc = rip_gcpace_desc picture = RELIGION_eventPicture hidden = yes is_triggered_only = yes '
+write(HARNESS/'events/rip_gcpace.txt','namespace = rip_gcpace\ncountry_event = { id = rip_gcpace.1'+metadata+'immediate = {\n'+''.join(setup)+'log = "GC_PACE_SETUP_COMPLETE"\n} option = { name = rip_gcpace_ok } }\ncountry_event = { id = rip_gcpace.2'+metadata+'trigger = { religion = greek_catholic } immediate = {\n'+sample+'} option = { name = rip_gcpace_ok } }\n')
+write(HARNESS/'localisation/rip_gcpace_l_english.yml','\ufeffl_english:\n rip_gcpace_title:0 "Pacing probe"\n rip_gcpace_desc:0 "Isolated instrumentation."\n rip_gcpace_ok:0 "Continue"\n')
 for name,path in [('RIP',SNAP),('rip_gcpace',HARNESS)]:
     write(UD/f'mod/{name}.mod',f'name="{name} pacing experiment"\npath="{path.as_posix()}"\nsupported_version="v1.37.5.0"\n')
 write(UD/'dlc_load.json',json.dumps({'enabled_mods':['mod/RIP.mod','mod/rip_gcpace.mod'],'disabled_dlcs':[]}))

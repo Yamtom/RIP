@@ -754,6 +754,50 @@ def guarantee_naming_problems(text):
     return problems
 
 
+def rite_interpretation_problems(text):
+    """The tax/manpower trade-off is an explicit game-design interpretation, not faith punishment or history."""
+    phrases = (
+        'game-design interpretation',
+        'administrative compromise',
+        'protecting local arrangements and autonomy',
+        'not a penalty for another faith',
+        'not a documented historical formula',
+    )
+    keys = ['rip_church_recognize_rite_button_tt', 'rip_church_rite_help']
+    generated = 'RITE_INTERPRETATION=' not in text
+    if generated:
+        keys.extend(('rip_church_gui_recognize_parish_tt', 'desc_rip_church_rite'))
+    problems = []
+    for key in keys:
+        values = _literals_or_whole(text, key)
+        for value in values:
+            lower = value.lower()
+            problems += [f'{key}: missing {phrase!r}' for phrase in phrases if phrase not in lower]
+            if key != 'desc_rip_church_rite':
+                tax = 'local tax falls by 15%' if key != 'rip_church_rite_help' else 'tax -15%'
+                manpower = 'manpower by 20%' if key != 'rip_church_rite_help' else 'manpower -20%'
+                for phrase in (tax, manpower):
+                    if phrase not in lower:
+                        problems.append(f'{key}: missing unchanged modifier {phrase!r}')
+    return problems
+
+
+def rite_documentation_problems(text):
+    """Ukrainian guide/atlas retain the game-design framing and historical caveat."""
+    lower = re.sub(r'\s+', ' ', text.lower())
+    phrases = (
+        'адміністративного компромісу',
+        'місцевих порядків і автономії',
+        'покарання за іншу віру',
+    )
+    problems = [f'missing {phrase!r}' for phrase in phrases if phrase not in lower]
+    if not ('історичної формули' in lower or 'історична формула' in lower):
+        problems.append('does not disclaim a documented historical formula')
+    if not re.search(r'добровільн\w*.{0,50}уні', lower):
+        problems.append('does not disclaim proof of voluntary Union acceptance')
+    return problems
+
+
 def ecumenism_facts(modifiers_text, opinion_text):
     """What the ecumenical settlement really does, read from the code."""
     rite, ecumenical = (modifier_offsets(modifiers_text, name) for name in ('rip_church_rite', RITE_ECUMENICAL))
@@ -765,11 +809,102 @@ def ecumenism_facts(modifiers_text, opinion_text):
 
 def ecumenism_text_problems(text, facts):
     """The ecumenism tooltip states the opinion bonus and the province effect the code gives."""
-    needed = (f"+{facts['opinion']:g} opinion", f"unrest {facts['unrest']:g}",
+    needed = (f"+{facts['opinion']:g} mutual opinion", f"unrest {facts['unrest']:g}",
               f"tax {facts['tax']:g}%", f"levies {facts['levies']:g}%")
     return [f'the ecumenism tooltip lacks {phrase!r}'
             for value in _literals_or_whole(_without_comments(text), 'rip_church_gui_ecumenism_tt')
             for phrase in needed if phrase not in value]
+
+
+def ecumenism_scope_problems(text):
+    """The settlement is diplomatic/local accommodation, never restoration of full communion."""
+    lower = _without_comments(text).lower()
+    required = (
+        'limited diplomatic and local administrative settlement',
+        'not a restoration of full ecclesial communion',
+        'diplomatic goodwill only',
+        'orthodox and catholic states gain +15 mutual opinion',
+        'russian orthodox states are excluded',
+    )
+    problems = [f'missing ecumenism clarification {phrase!r}'
+                for phrase in required if phrase not in lower]
+    # The generated localisation must carry the clarification on every active
+    # tooltip path, not merely somewhere else in the file.
+    output_keys = (
+        'rip_church_gui_ecumenism_tt',
+        'rip_church_gui_ecumenism_reason_tt',
+        'rip_church_gui_ecumenism_state_tt',
+        'rip_church_gui_policy_help_tt',
+        'rip_church_ecumenism_desc',
+    )
+    if re.search(r'(?m)^\s+rip_church_gui_ecumenism_tt:0', text):
+        for key in output_keys:
+            values = _literals(text, key)
+            if not values:
+                problems.append(f'{key}: no generated localisation value')
+            for value in values:
+                value_lower = value.lower()
+                problems += [f'{key}: missing {phrase!r}'
+                             for phrase in required if phrase not in value_lower]
+    return problems
+
+
+def florentine_precedent_problems(text):
+    """1439 is a precedent for an alternative campaign path, never the UGCC's origin."""
+    requirements = {
+        'greek_catholic_religion_desc': (
+            'Florentine union as a precedent',
+            'not as the founding of the UGCC',
+        ),
+        'rip_church.5.t': ('Florentine Legacy',),
+        'rip_church.5.d': (
+            'as a precedent',
+            'campaign-created alternative',
+            'does not represent the founding of the UGCC in 1439',
+        ),
+        'rip_church_florence_title': ('Florentine precedent',),
+        'rip_church_florence_desc': (
+            'Florentine precedent',
+            'not the founding of the UGCC',
+        ),
+        'rip_church_gui_florence': ('Florentine precedent',),
+        'rip_church_gui_florence_tt': (
+            'Florentine precedent of 1439',
+            'not the founding of the UGCC',
+            'campaign-created alternative',
+        ),
+        'rip_church_gui_florence_wait': ('Florentine precedent',),
+        'rip_church_gui_florence_done': ('Florentine precedent carried forward',),
+        'rip_church_gui_florence_none': ('Florentine-precedent negotiations',),
+    }
+    problems = []
+    for key, phrases in requirements.items():
+        values = _literals(_without_comments(text), key)
+        if not values:
+            problems.append(f'{key}: no literal localisation value')
+        for value in values:
+            problems += [f'{key}: missing {phrase!r}'
+                         for phrase in phrases if phrase not in value]
+    body = _without_comments(text)
+    for stale in ('The Florentine Alternative Endures',
+                  'has sustained the Florentine union of 1439',
+                  'one founding province'):
+        if stale in body:
+            problems.append(f'obsolete origin/continuity wording remains: {stale!r}')
+    return problems
+
+
+def ecumenism_documentation_problems(text):
+    """Current Ukrainian references distinguish diplomatic goodwill from ecclesial communion."""
+    lower = re.sub(r'\s+', ' ', text.lower())
+    required = (
+        'обмежене дипломатичне',
+        'відновлення повного церковного спілкування',
+        'russian_orthodox',
+        'дипломатичн',
+    )
+    return [f'missing Ukrainian ecumenism clarification {phrase!r}'
+            for phrase in required if phrase not in lower]
 
 
 def guarantee_of_rights_contracts():
@@ -783,6 +918,41 @@ def guarantee_of_rights_contracts():
             read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml'))
         for language in ('french', 'german', 'spanish')
     }
+    rite_texts = {
+        'rite_interpretation_generator': generator,
+        'rite_interpretation_english': english,
+        **{f'rite_interpretation_{language}': read(
+            f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
+           for language in ('french', 'german', 'spanish')},
+    }
+    rite_docs = {
+        'rite_documentation_guide': read('docs/GREEK_CATHOLIC_WINDOW_GUIDE.uk.md'),
+        'rite_documentation_atlas': read('docs/RELIGION_MECHANICS_ATLAS.uk.md'),
+    }
+    ecumenism_fallbacks = {
+        f'ecumenism_clarification_{language}': ecumenism_scope_problems(
+            read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml'))
+        for language in ('french', 'german', 'spanish')
+    }
+    ecumenism_docs = {
+        f'ecumenism_documentation_{name}': ecumenism_documentation_problems(
+            read(f'docs/{filename}'))
+        for name, filename in (
+            ('guide', 'GREEK_CATHOLIC_WINDOW_GUIDE.uk.md'),
+            ('redesign', 'CHURCH_REDESIGN_20260911.uk.md'),
+            ('atlas', 'RELIGION_MECHANICS_ATLAS.uk.md'),
+        )
+    }
+    florentine_localisations = {
+        f'florentine_precedent_{name}': florentine_precedent_problems(text)
+        for name, text in {
+            'generator': generator,
+            'english': english,
+            **{language: read(
+                f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
+               for language in ('french', 'german', 'spanish')},
+        }.items()
+    }
     checks = {
         'ecumenical_rite_strictly_deeper': ecumenical_rite_problems(modifiers),
         'rite_modifiers_are_alternatives': alternative_rite_modifier_problems(
@@ -792,8 +962,15 @@ def guarantee_of_rights_contracts():
         'guarantee_naming_generator': guarantee_naming_problems(generator),
         'guarantee_naming_english': guarantee_naming_problems(english),
         **fallback_localisations,
+        **{name: rite_interpretation_problems(text) for name, text in rite_texts.items()},
+        **{name: rite_documentation_problems(text) for name, text in rite_docs.items()},
         'ecumenism_text_generator': ecumenism_text_problems(generator, facts),
         'ecumenism_text_english': ecumenism_text_problems(english, facts),
+        'ecumenism_scope_generator': ecumenism_scope_problems(generator),
+        'ecumenism_scope_english': ecumenism_scope_problems(english),
+        **ecumenism_fallbacks,
+        **ecumenism_docs,
+        **florentine_localisations,
     }
     failed = {name: problems for name, problems in checks.items() if problems}
     assert not failed, 'Guarantee-of-rights contract broken:\n' + '\n'.join(
@@ -806,7 +983,7 @@ if __name__ == '__main__':
     contracts()
     rights = guarantee_of_rights_contracts()
     print(f'RELIGION SETTLEMENT PASS: {count} source-executed transition cases; adoption, Kyiv payments, migration, crusades, monuments; '
-          f'{rights} guarantee-of-rights contracts (rite modifiers, ecumenical opinion reach, English naming).')
+          f'{rights} contracts (rite modifiers, ecumenical opinion, naming, Florentine precedent in EFIGS).')
     print('LIMIT: EU4 branch execution, old-save loading and 50-year effectiveness are not certified by this model.')
     # In-engine finding (EU4 1.37.5, diagnostics/gc_rights_ecumenism_20260929): add_opinion inside an else_if / else body
     # leaves no opinion in the save, so the +40 / 0 / ro_* base modifiers of the refresh effect never appear and this
