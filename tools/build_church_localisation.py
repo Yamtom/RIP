@@ -55,7 +55,7 @@ RITE_HELP_TT=(RITE_MODEL+' '+RITE_KEEPS+' While the guarantee stands, Union back
               'Orthodox and Muscovite Orthodox provinces count as Eastern in the country panel, Catholic provinces as Latin. '
               'Only a Greek Catholic owner can guarantee rights.')
 DATA={
-  "greek_catholic_religion_desc": "A broad game label for distinct Ruthenian and Carpathian Eastern churches in communion with Rome, not one institution identical to the modern Ukrainian Greek Catholic Church. Availability from 6 July 1439 uses the Florentine union as a precedent for an alternative historical path, not as the founding of the UGCC or an established separate confession. The Union of Brest in 1596 is a distinct later milestone. Their hierarchies retain internal authority, represented by Patriarch Authority. The Curia panel records diplomatic relations only.",
+  "greek_catholic_religion_desc": "A broad game category covering several distinct Ruthenian and Carpathian Eastern Catholic union traditions and jurisdictions in communion with Rome, not one church institution and not the modern Ukrainian Greek Catholic Church in its narrow sense. Brest, Uzhhorod, Peremyshl, Lviv and Lutsk have distinct local histories, chronologies and jurisdictions; these rules do not imply that every region followed the same path or belonged to one institution. Availability from 6 July 1439 uses the Florentine union as a precedent for an alternative historical path, not as the founding of the UGCC or an established separate confession. The Union of Brest in 1596 is a distinct later milestone. Their hierarchies retain internal authority, represented by Patriarch Authority. The Curia panel records diplomatic relations only.",
   "rip_church_close": "Close",
   "rip_church.2.t": "Moscow and the Third Rome",
   "rip_church.2.d": "Writers at the Muscovite court describe Moscow as a guardian of the Orthodox inheritance. This sixteenth-century political theology does not itself create a new creed or end communion with the eastern patriarchates. Universal jurisdiction would require a separate, deliberate claim.",
@@ -838,7 +838,7 @@ for key in list(DATA):
  if key.startswith('rip_church_gui_') and not key.endswith('_tt'): DATA.setdefault(key+'_tt',DATA[key])
 
 # Shared mechanics abstract several local church histories, not one jurisdiction.
-REGIONAL_UNION_NOTE=('Shared rules model a generalized Ruthenian Eastern Catholic route. '
+REGIONAL_UNION_NOTE=('Shared rules model several local Ruthenian and Carpathian Eastern Catholic union traditions under a broad game category, not one church institution. '
  'Brest, Uzhhorod, Peremyshl, Lviv and Lutsk have distinct local histories, chronologies and jurisdictions; '
  'these rules do not imply that every region followed the same path or belonged to one institution.')
 DATA.update({
@@ -847,8 +847,8 @@ DATA.update({
  'rip_church_gui_paths_title':'Local routes to communion',
  'rip_church_gui_paths_title_tt':REGIONAL_UNION_NOTE,
 })
-for key in ('greek_catholic_religion_desc','rip_church_sponsor_union_desc',
-            'rip_church_gui_adopt_tt','rip_church_gui_sponsor_tt'):
+for key in ('rip_church_sponsor_union_desc','rip_church_gui_adopt_tt',
+            'rip_church_gui_sponsor_tt'):
  DATA[key]+=' '+REGIONAL_UNION_NOTE
 for key in ('rip_church_gui_parishes_title_tt','rip_church_gui_parish_list_title_tt','rip_church_rite_help_tt'):
  DATA[key]+=' Eastern and Latin are gameplay groupings, not historical diocesan boundaries. '+REGIONAL_UNION_NOTE

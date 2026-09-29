@@ -853,6 +853,8 @@ def florentine_precedent_problems(text):
     """1439 is a precedent for an alternative campaign path, never the UGCC's origin."""
     requirements = {
         'greek_catholic_religion_desc': (
+            'broad game category covering several distinct Ruthenian and Carpathian Eastern Catholic union traditions',
+            'not the modern Ukrainian Greek Catholic Church in its narrow sense',
             'Florentine union as a precedent',
             'not as the founding of the UGCC',
         ),
@@ -891,6 +893,10 @@ def florentine_precedent_problems(text):
                   'one founding province'):
         if stale in body:
             problems.append(f'obsolete origin/continuity wording remains: {stale!r}')
+    note = _literals(body, 'rip_church_gui_paths_title_tt')
+    for value in note:
+        if 'several local Ruthenian and Carpathian Eastern Catholic union traditions' not in value:
+            problems.append('shared route note does not identify the model as several local union traditions')
     return problems
 
 

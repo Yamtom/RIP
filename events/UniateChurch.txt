@@ -296,6 +296,19 @@ country_event = {
 			name = orthodox_brotherhood_resistance
 			duration = 7300
 		}
+
+		# Autonomy leaves one Orthodox diocese in dispute with the unionist
+		# hierarchy. Keep the cost local and temporary; it does not raise rebels.
+		random_owned_province = {
+			limit = {
+				religion = orthodox
+				development = 12
+			}
+			add_province_modifier = {
+				name = orthodox_brotherhood_jurisdiction
+				duration = 3650
+			}
+		}
 		
 		add_prestige = -10
 	}
