@@ -16,6 +16,14 @@ for guard in ('religion = orthodox', 'is_core = owner', 'controlled_by = owner',
               'NOT = { has_province_modifier = resistance_to_greek_catholic_spread }',
               'had_province_flag = { flag = rip_du_approached days = 3650 }'):
     assert guard in candidate, guard
+assert 'rip_du_historical_seat = yes' in candidate
+seat = normalized(named_block(triggers, 'rip_du_historical_seat'))
+for pid, year in (('277', '1596'), ('278', '1596'), ('279', '1596'), ('4538', '1596'),
+                  ('2424', '1691'), ('2961', '1700')):
+    assert f'province_id = {pid}' in seat and f'is_year = {year}' in seat, pid
+assert 'province_id = 1952' not in seat  # Mukachevo keeps its own 1646 chain
+for pid in ('277', '278', '279', '4538', '2424', '2961'):
+    assert f'province_id = {pid}' in normalized(events), pid
 assert 'ROOT' not in candidate  # Must work in both country and province ROOT.
 can = normalized(named_block(triggers, 'rip_du_can_negotiate'))
 assert 'had_country_flag = { flag = rip_du_negotiated days = 1825 }' in can
