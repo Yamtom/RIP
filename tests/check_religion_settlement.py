@@ -1,4 +1,4 @@
-"""Execute actual settlement scripts against bounded state-transition fixtures.
+﻿"""Execute actual settlement scripts against bounded state-transition fixtures.
 
 This deliberately small interpreter rejects unknown operations. It is a source
 contract test, not the EU4 engine, a save loader or a campaign balance simulator.
@@ -911,8 +911,6 @@ def ecumenism_documentation_problems(text):
     )
     return [f'missing Ukrainian ecumenism clarification {phrase!r}'
             for phrase in required if phrase not in lower]
-
-
 def guarantee_of_rights_contracts():
     modifiers = read('common/event_modifiers/RIP_church_redesign_modifiers.txt')
     relations = read('common/scripted_effects/rip_church_diplomacy_effects.txt')

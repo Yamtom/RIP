@@ -1,4 +1,4 @@
-"""The Brest proposal's Orthodox refusal has a direct political consequence."""
+﻿"""The Brest proposal's Orthodox refusal has a direct political consequence."""
 import re
 
 from clausewitz_testlib import keyed_blocks, named_block, normalized, read
@@ -39,7 +39,8 @@ assert "diplomatic standing by 1 for 15 years" in localisation
 # to plausible-looking strings in the large shared localisation file.
 brest_events = [
     block for _, block in keyed_blocks(events, 'country_event')
-    if re.search(r'(?m)^\s*id\s*=\s*uniate_church\.[123]\s*$', block)
+    if re.search(r'(?m)^\s*id\s*=\s*uniate_church\.[123]\s*
+, block)
 ]
 brest_keys = set(re.findall(
     r'\b(?:title|desc|name)\s*=\s*(uniate_church\.[123]\.[a-z])',
@@ -70,6 +71,7 @@ assert 'separate assemblies' in council_text
 assert 'Byzantine rite' in council_text
 assert 'No province changes faith by this act alone' in council_text
 assert 'local and uneven' in resistance_text
+print('PASS: Brest refusal cost, active localization keys, episcopal positions, 1595–96 sequence, council split and bounded reach')
 
 # The separate opposition choice is the autonomous brotherhoods outcome in
 # event .3, not the earlier .1.b refusal (whose existing cost is diplomatic).

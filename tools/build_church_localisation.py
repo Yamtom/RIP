@@ -1,4 +1,4 @@
-"""Generate church UI localisation and fallback strings; no claim of translated fallback text."""
+﻿"""Generate church UI localisation and fallback strings; no claim of translated fallback text."""
 from pathlib import Path
 import json,argparse,re
 ROOT=Path(__file__).resolve().parents[1]
