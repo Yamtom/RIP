@@ -1,0 +1,31 @@
+# Province scope. The outcome of option a in rip_uzh_union.1 and rip_uzh_union.2:
+# one province becomes Greek Catholic under a twenty-year guarantee of its rite.
+# Top-level ifs only. Measured in EU4 1.37.5: add_opinion and event calls are
+# silently dropped inside an else_if / else of a scripted effect, so this file
+# has no else branch and no opinion or event call.
+rip_uzh_union_accept_effect = {
+ if = {
+  limit = { rip_uzh_local_union_possible = yes }
+  set_province_flag = rip_uzh_union_accepted
+  owner = {
+   enable_religion = greek_catholic
+   # The documented shortcut: a Catholic owner that receives the priests
+   # becomes the patron of local unions without the sponsor decision.
+   if = {
+    limit = { religion = catholic }
+    custom_tooltip = rip_uzh_union_patron_tt
+    hidden_effect = {
+     set_country_flag = rip_church_supports_union
+     if = {
+      limit = { NOT = { has_country_flag = rip_church_union_founded } }
+      set_country_flag = rip_church_union_founded
+     }
+    }
+   }
+  }
+  # One local community represented through EU4's single province religion.
+  change_religion = greek_catholic
+  add_local_autonomy = 10
+  add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }
+ }
+}

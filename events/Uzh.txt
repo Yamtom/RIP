@@ -753,19 +753,29 @@ country_event = {
         }
         is_year = 1646
         NOT = { has_country_flag = uzh_union_synod_established }
-        NOT = { has_country_flag = uzh_union_old_rite_confirmed }
         NOT = { has_country_modifier = uz_greek_catholic_concord }
-        NOT = { has_country_modifier = uz_old_rite_resilience }
     }
 
+    # The old-rite flag and modifier no longer close this event: the mission
+    # uz_union_dilemma sets both for any Orthodox UZH with no year gate, so
+    # while they were gates a default run could never be offered the synod.
+    # The real guards are uzh_union_synod_established and fire_only_once.
+    # Two years on average: the record has the Hungarian synod confirm the
+    # union two years after the signing, which is orientation, not a date.
     mean_time_to_happen = {
-        months = 120
+        months = 24
     }
 
     fire_only_once = yes
 
     option = {
         name = "uzh.51.a"
+        # The synod replaces the old-rite branch of the same dilemma; the two
+        # modifiers are never held together.
+        if = {
+            limit = { has_country_modifier = uz_old_rite_resilience }
+            remove_country_modifier = uz_old_rite_resilience
+        }
         add_country_modifier = {
             name = "uz_greek_catholic_concord"
             duration = 5475
@@ -792,10 +802,21 @@ country_event = {
             limit = { religion = orthodox }
             add_patriarch_authority = -0.05
         }
+        # Catholic and Greek Catholic states take the synod, Orthodox ones
+        # mostly keep the settlement local: 80 against 20, or 20 against 50.
+        ai_chance = {
+            factor = 80
+            modifier = {
+                factor = 0.25
+                religion = orthodox
+            }
+        }
     }
 
     option = {
         name = "uzh.51.b"
+        # b sets no synod flag, and the road of the eparchy needs one.
+        custom_tooltip = rip_uzh_synod_closed_tt
         add_country_modifier = {
             name = "uz_old_rite_resilience"
             duration = 5475
@@ -807,6 +828,13 @@ country_event = {
         if = {
             limit = { religion = orthodox }
             add_patriarch_authority = 0.1
+        }
+        ai_chance = {
+            factor = 20
+            modifier = {
+                factor = 2.5
+                religion = orthodox
+            }
         }
     }
 }

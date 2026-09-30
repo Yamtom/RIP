@@ -1,4 +1,47 @@
+# ========================================================================
+# The Uzhhorod union in the territory: the priests of the Mukachevo Eparchy.
+# Authenticity: B - the union is documented (63 priests received by Bishop
+# Jakusics of Eger in Uzhhorod Castle on 24 April 1646); the patron test, the
+# one-province stand-in for Uzhhorod and the AI weights are game model.
+# rip_uzh_union.2 is alternative history (C): the record puts the union in
+# April 1646, there the patron came late.
+#
+# Timing. EU4 1.37.5 has no trigger for a day, so the date is held to the month:
+#   rip_uzh_union.10  hidden starter, April 1646 only (rip_uzh_union_date_window),
+#                     MTTH 1 day. It schedules rip_uzh_union.1 about 20 days on
+#                     and sets rip_uzh_union_scheduled. A daily starter fires
+#                     1-7 days into the month and a delayed event can land a
+#                     day early (both measured), so no popup promises a day.
+#   rip_uzh_union.1   the visible popup, is_triggered_only.
+#   rip_uzh_union.2   the late fallback from May 1646 (rip_uzh_union_late_window),
+#                     MTTH 6 months, for a patron that was missing in April or a
+#                     province that changed. Blocked while a fresh schedule
+#                     exists, so it never overtakes a popup on its way.
+# is_triggered_only and mean_time_to_happen never share an event (load error).
+# The outcome is common/scripted_effects/rip_uzh_union_effects.txt.
+# ========================================================================
+
 namespace = rip_uzh_union
+
+# Hidden dated starter: April 1646, the one month the record fixes.
+province_event = {
+ id = rip_uzh_union.10
+ hidden = yes
+ fire_only_once = yes
+ trigger = {
+  province_id = 1952
+  rip_uzh_union_date_window = yes
+  rip_uzh_local_union_possible = yes
+  NOT = { has_province_flag = rip_uzh_union_answered }
+  NOT = { has_province_flag = rip_uzh_union_scheduled }
+ }
+ mean_time_to_happen = { days = 1 }
+ immediate = {
+  set_province_flag = rip_uzh_union_scheduled
+  province_event = { id = rip_uzh_union.1 days = 20 }
+ }
+ option = { }
+}
 
 # Historical clergy initiative; the secular owner receives the local petition.
 province_event = {
@@ -6,39 +49,66 @@ province_event = {
  title = rip_uzh_union.1.t
  desc = rip_uzh_union.1.d
  picture = RELIGION_eventPicture
+ is_triggered_only = yes
  trigger = {
   rip_uzh_local_union_possible = yes
   NOT = { has_province_flag = rip_uzh_union_answered }
  }
- mean_time_to_happen = { months = 12 }
  immediate = { set_province_flag = rip_uzh_union_answered }
  option = {
   name = rip_uzh_union.1.a
   trigger = { rip_uzh_local_union_possible = yes }
-  ai_chance = { factor = 80 }
-  if = {
-   limit = { rip_uzh_local_union_possible = yes }
-   set_province_flag = rip_uzh_union_accepted
-   owner = {
-    enable_religion = greek_catholic
-    if = {
-     limit = { religion = catholic }
-     set_country_flag = rip_church_supports_union
-     if = {
-      limit = { NOT = { has_country_flag = rip_church_union_founded } }
-      set_country_flag = rip_church_union_founded
-     }
-    }
-   }
-   # One local community represented through EU4's single province religion.
-   change_religion = greek_catholic
-   add_local_autonomy = 10
-   add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }
+  # Catholic and Greek Catholic owners protect the union, Orthodox owners
+  # mostly do not: 80/100 Catholic, 120/140 Greek Catholic, 20/50 Orthodox.
+  ai_chance = {
+   factor = 80
+   modifier = { factor = 1.5 owner = { religion = greek_catholic } }
+   modifier = { factor = 0.25 owner = { religion = orthodox } }
   }
+  rip_uzh_union_accept_effect = yes
  }
  option = {
   name = rip_uzh_union.1.b
-  ai_chance = { factor = 20 }
+  ai_chance = {
+   factor = 20
+   modifier = { factor = 1.5 owner = { religion = orthodox } }
+  }
+  # Always available if patronage or local conditions changed meanwhile.
+ }
+}
+
+# Late fallback, alternative history: the patron was missing in April 1646 or
+# the province changed, so the petition comes from May 1646 on.
+province_event = {
+ id = rip_uzh_union.2
+ title = rip_uzh_union.2.t
+ desc = rip_uzh_union.2.d
+ picture = RELIGION_eventPicture
+ trigger = {
+  province_id = 1952
+  rip_uzh_union_late_window = yes
+  rip_uzh_local_union_possible = yes
+  NOT = { has_province_flag = rip_uzh_union_answered }
+  NOT = { rip_uzh_union_scheduled_fresh = yes }
+ }
+ mean_time_to_happen = { months = 6 }
+ immediate = { set_province_flag = rip_uzh_union_answered }
+ option = {
+  name = rip_uzh_union.2.a
+  trigger = { rip_uzh_local_union_possible = yes }
+  ai_chance = {
+   factor = 80
+   modifier = { factor = 1.5 owner = { religion = greek_catholic } }
+   modifier = { factor = 0.25 owner = { religion = orthodox } }
+  }
+  rip_uzh_union_accept_effect = yes
+ }
+ option = {
+  name = rip_uzh_union.2.b
+  ai_chance = {
+   factor = 20
+   modifier = { factor = 1.5 owner = { religion = orthodox } }
+  }
   # Always available if patronage or local conditions changed meanwhile.
  }
 }

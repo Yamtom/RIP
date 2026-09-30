@@ -1,0 +1,255 @@
+{
+  "_comment": [
+    "Single source of truth for the dated eparchy developments under Catholic states.",
+    "Edit a date, a text or an outcome HERE, then run: python tools/build_eparchy_timeline.py",
+    "It rewrites common/scripted_triggers/rip_eparchy_triggers.txt, events/RIP_EparchyHistory.txt and",
+    "localisation/rip_eparchy_l_english.yml. python tools/build_eparchy_timeline.py --check exits 1 when one is stale.",
+    "month is 0-based (January = 0) or null for a year-only row; late_until is the LAST year the late offer stays open.",
+    "Every historical claim in a text comes from history_research.json (the audit of 2026-09-29); source_registry copies",
+    "the URLs it allows, so a row cannot cite anything else. docs/EPARCHY_TIMELINE.uk.md explains the model in Ukrainian."
+  ],
+  "namespace": "rip_eparchy",
+  "visible_event_offset": 0,
+  "dated_starter_offset": 100,
+  "late_starter_offset": 200,
+  "dated_delay_days": 10,
+  "late_retry_days": 90,
+  "late_mtth_months": 6,
+  "refusal_days": 3650,
+  "refusal_label_suffix": " — alternative history",
+  "modifier_facts": {
+    "_comment": "The numbers printed in the event texts. tests/check_eparchy_history.py compares them with the real modifier files.",
+    "rip_du_rite_guarantee": {
+      "file": "common/event_modifiers/rip_diocesan_union_modifiers.txt",
+      "role": "protection",
+      "values": { "local_missionary_strength": -1 }
+    },
+    "greek_catholic_diocese": {
+      "file": "common/event_modifiers/uniate_church_modifiers.txt",
+      "role": "diocese",
+      "values": { "local_missionary_strength": 0.03, "local_unrest": -1, "local_tax_modifier": 0.1 }
+    },
+    "uniate_metropolitan_see": {
+      "file": "common/event_modifiers/uniate_church_modifiers.txt",
+      "role": "metropolitan",
+      "values": {
+        "local_missionary_strength": 0.04,
+        "local_institution_spread": 0.15,
+        "local_development_cost": -0.1,
+        "local_state_maintenance_modifier": -0.2
+      }
+    },
+    "resistance_to_greek_catholic_spread": {
+      "file": "common/event_modifiers/uniate_church_modifiers.txt",
+      "role": "resistance",
+      "values": { "local_unrest": 3, "local_autonomy": 0.15, "local_missionary_strength": -0.04 }
+    }
+  },
+  "source_registry": {
+    "_comment": "Copied verbatim from history_research.json. A row may cite only these ids.",
+    "wiki_przemysl": "https://en.wikipedia.org/wiki/Ukrainian_Catholic_Eparchy_of_Przemy%C5%9Bl",
+    "eou_peremyshl": "https://www.encyclopediaofukraine.com/display.asp?linkpath=pages%5CP%5CE%5CPeremyshleparchy.htm",
+    "wiki_lviv": "https://en.wikipedia.org/wiki/Ukrainian_Catholic_Archeparchy_of_Lviv",
+    "eou_lviv": "https://www.encyclopediaofukraine.com/display.asp?linkpath=pages%5CL%5CV%5CLviveparchy.htm",
+    "risu_19c": "https://risu.ua/en/the-church-in-the-nineteenth-century-the-metropolitanate-in-galicia_n50118",
+    "ugcc_restoration": "https://ugcc.ua/en/church/history/restoration-of-galician-metropolitanate/",
+    "wiki_lutsk": "https://en.wikipedia.org/wiki/Eparchy_of_Lutsk_and_Ostroh_(Ruthenian_Uniate_Church)",
+    "eou_church_history": "https://www.encyclopediaofukraine.com/display.asp?linkpath=pages%5CH%5CI%5CHistoryoftheUkrainianchurch.htm",
+    "wiki_terlecki": "https://en.wikipedia.org/wiki/Cyril_Terlecki"
+  },
+  "rows": [
+    {
+      "id": "przemysl_union",
+      "number": 1,
+      "province_id": 2424,
+      "seat": "Peremyshl",
+      "kind": "union_convert",
+      "year": 1691,
+      "month": 5,
+      "spread_months": 0,
+      "late_until": 1806,
+      "late_note": "Open until the year before the Galician metropolitanate makes Peremyshl a suffragan (row lviv_galician_metropolitanate_1807).",
+      "requires_row": null,
+      "fact_date": "1691",
+      "supported_years": [1596, 1691, 1692],
+      "outcome": {
+        "convert": true,
+        "autonomy": 10,
+        "flags": ["rip_du_approached"],
+        "modifiers": [
+          { "name": "rip_du_rite_guarantee", "days": 7300, "if_absent": false },
+          { "name": "greek_catholic_diocese", "days": 7300, "if_absent": false }
+        ],
+        "also": []
+      },
+      "text": {
+        "title": "Bishop Vynnytsky of Peremyshl",
+        "hist": "Bishop Kopystensky stayed Orthodox in 1596, and Orthodox and Uniate claimants contested the Peremyshl see for nearly a century after. Bishop Inokentii Vynnytsky joined the union publicly in 1691, some sources say 1692, and ended the quarrel with one dated act.",
+        "here": "Here the seat is represented by one province; the union does not mean that every inhabitant followed the bishop.",
+        "caveat": "Twenty years is a long promise for any crown to keep.",
+        "option_a": "Receive the bishop's union",
+        "option_b": "Turn the petition away"
+      },
+      "sources": ["wiki_przemysl", "eou_peremyshl"],
+      "dispute": "Wikipedia gives the public union as 23 June 1691; the Encyclopedia of Ukraine and the textbook date give 1692. The row uses June 1691 because it is the only one of the two with a day; the text says 1692 exists. Change year and month here to move it."
+    },
+    {
+      "id": "lviv_union",
+      "number": 2,
+      "province_id": 2961,
+      "seat": "Lviv",
+      "kind": "union_convert",
+      "year": 1700,
+      "month": 5,
+      "spread_months": 0,
+      "late_until": 1806,
+      "late_note": "Open until the year before the Galician metropolitanate is restored at Lviv (row lviv_galician_metropolitanate_1807).",
+      "requires_row": null,
+      "fact_date": "9 June 1700",
+      "supported_years": [1677, 1700, 1708],
+      "outcome": {
+        "convert": true,
+        "autonomy": 10,
+        "flags": ["rip_du_approached"],
+        "modifiers": [
+          { "name": "rip_du_rite_guarantee", "days": 7300, "if_absent": false },
+          { "name": "greek_catholic_diocese", "days": 7300, "if_absent": false }
+        ],
+        "also": []
+      },
+      "text": {
+        "title": "Bishop Shumliansky of Lviv",
+        "hist": "Bishop Shumliansky of Lviv joined the union officially on 9 June 1700, after an acceptance kept secret that some sources place in 1677. The Lviv Dormition brotherhood followed in 1708.",
+        "here": "Here the seat is represented by one province; the brotherhood's step of 1708 is not modelled.",
+        "caveat": "A written guarantee is worth what the next chancellor makes of it.",
+        "option_a": "Receive Shumliansky's union",
+        "option_b": "Turn the petition away"
+      },
+      "sources": ["wiki_lviv", "eou_lviv"],
+      "dispute": "Wikipedia has a secret acceptance in 1677; the Encyclopedia of Ukraine does not mention it. The official date, 9 June 1700, agrees in both, so the row uses it. The Encyclopedia prints Shumliansky as '1646-1708', which contradicts its own list of Orthodox bishops of Lviv (Zhelyborsky until 1663)."
+    },
+    {
+      "id": "lutsk_union",
+      "number": 3,
+      "province_id": 279,
+      "seat": "Lutsk",
+      "kind": "union_modifier_only",
+      "year": 1702,
+      "month": null,
+      "spread_months": 3,
+      "late_until": 1794,
+      "late_note": "Open until the year before Russia takes Volhynia in the third partition (1795).",
+      "requires_row": null,
+      "fact_date": "1702",
+      "supported_years": [1590, 1620, 1695, 1702],
+      "outcome": {
+        "convert": false,
+        "autonomy": 0,
+        "flags": [],
+        "modifiers": [
+          { "name": "rip_du_rite_guarantee", "days": 7300, "if_absent": false },
+          { "name": "greek_catholic_diocese", "days": 7300, "if_absent": false }
+        ],
+        "also": []
+      },
+      "text": {
+        "title": "Bishop Zhabokrytsky of Lutsk",
+        "hist": "Bishop Terlecki had joined the union in the 1590s, but the see went back to Orthodox bishops, and the Orthodox line held Lutsk from 1620 to 1702. King Sobieski had named Zhabokrytsky Orthodox bishop in 1695; he joined the union in 1702, the standard date for this eparchy.",
+        "here": "Here Lutsk is represented by Volhynia, which is already Catholic in this game's history, so the faith of the province does not change.",
+        "caveat": "The seat changes its mind; the province keeps its own.",
+        "option_a": "Receive Zhabokrytsky's union",
+        "option_b": "Turn the petition away"
+      },
+      "sources": ["wiki_lutsk", "eou_church_history", "wiki_terlecki"],
+      "dispute": "Wikipedia has the see joining the union on 2 February 1594 and Terlecki as bishop 1594-1608; the Terlecki page gives 1596-1607; the Encyclopedia of Ukraine dates the union of the eparchy to 1702 (Zhabokrytsky). Only the 1702 dates describe a dated union, so the row uses 1702, year only. RIP has no separate Lutsk province: it shares 279 with Volodymyr."
+    },
+    {
+      "id": "lviv_greek_catholic_name_barbareum_1774",
+      "number": 4,
+      "province_id": 2961,
+      "seat": "Lviv",
+      "kind": "development",
+      "year": 1774,
+      "month": null,
+      "spread_months": 3,
+      "late_until": 1806,
+      "late_note": "Open until the year before the Galician metropolitanate (row lviv_galician_metropolitanate_1807) takes over the same seat.",
+      "requires_row": "lviv_union",
+      "fact_date": "1774",
+      "supported_years": [1774, 1784],
+      "outcome": {
+        "convert": false,
+        "autonomy": 0,
+        "flags": [],
+        "modifiers": [
+          { "name": "rip_du_rite_guarantee", "days": 7300, "if_absent": false },
+          { "name": "greek_catholic_diocese", "days": 7300, "if_absent": true }
+        ],
+        "also": []
+      },
+      "text": {
+        "title": "The Name Greek Catholic",
+        "hist": "In 1774 Maria Theresa's court adopted the name Greek Catholic for the Uniates, and Vienna's Barbareum seminary, open from 1774 to 1784, belongs to the same policy. Joseph II's later reforms made the clergy legally equal to the Latin clergy.",
+        "here": "Here the seat, already Greek Catholic, gains the standing of a diocese under its Catholic owner.",
+        "caveat": "A new name settles the chancery; the parishes will take longer.",
+        "option_a": "Adopt the Greek Catholic name",
+        "option_b": "Refuse the new name"
+      },
+      "sources": ["wiki_lviv", "eou_lviv", "risu_19c", "ugcc_restoration"],
+      "dispute": "The sources give 1774 for the name and for the Barbareum without a month, so the row is year only. The event needs Lviv to be Greek Catholic already (row lviv_union); the twenty-year guarantee of 1700 has lapsed by 1774."
+    },
+    {
+      "id": "lviv_galician_metropolitanate_1807",
+      "number": 5,
+      "province_id": 2961,
+      "seat": "Lviv",
+      "kind": "development",
+      "year": 1807,
+      "month": 1,
+      "spread_months": 0,
+      "late_until": 1820,
+      "late_note": "Open until the last full year before the game ends in 1821.",
+      "requires_row": "lviv_union",
+      "fact_date": "22 February 1807",
+      "supported_years": [1807, 1808],
+      "outcome": {
+        "convert": false,
+        "autonomy": 0,
+        "flags": [],
+        "modifiers": [
+          { "name": "rip_du_rite_guarantee", "days": 7300, "if_absent": false },
+          { "name": "uniate_metropolitan_see", "days": 7300, "if_absent": false }
+        ],
+        "also": [
+          {
+            "province_id": 2424,
+            "seat": "Peremyshl",
+            "require_religion": "greek_catholic",
+            "modifiers": [
+              { "name": "rip_du_rite_guarantee", "days": 7300, "if_absent": false },
+              { "name": "greek_catholic_diocese", "days": 7300, "if_absent": true }
+            ]
+          }
+        ]
+      },
+      "text": {
+        "title": "A Metropolitan for Galicia",
+        "hist": "The emperor asked Rome to restore the Galician metropolitanate, and the bull of 22 February 1807 did so. Anhelovych was installed in 1808, with Lviv and Peremyshl as its two eparchies.",
+        "here": "Here the metropolitan see is placed at Lviv, and a Greek Catholic Peremyshl shares its standing.",
+        "caveat": "Rome grants the title; the treasury still pays for the see.",
+        "option_a": "Ask Rome to restore the see",
+        "option_b": "Leave the see as it is"
+      },
+      "sources": ["wiki_lviv", "risu_19c", "ugcc_restoration"],
+      "dispute": "Wikipedia dates the restoration to the bull of 22 February 1807; the Church's own account (UGCC) dates Anhelovych's installation to 1808. The row uses the bull. Kholm's inclusion in Anhelovych's jurisdiction rests on risu.ua alone and is not modelled."
+    }
+  ],
+  "not_modelled": [
+    { "seat": "Uzhhorod / Mukachevo", "why": "RIP has no Uzhhorod city province; 1952 (Maramaros, Huszt) stands in for it and already has events/RIP_UzhLocalUnion.txt (1646)." },
+    { "seat": "Sambir", "why": "No province was verified; the sources give no detail on Sambir or Sanok as parts of the Przemysl see." },
+    { "seat": "Sanok", "why": "No province was verified; the sources give no detail on Sambir or Sanok as parts of the Przemysl see." },
+    { "seat": "Krizevci", "why": "No province in RIP; the see rests on Wikipedia only and is only loosely Ruthenian." },
+    { "seat": "Kholm (Chelm-Belz)", "why": "Province 4538 is set to Catholic in 1570 and to Russia in 1795, while Austria probably held the Chelm lands until 1809 (inferred, not fetched). Add a row once the author fixes the map history." },
+    { "seat": "Volodymyr-Brest", "why": "Brest 277 is Catholic by history from 1570 and Volodymyr shares 279 with Lutsk; the Brest sobor itself belongs to the Union of Brest events." }
+  ]
+}

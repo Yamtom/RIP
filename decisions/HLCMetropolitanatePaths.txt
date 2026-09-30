@@ -5,6 +5,13 @@ country_decisions = {
 	# Neither requires the other - common/government_reforms/RIP_HLC_
 	# government_reforms.txt keeps them in separate reform slots so both can
 	# be held at once, or neither.
+	#
+	# Standing gates: an Orthodox state answers with patriarch_authority; a
+	# Greek Catholic state has no papacy block and never holds papal_influence
+	# (measured in EU4 1.37.5), so it answers with the same bar, shown as
+	# Hierarchical Capacity - see common/scripted_triggers/
+	# rip_hierarchy_standing_triggers.txt for the thresholds and the numbers
+	# behind them.
 
 	hlc_confirm_the_metropolitan_see = {
 		major = yes
@@ -24,7 +31,7 @@ country_decisions = {
 				}
 				AND = {
 					religion = greek_catholic
-					papal_influence = 50
+					rip_gc_hierarchy_standing_mid = yes
 				}
 			}
 		}
@@ -56,7 +63,7 @@ country_decisions = {
 		allow = {
 			is_subject = no
 			stability = 1
-			papal_influence = 60
+			rip_gc_hierarchy_standing_high = yes
 		}
 		effect = {
 			set_country_flag = rip_galicia_lviv_union_synod

@@ -46,18 +46,27 @@ country_event = {
 	picture = RELIGION_eventPicture
 	is_triggered_only = yes
 	
+	# Alternative history: the synod is a game model, not a recorded council.
+	# Every option leaves rip_vol_synod_held behind so later Volhynia content
+	# can tell that the confessional question was settled. The reward is the
+	# recipient's own religious currency (rip_faith_mission_resource_effect):
+	# a Greek Catholic state has no papal influence to spend, and gets
+	# patriarch_authority instead.
 	option = {
 		name = rip_vol_alt_history.3.a # Orthodox Foundation
-		add_patriarch_authority = 0.2
+		set_country_flag = rip_vol_synod_held
+		rip_faith_mission_resource_effect = { PA = 0.2 PI = 20 ADM = 25 }
 	}
 	
 	option = {
 		name = rip_vol_alt_history.3.b # Uniate Synthesis (Greek-Catholic)
-		add_papal_influence = 50
+		set_country_flag = rip_vol_synod_held
+		rip_faith_mission_resource_effect = { PA = 0.2 PI = 50 ADM = 50 }
 	}
 	
 	option = {
 		name = rip_vol_alt_history.3.c # Pluralist Balance
+		set_country_flag = rip_vol_synod_held
 		add_dip_power = 50
 	}
 }

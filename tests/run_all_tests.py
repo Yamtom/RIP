@@ -23,6 +23,8 @@ scripts = [
     "tests/check_church_redesign.py",
     "tests/check_union_opposition.py",
     "tests/check_diocesan_union.py",
+    "tests/check_eparchy_history.py",
+    "tests/check_gc_synod_gates.py",
     "tests/check_uzh_local_union.py",
     "tests/check_habsburg_greek_catholic.py",
     "tests/check_uc_education_memory.py",

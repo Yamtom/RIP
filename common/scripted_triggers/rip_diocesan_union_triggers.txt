@@ -7,6 +7,23 @@ rip_du_catholic_patron = {
  exists = PAP NOT = { war_with = PAP }
  any_owned_province = { religion = greek_catholic }
 }
+# Province scope, independent of ROOT. One eparchy is closed to every random
+# path (the Eparchial Union decision and khmelnytsky_events.7) while an earlier
+# offer stands: rip_du_approached is refreshed by every paid offer, so
+# had_province_flag reads "last set at least 3650 days ago"; a refusal keeps the
+# resistance modifier for ten years; a dated seat event that has been answered
+# (events/RIP_EparchyHistory.txt, docs/EPARCHY_TIMELINE.uk.md) closes its seat for
+# good. The dated events also set rip_du_approached when they convert a seat.
+rip_du_seat_open = {
+ NOT = { has_province_modifier = resistance_to_greek_catholic_spread }
+ OR = {
+  NOT = { has_province_flag = rip_du_approached }
+  had_province_flag = { flag = rip_du_approached days = 3650 }
+ }
+ NOT = { has_province_flag = rip_eparchy_przemysl_union_answered }
+ NOT = { has_province_flag = rip_eparchy_lviv_union_answered }
+ NOT = { has_province_flag = rip_eparchy_lutsk_union_answered }
+}
 # Province scope. Named seats only, each opened no earlier than the date its
 # hierarchy actually entered communion with Rome (the map province is a
 # territorial approximation of the see, not its exact bounds):
@@ -27,11 +44,16 @@ rip_du_eligible_diocese = {
  is_city = yes religion = orthodox
  is_core = owner controlled_by = owner
  NOT = { has_missionary = yes }
- NOT = { has_province_modifier = resistance_to_greek_catholic_spread }
- OR = {
-  NOT = { has_province_flag = rip_du_approached }
-  had_province_flag = { flag = rip_du_approached days = 3650 }
- }
+ rip_du_seat_open = yes
+}
+# Province scope. The land the Catholic crown may press by order in
+# khmelnytsky_events.7: an Orthodox city of ruthenia_region that no earlier
+# offer or dated seat event has settled. Trigger and effect share this one test,
+# so the event never fires for a province the effect would refuse.
+rip_du_crown_union_province = {
+ is_city = yes religion = orthodox region = ruthenia_region
+ controlled_by = owner
+ rip_du_seat_open = yes
 }
 rip_du_can_negotiate = {
  rip_du_catholic_patron = yes
