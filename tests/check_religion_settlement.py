@@ -568,6 +568,8 @@ def relation_ecumenical_problems(effect_text):
     It used to sit inside the else_if branch for Orthodox <-> Greek Catholic. A
     Catholic country is consumed by the earlier catholic <-> greek_catholic
     else_if, so the +15 never reached it although its condition named catholic.
+    The whole effect is now flat (see relation_branch_shape_problems); this keeps
+    the +15 an independent `if` with no conditional of its own inside.
     """
     body = _every_country(effect_text)
     if body is None:
@@ -624,6 +626,9 @@ def _holds(items, scope, root):
 def _trigger(key, value, scope, root):
     if key == 'religion': return scope['religion'] == value
     if key == 'has_country_flag': return value in scope['flags']
+    # common/scripted_triggers/rip_church_redesign_triggers.txt; ro_recognized_trigger_problems() pins the definition.
+    if key == 'rip_church_ro_recognized':
+        return ('rip_church_ro_recognized' in scope['flags'] and 'rip_church_ro_schismatic' not in scope['flags']) == (value == 'yes')
     if key == 'AND': return _holds(value, scope, root)
     if key == 'OR': return any(_trigger(k, v, scope, root) for k, v in value)
     if key == 'NOT': return not _holds(value, scope, root)
@@ -631,8 +636,14 @@ def _trigger(key, value, scope, root):
     raise ValueError('trigger outside the relation model: ' + key)
 
 
-def _apply(nodes, scope, root, prev, opinions):
-    """Run one effect body over two country fixtures; opinions holds (holder, target, modifier)."""
+def _apply(nodes, scope, root, prev, opinions, dropped=False):
+    """Run one effect body over two country fixtures; opinions holds (holder, target, modifier).
+
+    Control flow follows the script (if / else_if / else). `dropped` models the
+    engine: EU4 1.37.5 stores no add_opinion made inside an else_if / else body, so
+    an opinion added there never reaches `opinions`. A body nested under such a
+    branch inherits that, the conservative reading of what the runs proved.
+    """
     chain_done = False
     for key, value in nodes:
         if key in ('if', 'else_if', 'else'):
@@ -640,59 +651,152 @@ def _apply(nodes, scope, root, prev, opinions):
             if chain_done: continue
             if key == 'else' or _holds(dict(value)['limit'], scope, root):
                 chain_done = True
-                _apply([node for node in value if node[0] != 'limit'], scope, root, prev, opinions)
+                _apply([node for node in value if node[0] != 'limit'], scope, root, prev, opinions,
+                       dropped or key != 'if')
         elif key in ('add_opinion', 'remove_opinion'):
+            if key == 'add_opinion' and dropped:
+                continue
             fields = dict(value)
             triple = (scope['id'], {'ROOT': root, 'PREV': prev}[fields['who']]['id'], fields['modifier'])
             (opinions.add if key == 'add_opinion' else opinions.discard)(triple)
         elif key == 'ROOT':
-            _apply(value, root, root, scope, opinions)
+            _apply(value, root, root, scope, opinions, dropped)
         else:
             raise ValueError('effect outside the relation model: ' + key)
 
 
-def relation_outcome_problems(effect_text):
-    """Run the country loop for each pairing and compare the opinions that result.
+RELATION_PREFIX = 'rip_church_opinion_'
+SETTLED, SCHISM, RECOGNIZED = 'rip_church_ecumenical', 'rip_church_ro_schismatic', 'rip_church_ro_recognized'
+# (country state, ROOT state, opinions each side must hold, opinions held before the refresh, note); a state is
+# (religion, flags). The two sides always agree: every relation modifier is added in both directions.
+RELATION_CASES = (
+    # Greek Catholic <-> Latin: the +40 middle course, the +15 only after the Greek Catholic side has settled.
+    (('catholic', ()), ('greek_catholic', (SETTLED,)), {'gc_catholic_middle', 'gc_ecumenical'}, (), 'settlement concluded'),
+    (('greek_catholic', (SETTLED,)), ('catholic', ()), {'gc_catholic_middle', 'gc_ecumenical'}, (), 'settlement concluded'),
+    (('catholic', ()), ('greek_catholic', ()), {'gc_catholic_middle'}, (), 'settlement not concluded'),
+    (('catholic', ()), ('greek_catholic', ()), {'gc_catholic_middle'}, ('gc_ecumenical',), 'settlement lapsed, the +15 was held'),
+    # Greek Catholic <-> Orthodox and Muscovite Orthodox: the neutral middle course; russian_orthodox never had the +15.
+    (('orthodox', ()), ('greek_catholic', (SETTLED,)), {'gc_orthodox_middle', 'gc_ecumenical'}, (), 'settlement concluded'),
+    (('greek_catholic', (SETTLED,)), ('orthodox', ()), {'gc_orthodox_middle', 'gc_ecumenical'}, (), 'settlement concluded'),
+    (('orthodox', ()), ('greek_catholic', ()), {'gc_orthodox_middle'}, (), 'settlement not concluded'),
+    (('orthodox', ()), ('greek_catholic', ()), {'gc_orthodox_middle'}, ('gc_ecumenical',), 'settlement lapsed, the +15 was held'),
+    (('russian_orthodox', ()), ('greek_catholic', (SETTLED,)), {'gc_orthodox_middle'}, (), 'settlement concluded'),
+    (('greek_catholic', (SETTLED,)), ('russian_orthodox', ()), {'gc_orthodox_middle'}, (), 'settlement concluded'),
+    # Orthodox <-> Muscovite Orthodox: exactly one of unrecognized / recognized / schism, from either side.
+    (('orthodox', ()), ('russian_orthodox', ()), {'ro_unrecognized'}, (), ''),
+    (('russian_orthodox', ()), ('orthodox', ()), {'ro_unrecognized'}, (), ''),
+    (('orthodox', ()), ('russian_orthodox', (RECOGNIZED,)), {'ro_recognized'}, (), ''),
+    (('russian_orthodox', (RECOGNIZED,)), ('orthodox', ()), {'ro_recognized'}, (), ''),
+    (('orthodox', ()), ('russian_orthodox', (SCHISM,)), {'ro_schism'}, (), ''),
+    (('russian_orthodox', (SCHISM,)), ('orthodox', ()), {'ro_schism'}, (), ''),
+    (('orthodox', ()), ('russian_orthodox', (SCHISM, RECOGNIZED)), {'ro_schism'}, (), 'schism wins over recognition'),
+    (('orthodox', ()), ('russian_orthodox', (SCHISM,)), {'ro_schism'}, ('ro_recognized',), 'was recognized, now schismatic'),
+    (('orthodox', ()), ('russian_orthodox', (RECOGNIZED,)), {'ro_recognized'}, ('ro_unrecognized', 'ro_schism'), 'stale opinions are removed first'),
+    # Union opposition rides alongside, from either side.
+    (('orthodox', ('rip_church_opposes_union',)), ('greek_catholic', ()), {'gc_orthodox_middle', 'union_opposition'}, (), ''),
+    (('greek_catholic', ()), ('catholic', ('rip_church_opposes_union',)), {'gc_catholic_middle', 'union_opposition'}, (), ''),
+    # Pairs that hold no church opinion.
+    (('russian_orthodox', ()), ('russian_orthodox', ()), set(), (), 'two Muscovite Orthodox states'),
+    (('orthodox', ()), ('orthodox', ()), set(), (), 'two Orthodox states'),
+    (('catholic', ()), ('catholic', ()), set(), (), 'two Catholic states'),
+    (('greek_catholic', (SETTLED,)), ('greek_catholic', (SETTLED,)), set(), (), 'two Greek Catholic states'),
+    (('catholic', ()), ('orthodox', ()), set(), (), 'Latin and Orthodox states'),
+    (('catholic', ()), ('russian_orthodox', ()), set(), (), 'Latin and Muscovite Orthodox states'),
+    (('sunni', ()), ('greek_catholic', (SETTLED,)), set(), (), 'Greek Catholic and a Muslim state'),
+    (('protestant', ()), ('russian_orthodox', (SCHISM,)), set(), (), 'Muscovite Orthodox and a Protestant state'),
+)
 
-    Catholic states get the ecumenical +15 on top of the +40 of the middle
-    course; Orthodox states keep it; russian_orthodox never had it; nobody gets
-    it before the Greek Catholic side has concluded the settlement, and a bonus
-    already held is withdrawn when the settlement lapses.
+
+def relation_outcome_problems(effect_text):
+    """Run the country loop for every pairing and compare the opinions that result.
+
+    The model is the script's own control flow plus the one engine fact that
+    matters: an add_opinion inside an else_if / else body is not stored. So the
+    effect passes only when every pair is served by an `if` (or nothing). Catholic
+    states get the ecumenical +15 on top of the +40 of the middle course; Orthodox
+    states keep it; russian_orthodox never had it; nobody gets it before the Greek
+    Catholic side has concluded the settlement, and a bonus already held is
+    withdrawn when the settlement lapses.
     """
     body = _every_country(effect_text)
     if body is None:
         return [RELATIONS_EFFECT + ' has no single every_country loop']
     body = [node for node in body if node[0] != 'limit']
-    catholic, orthodox = 'rip_church_opinion_gc_catholic_middle', 'rip_church_opinion_gc_orthodox_middle'
-    cases = (
-        ('catholic', 'greek_catholic', True, {catholic, ECUMENICAL_OPINION}),
-        ('orthodox', 'greek_catholic', True, {orthodox, ECUMENICAL_OPINION}),
-        ('russian_orthodox', 'greek_catholic', True, {orthodox}),
-        ('greek_catholic', 'catholic', True, {catholic, ECUMENICAL_OPINION}),
-        ('greek_catholic', 'orthodox', True, {orthodox, ECUMENICAL_OPINION}),
-        ('catholic', 'greek_catholic', False, {catholic}),
-        ('orthodox', 'greek_catholic', False, {orthodox}),
-        ('catholic', 'greek_catholic', False, {catholic}, 'the +15 is already held'),
-    )
     problems = []
-    for other_faith, root_faith, settled, expected, *lapsed in cases:
-        other = dict(id='OTHER', religion=other_faith, flags=set())
-        root = dict(id='ROOT', religion=root_faith, flags=set())
-        if settled:
-            (other if other_faith == 'greek_catholic' else root)['flags'].add('rip_church_ecumenical')
-        opinions = {('OTHER', 'ROOT', ECUMENICAL_OPINION), ('ROOT', 'OTHER', ECUMENICAL_OPINION)} if lapsed else set()
+    for (other_faith, other_flags), (root_faith, root_flags), expected, held, note in RELATION_CASES:
+        other = dict(id='OTHER', religion=other_faith, flags=set(other_flags))
+        root = dict(id='ROOT', religion=root_faith, flags=set(root_flags))
+        opinions = {(who, whom, RELATION_PREFIX + name) for name in held
+                    for who, whom in (('OTHER', 'ROOT'), ('ROOT', 'OTHER'))}
         try:
             _apply(body, other, root, None, opinions)
         except ValueError as error:
             return [str(error)]
+        want = {RELATION_PREFIX + name for name in expected}
         for holder, target in (('OTHER', 'ROOT'), ('ROOT', 'OTHER')):
-            got = {modifier for who, whom, modifier in opinions
-                   if (who, whom) == (holder, target) and modifier in {catholic, orthodox, ECUMENICAL_OPINION}}
-            if got != expected:
-                problems.append(f'{other_faith} state with ROOT {root_faith}, settlement {"concluded" if settled else "lapsed" if lapsed else "not concluded"}: '
-                                f'{holder} holds {sorted(m.replace("rip_church_opinion_gc_", "") for m in got)}, '
-                                f'expected {sorted(m.replace("rip_church_opinion_gc_", "") for m in expected)}')
+            got = {modifier for who, whom, modifier in opinions if (who, whom) == (holder, target)}
+            if got != want:
+                names = lambda group: sorted(m.replace(RELATION_PREFIX, '') for m in group)
+                problems.append(f'{other_faith}{sorted(other_flags)} with ROOT {root_faith}{sorted(root_flags)}'
+                                f'{" (" + note + ")" if note else ""}: {holder} holds {names(got)}, expected {names(want)}')
     return problems
+
+
+CONDITIONALS = ('if', 'else_if', 'else')
+
+
+def relation_branch_shape_problems(effect_text):
+    """No opinion of the refresh effect may be added inside an else_if / else body.
+
+    EU4 1.37.5 leaves no opinion in the save for an add_opinion made in an else_if
+    or else body, while set_country_flag and ROOT / PREV in the same body work
+    (in-game runs A to C, diagnostics/gc_rights_ecumenism_20260929). Only an
+    unconditional add_opinion and one inside a top-level `if` are proven to persist,
+    so the pairs are independent `if` blocks with mutually exclusive limits, and an
+    add_opinion under a second nested conditional is refused too.
+    """
+    body = _body(effect_text, RELATIONS_EFFECT)
+    if body is None:
+        return [RELATIONS_EFFECT + ' is missing']
+    problems = []
+
+    def visit(nodes, conditionals):
+        for key, value in nodes:
+            if key == 'add_opinion':
+                modifier = dict(value).get('modifier')
+                if any(name != 'if' for name in conditionals):
+                    problems.append(f'add_opinion of {modifier} sits inside an else_if / else body ({" > ".join(conditionals)}): '
+                                    'the engine stores no opinion there')
+                elif len(conditionals) > 1:
+                    problems.append(f'add_opinion of {modifier} sits under {len(conditionals)} nested `if` blocks: '
+                                    'only an unconditional or single top-level `if` is proven in game')
+            elif isinstance(value, list):
+                visit(value, conditionals + [key] if key in CONDITIONALS else conditionals)
+    visit(body, [])
+    return problems
+
+
+def ro_recognized_trigger_problems(triggers_text):
+    """The outcome model re-implements rip_church_ro_recognized; the definition must stay what it assumes."""
+    expected = [('has_country_flag', 'rip_church_ro_recognized'), ('NOT', [('has_country_flag', 'rip_church_ro_schismatic')])]
+    body = _body(triggers_text, 'rip_church_ro_recognized')
+    return [] if body == expected else ['rip_church_ro_recognized no longer is "flag set and not schismatic"; '
+                                        'update _trigger() in the relation model with it']
+
+
+def else_if_copy_problems(effect_text):
+    """The two relation guards must fail on a deliberately damaged copy of the effect.
+
+    The Latin pair is turned back into an `else_if` behind the unrecognized `if`,
+    the shape that lost +40 in game; both guards have to notice.
+    """
+    damaged, count = re.subn(r'(?<!\w)if(\s*=\s*\{\s*limit\s*=\s*\{\s*OR\s*=\s*\{\s*AND\s*=\s*\{\s*religion\s*=\s*catholic\b)',
+                             r'else_if\1', effect_text, count=1)
+    if count != 1:
+        return ['the damaged copy could not be made: the Latin pair `if` was not found']
+    missed = [name for name, guard in (('branch shape', relation_branch_shape_problems), ('outcome model', relation_outcome_problems))
+              if not guard(damaged)]
+    return [f'the {name} guard accepts an effect whose Latin pair is an else_if' for name in missed]
 
 
 # Player-visible names of the province action. The internal ids keep the older
@@ -962,7 +1066,11 @@ def guarantee_of_rights_contracts():
         'rite_modifiers_are_alternatives': alternative_rite_modifier_problems(
             read('common/scripted_effects/rip_church_union_effects.txt')),
         'ecumenical_opinion_reachable': relation_ecumenical_problems(relations),
-        'ecumenical_opinion_outcomes': relation_outcome_problems(relations),
+        'relation_opinions_outside_else_branches': relation_branch_shape_problems(relations),
+        'relation_opinion_outcomes': relation_outcome_problems(relations),
+        'relation_guards_reject_else_if_copy': else_if_copy_problems(relations),
+        'ro_recognized_trigger_matches_model': ro_recognized_trigger_problems(
+            read('common/scripted_triggers/rip_church_redesign_triggers.txt')),
         'guarantee_naming_generator': guarantee_naming_problems(generator),
         'guarantee_naming_english': guarantee_naming_problems(english),
         **fallback_localisations,
@@ -987,9 +1095,9 @@ if __name__ == '__main__':
     contracts()
     rights = guarantee_of_rights_contracts()
     print(f'RELIGION SETTLEMENT PASS: {count} source-executed transition cases; adoption, Kyiv payments, migration, crusades, monuments; '
-          f'{rights} contracts (rite modifiers, ecumenical opinion, naming, Florentine precedent in EFIGS).')
+          f'{rights} contracts (rite modifiers, relation opinions in flat `if` blocks, English naming, Florentine precedent in EFIGS).')
     print('LIMIT: EU4 branch execution, old-save loading and 50-year effectiveness are not certified by this model.')
     # In-engine finding (EU4 1.37.5, diagnostics/gc_rights_ecumenism_20260929): add_opinion inside an else_if / else body
-    # leaves no opinion in the save, so the +40 / 0 / ro_* base modifiers of the refresh effect never appear and this
-    # model (standard chain semantics) is stricter than the game. Only the top-level ecumenical +15 is engine-proven.
-    print('LIMIT: the engine drops add_opinion inside else_if / else bodies; only the top-level ecumenical +15 is proven in game.')
+    # leaves no opinion in the save. The relation contracts above forbid that shape and model the engine on it; the flat
+    # structure that replaced the chain is proven in game by the run recorded in that folder (run D).
+    print('LIMIT: the engine rule on else_if / else is modelled from observed runs, not from EU4 source; a different EU4 build needs a new run.')
