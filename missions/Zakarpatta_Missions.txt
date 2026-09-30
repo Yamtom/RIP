@@ -1302,10 +1302,15 @@ UZH_missions_3 = {
             # The outcome of the dilemma is given once. A state whose synod is
             # already established (uzh.51 option a, or this mission earlier) would
             # otherwise hold concord and old-rite resilience together and take
-            # the concord rewards twice. The prestige and the debated flag below
+            # the concord rewards twice. The same holds for uzh.51 option b, which
+            # already grants the old-rite modifier and sets uzh_union_old_rite_confirmed.
+            # The prestige and the debated flag below
             # stay, so the next mission is still reached.
             if = {
-                limit = { NOT = { has_country_flag = uzh_union_synod_established } }
+                limit = {
+                    NOT = { has_country_flag = uzh_union_synod_established }
+                    NOT = { has_country_flag = uzh_union_old_rite_confirmed }
+                }
                 if = {
                     limit = { rip_faith_is_eastern_orthodox = yes }
                     rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }

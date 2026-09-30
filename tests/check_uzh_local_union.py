@@ -312,8 +312,9 @@ def contract_mission(missions):
     keys = [k for k, _ in effect]
     req(keys == ['if', 'add_prestige', 'hidden_effect'], 'mission-shape')
     guard = effect[0][1]
-    req(get(guard, 'limit')[0] == [('NOT', [('has_country_flag',
-                                            'uzh_union_synod_established')])], 'mission-guard')
+    req(get(guard, 'limit')[0] == [('NOT', [('has_country_flag', 'uzh_union_synod_established')]),
+                                   ('NOT', [('has_country_flag', 'uzh_union_old_rite_confirmed')])],
+        'mission-guard')
     inside = [k for k, _ in walk(guard)]
     total = [k for k, _ in walk(effect)]
     req(total.count('add_country_modifier') == 2 == inside.count('add_country_modifier'),
@@ -426,7 +427,8 @@ PLANTED = [
     ('sequel option b loses its tooltip', 'uzh',
      '        custom_tooltip = rip_uzh_synod_closed_tt\n', '', 'sequel-tooltip'),
     ('mission gives its outcome twice', 'missions',
-     'limit = { NOT = { has_country_flag = uzh_union_synod_established } }\n'
+     'limit = {\n                    NOT = { has_country_flag = uzh_union_synod_established }\n'
+     '                    NOT = { has_country_flag = uzh_union_old_rite_confirmed }\n                }\n'
      '                if = {\n                    limit = { rip_faith_is_eastern_orthodox = yes }',
      'limit = { always = yes }\n'
      '                if = {\n                    limit = { rip_faith_is_eastern_orthodox = yes }',
