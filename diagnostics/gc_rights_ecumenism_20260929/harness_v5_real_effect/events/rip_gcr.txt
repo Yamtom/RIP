@@ -1,0 +1,93 @@
+namespace = rip_gcr
+
+# Test harness only (scratchpad mod, never shipped). v5 drives the REAL
+# rip_church_refresh_relations_effect over every religion pair the effect knows:
+#   MOS  -> greek_catholic, ecumenical settlement concluded (flag)
+#   BYZ  -> stays orthodox, carries rip_church_opposes_union
+#   NOV  -> russian_orthodox, no flags                     (ro_unrecognized expected)
+#   TVE  -> russian_orthodox + rip_church_ro_recognized    (ro_recognized expected)
+#   RYA  -> russian_orthodox + rip_church_ro_schismatic    (ro_schism expected)
+#   PSK  -> russian_orthodox + both flags                  (ro_schism only expected)
+# Timeline (days after the console event): 0 MOS setup, 1 religions change, 3 flags set,
+# 6 every scenario country runs the real refresh. Nothing here calls add_opinion itself.
+
+# MOS (player), fired from the -auto_run commands file.
+country_event = {
+	id = rip_gcr.1
+	title = rip_gcr.1.t
+	desc = rip_gcr.1.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		enable_religion = greek_catholic
+		change_religion = greek_catholic
+		set_country_flag = rip_church_ecumenical
+		set_country_flag = rip_gcr_step_1_mos
+		BYZ = { set_country_flag = rip_church_opposes_union }
+		NOV = { country_event = { id = rip_gcr.2 days = 1 } }
+		TVE = { country_event = { id = rip_gcr.2 days = 1 } }
+		RYA = { country_event = { id = rip_gcr.2 days = 1 } }
+		PSK = { country_event = { id = rip_gcr.2 days = 1 } }
+		country_event = { id = rip_gcr.4 days = 6 }
+	}
+
+	option = { name = rip_gcr.1.a }
+}
+
+# The four Muscovite Orthodox test states change faith through the mod's own hooks.
+country_event = {
+	id = rip_gcr.2
+	title = rip_gcr.1.t
+	desc = rip_gcr.1.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		enable_religion = russian_orthodox
+		change_religion = russian_orthodox
+		set_country_flag = rip_gcr_step_2_religion
+		country_event = { id = rip_gcr.3 days = 2 }
+	}
+
+	option = { name = rip_gcr.1.a }
+}
+
+# Flags are set after the faith change so that no hook of the change can overwrite them.
+country_event = {
+	id = rip_gcr.3
+	title = rip_gcr.1.t
+	desc = rip_gcr.1.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = { limit = { tag = TVE } set_country_flag = rip_church_ro_recognized }
+		if = { limit = { tag = RYA } set_country_flag = rip_church_ro_schismatic }
+		if = { limit = { tag = PSK } set_country_flag = rip_church_ro_recognized set_country_flag = rip_church_ro_schismatic }
+		set_country_flag = rip_gcr_step_3_flags
+		country_event = { id = rip_gcr.4 days = 3 }
+	}
+
+	option = { name = rip_gcr.1.a }
+}
+
+# The effect under test, run once per scenario country with ROOT = that country.
+country_event = {
+	id = rip_gcr.4
+	title = rip_gcr.1.t
+	desc = rip_gcr.1.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		rip_church_refresh_relations_effect = yes
+		set_country_flag = rip_gcr_step_4_refreshed
+	}
+
+	option = { name = rip_gcr.1.a }
+}
