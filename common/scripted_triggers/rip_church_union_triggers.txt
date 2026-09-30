@@ -5,10 +5,15 @@ rip_church_gc_can_infrastructure = {
  religion = greek_catholic NOT = { rip_church_gc_has_privilege = yes }
  patriarch_authority = 0.2 treasury = 75 is_at_war = no
 }
+rip_church_gc_synod_community = {
+ has_province_flag = rip_church_rite_recognized
+ is_city = yes controlled_by = owner
+ OR = { religion = orthodox religion = russian_orthodox religion = catholic }
+}
 rip_church_gc_can_coexistence = {
  religion = greek_catholic NOT = { rip_church_gc_has_privilege = yes }
  patriarch_authority = 0.2 treasury = 100 is_at_war = no
- any_owned_province = { has_province_flag = rip_church_rite_recognized }
+ any_owned_province = { rip_church_gc_synod_community = yes }
 }
 # Compatibility alias for older event options. It grants no Roman petition path.
 rip_church_gc_can_eastern_privilege = {

@@ -340,6 +340,7 @@ for effect, needs_rights in (('rip_church_gc_infrastructure_effect', False), ('r
         c.update(patriarch_authority=bar, treasury=500, is_at_war=False)
         if needs_rights:
             province['flags']['rip_church_rite_recognized'] = world.day
+            province['religion'] = 'orthodox'
         world.run(effect, c)
         assert ('rip_uc_synod_held' in c['flags']) is expected, (effect, bar, 'synod flag')
         CASES += 1
