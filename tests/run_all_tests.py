@@ -21,6 +21,7 @@ scripts = [
     "tests/check_faith_content_balance.py",
     "tests/check_religion_settlement.py",
     "tests/check_church_redesign.py",
+    "tests/check_gc_resilience.py",
     "tests/check_gc_curia_window.py",
     "tests/check_church_gui_routes.py",
     "tests/check_church_balance_protocol.py",

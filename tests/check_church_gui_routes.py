@@ -48,7 +48,7 @@ windows = {dict(body)['name']:dict(body)['potential']
            for key,body in parse(read('common/custom_gui/RIP_church_controls.txt'))
            if key == 'custom_window' and dict(body)['name'] in {
                'rip_church_gc_panel','rip_church_gc_curia_panel',
-               'rip_church_gc_parishes_panel','rip_church_union_paths_panel'}}
+               'rip_church_union_paths_panel'}}
 def visible(w,c):
     return {name for name,gate in windows.items() if w.gate(gate,c)}
 
@@ -63,19 +63,29 @@ for faith,sponsor,initial in [
     if sponsor: c['flags']['rip_church_supports_union'] = w.day
     assert visible(w,c) == ({initial} if initial else set())
     resources = {key:c[key] for key in ('adm_power','dip_power','treasury','religion')}
-    w.run('rip_church_gui_open_parishes_effect',c)
-    allowed = faith == 'greek_catholic' or sponsor
-    assert visible(w,c) == ({'rip_church_gc_parishes_panel'} if allowed else ({initial} if initial else set()))
-    assert resources == {key:c[key] for key in resources}
+    # Parish counts are part of the Union page; only Union and Curia are tabs.
     w.run('rip_church_gc_open_curia_effect',c)
     if faith == 'greek_catholic':
-        assert visible(w,c) == {'rip_church_gc_curia_panel'}
-        w.run('rip_church_gui_open_parishes_effect',c)
-        assert visible(w,c) == {'rip_church_gc_parishes_panel'}
+        # The Curia page is layered over the Union page (see the draw-order check).
+        assert visible(w,c) == {'rip_church_gc_panel','rip_church_gc_curia_panel'}
+    else:
+        assert visible(w,c) == ({initial} if initial else set())
+    assert resources == {key:c[key] for key in resources}
     w.run('rip_church_gc_open_union_effect',c)
     assert visible(w,c) == ({initial} if initial else set())
     assert resources == {key:c[key] for key in resources}
     cases += 1
+
+controls = read('common/custom_gui/RIP_church_controls.txt')
+assert 'rip_church_gui_open_parishes_effect' not in controls, 'a tab that opens a retired panel'
+# Layering: the Curia page is declared after the Union page, on the same
+# rectangle, with an opaque background, so it covers the page beneath it.
+view = read('interface/countryreligionview.gui')
+union_at = view.index('name = "rip_church_gc_panel" scripted = yes position = { x=540 y=8 } size = { x=475 y=680 }')
+curia_at = view.index('name = "rip_church_gc_curia_panel" scripted = yes position = { x=540 y=8 } size = { x=475 y=680 }')
+assert union_at < curia_at
+assert 'name = "rip_church_gc_curia_panel_bg" spriteType = "GFX_rip_church_ro_frame" position = { x=0 y=0 } scale = 0.782537 alwaystransparent = no' in view
+cases += 1
 
 # A stale GUI click cannot convert a Catholic patron or another non-Orthodox state.
 for faith in ('catholic','greek_catholic','russian_orthodox','protestant'):

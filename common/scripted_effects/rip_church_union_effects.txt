@@ -1,17 +1,10 @@
-# Local synodal institutions remain; retired Roman petition modifiers are removed from old saves.
+# Local synodal institutions remain. Retired petition modifiers are not removed
+# here: EU4 drops undefined modifiers from old saves, and removing them only logs
+# "Unknown modifier-type" every month.
 rip_church_gc_clear_privilege_effect = {
  rip_church_gc_clear_interaction_effects = yes
  remove_country_modifier = rip_church_gc_infrastructure
  remove_country_modifier = rip_church_gc_coexistence
- remove_country_modifier = rip_church_gc_legate
- remove_country_modifier = rip_church_gc_dynastic
- remove_country_modifier = rip_church_gc_prestige
- remove_country_modifier = rip_church_gc_church_tax
- remove_country_modifier = rip_church_gc_blessing
- remove_country_modifier = rip_church_gc_usury
- remove_country_modifier = rip_church_gc_holy_war
- remove_country_modifier = rip_church_gc_saint
- remove_country_modifier = rip_church_gc_monopoly
 }
 rip_church_gc_infrastructure_effect = {
  if = { limit = { rip_church_gc_can_infrastructure = yes }

@@ -1,0 +1,20 @@
+# Greek Catholic eparchial network. Country hooks recount and never pay on load;
+# province hooks dissolve a see that changed owner or left the faith at once.
+on_startup = {
+	rip_church_gc_network_monthly_effect = yes
+}
+on_monthly_pulse = {
+	rip_church_gc_network_monthly_effect = yes
+}
+on_religion_change = {
+	rip_church_gc_network_monthly_effect = yes
+}
+on_province_owner_change = {
+	rip_church_gc_see_owner_change_effect = yes
+}
+on_province_religion_changed = {
+	rip_church_gc_see_religion_change_effect = yes
+}
+on_province_religion_converted = {
+	rip_church_gc_see_religion_change_effect = yes
+}

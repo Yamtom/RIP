@@ -111,7 +111,8 @@ assert "rip_ucr_can_sign_the_union = yes" in named_block(signature, "limit")
 assert "set_country_flag = rip_ucr_church_taken" in signature
 assert "rip_faith_adopt_union_effect = yes" in signature
 assert "name = rip_ucr_church_of_the_palace" in signature
-assert "activate_greek_catholic_reformation = yes" in signature
+# The retired automatic Uniate spread must not be revived by the signature.
+assert "activate_greek_catholic_reformation" not in signature
 assert "every_owned_province" not in signature
 for n in (3, 4, 5, 6):
     # Events may contain option/description triggers before the event trigger;

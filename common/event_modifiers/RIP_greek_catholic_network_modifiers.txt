@@ -1,0 +1,83 @@
+# Greek Catholic eparchial network. Magnitudes stay inside the vanilla ranges:
+# local_missionary_strength 0.02 is the most common positive vanilla value,
+# yearly_patriarch_authority 0.005 matches a single vanilla source, and each
+# program is one effect of Protestant church-aspect size.
+
+# Province: the seat of a bishop.
+rip_church_gc_eparchial_see = {
+	local_unrest = -0.5
+	local_missionary_strength = -0.02
+}
+
+# Province: an occupied see keeps its place and loses its work. Marker only.
+rip_church_gc_vacant_see = {
+	religion = yes
+}
+
+# Province: Eastern-rite parish of an active eparchy.
+rip_church_gc_pastoral_visitation = {
+	local_missionary_strength = 0.02
+}
+
+# Country: synod of bishops, one band per number of active sees.
+rip_church_gc_bishops_1 = {
+	yearly_patriarch_authority = 0.005
+	religion = yes
+}
+rip_church_gc_bishops_2 = {
+	yearly_patriarch_authority = 0.01
+	religion = yes
+}
+rip_church_gc_bishops_3 = {
+	yearly_patriarch_authority = 0.015
+	religion = yes
+}
+rip_church_gc_bishops_4 = {
+	yearly_patriarch_authority = 0.02
+	religion = yes
+}
+
+# Country: Rome cannot be petitioned and at least one see is active.
+rip_church_gc_self_government = {
+	yearly_patriarch_authority = 0.005
+	religion = yes
+}
+
+# Country: Rome. Protection follows papal opinion; the two institutions are
+# timed and each needs a cordial Rome to be founded.
+rip_church_gc_papal_protection = {
+	diplomatic_reputation = 0.5
+	improve_relation_modifier = 0.1
+	religion = yes
+}
+rip_church_gc_greek_college = {
+	yearly_patriarch_authority = 0.005
+	same_religion_advisor_cost = -0.1
+	religion = yes
+}
+rip_church_gc_propaganda_fide = {
+	missionary_maintenance_cost = -0.25
+	religion = yes
+}
+
+# Country: standing programs of the synod.
+rip_church_gc_program_rite = {
+	global_unrest = -1
+	religion = yes
+}
+rip_church_gc_program_schools = {
+	idea_cost = -0.05
+	religion = yes
+}
+rip_church_gc_program_mission = {
+	global_heretic_missionary_strength = 0.01
+	religion = yes
+}
+rip_church_gc_program_synod = {
+	yearly_patriarch_authority = 0.005
+	religion = yes
+}
+rip_church_gc_program_rome = {
+	improve_relation_modifier = 0.15
+	religion = yes
+}

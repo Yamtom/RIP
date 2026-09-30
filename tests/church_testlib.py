@@ -11,7 +11,7 @@ from clausewitz_testlib import ROOT, read
 for directory, registry in [('scripted_triggers', TRIGGERS), ('scripted_effects', EFFECTS)]:
     for path in (ROOT / 'common' / directory).glob('rip_church_*.txt'):
         registry.update(parse(path.read_text(encoding='utf-8-sig')))
-for name in ['rip_uc_curia_effects', 'rip_faith_effects', 'rip_ro_icon_effects']:
+for name in ['rip_faith_effects', 'rip_ro_icon_effects']:
     EFFECTS.update(parse(read('common/scripted_effects/' + name + '.txt')))
 
 
@@ -30,11 +30,13 @@ class World(SettlementWorld):
 
     def opinion(self, source, target):
         result = source['opinions'].get(target['id'], 0)
-        definitions = dict(parse(read('common/opinion_modifiers/RIP_church_curia.txt')))
+        definitions = dict(parse(read('common/opinion_modifiers/RIP_church_relations.txt')))
         for (who, modifier), day in source.get('opinion_dates', {}).items():
             if who == target['id'] and modifier in definitions:
                 fields = dict(definitions[modifier])
-                result += max(0, float(fields['opinion']) - float(fields['yearly_decay']) * (self.day-day)/365)
+                base = float(fields['opinion'])
+                decayed = max(0, abs(base) - float(fields.get('yearly_decay', 0)) * (self.day-day)/365)
+                result += decayed if base >= 0 else -decayed
         return min(200, max(-200, result))
 
     def province(self, number, owner, religion='orthodox'):

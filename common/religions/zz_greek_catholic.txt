@@ -3,9 +3,12 @@ christian = {
 		color = { 178 128 204 }
 		icon = 31
 
-		# The estate effect represents the church's standing in the realm.
+		# The estate effect represents the church's standing in the realm. The
+		# mission field of a union church is other Christians: the realm-wide
+		# missionary base mirrors vanilla Catholicism's 0.01 against heathens.
 		country = {
 			church_loyalty_modifier = 0.05
+			global_heretic_missionary_strength = 0.01
 		}
 
 		# Secondary-faith clerical influence is deliberately smaller.
@@ -13,8 +16,12 @@ christian = {
 			church_loyalty_modifier = 0.025
 		}
 
+		# This block sets how easily OTHER faiths convert a Greek Catholic parish.
+		# Vanilla gives -0.01 to Orthodox and -0.02 to Coptic parishes, and a
+		# positive value only to pagan faiths; the former +0.01 made the union's
+		# parishes easier to take, not stronger.
 		province = {
-			local_missionary_strength = 0.01
+			local_missionary_strength = -0.01
 		}
 
 		# Native internal authority funds local synodal institutions.

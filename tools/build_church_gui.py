@@ -64,14 +64,14 @@ def shield(name,x,y,target,potential,sprite):
  quadTextureSprite = "{sprite}" buttonFont = "vic_18"
 }}'''
 
+# Parish counts live on the Union page since the separate Parishes panel was
+# retired; only the two remaining pages get tabs.
 def gc_tabs(page):
-    y=524 if page=='parishes' else 644
+    y=644
     return (button('rip_church_gc_union_tab_'+page,63,y,'OR = { religion = greek_catholic religion = catholic }',
                    'rip_church_gc_open_union_effect = yes',sprite='GFX_tab_small_116',frame=2 if page=='union' else 1)+
             button('rip_church_gc_curia_tab_'+page,179,y,'religion = greek_catholic',
-                   'rip_church_gc_open_curia_effect = yes',sprite='GFX_tab_small_116',frame=2 if page=='curia' else 1)+
-            button('rip_church_gc_parishes_tab_'+page,295,y,'rip_church_union_supporter = yes',
-                   'rip_church_gui_open_parishes_effect = yes',sprite='GFX_tab_small_116',frame=2 if page=='parishes' else 1))
+                   'rip_church_gc_open_curia_effect = yes',sprite='GFX_tab_small_116',frame=2 if page=='curia' else 1))
 
 def art(name,sprite,x,y,scale=1):
     return f'iconType = {{ name = "{name}" spriteType = "{sprite}" position = {{ x={x} y={y} }} scale = {scale} alwaystransparent = yes }}'

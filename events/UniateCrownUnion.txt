@@ -560,22 +560,8 @@ country_event = {
 country_event = {
 	id = uniate_crown.6
 	title = uniate_crown.6.t
-	desc = {
-		trigger = { has_country_flag = rip_ucr_want_legate }
-		text = uniate_crown.6.d.legate
-	}
-	desc = {
-		trigger = { has_country_flag = rip_ucr_want_dispensation }
-		text = uniate_crown.6.d.marriage
-	}
-	desc = {
-		trigger = { has_country_flag = rip_ucr_want_title }
-		text = uniate_crown.6.d.title
-	}
-	desc = {
-		trigger = { always = yes }
-		text = uniate_crown.6.d.title
-	}
+	# One text covers the legate, dispensation and title requests alike.
+	desc = uniate_crown.6.d
 	picture = DIPLOMACY_eventPicture
 
 	is_triggered_only = yes

@@ -1,0 +1,519 @@
+# Greek Catholic eparchial network. Sees support missionaries in their eparchy
+# and fund the synod of bishops; programs are standing choices of that synod.
+# Maintenance is idempotent and never pays anything on load.
+
+# Province scope, ROOT = owner.
+rip_church_gc_found_see_effect = {
+	set_province_flag = rip_church_gc_see
+	remove_province_modifier = rip_church_gc_vacant_see
+	add_province_modifier = { name = rip_church_gc_eparchial_see duration = -1 }
+}
+rip_church_gc_dissolve_see_effect = {
+	clr_province_flag = rip_church_gc_see
+	remove_province_modifier = rip_church_gc_eparchial_see
+	remove_province_modifier = rip_church_gc_vacant_see
+}
+
+# Country scope. The decision and any later GUI button share this transaction.
+rip_church_gc_erect_see_effect = {
+	if = {
+		limit = { rip_church_gc_can_erect_see = yes }
+		add_adm_power = -50
+		add_treasury = -100
+		clr_country_flag = rip_church_gc_see_erected
+		set_country_flag = rip_church_gc_see_erected
+		rip_church_gc_found_best_see_effect = yes
+		rip_church_gc_network_refresh_effect = yes
+	}
+}
+
+# Country scope. The bishop is seated in the most developed eligible parish,
+# preferring one with Eastern-rite parishes in its area or next to it.
+rip_church_gc_found_best_see_effect = {
+	if = {
+		limit = { any_owned_province = { rip_church_gc_see_site = yes rip_church_gc_see_has_flock = yes development = 15 } }
+		random_owned_province = {
+			limit = { rip_church_gc_see_site = yes rip_church_gc_see_has_flock = yes development = 15 }
+			rip_church_gc_found_see_effect = yes
+		}
+	}
+	else_if = {
+		limit = { any_owned_province = { rip_church_gc_see_site = yes rip_church_gc_see_has_flock = yes } }
+		random_owned_province = {
+			limit = { rip_church_gc_see_site = yes rip_church_gc_see_has_flock = yes }
+			rip_church_gc_found_see_effect = yes
+		}
+	}
+	else_if = {
+		limit = { any_owned_province = { rip_church_gc_see_site = yes development = 15 } }
+		random_owned_province = {
+			limit = { rip_church_gc_see_site = yes development = 15 }
+			rip_church_gc_found_see_effect = yes
+		}
+	}
+	else = {
+		random_owned_province = {
+			limit = { rip_church_gc_see_site = yes }
+			rip_church_gc_found_see_effect = yes
+		}
+	}
+}
+
+# Country scope, Greek Catholic state.
+rip_church_gc_network_refresh_effect = {
+	set_country_flag = rip_church_gc_network_active
+	# A see needs a Greek Catholic parish. Ownership changes dissolve it in the
+	# province hook; this also covers conversions made before a reload.
+	every_owned_province = {
+		limit = {
+			has_province_flag = rip_church_gc_see
+			NOT = { religion = greek_catholic }
+		}
+		rip_church_gc_dissolve_see_effect = yes
+	}
+	# The metropolitan see needs no decision and costs nothing. It is seated
+	# only while the realm holds no see at all, so it also moves the see after
+	# every other one was lost; the paid decision adds the rest.
+	if = {
+		limit = { rip_church_gc_needs_metropolitan_see = yes }
+		rip_church_gc_found_best_see_effect = yes
+	}
+	set_variable = { which = rip_church_gc_sees value = 0 }
+	set_variable = { which = rip_church_gc_active_sees value = 0 }
+	# An occupied see is vacant: it keeps its place, not its work.
+	every_owned_province = {
+		limit = { has_province_flag = rip_church_gc_see }
+		owner = { change_variable = { which = rip_church_gc_sees value = 1 } }
+		if = {
+			limit = { controlled_by = owner }
+			owner = { change_variable = { which = rip_church_gc_active_sees value = 1 } }
+			remove_province_modifier = rip_church_gc_vacant_see
+			if = {
+				limit = { NOT = { has_province_modifier = rip_church_gc_eparchial_see } }
+				add_province_modifier = { name = rip_church_gc_eparchial_see duration = -1 }
+			}
+		}
+		else = {
+			remove_province_modifier = rip_church_gc_eparchial_see
+			if = {
+				limit = { NOT = { has_province_modifier = rip_church_gc_vacant_see } }
+				add_province_modifier = { name = rip_church_gc_vacant_see duration = -1 }
+			}
+		}
+	}
+	set_variable = { which = rip_church_gc_see_capacity value = 1 }
+	if = {
+		limit = { num_of_owned_provinces_with = { value = 8 religion = greek_catholic } }
+		set_variable = { which = rip_church_gc_see_capacity value = 2 }
+	}
+	if = {
+		limit = { num_of_owned_provinces_with = { value = 16 religion = greek_catholic } }
+		set_variable = { which = rip_church_gc_see_capacity value = 3 }
+	}
+	if = {
+		limit = { num_of_owned_provinces_with = { value = 24 religion = greek_catholic } }
+		set_variable = { which = rip_church_gc_see_capacity value = 4 }
+	}
+	# Eparchy = the see's area plus the parishes next to it. Mark first, then
+	# change only what differs, so nothing is re-added every month.
+	every_owned_province = {
+		limit = {
+			has_province_flag = rip_church_gc_see
+			controlled_by = owner
+		}
+		area = {
+			limit = { rip_church_gc_eparchy_target = yes }
+			set_province_flag = rip_church_gc_eparchy_marked
+		}
+		every_neighbor_province = {
+			limit = { rip_church_gc_eparchy_target = yes }
+			set_province_flag = rip_church_gc_eparchy_marked
+		}
+	}
+	every_owned_province = {
+		if = {
+			limit = { has_province_flag = rip_church_gc_eparchy_marked }
+			clr_province_flag = rip_church_gc_eparchy_marked
+			if = {
+				limit = { NOT = { has_province_modifier = rip_church_gc_pastoral_visitation } }
+				add_province_modifier = { name = rip_church_gc_pastoral_visitation duration = -1 }
+			}
+		}
+		else_if = {
+			limit = { has_province_modifier = rip_church_gc_pastoral_visitation }
+			remove_province_modifier = rip_church_gc_pastoral_visitation
+		}
+	}
+	rip_church_gc_bishops_income_effect = yes
+	# The synod governs itself while Rome cannot be petitioned. It needs bishops.
+	if = {
+		limit = {
+			check_variable = { which = rip_church_gc_active_sees value = 1 }
+			rip_church_gc_rome_unavailable = yes
+		}
+		if = {
+			limit = { NOT = { has_country_modifier = rip_church_gc_self_government } }
+			add_country_modifier = { name = rip_church_gc_self_government duration = -1 }
+		}
+	}
+	else = {
+		remove_country_modifier = rip_church_gc_self_government
+	}
+	# Rome's protection follows the Pope's opinion of us; nothing is spent.
+	if = {
+		limit = { rip_church_gc_papal_protection_due = yes }
+		if = {
+			limit = { NOT = { has_country_modifier = rip_church_gc_papal_protection } }
+			add_country_modifier = { name = rip_church_gc_papal_protection duration = -1 }
+		}
+	}
+	else = {
+		remove_country_modifier = rip_church_gc_papal_protection
+	}
+	rip_church_gc_program_enforce_effect = yes
+}
+
+# --- Rome: two institutions, no resource -------------------------------------
+
+rip_church_gc_greek_college_effect = {
+	if = {
+		limit = { rip_church_gc_can_greek_college = yes }
+		add_treasury = -100
+		add_dip_power = -25
+		add_country_modifier = { name = rip_church_gc_greek_college duration = 7300 }
+	}
+}
+rip_church_gc_propaganda_fide_effect = {
+	if = {
+		limit = { rip_church_gc_can_propaganda_fide = yes }
+		add_treasury = -50
+		add_dip_power = -50
+		add_country_modifier = { name = rip_church_gc_propaganda_fide duration = 3650 }
+	}
+}
+
+# Exactly one income band for the number of active sees; none without one.
+rip_church_gc_bishops_income_effect = {
+	if = {
+		limit = {
+			check_variable = { which = rip_church_gc_active_sees value = 1 }
+			NOT = { check_variable = { which = rip_church_gc_active_sees value = 2 } }
+		}
+		if = {
+			limit = { NOT = { has_country_modifier = rip_church_gc_bishops_1 } }
+			add_country_modifier = { name = rip_church_gc_bishops_1 duration = -1 }
+		}
+	}
+	else = { remove_country_modifier = rip_church_gc_bishops_1 }
+	if = {
+		limit = {
+			check_variable = { which = rip_church_gc_active_sees value = 2 }
+			NOT = { check_variable = { which = rip_church_gc_active_sees value = 3 } }
+		}
+		if = {
+			limit = { NOT = { has_country_modifier = rip_church_gc_bishops_2 } }
+			add_country_modifier = { name = rip_church_gc_bishops_2 duration = -1 }
+		}
+	}
+	else = { remove_country_modifier = rip_church_gc_bishops_2 }
+	if = {
+		limit = {
+			check_variable = { which = rip_church_gc_active_sees value = 3 }
+			NOT = { check_variable = { which = rip_church_gc_active_sees value = 4 } }
+		}
+		if = {
+			limit = { NOT = { has_country_modifier = rip_church_gc_bishops_3 } }
+			add_country_modifier = { name = rip_church_gc_bishops_3 duration = -1 }
+		}
+	}
+	else = { remove_country_modifier = rip_church_gc_bishops_3 }
+	# Old saves or conquests may hold more than four sees; the band stops at four.
+	if = {
+		limit = { check_variable = { which = rip_church_gc_active_sees value = 4 } }
+		if = {
+			limit = { NOT = { has_country_modifier = rip_church_gc_bishops_4 } }
+			add_country_modifier = { name = rip_church_gc_bishops_4 duration = -1 }
+		}
+	}
+	else = { remove_country_modifier = rip_church_gc_bishops_4 }
+}
+
+# --- synodal programs -------------------------------------------------------
+
+rip_church_gc_program_recount_effect = {
+	set_variable = { which = rip_church_gc_programs value = 0 }
+	if = {
+		limit = { has_country_modifier = rip_church_gc_program_rite }
+		change_variable = { which = rip_church_gc_programs value = 1 }
+	}
+	if = {
+		limit = { has_country_modifier = rip_church_gc_program_schools }
+		change_variable = { which = rip_church_gc_programs value = 1 }
+	}
+	if = {
+		limit = { has_country_modifier = rip_church_gc_program_mission }
+		change_variable = { which = rip_church_gc_programs value = 1 }
+	}
+	if = {
+		limit = { has_country_modifier = rip_church_gc_program_synod }
+		change_variable = { which = rip_church_gc_programs value = 1 }
+	}
+	if = {
+		limit = { has_country_modifier = rip_church_gc_program_rome }
+		change_variable = { which = rip_church_gc_programs value = 1 }
+	}
+	set_variable = { which = rip_church_gc_program_slots value = 1 }
+	if = {
+		limit = { num_of_owned_provinces_with = { value = 3 has_province_flag = rip_church_gc_see } }
+		set_variable = { which = rip_church_gc_program_slots value = 2 }
+	}
+	# A single remaining program is the first one again.
+	if = {
+		limit = { NOT = { check_variable = { which = rip_church_gc_programs value = 2 } } }
+		clr_country_flag = rip_church_gc_program_late_rite
+		clr_country_flag = rip_church_gc_program_late_schools
+		clr_country_flag = rip_church_gc_program_late_mission
+		clr_country_flag = rip_church_gc_program_late_synod
+		clr_country_flag = rip_church_gc_program_late_rome
+	}
+}
+
+# More programs than slots: the later program lapses, the earlier one stays.
+rip_church_gc_program_enforce_effect = {
+	rip_church_gc_program_recount_effect = yes
+	if = {
+		limit = {
+			check_variable = { which = rip_church_gc_programs value = 2 }
+			NOT = { check_variable = { which = rip_church_gc_program_slots value = 2 } }
+		}
+		if = {
+			limit = { has_country_flag = rip_church_gc_program_late_rite }
+			rip_church_gc_drop_program_rite_effect = yes
+		}
+		if = {
+			limit = { has_country_flag = rip_church_gc_program_late_schools }
+			rip_church_gc_drop_program_schools_effect = yes
+		}
+		if = {
+			limit = { has_country_flag = rip_church_gc_program_late_mission }
+			rip_church_gc_drop_program_mission_effect = yes
+		}
+		if = {
+			limit = { has_country_flag = rip_church_gc_program_late_synod }
+			rip_church_gc_drop_program_synod_effect = yes
+		}
+		if = {
+			limit = { has_country_flag = rip_church_gc_program_late_rome }
+			rip_church_gc_drop_program_rome_effect = yes
+		}
+	}
+	# Without an order marker (an edited save) the last listed program lapses.
+	if = {
+		limit = {
+			check_variable = { which = rip_church_gc_programs value = 2 }
+			NOT = { check_variable = { which = rip_church_gc_program_slots value = 2 } }
+		}
+		if = {
+			limit = { has_country_modifier = rip_church_gc_program_rome }
+			rip_church_gc_drop_program_rome_effect = yes
+		}
+		else_if = {
+			limit = { has_country_modifier = rip_church_gc_program_synod }
+			rip_church_gc_drop_program_synod_effect = yes
+		}
+		else_if = {
+			limit = { has_country_modifier = rip_church_gc_program_mission }
+			rip_church_gc_drop_program_mission_effect = yes
+		}
+		else_if = {
+			limit = { has_country_modifier = rip_church_gc_program_schools }
+			rip_church_gc_drop_program_schools_effect = yes
+		}
+	}
+}
+
+# Shared payment. The interval runs from the latest adoption.
+rip_church_gc_program_pay_effect = {
+	add_patriarch_authority = -0.2
+	clr_country_flag = rip_church_gc_program_adopted
+	set_country_flag = rip_church_gc_program_adopted
+}
+
+rip_church_gc_adopt_program_rite_effect = {
+	if = {
+		limit = { rip_church_gc_can_adopt_program_rite = yes }
+		if = {
+			limit = { rip_church_gc_has_program = yes }
+			set_country_flag = rip_church_gc_program_late_rite
+		}
+		rip_church_gc_program_pay_effect = yes
+		add_country_modifier = { name = rip_church_gc_program_rite duration = -1 }
+		rip_church_gc_program_recount_effect = yes
+	}
+}
+rip_church_gc_adopt_program_schools_effect = {
+	if = {
+		limit = { rip_church_gc_can_adopt_program_schools = yes }
+		if = {
+			limit = { rip_church_gc_has_program = yes }
+			set_country_flag = rip_church_gc_program_late_schools
+		}
+		rip_church_gc_program_pay_effect = yes
+		add_country_modifier = { name = rip_church_gc_program_schools duration = -1 }
+		rip_church_gc_program_recount_effect = yes
+	}
+}
+rip_church_gc_adopt_program_mission_effect = {
+	if = {
+		limit = { rip_church_gc_can_adopt_program_mission = yes }
+		if = {
+			limit = { rip_church_gc_has_program = yes }
+			set_country_flag = rip_church_gc_program_late_mission
+		}
+		rip_church_gc_program_pay_effect = yes
+		add_country_modifier = { name = rip_church_gc_program_mission duration = -1 }
+		rip_church_gc_program_recount_effect = yes
+	}
+}
+rip_church_gc_adopt_program_synod_effect = {
+	if = {
+		limit = { rip_church_gc_can_adopt_program_synod = yes }
+		if = {
+			limit = { rip_church_gc_has_program = yes }
+			set_country_flag = rip_church_gc_program_late_synod
+		}
+		rip_church_gc_program_pay_effect = yes
+		add_country_modifier = { name = rip_church_gc_program_synod duration = -1 }
+		rip_church_gc_program_recount_effect = yes
+	}
+}
+rip_church_gc_adopt_program_rome_effect = {
+	if = {
+		limit = { rip_church_gc_can_adopt_program_rome = yes }
+		if = {
+			limit = { rip_church_gc_has_program = yes }
+			set_country_flag = rip_church_gc_program_late_rome
+		}
+		rip_church_gc_program_pay_effect = yes
+		add_country_modifier = { name = rip_church_gc_program_rome duration = -1 }
+		rip_church_gc_program_recount_effect = yes
+	}
+}
+
+# Dropping is free and never refunds; the adoption interval keeps running.
+rip_church_gc_drop_program_rite_effect = {
+	if = {
+		limit = { has_country_modifier = rip_church_gc_program_rite }
+		remove_country_modifier = rip_church_gc_program_rite
+		clr_country_flag = rip_church_gc_program_late_rite
+		rip_church_gc_program_recount_effect = yes
+	}
+}
+rip_church_gc_drop_program_schools_effect = {
+	if = {
+		limit = { has_country_modifier = rip_church_gc_program_schools }
+		remove_country_modifier = rip_church_gc_program_schools
+		clr_country_flag = rip_church_gc_program_late_schools
+		rip_church_gc_program_recount_effect = yes
+	}
+}
+rip_church_gc_drop_program_mission_effect = {
+	if = {
+		limit = { has_country_modifier = rip_church_gc_program_mission }
+		remove_country_modifier = rip_church_gc_program_mission
+		clr_country_flag = rip_church_gc_program_late_mission
+		rip_church_gc_program_recount_effect = yes
+	}
+}
+rip_church_gc_drop_program_synod_effect = {
+	if = {
+		limit = { has_country_modifier = rip_church_gc_program_synod }
+		remove_country_modifier = rip_church_gc_program_synod
+		clr_country_flag = rip_church_gc_program_late_synod
+		rip_church_gc_program_recount_effect = yes
+	}
+}
+rip_church_gc_drop_program_rome_effect = {
+	if = {
+		limit = { has_country_modifier = rip_church_gc_program_rome }
+		remove_country_modifier = rip_church_gc_program_rome
+		clr_country_flag = rip_church_gc_program_late_rome
+		rip_church_gc_program_recount_effect = yes
+	}
+}
+
+rip_church_gc_convene_bishops_effect = {
+	if = {
+		limit = { rip_church_gc_can_convene_bishops = yes }
+		country_event = { id = rip_church_gc_network.1 }
+	}
+}
+
+# --- lifecycle -------------------------------------------------------------
+
+# Leaving the faith ends the network; interval flags stay so that a change of
+# faith cannot reset them.
+rip_church_gc_network_exit_effect = {
+	every_owned_province = {
+		limit = { has_province_flag = rip_church_gc_see }
+		rip_church_gc_dissolve_see_effect = yes
+	}
+	every_owned_province = {
+		limit = { has_province_modifier = rip_church_gc_pastoral_visitation }
+		remove_province_modifier = rip_church_gc_pastoral_visitation
+	}
+	remove_country_modifier = rip_church_gc_bishops_1
+	remove_country_modifier = rip_church_gc_bishops_2
+	remove_country_modifier = rip_church_gc_bishops_3
+	remove_country_modifier = rip_church_gc_bishops_4
+	remove_country_modifier = rip_church_gc_self_government
+	remove_country_modifier = rip_church_gc_papal_protection
+	remove_country_modifier = rip_church_gc_greek_college
+	remove_country_modifier = rip_church_gc_propaganda_fide
+	rip_church_gc_drop_program_rite_effect = yes
+	rip_church_gc_drop_program_schools_effect = yes
+	rip_church_gc_drop_program_mission_effect = yes
+	rip_church_gc_drop_program_synod_effect = yes
+	rip_church_gc_drop_program_rome_effect = yes
+	set_variable = { which = rip_church_gc_sees value = 0 }
+	set_variable = { which = rip_church_gc_active_sees value = 0 }
+	set_variable = { which = rip_church_gc_see_capacity value = 0 }
+	set_variable = { which = rip_church_gc_programs value = 0 }
+	set_variable = { which = rip_church_gc_program_slots value = 0 }
+	clr_country_flag = rip_church_gc_network_active
+}
+
+# Country hooks: startup, monthly pulse and change of state religion.
+rip_church_gc_network_monthly_effect = {
+	if = {
+		limit = { religion = greek_catholic }
+		rip_church_gc_network_refresh_effect = yes
+	}
+	else_if = {
+		limit = { has_country_flag = rip_church_gc_network_active }
+		rip_church_gc_network_exit_effect = yes
+	}
+}
+
+# Province hooks. A see belongs to the owner that erected it.
+rip_church_gc_see_owner_change_effect = {
+	if = {
+		limit = { has_province_flag = rip_church_gc_see }
+		rip_church_gc_dissolve_see_effect = yes
+	}
+	clr_province_flag = rip_church_gc_eparchy_marked
+	remove_province_modifier = rip_church_gc_pastoral_visitation
+}
+rip_church_gc_see_religion_change_effect = {
+	if = {
+		limit = {
+			has_province_flag = rip_church_gc_see
+			NOT = { religion = greek_catholic }
+		}
+		rip_church_gc_dissolve_see_effect = yes
+	}
+	if = {
+		limit = { religion = greek_catholic }
+		remove_province_modifier = rip_church_gc_pastoral_visitation
+	}
+}

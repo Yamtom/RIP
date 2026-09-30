@@ -1,0 +1,56 @@
+namespace = rip_gc_smoke
+
+# Test harness only (scratchpad mod, never shipped): exercise the Greek
+# Catholic network in the running engine, then let one monthly pulse pass.
+country_event = {
+	id = rip_gc_smoke.1
+	title = rip_gc_smoke.1.t
+	desc = rip_gc_smoke.1.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		change_religion = greek_catholic
+		add_patriarch_authority = 0.9
+		capital_scope = {
+			change_religion = greek_catholic
+			if = { limit = { NOT = { has_building = temple } } add_building = temple }
+		}
+		random_owned_province = { limit = { religion = orthodox is_capital = no development = 6 } change_religion = greek_catholic add_building = temple }
+		random_owned_province = { limit = { religion = orthodox is_capital = no development = 6 } change_religion = greek_catholic add_building = temple }
+		random_owned_province = { limit = { religion = orthodox is_capital = no development = 6 } change_religion = greek_catholic add_building = temple }
+		random_owned_province = { limit = { religion = orthodox is_capital = no development = 6 } change_religion = greek_catholic add_building = temple }
+		random_owned_province = { limit = { religion = orthodox is_capital = no development = 6 } change_religion = greek_catholic add_building = temple }
+		random_owned_province = { limit = { religion = orthodox is_capital = no development = 6 } change_religion = greek_catholic add_building = temple }
+		random_owned_province = { limit = { religion = orthodox is_capital = no development = 6 } change_religion = greek_catholic add_building = temple }
+		random_owned_province = { limit = { religion = orthodox is_capital = no development = 6 } change_religion = greek_catholic add_building = temple }
+		random_owned_province = { limit = { religion = orthodox is_capital = no development = 6 } change_religion = greek_catholic add_building = temple }
+		add_treasury = 500
+		add_adm_power = 200
+		rip_church_gc_network_monthly_effect = yes
+		set_country_flag = rip_gc_smoke_after_first_see
+		rip_church_gc_erect_see_effect = yes
+		rip_church_gc_adopt_program_mission_effect = yes
+		rip_church_gc_greek_college_effect = yes
+		set_country_flag = rip_gc_smoke_done
+		if = { limit = { has_global_flag = rip_gc_smoke_rome } PAP = { add_opinion = { who = ROOT modifier = rip_gc_smoke_papal_favour } } }
+	}
+
+	option = { name = rip_gc_smoke.1.a }
+}
+
+# Test harness only: make the Pope friendly, so protection must replace self-government.
+country_event = {
+	id = rip_gc_smoke.2
+	title = rip_gc_smoke.1.t
+	desc = rip_gc_smoke.1.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+	immediate = {
+		PAP = { add_opinion = { who = ROOT modifier = rip_gc_smoke_papal_favour } }
+		set_country_flag = rip_gc_smoke_rome_done
+	}
+	option = { name = rip_gc_smoke.1.a }
+}

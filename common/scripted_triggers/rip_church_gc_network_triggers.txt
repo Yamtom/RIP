@@ -1,0 +1,208 @@
+# Greek Catholic eparchial network: sees, synod of bishops and synodal programs.
+# Every see belongs to one country and one area. No global centre is involved,
+# and nothing here converts a province by itself: sees support missionaries.
+
+# Province scope, ROOT = the Greek Catholic country. Eastern-rite parishes a
+# bishop's visitation reaches. A recognised rite keeps its compact.
+rip_church_gc_eparchy_target = {
+	owned_by = ROOT
+	is_city = yes
+	OR = {
+		religion = orthodox
+		religion = russian_orthodox
+	}
+	NOT = { has_province_flag = rip_church_rite_recognized }
+}
+
+# Province scope, ROOT = country. One see per area and country.
+rip_church_gc_see_site = {
+	is_city = yes
+	religion = greek_catholic
+	owned_by = ROOT
+	controlled_by = ROOT
+	is_core = ROOT
+	development = 8
+	OR = {
+		has_building = temple
+		has_building = cathedral
+	}
+	NOT = { has_province_flag = rip_church_gc_see }
+	NOT = {
+		area_for_scope_province = {
+			owned_by = ROOT
+			has_province_flag = rip_church_gc_see
+		}
+	}
+}
+
+# Province scope, ROOT = country. Used only to prefer a useful site.
+rip_church_gc_see_has_flock = {
+	OR = {
+		area_for_scope_province = { rip_church_gc_eparchy_target = yes }
+		any_neighbor_province = { rip_church_gc_eparchy_target = yes }
+	}
+}
+
+# Country scope: one see, and one more at 8, 16 and 24 Greek Catholic parishes.
+# Existing sees are never dissolved for capacity; it only limits new ones.
+rip_church_gc_see_capacity_free = {
+	OR = {
+		NOT = { num_of_owned_provinces_with = { value = 1 has_province_flag = rip_church_gc_see } }
+		AND = {
+			num_of_owned_provinces_with = { value = 8 religion = greek_catholic }
+			NOT = { num_of_owned_provinces_with = { value = 2 has_province_flag = rip_church_gc_see } }
+		}
+		AND = {
+			num_of_owned_provinces_with = { value = 16 religion = greek_catholic }
+			NOT = { num_of_owned_provinces_with = { value = 3 has_province_flag = rip_church_gc_see } }
+		}
+		AND = {
+			num_of_owned_provinces_with = { value = 24 religion = greek_catholic }
+			NOT = { num_of_owned_provinces_with = { value = 4 has_province_flag = rip_church_gc_see } }
+		}
+	}
+}
+
+rip_church_gc_see_interval_passed = {
+	OR = {
+		NOT = { has_country_flag = rip_church_gc_see_erected }
+		had_country_flag = { flag = rip_church_gc_see_erected days = 365 }
+	}
+}
+
+# The complete gate of the paid transaction; the decision shows it in parts.
+# The first, metropolitan see is free and comes first; this adds the rest.
+rip_church_gc_can_erect_see = {
+	religion = greek_catholic
+	any_owned_province = { has_province_flag = rip_church_gc_see }
+	adm_power = 50
+	treasury = 100
+	rip_church_gc_see_capacity_free = yes
+	rip_church_gc_see_interval_passed = yes
+	any_owned_province = { rip_church_gc_see_site = yes }
+}
+
+# Country scope. A realm with no see yet seats its metropolitan without a
+# decision, whenever an eligible parish exists; a realm that lost every see
+# translates the metropolitan see to the best remaining one.
+rip_church_gc_needs_metropolitan_see = {
+	religion = greek_catholic
+	NOT = { any_owned_province = { has_province_flag = rip_church_gc_see } }
+	any_owned_province = { rip_church_gc_see_site = yes }
+}
+
+# --- Rome ------------------------------------------------------------------
+# Rome is reachable while a Catholic Papal State exists and is not at war with
+# us. No resource is kept: favour is the Pope's opinion of us, which the
+# audience and ordinary diplomacy move.
+rip_church_gc_rome_reachable = {
+	exists = PAP
+	PAP = { religion = catholic }
+	NOT = { war_with = PAP }
+}
+
+# Country scope. Rome is unreachable or cold toward us.
+rip_church_gc_rome_unavailable = {
+	OR = {
+		NOT = { exists = PAP }
+		PAP = { NOT = { religion = catholic } }
+		war_with = PAP
+		NOT = { PAP = { has_opinion = { who = ROOT value = 50 } } }
+	}
+}
+
+# Papal protection of the Union: earned standing, not a purchase.
+rip_church_gc_papal_protection_due = {
+	religion = greek_catholic
+	rip_church_gc_rome_reachable = yes
+	PAP = { has_opinion = { who = ROOT value = 100 } }
+}
+
+rip_church_gc_rome_cordial = {
+	religion = greek_catholic
+	rip_church_gc_rome_reachable = yes
+	PAP = { has_opinion = { who = ROOT value = 50 } }
+}
+
+# Students at the Greek College of Saint Athanasius, founded in Rome in 1577.
+rip_church_gc_can_greek_college = {
+	rip_church_gc_rome_cordial = yes
+	is_year = 1577
+	treasury = 100
+	dip_power = 25
+	NOT = { has_country_modifier = rip_church_gc_greek_college }
+}
+
+# Missions supported by the Congregation de Propaganda Fide, founded in 1622.
+rip_church_gc_can_propaganda_fide = {
+	rip_church_gc_rome_cordial = yes
+	is_year = 1622
+	treasury = 50
+	dip_power = 50
+	NOT = { has_country_modifier = rip_church_gc_propaganda_fide }
+}
+
+rip_church_gc_has_program = {
+	OR = {
+		has_country_modifier = rip_church_gc_program_rite
+		has_country_modifier = rip_church_gc_program_schools
+		has_country_modifier = rip_church_gc_program_mission
+		has_country_modifier = rip_church_gc_program_synod
+		has_country_modifier = rip_church_gc_program_rome
+	}
+}
+
+# One program; a second once the realm keeps three sees. The count variable is
+# recounted by every transaction that adds or removes a program.
+rip_church_gc_program_slot_free = {
+	OR = {
+		NOT = { rip_church_gc_has_program = yes }
+		AND = {
+			num_of_owned_provinces_with = { value = 3 has_province_flag = rip_church_gc_see }
+			NOT = { check_variable = { which = rip_church_gc_programs value = 2 } }
+		}
+	}
+}
+
+rip_church_gc_program_interval_passed = {
+	OR = {
+		NOT = { has_country_flag = rip_church_gc_program_adopted }
+		had_country_flag = { flag = rip_church_gc_program_adopted days = 1825 }
+	}
+}
+
+rip_church_gc_can_adopt_program = {
+	religion = greek_catholic
+	patriarch_authority = 0.2
+	rip_church_gc_program_slot_free = yes
+	rip_church_gc_program_interval_passed = yes
+}
+rip_church_gc_can_adopt_program_rite = {
+	rip_church_gc_can_adopt_program = yes
+	NOT = { has_country_modifier = rip_church_gc_program_rite }
+}
+rip_church_gc_can_adopt_program_schools = {
+	rip_church_gc_can_adopt_program = yes
+	NOT = { has_country_modifier = rip_church_gc_program_schools }
+}
+rip_church_gc_can_adopt_program_mission = {
+	rip_church_gc_can_adopt_program = yes
+	NOT = { has_country_modifier = rip_church_gc_program_mission }
+}
+rip_church_gc_can_adopt_program_synod = {
+	rip_church_gc_can_adopt_program = yes
+	NOT = { has_country_modifier = rip_church_gc_program_synod }
+}
+rip_church_gc_can_adopt_program_rome = {
+	rip_church_gc_can_adopt_program = yes
+	NOT = { has_country_modifier = rip_church_gc_program_rome }
+}
+
+# Opening the synod is free; it is offered when there is something to decide.
+rip_church_gc_can_convene_bishops = {
+	religion = greek_catholic
+	OR = {
+		rip_church_gc_has_program = yes
+		rip_church_gc_can_adopt_program = yes
+	}
+}

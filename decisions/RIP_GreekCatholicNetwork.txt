@@ -1,0 +1,130 @@
+country_decisions = {
+
+	# A network of bishops instead of one centre. The effect rechecks the whole
+	# gate, so the decision and any later GUI button pay the same way.
+	rip_church_gc_erect_see = {
+		potential = {
+			religion = greek_catholic
+		}
+		provinces_to_highlight = {
+			rip_church_gc_see_site = yes
+		}
+		allow = {
+			custom_trigger_tooltip = {
+				tooltip = rip_church_gc_see_metropolitan_tt
+				any_owned_province = { has_province_flag = rip_church_gc_see }
+			}
+			adm_power = 50
+			treasury = 100
+			custom_trigger_tooltip = {
+				tooltip = rip_church_gc_see_capacity_tt
+				rip_church_gc_see_capacity_free = yes
+			}
+			custom_trigger_tooltip = {
+				tooltip = rip_church_gc_see_interval_tt
+				rip_church_gc_see_interval_passed = yes
+			}
+			custom_trigger_tooltip = {
+				tooltip = rip_church_gc_see_site_tt
+				any_owned_province = { rip_church_gc_see_site = yes }
+			}
+		}
+		effect = {
+			rip_church_gc_erect_see_effect = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				num_of_loans = 1
+			}
+			modifier = {
+				factor = 2
+				any_owned_province = {
+					rip_church_gc_see_site = yes
+					rip_church_gc_see_has_flock = yes
+				}
+			}
+		}
+	}
+
+	# Rome: two institutions that need a Pope on good terms, not a resource.
+	rip_church_gc_greek_college = {
+		potential = {
+			religion = greek_catholic
+			is_year = 1577
+		}
+		allow = {
+			treasury = 100
+			dip_power = 25
+			custom_trigger_tooltip = {
+				tooltip = rip_church_gc_rome_cordial_tt
+				rip_church_gc_rome_cordial = yes
+			}
+			NOT = { has_country_modifier = rip_church_gc_greek_college }
+		}
+		effect = {
+			rip_church_gc_greek_college_effect = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				num_of_loans = 1
+			}
+		}
+	}
+
+	rip_church_gc_propaganda_fide = {
+		potential = {
+			religion = greek_catholic
+			is_year = 1622
+		}
+		allow = {
+			treasury = 50
+			dip_power = 50
+			custom_trigger_tooltip = {
+				tooltip = rip_church_gc_rome_cordial_tt
+				rip_church_gc_rome_cordial = yes
+			}
+			NOT = { has_country_modifier = rip_church_gc_propaganda_fide }
+		}
+		effect = {
+			rip_church_gc_propaganda_fide_effect = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { any_owned_province = { rip_church_gc_eparchy_target = yes } }
+			}
+		}
+	}
+
+	# Opening the synod is free; each adoption pays in the event option.
+	rip_church_gc_synod_programs = {
+		potential = {
+			religion = greek_catholic
+		}
+		allow = {
+			custom_trigger_tooltip = {
+				tooltip = rip_church_gc_can_convene_bishops_tt
+				rip_church_gc_can_convene_bishops = yes
+			}
+		}
+		effect = {
+			rip_church_gc_convene_bishops_effect = yes
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { rip_church_gc_can_adopt_program = yes }
+			}
+			modifier = {
+				factor = 0
+				NOT = { patriarch_authority = 0.4 }
+			}
+		}
+	}
+}
