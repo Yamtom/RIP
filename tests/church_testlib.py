@@ -41,7 +41,7 @@ class World(SettlementWorld):
 
     def province(self, number, owner, religion='orthodox'):
         p = super().province(number, owner, religion)
-        p.update(variables={}, area='a', neighbors=set(), buildings={'temple'},
+        p.update(variables={}, area='a', neighbors=set(), buildings={'temple'}, local_autonomy=0,
                  culture='ruthenian', culture_group='east_slavic', has_missionary=False,
                  node='node', traders=set(), shares={})
         return p
@@ -84,6 +84,9 @@ class World(SettlementWorld):
         return True
 
     def condition(self, key, value, scope, root, prev):
+        if key == 'religion_group':
+            assert value == 'christian', 'Only the Christian group is modelled here'
+            return scope['religion'] in ('catholic', 'orthodox', 'russian_orthodox', 'greek_catholic', 'protestant', 'reformed', 'anglican', 'hussite', 'coptic')
         if key == 'check_variable':
             name, operand = self.variable_operands(value, scope)
             return scope['variables'].get(name, 0) + 1e-9 >= operand

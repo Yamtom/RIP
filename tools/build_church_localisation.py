@@ -112,7 +112,7 @@ DATA={
   "rip_church_request_recognition_desc": "Seek recognition within the wider Orthodox communion from 1589. Delay leaves the question open; rejection is a deliberate alternative schism. Constantinople need not be an independent state.",
   "rip_church_reconcile_title": "Reconcile with the eastern patriarchates",
   "rip_church_reconcile_desc": "Costs 100 DIP and 20 Authority. Negotiations last at least five years and conclude at peace with stability 1. Universal claims are renounced; internal discontent lasts ten years.",
-  "rip_church_florence_title": "Invoke the Florentine precedent",
+  "rip_church_florence_title": "Invoke the Florentine precedent — alternative history",
   "rip_church_florence_desc": "Alternative history, 1444-1501. The union of 6 July 1439 is a Florentine precedent for this alternative path, not the founding of the UGCC or an established separate confession. The Union of Brest in 1596 remains a distinct later milestone. Pay 200 ADM, 100 DIP and one year's income for five years of negotiations. Requires stability 2, peace and PAP opinion 100. The Eastern hierarchy keeps its rite while entering communion with Rome; Catholic patrons retain their state religion.",
   "rip_church_sponsor_union_title": "Sponsor an Eastern Catholic union",
   "rip_church_sponsor_union_desc": "From 1596, a Catholic crown may support an Eastern union without changing its state religion. Pay 100 ADM, 100 DIP and one year's income. The state action changes one eligible core province's religion to Greek Catholic; it is separate from a community-rights guarantee and does not report local consent.",
@@ -678,7 +678,7 @@ DATA.update({
  'rip_church_gui_ecumenism':'Ecumenism',
  'rip_church_gui_paths_heading':'Paths to the Union',
  'rip_church_gui_path_status':'[Root.GetChurchUnionPathState]',
- 'rip_church_gui_path_orthodox':'Orthodox acceptance of the Union',
+ 'rip_church_gui_path_orthodox':'Orthodox acceptance of the Union — regional alternative',
  'rip_church_gui_path_catholic':'Catholic patronage of Eastern provinces',
  'rip_church_gui_path_patron':'§GCatholic patron of the Union§!',
  'rip_church_gui_path_identity':'[Root.GetChurchUnionPathIdentity]',
@@ -688,7 +688,7 @@ DATA.update({
  'rip_church_gui_florence':'Florentine precedent',
  'rip_church_gui_florence_tt':'Invoke an alternative settlement drawing on the Florentine precedent of 1439, not the founding of the UGCC. Separate from the Brest route of 1596. Begin in 1444-1501: §Y200 ADM, 100 DIP and one year of income§!. Requires peace, stability +2, PAP opinion +100 and an eligible Orthodox core province. After five years, peace, stability and relations are checked again. Orthodox acceptance changes state faith; Catholic completion grants patronage and changes one eligible province to Greek Catholic. This is a campaign-created alternative, not a claim of an institution founded in 1439. One attempt.',
  'rip_church_gui_adopt':'Accept the Union',
- 'rip_church_gui_adopt_tt':'Conclude the later Orthodox state route from 1596, paying §Y100 ADM and 100 DIP§!. Uses exactly the current national decision gates: regional state, enabled faith, peace, stability, Catholic contact or union pressure, and qualifying Orthodox provinces. Catholic countries cannot use this action.',
+ 'rip_church_gui_adopt_tt':'Conclude the later Orthodox state route from 1596 — a regional alternative — paying §Y100 ADM and 100 DIP§!. Uses exactly the current national decision gates: regional state, enabled faith, peace, stability, Catholic contact or union pressure, and qualifying Orthodox provinces. Catholic countries cannot use this action.',
  'rip_church_gui_sponsor':'Sponsor the Union',
  'rip_church_gui_sponsor_tt':'From 1596, pay §Y100 ADM, 100 DIP and one year of income§! to support the Union while remaining Catholic. Requires peace, stability +1, PAP without war, and a qualifying Orthodox core province. This state action changes one eligible province\'s religion to Greek Catholic; it is separate from a community-rights guarantee and does not report local consent.',
  'rip_church_gui_path_progress':'[Root.GetChurchFlorenceProgress]',
@@ -961,12 +961,14 @@ for key in ('legate', 'dynastic', 'prestige', 'church_tax', 'blessing',
 DATA.update({
     'rip_church_gui_slot_state_tt':
         'Eastern infrastructure and coexistence share one ten-year local synod slot. Opening the synod is free.',
+    'rip_church_opinion_synod_schools': 'Synodal cooperation in education',
+    'rip_church_opinion_synod_compact': 'Synodal guarantees of coexistence',
     'rip_church_gui_slot_free_tt': 'Local synod institution: §G0 / 1§!',
     'rip_church_gui_slot_used_tt': 'Local synod institution: §Y1 / 1§!',
     'rip_church_gc_infrastructure_button_tt':
-        'Costs 20 Patriarch Authority and 75 ducats; establishes Eastern church infrastructure for ten years.',
+        'Costs 20 Patriarch Authority and 75 ducats. For ten years: -10% state maintenance and +5% clergy loyalty equilibrium. Immediately lowers autonomy by 5 in controlled Greek Catholic core cities. Peaceful Greek Catholic neighbours gain +10 opinion of us for ten years.',
     'rip_church_gc_coexistence_button_tt':
-        'Costs 20 Patriarch Authority and 100 ducats, and needs community rights guaranteed in at least one province. For ten years: -0.5 national unrest and +10% improve relations.',
+        'Costs 20 Patriarch Authority and 100 ducats; requires a controlled Orthodox, Russian Orthodox or Catholic city with guaranteed community rights. Immediately grants +5 autonomy to each such community. For ten years: -0.5 national unrest, +10% improve relations and +15 opinion of us from peaceful Christian neighbours which do not oppose the Union.',
     'rip_church_gc_pope_shield_tt':
         'The Catholic Papal State. Click to open its country view. Opinion of us: [Root.GetChurchPapalOpinion].',
     'rip_church_gc_curia_note':
@@ -1118,7 +1120,8 @@ for key in ('cardinal','vote','conclave'):
 # PA is reused as a local administrative resource, not universal UGCC authority.
 GC_CAPACITY_HELP=('Hierarchical Capacity (HC) represents the local hierarchy and synod capacity to organize clergy, '
  'sustain institutions and fund devotional initiatives. It is a gameplay abstraction using the native Patriarch Authority (PA) bar, '
- 'not a historical measurement of universal UGCC authority or standing with Rome. Papal relations are tracked separately.')
+ 'not a historical measurement of universal UGCC authority or standing with Rome. Papal relations are tracked separately. '
+ 'The Greek Catholic state religion provides a base +7.5 HC per year (0.625 per month). Two icons and one synod cost 60 HC per ten years; one parish visit adds 5 HC, leaving 10 HC before other costs. No extra resource is granted on loading a save.')
 for key,value in list(DATA.items()):
  if (key.startswith(('rip_church_gc_', 'rip_church_readout_getchurchdevotional', 'rip_church_gui_shared_status'))
      or key in ('greek_catholic_religion_desc','rip_church.6.d','rip_church_gui_synod_tt')):

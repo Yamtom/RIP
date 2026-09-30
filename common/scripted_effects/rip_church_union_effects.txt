@@ -15,6 +15,14 @@ rip_church_gc_infrastructure_effect = {
   add_patriarch_authority = -0.2 add_treasury = -75
   add_country_modifier = { name = rip_church_gc_infrastructure duration = 3650 }
   set_country_flag = rip_uc_synod_held
+  every_owned_province = {
+   limit = { religion = greek_catholic is_city = yes is_core = ROOT controlled_by = ROOT }
+   add_local_autonomy = -5
+  }
+  every_neighbor_country = {
+   limit = { religion = greek_catholic NOT = { war_with = ROOT } }
+   add_opinion = { who = ROOT modifier = rip_church_opinion_synod_schools years = 10 }
+  }
   rip_church_refresh_pa_effect = yes
  }
 }
@@ -23,6 +31,14 @@ rip_church_gc_coexistence_effect = {
   add_patriarch_authority = -0.2 add_treasury = -100
   add_country_modifier = { name = rip_church_gc_coexistence duration = 3650 }
   set_country_flag = rip_uc_synod_held
+  every_owned_province = {
+   limit = { rip_church_gc_synod_community = yes }
+   add_local_autonomy = 5
+  }
+  every_neighbor_country = {
+   limit = { religion_group = christian NOT = { war_with = ROOT } NOT = { has_country_flag = rip_church_opposes_union } }
+   add_opinion = { who = ROOT modifier = rip_church_opinion_synod_compact years = 10 }
+  }
  }
 }
 rip_church_recognize_rite_effect = {
