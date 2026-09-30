@@ -483,8 +483,8 @@ DATA.update({
     'rip_church_gc_deputation_button': 'Send diplomatic mission — 50¤',
     'rip_church_gc_icons_title': 'DEVOTIONAL ICON',
     'rip_church_gc_icon_liturgy_state': 'Liturgy\\n§G+0.5 yearly prestige§!',
-    'rip_church_gc_icon_learning_state': 'Learning\\n§G−5% development cost§!',
-    'rip_church_gc_icon_charity_state': 'Almsgiving\\n§G−0.5 national unrest§!',
+    'rip_church_gc_icon_learning_state': 'Learning\\n§G-5% development cost§!',
+    'rip_church_gc_icon_charity_state': 'Almsgiving\\n§G-0.5 national unrest§!',
  'rip_church_gc_native_privileges_button': 'Manage',
  'rip_church_gc_native_privileges_button_tt': 'Open church privileges. Opening this menu is free; only choosing a privilege spends resources.',
  'rip_church_ro_heading': 'The Muscovite Church',
@@ -714,7 +714,7 @@ for key in list(DATA):
 for key in ('rip_church_gc_privilege_state_tt','rip_church_gc_curia_privilege_tt'): DATA[key]=DATA['rip_church_gui_slot_state_tt']
 
 DATA.update({
- 'rip_church.6.d':'The Eastern hierarchy may organize church infrastructure or conclude a compact of coexistence, which needs community rights guaranteed in at least one province. Both are local synodal institutions, spend Patriarch Authority and ducats, and share a separate ten-year slot. One Curia petition may operate at the same time; only one Curia petition can be active.',
+ 'rip_church.6.d':'The Eastern hierarchy may organize church infrastructure or conclude a compact of coexistence, which needs community rights guaranteed in at least one province. Both are local synodal institutions, spend Patriarch Authority and ducats, and share one ten-year synod slot.',
  'rip_church_gc_heading':'THE UNION OF THE CHURCHES',
  'rip_church_gc_resources':'Eastern hierarchy in communion with Rome\\nCommunity rights are guaranteed province by province',
  'rip_church_gc_resources_tt':'The main religion window shows Patriarch Authority. Guaranteed community rights are tracked separately for each province.',
@@ -763,10 +763,10 @@ DATA.update({
  'rip_church_gc_icon_liturgy_button_tt':'Activate the icon of the Divine Liturgy for five years. Costs §Y20 Patriarch Authority§!. +0.5 yearly prestige. Only one Greek Catholic icon can be active.',
  'rip_church_gc_icon_liturgy_state':'Liturgy',
  'rip_church_gc_icon_learning_button':'Learning',
- 'rip_church_gc_icon_learning_button_tt':'Activate the icon of Eastern learning for five years. Costs §Y20 Patriarch Authority§!. −5% development cost. Only one Greek Catholic icon can be active.',
+ 'rip_church_gc_icon_learning_button_tt':'Activate the icon of Eastern learning for five years. Costs §Y20 Patriarch Authority§!. -5% development cost. Only one Greek Catholic icon can be active.',
  'rip_church_gc_icon_learning_state':'Learning',
  'rip_church_gc_icon_charity_button':'Almsgiving',
- 'rip_church_gc_icon_charity_button_tt':'Activate the icon of almsgiving for five years. Costs §Y20 Patriarch Authority§!. −0.5 national unrest. Only one Greek Catholic icon can be active.',
+ 'rip_church_gc_icon_charity_button_tt':'Activate the icon of almsgiving for five years. Costs §Y20 Patriarch Authority§!. -0.5 national unrest. Only one Greek Catholic icon can be active.',
  'rip_church_gc_icon_charity_state':'Almsgiving',
  'rip_church_gc_curia_vote_disclaimer':'Greek Catholic deputations and petitions do not confer cardinalship, electoral votes or control of the Catholic Curia.',
  'rip_church_rite_help':RITE_HELP,
@@ -912,13 +912,19 @@ for key in list(DATA):
                        'rip_church_gc_dynastic', 'desc_rip_church_gc_dynastic',
                        'rip_church_gc_prestige', 'desc_rip_church_gc_prestige'}):
         del DATA[key]
+# The nine retired petition modifiers survive as empty stubs so the one-time old-save cleanup
+# can name them (common/event_modifiers/RIP_church_retired_modifiers.txt); they need a label.
+for key in ('legate', 'dynastic', 'prestige', 'church_tax', 'blessing',
+            'usury', 'holy_war', 'saint', 'monopoly'):
+    DATA['rip_church_gc_' + key] = 'Retired church adjustment'
+    DATA['desc_rip_church_gc_' + key] = 'This adjustment no longer exists. It has no effect and is cleared automatically.'
 DATA.update({
     'rip_church_gui_slot_state_tt':
         'Eastern infrastructure and coexistence share one ten-year local synod slot. Opening the synod is free.',
     'rip_church_gui_slot_free_tt': 'Local synod institution: §G0 / 1§!',
     'rip_church_gui_slot_used_tt': 'Local synod institution: §Y1 / 1§!',
     'rip_church_gc_infrastructure_button_tt':
-        'Costs 20 Patriarch Authority and 100 ducats; establishes Eastern church infrastructure for ten years.',
+        'Costs 20 Patriarch Authority and 75 ducats; establishes Eastern church infrastructure for ten years.',
     'rip_church_gc_coexistence_button_tt':
         'Costs 20 Patriarch Authority and 100 ducats, and needs community rights guaranteed in at least one province. For ten years: -0.5 national unrest and +10% improve relations.',
     'rip_church_gc_pope_shield_tt':
@@ -928,6 +934,8 @@ DATA.update({
     'rip_church_gc_curia_note_tt':
         'Rome is recorded here as a diplomatic contact. No standing, votes, or offices are conferred.',
     'rip_church_gc_curia_vote_disclaimer':
+        'An Eastern deputation grants no cardinalship, Curia vote, or control of papal elections.',
+    'rip_church_gc_curia_vote_disclaimer_tt':
         'An Eastern deputation grants no cardinalship, Curia vote, or control of papal elections.',
     'rip_church_gc_deputation_button_tt':
         'Send a diplomatic audience request to the Holy See. Costs §Y50 ducats§! and may improve the Pope’s opinion temporarily. Once every five years; no electoral rights or resource are gained.',
