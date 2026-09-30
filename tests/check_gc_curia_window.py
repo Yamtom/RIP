@@ -79,9 +79,11 @@ for page in ('union', 'curia', 'parishes'):
     for tab in ('union', 'curia', 'parishes'):
         marker = f'name = "rip_church_gc_{tab}_tab_{page}" scripted = yes position = {{ x='
         start = interface.index(marker)
-        assert ' y=76 }' in interface[start:start + 140]
-assert interface.count('name = "rip_church_gc_heading" scripted = yes position = { x=28 y=15 }') >= 3
-assert interface.count('spriteType = "GFX_rip_church_window_banner"') >= 3
+        assert ' y=110 }' in interface[start:start + 140]
+assert interface.count('name = "rip_church_gc_heading" scripted = yes position = { x=28 y=43 }') >= 3
+assert interface.count('spriteType = "GFX_rip_church_union_frame"') >= 3
+assert 'small_tiles_dialog.dds' not in read('interface/RIP_church_panels.gfx')
+assert 'name = "rip_church_authority_heading" scripted = yes' in interface
 assert interface.count('spriteType = "GFX_rip_church_section_banner"') >= 7
 assert 'GFX_standard_button_140' not in gui_generator
 for key in ('liturgy', 'learning', 'charity'):

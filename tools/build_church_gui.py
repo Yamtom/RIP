@@ -66,7 +66,7 @@ def shield(name,x,y,target,potential,sprite):
 
 def gc_tabs(page):
     # Fixed navigation rail shared by all three Union pages.
-    y=76
+    y=110
     return (button('rip_church_gc_union_tab_'+page,63,y,'OR = { religion = greek_catholic religion = catholic }',
                    'rip_church_gc_open_union_effect = yes',sprite='GFX_tab_small_116',frame=2 if page=='union' else 1)+
             button('rip_church_gc_curia_tab_'+page,179,y,'religion = greek_catholic',
@@ -83,12 +83,9 @@ def inset(name,x,y,w,h):
     return art('rip_church_inset_'+name,sprite,x,y)
 
 def church_header(body,page):
-    return (card('rip_church_surface_'+page,22,90,431,480,'')+
-            art(f'rip_church_window_banner_{page}','GFX_rip_church_window_banner',18,8)+
-            text('rip_church_gc_heading',28,15,w=419,h=24,font='vic_22',align='center')+
-            card('rip_church_header_'+page,34,42,407,30,
-                 text('rip_church_gui_shared_status',8,7,w=391,h=18,font='Main_14',align='center'))+
-            art(f'rip_church_tab_rail_{page}','GFX_rip_church_tab_rail',42,71)+
+    return (text('rip_church_gc_heading',28,43,w=419,h=28,font='vic_22',align='center')+
+            card('rip_church_header_'+page,34,73,407,30,
+                 text('rip_church_gui_shared_status',8,10,w=391,h=22,font='vic_18',align='center'))+
             gc_tabs(page))
 
 def section(body,name,y,feature=False):
@@ -96,8 +93,7 @@ def section(body,name,y,feature=False):
     return body+art(name+'_banner','GFX_rip_church_section_banner',71,y,0.8)+title
 
 insets=[
- 'corneredTileSpriteType = { name = "GFX_rip_church_tab_rail" textureFile = "gfx/interface/small_tiles_dialog.dds" size = { x=390 y=40 } borderSize = { x=8 y=8 } }',
- 'spriteType = { name = "GFX_rip_church_window_banner" textureFile = "gfx/interface/banner_yellow_160.dds" }',
+ 'corneredTileSpriteType = { name = "GFX_rip_church_union_frame" textureFile = "gfx/interface/choose_idea_bg.dds" size = { x=475 y=660 } borderSize = { x=32 y=64 } }',
  'spriteType = { name = "GFX_rip_church_section_banner" textureFile = "gfx/interface/copts_blessing_title_banner.dds" }'
 ]
 def panel(name,condition,body,x=540,y=8,clean=False):
@@ -111,7 +107,9 @@ def panel(name,condition,body,x=540,y=8,clean=False):
         scale='scale = 0.782537'
     height=560 if native_church else 680 if clean else 550
     if name in ('rip_church_gc_panel','rip_church_gc_curia_panel','rip_church_gc_parishes_panel'):
-        height=590
+        background='GFX_rip_church_union_frame'
+        scale=''
+        height=660
     return f'''windowType = {{
  name = "{name}" scripted = yes position = {{ x={x} y={y} }} size = {{ x=475 y={height} }}
  moveable = 0
@@ -141,31 +139,30 @@ ro+=button('rip_church_reconcile_button',125,438,'rip_church_can_reconcile = yes
 ro+=text('rip_church_ro_help',40,481,w=395,h=54,font='Main_14')
 # Each card is a real parent: children use local UPPER_LEFT coordinates.
 def card(name,x,y,w,h,body):
-    bg='GFX_rip_church_card_'+name
-    insets.append(f'corneredTileSpriteType = {{ name = "{bg}" textureFile = "gfx/interface/small_tiles_dialog.dds" size = {{ x={w} y={h} }} borderSize = {{ x=8 y=8 }} }}')
-    return f'windowType = {{ name = "{name}" position = {{ x={x} y={y} }} size = {{ x={w} y={h} }} Orientation = "UPPER_LEFT" moveable = 0 '+art(name+'_bg',bg,0,0)+body+' }'
+    # Layout groups have no texture: the native dialog is the single surface.
+    return f'windowType = {{ name = "{name}" position = {{ x={x} y={y} }} size = {{ x={w} y={h} }} Orientation = "UPPER_LEFT" moveable = 0 '+body+' }'
 
-def framed(name,sprite,x,y):
-    return art(name+'_frame','GFX_rip_church_policy_slot',x,y)+art(name,sprite,x+9,y+9,0.65)
+def framed(name,sprite,x,y,scale=1):
+    return art(name+'_frame','GFX_rip_church_policy_slot',x,y,scale)+art(name,sprite,x+round(9*scale),y+round(9*scale),0.65*scale)
 
 gc=church_header('', 'union')
 status=text('rip_church_gui_communion_cell',12,10,w=188,h=48,font='Main_14')
 status+=text('rip_church_gui_rite_cell',211,10,w=184,h=48,font='Main_14')
 for i,family in enumerate(('eastern','latin')):
-    status+=button('rip_church_gui_count_'+family,8+i*199,63,'rip_church_union_supporter = yes',
+    status+=button('rip_church_gui_count_'+family,27+i*199,63,'rip_church_union_supporter = yes',
                    'rip_church_gui_open_parishes_effect = yes',sprite='button_type_1',label=False)
-    status+=text('rip_church_gui_count_'+family+'_value',12+i*199,68,w=166,h=20,font='Main_14',align='center').replace('format = center','format = center alwaystransparent = yes')
+    status+=text('rip_church_gui_count_'+family+'_value',27+i*199,68,w=145,h=20,font='Main_14',align='center').replace('format = center','format = center alwaystransparent = yes')
 gc=section(gc,'rip_church_gui_status_title',92)
 gc+=card('rip_church_status_card',34,126,407,108,status)
 gc=section(gc,'rip_church_gui_institutions_title',239)
-synod=framed('rip_church_synod_symbol','GFX_rip_church_gc_privileges',12,7)
-synod+=text('rip_church_gui_slot_state',76,12,w=111,h=42,font='Main_14')
-synod+=button('rip_church_gui_synod',15,75,'religion = greek_catholic','rip_church_gc_open_synod_effect = yes',sprite='button_type_1')
+synod=framed('rip_church_synod_symbol','GFX_rip_church_gc_privileges',12,7,0.72)
+synod+=text('rip_church_gui_slot_state',76,12,w=111,h=36,font='Main_14')
+synod+=button('rip_church_gui_synod',27,85,'religion = greek_catholic','rip_church_gc_open_synod_effect = yes',sprite='button_type_1')
 gc+=card('rip_church_synod_card',34,273,199,118,synod)
-policy=framed('rip_church_policy_symbol','GFX_rip_church_gc_ecumenism',12,7)
-policy+=text('rip_church_gui_ecumenism_state',76,12,w=111,h=42,font='Main_14')
-policy+=button('rip_church_gui_ecumenism',15,85,'rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes',sprite='button_type_1')
-policy+=text('rip_church_gui_ecumenism_reason',8,53,w=183,h=32,font='Main_14',align='center')
+policy=framed('rip_church_policy_symbol','GFX_rip_church_gc_ecumenism',12,7,0.72)
+policy+=text('rip_church_gui_ecumenism_state',76,12,w=111,h=36,font='Main_14')
+policy+=button('rip_church_gui_ecumenism',27,85,'rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes',sprite='button_type_1')
+policy+=text('rip_church_gui_ecumenism_reason',8,49,w=183,h=36,font='vic_18',align='center')
 defs.append('custom_icon = { name = rip_church_ecumenism_lock potential = { NOT = { rip_church_can_ecumenism = yes } NOT = { has_country_flag = rip_church_ecumenical } } tooltip = rip_church_gui_ecumenism_tt }')
 policy+=art('rip_church_ecumenism_lock','GFX_idea_not_yet_unlocked',44,37,0.65).replace('spriteType =','scripted = yes spriteType =',1)
 gc+=card('rip_church_ecumenism_card',242,273,199,118,policy)
@@ -184,15 +181,15 @@ for i,(key,sprite) in enumerate((
         f'rip_church_gc_activate_icon_{key}_effect = yes',sprite='GFX_coptic_blessing_select')
     icons+=art(f'rip_church_gc_icon_{key}_art',sprite,x+9,14,0.65)
     icons+=f'iconType = {{ name = "rip_church_gc_icon_{key}_active_frame" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x={x} y=5 }} alwaystransparent = yes }}'
-    icons+=feature_text(f'rip_church_gc_icon_{key}_state',x-27,65,w=112,h=30,font='Main_14',align='center')
-icons+=feature_text('rip_church_gc_icons_note',10,98,w=387,h=18,font='Main_14',align='center')
-gc+=card('rip_church_devotional_card',34,431,407,119,icons)
+    icons+=feature_text(f'rip_church_gc_icon_{key}_state',x-27,65,w=112,h=36,font='vic_18',align='center')
+icons+=feature_text('rip_church_gc_icons_note',10,104,w=387,h=40,font='vic_18',align='center')
+gc+=card('rip_church_devotional_card',34,431,407,148,icons)
 
 parishes=church_header('', 'parishes')
 parishes=section(parishes,'rip_church_gui_parish_list_title',92)
 register=text('rip_church_gui_register_columns',12,12,w=383,h=22,font='Main_14')
-register+=text('rip_church_gui_parish_empty_state',12,53,w=383,h=90,font='Main_14',align='center')
-register+=text('rip_church_gui_recognition_cost',12,158,w=383,h=54,font='Main_14',align='center')
+register+=text('rip_church_gui_parish_empty_state',12,53,w=383,h=130,font='Main_14',align='center')
+register+=text('rip_church_gui_recognition_cost',12,196,w=383,h=90,font='Main_14',align='center')
 register+=text('rip_church_gui_recognition_reason',12,320,w=383,h=36,font='Main_14',align='center')
 register+=button('rip_church_gui_recognize_parish',91,362,'always = no','rip_church_gui_open_parishes_effect = yes')
 parishes+=card('rip_church_register_card',34,126,407,418,register)
@@ -218,8 +215,8 @@ contact=feature_button('rip_church_gc_deputation_button',91,12,
                       sprite='GFX_standard_button_224',label=True)
 for i,key in enumerate(('cost','peace','rome','cooldown')):
     contact+=text('rip_church_gui_contact_'+key,14+(i%2)*194,51+(i//2)*27,w=188,h=26,font='Main_14')
-contact+=text('rip_church_gui_contact_history',12,110,w=383,h=28,font='Main_14',align='center')
-curia+=card('rip_church_contact_card',34,400,407,145,contact)
+contact+=text('rip_church_gui_contact_history',12,110,w=383,h=40,font='vic_18',align='center')
+curia+=card('rip_church_contact_card',34,400,407,151,contact)
 # Apply the shift to whole card windows and standalone section strips using a
 # brace-aware walk, so nested text and buttons retain their parent offsets.
 def shift_page(source):
@@ -231,10 +228,12 @@ def shift_page(source):
         block=source[pos:end]
         name=re.search(r'name = "([^"]+)"',block)
         if name and not any(k in name[1] for k in ('surface_','window_banner','gc_heading','header_','tab_')):
-            block=re.sub(r'(position = \{ x=\d+ y=)(\d+)',lambda m:m[1]+str(int(m[2])+24),block,count=1)
+            block=re.sub(r'(position = \{ x=\d+ y=)(\d+)',lambda m:m[1]+str(int(m[2])+60),block,count=1)
         result+=block; pos=end
     return result
 gc,curia,parishes=map(shift_page,(gc,curia,parishes))
+# Match the native religion view's body font, including feature text.
+gc,curia,parishes=(page.replace('font = "Main_14"','font = "vic_18"') for page in (gc,curia,parishes))
 paths=inset('paths_status',34,98,407,64)+inset('paths_actions',34,195,407,195)+inset('paths_patron',34,402,407,108)
 paths+=text('rip_church_gui_paths_heading',28,28,w=419,h=26,font='vic_22',align='center')
 paths+=text('rip_church_gui_path_status',28,76,w=419,h=20,align='center')
@@ -293,7 +292,12 @@ native_controls='''windowType = {
 def attach(file,host,body):
     s=(GAME/'interface'/file).read_text(encoding='utf-8-sig')
     if file=='countryreligionview.gui':
+        # Native text boxes do not evaluate our country-scoped custom readout.
+        # Bind the replacement as scripted text, preserving the native geometry.
+        s=s.replace('name = "current_patriarch_authority_text"',
+                    'name = "rip_church_authority_heading" scripted = yes')
         s=re.sub(r'text = "CURRENT_PATRIARCH_AUTHORITY"[ \t]*', 'text = "rip_church_authority_heading"', s)
+        defs.append('custom_text_box = { name = rip_church_authority_heading potential = { always = yes } tooltip = rip_church_authority_heading }')
         native_name=re.search(r'name\s*=\s*"orthodox_specific_window"',s)
         native_start=s.rfind('windowType',0,native_name.start())
         native_end=matching_brace(s,s.index('{',native_start))
