@@ -24,8 +24,23 @@ rip_du_seat_open = {
  NOT = { has_province_flag = rip_eparchy_lviv_union_answered }
  NOT = { has_province_flag = rip_eparchy_lutsk_union_answered }
 }
+# Province scope. Named seats only, each opened no earlier than the date its
+# hierarchy actually entered communion with Rome (the map province is a
+# territorial approximation of the see, not its exact bounds):
+#   1596 Brest (Volodymyr-Brest, Potii), Pinsk (Pelchytsky), Lutsk (Terletsky)
+#        and Kholm (Zbirujski) - signatories of the Union of Brest.
+#   1691 Peremyshl (Vynnytsky, 23 June 1691).   1700 Lviv (Shumlyansky).
+# Mukachevo (1952) is deliberately absent: it has its own 1646 event chain.
+rip_du_historical_seat = {
+ OR = {
+  AND = { is_year = 1596 OR = { province_id = 277 province_id = 278 province_id = 279 province_id = 4538 } }
+  AND = { is_year = 1691 province_id = 2424 }
+  AND = { is_year = 1700 province_id = 2961 }
+ }
+}
 # Province scope, independent of ROOT (country decision or province event).
 rip_du_eligible_diocese = {
+ rip_du_historical_seat = yes
  is_city = yes religion = orthodox
  is_core = owner controlled_by = owner
  NOT = { has_missionary = yes }

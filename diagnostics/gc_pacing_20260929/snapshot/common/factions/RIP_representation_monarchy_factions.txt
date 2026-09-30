@@ -1,0 +1,29 @@
+# The boyar and princely interests of representation_monarchy_reform - a real
+# vanilla FACTION contest (base-game, no `allow` gate), not the Res Publica
+# states_general scale it used to fake. New ids rather than reusing
+# common/factions/RIP_kru_factions.txt's kru_boyary/kru_knyazi, so this
+# reform's balance stays independently tunable from the KRU confederation
+# lineage. Numbers carry the old states_general values over, plus one new
+# flavor field each.
+# Enabled by representation_monarchy_reform's `factions = { }` block in
+# common/government_reforms/RIP_shared_ruthenian_government_reforms.txt.
+
+rep_boyary = {
+	monarch_power = ADM
+	always = yes
+	modifier = {
+		global_tax_modifier = 0.1
+		liberty_desire_from_subject_development = -0.1
+		nobles_influence_modifier = 0.05
+	}
+}
+
+rep_knyazi = {
+	monarch_power = DIP
+	always = yes
+	modifier = {
+		max_absolutism = 5
+		global_autonomy = -0.025
+		diplomatic_reputation = 0.5
+	}
+}

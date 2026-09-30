@@ -1,4 +1,4 @@
-"""Generate church UI localisation and fallback strings; no claim of translated fallback text."""
+﻿"""Generate church UI localisation and fallback strings; no claim of translated fallback text."""
 from pathlib import Path
 import json,argparse,re
 ROOT=Path(__file__).resolve().parents[1]
@@ -495,9 +495,9 @@ DATA.update({
     'rip_church_gc_contact_title_tt': 'A limited diplomatic audience with the Holy See.',
     'rip_church_gc_deputation_button': 'Send diplomatic mission — 50¤',
     'rip_church_gc_icons_title': 'DEVOTIONAL ICON',
-    'rip_church_gc_icon_liturgy_state': 'Liturgy\\n§G+1 yearly prestige; +10% improve relations§!',
-    'rip_church_gc_icon_learning_state': 'Learning\\n§G−5% development cost§!',
-    'rip_church_gc_icon_charity_state': 'Almsgiving\\n§G−1 national unrest§!',
+    'rip_church_gc_icon_liturgy_state': 'Liturgy\\n§G+1 yearly prestige; +1 diplomatic reputation; +20% improve relations§!',
+    'rip_church_gc_icon_learning_state': 'Learning\\n§G−5% development cost; −5% technology cost§!',
+    'rip_church_gc_icon_charity_state': 'Almsgiving\\n§G−1 national unrest; −10% stability cost§!',
  'rip_church_gc_native_privileges_button': 'Manage',
  'rip_church_gc_native_privileges_button_tt': 'Open church privileges. Opening this menu is free; only choosing a privilege spends resources.',
  'rip_church_ro_heading': 'The Muscovite Church',
@@ -771,15 +771,21 @@ DATA.update({
  'rip_church_gc_deputation_button_tt':'Send a diplomatic audience request to the Holy See. Costs §Y50 ducats§! and grants +25 opinion in both directions, decaying by 2 per year. Once every five years; no electoral rights or resource are gained.',
  'rip_church_gc_deputation_note':'§Y50¤ / 10 PA§!\\nFive-year interval; no vote',
  'rip_church_gc_icons_title':'Eastern devotional icons',
+ 'rip_church_gc_icon_liturgy':'Icon of the Divine Liturgy',
+ 'desc_rip_church_gc_icon_liturgy':'The Divine Liturgy in the Eastern rite, celebrated in communion with Rome: '+'+1 yearly prestige, +1 diplomatic reputation and +20% improve relations.',
+ 'rip_church_gc_icon_learning':'Icon of Eastern Learning',
+ 'desc_rip_church_gc_icon_learning':'Schools, scribes and printing in the Eastern tradition: −5% development cost and −5% technology cost.',
+ 'rip_church_gc_icon_charity':'Icon of Almsgiving',
+ 'desc_rip_church_gc_icon_charity':'Brotherhood alms and hospitals keep the peace in the parishes: −1 national unrest and −10% stability cost.',
  'rip_church_gc_icons_note':'One icon at a time · §Y20 PA§! · five years',
  'rip_church_gc_icon_liturgy_button':'Liturgy',
- 'rip_church_gc_icon_liturgy_button_tt':'Activate the icon of the Divine Liturgy for five years. Costs §Y20 Patriarch Authority§!. +1 yearly prestige and +10% improve relations. Only one Greek Catholic icon can be active.',
+ 'rip_church_gc_icon_liturgy_button_tt':'Activate the icon of the Divine Liturgy for five years. Costs §Y20 Patriarch Authority§!. +1 yearly prestige, +1 diplomatic reputation and +20% improve relations. Only one Greek Catholic icon can be active.',
  'rip_church_gc_icon_liturgy_state':'Liturgy',
  'rip_church_gc_icon_learning_button':'Learning',
- 'rip_church_gc_icon_learning_button_tt':'Activate the icon of Eastern learning for five years. Costs §Y20 Patriarch Authority§!. −5% development cost. Only one Greek Catholic icon can be active.',
+ 'rip_church_gc_icon_learning_button_tt':'Activate the icon of Eastern learning for five years. Costs §Y20 Patriarch Authority§!. −5% development cost and −5% technology cost. Only one Greek Catholic icon can be active.',
  'rip_church_gc_icon_learning_state':'Learning',
  'rip_church_gc_icon_charity_button':'Almsgiving',
- 'rip_church_gc_icon_charity_button_tt':'Activate the icon of almsgiving for five years. Costs §Y20 Patriarch Authority§!. −1 national unrest. Only one Greek Catholic icon can be active.',
+ 'rip_church_gc_icon_charity_button_tt':'Activate the icon of almsgiving for five years. Costs §Y20 Patriarch Authority§!. −1 national unrest and −10% stability cost. Only one Greek Catholic icon can be active.',
  'rip_church_gc_icon_charity_state':'Almsgiving',
  'rip_church_gc_curia_vote_disclaimer':'Greek Catholic deputations and petitions do not confer cardinalship, electoral votes or control of the Catholic Curia.',
  'rip_church_rite_help':RITE_HELP,
@@ -837,16 +843,22 @@ for key in list(DATA):
 for key in list(DATA):
  if key.startswith('rip_church_gui_') and not key.endswith('_tt'): DATA.setdefault(key+'_tt',DATA[key])
 
+# The historical unions were signed by bishops under Catholic crowns and no crown changed its own
+# faith. Where the adopter has no Catholic overlord the whole state takes the union, which is the
+# mod's own departure from that record and is stated where the player acts.
+STATE_UNION_ALT=('Alternative history when the state has no Catholic overlord: the historical unions were concluded by bishops '
+ 'living under Catholic crowns, and none of those crowns changed its own faith. Here the whole state takes the union.')
 # Shared mechanics abstract several local church histories, not one jurisdiction.
 REGIONAL_UNION_NOTE=('Shared rules model several local Ruthenian and Carpathian Eastern Catholic union traditions under a broad game category, not one church institution. '
  'Brest, Uzhhorod, Peremyshl, Lviv and Lutsk have distinct local histories, chronologies and jurisdictions; '
  'these rules do not imply that every region followed the same path or belonged to one institution.')
 DATA.update({
  'convert_to_greek_catholic_decision_title':'Accept a local church union',
- 'convert_to_greek_catholic_decision_desc':'Bring our local hierarchy into communion with Rome while retaining its Byzantine rite. '+REGIONAL_UNION_NOTE,
+ 'convert_to_greek_catholic_decision_desc':STATE_UNION_ALT+' Bring our local hierarchy into communion with Rome while retaining its Byzantine rite. '+REGIONAL_UNION_NOTE,
  'rip_church_gui_paths_title':'Local routes to communion',
  'rip_church_gui_paths_title_tt':REGIONAL_UNION_NOTE,
 })
+DATA['rip_church_gui_adopt_tt']+=' '+STATE_UNION_ALT
 for key in ('rip_church_sponsor_union_desc','rip_church_gui_adopt_tt',
             'rip_church_gui_sponsor_tt'):
  DATA[key]+=' '+REGIONAL_UNION_NOTE
@@ -854,7 +866,7 @@ for key in ('rip_church_gui_parishes_title_tt','rip_church_gui_parish_list_title
  DATA[key]+=' Eastern and Latin are gameplay groupings, not historical diocesan boundaries. '+REGIONAL_UNION_NOTE
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()
 # Generated variable/modifier definitions may add display-only compensation IDs.
-for p in (ROOT/'common/event_modifiers').glob('RIP_church*.txt'):
+for p in sorted(q for q in (ROOT/'common/event_modifiers').glob('*.txt') if q.name.lower().startswith('rip_church')):
     for key in re.findall(r'(?m)^(\w+)\s*=\s*\{',p.read_text(encoding='utf-8-sig')):
         DATA.setdefault(key,key.removeprefix('rip_church_').replace('_',' ').title())
         DATA.setdefault('desc_'+key,'Part of the current ecclesiastical settlement. Numerical adjustments follow authority and orientation.')

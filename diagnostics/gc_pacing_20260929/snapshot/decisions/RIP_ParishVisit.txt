@@ -1,0 +1,16 @@
+country_decisions = {
+	rip_visit_the_parishes = {
+		potential = {
+			OR = { religion = russian_orthodox religion = greek_catholic }
+			any_owned_province = { rip_parish_visit_target = yes }
+		}
+		provinces_to_highlight = { rip_parish_visit_target = yes }
+		allow = { rip_can_fund_parish_visit = yes }
+		effect = { country_event = { id = rip_parish_visit.1 } }
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { treasury = 300 } }
+			modifier = { factor = 2 NOT = { religious_unity = 0.8 } }
+		}
+	}
+}

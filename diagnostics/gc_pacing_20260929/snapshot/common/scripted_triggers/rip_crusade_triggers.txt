@@ -1,0 +1,58 @@
+# One common Orthodox campaign at a time, with a global twenty-year settlement
+# interval. This also makes delayed invitations unambiguous between campaigns.
+rip_crusade_slot_free_trigger = {
+	NOT = { has_global_flag = rip_crusade_active }
+	NOT = { any_country = { OR = { has_country_flag = orthodox_crusade_constantinople_active has_country_flag = orthodox_crusade_jerusalem_active } } }
+	OR = { NOT = { has_global_flag = rip_crusade_last_ended } had_global_flag = { flag = rip_crusade_last_ended days = 7300 } }
+}
+
+rip_crusade_target_province_trigger = {
+	has_owner = yes
+	NOT = { owned_by = ROOT }
+	owner = {
+		NOT = { alliance_with = ROOT }
+		NOT = { truce_with = ROOT }
+		is_subject = no
+		NOT = { rip_faith_is_eastern_orthodox = yes }
+	}
+}
+
+rip_crusade_can_start_trigger = {
+	rip_faith_is_eastern_orthodox = yes
+	rip_crusade_slot_free_trigger = yes
+	is_subject = no
+	is_at_war = no
+	stability = 1
+	treasury = 200
+	patriarch_authority = 0.2
+	prestige = 50
+	total_development = 200
+	NOT = { has_country_modifier = orthodox_crusade_cooldown }
+	OR = { NOT = { tag = HET } has_country_flag = het_unlocked_crusade_role }
+}
+
+rip_crusade_can_join_trigger = {
+	rip_faith_is_eastern_orthodox = yes
+	has_global_flag = rip_crusade_active
+	is_subject = no
+	is_at_war = no
+	NOT = { is_crusade_participant = yes }
+	NOT = { has_country_flag = rip_crusade_answered }
+	patriarch_authority = 0.05
+	any_country = { has_country_modifier = orthodox_crusade_leader alliance_with = ROOT }
+	NOT = { any_country = { OR = { has_country_flag = orthodox_crusade_target_constantinople has_country_flag = orthodox_crusade_target_jerusalem } OR = { alliance_with = ROOT truce_with = ROOT } } }
+}
+
+rip_crusade_should_finish_trigger = {
+	OR = { has_country_flag = orthodox_crusade_constantinople_active has_country_flag = orthodox_crusade_jerusalem_active }
+	OR = {
+		NOT = { rip_faith_is_eastern_orthodox = yes }
+		is_subject = yes
+		NOT = { has_country_modifier = orthodox_crusade_leader }
+		any_country = { OR = { has_country_flag = orthodox_crusade_target_constantinople has_country_flag = orthodox_crusade_target_jerusalem } rip_faith_is_eastern_orthodox = yes }
+		is_constantinople_crusade_successful = yes
+		is_jerusalem_crusade_successful = yes
+		AND = { has_country_flag = orthodox_crusade_constantinople_active NOT = { owns = 151 } NOT = { any_country = { has_country_flag = orthodox_crusade_target_constantinople owns = 151 } } }
+		AND = { has_country_flag = orthodox_crusade_jerusalem_active NOT = { owns = 379 } NOT = { any_country = { has_country_flag = orthodox_crusade_target_jerusalem owns = 379 } } }
+	}
+}

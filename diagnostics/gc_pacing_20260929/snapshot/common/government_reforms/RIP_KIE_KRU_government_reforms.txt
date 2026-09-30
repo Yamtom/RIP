@@ -1,0 +1,580 @@
+# =============================================================================
+# RIP_KIE_KRU_government_reforms
+# Definitions are grouped by polity or by an explicitly shared reform family.
+# =============================================================================
+
+kyivan_rus_reform = {
+	icon = "chieftain"
+	legacy_equivalent = tsardom_legacy
+	potential = {
+		OR = {
+			has_reform = kyivan_rus_reform
+			tag = KIE
+			tag = KRU
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = yes
+	lock_level_when_selected = yes
+	queen = yes
+	royal_marriage = yes
+	heir = yes
+	rulers_can_be_generals = yes
+	heirs_can_be_generals = yes
+	allow_convert = no
+	allow_force_tributary = yes
+	allow_vassal_war = yes
+	allow_vassal_alliance = yes
+	trigger = {
+		OR = {
+			has_reform = kyivan_rus_reform
+			tag = KRU
+			tag = KIE
+		}
+	}
+	modifiers = {
+		global_autonomy = -0.025
+		global_manpower_modifier = 0.15
+		core_creation = -0.10
+		vassal_forcelimit_bonus = 0.15
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	conditional = {
+		allow = { has_dlc = "Third Rome" }
+		claim_states = yes
+	}
+	# Seniority of the Rus, not the Tsar's toolkit. russian_mechanic (Sudebnik /
+	# Oprichnina / Streltsy) is a 16th-17th century anachronism for the Kyivan
+	# order; kyivan_seniority_mechanic models the rota, the snem and the
+	# druzhyna levy. common/government_mechanics/rip_kyivan_seniority.txt.
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Third Rome"
+				has_dlc = "Domination"
+			}
+		}
+		government_abilities = {
+			kyivan_seniority_mechanic
+		}
+	}
+}
+
+kyivan_shogunate_reform = {
+	icon = "shogunate"
+	legacy_equivalent = shogunate_legacy
+	potential = {
+		OR = {
+			has_reform = kyivan_shogunate_reform
+			tag = KIE
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = yes
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	rulers_can_be_generals = yes
+	heirs_can_be_generals = yes
+	allow_convert = no
+	allow_vassal_war = yes
+	allow_vassal_alliance = yes
+	allow_force_tributary = yes
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			NOT = { has_dlc = "Mare Nostrum" }
+		}
+		can_use_trade_post = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Mare Nostrum"
+			NOT = { has_dlc = "Res Publica" }
+		}
+		can_form_trade_league = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			has_dlc = "Mare Nostrum"
+		}
+		can_use_trade_post = yes
+		can_form_trade_league = yes
+	}
+	# The Seniorate, not the Bakufu. shogunate_mechanic is the Japanese daimyo
+	# UI; kyivan_seniorate_mechanic works the senior_udil subjects - the rota,
+	# the levy, and the reconfirmation of grants on succession.
+	# common/government_mechanics/rip_kyivan_seniorate.txt.
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Third Rome"
+				has_dlc = "Domination"
+			}
+		}
+		government_abilities = {
+			kyivan_seniorate_mechanic
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = kyivan_shogunate_reform
+			tag = KIE
+		}
+	}
+	modifiers = {
+		vassal_forcelimit_bonus = 0.15
+		diplomatic_reputation = 1
+		max_absolutism = -10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+kyivan_cesarstvo_reform = {
+	icon = "holy_roman_emperor"
+	legacy_equivalent = tsardom_legacy
+	potential = {
+		OR = {
+			has_reform = kyivan_cesarstvo_reform
+			tag = KIE
+			tag = KRU
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = yes
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	rulers_can_be_generals = yes
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = kyivan_cesarstvo_reform
+			tag = KIE
+			tag = KRU
+		}
+	}
+	modifiers = {
+		global_institution_spread = 0.10
+		governing_capacity_modifier = 0.1
+		diplomatic_reputation = 1
+		max_absolutism = 5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		# See uzh_palatial_uhro_reform in RIP_UZH_government_reforms.txt for
+		# the source of these four - not invented names.
+		seizing_land_no_rebels_from_estate_nobles = yes
+		monarch_power_on_institutions = yes
+		mercs_do_not_cost_army_professionalism = yes
+		army_tradition_on_stackwipe = yes
+	}
+	# The imperial Kyivan court still rests on the seniority of the house of
+	# Rurik - the same mechanic as kyivan_rus_reform, not the Muscovite one.
+	# Alongside it, two counters of its own - boyar concord and the gathering
+	# of the Cesarstvo's non-Rus peoples - in
+	# common/government_mechanics/rip_kyivan_cesarstvo.txt, which does not
+	# touch kyivan_seniority_mechanic or its file.
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Third Rome"
+				has_dlc = "Domination"
+			}
+		}
+		government_abilities = {
+			kyivan_seniority_mechanic
+			kyivan_throne_concord_mechanic
+			kyivan_peoples_gathering_mechanic
+		}
+	}
+}
+
+kyivan_veche_reform = {
+	icon = "assembly_hall"
+	legacy_equivalent = veche_republic_legacy
+	potential = {
+		OR = {
+			has_reform = kyivan_veche_reform
+			tag = KIE
+			tag = KRU
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = yes
+	lock_level_when_selected = yes
+	republic = yes
+	republican_name = yes
+	has_term_election = yes
+	duration = 4
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = yes
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = kyivan_veche_reform
+			tag = KIE
+			tag = KRU
+		}
+	}
+	modifiers = {
+		merchants = 1
+		global_trade_power = 0.1
+		global_unrest = -1
+		max_absolutism = -15
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	# The veche and its elected posadnik, not the tsardom. The vanilla
+	# veche_republic reform is culture-gated (east_slavic/slavic) and cannot be
+	# handed out by add_government_reform on demand for a formation decision
+	# that also has to change_tag; this reform carries the same legacy and the
+	# same trade-post conditionals by hand instead.
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			NOT = { has_dlc = "Mare Nostrum" }
+		}
+		can_use_trade_post = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Mare Nostrum"
+			NOT = { has_dlc = "Res Publica" }
+		}
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+			has_dlc = "Mare Nostrum"
+		}
+		can_use_trade_post = yes
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
+		}
+		has_parliament = yes
+	}
+}
+
+kyivan_boyar_republic_reform = {
+	icon = "plutocracy_reform"
+	legacy_equivalent = oligarchic_republic
+	potential = {
+		OR = {
+			has_reform = kyivan_boyar_republic_reform
+			AND = {
+				OR = {
+					tag = KIE
+					tag = KRU
+				}
+				has_country_flag = kyiv_boyar_council_established
+			}
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	republic = yes
+	republican_name = yes
+	has_term_election = yes
+	duration = 6
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = yes
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = kyivan_boyar_republic_reform
+			AND = {
+				OR = {
+					tag = KIE
+					tag = KRU
+				}
+				has_country_flag = kyiv_boyar_council_established
+			}
+		}
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.1
+		global_trade_power = 0.1
+		republican_tradition = 0.1
+		max_absolutism = -10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+		elections_increase_factions_influence = yes
+	}
+	# The upgrade from the town veche to a standing boyar-and-merchant council.
+	# Vanilla's own merchant-republic contest (mr_aristocrats / mr_traders /
+	# mr_guilds, common/factions/00_factions.txt) fits a Kyivan council of
+	# lineages, traders, and guildsmen without inventing a fourth RIP faction
+	# set for a single reform.
+	factions = {
+		mr_aristocrats
+		mr_traders
+		mr_guilds
+	}
+}
+
+ruthenian_factional_empire_reform = {
+	icon = "imperial_nobility_reform"
+	legacy_equivalent = principality_legacy
+	potential = {
+		OR = {
+			has_reform = ruthenian_factional_empire_reform
+			tag = KRU
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = yes
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = ruthenian_factional_empire_reform
+			tag = KRU
+		}
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.1
+		vassal_income = 0.15
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	# The three ruthenian_factional_empire_* ids are one government. The rada is
+	# the vanilla FACTION mechanic (the Celestial Empire's three ministries),
+	# base-game, not the Res Publica states_general scale it used to fake:
+	# influence accrues, the in-power bloc's modifier applies, the faction panel
+	# shows. common/factions/RIP_kru_factions.txt. ruthenian_factional_court_
+	# mechanic feeds add_faction_influence; kru_update_dominant_pair_effect names
+	# the ruling PAIR (this reform id) and gives the second bloc a partial voice.
+	factions = {
+		kru_knyazi
+		kru_boyary
+		kru_starshyna
+	}
+	government_abilities = {
+		ruthenian_factional_court_mechanic
+	}
+}
+
+ruthenian_factional_empire_princes_hetmans_reform = {
+	icon = "imperial_nobility_reform"
+	legacy_equivalent = principality_legacy
+	potential = {
+		OR = {
+			has_reform = ruthenian_factional_empire_princes_hetmans_reform
+			tag = KRU
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = yes
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = ruthenian_factional_empire_princes_hetmans_reform
+			tag = KRU
+		}
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.1
+		vassal_income = 0.15
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	factions = {
+		kru_knyazi
+		kru_boyary
+		kru_starshyna
+	}
+	government_abilities = {
+		ruthenian_factional_court_mechanic
+	}
+}
+
+ruthenian_factional_empire_boyars_hetmans_reform = {
+	icon = "imperial_nobility_reform"
+	legacy_equivalent = principality_legacy
+	potential = {
+		OR = {
+			has_reform = ruthenian_factional_empire_boyars_hetmans_reform
+			tag = KRU
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = yes
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = ruthenian_factional_empire_boyars_hetmans_reform
+			tag = KRU
+		}
+	}
+	modifiers = {
+		governing_capacity_modifier = 0.1
+		vassal_income = 0.15
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	factions = {
+		kru_knyazi
+		kru_boyary
+		kru_starshyna
+	}
+	government_abilities = {
+		ruthenian_factional_court_mechanic
+	}
+}
+
+kyivan_metropolitanate_reform = {
+	icon = "monks"
+	legacy_equivalent = theocratic_government
+	potential = {
+		OR = {
+			has_reform = kyivan_metropolitanate_reform
+			tag = KIE
+			tag = KRU
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = yes
+	lock_level_when_selected = yes
+	religion = yes
+	monastic = yes
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = no
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = kyivan_metropolitanate_reform
+			tag = KIE
+			tag = KRU
+		}
+	}
+	modifiers = {
+		church_loyalty_modifier = 0.15
+		tolerance_own = 1
+		global_missionary_strength = 0.02
+		max_absolutism = -5
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		monastic_order = yes
+	}
+	# The Kyivan Metropolitanate as a secular power in its own right, not the
+	# Orthodox religion's own icon/blessing mechanics (those stay untouched in
+	# common/religions and are read only, never edited, here). Same monastic
+	# elective shape as zaz_sacred_host_order_reform
+	# (RIP_ZAZ_HET_path_reforms.txt) - a celibate hierarch cannot found a
+	# dynasty, so queen/heir/royal_marriage stay off and the chair passes by
+	# election within the clergy, not by blood.
+	conditional = {
+		allow = {
+			has_dlc = "Third Rome"
+		}
+		claim_states = yes
+	}
+}
+
+kyivan_church_synod_reform = {
+	icon = "conciliarism_reform"
+	legacy_equivalent = holy_state_legacy
+	potential = {
+		OR = {
+			has_reform = kyivan_church_synod_reform
+			AND = {
+				OR = {
+					tag = KIE
+					tag = KRU
+				}
+				has_country_flag = kyiv_church_synod_established
+			}
+		}
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	religion = yes
+	monastic = yes
+	queen = no
+	heir = no
+	royal_marriage = no
+	rulers_can_be_generals = no
+	allow_convert = no
+	trigger = {
+		OR = {
+			has_reform = kyivan_church_synod_reform
+			AND = {
+				OR = {
+					tag = KIE
+					tag = KRU
+				}
+				has_country_flag = kyiv_church_synod_established
+			}
+		}
+	}
+	modifiers = {
+		church_loyalty_modifier = 0.1
+		tolerance_own = 1
+		tolerance_heretic = 1
+		global_institution_spread = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		monastic_order = yes
+	}
+	# A permanent sobor of bishops beside the metropolitan once the see's writ
+	# covers more than one people's faith - wider tolerance of the rites
+	# already inside the realm in exchange for the metropolitan no longer
+	# ruling alone.
+}

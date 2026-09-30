@@ -1,0 +1,68 @@
+namespace = rip_gcpace
+country_event = { id = rip_gcpace.1 hidden = yes is_triggered_only = yes immediate = {
+MOS = {
+ enable_religion = greek_catholic
+ change_religion = greek_catholic
+ rip_church_v3_initialize_effect = yes
+ every_owned_province = { change_religion = greek_catholic }
+ capital_scope = { change_religion = greek_catholic }
+ add_patriarch_authority = -1
+ add_patriarch_authority = 0.6
+ add_treasury = 300
+ add_stability = 3
+ set_country_flag = rip_gcpace_cohort
+rip_church_gc_activate_icon_liturgy_effect = yes
+rip_church_gc_infrastructure_effect = yes
+country_event = { id = rip_gcpace.2 days = 30 }
+}
+LIT = {
+ enable_religion = greek_catholic
+ change_religion = greek_catholic
+ rip_church_v3_initialize_effect = yes
+ every_owned_province = { change_religion = orthodox }
+ capital_scope = { change_religion = greek_catholic }
+ add_patriarch_authority = -1
+ add_patriarch_authority = 0.6
+ add_treasury = 300
+ add_stability = 3
+ set_country_flag = rip_gcpace_cohort
+random_owned_province = { limit = { religion = orthodox } set_province_flag = rip_church_rite_recognized }
+rip_church_gc_refresh_parishes_effect = yes
+rip_church_gc_activate_icon_charity_effect = yes
+rip_church_gc_coexistence_effect = yes
+country_event = { id = rip_gcpace.2 days = 30 }
+}
+POL = {
+ enable_religion = greek_catholic
+ change_religion = greek_catholic
+ rip_church_v3_initialize_effect = yes
+ every_owned_province = { change_religion = greek_catholic }
+ capital_scope = { change_religion = greek_catholic }
+ add_patriarch_authority = -1
+ add_patriarch_authority = 0.6
+ add_treasury = 300
+ add_stability = 3
+ set_country_flag = rip_gcpace_cohort
+rip_church_gc_activate_icon_learning_effect = yes
+rip_church_gc_infrastructure_effect = yes
+country_event = { id = rip_gcpace.2 days = 30 }
+}
+log = "GC_PACE_SETUP_COMPLETE"
+} }
+country_event = { id = rip_gcpace.2 hidden = yes is_triggered_only = yes trigger = { religion = greek_catholic } immediate = {
+change_variable = { which = rip_gcpace_n value = 1 }
+if = { limit = { rip_church_gc_has_active_icon = yes } change_variable = { which = rip_gcpace_icon_locked value = 1 } }
+if = { limit = { rip_church_gc_can_activate_icons = yes } change_variable = { which = rip_gcpace_icon_ready value = 1 } }
+if = { limit = { NOT = { rip_church_gc_has_active_icon = yes } NOT = { patriarch_authority = 0.2 } } change_variable = { which = rip_gcpace_icon_low value = 1 } }
+if = { limit = { rip_church_gc_has_privilege = yes } change_variable = { which = rip_gcpace_synod_locked value = 1 } }
+if = { limit = { OR = { rip_church_gc_can_infrastructure = yes rip_church_gc_can_coexistence = yes } } change_variable = { which = rip_gcpace_synod_ready value = 1 } }
+if = { limit = { NOT = { rip_church_gc_has_privilege = yes } NOT = { patriarch_authority = 0.2 } } change_variable = { which = rip_gcpace_synod_low value = 1 } }
+if = { limit = { NOT = { rip_church_gc_has_privilege = yes } patriarch_authority = 0.2 NOT = { OR = { rip_church_gc_can_infrastructure = yes rip_church_gc_can_coexistence = yes } } } change_variable = { which = rip_gcpace_synod_other value = 1 } }
+if = { limit = { rip_church_gc_has_active_icon = yes rip_church_gc_has_privilege = yes } change_variable = { which = rip_gcpace_both_locked value = 1 } }
+if = { limit = { has_country_modifier = rip_church_gc_icon_liturgy } change_variable = { which = rip_gcpace_liturgy value = 1 } }
+if = { limit = { has_country_modifier = rip_church_gc_icon_learning } change_variable = { which = rip_gcpace_learning value = 1 } }
+if = { limit = { has_country_modifier = rip_church_gc_icon_charity } change_variable = { which = rip_gcpace_charity value = 1 } }
+export_to_variable = { which = rip_gcpace_hc value = trigger_value:patriarch_authority }
+log = "GC_PACE [Root.GetName] n=[Root.rip_gcpace_n.GetValue] hc=[Root.rip_gcpace_hc.GetValue] icon_locked=[Root.rip_gcpace_icon_locked.GetValue] icon_ready=[Root.rip_gcpace_icon_ready.GetValue] icon_low=[Root.rip_gcpace_icon_low.GetValue] synod_locked=[Root.rip_gcpace_synod_locked.GetValue] synod_ready=[Root.rip_gcpace_synod_ready.GetValue] synod_low=[Root.rip_gcpace_synod_low.GetValue] synod_other=[Root.rip_gcpace_synod_other.GetValue] both_locked=[Root.rip_gcpace_both_locked.GetValue] liturgy=[Root.rip_gcpace_liturgy.GetValue] learning=[Root.rip_gcpace_learning.GetValue] charity=[Root.rip_gcpace_charity.GetValue]"
+if = { limit = { NOT = { is_year = 1465 } } country_event = { id = rip_gcpace.2 days = 30 } }
+} }

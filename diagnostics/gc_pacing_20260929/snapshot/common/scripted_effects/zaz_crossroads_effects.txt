@@ -1,0 +1,44 @@
+# The hidden lean behind the four roads out of the Sich (events in
+# events/ZaporizhianCrossroadsHistory.txt). Four country variables -
+# zaz_lean_cantons, zaz_lean_host_state, zaz_lean_sacred_order,
+# zaz_lean_sacred_horde - track which argument is winning; nothing on screen
+# shows the number. Same $PARAM$ idiom as rip_estate_mood_effect in
+# rip_estate_effects.txt.
+
+zaz_crossroads_advance_effect = {
+	change_variable = { which = $PATH$ value = $AMOUNT$ }
+}
+
+# Fires once, the moment any one lean reaches 100 (check_variable is a
+# threshold test, not equality - see common/disasters/kru_disasters.txt for
+# the same idiom). Priority order below only matters on the rare pulse that
+# pushes two leans past the line in the same effect.
+zaz_crossroads_check_thresholds_effect = {
+	if = {
+		limit = { NOT = { has_country_flag = zaz_crossroads_resolved } }
+		if = {
+			limit = { check_variable = { which = zaz_lean_cantons value = 100 } }
+			set_country_flag = zaz_path_cantons_ascendant
+			set_country_flag = zaz_crossroads_resolved
+			country_event = { id = zaz_crossroads.60 days = 5 }
+		}
+		else_if = {
+			limit = { check_variable = { which = zaz_lean_host_state value = 100 } }
+			set_country_flag = zaz_path_host_state_ascendant
+			set_country_flag = zaz_crossroads_resolved
+			country_event = { id = zaz_crossroads.61 days = 5 }
+		}
+		else_if = {
+			limit = { check_variable = { which = zaz_lean_sacred_order value = 100 } }
+			set_country_flag = zaz_path_sacred_order_ascendant
+			set_country_flag = zaz_crossroads_resolved
+			country_event = { id = zaz_crossroads.62 days = 5 }
+		}
+		else_if = {
+			limit = { check_variable = { which = zaz_lean_sacred_horde value = 100 } }
+			set_country_flag = zaz_path_sacred_horde_ascendant
+			set_country_flag = zaz_crossroads_resolved
+			country_event = { id = zaz_crossroads.63 days = 5 }
+		}
+	}
+}

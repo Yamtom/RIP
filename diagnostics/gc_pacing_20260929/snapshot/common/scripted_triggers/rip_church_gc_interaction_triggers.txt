@@ -1,0 +1,15 @@
+rip_church_gc_has_active_icon = {
+ OR = {
+  has_country_modifier = rip_church_gc_icon_liturgy
+  has_country_modifier = rip_church_gc_icon_learning
+  has_country_modifier = rip_church_gc_icon_charity
+ }
+}
+rip_church_gc_can_activate_icons = {
+ religion = greek_catholic
+ patriarch_authority = 0.2
+ NOT = { rip_church_gc_has_active_icon = yes }
+}
+rip_church_gc_can_activate_icon_liturgy = { rip_church_gc_can_activate_icons = yes }
+rip_church_gc_can_activate_icon_learning = { rip_church_gc_can_activate_icons = yes }
+rip_church_gc_can_activate_icon_charity = { rip_church_gc_can_activate_icons = yes }

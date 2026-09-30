@@ -1,0 +1,3499 @@
+UZH_missions_1 = {
+    slot = 1
+    generic = no
+    ai = yes
+    potential = {
+        tag = UZH
+    }
+    has_country_shield = yes
+    
+
+    uz_preserve_orthodox_faith = {
+        icon = mission_religious
+        position = 1
+        trigger = {
+            OR = {
+                religion = orthodox
+                religion = russian_orthodox
+                religion = catholic
+                religion = greek_catholic
+            }
+            religious_unity = 0.8
+            any_owned_province = {
+                religion = orthodox
+                OR = {
+                    has_building = temple
+                    has_building = cathedral
+                }
+            }
+        }
+
+        provinces_to_highlight = { owned_by = ROOT }
+
+
+        effect = {
+            custom_tooltip = UZH_hungarian_protection_charter_tt
+
+            hidden_effect = {
+                set_country_flag = uzh_rite_stabilized
+                set_country_flag = uzh_charter_signed
+
+                if = {
+                    limit = { HUN = { exists = yes } }
+                    HUN = { save_event_target_as = uzh_alternate_patron }
+                }
+                else_if = {
+                    limit = {
+                        is_subject = yes
+                        overlord = {
+                            government = monarchy
+                            total_development = 150
+                        }
+                    }
+                    overlord = { save_event_target_as = uzh_alternate_patron }
+                }
+                else_if = {
+                    limit = {
+                        any_neighbor_country = {
+                            government = monarchy
+                            total_development = 150
+                            has_opinion = { who = ROOT value = 100 }
+                            ROOT = { has_opinion = { who = PREV value = 80 } }
+                        }
+                    }
+                    random_neighbor_country = {
+                        limit = {
+                            government = monarchy
+                            total_development = 150
+                            has_opinion = { who = ROOT value = 100 }
+                            ROOT = { has_opinion = { who = PREV value = 80 } }
+                        }
+                        save_event_target_as = uzh_alternate_patron
+                    }
+                }
+                else_if = {
+                    limit = {
+                        any_country = {
+                            is_great_power = yes
+                            government = monarchy
+                            has_opinion = { who = ROOT value = 120 }
+                            ROOT = { alliance_with = PREV }
+                        }
+                    }
+                    random_country = {
+                        limit = {
+                            is_great_power = yes
+                            government = monarchy
+                            has_opinion = { who = ROOT value = 120 }
+                            ROOT = { alliance_with = PREV }
+                        }
+                        save_event_target_as = uzh_alternate_patron
+                    }
+                }
+
+                if = {
+                    limit = { NOT = { HUN = { exists = yes } } has_saved_event_target = uzh_alternate_patron }
+                    add_opinion = {
+                        who = event_target:uzh_alternate_patron
+                        modifier = opinion_improved_relations
+                    }
+                    event_target:uzh_alternate_patron = {
+                        add_opinion = { who = ROOT modifier = opinion_granted_privileges }
+                    }
+                }
+
+                country_event = { id = uzh.2 }
+            }
+        }
+
+        ai_weight = { factor = 500 }
+    }
+
+    uz_hungarian_protection = {
+        icon = mission_alliances
+        required_missions = { uz_preserve_orthodox_faith }
+        position = 2
+
+        trigger = {
+            has_country_flag = uzh_rite_stabilized
+            OR = {
+                AND = {
+                    HUN = { exists = yes }
+                    OR = {
+                        alliance_with = HUN
+                        AND = {
+                            is_subject = yes
+                            overlord = { tag = HUN }
+                        }
+                        AND = {
+                            is_subject = no
+                            has_opinion = { who = HUN value = 100 }
+                            HUN = { has_opinion = { who = ROOT value = 50 } }
+                        }
+                    }
+                }
+                AND = {
+                    NOT = { HUN = { exists = yes } }
+                    OR = {
+                        AND = {
+                            is_subject = yes
+                            overlord = {
+                                government = monarchy
+                                total_development = 150
+                                has_opinion = { who = ROOT value = 80 }
+                            }
+                        }
+                        any_neighbor_country = {
+                            government = monarchy
+                            total_development = 150
+                            has_opinion = { who = ROOT value = 100 }
+                            ROOT = { has_opinion = { who = PREV value = 80 } }
+                        }
+                        any_country = {
+                            is_great_power = yes
+                            government = monarchy
+                            has_opinion = { who = ROOT value = 120 }
+                            ROOT = { alliance_with = PREV }
+                        }
+                    }
+                }
+            }
+        }
+
+        effect = {
+            custom_tooltip = UZH_hungarian_protection_charter_tt
+
+            hidden_effect = {
+                if = {
+                    limit = { NOT = { has_saved_event_target = uzh_alternate_patron } }
+                    if = {
+                        limit = { HUN = { exists = yes } }
+                        HUN = { save_event_target_as = uzh_alternate_patron }
+                    }
+                    else_if = {
+                        limit = {
+                            is_subject = yes
+                            overlord = { government = monarchy total_development = 150 }
+                        }
+                        overlord = { save_event_target_as = uzh_alternate_patron }
+                    }
+                    else_if = {
+                        limit = {
+                            any_neighbor_country = {
+                                government = monarchy
+                                total_development = 150
+                                has_opinion = { who = ROOT value = 100 }
+                                ROOT = { has_opinion = { who = PREV value = 80 } }
+                            }
+                        }
+                        random_neighbor_country = {
+                            limit = {
+                                government = monarchy
+                                total_development = 150
+                                has_opinion = { who = ROOT value = 100 }
+                                ROOT = { has_opinion = { who = PREV value = 80 } }
+                            }
+                            save_event_target_as = uzh_alternate_patron
+                        }
+                    }
+                    else_if = {
+                        limit = {
+                            any_country = {
+                                is_great_power = yes
+                                government = monarchy
+                                has_opinion = { who = ROOT value = 120 }
+                                ROOT = { alliance_with = PREV }
+                            }
+                        }
+                        random_country = {
+                            limit = {
+                                is_great_power = yes
+                                government = monarchy
+                                has_opinion = { who = ROOT value = 120 }
+                                ROOT = { alliance_with = PREV }
+                            }
+                            save_event_target_as = uzh_alternate_patron
+                        }
+                    }
+                }
+
+                if = {
+                    limit = { NOT = { HUN = { exists = yes } } has_saved_event_target = uzh_alternate_patron }
+                    add_opinion = { who = event_target:uzh_alternate_patron modifier = opinion_improved_relations }
+                    event_target:uzh_alternate_patron = {
+                        add_opinion = { who = ROOT modifier = opinion_granted_privileges }
+                    }
+                }
+
+                country_event = { id = uzh.2 }
+            }
+        }
+
+        ai_weight = { factor = 500 }
+    }
+
+    uz_mukachevo_autonomy = {
+        icon = mission_hanseatic_city
+        required_missions = {
+            uz_hungarian_protection
+        }
+        position = 4
+        provinces_to_highlight = {
+            1952 = {
+                owned_by = ROOT
+            }
+        }
+        trigger = {
+            has_country_flag = uzh_charter_signed
+            owns_core_province = 1952 # Maramures/Mukachevo
+            1952 = {
+                development = 15
+                uzh_has_courthouse_infrastructure = yes
+                NOT = { local_autonomy = 50 }
+            }
+        }
+        effect = {
+            country_event = {
+                id = uzh.3
+            }
+            hidden_effect = {
+                set_country_flag = uzh_mukachevo_privilege_confirmed
+            }
+        }
+        ai_weight = {
+            factor = 500
+        }
+    }
+    
+    uz_rusin_literacy = {
+        icon = mission_plc_cultural_flowering
+        required_missions = {
+            uz_mukachevo_autonomy
+        }
+        position = 5
+        provinces_to_highlight = {
+            1952 = {
+                owned_by = ROOT
+            }
+        }
+        trigger = {
+            has_country_flag = uzh_mukachevo_privilege_confirmed
+            has_institution = printing_press
+            1952 = {
+                has_building = university
+            }
+            advisor = theologian
+        }
+        effect = {
+            country_event = {
+                id = uzh.4
+            }
+            hidden_effect = {
+                set_country_flag = uzh_scholars_network
+            }
+        }
+        ai_weight = {
+            factor = 400
+        }
+    }
+    
+    uz_resist_habsburgs = {
+        icon = mission_control_venice
+        required_missions = {
+            uz_rusin_literacy
+        }
+        position = 6
+        trigger = {
+            has_country_flag = uzh_scholars_network
+            army_size_percentage = 0.6
+            OR = {
+                AND = {
+                    government = monarchy
+                    num_of_royal_marriages = 1
+                }
+                AND = {
+                    government = republic
+                    OR = {
+                        diplomatic_reputation = 2
+                        republican_tradition = 70
+                    }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_resist_habsburgs_pressure_tt
+                uzh_powerful_monarchy_pressure = yes
+            }
+            OR = {
+                AND = {
+                    is_subject = yes
+                    liberty_desire = 60
+                }
+                AND = {
+                    is_subject = no
+                    any_neighbor_country = {
+                        government = monarchy
+                        total_development = 150
+                        is_rival = ROOT
+                    }
+                }
+            }
+        }
+        effect = {
+            custom_tooltip = UZH_resist_habsburgs_base_tt
+            tooltip = {
+                add_country_modifier = {
+                    name = "uz_border_dynasty_network"
+                    duration = 9125
+                }
+                add_dip_power = 100
+            }
+            custom_tooltip = UZH_resist_habsburgs_overlord_tt
+            tooltip = {
+                add_liberty_desire = -15
+            }
+            custom_tooltip = UZH_resist_habsburgs_neighbor_tt
+            tooltip = {
+                if = {
+                    limit = { has_saved_event_target = uzh_dynasty_patron }
+                    event_target:uzh_dynasty_patron = {
+                        add_opinion = {
+                            who = ROOT
+                            modifier = opinion_uz_border_dynasty
+                        }
+                    }
+                }
+            }
+            custom_tooltip = UZH_resist_habsburgs_habsburg_tt
+            tooltip = {
+                add_prestige = 20
+                add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
+                add_army_tradition = 5
+            }
+            hidden_effect = {
+                add_country_modifier = {
+                    name = "uz_border_dynasty_network"
+                    duration = 9125
+                }
+                add_dip_power = 100
+                uzh_select_dynasty_patron = yes
+                if = {
+                    limit = {
+                        has_country_flag = uzh_dynasty_source_overlord
+                    }
+                    add_liberty_desire = -15
+                    if = {
+                        limit = { is_subject = yes }
+                        overlord = {
+                            add_opinion = {
+                                who = ROOT
+                                modifier = opinion_granted_privileges
+                            }
+                        }
+                    }
+                }
+                if = {
+                    limit = {
+                        has_country_flag = uzh_dynasty_source_neighbor
+                    }
+                    if = {
+                        limit = { has_saved_event_target = uzh_dynasty_patron }
+                        event_target:uzh_dynasty_patron = {
+                            add_opinion = {
+                                who = ROOT
+                                modifier = opinion_uz_border_dynasty
+                            }
+                        }
+                    }
+                    add_prestige = 10
+                }
+                if = {
+                    limit = {
+                        has_country_flag = uzh_dynasty_source_habsburg
+                    }
+                    add_prestige = 20
+                    add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
+                    add_army_tradition = 5
+                }
+                country_event = {
+                    id = uzh.5
+                }
+                set_country_flag = uzh_border_dynasty_secured
+            }
+        }
+        ai_weight = {
+            factor = 400
+        }
+    }
+    
+    uz_great_migration = {
+        icon = mission_colonize_the_caribbean
+        required_missions = {
+            uz_resist_habsburgs
+            uz_self_identification
+        }
+        position = 9
+        provinces_to_highlight = {
+            region = carpathia_region
+            owned_by = ROOT
+            NOT = { uzh_identity_core_culture = yes }
+        }
+        trigger = {
+            has_country_flag = uzh_border_dynasty_secured
+            custom_trigger_tooltip = {
+                tooltip = UZH_great_migration_culture_tt
+                hidden_trigger = {
+                    num_of_owned_provinces_with = {
+                        region = carpathia_region
+                        uzh_identity_core_culture = yes
+                        value = 8
+                    }
+                }
+            }
+            manpower_percentage = 0.6
+        }
+        effect = {
+            country_event = {
+                id = uzh.6
+            }
+            hidden_effect = {
+                set_country_flag = uzh_diaspora_started
+            }
+        }
+        ai_weight = {
+            factor = 500
+        }
+    }
+    
+    uz_national_revival = {
+        icon = mission_empire
+        required_missions = {
+            uz_great_migration
+        }
+        position = 10
+        provinces_to_highlight = {
+            OR = {
+                1952 = {
+                    owned_by = ROOT
+                    OR = {
+                        NOT = { uzh_has_courthouse_infrastructure = yes }
+                        NOT = { has_building = university }
+                    }
+                }
+                AND = {
+                    region = carpathia_region
+                    owned_by = ROOT
+                    NOT = { uzh_identity_core_culture = yes }
+                }
+            }
+        }
+        trigger = {
+            has_country_flag = uzh_diaspora_started
+            has_country_flag = uzh_language_standardized
+            OR = {
+                primary_culture = rusyn
+                primary_culture = rusyn_new
+                AND = {
+                    has_country_flag = chose_ruthenian_identity
+                    OR = {
+                        primary_culture = ruthenian
+                        primary_culture = ruthenian_new
+                    }
+                }
+                AND = {
+                    has_country_flag = chose_uhro_rusyn_identity
+                    primary_culture = rusyn_new_new
+                }
+            }
+            crown_land_share = 50
+            custom_trigger_tooltip = {
+                tooltip = UZH_revival_core_culture_tt
+                hidden_trigger = {
+                    num_of_owned_provinces_with = {
+                        region = carpathia_region
+                        uzh_identity_core_culture = yes
+                        value = 12
+                    }
+                }
+            }
+            1952 = {
+                uzh_has_courthouse_infrastructure = yes
+                has_building = university
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_revival_komitat_condition_tt
+                OR = {
+                    has_reform = uzh_komitat_system_reform
+                    has_reform = uzh_republican_komitat_system_reform
+                    has_country_flag = uzh_komitat_restructured
+                }
+            }
+        }
+        effect = {
+            change_government_reform_progress = 25
+            country_event = {
+                id = uzh.7
+            }
+            hidden_effect = {
+                set_country_flag = uzh_revival_complete
+            }
+        }
+        ai_weight = {
+            factor = 600
+        }
+    }
+    
+    uz_rusin_state = {
+        icon = mission_empire
+        required_missions = {
+            uz_national_revival
+        }
+        position = 11
+        provinces_to_highlight = {
+            1952 = {
+                owned_by = ROOT
+            }
+        }
+        trigger = {
+            is_subject = no
+            owns_core_province = 1952
+            total_development = 200
+            stability = 2
+            has_country_flag = uzh_revival_complete
+        }
+        effect = {
+            country_event = {
+                id = uzh.8
+            }
+        }
+        ai_weight = {
+            factor = 700
+        }
+    }
+}
+
+
+UZH_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		tag = UZH
+	}
+	has_country_shield = yes
+
+
+	uzh_pannonian_frontier = {
+		icon = mission_conquer_5_states
+		position = 2
+		required_missions = {
+			uz_preserve_orthodox_faith
+		}
+        provinces_to_highlight = {
+            OR = {
+                AND = {
+                    region = carpathia_region
+                    owned_by = ROOT
+                }
+                area = transylvania_area
+                area = slovakia_area
+            }
+        }
+		trigger = {
+            has_country_flag = uzh_charter_signed
+			any_owned_province = {
+				region = carpathia_region
+			}
+			num_of_owned_provinces_with = {
+                area = transylvania_area
+                value = 2
+            }
+            num_of_owned_provinces_with = {
+                area = slovakia_area
+                value = 1
+            }
+            manpower_percentage = 0.4
+		}
+        effect = {
+            hidden_effect = {
+                set_country_flag = uzh_frontier_prepared
+            }
+            carpathia_region = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_country_modifier = {
+                name = "uz_frontier_expansion"
+                duration = 5475
+            }
+            1952 = {
+                add_province_modifier = {
+                    name = "uz_protected_frontier"
+                    duration = 5475
+                }
+            }
+            add_mil_power = 50
+            add_dip_power = 25
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	
+	uzh_backa_settlements = {
+		icon = mission_colonize_the_caribbean
+		required_missions = {
+			uzh_pannonian_frontier
+		}
+        position = 3
+        provinces_to_highlight = {
+            area = alfold_area
+        }
+		trigger = {
+            has_country_flag = uzh_frontier_prepared
+			num_of_owned_provinces_with = {
+				area = alfold_area 
+				value = 2
+			}
+            num_of_owned_provinces_with = {
+                area = alfold_area
+                OR = {
+                    culture = rusyn
+                    culture = rusyn_new
+                    AND = {
+                        owner = { has_country_flag = chose_ruthenian_identity }
+                        OR = {
+                            culture = ruthenian
+                            culture = ruthenian_new
+                        }
+                    }
+                    AND = {
+                        owner = { has_country_flag = chose_uhro_rusyn_identity }
+                        culture = rusyn_new_new
+                    }
+                }
+                value = 1
+            }
+		}
+		effect = {
+			every_province = {
+				limit = {
+					area = alfold_area
+					owned_by = ROOT
+				}
+			    uzh_set_identity_culture = yes
+			    add_province_modifier = {
+                    name = "uz_rusin_settlement"
+                    duration = 7300
+			    }
+            }
+            add_country_modifier = {
+                name = "uz_backa_colonial_network"
+                duration = 5475
+            }
+            change_government_reform_progress = 50
+            add_dip_power = 50
+            hidden_effect = {
+                set_country_flag = uzh_backa_colonies_established
+            }
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	uzh_banat_colonization = {
+		icon = mission_colonize_the_caribbean
+		required_missions = {
+			uzh_backa_settlements
+		}
+        position = 4
+        provinces_to_highlight = {
+            area = southern_transylvania_area
+        }
+		trigger = {
+            has_country_flag = uzh_backa_colonies_established
+			num_of_owned_provinces_with = {
+				area = southern_transylvania_area
+				value = 2
+			}
+            num_of_owned_provinces_with = {
+                area = southern_transylvania_area
+                OR = {
+                    culture = rusyn
+                    culture = rusyn_new
+                    AND = {
+                        owner = { has_country_flag = chose_ruthenian_identity }
+                        OR = {
+                            culture = ruthenian
+                            culture = ruthenian_new
+                        }
+                    }
+                    AND = {
+                        owner = { has_country_flag = chose_uhro_rusyn_identity }
+                        culture = rusyn_new_new
+                    }
+                }
+                value = 1
+            }
+		}
+		effect = {
+			every_province = {
+				limit = {
+					area = southern_transylvania_area
+					owned_by = ROOT
+				}
+				uzh_set_identity_culture = yes
+				add_base_manpower = 1
+			}
+			add_country_modifier = {
+				name = "uz_banat_colonists"
+				duration = 5475
+			}
+            hidden_effect = {
+                set_country_flag = uzh_banat_settled
+            }
+		}
+		ai_weight = {
+			factor = 450
+		}
+	}
+	
+    uzh_srem_metropolis = {
+        icon = mission_religious
+        required_missions = {
+            uzh_banat_colonization
+        }
+        position = 5
+        provinces_to_highlight = {
+            4173 = {
+                owned_by = ROOT
+            }
+        }
+        trigger = {
+            has_country_flag = uzh_banat_settled
+            owns = 4173 # Syrmia (Srem; Karlóca / Novi Sad metropolitan region)
+            4173 = {
+                religion = ROOT
+                has_building = cathedral
+            }
+        }
+        effect = {
+            4173 = {
+                add_province_modifier = {
+                    name = "uz_orthodox_metropolis"
+                    duration = -1
+                }
+            }
+            if = {
+                limit = { religion = catholic }
+                add_papal_influence = 15
+            }
+            else = {
+                rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }
+            }
+            country_event = {
+                id = uzh.201
+            }
+            hidden_effect = {
+                set_country_flag = uzh_srem_metropolis_consecrated
+            }
+        }
+        ai_weight = {
+            factor = 500
+        }
+    }
+
+    uzh_pannonian_expansion = {
+    icon = mission_conquer_5_states
+        required_missions = {
+            uzh_srem_metropolis
+        }
+        position = 6
+        provinces_to_highlight = {
+            OR = {
+                area = alfold_area
+                area = slavonia_area
+                area = southern_transylvania_area
+            }
+        }
+        trigger = {
+            has_country_flag = uzh_srem_metropolis_consecrated
+            num_of_owned_provinces_with = {
+                area = alfold_area
+                value = 4
+            }
+            num_of_owned_provinces_with = {
+                area = southern_transylvania_area
+                value = 2
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_pannonian_expansion_culture_tt
+                hidden_trigger = {
+                    num_of_owned_provinces_with = {
+                        area = alfold_area
+                        uzh_identity_core_culture = yes
+                        value = 3
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_pannonian_drive"
+                duration = 5475
+            }
+            alfold_area = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            slavonia_area = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_mil_power = 75
+            hidden_effect = {
+                set_country_flag = uzh_pannonian_expansion_complete
+                country_event = {
+                    id = uzh.230
+                }
+            }
+        }
+        ai_weight = {
+            factor = 450
+        }
+    }
+
+    uzh_pannonian_republic = {
+		icon = mission_empire
+		required_missions = {
+        uzh_pannonian_expansion
+        uz_great_migration
+		}
+        position = 10
+        provinces_to_highlight = {
+            region = carpathia_region
+            owned_by = ROOT
+            NOT = {
+                OR = {
+                    culture = rusyn
+                    culture = rusyn_new
+                    AND = {
+                        owner = { has_country_flag = chose_ruthenian_identity }
+                        OR = {
+                            culture = ruthenian
+                            culture = ruthenian_new
+                        }
+                    }
+                    AND = {
+                        owner = { has_country_flag = chose_uhro_rusyn_identity }
+                        culture = rusyn_new_new
+                    }
+                }
+            }
+        }
+		trigger = {
+            has_country_flag = uzh_srem_metropolis_consecrated
+            has_country_flag = uzh_diaspora_started
+            num_of_owned_provinces_with = {
+                region = carpathia_region
+                OR = {
+                    culture = rusyn
+                    culture = rusyn_new
+                    AND = {
+                        owner = { has_country_flag = chose_ruthenian_identity }
+                        OR = {
+                            culture = ruthenian
+                            culture = ruthenian_new
+                        }
+                    }
+                    AND = {
+                        owner = { has_country_flag = chose_uhro_rusyn_identity }
+                        culture = rusyn_new_new
+                    }
+                }
+                value = 12
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_pannonian_compact_government_tt
+                OR = {
+                    government = republic
+                    has_country_flag = uzh_constitutional_framework
+                }
+            }
+		}
+        effect = {
+            custom_tooltip = UZH_pannonian_republic_foundation_tt
+            tooltip = {
+                add_country_modifier = {
+                    name = "uz_pannonian_autonomy"
+                    duration = -1
+                }
+                add_country_modifier = {
+                    name = "uz_pannonian_league"
+                    duration = 9125
+                }
+                add_country_modifier = {
+                    name = "uz_border_guard_union"
+                    duration = 5475
+                }
+                add_country_modifier = {
+                    name = "uz_carpathian_hegemony"
+                    duration = -1
+                }
+                uzh_gain_manpower_6000 = yes
+                change_government_reform_progress = 50
+            }
+            custom_tooltip = UZH_pannonian_republic_reform_choice_tt
+            tooltip = {
+                if = {
+                    limit = { government = republic }
+                    add_republican_tradition = 12
+                    if = {
+                        limit = { has_estate = estate_burghers }
+                        add_estate_loyalty = {
+                            estate = estate_burghers
+                            loyalty = 10
+                        }
+                    }
+                }
+                else_if = {
+                    limit = { government = monarchy }
+                    add_legitimacy = 15
+                    if = {
+                        limit = { has_estate = estate_nobles }
+                        add_estate_loyalty = {
+                            estate = estate_nobles
+                            loyalty = 10
+                        }
+                    }
+                }
+                else = {
+                    add_stability = 1
+                    if = {
+                        limit = { has_estate = estate_church }
+                        add_estate_loyalty = {
+                            estate = estate_church
+                            loyalty = 10
+                        }
+                    }
+                }
+            }
+            hidden_effect = {
+                add_country_modifier = {
+                    name = "uz_pannonian_autonomy"
+                    duration = -1
+                }
+                add_country_modifier = {
+                    name = "uz_pannonian_league"
+                    duration = 9125
+                }
+                add_country_modifier = {
+                    name = "uz_border_guard_union"
+                    duration = 5475
+                }
+                add_country_modifier = {
+                    name = "uz_carpathian_hegemony"
+                    duration = -1
+                }
+                uzh_gain_manpower_6000 = yes
+                change_government_reform_progress = 50
+                if = {
+                    limit = { government = republic }
+                    add_republican_tradition = 12
+                    if = {
+                        limit = { has_estate = estate_burghers }
+                        add_estate_loyalty = {
+                            estate = estate_burghers
+                            loyalty = 10
+                        }
+                    }
+                    set_country_flag = uzh_pannonian_republic_established
+                }
+                else_if = {
+                    limit = { government = monarchy }
+                    add_legitimacy = 15
+                    if = {
+                        limit = { has_estate = estate_nobles }
+                        add_estate_loyalty = {
+                            estate = estate_nobles
+                            loyalty = 10
+                        }
+                    }
+                    set_country_flag = uzh_pannonian_charter_ratified
+                }
+                else = {
+                    add_stability = 1
+                    if = {
+                        limit = { has_estate = estate_church }
+                        add_estate_loyalty = {
+                            estate = estate_church
+                            loyalty = 10
+                        }
+                    }
+                }
+                set_country_flag = uzh_pannonian_compact_signed
+                country_event = {
+                    id = uzh.202
+                }
+            }
+        }
+		ai_weight = {
+			factor = 400
+		}
+	}
+
+    uzh_salt_corridors = {
+        icon = mission_dominate_home_trade_node
+        required_missions = {
+            uzh_pannonian_republic
+        }
+        position = 11
+        provinces_to_highlight = {
+            owned_by = ROOT
+            OR = {
+                trade_goods = salt
+                trade_goods = wine
+            }
+            NOT = {
+                OR = {
+                    has_building = workshop
+                    has_building = counting_house
+                    has_building = marketplace
+                    has_building = trade_depot
+                    has_building = stock_exchange
+                }
+            }
+        }
+        trigger = {
+            has_country_flag = uzh_pannonian_compact_signed
+            num_of_owned_provinces_with = {
+                OR = {
+                    trade_goods = salt
+                    trade_goods = wine
+                }
+                OR = {
+                    has_building = workshop
+                    has_building = counting_house
+                    has_building = marketplace
+                    has_building = trade_depot
+                    has_building = stock_exchange
+                }
+                value = 2
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_salt_corridors_pest_share_tt
+                hidden_trigger = {
+                    153 = {
+                        is_strongest_trade_power = ROOT
+                    }
+                }
+            }
+        }
+        effect = {
+            every_owned_province = {
+                limit = {
+                    OR = {
+                        trade_goods = salt
+                        trade_goods = wine
+                    }
+                    OR = {
+                        has_building = workshop
+                        has_building = counting_house
+                        has_building = marketplace
+                        has_building = trade_depot
+                        has_building = stock_exchange
+                    }
+                }
+                add_province_modifier = {
+                    name = "uz_salt_corridor_depots"
+                    duration = 5475
+                }
+            }
+            add_country_modifier = {
+                name = "uz_salt_corridor_convoys"
+                duration = 5475
+            }
+            hidden_effect = {
+                set_country_flag = uzh_salt_corridors_established
+            }
+        }
+        ai_weight = {
+            factor = 440
+        }
+    }
+
+    uzh_danube_trade_league = {
+        icon = mission_dominate_home_trade_node
+        required_missions = {
+            uzh_salt_corridors
+        }
+        position = 12
+        provinces_to_highlight = {
+            OR = {
+                AND = {
+                    area = alfold_area
+                    owned_by = ROOT
+                    NOT = { uzh_has_market_infrastructure = yes }
+                }
+                AND = {
+                    area = slavonia_area
+                    owned_by = ROOT
+                    NOT = { uzh_has_market_infrastructure = yes }
+                }
+            }
+        }
+        trigger = {
+            OR = {
+                has_country_flag = uzh_pannonian_republic_established
+                has_country_flag = uzh_pannonian_charter_ratified
+            }
+            num_of_merchants = 3
+            num_of_owned_provinces_with = {
+                area = alfold_area
+                uzh_has_market_infrastructure = yes
+                value = 3
+            }
+            num_of_owned_provinces_with = {
+                area = slavonia_area
+                uzh_has_market_infrastructure = yes
+                value = 1
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_danube_trade_league"
+                duration = -1
+            }
+            add_mercantilism = 2
+            every_owned_province = {
+                limit = {
+                    area = alfold_area
+                    uzh_has_market_infrastructure = yes
+                }
+                add_base_production = 1
+                add_province_modifier = {
+                    name = "uz_danube_consortium"
+                    duration = 5475
+                }
+            }
+            hidden_effect = {
+                set_country_flag = uzh_danube_league_established
+            }
+        }
+        ai_weight = {
+            factor = 450
+        }
+    }
+}
+
+UZH_missions_3 = {
+    slot = 3
+    generic = no
+    ai = yes
+    potential = {
+        tag = UZH
+    }
+    has_country_shield = yes
+    
+
+    uz_huszt_rename = {
+        icon = mission_build_up_to_force_limit
+        required_missions = {
+            
+        }
+        position = 1
+        provinces_to_highlight = {
+            OR = {
+                AND = {
+                    region = carpathia_region
+                    owned_by = ROOT
+                }
+                AND = {
+                    owned_by = ROOT
+                    NOT = { region = carpathia_region }
+                }
+            }
+        }
+        trigger = {
+            NOT = { has_country_flag = uzh_name_zakarpattia }
+            OR = {
+                AND = {
+                    num_of_cities = 3
+                    government_rank = 2
+                }
+                AND = {
+                    num_of_owned_provinces_with = {
+                        region = carpathia_region
+                        value = 8
+                    }
+                    any_owned_province = {
+                        NOT = { region = carpathia_region }
+                    }
+                }
+            }
+        }
+        effect = {
+            hidden_effect = {
+                override_country_name = UZH_Huszt_Name
+                set_country_flag = uzh_name_huszt
+            }
+            add_prestige = 15
+            
+        }
+        ai_weight = {
+            factor = 400
+        }
+    }
+
+    uz_zakarpattia_realm = {
+        icon = mission_empire
+        required_missions = {
+            uz_huszt_rename
+        }
+        position = 2
+        provinces_to_highlight = {
+            region = carpathia_region
+        }
+        trigger = {
+            OR = {
+                government_rank = 3
+                num_of_owned_provinces_with = {
+                    region = carpathia_region
+                    value = 15
+                }
+            }
+        }
+        effect = {
+            clr_country_flag = uzh_name_huszt
+            hidden_effect = {
+                override_country_name = UZH_Zakarpattia_Name
+                set_country_flag = uzh_name_zakarpattia
+            }
+            add_legitimacy_equivalent = { amount = 15 republican_tradition = 8 }
+            add_prestige = 25
+        }
+        ai_weight = {
+            factor = 350
+        }
+    }
+    
+    uz_union_dilemma = {
+        icon = mission_religious
+        position = 3
+        required_missions = {
+            uz_hungarian_protection
+        }
+        trigger = {
+            OR = {
+                religion = orthodox
+                religion = russian_orthodox
+                religion = catholic
+                religion = greek_catholic
+            }
+            religious_unity = 0.8
+        }
+        effect = {
+            if = {
+                limit = { rip_faith_is_eastern_orthodox = yes }
+                rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }
+                add_country_modifier = {
+                    name = "uz_old_rite_resilience"
+                    duration = 9125
+                }
+                hidden_effect = {
+                    set_country_flag = uzh_union_old_rite_confirmed
+                }
+            }
+            else = {
+                if = {
+                    limit = { religion = catholic }
+                    add_papal_influence = 25
+                }
+                else_if = {
+                    limit = { religion = greek_catholic }
+                    rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }
+                }
+                add_country_modifier = {
+                    name = "uz_greek_catholic_concord"
+                    duration = 7300
+                }
+                hidden_effect = {
+                    set_country_flag = uzh_union_synod_established
+                }
+                if = {
+                    limit = {
+                        is_year = 1646
+                        OR = {
+                            government = monarchy
+                            government = republic
+                        }
+                        NOT = { has_reform = uzh_union_synod_reform }
+                    }
+                    add_government_reform = uzh_union_synod_reform
+                }
+            }
+            add_prestige = 15
+            hidden_effect = {
+                set_country_flag = uzh_union_debated
+            }
+        }
+        ai_weight = {
+            factor = 400
+        }
+    }
+
+    uz_union_compromise_plus = {
+        icon = mission_religious
+        position = 4
+        required_missions = {
+            uz_union_dilemma
+        }
+        trigger = {
+            has_country_flag = uzh_union_debated
+            OR = {
+                advisor = theologian
+                advisor = inquisitor
+            }
+            treasury = 200
+        }
+        effect = {
+            add_treasury = -200
+            add_country_modifier = {
+                name = "uz_union_compromise_plus"
+                duration = 3650
+            }
+        }
+        ai_weight = {
+            factor = 380
+            modifier = {
+                factor = 1.2
+                has_idea_group = religious_ideas
+            }
+            modifier = {
+                factor = 1.15
+                has_idea_group = influence_ideas
+            }
+            modifier = {
+                factor = 0.85
+                NOT = { num_of_owned_provinces_with = { religion = catholic value = 2 } }
+            }
+        }
+    }
+    
+    uz_rusin_language = {
+        icon = mission_plc_cultural_flowering
+        required_missions = {
+            uz_union_compromise_plus
+        }
+        position = 5
+        provinces_to_highlight = {
+            owned_by = ROOT
+            NOT = { uzh_identity_core_culture = yes }
+        }
+        trigger = {
+            has_country_flag = uzh_union_debated
+            has_country_flag = uzh_scholars_network
+            OR = {
+                primary_culture = rusyn
+                primary_culture = rusyn_new
+                AND = {
+                    has_country_flag = chose_ruthenian_identity
+                    OR = {
+                        primary_culture = ruthenian
+                        primary_culture = ruthenian_new
+                    }
+                }
+                AND = {
+                    has_country_flag = chose_uhro_rusyn_identity
+                    primary_culture = rusyn_new_new
+                }
+            }
+            treasury = 200
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_linguistic_development"
+                duration = 9125
+            }
+            add_prestige = 15
+            every_owned_province = {
+                limit = {
+                    OR = {
+                        culture = rusyn
+                        culture = rusyn_new
+                        AND = {
+                            owner = { has_country_flag = chose_ruthenian_identity }
+                            OR = {
+                                culture = ruthenian
+                                culture = ruthenian_new
+                            }
+                        }
+                        AND = {
+                            owner = { has_country_flag = chose_uhro_rusyn_identity }
+                            culture = rusyn_new_new
+                        }
+                    }
+                }
+                add_base_tax = 1
+            }
+            hidden_effect = {
+                set_country_flag = uzh_language_standardized
+            }
+        }
+        ai_weight = {
+            factor = 480
+            modifier = {
+                factor = 1.15
+                has_idea_group = administrative_ideas
+            }
+            modifier = {
+                factor = 1.1
+                has_country_flag = uzh_union_debated
+            }
+        }
+    }
+
+    uz_language_decree = {
+        icon = mission_plc_cultural_flowering
+        position = 6
+        required_missions = {
+            uz_rusin_language
+            uz_rusin_literacy
+        }
+        provinces_to_highlight = {
+            owned_by = ROOT
+            NOT = { uzh_identity_core_culture = yes }
+        }
+        trigger = {
+            has_country_flag = uzh_language_standardized
+        }
+        effect = {
+            if = {
+                limit = {
+                    NOT = {
+                        num_of_owned_provinces_with = {
+                            uzh_identity_core_culture = yes
+                            value = 5
+                        }
+                    }
+                }
+                add_country_modifier = {
+                    name = "uz_language_decree"
+                    duration = 5475
+                }
+            }
+            else = {
+                add_prestige = 5
+            }
+        }
+        ai_weight = {
+            factor = 360
+            modifier = {
+                factor = 1.2
+                NOT = {
+                    num_of_owned_provinces_with = {
+                        uzh_identity_core_culture = yes
+                        value = 5
+                    }
+                }
+            }
+            modifier = {
+                factor = 1.1
+                has_idea_group = humanist_ideas
+            }
+        }
+    }
+    
+    uz_identity_question = {
+        icon = mission_empire
+        required_missions = {
+            uz_language_decree
+        }
+        position = 7
+        trigger = {
+            OR = {
+                primary_culture = rusyn
+                primary_culture = rusyn_new
+                primary_culture = ruthenian
+                primary_culture = ruthenian_new
+                primary_culture = rusyn_new_new
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_this_is_a_branching_mission
+                hidden_trigger = { always = yes }
+            }
+            num_of_owned_provinces_with = {
+                uzh_pre_identity_candidate_culture = yes
+                value = 5
+            }
+            stability = 1
+            adm_power = 100
+        }
+        effect = {
+            if = {
+                limit = {
+                    ai = yes
+                }
+                random_list = {
+                    33 = {
+                        hidden_effect = {
+                            set_country_flag = chose_ruthenian_identity
+                        }
+                    }
+                    33 = {
+                        hidden_effect = {
+                            set_country_flag = chose_rusyn_identity
+                        }
+                    }
+                    34 = {
+                        hidden_effect = {
+                            set_country_flag = chose_uhro_rusyn_identity
+                        }
+                    }
+                }
+                swap_non_generic_missions = yes
+            }
+            else = {
+                country_event = {
+                    id = uzh_identity.1  # Подія для вибору гілки ідентичності
+                }
+            }
+            hidden_effect = {
+                set_country_flag = uzh_identity_path_locked
+            }
+        }
+        ai_weight = {
+            factor = 600
+        }
+    }
+
+    uz_self_identification = {
+        icon = mission_plc_cultural_flowering
+        required_missions = {
+            uz_identity_question
+        }
+        position = 8
+        trigger = {
+            has_country_flag = uzh_identity_path_locked
+            OR = {
+                has_country_flag = chose_ruthenian_identity
+                has_country_flag = chose_rusyn_identity
+                has_country_flag = chose_uhro_rusyn_identity
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_identity_consolidated"
+                duration = 5475
+            }
+            add_prestige = 15
+            if = {
+                limit = { government = monarchy }
+                add_legitimacy = 10
+            }
+            else_if = {
+                limit = { government = republic }
+                add_republican_tradition = 8
+            }
+            else = {
+                add_stability = 1
+            }
+            hidden_effect = {
+                set_country_flag = uzh_identity_consolidated
+            }
+        }
+        ai_weight = {
+            factor = 550
+        }
+    }
+}
+
+
+UZH_missions_3_branch = {
+    slot = 3
+    generic = no
+    ai = yes
+    potential = {
+        tag = UZH
+        NOT = { has_country_flag = chose_ruthenian_identity }
+        NOT = { has_country_flag = chose_rusyn_identity }
+        NOT = { has_country_flag = chose_uhro_rusyn_identity }
+    }
+    has_country_shield = yes
+
+    uz_identity_branching_1 = {
+        icon = mission_unknown_mission
+        position = 9
+        required_missions = { uz_self_identification }
+        trigger = {
+            custom_trigger_tooltip = { tooltip = UZH_this_is_a_branching_mission always = no }
+        }
+        effect = {
+            custom_tooltip = UZH_this_is_a_branching_mission
+        }
+    }
+
+    uz_identity_branching_2 = {
+        icon = mission_unknown_mission
+        position = 10
+        required_missions = { uz_identity_branching_1 }
+        trigger = {
+            custom_trigger_tooltip = { tooltip = UZH_this_is_a_branching_mission always = no }
+        }
+        effect = {
+            custom_tooltip = UZH_this_is_a_branching_mission
+        }
+    }
+    
+    uz_identity_branching_3 = {
+        icon = mission_unknown_mission
+        position = 11
+        required_missions = { uz_identity_branching_2 }
+        trigger = {
+            custom_trigger_tooltip = { tooltip = UZH_this_is_a_branching_mission always = no }
+        }
+        effect = {
+            custom_tooltip = UZH_this_is_a_branching_mission
+        }
+    }
+}
+
+    
+UZH_missions_3_ruthenian = {
+    slot = 3
+    generic = no
+    ai = yes
+    potential = {
+        tag = UZH
+        has_country_flag = chose_ruthenian_identity
+    }
+    has_country_shield = yes
+
+    uz_kyivan_heritage = {
+        icon = mission_conquer_50_development
+        required_missions = {
+            uz_self_identification
+        }
+        position = 9
+        provinces_to_highlight = {
+            OR = {
+                area = red_ruthenia_area
+                AND = {
+                    region = ruthenia_region
+                    NOT = { owned_by = ROOT }
+                }
+            }
+        }
+        trigger = {
+            has_country_flag = chose_ruthenian_identity
+            has_country_flag = uzh_language_standardized
+            OR = {
+                any_owned_province = {
+                    area = red_ruthenia_area
+                }
+                num_of_owned_provinces_with = {
+                    region = ruthenia_region
+                    value = 3
+                }
+            }
+            OR = {
+                has_idea_group = religious_ideas
+                has_idea_group = influence_ideas
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_kyivan_legacy"
+                duration = -1
+            }
+            red_ruthenia_area = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            west_dniepr_area = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_prestige = 20
+            add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
+            hidden_effect = {
+                set_country_flag = uzh_kyivan_claims_asserted
+            }
+        }
+        ai_weight = {
+            factor = 420
+            modifier = {
+                factor = 1.25
+                has_country_flag = uzh_union_debated
+            }
+            modifier = {
+                factor = 1.2
+                has_idea_group = religious_ideas
+            }
+            modifier = {
+                factor = 0.85
+                government = theocracy
+            }
+        }
+    }
+    
+    uz_orthodox_unity = {
+        icon = mission_religious
+        required_missions = {
+            uz_kyivan_heritage
+        }
+        position = 10
+        provinces_to_highlight = {
+            owned_by = ROOT
+            uzh_identity_core_culture = yes
+            NOT = { religion = ROOT }
+        }
+        trigger = {
+            has_country_flag = chose_ruthenian_identity
+            OR = {
+                AND = {
+                    OR = {
+                        religion = orthodox
+                        religion = russian_orthodox
+                        religion = greek_catholic
+                    }
+                    patriarch_authority = 0.75
+                }
+                AND = {
+                    religion = catholic
+                    papal_influence = 50
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_orthodox_unity_culture_tt
+                hidden_trigger = {
+                    num_of_owned_provinces_with = {
+                        religion = ROOT
+                        uzh_identity_core_culture = yes
+                        value = 8
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "orthodox_zeal"
+                duration = -1
+            }
+            every_owned_province = {
+                limit = {
+                    religion = ROOT
+                    uzh_identity_core_culture = yes
+                }
+                add_province_modifier = {
+                    name = "uz_orthodox_metropolis"
+                    duration = -1
+                }
+            }
+            if = {
+                limit = { religion = catholic }
+                add_papal_influence = 25
+            }
+            else = {
+                rip_faith_mission_resource_effect = { PA = 0.25 PI = 25 ADM = 25 }
+            }
+            hidden_effect = {
+                set_country_flag = uzh_orthodox_unity_achieved
+            }
+        }
+        ai_weight = {
+            factor = 600
+        }
+    }
+
+    uz_pan_ruthenian_congress = {
+        icon = mission_conquer_50_development
+        required_missions = {
+            uz_orthodox_unity
+        }
+        position = 11
+        provinces_to_highlight = {
+            OR = {
+                AND = {
+                    region = ruthenia_region
+                    OR = {
+                        NOT = { owned_by = ROOT }
+                        AND = {
+                            owned_by = ROOT
+                            NOT = { uzh_identity_core_culture = yes }
+                        }
+                    }
+                }
+                AND = {
+                    region = carpathia_region
+                    OR = {
+                        NOT = { owned_by = ROOT }
+                        AND = {
+                            owned_by = ROOT
+                            NOT = { uzh_identity_core_culture = yes }
+                        }
+                    }
+                }
+                AND = {
+                    region = poland_region
+                    OR = {
+                        NOT = { owned_by = ROOT }
+                        AND = {
+                            owned_by = ROOT
+                            NOT = { uzh_identity_core_culture = yes }
+                        }
+                    }
+                }
+                AND = {
+                    OR = {
+                        area = zaporizhia_area
+                        area = east_dniepr_area
+                        area = west_dniepr_area
+                        area = yedisan_area
+                        area = azov_area
+                        area = lower_don_area
+                    }
+                    OR = {
+                        NOT = { owned_by = ROOT }
+                        AND = {
+                            owned_by = ROOT
+                            NOT = { uzh_identity_core_culture = yes }
+                        }
+                    }
+                }
+                AND = {
+                    NOT = { owned_by = ROOT }
+                    OR = {
+                        culture = byelorussian
+                        culture = byelorussian_new
+                    }
+                }
+            }
+        }
+        trigger = {
+            has_country_flag = chose_ruthenian_identity
+            custom_trigger_tooltip = {
+                tooltip = UZH_pan_congress_ruthenia_tt
+                hidden_trigger = {
+                    num_of_owned_provinces_with = {
+                        region = ruthenia_region
+                        uzh_identity_core_culture = yes
+                        value = 3
+                    }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_pan_congress_carpathia_tt
+                hidden_trigger = {
+                    num_of_owned_provinces_with = {
+                        region = carpathia_region
+                        uzh_identity_core_culture = yes
+                        value = 1
+                    }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_pan_congress_poland_tt
+                hidden_trigger = {
+                    num_of_owned_provinces_with = {
+                        region = poland_region
+                        uzh_identity_core_culture = yes
+                        value = 1
+                    }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_pan_congress_steppe_tt
+                hidden_trigger = {
+                    num_of_owned_provinces_with = {
+                        OR = {
+                            area = zaporizhia_area
+                            area = east_dniepr_area
+                            area = west_dniepr_area
+                            area = yedisan_area
+                            area = azov_area
+                            area = lower_don_area
+                        }
+                        uzh_identity_core_culture = yes
+                        value = 1
+                    }
+                }
+            }
+            num_of_owned_provinces_with = {
+                OR = {
+                    culture = byelorussian
+                    culture = byelorussian_new
+                }
+                value = 1
+            }
+            num_of_subjects = 1
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_ambitious_expansion_modifier"
+                duration = 5475
+            }
+            add_country_modifier = {
+                name = "uz_pan_ruthenian_union"
+                duration = -1
+            }
+            ruthenia_region = {
+                limit = {
+                    NOT = { owned_by = ROOT }
+                }
+                add_permanent_claim = ROOT
+            }
+            add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
+            add_prestige = 25
+        }
+        ai_weight = {
+            factor = 420
+            modifier = {
+                factor = 1.2
+                num_of_subjects = 1
+            }
+            modifier = {
+                factor = 1.15
+                has_idea_group = influence_ideas
+            }
+            modifier = {
+                factor = 0.85
+                government = republic
+            }
+        }
+    }
+}
+
+
+UZH_missions_3_rusyn = {
+    slot = 3
+    generic = no
+    ai = yes
+    potential = {
+        tag = UZH
+        has_country_flag = chose_rusyn_identity
+    }
+    has_country_shield = yes
+
+    uz_rusyn_autonomy = {
+        icon = mission_noble_council
+        required_missions = {
+            uz_self_identification
+        }
+        position = 9
+        trigger = {
+            has_country_flag = chose_rusyn_identity
+            has_country_flag = uzh_language_standardized
+            num_accepted_cultures = 3
+            diplomatic_reputation = 3
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_rusyn_self_governance"
+                duration = -1
+            }
+            change_government_reform_progress = 50
+            add_legitimacy_equivalent = { amount = 20 republican_tradition = 10 }
+            every_owned_province = {
+                limit = {
+                    OR = {
+                        culture = rusyn
+                        culture = rusyn_new
+                        AND = {
+                            owner = { has_country_flag = chose_ruthenian_identity }
+                            OR = {
+                                culture = ruthenian
+                                culture = ruthenian_new
+                            }
+                        }
+                        AND = {
+                            owner = { has_country_flag = chose_uhro_rusyn_identity }
+                            culture = rusyn_new_new
+                        }
+                    }
+                }
+                add_local_autonomy = -15
+            }
+            hidden_effect = {
+                set_country_flag = uzh_rusyn_autonomy_secured
+            }
+        }
+        ai_weight = {
+            factor = 600
+        }
+    }
+
+    uz_carpathian_federation = {
+        icon = mission_empire
+        required_missions = {
+            uz_rusyn_autonomy
+        }
+        position = 10
+        provinces_to_highlight = {
+            owned_by = ROOT
+            NOT = {
+                OR = {
+                    culture = rusyn
+                    culture = rusyn_new
+                    AND = {
+                        owner = { has_country_flag = chose_ruthenian_identity }
+                        OR = {
+                            culture = ruthenian
+                            culture = ruthenian_new
+                        }
+                    }
+                    AND = {
+                        owner = { has_country_flag = chose_uhro_rusyn_identity }
+                        culture = rusyn_new_new
+                    }
+                }
+            }
+        }
+        trigger = {
+            has_country_flag = chose_rusyn_identity
+            num_accepted_cultures = 4
+            diplomatic_reputation = 5
+            num_of_owned_provinces_with = {
+                OR = {
+                    culture = rusyn
+                    culture = rusyn_new
+                    AND = {
+                        owner = { has_country_flag = chose_ruthenian_identity }
+                        OR = {
+                            culture = ruthenian
+                            culture = ruthenian_new
+                        }
+                    }
+                    AND = {
+                        owner = { has_country_flag = chose_uhro_rusyn_identity }
+                        culture = rusyn_new_new
+                    }
+                }
+                value = 15
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_carpathian_federation"
+                duration = -1
+            }
+            change_government_reform_progress = 100
+            add_legitimacy_equivalent = { amount = 30 republican_tradition = 15 }
+            add_country_modifier = {
+                name = "uz_carpathian_federation_diprep"
+                duration = 7300
+            }
+            add_country_modifier = {
+                name = "uz_administrative_efficiency"
+                duration = 7300  # 20 years
+            }
+            every_owned_province = {
+                limit = {
+                    OR = {
+                        culture = rusyn
+                        culture = rusyn_new
+                        AND = {
+                            owner = { has_country_flag = chose_ruthenian_identity }
+                            OR = {
+                                culture = ruthenian
+                                culture = ruthenian_new
+                            }
+                        }
+                        AND = {
+                            owner = { has_country_flag = chose_uhro_rusyn_identity }
+                            culture = rusyn_new_new
+                        }
+                    }
+                }
+                add_local_autonomy = -10
+            }
+            hidden_effect = {
+                set_country_flag = uzh_carpathian_federation_established
+            }
+        }
+        ai_weight = {
+            factor = 600
+        }
+    }
+
+    uz_carpathian_commonwealth = {
+        icon = mission_noble_council
+        required_missions = {
+            uz_carpathian_federation
+        }
+        position = 11
+        trigger = {
+            has_country_flag = chose_rusyn_identity
+            has_country_flag = uzh_carpathian_federation_established
+            num_accepted_cultures = 5
+            num_of_subjects = 1
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_carpathian_commonwealth"
+                duration = -1
+            }
+            change_government_reform_progress = 100
+            add_legitimacy_equivalent = { amount = 15 republican_tradition = 8 }
+            add_dip_power = 100
+        }
+        ai_weight = {
+            factor = 500
+        }
+    }
+}
+
+UZH_missions_3_uhro_rusyn = {
+    slot = 3
+    generic = no
+    ai = yes
+    potential = {
+        tag = UZH
+        has_country_flag = chose_uhro_rusyn_identity
+    }
+    has_country_shield = yes
+
+
+    uz_pressburg_compact = {
+        icon = mission_pol_protect_hungary
+        required_missions = {
+            uz_self_identification
+        }
+        position = 9
+        trigger = {
+            has_country_flag = chose_uhro_rusyn_identity
+            has_country_flag = uzh_language_standardized
+            has_country_flag = uzh_charter_signed
+            OR = {
+                AND = {
+                    HUN = { exists = yes }
+                    has_opinion = {
+                        who = HUN
+                        value = 120
+                    }
+                    HUN = {
+                        has_opinion = {
+                            who = ROOT
+                            value = 120
+                        }
+                    }
+                }
+                AND = {
+                    owns_or_subject_of = 1772 # Pozsony / Pressburg
+                    num_of_owned_provinces_with = {
+                        region = carpathia_region
+                        value = 8
+                    }
+                }
+            }
+            legitimacy_equivalent = 70
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_pressburg_compact"
+                duration = 5475
+            }
+            if = {
+                limit = {
+                    exists = HUN
+                }
+                HUN = {
+                    add_opinion = {
+                        who = ROOT
+                        modifier = opinion_uz_pressburg_compact
+                    }
+                }
+            }
+            add_prestige = 10
+            add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
+            hidden_effect = {
+                set_country_flag = uzh_pressburg_compact_signed
+            }
+        }
+        ai_weight = {
+            factor = 450
+        }
+    }
+
+    uz_uhro_rusyn_integration = {
+        icon = mission_pol_protect_hungary
+        required_missions = {
+            uz_pressburg_compact
+        }
+        position = 10
+        provinces_to_highlight = {
+            OR = {
+                AND = {
+                    culture = rusyn_new_new
+                    NOT = { owned_by = ROOT }
+                }
+                AND = {
+                    culture = rusyn_new_new
+                    owned_by = ROOT
+                    NOT = { uzh_has_courthouse_infrastructure = yes }
+                }
+            }
+        }
+        trigger = {
+            has_country_flag = chose_uhro_rusyn_identity
+            OR = {
+                culture_group = carpathian
+                accepted_culture = rusyn_new_new
+            }
+            num_of_owned_provinces_with = {
+                culture = rusyn_new_new
+                value = 3
+            }
+            OR = {
+                alliance_with = HUN
+                is_subject_of = HUN
+                overlord_of = HUN
+                AND = {
+                    owns_or_subject_of = 1772 # Pozsony / Pressburg
+                    num_of_owned_provinces_with = {
+                        region = carpathia_region
+                        value = 8
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_uhro_rusyn_integration"
+                duration = -1
+            }
+            add_accepted_culture = rusyn_new_new
+            every_owned_province = {
+                limit = {
+                    culture = rusyn_new_new
+                }
+                add_province_modifier = {
+                    name = "hungarian_integration_zeal"
+                    duration = 9125
+                }
+            }
+            if = {
+                limit = {
+                    any_owned_province = {
+                        culture = rusyn_new_new
+                        uzh_has_courthouse_infrastructure = yes
+                    }
+                }
+                add_country_modifier = {
+                    name = "uz_border_guard_union"
+                    duration = 5475
+                }
+            }
+            add_prestige = 15
+            hidden_effect = {
+                set_country_flag = uzh_uhro_rusyn_integrated
+            }
+        }
+        ai_weight = {
+            factor = 525
+        }
+    }
+
+    uz_crown_of_saint_stephen = {
+        icon = mission_empire
+        required_missions = {
+            uz_uhro_rusyn_integration
+        }
+        position = 12
+        provinces_to_highlight = {
+            OR = {
+                153 = {
+                    owned_by = ROOT
+                }
+                AND = {
+                    region = carpathia_region
+                    culture = rusyn_new_new
+                    NOT = { owned_by = ROOT }
+                }
+            }
+        }
+        trigger = {
+            has_country_flag = chose_uhro_rusyn_identity
+            OR = {
+                government_rank = 2
+                government_rank = 3
+            }
+            OR = {
+                legitimacy = 80
+                republican_tradition = 70
+                devotion = 70
+            }
+            owns_or_subject_of = 153 # Pest / Pressburg theatre
+            num_of_owned_provinces_with = {
+                region = carpathia_region
+                culture = rusyn_new_new
+                value = 5
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "uz_crown_of_saint_stephen"
+                duration = -1
+            }
+            add_legitimacy_equivalent = { amount = 15 republican_tradition = 7 }
+            if = {
+                limit = {
+                    valid_for_personal_unions_trigger = yes
+                    HUN = {
+                        valid_for_personal_unions_trigger = yes
+                        is_neighbor_of = ROOT
+                    }
+                }
+                add_casus_belli = {
+                    target = HUN
+                    type = cb_restore_personal_union
+                    months = 120
+                }
+            }
+            else_if = {
+                limit = {
+                    is_subject = no
+                    HUN = {
+                        exists = yes
+                        is_free_or_tributary_trigger = yes
+                        is_neighbor_of = ROOT
+                    }
+                }
+                add_casus_belli = {
+                    target = HUN
+                    type = cb_vassalize_mission
+                    months = 120
+                }
+            }
+            if = {
+                limit = {
+                    exists = HAB
+                }
+                HAB = {
+                    add_opinion = {
+                        who = ROOT
+                        modifier = opinion_uz_dual_crown
+                    }
+                }
+            }
+            hidden_effect = {
+                set_country_flag = uzh_crown_claimed
+            }
+        }
+        ai_weight = {
+            factor = 550
+        }
+    }
+
+    uz_danubian_monarchy = {
+        icon = mission_empire
+        required_missions = {
+            uz_crown_of_saint_stephen
+        }
+        position = 13
+        trigger = {
+            has_country_flag = chose_uhro_rusyn_identity
+            government_rank = 3
+            total_development = 320
+            OR = {
+                is_subject_of = HUN
+                HUN = {
+                    is_subject_of = ROOT
+                }
+                AND = {
+                    is_subject = yes
+                    overlord = {
+                        tag = HUN
+                        government = monarchy
+                    }
+                    government = monarchy
+                }
+                AND = {
+                    owns_or_subject_of = 153 # Pest
+                    owns_or_subject_of = 1772 # Pozsony / Pressburg
+                    num_of_owned_provinces_with = {
+                        region = carpathia_region
+                        value = 15
+                    }
+                }
+            }
+        }
+        effect = {
+            add_country_modifier = {
+                name = "danubian_monarchy_influence"
+                duration = -1
+            }
+            add_country_modifier = {
+                name = "uz_dual_monarchy_administration"
+                duration = 9125
+            }
+            add_prestige = 50
+            if = {
+                limit = {
+                    any_subject_country = {
+                        always = yes
+                    }
+                }
+                every_subject_country = {
+                    add_liberty_desire = -25
+                }
+            }
+            if = {
+                limit = {
+                    exists = HUN
+                    HUN = {
+                        is_subject_of = ROOT
+                    }
+                }
+                HUN = {
+                    add_liberty_desire = -20
+                }
+            }
+            hidden_effect = {
+                set_country_flag = uzh_danubian_ambition_realized
+            }
+        }
+        ai_weight = {
+            factor = 600
+        }
+    }
+}
+
+
+UZH_missions_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		tag = UZH
+		OR = {
+			government = monarchy
+			government = republic
+		}
+	}
+    has_country_shield = yes
+	
+
+	uzh_komitat_system = {
+		icon = mission_noble_council
+		position = 3
+		required_missions = {
+			uz_hungarian_protection
+		}
+        trigger = {
+            has_country_flag = uzh_charter_signed
+            custom_trigger_tooltip = {
+                tooltip = uzh_komitat_captains_party_tt
+                if = {
+                    limit = {
+                        has_dlc = "Res Publica"
+                        has_reform = uzh_palanok_captaincy_reform
+                    }
+                    statists_vs_orangists = 0.7
+                }
+            }
+            crown_land_share = 30
+        }
+		effect = {
+            if = {
+                limit = {
+                    has_reform = uzh_palanok_captaincy_reform
+                }
+                remove_government_reform = uzh_palanok_captaincy_reform
+                hidden_effect = {
+                    set_country_flag = uzh_komitat_absorbed_palanok
+                }
+            }
+            if = {
+                limit = {
+                    government = monarchy
+                    NOT = { has_reform = uzh_komitat_system_reform }
+                }
+                add_government_reform = uzh_komitat_system_reform
+            }
+            else_if = {
+                limit = {
+                    government = republic
+                    NOT = { has_reform = uzh_republican_komitat_system_reform }
+                }
+                add_government_reform = uzh_republican_komitat_system_reform
+            }
+			add_country_modifier = {
+				name = "uz_komitat_administration"
+				duration = 7300
+			}
+            if = {
+                limit = {
+                    has_estate = estate_nobles
+                }
+                add_estate_loyalty = {
+                    estate = estate_nobles
+                    loyalty = 10
+                }
+            }
+            add_treasury = 150
+			add_adm_power = 75
+            hidden_effect = {
+                set_country_flag = uzh_komitat_restructured
+            }
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	
+	uzh_rusin_nobility = {
+		icon = mission_noble_council
+		required_missions = {
+			uzh_komitat_system
+		}
+		position = 4
+        provinces_to_highlight = {
+            owned_by = ROOT
+            OR = {
+                    NOT = { uzh_has_courthouse_infrastructure = yes }
+                    NOT = { uzh_identity_core_culture = yes }
+            }
+        }
+		trigger = {
+            has_country_flag = uzh_komitat_restructured
+            custom_trigger_tooltip = {
+                tooltip = UZH_rusin_nobility_court_tt
+                hidden_trigger = {
+                    num_of_owned_provinces_with = {
+                        uzh_identity_core_culture = yes
+                        uzh_has_courthouse_infrastructure = yes
+                        value = 5
+                    }
+                }
+            }
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uz_rusin_aristocracy"
+				duration = 9125
+			}
+			every_owned_province = {
+				limit = {
+                    uzh_identity_core_culture = yes
+				}
+				add_local_autonomy = -10
+			}
+            hidden_effect = {
+                set_country_flag = uzh_rusin_nobility_crowned
+            }
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+        uzh_palatial_reform = {
+            icon = mission_noble_council
+            required_missions = {
+                uzh_rusin_nobility
+                uz_identity_question
+            }
+            position = 5
+            trigger = {
+                OR = {
+                    AND = {
+                        OR = {
+                            has_dlc = "Common Sense"
+                            has_dlc = "Domination"
+                        }
+                        has_parliament = yes
+                        custom_trigger_tooltip = {
+                            tooltip = UZH_palatial_reform_subject_seats_tt
+                            num_of_owned_provinces_with = {
+                                region = carpathia_region
+                                has_seat_in_parliament = yes
+                                value = 5
+                            }
+                        }
+                    }
+                    AND = {
+                        NOT = {
+                            OR = {
+                                has_dlc = "Common Sense"
+                                has_dlc = "Domination"
+                            }
+                        }
+                        stability = 2
+                        num_of_cities = 8
+                    }
+                }
+            }
+            effect = {
+                add_country_modifier = {
+                    name = "uz_palatial_chambers"
+                    duration = 7300
+                }
+                if = {
+                    limit = { government = monarchy }
+                    add_legitimacy = 10
+                }
+                else_if = {
+                    limit = { government = republic }
+                    add_republican_tradition = 10
+                }
+                hidden_effect = {
+                    if = {
+                        limit = { has_country_flag = chose_ruthenian_identity }
+                        add_government_reform = uzh_palatial_ruthenian_reform
+                    }
+                    else_if = {
+                        limit = { has_country_flag = chose_rusyn_identity }
+                        add_government_reform = uzh_palatial_rusyn_reform
+                    }
+                    else_if = {
+                        limit = { has_country_flag = chose_uhro_rusyn_identity }
+                        if = {
+                            limit = { government = monarchy }
+                            add_government_reform = uzh_palatial_uhro_reform
+                        }
+                        else_if = {
+                            limit = { government = republic }
+                            add_government_reform = uzh_palatial_uhro_republic_reform
+                        }
+                    }
+                    set_country_flag = uzh_palatial_reform_enacted
+                }
+            }
+            ai_weight = {
+                factor = 320
+            }
+        }
+	
+    uzh_constitutional_monarchy = {
+		icon = mission_noble_council
+		required_missions = {
+            uzh_palatial_reform
+		}
+        position = 6
+		trigger = {
+            has_country_flag = uzh_rusin_nobility_crowned
+			OR = {
+				has_reform = parliamentary_reform
+				AND = {
+					NOT = {
+						OR = {
+							has_dlc = "Common Sense"
+							has_dlc = "Domination"
+						}
+					}
+					reform_level = 6
+				}
+			}
+			stability = 2
+            government = monarchy
+            NOT = { has_country_flag = uzh_pannonian_republic_established }
+		}
+            effect = {
+                custom_tooltip = UZH_constitutional_monarchy_tt
+                tooltip = {
+                    add_country_modifier = {
+                        name = "uz_constitutional_system"
+                        duration = -1
+                    }
+                    add_country_modifier = {
+                        name = "uz_statute_codification"
+                        duration = 9125
+                    }
+                    add_legitimacy = 15
+                    change_government_reform_progress = 50
+                }
+                hidden_effect = {
+                    add_country_modifier = {
+                        name = "uz_constitutional_system"
+                        duration = -1
+                    }
+                    add_country_modifier = {
+                        name = "uz_statute_codification"
+                        duration = 9125
+                    }
+                    add_legitimacy = 15
+                    change_government_reform_progress = 50
+                    if = {
+                        limit = { has_estate = estate_nobles }
+                        add_estate_loyalty = {
+                            estate = estate_nobles
+                            loyalty = 10
+                        }
+                    }
+                    if = {
+                        limit = { has_estate = estate_burghers }
+                        add_estate_loyalty = {
+                            estate = estate_burghers
+                            loyalty = 10
+                        }
+                    }
+                    set_country_flag = uzh_constitutional_framework
+                }
+            }
+		ai_weight = {
+			factor = 300
+		}
+	}
+	
+	uzh_federalization = {
+		icon = mission_empire
+        required_missions = {
+            uzh_pannonian_republic
+        }
+		position = 11
+        provinces_to_highlight = {
+            owned_by = ROOT
+            NOT = {
+                OR = {
+                    culture = rusyn
+                    culture = rusyn_new
+                    AND = {
+                        owner = { has_country_flag = chose_ruthenian_identity }
+                        OR = {
+                            culture = ruthenian
+                            culture = ruthenian_new
+                        }
+                    }
+                    AND = {
+                        owner = { has_country_flag = chose_uhro_rusyn_identity }
+                        culture = rusyn_new_new
+                    }
+                }
+            }
+        }
+		trigger = {
+            OR = {
+                has_country_flag = uzh_constitutional_framework
+                has_country_flag = uzh_pannonian_compact_signed
+            }
+			num_of_owned_provinces_with = {
+                OR = {
+                    culture = rusyn
+                    culture = rusyn_new
+                    AND = {
+                        owner = { has_country_flag = chose_ruthenian_identity }
+                        OR = {
+                            culture = ruthenian
+                            culture = ruthenian_new
+                        }
+                    }
+                    AND = {
+                        owner = { has_country_flag = chose_uhro_rusyn_identity }
+                        culture = rusyn_new_new
+                    }
+                }
+				value = 20
+			}
+			has_idea_group = administrative_ideas
+            num_of_subjects = 1
+            custom_trigger_tooltip = {
+                tooltip = UZH_federalization_subjects_tt
+                uzh_loyal_subject_network = yes
+            }
+		}
+        effect = {
+            custom_tooltip = UZH_federalization_common_tt
+            tooltip = {
+                add_country_modifier = {
+                    name = "uz_federal_structure"
+                    duration = -1
+                }
+                every_subject_country = {
+                    add_liberty_desire = -10
+                }
+                change_government_reform_progress = 75
+            }
+            custom_tooltip = UZH_federalization_authority_tt
+            hidden_effect = {
+                add_country_modifier = {
+                    name = "uz_federal_structure"
+                    duration = -1
+                }
+                every_subject_country = {
+                    add_liberty_desire = -10
+                }
+                change_government_reform_progress = 75
+                add_legitimacy_equivalent = { amount = 15 republican_tradition = 8 }
+                set_country_flag = uzh_federal_project_realized
+            }
+        }
+		ai_weight = {
+			factor = 200
+		}
+	}
+    
+    uzh_federative_statutes = {
+        icon = mission_empire
+        required_missions = {
+            uzh_federalization
+        }
+        position = 12
+        trigger = {
+            has_country_flag = uzh_federal_project_realized
+            custom_trigger_tooltip = {
+                tooltip = UZH_federative_statutes_loyal_subjects_tt
+                num_of_subjects = 2
+                NOT = {
+                    any_subject_country = {
+                        liberty_desire = 50
+                    }
+                }
+            }
+            num_accepted_cultures = 5
+        }
+        effect = {
+            custom_tooltip = UZH_federative_statutes_reward_tt
+            hidden_effect = {
+                if = {
+                    limit = { government = monarchy }
+                    add_country_modifier = {
+                        name = "uz_federative_statutes_capacity"
+                        duration = -1
+                    }
+                }
+                else_if = {
+                    limit = { government = republic }
+                    add_country_modifier = {
+                        name = "uz_federative_statutes_autonomy"
+                        duration = -1
+                    }
+                }
+                else = {
+                    add_country_modifier = {
+                        name = "uz_federative_statutes_capacity"
+                        duration = -1
+                    }
+                }
+                every_subject_country = {
+                    add_liberty_desire = -10
+                    add_opinion = {
+                        who = ROOT
+                        modifier = opinion_granted_privileges
+                    }
+                }
+                change_government_reform_progress = 75
+                set_country_flag = uzh_federative_statutes_enacted
+            }
+        }
+        ai_weight = {
+            factor = 340
+        }
+    }
+}
+    
+UZH_missions_5 = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		tag = UZH
+	}
+    has_country_shield = yes
+	
+
+	uzh_agriculture = {
+		icon = mission_wine_monopolies
+		position = 3
+		required_missions = {
+			
+		}
+        provinces_to_highlight = {
+            OR = {
+                AND = {
+                    owned_by = ROOT
+                    trade_goods = wine
+                    NOT = { uzh_has_workshop_infrastructure = yes }
+                }
+                OR = {
+                    AND = {
+                        1952 = {
+                            owned_by = ROOT
+                            NOT = { has_building = farm_estate }
+                        }
+                    }
+                    AND = {
+                        region = carpathia_region
+                        trade_goods = livestock
+                        owned_by = ROOT
+                        NOT = { has_building = farm_estate }
+                    }
+                }
+            }
+        }
+		trigger = {
+            has_country_flag = uzh_mukachevo_privilege_confirmed
+            OR = {
+                1952 = {
+                    owned_by = ROOT
+                    has_building = farm_estate
+                }
+                any_owned_province = {
+                        region = carpathia_region
+                        trade_goods = livestock
+                        owned_by = ROOT
+                        has_building = farm_estate
+                }
+                any_owned_province = {
+                        region = carpathia_region
+                        trade_goods = wine
+                        owned_by = ROOT
+                        has_building = farm_estate
+                }
+            }
+            num_of_owned_provinces_with = {
+                trade_goods = wine
+                uzh_has_workshop_infrastructure = yes
+                value = 2
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_agriculture_pastures_tt
+                num_of_owned_provinces_with = {
+                    region = carpathia_region
+                    trade_goods = livestock
+                    value = 2
+                }
+            }
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uz_agricultural_development"
+				duration = 7300
+			}
+			every_owned_province = {
+				limit = {
+                    region = carpathia_region
+                    trade_goods = wine
+				}
+				add_base_production = 1
+                add_province_modifier = {
+                    name = "uz_carpathian_vineyards"
+                    duration = 5475
+                }
+			}
+            add_country_modifier = {
+                name = "uz_riverine_granaries"
+                duration = 5475
+            }
+            hidden_effect = {
+                set_country_flag = uzh_agriculture_program_launched
+            }
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	
+    uzh_solotvynska_camera = {
+        icon = mission_high_income
+        required_missions = {
+            uzh_agriculture
+        }
+        position = 4
+        provinces_to_highlight = {
+            owned_by = ROOT
+            trade_goods = salt
+        }
+        trigger = {
+            custom_trigger_tooltip = {
+                tooltip = UZH_solotvynska_camera_salt_tt
+                hidden_trigger = {
+                    any_owned_province = {
+                        trade_goods = salt
+                        OR = {
+                            has_manufactory_trigger = yes
+                            development = 15
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            country_event = { id = uzh.241 }
+        }
+        ai_weight = {
+            factor = 450
+        }
+    }
+
+	uzh_trade_routes = {
+		icon = mission_dominate_home_trade_node
+		required_missions = {
+            uzh_solotvynska_camera
+            uzh_banat_colonization
+		}
+		position = 5
+        provinces_to_highlight = {
+            OR = {
+                AND = {
+                    area = alfold_area
+                    owned_by = ROOT
+                    NOT = { uzh_has_market_infrastructure = yes }
+                }
+                AND = {
+                    area = slavonia_area
+                    owned_by = ROOT
+                    NOT = { uzh_has_market_infrastructure = yes }
+                }
+            }
+        }
+		trigger = {
+            has_country_flag = uzh_agriculture_program_launched
+            num_of_merchants = 2
+            num_of_owned_provinces_with = {
+                area = alfold_area
+                uzh_has_market_infrastructure = yes
+                value = 2
+            }
+            num_of_owned_provinces_with = {
+                area = slavonia_area
+                uzh_has_market_infrastructure = yes
+                value = 1
+            }
+            home_trade_node = {
+                trade_share = {
+                    country = ROOT
+                    share = 30
+                }
+            }
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uz_trade_prosperity"
+				duration = 5475
+			}
+			add_mercantilism = 3
+            every_owned_province = {
+                limit = {
+                    area = alfold_area
+                    uzh_has_market_infrastructure = yes
+                }
+                add_province_modifier = {
+                    name = "uz_danube_exchange"
+                    duration = 5475
+                }
+            }
+            hidden_effect = {
+                set_country_flag = uzh_trade_corridors_established
+            }
+		}
+		ai_weight = {
+			factor = 500
+		}
+	}
+	
+    uzh_tisza_customs_convention = {
+        icon = mission_hanseatic_city
+        required_missions = {
+            uzh_trade_routes
+        }
+        position = 6
+        provinces_to_highlight = {
+            owned_by = ROOT
+            OR = {
+                area = alfold_area
+                area = slavonia_area
+                region = carpathia_region
+            }
+        }
+        trigger = {
+            custom_trigger_tooltip = {
+                tooltip = UZH_tisza_customs_pest_tt
+                hidden_trigger = {
+                    153 = {
+                        is_strongest_trade_power = ROOT
+                    }
+                }
+            }
+            custom_trigger_tooltip = {
+                tooltip = UZH_tisza_customs_downstream_tt
+                hidden_trigger = {
+                    OR = {
+                        134 = { # Wien
+                            is_strongest_trade_power = ROOT
+                        }
+                        137 = { # Ragusa
+                            is_strongest_trade_power = ROOT
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            country_event = { id = uzh.242 }
+        }
+        ai_weight = {
+            factor = 420
+        }
+    }
+
+	uzh_industrial_revolution = {
+		icon = mission_early_game_buildings
+		required_missions = {
+            uzh_tisza_customs_convention
+		}
+		position = 7
+        provinces_to_highlight = {
+            OR = {
+                AND = {
+                    owned_by = ROOT
+                    NOT = {
+                        OR = {
+                            has_manufactory_trigger = yes
+                            has_building = weapons
+                            has_building = wharf
+                            has_building = textile
+                            has_building = plantations
+                            has_building = tradecompany
+                            has_building = farm_estate
+                            has_building = mills
+                            has_building = furnace
+                        }
+                    }
+                }
+                AND = {
+                    trade_goods = coal
+                    NOT = { owned_by = ROOT }
+                }
+            }
+        }
+    	trigger = {
+            has_country_flag = uzh_trade_corridors_established
+            has_institution = manufactories
+            num_of_owned_provinces_with = {
+                OR = {
+                    has_manufactory_trigger = yes
+                    has_building = weapons
+                    has_building = wharf
+                    has_building = textile
+                    has_building = plantations
+                    has_building = tradecompany
+                    has_building = farm_estate
+                    has_building = mills
+                    has_building = furnace
+                    base_production = 8
+                }
+                value = 3
+            }
+            num_of_owned_provinces_with = {
+                trade_goods = coal
+                value = 1
+            }
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uz_early_industrialization"
+				duration = 9125
+			}
+			capital_scope = {
+				add_base_production = 3
+			}
+            every_owned_province = {
+                limit = {
+                    has_manufactory_trigger = yes
+                }
+                add_province_modifier = {
+                    name = "uz_factory_consortiums"
+                    duration = 5475
+                }
+            }
+            hidden_effect = {
+                set_country_flag = uzh_industrialization_in_motion
+            }
+			country_event = {
+				id = uzh.203
+			}
+		}
+		ai_weight = {
+		 factor = 600
+		}
+	}
+
+
+	uzh_congress_subject_hegemony = {
+		icon = mission_alliances
+		required_missions = {
+			uzh_industrial_revolution
+            uzh_federalization
+		}
+		position = 12
+        provinces_to_highlight = {
+            region = carpathia_region
+            owned_by = ROOT
+            OR = {
+                NOT = {
+                    OR = {
+                        has_building = fort_15th
+                        has_building = fort_16th
+                        has_building = fort_17th
+                        has_building = fort_18th
+                    }
+                }
+                AND = {
+                    has_building = fort_15th
+                    NOT = {
+                        OR = {
+                            has_building = fort_16th
+                            has_building = fort_17th
+                            has_building = fort_18th
+                        }
+                    }
+                }
+            }
+        }
+        trigger = {
+            if = {
+                limit = { has_country_flag = uzh_congress_subject_path }
+                custom_trigger_tooltip = {
+                    tooltip = UZH_congress_subject_hegemony_subject_req_tt
+                    hidden_trigger = {
+                        num_of_subjects = 1
+                        all_subject_country = {
+                            NOT = { liberty_desire = 50 }
+                            has_opinion = {
+                                who = ROOT
+                                value = 100
+                            }
+                        }
+                    }
+                }
+            }
+            if = {
+                limit = { has_country_flag = uzh_congress_border_path }
+                custom_trigger_tooltip = {
+                    tooltip = UZH_congress_subject_hegemony_border_req_tt
+                    hidden_trigger = {
+                        has_country_flag = uzh_industrialization_in_motion
+                        manpower_percentage = 0.55
+                        army_professionalism = 0.35
+                        num_of_owned_provinces_with = {
+                            region = carpathia_region
+                            fort_level = 3
+                            value = 3
+                        }
+                    }
+                }
+            }
+            OR = {
+                AND = {
+                    has_country_flag = uzh_congress_subject_path
+                    num_of_subjects = 1
+                    all_subject_country = {
+                        NOT = { liberty_desire = 50 }
+                        has_opinion = {
+                            who = ROOT
+                            value = 100
+                        }
+                    }
+                }
+                AND = {
+                    has_country_flag = uzh_congress_border_path
+                    has_country_flag = uzh_industrialization_in_motion
+                    manpower_percentage = 0.55
+                    army_professionalism = 0.35
+                    num_of_owned_provinces_with = {
+                        value = 2
+                        region = carpathia_region
+                        fort_level = 2
+                    }
+                }
+            }
+        }
+        
+        effect = {
+            if = {
+                limit = { has_country_flag = uzh_congress_subject_path }
+                custom_tooltip = UZH_congress_subject_hegemony_subject_tt
+                add_country_modifier = {
+                    name = "uz_congress_subject_charters"
+                    duration = -1
+                }
+                every_subject_country = {
+                    add_liberty_desire = -10
+                    add_opinion = {
+                        who = ROOT
+                        modifier = opinion_granted_privileges
+                    }
+                }
+                add_dip_power = 150
+                change_government_reform_progress = 50
+                clr_country_flag = uzh_congress_border_supremacy
+                set_country_flag = uzh_congress_subject_supremacy
+            }
+            else_if = {
+                limit = { has_country_flag = uzh_congress_border_path }
+                custom_tooltip = UZH_congress_subject_hegemony_border_tt
+                add_country_modifier = {
+                    name = "uz_congress_border_drill"
+                    duration = 9125
+                }
+                add_manpower = 8
+                add_army_professionalism = 0.05
+                add_mil_power = 150
+                add_army_tradition = 15
+                if = {
+                    limit = { num_of_subjects = 1 }
+                    every_subject_country = {
+                        add_opinion = {
+                            who = ROOT
+                            modifier = opinion_granted_privileges
+                        }
+                    }
+                }
+                change_government_reform_progress = 35
+                clr_country_flag = uzh_congress_subject_supremacy
+                set_country_flag = uzh_congress_border_supremacy
+            }
+        }
+		ai_weight = {
+            factor = 350
+            modifier = {
+                factor = 1.2
+                has_country_flag = uzh_congress_subject_path
+            }
+            modifier = {
+                factor = 1.15
+                has_country_flag = uzh_congress_border_path
+                has_idea_group = defensive_ideas
+            }
+            modifier = {
+                factor = 1.1
+                has_idea_group = influence_ideas
+            }
+            modifier = {
+                factor = 0.85
+                government = theocracy
+            }
+		}
+	}
+
+	uzh_congress_border_bastion = {
+		icon = mission_empire
+		required_missions = {
+			uzh_congress_subject_hegemony
+		}
+		position = 13
+		
+        provinces_to_highlight = {
+            region = carpathia_region
+            owned_by = ROOT
+            NOT = {
+                OR = {
+                    has_building = fort_17th
+                    has_building = fort_18th
+                    fort_level = 3
+                }
+            }
+        }
+        trigger = {
+            if = {
+                limit = { has_country_flag = uzh_congress_border_supremacy }
+                custom_trigger_tooltip = {
+                    tooltip = UZH_congress_border_bastion_border_req_tt
+                    hidden_trigger = {
+                        has_country_flag = uzh_pannonian_compact_signed
+                        manpower_percentage = 0.6
+                        army_tradition = 30
+                        army_professionalism = 0.4
+                        num_of_owned_provinces_with = {
+                            region = carpathia_region
+                            fort_level = 3
+                            value = 3
+                        }
+                    }
+                }
+            }
+            if = {
+                limit = { has_country_flag = uzh_congress_subject_supremacy }
+                custom_trigger_tooltip = {
+                    tooltip = UZH_congress_border_bastion_subject_req_tt
+                    hidden_trigger = {
+                        has_country_modifier = uz_congress_subject_charters
+                        num_of_subjects = 2
+                        all_subject_country = {
+                            NOT = { liberty_desire = 45 }
+                            has_opinion = {
+                                who = ROOT
+                                value = 125
+                            }
+                        }
+                    }
+                }
+            }
+            OR = {
+                AND = {
+                    has_country_flag = uzh_congress_border_supremacy
+                    has_country_flag = uzh_pannonian_compact_signed
+                    manpower_percentage = 0.6
+                    army_tradition = 30
+                    army_professionalism = 0.4
+                    num_of_owned_provinces_with = {
+                        region = carpathia_region
+                        fort_level = 3
+                        value = 3
+                    }
+                }
+                AND = {
+                    has_country_flag = uzh_congress_subject_supremacy
+                    has_country_modifier = uz_congress_subject_charters
+                    num_of_subjects = 2
+                    all_subject_country = {
+                        NOT = { liberty_desire = 45 }
+                        has_opinion = {
+                            who = ROOT
+                            value = 125
+                        }
+                    }
+                }
+            }
+        }
+        effect = {
+            if = {
+                limit = { has_country_flag = uzh_congress_border_supremacy }
+                custom_tooltip = UZH_congress_border_bastion_border_tt
+                add_country_modifier = {
+                    name = "uz_congress_border_drill"
+                    duration = -1
+                }
+                uzh_gain_manpower_8000 = yes
+                add_army_professionalism = 0.05
+                add_mil_power = 150
+                add_army_tradition = 15
+                clr_country_flag = uzh_congress_subject_supremacy
+            }
+            else_if = {
+                limit = { has_country_flag = uzh_congress_subject_supremacy }
+                custom_tooltip = UZH_congress_border_bastion_subject_tt
+                add_country_modifier = {
+                    name = "uz_pan_ruthenian_union"
+                    duration = 5475
+                }
+                add_dip_power = 125
+                change_government_reform_progress = 40
+                if = {
+                    limit = { government = republic }
+                    add_republican_tradition = 8
+                }
+                if = {
+                    limit = { government = monarchy }
+                    add_legitimacy = 10
+                }
+                clr_country_flag = uzh_congress_border_supremacy
+            }
+            set_country_flag = uzh_congress_border_bulwark
+        }
+		ai_weight = {
+			factor = 350
+		}
+	}
+}

@@ -1,0 +1,462 @@
+
+country_decisions = {
+
+	zaz_relocate_sich = {
+		major = yes
+		potential = {
+			tag = ZAZ
+			NOT = { has_country_flag = sich_recently_relocated }
+			OR = {
+				has_reform = zaz_sich_brotherhood_reform
+				has_reform = zaz_free_host_reform
+			}
+		}
+		provinces_to_highlight = {
+			is_sich_location = yes
+			NOT = { province_id = capital }
+		}
+		allow = {
+			is_at_war = no
+			stability = 1
+			adm_power = 100
+			any_owned_province = {
+				is_sich_location = yes
+				NOT = { province_id = capital }
+			}
+		}
+		effect = {
+			add_adm_power = -100
+			zaz_relocate_sich_effect = yes
+			set_country_flag = sich_recently_relocated
+			add_country_modifier = {
+				name = zich_relocated
+				duration = 1825
+			}
+		}
+		ai_will_do = {
+			factor = 0
+			modifier = {
+				factor = 1
+				zich_is_threatened = yes
+			}
+		}
+	}
+
+	zaz_great_raid = {
+		major = yes
+		potential = {
+			tag = ZAZ
+			has_country_flag = zaz_unlocked_raiding_system
+			OR = {
+				NOT = { has_country_flag = great_raid_recent }
+				had_country_flag = {
+					flag = great_raid_recent
+					days = 1825
+				}
+			}
+			is_year = 1550
+			NOT = { is_year = 1775 }
+		}
+		allow = {
+			is_at_war = no
+			stability = 0
+			mil_power = 75
+			manpower = 10
+			any_known_country = {
+				is_chaiky_raid_target = yes
+				NOT = { alliance_with = ROOT }
+				NOT = { truce_with = ROOT }
+			}
+		}
+		effect = {
+			add_mil_power = -75
+			add_yearly_manpower = -5
+			set_country_flag = great_raid_recent
+			country_event = { id = zaz_flavor.10 days = 30 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				treasury = 200
+			}
+			modifier = {
+				factor = 0
+				NOT = { manpower_percentage = 0.8 }
+			}
+		}
+	}
+
+	zaz_chaiky_raid = {
+		major = yes
+		potential = {
+			tag = ZAZ
+			has_country_flag = zaz_unlocked_raiding_system
+			OR = {
+				NOT = { has_country_flag = chaiky_raid_recent }
+				had_country_flag = {
+					flag = chaiky_raid_recent
+					days = 1825
+				}
+			}
+			is_year = 1570
+			NOT = { is_year = 1750 }
+			has_reform = zaz_chaiky_trade_reform
+		}
+		allow = {
+			is_at_war = no
+			navy_size = 10
+			sailors = 1000
+			dip_power = 50
+			any_known_country = {
+				tag = TUR
+				NOT = { alliance_with = ROOT }
+			}
+		}
+		effect = {
+			add_dip_power = -50
+			add_sailors = -1000
+			set_country_flag = chaiky_raid_recent
+			country_event = { id = zaz_flavor.11 days = 45 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				alliance_with = TUR
+			}
+		}
+	}
+
+	zaz_liberate_slaves = {
+		major = yes
+		potential = {
+			tag = ZAZ
+			has_country_flag = zaz_unlocked_raiding_system
+			is_year = 1550
+			OR = {
+				NOT = { has_country_flag = liberated_slaves_recent }
+				had_country_flag = {
+					flag = liberated_slaves_recent
+					days = 3650
+				}
+			}
+		}
+		allow = {
+			mil_power = 50
+			prestige = 10
+			any_neighbor_country = {
+				OR = {
+					tag = CRI
+					religion_group = muslim
+				}
+			}
+			manpower = 5
+		}
+		effect = {
+			add_mil_power = -50
+			add_yearly_manpower = -3
+			zaz_liberate_slaves_effect = yes
+			set_country_flag = liberated_slaves_recent
+			random_neighbor_country = {
+				limit = {
+					OR = {
+						tag = CRI
+						religion_group = muslim
+					}
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = zaz_liberated_slaves
+				}
+				if = {
+					limit = { owns = 285 }
+					ROOT = { rip_disrupt_kaffa_market_effect = yes }
+				}
+				if = {
+					limit = {
+						OR = {
+							tag = CRI
+							is_subject_of = TUR
+						}
+					}
+					ROOT = { rip_request_ottoman_crimean_reaction_effect = yes }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				religion = orthodox
+			}
+		}
+	}
+
+	ZAZ_evolve_to_hetmanate = {
+		major = yes
+		potential = {
+			tag = ZAZ
+			mission_completed = ZAZ_finally
+			NOT = { has_country_flag = "zaz_evolved_to_hetmanate" }
+		}
+		allow = {
+			republican_tradition = 60
+			stability = 1
+			is_at_war = no
+			NOT = { government = monarchy }
+		}
+		effect = {
+			set_country_flag = "zaz_evolved_to_hetmanate"
+			zaz_evolve_to_hetmanate_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	zaz_settle_wild_fields = {
+		potential = {
+			tag = ZAZ
+			has_country_flag = zaz_unlocked_frontier_program
+			any_owned_province = {
+				is_wild_fields = yes
+				NOT = { is_city = yes }
+			}
+		}
+		provinces_to_highlight = {
+			is_wild_fields = yes
+			NOT = { is_city = yes }
+			NOT = { owned_by = ROOT }
+		}
+		allow = {
+			adm_power = 50
+			treasury = 100
+			stability = 0
+		}
+		effect = {
+			add_adm_power = -50
+			add_treasury = -100
+			colonize_wild_fields_effect = yes
+			add_country_modifier = {
+				name = zaz_colonization_effort
+				duration = 3650
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				num_of_cities = 5
+			}
+		}
+	}
+
+	zaz_steppe_alliance = {
+		potential = {
+			tag = ZAZ
+			has_country_flag = zaz_allied_gol
+			NOT = { has_country_flag = steppe_alliance_formed }
+			any_known_country = {
+				OR = {
+					culture_group = altaic
+					technology_group = nomad_group
+				}
+			}
+		}
+		allow = {
+			dip_power = 75
+			prestige = 10
+			any_known_country = {
+				OR = {
+					culture_group = altaic
+					technology_group = nomad_group
+				}
+				NOT = { war_with = ROOT }
+				has_opinion = {
+					who = ROOT
+					value = 50
+				}
+			}
+		}
+		effect = {
+			add_dip_power = -75
+			alliance_with_nomads_effect = yes
+			set_country_flag = steppe_alliance_formed
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	zaz_black_sea_trade = {
+		potential = {
+			tag = ZAZ
+			OR = {
+				AND = {
+					has_country_flag = zaz_allied_tur
+					mission_completed = ZAZ_TUR_sieze_ports
+				}
+				AND = {
+					has_country_flag = zaz_allied_rus
+					mission_completed = ZAZ_RUS_sieze_ports
+				}
+				AND = {
+					has_country_flag = zaz_allied_pol
+					mission_completed = ZAZ_POL_sieze_ports
+				}
+				AND = {
+					has_country_flag = zaz_only_zaz
+					mission_completed = ZAZ_UKR_sieze_ports_1
+				}
+			}
+			NOT = { has_country_flag = black_sea_trade_established }
+			any_owned_province = {
+				has_port = yes
+				OR = {
+					area = yedisan_area
+					region = crimea_region
+				}
+			}
+		}
+		provinces_to_highlight = {
+			OR = {
+				AND = {
+					owned_by = ROOT
+					has_port = yes
+					OR = {
+						area = yedisan_area
+						region = crimea_region
+					}
+				}
+				AND = {
+					NOT = { owned_by = ROOT }
+					OR = {
+						area = yedisan_area
+						region = crimea_region
+					}
+				}
+			}
+		}
+		allow = {
+			dip_power = 100
+			mercantilism = 5
+			treasury = 200
+			any_owned_province = {
+				has_port = yes
+				development = 10
+			}
+		}
+		effect = {
+			add_dip_power = -100
+			add_treasury = -200
+			establish_black_sea_trade_effect = yes
+			set_country_flag = black_sea_trade_established
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				trade_income_percentage = 0.3
+			}
+		}
+	}
+
+	zaz_host_great_rada = {
+		potential = {
+			tag = ZAZ
+			has_country_flag = zaz_unlocked_orthodox_role
+			NOT = { has_country_flag = great_rada_recent }
+			has_reform = zaz_general_rada_reform
+		}
+		allow = {
+			is_at_war = no
+			stability = 1
+			republican_tradition = 60
+			adm_power = 75
+		}
+		effect = {
+			add_adm_power = -75
+			zaz_great_rada_effect = yes
+			set_country_flag = great_rada_recent
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				NOT = { republican_tradition = 70 }
+			}
+		}
+	}
+
+	zaz_fortify_frontier = {
+		potential = {
+			tag = ZAZ
+			has_country_flag = zaz_unlocked_frontier_program
+			any_owned_province = {
+				is_wild_fields = yes
+			}
+			NOT = { has_country_flag = frontier_fortified }
+		}
+		provinces_to_highlight = {
+			is_wild_fields = yes
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { controlled_by = ROOT }
+			}
+		}
+		allow = {
+			mil_power = 100
+			treasury = 300
+			stability = 0
+			any_owned_province = {
+				is_wild_fields = yes
+				controlled_by = owner
+			}
+		}
+		effect = {
+			add_mil_power = -100
+			add_treasury = -300
+			fortify_wild_fields_effect = yes
+			set_country_flag = frontier_fortified
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				num_of_cities = 8
+			}
+		}
+	}
+	zaz_defend_orthodox = {
+		potential = {
+			tag = ZAZ
+			has_country_flag = zaz_unlocked_orthodox_role
+			religion = orthodox
+			NOT = { has_country_flag = orthodox_defender_zaz }
+			any_neighbor_country = {
+				NOT = { religion = orthodox }
+			}
+		}
+		allow = {
+			patriarch_authority = 0.2
+			patriarch_authority = 0.2
+			prestige = 20
+			stability = 1
+		}
+		effect = {
+			add_patriarch_authority = -0.2
+			defend_orthodox_faith_effect = yes
+			set_country_flag = orthodox_defender_zaz
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				any_neighbor_country = {
+					religion_group = muslim
+				}
+			}
+		}
+	}
+}

@@ -9,6 +9,10 @@ country_decisions = {
 		# was precisely that it did not have to latinise anybody. Catholic sponsors
 		# press the union onto their Orthodox subjects instead; that is
 		# rip_uc_press_the_union_effect, and it is a different action.
+		#
+		# Alternative history: the effect below changes the faith of the WHOLE
+		# state, which no crown did. The player-visible marker for a state with no
+		# Catholic overlord is STATE_UNION_ALT in tools/build_church_localisation.py.
 		potential = {
 			religion = orthodox
 			# The union as an ACT OF STATE belongs to a state whose weight is
@@ -34,9 +38,9 @@ country_decisions = {
 			stability = 1
 			adm_power = 100
 			dip_power = 100
-			# Brest 1596, Uzhhorod 1646, Peremyshl 1691, Lviv 1700, Lutsk 1702: every
-			# one of them was signed by bishops living under a Catholic crown, and
-			# none by a church that answered to nobody.
+			# This is a bishop-led union model, not a claim that every local
+			# initiative was part of one event. It does not rely on a purported
+			# Lutsk union in 1702; no verifiable citation is identified here.
 			OR = {
 				has_country_flag = pursuing_uniate_union
 				has_country_flag = uniate_pressure_mounting

@@ -443,7 +443,13 @@ country_event = {
 	fire_only_once = yes
 	
 	trigger = {
-		has_country_flag = pursuing_uniate_union
+		# The 1720 provincial synod belongs to the church, not to the Brest chain:
+		# a state that took the union by the Florentine or the crown road holds
+		# the same church and meets the same synod.
+		OR = {
+			has_country_flag = pursuing_uniate_union
+			religion = greek_catholic
+		}
 		is_year = 1710
 		NOT = { is_year = 1750 }
 	}
@@ -1090,60 +1096,6 @@ country_event = {
 }
 
 country_event = {
-	id = uniate_church.18
-	title = uniate_church.18.t
-	desc = uniate_church.18.d
-	picture = BAD_WITH_MONARCH_eventPicture
-	
-	trigger = {
-		rip_uc_persecution_context = yes
-		NOT = { has_country_flag = rip_uc_persecution_recorded }
-	}
-	# The incident itself records persecution; mere hostility never does.
-	immediate = {
-		if = {
-			limit = { rip_uc_persecution_context = yes }
-			set_country_flag = rip_uc_persecution_recorded
-		}
-	}
-	
-	mean_time_to_happen = {
-		months = 12
-	}
-	
-	option = { # Resist persecution
-		name = uniate_church.18.a
-		ai_chance = { factor = 60 }
-		
-		set_country_flag = suffered_orthodox_persecution
-		
-		add_country_modifier = {
-			name = persecution_of_greek_catholics
-			duration = 3650
-		}
-		
-		add_legitimacy = 10
-		add_prestige = 10
-	}
-	
-	option = { # Seek papal protection
-		name = uniate_church.18.b
-		ai_chance = { factor = 40 }
-		
-		set_country_flag = suffered_orthodox_persecution
-
-		rip_uc_clear_historical_policy_effect = yes
-		
-		rip_church_historical_rome_effect = yes
- add_country_modifier = {
-			name = papal_protection_greek_catholic
-			duration = 5475
-		}
-		
-	}
-}
-
-country_event = {
 	id = uniate_church.19
 	title = uniate_church.19.t
 	desc = uniate_church.19.d
@@ -1210,46 +1162,5 @@ country_event = {
 		
 		add_patriarch_authority = 0.2
 		add_prestige = 20
-	}
-}
-
-country_event = {
-	id = uniate_church.20
-	title = uniate_church.20.t
-	desc = uniate_church.20.d
-	picture = RELIGION_eventPicture
-	
-	trigger = {
-		religion = greek_catholic
-		NOT = { has_country_flag = greek_catholic_martyrs_honored }
-		has_country_flag = rip_uc_persecution_recorded
-	}
-	
-	mean_time_to_happen = {
-		months = 72
-	}
-	
-	option = { # Support an inquiry; no beatification or canonization is granted
-		name = uniate_church.20.a
-		trigger = { exists = PAP NOT = { war_with = PAP } treasury = 50 dip_power = 25 }
-		ai_chance = { factor = 70 }
-		
-		set_country_flag = greek_catholic_martyrs_honored
-		
-		if = {
-			limit = { exists = PAP NOT = { war_with = PAP } treasury = 50 dip_power = 25 }
-			add_treasury = -50
-			add_dip_power = -25
-			set_country_flag = rip_uc_beatification_cause_supported
-			add_prestige = 5
-		}
-	}
-	
-	option = { # Honor quietly
-		name = uniate_church.20.b
-		ai_chance = { factor = 30 }
-		
-		set_country_flag = greek_catholic_martyrs_honored
-		add_prestige = 5
 	}
 }

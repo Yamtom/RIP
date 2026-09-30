@@ -1,4 +1,4 @@
-"""The Brest proposal's Orthodox refusal has a direct political consequence."""
+﻿"""The Brest proposal's Orthodox refusal has a direct political consequence."""
 import re
 
 from clausewitz_testlib import keyed_blocks, named_block, normalized, read
@@ -69,7 +69,27 @@ for detail in ('1595', '1596', 'Michael Rahoza', 'Hypatius Potii',
 assert 'separate assemblies' in council_text
 assert 'Byzantine rite' in council_text
 assert 'No province changes faith by this act alone' in council_text
+for association in (
+    'Lutsk and Cyril Terlecki',
+    'Berestia and Hypatius Potii',
+    'Pinsk and Pelchynskyi',
+    'Kholm and Zbyruiskyi',
+):
+    assert association in council_text, association
 assert 'local and uneven' in resistance_text
+print('PASS: Brest refusal cost, active localization keys, episcopal positions, 1595–96 sequence, council split and bounded reach')
+
+# The later parish event is a local mission, not an automatic province
+# conversion. Name the affected place in its title, as the diocesan agreement
+# chain does, while keeping its existing modifier-only outcome.
+parish_mission = next(
+    block for _, block in keyed_blocks(events, 'province_event')
+    if re.search(r'(?m)^\s*id\s*=\s*uniate_church\.10\s*$', block)
+)
+assert 'name = uniate_church.10.a' in parish_mission
+assert 'change_religion' not in parish_mission
+assert 'name = greek_catholic_diocese' in parish_mission
+assert 'uniate_church.10.t:0 "The Parish Mission in [Root.GetName]"' in localisation
 
 # The separate opposition choice is the autonomous brotherhoods outcome in
 # event .3, not the earlier .1.b refusal (whose existing cost is diplomatic).

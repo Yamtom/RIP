@@ -1,0 +1,28 @@
+# Read-model only: counts owned parishes, never pays or changes a rite.
+rip_church_gui_refresh_parishes_effect = {
+ set_variable = { which = rip_church_gui_eastern_parishes value = 0 }
+ set_variable = { which = rip_church_gui_latin_parishes value = 0 }
+ every_owned_province = {
+  if = { limit = { has_province_flag = rip_church_rite_recognized OR = { religion = orthodox religion = russian_orthodox } }
+   ROOT = { change_variable = { which = rip_church_gui_eastern_parishes value = 1 } }
+  }
+  if = { limit = { has_province_flag = rip_church_rite_recognized religion = catholic }
+   ROOT = { change_variable = { which = rip_church_gui_latin_parishes value = 1 } }
+  }
+ }
+}
+
+# The parish tab is available to Greek Catholics and countries backing the
+# Union. Switching tabs only changes the read-only GUI route.
+rip_church_gui_open_parishes_effect = {
+ if = {
+  limit = {
+   OR = {
+    religion = greek_catholic
+    rip_church_union_supporter = yes
+   }
+  }
+  set_country_flag = rip_church_gui_parishes_view
+  clr_country_flag = rip_church_gc_curia_view
+ }
+}

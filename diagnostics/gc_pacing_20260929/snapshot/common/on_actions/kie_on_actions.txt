@@ -1,0 +1,53 @@
+# KIE - Kyiv and the Dnieper.
+
+# Kyivan Seniorate (kyivan_shogunate_reform + common/government_mechanics/
+# rip_kyivan_seniorate.txt): the grants of tenure lapse when the senior prince
+# dies. The new senior prince reconfirms them with the kyiv_reconfirm_the_grants
+# interaction; until he does, every senior udil carries rip_tenure_lapsed.
+#
+# If that death also breaks the senior line itself (no heir) while Kyiv has
+# already passed out of his hands into one of his own senior udily, that udil
+# takes the seniority - see common/scripted_triggers/
+# rip_kyivan_seniorate_triggers.txt and events/KyivShogunate.txt : kyiv_shogunate.2.
+on_monarch_death = {
+	effect = {
+		if = {
+			limit = {
+				has_reform = kyivan_shogunate_reform
+				any_subject_country = { is_subject_of_type = senior_udil }
+			}
+			every_subject_country = {
+				limit = {
+					is_subject_of_type = senior_udil
+					NOT = { has_country_modifier = rip_tenure_lapsed }
+				}
+				add_country_modifier = {
+					name = rip_tenure_lapsed
+					duration = -1
+				}
+			}
+		}
+		if = {
+			limit = { rip_kyiv_seniorate_line_broken_trigger = yes }
+			country_event = { id = kyiv_shogunate.2 days = 1 }
+		}
+	}
+}
+
+on_yearly_pulse = {
+	events = {
+		kyiv_dnieper_history.1
+		kyiv_dnieper_history.2
+		kyiv_dnieper_history.3
+		kyiv_dnieper_history.4
+		kyiv_dnieper_history.5
+		kyiv_dnieper_history.6
+		kyiv_dnieper_history.7
+		kyiv_dnieper_history.8
+		kyiv_dnieper_history.9
+		kyiv_dnieper_history.10
+		kyiv_dnieper_history.11
+		kyiv_dnieper_history.12
+		kyiv_dnieper_history.13
+	}
+}

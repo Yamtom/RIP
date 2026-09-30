@@ -1,0 +1,325 @@
+# ========================================================================
+# Election and inheritance of the bulava.
+# Authenticity: B - extrapolated. Real institutions and people, arranged into a course history did not take.
+# Sources:
+#   The Rada elected the hetman and could depose him; several hetmans tried
+#   to make the office hereditary and none succeeded. The chain lets that
+#   attempt run further than it did.
+# ========================================================================
+
+namespace = het_succession
+
+country_event = {
+	id = het_succession.1
+	title = "het_succession.1.t"
+	desc = "het_succession.1.d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	
+	immediate = {
+		set_country_flag = hetman_succession_active
+	}
+	
+	option = {
+		name = "het_succession.1.a"
+		add_legitimacy = 15
+		add_absolutism = 5
+		add_country_modifier = {
+			name = het_strong_hetman
+			duration = 3650
+		}
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = -10
+		}
+	}
+	
+	option = {
+		name = "het_succession.1.b"
+		add_stability = -1
+		add_country_modifier = {
+			name = het_starshyna_council
+			duration = 3650
+		}
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 15
+		}
+	}
+	
+	option = {
+		name = "het_succession.1.c"
+		trigger = {
+			any_neighbor_country = {
+				OR = {
+					tag = POL
+					tag = RUS
+					tag = MOS
+				}
+			}
+		}
+		add_prestige = -10
+		add_liberty_desire = 10
+		add_country_modifier = {
+			name = het_foreign_backing
+			duration = 3650
+		}
+	}
+}
+
+country_event = {
+	id = het_succession.2
+	title = "het_succession.2.t"
+	desc = "het_succession.2.d"
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	
+	immediate = {
+		clr_country_flag = hetman_succession_active
+		set_country_flag = succession_resolved
+	}
+	
+	option = {
+		name = "het_succession.2.a"
+		add_legitimacy = 20
+		add_prestige = 15
+		add_country_modifier = {
+			name = het_consolidated_power
+			duration = 5475
+		}
+	}
+	
+	option = {
+		name = "het_succession.2.b"
+		change_government_reform_progress = 50
+		add_country_modifier = {
+			name = "het_reformed_election"
+			duration = 5475
+		}
+	}
+	
+	option = {
+		name = "het_succession.2.c"
+		add_stability = 1
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 10
+		}
+		add_estate_loyalty = {
+			estate = estate_burghers
+			loyalty = 10
+		}
+	}
+}
+
+country_event = {
+	id = het_succession.3
+	title = "het_succession.3.t"
+	desc = "het_succession.3.d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = hetman_succession_crisis
+	}
+	
+	option = {
+		name = "het_succession.3.a"
+		add_mil_power = -50
+		add_legitimacy = 10
+		random_owned_province = {
+			limit = { is_state_core = ROOT }
+			spawn_rebels = {
+				type = pretender_rebels
+				size = 2
+				leader = "Rival Hetman"
+			}
+		}
+	}
+	
+	option = {
+		name = "het_succession.3.b"
+		add_prestige = -10
+		define_ruler = {
+			change_adm = 1
+			change_dip = 1
+			change_mil = 3
+		}
+	}
+	
+	option = {
+		name = "het_succession.3.c"
+		add_stability = -1
+		random = {
+			chance = 50
+			add_legitimacy = 10
+			add_prestige = 5
+		}
+	}
+}
+
+country_event = {
+	id = het_succession.4
+	title = "het_succession.4.t"
+	desc = "het_succession.4.d"
+	picture = NOBLE_ESTATE_DEMANDS_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = hetman_succession_crisis
+		estate_influence = {
+			estate = estate_nobles
+			influence = 50
+		}
+	}
+	
+	option = {
+		name = "het_succession.4.a"
+		add_absolutism = 5
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = -15
+		}
+		add_estate_influence_modifier = {
+			estate = estate_nobles
+			influence = -10
+			duration = 3650
+		}
+	}
+	
+	option = {
+		name = "het_succession.4.b"
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 15
+		}
+		add_legitimacy = -10
+		add_prestige = -5
+	}
+	
+	option = {
+		name = "het_succession.4.c"
+		add_adm_power = -50
+		change_government_reform_progress = 20
+	}
+}
+
+country_event = {
+	id = het_succession.5
+	title = "het_succession.5.t"
+	desc = "het_succession.5.d"
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = hetman_succession_crisis
+		is_subject = yes
+		overlord = {
+			OR = {
+				tag = POL
+				tag = RUS
+				tag = MOS
+			}
+		}
+	}
+	
+	option = {
+		name = "het_succession.5.a"
+		add_liberty_desire = -20
+		add_prestige = -10
+		define_ruler = {
+			change_adm = -1
+			change_dip = 2
+			change_mil = 1
+		}
+		overlord = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_obedient_hetmanate
+			}
+		}
+	}
+	
+	option = {
+		name = "het_succession.5.b"
+		add_liberty_desire = 25
+		add_prestige = 10
+		add_legitimacy = 10
+		overlord = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_defiant_hetmanate
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_casus_belli = {
+							target = ROOT
+							type = cb_vassalize_mission
+						}
+					}
+				}
+				add_casus_belli = {
+					target = ROOT
+					type = cb_vassalize_mission
+					months = 60
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = "het_succession.5.c"
+		add_dip_power = -75
+		add_legitimacy = 5
+		add_liberty_desire = 10
+	}
+}
+
+country_event = {
+	id = het_succession.6
+	title = "het_succession.6.t"
+	desc = "het_succession.6.d"
+	picture = REFORM_eventPicture
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = hetman_succession_crisis
+	}
+	
+	option = {
+		name = "het_succession.6.a"
+		add_legitimacy = 20
+		add_absolutism = 10
+		add_country_modifier = {
+			name = het_hereditary_rule
+			duration = -1
+		}
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = -20
+		}
+	}
+	
+	option = {
+		name = "het_succession.6.b"
+		add_republican_tradition = 15
+		add_country_modifier = {
+			name = het_elective_rule
+			duration = -1
+		}
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 10
+		}
+	}
+	
+	option = {
+		name = "het_succession.6.c"
+		add_adm_power = 50
+		add_country_modifier = {
+			name = het_term_limited_rule
+			duration = -1
+		}
+	}
+}

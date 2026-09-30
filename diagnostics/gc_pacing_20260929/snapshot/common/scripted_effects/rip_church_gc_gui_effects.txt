@@ -1,0 +1,46 @@
+# Curia panels are navigation only; they do not touch papal electoral state.
+rip_church_gc_refresh_curia_effect = {
+	if = {
+		limit = { rip_church_gc_rome_present = yes }
+		PAP = {
+			save_global_event_target_as = rip_church_gc_rome
+		}
+		export_to_variable = {
+			which = rip_church_papal_opinion
+			value = opinion
+			who = PAP
+			with = ROOT
+		}
+		set_global_flag = rip_church_gc_rome_known
+	}
+	else = {
+		clear_global_event_target = rip_church_gc_rome
+		clr_global_flag = rip_church_gc_rome_known
+		set_variable = { which = rip_church_papal_opinion value = 0 }
+	}
+	clr_global_flag = rip_church_gc_controller_known
+	clear_global_event_target = rip_church_gc_controller
+	every_country = {
+		limit = { is_papal_controller = yes }
+		save_global_event_target_as = rip_church_gc_controller
+		set_global_flag = rip_church_gc_controller_known
+	}
+}
+rip_church_gc_open_curia_effect = {
+	if = {
+		limit = { religion = greek_catholic }
+		set_country_flag = rip_church_gc_curia_view
+		clr_country_flag = rip_church_gui_parishes_view
+		rip_church_gc_refresh_curia_effect = yes
+	}
+}
+rip_church_gc_open_union_effect = {
+	clr_country_flag = rip_church_gc_curia_view
+	clr_country_flag = rip_church_gui_parishes_view
+}
+rip_church_gc_open_synod_effect = {
+	if = {
+		limit = { religion = greek_catholic }
+		country_event = { id = rip_church.6 }
+	}
+}

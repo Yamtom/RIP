@@ -1,0 +1,179 @@
+namespace = nov_flavor
+namespace = mansur_flavor
+namespace = jagoldai_flavor
+
+# Fall of Muscovite Autocracy to the Veche
+country_event = {
+	id = nov_flavor.1
+	title = nov_flavor.1.t
+	desc = nov_flavor.1.d
+	picture = DEBATE_REPUBLICAN_eventPicture
+
+	trigger = {
+		OR = {
+			tag = NOV
+			primary_culture = novgorodian
+		}
+		owns_core_province = 295 # Moskva
+		is_at_war = no
+		NOT = { has_country_flag = nov_fall_of_moscow_handled }
+	}
+
+	mean_time_to_happen = {
+		months = 6
+	}
+
+	immediate = {
+		set_country_flag = nov_fall_of_moscow_handled
+	}
+
+	option = {
+		name = nov_flavor.1.a # Introduce veche governance across Zalesye
+		ai_chance = { factor = 70 }
+		add_republican_tradition = 20
+		add_adm_power = 50
+		295 = {
+			add_province_modifier = {
+				name = "nov_veche_rule_in_zalesye"
+				duration = -1
+			}
+		}
+		307 = {
+			if = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "nov_veche_rule_in_zalesye"
+					duration = -1
+				}
+			}
+		}
+		1956 = {
+			if = {
+				limit = { owned_by = ROOT }
+				add_province_modifier = {
+					name = "nov_veche_rule_in_zalesye"
+					duration = -1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = nov_flavor.1.b # Establish commercial trading factories
+		ai_chance = { factor = 20 }
+		add_treasury = 150
+		add_dip_power = 50
+		295 = {
+			add_base_tax = 1
+			add_base_production = 2
+		}
+	}
+
+	option = {
+		name = nov_flavor.1.c # Direct centralized incorporation
+		ai_chance = { factor = 10 }
+		add_prestige = 25
+		add_mil_power = 50
+		add_stability_or_adm_power = yes
+	}
+}
+
+# Ethnogenesis of Zalesye: Slavic-Finnic Synthesis
+country_event = {
+	id = nov_flavor.2
+	title = nov_flavor.2.t
+	desc = nov_flavor.2.d
+	picture = CITY_DEVELOPMENT_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = nov_flavor.2.a # Foster Slavic-Finnic synthesis and local forest autonomy
+		ai_chance = { factor = 60 }
+		add_country_modifier = {
+			name = "mos_volga_finnic_synthesis"
+			duration = -1
+		}
+		add_prestige = 10
+	}
+
+	option = {
+		name = nov_flavor.2.b # Enforce centralized autocratic Russification
+		ai_chance = { factor = 40 }
+		add_country_modifier = {
+			name = "mos_autocratic_russification"
+			duration = -1
+		}
+		add_legitimacy = 10
+	}
+}
+
+# Birch Bark Literacy of Novgorod
+country_event = {
+	id = nov_flavor.10
+	title = nov_flavor.10.t
+	desc = nov_flavor.10.d
+	picture = MERCHANTS_TALKING_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = nov_flavor.10.a
+		add_adm_power = 25
+		add_dip_power = 25
+	}
+}
+
+# Consolidation of Northern Rus
+country_event = {
+	id = nov_flavor.11
+	title = nov_flavor.11.t
+	desc = nov_flavor.11.d
+	picture = ELECTION_REPUBLICAN_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = nov_flavor.11.a
+		add_mercantilism = 3
+		add_prestige = 15
+	}
+}
+
+# The Legacy of Mansur and the Glinski Princes
+country_event = {
+	id = mansur_flavor.1
+	title = mansur_flavor.1.t
+	desc = mansur_flavor.1.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = mansur_flavor.1.a
+		add_mil_power = 30
+		add_prestige = 10
+		290 = {
+			add_base_manpower = 1
+		}
+	}
+}
+
+# Jagoldai's Darkness: The Tatar-Severian Steppe Shield
+country_event = {
+	id = jagoldai_flavor.1
+	title = jagoldai_flavor.1.t
+	desc = jagoldai_flavor.1.d
+	picture = BORDER_TENSION_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = jagoldai_flavor.1.a
+		add_mil_power = 30
+		add_prestige = 10
+		298 = {
+			add_base_manpower = 1
+		}
+	}
+}

@@ -1,0 +1,27 @@
+# RIP - Zaporozhian Cossack Host
+# Cossack riders and chaika crews for hire near a Cossack estate or the Sich Rada.
+rip_cossack_host_mercenaries = {
+	regiments_per_development = 0.05
+	home_province = 283 # Zaporozhia
+	cavalry_weight = 0.4
+	artillery_weight = 0
+	cavalry_cap = 6
+	sprites = { dlc047_zaz_sprite_pack easterngfx_sprite_pack }
+	trigger = {
+		is_allowed_to_recruit_mercenaries = yes
+		OR = {
+			has_estate = estate_cossacks
+			has_reform = rip_cossacks_reform
+			any_neighbor_country = {
+				OR = {
+					has_estate = estate_cossacks
+					has_reform = rip_cossacks_reform
+				}
+			}
+		}
+	}
+	modifier = {
+		fire_damage = 0.05
+		shock_damage_received = -0.05
+	}
+}

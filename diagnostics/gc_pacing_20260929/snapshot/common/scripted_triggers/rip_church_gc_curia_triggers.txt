@@ -1,0 +1,25 @@
+# Curia access is Roman diplomacy; it never grants a Greek Catholic cardinal.
+rip_church_gc_rome_present = {
+	exists = PAP
+	PAP = { religion = catholic }
+}
+rip_church_gc_curia_contact = {
+	religion = greek_catholic
+	rip_church_gc_rome_present = yes
+	NOT = { war_with = PAP }
+}
+rip_church_gc_has_local_synod = {
+	OR = {
+		has_country_modifier = rip_church_gc_infrastructure
+		has_country_modifier = rip_church_gc_coexistence
+	}
+}
+rip_church_gc_can_depute_to_curia = {
+	rip_church_gc_curia_contact = yes
+	is_at_war = no
+	OR = {
+		NOT = { has_country_flag = rip_church_gc_deputation_sent }
+		had_country_flag = { flag = rip_church_gc_deputation_sent days = 1825 }
+	}
+	treasury = 50
+}

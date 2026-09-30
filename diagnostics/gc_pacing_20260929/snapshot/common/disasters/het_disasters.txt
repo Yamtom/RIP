@@ -1,0 +1,175 @@
+# HET - the Hetmanate
+# hetman_succession_crisis.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
+
+# HET - the Hetmanate
+# hetman_succession_crisis.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
+# HET. The Rada cannot agree on a successor and the mace changes hands by force.
+hetman_succession_crisis = {
+	potential = {
+		tag = HET
+		normal_or_historical_nations = yes
+		government = monarchy
+	}
+	can_start = {
+		has_any_disaster = no
+		OR = {
+			current_age = age_of_reformation
+			current_age = age_of_absolutism
+			current_age = age_of_revolutions
+		}
+		OR = {
+			AND = {
+				NOT = { legitimacy_equivalent = 50 }
+				OR = {
+					has_regency = yes
+					ruler_age = 60
+				}
+			}
+			AND = {
+				estate_influence = {
+					estate = estate_nobles
+					influence = 60
+				}
+				NOT = { crown_land_share = 30 }
+			}
+			AND = {
+				is_subject = yes
+				overlord = {
+					OR = {
+						tag = POL
+						tag = MOS
+						tag = RUS
+					}
+					NOT = {
+						has_opinion = {
+							who = ROOT
+							value = 0
+						}
+					}
+				}
+			}
+			AND = {
+				stability = -1
+				num_of_powerful_estates = 2
+			}
+		}
+	}
+	can_stop = {
+		has_any_disaster = yes
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			has_regency = no
+			NOT = { num_of_rebel_armies = 1 }
+			stability = 1
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 2
+			always = yes
+		}
+		modifier = {
+			factor = 2.5
+			NOT = { legitimacy_equivalent = 30 }
+		}
+		modifier = {
+			factor = 1.5
+			has_regency = yes
+		}
+		modifier = {
+			factor = 1.5
+			estate_influence = {
+				estate = estate_nobles
+				influence = 70
+			}
+		}
+		modifier = {
+			factor = 1.5
+			is_subject = yes
+			overlord = {
+				NOT = {
+					has_opinion = {
+						who = ROOT
+						value = -50
+					}
+				}
+			}
+		}
+		modifier = {
+			factor = 1.5
+			num_of_rebel_armies = 1
+		}
+		modifier = {
+			factor = -0.5
+			stability = 1
+		}
+		modifier = {
+			factor = -1
+			stability = 2
+		}
+		modifier = {
+			factor = -0.5
+			legitimacy_equivalent = 70
+		}
+		modifier = {
+			factor = -0.5
+			crown_land_share = 40
+		}
+		modifier = {
+			factor = -0.25
+			has_country_modifier = registered_cossacks_south
+		}
+		modifier = {
+			factor = -0.25
+			has_country_modifier = su_frontier_statutes
+		}
+		modifier = {
+			factor = -0.25
+			has_country_flag = su_path_frontier_liberties
+		}
+		modifier = {
+			factor = 1
+			has_country_flag = su_path_maritime_raiding
+			NOT = { legitimacy_equivalent = 50 }
+		}
+	}
+	can_end = {
+		stability = 0
+		legitimacy_equivalent = 60
+		NOT = { has_regency = yes }
+		NOT = { num_of_rebel_armies = 1 }
+		OR = {
+			is_subject = no
+			overlord = {
+				has_opinion = {
+					who = ROOT
+					value = 0
+				}
+			}
+		}
+	}
+	modifier = {
+		global_unrest = 3
+		legitimacy = -1.5
+		stability_cost_modifier = 0.4
+		diplomatic_reputation = -1.0
+		liberty_desire = 15
+	}
+	on_start = het_succession.1
+	on_end = het_succession.2
+	on_monthly = {
+		random_events = {
+			120 = het_succession.3
+			100 = het_succession.4
+			80 = het_succession.5
+			60 = het_succession.6
+		}
+	}
+}

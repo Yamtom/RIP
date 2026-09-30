@@ -1,4 +1,4 @@
-"""Source-state regression: small school foundations and evidenced remembrance.
+"""Source-state regression: small school foundations; no generic occupation event.
 
 Uses the bounded church interpreter, not EU4 runtime or AI scheduling.
 """
@@ -11,7 +11,6 @@ EFFECTS.update(parse(read('common/scripted_effects/greek_catholic_effects.txt'))
 events = {dict(b)['id']: dict(b) for k, b in parse(read('events/UniateChurch.txt'))
           if k == 'country_event'}
 school = events['uniate_church.6']
-martyrs = events['uniate_church.20']
 cases = 0
 for faith, patron, allowed in [('greek_catholic', False, True), ('catholic', True, True),
                               ('catholic', False, False), ('orthodox', False, False)]:
@@ -59,48 +58,32 @@ assert not w.gate(school['trigger'], c)
 assert w.gate([('rip_uc_can_found_schools', 'yes')], c)
 cases += 2
 
-for i in range(5): w.province(500 + i, c, 'greek_catholic')
-assert not w.gate(martyrs['trigger'], c)
-c['flags']['suffered_orthodox_persecution'] = w.day
-assert not w.gate(martyrs['trigger'], c)  # Legacy neighbour hostility is insufficient.
-c['flags']['rip_uc_persecution_recorded'] = w.day
-assert w.gate(martyrs['trigger'], c)
-c['flags']['greek_catholic_martyrs_honored'] = w.day
-assert not w.gate(martyrs['trigger'], c)
-cases += 4
-
 source = read('events/UniateChurch.txt')
 assert 'country_event = { id = uniate_church.18 days = 45 }' not in source
-context = normalized(named_block(read('common/scripted_triggers/rip_uc_education_memory_triggers.txt'), 'rip_uc_persecution_context'))
-assert 'controller = {' in context and 'war_with = ROOT' in context
-recording = dict(events['uniate_church.18']['immediate'])['if']
-assert dict(recording)['limit'] == [('rip_uc_persecution_context', 'yes')]
-assert ('set_country_flag', 'rip_uc_persecution_recorded') in recording
-assert ('set_country_flag', 'rip_uc_persecution_recorded') in EFFECTS['greek_catholic_persecution_effect']
-
-martyr_body = next(b for k, b in parse(source)
-                   if k == 'country_event' and dict(b)['id'] == 'uniate_church.20')
-cause, memorial = [b for k, b in martyr_body if k == 'option']
-assert 'trigger' not in dict(memorial)
-for state in ('ready', 'poor', 'no_pope', 'war_with_pope'):
-    w, c, p = fixture('greek_catholic')
-    c.update(treasury=50, dip_power=25)
-    if state == 'poor': c['treasury'] = 49
-    if state == 'no_pope': del w.countries['PAP']
-    if state == 'war_with_pope': c['wars'].add('PAP')
-    assert w.gate(dict(cause)['trigger'], c) == (state == 'ready')
-    before = (c['treasury'], c['dip_power'])
-    w.execute([(k, v) for k, v in cause if k not in ('name', 'trigger', 'ai_chance')], c, c, None)
-    if state == 'ready':
-        assert (c['treasury'], c['dip_power']) == (0, 0)
-        assert 'rip_uc_beatification_cause_supported' in c['flags']
-    else:
-        assert (c['treasury'], c['dip_power']) == before
-        assert 'rip_uc_beatification_cause_supported' not in c['flags']
-    cases += 1
-for lang, path in [('english', 'localisation/uniate_and_raid_l_english.yml')] + [
-    (lang, f'localisation/replace/zzz_RIP_untranslated_l_{lang}.yml') for lang in ('french', 'german', 'spanish')]:
-    loc = read(path)
-    assert 'uniate_church.20.a:0 "Support the beatification cause."' in loc
+trigger_source = read('common/scripted_triggers/rip_uc_education_memory_triggers.txt')
+assert 'uniate_church.18' not in events and 'uniate_church.20' not in events
+assert 'rip_uc_persecution_context' not in trigger_source
+assert 'rip_uc_persecution_context' not in source
+assert 'rip_uc_persecution_recorded' not in source
+effect_source = read('common/scripted_effects/greek_catholic_effects.txt')
+assert 'greek_catholic_persecution_effect' not in effect_source
+assert 'persecution_of_greek_catholics' not in effect_source
+on_actions = read('common/on_actions/greek_catholic_on_actions.txt')
+assert 'uniate_church.18' not in on_actions and 'uniate_church.20' not in on_actions
+english_loc = read('localisation/uniate_and_raid_l_english.yml')
+assert 'uniate_church.18.' not in english_loc and 'uniate_church.20.' not in english_loc
+assert 'persecution_of_greek_catholics:0 "Legacy: Wartime Parish Disruption"' in english_loc
+assert 'Retired inert identifier retained for old saves' in english_loc
+for lang in ('french', 'german', 'spanish'):
+    fallback = read(f'localisation/replace/zzz_RIP_untranslated_l_{lang}.yml')
+    assert 'uniate_church.20.a:0 "Fund a local inquiry."' not in fallback
+retired_modifier = normalized(named_block(
+    read('common/event_modifiers/uniate_church_modifiers.txt'),
+    'persecution_of_greek_catholics',
+))
+assert retired_modifier == 'persecution_of_greek_catholics = { }'
+docs = read('docs/UC_EDUCATION_AND_REMEMBRANCE.uk.md')
+assert 'будь-якого християнського окупанта іншої конфесії' in docs
+assert 'Події `uniate_church.18` і `.20` вилучено' in docs
 assert 'university' not in normalized(named_block(read('common/scripted_effects/greek_catholic_effects.txt'), 'establish_greek_catholic_education'))
-print(f'PASS: {cases} school/remembrance source-state cases; occupation record, shared payment, no automatic university or canonization')
+print(f'PASS: {cases} school source-state cases; unsupported generic occupation and dependent remembrance events retired')

@@ -1,0 +1,103 @@
+# =============================================================================
+# rip_vln_magnate_senate - the great Volhynian magnate families (Ostrozky,
+# Sanguszko, Chartoryisky) effectively co-ruled the palatinate; the voivode
+# governed only with their consent. An earlier session drafted a whole reform,
+# vln_magnate_senate_reform, for this and dropped it (no authenticity-inventory
+# entry, no loc, invented over the working tree) - see
+# docs/GOVERNMENT_REDESIGN_PROPOSAL.uk.md R5. Its modifier numbers are reused
+# here as a mechanic modifier instead of resurrecting a reform id.
+#
+# common/estates/RIP_magnates.txt's estate_magnates only attaches to VLN via
+# vln_voivode_council (a later reform), not at T1, so plain country modifiers.
+#
+# Buttons-only (devshirme pattern): no powers, no .gui, vanilla Cossack
+# ability sprites, no DLC gate.
+#
+# Fatigue guardrail: vln_cossack_host_reform (a different tier, T2) already
+# carries government_abilities = cossacks_mechanic. A VLN country could hold
+# both vln_voivodeship_reform (T1) and vln_cossack_host_reform (T2) at once,
+# stacking two 3-button panels - `available` below retires the Senate the
+# moment the Cossack Host is picked, since the register-and-Host system is
+# the larger, forcelimit-tied vanilla mechanic.
+# =============================================================================
+
+vln_magnate_senate_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		has_reform = vln_voivodeship_reform
+		NOT = { has_reform = vln_cossack_host_reform }
+	}
+
+	interactions = {
+		vln_summon_the_senate = {
+			icon = GFX_cossacks_ability_ADM
+			trigger = {
+				adm_power = 50
+			}
+			effect = {
+				add_adm_power = -50
+				add_legitimacy_equivalent = {
+					amount = 2
+					republican_tradition = 1
+				}
+				add_country_modifier = {
+					name = vln_senate_convened
+					duration = 1825
+				}
+			}
+			cooldown_years = 8
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 6
+					NOT = { has_country_modifier = vln_senate_convened }
+				}
+			}
+		}
+		vln_buy_off_a_magnate_house = {
+			icon = GFX_cossacks_ability_DIP
+			trigger = {
+				dip_power = 50
+			}
+			effect = {
+				add_dip_power = -50
+				add_country_modifier = {
+					name = vln_magnate_house_bought
+					duration = 1825
+				}
+			}
+			cooldown_years = 10
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 6
+					stability = 0
+				}
+			}
+		}
+		vln_call_up_the_magnate_banners = {
+			icon = GFX_cossacks_ability_MIL
+			trigger = {
+				mil_power = 60
+			}
+			effect = {
+				add_mil_power = -60
+				add_army_tradition = 3
+				add_country_modifier = {
+					name = vln_magnate_banners_mustered
+					duration = 1825
+				}
+			}
+			cooldown_years = 10
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 10
+					is_at_war = yes
+				}
+			}
+		}
+	}
+}

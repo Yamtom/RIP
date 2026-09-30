@@ -1,0 +1,823 @@
+
+
+PDL_missions_1_carpathian = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = PDL
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	PDL_declare_independence = {
+		icon = mission_monarch_in_throne_room
+		required_missions = { }
+		position = 1
+		
+		provinces_to_highlight = {
+		}
+		
+		trigger = {
+			is_subject = no
+			tag = PDL
+		}
+		
+		effect = {
+			add_legitimacy = 20
+			podolia_volhynia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			red_ruthenia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+		
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	PDL_fortify_podillia = {
+		icon = mission_invade_island
+		required_missions = { PDL_declare_independence }
+		position = 2
+		provinces_to_highlight = {
+			province_id = 281
+			NOT = { owned_by = ROOT }
+		}
+		
+		trigger = {
+			281 = { owned_by = ROOT }
+		}
+		
+		effect = {
+			add_prestige = 20
+			4749 = {
+				if = {
+					limit = {
+						NOT = { is_permanent_claim = ROOT }
+						NOT = { is_core = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+		
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	PDL_khotyn_fortress = {
+		icon = mission_non-western_soldiers
+		required_missions = { PDL_fortify_podillia }
+		position = 3
+		
+		provinces_to_highlight = {
+			province_id = 281
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { has_building = fort_17th }
+			}			
+		}
+		
+		trigger = {
+			281 = { owned_by = ROOT }
+			281 = { has_building = fort_17th }
+		}
+		
+		effect = {
+			   add_army_tradition = 2
+			281 = {
+				add_base_manpower = 2
+				add_building = barracks
+			}
+			if = {
+				limit = {
+					281 = {
+						NOT = { province_has_center_of_trade_of_level = 1 }
+					}
+				}
+				281 = {
+					add_center_of_trade_level = 1
+				}
+			}
+		}
+		
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	PDL_kamianets_capital = {
+		icon = mission_eastern_european_city
+		required_missions = { PDL_khotyn_fortress }
+		position = 4
+		
+		provinces_to_highlight = {
+			province_id = 281
+		}
+		
+		trigger = {
+			281 = {
+				owned_by = ROOT
+				NOT = { num_free_building_slots = 1 }
+			}
+		}
+		
+		effect = {
+			281 = {
+				add_base_tax = 2
+				add_base_production = 2
+				add_base_manpower = 2
+				center_of_trade = 2
+			}
+		}
+		
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	PDL_withstand_ottoman_threat = {
+		icon = mission_non-western_soldiers
+		required_missions = { PDL_kamianets_capital }
+		position = 5
+		
+		provinces_to_highlight = {
+			area = podolia_volhynia_area
+			NOT = { owned_by = ROOT }
+		}
+		
+		trigger = {
+			num_of_owned_provinces_with = {
+				area = podolia_volhynia_area
+				value = 6
+			}
+			if = {
+				limit = {
+					exists = TUR
+				}
+				custom_trigger_tooltip = {
+					tooltip = pdl_ottoman_strength
+					army_strength = {
+						who = TUR
+						value = 0.5
+					}
+				}
+			}
+			else = {
+				army_size = 80
+			}
+		}
+		
+		effect = {
+			add_mil_power = 200
+			add_prestige = 25
+			add_country_modifier = {
+				name = pdl_ottoman_resistance
+				duration = 5475
+			}
+		}
+		
+		ai_weight = {
+			factor = 75
+		}
+	}
+}
+
+
+PDL_missions_2_frontier = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		tag = PDL
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	PDL_recruit_cossacks = {
+		icon = mission_cossack_cavalry
+		required_missions = { }
+		position = 1
+		
+		provinces_to_highlight = {
+			area = podolia_volhynia_area
+		}
+		
+		trigger = {
+			num_of_cavalry = 10
+			prestige = 20
+			has_estate = estate_cossacks
+		}
+		
+		effect = {
+			set_country_flag = pdl_cossack_recruited
+			add_country_modifier = {
+				name = pdl_cossack_integration
+				duration = 9125
+			}
+			
+			every_owned_province = {
+				   limit = {
+					   area = podolia_volhynia_area
+				   }
+				add_province_modifier = {
+					name = pdl_cossack_settlement
+					duration = -1
+				}
+			}
+		}
+		
+		ai_weight = {
+			factor = 120
+		}
+	}
+
+	PDL_steppe_mastery = {
+		icon = mission_cossack_cavalry
+		required_missions = { PDL_recruit_cossacks }
+		position = 2
+		
+		   provinces_to_highlight = {
+			   OR = {
+				   area = podolia_volhynia_area
+				   area = yedisan_area
+				   area = zaporizhia_area
+			   }
+		   }
+		
+		trigger = {
+			has_country_flag = pdl_cossack_recruited
+			cavalry_fraction = 0.40
+			owns = 281
+	}
+	
+	effect = {
+		add_country_modifier = {
+			name = pdl_steppe_masters
+			duration = -1
+		}
+		yedisan_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+			}
+			add_permanent_claim = ROOT
+		}
+	}
+	}
+
+	PDL_host_assembly = {
+		icon = mission_non-western_cavalry_raid
+		required_missions = { PDL_steppe_mastery }
+		position = 3
+		
+	trigger = {
+		has_country_flag = pdl_cossack_recruited
+		has_estate = estate_cossacks
+	}
+		
+		effect = {
+			add_country_modifier = {
+				name = pdl_cossack_host
+				duration = -1
+			}
+			
+			add_years_of_income = 1
+		}
+		
+		ai_weight = {
+			factor = 80
+		}
+	}
+
+	PDL_secure_crimea_raids = {
+		icon = mission_sca_lit_conquer_crimea
+		required_missions = { PDL_host_assembly }
+		position = 4
+		
+		trigger = {
+			has_country_flag = pdl_cossack_recruited
+			   num_of_cavalry = 15
+			prestige = 40
+		}
+		
+		effect = {
+			crimea_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			
+			add_country_modifier = {
+				name = pdl_crimea_raids
+				duration = 5475
+			}
+		}
+		
+		ai_weight = {
+			factor = 75
+		}
+	}
+}
+
+
+PDL_missions_3_magnate = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		tag = PDL
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	PDL_magnate_authority = {
+		icon = mission_noble_council
+		required_missions = { }
+		position = 1
+		
+		provinces_to_highlight = {
+		}
+		
+		trigger = {
+			legitimacy = 40
+		}
+		
+		effect = {
+			add_legitimacy = 15
+			add_prestige = 10
+		}
+		
+		ai_weight = {
+			factor = 75
+		}
+	}
+
+	PDL_kamianets_development = {
+		icon = mission_eastern_european_city
+		required_missions = { PDL_magnate_authority }
+		position = 2
+		provinces_to_highlight = {
+		}
+		
+		trigger = {
+			281 = {
+				owned_by = ROOT
+				NOT = { num_free_building_slots = 1 }
+			}
+		}
+		
+		effect = {
+			281 = {
+				add_base_tax = 2
+				add_base_production = 2
+				add_base_manpower = 2
+				center_of_trade = 2
+			}
+		}
+		
+		ai_weight = {
+			factor = 75
+		}
+	}
+
+	PDL_podillian_granaries = {
+		icon = mission_have_manufactories
+		required_missions = { PDL_kamianets_development }
+		position = 3
+		
+		provinces_to_highlight = {
+		}
+		
+		trigger = {
+			num_of_owned_provinces_with = {
+				area = podolia_volhynia_area
+				trade_goods = grain
+				development = 10
+				value = 4
+			}
+		}
+		
+		effect = {
+			add_country_modifier = {
+				name = pdl_breadbasket
+				duration = -1
+			}
+		}
+		
+		ai_weight = {
+			factor = 75
+		}
+	}
+
+	PDL_merchant_networks = {
+		icon = mission_dominate_home_trade_node
+		required_missions = { PDL_podillian_granaries }
+		position = 4
+		
+		provinces_to_highlight = {
+			province_id = 281
+		}
+		
+		trigger = {
+			281 = { owned_by = ROOT }
+			281 = { is_strongest_trade_power = ROOT }
+		}
+		
+		effect = {
+			add_mercantilism = 5
+			if = {
+				limit = {
+					281 = {
+						province_has_center_of_trade_of_level = 1
+						NOT = { province_has_center_of_trade_of_level = 3 }
+					}
+				}
+				281 = {
+					add_center_of_trade_level = 1
+				}
+			}
+			else = {
+				add_treasury = 150
+			}
+		}
+		
+		ai_weight = {
+			factor = 75
+		}
+	}
+
+	PDL_magnate_sejm = {
+		icon = mission_noble_council
+		required_missions = { PDL_merchant_networks }
+		position = 5
+		
+		trigger = {
+			num_of_owned_provinces_with = {
+				area = podolia_volhynia_area
+				development = 15
+				value = 4
+			}
+		}
+		
+		effect = {
+			add_prestige = 20
+		}
+		
+		ai_weight = {
+			factor = 110
+		}
+	}
+}
+
+
+PDL_missions_4_expansion_column = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		tag = PDL
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	PDL_unite_podillia = {
+		icon = mission_unite_home_region
+		required_missions = { }
+		position = 1
+		
+		provinces_to_highlight = {
+			area = podolia_volhynia_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		trigger = {
+			podolia_volhynia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		
+		effect = {
+			add_prestige = 20
+			add_accepted_culture = ruthenian
+			
+			podolia_volhynia_area = {
+				   limit = {
+					   owned_by = ROOT
+				   }
+				   add_local_autonomy = -10
+			}
+		}
+		
+		ai_weight = {
+			factor = 200
+		}
+	}
+
+	PDL_conquer_red_ruthenia = {
+		icon = mission_conquer_50_development
+		required_missions = { PDL_unite_podillia }
+		position = 2
+		
+		provinces_to_highlight = {
+			area = red_ruthenia_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		trigger = {
+			red_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		
+		effect = {
+			add_prestige = 15
+			
+			west_dniepr_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+		
+		ai_weight = {
+			factor = 180
+		}
+	}
+
+	PDL_expand_eastward = {
+		icon = mission_eastern_european_city
+		required_missions = { PDL_conquer_red_ruthenia }
+		position = 3
+		
+		provinces_to_highlight = {
+			area = west_dniepr_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		trigger = {
+			west_dniepr_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		
+		effect = {
+			add_mil_power = 100
+			
+			east_dniepr_area = {
+				limit = {
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+		
+		ai_weight = {
+			factor = 160
+		}
+	}
+
+	PDL_grand_podillia = {
+		icon = mission_eastern_european_city
+		required_missions = { PDL_expand_eastward }
+		position = 4
+		
+		provinces_to_highlight = {
+			area = east_dniepr_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		
+		trigger = {
+			east_dniepr_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}	
+		
+		effect = {
+			set_country_flag = pdl_grand_podillia
+			add_prestige = 30
+			add_stability = 1
+		}
+		
+		ai_weight = {
+			factor = 150
+		}
+	}
+}
+
+
+PDL_missions_5_culture = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		tag = PDL
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	PDL_religious_tolerance = {
+		icon = mission_early_modern_university
+		required_missions = { }
+		position = 1
+		
+		trigger = {
+			num_of_owned_provinces_with = {
+				has_building = temple
+				value = 3
+			}
+			prestige = 25
+		}
+		
+		effect = {
+			add_dip_power = 50
+			set_country_flag = pdl_tolerance_path
+		}
+		
+		ai_weight = {
+			factor = 100
+		}
+	}
+
+	PDL_jewish_communities = {
+		icon = mission_eastern_european_city
+		required_missions = { PDL_religious_tolerance }
+		position = 2
+		
+		trigger = {
+			has_country_flag = pdl_tolerance_path
+			capital_scope = {
+				development = 20
+			}
+			prestige = 30
+		}
+		
+		effect = {
+			add_dip_power = 50
+			set_country_flag = pdl_jewish_communities_established
+		}
+		
+		ai_weight = {
+			factor = 90
+		}
+	}
+
+	PDL_confessional_equilibrium = {
+		icon = mission_early_modern_university
+		required_missions = { PDL_jewish_communities }
+		position = 3
+		
+		trigger = {
+			has_country_flag = pdl_tolerance_path
+			religious_unity = 0.40
+			num_of_owned_provinces_with = {
+				religion = orthodox
+				value = 5
+			}
+		}
+		
+		effect = {
+			add_prestige = 15
+			add_dip_power = 50
+		}
+		
+		ai_weight = {
+			factor = 85
+		}
+	}
+
+	PDL_cultural_renaissance = {
+		icon = mission_early_modern_university
+		required_missions = { PDL_confessional_equilibrium }
+		position = 4
+		
+		trigger = {
+			has_country_flag = pdl_tolerance_path
+			has_institution = renaissance
+			capital_scope = {
+				development = 30
+			}
+		}
+		
+		effect = {
+			add_adm_power = 100
+			add_prestige = 20
+		}
+		
+		ai_weight = {
+			factor = 80
+		}
+	}
+}
+
+
+PDL_missions_galician_synergy = {
+	slot = 6
+	generic = no
+	ai = yes
+	potential = {
+		tag = PDL
+		exists = HLC
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	PDL_galician_compact = {
+		icon = mission_alliances
+		required_missions = { }
+		position = 3
+		
+		trigger = {
+			exists = HLC
+			HLC = { is_subject = no }
+			alliance_with = HLC
+		}
+		
+		effect = {
+			set_country_flag = pdl_galician_compact
+			add_prestige = 10
+		}
+		
+		ai_weight = {
+			factor = 120
+		}
+	}
+
+	PDL_trade_corridor = {
+		icon = mission_dominate_home_trade_node
+		required_missions = { PDL_galician_compact }
+		position = 4
+		
+		trigger = {
+			has_country_flag = pdl_galician_compact
+			exists = HLC
+			HLC = { is_subject = no }
+		}
+		
+		effect = {
+			add_dip_power = 50
+			add_prestige = 15
+		}
+		
+		ai_weight = {
+			factor = 100
+		}
+	}
+}
+
+
+PDL_historical_khotyn_battle = {
+	slot = 7
+	generic = no
+	ai = yes
+	potential = {
+		tag = PDL
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	PDL_khotyn_siege = {
+		icon = mission_cannons_firing
+		required_missions = { }
+		position = 3
+		
+		trigger = {
+			owns = 281
+			281 = { has_building = fort_17th }
+			prestige = 40
+			if = {
+				limit = { exists = TUR }
+				army_strength = {
+					who = TUR
+					value = 0.6
+				}
+			}
+		}
+		
+		effect = {
+			add_prestige = 25
+			add_mil_power = 150
+		}
+		
+		ai_weight = {
+			factor = 140
+		}
+	}
+}

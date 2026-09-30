@@ -1,0 +1,110 @@
+country_decisions = {
+
+
+	svydrigaylo_confederation_invitation = {
+		potential = {
+			tag = KRU
+			exists = HET
+			exists = CHR
+			exists = KIE
+			has_country_flag = svydrigaylo_independence_declared
+			NOT = { has_country_flag = kru_confederation_invitation_sent }
+		}
+		allow = {
+			legitimacy = 60
+			diplomatic_reputation = 5
+			is_at_war = no
+		}
+		effect = {
+			set_country_flag = kru_confederation_invitation_sent
+			
+			if = {
+				limit = { exists = ZAZ }
+				ZAZ = {
+					country_event = {
+						id = svydrigaylo.100
+					}
+				}
+			}
+			if = {
+				limit = { exists = HET }
+				HET = {
+					country_event = {
+						id = svydrigaylo.101
+					}
+				}
+			}
+			if = {
+				limit = { exists = CHR }
+				CHR = {
+					country_event = {
+						id = svydrigaylo.102
+					}
+				}
+			}
+			if = {
+				limit = { exists = KIE }
+				KIE = {
+					country_event = {
+						id = svydrigaylo.103
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	svydrigaylo_ruthenian_independence_war = {
+		major = yes
+		potential = {
+			is_subject = yes
+			OR = {
+				tag = ZAZ
+				tag = HET
+				tag = CHR
+				tag = KIE
+			}
+			overlord = {
+				OR = {
+					tag = LIT
+					tag = POL
+					tag = PLC
+				}
+			}
+		}
+		allow = {
+			is_at_war = no
+			legitimacy = 55
+			army_size_percentage = 0.70
+		}
+		effect = {
+			set_country_flag = svydrigaylo_independence_declared
+			overlord = {
+				create_subject = {
+					subject_type = vassal
+					subject = ROOT
+				}
+			}
+			if = {
+				limit = {
+					overlord = {
+						NOT = { has_opinion_modifier = {
+							who = ROOT
+							modifier = ruthenian_independence_accepted
+						}}
+					}
+				}
+				declare_war_with_cb = {
+					who = overlord
+					casus_belli = cb_liberation
+				}
+			}
+			add_prestige = 10
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}
