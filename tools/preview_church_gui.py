@@ -29,7 +29,7 @@ sample.update({'Root.GetChurchSlotState':'Synodal institution: §Y1 / 1§!',
  'Root.GetChurchUnionPathIdentity':'Patronage preserves our Catholic confession.\\nAn Eastern founding parish enters the Union.',
  'Root.GetChurchFlorenceProgress':'Term complete: settlement conditions must hold',
  'Root.GetChurchPatronState':'Catholic patronage is established',
- 'Root.GetChurchRiteStatus':'The Latin parish has consented to gradual Byzantine integration.',
+ 'Root.GetChurchRiteStatus':loc['rip_church_rite_recognized'],
  'Root.GetChurchRiteFamily':'Latin'})
 def resolve(key):
     return re.sub(r'\[([^]]+)\]',lambda m:sample[m[1]],loc[key]).replace('\\n','\n')
