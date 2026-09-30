@@ -22,3 +22,31 @@ rip_uzh_local_union_possible = {
   }
  }
 }
+
+# Date windows for the dated starter (rip_uzh_union.10) and the late fallback
+# (rip_uzh_union.2). Measured in EU4 1.37.5: is_year = Y is true for every year
+# from Y on, and is_month = N is true in every month from N on (January = 0),
+# so an exact month or an exact year needs the closing NOT. Kept as named
+# triggers so an in-game harness can override them.
+# tests/check_uzh_local_union.py evaluates both over every month of 1444-1800:
+# the dated window must be April 1646 alone, the late window every month from
+# May 1646, and they may never overlap.
+rip_uzh_union_date_window = {
+ is_year = 1646 NOT = { is_year = 1647 }
+ is_month = 3 NOT = { is_month = 4 }
+}
+rip_uzh_union_late_window = {
+ is_year = 1646
+ OR = {
+  is_year = 1647
+  is_month = 4
+ }
+}
+
+# The dated starter has scheduled the popup and the popup is still on its way.
+# Fresh for 45 days: the popup is scheduled about 20 days out. Setting a flag
+# again refreshes its date (measured), so the starter sets it exactly once.
+rip_uzh_union_scheduled_fresh = {
+ has_province_flag = rip_uzh_union_scheduled
+ NOT = { had_province_flag = { flag = rip_uzh_union_scheduled days = 45 } }
+}

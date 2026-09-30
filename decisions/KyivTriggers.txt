@@ -706,6 +706,12 @@ country_decisions = {
 			total_development = 150
 			has_estate = estate_church
 			estate_influence = { estate = estate_church influence = 60 }
+			# The description says the see's writ covers more than one faith;
+			# the decision now asks for it.
+			custom_trigger_tooltip = {
+				tooltip = rip_kyiv_sobor_other_faith_tt
+				any_owned_province = { NOT = { religion = ROOT } }
+			}
 			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
 				region = ruthenia_region
 				value = 30
@@ -715,6 +721,19 @@ country_decisions = {
 			set_country_flag = kyiv_church_synod_established
 			add_government_reform = kyivan_church_synod_reform
 			add_prestige = 10
+			# The sobor is paid for in the influence the estate had to show
+			# to be allowed to ask: the bishops now settle in council what the
+			# estate used to settle alone. Same pattern as the crown-path
+			# synod in events/UniateCrownUnion.txt, including the guard.
+			if = {
+				limit = { has_estate = estate_church }
+				add_estate_influence_modifier = {
+					estate = estate_church
+					desc = EST_VAL_RIP_KYIV_CHURCH_SOBOR
+					influence = -15
+					duration = 7300
+				}
+			}
 		}
 		ai_will_do = {
 			factor = 1

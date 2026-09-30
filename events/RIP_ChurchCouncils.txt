@@ -1,6 +1,10 @@
 namespace = rip_church_council
 
 # The Kyivan metropolitanate remains Orthodox. No third faith or extra panel.
+# Each policy also moves one estate through rip_estate_mood_effect
+# (common/scripted_effects/rip_estate_effects.txt, guarded by has_estate):
+# the elected metropolitan pleases the church, the brotherhood charters the
+# burghers, the church rights the nobles who patronise the parishes.
 country_event = {
 	id = rip_church_council.1
 	title = rip_church_council.1.t
@@ -12,18 +16,21 @@ country_event = {
 		trigger = { rip_kyiv_can_hold_council_trigger = yes }
 		ai_chance = { factor = 35 }
 		rip_kyiv_enact_council_policy_effect = { POLICY = rip_kyiv_elected_metropolitan }
+		rip_estate_mood_effect = { ESTATE = estate_church LOYALTY = 10 }
 	}
 	option = {
 		name = rip_church_council.1.b
 		trigger = { rip_kyiv_can_hold_council_trigger = yes }
 		ai_chance = { factor = 35 }
 		rip_kyiv_enact_council_policy_effect = { POLICY = rip_kyiv_brotherhood_charters }
+		rip_estate_mood_effect = { ESTATE = estate_burghers LOYALTY = 10 }
 	}
 	option = {
 		name = rip_church_council.1.c
 		trigger = { rip_kyiv_can_hold_council_trigger = yes }
 		ai_chance = { factor = 30 }
 		rip_kyiv_enact_council_policy_effect = { POLICY = rip_kyiv_church_rights }
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 10 }
 	}
 	option = { name = rip_church_council.cancel ai_chance = { factor = 1 } }
 }
