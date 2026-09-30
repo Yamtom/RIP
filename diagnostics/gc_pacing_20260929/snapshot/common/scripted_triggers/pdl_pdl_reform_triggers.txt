@@ -1,0 +1,59 @@
+# Podillian path reforms remain available after PDL forms Volhynia, but only
+# the institutional road selected by decision is shown. A subject keeps the
+# same access: these are internal settlements, not independence checks.
+
+pdl_magnate_reforms_visible = {
+	OR = {
+		has_reform = pdl_aristocratic_assembly_reform
+		has_reform = pdl_magnate_republic_reform
+		has_reform = pdl_magnate_dominion_reform
+		has_reform = pdl_absolute_dominion_reform
+		AND = {
+			west_ukraine_pdl_origin_country = yes
+			has_country_flag = pdl_magnate_path
+		}
+	}
+}
+
+pdl_carpathian_reform_visible = {
+	OR = {
+		has_reform = pdl_carpathian_bastion_reform
+		has_reform = pdl_palatine_court_reform
+		has_reform = pdl_enlightened_voivodeship_reform
+		AND = {
+			west_ukraine_pdl_origin_country = yes
+			has_country_flag = pdl_carpathian_path
+		}
+	}
+}
+
+pdl_frontier_reform_visible = {
+	OR = {
+		has_reform = pdl_frontier_republic_reform
+		has_reform = pdl_revolutionary_republic_reform
+		AND = {
+			west_ukraine_pdl_origin_country = yes
+			has_country_flag = pdl_frontier_path
+		}
+	}
+}
+
+pdl_tolerance_reform_visible = {
+	OR = {
+		has_reform = pdl_religious_tolerance_reform
+		AND = {
+			west_ukraine_pdl_origin_country = yes
+			has_country_flag = pdl_tolerance_path
+		}
+	}
+}
+
+pdl_grand_reform_visible = {
+	OR = {
+		has_reform = pdl_grand_podillia_reform
+		AND = {
+			west_ukraine_pdl_origin_country = yes
+			has_country_flag = pdl_grand_podillia
+		}
+	}
+}

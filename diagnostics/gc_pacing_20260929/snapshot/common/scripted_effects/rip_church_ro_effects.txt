@@ -1,0 +1,174 @@
+# Country scope. Fervor is a single scripted fuel, not native Reformed powers.
+rip_church_ro_recount_effect = {
+ set_variable = { which = rip_church_icons value = 0 }
+ set_variable = { which = rip_church_fervor_income value = 2 }
+ set_variable = { which = rip_church_capacity value = 1 }
+ if = { limit = { patriarch_authority = 0.9 } set_variable = { which = rip_church_fervor_income value = 5 } set_variable = { which = rip_church_capacity value = 4 } }
+ else_if = { limit = { patriarch_authority = 0.65 } set_variable = { which = rip_church_fervor_income value = 4 } set_variable = { which = rip_church_capacity value = 3 } }
+ else_if = { limit = { patriarch_authority = 0.3 } set_variable = { which = rip_church_fervor_income value = 3 } set_variable = { which = rip_church_capacity value = 2 } }
+if = { limit = { has_country_flag = rip_church_icon_war } change_variable = { which = rip_church_icons value = 1 } }
+if = { limit = { has_country_flag = rip_church_icon_mercy } change_variable = { which = rip_church_icons value = 1 } }
+if = { limit = { has_country_flag = rip_church_icon_building } change_variable = { which = rip_church_icons value = 1 } }
+if = { limit = { has_country_flag = rip_church_icon_mission } change_variable = { which = rip_church_icons value = 1 } }
+ set_variable = { which = rip_church_fervor_cost value = 0 }
+ if = { limit = { check_variable = { which = rip_church_icons value = 4 } } set_variable = { which = rip_church_fervor_cost value = 14 } }
+ else_if = { limit = { check_variable = { which = rip_church_icons value = 3 } } set_variable = { which = rip_church_fervor_cost value = 8 } }
+ else_if = { limit = { check_variable = { which = rip_church_icons value = 2 } } set_variable = { which = rip_church_fervor_cost value = 4 } }
+ else_if = { limit = { check_variable = { which = rip_church_icons value = 1 } } set_variable = { which = rip_church_fervor_cost value = 2 } }
+ set_variable = { which = rip_church_node_cost which = rip_church_nodes }
+ multiply_variable = { which = rip_church_node_cost value = 2 }
+ change_variable = { which = rip_church_fervor_cost which = rip_church_node_cost }
+ set_variable = { which = rip_church_fervor_net which = rip_church_fervor_income }
+ subtract_variable = { which = rip_church_fervor_net which = rip_church_fervor_cost }
+}
+rip_church_deactivate_war_effect = {
+ clr_country_flag = rip_church_icon_war
+ remove_country_modifier = rip_church_icon_war
+ set_variable = { which = rip_church_order_war value = 0 }
+ 
+ rip_church_ro_recount_effect = yes
+}
+rip_church_toggle_war_effect = {
+ rip_church_ro_recount_effect = yes
+ if = { limit = { has_country_flag = rip_church_icon_war } rip_church_deactivate_war_effect = yes }
+ else_if = { limit = { rip_church_can_activate_war = yes }
+ subtract_variable = { which = rip_church_fervor value = 10 }
+ change_variable = { which = rip_church_icon_sequence value = 1 }
+ set_variable = { which = rip_church_order_war which = rip_church_icon_sequence }
+ set_country_flag = rip_church_icon_war
+ set_country_flag = rip_church_icon_war_used
+ add_country_modifier = { name = rip_church_icon_war duration = -1 }
+ rip_church_ro_recount_effect = yes
+ }
+}
+rip_church_deactivate_mercy_effect = {
+ clr_country_flag = rip_church_icon_mercy
+ remove_country_modifier = rip_church_icon_mercy
+ set_variable = { which = rip_church_order_mercy value = 0 }
+ 
+ rip_church_ro_recount_effect = yes
+}
+rip_church_toggle_mercy_effect = {
+ rip_church_ro_recount_effect = yes
+ if = { limit = { has_country_flag = rip_church_icon_mercy } rip_church_deactivate_mercy_effect = yes }
+ else_if = { limit = { rip_church_can_activate_mercy = yes }
+ subtract_variable = { which = rip_church_fervor value = 10 }
+ change_variable = { which = rip_church_icon_sequence value = 1 }
+ set_variable = { which = rip_church_order_mercy which = rip_church_icon_sequence }
+ set_country_flag = rip_church_icon_mercy
+ set_country_flag = rip_church_icon_mercy_used
+ add_country_modifier = { name = rip_church_icon_mercy duration = -1 }
+ rip_church_ro_recount_effect = yes
+ }
+}
+rip_church_deactivate_building_effect = {
+ clr_country_flag = rip_church_icon_building
+ remove_country_modifier = rip_church_icon_building
+ set_variable = { which = rip_church_order_building value = 0 }
+ 
+ rip_church_ro_recount_effect = yes
+}
+rip_church_toggle_building_effect = {
+ rip_church_ro_recount_effect = yes
+ if = { limit = { has_country_flag = rip_church_icon_building } rip_church_deactivate_building_effect = yes }
+ else_if = { limit = { rip_church_can_activate_building = yes }
+ subtract_variable = { which = rip_church_fervor value = 10 }
+ change_variable = { which = rip_church_icon_sequence value = 1 }
+ set_variable = { which = rip_church_order_building which = rip_church_icon_sequence }
+ set_country_flag = rip_church_icon_building
+ set_country_flag = rip_church_icon_building_used
+ add_country_modifier = { name = rip_church_icon_building duration = -1 }
+ rip_church_ro_recount_effect = yes
+ }
+}
+rip_church_deactivate_mission_effect = {
+ clr_country_flag = rip_church_icon_mission
+ remove_country_modifier = rip_church_icon_mission
+ set_variable = { which = rip_church_order_mission value = 0 }
+ rip_church_ro_close_all_nodes_effect = yes
+ rip_church_ro_recount_effect = yes
+}
+rip_church_toggle_mission_effect = {
+ rip_church_ro_recount_effect = yes
+ if = { limit = { has_country_flag = rip_church_icon_mission } rip_church_deactivate_mission_effect = yes }
+ else_if = { limit = { rip_church_can_activate_mission = yes }
+ subtract_variable = { which = rip_church_fervor value = 10 }
+ change_variable = { which = rip_church_icon_sequence value = 1 }
+ set_variable = { which = rip_church_order_mission which = rip_church_icon_sequence }
+ set_country_flag = rip_church_icon_mission
+ set_country_flag = rip_church_icon_mission_used
+ add_country_modifier = { name = rip_church_icon_mission duration = -1 }
+ rip_church_ro_recount_effect = yes
+ }
+}
+rip_church_ro_disable_last_effect = {
+if = { limit = { has_country_flag = rip_church_icon_war check_variable = { which = rip_church_order_war which = rip_church_order_mercy } check_variable = { which = rip_church_order_war which = rip_church_order_building } check_variable = { which = rip_church_order_war which = rip_church_order_mission } } rip_church_deactivate_war_effect = yes }
+else_if = { limit = { has_country_flag = rip_church_icon_mercy check_variable = { which = rip_church_order_mercy which = rip_church_order_war } check_variable = { which = rip_church_order_mercy which = rip_church_order_building } check_variable = { which = rip_church_order_mercy which = rip_church_order_mission } } rip_church_deactivate_mercy_effect = yes }
+else_if = { limit = { has_country_flag = rip_church_icon_building check_variable = { which = rip_church_order_building which = rip_church_order_war } check_variable = { which = rip_church_order_building which = rip_church_order_mercy } check_variable = { which = rip_church_order_building which = rip_church_order_mission } } rip_church_deactivate_building_effect = yes }
+else_if = { limit = { has_country_flag = rip_church_icon_mission check_variable = { which = rip_church_order_mission which = rip_church_order_war } check_variable = { which = rip_church_order_mission which = rip_church_order_mercy } check_variable = { which = rip_church_order_mission which = rip_church_order_building } } rip_church_deactivate_mission_effect = yes }
+}
+rip_church_ro_clear_active_effect = {
+rip_church_deactivate_war_effect = yes
+rip_church_deactivate_mercy_effect = yes
+rip_church_deactivate_building_effect = yes
+rip_church_deactivate_mission_effect = yes
+}
+rip_church_ro_enforce_capacity_effect = {
+ rip_church_ro_recount_effect = yes
+ if = { limit = { rip_church_ro_over_capacity = yes } rip_church_ro_disable_last_effect = yes }
+ if = { limit = { rip_church_ro_over_capacity = yes } rip_church_ro_disable_last_effect = yes }
+ if = { limit = { rip_church_ro_over_capacity = yes } rip_church_ro_disable_last_effect = yes }
+}
+rip_church_ro_monthly_effect = {
+ rip_church_ro_maintain_nodes_effect = yes
+ rip_church_ro_enforce_capacity_effect = yes
+ change_variable = { which = rip_church_fervor which = rip_church_fervor_income }
+ if = { limit = { check_variable = { which = rip_church_fervor value = 100 } } set_variable = { which = rip_church_fervor value = 100 } }
+if = { limit = { NOT = { check_variable = { which = rip_church_fervor which = rip_church_fervor_cost } } } rip_church_ro_disable_last_effect = yes }
+if = { limit = { NOT = { check_variable = { which = rip_church_fervor which = rip_church_fervor_cost } } } rip_church_ro_disable_last_effect = yes }
+if = { limit = { NOT = { check_variable = { which = rip_church_fervor which = rip_church_fervor_cost } } } rip_church_ro_disable_last_effect = yes }
+if = { limit = { NOT = { check_variable = { which = rip_church_fervor which = rip_church_fervor_cost } } } rip_church_ro_disable_last_effect = yes }
+ subtract_variable = { which = rip_church_fervor which = rip_church_fervor_cost }
+ if = { limit = { NOT = { check_variable = { which = rip_church_fervor value = 0 } } } set_variable = { which = rip_church_fervor value = 0 } }
+ if = { limit = { has_country_flag = rip_church_reconciliation_pending had_country_flag = { flag = rip_church_reconciliation_pending days = 1825 } is_at_war = no stability = 1 } rip_church_ro_recognize_effect = yes }
+ if = { limit = { has_country_flag = rip_church_ro_provisional is_year = 1593 } rip_church_ro_recognize_effect = yes }
+}
+rip_church_ro_accept_recognition_effect = {
+ if = { limit = { religion = russian_orthodox is_year = 1589 NOT = { has_country_flag = rip_church_ro_schismatic } }
+ set_country_flag = rip_ro_stage_patriarchate
+ set_country_flag = rip_church_ro_provisional
+ if = { limit = { is_year = 1593 } rip_church_ro_recognize_effect = yes }
+ }
+}
+rip_church_ro_recognize_effect = {
+ if = { limit = { religion = russian_orthodox }
+ clr_country_flag = rip_church_ro_schismatic
+ clr_country_flag = rip_church_ro_provisional
+ clr_country_flag = rip_church_reconciliation_pending
+ if = { limit = { NOT = { has_country_flag = rip_church_ro_recognized } } set_country_flag = rip_church_ro_recognized country_event = { id = rip_church.3 days = 1 } }
+ set_country_flag = rip_ro_stage_patriarchate
+ remove_country_modifier = rip_church_ro_schism
+ rip_church_ro_maintain_nodes_effect = yes
+ rip_church_refresh_relations_effect = yes
+ }
+}
+rip_church_ro_choose_schism_effect = {
+ if = { limit = { religion = russian_orthodox is_year = 1589 NOT = { has_country_flag = rip_church_ro_schismatic } NOT = { has_country_flag = rip_church_reconciliation_pending } }
+ clr_country_flag = rip_church_ro_recognized
+ clr_country_flag = rip_church_ro_provisional
+ set_country_flag = rip_church_ro_schismatic
+ set_country_flag = rip_ro_stage_patriarchate
+ set_country_flag = rip_church_third_rome_claim
+ add_country_modifier = { name = rip_church_ro_schism duration = -1 }
+ rip_church_refresh_relations_effect = yes
+ }
+}
+rip_church_ro_begin_reconciliation_effect = {
+ if = { limit = { rip_church_can_reconcile = yes }
+ add_dip_power = -100 add_patriarch_authority = -0.2
+ set_country_flag = rip_church_reconciliation_pending
+ clr_country_flag = rip_church_third_rome_claim
+ add_country_modifier = { name = rip_church_reconciliation_unrest duration = 3650 }
+ rip_church_ro_enforce_capacity_effect = yes
+ }
+}

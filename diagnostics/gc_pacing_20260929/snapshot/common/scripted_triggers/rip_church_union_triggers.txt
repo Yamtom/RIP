@@ -1,0 +1,57 @@
+rip_church_gc_has_privilege = {
+ OR = { has_country_modifier = rip_church_gc_infrastructure has_country_modifier = rip_church_gc_coexistence }
+}
+rip_church_gc_can_infrastructure = {
+ religion = greek_catholic NOT = { rip_church_gc_has_privilege = yes }
+ patriarch_authority = 0.2 treasury = 75 is_at_war = no
+}
+rip_church_gc_can_coexistence = {
+ religion = greek_catholic NOT = { rip_church_gc_has_privilege = yes }
+ patriarch_authority = 0.2 treasury = 100 is_at_war = no
+ any_owned_province = { has_province_flag = rip_church_rite_recognized }
+}
+# Compatibility alias for older event options. It grants no Roman petition path.
+rip_church_gc_can_eastern_privilege = {
+ OR = { rip_church_gc_can_infrastructure = yes rip_church_gc_can_coexistence = yes }
+}
+rip_church_can_recognize_rite = {
+ is_city = yes controlled_by = owner
+ OR = { religion = orthodox religion = russian_orthodox religion = catholic }
+ NOT = { has_province_flag = rip_church_rite_recognized }
+ owner = { religion = greek_catholic }
+ variable_arithmetic_trigger = {
+  custom_tooltip = rip_church_rite_affordable_tt
+  export_to_variable = { which = rip_church_rite_price value = development }
+  export_to_variable = { which = rip_church_rite_available value = trigger_value:adm_power who = owner }
+  check_variable = { which = rip_church_rite_available which = rip_church_rite_price }
+ }
+}
+rip_church_can_revoke_rite = {
+ has_province_flag = rip_church_rite_recognized
+ had_province_flag = { flag = rip_church_rite_recognized days = 3650 }
+ controlled_by = owner owner = { religion = greek_catholic }
+}
+rip_church_union_supporter = {
+ OR = { religion = greek_catholic AND = { religion = catholic has_country_flag = rip_church_supports_union } }
+}
+rip_church_florence_parish = {
+ is_city = yes religion = orthodox is_core = ROOT controlled_by = ROOT
+ OR = { region = ruthenia_region culture_group = byzantine }
+}
+rip_church_can_begin_florence = {
+ OR = { religion = catholic religion = orthodox }
+ is_year = 1444 NOT = { is_year = 1502 } is_at_war = no stability = 2 exists = PAP
+ NOT = { war_with = PAP } PAP = { has_opinion = { who = ROOT value = 100 } }
+ adm_power = 200 dip_power = 100 years_of_income = 1
+ NOT = { has_country_flag = rip_church_florence_attempted }
+ any_owned_province = { rip_church_florence_parish = yes }
+}
+rip_church_can_ecumenism = {
+ religion = greek_catholic NOT = { has_country_flag = rip_church_ecumenical }
+ had_country_flag = { flag = rip_church_union_founded days = 7300 }
+ OR = { NOT = { has_country_flag = rip_church_forced_integration } had_country_flag = { flag = rip_church_forced_integration days = 3650 } }
+ stability = 2 is_at_war = no
+ any_owned_province = { religion = orthodox has_province_flag = rip_church_rite_recognized }
+ any_owned_province = { religion = catholic has_province_flag = rip_church_rite_recognized }
+ any_country = { religion = orthodox alliance_with = ROOT has_opinion = { who = ROOT value = 100 } }
+}

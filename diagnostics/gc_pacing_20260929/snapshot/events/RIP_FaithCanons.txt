@@ -1,0 +1,65 @@
+# ========================================================================
+# The sittings: what the two faiths enact when their church is convened.
+# Authenticity: B - extrapolated from real institutions.
+# Sources:
+#   the Muscovite church councils and the patriarchate of 1589; the
+#   Josephite and Non-Possessor quarrel; the Union of Brest and the synod
+#   of Zamosc; the Basilian order and its schools.
+#
+# These options carry the payloads that used to be church aspects. Neither
+# faith declares church power any more - every religion mechanic draws into
+# the same rectangle of interface/countryreligionview.gui, so a faith gets
+# one panel, and these two spend theirs on holy sites and on the icons.
+# See common/religions/russian_orthodox.txt for the whole accounting.
+# ========================================================================
+
+namespace = rip_faith
+
+# One paid ten-year policy. Old queued events use the same payment gates.
+country_event = {
+	id = rip_faith.1
+	title = rip_faith.1.t
+	desc = rip_ro_sobor_current_desc
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_ro_sobor_lands_option
+		trigger = { rip_ro_can_hold_sobor_trigger = yes }
+		ai_chance = { factor = 30 }
+		rip_ro_enact_council_policy_effect = { POLICY = rip_ro_sobor_lands }
+	}
+	option = {
+		name = rip_ro_sobor_books_option
+		trigger = { rip_ro_can_hold_sobor_trigger = yes }
+		ai_chance = { factor = 40 }
+		rip_ro_enact_council_policy_effect = { POLICY = rip_ro_sobor_books }
+	}
+	option = {
+		name = rip_ro_sobor_courts_option
+		trigger = { rip_ro_can_hold_sobor_trigger = yes }
+		ai_chance = { factor = 30 }
+		rip_ro_enact_council_policy_effect = { POLICY = rip_ro_sobor_courts }
+	}
+	option = {
+		name = rip_faith.1.h
+		ai_chance = { factor = 1 }
+	}
+}
+
+# Greek Catholic synod options are handled by rip_church.6 in
+# RIP_ChurchRedesign.txt; the former rip_faith.2 article set was orphaned.
+# --- 2. The zeal runs out and the focus goes dark.
+country_event = {
+	id = rip_faith.3
+	title = rip_faith.3.t
+	desc = rip_faith.3.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = rip_faith.3.a
+		ai_chance = { factor = 100 }
+		add_patriarch_authority = 0.05
+	}
+}

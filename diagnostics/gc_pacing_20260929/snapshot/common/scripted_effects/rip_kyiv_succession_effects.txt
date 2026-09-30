@@ -1,0 +1,35 @@
+# Threshold bookkeeping for the two rival leanings tracked by the Kyivan
+# succession-history chain (events/KyivSuccessionHistory.txt): the rotating
+# seniorate (the old ladder of thrones, kyivan_shogunate_reform) against the
+# centralising cesarstvo (kyivan_cesarstvo_reform). Every option in that
+# chain nudges rip_kyiv_seniorate_lean or rip_kyiv_cesarstvo_lean with
+# change_variable and then calls this effect - the same set_variable /
+# change_variable / check_variable idiom as
+# common/scripted_effects/rip_faith_spread_effects.txt (stage counter) and
+# common/scripted_effects/rip_rota_effects.txt (tier counter).
+#
+# Whichever counter reaches the threshold first opens its road flag and
+# empties the rival counter, so the loser cannot cross afterwards and
+# kyiv_shogunate_path / kyiv_cesarstvo_path in decisions/KyivTriggers.txt
+# stay mutually exclusive once one road is open.
+
+rip_kyiv_succession_check_threshold_effect = {
+	if = {
+		limit = {
+			NOT = { has_country_flag = kyiv_seniorate_road_open }
+			NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+			check_variable = { which = rip_kyiv_seniorate_lean value = 100 }
+		}
+		set_country_flag = kyiv_seniorate_road_open
+		set_variable = { which = rip_kyiv_cesarstvo_lean value = 0 }
+	}
+	else_if = {
+		limit = {
+			NOT = { has_country_flag = kyiv_seniorate_road_open }
+			NOT = { has_country_flag = kyiv_cesarstvo_road_open }
+			check_variable = { which = rip_kyiv_cesarstvo_lean value = 100 }
+		}
+		set_country_flag = kyiv_cesarstvo_road_open
+		set_variable = { which = rip_kyiv_seniorate_lean value = 0 }
+	}
+}

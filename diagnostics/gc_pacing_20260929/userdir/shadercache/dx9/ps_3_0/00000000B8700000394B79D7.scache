@@ -1,0 +1,72 @@
+#define PIXEL_SHADER
+#define MAP_SIZE_X 5632.000
+#define MAP_SIZE_Y 2048.000
+#define MAP_POW2_X 1.000
+#define MAP_POW2_Y 1.000
+#define FOW_POW2_X 1.000
+#define FOW_POW2_Y 1.000
+#define PDX_DIRECTX_9
+
+#define mod( X, Y ) ( X % Y )
+
+float fmod_loop( float x, float y )
+{
+  return x - y * floor( x / y );
+}
+
+#define GetMatrixData( Matrix, row, col ) ( Matrix [ row ] [ col ] )
+#define FLIP_SCREEN_POS( X ) ( X )
+#define FLIP_TEXTURE_V( vCoordinate ) ( vCoordinate )
+
+#define sampler2DShadow sampler2D
+
+float3x3 CastTo3x3( in float4x4 M )
+{
+	return (float3x3)M;
+}
+#define Create3x3 float3x3
+
+float2 vec2(float vValue) { return float2(vValue, vValue); }
+float3 vec3(float vValue) { return float3(vValue, vValue, vValue); }
+float4 vec4(float vValue) { return float4(vValue, vValue, vValue, vValue); }
+
+#define tex2Dlod0(samp,uv) tex2Dlod(samp, float4((uv), 0.0, 0.0))
+
+#define PDX_POSITION POSITION
+
+#define PDX_COLOR COLOR
+sampler BlurSample : register(s0);
+float4 vGaussianOffsetsWeights[2] : register(c0);
+
+struct VS_INPUT
+{
+	float4 vPosition : POSITION;
+	float2 vTexCoord : TEXCOORD0;
+};
+struct VS_OUTPUT
+{
+	float4 vPosition : PDX_POSITION;
+	float2 vTexCoord : TEXCOORD0;
+};
+float4 main( VS_OUTPUT In ) : PDX_COLOR
+		{
+			// Accumulated color
+			float fAccum = 0.0f;
+			float vOffset[3];
+			float vWeight[3];
+			vOffset[0] = vGaussianOffsetsWeights[0].x;
+			vOffset[1] = vGaussianOffsetsWeights[0].y;
+			vOffset[2] = vGaussianOffsetsWeights[0].z;	
+			vWeight[0] = vGaussianOffsetsWeights[0].w;
+			vWeight[1] = vGaussianOffsetsWeights[1].x;
+			vWeight[2] = vGaussianOffsetsWeights[1].y;		
+			
+			fAccum = tex2D( BlurSample, In.vTexCoord ).r * vWeight[0];
+			for (int i=1; i<3; i++) {
+				fAccum += tex2D( BlurSample, ( In.vTexCoord+float2(0.0, vOffset[i]) ) ).r * vWeight[i];
+				fAccum += tex2D( BlurSample, ( In.vTexCoord-float2(0.0, vOffset[i]) ) ).r * vWeight[i];
+			}	
+			
+			return float4( fAccum, fAccum, fAccum, 1.0f );	
+		}
+	

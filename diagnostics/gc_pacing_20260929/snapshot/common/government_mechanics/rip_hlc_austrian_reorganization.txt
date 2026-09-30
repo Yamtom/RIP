@@ -1,0 +1,120 @@
+# =============================================================================
+# rip_hlc_austrian_reorganization - the Austrian fork of the Galician
+# Voivodeship (hlc_centralized_voivodeship_reform -> hlc_austrian_bureaucracy_
+# reform -> hlc_crown_authority_reform) never had a mechanic of its own; the
+# Poland fork already did (rip_hlc_boyar_council.txt's hlc_boyar_council_
+# mechanic, plus has_polish_election on hlc_magnate_assembly_reform). This is
+# the Austria fork's counterpart, built the same way the boyar council was -
+# from a real vanilla shape, not a copy of it:
+#
+# Vanilla has no "toggleable law" object as such. What it has, and what this
+# copies the structure of, is perfectionism_mechanic's mutually exclusive
+# focuses (common/government_mechanics/08_perfectionism.txt): a pair of
+# buttons, each clearing the others' persistent (duration = -1) country
+# modifier before applying its own. That is the shape used here for two
+# ordinances the chancery can enact and later rescind:
+#
+#  - The Chancery Ordinance seconds trained clerks to the chancellor's
+#    staff - a standing diplomatic bonus while enacted. Vanilla has no
+#    scripted effect that changes a ruler's raw skill number outside of
+#    ruler generation and add_ruler_personality (which grants a fixed
+#    personality, not arbitrary points, and personalities themselves carry
+#    no adm/dip/mil fields - checked in common/ruler_personalities/00_core.
+#    txt); the honest substitute is a persistent chancery-flavoured country
+#    modifier, not a literal ruler stat.
+#  - The Settlement Ordinance answers on_province_culture_converted
+#    (common/on_actions/00_on_actions.txt) while enacted, so every
+#    completed culture conversion nudges every present estate's loyalty -
+#    see hlc_settlement_ordinance_conversion_effect
+#    (common/scripted_effects/rip_estate_effects.txt) and the on_action
+#    hook in common/on_actions/west_ukraine_on_actions.txt.
+#
+# Buttons-only, same as rip_hlc_boyar_council.txt: no powers, no .gui,
+# vanilla Cossack ability sprites, no DLC gate.
+# =============================================================================
+
+hlc_austrian_reorganization_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		has_reform = hlc_crown_authority_reform
+	}
+
+	interactions = {
+		hlc_enact_chancery_ordinance = {
+			icon = GFX_cossacks_ability_DIP
+			trigger = {
+				NOT = { has_country_flag = hlc_chancery_ordinance_active }
+			}
+			effect = {
+				set_country_flag = hlc_chancery_ordinance_active
+				add_country_modifier = {
+					name = hlc_chancery_ordinance_modifier
+					duration = -1
+				}
+			}
+			cooldown_years = 5
+			cooldown_token = hlc_chancery_ordinance
+			ai_chance = {
+				factor = 10
+				modifier = {
+					factor = 0
+					has_country_flag = hlc_chancery_ordinance_active
+				}
+			}
+		}
+		hlc_rescind_chancery_ordinance = {
+			icon = GFX_cossacks_ability_ADM
+			trigger = {
+				has_country_flag = hlc_chancery_ordinance_active
+			}
+			effect = {
+				clr_country_flag = hlc_chancery_ordinance_active
+				remove_country_modifier = hlc_chancery_ordinance_modifier
+			}
+			cooldown_years = 5
+			cooldown_token = hlc_chancery_ordinance
+			ai_chance = {
+				factor = 0
+			}
+		}
+		hlc_enact_settlement_ordinance = {
+			icon = GFX_cossacks_ability_ADM
+			trigger = {
+				NOT = { has_country_flag = hlc_settlement_ordinance_active }
+			}
+			effect = {
+				set_country_flag = hlc_settlement_ordinance_active
+				add_country_modifier = {
+					name = hlc_settlement_ordinance_modifier
+					duration = -1
+				}
+			}
+			cooldown_years = 5
+			cooldown_token = hlc_settlement_ordinance
+			ai_chance = {
+				factor = 10
+				modifier = {
+					factor = 0
+					has_country_flag = hlc_settlement_ordinance_active
+				}
+			}
+		}
+		hlc_rescind_settlement_ordinance = {
+			icon = GFX_cossacks_ability_MIL
+			trigger = {
+				has_country_flag = hlc_settlement_ordinance_active
+			}
+			effect = {
+				clr_country_flag = hlc_settlement_ordinance_active
+				remove_country_modifier = hlc_settlement_ordinance_modifier
+			}
+			cooldown_years = 5
+			cooldown_token = hlc_settlement_ordinance
+			ai_chance = {
+				factor = 0
+			}
+		}
+	}
+}

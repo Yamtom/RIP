@@ -1,0 +1,27 @@
+# Country ROOT for registration; country FROM for native conversion weights.
+rip_church_ro_propagation_target_root = { is_city = yes NOT = { religion = russian_orthodox } NOT = { has_missionary = yes }
+ NOT = { province_id = 118 } NOT = { has_province_modifier = religious_center }
+ NOT = { has_province_modifier = religious_zeal_at_conv } NOT = { has_province_flag = rip_church_rite_recognized }
+ any_neighbor_province = { religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT }
+ NOT = { AND = { religion = orthodox owner = { religion = orthodox is_subject = no } ROOT = { NOT = { has_country_flag = rip_church_ro_schismatic } } } }
+ }
+rip_church_ro_propagation_target_from = {
+ is_city = yes NOT = { religion = russian_orthodox } NOT = { has_missionary = yes }
+ NOT = { province_id = 118 } NOT = { has_province_modifier = religious_center }
+ NOT = { has_province_modifier = religious_zeal_at_conv } NOT = { has_province_flag = rip_church_rite_recognized }
+ any_neighbor_province = { religion = russian_orthodox has_province_flag = rip_church_ro_connected@FROM }
+ NOT = { AND = { religion = orthodox owner = { religion = orthodox is_subject = no } FROM = { NOT = { has_country_flag = rip_church_ro_schismatic } } } }
+
+ has_province_flag = rip_church_ro_trade_target@FROM
+ FROM = { religion = russian_orthodox has_country_flag = rip_church_icon_mission check_variable = { which = rip_church_nodes value = 1 } }
+}
+rip_church_ro_can_maintain_policy = {
+ religion = russian_orthodox has_country_flag = rip_church_icon_mission
+ has_dlc = "Cradle of Civilization"
+ rip_church_ro_registered_node = yes
+ FROM = { has_trader = ROOT trade_share = { country = ROOT share = 50 }
+ any_trade_node_member_province = { rip_church_ro_propagation_target_root = yes }
+ any_trade_node_member_province = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox
+ has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } }
+ }
+}

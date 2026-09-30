@@ -1,0 +1,945 @@
+namespace = podillia_disasters
+
+
+country_event = {
+	id = podillia_disasters.41
+	title = podillia_disasters.41.t
+	desc = podillia_disasters.41.d
+	picture = BORDER_TENSION_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_ottoman_menace
+	}
+	
+	
+	option = {
+		name = podillia_disasters.41.a
+		set_country_flag = had_pdl_ottoman_menace
+		add_manpower = -5
+		add_army_tradition = 10
+		add_country_modifier = {
+			name = pdl_emergency_mobilization
+			duration = 1825
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.41.b
+		set_country_flag = had_pdl_ottoman_menace
+		add_treasury = -200
+		random_owned_province = {
+			limit = {
+				OR = {
+					area = podolia_volhynia_area
+					area = red_ruthenia_area
+				}
+				NOT = { has_building = fort_15th }
+			}
+			add_building = fort_15th
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.41.c
+		set_country_flag = had_pdl_ottoman_menace
+		add_prestige = -10
+		add_dip_power = -50
+		set_country_flag = pdl_ottoman_diplomatic_approach
+	}
+}
+
+country_event = {
+	id = podillia_disasters.42
+	title = podillia_disasters.42.t
+	desc = podillia_disasters.42.d
+	picture = BORDER_TENSION_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_ottoman_menace
+	}
+	
+	
+	option = {
+		name = podillia_disasters.42.a
+		add_treasury = -300
+		add_prestige = -15
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = -10
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.42.b
+		add_mil_power = -50
+		random_owned_province = {
+			limit = {
+				area = podolia_volhynia_area
+			}
+			add_devastation = 20
+		}
+		add_army_tradition = 5
+	}
+	
+	option = {
+		name = podillia_disasters.42.c
+		random_owned_province = {
+			limit = {
+				area = podolia_volhynia_area
+			}
+			add_devastation = 30
+		}
+		random_owned_province = {
+			limit = {
+				area = red_ruthenia_area
+			}
+			add_devastation = 30
+		}
+	}
+}
+
+country_event = {
+	id = podillia_disasters.43
+	title = podillia_disasters.43.t
+	desc = podillia_disasters.43.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_ottoman_menace
+		CRI = {
+			exists = yes
+		}
+	}
+	
+	
+	option = {
+		name = podillia_disasters.43.a
+		add_prestige = -20
+		CRI = {
+			add_opinion = {
+				who = ROOT
+				modifier = pdl_accepted_suzerainty
+			}
+		}
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = -15
+		}
+		add_country_modifier = {
+			name = pdl_crimean_tributary
+			duration = 3650
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.43.b
+		add_prestige = 10
+		CRI = {
+			add_opinion = {
+				who = ROOT
+				modifier = pdl_rejected_demands
+			}
+		}
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = 15
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.43.c
+		add_treasury = -200
+		add_dip_power = -50
+		CRI = {
+			add_opinion = {
+				who = ROOT
+				modifier = pdl_negotiated_tribute
+			}
+		}
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = -5
+		}
+	}
+}
+
+country_event = {
+	id = podillia_disasters.44
+	title = podillia_disasters.44.t
+	desc = podillia_disasters.44.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_ottoman_menace
+		any_known_country = {
+			is_great_power = yes
+			NOT = { is_rival = ROOT }
+			OR = {
+				alliance_with = ROOT
+				has_opinion = {
+					who = ROOT
+					value = 100
+				}
+			}
+		}
+	}
+	
+	
+	option = {
+		name = podillia_disasters.44.a
+		random_known_country = {
+			limit = {
+				is_great_power = yes
+				NOT = { is_rival = ROOT }
+			}
+			create_alliance = ROOT
+		}
+		add_country_modifier = {
+			name = pdl_defensive_alliances
+			duration = 7300
+		}
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = -20
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.44.b
+		add_treasury = 500
+		add_dip_power = -25
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = -10
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.44.c
+		add_prestige = 10
+		add_legitimacy = 10
+	}
+}
+
+country_event = {
+	id = podillia_disasters.45
+	title = podillia_disasters.45.t
+	desc = podillia_disasters.45.d
+	picture = COSSACK_ESTATE_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_ottoman_menace
+		has_estate = estate_cossacks
+	}
+	
+	
+	option = {
+		name = podillia_disasters.45.a
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = 15
+		}
+		add_estate_influence_modifier = {
+			estate = estate_cossacks
+			influence = 10
+			duration = 3650
+		}
+		add_manpower = 10
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = -15
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.45.b
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = 5
+		}
+		add_manpower = 5
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = -5
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.45.c
+		add_estate_loyalty = {
+			estate = estate_cossacks
+			loyalty = -15
+		}
+		add_legitimacy = 5
+	}
+}
+
+country_event = {
+	id = podillia_disasters.46
+	title = podillia_disasters.46.t
+	desc = podillia_disasters.46.d
+	picture = MILITARY_CAMP_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_ottoman_menace
+	}
+	
+	
+	option = {
+		name = podillia_disasters.46.a
+		add_mil_power = -100
+		add_treasury = -300
+		add_country_modifier = {
+			name = pdl_military_modernization
+			duration = 5475
+		}
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = -20
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.46.b
+		add_mil_power = -50
+		add_treasury = -150
+		add_army_tradition = 10
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = -10
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.46.c
+		add_treasury = -200
+		add_country_modifier = {
+			name = pdl_emergency_fortifications
+			duration = 3650
+		}
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = -5
+		}
+	}
+}
+
+country_event = {
+	id = podillia_disasters.47
+	title = podillia_disasters.47.t
+	desc = podillia_disasters.47.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_ottoman_menace
+		has_country_flag = pdl_ottoman_diplomatic_approach
+	}
+	
+	
+	option = {
+		name = podillia_disasters.47.a
+		add_prestige = -15
+		add_treasury = -400
+		add_country_modifier = {
+			name = pdl_ottoman_treaty
+			duration = 7300
+		}
+		clr_country_flag = pdl_ottoman_diplomatic_approach
+		set_country_flag = pdl_ottoman_menace_resolved
+		add_stability = 1
+	}
+	
+	option = {
+		name = podillia_disasters.47.b
+		add_treasury = -200
+		add_dip_power = -75
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = -25
+		}
+		clr_country_flag = pdl_ottoman_diplomatic_approach
+	}
+	
+	option = {
+		name = podillia_disasters.47.c
+		add_prestige = 5
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = 10
+		}
+		clr_country_flag = pdl_ottoman_diplomatic_approach
+	}
+}
+
+country_event = {
+	id = podillia_disasters.48
+	title = podillia_disasters.48.t
+	desc = podillia_disasters.48.d
+	picture = BATTLE_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_ottoman_menace
+		manpower_percentage = 0.8
+	}
+	
+	
+	option = {
+		name = podillia_disasters.48.a
+		add_manpower = -15
+		add_treasury = -500
+		add_army_tradition = 20
+		add_prestige = 15
+		set_country_flag = pdl_ottoman_menace_resolved
+		add_country_modifier = {
+			name = pdl_military_victory
+			duration = 5475
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.48.b
+		add_manpower = -10
+		add_treasury = -300
+		add_disaster_progress = {
+			disaster = podillia_ottoman_menace
+			value = -30
+		}
+	}
+}
+
+country_event = {
+	id = podillia_disasters.51
+	title = podillia_disasters.51.t
+	desc = podillia_disasters.51.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		clr_country_flag = pdl_ottoman_diplomatic_approach
+	}
+	
+	option = {
+		name = podillia_disasters.51.a
+		add_stability = 1
+		add_prestige = 15
+		add_legitimacy = 10
+	}
+}
+
+
+country_event = {
+	id = podillia_disasters.61
+	title = podillia_disasters.61.t
+	desc = podillia_disasters.61.d
+	picture = RELIGION_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_jewish_emancipation
+	}
+		
+	option = {
+		name = podillia_disasters.61.a
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = 15
+		}
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = -15
+		}
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = -15
+		}
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = 10
+		}
+		set_country_flag = pdl_jewish_reform_path
+	}
+	
+	option = {
+		name = podillia_disasters.61.b
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 10
+		}
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = -10
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.61.c
+		add_adm_power = -50
+		add_prestige = 5
+		set_country_flag = pdl_jewish_commission
+	}
+}
+
+country_event = {
+	id = podillia_disasters.62
+	title = podillia_disasters.62.t
+	desc = podillia_disasters.62.d
+	picture = RELIGION_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_jewish_emancipation
+		has_estate = estate_dhimmi
+	}
+	
+	
+	option = {
+		name = podillia_disasters.62.a
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = 20
+		}
+		add_estate_influence_modifier = {
+			estate = estate_dhimmi
+			influence = 15
+			duration = 5475
+		}
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = -20
+		}
+		set_country_flag = pdl_full_emancipation_path
+	}
+	
+	option = {
+		name = podillia_disasters.62.b
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = 10
+		}
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = -5
+		}
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = -10
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.62.c
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = -20
+		}
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 10
+		}
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = 15
+		}
+	}
+}
+
+country_event = {
+	id = podillia_disasters.63
+	title = podillia_disasters.63.t
+	desc = podillia_disasters.63.d
+	picture = COURT_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_jewish_emancipation
+		has_estate = estate_nobles
+	}
+	
+	
+	option = {
+		name = podillia_disasters.63.a
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 15
+		}
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = -10
+		}
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = -10
+		}
+		set_country_flag = pdl_noble_compromise
+	}
+	
+	option = {
+		name = podillia_disasters.63.b
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = -20
+		}
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = 15
+		}
+		add_absolutism = 5
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = 10
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.63.c
+		add_estate_loyalty = {
+			estate = estate_nobles
+			loyalty = 5
+		}
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = 5
+		}
+		add_adm_power = -50
+	}
+}
+
+country_event = {
+	id = podillia_disasters.64
+	title = podillia_disasters.64.t
+	desc = podillia_disasters.64.d
+	picture = BIG_BOOK_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_jewish_emancipation
+		has_idea_group = humanist_ideas
+	}
+	
+	
+	option = {
+		name = podillia_disasters.64.a
+		add_country_modifier = {
+			name = pdl_enlightenment_values
+			duration = 7300
+		}
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = -25
+		}
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = 15
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.64.b
+		add_adm_power = 50
+		add_dip_power = 50
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = -10
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.64.c
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = 15
+		}
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = -15
+		}
+		add_prestige = 10
+	}
+}
+
+country_event = {
+	id = podillia_disasters.65
+	title = podillia_disasters.65.t
+	desc = podillia_disasters.65.d
+	picture = TRADEGOODS_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_jewish_emancipation
+	}
+	
+	
+	option = {
+		name = podillia_disasters.65.a
+		add_treasury = 300
+		add_country_modifier = {
+			name = pdl_jewish_trade_networks
+			duration = 5475
+		}
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = -15
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.65.b
+		add_treasury = 150
+		add_mercantilism = 1
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = -5
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.65.c
+		add_stability = 1
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = 10
+		}
+	}
+}
+
+country_event = {
+	id = podillia_disasters.66
+	title = podillia_disasters.66.t
+	desc = podillia_disasters.66.d
+	picture = RELIGION_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_jewish_emancipation
+		has_estate = estate_church
+	}
+	
+	
+	option = {
+		name = podillia_disasters.66.a
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = 20
+		}
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = -15
+		}
+		if = {
+			limit = { religion = catholic }
+			add_papal_influence = 15
+		}
+		else_if = {
+			limit = {
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+					religion = greek_catholic
+				}
+			}
+			add_patriarch_authority = 0.05
+		}
+		else_if = {
+			limit = {
+				OR = {
+					religion = protestant
+					religion = anglican
+					religion = hussite
+					religion = jewish
+				}
+			}
+			add_church_power = 25
+		}
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = -10
+		}
+		set_country_flag = pdl_church_compromise
+	}
+	
+	option = {
+		name = podillia_disasters.66.b
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = -20
+		}
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = 15
+		}
+		add_absolutism = 5
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = 10
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.66.c
+		add_estate_loyalty = {
+			estate = estate_church
+			loyalty = 5
+		}
+		add_estate_loyalty = {
+			estate = estate_dhimmi
+			loyalty = 5
+		}
+		add_adm_power = -50
+		add_prestige = 5
+	}
+}
+
+country_event = {
+	id = podillia_disasters.67
+	title = podillia_disasters.67.t
+	desc = podillia_disasters.67.d
+	picture = DIPLOMACY_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_jewish_emancipation
+		any_known_country = {
+			has_idea_group = humanist_ideas
+			is_great_power = yes
+		}
+	}
+	
+	
+	option = {
+		name = podillia_disasters.67.a
+		add_dip_power = 50
+		add_country_modifier = {
+			name = pdl_progressive_reputation
+			duration = 5475
+		}
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = -20
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.67.b
+		add_dip_power = 25
+		add_disaster_progress = {
+			disaster = podillia_jewish_emancipation
+			value = -10
+		}
+	}
+	
+	option = {
+		name = podillia_disasters.67.c
+		add_prestige = 10
+		add_legitimacy = 10
+		random_known_country = {
+			limit = {
+				has_idea_group = humanist_ideas
+				is_great_power = yes
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = pdl_rejected_reform_pressure
+			}
+		}
+	}
+}
+
+country_event = {
+	id = podillia_disasters.68
+	title = podillia_disasters.68.t
+	desc = podillia_disasters.68.d
+	picture = COURT_eventPicture
+	
+	is_triggered_only = yes
+	
+	trigger = {
+		has_disaster = podillia_jewish_emancipation
+	}
+	
+	
+	option = {
+		name = podillia_disasters.68.a
+		trigger = {
+			has_country_flag = pdl_full_emancipation_path
+		}
+		add_country_modifier = {
+			name = pdl_jewish_emancipation_enacted
+			duration = -1
+		}
+		set_country_flag = pdl_jewish_emancipation_resolved
+		clr_country_flag = pdl_full_emancipation_path
+		add_stability = 1
+	}
+	
+	option = {
+		name = podillia_disasters.68.b
+		trigger = {
+			has_country_flag = pdl_church_compromise
+		}
+		add_country_modifier = {
+			name = pdl_traditional_restrictions
+			duration = -1
+		}
+		set_country_flag = pdl_jewish_emancipation_resolved
+		clr_country_flag = pdl_church_compromise
+		add_stability = 1
+	}
+	
+	option = {
+		name = podillia_disasters.68.c
+		add_country_modifier = {
+			name = pdl_enlightened_compromise
+			duration = -1
+		}
+		set_country_flag = pdl_jewish_emancipation_resolved
+		add_stability = 1
+	}
+}
+
+country_event = {
+	id = podillia_disasters.71
+	title = podillia_disasters.71.t
+	desc = podillia_disasters.71.d
+	picture = GOOD_WITH_MONARCH_eventPicture
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		clr_country_flag = pdl_jewish_reform_path
+		clr_country_flag = pdl_jewish_commission
+		clr_country_flag = pdl_noble_compromise
+		clr_country_flag = pdl_full_emancipation_path
+		clr_country_flag = pdl_church_compromise
+	}
+	
+	option = {
+		name = podillia_disasters.71.a
+		add_stability = 1
+		add_prestige = 15
+		add_legitimacy = 10
+	}
+}

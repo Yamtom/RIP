@@ -1,0 +1,63 @@
+# Gates for the Ruthenian Diaspora mission tree (missions/RuthenianDiaspora_
+# Missions.txt) and the settler decisions it unlocks
+# (decisions/RIP_RuthenianDiaspora.txt). The tree opens for any country whose
+# primary culture sits in the Ruthenian or Rusyn family - byelorussian and
+# ryazanian are deliberately excluded, see tools/data/rip_colonial_names.json
+# for the four culture families this mod already treats as siblings but not
+# equivalents.
+
+rip_diaspora_eligible_culture = {
+	OR = {
+		primary_culture = ruthenian
+		primary_culture = ruthenian_new
+		primary_culture = rusyn
+		primary_culture = rusyn_new
+		primary_culture = rusyn_new_new
+	}
+}
+
+# Province-scope twin of the above: checks the province's own culture, not
+# its owner's primary culture.
+rip_diaspora_eligible_culture_province = {
+	OR = {
+		culture = ruthenian
+		culture = ruthenian_new
+		culture = rusyn
+		culture = rusyn_new
+		culture = rusyn_new_new
+	}
+}
+
+# Is there a foreign settler partner already established in a colonial
+# region? Two shapes count: a colonial nation has formed there (opinion
+# checked with both the nation and its overlord), or a single foreign power
+# still owns it directly and no colonial nation has formed yet. $REGION$ is
+# a colonial_region key, $THRESHOLD$ the opinion floor required of each
+# party that must approve.
+rip_diaspora_colonial_partner_trigger = {
+	any_country = {
+		any_owned_province = { colonial_region = $REGION$ }
+		OR = {
+			AND = {
+				is_colonial_nation = yes
+				has_opinion = { who = ROOT value = $THRESHOLD$ }
+				overlord = { has_opinion = { who = ROOT value = $THRESHOLD$ } }
+			}
+			AND = {
+				NOT = { is_colonial_nation = yes }
+				NOT = { tag = ROOT }
+				has_opinion = { who = ROOT value = $THRESHOLD$ }
+			}
+		}
+	}
+}
+
+# Same idea for a mainland region with no colonial-nation layer above it: a
+# single foreign owner on good terms with us is enough.
+rip_diaspora_mainland_partner_trigger = {
+	any_country = {
+		NOT = { tag = ROOT }
+		any_owned_province = { region = $REGION$ }
+		has_opinion = { who = ROOT value = $THRESHOLD$ }
+	}
+}

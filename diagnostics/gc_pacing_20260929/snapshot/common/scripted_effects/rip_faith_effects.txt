@@ -1,0 +1,88 @@
+# Live faith effects; retired free trade and parish conversion engines removed.
+
+rip_ro_clear_the_icons_effect = {
+	hidden_effect = {
+		remove_country_modifier = rip_ro_icon_michael
+		remove_country_modifier = rip_ro_icon_eleusa
+		remove_country_modifier = rip_ro_icon_pancreator
+		remove_country_modifier = rip_ro_icon_nicholas
+		remove_country_modifier = rip_ro_icon_climacus
+	}
+}
+
+rip_ro_clear_the_bands_effect = {
+	hidden_effect = {
+		remove_country_modifier = rip_ro_zeal_band_spent
+		remove_country_modifier = rip_ro_zeal_band_gathering
+		remove_country_modifier = rip_ro_zeal_band_ready
+		remove_country_modifier = rip_ro_zeal_band_laid_by
+		remove_country_modifier = rip_ro_zeal_band_full
+	}
+}
+
+rip_ro_clear_the_zeal_effect = {
+	hidden_effect = {
+		remove_country_modifier = rip_ro_zeal_war
+		remove_country_modifier = rip_ro_zeal_trade
+		remove_country_modifier = rip_ro_zeal_stability
+	}
+}
+
+rip_uc_press_the_union_effect = {
+	every_subject_country = {
+		limit = {
+			religion = orthodox
+			NOT = { has_country_flag = uniate_pressure_mounting }
+		}
+		set_country_flag = uniate_pressure_mounting
+	}
+	every_neighbor_country = {
+		limit = {
+			religion = orthodox
+			NOT = { has_country_flag = uniate_pressure_mounting }
+			any_owned_province = {
+				region = ruthenia_region
+			}
+		}
+		set_country_flag = uniate_pressure_mounting
+	}
+}
+
+rip_tot_tell_the_siverian_lands_effect = {
+	every_country = {
+		limit = {
+			NOT = { tag = ROOT }
+			OR = {
+				tag = CHR
+				tag = KIE
+				tag = HET
+				tag = ZAZ
+				tag = PRL
+			}
+			any_owned_province = {
+				region = ruthenia_region
+			}
+		}
+		country_event = { id = troubles.6 days = 10 }
+	}
+}
+
+rip_ro_tell_the_kyivan_church_effect = {
+	every_country = {
+		limit = {
+			NOT = { tag = ROOT }
+			religion = orthodox
+			OR = {
+				tag = LIT
+				tag = KIE
+				tag = VLN
+				tag = VOL
+				tag = PDL
+				tag = HLC
+				tag = CHR
+				tag = RPS
+			}
+		}
+		country_event = { id = russian_orthodox.18 days = 20 }
+	}
+}

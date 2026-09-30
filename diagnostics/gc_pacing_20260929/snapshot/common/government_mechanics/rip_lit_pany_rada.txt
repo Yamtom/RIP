@@ -1,0 +1,103 @@
+# =============================================================================
+# rip_lit_pany_rada - the Pany Rada (Council of Lords) constrained the Grand
+# Duke especially after 1447, formalised in Alexander's privileges of 1492 and
+# 1506 - the Duke ruled only with the Rada's consent to law and war.
+#
+# Hooked onto the three T1 identity reforms (grand_duchy_reform,
+# lit_union_of_two_nations_reform, lit_separate_crown_reform - mutually
+# exclusive, same tier, exactly how kyivan_seniority_mechanic already spans
+# kyivan_rus_reform + kyivan_cesarstvo_reform), not onto lit_pany_rada_reform
+# itself: that is a LATER, different-tier reform in the LIT ladder that a
+# mature LIT country holds *alongside* its T1 card, so hooking both would just
+# double-list the same ability for no effect. The Rada existed informally from
+# the Grand Duchy's founding (T1); lit_pany_rada_reform is its later
+# formalisation, not a second grant of the ability.
+#
+# Buttons-only (devshirme pattern): no powers, no .gui, vanilla Cossack
+# ability sprites, no DLC gate.
+# =============================================================================
+
+lit_pany_rada_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		OR = {
+			has_reform = grand_duchy_reform
+			has_reform = lit_union_of_two_nations_reform
+			has_reform = lit_separate_crown_reform
+		}
+	}
+
+	interactions = {
+		lit_seek_the_radas_confirmation = {
+			icon = GFX_cossacks_ability_ADM
+			trigger = {
+				adm_power = 50
+			}
+			effect = {
+				add_adm_power = -50
+				add_legitimacy_equivalent = {
+					amount = 2
+					republican_tradition = 1
+				}
+				add_country_modifier = {
+					name = lit_rada_confirmed
+					duration = 1825
+				}
+			}
+			cooldown_years = 8
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 6
+					NOT = { has_country_modifier = lit_rada_confirmed }
+				}
+			}
+		}
+		lit_win_over_a_wavering_lord = {
+			icon = GFX_cossacks_ability_DIP
+			trigger = {
+				dip_power = 50
+			}
+			effect = {
+				add_dip_power = -50
+				add_prestige = 1
+				add_country_modifier = {
+					name = lit_lord_won_over
+					duration = 1825
+				}
+			}
+			cooldown_years = 10
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 6
+					stability = 0
+				}
+			}
+		}
+		lit_the_radas_own_retinues = {
+			icon = GFX_cossacks_ability_MIL
+			trigger = {
+				mil_power = 60
+			}
+			effect = {
+				add_mil_power = -60
+				add_army_tradition = 3
+				add_country_modifier = {
+					name = lit_rada_retinues_mustered
+					duration = 1825
+				}
+			}
+			cooldown_years = 10
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 10
+					is_at_war = yes
+				}
+			}
+		}
+	}
+}

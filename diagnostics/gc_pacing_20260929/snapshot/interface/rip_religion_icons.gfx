@@ -1,0 +1,40 @@
+# The two religions this mod adds need frames of their own.
+#
+# EU4 draws a religion from the 29-frame vanilla strips indexed by "icon = N"
+# in common/religions. The mod had russian_orthodox on icon = 2, the Protestant
+# cross, and greek_catholic on icon = 10, the Shinto torii. These strips carry
+# the vanilla 29 unchanged and add frames 30 and 31.
+#
+# Frame 30, Russian Orthodoxy: the Orthodox three-bar cross (vanilla frame 4)
+# with its Byzantine purple shifted to oak - HSV hue 26, saturation x1.50
+# +0.14 capped at 0.62, value x0.90, over pixels between hue 215 and 335.
+#
+# Frame 31, Greek Catholicism: the Catholic crucifix (vanilla frame 1), its
+# gold shifted to crimson - hue 350, saturation x1.15 +0.10 capped at 0.72,
+# value x0.92, over pixels between hue 15 and 70. A crucifix under Rome, in a
+# colour that is neither the Latin gold nor the Byzantine purple.
+#
+# In both the metal rim and the outline keep vanilla's shading.
+#
+# noOfFrames must be redeclared here; the vanilla sprites stop at 29.
+
+spriteTypes = {
+
+	spriteType = {
+		name = "GFX_icon_religion"
+		texturefile = "gfx//interface//icon_religion.dds"
+		noOfFrames = 31
+	}
+
+	spriteType = {
+		name = "GFX_country_icon_religion"
+		texturefile = "gfx//interface//country_icon_religion.dds"
+		noOfFrames = 31
+	}
+
+	spriteType = {
+		name = "GFX_icon_religion_small"
+		texturefile = "gfx//interface//icon_religion_small.dds"
+		noOfFrames = 31
+	}
+}

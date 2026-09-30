@@ -1,0 +1,117 @@
+
+greek_catholic_faith_bonus = {
+	add_prestige = 10
+	add_legitimacy = 10
+	add_patriarch_authority = 0.05
+}
+
+orthodox_resistance_effect = {
+	add_province_modifier = {
+		name = resistance_to_greek_catholic_spread
+		duration = 3650
+	}
+	spawn_rebels = {
+		type = orthodox_rebels
+		size = 1
+	}
+}
+
+greek_catholic_persecution_effect = {
+	set_country_flag = rip_uc_persecution_recorded
+	add_country_modifier = {
+		name = persecution_of_greek_catholics
+		duration = 5475
+	}
+	every_owned_province = {
+		limit = { religion = greek_catholic }
+		add_local_autonomy = 10
+		add_unrest = 3
+	}
+}
+
+papal_protection_effect = {
+
+	rip_uc_clear_historical_policy_effect = yes
+	rip_church_historical_rome_effect = yes
+ add_country_modifier = {
+		name = papal_protection_greek_catholic
+		duration = 7300
+	}
+	improve_relation_with_pope = yes
+}
+
+establish_greek_catholic_education = {
+	if = {
+		limit = { rip_uc_can_found_schools = yes }
+		add_adm_power = -50
+		add_treasury = -75
+		set_country_flag = rip_once_greek_catholic_education_decision
+		set_country_flag = uniate_education_established
+		add_country_modifier = {
+			name = uniate_educational_network
+			duration = 7300
+		}
+	}
+}
+
+greek_catholic_cultural_boom = {
+
+	rip_uc_clear_historical_policy_effect = yes
+	rip_church_historical_east_effect = yes
+ add_country_modifier = {
+		name = uniate_cultural_flowering
+		duration = 7300
+	}
+	add_prestige = 25
+	random_owned_province = {
+		limit = {
+			religion = greek_catholic
+			development = 15
+		}
+		add_province_modifier = {
+			name = greek_catholic_printing_press
+			duration = 7300
+		}
+	}
+}
+
+improve_relation_with_pope = {
+	if = {
+		limit = { PAP = { exists = yes } }
+		PAP = {
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_improved_relations
+			}
+		}
+		reverse_add_opinion = {
+			who = PAP
+			modifier = opinion_improved_relations
+		}
+	}
+}
+
+orthodox_greek_catholic_reconciliation = {
+
+	rip_uc_clear_historical_policy_effect = yes
+	rip_church_historical_east_effect = yes
+ add_country_modifier = {
+		name = greek_catholic_orthodox_dialogue
+		duration = 5475
+	}
+	every_neighbor_country = {
+		limit = { religion = orthodox }
+		add_opinion = {
+			who = ROOT
+			modifier = opinion_improved_relations
+		}
+	}
+}
+
+activate_greek_catholic_reformation = {
+	set_country_flag = greek_catholic_reformation_active
+	add_country_modifier = {
+		name = greek_catholic_reformation_active
+		duration = 10950 # 30 years
+	}
+}

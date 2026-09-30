@@ -1,0 +1,27 @@
+# kyivan_shogunate_reform succession: the senior prince's own line has failed
+# to leave an heir, and Kyiv itself (province 280) no longer answers to him -
+# one of his own senior_udil subjects (common/subject_types/rip_senior_udil.txt)
+# holds it instead. That udil is recognised as the new senior prince.
+#
+# No literal vanilla rule of this shape exists to copy. Checked events/Japan.txt,
+# events/flavorJAP.txt, decisions/JapaneseNation.txt, and every common/
+# scripted_trigger, common/scripted_effect and common/on_actions file in the
+# base game for "shogun", "Kyoto" and "mantle": the Shogunate's own
+# succession-by-holding-the-capital is flavour text, not a scripted rule, so
+# this is built from the Seniorate's own ladder-of-thrones logic instead
+# (kyiv_rotate_the_seats in common/government_mechanics/rip_kyivan_seniorate.txt
+# already moves a prince up that ladder at the reigning prince's choice - this
+# is the same ladder moving on its own when the top rung breaks).
+#
+# Read from kie_on_actions.txt : on_monarch_death, which calls
+# events/KyivShogunate.txt : kyiv_shogunate.2 when this is true.
+
+rip_kyiv_seniorate_line_broken_trigger = {
+	has_reform = kyivan_shogunate_reform
+	NOT = { has_heir = yes }
+	NOT = { owns = 280 }
+	any_subject_country = {
+		is_subject_of_type = senior_udil
+		owns = 280
+	}
+}
