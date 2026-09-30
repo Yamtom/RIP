@@ -13,10 +13,16 @@ rip_church_gc_clear_privilege_effect = {
  remove_country_modifier = rip_church_gc_saint
  remove_country_modifier = rip_church_gc_monopoly
 }
+# The Synod button. Either enactment counts as a synod having sat: it sets
+# rip_uc_synod_held, the flag decisions/GreekCatholicDecisions.txt reads for
+# preserve_eastern_rite_decision. Since the Curia was removed on 27 September
+# only the crown path and these two effects set it. The flag is set inside the
+# guarded if, so a refused button sets nothing.
 rip_church_gc_infrastructure_effect = {
  if = { limit = { rip_church_gc_can_infrastructure = yes }
   add_patriarch_authority = -0.2 add_treasury = -75
   add_country_modifier = { name = rip_church_gc_infrastructure duration = 3650 }
+  set_country_flag = rip_uc_synod_held
   rip_church_refresh_pa_effect = yes
  }
 }
@@ -24,6 +30,7 @@ rip_church_gc_coexistence_effect = {
  if = { limit = { rip_church_gc_can_coexistence = yes }
   add_patriarch_authority = -0.2 add_treasury = -100
   add_country_modifier = { name = rip_church_gc_coexistence duration = 3650 }
+  set_country_flag = rip_uc_synod_held
  }
 }
 rip_church_recognize_rite_effect = {

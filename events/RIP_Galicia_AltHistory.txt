@@ -58,7 +58,12 @@ country_event = {
 	option = {
 		name = rip_galicia.2.a # Uniate Synod
 		set_country_flag = rip_galicia_confessional_set
-		add_papal_influence = 25
+		# The synod sat: later Galician content reads this flag. Alternative
+		# history, a game model of the Halych synod. The reward is the
+		# recipient's own religious currency; a Greek Catholic state has no
+		# papal influence to spend, and gets patriarch_authority instead.
+		set_country_flag = rip_galicia_synod_held
+		rip_faith_mission_resource_effect = { PA = 0.25 PI = 25 ADM = 25 }
 		add_country_modifier = {
 			name = rip_galicia_uniate_synod
 			duration = 3650

@@ -1299,43 +1299,51 @@ UZH_missions_3 = {
             religious_unity = 0.8
         }
         effect = {
+            # The outcome of the dilemma is given once. A state whose synod is
+            # already established (uzh.51 option a, or this mission earlier) would
+            # otherwise hold concord and old-rite resilience together and take
+            # the concord rewards twice. The prestige and the debated flag below
+            # stay, so the next mission is still reached.
             if = {
-                limit = { rip_faith_is_eastern_orthodox = yes }
-                rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }
-                add_country_modifier = {
-                    name = "uz_old_rite_resilience"
-                    duration = 9125
-                }
-                hidden_effect = {
-                    set_country_flag = uzh_union_old_rite_confirmed
-                }
-            }
-            else = {
+                limit = { NOT = { has_country_flag = uzh_union_synod_established } }
                 if = {
-                    limit = { religion = catholic }
-                    add_papal_influence = 25
-                }
-                else_if = {
-                    limit = { religion = greek_catholic }
+                    limit = { rip_faith_is_eastern_orthodox = yes }
                     rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }
-                }
-                add_country_modifier = {
-                    name = "uz_greek_catholic_concord"
-                    duration = 7300
-                }
-                hidden_effect = {
-                    set_country_flag = uzh_union_synod_established
-                }
-                if = {
-                    limit = {
-                        is_year = 1646
-                        OR = {
-                            government = monarchy
-                            government = republic
-                        }
-                        NOT = { has_reform = uzh_union_synod_reform }
+                    add_country_modifier = {
+                        name = "uz_old_rite_resilience"
+                        duration = 9125
                     }
-                    add_government_reform = uzh_union_synod_reform
+                    hidden_effect = {
+                        set_country_flag = uzh_union_old_rite_confirmed
+                    }
+                }
+                else = {
+                    if = {
+                        limit = { religion = catholic }
+                        add_papal_influence = 25
+                    }
+                    else_if = {
+                        limit = { religion = greek_catholic }
+                        rip_faith_mission_resource_effect = { PA = 0.15 PI = 15 ADM = 25 }
+                    }
+                    add_country_modifier = {
+                        name = "uz_greek_catholic_concord"
+                        duration = 7300
+                    }
+                    hidden_effect = {
+                        set_country_flag = uzh_union_synod_established
+                    }
+                    if = {
+                        limit = {
+                            is_year = 1646
+                            OR = {
+                                government = monarchy
+                                government = republic
+                            }
+                            NOT = { has_reform = uzh_union_synod_reform }
+                        }
+                        add_government_reform = uzh_union_synod_reform
+                    }
                 }
             }
             add_prestige = 15

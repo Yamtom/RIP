@@ -1,0 +1,424 @@
+# GENERATED FILE - do not edit by hand.
+# Source: tools/data/eparchy_timeline.json   Generator: tools/build_eparchy_timeline.py
+# Regenerate with: python tools/build_eparchy_timeline.py   (add --check to fail when this file is stale)
+#
+# Three events per row. Numbers: visible = row number, dated starter = +100, late starter = +200.
+#   dated starter  hidden; opens in the exact month, schedules the visible event ten days on.
+#                  fire_only_once and the scheduled-flag guard both stop a daily MTTH from scheduling twice.
+#                  The empty option copies all 210 hidden events of vanilla, none of which lacks one.
+#   late starter   hidden; from the following month, retries every ~6 months until late_until
+#   visible event  is_triggered_only; sets the answered flag first, so each seat is asked once
+# No scripted effect, no else_if, no add_opinion: the engine drops those in else_if bodies (F1).
+namespace = rip_eparchy
+
+# === przemysl_union: Peremyshl (2424), June 1691, union_convert
+province_event = {
+	id = rip_eparchy.101
+	hidden = yes
+	fire_only_once = yes
+	trigger = {
+		province_id = 2424
+		rip_eparchy_przemysl_union_date_window = yes
+		NOT = { has_province_flag = rip_eparchy_przemysl_union_scheduled }
+		rip_eparchy_przemysl_union_possible = yes
+	}
+	mean_time_to_happen = { days = 1 }
+	immediate = {
+		set_province_flag = rip_eparchy_przemysl_union_scheduled
+		province_event = { id = rip_eparchy.1 days = 10 }
+	}
+	option = { }
+}
+province_event = {
+	id = rip_eparchy.201
+	hidden = yes
+	trigger = {
+		province_id = 2424
+		rip_eparchy_przemysl_union_late_window = yes
+		rip_eparchy_przemysl_union_possible = yes
+		OR = {
+			NOT = { has_province_flag = rip_eparchy_przemysl_union_scheduled }
+			had_province_flag = { flag = rip_eparchy_przemysl_union_scheduled days = 90 }
+		}
+	}
+	mean_time_to_happen = { months = 6 }
+	immediate = {
+		set_province_flag = rip_eparchy_late_przemysl_union
+		province_event = { id = rip_eparchy.1 }
+	}
+	option = { }
+}
+province_event = {
+	id = rip_eparchy.1
+	title = rip_eparchy.1.t
+	desc = {
+		trigger = { NOT = { has_province_flag = rip_eparchy_late_przemysl_union } }
+		desc = rip_eparchy.1.d
+	}
+	desc = {
+		trigger = { has_province_flag = rip_eparchy_late_przemysl_union }
+		desc = rip_eparchy.1.l
+	}
+	picture = RELIGION_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		rip_eparchy_przemysl_union_possible = yes
+	}
+	immediate = {
+		set_province_flag = rip_eparchy_przemysl_union_answered
+	}
+	option = {
+		name = rip_eparchy.1.a
+		trigger = {
+			rip_eparchy_przemysl_union_ready = yes
+		}
+		ai_chance = { factor = 90 }
+		if = {
+			limit = {
+				rip_eparchy_przemysl_union_ready = yes
+			}
+			set_province_flag = rip_du_approached
+			change_religion = greek_catholic
+			add_local_autonomy = 10
+			add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }
+			add_province_modifier = { name = greek_catholic_diocese duration = 7300 }
+		}
+	}
+	option = {
+		name = rip_eparchy.1.b
+		ai_chance = { factor = 10 }
+		add_province_modifier = { name = resistance_to_greek_catholic_spread duration = 3650 }
+		set_province_flag = rip_eparchy_przemysl_union_refused
+	}
+}
+
+# === lviv_union: Lviv (2961), June 1700, union_convert
+province_event = {
+	id = rip_eparchy.102
+	hidden = yes
+	fire_only_once = yes
+	trigger = {
+		province_id = 2961
+		rip_eparchy_lviv_union_date_window = yes
+		NOT = { has_province_flag = rip_eparchy_lviv_union_scheduled }
+		rip_eparchy_lviv_union_possible = yes
+	}
+	mean_time_to_happen = { days = 1 }
+	immediate = {
+		set_province_flag = rip_eparchy_lviv_union_scheduled
+		province_event = { id = rip_eparchy.2 days = 10 }
+	}
+	option = { }
+}
+province_event = {
+	id = rip_eparchy.202
+	hidden = yes
+	trigger = {
+		province_id = 2961
+		rip_eparchy_lviv_union_late_window = yes
+		rip_eparchy_lviv_union_possible = yes
+		OR = {
+			NOT = { has_province_flag = rip_eparchy_lviv_union_scheduled }
+			had_province_flag = { flag = rip_eparchy_lviv_union_scheduled days = 90 }
+		}
+	}
+	mean_time_to_happen = { months = 6 }
+	immediate = {
+		set_province_flag = rip_eparchy_late_lviv_union
+		province_event = { id = rip_eparchy.2 }
+	}
+	option = { }
+}
+province_event = {
+	id = rip_eparchy.2
+	title = rip_eparchy.2.t
+	desc = {
+		trigger = { NOT = { has_province_flag = rip_eparchy_late_lviv_union } }
+		desc = rip_eparchy.2.d
+	}
+	desc = {
+		trigger = { has_province_flag = rip_eparchy_late_lviv_union }
+		desc = rip_eparchy.2.l
+	}
+	picture = RELIGION_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		rip_eparchy_lviv_union_possible = yes
+	}
+	immediate = {
+		set_province_flag = rip_eparchy_lviv_union_answered
+	}
+	option = {
+		name = rip_eparchy.2.a
+		trigger = {
+			rip_eparchy_lviv_union_ready = yes
+		}
+		ai_chance = { factor = 90 }
+		if = {
+			limit = {
+				rip_eparchy_lviv_union_ready = yes
+			}
+			set_province_flag = rip_du_approached
+			change_religion = greek_catholic
+			add_local_autonomy = 10
+			add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }
+			add_province_modifier = { name = greek_catholic_diocese duration = 7300 }
+		}
+	}
+	option = {
+		name = rip_eparchy.2.b
+		ai_chance = { factor = 10 }
+		add_province_modifier = { name = resistance_to_greek_catholic_spread duration = 3650 }
+		set_province_flag = rip_eparchy_lviv_union_refused
+	}
+}
+
+# === lutsk_union: Lutsk (279), 1702 (year only), union_modifier_only
+province_event = {
+	id = rip_eparchy.103
+	hidden = yes
+	fire_only_once = yes
+	trigger = {
+		province_id = 279
+		rip_eparchy_lutsk_union_date_window = yes
+		NOT = { has_province_flag = rip_eparchy_lutsk_union_scheduled }
+		rip_eparchy_lutsk_union_possible = yes
+	}
+	mean_time_to_happen = { months = 3 }
+	immediate = {
+		set_province_flag = rip_eparchy_lutsk_union_scheduled
+		province_event = { id = rip_eparchy.3 days = 10 }
+	}
+	option = { }
+}
+province_event = {
+	id = rip_eparchy.203
+	hidden = yes
+	trigger = {
+		province_id = 279
+		rip_eparchy_lutsk_union_late_window = yes
+		rip_eparchy_lutsk_union_possible = yes
+		OR = {
+			NOT = { has_province_flag = rip_eparchy_lutsk_union_scheduled }
+			had_province_flag = { flag = rip_eparchy_lutsk_union_scheduled days = 90 }
+		}
+	}
+	mean_time_to_happen = { months = 6 }
+	immediate = {
+		set_province_flag = rip_eparchy_late_lutsk_union
+		province_event = { id = rip_eparchy.3 }
+	}
+	option = { }
+}
+province_event = {
+	id = rip_eparchy.3
+	title = rip_eparchy.3.t
+	desc = {
+		trigger = { NOT = { has_province_flag = rip_eparchy_late_lutsk_union } }
+		desc = rip_eparchy.3.d
+	}
+	desc = {
+		trigger = { has_province_flag = rip_eparchy_late_lutsk_union }
+		desc = rip_eparchy.3.l
+	}
+	picture = RELIGION_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		rip_eparchy_lutsk_union_possible = yes
+	}
+	immediate = {
+		set_province_flag = rip_eparchy_lutsk_union_answered
+	}
+	option = {
+		name = rip_eparchy.3.a
+		trigger = {
+			rip_eparchy_lutsk_union_ready = yes
+		}
+		ai_chance = { factor = 90 }
+		if = {
+			limit = {
+				rip_eparchy_lutsk_union_ready = yes
+			}
+			add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }
+			add_province_modifier = { name = greek_catholic_diocese duration = 7300 }
+		}
+	}
+	option = {
+		name = rip_eparchy.3.b
+		ai_chance = { factor = 10 }
+		add_province_modifier = { name = resistance_to_greek_catholic_spread duration = 3650 }
+		set_province_flag = rip_eparchy_lutsk_union_refused
+	}
+}
+
+# === lviv_greek_catholic_name_barbareum_1774: Lviv (2961), 1774 (year only), development
+province_event = {
+	id = rip_eparchy.104
+	hidden = yes
+	fire_only_once = yes
+	trigger = {
+		province_id = 2961
+		rip_eparchy_lviv_greek_catholic_name_barbareum_1774_date_window = yes
+		NOT = { has_province_flag = rip_eparchy_lviv_greek_catholic_name_barbareum_1774_scheduled }
+		rip_eparchy_lviv_greek_catholic_name_barbareum_1774_possible = yes
+	}
+	mean_time_to_happen = { months = 3 }
+	immediate = {
+		set_province_flag = rip_eparchy_lviv_greek_catholic_name_barbareum_1774_scheduled
+		province_event = { id = rip_eparchy.4 days = 10 }
+	}
+	option = { }
+}
+province_event = {
+	id = rip_eparchy.204
+	hidden = yes
+	trigger = {
+		province_id = 2961
+		rip_eparchy_lviv_greek_catholic_name_barbareum_1774_late_window = yes
+		rip_eparchy_lviv_greek_catholic_name_barbareum_1774_possible = yes
+		OR = {
+			NOT = { has_province_flag = rip_eparchy_lviv_greek_catholic_name_barbareum_1774_scheduled }
+			had_province_flag = { flag = rip_eparchy_lviv_greek_catholic_name_barbareum_1774_scheduled days = 90 }
+		}
+	}
+	mean_time_to_happen = { months = 6 }
+	immediate = {
+		set_province_flag = rip_eparchy_late_lviv_greek_catholic_name_barbareum_1774
+		province_event = { id = rip_eparchy.4 }
+	}
+	option = { }
+}
+province_event = {
+	id = rip_eparchy.4
+	title = rip_eparchy.4.t
+	desc = {
+		trigger = { NOT = { has_province_flag = rip_eparchy_late_lviv_greek_catholic_name_barbareum_1774 } }
+		desc = rip_eparchy.4.d
+	}
+	desc = {
+		trigger = { has_province_flag = rip_eparchy_late_lviv_greek_catholic_name_barbareum_1774 }
+		desc = rip_eparchy.4.l
+	}
+	picture = RELIGION_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		rip_eparchy_lviv_greek_catholic_name_barbareum_1774_possible = yes
+	}
+	immediate = {
+		set_province_flag = rip_eparchy_lviv_greek_catholic_name_barbareum_1774_answered
+	}
+	option = {
+		name = rip_eparchy.4.a
+		trigger = {
+			rip_eparchy_lviv_greek_catholic_name_barbareum_1774_ready = yes
+		}
+		ai_chance = { factor = 90 }
+		if = {
+			limit = {
+				rip_eparchy_lviv_greek_catholic_name_barbareum_1774_ready = yes
+			}
+			add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }
+			if = {
+				limit = { NOT = { has_province_modifier = greek_catholic_diocese } }
+				add_province_modifier = { name = greek_catholic_diocese duration = 7300 }
+			}
+		}
+	}
+	option = {
+		name = rip_eparchy.4.b
+		ai_chance = { factor = 10 }
+		add_province_modifier = { name = resistance_to_greek_catholic_spread duration = 3650 }
+		set_province_flag = rip_eparchy_lviv_greek_catholic_name_barbareum_1774_refused
+	}
+}
+
+# === lviv_galician_metropolitanate_1807: Lviv (2961), February 1807, development
+province_event = {
+	id = rip_eparchy.105
+	hidden = yes
+	fire_only_once = yes
+	trigger = {
+		province_id = 2961
+		rip_eparchy_lviv_galician_metropolitanate_1807_date_window = yes
+		NOT = { has_province_flag = rip_eparchy_lviv_galician_metropolitanate_1807_scheduled }
+		rip_eparchy_lviv_galician_metropolitanate_1807_possible = yes
+	}
+	mean_time_to_happen = { days = 1 }
+	immediate = {
+		set_province_flag = rip_eparchy_lviv_galician_metropolitanate_1807_scheduled
+		province_event = { id = rip_eparchy.5 days = 10 }
+	}
+	option = { }
+}
+province_event = {
+	id = rip_eparchy.205
+	hidden = yes
+	trigger = {
+		province_id = 2961
+		rip_eparchy_lviv_galician_metropolitanate_1807_late_window = yes
+		rip_eparchy_lviv_galician_metropolitanate_1807_possible = yes
+		OR = {
+			NOT = { has_province_flag = rip_eparchy_lviv_galician_metropolitanate_1807_scheduled }
+			had_province_flag = { flag = rip_eparchy_lviv_galician_metropolitanate_1807_scheduled days = 90 }
+		}
+	}
+	mean_time_to_happen = { months = 6 }
+	immediate = {
+		set_province_flag = rip_eparchy_late_lviv_galician_metropolitanate_1807
+		province_event = { id = rip_eparchy.5 }
+	}
+	option = { }
+}
+province_event = {
+	id = rip_eparchy.5
+	title = rip_eparchy.5.t
+	desc = {
+		trigger = { NOT = { has_province_flag = rip_eparchy_late_lviv_galician_metropolitanate_1807 } }
+		desc = rip_eparchy.5.d
+	}
+	desc = {
+		trigger = { has_province_flag = rip_eparchy_late_lviv_galician_metropolitanate_1807 }
+		desc = rip_eparchy.5.l
+	}
+	picture = RELIGION_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		rip_eparchy_lviv_galician_metropolitanate_1807_possible = yes
+	}
+	immediate = {
+		set_province_flag = rip_eparchy_lviv_galician_metropolitanate_1807_answered
+	}
+	option = {
+		name = rip_eparchy.5.a
+		trigger = {
+			rip_eparchy_lviv_galician_metropolitanate_1807_ready = yes
+		}
+		ai_chance = { factor = 90 }
+		if = {
+			limit = {
+				rip_eparchy_lviv_galician_metropolitanate_1807_ready = yes
+			}
+			add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }
+			add_province_modifier = { name = uniate_metropolitan_see duration = 7300 }
+			2424 = {
+				if = {
+					limit = {
+						religion = greek_catholic
+						owner = { religion = catholic }
+					}
+					add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }
+					if = {
+						limit = { NOT = { has_province_modifier = greek_catholic_diocese } }
+						add_province_modifier = { name = greek_catholic_diocese duration = 7300 }
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = rip_eparchy.5.b
+		ai_chance = { factor = 10 }
+		add_province_modifier = { name = resistance_to_greek_catholic_spread duration = 3650 }
+		set_province_flag = rip_eparchy_lviv_galician_metropolitanate_1807_refused
+	}
+}

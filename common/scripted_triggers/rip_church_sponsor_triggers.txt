@@ -2,6 +2,20 @@ rip_church_can_sponsor_union = {
  religion = catholic is_year = 1596 is_at_war = no stability = 1 exists = PAP NOT = { war_with = PAP }
  NOT = { has_country_flag = rip_church_supports_union }
  adm_power = 100 dip_power = 100 years_of_income = 1
- any_owned_province = { rip_church_florence_parish = yes }
+ any_owned_province = { rip_church_sponsor_parish = yes }
 }
-
+# Province scope, ROOT is the sponsoring crown. The Florentine parish test
+# (rip_church_florence_parish) stays as it is: it belongs to the 1444-1501 path.
+# The sponsor path is wider on purpose. Vanilla puts red_ruthenia_area (Lviv,
+# Peremyshl, Halych, Belz, Drohobych) in poland_region, not ruthenia_region, and
+# Maramaros (1952) in transylvania_area, so a Habsburg crown holding Galicia
+# after 1772 had no qualifying parish and could never become patron.
+rip_church_sponsor_parish = {
+ OR = {
+  rip_church_florence_parish = yes
+  AND = {
+   is_city = yes religion = orthodox is_core = ROOT controlled_by = ROOT
+   OR = { area = red_ruthenia_area province_id = 1952 }
+  }
+ }
+}

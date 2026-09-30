@@ -224,12 +224,18 @@ country_event = {
 	desc = khmelnytsky_events.7.d
 	picture = RELIGION_eventPicture
 
+	# GAME MODEL, not a recorded event. At Brest in 1596 the bishops signed and
+	# the crown lent its patronage; nothing here says the crown converted a see
+	# by order. This is the harder alternative to the Eparchial Union decision
+	# (decisions/RIP_DiocesanUnion.txt), and it is coupled to it: the same
+	# patron flags open it (rip_church_supports_union, and not
+	# rip_church_opposes_union), and it takes only a province that no earlier
+	# offer or dated seat event has settled (rip_du_seat_open).
 	trigger = {
 		religion = catholic
-		any_owned_province = {
-			region = ruthenia_region
-			religion = orthodox
-		}
+		has_country_flag = rip_church_supports_union
+		NOT = { has_country_flag = rip_church_opposes_union }
+		any_owned_province = { rip_du_crown_union_province = yes }
 		is_year = 1596
 		NOT = { is_year = 1626 }
 		NOT = { has_country_flag = union_of_brest_happened }
@@ -242,22 +248,22 @@ country_event = {
 	option = {
 		name = khmelnytsky_events.7.a
 		ai_chance = { factor = 60 }
+		# Never offered when the province is gone: the modifier and the flag
+		# would be paid for nothing.
+		trigger = { any_owned_province = { rip_du_crown_union_province = yes } }
 
 		set_country_flag = union_of_brest_happened
 		add_country_modifier = {
 			name = union_of_brest_enforced
 			duration = 7300
 		}
-		# Enforcing the union used to produce unrest and not one Uniate parish.
 		# The see that signs it changes rite; the countryside argues about it.
+		# add_local_autonomy takes points: the old 0.05 was five hundredths of one.
 		random_owned_province = {
-			limit = {
-				region = ruthenia_region
-				religion = orthodox
-			}
+			limit = { rip_du_crown_union_province = yes }
 			change_religion = greek_catholic
 			add_unrest = 3
-			add_local_autonomy = 0.05
+			add_local_autonomy = 5
 		}
 		rip_uc_press_the_union_effect = yes
 	}

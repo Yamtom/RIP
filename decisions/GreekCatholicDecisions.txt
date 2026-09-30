@@ -217,7 +217,13 @@ country_decisions = {
 	preserve_eastern_rite_decision = {
 		potential = {
 			NOT = { has_country_flag = rip_once_preserve_eastern_rite_decision }
-			has_country_flag = rip_uc_synod_held		# a synod has to have said so
+			# A synod has to have said so. rip_uc_synod_held is set by the Synod
+			# button (rip_church_gc_infrastructure_effect and
+			# rip_church_gc_coexistence_effect, common/scripted_effects/
+			# rip_church_union_effects.txt) and by the crown-path synod
+			# (events/UniateCrownUnion.txt); the full list of setters is in
+			# docs/GREEK_CATHOLIC_SYNOD_CONSEQUENCES.uk.md.
+			has_country_flag = rip_uc_synod_held
 			religion = greek_catholic
 			NOT = { has_country_modifier = eastern_rite_tradition_preserved }
 		}
