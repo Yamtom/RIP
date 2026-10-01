@@ -494,6 +494,11 @@ DATA.update({
     'rip_church_gc_contact_title': 'PAPAL CONTACT',
     'rip_church_gc_contact_title_tt': 'A limited diplomatic audience with the Holy See.',
     'rip_church_gc_deputation_button': 'Send diplomatic mission — 50¤',
+    'rip_church_gc_holy_see_gift_button': 'Send a gift to Rome — 100¤',
+    'rip_church_gc_holy_see_gift_button_tt':
+        'Send 100 ducats to the Holy See. The Papal State gains +25 opinion of us, decaying by 5 per year. Available once every five years. Requires the Catholic Papal State, peace and 100 ducats. This is diplomatic goodwill only: no Patriarch Authority, Curia vote, cardinal or electoral influence is gained.',
+    'rip_church_gc_holy_see_gift_summary':
+        'Gift: §Y100 ducats§! · §G+25 Papal opinion§! · once every five years',
     'rip_church_gc_icons_title': 'DEVOTIONAL ICON',
     'rip_church_gc_icon_liturgy_state': 'Liturgy\\n§G+1 yearly prestige; +1 diplomatic reputation; +20% improve relations§!',
     'rip_church_gc_icon_learning_state': 'Learning\\n§G-5% development cost; -5% technology cost§!',
@@ -1127,6 +1132,8 @@ for key,value in list(DATA.items()):
      or key in ('greek_catholic_religion_desc','rip_church.6.d','rip_church_gui_synod_tt')):
   DATA[key]=re.sub(r'\bPA\b','HC',value.replace('Patriarchal Authority','Hierarchical Capacity').replace('Patriarch Authority','Hierarchical Capacity'))
 DATA['rip_church_gc_resources']='Hierarchical Capacity: [Root.GetChurchAuthorityReadout]'
+DATA['rip_church_gc_controller_readout']='Curia controller\\n§Y[Root.GetChurchCuriaController]§!'
+DATA['rip_church_gc_controller_readout_tt']='Country currently controlling the Catholic Curia: [Root.GetChurchCuriaController]. This is not the birthplace or nationality of the Pope. Reopening the Curia tab refreshes the current controller.'
 for key in ('rip_church_gc_resources_tt','rip_church_gc_help_tt','rip_church_gui_shared_status_tt'):
  DATA[key]=GC_CAPACITY_HELP
 DATA['greek_catholic_religion_desc']+=' '+GC_CAPACITY_HELP

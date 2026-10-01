@@ -23,7 +23,7 @@ def button(source, name):
             return block
     raise AssertionError(f'missing button: {name}')
 
-# No active numerical Communion/Papal Standing, petition menu, or donation.
+# No active numerical Communion/Papal Standing or paid petition menu.
 active_sources = (curia_triggers, curia_effects, controls, features,
                   gui_generator, interface, custom_text, english)
 for source in active_sources:
@@ -52,7 +52,7 @@ for key in ('liturgy', 'learning', 'charity'):
     assert f'rip_church_gc_can_activate_icon_{key} = yes' in button(
         features, f'rip_church_gc_icon_{key}_button')
 
-# The only remaining Curia interaction is the transparent 50-ducat audience.
+# Curia contact offers a non-electoral audience and a direct diplomatic gift.
 gate = named_block(curia_triggers, 'rip_church_gc_can_depute_to_curia')
 effect = named_block(curia_effects, 'rip_church_gc_depute_to_curia_effect')
 assert 'treasury = 50' in gate and 'patriarch_authority' not in gate
@@ -65,6 +65,22 @@ assert 'opinion = 25' in deputation_opinion and 'yearly_decay = 2' in deputation
 assert 'rip_church_gc_deputation_button' in features
 assert 'rip_church_gc_curia_note' in gui_generator
 assert 'name = "rip_church_gc_curia_note"' in interface
+assert 'name = "rip_church_gc_controller_readout"' in interface
+assert 'global_event_target = rip_church_gc_controller' in controls
+assert 'event_target:rip_church_gc_controller = { is_papal_controller = yes }' in controls
+assert 'Curia controller\\n' in english
+
+# GC-only bishop art must not overwrite the native Orthodox patriarch sprites.
+from pathlib import Path
+import struct
+from clausewitz_testlib import ROOT
+for level in ('low', 'high'):
+    assert f'name ="{level}_patriarch_authority" scripted = yes' in interface
+    assert f'spriteType = "GFX_icon_{level}_patriarch_authority"' in interface
+    assert f'name = {level}_patriarch_authority potential = {{ NOT = {{ religion = greek_catholic }} }}' in controls
+    assert f'name = rip_church_gc_capacity_{level}_icon potential = {{ religion = greek_catholic }}' in controls
+    data = (ROOT / f'gfx/interface/rip_church/gc_archbishop_{level}.dds').read_bytes()
+    assert data[:4] == b'DDS ' and struct.unpack_from('<II', data, 12) == (38, 38)
 assert 'grants +25 opinion in both directions, decaying by 2 per year' in localisation_generator
 for language in ('english', 'french', 'german', 'spanish'):
     localisation = read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
@@ -72,6 +88,23 @@ for language in ('english', 'french', 'german', 'spanish'):
     assert 'Effect: +25 opinion in both directions, decaying by 2 per year' in localisation
 assert 'grants +10 opinion in both directions' not in english
 assert 'may improve the Pope’s opinion temporarily' not in english
+gift_gate = named_block(curia_triggers, 'rip_church_gc_can_offer_gift_to_holy_see')
+gift_effect = named_block(curia_effects, 'rip_church_gc_offer_gift_to_holy_see_effect')
+assert 'treasury = 100' in gift_gate
+assert 'had_country_flag = { flag = rip_church_gc_holy_see_gift_sent days = 1825 }' in gift_gate
+assert 'add_treasury = -100' in gift_effect
+assert 'PAP = { add_opinion = { who = ROOT modifier = rip_church_opinion_gc_donation } }' in gift_effect
+assert 'add_opinion = { who = PAP' not in gift_effect
+assert 'rip_church_gc_holy_see_gift_button' in features
+assert 'rip_church_gc_can_offer_gift_to_holy_see = yes' in button(
+    features, 'rip_church_gc_holy_see_gift_button')
+assert '100 ducats' in localisation_generator
+assert '+25 opinion of us, decaying by 5 per year' in localisation_generator
+assert 'no Patriarch Authority, Curia vote, cardinal or electoral influence' in localisation_generator
+for language in ('english', 'french', 'german', 'spanish'):
+    localisation = read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
+    assert 'rip_church_gc_holy_see_gift_button:0 "Send a gift to Rome — 100¤"' in localisation
+    assert 'The Papal State gains +25 opinion of us, decaying by 5 per year' in localisation
 
 # All three pages share a fixed header/navigation rail.  Devotional icon art is
 # the click target's card, not an empty blue button floating above the icon.
@@ -85,6 +118,7 @@ assert interface.count('spriteType = "GFX_rip_church_union_frame"') >= 3
 assert 'small_tiles_dialog.dds' not in read('interface/RIP_church_panels.gfx')
 assert 'name = "rip_church_authority_heading" scripted = yes' in interface
 assert interface.count('spriteType = "GFX_rip_church_section_banner"') >= 7
+assert 'name = "rip_church_gc_holy_see_gift_button" scripted = yes position = { x=91 y=50 }' in interface
 assert 'GFX_standard_button_140' not in gui_generator
 for key in ('liturgy', 'learning', 'charity'):
     start = interface.index(f'name = "rip_church_gc_icon_{key}_button"')
@@ -94,7 +128,7 @@ assert 'name = GetChurchParishRegisterState' in custom_text
 
 from church_testlib import fixture, TRIGGERS
 w,c,p = fixture('greek_catholic')
-c['treasury'] = 100
+c['treasury'] = 150
 if 'PAP' not in w.countries:
     w.country('PAP','catholic')
 deputation_gate = TRIGGERS['rip_church_gc_can_depute_to_curia']
@@ -105,4 +139,22 @@ w.day += 1824
 assert not w.gate(deputation_gate,c)
 w.day += 1
 assert w.gate(deputation_gate,c)
-print('GC CURIA PASS: UI contracts and deputation cooldown boundaries')
+
+gift_gate = TRIGGERS['rip_church_gc_can_offer_gift_to_holy_see']
+gift_effect = 'rip_church_gc_offer_gift_to_holy_see_effect'
+baseline_pap_opinion = w.opinion(w.countries['PAP'],c)
+assert w.gate(gift_gate,c)
+w.run(gift_effect,c)
+assert c['treasury'] == 50
+assert c['flags']['rip_church_gc_holy_see_gift_sent'] == w.day
+assert w.opinion(w.countries['PAP'],c) == baseline_pap_opinion + 25
+assert not w.gate(gift_gate,c)
+w.day += 1824
+assert not w.gate(gift_gate,c)
+w.day += 1
+c['treasury'] = 100
+assert w.gate(gift_gate,c)
+w.run(gift_effect,c)
+assert c['treasury'] == 0
+assert w.opinion(w.countries['PAP'],c) == baseline_pap_opinion + 25
+print('GC CURIA PASS: audience and gift transactions, opinion, visibility gates, cooldown boundaries')

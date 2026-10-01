@@ -23,3 +23,12 @@ rip_church_gc_can_depute_to_curia = {
 	}
 	treasury = 50
 }
+rip_church_gc_can_offer_gift_to_holy_see = {
+	rip_church_gc_curia_contact = yes
+	is_at_war = no
+	OR = {
+		NOT = { has_country_flag = rip_church_gc_holy_see_gift_sent }
+		had_country_flag = { flag = rip_church_gc_holy_see_gift_sent days = 1825 }
+	}
+	treasury = 100
+}

@@ -1,4 +1,4 @@
-guiTypes = {
+﻿guiTypes = {
 
 	windowType = {
 		name = "fervor_power_entry"
@@ -581,14 +581,14 @@ guiTypes = {
 			
 			iconType =
 			{
-				name ="low_patriarch_authority"
+				name ="low_patriarch_authority" scripted = yes
 				spriteType = "GFX_icon_low_patriarch_authority"
 				position = { x= 54 y = 273 }
 			}
 			
 			iconType =
 			{
-				name ="high_patriarch_authority"
+				name ="high_patriarch_authority" scripted = yes
 				spriteType = "GFX_icon_high_patriarch_authority"
 				position = { x= 272 y = 273 }
 			}
@@ -656,6 +656,8 @@ guiTypes = {
 windowType = {
  name = "rip_church_gc_native_controls" scripted = yes
  position = { x=0 y=0 } size = { x=280 y=50 } moveable = 0
+ iconType = { name = "rip_church_gc_capacity_low_icon" scripted = yes spriteType = "GFX_rip_church_gc_capacity_low" position = { x=54 y=273 } }
+ iconType = { name = "rip_church_gc_capacity_high_icon" scripted = yes spriteType = "GFX_rip_church_gc_capacity_high" position = { x=272 y=273 } }
  iconType = { name = "rip_church_gc_selector_cover" spriteType = "GFX_rip_church_policy_slot" position = { x=310 y=235 } scale = 1.2 alwaystransparent = no }
  iconType = { name = "rip_church_gc_union_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
  iconType = { name = "rip_church_gc_synod_infrastructure_symbol" scripted = yes spriteType = "GFX_rip_church_gc_privileges" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
@@ -2825,6 +2827,9 @@ windowType = {
 }windowType = { name = "rip_church_contact_card" position = { x=34 y=460 } size = { x=407 y=151 } Orientation = "UPPER_LEFT" moveable = 0 guiButtonType = {
  name = "rip_church_gc_deputation_button" scripted = yes position = { x=91 y=12 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gc_deputation_button_tt"
  quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_gc_deputation_button" buttonFont = "vic_18"
+}guiButtonType = {
+ name = "rip_church_gc_holy_see_gift_button" scripted = yes position = { x=91 y=50 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gc_holy_see_gift_button_tt"
+ quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_gc_holy_see_gift_button" buttonFont = "vic_18"
 }instantTextBoxType = {
  name = "rip_church_gui_contact_cost" scripted = yes position = { x=14 y=51 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gui_contact_cost_tt" font = "vic_18"
  text = "rip_church_gui_contact_cost" maxWidth = 188 maxHeight = 26 format = left
@@ -2877,39 +2882,6 @@ windowType = {
  name = "rip_church_gui_recognize_parish" scripted = yes position = { x=91 y=362 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gui_recognize_parish_tt"
  quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_gui_recognize_parish" buttonFont = "vic_18"
 } }
-}
-windowType = {
- name = "rip_church_union_paths_panel" scripted = yes position = { x=540 y=8 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_union_paths_panel_tt" size = { x=475 y=560 }
- moveable = 0
- iconType = { name = "rip_church_union_paths_panel_bg" spriteType = "GFX_rip_church_ro_frame" position = { x=0 y=0 } Orientation = "UPPER_LEFT" scale = 0.782537 alwaystransparent = no }
- iconType = { name = "rip_church_inset_paths_status" spriteType = "GFX_rip_church_inset_paths_status" position = { x=34 y=98 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }iconType = { name = "rip_church_inset_paths_actions" spriteType = "GFX_rip_church_inset_paths_actions" position = { x=34 y=195 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }iconType = { name = "rip_church_inset_paths_patron" spriteType = "GFX_rip_church_inset_paths_patron" position = { x=34 y=402 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }instantTextBoxType = {
- name = "rip_church_gui_paths_heading" scripted = yes position = { x=28 y=28 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gui_paths_heading_tt" font = "vic_22"
- text = "rip_church_gui_paths_heading" maxWidth = 419 maxHeight = 26 format = center
-}instantTextBoxType = {
- name = "rip_church_gui_path_status" scripted = yes position = { x=28 y=76 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gui_path_status_tt" font = "vic_18"
- text = "rip_church_gui_path_status" maxWidth = 419 maxHeight = 20 format = center
-}instantTextBoxType = {
- name = "rip_church_gui_path_identity" scripted = yes position = { x=44 y=104 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gui_path_identity_tt" font = "vic_18"
- text = "rip_church_gui_path_identity" maxWidth = 387 maxHeight = 54 format = left
-}instantTextBoxType = {
- name = "rip_church_gui_paths_title" scripted = yes position = { x=28 y=166 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gui_paths_title_tt" font = "vic_18"
- text = "rip_church_gui_paths_title" maxWidth = 419 maxHeight = 22 format = center
-}guiButtonType = {
- name = "rip_church_gui_florence" scripted = yes position = { x=125 y=204 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gui_florence_tt"
- quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_gui_florence" buttonFont = "vic_18"
-}guiButtonType = {
- name = "rip_church_gui_adopt" scripted = yes position = { x=125 y=253 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gui_adopt_tt"
- quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_gui_adopt" buttonFont = "vic_18"
-}guiButtonType = {
- name = "rip_church_gui_sponsor" scripted = yes position = { x=125 y=302 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gui_sponsor_tt"
- quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_gui_sponsor" buttonFont = "vic_18"
-}instantTextBoxType = {
- name = "rip_church_gui_path_progress" scripted = yes position = { x=44 y=350 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gui_path_progress_tt" font = "vic_18"
- text = "rip_church_gui_path_progress" maxWidth = 387 maxHeight = 36 format = center
-}instantTextBoxType = {
- name = "rip_church_gui_patron_state" scripted = yes position = { x=44 y=420 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gui_patron_state_tt" font = "vic_18"
- text = "rip_church_gui_patron_state" maxWidth = 387 maxHeight = 70 format = center
-}
 }
 }
 	
