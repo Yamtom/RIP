@@ -42,6 +42,17 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_church_rite_unrecognized }
 }
 defined_text = {
+ name = GetChurchRiteBadge
+ text = { trigger = { has_province_flag = rip_church_rite_recognized } localisation_key = rip_church_rite_badge_yes }
+ text = { trigger = { always = yes } localisation_key = rip_church_rite_badge_no }
+}
+defined_text = {
+ name = GetChurchRiteEffects
+ text = { trigger = { has_province_flag = rip_church_rite_recognized owner = { has_country_flag = rip_church_ecumenical } } localisation_key = rip_church_rite_effects_ecumenical }
+ text = { trigger = { has_province_flag = rip_church_rite_recognized } localisation_key = rip_church_rite_effects_active }
+ text = { trigger = { always = yes } localisation_key = rip_church_rite_effects_offer }
+}
+defined_text = {
  name = GetChurchIconWar
  text = { trigger = { has_country_flag = rip_church_icon_war } localisation_key = rip_church_active }
  text = { trigger = { always = yes } localisation_key = rip_church_inactive }

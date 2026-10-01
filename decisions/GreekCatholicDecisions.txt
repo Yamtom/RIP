@@ -101,7 +101,12 @@ country_decisions = {
 		}
 		
 		effect = {
-			establish_greek_catholic_education = yes
+			# The scripted effect is shared with the event; its tooltip did not
+			# list the payoff, so the decision states cost and benefit itself.
+			custom_tooltip = greek_catholic_education_effect_tt
+			hidden_effect = {
+				establish_greek_catholic_education = yes
+			}
 		}
 		
 		ai_will_do = {

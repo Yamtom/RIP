@@ -99,7 +99,7 @@ def panel(name,condition,body,x=540,y=8,clean=False):
     background = ('GFX_rip_church_union_frame' if clean else 'GFX_country_religion_view_bg')
     scale = '' if clean else 'scale = 0.86'
     hit_test = 'alwaystransparent = no' if clean else ''
-    native_church = name in ('rip_church_ro_panel','rip_church_gc_panel','rip_church_gc_curia_panel','rip_church_gc_parishes_panel')
+    native_church = name in ('rip_church_rite_panel','rip_church_ro_panel','rip_church_gc_panel','rip_church_gc_curia_panel','rip_church_gc_parishes_panel')
     if native_church:
         background='GFX_rip_church_ro_frame'
         scale='scale = 0.782537'
@@ -153,7 +153,9 @@ gc+=card('rip_church_status_card',34,126,407,84,status)
 gc=section(gc,'rip_church_gui_institutions_title',216)
 synod=framed('rip_church_synod_symbol','GFX_rip_church_gc_privileges',12,7,0.72)
 synod+=text('rip_church_gui_slot_state',76,12,w=111,h=36,font='Main_14')
-synod+=button('rip_church_gui_synod',27,85,'religion = greek_catholic','rip_church_gc_open_synod_effect = yes',sprite='button_type_1')
+# The synod is opened from the native icon slot (Synod button beside the HC bar);
+# a second button here would duplicate it.
+synod+=text('rip_church_gui_synod_active',8,84,w=183,h=26,font='vic_18',align='center')
 gc+=card('rip_church_synod_card',34,250,199,118,synod)
 policy=framed('rip_church_policy_symbol','GFX_rip_church_gc_ecumenism',12,7,0.72)
 policy+=text('rip_church_gui_ecumenism_state',76,12,w=111,h=36,font='Main_14')
@@ -262,12 +264,14 @@ outputs['interface/RIP_church_panels.gfx']='spriteTypes = {\n'+'\n'.join(insets)
 }
 '''
 # Province ROOT, clicking country FROM. Never allow buttons on somebody else's land.
-province=text('rip_church_rite_heading',18,12,w=440,h=40)
-province+=text('rip_church_rite_state',18,52,w=440,h=66)
-province+=button('rip_church_recognize_rite_button',18,126,'owned_by = FROM rip_church_can_recognize_rite = yes','rip_church_recognize_rite_effect = yes')
-province+=button('rip_church_revoke_rite_button',18,168,'owned_by = FROM rip_church_can_revoke_rite = yes','rip_church_revoke_rite_effect = yes')
-province+=text('rip_church_rite_help',18,224,w=440,h=150,font='Main_14')
-prov_panel=panel('rip_church_rite_panel','owned_by = FROM FROM = { religion = greek_catholic } OR = { religion = orthodox religion = russian_orthodox religion = catholic }',province,x=480,y=0)
+province=text('rip_church_rite_heading',28,40,w=419,h=26,font='vic_22',align='center')
+province+=text('rip_church_rite_state',28,90,w=419,h=24,align='center')
+province+=text('rip_church_rite_effects',44,140,w=387,h=100)
+province+=button('rip_church_recognize_rite_button',125,264,'owned_by = FROM rip_church_can_recognize_rite = yes','rip_church_recognize_rite_effect = yes',potential='NOT = { has_province_flag = rip_church_rite_recognized }')
+province+=button('rip_church_revoke_rite_button',125,264,'owned_by = FROM rip_church_can_revoke_rite = yes','rip_church_revoke_rite_effect = yes',potential='has_province_flag = rip_church_rite_recognized')
+province+=text('rip_church_rite_note',40,332,w=395,h=56,font='Main_14',align='center')
+# Shown only where the action applies or is already in force, not on every owned province.
+prov_panel=panel('rip_church_rite_panel','owned_by = FROM FROM = { religion = greek_catholic } OR = { has_province_flag = rip_church_rite_recognized AND = { is_city = yes controlled_by = owner OR = { religion = orthodox religion = russian_orthodox religion = catholic } } }',province,x=480,y=0)
 
 # Retain native widget names and parents for the engine and old saves.
 # A GC-only local synod occupies the native empty icon-selector area, drawn last.
@@ -283,13 +287,12 @@ native_controls='''windowType = {
  name = "rip_church_gc_native_controls" scripted = yes
  position = { x=0 y=0 } size = { x=280 y=50 } moveable = 0
  iconType = { name = "rip_church_gc_capacity_low_icon" scripted = yes spriteType = "GFX_rip_church_gc_capacity_low" position = { x=54 y=273 } }
- iconType = { name = "rip_church_gc_capacity_high_icon" scripted = yes spriteType = "GFX_rip_church_gc_capacity_high" position = { x=272 y=273 } }
+ iconType = { name = "rip_church_gc_capacity_high_icon" scripted = yes spriteType = "GFX_rip_church_gc_capacity_high" position = { x=244 y=273 } }
  iconType = { name = "rip_church_gc_selector_cover" spriteType = "GFX_rip_church_policy_slot" position = { x=310 y=235 } scale = 1.2 alwaystransparent = no }
  iconType = { name = "rip_church_gc_union_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
  iconType = { name = "rip_church_gc_synod_infrastructure_symbol" scripted = yes spriteType = "GFX_rip_church_gc_privileges" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
  iconType = { name = "rip_church_gc_synod_coexistence_symbol" scripted = yes spriteType = "GFX_rip_church_gc_ecumenism" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
-}
-'''
+'''+button('rip_church_gc_native_privileges_button',304,300,'religion = greek_catholic','rip_church_gc_open_synod_effect = yes',sprite='GFX_standard_button_71').replace('buttonFont = "vic_18"','buttonFont = "vic_18" Orientation = "LEFT"')+'\n}\n'
 def attach(file,host,body):
     s=(GAME/'interface'/file).read_text(encoding='utf-8-sig')
     if file=='countryreligionview.gui':
