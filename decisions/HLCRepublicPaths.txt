@@ -12,14 +12,17 @@ country_decisions = {
 			west_ukraine_hlc_origin_country = yes
 			tag = HLC
 			has_reform = hlc_galician_voivodeship_reform
+			NOT = { government = republic }
+			is_subject = no
+			stability = 1
+			hlc_boyar_succession_crisis = yes
 			NOT = { hlc_has_any_path = yes }
 		}
 		allow = {
 			NOT = { government = republic }
-			OR = {
-				NOT = { has_heir = yes }
-				legitimacy < 50
-			}
+			is_subject = no
+			stability = 1
+			hlc_boyar_succession_crisis = yes
 		}
 		effect = {
 			set_country_flag = rip_galicia_path_boyar
@@ -51,14 +54,16 @@ country_decisions = {
 			tag = HLC
 			has_reform = hlc_galician_voivodeship_reform
 			NOT = { hlc_has_any_path = yes }
-			OR = {
-				religion = orthodox
-				religion = greek_catholic
-			}
+			is_subject = no
+			NOT = { government = theocracy }
+			stability = 1
+			hlc_metropolitan_authority_ready = yes
 		}
 		allow = {
 			NOT = { government = theocracy }
 			is_subject = no
+			stability = 1
+			hlc_metropolitan_authority_ready = yes
 		}
 		effect = {
 			set_country_flag = rip_galicia_path_metropolitanate
@@ -70,7 +75,7 @@ country_decisions = {
 			}
 			if = {
 				limit = { religion = greek_catholic }
-				add_papal_influence = 10
+				add_patriarch_authority = 0.1
 			}
 			add_country_modifier = {
 				name = rip_galicia_halych_see

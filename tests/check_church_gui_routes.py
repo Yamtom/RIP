@@ -48,15 +48,17 @@ windows = {dict(body)['name']:dict(body)['potential']
            for key,body in parse(read('common/custom_gui/RIP_church_controls.txt'))
            if key == 'custom_window' and dict(body)['name'] in {
                'rip_church_gc_panel','rip_church_gc_curia_panel',
-               'rip_church_gc_parishes_panel','rip_church_union_paths_panel'}}
+               'rip_church_gc_parishes_panel'}}
+assert 'rip_church_union_paths_panel' not in read('interface/countryreligionview.gui')
+assert 'rip_church_union_paths_panel' not in read('common/custom_gui/RIP_church_controls.txt')
 def visible(w,c):
     return {name for name,gate in windows.items() if w.gate(gate,c)}
 
 for faith,sponsor,initial in [
     ('greek_catholic',False,'rip_church_gc_panel'),
-    ('orthodox',False,'rip_church_union_paths_panel'),
-    ('catholic',False,'rip_church_union_paths_panel'),
-    ('catholic',True,'rip_church_union_paths_panel'),
+    ('orthodox',False,None),
+    ('catholic',False,None),
+    ('catholic',True,None),
     ('russian_orthodox',False,None),
 ]:
     w,c,p = fixture(faith)

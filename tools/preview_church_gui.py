@@ -9,9 +9,9 @@ from clausewitz_testlib import ROOT, vanilla_root, keyed_blocks
 from church_testlib import parse
 GAME=vanilla_root()
 ap=argparse.ArgumentParser(); group=ap.add_mutually_exclusive_group()
-for option in ('ro','paths','province'): group.add_argument('--'+option,action='store_true')
+for option in ('ro','province'): group.add_argument('--'+option,action='store_true')
 args=ap.parse_args()
-branch='ro' if args.ro else 'union_paths' if args.paths else 'rite' if args.province else 'gc'
+branch='ro' if args.ro else 'rite' if args.province else 'gc'
 loc=dict(re.findall(r'^\s+(\w+):0 "(.*)"$',(ROOT/'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'),re.M))
 sample={'Root.GetChurchPrivilege':'Agreement on coexistence'}
 sample.update({'Root.GetChurchROStatus':'Reconciliation in progress',

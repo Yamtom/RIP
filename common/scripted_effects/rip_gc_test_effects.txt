@@ -1,0 +1,89 @@
+# Manual laboratory only. No on_action, AI or historical event calls these.
+# ROOT is the testing country. Use a disposable save: ownership is not reversible.
+rip_gc_test_supply = {
+ add_treasury = 2000
+ add_adm_power = 500 add_dip_power = 500 add_mil_power = 500
+ add_stability = 6
+ add_patriarch_authority = -1 add_patriarch_authority = 1
+}
+rip_gc_test_clear_slots = {
+ rip_church_gc_clear_interaction_effects = yes
+ remove_country_modifier = rip_church_gc_infrastructure
+ remove_country_modifier = rip_church_gc_coexistence
+}
+rip_gc_test_greek_fixture = {
+ set_country_flag = rip_gc_test_enabled
+ enable_religion = greek_catholic
+ change_religion = greek_catholic
+ rip_church_v3_religion_change_effect = yes
+ rip_gc_test_clear_slots = yes
+ rip_gc_test_supply = yes
+ clr_country_flag = rip_church_ecumenical
+ clr_country_flag = rip_church_forced_integration
+ clr_country_flag = rip_church_gc_deputation_sent
+ 280 = {
+  cede_province = ROOT change_controller = ROOT add_core = ROOT
+  change_religion = greek_catholic set_local_autonomy = 50
+  rip_church_clear_rite_effect = yes
+  if = { limit = { NOT = { has_building = cathedral } } add_building = temple }
+ }
+ 2961 = {
+  cede_province = ROOT change_controller = ROOT add_core = ROOT
+  change_religion = orthodox set_local_autonomy = 50
+  rip_church_clear_rite_effect = yes
+ }
+ 1952 = {
+  cede_province = ROOT change_controller = ROOT add_core = ROOT
+  change_religion = catholic set_local_autonomy = 50
+  rip_church_clear_rite_effect = yes
+ }
+ rip_church_refresh_pa_effect = yes
+ rip_church_gc_refresh_parishes_effect = yes
+ rip_church_gui_refresh_parishes_effect = yes
+}
+rip_gc_test_catholic_fixture = {
+ set_country_flag = rip_gc_test_enabled
+ enable_religion = greek_catholic
+ change_religion = catholic
+ rip_church_v3_religion_change_effect = yes
+ rip_gc_test_supply = yes
+ set_country_flag = rip_church_supports_union
+ set_country_flag = rip_church_union_founded
+ clr_country_flag = rip_church_opposes_union
+ clr_country_flag = rip_du_negotiated
+ 280 = {
+  cede_province = ROOT change_controller = ROOT add_core = ROOT
+  change_religion = greek_catholic
+ }
+ 279 = {
+  cede_province = ROOT change_controller = ROOT add_core = ROOT
+  change_religion = orthodox set_local_autonomy = 50
+  clr_province_flag = rip_du_approached
+  clr_province_flag = rip_eparchy_lutsk_union_answered
+  remove_province_modifier = resistance_to_greek_catholic_spread
+  remove_province_modifier = rip_du_rite_guarantee
+ }
+}
+rip_gc_test_uzh_fixture = {
+ set_country_flag = rip_gc_test_enabled
+ change_religion = catholic
+ rip_church_v3_religion_change_effect = yes
+ rip_gc_test_supply = yes
+ clr_country_flag = rip_church_opposes_union
+ 1952 = {
+  cede_province = ROOT change_controller = ROOT add_core = ROOT
+  change_religion = orthodox set_local_autonomy = 50
+  clr_province_flag = rip_uzh_union_answered
+  clr_province_flag = rip_uzh_union_accepted
+  clr_province_flag = rip_uzh_union_scheduled
+  remove_province_modifier = rip_du_rite_guarantee
+ }
+}
+# Quiet fixture for an AI choice; still requires an actual AI country next month.
+rip_gc_test_ai_quiet = {
+ rip_church_gc_clear_interaction_effects = yes
+ add_stability = 6
+ add_patriarch_authority = -1 add_patriarch_authority = 0.4
+ add_prestige = -200 add_prestige = 150
+ every_owned_province = { add_unrest = -20 }
+}

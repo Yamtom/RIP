@@ -1,0 +1,264 @@
+# Console-only QA laboratory; never called by normal gameplay.
+namespace = rip_gc_test
+
+# Optional diplomacy fixture. Switch to the intended neighbour first.
+country_event = {
+ id = rip_gc_test.10
+ title = rip_gc_test.10.t
+ desc = rip_gc_test.10.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ option = {
+  name = rip_gc_test.10.a
+  enable_religion = greek_catholic change_religion = greek_catholic
+  clr_country_flag = rip_church_opposes_union
+  rip_church_v3_religion_change_effect = yes
+ }
+ option = {
+  name = rip_gc_test.10.b
+  change_religion = orthodox clr_country_flag = rip_church_opposes_union
+  rip_church_v3_religion_change_effect = yes
+ }
+ option = {
+  name = rip_gc_test.10.c
+  change_religion = catholic set_country_flag = rip_church_opposes_union
+  clr_country_flag = rip_church_supports_union
+  rip_church_v3_religion_change_effect = yes
+ }
+ option = { name = rip_gc_test.close }
+}
+
+country_event = {
+ id = rip_gc_test.1
+ title = rip_gc_test.1.t
+ desc = rip_gc_test.1.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ option = {
+  name = rip_gc_test.1.o0
+  trigger = { is_at_war = no }
+  rip_gc_test_greek_fixture = yes
+ }
+ option = {
+  name = rip_gc_test.1.o1
+  trigger = { has_country_flag = rip_gc_test_enabled }
+  country_event = { id = rip_gc_test.2 }
+ }
+ option = {
+  name = rip_gc_test.1.o2
+  trigger = { has_country_flag = rip_gc_test_enabled }
+  country_event = { id = rip_gc_test.3 }
+ }
+ option = {
+  name = rip_gc_test.1.o3
+  country_event = { id = rip_gc_test.4 }
+ }
+ option = {
+  name = rip_gc_test.1.o4
+  trigger = { has_country_flag = rip_gc_test_enabled }
+  country_event = { id = rip_gc_test.9 }
+ }
+ option = { name = rip_gc_test.close }
+}
+
+country_event = {
+ id = rip_gc_test.2
+ title = rip_gc_test.2.t
+ desc = rip_gc_test.2.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ trigger = { has_country_flag = rip_gc_test_enabled }
+ option = {
+  name = rip_gc_test.2.o0
+  trigger = { religion = greek_catholic }
+  add_patriarch_authority = -1 add_patriarch_authority = 0
+ }
+ option = {
+  name = rip_gc_test.2.o1
+  trigger = { religion = greek_catholic }
+  add_patriarch_authority = -1 add_patriarch_authority = 0.19
+ }
+ option = {
+  name = rip_gc_test.2.o2
+  trigger = { religion = greek_catholic }
+  add_patriarch_authority = -1 add_patriarch_authority = 0.2
+ }
+ option = {
+  name = rip_gc_test.2.o3
+  trigger = { religion = greek_catholic }
+  add_patriarch_authority = -1 add_patriarch_authority = 0.4
+ }
+ option = {
+  name = rip_gc_test.2.o4
+  trigger = { religion = greek_catholic }
+  add_patriarch_authority = -1 add_patriarch_authority = 1
+ }
+ option = { name = rip_gc_test.close }
+}
+
+country_event = {
+ id = rip_gc_test.3
+ title = rip_gc_test.3.t
+ desc = rip_gc_test.3.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ trigger = { has_country_flag = rip_gc_test_enabled }
+ option = {
+  name = rip_gc_test.3.o0
+  rip_church_gc_clear_interaction_effects = yes
+ }
+ option = {
+  name = rip_gc_test.3.o1
+  remove_country_modifier = rip_church_gc_infrastructure remove_country_modifier = rip_church_gc_coexistence
+ }
+ option = {
+  name = rip_gc_test.3.o2
+  clr_country_flag = rip_church_gc_deputation_sent
+ }
+ option = {
+  name = rip_gc_test.3.o3
+  every_owned_province = { rip_church_clear_rite_effect = yes } rip_church_gc_refresh_parishes_effect = yes rip_church_gui_refresh_parishes_effect = yes
+ }
+ option = {
+  name = rip_gc_test.3.o4
+  rip_gc_test_supply = yes
+ }
+ option = { name = rip_gc_test.close }
+}
+
+country_event = {
+ id = rip_gc_test.4
+ title = rip_gc_test.4.t
+ desc = rip_gc_test.4.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ option = {
+  name = rip_gc_test.4.o0
+  trigger = { is_at_war = no }
+  rip_gc_test_catholic_fixture = yes
+ }
+ option = {
+  name = rip_gc_test.4.o1
+  country_event = { id = rip_gc_test.5 }
+ }
+ option = { name = rip_gc_test.close }
+}
+
+country_event = {
+ id = rip_gc_test.5
+ title = rip_gc_test.5.t
+ desc = rip_gc_test.5.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ option = {
+  name = rip_gc_test.5.o0
+  trigger = { is_at_war = no }
+  rip_gc_test_uzh_fixture = yes
+ }
+ option = {
+  name = rip_gc_test.5.o1
+  trigger = { owns = 1952 1952 = { rip_uzh_union_date_window = yes rip_uzh_local_union_possible = yes NOT = { has_province_flag = rip_uzh_union_answered } } }
+  1952 = { province_event = { id = rip_uzh_union.1 } }
+ }
+ option = {
+  name = rip_gc_test.5.o2
+  trigger = { owns = 1952 1952 = { rip_uzh_union_late_window = yes rip_uzh_local_union_possible = yes NOT = { has_province_flag = rip_uzh_union_answered } NOT = { rip_uzh_union_scheduled_fresh = yes } } }
+  1952 = { province_event = { id = rip_uzh_union.2 } }
+ }
+ option = { name = rip_gc_test.close }
+}
+
+country_event = {
+ id = rip_gc_test.6
+ title = rip_gc_test.6.t
+ desc = rip_gc_test.6.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ trigger = { has_country_flag = rip_gc_test_enabled }
+ option = {
+  name = rip_gc_test.6.o0
+  trigger = { religion = greek_catholic }
+  rip_gc_test_ai_quiet = yes add_stability = -6 add_stability = 2
+ }
+ option = {
+  name = rip_gc_test.6.o1
+  trigger = { religion = greek_catholic }
+  rip_gc_test_ai_quiet = yes add_prestige = -200
+ }
+ option = {
+  name = rip_gc_test.6.o2
+  trigger = { religion = greek_catholic is_at_war = no }
+  rip_gc_test_ai_quiet = yes add_adm_power = 900
+ }
+ option = { name = rip_gc_test.close }
+}
+
+country_event = {
+ id = rip_gc_test.7
+ title = rip_gc_test.7.t
+ desc = rip_gc_test.7.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ trigger = { has_country_flag = rip_gc_test_enabled }
+ option = {
+  name = rip_gc_test.7.o0
+  trigger = { owns = 280 280 = { religion = greek_catholic } }
+  clr_country_flag = uniate_education_established clr_country_flag = rip_once_greek_catholic_education_decision remove_country_modifier = uniate_educational_network 280 = { if = { limit = { NOT = { has_building = cathedral } } add_building = temple } }
+ }
+ option = {
+  name = rip_gc_test.7.o1
+  trigger = { rip_uc_can_found_schools = yes NOT = { has_country_flag = uniate_education_established } }
+  country_event = { id = uniate_church.6 }
+ }
+ option = { name = rip_gc_test.close }
+}
+
+country_event = {
+ id = rip_gc_test.8
+ title = rip_gc_test.8.t
+ desc = rip_gc_test.8.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ trigger = { has_country_flag = rip_gc_test_enabled }
+ option = {
+  name = rip_gc_test.8.o0
+  trigger = { rip_church_can_ecumenism = yes }
+  rip_church_achieve_ecumenism_effect = yes
+ }
+ option = {
+  name = rip_gc_test.8.o1
+  trigger = { religion = greek_catholic }
+  set_country_flag = rip_church_ecumenical rip_church_gc_refresh_parishes_effect = yes rip_church_refresh_relations_effect = yes
+ }
+ option = {
+  name = rip_gc_test.8.o2
+  clr_country_flag = rip_church_ecumenical rip_church_gc_refresh_parishes_effect = yes rip_church_refresh_relations_effect = yes
+ }
+ option = { name = rip_gc_test.close }
+}
+
+country_event = {
+ id = rip_gc_test.9
+ title = rip_gc_test.9.t
+ desc = rip_gc_test.9.d
+ picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ trigger = { has_country_flag = rip_gc_test_enabled }
+ option = {
+  name = rip_gc_test.9.o0
+  country_event = { id = rip_gc_test.6 }
+ }
+ option = {
+  name = rip_gc_test.9.o1
+  country_event = { id = rip_gc_test.7 }
+ }
+ option = {
+  name = rip_gc_test.9.o2
+  country_event = { id = rip_gc_test.8 }
+ }
+ option = {
+  name = rip_gc_test.9.o3
+  clr_country_flag = rip_gc_test_enabled
+ }
+ option = { name = rip_gc_test.close }
+}

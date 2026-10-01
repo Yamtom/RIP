@@ -29,6 +29,29 @@ hlc_has_metropolitanate_path = {
 	has_country_flag = rip_galicia_path_metropolitanate
 }
 
+hlc_boyar_succession_crisis = {
+	OR = {
+		AND = {
+			NOT = { has_heir = yes }
+			legitimacy < 60
+		}
+		legitimacy < 50
+	}
+}
+
+hlc_metropolitan_authority_ready = {
+	OR = {
+		AND = {
+			religion = orthodox
+			patriarch_authority = 0.5
+		}
+		AND = {
+			religion = greek_catholic
+			rip_gc_hierarchy_standing_mid = yes
+		}
+	}
+}
+
 # decisions/HLCMetropolitanatePaths.txt - Constantinople's tomos settling the
 # see's standing against Kyiv and Moscow for good.
 hlc_has_confirmed_metropolitanate_path = {

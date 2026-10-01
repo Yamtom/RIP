@@ -34,11 +34,16 @@ assert "custom+=defined('GetChurchCuriaPrivilege'" not in loc_builder
 assert 'for key in list(DATA)' in loc_builder
 assert not (ROOT / 'common/event_modifiers/RIP_church_gc_curia_modifiers.txt').exists()
 
-# A Curia visit remains only as a limited diplomatic audience; no invented
-# electoral standing or authority payment is attached to it.
+# Curia contact is limited to an audience and a one-way diplomatic gift; no
+# invented electoral standing or authority payment is attached to either.
 assert 'rip_church_gc_can_depute_to_curia = {' in triggers
 assert 'treasury = 50' in triggers and 'patriarch_authority' not in triggers
 assert 'add_treasury = -50' in effects and 'add_opinion' in effects
+assert 'rip_church_gc_can_offer_gift_to_holy_see = {' in triggers
+assert 'treasury = 100' in triggers and 'rip_church_gc_holy_see_gift_sent' in triggers
+assert 'add_treasury = -100' in effects
+assert 'rip_church_opinion_gc_donation' in effects
+assert 'rip_church_gc_offer_gift_to_holy_see_effect' in features
 assert 'rip_church_papal_standing' not in effects
 assert 'rip_church_papal_standing' not in triggers
 assert 'rip_church_gc_deputation_button' in features
