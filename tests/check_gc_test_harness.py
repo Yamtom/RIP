@@ -45,9 +45,13 @@ for option, target in zip(hc_options, (0, .19, .2, .4, 1)):
 effects = dict(parse(read(effect_path)))
 greek = dict(effects['rip_gc_test_greek_fixture'])
 <<<<<<< HEAD
+<<<<<<< HEAD
 assert greek['clr_country_flag'].count('rip_church_gc_holy_see_gift_sent') == 1
 =======
 >>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
+=======
+assert greek['clr_country_flag'].count('rip_church_gc_holy_see_gift_sent') == 1
+>>>>>>> c480833d (gameplay(gc_church): Впровадити пожертву Святому Престолу для греко-католиків)
 for province, faith in (('280', 'greek_catholic'), ('2961', 'orthodox'), ('1952', 'catholic')):
     setup = dict(greek[province])
     assert setup['change_religion'] == faith
