@@ -86,4 +86,10 @@ docs = read('docs/UC_EDUCATION_AND_REMEMBRANCE.uk.md')
 assert 'будь-якого християнського окупанта іншої конфесії' in docs
 assert 'Події `uniate_church.18` і `.20` вилучено' in docs
 assert 'university' not in normalized(named_block(read('common/scripted_effects/greek_catholic_effects.txt'), 'establish_greek_catholic_education'))
+# The decision tooltip states the payoff in words; keep it equal to the modifier.
+mod = normalized(named_block(read('common/event_modifiers/uniate_church_modifiers.txt'), 'uniate_educational_network'))
+assert 'advisor_pool = 1' in mod and 'advisor_cost = -0.1' in mod and 'global_missionary_strength = 0.02' in mod
+tooltip = next(l for l in read('localisation/uniate_and_raid_l_english.yml').splitlines() if 'greek_catholic_education_effect_tt:0' in l)
+assert '+1§! advisor pool' in tooltip and '-10%§! advisor cost' in tooltip and '+2%§! missionary strength' in tooltip
+assert 'custom_tooltip = greek_catholic_education_effect_tt' in normalized(read('decisions/GreekCatholicDecisions.txt'))
 print(f'PASS: {cases} school source-state cases; unsupported generic occupation and dependent remembrance events retired')

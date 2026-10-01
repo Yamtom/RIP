@@ -54,10 +54,7 @@ custom_text_box = { name = rip_church_gui_count_latin_value potential = { always
 custom_text_box = { name = rip_church_gui_status_title potential = { always = yes } tooltip = rip_church_gui_status_title_tt }
 custom_text_box = { name = rip_church_gui_institutions_title potential = { always = yes } tooltip = rip_church_gui_institutions_title_tt }
 custom_text_box = { name = rip_church_gui_slot_state potential = { always = yes } tooltip = rip_church_gui_slot_state_tt }
-custom_button = {
- name = rip_church_gui_synod potential = { always = yes } trigger = { religion = greek_catholic }
- effect = { rip_church_gc_open_synod_effect = yes } tooltip = rip_church_gui_synod_tt
-}
+custom_text_box = { name = rip_church_gui_synod_active potential = { always = yes } tooltip = rip_church_gui_synod_active_tt }
 custom_text_box = { name = rip_church_gui_ecumenism_state potential = { always = yes } tooltip = rip_church_gui_ecumenism_state_tt }
 custom_button = {
  name = rip_church_gui_ecumenism potential = { always = yes } trigger = { rip_church_can_ecumenism = yes }
@@ -115,16 +112,17 @@ custom_window = { name = rip_church_gc_curia_panel potential = { religion = gree
 custom_window = { name = rip_church_gc_parishes_panel potential = { OR = { religion = greek_catholic rip_church_union_supporter = yes } has_country_flag = rip_church_gui_parishes_view } }
 custom_text_box = { name = rip_church_rite_heading potential = { always = yes } tooltip = rip_church_rite_heading_tt }
 custom_text_box = { name = rip_church_rite_state potential = { always = yes } tooltip = rip_church_rite_state_tt }
+custom_text_box = { name = rip_church_rite_effects potential = { always = yes } tooltip = rip_church_rite_effects_tt }
 custom_button = {
- name = rip_church_recognize_rite_button potential = { always = yes } trigger = { owned_by = FROM rip_church_can_recognize_rite = yes }
+ name = rip_church_recognize_rite_button potential = { NOT = { has_province_flag = rip_church_rite_recognized } } trigger = { owned_by = FROM rip_church_can_recognize_rite = yes }
  effect = { rip_church_recognize_rite_effect = yes } tooltip = rip_church_recognize_rite_button_tt
 }
 custom_button = {
- name = rip_church_revoke_rite_button potential = { always = yes } trigger = { owned_by = FROM rip_church_can_revoke_rite = yes }
+ name = rip_church_revoke_rite_button potential = { has_province_flag = rip_church_rite_recognized } trigger = { owned_by = FROM rip_church_can_revoke_rite = yes }
  effect = { rip_church_revoke_rite_effect = yes } tooltip = rip_church_revoke_rite_button_tt
 }
-custom_text_box = { name = rip_church_rite_help potential = { always = yes } tooltip = rip_church_rite_help_tt }
-custom_window = { name = rip_church_rite_panel potential = { owned_by = FROM FROM = { religion = greek_catholic } OR = { religion = orthodox religion = russian_orthodox religion = catholic } } }
+custom_text_box = { name = rip_church_rite_note potential = { always = yes } tooltip = rip_church_rite_note_tt }
+custom_window = { name = rip_church_rite_panel potential = { owned_by = FROM FROM = { religion = greek_catholic } OR = { has_province_flag = rip_church_rite_recognized AND = { is_city = yes controlled_by = owner OR = { religion = orthodox religion = russian_orthodox religion = catholic } } } } }
 custom_window = { name = rip_church_gc_native_controls potential = { religion = greek_catholic } }
 custom_icon = { name = low_patriarch_authority potential = { NOT = { religion = greek_catholic } } }
 custom_icon = { name = rip_church_gc_capacity_low_icon potential = { religion = greek_catholic } tooltip = rip_church_gc_resources_tt }
@@ -133,4 +131,8 @@ custom_icon = { name = rip_church_gc_capacity_high_icon potential = { religion =
 custom_icon = { name = rip_church_gc_union_symbol potential = { NOT = { has_country_modifier = rip_church_gc_infrastructure } NOT = { has_country_modifier = rip_church_gc_coexistence } } frame = { number = 31 trigger = { always = yes } } }
 custom_icon = { name = rip_church_gc_synod_infrastructure_symbol potential = { has_country_modifier = rip_church_gc_infrastructure } frame = { number = 1 trigger = { always = yes } } }
 custom_icon = { name = rip_church_gc_synod_coexistence_symbol potential = { has_country_modifier = rip_church_gc_coexistence } frame = { number = 1 trigger = { always = yes } } }
+custom_button = {
+ name = rip_church_gc_native_privileges_button potential = { always = yes } trigger = { religion = greek_catholic }
+ effect = { rip_church_gc_open_synod_effect = yes } tooltip = rip_church_gc_native_privileges_button_tt
+}
 custom_text_box = { name = rip_church_authority_heading potential = { always = yes } tooltip = rip_church_authority_heading }

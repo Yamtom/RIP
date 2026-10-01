@@ -130,7 +130,13 @@ import re as _re
 bindings = controls + features
 for widget in set(_re.findall(r'name\s*=\s*"(rip_church_[A-Za-z0-9_]+)" scripted = yes', interface)):
     assert _re.search(rf'name = {widget}\b', bindings), f'scripted widget without binding: {widget}'
-assert 'rip_church_gc_native_privileges_button' not in interface and 'rip_church_gc_native_privileges_button' not in bindings
+# One Synod entry point: the native icon slot. Without it the vanilla 'Select'
+# button for Orthodox icons shows through; a second button on the Union card
+# would duplicate it.
+assert 'name = "rip_church_gc_native_privileges_button" scripted = yes position = { x=304 y=300 }' in interface
+assert 'name = "rip_church_gui_synod"' not in interface and 'name = rip_church_gui_synod ' not in bindings
+assert interface.count('rip_church_gc_open_synod_effect') == 0  # effects live in custom_gui only
+assert bindings.count('rip_church_gc_open_synod_effect = yes') == 1
 assert 'GFX_standard_button_140' not in gui_generator
 for key in ('liturgy', 'learning', 'charity'):
     start = interface.index(f'name = "rip_church_gc_icon_{key}_button"')

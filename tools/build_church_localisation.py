@@ -86,7 +86,7 @@ DATA={
   "rip_church_gc_infrastructure_button": "Eastern infrastructure",
   "rip_church_gc_coexistence_button": "Agreement of coexistence",
   "rip_church_rite_heading": "COMMUNITY RIGHTS",
-  "rip_church_rite_state": "[Root.GetChurchRiteStatus]",
+  "rip_church_rite_state": "[Root.GetChurchRiteBadge]",
   "rip_church_rite_help": RITE_HELP,
   "rip_church_recognize_rite_button": "Guarantee community rights",
   "rip_church_revoke_rite_button": "Revoke community rights",
@@ -906,6 +906,13 @@ custom+=defined('GetChurchCuriaController',[
 custom+=defined('GetChurchRiteStatus',[
  ('has_province_flag = rip_church_rite_recognized','rip_church_rite_recognized'),
  ('always = yes','rip_church_rite_unrecognized')])
+custom+=defined('GetChurchRiteBadge',[
+ ('has_province_flag = rip_church_rite_recognized','rip_church_rite_badge_yes'),
+ ('always = yes','rip_church_rite_badge_no')])
+custom+=defined('GetChurchRiteEffects',[
+ ('has_province_flag = rip_church_rite_recognized owner = { has_country_flag = rip_church_ecumenical }','rip_church_rite_effects_ecumenical'),
+ ('has_province_flag = rip_church_rite_recognized','rip_church_rite_effects_active'),
+ ('always = yes','rip_church_rite_effects_offer')])
 for key in ('war','mercy','building','mission'):
     custom+=defined('GetChurchIcon'+key.title(),[(f'has_country_flag = rip_church_icon_{key}','rip_church_active'),('always = yes','rip_church_inactive')])
     custom+=defined('GetChurchIcon'+key.title()+'Access',[
@@ -1141,6 +1148,17 @@ for key,value in list(DATA.items()):
      or key in ('greek_catholic_religion_desc','rip_church.6.d','rip_church_gui_synod_tt')):
   DATA[key]=re.sub(r'\bPA\b','HC',value.replace('Patriarchal Authority','Hierarchical Capacity').replace('Patriarch Authority','Hierarchical Capacity'))
 DATA['rip_church_gc_resources']='Hierarchical Capacity: [Root.GetChurchAuthorityReadout]'
+DATA['rip_church_gui_synod_active']='Active: [Root.GetChurchLocalInstitution]'
+DATA['rip_church_gui_synod_active_tt']='Choose the institution with the Synod button beside the Hierarchical Capacity bar in the religion window. The picture there shows the active institution.\\nEastern infrastructure, or a compact of coexistence once community rights are guaranteed in at least one province; both use Hierarchical Capacity and ducats and last ten years.'
+DATA['rip_church_rite_badge_yes']='§GCommunity rights guaranteed§!'
+DATA['rip_church_rite_badge_no']='§YCommunity rights not guaranteed§!'
+DATA['rip_church_rite_effects_offer']='§YCost:§! 1 ADM per development\\n§YEffect:§! unrest §G-2.5§!, tax §R-15%§!, manpower §R-20%§!\\n§YDuration:§! at least 10 years; the faith is unchanged'
+DATA['rip_church_rite_effects_active']='§YActive:§! unrest §G-2.5§!, tax §R-15%§!, manpower §R-20%§!\\n§YRevoke:§! after 10 years, then §R+3 unrest§! for 10 years\\n§YFaith:§! unchanged'
+DATA['rip_church_rite_effects_ecumenical']='§YActive:§! unrest §G-3§!, tax §R-10%§!, manpower §R-15%§! (ecumenical settlement)\\n§YRevoke:§! after 10 years, then §R+3 unrest§! for 10 years\\n§YFaith:§! unchanged'
+DATA['rip_church_rite_effects']='[Root.GetChurchRiteEffects]'
+DATA['rip_church_rite_effects_tt']='$rip_church_rite_help_tt$'
+DATA['rip_church_rite_note']='Gameplay abstraction: not an exact or canonical parish status, and not voluntary Union acceptance.'
+DATA['rip_church_rite_note_tt']='$rip_church_rite_help_tt$'
 DATA['rip_church_gc_controller_readout']='Curia controller\\n§Y[Root.GetChurchCuriaController]§!'
 DATA['rip_church_gc_controller_readout_tt']='Country currently controlling the Catholic Curia: [Root.GetChurchCuriaController]. This is not the birthplace or nationality of the Pope. Reopening the Curia tab refreshes the current controller.'
 for key in ('rip_church_gc_resources_tt','rip_church_gc_help_tt','rip_church_gui_shared_status_tt'):
