@@ -15,7 +15,7 @@ assert controls.count("tooltip = rip_church_gc_resources_tt") == 2
 help_text = (
     "native Patriarch Authority bar (0–100)",
     "+7.5 HC per year (+0.625 per month)",
-    "Country-specific events and mission rewards",
+    "Country-specific decisions, events and mission rewards",
     "Liturgy grants +1 yearly prestige",
     "Learning grants -5% development cost and -5% technology cost",
     "Almsgiving grants -1 global unrest and -10% stability cost",

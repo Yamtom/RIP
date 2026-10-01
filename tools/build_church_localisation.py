@@ -1126,7 +1126,7 @@ for key in ('cardinal','vote','conclave'):
 # PA is reused as a local administrative resource, not universal UGCC authority.
 GC_CAPACITY_HELP=('Hierarchical Capacity (HC) is the Greek Catholic label for the native Patriarch Authority bar (0–100), '
  'used here as a gameplay abstraction for the local church administration, not as papal standing or a historical measure of universal UGCC authority. '
- 'Recurring gain: +7.5 HC per year (+0.625 per month) from the Greek Catholic state religion. Country-specific events and mission rewards may also change the bar; '
+ 'Recurring gain: +7.5 HC per year (+0.625 per month) from the Greek Catholic state religion. Country-specific decisions, events and mission rewards may also change the bar; '
  'there is no free refill when loading a save. One devotional icon at a time costs 20 HC and lasts five years: Liturgy grants +1 yearly prestige, +1 diplomatic reputation '
  'and +20% improve relations; Learning grants -5% development cost and -5% technology cost; Almsgiving grants -1 global unrest and -10% stability cost. '
  'A local synod lasts ten years and costs 20 HC plus 75 ducats for Infrastructure (-10% state maintenance, +5% church loyalty and -5% local autonomy in owned Greek Catholic core cities), '
