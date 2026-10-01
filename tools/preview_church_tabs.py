@@ -27,10 +27,7 @@ samples = {
     'GetChurchMissionCost': '50 ducats', 'GetChurchMissionPeace': 'Yes',
     'GetChurchMissionRome': 'Catholic PAP', 'GetChurchMissionCooldown': 'Ready',
     'GetChurchMissionReason': 'Ready to send · diplomatic contact only',
-<<<<<<< HEAD
-=======
     'GetChurchCuriaController': 'Castile',
->>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 }
 
 def resolve(value, overrides=None):
@@ -44,11 +41,8 @@ def resolve(value, overrides=None):
             return resolve(loc[readouts[key][-1]])
         if key.endswith('.GetValue'):
             return '999'
-<<<<<<< HEAD
-=======
         if key == 'rip_church_gc_controller.GetName':
             return 'The Papal State'
->>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
         raise AssertionError(f'Unresolved readout: {key}')
     return re.sub(r'\[([^]]+)\]', replacement, value).replace('\\n', '\n')
 
@@ -161,18 +155,11 @@ def render(entries, canvas, ox=0, oy=0, tab='union'):
         if 'active_frame' in label:
             continue  # Preview fixture has no active devotional icon.
         name = d.get('spriteType', d.get('quadTextureSprite'))
-<<<<<<< HEAD
-        if name == 'GFX_shield_medium':
-            art = asset('gfx/interface/shield_medium_overlay.dds')
-            mask = asset('gfx/interface/shield_medium_mask.tga')
-            flag = asset('gfx/flags/PAP.tga').resize(mask.size)
-=======
         if name in ('GFX_shield_medium','GFX_shield_small'):
             small = name == 'GFX_shield_small'
             art = asset('gfx/interface/small_shield_overlay.dds' if small else 'gfx/interface/shield_medium_overlay.dds')
             mask = asset('gfx/interface/small_shield_mask.tga' if small else 'gfx/interface/shield_medium_mask.tga')
             flag = asset('gfx/flags/CAS.tga' if 'controller' in label else 'gfx/flags/PAP.tga').resize(mask.size)
->>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
             flag.putalpha(mask.getchannel('A'))
             flag.alpha_composite(art)
             art = flag
