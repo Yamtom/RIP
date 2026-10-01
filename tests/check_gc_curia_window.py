@@ -103,7 +103,7 @@ assert '+25 opinion of us, decaying by 5 per year' in localisation_generator
 assert 'no Patriarch Authority, Curia vote, cardinal or electoral influence' in localisation_generator
 for language in ('english', 'french', 'german', 'spanish'):
     localisation = read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
-    assert 'rip_church_gc_holy_see_gift_button:0 "Send a gift to Rome — 100¤"' in localisation
+    assert 'rip_church_gc_holy_see_gift_button:0 "Send a gift to Rome"' in localisation
     assert 'The Papal State gains +25 opinion of us, decaying by 5 per year' in localisation
     assert 'rip_church_opinion_gc_donation:0 "Donation from an Eastern Catholic church"' in localisation
 
@@ -119,7 +119,18 @@ assert interface.count('spriteType = "GFX_rip_church_union_frame"') >= 3
 assert 'small_tiles_dialog.dds' not in read('interface/RIP_church_panels.gfx')
 assert 'name = "rip_church_authority_heading" scripted = yes' in interface
 assert interface.count('spriteType = "GFX_rip_church_section_banner"') >= 7
-assert 'name = "rip_church_gc_holy_see_gift_button" scripted = yes position = { x=91 y=50 }' in interface
+assert 'name = "rip_church_gc_holy_see_gift_button" scripted = yes position = { x=91 y=68 }' in interface
+# The deputation and the gift each get their own button and own summary line;
+# the old four-cell Cost/Peace/Rome/Cooldown grid sat under the gift button.
+for stale in ('rip_church_gui_contact_peace', 'rip_church_gui_contact_rome', 'rip_church_gui_contact_cooldown'):
+    assert f'name = "{stale}"' not in interface, stale
+# Every scripted widget needs a binding, otherwise the engine prints the raw
+# [Root.GetChurch...] token (the Curia tab showed exactly that).
+import re as _re
+bindings = controls + features
+for widget in set(_re.findall(r'name\s*=\s*"(rip_church_[A-Za-z0-9_]+)" scripted = yes', interface)):
+    assert _re.search(rf'name = {widget}\b', bindings), f'scripted widget without binding: {widget}'
+assert 'rip_church_gc_native_privileges_button' not in interface and 'rip_church_gc_native_privileges_button' not in bindings
 assert 'GFX_standard_button_140' not in gui_generator
 for key in ('liturgy', 'learning', 'charity'):
     start = interface.index(f'name = "rip_church_gc_icon_{key}_button"')
@@ -157,7 +168,7 @@ c['treasury'] = 100
 assert w.gate(gift_gate,c)
 w.run(gift_effect,c)
 assert c['treasury'] == 0
-assert w.opinion(w.countries['PAP'],c) == 25
+assert w.opinion(w.countries['PAP'],c) == baseline_pap_opinion + 25  # first gift has decayed away
 assert not w.gate(gift_gate,c)  # insufficient funds also disables the control
 c['treasury'] = 100
 c['is_at_war'] = True
