@@ -16,6 +16,9 @@ LOADED_DIRS = (
     "map",
     "missions",
 )
+# Interface files are parsed by the same reader: a BOM in a .gfx/.gui is logged
+# as "Unexpected token" and, for a replaced vanilla window, ends in a startup crash.
+INTERFACE_SUFFIXES = ("*.gfx", "*.gui")
 
 
 def main() -> int:
@@ -27,6 +30,16 @@ def main() -> int:
                 failures.append(
                     f"{path.relative_to(ROOT)}: UTF-8 BOM is not valid in Clausewitz data files"
                 )
+                continue
+            error = brace_error(raw.decode(encoding="utf-8", errors="replace"))
+            if error:
+                failures.append(f"{path.relative_to(ROOT)}: {error}")
+
+    for suffix in INTERFACE_SUFFIXES:
+        for path in sorted((ROOT / "interface").rglob(suffix)):
+            raw = path.read_bytes()
+            if raw.startswith(b"\xef\xbb\xbf"):
+                failures.append(f"{path.relative_to(ROOT)}: UTF-8 BOM breaks the interface parser")
                 continue
             error = brace_error(raw.decode(encoding="utf-8", errors="replace"))
             if error:
