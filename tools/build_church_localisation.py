@@ -1042,8 +1042,8 @@ custom+=defined('GetChurchContactHistory',[
 # Live readouts use trigger-backed localization, never dynamic button labels.
 DATA.update({
  'rip_church_gui_shared_status':'§GIn communion§! · Rome: [Root.GetChurchPapalOpinion] · PA: [Root.GetChurchAuthorityReadout]',
- 'rip_church_gui_count_eastern_value':'Eastern communities: [Root.GetChurchEasternCount]',
- 'rip_church_gui_count_latin_value':'Latin communities: [Root.GetChurchLatinCount]',
+ 'rip_church_gui_count_eastern_value':'Eastern: [Root.GetChurchEasternCount]',
+ 'rip_church_gui_count_latin_value':'Latin: [Root.GetChurchLatinCount]',
  'rip_church_gui_rite_cell':'Rights: §Yprovince by province§!',
  'rip_church_gui_rite_cell_tt':'Each community keeps its own religion and local agreement. Guaranteeing rights does not convert nearby provinces or bring any province into the Union.',
  'rip_church_gui_slot_free':'Slots used\\n§R0§! / §Y1§!',
@@ -1052,7 +1052,7 @@ DATA.update({
  'rip_church_gui_ecumenism_reason':'[Root.GetChurchEcumenismReason]',
  'rip_church_gui_contact_cost':'Cost: [Root.GetChurchMissionCost]',
  'rip_church_gui_contact_peace':'Peace: [Root.GetChurchMissionPeace]',
- 'rip_church_gui_contact_rome':'Recipient: [Root.GetChurchMissionRome]',
+ 'rip_church_gui_contact_rome':'Rome: [Root.GetChurchMissionRome]',
  'rip_church_gui_contact_cooldown':'Cooldown: [Root.GetChurchMissionCooldown]',
  'rip_church_gui_contact_history':'[Root.GetChurchMissionReason]',
  'rip_church_gui_recognition_cost':'§Y1 ADM per development§! · lasts at least ten years\\nOwned, controlled Orthodox, Muscovite Orthodox or Catholic city. Its religion does not change.',
