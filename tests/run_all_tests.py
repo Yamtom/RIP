@@ -32,6 +32,7 @@ scripts = [
     "tests/check_gc_icon_ai.py",
     "tests/check_gc_test_harness.py",
     "tests/check_gc_pa_pacing.py",
+    "tests/check_gc_capacity_ui.py",
     "tests/check_gc_synod_consequences.py",
     "tests/check_church_gui_routes.py",
     "tests/check_church_balance_protocol.py",

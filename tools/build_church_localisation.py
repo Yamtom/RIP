@@ -1124,10 +1124,16 @@ DATA['rip_church_gui_ecumenism_reason_tt']='[Root.GetChurchEcumenismReason]\\n'+
 for key in ('cardinal','vote','conclave'):
  DATA['rip_church_gui_right_'+key+'_tt']='Unavailable to the Greek Catholic Union. Papal opinion and deputations grant no cardinalship, Curia vote or conclave participation; there is no opinion threshold.'
 # PA is reused as a local administrative resource, not universal UGCC authority.
-GC_CAPACITY_HELP=('Hierarchical Capacity (HC) represents the local hierarchy and synod capacity to organize clergy, '
- 'sustain institutions and fund devotional initiatives. It is a gameplay abstraction using the native Patriarch Authority (PA) bar, '
- 'not a historical measurement of universal UGCC authority or standing with Rome. Papal relations are tracked separately. '
- 'The Greek Catholic state religion provides a base +7.5 HC per year (0.625 per month). Two icons and one synod cost 60 HC per ten years; one parish visit adds 5 HC, leaving 10 HC before other costs. No extra resource is granted on loading a save.')
+GC_CAPACITY_HELP=('Hierarchical Capacity (HC) is the Greek Catholic label for the native Patriarch Authority bar (0–100), '
+ 'used here as a gameplay abstraction for the local church administration, not as papal standing or a historical measure of universal UGCC authority. '
+ 'Recurring gain: +7.5 HC per year (+0.625 per month) from the Greek Catholic state religion. Country-specific events and mission rewards may also change the bar; '
+ 'there is no free refill when loading a save. One devotional icon at a time costs 20 HC and lasts five years: Liturgy grants +1 yearly prestige, +1 diplomatic reputation '
+ 'and +20% improve relations; Learning grants -5% development cost and -5% technology cost; Almsgiving grants -1 global unrest and -10% stability cost. '
+ 'A local synod lasts ten years and costs 20 HC plus 75 ducats for Infrastructure (-10% state maintenance, +5% church loyalty and -5% local autonomy in owned Greek Catholic core cities), '
+ 'or 20 HC plus 100 ducats for Coexistence (-0.5 global unrest, +10% improve relations and +5% local autonomy in recognized non-Greek-Catholic communities). '
+ 'A parish visit costs 5 HC, 100 ducats and 25 ADM, once per ten years: choose +1% local missionary strength or -1 local unrest in one eligible province; either choice also gives -5% local tax for ten years. '
+ 'The bar also recalculates country and province balancing modifiers in five-point bands, so HC is not an unconditional bonus: at 100, the country has -2% global missionary strength and -10% church influence; '
+ 'owned Greek Catholic provinces have +2.25/+2.625/+3 local unrest by region and -33% local manpower. Other decisions show their own HC thresholds and costs.')
 for key,value in list(DATA.items()):
  if (key.startswith(('rip_church_gc_', 'rip_church_readout_getchurchdevotional', 'rip_church_gui_shared_status'))
      or key in ('greek_catholic_religion_desc','rip_church.6.d','rip_church_gui_synod_tt')):
