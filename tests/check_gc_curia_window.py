@@ -1,4 +1,4 @@
-"""Contracts for the remaining Greek Catholic synod, icons and Rome audience."""
+﻿"""Contracts for the remaining Greek Catholic synod, icons and Rome audience."""
 import re
 from clausewitz_testlib import named_block, keyed_blocks, read
 
@@ -157,9 +157,6 @@ c['treasury'] = 100
 assert w.gate(gift_gate,c)
 w.run(gift_effect,c)
 assert c['treasury'] == 0
-<<<<<<< Updated upstream
-assert w.opinion(w.countries['PAP'],c) == baseline_pap_opinion + 25
-=======
 assert w.opinion(w.countries['PAP'],c) == 25
 assert not w.gate(gift_gate,c)  # insufficient funds also disables the control
 c['treasury'] = 100
@@ -172,5 +169,4 @@ w.countries['PAP']['religion'] = 'catholic'
 c['religion'] = 'catholic'
 assert not w.gate(gift_gate,c)
 c['religion'] = 'greek_catholic'
->>>>>>> Stashed changes
 print('GC CURIA PASS: audience and gift transactions, opinion, visibility gates, cooldown boundaries')
