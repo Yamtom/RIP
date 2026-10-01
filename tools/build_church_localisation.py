@@ -495,20 +495,9 @@ DATA.update({
     'rip_church_gc_contact_title_tt': 'A limited diplomatic audience with the Holy See.',
     'rip_church_gc_deputation_button': 'Send diplomatic mission — 50¤',
     'rip_church_gc_icons_title': 'DEVOTIONAL ICON',
-<<<<<<< HEAD
     'rip_church_gc_icon_liturgy_state': 'Liturgy\\n§G+1 yearly prestige; +1 diplomatic reputation; +20% improve relations§!',
-<<<<<<< HEAD
     'rip_church_gc_icon_learning_state': 'Learning\\n§G-5% development cost; -5% technology cost§!',
     'rip_church_gc_icon_charity_state': 'Almsgiving\\n§G-1 national unrest; -10% stability cost§!',
-=======
-    'rip_church_gc_icon_learning_state': 'Learning\\n§G−5% development cost; −5% technology cost§!',
-    'rip_church_gc_icon_charity_state': 'Almsgiving\\n§G−1 national unrest; −10% stability cost§!',
-=======
-    'rip_church_gc_icon_liturgy_state': 'Liturgy\\n§G+0.5 yearly prestige§!',
-    'rip_church_gc_icon_learning_state': 'Learning\\n§G-5% development cost§!',
-    'rip_church_gc_icon_charity_state': 'Almsgiving\\n§G-0.5 national unrest§!',
->>>>>>> d705a401 (fix(gc_church): Забезпечити очищення застарілих модифікаторів "Римської петиції")
->>>>>>> ca4c434f (fix(gc_church): Забезпечити очищення застарілих модифікаторів "Римської петиції")
  'rip_church_gc_native_privileges_button': 'Manage',
  'rip_church_gc_native_privileges_button_tt': 'Open church privileges. Opening this menu is free; only choosing a privilege spends resources.',
  'rip_church_ro_heading': 'The Muscovite Church',
@@ -793,24 +782,10 @@ DATA.update({
  'rip_church_gc_icon_liturgy_button_tt':'Activate the icon of the Divine Liturgy for five years. Costs §Y20 Patriarch Authority§!. +1 yearly prestige, +1 diplomatic reputation and +20% improve relations. Only one Greek Catholic icon can be active.',
  'rip_church_gc_icon_liturgy_state':'Liturgy',
  'rip_church_gc_icon_learning_button':'Learning',
-<<<<<<< HEAD
  'rip_church_gc_icon_learning_button_tt':'Activate the icon of Eastern learning for five years. Costs §Y20 Patriarch Authority§!. -5% development cost and -5% technology cost. Only one Greek Catholic icon can be active.',
  'rip_church_gc_icon_learning_state':'Learning',
  'rip_church_gc_icon_charity_button':'Almsgiving',
  'rip_church_gc_icon_charity_button_tt':'Activate the icon of almsgiving for five years. Costs §Y20 Patriarch Authority§!. -1 national unrest and -10% stability cost. Only one Greek Catholic icon can be active.',
-=======
-<<<<<<< HEAD
- 'rip_church_gc_icon_learning_button_tt':'Activate the icon of Eastern learning for five years. Costs §Y20 Patriarch Authority§!. −5% development cost and −5% technology cost. Only one Greek Catholic icon can be active.',
- 'rip_church_gc_icon_learning_state':'Learning',
- 'rip_church_gc_icon_charity_button':'Almsgiving',
- 'rip_church_gc_icon_charity_button_tt':'Activate the icon of almsgiving for five years. Costs §Y20 Patriarch Authority§!. −1 national unrest and −10% stability cost. Only one Greek Catholic icon can be active.',
-=======
- 'rip_church_gc_icon_learning_button_tt':'Activate the icon of Eastern learning for five years. Costs §Y20 Patriarch Authority§!. -5% development cost. Only one Greek Catholic icon can be active.',
- 'rip_church_gc_icon_learning_state':'Learning',
- 'rip_church_gc_icon_charity_button':'Almsgiving',
- 'rip_church_gc_icon_charity_button_tt':'Activate the icon of almsgiving for five years. Costs §Y20 Patriarch Authority§!. -0.5 national unrest. Only one Greek Catholic icon can be active.',
->>>>>>> d705a401 (fix(gc_church): Забезпечити очищення застарілих модифікаторів "Римської петиції")
->>>>>>> ca4c434f (fix(gc_church): Забезпечити очищення застарілих модифікаторів "Римської петиції")
  'rip_church_gc_icon_charity_state':'Almsgiving',
  'rip_church_gc_curia_vote_disclaimer':'Greek Catholic deputations and petitions do not confer cardinalship, electoral votes or control of the Catholic Curia.',
  'rip_church_rite_help':RITE_HELP,
@@ -991,11 +966,7 @@ DATA.update({
     'rip_church_gui_slot_free_tt': 'Local synod institution: §G0 / 1§!',
     'rip_church_gui_slot_used_tt': 'Local synod institution: §Y1 / 1§!',
     'rip_church_gc_infrastructure_button_tt':
-<<<<<<< HEAD
         'Costs 20 Patriarch Authority and 75 ducats. For ten years: -10% state maintenance and +5% clergy loyalty equilibrium. Immediately lowers autonomy by 5 in controlled Greek Catholic core cities. Peaceful Greek Catholic neighbours gain +10 opinion of us for ten years.',
-=======
-        'Costs 20 Patriarch Authority and 75 ducats; establishes Eastern church infrastructure for ten years.',
->>>>>>> d705a401 (fix(gc_church): Забезпечити очищення застарілих модифікаторів "Римської петиції")
     'rip_church_gc_coexistence_button_tt':
         'Costs 20 Patriarch Authority and 100 ducats; requires a controlled Orthodox, Russian Orthodox or Catholic city with guaranteed community rights. Immediately grants +5 autonomy to each such community. For ten years: -0.5 national unrest, +10% improve relations and +15 opinion of us from peaceful Christian neighbours which do not oppose the Union.',
     'rip_church_gc_pope_shield_tt':
@@ -1071,8 +1042,8 @@ custom+=defined('GetChurchContactHistory',[
 # Live readouts use trigger-backed localization, never dynamic button labels.
 DATA.update({
  'rip_church_gui_shared_status':'§GIn communion§! · Rome: [Root.GetChurchPapalOpinion] · PA: [Root.GetChurchAuthorityReadout]',
- 'rip_church_gui_count_eastern_value':'Eastern communities: [Root.GetChurchEasternCount]',
- 'rip_church_gui_count_latin_value':'Latin communities: [Root.GetChurchLatinCount]',
+ 'rip_church_gui_count_eastern_value':'Eastern: [Root.GetChurchEasternCount]',
+ 'rip_church_gui_count_latin_value':'Latin: [Root.GetChurchLatinCount]',
  'rip_church_gui_rite_cell':'Rights: §Yprovince by province§!',
  'rip_church_gui_rite_cell_tt':'Each community keeps its own religion and local agreement. Guaranteeing rights does not convert nearby provinces or bring any province into the Union.',
  'rip_church_gui_slot_free':'Slots used\\n§R0§! / §Y1§!',
@@ -1081,7 +1052,7 @@ DATA.update({
  'rip_church_gui_ecumenism_reason':'[Root.GetChurchEcumenismReason]',
  'rip_church_gui_contact_cost':'Cost: [Root.GetChurchMissionCost]',
  'rip_church_gui_contact_peace':'Peace: [Root.GetChurchMissionPeace]',
- 'rip_church_gui_contact_rome':'Recipient: [Root.GetChurchMissionRome]',
+ 'rip_church_gui_contact_rome':'Rome: [Root.GetChurchMissionRome]',
  'rip_church_gui_contact_cooldown':'Cooldown: [Root.GetChurchMissionCooldown]',
  'rip_church_gui_contact_history':'[Root.GetChurchMissionReason]',
  'rip_church_gui_recognition_cost':'§Y1 ADM per development§! · lasts at least ten years\\nOwned, controlled Orthodox, Muscovite Orthodox or Catholic city. Its religion does not change.',
