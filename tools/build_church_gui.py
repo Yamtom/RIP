@@ -353,7 +353,7 @@ def native_anchors(source):
 attach('countryreligionview.gui','countryreligionview',native_anchors(religion_panels))
 attach('provinceview.gui','province_window',prov_panel)
 outputs['common/custom_gui/RIP_church_controls.txt']='# ROOT/FROM contracts follow common/custom_gui/example.txt in EU4 1.37.\n'+'\n'.join(defs)+'\n'
-outputs['common/custom_gui/RIP_church_gc_features.txt']='# Greek Catholic icons and a non-electoral Curia deputation.\n'+'\n'.join(feature_defs)+'\n'
+outputs['common/custom_gui/RIP_church_gc_features.txt']='# Greek Catholic icons and non-electoral Curia diplomacy.\n'+'\n'.join(feature_defs)+'\n'
 stale=[]
 for path,s in outputs.items():
     target=ROOT/path

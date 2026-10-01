@@ -105,6 +105,7 @@ for language in ('english', 'french', 'german', 'spanish'):
     localisation = read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
     assert 'rip_church_gc_holy_see_gift_button:0 "Send a gift to Rome — 100¤"' in localisation
     assert 'The Papal State gains +25 opinion of us, decaying by 5 per year' in localisation
+    assert 'rip_church_opinion_gc_donation:0 "Donation from an Eastern Catholic church"' in localisation
 
 # All three pages share a fixed header/navigation rail.  Devotional icon art is
 # the click target's card, not an empty blue button floating above the icon.
@@ -156,5 +157,20 @@ c['treasury'] = 100
 assert w.gate(gift_gate,c)
 w.run(gift_effect,c)
 assert c['treasury'] == 0
+<<<<<<< Updated upstream
 assert w.opinion(w.countries['PAP'],c) == baseline_pap_opinion + 25
+=======
+assert w.opinion(w.countries['PAP'],c) == 25
+assert not w.gate(gift_gate,c)  # insufficient funds also disables the control
+c['treasury'] = 100
+c['is_at_war'] = True
+assert not w.gate(gift_gate,c)
+c['is_at_war'] = False
+w.countries['PAP']['religion'] = 'orthodox'
+assert not w.gate(gift_gate,c)
+w.countries['PAP']['religion'] = 'catholic'
+c['religion'] = 'catholic'
+assert not w.gate(gift_gate,c)
+c['religion'] = 'greek_catholic'
+>>>>>>> Stashed changes
 print('GC CURIA PASS: audience and gift transactions, opinion, visibility gates, cooldown boundaries')

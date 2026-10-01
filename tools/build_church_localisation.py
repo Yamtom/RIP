@@ -935,15 +935,16 @@ custom+=defined('GetChurchParishRegisterState',[
  ('OR = { check_variable = { which = rip_church_gui_eastern_parishes value = 1 } check_variable = { which = rip_church_gui_latin_parishes value = 1 } }','rip_church_gui_parish_register_active'),
  ('always = yes','rip_church_gui_parish_register_empty')])
 outputs={'customizable_localization/rip_church_redesign.txt':custom}
-# Retire generated strings for the removed Communion scale, Curia purchases,
-# donation control and artificial Union-centre rings.
+# Retire generated strings for the removed Communion scale, paid Curia
+# petition/control economy and artificial Union-centre rings. The current
+# fixed-price Holy See gift is a separate diplomatic action, not that economy.
 for key in list(DATA):
     if (key.startswith(('rip_church_gc_petition_', 'desc_rip_church_gc_petition_',
                         'rip_church_gc_donation_', 'rip_church_gc_donate_',
                         'rip_church_gui_ring_', 'rip_church_standing_rate_'))
             or key in {'rip_church_gc_curia_privilege', 'rip_church_gc_curia_privilege_tt',
                        'rip_church_gc_donation', 'rip_church_gc_donation_tt',
-                       'rip_church_opinion_gc_donation', 'rip_church_gc_orientation',
+                       'rip_church_gc_orientation',
                        'rip_church_gc_orientation_tt', 'rip_church_gc_petitions_title',
                        'rip_church_gc_petitions_title_tt', 'rip_church_gc_rate_paused',
                        'rip_church_gc_rome_resources', 'rip_church_gc_rome_resources_tt',
