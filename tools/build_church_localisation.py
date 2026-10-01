@@ -494,11 +494,19 @@ DATA.update({
     'rip_church_gc_contact_title': 'PAPAL CONTACT',
     'rip_church_gc_contact_title_tt': 'A limited diplomatic audience with the Holy See.',
     'rip_church_gc_deputation_button': 'Send diplomatic mission — 50¤',
+<<<<<<< HEAD
     'rip_church_gc_holy_see_gift_button': 'Send a gift to Rome',
     'rip_church_gc_holy_see_gift_button_tt':
         'Send 100 ducats to the Holy See. The Papal State gains +25 opinion of us, decaying by 5 per year. Available once every five years. Requires the Catholic Papal State, peace and 100 ducats. This is diplomatic goodwill only: no Patriarch Authority, Curia vote, cardinal or electoral influence is gained.',
     'rip_church_gc_holy_see_gift_summary':
         'Gift: §Y100 ducats§! · §G+25 Papal opinion§! · every 5 years',
+=======
+    'rip_church_gc_holy_see_gift_button': 'Send a gift to Rome — 100¤',
+    'rip_church_gc_holy_see_gift_button_tt':
+        'Send 100 ducats to the Holy See. The Papal State gains +25 opinion of us, decaying by 5 per year. Available once every five years. Requires the Catholic Papal State, peace and 100 ducats. This is diplomatic goodwill only: no Patriarch Authority, Curia vote, cardinal or electoral influence is gained.',
+    'rip_church_gc_holy_see_gift_summary':
+        'Gift: §Y100 ducats§! · §G+25 Papal opinion§! · once every five years',
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
     'rip_church_gc_icons_title': 'DEVOTIONAL ICON',
     'rip_church_gc_icon_liturgy_state': 'Liturgy\\n§G+1 yearly prestige; +1 diplomatic reputation; +20% improve relations§!',
     'rip_church_gc_icon_learning_state': 'Learning\\n§G-5% development cost; -5% technology cost§!',
@@ -1148,6 +1156,7 @@ for key,value in list(DATA.items()):
      or key in ('greek_catholic_religion_desc','rip_church.6.d','rip_church_gui_synod_tt')):
   DATA[key]=re.sub(r'\bPA\b','HC',value.replace('Patriarchal Authority','Hierarchical Capacity').replace('Patriarch Authority','Hierarchical Capacity'))
 DATA['rip_church_gc_resources']='Hierarchical Capacity: [Root.GetChurchAuthorityReadout]'
+<<<<<<< HEAD
 DATA['rip_church_gui_synod_active']='Active: [Root.GetChurchLocalInstitution]'
 DATA['rip_church_gui_synod_active_tt']='Choose the institution with the Synod button beside the Hierarchical Capacity bar in the religion window. The picture there shows the active institution.\\nEastern infrastructure, or a compact of coexistence once community rights are guaranteed in at least one province; both use Hierarchical Capacity and ducats and last ten years.'
 DATA['rip_church_rite_badge_yes']='§GCommunity rights guaranteed§!'
@@ -1159,6 +1168,8 @@ DATA['rip_church_rite_effects']='[Root.GetChurchRiteEffects]'
 DATA['rip_church_rite_effects_tt']='$rip_church_rite_help_tt$'
 DATA['rip_church_rite_note']='Gameplay abstraction: not an exact or canonical parish status, and not voluntary Union acceptance.'
 DATA['rip_church_rite_note_tt']='$rip_church_rite_help_tt$'
+=======
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 DATA['rip_church_gc_controller_readout']='Curia controller\\n§Y[Root.GetChurchCuriaController]§!'
 DATA['rip_church_gc_controller_readout_tt']='Country currently controlling the Catholic Curia: [Root.GetChurchCuriaController]. This is not the birthplace or nationality of the Pope. Reopening the Curia tab refreshes the current controller.'
 for key in ('rip_church_gc_resources_tt','rip_church_gc_help_tt','rip_church_gui_shared_status_tt'):

@@ -1,4 +1,4 @@
-# Архієпископ для Hierarchical Capacity
+﻿# Архієпископ для Hierarchical Capacity
 
 `gc_archbishop_low.dds` і `gc_archbishop_high.dds`: прозорі RGBA DDS,
 38×38 — штатний розмір кінцевих іконок Patriarch Authority. Видимі лише

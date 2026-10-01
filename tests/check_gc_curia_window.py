@@ -103,9 +103,14 @@ assert '+25 opinion of us, decaying by 5 per year' in localisation_generator
 assert 'no Patriarch Authority, Curia vote, cardinal or electoral influence' in localisation_generator
 for language in ('english', 'french', 'german', 'spanish'):
     localisation = read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
+<<<<<<< HEAD
     assert 'rip_church_gc_holy_see_gift_button:0 "Send a gift to Rome"' in localisation
     assert 'The Papal State gains +25 opinion of us, decaying by 5 per year' in localisation
     assert 'rip_church_opinion_gc_donation:0 "Donation from an Eastern Catholic church"' in localisation
+=======
+    assert 'rip_church_gc_holy_see_gift_button:0 "Send a gift to Rome — 100¤"' in localisation
+    assert 'The Papal State gains +25 opinion of us, decaying by 5 per year' in localisation
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 
 # All three pages share a fixed header/navigation rail.  Devotional icon art is
 # the click target's card, not an empty blue button floating above the icon.
@@ -119,6 +124,7 @@ assert interface.count('spriteType = "GFX_rip_church_union_frame"') >= 3
 assert 'small_tiles_dialog.dds' not in read('interface/RIP_church_panels.gfx')
 assert 'name = "rip_church_authority_heading" scripted = yes' in interface
 assert interface.count('spriteType = "GFX_rip_church_section_banner"') >= 7
+<<<<<<< HEAD
 assert 'name = "rip_church_gc_holy_see_gift_button" scripted = yes position = { x=91 y=68 }' in interface
 # The deputation and the gift each get their own button and own summary line;
 # the old four-cell Cost/Peace/Rome/Cooldown grid sat under the gift button.
@@ -137,6 +143,9 @@ assert 'name = "rip_church_gc_native_privileges_button" scripted = yes position 
 assert 'name = "rip_church_gui_synod"' not in interface and 'name = rip_church_gui_synod ' not in bindings
 assert interface.count('rip_church_gc_open_synod_effect') == 0  # effects live in custom_gui only
 assert bindings.count('rip_church_gc_open_synod_effect = yes') == 1
+=======
+assert 'name = "rip_church_gc_holy_see_gift_button" scripted = yes position = { x=91 y=50 }' in interface
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 assert 'GFX_standard_button_140' not in gui_generator
 for key in ('liturgy', 'learning', 'charity'):
     start = interface.index(f'name = "rip_church_gc_icon_{key}_button"')
@@ -160,12 +169,19 @@ assert w.gate(deputation_gate,c)
 
 gift_gate = TRIGGERS['rip_church_gc_can_offer_gift_to_holy_see']
 gift_effect = 'rip_church_gc_offer_gift_to_holy_see_effect'
+<<<<<<< HEAD
 baseline_pap_opinion = w.opinion(w.countries['PAP'],c)
+=======
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 assert w.gate(gift_gate,c)
 w.run(gift_effect,c)
 assert c['treasury'] == 50
 assert c['flags']['rip_church_gc_holy_see_gift_sent'] == w.day
+<<<<<<< HEAD
 assert w.opinion(w.countries['PAP'],c) == baseline_pap_opinion + 25
+=======
+assert w.opinion(w.countries['PAP'],c) == 25
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 assert not w.gate(gift_gate,c)
 w.day += 1824
 assert not w.gate(gift_gate,c)
@@ -174,6 +190,7 @@ c['treasury'] = 100
 assert w.gate(gift_gate,c)
 w.run(gift_effect,c)
 assert c['treasury'] == 0
+<<<<<<< HEAD
 assert w.opinion(w.countries['PAP'],c) == baseline_pap_opinion + 25  # first gift has decayed away
 assert not w.gate(gift_gate,c)  # insufficient funds also disables the control
 c['treasury'] = 100
@@ -186,4 +203,7 @@ w.countries['PAP']['religion'] = 'catholic'
 c['religion'] = 'catholic'
 assert not w.gate(gift_gate,c)
 c['religion'] = 'greek_catholic'
+=======
+assert w.opinion(w.countries['PAP'],c) == 50
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 print('GC CURIA PASS: audience and gift transactions, opinion, visibility gates, cooldown boundaries')

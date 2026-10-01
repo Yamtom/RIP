@@ -67,7 +67,11 @@ def shield(name,x,y,target,potential,sprite):
 def gc_tabs(page):
     # Fixed navigation rail shared by all three Union pages.
     y=110
+<<<<<<< HEAD
     return (button('rip_church_gc_union_tab_'+page,121,y,'OR = { religion = greek_catholic religion = catholic }',
+=======
+    return (button('rip_church_gc_union_tab_'+page,63,y,'OR = { religion = greek_catholic religion = catholic }',
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
                    'rip_church_gc_open_union_effect = yes',sprite='GFX_tab_small_116',frame=2 if page=='union' else 1)+
             button('rip_church_gc_curia_tab_'+page,237,y,'religion = greek_catholic',
                    'rip_church_gc_open_curia_effect = yes',sprite='GFX_tab_small_116',frame=2 if page=='curia' else 1))
@@ -84,7 +88,11 @@ def church_header(body,page):
     return (text('rip_church_gc_heading',28,43,w=419,h=28,font='vic_22',align='center')+
             card('rip_church_header_'+page,34,73,407,30,
                  text('rip_church_gui_shared_status',8,10,w=391,h=22,font='vic_18',align='center'))+
+<<<<<<< HEAD
             inset('tab_rail_'+page,34,106,407,36)+gc_tabs(page))
+=======
+            gc_tabs(page))
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 
 def section(body,name,y,feature=False):
     title=(feature_text if feature else text)(name,45,y+4,w=385,h=20,font='vic_18',align='center')
@@ -99,7 +107,11 @@ def panel(name,condition,body,x=540,y=8,clean=False):
     background = ('GFX_rip_church_union_frame' if clean else 'GFX_country_religion_view_bg')
     scale = '' if clean else 'scale = 0.86'
     hit_test = 'alwaystransparent = no' if clean else ''
+<<<<<<< HEAD
     native_church = name in ('rip_church_rite_panel','rip_church_ro_panel','rip_church_gc_panel','rip_church_gc_curia_panel','rip_church_gc_parishes_panel')
+=======
+    native_church = name in ('rip_church_ro_panel','rip_church_gc_panel','rip_church_gc_curia_panel','rip_church_gc_parishes_panel')
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
     if native_church:
         background='GFX_rip_church_ro_frame'
         scale='scale = 0.782537'
@@ -147,6 +159,7 @@ gc=church_header('', 'union')
 status=text('rip_church_gui_communion_cell',12,8,w=188,h=44,font='Main_14')
 status+=text('rip_church_gui_rite_cell',211,8,w=184,h=44,font='Main_14')
 for i,family in enumerate(('eastern','latin')):
+<<<<<<< HEAD
     status+=text('rip_church_gui_count_'+family+'_value',27+i*199,56,w=145,h=20,font='Main_14',align='center').replace('format = center','format = center alwaystransparent = yes')
 gc=section(gc,'rip_church_gui_status_title',92)
 gc+=card('rip_church_status_card',34,126,407,84,status)
@@ -157,6 +170,18 @@ synod+=text('rip_church_gui_slot_state',76,12,w=111,h=36,font='Main_14')
 # a second button here would duplicate it.
 synod+=text('rip_church_gui_synod_active',8,84,w=183,h=26,font='vic_18',align='center')
 gc+=card('rip_church_synod_card',34,250,199,118,synod)
+=======
+    status+=button('rip_church_gui_count_'+family,27+i*199,63,'rip_church_union_supporter = yes',
+                   'rip_church_gui_open_parishes_effect = yes',sprite='button_type_1',label=False)
+    status+=text('rip_church_gui_count_'+family+'_value',27+i*199,68,w=145,h=20,font='Main_14',align='center').replace('format = center','format = center alwaystransparent = yes')
+gc=section(gc,'rip_church_gui_status_title',92)
+gc+=card('rip_church_status_card',34,126,407,108,status)
+gc=section(gc,'rip_church_gui_institutions_title',239)
+synod=framed('rip_church_synod_symbol','GFX_rip_church_gc_privileges',12,7,0.72)
+synod+=text('rip_church_gui_slot_state',76,12,w=111,h=36,font='Main_14')
+synod+=button('rip_church_gui_synod',27,85,'religion = greek_catholic','rip_church_gc_open_synod_effect = yes',sprite='button_type_1')
+gc+=card('rip_church_synod_card',34,273,199,118,synod)
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 policy=framed('rip_church_policy_symbol','GFX_rip_church_gc_ecumenism',12,7,0.72)
 policy+=text('rip_church_gui_ecumenism_state',76,12,w=111,h=36,font='Main_14')
 policy+=button('rip_church_gui_ecumenism',27,85,'rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes',sprite='button_type_1')
@@ -177,11 +202,19 @@ for i,(key,sprite) in enumerate((
     icons+=feature_button(f'rip_church_gc_icon_{key}_button',x,3,
         f'rip_church_gc_can_activate_icon_{key} = yes',
         f'rip_church_gc_activate_icon_{key}_effect = yes',sprite='GFX_coptic_blessing_select')
+<<<<<<< HEAD
     icons+=art(f'rip_church_gc_icon_{key}_art',sprite,x+9,12,0.65)
     icons+=f'iconType = {{ name = "rip_church_gc_icon_{key}_active_frame" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x={x} y=3 }} alwaystransparent = yes }}'
     icons+=feature_text(f'rip_church_gc_icon_{key}_state',x-27,62,w=112,h=36,font='vic_18',align='center')
 icons+=feature_text('rip_church_gc_icons_note',10,100,w=387,h=22,font='vic_18',align='center')
 gc+=card('rip_church_devotional_card',34,406,407,128,icons)
+=======
+    icons+=art(f'rip_church_gc_icon_{key}_art',sprite,x+9,14,0.65)
+    icons+=f'iconType = {{ name = "rip_church_gc_icon_{key}_active_frame" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x={x} y=5 }} alwaystransparent = yes }}'
+    icons+=feature_text(f'rip_church_gc_icon_{key}_state',x-27,65,w=112,h=36,font='vic_18',align='center')
+icons+=feature_text('rip_church_gc_icons_note',10,104,w=387,h=40,font='vic_18',align='center')
+gc+=card('rip_church_devotional_card',34,431,407,148,icons)
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 
 parishes=church_header('', 'parishes')
 parishes=section(parishes,'rip_church_gui_parish_list_title',92)
@@ -196,10 +229,17 @@ curia=church_header('', 'curia')
 curia=section(curia,'rip_church_gc_curia_heading',92)
 see=shield('rip_church_gc_pope_shield',14,12,'rip_church_gc_rome',
               'has_global_flag = rip_church_gc_rome_known rip_church_gc_rome_present = yes','GFX_shield_small')
+<<<<<<< HEAD
 see+=feature_text('rip_church_gc_curia_note',66,8,w=130,h=72,font='vic_18')
 see+=shield('rip_church_gc_controller_shield',213,12,'rip_church_gc_controller',
             'has_global_flag = rip_church_gc_controller_known event_target:rip_church_gc_controller = { is_papal_controller = yes }','GFX_shield_small')
 see+=text('rip_church_gc_controller_readout',267,8,w=130,h=72,font='vic_18')
+=======
+see+=feature_text('rip_church_gc_curia_note',48,8,w=147,h=72,font='vic_18')
+see+=shield('rip_church_gc_controller_shield',213,12,'rip_church_gc_controller',
+            'has_global_flag = rip_church_gc_controller_known event_target:rip_church_gc_controller = { is_papal_controller = yes }','GFX_shield_small')
+see+=text('rip_church_gc_controller_readout',247,8,w=148,h=72,font='vic_18')
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 curia+=card('rip_church_see_card',34,126,407,81,see)
 curia=section(curia,'rip_church_gui_rights_title',212)
 # Read-only list: no slot frames or lock icons, so nothing here looks clickable.
@@ -212,6 +252,7 @@ contact=feature_button('rip_church_gc_deputation_button',91,6,
                       'rip_church_gc_can_depute_to_curia = yes',
                       'rip_church_gc_depute_to_curia_effect = yes',
                       sprite='GFX_standard_button_224',label=True)
+<<<<<<< HEAD
 contact+=text('rip_church_gui_contact_cost',12,42,w=383,h=22,font='Main_14',align='center')
 contact+=feature_button('rip_church_gc_holy_see_gift_button',91,68,
                         'rip_church_gc_can_offer_gift_to_holy_see = yes',
@@ -220,6 +261,16 @@ contact+=feature_button('rip_church_gc_holy_see_gift_button',91,68,
 contact+=text('rip_church_gc_holy_see_gift_summary',12,104,w=383,h=22,font='Main_14',align='center')
 contact+=text('rip_church_gui_contact_history',12,130,w=383,h=22,font='Main_14',align='center')
 curia+=card('rip_church_contact_card',34,368,407,158,contact)
+=======
+contact+=feature_button('rip_church_gc_holy_see_gift_button',91,50,
+                        'rip_church_gc_can_offer_gift_to_holy_see = yes',
+                        'rip_church_gc_offer_gift_to_holy_see_effect = yes',
+                        sprite='GFX_standard_button_224',label=True)
+contact+=text('rip_church_gui_contact_cost',12,89,w=383,h=22,font='Main_14',align='center')
+contact+=text('rip_church_gc_holy_see_gift_summary',12,112,w=383,h=22,font='Main_14',align='center')
+contact+=text('rip_church_gui_contact_history',12,135,w=383,h=16,font='Main_14',align='center')
+curia+=card('rip_church_contact_card',34,400,407,151,contact)
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 # Apply the shift to whole card windows and standalone section strips using a
 # brace-aware walk, so nested text and buttons retain their parent offsets.
 def shift_page(source):
@@ -287,7 +338,11 @@ native_controls='''windowType = {
  name = "rip_church_gc_native_controls" scripted = yes
  position = { x=0 y=0 } size = { x=280 y=50 } moveable = 0
  iconType = { name = "rip_church_gc_capacity_low_icon" scripted = yes spriteType = "GFX_rip_church_gc_capacity_low" position = { x=54 y=273 } }
+<<<<<<< HEAD
  iconType = { name = "rip_church_gc_capacity_high_icon" scripted = yes spriteType = "GFX_rip_church_gc_capacity_high" position = { x=244 y=273 } }
+=======
+ iconType = { name = "rip_church_gc_capacity_high_icon" scripted = yes spriteType = "GFX_rip_church_gc_capacity_high" position = { x=272 y=273 } }
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
  iconType = { name = "rip_church_gc_selector_cover" spriteType = "GFX_rip_church_policy_slot" position = { x=310 y=235 } scale = 1.2 alwaystransparent = no }
  iconType = { name = "rip_church_gc_union_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
  iconType = { name = "rip_church_gc_synod_infrastructure_symbol" scripted = yes spriteType = "GFX_rip_church_gc_privileges" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
@@ -297,7 +352,11 @@ def attach(file,host,body):
     s=(GAME/'interface'/file).read_text(encoding='utf-8-sig')
     if file=='countryreligionview.gui':
         for level in ('low','high'):
+<<<<<<< HEAD
             s=re.sub(r'(name\s*=\s*"'+level+r'_patriarch_authority")(?!\s*scripted)',r'\1 scripted = yes',s)
+=======
+            s=re.sub(r'(name\s*=\s*"'+level+r'_patriarch_authority")',r'\1 scripted = yes',s)
+>>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
         # Native text boxes do not evaluate our country-scoped custom readout.
         # Bind the replacement as scripted text, preserving the native geometry.
         s=s.replace('name = "current_patriarch_authority_text"',
