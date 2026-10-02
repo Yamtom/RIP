@@ -2554,16 +2554,122 @@ guiTypes = {
 windowType = {
  name = "rip_church_rite_panel" scripted = yes position = { x=480 y=0 } size = { x=475 y=350 }
  moveable = 0
- iconType = { name = "rip_church_rite_panel_bg" spriteType = "GFX_rip_church_rite_frame" position = { x=0 y=0 }   }
- iconType = { name = "rip_church_rite_panel_surface" spriteType = "GFX_rip_church_rite_surface" position = { x=13 y=13 } scale = 1 alwaystransparent = yes }iconType = { name = "rip_church_rite_window_banner" spriteType = "GFX_rip_church_window_banner" position = { x=18 y=19 } scale = 0.94 alwaystransparent = yes }instantTextBoxType = {
- name = "rip_church_rite_heading" scripted = yes position = { x=28 y=43 } font = "vic_22"
- text = "rip_church_rite_heading" maxWidth = 419 maxHeight = 28 format = center
-}windowType = { name = "rip_church_rite_header" position = { x=34 y=73 } size = { x=407 y=30 } Orientation = "UPPER_LEFT" moveable = 0 instantTextBoxType = {
- name = "rip_church_rite_state" scripted = yes position = { x=8 y=8 } font = "vic_18"
- text = "rip_church_rite_state" maxWidth = 391 maxHeight = 22 format = center
-} }iconType = { name = "rip_church_rite_effects_title_banner" spriteType = "GFX_rip_church_section_banner" position = { x=71 y=112 } scale = 0.8 alwaystransparent = yes }instantTextBoxType = {
- name = "rip_church_rite_effects_title" scripted = yes position = { x=45 y=116 } font = "vic_18"
- text = "rip_church_rite_effects_title" maxWidth = 385 maxHeight = 20 format = center
+windowType = {
+	name = "rip_church_rite_panel"
+	scripted = yes
+	position = { x=480 y=0 }
+	size = { x=475 y=350 }
+	moveable = 0
+
+	iconType = {
+		name = "rip_church_rite_panel_bg"
+		spriteType = "GFX_rip_church_rite_frame"
+		position = { x=0 y=0 }
+	}
+	iconType = {
+		name = "rip_church_rite_panel_surface"
+		spriteType = "GFX_rip_church_rite_surface"
+		position = { x=13 y=13 }
+		scale = 1
+		alwaystransparent = yes
+	}
+	iconType = {
+		name = "rip_church_rite_window_banner"
+		spriteType = "GFX_rip_church_window_banner"
+		position = { x=18 y=19 }
+		scale = 0.94
+		alwaystransparent = yes
+	}
+	instantTextBoxType = {
+		name = "rip_church_rite_heading"
+		scripted = yes
+		position = { x=28 y=43 }
+		font = "vic_22"
+		text = "rip_church_rite_heading"
+		maxWidth = 419
+		maxHeight = 28
+		format = center
+	}
+	guiButtonType = {
+		name = "rip_church_rite_panel_hide_button"
+		scripted = yes
+		position = { x=438 y=8 }
+		quadTextureSprite = "GFX_closebutton2"
+		buttonText = ""
+		buttonFont = "vic_18"
+	}
+	windowType = {
+		name = "rip_church_rite_header"
+		position = { x=34 y=73 }
+		size = { x=407 y=30 }
+		Orientation = "UPPER_LEFT"
+		moveable = 0
+
+		instantTextBoxType = {
+			name = "rip_church_rite_state"
+			scripted = yes
+			position = { x=8 y=8 }
+			font = "vic_18"
+			text = "rip_church_rite_state"
+			maxWidth = 391
+			maxHeight = 22
+			format = center
+		}
+	}
+	iconType = {
+		name = "rip_church_rite_effects_title_banner"
+		spriteType = "GFX_rip_church_section_banner"
+		position = { x=71 y=112 }
+		scale = 0.8
+		alwaystransparent = yes
+	}
+	instantTextBoxType = {
+		name = "rip_church_rite_effects_title"
+		scripted = yes
+		position = { x=45 y=116 }
+		font = "vic_18"
+		text = "rip_church_rite_effects_title"
+		maxWidth = 385
+		maxHeight = 20
+		format = center
+	}
+	instantTextBoxType = {
+		name = "rip_church_rite_effects"
+		scripted = yes
+		position = { x=34 y=150 }
+		font = "vic_18"
+		text = "rip_church_rite_effects"
+		maxWidth = 407
+		maxHeight = 64
+		format = center
+	}
+	guiButtonType = {
+		name = "rip_church_recognize_rite_button"
+		scripted = yes
+		position = { x=125 y=224 }
+		quadTextureSprite = "GFX_standard_button_224"
+		buttonText = "rip_church_recognize_rite_button"
+		buttonFont = "vic_18"
+	}
+	guiButtonType = {
+		name = "rip_church_revoke_rite_button"
+		scripted = yes
+		position = { x=125 y=224 }
+		quadTextureSprite = "GFX_standard_button_224"
+		buttonText = "rip_church_revoke_rite_button"
+		buttonFont = "vic_18"
+	}
+	instantTextBoxType = {
+		name = "rip_church_rite_note"
+		scripted = yes
+		position = { x=34 y=272 }
+		font = "vic_18"
+		text = "rip_church_rite_note"
+		maxWidth = 407
+		maxHeight = 44
+		format = center
+	}
+}
 }instantTextBoxType = {
  name = "rip_church_rite_effects" scripted = yes position = { x=34 y=150 } font = "vic_18"
  text = "rip_church_rite_effects" maxWidth = 407 maxHeight = 64 format = center
@@ -2576,6 +2682,14 @@ windowType = {
 }instantTextBoxType = {
  name = "rip_church_rite_note" scripted = yes position = { x=34 y=272 } font = "vic_18"
  text = "rip_church_rite_note" maxWidth = 407 maxHeight = 44 format = center
+}
+}
+windowType = {
+ name = "rip_church_rite_reopen_panel" scripted = yes position = { x=874 y=8 } size = { x=80 y=32 }
+ backGround = "" moveable = 0
+ guiButtonType = {
+ name = "rip_church_rite_panel_show_button" scripted = yes position = { x=0 y=0 }
+ quadTextureSprite = "GFX_standard_button_71" buttonText = "rip_church_rite_panel_show_button" buttonFont = "vic_18"
 }
 }
 }
