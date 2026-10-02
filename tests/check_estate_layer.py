@@ -60,13 +60,23 @@ ORTHODOX_PRIVILEGES = {
     "rip_privilege_josephite_discipline",
     "rip_privilege_nonpossessor_rule",
 }
+GC_PRIVILEGES = {
+    "rip_privilege_eastern_rite_eparchies",
+    "rip_privilege_latin_rite_primacy",
+    "rip_privilege_brotherhood_charters",
+    "rip_privilege_parish_concord",
+    "rip_privilege_roman_concordat",
+    "rip_privilege_eastern_ecumene",
+    "rip_privilege_basilian_schools",
+    "rip_privilege_synodal_courts",
+}
 MAGNATE_AGENDAS = {
     "estate_magnates_agenda_develop_latifundium",
     "estate_magnates_agenda_hire_advisor",
 }
 
 ESTATE_REGISTRATIONS = {
-    "common/estates/01_church.txt": ORTHODOX_PRIVILEGES | {
+    "common/estates/01_church.txt": ORTHODOX_PRIVILEGES | GC_PRIVILEGES | {
         "estate_church_chr_chernihiv_collegium",
         "estate_church_het_academy",
     },
@@ -97,6 +107,7 @@ CUSTOM_SCRIPT_FILES = (
     "common/estate_privileges/RIP_ZAZ_privileges.txt",
     "common/estate_privileges/RIP_magnate_privileges.txt",
     "common/estate_privileges/RIP_orthodox_zeal_privileges.txt",
+    "common/estate_privileges/RIP_greek_catholic_privileges.txt",
     "common/estate_privileges/RIP_shared_jewish_privileges.txt",
     "common/estates/RIP_magnates.txt",
     "common/estates_preload/RIP_magnates_modifiers.txt",
@@ -321,7 +332,7 @@ def main() -> int:
     check_burgher_name(failures)
     check_style_and_dependencies(failures)
 
-    custom_privileges = country | SHARED_JEWISH | MAGNATE_PRIVILEGES | ORTHODOX_PRIVILEGES
+    custom_privileges = country | SHARED_JEWISH | MAGNATE_PRIVILEGES | ORTHODOX_PRIVILEGES | GC_PRIVILEGES
     check_registrations(failures, custom_privileges)
     check_localisation(failures, custom_privileges | MAGNATE_AGENDAS | {"estate_magnates"})
 

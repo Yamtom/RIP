@@ -91,6 +91,8 @@ def section(body,name,y,feature=False):
 insets=[
  'corneredTileSpriteType = { name = "GFX_rip_church_union_frame" textureFile = "gfx/interface/tiles_dialog.dds" size = { x=475 y=660 } borderSize = { x=32 y=32 } }',
  'corneredTileSpriteType = { name = "GFX_rip_church_union_surface" textureFile = "gfx/interface/copts_blessing_slot.dds" size = { x=449 y=634 } borderSize = { x=8 y=8 } }',
+ 'corneredTileSpriteType = { name = "GFX_rip_church_rite_frame" textureFile = "gfx/interface/tiles_dialog.dds" size = { x=475 y=350 } borderSize = { x=32 y=32 } }',
+ 'corneredTileSpriteType = { name = "GFX_rip_church_rite_surface" textureFile = "gfx/interface/copts_blessing_slot.dds" size = { x=449 y=324 } borderSize = { x=8 y=8 } }',
  'spriteType = { name = "GFX_rip_church_window_banner" textureFile = "gfx/interface/province_history_entry_banner.dds" }',
  'spriteType = { name = "GFX_rip_church_section_banner" textureFile = "gfx/interface/copts_blessing_title_banner.dds" }'
 ]
@@ -99,11 +101,17 @@ def panel(name,condition,body,x=540,y=8,clean=False):
     background = ('GFX_rip_church_union_frame' if clean else 'GFX_country_religion_view_bg')
     scale = '' if clean else 'scale = 0.86'
     hit_test = 'alwaystransparent = no' if clean else ''
-    native_church = name in ('rip_church_rite_panel','rip_church_ro_panel','rip_church_gc_panel','rip_church_gc_curia_panel','rip_church_gc_parishes_panel')
+    native_church = name in ('rip_church_ro_panel','rip_church_gc_panel','rip_church_gc_curia_panel','rip_church_gc_parishes_panel')
     if native_church:
         background='GFX_rip_church_ro_frame'
         scale='scale = 0.782537'
     height=560 if native_church else 680 if clean else 550
+    if name == 'rip_church_rite_panel':
+        # Same window language as the Union/Curia pages, but sized to its content.
+        background='GFX_rip_church_rite_frame'
+        scale=''
+        height=350
+        body=art(name+'_surface','GFX_rip_church_rite_surface',13,13)+body
     if name in ('rip_church_gc_panel','rip_church_gc_curia_panel','rip_church_gc_parishes_panel'):
         background='GFX_rip_church_union_frame'
         scale=''
@@ -282,15 +290,18 @@ outputs['interface/RIP_church_panels.gfx']='spriteTypes = {\n'+'\n'.join(insets)
 }
 '''
 # Province ROOT, clicking country FROM. Never allow buttons on somebody else's land.
-province=text('rip_church_rite_heading',28,40,w=419,h=26,font='vic_22',align='center')
+province=art('rip_church_rite_window_banner','GFX_rip_church_window_banner',18,19,0.94)
+province+=text('rip_church_rite_heading',28,43,w=419,h=28,font='vic_22',align='center')
 province+=button('rip_church_rite_panel_hide_button',438,8,'owned_by = FROM',
                  'set_province_flag = rip_church_rite_panel_hidden',
                  sprite='GFX_closebutton2',label=False)
-province+=text('rip_church_rite_state',28,90,w=419,h=24,align='center')
-province+=text('rip_church_rite_effects',44,140,w=387,h=100)
-province+=button('rip_church_recognize_rite_button',125,264,'owned_by = FROM rip_church_can_recognize_rite = yes','rip_church_recognize_rite_effect = yes',potential='NOT = { has_province_flag = rip_church_rite_recognized }')
-province+=button('rip_church_revoke_rite_button',125,264,'owned_by = FROM rip_church_can_revoke_rite = yes','rip_church_revoke_rite_effect = yes',potential='has_province_flag = rip_church_rite_recognized')
-province+=text('rip_church_rite_note',40,332,w=395,h=56,font='Main_14',align='center')
+province+=card('rip_church_rite_header',34,73,407,30,
+               text('rip_church_rite_state',8,8,w=391,h=22,font='vic_18',align='center'))
+province=section(province,'rip_church_rite_effects_title',112)
+province+=text('rip_church_rite_effects',34,150,w=407,h=64,font='vic_18',align='center')
+province+=button('rip_church_recognize_rite_button',125,224,'owned_by = FROM rip_church_can_recognize_rite = yes','rip_church_recognize_rite_effect = yes',potential='NOT = { has_province_flag = rip_church_rite_recognized }')
+province+=button('rip_church_revoke_rite_button',125,224,'owned_by = FROM rip_church_can_revoke_rite = yes','rip_church_revoke_rite_effect = yes',potential='has_province_flag = rip_church_rite_recognized')
+province+=text('rip_church_rite_note',34,272,w=407,h=44,font='vic_18',align='center')
 # Shown only where the action applies or is already in force, not on every owned province.
 province_gate='owned_by = FROM FROM = { religion = greek_catholic } OR = { has_province_flag = rip_church_rite_recognized AND = { is_city = yes controlled_by = owner OR = { religion = orthodox religion = russian_orthodox religion = catholic } } }'
 prov_panel=panel('rip_church_rite_panel',province_gate+' NOT = { has_province_flag = rip_church_rite_panel_hidden }',province,x=480,y=0)

@@ -75,11 +75,18 @@ country_decisions = {
 			set_country_flag = union_of_brest_happened
 		}
 		
+		# Alternative history. No state ever took the Union as its own faith; the
+		# bishops did. The player may; the AI takes it rarely, and more readily
+		# only once a union is already under way or a Catholic overlord presses it.
 		ai_will_do = {
-			factor = 1
+			factor = 0.02
 			modifier = {
-				factor = 2
+				factor = 4
 				has_country_flag = pursuing_uniate_union
+			}
+			modifier = {
+				factor = 3
+				overlord = { religion = catholic }
 			}
 			modifier = {
 				factor = 0.5

@@ -40,6 +40,7 @@ scripts = [
     "tests/check_culture_key_compatibility.py",
     "tests/check_cultural_authenticity.py",
     "tests/check_estate_layer.py",
+    "tests/check_gc_privileges.py",
     "tests/check_event_modifier_layer.py",
     "tests/check_opinion_modifier_layer.py",
     "tests/check_province_names.py",
