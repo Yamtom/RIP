@@ -45,6 +45,15 @@ def main() -> int:
             if error:
                 failures.append(f"{path.relative_to(ROOT)}: {error}")
 
+    # A localisation value is one physical line; a raw newline splits the key.
+    import re
+    for path in sorted((ROOT / "localisation").rglob("*.yml")):
+        for number, line in enumerate(path.read_text(encoding="utf-8-sig").split("\n"), 1):
+            if (line.strip() and not line.lstrip().startswith("#")
+                    and not re.match(r'^\s*[A-Za-z0-9_.\-]+:\d*\s+"', line)
+                    and not re.match(r'^l_\w+:\s*$', line)):
+                failures.append(f"{path.relative_to(ROOT)}:{number}: localisation line is not a key (split value?)")
+
     if failures:
         print("Clausewitz brace failures:")
         for failure in failures:
