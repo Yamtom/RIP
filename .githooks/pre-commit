@@ -1,5 +1,26 @@
-#!/bin/sh
-# Blocks a commit that brings back a BOM, a broken brace or a split localisation
-# value. Enable once per clone:  git config core.hooksPath .githooks
-PY=$(command -v python3 || command -v python)
-"$PY" tests/check_clausewitz_braces.py || { echo "pre-commit: fix the Clausewitz file check above" >&2; exit 1; }
+﻿#!/bin/sh
+# Fail closed: validate the actual staged bytes, then current engine syntax.
+set -eu
+cd "$(git rev-parse --show-toplevel)"
+if [ -n "${RIP_PYTHON:-}" ]; then
+    runner="$RIP_PYTHON"
+else
+    runner=""
+    for candidate in python3 python; do
+        located=$(command -v "$candidate" || true)
+        case "$located" in ""|*WindowsApps*) continue ;; esac
+        if "$located" -c 'import sys; assert sys.version_info >= (3, 10)' >/dev/null 2>&1; then
+            runner="$located"
+            break
+        fi
+    done
+    if [ -z "$runner" ] && [ -n "${TEMP:-}" ] && [ -f "$TEMP/rip-python-3.12.10/python.exe" ]; then
+        runner="$TEMP/rip-python-3.12.10/python.exe"
+    fi
+fi
+if [ -z "$runner" ]; then
+    echo 'BOM check blocked: install Python 3.10+ or set RIP_PYTHON to its executable.' >&2
+    exit 1
+fi
+"$runner" -B tests/check_file_encoding.py --staged
+"$runner" -B tests/check_clausewitz_braces.py

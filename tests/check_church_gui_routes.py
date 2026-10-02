@@ -94,10 +94,18 @@ assert 'clr_province_flag = rip_church_rite_panel_hidden' in province_controls
 assert 'NOT = { has_province_flag = rip_church_rite_panel_hidden }' in province_controls
 assert 'name = rip_church_rite_reopen_panel' in province_controls
 assert 'has_province_flag = rip_church_rite_panel_hidden } }' in province_controls
-assert 'name = "rip_church_rite_panel_hide_button" scripted = yes' in province_gui
-assert 'name = "rip_church_rite_reopen_panel" scripted = yes' in province_gui
-assert 'position = { x=874 y=8 } size = { x=80 y=32 }' in province_gui
-assert 'name = "rip_church_rite_panel_show_button" scripted = yes' in province_gui
+province_widgets = {
+    kind: {d['name']: d for widget_kind, d, _ in descendants(parse(province_gui))
+           if widget_kind == kind}
+    for kind in ('windowType', 'guiButtonType')
+}
+assert 'rip_church_rite_panel_hide_button' in province_widgets['guiButtonType']
+assert 'rip_church_rite_reopen_panel' in province_widgets['windowType']
+assert 'rip_church_rite_panel_show_button' in province_widgets['guiButtonType']
+assert dict(province_widgets['windowType']['rip_church_rite_reopen_panel']['position']) == {
+    'x': '874', 'y': '8'}
+assert dict(province_widgets['windowType']['rip_church_rite_reopen_panel']['size']) == {
+    'x': '80', 'y': '32'}
 assert province_controls.count('owned_by = FROM FROM = { religion = greek_catholic }') >= 2
 assert "rip_church_rite_panel_hidden" in gui_builder
 cases += 1

@@ -12,6 +12,8 @@ parser.add_argument("--log", type=Path, help="Complete untruncated outputs for r
 args = parser.parse_args()
 
 scripts = [
+    "tests/check_encoding_guard.py",
+    "tests/check_file_encoding.py",
     "tests/check_vanilla_version.py",
     "tests/check_donor_audit.py",
     "tests/check_colonial_names.py",
