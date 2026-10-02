@@ -494,19 +494,11 @@ DATA.update({
     'rip_church_gc_contact_title': 'PAPAL CONTACT',
     'rip_church_gc_contact_title_tt': 'A limited diplomatic audience with the Holy See.',
     'rip_church_gc_deputation_button': 'Send diplomatic mission — 50¤',
-<<<<<<< HEAD
     'rip_church_gc_holy_see_gift_button': 'Send a gift to Rome',
     'rip_church_gc_holy_see_gift_button_tt':
         'Send 100 ducats to the Holy See. The Papal State gains +25 opinion of us, decaying by 5 per year. Available once every five years. Requires the Catholic Papal State, peace and 100 ducats. This is diplomatic goodwill only: no Patriarch Authority, Curia vote, cardinal or electoral influence is gained.',
     'rip_church_gc_holy_see_gift_summary':
         'Gift: §Y100 ducats§! · §G+25 Papal opinion§! · every 5 years',
-=======
-    'rip_church_gc_holy_see_gift_button': 'Send a gift to Rome — 100¤',
-    'rip_church_gc_holy_see_gift_button_tt':
-        'Send 100 ducats to the Holy See. The Papal State gains +25 opinion of us, decaying by 5 per year. Available once every five years. Requires the Catholic Papal State, peace and 100 ducats. This is diplomatic goodwill only: no Patriarch Authority, Curia vote, cardinal or electoral influence is gained.',
-    'rip_church_gc_holy_see_gift_summary':
-        'Gift: §Y100 ducats§! · §G+25 Papal opinion§! · once every five years',
->>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
     'rip_church_gc_icons_title': 'DEVOTIONAL ICON',
     'rip_church_gc_icon_liturgy_state': 'Liturgy\\n§G+1 yearly prestige; +1 diplomatic reputation; +20% improve relations§!',
     'rip_church_gc_icon_learning_state': 'Learning\\n§G-5% development cost; -5% technology cost§!',
@@ -780,7 +772,7 @@ DATA.update({
  'rip_church_gc_curia_privilege':'Active Curia petition\\n§H[Root.GetChurchCuriaPrivilege]§!',
  'rip_church_gc_donate_button_tt':'Donate §Y100 ducats§! for §G+10 Papal Standing§! and +25 Papal opinion, decaying by 5 per year. Once every five years; requires a Catholic Papal State at peace with us and at most 90 Standing. With Emperor, half enters the Curia Treasury and half the Papal State; otherwise all 100 ducats go to the Papal State. This grants no vote or invested papal influence.',
  'rip_church_gc_donation_cost':'§Y100 ducats§!\\n§G+10 Standing§!\\n§G+25 Papal opinion§!',
- 'rip_church_gc_deputation_button':'Eastern deputation',
+ 'rip_church_gc_deputation_button':'Send a deputation',
  'rip_church_gc_deputation_button_tt':'Send a diplomatic audience request to the Holy See. Costs §Y50 ducats§! and grants +25 opinion in both directions, decaying by 2 per year. Once every five years; no electoral rights or resource are gained.',
  'rip_church_gc_deputation_note':'§Y50¤ / 10 PA§!\\nFive-year interval; no vote',
  'rip_church_gc_icons_title':'Eastern devotional icons',
@@ -904,10 +896,17 @@ custom+=defined('GetChurchCuriaStatus',[
  ('war_with = PAP','rip_church_gc_curia_war'),
  ('PAP = { has_opinion = { who = ROOT value = 50 } }','rip_church_gc_curia_good'),
  ('always = yes','rip_church_gc_curia_cold')])
-custom+=defined('GetChurchPapalOpinion',[
- ('rip_church_gc_rome_present = yes NOT = { check_variable = { which = rip_church_papal_opinion value = 0 } }','rip_church_gc_opinion_negative'),
- ('rip_church_gc_rome_present = yes','rip_church_gc_opinion_value'),
- ('always = yes','rip_church_gc_opinion_absent')])
+# The custom GUI reparses nested property expressions returned by defined_text,
+# including the quoted form used by some vanilla event texts. Runtime testing
+# confirms literal readouts work here. Papal opinion is bounded to -200..200.
+opinion_rows=[('NOT = { rip_church_gc_rome_present = yes }','rip_church_gc_opinion_absent')]
+for value in range(200,-201,-1):
+ key='rip_church_papal_opinion_'+('minus_'+str(-value) if value<0 else str(value))
+ DATA[key]=('§R' if value<0 else '§Y')+str(value)+'§!'
+ opinion_rows.append((f'check_variable = {{ which = rip_church_papal_opinion value = {value} }}',key))
+custom+=defined('GetChurchPapalOpinion',opinion_rows+[('always = yes','rip_church_papal_opinion_minus_200')])
+for key in ('rip_church_gc_opinion_value','rip_church_gc_opinion_negative'):
+ DATA.pop(key,None)
 custom+=defined('GetChurchCuriaController',[
  ('has_global_flag = rip_church_gc_controller_known event_target:rip_church_gc_controller = { is_papal_controller = yes }','rip_church_gc_controller_name'),
  ('always = yes','rip_church_gc_controller_none')])
@@ -1048,10 +1047,6 @@ DATA.update({
  'rip_church_gui_parish_register_empty':'§bNo community rights guaranteed§!',
  'rip_church_gui_parish_register_active':'§bCommunity rights are guaranteed in some of our provinces.§!\\nSelect a province to inspect or revoke its guarantee.',
 })
-for family in ('eastern','latin'):
- custom+=defined('GetChurch'+family.title()+'Count',[
-  (f'check_variable = {{ which = rip_church_gui_{family}_parishes value = 1 }}',f'rip_church_gui_{family}_count_value'),
-  ('always = yes','rip_church_gui_zero_count')])
 custom+=defined('GetChurchEcumenismAccess',[
  ('has_country_flag = rip_church_ecumenical','rip_church_gui_policy_done'),
  ('rip_church_can_ecumenism = yes','rip_church_gui_policy_ready'),
@@ -1073,7 +1068,7 @@ DATA.update({
  'rip_church_gui_rights_note':'Offices of the Catholic Curia. In communion with Rome, the Union holds none of them.',
  'rip_church_gui_rights_note_tt':'Cardinals, Curia votes and a conclave seat belong to Catholic states. Papal opinion and deputations do not grant them; there is no opinion threshold.',
  'rip_church_gui_ecumenism_reason':'[Root.GetChurchEcumenismReason]',
- 'rip_church_gui_contact_cost':'Audience: [Root.GetChurchMissionCost] · §G+25 opinion§! both ways',
+ 'rip_church_gui_contact_cost':'§Y50 ducats§! · §G+25 mutual opinion§! · every 5 years',
  'rip_church_gui_contact_peace':'Peace: [Root.GetChurchMissionPeace]',
  'rip_church_gui_contact_rome':'Rome: [Root.GetChurchMissionRome]',
  'rip_church_gui_contact_cooldown':'Cooldown: [Root.GetChurchMissionCooldown]',
@@ -1119,7 +1114,14 @@ ui_readout('GetChurchMissionReason',[
  ('NOT = { rip_church_gc_rome_present = yes }','§RCatholic Papal State must exist§!'),
  ('is_at_war = yes','§REnd the war before sending a deputation§!'),
  ('NOT = { treasury = 50 }','§RRequires 50 ducats§!'),
- ('rip_church_gc_can_depute_to_curia = yes','§GReady to send · diplomatic contact only§!'),
+ ('rip_church_gc_can_depute_to_curia = yes','§GDeputation available§!'),
+ ('always = yes','§RFive-year interval has not elapsed§!')])
+ui_readout('GetChurchGiftReason',[
+ ('NOT = { religion = greek_catholic }','§RRequires Greek Catholic faith§!'),
+ ('NOT = { rip_church_gc_rome_present = yes }','§RCatholic Papal State must exist§!'),
+ ('is_at_war = yes','§REnd the war before sending a gift§!'),
+ ('NOT = { treasury = 100 }','§RRequires 100 ducats§!'),
+ ('rip_church_gc_can_offer_gift_to_holy_see = yes','§GGift available§!'),
  ('always = yes','§RFive-year interval has not elapsed§!')])
 ui_readout('GetChurchRecognitionReason',[
  ('NOT = { religion = greek_catholic }','§RRequires Greek Catholic faith§!'),
@@ -1156,7 +1158,6 @@ for key,value in list(DATA.items()):
      or key in ('greek_catholic_religion_desc','rip_church.6.d','rip_church_gui_synod_tt')):
   DATA[key]=re.sub(r'\bPA\b','HC',value.replace('Patriarchal Authority','Hierarchical Capacity').replace('Patriarch Authority','Hierarchical Capacity'))
 DATA['rip_church_gc_resources']='Hierarchical Capacity: [Root.GetChurchAuthorityReadout]'
-<<<<<<< HEAD
 DATA['rip_church_gui_synod_active']='Active: [Root.GetChurchLocalInstitution]'
 DATA['rip_church_gui_synod_active_tt']='Choose the institution with the Synod button beside the Hierarchical Capacity bar in the religion window. The picture there shows the active institution.\\nEastern infrastructure, or a compact of coexistence once community rights are guaranteed in at least one province; both use Hierarchical Capacity and ducats and last ten years.'
 DATA['rip_church_rite_badge_yes']='§GCommunity rights guaranteed§!'
@@ -1168,9 +1169,15 @@ DATA['rip_church_rite_effects']='[Root.GetChurchRiteEffects]'
 DATA['rip_church_rite_effects_tt']='$rip_church_rite_help_tt$'
 DATA['rip_church_rite_note']='Gameplay abstraction: not an exact or canonical parish status, and not voluntary Union acceptance.'
 DATA['rip_church_rite_note_tt']='$rip_church_rite_help_tt$'
-=======
->>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 DATA['rip_church_gc_controller_readout']='Curia controller\\n§Y[Root.GetChurchCuriaController]§!'
+DATA['rip_church_gc_curia_note']='Papal State\\nOpinion of us:\\n[Root.GetChurchPapalOpinion]'
+DATA['rip_church_gc_curia_note_tt']='The Catholic Papal State is our diplomatic contact in Rome. This opinion measures its relations with our country, separately from Hierarchical Capacity.'
+DATA['rip_church_gui_rights_note']='The Union maintains communion with Rome without holding Catholic electoral offices.'
+DATA['rip_church_gui_slot_free']='Synod slot\\n§Y0 / 1§!'
+DATA['rip_church_gui_slot_used']='Synod slot\\n§G1 / 1§!'
+DATA['rip_church_gc_holy_see_gift_state']='[Root.GetChurchGiftReason]'
+DATA['rip_church_gc_deputation_button']='Send a deputation'
+DATA['rip_church_gc_holy_see_gift_state_tt']=DATA['rip_church_gc_holy_see_gift_button_tt']
 DATA['rip_church_gc_controller_readout_tt']='Country currently controlling the Catholic Curia: [Root.GetChurchCuriaController]. This is not the birthplace or nationality of the Pope. Reopening the Curia tab refreshes the current controller.'
 for key in ('rip_church_gc_resources_tt','rip_church_gc_help_tt','rip_church_gui_shared_status_tt'):
  DATA[key]=GC_CAPACITY_HELP
@@ -1182,6 +1189,13 @@ custom+=defined('GetChurchAuthorityHeading',[
  ('religion = greek_catholic','rip_church_gc_capacity_heading'),
  ('always = yes','rip_church_native_authority_heading')])
 outputs['customizable_localization/rip_church_redesign.txt']=custom
+for key in ('rip_church_gui_eastern_count_value','rip_church_gui_latin_count_value'):
+ DATA.pop(key,None)
+for key,value in list(DATA.items()):
+ for family in ('eastern','latin'):
+  value=value.replace('[Root.GetChurch'+family.title()+'Count]',
+                      '§Y[Root.rip_church_gui_'+family+'_parishes.GetValue]§!')
+ DATA[key]=value
 DATA['rip_church_gui_ecumenism_state_tt']=DATA['rip_church_gui_ecumenism_tt']
 for key in ('cost','peace','rome','cooldown','history'):
  DATA['rip_church_gui_contact_'+key+'_tt']=DATA['rip_church_gc_deputation_button_tt']

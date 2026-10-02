@@ -1,0 +1,9 @@
+root = true
+
+# EU4 treats a UTF-8 BOM as an unexpected token in Clausewitz data and GUI.
+[*.{txt,gui,gfx}]
+charset = utf-8
+
+# EU4 localisation requires the BOM; do not apply the data-file rule here.
+[*.yml]
+charset = utf-8-bom

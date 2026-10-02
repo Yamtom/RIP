@@ -49,6 +49,31 @@ windows = {dict(body)['name']:dict(body)['potential']
            if key == 'custom_window' and dict(body)['name'] in {
                'rip_church_gc_panel','rip_church_gc_curia_panel',
                'rip_church_gc_parishes_panel'}}
+gui_builder = read('tools/build_church_gui.py')
+religion_gui = read('interface/countryreligionview.gui')
+assert (
+    "policy+=button('rip_church_gui_ecumenism',0,108,"
+    "'rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes',"
+    "sprite='GFX_standard_button_224')"
+) in gui_builder
+assert "card('rip_church_synod_card',13,250,224,140,synod)" in gui_builder
+assert "card('rip_church_ecumenism_card',238,250,224,140,policy)" in gui_builder
+assert (
+    'name = "rip_church_gui_ecumenism" scripted = yes '
+    'position = { x=0 y=108 }'
+) in religion_gui
+assert (
+    'quadTextureSprite = "GFX_standard_button_224" '
+    'buttonText = "rip_church_gui_ecumenism"'
+) in religion_gui
+assert (
+    'name = "rip_church_synod_card" position = { x=13 y=310 } '
+    'size = { x=224 y=140 }'
+) in religion_gui
+assert (
+    'name = "rip_church_ecumenism_card" position = { x=238 y=310 } '
+    'size = { x=224 y=140 }'
+) in religion_gui
 assert 'rip_church_union_paths_panel' not in read('interface/countryreligionview.gui')
 assert 'rip_church_union_paths_panel' not in read('common/custom_gui/RIP_church_controls.txt')
 def visible(w,c):

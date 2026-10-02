@@ -1,6 +1,7 @@
 ﻿"""Contracts for the remaining Greek Catholic synod, icons and Rome audience."""
 import re
-from clausewitz_testlib import named_block, keyed_blocks, read
+from clausewitz_testlib import named_block, keyed_blocks, read, vanilla_defines_localisation
+from church_testlib import parse
 
 curia_triggers = read('common/scripted_triggers/rip_church_gc_curia_triggers.txt')
 curia_effects = read('common/scripted_effects/rip_church_gc_curia_effects.txt')
@@ -103,43 +104,96 @@ assert '+25 opinion of us, decaying by 5 per year' in localisation_generator
 assert 'no Patriarch Authority, Curia vote, cardinal or electoral influence' in localisation_generator
 for language in ('english', 'french', 'german', 'spanish'):
     localisation = read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
-<<<<<<< HEAD
     assert 'rip_church_gc_holy_see_gift_button:0 "Send a gift to Rome"' in localisation
     assert 'The Papal State gains +25 opinion of us, decaying by 5 per year' in localisation
     assert 'rip_church_opinion_gc_donation:0 "Donation from an Eastern Catholic church"' in localisation
-=======
-    assert 'rip_church_gc_holy_see_gift_button:0 "Send a gift to Rome — 100¤"' in localisation
-    assert 'The Papal State gains +25 opinion of us, decaying by 5 per year' in localisation
-<<<<<<< HEAD
->>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
-=======
-    assert 'rip_church_opinion_gc_donation:0 "Donation from an Eastern Catholic church"' in localisation
->>>>>>> c480833d (gameplay(gc_church): Впровадити пожертву Святому Престолу для греко-католиків)
 
 # All three pages share a fixed header/navigation rail.  Devotional icon art is
 # the click target's card, not an empty blue button floating above the icon.
-for page in ('union', 'curia', 'parishes'):
-    for tab in ('union', 'curia'):
-        marker = f'name = "rip_church_gc_{tab}_tab_{page}" scripted = yes position = {{ x='
-        start = interface.index(marker)
-        assert ' y=110 }' in interface[start:start + 140]
-assert interface.count('name = "rip_church_gc_heading" scripted = yes position = { x=28 y=43 }') >= 3
+def widgets(entries):
+    for kind, payload in entries:
+        if not isinstance(payload, list):
+            continue
+        if kind in ('windowType', 'iconType', 'guiButtonType', 'instantTextBoxType'):
+            yield kind, dict(payload)
+        yield from widgets(payload)
+
+pages = {}
+for page, name in (('union', 'rip_church_gc_panel'), ('curia', 'rip_church_gc_curia_panel'),
+                   ('parishes', 'rip_church_gc_parishes_panel')):
+    block = next(block for _, block in keyed_blocks(interface, 'windowType')
+                 if dict(dict(parse(block))['windowType']).get('name') == name)
+    pages[page] = dict((d['name'], d) for _, d in widgets(parse(block)))
+
+# Header and tab navigation retain the same geometry on each page. The
+# concrete offsets can evolve with the native frame without weakening this.
+headers = [pages[page]['rip_church_gc_heading'] for page in pages]
+assert len({str(d['position']) for d in headers}) == 1
+assert len({(d['maxWidth'], d['maxHeight'], d['font'], d['format']) for d in headers}) == 1
+for tab in ('union', 'curia'):
+    tabs = [pages[page][f'rip_church_gc_{tab}_tab_{page}'] for page in pages]
+    assert len({str(d['position']) for d in tabs}) == 1
+    assert all(d['quadTextureSprite'] == 'GFX_tab_small_116' for d in tabs)
 assert interface.count('spriteType = "GFX_rip_church_union_frame"') >= 3
 assert 'small_tiles_dialog.dds' not in read('interface/RIP_church_panels.gfx')
 assert 'name = "rip_church_authority_heading" scripted = yes' in interface
 assert interface.count('spriteType = "GFX_rip_church_section_banner"') >= 7
-<<<<<<< HEAD
-assert 'name = "rip_church_gc_holy_see_gift_button" scripted = yes position = { x=91 y=68 }' in interface
+assert 'rip_church_gc_holy_see_gift_button' in pages['curia']
 # The deputation and the gift each get their own button and own summary line;
 # the old four-cell Cost/Peace/Rome/Cooldown grid sat under the gift button.
 for stale in ('rip_church_gui_contact_peace', 'rip_church_gui_contact_rome', 'rip_church_gui_contact_cooldown'):
     assert f'name = "{stale}"' not in interface, stale
 # Every scripted widget needs a binding, otherwise the engine prints the raw
 # [Root.GetChurch...] token (the Curia tab showed exactly that).
-import re as _re
 bindings = controls + features
-for widget in set(_re.findall(r'name\s*=\s*"(rip_church_[A-Za-z0-9_]+)" scripted = yes', interface)):
-    assert _re.search(rf'name = {widget}\b', bindings), f'scripted widget without binding: {widget}'
+binding_types = {}
+for kind, payload in parse(bindings):
+    if kind.startswith('custom_'):
+        binding_types.setdefault(dict(payload)['name'], set()).add(kind)
+widget_types = {'windowType': 'custom_window', 'instantTextBoxType': 'custom_text_box',
+                'iconType': 'custom_icon', 'guiButtonType': 'custom_button'}
+english_keys = dict(re.findall(r'^\s+(\w+):0 "(.*)"$', english, re.M))
+readout_names = {dict(payload)['name'] for kind, payload in parse(custom_text) if kind == 'defined_text'}
+
+def expanded_localisation(key, trail=(), allow_native=False):
+    if allow_native and key not in english_keys:
+        # Orthodox fallback headings reference stock localisation, outside
+        # the mod's replacement file and outside this regression's scope.
+        assert vanilla_defines_localisation(key) is not False, f'GUI localisation missing: {key}'
+        return ''
+    assert key in english_keys, f'GUI localisation missing: {key}'
+    assert key not in trail, f'circular GUI localisation: {trail + (key,)}'
+    return re.sub(r'\$([^$]+)\$', lambda m: expanded_localisation(m[1], trail + (key,), allow_native), english_keys[key])
+
+# In the scripted church UI, runtime rejected both coloured GetValue leaves
+# and vanilla's quoted raw-property leaves. A defined_text must return literal
+# numeric localisation here; direct GetValue belongs in the outer GUI text.
+variable_value = re.compile(r'\[Root\.\w+\.GetValue\]')
+for _, block in keyed_blocks(custom_text, 'defined_text'):
+    entries = dict(parse(block))['defined_text']
+    readout = dict(entries)['name']
+    for match in re.finditer(r'\blocalisation_key\s*=\s*("[^"\r\n]*"|[^\s}]+)', block):
+        token = match[1]
+        leaf = token.strip('"')
+        if variable_value.fullmatch(leaf):
+            raise AssertionError((readout, 'runtime rejected raw GetValue leaf', leaf))
+        else:
+            value = expanded_localisation(leaf, allow_native=True)
+            assert not variable_value.search(value), (
+                readout, leaf, 'runtime rejected nested GetValue; use literal leaves or direct outer properties')
+
+for kind, d in widgets(parse(interface)):
+    if d.get('scripted') != 'yes' or not d.get('name', '').startswith('rip_church_'):
+        continue
+    expected = widget_types[kind]
+    if kind == 'guiButtonType' and d.get('quadTextureSprite', '').startswith('GFX_shield_'):
+        expected = 'custom_shield'
+    assert expected in binding_types.get(d['name'], set()), (
+        d['name'], 'wrong or missing scripted widget binding', expected, binding_types.get(d['name']))
+    for field in ('text', 'buttonText'):
+        if d.get(field):
+            for readout in re.findall(r'\[Root\.(GetChurch\w+)\]', expanded_localisation(d[field])):
+                assert readout in readout_names, (d['name'], 'unresolved scripted readout', readout)
 # One Synod entry point: the native icon slot. Without it the vanilla 'Select'
 # button for Orthodox icons shows through; a second button on the Union card
 # would duplicate it.
@@ -147,9 +201,6 @@ assert 'name = "rip_church_gc_native_privileges_button" scripted = yes position 
 assert 'name = "rip_church_gui_synod"' not in interface and 'name = rip_church_gui_synod ' not in bindings
 assert interface.count('rip_church_gc_open_synod_effect') == 0  # effects live in custom_gui only
 assert bindings.count('rip_church_gc_open_synod_effect = yes') == 1
-=======
-assert 'name = "rip_church_gc_holy_see_gift_button" scripted = yes position = { x=91 y=50 }' in interface
->>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 assert 'GFX_standard_button_140' not in gui_generator
 for key in ('liturgy', 'learning', 'charity'):
     start = interface.index(f'name = "rip_church_gc_icon_{key}_button"')
@@ -162,6 +213,27 @@ w,c,p = fixture('greek_catholic')
 c['treasury'] = 150
 if 'PAP' not in w.countries:
     w.country('PAP','catholic')
+# Execute the actual descending threshold rows for the full native opinion
+# interval. This catches missing zero/negative rows and wrong row ordering.
+opinion_rows = next(payload for kind, payload in parse(custom_text)
+                    if kind == 'defined_text' and dict(payload)['name'] == 'GetChurchPapalOpinion')
+def opinion_leaf():
+    return next(dict(payload)['localisation_key'] for kind, payload in opinion_rows
+                if kind == 'text' and w.gate(dict(payload)['trigger'], c))
+
+cached_opinion = c['variables'].get('rip_church_papal_opinion')
+for opinion in range(-200, 201):
+    c['variables']['rip_church_papal_opinion'] = opinion
+    literal = re.sub(r'§.', '', expanded_localisation(opinion_leaf()))
+    assert int(literal) == opinion, ('Papal opinion readout', opinion, literal)
+w.countries['PAP']['religion'] = 'orthodox'
+assert opinion_leaf() == 'rip_church_gc_opinion_absent'
+w.countries['PAP']['religion'] = 'catholic'
+if cached_opinion is None:
+    c['variables'].pop('rip_church_papal_opinion')
+else:
+    c['variables']['rip_church_papal_opinion'] = cached_opinion
+
 deputation_gate = TRIGGERS['rip_church_gc_can_depute_to_curia']
 assert w.gate(deputation_gate,c)
 c['flags']['rip_church_gc_deputation_sent'] = w.day
@@ -173,19 +245,12 @@ assert w.gate(deputation_gate,c)
 
 gift_gate = TRIGGERS['rip_church_gc_can_offer_gift_to_holy_see']
 gift_effect = 'rip_church_gc_offer_gift_to_holy_see_effect'
-<<<<<<< HEAD
 baseline_pap_opinion = w.opinion(w.countries['PAP'],c)
-=======
->>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 assert w.gate(gift_gate,c)
 w.run(gift_effect,c)
 assert c['treasury'] == 50
 assert c['flags']['rip_church_gc_holy_see_gift_sent'] == w.day
-<<<<<<< HEAD
 assert w.opinion(w.countries['PAP'],c) == baseline_pap_opinion + 25
-=======
-assert w.opinion(w.countries['PAP'],c) == 25
->>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
 assert not w.gate(gift_gate,c)
 w.day += 1824
 assert not w.gate(gift_gate,c)
@@ -194,12 +259,7 @@ c['treasury'] = 100
 assert w.gate(gift_gate,c)
 w.run(gift_effect,c)
 assert c['treasury'] == 0
-<<<<<<< HEAD
-<<<<<<< HEAD
 assert w.opinion(w.countries['PAP'],c) == baseline_pap_opinion + 25  # first gift has decayed away
-=======
-assert w.opinion(w.countries['PAP'],c) == 25
->>>>>>> c480833d (gameplay(gc_church): Впровадити пожертву Святому Престолу для греко-католиків)
 assert not w.gate(gift_gate,c)  # insufficient funds also disables the control
 c['treasury'] = 100
 c['is_at_war'] = True
@@ -211,10 +271,4 @@ w.countries['PAP']['religion'] = 'catholic'
 c['religion'] = 'catholic'
 assert not w.gate(gift_gate,c)
 c['religion'] = 'greek_catholic'
-<<<<<<< HEAD
-=======
-assert w.opinion(w.countries['PAP'],c) == 50
->>>>>>> 82216ded (feat(gc_church): Переробити графічний інтерфейс та оновити механіки греко-католицької церкви)
-=======
->>>>>>> c480833d (gameplay(gc_church): Впровадити пожертву Святому Престолу для греко-католиків)
 print('GC CURIA PASS: audience and gift transactions, opinion, visibility gates, cooldown boundaries')
