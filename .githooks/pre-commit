@@ -1,0 +1,5 @@
+#!/bin/sh
+# Blocks a commit that brings back a BOM, a broken brace or a split localisation
+# value. Enable once per clone:  git config core.hooksPath .githooks
+PY=$(command -v python3 || command -v python)
+"$PY" tests/check_clausewitz_braces.py || { echo "pre-commit: fix the Clausewitz file check above" >&2; exit 1; }

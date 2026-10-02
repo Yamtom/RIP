@@ -1,4 +1,4 @@
-﻿name="Alternative Ruthenian Immersion Pack"
+name="Alternative Ruthenian Immersion Pack"
 tags={
 	"New Nations"
 	"Alternate History"

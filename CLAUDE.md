@@ -39,6 +39,18 @@ missions/  customizable_localization/  sound/
 Деталі міграції на канонічний корінь, дозволені винятки з розташувань і
 семантика простору імен ID (`rip_vol_...`) — `docs/CANONICAL_ROOT_MIGRATION.md`.
 
+## Автоматична перевірка BOM і дужок
+
+BOM у `.gfx`, `.gui`, `.txt` і `descriptor.mod` ламає запуск гри (`Unexpected token`),
+а `.yml` локалізації, навпаки, вимагає BOM. Тому **після кожної правки і перед
+кожним комітом** запускайте `python tests/check_clausewitz_braces.py` (0,5 с):
+вона перевіряє BOM, баланс дужок в `interface/*.gfx|*.gui`, `descriptor.mod` і те,
+що кожен рядок локалізації є ключем. Це автоматизовано: хук `.claude/settings.json`
+після `Write`/`Edit`, `.githooks/pre-commit` (увімкнути раз:
+`git config core.hooksPath .githooks`) і CI `.github/workflows/clausewitz-files.yml`.
+Після злиття `main` у гілку завжди повторюйте її: злиття вже ламало
+`interface/provinceview.gui` (подвійна панель і зайва дужка).
+
 ## Команди перевірки
 
 Усі скрипти запускаються з кореня мода звичайним `python`, без pytest і без

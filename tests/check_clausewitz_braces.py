@@ -19,6 +19,8 @@ LOADED_DIRS = (
 # Interface files are parsed by the same reader: a BOM in a .gfx/.gui is logged
 # as "Unexpected token" and, for a replaced vanilla window, ends in a startup crash.
 INTERFACE_SUFFIXES = ("*.gfx", "*.gui")
+# Mod descriptors are read by the same parser: a BOM gives "Incorrect MOD descriptor".
+DESCRIPTOR_FILES = ("descriptor.mod",)
 
 
 def main() -> int:
@@ -44,6 +46,11 @@ def main() -> int:
             error = brace_error(raw.decode(encoding="utf-8", errors="replace"))
             if error:
                 failures.append(f"{path.relative_to(ROOT)}: {error}")
+
+    for name in DESCRIPTOR_FILES:
+        path = ROOT / name
+        if path.exists() and path.read_bytes().startswith(b"\xef\xbb\xbf"):
+            failures.append(f"{name}: UTF-8 BOM breaks the mod descriptor parser")
 
     # A localisation value is one physical line; a raw newline splits the key.
     import re
