@@ -1,6 +1,6 @@
 ﻿"""Contracts for the remaining Greek Catholic synod, icons and Rome audience."""
 import re
-from clausewitz_testlib import named_block, keyed_blocks, read, vanilla_defines_localisation
+from clausewitz_testlib import named_block, keyed_blocks, read, vanilla_defines_localisation, vanilla_root
 from church_testlib import parse
 
 curia_triggers = read('common/scripted_triggers/rip_church_gc_curia_triggers.txt')
@@ -66,6 +66,13 @@ assert 'opinion = 25' in deputation_opinion and 'yearly_decay = 2' in deputation
 assert 'rip_church_gc_deputation_button' in features
 assert 'rip_church_gc_curia_note' in gui_generator
 assert 'name = "rip_church_gc_curia_note"' in interface
+assert 'rip_church_gui_right_' not in gui_generator
+assert 'rip_church_rights_card' not in interface
+assert 'rip_church_gui_right_' not in english
+assert 'rip_church_gc_curia_vote_disclaimer' not in localisation_generator
+assert 'rip_church_gc_curia_vote_disclaimer' not in english
+assert 'no gameplay unlock for these offices' in localisation_generator
+assert 'no gameplay unlock for these offices' in english
 assert 'name = "rip_church_gc_controller_readout"' in interface
 assert 'global_event_target = rip_church_gc_controller' in controls
 assert 'event_target:rip_church_gc_controller = { is_papal_controller = yes }' in controls
@@ -137,7 +144,7 @@ for tab in ('union', 'curia'):
 assert interface.count('spriteType = "GFX_rip_church_union_frame"') >= 3
 assert 'small_tiles_dialog.dds' not in read('interface/RIP_church_panels.gfx')
 assert 'name = "rip_church_authority_heading" scripted = yes' in interface
-assert interface.count('spriteType = "GFX_rip_church_section_banner"') >= 7
+assert interface.count('spriteType = "GFX_rip_church_section_banner"') >= 6
 assert 'rip_church_gc_holy_see_gift_button' in pages['curia']
 # The deputation and the gift each get their own button and own summary line;
 # the old four-cell Cost/Peace/Rome/Cooldown grid sat under the gift button.
@@ -194,10 +201,28 @@ for kind, d in widgets(parse(interface)):
         if d.get(field):
             for readout in re.findall(r'\[Root\.(GetChurch\w+)\]', expanded_localisation(d[field])):
                 assert readout in readout_names, (d['name'], 'unresolved scripted readout', readout)
-# One Synod entry point: the native icon slot. Without it the vanilla 'Select'
-# button for Orthodox icons shows through; a second button on the Union card
-# would duplicate it.
-assert 'name = "rip_church_gc_native_privileges_button" scripted = yes position = { x=304 y=300 }' in interface
+# One Synod entry point in the same card as its state. A GC-only opaque cover
+# prevents the native Orthodox Select control showing through or taking clicks.
+assert 'rip_church_gc_native_privileges_button' in pages['union']
+assert pages['union']['rip_church_gc_native_privileges_button']['quadTextureSprite'] == 'GFX_standard_button_224'
+native_controls = next(block for _, block in keyed_blocks(interface, 'windowType')
+                       if dict(dict(parse(block))['windowType']).get('name') == 'rip_church_gc_native_controls')
+assert 'rip_church_gc_native_privileges_button' not in native_controls
+cover = dict((d['name'], d) for _, d in widgets(parse(native_controls)))['rip_church_gc_selector_cover']
+assert cover['alwaystransparent'] == 'no'
+assert cover['spriteType'] == 'GFX_rip_church_gc_selector_surface'
+gfx = read('interface/RIP_church_panels.gfx')
+cover_sprite = next(block for _, block in keyed_blocks(gfx, 'corneredTileSpriteType')
+                    if 'name = "GFX_rip_church_gc_selector_surface"' in block)
+cover_size = dict(dict(dict(parse(cover_sprite))['corneredTileSpriteType'])['size'])
+cover_position = dict(cover['position'])
+# The sprite's name says 71, but the installed DDS is actually 79x31. Cover
+# its complete texture/click target while leaving the Convert row clear.
+native_button = (vanilla_root() / 'gfx/interface/standard_button_71.dds').read_bytes()
+native_height, native_width = struct.unpack_from('<II', native_button, 12)
+assert int(cover_position['x']) <= 304 and int(cover_position['x']) + int(cover_size['x']) >= 304 + native_width
+assert int(cover_position['y']) <= 300 and int(cover_position['y']) + int(cover_size['y']) >= 300 + native_height
+assert int(cover_position['y']) + int(cover_size['y']) <= 332, 'selector mask must leave the native Convert row clear'
 assert 'name = "rip_church_gui_synod"' not in interface and 'name = rip_church_gui_synod ' not in bindings
 assert interface.count('rip_church_gc_open_synod_effect') == 0  # effects live in custom_gui only
 assert bindings.count('rip_church_gc_open_synod_effect = yes') == 1
@@ -205,6 +230,23 @@ assert 'GFX_standard_button_140' not in gui_generator
 for key in ('liturgy', 'learning', 'charity'):
     start = interface.index(f'name = "rip_church_gc_icon_{key}_button"')
     assert 'quadTextureSprite = "GFX_coptic_blessing_select"' in interface[start:interface.index('buttonFont', start)]
+    icon_sprite = next(block for _, block in keyed_blocks(gfx, 'spriteType')
+                       if f'name = "GFX_rip_church_gc_icon_{key}"' in block)
+    assert f'gfx/interface/rip_church/gc_icon_{key}.dds' in icon_sprite
+    icon_asset = ROOT / f'gfx/interface/rip_church/gc_icon_{key}.dds'
+    assert icon_asset.exists(), ('missing devotional icon', key)
+    raw = icon_asset.read_bytes()
+    assert raw[:4] == b'DDS ' and struct.unpack_from('<II', raw, 12) == (64, 64)
+# Read-only state badges share their authoritative gameplay gate and its
+# complement. They cannot introduce a second action or a false ready state.
+for stem, gate in (('rip_church_deputation_status', 'rip_church_gc_can_depute_to_curia'),
+                   ('rip_church_gift_status', 'rip_church_gc_can_offer_gift_to_holy_see')):
+    icon_bindings = {dict(payload)['name']: dict(payload)
+                     for kind, payload in parse(controls) if kind == 'custom_icon'}
+    assert icon_bindings[stem+'_ready']['potential'] == [(gate, 'yes')]
+    assert icon_bindings[stem+'_blocked']['potential'] == [('NOT', [(gate, 'yes')])]
+    for suffix in ('ready', 'blocked'):
+        assert stem+'_'+suffix not in binding_types or 'custom_button' not in binding_types[stem+'_'+suffix]
 assert 'name = "rip_church_gui_parish_empty_state"' in interface
 assert 'name = GetChurchParishRegisterState' in custom_text
 

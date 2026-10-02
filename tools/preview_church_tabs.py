@@ -13,7 +13,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tests'))
 from clausewitz_testlib import vanilla_root, keyed_blocks
-from church_testlib import parse
+from church_testlib import parse, fixture
 
 GAME = vanilla_root()
 ap = argparse.ArgumentParser(description=__doc__)
@@ -37,7 +37,7 @@ samples = {
     'GetChurchEcumenismReason': 'Requires 20 years of Union',
     'GetChurchMissionCost': '50 ducats', 'GetChurchMissionPeace': 'Yes',
     'GetChurchMissionRome': 'Catholic PAP', 'GetChurchMissionCooldown': 'Ready',
-    'GetChurchMissionReason': 'Deputation available',
+    'GetChurchMissionReason': 'Deputation available', 'GetChurchGiftReason': 'Gift available',
     'GetChurchCuriaController': 'Castile',
 }
 numeric_samples = {
@@ -48,6 +48,17 @@ numeric_extremes = {
     'rip_church_gui_eastern_parishes.GetValue': ('1', '9999'),
     'rip_church_gui_latin_parishes.GetValue': ('1', '9999'),
 }
+# New visual badges use the live scripted gates. This bounded source fixture
+# is not engine evidence, but it prevents painting both mutually exclusive
+# badges on top of each other in the preview.
+fixture_world, fixture_country, _ = fixture('greek_catholic')
+fixture_country.update(treasury=150, patriarch_authority=1, is_at_war=False, stability=2)
+icon_gates = {}
+for path in ('common/custom_gui/RIP_church_controls.txt', 'common/custom_gui/RIP_church_gc_features.txt'):
+    for kind, payload in parse((ROOT / path).read_text(encoding='utf-8-sig')):
+        if kind == 'custom_icon':
+            fields = dict(payload)
+            icon_gates[fields['name']] = fields.get('potential', [])
 
 def resolve_leaf(leaf, overrides=None, trail=(), values=None):
     # The parser removes quotes. Native defined_text may return a quoted raw
@@ -206,6 +217,10 @@ def render(entries, canvas, ox=0, oy=0, tab='union', bounds=None):
             render(payload, canvas, x, y, tab, (x, y, w, h))
             continue
         label = d['name']
+        if kind == 'iconType' and label.endswith(('_ready', '_blocked')):
+            assert label in icon_gates, (label, 'unbound status badge')
+            if not fixture_world.gate(icon_gates[label], fixture_country):
+                continue
         if kind == 'instantTextBoxType':
             w, h = int(d['maxWidth']), int(d['maxHeight'])
             contained(x, y, w, h, label)
@@ -257,6 +272,21 @@ def render(entries, canvas, ox=0, oy=0, tab='union', bounds=None):
             text(canvas, resolve(loc[d['buttonText']]), x+7, y+(art.height-18)//2, art.width-14, 18, d['buttonFont'], True, label)
 
 
+def check_navigation_alignment(tab):
+    # Match opaque native art, rather than the tab's transparent 36px canvas.
+    # This is the join that looked disconnected in the player's screenshot.
+    rail = geometry[f'rip_church_tab_rail_{tab}']
+    rail_art = sprite('GFX_macro_diplomacy_line').resize(rail[2:])
+    gold_row = next(y for y in range(rail_art.height)
+                    if rail_art.getpixel((40, y))[3] == 255)
+    inactive_art = sprite('GFX_tab_small_116', frame=1)
+    inactive_bottom = inactive_art.getbbox()[3] - 1
+    for family in ('union', 'curia'):
+        control = geometry[f'rip_church_gc_{family}_tab_{tab}']
+        assert control[1] + inactive_bottom == rail[1] + gold_row, (
+            tab, family, 'inactive tab silhouette must meet the native gold rail')
+
+
 def check_icon_alignment(tab):
     if tab != 'union':
         return
@@ -290,6 +320,7 @@ for tab, name in [('union', 'rip_church_gc_panel'), ('curia', 'rip_church_gc_cur
     size = dict(dict(entries)['size'])
     canvas = Image.new('RGBA', (int(size['x']), int(size['y'])), (35, 38, 42, 255))
     render(entries, canvas, tab=tab)
+    check_navigation_alignment(tab)
     check_icon_alignment(tab)
     canvas.save(OUT / f'{tab}.png')
     previews.append(canvas)
@@ -300,4 +331,4 @@ for i, p in enumerate(visible):
 sheet.save(OUT / 'tabs.png')
 (OUT / 'layout.json').write_text(json.dumps({'evidence': 'source preview; engine rendering not verified', 'Papal_opinion_sample': samples['GetChurchPapalOpinion'], 'numeric_samples': numeric_samples, 'numeric_extremes': numeric_extremes, 'text_widgets': measurements}, indent=2), encoding='utf-8')
 print(f'PASS: 2 visible tabs and 1 legacy register; parent bounds, nonoverlapping text/controls, native bitmap fonts and all direct readout variants. {OUT}')
-print('Sample values; colors, disabled/hover state and cornered UV sampling are not engine-rendered.')
+print('Source fixture: 100 HC, 150 ducats, no active institution, fresh contact cooldowns. Colors, hover and cornered UV sampling are not engine-rendered.')

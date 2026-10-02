@@ -51,31 +51,56 @@ windows = {dict(body)['name']:dict(body)['potential']
                'rip_church_gc_parishes_panel'}}
 gui_builder = read('tools/build_church_gui.py')
 religion_gui = read('interface/countryreligionview.gui')
-assert (
-    "policy+=button('rip_church_gui_ecumenism',0,108,"
-    "'rip_church_can_ecumenism = yes','rip_church_achieve_ecumenism_effect = yes',"
-    "sprite='GFX_standard_button_224')"
-) in gui_builder
-assert "card('rip_church_synod_card',13,250,224,140,synod)" in gui_builder
-assert "card('rip_church_ecumenism_card',238,250,224,140,policy)" in gui_builder
-assert (
-    'name = "rip_church_gui_ecumenism" scripted = yes '
-    'position = { x=0 y=108 }'
-) in religion_gui
-assert (
-    'quadTextureSprite = "GFX_standard_button_224" '
-    'buttonText = "rip_church_gui_ecumenism"'
-) in religion_gui
-assert (
-    'name = "rip_church_synod_card" position = { x=13 y=310 } '
-    'size = { x=224 y=140 }'
-) in religion_gui
-assert (
-    'name = "rip_church_ecumenism_card" position = { x=238 y=310 } '
-    'size = { x=224 y=140 }'
-) in religion_gui
+province_gui = read('interface/provinceview.gui')
+province_controls = read('common/custom_gui/RIP_church_controls.txt')
+def descendants(entries):
+    for kind, payload in entries:
+        if isinstance(payload, list):
+            if kind in ('windowType', 'guiButtonType', 'instantTextBoxType'):
+                yield kind, dict(payload), payload
+            yield from descendants(payload)
+
+institution_cards = {
+    d['name']: (d, entries) for kind, d, entries in descendants(parse(religion_gui))
+    if kind == 'windowType' and d.get('name') in {
+        'rip_church_synod_card', 'rip_church_ecumenism_card'}
+}
+assert len(institution_cards) == 2
+sizes, rows, button_rows = set(), set(), set()
+for card_name, action, state in (
+    ('rip_church_synod_card', 'rip_church_gc_native_privileges_button', 'rip_church_gui_synod_active'),
+    ('rip_church_ecumenism_card', 'rip_church_gui_ecumenism', 'rip_church_gui_ecumenism_reason'),
+):
+    card, entries = institution_cards[card_name]
+    children = {d['name']: (kind, d) for kind, d, _ in descendants(entries)}
+    assert action in children and state in children, 'institution state and action must share a card'
+    kind, control = children[action]
+    assert kind == 'guiButtonType' and control['quadTextureSprite'] == 'GFX_standard_button_224'
+    position, size = dict(control['position']), dict(card['size'])
+    assert int(position['x']) >= 0 and int(position['x']) + 224 <= int(size['x'])
+    assert int(position['y']) >= 0 and int(position['y']) + 32 <= int(size['y'])
+    sizes.add(str(card['size']))
+    rows.add(dict(card['position'])['y'])
+    button_rows.add(position['y'])
+assert len(sizes) == len(rows) == len(button_rows) == 1, 'institution cards and actions must share a row'
 assert 'rip_church_union_paths_panel' not in read('interface/countryreligionview.gui')
 assert 'rip_church_union_paths_panel' not in read('common/custom_gui/RIP_church_controls.txt')
+
+# Hiding the province-scoped action is reversible for that selected province
+# only. The province window receives a close button and the hidden state gets
+# a small reopen button in its own eligible custom window.
+assert 'set_province_flag = rip_church_rite_panel_hidden' in province_controls
+assert 'clr_province_flag = rip_church_rite_panel_hidden' in province_controls
+assert 'NOT = { has_province_flag = rip_church_rite_panel_hidden }' in province_controls
+assert 'name = rip_church_rite_reopen_panel' in province_controls
+assert 'has_province_flag = rip_church_rite_panel_hidden } }' in province_controls
+assert 'name = "rip_church_rite_panel_hide_button" scripted = yes' in province_gui
+assert 'name = "rip_church_rite_reopen_panel" scripted = yes' in province_gui
+assert 'position = { x=874 y=8 } size = { x=80 y=32 }' in province_gui
+assert 'name = "rip_church_rite_panel_show_button" scripted = yes' in province_gui
+assert province_controls.count('owned_by = FROM FROM = { religion = greek_catholic }') >= 2
+assert "rip_church_rite_panel_hidden" in gui_builder
+cases += 1
 def visible(w,c):
     return {name for name,gate in windows.items() if w.gate(gate,c)}
 

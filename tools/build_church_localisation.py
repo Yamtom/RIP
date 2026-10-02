@@ -1,5 +1,6 @@
 ﻿"""Generate church UI localisation and fallback strings; no claim of translated fallback text."""
 from pathlib import Path
+from decimal import Decimal
 import json,argparse,re
 ROOT=Path(__file__).resolve().parents[1]
 # The province action GUARANTEES another confessional community its rights
@@ -792,12 +793,10 @@ DATA.update({
  'rip_church_gc_icon_charity_button':'Almsgiving',
  'rip_church_gc_icon_charity_button_tt':'Activate the icon of almsgiving for five years. Costs §Y20 Patriarch Authority§!. -1 national unrest and -10% stability cost. Only one Greek Catholic icon can be active.',
  'rip_church_gc_icon_charity_state':'Almsgiving',
- 'rip_church_gc_curia_vote_disclaimer':'Greek Catholic deputations and petitions do not confer cardinalship, electoral votes or control of the Catholic Curia.',
  'rip_church_rite_help':RITE_HELP,
  'rip_church_rite_help_tt':RITE_HELP_TT,
 })
 DATA['rip_church_gc_curia_privilege_tt']='One Curia petition at a time; it can coexist with one local synod institution. Both slots last ten years.'
-DATA['rip_church_gc_curia_vote_disclaimer_tt']=DATA['rip_church_gc_curia_vote_disclaimer']
 for key in ('icons_title','icons_note','deputation_note',
             'icon_liturgy_state','icon_learning_state','icon_charity_state'):
  DATA['rip_church_gc_'+key+'_tt']=DATA['rip_church_gc_'+key]
@@ -822,7 +821,7 @@ live_curia_keys={
  'rip_church_gc_curia_good','rip_church_gc_curia_cold',
  'rip_church_gc_curia_war','rip_church_gc_curia_absent',
  'rip_church_gc_curia_privilege','rip_church_gc_curia_privilege_tt',
- 'rip_church_gc_curia_vote_disclaimer','rip_church_gc_curia_vote_disclaimer_tt','rip_church_gc_petitions_title',
+ 'rip_church_gc_petitions_title',
  'rip_church_gc_petitions_title_tt','rip_church_gc_rome_resources',
  'rip_church_gc_rome_resources_tt','rip_church_gc_opinion_value',
  'rip_church_gc_opinion_negative','rip_church_gc_opinion_absent',
@@ -994,11 +993,7 @@ DATA.update({
     'rip_church_gc_curia_note':
         'Rome is recorded here as a diplomatic contact. No standing, votes, or offices are conferred.',
     'rip_church_gc_curia_note_tt':
-        'Rome is recorded here as a diplomatic contact. No standing, votes, or offices are conferred.',
-    'rip_church_gc_curia_vote_disclaimer':
-        'An Eastern deputation grants no cardinalship, Curia vote, or control of papal elections.',
-    'rip_church_gc_curia_vote_disclaimer_tt':
-        'An Eastern deputation grants no cardinalship, Curia vote, or control of papal elections.',
+        'The Catholic Papal State is our diplomatic contact in Rome. Papal opinion and communion with Rome grant no cardinalship, Curia vote, conclave seat or electoral authority; there is no gameplay unlock for these offices.',
     'rip_church_gc_deputation_button_tt':
         'Send a diplomatic audience request to the Holy See. Costs §Y50 ducats§! and grants +25 opinion in both directions, decaying by 2 per year. Once every five years; no electoral rights or resource are gained.',
     'rip_church_gc_deputation_note':
@@ -1030,10 +1025,6 @@ DATA.update({
  'rip_church_gc_icons_note':'One icon · §Y20§! PA · §Y5§! years',
  'rip_church_gc_curia_heading':'§WHOLY SEE§!',
  'rip_church_gc_curia_note':'Papal opinion:\\n[Root.GetChurchPapalOpinion]\\n§bContact only§!',
- 'rip_church_gui_rights_title':'§WRIGHTS DENIED§!',
- 'rip_church_gui_right_cardinal':'Cardinal\\n§RNot granted§!',
- 'rip_church_gui_right_vote':'Curia vote\\n§RNot granted§!',
- 'rip_church_gui_right_conclave':'Conclave\\n§RNot granted§!',
  'rip_church_gc_deputation_button':'Eastern deputation',
  'rip_church_gui_contact_cost':'§Y50§! ducats',
  'rip_church_gui_contact_peace':'§YPeace§!',
@@ -1064,9 +1055,11 @@ DATA.update({
  'rip_church_gui_rite_cell_tt':'Each community keeps its own religion and local agreement. Guaranteeing rights does not convert nearby provinces or bring any province into the Union.',
  'rip_church_gui_slot_free':'Slots used\\n§R0§! / §Y1§!',
  'rip_church_gui_slot_used':'Slots used\\n§Y1§! / §Y1§!',
- 'rip_church_gui_rights_title':'Curia offices',
- 'rip_church_gui_rights_note':'Offices of the Catholic Curia. In communion with Rome, the Union holds none of them.',
- 'rip_church_gui_rights_note_tt':'Cardinals, Curia votes and a conclave seat belong to Catholic states. Papal opinion and deputations do not grant them; there is no opinion threshold.',
+ 'rip_church_gc_curia_note_tt':'The Catholic Papal State is our diplomatic contact in Rome. Papal opinion and communion with Rome grant no cardinalship, Curia vote, conclave seat or electoral authority; there is no gameplay unlock for these offices.',
+ 'rip_church_rite_panel_hide_button':'Hide',
+ 'rip_church_rite_panel_hide_button_tt':'Hide this province panel. Select this province and use Open to show it again.',
+ 'rip_church_rite_panel_show_button':'Open',
+ 'rip_church_rite_panel_show_button_tt':'Show the community rights panel for this province.',
  'rip_church_gui_ecumenism_reason':'[Root.GetChurchEcumenismReason]',
  'rip_church_gui_contact_cost':'§Y50 ducats§! · §G+25 mutual opinion§! · every 5 years',
  'rip_church_gui_contact_peace':'Peace: [Root.GetChurchMissionPeace]',
@@ -1140,8 +1133,6 @@ for key,label in (('liturgy','Liturgy'),('learning','Learning'),('charity','Alms
  DATA['rip_church_gc_icon_'+key+'_state']='[Root.GetChurchDevotional'+key.title()+']'
  DATA['rip_church_gc_icon_'+key+'_state_tt']=DATA['rip_church_gc_icon_'+key+'_button_tt']
 DATA['rip_church_gui_ecumenism_reason_tt']='[Root.GetChurchEcumenismReason]\\n'+DATA['rip_church_gui_ecumenism_tt']
-for key in ('cardinal','vote','conclave'):
- DATA['rip_church_gui_right_'+key+'_tt']='Unavailable to the Greek Catholic Union. Papal opinion and deputations grant no cardinalship, Curia vote or conclave participation; there is no opinion threshold.'
 # PA is reused as a local administrative resource, not universal UGCC authority.
 GC_CAPACITY_HELP=('Hierarchical Capacity (HC) is the Greek Catholic label for the native Patriarch Authority bar (0–100), '
  'used here as a gameplay abstraction for the local church administration, not as papal standing or a historical measure of universal UGCC authority. '
@@ -1151,15 +1142,64 @@ GC_CAPACITY_HELP=('Hierarchical Capacity (HC) is the Greek Catholic label for th
  'A local synod lasts ten years and costs 20 HC plus 75 ducats for Infrastructure (-10% state maintenance, +5% church loyalty and -5% local autonomy in owned Greek Catholic core cities), '
  'or 20 HC plus 100 ducats for Coexistence (-0.5 global unrest, +10% improve relations and +5% local autonomy in recognized non-Greek-Catholic communities). '
  'A parish visit costs 5 HC, 100 ducats and 25 ADM, once per ten years: choose +1% local missionary strength or -1 local unrest in one eligible province; either choice also gives -5% local tax for ten years. '
- 'The bar also recalculates country and province balancing modifiers in five-point bands, so HC is not an unconditional bonus: at 100, the country has -2% global missionary strength and -10% church influence; '
- 'owned Greek Catholic provinces have +2.25/+2.625/+3 local unrest by region and -33% local manpower. Other decisions show their own HC thresholds and costs.')
+ 'The inherited Orthodox bonuses are offset by balancing modifiers in five-point bands rounded down. At 100 HC the net country effects are 0% global missionary strength and 0% church influence; '
+ 'owned Greek Catholic provinces have -0.375 local unrest and 0% local manpower. Between bands, a small part of the native bonus remains. Other decisions show their own HC thresholds and costs.')
+# Native EU4 1.37.5 modifiers multiply the exact authority fraction. The RIP
+# country/province modifiers compensate the fraction rounded DOWN to five
+# points. Display their sum, not the hidden compensation as if it were a cost.
+# The neutral province band is the live route: eastern/roman gates are retired.
+HC_NATIVE = {
+ 'global_missionary_strength': Decimal('0.02'),
+ 'church_influence_modifier': Decimal('0.10'),
+ 'local_unrest': Decimal('-3'),
+ 'local_manpower_modifier': Decimal('0.33'),
+}
+hc_modifiers=(ROOT/'common/event_modifiers/RIP_church_redesign_modifiers.txt').read_text(encoding='utf-8-sig')
+def hc_modifier_values(name):
+ body=re.search(r'(?m)^'+re.escape(name)+r'\s*=\s*\{([^{}]*)\}',hc_modifiers)[1]
+ return {key:Decimal(value) for key,value in re.findall(r'(\w+)\s*=\s*(-?[\d.]+)',body)}
+def hc_display(value,percent=False,inverse=False):
+ value=value*(100 if percent else 1)
+ number=format(value.quantize(Decimal('0.001')),'f').rstrip('0').rstrip('.') or '0'
+ if number=='-0': number='0'
+ if value>0: number='+'+number
+ colour='§W' if not value else ('§G' if (value<0 if inverse else value>0) else '§R')
+ return colour+number+('%' if percent else '')+'§!'
+HC_SPENDING=('§YSpend capacity§!\\n'
+ 'Icon: §Y20 HC§! · §Y5 years§!\\n'
+ 'Synod: §Y20 HC + 75 / 100 ducats§! · §Y10 years§!\\n'
+ 'Parish visit: §Y5 HC + 100 ducats + 25 ADM§! · §Y10 years§!')
+hc_tooltip_rows=[]
+for value in range(100,-1,-1):
+ fraction=Decimal(value)/100
+ band=value//5
+ correction=hc_modifier_values('rip_church_gc_pa_country_'+str(band))
+ correction.update(hc_modifier_values('rip_church_gc_middle_pa_local_'+str(band)))
+ net={key:base*fraction+correction[key] for key,base in HC_NATIVE.items()}
+ label=('§YHierarchical Capacity: '+str(value)+'%§!\\n'
+  'Capacity of the local Greek Catholic hierarchy; separate from Rome.\\n\\n'
+  '§YRecurring gain from the state religion§!\\n'
+  '§G+7.5 HC per year (+0.625 per month)§!\\n'
+  'Country modifiers affect growth; events, decisions and missions can change HC.\\n\\n'
+  '§YNet effects at this value§!\\n'
+  'Country missionary strength: '+hc_display(net['global_missionary_strength'],percent=True)+'\\n'
+  'Clergy influence: '+hc_display(net['church_influence_modifier'],percent=True)+'\\n'
+  'Owned Greek Catholic province unrest: '+hc_display(net['local_unrest'],inverse=True)+'\\n'
+  'Owned Greek Catholic province manpower: '+hc_display(net['local_manpower_modifier'],percent=True)+'\\n'
+  '§gWhole capacity points shown; province effects apply to owned Greek Catholic provinces.§!\\n\\n'
+  +HC_SPENDING)
+ hc_tooltip_rows.append((f'patriarch_authority = {value/100:.2f}',label))
+# Every leaf is literal: nested variable/custom-text returns are reparsed by
+# the custom GUI and previously rendered raw property keys in the hover text.
+ui_readout('GetChurchCapacityTooltip',hc_tooltip_rows)
 for key,value in list(DATA.items()):
  if (key.startswith(('rip_church_gc_', 'rip_church_readout_getchurchdevotional', 'rip_church_gui_shared_status'))
      or key in ('greek_catholic_religion_desc','rip_church.6.d','rip_church_gui_synod_tt')):
   DATA[key]=re.sub(r'\bPA\b','HC',value.replace('Patriarchal Authority','Hierarchical Capacity').replace('Patriarch Authority','Hierarchical Capacity'))
 DATA['rip_church_gc_resources']='Hierarchical Capacity: [Root.GetChurchAuthorityReadout]'
 DATA['rip_church_gui_synod_active']='Active: [Root.GetChurchLocalInstitution]'
-DATA['rip_church_gui_synod_active_tt']='Choose the institution with the Synod button beside the Hierarchical Capacity bar in the religion window. The picture there shows the active institution.\\nEastern infrastructure, or a compact of coexistence once community rights are guaranteed in at least one province; both use Hierarchical Capacity and ducats and last ten years.'
+DATA['rip_church_gui_synod_active_tt']='Use the Synod button in this card to choose the local institution. Opening the menu is free; an enactment uses the single synod slot for ten years.\\nInfrastructure costs 20 HC and 75 ducats; Coexistence costs 20 HC and 100 ducats and requires a protected community. An active institution cannot be replaced.'
+DATA['rip_church_gc_native_privileges_button_tt']=DATA['rip_church_gui_synod_active_tt']
 DATA['rip_church_rite_badge_yes']='§GCommunity rights guaranteed§!'
 DATA['rip_church_rite_badge_no']='§YCommunity rights not guaranteed§!'
 DATA['rip_church_rite_effects_offer']='§YCost:§! 1 ADM per development\\n§YEffect:§! unrest §G-2.5§!, tax §R-15%§!, manpower §R-20%§!\\n§YDuration:§! at least 10 years; the faith is unchanged'
@@ -1171,8 +1211,7 @@ DATA['rip_church_rite_note']='Gameplay abstraction: not an exact or canonical pa
 DATA['rip_church_rite_note_tt']='$rip_church_rite_help_tt$'
 DATA['rip_church_gc_controller_readout']='Curia controller\\n§Y[Root.GetChurchCuriaController]§!'
 DATA['rip_church_gc_curia_note']='Papal State\\nOpinion of us:\\n[Root.GetChurchPapalOpinion]'
-DATA['rip_church_gc_curia_note_tt']='The Catholic Papal State is our diplomatic contact in Rome. This opinion measures its relations with our country, separately from Hierarchical Capacity.'
-DATA['rip_church_gui_rights_note']='The Union maintains communion with Rome without holding Catholic electoral offices.'
+DATA['rip_church_gc_curia_note_tt']='The Catholic Papal State is our diplomatic contact in Rome. Papal opinion and communion with Rome grant no cardinalship, Curia vote, conclave seat or electoral authority; there is no gameplay unlock for these offices.'
 DATA['rip_church_gui_slot_free']='Synod slot\\n§Y0 / 1§!'
 DATA['rip_church_gui_slot_used']='Synod slot\\n§G1 / 1§!'
 DATA['rip_church_gc_holy_see_gift_state']='[Root.GetChurchGiftReason]'
@@ -1181,6 +1220,13 @@ DATA['rip_church_gc_holy_see_gift_state_tt']=DATA['rip_church_gc_holy_see_gift_b
 DATA['rip_church_gc_controller_readout_tt']='Country currently controlling the Catholic Curia: [Root.GetChurchCuriaController]. This is not the birthplace or nationality of the Pope. Reopening the Curia tab refreshes the current controller.'
 for key in ('rip_church_gc_resources_tt','rip_church_gc_help_tt','rip_church_gui_shared_status_tt'):
  DATA[key]=GC_CAPACITY_HELP
+DATA['rip_church_gc_capacity_hover_tt']='[Root.GetChurchCapacityTooltip]'
+DATA['rip_church_authority_heading_tt']='[Root.GetChurchAuthorityTooltip]'
+DATA['rip_church_native_authority_tooltip']='$PATRIARCH_DESCRIPTION$'
+custom+=defined('GetChurchAuthorityTooltip',[
+ (f'religion = greek_catholic {gate}',f'rip_church_readout_getchurchcapacitytooltip_{i}')
+ for i,(gate,_) in enumerate(hc_tooltip_rows)
+ ]+[('always = yes','rip_church_native_authority_tooltip')])
 DATA['greek_catholic_religion_desc']+=' '+GC_CAPACITY_HELP
 DATA['rip_church_authority_heading']='[Root.GetChurchAuthorityHeading]'
 DATA['rip_church_gc_capacity_heading']='Hierarchical Capacity'
@@ -1214,9 +1260,9 @@ if bad: raise SystemExit('Old recognition framing of the province action in: '+'
 stale=[]
 for path,text in outputs.items():
     p=ROOT/path
-    if not p.exists() or p.read_text(encoding='utf-8')!=text:
+    if not p.exists() or p.read_bytes()!=text.replace('\n','\r\n').encode('utf-8'):
         stale.append(path)
         if not args.check:
-            p.parent.mkdir(parents=True,exist_ok=True); p.write_text(text,encoding='utf-8',newline='\n')
+            p.parent.mkdir(parents=True,exist_ok=True); p.write_text(text,encoding='utf-8',newline='\r\n')
 print(('STALE' if args.check and stale else 'GENERATED')+f': {len(DATA)} keys; {len(stale)} files')
 if args.check and stale: raise SystemExit(1)
