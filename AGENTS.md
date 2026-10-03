@@ -6,6 +6,7 @@ Before editing engine files and before reporting completion, run
 Fix encoding failures before launch or commit. Static checks do not prove runtime.
 
 EU4 `.txt`, `.gui`, `.gfx` and `.mod` engine files must be UTF-8 **without BOM**.
+Git hook scripts must also be UTF-8 without BOM; their shebang must be the first bytes.
 `localisation/**/*.yml` must be UTF-8 **with exactly one BOM**.
 Do not use default Windows PowerShell `Out-File`/`Set-Content` encodings.
 Edit generators first, regenerate, then repeat both checks.

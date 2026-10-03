@@ -15,6 +15,8 @@ DATA_DIRS = {"common", "customizable_localization", "decisions", "events",
 def policy(path: str) -> str | None:
     parts = Path(path.replace("\\", "/")).parts
     suffix = Path(path).suffix.lower()
+    if parts[0] == ".githooks":
+        return "forbidden"  # A BOM breaks the executable shebang too.
     if len(parts) > 1 and parts[0] not in DATA_DIRS | {"localisation"}:
         return None  # Archived snapshots and other worktrees are not this mod.
     if parts[0] == "localisation" and suffix == ".yml":
@@ -28,6 +30,8 @@ def error(path: str, raw: bytes) -> str | None:
     rule = policy(path)
     if rule is None:
         return None
+    if Path(path).parts[0] == ".githooks" and b"\r\n" in raw:
+        return "Git hook requires LF line endings"
     if raw.startswith((b"\xff\xfe", b"\xfe\xff", b"\x00\x00\xfe\xff")):
         return "UTF-16/32 is not supported; save as UTF-8"
     if rule == "forbidden" and raw.startswith(BOM):
@@ -52,7 +56,7 @@ def main() -> int:
                  "--diff-filter=ACMR", "-z").split(b"\0") if p]
         rows = ((p, git_bytes("show", ":" + p)) for p in paths if policy(p))
     else:
-        candidates = list(ROOT.glob("*.mod"))
+        candidates = list(ROOT.glob("*.mod")) + list((ROOT / ".githooks").glob("*"))
         for directory in sorted(DATA_DIRS | {"localisation"}):
             candidates.extend((ROOT / directory).rglob("*"))
         rows = ((p.relative_to(ROOT).as_posix(), p.read_bytes())

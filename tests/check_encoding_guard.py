@@ -8,7 +8,7 @@ import check_file_encoding as guard
 
 
 def main():
-    for path in ("descriptor.mod", "interface/a.gui", "interface/a.gfx", "common/a.txt",
+    for path in ("descriptor.mod", ".githooks/pre-commit", "interface/a.gui", "interface/a.gfx", "common/a.txt",
                  "events/a.txt", "history/a.txt", "customizable_localization/a.txt"):
         assert guard.error(path, b"name = ok") is None
         assert guard.error(path, guard.BOM + b"name = ok")
@@ -16,6 +16,7 @@ def main():
     assert guard.error("localisation/replace/a.yml", guard.BOM + b"l_english:\n") is None
     assert guard.error("localisation/a.yml", b"l_english:\n")
     assert guard.error("localisation/a.yml", guard.BOM * 2 + b"l_english:\n")
+    assert guard.error(".githooks/pre-commit", b"#!/bin/sh\r\nset -eu\r\n")
     assert guard.error("docs/a.md", guard.BOM + b"documentation") is None
     assert guard.error("diagnostics/old/descriptor.mod", guard.BOM + b"name = old") is None
     assert guard.error(".claude/worktrees/old/descriptor.mod", guard.BOM + b"name = old") is None
