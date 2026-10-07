@@ -18,6 +18,7 @@ scripts = [
     "tests/check_donor_audit.py",
     "tests/check_colonial_names.py",
     "tests/check_clausewitz_braces.py",
+    "tests/check_religion_icon_frames.py",
     "tests/check_ro_blessing_window.py",
     "tests/check_uc_curia.py",
     "tests/check_faith_content_balance.py",
