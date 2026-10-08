@@ -4,10 +4,10 @@ rip_church_gui_refresh_parishes_effect = {
  set_variable = { which = rip_church_gui_latin_parishes value = 0 }
  every_owned_province = {
   if = { limit = { has_province_flag = rip_church_rite_recognized OR = { religion = orthodox religion = russian_orthodox } }
-   ROOT = { change_variable = { which = rip_church_gui_eastern_parishes value = 1 } }
+   owner = { change_variable = { which = rip_church_gui_eastern_parishes value = 1 } }
   }
   if = { limit = { has_province_flag = rip_church_rite_recognized religion = catholic }
-   ROOT = { change_variable = { which = rip_church_gui_latin_parishes value = 1 } }
+   owner = { change_variable = { which = rip_church_gui_latin_parishes value = 1 } }
   }
  }
 }

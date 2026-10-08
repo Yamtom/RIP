@@ -12,6 +12,9 @@ ruthenian_ideas = {
 	}
 
 	trigger = {
+		# Chernihiv has its own CHR_ideas set; keep it out of the overlapping
+		# Ruthenian culture-group set so it can never resolve to two sets.
+		NOT = { tag = CHR }
 		OR = {
 			# All four, as vanilla has it. 03_scripted_effects_for_mission_rewards.txt
 			# does change_primary_culture = ruthenian_new as a mission reward, so dropping
