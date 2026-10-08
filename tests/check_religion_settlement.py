@@ -836,17 +836,17 @@ def guarantee_naming_problems(text):
     for value in _literals_or_whole(body, 'rip_church_recognize_rite_button_tt'):
         if 'not converted' not in value:
             problems.append('the province button tooltip does not say the province is not converted')
+    # The disclaimer lives in the panel's concept tooltip, the long help, the status
+    # description and the count tooltip. The action button and status tooltips state
+    # effects only, so they no longer repeat it.
     model_keys = (
-        'rip_church_recognize_rite_button_tt',
+        'rip_church_rite_heading_tt',
         'rip_church_rite_help',
         'rip_church_rite_help_tt',
-        'rip_church_rite_recognized',
         'desc_rip_church_rite',
-        'rip_church_gui_parish_counts_tt',
         'rip_church_gui_parish_list_title_tt',
         'rip_church_gui_parishes_title_tt',
-        'rip_church_gui_count_eastern_tt',
-        'rip_church_gui_count_latin_tt',
+        'rip_church_gui_count_value_tt',
     )
     for key in model_keys:
         values = _literals_or_whole(body, key)
@@ -867,7 +867,7 @@ def rite_interpretation_problems(text):
         'not a penalty for another faith',
         'not a documented historical formula',
     )
-    keys = ['rip_church_recognize_rite_button_tt', 'rip_church_rite_help']
+    keys = ['rip_church_rite_help']
     generated = 'RITE_INTERPRETATION=' not in text
     if generated:
         keys.extend(('rip_church_gui_recognize_parish_tt', 'desc_rip_church_rite'))
@@ -883,6 +883,11 @@ def rite_interpretation_problems(text):
                 for phrase in (tax, manpower):
                     if phrase not in lower:
                         problems.append(f'{key}: missing unchanged modifier {phrase!r}')
+    # The button tooltip states the numbers only; the interpretation lives in desc_rip_church_rite.
+    for value in _literals_or_whole(text, 'rip_church_recognize_rite_button_tt'):
+        lower = value.lower()
+        problems += [f'rip_church_recognize_rite_button_tt: missing unchanged modifier {phrase!r}'
+                     for phrase in ('local tax falls by 15%', 'manpower by 20%') if phrase not in lower]
     return problems
 
 

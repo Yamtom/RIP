@@ -146,6 +146,20 @@ assert 'small_tiles_dialog.dds' not in read('interface/RIP_church_panels.gfx')
 assert 'name = "rip_church_authority_heading" scripted = yes' in interface
 assert interface.count('spriteType = "GFX_rip_church_section_banner"') >= 6
 assert 'rip_church_gc_holy_see_gift_button' in pages['curia']
+toggle = button(controls, 'rip_church_gc_window_toggle')
+assert 'potential = { religion = greek_catholic }' in toggle
+assert 'has_country_flag = rip_church_gc_window_hidden' in toggle
+assert 'clr_country_flag = rip_church_gc_window_hidden' in toggle
+assert 'set_country_flag = rip_church_gc_window_hidden' in toggle
+assert 'rip_church_gc_window_hidden' in controls
+assert 'rip_church_gc_window_toggle' in interface
+toggle_widget = next(
+    d for kind, d in widgets(parse(interface))
+    if kind == 'guiButtonType' and d.get('name') == 'rip_church_gc_window_toggle'
+)
+assert toggle_widget['quadTextureSprite'] == 'GFX_closebutton2'
+assert dict(toggle_widget['position']) == {'x': '372', 'y': '238'}
+assert toggle_widget['scale'] == '0.7'
 # The deputation and the gift each get their own button and own summary line;
 # the old four-cell Cost/Peace/Rome/Cooldown grid sat under the gift button.
 for stale in ('rip_church_gui_contact_peace', 'rip_church_gui_contact_rome', 'rip_church_gui_contact_cooldown'):
@@ -204,7 +218,7 @@ for kind, d in widgets(parse(interface)):
 # One Synod entry point in the same card as its state. A GC-only opaque cover
 # prevents the native Orthodox Select control showing through or taking clicks.
 assert 'rip_church_gc_native_privileges_button' in pages['union']
-assert pages['union']['rip_church_gc_native_privileges_button']['quadTextureSprite'] == 'GFX_standard_button_224'
+assert pages['union']['rip_church_gc_native_privileges_button']['quadTextureSprite'] == 'button_type_8'
 native_controls = next(block for _, block in keyed_blocks(interface, 'windowType')
                        if dict(dict(parse(block))['windowType']).get('name') == 'rip_church_gc_native_controls')
 assert 'rip_church_gc_native_privileges_button' not in native_controls
@@ -313,4 +327,56 @@ w.countries['PAP']['religion'] = 'catholic'
 c['religion'] = 'catholic'
 assert not w.gate(gift_gate,c)
 c['religion'] = 'greek_catholic'
+
+# Community-rights counts on the Union status card. A direct
+# [Root.<variable>.GetValue] prints nothing (and logs "Unknown text property" on every
+# frame) while the variable has never been set, e.g. right after conversion and before
+# the first monthly refresh. The counts therefore come from literal defined_text rows,
+# and an unset variable must read 0.
+for family, variable in (('Eastern', 'rip_church_gui_eastern_parishes'), ('Latin', 'rip_church_gui_latin_parishes')):
+    count_rows = next((payload for kind, payload in parse(custom_text)
+                       if kind == 'defined_text' and dict(payload)['name'] == f'GetChurch{family}Count'), None)
+    assert count_rows, f'GetChurch{family}Count readout is missing'
+    def count_leaf():
+        return next(dict(payload)['localisation_key'] for kind, payload in count_rows
+                    if kind == 'text' and w.gate(dict(payload)['trigger'], c))
+    saved_count = c['variables'].pop(variable, None)
+    assert re.sub(r'§.', '', expanded_localisation(count_leaf())) == '0', (family, 'an unset variable must read 0')
+    for count in range(0, 151):
+        c['variables'][variable] = count
+        literal = re.sub(r'§.', '', expanded_localisation(count_leaf()))
+        assert literal == (str(count) if count < 100 else '100+'), (family, count, literal)
+    c['variables'].pop(variable)
+    if saved_count is not None:
+        c['variables'][variable] = saved_count
+count_text = expanded_localisation('rip_church_gui_count_value')
+assert '.GetValue' not in count_text, 'the count row must not read a variable directly'
+assert '[Root.GetChurchEasternCount]' in count_text and '[Root.GetChurchLatinCount]' in count_text
+count_tooltip = english_keys['rip_church_gui_count_value_tt'].lower()
+for phrase in ('gameplay', 'canonical', 'not an exact', 'voluntary union acceptance', 'guarantee community rights'):
+    assert phrase in count_tooltip, ('count tooltip must say', phrase)
+count_start = interface.index('name = "rip_church_gui_count_value"')
+assert 'alwaystransparent' not in interface[count_start:interface.index('\n}', count_start)], (
+    'a widget with a hover tooltip must be hit-testable')
+
+# Tooltips of the church GUI. Every key a widget points at must exist, no tooltip may
+# merely repeat the text it hangs on (a box with the window title hovered over the
+# status line in play), and no live text may read a variable directly (the engine
+# drops such a string while the variable is unset and logs it every frame).
+all_controls = controls + features
+tooltip_keys = set(re.findall(r'pdx_tooltip = "(\w+)"', interface))
+tooltip_keys |= set(re.findall(r'\btooltip = (\w+)', all_controls))
+missing_tooltips = sorted(key for key in tooltip_keys if key not in english_keys)
+assert not missing_tooltips, ('tooltip keys without localisation', missing_tooltips)
+for name, tip in re.findall(r'custom_text_box = \{ name = (\w+) .*? tooltip = (\w+) \}', all_controls):
+    if name in english_keys and tip in english_keys:
+        assert re.sub(r'\s+', ' ', english_keys[tip]).strip() != re.sub(r'\s+', ' ', english_keys[name]).strip(), (
+            name, 'the tooltip only repeats the visible text')
+for window in re.findall(r'name = "(rip_church_\w+_panel)" scripted = yes[^\n]*pdx_tooltip', interface):
+    raise AssertionError(('a whole window must not carry a pdx_tooltip', window))
+live_text_keys = set(re.findall(r'\btext = "(\w+)"', interface))
+for key in sorted(live_text_keys & set(english_keys)):
+    if key.startswith(('rip_church_gui_', 'rip_church_gc_')):
+        assert '.GetValue]' not in english_keys[key], (key, 'a variable read directly in a live text')
+
 print('GC CURIA PASS: audience and gift transactions, opinion, visibility gates, cooldown boundaries')

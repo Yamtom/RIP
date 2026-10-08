@@ -44,6 +44,21 @@ w.run('rip_church_gui_refresh_parishes_effect',c)
 assert [c['variables'][name] for name in names] == [1,1]
 cases += 3
 
+# The Guarantee button runs with ROOT = the clicked province (provinceview.gui), so the
+# refresh must address the owner, never ROOT. `ROOT = { change_variable }` raised a
+# province variable and left the country's count at 0 until the next monthly pulse.
+w, c, p = fixture('greek_catholic')
+for number, faith in ((401, 'orthodox'), (402, 'catholic'), (403, 'russian_orthodox')):
+    q = w.province(number, c, faith)
+    q.update(is_city=True, controlled_by=c['id'], development=5)
+w.run('rip_church_recognize_rite_effect', w.provinces['401'])
+assert [c['variables'][name] for name in names] == [1, 0]
+w.run('rip_church_recognize_rite_effect', w.provinces['402'])
+w.run('rip_church_recognize_rite_effect', w.provinces['403'])
+assert [c['variables'][name] for name in names] == [2, 1]
+assert not any(name in q['variables'] for q in w.provinces.values() for name in names), 'counts belong to the country'
+cases += 1
+
 windows = {dict(body)['name']:dict(body)['potential']
            for key,body in parse(read('common/custom_gui/RIP_church_controls.txt'))
            if key == 'custom_window' and dict(body)['name'] in {
@@ -75,10 +90,11 @@ for card_name, action, state in (
     children = {d['name']: (kind, d) for kind, d, _ in descendants(entries)}
     assert action in children and state in children, 'institution state and action must share a card'
     kind, control = children[action]
-    assert kind == 'guiButtonType' and control['quadTextureSprite'] == 'GFX_standard_button_224'
+    # Column actions use the 189x31 button; the two 198px columns cannot hold two 224px bases.
+    assert kind == 'guiButtonType' and control['quadTextureSprite'] == 'button_type_8'
     position, size = dict(control['position']), dict(card['size'])
-    assert int(position['x']) >= 0 and int(position['x']) + 224 <= int(size['x'])
-    assert int(position['y']) >= 0 and int(position['y']) + 32 <= int(size['y'])
+    assert int(position['x']) >= 0 and int(position['x']) + 189 <= int(size['x'])
+    assert int(position['y']) >= 0 and int(position['y']) + 31 <= int(size['y'])
     sizes.add(str(card['size']))
     rows.add(dict(card['position'])['y'])
     button_rows.add(position['y'])
@@ -103,9 +119,20 @@ assert 'rip_church_rite_panel_hide_button' in province_widgets['guiButtonType']
 assert 'rip_church_rite_reopen_panel' in province_widgets['windowType']
 assert 'rip_church_rite_panel_show_button' in province_widgets['guiButtonType']
 assert dict(province_widgets['windowType']['rip_church_rite_reopen_panel']['position']) == {
-    'x': '874', 'y': '8'}
+    'x': '156', 'y': '423'}
 assert dict(province_widgets['windowType']['rip_church_rite_reopen_panel']['size']) == {
-    'x': '80', 'y': '32'}
+    'x': '189', 'y': '31'}
+state_window = province_widgets['windowType']['state_window']
+assert 'rip_church_rite_reopen_panel' in {
+    d.get('name') for _, d, _ in descendants(list(state_window.items()))
+}, 'Community Rights must follow the state window, not float over the map'
+assert 'rip_church_gc_state_cover' in province_widgets['windowType']
+assert 'name = rip_church_gc_state_cover potential = { FROM = { religion = greek_catholic } }' in province_controls
+assert 'name ="consecrate_patriarch_button"\n' in province_gui, 'retain the native Orthodox callback'
+assert 'rip_church_gc_capacity_bar_hover' not in religion_gui, 'do not paint a second frame over the HC indicator'
+assert 'name = "rip_church_gc_capacity_value"' not in religion_gui, 'the HC percentage is the native marker text, not a second readout'
+assert 'name = "current_patriarch_authority_value" scripted' not in religion_gui, 'native HC percentage stays vanilla for both faiths'
+assert 'name = "rip_church_gc_capacity_heading" scripted = yes position = { x=53 y=255 }' in religion_gui
 assert province_controls.count('owned_by = FROM FROM = { religion = greek_catholic }') >= 2
 assert "rip_church_rite_panel_hidden" in gui_builder
 cases += 1
