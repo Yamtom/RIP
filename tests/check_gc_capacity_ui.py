@@ -8,12 +8,45 @@ from clausewitz_testlib import ROOT, keyed_blocks, named_block, read, vanilla_ro
 
 gui = read("interface/countryreligionview.gui")
 controls = read("common/custom_gui/RIP_church_controls.txt")
-high_icon = re.search(
-    r'name = "rip_church_gc_capacity_high_icon" scripted = yes '
-    r'spriteType = "GFX_rip_church_gc_capacity_high" position = \{ x=(\d+) y=273 \}',
-    gui,
-)
-assert high_icon and 260 <= int(high_icon[1]) <= 264, "HC priest must clear the 100% moving indicator and the scale end"
+def widget_position(name):
+    found = re.search(
+        r'name = "' + name + r'" scripted = yes (?:spriteType = "\w+" )?position = \{ x=(\d+) y=(\d+) \}', gui)
+    assert found, name
+    return int(found[1]), int(found[2])
+
+
+def alpha_box(path, threshold=128):
+    data = path.read_bytes()
+    height, width = struct.unpack_from("<II", data, 12)
+    assert data[:4] == b"DDS " and struct.unpack_from("<I", data, 88)[0] == 32
+    pixels = data[128:]
+    hits = [(x, y) for y in range(height) for x in range(width)
+            if pixels[(y * width + x) * 4 + 3] >= threshold]
+    return (min(x for x, _ in hits), min(y for _, y in hits),
+            max(x for x, _ in hits) + 1, max(y for _, y in hits) + 1)
+
+
+# Native frame GFX_ideaView_progress_frame_long sits at (84,286), 194x18; its solid
+# body (alpha >= 128) is x 4..191, y 3..15. The native marker travels x = 77 + 1.58 * HC
+# and carries the percentage, so the two bishops frame the bar and nothing else.
+FRAME_LEFT, FRAME_RIGHT = 84 + 4, 84 + 191
+BAR_CENTRE_X2, BAR_CENTRE_Y2 = FRAME_LEFT + FRAME_RIGHT, 2 * 286 + 3 + 15
+COVER_X = 303
+boxes = {}
+for kind in ("low", "high"):
+    x, y = widget_position(f"rip_church_gc_capacity_{kind}_icon")
+    left, top, right, bottom = alpha_box(ROOT / f"gfx/interface/rip_church/gc_archbishop_{kind}.dds")
+    boxes[kind] = (x + left, y + top, x + right, y + bottom)
+low, high = boxes["low"], boxes["high"]
+assert FRAME_LEFT - low[2] == high[0] - FRAME_RIGHT, ("HC icons must sit equally far from the bar ends", low, high)
+assert abs((BAR_CENTRE_X2 - (low[0] + low[2])) - ((high[0] + high[2]) - BAR_CENTRE_X2)) <= 1, "HC icons are not symmetric about the bar"
+for kind, box in boxes.items():
+    assert abs(box[1] + box[3] - BAR_CENTRE_Y2) <= 2, (kind, "HC icon art must be vertically centred on the bar")
+assert 0 <= FRAME_LEFT - low[2] <= 3, "HC icons must stay attached to the bar ends"
+assert high[2] <= COVER_X - 2, "HC priest must stay clear of the covered Select area"
+heading = re.search(r'name = "rip_church_gc_capacity_heading" scripted = yes position = \{ x=(\d+) y=(\d+) \}.*?maxWidth = (\d+)', gui)
+assert heading and 2 * int(heading[1]) + int(heading[3]) == BAR_CENTRE_X2 - 1, "GC heading must be centred on the bar"
+assert 'name = "rip_church_gc_capacity_value"' not in gui, "the percentage is the native marker text"
 for level in ("low", "high"):
     binding = next(
         block for _, block in keyed_blocks(controls, "custom_icon")
@@ -26,6 +59,13 @@ heading_binding = next(
     if "name = rip_church_authority_heading " in block
 )
 assert "tooltip = rip_church_authority_heading_tt" in heading_binding
+assert "NOT = { religion = greek_catholic }" in heading_binding, "the shared heading must hide for GC"
+gc_heading_binding = next(
+    block for _, block in keyed_blocks(controls, "custom_text_box")
+    if "name = rip_church_gc_capacity_heading " in block
+)
+assert "potential = { religion = greek_catholic }" in gc_heading_binding
+assert "tooltip = rip_church_authority_heading_tt" in gc_heading_binding
 
 help_text = (
     "native Patriarch Authority bar (0–100)",
