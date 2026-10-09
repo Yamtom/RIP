@@ -2,8 +2,23 @@
 #
 # EU4 draws a religion from the 29-frame vanilla strips indexed by "icon = N"
 # in common/religions. The mod had russian_orthodox on icon = 2, the Protestant
-# cross, and greek_catholic on icon = 10, the Shinto torii. These strips carry
-# the vanilla 29 unchanged and add frames 30 and 31.
+# cross, and greek_catholic on icon = 10, the Shinto torii. Four textures carry
+# the vanilla 29 frames unchanged and add frames 30 and 31, and five sprites
+# read them - every sprite below must be redeclared, because vanilla stops each
+# at 29 and the engine slices a strip into noOfFrames equal frames:
+#
+#   gfx/interface/icon_religion.dds           64x64  GFX_icon_religion
+#   gfx/interface/country_icon_religion.dds   64x64  GFX_country_icon_religion
+#   gfx/interface/icon_religion_small.dds     32x32  GFX_icon_religion_small,
+#                                                    GFX_religion_icon_strip
+#   gfx/interface/province_view_religion.dds  32x32  GFX_province_view_religion
+#
+# GFX_province_view_religion draws the advisor rows, the HRE window, holy-site
+# blessings, the colonisation panel and the map conversion icon.
+# GFX_religion_icon_strip is the ledger's copy of icon_religion_small.dds, and
+# it keeps the backslash path and transparencecheck it has in vanilla ledger.gfx.
+# Left at 29 it slices the 31-frame strip 34.2 px apart and every ledger icon
+# drifts. GFX_province_view_religion keeps its vanilla loadType.
 #
 # Frame 30, Russian Orthodoxy: the Orthodox three-bar cross (vanilla frame 4)
 # with its Byzantine purple shifted to oak - HSV hue 26, saturation x1.50
@@ -14,9 +29,12 @@
 # value x0.92, over pixels between hue 15 and 70. A crucifix under Rome, in a
 # colour that is neither the Latin gold nor the Byzantine purple.
 #
-# In both the metal rim and the outline keep vanilla's shading.
+# In both the metal rim and the outline keep vanilla's shading: pixels with
+# saturation under 0.08 are left alone.
 #
-# noOfFrames must be redeclared here; the vanilla sprites stop at 29.
+# tools/build_religion_icon_strips.py regenerates province_view_religion.dds
+# from the vanilla file and rebuilds the other three bit-exactly to prove the
+# recipe; tests/check_religion_icon_frames.py keeps the counts honest.
 
 spriteTypes = {
 
@@ -35,6 +53,20 @@ spriteTypes = {
 	spriteType = {
 		name = "GFX_icon_religion_small"
 		texturefile = "gfx//interface//icon_religion_small.dds"
+		noOfFrames = 31
+	}
+
+	spriteType = {
+		name = "GFX_province_view_religion"
+		texturefile = "gfx//interface//province_view_religion.dds"
+		noOfFrames = 31
+		loadType = "INGAME"
+	}
+
+	spriteType = {
+		name = "GFX_religion_icon_strip"
+		texturefile = "gfx\\interface\\icon_religion_small.dds"
+		transparencecheck = yes
 		noOfFrames = 31
 	}
 }
