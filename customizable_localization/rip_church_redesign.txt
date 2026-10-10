@@ -463,11 +463,6 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_church_rite_effects_offer }
 }
 defined_text = {
- name = GetChurchIconWar
- text = { trigger = { has_country_flag = rip_church_icon_war } localisation_key = rip_church_active }
- text = { trigger = { always = yes } localisation_key = rip_church_inactive }
-}
-defined_text = {
  name = GetChurchIconWarAction
  text = { trigger = { has_country_flag = rip_church_icon_war } localisation_key = rip_church_ro_action_active }
  text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 10 } } } localisation_key = rip_church_ro_action_fuel }
@@ -482,11 +477,6 @@ defined_text = {
  text = { trigger = { NOT = { rip_church_ro_slot_available = yes } } localisation_key = rip_church_icon_no_slot }
  text = { trigger = { has_country_flag = rip_church_icon_war_used NOT = { had_country_flag = { flag = rip_church_icon_war_used days = 365 } } } localisation_key = rip_church_icon_cooldown }
  text = { trigger = { always = yes } localisation_key = rip_church_icon_can_activate }
-}
-defined_text = {
- name = GetChurchIconMercy
- text = { trigger = { has_country_flag = rip_church_icon_mercy } localisation_key = rip_church_active }
- text = { trigger = { always = yes } localisation_key = rip_church_inactive }
 }
 defined_text = {
  name = GetChurchIconMercyAction
@@ -505,11 +495,6 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_church_icon_can_activate }
 }
 defined_text = {
- name = GetChurchIconBuilding
- text = { trigger = { has_country_flag = rip_church_icon_building } localisation_key = rip_church_active }
- text = { trigger = { always = yes } localisation_key = rip_church_inactive }
-}
-defined_text = {
  name = GetChurchIconBuildingAction
  text = { trigger = { has_country_flag = rip_church_icon_building } localisation_key = rip_church_ro_action_active }
  text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 10 } } } localisation_key = rip_church_ro_action_fuel }
@@ -526,14 +511,9 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_church_icon_can_activate }
 }
 defined_text = {
- name = GetChurchIconMission
- text = { trigger = { has_country_flag = rip_church_icon_mission } localisation_key = rip_church_active }
- text = { trigger = { always = yes } localisation_key = rip_church_inactive }
-}
-defined_text = {
  name = GetChurchIconMissionAction
  text = { trigger = { has_country_flag = rip_church_icon_mission } localisation_key = rip_church_ro_action_active }
- text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 10 } } } localisation_key = rip_church_ro_action_fuel }
+ text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 20 } } } localisation_key = rip_church_ro_action_fuel_mission }
  text = { trigger = { NOT = { rip_church_ro_slot_available = yes } } localisation_key = rip_church_ro_action_slot }
  text = { trigger = { has_country_flag = rip_church_icon_mission_used NOT = { had_country_flag = { flag = rip_church_icon_mission_used days = 365 } } } localisation_key = rip_church_ro_action_cooldown }
  text = { trigger = { always = yes } localisation_key = rip_church_ro_action_ready }
@@ -541,7 +521,7 @@ defined_text = {
 defined_text = {
  name = GetChurchIconMissionAccess
  text = { trigger = { has_country_flag = rip_church_icon_mission } localisation_key = rip_church_icon_can_deactivate }
- text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 10 } } } localisation_key = rip_church_icon_no_fuel }
+ text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 20 } } } localisation_key = rip_church_icon_no_fuel_mission }
  text = { trigger = { NOT = { rip_church_ro_slot_available = yes } } localisation_key = rip_church_icon_no_slot }
  text = { trigger = { has_country_flag = rip_church_icon_mission_used NOT = { had_country_flag = { flag = rip_church_icon_mission_used days = 365 } } } localisation_key = rip_church_icon_cooldown }
  text = { trigger = { always = yes } localisation_key = rip_church_icon_can_activate }
@@ -705,6 +685,310 @@ defined_text = {
  text = { trigger = { patriarch_authority = 0.02 } localisation_key = rip_church_readout_getchurchauthorityreadout_98 }
  text = { trigger = { patriarch_authority = 0.01 } localisation_key = rip_church_readout_getchurchauthorityreadout_99 }
  text = { trigger = { patriarch_authority = 0.00 } localisation_key = rip_church_readout_getchurchauthorityreadout_100 }
+}
+defined_text = {
+ name = GetChurchROFervor
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 100 } } localisation_key = rip_church_readout_getchurchrofervor_0 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 99 } } localisation_key = rip_church_readout_getchurchrofervor_1 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 98 } } localisation_key = rip_church_readout_getchurchrofervor_2 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 97 } } localisation_key = rip_church_readout_getchurchrofervor_3 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 96 } } localisation_key = rip_church_readout_getchurchrofervor_4 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 95 } } localisation_key = rip_church_readout_getchurchrofervor_5 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 94 } } localisation_key = rip_church_readout_getchurchrofervor_6 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 93 } } localisation_key = rip_church_readout_getchurchrofervor_7 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 92 } } localisation_key = rip_church_readout_getchurchrofervor_8 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 91 } } localisation_key = rip_church_readout_getchurchrofervor_9 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 90 } } localisation_key = rip_church_readout_getchurchrofervor_10 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 89 } } localisation_key = rip_church_readout_getchurchrofervor_11 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 88 } } localisation_key = rip_church_readout_getchurchrofervor_12 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 87 } } localisation_key = rip_church_readout_getchurchrofervor_13 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 86 } } localisation_key = rip_church_readout_getchurchrofervor_14 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 85 } } localisation_key = rip_church_readout_getchurchrofervor_15 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 84 } } localisation_key = rip_church_readout_getchurchrofervor_16 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 83 } } localisation_key = rip_church_readout_getchurchrofervor_17 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 82 } } localisation_key = rip_church_readout_getchurchrofervor_18 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 81 } } localisation_key = rip_church_readout_getchurchrofervor_19 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 80 } } localisation_key = rip_church_readout_getchurchrofervor_20 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 79 } } localisation_key = rip_church_readout_getchurchrofervor_21 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 78 } } localisation_key = rip_church_readout_getchurchrofervor_22 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 77 } } localisation_key = rip_church_readout_getchurchrofervor_23 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 76 } } localisation_key = rip_church_readout_getchurchrofervor_24 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 75 } } localisation_key = rip_church_readout_getchurchrofervor_25 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 74 } } localisation_key = rip_church_readout_getchurchrofervor_26 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 73 } } localisation_key = rip_church_readout_getchurchrofervor_27 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 72 } } localisation_key = rip_church_readout_getchurchrofervor_28 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 71 } } localisation_key = rip_church_readout_getchurchrofervor_29 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 70 } } localisation_key = rip_church_readout_getchurchrofervor_30 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 69 } } localisation_key = rip_church_readout_getchurchrofervor_31 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 68 } } localisation_key = rip_church_readout_getchurchrofervor_32 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 67 } } localisation_key = rip_church_readout_getchurchrofervor_33 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 66 } } localisation_key = rip_church_readout_getchurchrofervor_34 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 65 } } localisation_key = rip_church_readout_getchurchrofervor_35 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 64 } } localisation_key = rip_church_readout_getchurchrofervor_36 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 63 } } localisation_key = rip_church_readout_getchurchrofervor_37 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 62 } } localisation_key = rip_church_readout_getchurchrofervor_38 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 61 } } localisation_key = rip_church_readout_getchurchrofervor_39 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 60 } } localisation_key = rip_church_readout_getchurchrofervor_40 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 59 } } localisation_key = rip_church_readout_getchurchrofervor_41 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 58 } } localisation_key = rip_church_readout_getchurchrofervor_42 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 57 } } localisation_key = rip_church_readout_getchurchrofervor_43 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 56 } } localisation_key = rip_church_readout_getchurchrofervor_44 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 55 } } localisation_key = rip_church_readout_getchurchrofervor_45 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 54 } } localisation_key = rip_church_readout_getchurchrofervor_46 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 53 } } localisation_key = rip_church_readout_getchurchrofervor_47 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 52 } } localisation_key = rip_church_readout_getchurchrofervor_48 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 51 } } localisation_key = rip_church_readout_getchurchrofervor_49 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 50 } } localisation_key = rip_church_readout_getchurchrofervor_50 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 49 } } localisation_key = rip_church_readout_getchurchrofervor_51 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 48 } } localisation_key = rip_church_readout_getchurchrofervor_52 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 47 } } localisation_key = rip_church_readout_getchurchrofervor_53 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 46 } } localisation_key = rip_church_readout_getchurchrofervor_54 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 45 } } localisation_key = rip_church_readout_getchurchrofervor_55 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 44 } } localisation_key = rip_church_readout_getchurchrofervor_56 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 43 } } localisation_key = rip_church_readout_getchurchrofervor_57 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 42 } } localisation_key = rip_church_readout_getchurchrofervor_58 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 41 } } localisation_key = rip_church_readout_getchurchrofervor_59 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 40 } } localisation_key = rip_church_readout_getchurchrofervor_60 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 39 } } localisation_key = rip_church_readout_getchurchrofervor_61 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 38 } } localisation_key = rip_church_readout_getchurchrofervor_62 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 37 } } localisation_key = rip_church_readout_getchurchrofervor_63 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 36 } } localisation_key = rip_church_readout_getchurchrofervor_64 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 35 } } localisation_key = rip_church_readout_getchurchrofervor_65 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 34 } } localisation_key = rip_church_readout_getchurchrofervor_66 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 33 } } localisation_key = rip_church_readout_getchurchrofervor_67 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 32 } } localisation_key = rip_church_readout_getchurchrofervor_68 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 31 } } localisation_key = rip_church_readout_getchurchrofervor_69 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 30 } } localisation_key = rip_church_readout_getchurchrofervor_70 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 29 } } localisation_key = rip_church_readout_getchurchrofervor_71 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 28 } } localisation_key = rip_church_readout_getchurchrofervor_72 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 27 } } localisation_key = rip_church_readout_getchurchrofervor_73 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 26 } } localisation_key = rip_church_readout_getchurchrofervor_74 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 25 } } localisation_key = rip_church_readout_getchurchrofervor_75 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 24 } } localisation_key = rip_church_readout_getchurchrofervor_76 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 23 } } localisation_key = rip_church_readout_getchurchrofervor_77 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 22 } } localisation_key = rip_church_readout_getchurchrofervor_78 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 21 } } localisation_key = rip_church_readout_getchurchrofervor_79 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 20 } } localisation_key = rip_church_readout_getchurchrofervor_80 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 19 } } localisation_key = rip_church_readout_getchurchrofervor_81 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 18 } } localisation_key = rip_church_readout_getchurchrofervor_82 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 17 } } localisation_key = rip_church_readout_getchurchrofervor_83 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 16 } } localisation_key = rip_church_readout_getchurchrofervor_84 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 15 } } localisation_key = rip_church_readout_getchurchrofervor_85 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 14 } } localisation_key = rip_church_readout_getchurchrofervor_86 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 13 } } localisation_key = rip_church_readout_getchurchrofervor_87 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 12 } } localisation_key = rip_church_readout_getchurchrofervor_88 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 11 } } localisation_key = rip_church_readout_getchurchrofervor_89 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 10 } } localisation_key = rip_church_readout_getchurchrofervor_90 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 9 } } localisation_key = rip_church_readout_getchurchrofervor_91 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 8 } } localisation_key = rip_church_readout_getchurchrofervor_92 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 7 } } localisation_key = rip_church_readout_getchurchrofervor_93 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 6 } } localisation_key = rip_church_readout_getchurchrofervor_94 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 5 } } localisation_key = rip_church_readout_getchurchrofervor_95 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 4 } } localisation_key = rip_church_readout_getchurchrofervor_96 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 3 } } localisation_key = rip_church_readout_getchurchrofervor_97 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 2 } } localisation_key = rip_church_readout_getchurchrofervor_98 }
+ text = { trigger = { check_variable = { which = rip_church_fervor value = 1 } } localisation_key = rip_church_readout_getchurchrofervor_99 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchrofervor_100 }
+}
+defined_text = {
+ name = GetChurchROBase
+ text = { trigger = { check_variable = { which = rip_church_fervor_base value = 9 } } localisation_key = rip_church_readout_getchurchrobase_0 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_base value = 8 } } localisation_key = rip_church_readout_getchurchrobase_1 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_base value = 7 } } localisation_key = rip_church_readout_getchurchrobase_2 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_base value = 6 } } localisation_key = rip_church_readout_getchurchrobase_3 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_base value = 5 } } localisation_key = rip_church_readout_getchurchrobase_4 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_base value = 4 } } localisation_key = rip_church_readout_getchurchrobase_5 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_base value = 3 } } localisation_key = rip_church_readout_getchurchrobase_6 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_base value = 2 } } localisation_key = rip_church_readout_getchurchrobase_7 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_base value = 1 } } localisation_key = rip_church_readout_getchurchrobase_8 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchrobase_9 }
+}
+defined_text = {
+ name = GetChurchRONodeIncome
+ text = { trigger = { check_variable = { which = rip_church_node_income value = 9 } } localisation_key = rip_church_readout_getchurchronodeincome_0 }
+ text = { trigger = { check_variable = { which = rip_church_node_income value = 8 } } localisation_key = rip_church_readout_getchurchronodeincome_1 }
+ text = { trigger = { check_variable = { which = rip_church_node_income value = 7 } } localisation_key = rip_church_readout_getchurchronodeincome_2 }
+ text = { trigger = { check_variable = { which = rip_church_node_income value = 6 } } localisation_key = rip_church_readout_getchurchronodeincome_3 }
+ text = { trigger = { check_variable = { which = rip_church_node_income value = 5 } } localisation_key = rip_church_readout_getchurchronodeincome_4 }
+ text = { trigger = { check_variable = { which = rip_church_node_income value = 4 } } localisation_key = rip_church_readout_getchurchronodeincome_5 }
+ text = { trigger = { check_variable = { which = rip_church_node_income value = 3 } } localisation_key = rip_church_readout_getchurchronodeincome_6 }
+ text = { trigger = { check_variable = { which = rip_church_node_income value = 2 } } localisation_key = rip_church_readout_getchurchronodeincome_7 }
+ text = { trigger = { check_variable = { which = rip_church_node_income value = 1 } } localisation_key = rip_church_readout_getchurchronodeincome_8 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchronodeincome_9 }
+}
+defined_text = {
+ name = GetChurchROUpkeep
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 30 } } localisation_key = rip_church_readout_getchurchroupkeep_0 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 29 } } localisation_key = rip_church_readout_getchurchroupkeep_1 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 28 } } localisation_key = rip_church_readout_getchurchroupkeep_2 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 27 } } localisation_key = rip_church_readout_getchurchroupkeep_3 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 26 } } localisation_key = rip_church_readout_getchurchroupkeep_4 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 25 } } localisation_key = rip_church_readout_getchurchroupkeep_5 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 24 } } localisation_key = rip_church_readout_getchurchroupkeep_6 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 23 } } localisation_key = rip_church_readout_getchurchroupkeep_7 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 22 } } localisation_key = rip_church_readout_getchurchroupkeep_8 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 21 } } localisation_key = rip_church_readout_getchurchroupkeep_9 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 20 } } localisation_key = rip_church_readout_getchurchroupkeep_10 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 19 } } localisation_key = rip_church_readout_getchurchroupkeep_11 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 18 } } localisation_key = rip_church_readout_getchurchroupkeep_12 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 17 } } localisation_key = rip_church_readout_getchurchroupkeep_13 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 16 } } localisation_key = rip_church_readout_getchurchroupkeep_14 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 15 } } localisation_key = rip_church_readout_getchurchroupkeep_15 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 14 } } localisation_key = rip_church_readout_getchurchroupkeep_16 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 13 } } localisation_key = rip_church_readout_getchurchroupkeep_17 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 12 } } localisation_key = rip_church_readout_getchurchroupkeep_18 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 11 } } localisation_key = rip_church_readout_getchurchroupkeep_19 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 10 } } localisation_key = rip_church_readout_getchurchroupkeep_20 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 9 } } localisation_key = rip_church_readout_getchurchroupkeep_21 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 8 } } localisation_key = rip_church_readout_getchurchroupkeep_22 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 7 } } localisation_key = rip_church_readout_getchurchroupkeep_23 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 6 } } localisation_key = rip_church_readout_getchurchroupkeep_24 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 5 } } localisation_key = rip_church_readout_getchurchroupkeep_25 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 4 } } localisation_key = rip_church_readout_getchurchroupkeep_26 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 3 } } localisation_key = rip_church_readout_getchurchroupkeep_27 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 2 } } localisation_key = rip_church_readout_getchurchroupkeep_28 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 1 } } localisation_key = rip_church_readout_getchurchroupkeep_29 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchroupkeep_30 }
+}
+defined_text = {
+ name = GetChurchROPolicies
+ text = { trigger = { check_variable = { which = rip_church_icons value = 9 } } localisation_key = rip_church_readout_getchurchropolicies_0 }
+ text = { trigger = { check_variable = { which = rip_church_icons value = 8 } } localisation_key = rip_church_readout_getchurchropolicies_1 }
+ text = { trigger = { check_variable = { which = rip_church_icons value = 7 } } localisation_key = rip_church_readout_getchurchropolicies_2 }
+ text = { trigger = { check_variable = { which = rip_church_icons value = 6 } } localisation_key = rip_church_readout_getchurchropolicies_3 }
+ text = { trigger = { check_variable = { which = rip_church_icons value = 5 } } localisation_key = rip_church_readout_getchurchropolicies_4 }
+ text = { trigger = { check_variable = { which = rip_church_icons value = 4 } } localisation_key = rip_church_readout_getchurchropolicies_5 }
+ text = { trigger = { check_variable = { which = rip_church_icons value = 3 } } localisation_key = rip_church_readout_getchurchropolicies_6 }
+ text = { trigger = { check_variable = { which = rip_church_icons value = 2 } } localisation_key = rip_church_readout_getchurchropolicies_7 }
+ text = { trigger = { check_variable = { which = rip_church_icons value = 1 } } localisation_key = rip_church_readout_getchurchropolicies_8 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchropolicies_9 }
+}
+defined_text = {
+ name = GetChurchROCapacity
+ text = { trigger = { check_variable = { which = rip_church_capacity value = 9 } } localisation_key = rip_church_readout_getchurchrocapacity_0 }
+ text = { trigger = { check_variable = { which = rip_church_capacity value = 8 } } localisation_key = rip_church_readout_getchurchrocapacity_1 }
+ text = { trigger = { check_variable = { which = rip_church_capacity value = 7 } } localisation_key = rip_church_readout_getchurchrocapacity_2 }
+ text = { trigger = { check_variable = { which = rip_church_capacity value = 6 } } localisation_key = rip_church_readout_getchurchrocapacity_3 }
+ text = { trigger = { check_variable = { which = rip_church_capacity value = 5 } } localisation_key = rip_church_readout_getchurchrocapacity_4 }
+ text = { trigger = { check_variable = { which = rip_church_capacity value = 4 } } localisation_key = rip_church_readout_getchurchrocapacity_5 }
+ text = { trigger = { check_variable = { which = rip_church_capacity value = 3 } } localisation_key = rip_church_readout_getchurchrocapacity_6 }
+ text = { trigger = { check_variable = { which = rip_church_capacity value = 2 } } localisation_key = rip_church_readout_getchurchrocapacity_7 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchrocapacity_8 }
+}
+defined_text = {
+ name = GetChurchRONodes
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 9 } } localisation_key = rip_church_readout_getchurchronodes_0 }
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 8 } } localisation_key = rip_church_readout_getchurchronodes_1 }
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 7 } } localisation_key = rip_church_readout_getchurchronodes_2 }
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 6 } } localisation_key = rip_church_readout_getchurchronodes_3 }
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 5 } } localisation_key = rip_church_readout_getchurchronodes_4 }
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 4 } } localisation_key = rip_church_readout_getchurchronodes_5 }
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 3 } } localisation_key = rip_church_readout_getchurchronodes_6 }
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 2 } } localisation_key = rip_church_readout_getchurchronodes_7 }
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 1 } } localisation_key = rip_church_readout_getchurchronodes_8 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchronodes_9 }
+}
+defined_text = {
+ name = GetChurchRONet
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 15 } } localisation_key = rip_church_readout_getchurchronet_0 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 14 } } localisation_key = rip_church_readout_getchurchronet_1 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 13 } } localisation_key = rip_church_readout_getchurchronet_2 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 12 } } localisation_key = rip_church_readout_getchurchronet_3 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 11 } } localisation_key = rip_church_readout_getchurchronet_4 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 10 } } localisation_key = rip_church_readout_getchurchronet_5 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 9 } } localisation_key = rip_church_readout_getchurchronet_6 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 8 } } localisation_key = rip_church_readout_getchurchronet_7 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 7 } } localisation_key = rip_church_readout_getchurchronet_8 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 6 } } localisation_key = rip_church_readout_getchurchronet_9 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 5 } } localisation_key = rip_church_readout_getchurchronet_10 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 4 } } localisation_key = rip_church_readout_getchurchronet_11 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 3 } } localisation_key = rip_church_readout_getchurchronet_12 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 2 } } localisation_key = rip_church_readout_getchurchronet_13 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 1 } } localisation_key = rip_church_readout_getchurchronet_14 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = 0 } } localisation_key = rip_church_readout_getchurchronet_15 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -1 } } localisation_key = rip_church_readout_getchurchronet_16 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -2 } } localisation_key = rip_church_readout_getchurchronet_17 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -3 } } localisation_key = rip_church_readout_getchurchronet_18 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -4 } } localisation_key = rip_church_readout_getchurchronet_19 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -5 } } localisation_key = rip_church_readout_getchurchronet_20 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -6 } } localisation_key = rip_church_readout_getchurchronet_21 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -7 } } localisation_key = rip_church_readout_getchurchronet_22 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -8 } } localisation_key = rip_church_readout_getchurchronet_23 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -9 } } localisation_key = rip_church_readout_getchurchronet_24 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -10 } } localisation_key = rip_church_readout_getchurchronet_25 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -11 } } localisation_key = rip_church_readout_getchurchronet_26 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -12 } } localisation_key = rip_church_readout_getchurchronet_27 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -13 } } localisation_key = rip_church_readout_getchurchronet_28 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -14 } } localisation_key = rip_church_readout_getchurchronet_29 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -15 } } localisation_key = rip_church_readout_getchurchronet_30 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -16 } } localisation_key = rip_church_readout_getchurchronet_31 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -17 } } localisation_key = rip_church_readout_getchurchronet_32 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -18 } } localisation_key = rip_church_readout_getchurchronet_33 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -19 } } localisation_key = rip_church_readout_getchurchronet_34 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -20 } } localisation_key = rip_church_readout_getchurchronet_35 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -21 } } localisation_key = rip_church_readout_getchurchronet_36 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -22 } } localisation_key = rip_church_readout_getchurchronet_37 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -23 } } localisation_key = rip_church_readout_getchurchronet_38 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -24 } } localisation_key = rip_church_readout_getchurchronet_39 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -25 } } localisation_key = rip_church_readout_getchurchronet_40 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -26 } } localisation_key = rip_church_readout_getchurchronet_41 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -27 } } localisation_key = rip_church_readout_getchurchronet_42 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -28 } } localisation_key = rip_church_readout_getchurchronet_43 }
+ text = { trigger = { check_variable = { which = rip_church_fervor_net value = -29 } } localisation_key = rip_church_readout_getchurchronet_44 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchronet_45 }
+}
+defined_text = {
+ name = GetChurchIconWarName
+ text = { trigger = { has_country_flag = rip_church_icon_war } localisation_key = rip_church_readout_getchurchiconwarname_0 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchiconwarname_1 }
+}
+defined_text = {
+ name = GetChurchIconMercyName
+ text = { trigger = { has_country_flag = rip_church_icon_mercy } localisation_key = rip_church_readout_getchurchiconmercyname_0 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchiconmercyname_1 }
+}
+defined_text = {
+ name = GetChurchIconBuildingName
+ text = { trigger = { has_country_flag = rip_church_icon_building } localisation_key = rip_church_readout_getchurchiconbuildingname_0 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchiconbuildingname_1 }
+}
+defined_text = {
+ name = GetChurchIconMissionName
+ text = { trigger = { has_country_flag = rip_church_icon_mission } localisation_key = rip_church_readout_getchurchiconmissionname_0 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchiconmissionname_1 }
+}
+defined_text = {
+ name = GetChurchRONodeHint
+ text = { trigger = { NOT = { has_country_flag = rip_church_icon_mission } } localisation_key = rip_church_readout_getchurchronodehint_0 }
+ text = { trigger = { NOT = { has_dlc = "Cradle of Civilization" } } localisation_key = rip_church_readout_getchurchronodehint_1 }
+ text = { trigger = { OR = { check_variable = { which = rip_church_nodes value = 2 } AND = { check_variable = { which = rip_church_nodes value = 1 } NOT = { has_country_flag = rip_church_ro_schismatic } } } } localisation_key = rip_church_readout_getchurchronodehint_2 }
+ text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 10 } } } localisation_key = rip_church_readout_getchurchronodehint_3 }
+ text = { trigger = { NOT = { rip_church_ro_can_open_network_menu = yes } } localisation_key = rip_church_readout_getchurchronodehint_4 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchronodehint_5 }
+}
+defined_text = {
+ name = GetChurchROStep1
+ text = { trigger = { has_country_flag = rip_church_icon_mission } localisation_key = rip_church_readout_getchurchrostep1_0 }
+ text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 20 } } } localisation_key = rip_church_readout_getchurchrostep1_1 }
+ text = { trigger = { NOT = { rip_church_ro_slot_available = yes } } localisation_key = rip_church_readout_getchurchrostep1_2 }
+ text = { trigger = { has_country_flag = rip_church_icon_mission_used NOT = { had_country_flag = { flag = rip_church_icon_mission_used days = 365 } } } localisation_key = rip_church_readout_getchurchrostep1_3 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchrostep1_4 }
+}
+defined_text = {
+ name = GetChurchROStep2
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 2 } } localisation_key = rip_church_readout_getchurchrostep2_0 }
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 1 } has_country_flag = rip_church_ro_schismatic } localisation_key = rip_church_readout_getchurchrostep2_1 }
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 1 } } localisation_key = rip_church_readout_getchurchrostep2_2 }
+ text = { trigger = { NOT = { has_country_flag = rip_church_icon_mission } } localisation_key = rip_church_readout_getchurchrostep2_3 }
+ text = { trigger = { NOT = { has_dlc = "Cradle of Civilization" } } localisation_key = rip_church_readout_getchurchrostep2_4 }
+ text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 10 } } } localisation_key = rip_church_readout_getchurchrostep2_5 }
+ text = { trigger = { NOT = { rip_church_ro_can_open_network_menu = yes } } localisation_key = rip_church_readout_getchurchrostep2_6 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchrostep2_7 }
+}
+defined_text = {
+ name = GetChurchROStep3
+ text = { trigger = { check_variable = { which = rip_church_nodes value = 1 } } localisation_key = rip_church_readout_getchurchrostep3_0 }
+ text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchrostep3_1 }
 }
 defined_text = {
  name = GetChurchEcumenismReason
@@ -1223,245 +1507,4 @@ defined_text = {
  text = { trigger = { check_variable = { which = rip_church_gui_latin_parishes value = 2 } } localisation_key = rip_church_readout_getchurchlatincount_98 }
  text = { trigger = { check_variable = { which = rip_church_gui_latin_parishes value = 1 } } localisation_key = rip_church_readout_getchurchlatincount_99 }
  text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchlatincount_100 }
-}
-defined_text = {
- name = GetChurchROFervor
- text = { trigger = { check_variable = { which = rip_church_fervor value = 100 } } localisation_key = rip_church_readout_getchurchrofervor_0 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 99 } } localisation_key = rip_church_readout_getchurchrofervor_1 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 98 } } localisation_key = rip_church_readout_getchurchrofervor_2 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 97 } } localisation_key = rip_church_readout_getchurchrofervor_3 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 96 } } localisation_key = rip_church_readout_getchurchrofervor_4 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 95 } } localisation_key = rip_church_readout_getchurchrofervor_5 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 94 } } localisation_key = rip_church_readout_getchurchrofervor_6 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 93 } } localisation_key = rip_church_readout_getchurchrofervor_7 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 92 } } localisation_key = rip_church_readout_getchurchrofervor_8 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 91 } } localisation_key = rip_church_readout_getchurchrofervor_9 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 90 } } localisation_key = rip_church_readout_getchurchrofervor_10 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 89 } } localisation_key = rip_church_readout_getchurchrofervor_11 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 88 } } localisation_key = rip_church_readout_getchurchrofervor_12 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 87 } } localisation_key = rip_church_readout_getchurchrofervor_13 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 86 } } localisation_key = rip_church_readout_getchurchrofervor_14 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 85 } } localisation_key = rip_church_readout_getchurchrofervor_15 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 84 } } localisation_key = rip_church_readout_getchurchrofervor_16 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 83 } } localisation_key = rip_church_readout_getchurchrofervor_17 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 82 } } localisation_key = rip_church_readout_getchurchrofervor_18 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 81 } } localisation_key = rip_church_readout_getchurchrofervor_19 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 80 } } localisation_key = rip_church_readout_getchurchrofervor_20 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 79 } } localisation_key = rip_church_readout_getchurchrofervor_21 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 78 } } localisation_key = rip_church_readout_getchurchrofervor_22 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 77 } } localisation_key = rip_church_readout_getchurchrofervor_23 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 76 } } localisation_key = rip_church_readout_getchurchrofervor_24 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 75 } } localisation_key = rip_church_readout_getchurchrofervor_25 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 74 } } localisation_key = rip_church_readout_getchurchrofervor_26 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 73 } } localisation_key = rip_church_readout_getchurchrofervor_27 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 72 } } localisation_key = rip_church_readout_getchurchrofervor_28 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 71 } } localisation_key = rip_church_readout_getchurchrofervor_29 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 70 } } localisation_key = rip_church_readout_getchurchrofervor_30 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 69 } } localisation_key = rip_church_readout_getchurchrofervor_31 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 68 } } localisation_key = rip_church_readout_getchurchrofervor_32 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 67 } } localisation_key = rip_church_readout_getchurchrofervor_33 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 66 } } localisation_key = rip_church_readout_getchurchrofervor_34 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 65 } } localisation_key = rip_church_readout_getchurchrofervor_35 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 64 } } localisation_key = rip_church_readout_getchurchrofervor_36 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 63 } } localisation_key = rip_church_readout_getchurchrofervor_37 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 62 } } localisation_key = rip_church_readout_getchurchrofervor_38 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 61 } } localisation_key = rip_church_readout_getchurchrofervor_39 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 60 } } localisation_key = rip_church_readout_getchurchrofervor_40 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 59 } } localisation_key = rip_church_readout_getchurchrofervor_41 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 58 } } localisation_key = rip_church_readout_getchurchrofervor_42 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 57 } } localisation_key = rip_church_readout_getchurchrofervor_43 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 56 } } localisation_key = rip_church_readout_getchurchrofervor_44 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 55 } } localisation_key = rip_church_readout_getchurchrofervor_45 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 54 } } localisation_key = rip_church_readout_getchurchrofervor_46 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 53 } } localisation_key = rip_church_readout_getchurchrofervor_47 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 52 } } localisation_key = rip_church_readout_getchurchrofervor_48 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 51 } } localisation_key = rip_church_readout_getchurchrofervor_49 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 50 } } localisation_key = rip_church_readout_getchurchrofervor_50 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 49 } } localisation_key = rip_church_readout_getchurchrofervor_51 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 48 } } localisation_key = rip_church_readout_getchurchrofervor_52 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 47 } } localisation_key = rip_church_readout_getchurchrofervor_53 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 46 } } localisation_key = rip_church_readout_getchurchrofervor_54 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 45 } } localisation_key = rip_church_readout_getchurchrofervor_55 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 44 } } localisation_key = rip_church_readout_getchurchrofervor_56 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 43 } } localisation_key = rip_church_readout_getchurchrofervor_57 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 42 } } localisation_key = rip_church_readout_getchurchrofervor_58 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 41 } } localisation_key = rip_church_readout_getchurchrofervor_59 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 40 } } localisation_key = rip_church_readout_getchurchrofervor_60 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 39 } } localisation_key = rip_church_readout_getchurchrofervor_61 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 38 } } localisation_key = rip_church_readout_getchurchrofervor_62 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 37 } } localisation_key = rip_church_readout_getchurchrofervor_63 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 36 } } localisation_key = rip_church_readout_getchurchrofervor_64 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 35 } } localisation_key = rip_church_readout_getchurchrofervor_65 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 34 } } localisation_key = rip_church_readout_getchurchrofervor_66 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 33 } } localisation_key = rip_church_readout_getchurchrofervor_67 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 32 } } localisation_key = rip_church_readout_getchurchrofervor_68 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 31 } } localisation_key = rip_church_readout_getchurchrofervor_69 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 30 } } localisation_key = rip_church_readout_getchurchrofervor_70 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 29 } } localisation_key = rip_church_readout_getchurchrofervor_71 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 28 } } localisation_key = rip_church_readout_getchurchrofervor_72 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 27 } } localisation_key = rip_church_readout_getchurchrofervor_73 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 26 } } localisation_key = rip_church_readout_getchurchrofervor_74 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 25 } } localisation_key = rip_church_readout_getchurchrofervor_75 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 24 } } localisation_key = rip_church_readout_getchurchrofervor_76 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 23 } } localisation_key = rip_church_readout_getchurchrofervor_77 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 22 } } localisation_key = rip_church_readout_getchurchrofervor_78 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 21 } } localisation_key = rip_church_readout_getchurchrofervor_79 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 20 } } localisation_key = rip_church_readout_getchurchrofervor_80 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 19 } } localisation_key = rip_church_readout_getchurchrofervor_81 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 18 } } localisation_key = rip_church_readout_getchurchrofervor_82 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 17 } } localisation_key = rip_church_readout_getchurchrofervor_83 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 16 } } localisation_key = rip_church_readout_getchurchrofervor_84 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 15 } } localisation_key = rip_church_readout_getchurchrofervor_85 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 14 } } localisation_key = rip_church_readout_getchurchrofervor_86 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 13 } } localisation_key = rip_church_readout_getchurchrofervor_87 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 12 } } localisation_key = rip_church_readout_getchurchrofervor_88 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 11 } } localisation_key = rip_church_readout_getchurchrofervor_89 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 10 } } localisation_key = rip_church_readout_getchurchrofervor_90 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 9 } } localisation_key = rip_church_readout_getchurchrofervor_91 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 8 } } localisation_key = rip_church_readout_getchurchrofervor_92 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 7 } } localisation_key = rip_church_readout_getchurchrofervor_93 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 6 } } localisation_key = rip_church_readout_getchurchrofervor_94 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 5 } } localisation_key = rip_church_readout_getchurchrofervor_95 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 4 } } localisation_key = rip_church_readout_getchurchrofervor_96 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 3 } } localisation_key = rip_church_readout_getchurchrofervor_97 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 2 } } localisation_key = rip_church_readout_getchurchrofervor_98 }
- text = { trigger = { check_variable = { which = rip_church_fervor value = 1 } } localisation_key = rip_church_readout_getchurchrofervor_99 }
- text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchrofervor_100 }
-}
-defined_text = {
- name = GetChurchROIncome
- text = { trigger = { check_variable = { which = rip_church_fervor_income value = 9 } } localisation_key = rip_church_readout_getchurchroincome_0 }
- text = { trigger = { check_variable = { which = rip_church_fervor_income value = 8 } } localisation_key = rip_church_readout_getchurchroincome_1 }
- text = { trigger = { check_variable = { which = rip_church_fervor_income value = 7 } } localisation_key = rip_church_readout_getchurchroincome_2 }
- text = { trigger = { check_variable = { which = rip_church_fervor_income value = 6 } } localisation_key = rip_church_readout_getchurchroincome_3 }
- text = { trigger = { check_variable = { which = rip_church_fervor_income value = 5 } } localisation_key = rip_church_readout_getchurchroincome_4 }
- text = { trigger = { check_variable = { which = rip_church_fervor_income value = 4 } } localisation_key = rip_church_readout_getchurchroincome_5 }
- text = { trigger = { check_variable = { which = rip_church_fervor_income value = 3 } } localisation_key = rip_church_readout_getchurchroincome_6 }
- text = { trigger = { check_variable = { which = rip_church_fervor_income value = 2 } } localisation_key = rip_church_readout_getchurchroincome_7 }
- text = { trigger = { check_variable = { which = rip_church_fervor_income value = 1 } } localisation_key = rip_church_readout_getchurchroincome_8 }
- text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchroincome_9 }
-}
-defined_text = {
- name = GetChurchROUpkeep
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 30 } } localisation_key = rip_church_readout_getchurchroupkeep_0 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 29 } } localisation_key = rip_church_readout_getchurchroupkeep_1 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 28 } } localisation_key = rip_church_readout_getchurchroupkeep_2 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 27 } } localisation_key = rip_church_readout_getchurchroupkeep_3 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 26 } } localisation_key = rip_church_readout_getchurchroupkeep_4 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 25 } } localisation_key = rip_church_readout_getchurchroupkeep_5 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 24 } } localisation_key = rip_church_readout_getchurchroupkeep_6 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 23 } } localisation_key = rip_church_readout_getchurchroupkeep_7 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 22 } } localisation_key = rip_church_readout_getchurchroupkeep_8 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 21 } } localisation_key = rip_church_readout_getchurchroupkeep_9 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 20 } } localisation_key = rip_church_readout_getchurchroupkeep_10 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 19 } } localisation_key = rip_church_readout_getchurchroupkeep_11 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 18 } } localisation_key = rip_church_readout_getchurchroupkeep_12 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 17 } } localisation_key = rip_church_readout_getchurchroupkeep_13 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 16 } } localisation_key = rip_church_readout_getchurchroupkeep_14 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 15 } } localisation_key = rip_church_readout_getchurchroupkeep_15 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 14 } } localisation_key = rip_church_readout_getchurchroupkeep_16 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 13 } } localisation_key = rip_church_readout_getchurchroupkeep_17 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 12 } } localisation_key = rip_church_readout_getchurchroupkeep_18 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 11 } } localisation_key = rip_church_readout_getchurchroupkeep_19 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 10 } } localisation_key = rip_church_readout_getchurchroupkeep_20 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 9 } } localisation_key = rip_church_readout_getchurchroupkeep_21 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 8 } } localisation_key = rip_church_readout_getchurchroupkeep_22 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 7 } } localisation_key = rip_church_readout_getchurchroupkeep_23 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 6 } } localisation_key = rip_church_readout_getchurchroupkeep_24 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 5 } } localisation_key = rip_church_readout_getchurchroupkeep_25 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 4 } } localisation_key = rip_church_readout_getchurchroupkeep_26 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 3 } } localisation_key = rip_church_readout_getchurchroupkeep_27 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 2 } } localisation_key = rip_church_readout_getchurchroupkeep_28 }
- text = { trigger = { check_variable = { which = rip_church_fervor_cost value = 1 } } localisation_key = rip_church_readout_getchurchroupkeep_29 }
- text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchroupkeep_30 }
-}
-defined_text = {
- name = GetChurchROPolicies
- text = { trigger = { check_variable = { which = rip_church_icons value = 9 } } localisation_key = rip_church_readout_getchurchropolicies_0 }
- text = { trigger = { check_variable = { which = rip_church_icons value = 8 } } localisation_key = rip_church_readout_getchurchropolicies_1 }
- text = { trigger = { check_variable = { which = rip_church_icons value = 7 } } localisation_key = rip_church_readout_getchurchropolicies_2 }
- text = { trigger = { check_variable = { which = rip_church_icons value = 6 } } localisation_key = rip_church_readout_getchurchropolicies_3 }
- text = { trigger = { check_variable = { which = rip_church_icons value = 5 } } localisation_key = rip_church_readout_getchurchropolicies_4 }
- text = { trigger = { check_variable = { which = rip_church_icons value = 4 } } localisation_key = rip_church_readout_getchurchropolicies_5 }
- text = { trigger = { check_variable = { which = rip_church_icons value = 3 } } localisation_key = rip_church_readout_getchurchropolicies_6 }
- text = { trigger = { check_variable = { which = rip_church_icons value = 2 } } localisation_key = rip_church_readout_getchurchropolicies_7 }
- text = { trigger = { check_variable = { which = rip_church_icons value = 1 } } localisation_key = rip_church_readout_getchurchropolicies_8 }
- text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchropolicies_9 }
-}
-defined_text = {
- name = GetChurchROCapacity
- text = { trigger = { check_variable = { which = rip_church_capacity value = 9 } } localisation_key = rip_church_readout_getchurchrocapacity_0 }
- text = { trigger = { check_variable = { which = rip_church_capacity value = 8 } } localisation_key = rip_church_readout_getchurchrocapacity_1 }
- text = { trigger = { check_variable = { which = rip_church_capacity value = 7 } } localisation_key = rip_church_readout_getchurchrocapacity_2 }
- text = { trigger = { check_variable = { which = rip_church_capacity value = 6 } } localisation_key = rip_church_readout_getchurchrocapacity_3 }
- text = { trigger = { check_variable = { which = rip_church_capacity value = 5 } } localisation_key = rip_church_readout_getchurchrocapacity_4 }
- text = { trigger = { check_variable = { which = rip_church_capacity value = 4 } } localisation_key = rip_church_readout_getchurchrocapacity_5 }
- text = { trigger = { check_variable = { which = rip_church_capacity value = 3 } } localisation_key = rip_church_readout_getchurchrocapacity_6 }
- text = { trigger = { check_variable = { which = rip_church_capacity value = 2 } } localisation_key = rip_church_readout_getchurchrocapacity_7 }
- text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchrocapacity_8 }
-}
-defined_text = {
- name = GetChurchRONodes
- text = { trigger = { check_variable = { which = rip_church_nodes value = 9 } } localisation_key = rip_church_readout_getchurchronodes_0 }
- text = { trigger = { check_variable = { which = rip_church_nodes value = 8 } } localisation_key = rip_church_readout_getchurchronodes_1 }
- text = { trigger = { check_variable = { which = rip_church_nodes value = 7 } } localisation_key = rip_church_readout_getchurchronodes_2 }
- text = { trigger = { check_variable = { which = rip_church_nodes value = 6 } } localisation_key = rip_church_readout_getchurchronodes_3 }
- text = { trigger = { check_variable = { which = rip_church_nodes value = 5 } } localisation_key = rip_church_readout_getchurchronodes_4 }
- text = { trigger = { check_variable = { which = rip_church_nodes value = 4 } } localisation_key = rip_church_readout_getchurchronodes_5 }
- text = { trigger = { check_variable = { which = rip_church_nodes value = 3 } } localisation_key = rip_church_readout_getchurchronodes_6 }
- text = { trigger = { check_variable = { which = rip_church_nodes value = 2 } } localisation_key = rip_church_readout_getchurchronodes_7 }
- text = { trigger = { check_variable = { which = rip_church_nodes value = 1 } } localisation_key = rip_church_readout_getchurchronodes_8 }
- text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchronodes_9 }
-}
-defined_text = {
- name = GetChurchRONet
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = 9 } } localisation_key = rip_church_readout_getchurchronet_0 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = 8 } } localisation_key = rip_church_readout_getchurchronet_1 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = 7 } } localisation_key = rip_church_readout_getchurchronet_2 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = 6 } } localisation_key = rip_church_readout_getchurchronet_3 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = 5 } } localisation_key = rip_church_readout_getchurchronet_4 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = 4 } } localisation_key = rip_church_readout_getchurchronet_5 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = 3 } } localisation_key = rip_church_readout_getchurchronet_6 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = 2 } } localisation_key = rip_church_readout_getchurchronet_7 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = 1 } } localisation_key = rip_church_readout_getchurchronet_8 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = 0 } } localisation_key = rip_church_readout_getchurchronet_9 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -1 } } localisation_key = rip_church_readout_getchurchronet_10 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -2 } } localisation_key = rip_church_readout_getchurchronet_11 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -3 } } localisation_key = rip_church_readout_getchurchronet_12 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -4 } } localisation_key = rip_church_readout_getchurchronet_13 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -5 } } localisation_key = rip_church_readout_getchurchronet_14 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -6 } } localisation_key = rip_church_readout_getchurchronet_15 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -7 } } localisation_key = rip_church_readout_getchurchronet_16 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -8 } } localisation_key = rip_church_readout_getchurchronet_17 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -9 } } localisation_key = rip_church_readout_getchurchronet_18 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -10 } } localisation_key = rip_church_readout_getchurchronet_19 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -11 } } localisation_key = rip_church_readout_getchurchronet_20 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -12 } } localisation_key = rip_church_readout_getchurchronet_21 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -13 } } localisation_key = rip_church_readout_getchurchronet_22 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -14 } } localisation_key = rip_church_readout_getchurchronet_23 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -15 } } localisation_key = rip_church_readout_getchurchronet_24 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -16 } } localisation_key = rip_church_readout_getchurchronet_25 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -17 } } localisation_key = rip_church_readout_getchurchronet_26 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -18 } } localisation_key = rip_church_readout_getchurchronet_27 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -19 } } localisation_key = rip_church_readout_getchurchronet_28 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -20 } } localisation_key = rip_church_readout_getchurchronet_29 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -21 } } localisation_key = rip_church_readout_getchurchronet_30 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -22 } } localisation_key = rip_church_readout_getchurchronet_31 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -23 } } localisation_key = rip_church_readout_getchurchronet_32 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -24 } } localisation_key = rip_church_readout_getchurchronet_33 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -25 } } localisation_key = rip_church_readout_getchurchronet_34 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -26 } } localisation_key = rip_church_readout_getchurchronet_35 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -27 } } localisation_key = rip_church_readout_getchurchronet_36 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -28 } } localisation_key = rip_church_readout_getchurchronet_37 }
- text = { trigger = { check_variable = { which = rip_church_fervor_net value = -29 } } localisation_key = rip_church_readout_getchurchronet_38 }
- text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchronet_39 }
-}
-defined_text = {
- name = GetChurchRONodeHint
- text = { trigger = { NOT = { has_country_flag = rip_church_icon_mission } } localisation_key = rip_church_readout_getchurchronodehint_0 }
- text = { trigger = { NOT = { has_dlc = "Cradle of Civilization" } } localisation_key = rip_church_readout_getchurchronodehint_1 }
- text = { trigger = { OR = { check_variable = { which = rip_church_nodes value = 2 } AND = { check_variable = { which = rip_church_nodes value = 1 } NOT = { has_country_flag = rip_church_ro_schismatic } } } } localisation_key = rip_church_readout_getchurchronodehint_2 }
- text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 12 } } } localisation_key = rip_church_readout_getchurchronodehint_3 }
- text = { trigger = { NOT = { rip_church_ro_can_open_network_menu = yes } } localisation_key = rip_church_readout_getchurchronodehint_4 }
- text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchronodehint_5 }
 }

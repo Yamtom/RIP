@@ -110,8 +110,8 @@ for faith in ('russian_orthodox', 'orthodox', 'greek_catholic', 'catholic'):
 # Readouts stay outside that target and describe the same activation transaction.
 for policy in ('war', 'mercy', 'building', 'mission'):
     card, body = widget('windowType', f'rip_church_ro_{policy}_card')
-    assert dict(card['size']) == {'x': '102', 'y': '215'}
-    assert position(card) == {'x': 26 + ('war', 'mercy', 'building', 'mission').index(policy) * 106, 'y': 213}
+    assert dict(card['size']) == {'x': '102', 'y': '172'}
+    assert position(card) == {'x': 26 + ('war', 'mercy', 'building', 'mission').index(policy) * 106, 'y': 206}
     children = list(descendants(body))
     action = f'rip_church_icon_{policy}_button'
     hit, _ = widget('guiButtonType', action, children)
@@ -130,7 +130,7 @@ for policy in ('war', 'mercy', 'building', 'mission'):
     for state in ('ready','blocked'):
         badge, _ = widget('iconType', f'rip_church_ro_{policy}_access_{state}', children)
         assert badge['alwaystransparent'] == 'yes', 'status must not steal a click from the policy'
-    for suffix in ('label', 'state', 'action', 'benefit'):
+    for suffix in ('label', 'action', 'benefit'):
         label, _ = widget('instantTextBoxType', f'rip_church_icon_{policy}_{suffix}', children)
         assert label['font'] == 'vic_18' and label['scripted'] == 'yes'
     cases += 1

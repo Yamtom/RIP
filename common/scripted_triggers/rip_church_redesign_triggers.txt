@@ -44,10 +44,13 @@ rip_church_can_activate_building = {
  check_variable = { which = rip_church_fervor value = 10 }
  OR = { NOT = { has_country_flag = rip_church_icon_building_used } had_country_flag = { flag = rip_church_icon_building_used days = 365 } }
 }
+# Mission needs the price of its first node in the pool as well as its own 10: the policy is only
+# worth switching on if a node can be founded at once, and its upkeep would otherwise eat the income
+# that could save for one.
 rip_church_can_activate_mission = {
  religion = russian_orthodox rip_church_ro_slot_available = yes
  NOT = { has_country_flag = rip_church_icon_mission }
- check_variable = { which = rip_church_fervor value = 10 }
+ check_variable = { which = rip_church_fervor value = 20 }
  OR = { NOT = { has_country_flag = rip_church_icon_mission_used } had_country_flag = { flag = rip_church_icon_mission_used days = 365 } }
 }
 

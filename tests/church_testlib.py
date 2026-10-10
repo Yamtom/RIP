@@ -15,6 +15,8 @@ for directory, registry in [('scripted_triggers', TRIGGERS), ('scripted_effects'
 # above; these remaining helpers use their own legacy file prefixes.
 for name in ['rip_faith_effects', 'rip_ro_icon_effects']:
     EFFECTS.update(parse(read('common/scripted_effects/' + name + '.txt')))
+# The policy triggers reach for the shared terrain gate.
+TRIGGERS.update(parse(read('common/scripted_triggers/rip_terrain_triggers.txt')))
 
 
 class World(SettlementWorld):
@@ -27,7 +29,8 @@ class World(SettlementWorld):
     def country(self, tag, religion='orthodox'):
         c = super().country(tag, religion)
         c.update(annual_income=120, opinions={}, government='monarchy', ai=False,
-                 is_papal_controller=False, mercantilism=0, num_of_loans=0)
+                 is_papal_controller=False, mercantilism=0, num_of_loans=0,
+                 reforms=set(), technology_group='eastern')
         return c
 
     def opinion(self, source, target):
@@ -43,7 +46,7 @@ class World(SettlementWorld):
         p = super().province(number, owner, religion)
         p.update(variables={}, area='a', neighbors=set(), buildings={'temple'}, local_autonomy=0,
                  culture='ruthenian', culture_group='east_slavic', has_missionary=False,
-                 node='node', traders=set(), shares={})
+                 node='node', traders=set(), shares={}, terrain='forest')
         return p
 
     def ref(self, key, scope, root, prev):
@@ -114,6 +117,9 @@ class World(SettlementWorld):
             ref = self.ref(value, scope, root, prev)
             return scope[key] == (ref[key] if ref else value)
         if key == 'has_building': return value in scope['buildings']
+        if key == 'has_terrain': return scope['terrain'] == value
+        if key == 'has_reform': return value in scope['reforms']
+        if key == 'technology_group': return scope['technology_group'] == value
         if key == 'has_trader': return self.ref(value,scope,root,prev)['id'] in scope['traders']
         if key == 'trade_share':
             fields=dict(value)

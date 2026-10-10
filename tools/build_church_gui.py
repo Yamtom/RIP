@@ -9,6 +9,25 @@ ROOT=Path(__file__).resolve().parents[1]; GAME=vanilla_root()
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()
 defs=[]; feature_defs=[]; outputs={}; text_bindings=set()
 NO_TIP=set()
+RIP_NATIVE_MARK='\n# RIP resource hover and functional replacements for retired native selectors.\n'
+RIP_PANEL_MARK='\n# RIP church custom controls, descendants of the supported host.\n'
+def vanilla_interface(file):
+    """Vanilla interface text, or the committed one with its RIP inserts removed.
+    Without an install only countryreligionview.gui can be rebuilt: both of its hosts
+    just receive appended blocks, so cutting them back out restores the vanilla text.
+    provinceview.gui is trimmed on insertion and cannot be restored: it returns None
+    and the province panel is left exactly as committed."""
+    if GAME is not None:
+        return (GAME/'interface'/file).read_text(encoding='utf-8-sig')
+    if file!='countryreligionview.gui': return None
+    s=(ROOT/'interface'/file).read_text(encoding='utf-8-sig')
+    for host,mark in (('countryreligionview',RIP_PANEL_MARK),('orthodox_specific_window',RIP_NATIVE_MARK)):
+        name=re.search(r'name\s*=\s*"'+host+'"',s)
+        start=s.rfind('windowType',0,name.start())
+        opening=s.index('{',start); closing=matching_brace(s,opening)
+        cut=s.find(mark,opening,closing)
+        if cut>=0: s=s[:cut]+s[closing:]
+    return s
 # Derive the GUI transaction from the live decision, including regional and
 # historical gates. Do not maintain a weaker parallel path to state conversion.
 adoption=named_block((ROOT/'decisions/GreekCatholicDecisions.txt').read_text(encoding='utf-8-sig'),'convert_to_greek_catholic_decision')
@@ -157,21 +176,37 @@ def state_badge(name,x,y,ready,tooltip,scale=1,click_through=False):
 
 # Same native font, parent geometry and slot hit area as the Union window.
 # Policies are our real transactions; retired native Orthodox icons stay inert.
-ro=''
-ro+=text('rip_church_ro_heading',28,35,w=419,h=24,font='vic_22',align='center',tip=False)
+# The window reads in the order a player asks. What do I have, and how does it feed itself: three
+# tiles joined by arrows, Fervor -> nodes -> policies. What can I switch on: four policies in a row,
+# each reaching only the land or the war it was made for. How do I start the mission network: three
+# numbered steps, the second with its own button, so the order of actions is on the screen and not
+# in a tooltip. Window-local pixels on the 407px content box (x34..441) of the 475x560 frame, whose
+# art fixes two ribbons (status y66..90, policies y164..188) and two insets (resources y98..165,
+# policies and steps y196..489); nothing below leaves them except the schism action.
+RO_TILE_Y,RO_TILE_H,RO_TILE_W,RO_ARROW_W=101,62,117,28
+RO_CARD_Y,RO_CARD_H=206,172
+RO_STEPS_Y=381
+RO_STEP_Y=(404,430,458)           # rows are 26-28px apart; step 2 shares its row with the button
+RO_BUTTON_X,RO_BUTTON_Y=252,424   # button_type_8 is 189x31: right-aligned in the content box
+RO_RECONCILE_Y=497
+ro=text('rip_church_ro_heading',28,35,w=419,h=24,font='vic_22',align='center',tip=False)
 ro+=card('rip_church_ro_status_card',34,67,407,30,
          text('rip_church_ro_status',8,8,w=391,h=22,align='center'))
-for key,y,sprite in (
-    ('fuel',101,'GFX_rip_church_ro_fervor'),
-    ('slots',124,'GFX_rip_church_ro_authority'),
-    ('network',147,'GFX_rip_church_ro_network'),
-):
-    ro+=art('rip_church_ro_'+key+'_symbol',sprite,43,y-2,0.375)
-    ro+=text('rip_church_ro_'+key,76,y,w=355,h=18)
+for i,key in enumerate(('fervor','nodes','policies')):
+    x=34+i*(RO_TILE_W+RO_ARROW_W)
+    symbol={'fervor':'GFX_rip_church_ro_fervor','nodes':'GFX_rip_church_ro_network','policies':'GFX_rip_church_ro_authority'}[key]
+    tile=art(f'rip_church_ro_{key}_symbol',symbol,3,23,0.3)
+    tile+=text(f'rip_church_ro_{key}_label',0,0,w=RO_TILE_W,h=18,align='center')
+    tile+=text(f'rip_church_ro_{key}_value',0,18,w=RO_TILE_W,h=26,font='vic_22',align='center')
+    tile+=text(f'rip_church_ro_{key}_sub',0,44,w=RO_TILE_W,h=18,align='center')
+    ro+=card(f'rip_church_ro_{key}_tile',x,RO_TILE_Y,RO_TILE_W,RO_TILE_H,tile)
+    if i<2:
+        ro+=art(f'rip_church_ro_cycle_arrow_{i+1}','GFX_rip_church_ro_cycle_arrow',
+                x+RO_TILE_W+(RO_ARROW_W-24)//2,RO_TILE_Y+(RO_TILE_H-24)//2)
 # The original Coptic frame already contains its own section ribbon.
 ro+=text('rip_church_ro_policies_title',45,181,w=385,h=20,align='center')
 for i,k in enumerate(('war','mercy','building','mission')):
-    x,y=26+i*106,213
+    x,y=26+i*106,RO_CARD_Y
     policy=art('rip_church_'+k+'_slot','GFX_rip_church_policy_slot',22,0)
     policy+=button(f'rip_church_icon_{k}_button',22,0,
                    f'religion = russian_orthodox OR = {{ has_country_flag = rip_church_icon_{k} rip_church_can_activate_{k} = yes }}',
@@ -182,15 +217,17 @@ for i,k in enumerate(('war','mercy','building','mission')):
     policy+=state_badge('rip_church_ro_'+k+'_access',61,39,
                        f'OR = {{ has_country_flag = rip_church_icon_{k} rip_church_can_activate_{k} = yes }}',
                        f'rip_church_icon_{k}_button_tt',scale=0.9,click_through=True)
-    policy+=text(f'rip_church_icon_{k}_label',0,66,w=102,h=18,align='center',tip=False)
-    policy+=text(f'rip_church_icon_{k}_state',0,91,w=102,h=18,align='center',tip=False)
-    policy+=text(f'rip_church_icon_{k}_action',0,116,w=102,h=36,align='center')
-    policy+=text(f'rip_church_icon_{k}_benefit',0,161,w=102,h=54,align='center')
-    ro+=card('rip_church_ro_'+k+'_card',x,y,102,215,policy)
-ro+=button('rip_church_nodes_button',125,436,'rip_church_ro_can_open_network_menu = yes',
-           'country_event = { id = rip_church_nodes.1 }')
-ro+=text('rip_church_ro_mission_cost',34,476,w=407,h=36,align='center')
-ro+=button('rip_church_reconcile_button',125,515,'rip_church_can_reconcile = yes',
+    # The name turns green while the policy is on, so one line carries the name and the state.
+    policy+=text(f'rip_church_icon_{k}_label',0,62,w=102,h=18,align='center',tip=False)
+    policy+=text(f'rip_church_icon_{k}_action',0,81,w=102,h=36,align='center')
+    policy+=text(f'rip_church_icon_{k}_benefit',0,117,w=102,h=54,align='center')
+    ro+=card('rip_church_ro_'+k+'_card',x,y,102,RO_CARD_H,policy)
+ro+=text('rip_church_ro_steps_title',34,RO_STEPS_Y,w=407,h=20,align='center')
+for n,y in enumerate(RO_STEP_Y,1):
+    ro+=text(f'rip_church_ro_step{n}',34,y,w=214 if n==2 else 407,h=20,align='left')
+ro+=button('rip_church_nodes_button',RO_BUTTON_X,RO_BUTTON_Y,'rip_church_ro_can_open_network_menu = yes',
+           'country_event = { id = rip_church_nodes.1 }',sprite='button_type_8')
+ro+=button('rip_church_reconcile_button',125,RO_RECONCILE_Y,'rip_church_can_reconcile = yes',
            'rip_church_ro_begin_reconciliation_effect = yes',
            'has_country_flag = rip_church_ro_schismatic')
 
@@ -346,6 +383,7 @@ outputs['interface/RIP_church_panels.gfx']='spriteTypes = {\n'+'\n'.join(insets)
  spriteType = { name = "GFX_rip_church_ro_fervor" textureFile = "gfx/interface/ideas_EU4/monthly_fervor_increase.dds" }
  spriteType = { name = "GFX_rip_church_ro_authority" textureFile = "gfx/interface/ideas_EU4/church_privilege_slots.dds" }
  spriteType = { name = "GFX_rip_church_ro_network" textureFile = "gfx/interface/ideas_EU4/global_trade_power.dds" }
+ spriteType = { name = "GFX_rip_church_ro_cycle_arrow" textureFile = "gfx/interface/rip_church/ro_cycle_arrow.dds" }
  spriteType = { name = "GFX_rip_church_gc_privileges" textureFile = "gfx/interface/ideas_EU4/church_privilege_slots.dds" }
  spriteType = { name = "GFX_rip_church_gc_ecumenism" textureFile = "gfx/interface/ideas_EU4/improve_relation_modifier.dds" }
  spriteType = { name = "GFX_rip_church_gc_icon_liturgy" textureFile = "gfx/interface/rip_church/gc_icon_liturgy.dds" }
@@ -431,7 +469,10 @@ ro_native_controls='''windowType = {
            'if = { limit = { has_country_flag = rip_church_ro_window_hidden } clr_country_flag = rip_church_ro_window_hidden } else = { set_country_flag = rip_church_ro_window_hidden }',
            sprite='GFX_standard_button_71')+'\n}\n'
 def attach(file,host,body):
-    s=(GAME/'interface'/file).read_text(encoding='utf-8-sig')
+    s=vanilla_interface(file)
+    if s is None:
+        print('SKIP: vanilla '+file+' unavailable; the committed file is left unchanged')
+        return
     if file=='provinceview.gui':
         # State is a documented province-scoped host. Cover the native row only
         # for GC, preserving the engine-managed Orthodox button and callback.
@@ -441,7 +482,7 @@ def attach(file,host,body):
         s=s[:state_end].rstrip()+'\n'+prov_state_cover+'\n'+prov_reopen_panel+'\n\t\t'+s[state_end:]
     if file=='countryreligionview.gui':
         for widget in ('current_patriarch_authority_progress_frame',):
-            s=re.sub(r'(name\s*=\s*"'+widget+r'")',r'\1 scripted = yes',s)
+            s=re.sub(r'(name\s*=\s*"'+widget+r'")(?!\s*scripted)',r'\1 scripted = yes',s)
         for level in ('low','high'):
             s=re.sub(r'(name\s*=\s*"'+level+r'_patriarch_authority")(?!\s*scripted)',r'\1 scripted = yes',s)
         # Native text boxes do not evaluate our country-scoped custom readout.

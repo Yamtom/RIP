@@ -1,0 +1,44 @@
+# Where each Muscovite church policy applies. The policies are not national focuses:
+# each one reaches only the land and the war it was made for.
+# Country scope: a steppe power, by government reform or technology group.
+rip_church_steppe_power = {
+ OR = { has_reform = steppe_horde technology_group = nomad_group }
+}
+# Country scope, ROOT is the Muscovite state.
+rip_church_at_war_with_steppe = {
+ any_country = { rip_church_steppe_power = yes war_with = ROOT }
+}
+# Province scope. The steppe frontier: grassland and steppe terrain, or a border with a steppe power.
+rip_church_steppe_frontier = {
+ is_city = yes
+ OR = {
+  rip_is_steppe_or_grasslands = yes
+  any_neighbor_province = { owner = { rip_church_steppe_power = yes } }
+ }
+}
+# Province scope. The eastern lands: the Volga, the Urals and Siberia.
+rip_church_eastern_land = {
+ is_city = yes
+ OR = {
+  area = volga_area
+  area = kazan_area
+  area = astrakhan_area
+  area = nogai_area
+  area = lower_yik_area
+  region = ural_region
+  region = west_siberia_region
+  region = east_siberia_region
+ }
+}
+# Province scope. A Muscovite parish that still has no cathedral.
+rip_church_cathedral_candidate = {
+ is_city = yes
+ religion = russian_orthodox
+ NOT = { has_building = cathedral }
+}
+# Province scope. A settled province of another faith: the field of the Mission policy.
+rip_church_mission_field = {
+ is_city = yes
+ NOT = { religion = russian_orthodox }
+ NOT = { religion = orthodox }
+}

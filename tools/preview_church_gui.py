@@ -15,10 +15,17 @@ branch='ro' if args.ro else 'rite' if args.province else 'gc'
 loc=dict(re.findall(r'^\s+(\w+):0 "(.*)"$',(ROOT/'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'),re.M))
 sample={'Root.GetChurchPrivilege':'Agreement on coexistence'}
 sample.update({'Root.GetChurchROStatus':'Reconciliation in progress',
- 'Root.rip_church_fervor.GetValue':'100','Root.rip_church_icons.GetValue':'4',
- 'Root.rip_church_capacity.GetValue':'4','Root.rip_church_fervor_income.GetValue':'5',
- 'Root.rip_church_fervor_cost.GetValue':'18','Root.rip_church_nodes.GetValue':'2'})
-for key in ('War','Mercy','Building','Mission'): sample['Root.GetChurchIcon'+key]='Active'
+ # The window reads every number through a defined_text ladder, never a direct variable.
+ 'Root.GetChurchROFervor':'100','Root.GetChurchRONet':'+1','Root.GetChurchRONodes':'2',
+ 'Root.GetChurchRONodeLimit':'2','Root.GetChurchRONodeIncome':'+6','Root.GetChurchROBase':'+5',
+ 'Root.GetChurchROUpkeep':'-12','Root.GetChurchROPolicies':'4','Root.GetChurchROCapacity':'4',
+ 'Root.GetChurchROStep1':'1. Mission policy is on','Root.GetChurchROStep2':'2. Two nodes: +6 Fervor/month',
+ 'Root.GetChurchROStep3':'3. In the funded node, choose Missionary Network',
+ 'Root.GetChurchRONodeHint':'A node can be funded now'})
+for key in ('War','Mercy','Building','Mission'):
+    sample['Root.GetChurchIcon'+key+'Name']=key
+    sample['Root.GetChurchIcon'+key+'Action']='Deactivate\\nNo refund'
+    sample['Root.GetChurchIcon'+key+'Access']='Active: click to deactivate without a refund.'
 sample.update({'Root.GetChurchCuriaStatus':'Rome is present; diplomatic audience available',
  'Root.GetChurchLocalInstitution':'Agreement on coexistence'})
 sample.update({'Root.GetChurchSlotState':'Synodal institution: §Y1 / 1§!',
