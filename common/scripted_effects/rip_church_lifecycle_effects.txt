@@ -76,6 +76,12 @@ rip_church_v3_religion_change_effect = {
 rip_church_province_change_effect = {
  remove_province_modifier = rip_ro_shared_communion
  remove_province_modifier = rip_ro_restricted_communion
+ # Policy and mission-node modifiers follow the province's owner and faith; the monthly sync lays them again.
+ remove_province_modifier = rip_church_frontier_watch
+ remove_province_modifier = rip_church_eastern_clemency
+ remove_province_modifier = rip_church_cathedral_drive
+ remove_province_modifier = rip_church_preaching
+ remove_province_modifier = rip_church_node_courtyards
  # Province hooks for all countries: remove only this system's local payload.
  rip_church_clear_rite_effect = yes
  rip_church_clear_pa_province_effect = yes
@@ -85,12 +91,13 @@ rip_church_province_change_effect = {
 }
 rip_church_ai_effect = {
  if = { limit = { religion = russian_orthodox }
- if = { limit = { has_country_flag = rip_church_icon_war is_at_war = no } rip_church_deactivate_war_effect = yes }
- if = { limit = { has_country_flag = rip_church_icon_mercy NOT = { num_of_rebel_armies = 1 } stability = 1 } rip_church_deactivate_mercy_effect = yes }
- if = { limit = { rip_church_can_activate_war = yes is_at_war = yes check_variable = { which = rip_church_fervor value = 40 } } rip_church_toggle_war_effect = yes }
- if = { limit = { rip_church_can_activate_mercy = yes OR = { num_of_rebel_armies = 1 NOT = { stability = 0 } } check_variable = { which = rip_church_fervor value = 40 } } rip_church_toggle_mercy_effect = yes }
- if = { limit = { rip_church_can_activate_building = yes is_at_war = no treasury = 200 check_variable = { which = rip_church_fervor value = 50 } NOT = { check_variable = { which = rip_church_icons value = 2 } } } rip_church_toggle_building_effect = yes }
- if = { limit = { rip_church_can_activate_mission = yes any_owned_province = { NOT = { religion = russian_orthodox } } check_variable = { which = rip_church_fervor value = 70 } OR = { NOT = { check_variable = { which = rip_church_icons value = 2 } } is_in_important_war = yes } } rip_church_toggle_mission_effect = yes }
+ if = { limit = { has_country_flag = rip_church_icon_war NOT = { rip_church_at_war_with_steppe = yes } NOT = { any_owned_province = { rip_church_steppe_frontier = yes } } } rip_church_deactivate_war_effect = yes }
+ if = { limit = { has_country_flag = rip_church_icon_mercy NOT = { any_owned_province = { rip_church_eastern_land = yes } } } rip_church_deactivate_mercy_effect = yes }
+ if = { limit = { has_country_flag = rip_church_icon_building NOT = { any_owned_province = { rip_church_cathedral_candidate = yes } } } rip_church_deactivate_building_effect = yes }
+ if = { limit = { rip_church_can_activate_war = yes rip_church_at_war_with_steppe = yes check_variable = { which = rip_church_fervor value = 40 } } rip_church_toggle_war_effect = yes }
+ if = { limit = { rip_church_can_activate_mercy = yes any_owned_province = { rip_church_eastern_land = yes } check_variable = { which = rip_church_fervor value = 50 } } rip_church_toggle_mercy_effect = yes }
+ if = { limit = { rip_church_can_activate_building = yes is_at_war = no any_owned_province = { rip_church_cathedral_candidate = yes } treasury = 200 check_variable = { which = rip_church_fervor value = 50 } NOT = { check_variable = { which = rip_church_icons value = 2 } } } rip_church_toggle_building_effect = yes }
+ if = { limit = { rip_church_can_activate_mission = yes any_owned_province = { rip_church_mission_field = yes } check_variable = { which = rip_church_fervor value = 40 } OR = { NOT = { check_variable = { which = rip_church_icons value = 2 } } is_in_important_war = yes } } rip_church_toggle_mission_effect = yes }
  if = { limit = { is_in_important_war = no check_variable = { which = rip_church_icons value = 3 } NOT = { num_of_rebel_armies = 1 } } rip_church_ro_disable_last_effect = yes }
  rip_church_ro_ai_nodes_effect = yes
  }
