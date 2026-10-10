@@ -28,8 +28,10 @@ rip_faith_initialize_hierarchy_effect = {
 }
 
 rip_faith_adopt_muscovite_church_effect = {
-	change_religion = russian_orthodox
-	rip_faith_initialize_hierarchy_effect = yes
+	if = { limit = { rip_church_ro_can_separate = yes }
+		change_religion = russian_orthodox
+		rip_faith_initialize_hierarchy_effect = yes
+	}
 }
 
 rip_faith_adopt_union_effect = {
@@ -117,6 +119,7 @@ rip_faith_settlement_upkeep_effect = {
 		remove_country_modifier = victorious_crusader
 		remove_country_modifier = patriarch_of_constantinople_restored
 	}
+	rip_church_ro_refresh_communion_effect = yes
 }
 
 # First load of an existing country. Never grant another capital conversion,

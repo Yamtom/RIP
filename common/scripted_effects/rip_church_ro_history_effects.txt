@@ -1,0 +1,69 @@
+# Country scope. Only explicit historical forks authorize the separate confession.
+rip_church_ro_history_monthly_effect = {
+ # Compatibility: reverse the old early jurisdiction-to-religion conversion.
+ # Only provinces carrying this mod's RO label change; other faiths are untouched.
+ if = { limit = { religion = russian_orthodox NOT = { rip_church_ro_can_separate = yes } }
+  set_country_flag = rip_ro_stage_autocephaly
+  change_religion = orthodox
+  every_owned_province = { limit = { religion = russian_orthodox } change_religion = orthodox }
+ }
+ if = { limit = { rip_church_ro_jurisdiction = yes has_country_flag = rip_church_ro_provisional is_year = 1593 }
+  rip_church_ro_recognize_effect = yes
+ }
+ rip_church_ro_refresh_communion_effect = yes
+ # Institutional policy cannot survive a conversion out of this church family.
+ if = { limit = { NOT = { rip_church_ro_jurisdiction = yes } }
+  remove_country_modifier = rip_ro_synodal_government
+  remove_country_modifier = rip_ro_preserved_patriarchate
+  remove_country_modifier = rip_ro_patriarchal_vacancy
+  remove_country_modifier = rip_ro_ritual_compromise
+ }
+}
+
+# Target only Orthodox parishes in a Muscovite-confession country. Native EU4
+# still calls a different religion 'heretic'; these supported local modifiers
+# neutralize its practical penalties without tolerating Catholicism by accident.
+rip_church_ro_refresh_communion_effect = {
+ remove_country_modifier = rip_ro_unbroken_communion
+ every_owned_province = {
+  if = { limit = { religion = orthodox owner = { religion = russian_orthodox NOT = { has_country_flag = rip_church_ro_schismatic } } }
+   if = { limit = { owner = { OR = { has_country_modifier = suppression_old_believers has_country_modifier = orthodox_inquisition has_country_modifier = persecution_of_heretics has_country_modifier = forced_russification } } }
+    remove_province_modifier = rip_ro_shared_communion
+    if = { limit = { NOT = { has_province_modifier = rip_ro_restricted_communion } }
+     add_province_modifier = { name = rip_ro_restricted_communion duration = -1 }
+    }
+   }
+   else = {
+    remove_province_modifier = rip_ro_restricted_communion
+    if = { limit = { NOT = { has_province_modifier = rip_ro_shared_communion } }
+     add_province_modifier = { name = rip_ro_shared_communion duration = -1 }
+    }
+   }
+  }
+  else = {
+   remove_province_modifier = rip_ro_shared_communion
+   remove_province_modifier = rip_ro_restricted_communion
+  }
+ }
+}
+
+rip_church_ro_formal_raskol_effect = {
+ if = { limit = { rip_church_ro_jurisdiction = yes is_year = 1666 has_country_flag = rip_ro_books_reformed }
+  set_global_flag = raskol_schism
+  set_country_flag = rip_ro_stage_raskol
+  rip_faith_adopt_muscovite_church_effect = yes
+  rip_church_ro_refresh_communion_effect = yes
+ }
+}
+
+rip_church_ro_ritual_compromise_effect = {
+ clr_country_flag = rip_ro_stage_raskol
+ set_country_flag = rip_ro_ritual_compromise
+ set_country_flag = rip_ro_raskol_settled
+ remove_country_modifier = suppression_old_believers
+ remove_country_modifier = old_believer_underground
+ add_country_modifier = { name = rip_ro_ritual_compromise duration = -1 }
+ add_patriarch_authority = -0.1
+ add_stability = 1
+ rip_church_ro_refresh_communion_effect = yes
+}
