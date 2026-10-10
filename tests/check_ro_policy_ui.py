@@ -52,9 +52,15 @@ native, native_body = widget('windowType', 'rip_church_ro_native_controls')
 native_children = list(descendants(native_body))
 cover, _ = widget('iconType', 'rip_church_ro_selector_cover', native_children)
 route, _ = widget('guiButtonType', toggle, native_children)
+selector_symbol, _ = widget('iconType', 'rip_church_ro_selector_symbol', native_children)
 assert native['scripted'] == route['scripted'] == 'yes'
 assert cover['alwaystransparent'] == 'no', 'cover must intercept the retired selector'
 assert cover['spriteType'] == 'GFX_rip_church_gc_selector_surface'
+assert selector_symbol['spriteType'] == 'GFX_country_icon_religion'
+assert selector_symbol['scripted'] == 'yes' and selector_symbol['alwaystransparent'] == 'yes'
+symbol_binding = controls['custom_icon', 'rip_church_ro_selector_symbol']
+assert dict(symbol_binding['frame']) == {'number': '30', 'trigger': [('always', 'yes')]}
+assert 'icon = 30' in read('common/religions/russian_orthodox.txt'), 'Policies medallion must match the Russian Orthodox faith frame'
 assert route['quadTextureSprite'] == 'GFX_standard_button_71'
 assert route['buttonText'] == toggle
 assert controls['custom_button', toggle]['effect'] == parse(
@@ -104,12 +110,13 @@ for faith in ('russian_orthodox', 'orthodox', 'greek_catholic', 'catholic'):
 # Readouts stay outside that target and describe the same activation transaction.
 for policy in ('war', 'mercy', 'building', 'mission'):
     card, body = widget('windowType', f'rip_church_ro_{policy}_card')
-    assert dict(card['size']) == {'x': '198', 'y': '124'}
+    assert dict(card['size']) == {'x': '102', 'y': '215'}
+    assert position(card) == {'x': 26 + ('war', 'mercy', 'building', 'mission').index(policy) * 106, 'y': 213}
     children = list(descendants(body))
     action = f'rip_church_icon_{policy}_button'
     hit, _ = widget('guiButtonType', action, children)
     slot, _ = widget('iconType', f'rip_church_{policy}_slot', children)
-    assert position(hit) == position(slot) == {'x': 8, 'y': 0}
+    assert position(hit) == position(slot) == {'x': 22, 'y': 0}
     assert hit['quadTextureSprite'] == 'GFX_rip_church_policy_select'
     assert hit.get('scale', '1') == '1' and hit['buttonText'] == ''
     assert slot['spriteType'] == 'GFX_rip_church_policy_slot'
@@ -118,13 +125,11 @@ for policy in ('war', 'mercy', 'building', 'mission'):
                    (f'rip_church_can_activate_{policy}', 'yes')])
     assert control['trigger'] == [('religion', 'russian_orthodox'), gate]
     assert control['effect'] == [(f'rip_church_toggle_{policy}_effect', 'yes')]
-    # One state signal per policy: the lit frame and the Active/Inactive line. A check/cross badge
-    # on the slot repeated both (a red cross beside "Inactive"), so neither widget may return.
-    for state in ('ready', 'blocked'):
-        assert ('custom_icon', f'rip_church_ro_{policy}_access_{state}') not in controls
-        assert not [1 for _, fields, _ in children if fields['name'] == f'rip_church_ro_{policy}_access_{state}']
-    frame, _ = widget('iconType', f'rip_church_{policy}_active_frame', children)
-    assert frame['alwaystransparent'] == 'yes', 'the lit frame must not steal a click from the policy'
+    assert controls['custom_icon', f'rip_church_ro_{policy}_access_ready']['potential'] == [gate]
+    assert controls['custom_icon', f'rip_church_ro_{policy}_access_blocked']['potential'] == [('NOT', [gate])]
+    for state in ('ready','blocked'):
+        badge, _ = widget('iconType', f'rip_church_ro_{policy}_access_{state}', children)
+        assert badge['alwaystransparent'] == 'yes', 'status must not steal a click from the policy'
     for suffix in ('label', 'state', 'action', 'benefit'):
         label, _ = widget('instantTextBoxType', f'rip_church_icon_{policy}_{suffix}', children)
         assert label['font'] == 'vic_18' and label['scripted'] == 'yes'

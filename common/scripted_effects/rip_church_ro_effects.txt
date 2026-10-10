@@ -134,32 +134,40 @@ if = { limit = { NOT = { check_variable = { which = rip_church_fervor which = ri
  if = { limit = { has_country_flag = rip_church_ro_provisional is_year = 1593 } rip_church_ro_recognize_effect = yes }
 }
 rip_church_ro_accept_recognition_effect = {
- if = { limit = { religion = russian_orthodox is_year = 1589 NOT = { has_country_flag = rip_church_ro_schismatic } }
+ if = { limit = { rip_church_ro_jurisdiction = yes is_year = 1589 NOT = { has_country_flag = rip_church_ro_schismatic } }
  set_country_flag = rip_ro_stage_patriarchate
  set_country_flag = rip_church_ro_provisional
+ # Accepting the conciliar fifth place renounces the universal claim.
+ clr_country_flag = rip_church_third_rome_claim
  if = { limit = { is_year = 1593 } rip_church_ro_recognize_effect = yes }
  }
 }
 rip_church_ro_recognize_effect = {
- if = { limit = { religion = russian_orthodox }
+ if = { limit = { rip_church_ro_jurisdiction = yes }
  clr_country_flag = rip_church_ro_schismatic
  clr_country_flag = rip_church_ro_provisional
  clr_country_flag = rip_church_reconciliation_pending
  if = { limit = { NOT = { has_country_flag = rip_church_ro_recognized } } set_country_flag = rip_church_ro_recognized country_event = { id = rip_church.3 days = 1 } }
  set_country_flag = rip_ro_stage_patriarchate
  remove_country_modifier = rip_church_ro_schism
+ rip_church_ro_refresh_communion_effect = yes
  rip_church_ro_maintain_nodes_effect = yes
  rip_church_refresh_relations_effect = yes
  }
 }
 rip_church_ro_choose_schism_effect = {
- if = { limit = { religion = russian_orthodox is_year = 1589 NOT = { has_country_flag = rip_church_ro_schismatic } NOT = { has_country_flag = rip_church_reconciliation_pending } }
+ if = { limit = { rip_church_ro_jurisdiction = yes is_year = 1589 NOT = { has_country_flag = rip_church_ro_schismatic } NOT = { has_country_flag = rip_church_reconciliation_pending } }
  clr_country_flag = rip_church_ro_recognized
  clr_country_flag = rip_church_ro_provisional
  set_country_flag = rip_church_ro_schismatic
  set_country_flag = rip_ro_stage_patriarchate
  set_country_flag = rip_church_third_rome_claim
+ rip_faith_adopt_muscovite_church_effect = yes
  add_country_modifier = { name = rip_church_ro_schism duration = -1 }
+ # The deliberate break revokes the 1448 communion settlement: the other
+ # sees are now genuinely foreign.
+ remove_country_modifier = rip_ro_unbroken_communion
+ rip_church_ro_refresh_communion_effect = yes
  rip_church_refresh_relations_effect = yes
  }
 }

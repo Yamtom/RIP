@@ -36,9 +36,9 @@ def parse(text):
 TRIGGERS = {}
 EFFECTS = {}
 # Faith triggers were consolidated into the settlement trigger file.
-for file in ('rip_religion_settlement_triggers', 'rip_crusade_triggers', 'rus_russian_orthodox_triggers'):
+for file in ('rip_religion_settlement_triggers', 'rip_crusade_triggers', 'rus_russian_orthodox_triggers', 'rip_church_ro_history_triggers'):
     TRIGGERS.update(parse(read('common/scripted_triggers/' + file + '.txt')))
-for file in ('rip_religion_settlement_effects', 'rip_crusade_effects', 'rip_parish_visit_effects', 'rip_faith_policy_effects', 'russian_orthodox_effects', 'greek_catholic_effects'):
+for file in ('rip_religion_settlement_effects', 'rip_crusade_effects', 'rip_parish_visit_effects', 'rip_faith_policy_effects', 'russian_orthodox_effects', 'greek_catholic_effects', 'rip_church_ro_history_effects'):
     EFFECTS.update(parse(read('common/scripted_effects/' + file + '.txt')))
 
 
@@ -110,7 +110,7 @@ class World:
             return scope['religion'] == religion
         if key == 'uses_patriarch_authority':
             return (scope['religion'] in ('orthodox', 'russian_orthodox', 'greek_catholic')) == (value == 'yes')
-        if key == 'is_religion_enabled': return self.year >= (1439 if value == 'greek_catholic' else 1448)
+        if key == 'is_religion_enabled': return self.year >= (1439 if value == 'greek_catholic' else 1589)
         if key == 'exists': return value in self.countries
         if key == 'has_owner': return (scope.get('owner') in self.countries) == (value == 'yes')
         if key == 'has_dlc': return value in scope['dlcs']
@@ -213,6 +213,7 @@ def run_cases():
     for faith, effect in (('russian_orthodox', 'rip_faith_adopt_muscovite_church_effect'), ('greek_catholic', 'rip_faith_adopt_union_effect')):
         for dlc in (True, False):
             w, c = fixture()
+            if faith == 'russian_orthodox': c['flags']['rip_church_ro_schismatic'] = w.day
             if not dlc: c['dlcs'].clear()
             w.run(effect, c)
             assert c['religion'] == faith and w.provinces['280']['religion'] == faith
@@ -227,6 +228,7 @@ def run_cases():
             cases += 1
         for invalid in ('sunni', 'occupied', 'noncore'):
             w, c = fixture()
+            if faith == 'russian_orthodox': c['flags']['rip_church_ro_schismatic'] = w.day
             p = w.provinces['280']
             p['religion' if invalid == 'sunni' else 'controlled_by' if invalid == 'occupied' else 'core'] = 'sunni' if invalid == 'sunni' else 'PAP'
             w.run(effect, c)

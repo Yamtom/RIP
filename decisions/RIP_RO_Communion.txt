@@ -1,0 +1,18 @@
+country_decisions = {
+ rip_ro_renounce_communion = {
+  major = yes
+  potential = {
+   rip_church_ro_jurisdiction = yes is_year = 1589
+   NOT = { has_country_flag = rip_church_ro_schismatic }
+  }
+  allow = {
+   is_at_war = no stability = 1 dip_power = 100
+   NOT = { has_country_flag = rip_church_reconciliation_pending }
+  }
+  effect = {
+   add_dip_power = -100 add_stability = -1
+   rip_church_ro_choose_schism_effect = yes
+  }
+  ai_will_do = { factor = 0 }
+ }
+}

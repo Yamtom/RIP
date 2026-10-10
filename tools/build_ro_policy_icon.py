@@ -23,7 +23,10 @@ result=Image.new('RGBA',native.size)
 for i in range(2):
     frame=native.crop((i*56,0,(i+1)*56,56))
     # Cover the complete old crescent/coins, keeping the native ornamental frame.
-    ImageDraw.Draw(frame).rounded_rectangle((8,8,47,47),radius=7,fill=(26,45,49,255))
+    # Preserve the inward ornamental corners too: a rectangle clipped them.
+    ImageDraw.Draw(frame).polygon([(14,8),(41,8),(47,14),(47,41),
+                                   (41,47),(14,47),(8,41),(8,14)],
+                                  fill=(26,45,49,255))
     frame.alpha_composite(cross,((56-cross.width)//2,(56-cross.height)//2))
     result.alpha_composite(frame,(i*56,0))
 output=ROOT/'gfx/interface/rip_ro_mission_policy.dds'

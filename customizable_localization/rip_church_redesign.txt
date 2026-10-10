@@ -2,6 +2,8 @@ defined_text = {
  name = GetChurchROStatus
  text = { trigger = { has_country_flag = rip_church_reconciliation_pending } localisation_key = rip_church_ro_reconciling }
  text = { trigger = { has_country_flag = rip_church_ro_schismatic } localisation_key = rip_church_ro_schismatic }
+ text = { trigger = { OR = { has_country_modifier = suppression_old_believers has_country_modifier = orthodox_inquisition has_country_modifier = persecution_of_heretics has_country_modifier = forced_russification } } localisation_key = rip_church_ro_restricted_status }
+ text = { trigger = { has_country_modifier = rip_ro_synodal_government } localisation_key = rip_church_ro_synodal_status }
  text = { trigger = { rip_church_ro_recognized = yes } localisation_key = rip_church_ro_recognized }
  text = { trigger = { has_country_flag = rip_church_ro_provisional } localisation_key = rip_church_ro_provisional }
  text = { trigger = { always = yes } localisation_key = rip_church_ro_unrecognized }
@@ -1004,6 +1006,9 @@ defined_text = {
  text = { trigger = { religion = greek_catholic patriarch_authority = 0.02 } localisation_key = rip_church_readout_getchurchcapacitytooltip_98 }
  text = { trigger = { religion = greek_catholic patriarch_authority = 0.01 } localisation_key = rip_church_readout_getchurchcapacitytooltip_99 }
  text = { trigger = { religion = greek_catholic patriarch_authority = 0.00 } localisation_key = rip_church_readout_getchurchcapacitytooltip_100 }
+ text = { trigger = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic } localisation_key = rip_church_ro_authority_schism_tt }
+ text = { trigger = { religion = russian_orthodox } localisation_key = rip_church_ro_authority_communion_tt }
+ text = { trigger = { religion = orthodox has_country_flag = rip_ro_stage_autocephaly } localisation_key = rip_church_orthodox_authority_jurisdiction_tt }
  text = { trigger = { always = yes } localisation_key = rip_church_native_authority_tooltip }
 }
 defined_text = {
