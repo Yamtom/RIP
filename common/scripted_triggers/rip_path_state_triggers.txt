@@ -90,13 +90,6 @@ hlc_has_constitution_martial_outcome = {
 	has_country_flag = rip_galicia_constitution_martial
 }
 
-west_ukraine_shared_missions = {
-	OR = {
-		tag = VOL
-		tag = HLC
-	}
-}
-
 # The rip_vol_origin_* names are retained for existing saves. They now mark
 # lineage through both supported Ruthenian formables: VOL and UKR.
 west_ukraine_hlc_origin_country = {
@@ -156,6 +149,73 @@ west_ukraine_hlc_legacy_missions = {
 	}
 }
 
+west_ukraine_vln_origin_country = {
+	OR = {
+		tag = VLN
+		AND = {
+			tag = VOL
+			has_country_flag = rip_vol_origin_vln
+		}
+	}
+}
+
+west_ukraine_vln_alt_paths = {
+	OR = {
+		AND = {
+			tag = VLN
+			exists = HLC
+		}
+		AND = {
+			tag = VOL
+			has_country_flag = rip_vol_origin_vln
+		}
+	}
+}
+
+west_ukraine_vln_legacy_missions = {
+	OR = {
+		west_ukraine_vln_origin_country = yes
+		AND = {
+			tag = VOL
+			OR = {
+				mission_completed = VLN_declare_independence
+				mission_completed = VLN_unite_galicia
+				mission_completed = VLN_integrate_north
+				mission_completed = VLN_restore_ruthenia
+				mission_completed = VLN_galician_alliance
+				mission_completed = VLN_baltic_aspirations
+				mission_completed = VLN_constitutional_assembly
+				mission_completed = VLN_carpathian_bulwark
+				mission_completed = VLN_conquer_crimea
+			}
+		}
+	}
+}
+
+west_ukraine_shared_starter = {
+	OR = {
+		tag = HLC
+		AND = {
+			tag = VOL
+			NOT = { has_country_flag = rip_vol_origin_vln }
+		}
+		AND = {
+			tag = VLN
+			NOT = { exists = HLC }
+		}
+	}
+}
+
+west_ukraine_hlc_vol_starter = {
+	OR = {
+		tag = HLC
+		AND = {
+			tag = VOL
+			NOT = { has_country_flag = rip_vol_origin_vln }
+		}
+	}
+}
+
 west_ukraine_austrian_path = {
 	OR = {
 		hlc_has_austria_path = yes
@@ -167,13 +227,6 @@ west_ukraine_constitutional_path = {
 	OR = {
 		hlc_has_poland_path = yes
 		vol_has_constitutional_path = yes
-	}
-}
-
-west_ukraine_any_development_path = {
-	OR = {
-		west_ukraine_austrian_path = yes
-		west_ukraine_constitutional_path = yes
 	}
 }
 

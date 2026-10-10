@@ -11,11 +11,21 @@ country_event = {
 	trigger = {
 		tag = VOL
 		NOT = { has_country_flag = rip_vol_missions_synced }
-		west_ukraine_hlc_legacy_missions = yes
+		OR = {
+			west_ukraine_hlc_legacy_missions = yes
+			west_ukraine_vln_legacy_missions = yes
+		}
 	}
 
 	immediate = {
-		set_country_flag = rip_vol_origin_hlc
+		if = {
+			limit = { west_ukraine_hlc_legacy_missions = yes }
+			set_country_flag = rip_vol_origin_hlc
+		}
+		if = {
+			limit = { west_ukraine_vln_legacy_missions = yes }
+			set_country_flag = rip_vol_origin_vln
+		}
 		swap_non_generic_missions = yes
 		set_country_flag = rip_vol_missions_synced
 	}
