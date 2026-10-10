@@ -18,11 +18,13 @@ from church_testlib import parse, fixture
 GAME = vanilla_root()
 ap = argparse.ArgumentParser(description=__doc__)
 ap.add_argument('--out', type=Path, default=ROOT / 'diagnostics/church_gui_20261002')
+ap.add_argument('--ro', action='store_true', help='Preview and measure the Muscovite policy window instead of the Union tabs')
 args = ap.parse_args()
 OUT = args.out
 OUT.mkdir(parents=True, exist_ok=True)
 loc = dict(re.findall(r'^\s+(\w+):0 "(.*)"$', (ROOT / 'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'), re.M))
 readouts = {}
+readout_rows = {}
 for _, block in keyed_blocks((ROOT / 'customizable_localization/rip_church_redesign.txt').read_text(), 'defined_text'):
     entries = dict(parse(block))['defined_text']
     name = dict(entries)['name']
@@ -32,6 +34,7 @@ for _, block in keyed_blocks((ROOT / 'customizable_localization/rip_church_redes
     for leaf in leaves:
         assert not re.search(r'\[Root\.\w+\.GetValue\]', loc.get(leaf, leaf)), (name, leaf, 'runtime-invalid nested variable readout')
     readouts[name] = leaves
+    readout_rows[name] = [dict(v) for k, v in entries if k == 'text']
 samples = {
     'GetChurchPapalOpinion': '20', 'GetChurchAuthorityReadout': '100%',
     'GetChurchEcumenismReason': 'Requires 20 years of Union',
@@ -43,22 +46,42 @@ samples = {
 numeric_samples = {
     'rip_church_gui_eastern_parishes.GetValue': '12',
     'rip_church_gui_latin_parishes.GetValue': '7',
+    'rip_church_fervor.GetValue': '98',
+    'rip_church_fervor_income.GetValue': '3',
+    'rip_church_fervor_cost.GetValue': '2',
+    'rip_church_icons.GetValue': '1',
+    'rip_church_capacity.GetValue': '2',
+    'rip_church_nodes.GetValue': '0',
 }
 numeric_extremes = {
     'rip_church_gui_eastern_parishes.GetValue': ('1', '9999'),
     'rip_church_gui_latin_parishes.GetValue': ('1', '9999'),
+    'rip_church_fervor.GetValue': ('0', '100'),
+    'rip_church_fervor_income.GetValue': ('2', '5'),
+    'rip_church_fervor_cost.GetValue': ('0', '18'),
+    'rip_church_icons.GetValue': ('0', '4'),
+    'rip_church_capacity.GetValue': ('1', '4'),
+    'rip_church_nodes.GetValue': ('0', '2'),
 }
 # New visual badges use the live scripted gates. This bounded source fixture
 # is not engine evidence, but it prevents painting both mutually exclusive
 # badges on top of each other in the preview.
-fixture_world, fixture_country, _ = fixture('greek_catholic')
+fixture_world, fixture_country, _ = fixture('russian_orthodox' if args.ro else 'greek_catholic')
 fixture_country.update(treasury=150, patriarch_authority=1, is_at_war=False, stability=2)
+if args.ro:
+    fixture_country['patriarch_authority'] = .5
+    fixture_country['variables']['rip_church_fervor'] = 98
+    fixture_country['flags']['rip_church_icon_mission'] = fixture_world.day
 icon_gates = {}
+button_gates = {}
 for path in ('common/custom_gui/RIP_church_controls.txt', 'common/custom_gui/RIP_church_gc_features.txt'):
     for kind, payload in parse((ROOT / path).read_text(encoding='utf-8-sig')):
         if kind == 'custom_icon':
             fields = dict(payload)
             icon_gates[fields['name']] = fields.get('potential', [])
+        elif kind == 'custom_button':
+            fields = dict(payload)
+            button_gates[fields['name']] = fields.get('potential', [])
 
 def resolve_leaf(leaf, overrides=None, trail=(), values=None):
     # The parser removes quotes. Native defined_text may return a quoted raw
@@ -86,6 +109,9 @@ def resolve(value, overrides=None, trail=(), values=None):
             return samples[key]
         if key in readouts:
             leaf = readouts[key][-1]
+            if args.ro:
+                leaf = next(row['localisation_key'] for row in readout_rows[key]
+                            if fixture_world.gate(row['trigger'], fixture_country))
             return resolve_leaf(leaf, overrides, trail, values)
         if key.endswith('.GetValue'):
             return (values or {}).get(key, numeric_samples.get(key, '9999'))
@@ -164,9 +190,9 @@ def text(canvas, value, x, y, w, h, name, centered, label, paint=True):
     lineheight, chars, atlas = font(name)
     plain = re.sub('§.', '', value)
     def width(s):
-        return sum(chars[ord(c)]['xadvance'] for c in s)
+        return sum(chars[ord(c)]['xadvance'] for c in re.sub('§.', '', s))
     lines = []
-    for paragraph in plain.split('\n'):
+    for paragraph in value.split('\n'):
         line = ''
         for word in paragraph.split():
             candidate = (line + ' ' + word).strip()
@@ -177,13 +203,22 @@ def text(canvas, value, x, y, w, h, name, centered, label, paint=True):
                 line = candidate
         lines.append(line)
     assert len(lines)*lineheight <= h, (label, plain, 'text height', len(lines)*lineheight, h)
+    palette = {'Y': (255, 215, 80), 'G': (100, 220, 95), 'R': (235, 90, 80), 'g': (175, 175, 175)}
+    color = None
     for line in lines:
         assert width(line) <= w, (label, line, 'text width', width(line), w)
         cursor = x + (w-width(line))//2 if centered else x
         if paint:
-            for ch in line:
+            for ch in re.findall('§.|[^§]', line):
+                if ch.startswith('§'):
+                    color = palette.get(ch[1])
+                    continue
                 c = chars[ord(ch)]
                 glyph = atlas.crop((c['x'], c['y'], c['x']+c['width'], c['y']+c['height']))
+                if color and c['width'] and c['height']:
+                    tint = Image.new('RGBA', glyph.size, color)
+                    tint.putalpha(glyph.getchannel('A'))
+                    glyph = tint
                 canvas.alpha_composite(glyph, (cursor+c['xoffset'], y+c['yoffset']))
                 cursor += c['xadvance']
         y += lineheight
@@ -217,6 +252,8 @@ def render(entries, canvas, ox=0, oy=0, tab='union', bounds=None):
             render(payload, canvas, x, y, tab, (x, y, w, h))
             continue
         label = d['name']
+        if args.ro and kind == 'guiButtonType' and not fixture_world.gate(button_gates.get(label, []), fixture_country):
+            continue
         if kind == 'iconType' and label.endswith(('_ready', '_blocked')):
             assert label in icon_gates, (label, 'unbound status badge')
             if not fixture_world.gate(icon_gates[label], fixture_country):
@@ -245,7 +282,8 @@ def render(entries, canvas, ox=0, oy=0, tab='union', bounds=None):
             measurements.append({'page': tab, 'widget': label, 'bounds': [x,y,w,h], 'readout_variants': variants, 'sample_text': sample})
             continue
         if 'active_frame' in label:
-            continue  # Preview fixture has no active devotional icon.
+            if not args.ro or not fixture_world.gate(icon_gates[label], fixture_country):
+                continue
         name = d.get('spriteType', d.get('quadTextureSprite'))
         if name in ('GFX_shield_medium','GFX_shield_small'):
             small = name == 'GFX_shield_small'
@@ -312,7 +350,8 @@ def check_icon_alignment(tab):
 
 source = (ROOT / 'interface/countryreligionview.gui').read_text()
 previews = []
-for tab, name in [('union', 'rip_church_gc_panel'), ('curia', 'rip_church_gc_curia_panel'), ('parishes', 'rip_church_gc_parishes_panel')]:
+pages = [('ro', 'rip_church_ro_panel')] if args.ro else [('union', 'rip_church_gc_panel'), ('curia', 'rip_church_gc_curia_panel'), ('parishes', 'rip_church_gc_parishes_panel')]
+for tab, name in pages:
     rects.clear()
     geometry.clear()
     block = next(b for _, b in keyed_blocks(source, 'windowType') if dict(dict(parse(b))['windowType']).get('name') == name)
@@ -320,7 +359,8 @@ for tab, name in [('union', 'rip_church_gc_panel'), ('curia', 'rip_church_gc_cur
     size = dict(dict(entries)['size'])
     canvas = Image.new('RGBA', (int(size['x']), int(size['y'])), (35, 38, 42, 255))
     render(entries, canvas, tab=tab)
-    check_navigation_alignment(tab)
+    if not args.ro:
+        check_navigation_alignment(tab)
     check_icon_alignment(tab)
     canvas.save(OUT / f'{tab}.png')
     previews.append(canvas)
@@ -330,5 +370,6 @@ for i, p in enumerate(visible):
     sheet.paste(p, (i*(p.width+16), 0))
 sheet.save(OUT / 'tabs.png')
 (OUT / 'layout.json').write_text(json.dumps({'evidence': 'source preview; engine rendering not verified', 'Papal_opinion_sample': samples['GetChurchPapalOpinion'], 'numeric_samples': numeric_samples, 'numeric_extremes': numeric_extremes, 'text_widgets': measurements}, indent=2), encoding='utf-8')
-print(f'PASS: 2 visible tabs and 1 legacy register; parent bounds, nonoverlapping text/controls, native bitmap fonts and all direct readout variants. {OUT}')
-print('Source fixture: 100 HC, 150 ducats, no active institution, fresh contact cooldowns. Colors, hover and cornered UV sampling are not engine-rendered.')
+print(f'PASS: {len(pages)} pages; parent bounds, nonoverlapping text/controls, native bitmap fonts and all direct readout variants. {OUT}')
+print(('Source fixture: 50% authority, 98 Fervor, active Mission, no funded node. ' if args.ro else 'Source fixture: 100 HC, 150 ducats, no active institution, fresh contact cooldowns. ')+
+      'Colors, hover and cornered UV sampling are not engine-rendered.')

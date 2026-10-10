@@ -16,12 +16,39 @@ rip_church_ro_propagation_target_from = {
  FROM = { religion = russian_orthodox has_country_flag = rip_church_icon_mission check_variable = { which = rip_church_nodes value = 1 } }
 }
 rip_church_ro_can_maintain_policy = {
- religion = russian_orthodox has_country_flag = rip_church_icon_mission
- has_dlc = "Cradle of Civilization"
- rip_church_ro_registered_node = yes
- FROM = { has_trader = ROOT trade_share = { country = ROOT share = 50 }
- any_trade_node_member_province = { rip_church_ro_propagation_target_root = yes }
- any_trade_node_member_province = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox
- has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } }
+ religion = russian_orthodox
+ # EU4 shows one native pass/fail marker for each player-facing requirement.
+ # The policy generator expands scripted references inside these wrappers.
+ custom_trigger_tooltip = {
+  tooltip = rip_church_policy_mission_tt
+  has_country_flag = rip_church_icon_mission
+ }
+ custom_trigger_tooltip = {
+  tooltip = rip_church_policy_dlc_tt
+  has_dlc = "Cradle of Civilization"
+ }
+ custom_trigger_tooltip = {
+  tooltip = rip_church_policy_funded_tt
+  rip_church_ro_registered_node = yes
+ }
+ custom_trigger_tooltip = {
+  tooltip = rip_church_policy_merchant_tt
+  FROM = { has_trader = ROOT }
+ }
+ custom_trigger_tooltip = {
+  tooltip = rip_church_policy_share_tt
+  FROM = { trade_share = { country = ROOT share = 50 } }
+ }
+ custom_trigger_tooltip = {
+  tooltip = rip_church_policy_parish_tt
+  FROM = { any_trade_node_member_province = {
+   owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox
+   has_province_flag = rip_church_ro_connected@ROOT
+   OR = { has_building = temple has_building = cathedral }
+  } }
+ }
+ custom_trigger_tooltip = {
+  tooltip = rip_church_policy_target_tt
+  FROM = { any_trade_node_member_province = { rip_church_ro_propagation_target_root = yes } }
  }
 }
