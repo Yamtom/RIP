@@ -15,10 +15,9 @@ branch='ro' if args.ro else 'rite' if args.province else 'gc'
 loc=dict(re.findall(r'^\s+(\w+):0 "(.*)"$',(ROOT/'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'),re.M))
 sample={'Root.GetChurchPrivilege':'Agreement on coexistence'}
 sample.update({'Root.GetChurchROStatus':'Reconciliation in progress',
- 'Root.GetChurchROFervor':'100','Root.GetChurchROPolicies':'4','Root.GetChurchROCapacity':'4',
- 'Root.GetChurchROIncome':'+5','Root.GetChurchROUpkeep':'-18','Root.GetChurchRONet':'-13',
- 'Root.GetChurchRONodes':'2','Root.GetChurchRONodeLimit':'2',
- 'Root.GetChurchRONodeHint':'Node limit reached: close a node to fund another'})
+ 'Root.rip_church_fervor.GetValue':'100','Root.rip_church_icons.GetValue':'4',
+ 'Root.rip_church_capacity.GetValue':'4','Root.rip_church_fervor_income.GetValue':'5',
+ 'Root.rip_church_fervor_cost.GetValue':'18','Root.rip_church_nodes.GetValue':'2'})
 for key in ('War','Mercy','Building','Mission'): sample['Root.GetChurchIcon'+key]='Active'
 sample.update({'Root.GetChurchCuriaStatus':'Rome is present; diplomatic audience available',
  'Root.GetChurchLocalInstitution':'Agreement on coexistence'})
