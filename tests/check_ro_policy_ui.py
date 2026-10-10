@@ -118,11 +118,13 @@ for policy in ('war', 'mercy', 'building', 'mission'):
                    (f'rip_church_can_activate_{policy}', 'yes')])
     assert control['trigger'] == [('religion', 'russian_orthodox'), gate]
     assert control['effect'] == [(f'rip_church_toggle_{policy}_effect', 'yes')]
-    assert controls['custom_icon', f'rip_church_ro_{policy}_access_ready']['potential'] == [gate]
-    assert controls['custom_icon', f'rip_church_ro_{policy}_access_blocked']['potential'] == [('NOT', [gate])]
-    for state in ('ready','blocked'):
-        badge, _ = widget('iconType', f'rip_church_ro_{policy}_access_{state}', children)
-        assert badge['alwaystransparent'] == 'yes', 'status must not steal a click from the policy'
+    # One state signal per policy: the lit frame and the Active/Inactive line. A check/cross badge
+    # on the slot repeated both (a red cross beside "Inactive"), so neither widget may return.
+    for state in ('ready', 'blocked'):
+        assert ('custom_icon', f'rip_church_ro_{policy}_access_{state}') not in controls
+        assert not [1 for _, fields, _ in children if fields['name'] == f'rip_church_ro_{policy}_access_{state}']
+    frame, _ = widget('iconType', f'rip_church_{policy}_active_frame', children)
+    assert frame['alwaystransparent'] == 'yes', 'the lit frame must not steal a click from the policy'
     for suffix in ('label', 'state', 'action', 'benefit'):
         label, _ = widget('instantTextBoxType', f'rip_church_icon_{policy}_{suffix}', children)
         assert label['font'] == 'vic_18' and label['scripted'] == 'yes'
