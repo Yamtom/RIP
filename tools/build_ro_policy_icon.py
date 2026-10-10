@@ -1,5 +1,7 @@
-"""Build the RO trade-policy sprite from its existing religion frame.
-The user requested a scripted replacement; no generated religious artwork.
+"""Compose the RO policy's centered cross with native two-state button frames.
+
+The action spends Fervor, so its art deliberately contains no ducat symbol.
+Only RIP's own sprite is written; Muslim propagation keeps its native art.
 """
 from pathlib import Path
 import argparse, sys
@@ -9,23 +11,20 @@ from clausewitz_testlib import ROOT, vanilla_root
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()
 source=Image.open(ROOT/'gfx/interface/country_icon_religion.dds').convert('RGBA')
 assert source.size==(31*64,64)
-cross=source.crop((29*64,0,30*64,64)).resize((42,42),Image.Resampling.LANCZOS)
-coins=Image.open(vanilla_root()/'gfx/interface/icon_gold.dds').convert('RGBA')
-coins=coins.crop(coins.getbbox()).resize((26,26),Image.Resampling.LANCZOS)
-native=Image.open(vanilla_root()/'gfx/interface/trading_policy_propagate_religion.dds').convert('RGBA')
+cross=source.crop((29*64,0,30*64,64))
+cross=cross.crop(cross.getbbox())
+cross.thumbnail((30,38),Image.Resampling.LANCZOS)
+game=vanilla_root()
+if game is None:
+    raise SystemExit('Cannot build the policy icon without target-compatible EU4 native frames.')
+native=Image.open(game/'gfx/interface/trading_policy_propagate_religion.dds').convert('RGBA')
 assert native.size==(112,56)
 result=Image.new('RGBA',native.size)
 for i in range(2):
-    frame=Image.new('RGBA',(56,56))
-    ImageDraw.Draw(frame).rounded_rectangle((5,5,50,50),radius=8,fill=(26,45,49,255))
-    # Enlarged symbols, moved slightly inward while retaining their diagonal.
-    # Cross centre (23,23); coin centre (38,38).
-    frame.alpha_composite(cross,(2,2))
-    frame.alpha_composite(coins,(25,25))
-    border=native.crop((i*56,0,(i+1)*56,56))
-    # Retain only the native outer frame; the old crescent is never copied.
-    for box in ((0,0,56,6),(0,50,56,56),(0,6,6,50),(50,6,56,50)):
-        frame.alpha_composite(border.crop(box),(box[0],box[1]))
+    frame=native.crop((i*56,0,(i+1)*56,56))
+    # Cover the complete old crescent/coins, keeping the native ornamental frame.
+    ImageDraw.Draw(frame).rounded_rectangle((8,8,47,47),radius=7,fill=(26,45,49,255))
+    frame.alpha_composite(cross,((56-cross.width)//2,(56-cross.height)//2))
     result.alpha_composite(frame,(i*56,0))
 output=ROOT/'gfx/interface/rip_ro_mission_policy.dds'
 same=output.exists() and Image.open(output).convert('RGBA').tobytes()==result.tobytes()
@@ -34,4 +33,4 @@ if args.check:
 else:
     result.save(output)
     result.save(ROOT/'diagnostics/church_redesign_20260911/ro_policy_icon.png')
-print('RO POLICY ICON PASS: religion frame 30, two 56px frames, isolated sprite.')
+print('RO POLICY ICON PASS: centered religion frame 30; complete native 56px states; no ducat symbol.')

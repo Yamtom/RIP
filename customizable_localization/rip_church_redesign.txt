@@ -7,6 +7,11 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_church_ro_unrecognized }
 }
 defined_text = {
+ name = GetChurchRONodeLimit
+ text = { trigger = { has_country_flag = rip_church_ro_schismatic } localisation_key = rip_church_ro_two_nodes }
+ text = { trigger = { always = yes } localisation_key = rip_church_ro_one_node }
+}
+defined_text = {
  name = GetChurchPrivilege
  text = { trigger = { has_country_modifier = rip_church_gc_infrastructure } localisation_key = rip_church_gc_infrastructure }
  text = { trigger = { has_country_modifier = rip_church_gc_coexistence } localisation_key = rip_church_gc_coexistence }
@@ -461,6 +466,14 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_church_inactive }
 }
 defined_text = {
+ name = GetChurchIconWarAction
+ text = { trigger = { has_country_flag = rip_church_icon_war } localisation_key = rip_church_ro_action_active }
+ text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 10 } } } localisation_key = rip_church_ro_action_fuel }
+ text = { trigger = { NOT = { rip_church_ro_slot_available = yes } } localisation_key = rip_church_ro_action_slot }
+ text = { trigger = { has_country_flag = rip_church_icon_war_used NOT = { had_country_flag = { flag = rip_church_icon_war_used days = 365 } } } localisation_key = rip_church_ro_action_cooldown }
+ text = { trigger = { always = yes } localisation_key = rip_church_ro_action_ready }
+}
+defined_text = {
  name = GetChurchIconWarAccess
  text = { trigger = { has_country_flag = rip_church_icon_war } localisation_key = rip_church_icon_can_deactivate }
  text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 10 } } } localisation_key = rip_church_icon_no_fuel }
@@ -472,6 +485,14 @@ defined_text = {
  name = GetChurchIconMercy
  text = { trigger = { has_country_flag = rip_church_icon_mercy } localisation_key = rip_church_active }
  text = { trigger = { always = yes } localisation_key = rip_church_inactive }
+}
+defined_text = {
+ name = GetChurchIconMercyAction
+ text = { trigger = { has_country_flag = rip_church_icon_mercy } localisation_key = rip_church_ro_action_active }
+ text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 10 } } } localisation_key = rip_church_ro_action_fuel }
+ text = { trigger = { NOT = { rip_church_ro_slot_available = yes } } localisation_key = rip_church_ro_action_slot }
+ text = { trigger = { has_country_flag = rip_church_icon_mercy_used NOT = { had_country_flag = { flag = rip_church_icon_mercy_used days = 365 } } } localisation_key = rip_church_ro_action_cooldown }
+ text = { trigger = { always = yes } localisation_key = rip_church_ro_action_ready }
 }
 defined_text = {
  name = GetChurchIconMercyAccess
@@ -487,6 +508,14 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_church_inactive }
 }
 defined_text = {
+ name = GetChurchIconBuildingAction
+ text = { trigger = { has_country_flag = rip_church_icon_building } localisation_key = rip_church_ro_action_active }
+ text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 10 } } } localisation_key = rip_church_ro_action_fuel }
+ text = { trigger = { NOT = { rip_church_ro_slot_available = yes } } localisation_key = rip_church_ro_action_slot }
+ text = { trigger = { has_country_flag = rip_church_icon_building_used NOT = { had_country_flag = { flag = rip_church_icon_building_used days = 365 } } } localisation_key = rip_church_ro_action_cooldown }
+ text = { trigger = { always = yes } localisation_key = rip_church_ro_action_ready }
+}
+defined_text = {
  name = GetChurchIconBuildingAccess
  text = { trigger = { has_country_flag = rip_church_icon_building } localisation_key = rip_church_icon_can_deactivate }
  text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 10 } } } localisation_key = rip_church_icon_no_fuel }
@@ -498,6 +527,14 @@ defined_text = {
  name = GetChurchIconMission
  text = { trigger = { has_country_flag = rip_church_icon_mission } localisation_key = rip_church_active }
  text = { trigger = { always = yes } localisation_key = rip_church_inactive }
+}
+defined_text = {
+ name = GetChurchIconMissionAction
+ text = { trigger = { has_country_flag = rip_church_icon_mission } localisation_key = rip_church_ro_action_active }
+ text = { trigger = { NOT = { check_variable = { which = rip_church_fervor value = 10 } } } localisation_key = rip_church_ro_action_fuel }
+ text = { trigger = { NOT = { rip_church_ro_slot_available = yes } } localisation_key = rip_church_ro_action_slot }
+ text = { trigger = { has_country_flag = rip_church_icon_mission_used NOT = { had_country_flag = { flag = rip_church_icon_mission_used days = 365 } } } localisation_key = rip_church_ro_action_cooldown }
+ text = { trigger = { always = yes } localisation_key = rip_church_ro_action_ready }
 }
 defined_text = {
  name = GetChurchIconMissionAccess
