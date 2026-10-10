@@ -70,23 +70,11 @@ rip_ro_native_retired_climacus = {
 		# list.
 		heretic = { old_believer raskolnik heterodox_heretic }
 
-		# THE THREE DATES OF THIS CHURCH
-		#
-		# 1448.12.15 - the metropolitan is elected at Moscow without
-		#              Constantinople's blessing, and the metropolitanate splits
-		#              along the border it will keep. This is the birth of the
-		#              faith, so it is the religion's own date: `date` is what
-		#              is_religion_enabled reads, and setting it to 1589 left the
-		#              mod offering a religion the engine had not switched on for
-		#              another 136 years - convert_to_russian_orthodox_decision
-		#              opens at 1450 and russian_orthodox.1 fired from 1453.
-		# 1589.1.26  - the metropolitan becomes a patriarch: russian_orthodox.2.
-		# 1653       - Nikon's books, and the Raskol: russian_orthodox.6.
-		#
-		# The three are a ladder, not three separate stories. Each stage sets its
-		# flag and the next one asks for it:
-		#   rip_ro_stage_autocephaly -> rip_ro_stage_patriarchate -> rip_ro_stage_raskol
-		date = 1448.12.15
+		# 1448 is Orthodox autocephaly, not a new confession. A separate label
+		# is possible only at the deliberate 1589 schism or formal 1666 Raskol.
+		# The latter is a gameplay classification, not a historical departure
+		# of the Russian Church from Eastern Orthodox communion.
+		date = 1589.1.1
 
 		on_convert = {
 			rip_faith_initialize_hierarchy_effect = yes

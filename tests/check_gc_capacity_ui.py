@@ -138,6 +138,14 @@ for language in ("english", "french", "german", "spanish"):
     assert labels["rip_church_gc_capacity_hover_tt"] == "[Root.GetChurchCapacityTooltip]"
     assert labels["rip_church_authority_heading_tt"] == "[Root.GetChurchAuthorityTooltip]"
     assert labels["rip_church_native_authority_tooltip"] == "$PATRIARCH_DESCRIPTION$"
+    assert "Patriarchal Authority" in labels["rip_church_ro_authority_communion_tt"]
+    assert "+5 local tolerance of heretics" in labels["rip_church_ro_authority_communion_tt"]
+    assert "local religious-unity weight is removed" in labels["rip_church_ro_authority_communion_tt"]
+    assert "+3 local tolerance" in labels["rip_church_ro_authority_communion_tt"]
+    assert "half the religious-unity weight is removed" in labels["rip_church_ro_authority_communion_tt"]
+    assert "never converted automatically" in labels["rip_church_ro_authority_communion_tt"]
+    assert "deliberately broken communion" in labels["rip_church_ro_authority_schism_tt"]
+    assert "remain Orthodox and in communion" in labels["rip_church_orthodox_authority_jurisdiction_tt"]
     for fraction, key in rows:
         tooltip = labels[key]
         assert "[" not in tooltip and ".GetValue" not in tooltip, "numeric leaf must be literal"
@@ -180,6 +188,9 @@ heading_tooltip = next(
 )
 assert heading_tooltip.count("religion = greek_catholic patriarch_authority = ") == 101
 assert "trigger = { always = yes } localisation_key = rip_church_native_authority_tooltip" in heading_tooltip
+assert "trigger = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic } localisation_key = rip_church_ro_authority_schism_tt" in heading_tooltip
+assert "trigger = { religion = russian_orthodox } localisation_key = rip_church_ro_authority_communion_tt" in heading_tooltip
+assert "trigger = { religion = orthodox has_country_flag = rip_ro_stage_autocephaly } localisation_key = rip_church_orthodox_authority_jurisdiction_tt" in heading_tooltip
 assert "localisation_key = rip_church_gc_capacity_hover_tt" not in heading_tooltip, "avoid nested custom-text returns"
 
 modifiers = read("common/event_modifiers/rip_church_gc_interaction_modifiers.txt")

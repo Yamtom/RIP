@@ -593,10 +593,10 @@ DATA.update({
  'rip_church_policy_target_tt': 'In this node: an §Yeligible settled province§! beside a capital-connected Muscovite parish',
 })
 for key,benefit in {
- 'war':'§G+2.5% discipline§!\\n§G+5% manpower recovery§!',
- 'mercy':'§G-1 national unrest§!\\n§G-10% harsh treatment§!',
- 'building':'§G-5% development cost§!\\n§G-5% building cost§!',
- 'mission':'§G+0.5% missionary strength§!\\nEnables trade missions',
+ 'war':'§GDiscipline\\n+2.5%§!\\n§GRecovery +5%§!',
+ 'mercy':'§GUnrest -1§!\\n§GSuppression\\n-10% cost§!',
+ 'building':'§GDevelop -5%§!\\n§GBuild -5%§!',
+ 'mission':'§GMission +0.5%§!\\nTrade missions',
 }.items():
  DATA['rip_church_icon_'+key+'_label']=DATA['rip_church_icon_'+key+'_button']
  DATA['rip_church_icon_'+key+'_benefit']=benefit
@@ -605,7 +605,7 @@ for key,benefit in {
   DATA['rip_church_icon_'+key+'_'+suffix+'_tt']=DATA['rip_church_icon_'+key+'_button_tt']+'\\n[Root.GetChurchIcon'+key.title()+'Access]'
 for key in ('heading','status','resources'):
  DATA['rip_church_ro_'+key+'_tt']=DATA['rip_church_ro_'+key]
-DATA['rip_church_ro_status_tt']='[Root.GetChurchROStatus]\\nThe jurisdiction becomes independent in 1448. Patriarchal recognition begins in 1589 and receives conciliar confirmation in 1593. Renouncing communion is a separate alternative-history choice; reconciliation requires its own negotiation.'
+DATA['rip_church_ro_status_tt']='[Root.GetChurchROStatus]\\n1448 establishes an Orthodox metropolitanate. 1589-1593 recognition preserves Orthodoxy. A separate Muscovite confession follows a deliberate schism or the formal Raskol after 1666; a ritual compromise avoids the latter. Orthodox parishes retain local toleration and unity protection while communion holds. Repression weakens that protection; renouncing communion removes it.'
 for icon in ('war','mercy','building','mission'):
     DATA['rip_church_icon_'+icon]=DATA['rip_church_icon_'+icon+'_button']
     DATA['desc_rip_church_icon_'+icon]=DATA['rip_church_icon_'+icon+'_button_tt']
@@ -922,6 +922,8 @@ def defined(name,rows):
 custom=defined('GetChurchROStatus',[
  ('has_country_flag = rip_church_reconciliation_pending','rip_church_ro_reconciling'),
  ('has_country_flag = rip_church_ro_schismatic','rip_church_ro_schismatic'),
+ ('OR = { has_country_modifier = suppression_old_believers has_country_modifier = orthodox_inquisition has_country_modifier = persecution_of_heretics has_country_modifier = forced_russification }','rip_church_ro_restricted_status'),
+ ('has_country_modifier = rip_ro_synodal_government','rip_church_ro_synodal_status'),
  ('rip_church_ro_recognized = yes','rip_church_ro_recognized'),
  ('has_country_flag = rip_church_ro_provisional','rip_church_ro_provisional'),
  ('always = yes','rip_church_ro_unrecognized')])
@@ -1286,10 +1288,26 @@ for key in ('rip_church_gc_resources_tt','rip_church_gc_help_tt'):
 DATA['rip_church_gc_capacity_hover_tt']='[Root.GetChurchCapacityTooltip]'
 DATA['rip_church_authority_heading_tt']='[Root.GetChurchAuthorityTooltip]'
 DATA['rip_church_native_authority_tooltip']='$PATRIARCH_DESCRIPTION$'
+DATA['rip_church_ro_authority_communion_tt']=(
+ '§YPatriarchal Authority§! remains the native 0–100 measure of this hierarchy; it is not a schism meter.\\n'
+ '§YWhile communion with the Eastern churches remains unbroken§!, each owned Orthodox parish receives §G+5 local tolerance of heretics§! and its local religious-unity weight is removed.\\n'
+ 'During a listed coercive church policy, protection falls to §G+3 local tolerance§! and half the religious-unity weight is removed. An external schism withdraws these guarantees; reconciliation restores them. '
+ 'These are local safeguards only: provinces keep their faith and are never converted automatically.')
+DATA['rip_church_ro_authority_schism_tt']=(
+ '§YPatriarchal Authority§! remains the native 0–100 measure of this hierarchy; it is not a schism meter.\\n'
+ 'The state has deliberately broken communion with the Eastern churches, so Orthodox parishes no longer receive the communion-based tolerance or religious-unity protections. '
+ 'Reconciliation can restore those local guarantees. Province religions do not change automatically.')
+DATA['rip_church_orthodox_authority_jurisdiction_tt']=(
+ '§YPatriarchal Authority§! is the native measure of the Orthodox hierarchy. The local metropolitanate changes jurisdiction only: state and provinces remain Orthodox and in communion. '
+ 'A separate confession requires a deliberate later break; this authority bar never converts provinces.')
 custom+=defined('GetChurchAuthorityTooltip',[
  (f'religion = greek_catholic {gate}',f'rip_church_readout_getchurchcapacitytooltip_{i}')
  for i,(gate,_) in enumerate(hc_tooltip_rows)
- ]+[('always = yes','rip_church_native_authority_tooltip')])
+ ]+[
+    ('religion = russian_orthodox has_country_flag = rip_church_ro_schismatic','rip_church_ro_authority_schism_tt'),
+    ('religion = russian_orthodox','rip_church_ro_authority_communion_tt'),
+    ('religion = orthodox has_country_flag = rip_ro_stage_autocephaly','rip_church_orthodox_authority_jurisdiction_tt'),
+    ('always = yes','rip_church_native_authority_tooltip')])
 DATA['greek_catholic_religion_desc']+=' The Hierarchical Capacity bar in the religion window lists what it pays for.'
 DATA['rip_church_authority_heading']='[Root.GetChurchAuthorityHeading]'
 DATA['rip_church_gc_capacity_heading']='Hierarchical Capacity'
@@ -1426,6 +1444,21 @@ for key in ('rip_church_gc_heading_tt','rip_church_gui_status_title_tt','rip_chu
             'rip_church_gc_icons_title_tt','rip_church_gc_curia_heading_tt','rip_church_gc_contact_title_tt',
             'rip_church_rite_effects_title_tt','rip_church_gc_capacity_heading_tt'):
     DATA.pop(key,None)
+from ro_history_localisation import COPY as RO_HISTORY_COPY
+DATA.update(RO_HISTORY_COPY)
+# These historical keys now have one generator-owned definition. Retire the
+# former hand-maintained copies, preserving every unrelated key and the BOM.
+legacy_ro_paths = ['localisation/russian_orthodox_l_english.yml'] + [
+ f'localisation/replace/zzz_RIP_untranslated_l_{lang}.yml'
+ for lang in ('french','german','spanish')]
+for legacy_path in legacy_ro_paths:
+ source = (ROOT/legacy_path).read_text(encoding='utf-8')
+ rows = []
+ for row in source.splitlines(keepends=True):
+  match = re.match(r'\s*([^\s:]+):\d+\s',row)
+  if not match or match[1] not in RO_HISTORY_COPY:
+   rows.append(row)
+ outputs[legacy_path] = ''.join(rows)
 for lang in ('english','french','german','spanish'):
     outputs[f'localisation/replace/zzzz_RIP_church_redesign_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(f' {k}:0 "{v.replace(chr(34),chr(39))}"\n' for k,v in sorted(DATA.items()))
 # Regression guard: the province action is a guarantee of community rights, never the

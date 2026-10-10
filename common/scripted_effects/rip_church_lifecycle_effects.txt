@@ -46,6 +46,7 @@ rip_church_v3_exit_effect = {
  rip_church_refresh_relations_effect = yes
 }
 rip_church_v3_monthly_effect = {
+ rip_church_ro_history_monthly_effect = yes
  rip_church_v3_initialize_effect = yes
  rip_church_complete_florence_effect = yes
  if = { limit = { religion = russian_orthodox }
@@ -73,6 +74,8 @@ rip_church_v3_religion_change_effect = {
  rip_church_refresh_relations_effect = yes
 }
 rip_church_province_change_effect = {
+ remove_province_modifier = rip_ro_shared_communion
+ remove_province_modifier = rip_ro_restricted_communion
  # Province hooks for all countries: remove only this system's local payload.
  rip_church_clear_rite_effect = yes
  rip_church_clear_pa_province_effect = yes
