@@ -74,7 +74,7 @@ DATA={
   "rip_church_mission_network": "Missionary Network",
   "rip_church_mission_network_desc": "A funded network of monasteries, traders and frontier parishes. Requires a registered node, merchant, 50% trade power, connected controlled church infrastructure and an active Apostolic Mission. Conversion is gradual.",
   "rip_church_ro_heading": "THE MUSCOVITE CHURCH\\n[Root.GetChurchROStatus]",
-  "rip_church_ro_resources": "Authority band: [Root.rip_church_pa_display.GetValue]%\\nIcons: [Root.rip_church_icons.GetValue] / [Root.rip_church_capacity.GetValue]   Fervor: [Root.rip_church_fervor.GetValue] / 100\\nMonthly fuel: +[Root.rip_church_fervor_income.GetValue] / -[Root.rip_church_fervor_cost.GetValue]   Missions: [Root.rip_church_nodes.GetValue]",
+  "rip_church_ro_resources": "Authority band: [Root.rip_church_pa_display.GetValue]%\\nIcons: [Root.rip_church_icons.GetValue] / [Root.rip_church_capacity.GetValue]   Fervor: [Root.muscovy_fervor.GetValue] / 100\\nMonthly fuel: +[Root.rip_church_fervor_income.GetValue] / -[Root.rip_church_fervor_cost.GetValue]   Missions: [Root.funded_nodes_count.GetValue]",
   "rip_church_ro_help": "Authority supplies capacity; Fervor pays for active policies. Activation: 10 Fervor. Upkeep for 1/2/3/4 icons: 2/4/8/14 monthly, plus 2 per funded node. The newest icon closes first if capacity or fuel runs out.",
   "rip_church_gc_heading": "THE UNION OF THE CHURCHES",
   "rip_church_gc_resources": "Eastern hierarchy: [Root.rip_church_pa_display.GetValue]% authority",
@@ -132,7 +132,7 @@ DATA={
   "rip_church_icon_mission_button_tt": "+0.5 percentage points missionary strength; access to funded trade missions. Activate for 10 Fervor; each icon may be reactivated only after one year. Deactivation is immediate and gives no refund.",
   "rip_church_icon_mission_state": "[Root.GetChurchIconMission]",
   "rip_church_ro_heading_tt": "THE MUSCOVITE CHURCH\\n[Root.GetChurchROStatus]",
-  "rip_church_ro_resources_tt": "Authority band: [Root.rip_church_pa_display.GetValue]%\\nIcons: [Root.rip_church_icons.GetValue] / [Root.rip_church_capacity.GetValue]   Fervor: [Root.rip_church_fervor.GetValue] / 100\\nMonthly fuel: +[Root.rip_church_fervor_income.GetValue] / -[Root.rip_church_fervor_cost.GetValue]   Missions: [Root.rip_church_nodes.GetValue]",
+  "rip_church_ro_resources_tt": "Authority band: [Root.rip_church_pa_display.GetValue]%\\nIcons: [Root.rip_church_icons.GetValue] / [Root.rip_church_capacity.GetValue]   Fervor: [Root.muscovy_fervor.GetValue] / 100\\nMonthly fuel: +[Root.rip_church_fervor_income.GetValue] / -[Root.rip_church_fervor_cost.GetValue]   Missions: [Root.funded_nodes_count.GetValue]",
   "rip_church_ro_help_tt": "Authority supplies capacity; Fervor pays for active policies. Activation: 10 Fervor. Upkeep for 1/2/3/4 icons: 2/4/8/14 monthly, plus 2 per funded node. The newest icon closes first if capacity or fuel runs out.",
   "rip_church_gc_heading_tt": "THE UNION OF THE CHURCHES",
   "rip_church_gc_resources_tt": "The displayed authority belongs to the Eastern hierarchy; it is not a Curia resource.",
@@ -513,10 +513,10 @@ DATA.update({
  'rip_church_icon_building_button': 'Building',
  'rip_church_icon_mission_button': 'Mission',
  'rip_church_ro_status': '[Root.GetChurchROStatus]',
- 'rip_church_ro_resources': 'Fervor: [Root.rip_church_fervor.GetValue] / 100   Icons: [Root.rip_church_icons.GetValue] / [Root.rip_church_capacity.GetValue]\\nMonthly Fervor: +[Root.rip_church_fervor_income.GetValue] / -[Root.rip_church_fervor_cost.GetValue]\\nFunded trade nodes: [Root.rip_church_nodes.GetValue]',
+ 'rip_church_ro_resources': 'Fervor: [Root.muscovy_fervor.GetValue] / 100   Icons: [Root.rip_church_icons.GetValue] / [Root.rip_church_capacity.GetValue]\\nMonthly Fervor: +[Root.rip_church_fervor_income.GetValue] / -[Root.rip_church_fervor_cost.GetValue]\\nFunded trade nodes: [Root.funded_nodes_count.GetValue]',
  'rip_church_ro_mission_cost': 'Each node: §Y2 Fervor§! now + §R2 / month§!\\nActivate Mission, then fund a node',
- 'rip_church_nodes_button': 'Fund / close trade missions',
- 'rip_church_nodes_button_tt': 'Requires a funded node to manage, or an eligible node you can afford. Each node costs 2 Fervor immediately and 2 each month, in addition to icon upkeep. No ducat fee. Opening the menu itself makes no payment. Activate Apostolic Mission first; a new node requires at least 12 Fervor, a merchant, 50% trade power, connected church infrastructure and an eligible target.',
+ 'rip_church_nodes_button': 'Manage mission nodes',
+ 'rip_church_nodes_button_tt': 'The menu opens without payment. To register a node, first activate Apostolic Mission and have at least 12 Fervor; registration then costs 2 Fervor now and reserves 2 per month. One node is allowed, or two after renouncing communion. Also requires a merchant, 50% trade power, connected controlled church infrastructure and an eligible target. Closing a node is free; no ducats are charged.',
  'rip_church_mission_network_desc': 'Muscovite Orthodox missionary network. A registered node costs 2 Fervor now and 2 per month, in addition to Apostolic Mission upkeep. No ducat fee. Requires a merchant, 50% trade power and connected controlled church infrastructure. Fund or close nodes from the church panel.',
  'rip_church_break_communion_title': 'Renounce the patriarchal settlement',
  'rip_church_break_communion_desc': 'Deliberate alternative history: abandon recognized communion and claim an independent universal church. This enables a second funded mission node, increases confessional conflict and imposes -1 diplomatic reputation. Earlier reconciliation payments are not refunded.',
@@ -569,11 +569,11 @@ DATA.update({
 DATA.update({
  'rip_church_ro_window_toggle': 'Policies',
  'rip_church_ro_window_toggle_tt': 'Show or hide the Muscovite Church policy window. Click a policy icon there to activate or deactivate it; the retired native icon selector is not used.',
- 'rip_church_ro_fuel': 'Fervor: §Y[Root.rip_church_fervor.GetValue] / 100§!   Monthly: §G+[Root.rip_church_fervor_income.GetValue]§! / §R-[Root.rip_church_fervor_cost.GetValue]§!',
+ 'rip_church_ro_fuel': 'Fervor: §Y[Root.muscovy_fervor.GetValue] / 100§!   Monthly: §G+[Root.rip_church_fervor_income.GetValue]§! / §R-[Root.rip_church_fervor_cost.GetValue]§!',
  'rip_church_ro_fuel_tt': 'Fervor funds church policies. Activation costs §Y10§!. Monthly upkeep for §Y1 / 2 / 3 / 4§! active policies: §R2 / 4 / 8 / 14§!, plus §R2§! per funded node. Monthly income follows authority: §G2 / 3 / 4 / 5§! at §Y0 / 30 / 65 / 90%§! authority. The newest policy closes first if capacity or Fervor runs out. This is a gameplay resource, separate from Patriarch Authority.',
  'rip_church_ro_slots': 'Active policies: §Y[Root.rip_church_icons.GetValue] / [Root.rip_church_capacity.GetValue]§! (from authority)',
  'rip_church_ro_slots_tt': 'Patriarch Authority supplies simultaneous policy slots: §Y1§! below 30%, §Y2§! from 30%, §Y3§! from 65%, §Y4§! from 90%. It is not spent to activate these policies; Fervor pays for them.',
- 'rip_church_ro_network': 'Funded nodes: §Y[Root.rip_church_nodes.GetValue] / [Root.GetChurchRONodeLimit]§!',
+ 'rip_church_ro_network': 'Funded nodes: §Y[Root.funded_nodes_count.GetValue] / [Root.GetChurchRONodeLimit]§!',
  'rip_church_ro_network_tt': 'Normally one funded trade node. Renouncing Orthodox communion permits two. Funding and selecting the trade policy are separate steps. Hover Fund / close trade missions for requirements.',
  'rip_church_ro_mission_cost_tt': 'First activate Apostolic Mission. Fund an eligible node with the button above, then select the Muscovite missionary policy in that trade node. Each funded node pays 2 Fervor immediately and 2 each month, in addition to active policy upkeep. No ducat payment.',
  'rip_church_active': '§GActive§!',
@@ -972,13 +972,13 @@ for key in ('war','mercy','building','mission'):
     custom+=defined('GetChurchIcon'+key.title(),[(f'has_country_flag = rip_church_icon_{key}','rip_church_active'),('always = yes','rip_church_inactive')])
     custom+=defined('GetChurchIcon'+key.title()+'Action',[
         (f'has_country_flag = rip_church_icon_{key}','rip_church_ro_action_active'),
-        ('NOT = { check_variable = { which = rip_church_fervor value = 10 } }','rip_church_ro_action_fuel'),
+        ('NOT = { check_variable = { which = muscovy_fervor value = 10 } }','rip_church_ro_action_fuel'),
         ('NOT = { rip_church_ro_slot_available = yes }','rip_church_ro_action_slot'),
         (f'has_country_flag = rip_church_icon_{key}_used NOT = {{ had_country_flag = {{ flag = rip_church_icon_{key}_used days = 365 }} }}','rip_church_ro_action_cooldown'),
         ('always = yes','rip_church_ro_action_ready')])
     custom+=defined('GetChurchIcon'+key.title()+'Access',[
         (f'has_country_flag = rip_church_icon_{key}','rip_church_icon_can_deactivate'),
-        ('NOT = { check_variable = { which = rip_church_fervor value = 10 } }','rip_church_icon_no_fuel'),
+        ('NOT = { check_variable = { which = muscovy_fervor value = 10 } }','rip_church_icon_no_fuel'),
         ('NOT = { rip_church_ro_slot_available = yes }','rip_church_icon_no_slot'),
         (f'has_country_flag = rip_church_icon_{key}_used NOT = {{ had_country_flag = {{ flag = rip_church_icon_{key}_used days = 365 }} }}','rip_church_icon_cooldown'),
         ('always = yes','rip_church_icon_can_activate')])
@@ -1311,7 +1311,7 @@ custom+=defined('GetChurchAuthorityTooltip',[
 DATA['greek_catholic_religion_desc']+=' The Hierarchical Capacity bar in the religion window lists what it pays for.'
 DATA['rip_church_authority_heading']='[Root.GetChurchAuthorityHeading]'
 DATA['rip_church_gc_capacity_heading']='Hierarchical Capacity'
-DATA['rip_church_native_authority_heading']='$CURRENT_PATRIARCH_AUTHORITY$'
+DATA['rip_church_native_authority_heading']='Patriarch Authority'
 custom+=defined('GetChurchAuthorityHeading',[
  ('religion = greek_catholic','rip_church_gc_capacity_heading'),
  ('always = yes','rip_church_native_authority_heading')])
@@ -1339,6 +1339,56 @@ DATA['rip_church_gui_count_value_tt']=('§WCommunity rights guaranteed§!\\n'
  'The ecumenical settlement needs one Orthodox guarantee (Muscovite Orthodox does not count) and one Catholic guarantee; a compact of coexistence needs one of any of the three faiths.\\n'
  'Updated monthly and whenever rights change.\\n'
  '§gGameplay abstraction: not an exact historical parish or canonical status, and not evidence of voluntary Union acceptance.§!')
+# Literal readouts also cover an uninitialised country; direct GetValue renders
+# blank in the religion GUI before the first monthly refresh.
+for suffix, variable, maximum in (
+ ('Fervor','muscovy_fervor',100),
+ ('Income','rip_church_fervor_income',5),
+ ('Cost','rip_church_fervor_cost',18),
+ ('Policies','rip_church_icons',4),
+ ('Capacity','rip_church_capacity',4),
+ ('Nodes','funded_nodes_count',2),
+):
+ ui_readout('GetChurchRO'+suffix,
+  [(f'check_variable = {{ which = {variable} value = {n} }}',str(n))
+   for n in range(maximum,0,-1)]+[('always = yes','0')])
+DATA['rip_church_ro_fuel']='Fervor: §Y[Root.GetChurchROFervor] / 100§!   Monthly: §G+[Root.GetChurchROIncome]§! / §R-[Root.GetChurchROCost]§!'
+DATA['rip_church_ro_slots']='Policies: §Y[Root.GetChurchROPolicies] / [Root.GetChurchROCapacity]§! · Authority slots'
+DATA['rip_church_ro_network']='Funded nodes: §Y[Root.GetChurchRONodes] / [Root.GetChurchRONodeLimit]§!'
+DATA['rip_church_ro_authority_label']='Patriarch Authority'
+DATA['rip_ro_funded_trade_missions']='Funded trade missions'
+DATA['desc_rip_ro_funded_trade_missions']='An active missionary network. Each funded node costs 2 Fervor per month. Conversion operates through eligible trade-node policies; this status grants no additional national bonus.'
+DATA['rip_church_ro_authority_label_tt']=DATA['rip_church_authority_heading_tt']
+for policy, first, second, explanation in (
+ ('war','+2.5%','+5%','Discipline +2.5%; manpower recovery speed +5%.'),
+ ('mercy','-1','-10%','National unrest -1; harsh treatment cost -10%.'),
+ ('building','-5%','-5%','Development cost -5%; building cost -5%.'),
+ ('mission','+0.5%','Unlock','Missionary strength +0.5%; unlocks funding trade missions.'),
+):
+ for suffix, value in (('benefit',first),('benefit_second',second)):
+  DATA[f'rip_church_icon_{policy}_{suffix}']='§G'+value+'§!'
+  DATA[f'rip_church_icon_{policy}_{suffix}_tt']=explanation
+DATA['rip_church_ro_fuel']='Fervor: §Y[Root.GetChurchROFervor] / 100§! · Monthly: §G+[Root.GetChurchROIncome]§! / §R-[Root.GetChurchROCost]§! · net [Root.GetChurchRONet]'
+DATA['rip_church_ro_slots']='Policies: §Y[Root.GetChurchROPolicies] / [Root.GetChurchROCapacity]§! · policy drain §R-[Root.GetChurchROPolicyCost]/mo§!'
+DATA['rip_church_ro_network']='Funded nodes: §Y[Root.GetChurchRONodes] / [Root.GetChurchRONodeLimit]§!'
+DATA['rip_church_ro_action_active']='§YActive · total policy drain -[Root.GetChurchROPolicyCost]/mo§!'
+DATA['rip_church_ro_action_ready']='§GActivate · 10 now + [Root.GetChurchRONextPolicyCost]/mo§!'
+DATA['rip_church_ro_action_fuel']='§gRequires 10 Fervor§!'
+DATA['rip_church_ro_action_slot']='§gNo free policy slot§!'
+DATA['rip_church_ro_action_cooldown']='§gOne-year cooldown§!'
+DATA['rip_church_icon_war_button_tt']='Military Intercession\\n§GDiscipline +2.5%§! · §GManpower recovery +5%§!\\nActivation costs §Y10 Fervor§! now and adds the shown monthly policy upkeep. One-year reactivation cooldown; deactivation is free.\\n[Root.GetChurchIconWarAccess]'
+DATA['rip_church_icon_mercy_button_tt']='Mercy\\n§GNational unrest -1§! · §GHarsh treatment cost -10%§!\\nActivation costs §Y10 Fervor§! now and adds the shown monthly policy upkeep. One-year reactivation cooldown; deactivation is free.\\n[Root.GetChurchIconMercyAccess]'
+DATA['rip_church_icon_building_button_tt']='Church Building\\n§GDevelopment cost -5%§! · §GBuilding cost -5%§!\\nActivation costs §Y10 Fervor§! now and adds the shown monthly policy upkeep. One-year reactivation cooldown; deactivation is free.\\n[Root.GetChurchIconBuildingAccess]'
+DATA['rip_church_icon_mission_button_tt']='Apostolic Mission\\n§GMissionary strength +0.5%§! · unlocks funded trade missions.\\nActivation costs §Y10 Fervor§! now and adds the shown monthly policy upkeep. One-year reactivation cooldown; deactivation is free. Funded nodes require this policy to remain active and each costs 2 Fervor per month.\\n[Root.GetChurchIconMissionAccess]'
+ui_readout('GetChurchRONet',[
+ (f'check_variable = {{ which = rip_church_fervor_net value = {n} }}',('+' if n>0 else '')+str(n))
+ for n in range(5,-17,-1)])
+for suffix,variable,maximum in (
+ ('PolicyCost','rip_church_fervor_policy_cost',14),
+ ('NextPolicyCost','rip_church_fervor_next_policy_cost',6),
+):
+ ui_readout('GetChurchRO'+suffix,[(f'check_variable = {{ which = {variable} value = {n} }}',str(n))
+  for n in range(maximum,0,-1)]+[('always = yes','0')])
 outputs['customizable_localization/rip_church_redesign.txt']=custom
 DATA['rip_church_gui_ecumenism_state_tt']=DATA['rip_church_gui_ecumenism_tt']
 for key in ('cost','peace','rome','cooldown','history'):
@@ -1457,7 +1507,7 @@ for legacy_path in legacy_ro_paths:
  for row in source.splitlines(keepends=True):
   match = re.match(r'\s*([^\s:]+):\d+\s',row)
   if not match or match[1] not in RO_HISTORY_COPY:
-   rows.append(row)
+   rows.append(row if row.strip() else '\n')
  outputs[legacy_path] = ''.join(rows)
 for lang in ('english','french','german','spanish'):
     outputs[f'localisation/replace/zzzz_RIP_church_redesign_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(f' {k}:0 "{v.replace(chr(34),chr(39))}"\n' for k,v in sorted(DATA.items()))

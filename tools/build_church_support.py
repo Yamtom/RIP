@@ -41,9 +41,9 @@ for name, anchor in nodes:
 }}
 {key}_can_open = {{
  {key}_eligible = yes NOT = {{ has_country_flag = {key} }}
- check_variable = {{ which = rip_church_fervor value = 12 }}
- OR = {{ NOT = {{ check_variable = {{ which = rip_church_nodes value = 1 }} }}
- AND = {{ has_country_flag = rip_church_ro_schismatic NOT = {{ check_variable = {{ which = rip_church_nodes value = 2 }} }} }} }}
+ check_variable = {{ which = muscovy_fervor value = 12 }}
+ OR = {{ NOT = {{ check_variable = {{ which = funded_nodes_count value = 1 }} }}
+ AND = {{ has_country_flag = rip_church_ro_schismatic NOT = {{ check_variable = {{ which = funded_nodes_count value = 2 }} }} }} }}
 }}
 '''
     effects += f'''{key}_toggle_effect = {{
@@ -52,35 +52,35 @@ for name, anchor in nodes:
  else_if = {{ limit = {{ {key}_can_open = yes }}
  set_country_flag = {key}
  # First month is prepaid; later monthly upkeep charges each registered node.
- subtract_variable = {{ which = rip_church_fervor value = 2 }}
+ subtract_variable = {{ which = muscovy_fervor value = 2 }}
  }}
  rip_church_ro_recount_nodes_effect = yes
  rip_church_ro_maintain_nodes_effect = yes
  rip_church_ro_recount_effect = yes
 }}
 '''
-    recount.append(f'if = {{ limit = {{ has_country_flag = {key} }} change_variable = {{ which = rip_church_nodes value = 1 }} }}')
+    recount.append(f'if = {{ limit = {{ has_country_flag = {key} }} change_variable = {{ which = funded_nodes_count value = 1 }} }}')
     close.append(f'clr_country_flag = {key}')
     maintain.append(f'''if = {{ limit = {{ has_country_flag = {key} }}
  if = {{ limit = {{ NOT = {{ {key}_eligible = yes }} }} clr_country_flag = {key} }}
- else_if = {{ limit = {{ NOT = {{ has_country_flag = rip_church_ro_schismatic }} check_variable = {{ which = rip_church_nodes value = 1 }} }} clr_country_flag = {key} }}
- else = {{ change_variable = {{ which = rip_church_nodes value = 1 }} {anchor} = {{ every_trade_node_member_province = {{ set_province_flag = rip_church_ro_trade_target@ROOT }} }} }}
+ else_if = {{ limit = {{ NOT = {{ has_country_flag = rip_church_ro_schismatic }} check_variable = {{ which = funded_nodes_count value = 1 }} }} clr_country_flag = {key} }}
+ else = {{ change_variable = {{ which = funded_nodes_count value = 1 }} {anchor} = {{ every_trade_node_member_province = {{ set_province_flag = rip_church_ro_trade_target@ROOT }} }} }}
 }}''')
-    ai.append(f'if = {{ limit = {{ {key}_can_open = yes check_variable = {{ which = rip_church_fervor value = 60 }} }} {key}_toggle_effect = yes }}')
+    ai.append(f'if = {{ limit = {{ {key}_can_open = yes check_variable = {{ which = muscovy_fervor value = 60 }} }} {key}_toggle_effect = yes }}')
     options.append(f'''option = {{
  name = {key}_button
  trigger = {{ OR = {{ has_country_flag = {key} {key}_eligible = yes }} }}
  {key}_toggle_effect = yes
 }}''')
-effects += 'rip_church_ro_recount_nodes_effect = {\nset_variable = { which = rip_church_nodes value = 0 }\n'+'\n'.join(recount)+'\n}\n'
-effects += 'rip_church_ro_close_all_nodes_effect = {\n'+'\n'.join(close)+'\nset_variable = { which = rip_church_nodes value = 0 }\n}\n'
-effects += 'rip_church_ro_maintain_nodes_effect = {\nrip_church_ro_refresh_connections_effect = yes\nevery_province = { limit = { has_province_flag = rip_church_ro_trade_target@ROOT } clr_province_flag = rip_church_ro_trade_target@ROOT }\nset_variable = { which = rip_church_nodes value = 0 }\n'+'\n'.join(maintain)+'\n}\n'
+effects += 'rip_church_ro_recount_nodes_effect = {\nset_variable = { which = funded_nodes_count value = 0 }\n'+'\n'.join(recount)+'\n}\n'
+effects += 'rip_church_ro_close_all_nodes_effect = {\n'+'\n'.join(close)+'\nset_variable = { which = funded_nodes_count value = 0 }\n}\n'
+effects += 'rip_church_ro_maintain_nodes_effect = {\nrip_church_ro_refresh_connections_effect = yes\nevery_province = { limit = { has_province_flag = rip_church_ro_trade_target@ROOT } clr_province_flag = rip_church_ro_trade_target@ROOT }\nset_variable = { which = funded_nodes_count value = 0 }\n'+'\n'.join(maintain)+'\n}\n'
 effects += 'rip_church_ro_ai_nodes_effect = {\n'+'\n'.join(ai)+'\n}\n'
 trigger += 'rip_church_ro_registered_node = { OR = {\n'
 for name, anchor in nodes:
     trigger += f'AND = {{ has_country_flag = rip_church_node_{name} FROM = {{ province_id = {anchor} }} }}\n'
 trigger += '} }\n'
-trigger += 'rip_church_ro_can_open_network_menu = { religion = russian_orthodox OR = {\n check_variable = { which = rip_church_nodes value = 1 }\n'
+trigger += 'rip_church_ro_can_open_network_menu = { religion = russian_orthodox OR = {\n check_variable = { which = funded_nodes_count value = 1 }\n'
 trigger += ''.join(f'rip_church_node_{name}_can_open = yes\n' for name,_ in nodes)
 trigger += '} }\n'
 output('common/scripted_triggers/rip_church_nodes_generated.txt', trigger)
@@ -109,6 +109,15 @@ rip_church_mission_network = {
  button_gfx = GFX_rip_ro_mission_policy
 }
 ''')
+network_status = '''
+ if = { limit = { check_variable = { which = funded_nodes_count value = 1 } }
+  add_country_modifier = { name = rip_ro_funded_trade_missions duration = -1 }
+ }
+ else = { remove_country_modifier = rip_ro_funded_trade_missions }
+'''
+for helper in ('rip_church_ro_recount_nodes_effect','rip_church_ro_maintain_nodes_effect','rip_church_ro_close_all_nodes_effect'):
+    block = named_block(effects,helper)
+    effects = effects.replace(block,block[:block.rfind('}')]+network_status+'}',1)
 output('common/scripted_effects/rip_church_nodes_generated.txt', effects)
 output('events/RIP_ChurchNodes_generated.txt', '''namespace = rip_church_nodes
 country_event = {
