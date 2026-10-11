@@ -104,11 +104,15 @@ def values(block):
         for key, value in re.findall(r"(\w+)\s*=\s*(-?[\d.]+)", block)
     }
 
-native = (vanilla_root() / "common/static_modifiers/00_static_modifiers.txt").read_text(
-    encoding="utf-8-sig"
-)
-native_values = values(named_block(native, "patriarch_authority_global"))
-native_values.update(values(named_block(native, "patriarch_authority_local")))
+if vanilla_root() is not None:
+    native = (vanilla_root() / "common/static_modifiers/00_static_modifiers.txt").read_text(
+        encoding="utf-8-sig"
+    )
+    native_values = values(named_block(native, "patriarch_authority_global"))
+    native_values.update(values(named_block(native, "patriarch_authority_local")))
+else:
+    native_values = None
+    print("SKIP tooltip arithmetic against native Patriarch Authority values: EU4 installation unavailable")
 pa_modifiers = read("common/event_modifiers/RIP_church_redesign_modifiers.txt")
 gates = read("common/scripted_triggers/rip_church_redesign_triggers.txt")
 assert "always = no" in named_block(gates, "rip_church_gc_eastern")
@@ -153,7 +157,7 @@ for language in ("english", "french", "german", "spanish"):
         band = percent // 5
         corrections = values(named_block(pa_modifiers, f"rip_church_gc_pa_country_{band}"))
         corrections.update(values(named_block(pa_modifiers, f"rip_church_gc_middle_pa_local_{band}")))
-        for caption, field, multiplier in (
+        for caption, field, multiplier in () if native_values is None else (
             ("Country missionary strength", "global_missionary_strength", 100),
             ("Clergy influence", "church_influence_modifier", 100),
             ("Owned Greek Catholic province unrest", "local_unrest", 1),
