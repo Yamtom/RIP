@@ -1368,9 +1368,16 @@ for policy, first, second, explanation in (
  for suffix, value in (('benefit',first),('benefit_second',second)):
   DATA[f'rip_church_icon_{policy}_{suffix}']='§G'+value+'§!'
   DATA[f'rip_church_icon_{policy}_{suffix}_tt']=explanation
-DATA['rip_church_ro_fuel']='Fervor: §Y[Root.GetChurchROFervor] / 100§! · Monthly: §G+[Root.GetChurchROIncome]§! / §R-[Root.GetChurchROCost]§! · net [Root.GetChurchRONet]'
-DATA['rip_church_ro_slots']='Policies: §Y[Root.GetChurchROPolicies] / [Root.GetChurchROCapacity]§! · policy drain §R-[Root.GetChurchROPolicyCost]/mo§!'
-DATA['rip_church_ro_network']='Funded nodes: §Y[Root.GetChurchRONodes] / [Root.GetChurchRONodeLimit]§!'
+DATA['rip_church_ro_fuel']='§Y[Root.GetChurchROFervor] / 100§!'
+DATA['rip_church_ro_slots']='§Y[Root.GetChurchROPolicies] / [Root.GetChurchROCapacity]§!'
+DATA['rip_church_ro_network']='§Y[Root.GetChurchRONodes] / [Root.GetChurchRONodeLimit]§!'
+DATA['rip_church_ro_authority_link']='Authority bonus: [Root.GetChurchROAuthorityBonus] Fervor / month'
+DATA['rip_church_ro_authority_link_tt']='Uses the Patriarch Authority bar on the left. Base income: 2 Fervor/month. Authority grants +1 from 30%, +2 from 65%, +3 from 90%. It also grants 1/2/3/4 policy slots at 0/30/65/90%. No separate authority resource is created.\\nCurrent income: [Root.GetChurchROIncome]\\nCurrent upkeep: [Root.GetChurchROCost]\\nMonthly balance: [Root.GetChurchRONet]'
+ui_readout('GetChurchROAuthorityBonus',[
+ ('patriarch_authority = 0.9','§G+3§!'),('patriarch_authority = 0.65','§G+2§!'),
+ ('patriarch_authority = 0.3','§G+1§!'),('always = yes','0')])
+DATA['rip_church_nodes_button']='Trade missions'
+DATA['rip_church_reconcile_button']='Reconcile'
 DATA['rip_church_ro_action_active']='§YActive · total policy drain -[Root.GetChurchROPolicyCost]/mo§!'
 DATA['rip_church_ro_action_ready']='§GActivate · 10 now + [Root.GetChurchRONextPolicyCost]/mo§!'
 DATA['rip_church_ro_action_fuel']='§gRequires 10 Fervor§!'

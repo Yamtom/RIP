@@ -4,6 +4,7 @@ The bounded church interpreter executes source effects; it does not prove EU4
 rendering, mouse hit testing, AI behaviour or save/load persistence.
 """
 from copy import deepcopy
+import re
 import struct
 
 from church_testlib import EFFECTS, fixture, parse
@@ -111,16 +112,16 @@ for faith in ('russian_orthodox', 'orthodox', 'greek_catholic', 'catholic'):
 for policy in ('war', 'mercy', 'building', 'mission'):
     card, body = widget('windowType', f'rip_church_ro_{policy}_card')
     index = ('war', 'mercy', 'building', 'mission').index(policy)
-    assert dict(card['size']) == {'x': '204', 'y': '134'}
-    assert position(card) == {'x': 26 + (index % 2) * 213, 'y': 191 + (index // 2) * 140}
+    assert dict(card['size']) == {'x': '419', 'y': '72'}
+    assert position(card) == {'x': 28, 'y': 188 + index * 76}
     children = list(descendants(body))
     action = f'rip_church_icon_{policy}_button'
     hit, _ = widget('guiButtonType', action, children)
     slot, _ = widget('iconType', f'rip_church_{policy}_slot', children)
-    assert position(hit) == {'x': 7, 'y': 99}
+    assert position(hit) == {'x': 224, 'y': 20}
     assert position(slot) == {'x': 7, 'y': 6}
     assert hit['quadTextureSprite'] == 'button_type_8'
-    assert hit['buttonText'] == f'rip_church_icon_{policy}_action'
+    assert hit['buttonText'] == f'rip_church_icon_{policy}_label'
     assert slot['spriteType'] == 'GFX_rip_church_policy_slot'
     control = controls['custom_button', action]
     gate = ('OR', [('has_country_flag', f'rip_church_icon_{policy}'),
@@ -136,6 +137,37 @@ for policy in ('war', 'mercy', 'building', 'mission'):
     assert 'rip_church_icon_'+policy+'_action' in read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
     cases += 1
 
+# Management and policy actions share the native button frame; navigation uses
+# the separate native tab strip. Keep the province-name cell ahead of the
+# religion column while allowing long Muscovite labels to remain on one row.
+nodes, _ = widget('guiButtonType', 'rip_church_nodes_button')
+assert nodes['quadTextureSprite'] == 'button_type_8'
+assert nodes['quadTextureSprite'] == hit['quadTextureSprite']
+native_action, _ = widget('guiButtonType', 'rip_church_gc_native_privileges_button')
+assert native_action['quadTextureSprite'] == nodes['quadTextureSprite']
+tab, _ = widget('guiButtonType', 'rip_church_gc_union_tab_union')
+assert tab['quadTextureSprite'] == 'GFX_tab_small_116'
+_, province_body = widget('windowType', 'countryreligionview_provincelistitem')
+province_cells = list(descendants(province_body))
+province_name, _ = widget('instantTextBoxType', 'name', province_cells)
+province_religion, _ = widget('instantTextBoxType', 'religion', province_cells)
+assert province_name['maxWidth'] == '140'
+assert position(province_name)['x'] + int(province_name['maxWidth']) < position(province_religion)['x']
+if install:
+    font_path = install / f"gfx/fonts/{province_name['font']}.fnt"
+    advances = {
+        int(fields['id']): int(fields['xadvance'])
+        for line in font_path.read_text(encoding='utf-8').splitlines()
+        if line.startswith('char ')
+        for fields in [dict(re.findall(r'(\w+)=(-?\d+)', line))]
+    }
+    border = dict(province_name['borderSize'])
+    text_width = int(province_name['maxWidth']) - 2 * int(border['x'])
+    for long_name in ('Ryapolovskiy Yuriev', 'Starodub Ryapolovskiy'):
+        measured = sum(advances[ord(character)] for character in long_name)
+        assert measured <= text_width, (long_name, measured, text_width)
+cases += 1
+
 # Button captions are state-driven: ready is green, unavailable is muted, and
 # active shows the combined current policy drain (policies are indefinite).
 policy_loc = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
@@ -146,7 +178,7 @@ for key, marker in (('rip_church_ro_action_ready','§GActivate'),
                     ('rip_church_ro_action_active','§YActive · total policy drain')):
     assert marker in policy_loc, (key, marker)
 for policy in ('war','mercy','building','mission'):
-    assert f'buttonText = "rip_church_icon_{policy}_action"' in read('interface/countryreligionview.gui')
+    assert f'buttonText = "rip_church_icon_{policy}_label"' in read('interface/countryreligionview.gui')
     assert f'GetChurchIcon{policy.title()}Action' in read('customizable_localization/rip_church_redesign.txt')
     cases += 1
 

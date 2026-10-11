@@ -28,9 +28,21 @@ for suffix, variable, maximum in (
         cases += 1
 for key in ('fuel','slots','network'):
     assert '.GetValue' not in loc['rip_church_ro_'+key]
-assert '[Root.GetChurchRONet]' in loc['rip_church_ro_fuel']
-assert '[Root.GetChurchROPolicyCost]' in loc['rip_church_ro_slots']
-assert 'Funded nodes:' in loc['rip_church_ro_network']
+assert '[Root.GetChurchRONet]' in loc['rip_church_ro_authority_link_tt']
+for key in ('fuel','slots','network'):
+    assert not any(fragment in loc['rip_church_ro_'+key] for fragment in ('+0','-0','drain','Monthly:','net '))
+for policy in ('war','mercy','building','mission'):
+    assert '[' not in loc[f'rip_church_icon_{policy}_label'], 'native button captions must be literal'
+for pa,bonus,capacity in ((0,0,1),(.29,0,1),(.3,1,2),(.64,1,2),(.65,2,3),(.89,2,3),(.9,3,4),(1,3,4)):
+    w,c,p=fixture()
+    c['patriarch_authority']=pa
+    w.run('rip_church_ro_recount_effect',c)
+    assert c['variables']['rip_church_fervor_income']==2+bonus
+    assert c['variables']['rip_church_capacity']==capacity
+    rows=[dict(row) for kind,row in definitions['GetChurchROAuthorityBonus'] if kind=='text']
+    leaf=next(row['localisation_key'] for row in rows if w.gate(row['trigger'],c))
+    assert loc[leaf]==('0' if not bonus else f'§G+{bonus}§!')
+    cases+=1
 assert loc['rip_church_ro_authority_label'] == 'Patriarch Authority'
 assert 'name = "rip_church_ro_authority_label" scripted = yes' in read('interface/countryreligionview.gui')
 
