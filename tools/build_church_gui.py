@@ -200,19 +200,17 @@ ro=art('rip_church_ro_native_header','GFX_rip_ro_native_header',13,27,449/532)
 ro+=text('rip_church_ro_heading',28,35,w=419,h=24,font='vic_22',align='center',tip=False)
 ro+=card('rip_church_ro_status_card',34,67,407,30,
          text('rip_church_ro_status',8,8,w=391,h=22,align='center'))
-for i,key in enumerate(('fervor','nodes','policies')):
-    x=34+i*(RO_TILE_W+RO_ARROW_W)
-    symbol={'fervor':'GFX_rip_church_ro_fervor','nodes':'GFX_rip_church_ro_network','policies':'GFX_rip_church_ro_authority'}[key]
-    tile=art(f'rip_church_ro_{key}_symbol',symbol,3,23,0.3)
-    tile+=text(f'rip_church_ro_{key}_label',0,0,w=RO_TILE_W,h=18,align='center')
-    tile+=text(f'rip_church_ro_{key}_value',0,18,w=RO_TILE_W,h=26,font='vic_22',align='center')
-    tile+=text(f'rip_church_ro_{key}_sub',0,44,w=RO_TILE_W,h=18,align='center')
-    ro+=card(f'rip_church_ro_{key}_tile',x,RO_TILE_Y,RO_TILE_W,RO_TILE_H,tile)
-    if i<2:
-        ro+=art(f'rip_church_ro_cycle_arrow_{i+1}','GFX_rip_church_ro_cycle_arrow',
-                x+RO_TILE_W+(RO_ARROW_W-24)//2,RO_TILE_Y+(RO_TILE_H-24)//2)
-# Each policy is one row: slot and art on the left, the name and what it does in the middle (the name turns
-# green while the policy is on), and on the right the switch with what it costs underneath.
+for key,y,sprite in (
+    ('fuel',103,'GFX_rip_church_ro_fervor'),
+    ('slots',103,'GFX_rip_church_ro_authority'),
+    ('network',103,'GFX_rip_church_ro_network'),
+):
+    x={'fuel':34,'slots':184,'network':334}[key]
+    ro+=art('rip_church_ro_'+key+'_symbol',sprite,x,y-2,0.375)
+    ro+=text('rip_church_ro_'+key,x+29,y,w=108,h=22,font='vic_18')
+ro+=text('rip_church_ro_authority_link',34,130,w=407,h=22,font='vic_18',align='center')
+# The original Coptic frame already contains its own section ribbon.
+ro+=text('rip_church_ro_policies_title',45,161,w=385,h=20,align='center')
 for i,k in enumerate(('war','mercy','building','mission')):
     x,y=RO_CARD_X,RO_CARD_Y+i*RO_CARD_PITCH
     policy=art('rip_church_'+k+'_slot','GFX_rip_church_policy_slot',4,2)
@@ -222,15 +220,24 @@ for i,k in enumerate(('war','mercy','building','mission')):
                    label='rip_church_icon_toggle_label',tooltip=f'rip_church_icon_{k}_button_tt')
     policy+=art('rip_church_'+k+'_art','GFX_rip_church_policy_'+k,12,10,0.65625)
     defs.append(f'custom_icon = {{ name = rip_church_{k}_active_frame potential = {{ has_country_flag = rip_church_icon_{k} }} }}')
-    policy+=f'iconType = {{ name = "rip_church_{k}_active_frame" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x=4 y=2 }} alwaystransparent = yes }}'
-    policy+=text(f'rip_church_icon_{k}_label',68,4,w=150,h=20,align='left',tip=False)
-    policy+=text(f'rip_church_icon_{k}_benefit',68,24,w=154,h=16,font='vic_14',align='left')
-    policy+=text(f'rip_church_icon_{k}_benefit_second',68,40,w=154,h=16,font='vic_14',align='left')
-    policy+=text(f'rip_church_icon_{k}_action',224,41,w=189,h=18,font='vic_14',align='center')
-    ro+=card('rip_church_ro_'+k+'_card',x,y,RO_CARD_W,RO_CARD_H,policy)
-for n,y in enumerate(RO_STEP_Y,1):
-    ro+=text(f'rip_church_ro_step{n}',34,y,w=407,h=20,align='left')
-ro+=button('rip_church_nodes_button',34,RO_BUTTON_Y,'rip_church_ro_can_open_network_menu = yes',
+    policy+=f'iconType = {{ name = "rip_church_{k}_active_frame" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x=7 y=6 }} alwaystransparent = yes }}'
+    policy+=text(f'rip_church_icon_{k}_label',72,8,w=124,h=20,font='vic_18',align='left',tip=False)
+    policy+=text(f'rip_church_icon_{k}_state',72,49,w=124,h=20,font='vic_18',align='left',tip=False)
+    effect_art = {
+        'war': ('discipline','global_manpower_modifier'),
+        'mercy': ('global_unrest','stability_cost_modifier'),
+        'building': ('development_cost','build_cost'),
+        'mission': ('missionaries','trade_efficiency'),
+    }[k]
+    for row, sprite in enumerate(effect_art):
+        sprite_name='GFX_rip_church_effect_'+sprite
+        declaration=f'spriteType = {{ name = "{sprite_name}" textureFile = "gfx/interface/ideas_EU4/{sprite}.dds" }}'
+        if declaration not in insets: insets.append(declaration)
+        policy+=art(f'rip_church_{k}_benefit_symbol_{row}',sprite_name,70+row*78,29,0.32)
+    policy+=text(f'rip_church_icon_{k}_benefit',92,29,w=54,h=20,font='vic_18',align='left')
+    policy+=text(f'rip_church_icon_{k}_benefit_second',170,29,w=54,h=20,font='vic_18',align='left')
+    ro+=card('rip_church_ro_'+k+'_card',x,y,419,72,policy)
+ro+=button('rip_church_nodes_button',34,496,'rip_church_ro_can_open_network_menu = yes',
            'country_event = { id = rip_church_nodes.1 }',sprite='button_type_8')
 ro+=button('rip_church_reconcile_button',248,RO_BUTTON_Y,'rip_church_can_reconcile = yes',
            'rip_church_ro_begin_reconciliation_effect = yes',
