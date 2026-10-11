@@ -132,7 +132,7 @@ for policy in ('war', 'mercy', 'building', 'mission'):
     assert controls['custom_icon', f'rip_church_{policy}_active_frame']['potential'] == [('has_country_flag', f'rip_church_icon_{policy}')]
     for suffix in ('label', 'state', 'benefit','benefit_second'):
         label, _ = widget('instantTextBoxType', f'rip_church_icon_{policy}_{suffix}', children)
-        assert label['font'] == ('vic_14' if suffix in ('label','state','benefit','benefit_second') else 'vic_18')
+        assert label['font'] == 'vic_18'
         assert label['scripted'] == 'yes'
     assert 'rip_church_icon_'+policy+'_action' in read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
     cases += 1

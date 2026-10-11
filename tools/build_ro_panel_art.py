@@ -5,7 +5,7 @@ from PIL import Image
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tests'))
 from clausewitz_testlib import ROOT, vanilla_root
 native=Image.open(vanilla_root()/'gfx/interface/defender_of_the_faith/country_religion_view_bg.dds').convert('RGBA')
-for name,box in [('header',(18,86,550,132)),('surface',(235,167,325,234))]:
+for name,box in [('header',(18,86,550,121)),('surface',(235,167,325,234))]:
     asset=native.crop(box)
     path=ROOT/f'gfx/interface/rip_ro_native_{name}.dds'
     if '--check' in sys.argv:

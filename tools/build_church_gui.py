@@ -179,7 +179,7 @@ for key,y,sprite in (
     x={'fuel':34,'slots':184,'network':334}[key]
     ro+=art('rip_church_ro_'+key+'_symbol',sprite,x,y-2,0.375)
     ro+=text('rip_church_ro_'+key,x+29,y,w=108,h=22,font='vic_18')
-ro+=text('rip_church_ro_authority_link',34,130,w=407,h=22,font='vic_14',align='center')
+ro+=text('rip_church_ro_authority_link',34,130,w=407,h=22,font='vic_18',align='center')
 # The original Coptic frame already contains its own section ribbon.
 ro+=text('rip_church_ro_policies_title',45,161,w=385,h=20,align='center')
 for i,k in enumerate(('war','mercy','building','mission')):
@@ -192,8 +192,8 @@ for i,k in enumerate(('war','mercy','building','mission')):
     policy+=art('rip_church_'+k+'_art','GFX_rip_church_policy_'+k,15,14,0.65625)
     defs.append(f'custom_icon = {{ name = rip_church_{k}_active_frame potential = {{ has_country_flag = rip_church_icon_{k} }} }}')
     policy+=f'iconType = {{ name = "rip_church_{k}_active_frame" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x=7 y=6 }} alwaystransparent = yes }}'
-    policy+=text(f'rip_church_icon_{k}_label',72,8,w=124,h=20,font='vic_14',align='left',tip=False)
-    policy+=text(f'rip_church_icon_{k}_state',72,49,w=124,h=20,font='vic_14',align='left',tip=False)
+    policy+=text(f'rip_church_icon_{k}_label',72,8,w=124,h=20,font='vic_18',align='left',tip=False)
+    policy+=text(f'rip_church_icon_{k}_state',72,49,w=124,h=20,font='vic_18',align='left',tip=False)
     effect_art = {
         'war': ('discipline','global_manpower_modifier'),
         'mercy': ('global_unrest','stability_cost_modifier'),
@@ -205,8 +205,8 @@ for i,k in enumerate(('war','mercy','building','mission')):
         declaration=f'spriteType = {{ name = "{sprite_name}" textureFile = "gfx/interface/ideas_EU4/{sprite}.dds" }}'
         if declaration not in insets: insets.append(declaration)
         policy+=art(f'rip_church_{k}_benefit_symbol_{row}',sprite_name,70+row*78,29,0.32)
-    policy+=text(f'rip_church_icon_{k}_benefit',92,29,w=54,h=20,font='vic_14',align='left')
-    policy+=text(f'rip_church_icon_{k}_benefit_second',170,29,w=54,h=20,font='vic_14',align='left')
+    policy+=text(f'rip_church_icon_{k}_benefit',92,29,w=54,h=20,font='vic_18',align='left')
+    policy+=text(f'rip_church_icon_{k}_benefit_second',170,29,w=54,h=20,font='vic_18',align='left')
     ro+=card('rip_church_ro_'+k+'_card',x,y,419,72,policy)
 ro+=button('rip_church_nodes_button',34,496,'rip_church_ro_can_open_network_menu = yes',
            'country_event = { id = rip_church_nodes.1 }',sprite='button_type_8')
