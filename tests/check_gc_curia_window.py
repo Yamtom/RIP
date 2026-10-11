@@ -232,10 +232,13 @@ cover_size = dict(dict(dict(parse(cover_sprite))['corneredTileSpriteType'])['siz
 cover_position = dict(cover['position'])
 # The sprite's name says 71, but the installed DDS is actually 79x31. Cover
 # its complete texture/click target while leaving the Convert row clear.
-native_button = (vanilla_root() / 'gfx/interface/standard_button_71.dds').read_bytes()
-native_height, native_width = struct.unpack_from('<II', native_button, 12)
-assert int(cover_position['x']) <= 304 and int(cover_position['x']) + int(cover_size['x']) >= 304 + native_width
-assert int(cover_position['y']) <= 300 and int(cover_position['y']) + int(cover_size['y']) >= 300 + native_height
+if vanilla_root() is None:
+    print('SKIP native selector button geometry: EU4 installation unavailable')
+else:
+    native_button = (vanilla_root() / 'gfx/interface/standard_button_71.dds').read_bytes()
+    native_height, native_width = struct.unpack_from('<II', native_button, 12)
+    assert int(cover_position['x']) <= 304 and int(cover_position['x']) + int(cover_size['x']) >= 304 + native_width
+    assert int(cover_position['y']) <= 300 and int(cover_position['y']) + int(cover_size['y']) >= 300 + native_height
 assert int(cover_position['y']) + int(cover_size['y']) <= 332, 'selector mask must leave the native Convert row clear'
 assert 'name = "rip_church_gui_synod"' not in interface and 'name = rip_church_gui_synod ' not in bindings
 assert interface.count('rip_church_gc_open_synod_effect') == 0  # effects live in custom_gui only
