@@ -112,16 +112,16 @@ for faith in ('russian_orthodox', 'orthodox', 'greek_catholic', 'catholic'):
 for policy in ('war', 'mercy', 'building', 'mission'):
     card, body = widget('windowType', f'rip_church_ro_{policy}_card')
     index = ('war', 'mercy', 'building', 'mission').index(policy)
-    assert dict(card['size']) == {'x': '419', 'y': '72'}
-    assert position(card) == {'x': 28, 'y': 188 + index * 76}
+    assert dict(card['size']) == {'x': '419', 'y': '62'}
+    assert position(card) == {'x': 28, 'y': 164 + index * 64}
     children = list(descendants(body))
     action = f'rip_church_icon_{policy}_button'
     hit, _ = widget('guiButtonType', action, children)
     slot, _ = widget('iconType', f'rip_church_{policy}_slot', children)
-    assert position(hit) == {'x': 224, 'y': 20}
-    assert position(slot) == {'x': 7, 'y': 6}
+    assert position(hit) == {'x': 224, 'y': 8}
+    assert position(slot) == {'x': 4, 'y': 2}
     assert hit['quadTextureSprite'] == 'button_type_8'
-    assert hit['buttonText'] == f'rip_church_icon_{policy}_label'
+    assert hit['buttonText'] == 'rip_church_icon_toggle_label'
     assert slot['spriteType'] == 'GFX_rip_church_policy_slot'
     control = controls['custom_button', action]
     gate = ('OR', [('has_country_flag', f'rip_church_icon_{policy}'),
@@ -130,11 +130,10 @@ for policy in ('war', 'mercy', 'building', 'mission'):
     assert control['effect'] == [(f'rip_church_toggle_{policy}_effect', 'yes')]
     assert not any(name.startswith(f'rip_church_ro_{policy}_access_') for kind,name in controls)
     assert controls['custom_icon', f'rip_church_{policy}_active_frame']['potential'] == [('has_country_flag', f'rip_church_icon_{policy}')]
-    for suffix in ('label', 'state', 'benefit','benefit_second'):
+    for suffix in ('label', 'benefit', 'benefit_second', 'action'):
         label, _ = widget('instantTextBoxType', f'rip_church_icon_{policy}_{suffix}', children)
-        assert label['font'] == 'vic_18'
+        assert label['font'] == ('vic_18' if suffix == 'label' else 'vic_14')
         assert label['scripted'] == 'yes'
-    assert 'rip_church_icon_'+policy+'_action' in read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
     cases += 1
 
 # Management and policy actions share the native button frame; navigation uses
@@ -168,17 +167,19 @@ if install:
         assert measured <= text_width, (long_name, measured, text_width)
 cases += 1
 
-# Button captions are state-driven: ready is green, unavailable is muted, and
-# active shows the combined current policy drain (policies are indefinite).
+# The button caption is static (a custom-localisation call inside buttonText is unproven in the engine);
+# the state-driven line sits under it: ready is yellow, blocked is red, active is green.
 policy_loc = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
-for key, marker in (('rip_church_ro_action_ready','§GActivate'),
-                    ('rip_church_ro_action_fuel','§gRequires 10 Fervor'),
-                    ('rip_church_ro_action_slot','§gNo free policy slot'),
-                    ('rip_church_ro_action_cooldown','§gOne-year cooldown'),
-                    ('rip_church_ro_action_active','§YActive · total policy drain')):
-    assert marker in policy_loc, (key, marker)
+for key, marker in (('rip_church_ro_action_ready','§Y10 now, then 3 a month'),
+                    ('rip_church_ro_action_fuel','§RNeeds 10 Fervor'),
+                    ('rip_church_ro_action_fuel_mission','§RNeeds 20 Fervor'),
+                    ('rip_church_ro_action_slot','§RNo free policy slot'),
+                    ('rip_church_ro_action_cooldown','§RCooldown: one year'),
+                    ('rip_church_ro_action_active','§GOn: click to close, no refund')):
+    assert f'{key}:0 "{marker}' in policy_loc, (key, marker)
+assert 'rip_church_icon_toggle_label:0 "Switch on / off"' in policy_loc
 for policy in ('war','mercy','building','mission'):
-    assert f'buttonText = "rip_church_icon_{policy}_label"' in read('interface/countryreligionview.gui')
+    assert 'buttonText = "rip_church_icon_toggle_label"' in read('interface/countryreligionview.gui')
     assert f'GetChurchIcon{policy.title()}Action' in read('customizable_localization/rip_church_redesign.txt')
     cases += 1
 

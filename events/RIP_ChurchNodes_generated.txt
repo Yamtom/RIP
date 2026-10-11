@@ -3,406 +3,806 @@ country_event = {
  id = rip_church_nodes.1 title = rip_church_nodes.1.t desc = rip_church_nodes.1.d
  picture = RELIGION_eventPicture is_triggered_only = yes
  trigger = { religion = russian_orthodox }
- immediate = { rip_church_ro_refresh_connections_effect = yes rip_church_ro_recount_nodes_effect = yes }
+ immediate = { rip_church_ro_refresh_connections_effect = yes rip_church_ro_recount_nodes_effect = yes rip_church_ro_recount_effect = yes }
 option = {
- name = rip_church_node_african_great_lakes_button
- trigger = { OR = { has_country_flag = rip_church_node_african_great_lakes rip_church_node_african_great_lakes_eligible = yes } }
- rip_church_node_african_great_lakes_toggle_effect = yes
+ name = rip_church_node_african_great_lakes_fund
+ trigger = { rip_church_node_african_great_lakes_can_open = yes }
+ hidden_effect = { rip_church_node_african_great_lakes_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_kongo_button
- trigger = { OR = { has_country_flag = rip_church_node_kongo rip_church_node_kongo_eligible = yes } }
- rip_church_node_kongo_toggle_effect = yes
+ name = rip_church_node_african_great_lakes_close
+ trigger = { has_country_flag = rip_church_node_african_great_lakes }
+ hidden_effect = { rip_church_node_african_great_lakes_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_zambezi_button
- trigger = { OR = { has_country_flag = rip_church_node_zambezi rip_church_node_zambezi_eligible = yes } }
- rip_church_node_zambezi_toggle_effect = yes
+ name = rip_church_node_kongo_fund
+ trigger = { rip_church_node_kongo_can_open = yes }
+ hidden_effect = { rip_church_node_kongo_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_patagonia_button
- trigger = { OR = { has_country_flag = rip_church_node_patagonia rip_church_node_patagonia_eligible = yes } }
- rip_church_node_patagonia_toggle_effect = yes
+ name = rip_church_node_kongo_close
+ trigger = { has_country_flag = rip_church_node_kongo }
+ hidden_effect = { rip_church_node_kongo_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_amazonas_node_button
- trigger = { OR = { has_country_flag = rip_church_node_amazonas_node rip_church_node_amazonas_node_eligible = yes } }
- rip_church_node_amazonas_node_toggle_effect = yes
+ name = rip_church_node_zambezi_fund
+ trigger = { rip_church_node_zambezi_can_open = yes }
+ hidden_effect = { rip_church_node_zambezi_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_rio_grande_button
- trigger = { OR = { has_country_flag = rip_church_node_rio_grande rip_church_node_rio_grande_eligible = yes } }
- rip_church_node_rio_grande_toggle_effect = yes
+ name = rip_church_node_zambezi_close
+ trigger = { has_country_flag = rip_church_node_zambezi }
+ hidden_effect = { rip_church_node_zambezi_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_james_bay_button
- trigger = { OR = { has_country_flag = rip_church_node_james_bay rip_church_node_james_bay_eligible = yes } }
- rip_church_node_james_bay_toggle_effect = yes
+ name = rip_church_node_patagonia_fund
+ trigger = { rip_church_node_patagonia_can_open = yes }
+ hidden_effect = { rip_church_node_patagonia_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_california_button
- trigger = { OR = { has_country_flag = rip_church_node_california rip_church_node_california_eligible = yes } }
- rip_church_node_california_toggle_effect = yes
+ name = rip_church_node_patagonia_close
+ trigger = { has_country_flag = rip_church_node_patagonia }
+ hidden_effect = { rip_church_node_patagonia_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_girin_button
- trigger = { OR = { has_country_flag = rip_church_node_girin rip_church_node_girin_eligible = yes } }
- rip_church_node_girin_toggle_effect = yes
+ name = rip_church_node_amazonas_node_fund
+ trigger = { rip_church_node_amazonas_node_can_open = yes }
+ hidden_effect = { rip_church_node_amazonas_node_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_mississippi_river_button
- trigger = { OR = { has_country_flag = rip_church_node_mississippi_river rip_church_node_mississippi_river_eligible = yes } }
- rip_church_node_mississippi_river_toggle_effect = yes
+ name = rip_church_node_amazonas_node_close
+ trigger = { has_country_flag = rip_church_node_amazonas_node }
+ hidden_effect = { rip_church_node_amazonas_node_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_ohio_button
- trigger = { OR = { has_country_flag = rip_church_node_ohio rip_church_node_ohio_eligible = yes } }
- rip_church_node_ohio_toggle_effect = yes
+ name = rip_church_node_rio_grande_fund
+ trigger = { rip_church_node_rio_grande_can_open = yes }
+ hidden_effect = { rip_church_node_rio_grande_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_mexico_button
- trigger = { OR = { has_country_flag = rip_church_node_mexico rip_church_node_mexico_eligible = yes } }
- rip_church_node_mexico_toggle_effect = yes
+ name = rip_church_node_rio_grande_close
+ trigger = { has_country_flag = rip_church_node_rio_grande }
+ hidden_effect = { rip_church_node_rio_grande_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_lhasa_button
- trigger = { OR = { has_country_flag = rip_church_node_lhasa rip_church_node_lhasa_eligible = yes } }
- rip_church_node_lhasa_toggle_effect = yes
+ name = rip_church_node_james_bay_fund
+ trigger = { rip_church_node_james_bay_can_open = yes }
+ hidden_effect = { rip_church_node_james_bay_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_chengdu_button
- trigger = { OR = { has_country_flag = rip_church_node_chengdu rip_church_node_chengdu_eligible = yes } }
- rip_church_node_chengdu_toggle_effect = yes
+ name = rip_church_node_james_bay_close
+ trigger = { has_country_flag = rip_church_node_james_bay }
+ hidden_effect = { rip_church_node_james_bay_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_burma_button
- trigger = { OR = { has_country_flag = rip_church_node_burma rip_church_node_burma_eligible = yes } }
- rip_church_node_burma_toggle_effect = yes
+ name = rip_church_node_california_fund
+ trigger = { rip_church_node_california_can_open = yes }
+ hidden_effect = { rip_church_node_california_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_gulf_of_siam_button
- trigger = { OR = { has_country_flag = rip_church_node_gulf_of_siam rip_church_node_gulf_of_siam_eligible = yes } }
- rip_church_node_gulf_of_siam_toggle_effect = yes
+ name = rip_church_node_california_close
+ trigger = { has_country_flag = rip_church_node_california }
+ hidden_effect = { rip_church_node_california_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_canton_button
- trigger = { OR = { has_country_flag = rip_church_node_canton rip_church_node_canton_eligible = yes } }
- rip_church_node_canton_toggle_effect = yes
+ name = rip_church_node_girin_fund
+ trigger = { rip_church_node_girin_can_open = yes }
+ hidden_effect = { rip_church_node_girin_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_philippines_button
- trigger = { OR = { has_country_flag = rip_church_node_philippines rip_church_node_philippines_eligible = yes } }
- rip_church_node_philippines_toggle_effect = yes
+ name = rip_church_node_girin_close
+ trigger = { has_country_flag = rip_church_node_girin }
+ hidden_effect = { rip_church_node_girin_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_cuiaba_button
- trigger = { OR = { has_country_flag = rip_church_node_cuiaba rip_church_node_cuiaba_eligible = yes } }
- rip_church_node_cuiaba_toggle_effect = yes
+ name = rip_church_node_mississippi_river_fund
+ trigger = { rip_church_node_mississippi_river_can_open = yes }
+ hidden_effect = { rip_church_node_mississippi_river_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_lima_button
- trigger = { OR = { has_country_flag = rip_church_node_lima rip_church_node_lima_eligible = yes } }
- rip_church_node_lima_toggle_effect = yes
+ name = rip_church_node_mississippi_river_close
+ trigger = { has_country_flag = rip_church_node_mississippi_river }
+ hidden_effect = { rip_church_node_mississippi_river_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_polynesia_node_button
- trigger = { OR = { has_country_flag = rip_church_node_polynesia_node rip_church_node_polynesia_node_eligible = yes } }
- rip_church_node_polynesia_node_toggle_effect = yes
+ name = rip_church_node_ohio_fund
+ trigger = { rip_church_node_ohio_can_open = yes }
+ hidden_effect = { rip_church_node_ohio_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_australia_button
- trigger = { OR = { has_country_flag = rip_church_node_australia rip_church_node_australia_eligible = yes } }
- rip_church_node_australia_toggle_effect = yes
+ name = rip_church_node_ohio_close
+ trigger = { has_country_flag = rip_church_node_ohio }
+ hidden_effect = { rip_church_node_ohio_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_nippon_button
- trigger = { OR = { has_country_flag = rip_church_node_nippon rip_church_node_nippon_eligible = yes } }
- rip_church_node_nippon_toggle_effect = yes
+ name = rip_church_node_mexico_fund
+ trigger = { rip_church_node_mexico_can_open = yes }
+ hidden_effect = { rip_church_node_mexico_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_hangzhou_button
- trigger = { OR = { has_country_flag = rip_church_node_hangzhou rip_church_node_hangzhou_eligible = yes } }
- rip_church_node_hangzhou_toggle_effect = yes
+ name = rip_church_node_mexico_close
+ trigger = { has_country_flag = rip_church_node_mexico }
+ hidden_effect = { rip_church_node_mexico_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_xian_button
- trigger = { OR = { has_country_flag = rip_church_node_xian rip_church_node_xian_eligible = yes } }
- rip_church_node_xian_toggle_effect = yes
+ name = rip_church_node_lhasa_fund
+ trigger = { rip_church_node_lhasa_can_open = yes }
+ hidden_effect = { rip_church_node_lhasa_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_beijing_button
- trigger = { OR = { has_country_flag = rip_church_node_beijing rip_church_node_beijing_eligible = yes } }
- rip_church_node_beijing_toggle_effect = yes
+ name = rip_church_node_lhasa_close
+ trigger = { has_country_flag = rip_church_node_lhasa }
+ hidden_effect = { rip_church_node_lhasa_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_the_moluccas_button
- trigger = { OR = { has_country_flag = rip_church_node_the_moluccas rip_church_node_the_moluccas_eligible = yes } }
- rip_church_node_the_moluccas_toggle_effect = yes
+ name = rip_church_node_chengdu_fund
+ trigger = { rip_church_node_chengdu_can_open = yes }
+ hidden_effect = { rip_church_node_chengdu_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_siberia_button
- trigger = { OR = { has_country_flag = rip_church_node_siberia rip_church_node_siberia_eligible = yes } }
- rip_church_node_siberia_toggle_effect = yes
+ name = rip_church_node_chengdu_close
+ trigger = { has_country_flag = rip_church_node_chengdu }
+ hidden_effect = { rip_church_node_chengdu_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_yumen_button
- trigger = { OR = { has_country_flag = rip_church_node_yumen rip_church_node_yumen_eligible = yes } }
- rip_church_node_yumen_toggle_effect = yes
+ name = rip_church_node_burma_fund
+ trigger = { rip_church_node_burma_can_open = yes }
+ hidden_effect = { rip_church_node_burma_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_malacca_button
- trigger = { OR = { has_country_flag = rip_church_node_malacca rip_church_node_malacca_eligible = yes } }
- rip_church_node_malacca_toggle_effect = yes
+ name = rip_church_node_burma_close
+ trigger = { has_country_flag = rip_church_node_burma }
+ hidden_effect = { rip_church_node_burma_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_ganges_delta_button
- trigger = { OR = { has_country_flag = rip_church_node_ganges_delta rip_church_node_ganges_delta_eligible = yes } }
- rip_church_node_ganges_delta_toggle_effect = yes
+ name = rip_church_node_gulf_of_siam_fund
+ trigger = { rip_church_node_gulf_of_siam_can_open = yes }
+ hidden_effect = { rip_church_node_gulf_of_siam_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_doab_button
- trigger = { OR = { has_country_flag = rip_church_node_doab rip_church_node_doab_eligible = yes } }
- rip_church_node_doab_toggle_effect = yes
+ name = rip_church_node_gulf_of_siam_close
+ trigger = { has_country_flag = rip_church_node_gulf_of_siam }
+ hidden_effect = { rip_church_node_gulf_of_siam_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_lahore_button
- trigger = { OR = { has_country_flag = rip_church_node_lahore rip_church_node_lahore_eligible = yes } }
- rip_church_node_lahore_toggle_effect = yes
+ name = rip_church_node_canton_fund
+ trigger = { rip_church_node_canton_can_open = yes }
+ hidden_effect = { rip_church_node_canton_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_deccan_button
- trigger = { OR = { has_country_flag = rip_church_node_deccan rip_church_node_deccan_eligible = yes } }
- rip_church_node_deccan_toggle_effect = yes
+ name = rip_church_node_canton_close
+ trigger = { has_country_flag = rip_church_node_canton }
+ hidden_effect = { rip_church_node_canton_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_comorin_cape_button
- trigger = { OR = { has_country_flag = rip_church_node_comorin_cape rip_church_node_comorin_cape_eligible = yes } }
- rip_church_node_comorin_cape_toggle_effect = yes
+ name = rip_church_node_philippines_fund
+ trigger = { rip_church_node_philippines_can_open = yes }
+ hidden_effect = { rip_church_node_philippines_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_gujarat_button
- trigger = { OR = { has_country_flag = rip_church_node_gujarat rip_church_node_gujarat_eligible = yes } }
- rip_church_node_gujarat_toggle_effect = yes
+ name = rip_church_node_philippines_close
+ trigger = { has_country_flag = rip_church_node_philippines }
+ hidden_effect = { rip_church_node_philippines_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_katsina_button
- trigger = { OR = { has_country_flag = rip_church_node_katsina rip_church_node_katsina_eligible = yes } }
- rip_church_node_katsina_toggle_effect = yes
+ name = rip_church_node_cuiaba_fund
+ trigger = { rip_church_node_cuiaba_can_open = yes }
+ hidden_effect = { rip_church_node_cuiaba_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_ethiopia_button
- trigger = { OR = { has_country_flag = rip_church_node_ethiopia rip_church_node_ethiopia_eligible = yes } }
- rip_church_node_ethiopia_toggle_effect = yes
+ name = rip_church_node_cuiaba_close
+ trigger = { has_country_flag = rip_church_node_cuiaba }
+ hidden_effect = { rip_church_node_cuiaba_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_gulf_of_aden_button
- trigger = { OR = { has_country_flag = rip_church_node_gulf_of_aden rip_church_node_gulf_of_aden_eligible = yes } }
- rip_church_node_gulf_of_aden_toggle_effect = yes
+ name = rip_church_node_lima_fund
+ trigger = { rip_church_node_lima_can_open = yes }
+ hidden_effect = { rip_church_node_lima_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_hormuz_button
- trigger = { OR = { has_country_flag = rip_church_node_hormuz rip_church_node_hormuz_eligible = yes } }
- rip_church_node_hormuz_toggle_effect = yes
+ name = rip_church_node_lima_close
+ trigger = { has_country_flag = rip_church_node_lima }
+ hidden_effect = { rip_church_node_lima_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_zanzibar_button
- trigger = { OR = { has_country_flag = rip_church_node_zanzibar rip_church_node_zanzibar_eligible = yes } }
- rip_church_node_zanzibar_toggle_effect = yes
+ name = rip_church_node_polynesia_node_fund
+ trigger = { rip_church_node_polynesia_node_can_open = yes }
+ hidden_effect = { rip_church_node_polynesia_node_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_cape_of_good_hope_button
- trigger = { OR = { has_country_flag = rip_church_node_cape_of_good_hope rip_church_node_cape_of_good_hope_eligible = yes } }
- rip_church_node_cape_of_good_hope_toggle_effect = yes
+ name = rip_church_node_polynesia_node_close
+ trigger = { has_country_flag = rip_church_node_polynesia_node }
+ hidden_effect = { rip_church_node_polynesia_node_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_basra_button
- trigger = { OR = { has_country_flag = rip_church_node_basra rip_church_node_basra_eligible = yes } }
- rip_church_node_basra_toggle_effect = yes
+ name = rip_church_node_australia_fund
+ trigger = { rip_church_node_australia_can_open = yes }
+ hidden_effect = { rip_church_node_australia_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_samarkand_button
- trigger = { OR = { has_country_flag = rip_church_node_samarkand rip_church_node_samarkand_eligible = yes } }
- rip_church_node_samarkand_toggle_effect = yes
+ name = rip_church_node_australia_close
+ trigger = { has_country_flag = rip_church_node_australia }
+ hidden_effect = { rip_church_node_australia_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_persia_button
- trigger = { OR = { has_country_flag = rip_church_node_persia rip_church_node_persia_eligible = yes } }
- rip_church_node_persia_toggle_effect = yes
+ name = rip_church_node_nippon_fund
+ trigger = { rip_church_node_nippon_can_open = yes }
+ hidden_effect = { rip_church_node_nippon_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_aleppo_button
- trigger = { OR = { has_country_flag = rip_church_node_aleppo rip_church_node_aleppo_eligible = yes } }
- rip_church_node_aleppo_toggle_effect = yes
+ name = rip_church_node_nippon_close
+ trigger = { has_country_flag = rip_church_node_nippon }
+ hidden_effect = { rip_church_node_nippon_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_alexandria_button
- trigger = { OR = { has_country_flag = rip_church_node_alexandria rip_church_node_alexandria_eligible = yes } }
- rip_church_node_alexandria_toggle_effect = yes
+ name = rip_church_node_hangzhou_fund
+ trigger = { rip_church_node_hangzhou_can_open = yes }
+ hidden_effect = { rip_church_node_hangzhou_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_astrakhan_button
- trigger = { OR = { has_country_flag = rip_church_node_astrakhan rip_church_node_astrakhan_eligible = yes } }
- rip_church_node_astrakhan_toggle_effect = yes
+ name = rip_church_node_hangzhou_close
+ trigger = { has_country_flag = rip_church_node_hangzhou }
+ hidden_effect = { rip_church_node_hangzhou_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_crimea_button
- trigger = { OR = { has_country_flag = rip_church_node_crimea rip_church_node_crimea_eligible = yes } }
- rip_church_node_crimea_toggle_effect = yes
+ name = rip_church_node_xian_fund
+ trigger = { rip_church_node_xian_can_open = yes }
+ hidden_effect = { rip_church_node_xian_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_constantinople_button
- trigger = { OR = { has_country_flag = rip_church_node_constantinople rip_church_node_constantinople_eligible = yes } }
- rip_church_node_constantinople_toggle_effect = yes
+ name = rip_church_node_xian_close
+ trigger = { has_country_flag = rip_church_node_xian }
+ hidden_effect = { rip_church_node_xian_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_kiev_button
- trigger = { OR = { has_country_flag = rip_church_node_kiev rip_church_node_kiev_eligible = yes } }
- rip_church_node_kiev_toggle_effect = yes
+ name = rip_church_node_beijing_fund
+ trigger = { rip_church_node_beijing_can_open = yes }
+ hidden_effect = { rip_church_node_beijing_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_kazan_button
- trigger = { OR = { has_country_flag = rip_church_node_kazan rip_church_node_kazan_eligible = yes } }
- rip_church_node_kazan_toggle_effect = yes
+ name = rip_church_node_beijing_close
+ trigger = { has_country_flag = rip_church_node_beijing }
+ hidden_effect = { rip_church_node_beijing_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_novgorod_button
- trigger = { OR = { has_country_flag = rip_church_node_novgorod rip_church_node_novgorod_eligible = yes } }
- rip_church_node_novgorod_toggle_effect = yes
+ name = rip_church_node_the_moluccas_fund
+ trigger = { rip_church_node_the_moluccas_can_open = yes }
+ hidden_effect = { rip_church_node_the_moluccas_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_laplata_button
- trigger = { OR = { has_country_flag = rip_church_node_laplata rip_church_node_laplata_eligible = yes } }
- rip_church_node_laplata_toggle_effect = yes
+ name = rip_church_node_the_moluccas_close
+ trigger = { has_country_flag = rip_church_node_the_moluccas }
+ hidden_effect = { rip_church_node_the_moluccas_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_brazil_button
- trigger = { OR = { has_country_flag = rip_church_node_brazil rip_church_node_brazil_eligible = yes } }
- rip_church_node_brazil_toggle_effect = yes
+ name = rip_church_node_siberia_fund
+ trigger = { rip_church_node_siberia_can_open = yes }
+ hidden_effect = { rip_church_node_siberia_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_timbuktu_button
- trigger = { OR = { has_country_flag = rip_church_node_timbuktu rip_church_node_timbuktu_eligible = yes } }
- rip_church_node_timbuktu_toggle_effect = yes
+ name = rip_church_node_siberia_close
+ trigger = { has_country_flag = rip_church_node_siberia }
+ hidden_effect = { rip_church_node_siberia_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_ivory_coast_button
- trigger = { OR = { has_country_flag = rip_church_node_ivory_coast rip_church_node_ivory_coast_eligible = yes } }
- rip_church_node_ivory_coast_toggle_effect = yes
+ name = rip_church_node_yumen_fund
+ trigger = { rip_church_node_yumen_can_open = yes }
+ hidden_effect = { rip_church_node_yumen_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_tunis_button
- trigger = { OR = { has_country_flag = rip_church_node_tunis rip_church_node_tunis_eligible = yes } }
- rip_church_node_tunis_toggle_effect = yes
+ name = rip_church_node_yumen_close
+ trigger = { has_country_flag = rip_church_node_yumen }
+ hidden_effect = { rip_church_node_yumen_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_ragusa_button
- trigger = { OR = { has_country_flag = rip_church_node_ragusa rip_church_node_ragusa_eligible = yes } }
- rip_church_node_ragusa_toggle_effect = yes
+ name = rip_church_node_malacca_fund
+ trigger = { rip_church_node_malacca_can_open = yes }
+ hidden_effect = { rip_church_node_malacca_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_safi_button
- trigger = { OR = { has_country_flag = rip_church_node_safi rip_church_node_safi_eligible = yes } }
- rip_church_node_safi_toggle_effect = yes
+ name = rip_church_node_malacca_close
+ trigger = { has_country_flag = rip_church_node_malacca }
+ hidden_effect = { rip_church_node_malacca_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_pest_button
- trigger = { OR = { has_country_flag = rip_church_node_pest rip_church_node_pest_eligible = yes } }
- rip_church_node_pest_toggle_effect = yes
+ name = rip_church_node_ganges_delta_fund
+ trigger = { rip_church_node_ganges_delta_can_open = yes }
+ hidden_effect = { rip_church_node_ganges_delta_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_krakow_button
- trigger = { OR = { has_country_flag = rip_church_node_krakow rip_church_node_krakow_eligible = yes } }
- rip_church_node_krakow_toggle_effect = yes
+ name = rip_church_node_ganges_delta_close
+ trigger = { has_country_flag = rip_church_node_ganges_delta }
+ hidden_effect = { rip_church_node_ganges_delta_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_wien_button
- trigger = { OR = { has_country_flag = rip_church_node_wien rip_church_node_wien_eligible = yes } }
- rip_church_node_wien_toggle_effect = yes
+ name = rip_church_node_doab_fund
+ trigger = { rip_church_node_doab_can_open = yes }
+ hidden_effect = { rip_church_node_doab_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_saxony_button
- trigger = { OR = { has_country_flag = rip_church_node_saxony rip_church_node_saxony_eligible = yes } }
- rip_church_node_saxony_toggle_effect = yes
+ name = rip_church_node_doab_close
+ trigger = { has_country_flag = rip_church_node_doab }
+ hidden_effect = { rip_church_node_doab_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_baltic_sea_button
- trigger = { OR = { has_country_flag = rip_church_node_baltic_sea rip_church_node_baltic_sea_eligible = yes } }
- rip_church_node_baltic_sea_toggle_effect = yes
+ name = rip_church_node_lahore_fund
+ trigger = { rip_church_node_lahore_can_open = yes }
+ hidden_effect = { rip_church_node_lahore_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_rheinland_button
- trigger = { OR = { has_country_flag = rip_church_node_rheinland rip_church_node_rheinland_eligible = yes } }
- rip_church_node_rheinland_toggle_effect = yes
+ name = rip_church_node_lahore_close
+ trigger = { has_country_flag = rip_church_node_lahore }
+ hidden_effect = { rip_church_node_lahore_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_panama_button
- trigger = { OR = { has_country_flag = rip_church_node_panama rip_church_node_panama_eligible = yes } }
- rip_church_node_panama_toggle_effect = yes
+ name = rip_church_node_deccan_fund
+ trigger = { rip_church_node_deccan_can_open = yes }
+ hidden_effect = { rip_church_node_deccan_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_carribean_trade_button
- trigger = { OR = { has_country_flag = rip_church_node_carribean_trade rip_church_node_carribean_trade_eligible = yes } }
- rip_church_node_carribean_trade_toggle_effect = yes
+ name = rip_church_node_deccan_close
+ trigger = { has_country_flag = rip_church_node_deccan }
+ hidden_effect = { rip_church_node_deccan_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_chesapeake_bay_button
- trigger = { OR = { has_country_flag = rip_church_node_chesapeake_bay rip_church_node_chesapeake_bay_eligible = yes } }
- rip_church_node_chesapeake_bay_toggle_effect = yes
+ name = rip_church_node_comorin_cape_fund
+ trigger = { rip_church_node_comorin_cape_can_open = yes }
+ hidden_effect = { rip_church_node_comorin_cape_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_st_lawrence_button
- trigger = { OR = { has_country_flag = rip_church_node_st_lawrence rip_church_node_st_lawrence_eligible = yes } }
- rip_church_node_st_lawrence_toggle_effect = yes
+ name = rip_church_node_comorin_cape_close
+ trigger = { has_country_flag = rip_church_node_comorin_cape }
+ hidden_effect = { rip_church_node_comorin_cape_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_white_sea_button
- trigger = { OR = { has_country_flag = rip_church_node_white_sea rip_church_node_white_sea_eligible = yes } }
- rip_church_node_white_sea_toggle_effect = yes
+ name = rip_church_node_gujarat_fund
+ trigger = { rip_church_node_gujarat_can_open = yes }
+ hidden_effect = { rip_church_node_gujarat_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_north_sea_button
- trigger = { OR = { has_country_flag = rip_church_node_north_sea rip_church_node_north_sea_eligible = yes } }
- rip_church_node_north_sea_toggle_effect = yes
+ name = rip_church_node_gujarat_close
+ trigger = { has_country_flag = rip_church_node_gujarat }
+ hidden_effect = { rip_church_node_gujarat_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_lubeck_button
- trigger = { OR = { has_country_flag = rip_church_node_lubeck rip_church_node_lubeck_eligible = yes } }
- rip_church_node_lubeck_toggle_effect = yes
+ name = rip_church_node_katsina_fund
+ trigger = { rip_church_node_katsina_can_open = yes }
+ hidden_effect = { rip_church_node_katsina_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_bordeaux_button
- trigger = { OR = { has_country_flag = rip_church_node_bordeaux rip_church_node_bordeaux_eligible = yes } }
- rip_church_node_bordeaux_toggle_effect = yes
+ name = rip_church_node_katsina_close
+ trigger = { has_country_flag = rip_church_node_katsina }
+ hidden_effect = { rip_church_node_katsina_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_sevilla_button
- trigger = { OR = { has_country_flag = rip_church_node_sevilla rip_church_node_sevilla_eligible = yes } }
- rip_church_node_sevilla_toggle_effect = yes
+ name = rip_church_node_ethiopia_fund
+ trigger = { rip_church_node_ethiopia_can_open = yes }
+ hidden_effect = { rip_church_node_ethiopia_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_champagne_button
- trigger = { OR = { has_country_flag = rip_church_node_champagne rip_church_node_champagne_eligible = yes } }
- rip_church_node_champagne_toggle_effect = yes
+ name = rip_church_node_ethiopia_close
+ trigger = { has_country_flag = rip_church_node_ethiopia }
+ hidden_effect = { rip_church_node_ethiopia_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_valencia_button
- trigger = { OR = { has_country_flag = rip_church_node_valencia rip_church_node_valencia_eligible = yes } }
- rip_church_node_valencia_toggle_effect = yes
+ name = rip_church_node_gulf_of_aden_fund
+ trigger = { rip_church_node_gulf_of_aden_can_open = yes }
+ hidden_effect = { rip_church_node_gulf_of_aden_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_genua_button
- trigger = { OR = { has_country_flag = rip_church_node_genua rip_church_node_genua_eligible = yes } }
- rip_church_node_genua_toggle_effect = yes
+ name = rip_church_node_gulf_of_aden_close
+ trigger = { has_country_flag = rip_church_node_gulf_of_aden }
+ hidden_effect = { rip_church_node_gulf_of_aden_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_venice_button
- trigger = { OR = { has_country_flag = rip_church_node_venice rip_church_node_venice_eligible = yes } }
- rip_church_node_venice_toggle_effect = yes
+ name = rip_church_node_hormuz_fund
+ trigger = { rip_church_node_hormuz_can_open = yes }
+ hidden_effect = { rip_church_node_hormuz_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
 option = {
- name = rip_church_node_english_channel_button
- trigger = { OR = { has_country_flag = rip_church_node_english_channel rip_church_node_english_channel_eligible = yes } }
- rip_church_node_english_channel_toggle_effect = yes
+ name = rip_church_node_hormuz_close
+ trigger = { has_country_flag = rip_church_node_hormuz }
+ hidden_effect = { rip_church_node_hormuz_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_zanzibar_fund
+ trigger = { rip_church_node_zanzibar_can_open = yes }
+ hidden_effect = { rip_church_node_zanzibar_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_zanzibar_close
+ trigger = { has_country_flag = rip_church_node_zanzibar }
+ hidden_effect = { rip_church_node_zanzibar_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_cape_of_good_hope_fund
+ trigger = { rip_church_node_cape_of_good_hope_can_open = yes }
+ hidden_effect = { rip_church_node_cape_of_good_hope_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_cape_of_good_hope_close
+ trigger = { has_country_flag = rip_church_node_cape_of_good_hope }
+ hidden_effect = { rip_church_node_cape_of_good_hope_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_basra_fund
+ trigger = { rip_church_node_basra_can_open = yes }
+ hidden_effect = { rip_church_node_basra_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_basra_close
+ trigger = { has_country_flag = rip_church_node_basra }
+ hidden_effect = { rip_church_node_basra_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_samarkand_fund
+ trigger = { rip_church_node_samarkand_can_open = yes }
+ hidden_effect = { rip_church_node_samarkand_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_samarkand_close
+ trigger = { has_country_flag = rip_church_node_samarkand }
+ hidden_effect = { rip_church_node_samarkand_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_persia_fund
+ trigger = { rip_church_node_persia_can_open = yes }
+ hidden_effect = { rip_church_node_persia_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_persia_close
+ trigger = { has_country_flag = rip_church_node_persia }
+ hidden_effect = { rip_church_node_persia_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_aleppo_fund
+ trigger = { rip_church_node_aleppo_can_open = yes }
+ hidden_effect = { rip_church_node_aleppo_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_aleppo_close
+ trigger = { has_country_flag = rip_church_node_aleppo }
+ hidden_effect = { rip_church_node_aleppo_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_alexandria_fund
+ trigger = { rip_church_node_alexandria_can_open = yes }
+ hidden_effect = { rip_church_node_alexandria_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_alexandria_close
+ trigger = { has_country_flag = rip_church_node_alexandria }
+ hidden_effect = { rip_church_node_alexandria_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_astrakhan_fund
+ trigger = { rip_church_node_astrakhan_can_open = yes }
+ hidden_effect = { rip_church_node_astrakhan_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_astrakhan_close
+ trigger = { has_country_flag = rip_church_node_astrakhan }
+ hidden_effect = { rip_church_node_astrakhan_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_crimea_fund
+ trigger = { rip_church_node_crimea_can_open = yes }
+ hidden_effect = { rip_church_node_crimea_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_crimea_close
+ trigger = { has_country_flag = rip_church_node_crimea }
+ hidden_effect = { rip_church_node_crimea_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_constantinople_fund
+ trigger = { rip_church_node_constantinople_can_open = yes }
+ hidden_effect = { rip_church_node_constantinople_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_constantinople_close
+ trigger = { has_country_flag = rip_church_node_constantinople }
+ hidden_effect = { rip_church_node_constantinople_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_kiev_fund
+ trigger = { rip_church_node_kiev_can_open = yes }
+ hidden_effect = { rip_church_node_kiev_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_kiev_close
+ trigger = { has_country_flag = rip_church_node_kiev }
+ hidden_effect = { rip_church_node_kiev_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_kazan_fund
+ trigger = { rip_church_node_kazan_can_open = yes }
+ hidden_effect = { rip_church_node_kazan_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_kazan_close
+ trigger = { has_country_flag = rip_church_node_kazan }
+ hidden_effect = { rip_church_node_kazan_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_novgorod_fund
+ trigger = { rip_church_node_novgorod_can_open = yes }
+ hidden_effect = { rip_church_node_novgorod_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_novgorod_close
+ trigger = { has_country_flag = rip_church_node_novgorod }
+ hidden_effect = { rip_church_node_novgorod_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_laplata_fund
+ trigger = { rip_church_node_laplata_can_open = yes }
+ hidden_effect = { rip_church_node_laplata_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_laplata_close
+ trigger = { has_country_flag = rip_church_node_laplata }
+ hidden_effect = { rip_church_node_laplata_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_brazil_fund
+ trigger = { rip_church_node_brazil_can_open = yes }
+ hidden_effect = { rip_church_node_brazil_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_brazil_close
+ trigger = { has_country_flag = rip_church_node_brazil }
+ hidden_effect = { rip_church_node_brazil_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_timbuktu_fund
+ trigger = { rip_church_node_timbuktu_can_open = yes }
+ hidden_effect = { rip_church_node_timbuktu_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_timbuktu_close
+ trigger = { has_country_flag = rip_church_node_timbuktu }
+ hidden_effect = { rip_church_node_timbuktu_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_ivory_coast_fund
+ trigger = { rip_church_node_ivory_coast_can_open = yes }
+ hidden_effect = { rip_church_node_ivory_coast_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_ivory_coast_close
+ trigger = { has_country_flag = rip_church_node_ivory_coast }
+ hidden_effect = { rip_church_node_ivory_coast_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_tunis_fund
+ trigger = { rip_church_node_tunis_can_open = yes }
+ hidden_effect = { rip_church_node_tunis_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_tunis_close
+ trigger = { has_country_flag = rip_church_node_tunis }
+ hidden_effect = { rip_church_node_tunis_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_ragusa_fund
+ trigger = { rip_church_node_ragusa_can_open = yes }
+ hidden_effect = { rip_church_node_ragusa_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_ragusa_close
+ trigger = { has_country_flag = rip_church_node_ragusa }
+ hidden_effect = { rip_church_node_ragusa_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_safi_fund
+ trigger = { rip_church_node_safi_can_open = yes }
+ hidden_effect = { rip_church_node_safi_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_safi_close
+ trigger = { has_country_flag = rip_church_node_safi }
+ hidden_effect = { rip_church_node_safi_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_pest_fund
+ trigger = { rip_church_node_pest_can_open = yes }
+ hidden_effect = { rip_church_node_pest_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_pest_close
+ trigger = { has_country_flag = rip_church_node_pest }
+ hidden_effect = { rip_church_node_pest_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_krakow_fund
+ trigger = { rip_church_node_krakow_can_open = yes }
+ hidden_effect = { rip_church_node_krakow_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_krakow_close
+ trigger = { has_country_flag = rip_church_node_krakow }
+ hidden_effect = { rip_church_node_krakow_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_wien_fund
+ trigger = { rip_church_node_wien_can_open = yes }
+ hidden_effect = { rip_church_node_wien_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_wien_close
+ trigger = { has_country_flag = rip_church_node_wien }
+ hidden_effect = { rip_church_node_wien_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_saxony_fund
+ trigger = { rip_church_node_saxony_can_open = yes }
+ hidden_effect = { rip_church_node_saxony_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_saxony_close
+ trigger = { has_country_flag = rip_church_node_saxony }
+ hidden_effect = { rip_church_node_saxony_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_baltic_sea_fund
+ trigger = { rip_church_node_baltic_sea_can_open = yes }
+ hidden_effect = { rip_church_node_baltic_sea_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_baltic_sea_close
+ trigger = { has_country_flag = rip_church_node_baltic_sea }
+ hidden_effect = { rip_church_node_baltic_sea_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_rheinland_fund
+ trigger = { rip_church_node_rheinland_can_open = yes }
+ hidden_effect = { rip_church_node_rheinland_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_rheinland_close
+ trigger = { has_country_flag = rip_church_node_rheinland }
+ hidden_effect = { rip_church_node_rheinland_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_panama_fund
+ trigger = { rip_church_node_panama_can_open = yes }
+ hidden_effect = { rip_church_node_panama_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_panama_close
+ trigger = { has_country_flag = rip_church_node_panama }
+ hidden_effect = { rip_church_node_panama_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_carribean_trade_fund
+ trigger = { rip_church_node_carribean_trade_can_open = yes }
+ hidden_effect = { rip_church_node_carribean_trade_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_carribean_trade_close
+ trigger = { has_country_flag = rip_church_node_carribean_trade }
+ hidden_effect = { rip_church_node_carribean_trade_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_chesapeake_bay_fund
+ trigger = { rip_church_node_chesapeake_bay_can_open = yes }
+ hidden_effect = { rip_church_node_chesapeake_bay_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_chesapeake_bay_close
+ trigger = { has_country_flag = rip_church_node_chesapeake_bay }
+ hidden_effect = { rip_church_node_chesapeake_bay_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_st_lawrence_fund
+ trigger = { rip_church_node_st_lawrence_can_open = yes }
+ hidden_effect = { rip_church_node_st_lawrence_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_st_lawrence_close
+ trigger = { has_country_flag = rip_church_node_st_lawrence }
+ hidden_effect = { rip_church_node_st_lawrence_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_white_sea_fund
+ trigger = { rip_church_node_white_sea_can_open = yes }
+ hidden_effect = { rip_church_node_white_sea_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_white_sea_close
+ trigger = { has_country_flag = rip_church_node_white_sea }
+ hidden_effect = { rip_church_node_white_sea_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_north_sea_fund
+ trigger = { rip_church_node_north_sea_can_open = yes }
+ hidden_effect = { rip_church_node_north_sea_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_north_sea_close
+ trigger = { has_country_flag = rip_church_node_north_sea }
+ hidden_effect = { rip_church_node_north_sea_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_lubeck_fund
+ trigger = { rip_church_node_lubeck_can_open = yes }
+ hidden_effect = { rip_church_node_lubeck_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_lubeck_close
+ trigger = { has_country_flag = rip_church_node_lubeck }
+ hidden_effect = { rip_church_node_lubeck_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_bordeaux_fund
+ trigger = { rip_church_node_bordeaux_can_open = yes }
+ hidden_effect = { rip_church_node_bordeaux_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_bordeaux_close
+ trigger = { has_country_flag = rip_church_node_bordeaux }
+ hidden_effect = { rip_church_node_bordeaux_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_sevilla_fund
+ trigger = { rip_church_node_sevilla_can_open = yes }
+ hidden_effect = { rip_church_node_sevilla_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_sevilla_close
+ trigger = { has_country_flag = rip_church_node_sevilla }
+ hidden_effect = { rip_church_node_sevilla_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_champagne_fund
+ trigger = { rip_church_node_champagne_can_open = yes }
+ hidden_effect = { rip_church_node_champagne_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_champagne_close
+ trigger = { has_country_flag = rip_church_node_champagne }
+ hidden_effect = { rip_church_node_champagne_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_valencia_fund
+ trigger = { rip_church_node_valencia_can_open = yes }
+ hidden_effect = { rip_church_node_valencia_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_valencia_close
+ trigger = { has_country_flag = rip_church_node_valencia }
+ hidden_effect = { rip_church_node_valencia_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_genua_fund
+ trigger = { rip_church_node_genua_can_open = yes }
+ hidden_effect = { rip_church_node_genua_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_genua_close
+ trigger = { has_country_flag = rip_church_node_genua }
+ hidden_effect = { rip_church_node_genua_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_venice_fund
+ trigger = { rip_church_node_venice_can_open = yes }
+ hidden_effect = { rip_church_node_venice_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_venice_close
+ trigger = { has_country_flag = rip_church_node_venice }
+ hidden_effect = { rip_church_node_venice_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_english_channel_fund
+ trigger = { rip_church_node_english_channel_can_open = yes }
+ hidden_effect = { rip_church_node_english_channel_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
+}
+option = {
+ name = rip_church_node_english_channel_close
+ trigger = { has_country_flag = rip_church_node_english_channel }
+ hidden_effect = { rip_church_node_english_channel_toggle_effect = yes country_event = { id = rip_church_nodes.1 } }
 }
  option = { name = rip_church_close }
 }

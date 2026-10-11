@@ -16,3 +16,11 @@ PNG поряд — варіанти для перегляду; `gc_archbishop_so
 ## Промпт генерації
 
 Create a production game UI sprite sheet for Europa Universalis IV. Reference image shows the native patriarch authority endpoint busts enlarged 3x: use it ONLY as a style/scale reference, not as the character to copy. Output transparent PNG, 1024x512 or 2:1 aspect ratio. Two equal square cells side by side; one identical bust in each, fully contained with 10% transparent padding. Subject: a symbolic Ruthenian Greek Catholic UNION ARCHBISHOP, an Eastern-rite bishop in communion with Rome, not a pope. Front-facing elderly bishop bust, short grey beard, burgundy-red Eastern liturgical vestments, white omophorion with small dark crosses, a gold Byzantine domed mitre with a single small cross, slim Eastern episcopal crozier. No papal triple tiara, no coat of arms, no text, no frame, no background. Native EU4 miniature sprite aesthetic: hand-painted, restrained warm antique gold, dark fine silhouette, simplified facial features, high contrast readable at 38x38 pixels, slight worn oil-painted shading, NOT photorealistic, NOT glossy 3D, NOT cartoon. Left cell: identical bishop but cool blue-silver and muted grey/burgundy, symbolizing low capacity. Right cell: the same bishop in warmer gold and burgundy, mirrored horizontally so the crozier points inward toward the gauge, symbolizing high capacity. Maintain equal sprite sizes and aligned baselines. Transparent alpha background, no checkerboard baked in, no halos, no labels. Export the image to a local file if the tool provides file output.
+
+# Стрілка циклу Fervor
+
+`ro_cycle_arrow.dds`: прозорий RGBA DDS, 24×24, золота стрілка з темним
+обводом між трьома плитками вікна РПЦ (Fervor → Nodes → Policies). Малюється
+кодом (`tools/build_ro_cycle_arrow.py`, лише Pillow, без ванільних текстур),
+`ro_cycle_arrow.png` поряд — чотириразове збільшення для перегляду.
+Спрайт `GFX_rip_church_ro_cycle_arrow` оголошує `tools/build_church_gui.py`.
