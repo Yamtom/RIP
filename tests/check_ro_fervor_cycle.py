@@ -32,7 +32,7 @@ def ro_country(authority=0.9, fervor=100, nodes=0):
     w.province(295, c, 'russian_orthodox')
     c['patriarch_authority'] = authority
     c['dlcs'] = {'Cradle of Civilization'}
-    c['variables'].update(rip_church_fervor=fervor, rip_church_nodes=nodes)
+    c['variables'].update(muscovy_fervor=fervor, funded_nodes_count=nodes)
     return w, c
 
 
@@ -81,8 +81,8 @@ def settle(authority, nodes, months=600, start_fervor=100):
             w.day += 400                                      # cooldowns are not under test here
             w.run(f'rip_church_toggle_{policy}_effect', c)
             assert c['flags'].get(f'rip_church_icon_{policy}') is not None, (authority, policy)
-        c['variables']['rip_church_nodes'] = nodes
-        c['variables']['rip_church_fervor'] = start_fervor
+        c['variables']['funded_nodes_count'] = nodes
+        c['variables']['muscovy_fervor'] = start_fervor
         history = []
         for month in range(months):
             w.day += 30
@@ -101,7 +101,7 @@ for authority, nodes, settles_at in ((0.9, 0, 1), (0.9, 1, 2), (0.9, 2, 3), (0.6
     c, history = settle(authority, nodes)
     assert c['variables']['rip_church_icons'] == settles_at, (authority, nodes, history, 'settles on what the income pays')
     assert c['variables']['rip_church_fervor_net'] >= 0, (authority, nodes, c['variables'])
-    assert c['variables']['rip_church_fervor'] > 0, (authority, nodes, 'a settled church keeps a pool')
+    assert c['variables']['muscovy_fervor'] > 0, (authority, nodes, 'a settled church keeps a pool')
     # The oldest policies survive: Mission was switched on first, then war, mercy, building.
     survivors = [p for p in ('mission', 'war', 'mercy', 'building') if f'rip_church_icon_{p}' in c['flags']]
     assert survivors == ['mission', 'war', 'mercy', 'building'][:settles_at], (authority, nodes, survivors)
@@ -126,19 +126,19 @@ cases += 1
 for policy, need in (('war', 10), ('mercy', 10), ('building', 10), ('mission', 20)):
     w, c = ro_country(0.9, fervor=need - 0.01)
     assert not w.gate(TRIGGERS[f'rip_church_can_activate_{policy}'], c), (policy, 'one short')
-    c['variables']['rip_church_fervor'] = need
+    c['variables']['muscovy_fervor'] = need
     assert w.gate(TRIGGERS[f'rip_church_can_activate_{policy}'], c), (policy, 'enough')
     w.run(f'rip_church_toggle_{policy}_effect', c)
-    assert c['variables']['rip_church_fervor'] == need - ACTIVATE, (policy, 'the price paid is 10 whatever the pool must hold')
+    assert c['variables']['muscovy_fervor'] == need - ACTIVATE, (policy, 'the price paid is 10 whatever the pool must hold')
     cases += 1
 # A church with 20 Fervor can start Mission and found its first node in the same breath, and is then self-supporting.
 # ---- 4. Switching a policy on and off ------------------------------------------------------
 w, c = ro_country(0.9, fervor=25)
 w.run('rip_church_toggle_war_effect', c)
-assert c['variables']['rip_church_fervor'] == 25 - ACTIVATE and 'rip_church_icon_war' in c['flags']
+assert c['variables']['muscovy_fervor'] == 25 - ACTIVATE and 'rip_church_icon_war' in c['flags']
 assert c['variables']['rip_church_fervor_cost'] == UPKEEP
 w.run('rip_church_toggle_war_effect', c)
-assert c['variables']['rip_church_fervor'] == 25 - ACTIVATE, 'closing a policy refunds nothing'
+assert c['variables']['muscovy_fervor'] == 25 - ACTIVATE, 'closing a policy refunds nothing'
 assert c['variables']['rip_church_fervor_cost'] == 0
 cases += 1
 
@@ -238,7 +238,7 @@ def node_world(fervor=50):
     c = w.country('MOS', 'russian_orthodox')
     c['dlcs'].add('Cradle of Civilization')
     c['patriarch_authority'] = 0.9
-    c['variables']['rip_church_fervor'] = fervor
+    c['variables']['muscovy_fervor'] = fervor
     c['flags']['rip_church_icon_mission'] = w.day
     parish = w.province(295, c, 'russian_orthodox')
     parish['flags']['rip_church_ro_connected@MOS'] = w.day
@@ -268,8 +268,8 @@ w, c, p = node_world(fervor=FOUND)
 assert w.gate(TRIGGERS['rip_church_node_novgorod_can_open'], c)
 w.run('rip_church_node_novgorod_toggle_effect', c)
 v = c['variables']
-assert 'rip_church_node_novgorod' in c['flags'] and v['rip_church_fervor'] == 0, 'founding costs exactly 10, once'
-assert v['rip_church_nodes'] == 1 and v['rip_church_node_income'] == NODE_YIELD
+assert 'rip_church_node_novgorod' in c['flags'] and v['muscovy_fervor'] == 0, 'founding costs exactly 10, once'
+assert v['funded_nodes_count'] == 1 and v['rip_church_node_income'] == NODE_YIELD
 assert v['rip_church_fervor_income'] == BASE[0.9] + NODE_YIELD
 assert lands(w, p, 'rip_church_node_courtyards') == {'parish', 'cathedral'}, (
     'every connected parish with a temple or cathedral carries the node', lands(w, p, 'rip_church_node_courtyards'))
@@ -277,10 +277,10 @@ assert p['cut_off']['modifiers'] == {} and p['bare']['modifiers'] == {} and p['t
 cases += 3
 
 w.run('rip_church_ro_monthly_effect', c)
-assert c['variables']['rip_church_fervor'] == BASE[0.9] + NODE_YIELD - UPKEEP, 'one node and the Mission policy it needs: +5 net'
+assert c['variables']['muscovy_fervor'] == BASE[0.9] + NODE_YIELD - UPKEEP, 'one node and the Mission policy it needs: +5 net'
 w.run('rip_church_node_novgorod_toggle_effect', c)               # closing: the courtyards go, no refund
 assert 'rip_church_node_novgorod' not in c['flags'] and not lands(w, p, 'rip_church_node_courtyards')
-assert c['variables']['rip_church_fervor'] == BASE[0.9] + NODE_YIELD - UPKEEP
+assert c['variables']['muscovy_fervor'] == BASE[0.9] + NODE_YIELD - UPKEEP
 assert c['variables']['rip_church_fervor_income'] == BASE[0.9]
 cases += 2
 
@@ -288,14 +288,14 @@ cases += 2
 w, c, p = node_world(fervor=20)
 c['flags'].pop('rip_church_icon_mission')
 w.run('rip_church_toggle_mission_effect', c)
-assert 'rip_church_icon_mission' in c['flags'] and c['variables']['rip_church_fervor'] == 10
+assert 'rip_church_icon_mission' in c['flags'] and c['variables']['muscovy_fervor'] == 10
 assert w.gate(TRIGGERS['rip_church_node_novgorod_can_open'], c), 'the 10 left is exactly the price of a node'
 w.run('rip_church_node_novgorod_toggle_effect', c)
-assert c['variables']['rip_church_fervor'] == 0 and c['variables']['rip_church_nodes'] == 1
+assert c['variables']['muscovy_fervor'] == 0 and c['variables']['funded_nodes_count'] == 1
 for month in range(6):
     w.day += 30
     w.run('rip_church_ro_monthly_effect', c)
-assert c['variables']['rip_church_fervor'] == 6 * (BASE[0.9] + NODE_YIELD - UPKEEP), 'Mission and its node: net +5 at this authority'
+assert c['variables']['muscovy_fervor'] == 6 * (BASE[0.9] + NODE_YIELD - UPKEEP), 'Mission and its node: net +5 at this authority'
 assert 'rip_church_icon_mission' in c['flags'] and 'rip_church_node_novgorod' in c['flags']
 cases += 1
 
@@ -319,7 +319,7 @@ assert 'rip_church_node_novgorod' in c['flags']
 p['anchor']['shares']['MOS'] = 49
 w.run('rip_church_ro_monthly_effect', c)
 assert 'rip_church_node_novgorod' not in c['flags'] and not lands(w, p, 'rip_church_node_courtyards')
-assert c['variables']['rip_church_nodes'] == 0 and c['variables']['rip_church_node_income'] == 0
+assert c['variables']['funded_nodes_count'] == 0 and c['variables']['rip_church_node_income'] == 0
 cases += 1
 
 # Dropping the Mission policy closes every node and lifts every courtyard.
@@ -328,7 +328,7 @@ w.run('rip_church_node_novgorod_toggle_effect', c)
 assert lands(w, p, 'rip_church_node_courtyards')
 w.run('rip_church_toggle_mission_effect', c)
 assert 'rip_church_icon_mission' not in c['flags'] and 'rip_church_node_novgorod' not in c['flags']
-assert not lands(w, p, 'rip_church_node_courtyards') and c['variables']['rip_church_nodes'] == 0
+assert not lands(w, p, 'rip_church_node_courtyards') and c['variables']['funded_nodes_count'] == 0
 cases += 1
 
 # One node is the limit; a schismatic state may found a second. (Both anchors need their own parish and trade.)

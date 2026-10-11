@@ -123,13 +123,13 @@ def signed(value):
 
 
 LADDERS = {
-    'GetChurchROFervor': ('rip_church_fervor', lambda v: str(min(100, max(0, floor(v)))), '0'),
+    'GetChurchROFervor': ('muscovy_fervor', lambda v: str(min(100, max(0, floor(v)))), '0'),
     'GetChurchROBase': ('rip_church_fervor_base', lambda v: '0' if v < 1 else f'+{min(9, floor(v))}', '0'),
     'GetChurchRONodeIncome': ('rip_church_node_income', lambda v: '0' if v < 1 else f'+{min(9, floor(v))}', '0'),
     'GetChurchROUpkeep': ('rip_church_fervor_cost', lambda v: '0' if v < 1 else f'-{min(30, floor(v))}', '0'),
     'GetChurchROPolicies': ('rip_church_icons', lambda v: str(min(9, max(0, floor(v)))), '0'),
     'GetChurchROCapacity': ('rip_church_capacity', lambda v: str(max(1, min(9, floor(v)))), '1'),
-    'GetChurchRONodes': ('rip_church_nodes', lambda v: str(min(9, max(0, floor(v)))), '0'),
+    'GetChurchRONodes': ('funded_nodes_count', lambda v: str(min(9, max(0, floor(v)))), '0'),
     'GetChurchRONet': ('rip_church_fervor_net', signed, '0'),
 }
 for name, (variable, expected, unset) in LADDERS.items():
@@ -161,8 +161,8 @@ for authority, base in BASE.items():
             for fervor in (0, 9, 10, 57, 100):
                 w, c = ro_country()
                 c['patriarch_authority'] = authority
-                c['variables']['rip_church_fervor'] = fervor
-                c['variables']['rip_church_nodes'] = nodes
+                c['variables']['muscovy_fervor'] = fervor
+                c['variables']['funded_nodes_count'] = nodes
                 for policy in POLICIES[:active]:
                     c['flags'][f'rip_church_icon_{policy}'] = w.day
                 w.run('rip_church_ro_recount_effect', c)
@@ -183,7 +183,7 @@ cases += 1
 w, c = ro_country()
 c['patriarch_authority'] = 0.65
 c['flags']['rip_church_icon_mission'] = w.day
-c['variables']['rip_church_nodes'] = 1
+c['variables']['funded_nodes_count'] = 1
 w.run('rip_church_ro_recount_effect', c)
 tip = screen('rip_church_ro_fervor_value_tt', w, c)
 assert 'authority +4, nodes +3, policies -3, net +4' in tip, tip
@@ -198,7 +198,7 @@ def hint(mission=True, dlc=True, nodes=0, fervor=50, schism=False):
         c['dlcs'].clear()
     if schism:
         c['flags']['rip_church_ro_schismatic'] = w.day
-    c['variables'].update(rip_church_nodes=nodes, rip_church_fervor=fervor)
+    c['variables'].update(funded_nodes_count=nodes, muscovy_fervor=fervor)
     return render('GetChurchRONodeHint', w, c)
 
 
@@ -225,9 +225,9 @@ openers = re.findall(r'^(rip_church_node_\w+_can_open) = \{', nodes_source, re.M
 assert len(openers) >= 60, len(openers)
 for name in openers:
     block = named_block(nodes_source, name)
-    assert 'check_variable = { which = rip_church_fervor value = 10 }' in block, name
-    assert 'NOT = { check_variable = { which = rip_church_nodes value = 1 } }' in block, name
-    assert 'has_country_flag = rip_church_ro_schismatic NOT = { check_variable = { which = rip_church_nodes value = 2 } }' in block, name
+    assert 'check_variable = { which = muscovy_fervor value = 10 }' in block, name
+    assert 'NOT = { check_variable = { which = funded_nodes_count value = 1 } }' in block, name
+    assert 'has_country_flag = rip_church_ro_schismatic NOT = { check_variable = { which = funded_nodes_count value = 2 } }' in block, name
     eligible = named_block(nodes_source, name.replace('_can_open', '_eligible'))
     assert 'has_country_flag = rip_church_icon_mission' in eligible and 'has_dlc = "Cradle of Civilization"' in eligible, name
 cases += 1
@@ -236,8 +236,8 @@ cases += 1
 def step(n, **kw):
     w, c = ro_country()
     c['patriarch_authority'] = 0.9
-    c['variables']['rip_church_fervor'] = kw.get('fervor', 50)
-    c['variables']['rip_church_nodes'] = kw.get('nodes', 0)
+    c['variables']['muscovy_fervor'] = kw.get('fervor', 50)
+    c['variables']['funded_nodes_count'] = kw.get('nodes', 0)
     w.run('rip_church_ro_recount_effect', c)
     if kw.get('mission'):
         c['flags']['rip_church_icon_mission'] = w.day
@@ -301,17 +301,17 @@ for text in (loc['rip_church_nodes.1.d'], loc['rip_church_ro_nodes_value_tt'], n
 for text in (loc['rip_church_nodes.1.d'], loc['rip_church_ro_nodes_value_tt']):
     assert f"{signed_pct(float(courtyards['local_missionary_strength']))} missionary strength" in text, text
 # Card teasers: the same numbers, shortened.
-assert 'Defence +20%' in loc['rip_church_icon_war_benefit'] and 'vs nomads +5%' in loc['rip_church_icon_war_benefit']
-assert 'Autonomy -10%' in loc['rip_church_icon_mercy_benefit'] and 'Unrest -1' in loc['rip_church_icon_mercy_benefit']
-assert 'Build cost -25%' in loc['rip_church_icon_building_benefit']
-assert 'Missionary +2%' in loc['rip_church_icon_mission_benefit']
+assert 'defence +20%' in loc['rip_church_icon_war_benefit'] and 'discipline +5%' in loc['rip_church_icon_war_benefit_second']
+assert 'autonomy -10%' in loc['rip_church_icon_mercy_benefit'] and 'Unrest -1' in loc['rip_church_icon_mercy_benefit_second']
+assert 'build cost -25%' in loc['rip_church_icon_building_benefit']
+assert 'missionary +2%' in loc['rip_church_icon_mission_benefit']
 # The price and the return are the ones the scripts charge and pay.
 for key in ('rip_church_ro_fervor_value_tt', 'rip_church_ro_nodes_value_tt',
-            'rip_church_ro_steps_title_tt', 'rip_church_ro_step2_tt', 'rip_church_nodes.1.d'):
+            'rip_church_ro_step2_tt', 'rip_church_nodes.1.d'):
     assert re.search(r'10 Fervor|§Y10§!', loc[key]), key
 assert '§R3 Fervor§! a month' in loc['rip_church_ro_policies_value_tt']
 assert 'costs §Y10 Fervor§! once' in loc['rip_church_nodes.1.d'] and '+3 Fervor§! a month' in loc['rip_church_nodes.1.d']
-assert 'rip_church_ro_action_ready' in loc and '10 now, 3/mo' in loc['rip_church_ro_action_ready']
+assert 'rip_church_ro_action_ready' in loc and '10 now, then 3 a month' in loc['rip_church_ro_action_ready']
 assert 'Costs §Y10 Fervor§! to start and §R3 Fervor§! a month' in loc['rip_church_icon_war_button_tt']
 cases += 1
 
@@ -333,7 +333,7 @@ assert 'rip_church_close' in loc
 cases += 1
 
 # ---- 7. Bindings, widgets and tooltips agree --------------------------------------------
-panel_text_bindings = {name for name in text_bindings if name.startswith(('rip_church_ro_', 'rip_church_icon_'))}
+panel_text_bindings = {name for name in text_bindings if name.startswith(('rip_church_ro_', 'rip_church_icon_'))} - {'rip_church_ro_authority_label'}   # the native bar's own label, outside this window
 assert panel_text_bindings == set(texts), (
     'orphan bindings', sorted(panel_text_bindings - set(texts)), 'unbound widgets', sorted(set(texts) - panel_text_bindings))
 for name, binding in text_bindings.items():
@@ -350,8 +350,8 @@ cases += 1
 
 # ---- 8. Geometry: inside the frame, no two readable boxes overlap, text fits ----------------
 SURFACE = (13, 13, 462, 533)                     # inner surface of the 475x560 Coptic frame
-ADVANCE = {'vic_18': 6.33, 'vic_22': 7.5}        # px per character, estimated from an in-game screenshot
-LINE = {'vic_18': 18, 'vic_22': 24}
+ADVANCE = {'vic_14': 4.92, 'vic_18': 6.33, 'vic_22': 7.5}        # px per character, estimated from an in-game screenshot
+LINE = {'vic_14': 14, 'vic_18': 18, 'vic_22': 24}
 BUTTON = {'GFX_standard_button_224': (224, 32), 'GFX_rip_church_policy_select': (58, 58), 'button_type_8': (189, 31)}
 
 
@@ -399,18 +399,16 @@ assert len(arrows) == 2 and tile_x[0] < arrows[0][0] < tile_x[1] < arrows[1][0] 
 cards = {f['name']: (x, y) for kind, f, x, y, *_ in everything if kind == 'windowType' and f['name'].endswith('_card')}
 policy_cards = [cards[f'rip_church_ro_{p}_card'] for p in POLICIES]
 cards_top = min(y for _, y in policy_cards)
-cards_bottom = max(y for _, y in policy_cards) + 172
-assert tile_bottom <= y_of['rip_church_ro_policies_title'], 'tiles must end above the policies ribbon'
-assert y_of['rip_church_ro_policies_title'] + 20 <= cards_top, 'the ribbon title sits above the first card'
-assert cards_bottom <= y_of['rip_church_ro_steps_title'], 'policies must end above the steps'
-assert y_of['rip_church_ro_steps_title'] + 20 <= y_of['rip_church_ro_step1'] < y_of['rip_church_ro_step2'] < y_of['rip_church_ro_step3'], \
-    'the steps are numbered in the order they are read'
-assert boxes['rip_church_nodes_button'][1] <= boxes['rip_church_ro_step2'][1] + 10 and \
-       boxes['rip_church_ro_step2'][3] > boxes['rip_church_nodes_button'][1], 'the button of step 2 shares its row'
-assert boxes['rip_church_nodes_button'][3] <= boxes['rip_church_ro_step3'][1] + 4, 'the third step is below the button'
-assert boxes['rip_church_ro_step3'][3] <= boxes['rip_church_reconcile_button'][1], 'the schism action comes last'
+cards_bottom = max(y for _, y in policy_cards) + 62
+assert tile_bottom <= cards_top, 'the cycle tiles end above the first policy card'
+assert policy_cards == sorted(policy_cards, key=lambda c: c[1]) and len({y for _, y in policy_cards}) == 4, 'one card per row, in the order of POLICIES'
+assert cards_bottom <= y_of['rip_church_ro_step1'], 'policies must end above the steps'
+assert y_of['rip_church_ro_step1'] < y_of['rip_church_ro_step2'] < y_of['rip_church_ro_step3'], 'the steps are numbered in the order they are read'
+assert boxes['rip_church_ro_step3'][3] <= boxes['rip_church_nodes_button'][1], 'the button that opens the node list comes straight after the steps'
+assert boxes['rip_church_nodes_button'][1] == boxes['rip_church_reconcile_button'][1], 'the two buttons share the bottom row'
+assert boxes['rip_church_nodes_button'][2] <= boxes['rip_church_reconcile_button'][0], 'the schism action stands beside the node button'
 # The instruction is part of the window's main reading line, never a small caption under the last button.
-assert max(boxes[n][3] for n in boxes if n.startswith('rip_church_ro_step')) < boxes['rip_church_reconcile_button'][1]
+assert max(boxes[n][3] for n in boxes if n.startswith('rip_church_ro_step')) <= boxes['rip_church_reconcile_button'][1]
 cases += 1
 
 print(f'PASS: {cases} Muscovite Church window readout, tile, step, lock-reason, number-parity, binding and geometry cases')
