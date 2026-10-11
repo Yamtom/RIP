@@ -1,5 +1,7 @@
 # Country scope. Fervor is a single scripted fuel, not native Reformed powers.
 rip_church_ro_recount_effect = {
+ if = { limit = { check_variable = { which = muscovy_fervor value = 100 } } set_variable = { which = muscovy_fervor value = 100 } }
+ if = { limit = { NOT = { check_variable = { which = muscovy_fervor value = 0 } } } set_variable = { which = muscovy_fervor value = 0 } }
  set_variable = { which = rip_church_icons value = 0 }
  set_variable = { which = rip_church_fervor_income value = 2 }
  set_variable = { which = rip_church_capacity value = 1 }
@@ -10,12 +12,17 @@ if = { limit = { has_country_flag = rip_church_icon_war } change_variable = { wh
 if = { limit = { has_country_flag = rip_church_icon_mercy } change_variable = { which = rip_church_icons value = 1 } }
 if = { limit = { has_country_flag = rip_church_icon_building } change_variable = { which = rip_church_icons value = 1 } }
 if = { limit = { has_country_flag = rip_church_icon_mission } change_variable = { which = rip_church_icons value = 1 } }
- set_variable = { which = rip_church_fervor_cost value = 0 }
- if = { limit = { check_variable = { which = rip_church_icons value = 4 } } set_variable = { which = rip_church_fervor_cost value = 14 } }
- else_if = { limit = { check_variable = { which = rip_church_icons value = 3 } } set_variable = { which = rip_church_fervor_cost value = 8 } }
- else_if = { limit = { check_variable = { which = rip_church_icons value = 2 } } set_variable = { which = rip_church_fervor_cost value = 4 } }
- else_if = { limit = { check_variable = { which = rip_church_icons value = 1 } } set_variable = { which = rip_church_fervor_cost value = 2 } }
- set_variable = { which = rip_church_node_cost which = rip_church_nodes }
+ set_variable = { which = rip_church_fervor_policy_cost value = 0 }
+ if = { limit = { check_variable = { which = rip_church_icons value = 4 } } set_variable = { which = rip_church_fervor_policy_cost value = 14 } }
+ else_if = { limit = { check_variable = { which = rip_church_icons value = 3 } } set_variable = { which = rip_church_fervor_policy_cost value = 8 } }
+ else_if = { limit = { check_variable = { which = rip_church_icons value = 2 } } set_variable = { which = rip_church_fervor_policy_cost value = 4 } }
+ else_if = { limit = { check_variable = { which = rip_church_icons value = 1 } } set_variable = { which = rip_church_fervor_policy_cost value = 2 } }
+ set_variable = { which = rip_church_fervor_next_policy_cost value = 2 }
+ if = { limit = { check_variable = { which = rip_church_icons value = 4 } } set_variable = { which = rip_church_fervor_next_policy_cost value = 0 } }
+ else_if = { limit = { check_variable = { which = rip_church_icons value = 3 } } set_variable = { which = rip_church_fervor_next_policy_cost value = 6 } }
+ else_if = { limit = { check_variable = { which = rip_church_icons value = 2 } } set_variable = { which = rip_church_fervor_next_policy_cost value = 4 } }
+ set_variable = { which = rip_church_fervor_cost which = rip_church_fervor_policy_cost }
+ set_variable = { which = rip_church_node_cost which = funded_nodes_count }
  multiply_variable = { which = rip_church_node_cost value = 2 }
  change_variable = { which = rip_church_fervor_cost which = rip_church_node_cost }
  set_variable = { which = rip_church_fervor_net which = rip_church_fervor_income }
@@ -32,7 +39,7 @@ rip_church_toggle_war_effect = {
  rip_church_ro_recount_effect = yes
  if = { limit = { has_country_flag = rip_church_icon_war } rip_church_deactivate_war_effect = yes }
  else_if = { limit = { rip_church_can_activate_war = yes }
- subtract_variable = { which = rip_church_fervor value = 10 }
+ subtract_variable = { which = muscovy_fervor value = 10 }
  change_variable = { which = rip_church_icon_sequence value = 1 }
  set_variable = { which = rip_church_order_war which = rip_church_icon_sequence }
  set_country_flag = rip_church_icon_war
@@ -52,7 +59,7 @@ rip_church_toggle_mercy_effect = {
  rip_church_ro_recount_effect = yes
  if = { limit = { has_country_flag = rip_church_icon_mercy } rip_church_deactivate_mercy_effect = yes }
  else_if = { limit = { rip_church_can_activate_mercy = yes }
- subtract_variable = { which = rip_church_fervor value = 10 }
+ subtract_variable = { which = muscovy_fervor value = 10 }
  change_variable = { which = rip_church_icon_sequence value = 1 }
  set_variable = { which = rip_church_order_mercy which = rip_church_icon_sequence }
  set_country_flag = rip_church_icon_mercy
@@ -72,7 +79,7 @@ rip_church_toggle_building_effect = {
  rip_church_ro_recount_effect = yes
  if = { limit = { has_country_flag = rip_church_icon_building } rip_church_deactivate_building_effect = yes }
  else_if = { limit = { rip_church_can_activate_building = yes }
- subtract_variable = { which = rip_church_fervor value = 10 }
+ subtract_variable = { which = muscovy_fervor value = 10 }
  change_variable = { which = rip_church_icon_sequence value = 1 }
  set_variable = { which = rip_church_order_building which = rip_church_icon_sequence }
  set_country_flag = rip_church_icon_building
@@ -92,7 +99,7 @@ rip_church_toggle_mission_effect = {
  rip_church_ro_recount_effect = yes
  if = { limit = { has_country_flag = rip_church_icon_mission } rip_church_deactivate_mission_effect = yes }
  else_if = { limit = { rip_church_can_activate_mission = yes }
- subtract_variable = { which = rip_church_fervor value = 10 }
+ subtract_variable = { which = muscovy_fervor value = 10 }
  change_variable = { which = rip_church_icon_sequence value = 1 }
  set_variable = { which = rip_church_order_mission which = rip_church_icon_sequence }
  set_country_flag = rip_church_icon_mission
@@ -122,14 +129,19 @@ rip_church_ro_enforce_capacity_effect = {
 rip_church_ro_monthly_effect = {
  rip_church_ro_maintain_nodes_effect = yes
  rip_church_ro_enforce_capacity_effect = yes
- change_variable = { which = rip_church_fervor which = rip_church_fervor_income }
- if = { limit = { check_variable = { which = rip_church_fervor value = 100 } } set_variable = { which = rip_church_fervor value = 100 } }
-if = { limit = { NOT = { check_variable = { which = rip_church_fervor which = rip_church_fervor_cost } } } rip_church_ro_disable_last_effect = yes }
-if = { limit = { NOT = { check_variable = { which = rip_church_fervor which = rip_church_fervor_cost } } } rip_church_ro_disable_last_effect = yes }
-if = { limit = { NOT = { check_variable = { which = rip_church_fervor which = rip_church_fervor_cost } } } rip_church_ro_disable_last_effect = yes }
-if = { limit = { NOT = { check_variable = { which = rip_church_fervor which = rip_church_fervor_cost } } } rip_church_ro_disable_last_effect = yes }
- subtract_variable = { which = rip_church_fervor which = rip_church_fervor_cost }
- if = { limit = { NOT = { check_variable = { which = rip_church_fervor value = 0 } } } set_variable = { which = rip_church_fervor value = 0 } }
+ change_variable = { which = muscovy_fervor which = rip_church_fervor_income }
+ if = { limit = { check_variable = { which = muscovy_fervor value = 100 } } set_variable = { which = muscovy_fervor value = 100 } }
+if = { limit = { NOT = { check_variable = { which = muscovy_fervor which = rip_church_fervor_cost } } } rip_church_ro_disable_last_effect = yes }
+if = { limit = { NOT = { check_variable = { which = muscovy_fervor which = rip_church_fervor_cost } } } rip_church_ro_disable_last_effect = yes }
+if = { limit = { NOT = { check_variable = { which = muscovy_fervor which = rip_church_fervor_cost } } } rip_church_ro_disable_last_effect = yes }
+if = { limit = { NOT = { check_variable = { which = muscovy_fervor which = rip_church_fervor_cost } } } rip_church_ro_disable_last_effect = yes }
+ subtract_variable = { which = muscovy_fervor which = rip_church_fervor_cost }
+ if = { limit = { NOT = { check_variable = { which = muscovy_fervor value = 0 } } } set_variable = { which = muscovy_fervor value = 0 } }
+ # Exact exhaustion also closes the network and removes all policy modifiers.
+ if = { limit = { NOT = { check_variable = { which = muscovy_fervor value = 0.001 } } }
+  rip_church_ro_clear_active_effect = yes
+  rip_church_ro_recount_effect = yes
+ }
  if = { limit = { has_country_flag = rip_church_reconciliation_pending had_country_flag = { flag = rip_church_reconciliation_pending days = 1825 } is_at_war = no stability = 1 } rip_church_ro_recognize_effect = yes }
  if = { limit = { has_country_flag = rip_church_ro_provisional is_year = 1593 } rip_church_ro_recognize_effect = yes }
 }

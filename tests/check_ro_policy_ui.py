@@ -4,6 +4,7 @@ The bounded church interpreter executes source effects; it does not prove EU4
 rendering, mouse hit testing, AI behaviour or save/load persistence.
 """
 from copy import deepcopy
+import re
 import struct
 
 from church_testlib import EFFECTS, fixture, parse
@@ -106,33 +107,79 @@ for faith in ('russian_orthodox', 'orthodox', 'greek_catholic', 'catholic'):
     assert c == before, 'reopening is reversible; other faiths must remain unchanged'
     cases += 1
 
-# All four cards use local coordinates and the actual 58px policy click sprite.
-# Readouts stay outside that target and describe the same activation transaction.
+# The four policies now have visible action buttons; the icon is decorative and
+# active state uses its separate highlight frame, never a check/cross badge.
 for policy in ('war', 'mercy', 'building', 'mission'):
     card, body = widget('windowType', f'rip_church_ro_{policy}_card')
-    assert dict(card['size']) == {'x': '102', 'y': '215'}
-    assert position(card) == {'x': 26 + ('war', 'mercy', 'building', 'mission').index(policy) * 106, 'y': 213}
+    index = ('war', 'mercy', 'building', 'mission').index(policy)
+    assert dict(card['size']) == {'x': '419', 'y': '72'}
+    assert position(card) == {'x': 28, 'y': 188 + index * 76}
     children = list(descendants(body))
     action = f'rip_church_icon_{policy}_button'
     hit, _ = widget('guiButtonType', action, children)
     slot, _ = widget('iconType', f'rip_church_{policy}_slot', children)
-    assert position(hit) == position(slot) == {'x': 22, 'y': 0}
-    assert hit['quadTextureSprite'] == 'GFX_rip_church_policy_select'
-    assert hit.get('scale', '1') == '1' and hit['buttonText'] == ''
+    assert position(hit) == {'x': 224, 'y': 20}
+    assert position(slot) == {'x': 7, 'y': 6}
+    assert hit['quadTextureSprite'] == 'button_type_8'
+    assert hit['buttonText'] == f'rip_church_icon_{policy}_label'
     assert slot['spriteType'] == 'GFX_rip_church_policy_slot'
     control = controls['custom_button', action]
     gate = ('OR', [('has_country_flag', f'rip_church_icon_{policy}'),
                    (f'rip_church_can_activate_{policy}', 'yes')])
     assert control['trigger'] == [('religion', 'russian_orthodox'), gate]
     assert control['effect'] == [(f'rip_church_toggle_{policy}_effect', 'yes')]
-    assert controls['custom_icon', f'rip_church_ro_{policy}_access_ready']['potential'] == [gate]
-    assert controls['custom_icon', f'rip_church_ro_{policy}_access_blocked']['potential'] == [('NOT', [gate])]
-    for state in ('ready','blocked'):
-        badge, _ = widget('iconType', f'rip_church_ro_{policy}_access_{state}', children)
-        assert badge['alwaystransparent'] == 'yes', 'status must not steal a click from the policy'
-    for suffix in ('label', 'state', 'action', 'benefit'):
+    assert not any(name.startswith(f'rip_church_ro_{policy}_access_') for kind,name in controls)
+    assert controls['custom_icon', f'rip_church_{policy}_active_frame']['potential'] == [('has_country_flag', f'rip_church_icon_{policy}')]
+    for suffix in ('label', 'state', 'benefit','benefit_second'):
         label, _ = widget('instantTextBoxType', f'rip_church_icon_{policy}_{suffix}', children)
-        assert label['font'] == 'vic_18' and label['scripted'] == 'yes'
+        assert label['font'] == ('vic_14' if suffix in ('label','state','benefit','benefit_second') else 'vic_18')
+        assert label['scripted'] == 'yes'
+    assert 'rip_church_icon_'+policy+'_action' in read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
+    cases += 1
+
+# Management and policy actions share the native button frame; navigation uses
+# the separate native tab strip. Keep the province-name cell ahead of the
+# religion column while allowing long Muscovite labels to remain on one row.
+nodes, _ = widget('guiButtonType', 'rip_church_nodes_button')
+assert nodes['quadTextureSprite'] == 'button_type_8'
+assert nodes['quadTextureSprite'] == hit['quadTextureSprite']
+native_action, _ = widget('guiButtonType', 'rip_church_gc_native_privileges_button')
+assert native_action['quadTextureSprite'] == nodes['quadTextureSprite']
+tab, _ = widget('guiButtonType', 'rip_church_gc_union_tab_union')
+assert tab['quadTextureSprite'] == 'GFX_tab_small_116'
+_, province_body = widget('windowType', 'countryreligionview_provincelistitem')
+province_cells = list(descendants(province_body))
+province_name, _ = widget('instantTextBoxType', 'name', province_cells)
+province_religion, _ = widget('instantTextBoxType', 'religion', province_cells)
+assert province_name['maxWidth'] == '140'
+assert position(province_name)['x'] + int(province_name['maxWidth']) < position(province_religion)['x']
+if install:
+    font_path = install / f"gfx/fonts/{province_name['font']}.fnt"
+    advances = {
+        int(fields['id']): int(fields['xadvance'])
+        for line in font_path.read_text(encoding='utf-8').splitlines()
+        if line.startswith('char ')
+        for fields in [dict(re.findall(r'(\w+)=(-?\d+)', line))]
+    }
+    border = dict(province_name['borderSize'])
+    text_width = int(province_name['maxWidth']) - 2 * int(border['x'])
+    for long_name in ('Ryapolovskiy Yuriev', 'Starodub Ryapolovskiy'):
+        measured = sum(advances[ord(character)] for character in long_name)
+        assert measured <= text_width, (long_name, measured, text_width)
+cases += 1
+
+# Button captions are state-driven: ready is green, unavailable is muted, and
+# active shows the combined current policy drain (policies are indefinite).
+policy_loc = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
+for key, marker in (('rip_church_ro_action_ready','§GActivate'),
+                    ('rip_church_ro_action_fuel','§gRequires 10 Fervor'),
+                    ('rip_church_ro_action_slot','§gNo free policy slot'),
+                    ('rip_church_ro_action_cooldown','§gOne-year cooldown'),
+                    ('rip_church_ro_action_active','§YActive · total policy drain')):
+    assert marker in policy_loc, (key, marker)
+for policy in ('war','mercy','building','mission'):
+    assert f'buttonText = "rip_church_icon_{policy}_label"' in read('interface/countryreligionview.gui')
+    assert f'GetChurchIcon{policy.title()}Action' in read('customizable_localization/rip_church_redesign.txt')
     cases += 1
 
 # Execute the GUI's effect, including a stale invocation after its disabled
@@ -143,8 +190,8 @@ for policy in ('war', 'mission'):
     for reason in ('ready', 'fuel', 'slot', 'cooldown', 'cooldown_expired'):
         w, c, p = fixture()
         c['patriarch_authority'] = 0
-        c['variables']['rip_church_fervor'] = 25
-        if reason == 'fuel': c['variables']['rip_church_fervor'] = 9.99
+        c['variables']['muscovy_fervor'] = 25
+        if reason == 'fuel': c['variables']['muscovy_fervor'] = 9.99
         if reason == 'slot': c['flags']['rip_church_icon_mercy'] = w.day
         if reason.startswith('cooldown'):
             c['flags'][flag + '_used'] = w.day
@@ -154,12 +201,12 @@ for policy in ('war', 'mission'):
         allowed = reason in ('ready', 'cooldown_expired')
         assert click(w, c, action) == allowed, (policy, reason)
         if allowed:
-            assert c['variables']['rip_church_fervor'] == 15
+            assert c['variables']['muscovy_fervor'] == 15
             assert flag in c['flags'] and c['modifiers'][flag] == float('inf')
-            c['variables']['rip_church_fervor'] = 0
+            c['variables']['muscovy_fervor'] = 0
             c['flags']['rip_church_node_novgorod'] = w.day
             assert click(w, c, action), 'an active policy can close during its cooldown at zero fuel'
-            assert c['variables']['rip_church_fervor'] == 0
+            assert c['variables']['muscovy_fervor'] == 0
             assert flag not in c['flags'] and flag not in c['modifiers']
             if policy == 'mission':
                 assert 'rip_church_node_novgorod' not in c['flags']
@@ -188,9 +235,9 @@ for transaction in (imperial_option, EFFECTS['proclaim_orthodox_empire_effect'])
     assert transaction.count(('rip_church_historical_ro_effect', 'yes')) == 1
     w, c, p = fixture()
     c['legitimacy'] = 50
-    c['variables']['rip_church_fervor'] = 0
+    c['variables']['muscovy_fervor'] = 0
     w.execute(transaction, c)
-    assert c['variables']['rip_church_fervor'] == 20
+    assert c['variables']['muscovy_fervor'] == 20
     for marker in ('imperial_orthodox_state', 'orthodox_empire_proclaimed'):
         assert c['modifiers'][marker] == w.day + 7300
     cases += 1

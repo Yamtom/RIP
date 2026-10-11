@@ -97,12 +97,16 @@ for choice, separates in (('russian_orthodox.6.b', True), ('russian_orthodox.6.c
     assert c['religion'] == 'orthodox' and not available(w, c, 'russian_orthodox.6')
     w.year = 1666
     assert available(w, c, 'russian_orthodox.6')
+    c['patriarch_authority'] = 0.5
+    stability_before = c['stability']
     choose(w, c, 'russian_orthodox.6', choice)
     assert (c['religion'] == 'russian_orthodox') == separates
     assert ('raskol_schism' in w.flags) == separates
     assert ('rip_ro_stage_raskol' in c['flags']) == separates
     assert 'rip_church_ro_schismatic' not in c['flags'], 'Raskol is not a break with other Eastern sees'
     if not separates:
+        assert abs(c['patriarch_authority'] - 0.4) < 1e-9
+        assert c['stability'] == stability_before + 1
         assert 'rip_ro_raskol_settled' in c['flags']
         assert not available(w, c, 'russian_orthodox.6')
     cases += 1

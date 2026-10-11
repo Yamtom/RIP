@@ -32,13 +32,14 @@ def button(name,x,y,trigger,effect,potential='always = yes',sprite='GFX_standard
     frame_clause='' if frame is None else f' frame = {{ number = {frame} trigger = {{ always = yes }} }}'
     tooltip_key=tooltip or name+'_tt'
     scale_clause='' if scale is None else f' scale = {scale}'
+    button_label=label if isinstance(label,str) else name if label else ''
     defs.append(f'''custom_button = {{
  name = {name} potential = {{ {potential} }} trigger = {{ {trigger} }}
  effect = {{ {effect} }} tooltip = {tooltip_key}{frame_clause}
 }}''')
     return f'''guiButtonType = {{
  name = "{name}" scripted = yes position = {{ x={x} y={y} }}
- quadTextureSprite = "{sprite}" buttonText = "{name if label else ''}" buttonFont = "vic_18"{scale_clause}
+ quadTextureSprite = "{sprite}" buttonText = "{button_label}" buttonFont = "vic_18"{scale_clause}
 }}'''
 
 def feature_button(name,x,y,trigger,effect,sprite='GFX_standard_button_71',frame=None,label=False):
@@ -116,6 +117,10 @@ def panel(name,condition,body,x=540,y=8,clean=False):
         background='GFX_rip_church_ro_frame'
         scale='scale = 0.782537'
     height=560 if native_church else 680 if clean else 550
+    if name == 'rip_church_ro_panel':
+        background='GFX_rip_ro_native_frame'
+        scale=''
+        body=art(name+'_surface','GFX_rip_ro_native_surface',13,13)+body
     if name == 'rip_church_rite_panel':
         # Same window language as the Union/Curia pages, but sized to its content.
         background='GFX_rip_church_rite_frame'
@@ -157,42 +162,57 @@ def state_badge(name,x,y,ready,tooltip,scale=1,click_through=False):
 
 # Same native font, parent geometry and slot hit area as the Union window.
 # Policies are our real transactions; retired native Orthodox icons stay inert.
-ro=''
+insets.extend([
+ 'corneredTileSpriteType = { name = "GFX_rip_ro_native_frame" textureFile = "gfx/interface/tiles_dialog.dds" size = { x=475 y=560 } borderSize = { x=32 y=32 } }',
+ 'corneredTileSpriteType = { name = "GFX_rip_ro_native_surface" textureFile = "gfx/interface/rip_ro_native_surface.dds" size = { x=449 y=534 } borderSize = { x=1 y=1 } }',
+ 'spriteType = { name = "GFX_rip_ro_native_header" textureFile = "gfx/interface/rip_ro_native_header.dds" }',
+])
+ro=art('rip_church_ro_native_header','GFX_rip_ro_native_header',13,27,449/532)
 ro+=text('rip_church_ro_heading',28,35,w=419,h=24,font='vic_22',align='center',tip=False)
 ro+=card('rip_church_ro_status_card',34,67,407,30,
          text('rip_church_ro_status',8,8,w=391,h=22,align='center'))
 for key,y,sprite in (
-    ('fuel',101,'GFX_rip_church_ro_fervor'),
-    ('slots',124,'GFX_rip_church_ro_authority'),
-    ('network',147,'GFX_rip_church_ro_network'),
+    ('fuel',103,'GFX_rip_church_ro_fervor'),
+    ('slots',103,'GFX_rip_church_ro_authority'),
+    ('network',103,'GFX_rip_church_ro_network'),
 ):
-    ro+=art('rip_church_ro_'+key+'_symbol',sprite,43,y-2,0.375)
-    ro+=text('rip_church_ro_'+key,76,y,w=355,h=18)
+    x={'fuel':34,'slots':184,'network':334}[key]
+    ro+=art('rip_church_ro_'+key+'_symbol',sprite,x,y-2,0.375)
+    ro+=text('rip_church_ro_'+key,x+29,y,w=108,h=22,font='vic_18')
+ro+=text('rip_church_ro_authority_link',34,130,w=407,h=22,font='vic_14',align='center')
 # The original Coptic frame already contains its own section ribbon.
-ro+=text('rip_church_ro_policies_title',45,181,w=385,h=20,align='center')
+ro+=text('rip_church_ro_policies_title',45,161,w=385,h=20,align='center')
 for i,k in enumerate(('war','mercy','building','mission')):
-    x,y=26+i*106,213
-    policy=art('rip_church_'+k+'_slot','GFX_rip_church_policy_slot',22,0)
-    policy+=button(f'rip_church_icon_{k}_button',22,0,
+    x,y=28,188+i*76
+    policy=art('rip_church_'+k+'_slot','GFX_rip_church_policy_slot',7,6)
+    policy+=button(f'rip_church_icon_{k}_button',224,20,
                    f'religion = russian_orthodox OR = {{ has_country_flag = rip_church_icon_{k} rip_church_can_activate_{k} = yes }}',
-                   f'rip_church_toggle_{k}_effect = yes',sprite='GFX_rip_church_policy_select',label=False)
-    policy+=art('rip_church_'+k+'_art','GFX_rip_church_policy_'+k,30,8,0.65625)
+                   f'rip_church_toggle_{k}_effect = yes',sprite='button_type_8',
+                   label=f'rip_church_icon_{k}_label',tooltip=f'rip_church_icon_{k}_button_tt')
+    policy+=art('rip_church_'+k+'_art','GFX_rip_church_policy_'+k,15,14,0.65625)
     defs.append(f'custom_icon = {{ name = rip_church_{k}_active_frame potential = {{ has_country_flag = rip_church_icon_{k} }} }}')
-    policy+=f'iconType = {{ name = "rip_church_{k}_active_frame" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x=22 y=0 }} alwaystransparent = yes }}'
-    policy+=state_badge('rip_church_ro_'+k+'_access',61,39,
-                       f'OR = {{ has_country_flag = rip_church_icon_{k} rip_church_can_activate_{k} = yes }}',
-                       f'rip_church_icon_{k}_button_tt',scale=0.9,click_through=True)
-    policy+=text(f'rip_church_icon_{k}_label',0,66,w=102,h=18,align='center',tip=False)
-    policy+=text(f'rip_church_icon_{k}_state',0,91,w=102,h=18,align='center',tip=False)
-    policy+=text(f'rip_church_icon_{k}_action',0,116,w=102,h=36,align='center')
-    policy+=text(f'rip_church_icon_{k}_benefit',0,161,w=102,h=54,align='center')
-    ro+=card('rip_church_ro_'+k+'_card',x,y,102,215,policy)
-ro+=button('rip_church_nodes_button',125,436,'rip_church_ro_can_open_network_menu = yes',
-           'country_event = { id = rip_church_nodes.1 }')
-ro+=text('rip_church_ro_mission_cost',34,476,w=407,h=36,align='center')
-ro+=button('rip_church_reconcile_button',125,515,'rip_church_can_reconcile = yes',
+    policy+=f'iconType = {{ name = "rip_church_{k}_active_frame" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x=7 y=6 }} alwaystransparent = yes }}'
+    policy+=text(f'rip_church_icon_{k}_label',72,8,w=124,h=20,font='vic_14',align='left',tip=False)
+    policy+=text(f'rip_church_icon_{k}_state',72,49,w=124,h=20,font='vic_14',align='left',tip=False)
+    effect_art = {
+        'war': ('discipline','global_manpower_modifier'),
+        'mercy': ('global_unrest','stability_cost_modifier'),
+        'building': ('development_cost','build_cost'),
+        'mission': ('missionaries','trade_efficiency'),
+    }[k]
+    for row, sprite in enumerate(effect_art):
+        sprite_name='GFX_rip_church_effect_'+sprite
+        declaration=f'spriteType = {{ name = "{sprite_name}" textureFile = "gfx/interface/ideas_EU4/{sprite}.dds" }}'
+        if declaration not in insets: insets.append(declaration)
+        policy+=art(f'rip_church_{k}_benefit_symbol_{row}',sprite_name,70+row*78,29,0.32)
+    policy+=text(f'rip_church_icon_{k}_benefit',92,29,w=54,h=20,font='vic_14',align='left')
+    policy+=text(f'rip_church_icon_{k}_benefit_second',170,29,w=54,h=20,font='vic_14',align='left')
+    ro+=card('rip_church_ro_'+k+'_card',x,y,419,72,policy)
+ro+=button('rip_church_nodes_button',34,496,'rip_church_ro_can_open_network_menu = yes',
+           'country_event = { id = rip_church_nodes.1 }',sprite='button_type_8')
+ro+=button('rip_church_reconcile_button',248,496,'rip_church_can_reconcile = yes',
            'rip_church_ro_begin_reconciliation_effect = yes',
-           'has_country_flag = rip_church_ro_schismatic')
+           'has_country_flag = rip_church_ro_schismatic',sprite='button_type_8')
 
 # ---------------------------------------------------------------------------
 # Layout grid for the three Union pages. Window-local pixels; the inner surface
@@ -422,9 +442,11 @@ native_controls='''windowType = {
 # Replace the empty native selector with a working route to the policy pane.
 # Keep the engine-owned controls underneath, just as for the Union selector.
 defs.append('custom_window = { name = rip_church_ro_native_controls potential = { religion = russian_orthodox } }')
+defs.append('custom_text_box = { name = rip_church_ro_authority_label potential = { religion = russian_orthodox } tooltip = rip_church_ro_authority_label_tt }')
 ro_native_controls='''windowType = {
  name = "rip_church_ro_native_controls" scripted = yes
  position = { x=0 y=0 } size = { x=280 y=50 } moveable = 0
+ instantTextBoxType = { name = "rip_church_ro_authority_label" scripted = yes position = { x=50 y=255 } font = "vic_18" text = "rip_church_ro_authority_label" maxWidth = 256 maxHeight = 24 format = center }
  iconType = { name = "rip_church_ro_selector_cover" spriteType = "GFX_rip_church_gc_selector_surface" position = { x=303 y=232 } alwaystransparent = no }
  iconType = { name = "rip_church_ro_selector_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = { x=322 y=244 } scale = 0.65625 alwaystransparent = yes }
 '''+button('rip_church_ro_window_toggle',304,300,'religion = russian_orthodox',
@@ -440,6 +462,26 @@ def attach(file,host,body):
         state_end=matching_brace(s,s.index('{',state_start))
         s=s[:state_end].rstrip()+'\n'+prov_state_cover+'\n'+prov_reopen_panel+'\n\t\t'+s[state_end:]
     if file=='countryreligionview.gui':
+        # The native province list reserves only 135px for names. A long
+        # Muscovite name such as "Starodub Ryapolovskiy" wraps by one pixel
+        # and collides vertically with the adjacent Yuriev row. The next
+        # column begins at x=162, so 140px still leaves a safe gutter.
+        list_name=re.search(r'name\s*=\s*"countryreligionview_provincelistitem"',s)
+        assert list_name, 'native province-list row is missing'
+        list_start=s.rfind('windowType',0,list_name.start())
+        list_open=s.index('{',list_start)
+        list_end=matching_brace(s,list_open)
+        list_block=s[list_start:list_end+1]
+        name_field=re.search(r'name\s*=\s*"name"',list_block)
+        assert name_field, 'native province-name cell is missing'
+        name_start=list_block.rfind('instantTextBoxType',0,name_field.start())
+        name_open=list_block.index('{',name_start)
+        name_end=matching_brace(list_block,name_open)
+        name_widget=list_block[name_start:name_end+1]
+        updated_name_widget,changed=re.subn(r'\bmaxWidth\s*=\s*135\b','maxWidth = 140',name_widget,count=1)
+        assert changed==1, 'native province-name width changed; review the layout before regenerating'
+        list_block=list_block[:name_start]+updated_name_widget+list_block[name_end+1:]
+        s=s[:list_start]+list_block+s[list_end+1:]
         for widget in ('current_patriarch_authority_progress_frame',):
             s=re.sub(r'(name\s*=\s*"'+widget+r'")',r'\1 scripted = yes',s)
         for level in ('low','high'):
@@ -449,7 +491,7 @@ def attach(file,host,body):
         s=s.replace('name = "current_patriarch_authority_text"',
                     'name = "rip_church_authority_heading" scripted = yes')
         s=re.sub(r'text = "CURRENT_PATRIARCH_AUTHORITY"[ \t]*', 'text = "rip_church_authority_heading"', s)
-        defs.append('custom_text_box = { name = rip_church_authority_heading potential = { NOT = { religion = greek_catholic } } tooltip = rip_church_authority_heading_tt }')
+        defs.append('custom_text_box = { name = rip_church_authority_heading potential = { NOT = { religion = greek_catholic } NOT = { religion = russian_orthodox } } tooltip = rip_church_authority_heading_tt }')
         native_name=re.search(r'name\s*=\s*"orthodox_specific_window"',s)
         native_start=s.rfind('windowType',0,native_name.start())
         native_end=matching_brace(s,s.index('{',native_start))

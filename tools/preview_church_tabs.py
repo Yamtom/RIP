@@ -46,22 +46,22 @@ samples = {
 numeric_samples = {
     'rip_church_gui_eastern_parishes.GetValue': '12',
     'rip_church_gui_latin_parishes.GetValue': '7',
-    'rip_church_fervor.GetValue': '98',
+    'muscovy_fervor.GetValue': '98',
     'rip_church_fervor_income.GetValue': '3',
     'rip_church_fervor_cost.GetValue': '2',
     'rip_church_icons.GetValue': '1',
     'rip_church_capacity.GetValue': '2',
-    'rip_church_nodes.GetValue': '0',
+    'funded_nodes_count.GetValue': '0',
 }
 numeric_extremes = {
     'rip_church_gui_eastern_parishes.GetValue': ('1', '9999'),
     'rip_church_gui_latin_parishes.GetValue': ('1', '9999'),
-    'rip_church_fervor.GetValue': ('0', '100'),
+    'muscovy_fervor.GetValue': ('0', '100'),
     'rip_church_fervor_income.GetValue': ('2', '5'),
     'rip_church_fervor_cost.GetValue': ('0', '18'),
     'rip_church_icons.GetValue': ('0', '4'),
     'rip_church_capacity.GetValue': ('1', '4'),
-    'rip_church_nodes.GetValue': ('0', '2'),
+    'funded_nodes_count.GetValue': ('0', '2'),
 }
 # New visual badges use the live scripted gates. This bounded source fixture
 # is not engine evidence, but it prevents painting both mutually exclusive
@@ -70,8 +70,9 @@ fixture_world, fixture_country, _ = fixture('russian_orthodox' if args.ro else '
 fixture_country.update(treasury=150, patriarch_authority=1, is_at_war=False, stability=2)
 if args.ro:
     fixture_country['patriarch_authority'] = .5
-    fixture_country['variables']['rip_church_fervor'] = 98
+    fixture_country['variables']['muscovy_fervor'] = 98
     fixture_country['flags']['rip_church_icon_mission'] = fixture_world.day
+    fixture_world.run('rip_church_ro_recount_effect', fixture_country)
 icon_gates = {}
 button_gates = {}
 for path in ('common/custom_gui/RIP_church_controls.txt', 'common/custom_gui/RIP_church_gc_features.txt'):
