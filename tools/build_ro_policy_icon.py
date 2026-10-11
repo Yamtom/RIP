@@ -24,10 +24,17 @@ for i in range(2):
     frame=native.crop((i*56,0,(i+1)*56,56))
     # Cover the complete old crescent/coins, keeping the native ornamental frame.
     # Preserve the inward ornamental corners too: a rectangle clipped them.
-    ImageDraw.Draw(frame).polygon([(14,8),(41,8),(47,14),(47,41),
-                                   (41,47),(14,47),(8,41),(8,14)],
+    ImageDraw.Draw(frame).polygon([(18,9),(37,9),(46,18),(46,37),
+                                   (37,46),(18,46),(9,37),(9,18)],
                                   fill=(26,45,49,255))
     frame.alpha_composite(cross,((56-cross.width)//2,(56-cross.height)//2))
+    original=native.crop((i*56,0,(i+1)*56,56))
+    for y in range(56):
+        for x in range(56):
+            edge=min(x,y,55-x,55-y)<8
+            corner=min(x,55-x)<14 and min(y,55-y)<14
+            if edge or corner:
+                assert frame.getpixel((x,y))==original.getpixel((x,y)), 'Native trade frame was clipped'
     result.alpha_composite(frame,(i*56,0))
 output=ROOT/'gfx/interface/rip_ro_mission_policy.dds'
 same=output.exists() and Image.open(output).convert('RGBA').tobytes()==result.tobytes()
