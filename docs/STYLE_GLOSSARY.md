@@ -87,7 +87,7 @@
 > bulava now commands lasting authority.
 
 Одне-два речення. Названа установа замість розряду. Сухе твердження замість
-присуду. Звідси п'ять правил:
+присуду. Звідси шість правил:
 
 1. **Називайте річ.** Не «democratic traditions», а «the Rada elects the
    hetman, and the bulava passes by acclamation». Конкретна подробиця коштує
@@ -108,6 +108,12 @@
 5. **Варіанти — це голос ради.** Коротко й наказово: «Let the Sich stand
    surety for the old rite», а не «Support the Orthodox resistance». Серединна
    довжина варіанта в моді — чотири слова; тримайтеся її.
+6. **Претензія — голос двору, а не оповідача.** «Право й обов'язок збирати
+   руські землі» чи «призначення Третього Риму» — позиція канцелярії або
+   церковної партії: «the chancery and the court clergy hold that…», «the court
+   clergy call it…», «other courts call this pretension». Атмосфера лишається,
+   а політична претензія не видається за безспірний факт. Це правило читає
+   людина: тест його не ловить.
 
 Уникайте: `identity`, `democracy`/`democratic`, `ethnic`, `ideology` — це
 соціологія XX століття, і кожне слово траплялося в 15-70 разів частіше, ніж у
