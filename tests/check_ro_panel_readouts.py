@@ -149,7 +149,7 @@ POLICIES = ('war', 'mercy', 'building', 'mission')
 w, c = ro_country()
 assert screen('rip_church_ro_fervor_value', w, c) == '0 / 100'
 assert screen('rip_church_ro_fervor_sub', w, c) == 'Net 0 / month'
-assert screen('rip_church_ro_nodes_value', w, c) == '0 / 1'
+assert screen('rip_church_ro_nodes_value', w, c) == '0 / 2'
 assert screen('rip_church_ro_nodes_sub', w, c) == '0 Fervor / mo'
 assert screen('rip_church_ro_policies_value', w, c) == '0 / 1'
 assert screen('rip_church_ro_policies_sub', w, c) == '0 Fervor / mo'
@@ -169,7 +169,7 @@ for authority, base in BASE.items():
                 net = base + 3 * nodes - 3 * active
                 assert screen('rip_church_ro_fervor_value', w, c) == f'{fervor} / 100'
                 assert screen('rip_church_ro_fervor_sub', w, c) == f'Net {signed(net)} / month', (authority, active, nodes)
-                assert screen('rip_church_ro_nodes_value', w, c) == f'{nodes} / 1'
+                assert screen('rip_church_ro_nodes_value', w, c) == f'{nodes} / {2 if authority >= 0.65 else 1}'
                 assert screen('rip_church_ro_nodes_sub', w, c) == f'{signed(3 * nodes)} Fervor / mo'
                 assert screen('rip_church_ro_policies_value', w, c) == f'{active} / {CAPACITY[authority]}'
                 assert screen('rip_church_ro_policies_sub', w, c) == f'{-3 * active if active else 0} Fervor / mo'
@@ -177,6 +177,8 @@ for authority, base in BASE.items():
 w, c = ro_country()
 c['flags']['rip_church_ro_schismatic'] = w.day
 assert screen('rip_church_ro_nodes_value', w, c) == '0 / 2'
+c['patriarch_authority'] = 0.6499
+assert screen('rip_church_ro_nodes_value', w, c) == '0 / 1'
 cases += 1
 
 # The tooltips print the same breakdown the tile does.
@@ -190,8 +192,9 @@ assert 'authority +4, nodes +3, policies -3, net +4' in tip, tip
 cases += 1
 
 # ---- 4. The lock reason names the gate that is actually shut -------------------------
-def hint(mission=True, dlc=True, nodes=0, fervor=50, schism=False):
+def hint(mission=True, dlc=True, nodes=0, fervor=50, schism=False, authority=0.3):
     w, c = ro_country()
+    c['patriarch_authority'] = authority
     if mission:
         c['flags']['rip_church_icon_mission'] = w.day
     if not dlc:
@@ -206,11 +209,12 @@ assert 'Mission policy' in hint(mission=False)
 assert 'Mission policy' in hint(mission=False, dlc=False), 'the policy comes before the DLC'
 assert 'Cradle of Civilization' in hint(dlc=False)
 assert 'Node limit reached' in hint(nodes=1)
-assert 'Node limit reached' not in hint(nodes=1, schism=True), 'renouncing communion permits a second node'
+assert 'Node limit reached' in hint(nodes=1, schism=True), 'schism cannot bypass authority'
+assert 'Node limit reached' not in hint(nodes=1, authority=0.65)
 assert 'Node limit reached' in hint(nodes=2, schism=True)
 assert 'costs 10 Fervor' in hint(fervor=9) and 'costs 10 Fervor' not in hint(fervor=10)
 assert 'No trade node qualifies' in hint(fervor=10), 'no eligible province is modelled in this fixture'
-assert hint(nodes=1, schism=True).startswith('A node can be funded')
+assert hint(nodes=1, authority=0.65).startswith('A node can be funded')
 stub = TRIGGERS['rip_church_ro_can_open_network_menu']
 try:
     TRIGGERS['rip_church_ro_can_open_network_menu'] = [('always', 'yes')]
@@ -227,7 +231,7 @@ for name in openers:
     block = named_block(nodes_source, name)
     assert 'check_variable = { which = muscovy_fervor value = 10 }' in block, name
     assert 'NOT = { check_variable = { which = funded_nodes_count value = 1 } }' in block, name
-    assert 'has_country_flag = rip_church_ro_schismatic NOT = { check_variable = { which = funded_nodes_count value = 2 } }' in block, name
+    assert 'patriarch_authority = 0.65 NOT = { check_variable = { which = funded_nodes_count value = 2 } }' in block, name
     eligible = named_block(nodes_source, name.replace('_can_open', '_eligible'))
     assert 'has_country_flag = rip_church_icon_mission' in eligible and 'has_dlc = "Cradle of Civilization"' in eligible, name
 cases += 1
@@ -235,7 +239,7 @@ cases += 1
 # ---- 5. The three steps: the order of actions is on the screen -----------------------------
 def step(n, **kw):
     w, c = ro_country()
-    c['patriarch_authority'] = 0.9
+    c['patriarch_authority'] = kw.get('authority', 0.9)
     c['variables']['muscovy_fervor'] = kw.get('fervor', 50)
     c['variables']['funded_nodes_count'] = kw.get('nodes', 0)
     w.run('rip_church_ro_recount_effect', c)
@@ -266,7 +270,7 @@ assert step(2).startswith('2. Fund a node, after Mission'), 'step 2 waits for st
 assert step(2, mission=True, fervor=9).startswith('2. A node costs 10 Fervor')
 assert step(2, mission=True, can_open=False).startswith('2. No trade node qualifies')
 assert step(2, mission=True, can_open=True).startswith('2. Fund a trade node: 10 Fervor')
-assert step(2, mission=True, nodes=1).startswith('2. Node funded: +3 Fervor/month')
+assert step(2, mission=True, nodes=1, authority=0.6499).startswith('2. Node funded: +3 Fervor/month')
 assert step(2, mission=True, nodes=2, schism=True).startswith('2. Two nodes: +6 Fervor/month')
 assert step(2, mission=True, nodes=1, schism=True).startswith('2. 1 node funded, 1 more allowed')
 assert step(3).startswith('3. Then choose Missionary Network')
@@ -292,6 +296,8 @@ clemency = modifiers['rip_church_eastern_clemency']
 assert f"{signed_pct(float(clemency['local_autonomy']))} local autonomy" in loc['rip_church_icon_mercy_button_tt']
 assert f"{float(clemency['local_unrest']):g} local unrest" in loc['rip_church_icon_mercy_button_tt']
 drive = modifiers['rip_church_cathedral_drive']
+assert 'with a completed cathedral' in loc['rip_church_icon_building_button_tt']
+assert 'bordering another steppe power' in war
 assert f"{signed_pct(float(drive['local_build_cost']))} construction cost" in loc['rip_church_icon_building_button_tt']
 preaching = modifiers['rip_church_preaching']
 assert f"{signed_pct(float(preaching['local_missionary_strength']))} local missionary strength" in loc['rip_church_icon_mission_button_tt']

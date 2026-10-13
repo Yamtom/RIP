@@ -14,6 +14,13 @@ for path in ('events/RussianOrthodox.txt', 'events/RIP_RO_InstitutionalHistory.t
 
 
 class HistoryWorld(World):
+    def execute(self, items, scope, root=None, prev=None):
+        # Record rebel requests, not native rebel behavior or outcomes.
+        for key, value in items:
+            if key == 'spawn_rebels':
+                scope.setdefault('rebel_requests', []).append(dict(value))
+        super().execute([(k, v) for k, v in items if k != 'spawn_rebels'], scope, root, prev)
+
     def condition(self, key, value, scope, root, prev):
         if key == 'primary_culture': return scope.get(key) == value
         if key == 'is_capital':
@@ -57,7 +64,7 @@ cases = 0
 for year, flag, allowed in ((1588,'rip_church_ro_schismatic',False),
                             (1589,'rip_church_ro_schismatic',True),
                             (1665,'rip_ro_stage_raskol',False),
-                            (1666,'rip_ro_stage_raskol',True)):
+                            (1666,'rip_ro_stage_raskol',False)):
     w, c, p, other, catholic = setup(year)
     c['flags'][flag] = w.day
     w.run('rip_faith_adopt_muscovite_church_effect', c)
@@ -99,7 +106,7 @@ assert not other['modifiers']
 cases += 1
 
 # The book reform does not change religion; the formal council is a later gate.
-for choice, separates in (('russian_orthodox.6.b', True), ('russian_orthodox.6.c', False)):
+for choice, internal_schism in (('russian_orthodox.6.a', True), ('russian_orthodox.6.b', True), ('russian_orthodox.6.c', False)):
     w, c, p, other, catholic = setup(1653)
     for flag in ('rip_ro_stage_autocephaly', 'rip_ro_stage_patriarchate', 'rip_church_ro_recognized'):
         c['flags'][flag] = w.day
@@ -111,15 +118,46 @@ for choice, separates in (('russian_orthodox.6.b', True), ('russian_orthodox.6.c
     c['patriarch_authority'] = 0.5
     stability_before = c['stability']
     choose(w, c, 'russian_orthodox.6', choice)
-    assert (c['religion'] == 'russian_orthodox') == separates
-    assert ('raskol_schism' in w.flags) == separates
-    assert ('rip_ro_stage_raskol' in c['flags']) == separates
+    assert c['religion'] == p['religion'] == other['religion'] == 'orthodox'
+    assert catholic['religion'] == 'catholic'
+    assert ('raskol_schism' in w.flags) == internal_schism
+    assert ('rip_ro_stage_raskol' in c['flags']) == internal_schism
+    if choice.endswith('.a'):
+        assert p['rebel_requests'] == [{'type': 'heretic_rebels', 'size': '2'}]
+        assert 'suppression_old_believers' in c['modifiers']
+    if choice.endswith('.b'):
+        assert 'old_believer_underground' in c['modifiers']
     assert 'rip_church_ro_schismatic' not in c['flags'], 'Raskol is not a break with other Eastern sees'
-    if not separates:
+    if not internal_schism:
         assert abs(c['patriarch_authority'] - 0.4) < 1e-9
         assert c['stability'] == stability_before + 1
         assert 'rip_ro_raskol_settled' in c['flags']
         assert not available(w, c, 'russian_orthodox.6')
+    cases += 1
+
+# Raskol remains reachable without adopting the separate confession or its wave.
+raskol = named_block(read('common/disasters/rip_faith_disasters.txt'), 'rip_ro_raskol')
+for religion in ('orthodox', 'russian_orthodox'):
+    w, c, p, other, catholic = setup(1666, religion)
+    c['flags'].update(rip_ro_stage_autocephaly=w.day, rip_ro_stage_raskol=w.day)
+    c.update(patriarch_authority=0.8, has_any_disaster=False)
+    assert w.gate(dict(parse(named_block(raskol, 'potential')))['potential'], c)
+    assert w.gate(dict(parse(named_block(raskol, 'can_start')))['can_start'], c)
+    c['flags']['rip_ro_ritual_compromise'] = w.day
+    assert not w.gate(dict(parse(named_block(raskol, 'potential')))['potential'], c)
+    cases += 1
+
+# A legacy Raskol-only conversion is repaired; an explicit external break stays.
+for external_break in (False, True):
+    w, c, p, other, catholic = setup(1667, 'russian_orthodox')
+    c['flags']['rip_ro_stage_raskol'] = w.day
+    if external_break:
+        c['flags']['rip_church_ro_schismatic'] = w.day
+    w.run('rip_church_ro_history_monthly_effect', c)
+    expected = 'russian_orthodox' if external_break else 'orthodox'
+    assert c['religion'] == p['religion'] == expected
+    assert other['religion'] == 'orthodox' and catholic['religion'] == 'catholic'
+    assert 'rip_ro_stage_raskol' in c['flags']
     cases += 1
 
 # Only Orthodox parishes get the full/limited guarantees; expiration restores it.

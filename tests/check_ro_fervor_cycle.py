@@ -56,7 +56,7 @@ for authority, base in BASE.items():
 
 # ---- 2. What can be kept for good -----------------------------------------------------
 # The sustainable count is how many policies the income pays for. The design target:
-# one policy with no node, two with one node, three with two (after renouncing communion),
+# at least 30% authority: one policy without a node, two with one; at 65%: three with two,
 # and never all four, whatever the authority.
 def sustainable(base, nodes):
     return floor((base + NODE_YIELD * nodes) / UPKEEP)
@@ -158,6 +158,7 @@ def land():
     province(300, 'steppe_terrain', terrain='steppe')
     province(301, 'steppe_border', neighbors={'400'})
     province(302, 'interior')
+    province(308, 'grassland_interior', terrain='grasslands')
     province(303, 'volga', religion='sunni', area='kazan_area')
     province(304, 'siberia', religion='orthodox', region='west_siberia_region')
     province(305, 'has_cathedral', buildings={'temple', 'cathedral'})
@@ -178,11 +179,18 @@ for policy in POLICIES:
     w.run(f'rip_church_toggle_{policy}_effect', c)
     assert f'rip_church_icon_{policy}' in c['flags']
 frontier = lands(w, places, 'rip_church_frontier_watch')
-assert frontier == {'steppe_terrain', 'steppe_border'}, frontier
+assert frontier == {'steppe_border'}, frontier
 eastern = lands(w, places, 'rip_church_eastern_clemency')
 assert eastern == {'volga', 'siberia'}, ('a town is not a province to govern, a Polish border is not the east', eastern)
 cathedral = lands(w, places, 'rip_church_cathedral_drive')
-assert 'has_cathedral' not in cathedral and 'interior' in cathedral and 'volga' not in cathedral, cathedral
+assert cathedral == {'has_cathedral'}, cathedral
+# Completing a cathedral grants support; removing it revokes support on refresh.
+places['interior']['buildings'].add('cathedral')
+w.run('rip_church_ro_sync_policies_effect', c)
+assert lands(w, places, 'rip_church_cathedral_drive') == {'has_cathedral', 'interior'}
+places['interior']['buildings'].discard('cathedral')
+w.run('rip_church_ro_sync_policies_effect', c)
+assert lands(w, places, 'rip_church_cathedral_drive') == {'has_cathedral'}
 preaching = lands(w, places, 'rip_church_preaching')
 assert preaching == {'volga'}, ('settled provinces of another faith, never Orthodox ones', preaching)
 assert 'rip_church_icon_war_steppe' not in c['modifiers'], 'no war, no wartime bonus'
@@ -216,7 +224,7 @@ for policy, modifier in (('mercy', 'rip_church_eastern_clemency'), ('building', 
 w, c, places, steppe = land()
 w.run('rip_church_toggle_war_effect', c)
 assert lands(w, places, 'rip_church_frontier_watch')
-steppe_province = places['steppe_terrain']
+steppe_province = places['steppe_border']
 steppe_province['owner'] = 'CRI'
 w.run('rip_church_province_change_effect', steppe_province)
 assert 'rip_church_frontier_watch' not in steppe_province['modifiers']
@@ -299,7 +307,7 @@ assert c['variables']['muscovy_fervor'] == 6 * (BASE[0.9] + NODE_YIELD - UPKEEP)
 assert 'rip_church_icon_mission' in c['flags'] and 'rip_church_node_novgorod' in c['flags']
 cases += 1
 
-# The same start at the middle authority band: Mission and the node cancel, the pool simply holds.
+# The same start at the middle band: Mission and the node cancel, authority adds 3.
 w, c, p = node_world(fervor=20)
 c['patriarch_authority'] = 0.3
 c['flags'].pop('rip_church_icon_mission')
@@ -331,16 +339,50 @@ assert 'rip_church_icon_mission' not in c['flags'] and 'rip_church_node_novgorod
 assert not lands(w, p, 'rip_church_node_courtyards') and c['variables']['funded_nodes_count'] == 0
 cases += 1
 
-# One node is the limit; a schismatic state may found a second. (Both anchors need their own parish and trade.)
-w, c, p = node_world(fervor=100)
-second = w.province(1082, w.countries['KAZ'], 'sunni')
-second['traders'].add('MOS'); second['shares']['MOS'] = 60
-w.run('rip_church_node_novgorod_toggle_effect', c)
-w.from_scope = second
-assert not w.gate(TRIGGERS['rip_church_node_kazan_can_open'], c), 'one node is the limit'
-c['flags']['rip_church_ro_schismatic'] = w.day
-# the second node still needs its own parish, target and trade share; the fixture models one node only
-assert w.gate(TRIGGERS['rip_church_node_kazan_can_open'], c) == w.gate(TRIGGERS['rip_church_node_kazan_eligible'], c)
+# Capacity follows authority, never communion. The bounded fixture shares node members.
+for authority in (0.6499, 0.65, 0.9):
+    for schism in (False, True):
+        w, c, p = node_world(fervor=100)
+        c['patriarch_authority'] = authority
+        if schism:
+            c['flags']['rip_church_ro_schismatic'] = w.day
+        second = w.province(1082, w.countries['KAZ'], 'sunni')
+        second['traders'].add('MOS'); second['shares']['MOS'] = 60
+        w.run('rip_church_node_novgorod_toggle_effect', c)
+        assert w.gate(TRIGGERS['rip_church_node_kazan_eligible'], c)
+        assert w.gate(TRIGGERS['rip_church_node_kazan_can_open'], c) == (authority >= 0.65)
+        w.run('rip_church_node_kazan_toggle_effect', c)
+        assert c['variables']['funded_nodes_count'] == (2 if authority >= 0.65 else 1)
+        if authority >= 0.65:
+            # Changing communion does not close either node.
+            c['flags'].pop('rip_church_ro_schismatic', None)
+            w.run('rip_church_ro_maintain_nodes_effect', c)
+            assert c['variables']['funded_nodes_count'] == 2
+            c['patriarch_authority'] = 0.6499
+            w.run('rip_church_ro_monthly_effect', c)
+            assert c['variables']['funded_nodes_count'] == 1
+            assert c['variables']['rip_church_node_income'] == NODE_YIELD
+        cases += 1
+
+# Below 30%, an unfunded policy drains 1/month; Mission plus a node leaves base income.
+for funded in (False, True):
+    w, c, p = node_world(fervor=50)
+    c['patriarch_authority'] = 0.2999
+    if funded:
+        w.run('rip_church_node_novgorod_toggle_effect', c)
+    before = c['variables']['muscovy_fervor']
+    w.run('rip_church_ro_monthly_effect', c)
+    assert c['variables']['muscovy_fervor'] - before == (2 if funded else -1)
+    cases += 1
+
+# A moving border is refreshed; the owner's own horde reform cannot turn its interior into frontier.
+w, c, places, steppe = land()
+w.run('rip_church_toggle_war_effect', c)
+assert lands(w, places, 'rip_church_frontier_watch') == {'steppe_border'}
+w.provinces['400']['owner'] = 'MOS'
+c['reforms'].add('steppe_horde')
+w.run('rip_church_ro_sync_policies_effect', c)
+assert not lands(w, places, 'rip_church_frontier_watch')
 cases += 1
 
 print(f'PASS: {cases} Muscovite Fervor cycle cases (arithmetic, sustainable counts, drain order, policy land, node economy)')
