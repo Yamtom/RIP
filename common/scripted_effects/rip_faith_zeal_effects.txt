@@ -16,9 +16,12 @@
 #
 #   THE OLD BELIEVERS. The other end entirely: not people who refused the new
 #   obedience but people who kept the OLD books after their own church changed
-#   them. They are inside the faith, in its own provinces, and they appear
-#   only after the Raskol. Higher patriarch authority increases the pressure
-#   to enforce the revised service books.
+#   them. They are inside the church, in the state's own Orthodox-family
+#   cities (rip_ro_old_believer_parish): the formal Raskol relabels only the
+#   state and its capital, so those cities are mostly still plain Orthodox and
+#   the capital is the one place they do not rise. They appear only after the
+#   Raskol. Higher patriarch authority increases the pressure to enforce the
+#   revised service books.
 #
 # Both are chance. What is NOT chance is the unrest: every pulse that converts
 # anybody raises it, whether or not anyone marches.
@@ -39,13 +42,10 @@ rip_ro_old_rite_rising_effect = {
 	}
 }
 
-# One rising of the Old Believers, inside the faith's own ground.
+# One rising of the Old Believers, in the parishes that kept the old books.
 rip_ro_old_believer_rising_effect = {
 	random_owned_province = {
-		limit = {
-			is_city = yes
-			religion = russian_orthodox
-		}
+		limit = { rip_ro_old_believer_parish = yes }
 		spawn_rebels = {
 			type = heretic_rebels
 			size = 1
@@ -109,10 +109,7 @@ rip_ro_zealot_backlash_effect = {
 			religion = russian_orthodox
 			has_country_flag = rip_ro_stage_raskol
  NOT = { has_country_flag = rip_ro_raskol_settled }
-			any_owned_province = {
-				is_city = yes
-				religion = russian_orthodox
-			}
+			any_owned_province = { rip_ro_old_believer_parish = yes }
 		}
 		if = {
 			limit = { patriarch_authority = 0.85 }

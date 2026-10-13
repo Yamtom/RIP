@@ -3,7 +3,7 @@
 This bounded interpreter is not evidence of native rendering or AI scheduling.
 """
 from copy import deepcopy
-from church_testlib import World, EFFECTS, parse
+from church_testlib import World, EFFECTS, TRIGGERS, parse
 from clausewitz_testlib import read, named_block
 
 events = {}
@@ -16,7 +16,18 @@ for path in ('events/RussianOrthodox.txt', 'events/RIP_RO_InstitutionalHistory.t
 class HistoryWorld(World):
     def condition(self, key, value, scope, root, prev):
         if key == 'primary_culture': return scope.get(key) == value
+        if key == 'is_capital':
+            return (self.countries[scope['owner']]['capital'] == scope['id']) == (value == 'yes')
         return super().condition(key, value, scope, root, prev)
+
+    def execute(self, items, scope, root=None, prev=None):
+        # The interpreter has no rebels or unrest of its own; record where they land.
+        rest = []
+        for key, value in items:
+            if key == 'spawn_rebels': scope.setdefault('rebels', []).append(dict(value))
+            elif key == 'add_unrest': scope['unrest'] = scope.get('unrest', 0) + float(value)
+            else: rest.append((key, value))
+        super().execute(rest, scope, root, prev)
 
 
 def setup(year=1448, religion='orthodox'):
@@ -178,6 +189,62 @@ assert catholic['religion'] == 'catholic'
 before = deepcopy(c)
 w.run('rip_church_ro_history_monthly_effect', c)
 assert c == before
+cases += 1
+
+# The Old Believers live in the Orthodox parishes, never in the relabelled capital.
+# The formal council converts the state and its capital only (above), so any
+# consequence that looks for religion = russian_orthodox lands on the patriarch's seat.
+EFFECTS.update(parse(read('common/scripted_effects/rip_faith_zeal_effects.txt')))
+parish = TRIGGERS['rip_ro_old_believer_parish']
+assert ('is_city', 'yes') in parish and ('is_capital', 'no') in parish
+assert sorted(v for k, v in dict(parish)['OR'] if k == 'religion') == ['orthodox', 'russian_orthodox']
+
+w, c, p, other, catholic = setup(1653)
+for flag in ('rip_ro_stage_autocephaly', 'rip_ro_stage_patriarchate', 'rip_church_ro_recognized'):
+    c['flags'][flag] = w.day
+choose(w, c, 'rip_ro_history.1', 'rip_ro_history.1.a')
+w.year = 1666
+c['patriarch_authority'] = 0.5
+choose(w, c, 'russian_orthodox.6', 'russian_orthodox.6.a')
+assert c['religion'] == p['religion'] == 'russian_orthodox' and other['religion'] == 'orthodox'
+assert 'rebels' not in p and 'rebels' not in catholic, 'rebels must not rise in the capital or in another faith'
+assert other['rebels'] == [{'type': 'heretic_rebels', 'size': '2'}]
+cases += 1
+
+w, c, p, other, catholic = setup(1667, 'russian_orthodox')
+w.run('rip_ro_old_believer_rising_effect', c)
+assert 'rebels' not in p and 'rebels' not in catholic and 'unrest' not in p
+assert other['rebels'] == [{'type': 'heretic_rebels', 'size': '1'}] and other['unrest'] == 3
+cases += 1
+
+# The pulse is only armed while a parish outside the capital can carry the dissent.
+pulse = dict([v for k, v in EFFECTS['rip_ro_zealot_backlash_effect'] if k == 'if'][1])['limit']
+w, c, p, other, catholic = setup(1667, 'russian_orthodox')
+c['flags']['rip_ro_stage_raskol'] = w.day
+assert w.gate(pulse, c)
+other['religion'] = 'catholic'
+assert not w.gate(pulse, c), 'the capital alone is not a parish of the old books'
+cases += 1
+
+
+def walk(nodes):
+    for key, value in nodes:
+        yield key, value
+        if isinstance(value, list):
+            yield from walk(value)
+
+
+faith_events = {dict(body)['id']: body for kind, body in parse(read('events/RIP_FaithDisasters.txt'))
+                if kind == 'country_event'}
+searches = [('russian_orthodox.6', events['russian_orthodox.6']),
+            ('rip_ro_old_believer_rising_effect', EFFECTS['rip_ro_old_believer_rising_effect'])]
+searches += [(e, faith_events[e]) for e in ('rip_faith_disaster.1', 'rip_faith_disaster.3', 'rip_faith_disaster.4')]
+for label, body in searches:
+    limits = [v for k, v in walk(body) if k == 'limit']
+    assert limits, label
+    for limit in limits:
+        assert ('religion', 'russian_orthodox') not in limit, label + ': dissent aimed at the converted capital'
+        assert ('rip_ro_old_believer_parish', 'yes') in limit, label
 cases += 1
 
 source = read('decisions/RussianOrthodoxDecisions.txt')

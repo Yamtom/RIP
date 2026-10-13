@@ -12,3 +12,12 @@ rip_church_ro_can_separate = {
   AND = { is_year = 1666 has_country_flag = rip_ro_stage_raskol }
  }
 }
+# Province scope: a city where the old books are still read after the Raskol.
+# The formal council relabels the state and its capital only
+# (rip_church_ro_can_separate); every other parish stays Orthodox, and that is
+# where the dissent lives. It never rises in the capital the patriarch sits in.
+rip_ro_old_believer_parish = {
+ is_city = yes
+ is_capital = no
+ OR = { religion = orthodox religion = russian_orthodox }
+}
