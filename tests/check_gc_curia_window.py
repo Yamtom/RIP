@@ -143,7 +143,7 @@ for tab in ('union', 'curia'):
     assert all(d['quadTextureSprite'] == 'GFX_tab_small_116' for d in tabs)
 assert interface.count('spriteType = "GFX_rip_church_union_frame"') >= 3
 assert 'small_tiles_dialog.dds' not in read('interface/RIP_church_panels.gfx')
-assert 'name = "rip_church_authority_heading" scripted = yes' in interface
+assert 'name = "current_patriarch_authority_text" scripted = yes' in interface
 assert interface.count('spriteType = "GFX_rip_church_section_banner"') >= 6
 assert 'rip_church_gc_holy_see_gift_button' in pages['curia']
 toggle = button(controls, 'rip_church_gc_window_toggle')

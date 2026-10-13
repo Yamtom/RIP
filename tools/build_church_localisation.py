@@ -1,4 +1,4 @@
-﻿"""Generate church UI localisation and fallback strings; no claim of translated fallback text."""
+"""Generate church UI localisation and fallback strings; no claim of translated fallback text."""
 from pathlib import Path
 from decimal import Decimal
 import json,argparse,re
@@ -563,13 +563,13 @@ for key,name,detail,(benefit,benefit_second) in (
   ('§GSteppe border: defence +20%§!','§GWar on nomads: discipline +5%§!')),
  ('mercy','Mercy',
   'The eastern lands, the Volga, the Urals and Siberia: §G-10% local autonomy§! and §G-1 local unrest§! in your provinces there, whatever their faith.',
-  ('§GEast: autonomy -10%§!','§GUnrest -1, any faith§!')),
+  ('§G-10%§!','§G-1§!')),
  ('building','Church Building',
   'Parishes with a completed cathedral: §G-25% construction cost§! there, for every building and not only churches. A temple or cathedral is what a mission node needs.',
   ('§GCathedral: build cost -25%§!','§GAny building there§!')),
  ('mission','Apostolic Mission',
   'Settled provinces of another faith, Orthodox ones excluded: §G+2% local missionary strength§!. It opens the funding of mission nodes, which pay Fervor; closing it closes every node. It needs §Y20 Fervor§! in the pool: 10 to start it and 10 to found the first node.',
-  ('§GOther faiths: missionary +2%§!','§GOpens funding of nodes§!'))):
+  ('§G+2%§!',''))):
  DATA['rip_church_icon_'+key]=DATA['rip_church_icon_'+key+'_button']
  DATA['rip_church_icon_'+key+'_label']='[Root.GetChurchIcon'+key.title()+'Name]'
  DATA['rip_church_icon_'+key+'_benefit']=benefit
@@ -1426,6 +1426,21 @@ DATA['rip_church_gui_count_value_tt']=('§WCommunity rights guaranteed§!\\n'
 DATA['rip_church_reconcile_button']='Reconcile'
 DATA['rip_church_ro_authority_label']='Patriarch Authority'
 DATA['rip_church_ro_authority_label_tt']=DATA['rip_church_authority_heading_tt']
+# Compact panel readouts: the GUI generator no longer uses the old three-step
+# tutorial or the split tile captions. Keep every live widget localized.
+DATA.update({
+ 'rip_church_ro_fuel':'Fervor\\n[Root.GetChurchROFervor] / 100',
+ 'rip_church_ro_slots':'Policies\\n[Root.GetChurchROPolicies] / [Root.GetChurchROCapacity]',
+ 'rip_church_ro_network':'Nodes\\n[Root.GetChurchRONodes] / [Root.GetChurchRONodeLimit]',
+ 'rip_church_ro_authority_link':'Monthly Fervor: [Root.GetChurchRONet]',
+ 'rip_church_ro_fuel_tt':RO_TILE_TT['fervor'],
+ 'rip_church_ro_slots_tt':RO_TILE_TT['policies'],
+ 'rip_church_ro_network_tt':RO_TILE_TT['nodes'],
+ 'rip_church_ro_authority_link_tt':RO_TILE_TT['fervor'],
+ 'rip_church_ro_action_active':'§GActive§!',
+})
+for key in ('war','mercy','building','mission'):
+ DATA['rip_church_icon_'+key+'_state']='[Root.GetChurchIcon'+key.title()+'Action]'
 DATA['rip_ro_funded_trade_missions']='Funded trade missions'
 DATA['desc_rip_ro_funded_trade_missions']='An active missionary network. Each funded node pays 3 Fervor a month and adds trade power and missionary strength in your parishes there. Conversion operates through eligible trade-node policies; this status grants no additional national bonus.'
 DATA['rip_ro_holy_cities_close_tt']='Close the register.'
