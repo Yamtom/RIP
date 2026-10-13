@@ -1143,7 +1143,7 @@ every_owned_province = { limit = { has_province_modifier = rip_church_node_court
 set_variable = { which = funded_nodes_count value = 0 }
 if = { limit = { has_country_flag = rip_church_node_african_great_lakes }
  if = { limit = { NOT = { rip_church_node_african_great_lakes_eligible = yes } } clr_country_flag = rip_church_node_african_great_lakes }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_african_great_lakes }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_african_great_lakes }
  else = { change_variable = { which = funded_nodes_count value = 1 } 4064 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1151,7 +1151,7 @@ if = { limit = { has_country_flag = rip_church_node_african_great_lakes }
 }
 if = { limit = { has_country_flag = rip_church_node_kongo }
  if = { limit = { NOT = { rip_church_node_kongo_eligible = yes } } clr_country_flag = rip_church_node_kongo }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_kongo }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_kongo }
  else = { change_variable = { which = funded_nodes_count value = 1 } 4097 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1159,7 +1159,7 @@ if = { limit = { has_country_flag = rip_church_node_kongo }
 }
 if = { limit = { has_country_flag = rip_church_node_zambezi }
  if = { limit = { NOT = { rip_church_node_zambezi_eligible = yes } } clr_country_flag = rip_church_node_zambezi }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_zambezi }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_zambezi }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1191 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1167,7 +1167,7 @@ if = { limit = { has_country_flag = rip_church_node_zambezi }
 }
 if = { limit = { has_country_flag = rip_church_node_patagonia }
  if = { limit = { NOT = { rip_church_node_patagonia_eligible = yes } } clr_country_flag = rip_church_node_patagonia }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_patagonia }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_patagonia }
  else = { change_variable = { which = funded_nodes_count value = 1 } 2868 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1175,7 +1175,7 @@ if = { limit = { has_country_flag = rip_church_node_patagonia }
 }
 if = { limit = { has_country_flag = rip_church_node_amazonas_node }
  if = { limit = { NOT = { rip_church_node_amazonas_node_eligible = yes } } clr_country_flag = rip_church_node_amazonas_node }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_amazonas_node }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_amazonas_node }
  else = { change_variable = { which = funded_nodes_count value = 1 } 2935 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1183,7 +1183,7 @@ if = { limit = { has_country_flag = rip_church_node_amazonas_node }
 }
 if = { limit = { has_country_flag = rip_church_node_rio_grande }
  if = { limit = { NOT = { rip_church_node_rio_grande_eligible = yes } } clr_country_flag = rip_church_node_rio_grande }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_rio_grande }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_rio_grande }
  else = { change_variable = { which = funded_nodes_count value = 1 } 2499 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1191,7 +1191,7 @@ if = { limit = { has_country_flag = rip_church_node_rio_grande }
 }
 if = { limit = { has_country_flag = rip_church_node_james_bay }
  if = { limit = { NOT = { rip_church_node_james_bay_eligible = yes } } clr_country_flag = rip_church_node_james_bay }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_james_bay }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_james_bay }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1486 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1199,7 +1199,7 @@ if = { limit = { has_country_flag = rip_church_node_james_bay }
 }
 if = { limit = { has_country_flag = rip_church_node_california }
  if = { limit = { NOT = { rip_church_node_california_eligible = yes } } clr_country_flag = rip_church_node_california }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_california }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_california }
  else = { change_variable = { which = funded_nodes_count value = 1 } 2021 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1207,7 +1207,7 @@ if = { limit = { has_country_flag = rip_church_node_california }
 }
 if = { limit = { has_country_flag = rip_church_node_girin }
  if = { limit = { NOT = { rip_church_node_girin_eligible = yes } } clr_country_flag = rip_church_node_girin }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_girin }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_girin }
  else = { change_variable = { which = funded_nodes_count value = 1 } 730 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1215,7 +1215,7 @@ if = { limit = { has_country_flag = rip_church_node_girin }
 }
 if = { limit = { has_country_flag = rip_church_node_mississippi_river }
  if = { limit = { NOT = { rip_church_node_mississippi_river_eligible = yes } } clr_country_flag = rip_church_node_mississippi_river }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_mississippi_river }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_mississippi_river }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1507 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1223,7 +1223,7 @@ if = { limit = { has_country_flag = rip_church_node_mississippi_river }
 }
 if = { limit = { has_country_flag = rip_church_node_ohio }
  if = { limit = { NOT = { rip_church_node_ohio_eligible = yes } } clr_country_flag = rip_church_node_ohio }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_ohio }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_ohio }
  else = { change_variable = { which = funded_nodes_count value = 1 } 2526 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1231,7 +1231,7 @@ if = { limit = { has_country_flag = rip_church_node_ohio }
 }
 if = { limit = { has_country_flag = rip_church_node_mexico }
  if = { limit = { NOT = { rip_church_node_mexico_eligible = yes } } clr_country_flag = rip_church_node_mexico }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_mexico }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_mexico }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1551 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1239,7 +1239,7 @@ if = { limit = { has_country_flag = rip_church_node_mexico }
 }
 if = { limit = { has_country_flag = rip_church_node_lhasa }
  if = { limit = { NOT = { rip_church_node_lhasa_eligible = yes } } clr_country_flag = rip_church_node_lhasa }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_lhasa }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_lhasa }
  else = { change_variable = { which = funded_nodes_count value = 1 } 677 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1247,7 +1247,7 @@ if = { limit = { has_country_flag = rip_church_node_lhasa }
 }
 if = { limit = { has_country_flag = rip_church_node_chengdu }
  if = { limit = { NOT = { rip_church_node_chengdu_eligible = yes } } clr_country_flag = rip_church_node_chengdu }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_chengdu }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_chengdu }
  else = { change_variable = { which = funded_nodes_count value = 1 } 679 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1255,7 +1255,7 @@ if = { limit = { has_country_flag = rip_church_node_chengdu }
 }
 if = { limit = { has_country_flag = rip_church_node_burma }
  if = { limit = { NOT = { rip_church_node_burma_eligible = yes } } clr_country_flag = rip_church_node_burma }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_burma }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_burma }
  else = { change_variable = { which = funded_nodes_count value = 1 } 584 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1263,7 +1263,7 @@ if = { limit = { has_country_flag = rip_church_node_burma }
 }
 if = { limit = { has_country_flag = rip_church_node_gulf_of_siam }
  if = { limit = { NOT = { rip_church_node_gulf_of_siam_eligible = yes } } clr_country_flag = rip_church_node_gulf_of_siam }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_gulf_of_siam }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_gulf_of_siam }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1365 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1271,7 +1271,7 @@ if = { limit = { has_country_flag = rip_church_node_gulf_of_siam }
 }
 if = { limit = { has_country_flag = rip_church_node_canton }
  if = { limit = { NOT = { rip_church_node_canton_eligible = yes } } clr_country_flag = rip_church_node_canton }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_canton }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_canton }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1371 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1279,7 +1279,7 @@ if = { limit = { has_country_flag = rip_church_node_canton }
 }
 if = { limit = { has_country_flag = rip_church_node_philippines }
  if = { limit = { NOT = { rip_church_node_philippines_eligible = yes } } clr_country_flag = rip_church_node_philippines }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_philippines }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_philippines }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1397 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1287,7 +1287,7 @@ if = { limit = { has_country_flag = rip_church_node_philippines }
 }
 if = { limit = { has_country_flag = rip_church_node_cuiaba }
  if = { limit = { NOT = { rip_church_node_cuiaba_eligible = yes } } clr_country_flag = rip_church_node_cuiaba }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_cuiaba }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_cuiaba }
  else = { change_variable = { which = funded_nodes_count value = 1 } 800 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1295,7 +1295,7 @@ if = { limit = { has_country_flag = rip_church_node_cuiaba }
 }
 if = { limit = { has_country_flag = rip_church_node_lima }
  if = { limit = { NOT = { rip_church_node_lima_eligible = yes } } clr_country_flag = rip_church_node_lima }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_lima }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_lima }
  else = { change_variable = { which = funded_nodes_count value = 1 } 809 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1303,7 +1303,7 @@ if = { limit = { has_country_flag = rip_church_node_lima }
 }
 if = { limit = { has_country_flag = rip_church_node_polynesia_node }
  if = { limit = { NOT = { rip_church_node_polynesia_node_eligible = yes } } clr_country_flag = rip_church_node_polynesia_node }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_polynesia_node }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_polynesia_node }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1997 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1311,7 +1311,7 @@ if = { limit = { has_country_flag = rip_church_node_polynesia_node }
 }
 if = { limit = { has_country_flag = rip_church_node_australia }
  if = { limit = { NOT = { rip_church_node_australia_eligible = yes } } clr_country_flag = rip_church_node_australia }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_australia }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_australia }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1411 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1319,7 +1319,7 @@ if = { limit = { has_country_flag = rip_church_node_australia }
 }
 if = { limit = { has_country_flag = rip_church_node_nippon }
  if = { limit = { NOT = { rip_church_node_nippon_eligible = yes } } clr_country_flag = rip_church_node_nippon }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_nippon }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_nippon }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1376 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1327,7 +1327,7 @@ if = { limit = { has_country_flag = rip_church_node_nippon }
 }
 if = { limit = { has_country_flag = rip_church_node_hangzhou }
  if = { limit = { NOT = { rip_church_node_hangzhou_eligible = yes } } clr_country_flag = rip_church_node_hangzhou }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_hangzhou }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_hangzhou }
  else = { change_variable = { which = funded_nodes_count value = 1 } 684 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1335,7 +1335,7 @@ if = { limit = { has_country_flag = rip_church_node_hangzhou }
 }
 if = { limit = { has_country_flag = rip_church_node_xian }
  if = { limit = { NOT = { rip_church_node_xian_eligible = yes } } clr_country_flag = rip_church_node_xian }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_xian }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_xian }
  else = { change_variable = { which = funded_nodes_count value = 1 } 700 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1343,7 +1343,7 @@ if = { limit = { has_country_flag = rip_church_node_xian }
 }
 if = { limit = { has_country_flag = rip_church_node_beijing }
  if = { limit = { NOT = { rip_church_node_beijing_eligible = yes } } clr_country_flag = rip_church_node_beijing }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_beijing }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_beijing }
  else = { change_variable = { which = funded_nodes_count value = 1 } 4233 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1351,7 +1351,7 @@ if = { limit = { has_country_flag = rip_church_node_beijing }
 }
 if = { limit = { has_country_flag = rip_church_node_the_moluccas }
  if = { limit = { NOT = { rip_church_node_the_moluccas_eligible = yes } } clr_country_flag = rip_church_node_the_moluccas }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_the_moluccas }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_the_moluccas }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1357 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1359,7 +1359,7 @@ if = { limit = { has_country_flag = rip_church_node_the_moluccas }
 }
 if = { limit = { has_country_flag = rip_church_node_siberia }
  if = { limit = { NOT = { rip_church_node_siberia_eligible = yes } } clr_country_flag = rip_church_node_siberia }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_siberia }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_siberia }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1064 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1367,7 +1367,7 @@ if = { limit = { has_country_flag = rip_church_node_siberia }
 }
 if = { limit = { has_country_flag = rip_church_node_yumen }
  if = { limit = { NOT = { rip_church_node_yumen_eligible = yes } } clr_country_flag = rip_church_node_yumen }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_yumen }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_yumen }
  else = { change_variable = { which = funded_nodes_count value = 1 } 707 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1375,7 +1375,7 @@ if = { limit = { has_country_flag = rip_church_node_yumen }
 }
 if = { limit = { has_country_flag = rip_church_node_malacca }
  if = { limit = { NOT = { rip_church_node_malacca_eligible = yes } } clr_country_flag = rip_church_node_malacca }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_malacca }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_malacca }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1361 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1383,7 +1383,7 @@ if = { limit = { has_country_flag = rip_church_node_malacca }
 }
 if = { limit = { has_country_flag = rip_church_node_ganges_delta }
  if = { limit = { NOT = { rip_church_node_ganges_delta_eligible = yes } } clr_country_flag = rip_church_node_ganges_delta }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_ganges_delta }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_ganges_delta }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1343 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1391,7 +1391,7 @@ if = { limit = { has_country_flag = rip_church_node_ganges_delta }
 }
 if = { limit = { has_country_flag = rip_church_node_doab }
  if = { limit = { NOT = { rip_church_node_doab_eligible = yes } } clr_country_flag = rip_church_node_doab }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_doab }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_doab }
  else = { change_variable = { which = funded_nodes_count value = 1 } 524 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1399,7 +1399,7 @@ if = { limit = { has_country_flag = rip_church_node_doab }
 }
 if = { limit = { has_country_flag = rip_church_node_lahore }
  if = { limit = { NOT = { rip_church_node_lahore_eligible = yes } } clr_country_flag = rip_church_node_lahore }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_lahore }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_lahore }
  else = { change_variable = { which = funded_nodes_count value = 1 } 507 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1407,7 +1407,7 @@ if = { limit = { has_country_flag = rip_church_node_lahore }
 }
 if = { limit = { has_country_flag = rip_church_node_deccan }
  if = { limit = { NOT = { rip_church_node_deccan_eligible = yes } } clr_country_flag = rip_church_node_deccan }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_deccan }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_deccan }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1948 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1415,7 +1415,7 @@ if = { limit = { has_country_flag = rip_church_node_deccan }
 }
 if = { limit = { has_country_flag = rip_church_node_comorin_cape }
  if = { limit = { NOT = { rip_church_node_comorin_cape_eligible = yes } } clr_country_flag = rip_church_node_comorin_cape }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_comorin_cape }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_comorin_cape }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1340 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1423,7 +1423,7 @@ if = { limit = { has_country_flag = rip_church_node_comorin_cape }
 }
 if = { limit = { has_country_flag = rip_church_node_gujarat }
  if = { limit = { NOT = { rip_church_node_gujarat_eligible = yes } } clr_country_flag = rip_church_node_gujarat }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_gujarat }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_gujarat }
  else = { change_variable = { which = funded_nodes_count value = 1 } 504 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1431,7 +1431,7 @@ if = { limit = { has_country_flag = rip_church_node_gujarat }
 }
 if = { limit = { has_country_flag = rip_church_node_katsina }
  if = { limit = { NOT = { rip_church_node_katsina_eligible = yes } } clr_country_flag = rip_church_node_katsina }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_katsina }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_katsina }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1149 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1439,7 +1439,7 @@ if = { limit = { has_country_flag = rip_church_node_katsina }
 }
 if = { limit = { has_country_flag = rip_church_node_ethiopia }
  if = { limit = { NOT = { rip_church_node_ethiopia_eligible = yes } } clr_country_flag = rip_church_node_ethiopia }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_ethiopia }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_ethiopia }
  else = { change_variable = { which = funded_nodes_count value = 1 } 2772 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1447,7 +1447,7 @@ if = { limit = { has_country_flag = rip_church_node_ethiopia }
 }
 if = { limit = { has_country_flag = rip_church_node_gulf_of_aden }
  if = { limit = { NOT = { rip_church_node_gulf_of_aden_eligible = yes } } clr_country_flag = rip_church_node_gulf_of_aden }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_gulf_of_aden }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_gulf_of_aden }
  else = { change_variable = { which = funded_nodes_count value = 1 } 4346 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1455,7 +1455,7 @@ if = { limit = { has_country_flag = rip_church_node_gulf_of_aden }
 }
 if = { limit = { has_country_flag = rip_church_node_hormuz }
  if = { limit = { NOT = { rip_church_node_hormuz_eligible = yes } } clr_country_flag = rip_church_node_hormuz }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_hormuz }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_hormuz }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1334 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1463,7 +1463,7 @@ if = { limit = { has_country_flag = rip_church_node_hormuz }
 }
 if = { limit = { has_country_flag = rip_church_node_zanzibar }
  if = { limit = { NOT = { rip_church_node_zanzibar_eligible = yes } } clr_country_flag = rip_church_node_zanzibar }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_zanzibar }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_zanzibar }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1448 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1471,7 +1471,7 @@ if = { limit = { has_country_flag = rip_church_node_zanzibar }
 }
 if = { limit = { has_country_flag = rip_church_node_cape_of_good_hope }
  if = { limit = { NOT = { rip_church_node_cape_of_good_hope_eligible = yes } } clr_country_flag = rip_church_node_cape_of_good_hope }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_cape_of_good_hope }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_cape_of_good_hope }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1460 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1479,7 +1479,7 @@ if = { limit = { has_country_flag = rip_church_node_cape_of_good_hope }
 }
 if = { limit = { has_country_flag = rip_church_node_basra }
  if = { limit = { NOT = { rip_church_node_basra_eligible = yes } } clr_country_flag = rip_church_node_basra }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_basra }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_basra }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1335 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1487,7 +1487,7 @@ if = { limit = { has_country_flag = rip_church_node_basra }
 }
 if = { limit = { has_country_flag = rip_church_node_samarkand }
  if = { limit = { NOT = { rip_church_node_samarkand_eligible = yes } } clr_country_flag = rip_church_node_samarkand }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_samarkand }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_samarkand }
  else = { change_variable = { which = funded_nodes_count value = 1 } 454 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1495,7 +1495,7 @@ if = { limit = { has_country_flag = rip_church_node_samarkand }
 }
 if = { limit = { has_country_flag = rip_church_node_persia }
  if = { limit = { NOT = { rip_church_node_persia_eligible = yes } } clr_country_flag = rip_church_node_persia }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_persia }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_persia }
  else = { change_variable = { which = funded_nodes_count value = 1 } 4341 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1503,7 +1503,7 @@ if = { limit = { has_country_flag = rip_church_node_persia }
 }
 if = { limit = { has_country_flag = rip_church_node_aleppo }
  if = { limit = { NOT = { rip_church_node_aleppo_eligible = yes } } clr_country_flag = rip_church_node_aleppo }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_aleppo }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_aleppo }
  else = { change_variable = { which = funded_nodes_count value = 1 } 377 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1511,7 +1511,7 @@ if = { limit = { has_country_flag = rip_church_node_aleppo }
 }
 if = { limit = { has_country_flag = rip_church_node_alexandria }
  if = { limit = { NOT = { rip_church_node_alexandria_eligible = yes } } clr_country_flag = rip_church_node_alexandria }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_alexandria }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_alexandria }
  else = { change_variable = { which = funded_nodes_count value = 1 } 358 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1519,7 +1519,7 @@ if = { limit = { has_country_flag = rip_church_node_alexandria }
 }
 if = { limit = { has_country_flag = rip_church_node_astrakhan }
  if = { limit = { NOT = { rip_church_node_astrakhan_eligible = yes } } clr_country_flag = rip_church_node_astrakhan }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_astrakhan }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_astrakhan }
  else = { change_variable = { which = funded_nodes_count value = 1 } 464 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1527,7 +1527,7 @@ if = { limit = { has_country_flag = rip_church_node_astrakhan }
 }
 if = { limit = { has_country_flag = rip_church_node_crimea }
  if = { limit = { NOT = { rip_church_node_crimea_eligible = yes } } clr_country_flag = rip_church_node_crimea }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_crimea }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_crimea }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1322 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1535,7 +1535,7 @@ if = { limit = { has_country_flag = rip_church_node_crimea }
 }
 if = { limit = { has_country_flag = rip_church_node_constantinople }
  if = { limit = { NOT = { rip_church_node_constantinople_eligible = yes } } clr_country_flag = rip_church_node_constantinople }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_constantinople }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_constantinople }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1320 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1543,7 +1543,7 @@ if = { limit = { has_country_flag = rip_church_node_constantinople }
 }
 if = { limit = { has_country_flag = rip_church_node_kiev }
  if = { limit = { NOT = { rip_church_node_kiev_eligible = yes } } clr_country_flag = rip_church_node_kiev }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_kiev }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_kiev }
  else = { change_variable = { which = funded_nodes_count value = 1 } 280 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1551,7 +1551,7 @@ if = { limit = { has_country_flag = rip_church_node_kiev }
 }
 if = { limit = { has_country_flag = rip_church_node_kazan }
  if = { limit = { NOT = { rip_church_node_kazan_eligible = yes } } clr_country_flag = rip_church_node_kazan }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_kazan }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_kazan }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1082 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1559,7 +1559,7 @@ if = { limit = { has_country_flag = rip_church_node_kazan }
 }
 if = { limit = { has_country_flag = rip_church_node_novgorod }
  if = { limit = { NOT = { rip_church_node_novgorod_eligible = yes } } clr_country_flag = rip_church_node_novgorod }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_novgorod }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_novgorod }
  else = { change_variable = { which = funded_nodes_count value = 1 } 33 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1567,7 +1567,7 @@ if = { limit = { has_country_flag = rip_church_node_novgorod }
 }
 if = { limit = { has_country_flag = rip_church_node_laplata }
  if = { limit = { NOT = { rip_church_node_laplata_eligible = yes } } clr_country_flag = rip_church_node_laplata }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_laplata }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_laplata }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1536 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1575,7 +1575,7 @@ if = { limit = { has_country_flag = rip_church_node_laplata }
 }
 if = { limit = { has_country_flag = rip_church_node_brazil }
  if = { limit = { NOT = { rip_church_node_brazil_eligible = yes } } clr_country_flag = rip_church_node_brazil }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_brazil }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_brazil }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1531 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1583,7 +1583,7 @@ if = { limit = { has_country_flag = rip_church_node_brazil }
 }
 if = { limit = { has_country_flag = rip_church_node_timbuktu }
  if = { limit = { NOT = { rip_church_node_timbuktu_eligible = yes } } clr_country_flag = rip_church_node_timbuktu }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_timbuktu }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_timbuktu }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1132 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1591,7 +1591,7 @@ if = { limit = { has_country_flag = rip_church_node_timbuktu }
 }
 if = { limit = { has_country_flag = rip_church_node_ivory_coast }
  if = { limit = { NOT = { rip_church_node_ivory_coast_eligible = yes } } clr_country_flag = rip_church_node_ivory_coast }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_ivory_coast }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_ivory_coast }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1466 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1599,7 +1599,7 @@ if = { limit = { has_country_flag = rip_church_node_ivory_coast }
 }
 if = { limit = { has_country_flag = rip_church_node_tunis }
  if = { limit = { NOT = { rip_church_node_tunis_eligible = yes } } clr_country_flag = rip_church_node_tunis }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_tunis }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_tunis }
  else = { change_variable = { which = funded_nodes_count value = 1 } 341 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1607,7 +1607,7 @@ if = { limit = { has_country_flag = rip_church_node_tunis }
 }
 if = { limit = { has_country_flag = rip_church_node_ragusa }
  if = { limit = { NOT = { rip_church_node_ragusa_eligible = yes } } clr_country_flag = rip_church_node_ragusa }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_ragusa }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_ragusa }
  else = { change_variable = { which = funded_nodes_count value = 1 } 137 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1615,7 +1615,7 @@ if = { limit = { has_country_flag = rip_church_node_ragusa }
 }
 if = { limit = { has_country_flag = rip_church_node_safi }
  if = { limit = { NOT = { rip_church_node_safi_eligible = yes } } clr_country_flag = rip_church_node_safi }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_safi }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_safi }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1110 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1623,7 +1623,7 @@ if = { limit = { has_country_flag = rip_church_node_safi }
 }
 if = { limit = { has_country_flag = rip_church_node_pest }
  if = { limit = { NOT = { rip_church_node_pest_eligible = yes } } clr_country_flag = rip_church_node_pest }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_pest }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_pest }
  else = { change_variable = { which = funded_nodes_count value = 1 } 153 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1631,7 +1631,7 @@ if = { limit = { has_country_flag = rip_church_node_pest }
 }
 if = { limit = { has_country_flag = rip_church_node_krakow }
  if = { limit = { NOT = { rip_church_node_krakow_eligible = yes } } clr_country_flag = rip_church_node_krakow }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_krakow }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_krakow }
  else = { change_variable = { which = funded_nodes_count value = 1 } 262 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1639,7 +1639,7 @@ if = { limit = { has_country_flag = rip_church_node_krakow }
 }
 if = { limit = { has_country_flag = rip_church_node_wien }
  if = { limit = { NOT = { rip_church_node_wien_eligible = yes } } clr_country_flag = rip_church_node_wien }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_wien }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_wien }
  else = { change_variable = { which = funded_nodes_count value = 1 } 134 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1647,7 +1647,7 @@ if = { limit = { has_country_flag = rip_church_node_wien }
 }
 if = { limit = { has_country_flag = rip_church_node_saxony }
  if = { limit = { NOT = { rip_church_node_saxony_eligible = yes } } clr_country_flag = rip_church_node_saxony }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_saxony }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_saxony }
  else = { change_variable = { which = funded_nodes_count value = 1 } 61 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1655,7 +1655,7 @@ if = { limit = { has_country_flag = rip_church_node_saxony }
 }
 if = { limit = { has_country_flag = rip_church_node_baltic_sea }
  if = { limit = { NOT = { rip_church_node_baltic_sea_eligible = yes } } clr_country_flag = rip_church_node_baltic_sea }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_baltic_sea }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_baltic_sea }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1926 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1663,7 +1663,7 @@ if = { limit = { has_country_flag = rip_church_node_baltic_sea }
 }
 if = { limit = { has_country_flag = rip_church_node_rheinland }
  if = { limit = { NOT = { rip_church_node_rheinland_eligible = yes } } clr_country_flag = rip_church_node_rheinland }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_rheinland }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_rheinland }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1876 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1671,7 +1671,7 @@ if = { limit = { has_country_flag = rip_church_node_rheinland }
 }
 if = { limit = { has_country_flag = rip_church_node_panama }
  if = { limit = { NOT = { rip_church_node_panama_eligible = yes } } clr_country_flag = rip_church_node_panama }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_panama }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_panama }
  else = { change_variable = { which = funded_nodes_count value = 1 } 835 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1679,7 +1679,7 @@ if = { limit = { has_country_flag = rip_church_node_panama }
 }
 if = { limit = { has_country_flag = rip_church_node_carribean_trade }
  if = { limit = { NOT = { rip_church_node_carribean_trade_eligible = yes } } clr_country_flag = rip_church_node_carribean_trade }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_carribean_trade }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_carribean_trade }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1516 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1687,7 +1687,7 @@ if = { limit = { has_country_flag = rip_church_node_carribean_trade }
 }
 if = { limit = { has_country_flag = rip_church_node_chesapeake_bay }
  if = { limit = { NOT = { rip_church_node_chesapeake_bay_eligible = yes } } clr_country_flag = rip_church_node_chesapeake_bay }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_chesapeake_bay }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_chesapeake_bay }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1500 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1695,7 +1695,7 @@ if = { limit = { has_country_flag = rip_church_node_chesapeake_bay }
 }
 if = { limit = { has_country_flag = rip_church_node_st_lawrence }
  if = { limit = { NOT = { rip_church_node_st_lawrence_eligible = yes } } clr_country_flag = rip_church_node_st_lawrence }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_st_lawrence }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_st_lawrence }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1490 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1703,7 +1703,7 @@ if = { limit = { has_country_flag = rip_church_node_st_lawrence }
 }
 if = { limit = { has_country_flag = rip_church_node_white_sea }
  if = { limit = { NOT = { rip_church_node_white_sea_eligible = yes } } clr_country_flag = rip_church_node_white_sea }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_white_sea }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_white_sea }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1652 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1711,7 +1711,7 @@ if = { limit = { has_country_flag = rip_church_node_white_sea }
 }
 if = { limit = { has_country_flag = rip_church_node_north_sea }
  if = { limit = { NOT = { rip_church_node_north_sea_eligible = yes } } clr_country_flag = rip_church_node_north_sea }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_north_sea }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_north_sea }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1975 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1719,7 +1719,7 @@ if = { limit = { has_country_flag = rip_church_node_north_sea }
 }
 if = { limit = { has_country_flag = rip_church_node_lubeck }
  if = { limit = { NOT = { rip_church_node_lubeck_eligible = yes } } clr_country_flag = rip_church_node_lubeck }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_lubeck }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_lubeck }
  else = { change_variable = { which = funded_nodes_count value = 1 } 45 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1727,7 +1727,7 @@ if = { limit = { has_country_flag = rip_church_node_lubeck }
 }
 if = { limit = { has_country_flag = rip_church_node_bordeaux }
  if = { limit = { NOT = { rip_church_node_bordeaux_eligible = yes } } clr_country_flag = rip_church_node_bordeaux }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_bordeaux }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_bordeaux }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1276 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1735,7 +1735,7 @@ if = { limit = { has_country_flag = rip_church_node_bordeaux }
 }
 if = { limit = { has_country_flag = rip_church_node_sevilla }
  if = { limit = { NOT = { rip_church_node_sevilla_eligible = yes } } clr_country_flag = rip_church_node_sevilla }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_sevilla }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_sevilla }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1293 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1743,7 +1743,7 @@ if = { limit = { has_country_flag = rip_church_node_sevilla }
 }
 if = { limit = { has_country_flag = rip_church_node_champagne }
  if = { limit = { NOT = { rip_church_node_champagne_eligible = yes } } clr_country_flag = rip_church_node_champagne }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_champagne }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_champagne }
  else = { change_variable = { which = funded_nodes_count value = 1 } 186 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1751,7 +1751,7 @@ if = { limit = { has_country_flag = rip_church_node_champagne }
 }
 if = { limit = { has_country_flag = rip_church_node_valencia }
  if = { limit = { NOT = { rip_church_node_valencia_eligible = yes } } clr_country_flag = rip_church_node_valencia }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_valencia }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_valencia }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1295 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1759,7 +1759,7 @@ if = { limit = { has_country_flag = rip_church_node_valencia }
 }
 if = { limit = { has_country_flag = rip_church_node_genua }
  if = { limit = { NOT = { rip_church_node_genua_eligible = yes } } clr_country_flag = rip_church_node_genua }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_genua }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_genua }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1298 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1767,7 +1767,7 @@ if = { limit = { has_country_flag = rip_church_node_genua }
 }
 if = { limit = { has_country_flag = rip_church_node_venice }
  if = { limit = { NOT = { rip_church_node_venice_eligible = yes } } clr_country_flag = rip_church_node_venice }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_venice }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_venice }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1308 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }
@@ -1775,7 +1775,7 @@ if = { limit = { has_country_flag = rip_church_node_venice }
 }
 if = { limit = { has_country_flag = rip_church_node_english_channel }
  if = { limit = { NOT = { rip_church_node_english_channel_eligible = yes } } clr_country_flag = rip_church_node_english_channel }
- else_if = { limit = { NOT = { has_country_flag = rip_church_ro_schismatic } check_variable = { which = funded_nodes_count value = 1 } } clr_country_flag = rip_church_node_english_channel }
+ else_if = { limit = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = funded_nodes_count value = 1 } } } } clr_country_flag = rip_church_node_english_channel }
  else = { change_variable = { which = funded_nodes_count value = 1 } 1269 = { every_trade_node_member_province = {
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = { limit = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral } } add_province_modifier = { name = rip_church_node_courtyards duration = 62 } }

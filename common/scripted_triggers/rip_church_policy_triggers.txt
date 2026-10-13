@@ -8,13 +8,10 @@ rip_church_steppe_power = {
 rip_church_at_war_with_steppe = {
  any_country = { rip_church_steppe_power = yes war_with = ROOT }
 }
-# Province scope. The steppe frontier: grassland and steppe terrain, or a border with a steppe power.
+# Province scope, ROOT is the policy owner: a border with another steppe power.
 rip_church_steppe_frontier = {
  is_city = yes
- OR = {
-  rip_is_steppe_or_grasslands = yes
-  any_neighbor_province = { owner = { rip_church_steppe_power = yes } }
- }
+ any_neighbor_province = { owner = { NOT = { tag = ROOT } rip_church_steppe_power = yes } }
 }
 # Province scope. The eastern lands: the Volga, the Urals and Siberia.
 rip_church_eastern_land = {
@@ -30,11 +27,11 @@ rip_church_eastern_land = {
   region = east_siberia_region
  }
 }
-# Province scope. A Muscovite parish that still has no cathedral.
+# Province scope. An established cathedral supports local infrastructure.
 rip_church_cathedral_candidate = {
  is_city = yes
  religion = russian_orthodox
- NOT = { has_building = cathedral }
+ has_building = cathedral
 }
 # Province scope. A settled province of another faith: the field of the Mission policy.
 rip_church_mission_field = {

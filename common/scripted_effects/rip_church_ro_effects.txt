@@ -2,8 +2,9 @@
 # The cycle: Fervor founds mission nodes, nodes pay Fervor, Fervor keeps policies running.
 #   income  = authority band (2 / 3 / 4 / 5) + 3 for every funded mission node
 #   upkeep  = 3 for every active policy; a policy costs 10 to switch on, a node 10 to found
-# A node pays for one policy, the authority band for about one more: one or two policies
-# can run for good, a third drains the pool slowly, all four only for a season.
+# The first node pays for its required Mission policy. Below 30% authority, a policy
+# without a node drains 1/month. At 65% authority two nodes can sustain three policies;
+# all four still drain the pool. Node capacity does not depend on communion status.
 rip_church_ro_recount_effect = {
  if = { limit = { check_variable = { which = muscovy_fervor value = 100 } } set_variable = { which = muscovy_fervor value = 100 } }
  if = { limit = { NOT = { check_variable = { which = muscovy_fervor value = 0 } } } set_variable = { which = muscovy_fervor value = 0 } }

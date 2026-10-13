@@ -281,7 +281,7 @@ country_event = {
 	
 	trigger = {
 		rip_church_ro_jurisdiction = yes
-		# Formal rupture follows the book reforms, not the first correction.
+		# The internal ritual schism follows the book reforms.
 		has_country_flag = rip_ro_stage_patriarchate
 		has_country_flag = rip_ro_books_reformed
 		NOT = { has_country_flag = rip_ro_ritual_compromise }
@@ -312,7 +312,7 @@ country_event = {
 		rip_church_ro_refresh_communion_effect = yes
 		
 		random_owned_province = {
-			limit = { rip_ro_old_believer_parish = yes } # the Orthodox parishes that kept the old books; the council relabels only the capital
+			limit = { OR = { religion = orthodox religion = russian_orthodox rip_ro_old_believer_parish = yes } } # the Orthodox parishes that kept the old books; the council relabels only the capital
 			spawn_rebels = {
 				type = heretic_rebels
 				size = 2

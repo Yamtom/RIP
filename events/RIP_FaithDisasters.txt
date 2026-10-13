@@ -37,11 +37,19 @@ country_event = {
 		add_patriarch_authority = 0.05
 		add_stability = -1
 		every_owned_province = {
-			limit = { rip_ro_old_believer_parish = yes }
+			limit = {
+				is_city = yes
+				OR = { religion = orthodox religion = russian_orthodox }
+				rip_ro_old_believer_parish = yes
+			}
 			add_unrest = 2
 		}
 		random_owned_province = {
-			limit = { rip_ro_old_believer_parish = yes }
+			limit = {
+				is_city = yes
+				OR = { religion = orthodox religion = russian_orthodox }
+				rip_ro_old_believer_parish = yes
+			}
 			spawn_rebels = {
 				type = heretic_rebels
 				size = 2
@@ -101,7 +109,11 @@ country_event = {
 
 		add_patriarch_authority = 0.03
 		random_owned_province = {
-			limit = { rip_ro_old_believer_parish = yes }
+			limit = {
+				is_city = yes
+				OR = { religion = orthodox religion = russian_orthodox }
+				rip_ro_old_believer_parish = yes
+			}
 			add_unrest = 4
 			add_local_autonomy = 5
 		}
@@ -130,7 +142,11 @@ country_event = {
 
 		add_mil_power = -25
 		random_owned_province = {
-			limit = { rip_ro_old_believer_parish = yes }
+			limit = {
+				is_city = yes
+				OR = { religion = orthodox religion = russian_orthodox }
+				rip_ro_old_believer_parish = yes
+			}
 			add_unrest = 3
 		}
 	}
@@ -141,6 +157,8 @@ country_event = {
 
 		random_owned_province = {
 			limit = {
+				is_city = yes
+				OR = { religion = orthodox religion = russian_orthodox }
 				rip_ro_old_believer_parish = yes
 				development = 8
 			}
