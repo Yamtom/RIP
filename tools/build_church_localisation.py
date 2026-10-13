@@ -1428,6 +1428,7 @@ DATA['rip_church_ro_authority_label']='Patriarch Authority'
 DATA['rip_church_ro_authority_label_tt']=DATA['rip_church_authority_heading_tt']
 DATA['rip_ro_funded_trade_missions']='Funded trade missions'
 DATA['desc_rip_ro_funded_trade_missions']='An active missionary network. Each funded node pays 3 Fervor a month and adds trade power and missionary strength in your parishes there. Conversion operates through eligible trade-node policies; this status grants no additional national bonus.'
+DATA['rip_ro_holy_cities_close_tt']='Close the register.'
 outputs['customizable_localization/rip_church_redesign.txt']=custom
 DATA['rip_church_gui_ecumenism_state_tt']=DATA['rip_church_gui_ecumenism_tt']
 for key in ('cost','peace','rome','cooldown','history'):

@@ -131,12 +131,12 @@ def panel(name,condition,body,x=540,y=8,clean=False):
     background = ('GFX_rip_church_union_frame' if clean else 'GFX_country_religion_view_bg')
     scale = '' if clean else 'scale = 0.86'
     hit_test = 'alwaystransparent = no' if clean else ''
-    native_church = name in ('rip_church_ro_panel','rip_church_gc_panel','rip_church_gc_curia_panel','rip_church_gc_parishes_panel')
+    native_church = name in ('rip_church_ro_panel','rip_ro_holy_cities_panel','rip_church_gc_panel','rip_church_gc_curia_panel','rip_church_gc_parishes_panel')
     if native_church:
         background='GFX_rip_church_ro_frame'
         scale='scale = 0.782537'
     height=560 if native_church else 680 if clean else 550
-    if name == 'rip_church_ro_panel':
+    if name in ('rip_church_ro_panel','rip_ro_holy_cities_panel'):
         background='GFX_rip_ro_native_frame'
         scale=''
         body=art(name+'_surface','GFX_rip_ro_native_surface',13,13)+body
@@ -200,17 +200,21 @@ ro=art('rip_church_ro_native_header','GFX_rip_ro_native_header',13,27,449/532)
 ro+=text('rip_church_ro_heading',28,35,w=419,h=24,font='vic_22',align='center',tip=False)
 ro+=card('rip_church_ro_status_card',34,67,407,30,
          text('rip_church_ro_status',8,8,w=391,h=22,align='center'))
-for key,y,sprite in (
-    ('fuel',103,'GFX_rip_church_ro_fervor'),
-    ('slots',103,'GFX_rip_church_ro_authority'),
-    ('network',103,'GFX_rip_church_ro_network'),
-):
-    x={'fuel':34,'slots':184,'network':334}[key]
-    ro+=art('rip_church_ro_'+key+'_symbol',sprite,x,y-2,0.375)
-    ro+=text('rip_church_ro_'+key,x+29,y,w=108,h=22,font='vic_18')
-ro+=text('rip_church_ro_authority_link',34,130,w=407,h=22,font='vic_18',align='center')
-# The original Coptic frame already contains its own section ribbon.
-ro+=text('rip_church_ro_policies_title',45,161,w=385,h=20,align='center')
+# Reuse the translated tile readouts rather than emitting the obsolete fuel/slots/network keys.
+for i,(key,sprite) in enumerate((
+    ('fervor','GFX_rip_church_ro_fervor'),
+    ('nodes','GFX_rip_church_ro_network'),
+    ('policies','GFX_rip_church_ro_authority'),
+)):
+    tile_x=34+i*(RO_TILE_W+RO_ARROW_W)
+    tile=art(f'rip_church_ro_{key}_symbol',sprite,4,4,0.28)
+    tile+=text(f'rip_church_ro_{key}_label',18,4,w=96,h=16,font='vic_14',align='left')
+    tile+=text(f'rip_church_ro_{key}_value',4,20,w=109,h=20,font='vic_18',align='center')
+    tile+=text(f'rip_church_ro_{key}_sub',4,43,w=109,h=16,font='vic_14',align='center')
+    ro+=card(f'rip_church_ro_{key}_tile',tile_x,RO_TILE_Y,RO_TILE_W,RO_TILE_H,tile)
+    if i<2:
+        ro+=art(f'rip_church_ro_cycle_arrow_{i}','GFX_rip_church_ro_cycle_arrow',
+                tile_x+RO_TILE_W,RO_TILE_Y+(RO_TILE_H-24)//2)
 for i,k in enumerate(('war','mercy','building','mission')):
     x,y=RO_CARD_X,RO_CARD_Y+i*RO_CARD_PITCH
     policy=art('rip_church_'+k+'_slot','GFX_rip_church_policy_slot',4,2)
@@ -222,26 +226,59 @@ for i,k in enumerate(('war','mercy','building','mission')):
     defs.append(f'custom_icon = {{ name = rip_church_{k}_active_frame potential = {{ has_country_flag = rip_church_icon_{k} }} }}')
     policy+=f'iconType = {{ name = "rip_church_{k}_active_frame" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x=7 y=6 }} alwaystransparent = yes }}'
     policy+=text(f'rip_church_icon_{k}_label',72,8,w=124,h=20,font='vic_18',align='left',tip=False)
-    policy+=text(f'rip_church_icon_{k}_state',72,49,w=124,h=20,font='vic_18',align='left',tip=False)
+    # This line reports eligibility and cost; the separate frame marks an active policy.
+    policy+=text(f'rip_church_icon_{k}_action',224,40,w=189,h=14,font='vic_14',align='center',tip=False)
     effect_art = {
         'war': ('discipline','global_manpower_modifier'),
         'mercy': ('global_unrest','stability_cost_modifier'),
         'building': ('development_cost','build_cost'),
         'mission': ('missionaries','trade_efficiency'),
     }[k]
+    # Stack the full effect summaries on the left, leaving the button and its status line clear.
     for row, sprite in enumerate(effect_art):
         sprite_name='GFX_rip_church_effect_'+sprite
         declaration=f'spriteType = {{ name = "{sprite_name}" textureFile = "gfx/interface/ideas_EU4/{sprite}.dds" }}'
         if declaration not in insets: insets.append(declaration)
-        policy+=art(f'rip_church_{k}_benefit_symbol_{row}',sprite_name,70+row*78,29,0.32)
-    policy+=text(f'rip_church_icon_{k}_benefit',92,29,w=54,h=20,font='vic_18',align='left')
-    policy+=text(f'rip_church_icon_{k}_benefit_second',170,29,w=54,h=20,font='vic_18',align='left')
-    ro+=card('rip_church_ro_'+k+'_card',x,y,419,72,policy)
+        policy+=art(f'rip_church_{k}_benefit_symbol_{row}',sprite_name,62,29+row*15,0.32)
+    policy+=text(f'rip_church_icon_{k}_benefit',74,29,w=148,h=14,font='vic_14',align='left')
+    policy+=text(f'rip_church_icon_{k}_benefit_second',74,44,w=148,h=14,font='vic_14',align='left')
+    ro+=card('rip_church_ro_'+k+'_card',x,y,RO_CARD_W,RO_CARD_H,policy)
+for i,y in enumerate(RO_STEP_Y,1):
+    ro+=text(f'rip_church_ro_step{i}',34,y,w=407,h=18,font='vic_18',align='left')
 ro+=button('rip_church_nodes_button',34,496,'rip_church_ro_can_open_network_menu = yes',
            'country_event = { id = rip_church_nodes.1 }',sprite='button_type_8')
 ro+=button('rip_church_reconcile_button',248,RO_BUTTON_Y,'rip_church_can_reconcile = yes',
            'rip_church_ro_begin_reconciliation_effect = yes',
            'has_country_flag = rip_church_ro_schismatic',sprite='button_type_8')
+
+# Read-only register of sees and pilgrimage destinations. The names and
+# province owner/faith are direct province-scope localisations, not cached
+# variables or gameplay effects.
+holy_cities=art('rip_ro_holy_cities_header','GFX_rip_church_window_banner',18,19,0.94)
+holy_cities+=text('rip_ro_holy_cities_heading',28,35,w=419,h=24,font='vic_22',align='center',tip=False)
+holy_cities+=text('rip_ro_holy_cities_intro',44,68,w=387,h=40,font='vic_18',align='center',tip=False)
+holy_cities=section(holy_cities,'rip_ro_holy_cities_sites_title',112,tip=False)
+for i,(key,province) in enumerate((
+    ('novgorod',310),
+    ('moscow',295),
+    ('kyiv',280),
+    ('constantinople',151),
+    ('jerusalem',379),
+)):
+    row=art(f'rip_ro_holy_city_{key}_slot','GFX_rip_church_policy_slot',4,0)
+    row+=art(f'rip_ro_holy_city_{key}_seal','GFX_icon_religion_small',18,17,0.7)
+    row+=text(f'rip_ro_holy_city_{key}_name',72,2,w=323,h=18,font='vic_18',tip=False)
+    row+=text(f'rip_ro_holy_city_{key}_owner',72,20,w=323,h=18,font='vic_18',tip=False)
+    row+=text(f'rip_ro_holy_city_{key}_faith',72,38,w=323,h=18,font='vic_18',tip=False)
+    holy_cities+=card(f'rip_ro_holy_city_{key}_row',34,146+i*58,407,58,row)
+holy_cities+=text('rip_ro_holy_cities_footer',34,439,w=407,h=24,font='vic_18',align='center',tip=False)
+holy_cities+=button('rip_ro_holy_cities_close',125,492,
+                    'has_country_flag = rip_ro_holy_city_register_open',
+                    'clr_country_flag = rip_ro_holy_city_register_open',
+                    potential='has_country_flag = rip_ro_holy_city_register_open',
+                    sprite='GFX_standard_button_224',
+                    label='rip_ro_holy_cities_close',
+                    tooltip='rip_ro_holy_cities_close_tt')
 
 # ---------------------------------------------------------------------------
 # Layout grid for the three Union pages. Window-local pixels; the inner surface
@@ -368,7 +405,8 @@ curia+=card('rip_church_contact_card',CX,y,CW,202,contact)
 
 # Catholic/Orthodox Union paths remain in their existing events and decisions.
 # Do not advertise them through a permanent religion sidebar.
-religion_panels=(panel('rip_church_ro_panel','religion = russian_orthodox NOT = { has_country_flag = rip_church_ro_window_hidden }',ro,clean=True)+'\n'+
+religion_panels=(panel('rip_ro_holy_cities_panel','religion = russian_orthodox has_country_flag = rip_ro_holy_city_register_open',holy_cities,clean=True)+'\n'+
+                panel('rip_church_ro_panel','religion = russian_orthodox NOT = { has_country_flag = rip_church_ro_window_hidden } NOT = { has_country_flag = rip_ro_holy_city_register_open }',ro,clean=True)+'\n'+
                 panel('rip_church_gc_panel','religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } NOT = { has_country_flag = rip_church_gc_curia_view } NOT = { has_country_flag = rip_church_gui_parishes_view }',gc,clean=True)+'\n'+
                 panel('rip_church_gc_curia_panel','religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gc_curia_view NOT = { has_country_flag = rip_church_gui_parishes_view }',curia,clean=True)+'\n'+
                 panel('rip_church_gc_parishes_panel','OR = { religion = greek_catholic rip_church_union_supporter = yes } NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gui_parishes_view',parishes,clean=True))
