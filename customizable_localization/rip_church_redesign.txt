@@ -10,7 +10,7 @@ defined_text = {
 }
 defined_text = {
  name = GetChurchRONodeLimit
- text = { trigger = { has_country_flag = rip_church_ro_schismatic } localisation_key = rip_church_ro_two_nodes }
+ text = { trigger = { patriarch_authority = 0.65 } localisation_key = rip_church_ro_two_nodes }
  text = { trigger = { always = yes } localisation_key = rip_church_ro_one_node }
 }
 defined_text = {
@@ -961,7 +961,7 @@ defined_text = {
  name = GetChurchRONodeHint
  text = { trigger = { NOT = { has_country_flag = rip_church_icon_mission } } localisation_key = rip_church_readout_getchurchronodehint_0 }
  text = { trigger = { NOT = { has_dlc = "Cradle of Civilization" } } localisation_key = rip_church_readout_getchurchronodehint_1 }
- text = { trigger = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { check_variable = { which = funded_nodes_count value = 1 } NOT = { has_country_flag = rip_church_ro_schismatic } } } } localisation_key = rip_church_readout_getchurchronodehint_2 }
+ text = { trigger = { OR = { check_variable = { which = funded_nodes_count value = 2 } AND = { check_variable = { which = funded_nodes_count value = 1 } NOT = { patriarch_authority = 0.65 } } } } localisation_key = rip_church_readout_getchurchronodehint_2 }
  text = { trigger = { NOT = { check_variable = { which = muscovy_fervor value = 10 } } } localisation_key = rip_church_readout_getchurchronodehint_3 }
  text = { trigger = { NOT = { rip_church_ro_can_open_network_menu = yes } } localisation_key = rip_church_readout_getchurchronodehint_4 }
  text = { trigger = { always = yes } localisation_key = rip_church_readout_getchurchronodehint_5 }
@@ -977,7 +977,7 @@ defined_text = {
 defined_text = {
  name = GetChurchROStep2
  text = { trigger = { check_variable = { which = funded_nodes_count value = 2 } } localisation_key = rip_church_readout_getchurchrostep2_0 }
- text = { trigger = { check_variable = { which = funded_nodes_count value = 1 } has_country_flag = rip_church_ro_schismatic } localisation_key = rip_church_readout_getchurchrostep2_1 }
+ text = { trigger = { check_variable = { which = funded_nodes_count value = 1 } patriarch_authority = 0.65 } localisation_key = rip_church_readout_getchurchrostep2_1 }
  text = { trigger = { check_variable = { which = funded_nodes_count value = 1 } } localisation_key = rip_church_readout_getchurchrostep2_2 }
  text = { trigger = { NOT = { has_country_flag = rip_church_icon_mission } } localisation_key = rip_church_readout_getchurchrostep2_3 }
  text = { trigger = { NOT = { has_dlc = "Cradle of Civilization" } } localisation_key = rip_church_readout_getchurchrostep2_4 }

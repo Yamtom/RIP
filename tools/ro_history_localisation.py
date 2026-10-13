@@ -1,7 +1,7 @@
 """Source copy for the Muscovite historical forks; emitted in all supported UI languages."""
 COPY = {
  'russian_orthodox.1.t': 'The Election of a Metropolitan',
- 'russian_orthodox.1.d': 'Our bishops propose electing their metropolitan without awaiting Constantinople. This establishes a local autocephalous jurisdiction within Orthodoxy. Our state and provinces remain Orthodox. A separate Muscovite confession can emerge only through a deliberate later schism or the Raskol.',
+ 'russian_orthodox.1.d': 'Our bishops propose electing their metropolitan without awaiting Constantinople. This establishes a local autocephalous jurisdiction within Orthodoxy. Our state and provinces remain Orthodox. A separate Muscovite confession can emerge only through a deliberate alternative-history break with the other Eastern churches, not through the Raskol.',
  'russian_orthodox.1.a': 'Elect our metropolitan within Orthodoxy',
  'russian_orthodox.1.b': 'Continue to seek approval from Constantinople',
  'russian_orthodox.2.d': 'Patriarchal dignity offers our church a recognized place among the Eastern patriarchates. Accepting recognition preserves Orthodox communion and our present faith; conciliar confirmation follows from 1593. Refusing their authority is a deliberate alternative-history schism: it establishes a separate Muscovite confession and removes protection for Orthodox parishes.',
@@ -14,12 +14,12 @@ COPY = {
  'rip_ro_renounce_communion_desc': 'Deliberately proclaim a separate Muscovite confession. Costs 100 DIP and 1 stability. Our Orthodox core capital follows the hierarchy once; other provinces keep their faith. Orthodox parish protections end and our relations with the other Eastern churches deteriorate. This is an alternative-history choice, not the automatic consequence of autocephaly.',
  'russian_orthodox.14.d': 'Our established patriarchate has received recognition within Orthodox communion. Its traditional title can now be adopted at home. This confers neither jurisdiction over every Orthodox country nor a new universal patriarchate.',
  'russian_orthodox.14.a': 'Adopt the patriarchal title',
- 'russian_orthodox.6.d': 'The correction of the service books has reached a formal council. Condemning the old rites will create the Raskol and a separate Muscovite confession in game terms, while preserving communion with the other Eastern churches unless we have deliberately broken it. Repression weakens protection for Orthodox parishes; accepting both rites avoids the confessional separation and its disaster at the price of weaker uniformity.',
+ 'russian_orthodox.6.d': 'The correction of the service books has reached a formal council. Confirming the new books deepens the conflict with the Old Believers. The state and its provinces keep their religion: this ritual schism does not break communion with the other Eastern churches. Suppression causes a rebellion; private toleration leaves an underground community. Either can lead to the Raskol disaster. Accepting both rites prevents that disaster at the price of weaker uniformity.',
  'russian_orthodox.6.a': 'Enforce the council and suppress the old rites',
  'russian_orthodox.6.b': 'Confirm the new books but tolerate private old rites',
  'russian_orthodox.6.c': 'Accept both rites and prevent the rupture',
  'rip_ro_history.1.t': 'The Correction of the Service Books',
- 'rip_ro_history.1.d': 'The patriarch proposes correcting the books against contemporary Greek practice. Implementing the revision begins a dispute over ritual authority; it does not yet create a new confession. From 1666 a council will decide whether to condemn the old rites. Recognizing both practices now avoids that rupture, at a continuing cost to uniform missionary policy and patriarchal authority.',
+ 'rip_ro_history.1.d': 'The patriarch proposes bringing the books into line with contemporary Greek practice. Implementing the revision begins a dispute over ritual authority within Orthodoxy; neither the reforms nor the later Raskol create a new state confession. From 1666 a council will decide the treatment of the old rites. Protecting both practices now avoids the internal rupture, at a continuing cost to uniform missionary policy and patriarchal authority.',
  'rip_ro_history.1.a': 'Correct the books; leave judgment to a later council',
  'rip_ro_history.1.b': 'Protect both ritual traditions',
  'rip_ro_history.2.t': 'The Vacant Patriarchal Throne',

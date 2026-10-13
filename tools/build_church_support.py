@@ -63,7 +63,7 @@ for name, anchor in nodes:
  {key}_eligible = yes NOT = {{ has_country_flag = {key} }}
  check_variable = {{ which = muscovy_fervor value = {NODE_COST} }}
  OR = {{ NOT = {{ check_variable = {{ which = funded_nodes_count value = 1 }} }}
- AND = {{ has_country_flag = rip_church_ro_schismatic NOT = {{ check_variable = {{ which = funded_nodes_count value = 2 }} }} }} }}
+ AND = {{ patriarch_authority = 0.65 NOT = {{ check_variable = {{ which = funded_nodes_count value = 2 }} }} }} }}
 }}
 '''
     effects += f'''{key}_toggle_effect = {{
@@ -83,7 +83,7 @@ for name, anchor in nodes:
     close.append(f'clr_country_flag = {key}')
     maintain.append(f'''if = {{ limit = {{ has_country_flag = {key} }}
  if = {{ limit = {{ NOT = {{ {key}_eligible = yes }} }} clr_country_flag = {key} }}
- else_if = {{ limit = {{ NOT = {{ has_country_flag = rip_church_ro_schismatic }} check_variable = {{ which = funded_nodes_count value = 1 }} }} clr_country_flag = {key} }}
+ else_if = {{ limit = {{ OR = {{ check_variable = {{ which = funded_nodes_count value = 2 }} AND = {{ NOT = {{ patriarch_authority = 0.65 }} check_variable = {{ which = funded_nodes_count value = 1 }} }} }} }} clr_country_flag = {key} }}
  else = {{ change_variable = {{ which = funded_nodes_count value = 1 }} {anchor} = {{ every_trade_node_member_province = {{
  set_province_flag = rip_church_ro_trade_target@ROOT
  if = {{ limit = {{ {PARISH} }} add_province_modifier = {{ name = rip_church_node_courtyards duration = 62 }} }}
