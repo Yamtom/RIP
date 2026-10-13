@@ -2,21 +2,34 @@
 # Fail closed: validate the actual staged bytes, then current engine syntax.
 set -eu
 cd "$(git rev-parse --show-toplevel)"
-if [ -n "${RIP_PYTHON:-}" ]; then
-    runner="$RIP_PYTHON"
-else
-    runner=""
-    for candidate in python3 python; do
-        located=$(command -v "$candidate" || true)
-        case "$located" in ""|*WindowsApps*) continue ;; esac
-        if "$located" -c 'import sys; assert sys.version_info >= (3, 10)' >/dev/null 2>&1; then
-            runner="$located"
-            break
-        fi
-    done
-    if [ -z "$runner" ] && [ -n "${TEMP:-}" ] && [ -f "$TEMP/rip-python-3.12.10/python.exe" ]; then
-        runner="$TEMP/rip-python-3.12.10/python.exe"
+runner=""
+try_python() {
+    case "$1" in ""|*WindowsApps*|*windowsapps*) return 1 ;; esac
+    if "$1" -B -c 'import sys; assert sys.version_info >= (3, 10)' >/dev/null 2>&1; then
+        runner="$1"
+        return 0
     fi
+    return 1
+}
+# Invalid overrides and deleted TEMP installs must not prevent recovery.
+try_python "${RIP_PYTHON:-}" || true
+for candidate in python3 python; do
+    [ -z "$runner" ] || break
+    try_python "$(command -v "$candidate" || true)" || true
+done
+# Read persisted Windows settings too: an already-open GUI has a stale environment.
+if [ -z "$runner" ]; then
+    ps=$(command -v powershell.exe || true)
+    if [ -z "$ps" ] && [ -n "${SYSTEMROOT:-}" ]; then
+        ps="$SYSTEMROOT/System32/WindowsPowerShell/v1.0/powershell.exe"
+    fi
+    if [ -n "$ps" ] && [ -f .githooks/find-python.ps1 ]; then
+        located=$("$ps" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .githooks/find-python.ps1 2>/dev/null || true)
+        try_python "$located" || true
+    fi
+fi
+if [ -z "$runner" ] && [ -n "${TEMP:-}" ]; then
+    try_python "$TEMP/rip-python-3.12.10/python.exe" || true
 fi
 if [ -z "$runner" ]; then
     echo 'BOM check blocked: install Python 3.10+ or set RIP_PYTHON to its executable.' >&2
