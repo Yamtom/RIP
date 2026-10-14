@@ -486,4 +486,4 @@ for path in ('events/RIP_FaithDisasters.txt', 'events/RussianOrthodox.txt', 'com
 cases += 1
 
 print(f'OLD BELIEVER PASS: {cases} source-executed cases; communities never convert, the policy only sets the pace '
-      f'of the Raskol exit (authority below 60%), no separate crisis clock; engine unverified.')
+      f'of the Raskol exit (authority below 60%), no separate crisis clock; source model, not engine evidence.')
