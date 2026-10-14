@@ -5,6 +5,7 @@ from church_testlib import parse
 
 curia_triggers = read('common/scripted_triggers/rip_church_gc_curia_triggers.txt')
 curia_effects = read('common/scripted_effects/rip_church_gc_curia_effects.txt')
+curia_gui_effects = read('common/scripted_effects/rip_church_gc_gui_effects.txt')
 opinion_modifiers = read('common/opinion_modifiers/RIP_church_relations.txt')
 icon_triggers = read('common/scripted_triggers/rip_church_gc_interaction_triggers.txt')
 icon_effects = read('common/scripted_effects/rip_church_gc_interaction_effects.txt')
@@ -76,6 +77,17 @@ assert 'no gameplay unlock for these offices' in english
 assert 'name = "rip_church_gc_controller_readout"' in interface
 assert 'global_event_target = rip_church_gc_controller' in controls
 assert 'event_target:rip_church_gc_controller = { is_papal_controller = yes }' in controls
+controller_refresh = named_block(curia_gui_effects, 'rip_church_gc_refresh_curia_effect')
+controller_clear = next(
+    (block for _, block in keyed_blocks(controller_refresh, 'if')
+     if 'has_global_flag = rip_church_gc_controller_known' in block),
+    None,
+)
+assert controller_clear is not None
+assert 'clear_global_event_target = rip_church_gc_controller' in controller_clear
+assert 'clr_global_flag = rip_church_gc_controller_known' in controller_clear
+assert 'save_global_event_target_as = rip_church_gc_controller' in controller_refresh
+assert 'set_global_flag = rip_church_gc_controller_known' in controller_refresh
 assert 'Curia controller\\n' in english
 
 # GC-only bishop art must not overwrite the native Orthodox patriarch sprites.

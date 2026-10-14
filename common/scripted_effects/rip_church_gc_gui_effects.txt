@@ -18,8 +18,11 @@ rip_church_gc_refresh_curia_effect = {
 		clr_global_flag = rip_church_gc_rome_known
 		set_variable = { which = rip_church_papal_opinion value = 0 }
 	}
-	clr_global_flag = rip_church_gc_controller_known
-	clear_global_event_target = rip_church_gc_controller
+	if = {
+		limit = { has_global_flag = rip_church_gc_controller_known }
+		clear_global_event_target = rip_church_gc_controller
+		clr_global_flag = rip_church_gc_controller_known
+	}
 	every_country = {
 		limit = { is_papal_controller = yes }
 		save_global_event_target_as = rip_church_gc_controller

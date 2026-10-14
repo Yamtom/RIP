@@ -10,27 +10,25 @@
 # takes the seniority - see common/scripted_triggers/
 # rip_kyivan_seniorate_triggers.txt and events/KyivShogunate.txt : kyiv_shogunate.2.
 on_monarch_death = {
-	effect = {
-		if = {
+	if = {
+		limit = {
+			has_reform = kyivan_shogunate_reform
+			any_subject_country = { is_subject_of_type = senior_udil }
+		}
+		every_subject_country = {
 			limit = {
-				has_reform = kyivan_shogunate_reform
-				any_subject_country = { is_subject_of_type = senior_udil }
+				is_subject_of_type = senior_udil
+				NOT = { has_country_modifier = rip_tenure_lapsed }
 			}
-			every_subject_country = {
-				limit = {
-					is_subject_of_type = senior_udil
-					NOT = { has_country_modifier = rip_tenure_lapsed }
-				}
-				add_country_modifier = {
-					name = rip_tenure_lapsed
-					duration = -1
-				}
+			add_country_modifier = {
+				name = rip_tenure_lapsed
+				duration = -1
 			}
 		}
-		if = {
-			limit = { rip_kyiv_seniorate_line_broken_trigger = yes }
-			country_event = { id = kyiv_shogunate.2 days = 1 }
-		}
+	}
+	if = {
+		limit = { rip_kyiv_seniorate_line_broken_trigger = yes }
+		country_event = { id = kyiv_shogunate.2 days = 1 }
 	}
 }
 
