@@ -1,57 +1,105 @@
 # Console-only destructive fixtures. Use an isolated, disposable non-Ironman game.
 # Not loaded by the game: it lives in tests/dev_tools/, not events/.
-# It calls rip_ob_begin_schism_effect, rip_ob_tolerate_effect and
-# rip_ob_crisis_resolved, which exist only in the unmerged Old Believer logic
-# (snapshot 18a5a1a3, see tests/dev_tools/README.md). The ADOPTION_PASS marker
-# also expects that snapshot's ungated rip_faith_adopt_muscovite_church_effect.
-# Copy it, with rip_ob_test_l_english.yml, back to events/ and localisation/
-# only on a tree that carries that logic; on this tree it would be a load error.
+#
+# It exercises the Old Believer chapter of this tree (rip_ob_begin_schism_effect,
+# rip_ob_tolerate_effect, rip_ob_upkeep_effect and rip_faith_disaster.2). To run
+# it, copy it with rip_ob_test_l_english.yml back to events/ and localisation/,
+# play MOS and enter `event rip_ob_test.1` in the console.
+#
+# Markers go to game.log:
+#   MINORITY_PASS     communities were marked and no province changed its faith
+#   POLICY_PASS       toleration set its flag and its country modifier, not repression's
+#   LOCAL_PASS        upkeep put the local toleration modifier on a community
+#   PERSISTENCE_PASS  a community and an Old Believer majority survive the end of
+#                     the Raskol (rip_faith_disaster.2), and so does the policy
+# The Raskol's own exit - patriarch authority below 60% - is not a marker here:
+# the disaster cannot be started before 1666 without reloading the date.
 namespace = rip_ob_test
 country_event = {
- id = rip_ob_test.1 hidden = yes is_triggered_only = yes
- title = rip_ob_test.t desc = rip_ob_test.d picture = RELIGION_eventPicture
- option = { name = rip_ob_test.a }
- immediate = {
-  rip_faith_adopt_muscovite_church_effect = yes
-  if = { limit = { religion = russian_orthodox capital_scope = { religion = orthodox } }
-   log = "RIP_OB_TEST ADOPTION_PASS"
-  }
-  set_country_flag = rip_ro_books_reformed
-  set_country_flag = rip_ro_stage_patriarchate
-  # Fixture bypasses the historical date gate so no console date reload is needed.
-  set_country_flag = rip_ro_stage_raskol
-  rip_ob_begin_schism_effect = yes
-  if = { limit = { any_owned_province = { has_province_flag = rip_ob_community religion = orthodox } NOT = { any_owned_province = { religion = old_believer } } }
-   log = "RIP_OB_TEST MINORITY_PASS"
-  }
-  rip_ob_tolerate_effect = yes
-  set_country_flag = rip_ob_crisis_started
-  if = { limit = { NOT = { rip_ob_crisis_resolved = yes } }
-   log = "RIP_OB_TEST EARLY_END_BLOCKED"
-  }
-  country_event = { id = rip_ob_test.2 days = 30 }
- }
+	id = rip_ob_test.1
+	hidden = yes
+	is_triggered_only = yes
+	title = rip_ob_test.t
+	desc = rip_ob_test.d
+	picture = RELIGION_eventPicture
+	option = {
+		name = rip_ob_test.a
+	}
+	immediate = {
+		# Fixture bypasses the historical date gate so no console date reload is needed.
+		set_country_flag = rip_ro_stage_autocephaly
+		set_country_flag = rip_ro_books_reformed
+		set_country_flag = rip_ro_stage_patriarchate
+		set_country_flag = rip_ro_stage_raskol
+		rip_ob_begin_schism_effect = yes
+		if = {
+			limit = {
+				any_owned_province = {
+					has_province_flag = rip_ob_community
+					religion = orthodox
+				}
+				NOT = { any_owned_province = { religion = old_believer } }
+			}
+			log = "RIP_OB_TEST MINORITY_PASS"
+		}
+		rip_ob_tolerate_effect = yes
+		if = {
+			limit = {
+				has_country_flag = rip_ob_toleration
+				has_country_modifier = rip_ob_tolerant_policy
+				NOT = { has_country_flag = rip_ob_repression }
+				NOT = { has_country_modifier = rip_ob_repressive_policy }
+			}
+			log = "RIP_OB_TEST POLICY_PASS"
+		}
+		rip_ob_upkeep_effect = yes
+		if = {
+			limit = { any_owned_province = { has_province_modifier = rip_ob_local_toleration } }
+			log = "RIP_OB_TEST LOCAL_PASS"
+		}
+		country_event = { id = rip_ob_test.2 days = 30 }
+	}
 }
 country_event = {
- id = rip_ob_test.2 hidden = yes is_triggered_only = yes
- title = rip_ob_test.t desc = rip_ob_test.d picture = RELIGION_eventPicture
- option = { name = rip_ob_test.a }
- immediate = {
-  random_owned_province = {
-   limit = { has_province_flag = rip_ob_community }
-   change_religion = old_believer
-  }
-  country_event = { id = rip_faith_disaster.2 }
-  country_event = { id = rip_ob_test.3 days = 60 }
- }
+	id = rip_ob_test.2
+	hidden = yes
+	is_triggered_only = yes
+	title = rip_ob_test.t
+	desc = rip_ob_test.d
+	picture = RELIGION_eventPicture
+	option = {
+		name = rip_ob_test.a
+	}
+	immediate = {
+		random_owned_province = {
+			limit = { has_province_flag = rip_ob_community }
+			change_religion = old_believer
+		}
+		country_event = { id = rip_faith_disaster.2 }
+		country_event = { id = rip_ob_test.3 days = 60 }
+	}
 }
 country_event = {
- id = rip_ob_test.3 hidden = yes is_triggered_only = yes
- title = rip_ob_test.t desc = rip_ob_test.d picture = RELIGION_eventPicture
- option = { name = rip_ob_test.a }
- immediate = {
-  if = { limit = { has_country_flag = rip_ro_raskol_settled any_owned_province = { has_province_flag = rip_ob_community religion = old_believer } }
-   log = "RIP_OB_TEST PERSISTENCE_PASS"
-  }
- }
+	id = rip_ob_test.3
+	hidden = yes
+	is_triggered_only = yes
+	title = rip_ob_test.t
+	desc = rip_ob_test.d
+	picture = RELIGION_eventPicture
+	option = {
+		name = rip_ob_test.a
+	}
+	immediate = {
+		if = {
+			limit = {
+				has_country_flag = rip_ro_raskol_settled
+				has_country_flag = rip_ob_toleration
+				any_owned_province = {
+					has_province_flag = rip_ob_community
+					religion = old_believer
+				}
+			}
+			log = "RIP_OB_TEST PERSISTENCE_PASS"
+		}
+	}
 }
