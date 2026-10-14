@@ -1,14 +1,16 @@
 # Old Believers: the pre-reform Russian rite that outlives the 1666 Raskol.
 #
-# The faith is only declared here. Nothing in this tree calls enable_religion
-# for it or converts a province or a country to it, so no game can reach it
-# yet; date = 1666.1.1 is what is_religion_enabled will read once something
-# does. The effects that seed communities and convert provinces are a separate
-# change (snapshot 18a5a1a3).
+# The faith is declared here; date = 1666.1.1 is what is_religion_enabled reads.
+# It is reached in two ways, both after a community exists
+# (common/scripted_effects/rip_old_believer_effects.txt): a province becomes
+# old_believer through events/RIP_OldBelievers.txt (rip_ob.2) or a victory of
+# the old_believer_rebels, and a state takes the faith through the decision
+# rip_ob_adopt_old_rite in decisions/RIP_OldBelievers.txt. The model is in
+# docs/OLD_BELIEVERS_MODEL.uk.md.
 #
-# Known gap: has_patriarchs = yes with no orthodox_icons block, so patriarch
-# authority would accrue with nothing to spend it on. Settle it together with
-# that logic: either give the faith its own icons or drop has_patriarchs.
+# Known gap, still open: has_patriarchs = yes with no orthodox_icons block, so
+# patriarch authority accrues with nothing to spend it on. Either give the faith
+# its own icons or drop has_patriarchs; that is the author's call.
 christian = {
  old_believer = {
   color = { 90 125 105 }
