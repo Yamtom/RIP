@@ -1,0 +1,186 @@
+# Test harness only.
+rip_pr2_se_if = {
+	if = { limit = { always = yes } set_country_flag = rip_pr2_ran_se_if add_country_modifier = { name = rip_pr2_cm_se_if duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_se_if } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_se_if } country_event = { id = rip_pr2.108 days = 1 } country_event = { id = rip_pr2.109 } }
+}
+
+rip_pr2_sc_if = {
+	SWE = {
+		if = { limit = { always = yes } set_country_flag = rip_pr2_ran_sc_if add_country_modifier = { name = rip_pr2_cm_sc_if duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_sc_if } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_sc_if } country_event = { id = rip_pr2.116 days = 1 } country_event = { id = rip_pr2.117 } }
+	}
+}
+
+rip_pr2_se_ei = {
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_ran_se_ei add_country_modifier = { name = rip_pr2_cm_se_ei duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_se_ei } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_se_ei } country_event = { id = rip_pr2.110 days = 1 } country_event = { id = rip_pr2.111 } }
+}
+
+rip_pr2_sc_ei = {
+	SWE = {
+		if = { limit = { always = no } set_country_flag = rip_pr2_never }
+		else_if = { limit = { always = yes } set_country_flag = rip_pr2_ran_sc_ei add_country_modifier = { name = rip_pr2_cm_sc_ei duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_sc_ei } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_sc_ei } country_event = { id = rip_pr2.118 days = 1 } country_event = { id = rip_pr2.119 } }
+	}
+}
+
+rip_pr2_se_el = {
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_ran_se_el add_country_modifier = { name = rip_pr2_cm_se_el duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_se_el } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_se_el } country_event = { id = rip_pr2.112 days = 1 } country_event = { id = rip_pr2.113 } }
+}
+
+rip_pr2_sc_el = {
+	SWE = {
+		if = { limit = { always = no } set_country_flag = rip_pr2_never }
+		else = { set_country_flag = rip_pr2_ran_sc_el add_country_modifier = { name = rip_pr2_cm_sc_el duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_sc_el } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_sc_el } country_event = { id = rip_pr2.120 days = 1 } country_event = { id = rip_pr2.121 } }
+	}
+}
+
+rip_pr2_se_ct = {
+	set_country_flag = rip_pr2_ran_se_ct add_country_modifier = { name = rip_pr2_cm_se_ct duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_se_ct } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_se_ct } country_event = { id = rip_pr2.114 days = 1 } country_event = { id = rip_pr2.115 }
+}
+
+rip_pr2_sc_ct = {
+	SWE = {
+		set_country_flag = rip_pr2_ran_sc_ct add_country_modifier = { name = rip_pr2_cm_sc_ct duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_sc_ct } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_sc_ct } country_event = { id = rip_pr2.122 days = 1 } country_event = { id = rip_pr2.123 }
+	}
+}
+
+rip_pr2_pa_if = {
+	if = { limit = { always = yes } set_country_flag = rip_pr2_ran_pa_if add_country_modifier = { name = rip_pr2_cm_pa_if duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_pa_if_$K$ } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_pa_if_$K$ } country_event = { id = rip_pr2.124 days = 1 } country_event = { id = rip_pr2.125 } }
+}
+
+rip_pr2_pa_ei = {
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_ran_pa_ei add_country_modifier = { name = rip_pr2_cm_pa_ei duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_pa_ei_$K$ } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_pa_ei_$K$ } country_event = { id = rip_pr2.126 days = 1 } country_event = { id = rip_pr2.127 } }
+}
+
+rip_pr2_pa_el = {
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_ran_pa_el add_country_modifier = { name = rip_pr2_cm_pa_el duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_pa_el_$K$ } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_pa_el_$K$ } country_event = { id = rip_pr2.128 days = 1 } country_event = { id = rip_pr2.129 } }
+}
+
+rip_pr2_ch_ei = {
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_chran_cm_ei add_country_modifier = { name = rip_pr2_chcm_$K$ duration = -1 } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_chran_tre_ei add_treasury = 1000 }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_chran_opr_ei add_opinion = { who = ROOT modifier = rip_pr2_chop_$K$ } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_chran_rev_ei reverse_add_opinion = { who = ROOT modifier = rip_pr2_chrev_$K$ } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_chran_evt_ei country_event = { id = rip_pr2.133 days = 1 } }
+}
+
+rip_pr2_ch_if = {
+	if = { limit = { always = yes } set_country_flag = rip_pr2_chran_cm_if add_country_modifier = { name = rip_pr2_chcm_$K$ duration = -1 } }
+	if = { limit = { always = yes } set_country_flag = rip_pr2_chran_tre_if add_treasury = 1000 }
+	if = { limit = { always = yes } set_country_flag = rip_pr2_chran_opr_if add_opinion = { who = ROOT modifier = rip_pr2_chop_$K$ } }
+	if = { limit = { always = yes } set_country_flag = rip_pr2_chran_rev_if reverse_add_opinion = { who = ROOT modifier = rip_pr2_chrev_$K$ } }
+	if = { limit = { always = yes } set_country_flag = rip_pr2_chran_evt_if country_event = { id = rip_pr2.132 days = 1 } }
+}
+
+# class test, branch kind ei
+rip_pr2_cls_ei_effect = {
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_imm country_event = { id = rip_pr2.134 } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_dly5 country_event = { id = rip_pr2.135 days = 5 } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_rooteve ROOT = { country_event = { id = rip_pr2.136 days = 1 } } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_prov capital_scope = { province_event = { id = rip_pr2.140 days = 1 } } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_rootflag ROOT = { set_country_flag = rip_pr2_cls_rootflag_ei } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_tre add_treasury = 5000 }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_opin add_opinion = { who = ROOT modifier = rip_pr2_op_cls_ei } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_rev reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_cls_ei } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_flagonly set_country_flag = rip_pr2_cls_plain }
+}
+
+rip_pr2_clsx_trust_ei_effect = {
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_trust add_trust = { who = ROOT value = 10 mutual = no } }
+}
+
+rip_pr2_clsx_cb_ei_effect = {
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else_if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_cb add_casus_belli = { target = ROOT type = cb_insult months = 12 } }
+}
+
+# class test, branch kind ct
+rip_pr2_cls_ct_effect = {
+	set_country_flag = rip_pr2_clsran_imm country_event = { id = rip_pr2.134 }
+	set_country_flag = rip_pr2_clsran_dly5 country_event = { id = rip_pr2.135 days = 5 }
+	set_country_flag = rip_pr2_clsran_rooteve ROOT = { country_event = { id = rip_pr2.137 days = 1 } }
+	set_country_flag = rip_pr2_clsran_prov capital_scope = { province_event = { id = rip_pr2.140 days = 1 } }
+	set_country_flag = rip_pr2_clsran_rootflag ROOT = { set_country_flag = rip_pr2_cls_rootflag_ct }
+	set_country_flag = rip_pr2_clsran_tre add_treasury = 5000
+	set_country_flag = rip_pr2_clsran_opin add_opinion = { who = ROOT modifier = rip_pr2_op_cls_ct }
+	set_country_flag = rip_pr2_clsran_rev reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_cls_ct }
+	set_country_flag = rip_pr2_clsran_flagonly set_country_flag = rip_pr2_cls_plain
+}
+
+rip_pr2_clsx_trust_ct_effect = {
+	set_country_flag = rip_pr2_clsran_trust add_trust = { who = ROOT value = 10 mutual = no }
+}
+
+rip_pr2_clsx_cb_ct_effect = {
+	set_country_flag = rip_pr2_clsran_cb add_casus_belli = { target = ROOT type = cb_insult months = 12 }
+}
+
+# class test, branch kind if
+rip_pr2_cls_if_effect = {
+	if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_imm country_event = { id = rip_pr2.134 } }
+	if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_dly5 country_event = { id = rip_pr2.135 days = 5 } }
+	if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_rooteve ROOT = { country_event = { id = rip_pr2.138 days = 1 } } }
+	if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_prov capital_scope = { province_event = { id = rip_pr2.140 days = 1 } } }
+	if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_rootflag ROOT = { set_country_flag = rip_pr2_cls_rootflag_if } }
+	if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_tre add_treasury = 5000 }
+	if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_opin add_opinion = { who = ROOT modifier = rip_pr2_op_cls_if } }
+	if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_rev reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_cls_if } }
+	if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_flagonly set_country_flag = rip_pr2_cls_plain }
+}
+
+rip_pr2_clsx_trust_if_effect = {
+	if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_trust add_trust = { who = ROOT value = 10 mutual = no } }
+}
+
+rip_pr2_clsx_cb_if_effect = {
+	if = { limit = { always = yes } set_country_flag = rip_pr2_clsran_cb add_casus_belli = { target = ROOT type = cb_insult months = 12 } }
+}
+
+# class test, branch kind el
+rip_pr2_cls_el_effect = {
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_clsran_imm country_event = { id = rip_pr2.134 } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_clsran_dly5 country_event = { id = rip_pr2.135 days = 5 } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_clsran_rooteve ROOT = { country_event = { id = rip_pr2.139 days = 1 } } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_clsran_prov capital_scope = { province_event = { id = rip_pr2.140 days = 1 } } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_clsran_rootflag ROOT = { set_country_flag = rip_pr2_cls_rootflag_el } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_clsran_tre add_treasury = 5000 }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_clsran_opin add_opinion = { who = ROOT modifier = rip_pr2_op_cls_el } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_clsran_rev reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_cls_el } }
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_clsran_flagonly set_country_flag = rip_pr2_cls_plain }
+}
+
+rip_pr2_clsx_trust_el_effect = {
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_clsran_trust add_trust = { who = ROOT value = 10 mutual = no } }
+}
+
+rip_pr2_clsx_cb_el_effect = {
+	if = { limit = { always = no } set_country_flag = rip_pr2_never }
+	else = { set_country_flag = rip_pr2_clsran_cb add_casus_belli = { target = ROOT type = cb_insult months = 12 } }
+}
+

@@ -1,0 +1,131 @@
+country_decisions = {
+
+	chr_commission_monastic_bastions = {
+		color = { 210 175 20 }
+		potential = {
+			tag = CHR
+			has_country_flag = chr_frontier_branch_taken
+			treasury = 150
+			mil_power = 25
+			NOT = {
+				OR = {
+					has_country_modifier = chr_monastery_investment_cooldown
+					has_country_modifier = chr_sloboda_investment_cooldown
+					has_country_modifier = chr_exchange_integration_cooldown
+				}
+			}
+		}
+		allow = {
+			has_country_flag = chr_frontier_branch_taken
+			treasury = 150
+			mil_power = 25
+			NOT = {
+				OR = {
+					has_country_modifier = chr_monastery_investment_cooldown
+					has_country_modifier = chr_sloboda_investment_cooldown
+					has_country_modifier = chr_exchange_integration_cooldown
+				}
+			}
+		}
+		effect = {
+			add_treasury = -150
+			add_mil_power = -25
+			add_country_modifier = {
+				name = chr_monastery_investment_cooldown
+				duration = 1825
+			}
+			hidden_effect = {
+				chr_left_bank_monastery_investment = yes
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	chr_expand_sloboda_farmlands = {
+		color = { 210 175 20 }
+		potential = {
+			tag = CHR
+			has_country_flag = chr_grain_corridors_built
+			treasury = 120
+			dip_power = 25
+			NOT = {
+				OR = {
+					has_country_modifier = chr_monastery_investment_cooldown
+					has_country_modifier = chr_sloboda_investment_cooldown
+					has_country_modifier = chr_exchange_integration_cooldown
+				}
+			}
+		}
+		allow = {
+			has_country_flag = chr_grain_corridors_built
+			treasury = 120
+			dip_power = 25
+			NOT = {
+				OR = {
+					has_country_modifier = chr_monastery_investment_cooldown
+					has_country_modifier = chr_sloboda_investment_cooldown
+					has_country_modifier = chr_exchange_integration_cooldown
+				}
+			}
+		}
+		effect = {
+			add_treasury = -120
+			add_dip_power = -25
+			add_country_modifier = {
+				name = chr_sloboda_investment_cooldown
+				duration = 1825
+			}
+			hidden_effect = {
+				chr_left_bank_sloboda_investment = yes
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	chr_integrate_grain_exchange_guilds = {
+		color = { 210 175 20 }
+		potential = {
+			tag = CHR
+			has_country_flag = chr_grain_exchange_founded
+			treasury = 100
+			adm_power = 25
+			NOT = {
+				OR = {
+					has_country_modifier = chr_monastery_investment_cooldown
+					has_country_modifier = chr_sloboda_investment_cooldown
+					has_country_modifier = chr_exchange_integration_cooldown
+				}
+			}
+		}
+		allow = {
+			has_country_flag = chr_grain_exchange_founded
+			treasury = 100
+			adm_power = 25
+			NOT = {
+				OR = {
+					has_country_modifier = chr_monastery_investment_cooldown
+					has_country_modifier = chr_sloboda_investment_cooldown
+					has_country_modifier = chr_exchange_integration_cooldown
+				}
+			}
+		}
+		effect = {
+			add_treasury = -100
+			add_adm_power = -25
+			add_country_modifier = {
+				name = chr_exchange_integration_cooldown
+				duration = 1460
+			}
+			hidden_effect = {
+				chr_left_bank_grain_exchange_integration = yes
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}

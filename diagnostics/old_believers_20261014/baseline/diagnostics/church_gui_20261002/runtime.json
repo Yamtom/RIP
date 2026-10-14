@@ -1,0 +1,63 @@
+{
+  "pid": 32564,
+  "started_utc": "2026-10-02T11:29:38.675098Z",
+  "profile": "C:\\Users\\Yamtom\\AppData\\Local\\Temp\\rip-gui-static-values-20261002\\profile",
+  "executable": "D:\\Programs Files(x86)\\Steam\\steamapps\\common\\Europa Universalis IV\\eu4.exe",
+  "arguments": [
+    "-debug_mode",
+    "-start_tag=POL",
+    "-seed=1001",
+    "-userdir=\"C:\\Users\\Yamtom\\AppData\\Local\\Temp\\rip-gui-static-values-20261002\\profile\""
+  ],
+  "git_head": "06eed6fca02aa6afaa9bd17076696f486b4e0bfc",
+  "source_files": 773,
+  "fixtures": [
+    {
+      "path": "history/countries/POL - Poland.txt",
+      "sha256": "126B33657620CC92075D8DCF747A169987DE9C414462D7618655EEA4671ED886",
+      "change": "GC state faith; start Curia page"
+    },
+    {
+      "path": "history/provinces/262 - Krakow.txt",
+      "sha256": "F434980B55EBCAC1CE3BED2EADC7BA3F2B02479FBAC50B59F307169D5D3AF31D",
+      "change": "Recognized community; Krakow Eastern, Sandomierz Latin"
+    },
+    {
+      "path": "history/provinces/259 - Sandomierz.txt",
+      "sha256": "5904F8FB47BD8885A12D461FA82AB43AB4038325B3AAE91C13EDB853814F9D19",
+      "change": "Recognized community; Krakow Eastern, Sandomierz Latin"
+    }
+  ],
+  "status": "stopped_own_process_after_verification",
+  "ended_utc": "2026-10-02T11:38:14.3229097Z",
+  "elapsed_seconds": 515.6,
+  "source_matches_workspace": true,
+  "snapshot_unchanged": true,
+  "startup_pass": true,
+  "in_scope_errors": [
+    "[gamestate.cpp:7688]: Trying to remove undefined event target: rip_church_gc_controller\r"
+  ],
+  "crash_bundles": 0,
+  "observed": [
+    "Union and Curia rendered; complete header and borders; connected tabs; equal icons; no raw text keys or overlaps",
+    "Eastern=1 and Latin=1 recognized fixture counts rendered",
+    "Papal State and Curia controller The Papal State rendered separately",
+    "Deputation: treasury 56 -> 6 and PAP opinion 20 -> 45; button disabled afterwards",
+    "Gift unavailable at treasury 56 and 6; Requires 100 ducats rendered"
+  ],
+  "screenshots": [
+    "runtime-union-final.png",
+    "runtime-curia-final.png",
+    "runtime-curia-deputation.png"
+  ],
+  "limits": [
+    "Old saves and campaign pacing not tested",
+    "Gift transaction and five-year boundary tested in source model only",
+    "The complete runtime log retains pre-existing errors outside church GUI scope"
+  ],
+  "baseline_in_scope_diagnostics": [
+    "[gamestate.cpp:7688]: Trying to remove undefined event target: rip_church_gc_controller\r"
+  ],
+  "new_in_scope_errors": [],
+  "baseline_provenance": "Initial main 06eed6fc rip_church_gc_gui_effects.txt:22 unconditionally clears the event target; same message observed in initial isolated run"
+}

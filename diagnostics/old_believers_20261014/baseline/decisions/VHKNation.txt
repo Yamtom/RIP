@@ -1,0 +1,157 @@
+country_decisions = {
+
+	volyn_halich_nation = {
+		major = yes
+		potential = {
+			normal_or_historical_nations = yes
+			OR = {
+				ai = yes
+				is_playing_custom_nation = no
+			}
+			NOT = { tag = PAP }
+			NOT = { tag = HLR }
+			NOT = { exists = UKR }
+			NOT = { exists = VOL }
+			OR = {
+				tag = HLC
+				tag = VLN
+				tag = PDL
+			}
+			OR = {
+				ai = no
+				AND = {
+					ai = yes
+					num_of_cities = 3
+				}
+			}
+			is_colonial_nation = no
+			OR = {
+				is_former_colonial_nation = no
+				AND = {
+					is_former_colonial_nation = yes
+					ai = no
+				}
+			}
+			calc_true_if = {
+				amount = 2
+				owns = 279
+				owns = 261
+				owns = 1943
+			}
+		}
+		provinces_to_highlight = {
+			OR = {	
+				AND = {
+					ROOT = { DIP = 5 }
+					OR = {
+						province_id = 279		
+						province_id = 261		
+					}
+				}
+				AND = {
+					OR = {
+						province_id = 279		
+						province_id = 261		
+						province_id = 1943		
+					}
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+		allow = {
+			has_institution = renaissance
+			is_subject = no
+			is_nomad = no
+			is_at_war = no
+			
+			OR = {
+				AND = {
+					owns_or_non_sovereign_subject_of = 279		
+					owns_or_non_sovereign_subject_of = 261		
+					owns_or_non_sovereign_subject_of = 1943		
+				}
+				AND = {
+					owns_or_non_sovereign_subject_of = 279				
+					owns_or_non_sovereign_subject_of = 261		
+					dip = 5
+				}
+			}
+		}
+		effect = {
+			red_ruthenia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_permanent_claim = VOL
+			}
+			podolia_volhynia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_permanent_claim = VOL
+			}
+			podolia_volhynia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_permanent_claim = VOL
+			}
+			add_prestige = 25
+			if = {
+				limit = { tag = HLC }
+				set_country_flag = rip_vol_origin_hlc
+			}
+			if = {
+				limit = { tag = VLN }
+				set_country_flag = rip_vol_origin_vln
+			}
+			if = {
+				limit = { tag = PDL }
+				set_country_flag = rip_vol_origin_pdl
+			}
+			change_tag = VOL
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+			set_country_flag = rip_vol_missions_synced
+			VOL = {
+				set_capital = 279
+			}
+			if = {
+				limit = {
+					is_part_of_hre = yes
+					is_elector = no
+					is_emperor = no
+				}
+				every_owned_province = {
+					limit = {
+						is_part_of_hre = yes
+					}
+					set_in_empire = no
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						government_rank = 2
+					}
+				}
+				set_government_rank = 2
+			}
+			if = {
+				limit = { has_custom_ideas = no }
+				country_event = { id = ideagroups.1 } #Swap Ideas
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		ai_importance = 500		
+	}
+	
+}

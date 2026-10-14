@@ -1,0 +1,72 @@
+# LIT - Lithuania
+# disorderly_princes.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
+
+# LIT - Lithuania
+# disorderly_princes.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
+# LIT. Kyiv strains at the vassal's leash and the other princes take note.
+disorderly_princes = {
+	potential = {
+		tag = LIT
+		KIE = {
+			is_vassal = yes
+			vassal_of = ROOT
+		}
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = aftermath_of_revolt }
+		OR = {
+			is_free_or_tributary_trigger = yes
+			is_subject_of = POL
+		}
+		current_age = age_of_discovery
+	}
+	can_start = {
+		government = monarchy
+		has_any_disaster = no
+		is_year = 1450
+		NOT = { has_country_flag = aftermath_of_revolt }
+		NOT = { has_country_flag = disorderly_princes }
+		current_age = age_of_discovery
+		KIE = {
+			is_subject_of = ROOT
+			liberty_desire = 50
+		}
+	}
+	can_stop = {
+		OR = {
+			has_any_disaster = yes
+			has_country_flag = aftermath_of_revolt
+		}
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			KIE = { NOT = { liberty_desire = 40 } }
+			stability = 1
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 2
+			NOT = { has_country_flag = aftermath_of_revolt }
+		}
+		modifier = {
+			factor = -0.5
+			stability = 1
+		}
+	}
+	can_end = {
+		stability = 1
+		has_country_flag = disorderly_princes
+	}
+	modifier = {
+		stability_cost_modifier = 0.4
+		global_unrest = 2
+	}
+	on_start = princes_revolt.1
+	on_end = princes_revolt.2
+}

@@ -1,0 +1,19 @@
+# Country scope. Church-estate privileges that react to the Greek Catholic
+# (Uniate) faith. See common/estate_privileges/RIP_greek_catholic_privileges.txt.
+
+# A Latin or Orthodox crown that holds Greek Catholic parishes.
+rip_gc_owns_greek_catholic_province = {
+	any_owned_province = {
+		religion = greek_catholic
+	}
+}
+
+# A Greek Catholic crown that still holds Orthodox parishes.
+rip_gc_owns_orthodox_province = {
+	any_owned_province = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+	}
+}

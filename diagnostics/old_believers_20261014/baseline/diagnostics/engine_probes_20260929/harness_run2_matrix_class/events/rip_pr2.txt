@@ -1,0 +1,1187 @@
+namespace = rip_pr2
+
+# Run 2 runner 1: inline and scripted-effect matrix over 7 countries.
+country_event = {
+	id = rip_pr2.1
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		POR = {
+			rip_pr2_se_if = yes
+			rip_pr2_se_ei = yes
+			rip_pr2_se_el = yes
+			rip_pr2_se_ct = yes
+			if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_if add_country_modifier = { name = rip_pr2_cm_in_if duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_if } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_if } country_event = { id = rip_pr2.100 days = 1 } country_event = { id = rip_pr2.101 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_ei add_country_modifier = { name = rip_pr2_cm_in_ei duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ei } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ei } country_event = { id = rip_pr2.102 days = 1 } country_event = { id = rip_pr2.103 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else = { set_country_flag = rip_pr2_ran_in_el add_country_modifier = { name = rip_pr2_cm_in_el duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_el } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_el } country_event = { id = rip_pr2.104 days = 1 } country_event = { id = rip_pr2.105 } }
+			set_country_flag = rip_pr2_ran_in_ct add_country_modifier = { name = rip_pr2_cm_in_ct duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ct } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ct } country_event = { id = rip_pr2.106 days = 1 } country_event = { id = rip_pr2.107 }
+			set_country_flag = rip_pr2_matrix_done
+		}
+		CAS = {
+			rip_pr2_se_if = yes
+			rip_pr2_se_ei = yes
+			rip_pr2_se_el = yes
+			rip_pr2_se_ct = yes
+			if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_if add_country_modifier = { name = rip_pr2_cm_in_if duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_if } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_if } country_event = { id = rip_pr2.100 days = 1 } country_event = { id = rip_pr2.101 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_ei add_country_modifier = { name = rip_pr2_cm_in_ei duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ei } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ei } country_event = { id = rip_pr2.102 days = 1 } country_event = { id = rip_pr2.103 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else = { set_country_flag = rip_pr2_ran_in_el add_country_modifier = { name = rip_pr2_cm_in_el duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_el } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_el } country_event = { id = rip_pr2.104 days = 1 } country_event = { id = rip_pr2.105 } }
+			set_country_flag = rip_pr2_ran_in_ct add_country_modifier = { name = rip_pr2_cm_in_ct duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ct } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ct } country_event = { id = rip_pr2.106 days = 1 } country_event = { id = rip_pr2.107 }
+			set_country_flag = rip_pr2_matrix_done
+		}
+		ARA = {
+			rip_pr2_se_if = yes
+			rip_pr2_se_ei = yes
+			rip_pr2_se_el = yes
+			rip_pr2_se_ct = yes
+			if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_if add_country_modifier = { name = rip_pr2_cm_in_if duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_if } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_if } country_event = { id = rip_pr2.100 days = 1 } country_event = { id = rip_pr2.101 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_ei add_country_modifier = { name = rip_pr2_cm_in_ei duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ei } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ei } country_event = { id = rip_pr2.102 days = 1 } country_event = { id = rip_pr2.103 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else = { set_country_flag = rip_pr2_ran_in_el add_country_modifier = { name = rip_pr2_cm_in_el duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_el } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_el } country_event = { id = rip_pr2.104 days = 1 } country_event = { id = rip_pr2.105 } }
+			set_country_flag = rip_pr2_ran_in_ct add_country_modifier = { name = rip_pr2_cm_in_ct duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ct } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ct } country_event = { id = rip_pr2.106 days = 1 } country_event = { id = rip_pr2.107 }
+			set_country_flag = rip_pr2_matrix_done
+		}
+		NAV = {
+			rip_pr2_se_if = yes
+			rip_pr2_se_ei = yes
+			rip_pr2_se_el = yes
+			rip_pr2_se_ct = yes
+			if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_if add_country_modifier = { name = rip_pr2_cm_in_if duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_if } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_if } country_event = { id = rip_pr2.100 days = 1 } country_event = { id = rip_pr2.101 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_ei add_country_modifier = { name = rip_pr2_cm_in_ei duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ei } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ei } country_event = { id = rip_pr2.102 days = 1 } country_event = { id = rip_pr2.103 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else = { set_country_flag = rip_pr2_ran_in_el add_country_modifier = { name = rip_pr2_cm_in_el duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_el } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_el } country_event = { id = rip_pr2.104 days = 1 } country_event = { id = rip_pr2.105 } }
+			set_country_flag = rip_pr2_ran_in_ct add_country_modifier = { name = rip_pr2_cm_in_ct duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ct } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ct } country_event = { id = rip_pr2.106 days = 1 } country_event = { id = rip_pr2.107 }
+			set_country_flag = rip_pr2_matrix_done
+		}
+		GRA = {
+			rip_pr2_se_if = yes
+			rip_pr2_se_ei = yes
+			rip_pr2_se_el = yes
+			rip_pr2_se_ct = yes
+			if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_if add_country_modifier = { name = rip_pr2_cm_in_if duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_if } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_if } country_event = { id = rip_pr2.100 days = 1 } country_event = { id = rip_pr2.101 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_ei add_country_modifier = { name = rip_pr2_cm_in_ei duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ei } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ei } country_event = { id = rip_pr2.102 days = 1 } country_event = { id = rip_pr2.103 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else = { set_country_flag = rip_pr2_ran_in_el add_country_modifier = { name = rip_pr2_cm_in_el duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_el } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_el } country_event = { id = rip_pr2.104 days = 1 } country_event = { id = rip_pr2.105 } }
+			set_country_flag = rip_pr2_ran_in_ct add_country_modifier = { name = rip_pr2_cm_in_ct duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ct } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ct } country_event = { id = rip_pr2.106 days = 1 } country_event = { id = rip_pr2.107 }
+			set_country_flag = rip_pr2_matrix_done
+		}
+		ENG = {
+			rip_pr2_se_if = yes
+			rip_pr2_se_ei = yes
+			rip_pr2_se_el = yes
+			rip_pr2_se_ct = yes
+			if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_if add_country_modifier = { name = rip_pr2_cm_in_if duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_if } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_if } country_event = { id = rip_pr2.100 days = 1 } country_event = { id = rip_pr2.101 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_ei add_country_modifier = { name = rip_pr2_cm_in_ei duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ei } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ei } country_event = { id = rip_pr2.102 days = 1 } country_event = { id = rip_pr2.103 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else = { set_country_flag = rip_pr2_ran_in_el add_country_modifier = { name = rip_pr2_cm_in_el duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_el } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_el } country_event = { id = rip_pr2.104 days = 1 } country_event = { id = rip_pr2.105 } }
+			set_country_flag = rip_pr2_ran_in_ct add_country_modifier = { name = rip_pr2_cm_in_ct duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ct } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ct } country_event = { id = rip_pr2.106 days = 1 } country_event = { id = rip_pr2.107 }
+			set_country_flag = rip_pr2_matrix_done
+		}
+		BUR = {
+			rip_pr2_se_if = yes
+			rip_pr2_se_ei = yes
+			rip_pr2_se_el = yes
+			rip_pr2_se_ct = yes
+			if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_if add_country_modifier = { name = rip_pr2_cm_in_if duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_if } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_if } country_event = { id = rip_pr2.100 days = 1 } country_event = { id = rip_pr2.101 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else_if = { limit = { always = yes } set_country_flag = rip_pr2_ran_in_ei add_country_modifier = { name = rip_pr2_cm_in_ei duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ei } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ei } country_event = { id = rip_pr2.102 days = 1 } country_event = { id = rip_pr2.103 } }
+			if = { limit = { always = no } set_country_flag = rip_pr2_never }
+			else = { set_country_flag = rip_pr2_ran_in_el add_country_modifier = { name = rip_pr2_cm_in_el duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_el } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_el } country_event = { id = rip_pr2.104 days = 1 } country_event = { id = rip_pr2.105 } }
+			set_country_flag = rip_pr2_ran_in_ct add_country_modifier = { name = rip_pr2_cm_in_ct duration = -1 } add_opinion = { who = ROOT modifier = rip_pr2_op_in_ct } reverse_add_opinion = { who = ROOT modifier = rip_pr2_rev_in_ct } country_event = { id = rip_pr2.106 days = 1 } country_event = { id = rip_pr2.107 }
+			set_country_flag = rip_pr2_matrix_done
+		}
+		set_country_flag = rip_pr2_master1_done
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 2: inner-scope, parametrised and multi-pair variants.
+country_event = {
+	id = rip_pr2.2
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		rip_pr2_sc_if = yes
+		rip_pr2_sc_ei = yes
+		rip_pr2_sc_el = yes
+		rip_pr2_sc_ct = yes
+		FRA = { rip_pr2_pa_if = { K = a } rip_pr2_pa_ei = { K = a } rip_pr2_pa_el = { K = a } }
+		GRA = { rip_pr2_pa_ei = { K = b } }
+		CAS = { rip_pr2_pa_ei = { K = c } }
+		GRA = { rip_pr2_ch_ei = { K = g } }
+		POR = { rip_pr2_ch_ei = { K = p } }
+		ENG = { rip_pr2_ch_ei = { K = e } }
+		BUR = { rip_pr2_ch_if = { K = b } }
+		set_country_flag = rip_pr2_master2_done
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 3: effect-class test (safe set), branch kind ei on SAV.
+country_event = {
+	id = rip_pr2.3
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		SAV = { rip_pr2_cls_ei_effect = yes set_country_flag = rip_pr2_cls_done }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 7: add_trust alone, branch kind ei on SAV.
+country_event = {
+	id = rip_pr2.7
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		SAV = { rip_pr2_clsx_trust_ei_effect = yes }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 11: add_casus_belli alone, branch kind ei on SAV.
+country_event = {
+	id = rip_pr2.11
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		SAV = { rip_pr2_clsx_cb_ei_effect = yes }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 4: effect-class test (safe set), branch kind ct on MLO.
+country_event = {
+	id = rip_pr2.4
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		MLO = { rip_pr2_cls_ct_effect = yes set_country_flag = rip_pr2_cls_done }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 8: add_trust alone, branch kind ct on MLO.
+country_event = {
+	id = rip_pr2.8
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		MLO = { rip_pr2_clsx_trust_ct_effect = yes }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 12: add_casus_belli alone, branch kind ct on MLO.
+country_event = {
+	id = rip_pr2.12
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		MLO = { rip_pr2_clsx_cb_ct_effect = yes }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 5: effect-class test (safe set), branch kind if on VEN.
+country_event = {
+	id = rip_pr2.5
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		VEN = { rip_pr2_cls_if_effect = yes set_country_flag = rip_pr2_cls_done }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 9: add_trust alone, branch kind if on VEN.
+country_event = {
+	id = rip_pr2.9
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		VEN = { rip_pr2_clsx_trust_if_effect = yes }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 13: add_casus_belli alone, branch kind if on VEN.
+country_event = {
+	id = rip_pr2.13
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		VEN = { rip_pr2_clsx_cb_if_effect = yes }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 6: effect-class test (safe set), branch kind el on GEN.
+country_event = {
+	id = rip_pr2.6
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		GEN = { rip_pr2_cls_el_effect = yes set_country_flag = rip_pr2_cls_done }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 10: add_trust alone, branch kind el on GEN.
+country_event = {
+	id = rip_pr2.10
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		GEN = { rip_pr2_clsx_trust_el_effect = yes }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Run 2 runner 14: add_casus_belli alone, branch kind el on GEN.
+country_event = {
+	id = rip_pr2.14
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		GEN = { rip_pr2_clsx_cb_el_effect = yes }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Q4b day 0 (1444.11.11): direct is_month / is_year readings.
+country_event = {
+	id = rip_pr2.90
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = { limit = { is_month = 0 } set_country_flag = rip_pr2_d0_month_0 }
+		if = { limit = { is_month = 1 } set_country_flag = rip_pr2_d0_month_1 }
+		if = { limit = { is_month = 2 } set_country_flag = rip_pr2_d0_month_2 }
+		if = { limit = { is_month = 3 } set_country_flag = rip_pr2_d0_month_3 }
+		if = { limit = { is_month = 4 } set_country_flag = rip_pr2_d0_month_4 }
+		if = { limit = { is_month = 5 } set_country_flag = rip_pr2_d0_month_5 }
+		if = { limit = { is_month = 6 } set_country_flag = rip_pr2_d0_month_6 }
+		if = { limit = { is_month = 7 } set_country_flag = rip_pr2_d0_month_7 }
+		if = { limit = { is_month = 8 } set_country_flag = rip_pr2_d0_month_8 }
+		if = { limit = { is_month = 9 } set_country_flag = rip_pr2_d0_month_9 }
+		if = { limit = { is_month = 10 } set_country_flag = rip_pr2_d0_month_10 }
+		if = { limit = { is_month = 11 } set_country_flag = rip_pr2_d0_month_11 }
+		if = { limit = { is_year = 1443 } set_country_flag = rip_pr2_d0_year_1443 }
+		if = { limit = { is_year = 1444 } set_country_flag = rip_pr2_d0_year_1444 }
+		if = { limit = { is_year = 1445 } set_country_flag = rip_pr2_d0_year_1445 }
+		set_country_flag = rip_pr2_month_d0_done
+		country_event = { id = rip_pr2.99 days = 61 }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Q4b day 61 (1445.1.11).
+country_event = {
+	id = rip_pr2.99
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = { limit = { is_month = 0 } set_country_flag = rip_pr2_d61_month_0 }
+		if = { limit = { is_month = 1 } set_country_flag = rip_pr2_d61_month_1 }
+		if = { limit = { is_month = 2 } set_country_flag = rip_pr2_d61_month_2 }
+		if = { limit = { is_month = 3 } set_country_flag = rip_pr2_d61_month_3 }
+		if = { limit = { is_month = 4 } set_country_flag = rip_pr2_d61_month_4 }
+		if = { limit = { is_month = 5 } set_country_flag = rip_pr2_d61_month_5 }
+		if = { limit = { is_month = 6 } set_country_flag = rip_pr2_d61_month_6 }
+		if = { limit = { is_month = 7 } set_country_flag = rip_pr2_d61_month_7 }
+		if = { limit = { is_month = 8 } set_country_flag = rip_pr2_d61_month_8 }
+		if = { limit = { is_month = 9 } set_country_flag = rip_pr2_d61_month_9 }
+		if = { limit = { is_month = 10 } set_country_flag = rip_pr2_d61_month_10 }
+		if = { limit = { is_month = 11 } set_country_flag = rip_pr2_d61_month_11 }
+		if = { limit = { is_year = 1443 } set_country_flag = rip_pr2_d61_year_1443 }
+		if = { limit = { is_year = 1444 } set_country_flag = rip_pr2_d61_year_1444 }
+		if = { limit = { is_year = 1445 } set_country_flag = rip_pr2_d61_year_1445 }
+		set_country_flag = rip_pr2_month_d61_done
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# Q2b: GC vs Catholic vs Orthodox, both a lump and a monthly modifier.
+country_event = {
+	id = rip_pr2.91
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		enable_religion = greek_catholic
+		change_religion = greek_catholic
+		add_country_modifier = { name = rip_pr2_papal duration = -1 }
+		add_papal_influence = 20
+		set_country_flag = rip_pr2_q2b_start
+		POL = { add_country_modifier = { name = rip_pr2_papal duration = -1 } add_papal_influence = 20 }
+		BYZ = { add_country_modifier = { name = rip_pr2_papal duration = -1 } add_papal_influence = 20 }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# days chain c1 (console-fired).
+country_event = {
+	id = rip_pr2.92
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_dchain_c1
+		country_event = { id = rip_pr2.93 days = 10 }
+		country_event = { id = rip_pr2.97 days = 1 }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# c2.
+country_event = {
+	id = rip_pr2.93
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_dchain_c2
+		country_event = { id = rip_pr2.94 days = 10 }
+		country_event = { id = rip_pr2.98 days = 1 }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# c3.
+country_event = {
+	id = rip_pr2.94
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_dchain_c3
+		country_event = { id = rip_pr2.95 days = 10 }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# c4.
+country_event = {
+	id = rip_pr2.95
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_dchain_c4
+		country_event = { id = rip_pr2.96 days = 1 }
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# c5.
+country_event = {
+	id = rip_pr2.96
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_dchain_c5
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# dA: 1 day after c1.
+country_event = {
+	id = rip_pr2.97
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_dchain_dA
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# dB: 1 day after c2.
+country_event = {
+	id = rip_pr2.98
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_dchain_dB
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for in_if
+country_event = {
+	id = rip_pr2.100
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_in_if
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for in_if
+country_event = {
+	id = rip_pr2.101
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_in_if
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for in_ei
+country_event = {
+	id = rip_pr2.102
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_in_ei
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for in_ei
+country_event = {
+	id = rip_pr2.103
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_in_ei
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for in_el
+country_event = {
+	id = rip_pr2.104
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_in_el
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for in_el
+country_event = {
+	id = rip_pr2.105
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_in_el
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for in_ct
+country_event = {
+	id = rip_pr2.106
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_in_ct
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for in_ct
+country_event = {
+	id = rip_pr2.107
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_in_ct
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for se_if
+country_event = {
+	id = rip_pr2.108
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_se_if
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for se_if
+country_event = {
+	id = rip_pr2.109
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_se_if
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for se_ei
+country_event = {
+	id = rip_pr2.110
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_se_ei
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for se_ei
+country_event = {
+	id = rip_pr2.111
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_se_ei
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for se_el
+country_event = {
+	id = rip_pr2.112
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_se_el
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for se_el
+country_event = {
+	id = rip_pr2.113
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_se_el
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for se_ct
+country_event = {
+	id = rip_pr2.114
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_se_ct
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for se_ct
+country_event = {
+	id = rip_pr2.115
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_se_ct
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for sc_if
+country_event = {
+	id = rip_pr2.116
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_sc_if
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for sc_if
+country_event = {
+	id = rip_pr2.117
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_sc_if
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for sc_ei
+country_event = {
+	id = rip_pr2.118
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_sc_ei
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for sc_ei
+country_event = {
+	id = rip_pr2.119
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_sc_ei
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for sc_el
+country_event = {
+	id = rip_pr2.120
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_sc_el
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for sc_el
+country_event = {
+	id = rip_pr2.121
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_sc_el
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for sc_ct
+country_event = {
+	id = rip_pr2.122
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_sc_ct
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for sc_ct
+country_event = {
+	id = rip_pr2.123
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_sc_ct
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for pa_if
+country_event = {
+	id = rip_pr2.124
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_pa_if
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for pa_if
+country_event = {
+	id = rip_pr2.125
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_pa_if
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for pa_ei
+country_event = {
+	id = rip_pr2.126
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_pa_ei
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for pa_ei
+country_event = {
+	id = rip_pr2.127
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_pa_ei
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for pa_el
+country_event = {
+	id = rip_pr2.128
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_pa_el
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for pa_el
+country_event = {
+	id = rip_pr2.129
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_pa_el
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# delayed (days = 1) event for pa_ct
+country_event = {
+	id = rip_pr2.130
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_pa_ct
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# immediate event for pa_ct
+country_event = {
+	id = rip_pr2.131
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_imm_pa_ct
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# chain delayed event if
+country_event = {
+	id = rip_pr2.132
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_ch_if
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# chain delayed event ei
+country_event = {
+	id = rip_pr2.133
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_evt_ch_ei
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# class test: immediate event
+country_event = {
+	id = rip_pr2.134
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_cls_imm
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# class test: delayed (days = 5) event
+country_event = {
+	id = rip_pr2.135
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_cls_dly5
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# class test: ROOT-targeted delayed event from kind ei (fires in MOS)
+country_event = {
+	id = rip_pr2.136
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_cls_rootevt_ei
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# class test: ROOT-targeted delayed event from kind ct (fires in MOS)
+country_event = {
+	id = rip_pr2.137
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_cls_rootevt_ct
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# class test: ROOT-targeted delayed event from kind if (fires in MOS)
+country_event = {
+	id = rip_pr2.138
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_cls_rootevt_if
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# class test: ROOT-targeted delayed event from kind el (fires in MOS)
+country_event = {
+	id = rip_pr2.139
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = rip_pr2_cls_rootevt_el
+	}
+
+	option = { name = rip_pr2.a }
+}
+
+# class test: province event
+province_event = {
+	id = rip_pr2.140
+	title = rip_pr2.t
+	desc = rip_pr2.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		set_province_flag = rip_pr2_cls_provevt
+	}
+
+	option = { name = rip_pr2.a }
+}
+

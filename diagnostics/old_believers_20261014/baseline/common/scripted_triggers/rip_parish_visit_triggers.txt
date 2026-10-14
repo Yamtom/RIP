@@ -1,0 +1,22 @@
+# Province scope. ROOT is the country paying for the visit.
+rip_parish_visit_target = {
+	owned_by = ROOT
+	controlled_by = ROOT
+	is_core = ROOT
+	is_city = yes
+	religion_group = christian
+	NOT = { religion = ROOT }
+	NOT = { has_province_modifier = rip_parish_service_books }
+	NOT = { has_province_modifier = rip_parish_alms_register }
+}
+
+# Country scope; the same gate is checked again when the event option is chosen.
+rip_can_fund_parish_visit = {
+	OR = { religion = russian_orthodox religion = greek_catholic }
+	is_at_war = no
+	treasury = 100
+	adm_power = 25
+	patriarch_authority = 0.05
+	NOT = { has_country_modifier = rip_parish_visit_recent }
+	any_owned_province = { rip_parish_visit_target = yes }
+}

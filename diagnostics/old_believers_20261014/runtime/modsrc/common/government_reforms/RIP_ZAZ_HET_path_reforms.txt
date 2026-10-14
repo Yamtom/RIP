@@ -1,0 +1,130 @@
+# =============================================================================
+# RIP_ZAZ_HET_path_reforms
+# Definitions are grouped by polity or by an explicitly shared reform family.
+# =============================================================================
+
+zaz_cossack_cantons_reform = {
+	icon = "fist_in_air"
+	legacy_equivalent = united_cantons_legacy
+	potential = {
+		zaz_path_cantons_visible = yes
+	}
+	trigger = {
+		zaz_path_cantons_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	republic = yes
+	republican_name = yes
+	has_term_election = yes
+	duration = 6
+	government_abilities = {
+		cossacks_mechanic
+	}
+	modifiers = {
+		defensiveness = 0.15
+		merc_maintenance_modifier = -0.1
+		mercenary_manpower = 0.15
+		province_warscore_cost = 0.1
+		max_absolutism = -20
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_aristocratic_idea_group = yes
+	}
+}
+
+zaz_host_and_state_reform = {
+	icon = "soldiers_6"
+	legacy_equivalent = prussian_republic
+	potential = {
+		zaz_path_host_state_visible = yes
+	}
+	trigger = {
+		zaz_path_host_state_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	republic = yes
+	republican_name = yes
+	has_term_election = yes
+	duration = 8
+	government_abilities = {
+		cossacks_mechanic
+	}
+	modifiers = {
+		discipline = 0.025
+		land_forcelimit_modifier = 0.1
+		development_cost = 0.05
+		global_trade_power = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		enables_aristocratic_idea_group = yes
+	}
+}
+
+zaz_sacred_host_order_reform = {
+	icon = "monks"
+	legacy_equivalent = monastic_order_government
+	potential = {
+		zaz_path_sacred_order_visible = yes
+	}
+	trigger = {
+		zaz_path_sacred_order_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	religion = yes
+	monastic = yes
+	modifiers = {
+		defensiveness = 0.15
+		tolerance_own = 1
+		global_missionary_strength = 0.01
+		diplomatic_upkeep = -1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		monastic_order = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Third Rome"
+		}
+		claim_states = yes
+	}
+}
+
+zaz_sacred_horde_reform = {
+	icon = "horde_riding"
+	legacy_equivalent = steppe_horde_legacy
+	potential = {
+		zaz_path_sacred_horde_visible = yes
+	}
+	trigger = {
+		zaz_path_sacred_horde_visible = yes
+	}
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	nomad = yes
+	raze_province = yes
+	religion = yes
+	modifiers = {
+		cav_to_inf_ratio = 0.25
+		cavalry_power = 0.1
+		movement_speed = 0.1
+		global_institution_spread = -0.1
+		development_cost = 0.1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}

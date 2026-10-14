@@ -1,0 +1,201 @@
+# Dynamic names for a Cossack polity, read in order: the first text whose
+# trigger holds wins, so the specific roads come before the general country.
+#
+# GetCossackHostName in cossack_host_names.txt answers "what is this Host
+# called". These answer the questions that one does not: what road it took,
+# where in the world it is sitting, and what it calls the ground under it.
+
+defined_text = {
+	name = GetHostRoadName
+
+	text = {
+		trigger = { has_reform = zaz_cossack_cantons_reform }
+		localisation_key = ROAD_CANTONS
+	}
+	text = {
+		trigger = { has_reform = zaz_host_and_state_reform }
+		localisation_key = ROAD_HOST_AND_STATE
+	}
+	text = {
+		trigger = { has_reform = zaz_sacred_host_order_reform }
+		localisation_key = ROAD_SACRED_ORDER
+	}
+	text = {
+		trigger = { has_reform = zaz_sacred_horde_reform }
+		localisation_key = ROAD_SACRED_HORDE
+	}
+	text = {
+		trigger = { has_reform = zaz_last_sich_reform }
+		localisation_key = ROAD_LAST_SICH
+	}
+	text = {
+		localisation_key = ROAD_NONE
+	}
+}
+
+# Where the Host is sitting. The two real flights went to Ottoman ground and
+# then east to the Kuban, so those come first; the rest is for a Host that
+# ended up somewhere the record never put one.
+defined_text = {
+	name = GetHostSeatName
+
+	text = {
+		trigger = {
+			is_cossack_polity = yes
+			capital_scope = { area = lower_don_area }
+		}
+		localisation_key = SEAT_DON
+	}
+	text = {
+		trigger = {
+			is_cossack_polity = yes
+			capital_scope = {
+				OR = {
+					area = moldavia_area
+					area = wallachia_area
+				}
+			}
+		}
+		localisation_key = SEAT_DANUBE
+	}
+	text = {
+		trigger = {
+			is_cossack_polity = yes
+			capital_scope = {
+				OR = {
+					area = circassia_area
+					area = nogai_area
+				}
+			}
+		}
+		localisation_key = SEAT_KUBAN
+	}
+	text = {
+		trigger = {
+			is_cossack_polity = yes
+			capital_scope = { area = crimea_area }
+		}
+		localisation_key = SEAT_CRIMEA
+	}
+	text = {
+		trigger = {
+			is_cossack_polity = yes
+			capital_scope = {
+				OR = {
+					area = zaporizhia_area
+					area = yedisan_area
+					area = azov_area
+				}
+			}
+		}
+		localisation_key = SEAT_RAPIDS
+	}
+	text = {
+		trigger = {
+			is_cossack_polity = yes
+			capital_scope = { region = ruthenia_region }
+		}
+		localisation_key = SEAT_SLOBODA
+	}
+	text = {
+		trigger = {
+			is_cossack_polity = yes
+			capital_scope = { superregion = tartary_superregion }
+		}
+		localisation_key = SEAT_FAR_STEPPE
+	}
+	text = {
+		trigger = {
+			is_cossack_polity = yes
+			capital_scope = { region = anatolia_region }
+		}
+		localisation_key = SEAT_ANATOLIA
+	}
+	text = {
+		trigger = {
+			is_cossack_polity = yes
+			capital_scope = { region = balkan_region }
+		}
+		localisation_key = SEAT_BALKANS
+	}
+	text = {
+		trigger = {
+			is_cossack_polity = yes
+			capital_scope = { continent = north_america }
+		}
+		localisation_key = SEAT_NEW_WORLD
+	}
+	text = {
+		trigger = {
+			is_cossack_polity = yes
+			capital_scope = { continent = south_america }
+		}
+		localisation_key = SEAT_NEW_WORLD
+	}
+	text = {
+		trigger = { is_cossack_polity = yes }
+		localisation_key = SEAT_ABROAD
+	}
+	text = {
+		localisation_key = SEAT_NONE
+	}
+}
+
+# What the Host calls the ground it musters on. Used by the host-formation
+# decisions and by the raiding chain.
+defined_text = {
+	name = GetHostCountryName
+
+	text = {
+		trigger = { has_country_flag = founded_don_host }
+		localisation_key = HOSTLAND_DON
+	}
+	text = {
+		trigger = { has_country_flag = founded_danube_sich }
+		localisation_key = HOSTLAND_DANUBE
+	}
+	text = {
+		trigger = { has_country_flag = founded_eastern_host }
+		localisation_key = HOSTLAND_EASTERN
+	}
+	text = {
+		trigger = { has_country_flag = founded_sloboda_host }
+		localisation_key = HOSTLAND_SLOBODA
+	}
+	text = {
+		trigger = { holds_the_sich_country = yes }
+		localisation_key = HOSTLAND_RAPIDS
+	}
+	text = {
+		localisation_key = HOSTLAND_NONE
+	}
+}
+
+# The name of whoever answers for the Host, by road rather than by tag.
+defined_text = {
+	name = GetHostSpokesman
+
+	text = {
+		trigger = { has_reform = zaz_sacred_host_order_reform }
+		localisation_key = SPOKESMAN_MASTER
+	}
+	text = {
+		trigger = { has_reform = zaz_sacred_horde_reform }
+		localisation_key = SPOKESMAN_HORDE
+	}
+	text = {
+		trigger = { has_reform = zaz_cossack_cantons_reform }
+		localisation_key = SPOKESMAN_LANDRADA
+	}
+	text = {
+		trigger = { has_reform = zaz_host_and_state_reform }
+		localisation_key = SPOKESMAN_GENERAL_STAFF
+	}
+	text = {
+		trigger = { is_cossack_polity = yes }
+		localisation_key = SPOKESMAN_RADA
+	}
+	text = {
+		localisation_key = SPOKESMAN_COURT
+	}
+}

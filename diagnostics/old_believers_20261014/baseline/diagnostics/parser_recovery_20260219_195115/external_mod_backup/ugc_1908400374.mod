@@ -1,0 +1,18 @@
+tags={
+	"Alternative History"
+	"Expansion"
+	"Gameplay"
+	"Military"
+	"National Ideas"
+	"Religion"
+	"New Nations"
+	"Missions And Decisions"
+	"Map"
+	"Events"
+}
+name="Ante Bellum"
+replace_path="common/bookmarks"
+replace_path="gfx/loadingscreens"
+supported_version="v1.37.5.0"
+path="C:/Program Files (x86)/Steam/steamapps/workshop/content/236850/1908400374"
+remote_file_id="1908400374"

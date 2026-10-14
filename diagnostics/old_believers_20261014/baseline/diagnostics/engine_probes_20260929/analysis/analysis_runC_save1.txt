@@ -1,0 +1,64 @@
+save saveC_1.eu4 date=1444.12.1
+legend: R=body ran (flag)  C=add_country_modifier  O=add_opinion who=ROOT  V=reverse_add_opinion  D=delayed country_event days=1  I=immediate country_event
+
+=== family in (inline in event immediate) and se (scripted effect called inside TAG = { }), per country
+          POR      CAS      ARA      NAV      GRA      ENG      BUR      
+in_if     RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   
+in_ei     RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   
+in_el     RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   
+in_ct     RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   
+se_if     RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   
+se_ei     RC....   RC....   RC....   RC....   RC....   RC....   RC....   
+se_el     RC....   RC....   RC....   RC....   RC....   RC....   RC....   
+se_ct     RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   RCOVDI   
+
+=== family sc (scripted effect containing TAG = { } inner scope, called at event scope; scope SWE)
+  sc_if SWE RCOVDI
+  sc_ei SWE RC....
+  sc_el SWE RC....
+  sc_ct SWE RCOVDI
+
+=== family pa (parametrised scripted effect, K substituted in modifier names)
+  pa_if on FRA (K=a) RCOVDI
+  pa_ei on FRA (K=a) RC....
+  pa_el on FRA (K=a) RC....
+  pa_ei on GRA (K=b) RC....
+  pa_ei on CAS (K=c) RC....
+
+=== multi-pair chains (17 pairs style; here 5 pairs: cm, tre, add_opinion, reverse_add_opinion, delayed event)
+  chain_ei on GRA: ran(cm,tre,opr,rev,evt)=11111 | cm=True treasury=1035(>+1000 works if >900 above base?) opinion=False reverse=False delayed_event=False
+  chain_ei on POR: ran(cm,tre,opr,rev,evt)=11111 | cm=True treasury=557(>+1000 works if >900 above base?) opinion=False reverse=False delayed_event=False
+  chain_ei on ENG: ran(cm,tre,opr,rev,evt)=11111 | cm=True treasury=106(>+1000 works if >900 above base?) opinion=False reverse=False delayed_event=False
+  chain_if on BUR: ran(cm,tre,opr,rev,evt)=11111 | cm=True treasury=962(>+1000 works if >900 above base?) opinion=True reverse=True delayed_event=True
+
+=== effect-class test, one pair per effect in a scripted effect, per branch kind
+effect    ei (SAV)              ct (MLO)              if (VEN)              el (GEN)              
+trust     NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       
+imm       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       
+dly5      NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       
+rooteve   NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       
+prov      NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       
+rootflag  NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       
+tre       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       
+opin      NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       
+rev       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       
+cb        NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       
+flagonly  NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       NOT-RUN/DROPPED       
+
+=== Q4b direct month/year readings on MOS
+  d0: done flag=True date=1444.11.11 | is_month=N true for N in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] | is_year=Y true for Y in [1443, 1444]
+  d61: done flag=False date=None | is_month=N true for N in [] | is_year=Y true for Y in []
+
+=== Q2b papal influence (lump 20 + monthly modifier papal_influence = 5)
+  MOS religion=greek_catholic papal_influence=None modifier present=True
+  POL religion=catholic papal_influence=20.748 modifier present=True
+  BYZ religion=orthodox papal_influence=None modifier present=True
+
+=== days chain on MOS (flag dates)
+  rip_pr2_dchain_c1 = 1444.11.11
+  rip_pr2_dchain_c2 = 1444.11.21
+  rip_pr2_dchain_c3 = 1444.12.1
+  rip_pr2_dchain_c4 = None
+  rip_pr2_dchain_c5 = None
+  rip_pr2_dchain_dA = 1444.11.12
+  rip_pr2_dchain_dB = 1444.11.22

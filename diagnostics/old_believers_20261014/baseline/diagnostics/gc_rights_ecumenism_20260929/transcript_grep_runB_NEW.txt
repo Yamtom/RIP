@@ -1,0 +1,88 @@
+# RUN B  NEW worktree (HEAD c8c8a544 + working-tree copies of the task game files)   (save: runB3_first_autosave.eu4, date=1444.12.1, 36292543 bytes; harness player MOS made greek_catholic with flag rip_church_ecumenical)
+
+$ grep -c 'rip_church_opinion_gc_ecumenical' runB3_first_autosave.eu4
+321
+$ grep -c 'rip_church_opinion_gc_catholic_middle' runB3_first_autosave.eu4
+1
+$ grep -c 'rip_church_opinion_union_opposition' runB3_first_autosave.eu4
+2
+$ grep -n 'rip_church_opinion_gc_ecumenical' runB3_first_autosave.eu4 | head -12
+589891:					modifier="rip_church_opinion_gc_ecumenical"
+593226:					modifier="rip_church_opinion_gc_ecumenical"
+595175:					modifier="rip_church_opinion_gc_ecumenical"
+596714:					modifier="rip_church_opinion_gc_ecumenical"
+599829:					modifier="rip_church_opinion_gc_ecumenical"
+604016:					modifier="rip_church_opinion_gc_ecumenical"
+605702:					modifier="rip_church_opinion_gc_ecumenical"
+607273:					modifier="rip_church_opinion_gc_ecumenical"
+609450:					modifier="rip_church_opinion_gc_ecumenical"
+611991:					modifier="rip_church_opinion_gc_ecumenical"
+613904:					modifier="rip_church_opinion_gc_ecumenical"
+615909:					modifier="rip_church_opinion_gc_ecumenical"
+
+$ python probe_report.py runB3_first_autosave.eu4 rip_church_opinion rip_gcr_probe_
+save: runB3_first_autosave.eu4 date=1444.12.1
+  rip_church_opinion_gc_catholic_middle      entries by owner religion: {'catholic': 1}
+  rip_church_opinion_gc_ecumenical           entries by owner religion: {'catholic': 136, 'orthodox': 24, 'protestant': 1, 'greek_catholic': 160}
+  rip_church_opinion_union_opposition        entries by owner religion: {'greek_catholic': 1, 'orthodox': 1}
+  rip_gcr_probe_decay0                       entries by owner religion: {'catholic': 1}
+  rip_gcr_probe_decay1                       entries by owner religion: {'catholic': 1}
+  rip_gcr_probe_nodecay                      entries by owner religion: {'catholic': 1}
+  rip_gcr_probe_s_gc_ecumenical              entries by owner religion: {'catholic': 136, 'orthodox': 24, 'greek_catholic': 160}
+flags set by the harness effects (country count by religion):
+  rip_gcr_n_gc_catholic_middle       {'catholic': 135}
+  rip_gcr_n_gc_ecumenical            {'orthodox': 24, 'catholic': 1}
+  rip_gcr_n_gc_orthodox_middle       {'orthodox': 24, 'catholic': 1}
+  rip_gcr_replicas_done              {'greek_catholic': 1}
+  rip_gcr_s_gc_catholic_middle       {'catholic': 135}
+  rip_gcr_s_gc_ecumenical            {'catholic': 136, 'orthodox': 24}
+  rip_gcr_s_gc_orthodox_middle       {'orthodox': 24, 'catholic': 1}
+  rip_gcr_step_1_religion            {'greek_catholic': 1}
+  rip_gcr_step_2_provinces           {'greek_catholic': 1}
+  rip_gcr_step_3_favoured_pass       {'greek_catholic': 1}
+  rip_gcr_step_4_done                {'greek_catholic': 1}
+
+$ python analyze_save.py runB3_first_autosave.eu4   (per-country verdicts toward/from the player)
+== rip_church_opinion_gc_ecumenical toward/from the player MOS
+  player religion: greek_catholic | ecumenical flag: True | flags: rip_faith_settlement_20260910_migrated, rip_church_removed_mechanics_retired, rip_uc_historical_rewards_held, rip_uc_hierarchy_initia
+  POL (catholic)       ECUMENICAL yes | player-side yes | (other probe entries omitted here, see full analysis file)
+  LIT (catholic)       ECUMENICAL yes | player-side yes | (other probe entries omitted here, see full analysis file)
+  AUS (protestant)     ECUMENICAL no  | player-side no  | (other probe entries omitted here, see full analysis file)
+  FRA (catholic)       ECUMENICAL yes | player-side yes | (other probe entries omitted here, see full analysis file)
+  BYZ (orthodox)       ECUMENICAL yes | player-side yes | (other probe entries omitted here, see full analysis file)
+  NOV (orthodox)       ECUMENICAL yes | player-side yes | (other probe entries omitted here, see full analysis file)
+  TVE (orthodox)       ECUMENICAL yes | player-side yes | (other probe entries omitted here, see full analysis file)
+  TUR (sunni)          ECUMENICAL no  | player-side no  | (other probe entries omitted here, see full analysis file)
+  DAN (catholic)       ECUMENICAL yes | player-side yes | (other probe entries omitted here, see full analysis file)
+  SWE (catholic)       ECUMENICAL yes | player-side yes | (other probe entries omitted here, see full analysis file)
+  PAP (catholic)       ECUMENICAL yes | player-side yes | (other probe entries omitted here, see full analysis file)
+  RYA (orthodox)       ECUMENICAL yes | player-side yes | (other probe entries omitted here, see full analysis file)
+
+  by religion, countries WITH gc_ecumenical toward the player (either side):
+   None                 2 countries,   0 with the modifier 
+   animism             49 countries,   0 with the modifier 
+   buddhism            30 countries,   0 with the modifier 
+   catholic           240 countries, 136 with the modifier (AAC ALB ALS AMG ANH ANS ARA ATH AUG AUV BAD BAM BLG BOH ...)
+   confucianism        24 countries,   0 with the modifier 
+   coptic              11 countries,   0 with the modifier 
+   dreamtime           14 countries,   0 with the modifier 
+   hinduism            87 countries,   0 with the modifier 
+   ibadi                3 countries,   0 with the modifier 
+   inti                14 countries,   0 with the modifier 
+   jewish               2 countries,   0 with the modifier 
+   mahayana             5 countries,   0 with the modifier 
+   mesoamerican_religion  12 countries,   0 with the modifier 
+   nahuatl             14 countries,   0 with the modifier 
+   orthodox            57 countries,  24 with the modifier (BLO BYZ CHR CIR FEO GEO HLC HRZ KIE MOL NOV OKA PRM PSK ...)
+   protestant          15 countries,   0 with the modifier 
+   reformed             1 countries,   0 with the modifier 
+   shamanism           54 countries,   0 with the modifier 
+   shiite              26 countries,   0 with the modifier 
+   shinto              38 countries,   0 with the modifier 
+   sikhism              1 countries,   0 with the modifier 
+   sunni              159 countries,   0 with the modifier 
+   tengri_pagan_reformed  20 countries,   0 with the modifier 
+   totemism           102 countries,   0 with the modifier 
+   vajrayana           11 countries,   0 with the modifier 
+   zoroastrian          1 countries,   0 with the modifier 
+

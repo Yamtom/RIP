@@ -1,0 +1,58 @@
+# Country-scope contracts for paid institutional reviews. All three reviews
+# share one term and one dated cooldown, including across reform switches.
+rip_gov_has_municipal_review = {
+	has_reform = vln_magdeburg_rights
+}
+
+rip_gov_has_chancery_review = {
+	OR = {
+		has_reform = lit_ruthenian_chancery_reform
+		has_reform = chr_kanceliaryst_republic_reform
+	}
+}
+
+rip_gov_has_register_review = {
+	OR = {
+		has_reform = het_regimental_system_reform
+		has_reform = rip_cossacks_reform
+		has_reform = vln_cossack_host_reform
+		has_reform = prl_regimental_republic_reform
+	}
+}
+
+rip_gov_review_available = {
+	is_at_war = no
+	stability = 0
+	treasury = 50
+	NOT = { has_country_modifier = rip_gov_municipal_charters }
+	NOT = { has_country_modifier = rip_gov_municipal_accounts }
+	NOT = { has_country_modifier = rip_gov_chancery_service }
+	NOT = { has_country_modifier = rip_gov_chancery_rights }
+	NOT = { has_country_modifier = rip_gov_register_muster }
+	NOT = { has_country_modifier = rip_gov_register_settlement }
+	custom_trigger_tooltip = {
+		tooltip = rip_gov_review_cooldown_tt
+		OR = {
+			NOT = { has_country_flag = rip_gov_review_recent }
+			had_country_flag = { flag = rip_gov_review_recent days = 3650 }
+		}
+	}
+}
+
+rip_gov_can_review_municipal = {
+	rip_gov_has_municipal_review = yes
+	rip_gov_review_available = yes
+	OR = { adm_power = 50 dip_power = 50 }
+}
+
+rip_gov_can_review_chancery = {
+	rip_gov_has_chancery_review = yes
+	rip_gov_review_available = yes
+	OR = { adm_power = 50 dip_power = 50 }
+}
+
+rip_gov_can_review_register = {
+	rip_gov_has_register_review = yes
+	rip_gov_review_available = yes
+	OR = { mil_power = 50 dip_power = 50 }
+}

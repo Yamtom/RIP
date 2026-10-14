@@ -1,0 +1,56 @@
+
+country_decisions = {
+
+orthodox_crusade_constantinople = {
+	major = yes
+	potential = { rip_faith_is_eastern_orthodox = yes is_year = 1525 151 = { NOT = { owned_by = ROOT } } }
+	provinces_to_highlight = { province_id = 151 }
+	allow = { rip_crusade_can_start_trigger = yes 151 = { rip_crusade_target_province_trigger = yes } }
+	effect = {
+		rip_crusade_start_effect = {
+			PROVINCE = 151 YEAR = 1525
+			ACTIVE_FLAG = orthodox_crusade_constantinople_active
+			TARGET_FLAG = orthodox_crusade_target_constantinople
+			CAMPAIGN = orthodox_crusade_for_constantinople
+			CB = cb_crusade_for_constantinople
+			INVITATION = orthodox_crusade.2
+			ANNOUNCEMENT = orthodox_crusade.1
+		}
+	}
+	ai_will_do = { factor = 1 modifier = { factor = 0 NOT = { army_size = 40 } } }
+}
+
+orthodox_crusade_jerusalem = {
+	major = yes
+	potential = { rip_faith_is_eastern_orthodox = yes is_year = 1600 379 = { NOT = { owned_by = ROOT } } }
+	provinces_to_highlight = { province_id = 379 }
+	allow = { rip_crusade_can_start_trigger = yes 379 = { rip_crusade_target_province_trigger = yes } }
+	effect = {
+		rip_crusade_start_effect = {
+			PROVINCE = 379 YEAR = 1600
+			ACTIVE_FLAG = orthodox_crusade_jerusalem_active
+			TARGET_FLAG = orthodox_crusade_target_jerusalem
+			CAMPAIGN = orthodox_crusade_for_jerusalem
+			CB = cb_crusade_for_jerusalem
+			INVITATION = orthodox_crusade.12
+			ANNOUNCEMENT = orthodox_crusade.11
+		}
+	}
+	ai_will_do = { factor = 1 modifier = { factor = 0 NOT = { army_size = 40 } } }
+}
+
+orthodox_crusade_end = {
+	potential = { OR = { has_country_flag = orthodox_crusade_constantinople_active has_country_flag = orthodox_crusade_jerusalem_active } }
+	allow = { always = yes }
+	effect = { rip_crusade_resolve_effect = yes }
+	ai_will_do = { factor = 1 modifier = { factor = 0 NOT = { rip_crusade_should_finish_trigger = yes } } }
+}
+
+orthodox_crusade_join = {
+	potential = { rip_faith_is_eastern_orthodox = yes has_global_flag = rip_crusade_active NOT = { is_crusade_participant = yes } }
+	allow = { rip_crusade_can_join_trigger = yes }
+	effect = { rip_crusade_join_effect = yes }
+	ai_will_do = { factor = 1 }
+}
+
+}

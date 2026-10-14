@@ -1,0 +1,47 @@
+# =============================================================================
+# uzh_eparchy_triggers
+# Gates decisions/UzhEparchyPath.txt and the theocracy reform it grants,
+# uzh_mukachevo_eparchy_reform
+# (common/government_reforms/RIP_UZH_government_reforms.txt).
+# =============================================================================
+
+# The see needs the fortress that anchors it and enough of its own flock to
+# rule outright, not just tolerate. Real prototype for has_great_project on
+# a province scope: common/scripted_effects/zaz_effects.txt on
+# zaporozhian_sich.
+uzh_can_take_eparchy_road = {
+	is_at_war = no
+	stability = 1
+	adm_power = 100
+	dip_power = 50
+	num_of_owned_provinces_with = {
+		value = 3
+		religion = greek_catholic
+	}
+	any_owned_province = {
+		has_great_project = { type = palanok_fortress tier = 1 }
+	}
+}
+
+# decisions/UzhEparchyPath.txt - Bishop Andriy Bachynskyi's translation of the
+# see's own chancery from Mukachevo Castle into Uzhhorod (1772-1809, seminary
+# founded 1778), gated to fire after uzh_mukachevo_eparchy_reform's own 1771
+# grant rather than before it.
+# Standing: papal influence for a Catholic state, Hierarchical Capacity (the
+# patriarch_authority bar) for a Greek Catholic one, which never holds papal
+# influence. See common/scripted_triggers/rip_hierarchy_standing_triggers.txt.
+uzh_can_translate_the_see = {
+	is_at_war = no
+	stability = 1
+	adm_power = 50
+	rip_hierarchy_standing_low = yes
+}
+
+# decisions/UzhEparchyPath.txt - the 1818 papal division that carved the
+# Presov eparchy for the northern Rusyn parishes out of Mukachevo's own
+# territory. Same standing rule as uzh_can_translate_the_see.
+uzh_can_split_presov_eparchy = {
+	is_at_war = no
+	stability = 1
+	rip_hierarchy_standing_high = yes
+}

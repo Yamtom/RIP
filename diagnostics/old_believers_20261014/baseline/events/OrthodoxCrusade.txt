@@ -1,0 +1,305 @@
+# ========================================================================
+# An Orthodox counterpart to the crusade.
+# Authenticity: C - counterfactual. The mod's own alternate history.
+# Sources:
+#   The mod's own construction. Byzantine and Muscovite rhetoric about
+#   reclaiming Constantinople is real; a crusade mechanic answering to it is
+#   not.
+# ========================================================================
+
+
+namespace = orthodox_crusade
+country_event = {
+	id = orthodox_crusade.1
+	title = orthodox_crusade.1.t
+	desc = orthodox_crusade.1.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	trigger = { has_global_flag = rip_crusade_active has_country_modifier = orthodox_crusade_leader }
+	option = { name = orthodox_crusade.1.a ai_chance = { factor = 1 } }
+}
+country_event = {
+	id = orthodox_crusade.2
+	title = orthodox_crusade.2.t
+	desc = orthodox_crusade.2.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	trigger = { has_global_flag = rip_crusade_active FROM = { has_country_modifier = orthodox_crusade_leader } NOT = { has_country_flag = rip_crusade_answered } }
+	option = {
+		name = orthodox_crusade.2.a
+		trigger = { rip_crusade_can_join_trigger = yes FROM = { has_country_modifier = orthodox_crusade_leader } }
+		ai_chance = { factor = 50 }
+		rip_crusade_join_effect = yes
+	}
+	option = { name = orthodox_crusade.2.b ai_chance = { factor = 40 } set_country_flag = rip_crusade_answered FROM = { add_opinion = { who = ROOT modifier = refused_orthodox_crusade } } }
+	option = { name = orthodox_crusade.2.c ai_chance = { factor = 10 } set_country_flag = rip_crusade_answered }
+}
+country_event = {
+	id = orthodox_crusade.3
+	title = orthodox_crusade.3.t
+	desc = orthodox_crusade.3.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	option = { name = orthodox_crusade.3.a ai_chance = { factor = 1 } }
+}
+country_event = {
+	id = orthodox_crusade.4
+	title = orthodox_crusade.4.t
+	desc = rip_crusade_parish_support_desc
+	picture = RELIGION_eventPicture
+	trigger = { is_crusade_participant = yes is_at_war_with_crusade_target = yes NOT = { has_country_modifier = rip_crusade_flavor_recent } }
+	mean_time_to_happen = { months = 120 }
+	option = {
+		name = rip_crusade_parish_support_option
+		trigger = { treasury = 50 }
+		ai_chance = { factor = 50 }
+		add_treasury = -50
+		add_war_exhaustion = -0.5
+		add_country_modifier = { name = rip_crusade_flavor_recent duration = 1825 }
+	}
+	option = { name = rip_church_council.cancel ai_chance = { factor = 50 } add_country_modifier = { name = rip_crusade_flavor_recent duration = 1825 } }
+}
+country_event = {
+	id = orthodox_crusade.5
+	title = orthodox_crusade.5.t
+	desc = orthodox_crusade.5.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	option = { name = orthodox_crusade.5.a ai_chance = { factor = 1 } }
+}
+country_event = {
+	id = orthodox_crusade.6
+	title = orthodox_crusade.6.t
+	desc = orthodox_crusade.6.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	trigger = { rip_crusade_should_finish_trigger = yes }
+	immediate = { rip_crusade_resolve_effect = yes }
+	option = { name = orthodox_crusade.6.a ai_chance = { factor = 1 } }
+}
+country_event = {
+	id = orthodox_crusade.7
+	title = orthodox_crusade.7.t
+	desc = orthodox_crusade.7.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	option = { name = orthodox_crusade.7.a ai_chance = { factor = 1 } }
+}
+country_event = {
+	id = orthodox_crusade.8
+	title = orthodox_crusade.8.t
+	desc = orthodox_crusade.8.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	option = { name = orthodox_crusade.8.a ai_chance = { factor = 1 } }
+}
+country_event = {
+	id = orthodox_crusade.9
+	title = orthodox_crusade.9.t
+	desc = rip_crusade_parish_support_desc
+	picture = RELIGION_eventPicture
+	trigger = { is_crusade_participant = yes is_at_war_with_crusade_target = yes NOT = { has_country_modifier = rip_crusade_flavor_recent } }
+	mean_time_to_happen = { months = 120 }
+	option = {
+		name = rip_crusade_parish_support_option
+		trigger = { treasury = 50 }
+		ai_chance = { factor = 50 }
+		add_treasury = -50
+		add_war_exhaustion = -0.5
+		add_country_modifier = { name = rip_crusade_flavor_recent duration = 1825 }
+	}
+	option = { name = rip_church_council.cancel ai_chance = { factor = 50 } add_country_modifier = { name = rip_crusade_flavor_recent duration = 1825 } }
+}
+country_event = {
+	id = orthodox_crusade.10
+	title = orthodox_crusade.10.t
+	desc = rip_crusade_parish_support_desc
+	picture = RELIGION_eventPicture
+	trigger = { is_crusade_participant = yes is_at_war_with_crusade_target = yes NOT = { has_country_modifier = rip_crusade_flavor_recent } }
+	mean_time_to_happen = { months = 120 }
+	option = {
+		name = rip_crusade_parish_support_option
+		trigger = { treasury = 50 }
+		ai_chance = { factor = 50 }
+		add_treasury = -50
+		add_war_exhaustion = -0.5
+		add_country_modifier = { name = rip_crusade_flavor_recent duration = 1825 }
+	}
+	option = { name = rip_church_council.cancel ai_chance = { factor = 50 } add_country_modifier = { name = rip_crusade_flavor_recent duration = 1825 } }
+}
+country_event = {
+	id = orthodox_crusade.11
+	title = orthodox_crusade.11.t
+	desc = orthodox_crusade.11.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	trigger = { has_global_flag = rip_crusade_active has_country_modifier = orthodox_crusade_leader }
+	option = { name = orthodox_crusade.11.a ai_chance = { factor = 1 } }
+}
+country_event = {
+	id = orthodox_crusade.12
+	title = orthodox_crusade.12.t
+	desc = orthodox_crusade.12.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	trigger = { has_global_flag = rip_crusade_active FROM = { has_country_modifier = orthodox_crusade_leader } NOT = { has_country_flag = rip_crusade_answered } }
+	option = {
+		name = orthodox_crusade.12.a
+		trigger = { rip_crusade_can_join_trigger = yes FROM = { has_country_modifier = orthodox_crusade_leader } }
+		ai_chance = { factor = 50 }
+		rip_crusade_join_effect = yes
+	}
+	option = { name = orthodox_crusade.12.b ai_chance = { factor = 40 } set_country_flag = rip_crusade_answered FROM = { add_opinion = { who = ROOT modifier = refused_orthodox_crusade } } }
+	option = { name = orthodox_crusade.12.c ai_chance = { factor = 10 } set_country_flag = rip_crusade_answered }
+}
+country_event = {
+	id = orthodox_crusade.13
+	title = orthodox_crusade.13.t
+	desc = orthodox_crusade.13.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	option = { name = orthodox_crusade.13.a ai_chance = { factor = 1 } }
+}
+country_event = {
+	id = orthodox_crusade.14
+	title = orthodox_crusade.14.t
+	desc = rip_crusade_parish_support_desc
+	picture = RELIGION_eventPicture
+	trigger = { is_crusade_participant = yes is_at_war_with_crusade_target = yes NOT = { has_country_modifier = rip_crusade_flavor_recent } }
+	mean_time_to_happen = { months = 120 }
+	option = {
+		name = rip_crusade_parish_support_option
+		trigger = { treasury = 50 }
+		ai_chance = { factor = 50 }
+		add_treasury = -50
+		add_war_exhaustion = -0.5
+		add_country_modifier = { name = rip_crusade_flavor_recent duration = 1825 }
+	}
+	option = { name = rip_church_council.cancel ai_chance = { factor = 50 } add_country_modifier = { name = rip_crusade_flavor_recent duration = 1825 } }
+}
+country_event = {
+	id = orthodox_crusade.15
+	title = orthodox_crusade.15.t
+	desc = orthodox_crusade.15.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	option = { name = orthodox_crusade.15.a ai_chance = { factor = 1 } }
+}
+country_event = {
+	id = orthodox_crusade.16
+	title = orthodox_crusade.16.t
+	desc = orthodox_crusade.16.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	trigger = { rip_crusade_should_finish_trigger = yes }
+	immediate = { rip_crusade_resolve_effect = yes }
+	option = { name = orthodox_crusade.16.a ai_chance = { factor = 1 } }
+}
+country_event = {
+	id = orthodox_crusade.17
+	title = orthodox_crusade.17.t
+	desc = orthodox_crusade.17.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	option = { name = orthodox_crusade.17.a ai_chance = { factor = 1 } }
+}
+country_event = {
+	id = orthodox_crusade.18
+	title = orthodox_crusade.18.t
+	desc = orthodox_crusade.18.d
+	picture = RELIGIOUS_WARS_eventPicture
+	is_triggered_only = yes
+	option = { name = orthodox_crusade.18.a ai_chance = { factor = 1 } }
+}
+country_event = {
+	id = orthodox_crusade.19
+	title = orthodox_crusade.19.t
+	desc = rip_faith_pilgrimage_desc
+	picture = RELIGION_eventPicture
+	trigger = {
+		rip_faith_is_eastern_orthodox = yes
+		has_country_flag = rip_crusade_jerusalem_rewarded
+		379 = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = ROOT }
+		NOT = { has_country_modifier = rip_faith_pilgrimage_recent }
+	}
+	mean_time_to_happen = { months = 120 }
+	option = {
+		name = rip_faith_pilgrimage_option
+		trigger = { treasury = 100 adm_power = 25 379 = { owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = ROOT } }
+		ai_chance = { factor = 50 }
+		add_treasury = -100
+		add_adm_power = -25
+		add_country_modifier = { name = rip_faith_pilgrimage_recent duration = 3650 }
+		379 = { add_province_modifier = { name = rip_faith_pilgrim_hospice duration = 3650 } }
+	}
+	option = { name = rip_church_council.cancel ai_chance = { factor = 50 } add_country_modifier = { name = rip_faith_pilgrimage_recent duration = 3650 } }
+}
+country_event = {
+	id = orthodox_crusade.20
+	title = orthodox_crusade.20.t
+	desc = rip_crusade_parish_support_desc
+	picture = RELIGION_eventPicture
+	trigger = { is_crusade_participant = yes is_at_war_with_crusade_target = yes NOT = { has_country_modifier = rip_crusade_flavor_recent } }
+	mean_time_to_happen = { months = 120 }
+	option = {
+		name = rip_crusade_parish_support_option
+		trigger = { treasury = 50 }
+		ai_chance = { factor = 50 }
+		add_treasury = -50
+		add_war_exhaustion = -0.5
+		add_country_modifier = { name = rip_crusade_flavor_recent duration = 1825 }
+	}
+	option = { name = rip_church_council.cancel ai_chance = { factor = 50 } add_country_modifier = { name = rip_crusade_flavor_recent duration = 1825 } }
+}
+
+
+country_event = {
+	id = orthodox_crusade.21
+	title = orthodox_crusade.21.t
+	desc = orthodox_crusade.21.d
+	picture = BATTLE_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_crusade_participant = yes
+		is_at_war_with_crusade_target = yes
+	}
+
+	immediate = {
+		change_variable = { which = orthodox_crusade_contribution value = 1 }
+	}
+
+	option = { name = orthodox_crusade.21.a }
+}
+
+country_event = {
+	id = orthodox_crusade.22
+	title = orthodox_crusade.22.t
+	desc = orthodox_crusade.22.d
+	picture = BATTLE_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_crusade_participant = yes
+		is_at_war_with_crusade_target = yes
+	}
+
+	immediate = {
+		change_variable = { which = orthodox_crusade_contribution value = 2 }
+	}
+
+	option = { name = orthodox_crusade.22.a }
+}
+country_event = {
+	id = orthodox_crusade.23
+	title = orthodox_crusade.23.t
+	desc = orthodox_crusade.23.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	trigger = { rip_crusade_should_finish_trigger = yes }
+	mean_time_to_happen = { months = 1 }
+	immediate = { rip_crusade_resolve_effect = yes }
+	option = { name = orthodox_crusade.23.a }
+}

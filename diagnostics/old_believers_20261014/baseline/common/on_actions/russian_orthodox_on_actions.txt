@@ -1,0 +1,70 @@
+
+on_yearly_pulse = {
+	random_events = {
+		25 = russian_orthodox.1  # Third Rome Doctrine
+		20 = russian_orthodox.2  # Moscow Patriarchate
+		20 = russian_orthodox.8  # Gathering Russian Lands
+		600 = 0 # Nothing
+	}
+}
+
+on_bi_yearly_pulse = {
+	# Retired scripted resource/modifier cleanup is included in icon_upkeep below.
+
+	# Settlement advances, but no free recurring conversion budget or trade policy.
+	if = {
+		limit = { religion = russian_orthodox }
+		rip_faith_advance_stage_effect = yes
+	}
+
+	# Compatibility cleanup for old saves with several icons.
+	rip_ro_icon_upkeep_effect = yes
+
+	# WHO OBJECTS.
+	# The old rite that would not follow Moscow, and - once the books have been
+	# corrected - the Old Believers who would not follow it either. See
+	# common/scripted_effects/rip_faith_zeal_effects.txt.
+	rip_ro_zealot_backlash_effect = yes
+
+	random_events = {
+		15 = russian_orthodox.5  # Orthodox Inquisition
+		10 = russian_orthodox.6  # Old Believer Schism
+		12 = russian_orthodox.9  # Symphonia
+		10 = russian_orthodox.11 # Imperial Orthodox Church
+		10 = russian_orthodox.12 # Missionary Success Siberia
+		8 = russian_orthodox.13  # Defender of Orthodoxy
+		8 = russian_orthodox.14  # Patriarch of All Rus'
+		700 = 0 # Nothing
+	}
+}
+
+# Fires for EVERY country that changes religion, not only this one - EU4 merges
+# on_action blocks across files and this hook has no faith of its own. Both
+# effects below are written to be harmless where they do not apply.
+on_religion_change = {
+	rip_faith_track_and_clear_history_effect = yes
+	rip_faith_initialize_hierarchy_effect = yes
+	rip_faith_maintain_local_property_effect = yes
+	rip_faith_settlement_upkeep_effect = yes
+	# A church that changes obedience starts its own three-step wave rather
+	# than inheriting the decay of the one it left.
+	rip_faith_reset_stage_effect = yes
+
+	# And it does not keep the previous church's iconostasis standing.
+	rip_ro_icon_upkeep_effect = yes
+}
+
+on_startup = {
+	rip_faith_track_and_clear_history_effect = yes
+	rip_faith_balance_migration_effect = yes
+	rip_faith_settlement_migration_effect = yes
+	rip_faith_initialize_hierarchy_effect = yes
+	rip_faith_maintain_local_property_effect = yes
+	rip_faith_settlement_upkeep_effect = yes
+	rip_ro_icon_upkeep_effect = yes
+}
+
+on_monthly_pulse = {
+	rip_faith_maintain_local_property_effect = yes
+	rip_faith_settlement_upkeep_effect = yes
+}

@@ -1,0 +1,31 @@
+# Country scope. Geographic connectivity expands only through controlled core parishes.
+rip_church_refresh_conversion_resistance_effect = {
+ every_province = {
+  limit = { OR = { has_province_modifier = rip_church_conversion_resistance religion = orthodox } }
+  remove_province_modifier = rip_church_conversion_resistance
+  if = { limit = {
+   religion = orthodox owner = { religion = orthodox is_subject = no }
+   any_country = {
+    religion = russian_orthodox has_country_flag = rip_church_ro_schismatic has_country_flag = rip_church_icon_mission
+    check_variable = { which = rip_church_nodes value = 1 }
+    PREV = { has_province_flag = rip_church_ro_trade_target@PREV }
+   }
+  } add_province_modifier = { name = rip_church_conversion_resistance duration = 60 } }
+ }
+}
+
+rip_church_ro_refresh_connections_effect = {
+ every_province = { limit = { has_province_flag = rip_church_ro_connected@ROOT } clr_province_flag = rip_church_ro_connected@ROOT }
+ capital_scope = { if = { limit = { religion = russian_orthodox controlled_by = ROOT is_core = ROOT } set_province_flag = rip_church_ro_connected@ROOT } }
+ set_variable = { which = rip_church_connection_added value = 1 }
+ while = { limit = { check_variable = { which = rip_church_connection_added value = 1 } }
+ set_variable = { which = rip_church_connection_added value = 0 }
+ every_owned_province = { limit = {
+ religion = russian_orthodox controlled_by = ROOT is_core = ROOT NOT = { has_province_flag = rip_church_ro_connected@ROOT }
+ any_neighbor_province = { has_province_flag = rip_church_ro_connected@ROOT }
+ }
+ set_province_flag = rip_church_ro_connected@ROOT
+ ROOT = { change_variable = { which = rip_church_connection_added value = 1 } }
+ }
+ }
+}

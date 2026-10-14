@@ -1,0 +1,65 @@
+# Dynamic "<X> Host" nameplate for the Sloboda/steppe regiment tags and Zaporizhia.
+# A country displays a Host name only while it currently holds a Cossack-style
+# reform (is_cossack_polity, common/scripted_triggers/zaz_path_triggers.txt);
+# the moment it does not, its plain settlement/region name is restored. Kept
+# as a re-derive-every-pulse effect rather than a one-off decision/event hook
+# so that ANY country gaining or losing a Cossack reform in the future - not
+# just the five listed below - picks up the right name with no further
+# hardcoding. See common/on_actions/rip_cossack_host_naming_on_actions.txt.
+#
+# HET is deliberately excluded: the Hetmanate keeps its own flat name
+# ("Hetmanate") regardless of which reform it holds - that identity is not
+# part of this system.
+#
+# The branch order mirrors (and keeps in sync with) GetCossackHostName in
+# customizable_localization/cossack_host_names.txt, but this effect uses
+# plain if/else_if with literal override_country_name targets rather than a
+# customizable_localization bracket call, because no vanilla precedent was
+# found confirming that override_country_name evaluates a bracket-called
+# defined_text, or that a $COUNTRY$ token resolves inside a country's own
+# name override. That file is left as reference/tooltip material only.
+rip_cossack_host_name_effect = {
+	if = {
+		limit = {
+			is_cossack_polity = yes
+			NOT = { tag = HET }
+		}
+		if = {
+			limit = { tag = ZAZ }
+			restore_country_name = yes
+			override_country_name = ZAPOROZHIAN_HOST_NAME
+		}
+		else_if = {
+			limit = { tag = KHK }
+			restore_country_name = yes
+			override_country_name = KHARKIV_HOST_NAME
+		}
+		else_if = {
+			limit = { tag = IZM }
+			restore_country_name = yes
+			override_country_name = IZIUM_HOST_NAME
+		}
+		else_if = {
+			limit = { tag = OKH }
+			restore_country_name = yes
+			override_country_name = OKHTYRKA_HOST_NAME
+		}
+		else_if = {
+			limit = { tag = SMY }
+			restore_country_name = yes
+			override_country_name = SUMY_HOST_NAME
+		}
+		else_if = {
+			limit = { any_owned_province = { area = lower_don_area } }
+			restore_country_name = yes
+			override_country_name = DON_HOST_NAME
+		}
+		else = {
+			restore_country_name = yes
+			override_country_name = COSSACK_HOST_GENERIC
+		}
+	}
+	else = {
+		restore_country_name = yes
+	}
+}

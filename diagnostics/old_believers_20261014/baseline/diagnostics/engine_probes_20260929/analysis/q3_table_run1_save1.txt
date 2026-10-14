@@ -1,0 +1,37 @@
+save save_1.eu4 date=1444.12.1
+effect | if(POR) | ei(CAS) | el(ARA) | ct(NAV) | se(GRA)
+add_country_modifier                   | ran/works      | ran/works      | ran/works      | ran/works      | ran/works     
+add_treasury 100000                    | ran/works      | ran/works      | ran/works      | ran/works      | ran/works     
+add_prestige -300                      | ran/works      | ran/works      | ran/works      | ran/works      | ran/works     
+add_stability -6                       | ran/works      | ran/works      | ran/works      | ran/works      | ran/works     
+add_dip_power 900                      | ran/works      | ran/works      | ran/works      | ran/works      | ran/works     
+add_province_modifier (capital_scope)  | ran/works      | ran/works      | ran/works      | ran/works      | ran/works     
+change_religion sunni (capital_scope)  | ran/works      | ran/works      | ran/works      | ran/works      | ran/n/a       
+add_local_autonomy 50 (capital_scope)  | ran/works      | ran/works      | ran/works      | ran/works      | ran/works     
+country_event days=1 -> flag           | ran/works      | ran/works      | ran/works      | ran/works      | ran/DROPPED   
+add_opinion who=ROOT                   | ran/works      | ran/works      | ran/works      | ran/works      | ran/DROPPED   
+add_opinion who=FRA                    | ran/works      | ran/works      | ran/works      | ran/works      | ran/DROPPED   
+reverse_add_opinion who=ROOT           | ran/works      | ran/works      | ran/works      | ran/works      | ran/DROPPED   
+ROOT={add_opinion who=PREV}            | ran/works      | ran/works      | ran/works      | ran/works      | ran/DROPPED   
+add_opinion in nested if               | ran/works      | ran/works      | ran/works      | ran/works      | ran/DROPPED   
+add_opinion in hidden_effect           | ran/works      | ran/works      | ran/works      | ran/works      | ran/DROPPED   
+add_opinion via scripted effect        | ran/works      | ran/works      | ran/works      | ran/works      | ran/DROPPED   
+add_opinion, no flag in body           | ran/works      | ran/works      | ran/works      | ran/works      | ran/DROPPED   
+
+  se detail cm   modifier present
+  se detail tre  treasury=97552
+  se detail pre  prestige=-99.6
+  se detail stab stability=-3.000 (same-tick readback flag False)
+  se detail dip  dip_power=362
+  se detail pm   province modifier present
+  se detail rel  capital religion=sunni (was catholic; GRA already sunni)
+  se detail aut  capital local_autonomy=49.900
+  se detail evt  delayed event flag absent
+  se detail opr  ABSENT: GRA -> MOS has rip_prb_op_root_se
+  se detail opt  ABSENT: GRA -> FRA has rip_prb_op_tag_se
+  se detail rev  ABSENT: MOS -> GRA has rip_prb_op_rev_se
+  se detail rbk  ABSENT: MOS -> GRA has rip_prb_op_rootblk_se
+  se detail nst  ABSENT: GRA -> MOS has rip_prb_op_nest_se
+  se detail hid  ABSENT: GRA -> MOS has rip_prb_op_hid_se
+  se detail ses  ABSENT: GRA -> MOS has rip_prb_op_se_se
+  se detail pur  ABSENT: GRA -> MOS has rip_prb_op_pure_se

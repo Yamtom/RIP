@@ -1,0 +1,304 @@
+# ========================================================================
+# The Muscovite Troubles, told from the Ruthenian side.
+# Authenticity: A - documented. Follows recorded events, people and dates.
+# Sources:
+#   the pretender outfitted at Sambir by the Mniszech household and their
+#   clients; the Ruthenian magnate ventures into Muscovy 1604-1612; the
+#   register hired for the eastern campaigns; Sahaidachny's march to the
+#   walls of Moscow in 1618; the truce of Deulino, which handed Chernihiv,
+#   Novhorod-Siverskyi and Starodub to the Crown - the same transfer the
+#   mod's own province histories already carry at 1618.12.11.
+#
+# The mod had nothing between 1598 and 1618 while its own province files
+# marked both the Troubles and Deulino. This chain fills that, and it is
+# deliberately NOT the Muscovite story: no Godunov, no Bolotnikov, no
+# regency. It is the story of what the Commonwealth's Ruthenian lands did
+# with a neighbour that had stopped working, and what it cost them - the
+# Host learned its own price here, which is the debt Khmelnytsky collects
+# in events/KhmelnytskyUprisings.txt.
+#
+# Flags for other files to read:
+#   rip_tot_pretender_backed   - our magnates outfitted a claimant
+#   rip_tot_register_east      - the register marched into Muscovy
+#   rip_tot_host_knows_price   - the Host has learned what it is worth
+# ========================================================================
+
+namespace = troubles
+
+# --- 1. The pretender in a magnate's house.
+country_event = {
+	id = troubles.1
+	title = troubles.1.t
+	desc = troubles.1.d
+	picture = COURT_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = POL
+			tag = PLC
+			AND = {
+				any_owned_province = {
+					region = ruthenia_region
+				}
+				OR = {
+					tag = LIT
+					tag = KIE
+					tag = VLN
+					tag = VOL
+					tag = PDL
+					tag = HLC
+				}
+			}
+		}
+		is_year = 1604
+		NOT = { is_year = 1613 }
+		OR = {
+			exists = MOS
+			exists = RUS
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 36
+		modifier = {
+			factor = 0.6
+			any_neighbor_country = {
+				OR = {
+					tag = MOS
+					tag = RUS
+				}
+				NOT = { stability = 0 }
+			}
+		}
+	}
+
+	option = {
+		name = troubles.1.a
+		ai_chance = { factor = 45 }
+		set_country_flag = rip_tot_pretender_backed
+		add_country_modifier = {
+			name = rip_tot_pretender_venture
+			duration = 5475
+		}
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 10 }
+		every_country = {
+			limit = {
+				OR = {
+					tag = MOS
+					tag = RUS
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = rip_tot_backed_the_pretender
+			}
+		}
+	}
+
+	option = {
+		name = troubles.1.b
+		ai_chance = { factor = 35 }
+		add_stability_or_adm_power = yes
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = -10 }
+	}
+
+	option = {
+		name = troubles.1.c
+		ai_chance = { factor = 20 }
+		add_years_of_income = 0.3
+		add_prestige = -5
+		rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 5 }
+	}
+}
+
+# --- 2. The register hires itself out eastward.
+country_event = {
+	id = troubles.2
+	title = troubles.2.t
+	desc = troubles.2.d
+	picture = MILITARY_CAMP_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		OR = {
+			tag = POL
+			tag = PLC
+			tag = ZAZ
+			tag = HET
+			tag = CHR
+			tag = KIE
+			has_estate = estate_cossacks
+		}
+		is_year = 1605
+		NOT = { is_year = 1620 }
+		OR = {
+			exists = MOS
+			exists = RUS
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 48
+		modifier = {
+			factor = 0.6
+			has_country_flag = rip_tot_pretender_backed
+		}
+	}
+
+	option = {
+		name = troubles.2.a
+		ai_chance = { factor = 60 }
+		set_country_flag = rip_tot_register_east
+		add_army_tradition = 10
+		add_manpower = -2
+		add_country_modifier = {
+			name = rip_tot_eastern_campaign
+			duration = 5475
+		}
+	}
+
+	option = {
+		name = troubles.2.b
+		ai_chance = { factor = 40 }
+		add_adm_power = 50
+		every_owned_province = {
+			limit = {
+				is_state_core = ROOT
+				region = ruthenia_region
+			}
+			add_unrest = -1
+		}
+	}
+}
+
+# --- 3. Sahaidachny before Moscow, 1618.
+country_event = {
+	id = troubles.3
+	title = troubles.3.t
+	desc = troubles.3.d
+	picture = LAND_MILITARY_eventPicture
+
+	fire_only_once = yes
+
+	trigger = {
+		has_country_flag = rip_tot_register_east
+		is_year = 1617
+		NOT = { is_year = 1625 }
+		OR = {
+			exists = MOS
+			exists = RUS
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 24
+	}
+
+	option = {
+		name = troubles.3.a
+		ai_chance = { factor = 45 }
+		add_prestige = 15
+		add_army_tradition = 10
+		add_war_exhaustion = 1
+		set_country_flag = rip_tot_host_knows_price
+		country_event = { id = troubles.5 days = 30 }
+	}
+
+	option = {
+		name = troubles.3.b
+		ai_chance = { factor = 55 }
+		add_years_of_income = 0.5
+		add_prestige = 5
+		set_country_flag = rip_tot_host_knows_price
+		country_event = { id = troubles.4 days = 60 }
+		country_event = { id = troubles.5 days = 30 }
+	}
+}
+
+# --- 4. The truce of Deulino: Siveria changes hands at a table.
+country_event = {
+	id = troubles.4
+	title = troubles.4.t
+	desc = troubles.4.d
+	picture = SEJM_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = troubles.4.a
+		ai_chance = { factor = 65 }
+		add_permanent_claim = 289	# Chernihiv
+		add_permanent_claim = 1945	# Novgorod-Seversky
+		add_permanent_claim = 4244	# Starodub
+		add_country_modifier = {
+			name = rip_tot_deulino_terms
+			duration = 9125
+		}
+		rip_tot_tell_the_siverian_lands_effect = yes
+	}
+
+	option = {
+		name = troubles.4.b
+		ai_chance = { factor = 35 }
+		add_years_of_income = 0.75
+		add_prestige = -5
+	}
+}
+
+# --- 5. What the Host learned about its own price.
+country_event = {
+	id = troubles.5
+	title = troubles.5.t
+	desc = troubles.5.d
+	picture = MILITARY_CAMP_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = troubles.5.a
+		ai_chance = { factor = 55 }
+		rip_estate_mood_effect = { ESTATE = estate_cossacks LOYALTY = 10 }
+		add_country_modifier = {
+			name = rip_tot_the_register_remembers
+			duration = -1
+		}
+	}
+
+	option = {
+		name = troubles.5.b
+		ai_chance = { factor = 45 }
+		add_treasury = -100
+		rip_estate_mood_effect = { ESTATE = estate_cossacks LOYALTY = -5 }
+		add_army_tradition = 5
+	}
+}
+
+# --- 6. The Siverian lands hear what was agreed about them.
+country_event = {
+	id = troubles.6
+	title = troubles.6.t
+	desc = troubles.6.d
+	picture = BIG_BOOK_eventPicture
+
+	is_triggered_only = yes
+
+	option = {
+		name = troubles.6.a
+		ai_chance = { factor = 60 }
+		add_mil_power = 25
+		every_owned_province = {
+			limit = { is_state_core = ROOT }
+			add_unrest = 2
+		}
+	}
+
+	option = {
+		name = troubles.6.b
+		ai_chance = { factor = 40 }
+		add_adm_power = 25
+		add_dip_power = 25
+	}
+}

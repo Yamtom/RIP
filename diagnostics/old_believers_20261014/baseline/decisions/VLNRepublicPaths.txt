@@ -1,0 +1,66 @@
+country_decisions = {
+
+	# A republican path for Volhynia distinct from vln_cossack_host_reform,
+	# which stays a monarchy on purpose - the registered Host answered to the
+	# voivode and the Crown, not to itself (docs/data/government_authenticity_
+	# inventory.json, vln_cossack_host_reform, tier M2). Here the magnate
+	# senate that already co-rules the palatinate (vln_magnate_senate_mechanic)
+	# stops advising the voivode and starts electing one.
+	#
+	# Not an opening-date option. The noble sejmik became the working organ of
+	# local self-government in the Grand Duchy only with the Second Lithuanian
+	# Statute (1566) and the Union of Lublin (1569), which is the custom the
+	# reform text points to. So the decision stays hidden before 1566, needs an
+	# independent, peaceful Volhynia whose senate has actually sat recently (the
+	# vln_summon_the_senate interaction), and a real dynastic crisis.
+
+	vln_the_sejmik_asserts_itself = {
+		major = yes
+		potential = {
+			west_ukraine_vln_origin_country = yes
+			tag = VLN
+			has_reform = vln_voivodeship_reform
+			NOT = { has_reform = vln_sejmik_republic_reform }
+			NOT = { has_reform = vln_cossack_host_reform }
+			is_year = 1566
+		}
+		allow = {
+			NOT = { government = republic }
+			is_subject = no
+			is_at_war = no
+			stability = 1
+			custom_trigger_tooltip = {
+				tooltip = vln_sejmik_senate_sitting_tt
+				has_country_modifier = vln_senate_convened
+			}
+			custom_trigger_tooltip = {
+				tooltip = vln_sejmik_dynastic_crisis_tt
+				OR = {
+					NOT = { has_heir = yes }
+					legitimacy < 50
+				}
+			}
+		}
+		effect = {
+			set_country_flag = rip_vln_path_sejmik
+			change_government = republic
+			add_government_reform = vln_sejmik_republic_reform
+			add_republican_tradition = 10
+			add_country_modifier = {
+				name = rip_vln_sejmik_asserts_itself
+				duration = 3650
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				NOT = { has_heir = yes }
+			}
+			modifier = {
+				factor = 0
+				legitimacy = 70
+			}
+		}
+	}
+}

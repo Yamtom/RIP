@@ -1,0 +1,13 @@
+root = true
+
+# EU4 treats a UTF-8 BOM as an unexpected token in Clausewitz data and GUI.
+[*.{txt,gui,gfx,mod}]
+charset = utf-8
+
+[.githooks/*]
+charset = utf-8
+end_of_line = lf
+
+# EU4 localisation requires the BOM; do not apply the data-file rule here.
+[*.yml]
+charset = utf-8-bom

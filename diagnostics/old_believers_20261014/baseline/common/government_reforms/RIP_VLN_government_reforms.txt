@@ -1,0 +1,397 @@
+# =============================================================================
+# RIP_VLN_government_reforms
+# Definitions are grouped by polity or by an explicitly shared reform family.
+# =============================================================================
+
+vln_voivodeship_reform = {
+	icon = "assembly_hall"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			west_ukraine_vln_origin_country = yes
+			has_reform = vln_voivodeship_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = vln_voivodeship_reform
+			AND = {
+				west_ukraine_vln_origin_country = yes
+			}
+		}
+	}
+	lock_level_when_selected = yes
+	queen = yes
+	heir = yes
+	royal_marriage = yes
+	allow_convert = no
+	modifiers = {
+		governing_capacity = 100
+		reform_progress_growth = 0.10
+		diplomatic_reputation = 0.5
+		global_manpower_modifier = 0.10
+		nobles_loyalty_modifier = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	# The Volhynian magnate senate (Ostrozky, Sanguszko, Chartoryisky) that
+	# co-ruled the palatinate. common/government_mechanics/rip_vln_magnate_senate.txt.
+	# Retires itself if vln_cossack_host_reform is picked instead - see that
+	# mechanic's own available block.
+	government_abilities = {
+		vln_magnate_senate_mechanic
+	}
+}
+
+vln_confessional_reform = {
+	icon = "holy_state_reform"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			west_ukraine_vln_origin_country = yes
+			has_reform = vln_confessional_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = vln_confessional_reform
+			west_ukraine_vln_origin_country = yes
+		}
+	}
+	modifiers = {
+		tolerance_heretic = 2
+		religious_unity = 0.1
+		tolerance_own = 0.5
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
+		}
+		has_parliament = yes
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+vln_ruthenia_reform = {
+	icon = "crown"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			west_ukraine_vln_origin_country = yes
+			has_reform = vln_ruthenia_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = vln_ruthenia_reform
+			west_ukraine_vln_origin_country = yes
+		}
+	}
+	modifiers = {
+		max_absolutism = 10
+		legitimacy = 0.5
+		nobles_loyalty_modifier = 0.05
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
+		}
+		has_parliament = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+		}
+		is_elective = yes
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+vln_cossack_host_reform = {
+	icon = "cossacks"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			west_ukraine_vln_origin_country = yes
+			has_reform = vln_cossack_host_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = vln_cossack_host_reform
+			west_ukraine_vln_origin_country = yes
+		}
+	}
+	modifiers = {
+		cavalry_cost = -0.15
+		cavalry_flanking = 0.25
+		land_forcelimit_modifier = 0.10
+		max_absolutism = -10
+	}
+	government_abilities = {
+		cossacks_mechanic
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		recruiting_generals_increases_nobles_loyalty = yes
+	}
+	removed_effect = {
+		rip_gov_clear_register_effect = yes
+	}
+}
+
+vln_confessional_academy = {
+	icon = "church"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			west_ukraine_vln_origin_country = yes
+			has_reform = vln_confessional_academy
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = vln_confessional_academy
+			west_ukraine_vln_origin_country = yes
+		}
+	}
+	modifiers = {
+		technology_cost = -0.05
+		religious_unity = 0.10
+		advisor_pool = 1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}
+
+vln_voivode_council = {
+	icon = "council"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			west_ukraine_vln_origin_country = yes
+			has_reform = vln_voivode_council
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = vln_voivode_council
+			west_ukraine_vln_origin_country = yes
+		}
+	}
+	modifiers = {
+		general_cost = -0.15
+		army_tradition_decay = -0.01
+		fort_maintenance_modifier = -0.10
+		land_morale = 0.10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		improved_military_buildings = yes
+	}
+}
+
+vln_black_voivode_legion = {
+	icon = "soldiers_4"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			west_ukraine_vln_origin_country = yes
+			has_reform = vln_black_voivode_legion
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = vln_black_voivode_legion
+			AND = {
+				west_ukraine_vln_origin_country = yes
+				if = {
+					limit = {
+						has_dlc = "Cradle of Civilization"
+					}
+					army_professionalism = 0.4
+				}
+				else = {
+					army_tradition = 60
+				}
+			}
+		}
+	}
+	modifiers = {
+		discipline = 0.025
+		land_morale = 0.1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		recruiting_generals_increases_nobles_loyalty = yes
+	}
+}
+
+vln_grand_ruthenia_reform = {
+	icon = "king_highlighted"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			west_ukraine_vln_origin_country = yes
+			has_reform = vln_grand_ruthenia_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = vln_grand_ruthenia_reform
+			AND = {
+				west_ukraine_vln_origin_country = yes
+				vol_has_grand_ruthenia = yes
+			}
+		}
+	}
+	# The reunited Halych-Volhynia crown, so the tolerance and administrative
+	# habits of both halves of the union ride together: no_religion_penalty
+	# is the real vanilla modifier behind Lithuania's kingdom/empire tiers
+	# (lithuanian_grand_kingdom, lithuanian_grand_empire -
+	# common/government_reforms/01_government_reforms_monarchies.txt), not a
+	# custom_attribute, and it is why a state holding Orthodox, Catholic and
+	# Jewish provinces alike does not bleed unrest for it. The other four are
+	# the same Austro-Hungarian-and-Commonwealth set already confirmed and
+	# used on uzh_palatial_uhro_reform in RIP_UZH_government_reforms.txt,
+	# themselves sourced from black_army_reform
+	# (01_government_reforms_monarchies.txt) and the Hungarian court reforms
+	# in 06_government_reforms_common.txt.
+	#
+	# fixed_rank was deliberately left out: VOL's own rank escalation is
+	# already mission-driven (VOL_ruthenian_hegemony sets government_rank = 3
+	# directly, missions/Volhynia_Missions.txt) and independent of any reform.
+	# A fixed_rank reform sitting active in a different reform-category slot
+	# would fight that effect on every rank recalculation and snap the
+	# country back down - so the Lithuanian ladder's rank-locking half is not
+	# reproduced here, only its tolerance modifier.
+	modifiers = {
+		prestige = 2
+		stability_cost_modifier = -0.15
+		diplomatic_reputation = 1
+		max_absolutism = 15
+		no_religion_penalty = yes
+	}
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
+		}
+		has_parliament = yes
+	}
+	custom_attributes = {
+		locked_government_type = yes
+		# See uzh_palatial_uhro_reform in RIP_UZH_government_reforms.txt for
+		# the source of these four - not invented names.
+		seizing_land_no_rebels_from_estate_nobles = yes
+		monarch_power_on_institutions = yes
+		mercs_do_not_cost_army_professionalism = yes
+		army_tradition_on_stackwipe = yes
+	}
+	# The Grand Host of Halych-Volhynia, a standing mercenary company the
+	# united crown never has to hire twice - common vanilla shorthand for
+	# this is Hungary's Institutionalized Black Army (black_army_reform); the
+	# company itself is common/mercenary_companies/rip_grand_ruthenia_mercenaries.txt,
+	# gated directly on has_reform = vln_grand_ruthenia_reform the same way
+	# rip_cossack_host_mercenaries gates on has_reform = rip_cossacks_reform.
+}
+
+# =============================================================================
+# The Sejmik Republic - a separate republican path for Volhynia, distinct
+# from vln_cossack_host_reform. That reform stays a monarchy on purpose: the
+# registered Host served under the voivode's - and ultimately the Crown's -
+# authority, not as a sovereign body (see docs/data/government_authenticity_
+# inventory.json, vln_cossack_host_reform, tier M2). This path instead grows
+# from the magnate senate that already co-rules the palatinate
+# (vln_magnate_senate_mechanic): the local sejmik of Volhynia, a real
+# institution of the wider Commonwealth already available next door in the
+# Ruthenian and Kyivan Voivodeships, stops merely advising and starts
+# electing the voivode outright. decisions/VLNRepublicPaths.txt opens it.
+# =============================================================================
+
+vln_sejmik_republic_reform = {
+	icon = "states_general"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	lock_level_when_selected = yes
+	has_term_election = yes
+	duration = 10
+	rulers_can_be_generals = yes
+	allow_convert = no
+	potential = {
+		OR = {
+			has_reform = vln_sejmik_republic_reform
+			west_ukraine_vln_origin_country = yes
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = vln_sejmik_republic_reform
+			AND = {
+				west_ukraine_vln_origin_country = yes
+				custom_trigger_tooltip = {
+					tooltip = vln_path_sejmik_req_tt
+					vln_has_sejmik_path = yes
+				}
+			}
+		}
+	}
+	modifiers = {
+		republican_tradition = 0.25
+		diplomatic_reputation = 0.5
+		max_absolutism = -10
+		global_manpower_modifier = 0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	legacy_equivalent = noble_republic
+}
+
+vln_dietine_instructions_reform = {
+	icon = "paper_with_seal"
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			has_reform = vln_dietine_instructions_reform
+			has_reform = vln_sejmik_republic_reform
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = vln_dietine_instructions_reform
+			has_reform = vln_sejmik_republic_reform
+		}
+	}
+	# The instrukcje sejmikowe: local sejmiks bound their own deputies to a
+	# written mandate before every session of the wider assembly - real
+	# Commonwealth practice, not an invented mechanic.
+	modifiers = {
+		diplomatic_reputation = 1
+		reform_progress_growth = 0.1
+		max_absolutism = -5
+		stability_cost_modifier = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+}

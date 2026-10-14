@@ -1,0 +1,173 @@
+namespace = rip_russia_balance
+
+# Namespaced replacement for flavor_rus.100.
+# The immediate expansion claims are temporary in both paths; the administrative
+# choice still controls whether later, completion-gated scripted claims are permanent.
+country_event = {
+	id = rip_russia_balance.1
+	title = flavor_rus.100.t
+	desc = flavor_rus.100.desc
+	picture = REFORM_eventPicture
+	is_triggered_only = yes
+
+	# Keep later completion-gated mission claims permanent.
+	option = {
+		name = flavor_rus.100.a
+		custom_tooltip = flavor_rus.100.a.tt
+		russia_region = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+				NOT = { owned_by = LIT }
+				NOT = { owned_by = SWE }
+			}
+			add_claim = ROOT
+		}
+		kama_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		bashkiria_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		volga_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		kazan_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		samara_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		saratov_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		lower_don_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		astrakhan_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		add_claim_province = { province = 1777 }
+		add_claim_province = { province = 2408 }
+		add_claim_province = { province = 299 }
+
+		ai_chance = {
+			factor = 1
+		}
+	}
+
+	# Trade permanent follow-up claims for the vanilla administrative modifier.
+	option = {
+		name = flavor_rus.100.b
+		custom_tooltip = flavor_rus.100.b.tt
+
+		add_country_modifier = {
+			name = rus_expanded_administrative_offices
+			duration = -1
+		}
+		russia_region = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+				NOT = { owned_by = LIT }
+				NOT = { owned_by = SWE }
+			}
+			add_claim = ROOT
+		}
+		kama_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		bashkiria_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		volga_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		kazan_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		samara_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		saratov_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		lower_don_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		astrakhan_area = {
+			limit = {
+				NOT = { is_permanent_claim = ROOT }
+				NOT = { is_core = ROOT }
+			}
+			add_claim = ROOT
+		}
+		add_claim_province = { province = 1777 }
+		add_claim_province = { province = 2408 }
+		add_claim_province = { province = 299 }
+
+		ai_chance = {
+			factor = 1
+		}
+	}
+}

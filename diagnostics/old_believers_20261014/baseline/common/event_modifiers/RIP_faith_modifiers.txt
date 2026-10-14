@@ -1,0 +1,228 @@
+# Shared faith modifiers. The five old scripted icons below are save-migration
+# placeholders only; native icon payloads live in common/religions/russian_orthodox.txt.
+
+rip_ro_icon_michael = {
+	discipline = 0
+}
+
+rip_ro_icon_eleusa = {
+	discipline = 0
+}
+
+rip_ro_icon_pancreator = {
+	discipline = 0
+}
+
+rip_ro_icon_nicholas = {
+	discipline = 0
+}
+
+rip_ro_icon_climacus = {
+	discipline = 0
+}
+
+# --- the three zeal focuses, standing in for Reformed fervour ---------------
+# Vanilla fervour buys one of three toggled focuses and drains while it runs.
+# These do the same: exclusive, switchable, and paid for out of the zeal the
+# Sobor accumulates.
+
+rip_ro_zeal_war = {
+	discipline = 0
+}
+
+rip_ro_zeal_trade = {
+	discipline = 0
+}
+
+rip_ro_zeal_stability = {
+	discipline = 0
+}
+
+# --- canons of the Sobor: the six standing acts of the Muscovite church -----
+# These were church aspects that nothing could reach. They keep their names and
+# their payloads, and are now enacted one at a time by the Sobor.
+#
+# orthodox_inquisition and forced_russification are NOT here: both are already
+# country modifiers in common/event_modifiers/russian_orthodox_modifiers.txt,
+# and defining them twice is a redefinition the checks catch. The Sobor grants
+# those two existing modifiers instead.
+
+third_rome_mission = {
+	prestige = 0.475
+	improve_relation_modifier = -0.05
+}
+
+rip_ro_patriarchal_office = {
+	legitimacy = 0.475
+	church_influence_modifier = 0.05
+}
+
+imperial_orthodox_church = {
+	state_maintenance_modifier = -0.0475
+	advisor_cost = 0.05
+}
+
+subjugation_of_heretics = {
+	religious_unity = 0.095
+	tolerance_heretic = -1
+}
+
+# --- Synod articles: one timed benefit, mutually exclusive with petitions.
+# Continuous values are 95% of the old payload; missionary count remains 1.
+
+embrace_eastern_rite = {
+	tolerance_own = 0.95
+	church_loyalty_modifier = 0.095
+	legitimacy = 0.475
+}
+
+accept_papal_supremacy = {
+	diplomatic_reputation = 0.95
+	improve_relation_modifier = 0.095
+}
+
+basilian_monasteries = {
+	stability_cost_modifier = -0.095
+	global_institution_spread = 0.0475
+	idea_cost = -0.0475
+}
+
+uniate_educational_network_aspect = {
+	advisor_cost = -0.095
+	innovativeness_gain = 0.475
+	institution_spread_from_true_faith = 0.095
+}
+
+defender_of_union = {
+	tolerance_heretic = 1.9
+	religious_unity = 0.1425
+	global_missionary_strength = 0.0095
+}
+
+blessing_of_basilian_order = {
+	church_influence_modifier = 0.095
+	stability_cost_modifier = -0.095
+}
+
+blessing_of_papal_protection = {
+	diplomatic_reputation = 0.95
+	prestige = 0.475
+}
+
+blessing_of_uniate_missionaries = {
+	global_missionary_strength = 0.019
+	missionaries = 1
+}
+
+# --- housekeeping modifiers for the sittings and the petitions
+
+rip_ro_sobor_recently_sat = {
+
+}
+
+rip_uc_synod_recently_sat = {
+}
+
+rip_uc_petition_cooldown = {
+}
+
+# Rome held and kept in our rite. Not a holy site - see the note in
+# common/religions/russian_orthodox.txt.
+rip_ro_the_first_rome = {
+	prestige = 0.475
+	church_influence_modifier = 0.05
+}
+
+# --- how the two faiths travel
+
+# Our own houses in a node we hold: the office is read oftener and louder.
+rip_ro_merchant_preaching = {
+	local_missionary_strength = 0.02
+	local_religious_unity_contribution = 0.1
+	local_unrest = -1
+}
+
+# Somebody else's parish, of our rite, in a node our merchants hold. The faith
+# is not in question here - the jurisdiction is.
+rip_ro_merchant_parish = {
+	local_missionary_strength = -0.01
+	local_unrest = 1
+}
+
+# A parish the Union is preaching in, on either side of the rite.
+rip_uc_union_preaching = {
+	local_missionary_strength = 0.02
+	local_unrest = 1
+	local_religious_unity_contribution = -0.1
+}
+
+# The one see the Union plants.
+rip_uc_see_of_the_union = {
+	local_unrest = -0.5
+}
+
+# The zeal of the Sobor, made visible.
+#
+# EU4 draws every religion mechanic into the same rectangle of
+# interface/countryreligionview.gui, and this faith spends its one slot on the
+# holy sites, so rip_ro_zeal has no panel to live in. These five carry no effect
+# at all - vanilla ships 164 modifiers of exactly this kind, as timers and
+# markers - and exist so the counter has a name in the country's modifier list.
+# rip_ro_show_the_zeal_effect in common/scripted_effects/rip_faith_effects.txt
+# keeps exactly one of them standing.
+
+rip_ro_zeal_band_spent = {
+}
+
+rip_ro_zeal_band_gathering = {
+}
+
+rip_ro_zeal_band_ready = {
+}
+
+rip_ro_zeal_band_laid_by = {
+}
+
+rip_ro_zeal_band_full = {
+}
+rip_ucr_church_of_the_palace = {  }
+rip_ucr_crown_names_the_bishops = {  }
+rip_ucr_synod_by_decree = {  }
+rip_ucr_metropolitan_in_exile = {  }
+rip_ucr_recognition_of_rome = {  }
+rip_ucr_palace_church_settled = {  }
+rip_ucr_synod_restored = {  }
+
+# A parish that learned of the union from the reader's desk.
+rip_ucr_parish_disquiet = {
+	local_unrest = 2
+	local_missionary_strength = -0.02
+	local_religious_unity_contribution = -0.25
+}
+
+# Preachers sent out on the chancery's warrant rather than the synod's.
+rip_ucr_crown_preachers = {
+	local_missionary_strength = 0.02
+	local_unrest = -1
+}
+
+# --- what the two faith disasters leave behind -----------------------------
+#
+# common/disasters/rip_faith_disasters.txt and events/RIP_FaithDisasters.txt.
+# Each disaster ends in exactly one of these, and they are the reason surviving
+# one is worth something rather than merely being over.
+
+# The Raskol argued out and the service books finally agreed on. It cost a
+# generation and it is the last time anyone asks.
+rip_ro_books_settled = { }
+
+# The see gave up trying to close the brotherhoods' schools and presses. The
+# quarrel goes quiet; the schools stay, and they are good ones.
+rip_uc_brotherhoods_tolerated = {
+	tolerance_heretic = 1.05
+	global_heretic_missionary_strength = -0.01
+}
+
+# Two generations on, the union has stopped being an imposition and become the
+# church people were baptised in.
+rip_uc_union_accepted = { }

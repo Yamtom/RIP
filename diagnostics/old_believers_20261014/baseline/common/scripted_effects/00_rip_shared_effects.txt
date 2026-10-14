@@ -1,0 +1,119 @@
+# ========================================================================
+# SHARED EFFECTS, LOADED FIRST
+#
+# Effects that more than one country calls. The 00_ prefix is not decoration.
+# EU4 resolves scripted effects by name, not by file order - but nothing in this
+# mod or in vanilla has ever exercised a BACKWARD cross-file call, and vanilla's
+# nine files never call each other at all. Keeping every shared effect in the
+# first-loading file means no country file can create one.
+# het_academy_boost_effect calling rip_request_ottoman_crimean_reaction_effect is
+# exactly that case, and it is why this file exists rather than a het_ copy.
+#
+# From: steppe_raid_effects.txt (the three Kaffa and Crimea helpers) and
+# zaz_het_effects.txt (the two effects HET and ZAZ decisions both call).
+# ========================================================================
+
+# May be called from any scope. Kaffa's owner receives only a small, temporary
+# cut, and only while the market in province 285 actually exists.
+rip_feed_kaffa_market_effect = {
+	if = {
+		limit = {
+			285 = {
+				is_empty = no
+				has_province_modifier = crimean_yasyr_market
+			}
+		}
+		285 = {
+			owner = {
+				add_years_of_income = 0.05
+				add_country_modifier = {
+					name = slave_trade_income
+					duration = 730
+				}
+			}
+		}
+	}
+}
+
+# May be called from country or province scope. A disrupted market must be
+# re-established by steppe_raid.16 after the five-year penalty has expired.
+rip_disrupt_kaffa_market_effect = {
+	if = {
+		limit = {
+			285 = {
+				has_province_modifier = crimean_yasyr_market
+			}
+		}
+		285 = {
+			remove_province_modifier = crimean_yasyr_market
+			add_province_modifier = {
+				name = trade_route_disrupted
+				duration = 1825
+			}
+			owner = {
+				remove_country_modifier = slave_trade_income
+				add_prestige = -5
+			}
+		}
+	}
+}
+
+# Call in the raider's country scope after a raid on Crimea. Because TUR is
+# scoped from the raider ROOT, steppe_raid.13 receives FROM = the raider.
+rip_request_ottoman_crimean_reaction_effect = {
+	if = {
+		limit = {
+			exists = CRI
+			exists = TUR
+			CRI = {
+				is_subject_of = TUR
+			}
+			TUR = {
+				NOT = { has_country_modifier = ottoman_crimean_reaction_cooldown }
+			}
+		}
+		TUR = {
+			country_event = { id = steppe_raid.13 days = 45 }
+		}
+	}
+}
+
+establish_black_sea_trade_effect = {
+	add_mercantilism = 2
+	add_country_modifier = {
+		name = "black_sea_commerce"
+		duration = 5475
+	}
+	random_owned_province = {
+		limit = {
+			has_port = yes
+			OR = {
+				area = yedisan_area
+				region = crimea_region
+			}
+		}
+		add_province_modifier = {
+			name = cossack_trade_port
+			duration = -1
+		}
+		add_base_production = 1
+	}
+}
+
+defend_orthodox_faith_effect = {
+	add_patriarch_authority = 0.1
+	add_patriarch_authority = 0.1
+	add_country_modifier = {
+		name = "orthodox_champions"
+		duration = 5475
+	}
+	every_owned_province = {
+		limit = {
+			religion = orthodox
+		}
+		add_province_modifier = {
+			name = "orthodox_protected"
+			duration = 3650
+		}
+	}
+}

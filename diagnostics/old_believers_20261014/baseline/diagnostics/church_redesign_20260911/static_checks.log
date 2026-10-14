@@ -1,0 +1,83 @@
+=== tests/check_vanilla_version.py -> Exit code 0 ===
+PASS: target metadata, donor rejection, unknown metadata and version boundaries
+=== tests/check_donor_audit.py -> Exit code 0 ===
+DONOR AUDIT PASS: definitions, nested callers, quoted braces, DLC and reform dependencies.
+=== tests/check_colonial_names.py -> Exit code 0 ===
+VERIFIED 44 native choices; all other source bytes preserved.
+COLONIAL NAMES PASS: 44 choices, 9 culture keys, all 11 American regions; source and rejection checks.
+=== tests/check_clausewitz_braces.py -> Exit code 0 ===
+Clausewitz data files are BOM-free and braces are balanced
+=== tests/check_ro_blessing_window.py -> Exit code 0 ===
+PASS: balance baseline and icon cost/duration match installed vanilla
+PASS: half-sized base, retired native icons, custom host, legacy cleanup, site navigation and Raskol guards
+=== tests/check_uc_curia.py -> Exit code 0 ===
+PASS: all baselines match the installed vanilla
+PASS: retired legacy packet remains gated off: church_tax
+PASS: retired legacy packet remains gated off: blessing
+PASS: retired legacy packet remains gated off: indulgence
+PASS: retired legacy packet remains gated off: usury
+PASS: retired legacy packet remains gated off: legate
+PASS: retired legacy packet remains gated off: holy_war
+PASS: legacy peti
+=== tests/check_faith_content_balance.py -> Exit code 0 ===
+PASS: paid parish transaction, conversion retirement, event caps, history/modifier limits, target PA sources
+LIMIT: source constraints do not prove total campaign effectiveness
+=== tests/check_religion_settlement.py -> Exit code 0 ===
+RELIGION SETTLEMENT PASS: 51 source-executed transition cases; adoption, Kyiv payments, migration, crusades, monuments.
+LIMIT: EU4 branch execution, old-save loading and 50-year effectiveness are not certified by this model.
+=== tests/check_church_redesign.py -> Exit code 0 ===
+GENERATED: 80 nodes; 3884 province IDs; 0 files
+GENERATED: 47 scripted UI bindings, 0 files
+GENERATED: 466 keys; 0 files
+CHURCH REDESIGN PASS: 537 source-executed cases; transactions, migration, geography and vanilla-isolation contracts.
+LIMIT: native propagation, save loading, GUI and 50-year campaign effectiveness require EU4 evidence.
+=== tests/check_church_balance_protocol.py -> Exit code 0 ===
+CHURCH BALANCE PROTOCOL PASS: frozen weights, zero/negative controls, direction, invalid inputs and scenario coverage; synthetic data only.
+=== tests/check_scripted_faith_links.py -> Exit code 0 ===
+FAITH SCRIPTED LINKS PASS: 220 religious helpers; no unresolved direct custom calls.
+=== tests/check_culture_key_compatibility.py -> Exit code 0 ===
+Severian uses vanilla ryazanian keys; legacy aliases are save-only
+=== tests/check_cultural_authenticity.py -> Exit code 0 ===
+CULTURAL AUTHENTICITY CHECK: PASS (9 explicit pools, 9 map layers, 217 provenance records; source contracts only)
+=== tests/check_estate_layer.py -> Exit code 0 ===
+Estate files are separated by country and all RIP links are registered
+=== tests/check_event_modifier_layer.py -> Exit code 0 ===
+EVENT MODIFIER CHECK: PASS (1365 unique definitions; no mixed-scope calls)
+=== tests/check_opinion_modifier_layer.py -> Exit code 0 ===
+OPINION MODIFIER LAYER CHECK: PASS (126 unique definitions; all externally used)
+=== tests/check_province_names.py -> Exit code 0 ===
+PROVINCE NAME CHECK: PASS (25 files, 1659 names; target ids, areas, encoding, period, layering and transition continuity hold)
+=== tests/check_government_reforms.py -> Exit code 0 ===
+GOVERNMENT REFORM CHECK: PASS (109 definitions; VFS, tiers, gates, and lifecycle hold)
+=== tests/check_government_reviews.py -> Exit code 0 ===
+EU4 1.37 base-bundle envelope: PASS (Prykaz/Tsardom M1; Cossacks R1; Assembly/Parliament M6)
+GOVERNMENT COMPARATOR COVERAGE: PASS (109 definitions; 115 tier rows verified against installed 1.37)
+GOVERNMENT REVIEW CHECK: PASS (36 payment/stale-state cases; three reviews; one shared term)
+Government campaign power <=105% of EU4 1.37.5: NOT CERTIFIED by this source-contract check.
+=== tests/check_government_names.py -> Exit code 0 ===
+GOVERNMENT NAME CHECK: PASS (60 blocks; priority, reachability, lifecycle, and title contracts hold)
+=== tests/check_glossary.py -> Exit code 0 ===
+глосарій дотримано ✓
+=== tests/check_claim_pacing.py -> Exit code 0 ===
+KIE/KRU, Russia, and long-range claim pacing contracts hold
+=== tests/check_subject_cb_limits.py -> Exit code 0 ===
+Subject-CB durations, eligibility, and target exclusivity are bounded
+=== tests/check_border_principalities.py -> Exit code 0 ===
+Border Principalities and Qasim event contracts hold
+=== tests/check_steppe_expansions.py -> Exit code 0 ===
+Don/Circassian raids, Ottoman reaction, and Kaffa market contracts hold
+=== tests/check_docs_language.py -> Exit code 0 ===
+92%  [##################..]  EU4_MOD_AUDITOR_SKILL_IMPORT.uk.md  (24/26)
+   92%  [##################..]  GAME_DESIGN_DOCUMENT.uk.md  (340/366)
+   94%  [##################..]  core_ruthenia_visual_audit.md  (32/34)
+   94%  [##################..]  PROVINCE_NAMES.md  (93/98)
+   94%  [##################..]  BALANCE_PLAYTEST_REPORT.md  (127/135)
+   95%  [###################.]  MAP_REWORK_SUGGESTIONS.md
+=== tests/check_script_layer.py -> Exit code 0 ===
+WARN  events/KIEmission.txt:3: M_UKR_Events.1 is is_triggered_only but nothing fires it
+WARN  events/VOLmission.txt:3: M_VOL_Events.1 is is_triggered_only but nothing fires it
+WARN  events/RIP.txt:769: bs_flavor.1 is is_triggered_only but nothing fires it
+WARN  events/Chernihiv.txt:3: chr_flavor.1 is is_triggered_only but nothing fires it
+WARN  events/Chernihiv.txt:530: chr_flavor.2 is is_triggere
+
+ALL CRITICAL TESTS PASS: True

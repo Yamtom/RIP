@@ -1,0 +1,34 @@
+country_decisions = {
+ rip_ob_tolerate = {
+  potential = { rip_ob_has_communities = yes NOT = { has_country_flag = rip_ob_toleration } }
+  allow = { rip_ob_can_choose_policy = yes }
+  effect = { add_adm_power = -50 rip_ob_tolerate_effect = yes rip_ob_upkeep_effect = yes }
+  ai_will_do = { factor = 1 }
+ }
+ rip_ob_repress = {
+  potential = { rip_church_ro_jurisdiction = yes rip_ob_has_communities = yes NOT = { has_country_flag = rip_ob_repression } }
+  allow = { rip_ob_can_choose_policy = yes }
+  effect = { add_adm_power = -50 rip_ob_repress_effect = yes rip_ob_upkeep_effect = yes }
+  ai_will_do = { factor = 0 }
+ }
+ rip_ob_adopt_old_rite = {
+  major = yes
+  potential = {
+   OR = { religion = orthodox religion = russian_orthodox }
+   is_religion_enabled = old_believer
+   any_owned_province = { religion = old_believer }
+  }
+  allow = {
+   is_at_war = no stability = 1 adm_power = 100
+   dominant_religion = old_believer
+   capital_scope = { religion = old_believer }
+  }
+  effect = {
+   add_adm_power = -100 add_stability = -1
+   change_religion = old_believer
+   rip_ob_tolerate_effect = yes
+   rip_ob_upkeep_effect = yes
+  }
+  ai_will_do = { factor = 1 }
+ }
+}

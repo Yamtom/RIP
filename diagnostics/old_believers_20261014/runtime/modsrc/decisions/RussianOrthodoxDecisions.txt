@@ -1,0 +1,343 @@
+
+country_decisions = {
+
+	convert_to_russian_orthodox_decision = {
+		major = yes
+		potential = {
+			religion = orthodox
+			NOT = { religion = russian_orthodox }
+			is_russian_orthodox_culture_eligible = yes
+			is_year = 1448
+		}
+		provinces_to_highlight = {
+			province_id = 295 # Moscow
+			NOT = { owned_by = ROOT }
+		}
+		
+		allow = {
+			is_at_war = no
+			stability = 2
+			adm_power = 150
+			dip_power = 100
+			legitimacy = 75
+			OR = {
+				owns = 295 # Moscow
+				capital_scope = {
+					region = russia_region
+				}
+			}
+		}
+		
+		effect = {
+			add_adm_power = -150
+			add_dip_power = -100
+			convert_to_russian_orthodox_effect = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { is_year = 1453 }
+			}
+			modifier = {
+				factor = 5
+				tag = MOS
+			}
+		}
+	}
+
+	establish_moscow_patriarchate_decision = {
+		major = yes
+		potential = {
+			NOT = { has_country_flag = rip_once_establish_moscow_patriarchate_decision }
+			religion = russian_orthodox
+			is_russian_orthodox_culture_eligible = yes
+			NOT = { has_country_modifier = moscow_patriarchate_authority }
+			is_year = 1589
+			NOT = { has_country_flag = rip_ro_stage_patriarchate }
+			OR = {
+				tag = MOS
+				tag = RUS
+			}
+		}
+		
+		allow = {
+			is_at_war = no
+			stability = 2
+			adm_power = 100
+			patriarch_authority = 0.2
+			legitimacy = 80
+		}
+		
+		effect = {
+			set_country_flag = rip_once_establish_moscow_patriarchate_decision
+			add_adm_power = -100
+			add_patriarch_authority = -0.2
+			establish_moscow_patriarchate_effect = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	russification_campaign_decision = {
+		potential = {
+			NOT = { has_country_flag = rip_once_russification_campaign_decision }
+			religion = russian_orthodox
+			is_russian_orthodox_culture_eligible = yes
+			NOT = { has_country_modifier = forced_russification }
+			num_of_owned_provinces_with = {
+				value = 15
+				NOT = { culture_group = east_slavic }
+			}
+		}
+		
+		allow = {
+			adm_power = 100
+			mil_power = 50
+			stability = 1
+		}
+		
+		effect = {
+			set_country_flag = rip_once_russification_campaign_decision
+			add_adm_power = -100
+			add_mil_power = -50
+			start_russification_campaign = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				num_of_owned_provinces_with = {
+					value = 30
+					NOT = { culture_group = east_slavic }
+				}
+			}
+		}
+	}
+
+	establish_orthodox_inquisition_decision = {
+		potential = {
+			NOT = { has_country_flag = rip_once_establish_orthodox_inquisition_decision }
+			religion = russian_orthodox
+			NOT = { has_country_modifier = orthodox_inquisition }
+			has_idea_group = religious_ideas
+		}
+		
+		allow = {
+			adm_power = 75
+			patriarch_authority = 0.15
+			stability = 1
+		}
+		
+		effect = {
+			set_country_flag = rip_once_establish_orthodox_inquisition_decision
+			add_adm_power = -75
+			add_patriarch_authority = -0.15
+			activate_orthodox_inquisition = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				num_of_owned_provinces_with = {
+					value = 20
+					NOT = { religion = russian_orthodox }
+				}
+			}
+		}
+	}
+
+	gathering_russian_lands_decision = {
+		potential = {
+			NOT = { has_country_flag = rip_once_gathering_russian_lands_decision }
+			religion = russian_orthodox
+			is_russian_orthodox_culture_eligible = yes
+			NOT = { has_country_modifier = gathering_russian_lands }
+			any_neighbor_country = {
+				culture_group = east_slavic
+			}
+		}
+		
+		allow = {
+			mil_power = 100
+			legitimacy = 80
+		}
+		
+		effect = {
+			set_country_flag = rip_once_gathering_russian_lands_decision
+			add_mil_power = -100
+			activate_gathering_lands_effect = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 3
+				tag = MOS
+			}
+		}
+	}
+
+	establish_symphonia_decision = {
+		potential = {
+			NOT = { has_country_flag = rip_once_establish_symphonia_decision }
+			religion = russian_orthodox
+			NOT = { has_country_modifier = symphonia_of_powers }
+			government_rank = 3
+		}
+		
+		allow = {
+			adm_power = 100
+			patriarch_authority = 0.2
+			legitimacy = 90
+			stability = 2
+		}
+		
+		effect = {
+			set_country_flag = rip_once_establish_symphonia_decision
+			add_adm_power = -100
+			add_patriarch_authority = -0.2
+			establish_symphonia_effect = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	proclaim_orthodox_empire_decision = {
+		major = yes
+		potential = {
+			NOT = { has_country_flag = rip_once_proclaim_orthodox_empire_decision }
+			religion = russian_orthodox
+			NOT = { has_country_modifier = orthodox_empire_proclaimed }
+			government_rank = 3
+		}
+		
+		allow = {
+			total_development = 500
+			legitimacy = 90
+			prestige = 50
+			adm_power = 150
+			num_of_owned_provinces_with = {
+				value = 50
+				religion = russian_orthodox
+			}
+		}
+		
+		effect = {
+			set_country_flag = rip_once_proclaim_orthodox_empire_decision
+			add_adm_power = -150
+			proclaim_orthodox_empire_effect = yes
+		}
+		
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# EU4 has no province_decisions table, so the earlier version of these two
+	# was parsed as a corrupt entry and dropped, which left
+	# force_convert_province_effect and russify_province_effect uncalled. As
+	# country decisions they take one qualifying province per use, which keeps
+	# the price the province version asked for.
+
+	force_convert_province_decision = {
+		potential = {
+			religion = russian_orthodox
+			has_country_modifier = orthodox_inquisition
+			any_owned_province = {
+				NOT = { religion = russian_orthodox }
+				is_city = yes
+			}
+		}
+
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = { religion = russian_orthodox }
+			is_city = yes
+			NOT = { unrest = 5 }
+		}
+
+		allow = {
+			adm_power = 50
+			religious_unity = 0.5
+			any_owned_province = {
+				NOT = { religion = russian_orthodox }
+				is_city = yes
+				NOT = { unrest = 5 }
+			}
+		}
+
+		effect = {
+			add_adm_power = -50
+			random_owned_province = {
+				limit = {
+					NOT = { religion = russian_orthodox }
+					is_city = yes
+					NOT = { unrest = 5 }
+				}
+				force_convert_province_effect = yes
+			}
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				NOT = { religious_unity = 0.7 }
+			}
+		}
+	}
+
+	russify_province_decision = {
+		potential = {
+			religion = russian_orthodox
+			has_country_modifier = forced_russification
+			any_owned_province = {
+				NOT = { culture_group = east_slavic }
+				is_city = yes
+			}
+		}
+
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = { culture_group = east_slavic }
+			is_city = yes
+			religion = russian_orthodox
+			NOT = { unrest = 5 }
+		}
+
+		allow = {
+			dip_power = 50
+			any_owned_province = {
+				NOT = { culture_group = east_slavic }
+				is_city = yes
+				religion = russian_orthodox
+				NOT = { unrest = 5 }
+			}
+		}
+
+		effect = {
+			add_dip_power = -50
+			random_owned_province = {
+				limit = {
+					NOT = { culture_group = east_slavic }
+					is_city = yes
+					religion = russian_orthodox
+					NOT = { unrest = 5 }
+				}
+				russify_province_effect = yes
+			}
+		}
+
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}

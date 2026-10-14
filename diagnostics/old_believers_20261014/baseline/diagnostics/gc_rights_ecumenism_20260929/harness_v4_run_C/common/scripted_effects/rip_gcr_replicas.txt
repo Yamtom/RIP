@@ -1,0 +1,141 @@
+# Test harness only. Exact copies of rip_church_refresh_relations_effect with the modifiers renamed to probes
+# and a country flag set next to every add_opinion. n = pre-fix (nested) text, s = fixed (sibling) text.
+# Symmetric institutional and rite relations. Greek Catholic relations no longer
+# depend on a numerical orientation resource.
+rip_gcr_replica_nested_effect = {
+ every_country = { limit = { NOT = { tag = ROOT } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_n_union_opposition }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_n_union_opposition } }
+  if = { limit = { OR = {
+   AND = { has_country_flag = rip_church_opposes_union ROOT = { religion = greek_catholic } }
+   AND = { religion = greek_catholic ROOT = { has_country_flag = rip_church_opposes_union } }
+  } }
+   add_opinion = { who = ROOT modifier = rip_gcr_probe_n_union_opposition } set_country_flag = rip_gcr_n_union_opposition
+   ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_n_union_opposition } }
+  }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_n_ro_recognized }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_n_ro_recognized } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_n_ro_unrecognized }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_n_ro_unrecognized } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_n_ro_schism }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_n_ro_schism } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_n_gc_catholic_east }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_n_gc_catholic_east } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_n_gc_catholic_middle }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_n_gc_catholic_middle } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_n_gc_catholic_rome }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_n_gc_catholic_rome } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_n_gc_orthodox_east }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_n_gc_orthodox_east } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_n_gc_orthodox_middle }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_n_gc_orthodox_middle } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_n_gc_orthodox_rome }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_n_gc_orthodox_rome } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_n_gc_ecumenical }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_n_gc_ecumenical } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_n_gc_ro_schism }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_n_gc_ro_schism } }
+  if = { limit = { OR = {
+   AND = { religion = orthodox ROOT = { religion = russian_orthodox } }
+   AND = { religion = russian_orthodox ROOT = { religion = orthodox } }
+  } }
+   if = { limit = { OR = {
+    AND = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic }
+    ROOT = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic }
+   } } add_opinion = { who = ROOT modifier = rip_gcr_probe_n_ro_schism } set_country_flag = rip_gcr_n_ro_schism ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_n_ro_schism } } }
+   else_if = { limit = { OR = {
+    AND = { religion = russian_orthodox rip_church_ro_recognized = yes }
+    ROOT = { religion = russian_orthodox rip_church_ro_recognized = yes }
+   } } add_opinion = { who = ROOT modifier = rip_gcr_probe_n_ro_recognized } set_country_flag = rip_gcr_n_ro_recognized ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_n_ro_recognized } } }
+   else = { add_opinion = { who = ROOT modifier = rip_gcr_probe_n_ro_unrecognized } set_country_flag = rip_gcr_n_ro_unrecognized ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_n_ro_unrecognized } } }
+  }
+  else_if = { limit = { OR = {
+   AND = { religion = catholic ROOT = { religion = greek_catholic } }
+   AND = { religion = greek_catholic ROOT = { religion = catholic } }
+  } }
+   add_opinion = { who = ROOT modifier = rip_gcr_probe_n_gc_catholic_middle } set_country_flag = rip_gcr_n_gc_catholic_middle
+   ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_n_gc_catholic_middle } }
+  }
+  else_if = { limit = { OR = {
+   AND = { OR = { religion = orthodox religion = russian_orthodox } ROOT = { religion = greek_catholic } }
+   AND = { religion = greek_catholic ROOT = { OR = { religion = orthodox religion = russian_orthodox } } }
+  } }
+   add_opinion = { who = ROOT modifier = rip_gcr_probe_n_gc_orthodox_middle } set_country_flag = rip_gcr_n_gc_orthodox_middle
+   ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_n_gc_orthodox_middle } }
+   if = { limit = { OR = {
+    AND = { OR = { religion = orthodox religion = catholic } ROOT = { religion = greek_catholic has_country_flag = rip_church_ecumenical } }
+    AND = { religion = greek_catholic has_country_flag = rip_church_ecumenical ROOT = { OR = { religion = orthodox religion = catholic } } }
+   } } add_opinion = { who = ROOT modifier = rip_gcr_probe_n_gc_ecumenical } set_country_flag = rip_gcr_n_gc_ecumenical ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_n_gc_ecumenical } } }
+  }
+ }
+}
+
+# Symmetric institutional and rite relations. Greek Catholic relations no longer
+# depend on a numerical orientation resource.
+rip_gcr_replica_sibling_effect = {
+ every_country = { limit = { NOT = { tag = ROOT } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_s_union_opposition }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_s_union_opposition } }
+  if = { limit = { OR = {
+   AND = { has_country_flag = rip_church_opposes_union ROOT = { religion = greek_catholic } }
+   AND = { religion = greek_catholic ROOT = { has_country_flag = rip_church_opposes_union } }
+  } }
+   add_opinion = { who = ROOT modifier = rip_gcr_probe_s_union_opposition } set_country_flag = rip_gcr_s_union_opposition
+   ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_s_union_opposition } }
+  }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_s_ro_recognized }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_s_ro_recognized } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_s_ro_unrecognized }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_s_ro_unrecognized } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_s_ro_schism }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_s_ro_schism } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_s_gc_catholic_east }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_s_gc_catholic_east } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_s_gc_catholic_middle }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_s_gc_catholic_middle } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_s_gc_catholic_rome }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_s_gc_catholic_rome } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_s_gc_orthodox_east }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_s_gc_orthodox_east } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_s_gc_orthodox_middle }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_s_gc_orthodox_middle } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_s_gc_orthodox_rome }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_s_gc_orthodox_rome } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_s_gc_ecumenical }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_s_gc_ecumenical } }
+  remove_opinion = { who = ROOT modifier = rip_gcr_probe_s_gc_ro_schism }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_gcr_probe_s_gc_ro_schism } }
+  if = { limit = { OR = {
+   AND = { religion = orthodox ROOT = { religion = russian_orthodox } }
+   AND = { religion = russian_orthodox ROOT = { religion = orthodox } }
+  } }
+   if = { limit = { OR = {
+    AND = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic }
+    ROOT = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic }
+   } } add_opinion = { who = ROOT modifier = rip_gcr_probe_s_ro_schism } set_country_flag = rip_gcr_s_ro_schism ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_s_ro_schism } } }
+   else_if = { limit = { OR = {
+    AND = { religion = russian_orthodox rip_church_ro_recognized = yes }
+    ROOT = { religion = russian_orthodox rip_church_ro_recognized = yes }
+   } } add_opinion = { who = ROOT modifier = rip_gcr_probe_s_ro_recognized } set_country_flag = rip_gcr_s_ro_recognized ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_s_ro_recognized } } }
+   else = { add_opinion = { who = ROOT modifier = rip_gcr_probe_s_ro_unrecognized } set_country_flag = rip_gcr_s_ro_unrecognized ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_s_ro_unrecognized } } }
+  }
+  else_if = { limit = { OR = {
+   AND = { religion = catholic ROOT = { religion = greek_catholic } }
+   AND = { religion = greek_catholic ROOT = { religion = catholic } }
+  } }
+   add_opinion = { who = ROOT modifier = rip_gcr_probe_s_gc_catholic_middle } set_country_flag = rip_gcr_s_gc_catholic_middle
+   ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_s_gc_catholic_middle } }
+  }
+  else_if = { limit = { OR = {
+   AND = { OR = { religion = orthodox religion = russian_orthodox } ROOT = { religion = greek_catholic } }
+   AND = { religion = greek_catholic ROOT = { OR = { religion = orthodox religion = russian_orthodox } } }
+  } }
+   add_opinion = { who = ROOT modifier = rip_gcr_probe_s_gc_orthodox_middle } set_country_flag = rip_gcr_s_gc_orthodox_middle
+   ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_s_gc_orthodox_middle } }
+  }
+  if = { limit = { OR = {
+   AND = { OR = { religion = orthodox religion = catholic } ROOT = { religion = greek_catholic has_country_flag = rip_church_ecumenical } }
+   AND = { religion = greek_catholic has_country_flag = rip_church_ecumenical ROOT = { OR = { religion = orthodox religion = catholic } } }
+  } } add_opinion = { who = ROOT modifier = rip_gcr_probe_s_gc_ecumenical } set_country_flag = rip_gcr_s_gc_ecumenical ROOT = { add_opinion = { who = PREV modifier = rip_gcr_probe_s_gc_ecumenical } } }
+ }
+}

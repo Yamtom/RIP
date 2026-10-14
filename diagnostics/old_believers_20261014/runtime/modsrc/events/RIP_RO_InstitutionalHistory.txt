@@ -1,0 +1,81 @@
+# Chronology is historical; alternative options and numerical costs are design.
+namespace = rip_ro_history
+
+# 1653: correcting service books is distinct from the council's later rupture.
+country_event = {
+ id = rip_ro_history.1
+ title = rip_ro_history.1.t desc = rip_ro_history.1.d
+ picture = REFORM_eventPicture
+ fire_only_once = yes
+ trigger = {
+  rip_church_ro_jurisdiction = yes has_country_flag = rip_ro_stage_patriarchate
+  OR = { tag = MOS tag = RUS }
+  is_year = 1653 NOT = { is_year = 1700 }
+  NOT = { has_country_flag = rip_ro_books_reformed }
+  NOT = { has_country_flag = rip_ro_ritual_compromise }
+ }
+ mean_time_to_happen = { months = 18 }
+ option = {
+  name = rip_ro_history.1.a ai_chance = { factor = 80 }
+  set_country_flag = rip_ro_books_reformed
+  add_patriarch_authority = 0.05
+ }
+ option = {
+  name = rip_ro_history.1.b ai_chance = { factor = 20 }
+  rip_church_ro_ritual_compromise_effect = yes
+ }
+}
+
+# 1700: the monarch can delay election or preserve the institution immediately.
+country_event = {
+ id = rip_ro_history.2
+ title = rip_ro_history.2.t desc = rip_ro_history.2.d
+ picture = RELIGION_eventPicture fire_only_once = yes
+ trigger = {
+  rip_church_ro_jurisdiction = yes has_country_flag = rip_ro_stage_patriarchate
+  OR = { tag = MOS tag = RUS } government = monarchy is_year = 1700
+  NOT = { has_country_flag = rip_ro_synodal_settlement }
+ }
+ mean_time_to_happen = { months = 12 }
+ option = {
+  name = rip_ro_history.2.a ai_chance = { factor = 70 }
+  set_country_flag = rip_ro_patriarchal_interregnum
+  add_country_modifier = { name = rip_ro_patriarchal_vacancy duration = -1 }
+ }
+ option = {
+  name = rip_ro_history.2.b ai_chance = { factor = 30 }
+  set_country_flag = rip_ro_synodal_settlement
+  add_country_modifier = { name = rip_ro_preserved_patriarchate duration = -1 }
+ }
+}
+
+# 1721: an administrative reform does not sever Orthodox communion.
+country_event = {
+ id = rip_ro_history.3
+ title = rip_ro_history.3.t desc = rip_ro_history.3.d
+ picture = REFORM_eventPicture fire_only_once = yes
+ trigger = {
+  rip_church_ro_jurisdiction = yes government = monarchy is_year = 1721
+  has_country_flag = rip_ro_patriarchal_interregnum
+  NOT = { has_country_flag = rip_ro_synodal_settlement }
+ }
+ mean_time_to_happen = { months = 12 }
+ immediate = {
+  set_country_flag = rip_ro_synodal_settlement
+  clr_country_flag = rip_ro_patriarchal_interregnum
+  remove_country_modifier = rip_ro_patriarchal_vacancy
+ }
+ option = {
+  name = rip_ro_history.3.a ai_chance = { factor = 75 }
+  set_country_flag = rip_ro_synodal_government
+  remove_country_modifier = rip_ro_preserved_patriarchate
+  add_country_modifier = { name = rip_ro_synodal_government duration = -1 }
+  add_patriarch_authority = -0.1
+ }
+ option = {
+  name = rip_ro_history.3.b ai_chance = { factor = 25 }
+  remove_country_modifier = rip_ro_synodal_government
+  add_country_modifier = { name = rip_ro_preserved_patriarchate duration = -1 }
+  add_patriarch_authority = 0.1
+ }
+}

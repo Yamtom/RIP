@@ -1,0 +1,59 @@
+# Province effects never change majority when creating a minority community.
+rip_ob_mark_community_effect = {
+ if = { limit = { NOT = { has_province_flag = rip_ob_community } }
+  set_province_flag = rip_ob_community
+  add_province_modifier = { name = rip_ob_local_community duration = -1 }
+ }
+}
+rip_ob_seed_one_effect = {
+ random_owned_province = {
+  limit = { rip_ob_seed_eligible = yes }
+  rip_ob_mark_community_effect = yes
+ }
+}
+rip_ob_begin_schism_effect = {
+ enable_religion = old_believer
+ if = { limit = { NOT = { has_country_flag = rip_ob_schism_initialized } }
+  set_country_flag = rip_ob_schism_initialized
+  rip_ob_seed_one_effect = yes
+  rip_ob_seed_one_effect = yes
+  rip_ob_seed_one_effect = yes
+ }
+}
+rip_ob_tolerate_effect = {
+ clr_country_flag = rip_ob_repression
+ set_country_flag = rip_ob_toleration
+ set_country_flag = rip_ob_policy_changed
+ remove_country_modifier = rip_ob_repressive_policy
+ add_country_modifier = { name = rip_ob_tolerant_policy duration = -1 }
+}
+rip_ob_repress_effect = {
+ clr_country_flag = rip_ob_toleration
+ set_country_flag = rip_ob_repression
+ set_country_flag = rip_ob_policy_changed
+ remove_country_modifier = rip_ob_tolerant_policy
+ add_country_modifier = { name = rip_ob_repressive_policy duration = -1 }
+}
+# Both a conquered minority and an Old Believer majority survive crisis end.
+# Local consequences are recomputed for the CURRENT owner after conquest.
+rip_ob_upkeep_effect = {
+ if = { limit = { has_country_flag = rip_ro_stage_raskol is_year = 1666 rip_church_ro_jurisdiction = yes }
+  rip_ob_begin_schism_effect = yes
+ }
+ if = { limit = { has_disaster = rip_ro_raskol NOT = { has_country_flag = rip_ob_crisis_started } }
+  set_country_flag = rip_ob_crisis_started
+ }
+ every_owned_province = {
+  if = { limit = { religion = old_believer NOT = { has_province_flag = rip_ob_community } }
+   rip_ob_mark_community_effect = yes
+  }
+  remove_province_modifier = rip_ob_local_toleration
+  remove_province_modifier = rip_ob_local_repression
+  if = { limit = { has_province_flag = rip_ob_community owner = { has_country_flag = rip_ob_toleration } }
+   add_province_modifier = { name = rip_ob_local_toleration duration = -1 }
+  }
+  if = { limit = { has_province_flag = rip_ob_community owner = { has_country_flag = rip_ob_repression } }
+   add_province_modifier = { name = rip_ob_local_repression duration = -1 }
+  }
+ }
+}

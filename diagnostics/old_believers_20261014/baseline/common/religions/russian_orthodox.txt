@@ -1,0 +1,95 @@
+christian = {
+	russian_orthodox = {
+		color = { 204 51 51 }
+		icon = 30
+
+		# Initial v3 base; 95% is a campaign-index target, not a scalar for every modifier.
+country = {
+ stability_cost_modifier = -0.05
+ tolerance_own = 0.5
+ # Native PA is compensated by the faith-specific five-point bands.
+ }
+
+		country_as_secondary = {
+			tolerance_own = 1
+			global_colonial_growth = 10
+		}
+
+		province = {
+			local_missionary_strength = -0.01	# as vanilla orthodox
+		}
+
+		# Native authority plus the scripted church pane in the religion host.
+		has_patriarchs = yes
+		misguided_heretic = yes
+		orthodox_icons = {
+rip_ro_native_michael = {
+ discipline = 0
+ allow = { always = no }
+ visible = { always = no }
+ ai_will_do = { factor = 0 }
+}
+rip_ro_native_eleusa = {
+ discipline = 0
+ allow = { always = no }
+ visible = { always = no }
+ ai_will_do = { factor = 0 }
+}
+rip_ro_native_pancreator = {
+ discipline = 0
+ allow = { always = no }
+ visible = { always = no }
+ ai_will_do = { factor = 0 }
+}
+rip_ro_native_nicholas = {
+ discipline = 0
+ allow = { always = no }
+ visible = { always = no }
+ ai_will_do = { factor = 0 }
+}
+			# Preserve the fifth vanilla frame/save index, but offer only four icons.
+rip_ro_native_retired_climacus = {
+ discipline = 0
+ allow = { always = no }
+ visible = { always = no }
+ ai_will_do = { factor = 0 }
+}
+		}
+
+		# THE SECTS THIS CHURCH ACTUALLY BRED.
+		#
+		# BOGOMILIST stood here, inherited from plain orthodox and wrong for a
+		# Muscovite church - the Bogomils were a Balkan movement three centuries
+		# dead by 1448. These five are vanilla's own list for orthodox
+		# (00_religion.txt line 667) and every one of them has a vanilla
+		# localisation key already, so no new text is needed.
+		#
+		# OLD_BELIEVER leads it because it is the one the mod uses: heretic_rebels
+		# spawned by rip_ro_zealot_backlash_effect and by the Raskol disaster are
+		# these people, and they can only carry the name if the name is in the
+		# list.
+		heretic = { old_believer raskolnik heterodox_heretic }
+
+		# THE THREE DATES OF THIS CHURCH
+		#
+		# 1448.12.15 - the metropolitan is elected at Moscow without
+		#              Constantinople's blessing, and the metropolitanate splits
+		#              along the border it will keep. This is the birth of the
+		#              faith, so it is the religion's own date: `date` is what
+		#              is_religion_enabled reads, and setting it to 1589 left the
+		#              mod offering a religion the engine had not switched on for
+		#              another 136 years - convert_to_russian_orthodox_decision
+		#              opens at 1450 and russian_orthodox.1 fired from 1453.
+		# 1589.1.26  - the metropolitan becomes a patriarch: russian_orthodox.2.
+		# 1653       - Nikon's books, and the Raskol: russian_orthodox.6.
+		#
+		# The three are a ladder, not three separate stories. Each stage sets its
+		# flag and the next one asks for it:
+		#   rip_ro_stage_autocephaly -> rip_ro_stage_patriarchate -> rip_ro_stage_raskol
+		date = 1448.12.15
+
+		on_convert = {
+			rip_faith_initialize_hierarchy_effect = yes
+		}
+	}
+}

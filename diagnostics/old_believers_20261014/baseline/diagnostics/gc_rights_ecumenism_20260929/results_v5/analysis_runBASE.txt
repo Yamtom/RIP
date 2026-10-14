@@ -1,0 +1,75 @@
+save: runBASE_first_autosave.eu4 | date=1444.12.1 | run: BASE
+
+ordered pairs checked: 1961400 | pairs where the save differs from the oracle: 938
+  MISMATCH SWE(catholic) -> MOS(greek_catholic): save holds ['gc_ecumenical'], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH DAN(catholic) -> MOS(greek_catholic): save holds ['gc_ecumenical'], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH FIN(catholic) -> MOS(greek_catholic): save holds [], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH GOT(catholic) -> MOS(greek_catholic): save holds ['gc_ecumenical'], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH NOR(catholic) -> MOS(greek_catholic): save holds ['gc_ecumenical'], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH SHL(catholic) -> MOS(greek_catholic): save holds ['gc_ecumenical'], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH EST(catholic) -> MOS(greek_catholic): save holds [], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH LVA(catholic) -> MOS(greek_catholic): save holds [], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH LTG(catholic) -> MOS(greek_catholic): save holds [], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH SMI(catholic) -> MOS(greek_catholic): save holds [], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH KRL(orthodox) -> MOS(greek_catholic): save holds [], oracle wants ['gc_ecumenical', 'gc_orthodox_middle']
+  MISMATCH KRL(orthodox) -> NOV(russian_orthodox): save holds [], oracle wants ['ro_unrecognized']
+  MISMATCH KRL(orthodox) -> PSK(russian_orthodox): save holds [], oracle wants ['ro_schism']
+  MISMATCH KRL(orthodox) -> RYA(russian_orthodox): save holds [], oracle wants ['ro_schism']
+  MISMATCH KRL(orthodox) -> TVE(russian_orthodox): save holds [], oracle wants ['ro_recognized']
+  MISMATCH ICE(catholic) -> MOS(greek_catholic): save holds [], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH ACH(orthodox) -> MOS(greek_catholic): save holds [], oracle wants ['gc_ecumenical', 'gc_orthodox_middle']
+  MISMATCH ACH(orthodox) -> NOV(russian_orthodox): save holds [], oracle wants ['ro_unrecognized']
+  MISMATCH ACH(orthodox) -> PSK(russian_orthodox): save holds [], oracle wants ['ro_schism']
+  MISMATCH ACH(orthodox) -> RYA(russian_orthodox): save holds [], oracle wants ['ro_schism']
+  MISMATCH ACH(orthodox) -> TVE(russian_orthodox): save holds [], oracle wants ['ro_recognized']
+  MISMATCH ALB(catholic) -> MOS(greek_catholic): save holds ['gc_ecumenical'], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH ATH(catholic) -> MOS(greek_catholic): save holds ['gc_ecumenical'], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH BOS(catholic) -> MOS(greek_catholic): save holds ['gc_ecumenical'], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH BUL(orthodox) -> MOS(greek_catholic): save holds [], oracle wants ['gc_ecumenical', 'gc_orthodox_middle']
+  MISMATCH BUL(orthodox) -> NOV(russian_orthodox): save holds [], oracle wants ['ro_unrecognized']
+  MISMATCH BUL(orthodox) -> PSK(russian_orthodox): save holds [], oracle wants ['ro_schism']
+  MISMATCH BUL(orthodox) -> RYA(russian_orthodox): save holds [], oracle wants ['ro_schism']
+  MISMATCH BUL(orthodox) -> TVE(russian_orthodox): save holds [], oracle wants ['ro_recognized']
+  MISMATCH BYZ(orthodox) -> MOS(greek_catholic): save holds ['gc_ecumenical', 'union_opposition'], oracle wants ['gc_ecumenical', 'gc_orthodox_middle', 'union_opposition']
+  MISMATCH BYZ(orthodox) -> NOV(russian_orthodox): save holds [], oracle wants ['ro_unrecognized']
+  MISMATCH BYZ(orthodox) -> TVE(russian_orthodox): save holds [], oracle wants ['ro_recognized']
+  MISMATCH LAE(catholic) -> MOS(greek_catholic): save holds [], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH CEP(catholic) -> MOS(greek_catholic): save holds [], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH CRO(catholic) -> MOS(greek_catholic): save holds ['gc_ecumenical'], oracle wants ['gc_catholic_middle', 'gc_ecumenical']
+  MISMATCH CRT(orthodox) -> MOS(greek_catholic): save holds [], oracle wants ['gc_ecumenical', 'gc_orthodox_middle']
+  MISMATCH CRT(orthodox) -> NOV(russian_orthodox): save holds [], oracle wants ['ro_unrecognized']
+  MISMATCH CRT(orthodox) -> PSK(russian_orthodox): save holds [], oracle wants ['ro_schism']
+  MISMATCH CRT(orthodox) -> RYA(russian_orthodox): save holds [], oracle wants ['ro_schism']
+  MISMATCH CRT(orthodox) -> TVE(russian_orthodox): save holds [], oracle wants ['ro_recognized']
+  ... 898 more
+
+church opinion modifiers held in the save, by holder religion -> target religion:
+  holder           target           modifier                value entries
+  catholic         greek_catholic   gc_ecumenical            15.0     136
+  greek_catholic   catholic         gc_ecumenical            15.0     136
+  greek_catholic   orthodox         gc_ecumenical            15.0      20
+  greek_catholic   orthodox         union_opposition        -10.0       1
+  greek_catholic   russian_orthodox union_opposition        -10.0       1
+  orthodox         greek_catholic   gc_ecumenical            15.0      20
+  orthodox         greek_catholic   union_opposition        -10.0       1
+  orthodox         russian_orthodox ro_schism               -30.0      40
+  russian_orthodox greek_catholic   union_opposition        -10.0       1
+  russian_orthodox orthodox         ro_schism               -30.0      40
+
+scenario countries (religion, flags of the harness/church, opinions others hold TOWARD them):
+  MOS (greek_catholic) flags=['rip_church_ecumenical', 'rip_gcr_step_1_mos', 'rip_gcr_step_4_refreshed']
+      136 x catholic         holds gc_ecumenical
+       20 x orthodox         holds gc_ecumenical
+        1 x orthodox         holds union_opposition
+        1 x russian_orthodox holds union_opposition
+  BYZ (orthodox) flags=['rip_church_opposes_union']
+        1 x greek_catholic   holds gc_ecumenical
+        1 x greek_catholic   holds union_opposition
+        2 x russian_orthodox holds ro_schism
+  NOV (russian_orthodox) flags=['rip_church_opposes_union', 'rip_gcr_step_2_religion', 'rip_gcr_step_3_flags', 'rip_gcr_step_4_refreshed']
+        1 x greek_catholic   holds union_opposition
+  TVE (russian_orthodox) flags=['rip_church_ro_recognized', 'rip_gcr_step_2_religion', 'rip_gcr_step_3_flags', 'rip_gcr_step_4_refreshed']
+  RYA (russian_orthodox) flags=['rip_church_ro_schismatic', 'rip_gcr_step_2_religion', 'rip_gcr_step_3_flags', 'rip_gcr_step_4_refreshed']
+       20 x orthodox         holds ro_schism
+  PSK (russian_orthodox) flags=['rip_church_ro_recognized', 'rip_church_ro_schismatic', 'rip_gcr_step_2_religion', 'rip_gcr_step_3_flags', 'rip_gcr_step_4_refreshed']
+       20 x orthodox         holds ro_schism

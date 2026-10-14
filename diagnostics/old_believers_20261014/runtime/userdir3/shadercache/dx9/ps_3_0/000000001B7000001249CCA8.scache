@@ -1,0 +1,77 @@
+#define PIXEL_SHADER
+#define MAP_SIZE_X 5632.000
+#define MAP_SIZE_Y 2048.000
+#define MAP_POW2_X 1.000
+#define MAP_POW2_Y 1.000
+#define FOW_POW2_X 1.000
+#define FOW_POW2_Y 1.000
+#define PDX_DIRECTX_9
+
+#define mod( X, Y ) ( X % Y )
+
+float fmod_loop( float x, float y )
+{
+  return x - y * floor( x / y );
+}
+
+#define GetMatrixData( Matrix, row, col ) ( Matrix [ row ] [ col ] )
+#define FLIP_SCREEN_POS( X ) ( X )
+#define FLIP_TEXTURE_V( vCoordinate ) ( vCoordinate )
+
+#define sampler2DShadow sampler2D
+
+float3x3 CastTo3x3( in float4x4 M )
+{
+	return (float3x3)M;
+}
+#define Create3x3 float3x3
+
+float2 vec2(float vValue) { return float2(vValue, vValue); }
+float3 vec3(float vValue) { return float3(vValue, vValue, vValue); }
+float4 vec4(float vValue) { return float4(vValue, vValue, vValue, vValue); }
+
+#define tex2Dlod0(samp,uv) tex2Dlod(samp, float4((uv), 0.0, 0.0))
+
+#define PDX_POSITION POSITION
+
+#define PDX_COLOR COLOR
+sampler BaseTexture : register(s0);
+sampler MaskTexture : register(s1);
+float4x4 WorldViewProjectionMatrix : register(c0);
+float4 Color : register(c4);
+float4 FlagCoords : register(c5);
+float4 FlagSize : register(c6);
+float4 CustomColor0 : register(c7);
+float4 CustomColor1 : register(c8);
+float4 CustomColor2 : register(c9);
+float4 ColonialColor : register(c10);
+float ColonialCutoff : register(c11);
+
+struct VS_INPUT
+{
+	float4 vPosition : POSITION;
+	float4 vTexCoord : TEXCOORD0;
+};
+struct VS_OUTPUT
+{
+	float4 vPosition : PDX_POSITION;
+	float4 vTexCoord : TEXCOORD0;
+};
+float4 main( VS_OUTPUT v ) : PDX_COLOR
+		{
+		 	float4 OutColor = tex2D( BaseTexture, v.vTexCoord.xy );
+			float4 MaskColor = tex2D( MaskTexture, v.vTexCoord.zw );
+			if( v.vTexCoord.z > ColonialCutoff )
+			{
+				OutColor = ColonialColor;
+			}
+			else 
+			{
+				OutColor = OutColor.r * CustomColor0 + OutColor.g * CustomColor1 + OutColor.b * CustomColor2;	
+			}
+			OutColor.a = MaskColor.a;
+			OutColor.rgb += float3(0.1, 0.1, 0.1);
+			OutColor *= Color;
+			return OutColor;
+		}
+	

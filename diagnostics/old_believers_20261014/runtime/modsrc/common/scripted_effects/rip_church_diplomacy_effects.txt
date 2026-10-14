@@ -1,0 +1,101 @@
+# Symmetric institutional and rite relations. Greek Catholic relations no longer
+# depend on a numerical orientation resource.
+rip_church_refresh_relations_effect = {
+ every_country = { limit = { NOT = { tag = ROOT } }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_union_opposition }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_union_opposition } }
+  if = { limit = { OR = {
+   AND = { has_country_flag = rip_church_opposes_union ROOT = { religion = greek_catholic } }
+   AND = { religion = greek_catholic ROOT = { has_country_flag = rip_church_opposes_union } }
+  } }
+   add_opinion = { who = ROOT modifier = rip_church_opinion_union_opposition }
+   ROOT = { add_opinion = { who = PREV modifier = rip_church_opinion_union_opposition } }
+  }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_ro_recognized }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_ro_recognized } }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_ro_unrecognized }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_ro_unrecognized } }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_ro_schism }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_ro_schism } }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_gc_catholic_east }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_gc_catholic_east } }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_gc_catholic_middle }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_gc_catholic_middle } }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_gc_catholic_rome }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_gc_catholic_rome } }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_gc_orthodox_east }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_gc_orthodox_east } }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_gc_orthodox_middle }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_gc_orthodox_middle } }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_gc_orthodox_rome }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_gc_orthodox_rome } }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_gc_ecumenical }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_gc_ecumenical } }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_gc_ro_schism }
+  ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_gc_ro_schism } }
+  # EU4 1.37.5 does not store an add_opinion made inside an else_if / else body
+  # (diagnostics/gc_rights_ecumenism_20260929: it persists in an if or unconditionally, and in
+  # a top-level if of this loop). So each pair below is its own top-level `if`, and the limits
+  # are mutually exclusive instead of relying on an if / else_if / else chain:
+  #  - the pair kinds never overlap by religion: {orthodox, russian_orthodox},
+  #    {catholic, greek_catholic}, {orthodox or russian_orthodox, greek_catholic};
+  #  - inside the first pair schism, recognized and unrecognized exclude each other explicitly.
+  # Do not turn these back into else_if / else.
+  if = { limit = {
+   OR = {
+    AND = { religion = orthodox ROOT = { religion = russian_orthodox } }
+    AND = { religion = russian_orthodox ROOT = { religion = orthodox } }
+   }
+   OR = {
+    AND = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic }
+    ROOT = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic }
+   }
+  } add_opinion = { who = ROOT modifier = rip_church_opinion_ro_schism } ROOT = { add_opinion = { who = PREV modifier = rip_church_opinion_ro_schism } } }
+  if = { limit = {
+   OR = {
+    AND = { religion = orthodox ROOT = { religion = russian_orthodox } }
+    AND = { religion = russian_orthodox ROOT = { religion = orthodox } }
+   }
+   NOT = { OR = {
+    AND = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic }
+    ROOT = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic }
+   } }
+   OR = {
+    AND = { religion = russian_orthodox rip_church_ro_recognized = yes }
+    ROOT = { religion = russian_orthodox rip_church_ro_recognized = yes }
+   }
+  } add_opinion = { who = ROOT modifier = rip_church_opinion_ro_recognized } ROOT = { add_opinion = { who = PREV modifier = rip_church_opinion_ro_recognized } } }
+  if = { limit = {
+   OR = {
+    AND = { religion = orthodox ROOT = { religion = russian_orthodox } }
+    AND = { religion = russian_orthodox ROOT = { religion = orthodox } }
+   }
+   NOT = { OR = {
+    AND = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic }
+    ROOT = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic }
+   } }
+   NOT = { OR = {
+    AND = { religion = russian_orthodox rip_church_ro_recognized = yes }
+    ROOT = { religion = russian_orthodox rip_church_ro_recognized = yes }
+   } }
+  } add_opinion = { who = ROOT modifier = rip_church_opinion_ro_unrecognized } ROOT = { add_opinion = { who = PREV modifier = rip_church_opinion_ro_unrecognized } } }
+  if = { limit = { OR = {
+   AND = { religion = catholic ROOT = { religion = greek_catholic } }
+   AND = { religion = greek_catholic ROOT = { religion = catholic } }
+  } }
+   add_opinion = { who = ROOT modifier = rip_church_opinion_gc_catholic_middle }
+   ROOT = { add_opinion = { who = PREV modifier = rip_church_opinion_gc_catholic_middle } }
+  }
+  if = { limit = { OR = {
+   AND = { OR = { religion = orthodox religion = russian_orthodox } ROOT = { religion = greek_catholic } }
+   AND = { religion = greek_catholic ROOT = { OR = { religion = orthodox religion = russian_orthodox } } }
+  } }
+   add_opinion = { who = ROOT modifier = rip_church_opinion_gc_orthodox_middle }
+   ROOT = { add_opinion = { who = PREV modifier = rip_church_opinion_gc_orthodox_middle } }
+  }
+  if = { limit = { OR = {
+   AND = { OR = { religion = orthodox religion = catholic } ROOT = { religion = greek_catholic has_country_flag = rip_church_ecumenical } }
+   AND = { religion = greek_catholic has_country_flag = rip_church_ecumenical ROOT = { OR = { religion = orthodox religion = catholic } } }
+  } } add_opinion = { who = ROOT modifier = rip_church_opinion_gc_ecumenical } ROOT = { add_opinion = { who = PREV modifier = rip_church_opinion_gc_ecumenical } } }
+ }
+}

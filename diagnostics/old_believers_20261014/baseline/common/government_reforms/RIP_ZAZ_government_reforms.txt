@@ -1,0 +1,237 @@
+# =============================================================================
+# RIP_ZAZ_government_reforms
+# Definitions are grouped by polity or by an explicitly shared reform family.
+# =============================================================================
+
+zaz_sich_brotherhood_reform = {
+	icon = "rip_gfx_reform_zaz_sich_brotherhood_icon"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = zaz_sich_brotherhood_reform
+			AND = {
+				tag = ZAZ
+				is_cossack_polity = yes
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = zaz_sich_brotherhood_reform
+			AND = {
+				tag = ZAZ
+				is_cossack_polity = yes
+			}
+		}
+	}
+	modifiers = {
+		republican_tradition = 0.5
+		global_unrest = -2
+		army_tradition = 0.25
+		governing_capacity_modifier = -0.1
+		max_absolutism = -20
+	}
+	custom_attributes = {
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+zaz_kosh_elections_reform = {
+	icon = "man_on_podium"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = zaz_kosh_elections_reform
+			tag = ZAZ
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = zaz_kosh_elections_reform
+			tag = ZAZ
+		}
+	}
+	duration = 1
+	has_term_election = yes
+	modifiers = {
+		reelection_cost = -0.25
+		yearly_corruption = -0.1
+		possible_mil_policy = 1
+		reform_progress_growth = -0.05
+		max_absolutism = -10
+	}
+	custom_attributes = {
+		bonus_stats_for_elected_ruler = yes
+	}
+	ai = {
+		factor = 8
+	}
+}
+
+zaz_chaiky_trade_reform = {
+	icon = "sea_raiders"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = zaz_chaiky_trade_reform
+			tag = ZAZ
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = zaz_chaiky_trade_reform
+			tag = ZAZ
+		}
+	}
+	modifiers = {
+		privateer_efficiency = 0.15
+		trade_efficiency = 0.05
+		diplomatic_reputation = -1
+		allowed_marine_fraction = 0.1
+	}
+	ai = {
+		factor = 7
+	}
+}
+
+zaz_general_rada_reform = {
+	icon = "assembly_hall"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = zaz_general_rada_reform
+			tag = ZAZ
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = zaz_general_rada_reform
+			tag = ZAZ
+		}
+	}
+	different_religion_acceptance = 30
+	modifiers = {
+		global_unrest = -0.5
+		years_of_nationalism = -5
+		stability_cost_modifier = 0.1
+		may_recruit_female_generals = yes
+		female_advisor_chance = 0.25
+	}
+
+	custom_attributes = {
+		can_force_election = yes
+	}
+
+	ai = {
+		factor = 8
+	}
+}
+
+zaz_free_host_reform = {
+	icon = "rip_gfx_reform_zaz_free_host_icon"
+	allow_normal_conversion = no
+	potential = {
+		OR = {
+			has_reform = zaz_free_host_reform
+			tag = ZAZ
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = zaz_free_host_reform
+			AND = {
+				tag = ZAZ
+				OR = {
+					is_year = 1650
+					AND = {
+						NOT = { is_year = 1650 }
+						OR = {
+							has_institution = renaissance
+							current_age = age_of_reformation
+						}
+						army_size_percentage = 1
+						manpower_percentage = 1
+					}
+				}
+			}
+		}
+	}
+	modifiers = {
+		cavalry_power = 0.1
+		army_tradition = 0.5
+		republican_tradition = 0.25
+	}
+	custom_attributes = {
+		winning_wars_gives_rt = yes
+	}
+	ai = {
+		factor = 10
+	}
+}
+
+zaz_last_sich_reform = {
+	icon = "rip_gfx_reform_zaz_last_sich_icon"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			has_reform = zaz_last_sich_reform
+			AND = {
+				zaz_lineage_country = yes
+				is_subject = yes
+				OR = {
+					is_year = 1734
+					AND = {
+						OR = {
+							has_institution = global_trade
+							current_age = age_of_absolutism
+						}
+						liberty_desire = 65
+						army_size_percentage = 0.8
+						manpower_percentage = 0.75
+					}
+				}
+			}
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = zaz_last_sich_reform
+			AND = {
+				zaz_lineage_country = yes
+				is_subject = yes
+				OR = {
+					is_year = 1734
+					AND = {
+						OR = {
+							has_institution = global_trade
+							current_age = age_of_absolutism
+						}
+						liberty_desire = 65
+						army_size_percentage = 0.8
+						manpower_percentage = 0.75
+					}
+				}
+			}
+		}
+	}
+	modifiers = {
+		defensiveness = 0.15
+		fort_maintenance_modifier = -0.1
+		diplomatic_reputation = -1
+		liberty_desire = 15
+	}
+	custom_attributes = {
+		mercs_do_not_cost_army_professionalism = yes
+	}
+	ai = {
+		factor = 8
+		modifier = {
+			factor = 2
+			liberty_desire = 80
+		}
+	}
+}

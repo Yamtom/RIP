@@ -1,0 +1,50 @@
+# Settlement stage and area bookkeeping. Missionaries and the native Union
+# centre handle conversion. Former automatic budget/trade loops are retired.
+
+rip_faith_advance_stage_effect = {
+	if = {
+		limit = { NOT = { check_variable = { which = rip_faith_stage value = 1 } } }
+		set_variable = { which = rip_faith_stage value = 2 }
+	}
+	else_if = {
+		limit = { NOT = { check_variable = { which = rip_faith_stage value = 3 } } }
+		change_variable = { which = rip_faith_stage value = 1 }
+	}
+}
+
+rip_faith_reset_stage_effect = {
+	set_variable = { which = rip_faith_stage value = 1 }
+}
+
+rip_uc_mark_uniate_areas_effect = {
+	# The yearly pulse runs for every country: perform one global sweep,
+	# not the same full-map scan hundreds of times in the same year.
+	if = {
+		limit = {
+			OR = {
+				NOT = { has_global_flag = rip_uc_area_sweep_recent }
+				had_global_flag = { flag = rip_uc_area_sweep_recent days = 365 }
+			}
+		}
+		clr_global_flag = rip_uc_area_sweep_recent
+		set_global_flag = rip_uc_area_sweep_recent
+		every_province = {
+			limit = { has_province_flag = rip_uc_area_all_uniate }
+			clr_province_flag = rip_uc_area_all_uniate
+		}
+		every_province = {
+			limit = {
+				is_city = yes
+				religion = greek_catholic
+				NOT = {
+					any_province = {
+						area = PREV
+						is_city = yes
+						NOT = { religion = greek_catholic }
+					}
+				}
+			}
+			set_province_flag = rip_uc_area_all_uniate
+		}
+	}
+}

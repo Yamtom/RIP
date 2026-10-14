@@ -1,0 +1,135 @@
+
+owner = LIT
+controller = LIT  
+culture = ruthenian
+religion = orthodox
+hre = no
+base_tax = 6
+base_production = 6
+trade_goods = grain 
+base_manpower = 4
+capital = "Kyiv"
+is_city = yes
+add_core = KIE
+add_core = LIT
+discovered_by = western
+discovered_by = eastern
+discovered_by = muslim
+discovered_by = ottoman
+discovered_by = nomad_group
+extra_cost = 16
+center_of_trade = 2
+
+1444.11.1 = { owner = KIE controller = KIE remove_core = LIT }
+
+1550.1.1 = { fort_15th = yes }
+
+1569.7.1 = {
+	owner = PLC
+	controller = PLC
+	add_core = PLC
+	base_tax = 7
+	base_production = 7
+}
+
+1595.1.1 = { unrest = 5 }
+1596.1.1 = { unrest = 8 } # Union proclaimed
+1620.1.1 = { unrest = 4 } # Battle of Cecora
+
+1632.1.1 = { 
+	unrest = 2
+	add_province_modifier = {
+		name = "kyiv_mohyla_academy"
+		duration = -1
+	}
+}
+
+1648.1.1 = {
+	revolt = { type = nationalist_rebels size = 3 }
+	controller = REB
+	add_core = ZAZ
+	add_core = HET
+	unrest = 15
+}
+
+1648.6.1 = { 
+	revolt = {} 
+	controller = ZAZ
+	owner = ZAZ
+	unrest = 0
+}
+
+1649.8.8 = {
+	add_province_modifier = {
+		name = "hetmanate_capital"
+		duration = -1
+	}
+}
+
+1654.1.8 = { 
+	add_province_modifier = {
+		name = "het_kyiv_russian_protection"
+		duration = -1
+	}
+}
+
+1658.9.16 = {
+	owner = PLC
+	controller = PLC
+	remove_core = ZAZ
+}
+
+1659.6.17 = {
+	owner = ZAZ
+	controller = ZAZ
+	add_core = ZAZ
+	remove_core = PLC
+}
+
+1663.1.1 = {
+	unrest = 8
+}
+
+1667.1.30 = {
+	owner = RUS
+	controller = RUS
+	add_core = RUS
+	remove_core = PLC
+}
+
+1687.1.1 = {
+	base_tax = 8
+	base_production = 8
+	add_province_modifier = {
+		name = "het_kyiv_mazepa_golden_age"
+		duration = 8030
+	}
+}
+
+1709.7.8 = { 
+	unrest = 6
+	remove_province_modifier = hetmanate_capital
+}
+
+1722.1.1 = {
+	remove_province_modifier = "het_kyiv_russian_protection"
+}
+
+1750.1.1 = {
+	add_province_modifier = {
+		name = "kyiv_autonomy_guaranteed"
+		duration = 5475
+	}
+}
+
+1764.11.10 = {
+	remove_province_modifier = kyiv_autonomy_guaranteed
+	remove_province_modifier = kyiv_mohyla_academy
+	remove_core = HET
+	remove_core = ZAZ
+	unrest = 4
+}
+
+1768.1.1 = { unrest = 12 }
+1769.1.1 = { unrest = 3 }
+1770.1.1 = { unrest = 0 }

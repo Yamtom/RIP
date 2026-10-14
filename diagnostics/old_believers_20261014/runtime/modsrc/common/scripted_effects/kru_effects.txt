@@ -1,0 +1,203 @@
+# ========================================================================
+# KRU - the Kyivan Confederation.
+#
+# The rada is the vanilla FACTION mechanic. common/factions/RIP_kru_factions.txt
+# defines the three blocs (kru_knyazi / kru_boyary / kru_starshyna); the three
+# ruthenian_factional_empire_*_reform ids turn it on with
+# `factions = { ... }`. Vanilla accrues the influence, names the bloc in power
+# and applies its modifier, and draws the panel. This file only:
+#   - drifts influence slightly toward the bloc the country's state favours,
+#   - keeps the reform id in sync with faction_in_power (the ruling pair),
+#   - gives a second bloc that still commands the rada a partial voice.
+# Former custom variables (kru_*_influence) and the states_general fake are
+# retired; kru_clear_faction_modifiers_effect also migrates the old KRU_pair_*
+# modifiers off a loaded save.
+# ========================================================================
+
+# A small yearly nudge, on top of vanilla drift, events and the court buttons.
+kru_faction_state_drift_effect = {
+	if = { limit = { legitimacy_equivalent = 60 } add_faction_influence = { faction = kru_knyazi influence = 1 } }
+	if = { limit = { num_of_subjects = 2 } add_faction_influence = { faction = kru_knyazi influence = 1 } }
+	if = { limit = { stability = 2 } add_faction_influence = { faction = kru_boyary influence = 1 } }
+	if = { limit = { treasury = 300 } add_faction_influence = { faction = kru_boyary influence = 1 } }
+	if = { limit = { army_tradition = 40 } add_faction_influence = { faction = kru_starshyna influence = 1 } }
+	if = { limit = { is_at_war = yes } add_faction_influence = { faction = kru_starshyna influence = 1 } }
+}
+
+kru_clear_faction_modifiers_effect = {
+	remove_country_modifier = KRU_junior_knyazi
+	remove_country_modifier = KRU_junior_boyary
+	remove_country_modifier = KRU_junior_starshyna
+	# migration - the retired pair modifiers
+	remove_country_modifier = KRU_pair_knyazi_boyary
+	remove_country_modifier = KRU_pair_knyazi_hetmany
+	remove_country_modifier = KRU_pair_boyary_hetmany
+	remove_country_modifier = KRU_courting_knyazi
+	remove_country_modifier = KRU_courting_boyary
+	remove_country_modifier = KRU_courting_starshyna
+}
+
+# The reform id is the ruling pair - it names which bloc is sidelined. That is
+# the bloc in power plus whichever of the other two still holds the rada:
+#   knyazi in power -> excludes starshyna or boyary; etc.
+# The id therefore follows faction_in_power to the pair that keeps the strongest
+# runner-up. Guarded by KRU_factional_pair_shift_cooldown so it does not thrash.
+kru_sync_reform_to_faction_effect = {
+	if = {
+		limit = { NOT = { has_country_modifier = KRU_factional_pair_shift_cooldown } }
+		if = {
+			limit = {
+				faction_in_power = kru_knyazi
+				faction_influence = { faction = kru_boyary influence = 33 }
+				NOT = { has_reform = ruthenian_factional_empire_reform }
+			}
+			remove_government_reform = ruthenian_factional_empire_princes_hetmans_reform
+			remove_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
+			add_government_reform = ruthenian_factional_empire_reform
+			add_country_modifier = { name = KRU_factional_pair_shift_cooldown duration = 1825 }
+		}
+		else_if = {
+			limit = {
+				OR = {
+					AND = { faction_in_power = kru_knyazi  faction_influence = { faction = kru_starshyna influence = 33 } }
+					AND = { faction_in_power = kru_starshyna  faction_influence = { faction = kru_knyazi influence = 33 } }
+				}
+				NOT = { has_reform = ruthenian_factional_empire_princes_hetmans_reform }
+			}
+			remove_government_reform = ruthenian_factional_empire_reform
+			remove_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
+			add_government_reform = ruthenian_factional_empire_princes_hetmans_reform
+			add_country_modifier = { name = KRU_factional_pair_shift_cooldown duration = 1825 }
+		}
+		else_if = {
+			limit = {
+				OR = {
+					AND = { faction_in_power = kru_boyary  faction_influence = { faction = kru_starshyna influence = 33 } }
+					AND = { faction_in_power = kru_starshyna  faction_influence = { faction = kru_boyary influence = 33 } }
+				}
+				NOT = { has_reform = ruthenian_factional_empire_boyars_hetmans_reform }
+			}
+			remove_government_reform = ruthenian_factional_empire_reform
+			remove_government_reform = ruthenian_factional_empire_princes_hetmans_reform
+			add_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
+			add_country_modifier = { name = KRU_factional_pair_shift_cooldown duration = 1825 }
+		}
+	}
+}
+
+# A bloc not in power but still above 38 influence sits in the ruling coalition
+# and keeps a partial voice - half of what it would give in power.
+kru_apply_junior_blocs_effect = {
+	if = {
+		limit = { NOT = { faction_in_power = kru_knyazi }  faction_influence = { faction = kru_knyazi influence = 38 } }
+		add_country_modifier = { name = KRU_junior_knyazi duration = -1 }
+	}
+	if = {
+		limit = { NOT = { faction_in_power = kru_boyary }  faction_influence = { faction = kru_boyary influence = 38 } }
+		add_country_modifier = { name = KRU_junior_boyary duration = -1 }
+	}
+	if = {
+		limit = { NOT = { faction_in_power = kru_starshyna }  faction_influence = { faction = kru_starshyna influence = 38 } }
+		add_country_modifier = { name = KRU_junior_starshyna duration = -1 }
+	}
+}
+
+kru_update_dominant_pair_effect = {
+	kru_faction_state_drift_effect = yes
+	kru_clear_faction_modifiers_effect = yes
+	kru_sync_reform_to_faction_effect = yes
+	kru_apply_junior_blocs_effect = yes
+}
+
+kru_confederation_recognised_effect = {
+	if = {
+		limit = { NOT = { has_country_flag = kru_confederation_recognised } }
+		set_country_flag = kru_confederation_recognised
+
+		# The former overlords have to answer first - they are the ones losing
+		# the palatinates.
+		if = {
+			limit = { exists = LIT }
+			LIT = { country_event = { id = svydrigaylo.300 days = 5 } }
+		}
+		if = {
+			limit = { exists = PLC }
+			PLC = { country_event = { id = svydrigaylo.301 days = 5 } }
+		}
+		else_if = {
+			limit = { exists = POL }
+			POL = { country_event = { id = svydrigaylo.301 days = 5 } }
+		}
+
+		# Moscow holds the rival claim to the Rus succession.
+		if = {
+			limit = { exists = RUS }
+			RUS = { country_event = { id = svydrigaylo.302 days = 10 } }
+		}
+		else_if = {
+			limit = { exists = MOS }
+			MOS = { country_event = { id = svydrigaylo.302 days = 10 } }
+		}
+
+		# The southern powers weigh a Ruthenian state against Poland.
+		if = {
+			limit = { exists = TUR }
+			TUR = { country_event = { id = svydrigaylo.303 days = 15 } }
+		}
+		if = {
+			limit = { exists = CRI }
+			CRI = { country_event = { id = svydrigaylo.304 days = 15 } }
+		}
+		if = {
+			limit = { exists = MOL }
+			MOL = { country_event = { id = svydrigaylo.305 days = 20 } }
+		}
+		if = {
+			limit = { exists = WAL }
+			WAL = { country_event = { id = svydrigaylo.306 days = 20 } }
+		}
+
+		# Everyone else settles into one of two positions without an event:
+		# the Orthodox world accepts Kyiv as the senior seat of the Rus, and
+		# whoever already favours us backs the confederation politically.
+		every_known_country = {
+			limit = {
+				NOT = { tag = ROOT }
+				religion = orthodox
+				NOT = { tag = MOS }
+				NOT = { tag = RUS }
+				NOT = { tag = ZAZ }
+				NOT = { tag = HET }
+				NOT = { tag = CHR }
+				NOT = { tag = KIE }
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = kyivan_confederation_successor
+			}
+		}
+		every_known_country = {
+			limit = {
+				NOT = { tag = ROOT }
+				NOT = { religion = orthodox }
+				NOT = { tag = LIT }
+				NOT = { tag = POL }
+				NOT = { tag = PLC }
+				NOT = { tag = MOS }
+				NOT = { tag = RUS }
+				NOT = { tag = TUR }
+				NOT = { tag = CRI }
+				NOT = { tag = MOL }
+				NOT = { tag = WAL }
+				has_opinion = {
+					who = ROOT
+					value = 50
+				}
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = supports_ruthenian_confederation
+			}
+		}
+	}
+}

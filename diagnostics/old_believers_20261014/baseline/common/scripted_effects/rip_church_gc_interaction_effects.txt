@@ -1,0 +1,36 @@
+rip_church_gc_activate_icon_liturgy_effect = {
+ if = { limit = { rip_church_gc_can_activate_icon_liturgy = yes } add_patriarch_authority = -0.2 add_country_modifier = { name = rip_church_gc_icon_liturgy duration = 1825 } }
+}
+rip_church_gc_activate_icon_learning_effect = {
+ if = { limit = { rip_church_gc_can_activate_icon_learning = yes } add_patriarch_authority = -0.2 add_country_modifier = { name = rip_church_gc_icon_learning duration = 1825 } }
+}
+rip_church_gc_activate_icon_charity_effect = {
+ if = { limit = { rip_church_gc_can_activate_icon_charity = yes } add_patriarch_authority = -0.2 add_country_modifier = { name = rip_church_gc_icon_charity duration = 1825 } }
+}
+rip_church_gc_clear_interaction_effects = {
+ remove_country_modifier = rip_church_gc_icon_liturgy
+ remove_country_modifier = rip_church_gc_icon_learning
+ remove_country_modifier = rip_church_gc_icon_charity
+}
+
+# Country scope, called monthly. The same guarded transactions serve GUI and AI.
+# Crisis relief may use the last 20 PA; routine choices leave 20 PA for institutions.
+rip_church_gc_ai_icons_effect = {
+ if = { limit = { ai = yes rip_church_gc_can_activate_icons = yes }
+  if = { limit = {
+   OR = {
+    num_of_rebel_armies = 1
+    NOT = { stability = 0 }
+    any_owned_province = { unrest = 3 }
+   }
+  } rip_church_gc_activate_icon_charity_effect = yes }
+  else_if = { limit = { patriarch_authority = 0.4 NOT = { prestige = 25 } }
+   rip_church_gc_activate_icon_liturgy_effect = yes
+  }
+  else_if = { limit = {
+   patriarch_authority = 0.4 is_at_war = no
+   OR = { adm_power = 600 dip_power = 600 mil_power = 600 }
+   any_owned_province = { is_city = yes controlled_by = ROOT }
+  } rip_church_gc_activate_icon_learning_effect = yes }
+ }
+}

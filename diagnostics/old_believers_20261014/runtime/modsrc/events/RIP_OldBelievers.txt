@@ -1,0 +1,56 @@
+namespace = rip_ob
+
+# A state election is not a population conversion. Only a settled Orthodox
+# core in the Russian region can gradually adopt the Muscovite affiliation.
+province_event = {
+ id = rip_ob.1 title = rip_ob.1.t desc = rip_ob.1.d picture = RELIGION_eventPicture
+ trigger = {
+  religion = orthodox is_city = yes region = russia_region
+  is_core = owner controlled_by = owner NOT = { has_missionary = yes }
+  NOT = { has_province_flag = rip_ob_community }
+  owner = {
+   religion = russian_orthodox is_at_war = no stability = 1
+   had_country_flag = { flag = rip_ro_stage_autocephaly days = 3650 }
+   NOT = { has_country_flag = rip_church_ro_schismatic }
+  }
+ }
+ mean_time_to_happen = { months = 180 }
+ option = { name = rip_ob.1.a change_religion = russian_orthodox }
+}
+
+# A ten-year minimum community history precedes a probabilistic majority shift.
+# Conquest never makes a Greek/Kyivan Orthodox parish an Old Believer community.
+province_event = {
+ id = rip_ob.2 title = rip_ob.2.t desc = rip_ob.2.d picture = RELIGION_eventPicture
+ trigger = {
+  is_year = 1666 is_city = yes controlled_by = owner NOT = { has_missionary = yes }
+  had_province_flag = { flag = rip_ob_community days = 3650 }
+  OR = { religion = orthodox religion = russian_orthodox }
+  OR = {
+   NOT = { has_province_flag = rip_ob_majority_reviewed }
+   had_province_flag = { flag = rip_ob_majority_reviewed days = 3650 }
+  }
+ }
+ mean_time_to_happen = { months = 120 }
+ immediate = { set_province_flag = rip_ob_majority_reviewed }
+ option = {
+  name = rip_ob.2.a ai_chance = { factor = 60 }
+  owner = { enable_religion = old_believer }
+  change_religion = old_believer
+ }
+ option = { name = rip_ob.2.b ai_chance = { factor = 40 } add_local_autonomy = 10 }
+}
+
+# Expansion is adjacency-bound and requires a decade-old neighbouring community.
+province_event = {
+ id = rip_ob.3 title = rip_ob.3.t desc = rip_ob.3.d picture = COLONIZATION_eventPicture
+ trigger = {
+  is_year = 1666 rip_ob_seed_eligible = yes
+  any_neighbor_province = {
+   religion = old_believer
+   had_province_flag = { flag = rip_ob_community days = 3650 }
+  }
+ }
+ mean_time_to_happen = { months = 240 }
+ option = { name = rip_ob.3.a rip_ob_mark_community_effect = yes }
+}

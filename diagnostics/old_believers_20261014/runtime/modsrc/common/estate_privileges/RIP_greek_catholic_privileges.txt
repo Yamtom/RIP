@@ -1,0 +1,313 @@
+# RIP - Church-estate privileges that react to the Greek Catholic faith.
+#
+# Three groups, one question each:
+#   Catholic crowns holding Greek Catholic parishes: protect the Eastern rite
+#   or latinise it (the Synod of Zamosc, 1720, took the second road).
+#   Orthodox crowns holding Greek Catholic parishes: brotherhood charters
+#   against the Union, or a concord with its parishes.
+#   Greek Catholic crowns: how the Union stands toward Rome and toward the
+#   Orthodox, and the Basilian schools that served both.
+# The numbers are gameplay values, not a documented historical formula.
+
+rip_privilege_eastern_rite_eparchies = {
+	icon = privilege_grant_autonomy
+	max_absolutism = -5
+	loyalty = 0.1
+	influence = 0.05
+
+	is_valid = {
+		religion = catholic
+		rip_gc_owns_greek_catholic_province = yes
+		NOT = { has_estate_privilege = rip_privilege_latin_rite_primacy }
+	}
+
+	can_select = {
+		religion = catholic
+		rip_gc_owns_greek_catholic_province = yes
+		NOT = { has_estate_privilege = rip_privilege_latin_rite_primacy }
+	}
+
+	penalties = {
+		stability_cost_modifier = 0.05
+	}
+
+	benefits = {
+		tolerance_heretic = 1
+		improve_relation_modifier = 0.1
+	}
+
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 3
+			is_at_war = no
+		}
+	}
+}
+
+rip_privilege_latin_rite_primacy = {
+	icon = privilege_religious
+	max_absolutism = -5
+	loyalty = 0.1
+	influence = 0.1
+
+	is_valid = {
+		religion = catholic
+		rip_gc_owns_greek_catholic_province = yes
+		NOT = { has_estate_privilege = rip_privilege_eastern_rite_eparchies }
+	}
+
+	can_select = {
+		religion = catholic
+		rip_gc_owns_greek_catholic_province = yes
+		NOT = { has_estate_privilege = rip_privilege_eastern_rite_eparchies }
+	}
+
+	penalties = {
+		tolerance_heretic = -1
+		global_unrest = 0.25
+	}
+
+	benefits = {
+		global_missionary_strength = 0.01
+		stability_cost_modifier = -0.05
+	}
+
+	ai_will_do = {
+		factor = 5
+		modifier = {
+			factor = 3
+			is_at_war = yes
+		}
+	}
+}
+
+rip_privilege_brotherhood_charters = {
+	icon = privilege_seek_support_of_clergy
+	max_absolutism = -5
+	loyalty = 0.1
+	influence = 0.1
+
+	is_valid = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		rip_gc_owns_greek_catholic_province = yes
+		NOT = { has_estate_privilege = rip_privilege_parish_concord }
+	}
+
+	can_select = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		rip_gc_owns_greek_catholic_province = yes
+		NOT = { has_estate_privilege = rip_privilege_parish_concord }
+		is_year = 1586
+	}
+
+	penalties = {
+		tolerance_heretic = -1
+		diplomatic_reputation = -0.5
+	}
+
+	benefits = {
+		global_missionary_strength = 0.01
+		culture_conversion_cost = -0.05
+	}
+
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 2
+			is_at_war = no
+		}
+	}
+}
+
+rip_privilege_parish_concord = {
+	icon = privilege_grant_autonomy
+	max_absolutism = -5
+	loyalty = 0.1
+	influence = 0.05
+
+	is_valid = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		rip_gc_owns_greek_catholic_province = yes
+		NOT = { has_estate_privilege = rip_privilege_brotherhood_charters }
+	}
+
+	can_select = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		rip_gc_owns_greek_catholic_province = yes
+		NOT = { has_estate_privilege = rip_privilege_brotherhood_charters }
+	}
+
+	penalties = {
+		global_missionary_strength = -0.005
+	}
+
+	benefits = {
+		tolerance_heretic = 1
+		diplomatic_reputation = 0.5
+	}
+
+	ai_will_do = {
+		factor = 5
+		modifier = {
+			factor = 3
+			is_at_war = yes
+		}
+	}
+}
+
+rip_privilege_roman_concordat = {
+	icon = privilege_diplo_power
+	max_absolutism = -5
+	loyalty = 0.1
+	influence = 0.05
+
+	is_valid = {
+		religion = greek_catholic
+		NOT = { has_estate_privilege = rip_privilege_eastern_ecumene }
+	}
+
+	can_select = {
+		religion = greek_catholic
+		exists = PAP
+		NOT = { war_with = PAP }
+		NOT = { has_estate_privilege = rip_privilege_eastern_ecumene }
+	}
+
+	penalties = {
+		idea_cost = 0.05
+	}
+
+	benefits = {
+		diplomatic_reputation = 1
+		improve_relation_modifier = 0.2
+	}
+
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 3
+			is_at_war = yes
+		}
+	}
+}
+
+rip_privilege_eastern_ecumene = {
+	icon = privilege_grant_autonomy
+	max_absolutism = -5
+	loyalty = 0.1
+	influence = 0.05
+
+	is_valid = {
+		religion = greek_catholic
+		NOT = { has_estate_privilege = rip_privilege_roman_concordat }
+	}
+
+	can_select = {
+		religion = greek_catholic
+		rip_gc_owns_orthodox_province = yes
+		NOT = { has_estate_privilege = rip_privilege_roman_concordat }
+	}
+
+	penalties = {
+		diplomatic_reputation = -0.5
+	}
+
+	benefits = {
+		tolerance_heretic = 1
+		global_unrest = -0.5
+	}
+
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 3
+			is_at_war = no
+		}
+	}
+}
+
+rip_privilege_basilian_schools = {
+	icon = privilege_religious
+	max_absolutism = -5
+	loyalty = 0.1
+	influence = 0.05
+
+	is_valid = {
+		OR = {
+			religion = catholic
+			religion = greek_catholic
+		}
+		rip_gc_owns_greek_catholic_province = yes
+	}
+
+	can_select = {
+		OR = {
+			religion = catholic
+			religion = greek_catholic
+		}
+		rip_gc_owns_greek_catholic_province = yes
+		is_year = 1617
+	}
+
+	penalties = {
+		global_tax_modifier = -0.03
+	}
+
+	benefits = {
+		advisor_cost = -0.1
+		global_missionary_strength = 0.005
+	}
+
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 2
+			is_at_war = no
+		}
+	}
+}
+
+rip_privilege_synodal_courts = {
+	icon = privilege_land_rights
+	max_absolutism = -5
+	loyalty = 0.1
+	influence = 0.05
+
+	is_valid = {
+		religion = greek_catholic
+	}
+
+	can_select = {
+		religion = greek_catholic
+	}
+
+	penalties = {
+		global_tax_modifier = -0.03
+	}
+
+	benefits = {
+		stability_cost_modifier = -0.05
+		global_unrest = -0.25
+	}
+
+	ai_will_do = {
+		factor = 10
+		modifier = {
+			factor = 2
+			is_at_war = no
+		}
+	}
+}

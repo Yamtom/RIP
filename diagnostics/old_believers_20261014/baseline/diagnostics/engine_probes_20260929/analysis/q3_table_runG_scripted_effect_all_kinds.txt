@@ -1,0 +1,20 @@
+save saveG_1.eu4 date=1444.12.1
+effect | if(POR) | ei(CAS) | el(ARA) | ct(NAV)
+add_country_modifier                   | ran/works      | ran/works      | ran/works      | ran/works     
+add_treasury 100000                    | ran/works      | ran/works      | ran/works      | ran/works     
+add_prestige -300                      | ran/works      | ran/works      | ran/works      | ran/works     
+add_stability -6                       | ran/works      | ran/works      | ran/works      | ran/works     
+add_dip_power 900                      | ran/works      | ran/works      | ran/works      | ran/works     
+add_province_modifier (capital_scope)  | ran/works      | ran/works      | ran/works      | ran/works     
+change_religion sunni (capital_scope)  | ran/works      | ran/works      | ran/works      | ran/works     
+add_local_autonomy 50 (capital_scope)  | ran/works      | ran/works      | ran/works      | ran/works     
+country_event days=1 -> flag           | ran/works      | ran/DROPPED    | ran/DROPPED    | ran/works     
+add_opinion who=ROOT                   | ran/works      | ran/DROPPED    | ran/DROPPED    | ran/works     
+add_opinion who=FRA                    | ran/works      | ran/DROPPED    | ran/DROPPED    | ran/works     
+reverse_add_opinion who=ROOT           | ran/works      | ran/DROPPED    | ran/DROPPED    | ran/works     
+ROOT={add_opinion who=PREV}            | ran/works      | ran/DROPPED    | ran/DROPPED    | ran/works     
+add_opinion in nested if               | ran/works      | ran/DROPPED    | ran/DROPPED    | ran/works     
+add_opinion in hidden_effect           | ran/works      | ran/DROPPED    | ran/DROPPED    | ran/works     
+add_opinion via scripted effect        | ran/works      | ran/DROPPED    | ran/DROPPED    | ran/works     
+add_opinion, no flag in body           | ran/works      | ran/DROPPED    | ran/DROPPED    | ran/works     
+

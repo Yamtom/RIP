@@ -1,0 +1,133 @@
+# ZAZ - the Zaporozhian Sich
+# zaporozhian_sich_crisis.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
+
+# ZAZ - the Zaporozhian Sich
+# zaporozhian_sich_crisis.
+# Ordered as vanilla orders a disaster: potential, can_start, can_stop,
+# progress, can_end, modifier, on_start, on_end, on_monthly.
+# ZAZ. The Sich splits over the Crimean and Ottoman question.
+zaporozhian_sich_crisis = {
+	ended_by_country_breaking_to_rebels = no
+	potential = {
+		tag = ZAZ
+		normal_or_historical_nations = yes
+	}
+	can_start = {
+		has_any_disaster = no
+		OR = {
+			current_age = age_of_reformation
+			current_age = age_of_absolutism
+			current_age = age_of_revolutions
+		}
+		OR = {
+			AND = {
+				NOT = { legitimacy_equivalent = 50 }
+				NOT = { republican_tradition = 40 }
+				average_autonomy = 30
+			}
+			AND = {
+				is_at_war = yes
+				war_exhaustion = 5
+				NOT = { manpower_percentage = 0.4 }
+			}
+			AND = {
+				is_subject = yes
+				liberty_desire = 60
+			}
+			AND = {
+				any_neighbor_country = {
+					OR = {
+						tag = CRI
+						tag = TUR
+					}
+					army_size = ROOT
+					is_rival = ROOT
+				}
+			}
+		}
+	}
+	can_stop = {
+		has_any_disaster = yes
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			NOT = { num_of_rebel_armies = 1 }
+			legitimacy_equivalent = 60
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 2
+			always = yes
+		}
+		modifier = {
+			factor = 2
+			NOT = { legitimacy_equivalent = 40 }
+		}
+		modifier = {
+			factor = 2
+			NOT = { republican_tradition = 30 }
+		}
+		modifier = {
+			factor = 1.5
+			war_exhaustion = 6
+		}
+		modifier = {
+			factor = 1.5
+			is_subject = yes
+			liberty_desire = 70
+		}
+		modifier = {
+			factor = 1.5
+			num_of_rebel_armies = 1
+		}
+		modifier = {
+			factor = -0.5
+			stability = 1
+		}
+		modifier = {
+			factor = -0.75
+			has_idea_group = defensive_ideas
+		}
+		modifier = {
+			factor = -0.5
+			prestige = 50
+		}
+	}
+	can_end = {
+		stability = 0
+		NOT = { war_exhaustion = 3 }
+		OR = {
+			AND = {
+				legitimacy_equivalent = 60
+			}
+			AND = {
+				republican_tradition = 50
+			}
+		}
+		NOT = { num_of_rebel_armies = 1 }
+		OR = {
+			is_subject = no
+			NOT = { liberty_desire = 50 }
+		}
+	}
+	modifier = {
+		global_unrest = 4
+		global_autonomy = 0.05
+		land_morale = -0.15
+		diplomatic_reputation = -1
+	}
+	on_start = zaz_crisis.1
+	on_end = zaz_crisis.2
+	on_monthly = {
+		random_events = {
+			100 = zaz_crisis.3
+			80 = zaz_crisis.4
+			60 = zaz_crisis.5
+		}
+	}
+}

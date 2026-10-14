@@ -1,0 +1,15 @@
+# The missing country-scope bridge called by both signing options in
+# uniate_crown.2. A signature changes the state confession and one capital;
+# the parishes still require the ordinary conversion system.
+rip_ucr_take_the_church_effect = {
+	if = {
+		limit = { rip_ucr_can_sign_the_union = yes }
+		set_country_flag = rip_ucr_church_taken
+		# This is a separate speculative crown settlement, not the bishops'
+		# Union of Brest; do not start Brest's event chain or record its milestone.
+		rip_faith_adopt_union_effect = yes
+		rip_ucr_clear_historical_policy_effect = yes
+		add_country_modifier = { name = rip_ucr_church_of_the_palace duration = 7300 }
+
+	}
+}

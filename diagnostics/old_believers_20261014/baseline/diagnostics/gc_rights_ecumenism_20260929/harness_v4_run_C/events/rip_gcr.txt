@@ -1,0 +1,101 @@
+namespace = rip_gcr
+
+# Test harness only (scratchpad mod, never shipped). Makes the player Greek
+# Catholic, guarantees community rights in two Orthodox provinces, concludes
+# the ecumenical settlement by flag and refreshes the diplomatic network.
+country_event = {
+	id = rip_gcr.1
+	title = rip_gcr.1.t
+	desc = rip_gcr.1.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		add_adm_power = 500
+		enable_religion = greek_catholic
+		change_religion = greek_catholic
+		set_country_flag = rip_gcr_step_1_religion
+		# Province A: the mod own guarantee effect (sets the flag, the base modifier and pays ADM).
+		random_owned_province = {
+			limit = { religion = orthodox is_city = yes is_capital = no }
+			set_province_flag = rip_gcr_test_a_mod_effect
+			rip_church_recognize_rite_effect = yes
+		}
+		# Province B: only the flag the task asked for, no base modifier.
+		random_owned_province = {
+			limit = { religion = orthodox is_city = yes is_capital = no NOT = { has_province_flag = rip_gcr_test_a_mod_effect } }
+			set_province_flag = rip_gcr_test_b_flag_only
+			set_province_flag = rip_church_rite_recognized
+		}
+		set_country_flag = rip_gcr_step_2_provinces
+		# Before the settlement: the parishes must carry the favoured modifier.
+		rip_church_gc_refresh_parishes_effect = yes
+		set_country_flag = rip_gcr_step_3_favoured_pass
+		# The settlement itself (flag), then both refreshes.
+		set_country_flag = rip_church_ecumenical
+		rip_church_gc_refresh_parishes_effect = yes
+		rip_church_refresh_relations_effect = yes
+		set_country_flag = rip_gcr_step_4_done
+		# Probes between third countries (the refresh never touches these pairs).
+		DAN = { add_opinion = { who = POL modifier = rip_gcr_probe_nodecay } }
+		SWE = { add_opinion = { who = POL modifier = rip_gcr_probe_decay0 } }
+		FRA = { add_opinion = { who = POL modifier = rip_gcr_probe_decay1 } }
+		LIT = { add_opinion = { who = POL modifier = rip_church_opinion_gc_catholic_middle } }
+		AUS = { add_opinion = { who = POL modifier = rip_church_opinion_gc_ecumenical } }
+	}
+
+	option = { name = rip_gcr.1.a }
+}
+
+# Test harness only: run the two replicas (flag + probe opinion per branch), one per text layout.
+country_event = {
+	id = rip_gcr.2
+	title = rip_gcr.1.t
+	desc = rip_gcr.1.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		rip_gcr_replica_nested_effect = yes
+		rip_gcr_replica_sibling_effect = yes
+		set_country_flag = rip_gcr_replicas_done
+	}
+
+	option = { name = rip_gcr.1.a }
+}
+
+# Test harness only: minimal if / else_if / else shapes.
+country_event = {
+	id = rip_gcr.3
+	title = rip_gcr.1.t
+	desc = rip_gcr.1.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		rip_gcr_shapes_effect = yes
+		set_country_flag = rip_gcr_shapes_done
+	}
+
+	option = { name = rip_gcr.1.a }
+}
+
+# Test harness only (v4): the same conditions as independent top-level if blocks.
+country_event = {
+	id = rip_gcr.4
+	title = rip_gcr.1.t
+	desc = rip_gcr.1.d
+	picture = RELIGION_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		rip_gcr_replica_flat_effect = yes
+		set_country_flag = rip_gcr_flat_done
+	}
+
+	option = { name = rip_gcr.1.a }
+}

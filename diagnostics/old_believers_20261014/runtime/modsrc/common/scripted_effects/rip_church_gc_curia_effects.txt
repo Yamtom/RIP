@@ -1,0 +1,23 @@
+# A diplomatic audience only: it creates no Curia vote, office, or resource.
+rip_church_gc_depute_to_curia_effect = {
+	if = {
+		limit = { rip_church_gc_can_depute_to_curia = yes }
+		add_treasury = -50
+		PAP = { add_opinion = { who = ROOT modifier = rip_church_opinion_gc_deputation } }
+		add_opinion = { who = PAP modifier = rip_church_opinion_gc_deputation }
+		set_country_flag = rip_church_gc_deputation_sent
+		rip_church_gc_refresh_curia_effect = yes
+	}
+}
+
+# A modest gift to Rome is diplomacy only: it grants neither Patriarch
+# Authority nor Curia votes, standing, or electoral influence.
+rip_church_gc_offer_gift_to_holy_see_effect = {
+	if = {
+		limit = { rip_church_gc_can_offer_gift_to_holy_see = yes }
+		add_treasury = -100
+		PAP = { add_opinion = { who = ROOT modifier = rip_church_opinion_gc_donation } }
+		set_country_flag = rip_church_gc_holy_see_gift_sent
+		rip_church_gc_refresh_curia_effect = yes
+	}
+}

@@ -1,0 +1,239 @@
+
+convert_to_russian_orthodox_effect = {
+	rip_faith_adopt_muscovite_church_effect = yes
+}
+
+force_convert_province_effect = {
+	# Paid missionary assistance; no instant conversion bypass.
+	add_province_modifier = {
+		name = forced_conversions
+		duration = 3650
+	}
+	add_unrest = 5
+}
+
+establish_orthodox_mission_effect = {
+	add_province_modifier = {
+		name = rip_faith_funded_mission
+		duration = 3650
+	}
+}
+
+russify_province_effect = {
+	# Support the ordinary culture-conversion action; never replace culture
+	# instantly for a flat price independent of province development.
+	add_province_modifier = {
+		name = russian_settlement
+		duration = 7300
+	}
+}
+
+launch_expansion_campaign = {
+
+	rip_ro_clear_historical_policy_effect = yes
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
+		name = orthodox_manifest_destiny
+		duration = 5475
+	}
+		every_neighbor_country = {
+			limit = { is_at_war = yes }
+			ROOT = {
+				add_casus_belli = {
+					target = PREV
+					type = cb_conquest
+					months = 120
+				}
+			}
+		}
+}
+
+establish_moscow_patriarchate_effect = {
+ rip_church_ro_accept_recognition_effect = yes
+}
+
+start_russification_campaign = {
+
+	rip_ro_clear_historical_policy_effect = yes
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
+		name = forced_russification
+		duration = 7300
+	}
+	every_owned_province = {
+		limit = {
+			NOT = { culture_group = east_slavic }
+			development = 10
+		}
+		random = {
+			chance = 30
+			add_province_modifier = {
+				name = russian_settlement
+				duration = 5475
+			}
+		}
+	}
+}
+
+activate_orthodox_inquisition = {
+
+	rip_ro_clear_historical_policy_effect = yes
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
+		name = orthodox_inquisition
+		duration = 7300
+	}
+	every_owned_province = {
+		limit = {
+			NOT = { religion = russian_orthodox }
+		}
+		add_province_modifier = {
+			name = forced_conversions
+			duration = 3650
+		}
+	}
+}
+
+suppress_cultural_resistance_effect = {
+	add_province_modifier = {
+		name = garrison_and_mission
+		duration = 5475
+	}
+	add_local_autonomy = -15
+	spawn_rebels = {
+		type = nationalist_rebels
+		size = 1
+	}
+}
+
+conquer_constantinople_benefits = {
+
+	rip_ro_clear_historical_policy_effect = yes
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
+		name = conquest_of_constantinople
+		duration = 7300
+	}
+	add_prestige = 50
+	add_legitimacy = 25
+	add_patriarch_authority = 0.2
+}
+
+proclaim_orthodox_empire_effect = {
+
+	rip_ro_clear_historical_policy_effect = yes
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
+		name = orthodox_empire_proclaimed
+		duration = 7300
+	}
+
+	rip_ro_clear_historical_policy_effect = yes
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
+		name = imperial_orthodox_state
+		duration = 7300
+	}
+	add_prestige = 50
+	add_legitimacy = 25
+}
+
+establish_symphonia_effect = {
+
+	rip_ro_clear_historical_policy_effect = yes
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = {
+		name = symphonia_of_powers
+		duration = 7300
+	}
+	add_legitimacy = 15
+}
+
+spread_russian_orthodox_neighbors = {
+	# Retired: saved event callers may resolve this ID, but no free conversions.
+}
+
+establish_monastery_mission_effect = {
+	add_province_modifier = {
+		name = russian_monastery_established
+		duration = -1
+	}
+	# A monastery helps a missionary; it does not convert the province on click.
+}
+
+activate_gathering_lands_effect = {
+	rip_ro_clear_historical_policy_effect = yes
+	rip_church_historical_ro_effect = yes
+ add_country_modifier = { name = gathering_russian_lands duration = 7300 }
+	random_neighbor_province = {
+		limit = { has_owner = yes NOT = { owned_by = ROOT } NOT = { is_core = ROOT } NOT = { is_claim = ROOT } culture_group = east_slavic owner = { NOT = { alliance_with = ROOT } NOT = { truce_with = ROOT } is_subject = no } }
+		add_claim = ROOT
+	}
+}
+
+constantinople_liberation_rewards = {
+	if = {
+		limit = { NOT = { has_country_flag = rip_crusade_constantinople_rewarded } owns = 151 }
+		set_country_flag = rip_crusade_constantinople_rewarded
+		add_prestige = 10
+		add_adm_power = 25
+		add_dip_power = 25
+		add_mil_power = 25
+		add_patriarch_authority = 0.05
+		remove_country_modifier = liberator_of_constantinople
+		remove_country_modifier = rip_ro_liberator_of_jerusalem
+		remove_country_modifier = patriarch_of_constantinople_restored
+		remove_country_modifier = rip_ro_the_first_rome
+		add_country_modifier = { name = liberator_of_constantinople duration = 7300 }
+	}
+}
+
+jerusalem_liberation_rewards = {
+	if = {
+		limit = { NOT = { has_country_flag = rip_crusade_jerusalem_rewarded } owns = 379 }
+		set_country_flag = rip_crusade_jerusalem_rewarded
+		add_prestige = 10
+		add_adm_power = 25
+		add_dip_power = 25
+		add_mil_power = 25
+		add_patriarch_authority = 0.05
+		remove_country_modifier = liberator_of_constantinople
+		remove_country_modifier = rip_ro_liberator_of_jerusalem
+		remove_country_modifier = patriarch_of_constantinople_restored
+		remove_country_modifier = rip_ro_the_first_rome
+		add_country_modifier = { name = rip_ro_liberator_of_jerusalem duration = 7300 }
+	}
+}
+
+crusade_failure_penalties = {
+	add_prestige = -10
+	if = { limit = { uses_patriarch_authority = yes } add_patriarch_authority = -0.05 }
+	add_country_modifier = { name = failed_orthodox_crusade duration = 3650 }
+}
+
+end_crusade_cooldown = { rip_crusade_end_effect = yes }
+
+rally_orthodox_nations = {
+	every_country = {
+		limit = {
+			OR = {
+				religion = orthodox
+				religion = russian_orthodox
+			}
+			NOT = { tag = ROOT }
+		}
+		add_opinion = {
+			who = ROOT
+			modifier = orthodox_crusade_unity
+		}
+	}
+}
+
+reward_crusade_participants = {
+	every_country = {
+		limit = { has_country_modifier = orthodox_crusade_participant rip_faith_is_eastern_orthodox = yes check_variable = { which = orthodox_crusade_contribution value = 1 } }
+		add_prestige = 5
+		add_patriarch_authority = 0.02
+		add_country_modifier = { name = victorious_crusader duration = 3650 }
+	}
+}

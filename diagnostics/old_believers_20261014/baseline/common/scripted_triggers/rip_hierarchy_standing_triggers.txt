@@ -1,0 +1,92 @@
+# =============================================================================
+# rip_hierarchy_standing_triggers
+# One standing gate for the eparchy decisions that used to ask a Greek Catholic
+# country for papal influence.
+#
+# Why it exists: a religion with no papacy block never holds papal_influence.
+# Measured in EU4 1.37.5 on 2026-09-29 (diagnostics/engine_probes_20260929):
+# add_papal_influence is a no-op for a greek_catholic country and no value ever
+# accrues, while a catholic country holds it. The old gates
+# (papal_influence = 40 / 50 / 60 in decisions/HLCMetropolitanatePaths.txt and
+# common/scripted_triggers/uzh_eparchy_triggers.txt) were therefore closed for
+# the only religion the decisions were written for.
+#
+# The rule: a Catholic state keeps papal_influence, a Greek Catholic state uses
+# the native patriarch_authority bar (shown to the player as Hierarchical
+# Capacity, HC). The Greek Catholic thresholds are lower than the old papal
+# fractions (40 / 50 / 60 would read 0.4 / 0.5 / 0.6) because the bar refills
+# slowly and is also the price of the local synod and icon actions:
+#   - untouched Orthodox states sat at 0.150 (1454), 0.155 (1455), 0.180 (1460)
+#     in diagnostics/gc_pacing_20260929/run4, Greek Catholic states at
+#     0.05-0.15 after buying an icon and a synod;
+#   - a synod or an icon costs 0.20, so 0.40 is the price of two of them;
+#   - the yearly modifiers that feed the bar are worth 0.001-0.0125 a year.
+# 0.30 / 0.35 / 0.40 keep the papal ordering (40 < 50 < 60) in the five-point
+# bands rip_church_refresh_pa_effect already uses, and none is harder than the
+# 0.5 that hlc_confirm_the_metropolitan_see asks of an Orthodox state.
+# tests/check_gc_synod_gates.py holds the contract: no papal_influence gate may
+# be reachable by a greek_catholic country.
+# =============================================================================
+
+rip_gc_hierarchy_standing_low = {
+	custom_trigger_tooltip = {
+		tooltip = rip_gc_hierarchy_standing_low_tt
+		patriarch_authority = 0.30
+	}
+}
+
+rip_gc_hierarchy_standing_mid = {
+	custom_trigger_tooltip = {
+		tooltip = rip_gc_hierarchy_standing_mid_tt
+		patriarch_authority = 0.35
+	}
+}
+
+rip_gc_hierarchy_standing_high = {
+	custom_trigger_tooltip = {
+		tooltip = rip_gc_hierarchy_standing_high_tt
+		patriarch_authority = 0.40
+	}
+}
+
+# Catholic or Greek Catholic. Use these where the decision may also be held by
+# a Catholic state; use the rip_gc_ triggers above where the decision itself
+# already requires religion = greek_catholic.
+rip_hierarchy_standing_low = {
+	OR = {
+		AND = {
+			religion = catholic
+			papal_influence = 40
+		}
+		AND = {
+			religion = greek_catholic
+			rip_gc_hierarchy_standing_low = yes
+		}
+	}
+}
+
+rip_hierarchy_standing_mid = {
+	OR = {
+		AND = {
+			religion = catholic
+			papal_influence = 50
+		}
+		AND = {
+			religion = greek_catholic
+			rip_gc_hierarchy_standing_mid = yes
+		}
+	}
+}
+
+rip_hierarchy_standing_high = {
+	OR = {
+		AND = {
+			religion = catholic
+			papal_influence = 60
+		}
+		AND = {
+			religion = greek_catholic
+			rip_gc_hierarchy_standing_high = yes
+		}
+	}
+}

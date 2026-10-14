@@ -1,0 +1,127 @@
+# Effects behind the union quarrel between Vilnius and Krakow.
+#
+# The Crown side of a quarrel is always carried in event_target:union_crown, so
+# these work whether the pressure came from POL, from PLC, or from an event
+# rather than a decision.
+
+lit_open_union_path_effect = {
+	set_country_flag = lit_union_path_open
+	clr_country_flag = lit_separate_path_open
+	add_country_modifier = {
+		name = lit_vilnius_council
+		duration = 7300
+	}
+}
+
+lit_open_separate_path_effect = {
+	set_country_flag = lit_separate_path_open
+	clr_country_flag = lit_union_path_open
+	add_country_modifier = {
+		name = lit_crown_refused
+		duration = 7300
+	}
+}
+
+lit_settle_the_union_question_effect = {
+	set_country_flag = lit_union_question_settled
+	add_prestige = 15
+	add_stability_or_adm_power = yes
+	add_legitimacy = 10
+}
+
+# Lublin, as it actually went: the palatinates changed hands at a diet, with no
+# army in the field and the Lithuanian delegation absent from the room.
+lit_concede_the_palatinates_effect = {
+	if = {
+		limit = { has_saved_event_target = union_crown }
+		every_owned_province = {
+			limit = {
+				OR = {
+					province_id = 269	# Podlasia
+					province_id = 279	# Volhynia
+					province_id = 2962	# Rowne
+					province_id = 4539	# Kremenets
+					province_id = 1943	# Bratslav
+					province_id = 280	# Kiev
+					province_id = 1942	# Zhytomyr
+				}
+			}
+			cede_province = event_target:union_crown
+			add_core = event_target:union_crown
+		}
+		add_country_modifier = {
+			name = lit_palatinates_conceded
+			duration = 9125
+		}
+		add_opinion = {
+			who = event_target:union_crown
+			modifier = lit_palatinates_taken
+		}
+		event_target:union_crown = {
+			add_country_modifier = {
+				name = pol_palatinates_incorporated
+				duration = -1
+			}
+			add_opinion = {
+				who = ROOT
+				modifier = lit_palatinates_granted
+			}
+		}
+		add_prestige = -10
+	}
+}
+
+# Refusing costs the union its patience, and leaves Vilnius holding ground the
+# Crown now says is its own.
+lit_refuse_the_palatinates_effect = {
+	if = {
+		limit = { has_saved_event_target = union_crown }
+		add_opinion = {
+			who = event_target:union_crown
+			modifier = lit_union_grievance
+		}
+		event_target:union_crown = {
+			add_opinion = {
+				who = ROOT
+				modifier = lit_union_grievance
+			}
+			every_owned_province = {
+				limit = {
+					OR = {
+						province_id = 279	# Volhynia
+						province_id = 280	# Kiev
+						province_id = 1943	# Bratslav
+					}
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+	add_legitimacy = 5
+	add_army_tradition = 5
+}
+
+# The lands the Crown took are the lands the Ruthenian tags care about, so they
+# are told, whatever the two of them agreed.
+lit_tell_the_ruthenian_lands_effect = {
+	every_country = {
+		limit = {
+			NOT = { tag = ROOT }
+			OR = {
+				tag = KIE
+				tag = VLN
+				tag = VOL
+				tag = PDL
+				tag = RPS
+				tag = HET
+				tag = ZAZ
+			}
+			# ruthenia_region already carries podolia_volhynia_area,
+			# volhynia_area and podlasie_area - see map/region.txt.
+			any_owned_province = {
+				region = ruthenia_region
+			}
+		}
+		country_event = { id = union_dispute.9 days = 7 }
+	}
+}

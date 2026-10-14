@@ -1,0 +1,295 @@
+# =============================================================================
+# rip_kyivan_cesarstvo - the imperial counterpart to rip_kyivan_seniority.txt.
+#
+# kyivan_cesarstvo_reform already carries kyivan_seniority_mechanic (the same
+# rota/snem/druzhyna buttons as kyivan_rus_reform - see
+# common/government_reforms/RIP_KIE_KRU_government_reforms.txt) because the
+# Cesarstvo's court still counts seniority in the house of Rurik. This file
+# does NOT touch that mechanic or its file. It adds two further, independent
+# government_abilities, gated the same way (Third Rome or Domination), for
+# what the Cesarstvo is that Kyivan Rus was not: a crowned, multi-confessional,
+# multi-lingual imperial office (the "tsar of all the Rus" style claim, dressed
+# in the second-Rome inheritance) that has to hold together a court prone to
+# palace intrigue and a realm full of peoples who are not, culturally, Rus.
+#
+# Both mechanics below are counters (powers), the shape neither
+# kyivan_seniority_mechanic nor any other RIP government_mechanics file uses
+# yet - every existing RIP mechanic is buttons-only (see their own comments).
+# The structure - not the name, not the numbers - is copied from two real
+# vanilla files studied whole:
+#
+#  - common/government_mechanics/07_ottoman_decadence.txt
+#    (ottoman_decadence_mechanic): a single power, is_good = no, that
+#    inflicts a continuous penalty scaling with its own value
+#    (scaled_modifier), fed from outside the file by static modifiers
+#    (peace, stability, corruption...) and on_action hooks (battle wins and
+#    losses) that this mod does not reach into - see "what was simplified"
+#    below.
+#  - common/government_mechanics/23_cultural_disunity.txt
+#    (cultural_unity_mechanic): a single power, is_good implied by its
+#    on_max_reached payoff, that grows or shrinks its OWN monthly rate
+#    (range_modifier blocks writing to monthly_<power>) from a list of
+#    country-state triggers - stability, peace, war exhaustion, religious
+#    unity, legitimacy, and a culture-group gate (vanilla: "must be
+#    Germanic"; here: "primary culture must sit in the east_slavic group",
+#    common/cultures/00_cultures.txt:2306 confirmed against the installed
+#    1.37.5, not invented).
+#
+# kyivan_throne_concord_mechanic adapts the first shape to boyar conspiracy
+# and palace intrigue: concord is the good state (is_good = yes, the reverse
+# of decadence's polarity, because the Cesarstvo's own comment already frames
+# this court as something to hold TOGETHER, not something that decays), a
+# continuous reverse_scaled_modifier punishes low concord the way decadence's
+# scaled_modifier punishes high decadence, and three explicit range_modifier
+# bands (0-33 / 33-66 / 66-100) give the "three tiers" vanilla decadence
+# implies but does not itself script as discrete steps.
+#
+# kyivan_peoples_gathering_mechanic adapts the second shape to the Cesarstvo's
+# subject peoples: one aggregate bar for the whole court's success at drawing
+# non-Rus subjects into the imperial nation, not a per-culture picker (see
+# "what was simplified" below), using the same class of triggers vanilla
+# lists for Cultural Unity - religious unity, peace, stability, legitimacy -
+# plus the east_slavic culture-group gate in place of Germanic.
+#
+# What was simplified, on purpose, rather than half-built:
+#  - No on_battle_won/on_battle_lost hook. Vanilla ties decadence to combat
+#    outcomes through common/on_actions/00_on_actions.txt, a single shared
+#    vanilla list; reaching into it for two extra lines was judged a bigger
+#    footprint than this addition warranted. "A capable ruler" is modelled
+#    instead through the power's own monarch_power = adm field (a real
+#    schema key, common/government_mechanics/readme.txt line 15), which
+#    needs no on_action at all.
+#  - No per-culture picker/decision for kyivan_peoples_gathering. Vanilla's
+#    German mechanic is backed by a "choose a culture to integrate" decision
+#    and a per-culture accepted-without-a-slot flag this mod does not have a
+#    use for outside a single, larger empire-wide bar. on_max_reached grants
+#    a flat reward and resets the bar rather than flipping a specific
+#    culture's acceptance, because there is no target to flip.
+#  - No new static_modifiers entry. Vanilla's smooth "-0.3 to +0.3 per
+#    stability point" scaling for monthly_cultural_unity lives in
+#    common/static_modifiers/00_static_modifiers.txt, a single shared vanilla
+#    file keyed by hardcoded category names (stability, legitimacy, peace,
+#    war_exhaustion, religious_unity) - overriding it whole for two lines
+#    would be a large, risky footprint for this addition. The same triggers
+#    are reproduced instead as discrete range_modifier tiers local to this
+#    file (stability/legitimacy/war_exhaustion/religious_unity thresholds),
+#    self-contained and touching nothing shared.
+#
+# Attached in RIP_KIE_KRU_government_reforms.txt inside the same conditional
+# (Third Rome or Domination) that already lists kyivan_seniority_mechanic -
+# vanilla itself lists two mechanic ids in one government_abilities block the
+# same way for Russia (russian_mechanic + russian_modernization_mechanic,
+# common/government_reforms/01_government_reforms_monarchies.txt:2572-2574).
+# =============================================================================
+
+kyivan_throne_concord_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		has_reform = kyivan_cesarstvo_reform
+	}
+
+	powers = {
+		kyivan_throne_concord = {
+			max = 100
+			min = 0
+			reset_on_new_ruler = no
+			base_monthly_growth = 0.1
+			monarch_power = adm
+			is_good = yes
+
+			# --- growth and decline (writes to monthly_kyivan_throne_concord) ---
+			range_modifier = {
+				trigger = { stability = 2 }
+				modifier = { monthly_kyivan_throne_concord = 0.2 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { NOT = { stability = 0 } }
+				modifier = { monthly_kyivan_throne_concord = -0.2 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { legitimacy = 80 }
+				modifier = { monthly_kyivan_throne_concord = 0.15 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { NOT = { legitimacy = 40 } }
+				modifier = { monthly_kyivan_throne_concord = -0.2 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { is_at_war = no }
+				modifier = { monthly_kyivan_throne_concord = 0.1 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { war_exhaustion = 5 }
+				modifier = { monthly_kyivan_throne_concord = -0.15 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { religious_unity = 0.8 }
+				modifier = { monthly_kyivan_throne_concord = 0.1 }
+				start_value = 0
+				end_value = 100
+			}
+			# A restless udil is the Cesarstvo's own name for palace intrigue -
+			# the same liberty_desire reading kyiv_call_the_snem answers in
+			# rip_kyivan_seniority.txt, not an invented "conspiracy" flag.
+			range_modifier = {
+				trigger = { any_subject_country = { liberty_desire = 50 } }
+				modifier = { monthly_kyivan_throne_concord = -0.2 }
+				start_value = 0
+				end_value = 100
+			}
+
+			# --- continuous penalty for low concord (decadence's shape, sign flipped) ---
+			reverse_scaled_modifier = {
+				modifier = {
+					legitimacy = -1
+					stability_cost_modifier = 0.5
+					advisor_cost = 0.25
+					core_creation = 0.5
+					governing_capacity_modifier = -0.15
+				}
+			}
+
+			# --- three explicit tiers on top of the continuous penalty ---
+			range_modifier = {
+				trigger = { always = yes }
+				modifier = {
+					global_unrest = 2
+					max_absolutism = -5
+				}
+				start_value = 0
+				end_value = 33
+			}
+			range_modifier = {
+				trigger = { always = yes }
+				modifier = {
+					global_unrest = 1
+				}
+				start_value = 33
+				end_value = 66
+			}
+			range_modifier = {
+				trigger = { always = yes }
+				modifier = {
+					max_absolutism = 5
+					diplomatic_reputation = 1
+				}
+				start_value = 66
+				end_value = 100
+			}
+
+			on_max_reached = {
+				add_prestige = 10
+				add_legitimacy_equivalent = {
+					amount = 5
+					republican_tradition = 3
+				}
+			}
+			on_min_reached = {
+				add_country_modifier = {
+					name = kyivan_throne_in_disarray
+					duration = 3650
+				}
+			}
+		}
+	}
+}
+
+kyivan_peoples_gathering_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		has_reform = kyivan_cesarstvo_reform
+	}
+
+	powers = {
+		kyivan_peoples_gathering = {
+			max = 100
+			min = 0
+			reset_on_new_ruler = no
+			base_monthly_growth = 0.5
+			development_scaled_monthly_growth = 0.02
+			is_good = yes
+
+			# east_slavic confirmed in common/cultures/00_cultures.txt:2306
+			# against the installed 1.37.5 - the group holding russian,
+			# ruthenian and the mod's own Rus cultures, in place of vanilla's
+			# "must be Germanic" gate for its own accepted culture.
+			range_modifier = {
+				trigger = { NOT = { culture_group = east_slavic } }
+				modifier = { monthly_kyivan_peoples_gathering = -1 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { religious_unity = 0.8 }
+				modifier = { monthly_kyivan_peoples_gathering = 0.1 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { NOT = { religious_unity = 0.5 } }
+				modifier = { monthly_kyivan_peoples_gathering = -0.15 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { is_at_war = no }
+				modifier = { monthly_kyivan_peoples_gathering = 0.1 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { war_exhaustion = 5 }
+				modifier = { monthly_kyivan_peoples_gathering = -0.1 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { stability = 2 }
+				modifier = { monthly_kyivan_peoples_gathering = 0.15 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { NOT = { stability = 0 } }
+				modifier = { monthly_kyivan_peoples_gathering = -0.2 }
+				start_value = 0
+				end_value = 100
+			}
+			range_modifier = {
+				trigger = { legitimacy = 70 }
+				modifier = { monthly_kyivan_peoples_gathering = 0.1 }
+				start_value = 0
+				end_value = 100
+			}
+
+			on_max_reached = {
+				add_country_modifier = {
+					name = kyivan_peoples_gathered
+					duration = -1
+				}
+				add_prestige = 15
+				set_government_power = {
+					mechanic_type = kyivan_peoples_gathering_mechanic
+					power_type = kyivan_peoples_gathering
+					value = 0
+				}
+			}
+		}
+	}
+}

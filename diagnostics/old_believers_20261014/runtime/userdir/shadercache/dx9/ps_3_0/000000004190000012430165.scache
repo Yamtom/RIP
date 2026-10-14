@@ -1,0 +1,91 @@
+#define PIXEL_SHADER
+#define PDX_DIRECTX_9
+
+#define mod( X, Y ) ( X % Y )
+
+float fmod_loop( float x, float y )
+{
+  return x - y * floor( x / y );
+}
+
+#define GetMatrixData( Matrix, row, col ) ( Matrix [ row ] [ col ] )
+#define FLIP_SCREEN_POS( X ) ( X )
+#define FLIP_TEXTURE_V( vCoordinate ) ( vCoordinate )
+
+#define sampler2DShadow sampler2D
+
+float3x3 CastTo3x3( in float4x4 M )
+{
+	return (float3x3)M;
+}
+#define Create3x3 float3x3
+
+float2 vec2(float vValue) { return float2(vValue, vValue); }
+float3 vec3(float vValue) { return float3(vValue, vValue, vValue); }
+float4 vec4(float vValue) { return float4(vValue, vValue, vValue, vValue); }
+
+#define tex2Dlod0(samp,uv) tex2Dlod(samp, float4((uv), 0.0, 0.0))
+
+#define PDX_POSITION POSITION
+
+#define PDX_COLOR COLOR
+sampler SimpleTexture : register(s0);
+float4x4 Matrix : register(c0);
+float4 ModColor : register(c4);
+
+float4 CustomColor0 : register(c16);
+float4 CustomColor1 : register(c17);
+float4 CustomColor2 : register(c18);
+float4 CustomColor3 : register(c19);
+float FieldCutoff : register(c20);
+
+struct VS_INPUT
+{
+	float4 vPosition : POSITION;
+	float2 vTexCoord : TEXCOORD0;
+	float4 vFillColor : PDX_COLOR;
+	float4 vBorderColor : TEXCOORD1;
+};
+struct VS_OUTPUT
+{
+	float4 vPosition : PDX_POSITION;
+	float2 vTexCoord : TEXCOORD0;
+	float4 vFillColor : PDX_COLOR;
+	float4 vBorderColor : TEXCOORD1;
+};
+struct VS_FLAG_INPUT
+{
+	float4 vPosition : POSITION;
+	float2 vTexCoord : TEXCOORD0;
+	float4 vFillColor : PDX_COLOR;
+	float4 vBorderColor : TEXCOORD1;
+	float2 vTexCoordFlag : TEXCOORD2;
+};
+struct VS_FLAG_OUTPUT
+{
+	float4 vPosition : PDX_POSITION;
+	float2 vTexCoord : TEXCOORD0;
+	float4 vFillColor : PDX_COLOR;
+	float4 vBorderColor : TEXCOORD1;
+	float2 vTexCoordFlag : TEXCOORD2;
+};
+float4 main( VS_OUTPUT v ) : PDX_COLOR
+		{
+		    float4 TexColor = tex2D( SimpleTexture, v.vTexCoord );
+			
+			float4 OutColor = TexColor * v.vFillColor;
+			
+			//TODO: Replace branching if performance is low or if just have time over.
+			if( TexColor.a < v.vBorderColor.a * 0.75 )
+			{
+				OutColor = float4( v.vBorderColor.rgb, v.vFillColor.a ) * TexColor;
+			}
+			else if( TexColor.a < v.vBorderColor.a )
+			{
+				float3 MixColor = lerp( v.vBorderColor.rgb, v.vFillColor.rgb,  TexColor.a );
+				OutColor = float4( MixColor, v.vFillColor.a ) * TexColor;
+			}
+			
+		    return OutColor;
+		}
+	

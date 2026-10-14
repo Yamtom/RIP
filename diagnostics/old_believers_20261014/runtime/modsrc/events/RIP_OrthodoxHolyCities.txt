@@ -1,0 +1,94 @@
+# Information only: the native Orthodox panel remains the single religion panel.
+namespace = rip_ro_sites
+
+country_event = {
+	id = rip_ro_sites.1
+	title = rip_ro_sites.1.t
+	desc = rip_ro_sites.1.d
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = yes
+	immediate = {
+		set_variable = { which = rip_ro_holy_city_count value = 0 }
+		if = {
+			limit = { 310 = { owned_by = ROOT controlled_by = ROOT religion = russian_orthodox } }
+			change_variable = { which = rip_ro_holy_city_count value = 1 }
+		}
+		if = {
+			limit = { 295 = { owned_by = ROOT controlled_by = ROOT religion = russian_orthodox } }
+			change_variable = { which = rip_ro_holy_city_count value = 1 }
+		}
+		if = {
+			limit = { 280 = { owned_by = ROOT controlled_by = ROOT religion = russian_orthodox } }
+			change_variable = { which = rip_ro_holy_city_count value = 1 }
+		}
+		if = {
+			limit = { 151 = { owned_by = ROOT controlled_by = ROOT religion = russian_orthodox } }
+			change_variable = { which = rip_ro_holy_city_count value = 1 }
+		}
+		if = {
+			limit = { 379 = { owned_by = ROOT controlled_by = ROOT religion = russian_orthodox } }
+			change_variable = { which = rip_ro_holy_city_count value = 1 }
+		}
+	}
+	option = { name = rip_ro_site_novgorod country_event = { id = rip_ro_sites.2 } }
+	option = { name = rip_ro_site_moscow country_event = { id = rip_ro_sites.3 } }
+	option = { name = rip_ro_site_kyiv country_event = { id = rip_ro_sites.4 } }
+	option = { name = rip_ro_site_constantinople country_event = { id = rip_ro_sites.5 } }
+	option = { name = rip_ro_site_jerusalem country_event = { id = rip_ro_sites.6 } }
+	option = { name = rip_ro_sites_close }
+}
+
+country_event = {
+	id = rip_ro_sites.2
+	title = rip_ro_site_novgorod
+	desc = rip_ro_site_novgorod_desc
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = yes
+	goto = rip_ro_holy_city
+	immediate = { 310 = { save_event_target_as = rip_ro_holy_city } }
+	option = { name = rip_ro_sites_close }
+}
+
+country_event = {
+	id = rip_ro_sites.3
+	title = rip_ro_site_moscow
+	desc = rip_ro_site_moscow_desc
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = yes
+	goto = rip_ro_holy_city
+	immediate = { 295 = { save_event_target_as = rip_ro_holy_city } }
+	option = { name = rip_ro_sites_close }
+}
+
+country_event = {
+	id = rip_ro_sites.4
+	title = rip_ro_site_kyiv
+	desc = rip_ro_site_kyiv_desc
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = yes
+	goto = rip_ro_holy_city
+	immediate = { 280 = { save_event_target_as = rip_ro_holy_city } }
+	option = { name = rip_ro_sites_close }
+}
+
+country_event = {
+	id = rip_ro_sites.5
+	title = rip_ro_site_constantinople
+	desc = rip_ro_site_constantinople_desc
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = yes
+	goto = rip_ro_holy_city
+	immediate = { 151 = { save_event_target_as = rip_ro_holy_city } }
+	option = { name = rip_ro_sites_close }
+}
+
+country_event = {
+	id = rip_ro_sites.6
+	title = rip_ro_site_jerusalem
+	desc = rip_ro_site_jerusalem_desc
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = yes
+	goto = rip_ro_holy_city
+	immediate = { 379 = { save_event_target_as = rip_ro_holy_city } }
+	option = { name = rip_ro_sites_close }
+}

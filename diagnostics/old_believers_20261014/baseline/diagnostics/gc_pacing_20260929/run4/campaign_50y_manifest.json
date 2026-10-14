@@ -1,0 +1,73 @@
+{
+  "status": "completed",
+  "start_date": "1444.11.11",
+  "target_date": "1495.1.1",
+  "seed": 1001,
+  "game_version": "EU4 1.37.5.0",
+  "scenario": "Engine-driven synthetic MOS/LIT/POL cohorts, not historical AI adoption or human playtest",
+  "source_basis": "run3 snapshot and harness copied byte-for-byte; source head 2c967105471a8354558c32d9a2cf7a32d976ec2e",
+  "campaign_setup": {
+    "countries": ["MOS", "LIT", "POL"],
+    "country_faith": "All three tags are explicitly converted to Greek Catholicism at setup.",
+    "province_faith": "MOS and POL start homogeneous Greek Catholic; LIT starts with Orthodox provinces except its capital.",
+    "grants": "Each cohort receives +300 ducats and +3 stability; starts PA at 0.60 then buys one icon and one synodal institution through live effects.",
+    "observation": "630 monthly 30-day samples accumulate trigger eligibility, active icon/institution months, sampled PA, owned Orthodox/Greek Catholic province counts, and living Orthodox-country count."
+  },
+  "instrumentation_caveat": "The combined game.log sample string exceeds the engine's 512-character quoted-string limit, so periodic save counters are the evidence source. Eligibility is sampled every 30 days and can miss short windows between samples. Active-month totals give lower bounds, not exact purchase counts. Province totals and Orthodox-country survival are confounded by AI war, annexation, and land transfers; this is not a conversion-rate or causal opposition test.",
+  "observed_save_sha256": "7f34899eaebbecf393bd54aca0fae1273dd08ce066fae0e01e6068bcf369ab43",
+  "result": {
+    "save": "gcpace_final.eu4",
+    "save_date": "1495.1.1",
+    "target_reached": true,
+    "samples_per_cohort": 630,
+    "last_logged_event_date": "1495.01.02",
+    "cohorts": {
+      "LIT": {
+        "faith": "greek_catholic",
+        "patriarch_authority": 0.05,
+        "icon_ready_samples": 2,
+        "icon_low_authority_samples": 503,
+        "icon_active_samples": 125,
+        "synod_ready_samples": 0,
+        "synod_low_authority_samples": 505,
+        "synod_active_samples": 125,
+        "both_active_samples": 123,
+        "orthodox_provinces": 19,
+        "greek_catholic_provinces": 2,
+        "orthodox_countries_worldwide": 10
+      },
+      "POL": {
+        "faith": "greek_catholic",
+        "patriarch_authority": 0.0,
+        "icon_ready_samples": 4,
+        "icon_low_authority_samples": 501,
+        "icon_active_samples": 125,
+        "synod_ready_samples": 0,
+        "synod_low_authority_samples": 379,
+        "synod_active_samples": 251,
+        "both_active_samples": 121,
+        "orthodox_provinces": 1,
+        "greek_catholic_provinces": 20,
+        "orthodox_countries_worldwide": 10
+      },
+      "MOS": {
+        "faith": "greek_catholic",
+        "patriarch_authority": 0.15,
+        "icon_ready_samples": 8,
+        "icon_low_authority_samples": 434,
+        "icon_active_samples": 188,
+        "synod_ready_samples": 2,
+        "synod_low_authority_samples": 372,
+        "synod_active_samples": 251,
+        "both_active_samples": 124,
+        "orthodox_provinces": 28,
+        "greek_catholic_provinces": 29,
+        "orthodox_countries_worldwide": 10
+      }
+    },
+    "engine_errors": [
+      "events/rip_gcpace.txt:81: combined quoted log string exceeds 512 characters; save counters remain available",
+      "events/RIP_FaithDisasters.txt:245: engine reports unknown effect add_innovativeness; opposition outcomes are not causally attributed to this run"
+    ]
+  }
+}

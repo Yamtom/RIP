@@ -1,0 +1,31 @@
+# Province scope. Ordinary Orthodox parishes outside the Muscovite reform
+# jurisdiction are never treated as Old Believers just for being Orthodox.
+rip_ob_seed_eligible = {
+ is_city = yes controlled_by = owner is_core = owner
+ NOT = { has_province_flag = rip_ob_community }
+ owner = { rip_church_ro_jurisdiction = yes has_country_flag = rip_ro_stage_raskol }
+ OR = {
+  religion = russian_orthodox
+  AND = { religion = orthodox region = russia_region }
+ }
+}
+rip_ob_has_communities = {
+ any_owned_province = { OR = { has_province_flag = rip_ob_community religion = old_believer } }
+}
+rip_ob_can_choose_policy = {
+ OR = { rip_church_ro_jurisdiction = yes religion = old_believer }
+ rip_ob_has_communities = yes
+ is_at_war = no stability = 0 adm_power = 50
+ OR = {
+  NOT = { has_country_flag = rip_ob_policy_changed }
+  had_country_flag = { flag = rip_ob_policy_changed days = 3650 }
+ }
+}
+rip_ob_crisis_resolved = {
+ had_country_flag = { flag = rip_ob_crisis_started days = 1825 }
+ had_country_flag = { flag = rip_ob_policy_changed days = 730 }
+ OR = { has_country_flag = rip_ob_toleration has_country_flag = rip_ob_repression }
+ stability = 1 is_at_war = no
+ NOT = { num_of_rebel_armies = 1 }
+ NOT = { num_of_rebel_controlled_provinces = 1 }
+}

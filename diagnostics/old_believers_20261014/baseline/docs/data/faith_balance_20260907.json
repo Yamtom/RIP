@@ -1,0 +1,135 @@
+{
+  "date": "2026-09-07",
+  "target": "1.37.5.0",
+  "donor": "1.30.3",
+  "source_sha256": {
+    "launcher-settings.json": "71bc763b5df4d9fc04dbc48655449f847bf4442d65fb195e5111739c08c5d572",
+    "events/Orthodox.txt": "4cfbd8b19c26b410312d1526de66840426f07df4b29ff0cb731f45d6562ab57b",
+    "common/religions/00_religion.txt": "609e2d235f3441c64b895d9faf3927bbf1399149cffa955137ab2d070b9645a6",
+    "common/event_modifiers/00_event_modifiers.txt": "7a4311ed75c953c21c9b4830094ff9d72dc02b250f21208b84ee77344aecffc5",
+    "common/static_modifiers/00_static_modifiers.txt": "5829d3341fc7a5503dd60d6635bfd1b354ab9466cc05836720c05e38437cffb8",
+    "common/defines.lua": "e3cf26836c70f8825a2ffd93160b2a09cdad29f78355787d07803138eb156f18"
+  },
+  "comparators": {
+    "russian_orthodox": {
+      "against": "orthodox",
+      "intrinsic_positive_ratio": 0.95,
+      "icon_ratio": 0.95,
+      "slots": 1,
+      "icon_cost_authority": 10,
+      "icon_duration_days": 7300,
+      "country_upkeep": {
+        "global_missionary_strength": -0.001,
+        "global_manpower_modifier": -0.0165,
+        "global_unrest": 0.15
+      }
+    },
+    "greek_catholic": {
+      "against": "catholic",
+      "intrinsic_positive_ratio": 1.05,
+      "petition_ratio": 1.05,
+      "petition_or_synod_slots": 1,
+      "petition_cost_authority": 25,
+      "petition_cost_prestige": 2,
+      "petition_duration_days": 7300
+    }
+  },
+  "historical_packets_reviewed": {
+    "russian_orthodox": [
+      "third_rome_ideology",
+      "imperial_orthodox_state",
+      "moscow_patriarchate_authority",
+      "orthodox_manifest_destiny",
+      "divine_right_of_conquest",
+      "gathering_russian_lands",
+      "conquest_of_pagan_lands",
+      "forced_russification",
+      "cultural_integration_program",
+      "settler_colonialism",
+      "orthodox_inquisition",
+      "persecution_of_heretics",
+      "suppression_old_believers",
+      "religious_uniformity_enforcement",
+      "rip_ro_state_controlled_church",
+      "symphonia_of_powers",
+      "orthodox_caesaropapism",
+      "imperial_church_hierarchy",
+      "conquest_of_constantinople",
+      "patriarch_of_all_rus",
+      "orthodox_empire_proclaimed",
+      "defender_of_orthodoxy",
+      "orthodox_crusade_for_constantinople",
+      "orthodox_crusade_for_jerusalem",
+      "orthodox_crusade_leader",
+      "orthodox_crusade_participant",
+      "liberator_of_constantinople",
+      "rip_ro_liberator_of_jerusalem",
+      "victorious_crusader",
+      "crusade_contributor_bronze",
+      "crusade_contributor_silver",
+      "crusade_contributor_gold",
+      "patriarch_of_constantinople_restored",
+      "restored_orthodox_constantinople",
+      "restored_orthodox_jerusalem"
+    ],
+    "greek_catholic": [
+      "uniate_union_established",
+      "catholic_backing_uniate",
+      "uniate_church_consolidation",
+      "uniate_metropolitan_authority",
+      "dual_communion_compromise",
+      "orthodox_uniate_coexistence",
+      "zamosc_synod_latinization",
+      "eastern_rite_preservation",
+      "uniate_educational_network",
+      "basilian_monastic_order",
+      "uniate_orthodox_reconciliation",
+      "uniate_cultural_flowering",
+      "ruthenian_religious_pluralism",
+      "greek_catholic_reformation_active",
+      "greek_catholic_missionary_activity",
+      "greek_catholic_church_patronage",
+      "greek_catholic_synodal_administration",
+      "eastern_rite_tradition_preserved",
+      "papal_protection_greek_catholic",
+      "greek_catholic_orthodox_dialogue",
+      "greek_catholic_latin_cooperation",
+      "rip_uc_curia_heard",
+      "rip_uc_curia_favoured",
+      "rip_uc_curia_protected"
+    ]
+  },
+  "mission_source_files": [
+    "missions/Pereiaslav_Missions.txt",
+    "missions/Volhynia_Missions.txt",
+    "missions/Zakarpatta_Missions.txt"
+  ],
+  "project_source_files": [
+    "common/great_projects/RIP_ZAZ_great_projects.txt",
+    "common/great_projects/RIP_UZH_great_projects.txt",
+    "common/great_projects/RIP_LIT_great_projects.txt"
+  ],
+  "new_loop": {
+    "decision": "rip_visit_the_parishes",
+    "event": "rip_parish_visit.1",
+    "country_cooldown_days": 3650,
+    "province_duration_days": 3650,
+    "province_count": 1,
+    "ducats": 100,
+    "adm": 25,
+    "authority": 5,
+    "instant_conversion": false,
+    "instant_development": false
+  },
+  "tests": [
+    "tests/check_ro_blessing_window.py",
+    "tests/check_uc_curia.py",
+    "tests/check_faith_content_balance.py"
+  ],
+  "overall_campaign_ratio_verified": false,
+  "limits": [
+    "Numeric comparisons apply to matching modifier packets.",
+    "Global manpower upkeep does not equal a per-province multiplier.",
+    "Native authority, papacy access, national missions and timings need paired campaign evidence."
+  ]
+}

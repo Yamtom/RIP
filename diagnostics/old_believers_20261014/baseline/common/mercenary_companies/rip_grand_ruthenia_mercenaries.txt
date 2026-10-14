@@ -1,0 +1,45 @@
+# RIP - the Grand Host of Halych-Volhynia
+# The standing company the united crown of vln_grand_ruthenia_reform keeps
+# under arms rather than hiring twice - the same slot vanilla fills for
+# Hungary with the Institutionalized Black Army and its Reserves
+# (black_army_reform, common/government_reforms/01_government_reforms_monarchies.txt;
+# merc_black_army / merc_black_army_2, common/mercenary_companies/00_mercenaries.txt),
+# adapted to Ruthenian household troops rather than a borrowed Hungarian name.
+# Gated directly on the reform, the same way RIP_cossack_mercenaries.txt gates
+# on has_reform = rip_cossacks_reform - no decision or country modifier needed.
+
+rip_grand_ruthenia_host_mercenaries = {
+	regiments_per_development = 0.04
+	mercenary_desc_key = FREE_OF_ARMY_PROFESSIONALISM_COST
+	cavalry_weight = 0.2
+	artillery_weight = 0.4
+	cavalry_cap = 4
+	home_province = 279 # Volhynia
+	sprites = { easterngfx_sprite_pack }
+	trigger = {
+		is_allowed_to_recruit_mercenaries = yes
+		has_reform = vln_grand_ruthenia_reform
+	}
+	cost_modifier = 0.75
+	modifier = {
+		discipline = 0.05
+	}
+}
+
+rip_grand_ruthenia_host_reserve_mercenaries = {
+	regiments_per_development = 0.04
+	mercenary_desc_key = FREE_OF_ARMY_PROFESSIONALISM_COST
+	cavalry_weight = 0.2
+	artillery_weight = 0.4
+	cavalry_cap = 4
+	home_province = 279 # Volhynia
+	sprites = { easterngfx_sprite_pack }
+	trigger = {
+		is_allowed_to_recruit_mercenaries = yes
+		has_reform = vln_grand_ruthenia_reform
+	}
+	cost_modifier = 0.75
+	modifier = {
+		discipline = 0.05
+	}
+}

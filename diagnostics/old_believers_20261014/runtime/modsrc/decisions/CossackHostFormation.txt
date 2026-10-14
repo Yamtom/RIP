@@ -1,0 +1,137 @@
+country_decisions = {
+
+	# The named hosts the frontier actually raised. The 1.37 map has no room to
+	# split the Don or the Kuban off as countries, so each of these is an
+	# identity a Cossack polity takes on the ground it holds: a standing
+	# modifier, a muster across its own steppe, and a name the dynamic
+	# localisation reads back. See customizable_localization/cossack_host_names.txt.
+
+	found_the_don_host = {
+		major = yes
+		potential = {
+			is_cossack_polity = yes
+			NOT = { has_country_flag = founded_don_host }
+			any_owned_province = { area = lower_don_area }
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			area = lower_don_area
+		}
+		allow = {
+			holds_the_lower_don = yes
+			mil_power = 50
+			stability = 1
+		}
+		effect = {
+			set_country_flag = founded_don_host
+			found_cossack_host_effect = yes
+			every_owned_province = {
+				limit = { area = lower_don_area }
+				add_permanent_claim = ROOT
+			}
+		}
+		ai_will_do = { factor = 10 }
+	}
+
+	found_the_danube_sich = {
+		major = yes
+		potential = {
+			is_cossack_polity = yes
+			NOT = { has_country_flag = founded_danube_sich }
+			any_owned_province = {
+				OR = {
+					area = moldavia_area
+					area = wallachia_area
+				}
+			}
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				area = moldavia_area
+				area = wallachia_area
+			}
+		}
+		allow = {
+			holds_the_danube_bank = yes
+			mil_power = 50
+			stability = 1
+		}
+		effect = {
+			set_country_flag = founded_danube_sich
+			found_cossack_host_effect = yes
+			add_country_modifier = {
+				name = zaz_host_in_exile
+				duration = 5475
+			}
+		}
+		ai_will_do = { factor = 5 }
+	}
+
+	found_the_eastern_host = {
+		major = yes
+		potential = {
+			is_cossack_polity = yes
+			NOT = { has_country_flag = founded_eastern_host }
+			any_owned_province = {
+				OR = {
+					area = circassia_area
+					area = nogai_area
+				}
+			}
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				area = circassia_area
+				area = nogai_area
+			}
+		}
+		allow = {
+			holds_the_eastern_steppe = yes
+			mil_power = 50
+			army_tradition = 30
+		}
+		effect = {
+			set_country_flag = founded_eastern_host
+			found_cossack_host_effect = yes
+			every_owned_province = {
+				limit = {
+					OR = {
+						area = circassia_area
+						area = nogai_area
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+		ai_will_do = { factor = 5 }
+	}
+
+	found_the_sloboda_host = {
+		major = yes
+		potential = {
+			is_cossack_polity = yes
+			NOT = { has_country_flag = founded_sloboda_host }
+			any_owned_province = { region = ruthenia_region }
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			region = ruthenia_region
+		}
+		allow = {
+			holds_the_sloboda_country = yes
+			mil_power = 50
+			stability = 1
+		}
+		effect = {
+			set_country_flag = founded_sloboda_host
+			found_cossack_host_effect = yes
+			add_country_modifier = {
+				name = cossack_host_founded
+				duration = -1
+			}
+		}
+		ai_will_do = { factor = 5 }
+	}
+}

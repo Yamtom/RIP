@@ -1,0 +1,26 @@
+# Inspired by the choices in vanilla 1.30.3 orthodox_flavor.3 and .4.
+# This is an institutional abstraction, not a claim that a dated event occurred.
+namespace = rip_parish_visit
+country_event = {
+	id = rip_parish_visit.1
+	title = rip_parish_visit.1.t
+	desc = rip_parish_visit.1.desc
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_parish_visit.1.a
+		trigger = { rip_can_fund_parish_visit = yes }
+		ai_chance = { factor = 60 }
+		rip_fund_parish_visit_effect = { MODIFIER = rip_parish_service_books }
+	}
+	option = {
+		name = rip_parish_visit.1.b
+		trigger = { rip_can_fund_parish_visit = yes }
+		ai_chance = { factor = 40 }
+		rip_fund_parish_visit_effect = { MODIFIER = rip_parish_alms_register }
+	}
+	option = {
+		name = rip_parish_visit.1.c
+		ai_chance = { factor = 0 }
+	}
+}

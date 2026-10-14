@@ -1,0 +1,16 @@
+# Country scope. A local school foundation, including under a Catholic patron.
+rip_uc_school_parish = {
+	religion = greek_catholic
+	is_city = yes
+	controlled_by = owner
+	OR = { has_building = temple has_building = cathedral }
+}
+rip_uc_can_found_schools = {
+	rip_church_union_supporter = yes
+	is_at_war = no
+	adm_power = 50
+	treasury = 75
+	NOT = { has_country_flag = rip_once_greek_catholic_education_decision }
+	NOT = { has_country_modifier = uniate_educational_network }
+	any_owned_province = { rip_uc_school_parish = yes }
+}
