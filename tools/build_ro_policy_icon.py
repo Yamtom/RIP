@@ -1,13 +1,19 @@
-"""Compose the Mission policy banner with native two-state trade frames."""
+"""Compose the RO policy's centered cross with native two-state button frames.
+
+The action spends Fervor, so its art deliberately contains no ducat symbol.
+Only RIP's own sprite is written; Muslim propagation keeps its native art.
+"""
 from pathlib import Path
 import argparse, sys
 from PIL import Image, ImageDraw
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tests'))
 from clausewitz_testlib import ROOT, vanilla_root
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()
-symbol=Image.open(ROOT/'assets/church_banners/ro_banner_mission_64.png').convert('RGBA')
-symbol.thumbnail((34,36),Image.Resampling.LANCZOS)
-symbol=symbol.crop(symbol.getbbox())
+source=Image.open(ROOT/'gfx/interface/country_icon_religion.dds').convert('RGBA')
+assert source.height==64 and source.width%64==0 and source.width>=31*64  # frames 1-31 are fixed; later ones are extra faiths
+cross=source.crop((29*64,0,30*64,64))
+cross=cross.crop(cross.getbbox())
+cross.thumbnail((30,38),Image.Resampling.LANCZOS)
 game=vanilla_root()
 if game is None:
     raise SystemExit('Cannot build the policy icon without target-compatible EU4 native frames.')
@@ -21,7 +27,7 @@ for i in range(2):
     ImageDraw.Draw(frame).polygon([(18,9),(37,9),(46,18),(46,37),
                                    (37,46),(18,46),(9,37),(9,18)],
                                   fill=(26,45,49,255))
-    frame.alpha_composite(symbol,((56-symbol.width)//2,(56-symbol.height)//2))
+    frame.alpha_composite(cross,((56-cross.width)//2,(56-cross.height)//2))
     original=native.crop((i*56,0,(i+1)*56,56))
     for y in range(56):
         for x in range(56):
