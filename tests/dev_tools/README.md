@@ -19,6 +19,27 @@ event zaz_branch_debug.1
 
 Перед пакуванням приберіть їх знову.
 
+## RIP_OldBelieverTest
+
+Три приховані події-фікстури (`rip_ob_test.1-3`) для консолі: засівають
+старообрядницькі громади, ставлять політику й перевіряють, що громади
+переживають кінець кризи Раскола. Результат пишуть у `game.log` маркерами
+`RIP_OB_TEST ADOPTION_PASS`, `MINORITY_PASS`, `EARLY_END_BLOCKED`,
+`PERSISTENCE_PASS`.
+
+**На цьому дереві вони не працюють.** Фікстура викликає
+`rip_ob_begin_schism_effect`, `rip_ob_tolerate_effect` і тригер
+`rip_ob_crisis_resolved`, а їх визначає лише ще не злита логіка старообрядців
+(stash-знімок `18a5a1a3`, `refs/backup/church-stash-oldbelievers-18a5a1`).
+Маркер `ADOPTION_PASS` до того ж чекає від знімка безумовний
+`rip_faith_adopt_muscovite_church_effect`, тоді як на `main` він гейтований
+`rip_church_ro_can_separate`. Тому файл тримається тут, а не в `events/`: в
+`events/` гра завантажила б його й одразу скаржилась би на невідомі ефекти.
+
+Коли логіку буде злито, скопіюйте `RIP_OldBelieverTest.txt` до `events/`, а
+`rip_ob_test_l_english.yml` до `localisation/`, запустіть `event rip_ob_test.1`
+на одноразовій кампанії без Ironman і приберіть обидва файли перед пакуванням.
+
 ## local_llm — локальний llama.cpp як підагент
 
 `local_llm.py` — пул запитів до llama.cpp на `http://localhost:8080`
