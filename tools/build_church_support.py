@@ -40,19 +40,19 @@ else:
 trigger = '# Generated country-scope node gates; ROOT is the country.\n'
 effects = '# Generated from EU4 1.37 trade-node anchor IDs.\n'
 recount, close, maintain, ai, options = [], [], [], [], []
-# A parish that carries the node: owned, controlled, core, Muscovite Orthodox, linked to the capital,
+# A parish that carries the node: owned, controlled, core, of the country's church, linked to the capital,
 # with a temple or cathedral. The same parish is what makes a node eligible at all.
-PARISH = ('owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox '
+PARISH = ('owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = ROOT '
           'has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral }')
 for name, anchor in nodes:
     key = 'rip_church_node_' + name
     trigger += f'''{key}_eligible = {{
- religion = russian_orthodox has_country_flag = rip_church_icon_mission
+ rip_church_ro_jurisdiction = yes has_country_flag = rip_church_icon_mission
  has_dlc = "Cradle of Civilization"
  {anchor} = {{
  has_trader = ROOT trade_share = {{ country = ROOT share = 50 }}
  any_trade_node_member_province = {{
- owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox
+ owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = ROOT
  has_province_flag = rip_church_ro_connected@ROOT
  OR = {{ has_building = temple has_building = cathedral }}
  }}
@@ -112,13 +112,15 @@ trigger += 'rip_church_ro_registered_node = { OR = {\n'
 for name, anchor in nodes:
     trigger += f'AND = {{ has_country_flag = rip_church_node_{name} FROM = {{ province_id = {anchor} }} }}\n'
 trigger += '} }\n'
-trigger += 'rip_church_ro_can_open_network_menu = { religion = russian_orthodox OR = {\n check_variable = { which = funded_nodes_count value = 1 }\n'
+trigger += 'rip_church_ro_can_open_network_menu = { rip_church_ro_jurisdiction = yes OR = {\n check_variable = { which = funded_nodes_count value = 1 }\n'
 trigger += ''.join(f'rip_church_node_{name}_can_open = yes\n' for name,_ in nodes)
 trigger += '} }\n'
 output('common/scripted_triggers/rip_church_nodes_generated.txt', trigger)
 # Trade policies are parsed before these scripted triggers are available in EU4.
 # Expand the same authoritative gates instead of leaving unresolved references.
-policy_triggers = trigger + '\n' + (ROOT/'common/scripted_triggers/rip_church_propagation_triggers.txt').read_text(encoding='utf-8-sig')
+policy_triggers = (trigger + '\n' +
+                   (ROOT/'common/scripted_triggers/rip_church_ro_history_triggers.txt').read_text(encoding='utf-8-sig') + '\n' +
+                   (ROOT/'common/scripted_triggers/rip_church_propagation_triggers.txt').read_text(encoding='utf-8-sig'))
 def expand_policy_gate(name, stack=()):
     assert name not in stack, ('Recursive policy gate', stack, name)
     block = named_block(policy_triggers, name)
@@ -126,10 +128,13 @@ def expand_policy_gate(name, stack=()):
     return re.sub(r'\b(rip_church_\w+)\s*=\s*yes\b',
                   lambda m: expand_policy_gate(m[1], stack+(name,)), body)
 native_gate = '\n'.join(line.rstrip() for line in expand_policy_gate('rip_church_ro_can_maintain_policy').splitlines())
+native_jurisdiction_gate = '\n'.join(line.rstrip() for line in expand_policy_gate('rip_church_ro_jurisdiction').splitlines())
 output('common/trading_policies/RIP_church_mission_network.txt', '''# Generated: native gates only, because trading policies load before scripted triggers.
 rip_church_mission_network = {
  unique = yes
- potential = { religion = russian_orthodox }
+ potential = {
+'''+native_jurisdiction_gate+'''
+ }
  can_select = {
 '''+native_gate+'''
  }
@@ -155,7 +160,7 @@ output('events/RIP_ChurchNodes_generated.txt', '''namespace = rip_church_nodes
 country_event = {
  id = rip_church_nodes.1 title = rip_church_nodes.1.t desc = rip_church_nodes.1.d
  picture = RELIGION_eventPicture is_triggered_only = yes
- trigger = { religion = russian_orthodox }
+ trigger = { rip_church_ro_jurisdiction = yes }
  immediate = { rip_church_ro_refresh_connections_effect = yes rip_church_ro_recount_nodes_effect = yes rip_church_ro_recount_effect = yes }
 '''+'\n'.join(options)+'''
  option = { name = rip_church_close }

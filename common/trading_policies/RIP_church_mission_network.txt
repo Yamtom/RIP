@@ -1,10 +1,21 @@
 # Generated: native gates only, because trading policies load before scripted triggers.
 rip_church_mission_network = {
  unique = yes
- potential = { religion = russian_orthodox }
+ potential = {
+
+ OR = {
+  religion = russian_orthodox
+  AND = { religion = orthodox has_country_flag = rip_ro_stage_autocephaly }
+ }
+ }
  can_select = {
 
- religion = russian_orthodox
+
+ OR = {
+  religion = russian_orthodox
+  AND = { religion = orthodox has_country_flag = rip_ro_stage_autocephaly }
+ }
+
  # EU4 shows one native pass/fail marker for each player-facing requirement.
  # The policy generator expands scripted references inside these wrappers.
  custom_trigger_tooltip = {
@@ -111,24 +122,29 @@ AND = { has_country_flag = rip_church_node_english_channel FROM = { province_id 
  custom_trigger_tooltip = {
   tooltip = rip_church_policy_parish_tt
   FROM = { any_trade_node_member_province = {
-   owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox
+   owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = ROOT
    has_province_flag = rip_church_ro_connected@ROOT
    OR = { has_building = temple has_building = cathedral }
   } }
  }
  custom_trigger_tooltip = {
   tooltip = rip_church_policy_target_tt
-  FROM = { any_trade_node_member_province = {  is_city = yes NOT = { religion = russian_orthodox } NOT = { has_missionary = yes }
+  FROM = { any_trade_node_member_province = {  is_city = yes NOT = { religion = ROOT } NOT = { has_missionary = yes }
  NOT = { province_id = 118 } NOT = { has_province_modifier = religious_center }
  NOT = { has_province_modifier = religious_zeal_at_conv } NOT = { has_province_flag = rip_church_rite_recognized }
- any_neighbor_province = { religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT }
+ any_neighbor_province = { religion = ROOT has_province_flag = rip_church_ro_connected@ROOT }
  NOT = { AND = { religion = orthodox owner = { religion = orthodox is_subject = no } ROOT = { NOT = { has_country_flag = rip_church_ro_schismatic } } } }
   } }
  }
  }
  can_maintain = {
 
- religion = russian_orthodox
+
+ OR = {
+  religion = russian_orthodox
+  AND = { religion = orthodox has_country_flag = rip_ro_stage_autocephaly }
+ }
+
  # EU4 shows one native pass/fail marker for each player-facing requirement.
  # The policy generator expands scripted references inside these wrappers.
  custom_trigger_tooltip = {
@@ -235,17 +251,17 @@ AND = { has_country_flag = rip_church_node_english_channel FROM = { province_id 
  custom_trigger_tooltip = {
   tooltip = rip_church_policy_parish_tt
   FROM = { any_trade_node_member_province = {
-   owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = russian_orthodox
+   owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = ROOT
    has_province_flag = rip_church_ro_connected@ROOT
    OR = { has_building = temple has_building = cathedral }
   } }
  }
  custom_trigger_tooltip = {
   tooltip = rip_church_policy_target_tt
-  FROM = { any_trade_node_member_province = {  is_city = yes NOT = { religion = russian_orthodox } NOT = { has_missionary = yes }
+  FROM = { any_trade_node_member_province = {  is_city = yes NOT = { religion = ROOT } NOT = { has_missionary = yes }
  NOT = { province_id = 118 } NOT = { has_province_modifier = religious_center }
  NOT = { has_province_modifier = religious_zeal_at_conv } NOT = { has_province_flag = rip_church_rite_recognized }
- any_neighbor_province = { religion = russian_orthodox has_province_flag = rip_church_ro_connected@ROOT }
+ any_neighbor_province = { religion = ROOT has_province_flag = rip_church_ro_connected@ROOT }
  NOT = { AND = { religion = orthodox owner = { religion = orthodox is_subject = no } ROOT = { NOT = { has_country_flag = rip_church_ro_schismatic } } } }
   } }
  }
