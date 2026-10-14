@@ -1,4 +1,4 @@
-"""Build and verify the 31-frame religion strips (Russian Orthodoxy 30, Greek Catholicism 31).
+"""Build and verify 32-frame strips (Muscovite 30, Greek Catholic 31, Old Believer 32).
 
 EU4 draws a religion from a strip of equal square frames indexed by `icon = N`
 in common/religions. Vanilla ships FOUR such textures, not three:
@@ -8,15 +8,12 @@ in common/religions. Vanilla ships FOUR such textures, not three:
     icon_religion_small.dds      32x32  x29   GFX_icon_religion_small, GFX_religion_icon_strip
     province_view_religion.dds   32x32  x29   GFX_province_view_religion
 
-The first three were extended to 31 frames by hand (commit 38ec5210) and are
-never rewritten by this tool. The fourth - the one the advisor rows, the HRE
-window, holy-site blessings, the colonisation panel and the map conversion icon
-draw - was left at 29, so a Greek Catholic or Russian Orthodox subject drew an
-empty circle. This tool generates it:
+All four strips are generated from vanilla, preserving the original frames:
 
     frames 1..29  the vanilla file, byte for byte
     frame 30      vanilla frame 4 (Orthodox cross), purple shifted to oak
     frame 31      vanilla frame 1 (Catholic crucifix), gold shifted to crimson
+    frame 32      vanilla frame 4 (Orthodox cross), purple shifted to green
 
 with the SAME recolour documented in interface/rip_religion_icons.gfx. Pixels
 with alpha 0 keep the donor's bytes, so bilinear sampling under a scale factor
@@ -24,7 +21,7 @@ with alpha 0 keep the donor's bytes, so bilinear sampling under a scale factor
 
 The recolour was recovered by reproducing the shipped frames of the other three
 strips: every one of them is rebuilt bit-exactly from vanilla by `extend()`
-below, which is also how the legacy strips are verified without being touched.
+below, which is also how the legacy frames are verified.
 The one parameter the .gfx comment does not state is the grey floor - pixels
 with saturation under 0.08 are left alone, which is what keeps the metal rim and
 the outline at vanilla's shading.
@@ -47,20 +44,21 @@ from clausewitz_testlib import vanilla_root  # noqa: E402
 
 HEADER = 128
 VANILLA_FRAMES = 29
-MOD_FRAMES = 31
+MOD_FRAMES = 32
 MIN_SATURATION = 0.08  # below this a pixel is metal or outline, not coloured paint
 
 # frame -> (donor frame in the vanilla strip, recolour). Hues are degrees.
 RECOLOURS = {
     30: dict(donor=4, window=(215, 335), hue=26, sat_mul=1.50, sat_add=0.14, sat_cap=0.62, val_mul=0.90),
     31: dict(donor=1, window=(15, 70), hue=350, sat_mul=1.15, sat_add=0.10, sat_cap=0.72, val_mul=0.92),
+    32: dict(donor=4, window=(215, 335), hue=150, sat_mul=1.20, sat_add=0.10, sat_cap=0.65, val_mul=0.85),
 }
 
 # (file under gfx/interface, frame edge in pixels, generated here?)
 STRIPS = (
-    ("icon_religion.dds", 64, False),
-    ("country_icon_religion.dds", 64, False),
-    ("icon_religion_small.dds", 32, False),
+    ("icon_religion.dds", 64, True),
+    ("country_icon_religion.dds", 64, True),
+    ("icon_religion_small.dds", 32, True),
     ("province_view_religion.dds", 32, True),
 )
 
@@ -129,14 +127,14 @@ def extend(vanilla: Strip) -> bytes:
     """The vanilla strip plus frames 30 and 31, as a complete DDS file."""
     if vanilla.frames != VANILLA_FRAMES or vanilla.width != VANILLA_FRAMES * vanilla.height:
         raise ValueError(f"{vanilla.label}: expected {VANILLA_FRAMES} square frames, found {vanilla.width}x{vanilla.height}")
-    added = [recolour(vanilla.frame(RECOLOURS[n]["donor"]), RECOLOURS[n]) for n in (30, 31)]
+    added = [recolour(vanilla.frame(RECOLOURS[n]["donor"]), RECOLOURS[n]) for n in sorted(RECOLOURS)]
     header = bytearray(vanilla.header)
     width = MOD_FRAMES * vanilla.height
     struct.pack_into("<I", header, 16, width)
     struct.pack_into("<I", header, 20, width * 4)  # pitch
     body = bytearray()
     for y in range(vanilla.height):
-        body += vanilla.row(y, 0, vanilla.width) + added[0][y] + added[1][y]
+        body += vanilla.row(y, 0, vanilla.width) + b''.join(frame[y] for frame in added)
     return bytes(header) + bytes(body)
 
 
@@ -151,7 +149,7 @@ def structural(strip: Strip) -> list[str]:
         problems.append(f"{strip.width}x{strip.height}, expected {MOD_FRAMES} square frames")
         return problems
     area = strip.height * strip.height
-    for number in (30, 31):
+    for number in sorted(RECOLOURS):
         count = visible(strip.frame(number))
         if count < area // 20:
             problems.append(f"frame {number} has only {count} visible pixels")
