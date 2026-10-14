@@ -10,7 +10,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tests'))
 from clausewitz_testlib import ROOT, vanilla_root
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()
 source=Image.open(ROOT/'gfx/interface/country_icon_religion.dds').convert('RGBA')
-assert source.size==(31*64,64)
+assert source.height==64 and source.width%64==0 and source.width>=31*64  # frames 1-31 are fixed; later ones are extra faiths
 cross=source.crop((29*64,0,30*64,64))
 cross=cross.crop(cross.getbbox())
 cross.thumbnail((30,38),Image.Resampling.LANCZOS)

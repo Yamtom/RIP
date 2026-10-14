@@ -8,7 +8,7 @@ import re
 import struct
 
 from church_testlib import EFFECTS, fixture, parse
-from clausewitz_testlib import read, vanilla_root
+from clausewitz_testlib import ROOT, read, vanilla_root
 
 
 def descendants(entries):
@@ -123,6 +123,13 @@ for faith in ('russian_orthodox', 'orthodox', 'greek_catholic', 'catholic'):
 # The four policies now have visible action buttons; the icon is decorative and
 # active state uses its separate highlight frame, never a check/cross badge.
 for policy in ('war', 'mercy', 'building', 'mission'):
+    texture = f'gfx/interface/rip_church/ro_banner_{policy}.dds'
+    assert f'textureFile = "{texture}"' in read('interface/RIP_church_panels.gfx')
+    asset = (ROOT / texture).read_bytes()
+    assert asset[:4] == b'DDS ' and struct.unpack_from('<II', asset, 12) == (64, 64)
+    assert len(asset) == 128 + 64 * 64 * 4
+    alpha = asset[131::4]
+    assert min(alpha) == 0 and max(alpha) == 255, 'banners require genuine alpha'
     card, body = widget('windowType', f'rip_church_ro_{policy}_card')
     index = ('war', 'mercy', 'building', 'mission').index(policy)
     assert dict(card['size']) == {'x': '419', 'y': '74'}

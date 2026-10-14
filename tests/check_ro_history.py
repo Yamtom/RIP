@@ -170,6 +170,13 @@ for choice, internal_schism in (('russian_orthodox.6.a', True), ('russian_orthod
     if choice.endswith('.b'):
         assert 'old_believer_underground' in c['modifiers']
     assert 'rip_church_ro_schismatic' not in c['flags'], 'Raskol is not a break with other Eastern sees'
+    # The council also chooses the Old Believer policy and marks the communities
+    # (tests/check_old_believers.py runs the rest of that chapter).
+    assert ('rip_ob_repression' in c['flags']) == choice.endswith('.a'), choice
+    assert ('rip_ob_toleration' in c['flags']) == choice.endswith('.b'), choice
+    assert ('rip_ob_schism_initialized' in c['flags']) == internal_schism, choice
+    if choice.endswith('.c'):
+        assert 'rip_ob_policy_changed' not in c['flags'], 'a compromise sets no policy'
     if not internal_schism:
         assert abs(c['patriarch_authority'] - 0.4) < 1e-9
         assert c['stability'] == stability_before + 1

@@ -42,7 +42,7 @@ SPRITES = {
     "GFX_province_view_religion", "GFX_religion_icon_strip",
 }
 VANILLA_FRAMES = 29
-DONORS = {30: 4, 31: 1}  # frame -> the vanilla frame it is recoloured from
+DONORS = {30: 4, 31: 1, 32: 4}  # frame -> the vanilla frame it is recoloured from
 errors = []
 
 

@@ -19,6 +19,27 @@ event zaz_branch_debug.1
 
 Перед пакуванням приберіть їх знову.
 
+## RIP_OldBelieverTest
+
+Три приховані події-фікстури (`rip_ob_test.1-3`) для консолі: засівають
+старообрядницькі громади, ставлять політику терпимості й перевіряють, що
+громади, більшість і політика переживають кінець Розколу
+(`rip_faith_disaster.2`). Результат пишуть у `game.log` маркерами
+`RIP_OB_TEST MINORITY_PASS`, `POLICY_PASS`, `LOCAL_PASS`, `PERSISTENCE_PASS`.
+
+Фікстура працює на цьому дереві: вона викликає `rip_ob_begin_schism_effect`,
+`rip_ob_tolerate_effect` і `rip_ob_upkeep_effect`, які визначає
+`common/scripted_effects/rip_old_believer_effects.txt`. Вихід Розколу
+(Патріарший авторитет нижче 60%) маркером не перевіряється: катастрофу не можна
+запустити до 1666 року без перезавантаження дати. Тримайте файл тут, а не в
+`events/`: в `events/` гра завантажує його як живий, а
+`tests/check_old_believers.py` це забороняє.
+
+Щоб скористатися: скопіюйте `RIP_OldBelieverTest.txt` до `events/`, а
+`rip_ob_test_l_english.yml` до `localisation/`, запустіть `event rip_ob_test.1`
+за MOS на одноразовій кампанії без Ironman і приберіть обидва файли перед
+пакуванням.
+
 ## local_llm — локальний llama.cpp як підагент
 
 `local_llm.py` — пул запитів до llama.cpp на `http://localhost:8080`

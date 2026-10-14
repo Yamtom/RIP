@@ -1551,6 +1551,12 @@ for key in ('rip_church_gc_heading_tt','rip_church_gui_status_title_tt','rip_chu
     DATA.pop(key,None)
 from ro_history_localisation import COPY as RO_HISTORY_COPY
 DATA.update(RO_HISTORY_COPY)
+from old_believer_localisation import COPY as OLD_BELIEVER_COPY
+# The Old Believer chapter adds keys; it must never silently override a
+# Muscovite-history key.
+_shared_keys = set(OLD_BELIEVER_COPY) & set(RO_HISTORY_COPY)
+assert not _shared_keys, 'old_believer_localisation.py overrides ro_history_localisation.py: ' + ', '.join(sorted(_shared_keys))
+DATA.update(OLD_BELIEVER_COPY)
 # These historical keys now have one generator-owned definition. Retire the
 # former hand-maintained copies, preserving every unrelated key and the BOM.
 legacy_ro_paths = ['localisation/russian_orthodox_l_english.yml'] + [

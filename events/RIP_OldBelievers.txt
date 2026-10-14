@@ -1,0 +1,89 @@
+##############################################################
+# The Old Believers: what a community does once it exists.
+#
+# Communities are marked by rip_ob_begin_schism_effect at the council of 1666
+# (common/scripted_effects/rip_old_believer_effects.txt). A community is a
+# province flag, not a faith: it survives conquest and the end of the Raskol, and
+# only rip_ob.2 or a rebel victory ever makes it a majority.
+#
+# There is no rip_ob.1. The snapshot this chapter came from opened with an event
+# in which an Orthodox province accepted the Muscovite state church; here the
+# state church is a jurisdiction (rip_church_ro_jurisdiction) and a province
+# never changes faith with it, so that event has nothing to say.
+##############################################################
+
+namespace = rip_ob
+
+# A ten-year minimum community history precedes a probabilistic majority shift.
+# Conquest never makes a Greek/Kyivan Orthodox parish an Old Believer community.
+province_event = {
+	id = rip_ob.2
+	title = rip_ob.2.t
+	desc = rip_ob.2.d
+	picture = RELIGION_eventPicture
+
+	trigger = {
+		is_year = 1666
+		is_city = yes
+		controlled_by = owner
+		NOT = { has_missionary = yes }
+		had_province_flag = { flag = rip_ob_community days = 3650 }
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		OR = {
+			NOT = { has_province_flag = rip_ob_majority_reviewed }
+			had_province_flag = { flag = rip_ob_majority_reviewed days = 3650 }
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 120
+	}
+
+	immediate = {
+		set_province_flag = rip_ob_majority_reviewed
+	}
+
+	option = {	# The majority moves to the old rite.
+		name = rip_ob.2.a
+		ai_chance = { factor = 60 }
+
+		owner = { enable_religion = old_believer }
+		change_religion = old_believer
+	}
+
+	option = {	# The settlement stays mixed.
+		name = rip_ob.2.b
+		ai_chance = { factor = 40 }
+
+		add_local_autonomy = 10
+	}
+}
+
+# Expansion is adjacency-bound and requires a decade-old neighbouring community.
+province_event = {
+	id = rip_ob.3
+	title = rip_ob.3.t
+	desc = rip_ob.3.d
+	picture = COLONIZATION_eventPicture
+
+	trigger = {
+		is_year = 1666
+		rip_ob_seed_eligible = yes
+		any_neighbor_province = {
+			religion = old_believer
+			had_province_flag = { flag = rip_ob_community days = 3650 }
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 240
+	}
+
+	option = {
+		name = rip_ob.3.a
+		rip_ob_mark_community_effect = yes
+	}
+}

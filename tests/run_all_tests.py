@@ -24,6 +24,7 @@ scripts = [
     "tests/check_ro_panel_readouts.py",
     "tests/check_ro_fervor_cycle.py",
     "tests/check_ro_history.py",
+    "tests/check_old_believers.py",
     "tests/check_ro_readouts.py",
     "tests/check_ro_trade_policy.py",
     "tests/check_turov_name.py",
