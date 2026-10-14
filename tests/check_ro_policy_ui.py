@@ -93,17 +93,12 @@ if install:
     for asset in ('copts_blessing_select', 'copts_blessing_slot'):
         image = (install / f'gfx/interface/{asset}.dds').read_bytes()
         assert image[:4] == b'DDS ' and struct.unpack_from('<II', image, 12) == (58, 58)
-    for kind, name in (('instantTextBoxType', 'rip_church_authority_heading'),
+    for kind, name in (('instantTextBoxType', 'current_patriarch_authority_text'),
                        ('iconType', 'low_patriarch_authority'),
                        ('iconType', 'high_patriarch_authority')):
         fields = dict(widget(kind, name, host_children)[0])
-        if name == 'rip_church_authority_heading':
-            assert fields['scripted'] == 'yes'
-            assert fields['text'] == name
-            assert position(fields) == {'x': 50, 'y': 255}
-        else:
-            assert fields.pop('scripted') == 'yes'
-            assert fields == widget(kind, name, vanilla_gui)[0], name
+        assert fields.pop('scripted') == 'yes'
+        assert fields == widget(kind, name, vanilla_gui)[0], name
 
 cases = 0
 for faith in ('russian_orthodox', 'orthodox', 'greek_catholic', 'catholic'):
@@ -138,7 +133,7 @@ for policy in ('war', 'mercy', 'building', 'mission'):
     card, body = widget('windowType', f'rip_church_ro_{policy}_card')
     index = ('war', 'mercy', 'building', 'mission').index(policy)
     assert dict(card['size']) == {'x': '419', 'y': '74'}
-    assert position(card) == {'x': 28, 'y': 214 + index * 74}
+    assert position(card) == {'x': 28, 'y': 188 + index * 78}
     children = list(descendants(body))
     action = f'rip_church_icon_{policy}_button'
     hit, _ = widget('guiButtonType', action, children)
@@ -165,10 +160,10 @@ for policy in ('war', 'mercy', 'building', 'mission'):
 # the separate native tab strip. Keep the province-name cell ahead of the
 # religion column while allowing long Muscovite labels to remain on one row.
 nodes, _ = widget('guiButtonType', 'rip_church_nodes_button')
-assert nodes['quadTextureSprite'] == 'GFX_standard_button_105'
-assert position(nodes) == {'x': 185, 'y': 174}
+assert nodes['quadTextureSprite'] == 'button_type_8'
+assert nodes['quadTextureSprite'] == hit['quadTextureSprite']
 native_action, _ = widget('guiButtonType', 'rip_church_gc_native_privileges_button')
-assert native_action['quadTextureSprite'] == hit['quadTextureSprite']
+assert native_action['quadTextureSprite'] == nodes['quadTextureSprite']
 tab, _ = widget('guiButtonType', 'rip_church_gc_union_tab_union')
 assert tab['quadTextureSprite'] == 'GFX_tab_small_116'
 _, province_body = widget('windowType', 'countryreligionview_provincelistitem')

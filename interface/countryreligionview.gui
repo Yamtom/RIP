@@ -613,11 +613,11 @@ guiTypes = {
 			}
 			
 			instantTextBoxType = {
-				name = "rip_church_authority_heading" scripted = yes
+				name = "current_patriarch_authority_text" scripted = yes
 				position = { x = 50 y = 255 }
 				font = "vic_18"
 				borderSize = {x = 0 y = 0}
-				text = "rip_church_authority_heading"
+				text = "CURRENT_PATRIARCH_AUTHORITY"
 				maxWidth = 256
 				maxHeight = 24
 				Orientation = "UPPER_LEFT"
@@ -656,17 +656,14 @@ guiTypes = {
 windowType = {
  name = "rip_church_gc_native_controls" scripted = yes
  position = { x=0 y=0 } size = { x=280 y=50 } moveable = 0
- instantTextBoxType = { name = "rip_church_gc_capacity_heading" scripted = yes position = { x=53 y=255 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_authority_heading_tt" font = "vic_18" text = "rip_church_gc_capacity_heading" maxWidth = 256 maxHeight = 24 format = center }
+ instantTextBoxType = { name = "rip_church_gc_capacity_heading" scripted = yes position = { x=53 y=255 } font = "vic_18" text = "rip_church_gc_capacity_heading" maxWidth = 256 maxHeight = 24 format = center }
  iconType = { name = "rip_church_gc_capacity_low_icon" scripted = yes spriteType = "GFX_rip_church_gc_capacity_low" position = { x=54 y=274 } }
  iconType = { name = "rip_church_gc_capacity_high_icon" scripted = yes spriteType = "GFX_rip_church_gc_capacity_high" position = { x=270 y=275 } }
  iconType = { name = "rip_church_gc_selector_cover" spriteType = "GFX_rip_church_gc_selector_surface" position = { x=303 y=232 } alwaystransparent = no }
- iconType = { name = "rip_church_gc_union_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = { x=319 y=244 } Orientation = "UPPER_LEFT" scale = 0.8 alwaystransparent = yes }
- iconType = { name = "rip_church_gc_synod_infrastructure_symbol" scripted = yes spriteType = "GFX_rip_church_gc_privileges" position = { x=319 y=244 } Orientation = "UPPER_LEFT" scale = 0.8 alwaystransparent = yes }
- iconType = { name = "rip_church_gc_synod_coexistence_symbol" scripted = yes spriteType = "GFX_rip_church_gc_ecumenism" position = { x=319 y=244 } Orientation = "UPPER_LEFT" scale = 0.8 alwaystransparent = yes }
-guiButtonType = {
- name = "rip_church_gc_window_toggle" scripted = yes position = { x=304 y=300 } Orientation = "LEFT" pdx_tooltip = "rip_church_gc_window_toggle_tt"
- quadTextureSprite = "GFX_standard_button_71" buttonText = "rip_church_gc_window_toggle" buttonFont = "vic_18"
-}
+ iconType = { name = "rip_church_gc_union_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
+ iconType = { name = "rip_church_gc_synod_infrastructure_symbol" scripted = yes spriteType = "GFX_rip_church_gc_privileges" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
+ iconType = { name = "rip_church_gc_synod_coexistence_symbol" scripted = yes spriteType = "GFX_rip_church_gc_ecumenism" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
+
 }
 windowType = {
  name = "rip_church_ro_native_controls" scripted = yes
@@ -3002,6 +2999,10 @@ windowType = {
  name = "rip_church_gui_recognize_parish" scripted = yes position = { x=91 y=268 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gui_recognize_parish_tt"
  quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_church_gui_recognize_parish" buttonFont = "vic_18"
 } }
+}
+guiButtonType = {
+ name = "rip_church_gc_window_toggle" scripted = yes position = { x=372 y=238 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_gc_window_toggle_tt"
+ quadTextureSprite = "GFX_closebutton2" buttonText = "" buttonFont = "vic_18" scale = 0.7
 }
 }
 	
