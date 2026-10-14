@@ -186,6 +186,7 @@ def state_badge(name,x,y,ready,tooltip,scale=1,click_through=False):
 # One surface and a shared header with the Union pane. Four equal-height rows;
 # detailed regional effects and network instructions belong in hover tooltips.
 RO_CARD_X,RO_CARD_Y,RO_CARD_W,RO_CARD_H,RO_CARD_PITCH=28,188,419,74,78
+RO_TILE_Y,RO_TILE_W,RO_TILE_H,RO_ARROW_W=108,117,66,24
 RO_BUTTON_Y=508
 insets.extend([
  'corneredTileSpriteType = { name = "GFX_rip_ro_native_frame" textureFile = "gfx/interface/tiles_dialog.dds" size = { x=475 y=560 } borderSize = { x=32 y=32 } }',
@@ -215,13 +216,13 @@ for i,k in enumerate(('war','mercy','building','mission')):
     x,y=RO_CARD_X,RO_CARD_Y+i*RO_CARD_PITCH
     policy=art('rip_church_'+k+'_slot','GFX_rip_church_policy_slot',0,0,1.2)
     policy+=button(f'rip_church_icon_{k}_button',230,0,
-                   f'religion = russian_orthodox OR = {{ has_country_flag = rip_church_icon_{k} rip_church_can_activate_{k} = yes }}',
+                   f'rip_church_ro_jurisdiction = yes OR = {{ has_country_flag = rip_church_icon_{k} rip_church_can_activate_{k} = yes }}',
                    f'rip_church_toggle_{k}_effect = yes',sprite='button_type_8',
                    label='rip_church_icon_toggle_label',tooltip=f'rip_church_icon_{k}_button_tt')
     policy+=art('rip_church_'+k+'_art','GFX_rip_church_policy_'+k,3,3,1)
     defs.append(f'custom_icon = {{ name = rip_church_{k}_active_frame potential = {{ has_country_flag = rip_church_icon_{k} }} }}')
     policy+=f'iconType = {{ name = "rip_church_{k}_active_frame" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x=0 y=0 }} scale = 1.2 alwaystransparent = yes }}'
-    policy+=text(f'rip_church_icon_{k}_label',82,2,w=140,h=16,font='vic_18',align='left',tip=False)
+    policy+=text(f'rip_church_icon_{k}_label',82,2,w=140,h=18,font='vic_18',align='left',tip=False)
     # This line reports eligibility and cost; the separate frame marks an active policy.
     policy+=text(f'rip_church_icon_{k}_state',230,37,w=189,h=36,font='vic_18',align='center',tip=False)
     effect_art = {
@@ -239,8 +240,6 @@ for i,k in enumerate(('war','mercy','building','mission')):
     policy+=text(f'rip_church_icon_{k}_benefit',112,33,w=46,h=22,font='vic_18',align='left')
     policy+=text(f'rip_church_icon_{k}_benefit_second',188,33,w=40,h=22,font='vic_18',align='left')
     ro+=card('rip_church_ro_'+k+'_card',x,y,RO_CARD_W,RO_CARD_H,policy)
-for i,y in enumerate(RO_STEP_Y,1):
-    ro+=text(f'rip_church_ro_step{i}',34,y,w=407,h=18,font='vic_18',align='left')
 ro+=button('rip_church_nodes_button',34,RO_BUTTON_Y,'rip_church_ro_can_open_network_menu = yes',
            'country_event = { id = rip_church_nodes.1 }',sprite='button_type_8')
 ro+=button('rip_church_reconcile_button',248,RO_BUTTON_Y,'rip_church_can_reconcile = yes',
@@ -400,8 +399,8 @@ curia+=card('rip_church_contact_card',CX,y,CW,202,contact)
 
 # Catholic/Orthodox Union paths remain in their existing events and decisions.
 # Do not advertise them through a permanent religion sidebar.
-religion_panels=(panel('rip_ro_holy_cities_panel','religion = russian_orthodox has_country_flag = rip_ro_holy_city_register_open',holy_cities,clean=True)+'\n'+
-                panel('rip_church_ro_panel','religion = russian_orthodox NOT = { has_country_flag = rip_church_ro_window_hidden } NOT = { has_country_flag = rip_ro_holy_city_register_open }',ro,clean=True)+'\n'+
+religion_panels=(panel('rip_ro_holy_cities_panel','rip_church_ro_jurisdiction = yes has_country_flag = rip_ro_holy_city_register_open',holy_cities,clean=True)+'\n'+
+                panel('rip_church_ro_panel','rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_church_ro_window_hidden } NOT = { has_country_flag = rip_ro_holy_city_register_open }',ro,clean=True)+'\n'+
                 panel('rip_church_gc_panel','religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } NOT = { has_country_flag = rip_church_gc_curia_view } NOT = { has_country_flag = rip_church_gui_parishes_view }',gc,clean=True)+'\n'+
                 panel('rip_church_gc_curia_panel','religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gc_curia_view NOT = { has_country_flag = rip_church_gui_parishes_view }',curia,clean=True)+'\n'+
                 panel('rip_church_gc_parishes_panel','OR = { religion = greek_catholic rip_church_union_supporter = yes } NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gui_parishes_view',parishes,clean=True))
@@ -484,11 +483,11 @@ for level in ('low','high'):
     defs.append(f'custom_icon = {{ name = rip_church_gc_capacity_{level}_icon potential = {{ religion = greek_catholic }} tooltip = rip_church_gc_capacity_hover_tt }}')
 # The native bar, moving marker and value retain their engine callbacks and tooltip.
 # Only the static heading is gated; each custom faith owns a separate heading.
-defs.append('custom_text_box = { name = current_patriarch_authority_text potential = { NOT = { religion = greek_catholic } NOT = { religion = russian_orthodox } } }')
+defs.append('custom_text_box = { name = current_patriarch_authority_text potential = { NOT = { religion = greek_catholic } NOT = { rip_church_ro_jurisdiction = yes } } }')
 # The native percentage rides the moving marker for both faiths. Only the heading needs a
 # Greek Catholic copy: the shared one sits 3px left of the bar centre.
 defs.append('custom_text_box = { name = rip_church_gc_capacity_heading potential = { religion = greek_catholic } tooltip = rip_church_authority_heading_tt }')
-defs.append('custom_icon = { name = rip_church_ro_selector_symbol potential = { religion = russian_orthodox } frame = { number = 30 trigger = { always = yes } } }')
+defs.append('custom_icon = { name = rip_church_ro_selector_symbol potential = { rip_church_ro_jurisdiction = yes } frame = { number = 30 trigger = { always = yes } } }')
 defs.append('custom_icon = { name = rip_church_gc_union_symbol potential = { NOT = { has_country_modifier = rip_church_gc_infrastructure } NOT = { has_country_modifier = rip_church_gc_coexistence } } frame = { number = 31 trigger = { always = yes } } }')
 for key in ('infrastructure','coexistence'):
     defs.append(f'custom_icon = {{ name = rip_church_gc_synod_{key}_symbol potential = {{ has_country_modifier = rip_church_gc_{key} }} frame = {{ number = 1 trigger = {{ always = yes }} }} }}')
@@ -506,15 +505,15 @@ native_controls='''windowType = {
 
 # Replace the empty native selector with a working route to the policy pane.
 # Keep the engine-owned controls underneath, just as for the Union selector.
-defs.append('custom_window = { name = rip_church_ro_native_controls potential = { religion = russian_orthodox } }')
-defs.append('custom_text_box = { name = rip_church_ro_authority_label potential = { religion = russian_orthodox } tooltip = rip_church_ro_authority_label_tt }')
+defs.append('custom_window = { name = rip_church_ro_native_controls potential = { rip_church_ro_jurisdiction = yes } }')
+defs.append('custom_text_box = { name = rip_church_ro_authority_label potential = { rip_church_ro_jurisdiction = yes } tooltip = rip_church_ro_authority_label_tt }')
 ro_native_controls='''windowType = {
  name = "rip_church_ro_native_controls" scripted = yes
  position = { x=0 y=0 } size = { x=280 y=50 } moveable = 0
  instantTextBoxType = { name = "rip_church_ro_authority_label" scripted = yes position = { x=50 y=255 } font = "vic_18" text = "rip_church_ro_authority_label" maxWidth = 256 maxHeight = 24 format = center }
  iconType = { name = "rip_church_ro_selector_cover" spriteType = "GFX_rip_church_gc_selector_surface" position = { x=303 y=232 } alwaystransparent = no }
  iconType = { name = "rip_church_ro_selector_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = { x=322 y=244 } scale = 0.65625 alwaystransparent = yes }
-'''+button('rip_church_ro_window_toggle',304,300,'religion = russian_orthodox',
+'''+button('rip_church_ro_window_toggle',304,300,'rip_church_ro_jurisdiction = yes',
            'if = { limit = { has_country_flag = rip_church_ro_window_hidden } clr_country_flag = rip_church_ro_window_hidden } else = { set_country_flag = rip_church_ro_window_hidden }',
            sprite='GFX_standard_button_71')+'\n}\n'
 def attach(file,host,body):

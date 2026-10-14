@@ -547,7 +547,7 @@ DATA.update({
  'rip_church_policy_dlc_tt': '§YCradle of Civilization§! is enabled',
  'rip_church_policy_merchant_tt': 'A §Ymerchant§! is present in this node',
  'rip_church_policy_share_tt': 'At least §Y50% trade power§! in this node',
- 'rip_church_policy_parish_tt': 'In this node: an §Yowned, controlled Muscovite Orthodox core§! with a §Ytemple or cathedral§!, connected to the capital through controlled Muscovite Orthodox cores',
+ 'rip_church_policy_parish_tt': 'In this node: an §Yowned, controlled core of your state faith§! with a §Ytemple or cathedral§!, connected to the capital through controlled cores of your state faith',
  'rip_church_policy_target_tt': 'In this node: an §Yeligible settled province§! beside a capital-connected Muscovite parish',
 })
 # ---- Muscovite Church window: the Fervor cycle, the four policies, the mission-node steps.
@@ -560,13 +560,13 @@ RO_REUSE=' Reactivation only after a year; closing it refunds nothing.'
 for key,name,detail,(benefit,benefit_second) in (
  ('war','Military Intercession',
   'Steppe border: your settled provinces bordering another steppe power, gain §G+20% defensiveness§! and §G+1 attrition§! for invaders.\\nAt war with a steppe power: §G+5% discipline§! and §G+10% manpower recovery§!, applied within a month of the war.',
-  ('§GSteppe border: defence +20%§!','§GWar on nomads: discipline +5%§!')),
+  ('§G+20%§!','§G+5%§!')),
  ('mercy','Mercy',
   'The eastern lands, the Volga, the Urals and Siberia: §G-10% local autonomy§! and §G-1 local unrest§! in your provinces there, whatever their faith.',
   ('§G-10%§!','§G-1§!')),
  ('building','Church Building',
   'Parishes with a completed cathedral: §G-25% construction cost§! there, for every building and not only churches. A temple or cathedral is what a mission node needs.',
-  ('§GCathedral: build cost -25%§!','§GAny building there§!')),
+  ('§G-25%§!','§GAll§!')),
  ('mission','Apostolic Mission',
   'Settled provinces of another faith, Orthodox ones excluded: §G+2% local missionary strength§!. It opens the funding of mission nodes, which pay Fervor; closing it closes every node. It needs §Y20 Fervor§! in the pool: 10 to start it and 10 to found the first node.',
   ('§G+2%§!',''))):
