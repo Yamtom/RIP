@@ -404,14 +404,6 @@ religion_panels=(panel('rip_ro_holy_cities_panel','rip_church_ro_jurisdiction = 
                 panel('rip_church_gc_panel','religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } NOT = { has_country_flag = rip_church_gc_curia_view } NOT = { has_country_flag = rip_church_gui_parishes_view }',gc,clean=True)+'\n'+
                 panel('rip_church_gc_curia_panel','religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gc_curia_view NOT = { has_country_flag = rip_church_gui_parishes_view }',curia,clean=True)+'\n'+
                 panel('rip_church_gc_parishes_panel','OR = { religion = greek_catholic rip_church_union_supporter = yes } NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gui_parishes_view',parishes,clean=True))
-# Keep the window control beside Defender of the Faith and outside the pages it
-# toggles, so it remains available while the Greek Catholic window is hidden.
-gc_window_toggle=button(
-    'rip_church_gc_window_toggle',372,238,'religion = greek_catholic',
-    'if = { limit = { has_country_flag = rip_church_gc_window_hidden } clr_country_flag = rip_church_gc_window_hidden } else = { set_country_flag = rip_church_gc_window_hidden }',
-    potential='religion = greek_catholic',sprite='GFX_closebutton2',label=False,
-    scale=0.7)
-religion_panels += '\n' + gc_window_toggle
 outputs['interface/RIP_church_panels.gfx']='spriteTypes = {\n'+'\n'.join(insets)+'''
  spriteType = {
   name = "GFX_rip_church_ro_frame"
@@ -420,10 +412,10 @@ outputs['interface/RIP_church_panels.gfx']='spriteTypes = {\n'+'\n'.join(insets)
  spriteType = { name = "GFX_rip_church_policy_slot" textureFile = "gfx/interface/copts_blessing_slot.dds" }
  spriteType = { name = "GFX_rip_church_policy_select" textureFile = "gfx/interface/copts_blessing_slot.dds" effectFile = "gfx/FX/buttonstate.lua" }
  spriteType = { name = "GFX_rip_church_policy_active" textureFile = "gfx/interface/copts_blessing_select_glow.dds" }
- spriteType = { name = "GFX_rip_church_policy_war" textureFile = "gfx/interface/ideas_EU4/land_morale.dds" }
- spriteType = { name = "GFX_rip_church_policy_mercy" textureFile = "gfx/interface/ideas_EU4/global_unrest.dds" }
- spriteType = { name = "GFX_rip_church_policy_building" textureFile = "gfx/interface/ideas_EU4/development_cost.dds" }
- spriteType = { name = "GFX_rip_church_policy_mission" textureFile = "gfx/interface/ideas_EU4/global_missionary_strength.dds" }
+ spriteType = { name = "GFX_rip_church_policy_war" textureFile = "gfx/interface/rip_church/ro_banner_war.dds" }
+ spriteType = { name = "GFX_rip_church_policy_mercy" textureFile = "gfx/interface/rip_church/ro_banner_mercy.dds" }
+ spriteType = { name = "GFX_rip_church_policy_building" textureFile = "gfx/interface/rip_church/ro_banner_building.dds" }
+ spriteType = { name = "GFX_rip_church_policy_mission" textureFile = "gfx/interface/rip_church/ro_banner_mission.dds" }
  spriteType = { name = "GFX_rip_church_ro_fervor" textureFile = "gfx/interface/ideas_EU4/monthly_fervor_increase.dds" }
  spriteType = { name = "GFX_rip_church_ro_authority" textureFile = "gfx/interface/ideas_EU4/church_privilege_slots.dds" }
  spriteType = { name = "GFX_rip_church_ro_network" textureFile = "gfx/interface/ideas_EU4/global_trade_power.dds" }
@@ -443,7 +435,7 @@ outputs['interface/RIP_church_panels.gfx']='spriteTypes = {\n'+'\n'.join(insets)
 province=art('rip_church_rite_window_banner','GFX_rip_church_window_banner',18,19,0.94)
 province+=text('rip_church_rite_heading',58,35,w=359,h=24,font='vic_22',align='center')
 province+=button('rip_church_rite_panel_hide_button',436,2,'owned_by = FROM',
-                 'set_province_flag = rip_church_rite_panel_hidden',
+                 'clr_province_flag = rip_church_rite_panel_open',
                  sprite='GFX_closebutton2',label=False)
 province+=card('rip_church_rite_header',34,73,407,30,
                text('rip_church_rite_state',8,8,w=391,h=22,font='vic_18',align='center'))
@@ -454,10 +446,11 @@ province+=button('rip_church_revoke_rite_button',125,223,'owned_by = FROM rip_ch
 province+=text('rip_church_rite_note',58,267,w=359,h=18,font='vic_18',align='center')
 # Shown only where the action applies or is already in force, not on every owned province.
 province_gate='owned_by = FROM FROM = { religion = greek_catholic } OR = { has_province_flag = rip_church_rite_recognized AND = { is_city = yes controlled_by = owner OR = { religion = orthodox religion = russian_orthodox religion = catholic } } }'
-prov_panel=panel('rip_church_rite_panel',province_gate+' NOT = { has_province_flag = rip_church_rite_panel_hidden }',province,x=480,y=0)
-# Hide state belongs to the selected province. The reopen button sits in the
+prov_panel=panel('rip_church_rite_panel',province_gate+' has_province_flag = rip_church_rite_panel_open',province,x=480,y=0)
+# Explicit opt-in keeps new provinces and old saves collapsed by default.
+# Open state belongs to the selected province. The reopen button sits in the
 # state window at the native metropolitan action's position.
-defs.append(f'custom_window = {{ name = rip_church_rite_reopen_panel potential = {{ {province_gate} has_province_flag = rip_church_rite_panel_hidden }} }}')
+defs.append(f'custom_window = {{ name = rip_church_rite_reopen_panel potential = {{ {province_gate} NOT = {{ has_province_flag = rip_church_rite_panel_open }} }} }}')
 defs.append('custom_window = { name = rip_church_gc_state_cover potential = { FROM = { religion = greek_catholic } } }')
 prov_state_cover='''windowType = {
  name = "rip_church_gc_state_cover" scripted = yes position = { x=19 y=414 } size = { x=464 y=50 }
@@ -465,7 +458,7 @@ prov_state_cover='''windowType = {
  iconType = { name = "rip_church_gc_state_surface" spriteType = "GFX_rip_church_gc_state_surface" position = { x=0 y=0 } alwaystransparent = no }
 }'''
 prov_reopen_button=button('rip_church_rite_panel_show_button',0,0,'owned_by = FROM',
-                          'clr_province_flag = rip_church_rite_panel_hidden',
+                          'set_province_flag = rip_church_rite_panel_open',
                           sprite='button_type_8')
 prov_reopen_panel=f'''windowType = {{
  name = "rip_church_rite_reopen_panel" scripted = yes position = {{ x=156 y=423 }} size = {{ x=189 y=31 }}
@@ -501,7 +494,9 @@ native_controls='''windowType = {
  iconType = { name = "rip_church_gc_union_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
  iconType = { name = "rip_church_gc_synod_infrastructure_symbol" scripted = yes spriteType = "GFX_rip_church_gc_privileges" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
  iconType = { name = "rip_church_gc_synod_coexistence_symbol" scripted = yes spriteType = "GFX_rip_church_gc_ecumenism" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
-'''+'\n}\n'
+'''+button('rip_church_gc_window_toggle',304,300,'religion = greek_catholic',
+           'if = { limit = { has_country_flag = rip_church_gc_window_hidden } clr_country_flag = rip_church_gc_window_hidden } else = { set_country_flag = rip_church_gc_window_hidden }',
+           potential='religion = greek_catholic',sprite='GFX_standard_button_71')+'\n}\n'
 
 # Replace the empty native selector with a working route to the policy pane.
 # Keep the engine-owned controls underneath, just as for the Union selector.
@@ -552,15 +547,16 @@ def attach(file,host,body):
         s=s[:list_start]+list_block+s[list_end+1:]
         for level in ('low','high'):
             s=re.sub(r'(name\s*=\s*"'+level+r'_patriarch_authority")(?!\s*scripted)',r'\1 scripted = yes',s)
-        # Preserve the vanilla Orthodox name, text and geometry. No RIP resource
-        # tooltip on the native frame: GC/RO details belong to their own headings.
+        # Route the native scripted heading through its localized dynamic binding;
+        # otherwise EU4 displays the widget name as raw text.
         s=s.replace('name = "current_patriarch_authority_text"',
-                    'name = "current_patriarch_authority_text" scripted = yes')
-        s=re.sub(r'(text = "CURRENT_PATRIARCH_AUTHORITY")[ \t]+', r'\1', s)
+                    'name = "rip_church_authority_heading" scripted = yes')
+        s=re.sub(r'text = "CURRENT_PATRIARCH_AUTHORITY"[ \t]*',
+                 'text = "rip_church_authority_heading"', s)
         native_name=re.search(r'name\s*=\s*"orthodox_specific_window"',s)
         native_start=s.rfind('windowType',0,native_name.start())
         native_end=matching_brace(s,s.index('{',native_start))
-        s=s[:native_end]+'\n# RIP resource hover and functional replacements for retired native selectors.\n'+native_controls+native_anchors(ro_native_controls)+s[native_end:]
+        s=s[:native_end]+'\n# RIP resource hover and functional replacements for retired native selectors.\n'+native_anchors(native_controls)+native_anchors(ro_native_controls)+s[native_end:]
     name=re.search(r'name\s*=\s*"'+re.escape(host)+r'"',s)
     assert name, host
     start=s.rfind('windowType',0,name.start())
@@ -571,9 +567,10 @@ def attach(file,host,body):
 def native_anchors(source):
     def anchor(m):
         name=m[2]
-        tip='' if name in NO_TIP or name.endswith('_panel') else ' pdx_tooltip = "'+name+'_tt"'
+        tip_key='rip_church_authority_heading_tt' if name=='rip_church_gc_capacity_heading' else name+'_tt'
+        tip='' if name in NO_TIP or name.endswith('_panel') else ' pdx_tooltip = "'+tip_key+'"'
         # This replacement shares the native Select button's host and offsets.
-        orientation='LEFT' if name=='rip_church_ro_window_toggle' else 'UPPER_LEFT'
+        orientation='LEFT' if name in ('rip_church_ro_window_toggle','rip_church_gc_window_toggle') else 'UPPER_LEFT'
         return m[1]+' Orientation = "'+orientation+'"'+tip
     source=re.sub(r'(name = "([^"]+)" scripted = yes position = \{[^}]+\})',anchor,source)
     source=re.sub(r'(position = \{[^}]+\})( scale =)',r'\1 Orientation = "UPPER_LEFT"\2',source)

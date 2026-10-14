@@ -8,6 +8,10 @@ policy_source = read('common/trading_policies/RIP_church_mission_network.txt')
 policy = dict(dict(parse(policy_source))['rip_church_mission_network'])
 assert policy['can_select'] == policy['can_maintain']
 assert policy['button_gfx'] == 'GFX_rip_ro_mission_policy'
+assert (ROOT / 'assets/church_banners/ro_banner_mission_64.png').is_file()
+icon_builder = read('tools/build_ro_policy_icon.py')
+assert "ro_banner_mission_64.png" in icon_builder
+assert "symbol.thumbnail((34,36)" in icon_builder
 
 
 def references(items):

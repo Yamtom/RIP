@@ -358,7 +358,7 @@ cases += 1
 SURFACE = (13, 13, 462, 547)                     # inner surface of the 475x560 dialog
 ADVANCE = {'vic_14': 4.92, 'vic_18': 6.33, 'vic_22': 7.5}        # px per character, estimated from an in-game screenshot
 LINE = {'vic_14': 14, 'vic_18': 18, 'vic_22': 24}
-BUTTON = {'GFX_standard_button_224': (224, 32), 'GFX_rip_church_policy_select': (58, 58), 'button_type_8': (189, 31)}
+BUTTON = {'GFX_standard_button_224': (224, 32), 'GFX_standard_button_105': (105, 25), 'GFX_rip_church_policy_select': (58, 58), 'button_type_8': (189, 31)}
 
 
 def longest(text):
@@ -406,9 +406,9 @@ cards_top = min(y for _, y in policy_cards)
 cards_bottom = max(y for _, y in policy_cards) + 74
 assert tile_bottom <= cards_top, 'the cycle tiles end above the first policy card'
 assert policy_cards == sorted(policy_cards, key=lambda c: c[1]) and len({y for _, y in policy_cards}) == 4, 'one card per row, in the order of POLICIES'
-assert cards_bottom <= y_of['rip_church_nodes_button'], 'policies end above management actions'
-assert boxes['rip_church_nodes_button'][1] == boxes['rip_church_reconcile_button'][1], 'the two buttons share the bottom row'
-assert boxes['rip_church_nodes_button'][2] <= boxes['rip_church_reconcile_button'][0], 'the schism action stands beside the node button'
+assert tile_bottom <= y_of['rip_church_nodes_button'], 'node control follows the node readout'
+assert boxes['rip_church_nodes_button'][3] <= cards_top, 'node control clears the policy list'
+assert cards_bottom <= y_of['rip_church_reconcile_button'], 'reconciliation stays below policies'
 cases += 1
 
 print(f'PASS: {cases} Muscovite Church readout, lock-reason, number-parity, binding and geometry cases')

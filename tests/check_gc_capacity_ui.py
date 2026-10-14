@@ -56,9 +56,9 @@ for level in ("low", "high"):
     assert "tooltip = rip_church_gc_capacity_hover_tt" in binding
 heading_binding = next(
     block for _, block in keyed_blocks(controls, "custom_text_box")
-    if "name = current_patriarch_authority_text " in block
+    if "name = rip_church_authority_heading " in block
 )
-assert "tooltip =" not in heading_binding, "Orthodox heading must not receive the RIP tooltip"
+assert "tooltip = rip_church_authority_heading_tt" in heading_binding
 assert "NOT = { religion = greek_catholic }" in heading_binding, "the shared heading must hide for GC"
 assert "NOT = { rip_church_ro_jurisdiction = yes }" in heading_binding
 assert 'text = "CURRENT_PATRIARCH_AUTHORITY"' in gui

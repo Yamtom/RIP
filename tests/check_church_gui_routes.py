@@ -105,11 +105,11 @@ assert 'rip_church_union_paths_panel' not in read('common/custom_gui/RIP_church_
 # Hiding the province-scoped action is reversible for that selected province
 # only. The province window receives a close button and the hidden state gets
 # a small reopen button in its own eligible custom window.
-assert 'set_province_flag = rip_church_rite_panel_hidden' in province_controls
-assert 'clr_province_flag = rip_church_rite_panel_hidden' in province_controls
-assert 'NOT = { has_province_flag = rip_church_rite_panel_hidden }' in province_controls
+assert 'set_province_flag = rip_church_rite_panel_open' in province_controls
+assert 'clr_province_flag = rip_church_rite_panel_open' in province_controls
+assert 'NOT = { has_province_flag = rip_church_rite_panel_open }' in province_controls
 assert 'name = rip_church_rite_reopen_panel' in province_controls
-assert 'has_province_flag = rip_church_rite_panel_hidden } }' in province_controls
+assert 'has_province_flag = rip_church_rite_panel_open } }' in province_controls
 province_widgets = {
     kind: {d['name']: d for widget_kind, d, _ in descendants(parse(province_gui))
            if widget_kind == kind}
@@ -134,8 +134,31 @@ assert 'name = "rip_church_gc_capacity_value"' not in religion_gui, 'the HC perc
 assert 'name = "current_patriarch_authority_value" scripted' not in religion_gui, 'native HC percentage stays vanilla for both faiths'
 assert 'name = "rip_church_gc_capacity_heading" scripted = yes position = { x=53 y=255 }' in religion_gui
 assert province_controls.count('owned_by = FROM FROM = { religion = greek_catholic }') >= 2
-assert "rip_church_rite_panel_hidden" in gui_builder
+assert "rip_church_rite_panel_open" in gui_builder
 cases += 1
+
+# Fresh and legacy saves stay collapsed until the selected province is opened.
+# Execute the actual bindings, with FROM = clicking owner, and preserve neighbours.
+ui = {(kind, dict(body)['name']): dict(body) for kind, body in parse(province_controls)}
+w, c, p = fixture('greek_catholic')
+w.from_scope = c
+p['flags']['rip_church_rite_recognized'] = w.day
+other = w.province(499, c, 'orthodox')
+other['flags']['rip_church_rite_recognized'] = w.day
+panel_gate = ui['custom_window', 'rip_church_rite_panel']['potential']
+reopen_gate = ui['custom_window', 'rip_church_rite_reopen_panel']['potential']
+for legacy_hidden in (False, True):
+    if legacy_hidden:
+        p['flags']['rip_church_rite_panel_hidden'] = w.day
+    before = deepcopy(p)
+    assert not w.gate(panel_gate, p) and w.gate(reopen_gate, p)
+    w.execute(ui['custom_button', 'rip_church_rite_panel_show_button']['effect'], p)
+    assert w.gate(panel_gate, p) and not w.gate(reopen_gate, p)
+    assert not w.gate(panel_gate, other), 'opening one province must not open another'
+    w.execute(ui['custom_button', 'rip_church_rite_panel_hide_button']['effect'], p)
+    assert not w.gate(panel_gate, p) and w.gate(reopen_gate, p)
+    assert p == before, 'open/close only changes presentation state'
+    cases += 1
 def visible(w,c):
     return {name for name,gate in windows.items() if w.gate(gate,c)}
 
