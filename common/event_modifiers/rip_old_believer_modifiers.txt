@@ -1,0 +1,37 @@
+# The Old Believers: one local mark per community, two local consequences of
+# the ruler's policy toward it, and the two country modifiers that policy itself
+# carries. Applied by common/scripted_effects/rip_old_believer_effects.txt.
+#
+# Province modifiers (local_*): a community is not a provincial majority, so it
+# only resists missionaries; the policy modifiers are re-derived every year
+# for the CURRENT owner by rip_ob_upkeep_effect, so a conquest cannot keep a
+# previous ruler's toleration.
+# Country modifiers: the policy shifts yearly_patriarch_authority by half a
+# percentage point. The Raskol disaster ends when that authority falls below
+# 60%, so toleration (-0.005) shortens the Raskol and repression (+0.005)
+# lengthens it - see the comment on can_end in
+# common/disasters/rip_faith_disasters.txt.
+
+rip_ob_local_community = {
+	local_missionary_strength = -0.01
+}
+
+rip_ob_local_toleration = {
+	local_unrest = -2
+	local_tax_modifier = -0.1
+}
+
+rip_ob_local_repression = {
+	local_unrest = 3
+	local_manpower_modifier = -0.1
+}
+
+rip_ob_tolerant_policy = {
+	tolerance_heretic = 1
+	yearly_patriarch_authority = -0.005
+}
+
+rip_ob_repressive_policy = {
+	tolerance_heretic = -1
+	yearly_patriarch_authority = 0.005
+}
