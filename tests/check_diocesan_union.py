@@ -131,13 +131,24 @@ assert texts['rip_du_rite_guarantee'] == 'Eastern Rite Protected'
 sponsor_triggers = read('common/scripted_triggers/rip_church_sponsor_triggers.txt')
 union_triggers = read('common/scripted_triggers/rip_church_union_triggers.txt')
 sponsor_effects = read('common/scripted_effects/rip_church_sponsor_effects.txt')
+union_effects = read('common/scripted_effects/rip_church_union_effects.txt')
 church_decisions = read('decisions/RIP_ChurchRedesign.txt')
+
+yearly = named_block(read('common/on_actions/greek_catholic_on_actions.txt'),
+                     'on_yearly_pulse')
+guarantee_refresh = normalized(named_block(yearly, 'every_owned_province'))
+assert 'religion = greek_catholic owner = { religion = catholic }' in guarantee_refresh
+assert 'add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }' in guarantee_refresh
+assert 'has_province_modifier = rip_du_rite_guarantee' in guarantee_refresh
+assert 'remove_province_modifier = rip_du_rite_guarantee' in guarantee_refresh
 
 can_sponsor = normalized(named_block(sponsor_triggers, 'rip_church_can_sponsor_union'))
 assert 'any_owned_province = { rip_church_sponsor_parish = yes }' in can_sponsor
 assert 'rip_church_florence_parish' not in can_sponsor
 sponsor_effect = normalized(named_block(sponsor_effects, 'rip_church_sponsor_union_effect'))
-assert 'random_owned_province = { limit = { rip_church_sponsor_parish = yes } change_religion = greek_catholic }' in sponsor_effect
+assert ('random_owned_province = { limit = { rip_church_sponsor_parish = yes } '
+        'change_religion = greek_catholic add_province_modifier = '
+        '{ name = rip_du_rite_guarantee duration = 7300 } }') in sponsor_effect
 assert 'rip_church_florence_parish' not in sponsor_effect
 # The decision hides itself unless the country holds a parish it could convert,
 # as the Florentine decision does; the AI weight is unchanged.
@@ -154,6 +165,10 @@ florence_decision = normalized(named_block(church_decisions, 'rip_church_florenc
 assert 'rip_church_florence_parish = yes' in florence_decision
 assert 'rip_church_sponsor_parish' not in florence_decision
 assert 'rip_church_sponsor_parish' not in normalized(named_block(union_triggers, 'rip_church_can_begin_florence'))
+florence_effect = normalized(named_block(union_effects, 'rip_church_complete_florence_effect'))
+assert ('random_owned_province = { limit = { rip_church_florence_parish = yes } '
+        'change_religion = greek_catholic add_province_modifier = '
+        '{ name = rip_du_rite_guarantee duration = 7300 } }') in florence_effect
 
 
 # --- a small model of the trigger over the province history files -----------
@@ -386,6 +401,7 @@ assert 'any_owned_province = { rip_du_crown_union_province = yes }' in normalize
 k7_pick = named_block(k7_a, 'random_owned_province')
 assert normalized(named_block(k7_pick, 'limit')) == 'limit = { rip_du_crown_union_province = yes }'
 assert 'change_religion = greek_catholic' in k7_pick and 'add_unrest = 3' in k7_pick
+assert 'add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }' in normalized(k7_pick)
 assert re.search(r'add_local_autonomy\s*=\s*5\b', k7_pick), 'autonomy takes points, not fractions'
 assert 'change_religion' not in k7_b
 crown_province = normalized(named_block(triggers, 'rip_du_crown_union_province'))

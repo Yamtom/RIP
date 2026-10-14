@@ -110,7 +110,7 @@ rip_church_complete_florence_effect = {
   if = { limit = { religion = catholic }
    set_country_flag = rip_church_supports_union
    clr_country_flag = rip_church_opposes_union
-   random_owned_province = { limit = { rip_church_florence_parish = yes } change_religion = greek_catholic }
+   random_owned_province = { limit = { rip_church_florence_parish = yes } change_religion = greek_catholic add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 } }
   }
   else = { rip_faith_adopt_union_effect = yes }
   set_country_flag = rip_church_union_founded

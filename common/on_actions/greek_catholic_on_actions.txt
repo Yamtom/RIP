@@ -1,5 +1,21 @@
 
 on_yearly_pulse = {
+	# Keep Eastern-rite protection only while the province remains Greek Catholic under a Catholic owner.
+	every_owned_province = {
+		if = {
+			limit = {
+				religion = greek_catholic
+				owner = { religion = catholic }
+			}
+			add_province_modifier = { name = rip_du_rite_guarantee duration = 7300 }
+		}
+		else = {
+			if = {
+				limit = { has_province_modifier = rip_du_rite_guarantee }
+				remove_province_modifier = rip_du_rite_guarantee
+			}
+		}
+	}
 	random_events = {
 		15 = uniate_church.1  # Proposal for Union
 		10 = uniate_church.3  # Orthodox Brotherhood Resistance
