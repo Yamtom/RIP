@@ -84,8 +84,8 @@ assert not (ROOT / 'events/RIP_OrthodoxHolyCities.txt').exists(), 'the old event
 controls = read('common/custom_gui/RIP_church_controls.txt')
 gui = read('interface/countryreligionview.gui')
 site_localisation = read('localisation/rip_ro_blessing_window_l_english.yml')
-assert 'custom_window = { name = rip_ro_holy_cities_panel potential = { religion = russian_orthodox has_country_flag = rip_ro_holy_city_register_open } }' in controls
-assert 'custom_window = { name = rip_church_ro_panel potential = { religion = russian_orthodox NOT = { has_country_flag = rip_church_ro_window_hidden } NOT = { has_country_flag = rip_ro_holy_city_register_open } } }' in controls
+assert 'custom_window = { name = rip_ro_holy_cities_panel potential = { rip_church_ro_jurisdiction = yes has_country_flag = rip_ro_holy_city_register_open } }' in controls
+assert 'custom_window = { name = rip_church_ro_panel potential = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_church_ro_window_hidden } NOT = { has_country_flag = rip_ro_holy_city_register_open } } }' in controls
 close_button = next(
     block for _, block in keyed_blocks(controls, 'custom_button')
     if re.search(r'(?m)^\s*name\s*=\s*rip_ro_holy_cities_close\b', block)

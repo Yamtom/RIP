@@ -345,9 +345,11 @@ for name, binding in text_bindings.items():
     if name in texts and 'tooltip' in binding:
         assert binding['tooltip'] in loc, (name, binding['tooltip'])
         assert texts[name].get('pdx_tooltip') == binding['tooltip'] or texts[name].get('pdx_tooltip') is None, name
-for name in ('fuel', 'slots', 'network', 'authority_link'):
-    key = 'rip_church_ro_' + name
-    assert text_bindings[key]['tooltip'] == key + '_tt'
+for key in ('fervor_label', 'fervor_value', 'fervor_sub',
+            'nodes_label', 'nodes_value', 'nodes_sub',
+            'policies_label', 'policies_value', 'policies_sub'):
+    name = 'rip_church_ro_' + key
+    assert text_bindings[name]['tooltip'] == name + '_tt'
 for n in (1, 2, 3):
     assert f'rip_church_ro_step{n}' not in texts, 'tutorial steps must not occupy the panel'
 cases += 1
@@ -395,8 +397,8 @@ cases += 1
 
 # Reading order: resources, policies, management actions. No tutorial rows.
 y_of = {name: boxes[name][1] for name in boxes}
-tile_bottom = boxes['rip_church_ro_authority_link'][3]
-tile_x = [boxes[f'rip_church_ro_{k}'][0] for k in ('fuel', 'slots', 'network')]
+tile_bottom = boxes['rip_church_ro_policies_sub'][3]
+tile_x = [boxes[f'rip_church_ro_{k}_label'][0] for k in ('fervor', 'nodes', 'policies')]
 assert tile_x == sorted(tile_x), 'resources read left to right'
 cards = {f['name']: (x, y) for kind, f, x, y, *_ in everything if kind == 'windowType' and f['name'].endswith('_card')}
 policy_cards = [cards[f'rip_church_ro_{p}_card'] for p in POLICIES]

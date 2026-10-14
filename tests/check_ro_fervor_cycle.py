@@ -375,6 +375,33 @@ for funded in (False, True):
     assert c['variables']['muscovy_fervor'] - before == (2 if funded else -1)
     cases += 1
 
+# An Orthodox Moscow jurisdiction can run the monthly cycle without changing faith.
+w = World()
+c = w.country('MOS', 'orthodox')
+c['flags']['rip_ro_stage_autocephaly'] = w.day
+c['patriarch_authority'] = 0.9
+c['variables']['muscovy_fervor'] = 20
+w.province(295, c, 'orthodox')
+assert w.gate(TRIGGERS['rip_church_can_activate_war'], c)
+w.run('rip_church_toggle_war_effect', c)
+assert c['religion'] == 'orthodox' and c['variables']['muscovy_fervor'] == 10
+w.run('rip_church_v3_monthly_effect', c)
+assert c['religion'] == 'orthodox' and c['variables']['muscovy_fervor'] == 12, (c['religion'], c['variables'], c['flags'])
+assert 'rip_church_icon_war' in c['flags']
+cases += 1
+
+# Mission nodes use the jurisdiction's parish faith, not the schismatic label.
+w, c, p = node_world(fervor=FOUND)
+c['religion'] = 'orthodox'
+c['flags']['rip_ro_stage_autocephaly'] = w.day
+for name in ('parish', 'cathedral', 'bare', 'cut_off'):
+    p[name]['religion'] = 'orthodox'
+assert w.gate(TRIGGERS['rip_church_node_novgorod_can_open'], c)
+w.run('rip_church_node_novgorod_toggle_effect', c)
+assert c['religion'] == 'orthodox' and 'rip_church_node_novgorod' in c['flags']
+assert c['variables']['muscovy_fervor'] == 0
+cases += 1
+
 # A moving border is refreshed; the owner's own horde reform cannot turn its interior into frontier.
 w, c, places, steppe = land()
 w.run('rip_church_toggle_war_effect', c)

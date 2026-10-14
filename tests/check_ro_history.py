@@ -11,6 +11,7 @@ for path in ('events/RussianOrthodox.txt', 'events/RIP_RO_InstitutionalHistory.t
     for kind, body in parse(read(path)):
         if kind == 'country_event' and 'title' in dict(body):
             events[dict(body)['id']] = body
+EFFECTS.update(parse(read('common/scripted_effects/rip_faith_history_cleanup_effects.txt')))
 
 
 class HistoryWorld(World):
@@ -31,7 +32,9 @@ class HistoryWorld(World):
         # The interpreter has no rebels or unrest of its own; record where they land.
         rest = []
         for key, value in items:
-            if key == 'spawn_rebels': scope.setdefault('rebels', []).append(dict(value))
+            if key == 'spawn_rebels':
+                scope.setdefault('rebel_requests', []).append(dict(value))
+                scope.setdefault('rebels', []).append(dict(value))
             elif key == 'add_unrest': scope['unrest'] = scope.get('unrest', 0) + float(value)
             else: rest.append((key, value))
         super().execute(rest, scope, root, prev)
@@ -50,6 +53,14 @@ def setup(year=1448, religion='orthodox'):
 
 def available(w, c, event):
     return w.gate(dict(events[event])['trigger'], c)
+
+def contains_pair(items, target):
+    for key, value in items:
+        if (key, value) == target:
+            return True
+        if isinstance(value, list) and contains_pair(value, target):
+            return True
+    return False
 
 
 def choose(w, c, event, choice):
@@ -81,6 +92,8 @@ w, c, p, other, catholic = setup()
 assert available(w, c, 'russian_orthodox.1')
 choose(w, c, 'russian_orthodox.1', 'russian_orthodox.1.a')
 assert c['religion'] == p['religion'] == other['religion'] == 'orthodox'
+assert 'rip_ro_stage_autocephaly' in c['flags']
+assert w.gate(TRIGGERS['rip_church_ro_jurisdiction'], c)
 assert not available(w, c, 'russian_orthodox.1')
 w.year = 1588
 assert not available(w, c, 'russian_orthodox.2')
@@ -93,6 +106,35 @@ w.run('rip_church_ro_history_monthly_effect', c)
 assert c['religion'] == 'orthodox' and 'rip_church_ro_recognized' in c['flags']
 assert available(w, c, 'russian_orthodox.14')
 cases += 1
+
+# Orthodox jurisdictions retain the institutional content; declining the 1448
+# election still leaves the state outside Moscow's jurisdiction.
+w_without_jurisdiction, c_without_jurisdiction, _, _, _ = setup()
+choose(w_without_jurisdiction, c_without_jurisdiction, 'russian_orthodox.1', 'russian_orthodox.1.b')
+assert c_without_jurisdiction['religion'] == 'orthodox'
+assert not w_without_jurisdiction.gate(TRIGGERS['rip_church_ro_jurisdiction'], c_without_jurisdiction)
+w_without_jurisdiction.year = 1589
+assert not available(w_without_jurisdiction, c_without_jurisdiction, 'russian_orthodox.2')
+cases += 1
+
+# The national church events are jurisdiction-gated, not confession-gated.
+province_event_3 = next(body for kind, body in parse(read('events/RussianOrthodox.txt'))
+                        if kind == 'province_event' and dict(body)['id'] == 'russian_orthodox.3')
+assert contains_pair(dict(province_event_3)['trigger'], ('rip_church_ro_jurisdiction', 'yes'))
+for event_id in ('russian_orthodox.4', 'russian_orthodox.5', 'russian_orthodox.7',
+                 'russian_orthodox.8', 'russian_orthodox.9',
+                 'russian_orthodox.10', 'russian_orthodox.11', 'russian_orthodox.12'):
+    assert contains_pair(dict(events[event_id])['trigger'], ('rip_church_ro_jurisdiction', 'yes')), event_id
+    assert ('religion', 'russian_orthodox') not in dict(events[event_id])['trigger'], event_id
+    cases += 1
+
+# Expansion events belong to Muscovy/Russia after secure control of their targets.
+for event_id in ('russian_orthodox.7', 'russian_orthodox.10', 'russian_orthodox.12'):
+    trigger = dict(events[event_id])['trigger']
+    assert contains_pair(trigger, ('tag', 'MOS')) and contains_pair(trigger, ('tag', 'RUS')), event_id
+    assert contains_pair(trigger, ('controlled_by', 'ROOT'))
+    assert contains_pair(trigger, ('is_core', 'ROOT'))
+    cases += 1
 
 # A deliberate break converts only the state and eligible core capital once.
 w.run('rip_church_ro_choose_schism_effect', c)
@@ -123,7 +165,7 @@ for choice, internal_schism in (('russian_orthodox.6.a', True), ('russian_orthod
     assert ('raskol_schism' in w.flags) == internal_schism
     assert ('rip_ro_stage_raskol' in c['flags']) == internal_schism
     if choice.endswith('.a'):
-        assert p['rebel_requests'] == [{'type': 'heretic_rebels', 'size': '2'}]
+        assert other['rebel_requests'] == [{'type': 'heretic_rebels', 'size': '2'}]
         assert 'suppression_old_believers' in c['modifiers']
     if choice.endswith('.b'):
         assert 'old_believer_underground' in c['modifiers']
@@ -230,8 +272,7 @@ assert c == before
 cases += 1
 
 # The Old Believers live in the Orthodox parishes, never in the relabelled capital.
-# The formal council converts the state and its capital only (above), so any
-# consequence that looks for religion = russian_orthodox lands on the patriarch's seat.
+# The formal council's internal Raskol does not break communion or change faith.
 EFFECTS.update(parse(read('common/scripted_effects/rip_faith_zeal_effects.txt')))
 parish = TRIGGERS['rip_ro_old_believer_parish']
 assert ('is_city', 'yes') in parish and ('is_capital', 'no') in parish
@@ -244,7 +285,9 @@ choose(w, c, 'rip_ro_history.1', 'rip_ro_history.1.a')
 w.year = 1666
 c['patriarch_authority'] = 0.5
 choose(w, c, 'russian_orthodox.6', 'russian_orthodox.6.a')
-assert c['religion'] == p['religion'] == 'russian_orthodox' and other['religion'] == 'orthodox'
+assert c['religion'] == p['religion'] == other['religion'] == 'orthodox'
+assert 'rip_ro_stage_raskol' in c['flags'] and 'rip_church_ro_schismatic' not in c['flags']
+assert 'raskol_schism' in w.flags
 assert 'rebels' not in p and 'rebels' not in catholic, 'rebels must not rise in the capital or in another faith'
 assert other['rebels'] == [{'type': 'heretic_rebels', 'size': '2'}]
 cases += 1

@@ -103,8 +103,11 @@ if install:
 cases = 0
 for faith in ('russian_orthodox', 'orthodox', 'greek_catholic', 'catholic'):
     w, c, p = fixture(faith)
+    if faith == 'orthodox':
+        assert not w.gate(native_cover, c), 'ordinary Orthodoxy does not inherit Moscow jurisdiction'
+        c['flags']['rip_ro_stage_autocephaly'] = w.day
     before = deepcopy(c)
-    eligible = faith == 'russian_orthodox'
+    eligible = faith in ('russian_orthodox', 'orthodox')
     assert w.gate(native_cover, c) == w.gate(panel, c) == eligible
     assert click(w, c, toggle) == eligible
     assert not w.gate(panel, c)
@@ -136,7 +139,7 @@ for policy in ('war', 'mercy', 'building', 'mission'):
     control = controls['custom_button', action]
     gate = ('OR', [('has_country_flag', f'rip_church_icon_{policy}'),
                    (f'rip_church_can_activate_{policy}', 'yes')])
-    assert control['trigger'] == [('religion', 'russian_orthodox'), gate]
+    assert control['trigger'] == [('rip_church_ro_jurisdiction', 'yes'), gate]
     assert control['effect'] == [(f'rip_church_toggle_{policy}_effect', 'yes')]
     assert not any(name.startswith(f'rip_church_ro_{policy}_access_') for kind,name in controls)
     assert controls['custom_icon', f'rip_church_{policy}_active_frame']['potential'] == [('has_country_flag', f'rip_church_icon_{policy}')]

@@ -30,12 +30,14 @@ for language in ('english', 'french', 'german', 'spanish'):
         assert len(re.findall(r'(?m)^\s*' + name + r':0 ', loc)) == 1, (language, name)
 
 
-def fixture():
+def fixture(faith='russian_orthodox', jurisdiction=True):
     w = World()
-    c = w.country('MOS', 'russian_orthodox')
+    c = w.country('MOS', faith)
+    if faith == 'orthodox' and jurisdiction:
+        c['flags']['rip_ro_stage_autocephaly'] = 0
     c['flags'].update(rip_church_icon_mission=0, rip_church_node_novgorod=0)
     c['dlcs'].add('Cradle of Civilization')
-    p = w.province(295, c, 'russian_orthodox')
+    p = w.province(295, c, faith)
     p['flags']['rip_church_ro_connected@MOS'] = 0
     other = w.country('KAZ', 'sunni')
     anchor = w.province(33, other, 'russian_orthodox')
@@ -56,6 +58,14 @@ assert all(marker_results(w, c).values())
 assert w.gate(policy['can_select'], c)
 assert w.gate(TRIGGERS['rip_church_ro_can_maintain_policy'], c)
 cases = 1
+
+w, c, *_ = fixture('orthodox')
+assert all(marker_results(w, c).values())
+assert w.gate(policy['can_select'], c)
+assert w.gate(TRIGGERS['rip_church_ro_can_maintain_policy'], c)
+c['flags'].pop('rip_ro_stage_autocephaly')
+assert not w.gate(policy['can_select'], c), 'ordinary Orthodoxy does not inherit Moscow jurisdiction'
+cases += 1
 
 # Each ordinary missing requirement produces its own failed marker, preserving
 # the country ROOT / node-anchor FROM scope used by native trading policies.

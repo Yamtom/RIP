@@ -60,7 +60,7 @@ heading_binding = next(
 )
 assert "tooltip =" not in heading_binding, "Orthodox heading must not receive the RIP tooltip"
 assert "NOT = { religion = greek_catholic }" in heading_binding, "the shared heading must hide for GC"
-assert "NOT = { religion = russian_orthodox }" in heading_binding
+assert "NOT = { rip_church_ro_jurisdiction = yes }" in heading_binding
 assert 'text = "CURRENT_PATRIARCH_AUTHORITY"' in gui
 gc_heading_binding = next(
     block for _, block in keyed_blocks(controls, "custom_text_box")
