@@ -37,19 +37,19 @@ rip_church_ro_sync_policies_effect = {
   remove_province_modifier = rip_church_cathedral_drive
   remove_province_modifier = rip_church_preaching
  }
- if = { limit = { religion = russian_orthodox has_country_flag = rip_church_icon_war }
+ if = { limit = { rip_church_ro_jurisdiction = yes has_country_flag = rip_church_icon_war }
   every_owned_province = { limit = { rip_church_steppe_frontier = yes } add_province_modifier = { name = rip_church_frontier_watch duration = 62 } }
  }
- if = { limit = { religion = russian_orthodox has_country_flag = rip_church_icon_mercy }
+ if = { limit = { rip_church_ro_jurisdiction = yes has_country_flag = rip_church_icon_mercy }
   every_owned_province = { limit = { rip_church_eastern_land = yes } add_province_modifier = { name = rip_church_eastern_clemency duration = 62 } }
  }
- if = { limit = { religion = russian_orthodox has_country_flag = rip_church_icon_building }
+ if = { limit = { rip_church_ro_jurisdiction = yes has_country_flag = rip_church_icon_building }
   every_owned_province = { limit = { rip_church_cathedral_candidate = yes } add_province_modifier = { name = rip_church_cathedral_drive duration = 62 } }
  }
- if = { limit = { religion = russian_orthodox has_country_flag = rip_church_icon_mission }
+ if = { limit = { rip_church_ro_jurisdiction = yes has_country_flag = rip_church_icon_mission }
   every_owned_province = { limit = { rip_church_mission_field = yes } add_province_modifier = { name = rip_church_preaching duration = 62 } }
  }
- if = { limit = { religion = russian_orthodox has_country_flag = rip_church_icon_war rip_church_at_war_with_steppe = yes }
+ if = { limit = { rip_church_ro_jurisdiction = yes has_country_flag = rip_church_icon_war rip_church_at_war_with_steppe = yes }
   add_country_modifier = { name = rip_church_icon_war_steppe duration = -1 }
  }
  else = { remove_country_modifier = rip_church_icon_war_steppe }

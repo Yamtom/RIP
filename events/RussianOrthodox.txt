@@ -84,7 +84,7 @@ province_event = {
 
 	trigger = {
 		owner = {
-			religion = russian_orthodox
+			rip_church_ro_jurisdiction = yes
 		}
 		NOT = { religion = russian_orthodox }
 		NOT = { religion = orthodox }
@@ -146,7 +146,7 @@ country_event = {
 			NOT = { has_country_flag = rip_ro_event_4_recent }
 			had_country_flag = { flag = rip_ro_event_4_recent days = 3650 }
 		}
-		religion = russian_orthodox
+	rip_church_ro_jurisdiction = yes
 		is_russian_orthodox_culture_eligible = yes
 		NOT = { has_country_modifier = forced_russification }
 		is_year = 1700
@@ -222,14 +222,14 @@ country_event = {
 			NOT = { has_country_flag = rip_ro_event_5_recent }
 			had_country_flag = { flag = rip_ro_event_5_recent days = 3650 }
 		}
-		religion = russian_orthodox
+		rip_church_ro_jurisdiction = yes
 		# A late institution: enforcement of uniform books only follows Nikon's reform.
 		is_year = 1650
 		NOT = { has_country_modifier = orthodox_inquisition }
 		is_year = 1667
 		has_idea_group = religious_ideas
 		any_owned_province = {
-			NOT = { religion = russian_orthodox }
+			NOT = { religion = ROOT }
 		}
 	}
 	
@@ -348,9 +348,16 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-		religion = russian_orthodox
+		rip_church_ro_jurisdiction = yes
+		OR = {
+			tag = MOS
+			tag = RUS
+		}
 		owns = 1082 # Kazan
 		1082 = {
+			owned_by = ROOT
+			controlled_by = ROOT
+			is_core = ROOT
 			OR = {
 				religion = sunni
 				religion = shiite
@@ -384,7 +391,7 @@ country_event = {
 	
 	option = { # Build Orthodox mission
 		name = russian_orthodox.7.b
-		trigger = { religion = russian_orthodox treasury = 100 adm_power = 25 1082 = { owned_by = ROOT controlled_by = ROOT is_core = ROOT NOT = { religion = ROOT } } }
+		trigger = { treasury = 100 adm_power = 25 1082 = { owned_by = ROOT controlled_by = ROOT is_core = ROOT NOT = { religion = ROOT } } }
 		add_treasury = -100
 		add_adm_power = -25
 		ai_chance = { factor = 30 }
@@ -417,7 +424,7 @@ country_event = {
 			NOT = { has_country_flag = rip_ro_event_8_recent }
 			had_country_flag = { flag = rip_ro_event_8_recent days = 3650 }
 		}
-		religion = russian_orthodox
+		rip_church_ro_jurisdiction = yes
 		is_russian_orthodox_culture_eligible = yes
 		NOT = { has_country_modifier = gathering_russian_lands }
 		OR = {
@@ -485,7 +492,7 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-		religion = russian_orthodox
+		rip_church_ro_jurisdiction = yes
 		NOT = { has_country_modifier = symphonia_of_powers }
 		government_rank = 3
 	}
@@ -526,10 +533,17 @@ country_event = {
 	fire_only_once = yes
 	
 	trigger = {
-		religion = russian_orthodox
+		rip_church_ro_jurisdiction = yes
+		OR = {
+			tag = MOS
+			tag = RUS
+		}
 		owns = 151 # Constantinople
 		151 = {
-			NOT = { religion = russian_orthodox }
+			owned_by = ROOT
+			controlled_by = ROOT
+			is_core = ROOT
+			NOT = { religion = ROOT }
 		}
 	}
 	
@@ -575,7 +589,7 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-		religion = russian_orthodox
+		rip_church_ro_jurisdiction = yes
 		NOT = { has_country_modifier = imperial_orthodox_state }
 		government_rank = 3
 		total_development = 500
@@ -625,10 +639,16 @@ country_event = {
 			NOT = { has_country_flag = rip_ro_event_12_recent }
 			had_country_flag = { flag = rip_ro_event_12_recent days = 3650 }
 		}
-		religion = russian_orthodox
+		rip_church_ro_jurisdiction = yes
+		OR = {
+			tag = MOS
+			tag = RUS
+		}
 		any_owned_province = {
 			region = west_siberia_region
-			NOT = { religion = russian_orthodox }
+			controlled_by = ROOT
+			is_core = ROOT
+			NOT = { religion = ROOT }
 		}
 	}
 	
@@ -643,7 +663,9 @@ country_event = {
 		random_owned_province = {
 			limit = {
 				region = west_siberia_region
-				NOT = { religion = russian_orthodox }
+				controlled_by = ROOT
+				is_core = ROOT
+				NOT = { religion = ROOT }
 			}
 			establish_monastery_mission_effect = yes
 		}

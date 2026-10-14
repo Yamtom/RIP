@@ -21,8 +21,11 @@ rip_church_v3_initialize_effect = {
  else = { set_country_flag = rip_church_ro_provisional }
  }
  }
+ else_if = { limit = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_church_v3_migrated } }
+ set_country_flag = rip_church_v3_migrated
+ }
  if = { limit = { religion = greek_catholic NOT = { has_country_flag = rip_church_union_founded } } set_country_flag = rip_church_union_founded }
- if = { limit = { rip_church_is_new_faith = yes } set_country_flag = rip_church_v3_active }
+ if = { limit = { OR = { rip_church_is_new_faith = yes rip_church_ro_jurisdiction = yes } } set_country_flag = rip_church_v3_active }
 }
 rip_church_ro_isolation_effect = {
  remove_country_modifier = rip_church_ro_high
@@ -56,7 +59,7 @@ rip_church_v3_monthly_effect = {
  rip_church_ro_history_monthly_effect = yes
  rip_church_v3_initialize_effect = yes
  rip_church_complete_florence_effect = yes
- if = { limit = { religion = russian_orthodox }
+ if = { limit = { rip_church_ro_jurisdiction = yes }
  rip_church_ro_monthly_effect = yes
  rip_church_gc_clear_privilege_effect = yes
  rip_church_gc_refresh_parishes_effect = yes
@@ -72,12 +75,13 @@ rip_church_v3_monthly_effect = {
  rip_church_refresh_relations_effect = yes
  if = { limit = { ai = yes } rip_church_ai_effect = yes }
  }
+ else_if = { limit = { rip_church_ro_jurisdiction = yes ai = yes } rip_church_ai_effect = yes }
 }
 rip_church_v3_religion_change_effect = {
  # ROOT is a country. Preserve milestone/cooldown flags across confession changes.
- if = { limit = { has_country_flag = rip_church_v3_active } rip_church_v3_exit_effect = yes }
+ if = { limit = { has_country_flag = rip_church_v3_active NOT = { OR = { rip_church_ro_jurisdiction = yes religion = greek_catholic } } } rip_church_v3_exit_effect = yes }
  rip_church_v3_initialize_effect = yes
- if = { limit = { religion = russian_orthodox } rip_church_ro_recount_effect = yes }
+ if = { limit = { rip_church_ro_jurisdiction = yes } rip_church_ro_recount_effect = yes }
  rip_church_refresh_pa_effect = yes
  rip_church_refresh_relations_effect = yes
 }
@@ -98,7 +102,7 @@ rip_church_province_change_effect = {
  owner = { if = { limit = { religion = greek_catholic } rip_church_gui_refresh_parishes_effect = yes } }
 }
 rip_church_ai_effect = {
- if = { limit = { religion = russian_orthodox }
+ if = { limit = { rip_church_ro_jurisdiction = yes }
  if = { limit = { has_country_flag = rip_church_icon_war NOT = { rip_church_at_war_with_steppe = yes } NOT = { any_owned_province = { rip_church_steppe_frontier = yes } } } rip_church_deactivate_war_effect = yes }
  if = { limit = { has_country_flag = rip_church_icon_mercy NOT = { any_owned_province = { rip_church_eastern_land = yes } } } rip_church_deactivate_mercy_effect = yes }
  if = { limit = { has_country_flag = rip_church_icon_building NOT = { any_owned_province = { rip_church_cathedral_candidate = yes } } } rip_church_deactivate_building_effect = yes }

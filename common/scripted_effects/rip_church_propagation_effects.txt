@@ -16,12 +16,12 @@ rip_church_refresh_conversion_resistance_effect = {
 
 rip_church_ro_refresh_connections_effect = {
  every_province = { limit = { has_province_flag = rip_church_ro_connected@ROOT } clr_province_flag = rip_church_ro_connected@ROOT }
- capital_scope = { if = { limit = { religion = russian_orthodox controlled_by = ROOT is_core = ROOT } set_province_flag = rip_church_ro_connected@ROOT } }
+ capital_scope = { if = { limit = { religion = ROOT controlled_by = ROOT is_core = ROOT } set_province_flag = rip_church_ro_connected@ROOT } }
  set_variable = { which = rip_church_connection_added value = 1 }
  while = { limit = { check_variable = { which = rip_church_connection_added value = 1 } }
  set_variable = { which = rip_church_connection_added value = 0 }
  every_owned_province = { limit = {
- religion = russian_orthodox controlled_by = ROOT is_core = ROOT NOT = { has_province_flag = rip_church_ro_connected@ROOT }
+ religion = ROOT controlled_by = ROOT is_core = ROOT NOT = { has_province_flag = rip_church_ro_connected@ROOT }
  any_neighbor_province = { has_province_flag = rip_church_ro_connected@ROOT }
  }
  set_province_flag = rip_church_ro_connected@ROOT

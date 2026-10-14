@@ -89,7 +89,7 @@ country_decisions = {
 		potential = {
 			is_year = 1700
 			NOT = { has_country_flag = rip_once_russification_campaign_decision }
-			religion = russian_orthodox
+			rip_church_ro_jurisdiction = yes
 			is_russian_orthodox_culture_eligible = yes
 			NOT = { has_country_modifier = forced_russification }
 			num_of_owned_provinces_with = {
@@ -127,7 +127,7 @@ country_decisions = {
 		potential = {
 			is_year = 1667
 			NOT = { has_country_flag = rip_once_establish_orthodox_inquisition_decision }
-			religion = russian_orthodox
+			rip_church_ro_jurisdiction = yes
 			NOT = { has_country_modifier = orthodox_inquisition }
 			has_idea_group = religious_ideas
 			is_year = 1650
@@ -152,7 +152,7 @@ country_decisions = {
 				factor = 2
 				num_of_owned_provinces_with = {
 					value = 20
-					NOT = { religion = russian_orthodox }
+					NOT = { religion = ROOT }
 				}
 			}
 		}
@@ -161,7 +161,7 @@ country_decisions = {
 	gathering_russian_lands_decision = {
 		potential = {
 			NOT = { has_country_flag = rip_once_gathering_russian_lands_decision }
-			religion = russian_orthodox
+			rip_church_ro_jurisdiction = yes
 			is_russian_orthodox_culture_eligible = yes
 			NOT = { has_country_modifier = gathering_russian_lands }
 			any_neighbor_country = {
@@ -192,7 +192,7 @@ country_decisions = {
 	establish_symphonia_decision = {
 		potential = {
 			NOT = { has_country_flag = rip_once_establish_symphonia_decision }
-			religion = russian_orthodox
+			rip_church_ro_jurisdiction = yes
 			NOT = { has_country_modifier = symphonia_of_powers }
 			government_rank = 3
 		}
@@ -220,7 +220,7 @@ country_decisions = {
 		major = yes
 		potential = {
 			NOT = { has_country_flag = rip_once_proclaim_orthodox_empire_decision }
-			religion = russian_orthodox
+			rip_church_ro_jurisdiction = yes
 			NOT = { has_country_modifier = orthodox_empire_proclaimed }
 			government_rank = 3
 		}
@@ -232,7 +232,7 @@ country_decisions = {
 			adm_power = 150
 			num_of_owned_provinces_with = {
 				value = 50
-				religion = russian_orthodox
+				religion = ROOT
 			}
 		}
 		
@@ -255,17 +255,17 @@ country_decisions = {
 
 	force_convert_province_decision = {
 		potential = {
-			religion = russian_orthodox
+			rip_church_ro_jurisdiction = yes
 			has_country_modifier = orthodox_inquisition
 			any_owned_province = {
-				NOT = { religion = russian_orthodox }
+				NOT = { religion = ROOT }
 				is_city = yes
 			}
 		}
 
 		provinces_to_highlight = {
 			owned_by = ROOT
-			NOT = { religion = russian_orthodox }
+			NOT = { religion = ROOT }
 			is_city = yes
 			NOT = { unrest = 5 }
 		}
@@ -274,7 +274,7 @@ country_decisions = {
 			adm_power = 50
 			religious_unity = 0.5
 			any_owned_province = {
-				NOT = { religion = russian_orthodox }
+				NOT = { religion = ROOT }
 				is_city = yes
 				NOT = { unrest = 5 }
 			}
@@ -284,7 +284,7 @@ country_decisions = {
 			add_adm_power = -50
 			random_owned_province = {
 				limit = {
-					NOT = { religion = russian_orthodox }
+					NOT = { religion = ROOT }
 					is_city = yes
 					NOT = { unrest = 5 }
 				}
@@ -303,7 +303,7 @@ country_decisions = {
 
 	russify_province_decision = {
 		potential = {
-			religion = russian_orthodox
+			rip_church_ro_jurisdiction = yes
 			has_country_modifier = forced_russification
 			any_owned_province = {
 				NOT = { culture_group = east_slavic }

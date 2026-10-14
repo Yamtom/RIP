@@ -34,13 +34,13 @@ suitable_for_russification = {
 	NOT = { culture = ryazanian_new }
 	development = 8
 	owner = {
-		religion = russian_orthodox
+		rip_church_ro_jurisdiction = yes
 		is_russian_orthodox_culture_eligible = yes
 	}
 }
 
 pursuing_third_rome = {
-	religion = russian_orthodox
+	rip_church_ro_jurisdiction = yes
 	is_russian_orthodox_culture_eligible = yes
 	OR = {
 		has_country_modifier = third_rome_ideology
@@ -49,9 +49,9 @@ pursuing_third_rome = {
 }
 
 should_force_conversion = {
-	NOT = { religion = russian_orthodox }
+	NOT = { religion = ROOT }
 	owner = {
-		religion = russian_orthodox
+		rip_church_ro_jurisdiction = yes
 		is_russian_orthodox_culture_eligible = yes
 		OR = {
 			has_country_modifier = orthodox_inquisition
@@ -61,7 +61,7 @@ should_force_conversion = {
 }
 
 can_establish_patriarchate = {
-	religion = russian_orthodox
+	rip_church_ro_jurisdiction = yes
 	is_russian_orthodox_culture_eligible = yes
 	is_year = 1585
 	OR = {
@@ -72,7 +72,7 @@ can_establish_patriarchate = {
 }
 
 is_expansionist_orthodox = {
-	religion = russian_orthodox
+	rip_church_ro_jurisdiction = yes
 	is_russian_orthodox_culture_eligible = yes
 	OR = {
 		has_country_modifier = gathering_russian_lands
@@ -90,7 +90,7 @@ has_cultural_resistance = {
 }
 
 can_proclaim_orthodox_empire = {
-	religion = russian_orthodox
+	rip_church_ro_jurisdiction = yes
 	is_russian_orthodox_culture_eligible = yes
 	government_rank = 3
 	total_development = 500
@@ -249,4 +249,3 @@ is_worthy_crusader = {
 	legitimacy_equivalent = 50
 	NOT = { war_exhaustion = 3 }
 }
-
