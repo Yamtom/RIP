@@ -125,7 +125,8 @@ assert 'has_patriarchs = yes' in faith
 raskol = named_block(read('common/disasters/rip_faith_disasters.txt'), 'rip_ro_raskol')
 assert 'rip_ro_icon_count' not in raskol
 assert 'has_country_flag = rip_ro_stage_raskol' in named_block(raskol, 'can_start')
-assert 'stability = 1 religious_unity = 0.9' in named_block(raskol, 'can_end')
+assert 'patriarch_authority = 0.6' in named_block(raskol, 'can_end')
+assert 'religious_unity' not in named_block(raskol, 'can_end'), 'a unity exit closes the Raskol on its first check'
 assert 'monthly_fervor_increase' not in raskol
 assert 'rip_ro_icon_count' not in read('common/scripted_effects/rip_faith_zeal_effects.txt')
 print('PASS: half-sized base, retired native icons, read-only site panel, unchanged authority and Raskol guards')

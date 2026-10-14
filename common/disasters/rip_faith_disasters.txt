@@ -95,13 +95,13 @@ rip_ro_raskol = {
 		}
 	}
 
+	# The only exit is the patriarch losing his authority. A unity exit (unity 0.9
+	# and stability 1) can already hold on the success path that starts this
+	# disaster, so it closed the Raskol on its first check.
 	can_end = {
 		custom_trigger_tooltip = {
 			tooltip = rip_ro_raskol_end_native_tt
-			OR = {
-				NOT = { patriarch_authority = 0.6 }
-				AND = { stability = 1 religious_unity = 0.9 }
-			}
+			NOT = { patriarch_authority = 0.6 }
 		}
 		NOT = { num_of_rebel_controlled_provinces = 1 }
 	}
