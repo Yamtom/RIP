@@ -80,6 +80,10 @@ country_decisions = {
 		# only once a union is already under way or a Catholic overlord presses it.
 		ai_will_do = {
 			factor = 0.02
+			modifier = { factor = 0 num_of_loans = 1 }
+			modifier = { factor = 0 NOT = { religious_unity = 0.75 } }
+			modifier = { factor = 3 num_of_owned_provinces_with = { value = 3 religion = greek_catholic } }
+			modifier = { factor = 2 any_allied_country = { religion = catholic is_great_power = yes } }
 			modifier = {
 				factor = 4
 				has_country_flag = pursuing_uniate_union

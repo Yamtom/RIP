@@ -2,6 +2,10 @@
 # depend on a numerical orientation resource.
 rip_church_refresh_relations_effect = {
  every_country = { limit = { NOT = { tag = ROOT } }
+  remove_opinion = { who = ROOT modifier = rip_church_opinion_broken_charter }
+  if = { limit = { religion_group = christian ROOT = { has_country_modifier = rip_church_broken_promises } }
+   add_opinion = { who = ROOT modifier = rip_church_opinion_broken_charter }
+  }
   remove_opinion = { who = ROOT modifier = rip_church_opinion_union_opposition }
   ROOT = { remove_opinion = { who = PREV modifier = rip_church_opinion_union_opposition } }
   if = { limit = { OR = {

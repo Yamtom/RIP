@@ -1,0 +1,32 @@
+namespace = rip_church_compact
+province_event = {
+ id = rip_church_compact.1 title = rip_church_compact.1.t desc = rip_church_compact.1.d picture = RELIGION_eventPicture
+ is_triggered_only = yes
+ option = {
+  name = rip_church_compact.1.a
+  trigger = { rip_church_compact_parish = yes owner = { rip_church_can_pay_compact = yes } }
+  ai_chance = { factor = 75 modifier = { factor = 2 unrest = 2 } }
+  rip_church_full_compact_effect = yes
+ }
+ option = {
+  name = rip_church_compact.1.b
+  trigger = { rip_church_compact_parish = yes owner = { rip_church_can_pay_compact = yes } }
+  ai_chance = { factor = 25 modifier = { factor = 3 owner = { absolutism = 50 } } }
+  rip_church_royal_compact_effect = yes
+ }
+ option = { name = rip_church_compact.1.c ai_chance = { factor = 1 } }
+}
+province_event = {
+ id = rip_church_compact.2 title = rip_church_compact.2.t desc = rip_church_compact.2.d picture = RELIGION_eventPicture
+ trigger = {
+  has_province_flag = rip_church_episcopal_elections
+  NOT = { has_province_flag = rip_church_compact_broken }
+  had_province_flag = { flag = rip_church_compact days = 3650 }
+  controlled_by = owner owner = { rip_church_compact_crown = yes government = monarchy absolutism = 50 }
+  OR = { NOT = { has_province_flag = rip_church_election_dispute } had_province_flag = { flag = rip_church_election_dispute days = 3650 } }
+ }
+ mean_time_to_happen = { months = 120 }
+ immediate = { set_province_flag = rip_church_election_dispute }
+ option = { name = rip_church_compact.2.a ai_chance = { factor = 80 } owner = { add_legitimacy = -5 } }
+ option = { name = rip_church_compact.2.b ai_chance = { factor = 20 modifier = { factor = 0 unrest = 1 } } rip_church_breach_compact_effect = yes owner = { add_legitimacy = 5 } }
+}
