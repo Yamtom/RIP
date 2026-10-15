@@ -22,6 +22,34 @@ proposal_acceptance = next(
     if 'name = uniate_church.1.a' in block
 )
 assert 'set_country_flag = pursuing_uniate_union' in proposal_acceptance
+assert 'provincial_uniate_resistance' not in proposal_acceptance
+
+council = next(
+    block for _, block in keyed_blocks(events, 'country_event')
+    if re.search(r'(?m)^\s*id\s*=\s*uniate_church\.2\s*$', block)
+)
+council_options = {
+    re.search(r'name\s*=\s*(uniate_church\.2\.[abc])', block)[1]: block
+    for _, block in keyed_blocks(council, 'option')
+    if re.search(r'name\s*=\s*(uniate_church\.2\.[abc])', block)
+}
+forced_policy = council_options['uniate_church.2.a']
+rite_compact = council_options['uniate_church.2.b']
+assert 'rip_church_forced_integration' in forced_policy
+resistance_target = next(
+    block for _, block in keyed_blocks(forced_policy, 'every_owned_province')
+    if 'provincial_uniate_resistance' in block
+)
+assert 'religion = orthodox' in named_block(resistance_target, 'limit')
+assert 'name = provincial_uniate_resistance duration = 3650' in normalized(resistance_target)
+assert 'provincial_uniate_resistance' not in rite_compact
+assert 'rip_church_forced_integration' not in rite_compact
+assert 'rip_church_historical_east_effect = yes' in rite_compact
+assert 'dual_communion_compromise' in rite_compact
+english_localisation = read('localisation/uniate_and_raid_l_english.yml')
+assert 'bishops' in english_localisation.split('uniate_church.1.a:0', 1)[1].splitlines()[0].lower()
+assert 'royal decree' in english_localisation
+assert 'Eastern rite' in english_localisation and 'Latinization' in english_localisation
 
 modifier = named_block(
     read('common/event_modifiers/uniate_church_modifiers.txt'),
@@ -135,6 +163,10 @@ assert 'uniate_church.3.b:0 "Negotiate coexistence"' in localisation
 assert 'uniate_church.3.c:0 "Grant brotherhoods local autonomy"' in localisation
 for language in ('french', 'german', 'spanish'):
     fallback = read(f'localisation/replace/zzz_RIP_untranslated_l_{language}.yml')
+    assert 'uniate_church.1.a:0 "Let the bishops negotiate communion with Rome"' in fallback
+    assert 'uniate_church.2.a:0 "Impose the union by royal decree"' in fallback
+    assert 'uniate_church.2.b:0 "Honor the Eastern rite and allow a negotiated transition"' in fallback
+    assert "The bishops' agreement concerned communion and hierarchy" in fallback
     assert 'uniate_church.3.a:0 "Suppress the brotherhoods"' in fallback
     assert 'uniate_church.3.b:0 "Negotiate coexistence"' in fallback
     assert 'uniate_church.3.c:0 "Grant brotherhoods local autonomy"' in fallback

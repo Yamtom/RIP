@@ -117,15 +117,7 @@ country_event = {
 			name = uniate_union_established
 			duration = 7300
 		}
-		
-		every_owned_province = {
-			limit = { religion = orthodox }
-			add_province_modifier = {
-				name = provincial_uniate_resistance
-				duration = 3650
-			}
-		}
-		
+
 		country_event = { id = uniate_church.2 days = 365 }
 	}
 	
@@ -169,8 +161,17 @@ country_event = {
 			name = forced_religious_union
 			duration = 5475
 		}
+
+ # This is the crown's coercive policy, not part of the bishops' agreement.
+ every_owned_province = {
+ 	limit = { religion = orthodox }
+ 	add_province_modifier = {
+ 		name = provincial_uniate_resistance
+ 		duration = 3650
+ 	}
+ }
 		
-		every_owned_province = {
+ every_owned_province = {
 			limit = {
 				religion = orthodox
 				development = 10
