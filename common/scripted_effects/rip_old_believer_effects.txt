@@ -44,6 +44,119 @@ rip_ob_begin_schism_effect = {
 	}
 }
 
+# ==========================================================================
+# THE CONVERSION WAVE
+#
+# While the Raskol disaster runs, rip_ob.4 calls rip_ob_conversion_wave_effect
+# once a month. Each Orthodox city of the realm then has a small chance to leave
+# the Greek rite: for the state church (russian_orthodox) or for the old rite
+# (old_believer). Chances are in ten-thousandths a month and the best matching
+# tier applies, never a product of tiers:
+#
+#   the owner's primary culture      x10   150
+#   Muscovite culture                 x5    75
+#   East Slavic, Uralic, Tatar        x3    45
+#   any other culture                 x1    15
+#
+# Over the 10 to 17 years the Raskol lasts that is about 84-95% of the primary
+# culture's cities and about 16-26% of those of any other culture. A community leans to the old
+# rite (60 in 100), any other city does not (10 in 100), and the capital, where
+# the patriarch sits, always takes the state church.
+# ==========================================================================
+
+# Province scope. The city joins the state church.
+rip_ob_wave_state_church_effect = {
+	owner = { enable_religion = russian_orthodox }
+	change_religion = russian_orthodox
+}
+
+# Province scope. The city takes the old rite and is a community from then on.
+rip_ob_wave_old_rite_effect = {
+	owner = { enable_religion = old_believer }
+	change_religion = old_believer
+	rip_ob_mark_community_effect = yes
+}
+
+# Province scope. Which way a city that has moved goes.
+rip_ob_wave_convert_effect = {
+	if = {
+		limit = { is_capital = yes }
+		rip_ob_wave_state_church_effect = yes
+	}
+	if = {
+		limit = {
+			is_capital = no
+			has_province_flag = rip_ob_community
+		}
+		random_list = {
+			60 = { rip_ob_wave_old_rite_effect = yes }
+			40 = { rip_ob_wave_state_church_effect = yes }
+		}
+	}
+	if = {
+		limit = {
+			is_capital = no
+			NOT = { has_province_flag = rip_ob_community }
+		}
+		random_list = {
+			10 = { rip_ob_wave_old_rite_effect = yes }
+			90 = { rip_ob_wave_state_church_effect = yes }
+		}
+	}
+}
+
+# Province scope. One month of the wave for one city. The tiers exclude each
+# other, so each city rolls exactly once.
+rip_ob_wave_pass_effect = {
+	if = {
+		limit = { culture = owner }
+		random_list = {
+			150 = { rip_ob_wave_convert_effect = yes }
+			9850 = { }
+		}
+	}
+	if = {
+		limit = {
+			NOT = { culture = owner }
+			rip_ob_wave_muscovite = yes
+		}
+		random_list = {
+			75 = { rip_ob_wave_convert_effect = yes }
+			9925 = { }
+		}
+	}
+	if = {
+		limit = {
+			NOT = { culture = owner }
+			rip_ob_wave_muscovite = no
+			rip_ob_wave_kin = yes
+		}
+		random_list = {
+			45 = { rip_ob_wave_convert_effect = yes }
+			9955 = { }
+		}
+	}
+	if = {
+		limit = {
+			NOT = { culture = owner }
+			rip_ob_wave_muscovite = no
+			rip_ob_wave_kin = no
+		}
+		random_list = {
+			15 = { rip_ob_wave_convert_effect = yes }
+			9985 = { }
+		}
+	}
+}
+
+# Country scope. One month of the wave for the whole realm.
+rip_ob_conversion_wave_effect = {
+	every_owned_province = {
+		limit = { rip_ob_wave_eligible = yes }
+		rip_ob_wave_pass_effect = yes
+	}
+}
+
 # Country scope. Toleration and repression exclude each other.
 rip_ob_tolerate_effect = {
 	remove_country_modifier = suppression_old_believers

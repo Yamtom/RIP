@@ -477,7 +477,7 @@ for trigger in sorted(set(re.findall(r'\brip_ob_\w+\s*=\s*yes', fixture))):
     assert trigger.split()[0] in EFFECTS or trigger.split()[0] in TRIGGERS, \
         'the console fixture reads an undefined helper: ' + trigger
 ids = re.findall(r'^\s*id = (rip_ob\.\d+)', read('events/RIP_OldBelievers.txt'), re.M)
-assert ids == ['rip_ob.2', 'rip_ob.3'] and len(set(ids)) == len(ids)
+assert ids == ['rip_ob.2', 'rip_ob.3', 'rip_ob.4'] and len(set(ids)) == len(ids)
 rebels = read('common/rebel_types/old_believer.txt')
 assert 'dominant_religion = old_believer' in rebels and 'religion = orthodox' not in rebels
 # The scripted risings of the Raskol stay heretic_rebels: old_believer_rebels convert the province they win.
@@ -485,5 +485,130 @@ for path in ('events/RIP_FaithDisasters.txt', 'events/RussianOrthodox.txt', 'com
     assert 'old_believer_rebels' not in read(path), path
 cases += 1
 
-print(f'OLD BELIEVER PASS: {cases} source-executed cases; communities never convert, the policy only sets the pace '
-      f'of the Raskol exit (authority below 60%), no separate crisis clock; source model, not engine evidence.')
+# --- 12. the Raskol's conversion wave ---------------------------------------
+# While the disaster runs, rip_ob.4 gives every Orthodox city a monthly chance to
+# move to the state church or the old rite. The best matching culture tier applies.
+def wave_realm(owner_culture='russian'):
+    w, c, capital, russian, kyiv, catholic = realm(religion='russian_orthodox')
+    c['culture'] = owner_culture
+    c['disasters'] = {'rip_ro_raskol'}
+    return w, c, capital, russian, kyiv, catholic
+
+
+def month(w, province, first, second=0):
+    """The faith one monthly pass leaves `province` when the dice show `first`, then `second`."""
+    saved = (province['religion'], dict(province['flags']), dict(province['modifiers']), set(getattr(w, 'enabled', set())))
+    w.rolls = [first, second]
+    w.execute([('rip_ob_wave_pass_effect', 'yes')], province)
+    result, flags, modifiers = province['religion'], dict(province['flags']), dict(province['modifiers'])
+    province['religion'], province['flags'], province['modifiers'] = saved[0], saved[1], saved[2]
+    w.enabled, w.rolls = saved[3], []
+    return result, flags, modifiers
+
+
+def chance(w, province):
+    return sum(month(w, province, roll)[0] != 'orthodox' for roll in range(10000)) / 10000
+
+
+def city(w, c, number, culture, group, religion='orthodox'):
+    p = w.province(number, c, religion)
+    p['culture'], p['culture_group'], p['region'] = culture, group, 'russia_region'
+    return p
+
+
+# 12a. one tier per city, the best match only, never a product.
+w, c, capital, russian, kyiv, catholic = wave_realm('russian')
+tiers = (
+    (0.0150, 'the primary culture', ('russian', 'east_slavic')),
+    (0.0045, 'East Slavic, whatever the Muscovite set', ('ruthenian', 'east_slavic')),
+    (0.0015, 'a Polish city', ('polish', 'west_slavic')),
+)
+for expected, label, (culture, group) in tiers:
+    assert abs(chance(w, city(w, c, 700 + int(expected * 10000), culture, group)) - expected) < 1e-9, label
+w, c, capital, russian, kyiv, catholic = wave_realm('ruthenian')
+for number, (culture, group, expected, label) in enumerate((
+        ('ruthenian', 'east_slavic', 0.0150, 'the primary culture (a Ruthenian realm)'),
+        ('russian', 'east_slavic', 0.0075, 'Muscovite'),
+        ('russian_new', 'slavic', 0.0075, 'Muscovite, new set'),
+        ('byelorussian', 'east_slavic', 0.0045, 'East Slavic group'),
+        ('ruthenian_new', 'slavic', 0.0045, 'East Slavic outside its group (slavic)'),
+        ('rusyn_new_new', 'carpathian', 0.0045, 'East Slavic outside its group (carpathian)'),
+        ('uralic', 'finno_ugric', 0.0045, 'Uralic'),
+        ('kazani', 'tartar', 0.0045, 'Tatar'),
+        ('polish', 'west_slavic', 0.0015, 'West Slavic'),
+        ('transylvanian', 'carpathian', 0.0015, 'Carpathian, not East Slavic'),
+        ('lithuanian', 'baltic', 0.0015, 'Baltic')), start=800):
+    assert abs(chance(w, city(w, c, number, culture, group)) - expected) < 1e-9, label
+cases += 1
+
+# The wave lasts as long as the Raskol, so the tiers decide how much of a realm it takes.
+share = lambda p, years: 1 - (1 - p) ** (12 * years)
+assert 0.83 < share(0.015, years['toleration']) and share(0.015, years['repression']) < 0.96
+assert 0.16 < share(0.0015, years['toleration']) and share(0.0015, years['repression']) < 0.27
+cases += 1
+
+# 12b. who it moves: Orthodox cities that the owner holds, in the Muscovite jurisdiction.
+w, c, capital, russian, kyiv, catholic = wave_realm()
+eligible = TRIGGERS['rip_ob_wave_eligible']
+assert all(w.gate(eligible, p) for p in russian + [kyiv]), 'an Orthodox city held by the owner'
+assert not w.gate(eligible, catholic), 'a Catholic city is not moved'
+assert not w.gate(eligible, capital), 'the state church already holds its capital'
+old_rite = city(w, c, 900, 'russian', 'east_slavic', 'old_believer')
+assert not w.gate(eligible, old_rite), 'an Old Believer city stays'
+village = city(w, c, 901, 'russian', 'east_slavic'); village['is_city'] = False
+assert not w.gate(eligible, village), 'a settlement that is not a city is not moved'
+occupied = city(w, c, 902, 'russian', 'east_slavic'); occupied['controlled_by'] = 'LIT'
+assert not w.gate(eligible, occupied), 'an occupied city is not moved'
+w.country('LIT', 'orthodox')
+abroad = w.province(903, w.countries['LIT'], 'orthodox')
+assert not w.gate(eligible, abroad), 'a realm outside the Muscovite jurisdiction is not touched'
+cases += 1
+
+# 12c. where it moves them. A community leans to the old rite, any other city does
+# not, and the capital never goes to the old rite.
+w, c, capital, russian, kyiv, catholic = wave_realm()
+community, plain = russian[0], russian[1]
+w.run('rip_ob_mark_community_effect', community)
+for province, expected in ((community, 60), (plain, 10)):
+    split = [month(w, province, 0, roll)[0] for roll in range(100)]
+    assert split.count('old_believer') == expected and split.count('russian_orthodox') == 100 - expected, (province['id'], split)
+capital['religion'] = 'orthodox'
+capital_dice = [month(w, capital, 0, roll)[0] for roll in range(100)]
+assert set(capital_dice) == {'russian_orthodox'}, 'the capital takes the state church whatever the dice'
+faith, flags, modifiers = month(w, plain, 0, 0)
+assert faith == 'old_believer' and 'rip_ob_community' in flags and 'rip_ob_local_community' in modifiers, \
+    'a city that takes the old rite is a community from then on'
+faith, flags, modifiers = month(w, community, 0, 99)
+assert faith == 'russian_orthodox' and 'rip_ob_community' in flags, 'joining the state church does not unmake a community'
+w.rolls = [0, 0]
+w.execute([('rip_ob_wave_pass_effect', 'yes')], plain)
+assert {'old_believer'} <= getattr(w, 'enabled', set()), 'a faith has to be enabled before a city can take it'
+cases += 1
+
+# 12d. wiring: the disaster calls rip_ob.4 monthly, and the event runs only inside the Raskol.
+w, c, capital, russian, kyiv, catholic = wave_realm()
+capital['religion'] = 'orthodox'
+wave = dict(EVENTS['rip_ob.4'])
+assert wave['hidden'] == 'yes' and wave['is_triggered_only'] == 'yes' and 'option' not in wave
+assert available(w, c, 'rip_ob.4')
+c['disasters'] = set()
+assert not available(w, c, 'rip_ob.4'), 'no Raskol, no wave'
+c['disasters'] = {'rip_ro_raskol'}
+before = faiths(w)
+w.rolls = [9999] * 40
+w.execute(wave['immediate'], c)
+assert faiths(w) == before, 'the dice show nothing, so nothing moves'
+w.rolls = [0, 0] * 40
+w.execute(wave['immediate'], c)
+after = faiths(w)
+assert after[catholic['id']] == 'catholic', 'a Catholic city is never touched'
+assert after[capital['id']] == 'russian_orthodox'
+assert all(after[p['id']] == 'old_believer' for p in russian + [kyiv]), 'with the dice at zero every other Orthodox city moves'
+assert 'rip_ob.4' in re.sub(r'#[^\n]*', '', named_block(disaster, 'on_monthly')), 'the disaster has to call the wave'
+named_in = sorted(p.name for p in (ROOT / 'events').glob('*.txt') if 'rip_ob.4' in p.read_bytes().decode('cp1252', 'replace'))
+assert named_in == ['RIP_OldBelievers.txt'], 'no other event may fire the wave: ' + str(named_in)
+cases += 1
+
+print(f'OLD BELIEVER PASS: {cases} source-executed cases; a community is a mark, only rip_ob.2 and the Raskol\'s '
+      f'conversion wave move a city\'s faith; the policy only sets the pace of the Raskol exit (authority below 60%), '
+      f'no separate crisis clock; source model, not engine evidence.')

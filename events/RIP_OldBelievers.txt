@@ -4,12 +4,13 @@
 # Communities are marked by rip_ob_begin_schism_effect at the council of 1666
 # (common/scripted_effects/rip_old_believer_effects.txt). A community is a
 # province flag, not a faith: it survives conquest and the end of the Raskol, and
-# only rip_ob.2 or a rebel victory ever makes it a majority.
+# only rip_ob.2, the Raskol's conversion wave (rip_ob.4) or a rebel victory ever
+# makes it a majority.
 #
 # There is no rip_ob.1. The snapshot this chapter came from opened with an event
 # in which an Orthodox province accepted the Muscovite state church; here the
-# state church is a jurisdiction (rip_church_ro_jurisdiction) and a province
-# never changes faith with it, so that event has nothing to say.
+# state church is a jurisdiction (rip_church_ro_jurisdiction) and adopting it
+# moves no province. Provinces change faith only in the Raskol (rip_ob.4).
 ##############################################################
 
 namespace = rip_ob
@@ -88,3 +89,20 @@ province_event = {
 	}
 }
 
+# The Raskol's conversion wave. The disaster lists this event in its on_monthly,
+# so it runs once a month for as long as the Raskol does and never otherwise.
+# The chances and the split between the state church and the old rite are in
+# rip_ob_wave_pass_effect (common/scripted_effects/rip_old_believer_effects.txt).
+country_event = {
+	id = rip_ob.4
+	is_triggered_only = yes
+	hidden = yes
+
+	trigger = {
+		has_disaster = rip_ro_raskol
+	}
+
+	immediate = {
+		rip_ob_conversion_wave_effect = yes
+	}
+}
