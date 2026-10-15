@@ -1,0 +1,53 @@
+# A Ruthenian realm that has lost the seat that gave it its name.
+#
+# One table: a tag and the province of its namesake seat. decisions/RIP_CapitalLoss.txt
+# has one decision per row, and tests/check_ruthenian_capital_loss.py fails if the
+# two drift apart. To add a realm, add a row here, a decision there, and its text.
+#
+#   HLC  261   Halych
+#   VLN  279   Lutsk (province Volhynia)
+#   KIE  280   Kyiv
+#   CHR  289   Chernihiv
+#   ZAZ  283   Zaporizhzhia
+#   PRL  2407  Pereiaslav
+#   PDL  281   Kamianets (province Podolia)
+#   UZH  1952  Khust
+#   VTB  771   Vitebsk
+#   MSK  276   Minsk
+#   MSL  4246  Mstislavl
+#   PLT  275   Polotsk
+#
+# Left out on purpose: TRV, which vanilla also uses for Travancore; the formed
+# nations (VOL, KUY, KRU, RUT, UKR, BLR, HET), which are not principalities and
+# have no seat of their own; and the Slobidska regiments, whose capitals are
+# placeholders in other lands.
+
+# Country scope. The country is one of the realms in the table and does not own
+# its namesake seat. A realm that never held it counts as having lost it.
+rip_namesake_seat_missing = {
+	OR = {
+		AND = { tag = HLC NOT = { owns = 261 } }
+		AND = { tag = VLN NOT = { owns = 279 } }
+		AND = { tag = KIE NOT = { owns = 280 } }
+		AND = { tag = CHR NOT = { owns = 289 } }
+		AND = { tag = ZAZ NOT = { owns = 283 } }
+		AND = { tag = PRL NOT = { owns = 2407 } }
+		AND = { tag = PDL NOT = { owns = 281 } }
+		AND = { tag = UZH NOT = { owns = 1952 } }
+		AND = { tag = VTB NOT = { owns = 771 } }
+		AND = { tag = MSK NOT = { owns = 276 } }
+		AND = { tag = MSL NOT = { owns = 4246 } }
+		AND = { tag = PLT NOT = { owns = 275 } }
+	}
+}
+
+# Country scope. The seat has been missing for more than 25 years (9125 days).
+# rip_namesake_seat_upkeep_effect sets the flag on the yearly pulse, so the
+# measured time can run up to a year short of the true loss.
+rip_namesake_seat_lost_long = {
+	rip_namesake_seat_missing = yes
+	had_country_flag = {
+		flag = rip_namesake_seat_lost
+		days = 9125
+	}
+}
