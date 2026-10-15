@@ -103,23 +103,27 @@ rip_church_province_change_effect = {
 }
 rip_church_ai_effect = {
  if = { limit = { rip_church_ro_jurisdiction = yes }
+ if = { limit = { has_country_flag = rip_church_icon_mission OR = {
+  NOT = { rip_church_ai_mission_useful = yes }
+  AND = { NOT = { rip_church_ro_potential_network = yes } NOT = { check_variable = { which = rip_church_fervor_net value = 0 } } NOT = { check_variable = { which = muscovy_fervor value = 12 } } }
+ } } rip_church_deactivate_mission_effect = yes }
  if = { limit = { has_country_flag = rip_church_icon_war NOT = { rip_church_at_war_with_steppe = yes } NOT = { any_owned_province = { rip_church_steppe_frontier = yes } } } rip_church_deactivate_war_effect = yes }
  if = { limit = { has_country_flag = rip_church_icon_mercy NOT = { any_owned_province = { rip_church_eastern_land = yes } } } rip_church_deactivate_mercy_effect = yes }
  if = { limit = { has_country_flag = rip_church_icon_building NOT = { any_owned_province = { rip_church_cathedral_candidate = yes } } } rip_church_deactivate_building_effect = yes }
  if = { limit = { rip_church_can_activate_war = yes rip_church_at_war_with_steppe = yes check_variable = { which = muscovy_fervor value = 40 } } rip_church_toggle_war_effect = yes }
  if = { limit = { rip_church_can_activate_mercy = yes any_owned_province = { rip_church_eastern_land = yes } check_variable = { which = muscovy_fervor value = 50 } } rip_church_toggle_mercy_effect = yes }
  if = { limit = { rip_church_can_activate_building = yes is_at_war = no any_owned_province = { rip_church_cathedral_candidate = yes } treasury = 200 check_variable = { which = muscovy_fervor value = 50 } NOT = { check_variable = { which = rip_church_icons value = 2 } } } rip_church_toggle_building_effect = yes }
- if = { limit = { rip_church_can_activate_mission = yes any_owned_province = { rip_church_mission_field = yes } check_variable = { which = muscovy_fervor value = 40 } OR = { NOT = { check_variable = { which = rip_church_icons value = 2 } } is_in_important_war = yes } } rip_church_toggle_mission_effect = yes }
+ if = { limit = { rip_church_can_activate_mission = yes rip_church_ai_mission_useful = yes rip_church_ai_mission_affordable = yes check_variable = { which = muscovy_fervor value = 40 } OR = { NOT = { check_variable = { which = rip_church_icons value = 2 } } is_in_important_war = yes } } rip_church_toggle_mission_effect = yes }
  if = { limit = { is_in_important_war = no check_variable = { which = rip_church_icons value = 3 } NOT = { num_of_rebel_armies = 1 } } rip_church_ro_disable_last_effect = yes }
  rip_church_ro_ai_nodes_effect = yes
  }
  else_if = { limit = { religion = greek_catholic }
- rip_church_gc_ai_icons_effect = yes
- if = { limit = { adm_power = 150 any_owned_province = { rip_church_can_recognize_rite = yes unrest = 1 } }
+ if = { limit = { adm_power = 150 NOT = { num_of_loans = 1 } any_owned_province = { rip_church_can_recognize_rite = yes unrest = 1 } }
  random_owned_province = { limit = { rip_church_can_recognize_rite = yes unrest = 1 } rip_church_recognize_rite_effect = yes }
  }
- if = { limit = { rip_church_gc_can_coexistence = yes } rip_church_gc_coexistence_effect = yes }
- else_if = { limit = { rip_church_gc_can_infrastructure = yes } rip_church_gc_infrastructure_effect = yes }
+ if = { limit = { rip_church_gc_can_coexistence = yes NOT = { num_of_loans = 1 } treasury = 150 any_owned_province = { rip_church_gc_synod_community = yes unrest = 1 } } rip_church_gc_coexistence_effect = yes }
+ else_if = { limit = { rip_church_gc_can_infrastructure = yes NOT = { num_of_loans = 1 } treasury = 125 num_of_owned_provinces_with = { value = 3 religion = greek_catholic is_core = ROOT controlled_by = ROOT } } rip_church_gc_infrastructure_effect = yes }
+ rip_church_gc_ai_icons_effect = yes
  if = { limit = { rip_church_can_ecumenism = yes } rip_church_achieve_ecumenism_effect = yes }
  }
 }

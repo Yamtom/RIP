@@ -46,8 +46,8 @@ PARISH = ('owned_by = ROOT controlled_by = ROOT is_core = ROOT religion = ROOT '
           'has_province_flag = rip_church_ro_connected@ROOT OR = { has_building = temple has_building = cathedral }')
 for name, anchor in nodes:
     key = 'rip_church_node_' + name
-    trigger += f'''{key}_eligible = {{
- rip_church_ro_jurisdiction = yes has_country_flag = rip_church_icon_mission
+    trigger += f'''{key}_potential = {{
+ rip_church_ro_jurisdiction = yes
  has_dlc = "Cradle of Civilization"
  {anchor} = {{
  has_trader = ROOT trade_share = {{ country = ROOT share = 50 }}
@@ -59,6 +59,7 @@ for name, anchor in nodes:
  any_trade_node_member_province = {{ rip_church_ro_propagation_target_root = yes }}
  }}
 }}
+{key}_eligible = {{ {key}_potential = yes has_country_flag = rip_church_icon_mission }}
 {key}_can_open = {{
  {key}_eligible = yes NOT = {{ has_country_flag = {key} }}
  check_variable = {{ which = muscovy_fervor value = {NODE_COST} }}
@@ -108,6 +109,7 @@ effects += 'rip_church_ro_recount_nodes_effect = {\nset_variable = { which = fun
 effects += 'rip_church_ro_close_all_nodes_effect = {\n'+'\n'.join(close)+'\nset_variable = { which = funded_nodes_count value = 0 }\n'+LIFT+'\n}\n'
 effects += 'rip_church_ro_maintain_nodes_effect = {\nrip_church_ro_refresh_connections_effect = yes\nevery_province = { limit = { has_province_flag = rip_church_ro_trade_target@ROOT } clr_province_flag = rip_church_ro_trade_target@ROOT }\n'+LIFT+'\nset_variable = { which = funded_nodes_count value = 0 }\n'+'\n'.join(maintain)+'\n}\n'
 effects += 'rip_church_ro_ai_nodes_effect = {\n'+'\n'.join(ai)+'\n}\n'
+trigger += 'rip_church_ro_potential_network = { OR = {\n' + ''.join(f'rip_church_node_{name}_potential = yes\n' for name,_ in nodes) + '} }\n'
 trigger += 'rip_church_ro_registered_node = { OR = {\n'
 for name, anchor in nodes:
     trigger += f'AND = {{ has_country_flag = rip_church_node_{name} FROM = {{ province_id = {anchor} }} }}\n'
