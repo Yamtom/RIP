@@ -165,18 +165,11 @@ for choice, internal_schism in (('russian_orthodox.6.a', True), ('russian_orthod
     assert ('raskol_schism' in w.flags) == internal_schism
     assert ('rip_ro_stage_raskol' in c['flags']) == internal_schism
     if choice.endswith('.a'):
-        assert other['rebel_requests'] == [{'type': 'heretic_rebels', 'size': '2'}]
+        assert p['rebel_requests'] == [{'type': 'old_believer_rebels', 'size': '2'}]
         assert 'suppression_old_believers' in c['modifiers']
     if choice.endswith('.b'):
         assert 'old_believer_underground' in c['modifiers']
     assert 'rip_church_ro_schismatic' not in c['flags'], 'Raskol is not a break with other Eastern sees'
-    # The council also chooses the Old Believer policy and marks the communities
-    # (tests/check_old_believers.py runs the rest of that chapter).
-    assert ('rip_ob_repression' in c['flags']) == choice.endswith('.a'), choice
-    assert ('rip_ob_toleration' in c['flags']) == choice.endswith('.b'), choice
-    assert ('rip_ob_schism_initialized' in c['flags']) == internal_schism, choice
-    if choice.endswith('.c'):
-        assert 'rip_ob_policy_changed' not in c['flags'], 'a compromise sets no policy'
     if not internal_schism:
         assert abs(c['patriarch_authority'] - 0.4) < 1e-9
         assert c['stability'] == stability_before + 1
@@ -224,7 +217,7 @@ c['flags']['rip_ro_stage_raskol'] = w.day
 w.run('rip_church_ro_refresh_communion_effect', c)
 assert 'rip_ro_shared_communion' in other['modifiers'] and not catholic['modifiers']
 assert not p['modifiers']
-c['modifiers']['suppression_old_believers'] = w.day + 7300
+c['modifiers']['orthodox_inquisition'] = w.day + 7300
 w.run('rip_church_ro_refresh_communion_effect', c)
 assert 'rip_ro_restricted_communion' in other['modifiers'] and 'rip_ro_shared_communion' not in other['modifiers']
 w.day += 7301
@@ -282,8 +275,9 @@ cases += 1
 # The formal council's internal Raskol does not break communion or change faith.
 EFFECTS.update(parse(read('common/scripted_effects/rip_faith_zeal_effects.txt')))
 parish = TRIGGERS['rip_ro_old_believer_parish']
-assert ('is_city', 'yes') in parish and ('is_capital', 'no') in parish
-assert sorted(v for k, v in dict(parish)['OR'] if k == 'religion') == ['orthodox', 'russian_orthodox']
+assert ('is_city', 'yes') in parish
+assert ('has_province_flag', 'rip_ob_community') in dict(parish)['OR']
+assert ('religion', 'old_believer') in dict(parish)['OR']
 
 w, c, p, other, catholic = setup(1653)
 for flag in ('rip_ro_stage_autocephaly', 'rip_ro_stage_patriarchate', 'rip_church_ro_recognized'):
@@ -295,21 +289,25 @@ choose(w, c, 'russian_orthodox.6', 'russian_orthodox.6.a')
 assert c['religion'] == p['religion'] == other['religion'] == 'orthodox'
 assert 'rip_ro_stage_raskol' in c['flags'] and 'rip_church_ro_schismatic' not in c['flags']
 assert 'raskol_schism' in w.flags
-assert 'rebels' not in p and 'rebels' not in catholic, 'rebels must not rise in the capital or in another faith'
-assert other['rebels'] == [{'type': 'heretic_rebels', 'size': '2'}]
+assert 'rebels' not in other and 'rebels' not in catholic, 'ordinary Orthodox parishes are not Old Believers'
+assert p['rebels'] == [{'type': 'old_believer_rebels', 'size': '2'}]
 cases += 1
 
 w, c, p, other, catholic = setup(1667, 'russian_orthodox')
+other['flags']['rip_ob_community'] = w.day
 w.run('rip_ro_old_believer_rising_effect', c)
 assert 'rebels' not in p and 'rebels' not in catholic and 'unrest' not in p
-assert other['rebels'] == [{'type': 'heretic_rebels', 'size': '1'}] and other['unrest'] == 3
+assert other['rebels'] == [{'type': 'old_believer_rebels', 'size': '1'}] and other['unrest'] == 3
 cases += 1
 
 # The pulse is only armed while a parish outside the capital can carry the dissent.
 pulse = dict([v for k, v in EFFECTS['rip_ro_zealot_backlash_effect'] if k == 'if'][1])['limit']
 w, c, p, other, catholic = setup(1667, 'russian_orthodox')
 c['flags']['rip_ro_stage_raskol'] = w.day
+c['flags']['rip_ob_repression'] = w.day
+other['flags']['rip_ob_community'] = w.day
 assert w.gate(pulse, c)
+other['flags'].pop('rip_ob_community')
 other['religion'] = 'catholic'
 assert not w.gate(pulse, c), 'the capital alone is not a parish of the old books'
 cases += 1

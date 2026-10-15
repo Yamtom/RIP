@@ -9,15 +9,14 @@ from check_religion_settlement import World as SettlementWorld, parse, TRIGGERS,
 from clausewitz_testlib import ROOT, read
 
 for directory, registry in [('scripted_triggers', TRIGGERS), ('scripted_effects', EFFECTS)]:
-    # The Old Believer helpers are called from the council of 1666 and from the
-    # Raskol disaster's options, so every church fixture needs them.
-    for pattern in ('rip_church_*.txt', 'rip_old_believer_*.txt'):
-        for path in (ROOT / 'common' / directory).glob(pattern):
-            registry.update(parse(path.read_text(encoding='utf-8-sig')))
+    for path in (ROOT / 'common' / directory).glob('rip_church_*.txt'):
+        registry.update(parse(path.read_text(encoding='utf-8-sig')))
 # Church-prefixed effects (including the Greek Catholic Curia) are loaded
 # above; these remaining helpers use their own legacy file prefixes.
 for name in ['rip_faith_effects', 'rip_ro_icon_effects']:
     EFFECTS.update(parse(read('common/scripted_effects/' + name + '.txt')))
+EFFECTS.update(parse(read('common/scripted_effects/rip_old_believer_effects.txt')))
+TRIGGERS.update(parse(read('common/scripted_triggers/rip_old_believer_triggers.txt')))
 # The policy triggers reach for the shared terrain gate.
 TRIGGERS.update(parse(read('common/scripted_triggers/rip_terrain_triggers.txt')))
 

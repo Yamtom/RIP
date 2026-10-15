@@ -47,3 +47,4 @@ COPY = {
  'rip_ob_repressive_policy': 'Enforcement of the Revised Books',
  'desc_rip_ob_repressive_policy': "Tolerance of heretics -1 and yearly patriarchal authority +0.5 percentage points. The communities keep their local penalties after the Raskol ends.",
 }
+

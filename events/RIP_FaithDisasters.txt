@@ -26,16 +26,17 @@ country_event = {
 			# this flag on every pulse - before it is set there is nothing for
 			# anyone to be an old believer about.
 			set_country_flag = rip_ro_stage_raskol
+			rip_ob_begin_schism_effect = yes
 			set_global_flag = raskol_schism
 		}
 	}
 
 	option = {	# Correct the books. The church decides what is correct.
 		name = rip_faith_disaster.1.a
+		rip_ob_repress_effect = yes
 		ai_chance = { factor = 55 }
 
 		add_patriarch_authority = 0.05
-		rip_ob_repress_effect = yes
 		add_stability = -1
 		every_owned_province = {
 			limit = {
@@ -52,7 +53,7 @@ country_event = {
 				rip_ro_old_believer_parish = yes
 			}
 			spawn_rebels = {
-				type = heretic_rebels
+				type = old_believer_rebels
 				size = 2
 			}
 		}
@@ -60,10 +61,10 @@ country_event = {
 
 	option = {	# Let the old rite stand where it stands.
 		name = rip_faith_disaster.1.b
+		rip_ob_tolerate_effect = yes
 		ai_chance = { factor = 45 }
 
 		add_patriarch_authority = -0.15
-		rip_ob_tolerate_effect = yes
 		add_prestige = -10
 		add_country_modifier = {
 			name = old_believer_underground

@@ -47,7 +47,7 @@ rip_ro_old_believer_rising_effect = {
 	random_owned_province = {
 		limit = { rip_ro_old_believer_parish = yes }
 		spawn_rebels = {
-			type = heretic_rebels
+			type = old_believer_rebels
 			size = 1
 		}
 		add_unrest = 3
@@ -104,16 +104,11 @@ rip_ro_zealot_backlash_effect = {
 	# set by russian_orthodox.6 and by the disaster in
 	# common/disasters/rip_faith_disasters.txt. Before that there is nothing
 	# for them to be old believers about.
-	#
-	# A ruler who has chosen toleration (rip_ob_tolerate_effect) is spared these
-	# risings. For everyone else they stop once the Raskol is settled
-	# (rip_ro_raskol_settled).
 	if = {
 		limit = {
 			religion = russian_orthodox
 			has_country_flag = rip_ro_stage_raskol
- NOT = { has_country_flag = rip_ro_raskol_settled }
-			NOT = { has_country_flag = rip_ob_toleration }
+ has_country_flag = rip_ob_repression
 			any_owned_province = { rip_ro_old_believer_parish = yes }
 		}
 		if = {
