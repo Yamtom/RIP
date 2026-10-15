@@ -59,5 +59,5 @@ COPY = {
  'rip_church_ro_unrecognized': 'Muscovite confession in Eastern communion',
  'rip_church_ro_restricted_status': 'Orthodox communion with parish restrictions',
  'rip_church_ro_synodal_status': 'Governing Synod in Orthodox communion',
- 'rip_church_ro_policies_title_tt': 'Click an icon to activate or deactivate its policy. The lit frame marks an active policy; the check or cross shows availability. Benefits and costs are shown below; hover for complete conditions.',
+ 'rip_church_ro_policies_title_tt': 'Click a policy to switch it on or off. Costs §Y10 Fervor§! to start and §R3 Fervor§! a month to keep. Each acts only where it was made for: the steppe frontier, the eastern lands, parishes with a cathedral, provinces of other faiths. Hover a policy for its effects. The gold arrows between the summary tiles are visual only, not buttons or a separate effect: Fervor pays to fund nodes; each funded node returns +3 Fervor per month to help pay policy upkeep.',
 }

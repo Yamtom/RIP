@@ -296,7 +296,7 @@ for transaction in (imperial_option, EFFECTS['proclaim_orthodox_empire_effect'])
     cases += 1
 suppression = event_option('russian_orthodox.6', 'russian_orthodox.6.a')
 spawn = dict(dict(suppression)['random_owned_province'])['spawn_rebels']
-assert dict(spawn)['type'] == 'heretic_rebels'
+assert dict(spawn)['type'] == 'old_believer_rebels'
 cases += 1
 
 print(f'PASS: {cases} RO policy navigation, card, transaction and historical regression cases')

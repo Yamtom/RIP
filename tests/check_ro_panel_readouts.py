@@ -231,8 +231,13 @@ for name in openers:
     assert 'check_variable = { which = muscovy_fervor value = 10 }' in block, name
     assert 'NOT = { check_variable = { which = funded_nodes_count value = 1 } }' in block, name
     assert 'patriarch_authority = 0.65 NOT = { check_variable = { which = funded_nodes_count value = 2 } }' in block, name
-    eligible = named_block(nodes_source, name.replace('_can_open', '_eligible'))
-    assert 'has_country_flag = rip_church_icon_mission' in eligible and 'has_dlc = "Cradle of Civilization"' in eligible, name
+    eligible_name = name.replace('_can_open', '_eligible')
+    potential_name = name.replace('_can_open', '_potential')
+    eligible = named_block(nodes_source, eligible_name)
+    potential = named_block(nodes_source, potential_name)
+    assert f'{potential_name} = yes' in eligible, (name, 'eligibility must delegate to its potential gate')
+    assert 'has_country_flag = rip_church_icon_mission' in eligible, name
+    assert 'has_dlc = "Cradle of Civilization"' in potential, name
 cases += 1
 
 # ---- 5. The three steps: the order of actions is on the screen -----------------------------
@@ -312,7 +317,7 @@ assert visible(loc['rip_church_icon_building_benefit']) == '-25%'
 assert visible(loc['rip_church_icon_building_benefit_second']) == 'All building types'
 assert visible(loc['rip_church_icon_mission_benefit']) == '+2%'
 arrow_note = loc['rip_church_ro_policies_title_tt']
-assert 'gold arrows are visual only, not buttons or a separate effect' in arrow_note
+assert 'gold arrows between the summary tiles are visual only, not buttons or a separate effect' in arrow_note
 assert 'Fervor pays to fund nodes' in arrow_note and 'returns +3 Fervor per month' in arrow_note
 # The price and the return are the ones the scripts charge and pay.
 for key in ('rip_church_ro_fervor_value_tt', 'rip_church_ro_nodes_value_tt',
