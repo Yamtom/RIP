@@ -190,6 +190,71 @@ def check_localisation(failures: list[str], owners: dict[str, Path]) -> None:
 
 
 def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
+    ruthenian_gate = normalized(
+        named_block(
+            read("common/scripted_triggers/kru_ruthenian_reform_triggers.txt"),
+            "ruthenian_reform_eligible",
+        )
+    )
+    primary_cultures = re.findall(
+        r"\bprimary_culture\s*=\s*([A-Za-z0-9_]+)", ruthenian_gate
+    )
+    expected_primary_cultures = (
+        "ruthenian",
+        "rusyn",
+        "ruthenian_new",
+        "rusyn_new",
+        "rusyn_new_new",
+    )
+    require(
+        failures,
+        tuple(primary_cultures) == expected_primary_cultures
+        and "accepted_culture" not in ruthenian_gate
+        and "dominant_culture" not in ruthenian_gate,
+        "Ruthenian reforms must require a primary Ruthenian/Rusyn culture, not acceptance or dominance",
+    )
+    holder_reforms = re.findall(r"\bhas_reform\s*=\s*([A-Za-z0-9_]+)", ruthenian_gate)
+    expected_holder_reforms = (
+        "ruthenian_principality_reform",
+        "kyivan_rus_reform",
+        "principality_appanage",
+    )
+    require(
+        failures,
+        tuple(holder_reforms) == expected_holder_reforms,
+        "existing holders must retain Ruthenian reform visibility",
+    )
+
+    def visible(primary_culture: str, accepted=(), dominant=None, held=()) -> bool:
+        # The parsed source contract is exactly primary culture OR existing
+        # holder; accepted and dominant culture do not participate.
+        return primary_culture in primary_cultures or any(
+            reform in holder_reforms for reform in held
+        )
+
+    for culture in expected_primary_cultures:
+        require(
+            failures,
+            visible(culture),
+            f"primary Ruthenian/Rusyn culture lost reform visibility: {culture}",
+        )
+    require(
+        failures,
+        not visible("russian", accepted=("ruthenian",)),
+        "an accepted Ruthenian culture alone must not show the reform family",
+    )
+    require(
+        failures,
+        not visible("russian", dominant="rusyn"),
+        "a dominant Ruthenian/Rusyn culture alone must not show the reform family",
+    )
+    for reform in expected_holder_reforms:
+        require(
+            failures,
+            visible("russian", held=(reform,)),
+            f"an existing holder lost reform visibility: {reform}",
+        )
+
     odesa = normalized(named_block(reforms, "odesa_trade_republic_reform"))
     require(
         failures,

@@ -20,15 +20,20 @@ effects = read('common/scripted_effects/rip_parish_visit_effects.txt')
 decisions = read('decisions/RIP_ParishVisit.txt')
 visit = event(read('events/RIP_ParishVisit.txt'), 'rip_parish_visit.1')
 gate = normalized(named_block(triggers, 'rip_can_fund_parish_visit'))
-for item in ('religion = russian_orthodox', 'religion = greek_catholic',
+for item in ('rip_church_ro_jurisdiction = yes', 'religion = greek_catholic',
              'treasury = 100', 'adm_power = 25', 'patriarch_authority = 0.05',
              'is_at_war = no', 'NOT = { has_country_modifier = rip_parish_visit_recent }'):
     assert item in gate, item
+assert 'religion = russian_orthodox' not in gate
 target = normalized(named_block(triggers, 'rip_parish_visit_target'))
 for item in ('owned_by = ROOT', 'controlled_by = ROOT', 'is_core = ROOT',
              'is_city = yes', 'religion_group = christian', 'NOT = { religion = ROOT }'):
     assert item in target, item
 assert 'rip_parish_visit_target = yes' in named_block(decisions, 'provinces_to_highlight')
+visit_potential = normalized(named_block(named_block(decisions, 'rip_visit_the_parishes'), 'potential'))
+assert 'rip_church_ro_jurisdiction = yes' in visit_potential
+assert 'religion = greek_catholic' in visit_potential
+assert 'religion = orthodox' not in visit_potential
 transaction = named_block(effects, 'rip_fund_parish_visit_effect')
 assert 'rip_can_fund_parish_visit = yes' in named_block(transaction, 'limit')
 assert 'rip_parish_visit_target = yes' in named_block(named_block(transaction, 'random_owned_province'), 'limit')
@@ -77,6 +82,26 @@ for option, modifier in zip(options[:2], ('rip_parish_service_books', 'rip_paris
     assert 'rip_can_fund_parish_visit = yes' in named_block(option, 'trigger')
     assert f'MODIFIER = {modifier}' in option
 assert not re.search(r'\badd_\w+\s*=', options[2]), 'cancellation must not generate resources'
+
+# The Muscovite Sobor belongs to its jurisdiction, not only the separate faith;
+# Kyiv's council and generic Orthodox parish missions remain independently gated.
+settlement = read('common/scripted_triggers/rip_religion_settlement_triggers.txt')
+sobor_gate = normalized(named_block(settlement, 'rip_ro_can_hold_sobor_trigger'))
+assert 'rip_church_ro_jurisdiction = yes' in sobor_gate
+assert 'religion = russian_orthodox' not in sobor_gate
+council_decisions = read('decisions/RIP_ChurchCouncils.txt')
+sobor_decision = normalized(named_block(council_decisions, 'rip_ro_convene_the_sobor'))
+assert 'rip_church_ro_jurisdiction = yes' in normalized(named_block(sobor_decision, 'potential'))
+kyiv_gate = normalized(named_block(settlement, 'rip_kyiv_can_hold_council_trigger'))
+assert 'religion = orthodox' in kyiv_gate
+assert 'religion = orthodox' in normalized(
+    named_block(council_decisions, 'rip_fund_a_parish_mission')
+)
+settlement_upkeep = normalized(
+    named_block(settlement_effects, 'rip_faith_settlement_upkeep_effect')
+)
+assert 'NOT = { rip_church_ro_jurisdiction = yes }' in settlement_upkeep
+assert 'NOT = { religion = russian_orthodox }' not in settlement_upkeep
 
 # A new conversion visits only already Orthodox core sees, once per country.
 initial = named_block(effects, 'rip_ro_initial_obedience_effect')
