@@ -27,11 +27,19 @@ rip_faith_initialize_hierarchy_effect = {
 	}
 }
 
+# The 1448 election establishes a jurisdiction within Orthodoxy. It does not
+# enable the later confession, change the state religion, or initialize its
+# separate-faith hierarchy.
+rip_faith_establish_muscovite_jurisdiction_effect = {
+	set_country_flag = rip_ro_stage_autocephaly
+}
+
+# Conversion is reserved for the explicit, paid communion break.
 rip_faith_adopt_muscovite_church_effect = {
-		set_country_flag = rip_ro_stage_autocephaly
-		enable_religion = russian_orthodox
-		change_religion = russian_orthodox
-		rip_faith_initialize_hierarchy_effect = yes
+	set_country_flag = rip_ro_stage_autocephaly
+	enable_religion = russian_orthodox
+	change_religion = russian_orthodox
+	rip_faith_initialize_hierarchy_effect = yes
 }
 
 rip_faith_adopt_union_effect = {
@@ -103,7 +111,7 @@ rip_faith_mission_resource_effect = {
 rip_faith_settlement_upkeep_effect = {
 	rip_crusade_maintenance_effect = yes
 	if = {
-		limit = { NOT = { religion = russian_orthodox } }
+		limit = { NOT = { rip_church_ro_jurisdiction = yes } }
 		rip_ro_clear_council_policy_effect = yes
 	}
 	if = {
