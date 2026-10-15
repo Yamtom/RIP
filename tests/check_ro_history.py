@@ -333,5 +333,82 @@ for event, year in (('russian_orthodox.4',1700), ('russian_orthodox.5',1667)):
     assert ('is_year', str(year)) in dict(events[event])['trigger']
 assert 'date = 1589.1.1' in read('common/religions/russian_orthodox.txt')
 assert 'NOT = { has_country_flag = rip_ro_ritual_compromise }' in named_block(read('common/disasters/rip_faith_disasters.txt'), 'rip_ro_raskol')
+
+# Reform desire is a one-time historical meter, not an automatic schism switch.
+w, c, p, other, catholic = setup(1448)
+choose(w, c, 'russian_orthodox.1', 'russian_orthodox.1.a')
+assert c['variables']['rip_ro_reform_desire'] == 20
+assert 'rip_church_ro_schismatic' not in c['flags']
+w.year = 1589
+choose(w, c, 'russian_orthodox.2', 'russian_orthodox.2.a')
+assert c['variables']['rip_ro_reform_desire'] == 40
+w.year = 1593
+w.run('rip_church_ro_history_monthly_effect', c)
+assert c['variables']['rip_ro_reform_desire'] == 50
+w.year = 1653
+choose(w, c, 'rip_ro_history.1', 'rip_ro_history.1.a')
+assert c['variables']['rip_ro_reform_desire'] == 70
+w.year = 1666
+choose(w, c, 'russian_orthodox.6', 'russian_orthodox.6.b')
+assert c['variables']['rip_ro_reform_desire'] == 90
+w.year = 1700
+choose(w, c, 'rip_ro_history.2', 'rip_ro_history.2.a')
+assert c['variables']['rip_ro_reform_desire'] == 105
+w.year = 1721
+choose(w, c, 'rip_ro_history.3', 'rip_ro_history.3.b')
+assert c['variables']['rip_ro_reform_desire'] == 125
+assert 'rip_church_ro_schismatic' not in c['flags']
+w.run('rip_church_ro_choose_schism_effect', c)
+assert 'rip_church_ro_schismatic' in c['flags']
+assert c['variables']['rip_ro_reform_desire'] == 125
+assert not w.gate(TRIGGERS['rip_church_can_reconcile'], c)
+cases += 1
+
+# A legacy save seeds already reached milestones once, without replaying events.
+w, c, p, other, catholic = setup(1721, 'russian_orthodox')
+c['flags'].update(
+    rip_ro_stage_autocephaly=w.day,
+    rip_ro_stage_patriarchate=w.day,
+    rip_church_ro_recognized=w.day,
+    rip_ro_books_reformed=w.day,
+    rip_ro_stage_raskol=w.day,
+    rip_ro_synodal_settlement=w.day,
+    rip_ro_synodal_government=w.day,
+)
+w.run('rip_ro_reform_desire_migrate_effect', c)
+assert c['variables']['rip_ro_reform_desire'] == 125
+w.run('rip_ro_reform_desire_migrate_effect', c)
+assert c['variables']['rip_ro_reform_desire'] == 125
+cases += 1
+
+# A 1653 ritual compromise is not falsely migrated as the later 1666 council.
+w, c, p, other, catholic = setup(1667, 'russian_orthodox')
+c['flags'].update(
+    rip_ro_stage_autocephaly=w.day,
+    rip_ro_stage_patriarchate=w.day,
+    rip_ro_ritual_compromise=w.day,
+    rip_ro_raskol_settled=w.day,
+)
+w.run('rip_ro_reform_desire_migrate_effect', c)
+assert c['variables']['rip_ro_reform_desire'] == 60
+cases += 1
+
+# Exactly 100 remains reconcilable; 101 blocks both the gate and direct effects.
+for desire, can_reconcile in ((100, True), (101, False)):
+    w, c, p, other, catholic = setup(1700, 'russian_orthodox')
+    c.update(stability=2, dip_power=100, is_at_war=False, patriarch_authority=0.5)
+    c['flags']['rip_church_ro_schismatic'] = w.day
+    c['flags']['rip_ro_reform_desire_migration_done'] = w.day
+    c['variables']['rip_ro_reform_desire'] = desire
+    assert w.gate(TRIGGERS['rip_church_can_reconcile'], c) is can_reconcile
+    if can_reconcile:
+        w.run('rip_church_ro_begin_reconciliation_effect', c)
+        assert 'rip_church_reconciliation_pending' in c['flags']
+    else:
+        w.run('rip_church_ro_recognize_effect', c)
+        assert 'rip_church_ro_schismatic' in c['flags']
+        assert 'rip_church_ro_recognized' not in c['flags']
+cases += 1
+
 print(f'PASS: {cases} source-executed history/communion cases; historical gates and coercion periods.')
 print('LIMIT: historical alternatives are explicit game abstractions; native branches and clicks require engine evidence.')

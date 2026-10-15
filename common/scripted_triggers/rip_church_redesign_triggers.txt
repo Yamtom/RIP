@@ -6,6 +6,10 @@ rip_church_gc_eastern = { always = no }
 rip_church_gc_roman = { always = no }
 rip_church_gc_balanced = { always = yes }
 rip_church_ro_recognized = { has_country_flag = rip_church_ro_recognized NOT = { has_country_flag = rip_church_ro_schismatic } }
+rip_church_ro_irreversible_schism = {
+ has_country_flag = rip_church_ro_schismatic
+ check_variable = { which = rip_ro_reform_desire value = 101 }
+}
 rip_church_ro_over_capacity = {
  OR = {
  AND = { NOT = { patriarch_authority = 0.3 } check_variable = { which = rip_church_icons value = 2 } }
@@ -24,6 +28,7 @@ rip_church_ro_slot_available = {
 rip_church_can_reconcile = {
  religion = russian_orthodox has_country_flag = rip_church_ro_schismatic
  NOT = { has_country_flag = rip_church_reconciliation_pending }
+ NOT = { rip_church_ro_irreversible_schism = yes }
  is_at_war = no stability = 1 dip_power = 100 patriarch_authority = 0.2
 }
 rip_church_can_activate_war = {

@@ -177,13 +177,16 @@ rip_church_ro_accept_recognition_effect = {
  if = { limit = { rip_church_ro_jurisdiction = yes is_year = 1589 NOT = { has_country_flag = rip_church_ro_schismatic } }
  set_country_flag = rip_ro_stage_patriarchate
  set_country_flag = rip_church_ro_provisional
+ rip_ro_reform_desire_1589_effect = yes
  # Accepting the conciliar fifth place renounces the universal claim.
  clr_country_flag = rip_church_third_rome_claim
  if = { limit = { is_year = 1593 } rip_church_ro_recognize_effect = yes }
  }
 }
 rip_church_ro_recognize_effect = {
- if = { limit = { rip_church_ro_jurisdiction = yes }
+ rip_ro_reform_desire_migrate_effect = yes
+ if = { limit = { rip_church_ro_jurisdiction = yes NOT = { rip_church_ro_irreversible_schism = yes } }
+ if = { limit = { is_year = 1593 has_country_flag = rip_church_ro_provisional } rip_ro_reform_desire_1593_effect = yes }
  clr_country_flag = rip_church_ro_schismatic
  clr_country_flag = rip_church_ro_provisional
  clr_country_flag = rip_church_reconciliation_pending
@@ -201,6 +204,7 @@ rip_church_ro_choose_schism_effect = {
  clr_country_flag = rip_church_ro_provisional
  set_country_flag = rip_church_ro_schismatic
  set_country_flag = rip_ro_stage_patriarchate
+ rip_ro_reform_desire_1589_effect = yes
  set_country_flag = rip_church_third_rome_claim
  rip_faith_adopt_muscovite_church_effect = yes
  add_country_modifier = { name = rip_church_ro_schism duration = -1 }
@@ -212,6 +216,7 @@ rip_church_ro_choose_schism_effect = {
  }
 }
 rip_church_ro_begin_reconciliation_effect = {
+ rip_ro_reform_desire_migrate_effect = yes
  if = { limit = { rip_church_can_reconcile = yes }
  add_dip_power = -100 add_patriarch_authority = -0.2
  set_country_flag = rip_church_reconciliation_pending

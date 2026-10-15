@@ -1,5 +1,6 @@
 # Country scope. Only an explicit alternative-history schism authorizes separation.
 rip_church_ro_history_monthly_effect = {
+ rip_ro_reform_desire_migrate_effect = yes
  # One-time migration to the institutional confession; parish majorities stay.
  if = { limit = { religion = orthodox has_country_flag = rip_ro_stage_autocephaly NOT = { has_country_flag = rip_church_confession_v4 } }
   rip_church_v3_initialize_effect = yes
@@ -69,4 +70,114 @@ rip_church_ro_ritual_compromise_effect = {
  add_patriarch_authority = -0.1
  add_stability = 1
  rip_church_ro_refresh_communion_effect = yes
+}
+
+# Reform desire records the cumulative institutional separation from the wider
+# Orthodox communion. Each dated milestone is awarded once and may exceed 100.
+rip_ro_reform_desire_1448_effect = {
+ if = { limit = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_ro_reform_desire_1448_awarded } }
+  set_country_flag = rip_ro_reform_desire_1448_awarded
+  change_variable = { which = rip_ro_reform_desire value = 20 }
+ }
+}
+rip_ro_reform_desire_1589_effect = {
+ if = { limit = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_ro_reform_desire_1589_awarded } }
+  set_country_flag = rip_ro_reform_desire_1589_awarded
+  change_variable = { which = rip_ro_reform_desire value = 20 }
+ }
+}
+rip_ro_reform_desire_1593_effect = {
+ if = { limit = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_ro_reform_desire_1593_awarded } }
+  set_country_flag = rip_ro_reform_desire_1593_awarded
+  change_variable = { which = rip_ro_reform_desire value = 10 }
+ }
+}
+rip_ro_reform_desire_1653_effect = {
+ if = { limit = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_ro_reform_desire_1653_awarded } }
+  set_country_flag = rip_ro_reform_desire_1653_awarded
+  change_variable = { which = rip_ro_reform_desire value = 20 }
+ }
+}
+rip_ro_reform_desire_1666_effect = {
+ if = { limit = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_ro_reform_desire_1666_awarded } }
+  set_country_flag = rip_ro_reform_desire_1666_awarded
+  change_variable = { which = rip_ro_reform_desire value = 20 }
+ }
+}
+rip_ro_reform_desire_1700_effect = {
+ if = { limit = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_ro_reform_desire_1700_awarded } }
+  set_country_flag = rip_ro_reform_desire_1700_awarded
+  change_variable = { which = rip_ro_reform_desire value = 15 }
+ }
+}
+rip_ro_reform_desire_1721_effect = {
+ if = { limit = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_ro_reform_desire_1721_awarded } }
+  set_country_flag = rip_ro_reform_desire_1721_awarded
+  change_variable = { which = rip_ro_reform_desire value = 20 }
+ }
+}
+
+# Existing saves acquire the milestones already recorded in their church flags.
+rip_ro_reform_desire_migrate_effect = {
+ if = {
+  limit = {
+   rip_church_ro_jurisdiction = yes
+   NOT = { has_country_flag = rip_ro_reform_desire_migration_done }
+  }
+  set_country_flag = rip_ro_reform_desire_migration_done
+  if = { limit = { has_country_flag = rip_ro_stage_autocephaly } rip_ro_reform_desire_1448_effect = yes }
+  if = {
+   limit = {
+    OR = {
+     has_country_flag = rip_ro_stage_patriarchate
+     has_country_flag = rip_church_ro_provisional
+     has_country_flag = rip_church_ro_recognized
+     has_country_flag = rip_church_ro_schismatic
+    }
+   }
+   rip_ro_reform_desire_1589_effect = yes
+  }
+  if = { limit = { has_country_flag = rip_church_ro_recognized } rip_ro_reform_desire_1593_effect = yes }
+  if = {
+   limit = { OR = { has_country_flag = rip_ro_books_reformed has_country_flag = rip_ro_ritual_compromise } }
+   rip_ro_reform_desire_1653_effect = yes
+  }
+  if = {
+   limit = {
+    OR = {
+     has_country_flag = rip_ro_stage_raskol
+     AND = {
+      has_country_flag = rip_ro_books_reformed
+      has_country_flag = rip_ro_ritual_compromise
+     }
+    }
+   }
+   rip_ro_reform_desire_1666_effect = yes
+  }
+  if = {
+   limit = {
+    OR = {
+     has_country_flag = rip_ro_patriarchal_interregnum
+     has_country_flag = rip_ro_synodal_settlement
+     has_country_modifier = rip_ro_patriarchal_vacancy
+     has_country_modifier = rip_ro_preserved_patriarchate
+     has_country_modifier = rip_ro_synodal_government
+    }
+   }
+   rip_ro_reform_desire_1700_effect = yes
+  }
+  if = {
+   limit = {
+    OR = {
+     has_country_flag = rip_ro_synodal_government
+     AND = {
+      is_year = 1721
+      has_country_flag = rip_ro_synodal_settlement
+      NOT = { has_country_flag = rip_ro_patriarchal_interregnum }
+     }
+    }
+   }
+   rip_ro_reform_desire_1721_effect = yes
+  }
+ }
 }
