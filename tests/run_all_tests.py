@@ -28,6 +28,7 @@ scripts = [
     "tests/check_ro_readouts.py",
     "tests/check_ro_trade_policy.py",
     "tests/check_turov_name.py",
+    "tests/check_ruthenian_capital_loss.py",
     "tests/check_uc_curia.py",
     "tests/check_faith_content_balance.py",
     "tests/check_religion_settlement.py",

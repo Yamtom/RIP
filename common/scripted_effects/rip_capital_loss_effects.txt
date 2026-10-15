@@ -1,0 +1,22 @@
+# Country scope. Keeps the clock behind rip_namesake_seat_lost_long.
+#
+# The flag is set the first time a realm of the table is found without its
+# namesake seat and cleared the moment it owns the seat again, so the 25 years
+# are one unbroken stretch. A country outside the table never has the flag.
+# Called from common/on_actions/rip_capital_loss_on_actions.txt.
+rip_namesake_seat_upkeep_effect = {
+	if = {
+		limit = {
+			rip_namesake_seat_missing = yes
+			NOT = { has_country_flag = rip_namesake_seat_lost }
+		}
+		set_country_flag = rip_namesake_seat_lost
+	}
+	if = {
+		limit = {
+			rip_namesake_seat_missing = no
+			has_country_flag = rip_namesake_seat_lost
+		}
+		clr_country_flag = rip_namesake_seat_lost
+	}
+}

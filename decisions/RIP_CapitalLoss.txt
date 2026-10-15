@@ -1,0 +1,324 @@
+# A Ruthenian realm that has lost its namesake seat for more than 25 years may
+# take the name of another Ruthenian principality whose seat it now holds.
+#
+# The table of realms is rip_namesake_seat_missing in
+# common/scripted_triggers/rip_capital_loss_triggers.txt; this file has one
+# decision per row, and tests/check_ruthenian_capital_loss.py keeps them equal.
+# Taking a name moves the capital to that seat and swaps the mission tree, as the
+# nation-forming decisions do. The AI never takes it.
+
+country_decisions = {
+
+	# Halych
+	rip_seat_become_hlc = {
+		potential = {
+			rip_namesake_seat_lost_long = yes
+			NOT = { tag = HLC }
+			NOT = { exists = HLC }
+			owns = 261
+		}
+		provinces_to_highlight = {
+			province_id = 261
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			clr_country_flag = rip_namesake_seat_lost
+			change_tag = HLC
+			set_capital = 261
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Lutsk (province Volhynia)
+	rip_seat_become_vln = {
+		potential = {
+			rip_namesake_seat_lost_long = yes
+			NOT = { tag = VLN }
+			NOT = { exists = VLN }
+			owns = 279
+		}
+		provinces_to_highlight = {
+			province_id = 279
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			clr_country_flag = rip_namesake_seat_lost
+			change_tag = VLN
+			set_capital = 279
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Kyiv
+	rip_seat_become_kie = {
+		potential = {
+			rip_namesake_seat_lost_long = yes
+			NOT = { tag = KIE }
+			NOT = { exists = KIE }
+			owns = 280
+		}
+		provinces_to_highlight = {
+			province_id = 280
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			clr_country_flag = rip_namesake_seat_lost
+			change_tag = KIE
+			set_capital = 280
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Chernihiv
+	rip_seat_become_chr = {
+		potential = {
+			rip_namesake_seat_lost_long = yes
+			NOT = { tag = CHR }
+			NOT = { exists = CHR }
+			owns = 289
+		}
+		provinces_to_highlight = {
+			province_id = 289
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			clr_country_flag = rip_namesake_seat_lost
+			change_tag = CHR
+			set_capital = 289
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Zaporizhzhia
+	rip_seat_become_zaz = {
+		potential = {
+			rip_namesake_seat_lost_long = yes
+			NOT = { tag = ZAZ }
+			NOT = { exists = ZAZ }
+			owns = 283
+		}
+		provinces_to_highlight = {
+			province_id = 283
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			clr_country_flag = rip_namesake_seat_lost
+			change_tag = ZAZ
+			set_capital = 283
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Pereiaslav
+	rip_seat_become_prl = {
+		potential = {
+			rip_namesake_seat_lost_long = yes
+			NOT = { tag = PRL }
+			NOT = { exists = PRL }
+			owns = 2407
+		}
+		provinces_to_highlight = {
+			province_id = 2407
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			clr_country_flag = rip_namesake_seat_lost
+			change_tag = PRL
+			set_capital = 2407
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Kamianets (province Podolia)
+	rip_seat_become_pdl = {
+		potential = {
+			rip_namesake_seat_lost_long = yes
+			NOT = { tag = PDL }
+			NOT = { exists = PDL }
+			owns = 281
+		}
+		provinces_to_highlight = {
+			province_id = 281
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			clr_country_flag = rip_namesake_seat_lost
+			change_tag = PDL
+			set_capital = 281
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Khust
+	rip_seat_become_uzh = {
+		potential = {
+			rip_namesake_seat_lost_long = yes
+			NOT = { tag = UZH }
+			NOT = { exists = UZH }
+			owns = 1952
+		}
+		provinces_to_highlight = {
+			province_id = 1952
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			clr_country_flag = rip_namesake_seat_lost
+			change_tag = UZH
+			set_capital = 1952
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Vitebsk
+	rip_seat_become_vtb = {
+		potential = {
+			rip_namesake_seat_lost_long = yes
+			NOT = { tag = VTB }
+			NOT = { exists = VTB }
+			owns = 771
+		}
+		provinces_to_highlight = {
+			province_id = 771
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			clr_country_flag = rip_namesake_seat_lost
+			change_tag = VTB
+			set_capital = 771
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Minsk
+	rip_seat_become_msk = {
+		potential = {
+			rip_namesake_seat_lost_long = yes
+			NOT = { tag = MSK }
+			NOT = { exists = MSK }
+			owns = 276
+		}
+		provinces_to_highlight = {
+			province_id = 276
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			clr_country_flag = rip_namesake_seat_lost
+			change_tag = MSK
+			set_capital = 276
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Mstislavl
+	rip_seat_become_msl = {
+		potential = {
+			rip_namesake_seat_lost_long = yes
+			NOT = { tag = MSL }
+			NOT = { exists = MSL }
+			owns = 4246
+		}
+		provinces_to_highlight = {
+			province_id = 4246
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			clr_country_flag = rip_namesake_seat_lost
+			change_tag = MSL
+			set_capital = 4246
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	# Polotsk
+	rip_seat_become_plt = {
+		potential = {
+			rip_namesake_seat_lost_long = yes
+			NOT = { tag = PLT }
+			NOT = { exists = PLT }
+			owns = 275
+		}
+		provinces_to_highlight = {
+			province_id = 275
+		}
+		allow = {
+			always = yes
+		}
+		effect = {
+			clr_country_flag = rip_namesake_seat_lost
+			change_tag = PLT
+			set_country_flag = formed_polotsk_nation_flag
+			set_capital = 275
+			swap_non_generic_missions = yes
+			on_change_tag_effect = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}
