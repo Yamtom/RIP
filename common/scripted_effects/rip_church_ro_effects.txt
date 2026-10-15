@@ -196,9 +196,7 @@ rip_church_ro_recognize_effect = {
  }
 }
 rip_church_ro_choose_schism_effect = {
- if = { limit = { rip_church_ro_can_break_communion = yes }
- add_dip_power = -100
- add_stability = -1
+ if = { limit = { rip_church_ro_jurisdiction = yes is_year = 1589 NOT = { has_country_flag = rip_church_ro_schismatic } NOT = { has_country_flag = rip_church_reconciliation_pending } }
  clr_country_flag = rip_church_ro_recognized
  clr_country_flag = rip_church_ro_provisional
  set_country_flag = rip_church_ro_schismatic
