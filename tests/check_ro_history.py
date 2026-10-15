@@ -46,6 +46,7 @@ def setup(year=1448, religion='orthodox'):
     c.update(primary_culture='russian', culture_group='east_slavic', num_of_cities=100,
              legitimacy=75, stability=1, normal_or_historical_nations=True)
     p = w.province(295, c, religion)
+    p['region'] = 'russia_region'
     other = w.province(280, c, 'orthodox')
     catholic = w.province(281, c, 'catholic')
     return w, c, p, other, catholic
@@ -71,27 +72,19 @@ def choose(w, c, event, choice):
 
 
 cases = 0
-# A forged/legacy milestone cannot bypass the earliest supported date.
-for year, flag, allowed in ((1588,'rip_church_ro_schismatic',False),
-                            (1589,'rip_church_ro_schismatic',True),
-                            (1665,'rip_ro_stage_raskol',False),
-                            (1666,'rip_ro_stage_raskol',False)):
+# Affiliation is independent of diplomatic schism and never converts a capital.
+for year in (1448, 1510, 1589, 1666):
     w, c, p, other, catholic = setup(year)
-    c['flags'][flag] = w.day
     w.run('rip_faith_adopt_muscovite_church_effect', c)
-    assert (c['religion'] == 'russian_orthodox') == allowed
-    cases += 1
-# Neither the old helper nor the election can convert a country before schism.
-for year in (1448, 1510, 1588, 1589, 1666):
-    w, c, p, other, catholic = setup(year)
-    before = deepcopy(c)
-    w.run('rip_faith_adopt_muscovite_church_effect', c)
-    assert c == before and p['religion'] == other['religion'] == 'orthodox'
+    assert c['religion'] == 'russian_orthodox'
+    assert p['religion'] == other['religion'] == 'orthodox'
+    assert catholic['religion'] == 'catholic'
+    assert 'rip_church_ro_schismatic' not in c['flags']
     cases += 1
 w, c, p, other, catholic = setup()
 assert available(w, c, 'russian_orthodox.1')
 choose(w, c, 'russian_orthodox.1', 'russian_orthodox.1.a')
-assert c['religion'] == p['religion'] == other['religion'] == 'orthodox'
+assert c['religion'] == 'russian_orthodox' and p['religion'] == other['religion'] == 'orthodox'
 assert 'rip_ro_stage_autocephaly' in c['flags']
 assert w.gate(TRIGGERS['rip_church_ro_jurisdiction'], c)
 assert not available(w, c, 'russian_orthodox.1')
@@ -100,10 +93,10 @@ assert not available(w, c, 'russian_orthodox.2')
 w.year = 1589
 assert available(w, c, 'russian_orthodox.2')
 choose(w, c, 'russian_orthodox.2', 'russian_orthodox.2.a')
-assert c['religion'] == 'orthodox' and 'rip_church_ro_provisional' in c['flags']
+assert c['religion'] == 'russian_orthodox' and 'rip_church_ro_provisional' in c['flags']
 w.year = 1593
 w.run('rip_church_ro_history_monthly_effect', c)
-assert c['religion'] == 'orthodox' and 'rip_church_ro_recognized' in c['flags']
+assert c['religion'] == 'russian_orthodox' and 'rip_church_ro_recognized' in c['flags']
 assert available(w, c, 'russian_orthodox.14')
 cases += 1
 
@@ -138,7 +131,7 @@ for event_id in ('russian_orthodox.7', 'russian_orthodox.10', 'russian_orthodox.
 
 # A deliberate break converts only the state and eligible core capital once.
 w.run('rip_church_ro_choose_schism_effect', c)
-assert c['religion'] == p['religion'] == 'russian_orthodox'
+assert c['religion'] == 'russian_orthodox' and p['religion'] == 'orthodox'
 assert other['religion'] == 'orthodox' and catholic['religion'] == 'catholic'
 assert not available(w, c, 'russian_orthodox.14')
 before = deepcopy(c)
@@ -196,7 +189,7 @@ for external_break in (False, True):
     if external_break:
         c['flags']['rip_church_ro_schismatic'] = w.day
     w.run('rip_church_ro_history_monthly_effect', c)
-    expected = 'russian_orthodox' if external_break else 'orthodox'
+    expected = 'russian_orthodox'
     assert c['religion'] == p['religion'] == expected
     assert other['religion'] == 'orthodox' and catholic['religion'] == 'catholic'
     assert 'rip_ro_stage_raskol' in c['flags']
@@ -264,7 +257,7 @@ cases += 1
 
 w, c, p, other, catholic = setup(1500, 'russian_orthodox')
 w.run('rip_church_ro_history_monthly_effect', c)
-assert c['religion'] == p['religion'] == other['religion'] == 'orthodox'
+assert c['religion'] == p['religion'] == 'russian_orthodox' and other['religion'] == 'orthodox'
 assert catholic['religion'] == 'catholic'
 before = deepcopy(c)
 w.run('rip_church_ro_history_monthly_effect', c)

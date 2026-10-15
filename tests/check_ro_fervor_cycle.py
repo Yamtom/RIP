@@ -386,7 +386,7 @@ assert w.gate(TRIGGERS['rip_church_can_activate_war'], c)
 w.run('rip_church_toggle_war_effect', c)
 assert c['religion'] == 'orthodox' and c['variables']['muscovy_fervor'] == 10
 w.run('rip_church_v3_monthly_effect', c)
-assert c['religion'] == 'orthodox' and c['variables']['muscovy_fervor'] == 12, (c['religion'], c['variables'], c['flags'])
+assert c['religion'] == 'russian_orthodox' and c['variables']['muscovy_fervor'] == 12, (c['religion'], c['variables'], c['flags'])
 assert 'rip_church_icon_war' in c['flags']
 cases += 1
 

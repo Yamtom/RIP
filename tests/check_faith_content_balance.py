@@ -81,10 +81,10 @@ assert not re.search(r'\badd_\w+\s*=', options[2]), 'cancellation must not gener
 # A new conversion visits only already Orthodox core sees, once per country.
 initial = named_block(effects, 'rip_ro_initial_obedience_effect')
 assert 'NOT = { has_country_flag = rip_ro_obedience_recorded }' in initial
-assert 'religion = orthodox is_city = yes is_core = ROOT' in initial
+assert 'religion = russian_orthodox' in initial
 assert 'rip_faith_initialize_hierarchy_effect = yes' in named_block(faith, 'on_convert')
-assert 'capital_scope' in initial and 'every_owned_province' not in initial
-assert 'controlled_by = ROOT' in initial
+assert 'capital_scope' not in initial and 'every_owned_province' not in initial
+assert 'change_religion' not in initial
 hooks = read('common/on_actions/russian_orthodox_on_actions.txt')
 assert 'rip_faith_balance_migration_effect = yes' in named_block(hooks, 'on_startup')
 assert 'rip_faith_balance_migration_effect = yes' not in named_block(hooks, 'on_religion_change')

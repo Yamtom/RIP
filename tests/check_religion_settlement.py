@@ -183,6 +183,9 @@ class World:
                 if key.startswith('add'): scope['cbs'][cb] = self.day + int(fields['months']) * 30
                 else: scope['cbs'].pop(cb, None)
             elif key == 'country_event': self.events.append((scope['id'], dict(value)['id']))
+            elif key == 'enable_religion':
+                if not hasattr(self, 'enabled'): self.enabled = set()
+                self.enabled.add(value)
             elif key == 'add_opinion': pass  # No resource payload; API/scope checked separately.
             elif key.startswith('add_') and key[4:] in scope: scope[key[4:]] += float(value)
             else: raise AssertionError('Unsupported effect: ' + key)
@@ -216,7 +219,8 @@ def run_cases():
             if faith == 'russian_orthodox': c['flags']['rip_church_ro_schismatic'] = w.day
             if not dlc: c['dlcs'].clear()
             w.run(effect, c)
-            assert c['religion'] == faith and w.provinces['280']['religion'] == faith
+            assert c['religion'] == faith
+            assert w.provinces['280']['religion'] == ('orthodox' if faith == 'russian_orthodox' else faith)
             assert w.provinces['281']['religion'] == 'orthodox'
             before = deepcopy(c)
             w.run(effect, c)
@@ -626,6 +630,8 @@ def _holds(items, scope, root):
 
 
 def _trigger(key, value, scope, root):
+    if key == 'religion_group': return value == 'christian' and scope['religion'] in ('orthodox','russian_orthodox','greek_catholic','catholic','protestant','reformed','anglican','hussite','coptic')
+    if key == 'has_country_modifier': return value in scope.get('modifiers', set())
     if key == 'religion': return scope['religion'] == value
     if key == 'has_country_flag': return value in scope['flags']
     # common/scripted_triggers/rip_church_redesign_triggers.txt; ro_recognized_trigger_problems() pins the definition.
