@@ -484,11 +484,11 @@ DATA.update({
  'rip_church_gc_native_privileges_button_tt': 'Open church privileges. Opening this menu is free; only choosing a privilege spends resources.',
  'rip_church_ro_heading': 'The Muscovite Church',
  'rip_church_ro_policies_title': 'Church policies',
- 'rip_church_icon_war_button': 'Military',
- 'rip_church_icon_mercy_button': 'Mercy',
- 'rip_church_icon_building_button': 'Building',
- 'rip_church_icon_mission_button': 'Mission',
- 'rip_church_ro_status': '[Root.GetChurchROStatus]',
+ 'rip_church_icon_war_button': 'Frontier Intercession',
+ 'rip_church_icon_mercy_button': 'Mercy of the East',
+ 'rip_church_icon_building_button': 'Cathedral Stewardship',
+ 'rip_church_icon_mission_button': 'Muscovite Mission',
+ 'rip_church_ro_status': '[Root.GetChurchROStatus] · RD [Root.GetChurchROReformDesire]%',
  'rip_church_break_communion_title': 'Renounce the patriarchal settlement',
  'rip_church_break_communion_desc': 'Deliberate alternative history: abandon recognized communion and claim an independent universal church. This increases confessional conflict and imposes -1 diplomatic reputation. Earlier reconciliation payments are not refunded.',
  'rip_church_oppose_union_title': 'Change our policy toward the Union',
@@ -558,16 +558,16 @@ DATA.update({
 RO_PAY='Costs §Y10 Fervor§! to start and §R3 Fervor§! a month to keep.'
 RO_REUSE=' Reactivation only after a year; closing it refunds nothing.'
 for key,name,detail,(benefit,benefit_second) in (
- ('war','Military Intercession',
+ ('war','Frontier Intercession',
   'Steppe border: your settled provinces bordering another steppe power, gain §G+20% defensiveness§! and §G+1 attrition§! for invaders.\\nAt war with a steppe power: §G+5% discipline§! and §G+10% manpower recovery§!, applied within a month of the war.',
   ('§G+20%§!','§G+5%§!')),
- ('mercy','Mercy',
+ ('mercy','Mercy of the East',
   'The eastern lands, the Volga, the Urals and Siberia: §G-10% local autonomy§! and §G-1 local unrest§! in your provinces there, whatever their faith.',
   ('§G-10%§!','§G-1§!')),
- ('building','Church Building',
+ ('building','Cathedral Stewardship',
   'Parishes with a completed cathedral: §G-25% construction cost§! there, for every building and not only churches. A temple or cathedral is what a mission node needs.',
-  ('§G-25%§!','§GAll§!')),
- ('mission','Apostolic Mission',
+  ('§G-25%§!','§GAll building types§!')),
+ ('mission','Muscovite Mission',
   'Settled provinces of another faith, Orthodox ones excluded: §G+2% local missionary strength§!. It opens the funding of mission nodes, which pay Fervor; closing it closes every node. It needs §Y20 Fervor§! in the pool: 10 to start it and 10 to found the first node.',
   ('§G+2%§!',''))):
  DATA['rip_church_icon_'+key]=DATA['rip_church_icon_'+key+'_button']
@@ -581,7 +581,7 @@ for key,name,detail,(benefit,benefit_second) in (
   DATA['rip_church_icon_'+key+'_'+suffix+'_tt']=DATA['rip_church_icon_'+key+'_button_tt']
 for key in ('heading','status'):
  DATA['rip_church_ro_'+key+'_tt']=DATA['rip_church_ro_'+key]
-DATA['rip_church_ro_status_tt']='[Root.GetChurchROStatus]\\n1448 establishes an Orthodox metropolitanate. 1589-1593 recognition preserves Orthodoxy. The Raskol after 1666 is an internal ritual conflict: the state and provinces keep their religion. A ritual compromise prevents its disaster. A separate Muscovite confession requires a deliberate alternative-history break with the other Eastern churches.'
+DATA['rip_church_ro_status_tt']='[Root.GetChurchROStatus]\\nReform desire: [Root.GetChurchROReformDesire]%. Autocephaly, the patriarchate, the book reform, the councils and the later synodal settlement raise it. A deliberate break with the Eastern churches is irreversible only above 100%; reform desire never creates a schism by itself.\\n1448 establishes an Orthodox metropolitanate. 1589-1593 recognition preserves Orthodoxy. The Raskol after 1666 is an internal ritual conflict: the state and provinces keep their religion. A ritual compromise prevents its disaster. A separate Muscovite confession requires a deliberate alternative-history break with the other Eastern churches.'
 DATA['rip_church_icon_toggle_label']='Switch on / off'
 DATA.update({
  # The land modifiers the policies and funded nodes lay; names and descriptions as the player meets them.
@@ -1180,6 +1180,8 @@ def ro_ladder(name,variable,top,leaf,floor=0):
                  +[('always = yes',leaf(floor))])
 def signed_green(n): return f'§G+{n}§!' if n else '§g0§!'
 ro_ladder('GetChurchROFervor','muscovy_fervor',100,lambda n:f'§Y{n}§!' if n>=10 else f'§R{n}§!')
+ro_ladder('GetChurchROReformDesire','rip_ro_reform_desire',125,
+          lambda n:f'§R{n}§!' if n>100 else f'§Y{n}§!')
 ro_ladder('GetChurchROBase','rip_church_fervor_base',9,signed_green)
 ro_ladder('GetChurchRONodeIncome','rip_church_node_income',9,signed_green)
 ro_ladder('GetChurchROUpkeep','rip_church_fervor_cost',30,lambda n:f'§R-{n}§!' if n else '§g0§!')
@@ -1569,8 +1571,16 @@ for legacy_path in legacy_ro_paths:
   if not match or match[1] not in RO_HISTORY_COPY:
    rows.append(row if row.strip() else '\n')
  outputs[legacy_path] = ''.join(rows)
+authority_labels = {
+    'english': 'Patriarch Authority',
+    'french': 'Autorité patriarcale',
+    'german': 'Patriarchale Autorität',
+    'spanish': 'Autoridad patriarcal',
+}
 for lang in ('english','french','german','spanish'):
-    outputs[f'localisation/replace/zzzz_RIP_church_redesign_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(f' {k}:0 "{v.replace(chr(34),chr(39))}"\n' for k,v in sorted(DATA.items()))
+    language_data = dict(DATA)
+    language_data['current_patriarch_authority_text'] = authority_labels[lang]
+    outputs[f'localisation/replace/zzzz_RIP_church_redesign_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(f' {k}:0 "{v.replace(chr(34),chr(39))}"\n' for k,v in sorted(language_data.items()))
 # Regression guard: the province action is a guarantee of community rights, never the
 # recognition of a parish or a rite. Patriarchate recognition (rip_church.3, ro_recognized)
 # is a different mechanic and does not match.

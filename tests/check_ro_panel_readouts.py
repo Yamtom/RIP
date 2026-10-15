@@ -123,6 +123,7 @@ def signed(value):
 
 LADDERS = {
     'GetChurchROFervor': ('muscovy_fervor', lambda v: str(min(100, max(0, floor(v)))), '0'),
+    'GetChurchROReformDesire': ('rip_ro_reform_desire', lambda v: str(min(125, max(0, floor(v)))), '0'),
     'GetChurchROBase': ('rip_church_fervor_base', lambda v: '0' if v < 1 else f'+{min(9, floor(v))}', '0'),
     'GetChurchRONodeIncome': ('rip_church_node_income', lambda v: '0' if v < 1 else f'+{min(9, floor(v))}', '0'),
     'GetChurchROUpkeep': ('rip_church_fervor_cost', lambda v: '0' if v < 1 else f'-{min(30, floor(v))}', '0'),
@@ -139,6 +140,15 @@ for name, (variable, expected, unset) in LADDERS.items():
         c['variables'][variable] = value
         assert render(name, w, c) == expected(value), (name, value, render(name, w, c), expected(value))
     cases += 1
+
+w, c = ro_country()
+assert screen('rip_church_ro_status', w, c).endswith('RD 0%')
+c['variables']['rip_ro_reform_desire'] = 101
+assert screen('rip_church_ro_status', w, c).endswith('RD 101%')
+status_tip = screen('rip_church_ro_status_tt', w, c)
+assert 'irreversible only above 100%' in status_tip
+assert 'never creates a schism by itself' in status_tip
+cases += 1
 
 # ---- 3. The tiles follow the mechanic: recount, then read what the player reads ---------
 BASE = {0: 2, 0.3: 3, 0.65: 4, 0.9: 5}
