@@ -174,7 +174,7 @@ assert 'rip_ob_repression' in c['flags'] and 'rip_ob_toleration' not in c['flags
 assert 'rip_ob_repressive_policy' in c['modifiers'] and 'suppression_old_believers' in c['modifiers']
 assert kyiv['religion'] == 'orthodox' and 'rip_ob_community' not in kyiv['flags']
 assert 'rebels' not in capital and 'rebels' not in catholic, 'rebels rise in no capital and in no other faith'
-assert [p['rebels'] for p in w.provinces.values() if 'rebels' in p] == [[{'type': 'heretic_rebels', 'size': '2'}]]
+assert [p['rebels'] for p in w.provinces.values() if 'rebels' in p] == [[{'type': 'old_believer_rebels', 'size': '2'}]]
 cases += 1
 
 w, c, capital, russian, kyiv, catholic = council('b')
@@ -188,6 +188,10 @@ w, c, capital, russian, kyiv, catholic = council('c')
 assert communities(w) == [] and 'rip_ob_schism_initialized' not in c['flags']
 assert not ({'rip_ob_toleration', 'rip_ob_repression', 'rip_ob_policy_changed'} & set(c['flags']))
 assert not ({'rip_ob_tolerant_policy', 'rip_ob_repressive_policy'} & set(c['modifiers']))
+assert all(
+    not ({'rip_ob_local_toleration', 'rip_ob_local_repression'} & set(p['modifiers']))
+    for p in w.provinces.values()
+)
 assert 'rip_ro_raskol_settled' in c['flags'] and 'rip_ro_stage_raskol' not in c['flags']
 w.run('rip_ob_upkeep_effect', c)
 assert communities(w) == [], 'a compromise leaves nothing for the yearly upkeep to seed'
@@ -439,17 +443,20 @@ ending = read('events/RIP_FaithDisasters.txt').split('id = rip_faith_disaster.2'
 assert 'change_religion' not in ending and 'clr_province_flag' not in ending and 'rip_ob_' not in ending
 cases += 1
 
-# The recurring Old Believer risings: toleration spares them, and they stop once settled.
+# The recurring Old Believer rising limit is armed by repression, not by the
+# mere existence of an Orthodox-family parish.
 backlash = dict([v for k, v in EFFECTS['rip_ro_zealot_backlash_effect'] if k == 'if'][1])['limit']
 w, c, capital, russian, kyiv, catholic = realm(religion='russian_orthodox')
-assert w.gate(backlash, c), 'a Muscovite confession with a parish outside the capital is exposed'
+w.run('rip_ob_mark_community_effect', russian[0])
+assert not w.gate(backlash, c), 'without an Old Believer policy, no Old Believer rising is armed'
 w.run('rip_ob_repress_effect', c)
 assert w.gate(backlash, c), 'repression does not spare it'
 w.run('rip_ob_tolerate_effect', c)
 assert not w.gate(backlash, c), 'toleration does'
 w.run('rip_ob_repress_effect', c)
+assert w.gate(backlash, c), 'repression arms the rising limit again'
 c['flags']['rip_ro_raskol_settled'] = w.day
-assert not w.gate(backlash, c), 'a settled Raskol ends the risings whichever policy was chosen'
+assert not w.gate(backlash, c), 'settlement stops further Old Believer risings'
 cases += 1
 
 # --- 11. wiring -------------------------------------------------------------
@@ -480,16 +487,56 @@ ids = re.findall(r'^\s*id = (rip_ob\.\d+)', read('events/RIP_OldBelievers.txt'),
 assert ids == ['rip_ob.2', 'rip_ob.3', 'rip_ob.4'] and len(set(ids)) == len(ids)
 rebels = read('common/rebel_types/old_believer.txt')
 assert 'dominant_religion = old_believer' in rebels and 'religion = orthodox' not in rebels
-# The scripted risings of the Raskol stay heretic_rebels: old_believer_rebels convert the province they win.
-for path in ('events/RIP_FaithDisasters.txt', 'events/RussianOrthodox.txt', 'common/scripted_effects/rip_faith_zeal_effects.txt'):
-    assert 'old_believer_rebels' not in read(path), path
+# The opening repression option has one Old Believer rebel spawn, and only in
+# an eligible non-capital parish; victory there may change the majority faith.
+disaster_text = read('events/RIP_FaithDisasters.txt')
+assert disaster_text.count('type = old_believer_rebels') == 1
+disaster_repression = next(
+    dict(body)
+    for key, body in EVENTS['rip_faith_disaster.1']
+    if key == 'option' and dict(body)['name'] == 'rip_faith_disaster.1.a'
+)
+disaster_target = next(value for key, value in disaster_repression.items()
+                       if key == 'random_owned_province')
+assert ('rip_ro_old_believer_parish', 'yes') in dict(disaster_target)['limit']
+disaster_spawn = next(value for key, value in disaster_target if key == 'spawn_rebels')
+assert dict(disaster_spawn) == {'type': 'old_believer_rebels', 'size': '2'}
+parish_gate = TRIGGERS['rip_ro_old_believer_parish']
+assert ('is_capital', 'no') in parish_gate
+assert ('is_city', 'yes') in parish_gate
+assert ('OR', [('has_province_flag', 'rip_ob_community'),
+               ('religion', 'old_believer')]) in parish_gate
+
+# The other historical Old Believer rebel spawn is the 1666 council's explicit
+# repression choice, not part of the Orthodox conversion wave.
+russian_orthodox_text = read('events/RussianOrthodox.txt')
+assert russian_orthodox_text.count('type = old_believer_rebels') == 1
+council_repression = next(
+    dict(body)
+    for key, body in EVENTS['russian_orthodox.6']
+    if key == 'option' and dict(body)['name'] == 'russian_orthodox.6.a'
+)
+council_target = next(value for key, value in council_repression.items()
+                      if key == 'random_owned_province')
+assert ('rip_ro_old_believer_parish', 'yes') in dict(council_target)['limit']
+
+# The ordinary Old-Rite rising remains orthodox_rebels. The separate recurring
+# Old-Believer rising uses the dedicated type and the same bounded parish gate.
+zeal_text = read('common/scripted_effects/rip_faith_zeal_effects.txt')
+assert zeal_text.count('type = old_believer_rebels') == 1
+old_rite_rising = named_block(zeal_text, 'rip_ro_old_rite_rising_effect')
+assert 'type = orthodox_rebels' in old_rite_rising
+assert 'type = old_believer_rebels' not in old_rite_rising
+old_believer_rising = named_block(zeal_text, 'rip_ro_old_believer_rising_effect')
+assert 'type = old_believer_rebels' in old_believer_rising
+assert 'rip_ro_old_believer_parish = yes' in old_believer_rising
 cases += 1
 
 # --- 12. the Raskol's conversion wave ---------------------------------------
 # While the disaster runs, rip_ob.4 gives every Orthodox city a monthly chance to
 # move to the state church or the old rite. The best matching culture tier applies.
-def wave_realm(owner_culture='russian'):
-    w, c, capital, russian, kyiv, catholic = realm(religion='russian_orthodox')
+def wave_realm(owner_culture='russian', owner_religion='russian_orthodox'):
+    w, c, capital, russian, kyiv, catholic = realm(religion=owner_religion)
     c['culture'] = owner_culture
     c['disasters'] = {'rip_ro_raskol'}
     return w, c, capital, russian, kyiv, catholic
@@ -583,6 +630,22 @@ assert faith == 'russian_orthodox' and 'rip_ob_community' in flags, 'joining the
 w.rolls = [0, 0]
 w.execute([('rip_ob_wave_pass_effect', 'yes')], plain)
 assert {'old_believer'} <= getattr(w, 'enabled', set()), 'a faith has to be enabled before a city can take it'
+cases += 1
+
+# Under an Orthodox state with Muscovite jurisdiction, the same wave can still
+# create Old Believer parishes, but its state-church outcome leaves them Orthodox.
+w, c, capital, russian, kyiv, catholic = wave_realm(owner_religion='orthodox')
+community, plain = russian[0], russian[1]
+w.run('rip_ob_mark_community_effect', community)
+for province, old_rite_count in ((community, 60), (plain, 10)):
+    outcomes = [month(w, province, 0, roll)[0] for roll in range(100)]
+    assert outcomes.count('old_believer') == old_rite_count, (province['id'], outcomes)
+    assert outcomes.count('orthodox') == 100 - old_rite_count, (province['id'], outcomes)
+    assert 'russian_orthodox' not in getattr(w, 'enabled', set())
+faith, _, _ = month(w, plain, 0, 99)
+assert faith == 'orthodox', 'the state-church outcome cannot convert an Orthodox owner’s parish'
+capital_dice = [month(w, capital, 0, roll)[0] for roll in range(100)]
+assert set(capital_dice) == {'orthodox'}, 'an Orthodox jurisdiction keeps its capital Orthodox'
 cases += 1
 
 # 12d. wiring: the disaster calls rip_ob.4 monthly, and the event runs only inside the Raskol.

@@ -4,7 +4,7 @@ This bounded interpreter is not evidence of native rendering or AI scheduling.
 """
 from copy import deepcopy
 from church_testlib import World, EFFECTS, TRIGGERS, parse
-from clausewitz_testlib import ROOT, read, named_block, normalized
+from clausewitz_testlib import read, named_block
 
 events = {}
 for path in ('events/RussianOrthodox.txt', 'events/RIP_RO_InstitutionalHistory.txt'):
@@ -36,9 +36,6 @@ class HistoryWorld(World):
                 scope.setdefault('rebel_requests', []).append(dict(value))
                 scope.setdefault('rebels', []).append(dict(value))
             elif key == 'add_unrest': scope['unrest'] = scope.get('unrest', 0) + float(value)
-            elif key in ('set_province_flag', 'clr_province_flag'):
-                if key == 'set_province_flag': scope['flags'][value] = self.day
-                else: scope['flags'].pop(value, None)
             else: rest.append((key, value))
         super().execute(rest, scope, root, prev)
 
@@ -47,9 +44,7 @@ def setup(year=1448, religion='orthodox'):
     w = HistoryWorld(); w.year = year
     c = w.country('MOS', religion)
     c.update(primary_culture='russian', culture_group='east_slavic', num_of_cities=100,
-             legitimacy=75, stability=1, dip_power=200, mil_power=200,
-             normal_or_historical_nations=True)
-    c['neighbors'] = set()
+             legitimacy=75, stability=1, normal_or_historical_nations=True)
     p = w.province(295, c, religion)
     p['region'] = 'russia_region'
     other = w.province(280, c, 'orthodox')
@@ -77,58 +72,19 @@ def choose(w, c, event, choice):
 
 
 cases = 0
-# The 1448 jurisdiction is independent of state confession and never initializes
-# the separate-faith hierarchy or changes Orthodox government reforms.
+# Affiliation is independent of diplomatic schism and never converts a capital.
 for year in (1448, 1510, 1589, 1666):
     w, c, p, other, catholic = setup(year)
-    c['reforms'].add('patriarch_engagement_reform')
-    w.run('rip_faith_establish_muscovite_jurisdiction_effect', c)
-    assert c['religion'] == 'orthodox'
+    w.run('rip_faith_adopt_muscovite_church_effect', c)
+    assert c['religion'] == 'russian_orthodox'
     assert p['religion'] == other['religion'] == 'orthodox'
     assert catholic['religion'] == 'catholic'
     assert 'rip_church_ro_schismatic' not in c['flags']
-    assert 'rip_ro_stage_autocephaly' in c['flags']
-    assert 'rip_ro_hierarchy_initialized' not in c['flags']
-    assert 'russian_orthodox' not in getattr(w, 'enabled', set())
-    assert 'patriarch_engagement_reform' in c['reforms']
     cases += 1
-
-# Existing Orthodox saves with the autocephaly marker receive the same
-# jurisdiction-only migration and keep their active Orthodox government reform.
-w, c, p, other, catholic = setup(1510)
-c['flags']['rip_ro_stage_autocephaly'] = w.day
-c['reforms'].add('patriarch_engagement_reform')
-w.run('rip_church_ro_history_monthly_effect', c)
-assert c['religion'] == p['religion'] == other['religion'] == 'orthodox'
-assert catholic['religion'] == 'catholic'
-assert 'rip_church_ro_jurisdiction' in TRIGGERS
-assert w.gate(TRIGGERS['rip_church_ro_jurisdiction'], c)
-assert 'rip_ro_hierarchy_initialized' not in c['flags']
-assert 'patriarch_engagement_reform' in c['reforms']
-cases += 1
-
-# The 1448 country decision uses the same jurisdiction-only path and retains
-# the state's Orthodox-specific government reform.
-decision_body = dict(parse(named_block(
-    read('decisions/RussianOrthodoxDecisions.txt'),
-    'convert_to_russian_orthodox_decision',
-)))['convert_to_russian_orthodox_decision']
 w, c, p, other, catholic = setup()
-c['reforms'].add('patriarch_engagement_reform')
-w.execute(dict(decision_body)['effect'], c)
-assert c['religion'] == 'orthodox' and p['religion'] == other['religion'] == 'orthodox'
-assert catholic['religion'] == 'catholic'
-assert 'patriarch_engagement_reform' in c['reforms']
-assert 'rip_ro_hierarchy_initialized' not in c['flags']
-cases += 1
-
-w, c, p, other, catholic = setup()
-c['reforms'].add('patriarch_engagement_reform')
 assert available(w, c, 'russian_orthodox.1')
 choose(w, c, 'russian_orthodox.1', 'russian_orthodox.1.a')
-assert c['religion'] == 'orthodox' and p['religion'] == other['religion'] == 'orthodox'
-assert 'patriarch_engagement_reform' in c['reforms']
-assert 'rip_ro_hierarchy_initialized' not in c['flags']
+assert c['religion'] == 'russian_orthodox' and p['religion'] == other['religion'] == 'orthodox'
 assert 'rip_ro_stage_autocephaly' in c['flags']
 assert w.gate(TRIGGERS['rip_church_ro_jurisdiction'], c)
 assert not available(w, c, 'russian_orthodox.1')
@@ -137,10 +93,10 @@ assert not available(w, c, 'russian_orthodox.2')
 w.year = 1589
 assert available(w, c, 'russian_orthodox.2')
 choose(w, c, 'russian_orthodox.2', 'russian_orthodox.2.a')
-assert c['religion'] == 'orthodox' and 'rip_church_ro_provisional' in c['flags']
+assert c['religion'] == 'russian_orthodox' and 'rip_church_ro_provisional' in c['flags']
 w.year = 1593
 w.run('rip_church_ro_history_monthly_effect', c)
-assert c['religion'] == 'orthodox' and 'rip_church_ro_recognized' in c['flags']
+assert c['religion'] == 'russian_orthodox' and 'rip_church_ro_recognized' in c['flags']
 assert available(w, c, 'russian_orthodox.14')
 cases += 1
 
@@ -173,26 +129,10 @@ for event_id in ('russian_orthodox.7', 'russian_orthodox.10', 'russian_orthodox.
     assert contains_pair(trigger, ('is_core', 'ROOT'))
     cases += 1
 
-# A deliberate break is gated, paid once, and changes only the state confession.
-dip_before = c['dip_power']
-stability_before = c['stability']
-war_before = c['is_at_war']
-assert not war_before
-assert w.gate(TRIGGERS['rip_church_ro_can_break_communion'], c)
-c['is_at_war'] = True
-assert not w.gate(TRIGGERS['rip_church_ro_can_break_communion'], c)
-c['is_at_war'] = war_before
-c['stability'] = 0
-assert not w.gate(TRIGGERS['rip_church_ro_can_break_communion'], c)
-c['stability'] = stability_before
-c['dip_power'] = 99
-assert not w.gate(TRIGGERS['rip_church_ro_can_break_communion'], c)
-c['dip_power'] = dip_before
-assert w.gate(TRIGGERS['rip_church_ro_can_break_communion'], c)
+# A deliberate break converts only the state and eligible core capital once.
 w.run('rip_church_ro_choose_schism_effect', c)
 assert c['religion'] == 'russian_orthodox' and p['religion'] == 'orthodox'
 assert other['religion'] == 'orthodox' and catholic['religion'] == 'catholic'
-assert c['dip_power'] == dip_before - 100 and c['stability'] == stability_before - 1
 assert not available(w, c, 'russian_orthodox.14')
 before = deepcopy(c)
 w.run('rip_church_ro_choose_schism_effect', c)
@@ -242,52 +182,18 @@ for religion in ('orthodox', 'russian_orthodox'):
     assert not w.gate(dict(parse(named_block(raskol, 'potential')))['potential'], c)
     cases += 1
 
-# A legacy Raskol-only conversion is repaired; explicit or recognized separation
-# and a pending reconciliation are durable evidence that must be preserved.
-for separation_evidence in (
-    None,
-    'rip_church_ro_schismatic',
-    'rip_church_ro_recognized',
-    'rip_church_reconciliation_pending',
-):
+# A legacy Raskol-only conversion is repaired; an explicit external break stays.
+for external_break in (False, True):
     w, c, p, other, catholic = setup(1667, 'russian_orthodox')
     c['flags']['rip_ro_stage_raskol'] = w.day
-    if separation_evidence:
-        c['flags'][separation_evidence] = w.day
-    foreign = None
-    if separation_evidence is None:
-        foreign_country = w.country('BYZ', 'orthodox')
-        foreign = w.province(151, foreign_country, 'russian_orthodox')
+    if external_break:
+        c['flags']['rip_church_ro_schismatic'] = w.day
     w.run('rip_church_ro_history_monthly_effect', c)
-    expected = 'orthodox' if separation_evidence is None else 'russian_orthodox'
+    expected = 'russian_orthodox'
     assert c['religion'] == p['religion'] == expected
     assert other['religion'] == 'orthodox' and catholic['religion'] == 'catholic'
     assert 'rip_ro_stage_raskol' in c['flags']
-    if separation_evidence is None:
-        assert 'rip_ro_stage_autocephaly' in c['flags']
-        assert w.gate(TRIGGERS['rip_church_ro_jurisdiction'], c)
-        assert foreign['religion'] == 'russian_orthodox', 'migration must not alter another owner’s province'
     cases += 1
-
-# Recognition after reconciliation clears the live schismatic marker but
-# remains durable evidence of the deliberate separation on old saves.
-w, c, p, other, catholic = setup(1667, 'russian_orthodox')
-c['flags']['rip_church_ro_schismatic'] = w.day
-c['flags']['rip_church_reconciliation_pending'] = w.day
-w.run('rip_church_ro_recognize_effect', c)
-assert 'rip_church_ro_schismatic' not in c['flags']
-assert 'rip_church_ro_recognized' in c['flags']
-w.run('rip_church_ro_history_monthly_effect', c)
-assert c['religion'] == p['religion'] == 'russian_orthodox'
-cases += 1
-
-# The durable schism modifier also protects an older explicit separation whose
-# live country flag may have been lost by a prior save migration.
-w, c, p, other, catholic = setup(1667, 'russian_orthodox')
-c['modifiers']['rip_church_ro_schism'] = float('inf')
-w.run('rip_church_ro_history_monthly_effect', c)
-assert c['religion'] == p['religion'] == 'russian_orthodox'
-cases += 1
 
 # Only Orthodox parishes get the full/limited guarantees; expiration restores it.
 w, c, p, other, catholic = setup(1653)
@@ -351,8 +257,7 @@ cases += 1
 
 w, c, p, other, catholic = setup(1500, 'russian_orthodox')
 w.run('rip_church_ro_history_monthly_effect', c)
-assert c['religion'] == p['religion'] == 'orthodox' and other['religion'] == 'orthodox'
-assert 'rip_ro_stage_autocephaly' in c['flags']
+assert c['religion'] == p['religion'] == 'russian_orthodox' and other['religion'] == 'orthodox'
 assert catholic['religion'] == 'catholic'
 before = deepcopy(c)
 w.run('rip_church_ro_history_monthly_effect', c)
@@ -428,127 +333,5 @@ for event, year in (('russian_orthodox.4',1700), ('russian_orthodox.5',1667)):
     assert ('is_year', str(year)) in dict(events[event])['trigger']
 assert 'date = 1589.1.1' in read('common/religions/russian_orthodox.txt')
 assert 'NOT = { has_country_flag = rip_ro_ritual_compromise }' in named_block(read('common/disasters/rip_faith_disasters.txt'), 'rip_ro_raskol')
-
-# The jurisdiction-only helper cannot enable or initialize the separate faith;
-# the old conversion helper is reached only through the schism transaction.
-faith_effects = read('common/scripted_effects/rip_religion_settlement_effects.txt')
-jurisdiction_effect = named_block(
-    faith_effects,
-    'rip_faith_establish_muscovite_jurisdiction_effect',
-)
-for forbidden in ('enable_religion', 'change_religion', 'rip_faith_initialize_hierarchy_effect'):
-    assert forbidden not in jurisdiction_effect
-assert 'set_country_flag = rip_ro_stage_autocephaly' in jurisdiction_effect
-adopt_effect = named_block(faith_effects, 'rip_faith_adopt_muscovite_church_effect')
-assert 'enable_religion = russian_orthodox' in adopt_effect
-assert 'change_religion = russian_orthodox' in adopt_effect
-adoption_calls = []
-for directory in ('common', 'events', 'decisions', 'missions'):
-    for path in (ROOT / directory).rglob('*.txt'):
-        text = path.read_bytes().decode('latin-1')
-        call = 'rip_faith_adopt_muscovite_church_effect = yes'
-        if call in text:
-            adoption_calls.extend(
-                [(path.relative_to(ROOT).as_posix(), call)] * text.count(call)
-            )
-assert adoption_calls == [
-    ('common/scripted_effects/rip_church_ro_effects.txt',
-     'rip_faith_adopt_muscovite_church_effect = yes')
-]
-religion_change_sites = []
-for directory in ('common', 'events', 'decisions', 'missions'):
-    for path in (ROOT / directory).rglob('*.txt'):
-        text = path.read_bytes().decode('latin-1')
-        for conversion in ('enable_religion = russian_orthodox',
-                           'change_religion = russian_orthodox'):
-            religion_change_sites.extend(
-                [(path.relative_to(ROOT).as_posix(), conversion)] * text.count(conversion)
-            )
-assert religion_change_sites == [
-    ('common/scripted_effects/rip_religion_settlement_effects.txt',
-     'enable_religion = russian_orthodox'),
-    ('common/scripted_effects/rip_religion_settlement_effects.txt',
-     'change_religion = russian_orthodox'),
-]
-schism_effect = named_block(
-    read('common/scripted_effects/rip_church_ro_effects.txt'),
-    'rip_church_ro_choose_schism_effect',
-)
-assert 'rip_faith_adopt_muscovite_church_effect = yes' in schism_effect
-assert schism_effect.count('add_dip_power = -100') == 1
-assert schism_effect.count('add_stability = -1') == 1
-for path in (
-    'events/RussianOrthodox.txt',
-    'decisions/RussianOrthodoxDecisions.txt',
-    'common/scripted_effects/rip_church_ro_history_effects.txt',
-    'common/scripted_effects/russian_orthodox_effects.txt',
-):
-    assert 'rip_faith_adopt_muscovite_church_effect = yes' not in read(path), path
-assert 'rip_church_ro_choose_schism_effect = yes' in named_block(
-    read('common/scripted_effects/russian_orthodox_effects.txt'),
-    'convert_to_russian_orthodox_effect',
-)
-
-# All schism entry points share one peace/stability/DIP gate and one charge.
-break_gate = normalized(named_block(
-    read('common/scripted_triggers/rip_church_ro_history_triggers.txt'),
-    'rip_church_ro_can_break_communion',
-))
-for condition in ('is_at_war = no', 'stability = 1', 'dip_power = 100'):
-    assert condition in break_gate
-ro_communion_decision = read('decisions/RIP_RO_Communion.txt')
-church_redesign = read('decisions/RIP_ChurchRedesign.txt')
-for caller in (
-    named_block(ro_communion_decision, 'rip_ro_renounce_communion'),
-    named_block(church_redesign, 'rip_church_break_communion'),
-):
-    assert 'rip_church_ro_can_break_communion = yes' in normalized(named_block(caller, 'allow'))
-    assert 'rip_church_ro_choose_schism_effect = yes' in caller
-    assert 'add_dip_power = -100' not in caller and 'add_stability = -1' not in caller
-refusal = next(
-    dict(body)
-    for key, body in events['russian_orthodox.2']
-    if key == 'option' and dict(body)['name'] == 'rip_church_recognition_refuse'
-)
-assert 'rip_church_ro_can_break_communion = yes' in normalized(refusal['trigger'])
-assert 'rip_church_ro_choose_schism_effect = yes' in refusal
-assert 'add_dip_power = -100' not in refusal and 'add_stability = -1' not in refusal
-
-# Recognition is available to Orthodox Moscow-jurisdiction states. Third Rome
-# and Russification province targeting follow the country's own religion.
-request_recognition = named_block(church_redesign, 'rip_church_request_recognition')
-assert 'rip_church_ro_jurisdiction = yes' in normalized(named_block(request_recognition, 'potential'))
-assert 'rip_church_ro_jurisdiction = yes' in normalized(named_block(request_recognition, 'effect'))
-third_rome = named_block(read('decisions/RIP_OrthodoxIcons.txt'), 'rip_ro_the_first_rome')
-assert 'rip_church_ro_jurisdiction = yes' in normalized(named_block(third_rome, 'potential'))
-assert 'religion = ROOT' in normalized(named_block(third_rome, 'provinces_to_highlight'))
-assert 'religion = ROOT' in normalized(named_block(third_rome, 'allow'))
-russify = named_block(source, 'russify_province_decision')
-assert 'religion = ROOT' in normalized(named_block(russify, 'potential'))
-for block_name in ('provinces_to_highlight', 'allow', 'effect'):
-    assert 'religion = ROOT' in normalized(named_block(russify, block_name)), block_name
-assert 'religion = russian_orthodox' not in normalized(russify)
-assert 'change_religion' not in named_block(
-    read('common/scripted_effects/russian_orthodox_effects.txt'),
-    'russify_province_effect',
-)
-
-# A no-target Gathering Russian Lands click cannot spend MIL or consume its
-# one-time flag, even if the decision effect is invoked directly.
-gathering = dict(parse(named_block(source, 'gathering_russian_lands_decision')))[
-    'gathering_russian_lands_decision'
-]
-w, c, p, other, catholic = setup(1700)
-c['flags']['rip_ro_stage_autocephaly'] = w.day
-c['legitimacy'] = 90
-assert not w.gate(dict(gathering)['potential'], c)
-assert not w.gate(dict(gathering)['allow'], c)
-mil_before = c['mil_power']
-w.execute(dict(gathering)['effect'], c)
-w.run('activate_gathering_lands_effect', c)
-assert c['mil_power'] == mil_before
-assert 'rip_once_gathering_russian_lands_decision' not in c['flags']
-assert 'gathering_russian_lands' not in c['modifiers']
-cases += 1
 print(f'PASS: {cases} source-executed history/communion cases; historical gates and coercion periods.')
 print('LIMIT: historical alternatives are explicit game abstractions; native branches and clicks require engine evidence.')

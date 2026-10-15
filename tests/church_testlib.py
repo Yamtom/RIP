@@ -27,16 +27,12 @@ class World(SettlementWorld):
         self.targets = {}
         self.from_scope = None
         self.curia_treasury = 0
-        # random_list takes its rolls from here, one per list, in order. A test
-        # that runs a random_list must say what the dice show.
-        self.rolls = []
 
     def country(self, tag, religion='orthodox'):
         c = super().country(tag, religion)
         c.update(annual_income=120, opinions={}, government='monarchy', ai=False,
                  is_papal_controller=False, mercantilism=0, num_of_loans=0,
-                 reforms=set(), technology_group='eastern',
-                 culture='russian', culture_group='east_slavic', disasters=set())
+                 reforms=set(), technology_group='eastern')
         return c
 
     def opinion(self, source, target):
@@ -122,7 +118,6 @@ class World(SettlementWorld):
         if key in ('area', 'culture', 'culture_group'):
             ref = self.ref(value, scope, root, prev)
             return scope[key] == (ref[key] if ref else value)
-        if key == 'has_disaster': return value in scope['disasters']
         if key == 'has_building': return value in scope['buildings']
         if key == 'has_terrain': return scope['terrain'] == value
         if key == 'has_reform': return value in scope['reforms']
@@ -166,16 +161,6 @@ class World(SettlementWorld):
                 fields=dict(value); source=self.ref(fields['who'],scope,root,prev) if 'who' in fields else scope
                 scope['variables'][fields['which']]=(self.opinion(source,self.ref(fields['with'],scope,root,prev))
                     if fields['value']=='opinion' else source[fields['value'].removeprefix('trigger_value:')])
-            elif key == 'random_list':
-                entries=[(int(weight),body) for weight,body in value]
-                assert self.rolls, 'random_list needs an explicit roll in this model'
-                roll=self.rolls.pop(0)
-                assert 0 <= roll < sum(weight for weight,_ in entries), 'the roll is outside the list'
-                for weight,body in entries:
-                    if roll < weight:
-                        if isinstance(body,list) and body: self.execute(body,scope,root,prev)
-                        break
-                    roll-=weight
             elif key == 'while':
                 fields=dict(value); count=0
                 while self.gate(fields['limit'],scope,root,prev):
