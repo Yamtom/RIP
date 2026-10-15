@@ -75,6 +75,22 @@ assert controls['custom_button', toggle]['effect'] == parse(
 host, host_body = widget('windowType', 'orthodox_specific_window')
 host_children = list(descendants(host_body))
 assert widget('windowType', native['name'], host_children)
+authority_label, _ = widget('instantTextBoxType', 'current_patriarch_authority_text', host_children)
+assert authority_label['scripted'] == 'yes'
+assert authority_label['text'] == 'CURRENT_PATRIARCH_AUTHORITY'
+assert 'pdx_tooltip' not in authority_label
+authority_binding = controls['custom_text_box', 'current_patriarch_authority_text']
+assert authority_binding['potential'] == parse(
+    'NOT = { religion = greek_catholic } NOT = { rip_church_ro_jurisdiction = yes }'
+)
+for language, label in (
+    ('english', 'Patriarch Authority'),
+    ('french', 'Autorité patriarcale'),
+    ('german', 'Patriarchale Autorität'),
+    ('spanish', 'Autoridad patriarcal'),
+):
+    loc_path = f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml'
+    assert f'current_patriarch_authority_text:0 "{label}"' in read(loc_path), loc_path
 native_select, _ = widget('guiButtonType', 'pick_icon_button', host_children)
 assert position(route) == position(native_select)
 assert route['Orientation'] == native_select['Orientation'], 'replacement keeps the native host anchor'
@@ -105,7 +121,11 @@ for faith in ('russian_orthodox', 'orthodox', 'greek_catholic', 'catholic'):
     w, c, p = fixture(faith)
     if faith == 'orthodox':
         assert not w.gate(native_cover, c), 'ordinary Orthodoxy does not inherit Moscow jurisdiction'
+        assert w.gate(authority_binding['potential'], c), 'ordinary Orthodox uses the vanilla authority heading'
         c['flags']['rip_ro_stage_autocephaly'] = w.day
+        assert not w.gate(authority_binding['potential'], c), 'the RPC heading replaces it after autocephaly'
+    elif faith in ('russian_orthodox', 'greek_catholic'):
+        assert not w.gate(authority_binding['potential'], c), 'the RPC and Greek Catholic headings stay separate'
     before = deepcopy(c)
     eligible = faith in ('russian_orthodox', 'orthodox')
     assert w.gate(native_cover, c) == w.gate(panel, c) == eligible
@@ -137,12 +157,16 @@ for policy in ('war', 'mercy', 'building', 'mission'):
     children = list(descendants(body))
     action = f'rip_church_icon_{policy}_button'
     hit, _ = widget('guiButtonType', action, children)
-    slot, _ = widget('iconType', f'rip_church_{policy}_slot', children)
     assert position(hit) == {'x': 230, 'y': 0}
-    assert position(slot) == {'x': 0, 'y': 0}
+    assert not any(kind == 'iconType' and fields.get('name') == f'rip_church_{policy}_slot'
+                   for kind, fields, _ in children), 'policy emblems must have no tile backing'
     assert hit['quadTextureSprite'] == 'button_type_8'
     assert hit['buttonText'] == 'rip_church_icon_toggle_label'
-    assert slot['spriteType'] == 'GFX_rip_church_policy_slot'
+    emblem, _ = widget('iconType', f'rip_church_{policy}_art', children)
+    assert position(emblem) == {'x': 3, 'y': 3}
+    assert emblem['spriteType'] == f'GFX_rip_church_policy_{policy}'
+    active_frame, _ = widget('iconType', f'rip_church_{policy}_active_frame', children)
+    assert active_frame['spriteType'] == 'GFX_rip_church_policy_active'
     control = controls['custom_button', action]
     gate = ('OR', [('has_country_flag', f'rip_church_icon_{policy}'),
                    (f'rip_church_can_activate_{policy}', 'yes')])
@@ -152,7 +176,8 @@ for policy in ('war', 'mercy', 'building', 'mission'):
     assert controls['custom_icon', f'rip_church_{policy}_active_frame']['potential'] == [('has_country_flag', f'rip_church_icon_{policy}')]
     for suffix in ('label', 'benefit', 'benefit_second', 'state'):
         label, _ = widget('instantTextBoxType', f'rip_church_icon_{policy}_{suffix}', children)
-        assert label['font'] == 'vic_18'
+        expected_font = 'vic_14' if policy == 'building' and suffix == 'benefit_second' else 'vic_18'
+        assert label['font'] == expected_font
         assert label['scripted'] == 'yes'
     cases += 1
 
@@ -198,7 +223,14 @@ for key, marker in (('rip_church_ro_action_ready','§Y10 now, then 3 a month'),
                     ('rip_church_ro_action_active','§GActive')):
     assert f'{key}:0 "{marker}' in policy_loc, (key, marker)
 assert 'rip_church_icon_toggle_label:0 "Switch on / off"' in policy_loc
-for policy in ('war','mercy','building','mission'):
+for policy, label in (
+    ('war', 'Frontier Intercession'),
+    ('mercy', 'Mercy of the East'),
+    ('building', 'Cathedral Stewardship'),
+    ('mission', 'Muscovite Mission'),
+):
+    assert f'rip_church_icon_{policy}_button:0 "{label}"' in policy_loc
+    assert f'§Y{label}§!' in policy_loc
     assert 'buttonText = "rip_church_icon_toggle_label"' in read('interface/countryreligionview.gui')
     assert f'GetChurchIcon{policy.title()}Action' in read('customizable_localization/rip_church_redesign.txt')
     cases += 1

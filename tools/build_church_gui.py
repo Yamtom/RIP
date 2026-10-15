@@ -214,7 +214,9 @@ for i,(key,sprite) in enumerate((
                 tile_x+RO_TILE_W,RO_TILE_Y+(RO_TILE_H-24)//2)
 for i,k in enumerate(('war','mercy','building','mission')):
     x,y=RO_CARD_X,RO_CARD_Y+i*RO_CARD_PITCH
-    policy=art('rip_church_'+k+'_slot','GFX_rip_church_policy_slot',0,0,1.2)
+    # The emblem artwork stands on its own. The separate active frame remains
+    # the selected-state indicator; no blessing-slot tile sits beneath it.
+    policy=''
     policy+=button(f'rip_church_icon_{k}_button',230,0,
                    f'rip_church_ro_jurisdiction = yes OR = {{ has_country_flag = rip_church_icon_{k} rip_church_can_activate_{k} = yes }}',
                    f'rip_church_toggle_{k}_effect = yes',sprite='button_type_8',
@@ -238,7 +240,12 @@ for i,k in enumerate(('war','mercy','building','mission')):
         if declaration not in insets: insets.append(declaration)
         policy+=art(f'rip_church_{k}_benefit_symbol_{row}',sprite_name,80+row*76,28,0.5)
     policy+=text(f'rip_church_icon_{k}_benefit',112,33,w=46,h=22,font='vic_18',align='left')
-    policy+=text(f'rip_church_icon_{k}_benefit_second',188,33,w=40,h=22,font='vic_18',align='left')
+    if k == 'building':
+        # Spell out that the discount covers all building categories; the
+        # second line uses the unused space below the single construction icon.
+        policy+=text(f'rip_church_icon_{k}_benefit_second',112,55,w=118,h=18,font='vic_14',align='left')
+    else:
+        policy+=text(f'rip_church_icon_{k}_benefit_second',188,33,w=40,h=22,font='vic_18',align='left')
     ro+=card('rip_church_ro_'+k+'_card',x,y,RO_CARD_W,RO_CARD_H,policy)
 ro+=button('rip_church_nodes_button',34,RO_BUTTON_Y,'rip_church_ro_can_open_network_menu = yes',
            'country_event = { id = rip_church_nodes.1 }',sprite='button_type_8')

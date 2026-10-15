@@ -1,0 +1,79 @@
+rip_church_crown_appointments_effect = {
+ if = { limit = { rip_church_can_change_governance = yes NOT = { has_country_modifier = rip_church_crown_appointments } }
+  add_adm_power = -75 set_country_flag = rip_church_governance_changed
+  add_country_modifier = { name = rip_church_crown_appointments duration = -1 }
+ }
+}
+rip_church_restore_elections_effect = {
+ if = { limit = { rip_church_can_change_governance = yes has_country_modifier = rip_church_crown_appointments }
+  add_adm_power = -75 set_country_flag = rip_church_governance_changed
+  remove_country_modifier = rip_church_crown_appointments
+  remove_country_modifier = rip_church_lay_supervisor
+  remove_country_modifier = rip_church_theological_censorship
+ }
+}
+# Province scope. A charter guarantees liturgy; the full charter also guarantees
+# episcopal elections. Neither version grants an automatic conversion.
+rip_church_full_compact_effect = {
+ if = { limit = { rip_church_compact_parish = yes owner = { rip_church_can_pay_compact = yes } }
+  owner = { add_adm_power = -75 add_dip_power = -50 }
+  set_province_flag = rip_church_compact set_province_flag = rip_church_episcopal_elections
+  add_province_modifier = { name = rip_church_episcopal_guarantees duration = -1 }
+ }
+}
+rip_church_royal_compact_effect = {
+ if = { limit = { rip_church_compact_parish = yes owner = { rip_church_can_pay_compact = yes } }
+  owner = { add_adm_power = -75 add_dip_power = -50 }
+  set_province_flag = rip_church_compact
+  add_province_modifier = { name = rip_church_royal_concordat duration = -1 }
+ }
+}
+rip_church_breach_compact_effect = {
+ if = { limit = { has_province_flag = rip_church_compact NOT = { has_province_flag = rip_church_compact_broken } }
+  set_province_flag = rip_church_compact_broken
+  remove_province_modifier = rip_church_episcopal_guarantees
+  remove_province_modifier = rip_church_royal_concordat
+  add_province_modifier = { name = rip_church_compact_resistance duration = 3650 }
+  owner = {
+   clr_country_flag = rip_church_ecumenical
+   set_country_flag = rip_church_forced_integration
+   add_prestige = -10
+   add_country_modifier = { name = rip_church_broken_promises duration = 3650 }
+   set_country_flag = rip_church_compact_diplomacy
+   rip_church_refresh_relations_effect = yes
+  }
+ }
+}
+rip_church_governance_upkeep_effect = {
+ if = { limit = { religion = catholic has_country_flag = rip_church_compact_diplomacy } rip_church_refresh_relations_effect = yes }
+ # Institution costs follow the current government and confession.
+ if = { limit = { NOT = { AND = { rip_church_ro_jurisdiction = yes government = monarchy } } }
+  remove_country_modifier = rip_church_crown_appointments
+  remove_country_modifier = rip_church_theological_censorship
+  remove_country_modifier = rip_church_lay_supervisor
+  remove_country_modifier = rip_church_confessional_mobilization
+ }
+ if = { limit = { is_at_war = no } remove_country_modifier = rip_church_confessional_mobilization }
+ every_owned_province = {
+  # A right survives conquest; its benefits are suspended under an unrelated
+  # confession or a broken charter, rather than being erased with the minority.
+  if = { limit = { has_province_flag = rip_church_compact }
+   remove_province_modifier = rip_church_episcopal_guarantees
+   remove_province_modifier = rip_church_royal_concordat
+   if = { limit = { owner = { rip_church_compact_crown = yes } NOT = { has_province_flag = rip_church_compact_broken } }
+    if = { limit = { has_province_flag = rip_church_episcopal_elections } add_province_modifier = { name = rip_church_episcopal_guarantees duration = 62 } }
+    else = { add_province_modifier = { name = rip_church_royal_concordat duration = 62 } }
+   }
+  }
+  remove_province_modifier = rip_church_coercion_resistance
+  if = { limit = {
+   owner = { rip_church_ro_jurisdiction = yes OR = { has_country_modifier = rip_church_theological_censorship has_country_modifier = rip_church_confessional_mobilization } }
+   OR = { NOT = { religion = owner } has_province_flag = rip_ob_community }
+  } add_province_modifier = { name = rip_church_coercion_resistance duration = 62 } }
+  if = { limit = {
+   has_province_flag = rip_church_compact NOT = { has_province_flag = rip_church_compact_broken }
+   owner = { rip_church_compact_crown = yes }
+   OR = { has_missionary = yes NOT = { OR = { religion = orthodox religion = greek_catholic } } }
+  } rip_church_breach_compact_effect = yes }
+ }
+}

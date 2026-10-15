@@ -484,10 +484,10 @@ DATA.update({
  'rip_church_gc_native_privileges_button_tt': 'Open church privileges. Opening this menu is free; only choosing a privilege spends resources.',
  'rip_church_ro_heading': 'The Muscovite Church',
  'rip_church_ro_policies_title': 'Church policies',
- 'rip_church_icon_war_button': 'Military',
- 'rip_church_icon_mercy_button': 'Mercy',
- 'rip_church_icon_building_button': 'Building',
- 'rip_church_icon_mission_button': 'Mission',
+ 'rip_church_icon_war_button': 'Frontier Intercession',
+ 'rip_church_icon_mercy_button': 'Mercy of the East',
+ 'rip_church_icon_building_button': 'Cathedral Stewardship',
+ 'rip_church_icon_mission_button': 'Muscovite Mission',
  'rip_church_ro_status': '[Root.GetChurchROStatus]',
  'rip_church_break_communion_title': 'Renounce the patriarchal settlement',
  'rip_church_break_communion_desc': 'Deliberate alternative history: abandon recognized communion and claim an independent universal church. This increases confessional conflict and imposes -1 diplomatic reputation. Earlier reconciliation payments are not refunded.',
@@ -558,16 +558,16 @@ DATA.update({
 RO_PAY='Costs §Y10 Fervor§! to start and §R3 Fervor§! a month to keep.'
 RO_REUSE=' Reactivation only after a year; closing it refunds nothing.'
 for key,name,detail,(benefit,benefit_second) in (
- ('war','Military Intercession',
+ ('war','Frontier Intercession',
   'Steppe border: your settled provinces bordering another steppe power, gain §G+20% defensiveness§! and §G+1 attrition§! for invaders.\\nAt war with a steppe power: §G+5% discipline§! and §G+10% manpower recovery§!, applied within a month of the war.',
   ('§G+20%§!','§G+5%§!')),
- ('mercy','Mercy',
+ ('mercy','Mercy of the East',
   'The eastern lands, the Volga, the Urals and Siberia: §G-10% local autonomy§! and §G-1 local unrest§! in your provinces there, whatever their faith.',
   ('§G-10%§!','§G-1§!')),
- ('building','Church Building',
+ ('building','Cathedral Stewardship',
   'Parishes with a completed cathedral: §G-25% construction cost§! there, for every building and not only churches. A temple or cathedral is what a mission node needs.',
-  ('§G-25%§!','§GAll§!')),
- ('mission','Apostolic Mission',
+  ('§G-25%§!','§GAll building types§!')),
+ ('mission','Muscovite Mission',
   'Settled provinces of another faith, Orthodox ones excluded: §G+2% local missionary strength§!. It opens the funding of mission nodes, which pay Fervor; closing it closes every node. It needs §Y20 Fervor§! in the pool: 10 to start it and 10 to found the first node.',
   ('§G+2%§!',''))):
  DATA['rip_church_icon_'+key]=DATA['rip_church_icon_'+key+'_button']
@@ -599,7 +599,7 @@ DATA.update({
  'desc_rip_church_node_courtyards': 'Monasteries trade in this trade node: more trade power here and more preachers, while the node is funded.',
  # The three tiles. Every number is a literal defined_text ladder (see the readouts below).
  'rip_church_ro_policies_title': 'Church policies',
- 'rip_church_ro_policies_title_tt': 'Click a policy to switch it on or off. '+RO_PAY+' Each acts only where it was made for: the steppe frontier, the eastern lands, parishes with a cathedral, provinces of other faiths. Hover a policy for its effects.',
+ 'rip_church_ro_policies_title_tt': 'Click a policy to switch it on or off. '+RO_PAY+' Each acts only where it was made for: the steppe frontier, the eastern lands, parishes with a cathedral, provinces of other faiths. Hover a policy for its effects. The gold arrows between the summary tiles are visual only, not buttons or a separate effect: Fervor pays to fund nodes; each funded node returns +3 Fervor per month to help pay policy upkeep.',
  'rip_church_ro_fervor_label': 'Fervor',
  'rip_church_ro_fervor_value': '[Root.GetChurchROFervor] / 100',
  'rip_church_ro_fervor_sub': 'Net [Root.GetChurchRONet] / month',
@@ -624,7 +624,7 @@ DATA.update({
  'rip_church_icon_no_fuel_mission': 'Blocked: the Mission policy needs 20 Fervor in the pool, 10 to start it and 10 to found its first node.',
  'rip_church_ro_action_ready': '§Y10 now, then 3 a month§!',
  'rip_church_mission_network_desc': '§YMuscovite missionary network§!\\n§Y1. Fund:§! Religion -> Policies -> Choose trade node. A node costs §Y10 Fervor§! once, then pays §G+3 Fervor§! a month. Limit: §Y1 node§! (§Y2§! at 65% Patriarch Authority, regardless of communion).\\n§Y2. Select:§! Choose this trade policy in the funded node. The requirements below must stay fulfilled.\\n§YTargets:§! Neighbouring settled provinces along your capital-connected core parishes. Protected rites, active missionaries, religious centres, religious zeal and Rome are excluded. Independent Orthodox states are protected until you renounce communion. Conversion is gradual.',
- 'rip_church_policy_mission_tt': 'The §YMission§! policy is on in the church window',
+ 'rip_church_policy_mission_tt': 'The §YMuscovite Mission§! policy is on in the church window',
  'rip_church_policy_funded_tt': '§YThis trade node§! is funded: Religion -> Policies -> Choose trade node',
  # The menu of nodes: one window, a line for every node that can be funded or closed now.
  'rip_church_nodes.1.t': 'Fund mission nodes',
@@ -1552,11 +1552,17 @@ for key in ('rip_church_gc_heading_tt','rip_church_gui_status_title_tt','rip_chu
 from ro_history_localisation import COPY as RO_HISTORY_COPY
 DATA.update(RO_HISTORY_COPY)
 from old_believer_localisation import COPY as OLD_BELIEVER_COPY
-# The Old Believer chapter adds keys; it must never silently override a
-# Muscovite-history key.
-_shared_keys = set(OLD_BELIEVER_COPY) & set(RO_HISTORY_COPY)
-assert not _shared_keys, 'old_believer_localisation.py overrides ro_history_localisation.py: ' + ', '.join(sorted(_shared_keys))
+assert not (set(OLD_BELIEVER_COPY) & set(RO_HISTORY_COPY)), 'Old Believer copy must not override historical keys'
+from church_governance_localisation import COPY as GOVERNANCE_COPY
 DATA.update(OLD_BELIEVER_COPY)
+DATA.update(GOVERNANCE_COPY)
+ORTHODOX_AUTHORITY_LABELS = {
+ 'english': 'Patriarch Authority',
+ 'french': 'Autorité patriarcale',
+ 'german': 'Patriarchale Autorität',
+ 'spanish': 'Autoridad patriarcal',
+}
+DATA['current_patriarch_authority_text'] = ORTHODOX_AUTHORITY_LABELS['english']
 # These historical keys now have one generator-owned definition. Retire the
 # former hand-maintained copies, preserving every unrelated key and the BOM.
 legacy_ro_paths = ['localisation/russian_orthodox_l_english.yml'] + [
@@ -1571,7 +1577,9 @@ for legacy_path in legacy_ro_paths:
    rows.append(row if row.strip() else '\n')
  outputs[legacy_path] = ''.join(rows)
 for lang in ('english','french','german','spanish'):
-    outputs[f'localisation/replace/zzzz_RIP_church_redesign_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(f' {k}:0 "{v.replace(chr(34),chr(39))}"\n' for k,v in sorted(DATA.items()))
+    language_data = DATA.copy()
+    language_data['current_patriarch_authority_text'] = ORTHODOX_AUTHORITY_LABELS[lang]
+    outputs[f'localisation/replace/zzzz_RIP_church_redesign_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(f' {k}:0 "{v.replace(chr(34),chr(39))}"\n' for k,v in sorted(language_data.items()))
 # Regression guard: the province action is a guarantee of community rights, never the
 # recognition of a parish or a rite. Patriarchate recognition (rip_church.3, ro_recognized)
 # is a different mechanic and does not match.

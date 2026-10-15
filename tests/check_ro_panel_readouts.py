@@ -309,7 +309,11 @@ for text in (loc['rip_church_nodes.1.d'], loc['rip_church_ro_nodes_value_tt']):
 assert visible(loc['rip_church_icon_war_benefit']) == '+20%' and visible(loc['rip_church_icon_war_benefit_second']) == '+5%'
 assert visible(loc['rip_church_icon_mercy_benefit']) == '-10%' and visible(loc['rip_church_icon_mercy_benefit_second']) == '-1'
 assert visible(loc['rip_church_icon_building_benefit']) == '-25%'
+assert visible(loc['rip_church_icon_building_benefit_second']) == 'All building types'
 assert visible(loc['rip_church_icon_mission_benefit']) == '+2%'
+arrow_note = loc['rip_church_ro_policies_title_tt']
+assert 'gold arrows are visual only, not buttons or a separate effect' in arrow_note
+assert 'Fervor pays to fund nodes' in arrow_note and 'returns +3 Fervor per month' in arrow_note
 # The price and the return are the ones the scripts charge and pay.
 for key in ('rip_church_ro_fervor_value_tt', 'rip_church_ro_nodes_value_tt',
             'rip_church_ro_step2_tt', 'rip_church_nodes.1.d'):
