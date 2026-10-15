@@ -81,6 +81,28 @@ is_expansionist_orthodox = {
 	}
 }
 
+# Province scope: the exact neighboring province the Gathering Russian Lands
+# transaction can claim. The country-scope gate below is shared by the
+# decision and its effect so an unavailable claim cannot consume its price.
+rip_ro_gathering_lands_claim_target = {
+	has_owner = yes
+	NOT = { owned_by = ROOT }
+	NOT = { is_core = ROOT }
+	NOT = { is_claim = ROOT }
+	culture_group = east_slavic
+	owner = {
+		NOT = { alliance_with = ROOT }
+		NOT = { truce_with = ROOT }
+		is_subject = no
+	}
+}
+
+rip_ro_gathering_lands_target = {
+	any_neighbor_province = {
+		rip_ro_gathering_lands_claim_target = yes
+	}
+}
+
 has_cultural_resistance = {
 	OR = {
 		has_province_modifier = local_resistance_russification

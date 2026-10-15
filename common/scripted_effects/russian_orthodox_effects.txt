@@ -169,12 +169,15 @@ establish_monastery_mission_effect = {
 }
 
 activate_gathering_lands_effect = {
-	rip_ro_clear_historical_policy_effect = yes
-	rip_church_historical_ro_effect = yes
- add_country_modifier = { name = gathering_russian_lands duration = 7300 }
-	random_neighbor_province = {
-		limit = { has_owner = yes NOT = { owned_by = ROOT } NOT = { is_core = ROOT } NOT = { is_claim = ROOT } culture_group = east_slavic owner = { NOT = { alliance_with = ROOT } NOT = { truce_with = ROOT } is_subject = no } }
-		add_claim = ROOT
+	if = {
+		limit = { rip_ro_gathering_lands_target = yes }
+		rip_ro_clear_historical_policy_effect = yes
+		rip_church_historical_ro_effect = yes
+		add_country_modifier = { name = gathering_russian_lands duration = 7300 }
+		random_neighbor_province = {
+			limit = { rip_ro_gathering_lands_claim_target = yes }
+			add_claim = ROOT
+		}
 	}
 }
 

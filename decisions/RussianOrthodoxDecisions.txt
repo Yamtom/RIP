@@ -165,20 +165,30 @@ country_decisions = {
 			rip_church_ro_jurisdiction = yes
 			is_russian_orthodox_culture_eligible = yes
 			NOT = { has_country_modifier = gathering_russian_lands }
-			any_neighbor_country = {
-				culture_group = east_slavic
-			}
+			rip_ro_gathering_lands_target = yes
 		}
 		
 		allow = {
 			mil_power = 100
 			legitimacy = 80
+			rip_ro_gathering_lands_target = yes
 		}
 		
 		effect = {
-			set_country_flag = rip_once_gathering_russian_lands_decision
-			add_mil_power = -100
-			activate_gathering_lands_effect = yes
+			if = {
+				limit = {
+					NOT = { has_country_flag = rip_once_gathering_russian_lands_decision }
+					rip_church_ro_jurisdiction = yes
+					is_russian_orthodox_culture_eligible = yes
+					NOT = { has_country_modifier = gathering_russian_lands }
+					mil_power = 100
+					legitimacy = 80
+					rip_ro_gathering_lands_target = yes
+				}
+				set_country_flag = rip_once_gathering_russian_lands_decision
+				add_mil_power = -100
+				activate_gathering_lands_effect = yes
+			}
 		}
 		
 		ai_will_do = {
@@ -309,6 +319,7 @@ country_decisions = {
 			any_owned_province = {
 				NOT = { culture_group = east_slavic }
 				is_city = yes
+				religion = ROOT
 			}
 		}
 
@@ -316,7 +327,7 @@ country_decisions = {
 			owned_by = ROOT
 			NOT = { culture_group = east_slavic }
 			is_city = yes
-			religion = russian_orthodox
+			religion = ROOT
 			NOT = { unrest = 5 }
 		}
 
@@ -325,7 +336,7 @@ country_decisions = {
 			any_owned_province = {
 				NOT = { culture_group = east_slavic }
 				is_city = yes
-				religion = russian_orthodox
+				religion = ROOT
 				NOT = { unrest = 5 }
 			}
 		}
@@ -336,7 +347,7 @@ country_decisions = {
 				limit = {
 					NOT = { culture_group = east_slavic }
 					is_city = yes
-					religion = russian_orthodox
+					religion = ROOT
 					NOT = { unrest = 5 }
 				}
 				russify_province_effect = yes
