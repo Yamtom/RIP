@@ -10,8 +10,10 @@
 # common/estates/RIP_magnates.txt's estate_magnates only attaches to VLN via
 # vln_voivode_council (a later reform), not at T1, so plain country modifiers.
 #
-# Buttons-only (devshirme pattern): no powers, no .gui, vanilla Cossack
-# ability sprites, no DLC gate.
+# Buttons-only (devshirme pattern): no powers, no .gui, no DLC gate. The
+# three buttons carry their own sprites (interface/rip_ability_icons.gfx),
+# drawn by tools/build_government_ability_icons.py: the senate in session,
+# a purse of ducats before a house shield, and the magnates' banners.
 #
 # Fatigue guardrail: vln_cossack_host_reform (a different tier, T2) already
 # carries government_abilities = cossacks_mechanic. A VLN country could hold
@@ -32,7 +34,7 @@ vln_magnate_senate_mechanic = {
 
 	interactions = {
 		vln_summon_the_senate = {
-			icon = GFX_cossacks_ability_ADM
+			icon = GFX_rip_senate_summon
 			trigger = {
 				adm_power = 50
 			}
@@ -57,7 +59,7 @@ vln_magnate_senate_mechanic = {
 			}
 		}
 		vln_buy_off_a_magnate_house = {
-			icon = GFX_cossacks_ability_DIP
+			icon = GFX_rip_senate_buyoff
 			trigger = {
 				dip_power = 50
 			}
@@ -78,7 +80,7 @@ vln_magnate_senate_mechanic = {
 			}
 		}
 		vln_call_up_the_magnate_banners = {
-			icon = GFX_cossacks_ability_MIL
+			icon = GFX_rip_senate_banners
 			trigger = {
 				mil_power = 60
 			}

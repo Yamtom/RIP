@@ -39,6 +39,10 @@ chernihiv_ruina = {
 		is_year = 1657
 		NOT = { is_year = 1700 }
 		NOT = { stability = 1 }
+		if = {
+			limit = { has_government_attribute = hlc_disables_chernihiv_ruina }
+			NOT = { has_government_attribute = hlc_disables_chernihiv_ruina }
+		}
 		OR = {
 			war_exhaustion = 4
 			num_of_loans = 4
