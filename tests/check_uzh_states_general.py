@@ -119,6 +119,22 @@ def top_level_text(block):
     return "".join(out)
 
 
+def without_comments(text):
+    """The text with `#` comments removed but string literals kept (normalized() blanks strings)."""
+    out, in_string = [], False
+    for line in text.splitlines():
+        kept = []
+        for char in line:
+            if char == '"':
+                in_string = not in_string
+            if char == "#" and not in_string:
+                break
+            kept.append(char)
+        in_string = False
+        out.append("".join(kept))
+    return re.sub(r"\s+", " ", "\n".join(out)).strip()
+
+
 def modifiers_of(side_block):
     return {name: float(value) for name, value in re.findall(r"(\w+)\s*=\s*(-?[0-9.]+)", normalized(side_block[side_block.index("{") + 1:]))}
 
@@ -179,8 +195,10 @@ def check_reform(reform_text, factions_file_exists, vanilla_envelope):
         problems.append(f"states_general_mechanic must sit in exactly one conditional block, found {len(holder)}")
         return problems
     conditional = holder[0]
-    allow = normalized(named_block(conditional, "allow"))
-    if 'has_dlc = "Res Publica"' not in allow or 'has_dlc = "Winds of Change"' not in allow or " OR " not in f" {allow} ":
+    # normalized() blanks string literals, so the DLC names are read from the comment-stripped raw text
+    allow = without_comments(named_block(conditional, "allow"))
+    if not re.fullmatch(r'allow = \{ OR = \{ has_dlc = "(Res Publica|Winds of Change)" has_dlc = "(Res Publica|Winds of Change)" \} \}', allow) \
+            or 'has_dlc = "Res Publica"' not in allow or 'has_dlc = "Winds of Change"' not in allow:
         problems.append("the scale is not gated on Res Publica or Winds of Change")
     mechanic = named_block(conditional, "states_general_mechanic")
     sides = children(mechanic)
