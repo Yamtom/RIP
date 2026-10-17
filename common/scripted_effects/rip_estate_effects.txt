@@ -72,3 +72,9 @@ hlc_settlement_ordinance_conversion_effect = {
 		}
 	}
 }
+
+# Vanilla's generic agenda completion dispatches to this estate-specific hook.
+# Magnates follow the noble-class agenda behavior; loyalty is awarded by the agenda.
+on_completed_agenda_effect_estate_magnates = {
+	on_completed_agenda_effect_estate_nobles = yes
+}

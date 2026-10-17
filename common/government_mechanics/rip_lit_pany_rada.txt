@@ -13,9 +13,8 @@
 # the Grand Duchy's founding (T1); lit_pany_rada_reform is its later
 # formalisation, not a second grant of the ability.
 #
-# One five-year council session holds one resolution. This makes the Duke
-# choose between consent, political brokerage and a military levy instead of
-# accumulating all three temporary advantages at once.
+# Council consent costs noble loyalty; wartime mobilisation consumes that
+# consent. Brokerage repairs loyalty. Each action has its own five-year cooldown.
 #
 # Buttons-only (devshirme pattern): no powers, no .gui, no DLC gate. The three
 # buttons carry their own sprites (GFX_rip_rada_confirm / _lord / _retinues,
@@ -41,10 +40,13 @@ lit_pany_rada_mechanic = {
 		lit_seek_the_radas_confirmation = {
 			icon = GFX_rip_rada_confirm
 			trigger = {
-				adm_power = 50
+				OR = { has_reform = grand_duchy_reform has_reform = lit_union_of_two_nations_reform has_reform = lit_separate_crown_reform }
+				has_estate = estate_nobles
+				estate_loyalty = { estate = estate_nobles loyalty = 40 }
+				NOT = { has_country_modifier = lit_rada_confirmed }
 			}
 			effect = {
-				add_adm_power = -50
+				add_estate_loyalty = { estate = estate_nobles loyalty = -10 }
 				add_legitimacy_equivalent = {
 					amount = 2
 					republican_tradition = 1
@@ -55,8 +57,6 @@ lit_pany_rada_mechanic = {
 				}
 			}
 			cooldown_years = 5
-			cooldown_token = lit_pany_rada_session
-			cooldown_desc = lit_pany_rada_session_cd
 			ai_chance = {
 				factor = 1
 				modifier = {
@@ -68,19 +68,20 @@ lit_pany_rada_mechanic = {
 		lit_win_over_a_wavering_lord = {
 			icon = GFX_rip_rada_lord
 			trigger = {
+				OR = { has_reform = grand_duchy_reform has_reform = lit_union_of_two_nations_reform has_reform = lit_separate_crown_reform }
+				has_estate = estate_nobles
 				dip_power = 50
+				NOT = { estate_loyalty = { estate = estate_nobles loyalty = 50 } }
 			}
 			effect = {
 				add_dip_power = -50
-				add_prestige = 1
+				add_estate_loyalty = { estate = estate_nobles loyalty = 15 }
 				add_country_modifier = {
 					name = lit_lord_won_over
 					duration = 1825
 				}
 			}
 			cooldown_years = 5
-			cooldown_token = lit_pany_rada_session
-			cooldown_desc = lit_pany_rada_session_cd
 			ai_chance = {
 				factor = 1
 				modifier = {
@@ -92,10 +93,15 @@ lit_pany_rada_mechanic = {
 		lit_the_radas_own_retinues = {
 			icon = GFX_rip_rada_retinues
 			trigger = {
-				mil_power = 60
+				OR = { has_reform = grand_duchy_reform has_reform = lit_union_of_two_nations_reform has_reform = lit_separate_crown_reform }
+				has_estate = estate_nobles
+				is_at_war = yes
+				has_country_modifier = lit_rada_confirmed
+				estate_loyalty = { estate = estate_nobles loyalty = 40 }
 			}
 			effect = {
-				add_mil_power = -60
+				remove_country_modifier = lit_rada_confirmed
+				add_estate_loyalty = { estate = estate_nobles loyalty = -10 }
 				add_army_tradition = 3
 				add_country_modifier = {
 					name = lit_rada_retinues_mustered
@@ -103,8 +109,6 @@ lit_pany_rada_mechanic = {
 				}
 			}
 			cooldown_years = 5
-			cooldown_token = lit_pany_rada_session
-			cooldown_desc = lit_pany_rada_session_cd
 			ai_chance = {
 				factor = 1
 				modifier = {

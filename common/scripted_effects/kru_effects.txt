@@ -343,8 +343,8 @@ kru_confederation_recognised_effect = {
 			limit = { exists = PLC }
 			PLC = { country_event = { id = svydrigaylo.301 days = 5 } }
 		}
-		else_if = {
-			limit = { exists = POL }
+		if = {
+			limit = { exists = POL NOT = { exists = PLC } }
 			POL = { country_event = { id = svydrigaylo.301 days = 5 } }
 		}
 
@@ -353,8 +353,8 @@ kru_confederation_recognised_effect = {
 			limit = { exists = RUS }
 			RUS = { country_event = { id = svydrigaylo.302 days = 10 } }
 		}
-		else_if = {
-			limit = { exists = MOS }
+		if = {
+			limit = { exists = MOS NOT = { exists = RUS } }
 			MOS = { country_event = { id = svydrigaylo.302 days = 10 } }
 		}
 

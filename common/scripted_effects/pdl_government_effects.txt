@@ -22,7 +22,8 @@ pdl_migrate_legacy_galician_union_effect = {
 			on_change_tag_effect = yes
 			set_country_flag = rip_legacy_pdl_hlc_migrated
 		}
-		else = {
+		if = {
+			limit = { exists = PDL NOT = { has_country_flag = rip_legacy_pdl_hlc_migrated } }
 			if = {
 				limit = { has_reform = pdl_clan_assembly_reform }
 				remove_government_reform = pdl_clan_assembly_reform

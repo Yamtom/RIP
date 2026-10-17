@@ -6823,7 +6823,10 @@ country_event = {
 							tag = KIE
 							tag = KRU
 						}
-						has_country_flag = kyiv_boyar_council_established
+						custom_trigger_tooltip = {
+							tooltip = kyivan_boyar_council_established_req_tt
+							has_country_flag = kyiv_boyar_council_established
+						}
 					}
 				}
 			}
@@ -8554,11 +8557,19 @@ country_event = {
 			change_tag = PDL
 			on_change_tag_effect = yes
 		}
+		set_country_flag = pdl_frontier_path
 		if = { limit = { NOT = { tag = PDL } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL pdl_clan_assembly_reform monarchy tag:PDL" }
+		if = { limit = { NOT = { has_country_flag = pdl_frontier_path } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL pdl_clan_assembly_reform monarchy flag:pdl_frontier_path" }
 		set_country_flag = rip_gov_test_chk_pot
 		if = {
 			limit = {
-				west_ukraine_pdl_origin_country = yes
+				OR = {
+					has_reform = pdl_clan_assembly_reform
+					AND = {
+						west_ukraine_pdl_origin_country = yes
+						has_country_flag = pdl_frontier_path
+					}
+				}
 			}
 			clr_country_flag = rip_gov_test_chk_pot
 			log = "RIP_GOV_TEST POT_OK pdl_clan_assembly_reform monarchy"
@@ -8567,7 +8578,13 @@ country_event = {
 		set_country_flag = rip_gov_test_chk_trg
 		if = {
 			limit = {
-				west_ukraine_pdl_origin_country = yes
+				OR = {
+					has_reform = pdl_clan_assembly_reform
+					AND = {
+						west_ukraine_pdl_origin_country = yes
+						has_country_flag = pdl_frontier_path
+					}
+				}
 			}
 			clr_country_flag = rip_gov_test_chk_trg
 			log = "RIP_GOV_TEST TRG_OK pdl_clan_assembly_reform monarchy"
@@ -8599,11 +8616,22 @@ country_event = {
 			change_tag = PDL
 			on_change_tag_effect = yes
 		}
+		clr_country_flag = pdl_carpathian_path
+		clr_country_flag = pdl_frontier_path
+		clr_country_flag = pdl_magnate_path
 		if = { limit = { NOT = { tag = PDL } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL pdl_frontier_voivodeship_reform monarchy tag:PDL" }
 		set_country_flag = rip_gov_test_chk_pot
 		if = {
 			limit = {
-				west_ukraine_pdl_origin_country = yes
+				OR = {
+					has_reform = pdl_frontier_voivodeship_reform
+					AND = {
+						west_ukraine_pdl_origin_country = yes
+						NOT = { has_country_flag = pdl_carpathian_path }
+						NOT = { has_country_flag = pdl_frontier_path }
+						NOT = { has_country_flag = pdl_magnate_path }
+					}
+				}
 			}
 			clr_country_flag = rip_gov_test_chk_pot
 			log = "RIP_GOV_TEST POT_OK pdl_frontier_voivodeship_reform monarchy"
@@ -8612,7 +8640,15 @@ country_event = {
 		set_country_flag = rip_gov_test_chk_trg
 		if = {
 			limit = {
-				west_ukraine_pdl_origin_country = yes
+				OR = {
+					has_reform = pdl_frontier_voivodeship_reform
+					AND = {
+						west_ukraine_pdl_origin_country = yes
+						NOT = { has_country_flag = pdl_carpathian_path }
+						NOT = { has_country_flag = pdl_frontier_path }
+						NOT = { has_country_flag = pdl_magnate_path }
+					}
+				}
 			}
 			clr_country_flag = rip_gov_test_chk_trg
 			log = "RIP_GOV_TEST TRG_OK pdl_frontier_voivodeship_reform monarchy"
@@ -8644,11 +8680,19 @@ country_event = {
 			change_tag = PDL
 			on_change_tag_effect = yes
 		}
+		set_country_flag = pdl_carpathian_path
 		if = { limit = { NOT = { tag = PDL } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL pdl_steppe_principality_reform monarchy tag:PDL" }
+		if = { limit = { NOT = { has_country_flag = pdl_carpathian_path } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL pdl_steppe_principality_reform monarchy flag:pdl_carpathian_path" }
 		set_country_flag = rip_gov_test_chk_pot
 		if = {
 			limit = {
-				west_ukraine_pdl_origin_country = yes
+				OR = {
+					has_reform = pdl_steppe_principality_reform
+					AND = {
+						west_ukraine_pdl_origin_country = yes
+						has_country_flag = pdl_carpathian_path
+					}
+				}
 			}
 			clr_country_flag = rip_gov_test_chk_pot
 			log = "RIP_GOV_TEST POT_OK pdl_steppe_principality_reform monarchy"
@@ -8657,7 +8701,13 @@ country_event = {
 		set_country_flag = rip_gov_test_chk_trg
 		if = {
 			limit = {
-				west_ukraine_pdl_origin_country = yes
+				OR = {
+					has_reform = pdl_steppe_principality_reform
+					AND = {
+						west_ukraine_pdl_origin_country = yes
+						has_country_flag = pdl_carpathian_path
+					}
+				}
 			}
 			clr_country_flag = rip_gov_test_chk_trg
 			log = "RIP_GOV_TEST TRG_OK pdl_steppe_principality_reform monarchy"
@@ -8689,11 +8739,19 @@ country_event = {
 			change_tag = PDL
 			on_change_tag_effect = yes
 		}
+		set_country_flag = pdl_magnate_path
 		if = { limit = { NOT = { tag = PDL } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL pdl_voivodeship_kingdom_reform monarchy tag:PDL" }
+		if = { limit = { NOT = { has_country_flag = pdl_magnate_path } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL pdl_voivodeship_kingdom_reform monarchy flag:pdl_magnate_path" }
 		set_country_flag = rip_gov_test_chk_pot
 		if = {
 			limit = {
-				west_ukraine_pdl_origin_country = yes
+				OR = {
+					has_reform = pdl_voivodeship_kingdom_reform
+					AND = {
+						west_ukraine_pdl_origin_country = yes
+						has_country_flag = pdl_magnate_path
+					}
+				}
 			}
 			clr_country_flag = rip_gov_test_chk_pot
 			log = "RIP_GOV_TEST POT_OK pdl_voivodeship_kingdom_reform monarchy"
@@ -8702,7 +8760,13 @@ country_event = {
 		set_country_flag = rip_gov_test_chk_trg
 		if = {
 			limit = {
-				west_ukraine_pdl_origin_country = yes
+				OR = {
+					has_reform = pdl_voivodeship_kingdom_reform
+					AND = {
+						west_ukraine_pdl_origin_country = yes
+						has_country_flag = pdl_magnate_path
+					}
+				}
 			}
 			clr_country_flag = rip_gov_test_chk_trg
 			log = "RIP_GOV_TEST TRG_OK pdl_voivodeship_kingdom_reform monarchy"
@@ -10825,12 +10889,15 @@ country_event = {
 			change_tag = LIT
 			on_change_tag_effect = yes
 		}
+		if = { limit = { NOT = { religion = catholic } } change_religion = catholic }
 		add_government_reform = grand_duchy_reform
 		if = { limit = { NOT = { tag = LIT } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL lit_confessional_guarantee_reform monarchy tag:LIT" }
+		if = { limit = { NOT = { religion = catholic } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL lit_confessional_guarantee_reform monarchy religion:catholic" }
 		if = { limit = { NOT = { has_reform = grand_duchy_reform } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL lit_confessional_guarantee_reform monarchy reform:grand_duchy_reform" }
 		set_country_flag = rip_gov_test_chk_pot
 		if = {
 			limit = {
+				religion = catholic
 				OR = {
 					has_reform = lit_confessional_guarantee_reform
 					lit_ladder_visible = yes
@@ -10843,6 +10910,7 @@ country_event = {
 		set_country_flag = rip_gov_test_chk_trg
 		if = {
 			limit = {
+				religion = catholic
 				OR = {
 					has_reform = lit_confessional_guarantee_reform
 					lit_ladder_visible = yes
@@ -11318,14 +11386,23 @@ country_event = {
 		# a switch to another type drops every reform; the switch back leaves the basic one
 		change_government = republic
 		change_government = monarchy
+		if = { limit = { NOT = { religion = orthodox } } change_religion = orthodox }
 		if = { limit = { NOT = { primary_culture = ruthenian } } change_primary_culture = ruthenian }
+		if = { limit = { NOT = { religion = orthodox } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL sacred_regulation_reform monarchy religion:orthodox" }
 		if = { limit = { NOT = { primary_culture = ruthenian } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL sacred_regulation_reform monarchy culture:ruthenian" }
 		set_country_flag = rip_gov_test_chk_pot
 		if = {
 			limit = {
 				OR = {
 					has_reform = sacred_regulation_reform
-					ruthenian_reform_visible = yes
+					AND = {
+						ruthenian_reform_visible = yes
+						OR = {
+							religion = orthodox
+							religion = russian_orthodox
+							religion = greek_catholic
+						}
+					}
 				}
 			}
 			clr_country_flag = rip_gov_test_chk_pot
@@ -11337,7 +11414,14 @@ country_event = {
 			limit = {
 				OR = {
 					has_reform = sacred_regulation_reform
-					ruthenian_reform_eligible = yes
+					AND = {
+						ruthenian_reform_eligible = yes
+						OR = {
+							religion = orthodox
+							religion = russian_orthodox
+							religion = greek_catholic
+						}
+					}
 				}
 			}
 			clr_country_flag = rip_gov_test_chk_trg
@@ -11406,100 +11490,6 @@ country_event = {
 	is_triggered_only = yes
 	option = { name = rip_gov_test.a }
 	immediate = {
-		# merchant_nobility_reform | monarchy | growth_of_administration
-		log = "RIP_GOV_TEST BEGIN merchant_nobility_reform monarchy"
-		country_event = { id = rip_gov_test.90 }
-		# a switch to another type drops every reform; the switch back leaves the basic one
-		change_government = republic
-		change_government = monarchy
-		if = { limit = { NOT = { primary_culture = ruthenian } } change_primary_culture = ruthenian }
-		if = { limit = { NOT = { primary_culture = ruthenian } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL merchant_nobility_reform monarchy culture:ruthenian" }
-		set_country_flag = rip_gov_test_chk_pot
-		if = {
-			limit = {
-				OR = {
-					has_reform = merchant_nobility_reform
-					ruthenian_reform_visible = yes
-				}
-			}
-			clr_country_flag = rip_gov_test_chk_pot
-			log = "RIP_GOV_TEST POT_OK merchant_nobility_reform monarchy"
-		}
-		if = { limit = { has_country_flag = rip_gov_test_chk_pot } clr_country_flag = rip_gov_test_chk_pot set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST POT_FAIL merchant_nobility_reform monarchy" }
-		set_country_flag = rip_gov_test_chk_trg
-		if = {
-			limit = {
-				OR = {
-					has_reform = merchant_nobility_reform
-					ruthenian_reform_eligible = yes
-				}
-			}
-			clr_country_flag = rip_gov_test_chk_trg
-			log = "RIP_GOV_TEST TRG_OK merchant_nobility_reform monarchy"
-		}
-		if = { limit = { has_country_flag = rip_gov_test_chk_trg } clr_country_flag = rip_gov_test_chk_trg set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST TRG_FAIL merchant_nobility_reform monarchy" }
-		add_government_reform = merchant_nobility_reform
-		if = { limit = { has_reform = merchant_nobility_reform } log = "RIP_GOV_TEST HELD_OK merchant_nobility_reform monarchy" }
-		if = { limit = { NOT = { has_reform = merchant_nobility_reform } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST HELD_FAIL merchant_nobility_reform monarchy" }
-	}
-}
-
-country_event = {
-	id = rip_gov_test.1121
-	title = rip_gov_test.t
-	desc = rip_gov_test.d
-	picture = ADMINISTRATIVE_REFORM_eventPicture
-	hidden = yes
-	is_triggered_only = yes
-	option = { name = rip_gov_test.a }
-	immediate = {
-		# open_trading_ports_reform | monarchy | growth_of_administration
-		log = "RIP_GOV_TEST BEGIN open_trading_ports_reform monarchy"
-		country_event = { id = rip_gov_test.90 }
-		# a switch to another type drops every reform; the switch back leaves the basic one
-		change_government = republic
-		change_government = monarchy
-		if = { limit = { NOT = { primary_culture = ruthenian } } change_primary_culture = ruthenian }
-		if = { limit = { NOT = { primary_culture = ruthenian } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL open_trading_ports_reform monarchy culture:ruthenian" }
-		set_country_flag = rip_gov_test_chk_pot
-		if = {
-			limit = {
-				OR = {
-					has_reform = open_trading_ports_reform
-					ruthenian_reform_visible = yes
-				}
-			}
-			clr_country_flag = rip_gov_test_chk_pot
-			log = "RIP_GOV_TEST POT_OK open_trading_ports_reform monarchy"
-		}
-		if = { limit = { has_country_flag = rip_gov_test_chk_pot } clr_country_flag = rip_gov_test_chk_pot set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST POT_FAIL open_trading_ports_reform monarchy" }
-		set_country_flag = rip_gov_test_chk_trg
-		if = {
-			limit = {
-				OR = {
-					has_reform = open_trading_ports_reform
-					ruthenian_reform_eligible = yes
-				}
-			}
-			clr_country_flag = rip_gov_test_chk_trg
-			log = "RIP_GOV_TEST TRG_OK open_trading_ports_reform monarchy"
-		}
-		if = { limit = { has_country_flag = rip_gov_test_chk_trg } clr_country_flag = rip_gov_test_chk_trg set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST TRG_FAIL open_trading_ports_reform monarchy" }
-		add_government_reform = open_trading_ports_reform
-		if = { limit = { has_reform = open_trading_ports_reform } log = "RIP_GOV_TEST HELD_OK open_trading_ports_reform monarchy" }
-		if = { limit = { NOT = { has_reform = open_trading_ports_reform } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST HELD_FAIL open_trading_ports_reform monarchy" }
-	}
-}
-
-country_event = {
-	id = rip_gov_test.1122
-	title = rip_gov_test.t
-	desc = rip_gov_test.d
-	picture = ADMINISTRATIVE_REFORM_eventPicture
-	hidden = yes
-	is_triggered_only = yes
-	option = { name = rip_gov_test.a }
-	immediate = {
 		# vln_ruthenian_renaissance_reform | monarchy | growth_of_administration
 		log = "RIP_GOV_TEST BEGIN vln_ruthenian_renaissance_reform monarchy"
 		country_event = { id = rip_gov_test.90 }
@@ -11550,6 +11540,100 @@ country_event = {
 		add_government_reform = vln_ruthenian_renaissance_reform
 		if = { limit = { has_reform = vln_ruthenian_renaissance_reform } log = "RIP_GOV_TEST HELD_OK vln_ruthenian_renaissance_reform monarchy" }
 		if = { limit = { NOT = { has_reform = vln_ruthenian_renaissance_reform } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST HELD_FAIL vln_ruthenian_renaissance_reform monarchy" }
+	}
+}
+
+country_event = {
+	id = rip_gov_test.1121
+	title = rip_gov_test.t
+	desc = rip_gov_test.d
+	picture = ADMINISTRATIVE_REFORM_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+	option = { name = rip_gov_test.a }
+	immediate = {
+		# merchant_nobility_reform | monarchy | economical_matters
+		log = "RIP_GOV_TEST BEGIN merchant_nobility_reform monarchy"
+		country_event = { id = rip_gov_test.90 }
+		# a switch to another type drops every reform; the switch back leaves the basic one
+		change_government = republic
+		change_government = monarchy
+		if = { limit = { NOT = { primary_culture = ruthenian } } change_primary_culture = ruthenian }
+		if = { limit = { NOT = { primary_culture = ruthenian } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL merchant_nobility_reform monarchy culture:ruthenian" }
+		set_country_flag = rip_gov_test_chk_pot
+		if = {
+			limit = {
+				OR = {
+					has_reform = merchant_nobility_reform
+					ruthenian_reform_visible = yes
+				}
+			}
+			clr_country_flag = rip_gov_test_chk_pot
+			log = "RIP_GOV_TEST POT_OK merchant_nobility_reform monarchy"
+		}
+		if = { limit = { has_country_flag = rip_gov_test_chk_pot } clr_country_flag = rip_gov_test_chk_pot set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST POT_FAIL merchant_nobility_reform monarchy" }
+		set_country_flag = rip_gov_test_chk_trg
+		if = {
+			limit = {
+				OR = {
+					has_reform = merchant_nobility_reform
+					ruthenian_reform_eligible = yes
+				}
+			}
+			clr_country_flag = rip_gov_test_chk_trg
+			log = "RIP_GOV_TEST TRG_OK merchant_nobility_reform monarchy"
+		}
+		if = { limit = { has_country_flag = rip_gov_test_chk_trg } clr_country_flag = rip_gov_test_chk_trg set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST TRG_FAIL merchant_nobility_reform monarchy" }
+		add_government_reform = merchant_nobility_reform
+		if = { limit = { has_reform = merchant_nobility_reform } log = "RIP_GOV_TEST HELD_OK merchant_nobility_reform monarchy" }
+		if = { limit = { NOT = { has_reform = merchant_nobility_reform } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST HELD_FAIL merchant_nobility_reform monarchy" }
+	}
+}
+
+country_event = {
+	id = rip_gov_test.1122
+	title = rip_gov_test.t
+	desc = rip_gov_test.d
+	picture = ADMINISTRATIVE_REFORM_eventPicture
+	hidden = yes
+	is_triggered_only = yes
+	option = { name = rip_gov_test.a }
+	immediate = {
+		# open_trading_ports_reform | monarchy | economical_matters
+		log = "RIP_GOV_TEST BEGIN open_trading_ports_reform monarchy"
+		country_event = { id = rip_gov_test.90 }
+		# a switch to another type drops every reform; the switch back leaves the basic one
+		change_government = republic
+		change_government = monarchy
+		if = { limit = { NOT = { primary_culture = ruthenian } } change_primary_culture = ruthenian }
+		if = { limit = { NOT = { primary_culture = ruthenian } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL open_trading_ports_reform monarchy culture:ruthenian" }
+		set_country_flag = rip_gov_test_chk_pot
+		if = {
+			limit = {
+				OR = {
+					has_reform = open_trading_ports_reform
+					ruthenian_reform_visible = yes
+				}
+			}
+			clr_country_flag = rip_gov_test_chk_pot
+			log = "RIP_GOV_TEST POT_OK open_trading_ports_reform monarchy"
+		}
+		if = { limit = { has_country_flag = rip_gov_test_chk_pot } clr_country_flag = rip_gov_test_chk_pot set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST POT_FAIL open_trading_ports_reform monarchy" }
+		set_country_flag = rip_gov_test_chk_trg
+		if = {
+			limit = {
+				OR = {
+					has_reform = open_trading_ports_reform
+					ruthenian_reform_eligible = yes
+				}
+			}
+			clr_country_flag = rip_gov_test_chk_trg
+			log = "RIP_GOV_TEST TRG_OK open_trading_ports_reform monarchy"
+		}
+		if = { limit = { has_country_flag = rip_gov_test_chk_trg } clr_country_flag = rip_gov_test_chk_trg set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST TRG_FAIL open_trading_ports_reform monarchy" }
+		add_government_reform = open_trading_ports_reform
+		if = { limit = { has_reform = open_trading_ports_reform } log = "RIP_GOV_TEST HELD_OK open_trading_ports_reform monarchy" }
+		if = { limit = { NOT = { has_reform = open_trading_ports_reform } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST HELD_FAIL open_trading_ports_reform monarchy" }
 	}
 }
 

@@ -163,6 +163,17 @@ def check_registration(failures: list[str], owners: dict[str, Path]) -> None:
         require(failures, reform in m4, f"religious reform is not registered at M4: {reform}")
     for reform in ("vln_magdeburg_rights", "chr_grain_directorate_reform"):
         require(failures, reform in m8, f"economic reform is not registered at M8: {reform}")
+    for reform in ("merchant_nobility_reform", "open_trading_ports_reform"):
+        require(
+            failures,
+            reform in m8,
+            f"commercial Ruthenian reform is not registered at M8: {reform}",
+        )
+        require(
+            failures,
+            reform not in m7,
+            f"commercial Ruthenian reform remains registered at M7: {reform}",
+        )
     for reform in ("chr_grain_directorate_reform", "zaz_chaiky_trade_reform"):
         require(failures, reform in r8, f"economic reform is not registered at R8: {reform}")
     republic_levels = normalized(
@@ -252,30 +263,51 @@ def check_registration(failures: list[str], owners: dict[str, Path]) -> None:
         "uzh_palanok_captaincy_reform",
         "lit_union_of_two_nations_reform",
     )
-    states_general_group = ("states_general_reform", *special_m1_monarchies)
+    kyivan_states_general_monarchies = (
+        "kyivan_rus_reform",
+        "kyivan_shogunate_reform",
+    )
+    states_general_group = (
+        "states_general_reform",
+        *special_m1_monarchies,
+        *kyivan_states_general_monarchies,
+    )
     require(
         failures,
         any(set(states_general_group) <= group for group in monarchy_groups),
-        "M1 factional, Palanok, and Union monarchies are not exclusive with vanilla States General",
+        "M1 factional, Kyivan, Palanok, and Union monarchies are not exclusive with vanilla States General",
     )
     monarchy_parliament_group = (
         "parliamentary_reform",
         "assembly_houses_reform",
         *special_m1_monarchies,
+        "chr_many_nations_union_reform",
         "representation_monarchy_reform",
         "hlc_crown_and_sejm_reform",
         "vln_grand_ruthenia_reform",
         "uzh_palatial_ruthenian_reform",
         "legislative_rada_reform",
     )
+    monarchy_parliament_matches = [
+        group for group in monarchy_groups if set(monarchy_parliament_group) <= group
+    ]
     require(
         failures,
-        any(set(monarchy_parliament_group) <= group for group in monarchy_groups),
+        bool(monarchy_parliament_matches),
         "custom M1/M10/M11 monarch assemblies can still stack with generic parliamentary reforms",
+    )
+    require(
+        failures,
+        all(
+            set(kyivan_states_general_monarchies).isdisjoint(group)
+            for group in monarchy_parliament_matches
+        ),
+        "Kyivan States General exclusivity leaked into the monarchy parliament group",
     )
     republic_parliament_group = (
         "parliamentary_reform",
         "zaz_general_rada_reform",
+        "zaz_cossack_cantons_reform",
         "uzh_palatial_ruthenian_reform",
         "siversk_veche_reform",
         "chr_desna_staple_reform",
@@ -289,43 +321,64 @@ def check_registration(failures: list[str], owners: dict[str, Path]) -> None:
         any(set(republic_parliament_group) <= group for group in republic_groups),
         "R1 Ruthenian assemblies can still stack with R6/R10 parliamentary systems",
     )
-    custom_exclusive_reforms = set(special_m1_monarchies) | {
-        "hlc_crown_and_sejm_reform",
-        "representation_monarchy_reform",
-        "vln_grand_ruthenia_reform",
-        "uzh_palatial_ruthenian_reform",
-        "legislative_rada_reform",
-        "zaz_general_rada_reform",
-        "siversk_veche_reform",
-        "chr_desna_staple_reform",
-        "chr_town_union_reform",
-        "chr_rada_of_lands_reform",
-        "kyivan_veche_reform",
-    }
+    custom_exclusive_reforms = (
+        set(special_m1_monarchies)
+        | set(kyivan_states_general_monarchies)
+        | {
+            "chr_many_nations_union_reform",
+            "zaz_cossack_cantons_reform",
+            "hlc_crown_and_sejm_reform",
+            "representation_monarchy_reform",
+            "vln_grand_ruthenia_reform",
+            "uzh_palatial_ruthenian_reform",
+            "legislative_rada_reform",
+            "zaz_general_rada_reform",
+            "siversk_veche_reform",
+            "chr_desna_staple_reform",
+            "chr_town_union_reform",
+            "chr_rada_of_lands_reform",
+            "kyivan_veche_reform",
+        }
+    )
     for reform in custom_exclusive_reforms:
         require(
             failures,
             reform in owners,
             f"exclusive-reform group references an undefined custom reform: {reform}",
         )
+
+    def custom_reforms_in_levels(government: str) -> set[str]:
+        reform_levels = re.sub(r"#.*", "", named_block(government, "reform_levels"))
+        return set(re.findall(r"\b[a-z][a-z0-9_]*\b", reform_levels)) & set(owners)
+
     monarchical_only_reforms = (
-        "boyar_elite_reform",
-        "patriarch_engagement_reform",
-        "representation_monarchy_reform",
-        "elected_assemblies_reform",
-        "sacred_regulation_reform",
-        "considerable_bloodline_reform",
+        custom_reforms_in_levels(monarchy) - custom_reforms_in_levels(republic)
+    )
+    expected_monarchical_only_reforms = {
+        "kyivan_rus_reform",
+        "kyivan_shogunate_reform",
+        "chr_many_nations_union_reform",
+    }
+    require(
+        failures,
+        expected_monarchical_only_reforms <= monarchical_only_reforms,
+        "Kyivan national forms and the CHR union must remain monarchy-only",
     )
     republic_exclusive_text = "\n".join(
         block for _, block in keyed_blocks(republic, "exclusive_reforms")
     )
+    republic_exclusive_reforms = set(
+        re.findall(
+            r"\b[a-z][a-z0-9_]*\b",
+            re.sub(r"#.*", "", republic_exclusive_text),
+        )
+    )
+    misplaced_monarchies = monarchical_only_reforms & republic_exclusive_reforms
     require(
         failures,
-        not any(
-            re.search(rf"\b{re.escape(reform)}\b", re.sub(r"#.*", "", republic_exclusive_text))
-            for reform in monarchical_only_reforms
-        ),
-        "monarchy-only Ruthenian reforms remain in republic exclusive_reforms",
+        not misplaced_monarchies,
+        f"monarchy-only custom reforms remain in republic exclusive_reforms: "
+        f"{sorted(misplaced_monarchies)}",
     )
 
     for government_type, government in (

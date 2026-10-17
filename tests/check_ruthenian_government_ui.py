@@ -151,6 +151,15 @@ for current, previous, reform_id in (
     assert f'faction_in_power = {current}' in sync
     assert f'has_country_flag = kru_previous_dominant_{previous[4:]}' in sync
     assert f'add_government_reform = {reform_id}' in sync
+    matching = [branch for key in ('if', 'else_if')
+                for _, branch in keyed_blocks(sync_block, key)
+                if f'add_government_reform = {reform_id}' in branch
+                and 'kru_previous_dominant_' in branch]
+    assert len(matching) == 1
+    alternatives = keyed_blocks(named_block(named_block(matching[0], 'limit'), 'OR'), 'AND')
+    assert any(f'faction_in_power = {current}' in branch
+               and f'has_country_flag = kru_previous_dominant_{previous[4:]}' in branch
+               for _, branch in alternatives), (current, previous, reform_id)
 pair_branches = [
     block
     for key in ('if', 'else_if')
@@ -223,8 +232,11 @@ for path, mechanic, actions, years, token, cooldown_desc in (
     for action in actions:
         block = named_block(buttons, action)
         assert f'cooldown_years = {years}' in block
-        assert f'cooldown_token = {token}' in block
-        assert f'cooldown_desc = {cooldown_desc}' in block
+        if mechanic == 'hlc_boyar_council_mechanic':
+            assert f'cooldown_token = {token}' in block
+            assert f'cooldown_desc = {cooldown_desc}' in block
+        else:
+            assert 'cooldown_token' not in block
 
 seniority = read('common/government_mechanics/rip_kyivan_seniority.txt')
 seniority_interactions = named_block(
@@ -234,7 +246,7 @@ prince_types = 'OR = { is_subject_of_type = princedom is_subject_of_type = senio
 
 snem = named_block(seniority_interactions, 'kyiv_call_the_snem')
 snem_trigger = normalized(named_block(snem, 'trigger'))
-assert 'num_of_subjects = 1' in snem_trigger
+assert 'num_of_subjects' not in snem_trigger
 assert 'NOT = { num_of_subjects = 0 }' not in snem_trigger
 assert f'any_subject_country = {{ {prince_types} }}' in snem_trigger
 snem_effect = named_block(snem, 'effect')

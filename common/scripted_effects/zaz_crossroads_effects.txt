@@ -22,20 +22,20 @@ zaz_crossroads_check_thresholds_effect = {
 			set_country_flag = zaz_crossroads_resolved
 			country_event = { id = zaz_crossroads.60 days = 5 }
 		}
-		else_if = {
-			limit = { check_variable = { which = zaz_lean_host_state value = 100 } }
+		if = {
+			limit = { NOT = { has_country_flag = zaz_crossroads_resolved } check_variable = { which = zaz_lean_host_state value = 100 } }
 			set_country_flag = zaz_path_host_state_ascendant
 			set_country_flag = zaz_crossroads_resolved
 			country_event = { id = zaz_crossroads.61 days = 5 }
 		}
-		else_if = {
-			limit = { check_variable = { which = zaz_lean_sacred_order value = 100 } }
+		if = {
+			limit = { NOT = { has_country_flag = zaz_crossroads_resolved } check_variable = { which = zaz_lean_sacred_order value = 100 } }
 			set_country_flag = zaz_path_sacred_order_ascendant
 			set_country_flag = zaz_crossroads_resolved
 			country_event = { id = zaz_crossroads.62 days = 5 }
 		}
-		else_if = {
-			limit = { check_variable = { which = zaz_lean_sacred_horde value = 100 } }
+		if = {
+			limit = { NOT = { has_country_flag = zaz_crossroads_resolved } check_variable = { which = zaz_lean_sacred_horde value = 100 } }
 			set_country_flag = zaz_path_sacred_horde_ascendant
 			set_country_flag = zaz_crossroads_resolved
 			country_event = { id = zaz_crossroads.63 days = 5 }

@@ -83,10 +83,15 @@ flowchart TB
 | `M2` | `elected_assemblies_reform` (`Kyivan`) ≈ `boyar_elite_reform` (`regional`) |
 | `M4 regional` | `sacred_regulation_reform` ≈ `patriarch_engagement_reform` |
 | `M6 regional` | `assembly_houses_reform` |
-| `M7 regional` | `open_trading_ports_reform` ≈ `merchant_nobility_reform`; `vln_ruthenian_renaissance_reform` |
-| `M8 regional` | `vln_magdeburg_rights`, з окремими міськими та інституційними умовами |
+| `M7 regional` | `vln_ruthenian_renaissance_reform` |
+| `M8 regional` | `merchant_nobility_reform` ≈ `jap_gokaido_reform`; `open_trading_ports_reform` ≈ `thalassocracy_reform`; `vln_magdeburg_rights`, з окремими міськими та інституційними умовами |
 | `M10` | `representation_monarchy_reform` (`Kyivan` + Boyar Elite) ≈ `considerable_bloodline_reform` (`regional`) |
 | `M11` | `legislative_rada_reform` (`regional`) ≈ `divine_tsyisar_reform` (`predecessor`) |
+
+`merchant_nobility_reform` і `open_trading_ports_reform` перенесено з M7 до
+економічного M8: ванільний `jap_gokaido_reform` дає додаткового купця, а
+`thalassocracy_reform` поєднує торговельну силу зі знижкою на поліпшення
+центрів торгівлі. Це рольові аналоги; кампанійну межу 105% не сертифіковано.
 
 Волинські спільні M7/M8 (`vln_ruthenian_renaissance_reform`, `vln_magdeburg_rights`) не мають окремих блоків
 у `000_RIP_names.txt`: вони не повинні перекривати назви держави. Коли одну з них обрано, попередні титульні блоки
@@ -99,8 +104,8 @@ flowchart LR
   R["M1 Ruthenian Principality"] --> M2["M2 Assembly ≈ Boyars"]
   M2 --> M4["M4 Sacred Law ≈ Patriarchate"]
   M4 --> M6["M6 Assembly Houses"]
-  M6 --> M7["M7 Trade / Nobility / Renaissance"]
-  M7 --> M8["M8 Magdeburg Rights"]
+  M6 --> M7["M7 Renaissance"]
+  M7 --> M8["M8 Trade / Ports / Magdeburg Rights"]
   M8 --> M10["M10 Representation ≈ Bloodline"]
   M10 --> M11["M11 Rada ≈ Divine Tsyisar"]
 ```

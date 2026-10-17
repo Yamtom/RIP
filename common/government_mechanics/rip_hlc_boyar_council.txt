@@ -38,7 +38,10 @@ hlc_boyar_council_mechanic = {
 		hlc_confirm_the_boyars_in_office = {
 			icon = GFX_rip_boyar_office
 			trigger = {
+				has_reform = hlc_galician_voivodeship_reform
 				adm_power = 50
+				has_estate = estate_nobles
+				NOT = { estate_loyalty = { estate = estate_nobles loyalty = 60 } }
 				NOT = { has_country_modifier = hlc_boyars_confirmed }
 			}
 			effect = {
@@ -68,7 +71,9 @@ hlc_boyar_council_mechanic = {
 		hlc_counter_the_foreign_claimant = {
 			icon = GFX_rip_boyar_claimant
 			trigger = {
+				has_reform = hlc_galician_voivodeship_reform
 				dip_power = 50
+				NOT = { legitimacy_equivalent = 60 }
 				NOT = { has_country_modifier = hlc_foreign_claimant_countered }
 			}
 			effect = {
@@ -89,7 +94,7 @@ hlc_boyar_council_mechanic = {
 				factor = 1
 				modifier = {
 					factor = 8
-					legitimacy_equivalent = 40
+					NOT = { legitimacy_equivalent = 40 }
 				}
 			}
 		}
@@ -98,7 +103,10 @@ hlc_boyar_council_mechanic = {
 		hlc_make_an_example_of_a_defiant_boyar = {
 			icon = GFX_rip_boyar_example
 			trigger = {
+				has_reform = hlc_galician_voivodeship_reform
 				mil_power = 60
+				is_at_war = no
+				NOT = { estate_loyalty = { estate = estate_nobles loyalty = 40 } }
 				has_estate = estate_nobles
 			}
 			effect = {

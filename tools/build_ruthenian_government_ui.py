@@ -158,7 +158,7 @@ for obsolete in OBSOLETE_ASSETS:
         path.unlink()
 gui = ['guiTypes = {']
 for widget, icon, label in [('rip_throne_concord_power','concord','kyivan_throne_concord'),
-                            ('rip_peoples_gathering_power','gathering','kyivan_peoples_gathering')]:
+                            ('rip_peoples_gathering_power','prosperity','kyivan_peoples_gathering')]:
     gui.append(f''' windowType = {{
   name = "{widget}"
   size = {{ x = 300 y = 58 }}
@@ -249,7 +249,7 @@ COPY.update({
  'ability_kyivan_peoples_gathering_mechanic': 'Concord of Peoples',
  'monthly_kyivan_peoples_gathering': 'Monthly Concord of Peoples',
  'kyivan_peoples_gathering_gain_modifier': 'Concord of Peoples Gain',
- 'kyivan_peoples_gathering_desc': 'Requires at least 10% of owned development in non-primary cultures, a non-primary province and at least one promoted culture. Cultural development shares refresh monthly.\\nMonthly growth: +0.30 when eligible; +0.15 with three promoted cultures; +0.15 with at least 30% non-primary development; +0.10 with Throne Concord at least 60. Loss: -0.25 at 15% unaccepted development, a further -0.35 at 30%; -0.20 below 30 Throne Concord; -0.15 at 5 war exhaustion; -0.50 when ineligible.\\nAt 100: renew Peoples Gathered for 10 years, gain 10 prestige and 10 Throne Concord, reset to 40. Below 20 with at least 30% unaccepted development: one court crisis per breakdown, -15 Throne Concord and Throne in Disarray for 5 years. Rearms after reaching 40 and reducing unaccepted development below 15%.',
+ 'kyivan_peoples_gathering_desc': 'Requires at least 10% of owned development in non-primary cultures, an owned province of an accepted non-primary culture and at least one promoted culture. Cultural development shares refresh monthly.\\nMonthly growth: +0.30 when eligible; +0.15 with three promoted cultures; +0.15 with at least 30% non-primary development; +0.10 with Throne Concord at least 60. Loss: -0.25 at 15% unaccepted development, a further -0.35 at 30%; -0.20 below 30 Throne Concord; -0.15 at 5 war exhaustion; -0.50 when ineligible.\\nAt 100: renew Peoples Gathered for 10 years, gain 10 prestige and 10 Throne Concord, reset to 40. Below 20 with at least 30% unaccepted development: one court crisis per breakdown, -15 Throne Concord and Throne in Disarray for 5 years. Rearms after reaching 40 and reducing unaccepted development below 15%.',
  'kyivan_throne_concord_desc': 'Throne Concord starts at 50. Monthly base +0.10; stability at least 2: +0.10; negative stability: -0.20; legitimacy at least 80: +0.20; below 40: -0.25; a subject at 50 liberty desire: -0.30. Eligible Concord of Peoples at 60: +0.15; unaccepted cultural development at 30%: -0.30.\\nLow concord scales legitimacy, stability-cost and advisor-cost penalties. At zero: Throne in Disarray for 5 years. At 100 there is no repeatable prestige reward.',
 })
 for tag, place in {

@@ -18,8 +18,13 @@ country_event = {
 
 	immediate = {
 		if = {
-			limit = { check_variable = { which = ruthenian_decadence value = 0 } }
-			set_variable = { which = ruthenian_decadence value = 20 }
+			limit = { NOT = { has_country_flag = rip_decadence_initialized } }
+			# Preserve nonzero values in existing saves; zero is a valid floor thereafter.
+			if = {
+				limit = { is_variable_equal = { which = ruthenian_decadence value = 0 } }
+				set_variable = { which = ruthenian_decadence value = 20 }
+			}
+			set_country_flag = rip_decadence_initialized
 		}
 
 		change_variable = { which = ruthenian_decadence value = 0 }

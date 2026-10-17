@@ -2140,7 +2140,7 @@
       "id": "merchant_nobility_reform",
       "file": "RIP_shared_ruthenian_government_reforms.txt",
       "tiers": [
-        "M7"
+        "M8"
       ],
       "modifiers": {
         "merchants": "1",
@@ -2150,21 +2150,21 @@
       "audit": "numeric_bundle_reduced",
       "base_comparator": null,
       "comparator_by_tier": {
-        "M7": [
-          "meritocratic_focus_reform"
+        "M8": [
+          "jap_gokaido_reform"
         ]
       },
-      "comparator_role": "Міщанські установи в управлінні",
+      "comparator_role": "Додатковий купець і вплив міщан",
       "comparator_role_match": "часткова",
       "quantitative_certified": false,
       "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%.",
-      "comparator_limit": "У M7 немає прямого ванільного бонусу купця: тут зіставлена роль міщан у державній службі; рольовий аналог додаткового купця jap_gokaido_reform належить до M8."
+      "comparator_limit": "Ванільна jap_gokaido_reform у M8 дає +1 купця; її японські місцеві наслідки не є аналогом впливу міщан, а +10% впливу міщан у моді лишається окремою віссю."
     },
     {
       "id": "open_trading_ports_reform",
       "file": "RIP_shared_ruthenian_government_reforms.txt",
       "tiers": [
-        "M7"
+        "M8"
       ],
       "modifiers": {
         "global_own_trade_power": "0.1",
@@ -2174,15 +2174,15 @@
       "audit": "numeric_bundle_reduced",
       "base_comparator": null,
       "comparator_by_tier": {
-        "M7": [
-          "meritocratic_focus_reform"
+        "M8": [
+          "thalassocracy_reform"
         ]
       },
-      "comparator_role": "Міщанські установи в управлінні",
+      "comparator_role": "Торговельна сила й центри торгівлі",
       "comparator_role_match": "часткова",
       "quantitative_certified": false,
       "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%.",
-      "comparator_limit": "Портова реформа стоїть у M7, де немає тотожної торгово-портової альтернативи. Міщанська адміністрація зіставлена в тому самому тірі, а власне портовий аналог thalassocracy_reform — у M8."
+      "comparator_limit": "Ванільна thalassocracy_reform у M8 дає +15% глобальної торговельної сили й −10% вартості поліпшення центрів торгівлі, а також морські бонуси та можливість торгових протекторатів. Це рольовий аналог, не числова чи кампанійна сертифікація."
     },
     {
       "id": "assembly_houses_reform",
@@ -4812,6 +4812,24 @@
         "hostile_attrition": "1",
         "global_regiment_recruit_speed": "-0.2"
       }
+    },
+    {
+      "id": "thalassocracy_reform",
+      "file": "06_government_reforms_common.txt",
+      "tiers": [
+        "M8",
+        "R8",
+        "Th8"
+      ],
+      "modifiers": {
+        "center_of_trade_upgrade_cost": "-0.1",
+        "trade_company_investment_cost": "-0.1",
+        "naval_forcelimit_modifier": "0.25",
+        "global_trade_power": "0.15"
+      },
+      "features": [
+        "custom_attributes"
+      ]
     },
     {
       "id": "the_leviathan_reform",
