@@ -17,10 +17,10 @@
 # cannot climb past max, so a reign that never spends a power still loses the
 # overflow past the ceiling every month. This replaces the old flat mil/dip/adm
 # cost plus cooldown_years scheme; the three interactions keep their prior
-# names, icons and effects.
+# names and effects, with vanilla Cossack ability sprites for their icons.
 #
 # Buttons render through the default government interactions list, no custom
-# .gui, bespoke levy / rota / tenure sprites. Gated on Third Rome /
+# .gui, vanilla Cossack ADM/DIP/MIL ability sprites. Gated on Third Rome /
 # Domination like kyivan_seniority_mechanic - the UI panel comes with those.
 # =============================================================================
 
@@ -69,7 +69,7 @@ kyivan_seniorate_mechanic = {
 		# Call up the senior udils' full retinues for a campaign - more than the
 		# standing forcelimit the seat already owes.
 		kyiv_call_the_princely_levy = {
-			icon = GFX_rip_kyiv_levy
+			icon = GFX_cossacks_ability_MIL
 			cost_type = kyiv_princely_levy_power
 			cost = 100
 			trigger = {
@@ -96,7 +96,7 @@ kyivan_seniorate_mechanic = {
 		# Move a junior prince up the ladder of thrones. A rotation the senior
 		# prince controls resets the seat-holder's standing toward Kyiv.
 		kyiv_rotate_the_seats = {
-			icon = GFX_rip_kyiv_rota
+			icon = GFX_cossacks_ability_DIP
 			cost_type = kyiv_seat_rotation_power
 			cost = 100
 			trigger = {
@@ -136,7 +136,7 @@ kyivan_seniorate_mechanic = {
 		}
 		# Reconfirm every seat after a succession has lapsed the grants.
 		kyiv_reconfirm_the_grants = {
-			icon = GFX_rip_kyiv_grants
+			icon = GFX_cossacks_ability_ADM
 			cost_type = kyiv_grant_reconfirmation_power
 			cost = 80
 			trigger = {
