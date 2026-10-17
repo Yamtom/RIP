@@ -146,7 +146,7 @@ opportunity cost, а не постійний стек модифікаторів
 |---|---|---|---|
 | `kyivan_rus_reform`, `kyivan_cesarstvo_reform` | `russian_mechanic` (московський цар) | `kyivan_seniority_mechanic` | снем · переуділення · збір дружин |
 | `kyivan_shogunate_reform` | `shogunate_mechanic` (японський даймьо) | `kyivan_seniorate_mechanic` + новий тип суб'єктів `senior_udil` | княжий збір · пересадка столів · переконфірмація надань |
-| `ruthenian_factional_empire_reform` ×3 | `states_general_mechanic` (голландський фейк) | ванільна `factions` (3 блоки, як Небесна імперія) + `ruthenian_factional_court_mechanic` | залицяння до Князів / Бояр / Старшини = `add_faction_influence` |
+| `ruthenian_factional_empire_reform` ×3 | три попарні власні шкали | ванільна `factions` (3 блоки) + DLC-гейтований `states_general_mechanic` coalition/opposition + `ruthenian_factional_court_mechanic` | залицяння до Князів / Бояр / Старшини = `add_faction_influence` |
 | `representation_monarchy_reform` | `states_general_mechanic { boyars princes }` | ванільна `factions` (`rep_boyary`/`rep_knyazi`), **без кнопок** | — (дрейф впливу; кнопки не додано — `kyivan_rus_reform`, власна передумова цієї реформи, уже несе `kyivan_seniority_mechanic` на іншому тірі) |
 | `uzh_palanok_captaincy_reform` | `states_general_mechanic { partia_soymu partia_kapitaniv }` | ванільна `factions` (`uzh_partia_soymu`/`uzh_partia_kapitaniv`), **без кнопок** | — (сестра-реформа `uzh_komitat_system_reform` без гейту, не вершина дерева) |
 | `hlc_galician_voivodeship_reform` | нічого (уся лінія HLC, 11 реформ, була без гейту) | `hlc_boyar_council_mechanic` | підтвердити бояр в уряді · протидіяти чужому претенденту · покарати неслухняного боярина |
@@ -339,16 +339,17 @@ modifiers_effect`).
   - `ruthenian_factional_court_mechanic` (без DLC-гейта): три кнопки роблять
     `add_faction_influence = { faction = kru_X influence = 25 }` + разовий
     дивіденд — прямий важіль гравця на ванільну шкалу.
-  - `kru_effects.txt`: `kru_sync_reform_to_faction_effect` (id реформи слідує
-    за `faction_in_power` до правлячої пари, кулдаун 5 р.),
-    `kru_apply_junior_blocs_effect` (блок не при владі, але з `faction_influence
-    ≥ 38` — половина голосу, `KRU_junior_*`), `kru_faction_state_drift_effect`
-    (малий річний зсув від стану держави). `ruthenian_factions.2` вимкнено.
-  - `states_general` (голландська шкала на 2 фракції) — неправильний
-    інструмент; `factions` (3, як революційна республіка / Небесна імперія) —
-    правильний. `representation_monarchy_reform` усе ще має
-    `states_general_mechanic { boyars princes }` (окрема M10) — той самий
-    перехід чекає на неї.
+  - `kru_effects.txt`: річний `kru_update_dominant_pair_effect` записує фракцію,
+    що перетнула 60, і попередню домінантну; їхня пара визначає одну з трьох
+    реформ. `kru_apply_junior_blocs_effect` залишає попередній фракції половину
+    голосу лише за впливу ≥38. Якщо жодна не досягає 60, реформа й State General
+    повертаються до нейтрального стану. Вплив не передається на краях шкали.
+  - KRU зберігає ванільні `factions` (3, як Небесна імперія), але від 17.10.2026
+    має й справжній DLC-гейтований `states_general_mechanic`: коаліція (нинішня
+    та попередня домінантні фракції) протистоїть третій фракції-опозиції.
+    Це замінює три попарні урядові шкали, не стару ванільну механіку фракцій.
+    `representation_monarchy_reform` з її `states_general_mechanic { boyars
+    princes }` (окрема M10) лишається окремим переходом.
 
 Сесія 13.09.2026 (накопичувальний лічильник + спадковість Сеніорату):
 

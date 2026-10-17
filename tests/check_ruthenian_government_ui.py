@@ -4,11 +4,13 @@ from pathlib import Path
 from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized, vanilla_root
 
 loc = dict(re.findall(r'^ ([\w]+):\d+ "(.*)"$',read('localisation/replace/zzzz_rip_government_ui_l_english.yml'),re.M))
-assert loc['kyivan_peoples_gathering'] == 'Gathering of the Peoples'
+assert loc['kyivan_peoples_gathering'] == 'Concord of Peoples'
 assert 'Prosperity' not in loc['kyivan_peoples_gathering_desc']
 reforms = read('common/government_reforms/RIP_KIE_KRU_government_reforms.txt')
 ids = ['ruthenian_factional_empire'+s+'_reform' for s in ('','_princes_hetmans','_boyars_hetmans')]
 assert len({loc[i] for i in ids}) == 1
+assert loc['kyivan_veche_reform'] == 'Kyivan Veche Republic'
+assert loc['kyivan_boyar_republic_reform'] == 'Kyivan Boyar Rada'
 
 def evaluate(text, held, tag='KRU', government='monarchy'):
     tokens = re.findall(r'[{}=]|[^\s{}=]+',text)
@@ -78,8 +80,7 @@ unique_parliaments = (
 )
 assert len({loc[key] for key in unique_parliaments}) == len(unique_parliaments)
 
-for power in ('kyivan_throne_concord','kyivan_peoples_gathering','kyiv_princely_levy_power','kyiv_seat_rotation_power','kyiv_grant_reconfirmation_power',
-              'kru_knyazi_boyary_balance','kru_boyary_starshyna_balance','kru_knyazi_starshyna_balance'):
+for power in ('kyivan_throne_concord','kyivan_peoples_gathering','kyiv_princely_levy_power','kyiv_seat_rotation_power','kyiv_grant_reconfirmation_power'):
     for key in (power,'monthly_'+power,power+'_gain_modifier'):
         assert (ROOT/f'gfx/interface/ideas_EU4/{key}.dds').read_bytes()[:4] == b'DDS '
 
@@ -96,27 +97,76 @@ for action, power in [('confirm_patrimonies','adm'),('charter_towns','dip'),('mu
     assert 'has_country_modifier' in named_block(block,'trigger')
 
 court = read('common/government_mechanics/rip_ruthenian_factional_court.txt')
-balance_powers = named_block(court,'powers')
-pairs = (
-    ('kru_knyazi_boyary_balance','kru_knyazi','kru_boyary','rip_kru_knyazi_boyary_balance_power'),
-    ('kru_boyary_starshyna_balance','kru_boyary','kru_starshyna','rip_kru_boyary_starshyna_balance_power'),
-    ('kru_knyazi_starshyna_balance','kru_knyazi','kru_starshyna','rip_kru_knyazi_starshyna_balance_power'),
+old_balances = (
+    'kru_knyazi_boyary_balance',
+    'kru_boyary_starshyna_balance',
+    'kru_knyazi_starshyna_balance',
 )
-for power, left, right, widget in pairs:
-    block = named_block(balance_powers,power)
-    clean = normalized(block)
-    assert f'gui = {widget}' in clean and 'default = 50' in clean
-    assert f'faction = {left} influence = 60' in clean
-    assert f'faction = {right} influence = 60' in clean
-    assert f'monthly_{power} = -0.25' in clean
-    assert f'monthly_{power} = 0.25' in clean
-    low, high = normalized(named_block(block,'on_min_reached')), normalized(named_block(block,'on_max_reached'))
-    assert f'faction = {left} influence = 6' in low
-    assert f'faction = {right} influence = -6' in low
-    assert f'faction = {right} influence = 6' in high
-    assert f'faction = {left} influence = -6' in high
-    assert f'power_type = {power} value = 50' in low
-    assert f'power_type = {power} value = 50' in high
+assert 'powers =' not in court
+assert not any(name in court for name in old_balances)
+assert 'on_min_reached' not in court and 'on_max_reached' not in court
+assert 'influence = 6' not in court
+
+state_general_pairs = {
+    ids[0]: ('diplomatic_reputation = 0.5', 'discipline = 0.01'),
+    ids[1]: ('legitimacy = 0.5', 'global_tax_modifier = 0.05'),
+    ids[2]: ('stability_cost_modifier = -0.05', 'vassal_forcelimit_bonus = 0.05'),
+}
+for reform_id, effects in state_general_pairs.items():
+    reform = named_block(reforms, reform_id)
+    conditional = named_block(reform, 'conditional')
+    allow = named_block(conditional, 'allow')
+    assert 'has_dlc = "Res Publica"' in allow
+    assert 'has_dlc = "Winds of Change"' in allow
+    state_general = named_block(reform, 'states_general_mechanic')
+    assert 'kru_rada_coalition' in state_general
+    assert 'kru_rada_opposition' in state_general
+    for effect in effects:
+        assert effect in state_general
+
+effects = read('common/scripted_effects/kru_effects.txt')
+record = normalized(named_block(effects, 'kru_record_dominant_faction_effect'))
+for faction in ('kru_knyazi', 'kru_boyary', 'kru_starshyna'):
+    assert f'faction_influence = {{ faction = {faction} influence = 60 }}' in record
+fallback = normalized(named_block(effects, 'kru_set_fallback_previous_dominant_effect'))
+for faction in ('kru_knyazi', 'kru_boyary', 'kru_starshyna'):
+    assert f'kru_previous_dominant_{faction[4:]}' in fallback
+center = normalized(named_block(effects, 'kru_center_states_general_effect'))
+assert 'has_states_general_mechanic = yes' in center
+assert 'change_statists_vs_orangists = -10' in center
+assert 'change_statists_vs_orangists = 1' in center
+sync_block = named_block(effects, 'kru_sync_reform_to_faction_effect')
+sync = normalized(sync_block)
+assert 'influence = 33' not in sync
+assert all(f'kru_previous_dominant_{faction[4:]}' in sync
+           for faction in ('kru_knyazi', 'kru_boyary', 'kru_starshyna'))
+for current, previous, reform_id in (
+    ('kru_knyazi', 'kru_boyary', ids[0]),
+    ('kru_boyary', 'kru_knyazi', ids[0]),
+    ('kru_knyazi', 'kru_starshyna', ids[1]),
+    ('kru_starshyna', 'kru_knyazi', ids[1]),
+    ('kru_boyary', 'kru_starshyna', ids[2]),
+    ('kru_starshyna', 'kru_boyary', ids[2]),
+):
+    assert f'faction_in_power = {current}' in sync
+    assert f'has_country_flag = kru_previous_dominant_{previous[4:]}' in sync
+    assert f'add_government_reform = {reform_id}' in sync
+pair_branches = [
+    block
+    for key in ('if', 'else_if')
+    for _, block in keyed_blocks(sync_block, key)
+]
+for reform_id in ids:
+    branch = next(block for block in pair_branches
+                  if f'add_government_reform = {reform_id}' in block
+                  and 'kru_previous_dominant_' in block)
+    assert f'has_reform = {reform_id}' not in normalized(named_block(branch, 'limit'))
+junior = normalized(named_block(effects, 'kru_apply_junior_blocs_effect'))
+assert all(f'kru_previous_dominant_{faction[4:]}' in junior
+           for faction in ('kru_knyazi', 'kru_boyary', 'kru_starshyna'))
+for action in ('kru_court_the_knyazi', 'kru_court_the_boyary', 'kru_court_the_starshyna'):
+    interaction = named_block(named_block(court, 'interactions'), action)
+    assert 'kru_refresh_factional_court_effect = yes' in named_block(interaction, 'effect')
 
 gfx = read('interface/rip_ruthenian_government.gfx')
 for faction in ('knyazi','boyary','starshyna'):
@@ -125,24 +175,24 @@ for faction in ('knyazi','boyary','starshyna'):
     assert loc[f'kru_{faction}_FACTION_DESC']
 expected_ability_icons = {
     'rip_siversk_patrimony': [
-        'GFX_rip_siversk_charter',
-        'GFX_rip_siversk_towns',
-        'GFX_rip_siversk_retinue',
+        'GFX_cossacks_ability_ADM',
+        'GFX_cossacks_ability_DIP',
+        'GFX_cossacks_ability_MIL',
     ],
     'rip_kyivan_seniority': [
-        'GFX_rip_kyiv_snem',
-        'GFX_rip_kyiv_udil',
-        'GFX_rip_kyiv_druzhyna',
+        'GFX_cossacks_ability_ADM',
+        'GFX_cossacks_ability_DIP',
+        'GFX_cossacks_ability_MIL',
     ],
     'rip_kyivan_seniorate': [
-        'GFX_rip_kyiv_levy',
-        'GFX_rip_kyiv_rota',
-        'GFX_rip_kyiv_grants',
-    ],
-    'rip_ruthenian_factional_court': [
+        'GFX_cossacks_ability_MIL',
         'GFX_cossacks_ability_DIP',
         'GFX_cossacks_ability_ADM',
-        'GFX_cossacks_ability_MIL',
+    ],
+    'rip_ruthenian_factional_court': [
+        'GFX_faction_kru_knyazi',
+        'GFX_faction_kru_boyary',
+        'GFX_faction_kru_starshyna',
     ],
 }
 for file, expected in expected_ability_icons.items():
@@ -152,15 +202,15 @@ assert 'government_reform_rip_siversk_principality' not in gfx
 for icon in ('GFX_rip_concord', 'GFX_rip_prosperity'):
     assert f'name = "{icon}"' in gfx
 government_gui = read('interface/rip_ruthenian_powers.gui')
-for index, (power, left, right, widget) in enumerate(pairs, 3):
-    window = named_block(government_gui,'windowType',occurrence=index)
-    assert f'name = "{widget}"' in window
-    assert f'GFX_faction_kru_{left[4:]}' in window and f'GFX_faction_kru_{right[4:]}' in window
-    assert f'GFX_faction_bg_kru_{left[4:]}' in window and f'GFX_faction_bg_kru_{right[4:]}' in window
-    assert 'name = "government_power_bar"' in window
-    assert 'name = "government_power_bar_frame"' in window
+assert 'rip_kru_' not in government_gui
+for power in old_balances:
+    for key in (power, 'monthly_' + power, power + '_gain_modifier'):
+        assert not (ROOT / f'gfx/interface/ideas_EU4/{key}.dds').exists(), key
+assert 'kru_refresh_factional_court_effect = yes' in normalized(
+    named_block(effects, 'kru_update_dominant_pair_effect')
+)
 assert 'kru_sync_reform_to_faction_effect = yes' in normalized(
-    named_block(read('common/scripted_effects/kru_effects.txt'),'kru_update_dominant_pair_effect')
+    named_block(effects, 'kru_refresh_factional_court_effect')
 )
 for texture in re.findall(r'texturefile = "([^"]+)"',gfx):
     if texture.startswith('gfx/interface/rip_government/'):
@@ -177,9 +227,10 @@ for language in ('english','french','german','spanish'):
 
 for name in (
     'siversk_charter', 'siversk_towns', 'siversk_retinue', 'kyiv_snem',
-    'kyiv_udil', 'kyiv_druzhyna', 'rada', 'siversk_principality',
-    'knyazi', 'boyary', 'starshyna',
+    'kyiv_udil', 'kyiv_druzhyna',
 ):
+    assert (ROOT/f'gfx/interface/rip_government/{name}.dds').is_file(), name
+for name in ('rada', 'siversk_principality', 'knyazi', 'boyary', 'starshyna'):
     assert not (ROOT/f'gfx/interface/rip_government/{name}.dds').exists(), name
 game = vanilla_root()
 if game:

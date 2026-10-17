@@ -289,12 +289,97 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     )
 
     patriarchal_faiths = ("orthodox", "russian_orthodox", "greek_catholic")
-    for reform_id in ("patriarch_engagement_reform", "prl_episcopal_authority_reform"):
+    for reform_id in (
+        "sacred_regulation_reform",
+        "patriarch_engagement_reform",
+        "prl_episcopal_authority_reform",
+    ):
         reform = normalized(named_block(reforms, reform_id))
         require(
             failures,
             all(f"religion = {faith}" in reform for faith in patriarchal_faiths),
             f"patriarch-authority reform is selectable outside its three Eastern-rite faiths: {reform_id}",
+        )
+        require(
+            failures,
+            "yearly_patriarch_authority = 0.005" in reform
+            and "yearly_patriarch_authority = 0.002" not in reform,
+            f"patriarch-authority reform does not grant standard 0.005 yearly Patriarch Authority: {reform_id}",
+        )
+
+    lit_confessional_raw = named_block(reforms, "lit_confessional_guarantee_reform")
+    require(
+        failures,
+        "religion = catholic" in normalized(named_block(lit_confessional_raw, "potential"))
+        and "religion = catholic" in normalized(named_block(lit_confessional_raw, "trigger")),
+        "lit_confessional_guarantee_reform applies papal_influence = -1 without requiring Catholicism",
+    )
+
+    hlc_metro_decisions = read("decisions/HLCMetropolitanatePaths.txt")
+    for decision_id, flag, reform_id in (
+        (
+            "hlc_confirm_the_metropolitan_see",
+            "rip_galicia_metropolitanate_confirmed",
+            "hlc_halych_synodal_confirmation_reform",
+        ),
+        (
+            "hlc_complete_the_union_of_lviv",
+            "rip_galicia_lviv_union_synod",
+            "hlc_lviv_uniate_synod_reform",
+        ),
+    ):
+        decision_block = named_block(hlc_metro_decisions, decision_id)
+        potential = normalized(named_block(decision_block, "potential"))
+        effect = normalized(named_block(decision_block, "effect"))
+        flag_pos = effect.find(f"set_country_flag = {flag}")
+        reform_pos = effect.find(f"add_government_reform = {reform_id}")
+        require(
+            failures,
+            "west_ukraine_hlc_origin_country = yes" in potential
+            and "tag = HLC" not in potential
+            and flag_pos >= 0
+            and reform_pos >= 0
+            and flag_pos < reform_pos,
+            f"HLC metropolitanate decision blocks VOL/UKR descendants or fails to enact its reform: {decision_id}",
+        )
+
+    hlc_rep_decisions = read("decisions/HLCRepublicPaths.txt")
+    for decision_id in ("hlc_the_boyars_take_power", "hlc_elevate_the_metropolitan"):
+        potential = normalized(
+            named_block(named_block(hlc_rep_decisions, decision_id), "potential")
+        )
+        require(
+            failures,
+            "west_ukraine_hlc_origin_country = yes" in potential
+            and "tag = HLC" not in potential,
+            f"HLC republic/theocracy path decision blocks VOL/UKR descendants: {decision_id}",
+        )
+
+    vln_rep_decisions = read("decisions/VLNRepublicPaths.txt")
+    vln_sejmik_potential = normalized(
+        named_block(named_block(vln_rep_decisions, "vln_the_sejmik_asserts_itself"), "potential")
+    )
+    require(
+        failures,
+        "west_ukraine_vln_origin_country = yes" in vln_sejmik_potential
+        and "tag = VLN" not in vln_sejmik_potential,
+        "VLN sejmik republic decision blocks VOL/UKR descendants",
+    )
+
+    for r1_republic_id in ("hlc_boyar_republic_reform", "vln_sejmik_republic_reform"):
+        r1_republic = normalized(named_block(reforms, r1_republic_id))
+        require(
+            failures,
+            all(
+                token in r1_republic
+                for token in (
+                    "republic = yes",
+                    "republican_name = yes",
+                    "royal_marriage = no",
+                    "has_term_election = yes",
+                )
+            ),
+            f"R1 republic reform lacks explicit republican flags: {r1_republic_id}",
         )
 
     volhynian_host = normalized(named_block(reforms, "vln_cossack_host_reform"))
@@ -330,6 +415,50 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
 
     kie = read("common/government_reforms/RIP_KIE_KRU_government_reforms.txt")
     require(failures, "cossacks_mechanic" not in kie, "medieval KIE/KRU forms still expose Cossack UI")
+    cesarstvo = normalized(named_block(kie, "kyivan_cesarstvo_reform"))
+    for borrowed_attr in (
+        "seizing_land_no_rebels_from_estate_nobles",
+        "monarch_power_on_institutions",
+        "mercs_do_not_cost_army_professionalism",
+        "army_tradition_on_stackwipe",
+    ):
+        require(
+            failures,
+            borrowed_attr not in cesarstvo,
+            f"kyivan_cesarstvo_reform still stacks borrowed UZH attribute: {borrowed_attr}",
+        )
+
+    boyar_council_raw = read("common/government_mechanics/rip_hlc_boyar_council.txt")
+    boyar_council = normalized(boyar_council_raw)
+    boyar_confirm = normalized(named_block(boyar_council_raw, "hlc_confirm_the_boyars_in_office"))
+    boyars_confirmed_mod = normalized(
+        named_block(read("common/event_modifiers/west_ukraine_modifiers.txt"), "hlc_boyars_confirmed")
+    )
+    require(
+        failures,
+        "cost_amount" not in boyar_council
+        and "add_absolutism = -2" not in boyar_council
+        and "duration = 3650" in boyar_confirm
+        and "stability_cost_modifier = -0.10" in boyars_confirmed_mod
+        and "global_unrest = -1" in boyars_confirmed_mod
+        and "land_morale = 0.05" in boyars_confirmed_mod,
+        "HLC boyar council office confirmation reverted to slow scale cost or weak modifier",
+    )
+
+    free_host = normalized(
+        named_block(read("common/government_reforms/RIP_ZAZ_government_reforms.txt"), "zaz_free_host_reform")
+    )
+    require(
+        failures,
+        "stability_cost_modifier" not in free_host
+        and "max_absolutism" not in free_host
+        and "cavalry_power = 0.1" in free_host
+        and "army_tradition = 0.5" in free_host
+        and "republican_tradition = 0.25" in free_host
+        and "winning_wars_gives_rt = yes" in free_host
+        and "factor = 10" in free_host,
+        "zaz_free_host_reform reverted to harsh R10 penalties or weak bonuses",
+    )
 
     uzh = read("common/government_reforms/RIP_UZH_government_reforms.txt")
     for foreign_attribute in ("has_dutch_election", "english_parliament"):

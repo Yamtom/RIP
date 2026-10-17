@@ -7,11 +7,12 @@
 # `factions = { ... }`. Vanilla accrues the influence, names the bloc in power
 # and applies its modifier, and draws the panel. This file only:
 #   - drifts influence slightly toward the bloc the country's state favours,
-#   - keeps the reform id in sync with faction_in_power (the ruling pair),
-#   - gives a second bloc that still commands the rada a partial voice.
-# Former custom variables (kru_*_influence) and the states_general fake are
-# retired; kru_clear_faction_modifiers_effect also migrates the old KRU_pair_*
-# modifiers off a loaded save.
+#   - records the current and previous dominant factions and selects their
+#     coalition reform,
+#   - centers the native States General bar when no faction reaches 60,
+#   - gives the previous dominant faction a junior voice if it retains 38.
+# The former custom variables and pairwise balance powers are retired;
+# kru_clear_faction_modifiers_effect migrates old KRU modifiers off saves.
 # ========================================================================
 
 # A small yearly nudge, on top of vanilla drift, events and the court buttons.
@@ -28,6 +29,7 @@ kru_clear_faction_modifiers_effect = {
 	remove_country_modifier = KRU_junior_knyazi
 	remove_country_modifier = KRU_junior_boyary
 	remove_country_modifier = KRU_junior_starshyna
+	remove_country_modifier = KRU_factional_pair_shift_cooldown
 	# migration - the retired pair modifiers
 	remove_country_modifier = KRU_pair_knyazi_boyary
 	remove_country_modifier = KRU_pair_knyazi_hetmany
@@ -37,76 +39,293 @@ kru_clear_faction_modifiers_effect = {
 	remove_country_modifier = KRU_courting_starshyna
 }
 
-# The reform id is the ruling pair - it names which bloc is sidelined. That is
-# the bloc in power plus whichever of the other two still holds the rada:
-#   knyazi in power -> excludes starshyna or boyary; etc.
-# The id therefore follows faction_in_power to the pair that keeps the strongest
-# runner-up. Guarded by KRU_factional_pair_shift_cooldown so it does not thrash.
-kru_sync_reform_to_faction_effect = {
+# The reform id names the coalition: the currently dominant faction and the
+# faction that dominated immediately before it. The remaining faction is the
+# opposition. At fewer than 60 influence there is no dominant bloc, so the
+# reform returns to its neutral base and the native States General scale is
+# centered.
+kru_store_current_as_previous_dominant_effect = {
+	clr_country_flag = kru_previous_dominant_knyazi
+	clr_country_flag = kru_previous_dominant_boyary
+	clr_country_flag = kru_previous_dominant_starshyna
+
 	if = {
-		limit = { NOT = { has_country_modifier = KRU_factional_pair_shift_cooldown } }
+		limit = { has_country_flag = kru_current_dominant_knyazi }
+		set_country_flag = kru_previous_dominant_knyazi
+	}
+	if = {
+		limit = { has_country_flag = kru_current_dominant_boyary }
+		set_country_flag = kru_previous_dominant_boyary
+	}
+	if = {
+		limit = { has_country_flag = kru_current_dominant_starshyna }
+		set_country_flag = kru_previous_dominant_starshyna
+	}
+}
+
+kru_clear_current_dominant_effect = {
+	clr_country_flag = kru_current_dominant_knyazi
+	clr_country_flag = kru_current_dominant_boyary
+	clr_country_flag = kru_current_dominant_starshyna
+}
+
+kru_set_fallback_previous_dominant_effect = {
+	if = {
+		limit = {
+			faction_in_power = kru_knyazi
+			NOT = {
+				OR = {
+					has_country_flag = kru_previous_dominant_boyary
+					has_country_flag = kru_previous_dominant_starshyna
+				}
+			}
+		}
+		clr_country_flag = kru_previous_dominant_knyazi
+		clr_country_flag = kru_previous_dominant_boyary
+		clr_country_flag = kru_previous_dominant_starshyna
+		set_country_flag = kru_previous_dominant_boyary
+	}
+	else_if = {
+		limit = {
+			faction_in_power = kru_boyary
+			NOT = {
+				OR = {
+					has_country_flag = kru_previous_dominant_knyazi
+					has_country_flag = kru_previous_dominant_starshyna
+				}
+			}
+		}
+		clr_country_flag = kru_previous_dominant_knyazi
+		clr_country_flag = kru_previous_dominant_boyary
+		clr_country_flag = kru_previous_dominant_starshyna
+		set_country_flag = kru_previous_dominant_knyazi
+	}
+	else_if = {
+		limit = {
+			faction_in_power = kru_starshyna
+			NOT = {
+				OR = {
+					has_country_flag = kru_previous_dominant_knyazi
+					has_country_flag = kru_previous_dominant_boyary
+				}
+			}
+		}
+		clr_country_flag = kru_previous_dominant_knyazi
+		clr_country_flag = kru_previous_dominant_boyary
+		clr_country_flag = kru_previous_dominant_starshyna
+		set_country_flag = kru_previous_dominant_knyazi
+	}
+}
+
+kru_center_states_general_effect = {
+	if = {
+		limit = { has_states_general_mechanic = yes }
+		change_statists_vs_orangists = -10
+		change_statists_vs_orangists = 1
+	}
+}
+
+kru_record_dominant_faction_effect = {
+	if = {
+		limit = {
+			OR = {
+				AND = {
+					faction_in_power = kru_knyazi
+					faction_influence = { faction = kru_knyazi influence = 60 }
+				}
+				AND = {
+					faction_in_power = kru_boyary
+					faction_influence = { faction = kru_boyary influence = 60 }
+				}
+				AND = {
+					faction_in_power = kru_starshyna
+					faction_influence = { faction = kru_starshyna influence = 60 }
+				}
+			}
+		}
+		set_country_flag = kru_factional_dominance_active
 		if = {
 			limit = {
-				faction_in_power = kru_knyazi
-				faction_influence = { faction = kru_boyary influence = 33 }
-				NOT = { has_reform = ruthenian_factional_empire_reform }
+				OR = {
+					AND = {
+						faction_in_power = kru_knyazi
+						NOT = { has_country_flag = kru_current_dominant_knyazi }
+					}
+					AND = {
+						faction_in_power = kru_boyary
+						NOT = { has_country_flag = kru_current_dominant_boyary }
+					}
+					AND = {
+						faction_in_power = kru_starshyna
+						NOT = { has_country_flag = kru_current_dominant_starshyna }
+					}
+				}
 			}
+			if = {
+				limit = {
+					OR = {
+						has_country_flag = kru_current_dominant_knyazi
+						has_country_flag = kru_current_dominant_boyary
+						has_country_flag = kru_current_dominant_starshyna
+					}
+				}
+				kru_store_current_as_previous_dominant_effect = yes
+			}
+			kru_set_fallback_previous_dominant_effect = yes
+			kru_clear_current_dominant_effect = yes
+			if = {
+				limit = { faction_in_power = kru_knyazi }
+				set_country_flag = kru_current_dominant_knyazi
+			}
+			else_if = {
+				limit = { faction_in_power = kru_boyary }
+				set_country_flag = kru_current_dominant_boyary
+			}
+			else_if = {
+				limit = { faction_in_power = kru_starshyna }
+				set_country_flag = kru_current_dominant_starshyna
+			}
+			kru_center_states_general_effect = yes
+			if = {
+				limit = { has_states_general_mechanic = yes }
+				change_statists_vs_orangists = -0.15
+			}
+		}
+	}
+	else = {
+		if = {
+			limit = { has_country_flag = kru_factional_dominance_active }
+			kru_store_current_as_previous_dominant_effect = yes
+			kru_clear_current_dominant_effect = yes
+			clr_country_flag = kru_factional_dominance_active
+		}
+		kru_center_states_general_effect = yes
+	}
+}
+
+kru_sync_reform_to_faction_effect = {
+	if = {
+		limit = {
+			has_country_flag = kru_factional_dominance_active
+			OR = {
+				AND = {
+					faction_in_power = kru_knyazi
+					faction_influence = { faction = kru_knyazi influence = 60 }
+					has_country_flag = kru_previous_dominant_boyary
+				}
+				AND = {
+					faction_in_power = kru_boyary
+					faction_influence = { faction = kru_boyary influence = 60 }
+					has_country_flag = kru_previous_dominant_knyazi
+				}
+			}
+		}
+		if = {
+			limit = { NOT = { has_reform = ruthenian_factional_empire_reform } }
 			remove_government_reform = ruthenian_factional_empire_princes_hetmans_reform
 			remove_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
 			add_government_reform = ruthenian_factional_empire_reform
-			add_country_modifier = { name = KRU_factional_pair_shift_cooldown duration = 1825 }
 		}
-		else_if = {
-			limit = {
-				OR = {
-					AND = { faction_in_power = kru_knyazi  faction_influence = { faction = kru_starshyna influence = 33 } }
-					AND = { faction_in_power = kru_starshyna  faction_influence = { faction = kru_knyazi influence = 33 } }
+	}
+	else_if = {
+		limit = {
+			has_country_flag = kru_factional_dominance_active
+			OR = {
+				AND = {
+					faction_in_power = kru_knyazi
+					faction_influence = { faction = kru_knyazi influence = 60 }
+					has_country_flag = kru_previous_dominant_starshyna
 				}
-				NOT = { has_reform = ruthenian_factional_empire_princes_hetmans_reform }
+				AND = {
+					faction_in_power = kru_starshyna
+					faction_influence = { faction = kru_starshyna influence = 60 }
+					has_country_flag = kru_previous_dominant_knyazi
+				}
 			}
+		}
+		if = {
+			limit = { NOT = { has_reform = ruthenian_factional_empire_princes_hetmans_reform } }
 			remove_government_reform = ruthenian_factional_empire_reform
 			remove_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
 			add_government_reform = ruthenian_factional_empire_princes_hetmans_reform
-			add_country_modifier = { name = KRU_factional_pair_shift_cooldown duration = 1825 }
 		}
-		else_if = {
-			limit = {
-				OR = {
-					AND = { faction_in_power = kru_boyary  faction_influence = { faction = kru_starshyna influence = 33 } }
-					AND = { faction_in_power = kru_starshyna  faction_influence = { faction = kru_boyary influence = 33 } }
+	}
+	else_if = {
+		limit = {
+			has_country_flag = kru_factional_dominance_active
+			OR = {
+				AND = {
+					faction_in_power = kru_boyary
+					faction_influence = { faction = kru_boyary influence = 60 }
+					has_country_flag = kru_previous_dominant_starshyna
 				}
-				NOT = { has_reform = ruthenian_factional_empire_boyars_hetmans_reform }
+				AND = {
+					faction_in_power = kru_starshyna
+					faction_influence = { faction = kru_starshyna influence = 60 }
+					has_country_flag = kru_previous_dominant_boyary
+				}
 			}
+		}
+		if = {
+			limit = { NOT = { has_reform = ruthenian_factional_empire_boyars_hetmans_reform } }
 			remove_government_reform = ruthenian_factional_empire_reform
 			remove_government_reform = ruthenian_factional_empire_princes_hetmans_reform
 			add_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
-			add_country_modifier = { name = KRU_factional_pair_shift_cooldown duration = 1825 }
+		}
+	}
+	else = {
+		if = {
+			limit = { NOT = { has_reform = ruthenian_factional_empire_reform } }
+			remove_government_reform = ruthenian_factional_empire_princes_hetmans_reform
+			remove_government_reform = ruthenian_factional_empire_boyars_hetmans_reform
+			add_government_reform = ruthenian_factional_empire_reform
 		}
 	}
 }
 
-# A bloc not in power but still above 38 influence sits in the ruling coalition
-# and keeps a partial voice - half of what it would give in power.
+# Only the faction that dominated before the current one sits in the coalition
+# as a junior partner. Its influence and the current faction's influence are
+# separate: this effect never drifts either value.
 kru_apply_junior_blocs_effect = {
+	kru_clear_faction_modifiers_effect = yes
 	if = {
-		limit = { NOT = { faction_in_power = kru_knyazi }  faction_influence = { faction = kru_knyazi influence = 38 } }
+		limit = {
+			has_country_flag = kru_factional_dominance_active
+			has_country_flag = kru_previous_dominant_knyazi
+			NOT = { faction_in_power = kru_knyazi }
+			faction_influence = { faction = kru_knyazi influence = 38 }
+		}
 		add_country_modifier = { name = KRU_junior_knyazi duration = -1 }
 	}
-	if = {
-		limit = { NOT = { faction_in_power = kru_boyary }  faction_influence = { faction = kru_boyary influence = 38 } }
+	else_if = {
+		limit = {
+			has_country_flag = kru_factional_dominance_active
+			has_country_flag = kru_previous_dominant_boyary
+			NOT = { faction_in_power = kru_boyary }
+			faction_influence = { faction = kru_boyary influence = 38 }
+		}
 		add_country_modifier = { name = KRU_junior_boyary duration = -1 }
 	}
-	if = {
-		limit = { NOT = { faction_in_power = kru_starshyna }  faction_influence = { faction = kru_starshyna influence = 38 } }
+	else_if = {
+		limit = {
+			has_country_flag = kru_factional_dominance_active
+			has_country_flag = kru_previous_dominant_starshyna
+			NOT = { faction_in_power = kru_starshyna }
+			faction_influence = { faction = kru_starshyna influence = 38 }
+		}
 		add_country_modifier = { name = KRU_junior_starshyna duration = -1 }
 	}
 }
 
-kru_update_dominant_pair_effect = {
-	kru_faction_state_drift_effect = yes
-	kru_clear_faction_modifiers_effect = yes
+kru_refresh_factional_court_effect = {
+	kru_record_dominant_faction_effect = yes
 	kru_sync_reform_to_faction_effect = yes
 	kru_apply_junior_blocs_effect = yes
+}
+
+kru_update_dominant_pair_effect = {
+	kru_faction_state_drift_effect = yes
+	kru_refresh_factional_court_effect = yes
 }
 
 kru_confederation_recognised_effect = {

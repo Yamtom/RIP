@@ -117,13 +117,9 @@ for i, (name, x, y) in enumerate(ICONS):
         sprites.append(f'\tspriteType = {{ name = "GFX_faction_kru_{name}" texturefile = "gfx/interface/rip_government/faction_{name}.dds" noOfFrames = 1 norefcount = yes }}')
         color = {'knyazi':'purple','boyary':'blue','starshyna':'red'}[name]
         sprites.append(f'\tspriteType = {{ name = "GFX_faction_bg_kru_{name}" texturefile = "gfx/interface/faction_{color}_frame.tga" transparencecheck = yes noOfFrames = 1 norefcount = yes }}')
-sprites.append('\tspriteType = { name = "government_reform_rip_siversk_principality" texturefile = "gfx/interface/rip_government/siversk_principality.dds" noOfFrames = 1 norefcount = yes }')
-for power, icon in [('kyivan_throne_concord','concord'),('kyivan_peoples_gathering','gathering'),('kyivan_peoples_gathering','prosperity'),
+for power, icon in [('kyivan_throne_concord','concord'),('kyivan_peoples_gathering','prosperity'),
                     ('kyiv_princely_levy_power','kyiv_levy'),('kyiv_seat_rotation_power','kyiv_rota'),
-                    ('kyiv_grant_reconfirmation_power','kyiv_grants'),
-                    ('kru_knyazi_boyary_balance','faction_knyazi'),
-                    ('kru_boyary_starshyna_balance','faction_boyary'),
-                    ('kru_knyazi_starshyna_balance','faction_starshyna')]:
+                    ('kyiv_grant_reconfirmation_power','kyiv_grants')]:
     for key in (power,'monthly_'+power,power+'_gain_modifier'):
         # EU4 creates modifier sprites from the ideas_EU4 filename convention.
         # Supply the actual files rather than relying on a hand-named alias.
@@ -139,17 +135,20 @@ if not ARGS.check:
     preview.save(ROOT/'gfx/interface/rip_government/source/preview.png')
 
 OBSOLETE_ASSETS = [
-    'gfx/interface/rip_government/siversk_charter.dds',
-    'gfx/interface/rip_government/siversk_towns.dds',
-    'gfx/interface/rip_government/siversk_retinue.dds',
-    'gfx/interface/rip_government/kyiv_snem.dds',
-    'gfx/interface/rip_government/kyiv_udil.dds',
-    'gfx/interface/rip_government/kyiv_druzhyna.dds',
     'gfx/interface/rip_government/rada.dds',
     'gfx/interface/rip_government/siversk_principality.dds',
     'gfx/interface/rip_government/knyazi.dds',
     'gfx/interface/rip_government/boyary.dds',
     'gfx/interface/rip_government/starshyna.dds',
+    'gfx/interface/ideas_EU4/kru_knyazi_boyary_balance.dds',
+    'gfx/interface/ideas_EU4/monthly_kru_knyazi_boyary_balance.dds',
+    'gfx/interface/ideas_EU4/kru_knyazi_boyary_balance_gain_modifier.dds',
+    'gfx/interface/ideas_EU4/kru_boyary_starshyna_balance.dds',
+    'gfx/interface/ideas_EU4/monthly_kru_boyary_starshyna_balance.dds',
+    'gfx/interface/ideas_EU4/kru_boyary_starshyna_balance_gain_modifier.dds',
+    'gfx/interface/ideas_EU4/kru_knyazi_starshyna_balance.dds',
+    'gfx/interface/ideas_EU4/monthly_kru_knyazi_starshyna_balance.dds',
+    'gfx/interface/ideas_EU4/kru_knyazi_starshyna_balance_gain_modifier.dds',
 ]
 for obsolete in OBSOLETE_ASSETS:
     path = ROOT / obsolete
@@ -166,23 +165,6 @@ for widget, icon, label in [('rip_throne_concord_power','concord','kyivan_throne
   moveable = 0
   iconType = {{ name = "emblem" spriteType = "GFX_rip_{icon}" position = {{ x = 0 y = 2 }} scale = 0.5 }}
   instantTextBoxType = {{ name = "label" position = {{ x = 38 y = 0 }} font = "vic_18" text = "{label}" maxWidth = 250 maxHeight = 22 format = left }}
-  iconType = {{ name = "government_power_bar" spriteType = "GFX_single_government_power_bar" position = {{ x = 35 y = 31 }} }}
-  iconType = {{ name = "government_power_bar_frame" spriteType = "GFX_single_government_power_bar_frame" position = {{ x = 24 y = 28 }} alwaystransparent = yes }}
- }}''')
-for widget, left, right, label in [
-    ('rip_kru_knyazi_boyary_balance_power', 'knyazi', 'boyary', 'kru_knyazi_boyary_balance'),
-    ('rip_kru_boyary_starshyna_balance_power', 'boyary', 'starshyna', 'kru_boyary_starshyna_balance'),
-    ('rip_kru_knyazi_starshyna_balance_power', 'knyazi', 'starshyna', 'kru_knyazi_starshyna_balance'),
-]:
-    gui.append(f''' windowType = {{
-  name = "{widget}"
-  size = {{ x = 300 y = 58 }}
-  moveable = 0
-  iconType = {{ name = "left_faction_frame" spriteType = "GFX_faction_bg_kru_{left}" position = {{ x = 0 y = 0 }} scale = 0.28 }}
-  iconType = {{ name = "left_faction_icon" spriteType = "GFX_faction_kru_{left}" position = {{ x = 0 y = 0 }} scale = 0.28 }}
-  iconType = {{ name = "right_faction_frame" spriteType = "GFX_faction_bg_kru_{right}" position = {{ x = 26 y = 0 }} scale = 0.28 }}
-  iconType = {{ name = "right_faction_icon" spriteType = "GFX_faction_kru_{right}" position = {{ x = 26 y = 0 }} scale = 0.28 }}
-  instantTextBoxType = {{ name = "label" position = {{ x = 60 y = 0 }} font = "vic_18" text = "{label}" maxWidth = 230 maxHeight = 22 format = left }}
   iconType = {{ name = "government_power_bar" spriteType = "GFX_single_government_power_bar" position = {{ x = 35 y = 31 }} }}
   iconType = {{ name = "government_power_bar_frame" spriteType = "GFX_single_government_power_bar_frame" position = {{ x = 24 y = 28 }} alwaystransparent = yes }}
  }}''')
@@ -239,30 +221,24 @@ COPY = {
  'rip_parliament_galician_sejm':'Galician Sejm',
  'rip_parliament_grand_diet':'Grand Duchy Diet',
  'rip_parliament_volhynian_sejmik':'Volhynian Sejmik',
- 'kru_knyazi_boyary_balance':'Knyazi-Boyary Balance',
- 'kru_knyazi_boyary_balance_desc':'0-39 favours the Knyazi: +0.5 diplomatic reputation and +5% vassal income. 61-100 favours the Boyary: +5% tax and -5% advisor cost. If one faction has at least 60 influence while the other is below 60, the balance moves 0.25 per month toward the stronger side. At either end, 6 influence shifts to the winning faction and the balance returns to 50.',
- 'kru_boyary_starshyna_balance':'Boyary-Starshyna Balance',
- 'kru_boyary_starshyna_balance_desc':'0-39 favours the Boyary: -5% stability cost and +5% trade efficiency. 61-100 favours the Starshyna: +10% manpower recovery and +2.5% land morale. If one faction has at least 60 influence while the other is below 60, the balance moves 0.25 per month toward the stronger side. At either end, 6 influence shifts to the winning faction and the balance returns to 50.',
- 'kru_knyazi_starshyna_balance':'Knyazi-Starshyna Balance',
- 'kru_knyazi_starshyna_balance_desc':'0-39 favours the Knyazi: +0.5 legitimacy and +5% vassal force limit. 61-100 favours the Starshyna: +1% discipline and -5% land maintenance. If one faction has at least 60 influence while the other is below 60, the balance moves 0.25 per month toward the stronger side. At either end, 6 influence shifts to the winning faction and the balance returns to 50.',
+ 'kru_rada_coalition':'Rada Coalition',
+ 'kru_rada_coalition_desc':'The faction in power and the previously dominant faction govern together.',
+ 'kru_rada_opposition':'Rada Opposition',
+ 'kru_rada_opposition_desc':'The remaining faction stands outside the coalition and may prevail in the States General.',
+ 'kyivan_veche_reform':'Kyivan Veche Republic',
+ 'kyivan_veche_reform_desc':'The town assembly elects a posadnik in place of a prince; merchants and lineages speak in the veche, and the office answers to a term, not a bloodline.',
+ 'kyivan_boyar_republic_reform':'Kyivan Boyar Rada',
+ 'kyivan_boyar_republic_reform_desc':'The veche\'s yearly muster hardens into a standing council of boyar lineages, traders, and guildsmen, each with a settled voice in the city\'s rule.',
 }
 for suffix in ('','_princes_hetmans','_boyars_hetmans'):
     key = 'ruthenian_factional_empire'+suffix+'_reform'
     COPY[key] = 'Rada of Three Estates'
-    COPY[key+'_desc'] = 'Princes, boyars and Cossack officers compete in one rada. The leading faction provides its full modifiers; other blocs with at least 38 influence retain a junior voice. The ruling coalition changes through faction influence, not by selecting a separate reform.'
+    COPY[key+'_desc'] = 'When a faction reaches 60 influence, it and the previously dominant faction form the ruling coalition; the third bloc is the opposition. With Res Publica or Winds of Change, the States General follows this contest. Below 60 influence no bloc dominates and the scale returns to neutral. The former bloc keeps a junior voice from 38 influence.'
 for power, name in [('kyiv_princely_levy_power','Princely Levy'),('kyiv_seat_rotation_power','Seat Rotation'),('kyiv_grant_reconfirmation_power','Grant Renewal')]:
     COPY[power] = name
     COPY[power+'_desc'] = {'Princely Levy':'Accumulates from the ruler\'s military skill. Spend 100 to call the senior udils\' levy. Persists on succession.', 'Seat Rotation':'Accumulates from the ruler\'s diplomatic skill. Spend 100 to rotate a restless senior udil. Persists on succession.', 'Grant Renewal':'Accumulates from the ruler\'s administrative skill. Spend 80 to renew lapsed senior-udil grants. Resets on succession.'}[name]
     COPY['monthly_'+power] = 'Monthly '+name
     COPY[power+'_gain_modifier'] = name+' Gain'
-for power, name in [
-    ('kru_knyazi_boyary_balance','Knyazi-Boyary Balance'),
-    ('kru_boyary_starshyna_balance','Boyary-Starshyna Balance'),
-    ('kru_knyazi_starshyna_balance','Knyazi-Starshyna Balance'),
-]:
-    COPY['monthly_'+power] = 'Monthly '+name
-    COPY[power+'_gain_modifier'] = name+' Gain'
-
 COPY.update({
  'rip_parliament_imperial_sobor': 'Sobor of the Lands',
  'rip_parliament_sumy_regimental': 'Sumy Regimental Rada',
@@ -308,4 +284,4 @@ for language in ('english','french','german','spanish'):
     text = 'l_'+language+':\n # Generated by tools/build_ruthenian_government_ui.py; English fallback where untranslated.\n'
     text += ''.join(f' {key}:0 "{value}"\n' for key,value in COPY.items())
     emit(f'localisation/replace/zzzz_rip_government_ui_l_{language}.yml',text,bom=True)
-print('RUTHENIAN UI PASS: sprites, power widgets and localisation are current.')
+print('RUTHENIAN UI PASS: sprites, panels and localisation are current.')

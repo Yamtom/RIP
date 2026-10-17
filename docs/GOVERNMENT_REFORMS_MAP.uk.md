@@ -142,7 +142,7 @@ flowchart TB
   F1 <-->|annual influence recalculation| F2["M1 Princes + Hetmans"]
   F2 <-->|annual influence recalculation| F3["M1 Boyars + Hetmans"]
   F3 <-->|annual influence recalculation| F1
-  KRU --> V1["R1 Kyivan Veche"] --> V2["R1 Boyar Republic"]
+  KRU --> V1["R1 Kyivan Veche Republic"] --> V2["R1 Kyivan Boyar Rada"]
   KRU --> T1["Th1 Metropolitanate"] --> T2["Th1 Church Synod"]
   KRU --> SR["Shared Ruthenian M2–M11"]
 ```

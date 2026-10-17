@@ -141,14 +141,28 @@ sacred_regulation_reform = {
 	potential = {
 		OR = {
 			has_reform = sacred_regulation_reform
-			ruthenian_reform_visible = yes
+			AND = {
+				ruthenian_reform_visible = yes
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+					religion = greek_catholic
+				}
+			}
 		}
 	}
 	allow_normal_conversion = yes
 	trigger = {
 		OR = {
 			has_reform = sacred_regulation_reform
-			ruthenian_reform_eligible = yes
+			AND = {
+				ruthenian_reform_eligible = yes
+				OR = {
+					religion = orthodox
+					religion = russian_orthodox
+					religion = greek_catholic
+				}
+			}
 		}
 	}
 	modifiers = {
@@ -190,7 +204,7 @@ patriarch_engagement_reform = {
 	}
 	modifiers = {
 		missionary_maintenance_cost = -0.25
-		yearly_patriarch_authority = 0.002
+		yearly_patriarch_authority = 0.005
 		church_loyalty_modifier = 0.1
 		max_absolutism = -5
 	}
