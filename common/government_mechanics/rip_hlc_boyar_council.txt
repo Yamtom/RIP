@@ -12,9 +12,12 @@
 # never on the Austria fork, so this uses plain country modifiers plus the
 # always-present vanilla estate_nobles rather than a bespoke estate.
 #
-# Buttons-only (devshirme pattern): no powers, no .gui, vanilla Cossack
-# ability sprites, no DLC gate - the whole HLC lineage has none of its
-# eleven reforms hooked to a mechanic otherwise.
+# Buttons-only (devshirme pattern): no powers, no .gui, no DLC gate - the
+# whole HLC lineage has none of its eleven reforms hooked to a mechanic
+# otherwise. The three buttons carry their own sprites
+# (interface/rip_ability_icons.gfx), drawn by
+# tools/build_government_ability_icons.py: a charter and a boyar's fur hat,
+# a crown barred by a sword, and a hat under the prince's axe.
 # =============================================================================
 
 hlc_boyar_council_mechanic = {
@@ -29,7 +32,7 @@ hlc_boyar_council_mechanic = {
 		# Grants and confirmations of office bought a prince a few years of
 		# boyar cooperation.
 		hlc_confirm_the_boyars_in_office = {
-			icon = GFX_cossacks_ability_ADM
+			icon = GFX_rip_boyar_office
 			trigger = {
 				adm_power = 50
 			}
@@ -56,7 +59,7 @@ hlc_boyar_council_mechanic = {
 		# Forecloses the boyars' historical recourse of inviting a foreign
 		# prince over the native one.
 		hlc_counter_the_foreign_claimant = {
-			icon = GFX_cossacks_ability_DIP
+			icon = GFX_rip_boyar_claimant
 			trigger = {
 				dip_power = 50
 				NOT = { has_country_modifier = hlc_foreign_claimant_countered }
@@ -84,7 +87,7 @@ hlc_boyar_council_mechanic = {
 		# Danylo's suppression of the boyar opposition - a temporary
 		# suspension of the constraint the Voivodeship itself imposes.
 		hlc_make_an_example_of_a_defiant_boyar = {
-			icon = GFX_cossacks_ability_MIL
+			icon = GFX_rip_boyar_example
 			trigger = {
 				mil_power = 60
 				has_estate = estate_nobles

@@ -44,7 +44,7 @@ def require_order(
 def check_priority(failures: list[str], text: str) -> None:
     entries = re.findall(r"(?m)^([A-Za-z0-9_]+)\s*=\s*\{", text)
     order = positions(text)
-    require(failures, len(entries) == 64, f"expected 64 blocks, found {len(entries)}")
+    require(failures, len(entries) == 65, f"expected 65 blocks, found {len(entries)}")
     require(
         failures,
         len(order) == len(entries),
@@ -59,6 +59,9 @@ def check_priority(failures: list[str], text: str) -> None:
     )
     require_order(
         failures, order, "representation_monarchy_reform", "kyivan_rus_reform"
+    )
+    require_order(
+        failures, order, "kyivan_boyar_republic_reform", "kyivan_veche_reform"
     )
 
     roads = (
@@ -149,6 +152,39 @@ def check_triggers_and_mappings(failures: list[str], text: str) -> None:
             failures,
             "tag = HET" in normalized(named_block(text, name)),
             f"{name} lacks an HET tag gate",
+        )
+
+    boyar = normalized(named_block(text, "kyivan_boyar_republic_reform"))
+    veche = normalized(named_block(text, "kyivan_veche_reform"))
+    require(
+        failures,
+        "trigger = { has_reform = kyivan_boyar_republic_reform }" in boyar,
+        "Boyar Republic of Rus' name block must match only its own reform",
+    )
+    require(
+        failures,
+        "kyivan_boyar_republic_reform" not in veche,
+        "the veche name block still claims the Boyar Republic of Rus'",
+    )
+    boyar_keys = set(re.findall(r"= ([A-Z][A-Z_]+)", boyar))
+    veche_keys = set(re.findall(r"= ([A-Z][A-Z_]+)", veche))
+    require(
+        failures,
+        len(boyar_keys) == 9 and not boyar_keys & veche_keys,
+        "Boyar Republic of Rus' must have nine rank/ruler names of its own",
+    )
+    loc_files = {
+        "english": "localisation/zzz_missing_l_english.yml",
+        "french": "localisation/replace/zzz_RIP_untranslated_l_french.yml",
+        "german": "localisation/replace/zzz_RIP_untranslated_l_german.yml",
+        "spanish": "localisation/replace/zzz_RIP_untranslated_l_spanish.yml",
+    }
+    for language, path in loc_files.items():
+        defined = set(re.findall(r"(?m)^ ([A-Z_]+):\d+ ", read(path)))
+        require(
+            failures,
+            boyar_keys <= defined,
+            f"Boyar Republic of Rus' names missing in {language}: {sorted(boyar_keys - defined)}",
         )
 
     frontier = normalized(named_block(text, "pdl_frontier_republic"))
@@ -460,7 +496,7 @@ def main() -> int:
 
     print(
         "GOVERNMENT NAME CHECK: PASS "
-        "(64 blocks; priority, reachability, lifecycle, and title contracts hold)"
+        "(65 blocks; priority, reachability, lifecycle, and title contracts hold)"
     )
     return 0
 

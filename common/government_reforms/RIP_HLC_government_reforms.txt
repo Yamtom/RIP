@@ -330,6 +330,25 @@ hlc_crown_authority_reform = {
 	government_abilities = {
 		hlc_austrian_reorganization_mechanic
 	}
+	# Each ordinance is a flag and a persistent country modifier, so losing
+	# the crown authority has to clear all three or they would outlive it.
+	removed_effect = {
+		if = {
+			limit = { has_country_flag = hlc_chancery_ordinance_active }
+			clr_country_flag = hlc_chancery_ordinance_active
+			remove_country_modifier = hlc_chancery_ordinance_modifier
+		}
+		if = {
+			limit = { has_country_flag = hlc_settlement_ordinance_active }
+			clr_country_flag = hlc_settlement_ordinance_active
+			remove_country_modifier = hlc_settlement_ordinance_modifier
+		}
+		if = {
+			limit = { has_country_flag = hlc_cadastral_ordinance_active }
+			clr_country_flag = hlc_cadastral_ordinance_active
+			remove_country_modifier = hlc_cadastral_ordinance_modifier
+		}
+	}
 }
 
 hlc_crown_and_sejm_reform = {

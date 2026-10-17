@@ -11,7 +11,7 @@
 # copies the structure of, is perfectionism_mechanic's mutually exclusive
 # focuses (common/government_mechanics/08_perfectionism.txt): a pair of
 # buttons, each clearing the others' persistent (duration = -1) country
-# modifier before applying its own. That is the shape used here for two
+# modifier before applying its own. That is the shape used here for three
 # ordinances the chancery can enact and later rescind:
 #
 #  - The Chancery Ordinance seconds trained clerks to the chancellor's
@@ -28,9 +28,21 @@
 #    see hlc_settlement_ordinance_conversion_effect
 #    (common/scripted_effects/rip_estate_effects.txt) and the on_action
 #    hook in common/on_actions/west_ukraine_on_actions.txt.
+#  - The Cadastral Ordinance sends the chancery's surveyors through every
+#    holding, the way the Josephine land survey of the 1780s did, so the
+#    treasury collects on what each estate truly holds - and the nobles,
+#    counted for the first time, resent it. A standing tax bonus paid for
+#    with noble loyalty; hlc_crown_authority_reform clears all three
+#    ordinances in its removed_effect, so none outlives the crown that
+#    enacted it.
 #
-# Buttons-only, same as rip_hlc_boyar_council.txt: no powers, no .gui,
-# vanilla Cossack ability sprites, no DLC gate.
+# Buttons-only, same as rip_hlc_boyar_council.txt: no powers, no .gui, no DLC
+# gate. Six buttons make two full rows of three: the top row enacts, the
+# bottom row rescinds, and each column is one ordinance (chancery,
+# settlement, cadastre). The order of the interactions below is the order of
+# the buttons. Each button has its own sprite
+# (interface/rip_ability_icons.gfx), drawn by
+# tools/build_government_ability_icons.py.
 # =============================================================================
 
 hlc_austrian_reorganization_mechanic = {
@@ -42,10 +54,14 @@ hlc_austrian_reorganization_mechanic = {
 	}
 
 	interactions = {
+		# Top row: enact.
 		hlc_enact_chancery_ordinance = {
-			icon = GFX_cossacks_ability_DIP
+			icon = GFX_rip_chancery_enact
 			trigger = {
-				NOT = { has_country_flag = hlc_chancery_ordinance_active }
+				custom_trigger_tooltip = {
+					tooltip = hlc_chancery_ordinance_not_in_force_tt
+					NOT = { has_country_flag = hlc_chancery_ordinance_active }
+				}
 			}
 			effect = {
 				set_country_flag = hlc_chancery_ordinance_active
@@ -64,25 +80,13 @@ hlc_austrian_reorganization_mechanic = {
 				}
 			}
 		}
-		hlc_rescind_chancery_ordinance = {
-			icon = GFX_cossacks_ability_ADM
-			trigger = {
-				has_country_flag = hlc_chancery_ordinance_active
-			}
-			effect = {
-				clr_country_flag = hlc_chancery_ordinance_active
-				remove_country_modifier = hlc_chancery_ordinance_modifier
-			}
-			cooldown_years = 5
-			cooldown_token = hlc_chancery_ordinance
-			ai_chance = {
-				factor = 0
-			}
-		}
 		hlc_enact_settlement_ordinance = {
-			icon = GFX_cossacks_ability_ADM
+			icon = GFX_rip_settlement_enact
 			trigger = {
-				NOT = { has_country_flag = hlc_settlement_ordinance_active }
+				custom_trigger_tooltip = {
+					tooltip = hlc_settlement_ordinance_not_in_force_tt
+					NOT = { has_country_flag = hlc_settlement_ordinance_active }
+				}
 			}
 			effect = {
 				set_country_flag = hlc_settlement_ordinance_active
@@ -101,10 +105,68 @@ hlc_austrian_reorganization_mechanic = {
 				}
 			}
 		}
-		hlc_rescind_settlement_ordinance = {
-			icon = GFX_cossacks_ability_MIL
+		hlc_enact_cadastral_ordinance = {
+			icon = GFX_rip_cadastre_enact
 			trigger = {
-				has_country_flag = hlc_settlement_ordinance_active
+				custom_trigger_tooltip = {
+					tooltip = hlc_cadastral_ordinance_not_in_force_tt
+					NOT = { has_country_flag = hlc_cadastral_ordinance_active }
+				}
+			}
+			effect = {
+				set_country_flag = hlc_cadastral_ordinance_active
+				add_country_modifier = {
+					name = hlc_cadastral_ordinance_modifier
+					duration = -1
+				}
+			}
+			cooldown_years = 5
+			cooldown_token = hlc_cadastral_ordinance
+			ai_chance = {
+				factor = 10
+				modifier = {
+					factor = 0
+					has_country_flag = hlc_cadastral_ordinance_active
+				}
+				# The survey costs noble loyalty; a crown whose nobles are
+				# already restless does not send the surveyors out.
+				modifier = {
+					factor = 0
+					NOT = {
+						estate_loyalty = {
+							estate = estate_nobles
+							loyalty = 40
+						}
+					}
+				}
+			}
+		}
+		# Bottom row: rescind.
+		hlc_rescind_chancery_ordinance = {
+			icon = GFX_rip_chancery_rescind
+			trigger = {
+				custom_trigger_tooltip = {
+					tooltip = hlc_chancery_ordinance_in_force_tt
+					has_country_flag = hlc_chancery_ordinance_active
+				}
+			}
+			effect = {
+				clr_country_flag = hlc_chancery_ordinance_active
+				remove_country_modifier = hlc_chancery_ordinance_modifier
+			}
+			cooldown_years = 5
+			cooldown_token = hlc_chancery_ordinance
+			ai_chance = {
+				factor = 0
+			}
+		}
+		hlc_rescind_settlement_ordinance = {
+			icon = GFX_rip_settlement_rescind
+			trigger = {
+				custom_trigger_tooltip = {
+					tooltip = hlc_settlement_ordinance_in_force_tt
+					has_country_flag = hlc_settlement_ordinance_active
+				}
 			}
 			effect = {
 				clr_country_flag = hlc_settlement_ordinance_active
@@ -112,6 +174,24 @@ hlc_austrian_reorganization_mechanic = {
 			}
 			cooldown_years = 5
 			cooldown_token = hlc_settlement_ordinance
+			ai_chance = {
+				factor = 0
+			}
+		}
+		hlc_rescind_cadastral_ordinance = {
+			icon = GFX_rip_cadastre_rescind
+			trigger = {
+				custom_trigger_tooltip = {
+					tooltip = hlc_cadastral_ordinance_in_force_tt
+					has_country_flag = hlc_cadastral_ordinance_active
+				}
+			}
+			effect = {
+				clr_country_flag = hlc_cadastral_ordinance_active
+				remove_country_modifier = hlc_cadastral_ordinance_modifier
+			}
+			cooldown_years = 5
+			cooldown_token = hlc_cadastral_ordinance
 			ai_chance = {
 				factor = 0
 			}
