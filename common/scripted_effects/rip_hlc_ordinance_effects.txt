@@ -1,0 +1,75 @@
+# =============================================================================
+# Clean-up for the Chancery Ordinances
+# (common/government_mechanics/rip_hlc_austrian_reorganization.txt).
+#
+# Each ordinance is a flag plus a permanent country modifier, so both have to
+# be removed together, and they have to go whenever the crown authority that
+# enacted them is gone. Two places do that, and both call the same effect:
+#
+#  - hlc_crown_authority_reform.removed_effect
+#    (common/government_reforms/RIP_HLC_government_reforms.txt) - the normal
+#    way out, the reform being dropped;
+#  - hlc_ordinance_sweep_effect, from on_yearly_pulse
+#    (common/on_actions/west_ukraine_on_actions.txt) - the cases a reform's
+#    removed_effect cannot see: a tag change, a government change made by an
+#    event or a revolution, a save made before this clean-up existed.
+#
+# Only if-blocks are used. Inside an else_if/else body of a scripted effect the
+# engine drops some effects without an error (diagnostics/engine_probes_20260929).
+# =============================================================================
+
+# Take every ordinance out of force, whatever its state. Flags and modifiers are
+# cleared separately so that a stray modifier with no flag, or the reverse, goes
+# too. The hidden timer of the settlement ordinance is left to run out by itself:
+# it has no effect of its own.
+hlc_clear_ordinances_effect = {
+	clr_country_flag = hlc_chancery_ordinance_active
+	clr_country_flag = hlc_settlement_ordinance_active
+	clr_country_flag = hlc_cadastral_ordinance_active
+	if = {
+		limit = { has_country_modifier = hlc_chancery_ordinance_modifier }
+		remove_country_modifier = hlc_chancery_ordinance_modifier
+	}
+	if = {
+		limit = { has_country_modifier = hlc_settlement_ordinance_modifier }
+		remove_country_modifier = hlc_settlement_ordinance_modifier
+	}
+	if = {
+		limit = { has_country_modifier = hlc_cadastral_ordinance_modifier }
+		remove_country_modifier = hlc_cadastral_ordinance_modifier
+	}
+}
+
+# Run once a year for every country, so it is written to cost next to nothing
+# outside the Austrian crown: both limits are made only of flag, modifier and
+# reform look-ups (no iterated scope, no counting trigger, no variable), and the
+# effects behind them run only when a limit passes - for a country that never
+# held the crown, none of the six look-ups in the first limit passes and the
+# second needs the Austrian bureaucracy.
+hlc_ordinance_sweep_effect = {
+	if = {
+		limit = {
+			OR = {
+				has_country_flag = hlc_chancery_ordinance_active
+				has_country_flag = hlc_settlement_ordinance_active
+				has_country_flag = hlc_cadastral_ordinance_active
+				has_country_modifier = hlc_chancery_ordinance_modifier
+				has_country_modifier = hlc_settlement_ordinance_modifier
+				has_country_modifier = hlc_cadastral_ordinance_modifier
+			}
+			NOT = { has_reform = hlc_crown_authority_reform }
+		}
+		hlc_clear_ordinances_effect = yes
+	}
+	# Dates the Austrian bureaucracy for the AI: hlc_incorporate_appanage waits
+	# ten years after it (common/new_diplomatic_actions/RIP_HLC_diplomatic_actions.txt).
+	# Set here, not in the reform, so that a save which already holds the reform
+	# starts its clock at the next pulse instead of never.
+	if = {
+		limit = {
+			has_reform = hlc_austrian_bureaucracy_reform
+			NOT = { has_country_flag = hlc_austrian_bureaucracy_dated }
+		}
+		set_country_flag = hlc_austrian_bureaucracy_dated
+	}
+}

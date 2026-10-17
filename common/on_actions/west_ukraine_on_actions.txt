@@ -11,12 +11,34 @@ on_yearly_pulse = {
 	events = {
 		west_ukraine_missions.1
 	}
+	# Self-healing sweep for the Chancery Ordinances
+	# (common/scripted_effects/rip_hlc_ordinance_effects.txt): clears the
+	# flags and modifiers of a country that holds them without the crown
+	# authority, which removed_effect cannot see after a tag or government
+	# change. Written to cost next to nothing for any other country.
+	hlc_ordinance_sweep_effect = yes
 }
 
 # hlc_austrian_reorganization_mechanic's Settlement Ordinance
 # (common/government_mechanics/rip_hlc_austrian_reorganization.txt): while
-# enacted, every completed culture conversion nudges every present estate's
-# loyalty. common/scripted_effects/rip_estate_effects.txt.
+# enacted, a manual culture conversion steadies the nobles - once a year, and
+# only while their loyalty is below 60%.
+# common/scripted_effects/rip_estate_effects.txt.
+#
+# This key is also defined in common/on_actions/00_on_actions.txt (the mod's
+# copy of vanilla's file, the five vanilla handlers) and that is safe, because
+# EU4 1.37.5 MERGES one on_action key defined in several files: every
+# definition runs, none replaces another. Measured in the game, not assumed:
+# on_startup and on_monthly_pulse defined in three extra files (one sorting
+# before 00_on_actions.txt, one in the middle, one after every RIP file) fired
+# all three, and the handlers in the first and the last of the mod's own ten
+# on_startup files (vanilla's Emperor target, the church initialiser's flag)
+# ran too - see diagnostics/hlc_ordinances_20261017/
+# on_action_merge_probe.txt. The hook runs in province
+# scope (vanilla's own handlers of this key read `owner`), and vanilla fires it
+# only for a MANUAL conversion ("province, manually conversion"; conversion by
+# an effect fires on_province_culture_changed). tests/check_hlc_ordinances.py
+# keeps all of this from drifting.
 on_province_culture_converted = {
 	hlc_settlement_ordinance_conversion_effect = yes
 }

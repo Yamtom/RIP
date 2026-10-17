@@ -23,18 +23,45 @@
 #    txt); the honest substitute is a persistent chancery-flavoured country
 #    modifier, not a literal ruler stat.
 #  - The Settlement Ordinance answers on_province_culture_converted
-#    (common/on_actions/00_on_actions.txt) while enacted, so every
-#    completed culture conversion nudges every present estate's loyalty -
-#    see hlc_settlement_ordinance_conversion_effect
-#    (common/scripted_effects/rip_estate_effects.txt) and the on_action
-#    hook in common/on_actions/west_ukraine_on_actions.txt.
+#    (common/on_actions/00_on_actions.txt) while enacted: culture conversion
+#    is cheaper, and the first manual conversion each year steadies the
+#    nobles who receive the land - see hlc_settlement_ordinance_conversion_
+#    effect (common/scripted_effects/rip_estate_effects.txt) and the on_action
+#    hook in common/on_actions/west_ukraine_on_actions.txt. Vanilla fires that
+#    hook only for a MANUAL conversion.
 #  - The Cadastral Ordinance sends the chancery's surveyors through every
 #    holding, the way the Josephine land survey of the 1780s did, so the
 #    treasury collects on what each estate truly holds - and the nobles,
 #    counted for the first time, resent it. A standing tax bonus paid for
-#    with noble loyalty; hlc_crown_authority_reform clears all three
-#    ordinances in its removed_effect, so none outlives the crown that
-#    enacted it.
+#    with noble loyalty.
+#
+# What makes them a choice and not three free bonuses:
+#
+#  - PRICE. Enacting costs monarch power of the kind the clerks' trade
+#    suggests, 50 as in the sibling mechanics and vanilla's own buttons
+#    (rip_vln_magnate_senate.txt, 06_devshirme.txt): diplomatic power for the
+#    chancery, administrative power for settlement and the cadastre.
+#    `dip_power_cost` / `adm_power_cost` in the trigger block is how vanilla
+#    puts the price in the button tooltip and checks it can be paid; in the
+#    effect block the same name pays it. Rescinding is free.
+#  - TWO SLOTS. At most two of the three can be in force. hlc_ordinance_slot_
+#    free (common/scripted_triggers/rip_hlc_ordinance_triggers.txt) counts the
+#    flags and every enact button requires it, so the third ordinance can be
+#    had only by rescinding one of the others. Each ordinance's two buttons
+#    share one cooldown token, so an ordinance can be neither rescinded nor
+#    enacted again within five years of its last change - a choice is
+#    kept, not toggled.
+#  - THE AI. Every button has an ai_chance: it enacts what its realm needs
+#    (settlement when several owned cities hold a culture that is neither
+#    primary nor accepted, the cadastre when short of money and the nobles are
+#    loyal, the chancery otherwise) and it rescinds what has turned against it
+#    (the cadastre when noble loyalty has fallen, the settlement when no such
+#    city is left, anything beyond two). The situations are the *_wanted /
+#    *_spent / *_dangerous scripted triggers in the same trigger file.
+#  - CLEAN-UP. hlc_crown_authority_reform.removed_effect and a yearly sweep
+#    (hlc_ordinance_sweep_effect, common/scripted_effects/rip_hlc_ordinance_
+#    effects.txt) take every ordinance out of force once the crown authority
+#    that enacted them is gone, so none outlives it.
 #
 # Buttons-only, same as rip_hlc_boyar_council.txt: no powers, no .gui, no DLC
 # gate. Six buttons make two full rows of three: the top row enacts, the
@@ -62,8 +89,14 @@ hlc_austrian_reorganization_mechanic = {
 					tooltip = hlc_chancery_ordinance_not_in_force_tt
 					NOT = { has_country_flag = hlc_chancery_ordinance_active }
 				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_ordinance_slot_free_tt
+					hlc_ordinance_slot_free = yes
+				}
+				dip_power_cost = 50
 			}
 			effect = {
+				dip_power_cost = 50
 				set_country_flag = hlc_chancery_ordinance_active
 				add_country_modifier = {
 					name = hlc_chancery_ordinance_modifier
@@ -73,7 +106,7 @@ hlc_austrian_reorganization_mechanic = {
 			cooldown_years = 5
 			cooldown_token = hlc_chancery_ordinance
 			ai_chance = {
-				factor = 10
+				factor = 4
 				modifier = {
 					factor = 0
 					has_country_flag = hlc_chancery_ordinance_active
@@ -87,8 +120,14 @@ hlc_austrian_reorganization_mechanic = {
 					tooltip = hlc_settlement_ordinance_not_in_force_tt
 					NOT = { has_country_flag = hlc_settlement_ordinance_active }
 				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_ordinance_slot_free_tt
+					hlc_ordinance_slot_free = yes
+				}
+				adm_power_cost = 50
 			}
 			effect = {
+				adm_power_cost = 50
 				set_country_flag = hlc_settlement_ordinance_active
 				add_country_modifier = {
 					name = hlc_settlement_ordinance_modifier
@@ -98,10 +137,25 @@ hlc_austrian_reorganization_mechanic = {
 			cooldown_years = 5
 			cooldown_token = hlc_settlement_ordinance
 			ai_chance = {
-				factor = 10
+				factor = 1
 				modifier = {
 					factor = 0
 					has_country_flag = hlc_settlement_ordinance_active
+				}
+				# Nothing to settle, nothing to enact.
+				modifier = {
+					factor = 0
+					NOT = { hlc_ordinance_settlement_wanted = yes }
+				}
+				# A realm full of unaccepted communities needs it more.
+				modifier = {
+					factor = 4
+					num_of_owned_provinces_with = {
+						value = 6
+						is_city = yes
+						has_owner_culture = no
+						has_owner_accepted_culture = no
+					}
 				}
 			}
 		}
@@ -112,8 +166,14 @@ hlc_austrian_reorganization_mechanic = {
 					tooltip = hlc_cadastral_ordinance_not_in_force_tt
 					NOT = { has_country_flag = hlc_cadastral_ordinance_active }
 				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_ordinance_slot_free_tt
+					hlc_ordinance_slot_free = yes
+				}
+				adm_power_cost = 50
 			}
 			effect = {
+				adm_power_cost = 50
 				set_country_flag = hlc_cadastral_ordinance_active
 				add_country_modifier = {
 					name = hlc_cadastral_ordinance_modifier
@@ -123,25 +183,21 @@ hlc_austrian_reorganization_mechanic = {
 			cooldown_years = 5
 			cooldown_token = hlc_cadastral_ordinance
 			ai_chance = {
-				factor = 10
+				factor = 3
 				modifier = {
 					factor = 0
 					has_country_flag = hlc_cadastral_ordinance_active
 				}
-				# The survey costs noble loyalty; a crown whose nobles are
-				# already restless does not send the surveyors out.
+				# The survey costs noble loyalty: only a crown that is short of
+				# money and whose nobles are loyal sends the surveyors out.
 				modifier = {
 					factor = 0
-					NOT = {
-						estate_loyalty = {
-							estate = estate_nobles
-							loyalty = 40
-						}
-					}
+					NOT = { hlc_ordinance_cadastre_wanted = yes }
 				}
 			}
 		}
-		# Bottom row: rescind.
+		# Bottom row: rescind. Free of cost, bound by the same cooldown token
+		# as the ordinance's enact button.
 		hlc_rescind_chancery_ordinance = {
 			icon = GFX_rip_chancery_rescind
 			trigger = {
@@ -157,7 +213,18 @@ hlc_austrian_reorganization_mechanic = {
 			cooldown_years = 5
 			cooldown_token = hlc_chancery_ordinance
 			ai_chance = {
-				factor = 0
+				factor = 10
+				# Only to make room for an ordinance the realm needs more, or
+				# to bring a realm back to two.
+				modifier = {
+					factor = 0
+					NOT = {
+						OR = {
+							hlc_ordinance_over_limit = yes
+							hlc_ordinance_room_needed = yes
+						}
+					}
+				}
 			}
 		}
 		hlc_rescind_settlement_ordinance = {
@@ -175,7 +242,17 @@ hlc_austrian_reorganization_mechanic = {
 			cooldown_years = 5
 			cooldown_token = hlc_settlement_ordinance
 			ai_chance = {
-				factor = 0
+				factor = 10
+				# Once no unaccepted city is left its benefit no longer applies.
+				modifier = {
+					factor = 0
+					NOT = {
+						OR = {
+							hlc_ordinance_over_limit = yes
+							hlc_ordinance_settlement_spent = yes
+						}
+					}
+				}
 			}
 		}
 		hlc_rescind_cadastral_ordinance = {
@@ -193,7 +270,17 @@ hlc_austrian_reorganization_mechanic = {
 			cooldown_years = 5
 			cooldown_token = hlc_cadastral_ordinance
 			ai_chance = {
-				factor = 0
+				factor = 10
+				# Noble loyalty has fallen too far to be counted again.
+				modifier = {
+					factor = 0
+					NOT = {
+						OR = {
+							hlc_ordinance_over_limit = yes
+							hlc_ordinance_cadastre_dangerous = yes
+						}
+					}
+				}
 			}
 		}
 	}

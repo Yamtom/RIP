@@ -152,6 +152,15 @@ hlc_settlement_ordinance_modifier = {
 	culture_conversion_cost = -0.1
 }
 
+# Hidden one-year timer of the settlement ordinance's loyalty gift: it limits
+# the nobles' +2 loyalty to one manual conversion a year
+# (hlc_settlement_ordinance_conversion_effect, common/scripted_effects/
+# rip_estate_effects.txt). An empty event modifier, the shape vanilla uses for
+# wotr_one_year_timer and tur_janissaries_timer (common/event_modifiers/
+# 00_event_modifiers.txt); it is added with hidden = yes, so it needs no text.
+hlc_settlement_loyalty_timer = {
+}
+
 # The surveyors' tax bonus is paid for with noble loyalty.
 hlc_cadastral_ordinance_modifier = {
 	global_tax_modifier = 0.05

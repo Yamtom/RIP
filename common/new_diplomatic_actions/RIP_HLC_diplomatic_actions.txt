@@ -19,9 +19,31 @@
 # (common/government_reforms/RIP_HLC_government_reforms.txt), and its own
 # name and description. The mechanical core - require_acceptance = no,
 # create_subject with the vanilla incorporated_vassal subject type - is
-# identical, because that subject type (annex_cost_per_development = 6.0
-# against a vassal's default, -100 governing capacity while held) is
-# generic engine content, not Habsburg flavour.
+# identical, because that subject type is generic engine content, not
+# Habsburg flavour. What the subject type does, read from the installed game
+# (common/subject_types/00_subject_types.txt, common/event_modifiers/
+# 01_mission_modifiers.txt), and what every text of this chain quotes:
+#  - annex_cost_per_development 6.0 against the 8.0 a vassal inherits from the
+#    default subject type: diplomatic annexation is 25% cheaper;
+#  - base_incorporated_vassal_cost, applied to the overlord once for each
+#    incorporated vassal: governing_capacity -100;
+#  - the ten-year wait before it can be annexed is vanilla's own wording
+#    (incorporate_vassal_desc); no script file carries it, so it is the
+#    engine's rule and is quoted, not re-implemented.
+#
+# The chain, end to end: hlc_austrian_bureaucracy_reform (attribute
+# hlc_enables_incorporated_appanages) -> hlc_can_incorporate_appanages ->
+# this action -> incorporated_vassal -> diplomatic annexation later ->
+# estate_nobles_hlc_strong_appanages, the nobles' privilege, which needs at
+# least one incorporated vassal in the realm
+# (common/estate_privileges/RIP_HLC_estate_privileges.txt).
+#
+# Vanilla leaves is_allowed empty and lets the AI always accept, which would
+# have every AI Galicia incorporate every vassal at once and fall far over its
+# Governing Capacity. Here is_allowed carries two sanity guards of the shape
+# vanilla's own convert_to_core_personal_union uses for the Habsburg
+# analogue (liberty desire of the subject, a cap of five), and ai_will_do
+# is a real decision.
 hlc_incorporate_appanage = {
 	category = influence
 
@@ -36,6 +58,24 @@ hlc_incorporate_appanage = {
 	}
 
 	is_allowed = {
+		# A vassal at 50% liberty desire or more makes no diplomatic
+		# annexation progress at all (DIPLOANNEX_LIBERTY_THRESHOLD in
+		# common/defines.lua), so incorporating it would only cost capacity.
+		FROM = {
+			NOT = { liberty_desire = 50 }
+		}
+		# The cap vanilla puts on the Habsburg incorporated personal unions.
+		custom_trigger_tooltip = {
+			tooltip = hlc_incorporate_appanage_limit_tt
+			NOT = {
+				calc_true_if = {
+					all_subject_country = {
+						is_subject_of_type = incorporated_vassal
+					}
+					amount = 5
+				}
+			}
+		}
 	}
 
 	on_accept = {
@@ -46,7 +86,29 @@ hlc_incorporate_appanage = {
 		}
 	}
 
+	# A trigger block, evaluated for the AI overlord (ROOT) and the vassal
+	# (FROM). Every incorporated vassal takes 100 off the Governing Capacity,
+	# so the AI incorporates only when:
+	#  - it is at peace;
+	#  - it has the technology that brings real capacity (adm 12: the second of
+	#    the +100 steps in common/technologies/adm.txt) and uses less than 60%
+	#    of it - governing_capacity_percentage is vanilla's own AI gauge, as in
+	#    common/estate_privileges/0002_rajput_privileges.txt;
+	#  - the vassal is loyal (liberty desire under 25%, as for vanilla's
+	#    convert_to_core_personal_union);
+	#  - the Austrian bureaucracy is at least ten years old, counted from the
+	#    flag hlc_ordinance_sweep_effect sets (common/scripted_effects/
+	#    rip_hlc_ordinance_effects.txt).
 	ai_will_do = {
-		always = yes
+		is_at_war = no
+		adm_tech = 12
+		NOT = { governing_capacity_percentage = 0.6 }
+		had_country_flag = {
+			flag = hlc_austrian_bureaucracy_dated
+			days = 3650
+		}
+		FROM = {
+			NOT = { liberty_desire = 25 }
+		}
 	}
 }

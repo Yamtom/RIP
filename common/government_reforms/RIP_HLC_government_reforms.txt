@@ -209,6 +209,12 @@ hlc_austrian_bureaucracy_reform = {
 		# Galician analog of Habsburg "Incorporate Vassal"
 		# (common/new_diplomatic_actions/00_diplomatic_actions.txt,
 		# incorporate_vassal, gated there on can_have_incorporated_vassals).
+		# The attribute's one reader is hlc_can_incorporate_appanages
+		# (common/scripted_triggers/rip_path_state_triggers.txt), which the
+		# action's is_visible calls. The incorporated vassal it makes is what
+		# the nobles' privilege estate_nobles_hlc_strong_appanages
+		# (common/estate_privileges/RIP_HLC_estate_privileges.txt) asks for.
+		# The card text is mechanic_hlc_enables_incorporated_appanages_yes.
 		hlc_enables_incorporated_appanages = yes
 	}
 }
@@ -332,22 +338,12 @@ hlc_crown_authority_reform = {
 	}
 	# Each ordinance is a flag and a persistent country modifier, so losing
 	# the crown authority has to clear all three or they would outlive it.
+	# hlc_clear_ordinances_effect (common/scripted_effects/rip_hlc_ordinance_
+	# effects.txt) removes the flag and the modifier of each. A yearly sweep
+	# from the same file catches what this block cannot see: a tag change, or a
+	# government change made by an event or a revolution.
 	removed_effect = {
-		if = {
-			limit = { has_country_flag = hlc_chancery_ordinance_active }
-			clr_country_flag = hlc_chancery_ordinance_active
-			remove_country_modifier = hlc_chancery_ordinance_modifier
-		}
-		if = {
-			limit = { has_country_flag = hlc_settlement_ordinance_active }
-			clr_country_flag = hlc_settlement_ordinance_active
-			remove_country_modifier = hlc_settlement_ordinance_modifier
-		}
-		if = {
-			limit = { has_country_flag = hlc_cadastral_ordinance_active }
-			clr_country_flag = hlc_cadastral_ordinance_active
-			remove_country_modifier = hlc_cadastral_ordinance_modifier
-		}
+		hlc_clear_ordinances_effect = yes
 	}
 }
 

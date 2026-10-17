@@ -343,9 +343,16 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     require(
         failures,
         "republican_tradition" not in palanok
+        and "legitimacy" not in palanok
         and "land_morale = -0.05" in palanok
         and "global_unrest = 1" in palanok,
         "UZH Palanok parties still contain authority modifiers that are no-ops in one government type",
+    )
+    require(
+        failures,
+        "factions = {" not in palanok
+        and not (ROOT / "common/factions/RIP_uzh_palanok_factions.txt").exists(),
+        "UZH Palanok captaincy is back on the vanilla factions system (it is a states_general scale; see tests/check_uzh_states_general.py)",
     )
     republican_komitat = normalized(
         named_block(uzh, "uzh_republican_komitat_system_reform")
@@ -405,8 +412,8 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     )
     require(
         failures,
-        'has_dlc = "Res Publica"'
-        in named_block(uzh_missions_raw, "uzh_komitat_system")
+        "has_states_general_mechanic = yes"
+        in normalized(named_block(uzh_missions_raw, "uzh_komitat_system"))
         and "has_reform = uzh_palanok_captaincy_reform" in uzh_missions
         and "statists_vs_orangists = 0.7" in uzh_missions,
         "UZH Komitat mission does not enforce Captains' Party support for the Palanok mechanic",

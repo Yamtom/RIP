@@ -1,0 +1,83 @@
+# The Palanok scale. partia_soymu is the left end of the bar (-1) and
+# partia_kapitaniv the right end (+1); the sides are declared by
+# uzh_palanok_captaincy_reform (common/government_reforms/RIP_UZH_government_reforms.txt).
+#
+# Each effect moves the bar only for a holder of that reform that really has
+# the scale: without Res Publica or Winds of Change the reform carries no
+# states_general_mechanic, there is no bar to move and the effect does nothing.
+# change_statists_vs_orangists is vanilla's positional effect: it moves the
+# country's bar whatever the two sides are called (vanilla's own theocracies
+# and soldier-king elections call it for militarists and theocrats).
+# The custom_tooltip line is what the player reads; the move itself is hidden so
+# the engine does not print a second, vanilla-worded line beside it.
+# The number in each name is the move on the -100..+100 scale of the bar.
+
+uzh_sg_captains_15_effect = {
+	if = {
+		limit = {
+			has_reform = uzh_palanok_captaincy_reform
+			has_states_general_mechanic = yes
+		}
+		custom_tooltip = uzh_sg_captains_15_tt
+		hidden_effect = {
+			change_statists_vs_orangists = 0.15
+		}
+	}
+}
+
+uzh_sg_captains_20_effect = {
+	if = {
+		limit = {
+			has_reform = uzh_palanok_captaincy_reform
+			has_states_general_mechanic = yes
+		}
+		custom_tooltip = uzh_sg_captains_20_tt
+		hidden_effect = {
+			change_statists_vs_orangists = 0.20
+		}
+	}
+}
+
+uzh_sg_sejm_15_effect = {
+	if = {
+		limit = {
+			has_reform = uzh_palanok_captaincy_reform
+			has_states_general_mechanic = yes
+		}
+		custom_tooltip = uzh_sg_sejm_15_tt
+		hidden_effect = {
+			change_statists_vs_orangists = -0.15
+		}
+	}
+}
+
+uzh_sg_sejm_20_effect = {
+	if = {
+		limit = {
+			has_reform = uzh_palanok_captaincy_reform
+			has_states_general_mechanic = yes
+		}
+		custom_tooltip = uzh_sg_sejm_20_tt
+		hidden_effect = {
+			change_statists_vs_orangists = -0.20
+		}
+	}
+}
+
+# Called from on_war_won (common/on_actions/00_on_actions.txt; root = winner,
+# from = loser): a war won against a foe at least as developed as we are
+# strengthens the Captains' Party by 10 points. The development test keeps the
+# scale from being farmed on weak neighbours. No tooltip: an on_action has no
+# window; the reform and party descriptions say what strengthens each side.
+uzh_sg_war_won_effect = {
+	if = {
+		limit = {
+			has_reform = uzh_palanok_captaincy_reform
+			has_states_general_mechanic = yes
+			FROM = {
+				total_development = ROOT
+			}
+		}
+		change_statists_vs_orangists = 0.10
+	}
+}

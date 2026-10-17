@@ -1,10 +1,13 @@
-"""Contracts for the Galician and Volhynian government-ability panels.
+"""Contracts for the Galician, Volhynian and Lithuanian government-ability panels.
 
 Static checks over script, sprites and localisation: they prove the files agree
 with each other, not that the engine draws the panel the way the preview does.
 
-  * Boyar Council (3 buttons), Chancery Ordinances (6) and Magnate Senate (3) use
-    twelve different bespoke sprites - none of vanilla's Cossack ability icons.
+  * Boyar Council (3 buttons), Chancery Ordinances (6), Magnate Senate (3) and
+    Pany Rada (3) use fifteen different bespoke sprites - none of vanilla's
+    Cossack ability icons. The Pany Rada's three share one shield frame that no
+    other mechanic uses, and each button has its own sprite (confirm, lord,
+    retinues), not one borrowed from a sibling mechanic.
   * The six ordinance buttons are two rows of three: enact on top, rescind below,
     one column per ordinance, each pair sharing its cooldown token.
   * Every sprite is a defined, existing 82x82 uncompressed DDS with a shaped
@@ -35,8 +38,17 @@ MECHANICS = {
     "common/government_mechanics/rip_hlc_boyar_council.txt": ("hlc_boyar_council_mechanic", 3),
     "common/government_mechanics/rip_hlc_austrian_reorganization.txt": ("hlc_austrian_reorganization_mechanic", 6),
     "common/government_mechanics/rip_vln_magnate_senate.txt": ("vln_magnate_senate_mechanic", 3),
+    "common/government_mechanics/rip_lit_pany_rada.txt": ("lit_pany_rada_mechanic", 3),
 }
 ORDINANCES = ("chancery", "settlement", "cadastral")
+SPRITES = 15
+# Pany Rada: button -> sprite, in file order; the frame is the shield no other mechanic uses
+RADA_FILE = "common/government_mechanics/rip_lit_pany_rada.txt"
+RADA_BUTTONS = {
+    "lit_seek_the_radas_confirmation": "GFX_rip_rada_confirm",
+    "lit_win_over_a_wavering_lord": "GFX_rip_rada_lord",
+    "lit_the_radas_own_retinues": "GFX_rip_rada_retinues",
+}
 
 
 # --------------------------------------------------------------------------
@@ -138,19 +150,66 @@ def check_ordinance_layout(text):
     return problems
 
 
-def check_sprites():
-    problems = []
-    gfx = read(GFX)
-    definitions = dict(re.findall(r'spriteType = \{ name = "(GFX_rip_\w+)" texturefile = "([^"]+)" \}', gfx))
-    if len(definitions) != 12:
-        problems.append(f"{GFX} defines {len(definitions)} sprites, expected 12")
-    images = {}
+def load_sprites():
+    """The sprites the gfx file defines, and the decoded DDS behind each (None where the file is missing)."""
+    definitions = dict(re.findall(r'spriteType = \{ name = "(GFX_rip_\w+)" texturefile = "([^"]+)" \}', read(GFX)))
+    loaded = {}
     for name, texture in definitions.items():
         path = ROOT / texture
-        if not path.is_file():
+        loaded[name] = read_dds(path) if path.is_file() else None
+    return definitions, loaded
+
+
+def silhouette(pixels):
+    """The opaque outline of a sprite, one byte per pixel: a frame shape shows in it alone."""
+    return bytes(1 if a > 127 else 0 for a in pixels[3::4])
+
+
+def differing(a, b):
+    """Fraction of two equal-length byte strings that differ."""
+    return sum(1 for x, y in zip(a, b) if x != y) / max(1, len(a))
+
+
+def check_rada_frame(images):
+    """The Pany Rada's three sprites share one frame silhouette, and no other mechanic's frame looks like it."""
+    problems = []
+    rada = [name for name in RADA_BUTTONS.values() if name in images]
+    shapes = {name: silhouette(images[name]) for name in images}
+    for first in rada:
+        for second in rada:
+            if first < second and differing(shapes[first], shapes[second]) > 0.01:
+                problems.append(f"{first} and {second} do not share one frame shape")
+    for first in rada:
+        for other in shapes:
+            if other not in RADA_BUTTONS.values() and differing(shapes[first], shapes[other]) < 0.08:
+                problems.append(f"{first} has the frame of {other}: the Pany Rada needs a shape of its own")
+    return problems
+
+
+def check_rada_art(images):
+    """Each Pany Rada sprite is a different picture from the Magnate Senate's buy-off, banners and summon art."""
+    problems = []
+    for first in (name for name in RADA_BUTTONS.values() if name in images):
+        for second in (name for name in ("GFX_rip_senate_buyoff", "GFX_rip_senate_banners", "GFX_rip_senate_summon") if name in images):
+            a, b = images[first], images[second]
+            far = sum(1 for x in range(0, len(a), 4 * 7) if abs(a[x] - b[x]) + abs(a[x + 1] - b[x + 1]) + abs(a[x + 2] - b[x + 2]) > 30)
+            if far < len(a) // (4 * 7) * 0.5:
+                problems.append(f"{first} is too close to {second}")
+    return problems
+
+
+def check_sprites(definitions=None, loaded=None):
+    problems = []
+    if definitions is None:
+        definitions, loaded = load_sprites()
+    if len(definitions) != SPRITES:
+        problems.append(f"{GFX} defines {len(definitions)} sprites, expected {SPRITES}")
+    images = {}
+    for name, texture in definitions.items():
+        if loaded[name] is None:
             problems.append(f"{name}: {texture} does not exist")
             continue
-        width, height, bits, masks, pixels = read_dds(path)
+        width, height, bits, masks, pixels = loaded[name]
         if (width, height, bits) != (EDGE, EDGE, 32):
             problems.append(f"{name}: {width}x{height} at {bits} bits, expected {EDGE}x{EDGE} at 32")
         if masks != (0xFF0000, 0xFF00, 0xFF, 0xFF000000):
@@ -199,17 +258,23 @@ def check_localisation(text_by_mechanic):
     return problems
 
 
-def check_ordinance_modifiers(modifiers_text, reform_text):
+def check_ordinance_modifiers(modifiers_text, reform_text, effects_text):
     problems = []
     for ordinance in ORDINANCES:
         name = f"hlc_{ordinance}_ordinance_modifier"
         if not re.search(rf"(?m)^{name}\s*=\s*\{{", modifiers_text):
             problems.append(f"{name} is not defined in west_ukraine_modifiers.txt")
+    # removed_effect hands over to one scripted effect (also used by the yearly
+    # sweep), so the flags and modifiers are checked where they are cleared.
+    # tests/check_hlc_ordinances.py covers the sweep and the rest of the clean-up.
     removed = named_block(named_block(reform_text, "hlc_crown_authority_reform"), "removed_effect")
+    if "hlc_clear_ordinances_effect = yes" not in removed:
+        problems.append("hlc_crown_authority_reform removed_effect does not call hlc_clear_ordinances_effect")
+    cleared = named_block(effects_text, "hlc_clear_ordinances_effect")
     for ordinance in ORDINANCES:
         for needle in (f"clr_country_flag = hlc_{ordinance}_ordinance_active", f"remove_country_modifier = hlc_{ordinance}_ordinance_modifier"):
-            if needle not in removed:
-                problems.append(f"hlc_crown_authority_reform removed_effect lacks {needle}")
+            if needle not in cleared:
+                problems.append(f"hlc_clear_ordinances_effect lacks {needle}")
     cadastral = named_block(modifiers_text, "hlc_cadastral_ordinance_modifier")
     if "global_tax_modifier" not in cadastral or "nobles_loyalty_modifier = -" not in cadastral:
         problems.append("the cadastral ordinance must pay its tax bonus with noble loyalty")
@@ -293,7 +358,9 @@ def planted_violations(texts, sprites):
         "Ruina without its can_start guard": check_appanage_and_ruina(
             texts["estate"], texts["disaster"].replace("limit = { has_government_attribute = hlc_disables_chernihiv_ruina }", "limit = { always = no }"), texts["reform"]),
         "crown authority that leaves ordinances behind": check_ordinance_modifiers(
-            texts["modifiers"], texts["reform"].replace("remove_country_modifier = hlc_cadastral_ordinance_modifier", "# nothing")),
+            texts["modifiers"], texts["reform"], texts["effects"].replace("remove_country_modifier = hlc_cadastral_ordinance_modifier", "# nothing")),
+        "crown authority that no longer clears them": check_ordinance_modifiers(
+            texts["modifiers"], texts["reform"].replace("hlc_clear_ordinances_effect = yes", "# nothing"), texts["effects"]),
         "raw council flag in the boyar republic": check_boyar_republic_tooltip(
             texts["kyiv"].replace("custom_trigger_tooltip", "hidden_trigger_x")),
     }
@@ -307,6 +374,7 @@ def main():
         "disaster": read("common/disasters/shared_ruthenian_disasters.txt"),
         "modifiers": read("common/event_modifiers/west_ukraine_modifiers.txt"),
         "reform": read("common/government_reforms/RIP_HLC_government_reforms.txt"),
+        "effects": read("common/scripted_effects/rip_hlc_ordinance_effects.txt"),
         "kyiv": read("common/government_reforms/RIP_KIE_KRU_government_reforms.txt"),
     }
     sprite_problems, sprites = check_sprites()
@@ -318,7 +386,7 @@ def main():
         problems += check_buttons(path, mechanic, expected, text, sprites)
     problems += check_ordinance_layout(texts["chancery"])
     problems += check_localisation(mechanic_texts)
-    problems += check_ordinance_modifiers(texts["modifiers"], texts["reform"])
+    problems += check_ordinance_modifiers(texts["modifiers"], texts["reform"], texts["effects"])
     problems += check_appanage_and_ruina(texts["estate"], texts["disaster"], texts["reform"])
     problems += check_boyar_republic_tooltip(texts["kyiv"])
     attribute_problems, note = check_custom_attributes()
