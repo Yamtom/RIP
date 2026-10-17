@@ -1,6 +1,6 @@
 """Build government sprites, native power widgets and owned localisation.
 
-Raster artwork: checked-in imagegen atlas; cropping/resizing is asset packaging.
+Raster artwork: checked-in imagegen sources; cropping/resizing is asset packaging.
 English fallback strings in non-English languages are intentional, not translations.
 """
 from pathlib import Path
@@ -26,13 +26,21 @@ def emit(path, data, bom=False):
 NAMES = ['siversk_charter','siversk_towns','siversk_retinue','kyiv_snem',
          'kyiv_udil','kyiv_druzhyna','kyiv_levy','kyiv_rota',
          'kyiv_grants','knyazi','boyary','starshyna',
-         'concord','gathering','rada','siversk_principality']
+         'concord','gathering','prosperity','rada','siversk_principality']
 
 ICONS = [
-    ('concord', 0, 3), ('gathering', 1, 3),
+    ('concord', 0, 3), ('gathering', 1, 3), ('prosperity', 1, 3),
     ('kyiv_levy', 2, 1), ('kyiv_rota', 3, 1), ('kyiv_grants', 0, 2),
     ('knyazi', 1, 2), ('boyary', 2, 2), ('starshyna', 3, 2),
+    ('siversk_charter', 0, 0), ('siversk_towns', 0, 0),
+    ('siversk_retinue', 0, 0), ('kyiv_snem', 0, 0),
+    ('kyiv_udil', 0, 0), ('kyiv_druzhyna', 0, 0),
 ]
+ART = {'siversk_charter': 'charter', 'siversk_towns': 'towns',
+       'siversk_retinue': 'druzhyna', 'kyiv_snem': 'snem',
+       'kyiv_udil': 'charter', 'kyiv_druzhyna': 'druzhyna',
+       'kyiv_levy': 'druzhyna', 'kyiv_rota': 'snem',
+       'kyiv_grants': 'charter', 'concord': 'concord', 'prosperity': 'prosperity'}
 atlas = Image.open(ROOT/'gfx/interface/rip_government/source/atlas.png').convert('RGBA')
 ROWS = (0, .25, .5, .732, 1)
 sprites = []
@@ -79,9 +87,12 @@ def remove_atlas_background(image):
 for i, (name, x, y) in enumerate(ICONS):
     tile = atlas.crop((round(x*atlas.width/4), round(ROWS[y]*atlas.height),
                        round((x+1)*atlas.width/4), round(ROWS[y+1]*atlas.height)))
-    tile = remove_atlas_background(tile)
+    if name in ART:
+        tile = Image.open(ROOT/f'gfx/interface/rip_government/source/{ART[name]}.png').convert('RGBA')
+    else:
+        tile = remove_atlas_background(tile)
     icon = tile.resize((72,72), Image.Resampling.LANCZOS)
-    # Ability icons stay in native game art; these crops are for power and faction emblems.
+    # Native 72x72 footprint; source PNG alpha is preserved for new emblems.
     if name not in ('knyazi', 'boyary', 'starshyna'):
         path = ROOT/f'gfx/interface/rip_government/{name}.dds'
         if ARGS.check:
@@ -94,7 +105,7 @@ for i, (name, x, y) in enumerate(ICONS):
     preview.paste(preview_icon, (preview_x*160+48, preview_y*90),
                   preview_icon.getchannel('A'))
     draw.text((preview_x*160+6, preview_y*90+66), name, fill='#eed8ac')
-    if name in ('concord', 'prosperity'):
+    if name in ART:
         sprites.append(f'\tspriteType = {{ name = "GFX_rip_{name}" texturefile = "gfx/interface/rip_government/{name}.dds" noOfFrames = 1 norefcount = yes }}')
     if name in ('knyazi','boyary','starshyna'):
         faction = tile.resize((104,104),Image.Resampling.LANCZOS)
@@ -107,7 +118,7 @@ for i, (name, x, y) in enumerate(ICONS):
         color = {'knyazi':'purple','boyary':'blue','starshyna':'red'}[name]
         sprites.append(f'\tspriteType = {{ name = "GFX_faction_bg_kru_{name}" texturefile = "gfx/interface/faction_{color}_frame.tga" transparencecheck = yes noOfFrames = 1 norefcount = yes }}')
 sprites.append('\tspriteType = { name = "government_reform_rip_siversk_principality" texturefile = "gfx/interface/rip_government/siversk_principality.dds" noOfFrames = 1 norefcount = yes }')
-for power, icon in [('kyivan_throne_concord','concord'),('kyivan_peoples_gathering','gathering'),
+for power, icon in [('kyivan_throne_concord','concord'),('kyivan_peoples_gathering','gathering'),('kyivan_peoples_gathering','prosperity'),
                     ('kyiv_princely_levy_power','kyiv_levy'),('kyiv_seat_rotation_power','kyiv_rota'),
                     ('kyiv_grant_reconfirmation_power','kyiv_grants'),
                     ('kru_knyazi_boyary_balance','faction_knyazi'),
@@ -146,7 +157,6 @@ for obsolete in OBSOLETE_ASSETS:
         assert not path.exists(), f'Obsolete: {path}'
     elif path.exists():
         path.unlink()
-
 gui = ['guiTypes = {']
 for widget, icon, label in [('rip_throne_concord_power','concord','kyivan_throne_concord'),
                             ('rip_peoples_gathering_power','gathering','kyivan_peoples_gathering')]:
@@ -252,6 +262,28 @@ for power, name in [
 ]:
     COPY['monthly_'+power] = 'Monthly '+name
     COPY[power+'_gain_modifier'] = name+' Gain'
+
+COPY.update({
+ 'rip_parliament_imperial_sobor': 'Sobor of the Lands',
+ 'rip_parliament_sumy_regimental': 'Sumy Regimental Rada',
+ 'rip_parliament_okhtyrka_regimental': 'Okhtyrka Regimental Rada',
+ 'rip_parliament_kharkiv_regimental': 'Kharkiv Regimental Rada',
+ 'rip_parliament_izium_regimental': 'Izium Regimental Rada',
+ 'kyivan_peoples_gathering': 'Concord of Peoples',
+ 'ability_kyivan_peoples_gathering_mechanic': 'Concord of Peoples',
+ 'monthly_kyivan_peoples_gathering': 'Monthly Concord of Peoples',
+ 'kyivan_peoples_gathering_gain_modifier': 'Concord of Peoples Gain',
+ 'kyivan_peoples_gathering_desc': 'Requires at least 10% of owned development in non-primary cultures, a non-primary province and at least one promoted culture. Cultural development shares refresh monthly.\\nMonthly growth: +0.30 when eligible; +0.15 with three promoted cultures; +0.15 with at least 30% non-primary development; +0.10 with Throne Concord at least 60. Loss: -0.25 at 15% unaccepted development, a further -0.35 at 30%; -0.20 below 30 Throne Concord; -0.15 at 5 war exhaustion; -0.50 when ineligible.\\nAt 100: renew Peoples Gathered for 10 years, gain 10 prestige and 10 Throne Concord, reset to 40. Below 20 with at least 30% unaccepted development: one court crisis per breakdown, -15 Throne Concord and Throne in Disarray for 5 years. Rearms after reaching 40 and reducing unaccepted development below 15%.',
+ 'kyivan_throne_concord_desc': 'Throne Concord starts at 50. Monthly base +0.10; stability at least 2: +0.10; negative stability: -0.20; legitimacy at least 80: +0.20; below 40: -0.25; a subject at 50 liberty desire: -0.30. Eligible Concord of Peoples at 60: +0.15; unaccepted cultural development at 30%: -0.30.\\nLow concord scales legitimacy, stability-cost and advisor-cost penalties. At zero: Throne in Disarray for 5 years. At 100 there is no repeatable prestige reward.',
+})
+for tag, place in {
+ 'KIE':'Kyivan', 'KRU':'Rus', 'UKR':'Ukrainian', 'RUT':'Ruthenian',
+ 'CHR':'Chernihiv', 'VLN':'Volhynian', 'HLC':'Halych', 'UZH':'Uzhhorod',
+ 'PRL':'Pereiaslav', 'PDL':'Podolian', 'ODS':'Odesa', 'KUY':'Kuyaba',
+ 'RPS':'Polissian', 'ZLK':'Green Wedge', 'SRK':'Grey Wedge', 'MSK':'Minsk',
+ 'TRV':'Turiv', 'VTB':'Vitebsk', 'MSL':'Mstislavl', 'BLR':'White Rus', 'PLT':'Polotsk',
+}.items():
+    COPY['rip_parliament_'+tag.lower()+'_viche'] = place+' Viche'
 
 TAGS = 'KIE KRU UKR RUT CHR VLN HLC UZH PRL PDL ODS ZAZ HET KUY RPS SMY OKH IZM KHK ZLK SRK MSK TRV VTB MSL BLR PLT LIT'.split()
 for tag in TAGS:

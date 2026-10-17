@@ -42,7 +42,7 @@ def parliament_name(tag, government, held=()):
     return next(key for trigger,key in choices if evaluate(trigger,set(held),tag,government))
 for tag in ('KIE','CHR','VLN','UZH','PRL','PDL','ODS','RUT'):
     assert parliament_name(tag,'theocracy') == 'rip_parliament_sobor'
-    assert parliament_name(tag,'republic') == 'rip_parliament_viche'
+    assert parliament_name(tag,'republic') == 'rip_parliament_'+tag.lower()+'_viche'
     assert parliament_name(tag,'monarchy') == 'rip_parliament_estates'
 for active in ids:
     assert parliament_name('KRU','monarchy',[active]) == 'rip_parliament_three'
@@ -125,19 +125,19 @@ for faction in ('knyazi','boyary','starshyna'):
     assert loc[f'kru_{faction}_FACTION_DESC']
 expected_ability_icons = {
     'rip_siversk_patrimony': [
-        'GFX_cossacks_ability_ADM',
-        'GFX_cossacks_ability_DIP',
-        'GFX_cossacks_ability_MIL',
+        'GFX_rip_siversk_charter',
+        'GFX_rip_siversk_towns',
+        'GFX_rip_siversk_retinue',
     ],
     'rip_kyivan_seniority': [
-        'GFX_cossacks_ability_ADM',
-        'GFX_cossacks_ability_DIP',
-        'GFX_cossacks_ability_MIL',
+        'GFX_rip_kyiv_snem',
+        'GFX_rip_kyiv_udil',
+        'GFX_rip_kyiv_druzhyna',
     ],
     'rip_kyivan_seniorate': [
-        'GFX_cossacks_ability_MIL',
-        'GFX_cossacks_ability_DIP',
-        'GFX_cossacks_ability_ADM',
+        'GFX_rip_kyiv_levy',
+        'GFX_rip_kyiv_rota',
+        'GFX_rip_kyiv_grants',
     ],
     'rip_ruthenian_factional_court': [
         'GFX_cossacks_ability_DIP',
@@ -181,7 +181,6 @@ for name in (
     'knyazi', 'boyary', 'starshyna',
 ):
     assert not (ROOT/f'gfx/interface/rip_government/{name}.dds').exists(), name
-
 game = vanilla_root()
 if game:
     widths = {}
@@ -193,3 +192,8 @@ if game:
     assert all(chars <= 28 and pixels <= 220 for _,chars,pixels in measured), measured
     print('NAME WIDTH PASS: vic_18; max',max(x[1] for x in measured),'characters;',max(x[2] for x in measured),'px; budget 220 px.')
 print('RUTHENIAN GOVERNMENT UI PASS: exclusive states, costs, cooldowns, sprites, unique localisation and names.')
+
+for tag, place in [('SMY','sumy'),('OKH','okhtyrka'),('KHK','kharkiv'),('IZM','izium')]:
+    for gov in ('monarchy','republic'):
+        assert parliament_name(tag,gov) == 'rip_parliament_'+place+'_regimental'
+assert parliament_name('KIE','monarchy',['kyivan_cesarstvo_reform']) == 'rip_parliament_imperial_sobor'
