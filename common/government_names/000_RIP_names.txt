@@ -797,6 +797,8 @@ vln_voivode_council = {
 	}
 }
 
+# Shared M7/M8 reforms do not define titles; prevent older Hetman forms from
+# winning when either shared reform is active, allowing the Voivodeship title to apply.
 vln_black_voivode_legion = {
 	rank = {
 		1 = MILITARY_VOIVODESHIP
@@ -817,6 +819,12 @@ vln_black_voivode_legion = {
 	}
 
 	trigger = {
+		NOT = {
+			OR = {
+				has_reform = vln_ruthenian_renaissance_reform
+				has_reform = vln_magdeburg_rights
+			}
+		}
 		has_reform = vln_black_voivode_legion
 	}
 }
@@ -841,6 +849,12 @@ vln_confessional_reform = {
 	}
 
 	trigger = {
+		NOT = {
+			OR = {
+				has_reform = vln_ruthenian_renaissance_reform
+				has_reform = vln_magdeburg_rights
+			}
+		}
 		has_reform = vln_confessional_reform
 	}
 }
@@ -865,6 +879,12 @@ vln_confessional_academy = {
 	}
 
 	trigger = {
+		NOT = {
+			OR = {
+				has_reform = vln_ruthenian_renaissance_reform
+				has_reform = vln_magdeburg_rights
+			}
+		}
 		has_reform = vln_confessional_academy
 	}
 }
@@ -889,6 +909,12 @@ vln_cossack_host_reform = {
 	}
 
 	trigger = {
+		NOT = {
+			OR = {
+				has_reform = vln_ruthenian_renaissance_reform
+				has_reform = vln_magdeburg_rights
+			}
+		}
 		has_reform = vln_cossack_host_reform
 	}
 }
@@ -1117,6 +1143,7 @@ pdl_frontier_republic = {
 
 	trigger = {
 		west_ukraine_pdl_origin_country = yes
+		has_country_flag = pdl_frontier_path
 		has_reform = pdl_frontier_republic_reform
 	}
 }

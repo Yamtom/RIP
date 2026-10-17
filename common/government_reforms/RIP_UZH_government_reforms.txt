@@ -201,26 +201,19 @@ uzh_palatial_ruthenian_reform = {
 	modifiers = {
 		num_accepted_cultures = 1
 		diplomatic_reputation = 1
-		parliament_backing_chance = 0.1
 	}
 	custom_attributes = {
 		locked_government_type = yes
 	}
 	conditional = {
 		allow = {
-			has_dlc = "Common Sense"
-			NOT = { has_dlc = "Domination" }
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
 		}
 		has_parliament = yes
-		custom_attributes = {
-			blocked_call_diet = yes
-		}
-	}
-	conditional = {
-		allow = {
-			has_dlc = "Domination"
-		}
-		has_parliament = yes
+		parliament_backing_chance = 0.1
 		custom_attributes = {
 			blocked_call_diet = yes
 		}

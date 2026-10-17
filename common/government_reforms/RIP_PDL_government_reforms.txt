@@ -10,10 +10,22 @@ pdl_clan_assembly_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = yes
 	potential = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_clan_assembly_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				has_country_flag = pdl_frontier_path
+			}
+		}
 	}
 	trigger = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_clan_assembly_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				has_country_flag = pdl_frontier_path
+			}
+		}
 	}
 	modifiers = {
 		global_unrest = -1
@@ -35,10 +47,22 @@ pdl_steppe_principality_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = yes
 	potential = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_steppe_principality_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				has_country_flag = pdl_carpathian_path
+			}
+		}
 	}
 	trigger = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_steppe_principality_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				has_country_flag = pdl_carpathian_path
+			}
+		}
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.10
@@ -60,10 +84,22 @@ pdl_voivodeship_kingdom_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_voivodeship_kingdom_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				has_country_flag = pdl_magnate_path
+			}
+		}
 	}
 	trigger = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_voivodeship_kingdom_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				has_country_flag = pdl_magnate_path
+			}
+		}
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.1
@@ -161,15 +197,31 @@ pdl_frontier_voivodeship_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_frontier_voivodeship_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				NOT = { has_country_flag = pdl_carpathian_path }
+				NOT = { has_country_flag = pdl_frontier_path }
+				NOT = { has_country_flag = pdl_magnate_path }
+			}
+		}
 	}
 	trigger = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_frontier_voivodeship_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				NOT = { has_country_flag = pdl_carpathian_path }
+				NOT = { has_country_flag = pdl_frontier_path }
+				NOT = { has_country_flag = pdl_magnate_path }
+			}
+		}
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.1
 		reform_progress_growth = 0.1
-		state_maintenance_modifier = -0.1
+		fort_maintenance_modifier = -0.1
 	}
 	custom_attributes = {
 		locked_government_type = yes

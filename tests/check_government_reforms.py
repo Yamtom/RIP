@@ -7,17 +7,40 @@ import re
 from collections import Counter
 from pathlib import Path
 
-from clausewitz_testlib import ROOT, keyed_blocks, named_block, normalized, read
+from clausewitz_testlib import ROOT, keyed_blocks, named_block, normalized, read, vanilla_root
 
 
 REFORMS_DIR = ROOT / "common/government_reforms"
 EXPECTED_REFORM_COUNT = 123
 EXPECTED_REFORM_ID_SHA256 = "045b458ff6ba9b8c43316ef849b71a359a19113090241a2be738ed527cb046cb"
+ROLE_ONLY_REFORMS = (
+    "kyivan_veche_reform",
+    "kyivan_boyar_republic_reform",
+    "kyivan_metropolitanate_reform",
+    "kyivan_church_synod_reform",
+    "hlc_boyar_republic_reform",
+    "hlc_boyar_oligarchy_reform",
+    "hlc_halych_metropolitanate_reform",
+    "hlc_halych_synodal_confirmation_reform",
+    "hlc_lviv_uniate_synod_reform",
+    "vln_sejmik_republic_reform",
+    "vln_dietine_instructions_reform",
+    "uzh_mukachevo_eparchy_reform",
+    "uzh_uzhhorod_seat_translation_reform",
+    "uzh_presov_eparchy_reform",
+)
 
 
 def require(failures: list[str], condition: bool, message: str) -> None:
     if not condition:
         failures.append(message)
+
+
+def exclusive_entry_sets(government: str) -> list[set[str]]:
+    return [
+        set(re.findall(r"\b[a-z][a-z0-9_]*\b", re.sub(r"#.*", "", block)))
+        for _, block in keyed_blocks(government, "exclusive_reforms")
+    ]
 
 
 def reform_sources() -> tuple[str, dict[str, Path]]:
@@ -64,6 +87,35 @@ def check_vfs_and_schema(failures: list[str], reforms: str, owners: dict[str, Pa
         f"{EXPECTED_REFORM_COUNT} унікальних definition-ID" in reform_map,
         "visual map reports a stale government reform count",
     )
+    authenticity_doc = read("docs/GOVERNMENT_AUTHENTICITY_105.uk.md")
+    documented_authenticity_ids = set(
+        re.findall(r"(?m)^\| `([A-Za-z0-9_]+)`", authenticity_doc)
+    )
+    require(
+        failures,
+        documented_authenticity_ids == set(owners),
+        "government authenticity document does not cover exactly the live reform definitions",
+    )
+    require(
+        failures,
+        f"ця таблиця охоплює всі **{EXPECTED_REFORM_COUNT} визначення реформ**"
+        in normalized(authenticity_doc),
+        "government authenticity document reports a stale total reform count",
+    )
+    for reform in ROLE_ONLY_REFORMS:
+        row = next(
+            (
+                line
+                for line in authenticity_doc.splitlines()
+                if line.startswith(f"| `{reform}`")
+            ),
+            "",
+        )
+        require(
+            failures,
+            bool(row) and "кампанійн" in row and "сертифік" in row,
+            f"{reform} lacks an explicit no-campaign-certification note in the authenticity document",
+        )
     for path in sorted(REFORMS_DIR.glob("*.txt")):
         require(failures, not path.read_bytes().startswith(b"\xef\xbb\xbf"), f"BOM: {path.name}")
 
@@ -157,6 +209,29 @@ def check_registration(failures: list[str], owners: dict[str, Path]) -> None:
         "uzh_palatial_rusyn_reform",
     ):
         require(failures, reform in m10 and reform in r10, f"UZH Palatial reform lacks an M10/R10 tier: {reform}")
+    uzh_palatial = named_block(
+        read("common/government_reforms/RIP_UZH_government_reforms.txt"),
+        "uzh_palatial_ruthenian_reform",
+    )
+    uzh_modifiers = named_block(uzh_palatial, "modifiers")
+    uzh_conditionals = [block for _, block in keyed_blocks(uzh_palatial, "conditional")]
+    gated_conditional = uzh_conditionals[0] if len(uzh_conditionals) == 1 else ""
+    conditional_allow = named_block(gated_conditional, "allow") if gated_conditional else ""
+    dlc_ors = [block for _, block in keyed_blocks(conditional_allow, "OR")]
+    dlc_gate = dlc_ors[0] if len(dlc_ors) == 1 else ""
+    dlc_names = re.findall(r'(?m)^\s*has_dlc\s*=\s*"([^"]+)"\s*$', dlc_gate)
+    require(
+        failures,
+        "parliament_backing_chance" not in uzh_modifiers
+        and len(uzh_conditionals) == 1
+        and len(dlc_ors) == 1
+        and len(dlc_names) == 2
+        and set(dlc_names) == {"Common Sense", "Domination"}
+        and "has_parliament = yes" in normalized(gated_conditional)
+        and "parliament_backing_chance = 0.1" in normalized(gated_conditional)
+        and "blocked_call_diet = yes" in normalized(gated_conditional),
+        "UZH Palatial parliament modifiers are not confined to the single DLC-gated conditional",
+    )
     require(
         failures,
         "uzh_palatial_uhro_reform" in m10
@@ -165,6 +240,134 @@ def check_registration(failures: list[str], owners: dict[str, Path]) -> None:
         and "uzh_palatial_uhro_republic_reform" not in m10,
         "UZH Ugro-Rusyn Palatial variants are not separated into M10 and R10",
     )
+
+    monarchy = named_block(governments, "monarchy")
+    republic = named_block(governments, "republic")
+    monarchy_groups = exclusive_entry_sets(monarchy)
+    republic_groups = exclusive_entry_sets(republic)
+    special_m1_monarchies = (
+        "ruthenian_factional_empire_reform",
+        "ruthenian_factional_empire_princes_hetmans_reform",
+        "ruthenian_factional_empire_boyars_hetmans_reform",
+        "uzh_palanok_captaincy_reform",
+        "lit_union_of_two_nations_reform",
+    )
+    states_general_group = ("states_general_reform", *special_m1_monarchies)
+    require(
+        failures,
+        any(set(states_general_group) <= group for group in monarchy_groups),
+        "M1 factional, Palanok, and Union monarchies are not exclusive with vanilla States General",
+    )
+    monarchy_parliament_group = (
+        "parliamentary_reform",
+        "assembly_houses_reform",
+        *special_m1_monarchies,
+        "representation_monarchy_reform",
+        "hlc_crown_and_sejm_reform",
+        "vln_grand_ruthenia_reform",
+        "uzh_palatial_ruthenian_reform",
+        "legislative_rada_reform",
+    )
+    require(
+        failures,
+        any(set(monarchy_parliament_group) <= group for group in monarchy_groups),
+        "custom M1/M10/M11 monarch assemblies can still stack with generic parliamentary reforms",
+    )
+    republic_parliament_group = (
+        "parliamentary_reform",
+        "zaz_general_rada_reform",
+        "uzh_palatial_ruthenian_reform",
+        "siversk_veche_reform",
+        "chr_desna_staple_reform",
+        "chr_town_union_reform",
+        "chr_rada_of_lands_reform",
+        "kyivan_veche_reform",
+        "uzh_palanok_captaincy_reform",
+    )
+    require(
+        failures,
+        any(set(republic_parliament_group) <= group for group in republic_groups),
+        "R1 Ruthenian assemblies can still stack with R6/R10 parliamentary systems",
+    )
+    custom_exclusive_reforms = set(special_m1_monarchies) | {
+        "hlc_crown_and_sejm_reform",
+        "representation_monarchy_reform",
+        "vln_grand_ruthenia_reform",
+        "uzh_palatial_ruthenian_reform",
+        "legislative_rada_reform",
+        "zaz_general_rada_reform",
+        "siversk_veche_reform",
+        "chr_desna_staple_reform",
+        "chr_town_union_reform",
+        "chr_rada_of_lands_reform",
+        "kyivan_veche_reform",
+    }
+    for reform in custom_exclusive_reforms:
+        require(
+            failures,
+            reform in owners,
+            f"exclusive-reform group references an undefined custom reform: {reform}",
+        )
+    monarchical_only_reforms = (
+        "boyar_elite_reform",
+        "patriarch_engagement_reform",
+        "representation_monarchy_reform",
+        "elected_assemblies_reform",
+        "sacred_regulation_reform",
+        "considerable_bloodline_reform",
+    )
+    republic_exclusive_text = "\n".join(
+        block for _, block in keyed_blocks(republic, "exclusive_reforms")
+    )
+    require(
+        failures,
+        not any(
+            re.search(rf"\b{re.escape(reform)}\b", re.sub(r"#.*", "", republic_exclusive_text))
+            for reform in monarchical_only_reforms
+        ),
+        "monarchy-only Ruthenian reforms remain in republic exclusive_reforms",
+    )
+
+    for government_type, government in (
+        ("monarchy", monarchy),
+        ("republic", republic),
+    ):
+        reform_levels = named_block(government, "reform_levels")
+        registered_text = re.sub(r"#.*", "", reform_levels)
+        registered_ids = set(re.findall(r"\b[a-z][a-z0-9_]*\b", registered_text))
+        exclusive_text = re.sub(
+            r"#.*",
+            "",
+            "\n".join(
+                block for _, block in keyed_blocks(government, "exclusive_reforms")
+            ),
+        )
+        listed_custom = set(re.findall(r"\b[a-z][a-z0-9_]*\b", exclusive_text)) & set(owners)
+        require(
+            failures,
+            listed_custom <= registered_ids,
+            f"unregistered custom reform in {government_type} exclusive_reforms: "
+            f"{sorted(listed_custom - registered_ids)}",
+        )
+
+    installed = vanilla_root()
+    if installed is not None:
+        vanilla_governments = (
+            installed / "common/governments/00_governments.txt"
+        ).read_text(encoding="utf-8-sig")
+        for government_type in ("monarchy", "republic"):
+            vanilla_groups = exclusive_entry_sets(
+                named_block(vanilla_governments, government_type)
+            )
+            current_groups = exclusive_entry_sets(
+                named_block(governments, government_type)
+            )
+            for index, vanilla_group in enumerate(vanilla_groups, 1):
+                require(
+                    failures,
+                    any(vanilla_group <= current_group for current_group in current_groups),
+                    f"{government_type} lost or split vanilla exclusive_reforms group {index}",
+                )
 
 
 def check_localisation(failures: list[str], owners: dict[str, Path]) -> None:
@@ -308,11 +511,13 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         )
 
     lit_confessional_raw = named_block(reforms, "lit_confessional_guarantee_reform")
+    lit_confessional_potential = normalized(named_block(lit_confessional_raw, "potential"))
+    lit_confessional_trigger = normalized(named_block(lit_confessional_raw, "trigger"))
     require(
         failures,
-        "religion = catholic" in normalized(named_block(lit_confessional_raw, "potential"))
-        and "religion = catholic" in normalized(named_block(lit_confessional_raw, "trigger")),
-        "lit_confessional_guarantee_reform applies papal_influence = -1 without requiring Catholicism",
+        lit_confessional_potential.startswith("potential = { religion = catholic")
+        and lit_confessional_trigger.startswith("trigger = { religion = catholic"),
+        "lit_confessional_guarantee_reform must require Catholicism at top-level of potential and trigger so converting removes the reform",
     )
 
     hlc_metro_decisions = read("decisions/HLCMetropolitanatePaths.txt")
@@ -382,7 +587,25 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
             f"R1 republic reform lacks explicit republican flags: {r1_republic_id}",
         )
 
+    vln_voivodeship = normalized(named_block(reforms, "vln_voivodeship_reform"))
     volhynian_host = normalized(named_block(reforms, "vln_cossack_host_reform"))
+    require(
+        failures,
+        "allow = { NOT = { has_reform = vln_cossack_host_reform } } government_abilities = { vln_magnate_senate_mechanic }"
+        in vln_voivodeship,
+        "vln_voivodeship_reform does not gate vln_magnate_senate_mechanic in a conditional against vln_cossack_host_reform",
+    )
+    for senate_modifier in (
+        "vln_senate_convened",
+        "vln_magnate_house_bought",
+        "vln_magnate_banners_mustered",
+    ):
+        require(
+            failures,
+            f"remove_country_modifier = {senate_modifier}" in vln_voivodeship
+            and f"remove_country_modifier = {senate_modifier}" in volhynian_host,
+            f"Senate modifier is not cleared upon reform change / Cossack Host adoption: {senate_modifier}",
+        )
     for foreign_mechanic in (
         "militarization_mechanic",
         "monthly_militarized_society",
@@ -399,11 +622,43 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         "Volhynian Host lost its coherent Cossack mechanic or privilege trade-off",
     )
 
+    siversk_patrimony_file = normalized(read("common/government_mechanics/rip_siversk_patrimony.txt"))
+    for sprite in (
+        "GFX_rip_siversk_charter",
+        "GFX_rip_siversk_towns",
+        "GFX_rip_siversk_retinue",
+    ):
+        require(
+            failures,
+            sprite in siversk_patrimony_file,
+            f"Siversk Patrimony does not use bespoke sprite: {sprite}",
+        )
+    require(
+        failures,
+        "has_country_modifier = rip_siversk_town_compact" in siversk_patrimony_file
+        and "has_country_modifier = rip_siversk_retinue_muster" in siversk_patrimony_file
+        and "has_country_modifier = rip_siversk_patrimonial_compact" in siversk_patrimony_file,
+        "Siversk Patrimony interactions lack mechanical cross-synergy triggers",
+    )
+    chr_siversk_principality = normalized(named_block(reforms, "chr_siversk_principality_reform"))
+    for compact_modifier in (
+        "rip_siversk_patrimonial_compact",
+        "rip_siversk_town_compact",
+        "rip_siversk_retinue_muster",
+    ):
+        require(
+            failures,
+            f"remove_country_modifier = {compact_modifier}" in chr_siversk_principality,
+            f"chr_siversk_principality_reform removed_effect does not clear {compact_modifier}",
+        )
+
     last_sich = normalized(named_block(reforms, "zaz_last_sich_reform"))
     require(
         failures,
-        "zaz_lineage_country = yes" in last_sich and "is_subject = yes" in last_sich,
-        "Last Sich lacks the bounded ZAZ-lineage subject path",
+        "zaz_lineage_country = yes" in last_sich
+        and "is_subject = yes" in last_sich
+        and "mercs_do_not_cost_army_professionalism" not in last_sich,
+        "Last Sich lacks its bounded ZAZ-lineage path or still carries the UZH-only Hungarian attribute",
     )
     for borrowed in ("jacobins_influence", "royalists_influence", "girondists_influence"):
         require(failures, borrowed not in last_sich, f"Last Sich still borrows French faction: {borrowed}")
@@ -416,17 +671,59 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     kie = read("common/government_reforms/RIP_KIE_KRU_government_reforms.txt")
     require(failures, "cossacks_mechanic" not in kie, "medieval KIE/KRU forms still expose Cossack UI")
     cesarstvo = normalized(named_block(kie, "kyivan_cesarstvo_reform"))
-    for borrowed_attr in (
+    hungarian_attributes = (
         "seizing_land_no_rebels_from_estate_nobles",
         "monarch_power_on_institutions",
         "mercs_do_not_cost_army_professionalism",
         "army_tradition_on_stackwipe",
-    ):
+    )
+    for borrowed_attr in hungarian_attributes:
         require(
             failures,
             borrowed_attr not in cesarstvo,
             f"kyivan_cesarstvo_reform still stacks borrowed UZH attribute: {borrowed_attr}",
         )
+    vln_grand_ruthenia = normalized(
+        named_block(
+            read("common/government_reforms/RIP_VLN_government_reforms.txt"),
+            "vln_grand_ruthenia_reform",
+        )
+    )
+    for borrowed_attr in hungarian_attributes:
+        require(
+            failures,
+            borrowed_attr not in vln_grand_ruthenia,
+            f"vln_grand_ruthenia_reform still carries UZH-only Hungarian attribute: {borrowed_attr}",
+        )
+    uzh_hungarian_roads = read("common/government_reforms/RIP_UZH_government_reforms.txt")
+    for uzh_reform in (
+        "uzh_palatial_uhro_reform",
+        "uzh_palatial_uhro_republic_reform",
+    ):
+        attributes = normalized(
+            named_block(named_block(uzh_hungarian_roads, uzh_reform), "custom_attributes")
+        )
+        require(
+            failures,
+            all(f"{attribute} = yes" in attributes for attribute in hungarian_attributes),
+            f"{uzh_reform} no longer owns the complete UZH Uhro-Rusyn Hungarian attribute set",
+        )
+    uzh_attribute_owners = {
+        "uzh_palatial_uhro_reform",
+        "uzh_palatial_uhro_republic_reform",
+    }
+    for source_path in sorted(REFORMS_DIR.glob("*.txt")):
+        source = source_path.read_text(encoding="utf-8-sig")
+        for reform_id in re.findall(r"(?m)^([A-Za-z0-9_]+)\s*=\s*\{", source):
+            if reform_id in uzh_attribute_owners:
+                continue
+            reform_block = normalized(named_block(source, reform_id))
+            for attribute in hungarian_attributes:
+                require(
+                    failures,
+                    attribute not in reform_block,
+                    f"{reform_id} duplicates UZH-only Hungarian attribute: {attribute}",
+                )
 
     boyar_council_raw = read("common/government_mechanics/rip_hlc_boyar_council.txt")
     boyar_council = normalized(boyar_council_raw)
@@ -1073,13 +1370,34 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "has_reform = uzh_presov_eparchy_reform" in uzh_eparchy_name,
         "UZH eparchy government name does not recognize its Th2/Th3 reform IDs",
     )
+    vln_hetman_titles = (
+        "vln_black_voivode_legion",
+        "vln_confessional_reform",
+        "vln_confessional_academy",
+        "vln_cossack_host_reform",
+    )
+    m7_m8_guard = (
+        "NOT = { OR = { has_reform = vln_ruthenian_renaissance_reform "
+        "has_reform = vln_magdeburg_rights } }"
+    )
+    name_blocks = set(re.findall(r"(?m)^([A-Za-z0-9_]+)\s*=\s*\{", gov_names))
+    for reform in ("vln_ruthenian_renaissance_reform", "vln_magdeburg_rights"):
+        guards = [
+            normalized(named_block(gov_names, title))
+            for title in vln_hetman_titles
+        ]
+        require(
+            failures,
+            reform not in name_blocks
+            and all(m7_m8_guard in title for title in guards)
+            and normalized(gov_names).count(f"has_reform = {reform}")
+            == len(vln_hetman_titles),
+            f"{reform} must only suppress earlier Hetman titles, not define a new government name",
+        )
     require(
         failures,
-        "vln_ruthenian_renaissance_reform" not in gov_names
-        and "vln_magdeburg_rights" not in gov_names
-        and "CULTURED_HETMAN" not in gov_names
-        and "BURGOMASTER_HETMAN" not in gov_names,
-        "shared M7/M8 reforms still override monarch/government titles in 000_RIP_names.txt",
+        "CULTURED_HETMAN" not in gov_names and "BURGOMASTER_HETMAN" not in gov_names,
+        "shared M7/M8 reforms still introduce new Hetman titles in 000_RIP_names.txt",
     )
     for pdl_name_id in (
         "pdl_grand_podillia",
@@ -1407,6 +1725,97 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
             in normalized(named_block(pdl_reforms, base_reform)),
             f"PDL path base does not lock its first tier: {base_reform}",
         )
+
+    for base_reform, path_flag in (
+        ("pdl_clan_assembly_reform", "pdl_frontier_path"),
+        ("pdl_steppe_principality_reform", "pdl_carpathian_path"),
+        ("pdl_voivodeship_kingdom_reform", "pdl_magnate_path"),
+    ):
+        reform_block = named_block(pdl_reforms, base_reform)
+        expected_gate = normalized(
+            f"""
+            OR = {{
+                has_reform = {base_reform}
+                AND = {{
+                    west_ukraine_pdl_origin_country = yes
+                    has_country_flag = {path_flag}
+                }}
+            }}
+            """
+        )
+        for gate_name in ("potential", "trigger"):
+            gate = normalized(named_block(reform_block, gate_name))
+            require(
+                failures,
+                expected_gate in gate and "tag = PDL" not in gate,
+                f"{base_reform} {gate_name} is not restricted to its PDL-origin path: {path_flag}",
+            )
+
+    fallback = named_block(pdl_reforms, "pdl_frontier_voivodeship_reform")
+    fallback_gate = normalized(
+        """
+        OR = {
+            has_reform = pdl_frontier_voivodeship_reform
+            AND = {
+                west_ukraine_pdl_origin_country = yes
+                NOT = { has_country_flag = pdl_carpathian_path }
+                NOT = { has_country_flag = pdl_frontier_path }
+                NOT = { has_country_flag = pdl_magnate_path }
+            }
+        }
+        """
+    )
+    for gate_name in ("potential", "trigger"):
+        gate = normalized(named_block(fallback, gate_name))
+        require(
+            failures,
+            fallback_gate in gate and "tag = PDL" not in gate,
+            f"PDL fallback {gate_name} does not preserve its current holders and no-path lineage access",
+        )
+    pdl_origin_trigger = normalized(
+        named_block(
+            read("common/scripted_triggers/rip_path_state_triggers.txt"),
+            "west_ukraine_pdl_origin_country",
+        )
+    )
+    require(
+        failures,
+        all(
+            token in pdl_origin_trigger
+            for token in (
+                "tag = PDL",
+                "tag = VOL",
+                "tag = UKR",
+                "has_country_flag = rip_vol_origin_pdl",
+            )
+        ),
+        "PDL-origin reform gates no longer follow PDL lineage through VOL/UKR",
+    )
+
+    royal_voivodeship_modifiers = normalized(
+        named_block(
+            named_block(pdl_reforms, "pdl_voivodeship_kingdom_reform"),
+            "modifiers",
+        )
+    )
+    frontier_voivodeship_modifiers = normalized(
+        named_block(
+            named_block(pdl_reforms, "pdl_frontier_voivodeship_reform"),
+            "modifiers",
+        )
+    )
+    require(
+        failures,
+        "governing_capacity_modifier = 0.1" in royal_voivodeship_modifiers
+        and "reform_progress_growth = 0.1" in royal_voivodeship_modifiers
+        and "state_maintenance_modifier = -0.1" in royal_voivodeship_modifiers
+        and "fort_maintenance_modifier" not in royal_voivodeship_modifiers
+        and "governing_capacity_modifier = 0.1" in frontier_voivodeship_modifiers
+        and "reform_progress_growth = 0.1" in frontier_voivodeship_modifiers
+        and "fort_maintenance_modifier = -0.1" in frontier_voivodeship_modifiers
+        and "state_maintenance_modifier" not in frontier_voivodeship_modifiers,
+        "PDL Royal and Frontier Voivodeships do not have distinct, doctrine-aligned upkeep modifiers",
+    )
 
     pdl_decisions = read("decisions/Podillia_Decisions.txt")
     for decision, flag, reform in (

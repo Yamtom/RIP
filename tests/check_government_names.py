@@ -44,7 +44,7 @@ def require_order(
 def check_priority(failures: list[str], text: str) -> None:
     entries = re.findall(r"(?m)^([A-Za-z0-9_]+)\s*=\s*\{", text)
     order = positions(text)
-    require(failures, len(entries) == 65, f"expected 65 blocks, found {len(entries)}")
+    require(failures, len(entries) == 63, f"expected 63 blocks, found {len(entries)}")
     require(
         failures,
         len(order) == len(entries),
@@ -97,9 +97,7 @@ def check_priority(failures: list[str], text: str) -> None:
     vln = (
         "vln_grand_ruthenia_reform",
         "vln_ruthenia_reform",
-        "vln_ruthenian_renaissance_reform",
         "vln_voivode_council",
-        "vln_magdeburg_rights",
         "vln_black_voivode_legion",
         "vln_confessional_reform",
         "vln_confessional_academy",
@@ -187,11 +185,113 @@ def check_triggers_and_mappings(failures: list[str], text: str) -> None:
             f"Boyar Republic of Rus' names missing in {language}: {sorted(boyar_keys - defined)}",
         )
 
+    later_vln_reforms = (
+        "vln_ruthenian_renaissance_reform",
+        "vln_magdeburg_rights",
+    )
+    require(
+        failures,
+        not any(re.match(rf"^{name}\s*=", text, re.M) for name in later_vln_reforms),
+        "shared M7/M8 reforms must not define separate government-name blocks",
+    )
+    for name in (
+        "vln_black_voivode_legion",
+        "vln_confessional_reform",
+        "vln_confessional_academy",
+        "vln_cossack_host_reform",
+    ):
+        trigger = normalized(named_block(named_block(text, name), "trigger"))
+        require(
+            failures,
+            "NOT = { OR = { has_reform = vln_ruthenian_renaissance_reform "
+            "has_reform = vln_magdeburg_rights } }" in trigger,
+            f"{name} keeps Hetman titles after a shared M7/M8 reform is selected",
+        )
+
+    pdl_title_reforms = (
+        ("pdl_grand_podillia", "pdl_grand_podillia_reform"),
+        ("pdl_absolute_dominion", "pdl_absolute_dominion_reform"),
+        ("pdl_magnate_republic", "pdl_magnate_republic_reform"),
+        ("pdl_magnate_dominion", "pdl_magnate_dominion_reform"),
+        ("pdl_enlightened_voivodeship", "pdl_enlightened_voivodeship_reform"),
+        ("pdl_revolutionary_republic", "pdl_revolutionary_republic_reform"),
+        ("pdl_carpathian_bastion", "pdl_carpathian_bastion_reform"),
+        ("pdl_frontier_republic", "pdl_frontier_republic_reform"),
+        ("pdl_palatine_court", "pdl_palatine_court_reform"),
+        ("pdl_aristocratic_assembly", "pdl_aristocratic_assembly_reform"),
+        ("pdl_clan_assembly", "pdl_clan_assembly_reform"),
+        ("pdl_steppe_principality", "pdl_steppe_principality_reform"),
+        ("pdl_voivodeship_kingdom", "pdl_voivodeship_kingdom_reform"),
+        ("pdl_frontier_voivodeship", "pdl_frontier_voivodeship_reform"),
+    )
+    for title_name, reform_name in pdl_title_reforms:
+        title = normalized(named_block(text, title_name))
+        require(
+            failures,
+            "west_ukraine_pdl_origin_country = yes" in title
+            and f"has_reform = {reform_name}" in title
+            and "tag = PDL" not in title,
+            f"{title_name} title is not synchronized with its PDL-origin reform/path",
+        )
+
+    origin_triggers = read("common/scripted_triggers/rip_path_state_triggers.txt")
+    for origin_name, source_tag, origin_flag in (
+        ("west_ukraine_hlc_origin_country", "HLC", "rip_vol_origin_hlc"),
+        ("west_ukraine_vln_origin_country", "VLN", "rip_vol_origin_vln"),
+        ("west_ukraine_pdl_origin_country", "PDL", "rip_vol_origin_pdl"),
+    ):
+        origin = normalized(named_block(origin_triggers, origin_name))
+        require(
+            failures,
+            f"tag = {source_tag}" in origin
+            and "tag = VOL" in origin
+            and "tag = UKR" in origin
+            and f"has_country_flag = {origin_flag}" in origin,
+            f"{origin_name} no longer carries its original path through VOL/UKR",
+        )
+
+    inherited_decisions = (
+        (
+            "decisions/HLCMetropolitanatePaths.txt",
+            (
+                "hlc_confirm_the_metropolitan_see",
+                "hlc_complete_the_union_of_lviv",
+            ),
+            "west_ukraine_hlc_origin_country",
+            "HLC",
+        ),
+        (
+            "decisions/HLCRepublicPaths.txt",
+            ("hlc_the_boyars_take_power", "hlc_elevate_the_metropolitan"),
+            "west_ukraine_hlc_origin_country",
+            "HLC",
+        ),
+        (
+            "decisions/VLNRepublicPaths.txt",
+            ("vln_the_sejmik_asserts_itself",),
+            "west_ukraine_vln_origin_country",
+            "VLN",
+        ),
+    )
+    for path, decision_names, origin_trigger, current_tag in inherited_decisions:
+        decisions = read(path)
+        for decision_name in decision_names:
+            decision_raw = named_block(decisions, decision_name)
+            decision = normalized(decision_raw)
+            potential = normalized(named_block(decision_raw, "potential"))
+            require(
+                failures,
+                f"{origin_trigger} = yes" in potential
+                and f"tag = {current_tag}" not in decision,
+                f"{decision_name} is still locked to the original tag instead of lineage",
+            )
+
     frontier = normalized(named_block(text, "pdl_frontier_republic"))
     require(
         failures,
-        "has_country_flag = pdl_frontier_path" in frontier,
-        "PDL frontier title does not use the exclusive path flag",
+        "has_country_flag = pdl_frontier_path" in frontier
+        and "has_reform = pdl_frontier_republic_reform" in frontier,
+        "PDL frontier title does not require its exclusive path and frontier reform",
     )
     require(
         failures,
@@ -496,7 +596,7 @@ def main() -> int:
 
     print(
         "GOVERNMENT NAME CHECK: PASS "
-        "(65 blocks; priority, reachability, lifecycle, and title contracts hold)"
+        "(63 blocks; priority, reachability, lifecycle, and title contracts hold)"
     )
     return 0
 

@@ -175,9 +175,9 @@ for faction in ('knyazi','boyary','starshyna'):
     assert loc[f'kru_{faction}_FACTION_DESC']
 expected_ability_icons = {
     'rip_siversk_patrimony': [
-        'GFX_cossacks_ability_ADM',
-        'GFX_cossacks_ability_DIP',
-        'GFX_cossacks_ability_MIL',
+        'GFX_rip_siversk_charter',
+        'GFX_rip_siversk_towns',
+        'GFX_rip_siversk_retinue',
     ],
     'rip_kyivan_seniority': [
         'GFX_rip_kyiv_snem',
