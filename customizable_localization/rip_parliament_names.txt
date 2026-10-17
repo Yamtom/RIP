@@ -1,0 +1,80 @@
+# First matching institutional form wins; tag/culture localisation calls this
+# only for Ruthenian countries. Does not grant parliament mechanics.
+defined_text = {
+	name = GetRIPParliamentName
+	text = {
+		trigger = { government = theocracy }
+		localisation_key = rip_parliament_sobor
+	}
+	text = {
+		trigger = {
+			OR = {
+				has_reform = ruthenian_factional_empire_reform
+				has_reform = ruthenian_factional_empire_princes_hetmans_reform
+				has_reform = ruthenian_factional_empire_boyars_hetmans_reform
+			}
+		}
+		localisation_key = rip_parliament_three
+	}
+	text = {
+		trigger = {
+			OR = {
+				has_reform = kyivan_rus_reform
+				has_reform = kyivan_shogunate_reform
+			}
+		}
+		localisation_key = rip_parliament_snem
+	}
+	text = {
+		trigger = { tag = ZAZ }
+		localisation_key = rip_parliament_sich
+	}
+	text = {
+		trigger = { OR = { has_reform = hlc_galician_sejm_reform has_reform = hlc_crown_and_sejm_reform } }
+		localisation_key = rip_parliament_sejm
+	}
+	text = {
+		trigger = { has_reform = vln_sejmik_republic_reform }
+		localisation_key = rip_parliament_sejmik
+	}
+	text = {
+		trigger = { OR = { has_reform = uzh_komitat_system_reform has_reform = uzh_republican_komitat_system_reform has_reform = uzh_palatial_uhro_reform has_reform = uzh_palatial_uhro_republic_reform } }
+		localisation_key = rip_parliament_komitat
+	}
+	text = {
+		trigger = { has_reform = lit_grand_diet_reform }
+		localisation_key = rip_parliament_sejm
+	}
+	text = {
+		trigger = { OR = { has_reform = lit_pany_rada_reform has_reform = lit_ruthenian_chancery_reform } }
+		localisation_key = rip_parliament_pany
+	}
+	text = {
+		trigger = { tag = LIT }
+		localisation_key = rip_parliament_seimas
+	}
+	text = {
+		trigger = { OR = { tag = HET tag = SMY tag = OKH tag = IZM tag = KHK } government = monarchy }
+		localisation_key = rip_parliament_officers
+	}
+	text = {
+		trigger = { OR = { tag = HET tag = SMY tag = OKH tag = IZM tag = KHK } }
+		localisation_key = rip_parliament_general
+	}
+	text = {
+		trigger = { OR = { has_reform = kyivan_boyar_republic_reform has_reform = hlc_boyar_republic_reform has_reform = hlc_boyar_oligarchy_reform has_reform = boyar_elite_reform } }
+		localisation_key = rip_parliament_boyar
+	}
+	text = {
+		trigger = { government = republic }
+		localisation_key = rip_parliament_viche
+	}
+	text = {
+		trigger = { OR = { has_reform = chr_siversk_principality_reform has_reform = ruthenian_principality_reform } }
+		localisation_key = rip_parliament_boyar
+	}
+	text = {
+		trigger = { always = yes }
+		localisation_key = rip_parliament_estates
+	}
+}

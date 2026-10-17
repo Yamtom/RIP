@@ -351,7 +351,11 @@ ruthenian_factional_empire_reform = {
 	potential = {
 		OR = {
 			has_reform = ruthenian_factional_empire_reform
-			tag = KRU
+			AND = {
+				tag = KRU
+				NOT = { has_reform = ruthenian_factional_empire_princes_hetmans_reform }
+				NOT = { has_reform = ruthenian_factional_empire_boyars_hetmans_reform }
+			}
 		}
 	}
 	allow_normal_conversion = no
@@ -396,10 +400,7 @@ ruthenian_factional_empire_princes_hetmans_reform = {
 	icon = "imperial_nobility_reform"
 	legacy_equivalent = principality_legacy
 	potential = {
-		OR = {
-			has_reform = ruthenian_factional_empire_princes_hetmans_reform
-			tag = KRU
-		}
+		has_reform = ruthenian_factional_empire_princes_hetmans_reform
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
@@ -436,10 +437,7 @@ ruthenian_factional_empire_boyars_hetmans_reform = {
 	icon = "imperial_nobility_reform"
 	legacy_equivalent = principality_legacy
 	potential = {
-		OR = {
-			has_reform = ruthenian_factional_empire_boyars_hetmans_reform
-			tag = KRU
-		}
+		has_reform = ruthenian_factional_empire_boyars_hetmans_reform
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no

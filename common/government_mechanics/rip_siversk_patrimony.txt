@@ -1,0 +1,41 @@
+# A gameplay reconstruction of patrimonial rule, town privileges and retinue service.
+siversk_patrimony_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+	available = {
+		has_reform = chr_siversk_principality_reform
+		OR = { has_dlc = "Third Rome" has_dlc = "Domination" }
+	}
+	interactions = {
+		siversk_confirm_patrimonies = {
+			icon = GFX_rip_siversk_charter
+			trigger = { adm_power = 50 NOT = { has_country_modifier = rip_siversk_patrimonial_compact } }
+			effect = {
+				add_adm_power = -50
+				add_country_modifier = { name = rip_siversk_patrimonial_compact duration = 3650 }
+			}
+			cooldown_years = 10
+			ai_chance = { factor = 1 modifier = { factor = 4 NOT = { stability = 1 } } }
+		}
+		siversk_charter_towns = {
+			icon = GFX_rip_siversk_towns
+			trigger = { dip_power = 50 NOT = { has_country_modifier = rip_siversk_town_compact } }
+			effect = {
+				add_dip_power = -50
+				add_country_modifier = { name = rip_siversk_town_compact duration = 3650 }
+			}
+			cooldown_years = 10
+			ai_chance = { factor = 1 modifier = { factor = 3 is_at_war = no } }
+		}
+		siversk_muster_druzhyna = {
+			icon = GFX_rip_siversk_retinue
+			trigger = { mil_power = 50 NOT = { has_country_modifier = rip_siversk_retinue_muster } }
+			effect = {
+				add_mil_power = -50
+				add_country_modifier = { name = rip_siversk_retinue_muster duration = 1825 }
+			}
+			cooldown_years = 10
+			ai_chance = { factor = 1 modifier = { factor = 10 is_at_war = yes } }
+		}
+	}
+}

@@ -13,7 +13,7 @@
 # reads faction_in_power + faction_influence to set this reform id to the ruling
 # PAIR and to give the second bloc a partial voice (KRU_junior_*).
 #
-# Buttons-only (devshirme pattern): no powers, no .gui, vanilla Cossack ability
+# Buttons-only (devshirme pattern): no powers, no .gui, bespoke faction
 # sprites, no DLC gate - the faction mechanic itself is base-game.
 # =============================================================================
 
@@ -34,7 +34,7 @@ ruthenian_factional_court_mechanic = {
 		# every rada. Their standing in the faction rises; the crown's own
 		# legitimacy rises with theirs.
 		kru_court_the_knyazi = {
-			icon = GFX_cossacks_ability_DIP
+			icon = GFX_rip_knyazi
 			trigger = {
 				dip_power = 50
 				NOT = { faction_influence = { faction = kru_knyazi influence = 70 } }
@@ -60,7 +60,7 @@ ruthenian_factional_court_mechanic = {
 		# Court the boyar houses and the chartered towns - offices, charters, a
 		# share of the customs. Their standing rises; the treasury takes it in.
 		kru_court_the_boyary = {
-			icon = GFX_cossacks_ability_ADM
+			icon = GFX_rip_boyary
 			trigger = {
 				adm_power = 50
 				NOT = { faction_influence = { faction = kru_boyary influence = 70 } }
@@ -87,7 +87,7 @@ ruthenian_factional_court_mechanic = {
 		# officers, the register widened. Their standing rises; the host is
 		# readier for it.
 		kru_court_the_starshyna = {
-			icon = GFX_cossacks_ability_MIL
+			icon = GFX_rip_starshyna
 			trigger = {
 				mil_power = 50
 				NOT = { faction_influence = { faction = kru_starshyna influence = 70 } }

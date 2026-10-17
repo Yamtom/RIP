@@ -6648,19 +6648,10 @@ country_event = {
 		# a switch to another type drops every reform; the switch back leaves the basic one
 		change_government = republic
 		change_government = monarchy
-		if = { limit = { NOT = { tag = KRU } }
-			if = { limit = { exists = KRU } inherit = KRU }
-			change_tag = KRU
-			on_change_tag_effect = yes
-		}
-		if = { limit = { NOT = { tag = KRU } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL ruthenian_factional_empire_boyars_hetmans_reform monarchy tag:KRU" }
 		set_country_flag = rip_gov_test_chk_pot
 		if = {
 			limit = {
-				OR = {
-					has_reform = ruthenian_factional_empire_boyars_hetmans_reform
-					tag = KRU
-				}
+				has_reform = ruthenian_factional_empire_boyars_hetmans_reform
 			}
 			clr_country_flag = rip_gov_test_chk_pot
 			log = "RIP_GOV_TEST POT_OK ruthenian_factional_empire_boyars_hetmans_reform monarchy"
@@ -6699,19 +6690,10 @@ country_event = {
 		# a switch to another type drops every reform; the switch back leaves the basic one
 		change_government = republic
 		change_government = monarchy
-		if = { limit = { NOT = { tag = KRU } }
-			if = { limit = { exists = KRU } inherit = KRU }
-			change_tag = KRU
-			on_change_tag_effect = yes
-		}
-		if = { limit = { NOT = { tag = KRU } } set_country_flag = rip_gov_test_fail log = "RIP_GOV_TEST GRANT_FAIL ruthenian_factional_empire_princes_hetmans_reform monarchy tag:KRU" }
 		set_country_flag = rip_gov_test_chk_pot
 		if = {
 			limit = {
-				OR = {
-					has_reform = ruthenian_factional_empire_princes_hetmans_reform
-					tag = KRU
-				}
+				has_reform = ruthenian_factional_empire_princes_hetmans_reform
 			}
 			clr_country_flag = rip_gov_test_chk_pot
 			log = "RIP_GOV_TEST POT_OK ruthenian_factional_empire_princes_hetmans_reform monarchy"
@@ -6761,7 +6743,11 @@ country_event = {
 			limit = {
 				OR = {
 					has_reform = ruthenian_factional_empire_reform
-					tag = KRU
+					AND = {
+						tag = KRU
+						NOT = { has_reform = ruthenian_factional_empire_princes_hetmans_reform }
+						NOT = { has_reform = ruthenian_factional_empire_boyars_hetmans_reform }
+					}
 				}
 			}
 			clr_country_flag = rip_gov_test_chk_pot

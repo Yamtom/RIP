@@ -16,9 +16,8 @@
 # Buttons-only mechanic (the devshirme_mechanic pattern): no powers block, no
 # custom .gui - the three interactions render through the default government
 # interactions list and spend monarch power inside their own effect. Icons
-# reuse the vanilla Cossack ability sprites; bespoke Kyivan art (rota ladder /
-# princes' congress / druzhyna muster) is a follow-up, see
-# docs/GOVERNMENT_REDESIGN_PROPOSAL.uk.md.
+# use bespoke congress / appanage charter / druzhyna artwork, packaged by
+# tools/build_ruthenian_government_ui.py.
 #
 # Enabled by kyivan_rus_reform and kyivan_cesarstvo_reform in
 # common/government_reforms/RIP_KIE_KRU_government_reforms.txt, under the same
@@ -46,7 +45,7 @@ kyivan_seniority_mechanic = {
 		# Kyiv and the subjects' unrest subsides - but, as at Liubech, each
 		# prince leaves confirmed in his own patrimony.
 		kyiv_call_the_snem = {
-			icon = GFX_cossacks_ability_ADM
+			icon = GFX_rip_kyiv_snem
 			trigger = {
 				adm_power = 50
 				NOT = { num_of_subjects = 0 }
@@ -74,7 +73,7 @@ kyivan_seniority_mechanic = {
 		# fresh appanage. A new grant of tenure binds the holder to the senior
 		# prince for a time.
 		kyiv_regrant_the_udil = {
-			icon = GFX_cossacks_ability_DIP
+			icon = GFX_rip_kyiv_udil
 			trigger = {
 				dip_power = 50
 				any_subject_country = { liberty_desire = 35 }
@@ -107,7 +106,7 @@ kyivan_seniority_mechanic = {
 		# with his own - the one duty of seniority the ladder still enforces,
 		# and the reason it holds against the steppe at all.
 		kyiv_summon_the_druzhyny = {
-			icon = GFX_cossacks_ability_MIL
+			icon = GFX_rip_kyiv_druzhyna
 			trigger = {
 				mil_power = 50
 			}
