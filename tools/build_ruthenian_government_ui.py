@@ -25,7 +25,7 @@ def emit(path, data, bom=False):
 NAMES = ['siversk_charter','siversk_towns','siversk_retinue','kyiv_snem',
          'kyiv_udil','kyiv_druzhyna','kyiv_levy','kyiv_rota',
          'kyiv_grants','knyazi','boyary','starshyna',
-         'concord','prosperity','rada','siversk_principality']
+         'concord','gathering','rada','siversk_principality']
 atlas = Image.open(ROOT/'gfx/interface/rip_government/source/atlas.png').convert('RGBA')
 # Reviewed source artwork has a slightly shorter third row. Keep the next
 # row's throne finials out of the tenure/faction crops.
@@ -58,7 +58,7 @@ for i, name in enumerate(NAMES):
         color = {'knyazi':'purple','boyary':'blue','starshyna':'red'}[name]
         sprites.append(f'\tspriteType = {{ name = "GFX_faction_bg_kru_{name}" texturefile = "gfx/interface/faction_{color}_frame.tga" transparencecheck = yes }}')
 sprites.append('\tspriteType = { name = "government_reform_rip_siversk_principality" texturefile = "gfx/interface/rip_government/siversk_principality.dds" noOfFrames = 1 norefcount = yes }')
-for power, icon in [('kyivan_throne_concord','concord'),('kyivan_peoples_gathering','prosperity'),
+for power, icon in [('kyivan_throne_concord','concord'),('kyivan_peoples_gathering','gathering'),
                     ('kyiv_princely_levy_power','kyiv_levy'),('kyiv_seat_rotation_power','kyiv_rota'),
                     ('kyiv_grant_reconfirmation_power','kyiv_grants')]:
     for key in (power,'monthly_'+power,power+'_gain_modifier'):
@@ -77,7 +77,7 @@ if not ARGS.check:
 
 gui = ['guiTypes = {']
 for widget, icon, label in [('rip_throne_concord_power','concord','kyivan_throne_concord'),
-                            ('rip_peoples_prosperity_power','prosperity','kyivan_peoples_gathering')]:
+                            ('rip_peoples_gathering_power','gathering','kyivan_peoples_gathering')]:
     gui.append(f''' windowType = {{
   name = "{widget}"
   size = {{ x = 300 y = 58 }}
@@ -109,11 +109,11 @@ COPY = {
  'ability_kyivan_throne_concord_mechanic':'Throne Concord',
  'kyivan_throne_concord':'Throne Concord',
  'kyivan_throne_concord_desc':'§YThrone Concord: 0-100§!\\nHigher concord reduces the penalties to legitimacy, stability cost, advisors, coring and governing capacity.\\n\\n§YBelow 33:§! +2 unrest, -5 maximum absolutism.\\n§Y33-66:§! +1 unrest.\\n§YAbove 66:§! +5 maximum absolutism, +1 diplomatic reputation.\\n\\n§GGrowth:§! ruler administrative skill, stability at least 2, legitimacy at least 80, peace, religious unity at least 80%.\\n§RDecline:§! negative stability, legitimacy below 40, war exhaustion at least 5, any subject with at least 50% liberty desire.\\nAt 100: +10 prestige and +5 legitimacy. At 0: Throne in Disarray for 10 years. Hover the bar for current value, monthly change and active modifiers.',
- 'ability_kyivan_peoples_gathering_mechanic':'People\'s Prosperity',
- 'kyivan_peoples_gathering':'People\'s Prosperity',
- 'kyivan_peoples_gathering_desc':'§YPeople\'s Prosperity: 0-100§!\\nThis measures the realm\'s internal consolidation.\\n\\n§GAt 100:§! +15 prestige and the permanent Peoples Gathered modifier: -2 unrest, +5% national tax, -10% stability cost. The bar resets to 0. The modifier is refreshed, not stacked. This does not accept cultures or change their slots.\\n\\n§GGrowth:§! development, peace, stability at least 2, legitimacy at least 70, religious unity at least 80%.\\n§RDecline:§! primary culture outside the East Slavic group, negative stability, religious unity below 50%, war exhaustion at least 5. Hover the bar for current value and monthly change.',
- 'monthly_kyivan_peoples_gathering':'Monthly People\'s Prosperity',
- 'kyivan_peoples_gathering_gain_modifier':'People\'s Prosperity Gain',
+ 'ability_kyivan_peoples_gathering_mechanic':'Gathering of the Peoples',
+ 'kyivan_peoples_gathering':'Gathering of the Peoples',
+ 'kyivan_peoples_gathering_desc':'§YGathering of the Peoples: 0-100§!\\nThis measures how firmly the realm\'s peoples are gathered into the Kyivan polity.\\n\\n§GAt 100:§! +15 prestige and the permanent Peoples Gathered modifier: -2 unrest, +5% national tax, -10% stability cost. The bar resets to 0. The modifier is refreshed, not stacked. This does not accept cultures or change their slots.\\n\\n§GGrowth:§! development, peace, stability at least 2, legitimacy at least 70, religious unity at least 80%.\\n§RDecline:§! primary culture outside the East Slavic group, negative stability, religious unity below 50%, war exhaustion at least 5. Hover the bar for current value and monthly change.',
+ 'monthly_kyivan_peoples_gathering':'Monthly Gathering of the Peoples',
+ 'kyivan_peoples_gathering_gain_modifier':'Gathering of the Peoples Gain',
  'kru_knyazi':'Knyazi', 'kru_boyary':'Boyary', 'kru_starshyna':'Starshyna',
  'kru_knyazi_FACTION_DESC':'The princely houses defend dynastic standing, diplomacy and the service of dependent princes.\\n\\nTheir influence receives a yearly boost from legitimacy of at least 60 and from having at least two subjects. Court the Knyazi to spend 50 diplomatic power for 25 influence and 2 legitimacy. Cooldown: 6 years; unavailable at 70 influence.',
  'kru_boyary_FACTION_DESC':'The boyar houses seek office, landed rights and control of the treasury.\\n\\nTheir influence receives a yearly boost from stability of at least 2 and a treasury of at least 300 ducats. Court the Boyary to spend 50 administrative power for 25 influence and 50 ducats. Cooldown: 6 years; unavailable at 70 influence.',
