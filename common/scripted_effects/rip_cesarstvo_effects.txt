@@ -1,0 +1,65 @@
+# Country scope; called monthly only for the Cesarstvo. Province development,
+# not province count, weights the cultural settlement. No global event targets.
+rip_cesarstvo_census_effect = {
+	set_variable = { which = rip_cesar_total value = 0 }
+	set_variable = { which = rip_cesar_minority_share value = 0 }
+	set_variable = { which = rip_cesar_excluded_share value = 0 }
+	every_owned_province = {
+		owner = {
+			export_to_variable = { which = rip_cesar_piece value = development who = PREV }
+			change_variable = { which = rip_cesar_total which = rip_cesar_piece }
+		}
+		if = {
+			limit = { NOT = { culture = ROOT } }
+			owner = { change_variable = { which = rip_cesar_minority_share which = rip_cesar_piece } }
+			if = {
+				limit = { has_owner_accepted_culture = no }
+				owner = { change_variable = { which = rip_cesar_excluded_share which = rip_cesar_piece } }
+			}
+		}
+	}
+	if = {
+		limit = { check_variable = { which = rip_cesar_total value = 1 } }
+		divide_variable = { which = rip_cesar_minority_share which = rip_cesar_total }
+		divide_variable = { which = rip_cesar_excluded_share which = rip_cesar_total }
+	}
+}
+
+rip_cesarstvo_monthly_effect = {
+	if = {
+		limit = { has_reform = kyivan_cesarstvo_reform has_government_mechanic = kyivan_peoples_gathering_mechanic }
+		if = {
+			limit = { NOT = { has_country_flag = rip_cesar_compact_migrated } }
+			set_country_flag = rip_cesar_compact_migrated
+			if = {
+				limit = { has_country_modifier = kyivan_peoples_gathered }
+				remove_country_modifier = kyivan_peoples_gathered
+				add_country_modifier = { name = kyivan_peoples_gathered duration = 3650 }
+			}
+		}
+		rip_cesarstvo_census_effect = yes
+		# A genuine integration breakdown, never a successful cycle's reset.
+		if = {
+			limit = {
+				check_variable = { which = rip_cesar_excluded_share value = 0.3 }
+				NOT = { has_government_power = { mechanic_type = kyivan_peoples_gathering_mechanic power_type = kyivan_peoples_gathering value = 20 } }
+				NOT = { has_country_flag = rip_cesar_breakdown }
+			}
+			set_country_flag = rip_cesar_breakdown
+			add_government_power = { mechanic_type = kyivan_throne_concord_mechanic power_type = kyivan_throne_concord value = -15 }
+			add_country_modifier = { name = kyivan_throne_in_disarray duration = 1825 }
+		}
+		if = {
+			limit = {
+				has_country_flag = rip_cesar_breakdown
+				NOT = { check_variable = { which = rip_cesar_excluded_share value = 0.15 } }
+				has_government_power = { mechanic_type = kyivan_peoples_gathering_mechanic power_type = kyivan_peoples_gathering value = 40 }
+			}
+			clr_country_flag = rip_cesar_breakdown
+		}
+	}
+	else = {
+		remove_country_modifier = kyivan_peoples_gathered
+		clr_country_flag = rip_cesar_breakdown
+	}
+}

@@ -3,6 +3,10 @@
 defined_text = {
 	name = GetRIPParliamentName
 	text = {
+		trigger = { has_reform = kyivan_cesarstvo_reform }
+		localisation_key = rip_parliament_imperial_sobor
+	}
+	text = {
 		trigger = { government = theocracy }
 		localisation_key = rip_parliament_sobor
 	}
@@ -26,16 +30,36 @@ defined_text = {
 		localisation_key = rip_parliament_snem
 	}
 	text = {
+		trigger = { has_reform = chr_siversk_veche_reform }
+		localisation_key = rip_parliament_siversk_veche
+	}
+	text = {
+		trigger = { has_reform = chr_desna_staple_reform }
+		localisation_key = rip_parliament_desna_staple
+	}
+	text = {
+		trigger = { has_reform = chr_town_union_reform }
+		localisation_key = rip_parliament_siversk_towns
+	}
+	text = {
+		trigger = { has_reform = chr_rada_of_lands_reform }
+		localisation_key = rip_parliament_rada_of_lands
+	}
+	text = {
+		trigger = { has_reform = chr_siversk_principality_reform }
+		localisation_key = rip_parliament_siversk_boyar
+	}
+	text = {
 		trigger = { tag = ZAZ }
 		localisation_key = rip_parliament_sich
 	}
 	text = {
 		trigger = { OR = { has_reform = hlc_galician_sejm_reform has_reform = hlc_crown_and_sejm_reform } }
-		localisation_key = rip_parliament_sejm
+		localisation_key = rip_parliament_galician_sejm
 	}
 	text = {
 		trigger = { has_reform = vln_sejmik_republic_reform }
-		localisation_key = rip_parliament_sejmik
+		localisation_key = rip_parliament_volhynian_sejmik
 	}
 	text = {
 		trigger = { OR = { has_reform = uzh_komitat_system_reform has_reform = uzh_republican_komitat_system_reform has_reform = uzh_palatial_uhro_reform has_reform = uzh_palatial_uhro_republic_reform } }
@@ -43,7 +67,7 @@ defined_text = {
 	}
 	text = {
 		trigger = { has_reform = lit_grand_diet_reform }
-		localisation_key = rip_parliament_sejm
+		localisation_key = rip_parliament_grand_diet
 	}
 	text = {
 		trigger = { OR = { has_reform = lit_pany_rada_reform has_reform = lit_ruthenian_chancery_reform } }
@@ -54,6 +78,22 @@ defined_text = {
 		localisation_key = rip_parliament_seimas
 	}
 	text = {
+		trigger = { tag = SMY }
+		localisation_key = rip_parliament_sumy_regimental
+	}
+	text = {
+		trigger = { tag = OKH }
+		localisation_key = rip_parliament_okhtyrka_regimental
+	}
+	text = {
+		trigger = { tag = KHK }
+		localisation_key = rip_parliament_kharkiv_regimental
+	}
+	text = {
+		trigger = { tag = IZM }
+		localisation_key = rip_parliament_izium_regimental
+	}
+	text = {
 		trigger = { OR = { tag = HET tag = SMY tag = OKH tag = IZM tag = KHK } government = monarchy }
 		localisation_key = rip_parliament_officers
 	}
@@ -62,16 +102,108 @@ defined_text = {
 		localisation_key = rip_parliament_general
 	}
 	text = {
-		trigger = { OR = { has_reform = kyivan_boyar_republic_reform has_reform = hlc_boyar_republic_reform has_reform = hlc_boyar_oligarchy_reform has_reform = boyar_elite_reform } }
+		trigger = { OR = { has_reform = hlc_boyar_republic_reform has_reform = hlc_boyar_oligarchy_reform } }
+		localisation_key = rip_parliament_halych_boyar
+	}
+	text = {
+		trigger = { has_reform = kyivan_boyar_republic_reform }
+		localisation_key = rip_parliament_kyivan_boyar
+	}
+	text = {
+		trigger = { has_reform = boyar_elite_reform }
 		localisation_key = rip_parliament_boyar
+	}
+	text = {
+		trigger = { tag = KIE government = republic }
+		localisation_key = rip_parliament_kie_viche
+	}
+	text = {
+		trigger = { tag = KRU government = republic }
+		localisation_key = rip_parliament_kru_viche
+	}
+	text = {
+		trigger = { tag = UKR government = republic }
+		localisation_key = rip_parliament_ukr_viche
+	}
+	text = {
+		trigger = { tag = RUT government = republic }
+		localisation_key = rip_parliament_rut_viche
+	}
+	text = {
+		trigger = { tag = CHR government = republic }
+		localisation_key = rip_parliament_chr_viche
+	}
+	text = {
+		trigger = { tag = VLN government = republic }
+		localisation_key = rip_parliament_vln_viche
+	}
+	text = {
+		trigger = { tag = HLC government = republic }
+		localisation_key = rip_parliament_hlc_viche
+	}
+	text = {
+		trigger = { tag = UZH government = republic }
+		localisation_key = rip_parliament_uzh_viche
+	}
+	text = {
+		trigger = { tag = PRL government = republic }
+		localisation_key = rip_parliament_prl_viche
+	}
+	text = {
+		trigger = { tag = PDL government = republic }
+		localisation_key = rip_parliament_pdl_viche
+	}
+	text = {
+		trigger = { tag = ODS government = republic }
+		localisation_key = rip_parliament_ods_viche
+	}
+	text = {
+		trigger = { tag = KUY government = republic }
+		localisation_key = rip_parliament_kuy_viche
+	}
+	text = {
+		trigger = { tag = RPS government = republic }
+		localisation_key = rip_parliament_rps_viche
+	}
+	text = {
+		trigger = { tag = ZLK government = republic }
+		localisation_key = rip_parliament_zlk_viche
+	}
+	text = {
+		trigger = { tag = SRK government = republic }
+		localisation_key = rip_parliament_srk_viche
+	}
+	text = {
+		trigger = { tag = MSK government = republic }
+		localisation_key = rip_parliament_msk_viche
+	}
+	text = {
+		trigger = { tag = TRV government = republic }
+		localisation_key = rip_parliament_trv_viche
+	}
+	text = {
+		trigger = { tag = VTB government = republic }
+		localisation_key = rip_parliament_vtb_viche
+	}
+	text = {
+		trigger = { tag = MSL government = republic }
+		localisation_key = rip_parliament_msl_viche
+	}
+	text = {
+		trigger = { tag = BLR government = republic }
+		localisation_key = rip_parliament_blr_viche
+	}
+	text = {
+		trigger = { tag = PLT government = republic }
+		localisation_key = rip_parliament_plt_viche
 	}
 	text = {
 		trigger = { government = republic }
 		localisation_key = rip_parliament_viche
 	}
 	text = {
-		trigger = { OR = { has_reform = chr_siversk_principality_reform has_reform = ruthenian_principality_reform } }
-		localisation_key = rip_parliament_boyar
+		trigger = { has_reform = ruthenian_principality_reform }
+		localisation_key = rip_parliament_ruthenian_principality
 	}
 	text = {
 		trigger = { always = yes }
