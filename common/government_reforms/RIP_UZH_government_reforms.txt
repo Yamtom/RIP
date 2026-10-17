@@ -3,8 +3,19 @@
 # Definitions are grouped by polity or by an explicitly shared reform family.
 # =============================================================================
 
+# The Palanok captaincy: an elective frontier state in which the castle
+# captains and the Sejm of merchant magnates share the realm. Its second layer
+# is the Res Publica "scale" (states_general_mechanic) with two custom sides,
+# partia_soymu (left end, -1) and partia_kapitaniv (right end, +1). Vanilla's
+# bar is positional: the first block is the left end, the second the right end,
+# whatever they are called (militarists/theocrats, revolutionaries/monarchists).
+# What moves the bar is listed in docs/RUTHENIAN_GOVERNMENT_UI.uk.md and wired
+# in events/PalanokFortress.txt, missions/Zakarpatta_Missions.txt and
+# common/on_actions/uzh_palanok_on_actions.txt; the term election itself moves
+# it by 0.33 either way (vanilla elections.720, fired for every holder of a
+# states_general_mechanic).
 uzh_palanok_captaincy_reform = {
-	icon = "trading_city"
+	icon = "rip_gfx_reform_uzh_palanok_captaincy_icon"
 	potential = {
 		OR = {
 			has_reform = uzh_palanok_captaincy_reform
@@ -15,6 +26,16 @@ uzh_palanok_captaincy_reform = {
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	lock_level_when_selected = yes
+	# Dynastic fields. Vanilla never combines has_term_election with
+	# queen = yes: every term-election reform sets queen = no and heir = no
+	# (states_general_reform, livonian_naval_monarchy, dutch_theocracy_reform).
+	# The only vanilla rulers who are chosen rather than born and still marry
+	# are the soldier kings (commander_king_reform, admiral_king_reform,
+	# livonian_mercenary_monarchy): queen = yes, heir = no, royal_marriage = yes.
+	# Palanok follows that second pattern. royal_marriage stays on because the
+	# monarchy branch of uz_resist_habsburgs asks for a royal marriage
+	# (missions/Zakarpatta_Missions.txt). Not observed in a played campaign:
+	# whether an elected captain's consort survives the next election.
 	queen = yes
 	heir = no
 	duration = 20
@@ -31,10 +52,11 @@ uzh_palanok_captaincy_reform = {
 	modifiers = {
 		defensiveness = 0.1
 		fort_maintenance_modifier = -0.1
-		# The captaincy's structural drag, constant whichever party is in
-		# power; the dynamic trade/military upside sits on the faction
-		# modifiers below instead. Kept literal (check_government_reforms.py)
-		# so the burden never becomes a no-op under one party.
+		# The captaincy's structural drag, constant whichever side is in
+		# power; the swing sits on the two sides below. Kept literal
+		# (check_government_reforms.py) so the burden never becomes a no-op
+		# under one party. Net land_morale with the sides: Sejm in power
+		# -5%, Captains in power +5% (-5% here, +10% on partia_kapitaniv).
 		land_morale = -0.05
 		global_unrest = 1
 	}
@@ -43,12 +65,33 @@ uzh_palanok_captaincy_reform = {
 		enables_plutocratic_idea_group = yes
 		enables_aristocratic_idea_group = no
 	}
-	# The Sejm party and the Captains' party - a real vanilla FACTION contest
-	# (base-game, like the KRU rada), not the Res Publica states_general scale
-	# it used to fake. common/factions/RIP_uzh_palanok_factions.txt.
-	factions = {
-		uzh_partia_soymu
-		uzh_partia_kapitaniv
+	# The scale needs Res Publica or Winds of Change, like every vanilla
+	# states_general_mechanic block; without either the reform is the same
+	# elective captaincy with its structural modifiers and no bar. Side
+	# modifiers avoid republican_tradition and legitimacy because the reform
+	# is offered in both a monarchy (M1) and a republic (R1) tier.
+	conditional = {
+		allow = {
+			OR = {
+				has_dlc = "Res Publica"
+				has_dlc = "Winds of Change"
+			}
+		}
+		states_general_mechanic = {
+			# Left end: the Sejm of merchant magnates and guild elders.
+			partia_soymu = {
+				trade_efficiency = 0.10
+				global_trade_power = 0.10
+				land_forcelimit_modifier = -0.10
+			}
+
+			# Right end: the castle captains and their haiduk levies.
+			partia_kapitaniv = {
+				land_morale = 0.10
+				global_manpower_modifier = 0.10
+				trade_efficiency = -0.10
+			}
+		}
 	}
 }
 

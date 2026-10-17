@@ -1,10 +1,11 @@
 """Draw the button icons of the Galician and Volhynian government abilities.
 
-Twelve 82x82 sprites for three button-only mechanics:
+Fifteen 82x82 sprites for four button-only mechanics:
 
   rip_hlc_boyar_council           3 buttons   round gold frame, crimson enamel
   rip_hlc_austrian_reorganization 6 buttons   black-and-gold octagon
   rip_vln_magnate_senate          3 buttons   arched gold frame, blue enamel
+  rip_lit_pany_rada               3 buttons   shield frame, scarlet enamel, silver inner line
 
 They replace the vanilla Cossack ability sprites these mechanics used to
 borrow. The art is painted procedurally - polygons, gradients, a lit height
@@ -18,6 +19,7 @@ frame shape per mechanic with a different picture inside.
     python tools/build_government_ability_icons.py --check    # redraw and compare
     python tools/build_government_ability_icons.py --preview out.png --scale 4
     python tools/build_government_ability_icons.py --only boyar_office --preview x.png
+    python tools/build_government_ability_icons.py --only rada_confirm --only rada_lord --only rada_retinues --preview x.png --columns 3
 """
 from __future__ import annotations
 
@@ -359,6 +361,26 @@ BLACK_ENAMEL = [(0.0, hexc('#050505')), (0.5, hexc('#161616')), (1.0, hexc('#464
 CRIMSON_ENAMEL = [(0.0, hexc('#2a0608')), (0.5, hexc('#6a1414')), (1.0, hexc('#b03028'))]
 BLUE_ENAMEL = [(0.0, hexc('#08142e')), (0.5, hexc('#16336a')), (1.0, hexc('#3a68b0'))]
 
+# Pany Rada: the Grand Duchy's red field, the Pahonia's silver, horses, coats and wax
+SCARLET_ENAMEL = [(0.0, hexc('#38060a')), (0.5, hexc('#9a1218')), (1.0, hexc('#e04030'))]
+SCARLET_FIELD = [(0.0, hexc('#3a060a')), (0.4, hexc('#8a1016')), (0.6, hexc('#b8161e')), (0.85, hexc('#e0302c')), (1.0, hexc('#ff7a66'))]
+SILVER_LINE = [(0.0, hexc('#4a5460')), (0.45, hexc('#a8b4c0')), (0.75, hexc('#e8eef4')), (1.0, hexc('#ffffff'))]
+SILVER_WHITE = [(0.0, hexc('#7c889c')), (0.40, hexc('#c4ccd9')), (0.62, hexc('#e6ebf2')), (0.85, hexc('#fafcff')), (1.0, hexc('#ffffff'))]
+SILVER_PLATE = [(0.0, hexc('#46525f')), (0.40, hexc('#8d9aa8')), (0.62, hexc('#c2ccd6')), (0.85, hexc('#e8eef4')), (1.0, hexc('#ffffff'))]
+BAY = [(0.0, hexc('#1a0c06')), (0.40, hexc('#42220f')), (0.62, hexc('#64371a')), (0.85, hexc('#8a5428')), (1.0, hexc('#b8854e'))]
+DUN = [(0.0, hexc('#2a1c0e')), (0.40, hexc('#6a4a24')), (0.62, hexc('#8c6a38')), (0.85, hexc('#b8925a')), (1.0, hexc('#e2c48a'))]
+GREY_HORSE = [(0.0, hexc('#2e3640')), (0.40, hexc('#6a7684')), (0.62, hexc('#8e9aa8')), (0.85, hexc('#c0cad4')), (1.0, hexc('#eef2f6'))]
+BLACK_HORSE = [(0.0, hexc('#050608')), (0.40, hexc('#16181c')), (0.62, hexc('#262a30')), (0.85, hexc('#40464e')), (1.0, hexc('#6a727c'))]
+MAIL = [(0.0, hexc('#20262e')), (0.40, hexc('#4c5866')), (0.62, hexc('#76828f')), (0.85, hexc('#aab6c2')), (1.0, hexc('#e4ecf2'))]
+RED_COAT = [(0.0, hexc('#2a0508')), (0.4, hexc('#7a1018')), (0.62, hexc('#a81c24')), (0.85, hexc('#d04040')), (1.0, hexc('#f08a80'))]
+SKY_BLUE_COAT = [(0.0, hexc('#0a1830')), (0.4, hexc('#1c4478')), (0.62, hexc('#2c64a8')), (0.85, hexc('#5a92d0')), (1.0, hexc('#b0d0f4'))]
+YELLOW_COAT = [(0.0, hexc('#3a2a06')), (0.4, hexc('#8a6a14')), (0.62, hexc('#c49a22')), (0.85, hexc('#e8c448')), (1.0, hexc('#fff0a0'))]
+BEARD_GREY = [(0.0, hexc('#585c60')), (0.5, hexc('#a8acb0')), (1.0, hexc('#f0f2f4'))]
+BEARD_BROWN = [(0.0, hexc('#1a0e08')), (0.5, hexc('#4a2c18')), (1.0, hexc('#8a6444'))]
+SABLE = [(0.0, hexc('#0c0604')), (0.4, hexc('#241408')), (0.62, hexc('#3a2410')), (0.85, hexc('#5c3e20')), (1.0, hexc('#8a6a40'))]
+WAX_GREEN = [(0.0, hexc('#08240e')), (0.4, hexc('#1c5a2a')), (0.6, hexc('#2c7c3c')), (0.85, hexc('#52a862')), (1.0, hexc('#b0e8b8'))]
+WAX_YELLOW = [(0.0, hexc('#3a2a06')), (0.4, hexc('#8a6a14')), (0.6, hexc('#c49a22')), (0.85, hexc('#e8c448')), (1.0, hexc('#fff0a0'))]
+
 
 # --------------------------------------------------------------------------
 # Frames
@@ -377,6 +399,21 @@ def arch_poly(cx, width, top, bottom):
     return poly(pts)
 
 
+def erode(mask, radius):
+    """Shrink by `radius` units (the dual of grow)."""
+    return ImageChops.invert(grow(ImageChops.invert(mask), radius))
+
+
+def shield_poly(cx, hw, top, bottom, shoulder=0.44):
+    """A heater shield silhouette: flat top, straight flanks, a rounded point."""
+    h = bottom - top
+    ys = top + h * shoulder
+    pts = [(cx - hw, top + 1.2), (cx - hw + 1.2, top), (cx + hw - 1.2, top), (cx + hw, top + 1.2), (cx + hw, ys)]
+    pts += bezier((cx + hw, ys), (cx + hw, ys + h * 0.30), (cx + hw * 0.42, bottom - h * 0.10), (cx, bottom), 32)[1:]
+    pts += bezier((cx, bottom), (cx - hw * 0.42, bottom - h * 0.10), (cx - hw, ys + h * 0.30), (cx - hw, ys), 32)[1:]
+    return poly(pts)
+
+
 def frame_masks(kind):
     """Outer silhouette, inner edge of the gold band, of the enamel, and the picture area."""
     c = SIZE / 2.0
@@ -388,7 +425,13 @@ def frame_masks(kind):
     if kind == 'arch':
         return (arch_poly(c, 70, 2.4, 79.6), arch_poly(c, 61.6, 6.8, 75.2),
                 arch_poly(c, 58.0, 8.6, 73.4), arch_poly(c, 56.4, 9.4, 72.6))
+    if kind == 'shield':
+        outer = shield_poly(c, 36.0, 3.0, 79.4)
+        return outer, erode(outer, 4.3), erode(outer, 6.1), erode(outer, 6.9)
     raise ValueError(kind)
+
+
+INNER_LINE = {'shield': SILVER_LINE}      # every other frame keeps a gold inner line
 
 
 def draw_frame(kind, enamel_stops, scene_layer):
@@ -404,7 +447,7 @@ def draw_frame(kind, enamel_stops, scene_layer):
     rim_depth = np.asarray(ImageChops.invert(blur(scene, 2.6)), dtype=np.float32) / 255.0
     sprite = over(sprite, picture, from_alpha((0, 0, 0), rim_depth * (np.asarray(scene, dtype=np.float32) / 255.0) * 0.38))
     sprite = over(sprite, shaded(enamel, enamel_stops, 0.5, relief=1.3, gain=1.5))
-    sprite = over(sprite, shaded(inner_line, GOLD, 0.3, relief=0.7, gain=1.6))
+    sprite = over(sprite, shaded(inner_line, INNER_LINE.get(kind, GOLD), 0.3, relief=0.7, gain=1.6))
     sprite = over(sprite, shaded(band, GOLD, 1.3, relief=3.0, gain=1.9, spec=0.25, texture=noise(7, 1.6, 2)))
     sprite = over(sprite, outline(outer, 0.45, (24, 12, 4), 0.95))
     return sprite
@@ -1038,6 +1081,394 @@ def return_arrow(cx, cy, radius, width):
 
 
 # --------------------------------------------------------------------------
+# Pany Rada props: horse and rider figures, the Pahonia, lords, charters, a castle
+# --------------------------------------------------------------------------
+
+def taper(points, widths):
+    """A limb: trapezoids between joints, a disc on every joint; widths are full widths in sprite units."""
+    parts = []
+    for (x0, y0), (x1, y1), w0, w1 in zip(points, points[1:], widths, widths[1:]):
+        a = math.atan2(y1 - y0, x1 - x0) + math.pi / 2
+        dx0, dy0 = math.cos(a) * w0 / 2, math.sin(a) * w0 / 2
+        dx1, dy1 = math.cos(a) * w1 / 2, math.sin(a) * w1 / 2
+        parts.append(poly([(x0 + dx0, y0 + dy0), (x1 + dx1, y1 + dy1), (x1 - dx1, y1 - dy1), (x0 - dx0, y0 - dy0)]))
+    for (x, y), w in zip(points, widths):
+        parts.append(ellipse(x, y, w / 2))
+    return union(*parts)
+
+
+class DesignGrid:
+    """Design-grid (0..100) to sprite mapping."""
+    def __init__(self, cx, cy, scale, flip=False, degrees=0.0):
+        self.cx, self.cy, self.k, self.flip, self.deg = cx, cy, scale, flip, degrees
+
+    def __call__(self, x, y):
+        x = (x - 50.0) * self.k
+        y = (y - 50.0) * self.k
+        if self.flip:
+            x = -x
+        if self.deg:
+            c, s = math.cos(math.radians(self.deg)), math.sin(math.radians(self.deg))
+            x, y = x * c - y * s, x * s + y * c
+        return (self.cx + x, self.cy + y)
+
+    def pts(self, points):
+        return [self(x, y) for x, y in points]
+
+    def w(self, widths):
+        return [v * self.k for v in widths]
+
+
+def vytis_parts(F):
+    """Rearing horse facing left (the Pahonia gallops to the dexter), armoured rider, sword up, shield on the arm."""
+    P = {}
+    body = ellipse(*F(58, 58), 26 * F.k, 13 * F.k, degrees=(-40 if F.flip else 40))
+    neck = taper(F.pts([(41, 48), (31, 24), (28, 20)]), F.w([15, 9, 8.2]))
+    head = taper(F.pts([(29, 20), (22, 27), (13, 35)]), F.w([8.0, 7.0, 4.4]))
+    muzzle = taper(F.pts([(16, 33), (11.5, 37.5)]), F.w([4.8, 4.6]))
+    ear = poly(F.pts([(27.5, 17), (29.5, 9.5), (32.5, 17)]))
+    tail = poly(F.pts(bezier((78, 58), (96, 58), (104, 78), (92, 98), 24) + bezier((92, 98), (96, 80), (90, 68), (76, 66), 24)))
+    P['horse'] = union(body, neck, head, muzzle, ear, tail)
+    P['far_legs'] = union(
+        taper(F.pts([(44, 47), (34, 52), (25, 43), (17, 48)]), F.w([8, 5.6, 4.2, 3.2])),
+        taper(F.pts([(78, 72), (89, 84), (85, 93), (89, 99)]), F.w([11, 6, 4.2, 3.6])))
+    P['near_legs'] = union(
+        taper(F.pts([(39, 53), (29, 62), (19, 57), (13, 65)]), F.w([9, 6, 4.6, 3.4])),
+        taper(F.pts([(72, 66), (76, 81), (68, 91), (71, 99)]), F.w([13, 7, 4.8, 4.0])))
+    P['torso'] = taper(F.pts([(63, 51), (59, 26)]), F.w([11, 12.5]))
+    P['rider_leg'] = taper(F.pts([(62, 52), (51, 57), (53, 69)]), F.w([7.5, 5.2, 4.2]))
+    P['head_r'] = ellipse(*F(57, 16), 5.2 * F.k)
+    P['helmet'] = poly(F.pts([(51, 17), (51.6, 11), (54.5, 6.5), (57, 5), (59.5, 6.5), (62.6, 11), (63, 17), (60, 15), (54, 15)]))
+    P['arm'] = taper(F.pts([(60, 27), (68, 24), (72, 12)]), F.w([5.2, 4.2, 3.6]))
+    P['sword'] = taper(F.pts([(72, 11), (92, -16)]), F.w([2.8, 1.5]))
+    P['guard'] = taper(F.pts([(68, 12), (76.5, 8.5)]), F.w([2.0, 2.0]))
+    sh = [(41, 24), (55, 24), (55, 38)] + bezier((55, 38), (55, 46), (48, 50), (48, 51), 12)[1:] + bezier((48, 51), (48, 50), (41, 46), (41, 38), 12)[1:]
+    P['shield'] = poly(F.pts(sh))
+    return P
+
+
+def paint_part(layer, mask, stops, softness=0.8, relief=1.6, gain=1.5, spec=0.0, texture=None, edge=(20, 12, 10), edge_w=0.4, edge_a=0.95):
+    layer = over(layer, outline(mask, edge_w, edge, edge_a))
+    return over(layer, shaded(mask, stops, softness, relief=relief, gain=gain, spec=spec, texture=texture))
+
+
+def vytis(cx, cy, scale, flip=False, degrees=0.0):
+    """The Pahonia: a white armoured rider on a rearing white horse, sword raised, cross-bearing shield on the arm."""
+    F = DesignGrid(cx, cy, scale, flip=flip, degrees=degrees)
+    P = vytis_parts(F)
+    layer = blank_layer()
+    k = scale
+    ew = max(0.3, 0.55 * k * 1.6)
+    layer = over(layer, shadow(union(P['horse'], P['near_legs'], P['far_legs'], P['torso'], P['sword']), 0.5, 0.7, 0.5, 0.35))
+    layer = paint_part(layer, P['far_legs'], GREY_HORSE, 0.5, 1.2, 1.3, edge=(46, 6, 8), edge_w=ew)
+    layer = paint_part(layer, P['horse'], SILVER_WHITE, 1.4 * k * 2, 2.0, 1.3, edge=(46, 6, 8), edge_w=ew)
+    layer = paint_part(layer, P['near_legs'], SILVER_WHITE, 0.6, 1.4, 1.4, edge=(60, 70, 88), edge_w=ew * 0.8)
+    layer = paint_part(layer, P['rider_leg'], SILVER_PLATE, 0.5, 1.2, 1.4, edge=(40, 48, 62), edge_w=ew * 0.8)
+    layer = paint_part(layer, P['torso'], SILVER_PLATE, 1.0, 1.8, 1.4, spec=0.1, edge=(40, 48, 62), edge_w=ew * 0.8)
+    layer = paint_part(layer, P['arm'], SILVER_PLATE, 0.5, 1.2, 1.4, edge=(40, 48, 62), edge_w=ew * 0.8)
+    layer = paint_part(layer, P['head_r'], SKIN, 0.5, 1.0, 1.3, edge=(40, 30, 24), edge_w=ew * 0.7)
+    layer = paint_part(layer, P['helmet'], SILVER_PLATE, 0.5, 1.4, 1.5, spec=0.2, edge=(40, 48, 62), edge_w=ew * 0.8)
+    layer = over(layer, paint_part(blank_layer(), P['sword'], STEEL, 0.3, 0.6, 1.4, spec=0.3, edge=(40, 48, 62), edge_w=ew * 0.8))
+    layer = over(layer, shaded(P['guard'], GOLD, 0.2, relief=0.5, gain=1.8))
+    # the shield: a blue field with the Jagiellonian double cross in gold
+    layer = paint_part(layer, P['shield'], BLUE_CLOTH, 0.6, 1.4, 1.4, edge=(220, 190, 80), edge_w=ew * 1.1)
+    stem = stroke([F(48, 29), F(48, 46)], 1.6 * k * 1.7, caps=False)
+    bar1 = stroke([F(43.5, 33), F(52.5, 33)], 1.5 * k * 1.7, caps=False)
+    bar2 = stroke([F(44.5, 39), F(51.5, 39)], 1.5 * k * 1.7, caps=False)
+    layer = over(layer, shaded(inter(union(stem, bar1, bar2), P['shield']), GOLD, 0.2, relief=0.5, gain=1.8, spec=0.3))
+    return layer
+
+
+def walker_parts(F):
+    """A horse at a walk facing right, with an upright rider in the saddle: coat, mail coif, steel cap, round shield."""
+    P = {}
+    body = ellipse(*F(45, 31), 24 * F.k, 11.5 * F.k)
+    chest = ellipse(*F(58, 30), 10 * F.k, 11 * F.k)
+    neck = taper(F.pts([(59, 28), (66, 16), (72, 9.5)]), F.w([18, 13, 9.5]))
+    head = taper(F.pts([(72, 11), (79, 18), (86, 25)]), F.w([9.5, 8.0, 5.0]))
+    cheek = ellipse(*F(76, 17), 5.4 * F.k, 5.0 * F.k)
+    muzzle = taper(F.pts([(83, 22.5), (88.5, 27.5)]), F.w([5.0, 5.2]))
+    ear = poly(F.pts([(69.5, 8), (71.5, -1.5), (75.5, 8.5)]))
+    tail = poly(F.pts(bezier((24, 24), (12, 26), (8, 40), (12, 54), 20) + bezier((12, 54), (16, 43), (20, 36), (26, 33), 20)))
+    mane = poly(F.pts(bezier((60, 19), (65, 7), (69, 4), (72, 2), 12) + bezier((72, 2), (70, 10), (66, 17), (62, 25), 12)))
+    P['horse'] = union(body, chest, neck, head, cheek, muzzle, ear, tail)
+    P['mane'] = mane
+    P['cloth'] = poly(F.pts([(34, 18), (56, 18), (58, 36), (32, 36)]))
+    P['near_legs'] = union(
+        taper(F.pts([(61, 38), (63, 50), (62, 60), (63.5, 67)]), F.w([9, 5.4, 4.0, 4.6])),
+        taper(F.pts([(31, 38), (26, 50), (27, 60), (25.5, 67)]), F.w([11, 6.2, 4.0, 4.6])))
+    P['far_legs'] = union(
+        taper(F.pts([(56, 37), (65, 47), (70, 55), (71.5, 61)]), F.w([8, 5.2, 3.8, 4.2])),
+        taper(F.pts([(36, 37), (40, 49), (38, 60), (40, 67)]), F.w([10, 5.8, 3.8, 4.4])))
+    P['torso'] = taper(F.pts([(47, 22), (48, 2)]), F.w([12, 13.5]))
+    P['rider_leg'] = taper(F.pts([(47, 23), (51, 32), (49.5, 42)]), F.w([9, 6.2, 4.6]))
+    P['head_r'] = ellipse(*F(49, -5.5), 5.4 * F.k)
+    P['helmet'] = poly(F.pts([(43.2, -4.6), (43.4, -10), (46, -13.4), (48.4, -16.5), (50.4, -13.4), (53, -10), (55, -4.6), (52.4, -7.6), (46, -7.6)]))
+    P['arm'] = taper(F.pts([(50, 4), (57, 9), (62, 4)]), F.w([5.6, 4.6, 4.0]))
+    P['shield'] = ellipse(*F(41, 15), 8.6 * F.k)
+    return P
+
+
+def boyar_rider(cx, cy, scale, horse=BAY, coat=RED_COAT, flip=False, seed=1):
+    """A boyar of a magnate's household on horseback (the design faces right; `flip` turns him left). Returns the layer and its grid."""
+    F = DesignGrid(cx, cy, scale, flip=flip)
+    P = walker_parts(F)
+    k = scale
+    ew = max(0.3, 0.55 * k * 1.7)
+    dark = (12, 6, 4)
+    layer = blank_layer()
+    layer = over(layer, contact(*F(46, 69), 26 * k, 3.0 * k, 0.45))
+    layer = paint_part(layer, P['far_legs'], horse, 0.4, 1.0, 1.3, edge=dark, edge_w=ew)
+    layer = paint_part(layer, P['horse'], horse, 1.2, 2.2, 1.4, texture=noise(seed, 0.9, 2), edge=dark, edge_w=ew)
+    layer = over(layer, roundness(P['horse'], F(23, 0)[0], F(70, 0)[0], dark=0.35, lift=0.12, peak=0.3))
+    layer = over(layer, shaded(inter(P['cloth'], P['horse']), coat, 0.6, relief=1.2, gain=1.3),
+                 solid(stroke(F.pts([(34, 18.5), (56, 18.5)]), 0.5 * k * 2), (244, 206, 96), 0.9))
+    layer = paint_part(layer, P['near_legs'], horse, 0.5, 1.2, 1.4, edge=dark, edge_w=ew * 0.9)
+    layer = over(layer, shaded(P['mane'], BLACK_HORSE, 0.4, relief=0.8, gain=1.2))
+    layer = paint_part(layer, P['rider_leg'], MAIL, 0.4, 0.9, 1.4, edge=(16, 18, 24), edge_w=ew * 0.8)
+    layer = paint_part(layer, P['torso'], coat, 0.9, 1.6, 1.4, spec=0.1, edge=(24, 8, 10), edge_w=ew * 0.8)
+    layer = over(layer, solid(stroke(F.pts([(47, 6), (47.4, 22)]), 0.9 * k * 2), (244, 206, 96), 0.9))
+    layer = paint_part(layer, P['arm'], MAIL, 0.4, 0.9, 1.4, edge=(16, 18, 24), edge_w=ew * 0.8)
+    layer = paint_part(layer, P['head_r'], SKIN, 0.4, 0.8, 1.3, edge=(40, 30, 24), edge_w=ew * 0.7)
+    coif = minus(ellipse(*F(49, -4.2), 6.2 * k, 6.4 * k), ellipse(*F(50.4 if not flip else 47.6, -5.0), 3.6 * k, 3.4 * k))
+    layer = over(layer, shaded(coif, MAIL, 0.3, relief=0.8, gain=1.4))
+    layer = paint_part(layer, P['helmet'], STEEL, 0.4, 1.2, 1.5, spec=0.2, edge=(16, 18, 24), edge_w=ew * 0.8)
+    layer = paint_part(layer, P['shield'], VELVET_RED, 0.8, 1.6, 1.4, edge=(220, 190, 80), edge_w=ew * 1.1)
+    layer = over(layer, shaded(ellipse(*F(41, 15), 2.2 * k), GOLD, 0.2, relief=0.6, gain=1.8, spec=0.4))
+    return layer, F
+
+
+def spline(points, closed=True, n=8):
+    """Catmull-Rom curve through the points (a smooth outline from a handful of corners)."""
+    pts = list(points)
+    m = len(pts)
+    out = []
+    rng = range(m) if closed else range(m - 1)
+    for i in rng:
+        p0 = pts[(i - 1) % m] if closed or i > 0 else pts[i]
+        p1, p2 = pts[i], pts[(i + 1) % m]
+        p3 = pts[(i + 2) % m] if closed or i + 2 < m else pts[(i + 1) % m]
+        for j in range(n):
+            t = j / n
+            t2, t3 = t * t, t * t * t
+            out.append(tuple(0.5 * ((2 * p1[c]) + (-p0[c] + p2[c]) * t + (2 * p0[c] - 5 * p1[c] + 4 * p2[c] - p3[c]) * t2 + (-p0[c] + 3 * p1[c] - 3 * p2[c] + p3[c]) * t3) for c in (0, 1)))
+    return out
+
+
+def rada_lord(cx, cy, s, facing, coat, cap_top, beard=BEARD_GREY, fur=SABLE, seed=1):
+    """A lord of the Rada in profile: sable-banded cap, beard, coat with a fur collar and gold braid. (cx, cy) is the head centre."""
+    f = facing
+    X = lambda x: cx + f * x * s
+    Y = lambda y: cy + y * s
+    pt = lambda x, y: (X(x), Y(y))
+    P = lambda seq: [pt(*q) for q in seq]
+    layer = blank_layer()
+    body = poly(P([(-11.5, 32), (-11, 13)] + bezier((-11, 13), (-10, 8.4), (-5, 6.6), (-1, 6.2), 10)[1:] + bezier((-1, 6.2), (5, 6.2), (10.5, 8.4), (12, 14), 10)[1:] + [(12.5, 32)]))
+    neck = poly(P([(-2.6, 3), (3.0, 3), (3.4, 8.0), (-3.2, 8.0)]))
+    face = poly(P(spline([(-0.4, -5.6), (3.0, -4.6), (4.6, -2.6), (4.2, -1.0), (6.9, 1.5), (5.0, 2.6), (5.1, 3.6), (4.5, 4.4), (4.3, 6.2), (1.2, 6.8),
+                           (-2.6, 4.8), (-4.9, 0.6), (-4.2, -4.4)], True, 6)))
+    beard_m = poly(P(spline([(-2.8, 1.0), (1.8, 3.0), (4.8, 3.6), (5.4, 5.6), (4.6, 8.6), (3.0, 12.0), (0.2, 9.6), (-2.2, 6.0)], True, 6)))
+    must = poly(P(spline([(3.6, 2.7), (7.0, 2.9), (6.6, 4.1), (4.4, 4.4)], True, 5)))
+    band = poly(P([(-5.6, -2.6), (4.8, -3.0), (5.1, -6.6), (-5.6, -6.9)]))
+    top = poly(P(spline([(-5.5, -6.5), (-5.8, -10.5), (-2.2, -13.6), (2.6, -12.6), (5.2, -9.6), (5.0, -6.5)], True, 6)))
+    everything = union(body, face, band, top, beard_m, neck)
+    layer = over(layer, shadow(everything, 0.7 * s, 1.0 * s, 0.8, 0.5), outline(everything, 0.45, (14, 8, 6), 0.95))
+    layer = over(layer, shaded(body, coat, 1.0 * s, relief=2.0 * s, gain=1.4, texture=noise(seed, 0.9, 2)))
+    layer = over(layer, roundness(body, X(-10.5) if f > 0 else X(12), X(12) if f > 0 else X(-10.5), dark=0.35, lift=0.10, peak=0.35))
+    collar = poly(P(spline([(-11, 13.5), (-9, 8.6), (-2, 6.4), (4, 6.4), (10, 8.6), (12, 14), (8.8, 12.6), (3.5, 10.6), (-3, 11.0), (-8, 13.8)], True, 6)))
+    layer = over(layer, shaded(collar, fur, 0.6 * s, relief=1.2 * s, gain=1.3, texture=noise(seed + 2, 0.5, 2)))
+    for i in range(3):
+        yy = 17 + 3.2 * i
+        layer = over(layer, solid(stroke([pt(1.0, yy), pt(6.4, yy + 0.3)], 0.65 * s), (244, 206, 96), 0.95))
+    layer = over(layer, shaded(neck, SKIN, 0.4, relief=0.8, gain=1.4))
+    layer = over(layer, shaded(face, SKIN, 0.9 * s, relief=1.8 * s, gain=1.4, spec=0.08))
+    layer = over(layer, solid(ellipse(X(-1.6), Y(0.9), 1.0 * s, 1.7 * s), (150, 90, 62), 0.55))
+    layer = over(layer, shaded(beard_m, beard, 0.5 * s, relief=1.2, gain=1.3, texture=noise(seed + 5, 0.5, 2)))
+    layer = over(layer, strands(beard_m, seed, int(36 * s * s), 1.6 * s, 0.13, [hexc('#0e0805'), hexc('#3a2a1a'), hexc('#a8a8a8'), hexc('#e8e8e8')], lambda x, y: math.pi / 2, spread=0.4))
+    layer = over(layer, shaded(must, beard, 0.2, relief=0.5, gain=1.3))
+    layer = over(layer, solid(ellipse(X(2.7), Y(-0.9), 0.62 * s, 0.46 * s), (20, 10, 6), 0.97))
+    layer = over(layer, solid(stroke([pt(1.2, -2.5), pt(4.3, -2.3)], 0.55 * s), (50, 28, 12), 0.85))
+    layer = over(layer, shaded(top, cap_top, 0.8 * s, relief=1.6 * s, gain=1.5, spec=0.15))
+    layer = over(layer, shaded(band, fur, 0.6 * s, relief=1.2 * s, gain=1.4, texture=noise(seed + 3, 0.5, 2)))
+    layer = over(layer, strands(band, seed, int(70 * s * s), 1.0 * s, 0.14, [hexc('#0e0805'), hexc('#2a180d'), hexc('#5a3a22'), hexc('#9a7a54')], lambda x, y: math.pi / 2, spread=0.5))
+    layer = over(layer, shaded(ellipse(X(2.0), Y(-9.0), 1.0 * s), GOLD, 0.2, relief=0.6, gain=1.9, spec=0.5))
+    return layer
+
+
+def hanging_seals(x_left, base_y, w, radii=(4.4, 4.0, 4.4), colors=(WAX, WAX_GREEN, WAX_YELLOW), drops=(2.5, 5.0, 3.0), seed=1):
+    """Pendant seals on cords from the foot of a charter, spaced across its width."""
+    layer = blank_layer()
+    n = len(radii)
+    for i in range(n):
+        sx = x_left + w * (i + 0.5) / n
+        sy = base_y + drops[i] + radii[i]
+        cord = stroke([(sx, base_y - 0.6), (sx + 0.3, base_y + drops[i] * 0.5), (sx + 0.1, sy - radii[i] * 0.6)], 0.5)
+        layer = over(layer, solid(cord, (220, 190, 120) if i != 1 else (170, 30, 34), 0.95))
+        r = radii[i]
+        rng = random.Random(seed + i)
+        pts = [(sx + (r + rng.uniform(-0.08, 0.08) * r + 0.08 * r * math.sin(5 * (2 * math.pi * j / 32))) * math.cos(2 * math.pi * j / 32),
+                sy + (r + rng.uniform(-0.08, 0.08) * r + 0.08 * r * math.sin(5 * (2 * math.pi * j / 32))) * math.sin(2 * math.pi * j / 32)) for j in range(32)]
+        blob = poly(pts)
+        layer = over(layer, shadow(blob, 0.6, 0.9, 0.7, 0.5), outline(blob, 0.35, (24, 6, 6), 0.9))
+        layer = over(layer, shaded(blob, colors[i], 0.8, relief=1.8, gain=1.7, spec=0.35))
+        ring = minus(ellipse(sx, sy, r * 0.64), ellipse(sx, sy, r * 0.46))
+        layer = over(layer, shaded(ring, colors[i], 0.25, relief=0.8, gain=2.2, spec=0.25))
+        layer = over(layer, shaded(ellipse(sx, sy, r * 0.28), colors[i], 0.25, relief=0.7, gain=2.2, spec=0.25))
+    return layer
+
+
+def privilege_charter(cx, cy, w, h, seed=5, degrees=0.0, lines=6, seals=3):
+    """An unrolled privilege (a 1492 or 1506 charter): ruled script, a red initial, wax seals hanging from its foot on cords."""
+    x, y = cx - w / 2, cy - h / 2
+    curl = max(2.0, h * 0.075)
+    sheet_m = poly([(x, y), (x + w, y), (x + w, y + h), (x, y + h)])
+    layer = blank_layer()
+    layer = over(layer, shadow(sheet_m, 0.9, 1.3, 1.1, 0.5), outline(sheet_m, 0.55, (46, 28, 10), 0.9))
+    layer = over(layer, gradient(sheet_m, PARCHMENT, (x, y), (x + w * 0.9, y + h)))
+    grain = np.asarray(sheet_m, dtype=np.float32) / 255.0 * (noise(seed, 0.7, 3) - 0.5) * 0.32
+    layer = over(layer, from_alpha((60, 36, 12), np.clip(grain, 0, 1)), from_alpha((255, 250, 225), np.clip(-grain, 0, 1)))
+    ink = blank_mask()
+    rng = random.Random(seed)
+    top = y + curl + 1.4
+    gap = (h - 2 * curl - 6.0) / max(1, lines)
+    for i in range(lines):
+        yy = top + gap * (i + 0.5)
+        x0 = x + 2.3 + (3.2 if i == 0 else 0.0)
+        x1 = x + w - 2.3 - (rng.uniform(0.0, w * 0.3) if i == lines - 1 else rng.uniform(0.0, 1.0))
+        ImageDraw.Draw(ink).line(_px([(x0, yy), (x1, yy + rng.uniform(-0.1, 0.1))]), fill=255, width=max(1, int(0.55 * SS)))
+    layer = over(layer, solid(inter(ink, sheet_m), (74, 46, 22), 0.66))
+    initial = poly([(x + 2.3, top + gap * 0.1), (x + 5.2, top + gap * 0.1), (x + 5.2, top + gap * 0.95), (x + 2.3, top + gap * 0.95)])
+    layer = over(layer, solid(initial, (150, 24, 28), 0.85))
+    for ry in (y, y + h - curl):
+        roll = poly([(x - 0.9, ry), (x + w + 0.9, ry), (x + w + 0.9, ry + curl), (x - 0.9, ry + curl)])
+        layer = over(layer, outline(roll, 0.45, (46, 28, 10), 0.9), shaded(roll, PARCHMENT, 0.5, relief=1.5, gain=1.7))
+        for ex in (x - 0.9, x + w + 0.9):
+            layer = over(layer, solid(ellipse(ex, ry + curl / 2, curl * 0.42, curl * 0.5), (96, 66, 30), 0.85),
+                         solid(ellipse(ex, ry + curl / 2, curl * 0.2, curl * 0.26), (230, 208, 150), 0.9))
+    # the foot of the sheet is folded up and the seals hang on tags
+    layer = over(layer, hanging_seals(x + 1.5, y + h - 0.4, w - 3.0, radii=(4.0, 3.6, 4.0)[:seals], colors=(WAX, WAX_GREEN, WAX_YELLOW)[:seals],
+                                      drops=(1.8, 4.4, 2.4)[:seals], seed=seed + 1))
+    return turn(layer, degrees, cx, cy) if degrees else layer
+
+
+def gediminas_mask(cx, cy, h):
+    """The Columns of Gediminas, simplified: a base bar, two side prongs, a square pedestal and a centre stem (a 'trident')."""
+    t = 0.085 * h
+    pts = lambda l: [(cx + x * h, cy + y * h) for x, y in l]
+    left = stroke(pts(bezier((-0.37, 0.40), (-0.40, 0.05), (-0.38, -0.30), (-0.31, -0.50), 14)), t, caps=False)
+    right = stroke(pts(bezier((0.37, 0.40), (0.40, 0.05), (0.38, -0.30), (0.31, -0.50), 14)), t, caps=False)
+    base = poly(pts([(-0.42, 0.40), (0.42, 0.40), (0.42, 0.50), (-0.42, 0.50)]))
+    square = poly(pts([(-0.13, 0.04), (0.13, 0.04), (0.13, 0.40), (-0.13, 0.40)]))
+    stem = poly(pts([(-0.045, -0.52), (0.045, -0.52), (0.045, 0.06), (-0.045, 0.06)]))
+    return union(left, right, base, square, stem)
+
+
+def gediminas_columns(cx, cy, h):
+    mask = gediminas_mask(cx, cy, h)
+    layer = over(blank_layer(), outline(mask, 0.35, (60, 30, 4), 0.9), shaded(mask, GOLD, 0.3, relief=0.8, gain=1.8, spec=0.3))
+    return layer
+
+
+def lance_standard(base, degrees, length, flag_len, flag_h, field, emblem=None, seed=1, side=1, tail=True, border=True):
+    """A lance with a swallow-tailed standard streaming to one side; `emblem(centre)` returns the charge, drawn in sprite coordinates."""
+    pts = lambda p: place(p, degrees, base)
+    pole = poly(pts([(-0.55, 0), (0.55, 0), (0.5, -length), (-0.5, -length)]))
+    head = poly(pts([(-1.3, -length), (1.3, -length), (0, -length - 5.0)]))
+    top = -length + 2.0
+    waves = 1.0 + 0.4 * (seed % 2)
+    upper = [(side * (flag_len * i / 20.0), top + math.sin(i / 20.0 * math.pi * 1.4 * waves + seed) * 1.0) for i in range(21)]
+    lower = [(side * (flag_len * i / 20.0), top + flag_h + math.sin(i / 20.0 * math.pi * 1.4 * waves + seed) * 1.0) for i in range(20, -1, -1)]
+    notch = (side * flag_len * 0.78, top + flag_h / 2 + 0.6)
+    flag_pts = upper + ([notch] if tail else []) + lower
+    flag = poly(pts(flag_pts))
+    layer = blank_layer()
+    layer = over(layer, shadow(union(flag, pole, head), 0.8, 1.1, 0.8, 0.45), outline(union(flag, pole, head), 0.45, (20, 12, 8), 0.95))
+    layer = over(layer, shaded(pole, WOOD, 0.3, relief=0.7, gain=1.6))
+    layer = over(layer, shaded(flag, field, 1.1, relief=1.8, gain=1.5, spec=0.12, texture=noise(seed + 30, 1.4, 2)))
+    if border:
+        rim = minus(flag, erode(flag, 0.9))
+        layer = over(layer, shaded(rim, GOLD, 0.2, relief=0.5, gain=1.7, spec=0.2))
+    if emblem is not None:
+        centre = pts([(side * flag_len * (0.40 if tail else 0.5), top + flag_h / 2)])[0]
+        layer = over(layer, clip(emblem(centre), flag))
+    fold = np.asarray(flag, dtype=np.float32) / 255.0
+    yy, xx = _GRID
+    cloth = (np.sin((xx / SS * 0.9 + yy / SS * 0.25) * 1.1 + seed) * 0.5 + 0.5)
+    layer = over(layer, from_alpha((0, 0, 0), fold * cloth * 0.20), from_alpha((255, 240, 220), fold * (1 - cloth) * 0.08))
+    layer = over(layer, shaded(head, GOLD, 0.35, relief=1.0, gain=1.9, spec=0.5))
+    return layer
+
+
+def gold_key(cx, cy, length, degrees=0.0, bow_r=None):
+    """A gold key drawn along +x: ring bow on the left, shaft, a two-toothed bit on the right; placed at its middle."""
+    bow_r = bow_r or length * 0.17
+    L = length
+    pts = lambda p: place(p, degrees, (cx, cy))
+    x0 = -L / 2
+    bow_c = (x0 + bow_r, 0)
+    bow = ellipse(*pts([bow_c])[0], bow_r)
+    hole = ellipse(*pts([bow_c])[0], bow_r * 0.5)
+    shaft = poly(pts([(x0 + bow_r * 1.6, -bow_r * 0.26), (L / 2, -bow_r * 0.26), (L / 2, bow_r * 0.26), (x0 + bow_r * 1.6, bow_r * 0.26)]))
+    collar = poly(pts([(x0 + bow_r * 2.0, -bow_r * 0.55), (x0 + bow_r * 2.6, -bow_r * 0.55), (x0 + bow_r * 2.6, bow_r * 0.55), (x0 + bow_r * 2.0, bow_r * 0.55)]))
+    tooth1 = poly(pts([(L / 2 - bow_r * 1.5, bow_r * 0.2), (L / 2, bow_r * 0.2), (L / 2, bow_r * 1.25), (L / 2 - bow_r * 0.8, bow_r * 1.25), (L / 2 - bow_r * 0.8, bow_r * 0.8), (L / 2 - bow_r * 1.5, bow_r * 0.8)]))
+    tooth2 = poly(pts([(L / 2 - bow_r * 2.8, bow_r * 0.2), (L / 2 - bow_r * 2.0, bow_r * 0.2), (L / 2 - bow_r * 2.0, bow_r * 1.0), (L / 2 - bow_r * 2.8, bow_r * 1.0)]))
+    whole = union(minus(bow, hole), shaft, collar, tooth1, tooth2)
+    layer = blank_layer()
+    layer = over(layer, shadow(whole, 0.9, 1.2, 0.9, 0.55), outline(whole, 0.5, (30, 16, 2), 0.97))
+    layer = over(layer, shaded(whole, GOLD, 0.6, relief=1.8, gain=1.9, spec=0.45))
+    return layer
+
+
+def open_hand(cx, cy, s, degrees=0.0, cuff=(VELVET_RED, SABLE)):
+    """An open hand, palm up, from a sleeve with a fur cuff: coordinates are for a hand reaching to the right."""
+    pts = lambda p: place(p, degrees, (cx, cy))
+    sleeve = poly(pts([(-22 * s, -7 * s), (-4 * s, -5.2 * s), (-4 * s, 5.2 * s), (-22 * s, 8.5 * s)]))
+    cuff_m = poly(pts([(-6.5 * s, -5.8 * s), (-1.5 * s, -5.0 * s), (-1.5 * s, 5.0 * s), (-6.5 * s, 6.0 * s)]))
+    palm = ellipse(*pts([(3.5 * s, 0)])[0], 5.2 * s, 4.4 * s, degrees)
+    fingers = [taper(pts([(6.0 * s, (-3.4 + 2.3 * i) * s), (10.8 * s, (-3.9 + 2.5 * i) * s)]), [2.5 * s, 2.0 * s]) for i in range(4)]
+    thumb = taper(pts([(1.5 * s, -3.6 * s), (4.5 * s, -7.0 * s), (8.0 * s, -7.8 * s)]), [3.0 * s, 2.4 * s, 2.0 * s])
+    whole = union(palm, thumb, *fingers)
+    layer = blank_layer()
+    layer = over(layer, shadow(union(whole, sleeve), 0.9, 1.2, 0.9, 0.5))
+    layer = over(layer, outline(union(sleeve, whole), 0.45, (30, 14, 8), 0.95))
+    layer = over(layer, shaded(sleeve, cuff[0], 1.0, relief=2.0, gain=1.4, texture=noise(4, 0.9, 2)))
+    layer = over(layer, shaded(whole, SKIN, 0.5, relief=1.2, gain=1.4))
+    layer = over(layer, shaded(cuff_m, cuff[1], 0.5, relief=1.0, gain=1.3, texture=noise(5, 0.5, 2)))
+    layer = over(layer, strands(cuff_m, 3, 40, 1.1, 0.14, [hexc('#0e0805'), hexc('#2a180d'), hexc('#5a3a22'), hexc('#9a7a54')], lambda x, y: math.pi / 2, spread=0.5))
+    return layer
+
+
+def castle_tower(cx, base_y, w, h, roof_h, wall=STONE, roof=VELVET_RED, seed=1):
+    """A round-topped castle tower: stone drum, red conical roof, an arrow slit."""
+    body = poly([(cx - w / 2, base_y), (cx - w / 2, base_y - h), (cx + w / 2, base_y - h), (cx + w / 2, base_y)])
+    cone = poly([(cx - w / 2 - 0.9, base_y - h), (cx, base_y - h - roof_h), (cx + w / 2 + 0.9, base_y - h)])
+    layer = blank_layer()
+    layer = over(layer, outline(union(body, cone), 0.4, (10, 14, 24), 0.9))
+    layer = over(layer, shaded(body, wall, 0.7, relief=1.4, gain=1.3, texture=noise(seed, 0.7, 2)))
+    layer = over(layer, roundness(body, cx - w / 2, cx + w / 2, dark=0.4, lift=0.1))
+    layer = over(layer, shaded(cone, roof, 0.7, relief=1.4, gain=1.4))
+    slit = poly([(cx - 0.5, base_y - h * 0.7), (cx + 0.5, base_y - h * 0.7), (cx + 0.5, base_y - h * 0.45), (cx - 0.5, base_y - h * 0.45)])
+    layer = over(layer, solid(slit, (10, 12, 20), 0.85))
+    return layer
+
+
+def castle(cx, base_y, sc=1.0, seed=1):
+    """A hill castle seen from the front: a curtain wall with battlements, a gate tower and two corner towers with red roofs."""
+    layer = blank_layer()
+    wall = poly([(cx - 17 * sc, base_y), (cx - 17 * sc, base_y - 9 * sc), (cx + 17 * sc, base_y - 9 * sc), (cx + 17 * sc, base_y)])
+    merlons = union(*[poly([(cx + (-17 + 3.4 * i) * sc, base_y - 9 * sc), (cx + (-17 + 3.4 * i + 2.0) * sc, base_y - 9 * sc),
+                            (cx + (-17 + 3.4 * i + 2.0) * sc, base_y - 11.2 * sc), (cx + (-17 + 3.4 * i) * sc, base_y - 11.2 * sc)]) for i in range(10)])
+    gate = poly([(cx - 2.2 * sc, base_y), (cx - 2.2 * sc, base_y - 4.2 * sc)] + arc_points(cx, base_y - 4.2 * sc, 2.2 * sc, 2.2 * sc, math.pi, 2 * math.pi, 12) + [(cx + 2.2 * sc, base_y)])
+    layer = over(layer, outline(union(wall, merlons), 0.4, (10, 14, 24), 0.9))
+    layer = over(layer, shaded(union(wall, merlons), STONE, 0.7, relief=1.4, gain=1.3, texture=noise(seed, 0.7, 2)))
+    layer = over(layer, solid(gate, (12, 14, 22), 0.92))
+    layer = over(layer, castle_tower(cx - 15 * sc, base_y, 7 * sc, 17 * sc, 8 * sc, seed=seed + 1))
+    layer = over(layer, castle_tower(cx + 15 * sc, base_y, 7 * sc, 17 * sc, 8 * sc, seed=seed + 2))
+    layer = over(layer, castle_tower(cx, base_y - 6 * sc, 9 * sc, 17 * sc, 9 * sc, seed=seed + 3))
+    return layer
+
+
+# --------------------------------------------------------------------------
 # Scenes
 # --------------------------------------------------------------------------
 
@@ -1180,6 +1611,92 @@ def scene_cadastre(rescind=False):
     return finish_rescind(layer, rescind)
 
 
+def vytis_at(cx, cy, height, **kw):
+    """The Pahonia with its bounding box centred on (cx, cy): the design is 90 wide and 115 tall."""
+    k = height / 115.0
+    return vytis(cx - 5 * k, cy + 9 * k, k, **kw)
+
+
+def pahonia_shield(cx, top, width, height):
+    """A gold-bordered heater shield, red field, the Pahonia on it."""
+    layer = heater_shield(cx, top, width, height, SCARLET_FIELD)
+    inner_h = height * 0.86 * 0.80
+    layer = over(layer, vytis_at(cx, top + height * 0.46, inner_h))
+    return layer
+
+
+def pahonia_emblem(centre, height):
+    """The Pahonia as a banner charge."""
+    return vytis_at(centre[0], centre[1], height)
+
+
+def gediminas_emblem(centre, height):
+    """The Columns of Gediminas as a banner charge."""
+    return gediminas_columns(centre[0], centre[1], height)
+
+
+def scene_rada_confirm():
+    """Seek the Rada's Confirmation: two lords face each other across the council table, the privilege between them with its
+    seals hanging over the edge, the Pahonia on the wall behind."""
+    layer = backdrop([(0.0, hexc('#8c7442')), (0.5, hexc('#4c3a20')), (1.0, hexc('#1a1208'))], (41, 26), 56)
+    for x in range(10, 74, 10):
+        layer = over(layer, solid(poly([(x, 0), (x + 1.2, 0), (x + 1.2, 82), (x, 82)]), (16, 10, 4), 0.20))
+    layer = over(layer, glow(41, 24, 26, (255, 214, 140), 0.40))
+    layer = over(layer, pahonia_shield(41, 5, 26, 33))
+    layer = over(layer, rada_lord(21, 35, 0.95, 1, RED_COAT, YELLOW_COAT, seed=2))
+    layer = over(layer, rada_lord(61, 35, 0.95, -1, GREEN_CLOTH, SKY_BLUE_COAT, beard=BEARD_BROWN, seed=3))
+    layer = over(layer, long_table(52, 58, 4.0, 78.0))
+    layer = over(layer, privilege_charter(41, 44, 23, 15, seed=5, degrees=-2, lines=4))
+    return layer
+
+
+def scene_rada_lord():
+    """Win Over a Wavering Lord: a hand offers the key of a starostwo under a sealed charter; a hesitating lord looks at it, his castle behind."""
+    layer = gradient(full_mask(), [(0.0, hexc('#34566a')), (0.45, hexc('#b8825a')), (0.7, hexc('#f0c070')), (1.0, hexc('#f0c070'))], (0, 4), (0, 62))
+    layer = over(layer, glow(26, 36, 30, (255, 224, 150), 0.45))
+    hills = poly([(0, 46)] + bezier((0, 46), (14, 38), (30, 42), (44, 45), n=20)[1:] + bezier((44, 45), (60, 48), (72, 40), (82, 43), n=20)[1:] + [(82, 82), (0, 82)])
+    layer = over(layer, shaded(hills, [(0.0, hexc('#10241a')), (0.5, hexc('#24462a')), (1.0, hexc('#4a7a3c'))], 2.0, relief=3.0, gain=1.0))
+    layer = over(layer, castle(33, 46, 0.9))
+    layer = over(layer, rada_lord(57, 30, 1.5, -1, RED_COAT, YELLOW_COAT, seed=2))
+    layer = over(layer, privilege_charter(23, 33, 16, 19, seed=7, degrees=-5, lines=5, seals=1))
+    layer = over(layer, open_hand(27, 59, 1.2, degrees=-8))
+    layer = over(layer, gold_key(34, 50, 26, degrees=-20))
+    return layer
+
+
+def distant_lances(xs, base_y, top_y, seed=1):
+    """A rank of lances and pennons far behind the riders: the rest of the household."""
+    rng = random.Random(seed)
+    layer = blank_layer()
+    for x in xs:
+        ty = top_y + rng.uniform(-3, 3)
+        pole = stroke([(x, base_y), (x - 0.5, ty)], 0.45, caps=False)
+        pen = poly([(x - 0.5, ty), (x + 4.2, ty + 1.0), (x + 3.0, ty + 2.0), (x + 4.2, ty + 3.0), (x - 0.5, ty + 3.0)])
+        layer = over(layer, solid(pole, (36, 24, 28), 0.85), solid(pen, (130, 24, 30), 0.9))
+    return layer
+
+
+def scene_rada_retinues():
+    """The Rada's Own Retinues: boyar household cavalry under two magnate standards, the Pahonia and the Columns of Gediminas."""
+    layer = gradient(full_mask(), [(0.0, hexc('#243452')), (0.40, hexc('#7a5a6a')), (0.62, hexc('#e8a860')), (1.0, hexc('#e8a860'))], (0, 4), (0, 60))
+    layer = over(layer, glow(41, 50, 34, (255, 226, 150), 0.55))
+    ground = poly([(0, 56)] + bezier((0, 56), (20, 52), (60, 54), (82, 55), n=20)[1:] + [(82, 82), (0, 82)])
+    layer = over(layer, gradient(ground, [(0.0, hexc('#6a5430')), (1.0, hexc('#241a0c'))], (0, 54), (0, 82)))
+    layer = over(layer, distant_lances([14, 19, 52, 57, 62, 67], 52, 34, seed=3))
+    rc, _ = boyar_rider(62, 51, 0.31, horse=DUN, coat=GREEN_CLOTH, flip=True, seed=5)
+    layer = over(layer, rc)
+    ra, Fa = boyar_rider(27, 54, 0.38, horse=GREY_HORSE, coat=SKY_BLUE_COAT, flip=True, seed=3)
+    layer = over(layer, ra)
+    layer = over(layer, lance_standard(Fa(58, 20), -2, 28, 17, 14, [(0.0, hexc('#6a0c12')), (0.6, hexc('#a81620')), (1.0, hexc('#d84c44'))],
+                                 emblem=lambda c: gediminas_emblem(c, 8.0), seed=2, side=1))
+    rb, Fb = boyar_rider(46, 57, 0.46, horse=BAY, coat=RED_COAT, flip=True, seed=1)
+    layer = over(layer, rb)
+    layer = over(layer, lance_standard(Fb(58, 20), -2, 36, 20, 16, SCARLET_FIELD,
+                                 emblem=lambda c: pahonia_emblem(c, 13), seed=1, side=1))
+    layer = over(layer, solid(blur(ellipse(41, 66, 30, 4.5), 2.2), (232, 200, 150), 0.40))
+    return layer
+
+
 SCENES = {
     'boyar_office': ('round', CRIMSON_ENAMEL, scene_boyar_office),
     'boyar_claimant': ('round', CRIMSON_ENAMEL, scene_boyar_claimant),
@@ -1193,6 +1710,9 @@ SCENES = {
     'senate_summon': ('arch', BLUE_ENAMEL, scene_senate_summon),
     'senate_buyoff': ('arch', BLUE_ENAMEL, scene_senate_buyoff),
     'senate_banners': ('arch', BLUE_ENAMEL, scene_senate_banners),
+    'rada_confirm': ('shield', SCARLET_ENAMEL, scene_rada_confirm),
+    'rada_lord': ('shield', SCARLET_ENAMEL, scene_rada_lord),
+    'rada_retinues': ('shield', SCARLET_ENAMEL, scene_rada_retinues),
 }
 
 

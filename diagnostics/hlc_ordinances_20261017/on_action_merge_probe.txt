@@ -1,0 +1,32 @@
+On-action merge probe, EU4 1.37.5.0, 2026-10-17.
+Question: when one on_action key is defined in several files, does the engine run all of them (merge) or only one (last or first wins)?
+The mod relies on merging in many places (on_startup is defined in ten of its own files, on_yearly_pulse in fifteen) and common/on_actions/west_ukraine_on_actions.txt hangs the Settlement Ordinance off on_province_culture_converted, a key that common/on_actions/00_on_actions.txt also defines. Vanilla ships a single on_actions file, so it cannot answer this by itself.
+
+Setup
+  * RIP loaded from this worktree, plus a scratch harness mod outside the repository (not kept) with three files in common/on_actions/:
+      00_aaa_probe_on_actions.txt   sorts BEFORE 00_on_actions.txt
+      mmm_probe_on_actions.txt      sorts between the mod's own files
+      zzzzz_probe_on_actions.txt    sorts AFTER every RIP file (including zz_RIP_church_redesign_on_actions.txt)
+    each defining the same keys with one marker each:
+      on_startup = { log = "PROBE_STARTUP_<A|M|Z>" }
+      on_monthly_pulse = { log = "PROBE_MONTHLY_<A|M|Z>" }
+      on_province_culture_converted = { log = "PROBE_CONVERTED_<A|M|Z>" }   (not fired in this run)
+  * isolated -userdir with a short path, dlc_load.json enabling RIP and the harness, autosave monthly, uncompressed saves;
+    eu4.exe started from the PowerShell tool with -debug_mode -start_tag=MOS -seed=1001 -auto_run=<file with "speed 5">;
+    the game was unpaused by hand (the auto_run command only sets the speed), stopped by Stop-Process on the one PID after the first autosave (1444.12.1).
+
+Measured (logs/game.log and the 1444.12.1 autosave)
+PROBE_STARTUP_A: 674
+PROBE_STARTUP_M: 674
+PROBE_STARTUP_Z: 674
+PROBE_MONTHLY_A: 1250
+PROBE_MONTHLY_M: 1250
+PROBE_MONTHLY_Z: 1250
+saved_event_target "Emperor" in the save: 1        (set by the first handler of vanilla's on_startup, in the mod's copy of 00_on_actions.txt)
+country flag rip_church_ro_resource_names_v2: 674  (set by the on_startup handler of zz_RIP_church_redesign_on_actions.txt, the last of the mod's own files)
+
+Reading
+All three harness definitions fired for all 674 countries, for both keys, one sorting before and one after the mod's files; the handler of the first mod file (vanilla's Emperor target) and of the last one (the church initialiser's flag) ran as well. So one key defined in several files is MERGED: every definition runs and none replaces another. The mod's single on_province_culture_converted hook in west_ukraine_on_actions.txt therefore adds to the five vanilla handlers in common/on_actions/00_on_actions.txt; nothing has to be restructured.
+
+Not measured
+The conversion key itself (on_province_culture_converted) was not fired in this run: it needs a manual culture conversion from the province window. The rule above is general, not per key.

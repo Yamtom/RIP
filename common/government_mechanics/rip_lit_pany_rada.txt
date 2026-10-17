@@ -13,8 +13,12 @@
 # the Grand Duchy's founding (T1); lit_pany_rada_reform is its later
 # formalisation, not a second grant of the ability.
 #
-# Buttons-only (devshirme pattern): no powers, no .gui, vanilla Cossack
-# ability sprites, no DLC gate.
+# Buttons-only (devshirme pattern): no powers, no .gui, no DLC gate. The three
+# buttons carry their own sprites (GFX_rip_rada_confirm / _lord / _retinues,
+# painted by tools/build_government_ability_icons.py and declared in
+# interface/rip_ability_icons.gfx): the Council in session with the privilege
+# and the Pahonia, a hand offering a key and a charter to a wavering lord, and
+# the magnates' household cavalry under the Pahonia and the Columns of Gediminas.
 # =============================================================================
 
 lit_pany_rada_mechanic = {
@@ -31,7 +35,7 @@ lit_pany_rada_mechanic = {
 
 	interactions = {
 		lit_seek_the_radas_confirmation = {
-			icon = GFX_cossacks_ability_ADM
+			icon = GFX_rip_rada_confirm
 			trigger = {
 				adm_power = 50
 			}
@@ -56,7 +60,7 @@ lit_pany_rada_mechanic = {
 			}
 		}
 		lit_win_over_a_wavering_lord = {
-			icon = GFX_cossacks_ability_DIP
+			icon = GFX_rip_rada_lord
 			trigger = {
 				dip_power = 50
 			}
@@ -78,7 +82,7 @@ lit_pany_rada_mechanic = {
 			}
 		}
 		lit_the_radas_own_retinues = {
-			icon = GFX_cossacks_ability_MIL
+			icon = GFX_rip_rada_retinues
 			trigger = {
 				mil_power = 60
 			}

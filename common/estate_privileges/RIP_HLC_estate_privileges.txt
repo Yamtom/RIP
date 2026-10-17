@@ -2,15 +2,20 @@
 #
 # Real prototype: estate_nobles_strong_duchies
 # (common/estate_privileges/02_noble_privileges.txt) - loyalty = 0.05, a
-# +5% loyalty equilibrium, gated on holding at least two subjects of
-# vassal/march/personal-union type. HLC's Austria fork never attaches
+# +5% loyalty equilibrium, gated on holding subjects of vassal/march/personal-
+# union/incorporated type. HLC's Austria fork never attaches
 # estate_magnates (see the note in rip_hlc_boyar_council.txt: that estate
 # only reaches HLC through the Poland-path hlc_magnate_assembly_reform), so
-# this is written for the always-present estate_nobles instead, and its
-# is_valid/can_select ask for the appanage the Austria path's own
-# diplomatic action creates
-# (common/new_diplomatic_actions/RIP_HLC_diplomatic_actions.txt) rather than
-# any vassal at all.
+# this is written for the always-present estate_nobles instead.
+#
+# Unlike the vanilla prototype, which accepts any vassal, is_valid and
+# can_select ask for an INCORPORATED vassal - the appanage the Austria path's
+# own diplomatic action creates
+# (common/new_diplomatic_actions/RIP_HLC_diplomatic_actions.txt). That is what
+# ties the chain together: the Austrian bureaucracy opens the action, the
+# action makes the incorporated vassal, and the nobles' privilege is the
+# reward for holding one. When the last incorporated vassal is annexed or
+# lost, is_valid fails and the privilege lapses with it.
 
 estate_nobles_hlc_strong_appanages = {
 	icon = privilege_royal_authority
@@ -23,10 +28,7 @@ estate_nobles_hlc_strong_appanages = {
 		west_ukraine_hlc_origin_country = yes
 		hlc_has_austria_path = yes
 		any_subject_country = {
-			OR = {
-				is_subject_of_type = vassal
-				is_subject_of_type = incorporated_vassal
-			}
+			is_subject_of_type = incorporated_vassal
 		}
 	}
 	can_select = {
@@ -36,10 +38,7 @@ estate_nobles_hlc_strong_appanages = {
 			tooltip = estate_nobles_hlc_strong_appanages_trigger_tooltip
 			hlc_has_austria_path = yes
 			any_subject_country = {
-				OR = {
-					is_subject_of_type = vassal
-					is_subject_of_type = incorporated_vassal
-				}
+				is_subject_of_type = incorporated_vassal
 			}
 		}
 	}

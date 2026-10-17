@@ -12,6 +12,12 @@
 # reached. No vanilla monument fires an event from either hook, so this is
 # UNVERIFIED IN GAME: if the three events never appear after an upgrade, the
 # fallback is on_great_project_constructed or a pulse gated on has_great_project.
+#
+# Each option also moves the Palanok scale (states_general_mechanic of
+# uzh_palanok_captaincy_reform) 15 points toward the party it favours: walls,
+# levies and the arsenal for the Captains' Party; the town's wharf, the home
+# harvest and the seated diet for the Sejm Party. See
+# common/scripted_effects/uzh_states_general_effects.txt.
 # ========================================================================
 
 namespace = uzh_palanok
@@ -27,6 +33,7 @@ country_event = {
 
 	option = {
 		name = uzh_palanok.1.a
+		uzh_sg_captains_15_effect = yes
 		ai_chance = { factor = 60 }
 		add_country_modifier = {
 			name = uz_palank_border_watch
@@ -36,6 +43,7 @@ country_event = {
 
 	option = {
 		name = uzh_palanok.1.b
+		uzh_sg_sejm_15_effect = yes
 		ai_chance = { factor = 40 }
 		add_mil_power = 50
 		add_army_tradition = 5
@@ -53,6 +61,7 @@ country_event = {
 
 	option = {
 		name = uzh_palanok.2.a
+		uzh_sg_captains_15_effect = yes
 		ai_chance = { factor = 55 }
 		add_years_of_income = 0.25
 		rip_estate_mood_effect = { ESTATE = estate_burghers LOYALTY = -5 }
@@ -60,6 +69,7 @@ country_event = {
 
 	option = {
 		name = uzh_palanok.2.b
+		uzh_sg_sejm_15_effect = yes
 		ai_chance = { factor = 45 }
 		add_prestige = 5
 		rip_estate_mood_effect = { ESTATE = estate_burghers LOYALTY = 10 }
@@ -77,6 +87,7 @@ country_event = {
 
 	option = {
 		name = uzh_palanok.3.a
+		uzh_sg_sejm_15_effect = yes
 		ai_chance = { factor = 50 }
 		add_country_modifier = {
 			name = uz_granichar_loyalty
@@ -87,6 +98,7 @@ country_event = {
 
 	option = {
 		name = uzh_palanok.3.b
+		uzh_sg_captains_15_effect = yes
 		ai_chance = { factor = 50 }
 		add_army_tradition = 10
 		add_mil_power = 50
