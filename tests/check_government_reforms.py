@@ -445,9 +445,17 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         "HLC boyar council office confirmation reverted to slow scale cost or weak modifier",
     )
 
-    free_host = normalized(
-        named_block(read("common/government_reforms/RIP_ZAZ_government_reforms.txt"), "zaz_free_host_reform")
+    zaz_reforms = read("common/government_reforms/RIP_ZAZ_government_reforms.txt")
+    general_rada = normalized(named_block(zaz_reforms, "zaz_general_rada_reform"))
+    require(
+        failures,
+        "may_recruit_female_generals" not in general_rada
+        and "female_advisor_chance" not in general_rada
+        and "free_leader_pool = 1" in general_rada
+        and "advisor_pool = 1" in general_rada,
+        "zaz_general_rada_reform retains female general/advisor modifiers on the Zaporozhian Sich",
     )
+    free_host = normalized(named_block(zaz_reforms, "zaz_free_host_reform"))
     require(
         failures,
         "stability_cost_modifier" not in free_host
@@ -1047,17 +1055,16 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         in synod_migration,
         "UZH descendant republic saves do not migrate the old shared reform IDs",
     )
-    uzh_name = normalized(
-        named_block(read("common/government_names/000_RIP_names.txt"), "uzh_komitat_system_reform")
-    )
+    gov_names = read("common/government_names/000_RIP_names.txt")
+    uz_name = normalized(named_block(gov_names, "uzh_komitat_system_reform"))
     require(
         failures,
-        "has_reform = uzh_komitat_system_reform" in uzh_name
-        and "has_reform = uzh_republican_komitat_system_reform" in uzh_name,
+        "has_reform = uzh_komitat_system_reform" in uz_name
+        and "has_reform = uzh_republican_komitat_system_reform" in uz_name,
         "UZH Komitat government name does not recognize the republican reform ID",
     )
     uzh_eparchy_name = normalized(
-        named_block(read("common/government_names/000_RIP_names.txt"), "uzh_mukachevo_eparchy_reform")
+        named_block(gov_names, "uzh_mukachevo_eparchy_reform")
     )
     require(
         failures,
@@ -1066,6 +1073,40 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "has_reform = uzh_presov_eparchy_reform" in uzh_eparchy_name,
         "UZH eparchy government name does not recognize its Th2/Th3 reform IDs",
     )
+    require(
+        failures,
+        "vln_ruthenian_renaissance_reform" not in gov_names
+        and "vln_magdeburg_rights" not in gov_names
+        and "CULTURED_HETMAN" not in gov_names
+        and "BURGOMASTER_HETMAN" not in gov_names,
+        "shared M7/M8 reforms still override monarch/government titles in 000_RIP_names.txt",
+    )
+    for pdl_name_id in (
+        "pdl_grand_podillia",
+        "pdl_absolute_dominion",
+        "pdl_magnate_republic",
+        "pdl_magnate_dominion",
+        "pdl_enlightened_voivodeship",
+        "pdl_revolutionary_republic",
+        "pdl_carpathian_bastion",
+        "pdl_frontier_republic",
+        "pdl_palatine_court",
+        "pdl_aristocratic_assembly",
+        "pdl_clan_assembly",
+        "pdl_steppe_principality",
+        "pdl_voivodeship_kingdom",
+        "pdl_frontier_voivodeship",
+    ):
+        pdl_name_trigger = normalized(
+            named_block(named_block(gov_names, pdl_name_id), "trigger")
+        )
+        require(
+            failures,
+            "west_ukraine_pdl_origin_country = yes" in pdl_name_trigger
+            and "tag = PDL" not in pdl_name_trigger
+            and f"has_reform = {pdl_name_id}_reform" in pdl_name_trigger,
+            f"PDL government name {pdl_name_id} is tag-locked or missing its reform check",
+        )
     uzh_eparchy_reforms = read("common/government_reforms/RIP_UZH_government_reforms.txt")
     seat_translation = normalized(named_block(uzh_eparchy_reforms, "uzh_uzhhorod_seat_translation_reform"))
     presov_split = normalized(named_block(uzh_eparchy_reforms, "uzh_presov_eparchy_reform"))
@@ -1561,6 +1602,16 @@ def check_linked_lifecycle(failures: list[str]) -> None:
         and "het_reconcile_regimental_province_modifiers_effect = yes" in het_startup,
         "old HET saves do not migrate the borrowed Ottoman province modifier",
     )
+    het_break_overlord = normalized(
+        named_block(het_migration, "het_break_with_overlord_effect")
+    )
+    require(
+        failures,
+        "add_legitimacy_equivalent = { amount = 10 republican_tradition = 5"
+        in het_break_overlord
+        and "add_legitimacy = 10" not in het_break_overlord,
+        "het_break_with_overlord_effect gives republican HET a legitimacy no-op",
+    )
     sacred_migration = normalized(
         named_block(het_migration, "het_migrate_legacy_sacred_origin_effect")
     )
@@ -1637,6 +1688,73 @@ def check_linked_lifecycle(failures: list[str]) -> None:
         and "name = het_autonomy_guaranteed" in collegium_resistance
         and "name = centralization_modifier" not in collegium_resistance,
         "Little Russian Collegium is not confined to the republican HET path or its choices contradict the narrative",
+    )
+
+    pdl_tolerance = normalized(
+        named_block(
+            read("common/government_reforms/RIP_PDL_government_reforms.txt"),
+            "pdl_religious_tolerance_reform",
+        )
+    )
+    require(
+        failures,
+        "religion = jewish" not in pdl_tolerance
+        and "NOT = { religious_unity = 0.8 }" in pdl_tolerance
+        and "religion = orthodox" in pdl_tolerance
+        and "religion = catholic" in pdl_tolerance
+        and "religion = greek_catholic" in pdl_tolerance,
+        "pdl_religious_tolerance_reform AI weight still checks state religion = jewish instead of multi-confessional borderland conditions",
+    )
+
+    reform_map_doc = read("docs/GOVERNMENT_REFORMS_MAP.uk.md")
+    require(
+        failures,
+        "`primary_culture`" in reform_map_doc
+        and "accepted / dominant" not in reform_map_doc
+        and "`accepted_culture` або `dominant_culture`" not in reform_map_doc,
+        "docs/GOVERNMENT_REFORMS_MAP.uk.md still documents stale accepted_culture / dominant_culture unlocking for shared Ruthenian reforms",
+    )
+
+    chr_reforms_raw = read("common/government_reforms/RIP_CHR_government_reforms.txt")
+    for road_a_reform in (
+        "chr_desna_staple_reform",
+        "chr_town_union_reform",
+        "chr_rada_of_lands_reform",
+    ):
+        road_a_block = normalized(named_block(chr_reforms_raw, road_a_reform))
+        require(
+            failures,
+            "chr_charter_the_staple_effect = yes" in road_a_block
+            and "chr_clear_staple_charter_if_left_road_effect = yes" in road_a_block,
+            f"CHR Road A reform lacks province modifier sync hooks: {road_a_reform}",
+        )
+    for road_b_reform in (
+        "chr_magistrat_rule_reform",
+        "chr_siversk_principality_reform",
+        "chr_prykaz_tsardom_reform",
+    ):
+        road_b_block = normalized(named_block(chr_reforms_raw, road_b_reform))
+        require(
+            failures,
+            "chr_open_the_ledger_effect = yes" in road_b_block
+            and "chr_clear_house_ledger_if_left_road_effect = yes" in road_b_block,
+            f"CHR Road B reform lacks province modifier sync hooks: {road_b_reform}",
+        )
+    chr_path_effects = normalized(read("common/scripted_effects/chr_path_effects.txt"))
+    chr_on_actions = normalized(read("common/on_actions/chr_on_actions.txt"))
+    chr_decisions = read("decisions/ChernihivPaths.txt")
+    require(
+        failures,
+        "chr_reconcile_path_province_modifiers_effect = {" in chr_path_effects
+        and "chr_reconcile_path_province_modifiers_effect = yes" in chr_on_actions
+        and "chr_staple_charter" in owner_change
+        and "chr_house_ledger" in owner_change
+        and "chr_siverian_town" in owner_change
+        and "chr_charter_the_staple_effect = yes"
+        in normalized(named_block(chr_decisions, "chr_rada_of_all_the_lands"))
+        and "chr_open_the_ledger_effect = yes"
+        in normalized(named_block(chr_decisions, "chr_crown_the_prykaz_tsardom")),
+        "CHR Road A/B and Great Chernihiv province modifiers are not synchronized across reform changes, conquests, or trade-good changes",
     )
 
 

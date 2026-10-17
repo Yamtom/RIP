@@ -180,9 +180,9 @@ expected_ability_icons = {
         'GFX_cossacks_ability_MIL',
     ],
     'rip_kyivan_seniority': [
-        'GFX_cossacks_ability_ADM',
-        'GFX_cossacks_ability_DIP',
-        'GFX_cossacks_ability_MIL',
+        'GFX_rip_kyiv_snem',
+        'GFX_rip_kyiv_udil',
+        'GFX_rip_kyiv_druzhyna',
     ],
     'rip_kyivan_seniorate': [
         'GFX_cossacks_ability_MIL',
@@ -198,6 +198,93 @@ expected_ability_icons = {
 for file, expected in expected_ability_icons.items():
     text = read(f'common/government_mechanics/{file}.txt')
     assert re.findall(r'^\s*icon = (\w+)', text, re.M) == expected
+
+for path, mechanic, actions, years, token, cooldown_desc in (
+    (
+        'common/government_mechanics/rip_hlc_boyar_council.txt',
+        'hlc_boyar_council_mechanic',
+        ('hlc_confirm_the_boyars_in_office', 'hlc_counter_the_foreign_claimant',
+         'hlc_make_an_example_of_a_defiant_boyar'),
+        10,
+        'hlc_boyar_council_session',
+        'hlc_boyar_council_session_cd',
+    ),
+    (
+        'common/government_mechanics/rip_lit_pany_rada.txt',
+        'lit_pany_rada_mechanic',
+        ('lit_seek_the_radas_confirmation', 'lit_win_over_a_wavering_lord',
+         'lit_the_radas_own_retinues'),
+        5,
+        'lit_pany_rada_session',
+        'lit_pany_rada_session_cd',
+    ),
+):
+    buttons = named_block(named_block(read(path), mechanic), 'interactions')
+    for action in actions:
+        block = named_block(buttons, action)
+        assert f'cooldown_years = {years}' in block
+        assert f'cooldown_token = {token}' in block
+        assert f'cooldown_desc = {cooldown_desc}' in block
+
+seniority = read('common/government_mechanics/rip_kyivan_seniority.txt')
+seniority_interactions = named_block(
+    named_block(seniority, 'kyivan_seniority_mechanic'), 'interactions'
+)
+prince_types = 'OR = { is_subject_of_type = princedom is_subject_of_type = senior_udil }'
+
+snem = named_block(seniority_interactions, 'kyiv_call_the_snem')
+snem_trigger = normalized(named_block(snem, 'trigger'))
+assert 'num_of_subjects = 1' in snem_trigger
+assert 'NOT = { num_of_subjects = 0 }' not in snem_trigger
+assert f'any_subject_country = {{ {prince_types} }}' in snem_trigger
+snem_effect = named_block(snem, 'effect')
+snem_subject_effects = [
+    normalized(block) for _, block in keyed_blocks(snem_effect, 'every_subject_country')
+]
+assert len(snem_subject_effects) == 1
+assert f'limit = {{ {prince_types} }}' in snem_subject_effects[0]
+assert 'add_liberty_desire = -20' in snem_subject_effects[0]
+assert f'any_subject_country = {{ {prince_types} liberty_desire = 50 }}' in normalized(
+    named_block(snem, 'ai_chance')
+)
+
+regrant = named_block(seniority_interactions, 'kyiv_regrant_the_udil')
+assert f'any_subject_country = {{ {prince_types} liberty_desire = 35 }}' in normalized(
+    named_block(regrant, 'trigger')
+)
+regrant_effect = named_block(regrant, 'effect')
+regrant_subject_effects = [
+    normalized(block) for _, block in keyed_blocks(regrant_effect, 'random_subject_country')
+]
+assert len(regrant_subject_effects) == 1
+assert f'limit = {{ {prince_types} liberty_desire = 35 }}' in regrant_subject_effects[0]
+assert f'any_subject_country = {{ {prince_types} liberty_desire = 60 }}' in normalized(
+    named_block(regrant, 'ai_chance')
+)
+
+druzhyna = named_block(seniority_interactions, 'kyiv_summon_the_druzhyny')
+assert f'any_subject_country = {{ {prince_types} }}' in normalized(
+    named_block(druzhyna, 'trigger')
+)
+
+senate = named_block(
+    read('common/government_mechanics/rip_vln_magnate_senate.txt'),
+    'vln_magnate_senate_mechanic',
+)
+senate_gate = 'NOT = { has_reform = vln_cossack_host_reform }'
+senate_available = normalized(named_block(senate, 'available'))
+assert 'has_reform = vln_voivodeship_reform' in senate_available
+assert senate_gate in senate_available
+for button in (
+    'vln_summon_the_senate',
+    'vln_buy_off_a_magnate_house',
+    'vln_call_up_the_magnate_banners',
+):
+    button_block = named_block(named_block(senate, 'interactions'), button)
+    button_trigger = normalized(named_block(button_block, 'trigger'))
+    assert 'has_reform = vln_voivodeship_reform' in button_trigger
+    assert senate_gate in button_trigger
+
 assert 'government_reform_rip_siversk_principality' not in gfx
 for icon in ('GFX_rip_concord', 'GFX_rip_prosperity'):
     assert f'name = "{icon}"' in gfx
@@ -218,12 +305,20 @@ for texture in re.findall(r'texturefile = "([^"]+)"',gfx):
 
 for language in ('english','french','german','spanish'):
     seen = {}
+    all_keys = set()
     for path in (ROOT/'localisation').rglob(f'*l_{language}.yml'):
-        for key in re.findall(r'^ ([\w]+):\d+',path.read_text(encoding='utf-8-sig'),re.M):
+        path_keys = re.findall(r'^ ([\w]+):\d+',path.read_text(encoding='utf-8-sig'),re.M)
+        all_keys.update(path_keys)
+        for key in path_keys:
             if key in loc:
                 assert key not in seen, (key,seen.get(key),path)
                 seen[key] = path
     assert set(loc) <= set(seen)
+    assert {
+        'hlc_boyar_council_session_cd',
+        'lit_pany_rada_session_cd',
+        'hlc_ordinance_cooldown_desc',
+    } <= all_keys
 
 for name in (
     'siversk_charter', 'siversk_towns', 'siversk_retinue', 'kyiv_snem',

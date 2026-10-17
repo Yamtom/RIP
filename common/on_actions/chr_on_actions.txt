@@ -8,6 +8,7 @@ on_monarch_death = {
 
 on_startup = {
 	chr_refresh_grain_directorate_effect = yes
+	chr_reconcile_path_province_modifiers_effect = yes
 }
 
 on_yearly_pulse = {
@@ -16,5 +17,19 @@ on_yearly_pulse = {
 			has_reform = chr_grain_directorate_reform
 		}
 		chr_refresh_grain_directorate_effect = yes
+	}
+	if = {
+		limit = {
+			OR = {
+				has_reform = chr_desna_staple_reform
+				has_reform = chr_town_union_reform
+				has_reform = chr_rada_of_lands_reform
+				has_reform = chr_magistrat_rule_reform
+				has_reform = chr_siversk_principality_reform
+				has_reform = chr_prykaz_tsardom_reform
+				has_country_flag = chr_great_chernihiv
+			}
+		}
+		chr_reconcile_path_province_modifiers_effect = yes
 	}
 }

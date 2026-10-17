@@ -15,11 +15,9 @@
 #
 # Buttons-only mechanic (the devshirme_mechanic pattern): no powers block, no
 # custom .gui - the three interactions render through the default government
-# interactions list and spend monarch power inside their own effect. Icons
-# use congress / appanage charter / druzhyna artwork, packaged at the native
-# 72x72 size by tools/build_ruthenian_government_ui.py.
-# use the vanilla Cossack ADM/DIP/MIL ability sprites, as in other government
-# interaction buttons.
+# interactions list and spend monarch power inside their own effect. Their
+# dedicated snem / udil / druzhyna sprites are packaged at the native 72x72
+# size by tools/build_ruthenian_government_ui.py.
 #
 # Enabled by kyivan_rus_reform and kyivan_cesarstvo_reform in
 # common/government_reforms/RIP_KIE_KRU_government_reforms.txt, under the same
@@ -43,18 +41,33 @@ kyivan_seniority_mechanic = {
 	}
 
 	interactions = {
+		# Work only with the mod's two prince subject types: princedom (fixed
+		# patrimony) and senior_udil (rotational seat), not ordinary vassals
+		# or marches.
 		# The princely congress. The house of Rurik reaffirms the seniority of
 		# Kyiv and the subjects' unrest subsides - but, as at Liubech, each
 		# prince leaves confirmed in his own patrimony.
 		kyiv_call_the_snem = {
-			icon = GFX_cossacks_ability_ADM
+			icon = GFX_rip_kyiv_snem
 			trigger = {
 				adm_power = 50
-				NOT = { num_of_subjects = 0 }
+				num_of_subjects = 1
+				any_subject_country = {
+					OR = {
+						is_subject_of_type = princedom
+						is_subject_of_type = senior_udil
+					}
+				}
 			}
 			effect = {
 				add_adm_power = -50
 				every_subject_country = {
+					limit = {
+						OR = {
+							is_subject_of_type = princedom
+							is_subject_of_type = senior_udil
+						}
+					}
 					add_liberty_desire = -20
 				}
 				add_country_modifier = {
@@ -67,7 +80,13 @@ kyivan_seniority_mechanic = {
 				factor = 1
 				modifier = {
 					factor = 8
-					any_subject_country = { liberty_desire = 50 }
+					any_subject_country = {
+						OR = {
+							is_subject_of_type = princedom
+							is_subject_of_type = senior_udil
+						}
+						liberty_desire = 50
+					}
 				}
 			}
 		}
@@ -75,15 +94,27 @@ kyivan_seniority_mechanic = {
 		# fresh appanage. A new grant of tenure binds the holder to the senior
 		# prince for a time.
 		kyiv_regrant_the_udil = {
-			icon = GFX_cossacks_ability_DIP
+			icon = GFX_rip_kyiv_udil
 			trigger = {
 				dip_power = 50
-				any_subject_country = { liberty_desire = 35 }
+				any_subject_country = {
+					OR = {
+						is_subject_of_type = princedom
+						is_subject_of_type = senior_udil
+					}
+					liberty_desire = 35
+				}
 			}
 			effect = {
 				add_dip_power = -50
 				random_subject_country = {
-					limit = { liberty_desire = 35 }
+					limit = {
+						OR = {
+							is_subject_of_type = princedom
+							is_subject_of_type = senior_udil
+						}
+						liberty_desire = 35
+					}
 					add_liberty_desire = -35
 					add_opinion = {
 						who = ROOT
@@ -100,7 +131,13 @@ kyivan_seniority_mechanic = {
 				factor = 1
 				modifier = {
 					factor = 10
-					any_subject_country = { liberty_desire = 60 }
+					any_subject_country = {
+						OR = {
+							is_subject_of_type = princedom
+							is_subject_of_type = senior_udil
+						}
+						liberty_desire = 60
+					}
 				}
 			}
 		}
@@ -108,9 +145,15 @@ kyivan_seniority_mechanic = {
 		# with his own - the one duty of seniority the ladder still enforces,
 		# and the reason it holds against the steppe at all.
 		kyiv_summon_the_druzhyny = {
-			icon = GFX_cossacks_ability_MIL
+			icon = GFX_rip_kyiv_druzhyna
 			trigger = {
 				mil_power = 50
+				any_subject_country = {
+					OR = {
+						is_subject_of_type = princedom
+						is_subject_of_type = senior_udil
+					}
+				}
 			}
 			effect = {
 				add_mil_power = -50

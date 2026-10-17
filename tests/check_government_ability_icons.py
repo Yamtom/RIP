@@ -3,13 +3,13 @@
 Static checks over script, sprites and localisation: they prove the files agree
 with each other, not that the engine draws the panel the way the preview does.
 
-  * Boyar Council (3 buttons), Chancery Ordinances (6), Magnate Senate (3) and
+  * Boyar Council (3 buttons), Chancery Ordinances (3 toggles), Magnate Senate (3) and
     Pany Rada (3) use fifteen different bespoke sprites - none of vanilla's
     Cossack ability icons. The Pany Rada's three share one shield frame that no
     other mechanic uses, and each button has its own sprite (confirm, lord,
     retinues), not one borrowed from a sibling mechanic.
-  * The six ordinance buttons are two rows of three: enact on top, rescind below,
-    one column per ordinance, each pair sharing its cooldown token.
+  * The three ordinance toggles fit one row, preserve each ordinance's five-year
+    cooldown token, and branch to a free rescind when already active.
   * Every sprite is a defined, existing 82x82 uncompressed DDS with a shaped
     alpha, and no two of them are the same picture.
   * Every button, ordinance modifier and government attribute that the Austrian
@@ -36,7 +36,7 @@ GFX = "interface/rip_ability_icons.gfx"
 
 MECHANICS = {
     "common/government_mechanics/rip_hlc_boyar_council.txt": ("hlc_boyar_council_mechanic", 3),
-    "common/government_mechanics/rip_hlc_austrian_reorganization.txt": ("hlc_austrian_reorganization_mechanic", 6),
+    "common/government_mechanics/rip_hlc_austrian_reorganization.txt": ("hlc_austrian_reorganization_mechanic", 3),
     "common/government_mechanics/rip_vln_magnate_senate.txt": ("vln_magnate_senate_mechanic", 3),
     "common/government_mechanics/rip_lit_pany_rada.txt": ("lit_pany_rada_mechanic", 3),
 }
@@ -124,29 +124,46 @@ def check_ordinance_layout(text):
     problems = []
     found = interactions(text, "hlc_austrian_reorganization_mechanic")
     names = [name for name, _ in found]
-    want = [f"hlc_enact_{o}_ordinance" for o in ORDINANCES] + [f"hlc_rescind_{o}_ordinance" for o in ORDINANCES]
+    want = [f"hlc_enact_{o}_ordinance" for o in ORDINANCES]
     if names != want:
-        problems.append(f"ordinance buttons are {names}, expected rows {want}")
+        problems.append(f"ordinance toggle buttons are {names}, expected one visible row {want}")
         return problems
     blocks = dict(found)
     for ordinance in ORDINANCES:
-        enact, rescind = blocks[f"hlc_enact_{ordinance}_ordinance"], blocks[f"hlc_rescind_{ordinance}_ordinance"]
+        toggle = blocks[f"hlc_enact_{ordinance}_ordinance"]
         flag, modifier = f"hlc_{ordinance}_ordinance_active", f"hlc_{ordinance}_ordinance_modifier"
         token = f"cooldown_token = hlc_{ordinance}_ordinance"
-        if token not in enact or token not in rescind:
-            problems.append(f"{ordinance}: enact and rescind do not share {token}")
-        if f"set_country_flag = {flag}" not in enact or f"name = {modifier}" not in enact or "duration = -1" not in enact:
-            problems.append(f"{ordinance}: enact does not set {flag} and the permanent {modifier}")
+        trigger = named_block(toggle, "trigger")
+        choices = named_block(trigger, "OR")
+        branches = dict(children(choices))
+        enact = branches.get("AND", "")
+        active_arm = normalized(choices).replace(normalized(enact), "", 1) if enact else normalized(choices)
+        if flag not in active_arm:
+            problems.append(f"{ordinance}: toggle is not available to rescind an active ordinance")
+        if "hlc_ordinance_slot_free = yes" in active_arm:
+            problems.append(f"{ordinance}: the free-rescind arm is incorrectly blocked by the two-slot limit")
+        if f"tooltip = hlc_{ordinance}_ordinance_not_in_force_tt" not in normalized(enact):
+            problems.append(f"{ordinance}: the enact arm has no sentence for the inactive state")
+        if "tooltip = hlc_ordinance_slot_free_tt hlc_ordinance_slot_free = yes" not in normalized(enact):
+            problems.append(f"{ordinance}: the enact arm does not enforce the two-slot limit")
+        power = "dip" if ordinance == "chancery" else "adm"
+        if f"{power}_power_cost = 50" not in normalized(enact):
+            problems.append(f"{ordinance}: the enact arm does not check its 50-point price")
+        if token not in toggle or "cooldown_years = 5" not in toggle:
+            problems.append(f"{ordinance}: toggle does not retain its five-year token")
+        if "cooldown_desc = hlc_ordinance_cooldown_desc" not in toggle:
+            problems.append(f"{ordinance}: toggle does not explain its cooldown")
+        effect = named_block(toggle, "effect")
+        rescind = named_block(effect, "if")
+        enact_effect = named_block(effect, "else")
+        if flag not in normalized(named_block(rescind, "limit")):
+            problems.append(f"{ordinance}: the free-rescind effect is not limited to an active ordinance")
         if f"clr_country_flag = {flag}" not in rescind or f"remove_country_modifier = {modifier}" not in rescind:
             problems.append(f"{ordinance}: rescind does not clear {flag} and remove {modifier}")
-        if f"NOT = {{ has_country_flag = {flag} }}" not in enact:
-            problems.append(f"{ordinance}: enact is not blocked while the ordinance stands")
-        if f"has_country_flag = {flag}" not in normalized(named_block(rescind, "trigger")):
-            problems.append(f"{ordinance}: rescind is not limited to an enacted ordinance")
-        if f"tooltip = hlc_{ordinance}_ordinance_not_in_force_tt" not in normalized(named_block(enact, "trigger")):
-            problems.append(f"{ordinance}: a blocked enact button shows the raw flag name, not a sentence")
-        if f"tooltip = hlc_{ordinance}_ordinance_in_force_tt" not in normalized(named_block(rescind, "trigger")):
-            problems.append(f"{ordinance}: a blocked rescind button shows the raw flag name, not a sentence")
+        if f"{power}_power_cost = 50" not in enact_effect:
+            problems.append(f"{ordinance}: enact does not pay its price in the effect")
+        if f"set_country_flag = {flag}" not in enact_effect or f"name = {modifier}" not in enact_effect or "duration = -1" not in enact_effect:
+            problems.append(f"{ordinance}: enact does not set {flag} and the permanent {modifier}")
     return problems
 
 
@@ -238,8 +255,9 @@ def check_localisation(text_by_mechanic):
     needed = set()
     for mechanic_text, (mechanic, _) in text_by_mechanic:
         needed.add(f"ability_{mechanic}")
-        for name, _ in interactions(mechanic_text, mechanic):
+        for name, block in interactions(mechanic_text, mechanic):
             needed.update({name, f"{name}_desc"})
+            needed.update(re.findall(r"cooldown_desc = (\w+)", block))
     for ordinance in ORDINANCES:
         needed.update({f"hlc_{ordinance}_ordinance_modifier", f"desc_hlc_{ordinance}_ordinance_modifier",
                        f"hlc_{ordinance}_ordinance_in_force_tt", f"hlc_{ordinance}_ordinance_not_in_force_tt"})
@@ -343,12 +361,16 @@ def check_custom_attributes():
 def planted_violations(texts, sprites):
     """Break the sources in memory and make sure each break is seen."""
     cossack = texts["chancery"].replace("GFX_rip_chancery_enact", "GFX_cossacks_ability_ADM", 1)
+    mechanic = named_block(texts["chancery"], "hlc_austrian_reorganization_mechanic")
+    missing_cadastre = texts["chancery"].replace(
+        named_block(named_block(mechanic, "interactions"), "hlc_enact_cadastral_ordinance"), "", 1
+    )
     cases = {
-        "vanilla icon back in the chancery": check_buttons("x", "hlc_austrian_reorganization_mechanic", 6, cossack, sprites),
-        "four buttons instead of six": check_buttons("x", "hlc_austrian_reorganization_mechanic", 6,
-                                                      texts["chancery"][:texts["chancery"].index("hlc_rescind_cadastral_ordinance")] + "\n\t}\n}\n", sprites),
-        "rescind row before enact row": check_ordinance_layout(
-            texts["chancery"].replace("hlc_enact_cadastral_ordinance = {", "hlc_swap = {", 1)),
+        "vanilla icon back in the chancery": check_buttons("x", "hlc_austrian_reorganization_mechanic", 3, cossack, sprites),
+        "two buttons instead of three": check_buttons("x", "hlc_austrian_reorganization_mechanic", 3, missing_cadastre, sprites),
+        "toggle cannot rescind": check_ordinance_layout(
+            texts["chancery"].replace("clr_country_flag = hlc_cadastral_ordinance_active",
+                                      "set_country_flag = hlc_cadastral_ordinance_active", 1)),
         "shared cooldown token dropped": check_ordinance_layout(
             texts["chancery"].replace("cooldown_token = hlc_cadastral_ordinance", "cooldown_years = 5", 1)),
         "raw flag name in an ordinance button": check_ordinance_layout(
@@ -398,7 +420,7 @@ def main():
         for problem in problems:
             print(f"  - {problem}")
         return 1
-    print(f"GOVERNMENT ABILITY ICONS CHECK: PASS (12 sprites, 12 buttons in 3 mechanics, 4 languages; {planted} planted violations caught)")
+    print(f"GOVERNMENT ABILITY ICONS CHECK: PASS (15 sprites, 12 buttons in 4 mechanics, 4 languages; {planted} planted violations caught)")
     print("LIMIT: static contracts. The panels were checked by eye in EU4 1.37.5 on 2026-10-17 (see docs/RUTHENIAN_GOVERNMENT_UI.uk.md); no automated render test.")
     if note:
         print(note)

@@ -6,15 +6,13 @@ in the game (one on_action key defined in many files runs every definition) is k
 in diagnostics/hlc_ordinances_20261017/on_action_merge_probe.txt and only its
 numbers are read here.
 
-  * PRICE   every enact button costs 50 monarch power of the right kind (diplomatic
-            for the chancery, administrative for settlement and the cadastre), in the
-            trigger (tooltip and affordability) and in the effect (payment); rescinding
-            is free.
-  * SLOTS   at most two of the three ordinances in force: every enact button requires
+  * PRICE   each toggle checks and pays 50 monarch power of the right kind only when
+            enacting; rescinding is free, including when the treasury is below 50.
+  * SLOTS   at most two of the three ordinances in force: only the enact arm requires
             hlc_ordinance_slot_free inside a custom_trigger_tooltip with a sentence.
-  * AI      every button has a real ai_chance; every rescind button can fire in the
-            situation that makes its ordinance a burden; the situations are defined,
-            used, and made of names the installed vanilla has.
+  * AI      each toggle has a real ai_chance; the AI enacts when useful and rescinds
+            when its ordinance becomes a burden; the situations are defined, used,
+            and made of names the installed vanilla has.
   * CLEAN-UP  removed_effect hands over to one effect that clears all three flags and
             modifiers, and a yearly sweep calls it for any country that holds them
             without the crown authority; the sweep is made of look-ups only.
@@ -70,11 +68,11 @@ VANILLA_NAMES = (
 # New or reworded keys: all four languages, and the fallbacks equal the English.
 NEW_KEYS = (
     "hlc_ordinance_slot_free_tt", "hlc_incorporate_appanage_limit_tt",
-    "hlc_settlement_loyalty_timer", "desc_hlc_settlement_loyalty_timer",
+    "hlc_ordinance_cooldown_desc", "hlc_settlement_loyalty_timer",
+    "desc_hlc_settlement_loyalty_timer",
 )
 REWORDED_KEYS = (
     "hlc_enact_chancery_ordinance_desc", "hlc_enact_settlement_ordinance_desc", "hlc_enact_cadastral_ordinance_desc",
-    "hlc_rescind_chancery_ordinance_desc", "hlc_rescind_settlement_ordinance_desc", "hlc_rescind_cadastral_ordinance_desc",
     "desc_hlc_settlement_ordinance_modifier", "hlc_incorporate_appanage_tooltip", "hlc_incorporate_appanage_desc",
     "estate_nobles_hlc_strong_appanages_desc", "estate_nobles_hlc_strong_appanages_trigger_tooltip",
     "mechanic_hlc_enables_incorporated_appanages_yes", "hlc_austrian_bureaucracy_reform_desc", "hlc_crown_authority_reform_desc",
@@ -140,6 +138,30 @@ def block_or_empty(text, name, occurrence=1):
         return ""
 
 
+def toggle_trigger_parts(button):
+    trigger = block_or_empty(button, "trigger")
+    choices = block_or_empty(trigger, "OR")
+    branches = dict(children(choices)) if choices else {}
+    enact = branches.get("AND", "")
+    active = normalized(choices)
+    if enact:
+        active = active.replace(normalized(enact), "", 1)
+    return choices, enact, active
+
+
+def replace_in_nested_block(text, path, old, new):
+    """Replace a code token in a named nested block, ignoring comments and strings."""
+    block = named_block(text, path[0])
+    if len(path) == 1:
+        match = re.search(re.escape(old), _mask_comments_and_strings(block))
+        assert match, f"mutation anchor missing in {path[0]}: {old!r}"
+        changed = block[:match.start()] + new + block[match.end():]
+    else:
+        changed = replace_in_nested_block(block, path[1:], old, new)
+    assert changed != block, f"mutation of {path[0]} changed nothing"
+    return text.replace(block, changed, 1)
+
+
 # --------------------------------------------------------------------------
 # Checks: each returns a list of problems, so a planted violation can be caught
 # --------------------------------------------------------------------------
@@ -150,16 +172,38 @@ def check_price(mech):
     for ordinance in ORDINANCES:
         power = POWER[ordinance]
         other = "adm" if power == "dip" else "dip"
-        enact = found.get(f"hlc_enact_{ordinance}_ordinance", "")
-        rescind = found.get(f"hlc_rescind_{ordinance}_ordinance", "")
-        for part in ("trigger", "effect"):
-            body = normalized(block_or_empty(enact, part))
-            if f"{power}_power_cost = 50" not in body:
-                problems.append(f"{ordinance}: enact {part} lacks {power}_power_cost = 50")
-            if f"{other}_power_cost" in body:
-                problems.append(f"{ordinance}: enact {part} charges the wrong kind of power ({other})")
+        button = found.get(f"hlc_enact_{ordinance}_ordinance", "")
+        flag = f"has_country_flag = hlc_{ordinance}_ordinance_active"
+        modifier = f"hlc_{ordinance}_ordinance_modifier"
+        choices, enact, active = toggle_trigger_parts(button)
+        if flag not in active:
+            problems.append(f"{ordinance}: toggle cannot be triggered while the ordinance is active")
+        if f"{power}_power_cost = 50" not in normalized(enact):
+            problems.append(f"{ordinance}: the enact trigger lacks {power}_power_cost = 50")
+        if f"{other}_power_cost" in normalized(enact):
+            problems.append(f"{ordinance}: the enact trigger charges the wrong kind of power ({other})")
+        if "_power_cost" in active:
+            problems.append(f"{ordinance}: rescinding is incorrectly gated by monarch power")
+        effect = block_or_empty(button, "effect")
+        rescind = block_or_empty(effect, "if")
+        enact_effect = block_or_empty(effect, "else")
+        limit = normalized(block_or_empty(rescind, "limit"))
+        if flag not in limit:
+            problems.append(f"{ordinance}: the free-rescind branch is not limited to an active ordinance")
+        if f"clr_country_flag = hlc_{ordinance}_ordinance_active" not in normalized(rescind):
+            problems.append(f"{ordinance}: rescinding does not clear its active flag")
+        if f"remove_country_modifier = {modifier}" not in normalized(rescind):
+            problems.append(f"{ordinance}: rescinding does not remove its modifier")
         if "_power_cost" in normalized(rescind):
             problems.append(f"{ordinance}: rescinding must be free")
+        if f"{power}_power_cost = 50" not in normalized(enact_effect):
+            problems.append(f"{ordinance}: the enact effect lacks {power}_power_cost = 50")
+        if f"{other}_power_cost" in normalized(enact_effect):
+            problems.append(f"{ordinance}: the enact effect charges the wrong kind of power ({other})")
+        if f"set_country_flag = hlc_{ordinance}_ordinance_active" not in normalized(enact_effect):
+            problems.append(f"{ordinance}: enacting does not set its active flag")
+        if f"name = {modifier}" not in normalized(enact_effect) or "duration = -1" not in normalized(enact_effect):
+            problems.append(f"{ordinance}: enacting does not add its permanent modifier")
     return problems
 
 
@@ -168,10 +212,11 @@ def check_slots(mech, triggers):
     found = buttons(mech)
     flags = [f"has_country_flag = hlc_{o}_ordinance_active" for o in ORDINANCES]
     for ordinance in ORDINANCES:
-        enact = normalized(block_or_empty(found.get(f"hlc_enact_{ordinance}_ordinance", ""), "trigger"))
-        if "tooltip = hlc_ordinance_slot_free_tt hlc_ordinance_slot_free = yes" not in enact:
-            problems.append(f"{ordinance}: enact does not require hlc_ordinance_slot_free inside a custom_trigger_tooltip")
-        if "hlc_ordinance_slot_free" in normalized(found.get(f"hlc_rescind_{ordinance}_ordinance", "")):
+        button = found.get(f"hlc_enact_{ordinance}_ordinance", "")
+        _, enact, active = toggle_trigger_parts(button)
+        if "tooltip = hlc_ordinance_slot_free_tt hlc_ordinance_slot_free = yes" not in normalized(enact):
+            problems.append(f"{ordinance}: the enact arm does not require hlc_ordinance_slot_free inside a custom_trigger_tooltip")
+        if "hlc_ordinance_slot_free" in active:
             problems.append(f"{ordinance}: rescind must stay available when the slots are full")
     slot = normalized(block_or_empty(triggers, "hlc_ordinance_slot_free"))
     if not (slot.startswith("hlc_ordinance_slot_free = { NOT = { calc_true_if = {")
@@ -185,29 +230,31 @@ def check_slots(mech, triggers):
 def check_ai(mech, triggers, vanilla_knows=None):
     problems = []
     needs = {
-        "hlc_enact_settlement_ordinance": "hlc_ordinance_settlement_wanted",
-        "hlc_enact_cadastral_ordinance": "hlc_ordinance_cadastre_wanted",
-        "hlc_rescind_chancery_ordinance": "hlc_ordinance_room_needed",
-        "hlc_rescind_settlement_ordinance": "hlc_ordinance_settlement_spent",
-        "hlc_rescind_cadastral_ordinance": "hlc_ordinance_cadastre_dangerous",
+        "chancery": ("hlc_ordinance_over_limit", "hlc_ordinance_room_needed"),
+        "settlement": ("hlc_ordinance_settlement_wanted", "hlc_ordinance_over_limit",
+                       "hlc_ordinance_settlement_spent"),
+        "cadastral": ("hlc_ordinance_cadastre_wanted", "hlc_ordinance_over_limit",
+                      "hlc_ordinance_cadastre_dangerous"),
     }
     found = buttons(mech)
-    if len(found) != 6:
-        problems.append(f"the mechanic has {len(found)} buttons, expected 6")
-    for name, block in found.items():
+    if len(found) != 3:
+        problems.append(f"the mechanic has {len(found)} toggle buttons, expected 3")
+    for ordinance in ORDINANCES:
+        name = f"hlc_enact_{ordinance}_ordinance"
+        block = found.get(name, "")
         factor = base_factor(block) if "ai_chance" in block else None
         if not factor:
             problems.append(f"{name}: ai_chance is missing or its base factor is 0, so the AI can never press it")
             continue
         ai = normalized(named_block(block, "ai_chance"))
-        if name.startswith("hlc_enact_"):
-            ordinance = name.split("_")[2]
-            if f"factor = 0 has_country_flag = hlc_{ordinance}_ordinance_active" not in ai:
-                problems.append(f"{name}: the AI is not stopped from enacting what already stands")
-        if name.startswith("hlc_rescind_") and "factor = 0 NOT = { OR = { hlc_ordinance_over_limit = yes" not in ai:
-            problems.append(f"{name}: the AI does not rescind when the chancery is over its two slots")
-        if name in needs and f"{needs[name]} = yes" not in ai:
-            problems.append(f"{name}: the AI ignores {needs[name]}")
+        flag = f"has_country_flag = hlc_{ordinance}_ordinance_active"
+        if f"factor = 0 {flag} NOT = {{ OR = {{ hlc_ordinance_over_limit = yes" not in ai:
+            problems.append(f"{name}: the AI may rescind without a reason")
+        if f"NOT = {{ {flag} }}" not in ai:
+            problems.append(f"{name}: the AI does not distinguish the enact arm from the rescind arm")
+        for need in needs[ordinance]:
+            if f"{need} = yes" not in ai:
+                problems.append(f"{name}: the AI ignores {need}")
     defined = {name for name, _ in children("x = {\n" + triggers + "\n}")}
     in_use = normalized(mech) + " " + normalized(triggers)
     for name in SITUATIONS:
@@ -403,20 +450,21 @@ def check_text(texts, mech, action, privilege):
                 if loc_value(fallback, key) != loc_value(english, key):
                     problems.append(f"{language}: the fallback of {key} differs from the English text")
         # Every tooltip sentence the mechanic, the action and the privilege name has text.
-        named = set(re.findall(r"tooltip = (\w+)", re.sub(r"#[^\n]*", "", mech + action + privilege)))
+        source = re.sub(r"#[^\n]*", "", mech + action + privilege)
+        named = set(re.findall(r"tooltip = (\w+)", source))
+        named.update(re.findall(r"cooldown_desc = (\w+)", source))
         missing = sorted(name for name in named if name not in keys and name not in {"FROM_IS_REBELLIOUS_TT"})
         if missing:
             problems.append(f"{language}: tooltip keys {missing} have no text")
     for ordinance in ORDINANCES:
         enact = loc_value(english, f"hlc_enact_{ordinance}_ordinance_desc") or ""
-        rescind = loc_value(english, f"hlc_rescind_{ordinance}_ordinance_desc") or ""
         power = "diplomatic" if POWER[ordinance] == "dip" else "administrative"
-        if f"Costs §Y50§! {power} power" not in enact:
+        if f"Enacting costs §Y50§! {power} power" not in enact:
             problems.append(f"the {ordinance} enact text does not state its price")
-        if "at most §Ytwo§!" not in enact or "§Y5§! years" not in enact:
-            problems.append(f"the {ordinance} enact text does not state the two-slot rule and the five-year token")
-        if "costs nothing" not in rescind or "§Y5§! years" not in rescind:
-            problems.append(f"the {ordinance} rescind text does not state that it is free and bound by the token")
+        if "at most §Ytwo§!" not in enact or "§Y5§!-year cooldown" not in enact:
+            problems.append(f"the {ordinance} toggle text does not state the two-slot rule and five-year cooldown")
+        if "rescinding costs nothing" not in enact or "same button" not in enact:
+            problems.append(f"the {ordinance} toggle text does not explain free rescinding")
     modifier = loc_value(english, "desc_hlc_settlement_ordinance_modifier") or ""
     if "+2" not in modifier or "60%" not in modifier or "manual" not in modifier:
         problems.append("the settlement modifier text does not state the real rule (manual, +2, below 60%)")
@@ -528,20 +576,34 @@ def planted_violations(s, texts, vanilla):
         # price
         "chancery enact without its price": check_price(mech.replace("dip_power_cost = 50", "# free")),
         "settlement paid in the wrong power": check_price(edit_button(mech, "hlc_enact_settlement_ordinance", lambda b: b.replace("adm_power_cost", "dip_power_cost"))),
-        "rescinding made to cost power": check_price(edit_button(mech, "hlc_rescind_cadastral_ordinance", lambda b: b.replace("clr_country_flag", "adm_power_cost = 10\n\t\t\t\tclr_country_flag", 1))),
+        "rescinding made to cost power": check_price(edit_button(mech, "hlc_enact_cadastral_ordinance", lambda b: b.replace("clr_country_flag", "adm_power_cost = 10\n\t\t\t\tclr_country_flag", 1))),
         # slots
         "cadastre enacted without the slot rule": check_slots(edit_button(mech, "hlc_enact_cadastral_ordinance", lambda b: b.replace("hlc_ordinance_slot_free = yes", "always = yes")), s["triggers"]),
         "slot rule that allows three": check_slots(mech, s["triggers"].replace("amount = 2", "amount = 3")),
         "slot sentence that is not a sentence": check_slots(mech.replace("tooltip = hlc_ordinance_slot_free_tt", "tooltip = nothing", 1), s["triggers"]),
-        "rescind blocked by the slot rule": check_slots(edit_button(mech, "hlc_rescind_settlement_ordinance", lambda b: b.replace("has_country_flag = hlc_settlement_ordinance_active", "has_country_flag = hlc_settlement_ordinance_active\n\t\t\t\t\thlc_ordinance_slot_free = yes", 1)), s["triggers"]),
+        "rescind blocked by the slot rule": check_slots(edit_button(
+            mech, "hlc_enact_settlement_ordinance",
+            lambda b: replace_in_nested_block(
+                b, ("trigger", "OR"),
+                "has_country_flag = hlc_settlement_ordinance_active",
+                "has_country_flag = hlc_settlement_ordinance_active\n\t\t\t\t\thlc_ordinance_slot_free = yes",
+            ),
+        ), s["triggers"]),
         # AI
-        "settlement rescind the AI can never press": check_ai(edit_button(mech, "hlc_rescind_settlement_ordinance", ai_block), s["triggers"]),
-        "cadastre rescind that ignores noble loyalty": check_ai(edit_button(mech, "hlc_rescind_cadastral_ordinance", lambda b: b.replace("hlc_ordinance_cadastre_dangerous = yes", "always = no")), s["triggers"]),
-        "chancery rescind that ignores the slot limit": check_ai(edit_button(mech, "hlc_rescind_chancery_ordinance", lambda b: b.replace("hlc_ordinance_over_limit = yes", "always = no")), s["triggers"]),
-        "AI re-enacts what stands": check_ai(edit_button(mech, "hlc_enact_chancery_ordinance", lambda b: b.replace("factor = 0\n\t\t\t\t\thas_country_flag", "factor = 1\n\t\t\t\t\thas_country_flag")), s["triggers"]),
+        "settlement toggle the AI can never press": check_ai(edit_button(mech, "hlc_enact_settlement_ordinance", ai_block), s["triggers"]),
+        "cadastre toggle ignores noble loyalty": check_ai(edit_button(mech, "hlc_enact_cadastral_ordinance", lambda b: b.replace("hlc_ordinance_cadastre_dangerous = yes", "always = no")), s["triggers"]),
+        "chancery toggle ignores the slot limit": check_ai(edit_button(mech, "hlc_enact_chancery_ordinance", lambda b: b.replace("hlc_ordinance_over_limit = yes", "always = no")), s["triggers"]),
+        "AI toggles an active ordinance without need": check_ai(edit_button(
+            mech, "hlc_enact_chancery_ordinance",
+            lambda b: replace_in_nested_block(
+                b, ("ai_chance",),
+                "NOT = { has_country_flag = hlc_chancery_ordinance_active }",
+                "has_country_flag = hlc_chancery_ordinance_active",
+            ),
+        ), s["triggers"]),
         "cadastre enact that ignores its situation": check_ai(edit_button(mech, "hlc_enact_cadastral_ordinance", lambda b: b.replace("hlc_ordinance_cadastre_wanted = yes", "always = yes")), s["triggers"]),
         "undefined AI situation": check_ai(mech, s["triggers"].replace("hlc_ordinance_settlement_spent = {", "hlc_ordinance_settlement_gone = {")),
-        "AI situation nothing reads": check_ai(edit_button(mech, "hlc_rescind_chancery_ordinance", lambda b: b.replace("hlc_ordinance_room_needed = yes", "always = no")), s["triggers"]),
+        "AI situation nothing reads": check_ai(edit_button(mech, "hlc_enact_chancery_ordinance", lambda b: b.replace("hlc_ordinance_room_needed = yes", "always = no")), s["triggers"]),
         "AI trigger the game does not have": check_ai(mech, s["triggers"], lambda name: name != "has_owner_accepted_culture"),
         # clean-up
         "crown authority no longer clears": cleanup(reform=s["reform"].replace("hlc_clear_ordinances_effect = yes", "# nothing")),
@@ -564,7 +626,12 @@ def planted_violations(s, texts, vanilla):
         "loyalty to every estate again": loyalty(effects=sub("estate_effects", "rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 2 }", "rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 2 }\n\t\t\trip_estate_mood_effect = { ESTATE = estate_burghers LOYALTY = 1 }")),
         "loyalty without a ceiling": loyalty(effects=sub("estate_effects", "loyalty = 60", "loyalty = 100")),
         "loyalty without the yearly timer": loyalty(effects=sub("estate_effects", "NOT = { has_country_modifier = hlc_settlement_loyalty_timer }", "always = yes")),
-        "timer never added hidden": loyalty(effects=sub("estate_effects", "hidden = yes", "hidden = no")),
+        "timer never added hidden": loyalty(effects=replace_in_nested_block(
+            s["estate_effects"],
+            ("hlc_settlement_ordinance_conversion_effect", "hidden_effect", "add_country_modifier"),
+            "hidden = yes",
+            "hidden = no",
+        )),
         "timer modifier undefined": loyalty(modifiers=sub("modifiers", "hlc_settlement_loyalty_timer = {", "hlc_settlement_loyalty_timer_x = {")),
         "bigger gift": loyalty(effects=sub("estate_effects", "estate_nobles LOYALTY = 2", "estate_nobles LOYALTY = 5")),
         "gift outside the owner scope": loyalty(effects=sub("estate_effects", "\t\towner = {\n\t\t\trip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 2 }", "\t\trip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 2 }\n\t\towner = {")),
@@ -582,7 +649,7 @@ def planted_violations(s, texts, vanilla):
         "new key missing in English": text(english=(en.replace(" hlc_ordinance_slot_free_tt:0 ", " hlc_ordinance_slot_free_gone:0 "), None)),
         "new key missing in Spanish": text(spanish=(texts["spanish"][0].replace(" hlc_incorporate_appanage_limit_tt:0 ", " hlc_x:0 "), texts["spanish"][1])),
         "fallback that drifts from English": text(french=(texts["french"][0], (texts["french"][1] or "").replace("Fewer than two Chancery Ordinances", "Fewer than three Chancery Ordinances"))),
-        "enact text without its price": text(english=(en.replace("Costs §Y50§! diplomatic power", "Costs nothing"), None)),
+        "enact text without its price": text(english=(en.replace("Enacting costs §Y50§! diplomatic power", "Enacting costs nothing"), None)),
         "settlement text that over-promises": text(english=(en.replace("The first manual conversion in a year", "Every conversion"), None)),
         "tooltip sentence with no text": check_text(texts, mech.replace("tooltip = hlc_ordinance_slot_free_tt", "tooltip = hlc_ordinance_unwritten_tt", 1), action, privilege),
     }
@@ -605,7 +672,7 @@ def main():
             print(f"  - {problem}")
         return 1
     note = "" if vanilla is not None else " (vanilla comparisons skipped: no installed EU4)"
-    print(f"HLC ORDINANCES CHECK: PASS (6 buttons priced, slotted and given an AI; clean-up, on_action, loyalty cap and "
+    print(f"HLC ORDINANCES CHECK: PASS (3 toggles priced, slotted and given an AI; clean-up, on_action, loyalty cap and "
           f"appanage chain; {len(LANGUAGES)} languages; {planted} planted violations caught){note}")
     print("LIMIT: static contracts. Only the on_action merge rule was measured in the game (see the evidence file); "
           "the ordinance buttons, the AI and the appanage action were not exercised.")

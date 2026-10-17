@@ -1400,6 +1400,117 @@ on_province_owner_change_government_effect = {
 	}
 	if = {
 		limit = {
+			has_province_modifier = chr_staple_charter
+			OR = {
+				NOT = { is_state_core = owner }
+				NOT = {
+					owner = {
+						OR = {
+							has_reform = chr_desna_staple_reform
+							has_reform = chr_town_union_reform
+							has_reform = chr_rada_of_lands_reform
+						}
+					}
+				}
+			}
+		}
+		remove_province_modifier = chr_staple_charter
+	}
+	if = {
+		limit = {
+			is_state_core = owner
+			NOT = { has_province_modifier = chr_staple_charter }
+			owner = {
+				OR = {
+					has_reform = chr_desna_staple_reform
+					has_reform = chr_town_union_reform
+					has_reform = chr_rada_of_lands_reform
+				}
+			}
+		}
+		add_province_modifier = {
+			name = chr_staple_charter
+			duration = -1
+		}
+	}
+	if = {
+		limit = {
+			has_province_modifier = chr_house_ledger
+			OR = {
+				NOT = { is_state_core = owner }
+				NOR = {
+					trade_goods = grain
+					trade_goods = salt
+					trade_goods = naval_supplies
+					trade_goods = iron
+				}
+				NOT = {
+					owner = {
+						OR = {
+							has_reform = chr_magistrat_rule_reform
+							has_reform = chr_siversk_principality_reform
+							has_reform = chr_prykaz_tsardom_reform
+						}
+					}
+				}
+			}
+		}
+		remove_province_modifier = chr_house_ledger
+	}
+	if = {
+		limit = {
+			is_state_core = owner
+			NOT = { has_province_modifier = chr_house_ledger }
+			OR = {
+				trade_goods = grain
+				trade_goods = salt
+				trade_goods = naval_supplies
+				trade_goods = iron
+			}
+			owner = {
+				OR = {
+					has_reform = chr_magistrat_rule_reform
+					has_reform = chr_siversk_principality_reform
+					has_reform = chr_prykaz_tsardom_reform
+				}
+			}
+		}
+		add_province_modifier = {
+			name = chr_house_ledger
+			duration = -1
+		}
+	}
+	if = {
+		limit = {
+			has_province_modifier = chr_siverian_town
+			OR = {
+				NOT = { is_state_core = owner }
+				NOT = { owner = { has_country_flag = chr_great_chernihiv } }
+			}
+		}
+		remove_province_modifier = chr_siverian_town
+	}
+	if = {
+		limit = {
+			is_state_core = owner
+			NOT = { has_province_modifier = chr_siverian_town }
+			owner = { has_country_flag = chr_great_chernihiv }
+			OR = {
+				province_id = 289
+				province_id = 1945
+				province_id = 4244
+				province_id = 4543
+				province_id = 297
+				province_id = 298
+			}
+		}
+		add_province_modifier = {
+			name = chr_siverian_town
+			duration = -1
+		}
+	}
+	if = {
+		limit = {
 			has_province_modifier = naval_supplies_bonus_prod
 			FROM = { has_government_attribute = extra_trade_goods_from_naval_supplies }
 			NOT = { owner = { has_government_attribute = extra_trade_goods_from_naval_supplies } }
@@ -1840,6 +1951,36 @@ on_trade_good_changed_government_effect = {
 	}
 	else = {
 		remove_province_modifier = chr_grain_directorate_province
+	}
+	if = {
+		limit = {
+			is_state_core = owner
+			OR = {
+				trade_goods = grain
+				trade_goods = salt
+				trade_goods = naval_supplies
+				trade_goods = iron
+			}
+			owner = {
+				OR = {
+					has_reform = chr_magistrat_rule_reform
+					has_reform = chr_siversk_principality_reform
+					has_reform = chr_prykaz_tsardom_reform
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = { has_province_modifier = chr_house_ledger }
+			}
+			add_province_modifier = {
+				name = chr_house_ledger
+				duration = -1
+			}
+		}
+	}
+	else = {
+		remove_province_modifier = chr_house_ledger
 	}
 	if = {
 		limit = {

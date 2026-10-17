@@ -37,6 +37,22 @@ chr_charter_the_staple_effect = {
 	}
 }
 
+chr_clear_staple_charter_if_left_road_effect = {
+	if = {
+		limit = {
+			NOT = { has_reform = chr_desna_staple_reform }
+			NOT = { has_reform = chr_town_union_reform }
+			NOT = { has_reform = chr_rada_of_lands_reform }
+		}
+		every_owned_province = {
+			limit = {
+				has_province_modifier = chr_staple_charter
+			}
+			remove_province_modifier = chr_staple_charter
+		}
+	}
+}
+
 # Road B writes the houses into the ledger of whatever the province produces.
 chr_open_the_ledger_effect = {
 	every_owned_province = {
@@ -53,6 +69,22 @@ chr_open_the_ledger_effect = {
 		add_province_modifier = {
 			name = chr_house_ledger
 			duration = -1
+		}
+	}
+}
+
+chr_clear_house_ledger_if_left_road_effect = {
+	if = {
+		limit = {
+			NOT = { has_reform = chr_magistrat_rule_reform }
+			NOT = { has_reform = chr_siversk_principality_reform }
+			NOT = { has_reform = chr_prykaz_tsardom_reform }
+		}
+		every_owned_province = {
+			limit = {
+				has_province_modifier = chr_house_ledger
+			}
+			remove_province_modifier = chr_house_ledger
 		}
 	}
 }
@@ -103,5 +135,79 @@ chr_proclaim_great_chernihiv_effect = {
 			NOT = { government_rank = 2 }
 		}
 		set_government_rank = 2
+	}
+}
+
+chr_reconcile_path_province_modifiers_effect = {
+	if = {
+		limit = {
+			OR = {
+				has_reform = chr_desna_staple_reform
+				has_reform = chr_town_union_reform
+				has_reform = chr_rada_of_lands_reform
+			}
+		}
+		chr_charter_the_staple_effect = yes
+		every_owned_province = {
+			limit = {
+				NOT = { is_state_core = ROOT }
+				has_province_modifier = chr_staple_charter
+			}
+			remove_province_modifier = chr_staple_charter
+		}
+	}
+	else = {
+		chr_clear_staple_charter_if_left_road_effect = yes
+	}
+	if = {
+		limit = {
+			OR = {
+				has_reform = chr_magistrat_rule_reform
+				has_reform = chr_siversk_principality_reform
+				has_reform = chr_prykaz_tsardom_reform
+			}
+		}
+		chr_open_the_ledger_effect = yes
+		every_owned_province = {
+			limit = {
+				has_province_modifier = chr_house_ledger
+				OR = {
+					NOT = { is_state_core = ROOT }
+					NOR = {
+						trade_goods = grain
+						trade_goods = salt
+						trade_goods = naval_supplies
+						trade_goods = iron
+					}
+				}
+			}
+			remove_province_modifier = chr_house_ledger
+		}
+	}
+	else = {
+		chr_clear_house_ledger_if_left_road_effect = yes
+	}
+	if = {
+		limit = {
+			has_country_flag = chr_great_chernihiv
+		}
+		every_owned_province = {
+			limit = {
+				is_state_core = ROOT
+				NOT = { has_province_modifier = chr_siverian_town }
+				OR = {
+					province_id = 289
+					province_id = 1945
+					province_id = 4244
+					province_id = 4543
+					province_id = 297
+					province_id = 298
+				}
+			}
+			add_province_modifier = {
+				name = chr_siverian_town
+				duration = -1
+			}
+		}
 	}
 }

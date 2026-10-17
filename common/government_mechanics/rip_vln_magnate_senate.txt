@@ -16,11 +16,12 @@
 # a purse of ducats before a house shield, and the magnates' banners.
 #
 # Fatigue guardrail: vln_cossack_host_reform (a different tier, T2) already
-# carries government_abilities = cossacks_mechanic. A VLN country could hold
-# both vln_voivodeship_reform (T1) and vln_cossack_host_reform (T2) at once,
-# stacking two 3-button panels - `available` below retires the Senate the
-# moment the Cossack Host is picked, since the register-and-Host system is
-# the larger, forcelimit-tied vanilla mechanic.
+# carries government_abilities = cossacks_mechanic. A VLN country can hold
+# both vln_voivodeship_reform (T1) and vln_cossack_host_reform (T2) at once.
+# `available` gates selection of this mechanic, not an ability already
+# selected, so each Senate interaction repeats the reform gate below. This
+# keeps its buttons unusable while the larger, forcelimit-tied Host system is
+# active.
 # =============================================================================
 
 vln_magnate_senate_mechanic = {
@@ -36,6 +37,8 @@ vln_magnate_senate_mechanic = {
 		vln_summon_the_senate = {
 			icon = GFX_rip_senate_summon
 			trigger = {
+				has_reform = vln_voivodeship_reform
+				NOT = { has_reform = vln_cossack_host_reform }
 				adm_power = 50
 			}
 			effect = {
@@ -61,6 +64,8 @@ vln_magnate_senate_mechanic = {
 		vln_buy_off_a_magnate_house = {
 			icon = GFX_rip_senate_buyoff
 			trigger = {
+				has_reform = vln_voivodeship_reform
+				NOT = { has_reform = vln_cossack_host_reform }
 				dip_power = 50
 			}
 			effect = {
@@ -82,6 +87,8 @@ vln_magnate_senate_mechanic = {
 		vln_call_up_the_magnate_banners = {
 			icon = GFX_rip_senate_banners
 			trigger = {
+				has_reform = vln_voivodeship_reform
+				NOT = { has_reform = vln_cossack_host_reform }
 				mil_power = 60
 			}
 			effect = {

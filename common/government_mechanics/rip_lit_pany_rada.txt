@@ -13,6 +13,10 @@
 # the Grand Duchy's founding (T1); lit_pany_rada_reform is its later
 # formalisation, not a second grant of the ability.
 #
+# One five-year council session holds one resolution. This makes the Duke
+# choose between consent, political brokerage and a military levy instead of
+# accumulating all three temporary advantages at once.
+#
 # Buttons-only (devshirme pattern): no powers, no .gui, no DLC gate. The three
 # buttons carry their own sprites (GFX_rip_rada_confirm / _lord / _retinues,
 # painted by tools/build_government_ability_icons.py and declared in
@@ -50,7 +54,9 @@ lit_pany_rada_mechanic = {
 					duration = 1825
 				}
 			}
-			cooldown_years = 8
+			cooldown_years = 5
+			cooldown_token = lit_pany_rada_session
+			cooldown_desc = lit_pany_rada_session_cd
 			ai_chance = {
 				factor = 1
 				modifier = {
@@ -72,7 +78,9 @@ lit_pany_rada_mechanic = {
 					duration = 1825
 				}
 			}
-			cooldown_years = 10
+			cooldown_years = 5
+			cooldown_token = lit_pany_rada_session
+			cooldown_desc = lit_pany_rada_session_cd
 			ai_chance = {
 				factor = 1
 				modifier = {
@@ -94,7 +102,9 @@ lit_pany_rada_mechanic = {
 					duration = 1825
 				}
 			}
-			cooldown_years = 10
+			cooldown_years = 5
+			cooldown_token = lit_pany_rada_session
+			cooldown_desc = lit_pany_rada_session_cd
 			ai_chance = {
 				factor = 1
 				modifier = {
