@@ -4,6 +4,8 @@ from pathlib import Path
 from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized, vanilla_root
 
 loc = dict(re.findall(r'^ ([\w]+):\d+ "(.*)"$',read('localisation/replace/zzzz_rip_government_ui_l_english.yml'),re.M))
+assert loc['kyivan_peoples_gathering'] == 'Gathering of the Peoples'
+assert 'Prosperity' not in loc['kyivan_peoples_gathering_desc']
 reforms = read('common/government_reforms/RIP_KIE_KRU_government_reforms.txt')
 ids = ['ruthenian_factional_empire'+s+'_reform' for s in ('','_princes_hetmans','_boyars_hetmans')]
 assert len({loc[i] for i in ids}) == 1
