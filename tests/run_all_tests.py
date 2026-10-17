@@ -62,6 +62,7 @@ scripts = [
     "tests/check_government_reviews.py",
     "tests/check_government_names.py",
     "tests/check_ruthenian_government_ui.py",
+    "tests/check_government_status_ui.py",
     "tests/check_government_ability_icons.py",
     "tests/check_hlc_ordinances.py",
     "tests/check_hlc_path_gates.py",
