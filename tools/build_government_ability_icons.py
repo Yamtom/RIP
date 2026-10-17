@@ -3,7 +3,7 @@
 Fifteen 82x82 sprites for four button-only mechanics:
 
   rip_hlc_boyar_council           3 buttons   round gold frame, crimson enamel
-  rip_hlc_austrian_reorganization 3 toggles, 6 state illustrations   black-and-gold octagon
+  rip_hlc_austrian_reorganization 6 buttons   black-and-gold octagon
   rip_vln_magnate_senate          3 buttons   arched gold frame, blue enamel
   rip_lit_pany_rada               3 buttons   shield frame, scarlet enamel, silver inner line
 

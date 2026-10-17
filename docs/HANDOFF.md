@@ -1,3 +1,14 @@
+> **Оновлення 17 жовтня 2026, ніч (шість указів, Паланок, Паней-Рада, слобідські полки):**
+> Канцелярські укази ГЛЦ знову мають **шість кнопок** (вимога автора; коміт 5113931c згортав їх у три перемикачі) з
+> ціною 50 монархічних очок, двома слотами, ситуативним ШІ, щорічним очищенням і межею лояльності від поселенського
+> указу; у грі виміряно лише злиття однакових `on_action`. Паланок переведено з ванільних фракцій на
+> `states_general_mechanic`; LIT Pany-Rada отримала три власні іконки. Документ
+> [SLOBODA_REGIMENT_CORES_MAP.uk.md](SLOBODA_REGIMENT_CORES_MAP.uk.md) читає «корки» як ядра й дає місця полків на мапі
+> з розрахунку; він доповнює [SLOBODA_REGIMENTS_CORES_REVIEW.uk.md](SLOBODA_REGIMENTS_CORES_REVIEW.uk.md). Деталі —
+> у [RUTHENIAN_GOVERNMENT_UI.uk.md](RUTHENIAN_GOVERNMENT_UI.uk.md). Гейт: ті самі п'ять червоних перевірок
+> (`check_old_believers`, `check_diocesan_union`, `check_event_modifier_layer`, `check_government_reform_fixture`,
+> `check_government_names`), нових немає.
+
 > **Оновлення 17 жовтня 2026, пізніше (коаліційна рада KRU та Державні збори):**
 > три незалежні попарні шкали KRU замінено одним нативним States General
 > coalition/opposition, увімкненим за Res Publica або Winds of Change. Поточна
