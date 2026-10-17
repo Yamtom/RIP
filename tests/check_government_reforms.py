@@ -366,6 +366,27 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         ),
         "UZH republican Komitat still receives the monarchical dynastic layer",
     )
+    require(
+        failures,
+        all(
+            token not in komitat
+            for token in ("republic = yes", "has_term_election = yes", "duration = 8")
+        )
+        and all(
+            token in republican_komitat
+            for token in ("republic = yes", "has_term_election = yes", "duration = 8")
+        ),
+        "UZH monarchical/republican Komitat reforms have swapped republican election flags",
+    )
+    hlc_reforms = read("common/government_reforms/RIP_HLC_government_reforms.txt")
+    crown_and_sejm = normalized(named_block(hlc_reforms, "hlc_crown_and_sejm_reform"))
+    require(
+        failures,
+        "has_term_election" not in crown_and_sejm
+        and "is_elective = yes" in crown_and_sejm
+        and "has_polish_election = yes" in crown_and_sejm,
+        "HLC Crown and Sejm mixes term elections with Polish elective monarchy",
+    )
     uhro_palatial = normalized(named_block(uzh, "uzh_palatial_uhro_reform"))
     uhro_republic = normalized(
         named_block(uzh, "uzh_palatial_uhro_republic_reform")
@@ -1134,14 +1155,26 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
             f"{target_tag} formation does not finish the vanilla mission/tag-change lifecycle",
         )
     lineage_gates = read("common/scripted_triggers/rip_path_state_triggers.txt")
+    top_level_triggers = Counter(
+        re.findall(r"(?m)^([A-Za-z0-9_]+)\s*=\s*\{", lineage_gates)
+    )
+    duplicate_triggers = sorted(
+        name for name, count in top_level_triggers.items() if count > 1
+    )
+    require(
+        failures,
+        not duplicate_triggers,
+        f"duplicate scripted trigger definition(s) in rip_path_state_triggers.txt: {', '.join(duplicate_triggers)}",
+    )
     for gate in (
         "west_ukraine_hlc_origin_country",
         "west_ukraine_vln_origin_country",
         "west_ukraine_pdl_origin_country",
     ):
+        gate_blocks = [normalized(block) for _, block in keyed_blocks(lineage_gates, gate)]
         require(
             failures,
-            "tag = UKR" in normalized(named_block(lineage_gates, gate)),
+            len(gate_blocks) == 1 and "tag = UKR" in gate_blocks[-1],
             f"UKR cannot continue its inherited western reform lineage: {gate}",
         )
 
