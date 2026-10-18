@@ -583,4 +583,74 @@ country_decisions = {
 			}
 		}
 	}
+
+	# --- Territorial Administration of the Regiments (Military service, Starshyna rights, or Centralization)
+	het_regimental_territorial_governance_decision = {
+		potential = {
+			OR = {
+				tag = HET
+				has_reform = het_regimental_system_reform
+				has_reform = het_starshyna_oligarchy_reform
+				has_reform = het_hetman_for_life_reform
+				has_reform = prl_regimental_republic_reform
+			}
+			any_owned_province = {
+				is_city = yes
+				OR = {
+					has_province_modifier = regimental_headquarters
+					can_establish_regiment = yes
+					area = west_dniepr_area
+					area = east_dniepr_area
+					area = sloboda_ukraine_area
+				}
+			}
+		}
+
+		provinces_to_highlight = {
+			owned_by = ROOT
+			is_city = yes
+			OR = {
+				has_province_modifier = regimental_headquarters
+				can_establish_regiment = yes
+				area = west_dniepr_area
+				area = east_dniepr_area
+				area = sloboda_ukraine_area
+			}
+		}
+
+		allow = {
+			is_at_war = no
+			stability = 0
+			adm_power = 25
+			NOT = { has_country_modifier = het_recent_regimental_reform }
+			any_owned_province = {
+				is_city = yes
+				OR = {
+					has_province_modifier = regimental_headquarters
+					can_establish_regiment = yes
+					area = west_dniepr_area
+					area = east_dniepr_area
+					area = sloboda_ukraine_area
+				}
+			}
+		}
+
+		effect = {
+			add_adm_power = -25
+			add_country_modifier = {
+				name = het_recent_regimental_reform
+				duration = 1825
+			}
+			country_event = { id = het_regiment_governance.1 }
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				is_at_war = no
+			}
+		}
+	}
 }
+

@@ -1,4 +1,4 @@
-﻿"""Contracts for the remaining Greek Catholic synod, icons and Rome audience."""
+"""Contracts for the remaining Greek Catholic synod, icons and Rome audience."""
 import re
 from clausewitz_testlib import named_block, keyed_blocks, read, vanilla_defines_localisation, vanilla_root
 from church_testlib import parse
@@ -15,7 +15,7 @@ controls = read('common/custom_gui/RIP_church_controls.txt')
 features = read('common/custom_gui/RIP_church_gc_features.txt')
 gui_generator = read('tools/build_church_gui.py')
 localisation_generator = read('tools/build_church_localisation.py')
-english = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
+english = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml') + '\n' + read('localisation/rip_ro_blessing_window_l_english.yml')
 interface = read('interface/countryreligionview.gui')
 custom_text = read('customizable_localization/rip_church_redesign.txt')
 
@@ -165,13 +165,18 @@ assert 'clr_country_flag = rip_church_gc_window_hidden' in toggle
 assert 'set_country_flag = rip_church_gc_window_hidden' in toggle
 assert 'rip_church_gc_window_hidden' in controls
 assert 'rip_church_gc_window_toggle' in interface
-toggle_widget = next(
+toggle_widgets = [
     d for kind, d in widgets(parse(interface))
     if kind == 'guiButtonType' and d.get('name') == 'rip_church_gc_window_toggle'
-)
-assert toggle_widget['quadTextureSprite'] == 'GFX_closebutton2'
-assert dict(toggle_widget['position']) == {'x': '372', 'y': '238'}
-assert toggle_widget['scale'] == '0.7'
+]
+assert any(
+    w.get('quadTextureSprite') == 'GFX_standard_button_71' and
+    dict(w.get('position', {})) == {'x': '304', 'y': '300'}
+    for w in toggle_widgets
+), 'Greek Catholic must cover pick_icon_button with GFX_standard_button_71 at {x=304, y=300}'
+close_widget = next(w for w in toggle_widgets if w.get('quadTextureSprite') == 'GFX_closebutton2')
+assert dict(close_widget['position']) == {'x': '372', 'y': '238'}
+assert close_widget['scale'] == '0.7'
 # The deputation and the gift each get their own button and own summary line;
 # the old four-cell Cost/Peace/Rome/Cooldown grid sat under the gift button.
 for stale in ('rip_church_gui_contact_peace', 'rip_church_gui_contact_rome', 'rip_church_gui_contact_cooldown'):

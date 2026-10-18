@@ -1,0 +1,430 @@
+# =============================================================================
+# RIP_RUS_government_reforms
+# Overrides of vanilla Russian / East Slavic reforms to ensure compatibility
+# with the Russian Orthodox Church (russian_orthodox).
+# =============================================================================
+
+principality = {
+	icon = "russian_principality"
+	allow_normal_conversion = yes
+	potential = {
+		NOT = { has_reform = tsardom }
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		OR = {
+			culture_group = east_slavic
+			culture_group = slavic
+			AND = {
+				is_playing_custom_nation = yes
+				have_had_reform = principality
+			}
+		}
+	}
+	fixed_rank = 1
+	legacy_equivalent = principality_legacy
+	valid_for_nation_designer = yes
+	nation_designer_cost = 5
+	nation_designer_trigger = {
+		OR = {
+			culture_group = east_slavic
+			culture_group = slavic
+		}
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+	}
+	modifiers = {
+		global_unrest = -1
+		global_regiment_cost = -0.05
+		governing_capacity = 200
+		has_streltsy = yes
+		allowed_streltsy_fraction = 0.1
+	}
+	conditional = {
+		allow = { 
+			OR = {
+				has_dlc = "Third Rome" 
+				has_dlc = "Domination"
+			}
+		}
+		government_abilities = {
+			russian_mechanic
+		}
+		custom_attributes = {
+			weaker_russian_ability = yes
+		}
+	}
+}
+
+tsardom = {
+	icon = "tsardom"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		OR = {
+			culture_group = east_slavic
+			culture_group = slavic
+		}
+		NOT = { primary_culture = ruthenian }
+		NOT = { primary_culture = byelorussian }
+		OR = {
+			AND = {
+				tag = RUS
+				NOT = { map_setup = map_setup_random }
+			}
+			AND = {
+				tag = UKR
+				NOT = { map_setup = map_setup_random }
+			}
+			AND = {
+				is_playing_custom_nation = yes
+				have_had_reform = tsardom
+			}
+		}
+	}
+	fixed_rank = 3
+	legacy_equivalent = tsardom_legacy
+	valid_for_nation_designer = yes
+	nation_designer_cost = 40
+
+	nation_designer_trigger = {
+		OR = {
+			culture_group = east_slavic
+			culture_group = slavic
+		}
+		NOT = { primary_culture = ruthenian }
+		NOT = { primary_culture = byelorussian }
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+	}
+
+	modifiers = {
+		global_manpower_modifier = 0.2
+		yearly_absolutism = 0.5
+		global_autonomy = -0.05
+		governing_capacity = 350
+		has_streltsy = yes
+		allowed_streltsy_fraction = 0.2
+	}
+
+	conditional = {
+		allow = { has_dlc = "Third Rome" }
+		claim_states = yes
+	}
+	conditional = {
+		allow = { 
+			has_dlc = "Third Rome" 
+			NOT = { has_dlc = "Domination" }
+		}
+		government_abilities = {
+			russian_mechanic
+		}
+	}
+	conditional = {
+		allow = { has_dlc = "Domination" }
+		government_abilities = {
+			russian_mechanic
+			russian_modernization_mechanic
+		}
+	}
+}
+
+great_veche_republic = {
+	icon = "king"
+	allow_normal_conversion = yes
+	potential = {
+		OR = {
+			culture_group = east_slavic
+			culture_group = slavic
+		}
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+		OR = {
+			AND = {
+				tag = RUS
+				NOT = { map_setup = map_setup_random }
+			}
+			AND = {
+				tag = UKR
+				NOT = { map_setup = map_setup_random }
+			}
+			AND = {
+				is_playing_custom_nation = yes
+				have_had_reform = great_veche_republic
+			}
+		}
+	}
+	fixed_rank = 3
+	valid_for_nation_designer = yes
+	nation_designer_cost = 40
+
+	nation_designer_trigger = {
+		OR = {
+			culture_group = east_slavic
+			culture_group = slavic
+		}
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+	}
+
+	modifiers = {
+		global_manpower_modifier = 0.2
+		merchants = 1
+		max_absolutism = 20
+		governing_capacity = 350
+		has_streltsy = yes
+		allowed_streltsy_fraction = 0.2
+	}
+
+	custom_attributes = {
+		enables_plutocratic_idea_group = yes
+		enables_aristocratic_idea_group = no
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Res Publica"
+		}
+		can_use_trade_post = yes
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Mare Nostrum"
+		}
+		can_form_trade_league = yes
+		trade_city_reform = trading_city
+	}
+	conditional = {
+		allow = { 
+			has_dlc = "Third Rome" 
+			NOT = { has_dlc = "Domination" }
+		}
+		government_abilities = {
+			russian_mechanic
+		}
+	}
+	conditional = {
+		allow = { has_dlc = "Domination" }
+		government_abilities = {
+			russian_mechanic
+			russian_modernization_mechanic
+		}
+	}
+	duration = 6
+}
+
+lands_for_the_monasteries_reform = {
+	icon = "pope"
+	allow_normal_conversion = yes
+	potential = {
+		NOT = { has_government_attribute = is_pirate_republic_reform }
+		OR = {
+			is_revolutionary = no
+			NOT = { has_dlc = "Emperor" }
+		}
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+	}
+	modifiers = {
+		church_influence_modifier = 0.1
+		church_loyalty_modifier = 0.15
+		yearly_patriarch_authority = 0.002
+	}
+	custom_attributes = {
+		free_religious_culture = yes
+		on_church_built_clergy_loyalty = yes
+	}
+	conditional = {
+		allow = { has_dlc = "Third Rome" }
+		custom_attributes = {
+			selling_titles_increases_pa = yes
+		}
+	}
+	
+	ai = {
+		factor = 1
+	}
+}
+
+holy_synod_reform = {
+	icon = "patriarch"
+	potential = {
+		has_dlc = "Domination"
+		is_revolutionary = no
+		NOT = { has_government_attribute = is_pirate_republic_reform }
+		OR = {
+			have_had_reform = holy_synod_reform
+			has_unlocked_government_reform = { government_reform = holy_synod_reform }
+			has_reform = ruthenian_tsardom
+		}
+	}
+	trigger = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+	}
+	modifiers = {
+		manpower_in_true_faith_provinces = 0.05
+		missionaries = 1
+		church_loyalty_modifier = 0.1
+	}
+	custom_attributes = {
+		seizing_land_no_rebels_from_estate_church = yes
+		temples_modifier = yes
+	}
+	effect = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					has_tax_building_trigger = yes
+				}
+				add_province_modifier = {
+					name = gov_expanded_temple_rights_mod
+					duration = -1
+				}
+			}
+		}
+	}
+	post_removed_effect = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					has_province_modifier = gov_expanded_temple_rights_mod
+				}
+				remove_province_modifier = gov_expanded_temple_rights_mod
+			}
+		}
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+strengthened_the_patriarchy_reform = {
+	icon = "patriarch"
+	potential = {
+		has_dlc = "Domination"
+		is_revolutionary = no
+		NOT = { has_government_attribute = is_pirate_republic_reform }
+		OR = {
+			have_had_reform = strengthened_the_patriarchy_reform
+			has_unlocked_government_reform = { government_reform = strengthened_the_patriarchy_reform }
+			has_reform = ruthenian_tsardom
+		}
+	}
+	trigger = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+	}
+	modifiers = {
+		church_privilege_slots = 1
+		church_influence_modifier = -0.15
+		church_loyalty_modifier = 0.2
+		tolerance_own = 1
+		yearly_patriarch_authority = 0.005
+	}
+	custom_attributes = {
+		free_religious_culture = yes
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+head_of_the_patriarchy_reform = {
+	icon = "patriarch"
+	potential = {
+		has_dlc = "Domination"
+		is_revolutionary = no
+		NOT = { has_government_attribute = is_pirate_republic_reform }
+		OR = {
+			have_had_reform = head_of_the_patriarchy_reform
+			has_unlocked_government_reform = { government_reform = head_of_the_patriarchy_reform }
+		}
+	}
+	trigger = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+	}
+	modifiers = {
+		max_absolutism = 10
+		church_loyalty_modifier = 0.2
+		tolerance_own = 1
+		yearly_patriarch_authority = 0.005
+	}
+	custom_attributes = {
+		free_religious_culture = yes
+		improved_defender_of_faith = yes
+		temples_modifier = yes
+		seizing_land_no_rebels_from_estate_church = yes
+	}
+	effect = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					has_tax_building_trigger = yes
+				}
+				add_province_modifier = {
+					name = gov_expanded_temple_rights_mod
+					duration = -1
+				}
+			}
+		}
+	}
+	post_removed_effect = {
+		hidden_effect = {
+			every_owned_province = {
+				limit = {
+					has_province_modifier = gov_expanded_temple_rights_mod
+				}
+				remove_province_modifier = gov_expanded_temple_rights_mod
+			}
+		}
+	}
+	ai = {
+		factor = 1
+	}
+}
+
+orthodox_patriarchate_reform = {
+	icon = "patriarch"
+	allow_normal_conversion = yes
+	potential = {
+		NOT = { tag = PAP }
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+	}
+	valid_for_nation_designer = yes
+	nation_designer_trigger = {
+		OR = {
+			religion = orthodox
+			religion = russian_orthodox
+		}
+	}
+	nation_designer_cost = 10
+	modifiers = {
+		church_privilege_slots = 1
+		church_loyalty_modifier = 0.1
+		tolerance_own = 1 
+	}
+}

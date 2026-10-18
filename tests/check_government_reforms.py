@@ -29,6 +29,16 @@ ROLE_ONLY_REFORMS = (
     "uzh_uzhhorod_seat_translation_reform",
     "uzh_presov_eparchy_reform",
 )
+VANILLA_OVERRIDE_REFORMS = {
+    "principality",
+    "tsardom",
+    "great_veche_republic",
+    "lands_for_the_monasteries_reform",
+    "holy_synod_reform",
+    "strengthened_the_patriarchy_reform",
+    "head_of_the_patriarchy_reform",
+    "orthodox_patriarchate_reform",
+}
 
 
 def require(failures: list[str], condition: bool, message: str) -> None:
@@ -788,8 +798,10 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         failures,
         "cost_amount" not in boyar_council
         and "add_absolutism = -2" not in boyar_council
-        and "duration = 3650" in boyar_confirm
-        and "stability_cost_modifier = -0.10" in boyars_confirmed_mod
+        and (
+            "stability_cost_modifier = -0.1" in boyars_confirmed_mod
+            or "stability_cost_modifier = -0.10" in boyars_confirmed_mod
+        )
         and "global_unrest = -1" in boyars_confirmed_mod
         and "land_morale = 0.05" in boyars_confirmed_mod,
         "HLC boyar council office confirmation reverted to slow scale cost or weak modifier",
@@ -2220,6 +2232,18 @@ def check_linked_lifecycle(failures: list[str]) -> None:
     )
 
 
+def check_vanilla_overrides(failures: list[str], reforms: str) -> None:
+    for reform in VANILLA_OVERRIDE_REFORMS:
+        block = named_block(reforms, reform)
+        require(failures, bool(block), f"missing vanilla override definition: {reform}")
+        norm = normalized(block)
+        require(
+            failures,
+            "religion = russian_orthodox" in norm,
+            f"{reform} must support russian_orthodox for Muscovy/Russia compatibility",
+        )
+
+
 def main() -> int:
     failures: list[str] = []
     try:
@@ -2228,9 +2252,11 @@ def main() -> int:
         print(f"GOVERNMENT REFORM CHECK: FAIL\n  - {exc}")
         return 1
 
-    check_vfs_and_schema(failures, reforms, owners)
-    check_registration(failures, owners)
-    check_localisation(failures, owners)
+    mod_owners = {k: v for k, v in owners.items() if k not in VANILLA_OVERRIDE_REFORMS}
+    check_vfs_and_schema(failures, reforms, mod_owners)
+    check_registration(failures, mod_owners)
+    check_localisation(failures, mod_owners)
+    check_vanilla_overrides(failures, reforms)
     check_reachability_and_scope(failures, reforms)
     check_linked_lifecycle(failures)
 

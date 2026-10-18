@@ -230,6 +230,16 @@ def comparator_coverage():
     live_ids = set()
     for path in (ROOT / "common/government_reforms").glob("*.txt"):
         live_ids.update(re.findall(r"^([a-z0-9_]+)\s*=\s*\{", path.read_text(encoding="utf-8-sig"), re.M))
+    live_ids -= {
+        "principality",
+        "tsardom",
+        "great_veche_republic",
+        "lands_for_the_monasteries_reform",
+        "holy_synod_reform",
+        "strengthened_the_patriarchy_reform",
+        "head_of_the_patriarchy_reform",
+        "orthodox_patriarchate_reform",
+    }
     assert len(rows) == len(data["reforms"]) == 123 and set(rows) == live_ids
     own_tiers = reform_tiers(read("common/governments/00_governments.txt"))
     snapshots = {row["id"]: row for row in data["vanilla_comparators"]}

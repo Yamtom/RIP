@@ -1,0 +1,218 @@
+# Country scope.
+# Holy Cities 30-year myth maturation logic.
+# Each year of protection under Orthodox fold advances the myth towards 30 years (360 months).
+# Upon 30 years, the city's myth completes and grants a dedicated country modifier.
+
+rip_ro_holy_cities_startup_effect = {
+	if = {
+		limit = { NOT = { check_variable = { which = rip_ro_myth_years_novgorod value = 0 } } }
+		set_variable = { which = rip_ro_myth_years_novgorod value = 0 }
+	}
+	if = {
+		limit = { NOT = { check_variable = { which = rip_ro_myth_years_moscow value = 0 } } }
+		set_variable = { which = rip_ro_myth_years_moscow value = 0 }
+	}
+	if = {
+		limit = { NOT = { check_variable = { which = rip_ro_myth_years_kyiv value = 0 } } }
+		set_variable = { which = rip_ro_myth_years_kyiv value = 0 }
+	}
+	if = {
+		limit = { NOT = { check_variable = { which = rip_ro_myth_years_constantinople value = 0 } } }
+		set_variable = { which = rip_ro_myth_years_constantinople value = 0 }
+	}
+	if = {
+		limit = { NOT = { check_variable = { which = rip_ro_myth_years_jerusalem value = 0 } } }
+		set_variable = { which = rip_ro_myth_years_jerusalem value = 0 }
+	}
+	rip_ro_holy_cities_sync_modifiers_effect = yes
+}
+
+rip_ro_holy_cities_yearly_pulse_effect = {
+	# Novgorod (310) - Saint Sophia Myth
+	if = {
+		limit = {
+			310 = {
+				OR = {
+					owned_by = ROOT
+					religion = russian_orthodox
+					AND = {
+						religion = orthodox
+						owner = { NOT = { war_with = ROOT } }
+					}
+				}
+			}
+		}
+		if = {
+			limit = { NOT = { check_variable = { which = rip_ro_myth_years_novgorod value = 30 } } }
+			change_variable = { which = rip_ro_myth_years_novgorod value = 1 }
+		}
+	}
+
+	# Moscow (295) - Third Rome Myth
+	if = {
+		limit = {
+			295 = {
+				OR = {
+					owned_by = ROOT
+					religion = russian_orthodox
+					AND = {
+						religion = orthodox
+						owner = { NOT = { war_with = ROOT } }
+					}
+				}
+			}
+		}
+		if = {
+			limit = { NOT = { check_variable = { which = rip_ro_myth_years_moscow value = 30 } } }
+			change_variable = { which = rip_ro_myth_years_moscow value = 1 }
+		}
+	}
+
+	# Kyiv (280) - Second Jerusalem Myth
+	if = {
+		limit = {
+			280 = {
+				OR = {
+					owned_by = ROOT
+					religion = russian_orthodox
+					AND = {
+						religion = orthodox
+						owner = { NOT = { war_with = ROOT } }
+					}
+				}
+			}
+		}
+		if = {
+			limit = { NOT = { check_variable = { which = rip_ro_myth_years_kyiv value = 30 } } }
+			change_variable = { which = rip_ro_myth_years_kyiv value = 1 }
+		}
+	}
+
+	# Constantinople (151) - Second Rome / Tsargrad Myth
+	if = {
+		limit = {
+			151 = {
+				OR = {
+					owned_by = ROOT
+					religion = russian_orthodox
+					AND = {
+						religion = orthodox
+						owner = { NOT = { war_with = ROOT } }
+					}
+				}
+			}
+		}
+		if = {
+			limit = { NOT = { check_variable = { which = rip_ro_myth_years_constantinople value = 30 } } }
+			change_variable = { which = rip_ro_myth_years_constantinople value = 1 }
+		}
+	}
+
+	# Jerusalem (379) - Heavenly Sion / Holy Sepulchre Myth
+	if = {
+		limit = {
+			379 = {
+				OR = {
+					owned_by = ROOT
+					religion = russian_orthodox
+					AND = {
+						religion = orthodox
+						owner = { NOT = { war_with = ROOT } }
+					}
+				}
+			}
+		}
+		if = {
+			limit = { NOT = { check_variable = { which = rip_ro_myth_years_jerusalem value = 30 } } }
+			change_variable = { which = rip_ro_myth_years_jerusalem value = 1 }
+		}
+	}
+
+	rip_ro_holy_cities_sync_modifiers_effect = yes
+}
+
+rip_ro_holy_cities_sync_modifiers_effect = {
+	# Novgorod
+	if = {
+		limit = { check_variable = { which = rip_ro_myth_years_novgorod value = 30 } }
+		set_country_flag = rip_ro_myth_complete_novgorod
+		if = {
+			limit = { NOT = { has_country_modifier = rip_ro_myth_novgorod } }
+			add_country_modifier = { name = rip_ro_myth_novgorod duration = -1 }
+		}
+	}
+	else = {
+		clr_country_flag = rip_ro_myth_complete_novgorod
+		remove_country_modifier = rip_ro_myth_novgorod
+	}
+
+	# Moscow
+	if = {
+		limit = { check_variable = { which = rip_ro_myth_years_moscow value = 30 } }
+		set_country_flag = rip_ro_myth_complete_moscow
+		if = {
+			limit = { NOT = { has_country_modifier = rip_ro_myth_moscow } }
+			add_country_modifier = { name = rip_ro_myth_moscow duration = -1 }
+		}
+	}
+	else = {
+		clr_country_flag = rip_ro_myth_complete_moscow
+		remove_country_modifier = rip_ro_myth_moscow
+	}
+
+	# Kyiv
+	if = {
+		limit = { check_variable = { which = rip_ro_myth_years_kyiv value = 30 } }
+		set_country_flag = rip_ro_myth_complete_kyiv
+		if = {
+			limit = { NOT = { has_country_modifier = rip_ro_myth_kyiv } }
+			add_country_modifier = { name = rip_ro_myth_kyiv duration = -1 }
+		}
+	}
+	else = {
+		clr_country_flag = rip_ro_myth_complete_kyiv
+		remove_country_modifier = rip_ro_myth_kyiv
+	}
+
+	# Constantinople
+	if = {
+		limit = { check_variable = { which = rip_ro_myth_years_constantinople value = 30 } }
+		set_country_flag = rip_ro_myth_complete_constantinople
+		if = {
+			limit = { NOT = { has_country_modifier = rip_ro_myth_constantinople } }
+			add_country_modifier = { name = rip_ro_myth_constantinople duration = -1 }
+		}
+	}
+	else = {
+		clr_country_flag = rip_ro_myth_complete_constantinople
+		remove_country_modifier = rip_ro_myth_constantinople
+	}
+
+	# Jerusalem
+	if = {
+		limit = { check_variable = { which = rip_ro_myth_years_jerusalem value = 30 } }
+		set_country_flag = rip_ro_myth_complete_jerusalem
+		if = {
+			limit = { NOT = { has_country_modifier = rip_ro_myth_jerusalem } }
+			add_country_modifier = { name = rip_ro_myth_jerusalem duration = -1 }
+		}
+	}
+	else = {
+		clr_country_flag = rip_ro_myth_complete_jerusalem
+		remove_country_modifier = rip_ro_myth_jerusalem
+	}
+}
+
+rip_ro_holy_cities_clear_effects = {
+	clr_country_flag = rip_ro_myth_complete_novgorod
+	clr_country_flag = rip_ro_myth_complete_moscow
+	clr_country_flag = rip_ro_myth_complete_kyiv
+	clr_country_flag = rip_ro_myth_complete_constantinople
+	clr_country_flag = rip_ro_myth_complete_jerusalem
+	clr_country_flag = rip_ro_holy_city_register_open
+	remove_country_modifier = rip_ro_myth_novgorod
+	remove_country_modifier = rip_ro_myth_moscow
+	remove_country_modifier = rip_ro_myth_kyiv
+	remove_country_modifier = rip_ro_myth_constantinople
+	remove_country_modifier = rip_ro_myth_jerusalem
+}

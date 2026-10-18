@@ -396,3 +396,108 @@ defined_text = {
  text = { trigger = { NOT = { rip_cesar_integration_eligible = yes } } localisation_key = rip_gov_CesarGatherIneligible_0 }
  text = { trigger = { always = yes } localisation_key = rip_gov_CesarGatherIneligible_1 }
 }
+defined_text = {
+ name = RipGovActiveReview
+ random = no
+ text = { trigger = { has_country_modifier = rip_gov_municipal_charters } localisation_key = rip_gov_RipGovActiveReview_0 }
+ text = { trigger = { has_country_modifier = rip_gov_municipal_accounts } localisation_key = rip_gov_RipGovActiveReview_1 }
+ text = { trigger = { has_country_modifier = rip_gov_chancery_service } localisation_key = rip_gov_RipGovActiveReview_2 }
+ text = { trigger = { has_country_modifier = rip_gov_chancery_rights } localisation_key = rip_gov_RipGovActiveReview_3 }
+ text = { trigger = { has_country_modifier = rip_gov_register_muster } localisation_key = rip_gov_RipGovActiveReview_4 }
+ text = { trigger = { has_country_modifier = rip_gov_register_settlement } localisation_key = rip_gov_RipGovActiveReview_5 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovActiveReview_6 }
+}
+defined_text = {
+ name = RipGovReviewLockout
+ random = no
+ text = { trigger = { OR = { has_country_modifier = rip_gov_municipal_charters has_country_modifier = rip_gov_municipal_accounts has_country_modifier = rip_gov_chancery_service has_country_modifier = rip_gov_chancery_rights has_country_modifier = rip_gov_register_muster has_country_modifier = rip_gov_register_settlement } } localisation_key = rip_gov_RipGovReviewLockout_0 }
+ text = { trigger = { has_country_flag = rip_gov_review_recent NOT = { had_country_flag = { flag = rip_gov_review_recent days = 3650 } } } localisation_key = rip_gov_RipGovReviewLockout_1 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovReviewLockout_2 }
+}
+defined_text = {
+ name = RipGovReviewInstitutes
+ random = no
+ text = { trigger = { rip_gov_has_municipal_review = yes rip_gov_has_chancery_review = yes rip_gov_has_register_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_0 }
+ text = { trigger = { rip_gov_has_municipal_review = yes rip_gov_has_chancery_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_1 }
+ text = { trigger = { rip_gov_has_municipal_review = yes rip_gov_has_register_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_2 }
+ text = { trigger = { rip_gov_has_chancery_review = yes rip_gov_has_register_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_3 }
+ text = { trigger = { rip_gov_has_municipal_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_4 }
+ text = { trigger = { rip_gov_has_chancery_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_5 }
+ text = { trigger = { rip_gov_has_register_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_6 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovReviewInstitutes_7 }
+}
+defined_text = {
+ name = RipGovHlcSlots
+ random = no
+ text = { trigger = { hlc_ordinance_over_limit = yes } localisation_key = rip_gov_RipGovHlcSlots_0 }
+ text = { trigger = { NOT = { hlc_ordinance_slot_free = yes } } localisation_key = rip_gov_RipGovHlcSlots_1 }
+ text = { trigger = { OR = { has_country_flag = hlc_chancery_ordinance_active has_country_flag = hlc_settlement_ordinance_active has_country_flag = hlc_cadastral_ordinance_active } } localisation_key = rip_gov_RipGovHlcSlots_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovHlcSlots_3 }
+}
+defined_text = {
+ name = RipGovHlcOrdinances
+ random = no
+ text = { trigger = { has_country_flag = hlc_chancery_ordinance_active has_country_flag = hlc_settlement_ordinance_active has_country_flag = hlc_cadastral_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_0 }
+ text = { trigger = { has_country_flag = hlc_chancery_ordinance_active has_country_flag = hlc_settlement_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_1 }
+ text = { trigger = { has_country_flag = hlc_chancery_ordinance_active has_country_flag = hlc_cadastral_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_2 }
+ text = { trigger = { has_country_flag = hlc_settlement_ordinance_active has_country_flag = hlc_cadastral_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_3 }
+ text = { trigger = { has_country_flag = hlc_chancery_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_4 }
+ text = { trigger = { has_country_flag = hlc_settlement_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_5 }
+ text = { trigger = { has_country_flag = hlc_cadastral_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_6 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovHlcOrdinances_7 }
+}
+defined_text = {
+ name = RipGovHlcCouncil
+ random = no
+ text = { trigger = { has_country_modifier = hlc_boyars_confirmed } localisation_key = rip_gov_RipGovHlcCouncil_0 }
+ text = { trigger = { has_country_modifier = hlc_foreign_claimant_countered } localisation_key = rip_gov_RipGovHlcCouncil_1 }
+ text = { trigger = { has_country_modifier = hlc_boyars_made_example } localisation_key = rip_gov_RipGovHlcCouncil_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovHlcCouncil_3 }
+}
+defined_text = {
+ name = RipGovHlcSession
+ random = no
+ text = { trigger = { OR = { has_country_modifier = hlc_boyars_confirmed has_country_modifier = hlc_foreign_claimant_countered has_country_modifier = hlc_boyars_made_example } } localisation_key = rip_gov_RipGovHlcSession_0 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovHlcSession_1 }
+}
+defined_text = {
+ name = RipGovLitConsent
+ random = no
+ text = { trigger = { has_country_modifier = lit_rada_confirmed } localisation_key = rip_gov_RipGovLitConsent_0 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovLitConsent_1 }
+}
+defined_text = {
+ name = RipGovLitRetinues
+ random = no
+ text = { trigger = { has_country_modifier = lit_rada_retinues_mustered } localisation_key = rip_gov_RipGovLitRetinues_0 }
+ text = { trigger = { is_at_war = yes has_country_modifier = lit_rada_confirmed estate_loyalty = { estate = estate_nobles loyalty = 40 } } localisation_key = rip_gov_RipGovLitRetinues_1 }
+ text = { trigger = { has_country_modifier = lit_rada_confirmed } localisation_key = rip_gov_RipGovLitRetinues_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovLitRetinues_3 }
+}
+defined_text = {
+ name = RipGovLitBrokerage
+ random = no
+ text = { trigger = { has_country_modifier = lit_lord_won_over } localisation_key = rip_gov_RipGovLitBrokerage_0 }
+ text = { trigger = { NOT = { estate_loyalty = { estate = estate_nobles loyalty = 50 } } } localisation_key = rip_gov_RipGovLitBrokerage_1 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovLitBrokerage_2 }
+}
+defined_text = {
+ name = RipGovVlnConsent
+ random = no
+ text = { trigger = { has_country_modifier = vln_senate_convened } localisation_key = rip_gov_RipGovVlnConsent_0 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovVlnConsent_1 }
+}
+defined_text = {
+ name = RipGovVlnBanners
+ random = no
+ text = { trigger = { has_country_modifier = vln_magnate_banners_mustered } localisation_key = rip_gov_RipGovVlnBanners_0 }
+ text = { trigger = { is_at_war = yes has_country_modifier = vln_senate_convened } localisation_key = rip_gov_RipGovVlnBanners_1 }
+ text = { trigger = { has_country_modifier = vln_senate_convened } localisation_key = rip_gov_RipGovVlnBanners_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovVlnBanners_3 }
+}
+defined_text = {
+ name = RipGovVlnBuyoff
+ random = no
+ text = { trigger = { has_country_modifier = vln_magnate_house_bought } localisation_key = rip_gov_RipGovVlnBuyoff_0 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovVlnBuyoff_1 }
+}

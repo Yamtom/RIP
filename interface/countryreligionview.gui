@@ -650,6 +650,16 @@ guiTypes = {
 				Orientation = "LEFT"
 			}
 			
+			guiButtonType = {
+				name = "rip_ro_holy_cities_open"
+				scripted = yes
+				position = { x=382 y = 238 }
+				quadTextureSprite = "GFX_coptic_blessing_select"
+				pdx_tooltip = "rip_ro_holy_cities_open_tt"
+				scale = 0.85
+				Orientation = "UPPER_LEFT"
+			}
+			
 			
 		
 # RIP resource hover and functional replacements for retired native selectors.
@@ -662,8 +672,30 @@ windowType = {
  iconType = { name = "rip_church_gc_selector_cover" spriteType = "GFX_rip_church_gc_selector_surface" position = { x=303 y=232 } alwaystransparent = no }
  iconType = { name = "rip_church_gc_union_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
  iconType = { name = "rip_church_gc_synod_infrastructure_symbol" scripted = yes spriteType = "GFX_rip_church_gc_privileges" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
+ 
+guiButtonType = {
+    name = "rip_church_gc_window_toggle"
+    scripted = yes
+    position = { x=304 y=300 }
+    Orientation = "LEFT"
+    pdx_tooltip = "rip_church_gc_window_toggle_tt"
+    quadTextureSprite = "GFX_standard_button_71"
+    buttonText = "rip_church_gc_window_toggle"
+    buttonFont = "vic_18"
+}
  iconType = { name = "rip_church_gc_synod_coexistence_symbol" scripted = yes spriteType = "GFX_rip_church_gc_ecumenism" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
+custom_button = {
+    name = rip_church_gc_window_toggle
+    potential = { always = yes }
+    trigger = { always = yes }
 
+    effect = {
+        rip_church_gc_toggle_effect = yes
+    }
+
+    tooltip = rip_church_gc_window_toggle_tt
+}
+}
 }
 windowType = {
  name = "rip_church_ro_native_controls" scripted = yes
@@ -2680,55 +2712,126 @@ windowType = {
 }iconType = { name = "rip_ro_holy_cities_sites_title_banner" spriteType = "GFX_rip_church_section_banner" position = { x=71 y=112 } Orientation = "UPPER_LEFT" scale = 0.8 alwaystransparent = yes }instantTextBoxType = {
  name = "rip_ro_holy_cities_sites_title" scripted = yes position = { x=45 y=116 } Orientation = "UPPER_LEFT" font = "vic_18"
  text = "rip_ro_holy_cities_sites_title" maxWidth = 385 maxHeight = 20 format = center
-}windowType = { name = "rip_ro_holy_city_novgorod_row" position = { x=34 y=146 } size = { x=407 y=58 } Orientation = "UPPER_LEFT" moveable = 0 iconType = { name = "rip_ro_holy_city_novgorod_slot" spriteType = "GFX_rip_church_policy_slot" position = { x=4 y=0 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }iconType = { name = "rip_ro_holy_city_novgorod_seal" spriteType = "GFX_icon_religion_small" position = { x=18 y=17 } Orientation = "UPPER_LEFT" scale = 0.7 alwaystransparent = yes }instantTextBoxType = {
- name = "rip_ro_holy_city_novgorod_name" scripted = yes position = { x=72 y=2 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_novgorod_name" maxWidth = 323 maxHeight = 18 format = left
-}instantTextBoxType = {
- name = "rip_ro_holy_city_novgorod_owner" scripted = yes position = { x=72 y=20 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_novgorod_owner" maxWidth = 323 maxHeight = 18 format = left
-}instantTextBoxType = {
- name = "rip_ro_holy_city_novgorod_faith" scripted = yes position = { x=72 y=38 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_novgorod_faith" maxWidth = 323 maxHeight = 18 format = left
-} }windowType = { name = "rip_ro_holy_city_moscow_row" position = { x=34 y=204 } size = { x=407 y=58 } Orientation = "UPPER_LEFT" moveable = 0 iconType = { name = "rip_ro_holy_city_moscow_slot" spriteType = "GFX_rip_church_policy_slot" position = { x=4 y=0 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }iconType = { name = "rip_ro_holy_city_moscow_seal" spriteType = "GFX_icon_religion_small" position = { x=18 y=17 } Orientation = "UPPER_LEFT" scale = 0.7 alwaystransparent = yes }instantTextBoxType = {
- name = "rip_ro_holy_city_moscow_name" scripted = yes position = { x=72 y=2 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_moscow_name" maxWidth = 323 maxHeight = 18 format = left
-}instantTextBoxType = {
- name = "rip_ro_holy_city_moscow_owner" scripted = yes position = { x=72 y=20 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_moscow_owner" maxWidth = 323 maxHeight = 18 format = left
-}instantTextBoxType = {
- name = "rip_ro_holy_city_moscow_faith" scripted = yes position = { x=72 y=38 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_moscow_faith" maxWidth = 323 maxHeight = 18 format = left
-} }windowType = { name = "rip_ro_holy_city_kyiv_row" position = { x=34 y=262 } size = { x=407 y=58 } Orientation = "UPPER_LEFT" moveable = 0 iconType = { name = "rip_ro_holy_city_kyiv_slot" spriteType = "GFX_rip_church_policy_slot" position = { x=4 y=0 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }iconType = { name = "rip_ro_holy_city_kyiv_seal" spriteType = "GFX_icon_religion_small" position = { x=18 y=17 } Orientation = "UPPER_LEFT" scale = 0.7 alwaystransparent = yes }instantTextBoxType = {
- name = "rip_ro_holy_city_kyiv_name" scripted = yes position = { x=72 y=2 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_kyiv_name" maxWidth = 323 maxHeight = 18 format = left
-}instantTextBoxType = {
- name = "rip_ro_holy_city_kyiv_owner" scripted = yes position = { x=72 y=20 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_kyiv_owner" maxWidth = 323 maxHeight = 18 format = left
-}instantTextBoxType = {
- name = "rip_ro_holy_city_kyiv_faith" scripted = yes position = { x=72 y=38 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_kyiv_faith" maxWidth = 323 maxHeight = 18 format = left
-} }windowType = { name = "rip_ro_holy_city_constantinople_row" position = { x=34 y=320 } size = { x=407 y=58 } Orientation = "UPPER_LEFT" moveable = 0 iconType = { name = "rip_ro_holy_city_constantinople_slot" spriteType = "GFX_rip_church_policy_slot" position = { x=4 y=0 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }iconType = { name = "rip_ro_holy_city_constantinople_seal" spriteType = "GFX_icon_religion_small" position = { x=18 y=17 } Orientation = "UPPER_LEFT" scale = 0.7 alwaystransparent = yes }instantTextBoxType = {
- name = "rip_ro_holy_city_constantinople_name" scripted = yes position = { x=72 y=2 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_constantinople_name" maxWidth = 323 maxHeight = 18 format = left
-}instantTextBoxType = {
- name = "rip_ro_holy_city_constantinople_owner" scripted = yes position = { x=72 y=20 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_constantinople_owner" maxWidth = 323 maxHeight = 18 format = left
-}instantTextBoxType = {
- name = "rip_ro_holy_city_constantinople_faith" scripted = yes position = { x=72 y=38 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_constantinople_faith" maxWidth = 323 maxHeight = 18 format = left
-} }windowType = { name = "rip_ro_holy_city_jerusalem_row" position = { x=34 y=378 } size = { x=407 y=58 } Orientation = "UPPER_LEFT" moveable = 0 iconType = { name = "rip_ro_holy_city_jerusalem_slot" spriteType = "GFX_rip_church_policy_slot" position = { x=4 y=0 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }iconType = { name = "rip_ro_holy_city_jerusalem_seal" spriteType = "GFX_icon_religion_small" position = { x=18 y=17 } Orientation = "UPPER_LEFT" scale = 0.7 alwaystransparent = yes }instantTextBoxType = {
- name = "rip_ro_holy_city_jerusalem_name" scripted = yes position = { x=72 y=2 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_jerusalem_name" maxWidth = 323 maxHeight = 18 format = left
-}instantTextBoxType = {
- name = "rip_ro_holy_city_jerusalem_owner" scripted = yes position = { x=72 y=20 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_jerusalem_owner" maxWidth = 323 maxHeight = 18 format = left
-}instantTextBoxType = {
- name = "rip_ro_holy_city_jerusalem_faith" scripted = yes position = { x=72 y=38 } Orientation = "UPPER_LEFT" font = "vic_18"
- text = "rip_ro_holy_city_jerusalem_faith" maxWidth = 323 maxHeight = 18 format = left
-} }instantTextBoxType = {
+}windowType = { name = "rip_ro_holy_city_novgorod_row" position = { x=34 y=146 } size = { x=407 y=58 } Orientation = "UPPER_LEFT" moveable = 0
+ iconType = { name = "rip_ro_holy_city_novgorod_slot" spriteType = "GFX_rip_church_policy_slot" position = { x=4 y=0 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }
+ iconType = { name = "rip_ro_holy_city_novgorod_faith_icon" scripted = yes spriteType = "GFX_icon_religion_small" position = { x=14 y=16 } Orientation = "UPPER_LEFT" scale = 0.8 alwaystransparent = no }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_novgorod_name" scripted = yes position = { x=44 y=2 } Orientation = "UPPER_LEFT" font = "vic_18"
+  text = "rip_ro_holy_city_novgorod_name" maxWidth = 140 maxHeight = 18 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_novgorod_owner" scripted = yes position = { x=44 y=20 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_novgorod_owner" maxWidth = 140 maxHeight = 16 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_novgorod_faith" scripted = yes position = { x=44 y=37 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_novgorod_faith" maxWidth = 140 maxHeight = 16 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_novgorod_myth_progress" scripted = yes position = { x=185 y=19 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_novgorod_myth_progress" maxWidth = 165 maxHeight = 22 format = center pdx_tooltip = "rip_ro_holy_city_novgorod_myth_progress_tt"
+ }
+ iconType = { name = "rip_ro_holy_city_novgorod_bonus_slot" spriteType = "GFX_copts_blessing_slot" position = { x=355 y=6 } Orientation = "UPPER_LEFT" scale = 0.75 alwaystransparent = yes }
+ iconType = { name = "rip_ro_holy_city_novgorod_bonus_active" scripted = yes spriteType = "GFX_coptic_blessing_select" position = { x=358 y=9 } Orientation = "UPPER_LEFT" scale = 0.68 pdx_tooltip = "rip_ro_holy_city_novgorod_bonus_tt" }
+ iconType = { name = "rip_ro_holy_city_novgorod_bonus_pending" scripted = yes spriteType = "GFX_copts_blessing_unknown" position = { x=358 y=9 } Orientation = "UPPER_LEFT" scale = 0.68 pdx_tooltip = "rip_ro_holy_city_novgorod_bonus_tt" }
+}
+windowType = { name = "rip_ro_holy_city_moscow_row" position = { x=34 y=204 } size = { x=407 y=58 } Orientation = "UPPER_LEFT" moveable = 0
+ iconType = { name = "rip_ro_holy_city_moscow_slot" spriteType = "GFX_rip_church_policy_slot" position = { x=4 y=0 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }
+ iconType = { name = "rip_ro_holy_city_moscow_faith_icon" scripted = yes spriteType = "GFX_icon_religion_small" position = { x=14 y=16 } Orientation = "UPPER_LEFT" scale = 0.8 alwaystransparent = no }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_moscow_name" scripted = yes position = { x=44 y=2 } Orientation = "UPPER_LEFT" font = "vic_18"
+  text = "rip_ro_holy_city_moscow_name" maxWidth = 140 maxHeight = 18 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_moscow_owner" scripted = yes position = { x=44 y=20 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_moscow_owner" maxWidth = 140 maxHeight = 16 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_moscow_faith" scripted = yes position = { x=44 y=37 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_moscow_faith" maxWidth = 140 maxHeight = 16 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_moscow_myth_progress" scripted = yes position = { x=185 y=19 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_moscow_myth_progress" maxWidth = 165 maxHeight = 22 format = center pdx_tooltip = "rip_ro_holy_city_moscow_myth_progress_tt"
+ }
+ iconType = { name = "rip_ro_holy_city_moscow_bonus_slot" spriteType = "GFX_copts_blessing_slot" position = { x=355 y=6 } Orientation = "UPPER_LEFT" scale = 0.75 alwaystransparent = yes }
+ iconType = { name = "rip_ro_holy_city_moscow_bonus_active" scripted = yes spriteType = "GFX_coptic_blessing_select" position = { x=358 y=9 } Orientation = "UPPER_LEFT" scale = 0.68 pdx_tooltip = "rip_ro_holy_city_moscow_bonus_tt" }
+ iconType = { name = "rip_ro_holy_city_moscow_bonus_pending" scripted = yes spriteType = "GFX_copts_blessing_unknown" position = { x=358 y=9 } Orientation = "UPPER_LEFT" scale = 0.68 pdx_tooltip = "rip_ro_holy_city_moscow_bonus_tt" }
+}
+windowType = { name = "rip_ro_holy_city_kyiv_row" position = { x=34 y=262 } size = { x=407 y=58 } Orientation = "UPPER_LEFT" moveable = 0
+ iconType = { name = "rip_ro_holy_city_kyiv_slot" spriteType = "GFX_rip_church_policy_slot" position = { x=4 y=0 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }
+ iconType = { name = "rip_ro_holy_city_kyiv_faith_icon" scripted = yes spriteType = "GFX_icon_religion_small" position = { x=14 y=16 } Orientation = "UPPER_LEFT" scale = 0.8 alwaystransparent = no }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_kyiv_name" scripted = yes position = { x=44 y=2 } Orientation = "UPPER_LEFT" font = "vic_18"
+  text = "rip_ro_holy_city_kyiv_name" maxWidth = 140 maxHeight = 18 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_kyiv_owner" scripted = yes position = { x=44 y=20 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_kyiv_owner" maxWidth = 140 maxHeight = 16 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_kyiv_faith" scripted = yes position = { x=44 y=37 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_kyiv_faith" maxWidth = 140 maxHeight = 16 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_kyiv_myth_progress" scripted = yes position = { x=185 y=19 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_kyiv_myth_progress" maxWidth = 165 maxHeight = 22 format = center pdx_tooltip = "rip_ro_holy_city_kyiv_myth_progress_tt"
+ }
+ iconType = { name = "rip_ro_holy_city_kyiv_bonus_slot" spriteType = "GFX_copts_blessing_slot" position = { x=355 y=6 } Orientation = "UPPER_LEFT" scale = 0.75 alwaystransparent = yes }
+ iconType = { name = "rip_ro_holy_city_kyiv_bonus_active" scripted = yes spriteType = "GFX_coptic_blessing_select" position = { x=358 y=9 } Orientation = "UPPER_LEFT" scale = 0.68 pdx_tooltip = "rip_ro_holy_city_kyiv_bonus_tt" }
+ iconType = { name = "rip_ro_holy_city_kyiv_bonus_pending" scripted = yes spriteType = "GFX_copts_blessing_unknown" position = { x=358 y=9 } Orientation = "UPPER_LEFT" scale = 0.68 pdx_tooltip = "rip_ro_holy_city_kyiv_bonus_tt" }
+}
+windowType = { name = "rip_ro_holy_city_constantinople_row" position = { x=34 y=320 } size = { x=407 y=58 } Orientation = "UPPER_LEFT" moveable = 0
+ iconType = { name = "rip_ro_holy_city_constantinople_slot" spriteType = "GFX_rip_church_policy_slot" position = { x=4 y=0 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }
+ iconType = { name = "rip_ro_holy_city_constantinople_faith_icon" scripted = yes spriteType = "GFX_icon_religion_small" position = { x=14 y=16 } Orientation = "UPPER_LEFT" scale = 0.8 alwaystransparent = no }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_constantinople_name" scripted = yes position = { x=44 y=2 } Orientation = "UPPER_LEFT" font = "vic_18"
+  text = "rip_ro_holy_city_constantinople_name" maxWidth = 140 maxHeight = 18 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_constantinople_owner" scripted = yes position = { x=44 y=20 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_constantinople_owner" maxWidth = 140 maxHeight = 16 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_constantinople_faith" scripted = yes position = { x=44 y=37 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_constantinople_faith" maxWidth = 140 maxHeight = 16 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_constantinople_myth_progress" scripted = yes position = { x=185 y=19 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_constantinople_myth_progress" maxWidth = 165 maxHeight = 22 format = center pdx_tooltip = "rip_ro_holy_city_constantinople_myth_progress_tt"
+ }
+ iconType = { name = "rip_ro_holy_city_constantinople_bonus_slot" spriteType = "GFX_copts_blessing_slot" position = { x=355 y=6 } Orientation = "UPPER_LEFT" scale = 0.75 alwaystransparent = yes }
+ iconType = { name = "rip_ro_holy_city_constantinople_bonus_active" scripted = yes spriteType = "GFX_coptic_blessing_select" position = { x=358 y=9 } Orientation = "UPPER_LEFT" scale = 0.68 pdx_tooltip = "rip_ro_holy_city_constantinople_bonus_tt" }
+ iconType = { name = "rip_ro_holy_city_constantinople_bonus_pending" scripted = yes spriteType = "GFX_copts_blessing_unknown" position = { x=358 y=9 } Orientation = "UPPER_LEFT" scale = 0.68 pdx_tooltip = "rip_ro_holy_city_constantinople_bonus_tt" }
+}
+windowType = { name = "rip_ro_holy_city_jerusalem_row" position = { x=34 y=378 } size = { x=407 y=58 } Orientation = "UPPER_LEFT" moveable = 0
+ iconType = { name = "rip_ro_holy_city_jerusalem_slot" spriteType = "GFX_rip_church_policy_slot" position = { x=4 y=0 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }
+ iconType = { name = "rip_ro_holy_city_jerusalem_faith_icon" scripted = yes spriteType = "GFX_icon_religion_small" position = { x=14 y=16 } Orientation = "UPPER_LEFT" scale = 0.8 alwaystransparent = no }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_jerusalem_name" scripted = yes position = { x=44 y=2 } Orientation = "UPPER_LEFT" font = "vic_18"
+  text = "rip_ro_holy_city_jerusalem_name" maxWidth = 140 maxHeight = 18 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_jerusalem_owner" scripted = yes position = { x=44 y=20 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_jerusalem_owner" maxWidth = 140 maxHeight = 16 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_jerusalem_faith" scripted = yes position = { x=44 y=37 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_jerusalem_faith" maxWidth = 140 maxHeight = 16 format = left
+ }
+ instantTextBoxType = {
+  name = "rip_ro_holy_city_jerusalem_myth_progress" scripted = yes position = { x=185 y=19 } Orientation = "UPPER_LEFT" font = "vic_14"
+  text = "rip_ro_holy_city_jerusalem_myth_progress" maxWidth = 165 maxHeight = 22 format = center pdx_tooltip = "rip_ro_holy_city_jerusalem_myth_progress_tt"
+ }
+ iconType = { name = "rip_ro_holy_city_jerusalem_bonus_slot" spriteType = "GFX_copts_blessing_slot" position = { x=355 y=6 } Orientation = "UPPER_LEFT" scale = 0.75 alwaystransparent = yes }
+ iconType = { name = "rip_ro_holy_city_jerusalem_bonus_active" scripted = yes spriteType = "GFX_coptic_blessing_select" position = { x=358 y=9 } Orientation = "UPPER_LEFT" scale = 0.68 pdx_tooltip = "rip_ro_holy_city_jerusalem_bonus_tt" }
+ iconType = { name = "rip_ro_holy_city_jerusalem_bonus_pending" scripted = yes spriteType = "GFX_copts_blessing_unknown" position = { x=358 y=9 } Orientation = "UPPER_LEFT" scale = 0.68 pdx_tooltip = "rip_ro_holy_city_jerusalem_bonus_tt" }
+}
+instantTextBoxType = {
  name = "rip_ro_holy_cities_footer" scripted = yes position = { x=34 y=439 } Orientation = "UPPER_LEFT" font = "vic_18"
  text = "rip_ro_holy_cities_footer" maxWidth = 407 maxHeight = 24 format = center
-}guiButtonType = {
+}
+guiButtonType = {
  name = "rip_ro_holy_cities_close" scripted = yes position = { x=125 y=492 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_ro_holy_cities_close_tt"
  quadTextureSprite = "GFX_standard_button_224" buttonText = "rip_ro_holy_cities_close" buttonFont = "vic_18"
 }
@@ -2740,6 +2843,9 @@ windowType = {
  iconType = { name = "rip_church_ro_panel_surface" spriteType = "GFX_rip_ro_native_surface" position = { x=13 y=13 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }iconType = { name = "rip_church_ro_native_header" spriteType = "GFX_rip_church_window_banner" position = { x=18 y=19 } Orientation = "UPPER_LEFT" scale = 0.94 alwaystransparent = yes }instantTextBoxType = {
  name = "rip_church_ro_heading" scripted = yes position = { x=28 y=35 } Orientation = "UPPER_LEFT" font = "vic_22"
  text = "rip_church_ro_heading" maxWidth = 419 maxHeight = 24 format = center
+}guiButtonType = {
+ name = "rip_ro_holy_cities_open" scripted = yes position = { x=415 y=20 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_ro_holy_cities_open_tt"
+ quadTextureSprite = "GFX_coptic_blessing_select" scale = 0.8
 }windowType = { name = "rip_church_ro_status_card" position = { x=34 y=67 } size = { x=407 y=30 } Orientation = "UPPER_LEFT" moveable = 0 instantTextBoxType = {
  name = "rip_church_ro_status" scripted = yes position = { x=8 y=8 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_church_ro_status_tt" font = "vic_18"
  text = "rip_church_ro_status" maxWidth = 391 maxHeight = 22 format = center

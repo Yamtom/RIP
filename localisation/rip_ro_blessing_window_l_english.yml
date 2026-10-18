@@ -10,28 +10,123 @@
  rip_ro_native_retired_climacus:0 "Retired Icon"
  desc_rip_ro_native_retired_climacus:0 "An inactive compatibility entry for older saves."
  rip_ro_raskol_end_native_tt:0 "Patriarch Authority is below §Y60%§!."
- rip_ro_holy_city_register_title:0 "Consult the Register of Holy Cities"
- rip_ro_holy_city_register_desc:0 "Set the register to appear in the Religion view. Open that view to read its five sees and pilgrimage destinations. It grants no national or provincial bonuses."
+
+ # Holy Cities UI Object Button
+ rip_ro_holy_cities_open:0 "Holy Cities Register"
+ rip_ro_holy_cities_open_tt:0 "§YHoly Cities Register§!\nOpen the register of five sacred sees and pilgrimage destinations to inspect province faith, the 30-year sacred myth progress bars, and the earned blessings."
+
+ # Register Window
  rip_ro_holy_cities_heading:0 "Holy Cities Register"
- rip_ro_holy_cities_intro:0 "The register records five sees and pilgrimage destinations. Listing them grants no national or provincial effects."
- rip_ro_holy_cities_sites_title:0 "Sees and Pilgrimage Destinations"
- rip_ro_holy_cities_footer:0 "Ownership and province faith follow the current map."
+ rip_ro_holy_cities_intro:0 "The register records five sees and pilgrimage destinations. Over 30 years under Orthodox protection, each see matures a sacred myth that grants a national blessing upon completion."
+ rip_ro_holy_cities_sites_title:0 "Sees, Sacred Myths and Pilgrimage Destinations"
+ rip_ro_holy_cities_footer:0 "Ownership, province faith, and myth progress bars update with the current state of the realm."
  rip_ro_holy_cities_close:0 "Close Register"
+
+ # Novgorod
  rip_ro_holy_city_novgorod_name:0 "[310.GetName]"
  rip_ro_holy_city_novgorod_owner:0 "Owner: [310.Owner.GetName]"
  rip_ro_holy_city_novgorod_faith:0 "Faith: [310.Religion.GetName]"
+ rip_ro_holy_city_novgorod_myth_progress:0 "[ROOT.GetRipRoMythBarNovgorod]"
+ rip_ro_holy_city_novgorod_myth_progress_tt:0 "§YSaint Sophia Myth§!\nTracks the 30-year maturation of Novgorod's sacred myth under the Orthodox fold.\nProgress: §Y[ROOT.rip_ro_myth_years_novgorod.GetValue]/30 years§!."
+ rip_ro_holy_city_novgorod_bonus_tt:0 "[ROOT.GetRipRoMythBonusNovgorod]"
+
+ # Moscow
  rip_ro_holy_city_moscow_name:0 "[295.GetName]"
  rip_ro_holy_city_moscow_owner:0 "Owner: [295.Owner.GetName]"
- rip_ro_holy_city_moscow_faith:0 "Faith: [295.Religion.GetName]"
+ rip_ro_holy_city_moscow_faith:0 "[295.Religion.GetName]"
+ rip_ro_holy_city_moscow_myth_progress:0 "[ROOT.GetRipRoMythBarMoscow]"
+ rip_ro_holy_city_moscow_myth_progress_tt:0 "§YThird Rome Myth§!\nTracks the 30-year maturation of Moscow's sacred myth under the Orthodox fold.\nProgress: §Y[ROOT.rip_ro_myth_years_moscow.GetValue]/30 years§!."
+ rip_ro_holy_city_moscow_bonus_tt:0 "[ROOT.GetRipRoMythBonusMoscow]"
+
+ # Kyiv
  rip_ro_holy_city_kyiv_name:0 "[280.GetName]"
  rip_ro_holy_city_kyiv_owner:0 "Owner: [280.Owner.GetName]"
  rip_ro_holy_city_kyiv_faith:0 "Faith: [280.Religion.GetName]"
+ rip_ro_holy_city_kyiv_myth_progress:0 "[ROOT.GetRipRoMythBarKyiv]"
+ rip_ro_holy_city_kyiv_myth_progress_tt:0 "§YSecond Jerusalem Myth§!\nTracks the 30-year maturation of Kyiv's sacred myth under the Orthodox fold.\nProgress: §Y[ROOT.rip_ro_myth_years_kyiv.GetValue]/30 years§!."
+ rip_ro_holy_city_kyiv_bonus_tt:0 "[ROOT.GetRipRoMythBonusKyiv]"
+
+ # Constantinople
  rip_ro_holy_city_constantinople_name:0 "[151.GetName]"
  rip_ro_holy_city_constantinople_owner:0 "Owner: [151.Owner.GetName]"
  rip_ro_holy_city_constantinople_faith:0 "Faith: [151.Religion.GetName]"
+ rip_ro_holy_city_constantinople_myth_progress:0 "[ROOT.GetRipRoMythBarConstantinople]"
+ rip_ro_holy_city_constantinople_myth_progress_tt:0 "§YSecond Rome (Tsargrad) Myth§!\nTracks the 30-year maturation of Constantinople's sacred myth under the Orthodox fold.\nProgress: §Y[ROOT.rip_ro_myth_years_constantinople.GetValue]/30 years§!."
+ rip_ro_holy_city_constantinople_bonus_tt:0 "[ROOT.GetRipRoMythBonusConstantinople]"
+
+ # Jerusalem
  rip_ro_holy_city_jerusalem_name:0 "[379.GetName]"
  rip_ro_holy_city_jerusalem_owner:0 "Owner: [379.Owner.GetName]"
  rip_ro_holy_city_jerusalem_faith:0 "Faith: [379.Religion.GetName]"
+ rip_ro_holy_city_jerusalem_myth_progress:0 "[ROOT.GetRipRoMythBarJerusalem]"
+ rip_ro_holy_city_jerusalem_myth_progress_tt:0 "§YHeavenly Sion Myth§!\nTracks the 30-year maturation of Jerusalem's sacred myth under the Orthodox fold.\nProgress: §Y[ROOT.rip_ro_myth_years_jerusalem.GetValue]/30 years§!."
+ rip_ro_holy_city_jerusalem_bonus_tt:0 "[ROOT.GetRipRoMythBonusJerusalem]"
+
+ # Progress Bars
+ rip_ro_myth_bar_100_novgorod:0 "§G[==========] 30/30 yrs§!"
+ rip_ro_myth_bar_80_novgorod:0 "§Y[========..] [ROOT.rip_ro_myth_years_novgorod.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_60_novgorod:0 "§Y[======....] [ROOT.rip_ro_myth_years_novgorod.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_40_novgorod:0 "§Y[====......] [ROOT.rip_ro_myth_years_novgorod.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_20_novgorod:0 "§Y[==........] [ROOT.rip_ro_myth_years_novgorod.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_0_novgorod:0 "§R[..........] [ROOT.rip_ro_myth_years_novgorod.GetValue]/30 yrs§!"
+
+ rip_ro_myth_bar_100_moscow:0 "§G[==========] 30/30 yrs§!"
+ rip_ro_myth_bar_80_moscow:0 "§Y[========..] [ROOT.rip_ro_myth_years_moscow.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_60_moscow:0 "§Y[======....] [ROOT.rip_ro_myth_years_moscow.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_40_moscow:0 "§Y[====......] [ROOT.rip_ro_myth_years_moscow.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_20_moscow:0 "§Y[==........] [ROOT.rip_ro_myth_years_moscow.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_0_moscow:0 "§R[..........] [ROOT.rip_ro_myth_years_moscow.GetValue]/30 yrs§!"
+
+ rip_ro_myth_bar_100_kyiv:0 "§G[==========] 30/30 yrs§!"
+ rip_ro_myth_bar_80_kyiv:0 "§Y[========..] [ROOT.rip_ro_myth_years_kyiv.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_60_kyiv:0 "§Y[======....] [ROOT.rip_ro_myth_years_kyiv.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_40_kyiv:0 "§Y[====......] [ROOT.rip_ro_myth_years_kyiv.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_20_kyiv:0 "§Y[==........] [ROOT.rip_ro_myth_years_kyiv.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_0_kyiv:0 "§R[..........] [ROOT.rip_ro_myth_years_kyiv.GetValue]/30 yrs§!"
+
+ rip_ro_myth_bar_100_constantinople:0 "§G[==========] 30/30 yrs§!"
+ rip_ro_myth_bar_80_constantinople:0 "§Y[========..] [ROOT.rip_ro_myth_years_constantinople.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_60_constantinople:0 "§Y[======....] [ROOT.rip_ro_myth_years_constantinople.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_40_constantinople:0 "§Y[====......] [ROOT.rip_ro_myth_years_constantinople.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_20_constantinople:0 "§Y[==........] [ROOT.rip_ro_myth_years_constantinople.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_0_constantinople:0 "§R[..........] [ROOT.rip_ro_myth_years_constantinople.GetValue]/30 yrs§!"
+
+ rip_ro_myth_bar_100_jerusalem:0 "§G[==========] 30/30 yrs§!"
+ rip_ro_myth_bar_80_jerusalem:0 "§Y[========..] [ROOT.rip_ro_myth_years_jerusalem.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_60_jerusalem:0 "§Y[======....] [ROOT.rip_ro_myth_years_jerusalem.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_40_jerusalem:0 "§Y[====......] [ROOT.rip_ro_myth_years_jerusalem.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_20_jerusalem:0 "§Y[==........] [ROOT.rip_ro_myth_years_jerusalem.GetValue]/30 yrs§!"
+ rip_ro_myth_bar_0_jerusalem:0 "§R[..........] [ROOT.rip_ro_myth_years_jerusalem.GetValue]/30 yrs§!"
+
+ # Bonus Tooltips
+ rip_ro_myth_novgorod_active_tt:0 "§GNovgorod: Myth of Saint Sophia (Active)§!\n§GThe 30-year sacred myth has matured completely!§!\n§YNational Modifiers:§!\nGlobal Trade Power: §G+10.0%§!\nIdea Cost: §G-5.0%§!"
+ rip_ro_myth_novgorod_pending_tt:0 "§YNovgorod: Myth of Saint Sophia§!\n§OThe sacred myth matures over 30 years under the Orthodox fold.§!\nProgress: §Y[ROOT.rip_ro_myth_years_novgorod.GetValue]/30 years§!.\n\n§WUpon completion (30 years):§!\nGlobal Trade Power: §G+10.0%§!\nIdea Cost: §G-5.0%§!"
+
+ rip_ro_myth_moscow_active_tt:0 "§GMoscow: Myth of the Third Rome (Active)§!\n§GThe 30-year sacred myth has matured completely!§!\n§YNational Modifiers:§!\nYearly Patriarch Authority: §G+0.50%§!\nYearly Legitimacy: §G+1.00§!"
+ rip_ro_myth_moscow_pending_tt:0 "§YMoscow: Myth of the Third Rome§!\n§OThe sacred myth matures over 30 years under the Orthodox fold.§!\nProgress: §Y[ROOT.rip_ro_myth_years_moscow.GetValue]/30 years§!.\n\n§WUpon completion (30 years):§!\nYearly Patriarch Authority: §G+0.50%§!\nYearly Legitimacy: §G+1.00§!"
+
+ rip_ro_myth_kyiv_active_tt:0 "§GKyiv: Myth of the Second Jerusalem (Active)§!\n§GThe 30-year sacred myth has matured completely!§!\n§YNational Modifiers:§!\nGlobal Missionary Strength: §G+2.0%§!\nTolerance of the True Faith: §G+1.00§!"
+ rip_ro_myth_kyiv_pending_tt:0 "§YKyiv: Myth of the Second Jerusalem§!\n§OThe sacred myth matures over 30 years under the Orthodox fold.§!\nProgress: §Y[ROOT.rip_ro_myth_years_kyiv.GetValue]/30 years§!.\n\n§WUpon completion (30 years):§!\nGlobal Missionary Strength: §G+2.0%§!\nTolerance of the True Faith: §G+1.00§!"
+
+ rip_ro_myth_constantinople_active_tt:0 "§GConstantinople: Myth of the Second Rome (Active)§!\n§GThe 30-year sacred myth has matured completely!§!\n§YNational Modifiers:§!\nDiplomatic Reputation: §G+1.00§!\nYearly Prestige: §G+1.00§!"
+ rip_ro_myth_constantinople_pending_tt:0 "§YConstantinople: Myth of the Second Rome§!\n§OThe sacred myth matures over 30 years under the Orthodox fold.§!\nProgress: §Y[ROOT.rip_ro_myth_years_constantinople.GetValue]/30 years§!.\n\n§WUpon completion (30 years):§!\nDiplomatic Reputation: §G+1.00§!\nYearly Prestige: §G+1.00§!"
+
+ rip_ro_myth_jerusalem_active_tt:0 "§GJerusalem: Myth of Heavenly Sion (Active)§!\n§GThe 30-year sacred myth has matured completely!§!\n§YNational Modifiers:§!\nManpower Recovery Speed: §G+10.0%§!\nMonthly War Exhaustion: §G-0.03§!"
+ rip_ro_myth_jerusalem_pending_tt:0 "§YJerusalem: Myth of Heavenly Sion§!\n§OThe sacred myth matures over 30 years under the Orthodox fold.§!\nProgress: §Y[ROOT.rip_ro_myth_years_jerusalem.GetValue]/30 years§!.\n\n§WUpon completion (30 years):§!\nManpower Recovery Speed: §G+10.0%§!\nMonthly War Exhaustion: §G-0.03§!"
+
+ # Modifier names and descs
+ rip_ro_myth_novgorod:0 "Myth of Saint Sophia"
+ desc_rip_ro_myth_novgorod:0 "Novgorod's sacred myth of Saint Sophia, Divine Wisdom, has matured after 30 years of Orthodox devotion, inspiring commercial trade and scholarly innovation."
+ rip_ro_myth_moscow:0 "Myth of the Third Rome"
+ desc_rip_ro_myth_moscow:0 "Two Romes have fallen, the third stands, and a fourth there shall never be. Moscow's sacred myth stands mature, cementing imperial legitimacy and church authority."
+ rip_ro_myth_kyiv:0 "Myth of the Second Jerusalem"
+ desc_rip_ro_myth_kyiv:0 "Kyiv, the cradle of baptism and mother of Rus' cities, stands as a Second Jerusalem with its ancient caves and holy shrines, strengthening the true faith."
+ rip_ro_myth_constantinople:0 "Myth of the Imperial Succession"
+ desc_rip_ro_myth_constantinople:0 "The legacy of Tsargrad and the Second Rome has been restored under the Orthodox fold, granting imperial renown and diplomatic eminence."
+ rip_ro_myth_jerusalem:0 "Myth of Heavenly Sion"
+ desc_rip_ro_myth_jerusalem:0 "The Holy Sepulchre and the ancient sites of Palestine receive our pilgrims and protection, infusing our warriors with enduring morale and martial recovery."
+
+ # Compatibility keys
  rip_ro_blessing_sophia:0 "Retired Blessing"
  desc_rip_ro_blessing_sophia:0 "Compatibility entry without bonuses."
  rip_ro_blessing_moscow:0 "Retired Blessing"
@@ -41,4 +136,4 @@
  rip_ro_blessing_constantinople:0 "Retired Blessing"
  desc_rip_ro_blessing_constantinople:0 "Compatibility entry without bonuses."
  rip_ro_blessing_jerusalem:0 "Retired Blessing"
- desc_rip_ro_blessing_jerusalem:0 "Compatibility entry without bonuses."
+ desc_rip_ro_blessing_jerusalem:0 "Compatibility entry without bonuses."\n

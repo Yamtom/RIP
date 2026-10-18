@@ -1,5 +1,9 @@
 
 on_yearly_pulse = {
+	if = {
+		limit = { rip_church_ro_jurisdiction = yes }
+		rip_ro_holy_cities_yearly_pulse_effect = yes
+	}
 	random_events = {
 		25 = russian_orthodox.1  # Third Rome Doctrine
 		20 = russian_orthodox.2  # Moscow Patriarchate
@@ -53,6 +57,13 @@ on_religion_change = {
 
 	# And it does not keep the previous church's iconostasis standing.
 	rip_ro_icon_upkeep_effect = yes
+	if = {
+		limit = { rip_church_ro_jurisdiction = yes }
+		rip_ro_holy_cities_startup_effect = yes
+	}
+	else = {
+		rip_ro_holy_cities_clear_effects = yes
+	}
 }
 
 on_startup = {
@@ -64,6 +75,10 @@ on_startup = {
 	rip_faith_maintain_local_property_effect = yes
 	rip_faith_settlement_upkeep_effect = yes
 	rip_ro_icon_upkeep_effect = yes
+	if = {
+		limit = { rip_church_ro_jurisdiction = yes }
+		rip_ro_holy_cities_startup_effect = yes
+	}
 }
 
 on_monthly_pulse = {

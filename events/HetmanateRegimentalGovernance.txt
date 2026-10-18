@@ -1,0 +1,520 @@
+namespace = het_regiment_governance
+
+# =============================================================================
+# het_regiment_governance - Territorial Administration of the Hetmanate Regiments
+#
+# The Cossack Hetmanate was structured not as conventional voivodeships or
+# provinces, but as regimental districts (polky) - military units, judicial
+# districts, and fiscal territories in one.
+#
+# Regimental administration faced a constant historic choice:
+# 1. Military Service (Viyiskova sluzhba): Mobilising registered Cossacks and
+#    equipping artillery at the cost of upkeep and soldier immunity.
+# 2. Starshyna Local Rights (Prava starshyny): Confirming ancestral ranhowi
+#    estates, mills, and jurisdiction, granting local autonomy for stability.
+# 3. Centralization (Heneralna viyskova kantseliariya): Subjecting local
+#    officers to audits and direct fiscal control, slashing autonomy at the
+#    risk of unrest.
+# =============================================================================
+
+# Root selector event
+country_event = {
+	id = het_regiment_governance.1
+	title = het_regiment_governance.1.t
+	desc = het_regiment_governance.1.d
+	picture = MILITARY_CAMP_eventPicture
+
+	is_triggered_only = yes
+
+	# Option A: Kyiv and Right-Bank Regiments (Kyiv, Cherkasy, Bratslav/Vinnytsia)
+	option = {
+		name = het_regiment_governance.1.a
+		trigger = {
+			any_owned_province = {
+				is_city = yes
+				OR = {
+					province_id = 280
+					province_id = 1944
+					province_id = 4540
+				}
+			}
+		}
+		country_event = { id = het_regiment_governance.2 }
+	}
+
+	# Option B: Left-Bank Regiments (Pereyaslav, Chernihiv, Poltava)
+	option = {
+		name = het_regiment_governance.1.b
+		trigger = {
+			any_owned_province = {
+				is_city = yes
+				OR = {
+					province_id = 2407
+					province_id = 289
+					province_id = 290
+					province_id = 4244
+				}
+			}
+		}
+		country_event = { id = het_regiment_governance.3 }
+	}
+
+	# Option C: Sloboda and Severian Frontier Regiments (Kharkiv, Novgorod-Seversky)
+	option = {
+		name = het_regiment_governance.1.c
+		trigger = {
+			any_owned_province = {
+				is_city = yes
+				OR = {
+					province_id = 291
+					province_id = 1945
+					area = sloboda_ukraine_area
+				}
+			}
+		}
+		country_event = { id = het_regiment_governance.4 }
+	}
+
+	# Option E: Restless General Regimental Seat
+	option = {
+		name = het_regiment_governance.1.e
+		trigger = {
+			any_owned_province = {
+				is_city = yes
+				is_capital = no
+				has_province_modifier = regimental_headquarters
+			}
+		}
+		country_event = { id = het_regiment_governance.5 }
+	}
+
+	# Option F: Maintain existing customs
+	option = {
+		name = het_regiment_governance.1.f
+		add_adm_power = 25
+		remove_country_modifier = het_recent_regimental_reform
+	}
+}
+
+# --- Event 2: Kyiv and Right-Bank Regiments ---
+country_event = {
+	id = het_regiment_governance.2
+	title = het_regiment_governance.2.t
+	desc = het_regiment_governance.2.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { owns = 280 280 = { is_city = yes } }
+			280 = { save_event_target_as = het_target_polk }
+		}
+		else_if = {
+			limit = { owns = 1944 1944 = { is_city = yes } }
+			1944 = { save_event_target_as = het_target_polk }
+		}
+		else = {
+			4540 = { save_event_target_as = het_target_polk }
+		}
+	}
+
+	# Military Service
+	option = {
+		name = het_regiment_governance.2.a
+		event_target:het_target_polk = {
+			remove_province_modifier = het_regiment_starshyna_rights
+			remove_province_modifier = het_regiment_centralized_rule
+			add_province_modifier = {
+				name = het_regiment_military_service
+				duration = 3650
+			}
+			add_local_autonomy = 5
+			add_base_manpower = 1
+		}
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 10
+			}
+		}
+		add_army_tradition = 2
+	}
+
+	# Starshyna Rights
+	option = {
+		name = het_regiment_governance.2.b
+		event_target:het_target_polk = {
+			remove_province_modifier = het_regiment_military_service
+			remove_province_modifier = het_regiment_centralized_rule
+			add_province_modifier = {
+				name = het_regiment_starshyna_rights
+				duration = 3650
+			}
+			add_local_autonomy = 15
+			add_unrest = -5
+			add_base_production = 1
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+
+	# Centralization
+	option = {
+		name = het_regiment_governance.2.c
+		event_target:het_target_polk = {
+			remove_province_modifier = het_regiment_military_service
+			remove_province_modifier = het_regiment_starshyna_rights
+			add_province_modifier = {
+				name = het_regiment_centralized_rule
+				duration = 3650
+			}
+			add_local_autonomy = -15
+			add_unrest = 3
+			add_base_tax = 1
+		}
+		add_legitimacy_equivalent = {
+			amount = 5
+			republican_tradition = 3
+		}
+		add_absolutism = 2
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = -5
+			}
+		}
+	}
+}
+
+# --- Event 3: Left-Bank Regiments ---
+country_event = {
+	id = het_regiment_governance.3
+	title = het_regiment_governance.3.t
+	desc = het_regiment_governance.3.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { owns = 2407 2407 = { is_city = yes } }
+			2407 = { save_event_target_as = het_target_polk }
+		}
+		else_if = {
+			limit = { owns = 289 289 = { is_city = yes } }
+			289 = { save_event_target_as = het_target_polk }
+		}
+		else = {
+			290 = { save_event_target_as = het_target_polk }
+		}
+	}
+
+	# Military Service
+	option = {
+		name = het_regiment_governance.3.a
+		event_target:het_target_polk = {
+			remove_province_modifier = het_regiment_starshyna_rights
+			remove_province_modifier = het_regiment_centralized_rule
+			add_province_modifier = {
+				name = het_regiment_military_service
+				duration = 3650
+			}
+			add_local_autonomy = 5
+			add_base_manpower = 1
+		}
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 10
+			}
+		}
+		add_army_tradition = 2
+	}
+
+	# Starshyna Rights
+	option = {
+		name = het_regiment_governance.3.b
+		event_target:het_target_polk = {
+			remove_province_modifier = het_regiment_military_service
+			remove_province_modifier = het_regiment_centralized_rule
+			add_province_modifier = {
+				name = het_regiment_starshyna_rights
+				duration = 3650
+			}
+			add_local_autonomy = 15
+			add_unrest = -5
+			add_base_production = 1
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+
+	# Centralization
+	option = {
+		name = het_regiment_governance.3.c
+		event_target:het_target_polk = {
+			remove_province_modifier = het_regiment_military_service
+			remove_province_modifier = het_regiment_starshyna_rights
+			add_province_modifier = {
+				name = het_regiment_centralized_rule
+				duration = 3650
+			}
+			add_local_autonomy = -15
+			add_unrest = 3
+			add_base_tax = 1
+		}
+		add_legitimacy_equivalent = {
+			amount = 5
+			republican_tradition = 3
+		}
+		add_absolutism = 2
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = -5
+			}
+		}
+	}
+}
+
+# --- Event 4: Sloboda and Severian Frontier Regiments ---
+country_event = {
+	id = het_regiment_governance.4
+	title = het_regiment_governance.4.t
+	desc = het_regiment_governance.4.d
+	picture = MILITARY_CAMP_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = { owns = 291 291 = { is_city = yes } }
+			291 = { save_event_target_as = het_target_polk }
+		}
+		else_if = {
+			limit = { owns = 1945 1945 = { is_city = yes } }
+			1945 = { save_event_target_as = het_target_polk }
+		}
+		else = {
+			random_owned_province = {
+				limit = {
+					is_city = yes
+					area = sloboda_ukraine_area
+				}
+				save_event_target_as = het_target_polk
+			}
+		}
+	}
+
+	# Military Service
+	option = {
+		name = het_regiment_governance.4.a
+		event_target:het_target_polk = {
+			remove_province_modifier = het_regiment_starshyna_rights
+			remove_province_modifier = het_regiment_centralized_rule
+			add_province_modifier = {
+				name = het_regiment_military_service
+				duration = 3650
+			}
+			add_local_autonomy = 5
+			add_base_manpower = 1
+		}
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 10
+			}
+		}
+		add_army_tradition = 2
+	}
+
+	# Starshyna Rights
+	option = {
+		name = het_regiment_governance.4.b
+		event_target:het_target_polk = {
+			remove_province_modifier = het_regiment_military_service
+			remove_province_modifier = het_regiment_centralized_rule
+			add_province_modifier = {
+				name = het_regiment_starshyna_rights
+				duration = 3650
+			}
+			add_local_autonomy = 15
+			add_unrest = -5
+			add_base_production = 1
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+
+	# Centralization
+	option = {
+		name = het_regiment_governance.4.c
+		event_target:het_target_polk = {
+			remove_province_modifier = het_regiment_military_service
+			remove_province_modifier = het_regiment_starshyna_rights
+			add_province_modifier = {
+				name = het_regiment_centralized_rule
+				duration = 3650
+			}
+			add_local_autonomy = -15
+			add_unrest = 3
+			add_base_tax = 1
+		}
+		add_legitimacy_equivalent = {
+			amount = 5
+			republican_tradition = 3
+		}
+		add_absolutism = 2
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = -5
+			}
+		}
+	}
+}
+
+# --- Event 5: General Regimental Seat by Chancery Choice ---
+country_event = {
+	id = het_regiment_governance.5
+	title = het_regiment_governance.5.t
+	desc = het_regiment_governance.5.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	immediate = {
+		random_owned_province = {
+			limit = {
+				is_city = yes
+				is_capital = no
+				has_province_modifier = regimental_headquarters
+			}
+			save_event_target_as = het_target_polk
+		}
+	}
+
+	# Military Service
+	option = {
+		name = het_regiment_governance.5.a
+		event_target:het_target_polk = {
+			remove_province_modifier = het_regiment_starshyna_rights
+			remove_province_modifier = het_regiment_centralized_rule
+			add_province_modifier = {
+				name = het_regiment_military_service
+				duration = 3650
+			}
+			add_local_autonomy = 5
+			add_base_manpower = 1
+		}
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 10
+			}
+		}
+		add_army_tradition = 2
+	}
+
+	# Starshyna Rights
+	option = {
+		name = het_regiment_governance.5.b
+		event_target:het_target_polk = {
+			remove_province_modifier = het_regiment_military_service
+			remove_province_modifier = het_regiment_centralized_rule
+			add_province_modifier = {
+				name = het_regiment_starshyna_rights
+				duration = 3650
+			}
+			add_local_autonomy = 15
+			add_unrest = -5
+			add_base_production = 1
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+
+	# Centralization
+	option = {
+		name = het_regiment_governance.5.c
+		event_target:het_target_polk = {
+			remove_province_modifier = het_regiment_military_service
+			remove_province_modifier = het_regiment_starshyna_rights
+			add_province_modifier = {
+				name = het_regiment_centralized_rule
+				duration = 3650
+			}
+			add_local_autonomy = -15
+			add_unrest = 3
+			add_base_tax = 1
+		}
+		add_legitimacy_equivalent = {
+			amount = 5
+			republican_tradition = 3
+		}
+		add_absolutism = 2
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = -5
+			}
+		}
+	}
+}

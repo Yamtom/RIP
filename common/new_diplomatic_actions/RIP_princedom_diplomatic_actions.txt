@@ -258,3 +258,101 @@ rip_revoke_the_udil = {
 		}
 	}
 }
+
+# --- Re-granting / Confirming the specific udil (Targeted princely seniority interaction)
+#
+# Under the lestvytsia / rota system, the senior prince at Kyiv reconfirms a
+# specific kinsman in his appanage seat, settling succession quarrels and
+# quenching rebellion.
+#
+# Unlike the blind, random regranting button in the government mechanic, this
+# targeted diplomatic action lets the player directly select any specific prince,
+# observe his exact liberty desire, check whether his tenure has lapsed
+# (rip_tenure_lapsed), and make a calculated political settlement.
+#
+# Because targeted control gives the overlord immense precision against rebel
+# plots, it is priced higher than the random mechanic interaction: 65 DIP and
+# 10 prestige, with a 10-year local confirmation cooldown on the recipient.
+# Favouring one prince also slightly stirs jealousy (+5 LD) among other already
+# disloyal appanage princes (LD >= 50).
+rip_regrant_the_udil = {
+	category = influence
+
+	require_acceptance = no
+
+	is_visible = {
+		overlord_of = FROM
+		OR = {
+			has_reform = kyivan_rus_reform
+			has_reform = kyivan_cesarstvo_reform
+			has_reform = kyivan_shogunate_reform
+		}
+		FROM = {
+			OR = {
+				is_subject_of_type = princedom
+				is_subject_of_type = senior_udil
+			}
+		}
+	}
+
+	is_allowed = {
+		is_at_war = no
+		dip_power = 65
+		prestige = 10
+		FROM = {
+			is_at_war = no
+			OR = {
+				liberty_desire = 25
+				has_country_modifier = rip_tenure_lapsed
+			}
+			NOT = { has_country_modifier = KIE_udil_recently_confirmed }
+			NOT = { has_opinion_modifier = { who = ROOT modifier = kyivan_confirmed_in_the_udil } }
+		}
+	}
+
+	on_accept = {
+		add_dip_power = -65
+		add_prestige = -10
+		add_legitimacy_equivalent = {
+			amount = 5
+			republican_tradition = 3
+		}
+		FROM = {
+			if = {
+				limit = { has_country_modifier = rip_tenure_lapsed }
+				remove_country_modifier = rip_tenure_lapsed
+			}
+			add_liberty_desire = -30
+			add_opinion = {
+				who = ROOT
+				modifier = kyivan_confirmed_in_the_udil
+			}
+			add_country_modifier = {
+				name = KIE_udil_recently_confirmed
+				duration = 3650
+			}
+		}
+		# Favouring one prince provokes jealousy among other already disloyal princes
+		every_subject_country = {
+			limit = {
+				OR = {
+					is_subject_of_type = princedom
+					is_subject_of_type = senior_udil
+				}
+				NOT = { tag = FROM }
+				liberty_desire = 50
+			}
+			add_liberty_desire = 5
+		}
+	}
+
+	ai_will_do = {
+		FROM = {
+			OR = {
+				liberty_desire = 45
+				has_country_modifier = rip_tenure_lapsed
+			}
+		}
+	}
+}
+

@@ -1,0 +1,222 @@
+namespace = rip_vln_concessions
+
+# =============================================================================
+# rip_vln_concessions - Territorial Concessions to the Magnate Houses of Volhynia
+#
+# The great Volhynian dynasties (Ostrozky, Sanguszko, Chartoryisky) held immense
+# latifundia and exerted sovereign-like sway within their ancestral estates.
+#
+# Instead of applying autonomy blind to a random province, this event allows the
+# ruler of Volhynia to consciously select which magnate house to placate,
+# balancing strategic core lands against peripheral estates.
+#
+# Because targeted selection grants immense tactical control over unrest and
+# provincial development, the action demands genuine political cost: 0.75 years
+# of income and 30 administrative power, while the targeted province concedes
+# +20% local autonomy, toll rights, and private garrison immunities (-15% local
+# tax and manpower for 10 years).
+# =============================================================================
+
+country_event = {
+	id = rip_vln_concessions.1
+	title = rip_vln_concessions.1.t
+	desc = rip_vln_concessions.1.d
+	picture = COURT_eventPicture
+
+	is_triggered_only = yes
+
+	# Option A: House of Ostrozky (Rivne & Ostroh)
+	option = {
+		name = rip_vln_concessions.1.a
+		trigger = {
+			owns = 2962
+			2962 = {
+				is_city = yes
+				NOT = { local_autonomy = 75 }
+			}
+		}
+		add_years_of_income = -0.75
+		add_adm_power = -30
+		2962 = {
+			add_local_autonomy = 20
+			add_unrest = -8
+			add_province_modifier = {
+				name = vln_magnate_fief_concession
+				duration = 3650
+			}
+		}
+		add_country_modifier = {
+			name = vln_magnate_house_bought
+			duration = 1825
+		}
+		add_country_modifier = {
+			name = vln_magnate_concession_cooldown
+			duration = 3650
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+
+	# Option B: House of Chartoryisky (Kremenets)
+	option = {
+		name = rip_vln_concessions.1.b
+		trigger = {
+			owns = 4539
+			4539 = {
+				is_city = yes
+				NOT = { local_autonomy = 75 }
+			}
+		}
+		add_years_of_income = -0.75
+		add_adm_power = -30
+		4539 = {
+			add_local_autonomy = 20
+			add_unrest = -8
+			add_province_modifier = {
+				name = vln_magnate_fief_concession
+				duration = 3650
+			}
+		}
+		add_country_modifier = {
+			name = vln_magnate_house_bought
+			duration = 1825
+		}
+		add_country_modifier = {
+			name = vln_magnate_concession_cooldown
+			duration = 3650
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+
+	# Option C: House of Sanguszko (Chelm or Brest)
+	option = {
+		name = rip_vln_concessions.1.c
+		trigger = {
+			OR = {
+				AND = {
+					owns = 4538
+					4538 = {
+						is_city = yes
+						NOT = { local_autonomy = 75 }
+					}
+				}
+				AND = {
+					owns = 277
+					277 = {
+						is_city = yes
+						NOT = { local_autonomy = 75 }
+					}
+				}
+			}
+		}
+		add_years_of_income = -0.75
+		add_adm_power = -30
+		if = {
+			limit = {
+				owns = 4538
+				4538 = {
+					is_city = yes
+					NOT = { local_autonomy = 75 }
+				}
+			}
+			4538 = {
+				add_local_autonomy = 20
+				add_unrest = -8
+				add_province_modifier = {
+					name = vln_magnate_fief_concession
+					duration = 3650
+				}
+			}
+		}
+		else = {
+			277 = {
+				add_local_autonomy = 20
+				add_unrest = -8
+				add_province_modifier = {
+					name = vln_magnate_fief_concession
+					duration = 3650
+				}
+			}
+		}
+		add_country_modifier = {
+			name = vln_magnate_house_bought
+			duration = 1825
+		}
+		add_country_modifier = {
+			name = vln_magnate_concession_cooldown
+			duration = 3650
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+
+	# Option E: Provincial Gentry in a restless district
+	option = {
+		name = rip_vln_concessions.1.e
+		trigger = {
+			any_owned_province = {
+				is_city = yes
+				is_capital = no
+				NOT = { local_autonomy = 75 }
+			}
+		}
+		add_years_of_income = -0.75
+		add_adm_power = -30
+		random_owned_province = {
+			limit = {
+				is_city = yes
+				is_capital = no
+				NOT = { local_autonomy = 75 }
+			}
+			add_local_autonomy = 20
+			add_unrest = -8
+			add_province_modifier = {
+				name = vln_magnate_fief_concession
+				duration = 3650
+			}
+		}
+		add_country_modifier = {
+			name = vln_magnate_house_bought
+			duration = 1825
+		}
+		add_country_modifier = {
+			name = vln_magnate_concession_cooldown
+			duration = 3650
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 5
+			}
+		}
+	}
+
+	# Option F: Dismiss the magnate demands
+	option = {
+		name = rip_vln_concessions.1.f
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -5
+			}
+		}
+	}
+}

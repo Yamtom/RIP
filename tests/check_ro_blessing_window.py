@@ -73,34 +73,46 @@ assert 'rip_ro_icon_upkeep_effect = yes' in named_block(hooks, 'on_religion_chan
 assert 'country_event =' not in read('events/RIP_OrthodoxAuthority.txt').split('immediate =')[1]
 
 decision = read('decisions/RIP_OrthodoxHolyCities.txt')
-register = named_block(decision, 'rip_ro_holy_city_register')
-register_effect = named_block(register, 'effect')
-assert 'set_country_flag = rip_ro_holy_city_register_open' in register_effect
-assert 'country_event' not in register_effect
-assert 'country_event' not in decision
-assert 'has_country_flag = rip_ro_holy_city_register_open' in named_block(register, 'potential')
+assert 'rip_ro_holy_city_register' not in decision, 'the register decision is retired in favor of the UI button'
 assert not (ROOT / 'events/RIP_OrthodoxHolyCities.txt').exists(), 'the old event-popup route must be retired'
 
 controls = read('common/custom_gui/RIP_church_controls.txt')
 gui = read('interface/countryreligionview.gui')
 site_localisation = read('localisation/rip_ro_blessing_window_l_english.yml')
+custom_loc = read('customizable_localization/rip_ro_holy_cities_custom_loc.txt')
+modifiers = read('common/event_modifiers/RIP_faith_modifiers.txt')
+pulse_effects = read('common/scripted_effects/rip_ro_holy_cities_effects.txt')
+hooks = read('common/on_actions/russian_orthodox_on_actions.txt')
+
 assert 'custom_window = { name = rip_ro_holy_cities_panel potential = { rip_church_ro_jurisdiction = yes has_country_flag = rip_ro_holy_city_register_open } }' in controls
 assert 'custom_window = { name = rip_church_ro_panel potential = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_church_ro_window_hidden } NOT = { has_country_flag = rip_ro_holy_city_register_open } } }' in controls
+
+open_button = next(
+    block for _, block in keyed_blocks(controls, 'custom_button')
+    if re.search(r'(?m)^\s*name\s*=\s*rip_ro_holy_cities_open\b', block)
+)
+assert 'set_country_flag = rip_ro_holy_city_register_open' in open_button
+
 close_button = next(
     block for _, block in keyed_blocks(controls, 'custom_button')
     if re.search(r'(?m)^\s*name\s*=\s*rip_ro_holy_cities_close\b', block)
 )
 assert 'clr_country_flag = rip_ro_holy_city_register_open' in close_button
+
 city_panel = next(
     block for _, block in keyed_blocks(gui, 'windowType')
     if re.search(r'(?m)^\s*name\s*=\s*"rip_ro_holy_cities_panel"\s*', block)
 )
 assert 'position = { x=540 y=8 }' in city_panel and 'size = { x=475 y=560 }' in city_panel
+
 orthodox_panel = next(
     block for _, block in keyed_blocks(gui, 'windowType')
     if re.search(r'(?m)^\s*name\s*=\s*"orthodox_specific_window"\s*', block)
 )
 assert 'position = { x=-24 y=0 }' in orthodox_panel, 'do not move the vanilla Orthodox panel'
+assert 'rip_ro_holy_cities_open' in orthodox_panel, 'open button must be placed in the native orthodox window'
+assert 'GFX_coptic_blessing_select' in orthodox_panel, 'uses the Holy Sites medallion sprite'
+
 for city, province in (
     ('novgorod', 310),
     ('moscow', 295),
@@ -112,15 +124,24 @@ for city, province in (
     assert f'rip_ro_holy_city_{city}_name' in city_panel
     assert f'rip_ro_holy_city_{city}_owner' in city_panel
     assert f'rip_ro_holy_city_{city}_faith' in city_panel
+    assert f'rip_ro_holy_city_{city}_faith_icon' in city_panel
+    assert f'rip_ro_holy_city_{city}_myth_progress' in city_panel
+    assert f'rip_ro_holy_city_{city}_bonus_active' in city_panel
+    assert f'rip_ro_holy_city_{city}_bonus_pending' in city_panel
     assert f'[{province}.GetName]' in site_localisation
     assert f'[{province}.Owner.GetName]' in site_localisation
     assert f'[{province}.Religion.GetName]' in site_localisation
-assert 'Sees and Pilgrimage Destinations' in site_localisation
-assert 'grants no national or provincial effects' in site_localisation
+    assert f'rip_ro_myth_{city}' in modifiers, f'bonus modifier for {city} must be defined'
+    assert f'rip_ro_myth_years_{city}' in pulse_effects, f'30-year pulse must advance {city}'
+    assert f'rip_ro_myth_complete_{city}' in pulse_effects
+
+assert 'rip_ro_holy_cities_open' in site_localisation
+assert 'Holy Cities Register' in site_localisation
+assert 'Sees, Sacred Myths and Pilgrimage Destinations' in site_localisation
 assert 'rip_ro_sites.' not in site_localisation and 'rip_ro_site_' not in site_localisation
 assert 'rip_ro_holy_city_count' not in controls + gui + site_localisation
-for forbidden in ('add_country_modifier', 'add_patriarch_authority', 'add_province_modifier', 'change_religion'):
-    assert forbidden not in register_effect + close_button + city_panel
+assert 'rip_ro_holy_cities_yearly_pulse_effect = yes' in hooks
+
 assert 'has_patriarchs = yes' in faith
 raskol = named_block(read('common/disasters/rip_faith_disasters.txt'), 'rip_ro_raskol')
 assert 'rip_ro_icon_count' not in raskol
@@ -129,4 +150,4 @@ assert 'patriarch_authority = 0.6' in named_block(raskol, 'can_end')
 assert 'religious_unity' not in named_block(raskol, 'can_end'), 'a unity exit closes the Raskol on its first check'
 assert 'monthly_fervor_increase' not in raskol
 assert 'rip_ro_icon_count' not in read('common/scripted_effects/rip_faith_zeal_effects.txt')
-print('PASS: half-sized base, retired native icons, read-only site panel, unchanged authority and Raskol guards')
+print('PASS: dedicated UI medallion, 30-year myth bars with right-aligned bonus icons, and Raskol guards verified')

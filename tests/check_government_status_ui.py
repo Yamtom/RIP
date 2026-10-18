@@ -52,9 +52,13 @@ for name in ['RipGovMinorityShare','RipGovExcludedShare']:
         assert shown==want
 # No native widget was modified or deleted; panels are appended inside the supported root.
 start=gui.index('\n# Generated read-only RIP government explanations.\n')
-end=gui.index('\n}',gui.index('name = "rip_gov_cesar_panel"'))+2
+end=gui.index('\n}',gui.index(f'name = "{g.PANEL_NAMES[-1]}"'))+2
 assert gui[:start]+gui[end+1:]==g.native
 assert 'x=550 y=72' in gui and 'x=470 y=290' in gui # within native root width 1024
 assert 'PREVIOUS dominant faction, not the runner-up' in loc['rip_gov_kru_partner_tt']
 assert 'strictly below 15%' in loc['rip_gov_cesar_recovery_tt']
+assert 'hlc_ordinance_slot_free' in loc['rip_gov_hlc_slots_tt']
+assert 'hlc_boyar_council_session' in loc['rip_gov_hlc_session_tt']
+assert 'Rada Consent' in loc['rip_gov_lit_retinues_tt']
+assert 'rip_gov_review_recent' in loc['rip_gov_rev_lockout_tt']
 print('GOVERNMENT STATUS PASS: native wiring, source-matched rate branches, percentage boundaries and deterministic outputs; runtime unverified.')

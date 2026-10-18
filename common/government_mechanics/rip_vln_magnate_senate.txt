@@ -70,15 +70,21 @@ vln_magnate_senate_mechanic = {
 				any_owned_province = { is_city = yes is_capital = no NOT = { local_autonomy = 75 } }
 			}
 			effect = {
-				add_years_of_income = -0.5
-				random_owned_province = {
-					limit = { is_city = yes is_capital = no NOT = { local_autonomy = 75 } }
-					add_local_autonomy = 15
-					add_unrest = -5
+				if = {
+					limit = { ai = yes }
+					add_years_of_income = -0.5
+					random_owned_province = {
+						limit = { is_city = yes is_capital = no NOT = { local_autonomy = 75 } }
+						add_local_autonomy = 15
+						add_unrest = -5
+					}
+					add_country_modifier = {
+						name = vln_magnate_house_bought
+						duration = 1825
+					}
 				}
-				add_country_modifier = {
-					name = vln_magnate_house_bought
-					duration = 1825
+				else = {
+					country_event = { id = rip_vln_concessions.1 }
 				}
 			}
 			cooldown_years = 10
