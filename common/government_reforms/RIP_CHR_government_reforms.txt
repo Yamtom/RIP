@@ -606,3 +606,36 @@ chr_many_nations_union_reform = {
 		enables_aristocratic_idea_group = yes
 	}
 }
+
+# Starodub, Vetka and the forests of the Desna became the main refuge of the
+# Old Believers fleeing Moscow. The local authorities took them gladly for
+# their industry, their money and their loyalty. The reform makes that policy
+# an institution; refugees arrive by rip_vetka.1 and are settled by the
+# decision chr_grant_sloboda_to_old_believers (decisions/RIP_FaithReforms.txt).
+# The price is the Orthodox metropolitanate's displeasure (rip_vetka.2).
+# Rates are design values.
+chr_vetka_asylum_reform = {
+	icon = "organising_our_religion_reform"
+	legacy_equivalent = merchant_republic
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		chr_vetka_visible = yes
+	}
+	trigger = {
+		chr_vetka_eligible = yes
+	}
+	modifiers = {
+		tolerance_heretic = 2
+		trade_efficiency = 0.05
+		merchants = 1
+		church_loyalty_modifier = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 6
+	}
+}

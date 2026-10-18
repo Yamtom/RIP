@@ -1,0 +1,372 @@
+##############################################################
+# The faith-and-border reforms: what their institutions do once they stand.
+#
+#   rip_stauropegion  HLC  the Lviv brotherhood and its bishop; the Union choice
+#   rip_vetka         CHR  Old Believer refugees; the metropolitan's complaint
+#   rip_kamianets     PDL  the petitions of the four communities
+#   rip_sophia        PLT  a Muscovite candidate for the Sophian throne
+#
+# Every event is fired by its own reform, never by a date alone, and rates are
+# design values. The Zeal of the Host (ZAZ / HET) has no events: it lives in
+# common/government_mechanics/rip_zaz_holy_patronage.txt.
+##############################################################
+
+namespace = rip_stauropegion
+namespace = rip_vetka
+namespace = rip_kamianets
+namespace = rip_sophia
+
+# ---------------------------------------------------------------------------
+# HLC - the brotherhood audits the bishop
+# ---------------------------------------------------------------------------
+
+country_event = {
+	id = rip_stauropegion.1
+	title = rip_stauropegion.1.t
+	desc = rip_stauropegion.1.d
+	picture = RELIGION_eventPicture
+
+	trigger = {
+		has_reform = hlc_stauropegion_brotherhood_reform
+		NOT = { has_country_flag = hlc_stauropegion_union_decided }
+		NOT = { has_country_modifier = hlc_brotherhood_vigilance }
+		NOT = { has_country_modifier = hlc_bishop_assertive }
+	}
+
+	mean_time_to_happen = {
+		months = 72
+	}
+
+	option = {	# The brotherhood prevails.
+		name = rip_stauropegion.1.a
+		ai_chance = { factor = 50 }
+
+		add_country_modifier = { name = hlc_brotherhood_vigilance duration = 3650 }
+		change_variable = { which = hlc_stauropegion_strife value = 1 }
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = 10 }
+		}
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = { estate = estate_church loyalty = -10 }
+		}
+	}
+
+	option = {	# The bishop is upheld.
+		name = rip_stauropegion.1.b
+		ai_chance = { factor = 30 }
+
+		add_country_modifier = { name = hlc_bishop_assertive duration = 3650 }
+		change_variable = { which = hlc_stauropegion_strife value = 1 }
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = { estate = estate_church loyalty = 10 }
+		}
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = -10 }
+		}
+	}
+
+	option = {	# The matter goes to the Patriarch.
+		name = rip_stauropegion.1.c
+		trigger = { dip_power = 50 }
+		ai_chance = { factor = 20 }
+
+		add_dip_power = -50
+		add_prestige = 5
+		set_variable = { which = hlc_stauropegion_strife value = 0 }
+	}
+}
+
+# The Union choice. Strife has built up, or the Reformation chain has pushed the
+# country toward Rome: the bishop and the brotherhood part ways. The Union
+# itself is not decided here; option b sets uniate_pressure_mounting, the flag
+# that lets the existing uniate_church.1 fire, and the rest runs through the
+# Greek Catholic church of the mod.
+country_event = {
+	id = rip_stauropegion.2
+	title = rip_stauropegion.2.t
+	desc = rip_stauropegion.2.d
+	picture = RELIGION_eventPicture
+
+	trigger = {
+		has_reform = hlc_stauropegion_brotherhood_reform
+		is_year = 1590
+		NOT = { has_country_flag = hlc_stauropegion_union_decided }
+		OR = {
+			check_variable = { which = hlc_stauropegion_strife value = 3 }
+			has_country_flag = uniate_pressure_mounting
+		}
+	}
+
+	mean_time_to_happen = {
+		months = 24
+	}
+
+	immediate = {
+		set_country_flag = hlc_stauropegion_union_decided
+	}
+
+	option = {	# The brotherhood holds to the Patriarch.
+		name = rip_stauropegion.2.a
+		ai_chance = { factor = 60 }
+
+		clr_country_flag = uniate_pressure_mounting
+		set_variable = { which = hlc_stauropegion_strife value = 0 }
+		add_country_modifier = { name = hlc_brotherhood_vigilance duration = 7300 }
+		add_prestige = 5
+	}
+
+	option = {	# The bishop turns to Rome.
+		name = rip_stauropegion.2.b
+		ai_chance = { factor = 15 }
+
+		set_country_flag = uniate_pressure_mounting
+		set_variable = { which = hlc_stauropegion_strife value = 0 }
+		add_country_modifier = { name = hlc_bishop_assertive duration = 7300 }
+	}
+
+	option = {	# A bridge between the rites.
+		name = rip_stauropegion.2.c
+		trigger = { adm_power = 50 }
+		ai_chance = { factor = 25 }
+
+		add_adm_power = -50
+		set_country_flag = uniate_pressure_mounting
+		set_variable = { which = hlc_stauropegion_strife value = 0 }
+		add_country_modifier = { name = hlc_ecumenical_bridge duration = 7300 }
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = 5 }
+		}
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = { estate = estate_church loyalty = 5 }
+		}
+	}
+}
+
+# ---------------------------------------------------------------------------
+# CHR - the refuge on the Vetka
+# ---------------------------------------------------------------------------
+
+# Refugees. They come while Moscow presses the old rite; each admission is a
+# refugee in chr_ob_refugees, and the decision chr_grant_sloboda_to_old_believers
+# spends one to plant a sloboda.
+country_event = {
+	id = rip_vetka.1
+	title = rip_vetka.1.t
+	desc = rip_vetka.1.d
+	picture = RELIGION_eventPicture
+
+	trigger = {
+		has_reform = chr_vetka_asylum_reform
+		rip_moscow_has_driven_out_the_old_rite = yes
+		NOT = { has_country_modifier = chr_metropolitan_displeasure }
+	}
+
+	mean_time_to_happen = {
+		months = 36
+	}
+
+	option = {	# Open the forest roads.
+		name = rip_vetka.1.a
+		ai_chance = { factor = 55 }
+
+		change_variable = { which = chr_ob_refugees value = 2 }
+		add_manpower = 2
+	}
+
+	option = {	# Admit only the craftsmen and merchants.
+		name = rip_vetka.1.b
+		ai_chance = { factor = 35 }
+
+		change_variable = { which = chr_ob_refugees value = 1 }
+		add_years_of_income = 0.15
+	}
+
+	option = {	# Turn them back at the border.
+		name = rip_vetka.1.c
+		ai_chance = { factor = 10 }
+
+		add_prestige = -3
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = { estate = estate_church loyalty = 5 }
+		}
+	}
+}
+
+# The metropolitan of Chernihiv complains. Tolerance of the heretics has a
+# price, and the price rises with every sloboda.
+country_event = {
+	id = rip_vetka.2
+	title = rip_vetka.2.t
+	desc = rip_vetka.2.d
+	picture = RELIGION_eventPicture
+
+	trigger = {
+		has_reform = chr_vetka_asylum_reform
+		check_variable = { which = chr_ob_slobody value = 3 }
+		NOT = { has_country_modifier = chr_metropolitan_displeasure }
+		NOT = { has_country_modifier = chr_edinoverie_compromise }
+	}
+
+	mean_time_to_happen = {
+		months = 24
+	}
+
+	option = {	# Hear the metropolitan.
+		name = rip_vetka.2.a
+		ai_chance = { factor = 40 }
+
+		change_variable = { which = chr_ob_slobody value = -1 }
+		random_owned_province = {
+			limit = { has_province_modifier = chr_old_believer_sloboda }
+			remove_province_modifier = chr_old_believer_sloboda
+		}
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = { estate = estate_church loyalty = 10 }
+		}
+	}
+
+	option = {	# The charters stand.
+		name = rip_vetka.2.b
+		ai_chance = { factor = 40 }
+
+		add_country_modifier = { name = chr_metropolitan_displeasure duration = 3650 }
+	}
+
+	option = {	# Common-faith parishes.
+		name = rip_vetka.2.c
+		trigger = { adm_power = 50 }
+		ai_chance = { factor = 20 }
+
+		add_adm_power = -50
+		change_variable = { which = chr_ob_slobody value = -2 }
+		add_country_modifier = { name = chr_edinoverie_compromise duration = 7300 }
+	}
+}
+
+# ---------------------------------------------------------------------------
+# PDL - the four communities of Kamianets
+# ---------------------------------------------------------------------------
+
+country_event = {
+	id = rip_kamianets.1
+	title = rip_kamianets.1.t
+	desc = rip_kamianets.1.d
+	picture = RELIGION_eventPicture
+
+	trigger = {
+		has_reform = pdl_kamianets_concordat_reform
+		has_country_flag = pdl_four_communities_chartered
+		owns = 281
+	}
+
+	mean_time_to_happen = {
+		months = 60
+	}
+
+	option = {	# The Ruthenian magistrate.
+		name = rip_kamianets.1.a
+		ai_chance = { factor = 25 }
+
+		add_stability = 1
+	}
+
+	option = {	# The Polish garrison.
+		name = rip_kamianets.1.b
+		ai_chance = { factor = 25 }
+
+		add_army_tradition = 5
+	}
+
+	option = {	# The Armenian merchants.
+		name = rip_kamianets.1.c
+		ai_chance = { factor = 30 }
+
+		add_years_of_income = 0.25
+		if = {
+			limit = { has_country_modifier = pdl_armenian_caravans }
+			remove_country_modifier = pdl_armenian_caravans
+		}
+		add_country_modifier = { name = pdl_armenian_caravans duration = 7300 }
+	}
+
+	option = {	# The kahal.
+		name = rip_kamianets.1.e
+		ai_chance = { factor = 20 }
+
+		add_treasury = 75
+		add_prestige = 3
+	}
+}
+
+# ---------------------------------------------------------------------------
+# PLT - a candidate from Moscow
+# ---------------------------------------------------------------------------
+
+country_event = {
+	id = rip_sophia.1
+	title = rip_sophia.1.t
+	desc = rip_sophia.1.d
+	picture = RELIGION_eventPicture
+
+	trigger = {
+		has_reform = plt_sophian_autonomy_reform
+		exists = MOS
+		NOT = { is_subject_of = MOS }
+		NOT = { has_country_modifier = plt_city_veto }
+		NOT = { has_country_modifier = plt_muscovite_bishop_accepted }
+	}
+
+	mean_time_to_happen = {
+		months = 96
+	}
+
+	option = {	# Accept the candidate.
+		name = rip_sophia.1.a
+		ai_chance = { factor = 15 }
+
+		add_country_modifier = { name = plt_muscovite_bishop_accepted duration = 7300 }
+		add_years_of_income = 0.2
+		if = {
+			limit = { has_country_modifier = plt_nomocanon_sealed }
+			remove_country_modifier = plt_nomocanon_sealed
+		}
+	}
+
+	option = {	# The city communities veto.
+		name = rip_sophia.1.b
+		ai_chance = { factor = 60 }
+
+		add_country_modifier = { name = plt_city_veto duration = 1825 }
+		add_prestige = 5
+		if = {
+			limit = { exists = MOS }
+			MOS = {
+				add_opinion = {
+					who = ROOT
+					modifier = plt_vetoed_the_candidate
+				}
+			}
+		}
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = 10 }
+		}
+	}
+
+	option = {	# Seat him under the Nomocanon.
+		name = rip_sophia.1.c
+		trigger = { has_country_modifier = plt_nomocanon_sealed }
+		ai_chance = { factor = 25 }
+
+		add_prestige = 3
+		add_stability = 1
+	}
+}

@@ -1,0 +1,41 @@
+# =============================================================================
+# RIP_PLT_government_reforms
+# Polotsk - the Sophian see - and the autonomy of its city communities.
+# =============================================================================
+
+# The cathedral of St Sophia and the ancient eparchy of Polotsk kept a tradition
+# of autonomy that looked to Kyiv and to the Novgorod veche, and stood against
+# the claims of the Muscovite patriarchate. The reform is the guarding of that
+# tradition: the Nomocanon is kept as it was written (plt_ancient_nomocanon_mechanic,
+# common/government_mechanics/rip_plt_nomocanon.txt), the guilds look after the
+# parishes, and the town communities may veto a pro-Muscovite bishop
+# (events/RIP_FaithReformEvents.txt, rip_sophia). Rates are design values.
+plt_sophian_autonomy_reform = {
+	icon = "stone_tablet"
+	legacy_equivalent = feudal_monarchy
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		plt_sophian_visible = yes
+	}
+	trigger = {
+		plt_sophian_eligible = yes
+	}
+	modifiers = {
+		tolerance_own = 1
+		religious_unity = 0.1
+		production_efficiency = 0.05
+		burghers_loyalty_modifier = 0.05
+		max_absolutism = -10
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	government_abilities = {
+		plt_ancient_nomocanon_mechanic
+	}
+	ai = {
+		factor = 8
+	}
+}

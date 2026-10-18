@@ -55,3 +55,53 @@ estate_nobles_hlc_strong_appanages = {
 		factor = 10
 	}
 }
+
+# The Lviv Stauropegion: the burghers of the Dormition Brotherhood hold their
+# church directly from the Patriarch and answer for its morals to nobody else,
+# the bishop included. Selectable only under
+# hlc_stauropegion_brotherhood_reform; it lapses with the reform. Rates are
+# design values, not campaign-validated balance.
+estate_burghers_hlc_lviv_stauropegion = {
+	icon = privilege_seek_support_of_clergy
+	land_share = 5
+	max_absolutism = -5
+	loyalty = 0.05
+	influence = 0.1
+
+	is_valid = {
+		has_estate = estate_burghers
+		has_reform = hlc_stauropegion_brotherhood_reform
+	}
+	can_select = {
+		has_estate = estate_burghers
+		has_reform = hlc_stauropegion_brotherhood_reform
+	}
+
+	penalties = {
+		church_loyalty_modifier = -0.1
+	}
+	benefits = {
+		production_efficiency = 0.1
+		development_cost = -0.1
+		global_trade_power = 0.05
+	}
+
+	conditional_modifier = {
+		trigger = { has_absolutism_reduction_for_estate_privileges = yes }
+		modifier = { max_absolutism = 1 }
+	}
+
+	ai_will_do = {
+		factor = 40
+		modifier = {
+			factor = 0
+			OR = {
+				NOT = { crown_land_share = 25 }
+				estate_influence = {
+					estate = estate_burghers
+					influence = 90
+				}
+			}
+		}
+	}
+}
