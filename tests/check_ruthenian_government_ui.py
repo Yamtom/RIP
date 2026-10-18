@@ -38,47 +38,7 @@ for active in ids:
 assert [i for i in ids if evaluate(potentials[i],set())] == ids[:1]
 assert not any(evaluate(p,set(),'FRA') for p in potentials.values())
 
-parliament = read('customizable_localization/rip_parliament_names.txt')
-choices = [(named_block(b,'trigger'),re.search(r'localisation_key = (\w+)',b)[1]) for _,b in keyed_blocks(parliament,'text')]
-def parliament_name(tag, government, held=()):
-    return next(key for trigger,key in choices if evaluate(trigger,set(held),tag,government))
-for tag in ('KIE','CHR','VLN','UZH','PRL','PDL','ODS','RUT'):
-    assert parliament_name(tag,'theocracy') == 'rip_parliament_sobor'
-    assert parliament_name(tag,'republic') == 'rip_parliament_'+tag.lower()+'_viche'
-    assert parliament_name(tag,'monarchy') == 'rip_parliament_estates'
-for active in ids:
-    assert parliament_name('KRU','monarchy',[active]) == 'rip_parliament_three'
-for tag,gov,reform,want in [('KIE','monarchy','kyivan_shogunate_reform','snem'),
-                           ('CHR','republic','chr_siversk_veche_reform','siversk_veche'),
-                           ('CHR','republic','chr_desna_staple_reform','desna_staple'),
-                           ('CHR','republic','chr_town_union_reform','siversk_towns'),
-                           ('CHR','republic','chr_rada_of_lands_reform','rada_of_lands'),
-                           ('CHR','monarchy','chr_siversk_principality_reform','siversk_boyar'),
-                           ('KIE','republic','kyivan_boyar_republic_reform','kyivan_boyar'),
-                           ('HLC','republic','hlc_boyar_republic_reform','halych_boyar'),
-                           ('HLC','monarchy','hlc_crown_and_sejm_reform','galician_sejm'),
-                           ('LIT','monarchy','lit_grand_diet_reform','grand_diet'),
-                           ('VLN','republic','vln_sejmik_republic_reform','volhynian_sejmik'),
-                           ('UZH','republic','uzh_republican_komitat_system_reform','komitat'),
-                           ('LIT','monarchy','lit_pany_rada_reform','pany'),
-                           ('HET','monarchy','het_starshyna_oligarchy_reform','officers'),
-                           ('HET','republic','','general'),('ZAZ','republic','','sich')]:
-    assert parliament_name(tag,gov,[reform]) == 'rip_parliament_'+want
-
-unique_parliaments = (
-    'rip_parliament_siversk_veche',
-    'rip_parliament_desna_staple',
-    'rip_parliament_siversk_towns',
-    'rip_parliament_rada_of_lands',
-    'rip_parliament_siversk_boyar',
-    'rip_parliament_ruthenian_principality',
-    'rip_parliament_kyivan_boyar',
-    'rip_parliament_halych_boyar',
-    'rip_parliament_galician_sejm',
-    'rip_parliament_grand_diet',
-    'rip_parliament_volhynian_sejmik',
-)
-assert len({loc[key] for key in unique_parliaments}) == len(unique_parliaments)
+# Parliament names (the window title overlay, the rules and the plain nouns) have their own contract: check_parliament_names.py.
 
 for power in ('kyivan_throne_concord','kyivan_peoples_gathering','kyiv_princely_levy_power','kyiv_seat_rotation_power','kyiv_grant_reconfirmation_power'):
     for key in (power,'monthly_'+power,power+'_gain_modifier'):
@@ -345,13 +305,8 @@ if game:
     font = (game/'gfx/fonts/vic_18.fnt').read_text(encoding='latin-1')
     for code, advance in re.findall(r'char id=(\d+).*?xadvance=(-?\d+)',font):
         widths[chr(int(code))] = int(advance)
-    labels = {k:v for k,v in loc.items() if (k.startswith('rip_parliament_') or k.startswith('ability_') or k in ids or k == 'chr_siversk_principality_reform' or k in ('siversk_confirm_patrimonies','siversk_charter_towns','siversk_muster_druzhyna','kyivan_throne_concord','kyivan_peoples_gathering'))}
+    labels = {k:v for k,v in loc.items() if (k.startswith('ability_') or k in ids or k == 'chr_siversk_principality_reform' or k in ('siversk_confirm_patrimonies','siversk_charter_towns','siversk_muster_druzhyna','kyivan_throne_concord','kyivan_peoples_gathering'))}
     measured = [(k,len(v),sum(widths[c] for c in v)) for k,v in labels.items()]
     assert all(chars <= 28 and pixels <= 220 for _,chars,pixels in measured), measured
     print('NAME WIDTH PASS: vic_18; max',max(x[1] for x in measured),'characters;',max(x[2] for x in measured),'px; budget 220 px.')
 print('RUTHENIAN GOVERNMENT UI PASS: exclusive states, costs, cooldowns, sprites, unique localisation and names.')
-
-for tag, place in [('SMY','sumy'),('OKH','okhtyrka'),('KHK','kharkiv'),('IZM','izium')]:
-    for gov in ('monarchy','republic'):
-        assert parliament_name(tag,gov) == 'rip_parliament_'+place+'_regimental'
-assert parliament_name('KIE','monarchy',['kyivan_cesarstvo_reform']) == 'rip_parliament_imperial_sobor'
