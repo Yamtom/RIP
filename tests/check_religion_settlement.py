@@ -56,7 +56,7 @@ class World:
                      treasury=1000, adm_power=500, dip_power=500, mil_power=500,
                      patriarch_authority=1, papal_influence=0, prestige=60, stability=2, total_development=300,
                      is_subject=False, is_at_war=False, wars=set(), allies=set(), truces=set(),
-                     cbs={}, capital=None, dlcs={'Third Rome'})
+                     cbs={}, capital=None, dlcs={'Third Rome'}, reforms=set())
         self.countries[tag] = state
         return state
 
@@ -88,6 +88,7 @@ class World:
         if key == 'OR': return any(self.condition(k, v, scope, root, prev) for k, v in value)
         if key == 'NOT': return not self.gate(value, scope, root, prev)
         if key == 'tooltip': return True
+        if key == 'has_reform': return value in scope['reforms']
         if key == 'always': return value == 'yes'
         if key.startswith('any_'):
             return any(self.gate(value, item, root, scope) for item in self.collection(key, scope))
@@ -163,6 +164,8 @@ class World:
             elif key in ('ROOT', 'PREV', 'capital_scope', 'owner') or key in self.provinces:
                 self.execute(value, self.ref(key, scope, root, prev), root, scope)
             elif key == 'change_religion': scope['religion'] = value
+            elif key == 'add_government_reform': scope['reforms'].add(value)
+            elif key == 'remove_government_reform': scope['reforms'].discard(value)
             elif key in ('set_country_flag', 'clr_country_flag', 'set_global_flag', 'clr_global_flag'):
                 flags = self.flags if 'global' in key else scope['flags']
                 if key.startswith('set'): flags[value] = self.day

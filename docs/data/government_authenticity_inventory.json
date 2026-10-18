@@ -2151,14 +2151,14 @@
       "base_comparator": null,
       "comparator_by_tier": {
         "M8": [
-          "jap_gokaido_reform",
-          "empower_the_burghers_reform"
+          "jap_gokaido_reform"
         ]
       },
-      "comparator_role": "Купці й міщанський вплив",
-      "comparator_role_match": "відповідна",
+      "comparator_role": "Додатковий купець і вплив міщан",
+      "comparator_role_match": "часткова",
       "quantitative_certified": false,
-      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%.",
+      "comparator_limit": "Ванільна jap_gokaido_reform у M8 дає +1 купця; її японські місцеві наслідки не є аналогом впливу міщан, а +10% впливу міщан у моді лишається окремою віссю."
     },
     {
       "id": "open_trading_ports_reform",
@@ -2175,14 +2175,14 @@
       "base_comparator": null,
       "comparator_by_tier": {
         "M8": [
-          "empower_the_burghers_reform"
+          "thalassocracy_reform"
         ]
       },
-      "comparator_role": "Торгова міць і портова торгівля",
+      "comparator_role": "Торговельна сила й центри торгівлі",
       "comparator_role_match": "часткова",
       "quantitative_certified": false,
       "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%.",
-      "comparator_limit": "Тепер реформа стоїть у M8 разом із ванільними торговими реформами, але знімок порівнянь не має реформи з тими самими осями (власна торгова міць і вартість покращення центрів торгівлі): зіставлено глобальну торгову міць empower_the_burghers_reform. Ванільний портовий аналог thalassocracy_reform у знімок не входить, тож його числа тут не перевірено."
+      "comparator_limit": "Ванільна thalassocracy_reform у M8 дає +15% глобальної торговельної сили й −10% вартості поліпшення центрів торгівлі, а також морські бонуси та можливість торгових протекторатів. Це рольовий аналог, не числова чи кампанійна сертифікація."
     },
     {
       "id": "assembly_houses_reform",
@@ -2962,8 +2962,8 @@
         "global_unrest": "-0.5",
         "years_of_nationalism": "-5",
         "stability_cost_modifier": "0.1",
-        "may_recruit_female_generals": "yes",
-        "female_advisor_chance": "0.25"
+        "free_leader_pool": "1",
+        "advisor_pool": "1"
       },
       "features": [
         "custom_attributes"
@@ -3019,9 +3019,7 @@
         "diplomatic_reputation": "-1",
         "liberty_desire": "15"
       },
-      "features": [
-        "custom_attributes"
-      ],
+      "features": [],
       "audit": "numeric_bundle_reduced",
       "base_comparator": null,
       "comparator_by_tier": {
@@ -4816,6 +4814,24 @@
       }
     },
     {
+      "id": "thalassocracy_reform",
+      "file": "06_government_reforms_common.txt",
+      "tiers": [
+        "M8",
+        "R8",
+        "Th8"
+      ],
+      "modifiers": {
+        "center_of_trade_upgrade_cost": "-0.1",
+        "trade_company_investment_cost": "-0.1",
+        "naval_forcelimit_modifier": "0.25",
+        "global_trade_power": "0.15"
+      },
+      "features": [
+        "custom_attributes"
+      ]
+    },
+    {
       "id": "the_leviathan_reform",
       "file": "01_government_reforms_monarchies.txt",
       "tiers": [
@@ -6067,51 +6083,6 @@
       ]
     },
     {
-      "id": "vln_ruthenian_renaissance_reform",
-      "rank": [
-        {
-          "key": "RENAISSANCE_VOIVODESHIP",
-          "text": "Cultured Voivodeship"
-        },
-        {
-          "key": "CULTURAL_COMMONWEALTH",
-          "text": "Cultural Commonwealth"
-        },
-        {
-          "key": "RUTHENIAN_ENLIGHTENMENT",
-          "text": "Ruthenian Commonwealth"
-        }
-      ],
-      "ruler_male": [
-        {
-          "key": "RENAISSANCE_VOIVODE",
-          "text": "Patron Voivode"
-        },
-        {
-          "key": "CULTURED_HETMAN",
-          "text": "Voivode"
-        },
-        {
-          "key": "ENLIGHTENED_VOIVODE",
-          "text": "Enlightened Voivode"
-        }
-      ],
-      "ruler_female": [
-        {
-          "key": "RENAISSANCE_VOIVODESSA",
-          "text": "Patron Voivodessa"
-        },
-        {
-          "key": "CULTURED_HETMANKA",
-          "text": "Voivodessa"
-        },
-        {
-          "key": "ENLIGHTENED_VOIVODESSA",
-          "text": "Enlightened Voivodessa"
-        }
-      ]
-    },
-    {
       "id": "vln_voivode_council",
       "rank": [
         {
@@ -6153,51 +6124,6 @@
         {
           "key": "DOMINANT_VOIVODESSA",
           "text": "High Voivodessa"
-        }
-      ]
-    },
-    {
-      "id": "vln_magdeburg_rights",
-      "rank": [
-        {
-          "key": "MAGDEBURG_VOIVODESHIP",
-          "text": "Chartered Voivodeship"
-        },
-        {
-          "key": "CHARTERED_COMMONWEALTH",
-          "text": "Chartered Commonwealth"
-        },
-        {
-          "key": "FREE_VOIVODESHIP",
-          "text": "Free Voivodeship"
-        }
-      ],
-      "ruler_male": [
-        {
-          "key": "MAGDEBURG_VOIVODE",
-          "text": "Chartered Voivode"
-        },
-        {
-          "key": "BURGOMASTER_HETMAN",
-          "text": "King"
-        },
-        {
-          "key": "FREE_VOIVODE",
-          "text": "Free Voivode"
-        }
-      ],
-      "ruler_female": [
-        {
-          "key": "MAGDEBURG_VOIVODESSA",
-          "text": "Chartered Voivodessa"
-        },
-        {
-          "key": "BURGOMASTER_HETMANKA",
-          "text": "Queen"
-        },
-        {
-          "key": "FREE_VOIVODESSA",
-          "text": "Free Voivodessa"
         }
       ]
     },

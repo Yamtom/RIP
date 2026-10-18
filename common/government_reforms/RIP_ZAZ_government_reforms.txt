@@ -5,6 +5,7 @@
 
 zaz_sich_brotherhood_reform = {
 	icon = "rip_gfx_reform_zaz_sich_brotherhood_icon"
+	legacy_equivalent = cossacks_legacy_reform
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
@@ -42,6 +43,7 @@ zaz_sich_brotherhood_reform = {
 
 zaz_kosh_elections_reform = {
 	icon = "man_on_podium"
+	legacy_equivalent = cossacks_legacy_reform
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
@@ -74,6 +76,7 @@ zaz_kosh_elections_reform = {
 
 zaz_chaiky_trade_reform = {
 	icon = "sea_raiders"
+	legacy_equivalent = cossacks_legacy_reform
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
@@ -100,6 +103,7 @@ zaz_chaiky_trade_reform = {
 
 zaz_general_rada_reform = {
 	icon = "assembly_hall"
+	legacy_equivalent = cossacks_legacy_reform
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
@@ -118,8 +122,8 @@ zaz_general_rada_reform = {
 		global_unrest = -0.5
 		years_of_nationalism = -5
 		stability_cost_modifier = 0.1
-		may_recruit_female_generals = yes
-		female_advisor_chance = 0.25
+		free_leader_pool = 1
+		advisor_pool = 1
 	}
 
 	custom_attributes = {
@@ -133,6 +137,7 @@ zaz_general_rada_reform = {
 
 zaz_free_host_reform = {
 	icon = "rip_gfx_reform_zaz_free_host_icon"
+	legacy_equivalent = cossacks_legacy_reform
 	allow_normal_conversion = no
 	potential = {
 		OR = {
@@ -175,6 +180,7 @@ zaz_free_host_reform = {
 
 zaz_last_sich_reform = {
 	icon = "rip_gfx_reform_zaz_last_sich_icon"
+	legacy_equivalent = cossacks_legacy_reform
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
@@ -224,14 +230,57 @@ zaz_last_sich_reform = {
 		diplomatic_reputation = -1
 		liberty_desire = 15
 	}
-	custom_attributes = {
-		mercs_do_not_cost_army_professionalism = yes
-	}
 	ai = {
 		factor = 8
 		modifier = {
 			factor = 2
 			liberty_desire = 80
+		}
+	}
+}
+
+# The Host as a religious order. Sahaidachny enrolled the whole Zaporozhian
+# Host in the Kyiv Brotherhood (1620) and Patriarch Theophanes consecrated a
+# new Orthodox hierarchy under the protection of Cossack muskets. The reform
+# turns the Sich's piety into a standing institution: the military monasteries,
+# the escort of bishops and the scale of Zeal are the zaz_holy_patronage_mechanic
+# (common/government_mechanics/rip_zaz_holy_patronage.txt). Rates are design
+# values, not campaign-validated balance.
+zaz_orthodox_knighthood_reform = {
+	icon = "warrior_monks_reform"
+	legacy_equivalent = cossacks_legacy_reform
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		zaz_knighthood_visible = yes
+	}
+	trigger = {
+		zaz_knighthood_eligible = yes
+	}
+	modifiers = {
+		land_morale = 0.05
+		tolerance_own = 1
+		tolerance_heathen = -1
+		republican_tradition = 0.15
+		global_missionary_strength = 0.01
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	government_abilities = {
+		zaz_holy_patronage_mechanic
+	}
+	removed_effect = {
+		hidden_effect = {
+			rip_zaz_clear_monasteries_effect = yes
+		}
+	}
+	ai = {
+		factor = 8
+		modifier = {
+			factor = 2
+			is_at_war = yes
 		}
 	}
 }

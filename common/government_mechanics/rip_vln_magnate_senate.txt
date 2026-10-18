@@ -16,11 +16,12 @@
 # a purse of ducats before a house shield, and the magnates' banners.
 #
 # Fatigue guardrail: vln_cossack_host_reform (a different tier, T2) already
-# carries government_abilities = cossacks_mechanic. A VLN country could hold
-# both vln_voivodeship_reform (T1) and vln_cossack_host_reform (T2) at once,
-# stacking two 3-button panels - `available` below retires the Senate the
-# moment the Cossack Host is picked, since the register-and-Host system is
-# the larger, forcelimit-tied vanilla mechanic.
+# carries government_abilities = cossacks_mechanic. A VLN country can hold
+# both vln_voivodeship_reform (T1) and vln_cossack_host_reform (T2) at once.
+# `available` gates selection of this mechanic, not an ability already
+# selected, so each Senate interaction repeats the reform gate below. This
+# keeps its buttons unusable while the larger, forcelimit-tied Host system is
+# active.
 # =============================================================================
 
 vln_magnate_senate_mechanic = {
@@ -36,10 +37,12 @@ vln_magnate_senate_mechanic = {
 		vln_summon_the_senate = {
 			icon = GFX_rip_senate_summon
 			trigger = {
-				adm_power = 50
+				has_reform = vln_voivodeship_reform
+				NOT = { has_reform = vln_cossack_host_reform }
+				years_of_income = 0.25
 			}
 			effect = {
-				add_adm_power = -50
+				add_years_of_income = -0.25
 				add_legitimacy_equivalent = {
 					amount = 2
 					republican_tradition = 1
@@ -61,13 +64,27 @@ vln_magnate_senate_mechanic = {
 		vln_buy_off_a_magnate_house = {
 			icon = GFX_rip_senate_buyoff
 			trigger = {
-				dip_power = 50
+				has_reform = vln_voivodeship_reform
+				NOT = { has_reform = vln_cossack_host_reform }
+				years_of_income = 0.5
+				any_owned_province = { is_city = yes is_capital = no NOT = { local_autonomy = 75 } }
 			}
 			effect = {
-				add_dip_power = -50
-				add_country_modifier = {
-					name = vln_magnate_house_bought
-					duration = 1825
+				if = {
+					limit = { ai = yes }
+					add_years_of_income = -0.5
+					random_owned_province = {
+						limit = { is_city = yes is_capital = no NOT = { local_autonomy = 75 } }
+						add_local_autonomy = 15
+						add_unrest = -5
+					}
+					add_country_modifier = {
+						name = vln_magnate_house_bought
+						duration = 1825
+					}
+				}
+				else = {
+					country_event = { id = rip_vln_concessions.1 }
 				}
 			}
 			cooldown_years = 10
@@ -82,10 +99,14 @@ vln_magnate_senate_mechanic = {
 		vln_call_up_the_magnate_banners = {
 			icon = GFX_rip_senate_banners
 			trigger = {
-				mil_power = 60
+				has_reform = vln_voivodeship_reform
+				NOT = { has_reform = vln_cossack_host_reform }
+				is_at_war = yes
+				has_country_modifier = vln_senate_convened
 			}
 			effect = {
-				add_mil_power = -60
+				remove_country_modifier = vln_senate_convened
+				add_manpower = 0.1
 				add_army_tradition = 3
 				add_country_modifier = {
 					name = vln_magnate_banners_mustered

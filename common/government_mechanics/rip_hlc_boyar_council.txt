@@ -12,6 +12,10 @@
 # never on the Austria fork, so this uses plain country modifiers plus the
 # always-present vanilla estate_nobles rather than a bespoke estate.
 #
+# The three buttons are alternative council courses. A shared ten-year
+# cooldown makes co-option, dynastic defence and repression compete rather
+# than stack as independent tools.
+#
 # Buttons-only (devshirme pattern): no powers, no .gui, no DLC gate - the
 # whole HLC lineage has none of its eleven reforms hooked to a mechanic
 # otherwise. The three buttons carry their own sprites
@@ -34,7 +38,10 @@ hlc_boyar_council_mechanic = {
 		hlc_confirm_the_boyars_in_office = {
 			icon = GFX_rip_boyar_office
 			trigger = {
+				has_reform = hlc_galician_voivodeship_reform
 				adm_power = 50
+				has_estate = estate_nobles
+				NOT = { estate_loyalty = { estate = estate_nobles loyalty = 60 } }
 				NOT = { has_country_modifier = hlc_boyars_confirmed }
 			}
 			effect = {
@@ -48,7 +55,9 @@ hlc_boyar_council_mechanic = {
 					duration = 3650
 				}
 			}
-			cooldown_years = 8
+			cooldown_years = 10
+			cooldown_token = hlc_boyar_council_session
+			cooldown_desc = hlc_boyar_council_session_cd
 			ai_chance = {
 				factor = 1
 				modifier = {
@@ -62,7 +71,9 @@ hlc_boyar_council_mechanic = {
 		hlc_counter_the_foreign_claimant = {
 			icon = GFX_rip_boyar_claimant
 			trigger = {
+				has_reform = hlc_galician_voivodeship_reform
 				dip_power = 50
+				NOT = { legitimacy_equivalent = 60 }
 				NOT = { has_country_modifier = hlc_foreign_claimant_countered }
 			}
 			effect = {
@@ -76,12 +87,14 @@ hlc_boyar_council_mechanic = {
 					duration = 3650
 				}
 			}
-			cooldown_years = 12
+			cooldown_years = 10
+			cooldown_token = hlc_boyar_council_session
+			cooldown_desc = hlc_boyar_council_session_cd
 			ai_chance = {
 				factor = 1
 				modifier = {
 					factor = 8
-					legitimacy_equivalent = 40
+					NOT = { legitimacy_equivalent = 40 }
 				}
 			}
 		}
@@ -90,7 +103,10 @@ hlc_boyar_council_mechanic = {
 		hlc_make_an_example_of_a_defiant_boyar = {
 			icon = GFX_rip_boyar_example
 			trigger = {
+				has_reform = hlc_galician_voivodeship_reform
 				mil_power = 60
+				is_at_war = no
+				NOT = { estate_loyalty = { estate = estate_nobles loyalty = 40 } }
 				has_estate = estate_nobles
 			}
 			effect = {
@@ -105,7 +121,9 @@ hlc_boyar_council_mechanic = {
 					duration = 2555
 				}
 			}
-			cooldown_years = 15
+			cooldown_years = 10
+			cooldown_token = hlc_boyar_council_session
+			cooldown_desc = hlc_boyar_council_session_cd
 			ai_chance = {
 				factor = 1
 				modifier = {

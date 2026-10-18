@@ -5,15 +5,28 @@
 
 pdl_clan_assembly_reform = {
 	icon = "tribal_council"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = no
 	lock_level_when_selected = yes
 	valid_for_nation_designer = no
 	valid_for_new_country = yes
 	potential = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_clan_assembly_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				has_country_flag = pdl_frontier_path
+			}
+		}
 	}
 	trigger = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_clan_assembly_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				has_country_flag = pdl_frontier_path
+			}
+		}
 	}
 	modifiers = {
 		global_unrest = -1
@@ -30,15 +43,28 @@ pdl_clan_assembly_reform = {
 
 pdl_steppe_principality_reform = {
 	icon = "russian_principality"
+	legacy_equivalent = principality_legacy
 	allow_normal_conversion = no
 	lock_level_when_selected = yes
 	valid_for_nation_designer = no
 	valid_for_new_country = yes
 	potential = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_steppe_principality_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				has_country_flag = pdl_carpathian_path
+			}
+		}
 	}
 	trigger = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_steppe_principality_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				has_country_flag = pdl_carpathian_path
+			}
+		}
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.10
@@ -55,15 +81,28 @@ pdl_steppe_principality_reform = {
 
 pdl_voivodeship_kingdom_reform = {
 	icon = "crown_highlighted"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = no
 	lock_level_when_selected = yes
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_voivodeship_kingdom_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				has_country_flag = pdl_magnate_path
+			}
+		}
 	}
 	trigger = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_voivodeship_kingdom_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				has_country_flag = pdl_magnate_path
+			}
+		}
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.1
@@ -80,6 +119,7 @@ pdl_voivodeship_kingdom_reform = {
 
 pdl_palatine_court_reform = {
 	icon = "royal_court"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -104,6 +144,7 @@ pdl_palatine_court_reform = {
 
 pdl_aristocratic_assembly_reform = {
 	icon = "states_general"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -129,6 +170,7 @@ pdl_aristocratic_assembly_reform = {
 
 pdl_magnate_republic_reform = {
 	icon = "merchant_representation_reform"
+	legacy_equivalent = administrative_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -156,20 +198,37 @@ pdl_magnate_republic_reform = {
 
 pdl_frontier_voivodeship_reform = {
 	icon = "assembly_hall"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = no
 	lock_level_when_selected = yes
 	valid_for_nation_designer = no
 	valid_for_new_country = no
 	potential = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_frontier_voivodeship_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				NOT = { has_country_flag = pdl_carpathian_path }
+				NOT = { has_country_flag = pdl_frontier_path }
+				NOT = { has_country_flag = pdl_magnate_path }
+			}
+		}
 	}
 	trigger = {
-		west_ukraine_pdl_origin_country = yes
+		OR = {
+			has_reform = pdl_frontier_voivodeship_reform
+			AND = {
+				west_ukraine_pdl_origin_country = yes
+				NOT = { has_country_flag = pdl_carpathian_path }
+				NOT = { has_country_flag = pdl_frontier_path }
+				NOT = { has_country_flag = pdl_magnate_path }
+			}
+		}
 	}
 	modifiers = {
 		governing_capacity_modifier = 0.1
 		reform_progress_growth = 0.1
-		state_maintenance_modifier = -0.1
+		fort_maintenance_modifier = -0.1
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -181,6 +240,7 @@ pdl_frontier_voivodeship_reform = {
 
 pdl_carpathian_bastion_reform = {
 	icon = "mountain_fort"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -205,6 +265,7 @@ pdl_carpathian_bastion_reform = {
 
 pdl_frontier_republic_reform = {
 	icon = "cossacks"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -233,6 +294,7 @@ pdl_frontier_republic_reform = {
 
 pdl_magnate_dominion_reform = {
 	icon = "boyar"
+	legacy_equivalent = administrative_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -260,6 +322,7 @@ pdl_magnate_dominion_reform = {
 
 pdl_enlightened_voivodeship_reform = {
 	icon = "enlightenment"
+	legacy_equivalent = enlightened_despotism
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -284,6 +347,7 @@ pdl_enlightened_voivodeship_reform = {
 
 pdl_absolute_dominion_reform = {
 	icon = "letat_cest_moi"
+	legacy_equivalent = despotic_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -307,6 +371,7 @@ pdl_absolute_dominion_reform = {
 
 pdl_revolutionary_republic_reform = {
 	icon = "revolutionary_republic"
+	legacy_equivalent = constitutional_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -336,6 +401,7 @@ pdl_revolutionary_republic_reform = {
 
 pdl_grand_podillia_reform = {
 	icon = "king_highlighted"
+	legacy_equivalent = despotic_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -360,6 +426,7 @@ pdl_grand_podillia_reform = {
 
 pdl_religious_tolerance_reform = {
 	icon = "holy_state_reform"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -382,9 +449,65 @@ pdl_religious_tolerance_reform = {
 		modifier = {
 			factor = 1.5
 			OR = {
-				religion = jewish
+				NOT = { religious_unity = 0.8 }
 				religion = orthodox
+				religion = catholic
+				religion = greek_catholic
 			}
+		}
+	}
+}
+
+# Kamianets-Podilskyi was held for centuries by four self-governing communities
+# - Ruthenians, Poles, Armenians and the Jewish kahal - each with its own
+# magistrate, church and quarter. The bargain was simple: nobody was converted,
+# and everybody manned the walls. The reform is that bargain; the charter of the
+# four communities is the decision pdl_charter_of_four_communities and their
+# petitions are events/RIP_FaithReformEvents.txt (rip_kamianets). Rates are
+# design values.
+pdl_kamianets_concordat_reform = {
+	icon = "mountain_fort"
+	legacy_equivalent = feudal_monarchy
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		pdl_concordat_visible = yes
+	}
+	trigger = {
+		pdl_concordat_eligible = yes
+	}
+	modifiers = {
+		defensiveness = 0.1
+		fort_maintenance_modifier = -0.1
+		tolerance_heretic = 1
+		tolerance_heathen = 1
+		years_of_nationalism = -5
+		caravan_power = 0.1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	removed_effect = {
+		hidden_effect = {
+			clr_country_flag = pdl_four_communities_chartered
+			281 = {
+				if = {
+					limit = { has_province_modifier = pdl_four_communities }
+					remove_province_modifier = pdl_four_communities
+				}
+			}
+			if = {
+				limit = { has_country_modifier = pdl_armenian_caravans }
+				remove_country_modifier = pdl_armenian_caravans
+			}
+		}
+	}
+	ai = {
+		factor = 6
+		modifier = {
+			factor = 2
+			NOT = { religious_unity = 0.8 }
 		}
 	}
 }

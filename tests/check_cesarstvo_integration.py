@@ -28,6 +28,8 @@ def evaluate(items, state):
             result = evaluate(parse(eligibility), state)
         elif key == 'any_owned_province':
             result = state['minority'] > 0
+            if 'has_owner_accepted_culture' in dict(value):
+                result = result and state['minority'] > state['excluded']
         elif key == 'check_variable':
             args = dict(value)
             variable = {'rip_cesar_minority_share':'minority',
@@ -61,6 +63,8 @@ p, c = 'kyivan_peoples_gathering', 'kyivan_throne_concord'
 assert rate(p, minority=0, num_accepted_cultures=0) <= 0
 assert rate(p, minority=0, num_accepted_cultures=5) <= 0
 assert rate(p, minority=0.09) <= 0
+for share in (0.1, 0.15, 0.3, 0.8, 1.0):
+    assert rate(p, minority=share, excluded=share, num_accepted_cultures=5) <= 0
 assert rate(p, minority=0.1, num_accepted_cultures=1) == 0.4
 assert rate(p) == 0.7
 assert rate(p, num_accepted_cultures=1) == 0.55
@@ -82,4 +86,4 @@ assert 'value = 20' in effects and 'value = 0.3' in effects
 assert 'clr_country_flag = rip_cesar_breakdown' in effects
 assert 'rip_cesar_compact_migrated' in effects
 assert 'on_monthly_pulse' in read('common/on_actions/rip_cesarstvo_on_actions.txt')
-print('CESARSTVO PASS: 11 rate scenarios, reward renewal, census and crisis source contracts.')
+print('CESARSTVO PASS: 16 rate scenarios, reward renewal, census and crisis source contracts.')

@@ -8,31 +8,86 @@ siversk_patrimony_mechanic = {
 	}
 	interactions = {
 		siversk_confirm_patrimonies = {
-			icon = GFX_cossacks_ability_ADM
-			trigger = { adm_power = 50 NOT = { has_country_modifier = rip_siversk_patrimonial_compact } }
+			icon = GFX_rip_siversk_charter
+			trigger = {
+				has_reform = chr_siversk_principality_reform
+				adm_power = 50
+				NOT = { has_country_modifier = rip_siversk_patrimonial_compact }
+			}
 			effect = {
 				add_adm_power = -50
 				add_country_modifier = { name = rip_siversk_patrimonial_compact duration = 3650 }
+				add_estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 10
+				}
+				if = {
+					limit = { has_country_modifier = rip_siversk_town_compact }
+					add_estate_loyalty = {
+						estate = estate_burghers
+						loyalty = 5
+					}
+					add_legitimacy_equivalent = {
+						amount = 5
+						republican_tradition = 2
+					}
+				}
+				if = {
+					limit = { has_country_modifier = rip_siversk_retinue_muster }
+					add_yearly_manpower = 0.25
+				}
 			}
 			cooldown_years = 10
 			ai_chance = { factor = 1 modifier = { factor = 4 NOT = { stability = 1 } } }
 		}
 		siversk_charter_towns = {
-			icon = GFX_cossacks_ability_DIP
-			trigger = { dip_power = 50 NOT = { has_country_modifier = rip_siversk_town_compact } }
+			icon = GFX_rip_siversk_towns
+			trigger = {
+				has_reform = chr_siversk_principality_reform
+				dip_power = 50
+				NOT = { has_country_modifier = rip_siversk_town_compact }
+			}
 			effect = {
 				add_dip_power = -50
 				add_country_modifier = { name = rip_siversk_town_compact duration = 3650 }
+				add_estate_loyalty = {
+					estate = estate_burghers
+					loyalty = 10
+				}
+				if = {
+					limit = { has_country_modifier = rip_siversk_patrimonial_compact }
+					add_estate_loyalty = {
+						estate = estate_nobles
+						loyalty = 5
+					}
+					add_years_of_income = 0.15
+				}
+				if = {
+					limit = { has_country_modifier = rip_siversk_retinue_muster }
+					add_war_exhaustion = -1
+				}
 			}
 			cooldown_years = 10
 			ai_chance = { factor = 1 modifier = { factor = 3 is_at_war = no } }
 		}
 		siversk_muster_druzhyna = {
-			icon = GFX_cossacks_ability_MIL
-			trigger = { mil_power = 50 NOT = { has_country_modifier = rip_siversk_retinue_muster } }
+			icon = GFX_rip_siversk_retinue
+			trigger = {
+				has_reform = chr_siversk_principality_reform
+				mil_power = 50
+				NOT = { has_country_modifier = rip_siversk_retinue_muster }
+			}
 			effect = {
 				add_mil_power = -50
 				add_country_modifier = { name = rip_siversk_retinue_muster duration = 1825 }
+				if = {
+					limit = { has_country_modifier = rip_siversk_patrimonial_compact }
+					add_army_tradition = 5
+				}
+				if = {
+					limit = { has_country_modifier = rip_siversk_town_compact }
+					add_years_of_income = 0.10
+				}
 			}
 			cooldown_years = 10
 			ai_chance = { factor = 1 modifier = { factor = 10 is_at_war = yes } }

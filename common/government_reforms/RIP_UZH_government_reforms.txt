@@ -9,13 +9,17 @@
 # partia_soymu (left end, -1) and partia_kapitaniv (right end, +1). Vanilla's
 # bar is positional: the first block is the left end, the second the right end,
 # whatever they are called (militarists/theocrats, revolutionaries/monarchists).
-# What moves the bar is listed in docs/RUTHENIAN_GOVERNMENT_UI.uk.md and wired
-# in events/PalanokFortress.txt, missions/Zakarpatta_Missions.txt and
-# common/on_actions/uzh_palanok_on_actions.txt; the term election itself moves
-# it by 0.33 either way (vanilla elections.720, fired for every holder of a
-# states_general_mechanic).
+# What moves the bar (every hook goes through
+# common/scripted_effects/uzh_states_general_effects.txt and is guarded by this
+# reform and by has_states_general_mechanic): a war won against an equal or
+# larger foe (on_war_won in common/on_actions/00_on_actions.txt), the three
+# Palanok fortress events (events/PalanokFortress.txt) and three missions
+# (missions/Zakarpatta_Missions.txt). The term election itself moves it by 0.33
+# either way: vanilla's elections.720 fires from on_new_term_election for every
+# holder of a states_general_mechanic.
 uzh_palanok_captaincy_reform = {
 	icon = "rip_gfx_reform_uzh_palanok_captaincy_icon"
+	legacy_equivalent = dutch_republic_legacy
 	potential = {
 		OR = {
 			has_reform = uzh_palanok_captaincy_reform
@@ -97,6 +101,7 @@ uzh_palanok_captaincy_reform = {
 
 uzh_komitat_system_reform = {
 	icon = "nobleman"
+	legacy_equivalent = feudal_monarchy
 	potential = {
 		OR = {
 			has_reform = uzh_komitat_system_reform
@@ -136,6 +141,7 @@ uzh_komitat_system_reform = {
 
 uzh_republican_komitat_system_reform = {
 	icon = "nobleman"
+	legacy_equivalent = noble_republic
 	potential = {
 		OR = {
 			has_reform = uzh_republican_komitat_system_reform
@@ -175,6 +181,7 @@ uzh_republican_komitat_system_reform = {
 
 uzh_palatial_ruthenian_reform = {
 	icon = "british_monarchy"
+	legacy_equivalent = constitutional_monarchy
 	potential = {
 		OR = {
 			has_reform = uzh_palatial_ruthenian_reform
@@ -201,26 +208,19 @@ uzh_palatial_ruthenian_reform = {
 	modifiers = {
 		num_accepted_cultures = 1
 		diplomatic_reputation = 1
-		parliament_backing_chance = 0.1
 	}
 	custom_attributes = {
 		locked_government_type = yes
 	}
 	conditional = {
 		allow = {
-			has_dlc = "Common Sense"
-			NOT = { has_dlc = "Domination" }
+			OR = {
+				has_dlc = "Common Sense"
+				has_dlc = "Domination"
+			}
 		}
 		has_parliament = yes
-		custom_attributes = {
-			blocked_call_diet = yes
-		}
-	}
-	conditional = {
-		allow = {
-			has_dlc = "Domination"
-		}
-		has_parliament = yes
+		parliament_backing_chance = 0.1
 		custom_attributes = {
 			blocked_call_diet = yes
 		}
@@ -232,6 +232,7 @@ uzh_palatial_ruthenian_reform = {
 
 uzh_palatial_rusyn_reform = {
 	icon = "assembly_hall"
+	legacy_equivalent = administrative_monarchy
 	potential = {
 		OR = {
 			has_reform = uzh_palatial_rusyn_reform
@@ -268,6 +269,7 @@ uzh_palatial_rusyn_reform = {
 
 uzh_palatial_uhro_reform = {
 	icon = "paper_money_map"
+	legacy_equivalent = despotic_monarchy
 	potential = {
 		OR = {
 			has_reform = uzh_palatial_uhro_reform
@@ -330,6 +332,7 @@ uzh_palatial_uhro_reform = {
 
 uzh_palatial_uhro_republic_reform = {
 	icon = "paper_money_map"
+	legacy_equivalent = administrative_republic
 	potential = {
 		OR = {
 			has_reform = uzh_palatial_uhro_republic_reform
@@ -384,6 +387,7 @@ uzh_palatial_uhro_republic_reform = {
 
 uzh_union_synod_reform = {
 	icon = "conciliarism_reform"
+	legacy_equivalent = feudal_monarchy
 	potential = {
 		OR = {
 			has_reform = uzh_union_synod_reform
@@ -415,6 +419,7 @@ uzh_union_synod_reform = {
 
 uzh_carpathian_border_commissariat_reform = {
 	icon = "mountain_fort"
+	legacy_equivalent = administrative_monarchy
 	potential = {
 		OR = {
 			has_reform = uzh_carpathian_border_commissariat_reform

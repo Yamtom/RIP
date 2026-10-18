@@ -38,47 +38,7 @@ for active in ids:
 assert [i for i in ids if evaluate(potentials[i],set())] == ids[:1]
 assert not any(evaluate(p,set(),'FRA') for p in potentials.values())
 
-parliament = read('customizable_localization/rip_parliament_names.txt')
-choices = [(named_block(b,'trigger'),re.search(r'localisation_key = (\w+)',b)[1]) for _,b in keyed_blocks(parliament,'text')]
-def parliament_name(tag, government, held=()):
-    return next(key for trigger,key in choices if evaluate(trigger,set(held),tag,government))
-for tag in ('KIE','CHR','VLN','UZH','PRL','PDL','ODS','RUT'):
-    assert parliament_name(tag,'theocracy') == 'rip_parliament_sobor'
-    assert parliament_name(tag,'republic') == 'rip_parliament_'+tag.lower()+'_viche'
-    assert parliament_name(tag,'monarchy') == 'rip_parliament_estates'
-for active in ids:
-    assert parliament_name('KRU','monarchy',[active]) == 'rip_parliament_three'
-for tag,gov,reform,want in [('KIE','monarchy','kyivan_shogunate_reform','snem'),
-                           ('CHR','republic','chr_siversk_veche_reform','siversk_veche'),
-                           ('CHR','republic','chr_desna_staple_reform','desna_staple'),
-                           ('CHR','republic','chr_town_union_reform','siversk_towns'),
-                           ('CHR','republic','chr_rada_of_lands_reform','rada_of_lands'),
-                           ('CHR','monarchy','chr_siversk_principality_reform','siversk_boyar'),
-                           ('KIE','republic','kyivan_boyar_republic_reform','kyivan_boyar'),
-                           ('HLC','republic','hlc_boyar_republic_reform','halych_boyar'),
-                           ('HLC','monarchy','hlc_crown_and_sejm_reform','galician_sejm'),
-                           ('LIT','monarchy','lit_grand_diet_reform','grand_diet'),
-                           ('VLN','republic','vln_sejmik_republic_reform','volhynian_sejmik'),
-                           ('UZH','republic','uzh_republican_komitat_system_reform','komitat'),
-                           ('LIT','monarchy','lit_pany_rada_reform','pany'),
-                           ('HET','monarchy','het_starshyna_oligarchy_reform','officers'),
-                           ('HET','republic','','general'),('ZAZ','republic','','sich')]:
-    assert parliament_name(tag,gov,[reform]) == 'rip_parliament_'+want
-
-unique_parliaments = (
-    'rip_parliament_siversk_veche',
-    'rip_parliament_desna_staple',
-    'rip_parliament_siversk_towns',
-    'rip_parliament_rada_of_lands',
-    'rip_parliament_siversk_boyar',
-    'rip_parliament_ruthenian_principality',
-    'rip_parliament_kyivan_boyar',
-    'rip_parliament_halych_boyar',
-    'rip_parliament_galician_sejm',
-    'rip_parliament_grand_diet',
-    'rip_parliament_volhynian_sejmik',
-)
-assert len({loc[key] for key in unique_parliaments}) == len(unique_parliaments)
+# Parliament names (the window title overlay, the rules and the plain nouns) have their own contract: check_parliament_names.py.
 
 for power in ('kyivan_throne_concord','kyivan_peoples_gathering','kyiv_princely_levy_power','kyiv_seat_rotation_power','kyiv_grant_reconfirmation_power'):
     for key in (power,'monthly_'+power,power+'_gain_modifier'):
@@ -151,6 +111,15 @@ for current, previous, reform_id in (
     assert f'faction_in_power = {current}' in sync
     assert f'has_country_flag = kru_previous_dominant_{previous[4:]}' in sync
     assert f'add_government_reform = {reform_id}' in sync
+    matching = [branch for key in ('if', 'else_if')
+                for _, branch in keyed_blocks(sync_block, key)
+                if f'add_government_reform = {reform_id}' in branch
+                and 'kru_previous_dominant_' in branch]
+    assert len(matching) == 1
+    alternatives = keyed_blocks(named_block(named_block(matching[0], 'limit'), 'OR'), 'AND')
+    assert any(f'faction_in_power = {current}' in branch
+               and f'has_country_flag = kru_previous_dominant_{previous[4:]}' in branch
+               for _, branch in alternatives), (current, previous, reform_id)
 pair_branches = [
     block
     for key in ('if', 'else_if')
@@ -175,14 +144,14 @@ for faction in ('knyazi','boyary','starshyna'):
     assert loc[f'kru_{faction}_FACTION_DESC']
 expected_ability_icons = {
     'rip_siversk_patrimony': [
-        'GFX_cossacks_ability_ADM',
-        'GFX_cossacks_ability_DIP',
-        'GFX_cossacks_ability_MIL',
+        'GFX_rip_siversk_charter',
+        'GFX_rip_siversk_towns',
+        'GFX_rip_siversk_retinue',
     ],
     'rip_kyivan_seniority': [
-        'GFX_cossacks_ability_ADM',
-        'GFX_cossacks_ability_DIP',
-        'GFX_cossacks_ability_MIL',
+        'GFX_rip_kyiv_snem',
+        'GFX_rip_kyiv_udil',
+        'GFX_rip_kyiv_druzhyna',
     ],
     'rip_kyivan_seniorate': [
         'GFX_cossacks_ability_MIL',
@@ -198,6 +167,96 @@ expected_ability_icons = {
 for file, expected in expected_ability_icons.items():
     text = read(f'common/government_mechanics/{file}.txt')
     assert re.findall(r'^\s*icon = (\w+)', text, re.M) == expected
+
+for path, mechanic, actions, years, token, cooldown_desc in (
+    (
+        'common/government_mechanics/rip_hlc_boyar_council.txt',
+        'hlc_boyar_council_mechanic',
+        ('hlc_confirm_the_boyars_in_office', 'hlc_counter_the_foreign_claimant',
+         'hlc_make_an_example_of_a_defiant_boyar'),
+        10,
+        'hlc_boyar_council_session',
+        'hlc_boyar_council_session_cd',
+    ),
+    (
+        'common/government_mechanics/rip_lit_pany_rada.txt',
+        'lit_pany_rada_mechanic',
+        ('lit_seek_the_radas_confirmation', 'lit_win_over_a_wavering_lord',
+         'lit_the_radas_own_retinues'),
+        5,
+        'lit_pany_rada_session',
+        'lit_pany_rada_session_cd',
+    ),
+):
+    buttons = named_block(named_block(read(path), mechanic), 'interactions')
+    for action in actions:
+        block = named_block(buttons, action)
+        assert f'cooldown_years = {years}' in block
+        if mechanic == 'hlc_boyar_council_mechanic':
+            assert f'cooldown_token = {token}' in block
+            assert f'cooldown_desc = {cooldown_desc}' in block
+        else:
+            assert 'cooldown_token' not in block
+
+seniority = read('common/government_mechanics/rip_kyivan_seniority.txt')
+seniority_interactions = named_block(
+    named_block(seniority, 'kyivan_seniority_mechanic'), 'interactions'
+)
+prince_types = 'OR = { is_subject_of_type = princedom is_subject_of_type = senior_udil }'
+
+snem = named_block(seniority_interactions, 'kyiv_call_the_snem')
+snem_trigger = normalized(named_block(snem, 'trigger'))
+assert 'num_of_subjects' not in snem_trigger
+assert 'NOT = { num_of_subjects = 0 }' not in snem_trigger
+assert f'any_subject_country = {{ {prince_types} }}' in snem_trigger
+snem_effect = named_block(snem, 'effect')
+snem_subject_effects = [
+    normalized(block) for _, block in keyed_blocks(snem_effect, 'every_subject_country')
+]
+assert len(snem_subject_effects) == 1
+assert f'limit = {{ {prince_types} }}' in snem_subject_effects[0]
+assert 'add_liberty_desire = -20' in snem_subject_effects[0]
+assert f'any_subject_country = {{ {prince_types} liberty_desire = 50 }}' in normalized(
+    named_block(snem, 'ai_chance')
+)
+
+regrant = named_block(seniority_interactions, 'kyiv_regrant_the_udil')
+assert f'any_subject_country = {{ {prince_types} liberty_desire = 35 }}' in normalized(
+    named_block(regrant, 'trigger')
+)
+regrant_effect = named_block(regrant, 'effect')
+regrant_subject_effects = [
+    normalized(block) for _, block in keyed_blocks(regrant_effect, 'random_subject_country')
+]
+assert len(regrant_subject_effects) == 1
+assert f'limit = {{ {prince_types} liberty_desire = 35 }}' in regrant_subject_effects[0]
+assert f'any_subject_country = {{ {prince_types} liberty_desire = 60 }}' in normalized(
+    named_block(regrant, 'ai_chance')
+)
+
+druzhyna = named_block(seniority_interactions, 'kyiv_summon_the_druzhyny')
+assert f'any_subject_country = {{ {prince_types} }}' in normalized(
+    named_block(druzhyna, 'trigger')
+)
+
+senate = named_block(
+    read('common/government_mechanics/rip_vln_magnate_senate.txt'),
+    'vln_magnate_senate_mechanic',
+)
+senate_gate = 'NOT = { has_reform = vln_cossack_host_reform }'
+senate_available = normalized(named_block(senate, 'available'))
+assert 'has_reform = vln_voivodeship_reform' in senate_available
+assert senate_gate in senate_available
+for button in (
+    'vln_summon_the_senate',
+    'vln_buy_off_a_magnate_house',
+    'vln_call_up_the_magnate_banners',
+):
+    button_block = named_block(named_block(senate, 'interactions'), button)
+    button_trigger = normalized(named_block(button_block, 'trigger'))
+    assert 'has_reform = vln_voivodeship_reform' in button_trigger
+    assert senate_gate in button_trigger
+
 assert 'government_reform_rip_siversk_principality' not in gfx
 for icon in ('GFX_rip_concord', 'GFX_rip_prosperity'):
     assert f'name = "{icon}"' in gfx
@@ -218,12 +277,20 @@ for texture in re.findall(r'texturefile = "([^"]+)"',gfx):
 
 for language in ('english','french','german','spanish'):
     seen = {}
+    all_keys = set()
     for path in (ROOT/'localisation').rglob(f'*l_{language}.yml'):
-        for key in re.findall(r'^ ([\w]+):\d+',path.read_text(encoding='utf-8-sig'),re.M):
+        path_keys = re.findall(r'^ ([\w]+):\d+',path.read_text(encoding='utf-8-sig'),re.M)
+        all_keys.update(path_keys)
+        for key in path_keys:
             if key in loc:
                 assert key not in seen, (key,seen.get(key),path)
                 seen[key] = path
     assert set(loc) <= set(seen)
+    assert {
+        'hlc_boyar_council_session_cd',
+        'lit_pany_rada_session_cd',
+        'hlc_ordinance_cooldown_desc',
+    } <= all_keys
 
 for name in (
     'siversk_charter', 'siversk_towns', 'siversk_retinue', 'kyiv_snem',
@@ -238,13 +305,8 @@ if game:
     font = (game/'gfx/fonts/vic_18.fnt').read_text(encoding='latin-1')
     for code, advance in re.findall(r'char id=(\d+).*?xadvance=(-?\d+)',font):
         widths[chr(int(code))] = int(advance)
-    labels = {k:v for k,v in loc.items() if (k.startswith('rip_parliament_') or k.startswith('ability_') or k in ids or k == 'chr_siversk_principality_reform' or k in ('siversk_confirm_patrimonies','siversk_charter_towns','siversk_muster_druzhyna','kyivan_throne_concord','kyivan_peoples_gathering'))}
+    labels = {k:v for k,v in loc.items() if (k.startswith('ability_') or k in ids or k == 'chr_siversk_principality_reform' or k in ('siversk_confirm_patrimonies','siversk_charter_towns','siversk_muster_druzhyna','kyivan_throne_concord','kyivan_peoples_gathering'))}
     measured = [(k,len(v),sum(widths[c] for c in v)) for k,v in labels.items()]
     assert all(chars <= 28 and pixels <= 220 for _,chars,pixels in measured), measured
     print('NAME WIDTH PASS: vic_18; max',max(x[1] for x in measured),'characters;',max(x[2] for x in measured),'px; budget 220 px.')
 print('RUTHENIAN GOVERNMENT UI PASS: exclusive states, costs, cooldowns, sprites, unique localisation and names.')
-
-for tag, place in [('SMY','sumy'),('OKH','okhtyrka'),('KHK','kharkiv'),('IZM','izium')]:
-    for gov in ('monarchy','republic'):
-        assert parliament_name(tag,gov) == 'rip_parliament_'+place+'_regimental'
-assert parliament_name('KIE','monarchy',['kyivan_cesarstvo_reform']) == 'rip_parliament_imperial_sobor'

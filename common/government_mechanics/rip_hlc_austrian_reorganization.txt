@@ -9,10 +9,10 @@
 #
 # Vanilla has no "toggleable law" object as such. What it has, and what this
 # copies the structure of, is perfectionism_mechanic's mutually exclusive
-# focuses (common/government_mechanics/08_perfectionism.txt): a pair of
-# buttons, each clearing the others' persistent (duration = -1) country
-# modifier before applying its own. That is the shape used here for three
-# ordinances the chancery can enact and later rescind:
+# focuses (common/government_mechanics/08_perfectionism.txt): buttons that
+# put a persistent (duration = -1) country modifier in force and others that
+# take it out again. That is the shape used here for three ordinances the
+# chancery can enact and later rescind:
 #
 #  - The Chancery Ordinance seconds trained clerks to the chancellor's
 #    staff - a standing diplomatic bonus while enacted. Vanilla has no
@@ -47,10 +47,10 @@
 #  - TWO SLOTS. At most two of the three can be in force. hlc_ordinance_slot_
 #    free (common/scripted_triggers/rip_hlc_ordinance_triggers.txt) counts the
 #    flags and every enact button requires it, so the third ordinance can be
-#    had only by rescinding one of the others. Each ordinance's two buttons
-#    share one cooldown token, so an ordinance can be neither rescinded nor
-#    enacted again within five years of its last change - a choice is
-#    kept, not toggled.
+#    had only by rescinding one of the others. An ordinance's enact and
+#    rescind buttons share one cooldown token (cooldown_desc names it in the
+#    cooldown tooltip), so it can be neither rescinded nor enacted again
+#    within five years of its last change - a choice is kept, not toggled.
 #  - THE AI. Every button has an ai_chance: it enacts what its realm needs
 #    (settlement when several owned cities hold a culture that is neither
 #    primary nor accepted, the cadastre when short of money and the nobles are
@@ -63,13 +63,24 @@
 #    effects.txt) take every ordinance out of force once the crown authority
 #    that enacted them is gone, so none outlives it.
 #
+# Layout: SIX buttons, two full rows of three. The top row enacts, the bottom
+# row rescinds, and each column is one ordinance (chancery, settlement,
+# cadastre). The order of the interactions below is the order of the buttons.
+# The bottom row sits below the fold of vanilla's mechanics list, which shows
+# one row of three; the wheel scrolls to it. That is a limit of the vanilla
+# window which the author has been told about, not something this file can
+# change. A later revision folded each enact/rescind pair into one toggle
+# button so that all three fitted on the visible row; the
+# author asked for six abilities explicitly, so the toggle design was
+# deliberately replaced by this one. What was kept of it: the shared-token
+# cooldown_desc and the situational AI (every button decides from the
+# *_wanted / *_spent / *_dangerous triggers); dropped: the combined button,
+# its OR trigger and its if/else effect, which hid the free rescind inside a
+# button priced for enacting.
+#
 # Buttons-only, same as rip_hlc_boyar_council.txt: no powers, no .gui, no DLC
-# gate. Six buttons make two full rows of three: the top row enacts, the
-# bottom row rescinds, and each column is one ordinance (chancery,
-# settlement, cadastre). The order of the interactions below is the order of
-# the buttons. Each button has its own sprite
-# (interface/rip_ability_icons.gfx), drawn by
-# tools/build_government_ability_icons.py.
+# gate. Each button has its own sprite (interface/rip_ability_icons.gfx),
+# drawn by tools/build_government_ability_icons.py.
 # =============================================================================
 
 hlc_austrian_reorganization_mechanic = {
@@ -85,6 +96,7 @@ hlc_austrian_reorganization_mechanic = {
 		hlc_enact_chancery_ordinance = {
 			icon = GFX_rip_chancery_enact
 			trigger = {
+				has_reform = hlc_crown_authority_reform
 				custom_trigger_tooltip = {
 					tooltip = hlc_chancery_ordinance_not_in_force_tt
 					NOT = { has_country_flag = hlc_chancery_ordinance_active }
@@ -105,17 +117,28 @@ hlc_austrian_reorganization_mechanic = {
 			}
 			cooldown_years = 5
 			cooldown_token = hlc_chancery_ordinance
+			cooldown_desc = hlc_ordinance_cooldown_desc
 			ai_chance = {
 				factor = 4
 				modifier = {
 					factor = 0
 					has_country_flag = hlc_chancery_ordinance_active
 				}
+				# The plainest of the three: a realm that needs settlers or
+				# a survey reaches for those first.
+				modifier = {
+					factor = 0.25
+					OR = {
+						hlc_ordinance_settlement_wanted = yes
+						hlc_ordinance_cadastre_wanted = yes
+					}
+				}
 			}
 		}
 		hlc_enact_settlement_ordinance = {
 			icon = GFX_rip_settlement_enact
 			trigger = {
+				has_reform = hlc_crown_authority_reform
 				custom_trigger_tooltip = {
 					tooltip = hlc_settlement_ordinance_not_in_force_tt
 					NOT = { has_country_flag = hlc_settlement_ordinance_active }
@@ -136,6 +159,7 @@ hlc_austrian_reorganization_mechanic = {
 			}
 			cooldown_years = 5
 			cooldown_token = hlc_settlement_ordinance
+			cooldown_desc = hlc_ordinance_cooldown_desc
 			ai_chance = {
 				factor = 1
 				modifier = {
@@ -162,6 +186,7 @@ hlc_austrian_reorganization_mechanic = {
 		hlc_enact_cadastral_ordinance = {
 			icon = GFX_rip_cadastre_enact
 			trigger = {
+				has_reform = hlc_crown_authority_reform
 				custom_trigger_tooltip = {
 					tooltip = hlc_cadastral_ordinance_not_in_force_tt
 					NOT = { has_country_flag = hlc_cadastral_ordinance_active }
@@ -182,6 +207,7 @@ hlc_austrian_reorganization_mechanic = {
 			}
 			cooldown_years = 5
 			cooldown_token = hlc_cadastral_ordinance
+			cooldown_desc = hlc_ordinance_cooldown_desc
 			ai_chance = {
 				factor = 3
 				modifier = {
@@ -212,6 +238,7 @@ hlc_austrian_reorganization_mechanic = {
 			}
 			cooldown_years = 5
 			cooldown_token = hlc_chancery_ordinance
+			cooldown_desc = hlc_ordinance_cooldown_desc
 			ai_chance = {
 				factor = 10
 				# Only to make room for an ordinance the realm needs more, or
@@ -241,6 +268,7 @@ hlc_austrian_reorganization_mechanic = {
 			}
 			cooldown_years = 5
 			cooldown_token = hlc_settlement_ordinance
+			cooldown_desc = hlc_ordinance_cooldown_desc
 			ai_chance = {
 				factor = 10
 				# Once no unaccepted city is left its benefit no longer applies.
@@ -258,6 +286,7 @@ hlc_austrian_reorganization_mechanic = {
 		hlc_rescind_cadastral_ordinance = {
 			icon = GFX_rip_cadastre_rescind
 			trigger = {
+				has_reform = hlc_crown_authority_reform
 				custom_trigger_tooltip = {
 					tooltip = hlc_cadastral_ordinance_in_force_tt
 					has_country_flag = hlc_cadastral_ordinance_active
@@ -269,6 +298,7 @@ hlc_austrian_reorganization_mechanic = {
 			}
 			cooldown_years = 5
 			cooldown_token = hlc_cadastral_ordinance
+			cooldown_desc = hlc_ordinance_cooldown_desc
 			ai_chance = {
 				factor = 10
 				# Noble loyalty has fallen too far to be counted again.

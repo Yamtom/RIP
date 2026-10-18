@@ -5,6 +5,7 @@
 
 vln_voivodeship_reform = {
 	icon = "assembly_hall"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -41,13 +42,26 @@ vln_voivodeship_reform = {
 	# co-ruled the palatinate. common/government_mechanics/rip_vln_magnate_senate.txt.
 	# Retires itself if vln_cossack_host_reform is picked instead - see that
 	# mechanic's own available block.
-	government_abilities = {
-		vln_magnate_senate_mechanic
+	conditional = {
+		allow = {
+			NOT = { has_reform = vln_cossack_host_reform }
+		}
+		government_abilities = {
+			vln_magnate_senate_mechanic
+		}
+	}
+	removed_effect = {
+		hidden_effect = {
+			remove_country_modifier = vln_senate_convened
+			remove_country_modifier = vln_magnate_house_bought
+			remove_country_modifier = vln_magnate_banners_mustered
+		}
 	}
 }
 
 vln_confessional_reform = {
 	icon = "holy_state_reform"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
@@ -82,6 +96,7 @@ vln_confessional_reform = {
 
 vln_ruthenia_reform = {
 	icon = "crown"
+	legacy_equivalent = despotic_monarchy
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
@@ -122,6 +137,7 @@ vln_ruthenia_reform = {
 
 vln_cossack_host_reform = {
 	icon = "cossacks"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
@@ -148,6 +164,13 @@ vln_cossack_host_reform = {
 		locked_government_type = yes
 		recruiting_generals_increases_nobles_loyalty = yes
 	}
+	effect = {
+		hidden_effect = {
+			remove_country_modifier = vln_senate_convened
+			remove_country_modifier = vln_magnate_house_bought
+			remove_country_modifier = vln_magnate_banners_mustered
+		}
+	}
 	removed_effect = {
 		rip_gov_clear_register_effect = yes
 	}
@@ -155,6 +178,7 @@ vln_cossack_host_reform = {
 
 vln_confessional_academy = {
 	icon = "church"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
@@ -180,6 +204,7 @@ vln_confessional_academy = {
 
 vln_voivode_council = {
 	icon = "council"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
@@ -207,6 +232,7 @@ vln_voivode_council = {
 
 vln_black_voivode_legion = {
 	icon = "soldiers_4"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
@@ -243,6 +269,7 @@ vln_black_voivode_legion = {
 
 vln_grand_ruthenia_reform = {
 	icon = "king_highlighted"
+	legacy_equivalent = constitutional_monarchy
 	allow_normal_conversion = yes
 	potential = {
 		OR = {
@@ -259,18 +286,14 @@ vln_grand_ruthenia_reform = {
 			}
 		}
 	}
-	# The reunited Halych-Volhynia crown, so the tolerance and administrative
-	# habits of both halves of the union ride together: no_religion_penalty
-	# is the real vanilla modifier behind Lithuania's kingdom/empire tiers
-	# (lithuanian_grand_kingdom, lithuanian_grand_empire -
-	# common/government_reforms/01_government_reforms_monarchies.txt), not a
-	# custom_attribute, and it is why a state holding Orthodox, Catholic and
-	# Jewish provinces alike does not bleed unrest for it. The other four are
-	# the same Austro-Hungarian-and-Commonwealth set already confirmed and
-	# used on uzh_palatial_uhro_reform in RIP_UZH_government_reforms.txt,
-	# themselves sourced from black_army_reform
-	# (01_government_reforms_monarchies.txt) and the Hungarian court reforms
-	# in 06_government_reforms_common.txt.
+	# The reunited Halych-Volhynia crown carries the tolerance and administrative
+	# habits of both halves: no_religion_penalty is the real vanilla modifier
+	# behind Lithuania's kingdom/empire tiers (lithuanian_grand_kingdom,
+	# lithuanian_grand_empire - common/government_reforms/
+	# 01_government_reforms_monarchies.txt), not a custom_attribute. It is why
+	# a state holding Orthodox, Catholic and Jewish provinces alike does not
+	# bleed unrest. Hungarian court attributes remain on UZH's dedicated
+	# Uhro-Rusyn path, not on this united Ruthenian crown.
 	#
 	# fixed_rank was deliberately left out: VOL's own rank escalation is
 	# already mission-driven (VOL_ruthenian_hegemony sets government_rank = 3
@@ -297,12 +320,6 @@ vln_grand_ruthenia_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
-		# See uzh_palatial_uhro_reform in RIP_UZH_government_reforms.txt for
-		# the source of these four - not invented names.
-		seizing_land_no_rebels_from_estate_nobles = yes
-		monarch_power_on_institutions = yes
-		mercs_do_not_cost_army_professionalism = yes
-		army_tradition_on_stackwipe = yes
 	}
 	# The Grand Host of Halych-Volhynia, a standing mercenary company the
 	# united crown never has to hire twice - common vanilla shorthand for
@@ -372,6 +389,7 @@ vln_sejmik_republic_reform = {
 
 vln_dietine_instructions_reform = {
 	icon = "paper_with_seal"
+	legacy_equivalent = noble_republic
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no

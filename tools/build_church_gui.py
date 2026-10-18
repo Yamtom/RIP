@@ -4,7 +4,7 @@ Exact vanilla host overrides are necessary: EU4 attaches scripted children to na
 from pathlib import Path
 import argparse,re,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tests'))
-from clausewitz_testlib import matching_brace,vanilla_root,named_block
+from clausewitz_testlib import matching_brace,vanilla_root,named_block,brace_error
 ROOT=Path(__file__).resolve().parents[1]; GAME=vanilla_root()
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()
 defs=[]; feature_defs=[]; outputs={}; text_bindings=set()
@@ -194,7 +194,7 @@ insets.extend([
  'spriteType = { name = "GFX_rip_ro_native_header" textureFile = "gfx/interface/rip_ro_native_header.dds" }',
 ])
 ro=art('rip_church_ro_native_header','GFX_rip_church_window_banner',18,19,0.94)
-ro+=text('rip_church_ro_heading',28,35,w=419,h=24,font='vic_22',align='center',tip=False)
+ro+=text('rip_church_ro_heading',28,35,w=375,h=24,font='vic_22',align='center',tip=False)
 ro+=card('rip_church_ro_status_card',34,67,407,30,
          text('rip_church_ro_status',8,8,w=391,h=22,align='center'))
 # Reuse the translated tile readouts rather than emitting the obsolete fuel/slots/network keys.
@@ -249,32 +249,134 @@ for i,k in enumerate(('war','mercy','building','mission')):
     ro+=card('rip_church_ro_'+k+'_card',x,y,RO_CARD_W,RO_CARD_H,policy)
 ro+=button('rip_church_nodes_button',34,RO_BUTTON_Y,'rip_church_ro_can_open_network_menu = yes',
            'country_event = { id = rip_church_nodes.1 }',sprite='button_type_8')
-ro+=button('rip_church_reconcile_button',248,RO_BUTTON_Y,'rip_church_can_reconcile = yes',
+# The corner belongs to the Holy Cities Register medallion, so the schism action sits between the node
+# button (x34..223) and the medallion (x412..458), at 0.85 scale: x229..390.
+ro+=button('rip_church_reconcile_button',229,RO_BUTTON_Y,'rip_church_can_reconcile = yes',
            'rip_church_ro_begin_reconciliation_effect = yes',
-           'has_country_flag = rip_church_ro_schismatic',sprite='button_type_8')
+           'has_country_flag = rip_church_ro_schismatic',sprite='button_type_8',scale=0.85)
+# Holy Cities Register: a tile in the bottom-right corner with the Russian Orthodox cross (religion
+# frame 30) laid over it. It used to be the vanilla Coptic blessing tile at the top right, which read
+# as a close button, and a second copy of it covered the Defender of the Faith header in the native
+# window. The tile is the clickable face; the cross is decoration and takes no clicks.
+HOLY_OPEN_X,HOLY_OPEN_Y=412,496
+ro+=f'guiButtonType = {{ name = "rip_ro_holy_cities_open" scripted = yes position = {{ x={HOLY_OPEN_X} y={HOLY_OPEN_Y} }} quadTextureSprite = "GFX_rip_church_ro_holy_tile" scale = 0.8 }}'
+ro+=f'iconType = {{ name = "rip_ro_holy_cities_open_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = {{ x={HOLY_OPEN_X+7} y={HOLY_OPEN_Y+7} }} scale = 0.5 alwaystransparent = yes }}'
+defs.append('custom_icon = { name = rip_ro_holy_cities_open_symbol potential = { always = yes } frame = { number = 30 trigger = { always = yes } } }')
 
-# Read-only register of sees and pilgrimage destinations. The names and
-# province owner/faith are direct province-scope localisations, not cached
-# variables or gameplay effects.
+# ---------------------------------------------------------------------------
+# Holy Cities Register: read-only. Owner and faith are direct province-scope
+# localisations, never cached variables or gameplay effects. A myth is the
+# country variable rip_ro_myth_years_<city>: rip_ro_holy_cities_yearly_pulse_effect
+# raises it by one a year up to 30. It is read only through check_variable (an
+# unset variable counts as 0): a direct [Root.<variable>.GetValue] prints nothing
+# until the variable is first set, and the window opens before that happens.
+defs.append('custom_button = {\n name = rip_ro_holy_cities_open potential = { rip_church_ro_jurisdiction = yes } trigger = { rip_church_ro_jurisdiction = yes }\n effect = {\n  if = {\n   limit = { has_country_flag = rip_ro_holy_city_register_open }\n   clr_country_flag = rip_ro_holy_city_register_open\n  }\n  else = {\n   set_country_flag = rip_ro_holy_city_register_open\n  }\n }\n tooltip = rip_ro_holy_cities_open_tt\n}')
+
+# The frame of a faith in the 32-frame religion strips is its `icon = N` in common/religions.
+# The register used to carry a hand-typed table that was off by one or two places: Orthodox
+# cities showed the Protestant cross and Jerusalem the Coptic one. Most likely faiths first.
+RELIGION_FRAMES=(
+ ('russian_orthodox',30),('orthodox',4),('greek_catholic',31),('catholic',1),('sunni',5),('shiite',6),
+ ('coptic',14),('protestant',2),('reformed',3),('anglican',28),('hussite',22),('old_believer',32),
+ ('ibadi',16),('jewish',20),('hinduism',8),('sikhism',15),('buddhism',24),('mahayana',23),
+ ('vajrayana',25),('confucianism',9),('shinto',10),('zoroastrian',26),('animism',11),('shamanism',12),
+ ('totemism',13),('nahuatl',17),('inti',18),('mesoamerican_religion',19),('norse_pagan_reformed',21),
+ ('tengri_pagan_reformed',27),('dreamtime',29),
+)
+def religion_icons(path):
+    """religion -> icon frame for one common/religions file: `icon = N` directly inside a faith block."""
+    source=re.sub(r'#[^\n]*','',path.read_text(encoding='utf-8-sig',errors='replace'))
+    frames,stack={},[]
+    for m in re.finditer(r'([\w.\-]+)\s*=\s*\{|\}|\bicon\s*=\s*(\d+)',source):
+        if m[0]=='}':
+            if stack: stack.pop()
+        elif m[1]:
+            stack.append(m[1])
+        elif len(stack)==2:
+            frames[stack[1]]=int(m[2])
+    return frames
+declared={}
+for folder in ([GAME/'common/religions'] if GAME is not None else [])+[ROOT/'common/religions']:
+    for religion_file in sorted(folder.glob('*.txt')):
+        declared.update(religion_icons(religion_file))
+if GAME is not None:
+    assert declared==dict(RELIGION_FRAMES), ('religion icon frames changed; update RELIGION_FRAMES', declared)
+else:
+    mod_only={r:f for r,f in declared.items() if r in ('russian_orthodox','greek_catholic','old_believer')}
+    assert mod_only=={r:f for r,f in RELIGION_FRAMES if r in mod_only}, 'mod religion frames changed'
+
+# One row per see. The two blessing icons are the two modifiers the matured myth adds, read from the
+# modifier itself so that the window cannot show an effect the myth does not give.
+faith_modifiers=(ROOT/'common/event_modifiers/RIP_faith_modifiers.txt').read_text(encoding='utf-8-sig')
+HOLY_CITIES=[]
+for key,province in (('novgorod',310),('moscow',295),('kyiv',280),('constantinople',151),('jerusalem',379)):
+    block=named_block(faith_modifiers,'rip_ro_myth_'+key)
+    effects=re.findall(r'(?m)^\s*(\w+)\s*=\s*-?\d',block[block.index('{')+1:])
+    assert len(effects)==2, ('the register shows exactly two blessing icons per myth',key,effects)
+    HOLY_CITIES.append((key,province,tuple(effects)))
+def effect_sprite(effect):
+    """Vanilla modifier icon; declared once however many places use it."""
+    name='GFX_rip_church_effect_'+effect
+    declaration=f'spriteType = {{ name = "{name}" textureFile = "gfx/interface/ideas_EU4/{effect}.dds" }}'
+    if declaration not in insets: insets.append(declaration)
+    if GAME is not None: assert (GAME/f'gfx/interface/ideas_EU4/{effect}.dds').exists(), effect
+    return name
+# The bar strip, the veil and the button tile are drawn by tools/build_ro_register_art.py (a 96x22 frame per year
+# of a myth, 0..MYTH_YEARS, so the strip is 31 frames wide); tests/check_ro_blessing_window.py pins both ends.
+MYTH_YEARS=30
+insets.extend([
+ 'spriteType = { name = "GFX_rip_church_ro_myth_bar" textureFile = "gfx/interface/rip_church/ro_myth_bar.dds" noOfFrames = '+str(MYTH_YEARS+1)+' }',
+ 'spriteType = { name = "GFX_rip_church_ro_myth_veil" textureFile = "gfx/interface/rip_church/ro_myth_veil.dds" }',
+ 'spriteType = { name = "GFX_rip_church_ro_holy_tile" textureFile = "gfx/interface/rip_church/ro_holy_tile.dds" effectFile = "gfx/FX/buttonstate.lua" }',
+])
+
+# Window-local geometry (475x560 window, surface x13..462 / y13..547). A row is a 58px card:
+#   faith slot 0..58 | name, owner, faith 64..230 | years and bar 232..328 | two blessing slots 335..407
+HC_TOP,HC_PITCH,HC_ROW_H=148,60,58
+HC_TEXT_X,HC_TEXT_W=64,166
+HC_BAR_X,HC_BAR_Y,HC_BAR_W=232,30,96             # the number sits above it, y 8
+HC_BONUS_X,HC_BONUS_SLOT,HC_BONUS_Y=335,36,11    # the 58px slot sprite at 0.62 scale, two side by side
+HC_SLOT_SCALE,HC_ICON_SCALE,HC_ICON_INSET=0.62,0.46875,3          # modifier icons are 64px: 30px in a 36px slot
+def holy_city_row(i,key,province,effects):
+    n=lambda suffix: f'rip_ro_holy_city_{key}_{suffix}'
+    done=f'has_country_flag = rip_ro_myth_complete_{key}'
+    row=art(n('slot'),'GFX_rip_church_policy_slot',0,0,1)
+    # Faith of the province, by religion frame; the slot behind it is decoration.
+    row+=f'iconType = {{ name = "{n("faith_icon")}" scripted = yes spriteType = "GFX_icon_religion" position = {{ x=7 y=7 }} scale = 0.7 alwaystransparent = yes }}'
+    frames=''.join(f' frame = {{ number = {frame} trigger = {{ {province} = {{ religion = {religion} }} }} }}\n' for religion,frame in RELIGION_FRAMES)
+    defs.append(f'custom_icon = {{\n name = {n("faith_icon")} potential = {{ always = yes }}\n{frames}}}')
+    row+=text(n('name'),HC_TEXT_X,2,w=HC_TEXT_W,h=18,font='vic_18',tip=False)
+    row+=text(n('owner'),HC_TEXT_X,20,w=HC_TEXT_W,h=18,font='vic_18',tip=False)
+    row+=text(n('faith'),HC_TEXT_X,38,w=HC_TEXT_W,h=18,font='vic_18',tip=False)
+    # Years of the myth: a number above a capacity bar with one frame per year. Both carry the myth's tooltip,
+    # so both take the mouse (alwaystransparent = no); only the slots, veil and glow let it through.
+    row+=text(n('myth_progress'),HC_BAR_X,8,w=HC_BAR_W,h=18,font='vic_18',align='center')
+    bar_frames=''.join(f' frame = {{ number = {years+1} trigger = {{ check_variable = {{ which = rip_ro_myth_years_{key} value = {years} }} }} }}\n'
+                       for years in range(MYTH_YEARS,0,-1))+' frame = { number = 1 trigger = { always = yes } }\n'
+    row+=f'iconType = {{ name = "{n("myth_bar")}" scripted = yes spriteType = "GFX_rip_church_ro_myth_bar" position = {{ x={HC_BAR_X} y={HC_BAR_Y} }} alwaystransparent = no }}'
+    defs.append(f'custom_icon = {{\n name = {n("myth_bar")} potential = {{ always = yes }} tooltip = {n("myth_progress_tt")}\n{bar_frames}}}')
+    # Blessing: the two modifier icons of the myth, each in a 36px slot. A veil dims them until the
+    # myth matures; then a glow takes the veil's place. The slots and the veil never take the mouse.
+    for slot,effect in enumerate(effects):
+        x=HC_BONUS_X+slot*HC_BONUS_SLOT
+        row+=art(n(f'bonus_slot_{slot}'),'GFX_rip_church_policy_slot',x,HC_BONUS_Y,HC_SLOT_SCALE)
+        row+=f'iconType = {{ name = "{n(f"bonus_{slot}")}" scripted = yes spriteType = "{effect_sprite(effect)}" position = {{ x={x+HC_ICON_INSET} y={HC_BONUS_Y+HC_ICON_INSET} }} scale = {HC_ICON_SCALE} alwaystransparent = no }}'
+        defs.append(f'custom_icon = {{ name = {n(f"bonus_{slot}")} potential = {{ always = yes }} tooltip = {n("bonus_tt")} }}')
+    row+=f'iconType = {{ name = "{n("bonus_pending")}" scripted = yes spriteType = "GFX_rip_church_ro_myth_veil" position = {{ x={HC_BONUS_X} y={HC_BONUS_Y} }} alwaystransparent = yes }}'
+    defs.append(f'custom_icon = {{ name = {n("bonus_pending")} potential = {{ NOT = {{ {done} }} }} }}')
+    for slot in range(2):
+        row+=f'iconType = {{ name = "{n(f"bonus_active_{slot}")}" scripted = yes spriteType = "GFX_rip_church_policy_active" position = {{ x={HC_BONUS_X+slot*HC_BONUS_SLOT} y={HC_BONUS_Y} }} scale = {HC_SLOT_SCALE} alwaystransparent = yes }}'
+        defs.append(f'custom_icon = {{ name = {n(f"bonus_active_{slot}")} potential = {{ {done} }} }}')
+    return card(n('row'),34,HC_TOP+i*HC_PITCH,407,HC_ROW_H,row)
+
 holy_cities=art('rip_ro_holy_cities_header','GFX_rip_church_window_banner',18,19,0.94)
 holy_cities+=text('rip_ro_holy_cities_heading',28,35,w=419,h=24,font='vic_22',align='center',tip=False)
-holy_cities+=text('rip_ro_holy_cities_intro',44,68,w=387,h=40,font='vic_18',align='center',tip=False)
-holy_cities=section(holy_cities,'rip_ro_holy_cities_sites_title',112,tip=False)
-for i,(key,province) in enumerate((
-    ('novgorod',310),
-    ('moscow',295),
-    ('kyiv',280),
-    ('constantinople',151),
-    ('jerusalem',379),
-)):
-    row=art(f'rip_ro_holy_city_{key}_slot','GFX_rip_church_policy_slot',4,0)
-    row+=art(f'rip_ro_holy_city_{key}_seal','GFX_icon_religion_small',18,17,0.7)
-    row+=text(f'rip_ro_holy_city_{key}_name',72,2,w=323,h=18,font='vic_18',tip=False)
-    row+=text(f'rip_ro_holy_city_{key}_owner',72,20,w=323,h=18,font='vic_18',tip=False)
-    row+=text(f'rip_ro_holy_city_{key}_faith',72,38,w=323,h=18,font='vic_18',tip=False)
-    holy_cities+=card(f'rip_ro_holy_city_{key}_row',34,146+i*58,407,58,row)
-holy_cities+=text('rip_ro_holy_cities_footer',34,439,w=407,h=24,font='vic_18',align='center',tip=False)
-holy_cities+=button('rip_ro_holy_cities_close',125,492,
+holy_cities+=text('rip_ro_holy_cities_intro',44,68,w=387,h=38,font='vic_18',align='center',tip=False)
+holy_cities=section(holy_cities,'rip_ro_holy_cities_sites_title',110,tip=False)
+for i,(key,province,effects) in enumerate(HOLY_CITIES):
+    holy_cities+=holy_city_row(i,key,province,effects)+'\n'
+holy_cities+=text('rip_ro_holy_cities_footer',34,452,w=407,h=38,font='vic_18',align='center',tip=False)
+holy_cities+=button('rip_ro_holy_cities_close',125,494,
                     'has_country_flag = rip_ro_holy_city_register_open',
                     'clr_country_flag = rip_ro_holy_city_register_open',
                     potential='has_country_flag = rip_ro_holy_city_register_open',
@@ -411,14 +513,14 @@ religion_panels=(panel('rip_ro_holy_cities_panel','rip_church_ro_jurisdiction = 
                 panel('rip_church_gc_panel','religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } NOT = { has_country_flag = rip_church_gc_curia_view } NOT = { has_country_flag = rip_church_gui_parishes_view }',gc,clean=True)+'\n'+
                 panel('rip_church_gc_curia_panel','religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gc_curia_view NOT = { has_country_flag = rip_church_gui_parishes_view }',curia,clean=True)+'\n'+
                 panel('rip_church_gc_parishes_panel','OR = { religion = greek_catholic rip_church_union_supporter = yes } NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gui_parishes_view',parishes,clean=True))
-# Keep the window control beside Defender of the Faith and outside the pages it
-# toggles, so it remains available while the Greek Catholic window is hidden.
-gc_window_toggle=button(
-    'rip_church_gc_window_toggle',372,238,'religion = greek_catholic',
+# The Union window is shown and hidden by the labelled "Union" button under the faith symbol (native
+# controls below). A second, cross-shaped toggle beside Defender of the Faith sat on top of that header
+# and has been removed. button() is still called for the custom_button binding the labelled button
+# shares; the widget it returns is dropped.
+button(
+    'rip_church_gc_window_toggle',304,300,'religion = greek_catholic',
     'if = { limit = { has_country_flag = rip_church_gc_window_hidden } clr_country_flag = rip_church_gc_window_hidden } else = { set_country_flag = rip_church_gc_window_hidden }',
-    potential='religion = greek_catholic',sprite='GFX_closebutton2',label=False,
-    scale=0.7)
-religion_panels += '\n' + gc_window_toggle
+    potential='religion = greek_catholic',sprite='GFX_standard_button_71',label=True)
 outputs['interface/RIP_church_panels.gfx']='spriteTypes = {\n'+'\n'.join(insets)+'''
  spriteType = {
   name = "GFX_rip_church_ro_frame"
@@ -469,7 +571,7 @@ defs.append('custom_window = { name = rip_church_gc_state_cover potential = { FR
 prov_state_cover='''windowType = {
  name = "rip_church_gc_state_cover" scripted = yes position = { x=19 y=414 } size = { x=464 y=50 }
  moveable = 0
- iconType = { name = "rip_church_gc_state_surface" spriteType = "GFX_rip_church_gc_state_surface" position = { x=0 y=0 } alwaystransparent = no }
+ iconType = { name = "rip_church_gc_state_surface" spriteType = "GFX_rip_church_gc_state_surface" position = { x=0 y=0 } alwaystransparent = yes }
 }'''
 prov_reopen_button=button('rip_church_rite_panel_show_button',0,0,'owned_by = FROM',
                           'clr_province_flag = rip_church_rite_panel_hidden',
@@ -498,6 +600,7 @@ defs.append('custom_icon = { name = rip_church_ro_selector_symbol potential = { 
 defs.append('custom_icon = { name = rip_church_gc_union_symbol potential = { NOT = { has_country_modifier = rip_church_gc_infrastructure } NOT = { has_country_modifier = rip_church_gc_coexistence } } frame = { number = 31 trigger = { always = yes } } }')
 for key in ('infrastructure','coexistence'):
     defs.append(f'custom_icon = {{ name = rip_church_gc_synod_{key}_symbol potential = {{ has_country_modifier = rip_church_gc_{key} }} frame = {{ number = 1 trigger = {{ always = yes }} }} }}')
+defs.append('custom_button = {\n name = rip_church_gc_window_toggle potential = { religion = greek_catholic } trigger = { religion = greek_catholic }\n effect = { if = { limit = { has_country_flag = rip_church_gc_window_open } clr_country_flag = rip_church_gc_window_open } else = { set_country_flag = rip_church_gc_window_open } } tooltip = rip_church_gc_window_toggle_tt\n}')
 native_controls='''windowType = {
  name = "rip_church_gc_native_controls" scripted = yes
  position = { x=0 y=0 } size = { x=280 y=50 } moveable = 0
@@ -508,7 +611,7 @@ native_controls='''windowType = {
  iconType = { name = "rip_church_gc_union_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
  iconType = { name = "rip_church_gc_synod_infrastructure_symbol" scripted = yes spriteType = "GFX_rip_church_gc_privileges" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
  iconType = { name = "rip_church_gc_synod_coexistence_symbol" scripted = yes spriteType = "GFX_rip_church_gc_ecumenism" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
-'''+'\n}\n'
+'''+'guiButtonType = { name = "rip_church_gc_window_toggle" scripted = yes position = { x=304 y=300 } Orientation = "LEFT" pdx_tooltip = "rip_church_gc_window_toggle_tt" quadTextureSprite = "GFX_standard_button_71" buttonText = "rip_church_gc_window_toggle" buttonFont = "vic_18" }'+'\n}\n'
 
 # Replace the empty native selector with a working route to the policy pane.
 # Keep the engine-owned controls underneath, just as for the Union selector.
@@ -567,7 +670,7 @@ def attach(file,host,body):
         native_name=re.search(r'name\s*=\s*"orthodox_specific_window"',s)
         native_start=s.rfind('windowType',0,native_name.start())
         native_end=matching_brace(s,s.index('{',native_start))
-        s=s[:native_end]+'\n# RIP resource hover and functional replacements for retired native selectors.\n'+native_controls+native_anchors(ro_native_controls)+s[native_end:]
+        s=s[:native_end].rstrip(' \t')+'\n# RIP resource hover and functional replacements for retired native selectors.\n'+native_controls+native_anchors(ro_native_controls)+s[native_end:]
     name=re.search(r'name\s*=\s*"'+re.escape(host)+r'"',s)
     assert name, host
     start=s.rfind('windowType',0,name.start())
@@ -589,6 +692,10 @@ attach('countryreligionview.gui','countryreligionview',native_anchors(religion_p
 attach('provinceview.gui','province_window',prov_panel)
 outputs['common/custom_gui/RIP_church_controls.txt']='# ROOT/FROM contracts follow common/custom_gui/example.txt in EU4 1.37.\n'+'\n'.join(defs)+'\n'
 outputs['common/custom_gui/RIP_church_gc_features.txt']='# Greek Catholic icons and non-electoral Curia diplomacy.\n'+'\n'.join(feature_defs)+'\n'
+for path,content in outputs.items():
+    assert brace_error(content) is None, (path, brace_error(content))
+    if path.endswith(".gui"):
+        assert not re.search(r"(?m)^\s*custom_(?:button|window|icon|text_box)\s*=",content), path
 stale=[]
 for path,s in outputs.items():
     target=ROOT/path
@@ -596,6 +703,6 @@ for path,s in outputs.items():
         stale.append(path)
         if not args.check:
             target.parent.mkdir(parents=True,exist_ok=True)
-            target.write_text(s,encoding='utf-8',newline='\n')
+            target.write_text(s,encoding='utf-8',newline='\r\n')
 print(('STALE' if args.check and stale else 'GENERATED')+f': {len(defs)} scripted UI bindings, {len(stale)} files')
 if args.check and stale: sys.exit(1)

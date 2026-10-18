@@ -773,30 +773,6 @@ vln_ruthenia_reform = {
 	}
 }
 
-vln_ruthenian_renaissance_reform = {
-	rank = {
-		1 = RENAISSANCE_VOIVODESHIP
-		2 = CULTURAL_COMMONWEALTH
-		3 = RUTHENIAN_ENLIGHTENMENT
-	}
-
-	ruler_male = {
-		1 = RENAISSANCE_VOIVODE
-		2 = CULTURED_HETMAN
-		3 = ENLIGHTENED_VOIVODE
-	}
-
-	ruler_female = {
-		1 = RENAISSANCE_VOIVODESSA
-		2 = CULTURED_HETMANKA
-		3 = ENLIGHTENED_VOIVODESSA
-	}
-
-	trigger = {
-		has_reform = vln_ruthenian_renaissance_reform
-	}
-}
-
 vln_voivode_council = {
 	rank = {
 		1 = COUNCIL_VOIVODESHIP
@@ -821,30 +797,8 @@ vln_voivode_council = {
 	}
 }
 
-vln_magdeburg_rights = {
-	rank = {
-		1 = MAGDEBURG_VOIVODESHIP
-		2 = CHARTERED_COMMONWEALTH
-		3 = FREE_VOIVODESHIP
-	}
-
-	ruler_male = {
-		1 = MAGDEBURG_VOIVODE
-		2 = BURGOMASTER_HETMAN
-		3 = FREE_VOIVODE
-	}
-
-	ruler_female = {
-		1 = MAGDEBURG_VOIVODESSA
-		2 = BURGOMASTER_HETMANKA
-		3 = FREE_VOIVODESSA
-	}
-
-	trigger = {
-		has_reform = vln_magdeburg_rights
-	}
-}
-
+# Shared M7/M8 reforms do not define titles; prevent older Hetman forms from
+# winning when either shared reform is active, allowing the Voivodeship title to apply.
 vln_black_voivode_legion = {
 	rank = {
 		1 = MILITARY_VOIVODESHIP
@@ -865,6 +819,12 @@ vln_black_voivode_legion = {
 	}
 
 	trigger = {
+		NOT = {
+			OR = {
+				has_reform = vln_ruthenian_renaissance_reform
+				has_reform = vln_magdeburg_rights
+			}
+		}
 		has_reform = vln_black_voivode_legion
 	}
 }
@@ -889,6 +849,12 @@ vln_confessional_reform = {
 	}
 
 	trigger = {
+		NOT = {
+			OR = {
+				has_reform = vln_ruthenian_renaissance_reform
+				has_reform = vln_magdeburg_rights
+			}
+		}
 		has_reform = vln_confessional_reform
 	}
 }
@@ -913,6 +879,12 @@ vln_confessional_academy = {
 	}
 
 	trigger = {
+		NOT = {
+			OR = {
+				has_reform = vln_ruthenian_renaissance_reform
+				has_reform = vln_magdeburg_rights
+			}
+		}
 		has_reform = vln_confessional_academy
 	}
 }
@@ -937,6 +909,12 @@ vln_cossack_host_reform = {
 	}
 
 	trigger = {
+		NOT = {
+			OR = {
+				has_reform = vln_ruthenian_renaissance_reform
+				has_reform = vln_magdeburg_rights
+			}
+		}
 		has_reform = vln_cossack_host_reform
 	}
 }
@@ -986,7 +964,7 @@ pdl_grand_podillia = {
 	}
 
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 		OR = {
 			has_country_flag = pdl_grand_podillia
 			has_reform = pdl_grand_podillia_reform
@@ -1014,7 +992,7 @@ pdl_absolute_dominion = {
 	}
 
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 		has_reform = pdl_absolute_dominion_reform
 	}
 }
@@ -1039,7 +1017,7 @@ pdl_magnate_republic = {
 	}
 
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 		has_reform = pdl_magnate_republic_reform
 	}
 }
@@ -1064,8 +1042,8 @@ pdl_magnate_dominion = {
 	}
 
 	trigger = {
-		tag = PDL
-		has_country_flag = pdl_magnate_path
+		west_ukraine_pdl_origin_country = yes
+		has_reform = pdl_magnate_dominion_reform
 	}
 }
 
@@ -1089,7 +1067,7 @@ pdl_enlightened_voivodeship = {
 	}
 
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 		has_reform = pdl_enlightened_voivodeship_reform
 	}
 }
@@ -1114,7 +1092,7 @@ pdl_revolutionary_republic = {
 	}
 
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 		has_reform = pdl_revolutionary_republic_reform
 	}
 }
@@ -1139,8 +1117,8 @@ pdl_carpathian_bastion = {
 	}
 
 	trigger = {
-		tag = PDL
-		has_country_flag = pdl_carpathian_path
+		west_ukraine_pdl_origin_country = yes
+		has_reform = pdl_carpathian_bastion_reform
 	}
 }
 
@@ -1164,8 +1142,9 @@ pdl_frontier_republic = {
 	}
 
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 		has_country_flag = pdl_frontier_path
+		has_reform = pdl_frontier_republic_reform
 	}
 }
 
@@ -1189,7 +1168,7 @@ pdl_palatine_court = {
 	}
 
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 		has_reform = pdl_palatine_court_reform
 	}
 }
@@ -1214,7 +1193,7 @@ pdl_aristocratic_assembly = {
 	}
 
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 		has_reform = pdl_aristocratic_assembly_reform
 	}
 }
@@ -1239,7 +1218,7 @@ pdl_clan_assembly = {
 	}
 
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 		has_reform = pdl_clan_assembly_reform
 	}
 }
@@ -1264,7 +1243,7 @@ pdl_steppe_principality = {
 	}
 
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 		has_reform = pdl_steppe_principality_reform
 	}
 }
@@ -1289,7 +1268,7 @@ pdl_voivodeship_kingdom = {
 	}
 
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
 		has_reform = pdl_voivodeship_kingdom_reform
 	}
 }
@@ -1314,7 +1293,8 @@ pdl_frontier_voivodeship = {
 	}
 
 	trigger = {
-		tag = PDL
+		west_ukraine_pdl_origin_country = yes
+		has_reform = pdl_frontier_voivodeship_reform
 	}
 }
 

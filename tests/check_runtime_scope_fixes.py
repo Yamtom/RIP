@@ -49,7 +49,12 @@ if game:
     native = (game/'common/new_diplomatic_actions/00_diplomatic_actions.txt').read_text(encoding='utf-8-sig')
     assert diplomacy == native.replace('value = num_of_loans', 'value = trigger_value:num_of_loans\n\t\t\t\twho = FROM')
     native = (game/'common/on_actions/00_on_actions.txt').read_text(encoding='utf-8-sig')
-    assert read('common/on_actions/00_on_actions.txt') == native.replace('FROM = { economic_ideas = 3 }', 'owner = { economic_ideas = 3 }')
+    actual = read('common/on_actions/00_on_actions.txt')
+    hook_line = 'uzh_sg_war_won_effect = yes'
+    assert actual.count(hook_line) == 1 and hook_line in named_block(actual, 'on_war_won')
+    # Compare tokens: comments and trailing whitespace are not script changes.
+    from clausewitz_testlib import normalized
+    assert normalized(actual.replace(hook_line, '')) == normalized(native.replace('FROM = { economic_ideas = 3 }', 'owner = { economic_ideas = 3 }'))
 else:
     print('SKIP: native full-file delta (no installed EU4)')
 print(f'PASS: loan exports, trade-good owner, Novgorod scope, {len(nodes)} Mission anchors and policy gates (static only)')

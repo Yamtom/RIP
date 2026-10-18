@@ -5,6 +5,7 @@
 
 hlc_galician_voivodeship_reform = {
 	icon = "assembly_hall"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -44,6 +45,7 @@ hlc_galician_voivodeship_reform = {
 
 hlc_magnate_assembly_reform = {
 	icon = "states_general"
+	legacy_equivalent = elective_monarchy_legacy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -91,6 +93,7 @@ hlc_magnate_assembly_reform = {
 
 hlc_centralized_voivodeship_reform = {
 	icon = "provincial_government"
+	legacy_equivalent = despotic_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -124,6 +127,7 @@ hlc_centralized_voivodeship_reform = {
 
 hlc_galician_sejm_reform = {
 	icon = "assembly_hall"
+	legacy_equivalent = constitutional_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -166,6 +170,7 @@ hlc_galician_sejm_reform = {
 
 hlc_austrian_bureaucracy_reform = {
 	icon = "royal_court"
+	legacy_equivalent = administrative_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -221,6 +226,7 @@ hlc_austrian_bureaucracy_reform = {
 
 hlc_merchant_privileges_reform = {
 	icon = "merchant_aristocracy_reform"
+	legacy_equivalent = administrative_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -257,6 +263,7 @@ hlc_merchant_privileges_reform = {
 
 hlc_confessional_dualism_reform = {
 	icon = "holy_state_reform"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -291,6 +298,7 @@ hlc_confessional_dualism_reform = {
 
 hlc_crown_authority_reform = {
 	icon = "paper_with_seal"
+	legacy_equivalent = despotic_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -349,6 +357,7 @@ hlc_crown_authority_reform = {
 
 hlc_crown_and_sejm_reform = {
 	icon = "crown"
+	legacy_equivalent = constitutional_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -400,6 +409,7 @@ hlc_crown_and_sejm_reform = {
 
 hlc_enlightened_monarchy_reform = {
 	icon = "enlightened_monarchy_reform"
+	legacy_equivalent = enlightened_despotism
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -432,6 +442,7 @@ hlc_enlightened_monarchy_reform = {
 
 hlc_military_modernization_reform = {
 	icon = "cavalry"
+	legacy_equivalent = feudal_monarchy
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -522,6 +533,7 @@ hlc_boyar_republic_reform = {
 
 hlc_boyar_oligarchy_reform = {
 	icon = "people_walking"
+	legacy_equivalent = oligarchic_republic
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
 	valid_for_new_country = no
@@ -704,4 +716,40 @@ hlc_lviv_uniate_synod_reform = {
 	# whether the country's religion itself becomes greek_catholic; this
 	# reform is the see's own synod joining that settlement, not the act of
 	# state conversion.
+}
+
+# The Dormition Brotherhood of Lviv held its stauropegion directly from the
+# Patriarch and was entitled to supervise the morals and the conduct of the
+# bishop himself - the burghers, not the nobility, held the keys of the
+# Orthodox church of Galicia. The same city was the cradle of the Florentine
+# and the later Union. The reform gives the burghers the church; the events in
+# events/RIP_Stauropegion.txt are the brotherhood's quarrels with the bishop
+# and the choice of the Union; the estate privilege is
+# estate_burghers_hlc_lviv_stauropegion. Rates are design values.
+hlc_stauropegion_brotherhood_reform = {
+	icon = "monastic_elections_reform"
+	legacy_equivalent = feudal_monarchy
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		hlc_stauropegion_visible = yes
+	}
+	trigger = {
+		hlc_stauropegion_eligible = yes
+	}
+	modifiers = {
+		burghers_influence_modifier = 0.1
+		burghers_loyalty_modifier = 0.05
+		church_influence_modifier = -0.1
+		global_trade_power = 0.1
+		production_efficiency = 0.05
+		development_cost = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 8
+	}
 }

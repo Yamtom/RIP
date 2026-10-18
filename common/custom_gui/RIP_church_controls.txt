@@ -54,24 +54,408 @@ custom_button = {
  name = rip_church_reconcile_button potential = { has_country_flag = rip_church_ro_schismatic } trigger = { rip_church_can_reconcile = yes }
  effect = { rip_church_ro_begin_reconciliation_effect = yes } tooltip = rip_church_reconcile_button_tt
 }
+custom_icon = { name = rip_ro_holy_cities_open_symbol potential = { always = yes } frame = { number = 30 trigger = { always = yes } } }
+custom_button = {
+ name = rip_ro_holy_cities_open potential = { rip_church_ro_jurisdiction = yes } trigger = { rip_church_ro_jurisdiction = yes }
+ effect = {
+  if = {
+   limit = { has_country_flag = rip_ro_holy_city_register_open }
+   clr_country_flag = rip_ro_holy_city_register_open
+  }
+  else = {
+   set_country_flag = rip_ro_holy_city_register_open
+  }
+ }
+ tooltip = rip_ro_holy_cities_open_tt
+}
 custom_text_box = { name = rip_ro_holy_cities_heading potential = { always = yes } }
 custom_text_box = { name = rip_ro_holy_cities_intro potential = { always = yes } }
 custom_text_box = { name = rip_ro_holy_cities_sites_title potential = { always = yes } }
+custom_icon = {
+ name = rip_ro_holy_city_novgorod_faith_icon potential = { always = yes }
+ frame = { number = 30 trigger = { 310 = { religion = russian_orthodox } } }
+ frame = { number = 4 trigger = { 310 = { religion = orthodox } } }
+ frame = { number = 31 trigger = { 310 = { religion = greek_catholic } } }
+ frame = { number = 1 trigger = { 310 = { religion = catholic } } }
+ frame = { number = 5 trigger = { 310 = { religion = sunni } } }
+ frame = { number = 6 trigger = { 310 = { religion = shiite } } }
+ frame = { number = 14 trigger = { 310 = { religion = coptic } } }
+ frame = { number = 2 trigger = { 310 = { religion = protestant } } }
+ frame = { number = 3 trigger = { 310 = { religion = reformed } } }
+ frame = { number = 28 trigger = { 310 = { religion = anglican } } }
+ frame = { number = 22 trigger = { 310 = { religion = hussite } } }
+ frame = { number = 32 trigger = { 310 = { religion = old_believer } } }
+ frame = { number = 16 trigger = { 310 = { religion = ibadi } } }
+ frame = { number = 20 trigger = { 310 = { religion = jewish } } }
+ frame = { number = 8 trigger = { 310 = { religion = hinduism } } }
+ frame = { number = 15 trigger = { 310 = { religion = sikhism } } }
+ frame = { number = 24 trigger = { 310 = { religion = buddhism } } }
+ frame = { number = 23 trigger = { 310 = { religion = mahayana } } }
+ frame = { number = 25 trigger = { 310 = { religion = vajrayana } } }
+ frame = { number = 9 trigger = { 310 = { religion = confucianism } } }
+ frame = { number = 10 trigger = { 310 = { religion = shinto } } }
+ frame = { number = 26 trigger = { 310 = { religion = zoroastrian } } }
+ frame = { number = 11 trigger = { 310 = { religion = animism } } }
+ frame = { number = 12 trigger = { 310 = { religion = shamanism } } }
+ frame = { number = 13 trigger = { 310 = { religion = totemism } } }
+ frame = { number = 17 trigger = { 310 = { religion = nahuatl } } }
+ frame = { number = 18 trigger = { 310 = { religion = inti } } }
+ frame = { number = 19 trigger = { 310 = { religion = mesoamerican_religion } } }
+ frame = { number = 21 trigger = { 310 = { religion = norse_pagan_reformed } } }
+ frame = { number = 27 trigger = { 310 = { religion = tengri_pagan_reformed } } }
+ frame = { number = 29 trigger = { 310 = { religion = dreamtime } } }
+}
 custom_text_box = { name = rip_ro_holy_city_novgorod_name potential = { always = yes } }
 custom_text_box = { name = rip_ro_holy_city_novgorod_owner potential = { always = yes } }
 custom_text_box = { name = rip_ro_holy_city_novgorod_faith potential = { always = yes } }
+custom_text_box = { name = rip_ro_holy_city_novgorod_myth_progress potential = { always = yes } tooltip = rip_ro_holy_city_novgorod_myth_progress_tt }
+custom_icon = {
+ name = rip_ro_holy_city_novgorod_myth_bar potential = { always = yes } tooltip = rip_ro_holy_city_novgorod_myth_progress_tt
+ frame = { number = 31 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 30 } } }
+ frame = { number = 30 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 29 } } }
+ frame = { number = 29 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 28 } } }
+ frame = { number = 28 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 27 } } }
+ frame = { number = 27 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 26 } } }
+ frame = { number = 26 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 25 } } }
+ frame = { number = 25 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 24 } } }
+ frame = { number = 24 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 23 } } }
+ frame = { number = 23 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 22 } } }
+ frame = { number = 22 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 21 } } }
+ frame = { number = 21 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 20 } } }
+ frame = { number = 20 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 19 } } }
+ frame = { number = 19 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 18 } } }
+ frame = { number = 18 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 17 } } }
+ frame = { number = 17 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 16 } } }
+ frame = { number = 16 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 15 } } }
+ frame = { number = 15 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 14 } } }
+ frame = { number = 14 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 13 } } }
+ frame = { number = 13 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 12 } } }
+ frame = { number = 12 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 11 } } }
+ frame = { number = 11 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 10 } } }
+ frame = { number = 10 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 9 } } }
+ frame = { number = 9 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 8 } } }
+ frame = { number = 8 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 7 } } }
+ frame = { number = 7 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 6 } } }
+ frame = { number = 6 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 5 } } }
+ frame = { number = 5 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 4 } } }
+ frame = { number = 4 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 3 } } }
+ frame = { number = 3 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 2 } } }
+ frame = { number = 2 trigger = { check_variable = { which = rip_ro_myth_years_novgorod value = 1 } } }
+ frame = { number = 1 trigger = { always = yes } }
+}
+custom_icon = { name = rip_ro_holy_city_novgorod_bonus_0 potential = { always = yes } tooltip = rip_ro_holy_city_novgorod_bonus_tt }
+custom_icon = { name = rip_ro_holy_city_novgorod_bonus_1 potential = { always = yes } tooltip = rip_ro_holy_city_novgorod_bonus_tt }
+custom_icon = { name = rip_ro_holy_city_novgorod_bonus_pending potential = { NOT = { has_country_flag = rip_ro_myth_complete_novgorod } } }
+custom_icon = { name = rip_ro_holy_city_novgorod_bonus_active_0 potential = { has_country_flag = rip_ro_myth_complete_novgorod } }
+custom_icon = { name = rip_ro_holy_city_novgorod_bonus_active_1 potential = { has_country_flag = rip_ro_myth_complete_novgorod } }
+custom_icon = {
+ name = rip_ro_holy_city_moscow_faith_icon potential = { always = yes }
+ frame = { number = 30 trigger = { 295 = { religion = russian_orthodox } } }
+ frame = { number = 4 trigger = { 295 = { religion = orthodox } } }
+ frame = { number = 31 trigger = { 295 = { religion = greek_catholic } } }
+ frame = { number = 1 trigger = { 295 = { religion = catholic } } }
+ frame = { number = 5 trigger = { 295 = { religion = sunni } } }
+ frame = { number = 6 trigger = { 295 = { religion = shiite } } }
+ frame = { number = 14 trigger = { 295 = { religion = coptic } } }
+ frame = { number = 2 trigger = { 295 = { religion = protestant } } }
+ frame = { number = 3 trigger = { 295 = { religion = reformed } } }
+ frame = { number = 28 trigger = { 295 = { religion = anglican } } }
+ frame = { number = 22 trigger = { 295 = { religion = hussite } } }
+ frame = { number = 32 trigger = { 295 = { religion = old_believer } } }
+ frame = { number = 16 trigger = { 295 = { religion = ibadi } } }
+ frame = { number = 20 trigger = { 295 = { religion = jewish } } }
+ frame = { number = 8 trigger = { 295 = { religion = hinduism } } }
+ frame = { number = 15 trigger = { 295 = { religion = sikhism } } }
+ frame = { number = 24 trigger = { 295 = { religion = buddhism } } }
+ frame = { number = 23 trigger = { 295 = { religion = mahayana } } }
+ frame = { number = 25 trigger = { 295 = { religion = vajrayana } } }
+ frame = { number = 9 trigger = { 295 = { religion = confucianism } } }
+ frame = { number = 10 trigger = { 295 = { religion = shinto } } }
+ frame = { number = 26 trigger = { 295 = { religion = zoroastrian } } }
+ frame = { number = 11 trigger = { 295 = { religion = animism } } }
+ frame = { number = 12 trigger = { 295 = { religion = shamanism } } }
+ frame = { number = 13 trigger = { 295 = { religion = totemism } } }
+ frame = { number = 17 trigger = { 295 = { religion = nahuatl } } }
+ frame = { number = 18 trigger = { 295 = { religion = inti } } }
+ frame = { number = 19 trigger = { 295 = { religion = mesoamerican_religion } } }
+ frame = { number = 21 trigger = { 295 = { religion = norse_pagan_reformed } } }
+ frame = { number = 27 trigger = { 295 = { religion = tengri_pagan_reformed } } }
+ frame = { number = 29 trigger = { 295 = { religion = dreamtime } } }
+}
 custom_text_box = { name = rip_ro_holy_city_moscow_name potential = { always = yes } }
 custom_text_box = { name = rip_ro_holy_city_moscow_owner potential = { always = yes } }
 custom_text_box = { name = rip_ro_holy_city_moscow_faith potential = { always = yes } }
+custom_text_box = { name = rip_ro_holy_city_moscow_myth_progress potential = { always = yes } tooltip = rip_ro_holy_city_moscow_myth_progress_tt }
+custom_icon = {
+ name = rip_ro_holy_city_moscow_myth_bar potential = { always = yes } tooltip = rip_ro_holy_city_moscow_myth_progress_tt
+ frame = { number = 31 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 30 } } }
+ frame = { number = 30 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 29 } } }
+ frame = { number = 29 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 28 } } }
+ frame = { number = 28 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 27 } } }
+ frame = { number = 27 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 26 } } }
+ frame = { number = 26 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 25 } } }
+ frame = { number = 25 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 24 } } }
+ frame = { number = 24 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 23 } } }
+ frame = { number = 23 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 22 } } }
+ frame = { number = 22 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 21 } } }
+ frame = { number = 21 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 20 } } }
+ frame = { number = 20 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 19 } } }
+ frame = { number = 19 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 18 } } }
+ frame = { number = 18 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 17 } } }
+ frame = { number = 17 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 16 } } }
+ frame = { number = 16 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 15 } } }
+ frame = { number = 15 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 14 } } }
+ frame = { number = 14 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 13 } } }
+ frame = { number = 13 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 12 } } }
+ frame = { number = 12 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 11 } } }
+ frame = { number = 11 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 10 } } }
+ frame = { number = 10 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 9 } } }
+ frame = { number = 9 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 8 } } }
+ frame = { number = 8 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 7 } } }
+ frame = { number = 7 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 6 } } }
+ frame = { number = 6 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 5 } } }
+ frame = { number = 5 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 4 } } }
+ frame = { number = 4 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 3 } } }
+ frame = { number = 3 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 2 } } }
+ frame = { number = 2 trigger = { check_variable = { which = rip_ro_myth_years_moscow value = 1 } } }
+ frame = { number = 1 trigger = { always = yes } }
+}
+custom_icon = { name = rip_ro_holy_city_moscow_bonus_0 potential = { always = yes } tooltip = rip_ro_holy_city_moscow_bonus_tt }
+custom_icon = { name = rip_ro_holy_city_moscow_bonus_1 potential = { always = yes } tooltip = rip_ro_holy_city_moscow_bonus_tt }
+custom_icon = { name = rip_ro_holy_city_moscow_bonus_pending potential = { NOT = { has_country_flag = rip_ro_myth_complete_moscow } } }
+custom_icon = { name = rip_ro_holy_city_moscow_bonus_active_0 potential = { has_country_flag = rip_ro_myth_complete_moscow } }
+custom_icon = { name = rip_ro_holy_city_moscow_bonus_active_1 potential = { has_country_flag = rip_ro_myth_complete_moscow } }
+custom_icon = {
+ name = rip_ro_holy_city_kyiv_faith_icon potential = { always = yes }
+ frame = { number = 30 trigger = { 280 = { religion = russian_orthodox } } }
+ frame = { number = 4 trigger = { 280 = { religion = orthodox } } }
+ frame = { number = 31 trigger = { 280 = { religion = greek_catholic } } }
+ frame = { number = 1 trigger = { 280 = { religion = catholic } } }
+ frame = { number = 5 trigger = { 280 = { religion = sunni } } }
+ frame = { number = 6 trigger = { 280 = { religion = shiite } } }
+ frame = { number = 14 trigger = { 280 = { religion = coptic } } }
+ frame = { number = 2 trigger = { 280 = { religion = protestant } } }
+ frame = { number = 3 trigger = { 280 = { religion = reformed } } }
+ frame = { number = 28 trigger = { 280 = { religion = anglican } } }
+ frame = { number = 22 trigger = { 280 = { religion = hussite } } }
+ frame = { number = 32 trigger = { 280 = { religion = old_believer } } }
+ frame = { number = 16 trigger = { 280 = { religion = ibadi } } }
+ frame = { number = 20 trigger = { 280 = { religion = jewish } } }
+ frame = { number = 8 trigger = { 280 = { religion = hinduism } } }
+ frame = { number = 15 trigger = { 280 = { religion = sikhism } } }
+ frame = { number = 24 trigger = { 280 = { religion = buddhism } } }
+ frame = { number = 23 trigger = { 280 = { religion = mahayana } } }
+ frame = { number = 25 trigger = { 280 = { religion = vajrayana } } }
+ frame = { number = 9 trigger = { 280 = { religion = confucianism } } }
+ frame = { number = 10 trigger = { 280 = { religion = shinto } } }
+ frame = { number = 26 trigger = { 280 = { religion = zoroastrian } } }
+ frame = { number = 11 trigger = { 280 = { religion = animism } } }
+ frame = { number = 12 trigger = { 280 = { religion = shamanism } } }
+ frame = { number = 13 trigger = { 280 = { religion = totemism } } }
+ frame = { number = 17 trigger = { 280 = { religion = nahuatl } } }
+ frame = { number = 18 trigger = { 280 = { religion = inti } } }
+ frame = { number = 19 trigger = { 280 = { religion = mesoamerican_religion } } }
+ frame = { number = 21 trigger = { 280 = { religion = norse_pagan_reformed } } }
+ frame = { number = 27 trigger = { 280 = { religion = tengri_pagan_reformed } } }
+ frame = { number = 29 trigger = { 280 = { religion = dreamtime } } }
+}
 custom_text_box = { name = rip_ro_holy_city_kyiv_name potential = { always = yes } }
 custom_text_box = { name = rip_ro_holy_city_kyiv_owner potential = { always = yes } }
 custom_text_box = { name = rip_ro_holy_city_kyiv_faith potential = { always = yes } }
+custom_text_box = { name = rip_ro_holy_city_kyiv_myth_progress potential = { always = yes } tooltip = rip_ro_holy_city_kyiv_myth_progress_tt }
+custom_icon = {
+ name = rip_ro_holy_city_kyiv_myth_bar potential = { always = yes } tooltip = rip_ro_holy_city_kyiv_myth_progress_tt
+ frame = { number = 31 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 30 } } }
+ frame = { number = 30 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 29 } } }
+ frame = { number = 29 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 28 } } }
+ frame = { number = 28 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 27 } } }
+ frame = { number = 27 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 26 } } }
+ frame = { number = 26 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 25 } } }
+ frame = { number = 25 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 24 } } }
+ frame = { number = 24 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 23 } } }
+ frame = { number = 23 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 22 } } }
+ frame = { number = 22 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 21 } } }
+ frame = { number = 21 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 20 } } }
+ frame = { number = 20 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 19 } } }
+ frame = { number = 19 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 18 } } }
+ frame = { number = 18 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 17 } } }
+ frame = { number = 17 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 16 } } }
+ frame = { number = 16 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 15 } } }
+ frame = { number = 15 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 14 } } }
+ frame = { number = 14 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 13 } } }
+ frame = { number = 13 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 12 } } }
+ frame = { number = 12 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 11 } } }
+ frame = { number = 11 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 10 } } }
+ frame = { number = 10 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 9 } } }
+ frame = { number = 9 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 8 } } }
+ frame = { number = 8 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 7 } } }
+ frame = { number = 7 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 6 } } }
+ frame = { number = 6 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 5 } } }
+ frame = { number = 5 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 4 } } }
+ frame = { number = 4 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 3 } } }
+ frame = { number = 3 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 2 } } }
+ frame = { number = 2 trigger = { check_variable = { which = rip_ro_myth_years_kyiv value = 1 } } }
+ frame = { number = 1 trigger = { always = yes } }
+}
+custom_icon = { name = rip_ro_holy_city_kyiv_bonus_0 potential = { always = yes } tooltip = rip_ro_holy_city_kyiv_bonus_tt }
+custom_icon = { name = rip_ro_holy_city_kyiv_bonus_1 potential = { always = yes } tooltip = rip_ro_holy_city_kyiv_bonus_tt }
+custom_icon = { name = rip_ro_holy_city_kyiv_bonus_pending potential = { NOT = { has_country_flag = rip_ro_myth_complete_kyiv } } }
+custom_icon = { name = rip_ro_holy_city_kyiv_bonus_active_0 potential = { has_country_flag = rip_ro_myth_complete_kyiv } }
+custom_icon = { name = rip_ro_holy_city_kyiv_bonus_active_1 potential = { has_country_flag = rip_ro_myth_complete_kyiv } }
+custom_icon = {
+ name = rip_ro_holy_city_constantinople_faith_icon potential = { always = yes }
+ frame = { number = 30 trigger = { 151 = { religion = russian_orthodox } } }
+ frame = { number = 4 trigger = { 151 = { religion = orthodox } } }
+ frame = { number = 31 trigger = { 151 = { religion = greek_catholic } } }
+ frame = { number = 1 trigger = { 151 = { religion = catholic } } }
+ frame = { number = 5 trigger = { 151 = { religion = sunni } } }
+ frame = { number = 6 trigger = { 151 = { religion = shiite } } }
+ frame = { number = 14 trigger = { 151 = { religion = coptic } } }
+ frame = { number = 2 trigger = { 151 = { religion = protestant } } }
+ frame = { number = 3 trigger = { 151 = { religion = reformed } } }
+ frame = { number = 28 trigger = { 151 = { religion = anglican } } }
+ frame = { number = 22 trigger = { 151 = { religion = hussite } } }
+ frame = { number = 32 trigger = { 151 = { religion = old_believer } } }
+ frame = { number = 16 trigger = { 151 = { religion = ibadi } } }
+ frame = { number = 20 trigger = { 151 = { religion = jewish } } }
+ frame = { number = 8 trigger = { 151 = { religion = hinduism } } }
+ frame = { number = 15 trigger = { 151 = { religion = sikhism } } }
+ frame = { number = 24 trigger = { 151 = { religion = buddhism } } }
+ frame = { number = 23 trigger = { 151 = { religion = mahayana } } }
+ frame = { number = 25 trigger = { 151 = { religion = vajrayana } } }
+ frame = { number = 9 trigger = { 151 = { religion = confucianism } } }
+ frame = { number = 10 trigger = { 151 = { religion = shinto } } }
+ frame = { number = 26 trigger = { 151 = { religion = zoroastrian } } }
+ frame = { number = 11 trigger = { 151 = { religion = animism } } }
+ frame = { number = 12 trigger = { 151 = { religion = shamanism } } }
+ frame = { number = 13 trigger = { 151 = { religion = totemism } } }
+ frame = { number = 17 trigger = { 151 = { religion = nahuatl } } }
+ frame = { number = 18 trigger = { 151 = { religion = inti } } }
+ frame = { number = 19 trigger = { 151 = { religion = mesoamerican_religion } } }
+ frame = { number = 21 trigger = { 151 = { religion = norse_pagan_reformed } } }
+ frame = { number = 27 trigger = { 151 = { religion = tengri_pagan_reformed } } }
+ frame = { number = 29 trigger = { 151 = { religion = dreamtime } } }
+}
 custom_text_box = { name = rip_ro_holy_city_constantinople_name potential = { always = yes } }
 custom_text_box = { name = rip_ro_holy_city_constantinople_owner potential = { always = yes } }
 custom_text_box = { name = rip_ro_holy_city_constantinople_faith potential = { always = yes } }
+custom_text_box = { name = rip_ro_holy_city_constantinople_myth_progress potential = { always = yes } tooltip = rip_ro_holy_city_constantinople_myth_progress_tt }
+custom_icon = {
+ name = rip_ro_holy_city_constantinople_myth_bar potential = { always = yes } tooltip = rip_ro_holy_city_constantinople_myth_progress_tt
+ frame = { number = 31 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 30 } } }
+ frame = { number = 30 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 29 } } }
+ frame = { number = 29 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 28 } } }
+ frame = { number = 28 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 27 } } }
+ frame = { number = 27 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 26 } } }
+ frame = { number = 26 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 25 } } }
+ frame = { number = 25 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 24 } } }
+ frame = { number = 24 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 23 } } }
+ frame = { number = 23 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 22 } } }
+ frame = { number = 22 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 21 } } }
+ frame = { number = 21 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 20 } } }
+ frame = { number = 20 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 19 } } }
+ frame = { number = 19 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 18 } } }
+ frame = { number = 18 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 17 } } }
+ frame = { number = 17 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 16 } } }
+ frame = { number = 16 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 15 } } }
+ frame = { number = 15 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 14 } } }
+ frame = { number = 14 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 13 } } }
+ frame = { number = 13 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 12 } } }
+ frame = { number = 12 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 11 } } }
+ frame = { number = 11 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 10 } } }
+ frame = { number = 10 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 9 } } }
+ frame = { number = 9 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 8 } } }
+ frame = { number = 8 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 7 } } }
+ frame = { number = 7 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 6 } } }
+ frame = { number = 6 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 5 } } }
+ frame = { number = 5 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 4 } } }
+ frame = { number = 4 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 3 } } }
+ frame = { number = 3 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 2 } } }
+ frame = { number = 2 trigger = { check_variable = { which = rip_ro_myth_years_constantinople value = 1 } } }
+ frame = { number = 1 trigger = { always = yes } }
+}
+custom_icon = { name = rip_ro_holy_city_constantinople_bonus_0 potential = { always = yes } tooltip = rip_ro_holy_city_constantinople_bonus_tt }
+custom_icon = { name = rip_ro_holy_city_constantinople_bonus_1 potential = { always = yes } tooltip = rip_ro_holy_city_constantinople_bonus_tt }
+custom_icon = { name = rip_ro_holy_city_constantinople_bonus_pending potential = { NOT = { has_country_flag = rip_ro_myth_complete_constantinople } } }
+custom_icon = { name = rip_ro_holy_city_constantinople_bonus_active_0 potential = { has_country_flag = rip_ro_myth_complete_constantinople } }
+custom_icon = { name = rip_ro_holy_city_constantinople_bonus_active_1 potential = { has_country_flag = rip_ro_myth_complete_constantinople } }
+custom_icon = {
+ name = rip_ro_holy_city_jerusalem_faith_icon potential = { always = yes }
+ frame = { number = 30 trigger = { 379 = { religion = russian_orthodox } } }
+ frame = { number = 4 trigger = { 379 = { religion = orthodox } } }
+ frame = { number = 31 trigger = { 379 = { religion = greek_catholic } } }
+ frame = { number = 1 trigger = { 379 = { religion = catholic } } }
+ frame = { number = 5 trigger = { 379 = { religion = sunni } } }
+ frame = { number = 6 trigger = { 379 = { religion = shiite } } }
+ frame = { number = 14 trigger = { 379 = { religion = coptic } } }
+ frame = { number = 2 trigger = { 379 = { religion = protestant } } }
+ frame = { number = 3 trigger = { 379 = { religion = reformed } } }
+ frame = { number = 28 trigger = { 379 = { religion = anglican } } }
+ frame = { number = 22 trigger = { 379 = { religion = hussite } } }
+ frame = { number = 32 trigger = { 379 = { religion = old_believer } } }
+ frame = { number = 16 trigger = { 379 = { religion = ibadi } } }
+ frame = { number = 20 trigger = { 379 = { religion = jewish } } }
+ frame = { number = 8 trigger = { 379 = { religion = hinduism } } }
+ frame = { number = 15 trigger = { 379 = { religion = sikhism } } }
+ frame = { number = 24 trigger = { 379 = { religion = buddhism } } }
+ frame = { number = 23 trigger = { 379 = { religion = mahayana } } }
+ frame = { number = 25 trigger = { 379 = { religion = vajrayana } } }
+ frame = { number = 9 trigger = { 379 = { religion = confucianism } } }
+ frame = { number = 10 trigger = { 379 = { religion = shinto } } }
+ frame = { number = 26 trigger = { 379 = { religion = zoroastrian } } }
+ frame = { number = 11 trigger = { 379 = { religion = animism } } }
+ frame = { number = 12 trigger = { 379 = { religion = shamanism } } }
+ frame = { number = 13 trigger = { 379 = { religion = totemism } } }
+ frame = { number = 17 trigger = { 379 = { religion = nahuatl } } }
+ frame = { number = 18 trigger = { 379 = { religion = inti } } }
+ frame = { number = 19 trigger = { 379 = { religion = mesoamerican_religion } } }
+ frame = { number = 21 trigger = { 379 = { religion = norse_pagan_reformed } } }
+ frame = { number = 27 trigger = { 379 = { religion = tengri_pagan_reformed } } }
+ frame = { number = 29 trigger = { 379 = { religion = dreamtime } } }
+}
 custom_text_box = { name = rip_ro_holy_city_jerusalem_name potential = { always = yes } }
 custom_text_box = { name = rip_ro_holy_city_jerusalem_owner potential = { always = yes } }
 custom_text_box = { name = rip_ro_holy_city_jerusalem_faith potential = { always = yes } }
+custom_text_box = { name = rip_ro_holy_city_jerusalem_myth_progress potential = { always = yes } tooltip = rip_ro_holy_city_jerusalem_myth_progress_tt }
+custom_icon = {
+ name = rip_ro_holy_city_jerusalem_myth_bar potential = { always = yes } tooltip = rip_ro_holy_city_jerusalem_myth_progress_tt
+ frame = { number = 31 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 30 } } }
+ frame = { number = 30 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 29 } } }
+ frame = { number = 29 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 28 } } }
+ frame = { number = 28 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 27 } } }
+ frame = { number = 27 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 26 } } }
+ frame = { number = 26 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 25 } } }
+ frame = { number = 25 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 24 } } }
+ frame = { number = 24 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 23 } } }
+ frame = { number = 23 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 22 } } }
+ frame = { number = 22 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 21 } } }
+ frame = { number = 21 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 20 } } }
+ frame = { number = 20 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 19 } } }
+ frame = { number = 19 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 18 } } }
+ frame = { number = 18 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 17 } } }
+ frame = { number = 17 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 16 } } }
+ frame = { number = 16 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 15 } } }
+ frame = { number = 15 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 14 } } }
+ frame = { number = 14 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 13 } } }
+ frame = { number = 13 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 12 } } }
+ frame = { number = 12 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 11 } } }
+ frame = { number = 11 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 10 } } }
+ frame = { number = 10 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 9 } } }
+ frame = { number = 9 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 8 } } }
+ frame = { number = 8 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 7 } } }
+ frame = { number = 7 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 6 } } }
+ frame = { number = 6 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 5 } } }
+ frame = { number = 5 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 4 } } }
+ frame = { number = 4 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 3 } } }
+ frame = { number = 3 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 2 } } }
+ frame = { number = 2 trigger = { check_variable = { which = rip_ro_myth_years_jerusalem value = 1 } } }
+ frame = { number = 1 trigger = { always = yes } }
+}
+custom_icon = { name = rip_ro_holy_city_jerusalem_bonus_0 potential = { always = yes } tooltip = rip_ro_holy_city_jerusalem_bonus_tt }
+custom_icon = { name = rip_ro_holy_city_jerusalem_bonus_1 potential = { always = yes } tooltip = rip_ro_holy_city_jerusalem_bonus_tt }
+custom_icon = { name = rip_ro_holy_city_jerusalem_bonus_pending potential = { NOT = { has_country_flag = rip_ro_myth_complete_jerusalem } } }
+custom_icon = { name = rip_ro_holy_city_jerusalem_bonus_active_0 potential = { has_country_flag = rip_ro_myth_complete_jerusalem } }
+custom_icon = { name = rip_ro_holy_city_jerusalem_bonus_active_1 potential = { has_country_flag = rip_ro_myth_complete_jerusalem } }
 custom_text_box = { name = rip_ro_holy_cities_footer potential = { always = yes } }
 custom_button = {
  name = rip_ro_holy_cities_close potential = { has_country_flag = rip_ro_holy_city_register_open } trigger = { has_country_flag = rip_ro_holy_city_register_open }
@@ -153,13 +537,9 @@ custom_text_box = { name = rip_church_gc_holy_see_gift_summary potential = { alw
 custom_text_box = { name = rip_church_gc_holy_see_gift_state potential = { always = yes } tooltip = rip_church_gc_holy_see_gift_state_tt }
 custom_window = { name = rip_ro_holy_cities_panel potential = { rip_church_ro_jurisdiction = yes has_country_flag = rip_ro_holy_city_register_open } }
 custom_window = { name = rip_church_ro_panel potential = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_church_ro_window_hidden } NOT = { has_country_flag = rip_ro_holy_city_register_open } } }
-custom_window = { name = rip_church_gc_panel potential = { religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } NOT = { has_country_flag = rip_church_gc_curia_view } NOT = { has_country_flag = rip_church_gui_parishes_view } } }
-custom_window = { name = rip_church_gc_curia_panel potential = { religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gc_curia_view NOT = { has_country_flag = rip_church_gui_parishes_view } } }
-custom_window = { name = rip_church_gc_parishes_panel potential = { OR = { religion = greek_catholic rip_church_union_supporter = yes } NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gui_parishes_view } }
-custom_button = {
- name = rip_church_gc_window_toggle potential = { religion = greek_catholic } trigger = { religion = greek_catholic }
- effect = { if = { limit = { has_country_flag = rip_church_gc_window_hidden } clr_country_flag = rip_church_gc_window_hidden } else = { set_country_flag = rip_church_gc_window_hidden } } tooltip = rip_church_gc_window_toggle_tt
-}
+custom_window = { name = rip_church_gc_panel potential = { religion = greek_catholic has_country_flag = rip_church_gc_window_open NOT = { has_country_flag = rip_church_gc_curia_view } NOT = { has_country_flag = rip_church_gui_parishes_view } } }
+custom_window = { name = rip_church_gc_curia_panel potential = { religion = greek_catholic has_country_flag = rip_church_gc_window_open has_country_flag = rip_church_gc_curia_view NOT = { has_country_flag = rip_church_gui_parishes_view } } }
+custom_window = { name = rip_church_gc_parishes_panel potential = { OR = { AND = { religion = greek_catholic has_country_flag = rip_church_gc_window_open } rip_church_union_supporter = yes } has_country_flag = rip_church_gui_parishes_view } }
 custom_text_box = { name = rip_church_rite_heading potential = { always = yes } tooltip = rip_church_rite_heading_tt }
 custom_button = {
  name = rip_church_rite_panel_hide_button potential = { always = yes } trigger = { owned_by = FROM }
@@ -195,6 +575,10 @@ custom_icon = { name = rip_church_ro_selector_symbol potential = { rip_church_ro
 custom_icon = { name = rip_church_gc_union_symbol potential = { NOT = { has_country_modifier = rip_church_gc_infrastructure } NOT = { has_country_modifier = rip_church_gc_coexistence } } frame = { number = 31 trigger = { always = yes } } }
 custom_icon = { name = rip_church_gc_synod_infrastructure_symbol potential = { has_country_modifier = rip_church_gc_infrastructure } frame = { number = 1 trigger = { always = yes } } }
 custom_icon = { name = rip_church_gc_synod_coexistence_symbol potential = { has_country_modifier = rip_church_gc_coexistence } frame = { number = 1 trigger = { always = yes } } }
+custom_button = {
+ name = rip_church_gc_window_toggle potential = { religion = greek_catholic } trigger = { religion = greek_catholic }
+ effect = { if = { limit = { has_country_flag = rip_church_gc_window_open } clr_country_flag = rip_church_gc_window_open } else = { set_country_flag = rip_church_gc_window_open } } tooltip = rip_church_gc_window_toggle_tt
+}
 custom_window = { name = rip_church_ro_native_controls potential = { rip_church_ro_jurisdiction = yes } }
 custom_text_box = { name = rip_church_ro_authority_label potential = { rip_church_ro_jurisdiction = yes } tooltip = rip_church_ro_authority_label_tt }
 custom_button = {

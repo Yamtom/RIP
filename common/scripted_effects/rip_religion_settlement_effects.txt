@@ -30,7 +30,24 @@ rip_faith_initialize_hierarchy_effect = {
 rip_faith_adopt_muscovite_church_effect = {
 		set_country_flag = rip_ro_stage_autocephaly
 		enable_religion = russian_orthodox
-		change_religion = russian_orthodox
+		if = {
+			limit = { has_reform = tsardom }
+			change_religion = russian_orthodox
+			add_government_reform = tsardom
+		}
+		else_if = {
+			limit = { has_reform = principality }
+			change_religion = russian_orthodox
+			add_government_reform = principality
+		}
+		else_if = {
+			limit = { has_reform = great_veche_republic }
+			change_religion = russian_orthodox
+			add_government_reform = great_veche_republic
+		}
+		else = {
+			change_religion = russian_orthodox
+		}
 		rip_faith_initialize_hierarchy_effect = yes
 }
 

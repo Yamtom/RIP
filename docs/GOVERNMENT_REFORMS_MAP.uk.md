@@ -3,9 +3,11 @@
 Актуально для EU4 **1.37.5**. Карта описує фактичну реєстрацію у
 `common/governments/00_governments.txt`, а не лише місце визначення реформи.
 
-Оновлення 7 вересня 2026 року: [аудит усіх 109 реформ і 60 назв](GOVERNMENT_AUTHENTICITY_105.uk.md)
-містить актуальні скорочення пакетів, три платні інституційні огляди та
-межі доведеності балансу. Ця карта зберігає опис переходів між реформами.
+Оновлення 17 жовтня 2026 року: [огляд 123 реформ і поточних блоків назв](GOVERNMENT_AUTHENTICITY_105.uk.md)
+містить таблицю всіх визначень і межі доведеності балансу. Чотирнадцять
+доданих республіканських і теократичних реформ KIE/HLC/VLN/UZH мають лише
+рольове зіставлення, без кампанійної числової сертифікації. Ця карта зберігає
+опис переходів між реформами.
 
 ## Легенда
 
@@ -40,10 +42,11 @@
 | `HET` | старшинська, полкова, академічна та залежна колегіальна драбина | рішення ставлять flags для полкової й академічної реформ; Колегію накладає окрема подія |
 
 `IZM`, `KHK`, `OKH` і `SMY` стартують зі спільною козацькою реформою, але не
-мають власної національної драбини. Держави з руською або русинською первинною,
-прийнятою чи домінантною культурою бачать майже всю спільну руську драбину.
-Винятки позначено як `Kyivan` або `predecessor`. Це дозволяє регіональній
-державі розвивати інститути без обов’язкового існування окремого тегу.
+мають власної національної драбини. Держави з руською або русинською первинною
+культурою (`primary_culture`) або вже наявною базовою руською реформою (`M1`)
+бачать майже всю спільну руську драбину. Винятки позначено як `Kyivan` або
+`predecessor`. Це дозволяє регіональній державі розвивати інститути без
+обов’язкового існування окремого тегу.
 
 ### Повне покриття тегів
 
@@ -54,9 +57,9 @@
 | Formable-носії успадкованої системи | `VOL`, `UKR` |
 | Теги з руською/русинською primary culture у country history | `HET`, `HLC`, `IZM`, `KHK`, `KIE`, `KRU`, `KUY`, `ODS`, `OKH`, `PDL`, `PRL`, `RPS`, `SMY`, `TRV`, `UZH`, `VLN`, `VOL`, `ZAZ` |
 
-Останній рядок не є жорстким whitelist: культурний gate також реагує на
-accepted/dominant culture, тому в ході кампанії до регіональної драбини може
-долучитися інший тег.
+Останній рядок не є жорстким whitelist за тегом: культурний gate перевіряє
+виключно `primary_culture` (та чинних власників базової реформи `M1`), а не
+`accepted_culture` чи `dominant_culture`.
 
 ```mermaid
 flowchart TB
@@ -66,7 +69,7 @@ flowchart TB
   N --> NK["KIE/KRU · CHR · HLC · VLN · PDL · UZH"]
   N --> NS["LIT · PRL · ODS · ZAZ/HET"]
   C --> CT["ZAZ · HET · IZM · KHK · OKH · SMY"]
-  R --> RT["18 historical primary-culture tags + dynamic accepted/dominant culture"]
+  R --> RT["18 historical primary-culture tags + primary_culture / M1 holder gate"]
   N --> F["VOL/UKR preserve HLC · VLN · PDL origin †"]
 ```
 
@@ -81,9 +84,18 @@ flowchart TB
 | `M4 regional` | `sacred_regulation_reform` ≈ `patriarch_engagement_reform` |
 | `M6 regional` | `assembly_houses_reform` |
 | `M7 regional` | `vln_ruthenian_renaissance_reform` |
-| `M8 regional` | `open_trading_ports_reform` ≈ `merchant_nobility_reform`; `vln_magdeburg_rights`, з окремими міськими та інституційними умовами |
+| `M8 regional` | `merchant_nobility_reform` ≈ `jap_gokaido_reform`; `open_trading_ports_reform` ≈ `thalassocracy_reform`; `vln_magdeburg_rights`, з окремими міськими та інституційними умовами |
 | `M10` | `representation_monarchy_reform` (`Kyivan` + Boyar Elite) ≈ `considerable_bloodline_reform` (`regional`) |
 | `M11` | `legislative_rada_reform` (`regional`) ≈ `divine_tsyisar_reform` (`predecessor`) |
+
+`merchant_nobility_reform` і `open_trading_ports_reform` перенесено з M7 до
+економічного M8: ванільний `jap_gokaido_reform` дає додаткового купця, а
+`thalassocracy_reform` поєднує торговельну силу зі знижкою на поліпшення
+центрів торгівлі. Це рольові аналоги; кампанійну межу 105% не сертифіковано.
+
+Волинські спільні M7/M8 (`vln_ruthenian_renaissance_reform`, `vln_magdeburg_rights`) не мають окремих блоків
+у `000_RIP_names.txt`: вони не повинні перекривати назви держави. Коли одну з них обрано, попередні титульні блоки
+з Hetman/HETmanka перестають діяти, і лишається воєводська назва.
 
 ```mermaid
 flowchart LR
@@ -93,7 +105,7 @@ flowchart LR
   M2 --> M4["M4 Sacred Law ≈ Patriarchate"]
   M4 --> M6["M6 Assembly Houses"]
   M6 --> M7["M7 Renaissance"]
-  M7 --> M8["M8 Trade / Nobility / Magdeburg Rights"]
+  M7 --> M8["M8 Trade / Ports / Magdeburg Rights"]
   M8 --> M10["M10 Representation ≈ Bloodline"]
   M10 --> M11["M11 Rada ≈ Divine Tsyisar"]
 ```
@@ -323,6 +335,17 @@ Renaissance і Magdeburg Rights
 | `M10` | — | — | `pdl_absolute_dominion_reform` | `pdl_grand_podillia_reform`, після місії |
 | `M11` | `pdl_enlightened_voivodeship_reform` | `pdl_revolutionary_republic_reform` (Popular Sovereignty) | — | — |
 
+`pdl_frontier_voivodeship_reform` лишається загальним M1 лише до вибору шляху;
+після встановлення одного з трьох path flags його змінює відповідна реформа.
+`pdl_voivodeship_kingdom_reform` у магнатському шляху зберігає −10% утримання
+штатів, тоді як fallback-прикордонне `pdl_frontier_voivodeship_reform` має
+−10% утримання фортець замість нього. Обидві лишають однакові +10% місткості
+управління й приросту реформ: це вузьке розрізнення доктрин, а не кампанійна
+оцінка сили.
+
+Титули PDL синхронізовані з відповідними реформами; назва `pdl_frontier_republic` додатково вимагає ексклюзивний
+`pdl_frontier_path` і саму `pdl_frontier_republic_reform`, а не загальний прапорець вербування козаків.
+
 ```mermaid
 flowchart LR
   B["M1 Frontier Voivodeship fallback"] -->|one-time lineage decision| D{PDL-origin path}
@@ -506,20 +529,7 @@ flowchart LR
 `grand_duchy_reform` є навмисним version-sensitive override ванільного ID і
 має повторно звірятися після зміни підтримуваної версії EU4.
 
-`lit_union_of_two_nations_reform` («один сейм») і `lit_grand_diet_reform` (сейм,
-що «сидить окремо від сейму Корони») входять до ванільного парламентського
-набору `exclusive_reforms` монархії разом із `parliamentary_reform`,
-`polish_great_sejm` і `assembly_houses_reform`. У ванілі `polish_great_sejm` і
-`parliamentary_reform` взаємовиключні, а Литва могла тримати унію разом із
-Великим сеймом, тобто два парламенти. Рішення `lit_hold_the_union_on_our_terms`
-додає унію скриптом, тому перед цим знімає `lit_grand_diet_reform`: результат
-не залежить від того, чи рушій звіряє скриптове `add_government_reform` з
-`exclusive_reforms` (у грі не перевірено).
-
-Решту реформ із `has_parliament` (`vln_*`, `hlc_*`, `uzh_palatial_ruthenian_reform`,
-`legislative_rada_reform`) до набору свідомо не внесено. `has_parliament` —
-булева ознака, тож кілька таких реформ не дають кількох парламентів; вони
-вмикають його як частину власної драбини, і взаємовиключення розірвало б її.
+Унія й Великий сейм виключають одне одного — див. «Взаємовиключність асамблей».
 
 ## PRL / ODS
 
@@ -569,6 +579,30 @@ flowchart LR
 | PDL foundational path after early `VOL/UKR` | три взаємовиключні рішення за `west_ukraine_pdl_origin_country` | гілка доступна гравцю й AI навіть після раннього формування нащадка |
 | PDL Enlightened/Popular finals | свіжий вибір на `M11` після Enlightenment/Age of Revolutions | пізня умова більше не захована на вже пройденому `M7` |
 | HLC/VLN/PDL capstones | path/mission flags, що переживають `VOL/UKR` | винагорода за завершену lineage-гілку, а не випадковий global pick |
+
+### Взаємовиключність асамблей
+
+- У монархії M1-форми `ruthenian_factional_empire_reform` та два її варіанти,
+  `uzh_palanok_captaincy_reform` і `lit_union_of_two_nations_reform` не
+  складаються з ванільною `states_general_reform`. Їхні власні фракції,
+  капітанський сойм або Панська рада вже займають цей інституційний простір.
+- Ті самі особливі M1-монархії, а також `representation_monarchy_reform`,
+  `hlc_crown_and_sejm_reform`, `vln_grand_ruthenia_reform`,
+  `uzh_palatial_ruthenian_reform` і `legislative_rada_reform` не складаються з ванільними
+  `parliamentary_reform` та `assembly_houses_reform`.
+- `lit_grand_diet_reform` (M6, сейм Великого князівства, що «сидить окремо від сейму
+  Корони») стоїть у тому самому наборі, що й `lit_union_of_two_nations_reform`
+  («один сейм»): інакше Литва тримала б унію разом з окремим сеймом, тобто два
+  парламенти. Рішення `lit_hold_the_union_on_our_terms` додає унію скриптом, тому
+  перед цим знімає `lit_grand_diet_reform`; результат не залежить від того, чи рушій
+  звіряє скриптове `add_government_reform` з `exclusive_reforms` (у грі не перевірено).
+- У республіці R1-віче та асамблеї CHR (`siversk_veche_reform`,
+  `chr_desna_staple_reform`, `chr_town_union_reform`,
+  `chr_rada_of_lands_reform`, `kyivan_veche_reform` і капітанський сойм
+  `uzh_palanok_captaincy_reform`) не можуть триматися разом із R6
+  `parliamentary_reform`/`zaz_general_rada_reform` або парламентською
+  `uzh_palatial_ruthenian_reform` на R10. Це не прибирає потрібне окреме
+  співіснування `uzh_union_synod_reform` із палацовою гілкою UZH.
 
 ## Чому гілки дають різний геймплей
 

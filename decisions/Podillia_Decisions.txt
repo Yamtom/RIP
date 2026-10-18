@@ -761,4 +761,51 @@ country_decisions = {
 		}
 	}
 
+	pdl_border_policy_decision = {
+		major = yes
+		potential = {
+			west_ukraine_pdl_origin_country = yes
+			OR = {
+				has_country_flag = pdl_frontier_path
+				has_country_flag = pdl_carpathian_path
+				has_country_flag = pdl_magnate_path
+			}
+		}
+
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				area = podolia_volhynia_area
+				province_id = 281
+				province_id = 1944
+				province_id = 2407
+			}
+		}
+
+		allow = {
+			is_at_war = no
+			stability = 0
+			NOT = { has_country_modifier = pdl_recent_border_policy }
+			any_owned_province = {
+				OR = {
+					area = podolia_volhynia_area
+					province_id = 281
+					province_id = 1944
+				}
+			}
+		}
+
+		effect = {
+			country_event = { id = pdl_border_policy.1 }
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				is_at_war = no
+			}
+		}
+	}
+
 }

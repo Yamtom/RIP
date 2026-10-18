@@ -1,0 +1,124 @@
+# Modifiers of the five faith-and-border reforms (October 2026).
+# Province modifiers: zaz_military_monastery, zaz_clandestine_bishopric,
+# chr_old_believer_sloboda, pdl_four_communities. Everything else is a country
+# modifier. Rates are design values, not campaign-validated balance.
+
+# --- ZAZ / HET: the Host as a religious order --------------------------------
+
+# Province. Trakhtemyriv, Mezhyhirya and the Sich church: hospital for the
+# veterans, house of the order, powder store.
+zaz_military_monastery = {
+	local_manpower_modifier = 0.25
+	local_defensiveness = 0.1
+	garrison_size = 0.1
+	local_unrest = -1
+}
+
+# Country. One or more military monasteries stand.
+zaz_monastery_hospitals = {
+	land_morale = 0.05
+	manpower_recovery_speed = 0.1
+}
+
+# Country. Two or more stand: the order has a house in every corner of the Host.
+zaz_monastery_network = {
+	discipline = 0.025
+}
+
+# Province, in a neighbour's land. An Orthodox bishop consecrated and escorted
+# by the Host sits where the owner did not want one.
+zaz_clandestine_bishopric = {
+	local_unrest = 1
+	local_missionary_strength = 0.02
+}
+
+# --- HLC: the brotherhood and the bishop ------------------------------------
+
+# Country. The brotherhood has audited the bishop and won.
+hlc_brotherhood_vigilance = {
+	burghers_loyalty_modifier = 0.05
+	church_loyalty_modifier = -0.05
+	global_trade_power = 0.05
+}
+
+# Country. The bishop has put the brotherhood back in its place.
+hlc_bishop_assertive = {
+	church_loyalty_modifier = 0.1
+	burghers_loyalty_modifier = -0.05
+}
+
+# Country. The Eastern rite under Roman jurisdiction, the brotherhood's schools
+# under the Basilians.
+hlc_ecumenical_bridge = {
+	tolerance_heretic = 1
+	diplomatic_reputation = 0.5
+	global_missionary_strength = 0.005
+}
+
+# --- CHR: the Old Believer refuge -------------------------------------------
+
+# Province. A settlement of refugee Old Believers under a charter of freedoms.
+chr_old_believer_sloboda = {
+	local_production_efficiency = 0.15
+	province_trade_power_modifier = 0.1
+	local_tax_modifier = 0.1
+	local_unrest = 1
+	local_missionary_strength = -0.02
+}
+
+# Country. The metropolitan of Chernihiv complains of the heretics at the gate.
+chr_metropolitan_displeasure = {
+	church_loyalty_modifier = -0.1
+	stability_cost_modifier = 0.05
+}
+
+# Country. A common-faith parish: the Old Believers keep the old books under an
+# Orthodox bishop.
+chr_edinoverie_compromise = {
+	church_loyalty_modifier = 0.05
+	tolerance_heretic = -1
+}
+
+# --- PDL: the four communities of Kamianets ---------------------------------
+
+# Province. The walls manned by Ruthenians, Poles, Armenians and the kahal.
+pdl_four_communities = {
+	local_defensiveness = 0.25
+	garrison_size = 0.25
+	local_unrest = -3
+	province_trade_power_modifier = 0.25
+}
+
+# Country. Armenian merchants carry the Kamianets cloth and salt east.
+pdl_armenian_caravans = {
+	caravan_power = 0.15
+	trade_efficiency = 0.05
+}
+
+# --- PLT: the Sophian see ----------------------------------------------------
+
+# Country. The Nomocanon sealed against the Muscovite corrections.
+plt_nomocanon_sealed = {
+	religious_unity = 0.1
+	global_missionary_strength = 0.01
+	stability_cost_modifier = -0.05
+}
+
+# Country. The guilds keep the parishes.
+plt_guild_parishes = {
+	production_efficiency = 0.05
+	build_cost = -0.1
+	burghers_loyalty_modifier = 0.05
+}
+
+# Country. The city communities hold the standing right of veto.
+plt_city_veto = {
+	burghers_loyalty_modifier = 0.05
+	diplomatic_reputation = -0.5
+}
+
+# Country. A Muscovite candidate sits on the Sophian throne.
+plt_muscovite_bishop_accepted = {
+	church_loyalty_modifier = 0.05
+	burghers_loyalty_modifier = -0.1
+}

@@ -1188,6 +1188,12 @@ ro_ladder('GetChurchROUpkeep','rip_church_fervor_cost',30,lambda n:f'§R-{n}§!'
 ro_ladder('GetChurchROPolicies','rip_church_icons',9,lambda n:f'§Y{n}§!')
 ro_ladder('GetChurchROCapacity','rip_church_capacity',9,lambda n:f'§Y{n}§!',floor=1)   # authority always grants one slot
 ro_ladder('GetChurchRONodes','funded_nodes_count',9,lambda n:f'§Y{n}§!')
+# Holy Cities Register: the years of each sacred myth, 0..30. The old bar text read
+# [Root.rip_ro_myth_years_<city>.GetValue] and printed '/30 yrs' with no number until the first yearly pulse
+# had set the variable. Zero is red, a matured myth (30) green, the years between yellow.
+for city in ('novgorod','moscow','kyiv','constantinople','jerusalem'):
+ ro_ladder('GetRipRoMythYears'+city.title(),f'rip_ro_myth_years_{city}',30,
+           lambda n:'§G30§!' if n==30 else '§R0§!' if n==0 else f'§Y{n}§!')
 # Net monthly change is signed: climb from +15 down through 0 to -29, then clamp.
 ro_net=[(f'check_variable = {{ which = rip_church_fervor_net value = {n} }}',f'§G+{n}§!') for n in range(15,0,-1)]
 ro_net.append(('check_variable = { which = rip_church_fervor_net value = 0 }','§Y0§!'))
@@ -1571,6 +1577,7 @@ for legacy_path in legacy_ro_paths:
   if not match or match[1] not in RO_HISTORY_COPY:
    rows.append(row if row.strip() else '\n')
  outputs[legacy_path] = ''.join(rows)
+union_labels = {'english': 'Union', 'french': 'Union', 'german': 'Union', 'spanish': 'Unión'}
 authority_labels = {
     'english': 'Patriarch Authority',
     'french': 'Autorité patriarcale',
@@ -1580,6 +1587,7 @@ authority_labels = {
 for lang in ('english','french','german','spanish'):
     language_data = dict(DATA)
     language_data['current_patriarch_authority_text'] = authority_labels[lang]
+    language_data['rip_church_gc_window_toggle'] = union_labels[lang]
     outputs[f'localisation/replace/zzzz_RIP_church_redesign_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(f' {k}:0 "{v.replace(chr(34),chr(39))}"\n' for k,v in sorted(language_data.items()))
 # Regression guard: the province action is a guarantee of community rights, never the
 # recognition of a parish or a rite. Patriarchate recognition (rip_church.3, ro_recognized)

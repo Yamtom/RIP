@@ -9,7 +9,7 @@ with each other, not that the engine draws the panel the way the preview does.
     other mechanic uses, and each button has its own sprite (confirm, lord,
     retinues), not one borrowed from a sibling mechanic.
   * The six ordinance buttons are two rows of three: enact on top, rescind below,
-    one column per ordinance, each pair sharing its cooldown token.
+    one column per ordinance, each pair sharing its cooldown token and cooldown name.
   * Every sprite is a defined, existing 82x82 uncompressed DDS with a shaped
     alpha, and no two of them are the same picture.
   * Every button, ordinance modifier and government attribute that the Austrian
@@ -44,6 +44,7 @@ ORDINANCES = ("chancery", "settlement", "cadastral")
 SPRITES = 15
 # Pany Rada: button -> sprite, in file order; the frame is the shield no other mechanic uses
 RADA_FILE = "common/government_mechanics/rip_lit_pany_rada.txt"
+RADA_MECHANIC = MECHANICS[RADA_FILE][0]
 RADA_BUTTONS = {
     "lit_seek_the_radas_confirmation": "GFX_rip_rada_confirm",
     "lit_win_over_a_wavering_lord": "GFX_rip_rada_lord",
@@ -135,11 +136,18 @@ def check_ordinance_layout(text):
         token = f"cooldown_token = hlc_{ordinance}_ordinance"
         if token not in enact or token not in rescind:
             problems.append(f"{ordinance}: enact and rescind do not share {token}")
+        for label, button in (("enact", enact), ("rescind", rescind)):
+            if "cooldown_years = 5" not in button:
+                problems.append(f"{ordinance}: {label} lost its five-year cooldown")
+            if "cooldown_desc = hlc_ordinance_cooldown_desc" not in button:
+                problems.append(f"{ordinance}: {label} does not name its cooldown, so the tooltip would name the button")
         if f"set_country_flag = {flag}" not in enact or f"name = {modifier}" not in enact or "duration = -1" not in enact:
             problems.append(f"{ordinance}: enact does not set {flag} and the permanent {modifier}")
         if f"clr_country_flag = {flag}" not in rescind or f"remove_country_modifier = {modifier}" not in rescind:
             problems.append(f"{ordinance}: rescind does not clear {flag} and remove {modifier}")
-        if f"NOT = {{ has_country_flag = {flag} }}" not in enact:
+        if "_power_cost" in named_block(rescind, "trigger") or "_power_cost" in named_block(rescind, "effect"):
+            problems.append(f"{ordinance}: rescind must cost no monarch power")
+        if f"NOT = {{ has_country_flag = {flag} }}" not in normalized(named_block(enact, "trigger")):
             problems.append(f"{ordinance}: enact is not blocked while the ordinance stands")
         if f"has_country_flag = {flag}" not in normalized(named_block(rescind, "trigger")):
             problems.append(f"{ordinance}: rescind is not limited to an enacted ordinance")
@@ -168,6 +176,18 @@ def silhouette(pixels):
 def differing(a, b):
     """Fraction of two equal-length byte strings that differ."""
     return sum(1 for x, y in zip(a, b) if x != y) / max(1, len(a))
+
+
+def check_rada_assignment(text):
+    """Each Pany Rada button wears its own sprite (confirm, lord, retinues), not one borrowed from a sibling mechanic."""
+    problems = []
+    found = dict(interactions(text, RADA_MECHANIC))
+    for button, sprite in RADA_BUTTONS.items():
+        if button not in found:
+            problems.append(f"{button} is missing from {RADA_MECHANIC}")
+        elif icon_of(found[button]) != sprite:
+            problems.append(f"{button} uses {icon_of(found[button])}, expected {sprite}")
+    return problems
 
 
 def check_rada_frame(images):
@@ -230,7 +250,7 @@ def check_sprites(definitions=None, loaded=None):
             differing = sum(1 for x in range(0, len(a), 4 * 7) if abs(a[x] - b[x]) + abs(a[x + 1] - b[x + 1]) + abs(a[x + 2] - b[x + 2]) > 30)
             if differing < len(a) // (4 * 7) * 0.15:
                 problems.append(f"{first} and {second} are practically the same picture")
-    return problems, set(definitions)
+    return problems, set(definitions), images
 
 
 def check_localisation(text_by_mechanic):
@@ -238,8 +258,9 @@ def check_localisation(text_by_mechanic):
     needed = set()
     for mechanic_text, (mechanic, _) in text_by_mechanic:
         needed.add(f"ability_{mechanic}")
-        for name, _ in interactions(mechanic_text, mechanic):
+        for name, block in interactions(mechanic_text, mechanic):
             needed.update({name, f"{name}_desc"})
+            needed.update(re.findall(r"cooldown_desc = (\w+)", block))
     for ordinance in ORDINANCES:
         needed.update({f"hlc_{ordinance}_ordinance_modifier", f"desc_hlc_{ordinance}_ordinance_modifier",
                        f"hlc_{ordinance}_ordinance_in_force_tt", f"hlc_{ordinance}_ordinance_not_in_force_tt"})
@@ -340,19 +361,35 @@ def check_custom_attributes():
 
 # --------------------------------------------------------------------------
 
-def planted_violations(texts, sprites):
+def planted_violations(texts, sprites, images):
     """Break the sources in memory and make sure each break is seen."""
     cossack = texts["chancery"].replace("GFX_rip_chancery_enact", "GFX_cossacks_ability_ADM", 1)
+    mechanic = named_block(texts["chancery"], "hlc_austrian_reorganization_mechanic")
+    missing_rescind = texts["chancery"].replace(
+        named_block(named_block(mechanic, "interactions"), "hlc_rescind_cadastral_ordinance"), "", 1
+    )
+    toggled = texts["chancery"].replace("hlc_rescind_cadastral_ordinance = {", "hlc_x = {", 1)
     cases = {
         "vanilla icon back in the chancery": check_buttons("x", "hlc_austrian_reorganization_mechanic", 6, cossack, sprites),
-        "four buttons instead of six": check_buttons("x", "hlc_austrian_reorganization_mechanic", 6,
-                                                      texts["chancery"][:texts["chancery"].index("hlc_rescind_cadastral_ordinance")] + "\n\t}\n}\n", sprites),
+        "five buttons instead of six": check_buttons("x", "hlc_austrian_reorganization_mechanic", 6, missing_rescind, sprites),
+        "rescind row folded back into toggles": check_ordinance_layout(missing_rescind),
+        "rescind button under another name": check_ordinance_layout(toggled),
         "rescind row before enact row": check_ordinance_layout(
             texts["chancery"].replace("hlc_enact_cadastral_ordinance = {", "hlc_swap = {", 1)),
+        "rescind that leaves the flag set": check_ordinance_layout(
+            texts["chancery"].replace("clr_country_flag = hlc_cadastral_ordinance_active",
+                                      "set_country_flag = hlc_cadastral_ordinance_active", 1)),
+        "rescind that costs power": check_ordinance_layout(
+            texts["chancery"].replace("clr_country_flag = hlc_settlement_ordinance_active",
+                                      "adm_power_cost = 10\n\t\t\t\tclr_country_flag = hlc_settlement_ordinance_active", 1)),
         "shared cooldown token dropped": check_ordinance_layout(
             texts["chancery"].replace("cooldown_token = hlc_cadastral_ordinance", "cooldown_years = 5", 1)),
+        "cooldown tooltip that names the button": check_ordinance_layout(
+            texts["chancery"].replace("cooldown_desc = hlc_ordinance_cooldown_desc", "# nothing", 1)),
         "raw flag name in an ordinance button": check_ordinance_layout(
             texts["chancery"].replace("tooltip = hlc_chancery_ordinance_not_in_force_tt", "tooltip = nothing", 1)),
+        "raw flag name in a rescind button": check_ordinance_layout(
+            texts["chancery"].replace("tooltip = hlc_chancery_ordinance_in_force_tt", "tooltip = nothing", 1)),
         "estate without the appanage privilege": check_appanage_and_ruina(
             texts["estate"].replace("estate_nobles_hlc_strong_appanages", "estate_nobles_nothing"), texts["disaster"], texts["reform"]),
         "Ruina without its can_start guard": check_appanage_and_ruina(
@@ -363,7 +400,21 @@ def planted_violations(texts, sprites):
             texts["modifiers"], texts["reform"].replace("hlc_clear_ordinances_effect = yes", "# nothing"), texts["effects"]),
         "raw council flag in the boyar republic": check_boyar_republic_tooltip(
             texts["kyiv"].replace("custom_trigger_tooltip", "hidden_trigger_x")),
+        "Pany Rada button back on a vanilla Cossack icon": check_buttons(
+            RADA_FILE, RADA_MECHANIC, 3, texts["rada"].replace("icon = GFX_rip_rada_confirm", "icon = GFX_cossacks_ability_ADM", 1), sprites
+        ) + check_rada_assignment(texts["rada"].replace("icon = GFX_rip_rada_confirm", "icon = GFX_cossacks_ability_ADM", 1)),
+        "Pany Rada button wearing the Senate's buy-off sprite": check_rada_assignment(
+            texts["rada"].replace("icon = GFX_rip_rada_lord", "icon = GFX_rip_senate_buyoff", 1)),
+        "Pany Rada buttons wearing three sprites of other mechanics": check_rada_assignment(
+            texts["rada"].replace("GFX_rip_rada_confirm", "GFX_rip_boyar_office").replace("GFX_rip_rada_lord", "GFX_rip_boyar_claimant")
+            .replace("GFX_rip_rada_retinues", "GFX_rip_boyar_example")),
     }
+    # pixel cases: the Rada sprite is swapped for another picture in memory (skipped when a sprite is missing, which check_sprites reports)
+    if all(name in images for name in ("GFX_rip_rada_lord", "GFX_rip_rada_retinues", "GFX_rip_senate_buyoff", "GFX_rip_senate_banners")):
+        cases["Pany Rada lord drawn in the Senate's arch frame"] = check_rada_frame(
+            {**images, "GFX_rip_rada_lord": images["GFX_rip_senate_buyoff"]})
+        cases["Pany Rada retinues copying the Senate's banners"] = check_rada_art(
+            {**images, "GFX_rip_rada_retinues": images["GFX_rip_senate_banners"]})
     return [name for name, problems in cases.items() if not problems], len(cases)
 
 
@@ -376,8 +427,9 @@ def main():
         "reform": read("common/government_reforms/RIP_HLC_government_reforms.txt"),
         "effects": read("common/scripted_effects/rip_hlc_ordinance_effects.txt"),
         "kyiv": read("common/government_reforms/RIP_KIE_KRU_government_reforms.txt"),
+        "rada": read(RADA_FILE),
     }
-    sprite_problems, sprites = check_sprites()
+    sprite_problems, sprites, images = check_sprites()
     problems = list(sprite_problems)
     mechanic_texts = []
     for path, (mechanic, expected) in MECHANICS.items():
@@ -389,16 +441,19 @@ def main():
     problems += check_ordinance_modifiers(texts["modifiers"], texts["reform"], texts["effects"])
     problems += check_appanage_and_ruina(texts["estate"], texts["disaster"], texts["reform"])
     problems += check_boyar_republic_tooltip(texts["kyiv"])
+    problems += check_rada_assignment(texts["rada"])
+    problems += check_rada_frame(images)
+    problems += check_rada_art(images)
     attribute_problems, note = check_custom_attributes()
     problems += attribute_problems
-    unseen, planted = planted_violations(texts, sprites)
+    unseen, planted = planted_violations(texts, sprites, images)
     problems += [f"planted violation not caught: {name}" for name in unseen]
     if problems:
         print("GOVERNMENT ABILITY ICONS CHECK: FAIL")
         for problem in problems:
             print(f"  - {problem}")
         return 1
-    print(f"GOVERNMENT ABILITY ICONS CHECK: PASS (12 sprites, 12 buttons in 3 mechanics, 4 languages; {planted} planted violations caught)")
+    print(f"GOVERNMENT ABILITY ICONS CHECK: PASS (15 sprites, 15 buttons in 4 mechanics, 4 languages; {planted} planted violations caught)")
     print("LIMIT: static contracts. The panels were checked by eye in EU4 1.37.5 on 2026-10-17 (see docs/RUTHENIAN_GOVERNMENT_UI.uk.md); no automated render test.")
     if note:
         print(note)
