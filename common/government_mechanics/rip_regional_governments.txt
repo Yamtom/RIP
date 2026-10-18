@@ -1,0 +1,156 @@
+rip_rg_chr_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+	available = { rip_rg_chr = yes }
+	interactions = {
+		rip_rg_chr_bell = {
+			icon = GFX_rip_siversk_towns
+			trigger = { OR = { AND = { rip_rg_chr_bell_can = yes any_owned_province = { rip_rg_chr_bell_target = yes } } } }
+			effect = { if = { limit = { rip_rg_chr_bell_can = yes any_owned_province = { rip_rg_chr_bell_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_chr_bell_target = yes } save_event_target_as = rip_rg_target } rip_rg_chr_bell_commit_effect = yes }
+			else = { country_event = { id = rip_rg.100 } } } }
+			ai_chance = { factor = 1 modifier = { factor = 5 corruption = 2 } }
+		}
+		
+		rip_rg_chr_staple = {
+			icon = GFX_rip_siversk_towns
+			trigger = { OR = { AND = { rip_rg_chr_staple_can = yes any_owned_province = { rip_rg_chr_staple_target = yes } } } }
+			effect = { if = { limit = { rip_rg_chr_staple_can = yes any_owned_province = { rip_rg_chr_staple_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_chr_staple_target = yes } save_event_target_as = rip_rg_target } rip_rg_chr_staple_commit_effect = yes }
+			else = { country_event = { id = rip_rg.120 } } } }
+			ai_chance = { factor = 1 modifier = { factor = 3 is_at_war = no } }
+		}
+		
+		rip_rg_chr_militia = {
+			icon = GFX_rip_siversk_towns
+			trigger = { OR = { AND = { rip_rg_chr_militia_can = yes any_owned_province = { rip_rg_chr_militia_target = yes } } } }
+			effect = { if = { limit = { rip_rg_chr_militia_can = yes any_owned_province = { rip_rg_chr_militia_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_chr_militia_target = yes } save_event_target_as = rip_rg_target } rip_rg_chr_militia_commit_effect = yes }
+			else = { country_event = { id = rip_rg.140 } } } }
+			ai_chance = { factor = 1 modifier = { factor = 6 is_at_war = yes } modifier = { factor = 0 NOT = { mil_power = 150 } } }
+		}
+	}
+}
+
+rip_rg_uzh_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+	available = { rip_rg_uzh = yes }
+	interactions = {
+		rip_rg_uzh_salt = {
+			icon = GFX_rip_siversk_retinue
+			trigger = { OR = { AND = { rip_rg_uzh_salt_can = yes any_owned_province = { rip_rg_uzh_salt_target = yes } } } }
+			effect = { if = { limit = { rip_rg_uzh_salt_can = yes any_owned_province = { rip_rg_uzh_salt_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_uzh_salt_target = yes } save_event_target_as = rip_rg_target } rip_rg_uzh_salt_commit_effect = yes }
+			else = { country_event = { id = rip_rg.160 } } } }
+			ai_chance = { factor = 1 modifier = { factor = 3 is_at_war = no } }
+		}
+		
+		rip_rg_uzh_guides = {
+			icon = GFX_rip_siversk_retinue
+			trigger = { OR = { AND = { rip_rg_uzh_guides_can = yes any_owned_province = { rip_rg_uzh_guides_target = yes } } } }
+			effect = { if = { limit = { rip_rg_uzh_guides_can = yes any_owned_province = { rip_rg_uzh_guides_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_uzh_guides_target = yes } save_event_target_as = rip_rg_target } rip_rg_uzh_guides_commit_effect = yes }
+			else = { country_event = { id = rip_rg.180 } } } }
+			ai_chance = { factor = 1 modifier = { factor = 5 is_at_war = yes } }
+		}
+		
+		rip_rg_uzh_pass = {
+			icon = GFX_rip_siversk_retinue
+			trigger = { OR = { AND = { rip_rg_uzh_pass_can = yes any_owned_province = { rip_rg_uzh_pass_target = yes } } } }
+			effect = { if = { limit = { rip_rg_uzh_pass_can = yes any_owned_province = { rip_rg_uzh_pass_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_uzh_pass_target = yes } save_event_target_as = rip_rg_target } rip_rg_uzh_pass_commit_effect = yes }
+			else = { country_event = { id = rip_rg.200 } } } }
+			ai_chance = { factor = 1 modifier = { factor = 5 is_at_war = yes } }
+		}
+	}
+}
+
+rip_rg_pdl_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+	available = { rip_rg_pdl = yes }
+	interactions = {
+		rip_rg_pdl_patrol = {
+			icon = GFX_rip_siversk_retinue
+			trigger = { OR = { AND = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } } AND = { rip_rg_pdl_patrol_frontier_can = yes any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } } AND = { rip_rg_pdl_patrol_carpathian_can = yes any_owned_province = { rip_rg_pdl_patrol_carpathian_target = yes } } } }
+			effect = { if = { limit = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_pdl_patrol_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_patrol_base_commit_effect = yes }
+			else = { country_event = { id = rip_rg.220 } } }
+			else_if = { limit = { rip_rg_pdl_patrol_frontier_can = yes any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_pdl_patrol_frontier_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_patrol_frontier_commit_effect = yes }
+			else = { country_event = { id = rip_rg.240 } } }
+			else_if = { limit = { rip_rg_pdl_patrol_carpathian_can = yes any_owned_province = { rip_rg_pdl_patrol_carpathian_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_pdl_patrol_carpathian_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_patrol_carpathian_commit_effect = yes }
+			else = { country_event = { id = rip_rg.260 } } } }
+			ai_chance = { factor = 1 modifier = { factor = 4 any_owned_province = { devastation = 10 } } }
+		}
+		
+		rip_rg_pdl_charter = {
+			icon = GFX_rip_siversk_retinue
+			trigger = { OR = { AND = { rip_rg_pdl_charter_base_can = yes any_owned_province = { rip_rg_pdl_charter_base_target = yes } } AND = { rip_rg_pdl_charter_magnate_can = yes any_owned_province = { rip_rg_pdl_charter_magnate_target = yes } } } }
+			effect = { if = { limit = { rip_rg_pdl_charter_base_can = yes any_owned_province = { rip_rg_pdl_charter_base_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_pdl_charter_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_charter_base_commit_effect = yes }
+			else = { country_event = { id = rip_rg.280 } } }
+			else_if = { limit = { rip_rg_pdl_charter_magnate_can = yes any_owned_province = { rip_rg_pdl_charter_magnate_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_pdl_charter_magnate_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_charter_magnate_commit_effect = yes }
+			else = { country_event = { id = rip_rg.300 } } } }
+			ai_chance = { factor = 2 modifier = { factor = 3 is_at_war = no } }
+		}
+		
+		rip_rg_pdl_mobile = {
+			icon = GFX_rip_siversk_retinue
+			trigger = { OR = { AND = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } } AND = { rip_rg_pdl_mobile_frontier_can = yes any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } } AND = { rip_rg_pdl_mobile_carpathian_can = yes any_owned_province = { rip_rg_pdl_mobile_carpathian_target = yes } } } }
+			effect = { if = { limit = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_pdl_mobile_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_mobile_base_commit_effect = yes }
+			else = { country_event = { id = rip_rg.320 } } }
+			else_if = { limit = { rip_rg_pdl_mobile_frontier_can = yes any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_pdl_mobile_frontier_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_mobile_frontier_commit_effect = yes }
+			else = { country_event = { id = rip_rg.340 } } }
+			else_if = { limit = { rip_rg_pdl_mobile_carpathian_can = yes any_owned_province = { rip_rg_pdl_mobile_carpathian_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_pdl_mobile_carpathian_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_mobile_carpathian_commit_effect = yes }
+			else = { country_event = { id = rip_rg.360 } } } }
+			ai_chance = { factor = 1 modifier = { factor = 5 is_at_war = yes } }
+		}
+	}
+}
+
+rip_rg_prl_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+	available = { rip_rg_prl = yes }
+	interactions = {
+		rip_rg_prl_patrol = {
+			icon = GFX_rip_siversk_retinue
+			trigger = { OR = { AND = { rip_rg_prl_patrol_base_can = yes any_owned_province = { rip_rg_prl_patrol_base_target = yes } } } }
+			effect = { if = { limit = { rip_rg_prl_patrol_base_can = yes any_owned_province = { rip_rg_prl_patrol_base_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_prl_patrol_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_prl_patrol_base_commit_effect = yes }
+			else = { country_event = { id = rip_rg.380 } } } }
+			ai_chance = { factor = 1 modifier = { factor = 4 any_owned_province = { devastation = 10 } } }
+		}
+		
+		rip_rg_prl_charter = {
+			icon = GFX_rip_siversk_retinue
+			trigger = { OR = { AND = { rip_rg_prl_charter_base_can = yes any_owned_province = { rip_rg_prl_charter_base_target = yes } } } }
+			effect = { if = { limit = { rip_rg_prl_charter_base_can = yes any_owned_province = { rip_rg_prl_charter_base_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_prl_charter_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_prl_charter_base_commit_effect = yes }
+			else = { country_event = { id = rip_rg.400 } } } }
+			ai_chance = { factor = 2 modifier = { factor = 3 is_at_war = no } }
+		}
+		
+		rip_rg_prl_mobile = {
+			icon = GFX_rip_siversk_retinue
+			trigger = { OR = { AND = { rip_rg_prl_mobile_base_can = yes any_owned_province = { rip_rg_prl_mobile_base_target = yes } } } }
+			effect = { if = { limit = { rip_rg_prl_mobile_base_can = yes any_owned_province = { rip_rg_prl_mobile_base_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_prl_mobile_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_prl_mobile_base_commit_effect = yes }
+			else = { country_event = { id = rip_rg.420 } } } }
+			ai_chance = { factor = 1 modifier = { factor = 5 is_at_war = yes } }
+		}
+	}
+}
+
+rip_rg_ods_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+	available = { rip_rg_ods = yes }
+	interactions = {
+		rip_rg_ods_freight = {
+			icon = GFX_rip_siversk_retinue
+			trigger = { OR = { AND = { rip_rg_ods_freight_can = yes any_owned_province = { rip_rg_ods_freight_target = yes } } } }
+			effect = { if = { limit = { rip_rg_ods_freight_can = yes any_owned_province = { rip_rg_ods_freight_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_ods_freight_target = yes } save_event_target_as = rip_rg_target } rip_rg_ods_freight_commit_effect = yes }
+			else = { country_event = { id = rip_rg.440 } } } }
+			ai_chance = { factor = 3 modifier = { factor = 0 is_at_war = yes } }
+		}
+		
+		rip_rg_ods_corsairs = {
+			icon = GFX_rip_siversk_retinue
+			trigger = { OR = { AND = { rip_rg_ods_corsairs_can = yes any_owned_province = { rip_rg_ods_corsairs_target = yes } } } }
+			effect = { if = { limit = { rip_rg_ods_corsairs_can = yes any_owned_province = { rip_rg_ods_corsairs_target = yes } } if = { limit = { ai = yes } random_owned_province = { limit = { rip_rg_ods_corsairs_target = yes } save_event_target_as = rip_rg_target } rip_rg_ods_corsairs_commit_effect = yes }
+			else = { country_event = { id = rip_rg.460 } } } }
+			ai_chance = { factor = 1 modifier = { factor = 4 is_at_war = yes } }
+		}
+	}
+}

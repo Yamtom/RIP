@@ -611,7 +611,7 @@ flowchart LR
 
 ## Перевірені інваріанти
 
-- 123 унікальних definition-ID; дублів немає.
+- 124 унікальних definition-ID; дублів немає.
 - Кожен definition-ID присутній у government registration; навмисні
   багатотипові реформи — сумісні UZH-форми та CHR Grain Directorate.
 - `assembly_houses_reform` більше не є source-unreachable.
@@ -629,3 +629,5 @@ flowchart LR
 - Бонуси реформ показані без прихованих постійних дублюючих модифікаторів VLN/HLC.
 - HET полковий province-layer використовує namespaced modifier і не залежить
   від vanilla Ottoman on-actions; старі saves мігрують на startup.
+
+Гетьманська база: `rip_hetman_cossacks_reform` (R1), окрема від Запорожжя; шкала старшини та гетьмана.

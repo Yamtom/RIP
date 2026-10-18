@@ -1,0 +1,32 @@
+rip_het_authority_mechanic = {
+    alert_icon_gfx = GFX_alerticons_government_mechanics alert_icon_index = 1
+    available = { has_reform = rip_hetman_cossacks_reform }
+    powers = { rip_het_authority = {
+        gui = rip_het_authority_power min = 0 max = 100 default = 50
+        reset_on_new_ruler = no base_monthly_growth = 0 is_good = yes
+        range_modifier = { trigger = { rip_het_authority_active = yes } start_value = 0 end_value = 29.9
+            modifier = { state_maintenance_modifier = -0.1 global_manpower_modifier = -0.05 } }
+        range_modifier = { trigger = { rip_het_authority_active = yes has_estate = estate_nobles } start_value = 0 end_value = 29.9
+            modifier = { nobles_loyalty_modifier = 0.05 } }
+        range_modifier = { trigger = { rip_het_authority_active = yes } start_value = 70.1 end_value = 100
+            modifier = { global_manpower_modifier = 0.1 global_autonomy = -0.025 global_unrest = 1 } }
+    } }
+    interactions = {
+        rip_het_rights = {
+            icon = GFX_rip_siversk_charter
+            trigger = { rip_het_can_confirm_rights = yes }
+            effect = { rip_het_rights_effect = yes }
+            ai_chance = { factor = 1 modifier = { factor = 10
+                dip_power = 150 check_variable = { which = rip_het_position value = 700 }
+            } }
+        }
+        rip_het_chancery = {
+            icon = GFX_rip_kyiv_snem
+            trigger = { rip_het_can_review_chancery = yes }
+            effect = { rip_het_chancery_effect = yes }
+            ai_chance = { factor = 1 modifier = { factor = 10
+                adm_power = 150 NOT = { check_variable = { which = rip_het_position value = 300 } }
+            } }
+        }
+    }
+}

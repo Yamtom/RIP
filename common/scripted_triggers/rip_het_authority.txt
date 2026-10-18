@@ -1,0 +1,16 @@
+rip_het_authority_active = {
+    has_reform = rip_hetman_cossacks_reform
+    has_government_mechanic = rip_het_authority_mechanic
+    NOT = { has_reform = het_mazepist_autocracy_reform }
+    NOT = { has_reform = het_collegium_control_reform }
+}
+rip_het_can_confirm_rights = {
+    rip_het_authority_active = yes dip_power = 50
+    check_variable = { which = rip_het_position value = 1 }
+    NOT = { has_country_modifier = rip_het_authority_session }
+}
+rip_het_can_review_chancery = {
+    rip_het_authority_active = yes adm_power = 50
+    NOT = { check_variable = { which = rip_het_position value = 1000 } }
+    NOT = { has_country_modifier = rip_het_authority_session }
+}

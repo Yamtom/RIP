@@ -11,11 +11,11 @@ rip_cossack_host_mercenaries = {
 		is_allowed_to_recruit_mercenaries = yes
 		OR = {
 			has_estate = estate_cossacks
-			has_reform = rip_cossacks_reform
+			OR = { has_reform = rip_cossacks_reform has_reform = rip_hetman_cossacks_reform }
 			any_neighbor_country = {
 				OR = {
 					has_estate = estate_cossacks
-					has_reform = rip_cossacks_reform
+					OR = { has_reform = rip_cossacks_reform has_reform = rip_hetman_cossacks_reform }
 				}
 			}
 		}
