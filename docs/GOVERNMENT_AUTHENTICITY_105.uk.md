@@ -131,6 +131,17 @@
 - освітня або міська реформа більше не називає правителя «культурним»
   чи «бургомістром-гетьманом».
 
+**17 жовтня 2026 року** виправлено два жіночі титули другого рангу, які
+повторювали чоловічу форму: «Voivode» у Ренесансного воєводства
+(`vln_ruthenian_renaissance_reform`, M7) тепер «Voivodessa», а «Hetmanka
+Voivode» у Прикордонного війська Поділля (`pdl_frontier_republic`) — «Hetmanka
+Voivodessa». Це зміна тексту: ключі `CULTURED_HETMANKA` і `HETMANKA_VOIVODE`
+лишено для сумісності. `check_government_names.py` тепер для кожного з 65
+блоків вимагає, щоб жіночий титул не зберігав чоловічого слова свого
+відповідника (`Voivode`, `King`, `Duke`, `Hetman` тощо). Блоки M8
+(`vln_magdeburg_rights`, `pdl_magnate_republic`, `pdl_magnate_dominion`,
+`chr_grain_directorate_reform`) такої розбіжності не мають.
+
 Альтернативні шляхи ордену й орди не оголошуються історичними урядами
 Гетьманщини. Їхні окремі фінали збережені як попередньо закладений вибір
 кампанії. Назви самі по собі не є свідченням існування установи у 1444 році.
@@ -169,7 +180,7 @@
 
 Поле `base_comparator` лишене тільки для трьох зіставних числових пакетів.
 Для інших визначень `quantitative_certified = false`: заповнення рольової
-таблиці не сертифікує їхню загальну силу. Дев’ять часткових збігів
+таблиці не сертифікує їхню загальну силу. Вісім часткових збігів
 позначені знаком **†**. Там у потрібному тірі немає точного ванільного
 двійника; причина записана в `comparator_limit` і наведена нижче.
 
@@ -248,8 +259,8 @@
 | `boyar_elite_reform` | `M2` → `grant_military_command_reform`, `enforce_privileges_reform` | Військові зобов'язання привілейованого стану | Збережено |
 | `sacred_regulation_reform` | `M4` → `secure_clergy_power_reform`, `strengthen_clergy_reform` | Співпраця корони й духовенства | Збережено |
 | `patriarch_engagement_reform` | `M4` → `focus_of_the_patriarchy_reform`, `strengthened_the_patriarchy_reform` | Патріарша та єпископська влада | Збережено |
-| `merchant_nobility_reform` † | `M7` → `meritocratic_focus_reform` | Міщанські установи в управлінні | Пакет скорочено |
-| `open_trading_ports_reform` † | `M7` → `meritocratic_focus_reform` | Міщанські установи в управлінні | Пакет скорочено |
+| `merchant_nobility_reform` | `M8` → `jap_gokaido_reform`, `empower_the_burghers_reform` | Купці й міщанський вплив | Пакет скорочено |
+| `open_trading_ports_reform` † | `M8` → `empower_the_burghers_reform` | Торгова міць і портова торгівля | Пакет скорочено |
 | `assembly_houses_reform` | `M6` → `parliamentary_reform` | Законодавчі збори | Пакет скорочено |
 | `considerable_bloodline_reform` | `M10` → `letat_cest_moi_reform`, `strengthen_bakuhan_system_reform` | Консолідація коронної влади | Пакет скорочено |
 | `representation_monarchy_reform` | `M10` → `regional_representation_reform`, `peoples_kingdom_reform` | Розподіл влади між короною й представництвом | Пакет скорочено |
@@ -291,11 +302,20 @@
 - `het_academy_enlightenment_reform`: У R6 академія не має окремого ванільного двійника; аналоги охоплюють освічених радників і цивільний сенат.
 - `het_collegium_control_reform`: Ванільний R11 не містить такої самої залежної колегії; зіставляються становий склад і межі військового самоврядування. Залежність від сюзерена лишається окремою віссю.
 - `hlc_austrian_bureaucracy_reform`: У M6 немає тотожного набору вартості радників і корупції. Порівнюються центральна рада та представництво; числовий адміністративний аналог meritocratic_focus_reform розташований у M7.
-- `merchant_nobility_reform`: У M7 немає прямого ванільного бонусу купця: тут зіставлена роль міщан у державній службі; рольовий аналог додаткового купця jap_gokaido_reform належить до M8.
-- `open_trading_ports_reform`: Портова реформа стоїть у M7, де немає тотожної торгово-портової альтернативи. Міщанська адміністрація зіставлена в тому самому тірі, а власне портовий аналог thalassocracy_reform — у M8.
+- `open_trading_ports_reform`: Тепер реформа стоїть у M8 разом із ванільними торговими реформами, але знімок порівнянь не має реформи з тими самими осями (власна торгова міць і вартість покращення центрів торгівлі): зіставлено глобальну торгову міць empower_the_burghers_reform. Ванільний портовий аналог thalassocracy_reform у знімок не входить, тож його числа тут не перевірено.
 - `vln_ruthenian_renaissance_reform`: У M7 немає окремої реформи культурного відродження з цим набором. Аналоги стосуються освіченої служби та підтримки розвитку представлених земель.
 - `vln_voivode_council`: У M6 ванільна рада знаті дипломатична, а рада воєвод має військовий пакет. Тир і станова роль збігаються; бойові бонуси потребують окремої оцінки.
 - `zaz_last_sich_reform`: У R11 немає аналога останньої Січі під сюзереном. Військовий устрій і права землевласників зіставлено окремо; оборона й бажання свободи не прирівнюються до ванільних показників.
+
+**17 жовтня 2026 року** `merchant_nobility_reform` і `open_trading_ports_reform`
+перенесено з M7 (`growth_of_administration`) на M8 (`economical_matters`). У
+ванілі M8 несе додаткового купця (`jap_gokaido_reform`) і торгові бонуси, а M7 —
+адміністративні кадри, стани й культурну інтеграцію; на M7 обидві реформи
+складалися з реформами M8 і давали монархії двох купців. Позначку † знято з
+`merchant_nobility_reform`: у M8 обидві її осі мають точні ванільні двійники
+(`merchants` у `jap_gokaido_reform`, `burghers_influence_modifier` в
+`empower_the_burghers_reform`). `open_trading_ports_reform` лишається частковим
+збігом, поки в знімок порівнянь не додано `thalassocracy_reform`.
 
 Тест `check_government_reviews.py` перевіряє повноту переліку за живими
 визначеннями мода, збіг кожного тіру, наявність усіх названих аналогів у

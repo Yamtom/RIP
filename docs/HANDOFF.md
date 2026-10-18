@@ -1,3 +1,29 @@
+> **Оновлення 18 жовтня 2026 (розбір зауважень до урядових реформ):** більшість
+> пунктів авторського переліку вже стояла в `main` після `a7c270b` і `326a697` і
+> захищена тестами: Patriarch Authority `0.005` у `patriarch_engagement_reform` та
+> `prl_episcopal_authority_reform`, єдиний `west_ukraine_vln_origin_country`, прапорці
+> виборів у `uzh_*komitat*` і `hlc_crown_and_sejm_reform`, відсутність зайвого
+> `tag = HLC/VLN` у рішеннях, чисті `custom_attributes` у `kyivan_cesarstvo_reform`.
+> Нове в цій правці: (1) `open_trading_ports_reform` і `merchant_nobility_reform`
+> перенесено з M7 на M8, бо ванільний додатковий купець і торгові бонуси лежать на
+> `economical_matters`; з `merchant_nobility_reform` знято позначку †; (2) з
+> `exclusive_reforms` блоку `republic` прибрано шість монархічних реформ, які він
+> ніколи не пропонує; у парламентський набір монархії додано
+> `lit_union_of_two_nations_reform` і `lit_grand_diet_reform`, а рішення унії
+> перед додаванням `lit_union_of_two_nations_reform` знімає Великий сейм; (3) рішення
+> `ruthenian_convene_court` разом із осиротілими подіями `ruthenian_factions.1/.2`,
+> чотирма модифікаторами двору й текстами видалено: воно давало безкоштовно те, що
+> кнопки двору коштують 50 очок; (4) позначка «Speculative Alternate History» у
+> описах Kyivan Seniorate і Cesarstvo та їхніх рішень; (5) жіночі титули другого рангу
+> в `vln_ruthenian_renaissance_reform` і `pdl_frontier_republic` більше не повторюють
+> чоловічу форму; (6) `check_government_reviews.py` читає власні файли мода як UTF-8
+> (ванільні лишено у `cp1252`: це справжнє кодування гри). Фікстуру реформ
+> перегенеровано (вона була застарілою ще до правки). Не перевірено в грі: як рушій
+> звіряє скриптове `add_government_reform` з `exclusive_reforms`; тому рішення унії
+> не покладається на це. Гейт лишився червоним на тих самих чотирьох перевірках
+> (`check_old_believers`, `check_diocesan_union`, `check_event_modifier_layer`,
+> `check_government_reform_fixture`); нових червоних немає.
+>
 > **Оновлення 17 жовтня 2026, пізніше (коаліційна рада KRU та Державні збори):**
 > три незалежні попарні шкали KRU замінено одним нативним States General
 > coalition/opposition, увімкненим за Res Publica або Winds of Change. Поточна

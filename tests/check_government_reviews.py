@@ -160,7 +160,7 @@ def source_contracts():
     # Cancellation is always visible, empty and cannot mint monarch power.
     parsed_events = re.findall(r"option = \{\s*name = rip_gov_review.cancel([\s\S]*?)\n\t\}", events)
     assert len(parsed_events) == 3 and all("add_" not in body and "trigger" not in body for body in parsed_events)
-    reforms = "\n".join(path.read_text(encoding="cp1252") for path in (ROOT / "common/government_reforms").glob("*.txt"))
+    reforms = "\n".join(path.read_text(encoding="utf-8") for path in (ROOT / "common/government_reforms").glob("*.txt"))
     cleanups = {
         "vln_magdeburg_rights": "municipal",
         "lit_ruthenian_chancery_reform": "chancery",
@@ -188,7 +188,10 @@ def vanilla_envelopes():
     if installed is None:
         print("SKIP government numeric comparators: target EU4 1.37 installation unavailable")
         return
-    own = "\n".join(p.read_text(encoding="cp1252") for p in (ROOT / "common/government_reforms").glob("*.txt"))
+    own = "\n".join(p.read_text(encoding="utf-8") for p in (ROOT / "common/government_reforms").glob("*.txt"))
+    # The mod's own script is read as UTF-8 like the rest of the suite (a Ukrainian
+    # comment is not valid Windows-1252); the installed game's script really is
+    # Windows-1252, so the reads from `installed` keep that codec.
     native = "\n".join(p.read_text(encoding="cp1252") for p in (installed / "common/government_reforms").glob("*.txt"))
     pairs = (
         ("chr_prykaz_tsardom_reform", "tsardom", {"global_unrest": 1}),
@@ -229,7 +232,7 @@ def comparator_coverage():
     rows = {row["id"]: row for row in data["reforms"]}
     live_ids = set()
     for path in (ROOT / "common/government_reforms").glob("*.txt"):
-        live_ids.update(re.findall(r"^([a-z0-9_]+)\s*=\s*\{", path.read_text(encoding="cp1252"), re.M))
+        live_ids.update(re.findall(r"^([a-z0-9_]+)\s*=\s*\{", path.read_text(encoding="utf-8"), re.M))
     assert len(rows) == len(data["reforms"]) == 123 and set(rows) == live_ids
     own_tiers = reform_tiers(read("common/governments/00_governments.txt"))
     snapshots = {row["id"]: row for row in data["vanilla_comparators"]}

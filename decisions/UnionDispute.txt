@@ -19,6 +19,13 @@ country_decisions = {
 		effect = {
 			add_adm_power = -100
 			add_dip_power = -100
+			# One diet for the Commonwealth: the Grand Duchy's own gives way to it.
+			# exclusive_reforms keeps the two apart in the reform menu; this keeps
+			# them apart when the union reform is added by script.
+			if = {
+				limit = { has_reform = lit_grand_diet_reform }
+				remove_government_reform = lit_grand_diet_reform
+			}
 			add_government_reform = lit_union_of_two_nations_reform
 			lit_settle_the_union_question_effect = yes
 			random_country = {

@@ -80,8 +80,8 @@ flowchart TB
 | `M2` | `elected_assemblies_reform` (`Kyivan`) ≈ `boyar_elite_reform` (`regional`) |
 | `M4 regional` | `sacred_regulation_reform` ≈ `patriarch_engagement_reform` |
 | `M6 regional` | `assembly_houses_reform` |
-| `M7 regional` | `open_trading_ports_reform` ≈ `merchant_nobility_reform`; `vln_ruthenian_renaissance_reform` |
-| `M8 regional` | `vln_magdeburg_rights`, з окремими міськими та інституційними умовами |
+| `M7 regional` | `vln_ruthenian_renaissance_reform` |
+| `M8 regional` | `open_trading_ports_reform` ≈ `merchant_nobility_reform`; `vln_magdeburg_rights`, з окремими міськими та інституційними умовами |
 | `M10` | `representation_monarchy_reform` (`Kyivan` + Boyar Elite) ≈ `considerable_bloodline_reform` (`regional`) |
 | `M11` | `legislative_rada_reform` (`regional`) ≈ `divine_tsyisar_reform` (`predecessor`) |
 
@@ -92,8 +92,8 @@ flowchart LR
   R["M1 Ruthenian Principality"] --> M2["M2 Assembly ≈ Boyars"]
   M2 --> M4["M4 Sacred Law ≈ Patriarchate"]
   M4 --> M6["M6 Assembly Houses"]
-  M6 --> M7["M7 Trade / Nobility / Renaissance"]
-  M7 --> M8["M8 Magdeburg Rights"]
+  M6 --> M7["M7 Renaissance"]
+  M7 --> M8["M8 Trade / Nobility / Magdeburg Rights"]
   M8 --> M10["M10 Representation ≈ Bloodline"]
   M10 --> M11["M11 Rada ≈ Divine Tsyisar"]
 ```
@@ -505,6 +505,21 @@ flowchart LR
 
 `grand_duchy_reform` є навмисним version-sensitive override ванільного ID і
 має повторно звірятися після зміни підтримуваної версії EU4.
+
+`lit_union_of_two_nations_reform` («один сейм») і `lit_grand_diet_reform` (сейм,
+що «сидить окремо від сейму Корони») входять до ванільного парламентського
+набору `exclusive_reforms` монархії разом із `parliamentary_reform`,
+`polish_great_sejm` і `assembly_houses_reform`. У ванілі `polish_great_sejm` і
+`parliamentary_reform` взаємовиключні, а Литва могла тримати унію разом із
+Великим сеймом, тобто два парламенти. Рішення `lit_hold_the_union_on_our_terms`
+додає унію скриптом, тому перед цим знімає `lit_grand_diet_reform`: результат
+не залежить від того, чи рушій звіряє скриптове `add_government_reform` з
+`exclusive_reforms` (у грі не перевірено).
+
+Решту реформ із `has_parliament` (`vln_*`, `hlc_*`, `uzh_palatial_ruthenian_reform`,
+`legislative_rada_reform`) до набору свідомо не внесено. `has_parliament` —
+булева ознака, тож кілька таких реформ не дають кількох парламентів; вони
+вмикають його як частину власної драбини, і взаємовиключення розірвало б її.
 
 ## PRL / ODS
 

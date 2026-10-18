@@ -111,6 +111,15 @@ def check_registration(failures: list[str], owners: dict[str, Path]) -> None:
         require(failures, reform in m4, f"religious reform is not registered at M4: {reform}")
     for reform in ("vln_magdeburg_rights", "chr_grain_directorate_reform"):
         require(failures, reform in m8, f"economic reform is not registered at M8: {reform}")
+    # Vanilla keeps the extra merchant and the trade-power reforms at M8
+    # (economical_matters); M7 (growth_of_administration) is administration. On M7
+    # these two stacked with an M8 trade reform for two extra merchants.
+    for reform in ("open_trading_ports_reform", "merchant_nobility_reform"):
+        require(
+            failures,
+            reform in m8 and reform not in m7,
+            f"trade reform is not aligned with vanilla's M8 economic role: {reform}",
+        )
     for reform in ("chr_grain_directorate_reform", "zaz_chaiky_trade_reform"):
         require(failures, reform in r8, f"economic reform is not registered at R8: {reform}")
     republic_levels = normalized(
@@ -125,6 +134,69 @@ def check_registration(failures: list[str], owners: dict[str, Path]) -> None:
             reform in m11 and reform not in m7 and reform not in republic_levels,
             f"late Podillian monarchical settlement is not aligned with vanilla M11: {reform}",
         )
+
+    # exclusive_reforms is read per government type: a RIP reform that the type
+    # never offers is a dead entry (six monarchy reforms once sat in the
+    # republic's lists and excluded nothing).
+    for government_type in ("monarchy", "republic", "tribal", "native", "theocracy"):
+        government = named_block(governments, government_type)
+        offered = normalized(
+            " ".join(
+                block
+                for _, block in keyed_blocks(
+                    named_block(government, "reform_levels"), "reforms"
+                )
+            )
+        )
+        for _, block in keyed_blocks(government, "exclusive_reforms"):
+            for reform in re.findall(r"[A-Za-z0-9_]+", normalized(block))[1:]:
+                if reform in owners:
+                    require(
+                        failures,
+                        re.search(rf"\b{re.escape(reform)}\b", offered) is not None,
+                        f"{government_type} exclusive_reforms lists a reform it never offers: {reform}",
+                    )
+
+    # One parliament per monarchy, as in vanilla (parliamentary_reform against the
+    # tier-1 parliaments such as polish_great_sejm). The Union of Two Nations has
+    # "one diet" and the Diet of the Grand Duchy "sits apart from the Crown's
+    # Sejm"; holding both made two. The scripted union path removes the Diet
+    # first, so the result does not depend on how the engine treats a scripted
+    # add_government_reform against exclusive_reforms.
+    parliament_sets = [
+        normalized(block)
+        for _, block in keyed_blocks(
+            named_block(governments, "monarchy"), "exclusive_reforms"
+        )
+        if "assembly_houses_reform" in normalized(block)
+    ]
+    require(
+        failures,
+        len(parliament_sets) == 1
+        and all(
+            re.search(rf"\b{reform}\b", parliament_sets[0])
+            for reform in (
+                "parliamentary_reform",
+                "polish_great_sejm",
+                "assembly_houses_reform",
+                "lit_grand_diet_reform",
+                "lit_union_of_two_nations_reform",
+            )
+        ),
+        "Union of Two Nations and the Diet of the Grand Duchy are not exclusive with the vanilla parliaments",
+    )
+    union_decision = normalized(
+        named_block(read("decisions/UnionDispute.txt"), "lit_hold_the_union_on_our_terms")
+    )
+    drop_diet = "remove_government_reform = lit_grand_diet_reform"
+    add_union = "add_government_reform = lit_union_of_two_nations_reform"
+    require(
+        failures,
+        drop_diet in union_decision
+        and add_union in union_decision
+        and union_decision.index(drop_diet) < union_decision.index(add_union),
+        "the union decision does not drop the Grand Duchy's diet before it adds the Commonwealth's",
+    )
 
     m1 = normalized(named_block(governments, "feudalism_vs_autocracy"))
     m2 = normalized(named_block(governments, "hereditary_vs_nobility"))
@@ -187,6 +259,23 @@ def check_localisation(failures: list[str], owners: dict[str, Path]) -> None:
                     keys[key] == 1,
                     f"government reform localisation count is {keys[key]}, expected 1: {key}",
                 )
+
+    # GAME_DESIGN_DOCUMENT 1.3: the speculative Kyivan branches (Seniorate,
+    # Cesarstvo) are labelled "Speculative Alternate History" in the tooltip, both
+    # where the decision offers them and where the reform is held.
+    english = read("localisation/RIP_l_english.yml")
+    for key in (
+        "kyiv_shogunate_path_desc",
+        "kyiv_cesarstvo_path_desc",
+        "kyivan_shogunate_reform_desc",
+        "kyivan_cesarstvo_reform_desc",
+    ):
+        entry = re.search(rf'(?m)^\s*{key}:\d+\s+"(.*)"\s*$', english)
+        require(
+            failures,
+            entry is not None and "Speculative Alternate History" in entry.group(1),
+            f"speculative Kyivan branch lacks its Speculative Alternate History label: {key}",
+        )
 
 
 def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
