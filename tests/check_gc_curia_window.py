@@ -174,9 +174,12 @@ assert any(
     dict(w.get('position', {})) == {'x': '304', 'y': '300'}
     for w in toggle_widgets
 ), 'Greek Catholic must cover pick_icon_button with GFX_standard_button_71 at {x=304, y=300}'
-close_widget = next(w for w in toggle_widgets if w.get('quadTextureSprite') == 'GFX_closebutton2')
-assert dict(close_widget['position']) == {'x': '372', 'y': '238'}
-assert close_widget['scale'] == '0.7'
+# One control shows and hides the Union window: the labelled button. The cross-shaped second toggle that
+# sat on the Defender of the Faith header was removed at the author's request and must not return.
+assert len(toggle_widgets) == 1, 'a single Union toggle'
+assert not [w for w in toggle_widgets if w.get('quadTextureSprite') == 'GFX_closebutton2']
+assert toggle_widgets[0].get('buttonText') == 'rip_church_gc_window_toggle', 'the surviving toggle carries its label'
+assert 'rip_church_gc_window_toggle:0 "Union"' in english, 'the label key is generated, not typed into the output'
 # The deputation and the gift each get their own button and own summary line;
 # the old four-cell Cost/Peace/Rome/Cooldown grid sat under the gift button.
 for stale in ('rip_church_gui_contact_peace', 'rip_church_gui_contact_rome', 'rip_church_gui_contact_cooldown'):
