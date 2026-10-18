@@ -413,17 +413,9 @@ curia+=card('rip_church_contact_card',CX,y,CW,202,contact)
 # Do not advertise them through a permanent religion sidebar.
 religion_panels=(panel('rip_ro_holy_cities_panel','rip_church_ro_jurisdiction = yes has_country_flag = rip_ro_holy_city_register_open',holy_cities,clean=True)+'\n'+
                 panel('rip_church_ro_panel','rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_church_ro_window_hidden } NOT = { has_country_flag = rip_ro_holy_city_register_open }',ro,clean=True)+'\n'+
-                panel('rip_church_gc_panel','religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } NOT = { has_country_flag = rip_church_gc_curia_view } NOT = { has_country_flag = rip_church_gui_parishes_view }',gc,clean=True)+'\n'+
-                panel('rip_church_gc_curia_panel','religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gc_curia_view NOT = { has_country_flag = rip_church_gui_parishes_view }',curia,clean=True)+'\n'+
-                panel('rip_church_gc_parishes_panel','OR = { religion = greek_catholic rip_church_union_supporter = yes } NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gui_parishes_view',parishes,clean=True))
-# Keep the window control beside Defender of the Faith and outside the pages it
-# toggles, so it remains available while the Greek Catholic window is hidden.
-gc_window_toggle=button(
-    'rip_church_gc_window_toggle',372,238,'religion = greek_catholic',
-    'if = { limit = { has_country_flag = rip_church_gc_window_hidden } clr_country_flag = rip_church_gc_window_hidden } else = { set_country_flag = rip_church_gc_window_hidden }',
-    potential='religion = greek_catholic',sprite='GFX_closebutton2',label=False,
-    scale=0.7)
-religion_panels += '\n' + gc_window_toggle
+                panel('rip_church_gc_panel','religion = greek_catholic has_country_flag = rip_church_gc_window_open NOT = { has_country_flag = rip_church_gc_curia_view } NOT = { has_country_flag = rip_church_gui_parishes_view }',gc,clean=True)+'\n'+
+                panel('rip_church_gc_curia_panel','religion = greek_catholic has_country_flag = rip_church_gc_window_open has_country_flag = rip_church_gc_curia_view NOT = { has_country_flag = rip_church_gui_parishes_view }',curia,clean=True)+'\n'+
+                panel('rip_church_gc_parishes_panel','OR = { AND = { religion = greek_catholic has_country_flag = rip_church_gc_window_open } rip_church_union_supporter = yes } has_country_flag = rip_church_gui_parishes_view',parishes,clean=True))
 outputs['interface/RIP_church_panels.gfx']='spriteTypes = {\n'+'\n'.join(insets)+'''
  spriteType = {
   name = "GFX_rip_church_ro_frame"
@@ -503,6 +495,7 @@ defs.append('custom_icon = { name = rip_church_ro_selector_symbol potential = { 
 defs.append('custom_icon = { name = rip_church_gc_union_symbol potential = { NOT = { has_country_modifier = rip_church_gc_infrastructure } NOT = { has_country_modifier = rip_church_gc_coexistence } } frame = { number = 31 trigger = { always = yes } } }')
 for key in ('infrastructure','coexistence'):
     defs.append(f'custom_icon = {{ name = rip_church_gc_synod_{key}_symbol potential = {{ has_country_modifier = rip_church_gc_{key} }} frame = {{ number = 1 trigger = {{ always = yes }} }} }}')
+defs.append('custom_button = {\n name = rip_church_gc_window_toggle potential = { religion = greek_catholic } trigger = { religion = greek_catholic }\n effect = { if = { limit = { has_country_flag = rip_church_gc_window_open } clr_country_flag = rip_church_gc_window_open } else = { set_country_flag = rip_church_gc_window_open } } tooltip = rip_church_gc_window_toggle_tt\n}')
 native_controls='''windowType = {
  name = "rip_church_gc_native_controls" scripted = yes
  position = { x=0 y=0 } size = { x=280 y=50 } moveable = 0

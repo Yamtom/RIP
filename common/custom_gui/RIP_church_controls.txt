@@ -231,13 +231,9 @@ custom_text_box = { name = rip_church_gc_holy_see_gift_summary potential = { alw
 custom_text_box = { name = rip_church_gc_holy_see_gift_state potential = { always = yes } tooltip = rip_church_gc_holy_see_gift_state_tt }
 custom_window = { name = rip_ro_holy_cities_panel potential = { rip_church_ro_jurisdiction = yes has_country_flag = rip_ro_holy_city_register_open } }
 custom_window = { name = rip_church_ro_panel potential = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_church_ro_window_hidden } NOT = { has_country_flag = rip_ro_holy_city_register_open } } }
-custom_window = { name = rip_church_gc_panel potential = { religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } NOT = { has_country_flag = rip_church_gc_curia_view } NOT = { has_country_flag = rip_church_gui_parishes_view } } }
-custom_window = { name = rip_church_gc_curia_panel potential = { religion = greek_catholic NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gc_curia_view NOT = { has_country_flag = rip_church_gui_parishes_view } } }
-custom_window = { name = rip_church_gc_parishes_panel potential = { OR = { religion = greek_catholic rip_church_union_supporter = yes } NOT = { has_country_flag = rip_church_gc_window_hidden } has_country_flag = rip_church_gui_parishes_view } }
-custom_button = {
- name = rip_church_gc_window_toggle potential = { religion = greek_catholic } trigger = { religion = greek_catholic }
- effect = { if = { limit = { has_country_flag = rip_church_gc_window_hidden } clr_country_flag = rip_church_gc_window_hidden } else = { set_country_flag = rip_church_gc_window_hidden } } tooltip = rip_church_gc_window_toggle_tt
-}
+custom_window = { name = rip_church_gc_panel potential = { religion = greek_catholic has_country_flag = rip_church_gc_window_open NOT = { has_country_flag = rip_church_gc_curia_view } NOT = { has_country_flag = rip_church_gui_parishes_view } } }
+custom_window = { name = rip_church_gc_curia_panel potential = { religion = greek_catholic has_country_flag = rip_church_gc_window_open has_country_flag = rip_church_gc_curia_view NOT = { has_country_flag = rip_church_gui_parishes_view } } }
+custom_window = { name = rip_church_gc_parishes_panel potential = { OR = { AND = { religion = greek_catholic has_country_flag = rip_church_gc_window_open } rip_church_union_supporter = yes } has_country_flag = rip_church_gui_parishes_view } }
 custom_text_box = { name = rip_church_rite_heading potential = { always = yes } tooltip = rip_church_rite_heading_tt }
 custom_button = {
  name = rip_church_rite_panel_hide_button potential = { always = yes } trigger = { owned_by = FROM }
@@ -273,6 +269,10 @@ custom_icon = { name = rip_church_ro_selector_symbol potential = { rip_church_ro
 custom_icon = { name = rip_church_gc_union_symbol potential = { NOT = { has_country_modifier = rip_church_gc_infrastructure } NOT = { has_country_modifier = rip_church_gc_coexistence } } frame = { number = 31 trigger = { always = yes } } }
 custom_icon = { name = rip_church_gc_synod_infrastructure_symbol potential = { has_country_modifier = rip_church_gc_infrastructure } frame = { number = 1 trigger = { always = yes } } }
 custom_icon = { name = rip_church_gc_synod_coexistence_symbol potential = { has_country_modifier = rip_church_gc_coexistence } frame = { number = 1 trigger = { always = yes } } }
+custom_button = {
+ name = rip_church_gc_window_toggle potential = { religion = greek_catholic } trigger = { religion = greek_catholic }
+ effect = { if = { limit = { has_country_flag = rip_church_gc_window_open } clr_country_flag = rip_church_gc_window_open } else = { set_country_flag = rip_church_gc_window_open } } tooltip = rip_church_gc_window_toggle_tt
+}
 custom_window = { name = rip_church_ro_native_controls potential = { rip_church_ro_jurisdiction = yes } }
 custom_text_box = { name = rip_church_ro_authority_label potential = { rip_church_ro_jurisdiction = yes } tooltip = rip_church_ro_authority_label_tt }
 custom_button = {
