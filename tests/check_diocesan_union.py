@@ -154,7 +154,10 @@ assert 'rip_church_florence_parish' not in sponsor_effect
 # as the Florentine decision does; the AI weight is unchanged.
 sponsor_decision = named_block(church_decisions, 'rip_church_sponsor_union')
 assert 'any_owned_province = { rip_church_sponsor_parish = yes }' in normalized(named_block(sponsor_decision, 'potential'))
-assert 'ai_will_do = { factor = 1 modifier = { factor = 0 num_of_loans = 1 } }' in normalized(sponsor_decision)
+ai = normalized(named_block(sponsor_decision, 'ai_will_do'))
+assert 'factor = 1 modifier = { factor = 0 num_of_loans = 1 }' in ai
+assert 'modifier = { factor = 0 NOT = { adm_power = 200 dip_power = 150 } }' in ai
+assert 'modifier = { factor = 2 num_of_owned_provinces_with = { value = 3 rip_church_sponsor_parish = yes } }' in ai
 assert 'rip_church_can_sponsor_union = yes' in normalized(named_block(sponsor_decision, 'allow'))
 # The Florentine path keeps its own, narrower test, untouched.
 florence_parish = normalized(named_block(union_triggers, 'rip_church_florence_parish'))

@@ -4,7 +4,7 @@ Exact vanilla host overrides are necessary: EU4 attaches scripted children to na
 from pathlib import Path
 import argparse,re,sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tests'))
-from clausewitz_testlib import matching_brace,vanilla_root,named_block
+from clausewitz_testlib import matching_brace,vanilla_root,named_block,brace_error
 ROOT=Path(__file__).resolve().parents[1]; GAME=vanilla_root()
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()
 defs=[]; feature_defs=[]; outputs={}; text_bindings=set()
@@ -194,7 +194,8 @@ insets.extend([
  'spriteType = { name = "GFX_rip_ro_native_header" textureFile = "gfx/interface/rip_ro_native_header.dds" }',
 ])
 ro=art('rip_church_ro_native_header','GFX_rip_church_window_banner',18,19,0.94)
-ro+=text('rip_church_ro_heading',28,35,w=419,h=24,font='vic_22',align='center',tip=False)
+ro+=text('rip_church_ro_heading',28,35,w=375,h=24,font='vic_22',align='center',tip=False)
+ro+='guiButtonType = { name = "rip_ro_holy_cities_open" scripted = yes position = { x=415 y=20 } Orientation = "UPPER_LEFT" pdx_tooltip = "rip_ro_holy_cities_open_tt" quadTextureSprite = "GFX_coptic_blessing_select" scale = 0.8 }'
 ro+=card('rip_church_ro_status_card',34,67,407,30,
          text('rip_church_ro_status',8,8,w=391,h=22,align='center'))
 # Reuse the translated tile readouts rather than emitting the obsolete fuel/slots/network keys.
@@ -256,6 +257,7 @@ ro+=button('rip_church_reconcile_button',248,RO_BUTTON_Y,'rip_church_can_reconci
 # Read-only register of sees and pilgrimage destinations. The names and
 # province owner/faith are direct province-scope localisations, not cached
 # variables or gameplay effects.
+defs.append('custom_button = {\n name = rip_ro_holy_cities_open potential = { rip_church_ro_jurisdiction = yes } trigger = { rip_church_ro_jurisdiction = yes }\n effect = {\n  if = {\n   limit = { has_country_flag = rip_ro_holy_city_register_open }\n   clr_country_flag = rip_ro_holy_city_register_open\n  }\n  else = {\n   set_country_flag = rip_ro_holy_city_register_open\n  }\n }\n tooltip = rip_ro_holy_cities_open_tt\n}')
 holy_cities=art('rip_ro_holy_cities_header','GFX_rip_church_window_banner',18,19,0.94)
 holy_cities+=text('rip_ro_holy_cities_heading',28,35,w=419,h=24,font='vic_22',align='center',tip=False)
 holy_cities+=text('rip_ro_holy_cities_intro',44,68,w=387,h=40,font='vic_18',align='center',tip=False)
@@ -267,12 +269,15 @@ for i,(key,province) in enumerate((
     ('constantinople',151),
     ('jerusalem',379),
 )):
-    row=art(f'rip_ro_holy_city_{key}_slot','GFX_rip_church_policy_slot',4,0)
-    row+=art(f'rip_ro_holy_city_{key}_seal','GFX_icon_religion_small',18,17,0.7)
-    row+=text(f'rip_ro_holy_city_{key}_name',72,2,w=323,h=18,font='vic_18',tip=False)
-    row+=text(f'rip_ro_holy_city_{key}_owner',72,20,w=323,h=18,font='vic_18',tip=False)
-    row+=text(f'rip_ro_holy_city_{key}_faith',72,38,w=323,h=18,font='vic_18',tip=False)
-    holy_cities+=card(f'rip_ro_holy_city_{key}_row',34,146+i*58,407,58,row)
+    # Preserve the registered city progress, religion frame and bonus readouts.
+    row='windowType = { name = "rip_ro_holy_city___CITY___row" position = { x=34 y=__Y__ } size = { x=407 y=58 } Orientation = "UPPER_LEFT" moveable = 0\n iconType = { name = "rip_ro_holy_city___CITY___slot" spriteType = "GFX_rip_church_policy_slot" position = { x=4 y=0 } Orientation = "UPPER_LEFT" scale = 1 alwaystransparent = yes }\n iconType = { name = "rip_ro_holy_city___CITY___faith_icon" scripted = yes spriteType = "GFX_icon_religion_small" position = { x=14 y=16 } Orientation = "UPPER_LEFT" scale = 0.8 alwaystransparent = no }\n instantTextBoxType = {\n  name = "rip_ro_holy_city___CITY___name" scripted = yes position = { x=44 y=2 } Orientation = "UPPER_LEFT" font = "vic_18"\n  text = "rip_ro_holy_city___CITY___name" maxWidth = 140 maxHeight = 18 format = left\n }\n instantTextBoxType = {\n  name = "rip_ro_holy_city___CITY___owner" scripted = yes position = { x=44 y=20 } Orientation = "UPPER_LEFT" font = "vic_14"\n  text = "rip_ro_holy_city___CITY___owner" maxWidth = 140 maxHeight = 16 format = left\n }\n instantTextBoxType = {\n  name = "rip_ro_holy_city___CITY___faith" scripted = yes position = { x=44 y=37 } Orientation = "UPPER_LEFT" font = "vic_14"\n  text = "rip_ro_holy_city___CITY___faith" maxWidth = 140 maxHeight = 16 format = left\n }\n instantTextBoxType = {\n  name = "rip_ro_holy_city___CITY___myth_progress" scripted = yes position = { x=185 y=19 } Orientation = "UPPER_LEFT" font = "vic_14"\n  text = "rip_ro_holy_city___CITY___myth_progress" maxWidth = 165 maxHeight = 22 format = center pdx_tooltip = "rip_ro_holy_city___CITY___myth_progress_tt"\n }\n iconType = { name = "rip_ro_holy_city___CITY___bonus_slot" spriteType = "GFX_copts_blessing_slot" position = { x=355 y=6 } Orientation = "UPPER_LEFT" scale = 0.75 alwaystransparent = yes }\n iconType = { name = "rip_ro_holy_city___CITY___bonus_active" scripted = yes spriteType = "GFX_coptic_blessing_select" position = { x=358 y=9 } Orientation = "UPPER_LEFT" scale = 0.68 pdx_tooltip = "rip_ro_holy_city___CITY___bonus_tt" }\n iconType = { name = "rip_ro_holy_city___CITY___bonus_pending" scripted = yes spriteType = "GFX_copts_blessing_unknown" position = { x=358 y=9 } Orientation = "UPPER_LEFT" scale = 0.68 pdx_tooltip = "rip_ro_holy_city___CITY___bonus_tt" }\n}'
+    row=row.replace('__CITY__',key).replace('__Y__',str(146+i*58))
+    row=re.sub(r' Orientation = "[^"]+"| pdx_tooltip = "[^"]+"','',row)
+    holy_cities+=row+'\n'
+    for field in ('name','owner','faith'):
+        NO_TIP.add(f'rip_ro_holy_city_{key}_{field}')
+        defs.append(f'custom_text_box = {{ name = rip_ro_holy_city_{key}_{field} potential = {{ always = yes }} }}')
+    defs.append('custom_icon = {\n name = rip_ro_holy_city___CITY___faith_icon potential = { always = yes }\n frame = { number = 30 trigger = { __PROVINCE__ = { religion = russian_orthodox } } }\n frame = { number = 2 trigger = { __PROVINCE__ = { religion = orthodox } } }\n frame = { number = 1 trigger = { __PROVINCE__ = { religion = catholic } } }\n frame = { number = 14 trigger = { __PROVINCE__ = { religion = sunni } } }\n frame = { number = 3 trigger = { __PROVINCE__ = { religion = protestant } } }\n frame = { number = 4 trigger = { __PROVINCE__ = { religion = reformed } } }\n frame = { number = 22 trigger = { __PROVINCE__ = { religion = coptic } } }\n}\ncustom_text_box = { name = rip_ro_holy_city___CITY___myth_progress potential = { always = yes } tooltip = rip_ro_holy_city___CITY___myth_progress_tt }\ncustom_icon = { name = rip_ro_holy_city___CITY___bonus_active potential = { has_country_flag = rip_ro_myth_complete___CITY__ } tooltip = rip_ro_holy_city___CITY___bonus_tt }\ncustom_icon = { name = rip_ro_holy_city___CITY___bonus_pending potential = { NOT = { has_country_flag = rip_ro_myth_complete___CITY__ } } tooltip = rip_ro_holy_city___CITY___bonus_tt }'.replace('__CITY__',key).replace('__PROVINCE__',str(province)))
 holy_cities+=text('rip_ro_holy_cities_footer',34,439,w=407,h=24,font='vic_18',align='center',tip=False)
 holy_cities+=button('rip_ro_holy_cities_close',125,492,
                     'has_country_flag = rip_ro_holy_city_register_open',
@@ -469,7 +474,7 @@ defs.append('custom_window = { name = rip_church_gc_state_cover potential = { FR
 prov_state_cover='''windowType = {
  name = "rip_church_gc_state_cover" scripted = yes position = { x=19 y=414 } size = { x=464 y=50 }
  moveable = 0
- iconType = { name = "rip_church_gc_state_surface" spriteType = "GFX_rip_church_gc_state_surface" position = { x=0 y=0 } alwaystransparent = no }
+ iconType = { name = "rip_church_gc_state_surface" spriteType = "GFX_rip_church_gc_state_surface" position = { x=0 y=0 } alwaystransparent = yes }
 }'''
 prov_reopen_button=button('rip_church_rite_panel_show_button',0,0,'owned_by = FROM',
                           'clr_province_flag = rip_church_rite_panel_hidden',
@@ -508,7 +513,7 @@ native_controls='''windowType = {
  iconType = { name = "rip_church_gc_union_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
  iconType = { name = "rip_church_gc_synod_infrastructure_symbol" scripted = yes spriteType = "GFX_rip_church_gc_privileges" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
  iconType = { name = "rip_church_gc_synod_coexistence_symbol" scripted = yes spriteType = "GFX_rip_church_gc_ecumenism" position = { x=319 y=244 } scale = 0.8 alwaystransparent = yes }
-'''+'\n}\n'
+'''+'guiButtonType = { name = "rip_church_gc_window_toggle" scripted = yes position = { x=304 y=300 } Orientation = "LEFT" pdx_tooltip = "rip_church_gc_window_toggle_tt" quadTextureSprite = "GFX_standard_button_71" buttonText = "rip_church_gc_window_toggle" buttonFont = "vic_18" }'+'\n}\n'
 
 # Replace the empty native selector with a working route to the policy pane.
 # Keep the engine-owned controls underneath, just as for the Union selector.
@@ -567,7 +572,7 @@ def attach(file,host,body):
         native_name=re.search(r'name\s*=\s*"orthodox_specific_window"',s)
         native_start=s.rfind('windowType',0,native_name.start())
         native_end=matching_brace(s,s.index('{',native_start))
-        s=s[:native_end]+'\n# RIP resource hover and functional replacements for retired native selectors.\n'+native_controls+native_anchors(ro_native_controls)+s[native_end:]
+        s=s[:native_end]+'guiButtonType = {\n\t\t\t\tname = "rip_ro_holy_cities_open"\n\t\t\t\tscripted = yes\n\t\t\t\tposition = { x=382 y = 238 }\n\t\t\t\tquadTextureSprite = "GFX_coptic_blessing_select"\n\t\t\t\tpdx_tooltip = "rip_ro_holy_cities_open_tt"\n\t\t\t\tscale = 0.85\n\t\t\t\tOrientation = "UPPER_LEFT"\n\t\t\t}'+'\n# RIP resource hover and functional replacements for retired native selectors.\n'+native_controls+native_anchors(ro_native_controls)+s[native_end:]
     name=re.search(r'name\s*=\s*"'+re.escape(host)+r'"',s)
     assert name, host
     start=s.rfind('windowType',0,name.start())
@@ -589,6 +594,10 @@ attach('countryreligionview.gui','countryreligionview',native_anchors(religion_p
 attach('provinceview.gui','province_window',prov_panel)
 outputs['common/custom_gui/RIP_church_controls.txt']='# ROOT/FROM contracts follow common/custom_gui/example.txt in EU4 1.37.\n'+'\n'.join(defs)+'\n'
 outputs['common/custom_gui/RIP_church_gc_features.txt']='# Greek Catholic icons and non-electoral Curia diplomacy.\n'+'\n'.join(feature_defs)+'\n'
+for path,content in outputs.items():
+    assert brace_error(content) is None, (path, brace_error(content))
+    if path.endswith(".gui"):
+        assert not re.search(r"(?m)^\s*custom_(?:button|window|icon|text_box)\s*=",content), path
 stale=[]
 for path,s in outputs.items():
     target=ROOT/path
@@ -596,6 +605,6 @@ for path,s in outputs.items():
         stale.append(path)
         if not args.check:
             target.parent.mkdir(parents=True,exist_ok=True)
-            target.write_text(s,encoding='utf-8',newline='\n')
+            target.write_text(s,encoding='utf-8',newline='\r\n')
 print(('STALE' if args.check and stale else 'GENERATED')+f': {len(defs)} scripted UI bindings, {len(stale)} files')
 if args.check and stale: sys.exit(1)

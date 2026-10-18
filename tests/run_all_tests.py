@@ -75,12 +75,15 @@ scripts = [
     "tests/check_script_layer.py"
 ]
 
+registered = set(scripts)
+scripts += sorted(path.as_posix() for path in Path('tests').glob('check_*.py') if path.as_posix() not in registered)
+
 all_ok = True
 complete_output = []
 for s in scripts:
     res = subprocess.run([sys.executable, "-B", s], capture_output=True, text=True, encoding="utf-8", errors="replace")
     complete_output.append(f"=== {s} -> Exit code {res.returncode} ===\n{res.stdout}\n{res.stderr}\n")
-    print(f"=== {s} -> Exit code {res.returncode} ===")
+    print(f"=== {s} -> Exit code {res.returncode} ===", flush=True)
     if res.stdout:
         print(res.stdout.strip()[:400])
     if res.stderr:

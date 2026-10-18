@@ -21,6 +21,7 @@ loc = {key: value.replace('\\n', '\n') for key, value in re.findall(
     r'^ ([\w.]+):\d+ "(.*)"$',
     (ROOT / 'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'),
     re.M)}
+loc.update({key: value.replace('\\n', '\n') for key,value in re.findall(r'^ ([\w.]+):\d+ "(.*)"$', read('localisation/rip_ro_blessing_window_l_english.yml'), re.M)})
 node_loc = {key: value for key, value in re.findall(
     r'^ ([\w.]+):\d+ "(.*)"$',
     (ROOT / 'localisation/replace/zzzz_RIP_church_nodes_l_english.yml').read_text(encoding='utf-8-sig'),
@@ -377,7 +378,7 @@ cases += 1
 SURFACE = (13, 13, 462, 547)                     # inner surface of the 475x560 dialog
 ADVANCE = {'vic_14': 4.92, 'vic_18': 6.33, 'vic_22': 7.5}        # px per character, estimated from an in-game screenshot
 LINE = {'vic_14': 14, 'vic_18': 18, 'vic_22': 24}
-BUTTON = {'GFX_standard_button_224': (224, 32), 'GFX_rip_church_policy_select': (58, 58), 'button_type_8': (189, 31)}
+BUTTON = {'GFX_coptic_blessing_select': (58, 58), 'GFX_standard_button_224': (224, 32), 'GFX_rip_church_policy_select': (58, 58), 'button_type_8': (189, 31)}
 
 
 def longest(text):
@@ -400,6 +401,8 @@ for kind, f, x, y, ox, oy in everything:
         boxes[f['name']] = (x, y, x + w_, y + h_)
     elif kind == 'guiButtonType':
         bw, bh = BUTTON[f['quadTextureSprite']]
+        scale = float(f.get('scale', 1))
+        bw, bh = bw * scale, bh * scale
         boxes[f['name']] = (x, y, x + bw, y + bh)
         if f.get('buttonText'):
             shown = visible(loc[f['buttonText']])
