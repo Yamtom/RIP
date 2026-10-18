@@ -160,23 +160,19 @@ assert interface.count('spriteType = "GFX_rip_church_section_banner"') >= 6
 assert 'rip_church_gc_holy_see_gift_button' in pages['curia']
 toggle = button(controls, 'rip_church_gc_window_toggle')
 assert 'potential = { religion = greek_catholic }' in toggle
-assert 'has_country_flag = rip_church_gc_window_hidden' in toggle
-assert 'clr_country_flag = rip_church_gc_window_hidden' in toggle
-assert 'set_country_flag = rip_church_gc_window_hidden' in toggle
-assert 'rip_church_gc_window_hidden' in controls
+assert 'has_country_flag = rip_church_gc_window_open' in toggle
+assert 'clr_country_flag = rip_church_gc_window_open' in toggle
+assert 'set_country_flag = rip_church_gc_window_open' in toggle
+assert 'rip_church_gc_window_open' in controls
 assert 'rip_church_gc_window_toggle' in interface
 toggle_widgets = [
     d for kind, d in widgets(parse(interface))
     if kind == 'guiButtonType' and d.get('name') == 'rip_church_gc_window_toggle'
 ]
-assert any(
-    w.get('quadTextureSprite') == 'GFX_standard_button_71' and
-    dict(w.get('position', {})) == {'x': '304', 'y': '300'}
-    for w in toggle_widgets
-), 'Greek Catholic must cover pick_icon_button with GFX_standard_button_71 at {x=304, y=300}'
-close_widget = next(w for w in toggle_widgets if w.get('quadTextureSprite') == 'GFX_closebutton2')
-assert dict(close_widget['position']) == {'x': '372', 'y': '238'}
-assert close_widget['scale'] == '0.7'
+assert len(toggle_widgets) == 1
+assert toggle_widgets[0].get('quadTextureSprite') == 'GFX_standard_button_71'
+assert dict(toggle_widgets[0].get('position', {})) == {'x': '304', 'y': '300'}
+assert not any(w.get('quadTextureSprite') == 'GFX_closebutton2' for w in toggle_widgets)
 # The deputation and the gift each get their own button and own summary line;
 # the old four-cell Cost/Peace/Rome/Cooldown grid sat under the gift button.
 for stale in ('rip_church_gui_contact_peace', 'rip_church_gui_contact_rome', 'rip_church_gui_contact_cooldown'):

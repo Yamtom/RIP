@@ -140,7 +140,7 @@ def visible(w,c):
     return {name for name,gate in windows.items() if w.gate(gate,c)}
 
 for faith,sponsor,initial in [
-    ('greek_catholic',False,'rip_church_gc_panel'),
+    ('greek_catholic',False,None),
     ('orthodox',False,None),
     ('catholic',False,None),
     ('catholic',True,None),
@@ -150,6 +150,9 @@ for faith,sponsor,initial in [
     if sponsor: c['flags']['rip_church_supports_union'] = w.day
     assert visible(w,c) == ({initial} if initial else set())
     resources = {key:c[key] for key in ('adm_power','dip_power','treasury','religion')}
+    if faith == 'greek_catholic':
+        c['flags']['rip_church_gc_window_open'] = w.day
+        assert visible(w,c) == {'rip_church_gc_panel'}
     w.run('rip_church_gui_open_parishes_effect',c)
     allowed = faith == 'greek_catholic' or sponsor
     assert visible(w,c) == ({'rip_church_gc_parishes_panel'} if allowed else ({initial} if initial else set()))
@@ -160,7 +163,10 @@ for faith,sponsor,initial in [
         w.run('rip_church_gui_open_parishes_effect',c)
         assert visible(w,c) == {'rip_church_gc_parishes_panel'}
     w.run('rip_church_gc_open_union_effect',c)
-    assert visible(w,c) == ({initial} if initial else set())
+    assert visible(w,c) == ({'rip_church_gc_panel'} if faith == 'greek_catholic' else ({initial} if initial else set()))
+    if faith == 'greek_catholic':
+        c['flags'].pop('rip_church_gc_window_open', None)
+        assert visible(w,c) == set()
     assert resources == {key:c[key] for key in resources}
     cases += 1
 
