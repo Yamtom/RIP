@@ -1,0 +1,30 @@
+namespace = rip_het_authority
+country_event = {
+    id = rip_het_authority.1 title = rip_het_authority.1.t desc = rip_het_authority.1.d
+    picture = COURT_eventPicture is_triggered_only = yes
+    trigger = { rip_het_authority_active = yes }
+    option = { name = rip_het_authority.1.a ai_chance = { factor = 10 }
+        set_variable = { which = rip_het_compromise_before which = rip_het_position }
+        if = { limit = { rip_het_authority_active = yes NOT = { check_variable = { which = rip_het_compromise_before value = 500 } } }
+            change_variable = { which = rip_het_position value = 200 }
+            if = { limit = { check_variable = { which = rip_het_position value = 501 } } set_variable = { which = rip_het_position value = 500 } }
+        }
+        if = { limit = { rip_het_authority_active = yes check_variable = { which = rip_het_compromise_before value = 501 } }
+            change_variable = { which = rip_het_position value = -200 }
+            if = { limit = { NOT = { check_variable = { which = rip_het_position value = 500 } } } set_variable = { which = rip_het_position value = 500 } }
+        }
+        rip_het_sync_effect = yes
+    }
+    option = { name = rip_het_authority.1.b
+        trigger = { rip_het_authority_active = yes NOT = { check_variable = { which = rip_het_position value = 500 } } dip_power = 50 }
+        ai_chance = { factor = 1 }
+        if = { limit = { rip_het_authority_active = yes dip_power = 50 NOT = { check_variable = { which = rip_het_position value = 500 } } }
+            add_dip_power = -50 add_country_modifier = { name = rip_het_contested_course duration = 1095 } }
+    }
+    option = { name = rip_het_authority.1.c
+        trigger = { rip_het_authority_active = yes check_variable = { which = rip_het_position value = 501 } adm_power = 50 }
+        ai_chance = { factor = 1 }
+        if = { limit = { rip_het_authority_active = yes adm_power = 50 check_variable = { which = rip_het_position value = 501 } }
+            add_adm_power = -50 add_country_modifier = { name = rip_het_contested_course duration = 1095 } }
+    }
+}

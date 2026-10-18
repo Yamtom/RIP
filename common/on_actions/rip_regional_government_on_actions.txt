@@ -1,0 +1,4 @@
+on_startup = { rip_rg_cleanup_effect = yes rip_rg_grain_refresh_effect = yes }
+on_monthly_pulse = { rip_rg_cleanup_effect = yes if = { limit = { has_country_modifier = rip_rg_ods_export } rip_rg_grain_refresh_effect = yes } }
+on_reform_changed = { rip_rg_cleanup_effect = yes rip_rg_grain_refresh_effect = yes }
+on_province_owner_change = { rip_rg_province_transfer_effect = yes }

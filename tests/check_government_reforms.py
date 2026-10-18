@@ -11,8 +11,8 @@ from clausewitz_testlib import ROOT, keyed_blocks, named_block, normalized, read
 
 
 REFORMS_DIR = ROOT / "common/government_reforms"
-EXPECTED_REFORM_COUNT = 123
-EXPECTED_REFORM_ID_SHA256 = "045b458ff6ba9b8c43316ef849b71a359a19113090241a2be738ed527cb046cb"
+EXPECTED_REFORM_COUNT = 124
+EXPECTED_REFORM_ID_SHA256 = "413794df333eaae69b8c96c488f02de3d14fd5157d453d140f2761f729917e88"
 ROLE_ONLY_REFORMS = (
     "kyivan_veche_reform",
     "kyivan_boyar_republic_reform",
