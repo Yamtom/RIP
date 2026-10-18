@@ -1,0 +1,110 @@
+# Effects of the five faith-and-border reforms (October 2026).
+
+# --- ZAZ / HET ---------------------------------------------------------------
+
+# Country scope. Endow the first open site of the order: Mezhyhirya by Kyiv,
+# then Trakhtemyriv, then the Sich church. The sequence is three separate
+# ifs with mutually exclusive limits, not an else_if chain.
+rip_zaz_found_monastery_effect = {
+	if = {
+		limit = { zaz_monastery_site_kyiv = yes }
+		280 = {
+			add_permanent_province_modifier = { name = zaz_military_monastery duration = -1 }
+		}
+	}
+	if = {
+		limit = {
+			NOT = { zaz_monastery_site_kyiv = yes }
+			zaz_monastery_site_cherkasy = yes
+		}
+		1944 = {
+			add_permanent_province_modifier = { name = zaz_military_monastery duration = -1 }
+		}
+	}
+	if = {
+		limit = {
+			NOT = { zaz_monastery_site_kyiv = yes }
+			NOT = { zaz_monastery_site_cherkasy = yes }
+			zaz_monastery_site_sich = yes
+		}
+		283 = {
+			add_permanent_province_modifier = { name = zaz_military_monastery duration = -1 }
+		}
+	}
+	rip_zaz_sync_monasteries_effect = yes
+}
+
+# Country scope. The country modifiers follow the houses actually held: one or
+# more give the hospitals, two or more the network. add_country_modifier does
+# not refresh a running modifier, so each is removed before it is added again.
+rip_zaz_sync_monasteries_effect = {
+	if = {
+		limit = { has_country_modifier = zaz_monastery_hospitals }
+		remove_country_modifier = zaz_monastery_hospitals
+	}
+	if = {
+		limit = { has_country_modifier = zaz_monastery_network }
+		remove_country_modifier = zaz_monastery_network
+	}
+	if = {
+		limit = {
+			has_reform = zaz_orthodox_knighthood_reform
+			zaz_monasteries_one = yes
+		}
+		add_country_modifier = { name = zaz_monastery_hospitals duration = 3650 }
+	}
+	if = {
+		limit = {
+			has_reform = zaz_orthodox_knighthood_reform
+			zaz_monasteries_two = yes
+		}
+		add_country_modifier = { name = zaz_monastery_network duration = 3650 }
+	}
+}
+
+# Country scope. The reform is gone: the houses of the order are dissolved.
+rip_zaz_clear_monasteries_effect = {
+	if = {
+		limit = { has_country_modifier = zaz_monastery_hospitals }
+		remove_country_modifier = zaz_monastery_hospitals
+	}
+	if = {
+		limit = { has_country_modifier = zaz_monastery_network }
+		remove_country_modifier = zaz_monastery_network
+	}
+	every_owned_province = {
+		limit = { has_province_modifier = zaz_military_monastery }
+		remove_province_modifier = zaz_military_monastery
+	}
+}
+
+# Country scope. A battle won while at war with a state of another faith feeds
+# the Zeal of the Host by 1; a siege won by 2. The war, not the battlefield, is
+# tested: on_battle_won_country does not name the loser.
+rip_zaz_zeal_battle_effect = {
+	if = {
+		limit = {
+			has_reform = zaz_orthodox_knighthood_reform
+			zaz_at_war_with_the_faithless = yes
+		}
+		add_government_power = {
+			mechanic_type = zaz_holy_patronage_mechanic
+			power_type = zaz_cossack_zeal
+			value = 1
+		}
+	}
+}
+
+rip_zaz_zeal_siege_effect = {
+	if = {
+		limit = {
+			has_reform = zaz_orthodox_knighthood_reform
+			zaz_at_war_with_the_faithless = yes
+		}
+		add_government_power = {
+			mechanic_type = zaz_holy_patronage_mechanic
+			power_type = zaz_cossack_zeal
+			value = 2
+		}
+	}
+}

@@ -457,3 +457,57 @@ pdl_religious_tolerance_reform = {
 		}
 	}
 }
+
+# Kamianets-Podilskyi was held for centuries by four self-governing communities
+# - Ruthenians, Poles, Armenians and the Jewish kahal - each with its own
+# magistrate, church and quarter. The bargain was simple: nobody was converted,
+# and everybody manned the walls. The reform is that bargain; the charter of the
+# four communities is the decision pdl_charter_of_four_communities and their
+# petitions are events/RIP_FaithReformEvents.txt (rip_kamianets). Rates are
+# design values.
+pdl_kamianets_concordat_reform = {
+	icon = "mountain_fort"
+	legacy_equivalent = feudal_monarchy
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		pdl_concordat_visible = yes
+	}
+	trigger = {
+		pdl_concordat_eligible = yes
+	}
+	modifiers = {
+		defensiveness = 0.1
+		fort_maintenance_modifier = -0.1
+		tolerance_heretic = 1
+		tolerance_heathen = 1
+		years_of_nationalism = -5
+		caravan_power = 0.1
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	removed_effect = {
+		hidden_effect = {
+			clr_country_flag = pdl_four_communities_chartered
+			281 = {
+				if = {
+					limit = { has_province_modifier = pdl_four_communities }
+					remove_province_modifier = pdl_four_communities
+				}
+			}
+			if = {
+				limit = { has_country_modifier = pdl_armenian_caravans }
+				remove_country_modifier = pdl_armenian_caravans
+			}
+		}
+	}
+	ai = {
+		factor = 6
+		modifier = {
+			factor = 2
+			NOT = { religious_unity = 0.8 }
+		}
+	}
+}

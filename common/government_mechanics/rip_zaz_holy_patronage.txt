@@ -1,0 +1,176 @@
+# =============================================================================
+# rip_zaz_holy_patronage - the Holy Military Patronage of the Knights of the
+# Orthodox Faith (zaz_orthodox_knighthood_reform).
+#
+# The Zaporozhian Host saw itself as a sacred military order sworn to defend the
+# "pious Greek faith" against Muslims and Jesuits. Sahaidachny enrolled the whole
+# Host in the Kyiv Brotherhood; Patriarch Theophanes consecrated a new hierarchy
+# in 1620 under the shelter of Cossack muskets.
+#
+#   Power   zaz_cossack_zeal    rises with victories over states of another faith
+#                               (common/on_actions/rip_faith_reform_on_actions.txt),
+#                               ebbs slowly in peace; its bands are the blessing
+#                               of the host.
+#   Button  zaz_endow_a_military_monastery   ducats; hospital, powder store and
+#                               house of the order at Mezhyhirya, Trakhtemyriv
+#                               or the Sich church
+#   Button  zaz_escort_the_hierarchy   Zeal; a bishop is escorted into a
+#                               neighbour's Orthodox lands, with a casus belli
+#   Button  zaz_raise_the_faithful     Zeal; Orthodox rebels in an enemy's lands
+#
+# Two of the buttons spend the power (cost_type), so the power has its own
+# window (interface/rip_zaz_zeal_power.gui). ZAZ and HET already carry
+# cossacks_mechanic through rip_cossacks_reform; the two mechanics are
+# independent and sit side by side. Rates are design values, not
+# campaign-validated balance.
+# =============================================================================
+
+zaz_holy_patronage_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		has_reform = zaz_orthodox_knighthood_reform
+	}
+
+	powers = {
+		zaz_cossack_zeal = {
+			gui = rip_zaz_zeal_power
+			min = 0
+			max = 100
+			default = 0
+			reset_on_new_ruler = no
+			base_monthly_growth = -0.1
+			is_good = yes
+			range_modifier = {
+				trigger = { always = yes }
+				modifier = { land_morale = 0.05 }
+				start_value = 20
+				end_value = 50
+			}
+			range_modifier = {
+				trigger = { always = yes }
+				modifier = { land_morale = 0.1 discipline = 0.025 }
+				start_value = 50
+				end_value = 80
+			}
+			range_modifier = {
+				trigger = { always = yes }
+				modifier = { land_morale = 0.1 discipline = 0.05 manpower_recovery_speed = 0.1 }
+				start_value = 80
+				end_value = 100
+			}
+		}
+	}
+
+	interactions = {
+		zaz_endow_a_military_monastery = {
+			icon = GFX_rip_zaz_monastery
+			trigger = {
+				treasury = 150
+				OR = {
+					zaz_monastery_site_kyiv = yes
+					zaz_monastery_site_cherkasy = yes
+					zaz_monastery_site_sich = yes
+				}
+			}
+			effect = {
+				add_treasury = -150
+				rip_zaz_found_monastery_effect = yes
+			}
+			cooldown_years = 5
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 4
+					is_at_war = no
+					years_of_income = 0.5
+				}
+			}
+		}
+		zaz_escort_the_hierarchy = {
+			icon = GFX_rip_zaz_escort
+			cost_type = zaz_cossack_zeal
+			cost = 40
+			trigger = {
+				any_neighbor_country = {
+					zaz_escort_target = yes
+				}
+			}
+			effect = {
+				hidden_effect = {
+					random_neighbor_country = {
+						limit = { zaz_escort_target = yes }
+						save_event_target_as = zaz_escort_target
+					}
+				}
+				custom_tooltip = zaz_escort_the_hierarchy_tt
+				add_casus_belli = {
+					type = cb_protect_eastern_christians
+					target = event_target:zaz_escort_target
+					months = 120
+				}
+				event_target:zaz_escort_target = {
+					random_owned_province = {
+						limit = { zaz_bishopric_site = yes }
+						add_province_modifier = { name = zaz_clandestine_bishopric duration = 7300 }
+					}
+					random_owned_province = {
+						limit = { zaz_bishopric_site = yes }
+						add_province_modifier = { name = zaz_clandestine_bishopric duration = 7300 }
+					}
+					random_owned_province = {
+						limit = { zaz_bishopric_site = yes }
+						add_province_modifier = { name = zaz_clandestine_bishopric duration = 7300 }
+					}
+				}
+			}
+			cooldown_years = 10
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 3
+					is_at_war = yes
+				}
+			}
+		}
+		zaz_raise_the_faithful = {
+			icon = GFX_rip_zaz_faithful
+			cost_type = zaz_cossack_zeal
+			cost = 50
+			trigger = {
+				any_enemy_country = {
+					zaz_rebel_target = yes
+				}
+			}
+			effect = {
+				custom_tooltip = zaz_raise_the_faithful_tt
+				every_enemy_country = {
+					limit = { zaz_rebel_target = yes }
+					random_owned_province = {
+						limit = { zaz_bishopric_site = yes is_capital = no }
+						spawn_rebels = {
+							type = orthodox_rebels
+							size = 2
+						}
+					}
+					random_owned_province = {
+						limit = { zaz_bishopric_site = yes is_capital = no }
+						spawn_rebels = {
+							type = orthodox_rebels
+							size = 2
+						}
+					}
+				}
+			}
+			cooldown_years = 5
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 10
+					is_at_war = yes
+				}
+			}
+		}
+	}
+}

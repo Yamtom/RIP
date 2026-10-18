@@ -1,0 +1,108 @@
+# =============================================================================
+# rip_plt_nomocanon - the Keeping of the Ancient Nomocanon
+# (plt_sophian_autonomy_reform).
+#
+# The cathedral of St Sophia at Polotsk and its ancient eparchy kept a strong
+# tradition of autonomy, looking to Kyiv and to the veche tradition of Novgorod
+# while resisting the claims of the Muscovite patriarchate. The three buttons
+# are that tradition at work: the liturgical books held as they were written,
+# the craft guilds as patrons of the parishes, and the standing right of the
+# town communities to refuse a Muscovite candidate for the bishop's throne
+# (the single refusal is the event rip_sophia.1, events/RIP_FaithReformEvents.txt).
+#
+# Buttons-only (the devshirme pattern): no powers, no custom .gui. Their sprites
+# GFX_rip_plt_seal / _guild / _veto are painted by
+# tools/build_faith_reform_icons.py. Rates are design values, not
+# campaign-validated balance.
+# =============================================================================
+
+plt_ancient_nomocanon_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		has_reform = plt_sophian_autonomy_reform
+	}
+
+	interactions = {
+		# The books are held as written. A twenty-year seal on the rite.
+		plt_seal_the_nomocanon = {
+			icon = GFX_rip_plt_seal
+			trigger = {
+				has_reform = plt_sophian_autonomy_reform
+				adm_power = 50
+				NOT = { has_country_modifier = plt_nomocanon_sealed }
+			}
+			effect = {
+				add_adm_power = -50
+				add_country_modifier = { name = plt_nomocanon_sealed duration = 7300 }
+				add_prestige = 5
+			}
+			cooldown_years = 20
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 6
+					NOT = { stability = 1 }
+				}
+			}
+		}
+		# The craft guilds take the parishes under their care.
+		plt_patronise_the_guild_parishes = {
+			icon = GFX_rip_plt_guild
+			trigger = {
+				has_reform = plt_sophian_autonomy_reform
+				years_of_income = 0.25
+				NOT = { has_country_modifier = plt_guild_parishes }
+			}
+			effect = {
+				add_years_of_income = -0.25
+				add_country_modifier = { name = plt_guild_parishes duration = 5475 }
+				add_estate_loyalty = {
+					estate = estate_burghers
+					loyalty = 10
+				}
+			}
+			cooldown_years = 15
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 6
+					years_of_income = 0.5
+					is_at_war = no
+				}
+			}
+		}
+		# The town communities hold the veto in advance: for ten years no
+		# Muscovite candidate is even proposed.
+		plt_call_the_city_assembly = {
+			icon = GFX_rip_plt_veto
+			trigger = {
+				has_reform = plt_sophian_autonomy_reform
+				dip_power = 50
+				NOT = { has_country_modifier = plt_city_veto }
+			}
+			effect = {
+				add_dip_power = -50
+				add_country_modifier = { name = plt_city_veto duration = 3650 }
+				if = {
+					limit = { exists = MOS }
+					MOS = {
+						add_opinion = {
+							who = ROOT
+							modifier = plt_barred_the_candidate
+						}
+					}
+				}
+			}
+			cooldown_years = 10
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 8
+					any_rival_country = { tag = MOS }
+				}
+			}
+		}
+	}
+}

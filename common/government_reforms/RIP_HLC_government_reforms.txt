@@ -717,3 +717,39 @@ hlc_lviv_uniate_synod_reform = {
 	# reform is the see's own synod joining that settlement, not the act of
 	# state conversion.
 }
+
+# The Dormition Brotherhood of Lviv held its stauropegion directly from the
+# Patriarch and was entitled to supervise the morals and the conduct of the
+# bishop himself - the burghers, not the nobility, held the keys of the
+# Orthodox church of Galicia. The same city was the cradle of the Florentine
+# and the later Union. The reform gives the burghers the church; the events in
+# events/RIP_Stauropegion.txt are the brotherhood's quarrels with the bishop
+# and the choice of the Union; the estate privilege is
+# estate_burghers_hlc_lviv_stauropegion. Rates are design values.
+hlc_stauropegion_brotherhood_reform = {
+	icon = "monastic_elections_reform"
+	legacy_equivalent = feudal_monarchy
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		hlc_stauropegion_visible = yes
+	}
+	trigger = {
+		hlc_stauropegion_eligible = yes
+	}
+	modifiers = {
+		burghers_influence_modifier = 0.1
+		burghers_loyalty_modifier = 0.05
+		church_influence_modifier = -0.1
+		global_trade_power = 0.1
+		production_efficiency = 0.05
+		development_cost = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	ai = {
+		factor = 8
+	}
+}
