@@ -6,8 +6,11 @@ from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized
 loc = dict(re.findall(r'^ ([\w]+):\d+ "(.*)"$',read('localisation/replace/zzzz_rip_government_ui_l_english.yml'),re.M))
 assert loc['kyivan_peoples_gathering'] == 'Concord of Peoples'
 assert 'Prosperity' not in loc['kyivan_peoples_gathering_desc']
-reforms = read('common/government_reforms/RIP_KIE_KRU_government_reforms.txt')
-ids = ['ruthenian_factional_empire'+s+'_reform' for s in ('','_princes_hetmans','_boyars_hetmans')]
+import importlib.util
+spec = importlib.util.spec_from_file_location('build_kru_rada', ROOT/'tools/build_kru_rada.py')
+rada = importlib.util.module_from_spec(spec); spec.loader.exec_module(rada)
+reforms = read('common/government_reforms/RIP_KRU_rada_reforms.txt')
+ids = list(rada.REFORM_IDS)          # the Rada of Three Estates: six ids, the first is the one a new Confederation starts with
 assert len({loc[i] for i in ids}) == 1
 assert loc['kyivan_veche_reform'] == 'Kyivan Veche Republic'
 assert loc['kyivan_boyar_republic_reform'] == 'Kyivan Boyar Rada'
@@ -67,72 +70,8 @@ assert not any(name in court for name in old_balances)
 assert 'on_min_reached' not in court and 'on_max_reached' not in court
 assert 'influence = 6' not in court
 
-state_general_pairs = {
-    ids[0]: ('diplomatic_reputation = 0.5', 'discipline = 0.01'),
-    ids[1]: ('legitimacy = 0.5', 'global_tax_modifier = 0.05'),
-    ids[2]: ('stability_cost_modifier = -0.05', 'vassal_forcelimit_bonus = 0.05'),
-}
-for reform_id, effects in state_general_pairs.items():
-    reform = named_block(reforms, reform_id)
-    conditional = named_block(reform, 'conditional')
-    allow = named_block(conditional, 'allow')
-    assert 'has_dlc = "Res Publica"' in allow
-    assert 'has_dlc = "Winds of Change"' in allow
-    state_general = named_block(reform, 'states_general_mechanic')
-    assert 'kru_rada_coalition' in state_general
-    assert 'kru_rada_opposition' in state_general
-    for effect in effects:
-        assert effect in state_general
-
+# The Rada's six reforms, the pair logic, the bar and the junior voice: check_kru_rada.py executes them. The court buttons stay here.
 effects = read('common/scripted_effects/kru_effects.txt')
-record = normalized(named_block(effects, 'kru_record_dominant_faction_effect'))
-for faction in ('kru_knyazi', 'kru_boyary', 'kru_starshyna'):
-    assert f'faction_influence = {{ faction = {faction} influence = 60 }}' in record
-fallback = normalized(named_block(effects, 'kru_set_fallback_previous_dominant_effect'))
-for faction in ('kru_knyazi', 'kru_boyary', 'kru_starshyna'):
-    assert f'kru_previous_dominant_{faction[4:]}' in fallback
-center = normalized(named_block(effects, 'kru_center_states_general_effect'))
-assert 'has_states_general_mechanic = yes' in center
-assert 'change_statists_vs_orangists = -10' in center
-assert 'change_statists_vs_orangists = 1' in center
-sync_block = named_block(effects, 'kru_sync_reform_to_faction_effect')
-sync = normalized(sync_block)
-assert 'influence = 33' not in sync
-assert all(f'kru_previous_dominant_{faction[4:]}' in sync
-           for faction in ('kru_knyazi', 'kru_boyary', 'kru_starshyna'))
-for current, previous, reform_id in (
-    ('kru_knyazi', 'kru_boyary', ids[0]),
-    ('kru_boyary', 'kru_knyazi', ids[0]),
-    ('kru_knyazi', 'kru_starshyna', ids[1]),
-    ('kru_starshyna', 'kru_knyazi', ids[1]),
-    ('kru_boyary', 'kru_starshyna', ids[2]),
-    ('kru_starshyna', 'kru_boyary', ids[2]),
-):
-    assert f'faction_in_power = {current}' in sync
-    assert f'has_country_flag = kru_previous_dominant_{previous[4:]}' in sync
-    assert f'add_government_reform = {reform_id}' in sync
-    matching = [branch for key in ('if', 'else_if')
-                for _, branch in keyed_blocks(sync_block, key)
-                if f'add_government_reform = {reform_id}' in branch
-                and 'kru_previous_dominant_' in branch]
-    assert len(matching) == 1
-    alternatives = keyed_blocks(named_block(named_block(matching[0], 'limit'), 'OR'), 'AND')
-    assert any(f'faction_in_power = {current}' in branch
-               and f'has_country_flag = kru_previous_dominant_{previous[4:]}' in branch
-               for _, branch in alternatives), (current, previous, reform_id)
-pair_branches = [
-    block
-    for key in ('if', 'else_if')
-    for _, block in keyed_blocks(sync_block, key)
-]
-for reform_id in ids:
-    branch = next(block for block in pair_branches
-                  if f'add_government_reform = {reform_id}' in block
-                  and 'kru_previous_dominant_' in block)
-    assert f'has_reform = {reform_id}' not in normalized(named_block(branch, 'limit'))
-junior = normalized(named_block(effects, 'kru_apply_junior_blocs_effect'))
-assert all(f'kru_previous_dominant_{faction[4:]}' in junior
-           for faction in ('kru_knyazi', 'kru_boyary', 'kru_starshyna'))
 for action in ('kru_court_the_knyazi', 'kru_court_the_boyary', 'kru_court_the_starshyna'):
     interaction = named_block(named_block(court, 'interactions'), action)
     assert 'kru_refresh_factional_court_effect = yes' in named_block(interaction, 'effect')
@@ -268,9 +207,8 @@ for power in old_balances:
 assert 'kru_refresh_factional_court_effect = yes' in normalized(
     named_block(effects, 'kru_update_dominant_pair_effect')
 )
-assert 'kru_sync_reform_to_faction_effect = yes' in normalized(
-    named_block(effects, 'kru_refresh_factional_court_effect')
-)
+for step in ('kru_rada_rank_effect', 'kru_rada_select_reform_effect', 'kru_rada_bar_effect', 'kru_apply_junior_blocs_effect'):
+    assert f'{step} = yes' in normalized(named_block(effects, 'kru_refresh_factional_court_effect')), step
 for texture in re.findall(r'texturefile = "([^"]+)"',gfx):
     if texture.startswith('gfx/interface/rip_government/'):
         assert (ROOT/texture).is_file(), texture

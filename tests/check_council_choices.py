@@ -5,7 +5,7 @@ def action(file, name):
 snem=action('rip_kyivan_seniority','kyiv_call_the_snem')
 assert 'num_of_subjects' not in snem
 assert 'any_subject_country' in snem and 'is_subject_of_type = princedom' in snem and 'is_subject_of_type = senior_udil' in snem
-for name in ('chancery','settlement','cadastral'):
+for name in ('chancery','settlement','cadastral','urbarial','toleration','frontier'):
     a=action('rip_hlc_austrian_reorganization','hlc_enact_'+name+'_ordinance')
     assert 'has_reform = hlc_crown_authority_reform' in named_block(a,'trigger')
 mods=read('common/event_modifiers/west_ukraine_modifiers.txt')

@@ -120,14 +120,18 @@ flowchart LR
 
 ## KIE / KRU
 
-Шість монархічних національних форм стоять на `M1`:
+Дев'ять монархічних національних форм стоять на `M1` (шість з них — одна Рада трьох станів під шістьма ідентифікаторами,
+по одному на пару «друга за впливом — домінантна фракція»):
 
 - `kyivan_rus_reform`;
 - `kyivan_shogunate_reform` — локалізований як Kyivan Seniorate;
 - `kyivan_cesarstvo_reform`;
 - `ruthenian_factional_empire_reform`;
 - `ruthenian_factional_empire_princes_hetmans_reform`;
-- `ruthenian_factional_empire_boyars_hetmans_reform`.
+- `ruthenian_factional_empire_boyars_hetmans_reform`;
+- `ruthenian_factional_empire_hetmans_princes_reform`;
+- `ruthenian_factional_empire_princes_boyars_reform`;
+- `ruthenian_factional_empire_hetmans_boyars_reform`.
 
 Поряд з ними — дві недержавні лінії формування, кожна у два тіри свого типу
 уряду. Обидві доступні лише як пряме рішення від KIE (той самий набір
@@ -580,7 +584,7 @@ flowchart LR
 
 ### Взаємовиключність асамблей
 
-- У монархії M1-форми `ruthenian_factional_empire_reform` та два її варіанти,
+- У монархії M1-форми `ruthenian_factional_empire_reform` та п'ять її варіантів,
   `uzh_palanok_captaincy_reform` і `lit_union_of_two_nations_reform` не
   складаються з ванільною `states_general_reform`. Їхні власні фракції,
   капітанський сойм або Панська рада вже займають цей інституційний простір.

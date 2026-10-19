@@ -1,8 +1,10 @@
-"""Execute the small institutional-review script subset against edge cases.
+"""Execute the small institutional-resolution script subset against edge cases.
 
-This is not an EU4 runtime emulator or a campaign power measurement. It reads
-the actual gates/effects to catch double payment, stale event and cooldown
-regressions that a brace or numeric snapshot check would miss.
+The resolutions are the buttons of common/government_mechanics/rip_institutional_resolutions.txt (they used to be a decision
+that opened an event). This is not an EU4 runtime emulator or a campaign power measurement. It reads the actual button gates
+and effects to catch double payment, a lock that a reform change could reset, and a second resolution slipping in while one
+stands, which a brace or numeric snapshot check would miss. The engine's own cooldown token is not modelled: the dated flag
+is what the mod relies on, and what is tested here.
 """
 from __future__ import annotations
 
@@ -41,11 +43,21 @@ def parse(text):
 
 TRIGGERS = parse(read("common/scripted_triggers/rip_government_review_triggers.txt"))
 EFFECTS = parse(read("common/scripted_effects/rip_government_review_effects.txt"))
+MECHANICS = parse(read("common/government_mechanics/rip_institutional_resolutions.txt"))
 FAMILIES = {
-    "municipal": ("vln_magdeburg_rights", ("charters", "dip"), ("accounts", "adm")),
-    "chancery": ("lit_ruthenian_chancery_reform", ("service", "adm"), ("rights", "dip")),
-    "register": ("het_regimental_system_reform", ("muster", "mil"), ("settlement", "dip")),
+    # family: (mechanic, a reform that holds it, [(button, power, modifier)])
+    "municipal": ("rip_municipal_resolutions_mechanic", "vln_magdeburg_rights",
+                  [("charters", "dip", "rip_gov_municipal_charters"), ("accounts", "adm", "rip_gov_municipal_accounts")]),
+    "chancery": ("rip_chancery_resolutions_mechanic", "lit_ruthenian_chancery_reform",
+                 [("service", "adm", "rip_gov_chancery_service"), ("rights", "dip", "rip_gov_chancery_rights")]),
+    "register": ("rip_register_resolutions_mechanic", "het_regimental_system_reform",
+                 [("muster", "mil", "rip_gov_register_muster"), ("settlement", "dip", "rip_gov_register_settlement")]),
 }
+
+
+def button(family, choice):
+    interactions = dict(dict(MECHANICS[FAMILIES[family][0]])["interactions"])
+    return dict(interactions[f"rip_resolution_{family}_{choice}"])
 
 
 def gate(items, state):
@@ -74,6 +86,10 @@ def gate(items, state):
             return state["war"] == (value == "yes")
         if key in ("stability", "treasury", "adm_power", "dip_power", "mil_power"):
             return state[key] >= float(value)
+        if key in ("adm_power_cost", "dip_power_cost", "mil_power_cost"):
+            return state[key[:-5]] >= float(value)
+        if key == "always":
+            return value == "yes"
         raise AssertionError(f"unsupported gate in tested script: {key}")
     return all(condition(key, value) for key, value in items)
 
@@ -91,6 +107,8 @@ def execute(items, state):
             state["flags"][value] = state["day"]
         elif key.startswith("add_") and key[4:] in state:
             state[key[4:]] += float(value)
+        elif key in ("adm_power_cost", "dip_power_cost", "mil_power_cost"):
+            state[key[:-5]] -= float(value)
         elif key == "add_country_modifier":
             fields = dict(value)
             state["modifiers"][fields["name"]] = state["day"] + int(fields["duration"])
@@ -103,63 +121,59 @@ def execute(items, state):
 def initial():
     return dict(day=0, war=False, stability=0, treasury=50, adm_power=50,
                 dip_power=50, mil_power=50, flags={}, modifiers={},
-                reforms={entry[0] for entry in FAMILIES.values()})
+                reforms={entry[1] for entry in FAMILIES.values()})
 
 
 def run_scenarios():
     count = 0
-    for family, (_, *choices) in FAMILIES.items():
-        for choice, power in choices:
-            effect = EFFECTS[f"rip_gov_{family}_{choice}_effect"]
+    for family, (_, _, choices) in FAMILIES.items():
+        for choice, power, modifier in choices:
+            spec = button(family, choice)
             state = initial()
-            execute(effect, state)
-            assert state["treasury"] == 0 and state[power + "_power"] == 0
-            assert len(state["modifiers"]) == 1
-            assert set(state["modifiers"].values()) == {3650}
-            paid = deepcopy(state)
-            execute(effect, state)
-            assert state == paid, "queued option charged twice"
+            assert gate(spec["trigger"], state), f"{family} {choice} cannot be pressed with everything in hand"
+            execute(spec["effect"], state)
+            assert state["treasury"] == 0 and state[power + "_power"] == 0, "the price is 50 ducats and 50 of the named power"
+            assert set(state["modifiers"]) == {modifier} and set(state["modifiers"].values()) == {3650}
+            assert state["flags"] == {"rip_gov_review_recent": 0}
+            count += 1
+            # While it stands no button of any institution can be pressed, even with money and power in hand.
             state.update(treasury=100, adm_power=100, dip_power=100, mil_power=100)
-            for other in FAMILIES:
-                assert not gate(TRIGGERS[f"rip_gov_can_review_{other}"], state)
+            for other_family, (_, _, others) in FAMILIES.items():
+                for other_choice, _, _ in others:
+                    assert not gate(button(other_family, other_choice)["trigger"], state), f"{other_family} {other_choice} stays open during {family} {choice}"
+                    count += 1
             # Removal loses the benefit but retains the dated shared term.
             execute(EFFECTS[f"rip_gov_clear_{family}_effect"], state)
             assert not state["modifiers"] and state["flags"] == {"rip_gov_review_recent": 0}
             state["day"] = 3649
-            assert not gate(TRIGGERS[f"rip_gov_can_review_{family}"], state)
+            assert not gate(spec["trigger"], state), "the ten-year term ended a day early"
             state["day"] = 3650
-            assert gate(TRIGGERS[f"rip_gov_can_review_{family}"], state)
-            execute(effect, state)
+            assert gate(spec["trigger"], state), "the ten-year term did not end on its day"
+            execute(spec["effect"], state)
             assert state["flags"]["rip_gov_review_recent"] == 3650
             # A government change cannot leave detached benefits after cleanup.
             state["reforms"].clear()
             execute(EFFECTS["rip_gov_review_cleanup_effect"], state)
             assert not state["modifiers"] and state["flags"]
             count += 1
-            for change in (dict(treasury=49), {power + "_power": 49},
-                           dict(reforms=set()), dict(war=True), dict(stability=-1)):
+            # Every refusal keeps the button shut and costs nothing.
+            for change in (dict(treasury=49), {power + "_power": 49}, dict(reforms=set()), dict(war=True), dict(stability=-1)):
                 state = initial()
                 state.update(change)
-                before = deepcopy(state)
-                execute(effect, state)
-                assert state == before, f"stale/invalid event paid: {family} {change}"
+                assert not gate(spec["trigger"], state), f"{family} {choice} opens despite {change}"
                 count += 1
     return count
 
 
 def source_contracts():
-    decisions = parse(read("decisions/RIP_InstitutionalReviews.txt"))["country_decisions"]
-    events = read("events/RIP_InstitutionalReviews.txt")
-    assert len(decisions) == 3
-    assert len(re.findall(r"^country_event =", events, re.M)) == 3
-    assert len(re.findall(r"is_triggered_only = yes", events)) == 3
-    for number, family in enumerate(FAMILIES, 1):
-        body = named_block(read("decisions/RIP_InstitutionalReviews.txt"), f"rip_gov_review_{family}")
-        assert f"id = rip_gov_review.{number}" in body
-        assert f"limit = {{ rip_gov_can_review_{family} = yes }}" in body
-    # Cancellation is always visible, empty and cannot mint monarch power.
-    parsed_events = re.findall(r"option = \{\s*name = rip_gov_review.cancel([\s\S]*?)\n\t\}", events)
-    assert len(parsed_events) == 3 and all("add_" not in body and "trigger" not in body for body in parsed_events)
+    for retired in ("decisions/RIP_InstitutionalReviews.txt", "events/RIP_InstitutionalReviews.txt"):
+        assert not (ROOT / retired).exists(), f"{retired} is back: the resolutions are buttons now"
+    mechanics = read("common/government_mechanics/rip_institutional_resolutions.txt")
+    assert len(re.findall(r"^rip_\w+_resolutions_mechanic = \{", mechanics, re.M)) == 3
+    assert len(re.findall(r"^\t\t(rip_resolution_\w+) = \{", mechanics, re.M)) == 6
+    assert len(set(re.findall(r"icon = (GFX_\w+)", mechanics))) == 6, "six buttons need six pictures"
+    # One engine cooldown token and ten years for all six: the engine greys every button and prints the date.
+    assert mechanics.count("cooldown_token = rip_gov_institutional_resolution") == 6 and mechanics.count("cooldown_years = 10") == 6
     reforms = "\n".join(path.read_text(encoding="utf-8-sig") for path in (ROOT / "common/government_reforms").glob("*.txt"))
     cleanups = {
         "vln_magdeburg_rights": "municipal",
@@ -172,6 +186,7 @@ def source_contracts():
     }
     for reform, family in cleanups.items():
         assert f"rip_gov_clear_{family}_effect = yes" in named_block(named_block(reforms, reform), "removed_effect")
+        assert FAMILIES[family][0] in named_block(named_block(reforms, reform), "government_abilities"), f"{reform} gives no buttons"
     for key in ("monarch_admin_power", "monarch_military_power", "administrative_efficiency", "all_power_cost"):
         assert not re.search(rf"\b{key}\s*=", normalized(reforms)), f"unbudgeted high-impact modifier: {key}"
     assert "cossacks_mechanic" not in named_block(reforms, "siversk_veche_reform")
@@ -277,7 +292,7 @@ def main():
     count = run_scenarios()
     vanilla_envelopes()
     comparator_coverage()
-    print(f"GOVERNMENT REVIEW CHECK: PASS ({count} payment/stale-state cases; three reviews; one shared term)")
+    print(f"GOVERNMENT REVIEW CHECK: PASS ({count} payment/lock/refusal cases; six resolution buttons; one shared term)")
     print("Government campaign power <=105% of EU4 1.37.5: NOT CERTIFIED by this source-contract check.")
     return 0
 

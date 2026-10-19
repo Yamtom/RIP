@@ -3,20 +3,24 @@
 Static checks over script, sprites and localisation: they prove the files agree
 with each other, not that the engine draws the panel the way the preview does.
 
-  * Boyar Council (3 buttons), Chancery Ordinances (6), Magnate Senate (3) and
-    Pany Rada (3) use fifteen different bespoke sprites - none of vanilla's
-    Cossack ability icons. The Pany Rada's three share one shield frame that no
-    other mechanic uses, and each button has its own sprite (confirm, lord,
-    retinues), not one borrowed from a sibling mechanic.
-  * The six ordinance buttons are two rows of three: enact on top, rescind below,
-    one column per ordinance, each pair sharing its cooldown token and cooldown name.
+  * Boyar Council (3 buttons), Crown Ordinances (6), Magnate Senate (3), Pany Rada
+    (3) and the three Resolution mechanics (2 each) use twenty-one different bespoke
+    sprites - none of vanilla's Cossack ability icons. The Pany Rada's three share one
+    shield frame that no other mechanic uses, and each button has its own sprite
+    (confirm, lord, retinues), not one borrowed from a sibling mechanic.
+  * The six crown ordinances are six DIFFERENT buttons (chancery, settlement,
+    cadastral, urbarial, toleration, frontier guard), one picture each, each on a
+    cooldown token and name of its own and enacted for ten years. There is no rescind
+    button: an earlier layout paired every ordinance with a rescind button wearing the
+    same picture and called that six abilities.
   * Every sprite is a defined, existing 82x82 uncompressed DDS with a shaped
     alpha, and no two of them are the same picture.
-  * Every button, ordinance modifier and government attribute that the Austrian
-    crown shows on its card has text in all four languages.
+  * Every button, ordinance modifier, resolution and government attribute that the
+    Austrian crown and the resolution reforms show has text in all four languages.
   * The appanage privilege is attached to the nobility, the Chernihiv Ruina carries
     its government-attribute exemption twice (as vanilla's Dutch Revolt does) and
-    the crown authority clears every ordinance it enacted.
+    the crown authority clears every ordinance it enacted (six modifiers, and the flags
+    of the older, permanent ordinances).
 
 Standard library only; the sprites themselves are redrawn and compared by
 `python tools/build_government_ability_icons.py --check`. How the panels look in the
@@ -34,17 +38,24 @@ LANGUAGES = ("english", "french", "german", "spanish")
 EDGE = 82
 GFX = "interface/rip_ability_icons.gfx"
 
-MECHANICS = {
-    "common/government_mechanics/rip_hlc_boyar_council.txt": ("hlc_boyar_council_mechanic", 3),
-    "common/government_mechanics/rip_hlc_austrian_reorganization.txt": ("hlc_austrian_reorganization_mechanic", 6),
-    "common/government_mechanics/rip_vln_magnate_senate.txt": ("vln_magnate_senate_mechanic", 3),
-    "common/government_mechanics/rip_lit_pany_rada.txt": ("lit_pany_rada_mechanic", 3),
-}
-ORDINANCES = ("chancery", "settlement", "cadastral")
-SPRITES = 15
+RESOLUTIONS_FILE = "common/government_mechanics/rip_institutional_resolutions.txt"
+MECHANICS = [
+    ("common/government_mechanics/rip_hlc_boyar_council.txt", "hlc_boyar_council_mechanic", 3),
+    ("common/government_mechanics/rip_hlc_austrian_reorganization.txt", "hlc_austrian_reorganization_mechanic", 6),
+    ("common/government_mechanics/rip_vln_magnate_senate.txt", "vln_magnate_senate_mechanic", 3),
+    ("common/government_mechanics/rip_lit_pany_rada.txt", "lit_pany_rada_mechanic", 3),
+    (RESOLUTIONS_FILE, "rip_municipal_resolutions_mechanic", 2),
+    (RESOLUTIONS_FILE, "rip_chancery_resolutions_mechanic", 2),
+    (RESOLUTIONS_FILE, "rip_register_resolutions_mechanic", 2),
+]
+ORDINANCES = ("chancery", "settlement", "cadastral", "urbarial", "toleration", "frontier")
+LEGACY_FLAGGED = ("chancery", "settlement", "cadastral")      # the permanent ordinances of an older save still carry a flag
+ORDINANCE_ICONS = {"chancery": "GFX_rip_chancery_ordinance", "settlement": "GFX_rip_settlement_ordinance", "cadastral": "GFX_rip_cadastre_ordinance",
+                   "urbarial": "GFX_rip_urbarial_ordinance", "toleration": "GFX_rip_toleration_ordinance", "frontier": "GFX_rip_frontier_ordinance"}
+SPRITES = 21
 # Pany Rada: button -> sprite, in file order; the frame is the shield no other mechanic uses
 RADA_FILE = "common/government_mechanics/rip_lit_pany_rada.txt"
-RADA_MECHANIC = MECHANICS[RADA_FILE][0]
+RADA_MECHANIC = "lit_pany_rada_mechanic"
 RADA_BUTTONS = {
     "lit_seek_the_radas_confirmation": "GFX_rip_rada_confirm",
     "lit_win_over_a_wavering_lord": "GFX_rip_rada_lord",
@@ -122,39 +133,45 @@ def check_buttons(path, mechanic, expected, text, defined_sprites):
 
 
 def check_ordinance_layout(text):
+    """Six different enact buttons in the order of the two rows, each with its own picture, token, term and sentence tooltip."""
     problems = []
     found = interactions(text, "hlc_austrian_reorganization_mechanic")
     names = [name for name, _ in found]
-    want = [f"hlc_enact_{o}_ordinance" for o in ORDINANCES] + [f"hlc_rescind_{o}_ordinance" for o in ORDINANCES]
+    want = [f"hlc_enact_{o}_ordinance" for o in ORDINANCES]
     if names != want:
-        problems.append(f"ordinance buttons are {names}, expected rows {want}")
+        problems.append(f"ordinance buttons are {names}, expected the six different ordinances {want} (no rescind buttons)")
         return problems
     blocks = dict(found)
+    tokens = set()
     for ordinance in ORDINANCES:
-        enact, rescind = blocks[f"hlc_enact_{ordinance}_ordinance"], blocks[f"hlc_rescind_{ordinance}_ordinance"]
-        flag, modifier = f"hlc_{ordinance}_ordinance_active", f"hlc_{ordinance}_ordinance_modifier"
-        token = f"cooldown_token = hlc_{ordinance}_ordinance"
-        if token not in enact or token not in rescind:
-            problems.append(f"{ordinance}: enact and rescind do not share {token}")
-        for label, button in (("enact", enact), ("rescind", rescind)):
-            if "cooldown_years = 5" not in button:
-                problems.append(f"{ordinance}: {label} lost its five-year cooldown")
-            if "cooldown_desc = hlc_ordinance_cooldown_desc" not in button:
-                problems.append(f"{ordinance}: {label} does not name its cooldown, so the tooltip would name the button")
-        if f"set_country_flag = {flag}" not in enact or f"name = {modifier}" not in enact or "duration = -1" not in enact:
-            problems.append(f"{ordinance}: enact does not set {flag} and the permanent {modifier}")
-        if f"clr_country_flag = {flag}" not in rescind or f"remove_country_modifier = {modifier}" not in rescind:
-            problems.append(f"{ordinance}: rescind does not clear {flag} and remove {modifier}")
-        if "_power_cost" in named_block(rescind, "trigger") or "_power_cost" in named_block(rescind, "effect"):
-            problems.append(f"{ordinance}: rescind must cost no monarch power")
-        if f"NOT = {{ has_country_flag = {flag} }}" not in normalized(named_block(enact, "trigger")):
+        button = blocks[f"hlc_enact_{ordinance}_ordinance"]
+        modifier = f"hlc_{ordinance}_ordinance_modifier"
+        token = f"hlc_{ordinance}_ordinance"
+        tokens.add(token)
+        if icon_of(button) != ORDINANCE_ICONS[ordinance]:
+            problems.append(f"{ordinance}: wears {icon_of(button)}, expected {ORDINANCE_ICONS[ordinance]}")
+        if f"cooldown_token = {token}\n" not in button.replace("\r", "") and f"cooldown_token = {token} " not in button:
+            problems.append(f"{ordinance}: does not use its own cooldown token {token}")
+        if "cooldown_years = 10" not in button:
+            problems.append(f"{ordinance}: lost its ten-year cooldown")
+        if "cooldown_desc = hlc_ordinance_cooldown_desc" not in button:
+            problems.append(f"{ordinance}: does not name its cooldown, so the tooltip would name the button")
+        effect = normalized(named_block(button, "effect"))
+        if f"name = {modifier} duration = 3650" not in effect:
+            problems.append(f"{ordinance}: enact does not add {modifier} for ten years (3650 days)")
+        if "set_country_flag" in effect:
+            problems.append(f"{ordinance}: enact sets a flag; the modifier is the only record of 'in force'")
+        trigger = normalized(named_block(button, "trigger"))
+        if f"NOT = {{ has_country_modifier = {modifier} }}" not in trigger:
             problems.append(f"{ordinance}: enact is not blocked while the ordinance stands")
-        if f"has_country_flag = {flag}" not in normalized(named_block(rescind, "trigger")):
-            problems.append(f"{ordinance}: rescind is not limited to an enacted ordinance")
-        if f"tooltip = hlc_{ordinance}_ordinance_not_in_force_tt" not in normalized(named_block(enact, "trigger")):
-            problems.append(f"{ordinance}: a blocked enact button shows the raw flag name, not a sentence")
-        if f"tooltip = hlc_{ordinance}_ordinance_in_force_tt" not in normalized(named_block(rescind, "trigger")):
-            problems.append(f"{ordinance}: a blocked rescind button shows the raw flag name, not a sentence")
+        if f"tooltip = hlc_{ordinance}_ordinance_not_in_force_tt" not in trigger:
+            problems.append(f"{ordinance}: a blocked enact button shows a raw modifier name, not a sentence")
+        if "tooltip = hlc_ordinance_slot_free_tt hlc_ordinance_slot_free = yes" not in trigger:
+            problems.append(f"{ordinance}: enact does not require a free slot inside a sentence tooltip")
+    if len(tokens) != 6:
+        problems.append("the six ordinances do not have a cooldown token each")
+    if "rescind" in _mask_comments_and_strings(text).lower():
+        problems.append("a rescind button or comment is back in the crown ordinances")
     return problems
 
 
@@ -256,14 +273,18 @@ def check_sprites(definitions=None, loaded=None):
 def check_localisation(text_by_mechanic):
     problems = []
     needed = set()
-    for mechanic_text, (mechanic, _) in text_by_mechanic:
+    for mechanic_text, mechanic in text_by_mechanic:
         needed.add(f"ability_{mechanic}")
         for name, block in interactions(mechanic_text, mechanic):
             needed.update({name, f"{name}_desc"})
             needed.update(re.findall(r"cooldown_desc = (\w+)", block))
     for ordinance in ORDINANCES:
         needed.update({f"hlc_{ordinance}_ordinance_modifier", f"desc_hlc_{ordinance}_ordinance_modifier",
-                       f"hlc_{ordinance}_ordinance_in_force_tt", f"hlc_{ordinance}_ordinance_not_in_force_tt"})
+                       f"hlc_{ordinance}_ordinance_not_in_force_tt"})
+    needed.update({"hlc_ordinance_slot_free_tt", "hlc_ordinance_cooldown_desc", "rip_resolution_none_in_force_tt",
+                   "rip_resolution_lock_over_tt", "rip_resolution_cooldown_desc"})
+    for modifier in ("municipal_charters", "municipal_accounts", "chancery_service", "chancery_rights", "register_muster", "register_settlement"):
+        needed.update({f"rip_gov_{modifier}", f"desc_rip_gov_{modifier}"})
     needed.update({
         "hlc_incorporate_appanage", "hlc_incorporate_appanage_title",
         "hlc_incorporate_appanage_tooltip", "hlc_incorporate_appanage_desc",
@@ -293,9 +314,13 @@ def check_ordinance_modifiers(modifiers_text, reform_text, effects_text):
         problems.append("hlc_crown_authority_reform removed_effect does not call hlc_clear_ordinances_effect")
     cleared = named_block(effects_text, "hlc_clear_ordinances_effect")
     for ordinance in ORDINANCES:
-        for needle in (f"clr_country_flag = hlc_{ordinance}_ordinance_active", f"remove_country_modifier = hlc_{ordinance}_ordinance_modifier"):
-            if needle not in cleared:
-                problems.append(f"hlc_clear_ordinances_effect lacks {needle}")
+        needle = f"remove_country_modifier = hlc_{ordinance}_ordinance_modifier"
+        if needle not in cleared:
+            problems.append(f"hlc_clear_ordinances_effect lacks {needle}")
+    for ordinance in LEGACY_FLAGGED:
+        needle = f"clr_country_flag = hlc_{ordinance}_ordinance_active"
+        if needle not in cleared:
+            problems.append(f"hlc_clear_ordinances_effect lacks {needle} (an older save still holds the flag)")
     cadastral = named_block(modifiers_text, "hlc_cadastral_ordinance_modifier")
     if "global_tax_modifier" not in cadastral or "nobles_loyalty_modifier = -" not in cadastral:
         problems.append("the cadastral ordinance must pay its tax bonus with noble loyalty")
@@ -363,41 +388,43 @@ def check_custom_attributes():
 
 def planted_violations(texts, sprites, images):
     """Break the sources in memory and make sure each break is seen."""
-    cossack = texts["chancery"].replace("GFX_rip_chancery_enact", "GFX_cossacks_ability_ADM", 1)
+    cossack = texts["chancery"].replace("GFX_rip_chancery_ordinance", "GFX_cossacks_ability_ADM", 1)
     mechanic = named_block(texts["chancery"], "hlc_austrian_reorganization_mechanic")
-    missing_rescind = texts["chancery"].replace(
-        named_block(named_block(mechanic, "interactions"), "hlc_rescind_cadastral_ordinance"), "", 1
+    missing_button = texts["chancery"].replace(
+        named_block(named_block(mechanic, "interactions"), "hlc_enact_frontier_ordinance"), "", 1
     )
-    toggled = texts["chancery"].replace("hlc_rescind_cadastral_ordinance = {", "hlc_x = {", 1)
     cases = {
         "vanilla icon back in the chancery": check_buttons("x", "hlc_austrian_reorganization_mechanic", 6, cossack, sprites),
-        "five buttons instead of six": check_buttons("x", "hlc_austrian_reorganization_mechanic", 6, missing_rescind, sprites),
-        "rescind row folded back into toggles": check_ordinance_layout(missing_rescind),
-        "rescind button under another name": check_ordinance_layout(toggled),
-        "rescind row before enact row": check_ordinance_layout(
+        "five buttons instead of six": check_buttons("x", "hlc_austrian_reorganization_mechanic", 6, missing_button, sprites),
+        "a button folded back out of the layout": check_ordinance_layout(missing_button),
+        "a rescind button under another name": check_ordinance_layout(
+            texts["chancery"].replace("hlc_enact_frontier_ordinance = {", "hlc_rescind_chancery_ordinance = {", 1)),
+        "rows in another order": check_ordinance_layout(
             texts["chancery"].replace("hlc_enact_cadastral_ordinance = {", "hlc_swap = {", 1)),
-        "rescind that leaves the flag set": check_ordinance_layout(
-            texts["chancery"].replace("clr_country_flag = hlc_cadastral_ordinance_active",
-                                      "set_country_flag = hlc_cadastral_ordinance_active", 1)),
-        "rescind that costs power": check_ordinance_layout(
-            texts["chancery"].replace("clr_country_flag = hlc_settlement_ordinance_active",
-                                      "adm_power_cost = 10\n\t\t\t\tclr_country_flag = hlc_settlement_ordinance_active", 1)),
-        "shared cooldown token dropped": check_ordinance_layout(
-            texts["chancery"].replace("cooldown_token = hlc_cadastral_ordinance", "cooldown_years = 5", 1)),
+        "two ordinances on one picture": check_ordinance_layout(
+            texts["chancery"].replace("GFX_rip_toleration_ordinance", "GFX_rip_urbarial_ordinance", 1)),
+        "shared cooldown token": check_ordinance_layout(
+            texts["chancery"].replace("cooldown_token = hlc_urbarial_ordinance", "cooldown_token = hlc_chancery_ordinance", 1)),
+        "no cooldown at all": check_ordinance_layout(
+            texts["chancery"].replace("cooldown_years = 10", "# nothing", 1)),
         "cooldown tooltip that names the button": check_ordinance_layout(
             texts["chancery"].replace("cooldown_desc = hlc_ordinance_cooldown_desc", "# nothing", 1)),
-        "raw flag name in an ordinance button": check_ordinance_layout(
+        "raw modifier name in an ordinance button": check_ordinance_layout(
             texts["chancery"].replace("tooltip = hlc_chancery_ordinance_not_in_force_tt", "tooltip = nothing", 1)),
-        "raw flag name in a rescind button": check_ordinance_layout(
-            texts["chancery"].replace("tooltip = hlc_chancery_ordinance_in_force_tt", "tooltip = nothing", 1)),
+        "an ordinance that never ends": check_ordinance_layout(
+            texts["chancery"].replace("name = hlc_toleration_ordinance_modifier\n\t\t\t\t\tduration = 3650", "name = hlc_toleration_ordinance_modifier\n\t\t\t\t\tduration = -1", 1)),
+        "an ordinance without the slot rule": check_ordinance_layout(
+            texts["chancery"].replace("hlc_ordinance_slot_free = yes", "always = yes", 1)),
         "estate without the appanage privilege": check_appanage_and_ruina(
             texts["estate"].replace("estate_nobles_hlc_strong_appanages", "estate_nobles_nothing"), texts["disaster"], texts["reform"]),
         "Ruina without its can_start guard": check_appanage_and_ruina(
             texts["estate"], texts["disaster"].replace("limit = { has_government_attribute = hlc_disables_chernihiv_ruina }", "limit = { always = no }"), texts["reform"]),
         "crown authority that leaves ordinances behind": check_ordinance_modifiers(
-            texts["modifiers"], texts["reform"], texts["effects"].replace("remove_country_modifier = hlc_cadastral_ordinance_modifier", "# nothing")),
+            texts["modifiers"], texts["reform"], texts["effects"].replace("remove_country_modifier = hlc_frontier_ordinance_modifier", "# nothing")),
         "crown authority that no longer clears them": check_ordinance_modifiers(
             texts["modifiers"], texts["reform"].replace("hlc_clear_ordinances_effect = yes", "# nothing"), texts["effects"]),
+        "an older save's flag left behind": check_ordinance_modifiers(
+            texts["modifiers"], texts["reform"], texts["effects"].replace("clr_country_flag = hlc_settlement_ordinance_active", "# nothing")),
         "raw council flag in the boyar republic": check_boyar_republic_tooltip(
             texts["kyiv"].replace("custom_trigger_tooltip", "hidden_trigger_x")),
         "Pany Rada button back on a vanilla Cossack icon": check_buttons(
@@ -408,6 +435,12 @@ def planted_violations(texts, sprites, images):
         "Pany Rada buttons wearing three sprites of other mechanics": check_rada_assignment(
             texts["rada"].replace("GFX_rip_rada_confirm", "GFX_rip_boyar_office").replace("GFX_rip_rada_lord", "GFX_rip_boyar_claimant")
             .replace("GFX_rip_rada_retinues", "GFX_rip_boyar_example")),
+        "a resolution button on a vanilla Cossack icon": check_buttons(
+            RESOLUTIONS_FILE, "rip_chancery_resolutions_mechanic", 2,
+            texts["resolutions"].replace("icon = GFX_rip_resolution_chancery_rights", "icon = GFX_cossacks_ability_DIP", 1), sprites),
+        "two resolution buttons on one picture": check_buttons(
+            RESOLUTIONS_FILE, "rip_register_resolutions_mechanic", 2,
+            texts["resolutions"].replace("icon = GFX_rip_resolution_register_settlement", "icon = GFX_rip_resolution_register_muster", 1), sprites),
     }
     # pixel cases: the Rada sprite is swapped for another picture in memory (skipped when a sprite is missing, which check_sprites reports)
     if all(name in images for name in ("GFX_rip_rada_lord", "GFX_rip_rada_retinues", "GFX_rip_senate_buyoff", "GFX_rip_senate_banners")):
@@ -428,13 +461,14 @@ def main():
         "effects": read("common/scripted_effects/rip_hlc_ordinance_effects.txt"),
         "kyiv": read("common/government_reforms/RIP_KIE_KRU_government_reforms.txt"),
         "rada": read(RADA_FILE),
+        "resolutions": read(RESOLUTIONS_FILE),
     }
     sprite_problems, sprites, images = check_sprites()
     problems = list(sprite_problems)
     mechanic_texts = []
-    for path, (mechanic, expected) in MECHANICS.items():
+    for path, mechanic, expected in MECHANICS:
         text = read(path)
-        mechanic_texts.append((text, (mechanic, expected)))
+        mechanic_texts.append((text, mechanic))
         problems += check_buttons(path, mechanic, expected, text, sprites)
     problems += check_ordinance_layout(texts["chancery"])
     problems += check_localisation(mechanic_texts)
@@ -453,8 +487,8 @@ def main():
         for problem in problems:
             print(f"  - {problem}")
         return 1
-    print(f"GOVERNMENT ABILITY ICONS CHECK: PASS (15 sprites, 15 buttons in 4 mechanics, 4 languages; {planted} planted violations caught)")
-    print("LIMIT: static contracts. The panels were checked by eye in EU4 1.37.5 on 2026-10-17 (see docs/RUTHENIAN_GOVERNMENT_UI.uk.md); no automated render test.")
+    print(f"GOVERNMENT ABILITY ICONS CHECK: PASS ({SPRITES} sprites, {SPRITES} buttons in {len(MECHANICS)} mechanics, 4 languages; {planted} planted violations caught)")
+    print("LIMIT: static contracts. Only the older panels were checked by eye in EU4 1.37.5 on 2026-10-17 (see docs/RUTHENIAN_GOVERNMENT_UI.uk.md); no automated render test.")
     if note:
         print(note)
     return 0
