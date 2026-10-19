@@ -1,0 +1,44 @@
+# Triggers of the Border Watch (common/government_mechanics/rip_border_watch.txt).
+
+# Country scope. The two reforms that carry the Watch: Pereiaslav's Border
+# Fortress Command and Podillia's Kamianets Fortress System (the Carpathian
+# path). Keyed on the reform, never on the tag, so the Watch survives PDL
+# becoming VOL or UKR and PRL becoming HET; the Podillian frontier path keeps
+# cossacks_mechanic and gets no second panel.
+rip_border_watch_held = {
+	OR = {
+		has_reform = prl_border_fortress_reform
+		has_reform = pdl_carpathian_bastion_reform
+	}
+}
+
+# Country scope. A steppe power. The same definition as the church layer's
+# rip_church_steppe_power (common/scripted_triggers/rip_church_policy_triggers.txt);
+# tests/check_border_watch.py fails when the two drift apart.
+rip_watch_steppe_power = {
+	OR = {
+		has_reform = steppe_horde
+		technology_group = nomad_group
+	}
+}
+
+# Province scope, ROOT is the owner of the Watch: a city with a province of a
+# steppe power next to it. These are the provinces events/SteppeRaiding.txt
+# (steppe_raid.2) picks as raid targets, so a Watch laid on them is a Watch the
+# raid protects. A realm that borders no steppe power has no exposed city and
+# the two local orders stay shut.
+rip_watch_exposed_province = {
+	is_city = yes
+	any_neighbor_province = {
+		owner = {
+			NOT = { tag = ROOT }
+			rip_watch_steppe_power = yes
+		}
+	}
+}
+
+# Province scope, as above, and no settled watch yet.
+rip_watch_unsettled_province = {
+	rip_watch_exposed_province = yes
+	NOT = { has_province_modifier = rip_settled_watch }
+}

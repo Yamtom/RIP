@@ -1,0 +1,20 @@
+# Effects of the Border Watch (common/government_mechanics/rip_border_watch.txt).
+
+# Country scope. The Watch is a right the reform gives: when the reform goes, the
+# patrols are called in and the posts, towers and settlements it laid on the land
+# are lifted, as the other reforms lift their local bonuses (rip_gov_clear_*_effect).
+# Costs are not refunded and the shared ten-year order cooldown is kept.
+rip_border_watch_clear_effect = {
+	if = {
+		limit = { has_country_modifier = rip_steppe_patrols }
+		remove_country_modifier = rip_steppe_patrols
+	}
+	every_owned_province = {
+		limit = { has_province_modifier = rip_watchtower_line }
+		remove_province_modifier = rip_watchtower_line
+	}
+	every_owned_province = {
+		limit = { has_province_modifier = rip_settled_watch }
+		remove_province_modifier = rip_settled_watch
+	}
+}
