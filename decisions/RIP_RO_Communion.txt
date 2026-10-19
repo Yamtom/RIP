@@ -5,8 +5,15 @@ country_decisions = {
    rip_church_ro_jurisdiction = yes is_year = 1589
    NOT = { has_country_flag = rip_church_ro_schismatic }
   }
-  allow = { rip_church_ro_can_break_communion = yes }
+  # Written out here: the shared gate rip_church_ro_can_break_communion was
+  # removed in fa1d6ee5, and rip_church_ro_choose_schism_effect charges
+  # nothing, so the price is paid by the decision itself.
+  allow = {
+   is_at_war = no stability = 1 dip_power = 100
+   NOT = { has_country_flag = rip_church_reconciliation_pending }
+  }
   effect = {
+   add_dip_power = -100 add_stability = -1
    rip_church_ro_choose_schism_effect = yes
   }
   ai_will_do = { factor = 0 }
