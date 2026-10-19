@@ -50,6 +50,7 @@ scripts = [
     "tests/check_church_gui_routes.py",
     "tests/check_church_balance_protocol.py",
     "tests/check_scripted_faith_links.py",
+    "tests/check_scope_iterators.py",
     "tests/check_culture_key_compatibility.py",
     "tests/check_cultural_authenticity.py",
     "tests/check_estate_layer.py",
