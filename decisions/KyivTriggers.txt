@@ -635,31 +635,6 @@ country_decisions = {
 		}
 	}
 
-	ruthenian_convene_court = {
-		major = yes
-		potential = {
-			tag = KRU
-			OR = {
-				has_reform = ruthenian_factional_empire_reform
-				has_reform = ruthenian_factional_empire_princes_hetmans_reform
-				has_reform = ruthenian_factional_empire_boyars_hetmans_reform
-			}
-			NOT = { has_dlc = "Res Publica" }
-			NOT = { has_country_modifier = KRU_factional_court_cooldown }
-		}
-		allow = {
-			stability = 1
-			is_at_war = no
-		}
-		effect = {
-			add_country_modifier = {
-				name = KRU_factional_court_cooldown
-				duration = 3650
-			}
-			country_event = { id = ruthenian_factions.1 days = 1 }
-		}
-	}
-
 	kyiv_convene_boyar_council = {
 		major = yes
 		potential = {

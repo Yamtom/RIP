@@ -579,6 +579,56 @@ def check_visible_language(failures: list[str]) -> None:
         require(failures, stale not in english, f"anachronistic or synthetic title remains: {stale}")
 
 
+MASCULINE_TITLE_WORDS = ("Voivode", "King", "Emperor", "Duke", "Prince", "Count", "Lord", "Hetman")
+
+
+def english_titles() -> dict[str, str]:
+    """Final English text per key: the later file name wins, carried mirrors are left out."""
+    files = sorted(
+        (
+            path
+            for path in (ROOT / "localisation").rglob("*_l_english.yml")
+            if "untranslated" not in path.name
+        ),
+        key=lambda path: path.name.lower(),
+    )
+    resolved: dict[str, str] = {}
+    for path in files:
+        entries = re.findall(
+            r'(?m)^ ([A-Za-z0-9_.\-]+):\d*\s+"(.*)"\s*$',
+            path.read_text(encoding="utf-8-sig"),
+        )
+        resolved.update(entries)
+    return resolved
+
+
+def check_feminine_titles(failures: list[str], text: str) -> None:
+    """A female ruler title may not keep the masculine word its male counterpart names.
+
+    The Renaissance Voivodeship (M7) gave a ruling queen "Voivode" and the Frontier
+    Host (PDL) "Hetmanka Voivode" while every other block pairs Voivode with Voivodessa.
+    A key that only vanilla defines is not in this checkout and is skipped.
+    """
+    resolved = english_titles()
+    for name in positions(text):
+        block = normalized(named_block(text, name))
+        male = re.search(r"ruler_male = \{ 1 = (\w+) 2 = (\w+) 3 = (\w+) \}", block)
+        female = re.search(r"ruler_female = \{ 1 = (\w+) 2 = (\w+) 3 = (\w+) \}", block)
+        if not (male and female):
+            continue
+        for rank, (male_key, female_key) in enumerate(zip(male.groups(), female.groups()), 1):
+            male_title, female_title = resolved.get(male_key), resolved.get(female_key)
+            if male_title is None or female_title is None:
+                continue
+            for word in MASCULINE_TITLE_WORDS:
+                if re.search(rf"\b{word}\b", male_title):
+                    require(
+                        failures,
+                        re.search(rf"\b{word}\b", female_title) is None,
+                        f"{name} rank {rank}: female title '{female_title}' keeps the masculine '{word}' of '{male_title}'",
+                    )
+
+
 def main() -> int:
     failures: list[str] = []
     text = read(NAMES_PATH)
@@ -587,6 +637,7 @@ def main() -> int:
     check_rank_reachability(failures)
     check_reform_balance_and_lifecycle(failures)
     check_visible_language(failures)
+    check_feminine_titles(failures, text)
 
     if failures:
         print("GOVERNMENT NAME CHECK: FAIL")

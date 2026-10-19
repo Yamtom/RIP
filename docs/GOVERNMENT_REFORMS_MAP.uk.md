@@ -529,6 +529,8 @@ flowchart LR
 `grand_duchy_reform` є навмисним version-sensitive override ванільного ID і
 має повторно звірятися після зміни підтримуваної версії EU4.
 
+Унія й Великий сейм виключають одне одного — див. «Взаємовиключність асамблей».
+
 ## PRL / ODS
 
 ### PRL
@@ -588,6 +590,12 @@ flowchart LR
   `hlc_crown_and_sejm_reform`, `vln_grand_ruthenia_reform`,
   `uzh_palatial_ruthenian_reform` і `legislative_rada_reform` не складаються з ванільними
   `parliamentary_reform` та `assembly_houses_reform`.
+- `lit_grand_diet_reform` (M6, сейм Великого князівства, що «сидить окремо від сейму
+  Корони») стоїть у тому самому наборі, що й `lit_union_of_two_nations_reform`
+  («один сейм»): інакше Литва тримала б унію разом з окремим сеймом, тобто два
+  парламенти. Рішення `lit_hold_the_union_on_our_terms` додає унію скриптом, тому
+  перед цим знімає `lit_grand_diet_reform`; результат не залежить від того, чи рушій
+  звіряє скриптове `add_government_reform` з `exclusive_reforms` (у грі не перевірено).
 - У республіці R1-віче та асамблеї CHR (`siversk_veche_reform`,
   `chr_desna_staple_reform`, `chr_town_union_reform`,
   `chr_rada_of_lands_reform`, `kyivan_veche_reform` і капітанський сойм

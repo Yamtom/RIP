@@ -1,3 +1,34 @@
+> **Оновлення 18 жовтня 2026 (зауваження аудиту реформ, злиття з `main`):** той самий перелік
+> виправлень паралельно виконано на `main`, тож злиття взяло звідти все, що там уже було: тир M8 для
+> `merchant_nobility_reform` і `open_trading_ports_reform` (компаратори `jap_gokaido_reform` та
+> `thalassocracy_reform`), чистку `exclusive_reforms` у `republic` і ширший парламентський набір.
+> Унікальне з цієї гілки: (1) видалено рішення-зомбі `ruthenian_convene_court` разом з подіями
+> `ruthenian_factions.1/.2`, хуком `on_yearly_pulse`, чотирма модифікаторами двору й текстами: воно
+> давало безкоштовно +50 ADM/MIL, які кнопки двору коштують (лишилась тільки прихована
+> `ruthenian_factions.20`); (2) позначка «Speculative Alternate History» в описах Kyivan Seniorate і
+> Kyivan Cesarstvo та рішень `kyiv_shogunate_path` і `kyiv_cesarstvo_path`; (3) `lit_grand_diet_reform`
+> стоїть у парламентському наборі поряд з `lit_union_of_two_nations_reform`, а рішення
+> `lit_hold_the_union_on_our_terms` знімає Великий сейм перед додаванням унії, щоб результат не залежав
+> від того, як рушій звіряє скриптове `add_government_reform` з `exclusive_reforms` (у грі не
+> перевірено); (4) жіночий титул `HETMANKA_VOIVODE` тепер «Hetmanka Voivodessa», а
+> `check_government_names.py` стежить, щоб жіночий титул не зберігав чоловічого слова; (5)
+> `check_government_reviews.py` читає файли мода як UTF-8, а встановлену ваніль через `vanilla_text`
+> (UTF-8, інакше `cp1252`: скрипт гри збережено у Windows-1252); (6) фікстуру реформ перегенеровано (153 варіанти,
+> разом з п'ятьма реформами «віри та кордонів» і `rip_hetman_cossacks_reform`). Гейт на злитому дереві
+> (`main` на `c0115a6f`) у середовищі без встановленої EU4: 73 перевірки, ті самі 12 червоних, що й на
+> чистому `main` (`check_ro_history`, `check_old_believers`, `check_culture_key_compatibility`,
+> `check_event_modifier_layer`, `check_government_reforms`, `check_government_reform_fixture`,
+> `check_government_reviews`, `check_government_status_ui`, `check_hlc_ordinances`, `check_script_layer`,
+> `check_parliament_names`, `check_podillia_border_policy`), нових немає. Три з них
+> (`check_event_modifier_layer`: зайві нулі в `rip_regional_government_modifiers.txt`; `check_script_layer`:
+> чотири ERROR про дублі ключів `pdl_border_policy.1.*` між `RIP_l_english.yml` і
+> `zzz_rip_regional_governments_l_english.yml`; `check_podillia_border_policy`) стали червоними від
+> `c0115a6f`, не від цієї гілки. Дві державні перевірки червоні через п'ять реформ
+> `chr_vetka_asylum_reform`, `hlc_stauropegion_brotherhood_reform`, `pdl_kamianets_concordat_reform`,
+> `plt_sophian_autonomy_reform` і `zaz_orthodox_knighthood_reform`: їх ще немає в карті реформ,
+> інвентарі автентичності й у `EXPECTED_REFORM_COUNT`. Фікстура тепер падає лише через її встановлену
+> копію в `events/` і `localisation/` (з прибраними копіями перевірка проходить).
+>
 > **Оновлення 18 жовтня 2026 (кнопки церковних вікон і реєстр святих міст):** прибрано два
 > значки, що лежали поверх заголовка «Defender of the Faith»: хрестик-перемикач вікна Унії в
 > УГКЦ (`rip_church_gc_window_toggle`, `GFX_closebutton2`) і медальйон реєстру в нативному вікні

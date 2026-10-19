@@ -39,6 +39,16 @@ def parse(text):
     return dict(block())
 
 
+def vanilla_text(path):
+    """Script of the installed game. EU4 ships Windows-1252; UTF-8 is tried first, as for
+    the mod's own files, so that an install somebody re-saved as UTF-8 still reads."""
+    raw = path.read_bytes()
+    try:
+        return raw.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        return raw.decode("cp1252")
+
+
 TRIGGERS = parse(read("common/scripted_triggers/rip_government_review_triggers.txt"))
 EFFECTS = parse(read("common/scripted_effects/rip_government_review_effects.txt"))
 FAMILIES = {
@@ -189,7 +199,7 @@ def vanilla_envelopes():
         print("SKIP government numeric comparators: target EU4 1.37 installation unavailable")
         return
     own = "\n".join(p.read_text(encoding="utf-8-sig") for p in (ROOT / "common/government_reforms").glob("*.txt"))
-    native = "\n".join(p.read_text(encoding="utf-8-sig") for p in (installed / "common/government_reforms").glob("*.txt"))
+    native = "\n".join(vanilla_text(p) for p in (installed / "common/government_reforms").glob("*.txt"))
     pairs = (
         ("chr_prykaz_tsardom_reform", "tsardom", {"global_unrest": 1}),
         ("rip_cossacks_reform", "cossacks_reform", {}),
@@ -247,9 +257,9 @@ def comparator_coverage():
     native_tiers = None
     native_definitions = set()
     if installed:
-        native_tiers = reform_tiers((installed / "common/governments/00_governments.txt").read_text(encoding="utf-8-sig"))
+        native_tiers = reform_tiers(vanilla_text(installed / "common/governments/00_governments.txt"))
         for path in (installed / "common/government_reforms").glob("*.txt"):
-            native_definitions.update(re.findall(r"^([a-z0-9_]+)\s*=\s*\{", path.read_text(encoding="utf-8-sig"), re.M))
+            native_definitions.update(re.findall(r"^([a-z0-9_]+)\s*=\s*\{", vanilla_text(path), re.M))
     count = 0
     for reform, row in rows.items():
         expected_tiers = own_tiers[reform]
