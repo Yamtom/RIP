@@ -1,0 +1,44 @@
+error.log of the three groups: baseline (HEAD c0115a6f) against the tree with the fixes
+Same mod tree except the three changed files; same probe mod; 1444.11.11 + 360 game days; EU4 1.37.5.
+
+error.log lines: head 55574 (distinct 150), fix 41843 (distinct 126), shift 44771 (distinct 126)
+first baseline run (an earlier edition of the probe): 57938 lines, distinct 151
+distinct lines only in head: 25
+distinct lines only in fix, against the final baseline run: 1
+distinct lines in fix that NEITHER baseline run has: 0
+distinct lines in shift (date-shifted test copy) that neither baseline run has: 0
+
+[1 decisions/RIP_RO_Communion.txt] lines matching in head: 2, in fix: 0, in shift: 0
+[2 decisions/GreekCatholicDecisions.txt] lines matching in head: 15, in fix: 0, in shift: 0
+[3 events/RIP_OrthodoxAuthority.txt] lines matching in head: 4, in fix: 0, in shift: 0
+
+=== distinct lines that only the baseline writes (verbatim) ===
+[persistent.cpp:88]: Parsing Errors. File: "decisions/GreekCatholicDecisions.txt", Error:
+  [0]: Unknown trigger type. Key: any_allied_country: any_allied_country, near line: 86
+  [1]: Failed to create trigger: }, near line: 86
+  Last good read: factor=2
+  [0]: Unknown trigger type. Key: modifier: modifier, near line: 87
+  [1]: Failed to create trigger: }, near line: 90
+[meantimetohappen.cpp:188]: unknown command '{' for MTTH in file decisions/GreekCatholicDecisions.txt line : 102
+[meantimetohappen.cpp:188]: unknown command '{' for MTTH in file decisions/GreekCatholicDecisions.txt line : 103
+[meantimetohappen.cpp:188]: unknown command '{' for MTTH in file decisions/GreekCatholicDecisions.txt line : 104
+[meantimetohappen.cpp:188]: unknown command 'rip_once_greek_catholic_education_decision' for MTTH in file decisions/GreekCatholicDecisions.txt line : 104
+[persistent.cpp:88]: Parsing Error. File: "decisions/GreekCatholicDecisions.txt", Error: Unexpected token: rip_church_union_supporter, near line: 105, Last good read: has_country_flag=rip_once_greek_catholic_education_decision
+[persistent.cpp:88]: Parsing Error. File: "decisions/GreekCatholicDecisions.txt", Error: Unexpected token: NOT, near line: 106, Last good read: has_country_flag=rip_once_greek_catholic_education_decision
+[persistent.cpp:88]: Parsing Error. File: "decisions/GreekCatholicDecisions.txt", Error: Unexpected token: any_owned_province, near line: 107, Last good read: has_country_flag=rip_once_greek_catholic_education_decision
+[persistent.cpp:88]: Parsing Error. File: "decisions/GreekCatholicDecisions.txt", Error: Unexpected token: rip_uc_can_found_schools, near line: 111
+[persistent.cpp:88]: Parsing Error. File: "decisions/GreekCatholicDecisions.txt", Error: Unexpected token: custom_tooltip, near line: 117
+[persistent.cpp:88]: Parsing Error. File: "decisions/GreekCatholicDecisions.txt", Error: Unexpected token: hidden_effect, near line: 118
+[persistent.cpp:88]: Parsing Error. File: "decisions/GreekCatholicDecisions.txt", Error: Unexpected token: factor, near line: 124
+[decision.cpp:295]: Corrupt Decision Table Entry - patronize_greek_catholic_culture_decision in decisions/GreekCatholicDecisions.txt line:128
+[persistent.cpp:88]: Parsing Errors. File: "decisions/RIP_RO_Communion.txt", Error:
+  [0]: Unknown trigger type. Key: rip_church_ro_can_break_communion: rip_church_ro_can_break_communion, near line: 8
+  [1]: Failed to create trigger: yes, near line: 8
+[eventmanager.cpp:166]: Event #21500001 (rip_ro_authority.1) is missing a title in events/RIP_OrthodoxAuthority.txt
+[eventmanager.cpp:169]: Event #21500001 (rip_ro_authority.1) is missing a desc in events/RIP_OrthodoxAuthority.txt
+[eventmanager.cpp:172]: Event #21500001 (rip_ro_authority.1) has no options in events/RIP_OrthodoxAuthority.txt
+[eventmanager.cpp:175]: Event #21500001 (rip_ro_authority.1) is missing picture in events/RIP_OrthodoxAuthority.txt
+
+=== distinct lines the tree with the fixes writes and the FINAL baseline run does not (verbatim) ===
+[triggerimplementation.cpp:16808]: Script error! Script Object Token: "has_province_flag", Error: Trigger condition set on the wrong scope: Scope.GetProvince()
+(that line is run-to-run noise: the first baseline run has it too)
