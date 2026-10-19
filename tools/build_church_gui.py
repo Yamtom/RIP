@@ -49,10 +49,11 @@ def text(name,x,y,w=440,h=42,font='vic_18',align='left',tip=True):
  name = "{name}" scripted = yes position = {{ x={x} y={y} }} font = "{font}"
  text = "{name}" maxWidth = {w} maxHeight = {h} format = {align}
 }}'''
-def button(name,x,y,trigger,effect,potential='always = yes',sprite='GFX_standard_button_224',frame=None,label=True,tooltip=None,scale=None):
+# No scale parameter on purpose: EU4 1.37.5 ignores `scale` on a button whose sprite is a textSpriteType (button_type_8 and every
+# GFX_standard_button_N), so a narrowed one stays at full width. Measured in the game on 2026-10-18; choose a sprite of the width needed.
+def button(name,x,y,trigger,effect,potential='always = yes',sprite='GFX_standard_button_224',frame=None,label=True,tooltip=None):
     frame_clause='' if frame is None else f' frame = {{ number = {frame} trigger = {{ always = yes }} }}'
     tooltip_key=tooltip or name+'_tt'
-    scale_clause='' if scale is None else f' scale = {scale}'
     button_label=label if isinstance(label,str) else name if label else ''
     defs.append(f'''custom_button = {{
  name = {name} potential = {{ {potential} }} trigger = {{ {trigger} }}
@@ -60,7 +61,7 @@ def button(name,x,y,trigger,effect,potential='always = yes',sprite='GFX_standard
 }}''')
     return f'''guiButtonType = {{
  name = "{name}" scripted = yes position = {{ x={x} y={y} }}
- quadTextureSprite = "{sprite}" buttonText = "{button_label}" buttonFont = "vic_18"{scale_clause}
+ quadTextureSprite = "{sprite}" buttonText = "{button_label}" buttonFont = "vic_18"
 }}'''
 
 def feature_button(name,x,y,trigger,effect,sprite='GFX_standard_button_71',frame=None,label=False,scale=1):
@@ -205,9 +206,11 @@ for i,(key,sprite) in enumerate((
 )):
     tile_x=34+i*(RO_TILE_W+RO_ARROW_W)
     tile=art(f'rip_church_ro_{key}_symbol',sprite,4,4,0.28)
-    tile+=text(f'rip_church_ro_{key}_label',18,4,w=96,h=16,font='vic_14',align='left')
-    tile+=text(f'rip_church_ro_{key}_value',4,20,w=109,h=20,font='vic_18',align='center')
-    tile+=text(f'rip_church_ro_{key}_sub',4,43,w=109,h=16,font='vic_14',align='center')
+    # vic_18 throughout: EU4 1.37.5 declares no vic_14 and logs "No font with name vic_14" for every box that names it. A vic_18
+    # line is 18px, so the label box is 18 high and the value and sub boxes sit 2px lower than they did at vic_14.
+    tile+=text(f'rip_church_ro_{key}_label',18,4,w=96,h=18,font='vic_18',align='left')
+    tile+=text(f'rip_church_ro_{key}_value',4,22,w=109,h=20,font='vic_18',align='center')
+    tile+=text(f'rip_church_ro_{key}_sub',4,44,w=109,h=18,font='vic_18',align='center')
     ro+=card(f'rip_church_ro_{key}_tile',tile_x,RO_TILE_Y,RO_TILE_W,RO_TILE_H,tile)
     if i<2:
         ro+=art(f'rip_church_ro_cycle_arrow_{i}','GFX_rip_church_ro_cycle_arrow',
@@ -243,22 +246,25 @@ for i,k in enumerate(('war','mercy','building','mission')):
     if k == 'building':
         # Spell out that the discount covers all building categories; the
         # second line uses the unused space below the single construction icon.
-        policy+=text(f'rip_church_icon_{k}_benefit_second',112,55,w=118,h=18,font='vic_14',align='left')
+        policy+=text(f'rip_church_icon_{k}_benefit_second',112,55,w=118,h=18,font='vic_18',align='left')
     else:
         policy+=text(f'rip_church_icon_{k}_benefit_second',188,33,w=40,h=22,font='vic_18',align='left')
     ro+=card('rip_church_ro_'+k+'_card',x,y,RO_CARD_W,RO_CARD_H,policy)
 ro+=button('rip_church_nodes_button',34,RO_BUTTON_Y,'rip_church_ro_can_open_network_menu = yes',
            'country_event = { id = rip_church_nodes.1 }',sprite='button_type_8')
-# The corner belongs to the Holy Cities Register medallion, so the schism action sits between the node
-# button (x34..223) and the medallion (x412..458), at 0.85 scale: x229..390.
-ro+=button('rip_church_reconcile_button',229,RO_BUTTON_Y,'rip_church_can_reconcile = yes',
+# The bottom-right corner belongs to the Holy Cities Register tile (x412..458). The schism action sits between the node button
+# (x34..223) and the tile: the 105px standard button, six pixels clear of the tile (x301..406). It cannot be a narrowed
+# button_type_8: EU4 ignores `scale` on a textSpriteType button, so the 0.85-scale version of this button was drawn at its full
+# 189px (x229..418) and ran under the tile when the window was first opened in the game.
+HOLY_OPEN_X,HOLY_OPEN_Y=412,496
+RECONCILE_W=105
+ro+=button('rip_church_reconcile_button',HOLY_OPEN_X-6-RECONCILE_W,RO_BUTTON_Y,'rip_church_can_reconcile = yes',
            'rip_church_ro_begin_reconciliation_effect = yes',
-           'has_country_flag = rip_church_ro_schismatic',sprite='button_type_8',scale=0.85)
+           'has_country_flag = rip_church_ro_schismatic',sprite='GFX_standard_button_105')
 # Holy Cities Register: a tile in the bottom-right corner with the Russian Orthodox cross (religion
 # frame 30) laid over it. It used to be the vanilla Coptic blessing tile at the top right, which read
 # as a close button, and a second copy of it covered the Defender of the Faith header in the native
 # window. The tile is the clickable face; the cross is decoration and takes no clicks.
-HOLY_OPEN_X,HOLY_OPEN_Y=412,496
 ro+=f'guiButtonType = {{ name = "rip_ro_holy_cities_open" scripted = yes position = {{ x={HOLY_OPEN_X} y={HOLY_OPEN_Y} }} quadTextureSprite = "GFX_rip_church_ro_holy_tile" scale = 0.8 }}'
 ro+=f'iconType = {{ name = "rip_ro_holy_cities_open_symbol" scripted = yes spriteType = "GFX_country_icon_religion" position = {{ x={HOLY_OPEN_X+7} y={HOLY_OPEN_Y+7} }} scale = 0.5 alwaystransparent = yes }}'
 defs.append('custom_icon = { name = rip_ro_holy_cities_open_symbol potential = { always = yes } frame = { number = 30 trigger = { always = yes } } }')

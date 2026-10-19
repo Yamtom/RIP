@@ -210,6 +210,11 @@ loc = dict(re.findall(r'^ ([\w.]+):\d+ "(.*)"$', generated_loc, re.M))
 loc.update(re.findall(r'^ ([\w.]+):\d+ "(.*)"$', site_localisation, re.M))
 visible = lambda text: re.sub(r'§.', '', text)
 
+# EU4 1.37.5 reads an upper-case ROOT in a localisation command as an event target named 'ROOT', does not find it and logs three
+# lines (undefined non-dynamic flag, undefined event target, undefined monarch/heir) for every such string on every frame it is
+# drawn: with the register open error.log grew by about 0.2 MB a second. Written [Root.GetX] it is the scope keyword.
+assert not [key for key, value in loc.items() if '[ROOT.' in value], 'a church or register string uses [ROOT.]; write [Root.]'
+
 world = World()
 owner = world.country('MOS', 'russian_orthodox')
 row_limit = 34 + 407
@@ -263,8 +268,8 @@ for city, province in (
     progress_tip = f'rip_ro_holy_city_{city}_myth_progress_tt'
     assert dict(bindings['custom_icon', f'rip_ro_holy_city_{city}_myth_bar'])['tooltip'] == progress_tip
     assert dict(bindings['custom_text_box', f'rip_ro_holy_city_{city}_myth_progress'])['tooltip'] == progress_tip
-    assert loc[f'rip_ro_holy_city_{city}_myth_progress'] == f'[ROOT.GetRipRoMythYears{city.title()}] / 30 years'
-    assert f'[ROOT.GetRipRoMythYears{city.title()}]' in loc[progress_tip]
+    assert loc[f'rip_ro_holy_city_{city}_myth_progress'] == f'[Root.GetRipRoMythYears{city.title()}] / 30 years'
+    assert f'[Root.GetRipRoMythYears{city.title()}]' in loc[progress_tip]
 
     # Blessing: the two modifier icons of the myth, dimmed by a veil until it matures, then glowing.
     for slot, effect in enumerate(myths[city]):

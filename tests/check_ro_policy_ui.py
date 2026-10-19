@@ -176,7 +176,7 @@ for policy in ('war', 'mercy', 'building', 'mission'):
     assert controls['custom_icon', f'rip_church_{policy}_active_frame']['potential'] == [('has_country_flag', f'rip_church_icon_{policy}')]
     for suffix in ('label', 'benefit', 'benefit_second', 'state'):
         label, _ = widget('instantTextBoxType', f'rip_church_icon_{policy}_{suffix}', children)
-        expected_font = 'vic_14' if policy == 'building' and suffix == 'benefit_second' else 'vic_18'
+        expected_font = 'vic_18'            # vic_14 is not declared by EU4 1.37.5
         assert label['font'] == expected_font
         assert label['scripted'] == 'yes'
     cases += 1
