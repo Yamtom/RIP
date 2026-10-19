@@ -1,25 +1,4 @@
-# HLC and VLN - the western lands.
-# Merged from west_ukraine_government_on_actions.txt, west_ukraine_mission_refresh_on_actions.txt.
-
-on_startup = {
-	hlc_ordinance_sweep_effect = yes
-	pdl_migrate_legacy_galician_union_effect = yes
-	pdl_reconcile_base_reform_effect = yes
-	vln_reconcile_base_reform_effect = yes
-}
-
-on_yearly_pulse = {
-	events = {
-		west_ukraine_missions.1
-	}
-	# Self-healing sweep for the Chancery Ordinances
-	# (common/scripted_effects/rip_hlc_ordinance_effects.txt): clears the
-	# flags and modifiers of a country that holds them without the crown
-	# authority, which removed_effect cannot see after a tag or government
-	# change. Written to cost next to nothing for any other country.
-	hlc_ordinance_sweep_effect = yes
-}
-
+# RIP - HLC. Crown Chancery Ordinances.
 # hlc_austrian_reorganization_mechanic's Settlement Ordinance
 # (common/government_mechanics/rip_hlc_austrian_reorganization.txt): while
 # enacted, a manual culture conversion steadies the nobles - once a year, and
@@ -42,6 +21,14 @@ on_yearly_pulse = {
 # `owner`), and vanilla fires it only for a MANUAL conversion ("province,
 # manually conversion"; conversion by an effect fires on_province_culture_
 # changed). tests/check_hlc_ordinances.py keeps all of this from drifting.
+on_startup = {
+	hlc_ordinance_sweep_effect = yes
+}
+
+on_yearly_pulse = {
+	hlc_ordinance_sweep_effect = yes
+}
+
 on_province_culture_converted = {
 	hlc_settlement_ordinance_conversion_effect = yes
 }

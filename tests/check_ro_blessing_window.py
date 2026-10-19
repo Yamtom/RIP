@@ -72,7 +72,7 @@ for name in ('sobor_of_war', 'sobor_of_the_market', 'sobor_of_the_canons'):
     assert payload(named_block(retired, 'effect')) == {'discipline': 0}
 for _, blessing in keyed_blocks(read('common/church_aspects/RIP_ro_holy_blessings.txt'), 'modifier'):
     assert payload(blessing) == {'discipline': 0}
-hooks = read('common/on_actions/russian_orthodox_on_actions.txt')
+hooks = read('common/on_actions/RIP_religion_russian_orthodox_on_actions.txt')
 assert 'rip_ro_icon_upkeep_effect = yes' in named_block(hooks, 'on_startup')
 assert 'rip_ro_icon_upkeep_effect = yes' in named_block(hooks, 'on_religion_change')
 assert 'country_event =' not in read('events/RIP_OrthodoxAuthority.txt').split('immediate =')[1]
@@ -90,7 +90,7 @@ church_readouts = read('customizable_localization/rip_church_redesign.txt')
 generated_loc = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
 modifiers = read('common/event_modifiers/RIP_faith_modifiers.txt')
 pulse_effects = read('common/scripted_effects/rip_ro_holy_cities_effects.txt')
-hooks = read('common/on_actions/russian_orthodox_on_actions.txt')
+hooks = read('common/on_actions/RIP_religion_russian_orthodox_on_actions.txt')
 
 assert 'custom_window = { name = rip_ro_holy_cities_panel potential = { rip_church_ro_jurisdiction = yes has_country_flag = rip_ro_holy_city_register_open } }' in controls
 assert 'custom_window = { name = rip_church_ro_panel potential = { rip_church_ro_jurisdiction = yes NOT = { has_country_flag = rip_church_ro_window_hidden } NOT = { has_country_flag = rip_ro_holy_city_register_open } } }' in controls

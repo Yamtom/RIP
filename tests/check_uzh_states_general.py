@@ -466,7 +466,7 @@ def main():
         "events": read("events/PalanokFortress.txt"),
         "missions": read("missions/Zakarpatta_Missions.txt"),
         "effects": read(EFFECT_FILE),
-        "onaction": read("common/on_actions/00_on_actions.txt"),
+        "onaction": read("common/on_actions/RIP_UZH_on_actions.txt"),
     }
     loc = {language: loc_keys(language) for language in LANGUAGES}
     envelope = vanilla_side_modifiers()

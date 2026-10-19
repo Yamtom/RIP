@@ -348,7 +348,7 @@
 ### Файли / Files
 - **Події / Events**: `events/KyivDnieperHistorical.txt`
 - **Модифікатори / Modifiers**: `common/event_modifiers/kyiv_dnieper_modifiers.txt`
-- **Підключення подій**: `common/on_actions/kyiv_dnieper_on_actions.txt`
+- **Підключення подій**: `common/on_actions/RIP_KIE_on_actions.txt`
 - **Локалізація / Localization**: 
   - `localisation/kyiv_dnieper_l_english.yml`
   - ~~`localisation/kyiv_dnieper_l_ukrainian.yml`~~ - не існує, лише планувався

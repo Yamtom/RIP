@@ -51,7 +51,9 @@ if game:
     native = (game/'common/on_actions/00_on_actions.txt').read_text(encoding='utf-8-sig')
     actual = read('common/on_actions/00_on_actions.txt')
     hook_line = 'uzh_sg_war_won_effect = yes'
-    assert actual.count(hook_line) == 1 and hook_line in named_block(actual, 'on_war_won')
+    uzh = read('common/on_actions/RIP_UZH_on_actions.txt')
+    assert actual.count(hook_line) == 0 and uzh.count(hook_line) == 1
+    assert hook_line in named_block(uzh, 'on_war_won')
     # Compare tokens: comments and trailing whitespace are not script changes.
     from clausewitz_testlib import normalized
     assert normalized(actual.replace(hook_line, '')) == normalized(native.replace('FROM = { economic_ideas = 3 }', 'owner = { economic_ideas = 3 }'))

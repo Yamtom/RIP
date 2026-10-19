@@ -12,7 +12,7 @@ lifecycle = read('common/scripted_effects/rip_church_lifecycle_effects.txt')
 religion_events = read('events/UniateChurch.txt')
 union_decisions = read('decisions/GreekCatholicDecisions.txt')
 crown_effect = read('common/scripted_effects/rip_uniate_crown_effects.txt')
-on_actions = read('common/on_actions/greek_catholic_on_actions.txt')
+on_actions = read('common/on_actions/RIP_religion_greek_catholic_on_actions.txt')
 religion = read('common/religions/zz_greek_catholic.txt')
 
 # Greek Catholic provinces should resist conversion, matching the vanilla

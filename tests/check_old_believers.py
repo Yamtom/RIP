@@ -460,7 +460,7 @@ assert not w.gate(backlash, c), 'settlement stops further Old Believer risings'
 cases += 1
 
 # --- 11. wiring -------------------------------------------------------------
-hooks = read('common/on_actions/rip_old_believer_on_actions.txt')
+hooks = read('common/on_actions/RIP_religion_old_believer_on_actions.txt')
 for hook in ('on_startup', 'on_yearly_pulse', 'on_religion_change'):
     assert 'rip_ob_upkeep_effect = yes' in named_block(hooks, hook), hook
 history = read('common/scripted_effects/rip_church_ro_history_effects.txt')
@@ -468,7 +468,7 @@ assert 'rip_ob_begin_schism_effect = yes' in named_block(history, 'rip_church_ro
 assert 'rip_ob_' not in named_block(history, 'rip_church_ro_ritual_compromise_effect'), 'a compromise founds no community'
 for path in ('common/scripted_effects/rip_old_believer_effects.txt', 'common/scripted_triggers/rip_old_believer_triggers.txt',
              'common/event_modifiers/rip_old_believer_modifiers.txt', 'events/RIP_OldBelievers.txt',
-             'decisions/RIP_OldBelievers.txt', 'common/on_actions/rip_old_believer_on_actions.txt'):
+             'decisions/RIP_OldBelievers.txt', 'common/on_actions/RIP_religion_old_believer_on_actions.txt'):
     text = read(path)
     assert 'add_opinion' not in text, path + ': add_opinion is dropped inside else_if/else bodies of scripted effects'
     assert not re.search(r'\belse(_if)?\s*=', text), path + ': else/else_if is the trap the engine measured; use exclusive ifs'

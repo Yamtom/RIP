@@ -26,6 +26,9 @@ def outputs(game):
     assert text.count(old) == 1, 'Re-audit native trade-good hook after game update'
     # Trade-good setup may have no originating country; use the province owner.
     text = text.replace(old, 'owner = { economic_ideas = 3 }')
+    # Preserve the clean separator at the relocated UZH hook.
+    text = text.replace('\n\t\n\tFROM = { country_event = { id = flavor_cri.6 } }',
+                        '\n\n\tFROM = { country_event = { id = flavor_cri.6 } }')
     yield path, text
 
 

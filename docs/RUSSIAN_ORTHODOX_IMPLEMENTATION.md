@@ -86,7 +86,7 @@ RIP Mod/
 │   ├── scripted_effects/
 │   │   └── russian_orthodox_effects.txt            [15 ефектів]
 │   └── on_actions/
-│       └── russian_orthodox_on_actions.txt         [підключення подій]
+│       └── RIP_religion_russian_orthodox_on_actions.txt         [підключення подій]
 ├── events/
 │   └── RussianOrthodox.txt                         [17 подій]
 ├── decisions/
@@ -342,11 +342,11 @@ russian_orthodox = {
 
 ---
 
-### 9. Підключення через on_actions (`common/on_actions/russian_orthodox_on_actions.txt`)
+### 9. Підключення через on_actions (`common/on_actions/RIP_religion_russian_orthodox_on_actions.txt`)
 
 **Будова:**
 > Шаблон прибрано: це загальний синтаксис EU4, а не щось
-> специфічне для мода. Чинні on_actions дивіться в `common/on_actions/russian_orthodox_on_actions.txt`.
+> специфічне для мода. Чинні on_actions дивіться в `common/on_actions/RIP_religion_russian_orthodox_on_actions.txt`.
 
 **Точки підключення:**
 

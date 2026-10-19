@@ -57,7 +57,7 @@
 
 ## Як рахується 25 років
 
-`on_startup` і `on_yearly_pulse` (`rip_capital_loss_on_actions.txt`) викликають
+`on_startup` і `on_yearly_pulse` (`RIP_shared_capital_loss_on_actions.txt`) викликають
 `rip_namesake_seat_upkeep_effect`. Він ставить прапорець
 `rip_namesake_seat_lost`, коли держава з таблиці не володіє своєю провінцією,
 і знімає його, щойно вона знову нею володіє. Рішення вмикає

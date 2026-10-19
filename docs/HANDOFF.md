@@ -480,7 +480,7 @@
 
 > **Оновлення 2026-09-11 (третя хвиля):** динамічні назви Козацьких Військ —
 > `common/scripted_effects/rip_cossack_host_naming_effects.txt` +
-> `common/on_actions/rip_cossack_host_naming_on_actions.txt` перевіряють
+> `common/on_actions/RIP_shared_cossack_naming_on_actions.txt` перевіряють
 > `is_cossack_polity` на старті, щороку й при зміні уряду; будь-яка держава з
 > будь-якою козацькою реформою (не лише ZAZ/KHK/IZM/OKH/SMY) отримує назву
 > «... Host» через `override_country_name`, а втративши реформу — повертає

@@ -174,7 +174,7 @@ for tag in ('CHR', 'PLT'):
 cases += 1
 
 # --- 6. wiring ----------------------------------------------------------------
-hooks = read('common/on_actions/rip_capital_loss_on_actions.txt')
+hooks = read('common/on_actions/RIP_shared_capital_loss_on_actions.txt')
 for hook in ('on_startup', 'on_yearly_pulse'):
     assert re.search(hook + r'\s*=\s*\{\s*rip_namesake_seat_upkeep_effect = yes\s*\}', hooks), hook
 lost = read('common/scripted_triggers/rip_capital_loss_triggers.txt')

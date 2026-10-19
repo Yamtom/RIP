@@ -1981,7 +1981,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     normalized_migration = normalized(
         migration + read("common/scripted_effects/vln_government_effects.txt")
     )
-    startup = normalized(read("common/on_actions/west_ukraine_on_actions.txt"))
+    startup = normalized(read("common/on_actions/RIP_HLC_on_actions.txt") + read("common/on_actions/RIP_PDL_on_actions.txt") + read("common/on_actions/RIP_VLN_on_actions.txt"))
     for effect in ("pdl_reconcile_base_reform_effect", "vln_reconcile_base_reform_effect"):
         require(
             failures,
@@ -2118,7 +2118,7 @@ def check_linked_lifecycle(failures: list[str]) -> None:
     het_reforms = read("common/government_reforms/RIP_HET_government_reforms.txt")
     owner_change = read("common/scripted_effects/01_scripted_effects_for_on_actions.txt")
     het_migration = read("common/scripted_effects/het_effects.txt")
-    het_startup = read("common/on_actions/het_on_actions.txt")
+    het_startup = read("common/on_actions/RIP_HET_on_actions.txt")
     require(
         failures,
         "het_regimental_province_administration" in het_reforms
@@ -2273,7 +2273,7 @@ def check_linked_lifecycle(failures: list[str]) -> None:
             f"CHR Road B reform lacks province modifier sync hooks: {road_b_reform}",
         )
     chr_path_effects = normalized(read("common/scripted_effects/chr_path_effects.txt"))
-    chr_on_actions = normalized(read("common/on_actions/chr_on_actions.txt"))
+    chr_on_actions = normalized(read("common/on_actions/RIP_CHR_on_actions.txt"))
     chr_decisions = read("decisions/ChernihivPaths.txt")
     require(
         failures,

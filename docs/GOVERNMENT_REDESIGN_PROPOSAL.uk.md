@@ -325,7 +325,7 @@ modifiers_effect`).
     ціна +10% утримання); `kyiv_rotate_the_seats` (DIP 60, кулдаун 12 р. —
     випадковому senior_udil з LD ≥30 знімає 40 LD + думка); `kyiv_reconfirm_the_grants`
     (ADM 40, кулдаун 5 р. — знімає `rip_tenure_lapsed`, +довіра).
-  - `on_monarch_death` (`kie_on_actions.txt`): смерть старшого князя гасить усі
+  - `on_monarch_death` (`RIP_KIE_on_actions.txt`): смерть старшого князя гасить усі
     надання — senior_udil'и отримують `rip_tenure_lapsed` (LD +20) до
     переконфірмації. Це і є рота: успадкування = драбина крутиться.
 - **Рада KRU = ванільна механіка FACTION** (усі три `ruthenian_factional_empire_*`):
@@ -374,7 +374,7 @@ modifiers_effect`).
   свідомо не займали — його ж використовують KRU/PLC/Hadiach/kyiv_independence.
 - Спадковість при обриві лінії: `rip_kyiv_seniorate_line_broken_trigger`
   (`common/scripted_triggers/rip_kyivan_seniorate_triggers.txt`) +
-  `events/KyivShogunate.txt : kyiv_shogunate.2`, з `kie_on_actions.txt :
+  `events/KyivShogunate.txt : kyiv_shogunate.2`, з `RIP_KIE_on_actions.txt :
   on_monarch_death`. Умова: `has_reform kyivan_shogunate_reform`, немає
   спадкоємця, ROOT більше не володіє Києвом (280), а один із його senior_udil
   володіє. Ванільного скриптового правила «спадкоємець той, хто володіє
