@@ -338,18 +338,19 @@ hlc_crown_authority_reform = {
 		# (common/disasters/shared_ruthenian_disasters.txt).
 		hlc_disables_chernihiv_ruina = yes
 	}
-	# The Habsburg-style chancery ordinances the Austrian fork never had a
-	# mechanic for. common/government_mechanics/rip_hlc_austrian_
-	# reorganization.txt.
+	# The Habsburg-style crown ordinances the Austrian fork never had a
+	# mechanic for: six different ordinances, one button each.
+	# common/government_mechanics/rip_hlc_austrian_reorganization.txt.
 	government_abilities = {
 		hlc_austrian_reorganization_mechanic
 	}
-	# Each ordinance is a flag and a persistent country modifier, so losing
-	# the crown authority has to clear all three or they would outlive it.
+	# Each ordinance is a country modifier of ten years, so losing the crown
+	# authority has to take all six out or they would outlive it.
 	# hlc_clear_ordinances_effect (common/scripted_effects/rip_hlc_ordinance_
-	# effects.txt) removes the flag and the modifier of each. A yearly sweep
-	# from the same file catches what this block cannot see: a tag change, or a
-	# government change made by an event or a revolution.
+	# effects.txt) removes each modifier (and the flags of the older, permanent
+	# ordinances). A yearly sweep from the same file catches what this block
+	# cannot see: a tag change, or a government change made by an event or a
+	# revolution.
 	removed_effect = {
 		hlc_clear_ordinances_effect = yes
 	}

@@ -1,5 +1,11 @@
-# Country-scope contracts for paid institutional reviews. All three reviews
-# share one term and one dated cooldown, including across reform switches.
+# Country-scope contracts for the paid institutional resolutions (the buttons of
+# common/government_mechanics/rip_institutional_resolutions.txt). The three
+# institutions - the towns' charters, the chancery's rolls, the Cossack register
+# - share one term of ten years and one dated lock, including across reform
+# switches: only one resolution can stand in the whole realm.
+
+# Who may pass which institution's resolutions. A reform that gives access also
+# gives the mechanic with the buttons.
 rip_gov_has_municipal_review = {
 	has_reform = vln_magdeburg_rights
 }
@@ -20,39 +26,29 @@ rip_gov_has_register_review = {
 	}
 }
 
-rip_gov_review_available = {
-	is_at_war = no
-	stability = 0
-	treasury = 50
-	NOT = { has_country_modifier = rip_gov_municipal_charters }
-	NOT = { has_country_modifier = rip_gov_municipal_accounts }
-	NOT = { has_country_modifier = rip_gov_chancery_service }
-	NOT = { has_country_modifier = rip_gov_chancery_rights }
-	NOT = { has_country_modifier = rip_gov_register_muster }
-	NOT = { has_country_modifier = rip_gov_register_settlement }
-	custom_trigger_tooltip = {
-		tooltip = rip_gov_review_cooldown_tt
-		OR = {
-			NOT = { has_country_flag = rip_gov_review_recent }
-			had_country_flag = { flag = rip_gov_review_recent days = 3650 }
-		}
+# One of the six resolutions is in force. Its country modifier (ten years) is
+# the single record of that.
+rip_gov_resolution_in_force = {
+	OR = {
+		has_country_modifier = rip_gov_municipal_charters
+		has_country_modifier = rip_gov_municipal_accounts
+		has_country_modifier = rip_gov_chancery_service
+		has_country_modifier = rip_gov_chancery_rights
+		has_country_modifier = rip_gov_register_muster
+		has_country_modifier = rip_gov_register_settlement
 	}
 }
 
-rip_gov_can_review_municipal = {
-	rip_gov_has_municipal_review = yes
-	rip_gov_review_available = yes
-	OR = { adm_power = 50 dip_power = 50 }
-}
-
-rip_gov_can_review_chancery = {
-	rip_gov_has_chancery_review = yes
-	rip_gov_review_available = yes
-	OR = { adm_power = 50 dip_power = 50 }
-}
-
-rip_gov_can_review_register = {
-	rip_gov_has_register_review = yes
-	rip_gov_review_available = yes
-	OR = { mil_power = 50 dip_power = 50 }
+# The ten years since the last resolution have run out (or none was ever
+# passed). The flag is set when a resolution is paid for and never cleared:
+# losing or replacing a reform removes the modifier but cannot shorten the
+# term. had_country_flag is true once the flag is at least that many days old.
+rip_gov_resolution_lock_over = {
+	OR = {
+		NOT = { has_country_flag = rip_gov_review_recent }
+		had_country_flag = {
+			flag = rip_gov_review_recent
+			days = 3650
+		}
+	}
 }
