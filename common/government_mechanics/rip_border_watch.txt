@@ -43,7 +43,12 @@
 #  - LIFECYCLE. rip_border_watch_clear_effect (common/scripted_effects/
 #    rip_border_watch_effects.txt) runs from both reforms' removed_effect: the
 #    patrols are called in and the tower lines and settlements are lifted. The
-#    cooldown token is kept, and nothing is refunded.
+#    cooldown token is kept, and nothing is refunded. removed_effect runs when the
+#    reform is removed by remove_government_reform but NOT when a change of government
+#    type drops it (measured in EU4 1.37.5), so each order sets the country flag
+#    rip_border_watch_laid and rip_border_watch_sweep_effect, once a year from
+#    on_yearly_pulse (common/on_actions/rip_reform_mechanics_on_actions.txt), clears a
+#    country that laid the Watch and holds neither reform any more.
 #
 # Rates are design values, not campaign-validated balance. A blocked button
 # never shows a raw modifier or flag name: every condition that is not a plain
@@ -54,8 +59,13 @@ rip_border_watch_mechanic = {
 	alert_icon_gfx = GFX_alerticons_government_mechanics
 	alert_icon_index = 1
 
+	# A plain trigger on purpose: the engine reads `available` before the scripted triggers are
+	# registered ("Unknown trigger type" in error.log, measured in 1.37.5), unlike the interactions below.
 	available = {
-		rip_border_watch_held = yes
+		OR = {
+			has_reform = prl_border_fortress_reform
+			has_reform = pdl_carpathian_bastion_reform
+		}
 	}
 
 	interactions = {
@@ -74,6 +84,7 @@ rip_border_watch_mechanic = {
 				adm_power_cost = 50
 				custom_tooltip = rip_post_the_watchtowers_tt
 				hidden_effect = {
+					set_country_flag = rip_border_watch_laid
 					every_owned_province = {
 						limit = { rip_watch_exposed_province = yes }
 						if = {
@@ -125,6 +136,7 @@ rip_border_watch_mechanic = {
 					name = rip_steppe_patrols
 					duration = 1825
 				}
+				hidden_effect = { set_country_flag = rip_border_watch_laid }
 			}
 			cooldown_years = 10
 			cooldown_token = rip_border_watch_order
@@ -144,7 +156,7 @@ rip_border_watch_mechanic = {
 				}
 			}
 		}
-		# Watchmen settled on the land of one frontier city, for good measure.
+		# Watchmen settled on the land of one frontier city.
 		rip_settle_the_watch = {
 			icon = GFX_rip_watch_settlers
 			trigger = {
@@ -159,6 +171,7 @@ rip_border_watch_mechanic = {
 				dip_power_cost = 50
 				custom_tooltip = rip_settle_the_watch_tt
 				hidden_effect = {
+					set_country_flag = rip_border_watch_laid
 					random_owned_province = {
 						limit = { rip_watch_unsettled_province = yes }
 						add_province_modifier = {

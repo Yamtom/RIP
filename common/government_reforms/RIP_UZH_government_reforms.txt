@@ -205,9 +205,12 @@ uzh_palatial_ruthenian_reform = {
 			}
 		}
 	}
+	# parliament_backing_chance is a modifier: the engine rejects it inside `conditional`
+	# (error.log, 1.37.5), and vanilla keeps it here, inert without a parliament.
 	modifiers = {
 		num_accepted_cultures = 1
 		diplomatic_reputation = 1
+		parliament_backing_chance = 0.1
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -220,7 +223,6 @@ uzh_palatial_ruthenian_reform = {
 			}
 		}
 		has_parliament = yes
-		parliament_backing_chance = 0.1
 		custom_attributes = {
 			blocked_call_diet = yes
 		}
@@ -590,7 +592,7 @@ uzh_uzhhorod_seat_translation_reform = {
 }
 
 uzh_presov_eparchy_reform = {
-	icon = "papal_embassy_reform"
+	icon = "religious_leader"
 	legacy_equivalent = theocratic_government
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
@@ -673,8 +675,7 @@ uzh_carpathian_captaincy_reform = {
 	}
 	removed_effect = {
 		hidden_effect = {
-			remove_country_modifier = uz_captaincy_posts_manned
-			remove_country_modifier = uz_captaincy_opryshky_enlisted
+			uzh_captaincy_clear_effect = yes
 		}
 	}
 	ai = {
