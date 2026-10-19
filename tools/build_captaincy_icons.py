@@ -185,37 +185,37 @@ def scene_posts():
     road = poly([(36, 58), (48, 58), (60, 82), (20, 82)])
     layer = over(layer, gradient(road, [(0.0, hexc('#8c7a58')), (1.0, hexc('#5a4a30'))], (0, 58), (0, 82)))
     # the rocky knoll under the blockhouse
-    knoll = poly([(6, 60), (12, 50), (22, 45), (38, 45), (46, 50), (50, 60)])
+    knoll = poly([(9, 60), (15, 50), (25, 45), (41, 45), (49, 50), (53, 60)])
     layer = over(layer, shaded(knoll, ROCK, 1.6, relief=3.0, gain=1.4, texture=noise(6, 2.0, 3)))
     # the blockhouse: stone footing, timber storey, shingle roof, glowing window, pennant
-    foot = poly([(14, 46), (36, 46), (36, 38), (14, 38)])
-    upper = poly([(12, 38), (38, 38), (36, 25), (14, 25)])
-    roof = poly([(10, 25), (40, 25), (25, 13)])
+    foot = poly([(17, 46), (39, 46), (39, 38), (17, 38)])
+    upper = poly([(15, 38), (41, 38), (39, 25), (17, 25)])
+    roof = poly([(13, 25), (43, 25), (28, 13)])
     whole = union(foot, upper, roof)
     layer = over(layer, shadow(whole, 0.9, 1.2, 1.0, 0.5), outline(whole, 0.5, (20, 12, 6), 0.95))
     layer = over(layer, shaded(foot, STONE_WARM, 0.8, relief=1.8, gain=1.5, texture=noise(11, 1.4, 3)))
     layer = over(layer, timber(upper, 12))
     layer = over(layer, shaded(roof, SHINGLE, 0.9, relief=2.0, gain=1.5, texture=noise(13, 0.7, 3)))
-    layer = over(layer, roundness(union(foot, upper), 12, 38, dark=0.45, lift=0.15, peak=0.3))
-    layer = over(layer, solid(poly([(22, 36), (28, 36), (28, 30), (22, 30)]), (255, 206, 110), 0.95),
-                 solid(minus(poly([(21.4, 36.6), (28.6, 36.6), (28.6, 29.4), (21.4, 29.4)]), poly([(22, 36), (28, 36), (28, 30), (22, 30)])), (30, 18, 8), 0.95))
-    layer = over(layer, solid(poly([(19, 46), (19, 41), (23, 41), (23, 46)]), (14, 8, 6), 0.9))
-    pole = stroke([(25, 13), (25, 4)], 0.6, caps=False)
+    layer = over(layer, roundness(union(foot, upper), 15, 41, dark=0.45, lift=0.15, peak=0.3))
+    layer = over(layer, solid(poly([(25, 36), (31, 36), (31, 30), (25, 30)]), (255, 206, 110), 0.95),
+                 solid(minus(poly([(24.4, 36.6), (31.6, 36.6), (31.6, 29.4), (24.4, 29.4)]), poly([(25, 36), (31, 36), (31, 30), (25, 30)])), (30, 18, 8), 0.95))
+    layer = over(layer, solid(poly([(22, 46), (22, 41), (26, 41), (26, 46)]), (14, 8, 6), 0.9))
+    pole = stroke([(28, 13), (28, 4)], 0.6, caps=False)
     layer = over(layer, outline(pole, 0.25, (20, 14, 8), 0.9), solid(pole, (190, 160, 100), 1.0))
-    layer = over(layer, pennant((25.3, 4.2), 9.0, 5.2))
+    layer = over(layer, pennant((28.3, 4.2), 9.0, 5.2))
     # the customs barrier: a striped pole on a post, counterweight behind
-    post = poly([(46, 60), (50, 60), (50, 52), (46, 52)])
+    post = poly([(49, 60), (53, 60), (53, 52), (49, 52)])
     layer = over(layer, shadow(post, 0.6, 0.9, 0.6, 0.4), outline(post, 0.35, (20, 12, 6), 0.95), shaded(post, DARK_WOOD, 0.4, relief=1.0, gain=1.4))
-    beam = stroke([(36, 56.6), (66, 52.4)], 2.0, caps=False)
+    beam = stroke([(39, 56.6), (68, 52.4)], 2.0, caps=False)
     stripes = blank_mask()
     sd = ImageDraw.Draw(stripes)
     for i in range(10):
-        x0 = 36 + i * 3.1
-        sd.line(kit._px([(x0, 56.6 - (x0 - 36) * 0.14 + 1.5), (x0 + 1.0, 56.6 - (x0 + 1 - 36) * 0.14 - 1.5)]), fill=255, width=int(1.4 * SS))
+        x0 = 39 + i * 3.0
+        sd.line(kit._px([(x0, 56.6 - (x0 - 39) * 0.145 + 1.5), (x0 + 1.0, 56.6 - (x0 + 1 - 39) * 0.145 - 1.5)]), fill=255, width=int(1.4 * SS))
     layer = over(layer, shadow(beam, 0.6, 0.9, 0.6, 0.4), outline(beam, 0.35, (30, 8, 8), 0.95))
     layer = over(layer, shaded(beam, STRIPE_WHITE, 0.4, relief=1.0, gain=1.4))
     layer = over(layer, solid(inter(stripes, beam), (186, 28, 32), 0.95))
-    counter = ellipse(37.6, 57.2, 2.0)
+    counter = ellipse(40.6, 57.2, 2.0)
     layer = over(layer, outline(counter, 0.3, (20, 12, 6), 0.9), shaded(counter, STONE_WARM, 0.5, relief=1.0, gain=1.4))
     # firs
     for fx, fy, fh in ((5, 64, 14), (12, 62, 11), (72, 62, 15), (78, 66, 12)):
@@ -256,21 +256,21 @@ def scene_salt():
     """Pledge the Salt Chambers: salt blocks, a miner's pick, a sealed deed of pledge."""
     layer = gradient(full_mask(), [(0.0, hexc('#16343c')), (0.55, hexc('#0c1e26')), (1.0, hexc('#050e12'))], (0, 0), (0, 82))
     layer = over(layer, glow(34, 34, 30, (150, 210, 220), 0.30))
-    floor = poly([(0, 60), (82, 60), (82, 82), (0, 82)])
+    floor = poly([(0, 57), (82, 57), (82, 82), (0, 82)])
     layer = over(layer, shaded(floor, DARK_WOOD, 1.0, relief=1.6, gain=1.1, texture=noise(31, 1.4, 2)))
-    layer = over(layer, solid(stroke([(0, 60.4), (82, 60.4)], 0.7), (210, 170, 90), 0.5))
+    layer = over(layer, solid(stroke([(0, 57.4), (82, 57.4)], 0.7), (210, 170, 90), 0.5))
     # a stack of salt blocks
-    rows = ((60.0, 3, 12.0), (51.0, 2, 17.5), (42.0, 1, 23.0))
+    rows = ((57.0, 3, 12.0), (48.0, 2, 17.5), (39.0, 1, 23.0))
     k = 0
     for y, count, x0 in rows:
         for i in range(count):
             layer = over(layer, salt_block(x0 + i * 11.2, y, 10.4, 8.6, tilt=0.0, seed=k + 1))
             k += 1
-    layer = over(layer, pickaxe((58.5, 61), 17, 30))
+    layer = over(layer, pickaxe((60.0, 58), 17, 30))
     # the deed of pledge, with its wax seal, lying in front
-    layer = over(layer, kit.charter(31, 62.5, 22, 12, seed=33, degrees=-5, lines=3, seal_r=3.4))
+    layer = over(layer, kit.charter(32, 60.5, 22, 12, seed=33, degrees=-5, lines=3, seal_r=3.4))
     # coins
-    for cx, cy in ((46.0, 65.0), (50.5, 63.5), (48.5, 67.5)):
+    for cx, cy in ((48.0, 62.5), (52.5, 61.0), (50.5, 65.0)):
         layer = over(layer, kit.coin(cx, cy, 2.6, flat=0.55, seed=int(cx)))
     return layer
 
@@ -342,13 +342,13 @@ def scene_opryshky():
     ground = poly([(0, 66), (82, 66), (82, 82), (0, 82)])
     layer = over(layer, shaded(ground, DARK_WOOD, 1.0, relief=1.4, gain=1.0, texture=noise(51, 1.4, 2)))
     layer = over(layer, campfire(46, 67, 0.85))
-    layer = over(layer, bartka((27, 67), 14, 44))
-    layer = over(layer, highland_hat(47, 37, 0.95))
+    layer = over(layer, bartka((20, 66), 7, 44))
+    layer = over(layer, highland_hat(53, 38, 0.92))
     return layer
 
 
 def watch_tower(cx, base_y, width, height, beacon=True, seed=1):
-    """A timber watchtower on four posts with a railed platform and, optionally, a beacon fire."""
+    """A timber watchtower on two braced legs with a platform; a hut under a roof, or a beacon fire in a rail."""
     hw = width / 2.0
     legs = union(stroke([(cx - hw, base_y), (cx - hw * 0.6, base_y - height)], 1.5, caps=False),
                  stroke([(cx + hw, base_y), (cx + hw * 0.6, base_y - height)], 1.5, caps=False))
@@ -356,24 +356,36 @@ def watch_tower(cx, base_y, width, height, beacon=True, seed=1):
                   stroke([(cx + hw * 0.92, base_y - height * 0.12), (cx - hw * 0.64, base_y - height * 0.56)], 0.9, caps=False))
     platform = poly([(cx - hw * 0.84, base_y - height), (cx + hw * 0.84, base_y - height), (cx + hw * 0.84, base_y - height - 1.8),
                      (cx - hw * 0.84, base_y - height - 1.8)])
-    hut_h = height * 0.30
-    hut = poly([(cx - hw * 0.6, base_y - height - 1.8), (cx + hw * 0.6, base_y - height - 1.8), (cx + hw * 0.6, base_y - height - 1.8 - hut_h),
-                (cx - hw * 0.6, base_y - height - 1.8 - hut_h)])
-    roof = poly([(cx - hw * 0.8, base_y - height - 1.8 - hut_h), (cx + hw * 0.8, base_y - height - 1.8 - hut_h),
-                 (cx, base_y - height - 1.8 - hut_h - hw * 0.8)])
-    whole = union(legs, brace, platform, hut, roof)
+    top_y = base_y - height - 1.8
     layer = blank_layer()
     layer = over(layer, contact(cx, base_y + 0.5, width * 0.8, 1.6, 0.5))
+    if beacon:
+        rail_h = 4.2
+        rails = union(stroke([(cx - hw * 0.84, top_y), (cx - hw * 0.84, top_y - rail_h)], 0.8, caps=False),
+                      stroke([(cx + hw * 0.84, top_y), (cx + hw * 0.84, top_y - rail_h)], 0.8, caps=False),
+                      stroke([(cx - hw * 0.84, top_y - rail_h), (cx + hw * 0.84, top_y - rail_h)], 0.7, caps=False))
+        whole = union(legs, brace, platform, rails)
+        layer = over(layer, glow(cx, top_y - 8, 30, (255, 170, 70), 0.35))
+        layer = over(layer, shadow(whole, 0.9, 1.2, 1.0, 0.5), outline(whole, 0.45, (16, 10, 6), 0.95))
+        layer = over(layer, shaded(legs, DARK_WOOD, 0.4, relief=1.0, gain=1.5))
+        layer = over(layer, shaded(brace, WOOD, 0.3, relief=0.8, gain=1.5))
+        layer = over(layer, shaded(platform, WOOD, 0.4, relief=1.0, gain=1.4))
+        layer = over(layer, shaded(rails, WOOD, 0.3, relief=0.8, gain=1.5))
+        # smoke first, so the fire sits in front of it
+        for i, (sx, sy, sr) in enumerate(((1.4, -26, 3.0), (3.2, -32, 3.8), (5.8, -39, 4.6))):
+            layer = over(layer, solid(blur(ellipse(cx + sx, top_y + sy, sr), 1.1), (70, 56, 60), 0.50 - 0.10 * i))
+        layer = over(layer, campfire(cx, top_y + 0.4, 0.78))
+        return layer
+    hut_h = height * 0.30
+    hut = poly([(cx - hw * 0.6, top_y), (cx + hw * 0.6, top_y), (cx + hw * 0.6, top_y - hut_h), (cx - hw * 0.6, top_y - hut_h)])
+    roof = poly([(cx - hw * 0.8, top_y - hut_h), (cx + hw * 0.8, top_y - hut_h), (cx, top_y - hut_h - hw * 0.8)])
+    whole = union(legs, brace, platform, hut, roof)
     layer = over(layer, shadow(whole, 0.9, 1.2, 1.0, 0.5), outline(whole, 0.45, (16, 10, 6), 0.95))
     layer = over(layer, shaded(legs, DARK_WOOD, 0.4, relief=1.0, gain=1.5))
     layer = over(layer, shaded(brace, WOOD, 0.3, relief=0.8, gain=1.5))
     layer = over(layer, shaded(platform, WOOD, 0.4, relief=1.0, gain=1.4))
     layer = over(layer, timber(hut, seed))
     layer = over(layer, shaded(roof, SHINGLE, 0.7, relief=1.6, gain=1.5, texture=noise(seed + 3, 0.7, 3)))
-    if beacon:
-        fire_cx = cx
-        fire_base = base_y - height - 1.8 - hut_h - hw * 0.8
-        layer = over(layer, campfire(fire_cx, fire_base + 1.0, 0.62))
     return layer
 
 
