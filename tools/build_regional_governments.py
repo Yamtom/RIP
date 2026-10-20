@@ -106,32 +106,33 @@ def generate():
         if f in ('chr','ods'): gate='government = republic\n'+gate
         if f=='uzh': gate='NOT = { government = theocracy }\n'+gate
         if f=='pdl': gate='west_ukraine_pdl_origin_country = yes\nOR = { has_country_flag = pdl_frontier_path has_country_flag = pdl_carpathian_path has_country_flag = pdl_magnate_path }'
+        gates[f]=gate
         triggers.append(block('rip_rg_'+f,gate))
         triggers.append(block('rip_rg_'+f+'_land',ids(LANDS[f])+'\nis_city = yes'))
     triggers.append(block('rip_rg_fort','OR = { has_building = fort_15th has_building = fort_16th has_building = fort_17th has_building = fort_18th }'))
-    triggers.append(block('rip_rg_port','rip_rg_ods_land = yes\nis_port = yes\nowned_by = ROOT\ncontrolled_by = ROOT\nis_blockaded = no'))
+    triggers.append(block('rip_rg_port','rip_rg_ods_land = yes\nhas_port = yes\nowned_by = ROOT\ncontrolled_by = ROOT\nis_blockaded = no'))
     for f in ['chr','uzh','ods']:
         modifier(f'rip_rg_{f}_term',f'{f.upper()} Shared Ordinance Term','',f'All orders of this institution remain closed until the displayed expiry date. Reform changes never refund the {10 if f=="chr" else 5}-year term.')
     definitions=[
      ('chr_bell','Veche Municipal Judges','local_unrest = -2','Town judges and militia keep order for five years.'),
-     ('chr_debate','Veche Deliberations','yearly_corruption = -0.05\nstability_cost_modifier = 0.10','Audits reduce national corruption; competing petitions raise the cost of stability.'),
+     ('chr_debate','Veche Deliberations','yearly_corruption = -0.05\nstability_cost_modifier = 0.1','Audits reduce national corruption; competing petitions raise the cost of stability.'),
      ('chr_magistrat','Magistrat Deliberations','yearly_corruption = -0.05\nstability_cost_modifier = 0.05','Magistrat procedure halves the stability burden.'),
-     ('chr_staple','Desna Staple Right','local_trade_power_modifier = 0.15','The landing place gains local trade power, not a multiplier to all national power in the node.'),
-     ('chr_militia','Guild Militia','local_defensiveness = 0.20\nlocal_production_efficiency = -0.10','Guild workers man the walls at the expense of their workshops.'),
-     ('chr_reinforce','Municipal Muster Rolls','reinforce_cost_modifier = -0.10','Reinforcements cost less for the entire army, not only infantry.'),
-     ('uzh_salt','Maramorosh Salt Regalia','local_goods_produced_modifier = 0.15\nlocal_trade_power_modifier = 0.10\nlocal_unrest = 2','Monopoly output and customs grow, provoking unrest.'),
+     ('chr_staple','Desna Staple Right','province_trade_power_modifier = 0.15','The landing place gains local trade power, not a multiplier to all national power in the node.'),
+     ('chr_militia','Guild Militia','local_defensiveness = 0.2\nlocal_production_efficiency = -0.1','Guild workers man the walls at the expense of their workshops.'),
+     ('chr_reinforce','Municipal Muster Rolls','reinforce_cost_modifier = -0.1','Reinforcements cost less for the entire army, not only infantry.'),
+     ('uzh_salt','Maramorosh Salt Regalia','trade_goods_size_modifier = 0.15\nprovince_trade_power_modifier = 0.1\nlocal_unrest = 2','Monopoly output and customs grow, provoking unrest.'),
      ('uzh_guides','Highland Guides Compact','local_hostile_attrition = 1','The guides prepare local ambushes in return for ten points of autonomy.'),
-     ('uzh_supply','Highland Supply Guides','land_attrition = -0.10','The entire army receives supply advice, including outside the mountains.'),
-     ('uzh_pass','Carpathian Pass Works','local_defensiveness = 0.20\nlocal_fort_maintenance_modifier = -0.15\nlocal_production_efficiency = -0.10','Castle works improve the walls and upkeep but consume workshop labour.'),
+     ('uzh_supply','Highland Supply Guides','land_attrition = -0.1','The entire army receives supply advice, including outside the mountains.'),
+     ('uzh_pass','Carpathian Pass Works','local_defensiveness = 0.2\nlocal_fort_maintenance_modifier = -0.15\nlocal_production_efficiency = -0.1','Castle works improve the walls and upkeep but consume workshop labour.'),
      ('border_patrol','Frontier Watch Patrols','local_hostile_attrition = 1','Patrols protect this land; they do not cancel every scripted raid.'),
      ('border_fort','Carpathian Watch','local_defensiveness = 0.15','The watch reinforces an existing fort.'),
      ('border_charter','Frontier Town Charter','local_production_efficiency = 0.15','Workshops gain rights in exchange for local autonomy.'),
-     ('border_magnate','Magnate Town Charter','local_production_efficiency = 0.20','Magnate sponsorship costs fifteen autonomy points.'),
-     ('border_mobile','Mobile Frontier Defense','cavalry_power = 0.10\nland_maintenance_modifier = 0.05','Cavalry combat ability is national; the entire army costs more to maintain.'),
-     ('ods_corsairs','Black Sea Corsair Charter','privateer_efficiency = 0.15\ntrade_efficiency = -0.10','Ordinary privateer missions improve at the expense of lawful trade. Ships and missions are still assigned by the player.'),
+     ('border_magnate','Magnate Town Charter','local_production_efficiency = 0.2','Magnate sponsorship costs fifteen autonomy points.'),
+     ('border_mobile','Mobile Frontier Defense','cavalry_power = 0.1\nland_maintenance_modifier = 0.05','Cavalry combat ability is national; the entire army costs more to maintain.'),
+     ('ods_corsairs','Black Sea Corsair Charter','privateer_efficiency = 0.15\ntrade_efficiency = -0.1','Ordinary privateer missions improve at the expense of lawful trade. Ships and missions are still assigned by the player.'),
      ('ods_export','Black Sea Grain Freight Contract','','The contract lasts five years. Its separately displayed efficiency bonus is recalculated monthly and pauses without a controlled unblocked port or grain base.')]
     for k,n,p,d in definitions: modifier('rip_rg_'+k,n,p,d)
-    for n in range(2,11): modifier(f'rip_rg_ods_grain_{n}',f'Grain Freight: {n}% Efficiency',f'trade_efficiency = {n/100:.2f}',f'The controlled regional grain base supports {n}% national trade efficiency. Updated monthly; this is not a direct treasury payment.')
+    for n in range(2,11): modifier(f'rip_rg_ods_grain_{n}',f'Grain Freight: {n}% Efficiency',f'trade_efficiency = {n/100:g}',f'The controlled regional grain base supports {n}% national trade efficiency. Updated monthly; this is not a direct treasury payment.')
     def action(key,f,title,cost,target,payload,national='',extra='',ai='factor = 1',second=False):
         actions.append(dict(key=key,f=f,title=title,cost=cost,target=target,payload=payload,national=national,extra=extra,ai=ai,second=second))
     action('chr_bell','chr','Ring the Veche Bell',{'adm':50},'', 'add_nationalism = -3\n'+pm('rip_rg_chr_bell',1825),
@@ -139,7 +140,7 @@ def generate():
     action('chr_staple','chr','Grant the Desna Staple Right',{'dip':50},'', 'add_local_autonomy = 5\n'+pm('rip_rg_chr_staple',3650),ai='factor = 1 modifier = { factor = 3 is_at_war = no }')
     action('chr_militia','chr','Muster the Guild Militia',{'mil':50},'rip_rg_fort = yes',pm('rip_rg_chr_militia',1825),cm('rip_rg_chr_reinforce',1095),ai='factor = 1 modifier = { factor = 6 is_at_war = yes } modifier = { factor = 0 NOT = { mil_power = 150 } }',second=True)
     action('uzh_salt','uzh','Exercise the Salt Regalia',{'dip':50},'trade_goods = salt',pm('rip_rg_uzh_salt',1825),ai='factor = 1 modifier = { factor = 3 is_at_war = no }')
-    action('uzh_guides','uzh','Contract the Highland Guides',{'mil':50,'ducats':30},'OR = { has_terrain = mountains has_terrain = hills has_terrain = highlands }','add_local_autonomy = 10\n'+pm('rip_rg_uzh_guides',1825),cm('rip_rg_uzh_supply',1825)+'\n'+mood('nobles',-5),ai='factor = 1 modifier = { factor = 5 is_at_war = yes }')
+    action('uzh_guides','uzh','Contract the Highland Guides',{'mil':50,'ducats':30},'OR = { has_terrain = mountain has_terrain = hills has_terrain = highlands }','add_local_autonomy = 10\n'+pm('rip_rg_uzh_guides',1825),cm('rip_rg_uzh_supply',1825)+'\n'+mood('nobles',-5),ai='factor = 1 modifier = { factor = 5 is_at_war = yes }')
     action('uzh_pass','uzh','Fortify the Carpathian Pass',{'adm':50,'ducats':50},'rip_rg_fort = yes',pm('rip_rg_uzh_pass',1825),ai='factor = 1 modifier = { factor = 5 is_at_war = yes }')
     for f in ['pdl','prl']:
         for v,condition,mil,gold,devastation,mod in [
