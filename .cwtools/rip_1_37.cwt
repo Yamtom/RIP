@@ -9,16 +9,56 @@ alias[effect:export_to_variable] = {
     who = scope[country]
 }
 
-# These two identifiers are read/cleared by unmodified EU4 1.37 hooks,
-# but have no script setter in the installed vanilla or RIP.
-# Recognize those exact inherited IDs without setting them in gameplay.
+# These identifiers are read/cleared by unmodified EU4 1.37 hooks, retired from
+# older mod mechanics in save compatibility effects, or set in government mechanics
+# interactions where CWTools does not register value_set[country_flag].
+# Recognize those exact IDs without requiring redundant script setters.
 enums = {
     enum[rip_inherited_vanilla_country_flags] = {
         hordes_devout_tengri_completion_flag
         enable_galleass
+        rip_border_watch_laid
+        rip_church_balance_shifted
+        rip_church_balanced_since
+        orthodox_crusade_constantinople_active
+        orthodox_crusade_jerusalem_active
+        orthodox_crusade_target_constantinople
+        orthodox_crusade_target_jerusalem
+    }
+    enum[rip_retired_province_flags] = {
+        rip_church_center_suspended
+        rip_church_union_ring_0
+        rip_church_union_ring_1
+        rip_church_union_ring_2
+        rip_church_union_ring_3
+        rip_church_union_ring_4
+        rip_church_union_frontier
+        rip_church_latin_consent
     }
 }
 ## scope = country
 alias[trigger:has_country_flag] = enum[rip_inherited_vanilla_country_flags]
 ## scope = country
 alias[effect:clr_country_flag] = enum[rip_inherited_vanilla_country_flags]
+## scope = country
+alias[effect:set_country_flag] = enum[rip_inherited_vanilla_country_flags]
+## scope = province
+alias[trigger:has_province_flag] = enum[rip_retired_province_flags]
+## scope = province
+alias[effect:clr_province_flag] = enum[rip_retired_province_flags]
+## scope = province
+alias[effect:set_province_flag] = enum[rip_retired_province_flags]
+
+# Vanilla scripted effect macros using parameter substitution inside else blocks (CW264)
+## scope = any
+alias[effect:else] = {
+    ## cardinality = 0..inf
+    scalar
+}
+## scope = any
+alias[effect:$else$] = scalar
+## scope = any
+alias[effect:$else$] = {
+    ## cardinality = 0..inf
+    alias_name[effect] = alias_match_left[effect]
+}
