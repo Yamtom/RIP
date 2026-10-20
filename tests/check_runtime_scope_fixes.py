@@ -36,7 +36,7 @@ for node, province in nodes:
     parish = named_block(anchor, 'any_trade_node_member_province')
     assert 'has_building = temple' in parish and 'has_building = cathedral' in parish
     assert 'owned_by = ROOT' in parish
-policy = read('common/trading_policies/RIP_church_mission_network.txt')
+policy = read('common/trading_policies/RIP_MOS_RUS_trading_policies.txt')
 for gate_name in ('can_select', 'can_maintain'):
     gate = named_block(policy, gate_name)
     assert re.search(r'FROM\s*=\s*\{\s*trade_share\s*=', gate)
