@@ -18,12 +18,14 @@ enums = {
         hordes_devout_tengri_completion_flag
         enable_galleass
         rip_border_watch_laid
+        zaz_evolved_to_hetmanate
         rip_church_balance_shifted
         rip_church_balanced_since
         orthodox_crusade_constantinople_active
         orthodox_crusade_jerusalem_active
         orthodox_crusade_target_constantinople
         orthodox_crusade_target_jerusalem
+        rip_ro_authority_tick_pending
     }
     enum[rip_retired_province_flags] = {
         rip_church_center_suspended
@@ -62,3 +64,12 @@ alias[effect:$else$] = {
     ## cardinality = 0..inf
     alias_name[effect] = alias_match_left[effect]
 }
+
+# Explicit contracts for nested Border Watch helpers; validate the caller scope.
+# Bodies remain checked in common/scripted_triggers/rip_border_watch_triggers.txt.
+## scope = country
+alias[trigger:rip_watch_steppe_power] = bool
+## scope = province
+alias[trigger:rip_watch_exposed_province] = bool
+## scope = province
+alias[trigger:rip_watch_unsettled_province] = bool
