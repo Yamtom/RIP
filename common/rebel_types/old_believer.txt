@@ -1,8 +1,10 @@
 ######################################################################
-# Old Believer rebels. Disgruntled fanatics.
-# A copy of vanilla common/rebel_types/orthodox.txt with every religion
-# test pointed at old_believer. spawn_chance is 0 outside an old_believer
-# province, so none appear until something creates one.
+# OLD BELIEVER RELIGIOUS ZEALOTS - SHARED FACTION
+# This is a religion-based faction, not a country-specific rebel type. Its
+# Raskol spawn requests are issued by the Russian church events and effects.
+# Keep the single engine ID: old_believer_rebels.
+# Structure follows vanilla orthodox_rebels; religion predicates target
+# old_believer. Country-specific branches are labelled below.
 ######################################################################
 old_believer_rebels = {
 
@@ -12,29 +14,29 @@ old_believer_rebels = {
 	government = theocracy 			# Desires Theocracy
 	religion = old_believer
 	defection = none				# Will not defect
-	defect_delay = 120				# Held provinces will auto-defect after 18 months, regardless of accept/enforce demands.
+	defect_delay = 120				# Retained from the vanilla template; defection is disabled above.
 	independence = none				# Does not strive for independence
 	unit_transfer = no
 	gfx_type = culture_province
-	will_relocate = yes	
-	
+	will_relocate = yes
+
 	resilient = no
 	reinforcing = yes
 	general = yes
 	smart = yes
-	
+
 	artillery = 0.0
 	infantry = 0.7
 	cavalry = 0.3
-	
+
 	morale = 1.1
 
 	# Possible handle actions
 	handle_action_negotiate = yes
 	handle_action_stability = yes
 	handle_action_build_core = yes
-	handle_action_send_missionary = yes		
-	
+	handle_action_send_missionary = yes
+
 	# The rebel type with the highest modifier for this province gets picked
 	spawn_chance = {
 		factor = 1
@@ -61,7 +63,7 @@ old_believer_rebels = {
 		modifier = {
 			factor = 5.0
 			owner = { has_disaster = religious_turmoil }
-		}		
+		}
 		modifier = {
 			factor = 2000
 			has_missionary = yes
@@ -79,7 +81,7 @@ old_believer_rebels = {
 			NOT = { tolerance_to_this = -2 }
 		}
 	}
- 
+
  	# This is checked for EACH province in the Area of Operations
 	movement_evaluation = {
 		factor = 1
@@ -122,9 +124,9 @@ old_believer_rebels = {
 			unrest = 6
 		}
 	}
- 
- 	# Province Scope
- 	siege_won_trigger = {
+
+	# PAP-only capital protection retained from the vanilla Orthodox template.
+	siege_won_trigger = {
 		NOT = {
 			AND = {
 				owned_by = PAP
@@ -153,6 +155,7 @@ old_believer_rebels = {
 					NOT = { religion = old_believer }
 					is_reformation_center = no
 					NOT = { owner = { religion = old_believer } }
+					# BYZ exception retained from the vanilla Orthodox template.
 					owner = { NOT = { has_country_flag = BYZ_gave_in_to_papal_pressure } }
 				}
 				change_religion = old_believer
@@ -170,24 +173,25 @@ old_believer_rebels = {
 			}
 		}
 	}
-	
-	# Country scope
+
+	# Shared country rules; the rebellion can exist under any owner of an
+	# old_believer province, while the intended scripted spawn is Russian.
 	can_negotiate_trigger = {
 		OR = {
 			religion_group = christian
 			dominant_religion = old_believer
 		}
 	}
-	
+
 	# Country scope
 	can_enforce_trigger = {
 		always = yes
 	}
-	
+
 	# Localisation for their demands
 	demands_description = "old_believer_rebels_demand"
-	
-	# Country Scope	
+
+	# Country Scope
 	demands_enforced_effect = {
 		hidden_effect = {
 			add_country_modifier = {
@@ -208,6 +212,7 @@ old_believer_rebels = {
 				add_local_autonomy = 20
 			}
 		}
+		# Country exception inherited from vanilla Orthodox rebels.
 		if = {
 			limit = {
 				tag = PAP
@@ -220,6 +225,7 @@ old_believer_rebels = {
 				dominant_religion = old_believer
 				NOT = { tag = PAP }
 			}
+			rip_ob_leave_patriarchate_effect = yes
 			change_religion = old_believer
 			force_converted = yes
 		}
@@ -231,7 +237,7 @@ old_believer_rebels = {
 				name = "religious_intolerance_enforced"
 				duration = 3650
 			}
-		}	
+		}
 		else_if = {
 			limit = {
 				NOT = { religion = old_believer }
