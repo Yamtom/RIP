@@ -84,7 +84,7 @@ is_expansionist_orthodox = {
 # transaction can claim. The country-scope gate below is shared by the
 # decision and its effect so an unavailable claim cannot consume its price.
 rip_ro_gathering_lands_claim_target = {
-	has_owner = yes
+	# The owner scope below requires an existing owner.
 	NOT = { owned_by = ROOT }
 	NOT = { is_core = ROOT }
 	NOT = { is_claim = ROOT }
