@@ -11,8 +11,8 @@ from clausewitz_testlib import ROOT, keyed_blocks, named_block, normalized, read
 
 
 REFORMS_DIR = ROOT / "common/government_reforms"
-EXPECTED_REFORM_COUNT = 124
-EXPECTED_REFORM_ID_SHA256 = "413794df333eaae69b8c96c488f02de3d14fd5157d453d140f2761f729917e88"
+EXPECTED_REFORM_COUNT = 129
+EXPECTED_REFORM_ID_SHA256 = "1a1021f3a566c705e63baa54081600bae09637c93da890c11669ecea7998b178"
 ROLE_ONLY_REFORMS = (
     "kyivan_veche_reform",
     "kyivan_boyar_republic_reform",
@@ -28,6 +28,12 @@ ROLE_ONLY_REFORMS = (
     "uzh_mukachevo_eparchy_reform",
     "uzh_uzhhorod_seat_translation_reform",
     "uzh_presov_eparchy_reform",
+    "chr_vetka_asylum_reform",
+    "hlc_stauropegion_brotherhood_reform",
+    "pdl_kamianets_concordat_reform",
+    "plt_sophian_autonomy_reform",
+    "zaz_orthodox_knighthood_reform",
+    "uzh_carpathian_captaincy_reform",
 )
 VANILLA_OVERRIDE_REFORMS = {
     "principality",
@@ -44,6 +50,13 @@ VANILLA_OVERRIDE_REFORMS = {
 def require(failures: list[str], condition: bool, message: str) -> None:
     if not condition:
         failures.append(message)
+
+
+def definitions_word(count: int) -> str:
+    """Ukrainian noun form after a number: 123 визначення, 129 визначень."""
+    if count % 10 in (1, 2, 3, 4) and count % 100 not in (11, 12, 13, 14):
+        return "визначення"
+    return "визначень"
 
 
 def exclusive_entry_sets(government: str) -> list[set[str]]:
@@ -108,7 +121,7 @@ def check_vfs_and_schema(failures: list[str], reforms: str, owners: dict[str, Pa
     )
     require(
         failures,
-        f"ця таблиця охоплює всі **{EXPECTED_REFORM_COUNT} визначення реформ**"
+        f"ця таблиця охоплює всі **{EXPECTED_REFORM_COUNT} {definitions_word(EXPECTED_REFORM_COUNT)} реформ**"
         in normalized(authenticity_doc),
         "government authenticity document reports a stale total reform count",
     )
@@ -282,17 +295,21 @@ def check_registration(failures: list[str], owners: dict[str, Path]) -> None:
     dlc_ors = [block for _, block in keyed_blocks(conditional_allow, "OR")]
     dlc_gate = dlc_ors[0] if len(dlc_ors) == 1 else ""
     dlc_names = re.findall(r'(?m)^\s*has_dlc\s*=\s*"([^"]+)"\s*$', dlc_gate)
+    # parliament_backing_chance is a modifier. Measured in EU4 1.37.5: inside a `conditional` block the engine
+    # logs "Unexpected token: parliament_backing_chance ... Last good read: has_parliament=yes" and the +10%
+    # never applies; vanilla keeps it in `modifiers`, where it is inert without a parliament. The DLC-gated
+    # conditional keeps only reform keys: has_parliament and the blocked_call_diet attribute.
     require(
         failures,
-        "parliament_backing_chance" not in uzh_modifiers
+        "parliament_backing_chance = 0.1" in normalized(uzh_modifiers)
+        and "parliament_backing_chance" not in normalized(gated_conditional)
         and len(uzh_conditionals) == 1
         and len(dlc_ors) == 1
         and len(dlc_names) == 2
         and set(dlc_names) == {"Common Sense", "Domination"}
         and "has_parliament = yes" in normalized(gated_conditional)
-        and "parliament_backing_chance = 0.1" in normalized(gated_conditional)
         and "blocked_call_diet = yes" in normalized(gated_conditional),
-        "UZH Palatial parliament modifiers are not confined to the single DLC-gated conditional",
+        "UZH Palatial parliament backing must sit in modifiers (the engine rejects it inside conditional); the single DLC-gated conditional keeps has_parliament and blocked_call_diet",
     )
     require(
         failures,

@@ -3,11 +3,20 @@
 Актуально для EU4 **1.37.5**. Карта описує фактичну реєстрацію у
 `common/governments/00_governments.txt`, а не лише місце визначення реформи.
 
-Оновлення 17 жовтня 2026 року: [огляд 123 реформ і поточних блоків назв](GOVERNMENT_AUTHENTICITY_105.uk.md)
+Оновлення 17 жовтня 2026 року: [огляд 129 реформ і поточних блоків назв](GOVERNMENT_AUTHENTICITY_105.uk.md)
 містить таблицю всіх визначень і межі доведеності балансу. Чотирнадцять
 доданих республіканських і теократичних реформ KIE/HLC/VLN/UZH мають лише
 рольове зіставлення, без кампанійної числової сертифікації. Ця карта зберігає
 опис переходів між реформами.
+
+Оновлення 19 жовтня 2026 року: на карту й у покриття внесено шість реформ — п'ять «віри
+та кордонів» (`zaz_orthodox_knighthood_reform`, `hlc_stauropegion_brotherhood_reform`,
+`chr_vetka_asylum_reform`, `pdl_kamianets_concordat_reform`, `plt_sophian_autonomy_reform`),
+які коміт 855fdd80 додав без реєстрації в гейтах, і нову `uzh_carpathian_captaincy_reform`
+(M5/R5). Дві наявні реформи M5, `prl_border_fortress_reform` і `pdl_carpathian_bastion_reform`,
+тепер несуть `rip_border_watch_mechanic`. Усі шість мають лише рольове зіставлення:
+кампанійну числову межу не сертифіковано. Опис нових механік —
+[BORDER_MECHANICS_20261019.uk.md](BORDER_MECHANICS_20261019.uk.md).
 
 ## Легенда
 
@@ -176,6 +185,7 @@ flowchart TB
 |---|---|
 | `R1` | `siversk_veche_reform`; дорога міст: `chr_desna_staple_reform` → `chr_town_union_reform` → `chr_rada_of_lands_reform`; початки інших доріг: `chr_magistrat_rule_reform`, `chr_kanceliaryst_republic_reform` |
 | `M1` | `chr_siversk_principality_reform` → `chr_prykaz_tsardom_reform`; `chr_dzhura_corps_reform` → `chr_many_nations_union_reform` |
+| `M4/R4` | `chr_vetka_asylum_reform` — прихисток старообрядців на Ветці; видимість `chr_vetka_visible`, умова `chr_vetka_eligible` (після 1653/1666 років); події `rip_vetka.*`, рішення `chr_grant_sloboda_to_old_believers` |
 | `M8/R8` | `chr_grain_directorate_reform` — економічна надбудова для всіх трьох доріг |
 
 ```mermaid
@@ -198,6 +208,7 @@ flowchart LR
 |---|---|---|
 | base | `R1` `zaz_cossack_cantons_reform` ≈ `zaz_host_and_state_reform`; `Th1` `zaz_sacred_host_order_reform`; `T1` `zaz_sacred_horde_reform` | `R1` `rip_cossacks_reform` для республіканського маршруту |
 | `R2` | `zaz_sich_brotherhood_reform` | `het_starshyna_oligarchy_reform` |
+| `R4` | `zaz_orthodox_knighthood_reform` (Knights of the Orthodox Faith; `zaz_holy_patronage_mechanic`) | та сама реформа: HET успадковує її як ZAZ-lineage |
 | `R3` | `zaz_kosh_elections_reform` | `het_hetman_for_life_reform` |
 | `R6` | `zaz_general_rada_reform` | `het_academy_enlightenment_reform` |
 | `R7` | — | `het_regimental_system_reform` |
@@ -241,6 +252,7 @@ Startup-міграція замінює старий ключ у наявних 
 | `M1` | — | — | `hlc_galician_voivodeship_reform` |
 | `M2` | `hlc_magnate_assembly_reform` | `hlc_centralized_voivodeship_reform` | прямий взаємовиключний вибір |
 | `M4` | — | — | `hlc_confessional_dualism_reform` |
+| `M4/R4` | — | — | `hlc_stauropegion_brotherhood_reform` (братство Львова тримає церкву; привілей `estate_burghers_hlc_lviv_stauropegion`; потребує Львова й 1586 року або друкарства) |
 | `M5` | — | `hlc_military_modernization_reform` | — |
 | `M6` | `hlc_galician_sejm_reform` | `hlc_austrian_bureaucracy_reform` | прямий взаємовиключний вибір |
 | `M8` | `hlc_merchant_privileges_reform` | — | — |
@@ -280,8 +292,9 @@ flowchart LR
 одного продовження, кожне у власному слоті реформ (тому й тримається обидва
 одночасно): `hlc_halych_synodal_confirmation_reform` (Th2,
 `internal_vs_external_mission`) — тому ж 1370-71 тому Патріарха Філофея
-Коккіноса, що остаточно підтвердив Галицьку кафедру проти постійних претензій
-Києва й Москви на всю руську церкву, після двох попередніх закриттів кафедри;
+Коккіноса, що відновив Галицьку кафедру проти постійних претензій Києва й
+Москви на всю руську церкву, після двох попередніх закриттів кафедри (по 1391 році
+вона знову занепала, тож реформа є підтвердженням, якого історія не дала);
 `hlc_lviv_uniate_synod_reform` (Th3, `education_of_the_state`) — власному
 собору Львівської єпархії, що приєднується до унії за єпископа Йосифа
 Шумлянського (публічно з 1700, прийнято Римом 1708-09) вже за греко-католицької
@@ -330,8 +343,8 @@ Renaissance і Magdeburg Rights
 | `M1` | `pdl_steppe_principality_reform` (Dniester Principality) | `pdl_clan_assembly_reform` (Podillian Land Assembly) | `pdl_voivodeship_kingdom_reform` (Royal Voivodeship) | `pdl_frontier_voivodeship_reform` до вибору шляху |
 | `M2` | `pdl_palatine_court_reform` | — | `pdl_aristocratic_assembly_reform` | — |
 | `M4` | — | — | — | `pdl_religious_tolerance_reform`, після tolerance-path |
-| `M5` | `pdl_carpathian_bastion_reform` | `pdl_frontier_republic_reform` | — | — |
-| `M8` | — | — | `pdl_magnate_republic_reform` ≈ `pdl_magnate_dominion_reform` | — |
+| `M5` | `pdl_carpathian_bastion_reform` (`rip_border_watch_mechanic`) | `pdl_frontier_republic_reform` (`cossacks_mechanic`) | — | — |
+| `M8` | — | — | `pdl_magnate_republic_reform` ≈ `pdl_magnate_dominion_reform` | `pdl_kamianets_concordat_reform` (Конкордат чотирьох громад; видимість `pdl_concordat_visible`, умова `pdl_concordat_eligible`: PDL або `was_tag = PDL` і Кам'янець 281) |
 | `M10` | — | — | `pdl_absolute_dominion_reform` | `pdl_grand_podillia_reform`, після місії |
 | `M11` | `pdl_enlightened_voivodeship_reform` | `pdl_revolutionary_republic_reform` (Popular Sovereignty) | — | — |
 
@@ -389,6 +402,7 @@ Enlightenment/Age of Revolutions умовами, не змінюючи save-су
 | `M1` | `uzh_komitat_system_reform` |
 | `R1` | `uzh_republican_komitat_system_reform` |
 | `M4/R4` | `uzh_union_synod_reform`, після постійно зафіксованого успіху церковної унії та не раніше 1646 року |
+| `M5/R5` | `uzh_carpathian_captaincy_reform` (Carpathian Captaincy; `uzh_carpathian_captaincy_mechanic`: застави, сіль, опришки), лише UZH або чинний власник |
 | `M10/R10` | `uzh_palatial_ruthenian_reform` ≈ `uzh_palatial_rusyn_reform` |
 | `M10` | `uzh_palatial_uhro_reform` |
 | `R10` | `uzh_palatial_uhro_republic_reform` |
@@ -413,6 +427,7 @@ flowchart LR
   F --> X["M4/R4 Union Synod"]
   X -.coexists.- I
   B["M11/R9 Border Commissariat"] -.capstone.- I
+  CC["M5/R5 Carpathian Captaincy"] -.mechanic.- B
   X --> Th1["Th1 Mukachevo Eparchy, 1771"]
   Th1 --> Th2["Th2 Seat Translated to Uzhhorod, 1778"]
   Th2 --> Th3["Th3 Presov Eparchy, 1818"]
@@ -503,6 +518,14 @@ Regalium Principum, що звільнила Мукачівську єпархі�
 єпархії для північних русинських парафій з території самого Мукачева (не
 друга унія, а розрослена кафедра, якій замало однієї канцелярії).
 
+## PLT
+
+| Тір | Реформа |
+|---|---|
+| `M4` | `plt_sophian_autonomy_reform` (Північна Софійська автономія; `plt_ancient_nomocanon_mechanic`; видимість `plt_sophian_visible`: PLT, `was_tag = PLT` або Полоцьк 275 як столиця білоруської держави) |
+
+Реформу додано комітом 855fdd80 разом із чотирма іншими «віри та кордонів»; гейти й числа не змінювалися, змінено лише реєстрацію в карті й покритті.
+
 ## LIT
 
 | Тір | Реформа |
@@ -540,7 +563,7 @@ flowchart LR
 | `M1` | `prl_ancient_principality_reform` |
 | `R1` | `prl_regimental_republic_reform`, після місії та окремого конституційного рішення |
 | `M4` | `prl_episcopal_authority_reform` |
-| `M5` | `prl_border_fortress_reform` |
+| `M5` | `prl_border_fortress_reform` (`rip_border_watch_mechanic`) |
 | `M7` | `prl_treaty_diplomacy_reform` |
 | `M8` | `prl_chernozem_economy_reform` |
 
@@ -613,13 +636,13 @@ flowchart LR
 | HLC | польська договірно-виборна модель проти централізованої канцелярської моделі; однакові тіри роблять це справжнім взаємовиключним вибором |
 | PDL | фортеці й адміністрація Дністра, козацьке представництво або магнатська концентрація влади; кожен шлях замінює M1 і веде до інших тірів |
 | ZAZ/HET | вільна Січ і виборність проти інституціоналізації полків, академії та гетьманського двору; залежність може відкрити драматичні, але не безкоштовні фінали |
-| UZH | довготермінова виборна капітанія, комітат та три пізні ідентичності без випадкового Dutch/British/Prussian UI |
+| UZH | довготермінова виборна капітанія, комітат та три пізні ідентичності без випадкового Dutch/British/Prussian UI; середня Карпатська капітанія дає прикордонні накази (застави, сіль, опришки) замість найму полків |
 | LIT | союзна або окрема корона, після чого рада, руська канцелярія, конфесійна гарантія, сейм і Статут складаються у послідовну державну модель |
 | PRL/ODS | рання князівська чи полкова конституція для Переяслава; пізня компактна чорноморська торгова республіка для альтернативної кампанії |
 
 ## Перевірені інваріанти
 
-- 124 унікальних definition-ID; дублів немає.
+- 129 унікальних definition-ID; дублів немає.
 - Кожен definition-ID присутній у government registration; навмисні
   багатотипові реформи — сумісні UZH-форми та CHR Grain Directorate.
 - `assembly_houses_reform` більше не є source-unreachable.

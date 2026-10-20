@@ -1,0 +1,13 @@
+# Yearly clean-up of the button mechanics of the reform layer.
+#
+# A reform's removed_effect runs when the reform is removed by remove_government_reform and does NOT
+# run when it is dropped by a change of government type (measured in EU4 1.37.5,
+# docs/BORDER_MECHANICS_20261019.uk.md, section 7). Each sweep clears what a country keeps without the
+# reform that gave it, as hlc_ordinance_sweep_effect does for the Chancery Ordinances.
+#
+# EU4 1.37.5 MERGES one on_action key defined in several files: every definition runs, none replaces
+# another (see common/on_actions/west_ukraine_on_actions.txt).
+on_yearly_pulse = {
+	rip_border_watch_sweep_effect = yes
+	uzh_captaincy_sweep_effect = yes
+}

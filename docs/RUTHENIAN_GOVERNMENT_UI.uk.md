@@ -60,6 +60,10 @@
   і межі перевірки — [RUTHENIAN_PARLIAMENT_NAMES.uk.md](RUTHENIAN_PARLIAMENT_NAMES.uk.md). Назви не надають
   парламент країні, яка не має цієї механіки.
 
+- Прикордонні механіки (19.10.2026): `uzh_carpathian_captaincy_mechanic` (UZH, M5/R5) і `rip_border_watch_mechanic` (PRL, PDL) —
+  по три кнопки по 50 очок на одному десятирічному жетоні, власні DDS 82×82 (`tools/build_captaincy_icons.py`, окремий від
+  генератора вище, `--check`). Опис, числа й журнал рушія — [BORDER_MECHANICS_20261019.uk.md](BORDER_MECHANICS_20261019.uk.md).
+
 ## Відтворення ресурсів
 
 `tools/build_ruthenian_government_ui.py` + Pillow: генератор DDS, GFX, GUI та

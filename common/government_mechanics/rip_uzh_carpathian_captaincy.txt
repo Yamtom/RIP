@@ -1,0 +1,171 @@
+# =============================================================================
+# rip_uzh_carpathian_captaincy - the captains of the Carpathian march.
+#
+# Under the crown of Hungary the march above the Tysa was held by castle
+# captains: each commanded the garrison of a pass, farmed the customs post and
+# the salt road under it, and kept the highland communities in order, answering
+# to the prince for his own district. The reform (uzh_carpathian_captaincy_
+# reform, M5/R5, UZH only) is that arrangement; this mechanic is what the prince
+# may order of his captains. It replaces the draft that borrowed vanilla's
+# hessian_militarization_mechanic (docs/GOVERNMENT_REDESIGN_PROPOSAL.uk.md, R5
+# and open question 6): a bar that spends ducats on hired regiments is the wrong
+# picture for a frontier that raises its own highlanders.
+#
+# Three orders, one per kind of monarch power, buttons only (the devshirme
+# pattern of the sibling mechanics: no powers, no .gui, no DLC gate):
+#
+#   Man the Border Posts      MIL  the passes and customs posts are garrisoned
+#   Pledge the Salt Chambers  ADM  the salt revenue is pawned to the captains
+#   Enlist the Opryshky       DIP  the highland outlaws are pardoned into the posts
+#
+# What makes them a choice and not three free bonuses (the audit of 17.10.2026
+# found five of fourteen buttons held their bonus without a break):
+#
+#  - ONE ORDER A DECADE. All three share the cooldown token
+#    uzh_carpathian_captaincy_session (ten years), so the captains take one
+#    order, not three. The posts and the Opryshky last seven years, so neither
+#    is up for more than 70% of the time; the pledge is a loan, not a buff.
+#  - EVERY ORDER HAS A PRICE. The posts cost upkeep, the pledge costs a tenth
+#    of the national tax for ten years, the Opryshky cost unrest and the nobles'
+#    loyalty. The pledge is a real debt: it is not lifted when the reform is lost.
+#  - LOCAL FACTS GATE THE ORDERS. The pledge needs a province that produces salt;
+#    the Opryshky weigh on the Opryshky Uprising disaster (common/disasters/
+#    uzh_disasters.txt carries a damper for them, like the gendarmerie and the
+#    amnesty); the AI orders the posts in war, the pledge when short of money and
+#    the Opryshky when short of men.
+#  - NO PARALLEL RESOURCE. docs/REGIONAL_REFORM_AUDIT.uk.md asks that the
+#    commissariat and the Palanok scale get no second militarisation bar; this
+#    mechanic has none, and it keys on the reform, not on the tag, so the
+#    eparchial road (uzh_mukachevo_eparchy_reform) gains no military buttons.
+#
+# Rates are design values, not campaign-validated balance. A blocked button never
+# shows a raw modifier or flag name: every condition that is not a plain
+# vanilla trigger goes through custom_trigger_tooltip.
+# =============================================================================
+
+uzh_carpathian_captaincy_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		has_reform = uzh_carpathian_captaincy_reform
+	}
+
+	interactions = {
+		# The passes are closed and the customs posts armed for seven years.
+		uzh_man_the_border_posts = {
+			icon = GFX_rip_captaincy_posts
+			trigger = {
+				has_reform = uzh_carpathian_captaincy_reform
+				mil_power_cost = 50
+				NOT = { has_country_modifier = uz_captaincy_posts_manned }
+			}
+			effect = {
+				mil_power_cost = 50
+				add_country_modifier = {
+					name = uz_captaincy_posts_manned
+					duration = 2555
+				}
+			}
+			cooldown_years = 10
+			cooldown_token = uzh_carpathian_captaincy_session
+			cooldown_desc = uzh_carpathian_captaincy_session_cd
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 8
+					is_at_war = yes
+				}
+				modifier = {
+					factor = 0.25
+					is_at_war = no
+				}
+			}
+		}
+		# The Tysa salt is pawned to the captains for an advance on the revenue.
+		uzh_pledge_the_salt_chambers = {
+			icon = GFX_rip_captaincy_salt
+			trigger = {
+				has_reform = uzh_carpathian_captaincy_reform
+				adm_power_cost = 50
+				custom_trigger_tooltip = {
+					tooltip = uzh_captaincy_salt_province_tt
+					any_owned_province = { trade_goods = salt }
+				}
+				NOT = { has_country_modifier = uz_captaincy_salt_pledged }
+			}
+			effect = {
+				adm_power_cost = 50
+				add_years_of_income = 0.4
+				add_country_modifier = {
+					name = uz_captaincy_salt_pledged
+					duration = 3650
+				}
+			}
+			cooldown_years = 10
+			cooldown_token = uzh_carpathian_captaincy_session
+			cooldown_desc = uzh_carpathian_captaincy_session_cd
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 10
+					OR = {
+						is_in_deficit = yes
+						num_of_loans = 1
+					}
+				}
+				modifier = {
+					factor = 0
+					NOT = {
+						OR = {
+							is_in_deficit = yes
+							num_of_loans = 1
+						}
+					}
+				}
+			}
+		}
+		# The mountain outlaws are pardoned and sworn into the posts for seven years.
+		uzh_enlist_the_opryshky = {
+			icon = GFX_rip_captaincy_opryshky
+			trigger = {
+				has_reform = uzh_carpathian_captaincy_reform
+				dip_power_cost = 50
+				NOT = { has_country_modifier = uz_captaincy_opryshky_enlisted }
+			}
+			effect = {
+				dip_power_cost = 50
+				add_manpower = 2
+				if = {
+					limit = { has_estate = estate_nobles }
+					add_estate_loyalty = {
+						estate = estate_nobles
+						loyalty = -5
+					}
+				}
+				hidden_effect = {
+					remove_country_modifier = uz_opryshky_raids
+				}
+				add_country_modifier = {
+					name = uz_captaincy_opryshky_enlisted
+					duration = 2555
+				}
+			}
+			cooldown_years = 10
+			cooldown_token = uzh_carpathian_captaincy_session
+			cooldown_desc = uzh_carpathian_captaincy_session_cd
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 4
+					NOT = { manpower_percentage = 0.3 }
+				}
+				modifier = {
+					factor = 0
+					is_at_war = no
+					manpower_percentage = 0.5
+				}
+			}
+		}
+	}
+}

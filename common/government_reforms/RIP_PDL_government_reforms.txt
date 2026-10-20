@@ -242,6 +242,9 @@ pdl_frontier_voivodeship_reform = {
 	}
 }
 
+# Carries the Border Watch (rip_border_watch_mechanic, common/government_mechanics/
+# rip_border_watch.txt) together with prl_border_fortress_reform. The frontier path
+# keeps cossacks_mechanic on pdl_frontier_republic_reform and gets no second panel.
 pdl_carpathian_bastion_reform = {
 	icon = "mountain_fort"
 	legacy_equivalent = feudal_monarchy
@@ -261,6 +264,14 @@ pdl_carpathian_bastion_reform = {
 	}
 	custom_attributes = {
 		locked_government_type = yes
+	}
+	government_abilities = {
+		rip_border_watch_mechanic
+	}
+	removed_effect = {
+		hidden_effect = {
+			rip_border_watch_clear_effect = yes
+		}
 	}
 	ai = {
 		factor = 8

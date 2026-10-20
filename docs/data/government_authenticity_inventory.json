@@ -1564,7 +1564,9 @@
         "hostile_attrition": "1"
       },
       "features": [
-        "custom_attributes"
+        "government_abilities",
+        "custom_attributes",
+        "removed_effect"
       ],
       "audit": "numeric_bundle_reduced",
       "base_comparator": null,
@@ -1884,7 +1886,10 @@
         "fort_maintenance_modifier": "-0.15",
         "defensiveness": "0.2"
       },
-      "features": [],
+      "features": [
+        "government_abilities",
+        "removed_effect"
+      ],
       "audit": "numeric_bundle_reduced",
       "base_comparator": null,
       "comparator_by_tier": {
@@ -3463,6 +3468,205 @@
       "quantitative_certified": false,
       "quantitative_scope": "Лише базовий числовий пакет; не механіки, місії, тимчасові постанови чи сила кампанії.",
       "comparator_limit": "Власна шкала старшини та гетьмана: кампанійний баланс не перевірено."
+    },
+    {
+      "id": "chr_vetka_asylum_reform",
+      "file": "RIP_CHR_government_reforms.txt",
+      "tiers": [
+        "M4",
+        "R4"
+      ],
+      "modifiers": {
+        "tolerance_heretic": "2",
+        "trade_efficiency": "0.05",
+        "merchants": "1",
+        "church_loyalty_modifier": "-0.05"
+      },
+      "features": [
+        "custom_attributes"
+      ],
+      "audit": "reviewed_unchanged",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "M4": [
+          "maintain_clergy_balance_of_power_reform",
+          "secularization_of_the_state_reform"
+        ],
+        "R4": [
+          "maintain_clergy_balance_of_power_reform",
+          "secularization_of_the_state_reform"
+        ]
+      },
+      "comparator_role": "Прихисток для вигнанців іншої віри під захистом міської ради",
+      "comparator_role_match": "часткова",
+      "comparator_limit": "У M4/R4 немає ванільної реформи прихистку для вигнанців: зіставлено церковно-конфесійний баланс і світськість держави того самого тіру, а не прийом біженців.",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
+      "id": "hlc_stauropegion_brotherhood_reform",
+      "file": "RIP_HLC_government_reforms.txt",
+      "tiers": [
+        "M4",
+        "R4"
+      ],
+      "modifiers": {
+        "burghers_influence_modifier": "0.1",
+        "burghers_loyalty_modifier": "0.05",
+        "church_influence_modifier": "-0.1",
+        "global_trade_power": "0.1",
+        "production_efficiency": "0.05",
+        "development_cost": "-0.05"
+      },
+      "features": [
+        "custom_attributes"
+      ],
+      "audit": "reviewed_unchanged",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "M4": [
+          "secularization_of_the_state_reform",
+          "strengthen_clergy_reform"
+        ],
+        "R4": [
+          "secularization_of_the_state_reform",
+          "strengthen_clergy_reform"
+        ]
+      },
+      "comparator_role": "Міщанське братство тримає церкву замість шляхти й єпископа",
+      "comparator_role_match": "часткова",
+      "comparator_limit": "У M4/R4 немає ванільної реформи, що віддає нагляд за єпископом братству міщан: зіставлено секуляризацію й зміцнення кліру того самого тіру як два краї церковно-світської межі.",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
+      "id": "pdl_kamianets_concordat_reform",
+      "file": "RIP_PDL_government_reforms.txt",
+      "tiers": [
+        "M8"
+      ],
+      "modifiers": {
+        "defensiveness": "0.1",
+        "fort_maintenance_modifier": "-0.1",
+        "tolerance_heretic": "1",
+        "tolerance_heathen": "1",
+        "years_of_nationalism": "-5",
+        "caravan_power": "0.1"
+      },
+      "features": [
+        "custom_attributes",
+        "removed_effect"
+      ],
+      "audit": "reviewed_unchanged",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "M8": [
+          "royal_charters_reform",
+          "empower_the_burghers_reform"
+        ]
+      },
+      "comparator_role": "Чотири самоврядні громади міста тримають стіни й торгівлю",
+      "comparator_role_match": "часткова",
+      "comparator_limit": "У M8 немає ванільної реформи, що поєднує оборону міста з терпимістю громад: зіставлено торгові хартії й права міщан того самого тіру.",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
+      "id": "plt_sophian_autonomy_reform",
+      "file": "RIP_PLT_government_reforms.txt",
+      "tiers": [
+        "M4"
+      ],
+      "modifiers": {
+        "tolerance_own": "1",
+        "religious_unity": "0.1",
+        "production_efficiency": "0.05",
+        "burghers_loyalty_modifier": "0.05",
+        "max_absolutism": "-10"
+      },
+      "features": [
+        "government_abilities",
+        "custom_attributes"
+      ],
+      "audit": "reviewed_unchanged",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "M4": [
+          "maintain_clergy_balance_of_power_reform",
+          "focus_of_the_patriarchy_reform"
+        ]
+      },
+      "comparator_role": "Автономія Софійської кафедри й міських громад",
+      "comparator_role_match": "часткова",
+      "comparator_limit": "У M4 немає ванільної реформи кафедральної автономії проти чужого патріархату: зіставлено баланс кліру й патріарший фокус того самого тіру.",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
+      "id": "zaz_orthodox_knighthood_reform",
+      "file": "RIP_ZAZ_government_reforms.txt",
+      "tiers": [
+        "R4"
+      ],
+      "modifiers": {
+        "land_morale": "0.05",
+        "tolerance_own": "1",
+        "tolerance_heathen": "-1",
+        "republican_tradition": "0.15",
+        "global_missionary_strength": "0.01"
+      },
+      "features": [
+        "government_abilities",
+        "custom_attributes",
+        "removed_effect"
+      ],
+      "audit": "reviewed_unchanged",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "R4": [
+          "strengthen_clergy_reform",
+          "secure_clergy_power_reform"
+        ]
+      },
+      "comparator_role": "Військове братство-орден на захисті віри",
+      "comparator_role_match": "часткова",
+      "comparator_limit": "У R4 немає ванільної реформи військового ордену: зіставлено зміцнення кліру того самого тіру; військову частину пакета ванільні аналоги не покривають.",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    },
+    {
+      "id": "uzh_carpathian_captaincy_reform",
+      "file": "RIP_UZH_government_reforms.txt",
+      "tiers": [
+        "M5",
+        "R5"
+      ],
+      "modifiers": {
+        "global_manpower_modifier": "0.1",
+        "governing_capacity_modifier": "-0.05"
+      },
+      "features": [
+        "government_abilities",
+        "custom_attributes",
+        "removed_effect"
+      ],
+      "audit": "reviewed_unchanged",
+      "base_comparator": null,
+      "comparator_by_tier": {
+        "M5": [
+          "defensive_stance_reform",
+          "sygnakhs_system_reform"
+        ],
+        "R5": [
+          "defensive_stance_reform",
+          "sygnakhs_system_reform"
+        ]
+      },
+      "comparator_role": "Гірські застави під командою замкових капітанів",
+      "comparator_role_match": "відповідна",
+      "quantitative_certified": false,
+      "quantitative_scope": "Ні: рольові аналоги не доводять числову межу 105%."
+    }
     }
   ],
   "vanilla_comparators": [

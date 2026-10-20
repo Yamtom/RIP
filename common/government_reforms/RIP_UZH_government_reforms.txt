@@ -208,9 +208,12 @@ uzh_palatial_ruthenian_reform = {
 			}
 		}
 	}
+	# parliament_backing_chance is a modifier: the engine rejects it inside `conditional`
+	# (error.log, 1.37.5), and vanilla keeps it here, inert without a parliament.
 	modifiers = {
 		num_accepted_cultures = 1
 		diplomatic_reputation = 1
+		parliament_backing_chance = 0.1
 	}
 	custom_attributes = {
 		locked_government_type = yes
@@ -223,7 +226,6 @@ uzh_palatial_ruthenian_reform = {
 			}
 		}
 		has_parliament = yes
-		parliament_backing_chance = 0.1
 		custom_attributes = {
 			blocked_call_diet = yes
 		}
@@ -593,7 +595,7 @@ uzh_uzhhorod_seat_translation_reform = {
 }
 
 uzh_presov_eparchy_reform = {
-	icon = "papal_embassy_reform"
+	icon = "religious_leader"
 	legacy_equivalent = theocratic_government
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
@@ -632,5 +634,54 @@ uzh_presov_eparchy_reform = {
 	}
 	ai = {
 		factor = 1
+	}
+}
+
+# The Carpathian Captaincy: the middle of three UZH military lines, after the
+# Palanok scale (M1) and before the Border Commissariat (M11). Castle captains
+# hold the passes, the customs posts and the salt road of the march, each
+# answering to the prince for his district; what the prince may order of them is
+# uzh_carpathian_captaincy_mechanic (common/government_mechanics/
+# rip_uzh_carpathian_captaincy.txt). The potential is deliberately tighter than
+# ruthenian_reform_visible: like every other UZH reform it is shown to UZH and to
+# whoever already holds it, so a tag change keeps the card. Registered at M5 and R5
+# (military_doctrines). Lifecycle: losing the reform ends the posts and the
+# Opryshky; the salt pledge is a debt and runs its ten years. Rates are design
+# values, not campaign-validated balance.
+uzh_carpathian_captaincy_reform = {
+	icon = "rip_gfx_reform_uzh_carpathian_captaincy_icon"
+	legacy_equivalent = feudal_monarchy
+	allow_normal_conversion = no
+	valid_for_nation_designer = no
+	valid_for_new_country = no
+	potential = {
+		OR = {
+			has_reform = uzh_carpathian_captaincy_reform
+			tag = UZH
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = uzh_carpathian_captaincy_reform
+			tag = UZH
+		}
+	}
+	modifiers = {
+		global_manpower_modifier = 0.1
+		governing_capacity_modifier = -0.05
+	}
+	custom_attributes = {
+		locked_government_type = yes
+	}
+	government_abilities = {
+		uzh_carpathian_captaincy_mechanic
+	}
+	removed_effect = {
+		hidden_effect = {
+			uzh_captaincy_clear_effect = yes
+		}
+	}
+	ai = {
+		factor = 6
 	}
 }
