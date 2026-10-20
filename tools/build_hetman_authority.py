@@ -275,7 +275,8 @@ def main():
         path = ROOT / rel
         data = text.replace('\r\n', '\n').encode('utf-8-sig' if rel.endswith('.yml') else 'utf-8')
         if args.check:
-            assert path.read_bytes() == data, f'Stale: {rel}'
+            # git stores these files with LF and core.autocrlf checks them out with CRLF: compare the content, not the line ending
+            assert path.read_bytes().replace(b'\r\n', b'\n') == data, f'Stale: {rel}'
         else:
             path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(data)
     for old, new in [('kyivan_throne_concord', POWER), ('monthly_kyivan_throne_concord', 'monthly_' + POWER), ('kyivan_throne_concord_gain_modifier', POWER + '_gain_modifier')]:
