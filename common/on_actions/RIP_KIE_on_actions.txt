@@ -57,3 +57,26 @@ on_startup = {
 on_monthly_pulse = {
 	rip_cesarstvo_monthly_effect = yes
 }
+
+# When Kyivan Rus establishes an appanage trading city via Mare Nostrum,
+# convert the newly formed entity into a princedom subject.
+on_country_released = {
+	if = {
+		limit = {
+			has_reform = principality_appanage
+			FROM = {
+				has_reform = kyivan_rus_reform
+			}
+		}
+		FROM = {
+			create_subject = {
+				subject_type = princedom
+				subject = ROOT
+			}
+		}
+		add_country_modifier = {
+			name = rip_held_as_an_udil
+			duration = -1
+		}
+	}
+}

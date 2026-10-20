@@ -37,6 +37,20 @@ enums = {
         rip_church_union_frontier
         rip_church_latin_consent
     }
+    enum[rip_carpathian_captaincy_modifiers] = {
+        uz_captaincy_posts_manned
+        uz_captaincy_salt_pledged
+        uz_captaincy_opryshky_enlisted
+    }
+    enum[rip_carpathian_captaincy_reforms] = {
+        uzh_carpathian_captaincy_reform
+    }
+    enum[variable_name] = {
+        zaz_lean_cantons
+        zaz_lean_host_state
+        zaz_lean_sacred_order
+        zaz_lean_sacred_horde
+    }
 }
 ## scope = country
 alias[trigger:has_country_flag] = enum[rip_inherited_vanilla_country_flags]
@@ -44,6 +58,12 @@ alias[trigger:has_country_flag] = enum[rip_inherited_vanilla_country_flags]
 alias[effect:clr_country_flag] = enum[rip_inherited_vanilla_country_flags]
 ## scope = country
 alias[effect:set_country_flag] = enum[rip_inherited_vanilla_country_flags]
+## scope = country
+alias[trigger:has_country_modifier] = enum[rip_carpathian_captaincy_modifiers]
+## scope = country
+alias[effect:remove_country_modifier] = enum[rip_carpathian_captaincy_modifiers]
+## scope = country
+alias[trigger:has_reform] = enum[rip_carpathian_captaincy_reforms]
 ## scope = province
 alias[trigger:has_province_flag] = enum[rip_retired_province_flags]
 ## scope = province
@@ -73,3 +93,10 @@ alias[trigger:rip_watch_steppe_power] = bool
 alias[trigger:rip_watch_exposed_province] = bool
 ## scope = province
 alias[trigger:rip_watch_unsettled_province] = bool
+
+# Explicit contracts for Carpathian Captaincy helpers; validate the caller scope.
+# Bodies remain checked in common/scripted_effects/rip_uzh_captaincy_effects.txt.
+## scope = country
+alias[effect:uzh_captaincy_clear_effect] = bool
+## scope = country
+alias[effect:uzh_captaincy_sweep_effect] = bool
