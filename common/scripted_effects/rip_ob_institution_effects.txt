@@ -1,0 +1,105 @@
+# Country scope. Called only by an eligible, confirmed accord option.
+# Clear the old jurisdiction's resource BEFORE conversion while the country
+# still uses it. The Raskol keeps its original authority-threshold exit.
+rip_ob_leave_patriarchate_effect = {
+	if = {
+		limit = { uses_patriarch_authority = yes }
+		add_patriarch_authority = -1
+	}
+}
+
+rip_ob_pay_for_accord_effect = {
+	add_adm_power = -75
+	add_treasury = -100
+	# Changing an established settlement costs stability; the first choice does not.
+	if = {
+		limit = {
+			OR = {
+				has_country_flag = rip_ob_priestly_accord
+				has_country_flag = rip_ob_lay_accord
+			}
+		}
+		add_stability = -1
+	}
+	clr_country_flag = rip_ob_priestly_accord
+	clr_country_flag = rip_ob_lay_accord
+	remove_country_modifier = rip_ob_priestly_accord
+	remove_country_modifier = rip_ob_lay_accord
+	set_country_flag = rip_ob_accord_changed
+	clr_country_flag = rip_ob_accord_pending
+}
+
+rip_ob_pay_for_assembly_effect = {
+	add_adm_power = -50
+	add_treasury = -75
+	remove_country_modifier = rip_ob_manuscript_mandate
+	remove_country_modifier = rip_ob_mutual_aid_mandate
+	set_country_flag = rip_ob_assembly_held
+	clr_country_flag = rip_ob_assembly_pending
+}
+
+# Province scope. Physical foundations and minorities survive conquest.
+# Their benefits require an Old Believer ruler or the existing toleration policy.
+rip_ob_refresh_refuge_effect = {
+	if = {
+		limit = { has_province_flag = rip_ob_refuge_founded }
+		rip_ob_mark_community_effect = yes
+		remove_province_modifier = rip_ob_active_refuge
+		add_province_modifier = { name = rip_ob_inactive_refuge duration = -1 }
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						religion = old_believer
+						has_country_flag = rip_ob_toleration
+					}
+					NOT = { has_country_flag = rip_ob_repression }
+				}
+			}
+			remove_province_modifier = rip_ob_inactive_refuge
+			add_province_modifier = { name = rip_ob_active_refuge duration = -1 }
+		}
+	}
+}
+
+# Country scope. History/cooldowns survive conversion to prevent reset exploits.
+# The timed mandates are forfeited on conversion and never recreated for free.
+rip_ob_institutions_upkeep_effect = {
+	if = {
+		limit = { NOT = { religion = old_believer } }
+		remove_country_modifier = rip_ob_priestly_accord
+		remove_country_modifier = rip_ob_lay_accord
+		remove_country_modifier = rip_ob_manuscript_mandate
+		remove_country_modifier = rip_ob_mutual_aid_mandate
+		clr_country_flag = rip_ob_accord_pending
+		clr_country_flag = rip_ob_assembly_pending
+		clr_country_flag = rip_ob_refuge_pending
+	}
+	if = {
+		limit = { religion = old_believer }
+		# Clear a legacy save's unused native value as well.
+		if = {
+			limit = { patriarch_authority = 0.01 }
+			add_patriarch_authority = -1
+		}
+		if = {
+			limit = { has_country_flag = rip_ob_priestly_accord }
+			# Repair conflicting legacy/manual state in a deterministic order.
+			clr_country_flag = rip_ob_lay_accord
+			remove_country_modifier = rip_ob_lay_accord
+			if = {
+				limit = { NOT = { has_country_modifier = rip_ob_priestly_accord } }
+				add_country_modifier = { name = rip_ob_priestly_accord duration = -1 }
+			}
+		}
+		if = {
+			limit = { has_country_flag = rip_ob_lay_accord }
+			remove_country_modifier = rip_ob_priestly_accord
+			if = {
+				limit = { NOT = { has_country_modifier = rip_ob_lay_accord } }
+				add_country_modifier = { name = rip_ob_lay_accord duration = -1 }
+			}
+		}
+	}
+	every_owned_province = { rip_ob_refresh_refuge_effect = yes }
+}

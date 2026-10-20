@@ -1,0 +1,62 @@
+# Old Believer state institutions. No new resource or country-tag restriction.
+rip_ob_institution_state = {
+	religion = old_believer
+	is_year = 1666
+}
+
+# Resource checks are repeated by the confirmation events.
+rip_ob_can_choose_accord = {
+	rip_ob_institution_state = yes
+	is_at_war = no
+	stability = 0
+	adm_power = 75
+	treasury = 100
+	OR = {
+		NOT = { has_country_flag = rip_ob_accord_changed }
+		had_country_flag = { flag = rip_ob_accord_changed days = 7300 }
+	}
+}
+
+rip_ob_can_hold_assembly = {
+	rip_ob_institution_state = yes
+	is_at_war = no
+	stability = 0
+	adm_power = 50
+	treasury = 75
+	OR = {
+		NOT = { has_country_flag = rip_ob_assembly_held }
+		had_country_flag = { flag = rip_ob_assembly_held days = 3650 }
+	}
+}
+
+# Province scope. Existing communities, no automatic religious/cultural change.
+rip_ob_refuge_site = {
+	is_city = yes
+	controlled_by = owner
+	is_core = owner
+	NOT = { is_capital = yes }
+	NOT = { has_missionary = yes }
+	NOT = { has_province_flag = rip_ob_refuge_founded }
+	OR = {
+		religion = old_believer
+		has_province_flag = rip_ob_community
+	}
+}
+
+rip_ob_can_fund_refuge = {
+	rip_ob_institution_state = yes
+	is_at_war = no
+	stability = 0
+	dip_power = 50
+	treasury = 100
+	NOT = {
+		num_of_owned_provinces_with = {
+			value = 3
+			has_province_flag = rip_ob_refuge_founded
+		}
+	}
+	OR = {
+		NOT = { has_country_flag = rip_ob_refuge_funded }
+		had_country_flag = { flag = rip_ob_refuge_funded days = 3650 }
+	}
+}
