@@ -1,8 +1,15 @@
 # Drain queued events from the retired 30-day authority loop without rescheduling.
+# Nothing fires it any more: it exists so that a save made while the old loop
+# had an event pending can still deliver it. Keep the vanilla hidden-event shape
+# (title/desc/picture = none and one option): without it EU4 logs four errors.
 namespace = rip_ro_authority
 country_event = {
 	id = rip_ro_authority.1
+	title = none
+	desc = none
+	picture = none
 	hidden = yes
 	is_triggered_only = yes
 	immediate = { clr_country_flag = rip_ro_authority_tick_pending }
+	option = { }
 }
