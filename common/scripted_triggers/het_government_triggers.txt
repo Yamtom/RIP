@@ -1,0 +1,44 @@
+# RIP - het government triggers.
+
+het_is_autonomous = {
+	tag = HET
+	OR = {
+		is_subject = no
+		AND = {
+			is_subject = yes
+			liberty_desire = 30
+		}
+		has_reform = het_mazepist_autocracy_reform
+	}
+}
+
+can_establish_regiment = {
+	owner = {
+		OR = {
+			tag = HET
+			has_reform = het_regimental_system_reform
+		}
+	}
+	is_city = yes
+	OR = {
+		area = west_dniepr_area
+		area = east_dniepr_area
+		area = sloboda_ukraine_area
+	}
+	development = 8
+}
+
+het_succession_crisis_imminent = {
+	tag = HET
+	OR = {
+		NOT = { legitimacy = 50 }
+		ruler_age = 60
+		is_subject = yes
+		AND = {
+			estate_influence = {
+				estate = estate_nobles
+				influence = 60
+			}
+		}
+	}
+}

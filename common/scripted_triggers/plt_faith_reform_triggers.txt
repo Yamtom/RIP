@@ -1,0 +1,37 @@
+# RIP - plt faith reform triggers.
+
+# --- PLT ---------------------------------------------------------------------
+
+plt_sophian_candidate = {
+	OR = {
+		tag = PLT
+		was_tag = PLT
+		AND = {
+			owns = 275
+			capital_scope = { province_id = 275 }
+			primary_culture = byelorussian
+		}
+	}
+	OR = {
+		religion = orthodox
+		religion = russian_orthodox
+		religion = greek_catholic
+	}
+}
+
+plt_sophian_visible = {
+	OR = {
+		has_reform = plt_sophian_autonomy_reform
+		plt_sophian_candidate = yes
+	}
+}
+
+plt_sophian_eligible = {
+	OR = {
+		has_reform = plt_sophian_autonomy_reform
+		AND = {
+			plt_sophian_candidate = yes
+			owns = 275
+		}
+	}
+}

@@ -1,0 +1,148 @@
+# RIP - zaz faith reform triggers.
+
+# Gates for the five faith-and-border reforms added in October 2026.
+#
+#   zaz_orthodox_knighthood_reform   ZAZ / HET   Knights of the Orthodox Faith
+#   hlc_stauropegion_brotherhood_reform  HLC     Stauropegion of the Brotherhoods
+#   chr_vetka_asylum_reform          CHR         Vetka Asylum
+#   pdl_kamianets_concordat_reform   PDL         Border Bastion Concordat
+#   plt_sophian_autonomy_reform      PLT         Northern Sophian Autonomy
+#
+# Each *_visible trigger is the reform's potential block: it lists the tags the
+# card is drawn for and always includes has_reform = <self>, so a country that
+# already holds the reform keeps seeing it. Each *_eligible trigger is the
+# trigger block: the checks that may grey a visible card out.
+
+# --- ZAZ / HET ---------------------------------------------------------------
+
+# The Host as a religious order is a Zaporozhian idea; an Orthodox state of the
+# Sich lineage (HET inherits it) can hold it, a Catholic or Muslim one cannot.
+zaz_knighthood_candidate = {
+	OR = {
+		tag = ZAZ
+		tag = HET
+		zaz_lineage_country = yes
+	}
+	OR = {
+		religion = orthodox
+		religion = russian_orthodox
+	}
+}
+
+zaz_knighthood_visible = {
+	OR = {
+		has_reform = zaz_orthodox_knighthood_reform
+		zaz_knighthood_candidate = yes
+	}
+}
+
+# 1610: Sahaidachny enrols the whole Host in the Kyiv Brotherhood (1620 is the
+# date of the hierarchy Theophanes consecrated). The printing press institution
+# is the other door, for a game where the date has not come yet.
+zaz_knighthood_eligible = {
+	OR = {
+		has_reform = zaz_orthodox_knighthood_reform
+		AND = {
+			zaz_knighthood_candidate = yes
+			OR = {
+				is_year = 1610
+				has_institution = printing_press
+			}
+			army_tradition = 20
+		}
+	}
+}
+
+# Country scope. At war with a state of another faith: the only wars the scale
+# of Zeal feeds on.
+zaz_at_war_with_the_faithless = {
+	is_at_war = yes
+	any_enemy_country = {
+		NOT = { religion = orthodox }
+		NOT = { religion = russian_orthodox }
+	}
+}
+
+# Country scope. A neighbour whose Orthodox subjects the Host may escort a
+# bishop to.
+zaz_escort_target = {
+	NOT = { religion = orthodox }
+	NOT = { religion = russian_orthodox }
+	NOT = { alliance_with = ROOT }
+	NOT = { is_subject_of = ROOT }
+	any_owned_province = {
+		zaz_bishopric_site = yes
+	}
+}
+
+# Province scope. A city of the Orthodox faith that has no Host bishop yet: where
+# the Host can seat one, and where its faithful can be raised.
+zaz_bishopric_site = {
+	is_city = yes
+	OR = {
+		religion = orthodox
+		religion = russian_orthodox
+	}
+	NOT = { has_province_modifier = zaz_clandestine_bishopric }
+}
+
+# Country scope. A state of another faith that holds a seat for a bishop and is
+# not the capital.
+zaz_rebel_target = {
+	NOT = { religion = orthodox }
+	NOT = { religion = russian_orthodox }
+	any_owned_province = {
+		zaz_bishopric_site = yes
+		is_capital = no
+	}
+}
+
+# Country scope. The three houses of the order: Mezhyhirya by Kyiv, Trakhtemyriv
+# on the Dnieper bend (Cherkasy) and the Sich church (Zaporozhia). A site is
+# open when the Host owns it and has not endowed it yet.
+zaz_monastery_site_kyiv = {
+	owns = 280
+	280 = { NOT = { has_province_modifier = zaz_military_monastery } }
+}
+
+zaz_monastery_site_cherkasy = {
+	owns = 1944
+	1944 = { NOT = { has_province_modifier = zaz_military_monastery } }
+}
+
+zaz_monastery_site_sich = {
+	owns = 283
+	283 = { NOT = { has_province_modifier = zaz_military_monastery } }
+}
+
+# A site endowed and still held.
+zaz_monastery_held_kyiv = {
+	owns = 280
+	280 = { has_province_modifier = zaz_military_monastery }
+}
+
+zaz_monastery_held_cherkasy = {
+	owns = 1944
+	1944 = { has_province_modifier = zaz_military_monastery }
+}
+
+zaz_monastery_held_sich = {
+	owns = 283
+	283 = { has_province_modifier = zaz_military_monastery }
+}
+
+zaz_monasteries_one = {
+	OR = {
+		zaz_monastery_held_kyiv = yes
+		zaz_monastery_held_cherkasy = yes
+		zaz_monastery_held_sich = yes
+	}
+}
+
+zaz_monasteries_two = {
+	OR = {
+		AND = { zaz_monastery_held_kyiv = yes zaz_monastery_held_cherkasy = yes }
+		AND = { zaz_monastery_held_kyiv = yes zaz_monastery_held_sich = yes }
+		AND = { zaz_monastery_held_cherkasy = yes zaz_monastery_held_sich = yes }
+	}
+}
