@@ -376,10 +376,13 @@ cases += 1
 
 # ---- 8. Geometry: inside the frame, no two readable boxes overlap, text fits ----------------
 SURFACE = (13, 13, 462, 547)                     # inner surface of the 475x560 dialog
-ADVANCE = {'vic_14': 4.92, 'vic_18': 6.33, 'vic_22': 7.5}        # px per character, estimated from an in-game screenshot
-LINE = {'vic_14': 14, 'vic_18': 18, 'vic_22': 24}
+# Only fonts that EU4 1.37.5 declares. vic_14 is not one: the engine logs "No font with name vic_14" and substitutes another face.
+ADVANCE = {'vic_18': 6.33, 'vic_22': 7.5}        # px per character, estimated from an in-game screenshot
+LINE = {'vic_18': 18, 'vic_22': 24}
 BUTTON = {'GFX_coptic_blessing_select': (58, 58), 'GFX_standard_button_224': (224, 32), 'GFX_rip_church_policy_select': (58, 58), 'button_type_8': (189, 31),
-          'GFX_rip_church_ro_holy_tile': (58, 58)}
+          'GFX_rip_church_ro_holy_tile': (58, 58), 'GFX_standard_button_105': (105, 31)}
+# textSpriteType buttons: EU4 ignores `scale` on these (measured in the game, 2026-10-18), so a scaled one is a layout the game will not draw.
+TEXT_BUTTONS = {'button_type_8', 'GFX_standard_button_224', 'GFX_standard_button_105'}
 
 
 def longest(text):
@@ -397,12 +400,14 @@ for kind, f, x, y, ox, oy in everything:
         shown = longest(loc[f['text']])
         lines = visible(shown).split('\n')
         font = f['font']
+        assert font in ADVANCE, (f['name'], 'font is not declared by EU4 1.37.5', font)
         assert max(len(line) for line in lines) * ADVANCE[font] <= w_, (f['name'], 'text may wrap', lines, w_)
         assert len(lines) * LINE[font] <= h_, (f['name'], 'text needs more lines than the box has', lines, h_)
         boxes[f['name']] = (x, y, x + w_, y + h_)
     elif kind == 'guiButtonType':
         bw, bh = BUTTON[f['quadTextureSprite']]
         scale = float(f.get('scale', 1))
+        assert scale == 1.0 or f['quadTextureSprite'] not in TEXT_BUTTONS, (f['name'], 'the engine ignores scale on this sprite', f['quadTextureSprite'])
         bw, bh = bw * scale, bh * scale
         boxes[f['name']] = (x, y, x + bw, y + bh)
         if f.get('buttonText'):

@@ -60,6 +60,7 @@ def scan(folder):
             SPRITES[name[1]] = dict(texture=texture[1].replace('\\', '/').replace('//', '/'),
                                     frames=int(frames[1]) if frames else 1,
                                     cornered=m[1].lower().startswith('cornered'),
+                                    text=m[1].lower().startswith('textsprite'),
                                     size=(int(size[1]), int(size[2])) if size else None,
                                     border=int(border[1]) if border else 0)
 
@@ -300,7 +301,13 @@ class Scene:
             elif kind == 'guiButtonType':
                 if scripted and self.visible('custom_button', name) is False:
                     continue
-                art = sprite_image(f['quadTextureSprite'], 1, float(f.get('scale', 1)))
+                scale = float(f.get('scale', 1))
+                if SPRITES[f['quadTextureSprite']]['text'] and scale != 1.0:
+                    # EU4 1.37.5 ignores `scale` on a textSpriteType button (measured in the game, 2026-10-18): it is drawn at
+                    # its full size there, so draw it that way here and report the generator mistake.
+                    problems.append(f"{name}: scale {scale} is ignored by the engine on the textSpriteType {f['quadTextureSprite']}")
+                    scale = 1.0
+                art = sprite_image(f['quadTextureSprite'], 1, scale)
                 self.canvas.alpha_composite(art, (x, y))
                 self.drawn.append((name, x, y, art.width, art.height))
                 label = f.get('buttonText')
