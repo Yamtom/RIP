@@ -73,12 +73,19 @@ kru_apply_junior_blocs_effect = {
 # The whole refresh: forget the old flags, find the pair, swap to the reform
 # that has it, set the bar, give the runner-up its voice. The court buttons call
 # it right after they move a bloc's influence, so that the bar answers at once.
+# The whole body is a hidden_effect: seen in EU4 1.37.5 (2026-10-19), without it a
+# court button's tooltip and the event window that runs the refresh list the bar
+# moves as "Strengthen Starshyna by 1000.00%", "Strengthen Knyazi by 100.00%" and
+# "Strengthen Knyazi by 50.00%" - the centring -10 / +1 and the grip - which the
+# player cannot make sense of. The effects themselves run exactly as before.
 kru_refresh_factional_court_effect = {
-	kru_rada_forget_old_state_effect = yes
-	kru_rada_rank_effect = yes
-	kru_rada_select_reform_effect = yes
-	kru_rada_bar_effect = yes
-	kru_apply_junior_blocs_effect = yes
+	hidden_effect = {
+		kru_rada_forget_old_state_effect = yes
+		kru_rada_rank_effect = yes
+		kru_rada_select_reform_effect = yes
+		kru_rada_bar_effect = yes
+		kru_apply_junior_blocs_effect = yes
+	}
 }
 
 kru_update_dominant_pair_effect = {

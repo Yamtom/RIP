@@ -313,6 +313,12 @@ country_decisions = {
 			set_country_flag = kyiv_path_chosen
 			swap_non_generic_missions = yes
 			on_change_tag_effect = yes
+			# The Rada starts at 55 / 15 / 30 with the knyazi in power, so its pair is (starshyna second, knyazi leading), not the pair of the reform id added
+			# above. Without this the government window said "Not set yet" for every row and the States General bar had the wrong two ends until the
+			# monthly refresh (seen in EU4 1.37.5, 2026-10-20). Needs the tag KRU, hence after change_tag.
+			hidden_effect = {
+				kru_refresh_factional_court_effect = yes
+			}
 			save_global_event_target_as = kyiv_rus
 			change_primary_culture = ruthenian
 			if = {
