@@ -280,7 +280,11 @@ def event_problems(data: dict, events: str, triggers: str, loc_keys: set[str]) -
             if 'mean_time_to_happen' not in block:
                 problems.append(f"{row['id']}: {role} has no mean_time_to_happen")
             if 'option = {' not in block:
-                problems.append(f"{row['id']}: {role} has no option (all 210 hidden events of vanilla carry one)")
+                problems.append(f"{row['id']}: {role} has no option (all 68 hidden events of vanilla carry one)")
+            for shape_key in ('title', 'desc', 'picture'):
+                if not re.search(rf'(?m)^\t{shape_key} = none$', block):
+                    problems.append(f"{row['id']}: {role} lacks '{shape_key} = none' "
+                                    '(EU4 writes "is missing a ..." to error.log for a hidden event without it)')
             if 'is_triggered_only' in block:
                 problems.append(f"{row['id']}: {role} mixes is_triggered_only with mean_time_to_happen (load error)")
             if f"province_id = {row['province_id']}" not in block:
@@ -781,7 +785,15 @@ def planted(data: dict, files: dict[str, str], definitions, doc: str, loc_keys: 
          event_problems(data, replace_once(events, f'\t\tset_province_flag = {n["scheduled"]}\n\t\tprovince_event = {{ id = {visible_id} days = 10 }}\n\t}}\n\toption = {{ }}\n',
                        f'\t\tset_province_flag = {n["scheduled"]}\n\t\tprovince_event = {{ id = {visible_id} days = 10 }}\n\t}}\n'), triggers, loc_keys))
     case('the dated starter loses fire_only_once',
-         event_problems(data, replace_once(events, f'\tid = {ids["dated"]}\n\thidden = yes\n\tfire_only_once = yes\n', f'\tid = {ids["dated"]}\n\thidden = yes\n'), triggers, loc_keys))
+         event_problems(data, replace_once(events, f'\tid = {ids["dated"]}\n\ttitle = none\n\tdesc = none\n\tpicture = none\n\thidden = yes\n\tfire_only_once = yes\n',
+                                           f'\tid = {ids["dated"]}\n\ttitle = none\n\tdesc = none\n\tpicture = none\n\thidden = yes\n'), triggers, loc_keys))
+    case('a hidden starter loses title = none',
+         event_problems(data, replace_once(events, f'\tid = {ids["late"]}\n\ttitle = none\n', f'\tid = {ids["late"]}\n'), triggers, loc_keys))
+    case('a hidden starter loses desc = none',
+         event_problems(data, replace_once(events, f'\tid = {ids["dated"]}\n\ttitle = none\n\tdesc = none\n', f'\tid = {ids["dated"]}\n\ttitle = none\n'), triggers, loc_keys))
+    case('a hidden starter loses picture = none',
+         event_problems(data, replace_once(events, f'\tid = {ids["dated"]}\n\ttitle = none\n\tdesc = none\n\tpicture = none\n',
+                                           f'\tid = {ids["dated"]}\n\ttitle = none\n\tdesc = none\n'), triggers, loc_keys))
     case('an else_if slips into an option',
          event_problems(data, replace_once(events, '\t\tif = {\n\t\t\tlimit', '\t\telse_if = {\n\t\t\tlimit'), triggers, loc_keys))
     case('an add_opinion appears',
