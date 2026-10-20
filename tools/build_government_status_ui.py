@@ -45,11 +45,11 @@ factions = [('knyazi', 'Knyazi'), ('boyary', 'Boyary'), ('starshyna', 'Starshyna
 # The Rada (tools/build_kru_rada.py): the dominant bloc - the faction in power - stands on the RIGHT of the States General bar, the bloc that is second by
 # influence on the LEFT; the third bloc is the opposition. The refresh keeps kru_rada_lead_<bloc> and kru_rada_second_<bloc> for the pair: the reform and the
 # bar follow those flags, so the rows read them too.
-leader = choice('RipGovRadaLeader', [(f'has_country_flag = kru_rada_lead_{f}', f'§G{n}§!') for f, n in factions], '§YNot set yet§!')
-second = choice('RipGovRadaSecond', [(f'has_country_flag = kru_rada_second_{f}', f'§G{n}§!') for f, n in factions], '§YNot set yet§!')
+leader = choice('RipGovRadaLeader', [(f'has_country_flag = kru_rada_lead_{f}', f'§G{n}§!') for f, n in factions], '§YSet at the next monthly review§!')
+second = choice('RipGovRadaSecond', [(f'has_country_flag = kru_rada_second_{f}', f'§G{n}§!') for f, n in factions], '§YSet at the next monthly review§!')
 opposition = choice('RipGovRadaOpposition', [(f'has_country_flag = kru_rada_second_{a} has_country_flag = kru_rada_lead_{b}', f'§G{n}§!')
                                               for a, b, n in (('knyazi', 'boyary', 'Starshyna'), ('boyary', 'knyazi', 'Starshyna'), ('knyazi', 'starshyna', 'Boyary'),
-                                                              ('starshyna', 'knyazi', 'Boyary'), ('boyary', 'starshyna', 'Knyazi'), ('starshyna', 'boyary', 'Knyazi'))], '§YNot set yet§!')
+                                                              ('starshyna', 'knyazi', 'Boyary'), ('boyary', 'starshyna', 'Knyazi'), ('starshyna', 'boyary', 'Knyazi'))], '§YSet at the next monthly review§!')
 bar = choice('RipGovRadaBar', [('kru_leader_influence_60 = yes', 'Right, three quarters (leader at 60+)'),
                                ('kru_leader_influence_55 = yes', 'Right, a half (leader at 55+)'),
                                ('kru_leader_influence_50 = yes', 'Right, a quarter (leader at 50+)')], 'Centre (leader under 50: contested)')
@@ -69,13 +69,21 @@ annual = [
  ('Legitimacy','NOT = { legitimacy = 50 }',1,'legitimacy below 50'),
  ('StabGood','stability = 2',-3,'stability at least +2'),
  ('Peace','is_at_war = no',-2,'at peace')]
+# The decadence number is a country variable that the first yearly review creates (events/RuthenianDecadence.txt, rip_decadence_initialized).
+# Printing it with [Root.ruthenian_decadence.GetValue] FAILS while the variable does not exist: measured in EU4 1.37.5, the row showed nothing and the
+# engine wrote "Unknown text property 'GetValue]..." once per frame (9.3 million lines, 1 GB, in five hours with the window open). A defined_text ladder
+# reads a missing variable as "no", so it never errors; the colours follow the panel's own thresholds (crisis from 90, retreat below 75).
+decadence_shown = choice('RipGovDecadence',
+    [(f'check_variable = {{ which = ruthenian_decadence value = {i} }}', f'§{"R" if i >= 90 else "Y" if i >= 75 else "G"}{i}§!') for i in range(100, 0, -1)]
+    + [('has_country_flag = rip_decadence_initialized', '§G0§!')],
+    '§YNot started: it begins at 20 at the first yearly review§!')
 annual_text = '\n'.join(factor('RipGov'+n,t,v,l) for n,t,v,l in annual)
 annual_tip = 'Current conditions for the next yearly pulse; coloured values are active, 0 means inactive. Add these values together. Events can change Decadence separately; this is not a forecast of intervening events.\n' + annual_text + '\nOn the first yearly update, an uninitialised zero starts at 20 before these changes. Annual modifiers: below 40 / 40-69 / at least 70.'
 crisis_tip = 'Court Crisis can start accumulating for KRU with this reform, no other disaster, and Decadence at least 90. Base monthly progress at 90+: +6; frontier centralisation +1.5, frontier liberties -1, southern recovery -1. Progress recedes below 75. An active crisis ends only when Decadence is below 60 AND stability is at least +1.\nThe first annual crossing of 90 can also trigger a separate court event; its choices reduce Decadence. A threshold does not mean the disaster starts immediately.'
 kru_rows = [row('rip_gov_kru_title',12,'§YRada of Three Estates§!',coalition_tip), row('rip_gov_kru_leader',40,'Right (leads): '+leader,coalition_tip),
             row('rip_gov_kru_second',64,'Left (second): '+second,coalition_tip), row('rip_gov_kru_opposition',88,'Opposition: '+opposition,coalition_tip),
             row('rip_gov_kru_bar',112,'Bar: '+bar,coalition_tip), row('rip_gov_kru_voice',136,'Junior voice: '+voice,coalition_tip),
-            row('rip_gov_kru_decay',168,'Decadence: §Y[Root.ruthenian_decadence.GetValue]§!',annual_tip), row('rip_gov_kru_annual',196,'Yearly change: hover for active factors',annual_tip),
+            row('rip_gov_kru_decay',168,'Decadence: '+decadence_shown,annual_tip), row('rip_gov_kru_annual',196,'Yearly change: hover for active factors',annual_tip),
             row('rip_gov_kru_crisis',224,'Crisis: 90+ | Retreat: <75 | End: <60, stability +1',crisis_tip)]
 kru_potential = 'tag = KRU kru_holds_rada_reform = yes'
 

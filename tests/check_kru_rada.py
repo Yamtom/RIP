@@ -110,6 +110,8 @@ class Interpreter:
                 fields = dict(value)
                 if self.holds(fields['limit'], state):
                     self.run([(k, v) for k, v in value if k != 'limit'], state)
+            elif key == 'hidden_effect':
+                self.run(value, state)          # a hidden_effect only hides the tooltip text; the effects inside run as usual
             elif key == 'set_country_flag':
                 state['flags'].add(value)
             elif key == 'clr_country_flag':
@@ -365,6 +367,10 @@ def check_sources(files):
         problems.append('ruthenian_factions.21 is not a hidden event that refreshes the Rada')
     if 'kru_update_dominant_pair_effect = yes' not in events:
         problems.append('the yearly event no longer runs kru_update_dominant_pair_effect')
+    # Seen in EU4 1.37.5: a refresh that is not hidden prints the bar moves ("Strengthen Starshyna by 1000.00%") in every court button's tooltip.
+    refresh = normalized(named_block(files['common/scripted_effects/kru_effects.txt'], 'kru_refresh_factional_court_effect'))
+    if 'hidden_effect = {' not in refresh or 'kru_rada_bar_effect = yes' not in refresh.split('hidden_effect = {', 1)[-1]:
+        problems.append('kru_refresh_factional_court_effect is not a hidden_effect: its tooltip lines ("Strengthen X by 1000.00%") reach every court button')
     for relative in ('common/scripted_effects/kru_effects.txt',):
         for retired in ('kru_current_dominant', 'kru_previous_dominant', 'kru_factional_dominance_active', 'KRU_pair_', 'KRU_courting_'):
             if retired in files[relative].replace('kru_rada_forget_old_state_effect', ''):
@@ -395,6 +401,17 @@ def check_sprites_and_text(loc):
         body = path.read_text(encoding='utf-8-sig')
         if 'kru_rada_coalition' in body or 'kru_rada_opposition' in body:
             problems.append(f'{path.name} still localises the retired coalition/opposition sides')
+    # The two vanilla texts the Rada corrects (English only): the left end's election sentence and the "reform abolished" window of every swap.
+    for key, _, _ in rada.VANILLA_OVERRIDES:
+        if key not in loc['english']:
+            problems.append(f'english: the corrected vanilla key {key} is missing')
+        for language in LANGUAGES[1:]:
+            if key in loc[language]:
+                problems.append(f'{language}: {key} must stay the vanilla translation, not an English fallback')
+    if 'elected every 4 years' in loc['english'].get('STATISTS_DRO', ''):
+        problems.append('STATISTS_DRO still promises elected rulers on the left end of the Rada bar')
+    if 'abolished' in loc['english'].get('REFORM_DESELECTED_DESC', '') or 'abolished' in loc['english'].get('REFORM_DESELECTED_TITLE', ''):
+        problems.append('the window that follows every Rada swap still says the reform was abolished')
     ui = loc['ui']
     for reform in REFORM_IDS:
         if ui.get(reform) != 'Rada of Three Estates':
@@ -449,6 +466,7 @@ def planted(reform_text, triggers_text, effects_text, kru_effects_text, files, l
         'a court button that refreshes before it adds': check_sources({**files, 'common/government_mechanics/rip_ruthenian_factional_court.txt': swap(files['common/government_mechanics/rip_ruthenian_factional_court.txt'], 'add_faction_influence = {\n\t\t\t\t\tfaction = kru_boyary\n\t\t\t\t\tinfluence = 25\n\t\t\t\t}', 'kru_refresh_factional_court_effect = yes\n\t\t\t\tadd_faction_influence = {\n\t\t\t\t\tfaction = kru_boyary\n\t\t\t\t\tinfluence = 25\n\t\t\t\t}', 1).replace('add_treasury = 50\n\t\t\t\tkru_refresh_factional_court_effect = yes', 'add_treasury = 50', 1)}),
         'a reform id missing from the tier lists': check_sources({**files, 'common/governments/00_governments.txt': files['common/governments/00_governments.txt'].replace('ruthenian_factional_empire_hetmans_boyars_reform', 'x')}),
         'no monthly refresh': check_sources({**files, 'common/on_actions/kru_on_actions.txt': files['common/on_actions/kru_on_actions.txt'].replace('ruthenian_factions.21', 'x')}),
+        'a refresh that is not hidden': check_sources({**files, 'common/scripted_effects/kru_effects.txt': swap(files['common/scripted_effects/kru_effects.txt'], 'hidden_effect = {', 'if = { limit = { always = yes }', 1)}),
         'a retired flag back in kru_effects': check_sources({**files, 'common/scripted_effects/kru_effects.txt': files['common/scripted_effects/kru_effects.txt'] + '\n# kru_current_dominant_knyazi\n'}),
         'a side text missing': check_sprites_and_text({**loc, 'french': {k: v for k, v in loc['french'].items() if k != 'kru_rada_boyary_desc'}}),
         'a reform with its own name': check_sprites_and_text({**loc, 'ui': {**loc['ui'], REFORM_IDS[3]: 'Rada of Two Estates'}}),

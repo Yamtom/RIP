@@ -50,6 +50,17 @@ for name in ['RipGovMinorityShare','RipGovExcludedShare']:
     for value,want in [(0,0),(.0999,9),(.1,10),(.1499,14),(.15,15),(.2999,29),(.3,30),(1,100)]:
         shown=next((round(t*100) for t in thresholds if value>=t),0)
         assert shown==want
+# The decadence row is read through a ladder, never through [Root.<variable>.GetValue]: that form fails while the variable does not exist yet (the first yearly review
+# creates it) and the engine then writes one error line per frame (measured in EU4 1.37.5: 9.3 million lines in five hours).
+assert not [key for key, text in loc.items() if '.GetValue]' in text], 'a government panel row prints a country variable with GetValue'
+chunk = dynamic[dynamic.index('name = RipGovDecadence'):]
+chunk = chunk[:chunk.index('\n}\n')]
+assert [float(v) for v in re.findall(r'value = ([\d.]+)', chunk)] == [float(i) for i in range(100, 0, -1)]
+for value, want in [(0, '0'), (0.5, '0'), (1, '1'), (74.9, '74'), (75, '75'), (89, '89'), (90, '90'), (100, '100')]:
+    shown = next((str(t) for t in range(100, 0, -1) if value >= t), '0')
+    assert shown == want
+assert 'has_country_flag = rip_decadence_initialized' in chunk
+assert 'Not started' in loc[re.findall(r'localisation_key = (\w+)', chunk)[-1]], 'the row must say that the number has not started before the first yearly review'
 # No native widget was modified or deleted; panels are appended inside the supported root.
 start=gui.index('\n# Generated read-only RIP government explanations.\n')
 end=gui.index('\n}',gui.index(f'name = "{g.PANEL_NAMES[-1]}"'))+2
