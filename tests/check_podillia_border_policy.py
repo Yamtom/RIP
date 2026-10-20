@@ -30,6 +30,7 @@ import re
 import subprocess
 import sys
 
+from clausewitz_testlib import read_scripted_trigger_family
 from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized
 
 # group -> option letter, and per variant the country flag that selects it (None: the base variant, which excludes the others)
@@ -99,7 +100,7 @@ def test_events():
 
 
 def test_variant_gates():
-    triggers = read("common/scripted_triggers/rip_regional_government_triggers.txt")
+    triggers = read_scripted_trigger_family("regional_government_triggers")
     effects = read("common/scripted_effects/rip_regional_government_effects.txt")
     for group, variants in VARIANTS.items():
         for variant, flag in variants:

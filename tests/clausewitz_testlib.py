@@ -351,3 +351,10 @@ def vanilla_grep(pattern, subdir="common", glob="*.txt"):
     if text is None:
         return None
     return re.findall(pattern, text)
+
+
+def read_scripted_trigger_family(family: str) -> str:
+    """Read every country and shared member after the trigger-file split."""
+    paths = sorted((ROOT / "common/scripted_triggers").glob("*" + family + ".txt"))
+    assert paths, family
+    return "\n".join(path.read_text(encoding="utf-8-sig") for path in paths)

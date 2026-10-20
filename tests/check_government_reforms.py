@@ -7,6 +7,7 @@ import re
 from collections import Counter
 from pathlib import Path
 
+from clausewitz_testlib import read_scripted_trigger_family
 from clausewitz_testlib import ROOT, keyed_blocks, named_block, normalized, read, vanilla_root
 
 
@@ -1782,7 +1783,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
             change >= 0 and change < swap < on_change,
             f"{target_tag} formation does not finish the vanilla mission/tag-change lifecycle",
         )
-    lineage_gates = read("common/scripted_triggers/rip_path_state_triggers.txt")
+    lineage_gates = read_scripted_trigger_family("path_state_triggers")
     top_level_triggers = Counter(
         re.findall(r"(?m)^([A-Za-z0-9_]+)\s*=\s*\{", lineage_gates)
     )
@@ -1914,7 +1915,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         )
     pdl_origin_trigger = normalized(
         named_block(
-            read("common/scripted_triggers/rip_path_state_triggers.txt"),
+            read_scripted_trigger_family("path_state_triggers"),
             "west_ukraine_pdl_origin_country",
         )
     )

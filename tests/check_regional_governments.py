@@ -22,6 +22,7 @@ import re
 import subprocess
 import sys
 
+from clausewitz_testlib import read_scripted_trigger_family
 from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, matching_brace, normalized
 
 FAMILIES = ("chr", "uzh", "pdl", "prl", "ods")
@@ -53,10 +54,10 @@ def test_available_has_no_scripted_trigger():
 
 
 def test_vanilla_keys():
-    triggers = read(TRIGGERS)
+    triggers = read_scripted_trigger_family("regional_government_triggers")
     assert not re.search(r"\bis_port\b", triggers), "is_port does not exist; the vanilla trigger is has_port"
     assert "has_port = yes" in named_block(triggers, "rip_rg_port")
-    assert not re.search(r"has_terrain\s*=\s*mountains\b", read(TRIGGERS)), "the terrain category is `mountain`"
+    assert not re.search(r"has_terrain\s*=\s*mountains\b", read_scripted_trigger_family("regional_government_triggers")), "the terrain category is `mountain`"
     assert "has_terrain = mountain " in named_block(triggers, "rip_rg_uzh_guides_target")
     modifiers = read(MODIFIERS)
     for bad in ("local_trade_power_modifier", "local_goods_produced_modifier"):

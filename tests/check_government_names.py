@@ -6,6 +6,7 @@ import re
 import sys
 from pathlib import Path
 
+from clausewitz_testlib import read_scripted_trigger_family
 from clausewitz_testlib import ROOT, named_block, normalized, read
 
 
@@ -234,7 +235,7 @@ def check_triggers_and_mappings(failures: list[str], text: str) -> None:
             f"{title_name} title is not synchronized with its PDL-origin reform/path",
         )
 
-    origin_triggers = read("common/scripted_triggers/rip_path_state_triggers.txt")
+    origin_triggers = read_scripted_trigger_family("path_state_triggers")
     for origin_name, source_tag, origin_flag in (
         ("west_ukraine_hlc_origin_country", "HLC", "rip_vol_origin_hlc"),
         ("west_ukraine_vln_origin_country", "VLN", "rip_vol_origin_vln"),

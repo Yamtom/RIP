@@ -46,6 +46,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from clausewitz_testlib import read_scripted_trigger_family
 from clausewitz_testlib import (  # noqa: E402
     ROOT, read, named_block, keyed_blocks, matching_brace, normalized, vanilla_read, vanilla_grep,
     vanilla_root, _mask_comments_and_strings,
@@ -649,7 +650,7 @@ def load():
         "reform": read("common/government_reforms/RIP_HLC_government_reforms.txt"),
         "action": read("common/new_diplomatic_actions/RIP_HLC_diplomatic_actions.txt"),
         "privilege": read("common/estate_privileges/RIP_HLC_estate_privileges.txt"),
-        "path_triggers": read("common/scripted_triggers/rip_path_state_triggers.txt"),
+        "path_triggers": read_scripted_trigger_family("path_state_triggers"),
     }
     evidence = ROOT / EVIDENCE
     sources["evidence"] = evidence.read_text(encoding="utf-8") if evidence.is_file() else None
