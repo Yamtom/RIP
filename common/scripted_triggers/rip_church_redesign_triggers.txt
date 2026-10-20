@@ -7,54 +7,54 @@ rip_church_gc_roman = { always = no }
 rip_church_gc_balanced = { always = yes }
 rip_church_ro_recognized = { has_country_flag = rip_church_ro_recognized NOT = { has_country_flag = rip_church_ro_schismatic } }
 rip_church_ro_irreversible_schism = {
- has_country_flag = rip_church_ro_schismatic
- check_variable = { which = rip_ro_reform_desire value = 101 }
+	has_country_flag = rip_church_ro_schismatic
+	check_variable = { which = rip_ro_reform_desire value = 101 }
 }
 rip_church_ro_over_capacity = {
- OR = {
- AND = { NOT = { patriarch_authority = 0.3 } check_variable = { which = rip_church_icons value = 2 } }
- AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = rip_church_icons value = 3 } }
- AND = { NOT = { patriarch_authority = 0.9 } check_variable = { which = rip_church_icons value = 4 } }
- }
+	OR = {
+		AND = { NOT = { patriarch_authority = 0.3 } check_variable = { which = rip_church_icons value = 2 } }
+		AND = { NOT = { patriarch_authority = 0.65 } check_variable = { which = rip_church_icons value = 3 } }
+		AND = { NOT = { patriarch_authority = 0.9 } check_variable = { which = rip_church_icons value = 4 } }
+	}
 }
 rip_church_ro_slot_available = {
- OR = {
- NOT = { check_variable = { which = rip_church_icons value = 1 } }
- AND = { patriarch_authority = 0.3 NOT = { check_variable = { which = rip_church_icons value = 2 } } }
- AND = { patriarch_authority = 0.65 NOT = { check_variable = { which = rip_church_icons value = 3 } } }
- AND = { patriarch_authority = 0.9 NOT = { check_variable = { which = rip_church_icons value = 4 } } }
- }
+	OR = {
+		NOT = { check_variable = { which = rip_church_icons value = 1 } }
+		AND = { patriarch_authority = 0.3 NOT = { check_variable = { which = rip_church_icons value = 2 } } }
+		AND = { patriarch_authority = 0.65 NOT = { check_variable = { which = rip_church_icons value = 3 } } }
+		AND = { patriarch_authority = 0.9 NOT = { check_variable = { which = rip_church_icons value = 4 } } }
+	}
 }
 rip_church_can_reconcile = {
- religion = russian_orthodox has_country_flag = rip_church_ro_schismatic
- NOT = { has_country_flag = rip_church_reconciliation_pending }
- NOT = { rip_church_ro_irreversible_schism = yes }
- is_at_war = no stability = 1 dip_power = 100 patriarch_authority = 0.2
+	religion = russian_orthodox has_country_flag = rip_church_ro_schismatic
+	NOT = { has_country_flag = rip_church_reconciliation_pending }
+	NOT = { rip_church_ro_irreversible_schism = yes }
+	is_at_war = no stability = 1 dip_power = 100 patriarch_authority = 0.2
 }
 rip_church_can_activate_war = {
- rip_church_ro_jurisdiction = yes rip_church_ro_slot_available = yes
- NOT = { has_country_flag = rip_church_icon_war }
- check_variable = { which = muscovy_fervor value = 10 }
- OR = { NOT = { has_country_flag = rip_church_icon_war_used } had_country_flag = { flag = rip_church_icon_war_used days = 365 } }
+	rip_church_ro_jurisdiction = yes rip_church_ro_slot_available = yes
+	NOT = { has_country_flag = rip_church_icon_war }
+	check_variable = { which = muscovy_fervor value = 10 }
+	OR = { NOT = { has_country_flag = rip_church_icon_war_used } had_country_flag = { flag = rip_church_icon_war_used days = 365 } }
 }
 rip_church_can_activate_mercy = {
- rip_church_ro_jurisdiction = yes rip_church_ro_slot_available = yes
- NOT = { has_country_flag = rip_church_icon_mercy }
- check_variable = { which = muscovy_fervor value = 10 }
- OR = { NOT = { has_country_flag = rip_church_icon_mercy_used } had_country_flag = { flag = rip_church_icon_mercy_used days = 365 } }
+	rip_church_ro_jurisdiction = yes rip_church_ro_slot_available = yes
+	NOT = { has_country_flag = rip_church_icon_mercy }
+	check_variable = { which = muscovy_fervor value = 10 }
+	OR = { NOT = { has_country_flag = rip_church_icon_mercy_used } had_country_flag = { flag = rip_church_icon_mercy_used days = 365 } }
 }
 rip_church_can_activate_building = {
- rip_church_ro_jurisdiction = yes rip_church_ro_slot_available = yes
- NOT = { has_country_flag = rip_church_icon_building }
- check_variable = { which = muscovy_fervor value = 10 }
- OR = { NOT = { has_country_flag = rip_church_icon_building_used } had_country_flag = { flag = rip_church_icon_building_used days = 365 } }
+	rip_church_ro_jurisdiction = yes rip_church_ro_slot_available = yes
+	NOT = { has_country_flag = rip_church_icon_building }
+	check_variable = { which = muscovy_fervor value = 10 }
+	OR = { NOT = { has_country_flag = rip_church_icon_building_used } had_country_flag = { flag = rip_church_icon_building_used days = 365 } }
 }
 # Mission needs the price of its first node in the pool as well as its own 10: the policy is only
 # worth switching on if a node can be founded at once, and its upkeep would otherwise eat the income
 # that could save for one.
 rip_church_can_activate_mission = {
- rip_church_ro_jurisdiction = yes rip_church_ro_slot_available = yes
- NOT = { has_country_flag = rip_church_icon_mission }
- check_variable = { which = muscovy_fervor value = 20 }
- OR = { NOT = { has_country_flag = rip_church_icon_mission_used } had_country_flag = { flag = rip_church_icon_mission_used days = 365 } }
+	rip_church_ro_jurisdiction = yes rip_church_ro_slot_available = yes
+	NOT = { has_country_flag = rip_church_icon_mission }
+	check_variable = { which = muscovy_fervor value = 20 }
+	OR = { NOT = { has_country_flag = rip_church_icon_mission_used } had_country_flag = { flag = rip_church_icon_mission_used days = 365 } }
 }

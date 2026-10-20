@@ -1,46 +1,46 @@
 # Country transactions; numerical thresholds are game design, not historical claims.
 rip_church_can_change_governance = {
- rip_church_ro_jurisdiction = yes government = monarchy
- is_at_war = no stability = 1 adm_power = 75
- OR = { NOT = { has_country_flag = rip_church_governance_changed } had_country_flag = { flag = rip_church_governance_changed days = 3650 } }
+	rip_church_ro_jurisdiction = yes government = monarchy
+	is_at_war = no stability = 1 adm_power = 75
+	OR = { NOT = { has_country_flag = rip_church_governance_changed } had_country_flag = { flag = rip_church_governance_changed days = 3650 } }
 }
 rip_church_ai_local_mission_useful = {
- any_owned_province = { rip_church_mission_field = yes controlled_by = owner has_missionary = yes }
+	any_owned_province = { rip_church_mission_field = yes controlled_by = owner has_missionary = yes }
 }
 rip_church_ai_mission_useful = {
- OR = { rip_church_ai_local_mission_useful = yes rip_church_ro_potential_network = yes }
+	OR = { rip_church_ai_local_mission_useful = yes rip_church_ro_potential_network = yes }
 }
 rip_church_ai_mission_affordable = {
- # A network returns 3/month and pays for Mission. Local work must be funded
- # by authority, or a reserve of at least 24 months of the one-point deficit.
- OR = {
-  rip_church_ro_potential_network = yes
-  check_variable = { which = rip_church_fervor_net value = 3 }
-  AND = { NOT = { check_variable = { which = rip_church_icons value = 1 } } check_variable = { which = muscovy_fervor value = 40 } }
- }
+	# A network returns 3/month and pays for Mission. Local work must be funded
+	# by authority, or a reserve of at least 24 months of the one-point deficit.
+	OR = {
+		rip_church_ro_potential_network = yes
+		check_variable = { which = rip_church_fervor_net value = 3 }
+		AND = { NOT = { check_variable = { which = rip_church_icons value = 1 } } check_variable = { which = muscovy_fervor value = 40 } }
+	}
 }
 rip_church_compact_parish = {
- is_city = yes controlled_by = owner is_core = owner
- OR = { religion = orthodox religion = greek_catholic }
- NOT = { has_province_flag = rip_church_compact }
- NOT = { has_missionary = yes }
+	is_city = yes controlled_by = owner is_core = owner
+	OR = { religion = orthodox religion = greek_catholic }
+	NOT = { has_province_flag = rip_church_compact }
+	NOT = { has_missionary = yes }
 }
 rip_church_compact_crown = {
- OR = { religion = greek_catholic AND = { religion = catholic has_country_flag = rip_church_supports_union } }
+	OR = { religion = greek_catholic AND = { religion = catholic has_country_flag = rip_church_supports_union } }
 }
 rip_church_can_pay_compact = {
- rip_church_compact_crown = yes is_at_war = no stability = 1 adm_power = 75 dip_power = 50
- NOT = { has_country_modifier = rip_church_broken_promises }
+	rip_church_compact_crown = yes is_at_war = no stability = 1 adm_power = 75 dip_power = 50
+	NOT = { has_country_modifier = rip_church_broken_promises }
 }
 rip_church_can_negotiate_compact = {
- rip_church_can_pay_compact = yes
- any_owned_province = { rip_church_compact_parish = yes }
- OR = { NOT = { has_country_flag = rip_church_compact_negotiated } had_country_flag = { flag = rip_church_compact_negotiated days = 730 } }
+	rip_church_can_pay_compact = yes
+	any_owned_province = { rip_church_compact_parish = yes }
+	OR = { NOT = { has_country_flag = rip_church_compact_negotiated } had_country_flag = { flag = rip_church_compact_negotiated days = 730 } }
 }
 rip_church_ai_compact_worthwhile = {
- is_at_war = no NOT = { num_of_loans = 1 } adm_power = 150 dip_power = 100
- OR = {
-  any_owned_province = { rip_church_compact_parish = yes unrest = 1 }
-  num_of_owned_provinces_with = { value = 3 rip_church_compact_parish = yes }
- }
+	is_at_war = no NOT = { num_of_loans = 1 } adm_power = 150 dip_power = 100
+	OR = {
+		any_owned_province = { rip_church_compact_parish = yes unrest = 1 }
+		num_of_owned_provinces_with = { value = 3 rip_church_compact_parish = yes }
+	}
 }

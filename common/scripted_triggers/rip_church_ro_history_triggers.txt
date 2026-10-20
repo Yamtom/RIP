@@ -1,20 +1,20 @@
 # Country scope: a local metropolitanate remains part of Orthodox Christianity.
 rip_church_ro_jurisdiction = {
- OR = {
-  religion = russian_orthodox
-  AND = { religion = orthodox has_country_flag = rip_ro_stage_autocephaly }
- }
+	OR = {
+		religion = russian_orthodox
+		AND = { religion = orthodox has_country_flag = rip_ro_stage_autocephaly }
+	}
 }
 rip_church_ro_can_separate = {
- is_year = 1589
- has_country_flag = rip_church_ro_schismatic
+	is_year = 1589
+	has_country_flag = rip_church_ro_schismatic
 }
 # Province scope: a city where the old books are still read after the Raskol.
 # The formal council relabels the state and its capital only
 # (rip_church_ro_can_separate); every other parish stays Orthodox, and that is
 # where the dissent lives. It never rises in the capital the patriarch sits in.
 rip_ro_old_believer_parish = {
- is_city = yes
- is_capital = no
- OR = { has_province_flag = rip_ob_community religion = old_believer }
+	is_city = yes
+	is_capital = no
+	OR = { has_province_flag = rip_ob_community religion = old_believer }
 }
