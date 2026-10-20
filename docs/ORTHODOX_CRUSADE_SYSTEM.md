@@ -32,7 +32,7 @@ RIP Mod/
 │   ├── scripted_triggers/
 │   │   └── russian_orthodox_triggers.txt    [+8 тригерів походу]
 │   ├── opinion_modifiers/
-│   │   └── orthodox_crusade_opinion_modifiers.txt [4 модифікатори думки]
+│   │   └── RIP_religion_orthodox_crusade_opinion_modifiers.txt [4 модифікатори думки]
 │   ├── casus_belli/
 │   │   └── orthodox_crusade_cb.txt          [2 приводи до війни]
 │   └── wargoal_types/

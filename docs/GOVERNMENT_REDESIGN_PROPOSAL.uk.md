@@ -306,7 +306,7 @@ modifiers_effect`).
   Той самий гейт Third Rome / Domination, тож регресії для гравця без DLC
   немає. CHR «наказне царство» лишає `russian_mechanic` навмисно (емуляція
   Москви).
-- Нові модифікатори в `RIP_KRU_modifiers.txt` / `kie_opinion_modifiers.txt`
+- Нові модифікатори в `RIP_KRU_modifiers.txt` / `RIP_KIE_opinion_modifiers.txt`
   (ключ думки — `kyivan_` префікс, вимога `check_opinion_modifier_layer`);
   локалізація EN + FR/DE/ES-фолбек.
 

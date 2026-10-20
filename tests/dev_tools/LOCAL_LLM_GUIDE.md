@@ -47,7 +47,7 @@ checks = all_of(one_line, word_count(2, 5), title_case, forbid("identity", "demo
 tasks = [
     Task(
         key="het_grain_trade",
-        source="common/opinion_modifiers/het_opinion_modifiers.txt",
+        source="common/opinion_modifiers/RIP_HET_opinion_modifiers.txt",
         prompt=constrained_prompt(
             "Name an EU4 opinion modifier",
             "The Hetmanate sells grain down the Dnieper.",

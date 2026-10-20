@@ -12,23 +12,26 @@ from clausewitz_testlib import ROOT, _mask_comments_and_strings, line_number, ma
 
 MODIFIER_DIR = ROOT / "common" / "opinion_modifiers"
 COUNTRY_FILES = {
-    "chr_opinion_modifiers.txt": (re.compile(r"^chr_"), set()),
-    "cri_opinion_modifiers.txt": (re.compile(r"^(?:crimean_|crimea_)"), set()),
-    "het_opinion_modifiers.txt": (
+    "RIP_CHR_opinion_modifiers.txt": (re.compile(r"^chr_"), set()),
+    "RIP_CRI_opinion_modifiers.txt": (re.compile(r"^(?:crimean_|crimea_)"), set()),
+    "RIP_HET_opinion_modifiers.txt": (
         re.compile(r"^(?:het_|hetmanate_)"),
         {"accepted_russian_candidate", "rejected_russian_candidate", "accepted_collegium", "resisted_collegium", "negotiated_autonomy"},
     ),
-    "kie_opinion_modifiers.txt": (re.compile(r"^(?:kie_|kyivan_|svydrigaylo_|ruthenian_independence_|supports_ruthenian_)"), set()),
-    "lit_opinion_modifiers.txt": (re.compile(r"^(?:lit_|lithuania_)"), set()),
-    "mos_opinion_modifiers.txt": (re.compile(r"^(?:rip_tot_|muscovy_)"), set()),
-    "pdl_opinion_modifiers.txt": (re.compile(r"^pdl_"), set()),
-    "plc_opinion_modifiers.txt": (re.compile(r"^(?:plc_|poland_)"), set()),
-    "tur_opinion_modifiers.txt": (re.compile(r"^ottoman_"), set()),
-    "uniate_opinion_modifiers.txt": (re.compile(r"^rip_ucr_"), set()),
-    "uzh_opinion_modifiers.txt": (re.compile(r"^opinion_uz_"), set()),
-    "vol_opinion_modifiers.txt": (re.compile(r"^vol_"), set()),
-    "west_ukr_opinion_modifiers.txt": (re.compile(r"^west_ukr_"), set()),
-    "zaz_opinion_modifiers.txt": (
+    "RIP_HLC_opinion_modifiers.txt": (re.compile(r"^west_ukr_"), set()),
+    "RIP_KIE_opinion_modifiers.txt": (re.compile(r"^(?:kie_|kyivan_|svydrigaylo_|ruthenian_independence_|supports_ruthenian_)"), set()),
+    "RIP_LIT_opinion_modifiers.txt": (re.compile(r"^(?:lit_|lithuania_)"), set()),
+    "RIP_MOL_opinion_modifiers.txt": (re.compile(r"^moldavia_"), set()),
+    "RIP_MOS_opinion_modifiers.txt": (re.compile(r"^(?:rip_tot_|muscovy_)"), set()),
+    "RIP_PDL_opinion_modifiers.txt": (re.compile(r"^pdl_"), set()),
+    "RIP_PLC_opinion_modifiers.txt": (re.compile(r"^(?:plc_|poland_)"), set()),
+    "RIP_PLT_opinion_modifiers.txt": (re.compile(r"^plt_"), set()),
+    "RIP_TUR_opinion_modifiers.txt": (re.compile(r"^ottoman_"), set()),
+    "RIP_religion_uniate_opinion_modifiers.txt": (re.compile(r"^rip_ucr_"), set()),
+    "RIP_UZH_opinion_modifiers.txt": (re.compile(r"^opinion_uz_"), set()),
+    "RIP_VOL_opinion_modifiers.txt": (re.compile(r"^vol_"), set()),
+    "RIP_WAL_opinion_modifiers.txt": (re.compile(r"^wallachia_"), set()),
+    "RIP_ZAZ_opinion_modifiers.txt": (
         re.compile(r"^zaz_"),
         {"demanded_sich_relocation", "expanded_register", "abolished_register", "demanded_hetman_change", "integrated_host_system", "orthodox_cossack_defenders"},
     ),
