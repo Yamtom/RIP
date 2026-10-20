@@ -262,6 +262,9 @@ HEADER = [
     f'# Regenerate with: python {GENERATOR}   (add --check to fail when this file is stale)',
 ]
 
+# The keys every vanilla hidden event carries after its id (the fourth, an option, closes the event).
+HIDDEN_SHAPE = ['\ttitle = none', '\tdesc = none', '\tpicture = none']
+
 
 def indent(lines: list[str], depth: int) -> list[str]:
     return ['\t' * depth + line if line else line for line in lines]
@@ -346,9 +349,12 @@ def render_events(data: dict) -> str:
         '# Three events per row. Numbers: visible = row number, dated starter = +100, late starter = +200.',
         '#   dated starter  hidden; opens in the exact month, schedules the visible event ten days on.',
         '#                  fire_only_once and the scheduled-flag guard both stop a daily MTTH from scheduling twice.',
-        '#                  The empty option copies all 210 hidden events of vanilla, none of which lacks one.',
         '#   late starter   hidden; from the following month, retries every ~6 months until late_until',
         '#   visible event  is_triggered_only; sets the answered flag first, so each seat is asked once',
+        '# Both starters wear the vanilla hidden-event shape: title, desc and picture = none and one (empty) option.',
+        '# All 68 hidden events of vanilla 1.37.5 have all four keys; "hidden = yes" does not switch the engine checks',
+        '# off, and without them EU4 writes "is missing a title / desc / picture" to error.log at every start',
+        '# (guarded by tests/check_hidden_events.py).',
         '# No scripted effect, no else_if, no add_opinion: the engine drops those in else_if bodies (F1).',
         f'namespace = {ns}',
     ]
@@ -360,6 +366,7 @@ def render_events(data: dict) -> str:
         out += [
             'province_event = {',
             f"\tid = {ids['dated']}",
+            *HIDDEN_SHAPE,
             '\thidden = yes',
             '\tfire_only_once = yes',
             '\ttrigger = {',
@@ -380,6 +387,7 @@ def render_events(data: dict) -> str:
         out += [
             'province_event = {',
             f"\tid = {ids['late']}",
+            *HIDDEN_SHAPE,
             '\thidden = yes',
             '\ttrigger = {',
             f'\t\tprovince_id = {province}',
