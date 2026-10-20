@@ -1,18 +1,37 @@
 defined_text = {
- name = RipGovDominant
+ name = RipGovRadaLeader
  random = no
- text = { trigger = { has_country_flag = kru_factional_dominance_active has_country_flag = kru_current_dominant_knyazi } localisation_key = rip_gov_RipGovDominant_0 }
- text = { trigger = { has_country_flag = kru_factional_dominance_active has_country_flag = kru_current_dominant_boyary } localisation_key = rip_gov_RipGovDominant_1 }
- text = { trigger = { has_country_flag = kru_factional_dominance_active has_country_flag = kru_current_dominant_starshyna } localisation_key = rip_gov_RipGovDominant_2 }
- text = { trigger = { always = yes } localisation_key = rip_gov_RipGovDominant_3 }
+ text = { trigger = { has_country_flag = kru_rada_lead_knyazi } localisation_key = rip_gov_RipGovRadaLeader_0 }
+ text = { trigger = { has_country_flag = kru_rada_lead_boyary } localisation_key = rip_gov_RipGovRadaLeader_1 }
+ text = { trigger = { has_country_flag = kru_rada_lead_starshyna } localisation_key = rip_gov_RipGovRadaLeader_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovRadaLeader_3 }
 }
 defined_text = {
- name = RipGovPartner
+ name = RipGovRadaSecond
  random = no
- text = { trigger = { has_country_flag = kru_factional_dominance_active has_country_flag = kru_previous_dominant_knyazi } localisation_key = rip_gov_RipGovPartner_0 }
- text = { trigger = { has_country_flag = kru_factional_dominance_active has_country_flag = kru_previous_dominant_boyary } localisation_key = rip_gov_RipGovPartner_1 }
- text = { trigger = { has_country_flag = kru_factional_dominance_active has_country_flag = kru_previous_dominant_starshyna } localisation_key = rip_gov_RipGovPartner_2 }
- text = { trigger = { always = yes } localisation_key = rip_gov_RipGovPartner_3 }
+ text = { trigger = { has_country_flag = kru_rada_second_knyazi } localisation_key = rip_gov_RipGovRadaSecond_0 }
+ text = { trigger = { has_country_flag = kru_rada_second_boyary } localisation_key = rip_gov_RipGovRadaSecond_1 }
+ text = { trigger = { has_country_flag = kru_rada_second_starshyna } localisation_key = rip_gov_RipGovRadaSecond_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovRadaSecond_3 }
+}
+defined_text = {
+ name = RipGovRadaOpposition
+ random = no
+ text = { trigger = { has_country_flag = kru_rada_second_knyazi has_country_flag = kru_rada_lead_boyary } localisation_key = rip_gov_RipGovRadaOpposition_0 }
+ text = { trigger = { has_country_flag = kru_rada_second_boyary has_country_flag = kru_rada_lead_knyazi } localisation_key = rip_gov_RipGovRadaOpposition_1 }
+ text = { trigger = { has_country_flag = kru_rada_second_knyazi has_country_flag = kru_rada_lead_starshyna } localisation_key = rip_gov_RipGovRadaOpposition_2 }
+ text = { trigger = { has_country_flag = kru_rada_second_starshyna has_country_flag = kru_rada_lead_knyazi } localisation_key = rip_gov_RipGovRadaOpposition_3 }
+ text = { trigger = { has_country_flag = kru_rada_second_boyary has_country_flag = kru_rada_lead_starshyna } localisation_key = rip_gov_RipGovRadaOpposition_4 }
+ text = { trigger = { has_country_flag = kru_rada_second_starshyna has_country_flag = kru_rada_lead_boyary } localisation_key = rip_gov_RipGovRadaOpposition_5 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovRadaOpposition_6 }
+}
+defined_text = {
+ name = RipGovRadaBar
+ random = no
+ text = { trigger = { kru_leader_influence_60 = yes } localisation_key = rip_gov_RipGovRadaBar_0 }
+ text = { trigger = { kru_leader_influence_55 = yes } localisation_key = rip_gov_RipGovRadaBar_1 }
+ text = { trigger = { kru_leader_influence_50 = yes } localisation_key = rip_gov_RipGovRadaBar_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovRadaBar_3 }
 }
 defined_text = {
  name = RipGovJuniorVoice
@@ -23,12 +42,110 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_gov_RipGovJuniorVoice_3 }
 }
 defined_text = {
- name = RipGovOpposition
+ name = RipGovDecadence
  random = no
- text = { trigger = { has_country_flag = kru_factional_dominance_active NOT = { has_country_flag = kru_current_dominant_knyazi } NOT = { has_country_flag = kru_previous_dominant_knyazi } } localisation_key = rip_gov_RipGovOpposition_0 }
- text = { trigger = { has_country_flag = kru_factional_dominance_active NOT = { has_country_flag = kru_current_dominant_boyary } NOT = { has_country_flag = kru_previous_dominant_boyary } } localisation_key = rip_gov_RipGovOpposition_1 }
- text = { trigger = { has_country_flag = kru_factional_dominance_active NOT = { has_country_flag = kru_current_dominant_starshyna } NOT = { has_country_flag = kru_previous_dominant_starshyna } } localisation_key = rip_gov_RipGovOpposition_2 }
- text = { trigger = { always = yes } localisation_key = rip_gov_RipGovOpposition_3 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 100 } } localisation_key = rip_gov_RipGovDecadence_0 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 99 } } localisation_key = rip_gov_RipGovDecadence_1 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 98 } } localisation_key = rip_gov_RipGovDecadence_2 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 97 } } localisation_key = rip_gov_RipGovDecadence_3 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 96 } } localisation_key = rip_gov_RipGovDecadence_4 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 95 } } localisation_key = rip_gov_RipGovDecadence_5 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 94 } } localisation_key = rip_gov_RipGovDecadence_6 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 93 } } localisation_key = rip_gov_RipGovDecadence_7 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 92 } } localisation_key = rip_gov_RipGovDecadence_8 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 91 } } localisation_key = rip_gov_RipGovDecadence_9 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 90 } } localisation_key = rip_gov_RipGovDecadence_10 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 89 } } localisation_key = rip_gov_RipGovDecadence_11 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 88 } } localisation_key = rip_gov_RipGovDecadence_12 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 87 } } localisation_key = rip_gov_RipGovDecadence_13 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 86 } } localisation_key = rip_gov_RipGovDecadence_14 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 85 } } localisation_key = rip_gov_RipGovDecadence_15 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 84 } } localisation_key = rip_gov_RipGovDecadence_16 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 83 } } localisation_key = rip_gov_RipGovDecadence_17 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 82 } } localisation_key = rip_gov_RipGovDecadence_18 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 81 } } localisation_key = rip_gov_RipGovDecadence_19 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 80 } } localisation_key = rip_gov_RipGovDecadence_20 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 79 } } localisation_key = rip_gov_RipGovDecadence_21 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 78 } } localisation_key = rip_gov_RipGovDecadence_22 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 77 } } localisation_key = rip_gov_RipGovDecadence_23 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 76 } } localisation_key = rip_gov_RipGovDecadence_24 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 75 } } localisation_key = rip_gov_RipGovDecadence_25 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 74 } } localisation_key = rip_gov_RipGovDecadence_26 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 73 } } localisation_key = rip_gov_RipGovDecadence_27 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 72 } } localisation_key = rip_gov_RipGovDecadence_28 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 71 } } localisation_key = rip_gov_RipGovDecadence_29 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 70 } } localisation_key = rip_gov_RipGovDecadence_30 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 69 } } localisation_key = rip_gov_RipGovDecadence_31 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 68 } } localisation_key = rip_gov_RipGovDecadence_32 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 67 } } localisation_key = rip_gov_RipGovDecadence_33 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 66 } } localisation_key = rip_gov_RipGovDecadence_34 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 65 } } localisation_key = rip_gov_RipGovDecadence_35 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 64 } } localisation_key = rip_gov_RipGovDecadence_36 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 63 } } localisation_key = rip_gov_RipGovDecadence_37 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 62 } } localisation_key = rip_gov_RipGovDecadence_38 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 61 } } localisation_key = rip_gov_RipGovDecadence_39 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 60 } } localisation_key = rip_gov_RipGovDecadence_40 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 59 } } localisation_key = rip_gov_RipGovDecadence_41 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 58 } } localisation_key = rip_gov_RipGovDecadence_42 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 57 } } localisation_key = rip_gov_RipGovDecadence_43 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 56 } } localisation_key = rip_gov_RipGovDecadence_44 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 55 } } localisation_key = rip_gov_RipGovDecadence_45 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 54 } } localisation_key = rip_gov_RipGovDecadence_46 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 53 } } localisation_key = rip_gov_RipGovDecadence_47 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 52 } } localisation_key = rip_gov_RipGovDecadence_48 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 51 } } localisation_key = rip_gov_RipGovDecadence_49 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 50 } } localisation_key = rip_gov_RipGovDecadence_50 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 49 } } localisation_key = rip_gov_RipGovDecadence_51 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 48 } } localisation_key = rip_gov_RipGovDecadence_52 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 47 } } localisation_key = rip_gov_RipGovDecadence_53 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 46 } } localisation_key = rip_gov_RipGovDecadence_54 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 45 } } localisation_key = rip_gov_RipGovDecadence_55 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 44 } } localisation_key = rip_gov_RipGovDecadence_56 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 43 } } localisation_key = rip_gov_RipGovDecadence_57 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 42 } } localisation_key = rip_gov_RipGovDecadence_58 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 41 } } localisation_key = rip_gov_RipGovDecadence_59 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 40 } } localisation_key = rip_gov_RipGovDecadence_60 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 39 } } localisation_key = rip_gov_RipGovDecadence_61 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 38 } } localisation_key = rip_gov_RipGovDecadence_62 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 37 } } localisation_key = rip_gov_RipGovDecadence_63 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 36 } } localisation_key = rip_gov_RipGovDecadence_64 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 35 } } localisation_key = rip_gov_RipGovDecadence_65 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 34 } } localisation_key = rip_gov_RipGovDecadence_66 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 33 } } localisation_key = rip_gov_RipGovDecadence_67 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 32 } } localisation_key = rip_gov_RipGovDecadence_68 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 31 } } localisation_key = rip_gov_RipGovDecadence_69 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 30 } } localisation_key = rip_gov_RipGovDecadence_70 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 29 } } localisation_key = rip_gov_RipGovDecadence_71 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 28 } } localisation_key = rip_gov_RipGovDecadence_72 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 27 } } localisation_key = rip_gov_RipGovDecadence_73 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 26 } } localisation_key = rip_gov_RipGovDecadence_74 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 25 } } localisation_key = rip_gov_RipGovDecadence_75 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 24 } } localisation_key = rip_gov_RipGovDecadence_76 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 23 } } localisation_key = rip_gov_RipGovDecadence_77 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 22 } } localisation_key = rip_gov_RipGovDecadence_78 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 21 } } localisation_key = rip_gov_RipGovDecadence_79 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 20 } } localisation_key = rip_gov_RipGovDecadence_80 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 19 } } localisation_key = rip_gov_RipGovDecadence_81 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 18 } } localisation_key = rip_gov_RipGovDecadence_82 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 17 } } localisation_key = rip_gov_RipGovDecadence_83 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 16 } } localisation_key = rip_gov_RipGovDecadence_84 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 15 } } localisation_key = rip_gov_RipGovDecadence_85 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 14 } } localisation_key = rip_gov_RipGovDecadence_86 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 13 } } localisation_key = rip_gov_RipGovDecadence_87 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 12 } } localisation_key = rip_gov_RipGovDecadence_88 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 11 } } localisation_key = rip_gov_RipGovDecadence_89 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 10 } } localisation_key = rip_gov_RipGovDecadence_90 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 9 } } localisation_key = rip_gov_RipGovDecadence_91 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 8 } } localisation_key = rip_gov_RipGovDecadence_92 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 7 } } localisation_key = rip_gov_RipGovDecadence_93 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 6 } } localisation_key = rip_gov_RipGovDecadence_94 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 5 } } localisation_key = rip_gov_RipGovDecadence_95 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 4 } } localisation_key = rip_gov_RipGovDecadence_96 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 3 } } localisation_key = rip_gov_RipGovDecadence_97 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 2 } } localisation_key = rip_gov_RipGovDecadence_98 }
+ text = { trigger = { check_variable = { which = ruthenian_decadence value = 1 } } localisation_key = rip_gov_RipGovDecadence_99 }
+ text = { trigger = { has_country_flag = rip_decadence_initialized } localisation_key = rip_gov_RipGovDecadence_100 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovDecadence_101 }
 }
 defined_text = {
  name = RipGovStabZero
@@ -397,54 +514,183 @@ defined_text = {
  text = { trigger = { always = yes } localisation_key = rip_gov_CesarGatherIneligible_1 }
 }
 defined_text = {
- name = RipGovActiveReview
+ name = RipGovResMunicipalCharters
  random = no
- text = { trigger = { has_country_modifier = rip_gov_municipal_charters } localisation_key = rip_gov_RipGovActiveReview_0 }
- text = { trigger = { has_country_modifier = rip_gov_municipal_accounts } localisation_key = rip_gov_RipGovActiveReview_1 }
- text = { trigger = { has_country_modifier = rip_gov_chancery_service } localisation_key = rip_gov_RipGovActiveReview_2 }
- text = { trigger = { has_country_modifier = rip_gov_chancery_rights } localisation_key = rip_gov_RipGovActiveReview_3 }
- text = { trigger = { has_country_modifier = rip_gov_register_muster } localisation_key = rip_gov_RipGovActiveReview_4 }
- text = { trigger = { has_country_modifier = rip_gov_register_settlement } localisation_key = rip_gov_RipGovActiveReview_5 }
- text = { trigger = { always = yes } localisation_key = rip_gov_RipGovActiveReview_6 }
+ text = { trigger = { NOT = { rip_gov_has_municipal_review = yes } } localisation_key = rip_gov_RipGovResMunicipalCharters_0 }
+ text = { trigger = { has_country_modifier = rip_gov_municipal_charters } localisation_key = rip_gov_RipGovResMunicipalCharters_1 }
+ text = { trigger = { rip_gov_resolution_in_force = yes } localisation_key = rip_gov_RipGovResMunicipalCharters_2 }
+ text = { trigger = { NOT = { rip_gov_resolution_lock_over = yes } } localisation_key = rip_gov_RipGovResMunicipalCharters_3 }
+ text = { trigger = { is_at_war = yes } localisation_key = rip_gov_RipGovResMunicipalCharters_4 }
+ text = { trigger = { NOT = { stability = 0 } } localisation_key = rip_gov_RipGovResMunicipalCharters_5 }
+ text = { trigger = { NOT = { treasury = 50 } } localisation_key = rip_gov_RipGovResMunicipalCharters_6 }
+ text = { trigger = { NOT = { dip_power = 50 } } localisation_key = rip_gov_RipGovResMunicipalCharters_7 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovResMunicipalCharters_8 }
 }
 defined_text = {
- name = RipGovReviewLockout
+ name = RipGovResMunicipalAccounts
  random = no
- text = { trigger = { OR = { has_country_modifier = rip_gov_municipal_charters has_country_modifier = rip_gov_municipal_accounts has_country_modifier = rip_gov_chancery_service has_country_modifier = rip_gov_chancery_rights has_country_modifier = rip_gov_register_muster has_country_modifier = rip_gov_register_settlement } } localisation_key = rip_gov_RipGovReviewLockout_0 }
- text = { trigger = { has_country_flag = rip_gov_review_recent NOT = { had_country_flag = { flag = rip_gov_review_recent days = 3650 } } } localisation_key = rip_gov_RipGovReviewLockout_1 }
- text = { trigger = { always = yes } localisation_key = rip_gov_RipGovReviewLockout_2 }
+ text = { trigger = { NOT = { rip_gov_has_municipal_review = yes } } localisation_key = rip_gov_RipGovResMunicipalAccounts_0 }
+ text = { trigger = { has_country_modifier = rip_gov_municipal_accounts } localisation_key = rip_gov_RipGovResMunicipalAccounts_1 }
+ text = { trigger = { rip_gov_resolution_in_force = yes } localisation_key = rip_gov_RipGovResMunicipalAccounts_2 }
+ text = { trigger = { NOT = { rip_gov_resolution_lock_over = yes } } localisation_key = rip_gov_RipGovResMunicipalAccounts_3 }
+ text = { trigger = { is_at_war = yes } localisation_key = rip_gov_RipGovResMunicipalAccounts_4 }
+ text = { trigger = { NOT = { stability = 0 } } localisation_key = rip_gov_RipGovResMunicipalAccounts_5 }
+ text = { trigger = { NOT = { treasury = 50 } } localisation_key = rip_gov_RipGovResMunicipalAccounts_6 }
+ text = { trigger = { NOT = { adm_power = 50 } } localisation_key = rip_gov_RipGovResMunicipalAccounts_7 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovResMunicipalAccounts_8 }
 }
 defined_text = {
- name = RipGovReviewInstitutes
+ name = RipGovResChanceryService
  random = no
- text = { trigger = { rip_gov_has_municipal_review = yes rip_gov_has_chancery_review = yes rip_gov_has_register_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_0 }
- text = { trigger = { rip_gov_has_municipal_review = yes rip_gov_has_chancery_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_1 }
- text = { trigger = { rip_gov_has_municipal_review = yes rip_gov_has_register_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_2 }
- text = { trigger = { rip_gov_has_chancery_review = yes rip_gov_has_register_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_3 }
- text = { trigger = { rip_gov_has_municipal_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_4 }
- text = { trigger = { rip_gov_has_chancery_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_5 }
- text = { trigger = { rip_gov_has_register_review = yes } localisation_key = rip_gov_RipGovReviewInstitutes_6 }
- text = { trigger = { always = yes } localisation_key = rip_gov_RipGovReviewInstitutes_7 }
+ text = { trigger = { NOT = { rip_gov_has_chancery_review = yes } } localisation_key = rip_gov_RipGovResChanceryService_0 }
+ text = { trigger = { has_country_modifier = rip_gov_chancery_service } localisation_key = rip_gov_RipGovResChanceryService_1 }
+ text = { trigger = { rip_gov_resolution_in_force = yes } localisation_key = rip_gov_RipGovResChanceryService_2 }
+ text = { trigger = { NOT = { rip_gov_resolution_lock_over = yes } } localisation_key = rip_gov_RipGovResChanceryService_3 }
+ text = { trigger = { is_at_war = yes } localisation_key = rip_gov_RipGovResChanceryService_4 }
+ text = { trigger = { NOT = { stability = 0 } } localisation_key = rip_gov_RipGovResChanceryService_5 }
+ text = { trigger = { NOT = { treasury = 50 } } localisation_key = rip_gov_RipGovResChanceryService_6 }
+ text = { trigger = { NOT = { adm_power = 50 } } localisation_key = rip_gov_RipGovResChanceryService_7 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovResChanceryService_8 }
+}
+defined_text = {
+ name = RipGovResChanceryRights
+ random = no
+ text = { trigger = { NOT = { rip_gov_has_chancery_review = yes } } localisation_key = rip_gov_RipGovResChanceryRights_0 }
+ text = { trigger = { has_country_modifier = rip_gov_chancery_rights } localisation_key = rip_gov_RipGovResChanceryRights_1 }
+ text = { trigger = { rip_gov_resolution_in_force = yes } localisation_key = rip_gov_RipGovResChanceryRights_2 }
+ text = { trigger = { NOT = { rip_gov_resolution_lock_over = yes } } localisation_key = rip_gov_RipGovResChanceryRights_3 }
+ text = { trigger = { is_at_war = yes } localisation_key = rip_gov_RipGovResChanceryRights_4 }
+ text = { trigger = { NOT = { stability = 0 } } localisation_key = rip_gov_RipGovResChanceryRights_5 }
+ text = { trigger = { NOT = { treasury = 50 } } localisation_key = rip_gov_RipGovResChanceryRights_6 }
+ text = { trigger = { NOT = { dip_power = 50 } } localisation_key = rip_gov_RipGovResChanceryRights_7 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovResChanceryRights_8 }
+}
+defined_text = {
+ name = RipGovResRegisterMuster
+ random = no
+ text = { trigger = { NOT = { rip_gov_has_register_review = yes } } localisation_key = rip_gov_RipGovResRegisterMuster_0 }
+ text = { trigger = { has_country_modifier = rip_gov_register_muster } localisation_key = rip_gov_RipGovResRegisterMuster_1 }
+ text = { trigger = { rip_gov_resolution_in_force = yes } localisation_key = rip_gov_RipGovResRegisterMuster_2 }
+ text = { trigger = { NOT = { rip_gov_resolution_lock_over = yes } } localisation_key = rip_gov_RipGovResRegisterMuster_3 }
+ text = { trigger = { is_at_war = yes } localisation_key = rip_gov_RipGovResRegisterMuster_4 }
+ text = { trigger = { NOT = { stability = 0 } } localisation_key = rip_gov_RipGovResRegisterMuster_5 }
+ text = { trigger = { NOT = { treasury = 50 } } localisation_key = rip_gov_RipGovResRegisterMuster_6 }
+ text = { trigger = { NOT = { mil_power = 50 } } localisation_key = rip_gov_RipGovResRegisterMuster_7 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovResRegisterMuster_8 }
+}
+defined_text = {
+ name = RipGovResRegisterSettlement
+ random = no
+ text = { trigger = { NOT = { rip_gov_has_register_review = yes } } localisation_key = rip_gov_RipGovResRegisterSettlement_0 }
+ text = { trigger = { has_country_modifier = rip_gov_register_settlement } localisation_key = rip_gov_RipGovResRegisterSettlement_1 }
+ text = { trigger = { rip_gov_resolution_in_force = yes } localisation_key = rip_gov_RipGovResRegisterSettlement_2 }
+ text = { trigger = { NOT = { rip_gov_resolution_lock_over = yes } } localisation_key = rip_gov_RipGovResRegisterSettlement_3 }
+ text = { trigger = { is_at_war = yes } localisation_key = rip_gov_RipGovResRegisterSettlement_4 }
+ text = { trigger = { NOT = { stability = 0 } } localisation_key = rip_gov_RipGovResRegisterSettlement_5 }
+ text = { trigger = { NOT = { treasury = 50 } } localisation_key = rip_gov_RipGovResRegisterSettlement_6 }
+ text = { trigger = { NOT = { dip_power = 50 } } localisation_key = rip_gov_RipGovResRegisterSettlement_7 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovResRegisterSettlement_8 }
+}
+defined_text = {
+ name = RipGovResName
+ random = no
+ text = { trigger = { has_country_modifier = rip_gov_municipal_charters } localisation_key = rip_gov_RipGovResName_0 }
+ text = { trigger = { has_country_modifier = rip_gov_municipal_accounts } localisation_key = rip_gov_RipGovResName_1 }
+ text = { trigger = { has_country_modifier = rip_gov_chancery_service } localisation_key = rip_gov_RipGovResName_2 }
+ text = { trigger = { has_country_modifier = rip_gov_chancery_rights } localisation_key = rip_gov_RipGovResName_3 }
+ text = { trigger = { has_country_modifier = rip_gov_register_muster } localisation_key = rip_gov_RipGovResName_4 }
+ text = { trigger = { has_country_modifier = rip_gov_register_settlement } localisation_key = rip_gov_RipGovResName_5 }
+ text = { trigger = { NOT = { rip_gov_resolution_lock_over = yes } } localisation_key = rip_gov_RipGovResName_6 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovResName_7 }
+}
+defined_text = {
+ name = RipGovResLeft
+ random = no
+ text = { trigger = { rip_gov_resolution_lock_over = yes } localisation_key = rip_gov_RipGovResLeft_0 }
+ text = { trigger = { had_country_flag = { flag = rip_gov_review_recent days = 3285 } } localisation_key = rip_gov_RipGovResLeft_1 }
+ text = { trigger = { had_country_flag = { flag = rip_gov_review_recent days = 2920 } } localisation_key = rip_gov_RipGovResLeft_2 }
+ text = { trigger = { had_country_flag = { flag = rip_gov_review_recent days = 2555 } } localisation_key = rip_gov_RipGovResLeft_3 }
+ text = { trigger = { had_country_flag = { flag = rip_gov_review_recent days = 2190 } } localisation_key = rip_gov_RipGovResLeft_4 }
+ text = { trigger = { had_country_flag = { flag = rip_gov_review_recent days = 1825 } } localisation_key = rip_gov_RipGovResLeft_5 }
+ text = { trigger = { had_country_flag = { flag = rip_gov_review_recent days = 1460 } } localisation_key = rip_gov_RipGovResLeft_6 }
+ text = { trigger = { had_country_flag = { flag = rip_gov_review_recent days = 1095 } } localisation_key = rip_gov_RipGovResLeft_7 }
+ text = { trigger = { had_country_flag = { flag = rip_gov_review_recent days = 730 } } localisation_key = rip_gov_RipGovResLeft_8 }
+ text = { trigger = { had_country_flag = { flag = rip_gov_review_recent days = 365 } } localisation_key = rip_gov_RipGovResLeft_9 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovResLeft_10 }
+}
+defined_text = {
+ name = RipGovResPeace
+ random = no
+ text = { trigger = { is_at_war = yes } localisation_key = rip_gov_RipGovResPeace_0 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovResPeace_1 }
+}
+defined_text = {
+ name = RipGovResStability
+ random = no
+ text = { trigger = { NOT = { stability = 0 } } localisation_key = rip_gov_RipGovResStability_0 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovResStability_1 }
+}
+defined_text = {
+ name = RipGovResTreasury
+ random = no
+ text = { trigger = { NOT = { treasury = 50 } } localisation_key = rip_gov_RipGovResTreasury_0 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovResTreasury_1 }
 }
 defined_text = {
  name = RipGovHlcSlots
  random = no
- text = { trigger = { hlc_ordinance_over_limit = yes } localisation_key = rip_gov_RipGovHlcSlots_0 }
- text = { trigger = { NOT = { hlc_ordinance_slot_free = yes } } localisation_key = rip_gov_RipGovHlcSlots_1 }
- text = { trigger = { OR = { has_country_flag = hlc_chancery_ordinance_active has_country_flag = hlc_settlement_ordinance_active has_country_flag = hlc_cadastral_ordinance_active } } localisation_key = rip_gov_RipGovHlcSlots_2 }
+ text = { trigger = { NOT = { hlc_ordinance_slot_free = yes } } localisation_key = rip_gov_RipGovHlcSlots_0 }
+ text = { trigger = { calc_true_if = { has_country_modifier = hlc_chancery_ordinance_modifier has_country_modifier = hlc_settlement_ordinance_modifier has_country_modifier = hlc_cadastral_ordinance_modifier has_country_modifier = hlc_urbarial_ordinance_modifier has_country_modifier = hlc_toleration_ordinance_modifier has_country_modifier = hlc_frontier_ordinance_modifier amount = 2 } } localisation_key = rip_gov_RipGovHlcSlots_1 }
+ text = { trigger = { calc_true_if = { has_country_modifier = hlc_chancery_ordinance_modifier has_country_modifier = hlc_settlement_ordinance_modifier has_country_modifier = hlc_cadastral_ordinance_modifier has_country_modifier = hlc_urbarial_ordinance_modifier has_country_modifier = hlc_toleration_ordinance_modifier has_country_modifier = hlc_frontier_ordinance_modifier amount = 1 } } localisation_key = rip_gov_RipGovHlcSlots_2 }
  text = { trigger = { always = yes } localisation_key = rip_gov_RipGovHlcSlots_3 }
 }
 defined_text = {
- name = RipGovHlcOrdinances
+ name = RipGovOrdChancery
  random = no
- text = { trigger = { has_country_flag = hlc_chancery_ordinance_active has_country_flag = hlc_settlement_ordinance_active has_country_flag = hlc_cadastral_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_0 }
- text = { trigger = { has_country_flag = hlc_chancery_ordinance_active has_country_flag = hlc_settlement_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_1 }
- text = { trigger = { has_country_flag = hlc_chancery_ordinance_active has_country_flag = hlc_cadastral_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_2 }
- text = { trigger = { has_country_flag = hlc_settlement_ordinance_active has_country_flag = hlc_cadastral_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_3 }
- text = { trigger = { has_country_flag = hlc_chancery_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_4 }
- text = { trigger = { has_country_flag = hlc_settlement_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_5 }
- text = { trigger = { has_country_flag = hlc_cadastral_ordinance_active } localisation_key = rip_gov_RipGovHlcOrdinances_6 }
- text = { trigger = { always = yes } localisation_key = rip_gov_RipGovHlcOrdinances_7 }
+ text = { trigger = { has_country_modifier = hlc_chancery_ordinance_modifier } localisation_key = rip_gov_RipGovOrdChancery_0 }
+ text = { trigger = { NOT = { hlc_ordinance_slot_free = yes } } localisation_key = rip_gov_RipGovOrdChancery_1 }
+ text = { trigger = { NOT = { dip_power = 50 } } localisation_key = rip_gov_RipGovOrdChancery_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovOrdChancery_3 }
+}
+defined_text = {
+ name = RipGovOrdSettlement
+ random = no
+ text = { trigger = { has_country_modifier = hlc_settlement_ordinance_modifier } localisation_key = rip_gov_RipGovOrdSettlement_0 }
+ text = { trigger = { NOT = { hlc_ordinance_slot_free = yes } } localisation_key = rip_gov_RipGovOrdSettlement_1 }
+ text = { trigger = { NOT = { adm_power = 50 } } localisation_key = rip_gov_RipGovOrdSettlement_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovOrdSettlement_3 }
+}
+defined_text = {
+ name = RipGovOrdCadastral
+ random = no
+ text = { trigger = { has_country_modifier = hlc_cadastral_ordinance_modifier } localisation_key = rip_gov_RipGovOrdCadastral_0 }
+ text = { trigger = { NOT = { hlc_ordinance_slot_free = yes } } localisation_key = rip_gov_RipGovOrdCadastral_1 }
+ text = { trigger = { NOT = { adm_power = 50 } } localisation_key = rip_gov_RipGovOrdCadastral_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovOrdCadastral_3 }
+}
+defined_text = {
+ name = RipGovOrdUrbarial
+ random = no
+ text = { trigger = { has_country_modifier = hlc_urbarial_ordinance_modifier } localisation_key = rip_gov_RipGovOrdUrbarial_0 }
+ text = { trigger = { NOT = { hlc_ordinance_slot_free = yes } } localisation_key = rip_gov_RipGovOrdUrbarial_1 }
+ text = { trigger = { NOT = { adm_power = 50 } } localisation_key = rip_gov_RipGovOrdUrbarial_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovOrdUrbarial_3 }
+}
+defined_text = {
+ name = RipGovOrdToleration
+ random = no
+ text = { trigger = { has_country_modifier = hlc_toleration_ordinance_modifier } localisation_key = rip_gov_RipGovOrdToleration_0 }
+ text = { trigger = { NOT = { hlc_ordinance_slot_free = yes } } localisation_key = rip_gov_RipGovOrdToleration_1 }
+ text = { trigger = { NOT = { dip_power = 50 } } localisation_key = rip_gov_RipGovOrdToleration_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovOrdToleration_3 }
+}
+defined_text = {
+ name = RipGovOrdFrontier
+ random = no
+ text = { trigger = { has_country_modifier = hlc_frontier_ordinance_modifier } localisation_key = rip_gov_RipGovOrdFrontier_0 }
+ text = { trigger = { NOT = { hlc_ordinance_slot_free = yes } } localisation_key = rip_gov_RipGovOrdFrontier_1 }
+ text = { trigger = { NOT = { mil_power = 50 } } localisation_key = rip_gov_RipGovOrdFrontier_2 }
+ text = { trigger = { always = yes } localisation_key = rip_gov_RipGovOrdFrontier_3 }
 }
 defined_text = {
  name = RipGovHlcCouncil

@@ -1,0 +1,304 @@
+# =============================================================================
+# rip_institutional_resolutions - the three institutions that can pass a paid,
+# ten-year resolution, as buttons in the government window.
+#
+# WHAT THIS REPLACES. The resolutions used to be a decision that opened an
+# event with two options and a cancel button
+# (decisions/RIP_InstitutionalReviews.txt, events/RIP_InstitutionalReviews.txt),
+# and the only thing in the government window was a read-only block of text
+# about them. The author found that "completely unclear and inconvenient": the
+# action lay in one window, its explanation in another, the price and the
+# reason a resolution was refused in neither. Now the two choices of each
+# institution are two buttons in the mechanics box of the government window,
+# where every other RIP ability already lives. The price, what the
+# resolution does and every reason it is refused are in the button's own
+# tooltip, as the engine draws any mechanic button.
+#
+#   Municipal  (vln_magdeburg_rights)                     Charters (DIP) / Accounts (ADM)
+#   Chancery   (lit_ruthenian_chancery_reform,
+#               chr_kanceliaryst_republic_reform)          Service Rolls (ADM) / Local Rights (DIP)
+#   Register   (het_regimental_system_reform, rip_cossacks_reform,
+#               vln_cossack_host_reform, prl_regimental_republic_reform)
+#                                                          Full Muster (MIL) / Service Obligations (DIP)
+#
+# THE RULES, unchanged from the decision: a resolution costs 50 monarch power of
+# the kind named and 50 ducats, needs peace and stability 0 or better, stands
+# for ten years as a country modifier, and while it stands no institution of the
+# realm can pass another. The ten years are counted twice on purpose:
+#  - by the engine, as one cooldown token (rip_gov_institutional_resolution)
+#    shared by all six buttons, which is what turns a button grey and prints the
+#    date it can be used again;
+#  - by the mod, as the dated flag rip_gov_review_recent
+#    (rip_gov_resolution_lock_over), which a reform change cannot reset and
+#    which the status panel reads to say how many years are left.
+# If the engine turns out to keep a cooldown token per mechanic, the flag still
+# holds the shared lock.
+#
+# `available` is parsed before the scripted triggers exist (measured in EU4 1.37.5: "Unknown trigger type" at load), so it names the reforms
+# itself instead of asking rip_gov_has_*_review; the buttons' own trigger blocks may call scripted triggers.
+#
+# Each button names its own refusal in its tooltip: peace, stability and ducats
+# are the engine's own condition lines, "no resolution in force" and "the ten
+# years are over" are custom_trigger_tooltip sentences, and the power price is
+# the engine's cost line. Nothing prints a raw flag name.
+# =============================================================================
+
+rip_municipal_resolutions_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		has_reform = vln_magdeburg_rights
+	}
+
+	interactions = {
+		rip_resolution_municipal_charters = {
+			icon = GFX_rip_resolution_municipal_charters
+			trigger = {
+				rip_gov_has_municipal_review = yes
+				is_at_war = no
+				stability = 0
+				treasury = 50
+				custom_trigger_tooltip = {
+					tooltip = rip_resolution_none_in_force_tt
+					NOT = { rip_gov_resolution_in_force = yes }
+				}
+				custom_trigger_tooltip = {
+					tooltip = rip_resolution_lock_over_tt
+					rip_gov_resolution_lock_over = yes
+				}
+				dip_power_cost = 50
+			}
+			effect = {
+				dip_power_cost = 50
+				rip_gov_review_cost_effect = yes
+				add_country_modifier = {
+					name = rip_gov_municipal_charters
+					duration = 3650
+				}
+			}
+			cooldown_years = 10
+			cooldown_token = rip_gov_institutional_resolution
+			cooldown_desc = rip_resolution_cooldown_desc
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 0
+					NOT = { dip_power = 100 }
+				}
+			}
+		}
+		rip_resolution_municipal_accounts = {
+			icon = GFX_rip_resolution_municipal_accounts
+			trigger = {
+				rip_gov_has_municipal_review = yes
+				is_at_war = no
+				stability = 0
+				treasury = 50
+				custom_trigger_tooltip = {
+					tooltip = rip_resolution_none_in_force_tt
+					NOT = { rip_gov_resolution_in_force = yes }
+				}
+				custom_trigger_tooltip = {
+					tooltip = rip_resolution_lock_over_tt
+					rip_gov_resolution_lock_over = yes
+				}
+				adm_power_cost = 50
+			}
+			effect = {
+				adm_power_cost = 50
+				rip_gov_review_cost_effect = yes
+				add_country_modifier = {
+					name = rip_gov_municipal_accounts
+					duration = 3650
+				}
+			}
+			cooldown_years = 10
+			cooldown_token = rip_gov_institutional_resolution
+			cooldown_desc = rip_resolution_cooldown_desc
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 0
+					NOT = { adm_power = 100 }
+				}
+			}
+		}
+	}
+}
+
+rip_chancery_resolutions_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		OR = {
+			has_reform = lit_ruthenian_chancery_reform
+			has_reform = chr_kanceliaryst_republic_reform
+		}
+	}
+
+	interactions = {
+		rip_resolution_chancery_service = {
+			icon = GFX_rip_resolution_chancery_service
+			trigger = {
+				rip_gov_has_chancery_review = yes
+				is_at_war = no
+				stability = 0
+				treasury = 50
+				custom_trigger_tooltip = {
+					tooltip = rip_resolution_none_in_force_tt
+					NOT = { rip_gov_resolution_in_force = yes }
+				}
+				custom_trigger_tooltip = {
+					tooltip = rip_resolution_lock_over_tt
+					rip_gov_resolution_lock_over = yes
+				}
+				adm_power_cost = 50
+			}
+			effect = {
+				adm_power_cost = 50
+				rip_gov_review_cost_effect = yes
+				add_country_modifier = {
+					name = rip_gov_chancery_service
+					duration = 3650
+				}
+			}
+			cooldown_years = 10
+			cooldown_token = rip_gov_institutional_resolution
+			cooldown_desc = rip_resolution_cooldown_desc
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 0
+					NOT = { adm_power = 100 }
+				}
+			}
+		}
+		rip_resolution_chancery_rights = {
+			icon = GFX_rip_resolution_chancery_rights
+			trigger = {
+				rip_gov_has_chancery_review = yes
+				is_at_war = no
+				stability = 0
+				treasury = 50
+				custom_trigger_tooltip = {
+					tooltip = rip_resolution_none_in_force_tt
+					NOT = { rip_gov_resolution_in_force = yes }
+				}
+				custom_trigger_tooltip = {
+					tooltip = rip_resolution_lock_over_tt
+					rip_gov_resolution_lock_over = yes
+				}
+				dip_power_cost = 50
+			}
+			effect = {
+				dip_power_cost = 50
+				rip_gov_review_cost_effect = yes
+				add_country_modifier = {
+					name = rip_gov_chancery_rights
+					duration = 3650
+				}
+			}
+			cooldown_years = 10
+			cooldown_token = rip_gov_institutional_resolution
+			cooldown_desc = rip_resolution_cooldown_desc
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 0
+					NOT = { dip_power = 100 }
+				}
+			}
+		}
+	}
+}
+
+rip_register_resolutions_mechanic = {
+	alert_icon_gfx = GFX_alerticons_government_mechanics
+	alert_icon_index = 1
+
+	available = {
+		OR = {
+			has_reform = het_regimental_system_reform
+			has_reform = rip_cossacks_reform
+			has_reform = vln_cossack_host_reform
+			has_reform = prl_regimental_republic_reform
+		}
+	}
+
+	interactions = {
+		rip_resolution_register_muster = {
+			icon = GFX_rip_resolution_register_muster
+			trigger = {
+				rip_gov_has_register_review = yes
+				is_at_war = no
+				stability = 0
+				treasury = 50
+				custom_trigger_tooltip = {
+					tooltip = rip_resolution_none_in_force_tt
+					NOT = { rip_gov_resolution_in_force = yes }
+				}
+				custom_trigger_tooltip = {
+					tooltip = rip_resolution_lock_over_tt
+					rip_gov_resolution_lock_over = yes
+				}
+				mil_power_cost = 50
+			}
+			effect = {
+				mil_power_cost = 50
+				rip_gov_review_cost_effect = yes
+				add_country_modifier = {
+					name = rip_gov_register_muster
+					duration = 3650
+				}
+			}
+			cooldown_years = 10
+			cooldown_token = rip_gov_institutional_resolution
+			cooldown_desc = rip_resolution_cooldown_desc
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 0
+					NOT = { mil_power = 100 }
+				}
+			}
+		}
+		rip_resolution_register_settlement = {
+			icon = GFX_rip_resolution_register_settlement
+			trigger = {
+				rip_gov_has_register_review = yes
+				is_at_war = no
+				stability = 0
+				treasury = 50
+				custom_trigger_tooltip = {
+					tooltip = rip_resolution_none_in_force_tt
+					NOT = { rip_gov_resolution_in_force = yes }
+				}
+				custom_trigger_tooltip = {
+					tooltip = rip_resolution_lock_over_tt
+					rip_gov_resolution_lock_over = yes
+				}
+				dip_power_cost = 50
+			}
+			effect = {
+				dip_power_cost = 50
+				rip_gov_review_cost_effect = yes
+				add_country_modifier = {
+					name = rip_gov_register_settlement
+					duration = 3650
+				}
+			}
+			cooldown_years = 10
+			cooldown_token = rip_gov_institutional_resolution
+			cooldown_desc = rip_resolution_cooldown_desc
+			ai_chance = {
+				factor = 1
+				modifier = {
+					factor = 0
+					NOT = { dip_power = 100 }
+				}
+			}
+		}
+	}
+}

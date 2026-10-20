@@ -28,8 +28,8 @@ rip_estate_mood_effect = {
 # (common/government_mechanics/rip_hlc_austrian_reorganization.txt). Runs in
 # province scope (ROOT is the converted province; vanilla's own handlers of the
 # same hook switch to `owner` the same way) and reaches the country through
-# `owner`. The flag it reads is set only by that mechanic's own interaction, so
-# no country-tag guard is needed here.
+# `owner`. The modifier it reads is added only by that mechanic's own interaction,
+# so no country-tag guard is needed here.
 #
 # The hook fires only for a MANUAL conversion, the player's or the AI's use of
 # the province culture button: vanilla marks it "province, manually conversion",
@@ -49,7 +49,7 @@ hlc_settlement_ordinance_conversion_effect = {
 	if = {
 		limit = {
 			owner = {
-				has_country_flag = hlc_settlement_ordinance_active
+				has_country_modifier = hlc_settlement_ordinance_modifier
 				has_estate = estate_nobles
 				NOT = { has_country_modifier = hlc_settlement_loyalty_timer }
 				NOT = {

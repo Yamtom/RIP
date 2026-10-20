@@ -2,40 +2,35 @@
 # Scripted triggers for the Chancery Ordinances
 # (common/government_mechanics/rip_hlc_austrian_reorganization.txt).
 #
-# Two kinds live here. The slot triggers are the rule the player meets in the
-# button tooltips: the chancery keeps at most two of its three ordinances in
-# force, so one of them always has to be given up. The *_wanted / *_spent /
-# *_dangerous triggers are only read by the AI's ai_chance blocks in the same
-# mechanic - they are the situations in which a ruler would reach for, or let
-# go of, an ordinance. Nothing here has an effect.
+# Two kinds live here. The slot trigger is the rule the player meets in the
+# button tooltips: the crown keeps at most three of its six ordinances in
+# force, so a fourth has to wait until one has run its course. The *_wanted
+# triggers are only read by the AI's ai_chance blocks in the same mechanic -
+# they are the situations in which a ruler would reach for an ordinance.
+# Nothing here has an effect.
 #
-# A flag per ordinance is the single record of "in force"
-# (hlc_<name>_ordinance_active); the persistent country modifier is applied
-# and removed together with it by the mechanic's buttons and by
-# hlc_clear_ordinances_effect (common/scripted_effects/rip_hlc_ordinance_effects.txt).
+# The country modifier of each ordinance
+# (hlc_<name>_ordinance_modifier, ten years) is the single record of "in
+# force"; the mechanic's buttons add it and hlc_clear_ordinances_effect
+# (common/scripted_effects/rip_hlc_ordinance_effects.txt) removes it. There is
+# no flag any more: a flag could outlive its modifier, a modifier cannot.
 # =============================================================================
 
-# True while fewer than two ordinances are in force. calc_true_if with plain
+# True while fewer than three ordinances are in force. calc_true_if with plain
 # triggers is vanilla's own counting form (num_of_ruler_traits in
 # common/scripted_triggers/00_scripted_triggers.txt).
 hlc_ordinance_slot_free = {
 	NOT = {
 		calc_true_if = {
-			has_country_flag = hlc_chancery_ordinance_active
-			has_country_flag = hlc_settlement_ordinance_active
-			has_country_flag = hlc_cadastral_ordinance_active
-			amount = 2
+			has_country_modifier = hlc_chancery_ordinance_modifier
+			has_country_modifier = hlc_settlement_ordinance_modifier
+			has_country_modifier = hlc_cadastral_ordinance_modifier
+			has_country_modifier = hlc_urbarial_ordinance_modifier
+			has_country_modifier = hlc_toleration_ordinance_modifier
+			has_country_modifier = hlc_frontier_ordinance_modifier
+			amount = 3
 		}
 	}
-}
-
-# All three in force: one more than the chancery can keep. The buttons cannot
-# produce this state any more; a save made before the two-slot rule can still
-# hold it, and the AI uses this to put such a realm right.
-hlc_ordinance_over_limit = {
-	has_country_flag = hlc_chancery_ordinance_active
-	has_country_flag = hlc_settlement_ordinance_active
-	has_country_flag = hlc_cadastral_ordinance_active
 }
 
 # Several owned cities hold a culture that is neither the primary nor an
@@ -51,21 +46,9 @@ hlc_ordinance_settlement_wanted = {
 	}
 }
 
-# No such city is left: the settlement ordinance has nothing more to settle.
-hlc_ordinance_settlement_spent = {
-	NOT = {
-		num_of_owned_provinces_with = {
-			value = 1
-			is_city = yes
-			has_owner_culture = no
-			has_owner_accepted_culture = no
-		}
-	}
-}
-
-# Short of money and with nobles who can bear being counted. The two
-# thresholds are far apart on purpose: wanted above 40% noble loyalty,
-# dangerous below 30%, so an AI ruler does not enact and rescind in turn.
+# Short of money and with nobles who can bear being counted. Wanted above 40%
+# noble loyalty; the survey itself lowers it by five points, so an AI ruler
+# does not send the surveyors out and then watch its nobles revolt.
 hlc_ordinance_cadastre_wanted = {
 	has_estate = estate_nobles
 	estate_loyalty = {
@@ -78,28 +61,33 @@ hlc_ordinance_cadastre_wanted = {
 	}
 }
 
-hlc_ordinance_cadastre_dangerous = {
+# A restless countryside whose lords can bear a written register of dues: at
+# least three owned cities in unrest, and the nobles at half loyalty or more.
+hlc_ordinance_urbarial_wanted = {
 	has_estate = estate_nobles
-	NOT = {
-		estate_loyalty = {
-			estate = estate_nobles
-			loyalty = 30
-		}
+	estate_loyalty = {
+		estate = estate_nobles
+		loyalty = 50
+	}
+	num_of_owned_provinces_with = {
+		value = 3
+		is_city = yes
+		unrest = 3
 	}
 }
 
-# Both slots are taken and an ordinance the realm needs more is waiting for
-# one: the chancery ordinance, the plainest of the three, is the one to give up.
-hlc_ordinance_room_needed = {
-	NOT = { hlc_ordinance_slot_free = yes }
-	OR = {
-		AND = {
-			hlc_ordinance_settlement_wanted = yes
-			NOT = { has_country_flag = hlc_settlement_ordinance_active }
-		}
-		AND = {
-			hlc_ordinance_cadastre_wanted = yes
-			NOT = { has_country_flag = hlc_cadastral_ordinance_active }
-		}
+# Other faiths fill the towns: at least four owned cities that do not share
+# the state religion. has_owner_religion is a province trigger, used the same
+# way by vanilla's advisor and ancestor definitions.
+hlc_ordinance_toleration_wanted = {
+	num_of_owned_provinces_with = {
+		value = 4
+		is_city = yes
+		has_owner_religion = no
 	}
+}
+
+# The marches are in arms: only a frontier at war calls up watchmen.
+hlc_ordinance_frontier_wanted = {
+	is_at_war = yes
 }

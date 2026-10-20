@@ -233,6 +233,9 @@ Voivodessa»: решта блоків парує Voivode з Voivodessa. Це з�
 | `ruthenian_factional_empire_reform` | `M1` → `stadthalter_monarchy_reform` | Монархія з конкуруючими владними партіями | Пакет скорочено |
 | `ruthenian_factional_empire_princes_hetmans_reform` | `M1` → `stadthalter_monarchy_reform` | Монархія з конкуруючими владними партіями | Пакет скорочено |
 | `ruthenian_factional_empire_boyars_hetmans_reform` | `M1` → `stadthalter_monarchy_reform` | Монархія з конкуруючими владними партіями | Пакет скорочено |
+| `ruthenian_factional_empire_hetmans_princes_reform` | `M1` → `stadthalter_monarchy_reform` | Монархія з конкуруючими владними партіями | Пакет скорочено |
+| `ruthenian_factional_empire_princes_boyars_reform` | `M1` → `stadthalter_monarchy_reform` | Монархія з конкуруючими владними партіями | Пакет скорочено |
+| `ruthenian_factional_empire_hetmans_boyars_reform` | `M1` → `stadthalter_monarchy_reform` | Монархія з конкуруючими владними партіями | Пакет скорочено |
 | `grand_duchy_reform` | `M1` → `grand_duchy_reform`, `lithuanian_grand_kingdom` | Литовське велике князівство | Пакет скорочено |
 | `lit_pany_rada_reform` | `M2` → `maintain_nobles_status_quo_reform`, `enforce_privileges_reform` | Представництво й привілеї шляхти | Збережено |
 | `lit_ruthenian_chancery_reform` | `M3` → `examination_system_reform`, `regional_council_reform` | Канцелярська та місцева адміністрація | Пакет скорочено |

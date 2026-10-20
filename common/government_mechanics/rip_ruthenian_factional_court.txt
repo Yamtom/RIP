@@ -19,11 +19,15 @@ ruthenian_factional_court_mechanic = {
 	alert_icon_gfx = GFX_alerticons_government_mechanics
 	alert_icon_index = 1
 
+	# Plain triggers only: `available` is parsed before the scripted triggers exist (measured in EU4 1.37.5), so kru_holds_rada_reform cannot be used here.
 	available = {
 		OR = {
 			has_reform = ruthenian_factional_empire_reform
 			has_reform = ruthenian_factional_empire_princes_hetmans_reform
 			has_reform = ruthenian_factional_empire_boyars_hetmans_reform
+			has_reform = ruthenian_factional_empire_princes_boyars_reform
+			has_reform = ruthenian_factional_empire_hetmans_princes_reform
+			has_reform = ruthenian_factional_empire_hetmans_boyars_reform
 		}
 	}
 

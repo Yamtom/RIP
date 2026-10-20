@@ -1,4 +1,4 @@
-# Назви парламентів русинських держав — 18.10.2026
+# Назви парламентів русинських держав — 19.10.2026
 
 Система найменування для всіх русинських держав і всіх урядових реформ, що дають
 парламент. Джерело правил — таблиця `RULES` у `tools/build_parliament_names.py`;
@@ -6,11 +6,26 @@
 
 ## Що було зламано
 
-У вікні парламенту стояло «Chernihivan [Root.GetRIPParliamentName]». Перша система
-записала команду кастомної локалізації в ванільні ключі `<TAG>_parliament_name`. Гра
-читає ці ключі як простий текст, коли збирає заголовок вікна («прикметник + назва»), а
-команда `[Root.…]` працює лише там, де є область дії країни. Тому гравець бачив
-сирий токен, а не назву.
+Три окремі вади; кожна давала гравцеві «не те» або «ніяке» ім'я.
+
+1. **Сирий токен (виправлено 18.10.2026).** У вікні парламенту стояло «Chernihivan
+   [Root.GetRIPParliamentName]». Перша система записала команду кастомної локалізації в
+   ванільні ключі `<TAG>_parliament_name`. Гра читає ці ключі як простий текст, коли збирає
+   заголовок вікна («прикметник + назва»), а команда `[Root.…]` працює лише там, де є область
+   дії країни. Тому гравець бачив сирий токен, а не назву.
+2. **Випадковий вибір замість першого правила (виправлено 19.10.2026).** Драбину
+   `GetRIPParliamentTitle` задумано як «перше правило, що спрацювало», але **EU4 бере перший
+   рядок `defined_text` лише з `random = no`**; без нього рушій вибирає між усіма рядками, чия
+   умова виконана. Виміряно в EU4 1.37.5: три рядки з `always = yes` — тридцять викликів поспіль
+   на одну дату дали другий рядок щоразу, а з `random = no` — перший, тридцять із тридцяти.
+   Наслідок у грі: уряд Ради трьох станів дістав «Rada of the Land» (рядок тегу, що стоїть
+   нижче за його реформу), а останнє правило `always = yes` (ванільна назва) могло дістатися
+   будь-якій русинській державі, — звідси «відсутні назви».
+3. **Іменники тегів ховалися за загальними правилами (виправлено 19.10.2026).** Коли жодна
+   реформа не називала парламент, русинська республіка одержувала «Veche», а монархія —
+   «Rada of the Land» незалежно від тегу: Волинь не була сеймиком, Галич — сеймом, Одеса —
+   купецькою радою, хоч таблиця простих іменників (нижче) каже саме так. Тепер між реформами
+   й загальними правилами стоять «власні збори держави».
 
 Другий дефект: старий ланцюг питав `has_reform = chr_siversk_veche_reform`, а такої
 реформи немає, вона зветься `siversk_veche_reform`. Рушій не скаржиться на невідому
@@ -30,16 +45,26 @@
    його місці лежить `rip_parliament_title` (`scripted = yes`, той самий шрифт `vic_29s`,
    ширина 548). Вікно `parliament_window` — підтримуваний хост `custom_gui` з ROOT =
    країна гравця, тож `[Root.GetRIPParliamentTitle]` там виконується.
-2. **Одне правило визначає всю назву.** `GetRIPParliamentTitle` проходить правила зверху
-   вниз; перше, чия умова справджується, дає повну назву. Тому назва залежить від реформи,
-   а не лише від тегу: Чернігів із торговим віче, зі стейплом на Десні чи зі Спілкою міст
-   має різні парламенти.
+2. **Одне правило визначає всю назву, і воно перше.** `GetRIPParliamentTitle` (з `random = no`)
+   проходить правила зверху вниз; перше, чия умова справджується, дає повну назву. Рівні:
+   1. **реформа**, що сама називає парламент (найточніший факт про уряд; реформа може лежати в
+      будь-якому ярусі, не обов'язково в тому, що дає парламент);
+   2. **церковний уряд**: теократія — Sobor (Галич і Волинь — з назвою місця замість прикметника);
+   3. **власні збори держави**: іменник тегу з таблиці «Прості іменники за тегами» разом з
+      прикметником («Podilian Sejmik», «Kyivan Veche»), а для Галича й Волині — назва місця
+      («Halych Sejm», «Volhynian Sejmik»);
+   4. **загальні правила** для випущених і сформованих держав із русинською культурою, які не
+      мають іменника: республіка — Veche, решта — Rada of the Land;
+   5. **ванільний заголовок** для всіх інших країн.
 3. **Решта країн бачить те, що показала б ваніль:** останнє правило —
    «прикметник + `[Root.GetParliamentName]`», тож англійський чи московський парламент не
    змінився.
 4. **Прості іменники лишилися.** `<TAG>_parliament_name` тепер звичайні слова без
    команд. Їх читають події й підказки з `[Root.GetParliamentName]` та ванільний заголовок,
    якщо накладку вимкнено. Для Литви лишається ванільний Seimas.
+5. **Парламент є не в кожної країни.** Вікно й `[Root.GetParliamentName]` існують лише тоді, коли
+   якась реформа дає `has_parliament = yes` (16 реформ мода й ванільні парламентські). Для країни
+   без парламенту команда повертає порожній рядок (виміряно), тож і заголовок не потрібен.
 
 Написання: «Veche», як у назвах реформ («Veche Assemblies», «Kyivan Veche Republic»);
 старе «Viche» прибрано. Установу названо прямо, рідні терміни не перекладено, кожне
@@ -56,7 +81,7 @@
 | Назва | Умова | Чому |
 |---|---|---|
 | Sobor of the Lands | `kyivan_cesarstvo_reform` | Цесарство скликає землі, не місто: собор, як зборами станів у Москві |
-| Rada of Three Estates | три `ruthenian_factional_empire_*` | один уряд під трьома ідентифікаторами; назва — назва реформи |
+| Rada of Three Estates | шість `ruthenian_factional_empire_*` | один уряд під шістьма ідентифікаторами (по одному на пару «друга за впливом — домінантна фракція»); назва — назва реформи |
 | Princely Snem | `kyivan_rus_reform`, `kyivan_shogunate_reform` | сеньйорат збирається як князі в Любечі 1097 року |
 | Kyivan Boyar Rada | `kyivan_boyar_republic_reform` | віче твердне в раду боярських родів |
 | Kyivan Veche | `kyivan_veche_reform` | міські збори, що обирають посадника |
@@ -126,9 +151,9 @@
 | Pereiaslav Regimental Rada | `prl_regimental_republic_reform` | полкова республіка |
 | Odesa Merchant Council | `odesa_trade_republic_reform` | вільним портом править купецтво |
 
-### Спільні реформи й типи урядів
+### Спільні реформи, церковні уряди, власні збори й загальні правила
 
-Ці назви з прикметником держави: «Chernihivan Boyar Rada», «Volynian Veche».
+Назви з прикметником держави: «Chernihivan Boyar Rada», «Volynian Veche».
 
 | Назва | Умова |
 |---|---|
@@ -136,13 +161,66 @@
 | Veche (за реформою) | `elected_assemblies_reform` |
 | Burgher Assembly | `assembly_houses_reform` |
 | Legislative Rada | `legislative_rada_reform` |
+| Halych Sobor, Volhynian Sobor | теократія тегів `HLC`, `VLN` (назва місця замість прикметника) |
 | Sobor | русинська держава з теократією |
-| Veche | русинська республіка без власного правила |
-| Rada of the Land | будь-який інший русинський уряд із парламентом |
+| Halych Veche | `HLC` у республіці |
+| Halych Sejm | `HLC` у решті форм |
+| Volhynian Sejmik | `VLN` у решті форм |
+| ‹прикметник› ‹іменник› | тег із власним іменником (KIE, KRU, UKR, RUT, CHR, UZH, PRL, PDL, ODS, KUY, RPS, ZLK, SRK, MSK, TRV, VTB, MSL, BLR, PLT) |
+| Veche | випущена чи сформована русинська держава (власного іменника немає) у республіці |
+| Rada of the Land | така держава в решті форм |
 
 Русинська держава — це один із тегів мода або країна з основною культурою `ruthenian`,
-`rusyn`, `severian` чи їхніми новими формами: так названо й випущені чи сформовані держави.
-Для будь-якої іншої країни діє останнє правило: ванільний заголовок.
+`rusyn` чи їхніми новими формами (`ruthenian_new`, `rusyn_new`, `rusyn_new_new`): так названо й
+випущені чи сформовані держави. Ключа `severian` тут більше немає — такої культури в моді нема,
+і перевірка ключів культур на ньому червоніла. Для будь-якої іншої країни діє останнє правило:
+ванільний заголовок.
+
+## Назви за тегами й формою правління
+
+Таблицю згенеровано з `RULES`: кожен тег мода (і Литва) у трьох формах правління **без** реформи, що сама називає
+парламент (з будь-якою такою реформою виграє її назва з розділів вище). Прикметники й назви держав — з локалізації мода.
+Тест `tests/check_parliament_names.py` вимагає, щоб блок між мітками збігався з генерованим (`--check` генератора перевіряє те саме).
+
+<!-- MATRIX:BEGIN (written by tools/build_parliament_names.py; do not edit by hand) -->
+
+| Тег | Держава | Монархія | Республіка | Теократія |
+|---|---|---|---|---|
+| `KIE` | Kyiv | Kyivan Veche | Kyivan Veche | Kyivan Sobor |
+| `KRU` | Kyivan Confederation | Kyivan Rada | Kyivan Rada | Kyivan Sobor |
+| `UKR` | Ukraine | Ukrainian Rada | Ukrainian Rada | Ukrainian Sobor |
+| `RUT` | Ruthenian Tsardom | Ruthenian Zemsky Sobor | Ruthenian Zemsky Sobor | Ruthenian Sobor |
+| `CHR` | Chernihiv | Chernihivan Veche | Chernihivan Veche | Chernihivan Sobor |
+| `VLN` | Volyn | Volhynian Sejmik | Volhynian Sejmik | Volhynian Sobor |
+| `HLC` | Halych | Halych Sejm | Halych Veche | Halych Sobor |
+| `UZH` | Huszt March | Husztian Komitat Assembly | Husztian Komitat Assembly | Husztian Sobor |
+| `PRL` | Pereiaslav | Pereiaslavlian Rada | Pereiaslavlian Rada | Pereiaslavlian Sobor |
+| `PDL` | Podillia | Podilian Sejmik | Podilian Sejmik | Podilian Sobor |
+| `ODS` | Odesa | Odesan Merchant Council | Odesan Merchant Council | Odesan Sobor |
+| `ZAZ` | Zaporozhia | Sich Rada | Sich Rada | Sich Rada |
+| `HET` | Hetmanate | Starshyna Rada | General Military Rada | General Military Rada |
+| `KUY` | Kuyaba | Kuyabian Veche | Kuyabian Veche | Kuyabian Sobor |
+| `RPS` | Polesia | Polesian Veche | Polesian Veche | Polesian Sobor |
+| `SMY` | Sumy | Sumy Regimental Rada | Sumy Regimental Rada | Sumy Regimental Rada |
+| `OKH` | Okhtyrka | Okhtyrka Regimental Rada | Okhtyrka Regimental Rada | Okhtyrka Regimental Rada |
+| `IZM` | Izium | Izium Regimental Rada | Izium Regimental Rada | Izium Regimental Rada |
+| `KHK` | Kharkiv | Kharkiv Regimental Rada | Kharkiv Regimental Rada | Kharkiv Regimental Rada |
+| `ZLK` | Zeleny Klyn | Zeleny Klyn Rada | Zeleny Klyn Rada | Zeleny Klyn Sobor |
+| `SRK` | Siryi Klyn | Siryi Klyn Rada | Siryi Klyn Rada | Siryi Klyn Sobor |
+| `MSK` | Minsk | Minsk Veche | Minsk Veche | Minsk Sobor |
+| `TRV` | Turov | Turov Veche | Turov Veche | Turov Sobor |
+| `VTB` | Vitebsk | Vitebsk Veche | Vitebsk Veche | Vitebsk Sobor |
+| `MSL` | Mstislavl | Mstislavl Veche | Mstislavl Veche | Mstislavl Sobor |
+| `BLR` | Belarus | Belarusian Rada | Belarusian Rada | Belarusian Sobor |
+| `PLT` | Polotsk | Polotsk Veche | Polotsk Veche | Polotsk Sobor |
+| `LIT` | Lithuania | Seimas | Seimas | Seimas |
+
+| Без тегу з іменником | Монархія | Республіка | Теократія |
+|---|---|---|---|
+| Випущена чи сформована русинська держава (основна культура `ruthenian`/`rusyn`, свого іменника немає) | Rada of the Land | ‹прикметник› Veche | ‹прикметник› Sobor |
+| Будь-яка інша країна (ванільний заголовок) | ‹прикметник› ‹іменник› | ‹прикметник› ‹іменник› | ‹прикметник› ‹іменник› |
+
+<!-- MATRIX:END -->
 
 ## Прості іменники за тегами
 
@@ -165,12 +243,21 @@
 | `HET` | Starshyna Rada | `BLR` | Rada |
 | | | `PLT` | Veche |
 
-## Що не перевірено
+## Що перевірено в грі, а що ні
 
-Вікно парламенту в запущеній грі не бачили. Статичний контракт перевіряє правила,
-наявність кожного ідентифікатора реформи й тегу, відсутність команд у простих ключах,
-положення накладки й ширину найдовшого заголовка за метриками `vic_29s.fnt`. Гіпотеза, що
-ванільний заголовок — «прикметник + назва», узята зі скриншота автора («Chernihivan …»);
-якщо рушій складає його інакше для якоїсь країни, останнє правило покаже інший текст, ніж
-ваніль. Не перевірено також, чи накладка бере шрифт і розташування так само, як ванільний
-рядок на різних розмірах інтерфейсу.
+**Виміряно в EU4 1.37.5 (19.10.2026, ізольований профіль, консольні проби):**
+
+- Без `random = no` рядок обирається не першим (див. «Що було зламано», п. 2); з `random = no` — завжди перший.
+- Усі 155 варіантів реформ фікстури (`tests/dev_tools/make_government_reform_test.py`): назва, яку друкує рушій
+  (`[Root.GetRIPParliamentTitle]` у `log`), збігається з тією, що передбачає генератор, — **0 розбіжностей**. Фікстура
+  досягає 55 із 62 правил; не охоплено слобідські полки (`sumy`, `okhtyrka`, `kharkiv`, `izium`), `officers`
+  (`HET` у монархії без реформи), `elected_assemblies_reform` і теократію Волині — їх перевіряє лише статичний тест.
+- `[Root.GetParliamentName]` повертає іменник тегу («Veche», «Sejm», «Komitat Assembly», «Rada»…) **лише в країн, що
+  мають парламент** (17 із 155 варіантів), у решти — порожній рядок. Вікно існує лише для перших, тож це потрібний випадок.
+
+**Не бачено:** саме вікно парламенту із накладкою в запущеній грі (шрифт, розташування, обрізання на різних
+масштабах інтерфейсу, мови поза англійською). Гіпотеза, що ванільний заголовок — «прикметник + назва», узята зі скриншота
+автора («Chernihivan …»); якщо рушій складає його інакше для якоїсь країни, останнє правило покаже інший текст, ніж ваніль.
+Статичний контракт перевіряє правила, наявність кожного ідентифікатора реформи й тегу, відсутність команд у простих ключах,
+`random = no`, досяжність кожного правила (жодне не сховане попереднім), положення накладки й ширину найдовшого
+заголовка за метриками `vic_29s.fnt`.

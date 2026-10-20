@@ -169,3 +169,30 @@ hlc_cadastral_ordinance_modifier = {
 	global_tax_modifier = 0.05
 	nobles_loyalty_modifier = -0.05
 }
+
+# The bottom row of the mechanic. Each is a ten-year term (3650 days, set by the
+# button), like the three above; each pays for its good with one thing it costs.
+# Dues written into a register: calmer villages and more recruits, paid for with
+# the goodwill of the lords who held them by custom.
+hlc_urbarial_ordinance_modifier = {
+	global_unrest = -0.5
+	global_manpower_modifier = 0.05
+	nobles_loyalty_modifier = -0.05
+}
+
+# The faiths of the marches under the crown's seal: more tolerance and quieter
+# provinces, paid for with the clergy's loyalty.
+hlc_toleration_ordinance_modifier = {
+	tolerance_heretic = 1
+	tolerance_heathen = 1
+	global_unrest = -0.5
+	church_loyalty_modifier = -0.05
+}
+
+# Watchmen on the passes: harder to cross and to besiege, paid for with a larger
+# army to feed.
+hlc_frontier_ordinance_modifier = {
+	defensiveness = 0.1
+	hostile_attrition = 1
+	land_maintenance_modifier = 0.05
+}

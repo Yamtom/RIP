@@ -362,6 +362,9 @@ CRIMSON_ENAMEL = [(0.0, hexc('#2a0608')), (0.5, hexc('#6a1414')), (1.0, hexc('#b
 BLUE_ENAMEL = [(0.0, hexc('#08142e')), (0.5, hexc('#16336a')), (1.0, hexc('#3a68b0'))]
 
 # Pany Rada: the Grand Duchy's red field, the Pahonia's silver, horses, coats and wax
+TEAL_ENAMEL = [(0.0, hexc('#04201e')), (0.5, hexc('#0e5a54')), (1.0, hexc('#2aa89a'))]
+VIOLET_ENAMEL = [(0.0, hexc('#1a0a2e')), (0.5, hexc('#46207a')), (1.0, hexc('#8a52c8'))]
+UMBER_ENAMEL = [(0.0, hexc('#2a1606')), (0.5, hexc('#7a4a14')), (1.0, hexc('#c8882e'))]
 SCARLET_ENAMEL = [(0.0, hexc('#38060a')), (0.5, hexc('#9a1218')), (1.0, hexc('#e04030'))]
 SCARLET_FIELD = [(0.0, hexc('#3a060a')), (0.4, hexc('#8a1016')), (0.6, hexc('#b8161e')), (0.85, hexc('#e0302c')), (1.0, hexc('#ff7a66'))]
 SILVER_LINE = [(0.0, hexc('#4a5460')), (0.45, hexc('#a8b4c0')), (0.75, hexc('#e8eef4')), (1.0, hexc('#ffffff'))]
@@ -1568,26 +1571,18 @@ def chancery_room():
     return layer
 
 
-def finish_rescind(layer, rescind, arrow_at=(57, 55)):
-    if not rescind:
-        return layer
-    layer = tint(desaturate(layer, 0.5), (0.9, 0.93, 1.0))
-    return over(layer, return_arrow(arrow_at[0], arrow_at[1], 7.2, 3.0))
-
-
-def scene_chancery(rescind=False):
+def scene_chancery():
     """The Chancery Ordinance: a sealed ordinance, pen and ink, the files tied up in red tape."""
     layer = chancery_room()
     layer = over(layer, file_stack(31, 69, 14))
-    paper = charter(39, 34, 26, 32, seed=21, degrees=-5, lines=6, seal_r=4.8, broken=rescind,
-                    cords=((24, 24, 28), (214, 164, 44)))
-    layer = over(layer, tear_apart(paper, 40.0, 29.0, seed=7) if rescind else paper)
+    layer = over(layer, charter(39, 34, 26, 32, seed=21, degrees=-5, lines=6, seal_r=4.8,
+                                cords=((24, 24, 28), (214, 164, 44))))
     layer = over(layer, quill((62, 64), 14, 32))
     layer = over(layer, inkwell(62, 68, 10, 8))
-    return finish_rescind(layer, rescind, (60, 27))
+    return layer
 
 
-def scene_settlement(rescind=False):
+def scene_settlement():
     """The Settlement Ordinance: a settlers' wagon and a new cottage on the ploughed marches."""
     layer = backdrop([(0.0, hexc('#3a2a5a')), (0.45, hexc('#c8783c')), (1.0, hexc('#f2c36a'))], (41, 48), 60)
     layer = gradient(full_mask(), [(0.0, hexc('#25305a')), (0.55, hexc('#b86a44')), (0.82, hexc('#f0b860')), (1.0, hexc('#f0b860'))], (0, 8), (0, 56))
@@ -1597,18 +1592,259 @@ def scene_settlement(rescind=False):
     layer = over(layer, furrows(54, 41, 0, 82, 82))
     layer = over(layer, cottage(62, 58, 0.9))
     layer = over(layer, wagon(30, 71, 1.15))
-    return finish_rescind(layer, rescind, (58, 28))
+    return layer
 
 
-def scene_cadastre(rescind=False):
+def scene_cadastre():
     """The Cadastral Ordinance: a survey sheet of parcels, the surveyor's chain and dividers."""
     layer = backdrop([(0.0, hexc('#46341c')), (1.0, hexc('#1a1208'))], (41, 41), 56)
     layer = over(layer, survey_map())
     chain_pts = bezier((9, 64), (26, 46), (46, 76), (73, 54), n=24)
-    gap = {11, 12} if rescind else None
-    layer = over(layer, survey_chain(chain_pts, gap_at=gap))
+    layer = over(layer, survey_chain(chain_pts))
     layer = over(layer, dividers((56, 20), 16, 7.5, 27))
-    return finish_rescind(layer, rescind)
+    return layer
+
+
+# --------------------------------------------------------------------------
+# The bottom row of the crown ordinances: the urbarial register, the faiths of the marches, the frontier guard
+# --------------------------------------------------------------------------
+
+WHEAT = [(0.0, hexc('#5a3c0c')), (0.40, hexc('#b88a22')), (0.62, hexc('#dcae3a')), (0.85, hexc('#f0cc60')), (1.0, hexc('#fff0a8'))]
+PINE = [(0.0, hexc('#06180c')), (0.5, hexc('#12381c')), (1.0, hexc('#2c6e38')), ]
+SLATE_ROOF = [(0.0, hexc('#14181e')), (0.4, hexc('#2e3844')), (0.62, hexc('#46566a')), (1.0, hexc('#8a9ab0'))]
+WHITEWASH = [(0.0, hexc('#8a8478')), (0.4, hexc('#d8d2c0')), (0.62, hexc('#f0eadb')), (1.0, hexc('#ffffff'))]
+
+
+def wheat_sheaf(cx, base_y, h, seed=1):
+    """A bound sheaf of wheat: stalks fan out from a leather band, a heavy ear at the tip of each."""
+    rng = random.Random(seed)
+    stalks, ears = [], []
+    count = 17
+    for i in range(count):
+        t = i / (count - 1) - 0.5
+        angle = t * 0.95
+        length = h * rng.uniform(0.9, 1.0)
+        foot = (cx + t * 4.0, base_y)
+        tip = (cx + math.sin(angle) * length, base_y - math.cos(angle) * length)
+        stalks.append(stroke([foot, tip], 0.85, caps=False))
+        ears.append(ellipse(tip[0], tip[1] - 0.4, 1.25, 3.1, degrees=math.degrees(angle)))
+    stalk_mask, ear_mask = union(*stalks), union(*ears)
+    band_y = base_y - h * 0.36
+    band = poly([(cx - 5.0, band_y), (cx + 5.0, band_y), (cx + 5.4, band_y + 3.2), (cx - 5.4, band_y + 3.2)])
+    whole = union(stalk_mask, ear_mask, band)
+    layer = blank_layer()
+    layer = over(layer, contact(cx, base_y + 0.4, 9.0, 1.4, 0.5))
+    layer = over(layer, outline(whole, 0.45, (40, 24, 4), 0.9))
+    layer = over(layer, shaded(stalk_mask, WHEAT, 0.5, relief=1.0, gain=1.5, texture=noise(seed, 0.8, 2)))
+    layer = over(layer, shaded(ear_mask, WHEAT, 0.5, relief=1.6, gain=1.8, spec=0.25))
+    layer = over(layer, shaded(band, LEATHER, 0.4, relief=0.9, gain=1.6))
+    return layer
+
+
+def scene_urbarial():
+    """The Urbarial Ordinance: the register of what each village owes - a sealed patent beside a bound sheaf on ploughed land."""
+    layer = gradient(full_mask(), [(0.0, hexc('#3a3a62')), (0.5, hexc('#c28a52')), (0.78, hexc('#f0c070')), (1.0, hexc('#f0c070'))], (0, 6), (0, 54))
+    layer = over(layer, glow(60, 46, 24, (255, 224, 150), 0.5))
+    layer = over(layer, furrows(52, 41, 0, 82, 82))
+    layer = over(layer, charter(30, 40, 26, 34, seed=33, degrees=-6, lines=7, seal_r=4.6, cords=((150, 24, 28), (214, 164, 44))))
+    layer = over(layer, wheat_sheaf(54, 71, 26, seed=5))
+    return layer
+
+
+def church_roofed(cx, base_y, sc, roof_stops, dome=False, seed=1):
+    """A whitewashed church seen from the front. With `dome` it has an Eastern drum under a gold onion dome and cross,
+    without it a Latin gable with a bell tower under a slate spire and cross."""
+    def P(x, y):
+        return (cx + x * sc, base_y + y * sc)
+    layer = blank_layer()
+    parts = []
+    if dome:
+        body = poly([P(-11, -13), P(11, -13), P(11, 0), P(-11, 0)])
+        roof = poly([P(-12.5, -12), P(12.5, -12), P(5.5, -21), P(-5.5, -21)])
+        drum = poly([P(-4.4, -21), P(4.4, -21), P(4.4, -29), P(-4.4, -29)])
+        top = bezier(P(-6.0, -29), P(-9.2, -35), P(-2.6, -41), P(0, -47), n=18) + bezier(P(0, -47), P(2.6, -41), P(9.2, -35), P(6.0, -29), n=18)[1:]
+        cupola = poly(top)
+        cross = union(stroke([P(0, -47), P(0, -56)], 1.1), stroke([P(-2.6, -52), P(2.6, -52)], 0.95), stroke([P(-1.6, -49.6), P(1.6, -50.2)], 0.8))
+        parts = [body, roof, drum, cupola, cross]
+    else:
+        body = poly([P(-11, -11), P(11, -11), P(11, 0), P(-11, 0)])
+        roof = poly([P(-12.5, -10), P(12.5, -10), P(0, -20)])
+        tower = poly([P(-4.6, -11), P(4.6, -11), P(4.6, -30), P(-4.6, -30)])
+        spire = poly([P(-5.8, -30), P(5.8, -30), P(0, -52)])
+        cross = union(stroke([P(0, -52), P(0, -59)], 1.1), stroke([P(-2.4, -56), P(2.4, -56)], 0.95))
+        parts = [body, roof, tower, spire, cross]
+    whole = union(*parts)
+    layer = over(layer, contact(cx, base_y, 15 * sc, 2.0, 0.5))
+    layer = over(layer, outline(whole, 0.5, (14, 12, 22), 0.95))
+    walls = union(parts[0], parts[2]) if not dome else union(parts[0], parts[2])
+    layer = over(layer, shaded(walls, WHITEWASH, 0.8, relief=1.5, gain=1.3, texture=noise(seed, 0.7, 2)))
+    layer = over(layer, shaded(parts[1], roof_stops, 0.9, relief=1.8, gain=1.4))
+    if dome:
+        layer = over(layer, shaded(parts[3], GOLD, 0.9, relief=2.6, gain=1.9, spec=0.55))
+    else:
+        layer = over(layer, shaded(parts[3], SLATE_ROOF, 0.9, relief=2.0, gain=1.4))
+    layer = over(layer, shaded(parts[4], GOLD, 0.3, relief=0.8, gain=1.8, spec=0.4))
+    door = poly([P(-2.3, -6.5), P(2.3, -6.5), P(2.3, 0), P(-2.3, 0)])
+    layer = over(layer, shaded(door, DARK_WOOD, 0.3, relief=0.6, gain=1.3))
+    for wx in (-7.4, 7.4):
+        win = poly([P(wx - 1.2, -9.4), P(wx + 1.2, -9.4), P(wx + 1.2, -5.0), P(wx - 1.2, -5.0)])
+        layer = over(layer, solid(win, (255, 214, 120), 1.0), solid(minus(grow(win, 0.3), win), (30, 20, 8), 0.9))
+    return layer
+
+
+def scene_toleration():
+    """The Toleration Ordinance: an Eastern church and a Latin one under the same sky, a crown held above them both."""
+    layer = gradient(full_mask(), [(0.0, hexc('#1c2a5a')), (0.5, hexc('#6a5a8c')), (0.8, hexc('#e8a468')), (1.0, hexc('#e8a468'))], (0, 4), (0, 62))
+    layer = over(layer, glow(41, 24, 22, (255, 226, 160), 0.45))
+    hills = poly([(0, 62)] + bezier((0, 62), (20, 56), (60, 58), (82, 60), n=20)[1:] + [(82, 82), (0, 82)])
+    layer = over(layer, shaded(hills, [(0.0, hexc('#0e2216')), (0.5, hexc('#1c4026')), (1.0, hexc('#3a6a3a'))], 2.0, relief=3.0, gain=1.0))
+    layer = over(layer, church_roofed(23, 68, 0.78, GREEN_CLOTH, dome=True, seed=3))
+    layer = over(layer, church_roofed(59, 68, 0.78, VELVET_RED, dome=False, seed=4))
+    layer = over(layer, crown(41, 25, 17, 11))
+    return layer
+
+
+def pine_tree(cx, base_y, h, w, seed=1):
+    """A fir: three overlapping tiers on a short trunk."""
+    layer = blank_layer()
+    tiers = [poly([(cx - w / 2 * s, base_y - h * y0), (cx + w / 2 * s, base_y - h * y0), (cx, base_y - h * y1)])
+             for s, y0, y1 in ((1.0, 0.16, 0.56), (0.78, 0.40, 0.78), (0.52, 0.64, 1.0))]
+    trunk = poly([(cx - 0.9, base_y), (cx + 0.9, base_y), (cx + 0.9, base_y - h * 0.2), (cx - 0.9, base_y - h * 0.2)])
+    whole = union(*tiers, trunk)
+    layer = over(layer, outline(whole, 0.4, (4, 14, 8), 0.9))
+    layer = over(layer, shaded(trunk, DARK_WOOD, 0.3, relief=0.5, gain=1.2))
+    for i, tier in enumerate(tiers):
+        layer = over(layer, shaded(tier, PINE, 0.7, relief=1.4, gain=1.3, texture=noise(seed + i, 0.6, 2)))
+    return layer
+
+
+def scene_frontier():
+    """The Frontier Guard Ordinance: a watchtower on the Carpathian pass, a palisade, firs and a banner at dusk."""
+    layer = gradient(full_mask(), [(0.0, hexc('#243a66')), (0.55, hexc('#8a6a8c')), (1.0, hexc('#e8a468'))], (0, 4), (0, 58))
+    layer = over(layer, glow(24, 40, 22, (255, 210, 140), 0.45))
+    far = poly([(0, 46), (13, 30), (23, 40), (36, 22), (50, 42), (63, 31), (82, 47), (82, 82), (0, 82)])
+    layer = over(layer, shaded(far, [(0.0, hexc('#242e4a')), (0.5, hexc('#566286')), (1.0, hexc('#9aa6c4'))], 2.4, relief=4.0, gain=1.3))
+    near = poly([(0, 60), (18, 53), (40, 58), (60, 51), (82, 58), (82, 82), (0, 82)])
+    layer = over(layer, shaded(near, [(0.0, hexc('#0c1c12')), (0.5, hexc('#1c3a24')), (1.0, hexc('#365e38'))], 2.0, relief=3.0, gain=1.0))
+    layer = over(layer, pine_tree(70, 63, 22, 11, seed=2))
+    layer = over(layer, pine_tree(77, 66, 17, 9, seed=5))
+    layer = over(layer, castle_tower(46, 60, 12, 21, 9, seed=3))
+    layer = over(layer, banner((46, 30), 0, 13, 11, 7, [(0.0, hexc('#5a4410')), (0.5, hexc('#c89a24')), (1.0, hexc('#f6dc7a'))],
+                               charge='cross', seed=1, side=1))
+    for i in range(6):
+        x = 6.0 + i * 5.2
+        stake = poly([(x, 70), (x + 4.0, 70), (x + 4.0, 61), (x + 2.0, 56.6), (x, 61)])
+        layer = over(layer, shadow(stake, 0.5, 0.6, 0.5, 0.45), outline(stake, 0.35, (16, 8, 4), 0.95), shaded(stake, DARK_WOOD, 0.4, relief=1.0, gain=1.5, texture=noise(60 + i, 0.5, 2)))
+    layer = over(layer, solid(stroke([(5, 66.5), (37, 66.5)], 0.9), (30, 16, 8), 0.9))
+    return layer
+
+
+# --------------------------------------------------------------------------
+# The institutional resolutions: three institutions, two buttons each, one enamel per institution
+# (rip_municipal_/rip_chancery_/rip_register_resolutions_mechanic in common/government_mechanics/rip_institutional_resolutions.txt)
+# --------------------------------------------------------------------------
+
+def ledger_book(cx, cy, w, h, seed=3):
+    """An open account book: leather covers, two ruled pages on a spine, a column of figures down each."""
+    half = w / 2
+    left = poly([(cx - half, cy - h / 2 + 1.2), (cx - 0.8, cy - h / 2), (cx - 0.8, cy + h / 2 - 0.4), (cx - half, cy + h / 2 + 0.8)])
+    right = poly([(cx + 0.8, cy - h / 2), (cx + half, cy - h / 2 + 1.2), (cx + half, cy + h / 2 + 0.8), (cx + 0.8, cy + h / 2 - 0.4)])
+    cover = poly([(cx - half - 1.6, cy - h / 2 + 2.2), (cx + half + 1.6, cy - h / 2 + 2.2), (cx + half + 1.6, cy + h / 2 + 2.6), (cx - half - 1.6, cy + h / 2 + 2.6)])
+    pages = union(left, right)
+    layer = blank_layer()
+    layer = over(layer, shadow(union(cover, pages), 1.0, 1.4, 1.2, 0.55), outline(union(cover, pages), 0.5, (24, 12, 6), 0.95))
+    layer = over(layer, shaded(cover, LEATHER, 0.8, relief=1.6, gain=1.5, texture=noise(seed, 0.8, 2)))
+    layer = over(layer, gradient(left, PARCHMENT, (cx - half, cy), (cx, cy)), gradient(right, PARCHMENT, (cx, cy), (cx + half, cy)))
+    ink = blank_mask()
+    red = blank_mask()
+    d, r = ImageDraw.Draw(ink), ImageDraw.Draw(red)
+    rng = random.Random(seed)
+    rows = 6
+    for x0 in (cx - half + 2.4, cx + 2.4):
+        for i in range(rows):
+            yy = cy - h / 2 + 3.4 + i * (h - 7.6) / (rows - 1)
+            d.line(_px([(x0, yy), (x0 + half - 6.4 - rng.uniform(0.0, 2.4), yy)]), fill=255, width=max(1, int(0.5 * SS)))
+            d.line(_px([(x0 + half - 4.6, yy), (x0 + half - 3.0 - rng.uniform(0.0, 0.8), yy)]), fill=255, width=max(1, int(0.5 * SS)))
+        r.line(_px([(x0 + half - 5.4, cy - h / 2 + 2.0), (x0 + half - 5.4, cy + h / 2 - 1.0)]), fill=255, width=max(1, int(0.3 * SS)))
+    layer = over(layer, solid(inter(ink, pages), (74, 46, 22), 0.62), solid(inter(red, pages), (150, 24, 28), 0.7))
+    layer = over(layer, solid(poly([(cx - 0.8, cy - h / 2), (cx + 0.8, cy - h / 2), (cx + 0.8, cy + h / 2 - 0.4), (cx - 0.8, cy + h / 2 - 0.4)]), (60, 36, 14), 0.5))
+    return layer
+
+
+def scene_resolution_municipal_charters():
+    """Confirm the Municipal Charters: the walled town and its sealed charter."""
+    layer = backdrop([(0.0, hexc('#3a8a80')), (0.5, hexc('#1c524c')), (1.0, hexc('#08201e'))], (41, 28), 52)
+    layer = over(layer, glow(41, 30, 26, (200, 245, 235), 0.30))
+    ground = poly([(0, 56), (82, 56), (82, 82), (0, 82)])
+    layer = over(layer, gradient(ground, [(0.0, hexc('#1e3a2a')), (1.0, hexc('#08140e'))], (0, 56), (0, 82)))
+    layer = over(layer, castle(41, 54, 0.95, seed=6))
+    layer = over(layer, charter(41, 63, 30, 17, seed=14, lines=3, seal_r=3.6, cords=((24, 24, 28), (214, 164, 44))))
+    return layer
+
+
+def scene_resolution_municipal_accounts():
+    """Examine the Municipal Accounts: the town's ledger open on a table, coins stacked beside it."""
+    layer = backdrop([(0.0, hexc('#3a8a80')), (0.5, hexc('#1c524c')), (1.0, hexc('#08201e'))], (41, 30), 52)
+    layer = over(layer, glow(41, 32, 24, (200, 245, 235), 0.25))
+    layer = over(layer, long_table(54, 62, 4.0, 78.0))
+    layer = over(layer, ledger_book(36, 45, 32, 19, seed=4))
+    for i, (x, y) in enumerate([(62, 57.6), (62, 55.2), (62, 52.8), (62, 50.4)]):
+        layer = over(layer, coin(x, y, 4.0, flat=0.5, seed=i))
+    layer = over(layer, coin(53, 61, 3.4, flat=0.5, seed=7))
+    return layer
+
+
+def scene_resolution_chancery_service():
+    """Examine the Service Rolls: a long roll of names, each line ticked off, pen and ink beside it."""
+    layer = backdrop([(0.0, hexc('#6a4a9a')), (0.5, hexc('#2e1a52')), (1.0, hexc('#0e0620'))], (41, 30), 52)
+    layer = over(layer, glow(40, 34, 26, (230, 210, 255), 0.25))
+    desk = poly([(0, 62), (82, 62), (82, 82), (0, 82)])
+    layer = over(layer, shaded(desk, DARK_WOOD, 1.0, relief=1.6, gain=1.2, texture=noise(53, 1.4, 2)))
+    layer = over(layer, solid(stroke([(0, 62.4), (82, 62.4)], 0.7), (210, 170, 90), 0.55))
+    w, h, cx, cy, lines = 30, 40, 38, 36, 8
+    layer = over(layer, charter(cx, cy, w, h, seed=11, lines=lines, seal_r=0))
+    x, y = cx - w / 2, cy - h / 2
+    curl = max(2.0, h * 0.075)
+    gap = (h - 2 * curl - 3.4) / lines
+    ticks = blank_mask()
+    for i in range(lines):
+        yy = y + curl + 1.6 + gap * (i + 0.5)
+        ticks = union(ticks, stroke([(x + w - 5.0, yy), (x + w - 3.8, yy + 1.0), (x + w - 2.0, yy - 1.3)], 0.55))
+    layer = over(layer, solid(ticks, (24, 120, 52), 0.9))
+    layer = over(layer, quill((64, 66), 14, 30))
+    layer = over(layer, inkwell(64, 70, 9, 7))
+    return layer
+
+
+def scene_resolution_chancery_rights():
+    """Confirm the Local Rights: the privilege with its hanging seals, and the key to the town's liberties."""
+    layer = backdrop([(0.0, hexc('#6a4a9a')), (0.5, hexc('#2e1a52')), (1.0, hexc('#0e0620'))], (41, 30), 52)
+    layer = over(layer, glow(41, 32, 26, (230, 210, 255), 0.28))
+    layer = over(layer, privilege_charter(41, 32, 36, 36, seed=9, lines=6, seals=3))
+    layer = over(layer, gold_key(41, 66, 26, degrees=-6))
+    return layer
+
+
+def scene_resolution_register_muster():
+    """Fund the Full Muster: a regimental banner, crossed sabre and a purse of pay."""
+    layer = backdrop([(0.0, hexc('#c8883a')), (0.5, hexc('#7a4a1c')), (1.0, hexc('#2a1606'))], (41, 30), 52)
+    layer = over(layer, glow(41, 34, 26, (255, 224, 160), 0.30))
+    ground = poly([(0, 64), (82, 64), (82, 82), (0, 82)])
+    layer = over(layer, gradient(ground, [(0.0, hexc('#3a2a12')), (1.0, hexc('#120a04'))], (0, 64), (0, 82)))
+    layer = over(layer, banner((29, 70), -4, 48, 22, 16, VELVET_RED, charge='cross', seed=2, side=1))
+    layer = over(layer, sword((69, 73), -104, 26, blade_w=3.6, grip=5.0))
+    layer = over(layer, purse(47, 62, 9.5, seed=6))
+    return layer
+
+
+def scene_resolution_register_settlement():
+    """Settle the Service Obligations: the sabre stands in the furrow beside a cottage - the registered man stays on his land."""
+    layer = gradient(full_mask(), [(0.0, hexc('#5a3a62')), (0.5, hexc('#d08a4a')), (0.78, hexc('#f4c878')), (1.0, hexc('#f4c878'))], (0, 6), (0, 54))
+    layer = over(layer, glow(58, 46, 24, (255, 224, 150), 0.5))
+    layer = over(layer, furrows(52, 41, 0, 82, 82))
+    layer = over(layer, cottage(58, 62, 1.15))
+    layer = over(layer, sword((22, 26), 90, 28, blade_w=3.8, grip=6.0))
+    return layer
 
 
 def vytis_at(cx, cy, height, **kw):
@@ -1701,12 +1937,18 @@ SCENES = {
     'boyar_office': ('round', CRIMSON_ENAMEL, scene_boyar_office),
     'boyar_claimant': ('round', CRIMSON_ENAMEL, scene_boyar_claimant),
     'boyar_example': ('round', CRIMSON_ENAMEL, scene_boyar_example),
-    'chancery_enact': ('octagon', BLACK_ENAMEL, lambda: scene_chancery(False)),
-    'settlement_enact': ('octagon', BLACK_ENAMEL, lambda: scene_settlement(False)),
-    'cadastre_enact': ('octagon', BLACK_ENAMEL, lambda: scene_cadastre(False)),
-    'chancery_rescind': ('octagon', BLACK_ENAMEL, lambda: scene_chancery(True)),
-    'settlement_rescind': ('octagon', BLACK_ENAMEL, lambda: scene_settlement(True)),
-    'cadastre_rescind': ('octagon', BLACK_ENAMEL, lambda: scene_cadastre(True)),
+    'chancery_ordinance': ('octagon', BLACK_ENAMEL, scene_chancery),
+    'settlement_ordinance': ('octagon', BLACK_ENAMEL, scene_settlement),
+    'cadastre_ordinance': ('octagon', BLACK_ENAMEL, scene_cadastre),
+    'urbarial_ordinance': ('octagon', BLACK_ENAMEL, scene_urbarial),
+    'toleration_ordinance': ('octagon', BLACK_ENAMEL, scene_toleration),
+    'frontier_ordinance': ('octagon', BLACK_ENAMEL, scene_frontier),
+    'resolution_municipal_charters': ('round', TEAL_ENAMEL, scene_resolution_municipal_charters),
+    'resolution_municipal_accounts': ('round', TEAL_ENAMEL, scene_resolution_municipal_accounts),
+    'resolution_chancery_service': ('round', VIOLET_ENAMEL, scene_resolution_chancery_service),
+    'resolution_chancery_rights': ('round', VIOLET_ENAMEL, scene_resolution_chancery_rights),
+    'resolution_register_muster': ('round', UMBER_ENAMEL, scene_resolution_register_muster),
+    'resolution_register_settlement': ('round', UMBER_ENAMEL, scene_resolution_register_settlement),
     'senate_summon': ('arch', BLUE_ENAMEL, scene_senate_summon),
     'senate_buyoff': ('arch', BLUE_ENAMEL, scene_senate_buyoff),
     'senate_banners': ('arch', BLUE_ENAMEL, scene_senate_banners),

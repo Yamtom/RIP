@@ -41,13 +41,25 @@ def panel(name, potential, rows):
  {chr(10).join(rows)}
 }}'''
 
-factions = [('knyazi', 'Knyazi'), ('boyary', 'Boyars'), ('starshyna', 'Starshyna')]
-active = 'has_country_flag = kru_factional_dominance_active'
-dominant = choice('RipGovDominant', [(f'{active} has_country_flag = kru_current_dominant_{f}', n) for f,n in factions], 'No bloc at 60')
-partner = choice('RipGovPartner', [(f'{active} has_country_flag = kru_previous_dominant_{f}', n) for f,n in factions], 'No coalition')
-voice = choice('RipGovJuniorVoice', [(f'has_country_modifier = KRU_junior_{f}', n) for f,n in factions], 'None')
-opposition = choice('RipGovOpposition', [(f'{active} NOT = {{ has_country_flag = kru_current_dominant_{f} }} NOT = {{ has_country_flag = kru_previous_dominant_{f} }}', n) for f,n in factions], 'No coalition')
-coalition_tip = 'The leading faction must have at least 60 influence to dominate. Its partner is the PREVIOUS dominant faction, not the runner-up. The third faction is the opposition. The partner receives a junior-voice modifier only at 38 influence or more.\nOn the first recorded dominance, the default partner is Boyars for Knyazi, and Knyazi for Boyars or Starshyna. Below 60 there is no coalition or junior voice; the States General scale returns to centre. The remembered previous dominant faction is retained.\nThe record refreshes monthly and after courting a faction. States General requires Res Publica or Winds of Change.'
+factions = [('knyazi', 'Knyazi'), ('boyary', 'Boyary'), ('starshyna', 'Starshyna')]
+# The Rada (tools/build_kru_rada.py): the dominant bloc - the faction in power - stands on the RIGHT of the States General bar, the bloc that is second by
+# influence on the LEFT; the third bloc is the opposition. The refresh keeps kru_rada_lead_<bloc> and kru_rada_second_<bloc> for the pair: the reform and the
+# bar follow those flags, so the rows read them too.
+leader = choice('RipGovRadaLeader', [(f'has_country_flag = kru_rada_lead_{f}', f'§G{n}§!') for f, n in factions], '§YSet at the next monthly review§!')
+second = choice('RipGovRadaSecond', [(f'has_country_flag = kru_rada_second_{f}', f'§G{n}§!') for f, n in factions], '§YSet at the next monthly review§!')
+opposition = choice('RipGovRadaOpposition', [(f'has_country_flag = kru_rada_second_{a} has_country_flag = kru_rada_lead_{b}', f'§G{n}§!')
+                                              for a, b, n in (('knyazi', 'boyary', 'Starshyna'), ('boyary', 'knyazi', 'Starshyna'), ('knyazi', 'starshyna', 'Boyary'),
+                                                              ('starshyna', 'knyazi', 'Boyary'), ('boyary', 'starshyna', 'Knyazi'), ('starshyna', 'boyary', 'Knyazi'))], '§YSet at the next monthly review§!')
+bar = choice('RipGovRadaBar', [('kru_leader_influence_60 = yes', 'Right, three quarters (leader at 60+)'),
+                               ('kru_leader_influence_55 = yes', 'Right, a half (leader at 55+)'),
+                               ('kru_leader_influence_50 = yes', 'Right, a quarter (leader at 50+)')], 'Centre (leader under 50: contested)')
+voice = choice('RipGovJuniorVoice', [(f'has_country_modifier = KRU_junior_{f}', n) for f, n in factions], 'None')
+coalition_tip = ('The States General bar (Res Publica or Winds of Change) shows the two blocs that lead the rada: the bloc that is SECOND by influence stands on the LEFT, '
+                 'the dominant bloc - the faction in power - on the RIGHT. The third bloc is the opposition and is not on the bar.\n'
+                 'When the pair changes, the rada swaps to the reform that has it: six reform ids, one government called Rada of Three Estates.\n'
+                 'The bar is centred while the leader has under 50 influence and moves right by a quarter, a half and three quarters at 50, 55 and 60; the bloc on the side in power '
+                 'gives its floor modifiers. The leader also keeps the vanilla faction-in-power modifier. The runner-up keeps a junior voice from 38 influence.\n'
+                 'The record refreshes every month and after every court ability. Without Res Publica or Winds of Change the pair, the faction panel and the abilities work, but there is no bar.')
 annual = [
  ('StabZero','stability = 0 NOT = { stability = 1 }',2,'stability = 0'),
  ('StabBad','NOT = { stability = 0 }',3,'stability < 0'),
@@ -57,11 +69,23 @@ annual = [
  ('Legitimacy','NOT = { legitimacy = 50 }',1,'legitimacy below 50'),
  ('StabGood','stability = 2',-3,'stability at least +2'),
  ('Peace','is_at_war = no',-2,'at peace')]
+# The decadence number is a country variable that the first yearly review creates (events/RuthenianDecadence.txt, rip_decadence_initialized).
+# Printing it with [Root.ruthenian_decadence.GetValue] FAILS while the variable does not exist: measured in EU4 1.37.5, the row showed nothing and the
+# engine wrote "Unknown text property 'GetValue]..." once per frame (9.3 million lines, 1 GB, in five hours with the window open). A defined_text ladder
+# reads a missing variable as "no", so it never errors; the colours follow the panel's own thresholds (crisis from 90, retreat below 75).
+decadence_shown = choice('RipGovDecadence',
+    [(f'check_variable = {{ which = ruthenian_decadence value = {i} }}', f'§{"R" if i >= 90 else "Y" if i >= 75 else "G"}{i}§!') for i in range(100, 0, -1)]
+    + [('has_country_flag = rip_decadence_initialized', '§G0§!')],
+    '§YNot started: it begins at 20 at the first yearly review§!')
 annual_text = '\n'.join(factor('RipGov'+n,t,v,l) for n,t,v,l in annual)
 annual_tip = 'Current conditions for the next yearly pulse; coloured values are active, 0 means inactive. Add these values together. Events can change Decadence separately; this is not a forecast of intervening events.\n' + annual_text + '\nOn the first yearly update, an uninitialised zero starts at 20 before these changes. Annual modifiers: below 40 / 40-69 / at least 70.'
 crisis_tip = 'Court Crisis can start accumulating for KRU with this reform, no other disaster, and Decadence at least 90. Base monthly progress at 90+: +6; frontier centralisation +1.5, frontier liberties -1, southern recovery -1. Progress recedes below 75. An active crisis ends only when Decadence is below 60 AND stability is at least +1.\nThe first annual crossing of 90 can also trigger a separate court event; its choices reduce Decadence. A threshold does not mean the disaster starts immediately.'
-kru_rows = [row('rip_gov_kru_title',12,'§YRada and Decadence§!',coalition_tip), row('rip_gov_kru_leader',40,'Dominant: '+dominant,coalition_tip),row('rip_gov_kru_partner',64,'Partner: '+partner,coalition_tip),row('rip_gov_kru_opposition',88,'Opposition: '+opposition,coalition_tip),row('rip_gov_kru_voice',112,'Junior voice: '+voice,coalition_tip), row('rip_gov_kru_decay',146,'Decadence: §Y[Root.ruthenian_decadence.GetValue]§!',annual_tip),row('rip_gov_kru_annual',174,'Yearly change: hover for active factors',annual_tip),row('rip_gov_kru_crisis',202,'Crisis: 90+ | Retreat: <75 | End: <60, stability +1',crisis_tip),row('rip_gov_kru_memory',236,'Partner follows the previous dominance.',coalition_tip)]
-kru_potential = 'tag = KRU OR = { has_reform = ruthenian_factional_empire_reform has_reform = ruthenian_factional_empire_princes_hetmans_reform has_reform = ruthenian_factional_empire_boyars_hetmans_reform }'
+kru_rows = [row('rip_gov_kru_title',12,'§YRada of Three Estates§!',coalition_tip), row('rip_gov_kru_leader',40,'Right (leads): '+leader,coalition_tip),
+            row('rip_gov_kru_second',64,'Left (second): '+second,coalition_tip), row('rip_gov_kru_opposition',88,'Opposition: '+opposition,coalition_tip),
+            row('rip_gov_kru_bar',112,'Bar: '+bar,coalition_tip), row('rip_gov_kru_voice',136,'Junior voice: '+voice,coalition_tip),
+            row('rip_gov_kru_decay',168,'Decadence: '+decadence_shown,annual_tip), row('rip_gov_kru_annual',196,'Yearly change: hover for active factors',annual_tip),
+            row('rip_gov_kru_crisis',224,'Crisis: 90+ | Retreat: <75 | End: <60, stability +1',crisis_tip)]
+kru_potential = 'tag = KRU kru_holds_rada_reform = yes'
 
 def share(var, name):
     return choice(name, [(f'check_variable = {{ which = {var} value = {i/100:g} }}', f'{i}%') for i in range(100,0,-1)], '0%')
@@ -80,55 +104,105 @@ gather_tip = 'Monthly Gathering: base 0, plus active values below.\n'+'\n'.join(
 recovery_tip = 'Monthly breakdown check: unaccepted development at least 30% AND Gathering below 20. Once per breakdown: -15 Concord and Throne in Disarray for 1825 days.\nRecovery requires unaccepted development strictly below 15% AND Gathering at least 40. It clears the breakdown flag; the timed Throne in Disarray modifier remains until expiry. Falling to zero Concord can also apply that modifier.'
 cesar_rows = [row('rip_gov_cesar_title',12,'§YCesarstvo: Lands and Settlement§!',lands_tip),row('rip_gov_cesar_minority',44,'Non-primary development: ~'+minority,lands_tip),row('rip_gov_cesar_excluded',72,'Unaccepted development: ~'+excluded,lands_tip),row('rip_gov_cesar_eligible',104,'Integration: '+eligible,elig_tip),row('rip_gov_cesar_concord',136,'Throne Concord: monthly factors',concord_tip),row('rip_gov_cesar_gather',164,'Gathering: monthly factors',gather_tip),row('rip_gov_cesar_breakdown',198,breakdown,recovery_tip),row('rip_gov_cesar_recovery',230,'Crisis and recovery: hover for thresholds',recovery_tip)]
 
-# --- Shared Institutional Review (Municipal, Chancery, Cossack Register) ---
-rev_active = choice('RipGovActiveReview', [
-    ('has_country_modifier = rip_gov_municipal_charters', '§GMunicipal Charters§!'),
-    ('has_country_modifier = rip_gov_municipal_accounts', '§GMunicipal Accounts§!'),
-    ('has_country_modifier = rip_gov_chancery_service', '§GChancery Service Rolls§!'),
-    ('has_country_modifier = rip_gov_chancery_rights', '§GChancery Local Rights§!'),
-    ('has_country_modifier = rip_gov_register_muster', '§GCossack Muster§!'),
-    ('has_country_modifier = rip_gov_register_settlement', '§GCossack Settlement§!')
-], 'No Active Resolution')
+# --- Institutional resolutions (Municipal, Chancery, Register) -------------------------------------------------------
+# The six buttons are in common/government_mechanics/rip_institutional_resolutions.txt, in the mechanics box on the left of this window. The rows
+# below say what each button does right now and why it can or cannot be pressed, and are the same in every panel that carries them. A row for an
+# institution the country does not hold is empty, so one block serves every combination of institutions.
+RESOLUTIONS = [
+    # key, who holds the institution, button text, power, power test, modifier, modifier name
+    ('MunicipalCharters', 'rip_gov_has_municipal_review = yes', 'Confirm the Municipal Charters', 'DIP', 'dip_power = 50', 'rip_gov_municipal_charters', 'Confirmed Municipal Charters'),
+    ('MunicipalAccounts', 'rip_gov_has_municipal_review = yes', 'Examine the Municipal Accounts', 'ADM', 'adm_power = 50', 'rip_gov_municipal_accounts', 'Examined Municipal Accounts'),
+    ('ChanceryService', 'rip_gov_has_chancery_review = yes', 'Examine the Service Rolls', 'ADM', 'adm_power = 50', 'rip_gov_chancery_service', 'Examined Service Rolls'),
+    ('ChanceryRights', 'rip_gov_has_chancery_review = yes', 'Confirm the Local Rights', 'DIP', 'dip_power = 50', 'rip_gov_chancery_rights', 'Confirmed Local Rights'),
+    ('RegisterMuster', 'rip_gov_has_register_review = yes', 'Fund the Full Muster', 'MIL', 'mil_power = 50', 'rip_gov_register_muster', 'Funded Cossack Muster'),
+    ('RegisterSettlement', 'rip_gov_has_register_review = yes', 'Settle the Service Obligations', 'DIP', 'dip_power = 50', 'rip_gov_register_settlement', 'Settled Cossack Obligations'),
+]
 
-rev_lockout = choice('RipGovReviewLockout', [
-    ('OR = { has_country_modifier = rip_gov_municipal_charters has_country_modifier = rip_gov_municipal_accounts has_country_modifier = rip_gov_chancery_service has_country_modifier = rip_gov_chancery_rights has_country_modifier = rip_gov_register_muster has_country_modifier = rip_gov_register_settlement }', '§RResolution in Force (10-Yr Lock)§!'),
-    ('has_country_flag = rip_gov_review_recent NOT = { had_country_flag = { flag = rip_gov_review_recent days = 3650 } }', '§R10-Year Cooldown Active§!')
-], '§GReady for Review§!')
 
-rev_tracks = choice('RipGovReviewInstitutes', [
-    ('rip_gov_has_municipal_review = yes rip_gov_has_chancery_review = yes rip_gov_has_register_review = yes', '§GMunicipal, Chancery, Register§!'),
-    ('rip_gov_has_municipal_review = yes rip_gov_has_chancery_review = yes', '§GMunicipal & Chancery§!'),
-    ('rip_gov_has_municipal_review = yes rip_gov_has_register_review = yes', '§GMunicipal & Register§!'),
-    ('rip_gov_has_chancery_review = yes rip_gov_has_register_review = yes', '§GChancery & Register§!'),
-    ('rip_gov_has_municipal_review = yes', '§GMunicipal Charters§!'),
-    ('rip_gov_has_chancery_review = yes', '§GChancery Rolls§!'),
-    ('rip_gov_has_register_review = yes', '§GCossack Register§!')
-], 'No Tracks Available')
+def resolution_state(key, held, label, power, power_test, modifier):
+    """One button's line: its name and price, then the first reason that applies (the same order the button's own tooltip checks)."""
+    states = [(f'has_country_modifier = {modifier}', '§GIn force§!'),
+              ('rip_gov_resolution_in_force = yes', '§YAnother resolution in force§!'),
+              ('NOT = { rip_gov_resolution_lock_over = yes }', '§RLocked for ten years§!'),
+              ('is_at_war = yes', '§RAt war§!'),
+              ('NOT = { stability = 0 }', '§RStability below 0§!'),
+              ('NOT = { treasury = 50 }', '§RNeeds 50 ducats§!'),
+              (f'NOT = {{ {power_test} }}', f'§RNeeds 50 {power}§!')]
+    head = f'{label} (50 {power}): '
+    return choice('RipGovRes' + key, [(f'NOT = {{ {held} }}', '')] + [(trigger, head + shown + '\n') for trigger, shown in states], head + '§GReady§!\n')
 
-rev_active_tip = 'Active Institutional Resolution:\n- Municipal Charters: +5% Production Efficiency, +5% Burghers Loyalty, -5 Max Absolutism (50 DIP)\n- Municipal Accounts: +5% National Tax, -0.025 Yearly Corruption, -5% Burghers Loyalty (50 ADM)\n- Chancery Service: -5% State Maintenance, -0.025 Yearly Corruption, -5% Nobility Loyalty (50 ADM)\n- Chancery Rights: -10% Culture Acceptance Cost, -0.5 Unrest, -5% National Tax (50 DIP)\n- Cossack Muster: +5% Manpower Recovery, +5% Land Maintenance (50 MIL)\n- Cossack Settlement: -0.5 Unrest, -5% National Manpower (50 DIP)'
-rev_lockout_tip = 'Why choosing one institution temporarily locks out the others:\nMunicipal, Chancery, and Cossack Register reviews form a single shared institutional system.\nEnacting any resolution sets the 10-year shared flag (rip_gov_review_recent), committing the administration to that course for 3650 days.\nDuring this term, all decisions to review other institutions are locked.\nSwitching or losing a reform clears the modifier but DOES NOT reset the 10-year lockout.'
-rev_tracks_tip = 'Reforms granting access to institutional review tracks:\n- Municipal Charters: vln_magdeburg_rights\n- Chancery Rolls: lit_ruthenian_chancery_reform, chr_kanceliaryst_republic_reform\n- Cossack Register: het_regimental_system_reform, rip_cossacks_reform, vln_cossack_host_reform, prl_regimental_republic_reform'
-rev_terms_tip = 'Review Requirements:\n- At peace (is_at_war = no)\n- Stability >= 0\n- At least 50 ducats in the treasury\n- At least 50 monarch power (ADM, DIP, or MIL depending on choice)\n- 10-year shared cooldown expired'
-rev_why_tip = 'The crown cannot balance competing administrative, municipal, and military reorganizations at the same time.\nOnly one institutional resolution can be active at a time across the entire realm.'
-rev_reform_note_tip = 'Reform changes do not allow bypassing the 10-year wait:\nLosing or replacing a reform removes the active benefit via removed_effect, but the dated review flag rip_gov_review_recent remains until the full 3650 days elapse.'
 
-# --- Galicia: Ordinances & Council (HLC) ---
+res_lines = ''.join(resolution_state(key, held, label, power, power_test, modifier) for key, held, label, power, power_test, modifier, _ in RESOLUTIONS)
+res_name = choice('RipGovResName', [(f'has_country_modifier = {modifier}', f'§G{name}§!') for _, _, _, _, _, modifier, name in RESOLUTIONS]
+                  + [('NOT = { rip_gov_resolution_lock_over = yes }', '§YNone in force§!')], '§GNone in force§!')
+res_left = choice('RipGovResLeft', [('rip_gov_resolution_lock_over = yes', '§GReady for a new resolution§!')]
+                  + [(f'had_country_flag = {{ flag = rip_gov_review_recent days = {365 * gone} }}',
+                      f'Next resolution in §Y{10 - gone}§! year' + ('' if 10 - gone == 1 else 's')) for gone in range(9, 0, -1)],
+                  'Next resolution in §Y10§! years')
+res_peace = choice('RipGovResPeace', [('is_at_war = yes', '§RAt war§!')], '§GAt peace§!')
+res_stability = choice('RipGovResStability', [('NOT = { stability = 0 }', '§RStability below 0§!')], '§GStability 0+§!')
+res_treasury = choice('RipGovResTreasury', [('NOT = { treasury = 50 }', '§RUnder 50 ducats§!')], '§G50 ducats§!')
+
+res_title_tip = ('Institutional resolutions: the towns\' charters, the chancery\'s rolls and the Cossack register can each pass one paid resolution of ten years, '
+                 'and only one resolution can stand in the whole realm.\nThe buttons are in the government mechanics box on the left of this window; '
+                 'their tooltips say what each one costs, what it does and why it is refused.')
+res_now_tip = ('The resolution in force, if any. A resolution ends after ten years, or at once if the reform that gave it is removed; '
+               'the ten-year term still runs on and no other resolution can be passed until it is over.')
+res_needs_tip = ('To pass a resolution you need:\n- peace\n- stability of at least 0\n- 50 ducats, which are paid\n- 50 monarch power of the kind named on the button, which is paid\n'
+                 '- no other resolution in force, and ten years since the last one.\nGreen is met, red is not.')
+res_lines_tip = ('What each button does, for ten years:\n'
+                 '- Confirm the Municipal Charters (50 DIP): +5% production efficiency, +5% burghers\' loyalty, -5 maximum absolutism\n'
+                 '- Examine the Municipal Accounts (50 ADM): +5% national tax, -0.025 yearly corruption, -5% burghers\' loyalty\n'
+                 '- Examine the Service Rolls (50 ADM): -5% state maintenance, -0.025 yearly corruption, -5% nobles\' loyalty\n'
+                 '- Confirm the Local Rights (50 DIP): -10% culture promotion cost, -0.5 national unrest, -5% national tax\n'
+                 '- Fund the Full Muster (50 MIL): +5% manpower recovery, +5% land maintenance\n'
+                 '- Settle the Service Obligations (50 DIP): -0.5 national unrest, -5% national manpower')
+res_hint_tip = 'The two buttons are in the mechanics box on the left, under the government description. The bottom row may need the mouse wheel.'
+
+
+def resolution_block(prefix, y, step):
+    """Five rows: what is in force, how long the term runs, what is needed, where the buttons are, and one line per button held."""
+    return [row(f'rip_gov_{prefix}_res_now', y, 'In force: ' + res_name, res_now_tip),
+            row(f'rip_gov_{prefix}_res_left', y + step, res_left, res_now_tip),
+            row(f'rip_gov_{prefix}_res_needs', y + 2 * step, 'Needs: ' + res_peace + ' | ' + res_stability + ' | ' + res_treasury, res_needs_tip),
+            row(f'rip_gov_{prefix}_res_hint', y + 3 * step, 'Buttons: mechanics box, left.', res_hint_tip),
+            row(f'rip_gov_{prefix}_res_lines', y + 4 * step, res_lines, res_lines_tip, height=132)]
+
+
+# --- Galicia: the six crown ordinances (Frontier Crown Authority) -------------------------------------------------------
+ORDINANCES = [
+    # key, label, power, power test, modifier, what it does
+    ('Chancery', 'Chancery', 'DIP', 'dip_power = 50', 'hlc_chancery_ordinance_modifier', '+1 diplomatic reputation, +10% improve relations, +10% advisor costs'),
+    ('Settlement', 'Settlement', 'ADM', 'adm_power = 50', 'hlc_settlement_ordinance_modifier', '-10% culture conversion cost, +1 national unrest; the first manual conversion in a year steadies the nobles'),
+    ('Cadastral', 'Cadastral', 'ADM', 'adm_power = 50', 'hlc_cadastral_ordinance_modifier', '+5% national tax, -5% nobles\' loyalty'),
+    ('Urbarial', 'Urbarial', 'ADM', 'adm_power = 50', 'hlc_urbarial_ordinance_modifier', '-0.5 national unrest, +5% national manpower, -5% nobles\' loyalty'),
+    ('Toleration', 'Toleration', 'DIP', 'dip_power = 50', 'hlc_toleration_ordinance_modifier', '+1 tolerance of heretics and heathens, -0.5 national unrest, -5% church loyalty'),
+    ('Frontier', 'Frontier Guard', 'MIL', 'mil_power = 50', 'hlc_frontier_ordinance_modifier', '+10% defensiveness, +1 hostile attrition, +5% land maintenance'),
+]
+hlc_modifiers = ' '.join(f'has_country_modifier = {modifier}' for _, _, _, _, modifier, _ in ORDINANCES)
 hlc_slots = choice('RipGovHlcSlots', [
-    ('hlc_ordinance_over_limit = yes', '§R3 / 2 (Over limit)§!'),
-    ('NOT = { hlc_ordinance_slot_free = yes }', '§Y2 / 2 (Full)§!'),
-    ('OR = { has_country_flag = hlc_chancery_ordinance_active has_country_flag = hlc_settlement_ordinance_active has_country_flag = hlc_cadastral_ordinance_active }', '§G1 / 2 (1 free)§!')
-], '§G0 / 2 (2 free)§!')
+    ('NOT = { hlc_ordinance_slot_free = yes }', '§Y3 / 3 (full)§!'),
+    ('calc_true_if = { ' + hlc_modifiers + ' amount = 2 }', '§G2 / 3 (1 free)§!'),
+    ('calc_true_if = { ' + hlc_modifiers + ' amount = 1 }', '§G1 / 3 (2 free)§!')], '§G0 / 3 (3 free)§!')
+hlc_slots_tip = ('Ordinance slots: the crown keeps at most three of its six ordinances in force (hlc_ordinance_slot_free). Each ordinance costs 50 monarch power of the kind '
+                 'named, stands for ten years and cannot be enacted again before its term ends; the crown cannot take one back. '
+                 'A slot opens when an ordinance runs out or the crown authority is lost.')
 
-hlc_active = choice('RipGovHlcOrdinances', [
-    ('has_country_flag = hlc_chancery_ordinance_active has_country_flag = hlc_settlement_ordinance_active has_country_flag = hlc_cadastral_ordinance_active', '§RChancery, Settlement, Cadastre§!'),
-    ('has_country_flag = hlc_chancery_ordinance_active has_country_flag = hlc_settlement_ordinance_active', '§GChancery & Settlement§!'),
-    ('has_country_flag = hlc_chancery_ordinance_active has_country_flag = hlc_cadastral_ordinance_active', '§GChancery & Cadastre§!'),
-    ('has_country_flag = hlc_settlement_ordinance_active has_country_flag = hlc_cadastral_ordinance_active', '§GSettlement & Cadastre§!'),
-    ('has_country_flag = hlc_chancery_ordinance_active', '§GChancery Ordinance§!'),
-    ('has_country_flag = hlc_settlement_ordinance_active', '§GSettlement Ordinance§!'),
-    ('has_country_flag = hlc_cadastral_ordinance_active', '§GCadastral Ordinance§!')
-], 'None in force')
 
+def ordinance_state(key, label, power, power_test, modifier):
+    return choice('RipGovOrd' + key, [(f'has_country_modifier = {modifier}', '§GIn force§!'),
+                                      ('NOT = { hlc_ordinance_slot_free = yes }', '§YSlots full§!'),
+                                      (f'NOT = {{ {power_test} }}', f'§RNeeds 50 {power}§!')], '§GReady§!')
+
+
+hlc_crown_rows = [row('rip_gov_hlc_crown_title', 12, '§YFrontier Crown: Six Ordinances§!', hlc_slots_tip),
+                  row('rip_gov_hlc_crown_slots', 38, 'Slots in use: ' + hlc_slots, hlc_slots_tip)]
+for index, (key, label, power, power_test, modifier, effect) in enumerate(ORDINANCES):
+    hlc_crown_rows.append(row(f'rip_gov_hlc_crown_{key.lower()}', 64 + 26 * index, f'{label} (50 {power}): ' + ordinance_state(key, label, power, power_test, modifier),
+                              f'{label} Ordinance - for ten years: {effect}.\nCosts 50 {power} power. At most three of the six can be in force; none can be taken back.'))
+hlc_crown_rows.append(row('rip_gov_hlc_crown_hint', 226, 'Buttons: mechanics box, left.', 'The six ordinance buttons are in the mechanics box on the left, two rows of three. The bottom row may need the mouse wheel.'))
+
+# --- Galicia: the Boyar Council (the Polish fork of the voivodeship) ------------------------------------------------------
 hlc_council = choice('RipGovHlcCouncil', [
     ('has_country_modifier = hlc_boyars_confirmed', '§GOffices Confirmed (Co-option)§!'),
     ('has_country_modifier = hlc_foreign_claimant_countered', '§GDynastic Defense§!'),
@@ -139,21 +213,14 @@ hlc_session = choice('RipGovHlcSession', [
     ('OR = { has_country_modifier = hlc_boyars_confirmed has_country_modifier = hlc_foreign_claimant_countered has_country_modifier = hlc_boyars_made_example }', '§RIn Session (10-Yr Lock)§!')
 ], '§GReady to Convene§!')
 
-hlc_slots_tip = 'Ordinance Slots:\nThe crown chancery keeps at most two of its three ordinances in force simultaneously (hlc_ordinance_slot_free).\nEnacting an ordinance costs 50 DIP or ADM power and starts a 5-year cooldown token.\nRescinding an ordinance is completely free of monarch power, frees one of the two slots, and starts a 5-year cooldown on that ordinance.'
-hlc_active_tip = 'Active Chancery Ordinances:\n- Chancery: +1 Diplomatic Reputation, +10% Improve Relations, +10% Advisor Costs (50 DIP)\n- Settlement: -10% Culture Conversion Cost, annual noble steadying, +1 National Unrest (50 ADM)\n- Cadastre: +5% National Tax, -5% Nobility Loyalty Equilibrium (50 ADM)'
 hlc_council_tip = 'Active Boyar Council course:\n- Co-option (Confirm in Office): +10 Noble Loyalty for 10 years (available below 60% loyalty)\n- Dynastic Defense (Counter Claimant): +3 Legitimacy for 10 years (available below 60% legitimacy)\n- Repression (Make an Example): +3 Army Tradition, -5 Noble Loyalty for 7 years (at peace, loyalty < 40%)'
 hlc_session_tip = 'Shared 10-year session lockout:\nThe Boyar Council courses share a single 10-year cooldown token (hlc_boyar_council_session).\nChoosing any course convenes the council and locks all other courses for 10 years because co-option, dynastic defence, and repression compete rather than stack as independent tools.'
 
 hlc_rows = [
-    row('rip_gov_hlc_title', 12, '§YGalicia: Ordinances & Council§!', hlc_slots_tip),
-    row('rip_gov_hlc_slots', 38, 'Ordinance Slots: ' + hlc_slots, hlc_slots_tip),
-    row('rip_gov_hlc_active', 62, 'Ordinances: ' + hlc_active, hlc_active_tip),
-    row('rip_gov_hlc_council', 88, 'Council Course: ' + hlc_council, hlc_council_tip),
-    row('rip_gov_hlc_session', 112, 'Council Session: ' + hlc_session, hlc_session_tip),
-    row('rip_gov_hlc_reviews', 140, 'Active Resolution: ' + rev_active, rev_active_tip),
-    row('rip_gov_hlc_lockout', 164, 'Shared Lockout: ' + rev_lockout, rev_lockout_tip),
-    row('rip_gov_hlc_note', 190, 'Review Term: 10 Years | 50 Ducats + 50 Power', rev_terms_tip),
-    row('rip_gov_hlc_footer', 220, 'One resolution binds all institutions.', rev_why_tip)
+    row('rip_gov_hlc_title', 12, '§YGalicia: Boyar Council§!', hlc_council_tip),
+    row('rip_gov_hlc_council', 38, 'Council Course: ' + hlc_council, hlc_council_tip),
+    row('rip_gov_hlc_session', 64, 'Council Session: ' + hlc_session, hlc_session_tip),
+    row('rip_gov_hlc_hint', 92, 'Buttons: mechanics box, left.', 'The three council buttons are in the mechanics box on the left, under the government description.')
 ]
 
 # --- Lithuania: Pany Rada (LIT) ---
@@ -181,11 +248,7 @@ lit_rows = [
     row('rip_gov_lit_retinues', 64, 'Retinues: ' + lit_retinues, lit_retinues_tip),
     row('rip_gov_lit_lord', 90, 'Wavering Lord: ' + lit_lord, lit_lord_tip),
     row('rip_gov_lit_threshold', 116, 'Thresholds: 40% Consent/Muster | 50% Brokerage', lit_threshold_tip),
-    row('rip_gov_lit_reviews', 144, 'Active Resolution: ' + rev_active, rev_active_tip),
-    row('rip_gov_lit_lockout', 168, 'Shared Lockout: ' + rev_lockout, rev_lockout_tip),
-    row('rip_gov_lit_note', 194, 'Review Term: 10 Years | 50 Ducats + 50 Power', rev_terms_tip),
-    row('rip_gov_lit_footer', 224, 'One resolution binds all institutions.', rev_why_tip)
-]
+] + resolution_block('lit', 142, 24)
 
 # --- Volhynia: Magnate Senate (VLN) ---
 vln_consent = choice('RipGovVlnConsent', [
@@ -211,31 +274,26 @@ vln_rows = [
     row('rip_gov_vln_banners', 64, 'Magnate Banners: ' + vln_banners, vln_banners_tip),
     row('rip_gov_vln_buyoff', 90, 'Magnate House: ' + vln_buyoff, vln_buyoff_tip),
     row('rip_gov_vln_threshold', 116, 'Cost: 0.25 yr (Senate) | 0.50 yr (House)', vln_threshold_tip),
-    row('rip_gov_vln_reviews', 144, 'Active Resolution: ' + rev_active, rev_active_tip),
-    row('rip_gov_vln_lockout', 168, 'Shared Lockout: ' + rev_lockout, rev_lockout_tip),
-    row('rip_gov_vln_note', 194, 'Review Term: 10 Years | 50 Ducats + 50 Power', rev_terms_tip),
-    row('rip_gov_vln_footer', 224, 'One resolution binds all institutions.', rev_why_tip)
-]
+] + resolution_block('vln', 142, 24)
 
-# --- Standalone Shared Institutional Reviews Panel ---
-reviews_rows = [
-    row('rip_gov_rev_title', 12, '§YInstitutional Resolutions§!', rev_why_tip),
-    row('rip_gov_rev_active', 42, 'Active Policy: ' + rev_active, rev_active_tip),
-    row('rip_gov_rev_lockout', 72, 'Shared Lockout: ' + rev_lockout, rev_lockout_tip),
-    row('rip_gov_rev_access', 104, 'Available Tracks: ' + rev_tracks, rev_tracks_tip),
-    row('rip_gov_rev_terms', 136, 'Cost: 50 Ducats + 50 Power | 10-Yr Term', rev_terms_tip),
-    row('rip_gov_rev_why', 168, 'One resolution binds all three institutions.', rev_why_tip),
-    row('rip_gov_rev_reform_note', 200, 'Reform loss clears policy but retains 10-yr lock.', rev_reform_note_tip)
-]
+# --- The standalone Institutional Resolutions panel (every country that has a resolution and no panel of its own) ---
+reviews_rows = [row('rip_gov_rev_title', 12, '§YInstitutional Resolutions§!', res_title_tip)] + resolution_block('rev', 40, 26)
 
-hlc_potential = 'NOT = { tag = KRU } NOT = { has_reform = kyivan_cesarstvo_reform } OR = { tag = HLC has_reform = hlc_galician_voivodeship_reform has_reform = hlc_crown_authority_reform }'
-lit_potential = 'NOT = { tag = KRU } NOT = { has_reform = kyivan_cesarstvo_reform } NOT = { tag = HLC } NOT = { has_reform = hlc_galician_voivodeship_reform } NOT = { has_reform = hlc_crown_authority_reform } OR = { tag = LIT has_reform = grand_duchy_reform has_reform = lit_union_of_two_nations_reform has_reform = lit_separate_crown_reform }'
-vln_potential = 'NOT = { tag = KRU } NOT = { has_reform = kyivan_cesarstvo_reform } NOT = { tag = HLC } NOT = { has_reform = hlc_galician_voivodeship_reform } NOT = { has_reform = hlc_crown_authority_reform } NOT = { tag = LIT } NOT = { has_reform = grand_duchy_reform } NOT = { has_reform = lit_union_of_two_nations_reform } NOT = { has_reform = lit_separate_crown_reform } OR = { tag = VLN has_reform = vln_voivodeship_reform } NOT = { has_reform = vln_cossack_host_reform }'
-reviews_potential = 'NOT = { tag = KRU } NOT = { has_reform = kyivan_cesarstvo_reform } NOT = { tag = HLC } NOT = { has_reform = hlc_galician_voivodeship_reform } NOT = { has_reform = hlc_crown_authority_reform } NOT = { tag = LIT } NOT = { has_reform = grand_duchy_reform } NOT = { has_reform = lit_union_of_two_nations_reform } NOT = { has_reform = lit_separate_crown_reform } NOT = { tag = VLN } NOT = { has_reform = vln_voivodeship_reform } OR = { rip_gov_has_municipal_review = yes rip_gov_has_chancery_review = yes rip_gov_has_register_review = yes has_country_modifier = rip_gov_municipal_charters has_country_modifier = rip_gov_municipal_accounts has_country_modifier = rip_gov_chancery_service has_country_modifier = rip_gov_chancery_rights has_country_modifier = rip_gov_register_muster has_country_modifier = rip_gov_register_settlement has_country_flag = rip_gov_review_recent }'
+base_excluded = 'NOT = { tag = KRU } NOT = { has_reform = kyivan_cesarstvo_reform }'
+hlc_crown_potential = base_excluded + ' has_reform = hlc_crown_authority_reform'
+hlc_potential = base_excluded + ' NOT = { has_reform = hlc_crown_authority_reform } OR = { tag = HLC has_reform = hlc_galician_voivodeship_reform }'
+no_galicia = 'NOT = { tag = HLC } NOT = { has_reform = hlc_galician_voivodeship_reform } NOT = { has_reform = hlc_crown_authority_reform }'
+lit_potential = base_excluded + ' ' + no_galicia + ' OR = { tag = LIT has_reform = grand_duchy_reform has_reform = lit_union_of_two_nations_reform has_reform = lit_separate_crown_reform }'
+vln_potential = (base_excluded + ' ' + no_galicia + ' NOT = { tag = LIT } NOT = { has_reform = grand_duchy_reform } NOT = { has_reform = lit_union_of_two_nations_reform } '
+                 'NOT = { has_reform = lit_separate_crown_reform } OR = { tag = VLN has_reform = vln_voivodeship_reform } NOT = { has_reform = vln_cossack_host_reform }')
+reviews_potential = (base_excluded + ' ' + no_galicia + ' NOT = { tag = LIT } NOT = { has_reform = grand_duchy_reform } NOT = { has_reform = lit_union_of_two_nations_reform } '
+                     'NOT = { has_reform = lit_separate_crown_reform } NOT = { tag = VLN } NOT = { has_reform = vln_voivodeship_reform } '
+                     'OR = { rip_gov_has_municipal_review = yes rip_gov_has_chancery_review = yes rip_gov_has_register_review = yes rip_gov_resolution_in_force = yes has_country_flag = rip_gov_review_recent }')
 
 PANELS = [
     ('rip_gov_kru_panel', kru_potential, kru_rows),
     ('rip_gov_cesar_panel', 'has_reform = kyivan_cesarstvo_reform', cesar_rows),
+    ('rip_gov_hlc_crown_panel', hlc_crown_potential, hlc_crown_rows),
     ('rip_gov_hlc_panel', hlc_potential, hlc_rows),
     ('rip_gov_lit_panel', lit_potential, lit_rows),
     ('rip_gov_vln_panel', vln_potential, vln_rows),
