@@ -4789,30 +4789,18 @@ on_province_owner_change = {
 	if = {
         limit = {
 			has_province_modifier = estate_nobles_vegvar_system_modifier
-			NOT = {
-				owner = {
-					has_estate_privilege = estate_nobles_vegvar_system
-				}
-				has_fort_building_trigger = yes
-				any_neighbor_province = {
-					NOT = { owned_by = ROOT }
-				}
-			}
+			NOT = { owner = { has_estate_privilege = estate_nobles_vegvar_system } }
+			NOT = { has_fort_building_trigger = yes }
+			NOT = { any_neighbor_province = { NOT = { owned_by = ROOT } } }
         }
 		remove_province_modifier = estate_nobles_vegvar_system_modifier
 	}
 	if = {
         limit = {
 			has_province_modifier = estate_nobles_vegvar_system_modifier
-			NOT = {
-				owner = {
-					has_estate_privilege = estate_nobles_vegvar_system
-				}
-				has_fort_building_trigger = yes
-				any_neighbor_province = {
-					NOT = { owned_by = ROOT }
-				}
-			}
+			NOT = { owner = { has_estate_privilege = estate_nobles_vegvar_system } }
+			NOT = { has_fort_building_trigger = yes }
+			NOT = { any_neighbor_province = { NOT = { owned_by = ROOT } } }
         }
 		remove_province_modifier = estate_nobles_vegvar_system_modifier
 	}
@@ -6281,13 +6269,13 @@ on_adm_exploited = {
 			}
 		}
 	}
-    if = {
-        limit = {
-            has_province_modifier = estate_burghers_hungarian_royal_city_modifier
+	if = {
+		limit = {
+			has_province_modifier = estate_burghers_hungarian_royal_city_modifier
 			NOT = { development = 20 }
 		}
-    }
-    remove_province_modifier = estate_burghers_hungarian_royal_city_modifier
+		remove_province_modifier = estate_burghers_hungarian_royal_city_modifier
+	}
 }
 on_dip_exploited = {
 	if = {
@@ -6303,12 +6291,12 @@ on_dip_exploited = {
 		}
 	}
 	if = {
-        limit = {
-            has_province_modifier = estate_burghers_hungarian_royal_city_modifier
+		limit = {
+			has_province_modifier = estate_burghers_hungarian_royal_city_modifier
 			NOT = { development = 20 }
 		}
-    }
-    remove_province_modifier = estate_burghers_hungarian_royal_city_modifier
+		remove_province_modifier = estate_burghers_hungarian_royal_city_modifier
+	}
 }
 on_mil_exploited = {
 	if = {
@@ -6324,12 +6312,12 @@ on_mil_exploited = {
 		}
 	}
 	if = {
-        limit = {
-            has_province_modifier = estate_burghers_hungarian_royal_city_modifier
+		limit = {
+			has_province_modifier = estate_burghers_hungarian_royal_city_modifier
 			NOT = { development = 20 }
 		}
-    }
-    remove_province_modifier = estate_burghers_hungarian_royal_city_modifier
+		remove_province_modifier = estate_burghers_hungarian_royal_city_modifier
+	}
 }
 on_raze = {
 	add_permanent_province_modifier = {

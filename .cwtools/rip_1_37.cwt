@@ -1,0 +1,24 @@
+# Narrow additions to upstream EU4 rules; no diagnostics are disabled.
+# Upstream effects.cwt accepts a closed export_to_variable_data enum.
+# Keep the runtime fix: num_of_loans is a numeric trigger export.
+## scope = any
+alias[effect:export_to_variable] = {
+    enum[which_varname] = value_set[variable]
+    value = trigger_value:num_of_loans
+    ## cardinality = 0..1
+    who = scope[country]
+}
+
+# These two identifiers are read/cleared by unmodified EU4 1.37 hooks,
+# but have no script setter in the installed vanilla or RIP.
+# Recognize those exact inherited IDs without setting them in gameplay.
+enums = {
+    enum[rip_inherited_vanilla_country_flags] = {
+        hordes_devout_tengri_completion_flag
+        enable_galleass
+    }
+}
+## scope = country
+alias[trigger:has_country_flag] = enum[rip_inherited_vanilla_country_flags]
+## scope = country
+alias[effect:clr_country_flag] = enum[rip_inherited_vanilla_country_flags]

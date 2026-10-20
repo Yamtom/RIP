@@ -4,6 +4,7 @@ Keep the entire native files: on_actions are additive across distinct filenames.
 Reject changed upstream patterns rather than silently generating an unpatched file.
 """
 import argparse
+import re
 from pathlib import Path
 import sys
 
@@ -18,6 +19,11 @@ def outputs(game):
     assert text.count(old) == 2, 'Re-audit native loan exports after game update'
     # SIZE_OF_LOANS concerns the recipient, just like its FROM loan trigger.
     text = text.replace(old, 'value = trigger_value:num_of_loans\n\t\t\t\twho = FROM')
+    # NOT with multiple children is NOR; split without changing its truth table.
+    text, count = re.subn(
+        r'NOT = \{\s*is_rival = FROM\s*is_enemy = FROM\s*\}',
+        'NOT = { is_rival = FROM }\\n\\t\\t\\t\\tNOT = { is_enemy = FROM }', text)
+    assert count == 1, 'Re-audit native rival/enemy check'
     yield path, text
 
     path = 'common/on_actions/00_on_actions.txt'
@@ -29,6 +35,32 @@ def outputs(game):
     # Preserve the clean separator at the relocated UZH hook.
     text = text.replace('\n\t\n\tFROM = { country_event = { id = flavor_cri.6 } }',
                         '\n\n\tFROM = { country_event = { id = flavor_cri.6 } }')
+    # Native exploit hooks accidentally close the if before its effect.
+    pattern = (
+        r'(?P<i>[ \t]*)if = \{\s*limit = \{\s*'
+        r'has_province_modifier = estate_burghers_hungarian_royal_city_modifier\s*'
+        r'NOT = \{ development = 20 \}\s*\}\s*\}\s*'
+        r'remove_province_modifier = estate_burghers_hungarian_royal_city_modifier')
+    def city_gate(match):
+        return (
+            '\tif = {\n\t\tlimit = {\n'
+            '\t\t\thas_province_modifier = estate_burghers_hungarian_royal_city_modifier\n'
+            '\t\t\tNOT = { development = 20 }\n\t\t}\n'
+            '\t\tremove_province_modifier = estate_burghers_hungarian_royal_city_modifier\n\t}')
+    text, count = re.subn(pattern, city_gate, text)
+    assert count == 3, 'Re-audit native development-exploitation hooks'
+    # Preserve NOR semantics, including the nested owner/province scopes.
+    pattern = (
+        r'NOT = \{\s*owner = \{\s*'
+        r'has_estate_privilege = estate_nobles_vegvar_system\s*\}\s*'
+        r'has_fort_building_trigger = yes\s*'
+        r'any_neighbor_province = \{\s*NOT = \{ owned_by = ROOT \}\s*\}\s*\}')
+    replacement = (
+        'NOT = { owner = { has_estate_privilege = estate_nobles_vegvar_system } }\n'
+        '\t\t\tNOT = { has_fort_building_trigger = yes }\n'
+        '\t\t\tNOT = { any_neighbor_province = { NOT = { owned_by = ROOT } } }')
+    text, count = re.subn(pattern, lambda _: replacement, text)
+    assert count == 2, 'Re-audit native Vegvar checks'
     yield path, text
 
 
