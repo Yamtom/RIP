@@ -10,7 +10,8 @@ def emit(path, text, bom=False):
     data = text.replace('\r\n','\n').replace('\n','\r\n').encode('utf-8-sig' if bom else 'utf-8')
     dest = ROOT / path
     if CHECK:
-        assert dest.read_bytes() == data, f'Stale generated output: {path}'
+        # git stores LF and core.autocrlf may check the files out with CRLF: compare the content, not the line ending
+        assert dest.read_bytes().replace(b'\r\n',b'\n') == data.replace(b'\r\n',b'\n'), f'Stale generated output: {path}'
     else:
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(data)
@@ -35,6 +36,59 @@ def cm(name,days): return f'add_country_modifier = {{ name = {name} duration = {
 def pm(name,days): return f'add_province_modifier = {{ name = {name} duration = {days} }}'
 def mood(estate,n): return f'rip_estate_mood_effect = {{ ESTATE = estate_{estate} LOYALTY = {n} }}'
 
+def launch_ifs(variants):
+    """What a button, a decision or the old Podillia option does on a click: the AI commits at once, a human gets the
+    land-selection window. Plain `if` blocks only: EU4 1.37.5 drops country_event and add_opinion inside else / else_if
+    bodies (measured), which left the human branch without its window. A later variant carries the negation of the
+    earlier guards, so the first matching variant still wins, as it did under else_if."""
+    out=[]; earlier=[]
+    for a in variants:
+        k=a['key']; skip=''.join(f'NOT = {{ AND = {{ {g} }} }} ' for g in earlier)
+        out.append(f'if = {{ limit = {{ {skip}{a["guard"]} ai = yes }} random_owned_province = {{ limit = {{ rip_rg_{k}_target = yes }} save_event_target_as = rip_rg_target }} rip_rg_{k}_commit_effect = yes }}')
+        out.append(f'if = {{ limit = {{ {skip}{a["guard"]} ai = no }} country_event = {{ id = rip_rg.{a["start"]} }} }}')
+        earlier.append(a['guard'])
+    return '\n'.join(out)
+
+TRIGGER_DIR = ROOT / 'common/scripted_triggers'
+
+def scripted_triggers():
+    """name -> body (comments removed, one line) of every scripted trigger in the tree."""
+    found = {}
+    for path in sorted(TRIGGER_DIR.glob('*.txt')):
+        text = re.sub(r'#[^\n]*', '', path.read_text(encoding='utf-8-sig'))
+        for match in re.finditer(r'(?m)^(\w+)[ \t]*=[ \t]*\{', text):
+            depth, i = 1, match.end()
+            while depth:
+                depth += (text[i] == '{') - (text[i] == '}'); i += 1
+            found[match.group(1)] = ' '.join(text[match.end():i-1].split())
+    return found
+
+def is_single_block(body):
+    """True when the whole body is one `key = { ... }` statement, so it can stand alone inside an OR list."""
+    if not re.match(r'^\w+ = \{', body): return False
+    depth = 0
+    for i, c in enumerate(body):
+        depth += (c == '{') - (c == '}')
+        if depth == 0 and c == '}': return i == len(body) - 1
+    return False
+
+def inline_gate(gate):
+    """Spell out scripted triggers: EU4 1.37.5 reads a mechanic's `available` before scripted triggers exist
+    ('Unknown trigger type', the mechanic never loads), while the interactions' trigger / ai_chance may call them."""
+    known = scripted_triggers()
+    def expand(text, depth=0):
+        assert depth < 6, 'scripted triggers nest too deeply or recurse'
+        def replace(match):
+            body = known.get(match.group(1))
+            if body is None: return match.group(0)
+            body = expand(body, depth + 1)
+            return body if is_single_block(body) else 'AND = { ' + body + ' }'
+        return re.sub(r'\b(\w+) = yes\b', replace, text)
+    text = '\n'.join(expand(line) for line in gate.splitlines())
+    left = [name for name in known if re.search(r'\b'+name+r' = (?:yes|no)\b', text)]
+    assert not left, f'scripted triggers left in `available`: {left}'
+    return text
+
 def generate():
     loc={'rip_rg_cancel':'Leave the Matter Unchanged','rip_rg_next':'Inspect the Next Lands',
          'rip_rg_previous':'Return to the Previous Lands','rip_rg_confirm':'Confirm the Ordinance',
@@ -44,7 +98,7 @@ def generate():
          'rip_rg_grain_req_tt':'At least 10 development in controlled regional grain lands.',
          'rip_rg_second':'Extend the Order to Another Town',
          'rip_rg_second_desc':'The Town Union may extend the order to one different town for 25 power. Neither the national effect nor the shared term is renewed. Declining is free.'}
-    triggers=[]; effects=[]; events=['namespace = rip_rg']; mods={}; mechanics=[]; decisions=[]; actions=[]
+    triggers=[]; effects=[]; events=['namespace = rip_rg']; mods={}; mechanics=[]; decisions=[]; actions=[]; gates={}
     def modifier(key,name,payload,desc):
         mods[key]=payload; loc[key]=name; loc['desc_'+key]=desc
     for f in LANDS:
@@ -138,8 +192,6 @@ def generate():
                 body+=block('option',f'name = rip_rg_province_{p}\ntrigger = {{ {condition} }}\nif = {{ limit = {{ {condition} }} add_{c}_power = -25 set_country_flag = rip_rg_{k}_second_done {p} = {{ {a["payload"]} }} }}\nai_chance = {{ factor = 1 }}')
             body+=block('option','name = rip_rg_cancel\nai_chance = { factor = 1 }'); events.append(block('country_event',body))
         a['start']=start
-        launch=f'if = {{ limit = {{ ai = yes }} random_owned_province = {{ limit = {{ rip_rg_{k}_target = yes }} save_event_target_as = rip_rg_target }} rip_rg_{k}_commit_effect = yes }}\nelse = {{ country_event = {{ id = rip_rg.{start} }} }}'
-        a['launch']=launch
         icon='GFX_rip_siversk_towns' if f=='chr' else 'GFX_rip_siversk_retinue'
         a['icon']=icon
         a['guard']=f'rip_rg_{k}_can = yes any_owned_province = {{ rip_rg_{k}_target = yes }}'
@@ -154,27 +206,29 @@ def generate():
         for group, variants in groups.items():
             first=variants[0]
             guard='OR = { '+' '.join('AND = { '+a['guard']+' }' for a in variants)+' }'
-            launch='\n'.join(('if' if j==0 else 'else_if')+' = { limit = { '+a['guard']+' } '+a['launch']+' }' for j,a in enumerate(variants))
-            interactions.append(block('rip_rg_'+group,f'icon = {first["icon"]}\ntrigger = {{ {guard} }}\neffect = {{ {launch} }}\nai_chance = {{ {first["ai"]} }}'))
+            launch=launch_ifs(variants)
+            interactions.append(block('rip_rg_'+group,f'icon = {first["icon"]}\ntrigger = {{ {guard} }}\n'+block('effect',launch)+f'ai_chance = {{ {first["ai"]} }}'))
             highlight='OR = { '+' '.join('rip_rg_'+a['key']+'_target = yes' for a in variants)+' }'
-            decisions.append(block('rip_rg_'+group+'_decision',f'potential = {{ rip_rg_{f} = yes }}\nallow = {{ {guard} }}\nprovinces_to_highlight = {{ {highlight} }}\neffect = {{ {launch} }}\nai_will_do = {{ factor = 0 }}'))
+            decisions.append(block('rip_rg_'+group+'_decision',f'potential = {{ rip_rg_{f} = yes }}\nallow = {{ {guard} }}\nprovinces_to_highlight = {{ {highlight} }}\n'+block('effect',launch)+'ai_will_do = { factor = 0 }'))
             loc['rip_rg_'+group]=first['title']; loc['rip_rg_'+group+'_desc']=loc['rip_rg_'+first['key']+'_desc']+(' The Podillian path changes the final price; inspect the confirmation tooltip.' if len(variants)>1 else '')
             loc['rip_rg_'+group+'_decision_title']=first['title']; loc['rip_rg_'+group+'_decision_desc']=loc['rip_rg_'+group+'_desc']
-        mechanics.append(block('rip_rg_'+f+'_mechanic',f'alert_icon_gfx = GFX_alerticons_government_mechanics\nalert_icon_index = 1\navailable = {{ rip_rg_{f} = yes }}\n'+block('interactions','\n'.join(interactions))))
+        mechanics.append(block('rip_rg_'+f+'_mechanic','alert_icon_gfx = GFX_alerticons_government_mechanics\nalert_icon_index = 1\n'+block('available',inline_gate(gates[f]))+block('interactions','\n'.join(interactions))))
     for f in LANDS:
         loc['ability_rip_rg_'+f+'_mechanic']={'chr':'Desna River Confederation','uzh':'Carpathian Border Captaincy','pdl':'Podillian Starosta Watch','prl':'Pereiaslav Frontier Watch','ods':'Black Sea Grain Emporium'}[f]
     old_pdl='id = pdl_border_policy.1\ntitle = pdl_border_policy.1.t\ndesc = pdl_border_policy.1.desc\npicture = BORDER_TENSION_eventPicture\nis_triggered_only = yes\n'
     for group,label in [('patrol','a'),('charter','b'),('mobile','c')]:
         variants=[a for a in actions if a['key'].startswith('pdl_'+group+'_')]
         guard='OR = { '+' '.join('AND = { '+a['guard']+' }' for a in variants)+' }'
-        launch='\n'.join(('if' if j==0 else 'else_if')+' = { limit = { '+a['guard']+' } '+a['launch']+' }' for j,a in enumerate(variants))
-        old_pdl+=block('option',f'name = pdl_border_policy.1.{label}\ntrigger = {{ {guard} }}\n{launch}\nai_chance = {{ factor = 1 }}')
+        old_pdl+=block('option',f'name = pdl_border_policy.1.{label}\ntrigger = {{ {guard} }}\n{launch_ifs(variants)}\nai_chance = {{ factor = 1 }}')
         loc[f'pdl_border_policy.1.{label}']=variants[0]['title']
     old_pdl+=block('option','name = rip_rg_cancel\nai_chance = { factor = 0 }')
     loc['pdl_border_policy.1.desc']='The starosta can commission patrols, charter a town or muster mounted banners. Each order uses the existing five-year border-policy term. Inspect the exact land and price before confirming.'
     emit('events/PodilliaBorderPolicy.txt','namespace = pdl_border_policy\n\n# Generated by tools/build_regional_governments.py; old entry point, one payment.\n'+block('country_event',old_pdl))
-    events.append(block('country_event','id = rip_rg.900\nhidden = yes\nis_triggered_only = yes\nimmediate = { rip_rg_grain_refresh_effect = yes }'))
-    localmods=[k for k,v in mods.items() if 'local_' in v]
+    events.append(block('country_event','id = rip_rg.900\ntitle = none\ndesc = none\npicture = none\nhidden = yes\nis_triggered_only = yes\nimmediate = { rip_rg_grain_refresh_effect = yes }\noption = { }'))
+    # province modifiers are the ones the actions add to a province; the old test for a `local_` key stopped matching once
+    # the staple modifier moved to the vanilla key province_trade_power_modifier
+    placed=set(m for a in actions for m in re.findall(r'add_province_modifier = \{ name = (\w+)',a['payload']))
+    localmods=[k for k in mods if k in placed]
     effects.append(block('rip_rg_province_transfer_effect','\n'.join('remove_province_modifier = '+k for k in localmods)))
     cleanup=[]
     for f in LANDS:
