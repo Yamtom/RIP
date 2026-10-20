@@ -289,7 +289,7 @@
 > Патріаршого авторитету. `events/RIP_FaithDisasters.txt` використовує валідний
 > `change_innovativeness = -2`.
 >
-> У `RIP_church_mission_network.txt` два `trade_share` стоять у `FROM` (вузол
+> У `RIP_MOS_RUS_trading_policies.txt` два `trade_share` стоять у `FROM` (вузол
 > торгівлі), як у ванілі 1.37.5. `check_script_layer.py` не має перевірки scope
 > для цього тригера; для точного джерела агрегованих 309/1550 попереджень потрібен
 > їхній початковий звіт. Контракти змінених шляхів — `check_diocesan_union.py` і
@@ -972,7 +972,7 @@ Markdown
 > Патріаршого авторитету. `events/RIP_FaithDisasters.txt` використовує валідний
 > `change_innovativeness = -2`.
 >
-> У `RIP_church_mission_network.txt` два `trade_share` стоять у `FROM` (вузол
+> У `RIP_MOS_RUS_trading_policies.txt` два `trade_share` стоять у `FROM` (вузол
 > торгівлі), як у ванілі 1.37.5. `check_script_layer.py` не має перевірки scope
 > для цього тригера; для точного джерела агрегованих 309/1550 попереджень потрібен
 > їхній початковий звіт. Контракти змінених шляхів — `check_diocesan_union.py` і
