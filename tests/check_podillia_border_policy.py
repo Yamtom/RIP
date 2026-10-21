@@ -138,7 +138,7 @@ def test_modifiers():
 
 def test_localization():
     hand_written = [
-        "pdl_border_policy_decision",
+        "pdl_border_policy_decision_title",
         "pdl_border_policy_decision_desc",
         "pdl_border_policy.1.t",
         "pdl_recent_border_policy",

@@ -82,7 +82,7 @@ def test_localization():
         "rip_regrant_the_udil",
         "rip_regrant_the_udil_desc",
         "KIE_udil_recently_confirmed",
-        "vln_magnate_territorial_concession_decision",
+        "vln_magnate_territorial_concession_decision_title",
         "rip_vln_concessions.1.t",
         "rip_vln_concessions.1.a",
         "rip_vln_concessions.1.b",

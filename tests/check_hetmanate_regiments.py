@@ -79,7 +79,7 @@ def test_modifiers():
 
 def test_localization():
     required_keys = [
-        "het_regimental_territorial_governance_decision",
+        "het_regimental_territorial_governance_decision_title",
         "het_regimental_territorial_governance_decision_desc",
         "het_regiment_governance.1.t",
         "het_regiment_governance.1.a",
