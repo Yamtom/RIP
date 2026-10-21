@@ -60,7 +60,16 @@ rip_church_ro_formal_raskol_effect = {
 }
 
 rip_church_ro_ritual_compromise_effect = {
- rip_ob_tolerate_effect = yes
+ # The pre-schism compromise has its own modifier, not an Old Believer policy.
+ clr_country_flag = rip_ob_toleration
+ clr_country_flag = rip_ob_repression
+ clr_country_flag = rip_ob_policy_changed
+ remove_country_modifier = rip_ob_tolerant_policy
+ remove_country_modifier = rip_ob_repressive_policy
+ every_owned_province = {
+  remove_province_modifier = rip_ob_local_toleration
+  remove_province_modifier = rip_ob_local_repression
+ }
  clr_country_flag = rip_ro_stage_raskol
  set_country_flag = rip_ro_ritual_compromise
  set_country_flag = rip_ro_raskol_settled
