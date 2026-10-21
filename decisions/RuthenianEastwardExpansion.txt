@@ -1,102 +1,35 @@
 country_decisions = {
 	ruthenian_eastward_frontier_policy = {
 		major = yes
-		potential = {
-			OR = {
-				tag = CHR
-				tag = HET
-				tag = UKR
-			}
-		}
-		provinces_to_highlight = {
-			region = crimea_region
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
+		potential = { OR = { tag = CHR tag = HET tag = UKR } }
+		provinces_to_highlight = { rip_frontier_crimea_target = yes }
 		allow = {
 			is_at_war = no
 			adm_tech = 7
 			treasury = 100
 			dip_power = 50
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				region = crimea_region
-				value = 3
-			}
-			NOT = { has_country_flag = ruthenian_eastward_policy }
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = { region = crimea_region value = 3 }
+			rip_frontier_crimea_can_buy = yes
 		}
-		effect = {
-			set_country_flag = ruthenian_eastward_policy
-			add_treasury = -100
-			add_dip_power = -50
-			add_country_modifier = {
-				name = ruthenian_eastward_mandate
-				duration = 7300
-			}
-			crimea_region = {
-				limit = {
-					rip_is_crimea_frontier_terrain = yes
-					is_empty = no
-					NOT = { country_or_non_sovereign_subject_holds = ROOT }
-				}
-				add_claim = ROOT
-			}
-			country_event = { id = ruthenian_eastward.1 }
-		}
-		ai_will_do = {
-			factor = 1
-		}
+		effect = { rip_frontier_crimea_purchase_effect = yes }
+		ai_will_do = { factor = 1 modifier = { factor = 0 NOT = { rip_frontier_crimea_ai_budget = yes } } }
 	}
-
 	ruthenian_open_ural_gate = {
 		major = yes
-		potential = {
-			has_country_flag = ruthenian_eastward_policy
-			OR = {
-				tag = CHR
-				tag = HET
-				tag = UKR
-			}
-		}
-		provinces_to_highlight = {
-			region = crimea_region
-			rip_is_crimea_frontier_terrain = yes
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
+		potential = { OR = { tag = CHR tag = HET tag = UKR }
+			has_country_flag = ruthenian_eastward_policy }
+		provinces_to_highlight = { rip_frontier_ural_target = yes }
 		allow = {
 			is_at_war = no
 			adm_tech = 12
 			treasury = 150
-			mil_power = 50
 			dip_power = 50
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				region = crimea_region
-				value = 6
-			}
-			any_owned_province = {
-				rip_is_crimea_frontier_terrain = yes
-			}
-			NOT = { has_country_flag = ruthenian_ural_gate_opened }
+			mil_power = 50
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = { region = crimea_region value = 6 }
+			rip_frontier_ural_can_buy = yes
 		}
-		effect = {
-			set_country_flag = ruthenian_ural_gate_opened
-			add_treasury = -150
-			add_mil_power = -50
-			add_dip_power = -50
-			add_country_modifier = {
-				name = ruthenian_ural_gate
-				duration = 9125
-			}
-			ural_region = {
-				limit = {
-					NOT = { country_or_non_sovereign_subject_holds = ROOT }
-					is_empty = no
-				}
-				add_claim = ROOT
-			}
-			country_event = { id = ruthenian_eastward.2 }
-		}
-		ai_will_do = {
-			factor = 1
-		}
+		effect = { rip_frontier_ural_purchase_effect = yes }
+		ai_will_do = { factor = 1 modifier = { factor = 0 NOT = { rip_frontier_ural_ai_budget = yes } } }
 	}
 
 	ruthenian_steppe_raid_doctrine = {
@@ -213,53 +146,21 @@ country_decisions = {
 			factor = 1
 		}
 	}
-
 	ruthenian_manchurian_horizon = {
 		major = yes
-		potential = {
-			has_country_flag = ruthenian_ural_gate_opened
-			OR = {
-				tag = CHR
-				tag = HET
-				tag = UKR
-			}
-		}
-		provinces_to_highlight = {
-			region = ural_region
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
+		potential = { OR = { tag = CHR tag = HET tag = UKR }
+			has_country_flag = ruthenian_ural_gate_opened }
+		provinces_to_highlight = { rip_frontier_manchuria_target = yes }
 		allow = {
 			is_at_war = no
 			adm_tech = 17
 			treasury = 200
 			adm_power = 50
 			dip_power = 50
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				region = ural_region
-				value = 6
-			}
-			NOT = { has_country_flag = ruthenian_manchurian_horizon }
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = { region = ural_region value = 6 }
+			rip_frontier_manchuria_can_buy = yes
 		}
-		effect = {
-			set_country_flag = ruthenian_manchurian_horizon
-			add_treasury = -200
-			add_adm_power = -50
-			add_dip_power = -50
-			add_country_modifier = {
-				name = ruthenian_manchurian_push
-				duration = 9125
-			}
-			manchuria_region = {
-				limit = {
-					NOT = { country_or_non_sovereign_subject_holds = ROOT }
-					is_empty = no
-				}
-				add_claim = ROOT
-			}
-			country_event = { id = ruthenian_eastward.3 }
-		}
-		ai_will_do = {
-			factor = 1
-		}
+		effect = { rip_frontier_manchuria_purchase_effect = yes }
+		ai_will_do = { factor = 1 modifier = { factor = 0 NOT = { rip_frontier_manchuria_ai_budget = yes } } }
 	}
 }
