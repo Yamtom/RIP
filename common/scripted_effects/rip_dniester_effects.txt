@@ -1,0 +1,20 @@
+# Country scope. Keep the paid project flags: loss of access is suspension,
+# not a refund or an opportunity to repeat development and prestige rewards.
+rip_dniester_network_upkeep_effect = {
+	if = {
+		limit = { has_country_flag = dniester_estuary_developed rip_dniester_port_access = yes }
+		if = {
+			limit = { NOT = { has_country_modifier = dniester_trade_network } }
+			add_country_modifier = { name = dniester_trade_network duration = -1 }
+		}
+	}
+	else = { remove_country_modifier = dniester_trade_network }
+	if = {
+		limit = { has_country_flag = dniester_estuary_fortified rip_dniester_port_access = yes }
+		if = {
+			limit = { NOT = { has_country_modifier = dniester_defensive_network } }
+			add_country_modifier = { name = dniester_defensive_network duration = -1 }
+		}
+	}
+	else = { remove_country_modifier = dniester_defensive_network }
+}

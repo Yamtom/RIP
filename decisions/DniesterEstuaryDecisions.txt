@@ -1,6 +1,5 @@
-
 country_decisions = {
-	
+
 	develop_dniester_estuary_trade = {
 		major = yes
 		potential = {
@@ -13,12 +12,12 @@ country_decisions = {
 				tag = VOL
 			}
 			OR = {
-				owns_or_non_sovereign_subject_of = 282 # Yedisan/Akkerman/Bilhorod
+				owns_or_non_sovereign_subject_of = 1756 # Budjak: Akkerman and Kilia
 				owns_or_non_sovereign_subject_of = 268 # Moldavia region
 				any_owned_province = {
 					any_neighbor_province = {
 						OR = {
-							province_id = 282
+							province_id = 1756
 							province_id = 268
 						}
 					}
@@ -26,35 +25,30 @@ country_decisions = {
 			}
 			NOT = { has_country_flag = dniester_estuary_developed }
 		}
-		provinces_to_highlight = {
-			OR = {
-				province_id = 282
-				province_id = 268
-			}
-			NOT = { owned_by = ROOT }
-		}
-		
+		provinces_to_highlight = { province_id = 1756 }
+
 		allow = {
+			rip_dniester_port_access = yes
 			adm_tech = 10
 			dip_tech = 10
 			treasury = 300
 			adm_power = 75
 			dip_power = 50
-			
-			owns_or_non_sovereign_subject_of = 282 # Yedisan/Akkerman
-			
+
+			owns_or_non_sovereign_subject_of = 1756 # Budjak: Akkerman
+
 			NOT = { war_exhaustion = 3 }
 			is_at_war = no
 		}
-		
+
 		effect = {
 			add_treasury = -300
 			add_adm_power = -75
 			add_dip_power = -50
-			
+
 			set_country_flag = dniester_estuary_developed
-			
-			282 = {
+
+			1756 = {
 				add_province_modifier = {
 					name = dnestr_estuary_modifier
 					duration = -1
@@ -62,33 +56,33 @@ country_decisions = {
 				add_base_tax = 2
 				add_base_production = 2
 				add_base_manpower = 1
-				center_of_trade = 2
+				if = { limit = { NOT = { center_of_trade = 2 } } center_of_trade = 2 }
 			}
-			
+
 			add_country_modifier = {
 				name = dniester_trade_network
 				duration = -1
 			}
-			
+
 			add_prestige = 10
 			add_mercantilism = 2
-			
+
 			country_event = { id = dniester_estuary.1 days = 30 }
 		}
-		
+
 		ai_will_do = {
 			factor = 1
-			
+
 			modifier = {
 				factor = 2
 				tag = MOL
 			}
-			
+
 			modifier = {
 				factor = 1.5
 				trade_income_percentage = 0.3
 			}
-			
+
 			modifier = {
 				factor = 0
 				NOT = { treasury = 500 }
@@ -100,65 +94,56 @@ country_decisions = {
 		potential = {
 			has_country_flag = dniester_estuary_developed
 			NOT = { has_country_flag = dniester_estuary_fortified }
-			owns_or_non_sovereign_subject_of = 282
+			owns_or_non_sovereign_subject_of = 1756
 		}
-		provinces_to_highlight = {
-			province_id = 282
-			OR = {
-				NOT = { owned_by = ROOT }
-				fort_level = 1
-			}
-		}
-		
+		provinces_to_highlight = { province_id = 1756 }
+
 		allow = {
+			rip_dniester_port_access = yes
 			mil_tech = 12
 			treasury = 400
 			mil_power = 75
-			
-			282 = {
-				NOT = { fort_level = 2 }
-			}
-			
+
 			is_at_war = no
 		}
-		
+
 		effect = {
 			add_treasury = -400
 			add_mil_power = -75
-			
+
 			set_country_flag = dniester_estuary_fortified
-			
-			282 = {
+
+			1756 = {
 				add_province_modifier = {
 					name = dniester_fortress_akkerman
 					duration = -1
 				}
-				
-				add_building = fort_15th
+
+				if = { limit = { NOT = { fort_level = 2 } } add_building = fort_15th }
 				add_base_manpower = 2
 			}
-			
+
 			if = {
-				limit = { 282 = { has_port = yes } }
-				282 = {
+				limit = { 1756 = { has_port = yes } }
+				1756 = {
 					add_province_modifier = {
 						name = dniester_naval_base
 						duration = -1
 					}
 				}
 			}
-			
+
 			add_country_modifier = {
 				name = dniester_defensive_network
 				duration = -1
 			}
-			
+
 			add_prestige = 5
 			add_army_tradition = 5
-			
+
 			country_event = { id = dniester_estuary.10 days = 60 }
 		}
-		
+
 		ai_will_do = {
 			factor = 1
 			modifier = {
@@ -173,113 +158,132 @@ country_decisions = {
 			}
 		}
 	}
-	
+
 	establish_dniester_fishing = {
 		major = yes
 		potential = {
 			has_country_flag = dniester_estuary_developed
+			NOT = { has_country_flag = dniester_estuary_specialized }
 			NOT = { has_country_flag = dniester_fishing_established }
-			
-			owns_or_non_sovereign_subject_of = 282
+
+			owns_or_non_sovereign_subject_of = 1756
+			1756 = {
+				NOT = { has_province_modifier = dniester_fishing_industry }
+				NOT = { has_province_modifier = dniester_wine_merchants }
+				NOT = { has_province_modifier = dniester_salt_production }
+			}
 		}
-		provinces_to_highlight = {
-			province_id = 282
-			NOT = { owned_by = ROOT }
-		}
-		
+		provinces_to_highlight = { province_id = 1756 }
+
 		allow = {
+			rip_dniester_port_access = yes
 			dip_tech = 8
 			treasury = 150
 			dip_power = 50
-			
-			282 = {
+
+			1756 = {
 				has_port = yes
+				NOT = { has_province_modifier = dniester_fishing_industry }
+				NOT = { has_province_modifier = dniester_wine_merchants }
+				NOT = { has_province_modifier = dniester_salt_production }
 			}
 		}
-		
+
 		effect = {
 			add_treasury = -150
 			add_dip_power = -50
-			
+
+			set_country_flag = dniester_estuary_specialized
 			set_country_flag = dniester_fishing_established
-			
-			282 = {
+
+			1756 = {
+				remove_province_modifier = dniester_wine_merchants
+				remove_province_modifier = dniester_salt_production
 				add_province_modifier = {
 					name = dniester_fishing_industry
 					duration = -1
 				}
-				
+
 				change_trade_goods = fish
 			}
-			
+
 			add_years_of_income = 0.25
 		}
-		
+
 		ai_will_do = {
 			factor = 1
-			
+
 			modifier = {
 				factor = 0
 				NOT = { treasury = 300 }
 			}
 		}
 	}
-	
+
 	establish_dniester_wine_trade = {
 		major = yes
 		potential = {
 			has_country_flag = dniester_estuary_developed
+			NOT = { has_country_flag = dniester_estuary_specialized }
 			NOT = { has_country_flag = dniester_wine_trade_established }
-			
-			owns_or_non_sovereign_subject_of = 282
+
+			owns_or_non_sovereign_subject_of = 1756
+			1756 = {
+				NOT = { has_province_modifier = dniester_fishing_industry }
+				NOT = { has_province_modifier = dniester_wine_merchants }
+				NOT = { has_province_modifier = dniester_salt_production }
+			}
 		}
-		provinces_to_highlight = {
-			province_id = 282
-			NOT = { owned_by = ROOT }
-		}
-		
+		provinces_to_highlight = { province_id = 1756 }
+
 		allow = {
+			rip_dniester_port_access = yes
 			dip_tech = 10
 			treasury = 200
 			dip_power = 50
-			
+
 			OR = {
-				282 = { culture = greek }
+				1756 = { culture = greek }
 				accepted_culture = greek
 				accepted_culture = armenian
 				has_idea_group = trade_ideas
 			}
+
+			1756 = {
+				NOT = { has_province_modifier = dniester_fishing_industry }
+				NOT = { has_province_modifier = dniester_wine_merchants }
+				NOT = { has_province_modifier = dniester_salt_production }
+			}
 		}
-		
+
 		effect = {
 			add_treasury = -200
 			add_dip_power = -50
-			
+
+			set_country_flag = dniester_estuary_specialized
 			set_country_flag = dniester_wine_trade_established
-			
-			282 = {
+
+			1756 = {
+				remove_province_modifier = dniester_fishing_industry
+				remove_province_modifier = dniester_salt_production
 				add_province_modifier = {
 					name = dniester_wine_merchants
 					duration = -1
 				}
-				
-				if = {
-					limit = { NOT = { trade_goods = wine } }
-					change_trade_goods = wine
-				}
-				
+
+				change_trade_goods = wine
 				add_base_production = 2
 			}
-			
+
 			add_mercantilism = 1
 			add_years_of_income = 0.3
-			
+
 			country_event = { id = dniester_estuary.20 days = 90 }
 		}
-		
+
 		ai_will_do = {
 			factor = 1
-			
+
 			modifier = {
 				factor = 1.5
 				OR = {
@@ -287,69 +291,75 @@ country_decisions = {
 					accepted_culture = armenian
 				}
 			}
-			
+
 			modifier = {
 				factor = 0
 				NOT = { treasury = 400 }
 			}
 		}
 	}
-	
+
 	establish_dniester_salt_works = {
 		major = yes
 		potential = {
 			has_country_flag = dniester_estuary_developed
+			NOT = { has_country_flag = dniester_estuary_specialized }
 			NOT = { has_country_flag = dniester_salt_established }
-			
-			owns_or_non_sovereign_subject_of = 282
+
+			owns_or_non_sovereign_subject_of = 1756
+			1756 = {
+				NOT = { has_province_modifier = dniester_fishing_industry }
+				NOT = { has_province_modifier = dniester_wine_merchants }
+				NOT = { has_province_modifier = dniester_salt_production }
+			}
 		}
-		provinces_to_highlight = {
-			province_id = 282
-			NOT = { owned_by = ROOT }
-		}
-		
+		provinces_to_highlight = { province_id = 1756 }
+
 		allow = {
+			rip_dniester_port_access = yes
 			adm_tech = 8
 			treasury = 150
 			adm_power = 50
+
+			1756 = {
+				NOT = { has_province_modifier = dniester_fishing_industry }
+				NOT = { has_province_modifier = dniester_wine_merchants }
+				NOT = { has_province_modifier = dniester_salt_production }
+			}
 		}
-		
+
 		effect = {
 			add_treasury = -150
 			add_adm_power = -50
-			
+
+			set_country_flag = dniester_estuary_specialized
 			set_country_flag = dniester_salt_established
-			
-			282 = {
+
+			1756 = {
+				remove_province_modifier = dniester_fishing_industry
+				remove_province_modifier = dniester_wine_merchants
 				add_province_modifier = {
 					name = dniester_salt_production
 					duration = -1
 				}
-				
-				if = {
-					limit = { 
-						NOT = { trade_goods = wine }
-						NOT = { trade_goods = fish }
-					}
-					change_trade_goods = salt
-				}
-				
+
+				change_trade_goods = salt
 				add_base_production = 1
 			}
-			
+
 			add_years_of_income = 0.2
 		}
-		
+
 		ai_will_do = {
 			factor = 1
-			
+
 			modifier = {
 				factor = 0
 				NOT = { treasury = 300 }
 			}
 		}
 	}
-	
+
 	contest_ottoman_dniester_control = {
 		major = yes
 		potential = {
@@ -361,23 +371,20 @@ country_decisions = {
 				tag = RUS
 			}
 			NOT = { has_country_flag = contesting_dniester }
-			
-			282 = {
+
+			1756 = {
 				owned_by = TUR
 			}
-			
+
 			OR = {
-				owns_or_non_sovereign_subject_of = 282
+				owns_or_non_sovereign_subject_of = 1756
 				any_owned_province = {
-					any_neighbor_province = { province_id = 282 }
+					any_neighbor_province = { province_id = 1756 }
 				}
 			}
 		}
-		provinces_to_highlight = {
-			province_id = 282
-			owned_by = TUR
-		}
-		
+		provinces_to_highlight = { province_id = 1756 }
+
 		allow = {
 			mil_tech = 12
 			army_size = 30
@@ -385,26 +392,26 @@ country_decisions = {
 			NOT = { truce_with = TUR }
 			NOT = { alliance_with = TUR }
 		}
-		
+
 		effect = {
 			set_country_flag = contesting_dniester
-			
+
 			add_casus_belli = {
 				target = TUR
 				type = cb_conquest
 				months = 120
 			}
-			
-			add_claim = 282
-			
+
+			add_claim = 1756
+
 			add_prestige = 5
-			
+
 			country_event = { id = dniester_estuary.30 days = 30 }
 		}
-		
+
 		ai_will_do = {
 			factor = 1
-			
+
 			modifier = {
 				factor = 2
 				OR = {
@@ -412,17 +419,17 @@ country_decisions = {
 					tag = RUS
 				}
 			}
-			
+
 			modifier = {
 				factor = 3
 				is_rival = TUR
 			}
-			
+
 			modifier = {
 				factor = 0
 				NOT = { army_size = 40 }
 			}
-			
+
 			modifier = {
 				factor = 0
 				is_subject = yes
