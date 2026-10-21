@@ -2,76 +2,28 @@ namespace = ruthenian_factions
 
 country_event = {
 	id = ruthenian_factions.1
-	title = "ruthenian_factions.1.t"
-	desc = "ruthenian_factions.1.d"
+	title = rip_hidden_sync_event.t
+	desc = rip_hidden_sync_event.d
 	picture = COURT_eventPicture
+	hidden = yes
 	is_triggered_only = yes
+	# Save-compatible tombstone for the retired free court fallback.
+	# A queued old event must neither award points nor reference retired modifiers.
 	option = {
-		name = "ruthenian_factions.1.a"
-		ai_chance = { factor = 35 }
-		remove_country_modifier = KRU_boyar_duma
-		remove_country_modifier = KRU_hetman_council
-		add_country_modifier = {
-			name = KRU_princes_court
-			duration = 3650
-		}
-		change_variable = { which = ruthenian_decadence value = -5 }
-		add_legitimacy = 10
-		add_prestige = 5
-		every_subject_country = {
-			add_liberty_desire = -5
-		}
-	}
-	option = {
-		name = "ruthenian_factions.1.b"
-		ai_chance = { factor = 35 }
-		remove_country_modifier = KRU_princes_court
-		remove_country_modifier = KRU_hetman_council
-		add_country_modifier = {
-			name = KRU_boyar_duma
-			duration = 3650
-		}
-		change_variable = { which = ruthenian_decadence value = -5 }
-		add_adm_power = 50
-		add_prestige = 5
-	}
-	option = {
-		name = "ruthenian_factions.1.c"
-		ai_chance = { factor = 30 }
-		remove_country_modifier = KRU_princes_court
-		remove_country_modifier = KRU_boyar_duma
-		add_country_modifier = {
-			name = KRU_hetman_council
-			duration = 3650
-		}
-		change_variable = { which = ruthenian_decadence value = -10 }
-		add_mil_power = 50
-		add_army_tradition = 10
+		name = OK
 	}
 }
 
 country_event = {
 	id = ruthenian_factions.2
-	title = "ruthenian_factions.1.t"
-	desc = "ruthenian_factions.1.d"
+	title = rip_hidden_sync_event.t
+	desc = rip_hidden_sync_event.d
 	picture = COURT_eventPicture
+	hidden = yes
 	is_triggered_only = yes
-
-	# Superseded. This was the non-Res-Publica AI fallback for the factional
-	# court; the influence sim in ruthenian_factions.20 now runs for every
-	# holder of the reform, base-game, and ruthenian_factional_court_mechanic
-	# gives the player the direct lever. ruthenian_factions.1 keeps its caller
-	# in decisions/KyivTriggers.txt.
-	trigger = {
-		always = no
-	}
-
-	immediate = {
-		country_event = { id = ruthenian_factions.1 days = 1 }
-	}
-
+	# Old queued AI fallback: deliberately no follow-up and no rewards.
 	option = {
-		name = "ruthenian_factions.2.a"
+		name = OK
 	}
 }
 
