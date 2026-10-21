@@ -99,12 +99,9 @@ def test_host_network_dynamic_names():
     country_block = content[start_country:end_country]
 
     assert "HOSTLAND_UNITED" in country_block
-    assert "calc_true_if" in country_block
-    assert "amount = 2" in country_block
-    assert "has_country_flag = founded_don_host" in country_block
-    assert "has_country_flag = founded_sloboda_host" in country_block
-    assert "has_country_flag = founded_danube_sich" in country_block
-    assert "has_country_flag = founded_eastern_host" in country_block
+    assert "rip_host_two_active = yes" in country_block
+    for host in ('don', 'sloboda', 'danube', 'eastern'):
+        assert f"rip_host_{host}_active = yes" in country_block
 
 
 def test_localization_keys():
