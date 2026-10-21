@@ -313,43 +313,71 @@ def check_russia_balance_event(failures: list[str]) -> None:
 
 def check_ruthenian_eastward_expansion(failures: list[str]) -> None:
     text = read("decisions/RuthenianEastwardExpansion.txt")
+    scripted_effects = read("common/scripted_effects/rip_frontier_expedition_effects.txt")
 
     frontier = named_block(text, "ruthenian_eastward_frontier_policy")
     frontier_allow = named_block(frontier, "allow")
     frontier_effect = named_block(frontier, "effect")
+    if "rip_frontier_crimea_purchase_effect = yes" in frontier_effect:
+        resolved_frontier_effect = (
+            named_block(scripted_effects, "rip_frontier_crimea_purchase_effect")
+            + "\n"
+            + named_block(scripted_effects, "rip_frontier_crimea_one_effect")
+        )
+    else:
+        resolved_frontier_effect = frontier_effect
+
     require(failures, has_control_gate(frontier, "crimea_region", 3),
             "ruthenian_eastward_frontier_policy: missing 3-province Crimea control gate")
     require(failures, "treasury = 100" in frontier_allow and "dip_power = 50" in frontier_allow,
             "ruthenian_eastward_frontier_policy: missing preparation cost triggers in allow")
-    require(failures, "add_treasury = -100" in frontier_effect and "add_dip_power = -50" in frontier_effect,
+    require(failures, "add_treasury = -100" in resolved_frontier_effect and "add_dip_power = -50" in resolved_frontier_effect,
             "ruthenian_eastward_frontier_policy: missing preparation cost deductions in effect")
-    require(failures, "add_permanent_claim" not in frontier_effect,
+    require(failures, "add_permanent_claim" not in resolved_frontier_effect,
             "ruthenian_eastward_frontier_policy: frontier claims must be temporary")
-    require(failures, "add_claim = ROOT" in frontier_effect,
+    require(failures, "add_claim = ROOT" in resolved_frontier_effect,
             "ruthenian_eastward_frontier_policy: missing temporary claim reward")
 
     ural = named_block(text, "ruthenian_open_ural_gate")
     ural_allow = named_block(ural, "allow")
     ural_effect = named_block(ural, "effect")
+    if "rip_frontier_ural_purchase_effect = yes" in ural_effect:
+        resolved_ural_effect = (
+            named_block(scripted_effects, "rip_frontier_ural_purchase_effect")
+            + "\n"
+            + named_block(scripted_effects, "rip_frontier_ural_one_effect")
+        )
+    else:
+        resolved_ural_effect = ural_effect
+
     require(failures, has_control_gate(ural, "crimea_region", 6),
             "ruthenian_open_ural_gate: missing 6-province steppe control gate")
     require(failures, "treasury = 150" in ural_allow and "mil_power = 50" in ural_allow and "dip_power = 50" in ural_allow,
             "ruthenian_open_ural_gate: missing expedition cost triggers in allow")
-    require(failures, "add_treasury = -150" in ural_effect and "add_mil_power = -50" in ural_effect and "add_dip_power = -50" in ural_effect,
+    require(failures, "add_treasury = -150" in resolved_ural_effect and "add_mil_power = -50" in resolved_ural_effect and "add_dip_power = -50" in resolved_ural_effect,
             "ruthenian_open_ural_gate: missing expedition cost deductions in effect")
-    require(failures, has_normal_claim_scope(ural, "ural_region"),
+    require(failures, "add_claim = ROOT" in resolved_ural_effect and "add_permanent_claim" not in resolved_ural_effect,
             "ruthenian_open_ural_gate: Ural claims must be temporary")
 
     manchuria = named_block(text, "ruthenian_manchurian_horizon")
     manchuria_allow = named_block(manchuria, "allow")
     manchuria_effect = named_block(manchuria, "effect")
+    if "rip_frontier_manchuria_purchase_effect = yes" in manchuria_effect:
+        resolved_manchuria_effect = (
+            named_block(scripted_effects, "rip_frontier_manchuria_purchase_effect")
+            + "\n"
+            + named_block(scripted_effects, "rip_frontier_manchuria_one_effect")
+        )
+    else:
+        resolved_manchuria_effect = manchuria_effect
+
     require(failures, has_control_gate(manchuria, "ural_region", 6),
             "ruthenian_manchurian_horizon: missing 6-province Ural control gate")
     require(failures, "treasury = 200" in manchuria_allow and "adm_power = 50" in manchuria_allow and "dip_power = 50" in manchuria_allow,
             "ruthenian_manchurian_horizon: missing expedition cost triggers in allow")
-    require(failures, "add_treasury = -200" in manchuria_effect and "add_adm_power = -50" in manchuria_effect and "add_dip_power = -50" in manchuria_effect,
+    require(failures, "add_treasury = -200" in resolved_manchuria_effect and "add_adm_power = -50" in resolved_manchuria_effect and "add_dip_power = -50" in resolved_manchuria_effect,
             "ruthenian_manchurian_horizon: missing expedition cost deductions in effect")
-    require(failures, has_normal_claim_scope(manchuria, "manchuria_region"),
+    require(failures, "add_claim = ROOT" in resolved_manchuria_effect and "add_permanent_claim" not in resolved_manchuria_effect,
             "ruthenian_manchurian_horizon: Manchurian claims must be temporary")
 
     events_text = read("events/RuthenianEastwardExpansion.txt")
