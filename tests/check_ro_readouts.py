@@ -1,12 +1,13 @@
 """Regression coverage for blank RO counters, exhausted Fervor, the variable rename and the network status."""
 from church_testlib import fixture, parse
 from clausewitz_testlib import read
+from clausewitz_testlib import read_custom_localization
 import re
 
 loc = dict(re.findall(r'^\s*([^#\s:]+):\d*\s+"(.*)"\s*$',
                      read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml'), re.M))
 definitions = {dict(body)['name']: body for kind, body in
-               parse(read('customizable_localization/rip_church_redesign.txt')) if kind == 'defined_text'}
+               parse(read_custom_localization('church')) if kind == 'defined_text'}
 cases = 0
 # The window's own numbers are read through literal ladders (tests/check_ro_panel_readouts.py checks every
 # rung against the real recount); here only the surrounding contracts of the author's regressions remain.

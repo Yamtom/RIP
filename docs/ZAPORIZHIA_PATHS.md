@@ -84,7 +84,7 @@
 
 ## 5. Динамічні назви
 
-`customizable_localization/cossack_host_dynamic_names.txt` додає чотири набори
+`customizable_localization/RIP_shared_cossack_host_dynamic_names.txt` додає чотири набори
 до наявного `GetCossackHostName`:
 
 - `GetHostRoadName` — якою дорогою пішло військо;

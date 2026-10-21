@@ -2,6 +2,9 @@
 Uses the installed 1.37 government window; --check verifies deterministic output.
 """
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from custom_localization_layout import split_custom_localization
 import argparse, os
 ROOT = Path(__file__).resolve().parents[1]
 GAME = Path(os.environ.get('EU4_DIR', 'D:/Programs Files(x86)/Steam/steamapps/common/Europa Universalis IV'))
@@ -316,14 +319,16 @@ pos = native.index('name = "countrygovernmentview"')
 start = native.rfind('{',0,pos)
 end = close_brace(native,start)
 gui = native[:end] + '\n# Generated read-only RIP government explanations.\n' + '\n'.join(panel(name, pot, rows) for name, pot, rows in PANELS) + '\n' + native[end:]
-outputs = {'interface/rip_government_status.gfx': 'spriteTypes = { corneredTileSpriteType = { name = GFX_rip_government_status_bg size = { x = 470 y = 290 } texturefile = '+chr(34)+'gfx/interface/small_tiles_dialog.dds'+chr(34)+' borderSize = { x = 8 y = 8 } } }\n', 'interface/countrygovernmentview.gui': gui, 'common/custom_gui/rip_government_status.txt':'\n'.join(CONTROLS)+'\n', 'customizable_localization/rip_government_status.txt':'\n'.join(DYNAMIC)+'\n'}
+outputs = {'interface/rip_government_status.gfx': 'spriteTypes = { corneredTileSpriteType = { name = GFX_rip_government_status_bg size = { x = 470 y = 290 } texturefile = '+chr(34)+'gfx/interface/small_tiles_dialog.dds'+chr(34)+' borderSize = { x = 8 y = 8 } } }\n', 'interface/countrygovernmentview.gui': gui, 'common/custom_gui/rip_government_status.txt':'\n'.join(CONTROLS)+'\n'}
+outputs.update(split_custom_localization('\n'.join(DYNAMIC)+'\n', 'government_status'))
 for language in ('english','french','german','spanish'):
     outputs[f'localisation/replace/zzzz_RIP_government_status_l_{language}.yml'] = 'l_'+language+':\n'+'\n'.join(f' {k}:0 "{v.replace(chr(10), chr(92)+"n")}"' for k,v in LOC.items())+'\n'
 
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument('--check',action='store_true'); args=parser.parse_args()
     for rel,content in outputs.items():
-        data=content.replace('\r\n','\n').replace('\n','\r\n').encode('utf-8-sig' if rel.endswith('.yml') else 'utf-8')
+        newline = '\n' if rel.startswith('customizable_localization/') else '\r\n'
+        data=content.replace('\r\n','\n').replace('\n',newline).encode('utf-8-sig' if rel.endswith('.yml') else 'utf-8')
         path=ROOT/rel
         if args.check:
             assert path.exists() and path.read_bytes()==data, f'Stale generated file: {rel}'

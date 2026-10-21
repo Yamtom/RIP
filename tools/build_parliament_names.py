@@ -15,7 +15,7 @@ The plain keys `<TAG>_parliament_name` remain, now as plain nouns, for everythin
 window: events and tooltips that say `[Root.GetParliamentName]`, and the native title if the overlay is ever off.
 
 Outputs (all written, or compared with --check):
-  customizable_localization/rip_parliament_names.txt       GetRIPParliamentTitle, first matching rule wins
+  customizable_localization/RIP_shared_parliament_names.txt       GetRIPParliamentTitle, first matching rule wins
   common/custom_gui/rip_parliament_title.txt                the text-box binding
   interface/parliament.gui                                  vanilla window with the overlay and the native title moved
   localisation/replace/zzzz_rip_parliament_names_l_*.yml    titles and plain nouns (English text in all four languages)
@@ -23,6 +23,9 @@ Names follow docs/STYLE_GLOSSARY.md: the institution is named, native terms stay
 word is capitalised, "Veche" is spelled as in the reform names. docs/RUTHENIAN_PARLIAMENT_NAMES.uk.md explains each rule.
 """
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from custom_localization_layout import split_custom_localization
 import argparse
 import re
 import sys
@@ -374,7 +377,7 @@ def gui(source):
 
 def outputs():
     result = {
-        'customizable_localization/rip_parliament_names.txt': custom_loc(),
+        **split_custom_localization(custom_loc(), 'parliament_names'),
         'common/custom_gui/rip_parliament_title.txt': GUI_BINDING,
     }
     for language in LANGUAGES:
@@ -395,7 +398,8 @@ def main():
         path = ROOT / relative
         data = text.replace('\r\n', '\n')
         bom = data.startswith('﻿')
-        payload = data.lstrip('﻿').replace('\n', '\r\n').encode('utf-8')
+        newline = '\n' if relative.startswith('customizable_localization/') else '\r\n'
+        payload = data.lstrip('﻿').replace('\n', newline).encode('utf-8')
         if bom:
             payload = b'\xef\xbb\xbf' + payload
         current = path.read_bytes().replace(b'\r\n', b'\n') if path.exists() else None

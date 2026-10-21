@@ -15,6 +15,7 @@ import re
 
 from church_testlib import TRIGGERS, World, parse
 from clausewitz_testlib import ROOT, named_block, read
+from clausewitz_testlib import read_custom_localization
 
 cases = 0
 loc = {key: value.replace('\\n', '\n') for key, value in re.findall(
@@ -27,7 +28,7 @@ node_loc = {key: value for key, value in re.findall(
     (ROOT / 'localisation/replace/zzzz_RIP_church_nodes_l_english.yml').read_text(encoding='utf-8-sig'),
     re.M)}
 readouts = {}
-for kind, body in parse(read('customizable_localization/rip_church_redesign.txt')):
+for kind, body in parse(read_custom_localization('church')):
     if kind == 'defined_text':
         readouts[dict(body)['name']] = [(dict(rows)['trigger'], dict(rows)['localisation_key'])
                                         for key, rows in body if key == 'text']

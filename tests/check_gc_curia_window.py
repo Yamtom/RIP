@@ -1,6 +1,7 @@
 """Contracts for the remaining Greek Catholic synod, icons and Rome audience."""
 import re
 from clausewitz_testlib import named_block, keyed_blocks, read, vanilla_defines_localisation, vanilla_root
+from clausewitz_testlib import read_custom_localization
 from church_testlib import parse
 
 curia_triggers = read('common/scripted_triggers/rip_church_gc_curia_triggers.txt')
@@ -17,7 +18,7 @@ gui_generator = read('tools/build_church_gui.py')
 localisation_generator = read('tools/build_church_localisation.py')
 english = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml') + '\n' + read('localisation/rip_ro_blessing_window_l_english.yml')
 interface = read('interface/countryreligionview.gui')
-custom_text = read('customizable_localization/rip_church_redesign.txt')
+custom_text = read_custom_localization('church')
 
 def button(source, name):
     for _, block in keyed_blocks(source, 'custom_button'):

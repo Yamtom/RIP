@@ -1,4 +1,4 @@
-﻿# Атомарний дизайн релігійних механік
+# Атомарний дизайн релігійних механік
 
 **Зріз вихідних файлів: 28 вересня 2026; EU4 1.37.5 та поточний RIP.**
 
@@ -266,7 +266,7 @@ Balance та Papal Standing або платних петицій Курії. Р�
 | Католицький вплив і Курія | Ванільні `common/religions/00_religion.txt`, `common/golden_bulls/00_golden_bulls.txt`, `common/static_modifiers/00_static_modifiers.txt`, `common/defines.lua` |
 | ГК-база та історичні шляхи | RIP `common/religions/zz_greek_catholic.txt`, `common/scripted_triggers/rip_church_union_triggers.txt`, `common/scripted_effects/rip_church_union_effects.txt`, `common/scripted_effects/rip_church_sponsor_effects.txt`, `decisions/GreekCatholicDecisions.txt`, `events/UniateChurch.txt`, `common/scripted_effects/rip_church_diplomacy_effects.txt`, `common/opinion_modifiers/RIP_church_relations.txt` |
 | PA, синод, іконні дії та життєвий цикл | RIP `common/scripted_effects/rip_church_pa_effects.txt`, `common/scripted_effects/rip_church_lifecycle_effects.txt`, `common/scripted_effects/rip_church_gc_interaction_effects.txt`, `common/scripted_triggers/rip_church_gc_interaction_triggers.txt`, `common/event_modifiers/RIP_church_redesign_modifiers.txt`, `common/event_modifiers/rip_church_gc_interaction_modifiers.txt` |
-| Аудієнція, місійні ресурси та відображення Курії | RIP `common/scripted_triggers/rip_church_gc_curia_triggers.txt`, `common/scripted_effects/rip_church_gc_curia_effects.txt`, `common/scripted_effects/rip_church_gc_gui_effects.txt`, `common/scripted_effects/rip_religion_settlement_effects.txt`, `missions/Zakarpatta_Missions.txt`, `common/custom_gui/RIP_church_gc_features.txt`, `common/custom_gui/RIP_church_controls.txt`, `tools/build_church_gui.py`, `customizable_localization/rip_church_redesign.txt`, `interface/countryreligionview.gui` |
+| Аудієнція, місійні ресурси та відображення Курії | RIP `common/scripted_triggers/rip_church_gc_curia_triggers.txt`, `common/scripted_effects/rip_church_gc_curia_effects.txt`, `common/scripted_effects/rip_church_gc_gui_effects.txt`, `common/scripted_effects/rip_religion_settlement_effects.txt`, `missions/Zakarpatta_Missions.txt`, `common/custom_gui/RIP_church_gc_features.txt`, `common/custom_gui/RIP_church_controls.txt`, `tools/build_church_gui.py`, `customizable_localization/RIP_*_church.txt`, `interface/countryreligionview.gui` |
 | Контракти стану й інтерфейсу | RIP `tests/check_gc_curia_window.py`, `tests/check_uc_curia.py`, `tests/check_church_redesign.py`, `tests/check_church_gui_routes.py`, `tests/check_scripted_faith_links.py`, `tests/check_religion_settlement.py` (контракт гарантії прав громади та екуменізму) |
 
 У моді немає активних файлів колишніх ГК-центру та платних Curia-петицій;

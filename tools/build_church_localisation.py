@@ -1,5 +1,8 @@
 """Generate church UI localisation and fallback strings; no claim of translated fallback text."""
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from custom_localization_layout import split_custom_localization
 from decimal import Decimal
 import json,argparse,re
 ROOT=Path(__file__).resolve().parents[1]
@@ -490,7 +493,7 @@ DATA.update({
  'rip_church_icon_mission_button': 'Muscovite Mission',
  'rip_church_ro_status': '[Root.GetChurchROStatus] · RD [Root.GetChurchROReformDesire]%',
  'rip_church_break_communion_title': 'Renounce the patriarchal settlement',
- 'rip_church_break_communion_desc': 'Deliberate alternative history: abandon recognized communion and claim an independent universal church. This increases confessional conflict and imposes -1 diplomatic reputation. Earlier reconciliation payments are not refunded.',
+ 'rip_church_break_communion_desc': 'Deliberate alternative history: abandon recognized communion and claim an independent universal church. Costs 100 DIP and 1 stability. This increases confessional conflict and imposes -1 diplomatic reputation. Earlier reconciliation payments are not refunded.',
  'rip_church_oppose_union_title': 'Change our policy toward the Union',
  'rip_church_oppose_union_desc': 'For 25 DIP, adopt or end state opposition to the Union. Opposition multiplies its conversion target weights in our provinces by 0.25 and adds a mutual -10 opinion with Greek Catholic countries. The policy can be changed once every five years.',
  'rip_church_withdraw_union_support_title': 'Withdraw royal support for the Union',
@@ -901,7 +904,8 @@ live_curia_keys={
 def keep_live_curia_key(key):
  # The Union centre network is retired; the Muscovite trade network is live.
  if key in {'rip_church_ro_network','rip_church_ro_network_tt',
-            'rip_church_mission_network','rip_church_mission_network_desc'}: return True
+            'rip_church_mission_network','rip_church_mission_network_desc',
+            'rip_church_break_communion_title','rip_church_break_communion_desc'}: return True
  if key in live_curia_keys: return True
  if re.fullmatch(r'(?:desc_)?rip_church_gc_petition_(?:church_tax|blessing|indulgence|saint|usury|holy_war|legate|monopoly)(?:_(?:label|label_tt|button_tt))?',key):
   return True
@@ -1032,7 +1036,7 @@ custom+=defined('GetChurchPatronState',[
 custom+=defined('GetChurchParishRegisterState',[
  ('OR = { check_variable = { which = rip_church_gui_eastern_parishes value = 1 } check_variable = { which = rip_church_gui_latin_parishes value = 1 } }','rip_church_gui_parish_register_active'),
  ('always = yes','rip_church_gui_parish_register_empty')])
-outputs={'customizable_localization/rip_church_redesign.txt':custom}
+outputs={}
 # Retire generated strings for the removed Communion scale, paid Curia
 # petition/control economy and artificial Union-centre rings. The current
 # fixed-price Holy See gift is a separate diplomatic action, not that economy.
@@ -1452,7 +1456,7 @@ for key in ('war','mercy','building','mission'):
 DATA['rip_ro_funded_trade_missions']='Funded trade missions'
 DATA['desc_rip_ro_funded_trade_missions']='An active missionary network. Each funded node pays 3 Fervor a month and adds trade power and missionary strength in your parishes there. Conversion operates through eligible trade-node policies; this status grants no additional national bonus.'
 DATA['rip_ro_holy_cities_close_tt']='Close the register.'
-outputs['customizable_localization/rip_church_redesign.txt']=custom
+outputs.update(split_custom_localization(custom, 'church'))
 DATA['rip_church_gui_ecumenism_state_tt']=DATA['rip_church_gui_ecumenism_tt']
 for key in ('cost','peace','rome','cooldown','history'):
  DATA['rip_church_gui_contact_'+key+'_tt']=DATA['rip_church_gc_deputation_button_tt']
@@ -1599,9 +1603,10 @@ if bad: raise SystemExit('Old recognition framing of the province action in: '+'
 stale=[]
 for path,text in outputs.items():
     p=ROOT/path
-    if not p.exists() or p.read_bytes()!=text.replace('\n','\r\n').encode('utf-8'):
+    newline = '\n' if path.startswith('customizable_localization/') else '\r\n'
+    if not p.exists() or p.read_bytes()!=text.replace('\n',newline).encode('utf-8'):
         stale.append(path)
         if not args.check:
-            p.parent.mkdir(parents=True,exist_ok=True); p.write_text(text,encoding='utf-8',newline='\r\n')
+            p.parent.mkdir(parents=True,exist_ok=True); p.write_text(text,encoding='utf-8',newline=newline)
 print(('STALE' if args.check and stale else 'GENERATED')+f': {len(DATA)} keys; {len(stale)} files')
 if args.check and stale: raise SystemExit(1)

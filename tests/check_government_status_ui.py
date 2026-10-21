@@ -4,6 +4,7 @@ import re
 import subprocess
 import sys
 from clausewitz_testlib import ROOT, read, keyed_blocks, named_block, normalized
+from clausewitz_testlib import read_custom_localization
 spec = importlib.util.spec_from_file_location('government_status', ROOT/'tools/build_government_status_ui.py')
 g = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(g)
@@ -27,7 +28,7 @@ for _,trigger,value,_ in g.annual:
 
 custom=read('common/custom_gui/rip_government_status.txt')
 gui=read('interface/countrygovernmentview.gui')
-dynamic=read('customizable_localization/rip_government_status.txt')
+dynamic=read_custom_localization('government_status')
 loc=g.LOC
 for name in re.findall(r'custom_text_box = \{ name = (\w+)', custom):
     assert f'name = "{name}" scripted = yes' in gui

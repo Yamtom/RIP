@@ -329,13 +329,15 @@ def check_logic(triggers_text, effects_text, kru_effects_text, runs=3000, seed=1
 
 def check_sources(files):
     problems = []
-    for relative in ('events/RuthenianDecadence.txt', 'decisions/KyivTriggers.txt', 'common/disasters/kru_disasters.txt',
+    for relative in ('events/RuthenianDecadence.txt', 'common/disasters/kru_disasters.txt',
                      'common/scripted_triggers/su_south_ukraine_triggers.txt'):
         text = files[relative]
         if 'has_reform = ruthenian_factional_empire' in text:
             problems.append(f'{relative} still names a Rada reform id instead of asking kru_holds_rada_reform')
         if 'kru_holds_rada_reform = yes' not in text:
             problems.append(f'{relative} does not ask kru_holds_rada_reform')
+    if re.search(r'\bruthenian_convene_court\s*=\s*\{', files['decisions/KyivTriggers.txt']):
+        problems.append('the retired free court decision has returned')
     court = files['common/government_mechanics/rip_ruthenian_factional_court.txt']
     # `available` is parsed before the scripted triggers exist (measured in the game): it names the six ids itself.
     available = normalized(named_block(court, 'available'))

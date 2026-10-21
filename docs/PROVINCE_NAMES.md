@@ -156,7 +156,7 @@ tests, docs і customizable_localization. Це індекс для навіга�
 1659 пар ID/назва та `git diff --check`. Остаточний журнал перевірок
 надано окремо. Додатковий `check_culture_key_compatibility.py` виявив
 наявну ще в HEAD помилку поза таблицями назв: `severian` / `severian_new`
-у `customizable_localization/rip_parliament_names.txt`, рядки 215, 223, 227.
+у `customizable_localization/RIP_shared_parliament_names.txt`, рядки 215, 223, 227.
 Файл і цей тест не змінювалися; це не регресія перезбирання.
 
 Гру не запускали. Не підтверджено відображення, фактичний пріоритет

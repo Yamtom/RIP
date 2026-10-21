@@ -24,6 +24,7 @@ from PIL import Image
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tests'))
 from church_testlib import World, parse                     # noqa: E402
 from clausewitz_testlib import ROOT, vanilla_root                   # noqa: E402
+from clausewitz_testlib import read_custom_localization
 
 GAME = vanilla_root()
 ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -182,10 +183,10 @@ def read_loc(path):
 LOC = read_loc(ROOT / 'localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
 LOC.update(read_loc(ROOT / 'localisation/rip_ro_blessing_window_l_english.yml'))
 LADDERS = {}
-for kind, body in parse((ROOT / 'customizable_localization/rip_church_redesign.txt').read_text(encoding='utf-8-sig')):
+for kind, body in parse(read_custom_localization('church')):
     if kind == 'defined_text':
         LADDERS[dict(body)['name']] = [(dict(row)['trigger'], dict(row)['localisation_key']) for k, row in body if k == 'text']
-for kind, body in parse((ROOT / 'customizable_localization/rip_ro_holy_cities_custom_loc.txt').read_text(encoding='utf-8-sig')):
+for kind, body in parse((ROOT / 'customizable_localization/RIP_MOS_RUS_holy_cities.txt').read_text(encoding='utf-8-sig')):
     if kind == 'defined_text':
         LADDERS[dict(body)['name']] = [(dict(row).get('trigger', [('always', 'yes')]), dict(row)['localisation_key']) for k, row in body if k == 'text']
 BINDINGS = {}

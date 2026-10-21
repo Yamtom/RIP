@@ -18,6 +18,14 @@ def read(relative_path: str) -> str:
     return (ROOT / relative_path).read_text(encoding="utf-8-sig")
 
 
+
+def read_custom_localization(family: str) -> str:
+    """Read all country files of one custom-localisation family."""
+    paths = sorted((ROOT / "customizable_localization").glob(f"RIP_*_{family}.txt"))
+    assert paths, f"No customizable-localisation files for {family}"
+    return "\n".join(path.read_text(encoding="utf-8-sig") for path in paths)
+
+
 def _mask_comments_and_strings(text: str) -> str:
     """Keep newlines/braces positions stable while masking inert content."""
     chars = list(text)

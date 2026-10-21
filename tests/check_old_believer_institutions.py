@@ -190,7 +190,7 @@ for lang in ("english", "french", "german", "spanish"):
     for key in ("rip_ob_choose_accord_title", "rip_ob_hold_assembly_title", "rip_ob_endow_refuge_title",
                 "rip_ob_institutions.3.d", "desc_rip_ob_active_refuge"):
         assert len(re.findall(rf"(?m)^ {re.escape(key)}:", text)) == 1, (lang, key)
-for _, body in parse(read("customizable_localization/rip_old_believer_institutions.txt")):
+for _, body in parse(read("customizable_localization/RIP_MOS_RUS_old_believer_institutions.txt")):
     assert dict(body)["random"] == "no", "first matching display state, never a random fallback"
 # Modifier keys must be documented by the installed target game's own sample.
 from clausewitz_testlib import vanilla_root

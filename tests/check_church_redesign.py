@@ -1,6 +1,7 @@
 """Regression contracts for the retired Union-centre and Curia resource systems."""
 from pathlib import Path
 from clausewitz_testlib import ROOT, read
+from clausewitz_testlib import read_custom_localization
 
 def text(path):
     return read(path)
@@ -63,7 +64,7 @@ assert 'rip_church_communion' not in audience
 orientation = text('common/scripted_triggers/rip_church_redesign_triggers.txt')
 assert 'rip_church_gc_eastern = { always = no }' in orientation
 assert 'rip_church_gc_roman = { always = no }' in orientation
-custom_loc = text('customizable_localization/rip_church_redesign.txt')
+custom_loc = read_custom_localization('church')
 for name in ('GetChurchCuriaRate', 'GetChurchDonationState', 'GetChurchCuriaPrivilege'):
     assert name not in custom_loc
 english = text('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')

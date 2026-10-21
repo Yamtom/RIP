@@ -40,7 +40,7 @@
 > **`main` пішов уперед** (`c0115a6f`, гетьманська влада й регіональні постанови): перетини з цією гілкою — `000_RIP_names.txt` (там 1588 рядків
 > змінено лише кінцями рядків CRLF→LF і один рядок змісту), `00_governments.txt`, `RIP_CHR/PRL/shared_cossack_government_reforms.txt`,
 > `rip_government_review_triggers.txt`, `check_government_reviews.py`. **Для власників інших ланцюгів:** інші файли мода з
-> `defined_text` без `random = no` (церква `rip_church_redesign.txt`, `RIP_customizable_localization.txt`, `rip_ro_holy_cities_custom_loc.txt`,
+> `defined_text` без `random = no` (церква `RIP_*_church.txt`, `RIP_<TAG>_identity.txt`, `RIP_MOS_RUS_holy_cities.txt`,
 > козацькі назви) обирають між усіма підходящими рядками; там, де порядок важливий, його треба додати. У `RIP_UZH_government_reforms.txt` рядок 223
 > `parliament_backing_chance` лежить у `conditional`, а не в `modifiers`, і рушій пише «Unexpected token» (не чіпано).
 >
@@ -120,14 +120,14 @@
 > кадрів віри (православні міста показували протестантський хрест, Єрусалим — коптський;
 > тепер кадр = `icon = N` з файлів релігій, і тест проходить усі 31 віру), число років не
 > друкувалося до першого щорічного пульсу (прямий `GetValue` — тепер драбини
-> `GetRipRoMythYears<Місто>` у `rip_church_redesign.txt`) і рядок «Faith:» у Москві без підпису.
+> `GetRipRoMythYears<Місто>` у `RIP_*_church.txt`) і рядок «Faith:» у Москві без підпису.
 > Генератор `tools/build_church_gui.py`, нові `tools/build_ro_register_art.py` (мальовані DDS,
 > `--check`) і `tools/preview_church_register.py` (прев'ю з ванільними текстурами й шрифтом).
 > Підпис кнопки **Union** тепер породжує `build_church_localisation.py`: раніше його вписали в
 > згенеровані файли руками, а генератор його стирав. Гейт: ті самі `check_ro_history` і
 > `check_old_believers`, що й до правки; церковні правки нових червоних не додали. Окремо від них у
 > коміті 23e04727 з'явилася третя критична червона, `check_culture_key_compatibility` (застарілий
-> северянський ключ у `customizable_localization/rip_parliament_names.txt`, зі зміни назв парламентів,
+> северянський ключ у `customizable_localization/RIP_shared_parliament_names.txt`, зі зміни назв парламентів,
 > не з церкви). **Перевірено в EU4 1.37.5 19 жовтня 2026** (ізольований профіль, Мускови 1444, знімки
 > `diagnostics/church_ui_20261018/runtime_*.png`):
 > вікно церкви, кутова плитка, реєстр, наведення на число, шкалу й значки, усі 31 кадр смуги
@@ -723,7 +723,7 @@ Markdown
 > **`main` пішов уперед** (`c0115a6f`, гетьманська влада й регіональні постанови): перетини з цією гілкою — `000_RIP_names.txt` (там 1588 рядків
 > змінено лише кінцями рядків CRLF→LF і один рядок змісту), `00_governments.txt`, `RIP_CHR/PRL/shared_cossack_government_reforms.txt`,
 > `rip_government_review_triggers.txt`, `check_government_reviews.py`. **Для власників інших ланцюгів:** інші файли мода з
-> `defined_text` без `random = no` (церква `rip_church_redesign.txt`, `RIP_customizable_localization.txt`, `rip_ro_holy_cities_custom_loc.txt`,
+> `defined_text` без `random = no` (церква `RIP_*_church.txt`, `RIP_<TAG>_identity.txt`, `RIP_MOS_RUS_holy_cities.txt`,
 > козацькі назви) обирають між усіма підходящими рядками; там, де порядок важливий, його треба додати. У `RIP_UZH_government_reforms.txt` рядок 223
 > `parliament_backing_chance` лежить у `conditional`, а не в `modifiers`, і рушій пише «Unexpected token» (не чіпано).
 >
@@ -803,14 +803,14 @@ Markdown
 > кадрів віри (православні міста показували протестантський хрест, Єрусалим — коптський;
 > тепер кадр = `icon = N` з файлів релігій, і тест проходить усі 31 віру), число років не
 > друкувалося до першого щорічного пульсу (прямий `GetValue` — тепер драбини
-> `GetRipRoMythYears<Місто>` у `rip_church_redesign.txt`) і рядок «Faith:» у Москві без підпису.
+> `GetRipRoMythYears<Місто>` у `RIP_*_church.txt`) і рядок «Faith:» у Москві без підпису.
 > Генератор `tools/build_church_gui.py`, нові `tools/build_ro_register_art.py` (мальовані DDS,
 > `--check`) і `tools/preview_church_register.py` (прев'ю з ванільними текстурами й шрифтом).
 > Підпис кнопки **Union** тепер породжує `build_church_localisation.py`: раніше його вписали в
 > згенеровані файли руками, а генератор його стирав. Гейт: ті самі `check_ro_history` і
 > `check_old_believers`, що й до правки; церковні правки нових червоних не додали. Окремо від них у
 > коміті 23e04727 з'явилася третя критична червона, `check_culture_key_compatibility` (застарілий
-> северянський ключ у `customizable_localization/rip_parliament_names.txt`, зі зміни назв парламентів,
+> северянський ключ у `customizable_localization/RIP_shared_parliament_names.txt`, зі зміни назв парламентів,
 > не з церкви). **Перевірено в EU4 1.37.5 19 жовтня 2026** (ізольований профіль, Мускови 1444, знімки
 > `diagnostics/church_ui_20261018/runtime_*.png`):
 > вікно церкви, кутова плитка, реєстр, наведення на число, шкалу й значки, усі 31 кадр смуги
