@@ -937,6 +937,8 @@ DATA['rip_church_gui_adopt_tt']+=' '+STATE_UNION_ALT
 for key in ('rip_church_sponsor_union_desc','rip_church_gui_adopt_tt',
             'rip_church_gui_sponsor_tt'):
  DATA[key]+=' '+REGIONAL_UNION_NOTE
+DATA['rip_church_sponsor_union_desc']+=' The eligible core province is selected randomly; this country decision does not select a province on the map.'
+DATA['rip_church_florence_desc']+=' For a Catholic patron, completion changes one randomly selected eligible parish to Greek Catholic. The province is not selected manually.'
 for key in ('rip_church_gui_parishes_title_tt','rip_church_gui_parish_list_title_tt','rip_church_rite_help_tt'):
  DATA[key]+=' The Orthodox and Catholic counts are gameplay groupings of provinces, not historical diocesan boundaries. '+REGIONAL_UNION_NOTE
 ap=argparse.ArgumentParser(); ap.add_argument('--check',action='store_true'); args=ap.parse_args()

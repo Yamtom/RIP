@@ -3,7 +3,7 @@ COPY = {
  'convert_to_russian_orthodox_decision_desc': 'Spend 150 ADM and 100 DIP to establish the Muscovite state confession. Requires peace, stability 2, legitimacy 75 and Moscow or a capital in the Russian region. Provincial majorities retain their faith; diplomatic communion remains a separate choice.',
  'russian_orthodox.1.a': 'Establish the Muscovite state church',
  'rip_church_restore_compact_title': 'Restore a Broken Church Charter',
- 'rip_church_restore_compact_desc': 'After ten years, spend 100 ADM and 50 DIP to restore one eligible charter. Requires peace, 1 stability, an Orthodox or Greek Catholic parish under control and no missionary. Other breaches and their diplomatic consequences remain.',
+ 'rip_church_restore_compact_desc': 'After ten years, spend 100 ADM and 50 DIP to restore one randomly selected eligible charter. The map does not select the parish. Requires peace, 1 stability, an Orthodox or Greek Catholic parish under control and no missionary. Other breaches and their diplomatic consequences remain.',
  'rip_church_opinion_broken_charter': 'Broke an Eastern Church Charter',
  'russian_orthodox.1.d': 'Elect a metropolitan and establish the Muscovite state confession. Provincial majorities keep their faith. Church affiliation, state control and a break of communion are separate choices.',
  'russian_orthodox.6.d': 'The council may establish Old Believer minority communities. Provincial faith changes only through later majority developments or religious conflict. Other Orthodox churches are not Old Believers merely because they reject Moscow jurisdiction.',
