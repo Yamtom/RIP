@@ -188,7 +188,6 @@ def source_contracts():
     cleanups = {
         "vln_magdeburg_rights": "municipal",
         "lit_ruthenian_chancery_reform": "chancery",
-        "chr_kanceliaryst_republic_reform": "chancery",
         "het_regimental_system_reform": "register",
         "rip_cossacks_reform": "register",
         "vln_cossack_host_reform": "register",
@@ -196,7 +195,20 @@ def source_contracts():
     }
     for reform, family in cleanups.items():
         assert f"rip_gov_clear_{family}_effect = yes" in named_block(named_block(reforms, reform), "removed_effect")
-        assert FAMILIES[family][0] in named_block(named_block(reforms, reform), "government_abilities"), f"{reform} gives no buttons"
+        abilities = list(keyed_blocks(named_block(reforms, reform), "government_abilities"))
+        assert any(FAMILIES[family][0] in block for _, block in abilities), f"{reform} gives no buttons"
+    chr_reform = named_block(reforms, "chr_kanceliaryst_republic_reform")
+    abilities = list(keyed_blocks(chr_reform, "government_abilities"))
+    assert len(abilities) == 1 and "rip_rg_chr_mechanic" in abilities[0][1]
+    assert "rip_chancery_resolutions_mechanic" not in chr_reform
+    assert "rip_gov_clear_chancery_effect = yes" in named_block(chr_reform, "removed_effect")
+    legacy = initial()
+    legacy['reforms'] = {'chr_kanceliaryst_republic_reform'}
+    legacy['modifiers'] = {'rip_gov_chancery_service': 3650}
+    legacy['flags'] = {'rip_gov_review_recent': 0}
+    execute(EFFECTS['rip_gov_review_cleanup_effect'], legacy)
+    assert not legacy['modifiers'] and legacy['flags'] == {'rip_gov_review_recent': 0}
+    assert not gate(button('chancery', 'service')['trigger'], legacy)
     for key in ("monarch_admin_power", "monarch_military_power", "administrative_efficiency", "all_power_cost"):
         assert not re.search(rf"\b{key}\s*=", normalized(reforms)), f"unbudgeted high-impact modifier: {key}"
     assert "cossacks_mechanic" not in named_block(reforms, "siversk_veche_reform")
@@ -265,7 +277,7 @@ def comparator_coverage():
         "head_of_the_patriarchy_reform",
         "orthodox_patriarchate_reform",
     }
-    assert len(rows) == len(data["reforms"]) == 129 and set(rows) == live_ids
+    assert len(rows) == len(data["reforms"]) == 133 and set(rows) == live_ids
     own_tiers = reform_tiers(read("common/governments/00_governments.txt"))
     snapshots = {row["id"]: row for row in data["vanilla_comparators"]}
     installed = vanilla_root()
@@ -290,11 +302,11 @@ def comparator_coverage():
                 assert comparator in snapshots and tier in snapshots[comparator]["tiers"], (reform, tier, comparator)
                 if native_tiers is not None:
                     assert comparator in native_definitions and tier in native_tiers.get(comparator, set()), (reform, tier, comparator)
-    assert count == 138
+    assert count == 142
     if installed:
-        print("GOVERNMENT COMPARATOR COVERAGE: PASS (129 definitions; 138 tier rows verified against installed 1.37)")
+        print("GOVERNMENT COMPARATOR COVERAGE: PASS (133 definitions; 142 tier rows verified against installed 1.37)")
     else:
-        print("GOVERNMENT COMPARATOR COVERAGE: PASS (129 definitions; 138 saved tier rows); SKIP live vanilla tier check")
+        print("GOVERNMENT COMPARATOR COVERAGE: PASS (133 definitions; 142 saved tier rows); SKIP live vanilla tier check")
 
 
 def main():

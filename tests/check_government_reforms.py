@@ -12,8 +12,8 @@ from clausewitz_testlib import ROOT, keyed_blocks, named_block, normalized, read
 
 
 REFORMS_DIR = ROOT / "common/government_reforms"
-EXPECTED_REFORM_COUNT = 129
-EXPECTED_REFORM_ID_SHA256 = "1a1021f3a566c705e63baa54081600bae09637c93da890c11669ecea7998b178"
+EXPECTED_REFORM_COUNT = 133
+EXPECTED_REFORM_ID_SHA256 = "c68beb984b0b2eedbeb041b2e0ad760dd9829773cd7eef06754e4d12e82c6b0d"
 ROLE_ONLY_REFORMS = (
     "kyivan_veche_reform",
     "kyivan_boyar_republic_reform",
@@ -2225,7 +2225,9 @@ def check_linked_lifecycle(failures: list[str]) -> None:
         "LIT deferral option can still close both constitutional endpoints",
     )
 
-    collegium_raw = named_block(read("events/HetmanateFlavor.txt"), "country_event", occurrence=12)
+    # Select by stable event ID rather than its position in the file.
+    collegium_raw = next(block for _, block in keyed_blocks(read("events/HetmanateFlavor.txt"), "country_event")
+                         if re.search(r'\bid\s*=\s*het_flavor\.12\b', block))
     collegium = normalized(collegium_raw)
     collegium_resistance = normalized(named_block(collegium_raw, "option", occurrence=2))
     require(
