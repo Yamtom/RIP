@@ -1,0 +1,297 @@
+# RIP - HLC; government_status.
+# Country labels identify the content family, not additional eligibility gates.
+# Whole definitions are grouped here; keep each text-branch order and random setting.
+defined_text = {
+	name = RipGovHlcSlots
+	random = no
+	text = {
+		trigger = {
+			NOT = {
+				hlc_ordinance_slot_free = yes
+			}
+		}
+		localisation_key = rip_gov_RipGovHlcSlots_0
+	}
+	text = {
+		trigger = {
+			calc_true_if = {
+				has_country_modifier = hlc_chancery_ordinance_modifier
+				has_country_modifier = hlc_settlement_ordinance_modifier
+				has_country_modifier = hlc_cadastral_ordinance_modifier
+				has_country_modifier = hlc_urbarial_ordinance_modifier
+				has_country_modifier = hlc_toleration_ordinance_modifier
+				has_country_modifier = hlc_frontier_ordinance_modifier
+				amount = 2
+			}
+		}
+		localisation_key = rip_gov_RipGovHlcSlots_1
+	}
+	text = {
+		trigger = {
+			calc_true_if = {
+				has_country_modifier = hlc_chancery_ordinance_modifier
+				has_country_modifier = hlc_settlement_ordinance_modifier
+				has_country_modifier = hlc_cadastral_ordinance_modifier
+				has_country_modifier = hlc_urbarial_ordinance_modifier
+				has_country_modifier = hlc_toleration_ordinance_modifier
+				has_country_modifier = hlc_frontier_ordinance_modifier
+				amount = 1
+			}
+		}
+		localisation_key = rip_gov_RipGovHlcSlots_2
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovHlcSlots_3
+	}
+}
+
+defined_text = {
+	name = RipGovOrdChancery
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = hlc_chancery_ordinance_modifier
+		}
+		localisation_key = rip_gov_RipGovOrdChancery_0
+	}
+	text = {
+		trigger = {
+			NOT = {
+				hlc_ordinance_slot_free = yes
+			}
+		}
+		localisation_key = rip_gov_RipGovOrdChancery_1
+	}
+	text = {
+		trigger = {
+			NOT = {
+				dip_power = 50
+			}
+		}
+		localisation_key = rip_gov_RipGovOrdChancery_2
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovOrdChancery_3
+	}
+}
+
+defined_text = {
+	name = RipGovOrdSettlement
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = hlc_settlement_ordinance_modifier
+		}
+		localisation_key = rip_gov_RipGovOrdSettlement_0
+	}
+	text = {
+		trigger = {
+			NOT = {
+				hlc_ordinance_slot_free = yes
+			}
+		}
+		localisation_key = rip_gov_RipGovOrdSettlement_1
+	}
+	text = {
+		trigger = {
+			NOT = {
+				adm_power = 50
+			}
+		}
+		localisation_key = rip_gov_RipGovOrdSettlement_2
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovOrdSettlement_3
+	}
+}
+
+defined_text = {
+	name = RipGovOrdCadastral
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = hlc_cadastral_ordinance_modifier
+		}
+		localisation_key = rip_gov_RipGovOrdCadastral_0
+	}
+	text = {
+		trigger = {
+			NOT = {
+				hlc_ordinance_slot_free = yes
+			}
+		}
+		localisation_key = rip_gov_RipGovOrdCadastral_1
+	}
+	text = {
+		trigger = {
+			NOT = {
+				adm_power = 50
+			}
+		}
+		localisation_key = rip_gov_RipGovOrdCadastral_2
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovOrdCadastral_3
+	}
+}
+
+defined_text = {
+	name = RipGovOrdUrbarial
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = hlc_urbarial_ordinance_modifier
+		}
+		localisation_key = rip_gov_RipGovOrdUrbarial_0
+	}
+	text = {
+		trigger = {
+			NOT = {
+				hlc_ordinance_slot_free = yes
+			}
+		}
+		localisation_key = rip_gov_RipGovOrdUrbarial_1
+	}
+	text = {
+		trigger = {
+			NOT = {
+				adm_power = 50
+			}
+		}
+		localisation_key = rip_gov_RipGovOrdUrbarial_2
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovOrdUrbarial_3
+	}
+}
+
+defined_text = {
+	name = RipGovOrdToleration
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = hlc_toleration_ordinance_modifier
+		}
+		localisation_key = rip_gov_RipGovOrdToleration_0
+	}
+	text = {
+		trigger = {
+			NOT = {
+				hlc_ordinance_slot_free = yes
+			}
+		}
+		localisation_key = rip_gov_RipGovOrdToleration_1
+	}
+	text = {
+		trigger = {
+			NOT = {
+				dip_power = 50
+			}
+		}
+		localisation_key = rip_gov_RipGovOrdToleration_2
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovOrdToleration_3
+	}
+}
+
+defined_text = {
+	name = RipGovOrdFrontier
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = hlc_frontier_ordinance_modifier
+		}
+		localisation_key = rip_gov_RipGovOrdFrontier_0
+	}
+	text = {
+		trigger = {
+			NOT = {
+				hlc_ordinance_slot_free = yes
+			}
+		}
+		localisation_key = rip_gov_RipGovOrdFrontier_1
+	}
+	text = {
+		trigger = {
+			NOT = {
+				mil_power = 50
+			}
+		}
+		localisation_key = rip_gov_RipGovOrdFrontier_2
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovOrdFrontier_3
+	}
+}
+
+defined_text = {
+	name = RipGovHlcCouncil
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = hlc_boyars_confirmed
+		}
+		localisation_key = rip_gov_RipGovHlcCouncil_0
+	}
+	text = {
+		trigger = {
+			has_country_modifier = hlc_foreign_claimant_countered
+		}
+		localisation_key = rip_gov_RipGovHlcCouncil_1
+	}
+	text = {
+		trigger = {
+			has_country_modifier = hlc_boyars_made_example
+		}
+		localisation_key = rip_gov_RipGovHlcCouncil_2
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovHlcCouncil_3
+	}
+}
+
+defined_text = {
+	name = RipGovHlcSession
+	random = no
+	text = {
+		trigger = {
+			OR = {
+				has_country_modifier = hlc_boyars_confirmed
+				has_country_modifier = hlc_foreign_claimant_countered
+				has_country_modifier = hlc_boyars_made_example
+			}
+		}
+		localisation_key = rip_gov_RipGovHlcSession_0
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovHlcSession_1
+	}
+}

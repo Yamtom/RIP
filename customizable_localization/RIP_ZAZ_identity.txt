@@ -1,0 +1,79 @@
+# RIP - ZAZ; identity.
+# Country labels identify the content family, not additional eligibility gates.
+# Whole definitions are grouped here; keep each text-branch order and random setting.
+defined_text = {
+	name = GetZAZRaidTarget
+	text = {
+		trigger = {
+			any_neighbor_country = {
+				tag = TUR
+			}
+		}
+		localisation_key = ZAZ_RAID_TARGET_TURKS
+	}
+	text = {
+		trigger = {
+			any_neighbor_country = {
+				tag = CRI
+			}
+		}
+		localisation_key = ZAZ_RAID_TARGET_CRIMEA
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = ZAZ_RAID_TARGET_GENERIC
+	}
+}
+
+defined_text = {
+	name = GetZAZSichLocation
+	text = {
+		trigger = {
+			capital = 284
+			# Zaporizhia
+		}
+		localisation_key = ZAZ_SICH_KHORTYTSIA
+	}
+	text = {
+		trigger = {
+			capital = 2410
+		}
+		localisation_key = ZAZ_SICH_TOMAKIVKA
+	}
+	text = {
+		trigger = {
+			capital = 2411
+		}
+		localisation_key = ZAZ_SICH_CHORTOMLYK
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = ZAZ_SICH_GENERIC
+	}
+}
+
+defined_text = {
+	name = GetZAZOtamanTitle
+	text = {
+		trigger = {
+			has_reform = zaz_free_host_reform
+		}
+		localisation_key = ZAZ_OTAMAN_HOST
+	}
+	text = {
+		trigger = {
+			has_reform = zaz_general_rada_reform
+		}
+		localisation_key = ZAZ_OTAMAN_GENERAL
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = ZAZ_OTAMAN_KOSH
+	}
+}

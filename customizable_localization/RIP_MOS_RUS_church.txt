@@ -1,0 +1,5299 @@
+# RIP - MOS_RUS; church.
+# Country labels identify the content family, not additional eligibility gates.
+# Whole definitions are grouped here; keep each text-branch order and random setting.
+defined_text = {
+	name = GetChurchROStatus
+	text = {
+		trigger = {
+			has_country_flag = rip_church_reconciliation_pending
+		}
+		localisation_key = rip_church_ro_reconciling
+	}
+	text = {
+		trigger = {
+			has_country_flag = rip_church_ro_schismatic
+		}
+		localisation_key = rip_church_ro_schismatic
+	}
+	text = {
+		trigger = {
+			OR = {
+				has_country_modifier = suppression_old_believers
+				has_country_modifier = orthodox_inquisition
+				has_country_modifier = persecution_of_heretics
+				has_country_modifier = forced_russification
+			}
+		}
+		localisation_key = rip_church_ro_restricted_status
+	}
+	text = {
+		trigger = {
+			has_country_modifier = rip_ro_synodal_government
+		}
+		localisation_key = rip_church_ro_synodal_status
+	}
+	text = {
+		trigger = {
+			rip_church_ro_recognized = yes
+		}
+		localisation_key = rip_church_ro_recognized
+	}
+	text = {
+		trigger = {
+			has_country_flag = rip_church_ro_provisional
+		}
+		localisation_key = rip_church_ro_provisional
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_ro_unrecognized
+	}
+}
+
+defined_text = {
+	name = GetChurchRONodeLimit
+	text = {
+		trigger = {
+			patriarch_authority = 0.65
+		}
+		localisation_key = rip_church_ro_two_nodes
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_ro_one_node
+	}
+}
+
+defined_text = {
+	name = GetChurchIconWarAction
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_war
+		}
+		localisation_key = rip_church_ro_action_active
+	}
+	text = {
+		trigger = {
+			NOT = {
+				check_variable = {
+					which = muscovy_fervor
+					value = 10
+				}
+			}
+		}
+		localisation_key = rip_church_ro_action_fuel
+	}
+	text = {
+		trigger = {
+			NOT = {
+				rip_church_ro_slot_available = yes
+			}
+		}
+		localisation_key = rip_church_ro_action_slot
+	}
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_war_used
+			NOT = {
+				had_country_flag = {
+					flag = rip_church_icon_war_used
+					days = 365
+				}
+			}
+		}
+		localisation_key = rip_church_ro_action_cooldown
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_ro_action_ready
+	}
+}
+
+defined_text = {
+	name = GetChurchIconWarAccess
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_war
+		}
+		localisation_key = rip_church_icon_can_deactivate
+	}
+	text = {
+		trigger = {
+			NOT = {
+				check_variable = {
+					which = muscovy_fervor
+					value = 10
+				}
+			}
+		}
+		localisation_key = rip_church_icon_no_fuel
+	}
+	text = {
+		trigger = {
+			NOT = {
+				rip_church_ro_slot_available = yes
+			}
+		}
+		localisation_key = rip_church_icon_no_slot
+	}
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_war_used
+			NOT = {
+				had_country_flag = {
+					flag = rip_church_icon_war_used
+					days = 365
+				}
+			}
+		}
+		localisation_key = rip_church_icon_cooldown
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_icon_can_activate
+	}
+}
+
+defined_text = {
+	name = GetChurchIconMercyAction
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_mercy
+		}
+		localisation_key = rip_church_ro_action_active
+	}
+	text = {
+		trigger = {
+			NOT = {
+				check_variable = {
+					which = muscovy_fervor
+					value = 10
+				}
+			}
+		}
+		localisation_key = rip_church_ro_action_fuel
+	}
+	text = {
+		trigger = {
+			NOT = {
+				rip_church_ro_slot_available = yes
+			}
+		}
+		localisation_key = rip_church_ro_action_slot
+	}
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_mercy_used
+			NOT = {
+				had_country_flag = {
+					flag = rip_church_icon_mercy_used
+					days = 365
+				}
+			}
+		}
+		localisation_key = rip_church_ro_action_cooldown
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_ro_action_ready
+	}
+}
+
+defined_text = {
+	name = GetChurchIconMercyAccess
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_mercy
+		}
+		localisation_key = rip_church_icon_can_deactivate
+	}
+	text = {
+		trigger = {
+			NOT = {
+				check_variable = {
+					which = muscovy_fervor
+					value = 10
+				}
+			}
+		}
+		localisation_key = rip_church_icon_no_fuel
+	}
+	text = {
+		trigger = {
+			NOT = {
+				rip_church_ro_slot_available = yes
+			}
+		}
+		localisation_key = rip_church_icon_no_slot
+	}
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_mercy_used
+			NOT = {
+				had_country_flag = {
+					flag = rip_church_icon_mercy_used
+					days = 365
+				}
+			}
+		}
+		localisation_key = rip_church_icon_cooldown
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_icon_can_activate
+	}
+}
+
+defined_text = {
+	name = GetChurchIconBuildingAction
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_building
+		}
+		localisation_key = rip_church_ro_action_active
+	}
+	text = {
+		trigger = {
+			NOT = {
+				check_variable = {
+					which = muscovy_fervor
+					value = 10
+				}
+			}
+		}
+		localisation_key = rip_church_ro_action_fuel
+	}
+	text = {
+		trigger = {
+			NOT = {
+				rip_church_ro_slot_available = yes
+			}
+		}
+		localisation_key = rip_church_ro_action_slot
+	}
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_building_used
+			NOT = {
+				had_country_flag = {
+					flag = rip_church_icon_building_used
+					days = 365
+				}
+			}
+		}
+		localisation_key = rip_church_ro_action_cooldown
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_ro_action_ready
+	}
+}
+
+defined_text = {
+	name = GetChurchIconBuildingAccess
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_building
+		}
+		localisation_key = rip_church_icon_can_deactivate
+	}
+	text = {
+		trigger = {
+			NOT = {
+				check_variable = {
+					which = muscovy_fervor
+					value = 10
+				}
+			}
+		}
+		localisation_key = rip_church_icon_no_fuel
+	}
+	text = {
+		trigger = {
+			NOT = {
+				rip_church_ro_slot_available = yes
+			}
+		}
+		localisation_key = rip_church_icon_no_slot
+	}
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_building_used
+			NOT = {
+				had_country_flag = {
+					flag = rip_church_icon_building_used
+					days = 365
+				}
+			}
+		}
+		localisation_key = rip_church_icon_cooldown
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_icon_can_activate
+	}
+}
+
+defined_text = {
+	name = GetChurchIconMissionAction
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_mission
+		}
+		localisation_key = rip_church_ro_action_active
+	}
+	text = {
+		trigger = {
+			NOT = {
+				check_variable = {
+					which = muscovy_fervor
+					value = 20
+				}
+			}
+		}
+		localisation_key = rip_church_ro_action_fuel_mission
+	}
+	text = {
+		trigger = {
+			NOT = {
+				rip_church_ro_slot_available = yes
+			}
+		}
+		localisation_key = rip_church_ro_action_slot
+	}
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_mission_used
+			NOT = {
+				had_country_flag = {
+					flag = rip_church_icon_mission_used
+					days = 365
+				}
+			}
+		}
+		localisation_key = rip_church_ro_action_cooldown
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_ro_action_ready
+	}
+}
+
+defined_text = {
+	name = GetChurchIconMissionAccess
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_mission
+		}
+		localisation_key = rip_church_icon_can_deactivate
+	}
+	text = {
+		trigger = {
+			NOT = {
+				check_variable = {
+					which = muscovy_fervor
+					value = 20
+				}
+			}
+		}
+		localisation_key = rip_church_icon_no_fuel_mission
+	}
+	text = {
+		trigger = {
+			NOT = {
+				rip_church_ro_slot_available = yes
+			}
+		}
+		localisation_key = rip_church_icon_no_slot
+	}
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_mission_used
+			NOT = {
+				had_country_flag = {
+					flag = rip_church_icon_mission_used
+					days = 365
+				}
+			}
+		}
+		localisation_key = rip_church_icon_cooldown
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_icon_can_activate
+	}
+}
+
+defined_text = {
+	name = GetChurchROFervor
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 100
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 99
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 98
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 97
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 96
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 95
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 94
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 93
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 92
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_8
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 91
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_9
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 90
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_10
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 89
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_11
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 88
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_12
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 87
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_13
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 86
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_14
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 85
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_15
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 84
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_16
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 83
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_17
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 82
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_18
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 81
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_19
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 80
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_20
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 79
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_21
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 78
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_22
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 77
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_23
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 76
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_24
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 75
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_25
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 74
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_26
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 73
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_27
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 72
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_28
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 71
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_29
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 70
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_30
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 69
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_31
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 68
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_32
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 67
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_33
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 66
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_34
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 65
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_35
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 64
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_36
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 63
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_37
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 62
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_38
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 61
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_39
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 60
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_40
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 59
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_41
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 58
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_42
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 57
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_43
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 56
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_44
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 55
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_45
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 54
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_46
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 53
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_47
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 52
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_48
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 51
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_49
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 50
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_50
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 49
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_51
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 48
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_52
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 47
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_53
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 46
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_54
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 45
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_55
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 44
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_56
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 43
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_57
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 42
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_58
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 41
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_59
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 40
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_60
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 39
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_61
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 38
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_62
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 37
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_63
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 36
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_64
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 35
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_65
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 34
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_66
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 33
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_67
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 32
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_68
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 31
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_69
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 30
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_70
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 29
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_71
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 28
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_72
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 27
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_73
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 26
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_74
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 25
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_75
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 24
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_76
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 23
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_77
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 22
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_78
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 21
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_79
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 20
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_80
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 19
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_81
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 18
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_82
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 17
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_83
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 16
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_84
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 15
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_85
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 14
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_86
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 13
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_87
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 12
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_88
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 11
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_89
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 10
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_90
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_91
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_92
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_93
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_94
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_95
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_96
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_97
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_98
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = muscovy_fervor
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_99
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchrofervor_100
+	}
+}
+
+defined_text = {
+	name = GetChurchROReformDesire
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 125
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 124
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 123
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 122
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 121
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 120
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 119
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 118
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 117
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_8
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 116
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_9
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 115
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_10
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 114
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_11
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 113
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_12
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 112
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_13
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 111
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_14
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 110
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_15
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 109
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_16
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 108
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_17
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 107
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_18
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 106
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_19
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 105
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_20
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 104
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_21
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 103
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_22
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 102
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_23
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 101
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_24
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 100
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_25
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 99
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_26
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 98
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_27
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 97
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_28
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 96
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_29
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 95
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_30
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 94
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_31
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 93
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_32
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 92
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_33
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 91
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_34
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 90
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_35
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 89
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_36
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 88
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_37
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 87
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_38
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 86
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_39
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 85
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_40
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 84
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_41
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 83
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_42
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 82
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_43
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 81
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_44
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 80
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_45
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 79
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_46
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 78
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_47
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 77
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_48
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 76
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_49
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 75
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_50
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 74
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_51
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 73
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_52
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 72
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_53
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 71
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_54
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 70
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_55
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 69
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_56
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 68
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_57
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 67
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_58
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 66
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_59
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 65
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_60
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 64
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_61
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 63
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_62
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 62
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_63
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 61
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_64
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 60
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_65
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 59
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_66
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 58
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_67
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 57
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_68
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 56
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_69
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 55
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_70
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 54
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_71
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 53
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_72
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 52
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_73
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 51
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_74
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 50
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_75
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 49
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_76
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 48
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_77
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 47
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_78
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 46
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_79
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 45
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_80
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 44
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_81
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 43
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_82
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 42
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_83
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 41
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_84
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 40
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_85
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 39
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_86
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 38
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_87
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 37
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_88
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 36
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_89
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 35
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_90
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 34
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_91
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 33
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_92
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 32
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_93
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 31
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_94
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 30
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_95
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 29
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_96
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 28
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_97
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 27
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_98
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 26
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_99
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 25
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_100
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 24
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_101
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 23
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_102
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 22
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_103
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 21
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_104
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 20
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_105
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 19
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_106
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 18
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_107
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 17
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_108
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 16
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_109
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 15
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_110
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 14
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_111
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 13
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_112
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 12
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_113
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 11
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_114
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 10
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_115
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_116
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_117
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_118
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_119
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_120
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_121
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_122
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_123
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_reform_desire
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_124
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchroreformdesire_125
+	}
+}
+
+defined_text = {
+	name = GetChurchROBase
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_base
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrobase_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_base
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrobase_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_base
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrobase_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_base
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrobase_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_base
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrobase_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_base
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrobase_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_base
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrobase_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_base
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrobase_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_base
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrobase_8
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchrobase_9
+	}
+}
+
+defined_text = {
+	name = GetChurchRONodeIncome
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_node_income
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodeincome_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_node_income
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodeincome_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_node_income
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodeincome_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_node_income
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodeincome_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_node_income
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodeincome_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_node_income
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodeincome_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_node_income
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodeincome_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_node_income
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodeincome_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_node_income
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodeincome_8
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchronodeincome_9
+	}
+}
+
+defined_text = {
+	name = GetChurchROUpkeep
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 30
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 29
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 28
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 27
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 26
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 25
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 24
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 23
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 22
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_8
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 21
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_9
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 20
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_10
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 19
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_11
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 18
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_12
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 17
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_13
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 16
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_14
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 15
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_15
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 14
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_16
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 13
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_17
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 12
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_18
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 11
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_19
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 10
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_20
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_21
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_22
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_23
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_24
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_25
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_26
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_27
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_28
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_cost
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_29
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchroupkeep_30
+	}
+}
+
+defined_text = {
+	name = GetChurchROPolicies
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_icons
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getchurchropolicies_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_icons
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getchurchropolicies_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_icons
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getchurchropolicies_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_icons
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getchurchropolicies_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_icons
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getchurchropolicies_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_icons
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getchurchropolicies_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_icons
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getchurchropolicies_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_icons
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getchurchropolicies_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_icons
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getchurchropolicies_8
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchropolicies_9
+	}
+}
+
+defined_text = {
+	name = GetChurchROCapacity
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_capacity
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrocapacity_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_capacity
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrocapacity_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_capacity
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrocapacity_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_capacity
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrocapacity_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_capacity
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrocapacity_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_capacity
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrocapacity_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_capacity
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrocapacity_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_capacity
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrocapacity_7
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchrocapacity_8
+	}
+}
+
+defined_text = {
+	name = GetChurchRONodes
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodes_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodes_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodes_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodes_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodes_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodes_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodes_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodes_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodes_8
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchronodes_9
+	}
+}
+
+defined_text = {
+	name = GetRipRoMythYearsNovgorod
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 30
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 29
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 28
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 27
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 26
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 25
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 24
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 23
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 22
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_8
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 21
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_9
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 20
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_10
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 19
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_11
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 18
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_12
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 17
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_13
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 16
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_14
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 15
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_15
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 14
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_16
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 13
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_17
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 12
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_18
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 11
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_19
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 10
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_20
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_21
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_22
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_23
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_24
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_25
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_26
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_27
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_28
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_novgorod
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_29
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getripromythyearsnovgorod_30
+	}
+}
+
+defined_text = {
+	name = GetRipRoMythYearsMoscow
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 30
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 29
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 28
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 27
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 26
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 25
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 24
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 23
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 22
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_8
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 21
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_9
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 20
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_10
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 19
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_11
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 18
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_12
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 17
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_13
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 16
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_14
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 15
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_15
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 14
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_16
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 13
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_17
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 12
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_18
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 11
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_19
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 10
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_20
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_21
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_22
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_23
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_24
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_25
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_26
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_27
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_28
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_moscow
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_29
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getripromythyearsmoscow_30
+	}
+}
+
+defined_text = {
+	name = GetRipRoMythYearsKyiv
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 30
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 29
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 28
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 27
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 26
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 25
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 24
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 23
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 22
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_8
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 21
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_9
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 20
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_10
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 19
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_11
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 18
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_12
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 17
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_13
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 16
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_14
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 15
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_15
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 14
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_16
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 13
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_17
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 12
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_18
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 11
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_19
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 10
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_20
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_21
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_22
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_23
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_24
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_25
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_26
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_27
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_28
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_kyiv
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_29
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getripromythyearskyiv_30
+	}
+}
+
+defined_text = {
+	name = GetRipRoMythYearsConstantinople
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 30
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 29
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 28
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 27
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 26
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 25
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 24
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 23
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 22
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_8
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 21
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_9
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 20
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_10
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 19
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_11
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 18
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_12
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 17
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_13
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 16
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_14
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 15
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_15
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 14
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_16
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 13
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_17
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 12
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_18
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 11
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_19
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 10
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_20
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_21
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_22
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_23
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_24
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_25
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_26
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_27
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_28
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_constantinople
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_29
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getripromythyearsconstantinople_30
+	}
+}
+
+defined_text = {
+	name = GetRipRoMythYearsJerusalem
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 30
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 29
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 28
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 27
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 26
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 25
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 24
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 23
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 22
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_8
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 21
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_9
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 20
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_10
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 19
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_11
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 18
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_12
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 17
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_13
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 16
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_14
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 15
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_15
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 14
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_16
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 13
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_17
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 12
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_18
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 11
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_19
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 10
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_20
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_21
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_22
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_23
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_24
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_25
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_26
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_27
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_28
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_ro_myth_years_jerusalem
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_29
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getripromythyearsjerusalem_30
+	}
+}
+
+defined_text = {
+	name = GetChurchRONet
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 15
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 14
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 13
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_2
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 12
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_3
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 11
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_4
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 10
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_5
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 9
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_6
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 8
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_7
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 7
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_8
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 6
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_9
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 5
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_10
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 4
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_11
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 3
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_12
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_13
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_14
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = 0
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_15
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -1
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_16
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -2
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_17
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -3
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_18
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -4
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_19
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -5
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_20
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -6
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_21
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -7
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_22
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -8
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_23
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -9
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_24
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -10
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_25
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -11
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_26
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -12
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_27
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -13
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_28
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -14
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_29
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -15
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_30
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -16
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_31
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -17
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_32
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -18
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_33
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -19
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_34
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -20
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_35
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -21
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_36
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -22
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_37
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -23
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_38
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -24
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_39
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -25
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_40
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -26
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_41
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -27
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_42
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -28
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_43
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = rip_church_fervor_net
+				value = -29
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronet_44
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchronet_45
+	}
+}
+
+defined_text = {
+	name = GetChurchIconWarName
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_war
+		}
+		localisation_key = rip_church_readout_getchurchiconwarname_0
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchiconwarname_1
+	}
+}
+
+defined_text = {
+	name = GetChurchIconMercyName
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_mercy
+		}
+		localisation_key = rip_church_readout_getchurchiconmercyname_0
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchiconmercyname_1
+	}
+}
+
+defined_text = {
+	name = GetChurchIconBuildingName
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_building
+		}
+		localisation_key = rip_church_readout_getchurchiconbuildingname_0
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchiconbuildingname_1
+	}
+}
+
+defined_text = {
+	name = GetChurchIconMissionName
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_mission
+		}
+		localisation_key = rip_church_readout_getchurchiconmissionname_0
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchiconmissionname_1
+	}
+}
+
+defined_text = {
+	name = GetChurchRONodeHint
+	text = {
+		trigger = {
+			NOT = {
+				has_country_flag = rip_church_icon_mission
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodehint_0
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_dlc = "Cradle of Civilization"
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodehint_1
+	}
+	text = {
+		trigger = {
+			OR = {
+				check_variable = {
+					which = funded_nodes_count
+					value = 2
+				}
+				AND = {
+					check_variable = {
+						which = funded_nodes_count
+						value = 1
+					}
+					NOT = {
+						patriarch_authority = 0.65
+					}
+				}
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodehint_2
+	}
+	text = {
+		trigger = {
+			NOT = {
+				check_variable = {
+					which = muscovy_fervor
+					value = 10
+				}
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodehint_3
+	}
+	text = {
+		trigger = {
+			NOT = {
+				rip_church_ro_can_open_network_menu = yes
+			}
+		}
+		localisation_key = rip_church_readout_getchurchronodehint_4
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchronodehint_5
+	}
+}
+
+defined_text = {
+	name = GetChurchROStep1
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_mission
+		}
+		localisation_key = rip_church_readout_getchurchrostep1_0
+	}
+	text = {
+		trigger = {
+			NOT = {
+				check_variable = {
+					which = muscovy_fervor
+					value = 20
+				}
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrostep1_1
+	}
+	text = {
+		trigger = {
+			NOT = {
+				rip_church_ro_slot_available = yes
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrostep1_2
+	}
+	text = {
+		trigger = {
+			has_country_flag = rip_church_icon_mission_used
+			NOT = {
+				had_country_flag = {
+					flag = rip_church_icon_mission_used
+					days = 365
+				}
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrostep1_3
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchrostep1_4
+	}
+}
+
+defined_text = {
+	name = GetChurchROStep2
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 2
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrostep2_0
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 1
+			}
+			patriarch_authority = 0.65
+		}
+		localisation_key = rip_church_readout_getchurchrostep2_1
+	}
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrostep2_2
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_country_flag = rip_church_icon_mission
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrostep2_3
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_dlc = "Cradle of Civilization"
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrostep2_4
+	}
+	text = {
+		trigger = {
+			NOT = {
+				check_variable = {
+					which = muscovy_fervor
+					value = 10
+				}
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrostep2_5
+	}
+	text = {
+		trigger = {
+			NOT = {
+				rip_church_ro_can_open_network_menu = yes
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrostep2_6
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchrostep2_7
+	}
+}
+
+defined_text = {
+	name = GetChurchROStep3
+	text = {
+		trigger = {
+			check_variable = {
+				which = funded_nodes_count
+				value = 1
+			}
+		}
+		localisation_key = rip_church_readout_getchurchrostep3_0
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_church_readout_getchurchrostep3_1
+	}
+}
