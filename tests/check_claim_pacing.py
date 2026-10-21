@@ -311,6 +311,60 @@ def check_russia_balance_event(failures: list[str]) -> None:
                 "RIP Russia balance option B must activate normal scripted claims")
 
 
+def check_ruthenian_eastward_expansion(failures: list[str]) -> None:
+    text = read("decisions/RuthenianEastwardExpansion.txt")
+
+    frontier = named_block(text, "ruthenian_eastward_frontier_policy")
+    frontier_allow = named_block(frontier, "allow")
+    frontier_effect = named_block(frontier, "effect")
+    require(failures, has_control_gate(frontier, "crimea_region", 3),
+            "ruthenian_eastward_frontier_policy: missing 3-province Crimea control gate")
+    require(failures, "treasury = 100" in frontier_allow and "dip_power = 50" in frontier_allow,
+            "ruthenian_eastward_frontier_policy: missing preparation cost triggers in allow")
+    require(failures, "add_treasury = -100" in frontier_effect and "add_dip_power = -50" in frontier_effect,
+            "ruthenian_eastward_frontier_policy: missing preparation cost deductions in effect")
+    require(failures, "add_permanent_claim" not in frontier_effect,
+            "ruthenian_eastward_frontier_policy: frontier claims must be temporary")
+    require(failures, "add_claim = ROOT" in frontier_effect,
+            "ruthenian_eastward_frontier_policy: missing temporary claim reward")
+
+    ural = named_block(text, "ruthenian_open_ural_gate")
+    ural_allow = named_block(ural, "allow")
+    ural_effect = named_block(ural, "effect")
+    require(failures, has_control_gate(ural, "crimea_region", 6),
+            "ruthenian_open_ural_gate: missing 6-province steppe control gate")
+    require(failures, "treasury = 150" in ural_allow and "mil_power = 50" in ural_allow and "dip_power = 50" in ural_allow,
+            "ruthenian_open_ural_gate: missing expedition cost triggers in allow")
+    require(failures, "add_treasury = -150" in ural_effect and "add_mil_power = -50" in ural_effect and "add_dip_power = -50" in ural_effect,
+            "ruthenian_open_ural_gate: missing expedition cost deductions in effect")
+    require(failures, has_normal_claim_scope(ural, "ural_region"),
+            "ruthenian_open_ural_gate: Ural claims must be temporary")
+
+    manchuria = named_block(text, "ruthenian_manchurian_horizon")
+    manchuria_allow = named_block(manchuria, "allow")
+    manchuria_effect = named_block(manchuria, "effect")
+    require(failures, has_control_gate(manchuria, "ural_region", 6),
+            "ruthenian_manchurian_horizon: missing 6-province Ural control gate")
+    require(failures, "treasury = 200" in manchuria_allow and "adm_power = 50" in manchuria_allow and "dip_power = 50" in manchuria_allow,
+            "ruthenian_manchurian_horizon: missing expedition cost triggers in allow")
+    require(failures, "add_treasury = -200" in manchuria_effect and "add_adm_power = -50" in manchuria_effect and "add_dip_power = -50" in manchuria_effect,
+            "ruthenian_manchurian_horizon: missing expedition cost deductions in effect")
+    require(failures, has_normal_claim_scope(manchuria, "manchuria_region"),
+            "ruthenian_manchurian_horizon: Manchurian claims must be temporary")
+
+    events_text = read("events/RuthenianEastwardExpansion.txt")
+    for event_id in ("ruthenian_eastward.2", "ruthenian_eastward.3"):
+        matching = [
+            block for _, block in keyed_blocks(events_text, "country_event")
+            if f"id = {event_id}" in block
+        ]
+        require(failures, len(matching) == 1, f"{event_id}: event not found or duplicated")
+        if matching:
+            event = matching[0]
+            require(failures, "add_adm_power" not in event and "add_dip_power" not in event and "add_mil_power" not in event,
+                    f"{event_id}: expansion follow-up event must not refund free monarch power")
+
+
 def main() -> int:
     failures: list[str] = []
     check_kyiv_formations(failures)
@@ -318,6 +372,7 @@ def main() -> int:
     check_russian_formation(failures)
     check_domination_russia(failures)
     check_russia_balance_event(failures)
+    check_ruthenian_eastward_expansion(failures)
 
     if failures:
         print("Claim-pacing contract failures:")
