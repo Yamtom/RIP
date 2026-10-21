@@ -1107,7 +1107,7 @@ def build(gov, reforms, variants):
         f"namespace = {NS}",
         "",
     ]
-    return "\n".join(header + ev), "﻿" + "l_english:\n" + "\n".join(loc) + "\n", pages, groups
+    return "\n".join(header + ev), "\ufeffl_english:\n" + "\n".join(loc) + "\n", pages, groups
 
 
 # ---------------------------------------------------------------- report
