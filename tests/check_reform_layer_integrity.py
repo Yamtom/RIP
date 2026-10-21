@@ -144,11 +144,14 @@ def english_keys():
     return keys
 
 
+CLAUSEWITZ_KEYWORDS = {"AND", "OR", "NOT", "NOR", "if", "else", "else_if", "limit"}
+
+
 def defined_names(folder):
     out = set()
     for path in Path(folder).glob("*.txt"):
         out.update(re.findall(r"(?m)^([A-Za-z0-9_]+)\s*=\s*\{", rd(path)))
-    return out
+    return out - CLAUSEWITZ_KEYWORDS
 
 
 # --------------------------------------------------------------------------
@@ -202,7 +205,7 @@ def lint_available(mechanics, scripted_triggers):
     for name, (_, block) in mechanics.items():
         for _, available in children_named(block, "available"):
             for token in re.findall(r"\b([A-Za-z][A-Za-z0-9_]*)\s*=", strip_comments(available)):
-                if token in scripted_triggers:
+                if token in scripted_triggers and token not in CLAUSEWITZ_KEYWORDS:
                     problems.append(f"{name}: `available` uses the scripted trigger {token}; the engine reads `available` before scripted triggers exist")
     return problems
 
@@ -248,8 +251,10 @@ def lint_descriptions(reforms, loc_text):
     problems = []
     for name in reforms:
         match = re.search(rf'(?m)^ {re.escape(name)}_desc:\d+ "(.*)"\s*$', loc_text)
-        if match and "!" in match.group(1):
-            problems.append(f"{name}_desc carries an exclamation mark (docs/STYLE_GLOSSARY.md, section 3)")
+        if match:
+            clean = re.sub(r"§[A-Za-z!]", "", match.group(1))
+            if "!" in clean:
+                problems.append(f"{name}_desc carries an exclamation mark (docs/STYLE_GLOSSARY.md, section 3)")
     return problems
 
 
