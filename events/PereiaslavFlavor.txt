@@ -18,8 +18,20 @@ country_event = {
 			war_with = POL
 		}
 		OR = {
-			exists = RUS
-			exists = MOS
+			AND = {
+				exists = RUS
+				RUS = {
+					is_subject = no
+					NOT = { war_with = ROOT }
+				}
+			}
+			AND = {
+				exists = MOS
+				MOS = {
+					is_subject = no
+					NOT = { war_with = ROOT }
+				}
+			}
 		}
 		NOT = { is_subject = yes }
 	}
@@ -36,7 +48,13 @@ country_event = {
 		name = "prl_flavor.1.a"
 		set_country_flag = prl_pereiaslav_oath
 		if = {
-			limit = { exists = RUS }
+			limit = {
+				exists = RUS
+				RUS = {
+					is_subject = no
+					NOT = { war_with = ROOT }
+				}
+			}
 			RUS = {
 				create_subject = {
 					subject_type = vassal
@@ -48,8 +66,23 @@ country_event = {
 				}
 			}
 		}
-		else_if = {
-			limit = { exists = MOS }
+		if = {
+			limit = {
+				OR = {
+					NOT = { exists = RUS }
+					RUS = {
+						OR = {
+							is_subject = yes
+							war_with = ROOT
+						}
+					}
+				}
+				exists = MOS
+				MOS = {
+					is_subject = no
+					NOT = { war_with = ROOT }
+				}
+			}
 			MOS = {
 				create_subject = {
 					subject_type = vassal

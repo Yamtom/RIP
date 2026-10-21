@@ -211,21 +211,22 @@ zaz_protect_orthodox_monasteries = {
 	}
 }
 
-zaz_hold_hetman_election = {
-	if = {
-		limit = { has_government_attribute = heir }
-		add_republican_tradition = 5
-	}
-	else = {
-		add_legitimacy = 10
-	}
-	
-	add_stability = -1
-	add_prestige = 5
-	
+zaz_mark_hetman_election_effect = {
 	set_country_flag = last_hetman_election
 	set_country_flag = zaz_recent_hetman_election
 	set_country_flag = zaz_election_event_cooldown
-	
-	country_event = { id = zaz_flavor.5 }
+}
+
+zaz_hold_hetman_election = {
+	# One guarded transaction, including direct callers and double clicks.
+	if = {
+		limit = { can_hold_hetman_election = yes }
+		add_adm_power = -100
+		add_stability = -1
+		add_prestige = 5
+		add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
+		zaz_mark_hetman_election_effect = yes
+		# Separate from the autonomous ZAZ-only crisis and its low-tradition gate.
+		country_event = { id = rip_het_election.1 }
+	}
 }

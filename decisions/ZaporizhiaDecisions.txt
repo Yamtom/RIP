@@ -359,7 +359,10 @@ country_decisions = {
 		potential = {
 			tag = ZAZ
 			has_country_flag = zaz_unlocked_orthodox_role
-			NOT = { has_country_flag = great_rada_recent }
+			OR = {
+				NOT = { has_country_flag = great_rada_recent }
+				had_country_flag = { flag = great_rada_recent days = 3650 }
+			}
 			has_reform = zaz_general_rada_reform
 		}
 		allow = {

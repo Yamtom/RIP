@@ -62,6 +62,10 @@ het_pereiaslav_treaty_effect = {
 	if = {
 		limit = {
 			exists = RUS
+			RUS = {
+				is_subject = no
+				NOT = { war_with = ROOT }
+			}
 		}
 		RUS = {
 			create_subject = {
@@ -80,8 +84,20 @@ het_pereiaslav_treaty_effect = {
 	}
 	if = {
 		limit = {
-			NOT = { exists = RUS }
+			OR = {
+				NOT = { exists = RUS }
+				RUS = {
+					OR = {
+						is_subject = yes
+						war_with = ROOT
+					}
+				}
+			}
 			exists = MOS
+			MOS = {
+				is_subject = no
+				NOT = { war_with = ROOT }
+			}
 		}
 		MOS = {
 			create_subject = {
