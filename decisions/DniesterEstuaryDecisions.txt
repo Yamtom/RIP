@@ -95,13 +95,13 @@ country_decisions = {
 			}
 		}
 	}
-    fortify_dniester_estuary = {
-        major = yes
-        potential = {
-            has_country_flag = dniester_estuary_developed
-            NOT = { has_country_flag = dniester_estuary_fortified }
-            owns_or_non_sovereign_subject_of = 282
-        }
+	fortify_dniester_estuary = {
+		major = yes
+		potential = {
+			has_country_flag = dniester_estuary_developed
+			NOT = { has_country_flag = dniester_estuary_fortified }
+			owns_or_non_sovereign_subject_of = 282
+		}
 		provinces_to_highlight = {
 			province_id = 282
 			OR = {
@@ -109,70 +109,70 @@ country_decisions = {
 				fort_level = 1
 			}
 		}
-        
-        allow = {
-            mil_tech = 12
-            treasury = 400
-            mil_power = 75
-            
-            282 = {
-                NOT = { fort_level = 2 }
-            }
-            
-            is_at_war = no
-        }
-        
-        effect = {
-            add_treasury = -400
-            add_mil_power = -75
-            
-            set_country_flag = dniester_estuary_fortified
-            
-            282 = {
-                add_province_modifier = {
-                    name = dniester_fortress_akkerman
-                    duration = -1
-                }
-                
-                add_building = fort_15th
-                add_base_manpower = 2
-            }
-            
-            if = {
-                limit = { 282 = { has_port = yes } }
-                282 = {
-                    add_province_modifier = {
-                        name = dniester_naval_base
-                        duration = -1
-                    }
-                }
-            }
-            
-            add_country_modifier = {
-                name = dniester_defensive_network
-                duration = -1
-            }
-            
-            add_prestige = 5
-            add_army_tradition = 5
-            
-            country_event = { id = dniester_estuary.10 days = 60 }
-        }
-        
-        ai_will_do = {
-            factor = 1
-            modifier = {
-                factor = 2
-                any_neighbor_country = {
-                    is_rival = ROOT
-                }
-            }
-            modifier = {
-                factor = 0
-                NOT = { treasury = 600 }
-            }
-        }
-    }
+		
+		allow = {
+			mil_tech = 12
+			treasury = 400
+			mil_power = 75
+			
+			282 = {
+				NOT = { fort_level = 2 }
+			}
+			
+			is_at_war = no
+		}
+		
+		effect = {
+			add_treasury = -400
+			add_mil_power = -75
+			
+			set_country_flag = dniester_estuary_fortified
+			
+			282 = {
+				add_province_modifier = {
+					name = dniester_fortress_akkerman
+					duration = -1
+				}
+				
+				add_building = fort_15th
+				add_base_manpower = 2
+			}
+			
+			if = {
+				limit = { 282 = { has_port = yes } }
+				282 = {
+					add_province_modifier = {
+						name = dniester_naval_base
+						duration = -1
+					}
+				}
+			}
+			
+			add_country_modifier = {
+				name = dniester_defensive_network
+				duration = -1
+			}
+			
+			add_prestige = 5
+			add_army_tradition = 5
+			
+			country_event = { id = dniester_estuary.10 days = 60 }
+		}
+		
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 2
+				any_neighbor_country = {
+					is_rival = ROOT
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = { treasury = 600 }
+			}
+		}
+	}
 	
 	establish_dniester_fishing = {
 		major = yes

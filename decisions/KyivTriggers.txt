@@ -209,6 +209,9 @@ country_decisions = {
 			set_country_flag = kyiv_path_shogunate
 			set_country_flag = kyiv_path_chosen
 		}
+		ai_will_do = {
+			factor = 1
+		}
 	}
 
 	kyiv_cesarstvo_path = {
@@ -259,6 +262,9 @@ country_decisions = {
 			}
 			set_country_flag = kyiv_path_cesarstvo
 			set_country_flag = kyiv_path_chosen
+		}
+		ai_will_do = {
+			factor = 1
 		}
 	}
 
@@ -350,6 +356,9 @@ country_decisions = {
 					add_permanent_claim = KRU
 				}
 			}
+		}
+		ai_will_do = {
+			factor = 1
 		}
 	}
 
@@ -584,6 +593,9 @@ country_decisions = {
 			}
 			set_country_flag = kyiv_princedoms_established
 		}
+		ai_will_do = {
+			factor = 1
+		}
 	}
 
 	kyiv_summon_princes = {
@@ -598,6 +610,9 @@ country_decisions = {
 		}
 		effect = {
 			country_event = { id = kyiv_shogunate.1 days = 1 }
+		}
+		ai_will_do = {
+			factor = 1
 		}
 	}
 
@@ -639,28 +654,13 @@ country_decisions = {
 			}
 			country_event = { id = kyiv_trade_houses.2 days = 1 }
 		}
+		ai_will_do = {
+			factor = 1
+		}
 	}
 
-	ruthenian_convene_court = {
-		major = yes
-		potential = {
-			tag = KRU
-			kru_holds_rada_reform = yes
-			NOT = { has_dlc = "Res Publica" }
-			NOT = { has_country_modifier = KRU_factional_court_cooldown }
-		}
-		allow = {
-			stability = 1
-			is_at_war = no
-		}
-		effect = {
-			add_country_modifier = {
-				name = KRU_factional_court_cooldown
-				duration = 3650
-			}
-			country_event = { id = ruthenian_factions.1 days = 1 }
-		}
-	}
+	# The native Rada factions and their paid court interactions work without
+	# Res Publica. The old free country-decision fallback has been retired.
 	kyiv_convene_boyar_council = {
 		major = yes
 		potential = {

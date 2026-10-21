@@ -1,10 +1,22 @@
 country_decisions = {
- rip_church_break_communion = {
- potential = { religion = russian_orthodox rip_church_ro_recognized = yes is_year = 1589 }
- allow = { stability = 1 is_at_war = no NOT = { has_country_flag = rip_church_reconciliation_pending } }
- effect = { rip_church_ro_choose_schism_effect = yes }
- ai_will_do = { factor = 0 }
- }
+	rip_church_break_communion = {
+		major = yes
+		potential = {
+			religion = russian_orthodox
+			rip_church_ro_recognized = yes
+			is_year = 1589
+			NOT = { has_country_flag = rip_church_ro_schismatic }
+		}
+		allow = {
+			rip_church_ro_can_break_communion = yes
+		}
+		effect = {
+			add_dip_power = -100
+			add_stability = -1
+			rip_church_ro_choose_schism_effect = yes
+		}
+		ai_will_do = { factor = 0 }
+	}
  rip_church_oppose_union = {
  potential = { OR = { religion = orthodox religion = russian_orthodox religion = catholic } NOT = { has_country_flag = rip_church_supports_union } }
  allow = { dip_power = 25 OR = { NOT = { has_country_flag = rip_church_union_policy_changed } had_country_flag = { flag = rip_church_union_policy_changed days = 1825 } } }

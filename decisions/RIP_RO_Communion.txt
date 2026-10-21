@@ -1,14 +1,20 @@
 country_decisions = {
- rip_ro_renounce_communion = {
-  major = yes
-  potential = {
-   rip_church_ro_jurisdiction = yes is_year = 1589
-   NOT = { has_country_flag = rip_church_ro_schismatic }
-  }
-  allow = { rip_church_ro_can_break_communion = yes }
-  effect = {
-   rip_church_ro_choose_schism_effect = yes
-  }
-  ai_will_do = { factor = 0 }
- }
+	rip_ro_renounce_communion = {
+		major = yes
+		potential = {
+			rip_church_ro_jurisdiction = yes
+			is_year = 1589
+			NOT = { rip_church_ro_recognized = yes }
+			NOT = { has_country_flag = rip_church_ro_schismatic }
+		}
+		allow = {
+			rip_church_ro_can_break_communion = yes
+		}
+		effect = {
+			add_dip_power = -100
+			add_stability = -1
+			rip_church_ro_choose_schism_effect = yes
+		}
+		ai_will_do = { factor = 0 }
+	}
 }

@@ -143,11 +143,19 @@ country_decisions = {
 			lit_rules_an_orthodox_country = yes
 			NOT = { has_country_modifier = lit_orthodox_guarantee }
 		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			religion = orthodox
+		}
 		allow = {
 			adm_power = 100
 			is_at_war = no
 			stability = 1
 			num_of_cities = 10
+			num_of_owned_provinces_with = {
+				value = 5
+				religion = orthodox
+			}
 		}
 		effect = {
 			add_adm_power = -100

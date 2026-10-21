@@ -433,6 +433,7 @@ country_decisions = {
 			tag = PDL
 			has_country_flag = pdl_magnate_path
 			num_of_subjects = 1
+			NOT = { has_country_modifier = pdl_magnate_vassal_system }
 		}
 		
 		allow = {
@@ -440,8 +441,9 @@ country_decisions = {
 			prestige = 20
 			legitimacy = 60
 			num_of_subjects = 1
+			NOT = { has_country_modifier = pdl_magnate_vassal_system }
 			any_subject_country = {
-				is_subject_of = ROOT
+				vassal_of = ROOT
 				liberty_desire = 30
 			}
 		}
@@ -450,10 +452,10 @@ country_decisions = {
 			add_prestige = -10
 			random_subject_country = {
 				limit = {
-					is_subject_of = ROOT
+					vassal_of = ROOT
 					liberty_desire = 30
 				}
-				add_liberty_desire = 15
+				add_liberty_desire = -15
 				add_opinion = {
 					who = ROOT
 					modifier = pdl_granted_magnate_status
@@ -473,6 +475,7 @@ country_decisions = {
 			modifier = {
 				factor = 2
 				any_subject_country = {
+					vassal_of = ROOT
 					liberty_desire = 40
 				}
 			}
@@ -480,6 +483,7 @@ country_decisions = {
 				factor = 0
 				NOT = {
 					any_subject_country = {
+						vassal_of = ROOT
 						liberty_desire = 35
 					}
 				}
@@ -498,13 +502,20 @@ country_decisions = {
 		allow = {
 			stability = 2
 			adm_power = 100
+			is_at_war = no
 			any_subject_country = {
-				is_subject_of = ROOT
+				vassal_of = ROOT
+				is_at_war = no
 				has_opinion = {
 					who = ROOT
 					value = 150
 				}
-				liberty_desire = 20
+				NOT = { liberty_desire = 20 }
+				years_in_vassalage_under = {
+					who = ROOT
+					years = 10
+				}
+				NOT = { total_development = 100 }
 			}
 		}
 		
@@ -513,16 +524,24 @@ country_decisions = {
 			add_stability = -1
 			random_subject_country = {
 				limit = {
-					is_subject_of = ROOT
+					vassal_of = ROOT
+					is_at_war = no
 					has_opinion = {
 						who = ROOT
 						value = 150
 					}
+					NOT = { liberty_desire = 20 }
+					years_in_vassalage_under = {
+						who = ROOT
+						years = 10
+					}
+					NOT = { total_development = 100 }
 				}
 				ROOT = {
 					inherit = PREV
 				}
 			}
+			remove_country_modifier = pdl_magnate_vassal_system
 			add_country_modifier = {
 				name = pdl_integrated_magnates
 				duration = 10950
@@ -534,11 +553,12 @@ country_decisions = {
 			modifier = {
 				factor = 2
 				any_subject_country = {
+					vassal_of = ROOT
 					has_opinion = {
 						who = ROOT
 						value = 180
 					}
-					liberty_desire = 10
+					NOT = { liberty_desire = 10 }
 				}
 			}
 		}
@@ -807,5 +827,33 @@ country_decisions = {
 			}
 		}
 	}
-
+	# ======================= FOUR COMMUNITIES CHARTER =======================
+	pdl_charter_of_four_communities = {
+		potential = {
+			has_reform = pdl_kamianets_concordat_reform
+			NOT = { has_country_flag = pdl_four_communities_chartered }
+		}
+		provinces_to_highlight = {
+			province_id = 281
+		}
+		allow = {
+			owns = 281
+			is_at_war = no
+			stability = 1
+			adm_power = 50
+			dip_power = 50
+		}
+		effect = {
+			add_adm_power = -50
+			add_dip_power = -50
+			set_country_flag = pdl_four_communities_chartered
+			281 = {
+				add_permanent_province_modifier = { name = pdl_four_communities duration = -1 }
+			}
+			add_country_modifier = { name = pdl_armenian_caravans duration = 7300 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
 }
