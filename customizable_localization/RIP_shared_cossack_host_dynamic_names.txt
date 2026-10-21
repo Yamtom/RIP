@@ -64,8 +64,9 @@ defined_text = {
 			is_cossack_polity = yes
 			capital_scope = {
 				OR = {
-					area = moldavia_area
+					area = silistria_area
 					area = wallachia_area
+					province_id = 1756
 				}
 			}
 		}
@@ -109,7 +110,7 @@ defined_text = {
 		trigger = {
 			is_cossack_polity = yes
 			capital_scope = {
-				region = ruthenia_region
+				area = sloboda_ukraine_area
 			}
 		}
 		localisation_key = SEAT_SLOBODA
@@ -174,6 +175,18 @@ defined_text = {
 
 defined_text = {
 	name = GetHostCountryName
+	text = {
+		trigger = {
+			calc_true_if = {
+				amount = 2
+				has_country_flag = founded_don_host
+				has_country_flag = founded_danube_sich
+				has_country_flag = founded_eastern_host
+				has_country_flag = founded_sloboda_host
+			}
+		}
+		localisation_key = HOSTLAND_UNITED
+	}
 	text = {
 		trigger = {
 			has_country_flag = founded_don_host

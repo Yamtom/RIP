@@ -17,6 +17,8 @@ is_host_refuge = {
 		area = crimea_area
 		area = moldavia_area
 		area = wallachia_area
+		area = silistria_area
+		area = sloboda_ukraine_area
 	}
 }
 
@@ -49,8 +51,16 @@ holds_the_danube_bank = {
 	num_of_owned_provinces_with = {
 		value = 1
 		OR = {
-			area = moldavia_area
-			area = wallachia_area
+			area = silistria_area
+			province_id = 1756
+			AND = {
+				area = wallachia_area
+				OR = {
+					province_id = 160
+					province_id = 4531
+					province_id = 4532
+				}
+			}
 		}
 	}
 }
@@ -70,6 +80,6 @@ holds_the_sloboda_country = {
 	is_cossack_polity = yes
 	num_of_owned_provinces_with = {
 		value = 2
-		region = ruthenia_region
+		area = sloboda_ukraine_area
 	}
 }
