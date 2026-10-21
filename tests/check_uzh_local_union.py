@@ -460,9 +460,13 @@ def main():
     sources = {key: read(path) for key, path in SOURCES.items()}
     contracts(sources)
     for name, key, old, new, code in PLANTED:
-        assert old in sources[key], f'planted {name!r}: pattern not found in {SOURCES[key]}'
+        # Engine formatting may use tabs or spaces; mutate the same token sequence.
+        pattern = r'\s+'.join(re.escape(part) for part in re.split(r'\s+', old.strip()))
+        if key not in ('loc', 'doc', 'province') and old[-1].isspace():
+            pattern += r'(?=\s|$)'
+        assert re.search(pattern, sources[key]), f'planted {name!r}: pattern not found in {SOURCES[key]}'
         mutated = dict(sources)
-        mutated[key] = sources[key].replace(old, new)
+        mutated[key] = re.sub(pattern, lambda match: new, sources[key])
         try:
             contracts(mutated)
         except AssertionError as failure:
