@@ -15,13 +15,17 @@ country_decisions = {
 		ai_will_do = { factor = 1 modifier = { factor = 0 NOT = { treasury = 300 } } }
 	}
 	rip_fund_a_parish_mission = {
+		color = { 135 35 65 }
 		potential = {
 			OR = { religion = orthodox religion = russian_orthodox religion = greek_catholic }
 			any_owned_province = { rip_faith_mission_province_trigger = yes }
 		}
 		provinces_to_highlight = { rip_faith_mission_province_trigger = yes }
 		allow = { rip_faith_can_fund_mission_trigger = yes }
-		effect = { rip_faith_fund_mission_effect = yes }
+		effect = {
+			custom_tooltip = rip_fund_a_parish_mission_effect_tt
+			rip_faith_fund_mission_effect = yes
+		}
 		ai_will_do = { factor = 1 modifier = { factor = 0 NOT = { treasury = 300 } } }
 	}
 }

@@ -45,13 +45,19 @@ country_decisions = {
  rip_church_florence = {
  potential = { OR = { religion = orthodox religion = catholic } is_year = 1444 NOT = { is_year = 1502 } NOT = { has_country_flag = rip_church_florence_attempted } any_owned_province = { rip_church_florence_parish = yes } }
  allow = { rip_church_can_begin_florence = yes }
- effect = { rip_church_begin_florence_effect = yes }
+ effect = {
+		custom_tooltip = rip_church_florence_effect_tt
+		rip_church_begin_florence_effect = yes
+	}
  ai_will_do = { factor = 0.05 modifier = { factor = 0 num_of_loans = 1 } }
  }
  rip_church_sponsor_union = {
  potential = { religion = catholic is_year = 1596 NOT = { has_country_flag = rip_church_supports_union } any_owned_province = { rip_church_sponsor_parish = yes } }
  allow = { rip_church_can_sponsor_union = yes }
- effect = { rip_church_sponsor_union_effect = yes }
+ effect = {
+		custom_tooltip = rip_church_sponsor_union_effect_tt
+		rip_church_sponsor_union_effect = yes
+	}
  ai_will_do = { factor = 1 modifier = { factor = 0 num_of_loans = 1 } modifier = { factor = 0 NOT = { adm_power = 200 dip_power = 150 } } modifier = { factor = 2 num_of_owned_provinces_with = { value = 3 rip_church_sponsor_parish = yes } } }
  }
  rip_church_withdraw_union_support = {
