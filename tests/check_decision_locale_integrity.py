@@ -319,7 +319,7 @@ def main():
 
     # 2. Parse decisions and events
     decisions = parse_all_decisions()
-    assert len(decisions) == 239, f"Expected 239 decisions, found {len(decisions)}"
+    assert len(decisions) == 251, f"Expected 251 decisions, found {len(decisions)}"
     event_defs = parse_all_events()
     reachable_events = collect_reachable_events(decisions, event_defs)
 
@@ -339,7 +339,7 @@ def main():
     test_planted_regressions(decisions, reachable_events, event_defs, loc_by_lang)
 
     print(
-        f"DECISION LOCALE INTEGRITY PASS: All 239 decisions verified for standard _title and _desc; "
+        f"DECISION LOCALE INTEGRITY PASS: All {len(decisions)} decisions verified for standard _title and _desc; "
         f"{len(reachable_events)} reachable end events verified across all 4 languages; "
         f"0 duplicate keys detected across EFIGS. 4 planted mutations caught."
     )
