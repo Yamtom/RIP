@@ -26,11 +26,19 @@
 #    (rip_vln_magnate_senate.txt, 06_devshirme.txt): `<kind>_power_cost` in the
 #    trigger block puts the price in the tooltip and checks it can be paid, in
 #    the effect block the same name pays it.
-#  - A TERM. An enacted ordinance is a country modifier of 3650 days, and its
-#    button sits on a ten-year cooldown token of its own, so the tooltip names
-#    the date it can be enacted again. The modifier is the single record of
-#    "in force": no flag, no sweep, no way for the state to drift from the
-#    button. The crown cannot take an ordinance back; it waits it out.
+#  - A TERM. An enacted ordinance is a country modifier of 3650 days. The
+#    modifier is the single record of "in force": no flag, no sweep, no way for
+#    the state to drift from the button, and every button refuses itself while
+#    its own modifier stands (custom_trigger_tooltip ..._not_in_force_tt). The
+#    crown cannot take an ordinance back; it waits it out.
+#    NO ENGINE COOLDOWN (cooldown_years = 0 on every button). An earlier revision
+#    put a ten-year cooldown_token of its own on each button so the tooltip would
+#    name the date. Seen in EU4 1.37.5 on 2026-10-22: enacting ONE ordinance put
+#    the red line "This Ordinance can only be used once every 10 years" on the
+#    other five and turned all six icons grey, while the status panel still said
+#    "Ready" - the engine did not keep the tokens apart, so only one ordinance
+#    could be had per ten years and the three slots were a fiction. The modifier's
+#    own end date is shown in the button tooltip ("Halych gets ... until ...").
 #  - THREE SLOTS. At most three of the six can be in force. hlc_ordinance_slot_
 #    free (common/scripted_triggers/rip_hlc_ordinance_triggers.txt) counts the
 #    modifiers and every button requires it, so a fourth ordinance can be had
@@ -91,9 +99,7 @@ hlc_austrian_reorganization_mechanic = {
 					duration = 3650
 				}
 			}
-			cooldown_years = 10
-			cooldown_token = hlc_chancery_ordinance
-			cooldown_desc = hlc_ordinance_cooldown_desc
+			cooldown_years = 0
 			ai_chance = {
 				factor = 4
 				# The plainest of the six: a realm that needs settlers, a
@@ -132,9 +138,7 @@ hlc_austrian_reorganization_mechanic = {
 					duration = 3650
 				}
 			}
-			cooldown_years = 10
-			cooldown_token = hlc_settlement_ordinance
-			cooldown_desc = hlc_ordinance_cooldown_desc
+			cooldown_years = 0
 			ai_chance = {
 				factor = 1
 				# Nothing to settle, nothing to enact.
@@ -175,9 +179,7 @@ hlc_austrian_reorganization_mechanic = {
 					duration = 3650
 				}
 			}
-			cooldown_years = 10
-			cooldown_token = hlc_cadastral_ordinance
-			cooldown_desc = hlc_ordinance_cooldown_desc
+			cooldown_years = 0
 			ai_chance = {
 				factor = 3
 				# The survey costs noble loyalty: only a crown that is short of
@@ -210,9 +212,7 @@ hlc_austrian_reorganization_mechanic = {
 					duration = 3650
 				}
 			}
-			cooldown_years = 10
-			cooldown_token = hlc_urbarial_ordinance
-			cooldown_desc = hlc_ordinance_cooldown_desc
+			cooldown_years = 0
 			ai_chance = {
 				factor = 2
 				# Written dues are for a restless countryside whose lords can
@@ -244,9 +244,7 @@ hlc_austrian_reorganization_mechanic = {
 					duration = 3650
 				}
 			}
-			cooldown_years = 10
-			cooldown_token = hlc_toleration_ordinance
-			cooldown_desc = hlc_ordinance_cooldown_desc
+			cooldown_years = 0
 			ai_chance = {
 				factor = 2
 				# No other faith in the towns, nothing to tolerate.
@@ -285,9 +283,7 @@ hlc_austrian_reorganization_mechanic = {
 					duration = 3650
 				}
 			}
-			cooldown_years = 10
-			cooldown_token = hlc_frontier_ordinance
-			cooldown_desc = hlc_ordinance_cooldown_desc
+			cooldown_years = 0
 			ai_chance = {
 				factor = 3
 				# Watchmen are for a frontier at war.

@@ -227,8 +227,10 @@ for language in ('english','french','german','spanish'):
     assert {
         'hlc_boyar_council_session_cd',
         'lit_pany_rada_session_cd',
-        'hlc_ordinance_cooldown_desc',
     } <= all_keys
+    # The six crown ordinances have no engine cooldown any more (seen in EU4 1.37.5: one enacted ordinance put its cooldown on the other five),
+    # so their cooldown name is retired.
+    assert 'hlc_ordinance_cooldown_desc' not in all_keys
 
 for name in (
     'siversk_charter', 'siversk_towns', 'siversk_retinue', 'kyiv_snem',

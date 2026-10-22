@@ -128,8 +128,9 @@ def check_ordinances(mech, modifiers, tips, abilities=None):
         flat = normalized(block)
         if flat.count(f'{power.lower()}_power_cost = 50') != 2:
             problems.append(f'{button} is not priced 50 {power} in both its trigger and its effect, as its row says')
-        if f'name = {modifier} duration = 3650' not in flat or 'cooldown_years = 10' not in flat:
-            problems.append(f'{button} does not add {modifier} for 3650 days with a ten-year cooldown')
+        # No engine cooldown: seen in EU4 1.37.5 that one enacted ordinance put its cooldown on the other five buttons (tests/check_hlc_ordinances.py).
+        if f'name = {modifier} duration = 3650' not in flat or 'cooldown_years = 0' not in flat or 'cooldown_token' in flat:
+            problems.append(f'{button} does not add {modifier} for 3650 days with no engine cooldown')
         tip = tips.get(f'rip_gov_hlc_crown_{key.lower()}_tt', '')
         for mod_key, value in modifier_values(modifiers, modifier).items():
             if MODIFIER_WORDS[mod_key] and said(mod_key, value) not in tip:
