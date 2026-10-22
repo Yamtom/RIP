@@ -18,6 +18,8 @@ class World(BaseWorld):
         if key == 'owns_or_non_sovereign_subject_of':
             owner = self.countries[self.provinces[value]['owner']]
             return owner is scope or (owner.get('overlord') == scope['id'] and owner.get('non_sovereign', False))
+        if key == 'province_has_center_of_trade_of_level':
+            return scope.get('center_of_trade', 0) >= int(value)
         return super().condition(key, value, scope, root, prev)
 
     def execute(self, items, scope, root=None, prev=None):
@@ -31,6 +33,8 @@ class World(BaseWorld):
                     group.append(items[i]); i += 1
                 super().execute(group, scope, root, prev)
             elif key == 'center_of_trade': scope[key] = int(value)
+            elif key == 'add_center_of_trade_level':
+                scope['center_of_trade'] = scope.get('center_of_trade', 0) + int(value)
             elif key == 'add_building':
                 scope['buildings'].add(value)
                 if value == 'fort_15th': scope['fort_level'] = 2
