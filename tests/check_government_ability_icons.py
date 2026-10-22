@@ -10,7 +10,8 @@ with each other, not that the engine draws the panel the way the preview does.
     (confirm, lord, retinues), not one borrowed from a sibling mechanic.
   * The six crown ordinances are six DIFFERENT buttons (chancery, settlement,
     cadastral, urbarial, toleration, frontier guard), one picture each, each on a
-    cooldown token and name of its own and enacted for ten years. There is no rescind
+    modifier of its own that stands for ten years and no engine cooldown (seen in EU4 1.37.5: the engine
+    shared the cooldown of one ordinance with the other five). There is no rescind
     button: an earlier layout paired every ordinance with a rescind button wearing the
     same picture and called that six abilities.
   * Every sprite is a defined, existing 82x82 uncompressed DDS with a shaped
@@ -150,12 +151,8 @@ def check_ordinance_layout(text):
         tokens.add(token)
         if icon_of(button) != ORDINANCE_ICONS[ordinance]:
             problems.append(f"{ordinance}: wears {icon_of(button)}, expected {ORDINANCE_ICONS[ordinance]}")
-        if f"cooldown_token = {token}\n" not in button.replace("\r", "") and f"cooldown_token = {token} " not in button:
-            problems.append(f"{ordinance}: does not use its own cooldown token {token}")
-        if "cooldown_years = 10" not in button:
-            problems.append(f"{ordinance}: lost its ten-year cooldown")
-        if "cooldown_desc = hlc_ordinance_cooldown_desc" not in button:
-            problems.append(f"{ordinance}: does not name its cooldown, so the tooltip would name the button")
+        if "cooldown_years = 0" not in button or "cooldown_token" in button or "cooldown_desc" in button:
+            problems.append(f"{ordinance}: must have cooldown_years = 0 and no cooldown token or name (the engine shares an ordinance cooldown between all six)")
         effect = normalized(named_block(button, "effect"))
         if f"name = {modifier} duration = 3650" not in effect:
             problems.append(f"{ordinance}: enact does not add {modifier} for ten years (3650 days)")
@@ -168,8 +165,6 @@ def check_ordinance_layout(text):
             problems.append(f"{ordinance}: a blocked enact button shows a raw modifier name, not a sentence")
         if "tooltip = hlc_ordinance_slot_free_tt hlc_ordinance_slot_free = yes" not in trigger:
             problems.append(f"{ordinance}: enact does not require a free slot inside a sentence tooltip")
-    if len(tokens) != 6:
-        problems.append("the six ordinances do not have a cooldown token each")
     if "rescind" in _mask_comments_and_strings(text).lower():
         problems.append("a rescind button or comment is back in the crown ordinances")
     return problems
@@ -281,7 +276,7 @@ def check_localisation(text_by_mechanic):
     for ordinance in ORDINANCES:
         needed.update({f"hlc_{ordinance}_ordinance_modifier", f"desc_hlc_{ordinance}_ordinance_modifier",
                        f"hlc_{ordinance}_ordinance_not_in_force_tt"})
-    needed.update({"hlc_ordinance_slot_free_tt", "hlc_ordinance_cooldown_desc", "rip_resolution_none_in_force_tt",
+    needed.update({"hlc_ordinance_slot_free_tt", "rip_resolution_none_in_force_tt",
                    "rip_resolution_lock_over_tt", "rip_resolution_cooldown_desc"})
     for modifier in ("municipal_charters", "municipal_accounts", "chancery_service", "chancery_rights", "register_muster", "register_settlement"):
         needed.update({f"rip_gov_{modifier}", f"desc_rip_gov_{modifier}"})
@@ -403,12 +398,12 @@ def planted_violations(texts, sprites, images):
             texts["chancery"].replace("hlc_enact_cadastral_ordinance = {", "hlc_swap = {", 1)),
         "two ordinances on one picture": check_ordinance_layout(
             texts["chancery"].replace("GFX_rip_toleration_ordinance", "GFX_rip_urbarial_ordinance", 1)),
-        "shared cooldown token": check_ordinance_layout(
-            texts["chancery"].replace("cooldown_token = hlc_urbarial_ordinance", "cooldown_token = hlc_chancery_ordinance", 1)),
-        "no cooldown at all": check_ordinance_layout(
-            texts["chancery"].replace("cooldown_years = 10", "# nothing", 1)),
-        "cooldown tooltip that names the button": check_ordinance_layout(
-            texts["chancery"].replace("cooldown_desc = hlc_ordinance_cooldown_desc", "# nothing", 1)),
+        "a cooldown token back on an ordinance": check_ordinance_layout(
+            texts["chancery"].replace("\t\t\tcooldown_years = 0\n", "\t\t\tcooldown_years = 0\n\t\t\tcooldown_token = hlc_chancery_ordinance\n", 1)),
+        "an engine cooldown of ten years": check_ordinance_layout(
+            texts["chancery"].replace("\t\t\tcooldown_years = 0\n", "\t\t\tcooldown_years = 10\n", 1)),
+        "a cooldown name back on an ordinance": check_ordinance_layout(
+            texts["chancery"].replace("\t\t\tcooldown_years = 0\n", "\t\t\tcooldown_years = 0\n\t\t\tcooldown_desc = hlc_ordinance_cooldown_desc\n", 1)),
         "raw modifier name in an ordinance button": check_ordinance_layout(
             texts["chancery"].replace("tooltip = hlc_chancery_ordinance_not_in_force_tt", "tooltip = nothing", 1)),
         "an ordinance that never ends": check_ordinance_layout(

@@ -18,9 +18,10 @@ numbers are read here.
             the button is blocked while its modifier stands, in a sentence tooltip.
   * SLOTS   at most three of the six in force: every button requires
             hlc_ordinance_slot_free inside a custom_trigger_tooltip with a sentence.
-  * COOLDOWN  every ordinance has a ten-year token of its own and cooldown_desc names the
-            cooldown (vanilla puts the name inside a sentence, so it must be a short noun
-            phrase); its date is what the tooltip shows as "can be enacted again".
+  * NO COOLDOWN  every button says cooldown_years = 0 and has no cooldown_token or cooldown_desc: seen in
+            EU4 1.37.5 (2026-10-22) that enacting one ordinance put its "can only be used once every 10
+            years" line on the other five and greyed all six, whatever their tokens - the term is the
+            modifier alone.
   * AI      each button has a real ai_chance; the AI enacts what its realm needs; the
             situations are defined, used, and made of names the installed vanilla has.
   * CLEAN-UP  removed_effect hands over to one effect that clears the six modifiers (and the
@@ -94,12 +95,11 @@ VANILLA_NAMES = (
     "governing_capacity_percentage", "liberty_desire", "had_country_flag", "adm_tech", "is_at_war",
     "all_subject_country", "is_subject_of_type", "adm_power_cost", "dip_power_cost", "mil_power_cost",
     "has_country_modifier", "hidden_effect", "add_country_modifier", "custom_trigger_tooltip",
-    "cooldown_desc", "cooldown_token",
 )
 # New or reworded keys: all four languages, and the fallbacks equal the English.
 NEW_KEYS = (
     "ability_hlc_austrian_reorganization_mechanic", "hlc_ordinance_slot_free_tt", "hlc_incorporate_appanage_limit_tt",
-    "hlc_ordinance_cooldown_desc", "hlc_settlement_loyalty_timer", "desc_hlc_settlement_loyalty_timer",
+    "hlc_settlement_loyalty_timer", "desc_hlc_settlement_loyalty_timer",
 ) + tuple(f"hlc_enact_{o}_ordinance{suffix}" for o in ORDINANCES for suffix in ("", "_desc")) \
   + tuple(f"hlc_{o}_ordinance_modifier" for o in ORDINANCES) + tuple(f"desc_hlc_{o}_ordinance_modifier" for o in ORDINANCES) \
   + tuple(f"hlc_{o}_ordinance_not_in_force_tt" for o in ORDINANCES)
@@ -109,7 +109,7 @@ REWORDED_KEYS = (
     "mechanic_hlc_enables_incorporated_appanages_yes", "hlc_austrian_bureaucracy_reform_desc", "hlc_crown_authority_reform_desc",
 )
 RETIRED_KEYS = tuple(f"hlc_rescind_{o}_ordinance{suffix}" for o in LEGACY_FLAGGED for suffix in ("", "_desc")) \
-    + tuple(f"hlc_{o}_ordinance_in_force_tt" for o in LEGACY_FLAGGED)
+    + tuple(f"hlc_{o}_ordinance_in_force_tt" for o in LEGACY_FLAGGED) + ("hlc_ordinance_cooldown_desc",)
 # Every English key of this family has a reader in the mechanic; a key nothing reads is a leftover.
 ORDINANCE_KEY = re.compile(r"^(?:hlc_enact_\w+_ordinance(?:_desc)?|hlc_\w+_ordinance_(?:not_)?in_force_tt|hlc_ordinance_\w+)$")
 
@@ -265,21 +265,18 @@ def check_slots(mech, triggers):
 
 
 def check_cooldown(mech):
+    """No engine cooldown on any ordinance: the engine shares it between the six buttons (seen in EU4 1.37.5)."""
     problems = []
     found = buttons(mech)
-    tokens = set()
     for ordinance in ORDINANCES:
-        token = f"hlc_{ordinance}_ordinance"
-        tokens.add(token)
-        text = normalized(found.get(ENACT[ordinance], ""))
-        if f"cooldown_token = {token} " not in text + " ":
-            problems.append(f"{ordinance}: does not use the ordinance's own cooldown_token {token}")
-        if "cooldown_years = 10 " not in text + " ":
-            problems.append(f"{ordinance}: has no ten-year cooldown, so the tooltip would not say when it can be enacted again")
-        if "cooldown_desc = hlc_ordinance_cooldown_desc " not in text + " ":
-            problems.append(f"{ordinance}: has no cooldown_desc, so the cooldown tooltip would name the button")
-    if len(tokens) != 6:
-        problems.append("the six ordinances do not have a cooldown token each")
+        text = normalized(found.get(ENACT[ordinance], "")) + " "
+        if "cooldown_years = 0 " not in text:
+            problems.append(f"{ordinance}: must say cooldown_years = 0 (the term is the modifier; an engine cooldown locks all six buttons)")
+        for key in ("cooldown_token", "cooldown_desc"):
+            if f"{key} =" in text:
+                problems.append(f"{ordinance}: still has {key}, which the engine shares between the six buttons")
+        if re.search(r"cooldown_years = [1-9]", text):
+            problems.append(f"{ordinance}: has an engine cooldown of years, which blocks the other five ordinances too")
     return problems
 
 
@@ -553,7 +550,6 @@ def check_text(texts, mech, action, privilege, vanilla=None):
         # Every tooltip sentence the mechanic, the action and the privilege name has text.
         source = re.sub(r"#[^\n]*", "", mech + action + privilege)
         named = set(re.findall(r"tooltip = (\w+)", source))
-        named.update(re.findall(r"cooldown_desc = (\w+)", source))
         missing = sorted(name for name in named if name not in keys and name not in {"FROM_IS_REBELLIOUS_TT"})
         if missing:
             problems.append(f"{language}: tooltip keys {missing} have no text")
@@ -584,12 +580,6 @@ def check_text(texts, mech, action, privilege, vanilla=None):
     crown = loc_value(english, "hlc_crown_authority_reform_desc") or ""
     if "six different ordinances" not in crown or "at most three" not in crown:
         problems.append("the crown authority's description does not tell the player about the six ordinances and the three slots")
-    # cooldown_desc is the NAME of the cooldown: vanilla's own tooltip wraps it in a sentence.
-    name = loc_value(english, "hlc_ordinance_cooldown_desc") or ""
-    if not name or len(name.split()) > 5 or re.search(r"[.§]", name) or re.search(r"\b(?:cannot|can|years)\b", name):
-        problems.append(f"hlc_ordinance_cooldown_desc must be a short name, not a sentence: {name!r}")
-    if vanilla is not None and "$INTERACTION|Y$" not in vanilla.get("cooldown", ""):
-        problems.append("vanilla's INTERACTION_COOLDOWN_TOOLTIP no longer wraps the cooldown's name: re-read hlc_ordinance_cooldown_desc")
     # No ordinance key without a reader.
     reader = chr(10).join(line.split("#", 1)[0] for line in (mech + action + privilege).splitlines())
     for key in sorted(loc_keys(english)):
@@ -743,11 +733,10 @@ def planted_cases(s, texts, vanilla):
         "slot sentence that is not a sentence": check_slots(mech.replace("tooltip = hlc_ordinance_slot_free_tt", "tooltip = nothing", 1), s["triggers"]),
         "slot rule that reads a flag again": check_slots(mech, s["triggers"] + "\nhlc_x = { has_country_flag = hlc_chancery_ordinance_active }\n"),
         # cooldown
-        "token shared by two ordinances": check_cooldown(edit_button(mech, ENACT["toleration"], lambda b: b.replace("cooldown_token = hlc_toleration_ordinance", "cooldown_token = hlc_chancery_ordinance", 1))),
-        "token dropped": check_cooldown(edit_button(mech, ENACT["frontier"], lambda b: b.replace("cooldown_token = hlc_frontier_ordinance", "cooldown_years = 10", 1))),
-        "no cooldown at all": check_cooldown(edit_button(mech, ENACT["cadastral"], lambda b: b.replace("cooldown_years = 10", "# nothing", 1))),
-        "cooldown of five years": check_cooldown(edit_button(mech, ENACT["urbarial"], lambda b: b.replace("cooldown_years = 10", "cooldown_years = 5", 1))),
-        "cooldown tooltip that names the button": check_cooldown(edit_button(mech, ENACT["settlement"], lambda b: b.replace("cooldown_desc = hlc_ordinance_cooldown_desc", "# nothing", 1))),
+        "a cooldown token back on one ordinance": check_cooldown(edit_button(mech, ENACT["toleration"], lambda b: b.replace("cooldown_years = 0", "cooldown_years = 0\n\t\t\tcooldown_token = hlc_toleration_ordinance", 1))),
+        "a cooldown name back on one ordinance": check_cooldown(edit_button(mech, ENACT["settlement"], lambda b: b.replace("cooldown_years = 0", "cooldown_years = 0\n\t\t\tcooldown_desc = hlc_ordinance_cooldown_desc", 1))),
+        "a ten-year engine cooldown on one ordinance": check_cooldown(edit_button(mech, ENACT["cadastral"], lambda b: b.replace("cooldown_years = 0", "cooldown_years = 10", 1))),
+        "an ordinance with no cooldown line at all": check_cooldown(edit_button(mech, ENACT["frontier"], lambda b: b.replace("cooldown_years = 0", "# nothing", 1))),
         # AI
         "settlement enact the AI can never press": check_ai(edit_button(mech, ENACT["settlement"], ai_block), s["triggers"]),
         "frontier enact the AI can never press": check_ai(edit_button(mech, ENACT["frontier"], ai_block), s["triggers"]),
@@ -827,8 +816,7 @@ def planted_cases(s, texts, vanilla):
         "settlement modifier text without the real rule": text(**everywhere("The first manual conversion in a year", "Every conversion")),
         "crown description with the old two slots": text(**everywhere("each lasting ten years, and keep at most three of them in force at a time", "and must keep only two of three in force at a time")),
         "tooltip sentence with no text": check_text(texts, mech.replace("tooltip = hlc_ordinance_slot_free_tt", "tooltip = hlc_ordinance_unwritten_tt", 1), action, privilege),
-        "cooldown name written as a sentence": text(**everywhere('This Ordinance"', 'The ordinance cannot be enacted again for §Y10§! years."')),
-        "vanilla's cooldown tooltip stops wrapping a name": text(vanilla_={**(vanilla or {}), "cooldown": "You may not do that."}) if vanilla is not None else ["skipped"],
+        "the retired cooldown name back in English": text(english=(en + ' hlc_ordinance_cooldown_desc:0 "This Ordinance"\n', None)),
         "an ordinance key nothing reads": text(english=(en.replace(" hlc_ordinance_slot_free_tt:0 ", " hlc_ordinance_toggle_tt:0 \"x\"\n hlc_ordinance_slot_free_tt:0 ", 1), None)),
     }
     if vanilla is not None:
@@ -856,7 +844,7 @@ def main():
             print(f"  - {problem}")
         return 1
     note = "" if vanilla is not None else " (vanilla comparisons skipped: no installed EU4)"
-    print(f"HLC ORDINANCES CHECK: PASS (6 different buttons in two rows, priced, on a ten-year term, slotted, on cooldown tokens and given an AI; clean-up, "
+    print(f"HLC ORDINANCES CHECK: PASS (6 different buttons in two rows, priced, on a ten-year modifier term with no engine cooldown, slotted and given an AI; clean-up, "
           f"on_action, loyalty cap and appanage chain; {len(LANGUAGES)} languages; {planted} planted violations caught){note}")
     print("LIMIT: static contracts. Only the on_action merge rule was measured in the game (see the evidence file); "
           "the ordinance buttons, the AI, the cooldown tooltip and the appanage action were not exercised.")
