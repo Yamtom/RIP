@@ -76,7 +76,6 @@ variable_arithmetic_trigger = {{
  add_claim = ROOT
  set_province_flag = rip_frontier_batch_step_@ROOT
  ROOT = {{ set_country_flag = rip_frontier_batch_started change_variable = {{ which = rip_frontier_claims_issued value = 1 }} }}
- log = "RIP_FRONTIER CLAIM {key} [Root.GetName] [This.GetName]"
 }}'''
         effects.append(block('rip_frontier_'+key+'_one_effect',one))
         pay='\n'.join(f'add_{power}_power = -{amount}\nchange_variable = {{ which = rip_frontier_{power}_spent value = {amount} }}' for power,amount in [('adm',adm),('dip',dip),('mil',mil)] if amount)
@@ -103,7 +102,6 @@ variable_arithmetic_trigger = {{
   add_country_modifier = {{ name = {modifier} duration = {duration} }}
   country_event = {{ id = {event} }}
  }}
- log = "RIP_FRONTIER PURCHASE {key} [Root.GetName]"
 }}'''))
     # Country gates include resource and territory rules; direct callers use these too.
     for key,(_,cash,adm,dip,mil,flag,modifier,duration,event) in THEATRES.items():
