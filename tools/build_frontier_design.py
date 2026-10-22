@@ -142,6 +142,9 @@ OR = {{ ai = no rip_frontier_{key}_ai_budget = yes }}'''))
         'rip_frontier_crimea_purchase_title':'Commission an Eastern Frontier Expedition',
         'rip_frontier_ural_purchase_title':'Commission a Ural Frontier Expedition',
         'rip_frontier_manchuria_purchase_title':'Commission a Manchurian Frontier Expedition',
+        'ruthenian_eastward_frontier_policy_effect_tt':r'Gain up to §Y5§! temporary claims on connected frontier provinces in the §YCrimea region§!.\nImposes a §Y10-year§! cooldown on new frontier expeditions.\n§YFirst Expedition:§! Gain §YRuthenian Eastward Mandate§! for §Y20 years§! (§G+5.0%§! Manpower Recovery Speed, §G-10.0%§! Fort Maintenance) and convene the frontier council.',
+        'ruthenian_open_ural_gate_effect_tt':r'Gain up to §Y5§! temporary claims on connected frontier provinces in the §YUral region§!.\nImposes a §Y10-year§! cooldown on new frontier expeditions.\n§YFirst Expedition:§! Gain §YThe Ural Gate§! for §Y25 years§! (§G+150§! Governing Capacity, §G-10.0%§! State Maintenance) and convene the Ural council.',
+        'ruthenian_manchurian_horizon_effect_tt':r'Gain up to §Y5§! temporary claims on connected frontier provinces in the §YManchuria region§!.\nImposes a §Y10-year§! cooldown on new frontier expeditions.\n§YFirst Expedition:§! Gain §YThe Manchurian Push§! for §Y25 years§! (§G+1§! Colonist) and convene the Manchurian council.',
     }
     host_descriptions={
         'don':'Organize the Don Host on the controlled lower Don.',
