@@ -93,7 +93,7 @@ def generate():
     loc={'rip_rg_cancel':'Leave the Matter Unchanged','rip_rg_next':'Inspect the Next Lands',
          'rip_rg_previous':'Return to the Previous Lands','rip_rg_confirm':'Confirm the Ordinance',
          'rip_rg_select_desc':'Choose the exact land. Nothing is charged until confirmation. The final order checks ownership, control, government, resources and the shared term again.',
-         'rip_rg_confirm_desc':'Target: §Y[event_target:rip_rg_target.GetName]§!. The option tooltip lists the complete payment and effects. Cancellation is free. An order already in force closes every other ordinance of this institution.',
+         'rip_rg_confirm_desc':'Target: §Y[rip_rg_target.GetName]§!. The option tooltip lists the complete payment and effects. Cancellation is free. An order already in force closes every other ordinance of this institution.',
          'rip_rg_term_tt':'This institution has no order serving its shared term. Hover the active country modifier for its expiry date.',
          'rip_rg_grain_req_tt':'At least 10 development in controlled regional grain lands.',
          'rip_rg_second':'Extend the Order to Another Town',
@@ -185,7 +185,7 @@ def generate():
             if (page+1)*4<len(LANDS[f]): body+=block('option',f'name = rip_rg_next\ncountry_event = {{ id = rip_rg.{start+page+1} }}\nai_chance = {{ factor = 0 }}')
             body+=block('option','name = rip_rg_cancel\nai_chance = { factor = 0 }')
             events.append(block('country_event',body))
-        events.append(block('country_event',f'id = rip_rg.{start+10}\ntitle = rip_rg_{k}.t\ndesc = rip_rg_confirm_desc\npicture = COURT_eventPicture\nis_triggered_only = yes\n'+('immediate = { rip_rg_grain_census_effect = yes }\n' if k=='ods_freight' else '')+block('option',f'name = rip_rg_confirm\ntrigger = {{ rip_rg_{k}_can = yes {grain_guard} event_target:rip_rg_target = {{ rip_rg_{k}_target = yes }} }}\nrip_rg_{k}_commit_effect = yes\nai_chance = {{ factor = 1 }}')+block('option','name = rip_rg_cancel\nai_chance = { factor = 0 }')))
+        events.append(block('country_event',f'id = rip_rg.{start+10}\ntitle = rip_rg_{k}.t\ndesc = rip_rg_confirm_desc\npicture = COURT_eventPicture\nis_triggered_only = yes\n'+('immediate = { rip_rg_grain_census_effect = yes }\n' if k=='ods_freight' else '')+block('option',f'name = rip_rg_confirm\ntrigger = {{ rip_rg_{k}_can = yes {grain_guard} has_saved_event_target = rip_rg_target event_target:rip_rg_target = {{ rip_rg_{k}_target = yes }} }}\nrip_rg_{k}_commit_effect = yes\nai_chance = {{ factor = 1 }}')+block('option','name = rip_rg_cancel\nai_chance = { factor = 0 }')))
         if a['second']:
             c=next(iter(a['cost'])); body=f'id = rip_rg.{start+11}\ntitle = rip_rg_second\ndesc = rip_rg_second_desc\npicture = COURT_eventPicture\nis_triggered_only = yes\n'
             for p in LANDS[f]:
@@ -197,6 +197,22 @@ def generate():
         a['icon']=icon
         a['guard']=f'rip_rg_{k}_can = yes any_owned_province = {{ rip_rg_{k}_target = yes }}'
     # Three physical buttons per frontier government, not one button per price.
+    tooltips = {
+        'chr_bell': 'Choose an owned city; pay 50 ADM on confirmation.\\nTarget land gains -3 Nationalism and Veche Municipal Judges (-2 Local Unrest) for 5 years.\\nCountry gains Veche Deliberations (-0.05 Yearly Corruption, +10% Stability Cost; halved under Magistrat Rule) for 5 years.\\nInstitution shared term: 10 years.',
+        'chr_staple': 'Choose an owned city; pay 50 DIP on confirmation.\\nTarget land gains +5 Local Autonomy and Desna Staple Right (+15% Province Trade Power) for 10 years.\\nInstitution shared term: 10 years.',
+        'chr_militia': 'Choose an owned fort city; pay 50 MIL on confirmation.\\nTarget land gains Guild Militia (+20% Local Defensiveness, -10% Local Production Efficiency) for 5 years.\\nCountry gains Municipal Muster Rolls (-10% Reinforce Cost) for 3 years.\\nInstitution shared term: 10 years.',
+        'uzh_salt': 'Choose an owned salt land; pay 50 DIP on confirmation.\\nTarget land gains Maramorosh Salt Regalia (+15% Goods Produced, +10% Province Trade Power, +2 Local Unrest) for 5 years.\\nInstitution shared term: 5 years.',
+        'uzh_guides': 'Choose an owned highland, hills or mountain land; pay 50 MIL and 30 ducats on confirmation.\\nTarget land gains +10 Local Autonomy and Highland Guides Compact (+1 Hostile Attrition) for 5 years.\\nCountry gains Highland Supply Guides (-10% Land Attrition) for 5 years and loses 5 Nobles loyalty.\\nInstitution shared term: 5 years.',
+        'uzh_pass': 'Choose an owned fort land; pay 50 ADM and 50 ducats on confirmation.\\nTarget land gains Carpathian Pass Works (+20% Local Defensiveness, -15% Local Fort Maintenance, -10% Local Production Efficiency) for 5 years.\\nInstitution shared term: 5 years.',
+        'pdl_patrol': 'Choose an owned marchland; pay MIL and ducats on confirmation.\\nTarget land gains Frontier Watch Patrols (+1 Hostile Attrition; or Carpathian Watch: +15% Local Defensiveness) for 5 years.\\nInstitution shared term: 5 years.',
+        'pdl_charter': 'Choose an owned marchland town; pay ADM and ducats on confirmation.\\nTarget land gains Frontier Town Charter (+15% Local Production Efficiency, +10 Local Autonomy; or Magnate Charter: +20% efficiency, +15 autonomy) for 5 years.\\nInstitution shared term: 5 years.',
+        'pdl_mobile': 'Muster mounted banners; pay MIL and 1,000 manpower on confirmation.\\nCountry gains Mobile Frontier Defense (+10% Cavalry Combat Ability, +5% Land Maintenance) for 5 years.\\nInstitution shared term: 5 years.',
+        'prl_patrol': 'Choose an owned frontier land; pay 35 MIL and 40 ducats on confirmation.\\nTarget land gains Frontier Watch Patrols (+1 Hostile Attrition) for 5 years.\\nInstitution shared term: 5 years.',
+        'prl_charter': 'Choose an owned regimental town; pay 35 ADM and 30 ducats on confirmation.\\nTarget land gains Frontier Town Charter (+15% Local Production Efficiency, +10 Local Autonomy) for 5 years.\\nInstitution shared term: 5 years.',
+        'prl_mobile': 'Muster mounted regiments; pay 50 MIL and 1,000 manpower on confirmation.\\nCountry gains Mobile Frontier Defense (+10% Cavalry Combat Ability, +5% Land Maintenance) for 5 years.\\nInstitution shared term: 5 years.',
+        'ods_freight': 'Commission merchant freight; pay 50 ADM and 50 ducats on confirmation.\\nControlled regional grain lands support up to +10% National Trade Efficiency for 5 years.\\nInstitution shared term: 5 years.',
+        'ods_corsairs': 'Choose an owned unblocked port; pay 50 DIP and 40 ducats on confirmation.\\nTarget port becomes a corsair haven for 5 years.\\nCountry gains Black Sea Corsair Charter (+15% Privateer Efficiency, -10% Trade Efficiency) for 5 years.\\nInstitution shared term: 5 years.',
+    }
     for f in LANDS:
         groups={}
         for a in actions:
@@ -208,11 +224,13 @@ def generate():
             first=variants[0]
             guard='OR = { '+' '.join('AND = { '+a['guard']+' }' for a in variants)+' }'
             launch=launch_ifs(variants)
-            interactions.append(block('rip_rg_'+group,f'icon = {first["icon"]}\ntrigger = {{ {guard} }}\n'+block('effect',launch)+f'ai_chance = {{ {first["ai"]} }}'))
+            eff='custom_tooltip = rip_rg_'+group+'_tt\n'+launch
+            interactions.append(block('rip_rg_'+group,f'icon = {first["icon"]}\ntrigger = {{ {guard} }}\n'+block('effect',eff)+f'ai_chance = {{ {first["ai"]} }}'))
             highlight='OR = { '+' '.join('rip_rg_'+a['key']+'_target = yes' for a in variants)+' }'
-            decisions.append(block('rip_rg_'+group+'_decision',f'potential = {{ rip_rg_{f} = yes }}\nallow = {{ {guard} }}\nprovinces_to_highlight = {{ {highlight} }}\n'+block('effect',launch)+'ai_will_do = { factor = 0 }'))
+            decisions.append(block('rip_rg_'+group+'_decision',f'color = {{ 185 140 30 }}\npotential = {{ rip_rg_{f} = yes }}\nallow = {{ {guard} }}\nprovinces_to_highlight = {{ {highlight} }}\n'+block('effect',eff)+'ai_will_do = { factor = 0 }'))
             loc['rip_rg_'+group]=first['title']; loc['rip_rg_'+group+'_desc']=loc['rip_rg_'+first['key']+'_desc']+(' The Podillian path changes the final price; inspect the confirmation tooltip.' if len(variants)>1 else '')
             loc['rip_rg_'+group+'_decision_title']=first['title']; loc['rip_rg_'+group+'_decision_desc']=loc['rip_rg_'+group+'_desc']
+            loc['rip_rg_'+group+'_tt']=tooltips.get(group, loc['rip_rg_'+group+'_desc'])
         mechanics.append(block('rip_rg_'+f+'_mechanic','alert_icon_gfx = GFX_alerticons_government_mechanics\nalert_icon_index = 1\n'+block('available',inline_gate(gates[f]))+block('interactions','\n'.join(interactions))))
     for f in LANDS:
         loc['ability_rip_rg_'+f+'_mechanic']={'chr':'Desna River Confederation','uzh':'Carpathian Border Captaincy','pdl':'Podillian Starosta Watch','prl':'Pereiaslav Frontier Watch','ods':'Black Sea Grain Emporium'}[f]
