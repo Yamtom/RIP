@@ -66,7 +66,7 @@ COPY.update({
  'rip_ob_institutions.2.a': 'Sustain manuscript schools',
  'rip_ob_institutions.2.b': 'Fund alms and mutual aid',
  'rip_ob_institutions.3.t': 'A Refuge for the Old Books',
- 'rip_ob_institutions.3.d': "The proposed site is [event_target:rip_ob_refuge_site.GetName]. Its existing community asks for a prayer house, workshops and a secure endowment. The land remains under its present faith; this foundation does not convert a province.\\nConfirm for 100 ducats and 50 DIP; local autonomy rises by 10. While protected: unrest -1, production efficiency +15%, tax -15%, missionary strength -1%. The foundation survives conquest; the new ruler's faith and policy determine whether its benefits remain active.",
+ 'rip_ob_institutions.3.d': "The proposed site is [rip_ob_refuge_site.GetName]. Its existing community asks for a prayer house, workshops and a secure endowment. The land remains under its present faith; this foundation does not convert a province.\\nConfirm for 100 ducats and 50 DIP; local autonomy rises by 10. While protected: unrest -1, production efficiency +15%, tax -15%, missionary strength -1%. The foundation survives conquest; the new ruler's faith and policy determine whether its benefits remain active.",
  'rip_ob_institutions.3.a': 'Endow the named refuge',
  'rip_ob_institutions.defer': 'Leave the matter open',
  'rip_ob_no_accord': 'No settlement chosen',
