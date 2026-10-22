@@ -13,12 +13,6 @@ het_is_autonomous = {
 }
 
 can_establish_regiment = {
-	owner = {
-		OR = {
-			tag = HET
-			has_reform = het_regimental_system_reform
-		}
-	}
 	is_city = yes
 	OR = {
 		area = west_dniepr_area
@@ -26,6 +20,12 @@ can_establish_regiment = {
 		area = sloboda_ukraine_area
 	}
 	development = 8
+	owner = {
+		OR = {
+			tag = HET
+			has_reform = het_regimental_system_reform
+		}
+	}
 }
 
 het_succession_crisis_imminent = {
