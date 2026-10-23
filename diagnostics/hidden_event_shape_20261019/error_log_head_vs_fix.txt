@@ -1,0 +1,38 @@
+Probe runs of the hidden-event-shape A/B (EU4 1.37.5, 1444.11.11 + 60 game days, -debug_mode -start_tag=MOS).
+head = the four event files as at b7f1b8b2 (before the fix); fix = as committed. Same test-only patches in both trees.
+
+run                  variant  seed  lines distinct eventmanager.cpp economic_ideas markers
+runs_v3/head         head     1001  18380      149               41              0      36
+runs_v3/fix          fix      1001  18797      109                0              1      36
+runs_v4/fix          fix      1001  18757      109                0              1      36
+runs_v4/head         head     1001  18380      149               41              0      36
+runs_v5/fix_1        fix      1001  18949      109                0              1      36
+runs_v5/head_2       head     1001  18502      149               41              0      36
+runs_v5/head_3       head     1001  18408      149               41              0      36
+runs_v5/fix_4        fix      1001  18797      109                0              1      36
+runs_v5/fix_5        fix      1001  18797      109                0              1      36
+runs_v5/head_6       head     1001  18420      149               41              0      36
+runs/head_s1002_1    head     1002  17148      149               41              0      36
+runs/fix_s1002_2     fix      1002  17461      108                0              0      36
+runs/fix_s1003_3     fix      1003  19159      109                0              2      36
+runs/head_s1003_4    head     1003  18244      150               41              2      36
+runs/head_s1004_5    head     1004  18226      149               41              0      36
+runs/fix_s1004_6     fix      1004  18211      108                0              0      36
+
+head: 8 runs; eventmanager.cpp lines per run: [41]
+fix: 8 runs; eventmanager.cpp lines per run: [0]
+
+Distinct error.log lines that differ between the variants at the same seed (eventmanager.cpp lines excluded):
+  seed 1001 (5 head runs, 5 fix runs): only in head 0, only in fix 1
+     + [triggerimplementation.cpp:27226]: Script error! Script Object Token: "economic_ideas", Error: Trigger condition set on the wrong scope: Scope.GetCountryTag().IsValid()
+  seed 1002 (1 head runs, 1 fix runs): only in head 0, only in fix 0
+  seed 1003 (1 head runs, 1 fix runs): only in head 0, only in fix 0
+  seed 1004 (1 head runs, 1 fix runs): only in head 0, only in fix 0
+
+The economic_ideas line (a scope error in the has_reform family) per seed: seed 1001: head 0, fix 5; seed 1002: head 0, fix 0; seed 1003: head 2, fix 2; seed 1004: head 0, fix 0 (occurrences summed over the runs of the seed)
+
+Probe markers (game state at the checkpoints 1444.12.11 and 1445.01.10) compared per seed:
+  seed 1001: 10 runs, identical marker sets in all of them: True, markers 36
+  seed 1002: 2 runs, identical marker sets in all of them: True, markers 36
+  seed 1003: 2 runs, identical marker sets in all of them: True, markers 36
+  seed 1004: 2 runs, identical marker sets in all of them: True, markers 36
