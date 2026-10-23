@@ -46,6 +46,7 @@ rip_frontier_ural_one_effect = {
 	 add_claim = ROOT
 	 set_province_flag = rip_frontier_batch_step_@ROOT
 	 ROOT = { set_country_flag = rip_frontier_batch_started change_variable = { which = rip_frontier_claims_issued value = 1 } }
+	 log = "RIP_FRONTIER CLAIM ural [Root.GetName] [This.GetName]"
 	}
 }
 
@@ -75,6 +76,7 @@ rip_frontier_ural_purchase_effect = {
 	  add_country_modifier = { name = ruthenian_ural_gate duration = 9125 }
 	  country_event = { id = ruthenian_eastward.2 }
 	 }
+	 log = "RIP_FRONTIER PURCHASE ural [Root.GetName]"
 	}
 }
 
@@ -84,6 +86,7 @@ rip_frontier_manchuria_one_effect = {
 	 add_claim = ROOT
 	 set_province_flag = rip_frontier_batch_step_@ROOT
 	 ROOT = { set_country_flag = rip_frontier_batch_started change_variable = { which = rip_frontier_claims_issued value = 1 } }
+	 log = "RIP_FRONTIER CLAIM manchuria [Root.GetName] [This.GetName]"
 	}
 }
 
@@ -109,10 +112,11 @@ rip_frontier_manchuria_purchase_effect = {
 	 if = {
 	  limit = { NOT = { has_country_flag = ruthenian_manchurian_horizon } }
 	  set_country_flag = ruthenian_manchurian_horizon
-	  set_country_flag = rip_frontier_manchuria_benefit_started
+	  set_country_flag = rip_frontier_manchurian_benefit_started
 	  add_country_modifier = { name = ruthenian_manchurian_push duration = 9125 }
 	  country_event = { id = ruthenian_eastward.3 }
 	 }
+	 log = "RIP_FRONTIER PURCHASE manchuria [Root.GetName]"
 	}
 }
 
