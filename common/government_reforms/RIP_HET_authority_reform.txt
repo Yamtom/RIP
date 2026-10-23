@@ -1,0 +1,52 @@
+rip_hetman_cossacks_reform = {
+	icon = "rip_gfx_reform_cossack_host_icon"
+	allow_normal_conversion = yes
+	potential = { OR = { has_reform = rip_hetman_cossacks_reform tag = HET } }
+	government_abilities = {
+		rip_het_authority_mechanic
+		rip_register_resolutions_mechanic
+	}
+	conditional = {
+		allow = {
+			has_dlc = "Origins"
+		}
+		custom_attributes = {
+			has_itinerant_capital = yes
+		}
+	}
+	conditional = {
+		allow = {
+			has_dlc = "The Cossacks"
+		}
+		custom_attributes = {
+			enables_estate_cossacks = yes
+		}
+	}
+	trigger = {
+		is_not_blocked_by_estate_privilege = { estate = estate_nobles }
+	}
+	valid_for_new_country = no
+	nation_designer_trigger = {
+		any_owned_province = {
+			has_terrain = steppe
+		}
+	}
+	custom_attributes = {
+		enables_horde_idea_group = yes
+		enables_aristocratic_idea_group = no
+		disables_estate_nobles = yes
+	}
+	valid_for_nation_designer = no
+	nation_designer_cost = 60
+	modifiers = {
+		cavalry_power = 0.1
+		cavalry_cost = -0.1
+		cav_to_inf_ratio = 0.2
+		allowed_cossack_fraction = 0.2
+	}
+	duration = 4
+	removed_effect = {
+		if = { limit = { NOT = { has_country_flag = rip_het_migrating } } rip_gov_clear_register_effect = yes }
+	}
+    effect = { rip_het_migrate_effect = yes }
+}

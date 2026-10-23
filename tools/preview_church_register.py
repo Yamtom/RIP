@@ -24,6 +24,7 @@ from PIL import Image
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tests'))
 from church_testlib import World, parse                     # noqa: E402
 from clausewitz_testlib import ROOT, vanilla_root                   # noqa: E402
+from clausewitz_testlib import read_custom_localization
 
 GAME = vanilla_root()
 ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -60,6 +61,7 @@ def scan(folder):
             SPRITES[name[1]] = dict(texture=texture[1].replace('\\', '/').replace('//', '/'),
                                     frames=int(frames[1]) if frames else 1,
                                     cornered=m[1].lower().startswith('cornered'),
+                                    text=m[1].lower().startswith('textsprite'),
                                     size=(int(size[1]), int(size[2])) if size else None,
                                     border=int(border[1]) if border else 0)
 
@@ -181,10 +183,10 @@ def read_loc(path):
 LOC = read_loc(ROOT / 'localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
 LOC.update(read_loc(ROOT / 'localisation/rip_ro_blessing_window_l_english.yml'))
 LADDERS = {}
-for kind, body in parse((ROOT / 'customizable_localization/rip_church_redesign.txt').read_text(encoding='utf-8-sig')):
+for kind, body in parse(read_custom_localization('church')):
     if kind == 'defined_text':
         LADDERS[dict(body)['name']] = [(dict(row)['trigger'], dict(row)['localisation_key']) for k, row in body if k == 'text']
-for kind, body in parse((ROOT / 'customizable_localization/rip_ro_holy_cities_custom_loc.txt').read_text(encoding='utf-8-sig')):
+for kind, body in parse((ROOT / 'customizable_localization/RIP_MOS_RUS_holy_cities.txt').read_text(encoding='utf-8-sig')):
     if kind == 'defined_text':
         LADDERS[dict(body)['name']] = [(dict(row).get('trigger', [('always', 'yes')]), dict(row)['localisation_key']) for k, row in body if k == 'text']
 BINDINGS = {}
@@ -300,7 +302,13 @@ class Scene:
             elif kind == 'guiButtonType':
                 if scripted and self.visible('custom_button', name) is False:
                     continue
-                art = sprite_image(f['quadTextureSprite'], 1, float(f.get('scale', 1)))
+                scale = float(f.get('scale', 1))
+                if SPRITES[f['quadTextureSprite']]['text'] and scale != 1.0:
+                    # EU4 1.37.5 ignores `scale` on a textSpriteType button (measured in the game, 2026-10-18): it is drawn at
+                    # its full size there, so draw it that way here and report the generator mistake.
+                    problems.append(f"{name}: scale {scale} is ignored by the engine on the textSpriteType {f['quadTextureSprite']}")
+                    scale = 1.0
+                art = sprite_image(f['quadTextureSprite'], 1, scale)
                 self.canvas.alpha_composite(art, (x, y))
                 self.drawn.append((name, x, y, art.width, art.height))
                 label = f.get('buttonText')

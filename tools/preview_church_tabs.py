@@ -13,6 +13,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tests'))
 from clausewitz_testlib import vanilla_root, keyed_blocks
+from clausewitz_testlib import read_custom_localization
 from church_testlib import parse, fixture
 
 GAME = vanilla_root()
@@ -25,7 +26,7 @@ OUT.mkdir(parents=True, exist_ok=True)
 loc = dict(re.findall(r'^\s+(\w+):0 "(.*)"$', (ROOT / 'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'), re.M))
 readouts = {}
 readout_rows = {}
-for _, block in keyed_blocks((ROOT / 'customizable_localization/rip_church_redesign.txt').read_text(), 'defined_text'):
+for _, block in keyed_blocks(read_custom_localization('church'), 'defined_text'):
     entries = dict(parse(block))['defined_text']
     name = dict(entries)['name']
     leaves = [dict(v)['localisation_key'] for k, v in entries if k == 'text']

@@ -2,40 +2,40 @@
 # each one reaches only the land and the war it was made for.
 # Country scope: a steppe power, by government reform or technology group.
 rip_church_steppe_power = {
- OR = { has_reform = steppe_horde technology_group = nomad_group }
+	OR = { has_reform = steppe_horde technology_group = nomad_group }
 }
 # Country scope, ROOT is the Muscovite state.
 rip_church_at_war_with_steppe = {
- any_country = { rip_church_steppe_power = yes war_with = ROOT }
+	any_country = { rip_church_steppe_power = yes war_with = ROOT }
 }
 # Province scope, ROOT is the policy owner: a border with another steppe power.
 rip_church_steppe_frontier = {
- is_city = yes
- any_neighbor_province = { owner = { NOT = { tag = ROOT } rip_church_steppe_power = yes } }
+	is_city = yes
+	any_neighbor_province = { owner = { NOT = { tag = ROOT } rip_church_steppe_power = yes } }
 }
 # Province scope. The eastern lands: the Volga, the Urals and Siberia.
 rip_church_eastern_land = {
- is_city = yes
- OR = {
-  area = volga_area
-  area = kazan_area
-  area = astrakhan_area
-  area = nogai_area
-  area = lower_yik_area
-  region = ural_region
-  region = west_siberia_region
-  region = east_siberia_region
- }
+	is_city = yes
+	OR = {
+		area = volga_area
+		area = kazan_area
+		area = astrakhan_area
+		area = nogai_area
+		area = lower_yik_area
+		region = ural_region
+		region = west_siberia_region
+		region = east_siberia_region
+	}
 }
 # Province scope. An established cathedral supports local infrastructure.
 rip_church_cathedral_candidate = {
- is_city = yes
- religion = ROOT
- has_building = cathedral
+	is_city = yes
+	religion = ROOT
+	has_building = cathedral
 }
 # Province scope. A settled province of another faith: the field of the Mission policy.
 rip_church_mission_field = {
- is_city = yes
- NOT = { religion = russian_orthodox }
- NOT = { religion = orthodox }
+	is_city = yes
+	NOT = { religion = russian_orthodox }
+	NOT = { religion = orthodox }
 }

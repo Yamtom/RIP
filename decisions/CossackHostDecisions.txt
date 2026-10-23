@@ -131,4 +131,173 @@ country_decisions = {
 			}
 		}
 	}
+
+	# ======================= COSSACK HOST FORMATIONS =======================
+
+
+	# Frontier Host Network:
+	# The named regional hosts the frontier raised: Don, Danube, Eastern (Kuban/Nogai),
+	# and Sloboda. A Cossack polity expanding along the frontier can organize
+	# each regional host once it secures that specific borderland.
+	# A regional formation records its founding once. Only its controlled regional
+	# state cores receive musters. Two CURRENT bases give the shared network name;
+	# founding flags alone never preserve benefits after territorial loss.
+
+	found_the_don_host = {
+		major = yes
+		potential = {
+			is_cossack_polity = yes
+			NOT = { has_country_flag = founded_don_host }
+			any_owned_province = { area = lower_don_area }
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			area = lower_don_area
+		}
+		allow = {
+			holds_the_lower_don = yes
+			mil_power = 50
+			stability = 1
+		}
+		effect = {
+			set_country_flag = founded_don_host
+			found_cossack_host_effect = yes
+			every_owned_province = {
+				limit = { area = lower_don_area }
+				add_permanent_claim = ROOT
+			}
+		}
+		ai_will_do = { factor = 10 }
+	}
+
+	found_the_danube_sich = {
+		major = yes
+		potential = {
+			is_cossack_polity = yes
+			NOT = { has_country_flag = founded_danube_sich }
+			any_owned_province = {
+				OR = {
+					area = silistria_area
+					province_id = 1756
+					AND = {
+						area = wallachia_area
+						OR = {
+							province_id = 160
+							province_id = 4531
+							province_id = 4532
+						}
+					}
+				}
+			}
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				area = silistria_area
+				province_id = 1756
+				AND = {
+					area = wallachia_area
+					OR = {
+						province_id = 160
+						province_id = 4531
+						province_id = 4532
+					}
+				}
+			}
+		}
+		allow = {
+			holds_the_danube_bank = yes
+			mil_power = 50
+			stability = 1
+		}
+		effect = {
+			set_country_flag = founded_danube_sich
+			found_cossack_host_effect = yes
+			every_owned_province = {
+				limit = {
+					OR = {
+						area = silistria_area
+						province_id = 1756
+						AND = {
+							area = wallachia_area
+							OR = {
+								province_id = 160
+								province_id = 4531
+								province_id = 4532
+							}
+						}
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+		ai_will_do = { factor = 5 }
+	}
+
+	found_the_eastern_host = {
+		major = yes
+		potential = {
+			is_cossack_polity = yes
+			NOT = { has_country_flag = founded_eastern_host }
+			any_owned_province = {
+				OR = {
+					area = circassia_area
+					area = nogai_area
+				}
+			}
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				area = circassia_area
+				area = nogai_area
+			}
+		}
+		allow = {
+			holds_the_eastern_steppe = yes
+			mil_power = 50
+			army_tradition = 30
+		}
+		effect = {
+			set_country_flag = founded_eastern_host
+			found_cossack_host_effect = yes
+			every_owned_province = {
+				limit = {
+					OR = {
+						area = circassia_area
+						area = nogai_area
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+		ai_will_do = { factor = 5 }
+	}
+
+	found_the_sloboda_host = {
+		major = yes
+		potential = {
+			is_cossack_polity = yes
+			NOT = { has_country_flag = founded_sloboda_host }
+			any_owned_province = { area = sloboda_ukraine_area }
+		}
+		provinces_to_highlight = {
+			owned_by = ROOT
+			area = sloboda_ukraine_area
+		}
+		allow = {
+			holds_the_sloboda_country = yes
+			mil_power = 50
+			stability = 1
+		}
+		effect = {
+			set_country_flag = founded_sloboda_host
+			found_cossack_host_effect = yes
+			every_owned_province = {
+				limit = { area = sloboda_ukraine_area }
+				add_permanent_claim = ROOT
+			}
+		}
+		ai_will_do = { factor = 5 }
+	}
 }

@@ -1,0 +1,44 @@
+# =========================================================================
+# SCRIPTED EFFECTS: Podillia Border Watch Mechanics
+# Country Scope: PDL (Podillia / Frontier Host)
+# =========================================================================
+
+# Effects of the Border Watch (common/government_mechanics/rip_border_watch.txt).
+
+# Country scope. The Watch is a right the reform gives: when the reform goes, the
+# patrols are called in and the posts, towers and settlements it laid on the land
+# are lifted, as the other reforms lift their local bonuses (rip_gov_clear_*_effect).
+# Costs are not refunded and the shared ten-year order cooldown is kept. Two places
+# call it: both reforms' removed_effect (the reform removed by remove_government_reform)
+# and rip_border_watch_sweep_effect below.
+rip_border_watch_clear_effect = {
+	clr_country_flag = rip_border_watch_laid
+	if = {
+		limit = { has_country_modifier = rip_steppe_patrols }
+		remove_country_modifier = rip_steppe_patrols
+	}
+	every_owned_province = {
+		limit = { has_province_modifier = rip_watchtower_line }
+		remove_province_modifier = rip_watchtower_line
+	}
+	every_owned_province = {
+		limit = { has_province_modifier = rip_settled_watch }
+		remove_province_modifier = rip_settled_watch
+	}
+}
+
+# Country scope, once a year for every country (common/on_actions/rip_reform_mechanics_on_actions.txt).
+# removed_effect does NOT run when the reform is dropped by a change of government type made in an
+# event or by a revolution (measured in EU4 1.37.5: change_government drops the reform and the
+# modifiers stay), so a country that laid the Watch and no longer holds either reform is cleared
+# here. The look-ups are one flag and one reform, so a country that never laid the Watch costs
+# nothing; the flag is set by each of the three orders.
+rip_border_watch_sweep_effect = {
+	if = {
+		limit = {
+			has_country_flag = rip_border_watch_laid
+			NOT = { rip_border_watch_held = yes }
+		}
+		rip_border_watch_clear_effect = yes
+	}
+}

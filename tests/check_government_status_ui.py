@@ -4,6 +4,7 @@ import re
 import subprocess
 import sys
 from clausewitz_testlib import ROOT, read, keyed_blocks, named_block, normalized
+from clausewitz_testlib import read_custom_localization
 spec = importlib.util.spec_from_file_location('government_status', ROOT/'tools/build_government_status_ui.py')
 g = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(g)
@@ -27,7 +28,7 @@ for _,trigger,value,_ in g.annual:
 
 custom=read('common/custom_gui/rip_government_status.txt')
 gui=read('interface/countrygovernmentview.gui')
-dynamic=read('customizable_localization/rip_government_status.txt')
+dynamic=read_custom_localization('government_status')
 loc=g.LOC
 for name in re.findall(r'custom_text_box = \{ name = (\w+)', custom):
     assert f'name = "{name}" scripted = yes' in gui
@@ -169,9 +170,8 @@ def check_resolutions(mech, modifiers, reforms, tips, triggers):
             if MODIFIER_WORDS[mod_key] and said(mod_key, value) not in tips['rip_gov_rev_res_lines_tt']:
                 problems.append(f'the resolution list does not quote {said(mod_key, value)} for {label}')
     for reform, mechanic in (('vln_magdeburg_rights', 'rip_municipal_resolutions_mechanic'), ('lit_ruthenian_chancery_reform', 'rip_chancery_resolutions_mechanic'),
-                             ('chr_kanceliaryst_republic_reform', 'rip_chancery_resolutions_mechanic'), ('het_regimental_system_reform', 'rip_register_resolutions_mechanic'),
-                             ('rip_cossacks_reform', 'rip_register_resolutions_mechanic'), ('vln_cossack_host_reform', 'rip_register_resolutions_mechanic'),
-                             ('prl_regimental_republic_reform', 'rip_register_resolutions_mechanic')):
+                             ('het_regimental_system_reform', 'rip_register_resolutions_mechanic'), ('rip_cossacks_reform', 'rip_register_resolutions_mechanic'),
+                             ('vln_cossack_host_reform', 'rip_register_resolutions_mechanic'), ('rip_hetman_cossacks_reform', 'rip_register_resolutions_mechanic')):
         if mechanic not in named_block(named_block(reforms[reform][1], reform), 'government_abilities'):
             problems.append(f'{reform} does not enable {mechanic}')
     return problems
@@ -209,7 +209,7 @@ planted = {
     'a resolution paid in the wrong power': lambda: check_resolutions(MECH_RES.replace('mil_power_cost = 50', 'adm_power_cost = 50'), MODS_RES, REFORM_FILES, tips, TRIG_RES),
     'a resolution with no stability condition': lambda: check_resolutions(MECH_RES.replace('stability = 0', 'always = yes', 1), MODS_RES, REFORM_FILES, tips, TRIG_RES),
     'a resolution missing from the in-force trigger': lambda: check_resolutions(MECH_RES, MODS_RES, REFORM_FILES, tips, TRIG_RES.replace('has_country_modifier = rip_gov_register_muster', 'always = no')),
-    'a reform that lost its resolution buttons': lambda: check_resolutions(MECH_RES, MODS_RES, {**REFORM_FILES, 'chr_kanceliaryst_republic_reform': (REFORM_FILES['chr_kanceliaryst_republic_reform'][0], REFORM_FILES['chr_kanceliaryst_republic_reform'][1].replace('rip_chancery_resolutions_mechanic', 'x', 1))}, tips, TRIG_RES),
+    'a reform that lost its resolution buttons': lambda: check_resolutions(MECH_RES, MODS_RES, {**REFORM_FILES, 'lit_ruthenian_chancery_reform': (REFORM_FILES['lit_ruthenian_chancery_reform'][0], REFORM_FILES['lit_ruthenian_chancery_reform'][1].replace('rip_chancery_resolutions_mechanic', 'x', 1))}, tips, TRIG_RES),
 }
 unseen = [name for name, run in planted.items() if not run()]
 assert not unseen, f'planted violations not caught: {unseen}'

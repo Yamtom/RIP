@@ -1,0 +1,35 @@
+# RIP - hlc faith reform triggers.
+
+# --- HLC ---------------------------------------------------------------------
+
+hlc_stauropegion_candidate = {
+	west_ukraine_hlc_origin_country = yes
+	OR = {
+		religion = orthodox
+		religion = russian_orthodox
+		religion = greek_catholic
+	}
+}
+
+hlc_stauropegion_visible = {
+	OR = {
+		has_reform = hlc_stauropegion_brotherhood_reform
+		hlc_stauropegion_candidate = yes
+	}
+}
+
+# 1586: Patriarch Joachim of Antioch confirms the Dormition Brotherhood of Lviv
+# as stauropegial (Jeremias II repeated it in 1588). Lviv itself must be held.
+hlc_stauropegion_eligible = {
+	OR = {
+		has_reform = hlc_stauropegion_brotherhood_reform
+		AND = {
+			hlc_stauropegion_candidate = yes
+			owns = 2961
+			OR = {
+				is_year = 1586
+				has_institution = printing_press
+			}
+		}
+	}
+}

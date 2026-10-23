@@ -1,0 +1,51 @@
+# RIP - chr faith reform triggers.
+
+# --- CHR ---------------------------------------------------------------------
+
+chr_vetka_candidate = {
+	OR = {
+		tag = CHR
+		was_tag = CHR
+	}
+	OR = {
+		religion = orthodox
+		religion = russian_orthodox
+		religion = old_believer
+	}
+}
+
+chr_vetka_visible = {
+	OR = {
+		has_reform = chr_vetka_asylum_reform
+		chr_vetka_candidate = yes
+	}
+}
+
+chr_vetka_eligible = {
+	OR = {
+		has_reform = chr_vetka_asylum_reform
+		AND = {
+			chr_vetka_candidate = yes
+			custom_trigger_tooltip = {
+				tooltip = chr_vetka_refugees_req_tt
+				rip_moscow_has_driven_out_the_old_rite = yes
+			}
+		}
+	}
+}
+
+# Province scope. Where a refugee settlement may be planted: a settled city of
+# the realm, outside the capital, in woodland or marsh the Muscovite
+# authorities do not reach.
+chr_sloboda_site = {
+	is_city = yes
+	is_capital = no
+	controlled_by = owner
+	NOT = { has_province_modifier = chr_old_believer_sloboda }
+	OR = {
+		has_terrain = forest
+		has_terrain = woods
+		has_terrain = marsh
+		has_terrain = farmlands
+	}
+}

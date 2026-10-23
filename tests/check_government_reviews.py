@@ -41,6 +41,16 @@ def parse(text):
     return dict(block())
 
 
+def vanilla_text(path):
+    """Script of the installed game. EU4 ships Windows-1252; UTF-8 is tried first, as for
+    the mod's own files, so that an install somebody re-saved as UTF-8 still reads."""
+    raw = path.read_bytes()
+    try:
+        return raw.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        return raw.decode("cp1252")
+
+
 TRIGGERS = parse(read("common/scripted_triggers/rip_government_review_triggers.txt"))
 EFFECTS = parse(read("common/scripted_effects/rip_government_review_effects.txt"))
 MECHANICS = parse(read("common/government_mechanics/rip_institutional_resolutions.txt"))
@@ -178,7 +188,6 @@ def source_contracts():
     cleanups = {
         "vln_magdeburg_rights": "municipal",
         "lit_ruthenian_chancery_reform": "chancery",
-        "chr_kanceliaryst_republic_reform": "chancery",
         "het_regimental_system_reform": "register",
         "rip_cossacks_reform": "register",
         "vln_cossack_host_reform": "register",
@@ -186,7 +195,20 @@ def source_contracts():
     }
     for reform, family in cleanups.items():
         assert f"rip_gov_clear_{family}_effect = yes" in named_block(named_block(reforms, reform), "removed_effect")
-        assert FAMILIES[family][0] in named_block(named_block(reforms, reform), "government_abilities"), f"{reform} gives no buttons"
+        abilities = list(keyed_blocks(named_block(reforms, reform), "government_abilities"))
+        assert any(FAMILIES[family][0] in block for _, block in abilities), f"{reform} gives no buttons"
+    chr_reform = named_block(reforms, "chr_kanceliaryst_republic_reform")
+    abilities = list(keyed_blocks(chr_reform, "government_abilities"))
+    assert len(abilities) == 1 and "rip_rg_chr_mechanic" in abilities[0][1]
+    assert "rip_chancery_resolutions_mechanic" not in chr_reform
+    assert "rip_gov_clear_chancery_effect = yes" in named_block(chr_reform, "removed_effect")
+    legacy = initial()
+    legacy['reforms'] = {'chr_kanceliaryst_republic_reform'}
+    legacy['modifiers'] = {'rip_gov_chancery_service': 3650}
+    legacy['flags'] = {'rip_gov_review_recent': 0}
+    execute(EFFECTS['rip_gov_review_cleanup_effect'], legacy)
+    assert not legacy['modifiers'] and legacy['flags'] == {'rip_gov_review_recent': 0}
+    assert not gate(button('chancery', 'service')['trigger'], legacy)
     for key in ("monarch_admin_power", "monarch_military_power", "administrative_efficiency", "all_power_cost"):
         assert not re.search(rf"\b{key}\s*=", normalized(reforms)), f"unbudgeted high-impact modifier: {key}"
     assert "cossacks_mechanic" not in named_block(reforms, "siversk_veche_reform")
@@ -204,7 +226,7 @@ def vanilla_envelopes():
         print("SKIP government numeric comparators: target EU4 1.37 installation unavailable")
         return
     own = "\n".join(p.read_text(encoding="utf-8-sig") for p in (ROOT / "common/government_reforms").glob("*.txt"))
-    native = "\n".join(p.read_text(encoding="utf-8-sig") for p in (installed / "common/government_reforms").glob("*.txt"))
+    native = "\n".join(vanilla_text(p) for p in (installed / "common/government_reforms").glob("*.txt"))
     pairs = (
         ("chr_prykaz_tsardom_reform", "tsardom", {"global_unrest": 1}),
         ("rip_cossacks_reform", "cossacks_reform", {}),
@@ -255,16 +277,16 @@ def comparator_coverage():
         "head_of_the_patriarchy_reform",
         "orthodox_patriarchate_reform",
     }
-    assert len(rows) == len(data["reforms"]) == 123 and set(rows) == live_ids
+    assert len(rows) == len(data["reforms"]) == 133 and set(rows) == live_ids
     own_tiers = reform_tiers(read("common/governments/00_governments.txt"))
     snapshots = {row["id"]: row for row in data["vanilla_comparators"]}
     installed = vanilla_root()
     native_tiers = None
     native_definitions = set()
     if installed:
-        native_tiers = reform_tiers((installed / "common/governments/00_governments.txt").read_text(encoding="utf-8-sig"))
+        native_tiers = reform_tiers(vanilla_text(installed / "common/governments/00_governments.txt"))
         for path in (installed / "common/government_reforms").glob("*.txt"):
-            native_definitions.update(re.findall(r"^([a-z0-9_]+)\s*=\s*\{", path.read_text(encoding="utf-8-sig"), re.M))
+            native_definitions.update(re.findall(r"^([a-z0-9_]+)\s*=\s*\{", vanilla_text(path), re.M))
     count = 0
     for reform, row in rows.items():
         expected_tiers = own_tiers[reform]
@@ -280,11 +302,11 @@ def comparator_coverage():
                 assert comparator in snapshots and tier in snapshots[comparator]["tiers"], (reform, tier, comparator)
                 if native_tiers is not None:
                     assert comparator in native_definitions and tier in native_tiers.get(comparator, set()), (reform, tier, comparator)
-    assert count == 129
+    assert count == 142
     if installed:
-        print("GOVERNMENT COMPARATOR COVERAGE: PASS (123 definitions; 129 tier rows verified against installed 1.37)")
+        print("GOVERNMENT COMPARATOR COVERAGE: PASS (133 definitions; 142 tier rows verified against installed 1.37)")
     else:
-        print("GOVERNMENT COMPARATOR COVERAGE: PASS (123 definitions; 129 saved tier rows); SKIP live vanilla tier check")
+        print("GOVERNMENT COMPARATOR COVERAGE: PASS (133 definitions; 142 saved tier rows); SKIP live vanilla tier check")
 
 
 def main():

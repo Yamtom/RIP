@@ -1,0 +1,24 @@
+# RIP - religion old believer.
+# Keeps the Old Believer communities current. EU4 merges on_action blocks across
+# files, so these add to the hooks in RIP_religion_russian_orthodox_on_actions.txt rather than
+# replacing them. The effect is written to do nothing in a country that has no
+# community and no policy.
+on_startup = {
+	rip_ob_upkeep_effect = yes
+	rip_ob_institutions_upkeep_effect = yes
+}
+
+on_yearly_pulse = {
+	rip_ob_upkeep_effect = yes
+	rip_ob_institutions_upkeep_effect = yes
+}
+
+on_religion_change = {
+	rip_ob_upkeep_effect = yes
+	rip_ob_institutions_upkeep_effect = yes
+}
+
+# Province scope: suspend or restore endowed refuge benefits for the new owner.
+on_province_owner_change = {
+	rip_ob_refresh_refuge_effect = yes
+}

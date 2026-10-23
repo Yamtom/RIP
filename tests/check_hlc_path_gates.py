@@ -1,10 +1,11 @@
 """Contracts for the Galician government-path decisions."""
 
+from clausewitz_testlib import read_scripted_trigger_family
 from clausewitz_testlib import named_block, read
 
 
 decisions = read("decisions/HLCRepublicPaths.txt")
-triggers = read("common/scripted_triggers/rip_path_state_triggers.txt")
+triggers = read_scripted_trigger_family("path_state_triggers")
 localisation = read("localisation/rip_galicia_l_english.yml")
 
 boyars = named_block(decisions, "hlc_the_boyars_take_power")

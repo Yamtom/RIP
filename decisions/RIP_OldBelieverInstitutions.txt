@@ -1,0 +1,55 @@
+country_decisions = {
+	rip_ob_choose_accord = {
+		potential = { rip_ob_institution_state = yes }
+		allow = {
+			rip_ob_can_choose_accord = yes
+			NOT = { has_country_flag = rip_ob_accord_pending }
+		}
+		effect = {
+			set_country_flag = rip_ob_accord_pending
+			country_event = { id = rip_ob_institutions.1 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				OR = {
+					has_country_flag = rip_ob_priestly_accord
+					has_country_flag = rip_ob_lay_accord
+				}
+			}
+		}
+	}
+	rip_ob_hold_assembly = {
+		potential = { rip_ob_institution_state = yes }
+		allow = {
+			rip_ob_can_hold_assembly = yes
+			NOT = { has_country_flag = rip_ob_assembly_pending }
+		}
+		effect = {
+			set_country_flag = rip_ob_assembly_pending
+			country_event = { id = rip_ob_institutions.2 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+	rip_ob_endow_refuge = {
+		potential = { rip_ob_institution_state = yes }
+		allow = {
+			rip_ob_can_fund_refuge = yes
+			NOT = { has_country_flag = rip_ob_refuge_pending }
+			any_owned_province = { rip_ob_refuge_site = yes }
+		}
+		effect = {
+			set_country_flag = rip_ob_refuge_pending
+			random_owned_province = {
+				limit = { rip_ob_refuge_site = yes }
+				save_event_target_as = rip_ob_refuge_site
+			}
+			country_event = { id = rip_ob_institutions.3 }
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = { factor = 0 NOT = { treasury = 200 } }
+		}
+	}
+}

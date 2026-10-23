@@ -1,0 +1,29 @@
+namespace = rip_het_election
+
+# The decision has already paid and recorded its term. Do not use the
+# autonomous ZAZ-only low-tradition crisis as the HET decision's recipient.
+country_event = {
+	id = rip_het_election.1
+	title = zaz_flavor.5.t
+	desc = zaz_flavor.5.d
+	picture = ELECTION_REPUBLICAN_eventPicture
+	is_triggered_only = yes
+	trigger = { is_hetmanate_nation = yes }
+	option = {
+		name = zaz_flavor.5.a
+		define_ruler = { change_mil = 3 change_adm = -1 }
+		add_legitimacy_equivalent = { amount = 5 republican_tradition = 5 }
+		add_army_tradition = 5
+	}
+	option = {
+		name = zaz_flavor.5.b
+		define_ruler = { change_dip = 3 change_mil = -1 }
+		add_legitimacy_equivalent = { amount = 5 republican_tradition = 5 }
+		add_dip_power = 25
+	}
+	option = {
+		name = zaz_flavor.5.c
+		define_ruler = { change_adm = 2 change_dip = 1 change_mil = 1 }
+		add_legitimacy_equivalent = { amount = 10 republican_tradition = 10 }
+	}
+}

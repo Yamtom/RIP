@@ -9,6 +9,7 @@ import struct
 
 from church_testlib import EFFECTS, fixture, parse
 from clausewitz_testlib import ROOT, read, vanilla_root
+from clausewitz_testlib import read_custom_localization
 
 
 def descendants(entries):
@@ -176,7 +177,7 @@ for policy in ('war', 'mercy', 'building', 'mission'):
     assert controls['custom_icon', f'rip_church_{policy}_active_frame']['potential'] == [('has_country_flag', f'rip_church_icon_{policy}')]
     for suffix in ('label', 'benefit', 'benefit_second', 'state'):
         label, _ = widget('instantTextBoxType', f'rip_church_icon_{policy}_{suffix}', children)
-        expected_font = 'vic_14' if policy == 'building' and suffix == 'benefit_second' else 'vic_18'
+        expected_font = 'vic_18'            # vic_14 is not declared by EU4 1.37.5
         assert label['font'] == expected_font
         assert label['scripted'] == 'yes'
     cases += 1
@@ -232,7 +233,7 @@ for policy, label in (
     assert f'rip_church_icon_{policy}_button:0 "{label}"' in policy_loc
     assert f'§Y{label}§!' in policy_loc
     assert 'buttonText = "rip_church_icon_toggle_label"' in read('interface/countryreligionview.gui')
-    assert f'GetChurchIcon{policy.title()}Action' in read('customizable_localization/rip_church_redesign.txt')
+    assert f'GetChurchIcon{policy.title()}Action' in read_custom_localization('church')
     cases += 1
 
 # Execute the GUI's effect, including a stale invocation after its disabled

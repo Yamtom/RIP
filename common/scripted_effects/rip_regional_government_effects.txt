@@ -1,0 +1,365 @@
+rip_rg_chr_bell_commit_effect = {
+	if = {
+	limit = { rip_rg_chr_bell_can = yes  event_target:rip_rg_target = { rip_rg_chr_bell_target = yes } }
+	add_adm_power = -50
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = rip_rg_chr_term duration = 3650 }
+	add_country_modifier = { name = rip_rg_chr_bell_active duration = 3650 }
+	event_target:rip_rg_target = {
+	add_nationalism = -3
+	add_province_modifier = { name = rip_rg_chr_bell duration = 1825 }
+	}
+	if = { limit = { has_reform = chr_magistrat_rule_reform } add_country_modifier = { name = rip_rg_chr_magistrat duration = 1825 } } else = { add_country_modifier = { name = rip_rg_chr_debate duration = 1825 } }
+	clr_country_flag = rip_rg_chr_bell_second_done
+	set_country_flag = rip_rg_chr_bell_issued
+	if = { limit = { has_reform = chr_town_union_reform } country_event = { id = rip_rg.111 } }
+	}
+}
+
+rip_rg_chr_staple_commit_effect = {
+	if = {
+	limit = { rip_rg_chr_staple_can = yes  event_target:rip_rg_target = { rip_rg_chr_staple_target = yes } }
+	add_dip_power = -50
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = rip_rg_chr_term duration = 3650 }
+	add_country_modifier = { name = rip_rg_chr_staple_active duration = 3650 }
+	event_target:rip_rg_target = {
+	add_local_autonomy = 5
+	add_province_modifier = { name = rip_rg_chr_staple duration = 3650 }
+	}
+	
+	}
+}
+
+rip_rg_chr_militia_commit_effect = {
+	if = {
+	limit = { rip_rg_chr_militia_can = yes  event_target:rip_rg_target = { rip_rg_chr_militia_target = yes } }
+	add_mil_power = -50
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = rip_rg_chr_term duration = 3650 }
+	add_country_modifier = { name = rip_rg_chr_militia_active duration = 3650 }
+	event_target:rip_rg_target = {
+	add_province_modifier = { name = rip_rg_chr_militia duration = 1825 }
+	}
+	add_country_modifier = { name = rip_rg_chr_reinforce duration = 1095 }
+	clr_country_flag = rip_rg_chr_militia_second_done
+	set_country_flag = rip_rg_chr_militia_issued
+	if = { limit = { has_reform = chr_town_union_reform } country_event = { id = rip_rg.151 } }
+	}
+}
+
+rip_rg_uzh_salt_commit_effect = {
+	if = {
+	limit = { rip_rg_uzh_salt_can = yes  event_target:rip_rg_target = { rip_rg_uzh_salt_target = yes } }
+	add_dip_power = -50
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = rip_rg_uzh_term duration = 1825 }
+	add_country_modifier = { name = rip_rg_uzh_salt_active duration = 1825 }
+	event_target:rip_rg_target = {
+	add_province_modifier = { name = rip_rg_uzh_salt duration = 1825 }
+	}
+	
+	}
+}
+
+rip_rg_uzh_guides_commit_effect = {
+	if = {
+	limit = { rip_rg_uzh_guides_can = yes  event_target:rip_rg_target = { rip_rg_uzh_guides_target = yes } }
+	add_mil_power = -50
+	add_treasury = -30
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = rip_rg_uzh_term duration = 1825 }
+	add_country_modifier = { name = rip_rg_uzh_guides_active duration = 1825 }
+	event_target:rip_rg_target = {
+	add_local_autonomy = 10
+	add_province_modifier = { name = rip_rg_uzh_guides duration = 1825 }
+	}
+	add_country_modifier = { name = rip_rg_uzh_supply duration = 1825 }
+	rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = -5 }
+	}
+}
+
+rip_rg_uzh_pass_commit_effect = {
+	if = {
+	limit = { rip_rg_uzh_pass_can = yes  event_target:rip_rg_target = { rip_rg_uzh_pass_target = yes } }
+	add_adm_power = -50
+	add_treasury = -50
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = rip_rg_uzh_term duration = 1825 }
+	add_country_modifier = { name = rip_rg_uzh_pass_active duration = 1825 }
+	event_target:rip_rg_target = {
+	add_province_modifier = { name = rip_rg_uzh_pass duration = 1825 }
+	}
+	
+	}
+}
+
+rip_rg_pdl_patrol_base_commit_effect = {
+	if = {
+	limit = { rip_rg_pdl_patrol_base_can = yes  event_target:rip_rg_target = { rip_rg_pdl_patrol_base_target = yes } }
+	add_mil_power = -35
+	add_treasury = -40
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = pdl_recent_border_policy duration = 1825 }
+	add_country_modifier = { name = rip_rg_pdl_patrol_base_active duration = 1825 }
+	event_target:rip_rg_target = {
+	add_devastation = -10
+	add_province_modifier = { name = rip_rg_border_patrol duration = 1825 }
+	}
+	add_army_tradition = 3
+	}
+}
+
+rip_rg_pdl_patrol_frontier_commit_effect = {
+	if = {
+	limit = { rip_rg_pdl_patrol_frontier_can = yes  event_target:rip_rg_target = { rip_rg_pdl_patrol_frontier_target = yes } }
+	add_mil_power = -25
+	add_treasury = -30
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = pdl_recent_border_policy duration = 1825 }
+	add_country_modifier = { name = rip_rg_pdl_patrol_frontier_active duration = 1825 }
+	event_target:rip_rg_target = {
+	add_devastation = -15
+	add_province_modifier = { name = rip_rg_border_patrol duration = 1825 }
+	}
+	add_army_tradition = 3
+	}
+}
+
+rip_rg_pdl_patrol_carpathian_commit_effect = {
+	if = {
+	limit = { rip_rg_pdl_patrol_carpathian_can = yes  event_target:rip_rg_target = { rip_rg_pdl_patrol_carpathian_target = yes } }
+	add_mil_power = -35
+	add_treasury = -60
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = pdl_recent_border_policy duration = 1825 }
+	add_country_modifier = { name = rip_rg_pdl_patrol_carpathian_active duration = 1825 }
+	event_target:rip_rg_target = {
+	add_devastation = -10
+	add_province_modifier = { name = rip_rg_border_fort duration = 1825 }
+	}
+	add_army_tradition = 3
+	}
+}
+
+rip_rg_pdl_charter_base_commit_effect = {
+	if = {
+	limit = { rip_rg_pdl_charter_base_can = yes  event_target:rip_rg_target = { rip_rg_pdl_charter_base_target = yes } }
+	add_adm_power = -50
+	add_treasury = -30
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = pdl_recent_border_policy duration = 1825 }
+	add_country_modifier = { name = rip_rg_pdl_charter_base_active duration = 1825 }
+	event_target:rip_rg_target = {
+	add_local_autonomy = 10
+	add_province_modifier = { name = rip_rg_border_charter duration = 1825 }
+	}
+	rip_estate_mood_effect = { ESTATE = estate_burghers LOYALTY = 5 }
+	}
+}
+
+rip_rg_pdl_charter_magnate_commit_effect = {
+	if = {
+	limit = { rip_rg_pdl_charter_magnate_can = yes  event_target:rip_rg_target = { rip_rg_pdl_charter_magnate_target = yes } }
+	add_adm_power = -35
+	add_treasury = -30
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = pdl_recent_border_policy duration = 1825 }
+	add_country_modifier = { name = rip_rg_pdl_charter_magnate_active duration = 1825 }
+	event_target:rip_rg_target = {
+	add_local_autonomy = 15
+	add_province_modifier = { name = rip_rg_border_magnate duration = 1825 }
+	}
+	rip_estate_mood_effect = { ESTATE = estate_burghers LOYALTY = 5 }
+	rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 5 }
+	}
+}
+
+rip_rg_pdl_mobile_base_commit_effect = {
+	if = {
+	limit = { rip_rg_pdl_mobile_base_can = yes  event_target:rip_rg_target = { rip_rg_pdl_mobile_base_target = yes } }
+	add_mil_power = -50
+	add_treasury = -50
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = pdl_recent_border_policy duration = 1825 }
+	add_country_modifier = { name = rip_rg_pdl_mobile_base_active duration = 1825 }
+	event_target:rip_rg_target = {
+	
+	}
+	add_country_modifier = { name = rip_rg_border_mobile duration = 1095 }
+	rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 5 }
+	}
+}
+
+rip_rg_pdl_mobile_frontier_commit_effect = {
+	if = {
+	limit = { rip_rg_pdl_mobile_frontier_can = yes  event_target:rip_rg_target = { rip_rg_pdl_mobile_frontier_target = yes } }
+	add_mil_power = -35
+	add_treasury = -50
+	add_manpower = -1
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = pdl_recent_border_policy duration = 1825 }
+	add_country_modifier = { name = rip_rg_pdl_mobile_frontier_active duration = 1825 }
+	event_target:rip_rg_target = {
+	
+	}
+	add_country_modifier = { name = rip_rg_border_mobile duration = 1095 }
+	rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 5 }
+	}
+}
+
+rip_rg_pdl_mobile_carpathian_commit_effect = {
+	if = {
+	limit = { rip_rg_pdl_mobile_carpathian_can = yes  event_target:rip_rg_target = { rip_rg_pdl_mobile_carpathian_target = yes } }
+	add_mil_power = -50
+	add_treasury = -75
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = pdl_recent_border_policy duration = 1825 }
+	add_country_modifier = { name = rip_rg_pdl_mobile_carpathian_active duration = 1825 }
+	event_target:rip_rg_target = {
+	
+	}
+	add_country_modifier = { name = rip_rg_border_mobile duration = 1095 }
+	rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 5 }
+	}
+}
+
+rip_rg_prl_patrol_base_commit_effect = {
+	if = {
+	limit = { rip_rg_prl_patrol_base_can = yes  event_target:rip_rg_target = { rip_rg_prl_patrol_base_target = yes } }
+	add_mil_power = -35
+	add_treasury = -40
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = pdl_recent_border_policy duration = 1825 }
+	add_country_modifier = { name = rip_rg_prl_patrol_base_active duration = 1825 }
+	event_target:rip_rg_target = {
+	add_devastation = -10
+	add_province_modifier = { name = rip_rg_border_patrol duration = 1825 }
+	}
+	add_army_tradition = 3
+	}
+}
+
+rip_rg_prl_charter_base_commit_effect = {
+	if = {
+	limit = { rip_rg_prl_charter_base_can = yes  event_target:rip_rg_target = { rip_rg_prl_charter_base_target = yes } }
+	add_adm_power = -50
+	add_treasury = -30
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = pdl_recent_border_policy duration = 1825 }
+	add_country_modifier = { name = rip_rg_prl_charter_base_active duration = 1825 }
+	event_target:rip_rg_target = {
+	add_local_autonomy = 10
+	add_province_modifier = { name = rip_rg_border_charter duration = 1825 }
+	}
+	rip_estate_mood_effect = { ESTATE = estate_burghers LOYALTY = 5 }
+	}
+}
+
+rip_rg_prl_mobile_base_commit_effect = {
+	if = {
+	limit = { rip_rg_prl_mobile_base_can = yes  event_target:rip_rg_target = { rip_rg_prl_mobile_base_target = yes } }
+	add_mil_power = -50
+	add_treasury = -50
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = pdl_recent_border_policy duration = 1825 }
+	add_country_modifier = { name = rip_rg_prl_mobile_base_active duration = 1825 }
+	event_target:rip_rg_target = {
+	
+	}
+	add_country_modifier = { name = rip_rg_border_mobile duration = 1095 }
+	if = { limit = { has_reform = prl_regimental_republic_reform has_estate = estate_cossacks } rip_estate_mood_effect = { ESTATE = estate_cossacks LOYALTY = 5 } } else = { rip_estate_mood_effect = { ESTATE = estate_nobles LOYALTY = 5 } }
+	}
+}
+
+rip_rg_ods_freight_commit_effect = {
+	rip_rg_grain_census_effect = yes
+	if = {
+	limit = { rip_rg_ods_freight_can = yes custom_trigger_tooltip = { tooltip = rip_rg_grain_req_tt check_variable = { which = rip_rg_grain_dev value = 10 } } event_target:rip_rg_target = { rip_rg_ods_freight_target = yes } }
+	add_dip_power = -50
+	add_treasury = -30
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = rip_rg_ods_term duration = 1825 }
+	add_country_modifier = { name = rip_rg_ods_freight_active duration = 1825 }
+	event_target:rip_rg_target = {
+	
+	}
+	add_country_modifier = { name = rip_rg_ods_export duration = 1825 }
+	rip_rg_grain_refresh_effect = yes
+	country_event = { id = rip_rg.900 days = 1825 }
+	}
+}
+
+rip_rg_ods_corsairs_commit_effect = {
+	if = {
+	limit = { rip_rg_ods_corsairs_can = yes  event_target:rip_rg_target = { rip_rg_ods_corsairs_target = yes } }
+	add_mil_power = -50
+	add_treasury = -50
+	set_country_flag = rip_rg_used
+	add_country_modifier = { name = rip_rg_ods_term duration = 1825 }
+	add_country_modifier = { name = rip_rg_ods_corsairs_active duration = 1825 }
+	event_target:rip_rg_target = {
+	
+	}
+	add_country_modifier = { name = rip_rg_ods_corsairs duration = 1825 }
+	}
+}
+
+rip_rg_province_transfer_effect = {
+	remove_province_modifier = rip_rg_chr_bell
+	remove_province_modifier = rip_rg_chr_staple
+	remove_province_modifier = rip_rg_chr_militia
+	remove_province_modifier = rip_rg_uzh_salt
+	remove_province_modifier = rip_rg_uzh_guides
+	remove_province_modifier = rip_rg_uzh_pass
+	remove_province_modifier = rip_rg_border_patrol
+	remove_province_modifier = rip_rg_border_fort
+	remove_province_modifier = rip_rg_border_charter
+	remove_province_modifier = rip_rg_border_magnate
+}
+
+rip_rg_cleanup_effect = {
+	if = { limit = { has_country_flag = rip_rg_used }
+	if = { limit = { NOT = { rip_rg_chr = yes } } remove_country_modifier = rip_rg_chr_debate
+	remove_country_modifier = rip_rg_chr_magistrat
+	remove_country_modifier = rip_rg_chr_reinforce
+	every_owned_province = { remove_province_modifier = rip_rg_chr_bell remove_province_modifier = rip_rg_chr_militia remove_province_modifier = rip_rg_chr_staple } }
+	if = { limit = { NOT = { rip_rg_uzh = yes } } remove_country_modifier = rip_rg_uzh_supply
+	every_owned_province = { remove_province_modifier = rip_rg_uzh_guides remove_province_modifier = rip_rg_uzh_pass remove_province_modifier = rip_rg_uzh_salt } }
+	if = { limit = { NOT = { OR = { rip_rg_pdl = yes rip_rg_prl = yes } } } remove_country_modifier = rip_rg_border_mobile
+	every_owned_province = { remove_province_modifier = rip_rg_border_charter remove_province_modifier = rip_rg_border_fort remove_province_modifier = rip_rg_border_magnate remove_province_modifier = rip_rg_border_patrol } }
+	if = { limit = { NOT = { OR = { rip_rg_pdl = yes rip_rg_prl = yes } } } remove_country_modifier = rip_rg_border_mobile
+	every_owned_province = { remove_province_modifier = rip_rg_border_charter remove_province_modifier = rip_rg_border_patrol } }
+	if = { limit = { NOT = { rip_rg_ods = yes } } remove_country_modifier = rip_rg_ods_corsairs
+	remove_country_modifier = rip_rg_ods_export
+	every_owned_province = {  } }
+	}
+}
+
+rip_rg_grain_census_effect = {
+	set_variable = { which = rip_rg_grain_dev value = 0 }
+	every_owned_province = { limit = { OR = { province_id = 280 province_id = 281 province_id = 1942 province_id = 1943 province_id = 1944 province_id = 4247 province_id = 4540 province_id = 290 province_id = 2407 province_id = 4542 province_id = 289 province_id = 1945 province_id = 4543 province_id = 291 province_id = 298 province_id = 299 province_id = 2408 province_id = 282 province_id = 1974 province_id = 2406 province_id = 283 province_id = 2411 province_id = 2412 } controlled_by = ROOT trade_goods = grain } owner = { export_to_variable = { which = rip_rg_grain_piece value = development who = PREV } change_variable = { which = rip_rg_grain_dev which = rip_rg_grain_piece } } }
+}
+
+rip_rg_grain_refresh_effect = {
+	remove_country_modifier = rip_rg_ods_grain_2
+	remove_country_modifier = rip_rg_ods_grain_3
+	remove_country_modifier = rip_rg_ods_grain_4
+	remove_country_modifier = rip_rg_ods_grain_5
+	remove_country_modifier = rip_rg_ods_grain_6
+	remove_country_modifier = rip_rg_ods_grain_7
+	remove_country_modifier = rip_rg_ods_grain_8
+	remove_country_modifier = rip_rg_ods_grain_9
+	remove_country_modifier = rip_rg_ods_grain_10
+	if = { limit = { rip_rg_ods = yes has_country_modifier = rip_rg_ods_export any_owned_province = { rip_rg_port = yes } } rip_rg_grain_census_effect = yes
+	if = { limit = { check_variable = { which = rip_rg_grain_dev value = 50 } } add_country_modifier = { name = rip_rg_ods_grain_10 duration = 35 } }
+	else_if = { limit = { check_variable = { which = rip_rg_grain_dev value = 45 } } add_country_modifier = { name = rip_rg_ods_grain_9 duration = 35 } }
+	else_if = { limit = { check_variable = { which = rip_rg_grain_dev value = 40 } } add_country_modifier = { name = rip_rg_ods_grain_8 duration = 35 } }
+	else_if = { limit = { check_variable = { which = rip_rg_grain_dev value = 35 } } add_country_modifier = { name = rip_rg_ods_grain_7 duration = 35 } }
+	else_if = { limit = { check_variable = { which = rip_rg_grain_dev value = 30 } } add_country_modifier = { name = rip_rg_ods_grain_6 duration = 35 } }
+	else_if = { limit = { check_variable = { which = rip_rg_grain_dev value = 25 } } add_country_modifier = { name = rip_rg_ods_grain_5 duration = 35 } }
+	else_if = { limit = { check_variable = { which = rip_rg_grain_dev value = 20 } } add_country_modifier = { name = rip_rg_ods_grain_4 duration = 35 } }
+	else_if = { limit = { check_variable = { which = rip_rg_grain_dev value = 15 } } add_country_modifier = { name = rip_rg_ods_grain_3 duration = 35 } }
+	else_if = { limit = { check_variable = { which = rip_rg_grain_dev value = 10 } } add_country_modifier = { name = rip_rg_ods_grain_2 duration = 35 } }
+	}
+}

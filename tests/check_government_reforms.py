@@ -7,12 +7,13 @@ import re
 from collections import Counter
 from pathlib import Path
 
+from clausewitz_testlib import read_scripted_trigger_family
 from clausewitz_testlib import ROOT, keyed_blocks, named_block, normalized, read, vanilla_root
 
 
 REFORMS_DIR = ROOT / "common/government_reforms"
-EXPECTED_REFORM_COUNT = 123
-EXPECTED_REFORM_ID_SHA256 = "045b458ff6ba9b8c43316ef849b71a359a19113090241a2be738ed527cb046cb"
+EXPECTED_REFORM_COUNT = 133
+EXPECTED_REFORM_ID_SHA256 = "c68beb984b0b2eedbeb041b2e0ad760dd9829773cd7eef06754e4d12e82c6b0d"
 ROLE_ONLY_REFORMS = (
     "kyivan_veche_reform",
     "kyivan_boyar_republic_reform",
@@ -28,6 +29,12 @@ ROLE_ONLY_REFORMS = (
     "uzh_mukachevo_eparchy_reform",
     "uzh_uzhhorod_seat_translation_reform",
     "uzh_presov_eparchy_reform",
+    "chr_vetka_asylum_reform",
+    "hlc_stauropegion_brotherhood_reform",
+    "pdl_kamianets_concordat_reform",
+    "plt_sophian_autonomy_reform",
+    "zaz_orthodox_knighthood_reform",
+    "uzh_carpathian_captaincy_reform",
 )
 VANILLA_OVERRIDE_REFORMS = {
     "principality",
@@ -44,6 +51,13 @@ VANILLA_OVERRIDE_REFORMS = {
 def require(failures: list[str], condition: bool, message: str) -> None:
     if not condition:
         failures.append(message)
+
+
+def definitions_word(count: int) -> str:
+    """Ukrainian noun form after a number: 123 визначення, 129 визначень."""
+    if count % 10 in (1, 2, 3, 4) and count % 100 not in (11, 12, 13, 14):
+        return "визначення"
+    return "визначень"
 
 
 def exclusive_entry_sets(government: str) -> list[set[str]]:
@@ -108,7 +122,7 @@ def check_vfs_and_schema(failures: list[str], reforms: str, owners: dict[str, Pa
     )
     require(
         failures,
-        f"ця таблиця охоплює всі **{EXPECTED_REFORM_COUNT} визначення реформ**"
+        f"ця таблиця охоплює всі **{EXPECTED_REFORM_COUNT} {definitions_word(EXPECTED_REFORM_COUNT)} реформ**"
         in normalized(authenticity_doc),
         "government authenticity document reports a stale total reform count",
     )
@@ -199,6 +213,47 @@ def check_registration(failures: list[str], owners: dict[str, Path]) -> None:
             f"late Podillian monarchical settlement is not aligned with vanilla M11: {reform}",
         )
 
+    # One parliament per monarchy, as in vanilla (parliamentary_reform against the
+    # tier-1 parliaments such as polish_great_sejm). The Union of Two Nations has
+    # "one diet" and the Diet of the Grand Duchy "sits apart from the Crown's
+    # Sejm"; holding both made two. The scripted union path removes the Diet
+    # first, so the result does not depend on how the engine treats a scripted
+    # add_government_reform against exclusive_reforms.
+    parliament_sets = [
+        normalized(block)
+        for _, block in keyed_blocks(
+            named_block(governments, "monarchy"), "exclusive_reforms"
+        )
+        if "assembly_houses_reform" in normalized(block)
+    ]
+    require(
+        failures,
+        len(parliament_sets) == 1
+        and all(
+            re.search(rf"\b{reform}\b", parliament_sets[0])
+            for reform in (
+                "parliamentary_reform",
+                "polish_great_sejm",
+                "assembly_houses_reform",
+                "lit_grand_diet_reform",
+                "lit_union_of_two_nations_reform",
+            )
+        ),
+        "Union of Two Nations and the Diet of the Grand Duchy are not exclusive with the vanilla parliaments",
+    )
+    union_decision = normalized(
+        named_block(read("decisions/UnionDispute.txt"), "lit_hold_the_union_on_our_terms")
+    )
+    drop_diet = "remove_government_reform = lit_grand_diet_reform"
+    add_union = "add_government_reform = lit_union_of_two_nations_reform"
+    require(
+        failures,
+        drop_diet in union_decision
+        and add_union in union_decision
+        and union_decision.index(drop_diet) < union_decision.index(add_union),
+        "the union decision does not drop the Grand Duchy's diet before it adds the Commonwealth's",
+    )
+
     m1 = normalized(named_block(governments, "feudalism_vs_autocracy"))
     m2 = normalized(named_block(governments, "hereditary_vs_nobility"))
     m10 = normalized(named_block(governments, "absolute_rule_vs_constitutional"))
@@ -241,17 +296,21 @@ def check_registration(failures: list[str], owners: dict[str, Path]) -> None:
     dlc_ors = [block for _, block in keyed_blocks(conditional_allow, "OR")]
     dlc_gate = dlc_ors[0] if len(dlc_ors) == 1 else ""
     dlc_names = re.findall(r'(?m)^\s*has_dlc\s*=\s*"([^"]+)"\s*$', dlc_gate)
+    # parliament_backing_chance is a modifier. Measured in EU4 1.37.5: inside a `conditional` block the engine
+    # logs "Unexpected token: parliament_backing_chance ... Last good read: has_parliament=yes" and the +10%
+    # never applies; vanilla keeps it in `modifiers`, where it is inert without a parliament. The DLC-gated
+    # conditional keeps only reform keys: has_parliament and the blocked_call_diet attribute.
     require(
         failures,
-        "parliament_backing_chance" not in uzh_modifiers
+        "parliament_backing_chance = 0.1" in normalized(uzh_modifiers)
+        and "parliament_backing_chance" not in normalized(gated_conditional)
         and len(uzh_conditionals) == 1
         and len(dlc_ors) == 1
         and len(dlc_names) == 2
         and set(dlc_names) == {"Common Sense", "Domination"}
         and "has_parliament = yes" in normalized(gated_conditional)
-        and "parliament_backing_chance = 0.1" in normalized(gated_conditional)
         and "blocked_call_diet = yes" in normalized(gated_conditional),
-        "UZH Palatial parliament modifiers are not confined to the single DLC-gated conditional",
+        "UZH Palatial parliament backing must sit in modifiers (the engine rejects it inside conditional); the single DLC-gated conditional keeps has_parliament and blocked_call_diet",
     )
     require(
         failures,
@@ -453,6 +512,23 @@ def check_localisation(failures: list[str], owners: dict[str, Path]) -> None:
                     keys[key] == 1,
                     f"government reform localisation count is {keys[key]}, expected 1: {key}",
                 )
+
+    # GAME_DESIGN_DOCUMENT 1.3: the speculative Kyivan branches (Seniorate,
+    # Cesarstvo) are labelled "Speculative Alternate History" in the tooltip, both
+    # where the decision offers them and where the reform is held.
+    english = read("localisation/RIP_l_english.yml")
+    for key in (
+        "kyiv_shogunate_path_desc",
+        "kyiv_cesarstvo_path_desc",
+        "kyivan_shogunate_reform_desc",
+        "kyivan_cesarstvo_reform_desc",
+    ):
+        entry = re.search(rf'(?m)^\s*{key}:\d+\s+"(.*)"\s*$', english)
+        require(
+            failures,
+            entry is not None and "Speculative Alternate History" in entry.group(1),
+            f"speculative Kyivan branch lacks its Speculative Alternate History label: {key}",
+        )
 
 
 def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
@@ -1707,7 +1783,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
             change >= 0 and change < swap < on_change,
             f"{target_tag} formation does not finish the vanilla mission/tag-change lifecycle",
         )
-    lineage_gates = read("common/scripted_triggers/rip_path_state_triggers.txt")
+    lineage_gates = read_scripted_trigger_family("path_state_triggers")
     top_level_triggers = Counter(
         re.findall(r"(?m)^([A-Za-z0-9_]+)\s*=\s*\{", lineage_gates)
     )
@@ -1839,7 +1915,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         )
     pdl_origin_trigger = normalized(
         named_block(
-            read("common/scripted_triggers/rip_path_state_triggers.txt"),
+            read_scripted_trigger_family("path_state_triggers"),
             "west_ukraine_pdl_origin_country",
         )
     )
@@ -1923,7 +1999,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     normalized_migration = normalized(
         migration + read("common/scripted_effects/vln_government_effects.txt")
     )
-    startup = normalized(read("common/on_actions/west_ukraine_on_actions.txt"))
+    startup = normalized(read("common/on_actions/RIP_HLC_on_actions.txt") + read("common/on_actions/RIP_PDL_on_actions.txt") + read("common/on_actions/RIP_VLN_on_actions.txt"))
     for effect in ("pdl_reconcile_base_reform_effect", "vln_reconcile_base_reform_effect"):
         require(
             failures,
@@ -2060,7 +2136,7 @@ def check_linked_lifecycle(failures: list[str]) -> None:
     het_reforms = read("common/government_reforms/RIP_HET_government_reforms.txt")
     owner_change = read("common/scripted_effects/01_scripted_effects_for_on_actions.txt")
     het_migration = read("common/scripted_effects/het_effects.txt")
-    het_startup = read("common/on_actions/het_on_actions.txt")
+    het_startup = read("common/on_actions/RIP_HET_on_actions.txt")
     require(
         failures,
         "het_regimental_province_administration" in het_reforms
@@ -2149,7 +2225,9 @@ def check_linked_lifecycle(failures: list[str]) -> None:
         "LIT deferral option can still close both constitutional endpoints",
     )
 
-    collegium_raw = named_block(read("events/HetmanateFlavor.txt"), "country_event", occurrence=12)
+    # Select by stable event ID rather than its position in the file.
+    collegium_raw = next(block for _, block in keyed_blocks(read("events/HetmanateFlavor.txt"), "country_event")
+                         if re.search(r'\bid\s*=\s*het_flavor\.12\b', block))
     collegium = normalized(collegium_raw)
     collegium_resistance = normalized(named_block(collegium_raw, "option", occurrence=2))
     require(
@@ -2215,7 +2293,7 @@ def check_linked_lifecycle(failures: list[str]) -> None:
             f"CHR Road B reform lacks province modifier sync hooks: {road_b_reform}",
         )
     chr_path_effects = normalized(read("common/scripted_effects/chr_path_effects.txt"))
-    chr_on_actions = normalized(read("common/on_actions/chr_on_actions.txt"))
+    chr_on_actions = normalized(read("common/on_actions/RIP_CHR_on_actions.txt"))
     chr_decisions = read("decisions/ChernihivPaths.txt")
     require(
         failures,

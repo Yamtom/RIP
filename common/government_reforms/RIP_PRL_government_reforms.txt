@@ -4,6 +4,7 @@
 # =============================================================================
 
 prl_ancient_principality_reform = {
+	government_abilities = { rip_rg_prl_mechanic }
 	icon = "russian_principality"
 	legacy_equivalent = principality_legacy
 	allow_normal_conversion = no
@@ -42,6 +43,7 @@ prl_ancient_principality_reform = {
 }
 
 prl_regimental_republic_reform = {
+	government_abilities = { rip_rg_prl_mechanic }
 	icon = "cossacks"
 	legacy_equivalent = cossacks_legacy_reform
 	allow_normal_conversion = no
@@ -165,6 +167,9 @@ prl_chernozem_economy_reform = {
 	}
 }
 
+# Carries the Border Watch (rip_border_watch_mechanic, common/government_mechanics/
+# rip_border_watch.txt) together with pdl_carpathian_bastion_reform: the walls
+# are this reform's passive bundle, the watch is what the prince may order.
 prl_border_fortress_reform = {
 	icon = "castle"
 	legacy_equivalent = feudal_monarchy
@@ -192,6 +197,14 @@ prl_border_fortress_reform = {
 	modifiers = {
 		fort_maintenance_modifier = -0.15
 		defensiveness = 0.2
+	}
+	government_abilities = {
+		rip_border_watch_mechanic
+	}
+	removed_effect = {
+		hidden_effect = {
+			rip_border_watch_clear_effect = yes
+		}
 	}
 	ai = {
 		factor = 4

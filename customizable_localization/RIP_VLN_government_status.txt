@@ -1,0 +1,66 @@
+# RIP - VLN; government_status.
+# Country labels identify the content family, not additional eligibility gates.
+# Whole definitions are grouped here; keep each text-branch order and random setting.
+defined_text = {
+	name = RipGovVlnConsent
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = vln_senate_convened
+		}
+		localisation_key = rip_gov_RipGovVlnConsent_0
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovVlnConsent_1
+	}
+}
+
+defined_text = {
+	name = RipGovVlnBanners
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = vln_magnate_banners_mustered
+		}
+		localisation_key = rip_gov_RipGovVlnBanners_0
+	}
+	text = {
+		trigger = {
+			is_at_war = yes
+			has_country_modifier = vln_senate_convened
+		}
+		localisation_key = rip_gov_RipGovVlnBanners_1
+	}
+	text = {
+		trigger = {
+			has_country_modifier = vln_senate_convened
+		}
+		localisation_key = rip_gov_RipGovVlnBanners_2
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovVlnBanners_3
+	}
+}
+
+defined_text = {
+	name = RipGovVlnBuyoff
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = vln_magnate_house_bought
+		}
+		localisation_key = rip_gov_RipGovVlnBuyoff_0
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovVlnBuyoff_1
+	}
+}

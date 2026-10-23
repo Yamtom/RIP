@@ -294,7 +294,7 @@ common/
   event_modifiers/russian_orthodox_modifiers.txt
   scripted_triggers/russian_orthodox_triggers.txt
   scripted_effects/russian_orthodox_effects.txt
-  on_actions/russian_orthodox_on_actions.txt
+  on_actions/RIP_religion_russian_orthodox_on_actions.txt
 events/
   RussianOrthodox.txt
 decisions/

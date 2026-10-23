@@ -17,6 +17,8 @@ for name in ['rip_faith_effects', 'rip_ro_icon_effects']:
     EFFECTS.update(parse(read('common/scripted_effects/' + name + '.txt')))
 EFFECTS.update(parse(read('common/scripted_effects/rip_old_believer_effects.txt')))
 TRIGGERS.update(parse(read('common/scripted_triggers/rip_old_believer_triggers.txt')))
+EFFECTS.update(parse(read('common/scripted_effects/rip_ob_institution_effects.txt')))
+TRIGGERS.update(parse(read('common/scripted_triggers/rip_ob_institution_triggers.txt')))
 # The policy triggers reach for the shared terrain gate.
 TRIGGERS.update(parse(read('common/scripted_triggers/rip_terrain_triggers.txt')))
 

@@ -110,7 +110,7 @@ assert 'religion = russian_orthodox' in initial
 assert 'rip_faith_initialize_hierarchy_effect = yes' in named_block(faith, 'on_convert')
 assert 'capital_scope' not in initial and 'every_owned_province' not in initial
 assert 'change_religion' not in initial
-hooks = read('common/on_actions/russian_orthodox_on_actions.txt')
+hooks = read('common/on_actions/RIP_religion_russian_orthodox_on_actions.txt')
 assert 'rip_faith_balance_migration_effect = yes' in named_block(hooks, 'on_startup')
 assert 'rip_faith_balance_migration_effect = yes' not in named_block(hooks, 'on_religion_change')
 history = read('common/scripted_effects/rip_faith_history_cleanup_effects.txt')
@@ -131,7 +131,7 @@ assert 'remove_province_modifier' not in history
 spread = read('common/scripted_effects/rip_faith_spread_effects.txt')
 for retired in ('rip_gc_unity_spread_effect', 'rip_ro_consolidation_effect',
                 'rip_ro_schism_conversion_effect', 'rip_faith_unlock_trade_propagation_effect'):
-    for text in (spread, hooks, read('common/on_actions/greek_catholic_on_actions.txt'), faith):
+    for text in (spread, hooks, read('common/on_actions/RIP_religion_greek_catholic_on_actions.txt'), faith):
         assert not re.search(r'\b' + retired + r'\s*=', normalized(text)), retired
 assert 'days = 365' in named_block(spread, 'rip_uc_mark_uniate_areas_effect')
 assert 'has_global_flag = rip_uc_area_sweep_recent' in spread

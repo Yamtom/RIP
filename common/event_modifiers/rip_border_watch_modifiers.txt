@@ -1,0 +1,25 @@
+# The Border Watch (common/government_mechanics/rip_border_watch.txt).
+# Rates are design values, not campaign-validated balance. The province
+# modifiers are recognised as protection by events/SteppeRaiding.txt
+# (steppe_raid.2), the country modifier as a national defence.
+
+# Province: a line of watchtowers and beacon posts on the steppe frontier. The
+# same numbers as the Muscovite church's rip_church_frontier_watch.
+rip_watchtower_line = {
+	local_defensiveness = 0.2
+	local_hostile_attrition = 1
+}
+
+# Province: land granted to the watchmen in lieu of tax.
+rip_settled_watch = {
+	local_manpower_modifier = 0.25
+	local_defensiveness = 0.1
+	local_tax_modifier = -0.15
+}
+
+# Country: mounted patrols that ride the line between the posts.
+rip_steppe_patrols = {
+	hostile_attrition = 0.5
+	movement_speed = 0.1
+	land_maintenance_modifier = 0.05
+}

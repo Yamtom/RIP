@@ -134,7 +134,7 @@ sponsor_effects = read('common/scripted_effects/rip_church_sponsor_effects.txt')
 union_effects = read('common/scripted_effects/rip_church_union_effects.txt')
 church_decisions = read('decisions/RIP_ChurchRedesign.txt')
 
-yearly = named_block(read('common/on_actions/greek_catholic_on_actions.txt'),
+yearly = named_block(read('common/on_actions/RIP_religion_greek_catholic_on_actions.txt'),
                      'on_yearly_pulse')
 guarantee_refresh = normalized(named_block(yearly, 'every_owned_province'))
 assert 'religion = greek_catholic owner = { religion = catholic }' in guarantee_refresh

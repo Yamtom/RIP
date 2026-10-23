@@ -1,0 +1,81 @@
+# RIP - LIT; government_status.
+# Country labels identify the content family, not additional eligibility gates.
+# Whole definitions are grouped here; keep each text-branch order and random setting.
+defined_text = {
+	name = RipGovLitConsent
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = lit_rada_confirmed
+		}
+		localisation_key = rip_gov_RipGovLitConsent_0
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovLitConsent_1
+	}
+}
+
+defined_text = {
+	name = RipGovLitRetinues
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = lit_rada_retinues_mustered
+		}
+		localisation_key = rip_gov_RipGovLitRetinues_0
+	}
+	text = {
+		trigger = {
+			is_at_war = yes
+			has_country_modifier = lit_rada_confirmed
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 40
+			}
+		}
+		localisation_key = rip_gov_RipGovLitRetinues_1
+	}
+	text = {
+		trigger = {
+			has_country_modifier = lit_rada_confirmed
+		}
+		localisation_key = rip_gov_RipGovLitRetinues_2
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovLitRetinues_3
+	}
+}
+
+defined_text = {
+	name = RipGovLitBrokerage
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = lit_lord_won_over
+		}
+		localisation_key = rip_gov_RipGovLitBrokerage_0
+	}
+	text = {
+		trigger = {
+			NOT = {
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 50
+				}
+			}
+		}
+		localisation_key = rip_gov_RipGovLitBrokerage_1
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovLitBrokerage_2
+	}
+}

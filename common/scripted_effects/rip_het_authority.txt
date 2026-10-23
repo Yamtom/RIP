@@ -1,0 +1,118 @@
+rip_het_sync_effect = {
+    if = { limit = { NOT = { check_variable = { which = rip_het_position value = 0 } } } set_variable = { which = rip_het_position value = 0 } }
+    if = { limit = { check_variable = { which = rip_het_position value = 1001 } } set_variable = { which = rip_het_position value = 1000 } }
+    if = { limit = { rip_het_authority_active = yes }
+        set_government_power = { mechanic_type = rip_het_authority_mechanic power_type = rip_het_authority value = 0 }
+        set_variable = { which = rip_het_projection which = rip_het_position }
+        if = { limit = { check_variable = { which = rip_het_projection value = 512 } }
+            subtract_variable = { which = rip_het_projection value = 512 } add_government_power = { mechanic_type = rip_het_authority_mechanic power_type = rip_het_authority value = 51.2 }
+        }
+        if = { limit = { check_variable = { which = rip_het_projection value = 256 } }
+            subtract_variable = { which = rip_het_projection value = 256 } add_government_power = { mechanic_type = rip_het_authority_mechanic power_type = rip_het_authority value = 25.6 }
+        }
+        if = { limit = { check_variable = { which = rip_het_projection value = 128 } }
+            subtract_variable = { which = rip_het_projection value = 128 } add_government_power = { mechanic_type = rip_het_authority_mechanic power_type = rip_het_authority value = 12.8 }
+        }
+        if = { limit = { check_variable = { which = rip_het_projection value = 64 } }
+            subtract_variable = { which = rip_het_projection value = 64 } add_government_power = { mechanic_type = rip_het_authority_mechanic power_type = rip_het_authority value = 6.4 }
+        }
+        if = { limit = { check_variable = { which = rip_het_projection value = 32 } }
+            subtract_variable = { which = rip_het_projection value = 32 } add_government_power = { mechanic_type = rip_het_authority_mechanic power_type = rip_het_authority value = 3.2 }
+        }
+        if = { limit = { check_variable = { which = rip_het_projection value = 16 } }
+            subtract_variable = { which = rip_het_projection value = 16 } add_government_power = { mechanic_type = rip_het_authority_mechanic power_type = rip_het_authority value = 1.6 }
+        }
+        if = { limit = { check_variable = { which = rip_het_projection value = 8 } }
+            subtract_variable = { which = rip_het_projection value = 8 } add_government_power = { mechanic_type = rip_het_authority_mechanic power_type = rip_het_authority value = 0.8 }
+        }
+        if = { limit = { check_variable = { which = rip_het_projection value = 4 } }
+            subtract_variable = { which = rip_het_projection value = 4 } add_government_power = { mechanic_type = rip_het_authority_mechanic power_type = rip_het_authority value = 0.4 }
+        }
+        if = { limit = { check_variable = { which = rip_het_projection value = 2 } }
+            subtract_variable = { which = rip_het_projection value = 2 } add_government_power = { mechanic_type = rip_het_authority_mechanic power_type = rip_het_authority value = 0.2 }
+        }
+        if = { limit = { check_variable = { which = rip_het_projection value = 1 } }
+            subtract_variable = { which = rip_het_projection value = 1 } add_government_power = { mechanic_type = rip_het_authority_mechanic power_type = rip_het_authority value = 0.1 }
+        }
+    }
+}
+
+rip_het_migrate_effect = {
+    if = {
+        limit = { tag = HET government = republic has_reform = rip_cossacks_reform }
+        set_country_flag = rip_het_migrating
+        remove_government_reform = rip_cossacks_reform
+        add_government_reform = rip_hetman_cossacks_reform
+        clr_country_flag = rip_het_migrating
+    }
+    if = {
+        limit = { has_reform = rip_hetman_cossacks_reform NOT = { has_country_flag = rip_het_position_initialized } }
+        set_country_flag = rip_het_position_initialized
+        set_variable = { which = rip_het_position value = 500 }
+    }
+    rip_het_sync_effect = yes
+}
+rip_het_rights_effect = {
+    if = { limit = { rip_het_can_confirm_rights = yes }
+        add_dip_power = -50
+        add_country_modifier = { name = rip_het_authority_session duration = 1825 }
+        change_variable = { which = rip_het_position value = -150 } rip_het_sync_effect = yes
+    }
+}
+rip_het_chancery_effect = {
+    if = { limit = { rip_het_can_review_chancery = yes }
+        add_adm_power = -50
+        add_country_modifier = { name = rip_het_authority_session duration = 1825 }
+        change_variable = { which = rip_het_position value = 150 } rip_het_sync_effect = yes
+        if = { limit = { has_estate = estate_nobles } add_estate_loyalty = { estate = estate_nobles loyalty = -5 } }
+    }
+}
+rip_het_polk_rights_effect = {
+    if = { limit = { rip_het_authority_active = yes NOT = { has_country_modifier = rip_het_polk_term }
+        event_target:het_target_polk = { owned_by = ROOT controlled_by = ROOT } }
+        add_country_modifier = { name = rip_het_polk_term duration = 1095 }
+        change_variable = { which = rip_het_position value = -50 } rip_het_sync_effect = yes
+    }
+}
+rip_het_polk_centralization_effect = {
+    if = { limit = { rip_het_authority_active = yes NOT = { has_country_modifier = rip_het_polk_term }
+        event_target:het_target_polk = { owned_by = ROOT controlled_by = ROOT } }
+        add_country_modifier = { name = rip_het_polk_term duration = 1095 }
+        change_variable = { which = rip_het_position value = 50 } rip_het_sync_effect = yes
+    }
+}
+
+rip_het_monthly_effect = {
+    rip_het_migrate_effect = yes
+    if = { limit = { rip_het_authority_active = yes }
+        # Branches are mutually exclusive after either step; integer tenths
+        # avoid oscillation at the centre and floating-point accumulation.
+        if = { limit = { check_variable = { which = rip_het_position value = 501 } }
+            subtract_variable = { which = rip_het_position value = 1 } }
+        if = { limit = { NOT = { check_variable = { which = rip_het_position value = 500 } } }
+            change_variable = { which = rip_het_position value = 1 } }
+        rip_het_sync_effect = yes
+        if = { limit = { OR = {
+            NOT = { check_variable = { which = rip_het_position value = 100 } }
+            check_variable = { which = rip_het_position value = 901 }
+        } }
+            change_variable = { which = rip_het_extreme_months value = 1 }
+        }
+        if = { limit = {
+            check_variable = { which = rip_het_position value = 100 }
+            NOT = { check_variable = { which = rip_het_position value = 901 } }
+        } set_variable = { which = rip_het_extreme_months value = 0 } }
+        if = { limit = {
+            check_variable = { which = rip_het_extreme_months value = 60 }
+            NOT = { has_country_modifier = rip_het_negotiation_term }
+        }
+            set_variable = { which = rip_het_extreme_months value = 0 }
+            add_country_modifier = { name = rip_het_negotiation_term duration = 3650 }
+            country_event = { id = rip_het_authority.1 }
+        }
+    }
+    if = { limit = { NOT = { rip_het_authority_active = yes } }
+        set_variable = { which = rip_het_extreme_months value = 0 }
+        remove_country_modifier = rip_het_contested_course
+    }
+}

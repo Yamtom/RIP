@@ -27,6 +27,7 @@ assert brace_error(text) is None, brace_error(text)
 assert 'namespace = rip_gov_test' in text
 loc_raw = LOC.read_bytes()
 assert loc_raw.startswith(b'\xef\xbb\xbf'), 'localisation needs the BOM'
+assert not loc_raw[3:].startswith(b'\xef\xbb\xbf'), 'localisation needs exactly one BOM'
 loc = loc_raw.decode('utf-8-sig').replace('\r\n', '\n')
 assert loc.startswith('l_english:')
 loc_keys = re.findall(r'^ (\S+):\d+ "', loc, re.M)

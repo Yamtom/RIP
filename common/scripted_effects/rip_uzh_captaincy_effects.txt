@@ -1,0 +1,38 @@
+# =========================================================================
+# SCRIPTED EFFECTS: Carpathian Captaincy Military Border Mechanics
+# Country Scope: UZH (Uzhhorod / Carpathian Ruthenia)
+# =========================================================================
+
+# Effects of the Carpathian Captaincy (common/government_mechanics/rip_uzh_carpathian_captaincy.txt).
+
+# Country scope. The posts and the Opryshky are rights the reform gives, so they end with it;
+# the salt pledge is a debt and is NOT lifted. Two places call it: the reform's removed_effect
+# (the reform removed by remove_government_reform) and uzh_captaincy_sweep_effect below.
+uzh_captaincy_clear_effect = {
+	if = {
+		limit = { has_country_modifier = uz_captaincy_posts_manned }
+		remove_country_modifier = uz_captaincy_posts_manned
+	}
+	if = {
+		limit = { has_country_modifier = uz_captaincy_opryshky_enlisted }
+		remove_country_modifier = uz_captaincy_opryshky_enlisted
+	}
+}
+
+# Country scope, once a year for every country (common/on_actions/rip_reform_mechanics_on_actions.txt).
+# removed_effect does NOT run when the reform is dropped by a change of government type made in an
+# event or by a revolution (measured in EU4 1.37.5), so a country that keeps the posts or the
+# Opryshky without the reform is cleared here. Only modifier and reform look-ups: a country that
+# never ordered either costs nothing.
+uzh_captaincy_sweep_effect = {
+	if = {
+		limit = {
+			OR = {
+				has_country_modifier = uz_captaincy_posts_manned
+				has_country_modifier = uz_captaincy_opryshky_enlisted
+			}
+			NOT = { has_reform = uzh_carpathian_captaincy_reform }
+		}
+		uzh_captaincy_clear_effect = yes
+	}
+}

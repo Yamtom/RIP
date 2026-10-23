@@ -87,7 +87,7 @@
 | `establish_hajibey_free_port_title` | є | **немає** |
 | `establish_hajibey_free_port_desc` | є | **немає** |
 
-Основні файли: `localisation/RIP_l_english.yml:35–59,1419–1420`, відповідні fallback YML; парламент — `localisation/replace/zzzz_rip_government_ui_l_english.yml:108,129` та `customizable_localization/rip_parliament_names.txt`; титули — `common/government_names/000_RIP_names.txt:1300`.
+Основні файли: `localisation/RIP_l_english.yml:35–59,1419–1420`, відповідні fallback YML; парламент — `localisation/replace/zzzz_rip_government_ui_l_english.yml:108,129` та `customizable_localization/RIP_shared_parliament_names.txt`; титули — `common/government_names/000_RIP_names.txt:1300`.
 
 Змістовні зауваження:
 

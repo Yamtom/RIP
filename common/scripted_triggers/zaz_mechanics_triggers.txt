@@ -1,5 +1,3 @@
-
-
 is_zaporozhian_nation = {
 	OR = {
 		tag = ZAZ
@@ -28,7 +26,6 @@ has_sich_established = {
 	}
 }
 
-
 can_convene_rada = {
 	is_zaporozhian_nation = yes
 	has_sich_established = yes
@@ -47,7 +44,6 @@ can_convene_rada = {
 rada_can_elect_officer = {
 	can_convene_rada = yes
 }
-
 
 has_valid_sich_relocation_target = {
 	any_owned_province = {
@@ -106,7 +102,6 @@ can_relocate_sich = {
 	}
 }
 
-
 has_chaiky_fleet = {
 	num_of_galley = 5
 	sailors_percentage = 0.2
@@ -158,7 +153,6 @@ can_launch_chaiky_raid = {
 		}
 	}
 }
-
 
 has_cossack_register = {
 	OR = {
@@ -223,7 +217,6 @@ overlord_wants_register_expanded = {
 	NOT = { register_is_high = yes }
 }
 
-
 has_steppe_ally = {
 	OR = {
 		alliance_with = CRI
@@ -273,7 +266,6 @@ steppe_alliance_beneficial = {
 	}
 }
 
-
 has_frontier_provinces = {
 	any_owned_province = {
 		rip_is_steppe_or_grasslands = yes
@@ -306,8 +298,6 @@ zaz_can_establish_sloboda = {
 	}
 }
 
-
-
 has_civilian_slobodas = {
 	any_owned_province = {
 		has_province_modifier = sloboda_settlement
@@ -323,7 +313,6 @@ can_upgrade_sloboda = {
 		NOT = { unrest = 1 }
 	}
 }
-
 
 is_orthodox_champion = {
 	religion = orthodox
@@ -357,15 +346,31 @@ orthodox_monasteries_threatened = {
 	}
 }
 
+# Existing saves keep their flag dates: an old flag opens, never closes, a term.
+zaz_hetman_recent_election_expired = {
+	OR = {
+		NOT = { has_country_flag = zaz_recent_hetman_election }
+		had_country_flag = { flag = zaz_recent_hetman_election days = 730 }
+	}
+}
+
+zaz_election_event_term_expired = {
+	OR = {
+		NOT = { has_country_flag = zaz_election_event_cooldown }
+		had_country_flag = { flag = zaz_election_event_cooldown days = 1460 }
+	}
+}
+
+zaz_manual_election_term_expired = {
+	OR = {
+		NOT = { has_country_flag = zaz_election_event_cooldown }
+		had_country_flag = { flag = zaz_election_event_cooldown days = 365 }
+	}
+}
 
 hetman_election_due = {
 	is_hetmanate_nation = yes
-	NOT = {
-		had_country_flag = {
-			flag = zaz_recent_hetman_election
-			days = 730
-		}
-	}
+	zaz_hetman_recent_election_expired = yes
 	OR = {
 		had_country_flag = {
 			flag = last_hetman_election
@@ -391,13 +396,9 @@ can_hold_hetman_election = {
 	hetman_election_due = yes
 	is_at_war = no
 	NOT = { num_of_rebel_armies = 1 }
-	NOT = {
-		had_country_flag = {
-			flag = zaz_election_event_cooldown
-			days = 365
-		}
-	}
+	zaz_manual_election_term_expired = yes
 	stability = 0
+	adm_power = 100
 }
 
 hetman_has_strong_support = {
@@ -405,7 +406,6 @@ hetman_has_strong_support = {
 	stability = 2
 	NOT = { average_unrest = 1 }
 }
-
 
 hetmanate_autonomy_high = {
 	is_hetmanate_nation = yes
@@ -441,6 +441,7 @@ hetmanate_autonomy_low = {
 hetmanate_autonomy_ending = {
 	is_hetmanate_nation = yes
 	is_subject = yes
+	NOT = { has_country_modifier = rip_het_autonomy_defended }
 	OR = {
 		has_country_modifier = het_abolished
 		liberty_desire = 75
@@ -457,13 +458,20 @@ hetmanate_autonomy_ending = {
 
 can_resist_abolition = {
 	hetmanate_autonomy_ending = yes
+	is_at_war = no
+	mil_power = 200
+	stability = 0
+	legitimacy_equivalent = 75
+	OR = {
+		NOT = { has_country_flag = rip_het_resisted_abolition }
+		had_country_flag = { flag = rip_het_resisted_abolition days = 3650 }
+	}
 	army_size = 15
 	manpower_percentage = 0.5
 	any_ally = {
 		army_size = ROOT
 	}
 }
-
 
 has_ukrainian_academy = {
 	owns = 280  # Kyiv
@@ -490,7 +498,6 @@ ukrainian_culture_flourishing = {
 	innovativeness = 20
 	prestige = 25
 }
-
 
 poltava_crisis_active = {
 	is_hetmanate_nation = yes

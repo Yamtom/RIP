@@ -85,5 +85,5 @@ assert 'NOT = { has_country_flag = rip_cesar_breakdown }' in effects
 assert 'value = 20' in effects and 'value = 0.3' in effects
 assert 'clr_country_flag = rip_cesar_breakdown' in effects
 assert 'rip_cesar_compact_migrated' in effects
-assert 'on_monthly_pulse' in read('common/on_actions/rip_cesarstvo_on_actions.txt')
+assert 'on_monthly_pulse' in read('common/on_actions/RIP_KIE_on_actions.txt')
 print('CESARSTVO PASS: 16 rate scenarios, reward renewal, census and crisis source contracts.')

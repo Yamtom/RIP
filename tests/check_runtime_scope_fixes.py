@@ -36,7 +36,7 @@ for node, province in nodes:
     parish = named_block(anchor, 'any_trade_node_member_province')
     assert 'has_building = temple' in parish and 'has_building = cathedral' in parish
     assert 'owned_by = ROOT' in parish
-policy = read('common/trading_policies/RIP_church_mission_network.txt')
+policy = read('common/trading_policies/RIP_MOS_RUS_trading_policies.txt')
 for gate_name in ('can_select', 'can_maintain'):
     gate = named_block(policy, gate_name)
     assert re.search(r'FROM\s*=\s*\{\s*trade_share\s*=', gate)
@@ -46,15 +46,28 @@ for gate_name in ('can_select', 'can_maintain'):
 # Full-file overrides must contain precisely the reviewed native changes.
 game = vanilla_root()
 if game:
-    native = (game/'common/new_diplomatic_actions/00_diplomatic_actions.txt').read_text(encoding='utf-8-sig')
-    assert diplomacy == native.replace('value = num_of_loans', 'value = trigger_value:num_of_loans\n\t\t\t\twho = FROM')
-    native = (game/'common/on_actions/00_on_actions.txt').read_text(encoding='utf-8-sig')
+    import sys
+    sys.path.insert(0, str(ROOT / 'tools'))
+    from build_runtime_scope_fixes import outputs
+    expected = dict(outputs(game))
+    assert diplomacy == expected['common/new_diplomatic_actions/00_diplomatic_actions.txt']
     actual = read('common/on_actions/00_on_actions.txt')
-    hook_line = 'uzh_sg_war_won_effect = yes'
-    assert actual.count(hook_line) == 1 and hook_line in named_block(actual, 'on_war_won')
-    # Compare tokens: comments and trailing whitespace are not script changes.
     from clausewitz_testlib import normalized
-    assert normalized(actual.replace(hook_line, '')) == normalized(native.replace('FROM = { economic_ideas = 3 }', 'owner = { economic_ideas = 3 }'))
+    assert normalized(actual) == normalized(expected['common/on_actions/00_on_actions.txt'])
+    uzh = read('common/on_actions/RIP_UZH_on_actions.txt')
+    assert actual.count('uzh_sg_war_won_effect = yes') == 0
+    assert named_block(uzh, 'on_war_won').count('uzh_sg_war_won_effect = yes') == 1
+    # Regression: development >= 20 must keep the royal-city modifier.
+    # Check that the sole removal is inside the guarded if, not its parent.
+    for name in ('on_adm_exploited', 'on_dip_exploited', 'on_mil_exploited'):
+        body = named_block(actual, name)
+        removal = 'remove_province_modifier = estate_burghers_hungarian_royal_city_modifier'
+        gates = [block for _, block in keyed_blocks(body, 'if') if removal in block]
+        assert len(gates) == 1 and body.count(removal) == 1
+        limit = named_block(gates[0], 'limit')
+        assert 'has_province_modifier = estate_burghers_hungarian_royal_city_modifier' in limit
+        assert 'NOT = { development = 20 }' in limit
+
 else:
     print('SKIP: native full-file delta (no installed EU4)')
 print(f'PASS: loan exports, trade-good owner, Novgorod scope, {len(nodes)} Mission anchors and policy gates (static only)')

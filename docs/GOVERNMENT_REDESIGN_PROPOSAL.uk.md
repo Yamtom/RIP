@@ -306,7 +306,7 @@ modifiers_effect`).
   Той самий гейт Third Rome / Domination, тож регресії для гравця без DLC
   немає. CHR «наказне царство» лишає `russian_mechanic` навмисно (емуляція
   Москви).
-- Нові модифікатори в `RIP_KRU_modifiers.txt` / `kie_opinion_modifiers.txt`
+- Нові модифікатори в `RIP_KRU_modifiers.txt` / `RIP_KIE_opinion_modifiers.txt`
   (ключ думки — `kyivan_` префікс, вимога `check_opinion_modifier_layer`);
   локалізація EN + FR/DE/ES-фолбек.
 
@@ -314,7 +314,7 @@ modifiers_effect`).
 
 - **`kyivan_seniorate_mechanic`** (`kyivan_shogunate_reform`, замінила
   `shogunate_mechanic`):
-  - Новий тип суб'єктів **`senior_udil`** (`common/subject_types/rip_senior_udil.txt`)
+  - Новий тип суб'єктів **`senior_udil`** (`common/subject_types/RIP_KIE_subject_types.txt`)
     — ротаційний стіл проти вотчинного `princedom`: `forcelimit_to_overlord 0.5`
     (левій замість ренти), `pays_overlord 0.25`, `place_relative_on_throne` і
     `send_officers` увімкнені, `base_liberty_desire 40`,
@@ -325,7 +325,7 @@ modifiers_effect`).
     ціна +10% утримання); `kyiv_rotate_the_seats` (DIP 60, кулдаун 12 р. —
     випадковому senior_udil з LD ≥30 знімає 40 LD + думка); `kyiv_reconfirm_the_grants`
     (ADM 40, кулдаун 5 р. — знімає `rip_tenure_lapsed`, +довіра).
-  - `on_monarch_death` (`kie_on_actions.txt`): смерть старшого князя гасить усі
+  - `on_monarch_death` (`RIP_KIE_on_actions.txt`): смерть старшого князя гасить усі
     надання — senior_udil'и отримують `rip_tenure_lapsed` (LD +20) до
     переконфірмації. Це і є рота: успадкування = драбина крутиться.
 - **Рада KRU = ванільна механіка FACTION** (усі три `ruthenian_factional_empire_*`):
@@ -367,14 +367,14 @@ modifiers_effect`).
   доступні лише під `kyivan_shogunate_reform`, а всі три кнопки сеніорату
   читають `is_subject_of_type = senior_udil`. Тепер обидва місця роблять
   `senior_udil`, як і раніше робив лише `rip_grant_the_udil`.
-  `common/subject_types/rip_senior_udil.txt`: `takes_diplo_slot = no` (даймьо
+  `common/subject_types/RIP_KIE_subject_types.txt`: `takes_diplo_slot = no` (даймьо
   вантажу з `daimyo_vassal`, `17_shogunate.txt`) — `can_fight`/`can_rival`/
   `can_ally = { same_overlord = senior_udil }` (друга половина того ж
-  ванільного даймьо) вже існували. Спільний `princedom` (`Kyivan_princedom.txt`)
+  ванільного даймьо) вже існували. Спільний `princedom` (`RIP_shared_ruthenian_subject_types.txt`)
   свідомо не займали — його ж використовують KRU/PLC/Hadiach/kyiv_independence.
 - Спадковість при обриві лінії: `rip_kyiv_seniorate_line_broken_trigger`
   (`common/scripted_triggers/rip_kyivan_seniorate_triggers.txt`) +
-  `events/KyivShogunate.txt : kyiv_shogunate.2`, з `kie_on_actions.txt :
+  `events/KyivShogunate.txt : kyiv_shogunate.2`, з `RIP_KIE_on_actions.txt :
   on_monarch_death`. Умова: `has_reform kyivan_shogunate_reform`, немає
   спадкоємця, ROOT більше не володіє Києвом (280), а один із його senior_udil
   володіє. Ванільного скриптового правила «спадкоємець той, хто володіє

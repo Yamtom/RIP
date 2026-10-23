@@ -1,0 +1,34 @@
+# RIP - ZAZ: Zaporozhian Cossack Host
+# Shared recruitment: Cossack estates, ZAZ/HET reforms and their neighbours.
+
+rip_cossack_host_mercenaries = {
+	regiments_per_development = 0.05
+	cavalry_weight = 0.4
+	artillery_weight = 0
+	cavalry_cap = 6
+	home_province = 283 # Zaporozhia
+	sprites = { dlc047_zaz_sprite_pack easterngfx_sprite_pack }
+	trigger = {
+		is_allowed_to_recruit_mercenaries = yes
+		OR = {
+			has_estate = estate_cossacks
+			OR = {
+				has_reform = rip_cossacks_reform
+				has_reform = rip_hetman_cossacks_reform
+			}
+			any_neighbor_country = {
+				OR = {
+					has_estate = estate_cossacks
+					OR = {
+						has_reform = rip_cossacks_reform
+						has_reform = rip_hetman_cossacks_reform
+					}
+				}
+			}
+		}
+	}
+	modifier = {
+		fire_damage = 0.05
+		shock_damage_received = -0.05
+	}
+}

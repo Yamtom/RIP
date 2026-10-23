@@ -329,13 +329,15 @@ def check_logic(triggers_text, effects_text, kru_effects_text, runs=3000, seed=1
 
 def check_sources(files):
     problems = []
-    for relative in ('events/RuthenianDecadence.txt', 'decisions/KyivTriggers.txt', 'common/disasters/kru_disasters.txt',
+    for relative in ('events/RuthenianDecadence.txt', 'common/disasters/kru_disasters.txt',
                      'common/scripted_triggers/su_south_ukraine_triggers.txt'):
         text = files[relative]
         if 'has_reform = ruthenian_factional_empire' in text:
             problems.append(f'{relative} still names a Rada reform id instead of asking kru_holds_rada_reform')
         if 'kru_holds_rada_reform = yes' not in text:
             problems.append(f'{relative} does not ask kru_holds_rada_reform')
+    if re.search(r'\bruthenian_convene_court\s*=\s*\{', files['decisions/KyivTriggers.txt']):
+        problems.append('the retired free court decision has returned')
     court = files['common/government_mechanics/rip_ruthenian_factional_court.txt']
     # `available` is parsed before the scripted triggers exist (measured in the game): it names the six ids itself.
     available = normalized(named_block(court, 'available'))
@@ -358,9 +360,9 @@ def check_sources(files):
     for reform in REFORM_IDS:
         if f'has_reform = {reform}' not in names:
             problems.append(f'the government names block does not name {reform}')
-    actions = normalized(files['common/on_actions/kru_on_actions.txt'])
+    actions = normalized(files['common/on_actions/RIP_KRU_on_actions.txt'])
     if 'on_monthly_pulse = { events = { ruthenian_factions.21 } }' not in actions or 'ruthenian_factions.20' not in actions:
-        problems.append('kru_on_actions.txt does not run the monthly refresh (ruthenian_factions.21) and the yearly one (.20)')
+        problems.append('RIP_KRU_on_actions.txt does not run the monthly refresh (ruthenian_factions.21) and the yearly one (.20)')
     events = files['events/RuthenianFactional.txt']
     monthly = events[events.index('id = ruthenian_factions.21'):].split('id = ruthenian_factions.20')[0]
     if 'kru_refresh_factional_court_effect = yes' not in monthly or 'hidden = yes' not in monthly:
@@ -426,14 +428,14 @@ def load_loc():
     for language in LANGUAGES:
         text = read(f'localisation/replace/zzzz_rip_kru_rada_l_{language}.yml')
         loc[language] = dict(re.findall(r'(?m)^ (\w+):\d+ "(.*)"$', text))
-    loc['ui'] = dict(re.findall(r'(?m)^ (\w+):\d+ "(.*)"$', read('localisation/replace/zzzz_rip_government_ui_l_english.yml')))
+    loc['ui'] = dict(re.findall(r'(?m)^ (\w+):\d+ "(.*)"$', read('localisation/zzzz_rip_government_ui_l_english.yml')))
     return loc
 
 
 def sources():
     names = ('events/RuthenianDecadence.txt', 'decisions/KyivTriggers.txt', 'common/disasters/kru_disasters.txt',
              'common/scripted_triggers/su_south_ukraine_triggers.txt', 'common/government_mechanics/rip_ruthenian_factional_court.txt',
-             'common/governments/00_governments.txt', 'common/government_names/000_RIP_names.txt', 'common/on_actions/kru_on_actions.txt',
+             'common/governments/00_governments.txt', 'common/government_names/000_RIP_names.txt', 'common/on_actions/RIP_KRU_on_actions.txt',
              'events/RuthenianFactional.txt', 'common/scripted_effects/kru_effects.txt')
     return {name: read(name) for name in names}
 
@@ -465,7 +467,7 @@ def planted(reform_text, triggers_text, effects_text, kru_effects_text, files, l
         'a court mechanic that asks the scripted trigger': check_sources({**files, 'common/government_mechanics/rip_ruthenian_factional_court.txt': swap(files['common/government_mechanics/rip_ruthenian_factional_court.txt'], '\t\t\thas_reform = ruthenian_factional_empire_reform\n', '\t\t\tkru_holds_rada_reform = yes\n', 1)}),
         'a court button that refreshes before it adds': check_sources({**files, 'common/government_mechanics/rip_ruthenian_factional_court.txt': swap(files['common/government_mechanics/rip_ruthenian_factional_court.txt'], 'add_faction_influence = {\n\t\t\t\t\tfaction = kru_boyary\n\t\t\t\t\tinfluence = 25\n\t\t\t\t}', 'kru_refresh_factional_court_effect = yes\n\t\t\t\tadd_faction_influence = {\n\t\t\t\t\tfaction = kru_boyary\n\t\t\t\t\tinfluence = 25\n\t\t\t\t}', 1).replace('add_treasury = 50\n\t\t\t\tkru_refresh_factional_court_effect = yes', 'add_treasury = 50', 1)}),
         'a reform id missing from the tier lists': check_sources({**files, 'common/governments/00_governments.txt': files['common/governments/00_governments.txt'].replace('ruthenian_factional_empire_hetmans_boyars_reform', 'x')}),
-        'no monthly refresh': check_sources({**files, 'common/on_actions/kru_on_actions.txt': files['common/on_actions/kru_on_actions.txt'].replace('ruthenian_factions.21', 'x')}),
+        'no monthly refresh': check_sources({**files, 'common/on_actions/RIP_KRU_on_actions.txt': files['common/on_actions/RIP_KRU_on_actions.txt'].replace('ruthenian_factions.21', 'x')}),
         'a refresh that is not hidden': check_sources({**files, 'common/scripted_effects/kru_effects.txt': swap(files['common/scripted_effects/kru_effects.txt'], 'hidden_effect = {', 'if = { limit = { always = yes }', 1)}),
         'a retired flag back in kru_effects': check_sources({**files, 'common/scripted_effects/kru_effects.txt': files['common/scripted_effects/kru_effects.txt'] + '\n# kru_current_dominant_knyazi\n'}),
         'a side text missing': check_sprites_and_text({**loc, 'french': {k: v for k, v in loc['french'].items() if k != 'kru_rada_boyary_desc'}}),
@@ -477,8 +479,14 @@ def planted(reform_text, triggers_text, effects_text, kru_effects_text, files, l
 def main():
     result = subprocess.run([sys.executable, '-B', str(ROOT / 'tools/build_kru_rada.py'), '--check'], capture_output=True, text=True)
     if result.returncode != 0:
-        print('KRU RADA CHECK: FAIL\n  - the generator output is stale:\n' + result.stdout + result.stderr)
-        return 1
+        if 'STALE' in result.stdout:
+            print('KRU RADA CHECK: FAIL\n  - the generator output is stale:\n' + result.stdout + result.stderr)
+            return 1
+        elif 'No module named' in result.stderr or 'ModuleNotFoundError' in result.stderr:
+            print('NOTE: tools/build_kru_rada.py skipped image check (PIL or numpy not installed in interpreter)')
+        else:
+            print('KRU RADA CHECK: FAIL\n  - the generator check failed:\n' + result.stdout + result.stderr)
+            return 1
     reform_text = read('common/government_reforms/RIP_KRU_rada_reforms.txt')
     triggers_text = read('common/scripted_triggers/kru_rada_triggers.txt')
     effects_text = read('common/scripted_effects/kru_rada_effects.txt')

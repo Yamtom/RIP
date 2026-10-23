@@ -18,6 +18,26 @@
 #   bottom row  Urbarial   (administrative)    what each village owes its lord
 #               Toleration (diplomatic)        the faiths of the marches
 #               Frontier   (military)          watchmen on the Carpathian passes
+#  - The Chancery Ordinance seconds trained clerks to the chancellor's
+#    staff - a standing diplomatic bonus while enacted. Vanilla has no
+#    scripted effect that changes a ruler's raw skill number outside of
+#    ruler generation and add_ruler_personality (which grants a fixed
+#    personality, not arbitrary points, and personalities themselves carry
+#    no adm/dip/mil fields - checked in common/ruler_personalities/00_core.
+#    txt); the honest substitute is a persistent chancery-flavoured country
+#    modifier, not a literal ruler stat.
+#  - The Settlement Ordinance answers on_province_culture_converted
+#    (common/on_actions/00_on_actions.txt) while enacted: culture conversion
+#    is cheaper, and the first manual conversion each year steadies the
+#    nobles who receive the land - see hlc_settlement_ordinance_conversion_
+#    effect (common/scripted_effects/rip_estate_effects.txt) and the on_action
+#    hook in common/on_actions/RIP_HLC_on_actions.txt. Vanilla fires that
+#    hook only for a MANUAL conversion.
+#  - The Cadastral Ordinance sends the chancery's surveyors through every
+#    holding, the way the Josephine land survey of the 1780s did, so the
+#    treasury collects on what each estate truly holds - and the nobles,
+#    counted for the first time, resent it. A standing tax bonus paid for
+#    with noble loyalty.
 #
 # What makes them a choice and not six free bonuses:
 #

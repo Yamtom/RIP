@@ -1,0 +1,43 @@
+# A paid ten-year reprieve, not independence or a forced war.
+het_resist_abolition_effect = {
+	if = {
+		limit = { can_resist_abolition = yes }
+		add_mil_power = -200
+		add_stability = -2
+		set_country_flag = rip_het_resisted_abolition
+		remove_country_modifier = het_abolished
+		add_country_modifier = { name = rip_het_autonomy_defended duration = 3650 }
+		# The dated Russian abolition event may return after the reprieve,
+		# including after 1770, but only if its political threat still exists.
+		if = {
+			limit = { is_subject_of = RUS }
+			set_country_flag = rip_het_abolition_deferred
+		}
+	}
+}
+
+het_autonomy_upkeep_effect = {
+	# Do not carry the charter into independence or a non-Hetmanate successor.
+	# Keep the payment date: tag changes never refund its ten-year term.
+	if = {
+		limit = {
+			has_country_modifier = rip_het_autonomy_defended
+			OR = { is_subject = no NOT = { is_hetmanate_nation = yes } }
+		}
+		remove_country_modifier = rip_het_autonomy_defended
+	}
+	if = {
+		limit = {
+			has_country_flag = rip_het_abolition_deferred
+			OR = {
+				NOT = { is_subject_of = RUS }
+				NOT = { is_hetmanate_nation = yes }
+				AND = {
+					NOT = { has_country_modifier = rip_het_autonomy_defended }
+					NOT = { hetmanate_autonomy_ending = yes }
+				}
+			}
+		}
+		clr_country_flag = rip_het_abolition_deferred
+	}
+}

@@ -208,14 +208,12 @@ VLN_alt_history_path_2 = {
 				NOT = { exists = LIT }
 				LIT = { is_subject = yes }
 			}
-			calc_true_if = {
-				all_owned_province = {
-					OR = {
-						area = lithuania_area
-						area = samogitia_area
-					}
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					area = lithuania_area
+					area = samogitia_area
 				}
-				amount = 5
 			}
 			prestige = 30
 		}

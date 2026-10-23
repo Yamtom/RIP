@@ -1,3 +1,4 @@
+# RIP - zaz het triggers.
 
 zaz_has_legacy_missions = {
 	OR = {
@@ -14,20 +15,6 @@ zaz_has_legacy_missions = {
 				has_country_flag = zaz_allied_tur
 				mission_completed = ZAZ_independce
 				mission_completed = ZAZ_finally
-			}
-		}
-	}
-}
-
-prl_has_legacy_missions = {
-	OR = {
-		tag = PRL
-		AND = {
-			tag = HET
-			OR = {
-				has_country_flag = rip_hetmanate_origin_prl
-				mission_completed = prl_build_army
-				mission_completed = prl_consolidate_left_bank
 			}
 		}
 	}
@@ -99,34 +86,6 @@ is_chaiky_raid_target = {
 	}
 }
 
-het_is_autonomous = {
-	tag = HET
-	OR = {
-		is_subject = no
-		AND = {
-			is_subject = yes
-			liberty_desire = 30
-		}
-		has_reform = het_mazepist_autocracy_reform
-	}
-}
-
-can_establish_regiment = {
-	owner = {
-		OR = {
-			tag = HET
-			has_reform = het_regimental_system_reform
-		}
-	}
-	is_city = yes
-	OR = {
-		area = west_dniepr_area
-		area = east_dniepr_area
-		area = sloboda_ukraine_area
-	}
-	development = 8
-}
-
 zich_is_threatened = {
 	tag = ZAZ
 	OR = {
@@ -157,8 +116,6 @@ has_cossack_heritage_prov = {
 	}
 }
 
-
-
 orthodox_under_pressure = {
 	religion = orthodox
 	owner = {
@@ -183,21 +140,6 @@ can_establish_trade_route = {
 		trade_goods = salt
 		trade_goods = grain
 		trade_goods = naval_supplies
-	}
-}
-
-het_succession_crisis_imminent = {
-	tag = HET
-	OR = {
-		NOT = { legitimacy = 50 }
-		ruler_age = 60
-		is_subject = yes
-		AND = {
-			estate_influence = {
-				estate = estate_nobles
-				influence = 60
-			}
-		}
 	}
 }
 

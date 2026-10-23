@@ -5,6 +5,7 @@ from decimal import Decimal
 from pathlib import Path
 
 from clausewitz_testlib import ROOT, keyed_blocks, named_block, read, vanilla_root
+from clausewitz_testlib import read_custom_localization
 
 gui = read("interface/countryreligionview.gui")
 controls = read("common/custom_gui/RIP_church_controls.txt")
@@ -123,7 +124,7 @@ faith = named_block(read("common/religions/zz_greek_catholic.txt"), "greek_catho
 yearly = values(named_block(faith, "country"))["yearly_patriarch_authority"] * 100
 assert yearly == Decimal("7.5") and yearly / 12 == Decimal("0.625")
 
-custom = read("customizable_localization/rip_church_redesign.txt")
+custom = read_custom_localization('church')
 capacity = next(
     block for _, block in keyed_blocks(custom, "defined_text")
     if "name = GetChurchCapacityTooltip\n" in block
@@ -133,7 +134,7 @@ rows = [
     for fraction, key in re.findall(
         r"text = \{ trigger = \{ patriarch_authority = ([\d.]+) \} "
         r"localisation_key = (\w+) \}",
-        capacity,
+        re.sub(r"\s+", " ", capacity).strip(),
     )
 ]
 assert [fraction for fraction, _ in rows] == [Decimal(i) / 100 for i in range(100, -1, -1)]
@@ -192,6 +193,7 @@ heading_tooltip = next(
     block for _, block in keyed_blocks(custom, "defined_text")
     if "name = GetChurchAuthorityTooltip\n" in block
 )
+heading_tooltip = re.sub(r"\s+", " ", heading_tooltip).strip()
 assert heading_tooltip.count("religion = greek_catholic patriarch_authority = ") == 101
 assert "trigger = { always = yes } localisation_key = rip_church_native_authority_tooltip" in heading_tooltip
 assert "trigger = { religion = russian_orthodox has_country_flag = rip_church_ro_schismatic } localisation_key = rip_church_ro_authority_schism_tt" in heading_tooltip

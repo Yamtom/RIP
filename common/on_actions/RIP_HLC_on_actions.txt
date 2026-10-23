@@ -1,0 +1,34 @@
+# RIP - HLC. Crown Chancery Ordinances.
+# hlc_austrian_reorganization_mechanic's Settlement Ordinance
+# (common/government_mechanics/rip_hlc_austrian_reorganization.txt): while
+# enacted, a manual culture conversion steadies the nobles - once a year, and
+# only while their loyalty is below 60%
+# (hlc_settlement_ordinance_conversion_effect,
+# common/scripted_effects/rip_estate_effects.txt).
+#
+# This key is also defined in common/on_actions/00_on_actions.txt (the mod's
+# copy of vanilla's file, the five vanilla handlers) and that is safe, because
+# EU4 1.37.5 MERGES one on_action key defined in several files: every
+# definition runs, none replaces another. Measured in the game, not assumed:
+# on_startup and on_monthly_pulse defined in three extra files (one sorting
+# before 00_on_actions.txt, one in the middle, one after every RIP file) fired
+# all three, and the handlers in the first and the last of the mod's own
+# on_startup files (vanilla's Emperor target, the church initialiser's flag)
+# ran too - see diagnostics/hlc_ordinances_20261017/
+# on_action_merge_probe.txt. The conversion key itself was not fired in that
+# run (it needs a manual conversion); the rule is a general one, not per key.
+# The hook runs in province scope (vanilla's own handlers of this key read
+# `owner`), and vanilla fires it only for a MANUAL conversion ("province,
+# manually conversion"; conversion by an effect fires on_province_culture_
+# changed). tests/check_hlc_ordinances.py keeps all of this from drifting.
+on_startup = {
+	hlc_ordinance_sweep_effect = yes
+}
+
+on_yearly_pulse = {
+	hlc_ordinance_sweep_effect = yes
+}
+
+on_province_culture_converted = {
+	hlc_settlement_ordinance_conversion_effect = yes
+}

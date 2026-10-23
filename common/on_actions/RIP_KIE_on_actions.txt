@@ -1,0 +1,82 @@
+# RIP - KIE. Country mechanics and their successor states.
+# Eligibility is checked by the called effects and events.
+on_monarch_death = {
+	if = {
+		limit = {
+			has_reform = kyivan_shogunate_reform
+			any_subject_country = {
+				is_subject_of_type = senior_udil
+			}
+		}
+		every_subject_country = {
+			limit = {
+				is_subject_of_type = senior_udil
+				NOT = {
+					has_country_modifier = rip_tenure_lapsed
+				}
+			}
+			add_country_modifier = {
+				name = rip_tenure_lapsed
+				duration = -1
+			}
+		}
+	}
+	if = {
+		limit = {
+			rip_kyiv_seniorate_line_broken_trigger = yes
+		}
+		country_event = {
+			id = kyiv_shogunate.2
+			days = 1
+		}
+	}
+}
+
+on_yearly_pulse = {
+	events = {
+		kyiv_dnieper_history.1
+		kyiv_dnieper_history.2
+		kyiv_dnieper_history.3
+		kyiv_dnieper_history.4
+		kyiv_dnieper_history.5
+		kyiv_dnieper_history.6
+		kyiv_dnieper_history.7
+		kyiv_dnieper_history.8
+		kyiv_dnieper_history.9
+		kyiv_dnieper_history.10
+		kyiv_dnieper_history.11
+		kyiv_dnieper_history.12
+		kyiv_dnieper_history.13
+	}
+}
+
+on_startup = {
+	rip_cesarstvo_monthly_effect = yes
+}
+
+on_monthly_pulse = {
+	rip_cesarstvo_monthly_effect = yes
+}
+
+# When Kyivan Rus establishes an appanage trading city via Mare Nostrum,
+# convert the newly formed entity into a princedom subject.
+on_country_released = {
+	if = {
+		limit = {
+			has_reform = principality_appanage
+			FROM = {
+				has_reform = kyivan_rus_reform
+			}
+		}
+		FROM = {
+			create_subject = {
+				subject_type = princedom
+				subject = ROOT
+			}
+		}
+		add_country_modifier = {
+			name = rip_held_as_an_udil
+			duration = -1
+		}
+	}
+}

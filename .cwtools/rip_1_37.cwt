@@ -1,0 +1,102 @@
+# Narrow additions to upstream EU4 rules; no diagnostics are disabled.
+# Upstream effects.cwt accepts a closed export_to_variable_data enum.
+# Keep the runtime fix: num_of_loans is a numeric trigger export.
+## scope = any
+alias[effect:export_to_variable] = {
+    enum[which_varname] = value_set[variable]
+    value = trigger_value:num_of_loans
+    ## cardinality = 0..1
+    who = scope[country]
+}
+
+# These identifiers are read/cleared by unmodified EU4 1.37 hooks, retired from
+# older mod mechanics in save compatibility effects, or set in government mechanics
+# interactions where CWTools does not register value_set[country_flag].
+# Recognize those exact IDs without requiring redundant script setters.
+enums = {
+    enum[rip_inherited_vanilla_country_flags] = {
+        hordes_devout_tengri_completion_flag
+        enable_galleass
+        rip_border_watch_laid
+        zaz_evolved_to_hetmanate
+        rip_church_balance_shifted
+        rip_church_balanced_since
+        orthodox_crusade_constantinople_active
+        orthodox_crusade_jerusalem_active
+        orthodox_crusade_target_constantinople
+        orthodox_crusade_target_jerusalem
+        rip_ro_authority_tick_pending
+    }
+    enum[rip_retired_province_flags] = {
+        rip_church_center_suspended
+        rip_church_union_ring_0
+        rip_church_union_ring_1
+        rip_church_union_ring_2
+        rip_church_union_ring_3
+        rip_church_union_ring_4
+        rip_church_union_frontier
+        rip_church_latin_consent
+    }
+    enum[rip_carpathian_captaincy_modifiers] = {
+        uz_captaincy_posts_manned
+        uz_captaincy_salt_pledged
+        uz_captaincy_opryshky_enlisted
+    }
+    enum[rip_carpathian_captaincy_reforms] = {
+        uzh_carpathian_captaincy_reform
+    }
+    enum[variable_name] = {
+        zaz_lean_cantons
+        zaz_lean_host_state
+        zaz_lean_sacred_order
+        zaz_lean_sacred_horde
+    }
+}
+## scope = country
+alias[trigger:has_country_flag] = enum[rip_inherited_vanilla_country_flags]
+## scope = country
+alias[effect:clr_country_flag] = enum[rip_inherited_vanilla_country_flags]
+## scope = country
+alias[effect:set_country_flag] = enum[rip_inherited_vanilla_country_flags]
+## scope = country
+alias[trigger:has_country_modifier] = enum[rip_carpathian_captaincy_modifiers]
+## scope = country
+alias[effect:remove_country_modifier] = enum[rip_carpathian_captaincy_modifiers]
+## scope = country
+alias[trigger:has_reform] = enum[rip_carpathian_captaincy_reforms]
+## scope = province
+alias[trigger:has_province_flag] = enum[rip_retired_province_flags]
+## scope = province
+alias[effect:clr_province_flag] = enum[rip_retired_province_flags]
+## scope = province
+alias[effect:set_province_flag] = enum[rip_retired_province_flags]
+
+# Vanilla scripted effect macros using parameter substitution inside else blocks (CW264)
+## scope = any
+alias[effect:else] = {
+    ## cardinality = 0..inf
+    scalar
+}
+## scope = any
+alias[effect:$else$] = scalar
+## scope = any
+alias[effect:$else$] = {
+    ## cardinality = 0..inf
+    alias_name[effect] = alias_match_left[effect]
+}
+
+# Explicit contracts for nested Border Watch helpers; validate the caller scope.
+# Bodies remain checked in common/scripted_triggers/rip_border_watch_triggers.txt.
+## scope = country
+alias[trigger:rip_watch_steppe_power] = bool
+## scope = province
+alias[trigger:rip_watch_exposed_province] = bool
+## scope = province
+alias[trigger:rip_watch_unsettled_province] = bool
+
+# Explicit contracts for Carpathian Captaincy helpers; validate the caller scope.
+# Bodies remain checked in common/scripted_effects/rip_uzh_captaincy_effects.txt.
+## scope = country
+alias[effect:uzh_captaincy_clear_effect] = bool
+## scope = country
+alias[effect:uzh_captaincy_sweep_effect] = bool

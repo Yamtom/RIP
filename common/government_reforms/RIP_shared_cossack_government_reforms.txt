@@ -66,6 +66,6 @@ rip_cossacks_reform = {
 	}
 	duration = 4
 	removed_effect = {
-		rip_gov_clear_register_effect = yes
+		if = { limit = { NOT = { has_country_flag = rip_het_migrating } } rip_gov_clear_register_effect = yes }
 	}
 }

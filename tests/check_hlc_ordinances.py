@@ -47,6 +47,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from clausewitz_testlib import read_scripted_trigger_family
 from clausewitz_testlib import (  # noqa: E402
     ROOT, read, named_block, keyed_blocks, matching_brace, normalized, vanilla_read, vanilla_grep,
     vanilla_root, _mask_comments_and_strings,
@@ -368,7 +369,7 @@ def check_cleanup(reform, effects, on_actions):
     if "else" in re.findall(r"\b(else_if|else)\b", _mask_comments_and_strings(block_or_empty(effects, "hlc_ordinance_migrate_effect") + sweep + clear)):
         problems.append("an else/else_if body in a scripted effect: the engine drops some effects there")
     if "hlc_ordinance_sweep_effect = yes" not in normalized(block_or_empty(on_actions, "on_yearly_pulse")):
-        problems.append("west_ukraine_on_actions.txt on_yearly_pulse does not run hlc_ordinance_sweep_effect")
+        problems.append("RIP_HLC_on_actions.txt on_yearly_pulse does not run hlc_ordinance_sweep_effect")
     # The AI's ten-year wait for the appanage action is counted from a flag only the sweep sets.
     if "set_country_flag = hlc_austrian_bureaucracy_dated" not in swept:
         problems.append("nothing sets hlc_austrian_bureaucracy_dated, so the appanage AI would never start")
@@ -378,11 +379,11 @@ def check_cleanup(reform, effects, on_actions):
 def check_on_action(west, mod_00, vanilla_00):
     problems = []
     if "hlc_settlement_ordinance_conversion_effect = yes" not in normalized(block_or_empty(west, "on_province_culture_converted")):
-        problems.append("west_ukraine_on_actions.txt no longer hangs the settlement effect on on_province_culture_converted")
+        problems.append("RIP_HLC_on_actions.txt no longer hangs the settlement effect on on_province_culture_converted")
     if _mask_comments_and_strings(west).count("hlc_settlement_ordinance_conversion_effect = yes") != 1:
         problems.append("the settlement effect is hooked a number of times other than once")
     if "MERGES" not in west or "on_action_merge_probe.txt" not in west:
-        problems.append("west_ukraine_on_actions.txt does not record the measured merge rule")
+        problems.append("RIP_HLC_on_actions.txt does not record the measured merge rule")
     # The mod's copy of vanilla's file replaces it by name, so it has to keep every vanilla handler.
     ours = normalized(block_or_empty(mod_00, "on_province_culture_converted"))
     for handler in VANILLA_CONVERTED_HANDLERS:
@@ -633,13 +634,13 @@ def load():
         "triggers": read("common/scripted_triggers/rip_hlc_ordinance_triggers.txt"),
         "effects": read("common/scripted_effects/rip_hlc_ordinance_effects.txt"),
         "estate_effects": read("common/scripted_effects/rip_estate_effects.txt"),
-        "west": read("common/on_actions/west_ukraine_on_actions.txt"),
+        "west": read("common/on_actions/RIP_HLC_on_actions.txt"),
         "mod_00": read("common/on_actions/00_on_actions.txt"),
         "modifiers": read("common/event_modifiers/west_ukraine_modifiers.txt"),
         "reform": read("common/government_reforms/RIP_HLC_government_reforms.txt"),
         "action": read("common/new_diplomatic_actions/RIP_HLC_diplomatic_actions.txt"),
         "privilege": read("common/estate_privileges/RIP_HLC_estate_privileges.txt"),
-        "path_triggers": read("common/scripted_triggers/rip_path_state_triggers.txt"),
+        "path_triggers": read_scripted_trigger_family("path_state_triggers"),
     }
     evidence = ROOT / EVIDENCE
     sources["evidence"] = evidence.read_text(encoding="utf-8") if evidence.is_file() else None

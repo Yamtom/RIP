@@ -29,9 +29,9 @@ for key in ("liturgy", "learning", "charity"):
 
 # AI icon choices are evaluated through the monthly lifecycle, not once per
 # year or as a free automatic refresh.
-hooks = read("common/on_actions/zz_RIP_church_redesign_on_actions.txt")
+hooks = read("common/on_actions/zz_RIP_religion_church_on_actions.txt")
 lifecycle = read("common/scripted_effects/rip_church_lifecycle_effects.txt")
-assert "on_monthly_pulse = { rip_church_v3_monthly_effect = yes }" in hooks
+assert "on_monthly_pulse = { rip_church_v3_monthly_effect = yes }" in " ".join(hooks.split())
 assert "if = { limit = { ai = yes } rip_church_ai_effect = yes }" in named_block(
     lifecycle, "rip_church_v3_monthly_effect"
 )

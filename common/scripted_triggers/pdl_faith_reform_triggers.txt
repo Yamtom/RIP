@@ -1,0 +1,29 @@
+# RIP - pdl faith reform triggers.
+
+# --- PDL ---------------------------------------------------------------------
+
+pdl_concordat_candidate = {
+	OR = {
+		tag = PDL
+		was_tag = PDL
+		has_reform = pdl_kamianets_concordat_reform
+	}
+}
+
+pdl_concordat_visible = {
+	OR = {
+		has_reform = pdl_kamianets_concordat_reform
+		pdl_concordat_candidate = yes
+	}
+}
+
+# Kamianets sits in province 281. The concordat is a bargain about holding it.
+pdl_concordat_eligible = {
+	OR = {
+		has_reform = pdl_kamianets_concordat_reform
+		AND = {
+			pdl_concordat_candidate = yes
+			owns = 281
+		}
+	}
+}

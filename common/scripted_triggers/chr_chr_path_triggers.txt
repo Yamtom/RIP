@@ -187,11 +187,9 @@ chr_can_open_many_nations_union = {
 	adm_tech = 15
 	custom_trigger_tooltip = {
 		tooltip = chr_four_lands_beyond_tt
-		calc_true_if = {
-			all_owned_province = {
-				NOT = { culture_group = east_slavic }
-			}
-			amount = 4
+		num_of_owned_provinces_with = {
+			value = 4
+			NOT = { culture_group = east_slavic }
 		}
 	}
 }
@@ -233,4 +231,45 @@ chr_on_a_path = {
 		has_reform = chr_dzhura_corps_reform
 		has_reform = chr_many_nations_union_reform
 	}
+}
+# --- Border Compacts (Chernihiv diplomacy with neighboring powers) ---
+
+# Target country scope: a qualifying sovereign neighboring power for Chernihiv border compacts.
+# Excludes subjects (vassals/marches/unions), requires peace, no war/truce with Chernihiv,
+# and requires either an active guarantee of Chernihiv or a mutual alliance.
+chr_border_compact_partner_candidate = {
+	is_subject = no
+	is_at_war = no
+	NOT = { war_with = ROOT }
+	has_truce = no
+	OR = {
+		tag = PLC
+		tag = POL
+		tag = LIT
+		tag = MOS
+		tag = RUS
+	}
+	OR = {
+		has_guaranteed = ROOT
+		ROOT = { alliance_with = PREV }
+	}
+}
+
+# Country scope: does Chernihiv have any valid partner candidate available?
+chr_has_border_compact_target = {
+	custom_trigger_tooltip = {
+		tooltip = chr_has_border_compact_target_tt
+		any_country = {
+			chr_border_compact_partner_candidate = yes
+		}
+	}
+}
+
+chr_can_forge_border_compact = {
+	tag = CHR
+	is_at_war = no
+	dip_power = 40
+	NOT = { has_country_modifier = chr_border_compact_cooldown }
+	NOT = { has_country_modifier = chr_border_compact_betrayal }
+	chr_has_border_compact_target = yes
 }

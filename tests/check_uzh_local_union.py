@@ -233,7 +233,12 @@ def contract_events(events):
                     'set_province_flag = rip_uzh_union_scheduled',
                     'province_event = { id = rip_uzh_union.1 days = 20 }'):
         req(literal in starter, 'starter')
-    req('title =' not in starter and 'is_triggered_only' not in starter, 'starter')
+    # The vanilla hidden-event shape: "hidden = yes" does not switch off the engine's checks, and a
+    # hidden event without title, desc, picture and an option writes error.log lines at every start
+    # (tests/check_hidden_events.py guards the whole events folder).
+    for literal in ('title = none', 'desc = none', 'picture = none', 'option = { }'):
+        req(literal in starter, 'starter-shape')
+    req('is_triggered_only' not in starter, 'starter')
     popup = normalized(defs['rip_uzh_union.1'])
     req('is_triggered_only = yes' in popup, 'popup-triggered')
     req('mean_time_to_happen' not in popup, 'popup-triggered')
@@ -391,6 +396,11 @@ PLANTED = [
      'mean_time_to_happen = { days = 1 }', 'mean_time_to_happen = { days = 30 }', 'starter'),
     ('starter stops scheduling the popup', 'events',
      '  province_event = { id = rip_uzh_union.1 days = 20 }\n', '', 'starter'),
+    ('starter loses the hidden-event shape', 'events',
+     ' title = none\n desc = none\n picture = none\n hidden = yes\n', ' hidden = yes\n', 'starter-shape'),
+    ('starter loses its option', 'events',
+     "  province_event = { id = rip_uzh_union.1 days = 20 }\n }\n option = { }\n}",
+     "  province_event = { id = rip_uzh_union.1 days = 20 }\n }\n}", 'starter-shape'),
     ('late fallback ignores a fresh schedule', 'events',
      '  NOT = { rip_uzh_union_scheduled_fresh = yes }\n', '', 'late-fresh'),
     ('late fallback sets the scheduled flag again', 'events',
@@ -450,9 +460,13 @@ def main():
     sources = {key: read(path) for key, path in SOURCES.items()}
     contracts(sources)
     for name, key, old, new, code in PLANTED:
-        assert old in sources[key], f'planted {name!r}: pattern not found in {SOURCES[key]}'
+        # Engine formatting may use tabs or spaces; mutate the same token sequence.
+        pattern = r'\s+'.join(re.escape(part) for part in re.split(r'\s+', old.strip()))
+        if key not in ('loc', 'doc', 'province') and old[-1].isspace():
+            pattern += r'(?=\s|$)'
+        assert re.search(pattern, sources[key]), f'planted {name!r}: pattern not found in {SOURCES[key]}'
         mutated = dict(sources)
-        mutated[key] = sources[key].replace(old, new)
+        mutated[key] = re.sub(pattern, lambda match: new, sources[key])
         try:
             contracts(mutated)
         except AssertionError as failure:

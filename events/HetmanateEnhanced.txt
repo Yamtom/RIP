@@ -343,13 +343,29 @@ country_event = {
 	trigger = {
 		tag = HET
 		overlord = { tag = RUS }
-		is_year = 1764
-		NOT = { is_year = 1770 }
-		NOT = { has_country_flag = abolition_threatened }
+		is_at_war = no
+		NOT = { has_country_modifier = rip_het_autonomy_defended }
+		OR = {
+			AND = {
+				is_year = 1764
+				NOT = { is_year = 1770 }
+				NOT = { has_country_flag = abolition_threatened }
+			}
+			AND = {
+				has_country_flag = rip_het_abolition_deferred
+				hetmanate_autonomy_ending = yes
+			}
+		}
 	}
 	
 	mean_time_to_happen = {
 		months = 12
+	}
+
+	immediate = {
+		# Consume every response, including resistance, before showing options.
+		set_country_flag = abolition_threatened
+		clr_country_flag = rip_het_abolition_deferred
 	}
 	
 	option = {

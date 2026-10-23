@@ -1,0 +1,41 @@
+# RIP - ZAZ. Country mechanics and their successor states.
+# Eligibility is checked by the called effects and events.
+on_yearly_pulse = {
+	if = {
+		limit = {
+			OR = {
+				tag = ZAZ
+				is_cossack_polity = yes
+			}
+			any_owned_province = {
+				has_province_modifier = zaporozhian_sich_capital
+				NOT = {
+					province_id = capital
+				}
+			}
+		}
+		every_owned_province = {
+			limit = {
+				has_province_modifier = zaporozhian_sich_capital
+				NOT = {
+					province_id = capital
+				}
+			}
+			remove_province_modifier = zaporozhian_sich_capital
+		}
+	}
+	if = {
+		limit = {
+			has_reform = zaz_orthodox_knighthood_reform
+		}
+		rip_zaz_sync_monasteries_effect = yes
+	}
+}
+
+on_battle_won_country = {
+	rip_zaz_zeal_battle_effect = yes
+}
+
+on_siege_won_country = {
+	rip_zaz_zeal_siege_effect = yes
+}

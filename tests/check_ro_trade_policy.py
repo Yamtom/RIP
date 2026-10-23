@@ -4,7 +4,7 @@ import struct
 from church_testlib import World, TRIGGERS, parse
 from clausewitz_testlib import ROOT, read
 
-policy_source = read('common/trading_policies/RIP_church_mission_network.txt')
+policy_source = read('common/trading_policies/RIP_MOS_RUS_trading_policies.txt')
 policy = dict(dict(parse(policy_source))['rip_church_mission_network'])
 assert policy['can_select'] == policy['can_maintain']
 assert policy['button_gfx'] == 'GFX_rip_ro_mission_policy'

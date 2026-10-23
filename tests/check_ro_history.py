@@ -48,6 +48,7 @@ def setup(year=1448, religion='orthodox'):
     p = w.province(295, c, religion)
     p['region'] = 'russia_region'
     other = w.province(280, c, 'orthodox')
+    other['region'] = 'russia_region'
     catholic = w.province(281, c, 'catholic')
     return w, c, p, other, catholic
 
@@ -158,7 +159,7 @@ for choice, internal_schism in (('russian_orthodox.6.a', True), ('russian_orthod
     assert ('raskol_schism' in w.flags) == internal_schism
     assert ('rip_ro_stage_raskol' in c['flags']) == internal_schism
     if choice.endswith('.a'):
-        assert p['rebel_requests'] == [{'type': 'old_believer_rebels', 'size': '2'}]
+        assert other['rebel_requests'] == [{'type': 'old_believer_rebels', 'size': '2'}]
         assert 'suppression_old_believers' in c['modifiers']
     if choice.endswith('.b'):
         assert 'old_believer_underground' in c['modifiers']
@@ -282,8 +283,8 @@ choose(w, c, 'russian_orthodox.6', 'russian_orthodox.6.a')
 assert c['religion'] == p['religion'] == other['religion'] == 'orthodox'
 assert 'rip_ro_stage_raskol' in c['flags'] and 'rip_church_ro_schismatic' not in c['flags']
 assert 'raskol_schism' in w.flags
-assert 'rebels' not in other and 'rebels' not in catholic, 'ordinary Orthodox parishes are not Old Believers'
-assert p['rebels'] == [{'type': 'old_believer_rebels', 'size': '2'}]
+assert 'rebels' not in p and 'rebels' not in catholic, 'rebels must not rise in the capital or in another faith'
+assert other['rebels'] == [{'type': 'old_believer_rebels', 'size': '2'}]
 cases += 1
 
 w, c, p, other, catholic = setup(1667, 'russian_orthodox')

@@ -32,7 +32,7 @@ LANGUAGES = ('english', 'french', 'german', 'spanish')
 loc = {lang: dict(re.findall(r'^ ([\w.]+):\d+ "(.*)"$', read(f'localisation/replace/zzzz_rip_parliament_names_l_{lang}.yml'), re.M))
        for lang in LANGUAGES}
 english = loc['english']
-ladder = read('customizable_localization/rip_parliament_names.txt')
+ladder = read('customizable_localization/RIP_shared_parliament_names.txt')
 choices = [(named_block(block, 'trigger'), re.search(r'localisation_key = (\w+)', block)[1]) for _, block in keyed_blocks(ladder, 'text')]
 assert 'name = GetRIPParliamentTitle' in ladder and 'GetRIPParliamentName' not in ladder
 assert re.search(r'name = GetRIPParliamentTitle\s+random = no\b', ladder), 'the ladder must say `random = no`, or the engine draws among the rows that hold'

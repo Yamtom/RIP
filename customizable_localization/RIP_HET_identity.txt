@@ -1,0 +1,74 @@
+# RIP - HET; identity.
+# Country labels identify the content family, not additional eligibility gates.
+# Whole definitions are grouped here; keep each text-branch order and random setting.
+defined_text = {
+	name = GetHETHetmanTitle
+	text = {
+		trigger = {
+			has_reform = het_mazepist_autocracy_reform
+		}
+		localisation_key = HET_HETMAN_AUTOCRAT
+	}
+	text = {
+		trigger = {
+			has_reform = het_hetman_for_life_reform
+		}
+		localisation_key = HET_HETMAN_LIFE
+	}
+	text = {
+		trigger = {
+			has_reform = het_collegium_control_reform
+		}
+		localisation_key = HET_HETMAN_RESTRICTED
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = HET_HETMAN_ELECTED
+	}
+}
+
+defined_text = {
+	name = GetHETRegimentName
+	text = {
+		trigger = {
+			has_reform = het_regimental_system_reform
+		}
+		localisation_key = HET_REGIMENT_SYSTEM
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = HET_REGIMENT_FORMING
+	}
+}
+
+defined_text = {
+	name = GetHETOverlordRelation
+	text = {
+		trigger = {
+			is_subject_of = RUS
+		}
+		localisation_key = HET_OVERLORD_RUSSIA
+	}
+	text = {
+		trigger = {
+			is_subject_of = POL
+		}
+		localisation_key = HET_OVERLORD_POLAND
+	}
+	text = {
+		trigger = {
+			is_subject_of = MOS
+		}
+		localisation_key = HET_OVERLORD_MUSCOVY
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = HET_OVERLORD_NONE
+	}
+}

@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized, vanilla_root
 
-loc = dict(re.findall(r'^ ([\w]+):\d+ "(.*)"$',read('localisation/replace/zzzz_rip_government_ui_l_english.yml'),re.M))
+loc = dict(re.findall(r'^ ([\w]+):\d+ "(.*)"$',read('localisation/zzzz_rip_government_ui_l_english.yml'),re.M))
 assert loc['kyivan_peoples_gathering'] == 'Concord of Peoples'
 assert 'Prosperity' not in loc['kyivan_peoples_gathering_desc']
 import importlib.util

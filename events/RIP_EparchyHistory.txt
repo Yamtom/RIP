@@ -5,15 +5,21 @@
 # Three events per row. Numbers: visible = row number, dated starter = +100, late starter = +200.
 #   dated starter  hidden; opens in the exact month, schedules the visible event ten days on.
 #                  fire_only_once and the scheduled-flag guard both stop a daily MTTH from scheduling twice.
-#                  The empty option copies all 210 hidden events of vanilla, none of which lacks one.
 #   late starter   hidden; from the following month, retries every ~6 months until late_until
 #   visible event  is_triggered_only; sets the answered flag first, so each seat is asked once
+# Both starters wear the vanilla hidden-event shape: title, desc and picture = none and one (empty) option.
+# All 68 hidden events of vanilla 1.37.5 have all four keys; "hidden = yes" does not switch the engine checks
+# off, and without them EU4 writes "is missing a title / desc / picture" to error.log at every start
+# (guarded by tests/check_hidden_events.py).
 # No scripted effect, no else_if, no add_opinion: the engine drops those in else_if bodies (F1).
 namespace = rip_eparchy
 
 # === przemysl_union: Peremyshl (2424), June 1691, union_convert
 province_event = {
 	id = rip_eparchy.101
+	title = none
+	desc = none
+	picture = none
 	hidden = yes
 	fire_only_once = yes
 	trigger = {
@@ -31,6 +37,9 @@ province_event = {
 }
 province_event = {
 	id = rip_eparchy.201
+	title = none
+	desc = none
+	picture = none
 	hidden = yes
 	trigger = {
 		province_id = 2424
@@ -95,6 +104,9 @@ province_event = {
 # === lviv_union: Lviv (2961), June 1700, union_convert
 province_event = {
 	id = rip_eparchy.102
+	title = none
+	desc = none
+	picture = none
 	hidden = yes
 	fire_only_once = yes
 	trigger = {
@@ -112,6 +124,9 @@ province_event = {
 }
 province_event = {
 	id = rip_eparchy.202
+	title = none
+	desc = none
+	picture = none
 	hidden = yes
 	trigger = {
 		province_id = 2961
@@ -176,6 +191,9 @@ province_event = {
 # === lutsk_union: Lutsk (279), 1702 (year only), union_modifier_only
 province_event = {
 	id = rip_eparchy.103
+	title = none
+	desc = none
+	picture = none
 	hidden = yes
 	fire_only_once = yes
 	trigger = {
@@ -193,6 +211,9 @@ province_event = {
 }
 province_event = {
 	id = rip_eparchy.203
+	title = none
+	desc = none
+	picture = none
 	hidden = yes
 	trigger = {
 		province_id = 279
@@ -254,6 +275,9 @@ province_event = {
 # === lviv_greek_catholic_name_barbareum_1774: Lviv (2961), 1774 (year only), development
 province_event = {
 	id = rip_eparchy.104
+	title = none
+	desc = none
+	picture = none
 	hidden = yes
 	fire_only_once = yes
 	trigger = {
@@ -271,6 +295,9 @@ province_event = {
 }
 province_event = {
 	id = rip_eparchy.204
+	title = none
+	desc = none
+	picture = none
 	hidden = yes
 	trigger = {
 		province_id = 2961
@@ -335,6 +362,9 @@ province_event = {
 # === lviv_galician_metropolitanate_1807: Lviv (2961), February 1807, development
 province_event = {
 	id = rip_eparchy.105
+	title = none
+	desc = none
+	picture = none
 	hidden = yes
 	fire_only_once = yes
 	trigger = {
@@ -352,6 +382,9 @@ province_event = {
 }
 province_event = {
 	id = rip_eparchy.205
+	title = none
+	desc = none
+	picture = none
 	hidden = yes
 	trigger = {
 		province_id = 2961

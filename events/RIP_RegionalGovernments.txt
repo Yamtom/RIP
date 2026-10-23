@@ -1,0 +1,1354 @@
+namespace = rip_rg
+country_event = {
+	id = rip_rg.100
+	title = rip_rg_chr_bell.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_289
+		trigger = { 289 = { rip_rg_chr_bell_target = yes } }
+		289 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.110 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1945
+		trigger = { 1945 = { rip_rg_chr_bell_target = yes } }
+		1945 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.110 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4543
+		trigger = { 4543 = { rip_rg_chr_bell_target = yes } }
+		4543 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.110 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_290
+		trigger = { 290 = { rip_rg_chr_bell_target = yes } }
+		290 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.110 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_next
+		country_event = { id = rip_rg.101 }
+		ai_chance = { factor = 0 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.101
+	title = rip_rg_chr_bell.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_2407
+		trigger = { 2407 = { rip_rg_chr_bell_target = yes } }
+		2407 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.110 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4542
+		trigger = { 4542 = { rip_rg_chr_bell_target = yes } }
+		4542 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.110 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_previous
+		country_event = { id = rip_rg.100 }
+		ai_chance = { factor = 0 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.110
+	title = rip_rg_chr_bell.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_chr_bell_can = yes  event_target:rip_rg_target = { rip_rg_chr_bell_target = yes } }
+		rip_rg_chr_bell_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.111
+	title = rip_rg_second
+	desc = rip_rg_second_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_289
+		trigger = { rip_rg_chr = yes has_reform = chr_town_union_reform adm_power = 25 has_country_modifier = rip_rg_chr_bell_active NOT = { had_country_flag = { flag = rip_rg_chr_bell_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_bell_second_done } 289 = { rip_rg_chr_bell_target = yes NOT = { has_province_modifier = rip_rg_chr_bell } } }
+		if = { limit = { rip_rg_chr = yes has_reform = chr_town_union_reform adm_power = 25 has_country_modifier = rip_rg_chr_bell_active NOT = { had_country_flag = { flag = rip_rg_chr_bell_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_bell_second_done } 289 = { rip_rg_chr_bell_target = yes NOT = { has_province_modifier = rip_rg_chr_bell } } } add_adm_power = -25 set_country_flag = rip_rg_chr_bell_second_done 289 = { add_nationalism = -3
+		add_province_modifier = { name = rip_rg_chr_bell duration = 1825 } } }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1945
+		trigger = { rip_rg_chr = yes has_reform = chr_town_union_reform adm_power = 25 has_country_modifier = rip_rg_chr_bell_active NOT = { had_country_flag = { flag = rip_rg_chr_bell_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_bell_second_done } 1945 = { rip_rg_chr_bell_target = yes NOT = { has_province_modifier = rip_rg_chr_bell } } }
+		if = { limit = { rip_rg_chr = yes has_reform = chr_town_union_reform adm_power = 25 has_country_modifier = rip_rg_chr_bell_active NOT = { had_country_flag = { flag = rip_rg_chr_bell_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_bell_second_done } 1945 = { rip_rg_chr_bell_target = yes NOT = { has_province_modifier = rip_rg_chr_bell } } } add_adm_power = -25 set_country_flag = rip_rg_chr_bell_second_done 1945 = { add_nationalism = -3
+		add_province_modifier = { name = rip_rg_chr_bell duration = 1825 } } }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4543
+		trigger = { rip_rg_chr = yes has_reform = chr_town_union_reform adm_power = 25 has_country_modifier = rip_rg_chr_bell_active NOT = { had_country_flag = { flag = rip_rg_chr_bell_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_bell_second_done } 4543 = { rip_rg_chr_bell_target = yes NOT = { has_province_modifier = rip_rg_chr_bell } } }
+		if = { limit = { rip_rg_chr = yes has_reform = chr_town_union_reform adm_power = 25 has_country_modifier = rip_rg_chr_bell_active NOT = { had_country_flag = { flag = rip_rg_chr_bell_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_bell_second_done } 4543 = { rip_rg_chr_bell_target = yes NOT = { has_province_modifier = rip_rg_chr_bell } } } add_adm_power = -25 set_country_flag = rip_rg_chr_bell_second_done 4543 = { add_nationalism = -3
+		add_province_modifier = { name = rip_rg_chr_bell duration = 1825 } } }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_290
+		trigger = { rip_rg_chr = yes has_reform = chr_town_union_reform adm_power = 25 has_country_modifier = rip_rg_chr_bell_active NOT = { had_country_flag = { flag = rip_rg_chr_bell_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_bell_second_done } 290 = { rip_rg_chr_bell_target = yes NOT = { has_province_modifier = rip_rg_chr_bell } } }
+		if = { limit = { rip_rg_chr = yes has_reform = chr_town_union_reform adm_power = 25 has_country_modifier = rip_rg_chr_bell_active NOT = { had_country_flag = { flag = rip_rg_chr_bell_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_bell_second_done } 290 = { rip_rg_chr_bell_target = yes NOT = { has_province_modifier = rip_rg_chr_bell } } } add_adm_power = -25 set_country_flag = rip_rg_chr_bell_second_done 290 = { add_nationalism = -3
+		add_province_modifier = { name = rip_rg_chr_bell duration = 1825 } } }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_2407
+		trigger = { rip_rg_chr = yes has_reform = chr_town_union_reform adm_power = 25 has_country_modifier = rip_rg_chr_bell_active NOT = { had_country_flag = { flag = rip_rg_chr_bell_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_bell_second_done } 2407 = { rip_rg_chr_bell_target = yes NOT = { has_province_modifier = rip_rg_chr_bell } } }
+		if = { limit = { rip_rg_chr = yes has_reform = chr_town_union_reform adm_power = 25 has_country_modifier = rip_rg_chr_bell_active NOT = { had_country_flag = { flag = rip_rg_chr_bell_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_bell_second_done } 2407 = { rip_rg_chr_bell_target = yes NOT = { has_province_modifier = rip_rg_chr_bell } } } add_adm_power = -25 set_country_flag = rip_rg_chr_bell_second_done 2407 = { add_nationalism = -3
+		add_province_modifier = { name = rip_rg_chr_bell duration = 1825 } } }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4542
+		trigger = { rip_rg_chr = yes has_reform = chr_town_union_reform adm_power = 25 has_country_modifier = rip_rg_chr_bell_active NOT = { had_country_flag = { flag = rip_rg_chr_bell_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_bell_second_done } 4542 = { rip_rg_chr_bell_target = yes NOT = { has_province_modifier = rip_rg_chr_bell } } }
+		if = { limit = { rip_rg_chr = yes has_reform = chr_town_union_reform adm_power = 25 has_country_modifier = rip_rg_chr_bell_active NOT = { had_country_flag = { flag = rip_rg_chr_bell_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_bell_second_done } 4542 = { rip_rg_chr_bell_target = yes NOT = { has_province_modifier = rip_rg_chr_bell } } } add_adm_power = -25 set_country_flag = rip_rg_chr_bell_second_done 4542 = { add_nationalism = -3
+		add_province_modifier = { name = rip_rg_chr_bell duration = 1825 } } }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 1 }
+	}
+}
+
+country_event = {
+	id = rip_rg.120
+	title = rip_rg_chr_staple.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_289
+		trigger = { 289 = { rip_rg_chr_staple_target = yes } }
+		289 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.130 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1945
+		trigger = { 1945 = { rip_rg_chr_staple_target = yes } }
+		1945 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.130 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4543
+		trigger = { 4543 = { rip_rg_chr_staple_target = yes } }
+		4543 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.130 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_290
+		trigger = { 290 = { rip_rg_chr_staple_target = yes } }
+		290 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.130 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_next
+		country_event = { id = rip_rg.121 }
+		ai_chance = { factor = 0 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.121
+	title = rip_rg_chr_staple.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_2407
+		trigger = { 2407 = { rip_rg_chr_staple_target = yes } }
+		2407 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.130 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4542
+		trigger = { 4542 = { rip_rg_chr_staple_target = yes } }
+		4542 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.130 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_previous
+		country_event = { id = rip_rg.120 }
+		ai_chance = { factor = 0 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.130
+	title = rip_rg_chr_staple.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_chr_staple_can = yes  event_target:rip_rg_target = { rip_rg_chr_staple_target = yes } }
+		rip_rg_chr_staple_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.140
+	title = rip_rg_chr_militia.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_289
+		trigger = { 289 = { rip_rg_chr_militia_target = yes } }
+		289 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.150 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1945
+		trigger = { 1945 = { rip_rg_chr_militia_target = yes } }
+		1945 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.150 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4543
+		trigger = { 4543 = { rip_rg_chr_militia_target = yes } }
+		4543 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.150 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_290
+		trigger = { 290 = { rip_rg_chr_militia_target = yes } }
+		290 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.150 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_next
+		country_event = { id = rip_rg.141 }
+		ai_chance = { factor = 0 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.141
+	title = rip_rg_chr_militia.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_2407
+		trigger = { 2407 = { rip_rg_chr_militia_target = yes } }
+		2407 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.150 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4542
+		trigger = { 4542 = { rip_rg_chr_militia_target = yes } }
+		4542 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.150 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_previous
+		country_event = { id = rip_rg.140 }
+		ai_chance = { factor = 0 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.150
+	title = rip_rg_chr_militia.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_chr_militia_can = yes  event_target:rip_rg_target = { rip_rg_chr_militia_target = yes } }
+		rip_rg_chr_militia_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.151
+	title = rip_rg_second
+	desc = rip_rg_second_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_289
+		trigger = { rip_rg_chr = yes has_reform = chr_town_union_reform mil_power = 25 has_country_modifier = rip_rg_chr_militia_active NOT = { had_country_flag = { flag = rip_rg_chr_militia_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_militia_second_done } 289 = { rip_rg_chr_militia_target = yes NOT = { has_province_modifier = rip_rg_chr_militia } } }
+		if = { limit = { rip_rg_chr = yes has_reform = chr_town_union_reform mil_power = 25 has_country_modifier = rip_rg_chr_militia_active NOT = { had_country_flag = { flag = rip_rg_chr_militia_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_militia_second_done } 289 = { rip_rg_chr_militia_target = yes NOT = { has_province_modifier = rip_rg_chr_militia } } } add_mil_power = -25 set_country_flag = rip_rg_chr_militia_second_done 289 = { add_province_modifier = { name = rip_rg_chr_militia duration = 1825 } } }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1945
+		trigger = { rip_rg_chr = yes has_reform = chr_town_union_reform mil_power = 25 has_country_modifier = rip_rg_chr_militia_active NOT = { had_country_flag = { flag = rip_rg_chr_militia_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_militia_second_done } 1945 = { rip_rg_chr_militia_target = yes NOT = { has_province_modifier = rip_rg_chr_militia } } }
+		if = { limit = { rip_rg_chr = yes has_reform = chr_town_union_reform mil_power = 25 has_country_modifier = rip_rg_chr_militia_active NOT = { had_country_flag = { flag = rip_rg_chr_militia_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_militia_second_done } 1945 = { rip_rg_chr_militia_target = yes NOT = { has_province_modifier = rip_rg_chr_militia } } } add_mil_power = -25 set_country_flag = rip_rg_chr_militia_second_done 1945 = { add_province_modifier = { name = rip_rg_chr_militia duration = 1825 } } }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4543
+		trigger = { rip_rg_chr = yes has_reform = chr_town_union_reform mil_power = 25 has_country_modifier = rip_rg_chr_militia_active NOT = { had_country_flag = { flag = rip_rg_chr_militia_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_militia_second_done } 4543 = { rip_rg_chr_militia_target = yes NOT = { has_province_modifier = rip_rg_chr_militia } } }
+		if = { limit = { rip_rg_chr = yes has_reform = chr_town_union_reform mil_power = 25 has_country_modifier = rip_rg_chr_militia_active NOT = { had_country_flag = { flag = rip_rg_chr_militia_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_militia_second_done } 4543 = { rip_rg_chr_militia_target = yes NOT = { has_province_modifier = rip_rg_chr_militia } } } add_mil_power = -25 set_country_flag = rip_rg_chr_militia_second_done 4543 = { add_province_modifier = { name = rip_rg_chr_militia duration = 1825 } } }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_290
+		trigger = { rip_rg_chr = yes has_reform = chr_town_union_reform mil_power = 25 has_country_modifier = rip_rg_chr_militia_active NOT = { had_country_flag = { flag = rip_rg_chr_militia_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_militia_second_done } 290 = { rip_rg_chr_militia_target = yes NOT = { has_province_modifier = rip_rg_chr_militia } } }
+		if = { limit = { rip_rg_chr = yes has_reform = chr_town_union_reform mil_power = 25 has_country_modifier = rip_rg_chr_militia_active NOT = { had_country_flag = { flag = rip_rg_chr_militia_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_militia_second_done } 290 = { rip_rg_chr_militia_target = yes NOT = { has_province_modifier = rip_rg_chr_militia } } } add_mil_power = -25 set_country_flag = rip_rg_chr_militia_second_done 290 = { add_province_modifier = { name = rip_rg_chr_militia duration = 1825 } } }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_2407
+		trigger = { rip_rg_chr = yes has_reform = chr_town_union_reform mil_power = 25 has_country_modifier = rip_rg_chr_militia_active NOT = { had_country_flag = { flag = rip_rg_chr_militia_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_militia_second_done } 2407 = { rip_rg_chr_militia_target = yes NOT = { has_province_modifier = rip_rg_chr_militia } } }
+		if = { limit = { rip_rg_chr = yes has_reform = chr_town_union_reform mil_power = 25 has_country_modifier = rip_rg_chr_militia_active NOT = { had_country_flag = { flag = rip_rg_chr_militia_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_militia_second_done } 2407 = { rip_rg_chr_militia_target = yes NOT = { has_province_modifier = rip_rg_chr_militia } } } add_mil_power = -25 set_country_flag = rip_rg_chr_militia_second_done 2407 = { add_province_modifier = { name = rip_rg_chr_militia duration = 1825 } } }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4542
+		trigger = { rip_rg_chr = yes has_reform = chr_town_union_reform mil_power = 25 has_country_modifier = rip_rg_chr_militia_active NOT = { had_country_flag = { flag = rip_rg_chr_militia_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_militia_second_done } 4542 = { rip_rg_chr_militia_target = yes NOT = { has_province_modifier = rip_rg_chr_militia } } }
+		if = { limit = { rip_rg_chr = yes has_reform = chr_town_union_reform mil_power = 25 has_country_modifier = rip_rg_chr_militia_active NOT = { had_country_flag = { flag = rip_rg_chr_militia_issued days = 1 } } NOT = { has_country_flag = rip_rg_chr_militia_second_done } 4542 = { rip_rg_chr_militia_target = yes NOT = { has_province_modifier = rip_rg_chr_militia } } } add_mil_power = -25 set_country_flag = rip_rg_chr_militia_second_done 4542 = { add_province_modifier = { name = rip_rg_chr_militia duration = 1825 } } }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 1 }
+	}
+}
+
+country_event = {
+	id = rip_rg.160
+	title = rip_rg_uzh_salt.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_162
+		trigger = { 162 = { rip_rg_uzh_salt_target = yes } }
+		162 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.170 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1952
+		trigger = { 1952 = { rip_rg_uzh_salt_target = yes } }
+		1952 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.170 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.170
+	title = rip_rg_uzh_salt.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_uzh_salt_can = yes  event_target:rip_rg_target = { rip_rg_uzh_salt_target = yes } }
+		rip_rg_uzh_salt_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.180
+	title = rip_rg_uzh_guides.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_162
+		trigger = { 162 = { rip_rg_uzh_guides_target = yes } }
+		162 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.190 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1952
+		trigger = { 1952 = { rip_rg_uzh_guides_target = yes } }
+		1952 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.190 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.190
+	title = rip_rg_uzh_guides.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_uzh_guides_can = yes  event_target:rip_rg_target = { rip_rg_uzh_guides_target = yes } }
+		rip_rg_uzh_guides_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.200
+	title = rip_rg_uzh_pass.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_162
+		trigger = { 162 = { rip_rg_uzh_pass_target = yes } }
+		162 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.210 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1952
+		trigger = { 1952 = { rip_rg_uzh_pass_target = yes } }
+		1952 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.210 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.210
+	title = rip_rg_uzh_pass.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_uzh_pass_can = yes  event_target:rip_rg_target = { rip_rg_uzh_pass_target = yes } }
+		rip_rg_uzh_pass_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.220
+	title = rip_rg_pdl_patrol_base.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_281
+		trigger = { 281 = { rip_rg_pdl_patrol_base_target = yes } }
+		281 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.230 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1943
+		trigger = { 1943 = { rip_rg_pdl_patrol_base_target = yes } }
+		1943 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.230 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4540
+		trigger = { 4540 = { rip_rg_pdl_patrol_base_target = yes } }
+		4540 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.230 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1944
+		trigger = { 1944 = { rip_rg_pdl_patrol_base_target = yes } }
+		1944 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.230 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.230
+	title = rip_rg_pdl_patrol_base.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_pdl_patrol_base_can = yes  event_target:rip_rg_target = { rip_rg_pdl_patrol_base_target = yes } }
+		rip_rg_pdl_patrol_base_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.240
+	title = rip_rg_pdl_patrol_frontier.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_281
+		trigger = { 281 = { rip_rg_pdl_patrol_frontier_target = yes } }
+		281 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.250 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1943
+		trigger = { 1943 = { rip_rg_pdl_patrol_frontier_target = yes } }
+		1943 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.250 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4540
+		trigger = { 4540 = { rip_rg_pdl_patrol_frontier_target = yes } }
+		4540 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.250 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1944
+		trigger = { 1944 = { rip_rg_pdl_patrol_frontier_target = yes } }
+		1944 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.250 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.250
+	title = rip_rg_pdl_patrol_frontier.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_pdl_patrol_frontier_can = yes  event_target:rip_rg_target = { rip_rg_pdl_patrol_frontier_target = yes } }
+		rip_rg_pdl_patrol_frontier_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.260
+	title = rip_rg_pdl_patrol_carpathian.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_281
+		trigger = { 281 = { rip_rg_pdl_patrol_carpathian_target = yes } }
+		281 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.270 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1943
+		trigger = { 1943 = { rip_rg_pdl_patrol_carpathian_target = yes } }
+		1943 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.270 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4540
+		trigger = { 4540 = { rip_rg_pdl_patrol_carpathian_target = yes } }
+		4540 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.270 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1944
+		trigger = { 1944 = { rip_rg_pdl_patrol_carpathian_target = yes } }
+		1944 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.270 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.270
+	title = rip_rg_pdl_patrol_carpathian.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_pdl_patrol_carpathian_can = yes  event_target:rip_rg_target = { rip_rg_pdl_patrol_carpathian_target = yes } }
+		rip_rg_pdl_patrol_carpathian_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.280
+	title = rip_rg_pdl_charter_base.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_281
+		trigger = { 281 = { rip_rg_pdl_charter_base_target = yes } }
+		281 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.290 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1943
+		trigger = { 1943 = { rip_rg_pdl_charter_base_target = yes } }
+		1943 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.290 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4540
+		trigger = { 4540 = { rip_rg_pdl_charter_base_target = yes } }
+		4540 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.290 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1944
+		trigger = { 1944 = { rip_rg_pdl_charter_base_target = yes } }
+		1944 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.290 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.290
+	title = rip_rg_pdl_charter_base.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_pdl_charter_base_can = yes  event_target:rip_rg_target = { rip_rg_pdl_charter_base_target = yes } }
+		rip_rg_pdl_charter_base_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.300
+	title = rip_rg_pdl_charter_magnate.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_281
+		trigger = { 281 = { rip_rg_pdl_charter_magnate_target = yes } }
+		281 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.310 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1943
+		trigger = { 1943 = { rip_rg_pdl_charter_magnate_target = yes } }
+		1943 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.310 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4540
+		trigger = { 4540 = { rip_rg_pdl_charter_magnate_target = yes } }
+		4540 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.310 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1944
+		trigger = { 1944 = { rip_rg_pdl_charter_magnate_target = yes } }
+		1944 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.310 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.310
+	title = rip_rg_pdl_charter_magnate.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_pdl_charter_magnate_can = yes  event_target:rip_rg_target = { rip_rg_pdl_charter_magnate_target = yes } }
+		rip_rg_pdl_charter_magnate_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.320
+	title = rip_rg_pdl_mobile_base.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_281
+		trigger = { 281 = { rip_rg_pdl_mobile_base_target = yes } }
+		281 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.330 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1943
+		trigger = { 1943 = { rip_rg_pdl_mobile_base_target = yes } }
+		1943 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.330 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4540
+		trigger = { 4540 = { rip_rg_pdl_mobile_base_target = yes } }
+		4540 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.330 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1944
+		trigger = { 1944 = { rip_rg_pdl_mobile_base_target = yes } }
+		1944 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.330 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.330
+	title = rip_rg_pdl_mobile_base.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_pdl_mobile_base_can = yes  event_target:rip_rg_target = { rip_rg_pdl_mobile_base_target = yes } }
+		rip_rg_pdl_mobile_base_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.340
+	title = rip_rg_pdl_mobile_frontier.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_281
+		trigger = { 281 = { rip_rg_pdl_mobile_frontier_target = yes } }
+		281 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.350 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1943
+		trigger = { 1943 = { rip_rg_pdl_mobile_frontier_target = yes } }
+		1943 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.350 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4540
+		trigger = { 4540 = { rip_rg_pdl_mobile_frontier_target = yes } }
+		4540 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.350 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1944
+		trigger = { 1944 = { rip_rg_pdl_mobile_frontier_target = yes } }
+		1944 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.350 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.350
+	title = rip_rg_pdl_mobile_frontier.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_pdl_mobile_frontier_can = yes  event_target:rip_rg_target = { rip_rg_pdl_mobile_frontier_target = yes } }
+		rip_rg_pdl_mobile_frontier_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.360
+	title = rip_rg_pdl_mobile_carpathian.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_281
+		trigger = { 281 = { rip_rg_pdl_mobile_carpathian_target = yes } }
+		281 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.370 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1943
+		trigger = { 1943 = { rip_rg_pdl_mobile_carpathian_target = yes } }
+		1943 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.370 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4540
+		trigger = { 4540 = { rip_rg_pdl_mobile_carpathian_target = yes } }
+		4540 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.370 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1944
+		trigger = { 1944 = { rip_rg_pdl_mobile_carpathian_target = yes } }
+		1944 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.370 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.370
+	title = rip_rg_pdl_mobile_carpathian.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_pdl_mobile_carpathian_can = yes  event_target:rip_rg_target = { rip_rg_pdl_mobile_carpathian_target = yes } }
+		rip_rg_pdl_mobile_carpathian_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.380
+	title = rip_rg_prl_patrol_base.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_2407
+		trigger = { 2407 = { rip_rg_prl_patrol_base_target = yes } }
+		2407 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.390 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_290
+		trigger = { 290 = { rip_rg_prl_patrol_base_target = yes } }
+		290 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.390 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4542
+		trigger = { 4542 = { rip_rg_prl_patrol_base_target = yes } }
+		4542 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.390 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_291
+		trigger = { 291 = { rip_rg_prl_patrol_base_target = yes } }
+		291 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.390 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.390
+	title = rip_rg_prl_patrol_base.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_prl_patrol_base_can = yes  event_target:rip_rg_target = { rip_rg_prl_patrol_base_target = yes } }
+		rip_rg_prl_patrol_base_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.400
+	title = rip_rg_prl_charter_base.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_2407
+		trigger = { 2407 = { rip_rg_prl_charter_base_target = yes } }
+		2407 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.410 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_290
+		trigger = { 290 = { rip_rg_prl_charter_base_target = yes } }
+		290 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.410 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4542
+		trigger = { 4542 = { rip_rg_prl_charter_base_target = yes } }
+		4542 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.410 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_291
+		trigger = { 291 = { rip_rg_prl_charter_base_target = yes } }
+		291 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.410 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.410
+	title = rip_rg_prl_charter_base.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_prl_charter_base_can = yes  event_target:rip_rg_target = { rip_rg_prl_charter_base_target = yes } }
+		rip_rg_prl_charter_base_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.420
+	title = rip_rg_prl_mobile_base.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_2407
+		trigger = { 2407 = { rip_rg_prl_mobile_base_target = yes } }
+		2407 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.430 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_290
+		trigger = { 290 = { rip_rg_prl_mobile_base_target = yes } }
+		290 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.430 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_4542
+		trigger = { 4542 = { rip_rg_prl_mobile_base_target = yes } }
+		4542 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.430 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_291
+		trigger = { 291 = { rip_rg_prl_mobile_base_target = yes } }
+		291 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.430 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.430
+	title = rip_rg_prl_mobile_base.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_prl_mobile_base_can = yes  event_target:rip_rg_target = { rip_rg_prl_mobile_base_target = yes } }
+		rip_rg_prl_mobile_base_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.440
+	title = rip_rg_ods_freight.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_282
+		trigger = { 282 = { rip_rg_ods_freight_target = yes } }
+		282 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.450 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1974
+		trigger = { 1974 = { rip_rg_ods_freight_target = yes } }
+		1974 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.450 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_2406
+		trigger = { 2406 = { rip_rg_ods_freight_target = yes } }
+		2406 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.450 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_283
+		trigger = { 283 = { rip_rg_ods_freight_target = yes } }
+		283 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.450 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_next
+		country_event = { id = rip_rg.441 }
+		ai_chance = { factor = 0 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.441
+	title = rip_rg_ods_freight.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_2411
+		trigger = { 2411 = { rip_rg_ods_freight_target = yes } }
+		2411 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.450 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_2412
+		trigger = { 2412 = { rip_rg_ods_freight_target = yes } }
+		2412 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.450 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_previous
+		country_event = { id = rip_rg.440 }
+		ai_chance = { factor = 0 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.450
+	title = rip_rg_ods_freight.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	immediate = { rip_rg_grain_census_effect = yes }
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_ods_freight_can = yes custom_trigger_tooltip = { tooltip = rip_rg_grain_req_tt check_variable = { which = rip_rg_grain_dev value = 10 } } event_target:rip_rg_target = { rip_rg_ods_freight_target = yes } }
+		rip_rg_ods_freight_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.460
+	title = rip_rg_ods_corsairs.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_282
+		trigger = { 282 = { rip_rg_ods_corsairs_target = yes } }
+		282 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.470 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_1974
+		trigger = { 1974 = { rip_rg_ods_corsairs_target = yes } }
+		1974 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.470 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_2406
+		trigger = { 2406 = { rip_rg_ods_corsairs_target = yes } }
+		2406 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.470 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_283
+		trigger = { 283 = { rip_rg_ods_corsairs_target = yes } }
+		283 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.470 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_next
+		country_event = { id = rip_rg.461 }
+		ai_chance = { factor = 0 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.461
+	title = rip_rg_ods_corsairs.t
+	desc = rip_rg_select_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_province_2411
+		trigger = { 2411 = { rip_rg_ods_corsairs_target = yes } }
+		2411 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.470 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_province_2412
+		trigger = { 2412 = { rip_rg_ods_corsairs_target = yes } }
+		2412 = { save_event_target_as = rip_rg_target }
+		country_event = { id = rip_rg.470 }
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_previous
+		country_event = { id = rip_rg.460 }
+		ai_chance = { factor = 0 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.470
+	title = rip_rg_ods_corsairs.t
+	desc = rip_rg_confirm_desc
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_rg_confirm
+		trigger = { rip_rg_ods_corsairs_can = yes  event_target:rip_rg_target = { rip_rg_ods_corsairs_target = yes } }
+		rip_rg_ods_corsairs_commit_effect = yes
+		ai_chance = { factor = 1 }
+	}
+	option = {
+		name = rip_rg_cancel
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_rg.900
+	title = none
+	desc = none
+	picture = none
+	hidden = yes
+	is_triggered_only = yes
+	immediate = { rip_rg_grain_refresh_effect = yes }
+	option = { }
+}

@@ -4,6 +4,7 @@
 # =============================================================================
 
 siversk_veche_reform = {
+	government_abilities = { rip_rg_chr_mechanic }
 	icon = "merchant"
 	legacy_equivalent = veche_republic_legacy
 	boost_income = yes
@@ -146,6 +147,7 @@ chr_grain_directorate_reform = {
 }
 
 chr_desna_staple_reform = {
+	government_abilities = { rip_rg_chr_mechanic }
 	icon = "trading_city"
 	legacy_equivalent = merchant_republic
 	potential = {
@@ -224,6 +226,7 @@ chr_desna_staple_reform = {
 }
 
 chr_town_union_reform = {
+	government_abilities = { rip_rg_chr_mechanic }
 	icon = "states_general"
 	legacy_equivalent = dutch_republic_legacy
 	potential = {
@@ -304,6 +307,7 @@ chr_town_union_reform = {
 }
 
 chr_rada_of_lands_reform = {
+	government_abilities = { rip_rg_chr_mechanic }
 	icon = "assembly_hall"
 	legacy_equivalent = veche_republic_legacy
 	potential = {
@@ -358,6 +362,7 @@ chr_rada_of_lands_reform = {
 }
 
 chr_magistrat_rule_reform = {
+	government_abilities = { rip_rg_chr_mechanic }
 	icon = "plutocracy_reform"
 	legacy_equivalent = oligarchic_republic
 	potential = {
@@ -508,6 +513,7 @@ chr_prykaz_tsardom_reform = {
 }
 
 chr_kanceliaryst_republic_reform = {
+	government_abilities = { rip_rg_chr_mechanic }
 	icon = "examination_system_reform"
 	legacy_equivalent = administrative_republic
 	potential = {
@@ -538,10 +544,8 @@ chr_kanceliaryst_republic_reform = {
 		enables_plutocratic_idea_group = yes
 		enables_aristocratic_idea_group = no
 	}
-	government_abilities = {
-		rip_chancery_resolutions_mechanic
-	}
 	removed_effect = {
+		# Clear legacy chancery resolutions from saves predating the regional mechanic.
 		rip_gov_clear_chancery_effect = yes
 	}
 }
@@ -614,7 +618,7 @@ chr_many_nations_union_reform = {
 # Old Believers fleeing Moscow. The local authorities took them gladly for
 # their industry, their money and their loyalty. The reform makes that policy
 # an institution; refugees arrive by rip_vetka.1 and are settled by the
-# decision chr_grant_sloboda_to_old_believers (decisions/RIP_FaithReforms.txt).
+# decision chr_grant_sloboda_to_old_believers (decisions/ChernihivPaths.txt).
 # The price is the Orthodox metropolitanate's displeasure (rip_vetka.2).
 # Rates are design values.
 chr_vetka_asylum_reform = {

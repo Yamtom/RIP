@@ -68,7 +68,7 @@ assert 'rip_uc_persecution_recorded' not in source
 effect_source = read('common/scripted_effects/greek_catholic_effects.txt')
 assert 'greek_catholic_persecution_effect' not in effect_source
 assert 'persecution_of_greek_catholics' not in effect_source
-on_actions = read('common/on_actions/greek_catholic_on_actions.txt')
+on_actions = read('common/on_actions/RIP_religion_greek_catholic_on_actions.txt')
 assert 'uniate_church.18' not in on_actions and 'uniate_church.20' not in on_actions
 english_loc = read('localisation/uniate_and_raid_l_english.yml')
 assert 'uniate_church.18.' not in english_loc and 'uniate_church.20.' not in english_loc

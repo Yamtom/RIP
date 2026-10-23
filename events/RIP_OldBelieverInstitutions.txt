@@ -1,0 +1,109 @@
+namespace = rip_ob_institutions
+
+country_event = {
+	id = rip_ob_institutions.1
+	title = rip_ob_institutions.1.t
+	desc = rip_ob_institutions.1.d
+	picture = RELIGION_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_ob_institutions.1.a
+		trigger = {
+			rip_ob_can_choose_accord = yes
+			has_country_flag = rip_ob_accord_pending
+			NOT = { has_country_flag = rip_ob_priestly_accord }
+		}
+		ai_chance = { factor = 60 }
+		rip_ob_pay_for_accord_effect = yes
+		set_country_flag = rip_ob_priestly_accord
+		add_country_modifier = { name = rip_ob_priestly_accord duration = -1 }
+	}
+	option = {
+		name = rip_ob_institutions.1.b
+		trigger = {
+			rip_ob_can_choose_accord = yes
+			has_country_flag = rip_ob_accord_pending
+			NOT = { has_country_flag = rip_ob_lay_accord }
+		}
+		ai_chance = { factor = 40 }
+		rip_ob_pay_for_accord_effect = yes
+		set_country_flag = rip_ob_lay_accord
+		add_country_modifier = { name = rip_ob_lay_accord duration = -1 }
+	}
+	option = {
+		name = rip_ob_institutions.defer
+		clr_country_flag = rip_ob_accord_pending
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_ob_institutions.2
+	title = rip_ob_institutions.2.t
+	desc = rip_ob_institutions.2.d
+	picture = RELIGION_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_ob_institutions.2.a
+		trigger = {
+			rip_ob_can_hold_assembly = yes
+			has_country_flag = rip_ob_assembly_pending
+		}
+		ai_chance = { factor = 60 }
+		rip_ob_pay_for_assembly_effect = yes
+		add_country_modifier = { name = rip_ob_manuscript_mandate duration = 3650 }
+	}
+	option = {
+		name = rip_ob_institutions.2.b
+		trigger = {
+			rip_ob_can_hold_assembly = yes
+			has_country_flag = rip_ob_assembly_pending
+		}
+		ai_chance = {
+			factor = 40
+			modifier = { factor = 3 NOT = { stability = 1 } }
+		}
+		rip_ob_pay_for_assembly_effect = yes
+		add_country_modifier = { name = rip_ob_mutual_aid_mandate duration = 3650 }
+	}
+	option = {
+		name = rip_ob_institutions.defer
+		clr_country_flag = rip_ob_assembly_pending
+		ai_chance = { factor = 0 }
+	}
+}
+
+country_event = {
+	id = rip_ob_institutions.3
+	title = rip_ob_institutions.3.t
+	desc = rip_ob_institutions.3.d
+	picture = RELIGION_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_ob_institutions.3.a
+		trigger = {
+			rip_ob_can_fund_refuge = yes
+			has_country_flag = rip_ob_refuge_pending
+			event_target:rip_ob_refuge_site = {
+				owned_by = ROOT
+				rip_ob_refuge_site = yes
+			}
+		}
+		add_treasury = -100
+		add_dip_power = -50
+		set_country_flag = rip_ob_refuge_funded
+		clr_country_flag = rip_ob_refuge_pending
+		event_target:rip_ob_refuge_site = {
+			set_province_flag = rip_ob_refuge_founded
+			rip_ob_mark_community_effect = yes
+			add_local_autonomy = 10
+			rip_ob_refresh_refuge_effect = yes
+		}
+		ai_chance = { factor = 100 }
+	}
+	option = {
+		name = rip_ob_institutions.defer
+		clr_country_flag = rip_ob_refuge_pending
+		ai_chance = { factor = 0 }
+	}
+}

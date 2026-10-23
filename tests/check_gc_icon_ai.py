@@ -78,5 +78,5 @@ modifiers = read('common/event_modifiers/rip_church_gc_interaction_modifiers.txt
 assert 'prestige = 1 diplomatic_reputation = 1 improve_relation_modifier = 0.2' in named_block(modifiers, 'rip_church_gc_icon_liturgy')
 assert 'development_cost = -0.05 technology_cost = -0.05' in named_block(modifiers, 'rip_church_gc_icon_learning')
 assert 'global_unrest = -1 stability_cost_modifier = -0.1' in named_block(modifiers, 'rip_church_gc_icon_charity')
-assert 'on_monthly_pulse = { rip_church_v3_monthly_effect = yes }' in read('common/on_actions/zz_RIP_church_redesign_on_actions.txt')
+assert 'on_monthly_pulse = { rip_church_v3_monthly_effect = yes }' in ' '.join(read('common/on_actions/zz_RIP_religion_church_on_actions.txt').split())
 print('PASS: 20 AI priority/boundary cases, live AI entry, three GUI locks and exact expiry; campaign balance unverified')

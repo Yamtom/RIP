@@ -32,11 +32,11 @@ RIP Mod/
 │   ├── scripted_triggers/
 │   │   └── russian_orthodox_triggers.txt    [+8 тригерів походу]
 │   ├── opinion_modifiers/
-│   │   └── orthodox_crusade_opinion_modifiers.txt [4 модифікатори думки]
+│   │   └── RIP_religion_orthodox_crusade_opinion_modifiers.txt [4 модифікатори думки]
 │   ├── casus_belli/
-│   │   └── orthodox_crusade_cb.txt          [2 приводи до війни]
+│   │   └── rip_shared_crusade_cb.txt          [2 приводи до війни]
 │   └── wargoal_types/
-│       └── orthodox_crusade_wargoals.txt    [2 воєнні цілі]
+│       └── rip_shared_crusade_wargoals.txt    [2 воєнні цілі]
 └── localisation/
     ├── orthodox_crusade_l_english.yml       [повна англійська]
     └── orthodox_crusade_l_ukrainian.yml     [ЗАПЛАНОВАНО — не існує]

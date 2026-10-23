@@ -23,9 +23,9 @@ from clausewitz_testlib import ROOT, read, named_block, normalized
 
 
 def test_kyivan_targeted_regrant():
-    text = read("common/new_diplomatic_actions/RIP_princedom_diplomatic_actions.txt")
+    text = read("common/new_diplomatic_actions/RIP_KIE_diplomatic_actions.txt")
     action = named_block(text, "rip_regrant_the_udil")
-    assert action, "rip_regrant_the_udil action missing in RIP_princedom_diplomatic_actions.txt"
+    assert action, "rip_regrant_the_udil action missing in RIP_KIE_diplomatic_actions.txt"
 
     assert "category = influence" in action
     assert "require_acceptance = no" in action
@@ -82,7 +82,7 @@ def test_localization():
         "rip_regrant_the_udil",
         "rip_regrant_the_udil_desc",
         "KIE_udil_recently_confirmed",
-        "vln_magnate_territorial_concession_decision",
+        "vln_magnate_territorial_concession_decision_title",
         "rip_vln_concessions.1.t",
         "rip_vln_concessions.1.a",
         "rip_vln_concessions.1.b",
