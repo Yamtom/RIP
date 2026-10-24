@@ -11,7 +11,11 @@ country_decisions = {
    }
    rip_church_governance_upkeep_effect = yes
   }
-  ai_will_do = { factor = 1 modifier = { factor = 0 num_of_loans = 1 } modifier = { factor = 0 NOT = { adm_power = 200 dip_power = 100 } } }
+  ai_will_do = {
+   factor = 1
+   modifier = { factor = 0 num_of_loans = 1 }
+   modifier = { factor = 0 OR = { NOT = { adm_power = 200 } NOT = { dip_power = 100 } } }
+  }
  }
  rip_church_crown_appointments = {
   potential = { rip_church_ro_jurisdiction = yes government = monarchy NOT = { has_country_modifier = rip_church_crown_appointments } }

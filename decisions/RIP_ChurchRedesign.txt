@@ -58,7 +58,12 @@ country_decisions = {
 		custom_tooltip = rip_church_sponsor_union_effect_tt
 		rip_church_sponsor_union_effect = yes
 	}
- ai_will_do = { factor = 1 modifier = { factor = 0 num_of_loans = 1 } modifier = { factor = 0 NOT = { adm_power = 200 dip_power = 150 } } modifier = { factor = 2 num_of_owned_provinces_with = { value = 3 rip_church_sponsor_parish = yes } } }
+ ai_will_do = {
+  factor = 1
+  modifier = { factor = 0 num_of_loans = 1 }
+  modifier = { factor = 0 OR = { NOT = { adm_power = 200 } NOT = { dip_power = 150 } } }
+  modifier = { factor = 2 num_of_owned_provinces_with = { value = 3 rip_church_sponsor_parish = yes } }
+ }
  }
  rip_church_withdraw_union_support = {
  potential = { religion = catholic has_country_flag = rip_church_supports_union }
