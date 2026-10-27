@@ -34,7 +34,7 @@ def event_block(text: str, event_id: str, kind: str = "country_event") -> str:
 
 
 def check_core_cycle(failures: list[str]) -> None:
-    text = read("events/SteppeRaiding.txt")
+    text = read("events/RIP_shared_steppe_SteppeRaiding.txt")
     organize = event_block(text, "steppe_raid.1")
     for eligibility in (
         "tag = CRI", "tag = NOG", "tag = KAZ", "tag = AST", "tag = GOL",
@@ -79,7 +79,7 @@ def check_core_cycle(failures: list[str]) -> None:
 
 
 def check_new_chains(failures: list[str]) -> None:
-    text = read("events/SteppeRaiding.txt")
+    text = read("events/RIP_shared_steppe_SteppeRaiding.txt")
 
     don = event_block(text, "steppe_raid.11")
     for marker in (
@@ -128,7 +128,7 @@ def check_new_chains(failures: list[str]) -> None:
 
     circassian_target = event_block(text, "steppe_raid.15")
     require(failures, "is_triggered_only = yes" in circassian_target
-            and "FROM = { tag = CRI }" in circassian_target,
+            and "FROM = { tag = CRI }" in normalized(circassian_target),
             "steppe_raid.15: only a Crimean raid may invoke the target response")
     require(failures, "circassia_area" in circassian_target
             and "rip_feed_kaffa_market_effect = yes" in circassian_target,
@@ -165,7 +165,7 @@ def check_helpers_and_callers(failures: list[str]) -> None:
             and "id = steppe_raid.13" in reaction,
             "Ottoman reaction helper is not gated by a Crimean subject")
 
-    raid_mechanics = read("events/RaidMechanics.txt")
+    raid_mechanics = read("events/RIP_shared_steppe_RaidMechanics.txt")
     seasonal = event_block(raid_mechanics, "raid_mechanics.1")
     seasonal_norm = normalized(seasonal)
     require(failures, re.search(r"OR = \{ is_month = 3 is_month = 5 \}", seasonal_norm) is not None,
@@ -186,10 +186,10 @@ def check_helpers_and_callers(failures: list[str]) -> None:
     require(failures, "rip_disrupt_kaffa_market_effect" not in chaiky_effect,
             "A raid on Constantinople incorrectly disrupts Kaffa unconditionally")
 
-    het = read("events/HetmanateCossackRaids.txt")
+    het = read("events/RIP_HET_HetmanateCossackRaids.txt")
     require(failures, het.count("rip_request_ottoman_crimean_reaction_effect = yes") >= 2,
             "Hetmanate Ottoman/Crimean raid paths are not wired to the reaction")
-    require(failures, het.count("limit = { owns = 285 }") >= 2,
+    require(failures, normalized(het).count("limit = { owns = 285 }") >= 2,
             "Hetmanate Kaffa disruption is not guarded by actual target ownership")
 
 

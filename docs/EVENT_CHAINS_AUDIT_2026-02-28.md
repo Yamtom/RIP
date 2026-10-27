@@ -20,23 +20,23 @@
 
 ### Пов'язані з ZAZ
 
-- `events/ZaporizhiaFlavor.txt` (`zaz_flavor.*`)
-- `events/ZaporizhiaFixes.txt` (`zaz_fixes.*`)
-- `events/ZAZmission.txt` (`zaz_flavor_m_*`)
-- `events/CossackRevolts.txt` (`zaz.*`)
+- `events/RIP_ZAZ_ZaporizhiaFlavor.txt` (`zaz_flavor.*`)
+- `events/RIP_ZAZ_ZaporizhiaFixes.txt` (`zaz_fixes.*`)
+- `events/RIP_ZAZ_ZAZmission.txt` (`zaz_flavor_m_*`)
+- `events/RIP_shared_cossack_CossackRevolts.txt` (`zaz.*`)
 
 ### Релігійні
 
-- `events/OrthodoxCrusade.txt` (`orthodox_crusade.*`)
-- `events/HetmanateOrthodoxCrusade.txt`
-- `events/RussianOrthodox.txt`
-- `events/UniateChurch.txt`
+- `events/RIP_shared_orthodox_OrthodoxCrusade.txt` (`orthodox_crusade.*`)
+- `events/RIP_HET_HetmanateOrthodoxCrusade.txt`
+- `events/RIP_shared_orthodox_RussianOrthodox.txt`
+- `events/RIP_shared_greek_catholic_UniateChurch.txt`
 
 ### Козацькі
 
-- `events/HetmanateCossackRaids.txt` (`het_cossack_raids.*`)
-- `events/SteppeRaiding.txt`
-- `events/CossackRevolts.txt`
+- `events/RIP_HET_HetmanateCossackRaids.txt` (`het_cossack_raids.*`)
+- `events/RIP_shared_steppe_SteppeRaiding.txt`
+- `events/RIP_shared_cossack_CossackRevolts.txt`
 
 ## Оцінка балансу й узгодженості
 
@@ -86,15 +86,15 @@
 
 ### 4) Зміни проти сплесків у часі подій
 
-- `events/OrthodoxCrusade.txt`:
+- `events/RIP_shared_orthodox_OrthodoxCrusade.txt`:
   - Прямі сповіщення цілі: з 15 на 45 днів.
   - Розподіл перемог і поразок учасників: з 15/30/45 на 30/45/60.
-- `events/HetmanateCossackRaids.txt`:
+- `events/RIP_HET_HetmanateCossackRaids.txt`:
   - Відповіді-продовження: з 30 на 45 днів.
   - Deep raid consequence changed from `15` to `45` днів.
-- `events/CossackRevolts.txt`:
+- `events/RIP_shared_cossack_CossackRevolts.txt`:
   - Early diplomatic escalations changed from `30` to `45` днів.
-- `events/ZAZmission.txt`:
+- `events/RIP_ZAZ_ZAZmission.txt`:
   - Ultra-short dispatches changed `10 -> 45` and `2 -> 60` днів.
 
 ## Рекомендації на наступний прохід

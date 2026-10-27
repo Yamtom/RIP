@@ -12,6 +12,7 @@ trade node that has a temple or cathedral it adds the rip_church_node_courtyards
 """
 from pathlib import Path
 import argparse, json, re, sys
+from event_layout import layout
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tests'))
 from clausewitz_testlib import named_block, matching_brace, vanilla_root
 ROOT = Path(__file__).resolve().parents[1]
@@ -64,6 +65,9 @@ def format_trading_policy(text):
     return result
 
 def output(path, text):
+    if path.startswith('events/'):
+        outputs.update(layout(path, text))
+        return
     if path.startswith('common/trading_policies/'):
         text = format_trading_policy(text)
     outputs[path] = text.rstrip() + '\n'

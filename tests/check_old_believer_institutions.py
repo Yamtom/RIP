@@ -13,7 +13,7 @@ TRIGGERS.update(parse(read("common/scripted_triggers/rip_ob_institution_triggers
 DECISIONS = dict(dict(parse(read("decisions/RIP_OldBelieverInstitutions.txt")))["country_decisions"])
 EVENTS = {
     dict(body)["id"]: body
-    for key, body in parse(read("events/RIP_OldBelieverInstitutions.txt"))
+    for key, body in parse(read("events/RIP_shared_orthodox_OldBelieverInstitutions.txt"))
     if key == "country_event"
 }
 
@@ -179,7 +179,7 @@ hooks = read("common/on_actions/RIP_religion_old_believer_on_actions.txt")
 for name in ("on_startup", "on_yearly_pulse", "on_religion_change"):
     assert "rip_ob_institutions_upkeep_effect = yes" in named_block(hooks, name)
 assert "rip_ob_refresh_refuge_effect = yes" in named_block(hooks, "on_province_owner_change")
-events_text = read("events/RIP_OldBelieverInstitutions.txt")
+events_text = read("events/RIP_shared_orthodox_OldBelieverInstitutions.txt")
 assert events_text.count("is_triggered_only = yes") == 3
 assert not re.search(r"\belse(?:_if)?\s*=", events_text)
 for lang in ("english", "french", "german", "spanish"):

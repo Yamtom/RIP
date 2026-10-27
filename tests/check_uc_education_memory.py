@@ -8,7 +8,7 @@ from clausewitz_testlib import read, named_block, normalized
 
 TRIGGERS.update(parse(read('common/scripted_triggers/rip_uc_education_memory_triggers.txt')))
 EFFECTS.update(parse(read('common/scripted_effects/greek_catholic_effects.txt')))
-events = {dict(b)['id']: dict(b) for k, b in parse(read('events/UniateChurch.txt'))
+events = {dict(b)['id']: dict(b) for k, b in parse(read('events/RIP_shared_greek_catholic_UniateChurch.txt'))
           if k == 'country_event'}
 school = events['uniate_church.6']
 cases = 0
@@ -58,7 +58,7 @@ assert not w.gate(school['trigger'], c)
 assert w.gate([('rip_uc_can_found_schools', 'yes')], c)
 cases += 2
 
-source = read('events/UniateChurch.txt')
+source = read('events/RIP_shared_greek_catholic_UniateChurch.txt')
 assert 'country_event = { id = uniate_church.18 days = 45 }' not in source
 trigger_source = read('common/scripted_triggers/rip_uc_education_memory_triggers.txt')
 assert 'uniate_church.18' not in events and 'uniate_church.20' not in events

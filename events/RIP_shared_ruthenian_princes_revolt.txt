@@ -1,0 +1,110 @@
+namespace = princes_revolt
+
+country_event = {
+	id = princes_revolt.1
+	title = "princes_revolt.1t"
+	desc = "princes_revolt.1d"
+	picture = PEASANTS_ON_STEPPES_eventPicture
+	trigger = {
+		has_disaster = disorderly_princes
+	}
+	is_triggered_only = yes
+	option = {
+		name = "princes_revolt.1a"
+		ai_chance = {
+			factor = 75
+		}
+		add_casus_belli = {
+			target = KIE
+			type = cb_disloyal_vassal
+			months = 1
+		}
+		declare_war_with_cb = {
+			who = KIE
+			casus_belli = cb_disloyal_vassal
+		}
+		set_country_flag = disorderly_princes
+		set_country_flag = aftermath_of_revolt
+	}
+	option = {
+		name = "princes_revolt.1b"
+		ai_chance = {
+			factor = 25
+		}
+		add_stability = 1
+		add_prestige = -50
+		KIE = {
+			if = {
+				limit = {
+					is_subject_of = ROOT
+				}
+				grant_independence = yes
+				add_truce_with = LIT
+			}
+		}
+		set_country_flag = disorderly_princes
+		set_country_flag = aftermath_of_revolt
+	}
+}
+
+country_event = {
+	id = princes_revolt.2
+	title = "princes_revolt.2t"
+	desc = "princes_revolt.2d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		ROOT = {
+			has_disaster = disorderly_princes
+		}
+		has_country_flag = disorderly_princes
+	}
+	immediate = {
+		ROOT = {
+			set_country_flag = aftermath_of_revolt
+		}
+	}
+	option = {
+		name = "princes_revolt.2a"
+		#Rebels Win
+		add_stability = 1
+	}
+}
+
+country_event = {
+	id = princes_revolt.3
+	title = "princes_revolt.3t"
+	desc = "princes_revolt.3d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	fire_only_once = yes
+	trigger = {
+		tag = KIE
+		controls = 272
+		# Vilnius
+		is_subject = no
+		is_at_war = yes
+		war_score_against = {
+			who = LIT
+			value = 40
+		}
+	}
+	immediate = {
+		4247 = {
+			cede_province = KIE
+		}
+		292 = {
+			cede_province = PLT
+		}
+		4242 = {
+			cede_province = PLT
+		}
+		white_peace = LIT
+		add_truce_with = LIT
+	}
+	option = {
+		name = "princes_revolt.3a"
+		add_prestige = 20
+		set_country_flag = ruthenia_liberate
+	}
+}

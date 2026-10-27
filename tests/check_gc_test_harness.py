@@ -3,7 +3,7 @@ import re
 from clausewitz_testlib import ROOT, read
 from check_religion_settlement import parse
 
-event_path = 'events/RIP_GreekCatholicTest.txt'
+event_path = 'events/RIP_shared_greek_catholic_GreekCatholicTest.txt'
 effect_path = 'common/scripted_effects/rip_gc_test_effects.txt'
 events = [dict(v) for k, v in parse(read(event_path)) if k == 'country_event']
 assert len(events) == 10

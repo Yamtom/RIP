@@ -5,7 +5,7 @@ Verifies:
    - provinces_to_highlight present for regimental provinces.
    - Gated on HET/regimental reforms, peacetime, stability >= 0, 25 ADM, cooldown.
    - Calls event het_regiment_governance.1.
-2. Event chain in events/HetmanateRegimentalGovernance.txt:
+2. Event chain in events/RIP_HET_HetmanateRegimentalGovernance.txt:
    - Root selector event het_regiment_governance.1 branches into regional polky.
    - Three repeatable governing paths in each branch:
      a) Military Service: het_regiment_military_service (+35% manpower, upkeep, +5 autonomy).
@@ -38,10 +38,10 @@ def test_decision():
 
 
 def test_events():
-    events = read("events/HetmanateRegimentalGovernance.txt")
+    events = read("events/RIP_HET_HetmanateRegimentalGovernance.txt")
     assert "namespace = het_regiment_governance" in events
 
-    root_event = named_block(events, "country_event")
+    root_event = normalized(named_block(events, "country_event"))
     assert "id = het_regiment_governance.1" in root_event
     assert "country_event = { id = het_regiment_governance.2 }" in root_event
     assert "country_event = { id = het_regiment_governance.3 }" in root_event

@@ -119,7 +119,7 @@ PDL, події й рішення, що їх крутять, а також ди�
 обривається посередині речення й суперечить власному коду.
 
 **Д4 (В). Система «занепаду» KRU арифметично мертва.**
-`events/RuthenianDecadence.txt:19–22`: умова ініціалізації
+`events/RIP_KRU_RuthenianDecadence.txt:19–22`: умова ініціалізації
 `check_variable = { which = ruthenian_decadence value = 0 }` завжди істинна — у EU4
 `check_variable` означає «не менше» (мод сам пише це в
 `common/scripted_effects/zaz_crossroads_effects.txt`: «a threshold test, not equality»).
@@ -177,7 +177,7 @@ PDL, події й рішення, що їх крутять, а також ди�
 часів, коли шкалу States General фейкали. Рада тепер працює для всіх (ванільні
 `factions`), а States General доступний за Res Publica **або** Winds of Change, проте
 рішення відсікає лише `NOT = { has_dlc = "Res Publica" }`. Подія `ruthenian_factions.1`
-(`events/RuthenianFactional.txt:3–52`) раз на десять років безкоштовно дає: +10
+(`events/RIP_KRU_RuthenianFactional.txt:3–52`) раз на десять років безкоштовно дає: +10
 легітимності, або +50 ADM і десятирічний `KRU_boyar_duma` (+15% податків), або +50 MIL,
 +10 традиції армії й десятирічний `KRU_hetman_council`. Три нові кнопки двору, навпаки,
 **коштують** по 50 очок. Виходить, що гравець без Res Publica отримує вигоду, якої немає
@@ -266,7 +266,7 @@ PDL, події й рішення, що їх крутять, а також ди�
 на `OR = { region = ruthenia_region area = red_ruthenia_area }`.
 
 **Д12 (С). Вільна елекція викликає неіснуючий ефект `add_estate_influence`.**
-`events/FreeElection.txt:69`, варіант `free_election.1.c` («Let the great houses arrange it»).
+`events/RIP_shared_commonwealth_FreeElection.txt:69`, варіант `free_election.1.c` («Let the great houses arrange it»).
 Лог: `Unknown effect type. Key: add_estate_influence ... near line: 69, Last good read:
 has_estate=estate_magnates`. Це єдине вживання в моді. Шапка події (рядки 10–11) обіцяє, що
 кожна елекція «hands something to the magnates»; у варіанті .c гравець бере 0.25 річного
@@ -807,8 +807,8 @@ States General, три кнопки двору, три стани однієї �
 
 - `Unknown modifier-type 'rip_ro_unbroken_communion'` (церковний шар; п'ять разів у першому
   запуску);
-- `events/RIP_EparchyHistory.txt`: події `rip_eparchy.101…` без заголовка, опису й картинки;
-- `events/RIP_FaithDisasters.txt:249`: невідомий ефект `add_innovativeness`;
+- `events/RIP_shared_greek_catholic_EparchyHistory.txt`: події `rip_eparchy.101…` без заголовка, опису й картинки;
+- `events/RIP_shared_church_FaithDisasters.txt:249`: невідомий ефект `add_innovativeness`;
 - `missions/RuthenianDiaspora_Missions.txt:23`: невідомий тригер `is_coastal`;
 - `decisions/NovgorodZalesyeDecisions.txt`: помилки розбору (рядки 70, 83, 145, 146, 200, 201);
 - `RUT - Ruthenian Tsardom is missing a history file`;

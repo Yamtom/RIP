@@ -72,7 +72,7 @@ RIP цілком перекриває ванільний `common/cultures/00_cul
    тож «яку русинську ідентичність ти обрав» ніколи не видно в ономастиці —
    єдиному місці, де асиміляція була б читабельна.
 7. **Дві реалізації закарпатського культурного флипу суперечать одна одній**
-   щодо цільової групи: `events/Uzh.txt` зберігає розкол
+   щодо цільової групи: `events/RIP_UZH_Uzh.txt` зберігає розкол
    (`rusyn→ruthenian`, `rusyn_new→ruthenian_new`), а
    `common/scripted_effects/uzh_effects.txt` робить `change_culture = ruthenian_new`
    безумовно. Кінцева група недетермінована по кодовому шляху. **Виправлено в
@@ -141,7 +141,7 @@ RIP.**
   `common/scripted_effects/russian_orthodox_effects.txt`,
   `common/scripted_triggers/chr_chr_path_triggers.txt`,
   `common/scripted_triggers/zaz_het_triggers.txt`,
-  `events/RIP.txt`, `events/RussianOrthodox.txt`,
+  `events/RIP.txt`, `events/RIP_shared_orthodox_RussianOrthodox.txt`,
   `decisions/RussianOrthodoxDecisions.txt` (≈20 місць).
 - Дорожче в підтримці; кожне нове гейтоване правило треба пам'ятати перелічити
   двічі.
@@ -154,7 +154,7 @@ RIP.**
 
 Один спільний province-scope скриптовий ефект з єдиною детермінованою таблицею
 `прапорець ідентичності → (культура, група)`. Видалити розбіжні inline-драбини
-в `events/Uzh.txt` і безумовні `change_culture` в `uzh_effects.txt`. Рішення й
+в `events/RIP_UZH_Uzh.txt` і безумовні `change_culture` в `uzh_effects.txt`. Рішення й
 примітка на кожну ідентичність.
 
 ### R3. Симетризувати `primary` на парах база/`_new`

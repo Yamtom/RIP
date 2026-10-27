@@ -1,0 +1,116 @@
+# Extends the vanilla flavor_rus namespace, so it has to be declared here too.
+
+namespace = flavor_rus
+
+country_event = {
+	id = flavor_rus.2003
+	title = "flavor_rus.EVTNAME2001"
+	desc = "flavor_rus.EVTDESC2001"
+	picture = COURT_eventPicture
+	fire_only_once = yes
+	trigger = {
+		has_dlc = "Third Rome"
+		NOT = {
+			is_year = 1500
+		}
+		culture_group = east_slavic
+		owns = 151
+	}
+	mean_time_to_happen = {
+		months = 10
+	}
+	option = {
+		name = "flavor_rus.EVTOPTA2001"
+		trigger = {
+			151 = {
+				is_capital = no
+			}
+		}
+		ai_chance = {
+			factor = 34
+		}
+		151 = {
+			move_capital_effect = yes
+			change_religion = ROOT
+			change_culture = ROOT
+			rename_capital = Tsaregorod
+			add_province_modifier = {
+				name = "third_rome_modifier"
+				duration = -1
+			}
+		}
+	}
+	option = {
+		name = "flavor_rus.EVTOPTB2001"
+		capital_scope = {
+			add_province_modifier = {
+				name = "third_rome_modifier"
+				duration = -1
+			}
+		}
+		ai_chance = {
+			factor = 66
+		}
+	}
+}
+
+country_event = {
+	id = flavor_rus.2004
+	title = "flavor_rus.EVTNAME2002"
+	desc = "flavor_rus.EVTDESC2002"
+	picture = COURT_eventPicture
+	fire_only_once = yes
+	trigger = {
+		has_dlc = "Third Rome"
+		NOT = {
+			is_year = 1700
+		}
+		culture_group = east_slavic
+		if = {
+			limit = {
+				tag = KIE
+			}
+			is_year = 1635
+		}
+		owns = 280
+	}
+	mean_time_to_happen = {
+		months = 10
+	}
+	option = {
+		name = "flavor_rus.EVTOPTA2002"
+		if = {
+			limit = {
+				NOT = {
+					primary_culture = ruthenian
+				}
+			}
+			change_primary_culture = ruthenian
+		}
+		280 = {
+			move_capital_effect = yes
+			add_base_tax = 4
+			add_base_production = 3
+			add_base_manpower = 3
+		}
+		ai_chance = {
+			factor = 12
+		}
+	}
+	option = {
+		name = "flavor_rus.EVTOPTB2002"
+		trigger = {
+			280 = {
+				is_capital = no
+			}
+		}
+		capital_scope = {
+			add_base_tax = 1
+			add_base_production = 2
+			add_base_manpower = 2
+		}
+		ai_chance = {
+			factor = 88
+		}
+	}
+}

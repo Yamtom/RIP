@@ -1,0 +1,44 @@
+namespace = ukr_flavor
+
+country_event = {
+	id = ukr_flavor.1
+	title = "ukr_flavor.1.t"
+	desc = "ukr_flavor.1.d"
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = no
+	trigger = {
+		is_year = 1444
+		culture = ruthenian
+		NOT = {
+			has_country_modifier = council_of_florence
+		}
+		NOT = {
+			is_year = 1445
+		}
+		NOT = {
+			patriarch_authority = 0.45
+		}
+	}
+	mean_time_to_happen = {
+		days = 49
+	}
+	option = {
+		name = "ukr_flavor.1.a"
+		add_patriarch_authority = 0.5
+		add_estate_church_loyalty_effect = yes
+		ai_chance = {
+			factor = 25
+		}
+	}
+	option = {
+		name = "ukr_flavor.1.b"
+		reduce_estate_church_loyalty_effect = yes
+		add_country_modifier = {
+			name = council_of_florence
+			duration = 65700
+		}
+		ai_chance = {
+			factor = 75
+		}
+	}
+}

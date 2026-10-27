@@ -6,7 +6,6 @@
 #   they hold power is raised above what the period allowed.
 # ========================================================================
 
-
 namespace = women_history_events
 
 normal_or_historical_nations = yes
@@ -18,7 +17,10 @@ country_event = {
 	picture = wihgfx_FEMALE_RULER_eventPicture
 	fire_only_once = yes
 	trigger = {
-		NOT = { has_dlc = "Domination" }	#Domination version of this event
+		NOT = {
+			has_dlc = "Domination"
+		}
+		#Domination version of this event
 		is_year = 1533
 		NOT = {
 			is_year = 1603
@@ -40,11 +42,9 @@ country_event = {
 			is_in_capital_area = yes
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	option = {
 		name = women_history_events.1.a
 		define_ruler = {
@@ -64,9 +64,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = inspiring_leader_personality }
+			hidden_effect = {
+				add_ruler_personality = inspiring_leader_personality
+			}
 		}
 	}
 	option = {
@@ -78,7 +80,8 @@ country_event = {
 		define_advisor = {
 			culture = english
 			female = yes
-			type = statesman #spymaster
+			type = statesman
+			#spymaster
 			skill = 2
 			discount = yes
 			name = "Elizabeth Tudor"
@@ -91,9 +94,11 @@ country_event = {
 	title = women_history_events.2.t
 	desc = women_history_events.2.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
-		NOT = { has_dlc = "Domination" }	#Domination version of this event
+		NOT = {
+			has_dlc = "Domination"
+		}
+		#Domination version of this event
 		tag = RUS
 		is_year = 1729
 		NOT = {
@@ -117,24 +122,25 @@ country_event = {
 		NOT = {
 			has_global_flag = wih_catherine_rus_flag
 		}
-		NOT = {	has_dlc = "Domination"	}
-	} 
-	
+		NOT = {
+			has_dlc = "Domination"
+		}
+	}
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_catherine_rus_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.2.a
 		if = {
 			limit = {
-				has_updated_culture = { culture = slavic }
+				has_updated_culture = {
+					culture = slavic
+				}
 			}
 			define_ruler = {
 				name = "Yekaterina"
@@ -165,9 +171,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = expansionist_personality }
+			hidden_effect = {
+				add_ruler_personality = expansionist_personality
+			}
 		}
 	}
 	option = {
@@ -178,12 +186,15 @@ country_event = {
 		add_meritocracy_effect = yes
 		if = {
 			limit = {
-				has_updated_culture = { culture = slavic }
+				has_updated_culture = {
+					culture = slavic
+				}
 			}
 			define_advisor = {
 				female = yes
 				culture = russian_new
-				type = statesman #spymaster
+				type = statesman
+				#spymaster
 				discount = yes
 				skill = 2
 				name = "Yekaterina Romanov"
@@ -193,7 +204,8 @@ country_event = {
 			define_advisor = {
 				female = yes
 				culture = russian
-				type = statesman #spymaster
+				type = statesman
+				#spymaster
 				discount = yes
 				skill = 2
 				name = "Yekaterina Romanov"
@@ -207,7 +219,6 @@ country_event = {
 	title = women_history_events.3.t
 	desc = women_history_events.3.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = TUR
 		is_year = 1590
@@ -222,29 +233,32 @@ country_event = {
 			has_global_flag = wih_kosem_tur_flag
 		}
 		OR = {
-			NOT = { advisor_exists = 1600 }
-			NOT = { is_advisor_employed = 1600 }
+			NOT = {
+				advisor_exists = 1600
+			}
+			NOT = {
+				is_advisor_employed = 1600
+			}
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_kosem_tur_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.3.a
 		if = {
 			limit = {
-				NOT = { has_dlc = "Rights of Man" }
+				NOT = {
+					has_dlc = "Rights of Man"
+				}
 			}
 			define_ruler = {
-				name = "Kösem Sultan"
+				name = "KÃ¶sem Sultan"
 				dynasty = "Osmanoglu"
 				culture = ruthenian
 				adm = 5
@@ -262,11 +276,13 @@ country_event = {
 		else_if = {
 			limit = {
 				has_dlc = "Rights of Man"
-				NOT = { has_regency = yes }
+				NOT = {
+					has_regency = yes
+				}
 				has_government_attribute = queen
 			}
 			define_consort = {
-				name = "Kösem Sultan"
+				name = "KÃ¶sem Sultan"
 				culture = ruthenian
 				adm = 5
 				dip = 4
@@ -279,7 +295,7 @@ country_event = {
 		}
 		else = {
 			define_ruler = {
-				name = "Kösem Sultan"
+				name = "KÃ¶sem Sultan"
 				dynasty = "Osmanoglu"
 				culture = ruthenian
 				adm = 5
@@ -303,11 +319,12 @@ country_event = {
 		add_meritocracy_effect = yes
 		define_advisor = {
 			female = yes
-			type = statesman #spymaster
+			type = statesman
+			#spymaster
 			culture = ruthenian
 			discount = yes
 			skill = 2
-			name = "Kösem Sultan"
+			name = "KÃ¶sem Sultan"
 		}
 	}
 }
@@ -317,7 +334,6 @@ country_event = {
 	title = women_history_events.4.t
 	desc = women_history_events.4.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = HAB
 		is_year = 1700
@@ -339,17 +355,14 @@ country_event = {
 			has_global_flag = wih_maria_theresa_hab_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_maria_theresa_hab_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.4.a
 		define_ruler = {
@@ -369,9 +382,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = well_advised_personality }
+			hidden_effect = {
+				add_ruler_personality = well_advised_personality
+			}
 		}
 	}
 	option = {
@@ -382,7 +397,8 @@ country_event = {
 		add_meritocracy_effect = yes
 		define_advisor = {
 			female = yes
-			type = statesman #spymaster
+			type = statesman
+			#spymaster
 			culture = austrian
 			discount = yes
 			skill = 2
@@ -396,7 +412,6 @@ country_event = {
 	title = women_history_events.5.t
 	desc = women_history_events.5.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		tag = TUR
 		is_year = 1500
@@ -410,17 +425,14 @@ country_event = {
 			has_global_flag = wih_roxelana_tur_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_roxelana_tur_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.5.a
 		add_meritocracy_effect = yes
@@ -452,7 +464,6 @@ country_event = {
 	title = women_history_events.6.t
 	desc = women_history_events.6.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = SWE
 		is_year = 1626
@@ -468,17 +479,14 @@ country_event = {
 			has_global_flag = wih_christina_swe_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_christina_swe_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.6.a
 		define_ruler = {
@@ -498,9 +506,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = free_thinker_personality }
+			hidden_effect = {
+				add_ruler_personality = free_thinker_personality
+			}
 		}
 	}
 	option = {
@@ -525,7 +535,6 @@ country_event = {
 	title = women_history_events.7.t
 	desc = women_history_events.7.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		tag = SWE
 		exists = FRA
@@ -534,17 +543,14 @@ country_event = {
 			has_global_flag = wih_germainedestael_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_germainedestael_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.7.a
 		define_advisor = {
@@ -553,9 +559,8 @@ country_event = {
 			culture = swiss
 			discount = yes
 			skill = 2
-			name = "Germaine de Staël"
+			name = "Germaine de StaÃ«l"
 		}
-
 	}
 	option = {
 		name = women_history_events.7.b
@@ -566,7 +571,7 @@ country_event = {
 			culture = swiss
 			discount = yes
 			skill = 2
-			name = "Germaine de Staël"
+			name = "Germaine de StaÃ«l"
 		}
 	}
 }
@@ -576,7 +581,6 @@ country_event = {
 	title = women_history_events.8.t
 	desc = women_history_events.8.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			tag = SWE
@@ -592,21 +596,22 @@ country_event = {
 			has_global_flag = wih_marywollstonecraft_flag
 		}
 		OR = {
-			NOT = { advisor_exists = 1626 }
-			NOT = { is_advisor_employed = 1625 }
+			NOT = {
+				advisor_exists = 1626
+			}
+			NOT = {
+				is_advisor_employed = 1625
+			}
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_marywollstonecraft_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.8.a
 		add_meritocracy_effect = yes
@@ -630,7 +635,6 @@ country_event = {
 	title = women_history_events.9.t
 	desc = women_history_events.9.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			tag = ENG
@@ -644,17 +648,14 @@ country_event = {
 			has_global_flag = wih_aphrabehn_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_aphrabehn_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.9.a
 		add_meritocracy_effect = yes
@@ -681,7 +682,6 @@ country_event = {
 	title = women_history_events.10.t
 	desc = women_history_events.10.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		is_year = 1722
 		NOT = {
@@ -703,17 +703,14 @@ country_event = {
 			has_global_flag = wih_elizalucas_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_elizalucas_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.10.a
 		add_meritocracy_effect = yes
@@ -741,11 +738,9 @@ country_event = {
 	title = women_history_events.11.t
 	desc = women_history_events.11.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-	
 	fire_only_once = yes
-
 	trigger = {
-		OR = { 
+		OR = {
 			AND = {
 				OR = {
 					tag = SPA
@@ -774,19 +769,19 @@ country_event = {
 				has_country_flag = civil_war_in_castile
 			}
 		}
-		NOT = { has_country_flag = no_isabella_event_flag } 
+		NOT = {
+			has_country_flag = no_isabella_event_flag
+		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	option = {
 		name = women_history_events.11.a
 		add_meritocracy_effect = yes
 		define_heir = {
 			name = "Isabel"
-			dynasty = "de Trastámara"
+			dynasty = "de TrastÃ¡mara"
 			culture = castillian
 			claim = 95
 			adm = 5
@@ -798,9 +793,11 @@ country_event = {
 		set_country_flag = cas_isabel_heir_accepted_flag
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_heir_personality = expansionist_personality }	
+			hidden_effect = {
+				add_heir_personality = expansionist_personality
+			}
 		}
 	}
 	option = {
@@ -815,7 +812,7 @@ country_event = {
 			discount = yes
 			skill = 2
 			culture = castillian
-			name = "Isabel de Trastámara"
+			name = "Isabel de TrastÃ¡mara"
 		}
 	}
 }
@@ -825,7 +822,6 @@ country_event = {
 	title = women_history_events.12.t
 	desc = women_history_events.12.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		tag = FRA
 		is_year = 1770
@@ -833,17 +829,14 @@ country_event = {
 			has_global_flag = wih_sophiegermain_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_sophiegermain_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.12.a
 		add_meritocracy_effect = yes
@@ -867,7 +860,6 @@ country_event = {
 	title = women_history_events.13.t
 	desc = women_history_events.13.d
 	picture = wihgfx_FEMALES_eventPicture
- 
 	trigger = {
 		OR = {
 			tag = PAP
@@ -878,7 +870,7 @@ country_event = {
 			}
 		}
 		has_consort = no
-		is_year = 1463 
+		is_year = 1463
 		NOT = {
 			is_year = 1510
 		}
@@ -886,17 +878,14 @@ country_event = {
 			has_global_flag = wih_caterina_sforza_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_caterina_sforza_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.13.a
 		add_meritocracy_effect = yes
@@ -932,7 +921,6 @@ country_event = {
 	title = women_history_events.14.t
 	desc = women_history_events.14.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = FRA
 		is_year = 1519
@@ -949,17 +937,14 @@ country_event = {
 			has_global_flag = wih_catherine_demedici_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_catherine_demedici_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.14.a
 		add_meritocracy_effect = yes
@@ -980,9 +965,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = careful_personality }
+			hidden_effect = {
+				add_ruler_personality = careful_personality
+			}
 		}
 	}
 	option = {
@@ -1007,9 +994,10 @@ country_event = {
 	title = women_history_events.15.t
 	desc = women_history_events.15.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
-		NOT = { has_dlc = "Rights of Man" }
+		NOT = {
+			has_dlc = "Rights of Man"
+		}
 		tag = HES
 		is_year = 1600
 		NOT = {
@@ -1023,17 +1011,14 @@ country_event = {
 			has_global_flag = wih_amalieelisabeth_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_amalieelisabeth_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.15.a
 		define_ruler = {
@@ -1052,9 +1037,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = zealot_personality }
+			hidden_effect = {
+				add_ruler_personality = zealot_personality
+			}
 		}
 	}
 	option = {
@@ -1079,7 +1066,6 @@ country_event = {
 	title = women_history_events.16.t
 	desc = women_history_events.16.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		is_year = 1500
 		NOT = {
@@ -1116,21 +1102,22 @@ country_event = {
 			has_global_flag = wih_lamalince_flag
 		}
 		OR = {
-			NOT = { advisor_exists = 1629 }
-			NOT = { is_advisor_employed = 1629 }
+			NOT = {
+				advisor_exists = 1629
+			}
+			NOT = {
+				is_advisor_employed = 1629
+			}
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_lamalince_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.16.a
 		add_meritocracy_effect = yes
@@ -1165,7 +1152,6 @@ country_event = {
 	title = women_history_events.17.t
 	desc = women_history_events.17.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		is_year = 1650
 		NOT = {
@@ -1189,21 +1175,22 @@ country_event = {
 			has_global_flag = wih_juanainesdelacruz_flag
 		}
 		OR = {
-			NOT = { advisor_exists = 1631 }
-			NOT = { is_advisor_employed = 1631 }
+			NOT = {
+				advisor_exists = 1631
+			}
+			NOT = {
+				is_advisor_employed = 1631
+			}
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_juanainesdelacruz_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.17.a
 		add_meritocracy_effect = yes
@@ -1230,7 +1217,6 @@ country_event = {
 	title = women_history_events.18.t
 	desc = women_history_events.18.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = NAV
 		is_year = 1550
@@ -1245,17 +1231,14 @@ country_event = {
 			has_global_flag = wih_jeannedalbret_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_jeannedalbret_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.18.a
 		define_ruler = {
@@ -1275,9 +1258,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = entrepreneur_personality }
+			hidden_effect = {
+				add_ruler_personality = entrepreneur_personality
+			}
 		}
 	}
 	option = {
@@ -1309,11 +1294,12 @@ country_event = {
 	}
 	picture = {
 		trigger = {
-			NOT = { has_dlc = "Origins" }
+			NOT = {
+				has_dlc = "Origins"
+			}
 		}
 		picture = wihgfx_FEMALE_RULER_eventPicture
 	}
-
 	trigger = {
 		tag = NDO
 		is_year = 1580
@@ -1336,17 +1322,14 @@ country_event = {
 			has_global_flag = wih_nzinga_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_nzinga_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.19.a
 		define_ruler = {
@@ -1365,9 +1348,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = tactical_genius_personality }
+			hidden_effect = {
+				add_ruler_personality = tactical_genius_personality
+			}
 		}
 	}
 	option = {
@@ -1386,14 +1371,13 @@ country_event = {
 		}
 	}
 }
-
 # Tarabai
+
 country_event = {
 	id = women_history_events.20
 	title = women_history_events.20.t
 	desc = women_history_events.20.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = MAR
 		is_year = 1675
@@ -1416,17 +1400,14 @@ country_event = {
 			has_global_flag = wih_tarabai_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_tarabai_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.20.a
 		define_ruler = {
@@ -1445,9 +1426,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = inspiring_leader_personality }
+			hidden_effect = {
+				add_ruler_personality = inspiring_leader_personality
+			}
 		}
 	}
 	option = {
@@ -1472,7 +1455,6 @@ country_event = {
 	title = women_history_events.21.t
 	desc = women_history_events.21.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			tag = ENG
@@ -1483,17 +1465,14 @@ country_event = {
 			has_global_flag = wih_jane_austen_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_jane_austen_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.21.a
 		add_country_modifier = {
@@ -1520,7 +1499,6 @@ country_event = {
 	title = women_history_events.22.t
 	desc = women_history_events.22.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		OR = {
 			AND = {
@@ -1540,21 +1518,20 @@ country_event = {
 			has_global_flag = wih_grainnenimhaille_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_grainnenimhaille_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.22.a
 		trigger = {
-			NOT = { has_global_flag  = grace_omalley_flag }
+			NOT = {
+				has_global_flag = grace_omalley_flag
+			}
 		}
 		add_meritocracy_effect = yes
 		define_advisor = {
@@ -1569,7 +1546,9 @@ country_event = {
 	option = {
 		name = women_history_events.22.b
 		trigger = {
-			NOT = { has_global_flag  = grace_omalley_flag }
+			NOT = {
+				has_global_flag = grace_omalley_flag
+			}
 		}
 		define_admiral = {
 			name = "Grainne Ni Mhaille"
@@ -1582,14 +1561,16 @@ country_event = {
 	option = {
 		name = women_history_events.22.c
 		trigger = {
-			NOT = { has_global_flag  = grace_omalley_flag }
+			NOT = {
+				has_global_flag = grace_omalley_flag
+			}
 		}
 		add_prestige = 10
 	}
 	option = {
 		name = women_history_events.22.da
 		trigger = {
-			has_global_flag  = grace_omalley_flag
+			has_global_flag = grace_omalley_flag
 		}
 		define_ruler = {
 			name = "Grainne Ni Mhaille"
@@ -1606,7 +1587,7 @@ country_event = {
 				}
 			}
 			capital_scope = {
-				create_flagship = {	
+				create_flagship = {
 					name = "White Seahorse"
 					type = heavy_ship
 				}
@@ -1633,7 +1614,6 @@ country_event = {
 	title = women_history_events.23.t
 	desc = women_history_events.23.d
 	picture = wihgfx_FEMALE_GENERAL_eventPicture
-
 	trigger = {
 		OR = {
 			owns = 183
@@ -1647,17 +1627,14 @@ country_event = {
 			has_global_flag = wih_juliedaubigny_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_juliedaubigny_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.23.a
 		add_meritocracy_effect = yes
@@ -1692,7 +1669,6 @@ country_event = {
 	title = women_history_events.24.t
 	desc = women_history_events.24.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		has_consort = no
 		OR = {
@@ -1707,17 +1683,14 @@ country_event = {
 			has_global_flag = wih_anneboleyn_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_anneboleyn_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.24.a
 		add_meritocracy_effect = yes
@@ -1741,7 +1714,6 @@ country_event = {
 	title = women_history_events.25.t
 	desc = women_history_events.25.d
 	picture = wihgfx_FEMALE_GENERAL_eventPicture
-
 	trigger = {
 		has_consort = no
 		owns = 599
@@ -1753,17 +1725,14 @@ country_event = {
 			has_global_flag = wih_sitiwankembang_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_sitiwankembang_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.25.a
 		add_meritocracy_effect = yes
@@ -1798,7 +1767,6 @@ country_event = {
 	title = women_history_events.26.t
 	desc = women_history_events.26.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		has_consort = no
 		OR = {
@@ -1815,17 +1783,14 @@ country_event = {
 			has_global_flag = wih_catherineofaragon_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_catherineofaragon_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.26.a
 		add_meritocracy_effect = yes
@@ -1849,7 +1814,6 @@ country_event = {
 	title = women_history_events.27.t
 	desc = women_history_events.27.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		OR = {
 			tag = ENG
@@ -1874,11 +1838,9 @@ country_event = {
 			has_global_flag = wih_margaretofanjou_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_margaretofanjou_flag
@@ -1903,9 +1865,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = righteous_personality }
+			hidden_effect = {
+				add_ruler_personality = righteous_personality
+			}
 		}
 	}
 	option = {
@@ -1953,7 +1917,6 @@ country_event = {
 	title = women_history_events.28.t
 	desc = women_history_events.28.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = PRU
 		is_year = 1770
@@ -1964,17 +1927,14 @@ country_event = {
 			has_global_flag = wih_louise_pru_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_louise_pru_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.28.a
 		add_meritocracy_effect = yes
@@ -2001,7 +1961,6 @@ country_event = {
 	title = women_history_events.29.t
 	desc = women_history_events.29.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = TUR
 		is_year = 1479
@@ -2023,20 +1982,18 @@ country_event = {
 			has_global_flag = wih_aysehafsasultan_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_aysehafsasultan_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.29.a
-		define_ruler = { #Change to Queen
+		define_ruler = {
+			#Change to Queen
 			name = "Ayse Hafsa Sultan"
 			dynasty = "Osmanoglu"
 			culture = crimean
@@ -2053,9 +2010,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = silver_tongue_personality }
+			hidden_effect = {
+				add_ruler_personality = silver_tongue_personality
+			}
 		}
 	}
 	option = {
@@ -2080,7 +2039,6 @@ country_event = {
 	title = women_history_events.30.t
 	desc = women_history_events.30.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = MUG
 		is_year = 1617
@@ -2101,17 +2059,14 @@ country_event = {
 			has_global_flag = wih_roshanarabegum_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_roshanarabegum_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.30.a
 		define_ruler = {
@@ -2132,11 +2087,11 @@ country_event = {
 		add_corruption = 1
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { 
+			hidden_effect = {
 				add_ruler_personality = intricate_web_weaver_personality
-				add_ruler_personality = embezzler_personality 
+				add_ruler_personality = embezzler_personality
 			}
 		}
 	}
@@ -2163,7 +2118,6 @@ country_event = {
 	title = women_history_events.31.t
 	desc = women_history_events.31.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		tag = USA
 		is_year = 1744
@@ -2171,17 +2125,14 @@ country_event = {
 			has_global_flag = wih_abigailadams_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_abigailadams_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.31.a
 		add_meritocracy_effect = yes
@@ -2208,7 +2159,6 @@ country_event = {
 	title = women_history_events.32.t
 	desc = women_history_events.32.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		owns = 531
 		technology_group = indian
@@ -2217,7 +2167,7 @@ country_event = {
 			is_year = 1600
 		}
 		POR = {
-			OR  = {
+			OR = {
 				any_owned_province = {
 					region = deccan_region
 					any_neighbor_province = {
@@ -2245,17 +2195,14 @@ country_event = {
 			has_global_flag = wih_raniabbakkachowta_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_raniabbakkachowta_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.32.a
 		add_adm_power = 100
@@ -2284,9 +2231,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = bold_fighter_personality }
+			hidden_effect = {
+				add_ruler_personality = bold_fighter_personality
+			}
 		}
 	}
 	option = {
@@ -2310,7 +2259,6 @@ country_event = {
 	title = women_history_events.33.t
 	desc = women_history_events.33.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		OR = {
 			tag = USA
@@ -2326,17 +2274,14 @@ country_event = {
 			has_global_flag = wih_sacagawea_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_sacagawea_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.33.a
 		define_conquistador = {
@@ -2366,7 +2311,6 @@ country_event = {
 	title = women_history_events.34.t
 	desc = women_history_events.34.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = PER
 		is_year = 1524
@@ -2386,17 +2330,14 @@ country_event = {
 		is_lesser_in_union = no
 		government = monarchy
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_parikhankhanum_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.34.a
 		define_ruler = {
@@ -2416,9 +2357,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = well_connected_personality }
+			hidden_effect = {
+				add_ruler_personality = well_connected_personality
+			}
 		}
 	}
 	option = {
@@ -2443,7 +2386,6 @@ country_event = {
 	title = women_history_events.35.t
 	desc = women_history_events.35.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		religion = hinduism
 		primary_culture = rajput
@@ -2457,17 +2399,14 @@ country_event = {
 			has_global_flag = wih_meerabai_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_meerabai_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.35.a
 		add_meritocracy_effect = yes
@@ -2488,14 +2427,13 @@ country_event = {
 		}
 	}
 }
-
 # Amina
+
 country_event = {
 	id = women_history_events.36
 	title = women_history_events.36.t
 	desc = women_history_events.36.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		OR = {
 			tag = ZZZ
@@ -2522,17 +2460,14 @@ country_event = {
 			has_global_flag = wih_amina_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_amina_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.36.a
 		define_ruler = {
@@ -2546,9 +2481,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = martial_educator_personality }
+			hidden_effect = {
+				add_ruler_personality = martial_educator_personality
+			}
 		}
 	}
 	option = {
@@ -2587,7 +2524,6 @@ country_event = {
 	title = women_history_events.37.t
 	desc = women_history_events.37.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		tag = KHA
 		NOT = {
@@ -2606,17 +2542,14 @@ country_event = {
 			has_global_flag = wih_mandukhaikhatun_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_mandukhaikhatun_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.37.a
 		add_adm_power = 100
@@ -2650,9 +2583,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = intricate_web_weaver_personality }
+			hidden_effect = {
+				add_ruler_personality = intricate_web_weaver_personality
+			}
 		}
 	}
 	option = {
@@ -2677,7 +2612,6 @@ country_event = {
 	title = women_history_events.38.t
 	desc = women_history_events.38.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			tag = DAI
@@ -2688,23 +2622,22 @@ country_event = {
 			has_global_flag = wih_hoxuanhuong_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_hoxuanhuong_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.38.a
 		add_meritocracy_effect = yes
 		if = {
 			limit = {
-				has_updated_culture = { culture = vietnamese }
+				has_updated_culture = {
+					culture = vietnamese
+				}
 			}
 			define_advisor = {
 				female = yes
@@ -2740,7 +2673,6 @@ country_event = {
 	title = women_history_events.39.t
 	desc = women_history_events.39.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		OR = {
 			tag = SCO
@@ -2759,17 +2691,14 @@ country_event = {
 			has_global_flag = wih_iniondubh_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_iniondubh_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.39.a
 		define_ruler = {
@@ -2789,9 +2718,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = well_connected_personality }
+			hidden_effect = {
+				add_ruler_personality = well_connected_personality
+			}
 		}
 	}
 	option = {
@@ -2816,7 +2747,6 @@ country_event = {
 	title = women_history_events.40.t
 	desc = women_history_events.40.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		tag = GDW
 		is_year = 1524
@@ -2830,17 +2760,14 @@ country_event = {
 			has_global_flag = wih_ranidurgavati_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_ranidurgavati_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.40.a
 		define_ruler = {
@@ -2860,9 +2787,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = scholar_personality }
+			hidden_effect = {
+				add_ruler_personality = scholar_personality
+			}
 		}
 	}
 	option = {
@@ -2887,11 +2816,12 @@ country_event = {
 	title = women_history_events.41.t
 	desc = women_history_events.41.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
-			owns = 965 # Manhattan
-			owns = 992 # Algonquin
+			owns = 965
+			# Manhattan
+			owns = 992
+			# Algonquin
 		}
 		religion = catholic
 		is_year = 1656
@@ -2902,17 +2832,14 @@ country_event = {
 			has_global_flag = wih_kateritekakwitha_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_kateritekakwitha_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.41.a
 		add_country_modifier = {
@@ -2927,7 +2854,6 @@ country_event = {
 	title = women_history_events.42.t
 	desc = women_history_events.42.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			tag = FRN
@@ -2943,17 +2869,14 @@ country_event = {
 			has_global_flag = wih_mariasibyllamerian_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_mariasibyllamerian_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.42.a
 		add_meritocracy_effect = yes
@@ -2980,7 +2903,6 @@ country_event = {
 	title = women_history_events.43.t
 	desc = women_history_events.43.d
 	picture = wihgfx_FEMALE_GENERAL_eventPicture
-
 	trigger = {
 		tag = NED
 		owns = 97
@@ -2996,17 +2918,14 @@ country_event = {
 			has_global_flag = wih_kenausimonsdochterhasselaer_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_kenausimonsdochterhasselaer_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.43.a
 		add_meritocracy_effect = yes
@@ -3044,7 +2963,6 @@ country_event = {
 	title = women_history_events.44.t
 	desc = women_history_events.44.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			owns = 112
@@ -3058,17 +2976,14 @@ country_event = {
 			has_global_flag = wih_elenacornaropiscopia_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_elenacornaropiscopia_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.44.a
 		add_meritocracy_effect = yes
@@ -3095,7 +3010,6 @@ country_event = {
 	title = women_history_events.45.t
 	desc = women_history_events.45.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		tag = RUS
 		is_year = 1743
@@ -3104,27 +3018,30 @@ country_event = {
 			has_global_flag = wih_yekaterinaromanovnavorontsovadashkova_flag
 		}
 		OR = {
-			NOT = { advisor_exists = 1609 }
-			NOT = { is_advisor_employed = 1609 }
+			NOT = {
+				advisor_exists = 1609
+			}
+			NOT = {
+				is_advisor_employed = 1609
+			}
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_yekaterinaromanovnavorontsovadashkova_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.45.a
 		add_meritocracy_effect = yes
 		if = {
 			limit = {
-				has_updated_culture = { culture = slavic }
+				has_updated_culture = {
+					culture = slavic
+				}
 			}
 			define_advisor = {
 				female = yes
@@ -3160,7 +3077,6 @@ country_event = {
 	title = women_history_events.46.t
 	desc = women_history_events.46.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		tag = FRA
 		is_year = 1600
@@ -3171,17 +3087,14 @@ country_event = {
 			has_global_flag = wih_mariecrous_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_mariecrous_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.46.a
 		add_meritocracy_effect = yes
@@ -3202,14 +3115,13 @@ country_event = {
 		}
 	}
 }
-
 # Ohatsu
+
 country_event = {
 	id = women_history_events.47
 	title = women_history_events.47.t
 	desc = women_history_events.47.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			has_reform = shogunate
@@ -3223,17 +3135,14 @@ country_event = {
 			has_global_flag = wih_ohatsu_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_ohatsu_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.47.a
 		add_meritocracy_effect = yes
@@ -3260,7 +3169,6 @@ country_event = {
 	title = women_history_events.48.t
 	desc = women_history_events.48.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		OR = {
 			tag = QNG
@@ -3278,17 +3186,14 @@ country_event = {
 			has_global_flag = wih_xiaozhuan_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_xiaozhuan_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.48.a
 		add_adm_power = 100
@@ -3323,9 +3228,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = benevolent_personality }
+			hidden_effect = {
+				add_ruler_personality = benevolent_personality
+			}
 		}
 	}
 }
@@ -3335,7 +3242,6 @@ country_event = {
 	title = women_history_events.49.t
 	desc = women_history_events.49.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		tag = SPA
 		is_year = 1507
@@ -3352,17 +3258,14 @@ country_event = {
 			has_global_flag = wih_inesdesuarez_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_inesdesuarez_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.49.a
 		define_advisor = {
@@ -3397,14 +3300,13 @@ country_event = {
 		}
 	}
 }
-
 # Kaihime
+
 country_event = {
 	id = women_history_events.50
 	title = women_history_events.50.t
 	desc = women_history_events.50.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		OR = {
 			has_reform = shogunate
@@ -3418,17 +3320,14 @@ country_event = {
 			has_global_flag = wih_kaihime_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_kaihime_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.50.a
 		add_meritocracy_effect = yes
@@ -3459,7 +3358,6 @@ country_event = {
 	title = women_history_events.51.t
 	desc = women_history_events.51.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		OR = {
 			tag = AFG
@@ -3473,17 +3371,14 @@ country_event = {
 			has_global_flag = wih_nazotokhi_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_nazotokhi_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.51.a
 		add_meritocracy_effect = yes
@@ -3514,7 +3409,6 @@ country_event = {
 	title = women_history_events.52.t
 	desc = women_history_events.52.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		tag = MNG
 		OR = {
@@ -3534,17 +3428,14 @@ country_event = {
 			has_global_flag = wih_qinliangyu_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_qinliangyu_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.52.a
 		define_general = {
@@ -3575,7 +3466,6 @@ country_event = {
 	title = women_history_events.53.t
 	desc = women_history_events.53.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		OR = {
 			tag = CRO
@@ -3606,17 +3496,14 @@ country_event = {
 			has_global_flag = wih_ilonazrinyi_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_ilonazrinyi_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.53.a
 		add_adm_power = 100
@@ -3651,9 +3538,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = inspiring_leader_personality }
+			hidden_effect = {
+				add_ruler_personality = inspiring_leader_personality
+			}
 		}
 	}
 	option = {
@@ -3677,7 +3566,6 @@ country_event = {
 	title = women_history_events.54.t
 	desc = women_history_events.54.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			tag = QNG
@@ -3689,17 +3577,14 @@ country_event = {
 			has_global_flag = wih_wangzhenyi_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_wangzhenyi_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.54.a
 		add_country_modifier = {
@@ -3720,14 +3605,13 @@ country_event = {
 		}
 	}
 }
-
 # Suriyothai
+
 country_event = {
 	id = women_history_events.55
 	title = women_history_events.55.t
 	desc = women_history_events.55.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		tag = AYU
 		is_year = 1500
@@ -3744,17 +3628,14 @@ country_event = {
 			has_global_flag = wih_suriyothai_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_suriyothai_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.55.a
 		add_country_modifier = {
@@ -3769,9 +3650,10 @@ country_event = {
 	title = women_history_events.56.t
 	desc = women_history_events.56.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
-		NOT = { has_dlc = "Golden Century" }
+		NOT = {
+			has_dlc = "Golden Century"
+		}
 		OR = {
 			owns = 1751
 			owns = 334
@@ -3785,17 +3667,14 @@ country_event = {
 			has_global_flag = wih_sayyidaalhurra_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_sayyidaalhurra_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.56.a
 		add_meritocracy_effect = yes
@@ -3825,7 +3704,6 @@ country_event = {
 	title = women_history_events.57.t
 	desc = women_history_events.57.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		tag = FRA
 		is_year = 1748
@@ -3833,17 +3711,14 @@ country_event = {
 			has_global_flag = wih_olympedegouges_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_olympedegouges_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.57.a
 		add_meritocracy_effect = yes
@@ -3870,7 +3745,6 @@ country_event = {
 	title = women_history_events.58.t
 	desc = women_history_events.58.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			has_reform = shogunate
@@ -3884,17 +3758,14 @@ country_event = {
 			has_global_flag = wih_izumonookuni_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_izumonookuni_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.58.a
 		add_meritocracy_effect = yes
@@ -3921,7 +3792,6 @@ country_event = {
 	title = women_history_events.59.t
 	desc = women_history_events.59.d
 	picture = wihgfx_FEMALE_GENERAL_eventPicture
-
 	trigger = {
 		OR = {
 			tag = ALB
@@ -3939,17 +3809,14 @@ country_event = {
 			has_global_flag = wih_noraofkelmendi_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_noraofkelmendi_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.59.a
 		add_meritocracy_effect = yes
@@ -3980,7 +3847,6 @@ country_event = {
 	title = women_history_events.60.t
 	desc = women_history_events.60.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		tag = USA
 		is_year = 1730
@@ -3988,17 +3854,14 @@ country_event = {
 			has_global_flag = wih_marthawashington_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_marthawashington_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.60.a
 		add_country_modifier = {
@@ -4025,7 +3888,6 @@ country_event = {
 	title = women_history_events.61.t
 	desc = women_history_events.61.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			tag = ENG
@@ -4039,17 +3901,14 @@ country_event = {
 			has_global_flag = wih_elizabethwilbraham_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_elizabethwilbraham_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.61.a
 		add_country_modifier = {
@@ -4076,7 +3935,6 @@ country_event = {
 	title = women_history_events.62.t
 	desc = women_history_events.62.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		tag = RUS
 		is_year = 1774
@@ -4084,17 +3942,14 @@ country_event = {
 			has_global_flag = wih_annabunina_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_annabunina_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.62.a
 		add_country_modifier = {
@@ -4121,7 +3976,6 @@ country_event = {
 	title = women_history_events.63.t
 	desc = women_history_events.63.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		tag = DAN
 		is_year = 1511
@@ -4132,17 +3986,14 @@ country_event = {
 			has_global_flag = wih_dorotheasaxelauenburg_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_dorotheasaxelauenburg_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.63.a
 		add_meritocracy_effect = yes
@@ -4166,7 +4017,6 @@ country_event = {
 	title = women_history_events.64.t
 	desc = women_history_events.64.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		OR = {
 			tag = HUN
@@ -4185,17 +4035,14 @@ country_event = {
 			has_global_flag = wih_maryofhungary_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_maryofhungary_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.64.a
 		add_adm_power = 100
@@ -4230,9 +4077,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = silver_tongue_personality }
+			hidden_effect = {
+				add_ruler_personality = silver_tongue_personality
+			}
 		}
 	}
 }
@@ -4242,7 +4091,6 @@ country_event = {
 	title = women_history_events.65.t
 	desc = women_history_events.65.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = NED
 		is_year = 1480
@@ -4257,17 +4105,14 @@ country_event = {
 			has_global_flag = wih_margaretofaustria_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_margaretofaustria_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.65.a
 		add_adm_power = 100
@@ -4302,9 +4147,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = charismatic_negotiator_personality }
+			hidden_effect = {
+				add_ruler_personality = charismatic_negotiator_personality
+			}
 		}
 	}
 }
@@ -4314,7 +4161,6 @@ country_event = {
 	title = women_history_events.66.t
 	desc = women_history_events.66.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = NED
 		is_year = 1566
@@ -4331,22 +4177,18 @@ country_event = {
 			has_global_flag = wih_isabellaclaraeugenia_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
-		
 		modifier = {
 			factor = 0.5
 			vassal_of = SPA
 		}
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_isabellaclaraeugenia_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.66.a
 		add_adm_power = 100
@@ -4381,9 +4223,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = midas_touched_personality }
+			hidden_effect = {
+				add_ruler_personality = midas_touched_personality
+			}
 		}
 	}
 }
@@ -4393,7 +4237,6 @@ country_event = {
 	title = women_history_events.67.t
 	desc = women_history_events.67.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		OR = {
 			tag = POL
@@ -4419,17 +4262,14 @@ country_event = {
 			has_global_flag = wih_urszulameyerin_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_urszulameyerin_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.67.a
 		add_adm_power = 100
@@ -4463,11 +4303,13 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = pious_personality }
+			hidden_effect = {
+				add_ruler_personality = pious_personality
+			}
 		}
-	} 
+	}
 }
 
 country_event = {
@@ -4475,7 +4317,6 @@ country_event = {
 	title = women_history_events.68.t
 	desc = women_history_events.68.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		OR = {
 			tag = POL
@@ -4500,17 +4341,14 @@ country_event = {
 			has_global_flag = wih_elzbietahelenasieniawska_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_elzbietahelenasieniawska_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.68.a
 		add_adm_power = 100
@@ -4545,9 +4383,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = incorruptible_personality }
+			hidden_effect = {
+				add_ruler_personality = incorruptible_personality
+			}
 		}
 	}
 }
@@ -4557,17 +4397,18 @@ country_event = {
 	title = women_history_events.69.t
 	desc = women_history_events.69.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		OR = {
 			tag = POL
 			tag = LIT
 			tag = PLC
 		}
-		is_year = 1611 
+		is_year = 1611
 		is_lesser_in_union = no
 		government = monarchy
-		NOT = { has_reform = steppe_horde }
+		NOT = {
+			has_reform = steppe_horde
+		}
 		NOT = {
 			is_year = 1667
 		}
@@ -4590,17 +4431,14 @@ country_event = {
 			has_global_flag = wih_marielouisegonzaga_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_marielouisegonzaga_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.69.a
 		add_adm_power = 100
@@ -4635,9 +4473,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = industrious_personality }
+			hidden_effect = {
+				add_ruler_personality = industrious_personality
+			}
 		}
 	}
 }
@@ -4647,7 +4487,6 @@ country_event = {
 	title = women_history_events.70.t
 	desc = women_history_events.70.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		OR = {
 			tag = SIC
@@ -4668,17 +4507,14 @@ country_event = {
 			has_global_flag = wih_mariacarolinaaustria_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_mariacarolinaaustria_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.70.a
 		add_adm_power = 100
@@ -4713,9 +4549,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = expansionist_personality }
+			hidden_effect = {
+				add_ruler_personality = expansionist_personality
+			}
 		}
 	}
 }
@@ -4725,7 +4563,6 @@ country_event = {
 	title = women_history_events.71.t
 	desc = women_history_events.71.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = FRA
 		is_year = 1755
@@ -4736,17 +4573,14 @@ country_event = {
 			has_global_flag = wih_marieantoinette_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_marieantoinette_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.71.a
 		add_meritocracy_effect = yes
@@ -4766,14 +4600,13 @@ country_event = {
 		add_mil_power = 50
 	}
 }
-
 # Anacaona
+
 country_event = {
 	id = women_history_events.72
 	title = women_history_events.72.t
 	desc = women_history_events.72.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		is_year = 1474
 		NOT = {
@@ -4789,17 +4622,14 @@ country_event = {
 			has_global_flag = wih_anacaona_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_anacaona_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.72.a
 		add_meritocracy_effect = yes
@@ -4824,11 +4654,12 @@ country_event = {
 	title = women_history_events.73.t
 	desc = women_history_events.73.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		tag = BOH
 		religion_group = christian
-		NOT = { is_emperor = yes }
+		NOT = {
+			is_emperor = yes
+		}
 		NOT = {
 			is_year = 1451
 		}
@@ -4836,17 +4667,14 @@ country_event = {
 			has_global_flag = wih_barbaracilli_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 30
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_barbaracilli_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.73.a
 		add_meritocracy_effect = yes
@@ -4876,7 +4704,6 @@ country_event = {
 	title = women_history_events.74.t
 	desc = women_history_events.74.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		is_year = 1450
 		tag = ETH
@@ -4884,7 +4711,9 @@ country_event = {
 			is_year = 1522
 		}
 		government = monarchy
-		NOT = { has_reform = steppe_horde }
+		NOT = {
+			has_reform = steppe_horde
+		}
 		OR = {
 			AND = {
 				NOT = {
@@ -4900,27 +4729,30 @@ country_event = {
 				}
 			}
 		}
-		NOT = { has_consort = yes }
+		NOT = {
+			has_consort = yes
+		}
 		NOT = {
 			has_global_flag = wih_eleniethiopia_flag
 		}
 		is_lesser_in_union = no
 		OR = {
-			NOT = { advisor_exists = 1611 }
-			NOT = { is_advisor_employed = 1611 }
+			NOT = {
+				advisor_exists = 1611
+			}
+			NOT = {
+				is_advisor_employed = 1611
+			}
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_eleniethiopia_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.74.a
 		add_adm_power = 100
@@ -4961,7 +4793,9 @@ country_event = {
 		}
 		if = {
 			limit = {
-				NOT = { has_dlc = "Rights of Man" }
+				NOT = {
+					has_dlc = "Rights of Man"
+				}
 			}
 			define_ruler = {
 				name = "Eleni"
@@ -4992,7 +4826,6 @@ country_event = {
 	title = women_history_events.75.t
 	desc = women_history_events.75.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = MLC
 		owns = 596
@@ -5014,25 +4847,20 @@ country_event = {
 			has_global_flag = wih_tunfatimah_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
-		
 		modifier = {
 			factor = 0.5
-			
 			POR = {
 				knows_country = ROOT
 			}
 		}
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_tunfatimah_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.75.a
 		add_meritocracy_effect = yes
@@ -5047,7 +4875,6 @@ country_event = {
 			skill = 2
 			female = yes
 		}
-
 	}
 	option = {
 		name = women_history_events.75.b
@@ -5068,9 +4895,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = careful_personality }
+			hidden_effect = {
+				add_ruler_personality = careful_personality
+			}
 		}
 	}
 }
@@ -5080,7 +4909,6 @@ country_event = {
 	title = women_history_events.76.t
 	desc = women_history_events.76.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		tag = PER
 		is_year = 1500
@@ -5097,17 +4925,14 @@ country_event = {
 			}
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_khayralnisabegum_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.76.a
 		add_adm_power = 100
@@ -5127,7 +4952,8 @@ country_event = {
 		name = women_history_events.76.b
 		define_ruler = {
 			name = "Khayr al-Nisa Begum"
-			dynasty = "Safavid" #Marashi
+			dynasty = "Safavid"
+			#Marashi
 			culture = mazandarani
 			adm = 5
 			dip = 4
@@ -5142,9 +4968,9 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { 
+			hidden_effect = {
 				add_ruler_personality = secretive_personality
 				add_ruler_personality = well_connected_personality
 			}
@@ -5157,7 +4983,6 @@ country_event = {
 	title = women_history_events.77.t
 	desc = women_history_events.77.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = RUS
 		is_year = 1657
@@ -5171,17 +4996,14 @@ country_event = {
 			has_global_flag = wih_sophiaalekseyevna_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_sophiaalekseyevna_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.77.a
 		add_adm_power = 100
@@ -5190,7 +5012,9 @@ country_event = {
 		add_meritocracy_effect = yes
 		if = {
 			limit = {
-				has_updated_culture = { culture = slavic }
+				has_updated_culture = {
+					culture = slavic
+				}
 			}
 			define_advisor = {
 				name = "Sophia Alekseyevna Romanov"
@@ -5216,7 +5040,9 @@ country_event = {
 		name = women_history_events.77.b
 		if = {
 			limit = {
-				has_updated_culture = { culture = slavic }
+				has_updated_culture = {
+					culture = slavic
+				}
 			}
 			define_ruler = {
 				name = "Sophia"
@@ -5241,9 +5067,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = fierce_negotiator_personality }
+			hidden_effect = {
+				add_ruler_personality = fierce_negotiator_personality
+			}
 		}
 	}
 }
@@ -5253,7 +5081,6 @@ country_event = {
 	title = women_history_events.78.t
 	desc = women_history_events.78.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			tag = ENG
@@ -5265,17 +5092,14 @@ country_event = {
 			has_global_flag = wih_marietussaud_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_marietussaud_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.78.a
 		add_meritocracy_effect = yes
@@ -5299,7 +5123,6 @@ country_event = {
 	title = women_history_events.79.t
 	desc = women_history_events.79.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = ASH
 		is_year = 1730
@@ -5310,22 +5133,18 @@ country_event = {
 			has_global_flag = wih_pokou_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
-		
 		modifier = {
 			factor = 0.5
 			owns = 1126
 		}
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_pokou_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.79.a
 		add_meritocracy_effect = yes
@@ -5352,7 +5171,6 @@ country_event = {
 	title = women_history_events.80.t
 	desc = women_history_events.80.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		is_year = 1584
 		NOT = {
@@ -5389,17 +5207,14 @@ country_event = {
 		is_lesser_in_union = no
 		government = monarchy
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_ratuhijau_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.80.a
 		add_adm_power = 100
@@ -5434,9 +5249,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = industrious_personality }
+			hidden_effect = {
+				add_ruler_personality = industrious_personality
+			}
 		}
 	}
 	option = {
@@ -5472,9 +5289,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = entrepreneur_personality }
+			hidden_effect = {
+				add_ruler_personality = entrepreneur_personality
+			}
 		}
 	}
 	option = {
@@ -5511,9 +5330,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = scholar_personality }
+			hidden_effect = {
+				add_ruler_personality = scholar_personality
+			}
 		}
 	}
 }
@@ -5523,7 +5344,6 @@ country_event = {
 	title = women_history_events.81.t
 	desc = women_history_events.81.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		is_year = 1689
 		NOT = {
@@ -5543,17 +5363,14 @@ country_event = {
 		is_lesser_in_union = no
 		government = monarchy
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_ranimangammal_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.81.a
 		add_adm_power = 100
@@ -5568,7 +5385,6 @@ country_event = {
 			skill = 2
 			female = yes
 		}
-
 	}
 	option = {
 		name = women_history_events.81.b
@@ -5589,9 +5405,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = tolerant_personality }
+			hidden_effect = {
+				add_ruler_personality = tolerant_personality
+			}
 		}
 	}
 }
@@ -5601,7 +5419,6 @@ country_event = {
 	title = women_history_events.82.t
 	desc = women_history_events.82.d
 	picture = wihgfx_FEMALE_GENERAL_eventPicture
-
 	trigger = {
 		any_owned_province = {
 			region = carribeans_region
@@ -5609,7 +5426,7 @@ country_event = {
 		capital_scope = {
 			continent = europe
 		}
-		is_year = 1700 
+		is_year = 1700
 		NOT = {
 			is_year = 1783
 		}
@@ -5617,10 +5434,8 @@ country_event = {
 			has_global_flag = wih_annebonny_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
-		
 		modifier = {
 			factor = 0.5
 			tag = IRE
@@ -5630,13 +5445,11 @@ country_event = {
 			has_global_flag = wih_maryread_flag
 		}
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_annebonny_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.82.a
 		add_meritocracy_effect = yes
@@ -5648,7 +5461,6 @@ country_event = {
 			skill = 3
 			female = yes
 		}
-
 	}
 	option = {
 		name = women_history_events.82.b
@@ -5667,7 +5479,6 @@ country_event = {
 	title = women_history_events.83.t
 	desc = women_history_events.83.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		tag = PAP
 		has_global_flag = borgia_pope_global
@@ -5679,17 +5490,14 @@ country_event = {
 			has_global_flag = wih_lucreziaborgia_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 12
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_lucreziaborgia_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.83.a
 		add_meritocracy_effect = yes
@@ -5701,7 +5509,6 @@ country_event = {
 			skill = 2
 			female = yes
 		}
-
 	}
 	option = {
 		name = women_history_events.83.b
@@ -5714,10 +5521,9 @@ country_event = {
 	title = women_history_events.84.t
 	desc = women_history_events.84.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = MUG
-		is_year = 1577 
+		is_year = 1577
 		NOT = {
 			is_year = 1645
 		}
@@ -5741,19 +5547,18 @@ country_event = {
 		}
 		is_lesser_in_union = no
 		government = monarchy
-		NOT = { has_reform = steppe_horde }
+		NOT = {
+			has_reform = steppe_horde
+		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_nurjahan_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.84.a
 		add_adm_power = 100
@@ -5768,7 +5573,6 @@ country_event = {
 			skill = 2
 			female = yes
 		}
-
 	}
 	option = {
 		name = women_history_events.84.b
@@ -5789,9 +5593,9 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { 
+			hidden_effect = {
 				add_ruler_personality = scholar_personality
 				add_ruler_personality = well_connected_personality
 			}
@@ -5804,7 +5608,6 @@ country_event = {
 	title = women_history_events.85.t
 	desc = women_history_events.85.d
 	picture = wihgfx_FEMALE_GENERAL_eventPicture
-
 	trigger = {
 		any_owned_province = {
 			region = carribeans_region
@@ -5812,7 +5615,7 @@ country_event = {
 		capital_scope = {
 			continent = europe
 		}
-		is_year = 1690 
+		is_year = 1690
 		NOT = {
 			is_year = 1783
 		}
@@ -5820,10 +5623,8 @@ country_event = {
 			has_global_flag = wih_maryread_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
-		
 		modifier = {
 			factor = 0.5
 			tag = ENG
@@ -5833,13 +5634,11 @@ country_event = {
 			has_global_flag = wih_annebonny_flag
 		}
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_maryread_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.85.a
 		add_adm_power = 50
@@ -5861,7 +5660,6 @@ country_event = {
 	title = women_history_events.86.t
 	desc = women_history_events.86.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		OR = {
 			tag = TIM
@@ -5875,17 +5673,14 @@ country_event = {
 			has_global_flag = wih_mumtazmahal_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_mumtazmahal_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.86.a
 		add_country_modifier = {
@@ -5896,7 +5691,9 @@ country_event = {
 	option = {
 		name = women_history_events.86.b
 		trigger = {
-			NOT = { has_country_flag = taj_mahal_exists }
+			NOT = {
+				has_country_flag = taj_mahal_exists
+			}
 		}
 		add_prestige = 10
 		set_country_flag = taj_mahal_exists
@@ -5913,14 +5710,13 @@ country_event = {
 		}
 	}
 }
-
 # Nanyehi
+
 country_event = {
 	id = women_history_events.87
 	title = women_history_events.87.t
 	desc = women_history_events.87.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		is_year = 1738
 		OR = {
@@ -5941,17 +5737,14 @@ country_event = {
 			has_global_flag = wih_nanyehi_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_nanyehi_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.87.a
 		add_meritocracy_effect = yes
@@ -5963,7 +5756,6 @@ country_event = {
 			skill = 2
 			female = yes
 		}
-
 	}
 	option = {
 		name = women_history_events.87.b
@@ -5979,7 +5771,6 @@ country_event = {
 	title = women_history_events.88.t
 	desc = women_history_events.88.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			tag = SWE
@@ -5993,17 +5784,14 @@ country_event = {
 			has_global_flag = wih_vendelaskytte_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_vendelaskytte_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.88.a
 		add_meritocracy_effect = yes
@@ -6015,7 +5803,6 @@ country_event = {
 			skill = 2
 			female = yes
 		}
-
 	}
 	option = {
 		name = women_history_events.88.b
@@ -6031,7 +5818,6 @@ country_event = {
 	title = women_history_events.89.t
 	desc = women_history_events.89.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		OR = {
 			tag = MLW
@@ -6050,19 +5836,18 @@ country_event = {
 		}
 		is_lesser_in_union = no
 		government = monarchy
-		NOT = { has_reform = steppe_horde }
+		NOT = {
+			has_reform = steppe_horde
+		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_ahilyabaiholkar_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.89.a
 		add_adm_power = 100
@@ -6111,11 +5896,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { 
+			hidden_effect = {
 				add_ruler_personality = tactical_genius_personality
-				add_ruler_personality = entrepreneur_personality 
+				add_ruler_personality = entrepreneur_personality
 			}
 		}
 	}
@@ -6126,7 +5911,6 @@ country_event = {
 	title = women_history_events.90.t
 	desc = women_history_events.90.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		tag = MUG
 		is_year = 1649
@@ -6137,17 +5921,14 @@ country_event = {
 			has_global_flag = wih_jahanzebbanubegum_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_jahanzebbanubegum_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.90.a
 		add_meritocracy_effect = yes
@@ -6158,7 +5939,6 @@ country_event = {
 			skill = 2
 			female = yes
 		}
-
 	}
 	option = {
 		name = women_history_events.90.b
@@ -6178,7 +5958,6 @@ country_event = {
 	title = women_history_events.91.t
 	desc = women_history_events.91.d
 	picture = wihgfx_FEMALE_GENERAL_eventPicture
-
 	trigger = {
 		OR = {
 			tag = QNG
@@ -6198,17 +5977,14 @@ country_event = {
 			has_global_flag = wih_chingshih_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_chingshih_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.91.a
 		add_meritocracy_effect = yes
@@ -6232,14 +6008,13 @@ country_event = {
 		}
 	}
 }
-
 # Mentewab
+
 country_event = {
 	id = women_history_events.92
 	title = women_history_events.92.t
 	desc = women_history_events.92.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = ETH
 		is_year = 1706
@@ -6254,17 +6029,14 @@ country_event = {
 		is_lesser_in_union = no
 		government = monarchy
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_mentewab_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.92.a
 		add_meritocracy_effect = yes
@@ -6299,9 +6071,9 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { 
+			hidden_effect = {
 				add_ruler_personality = inspiring_leader_personality
 				add_ruler_personality = architectural_visionary_personality
 			}
@@ -6314,7 +6086,6 @@ country_event = {
 	title = women_history_events.93.t
 	desc = women_history_events.93.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = TUR
 		is_year = 1550
@@ -6327,21 +6098,22 @@ country_event = {
 			has_global_flag = wih_safiyesultan_flag
 		}
 		OR = {
-			NOT = { advisor_exists = 1601 }
-			NOT = { is_advisor_employed = 1601 }
+			NOT = {
+				advisor_exists = 1601
+			}
+			NOT = {
+				is_advisor_employed = 1601
+			}
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_safiyesultan_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.93.a
 		add_meritocracy_effect = yes
@@ -6374,7 +6146,6 @@ country_event = {
 	title = women_history_events.94.t
 	desc = women_history_events.94.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		OR = {
 			tag = SWI
@@ -6390,17 +6161,14 @@ country_event = {
 			has_global_flag = wih_angelicakauffman_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_angelicakauffman_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.94.a
 		add_meritocracy_effect = yes
@@ -6412,7 +6180,6 @@ country_event = {
 			discount = yes
 			female = yes
 		}
-
 	}
 	option = {
 		name = women_history_events.94.b
@@ -6426,7 +6193,6 @@ country_event = {
 	title = women_history_events.95.t
 	desc = women_history_events.95.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = RUS
 		is_year = 1709
@@ -6440,17 +6206,14 @@ country_event = {
 		is_lesser_in_union = no
 		government = monarchy
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_elizabethrussia_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.95.a
 		add_adm_power = 100
@@ -6459,7 +6222,9 @@ country_event = {
 		add_meritocracy_effect = yes
 		if = {
 			limit = {
-				has_updated_culture = { culture = slavic }
+				has_updated_culture = {
+					culture = slavic
+				}
 			}
 			define_advisor = {
 				name = "Elizaveta Romanov"
@@ -6480,13 +6245,14 @@ country_event = {
 				female = yes
 			}
 		}
-
 	}
 	option = {
 		name = women_history_events.95.b
 		if = {
 			limit = {
-				has_updated_culture = { culture = slavic }
+				has_updated_culture = {
+					culture = slavic
+				}
 			}
 			define_ruler = {
 				name = "Elizaveta"
@@ -6517,11 +6283,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { 
+			hidden_effect = {
 				add_ruler_personality = silver_tongue_personality
-				add_ruler_personality = scholar_personality 
+				add_ruler_personality = scholar_personality
 			}
 		}
 	}
@@ -6532,7 +6298,6 @@ country_event = {
 	title = women_history_events.96.t
 	desc = women_history_events.96.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = RUS
 		is_year = 1693
@@ -6560,19 +6325,18 @@ country_event = {
 		}
 		is_lesser_in_union = no
 		government = monarchy
-		NOT = { has_reform = steppe_horde }
+		NOT = {
+			has_reform = steppe_horde
+		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_annarussia_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.96.a
 		add_adm_power = 100
@@ -6581,7 +6345,9 @@ country_event = {
 		add_meritocracy_effect = yes
 		if = {
 			limit = {
-				has_updated_culture = { culture = slavic }
+				has_updated_culture = {
+					culture = slavic
+				}
 			}
 			define_advisor = {
 				name = "Anna of Russia"
@@ -6607,7 +6373,9 @@ country_event = {
 		name = women_history_events.96.b
 		if = {
 			limit = {
-				has_updated_culture = { culture = slavic }
+				has_updated_culture = {
+					culture = slavic
+				}
 			}
 			define_ruler = {
 				name = "Anna"
@@ -6638,9 +6406,11 @@ country_event = {
 		}
 		if = {
 			limit = {
-				has_dlc = "Rights of Man" 
+				has_dlc = "Rights of Man"
 			}
-			hidden_effect = { add_ruler_personality = incorruptible_personality }
+			hidden_effect = {
+				add_ruler_personality = incorruptible_personality
+			}
 		}
 	}
 }
@@ -6650,7 +6420,6 @@ country_event = {
 	title = women_history_events.97.t
 	desc = women_history_events.97.d
 	picture = wihgfx_FEMALE_RULER_eventPicture
-
 	trigger = {
 		tag = TUR
 		is_year = 1525
@@ -6665,21 +6434,22 @@ country_event = {
 		is_lesser_in_union = no
 		government = monarchy
 		OR = {
-			NOT = { advisor_exists = 1602 }
-			NOT = { is_advisor_employed = 1602 }
+			NOT = {
+				advisor_exists = 1602
+			}
+			NOT = {
+				is_advisor_employed = 1602
+			}
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_nurbanusultan_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.97.a
 		add_adm_power = 100
@@ -6701,12 +6471,16 @@ country_event = {
 		trigger = {
 			OR = {
 				has_consort = no
-				NOT = { has_dlc = "Rights of Man" }
+				NOT = {
+					has_dlc = "Rights of Man"
+				}
 			}
 		}
 		if = {
 			limit = {
-				NOT = { has_dlc = "Rights of Man" }
+				NOT = {
+					has_dlc = "Rights of Man"
+				}
 			}
 			define_ruler = {
 				name = "Nurbanu Sultan"
@@ -6739,7 +6513,7 @@ country_event = {
 				mil = 3
 				female = yes
 			}
-			hidden_effect = { 
+			hidden_effect = {
 				add_queen_personality = secretive_personality
 				add_queen_personality = silver_tongue_personality
 			}
@@ -6752,10 +6526,9 @@ country_event = {
 	title = women_history_events.98.t
 	desc = women_history_events.98.d
 	picture = wihgfx_FEMALE_SCHOLAR_eventPicture
-
 	trigger = {
 		tag = KOR
-		is_year = 1504  
+		is_year = 1504
 		NOT = {
 			is_year = 1551
 		}
@@ -6763,23 +6536,22 @@ country_event = {
 			has_global_flag = wih_heonanseolheon_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_heonanseolheon_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.98.a
 		add_meritocracy_effect = yes
 		if = {
 			limit = {
-				has_updated_culture = { culture = korean }
+				has_updated_culture = {
+					culture = korean
+				}
 			}
 			define_advisor = {
 				name = "Heo Nanseolheon"
@@ -6809,14 +6581,13 @@ country_event = {
 		}
 	}
 }
-
 # Mariam-uz-Zamani
+
 country_event = {
 	id = women_history_events.99
 	title = women_history_events.99.t
 	desc = women_history_events.99.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		tag = MUG
 		is_year = 1542
@@ -6827,17 +6598,14 @@ country_event = {
 			has_global_flag = wih_mariamuzzamani_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_mariamuzzamani_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.99.a
 		add_meritocracy_effect = yes
@@ -6864,14 +6632,13 @@ country_event = {
 	title = women_history_events.100.t
 	desc = women_history_events.100.d
 	picture = wihgfx_FEMALES_eventPicture
-
 	trigger = {
 		OR = {
 			tag = POL
 			tag = LIT
 			tag = PLC
 		}
-		is_year = 1705  
+		is_year = 1705
 		NOT = {
 			is_year = 1753
 		}
@@ -6879,17 +6646,14 @@ country_event = {
 			has_global_flag = wih_franciszkaurszularadziwillowa_flag
 		}
 	}
-	
 	mean_time_to_happen = {
 		months = 200
 	}
-	
 	immediate = {
 		hidden_effect = {
 			set_global_flag = wih_franciszkaurszularadziwillowa_flag
 		}
 	}
-	
 	option = {
 		name = women_history_events.100.a
 		add_meritocracy_effect = yes

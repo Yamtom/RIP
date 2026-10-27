@@ -274,7 +274,7 @@ def check_hooks(event_text, mission_text, effect_text, onaction_text):
         try:
             block = normalized(_option_block(event_text, event_id, option))
         except KeyError:
-            problems.append(f"{option} is missing from events/PalanokFortress.txt")
+            problems.append(f"{option} is missing from events/RIP_UZH_PalanokFortress.txt")
             continue
         if f"{effect} = yes" not in block:
             problems.append(f"{option} does not call {effect}")
@@ -463,7 +463,7 @@ def main():
     texts = {
         "reform": read(REFORM_FILE),
         "gfx": read(GFX) if (ROOT / GFX).is_file() else "",
-        "events": read("events/PalanokFortress.txt"),
+        "events": read("events/RIP_UZH_PalanokFortress.txt"),
         "missions": read("missions/Zakarpatta_Missions.txt"),
         "effects": read(EFFECT_FILE),
         "onaction": read("common/on_actions/RIP_UZH_on_actions.txt"),

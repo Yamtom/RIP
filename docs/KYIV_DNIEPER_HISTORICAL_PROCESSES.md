@@ -15,12 +15,12 @@
 
 Вірменська й єврейська міські мережі в моді представлені трьома окремими
 місцями: ця київська подія, `dniester_armenian_merchants` на Дністрі, та
-єврейські купецькі привілеї міщанського стану (`events/JewishEstate.txt`,
+єврейські купецькі привілеї міщанського стану (`events/RIP_shared_estates_JewishEstate.txt`,
 `common/estate_privileges/RIP_shared_jewish_privileges.txt`). Православні братства -
 `orthodox_brotherhoods`, `pl_orthodox_brotherhoods`, `prl_brotherhood_schools`,
 `KIE_brotherhood_schools` і далі - теж на місці й задіяні подіями.
 
-Прогалиною була гайдамаччина, і її закрито в `events/Haidamaky.txt` - див.
+Прогалиною була гайдамаччина, і її закрито в `events/RIP_shared_cossack_Haidamaky.txt` - див.
 `docs/WEST_UKRAINE_HISTORY.md`.
 
 ---
@@ -346,7 +346,7 @@
 ## ТЕХНІЧНІ НОТАТКИ / TECHNICAL NOTES
 
 ### Файли / Files
-- **Події / Events**: `events/KyivDnieperHistorical.txt`
+- **Події / Events**: `events/RIP_shared_ruthenian_KyivDnieperHistorical.txt`
 - **Модифікатори / Modifiers**: `common/event_modifiers/kyiv_dnieper_modifiers.txt`
 - **Підключення подій**: `common/on_actions/RIP_KIE_on_actions.txt`
 - **Локалізація / Localization**: 

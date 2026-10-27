@@ -1,0 +1,62 @@
+namespace = rip_kamianets
+# ---------------------------------------------------------------------------
+# PDL - the four communities of Kamianets
+# ---------------------------------------------------------------------------
+
+country_event = {
+	id = rip_kamianets.1
+	title = rip_kamianets.1.t
+	desc = rip_kamianets.1.d
+	picture = RELIGION_eventPicture
+	trigger = {
+		has_reform = pdl_kamianets_concordat_reform
+		has_country_flag = pdl_four_communities_chartered
+		owns = 281
+	}
+	mean_time_to_happen = {
+		months = 60
+	}
+	option = {
+		# The Ruthenian magistrate.
+		name = rip_kamianets.1.a
+		ai_chance = {
+			factor = 25
+		}
+		add_stability = 1
+	}
+	option = {
+		# The Polish garrison.
+		name = rip_kamianets.1.b
+		ai_chance = {
+			factor = 25
+		}
+		add_army_tradition = 5
+	}
+	option = {
+		# The Armenian merchants.
+		name = rip_kamianets.1.c
+		ai_chance = {
+			factor = 30
+		}
+		add_years_of_income = 0.25
+		if = {
+			limit = {
+				has_country_modifier = pdl_armenian_caravans
+			}
+			remove_country_modifier = pdl_armenian_caravans
+		}
+		add_country_modifier = {
+			name = pdl_armenian_caravans
+			duration = 7300
+		}
+	}
+	option = {
+		# The kahal.
+		name = rip_kamianets.1.e
+		ai_chance = {
+			factor = 20
+		}
+		add_treasury = 75
+		add_prestige = 3
+	}
+}

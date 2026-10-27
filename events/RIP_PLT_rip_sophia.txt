@@ -1,0 +1,89 @@
+namespace = rip_sophia
+# ---------------------------------------------------------------------------
+# PLT - a candidate from Moscow
+# ---------------------------------------------------------------------------
+
+country_event = {
+	id = rip_sophia.1
+	title = rip_sophia.1.t
+	desc = rip_sophia.1.d
+	picture = RELIGION_eventPicture
+	trigger = {
+		has_reform = plt_sophian_autonomy_reform
+		exists = MOS
+		NOT = {
+			is_subject_of = MOS
+		}
+		NOT = {
+			has_country_modifier = plt_city_veto
+		}
+		NOT = {
+			has_country_modifier = plt_muscovite_bishop_accepted
+		}
+	}
+	mean_time_to_happen = {
+		months = 96
+	}
+	option = {
+		# Accept the candidate.
+		name = rip_sophia.1.a
+		ai_chance = {
+			factor = 15
+		}
+		add_country_modifier = {
+			name = plt_muscovite_bishop_accepted
+			duration = 7300
+		}
+		add_years_of_income = 0.2
+		if = {
+			limit = {
+				has_country_modifier = plt_nomocanon_sealed
+			}
+			remove_country_modifier = plt_nomocanon_sealed
+		}
+	}
+	option = {
+		# The city communities veto.
+		name = rip_sophia.1.b
+		ai_chance = {
+			factor = 60
+		}
+		add_country_modifier = {
+			name = plt_city_veto
+			duration = 1825
+		}
+		add_prestige = 5
+		if = {
+			limit = {
+				exists = MOS
+			}
+			MOS = {
+				add_opinion = {
+					who = ROOT
+					modifier = plt_vetoed_the_candidate
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_estate = estate_burghers
+			}
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 10
+			}
+		}
+	}
+	option = {
+		# Seat him under the Nomocanon.
+		name = rip_sophia.1.c
+		trigger = {
+			has_country_modifier = plt_nomocanon_sealed
+		}
+		ai_chance = {
+			factor = 25
+		}
+		add_prestige = 3
+		add_stability = 1
+	}
+}

@@ -7,7 +7,7 @@
 > не імпортували** - конвеєр 1.28 несумісний з поточним.
 >
 > Перевірено 2026-08-17: результат міграції на місці
-> (`decisions/HetmanateDecisions.txt`, `events/HetmanateLegacyEras.txt`,
+> (`decisions/HetmanateDecisions.txt`, `events/RIP_HET_HetmanateLegacyEras.txt`,
 > `localisation/het_legacy_eras_l_english.yml`), а `history/wars/` справді вже
 > вживає `PDL` і жодного `POD`. Один рядок матриці застарів - див. поправку.
 
@@ -43,7 +43,7 @@
 - Збережено позицію «лише аудит» щодо старих сирих даних.
 - Розширено наявну архітектуру гетьманських ланцюгів подій замість додавання нового дерева місій:
   - `decisions/HetmanateDecisions.txt`
-  - `events/HetmanateLegacyEras.txt`
+  - `events/RIP_HET_HetmanateLegacyEras.txt`
   - `localisation/het_legacy_eras_l_english.yml`
 
 ## Кандидати в беклог

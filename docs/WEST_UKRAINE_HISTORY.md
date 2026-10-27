@@ -23,7 +23,7 @@
 її. Наступне століття на Правобережжі - гайдамацьке, і в моді його не було
 взагалі: жодної згадки гайдамаків чи Коліївщини в жодному файлі.
 
-Додано `events/Haidamaky.txt`:
+Додано `events/RIP_shared_cossack_Haidamaky.txt`:
 
 | Подія | Коли | Хто |
 |---|---|---|
@@ -589,7 +589,7 @@
 ## Створені та змінені файли
 
 ### Файли подій
-- **events/WestUkraineHistory.txt** (новий, 1031 рядок)
+- **events/RIP_shared_west_ruthenian_WestUkraineHistory.txt** (новий, 1031 рядок)
   - 13 подій, `west_ukraine_history.1` — `.13`, зведених у шість ланцюгів нижче
   - Простір імен: `west_ukraine_history`
 

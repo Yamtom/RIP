@@ -271,7 +271,7 @@ def check_domination_russia(failures: list[str]) -> None:
 
 
 def check_russia_balance_event(failures: list[str]) -> None:
-    text = read("events/RIP_RussiaBalance.txt")
+    text = read("events/RIP_MOS_RUS_RussiaBalance.txt")
     require(failures, "namespace = rip_russia_balance" in text,
             "RIP Russia balance event must use its own namespace")
     matching_events = [
@@ -380,7 +380,7 @@ def check_ruthenian_eastward_expansion(failures: list[str]) -> None:
     require(failures, "add_claim = ROOT" in resolved_manchuria_effect and "add_permanent_claim" not in resolved_manchuria_effect,
             "ruthenian_manchurian_horizon: Manchurian claims must be temporary")
 
-    events_text = read("events/RuthenianEastwardExpansion.txt")
+    events_text = read("events/RIP_shared_ruthenian_RuthenianEastwardExpansion.txt")
     for event_id in ("ruthenian_eastward.2", "ruthenian_eastward.3"):
         matching = [
             block for _, block in keyed_blocks(events_text, "country_event")

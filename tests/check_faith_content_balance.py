@@ -10,7 +10,7 @@ from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized
 
 def event(text, event_id):
     return next(b for _, b in keyed_blocks(text, 'country_event')
-                if re.search(r'(?m)^\s*id\s*=\s*' + re.escape(event_id) + r'\s', b)
+                if re.search(r'\bid\s*=\s*([^\s}]+)', b)[1] == event_id
                 and re.search(r'(?m)^\s*title\s*=', b))
 
 
@@ -18,7 +18,7 @@ faith = read('common/religions/russian_orthodox.txt')
 triggers = read('common/scripted_triggers/rip_parish_visit_triggers.txt')
 effects = read('common/scripted_effects/rip_parish_visit_effects.txt')
 decisions = read('decisions/RIP_ParishVisit.txt')
-visit = event(read('events/RIP_ParishVisit.txt'), 'rip_parish_visit.1')
+visit = event(read('events/RIP_shared_church_ParishVisit.txt'), 'rip_parish_visit.1')
 gate = normalized(named_block(triggers, 'rip_can_fund_parish_visit'))
 for item in ('rip_church_ro_jurisdiction = yes', 'religion = greek_catholic',
              'treasury = 100', 'adm_power = 25', 'patriarch_authority = 0.05',
@@ -144,10 +144,10 @@ for filename in ('russian_orthodox_modifiers.txt', 'uniate_church_modifiers.txt'
     source = normalized(read('common/event_modifiers/' + filename))
     for key in ('administrative_efficiency', 'core_creation', 'technology_cost', 'discipline'):
         assert not re.search(r'\b' + key + r'\s*=', source), (filename, key)
-for filename in ('events/RussianOrthodox.txt', 'events/UniateChurch.txt'):
+for filename in ('events/RIP_shared_orthodox_RussianOrthodox.txt', 'events/RIP_shared_greek_catholic_UniateChurch.txt'):
     source = normalized(read(filename))
     assert not re.search(r'add_country_modifier\s*=\s*\{[^{}]*duration\s*=\s*-1', source), filename
-ro_events = read('events/RussianOrthodox.txt')
+ro_events = read('events/RIP_shared_orthodox_RussianOrthodox.txt')
 for n in (7, 9, 11, 13, 14):
     assert 'fire_only_once = yes' in event(ro_events, f'russian_orthodox.{n}')
 for n in (4, 5, 8, 12):
@@ -160,11 +160,11 @@ assert 'change_culture' not in named_block(ro_effects, 'russify_province_effect'
 gc_effects = read('common/scripted_effects/greek_catholic_effects.txt')
 assert not re.search(r'\badd_base_(?:tax|production|manpower)\s*=', gc_effects)
 assert 'rip_church_ro_accept_recognition_effect = yes' in named_block(ro_effects, 'establish_moscow_patriarchate_effect')
-assert 'NOT = { has_country_flag = rip_church_ro_provisional }' in event(ro_events, 'russian_orthodox.2')
+assert 'NOT = { has_country_flag = rip_church_ro_provisional }' in normalized(event(ro_events, 'russian_orthodox.2'))
 
 # The fixed country upkeep is conservative, not a hidden per-faith redefinition
 # The crown-chain signature must establish the state used by its late events.
-crown = read("events/UniateCrownUnion.txt")
+crown = read("events/RIP_shared_greek_catholic_UniateCrownUnion.txt")
 signature = named_block(read("common/scripted_effects/rip_uniate_crown_effects.txt"), "rip_ucr_take_the_church_effect")
 assert "rip_ucr_can_sign_the_union = yes" in named_block(signature, "limit")
 assert "set_country_flag = rip_ucr_church_taken" in signature

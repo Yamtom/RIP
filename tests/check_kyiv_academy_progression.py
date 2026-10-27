@@ -70,7 +70,7 @@ def test_decisions():
 
 
 def test_flavor_event():
-    event_file = ROOT / "events" / "HetmanateFlavor.txt"
+    event_file = ROOT / "events" / "RIP_HET_HetmanateFlavor.txt"
     content = event_file.read_text(encoding="utf-8")
     assert "id = het_flavor.2" in content
     assert "kyiv_brotherhood_collegium" in content

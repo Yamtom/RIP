@@ -348,8 +348,8 @@ for effect, needs_rights in (('rip_church_gc_infrastructure_effect', False), ('r
 # ---------------------------------------------------------------------------
 # 4. Volhynia and Galicia synod one-shots
 # ---------------------------------------------------------------------------
-VOL_FILE = 'events/Volhynia_Alt_History.txt'
-GAL_FILE = 'events/RIP_Galicia_AltHistory.txt'
+VOL_FILE = 'events/RIP_VOL_Volhynia_Alt_History.txt'
+GAL_FILE = 'events/RIP_HLC_Galicia_AltHistory.txt'
 
 
 def event_block(text, event_id):
@@ -404,7 +404,7 @@ for message in one_shot_errors(vol_now, gal_now):
 # ---------------------------------------------------------------------------
 # 5. Kyiv council estates and the church sobor
 # ---------------------------------------------------------------------------
-COUNCIL_FILE = 'events/RIP_ChurchCouncils.txt'
+COUNCIL_FILE = 'events/RIP_shared_greek_catholic_ChurchCouncils.txt'
 KYIV_FILE = 'decisions/KyivTriggers.txt'
 ESTATE_FOR_OPTION = {'a': 'estate_church', 'b': 'estate_burghers', 'c': 'estate_nobles'}
 # Not part of this repair: the AI numbers stay as shipped.
@@ -495,8 +495,9 @@ def planted(label, errors, expected_fragment=None):
 
 
 def swap(text, old, new):
-    assert old in text, f'planting anchor missing: {old!r}'
-    return text.replace(old, new, 1)
+    pattern = r'\s+'.join(re.escape(token) for token in old.split())
+    assert re.search(pattern, text), f'planting anchor missing: {old!r}'
+    return re.sub(pattern, lambda _: new, text, count=1)
 
 
 # Gates: put the shipped defect back into the current text.

@@ -4,7 +4,7 @@ import re
 from clausewitz_testlib import keyed_blocks, named_block, normalized, read
 
 
-events = read('events/UniateChurch.txt')
+events = read('events/RIP_shared_greek_catholic_UniateChurch.txt')
 proposal = next(
     block for _, block in keyed_blocks(events, 'country_event')
     if re.search(r'(?m)^\s*id\s*=\s*uniate_church\.1\s*$', block)
@@ -26,7 +26,8 @@ assert 'provincial_uniate_resistance' not in proposal_acceptance
 
 council = next(
     block for _, block in keyed_blocks(events, 'country_event')
-    if re.search(r'(?m)^\s*id\s*=\s*uniate_church\.2\s*$', block)
+    if re.search(r'\bid\s*=\s*([^\s}]+)', block)[1] == 'uniate_church.2'
+    and re.search(r'(?m)^\s*title\s*=', block)
 )
 council_options = {
     re.search(r'name\s*=\s*(uniate_church\.2\.[abc])', block)[1]: block

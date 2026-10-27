@@ -25,13 +25,13 @@
 
 | Роль | Файл |
 |---|---|
-| Події 1–16 | `events/SteppeRaiding.txt` |
+| Події 1–16 | `events/RIP_shared_steppe_SteppeRaiding.txt` |
 | Спільні ефекти ринку й реакцій | `common/scripted_effects/steppe_raid_effects.txt` |
 | Модифікатори подій і провінцій | `common/event_modifiers/steppe_raid_modifiers.txt` |
 | Модифікатори думки | `common/opinion_modifiers/RIP_opinion_modifiers.txt` |
 | Англійська локалізація | `localisation/zzz_steppe_raiding_l_english.yml` |
-| Загальна інтеграція набігів | `events/RaidMechanics.txt` |
-| Інтеграція Запорожжя й Гетьманщини | `events/ZaporizhiaFixes.txt`, `events/HetmanateCossackRaids.txt`, `common/scripted_effects/zaz_het_effects.txt` |
+| Загальна інтеграція набігів | `events/RIP_shared_steppe_RaidMechanics.txt` |
+| Інтеграція Запорожжя й Гетьманщини | `events/RIP_ZAZ_ZaporizhiaFixes.txt`, `events/RIP_HET_HetmanateCossackRaids.txt`, `common/scripted_effects/zaz_het_effects.txt` |
 | Політика місій щодо Кафи | `missions/Zaporozhie_Missions.txt` (`ZAZ_TUR_slave_trade`) |
 | Статичний регресійний контракт | `tests/check_steppe_expansions.py` |
 

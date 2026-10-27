@@ -1323,7 +1323,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "add_republican_tradition = 15" not in normalized(federalization),
         "UZH Federalization still requires mutually exclusive monarchy and republic missions",
     )
-    uzh_events = read("events/Uzh.txt")
+    uzh_events = read("events/RIP_UZH_Uzh.txt")
     rite_event = normalized(
         next(
             block
@@ -2022,7 +2022,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "pdl_migrate_legacy_galician_union_effect = yes" in startup,
         "old saves from the broken PDL-to-HLC union are not migrated safely",
     )
-    galicia_event = normalized(named_block(read("events/RIP_Galicia_AltHistory.txt"), "country_event"))
+    galicia_event = normalized(named_block(read("events/RIP_HLC_Galicia_AltHistory.txt"), "country_event"))
     require(
         failures,
         "id = rip_galicia.1" in galicia_event
@@ -2072,7 +2072,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and rank_two_gate in prl_regional_hegemony,
         "a Cossack/CHR/PRL rank-two reward can downgrade an empire",
     )
-    chernihiv_events = normalized(read("events/Chernihiv.txt"))
+    chernihiv_events = normalized(read("events/RIP_CHR_Chernihiv.txt"))
     chernihiv_independence = normalized(
         named_block(read("missions/Chernihiv_Missions.txt"), "chr_independence")
     )
@@ -2093,7 +2093,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "add_legitimacy = 20" not in prl_vassal_management,
         "PRL vassal-management mission gives its republican path a legitimacy no-op",
     )
-    prl_events = read("events/PereiaslavFlavor.txt")
+    prl_events = read("events/RIP_PRL_PereiaslavFlavor.txt")
     prl_council_event = normalized(
         named_block(prl_events, "country_event", occurrence=1)
     )
@@ -2217,7 +2217,7 @@ def check_linked_lifecycle(failures: list[str]) -> None:
         "ZAZ/HET regional triggers still depend on mislabeled redundant province IDs",
     )
 
-    union = normalized(named_block(read("events/UnionDispute.txt"), "country_event"))
+    union = normalized(named_block(read("events/RIP_shared_commonwealth_UnionDispute.txt"), "country_event"))
     require(
         failures,
         "set_country_flag = lit_union_path_open" in union
@@ -2226,7 +2226,7 @@ def check_linked_lifecycle(failures: list[str]) -> None:
     )
 
     # Select by stable event ID rather than its position in the file.
-    collegium_raw = next(block for _, block in keyed_blocks(read("events/HetmanateFlavor.txt"), "country_event")
+    collegium_raw = next(block for _, block in keyed_blocks(read("events/RIP_HET_HetmanateFlavor.txt"), "country_event")
                          if re.search(r'\bid\s*=\s*het_flavor\.12\b', block))
     collegium = normalized(collegium_raw)
     collegium_resistance = normalized(named_block(collegium_raw, "option", occurrence=2))

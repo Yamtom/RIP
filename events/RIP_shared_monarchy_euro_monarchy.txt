@@ -1,0 +1,99 @@
+namespace = euro_monarchy
+
+country_event = {
+	id = euro_monarchy.1
+	title = "euro_monarchy.1t"
+	desc = "euro_monarchy.1d"
+	picture = COUNTRY_COLLAPSE_eventPicture
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		has_reform = representation_monarchy_reform
+		OR = {
+			current_age = age_of_absolutism
+			current_age = age_of_revolutions
+		}
+	}
+	immediate = {
+		hidden_effect = {
+			set_country_flag = reactionary_response_flag
+		}
+	}
+	option = {
+		name = euro_monarchy.1a
+		if = {
+			limit = {
+				has_reform = boyar_elite_reform
+			}
+			add_government_reform = elected_assemblies_reform
+			add_stability = -2
+		}
+	}
+}
+
+country_event = {
+	id = euro_monarchy.2
+	title = "euro_monarchy.2t"
+	desc = "euro_monarchy.2d"
+	picture = LAND_MILITARY_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		has_disaster = governmental_disruption
+	}
+	fire_only_once = yes
+	option = {
+		name = euro_monarchy.2a
+		capital_scope = {
+			spawn_rebels = {
+				type = noble_rebels
+				size = 2
+			}
+		}
+		random_owned_province = {
+			spawn_rebels = {
+				type = noble_rebels
+				size = 1
+			}
+		}
+		random_owned_province = {
+			spawn_rebels = {
+				type = noble_rebels
+				size = 1
+			}
+		}
+		random_owned_province = {
+			spawn_rebels = {
+				type = noble_rebels
+				size = 1
+			}
+		}
+		random_owned_province = {
+			spawn_rebels = {
+				type = noble_rebels
+				size = 1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = euro_monarchy.3
+	title = "euro_monarchy.3t"
+	desc = "euro_monarchy.3d"
+	picture = FAMINE_eventPicture
+	fire_only_once = yes
+	is_triggered_only = yes
+	trigger = {
+		NOT = {
+			has_disaster = governmental_disruption
+		}
+		hidden_trigger = {
+			has_country_flag = reactionary_response_flag
+		}
+	}
+	option = {
+		name = euro_monarchy.3a
+		clr_country_flag = reactionary_response_flag
+		add_government_reform = ruthenian_principality_reform
+	}
+}

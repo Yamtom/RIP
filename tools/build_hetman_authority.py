@@ -6,6 +6,7 @@ only documented constant government-power effects; no guessed power export.
 from pathlib import Path
 import argparse
 import re
+from event_layout import layout
 
 ROOT = Path(__file__).resolve().parents[1]
 POWER = 'rip_het_authority'
@@ -24,6 +25,9 @@ def change(amount):
     return f'change_variable = {{ which = {VAR} value = {amount} }} rip_het_sync_effect = yes'
 
 def put(path, text):
+    if path.startswith('events/'):
+        OUT.update(layout(path, text))
+        return
     OUT[path] = text.strip() + '\n'
 
 put('common/scripted_triggers/rip_het_authority.txt', '''

@@ -17,7 +17,7 @@ from clausewitz_testlib import (read, named_block, keyed_blocks, normalized, ROO
 
 triggers = read('common/scripted_triggers/rip_diocesan_union_triggers.txt')
 decisions = read('decisions/RIP_DiocesanUnion.txt')
-events = read('events/RIP_DiocesanUnion.txt')
+events = read('events/RIP_shared_greek_catholic_DiocesanUnion.txt')
 
 patron = normalized(named_block(triggers, 'rip_du_catholic_patron'))
 assert 'religion = catholic' in patron
@@ -66,7 +66,7 @@ assert guard == execution_guard
 assert 'owned_by = FROM' in guard and 'rip_du_catholic_patron = yes' in guard
 assert 'dip_power = 50 years_of_income = 0.25' in guard
 assert 'trigger =' not in options[1]  # Always possible to dismiss a stale offer.
-assert 'add_dip_power = -50 add_years_of_income = -0.25' in options[0]
+assert 'add_dip_power = -50 add_years_of_income = -0.25' in normalized(options[0])
 assert options[0].index('add_dip_power') < options[0].index('random_list')
 accepted = named_block(options[0], '60')
 refused = named_block(options[0], '40')
@@ -386,7 +386,7 @@ if hab is not None:
 # --------------------------------------------------------------------------
 # khmelnytsky_events.7: the Catholic crown's second Brest path
 # --------------------------------------------------------------------------
-khmelnytsky_text = read('events/KhmelnytskyUprisings.txt')
+khmelnytsky_text = read('events/RIP_shared_cossack_KhmelnytskyUprisings.txt')
 k7 = next(block for _, block in keyed_blocks(khmelnytsky_text, 'country_event')
           if 'id = khmelnytsky_events.7' in block)
 k7_trigger = normalized(named_block(k7, 'trigger'))
@@ -428,7 +428,7 @@ if timeline_data.exists():
                 'rip_du_seat_open must list the answered flag of dated seat ' + row['id'])
         else:
             development_flags.add(flag)
-timeline = ROOT / 'events/RIP_EparchyHistory.txt'
+timeline = ROOT / 'events/RIP_shared_greek_catholic_EparchyHistory.txt'
 if timeline.exists():
     timeline_text = timeline.read_text(encoding='cp1252')
     answered = set(re.findall(r'set_province_flag\s*=\s*(rip_eparchy_\w+_answered)', timeline_text))
@@ -440,7 +440,7 @@ if timeline.exists():
         print('NOTE: answered flags not listed in rip_du_seat_open (the seat is closed '
               'through rip_du_approached instead): ' + ', '.join(uncovered))
 else:
-    print('NOTE: events/RIP_EparchyHistory.txt absent; the seat-lock interface is checked from this side only')
+    print('NOTE: events/RIP_shared_greek_catholic_EparchyHistory.txt absent; the seat-lock interface is checked from this side only')
 
 # Real text, defined once: no placeholder from zzz_missing may load later and win.
 khmelnytsky_loc = (ROOT / 'localisation/khmelnytsky_events_l_english.yml').read_text(encoding='utf-8-sig')

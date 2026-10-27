@@ -75,7 +75,7 @@ for language in ('english', 'french', 'german', 'spanish'):
 # take it rarely. The player is not restricted.
 decision = named_block(read('decisions/GreekCatholicDecisions.txt'), 'convert_to_greek_catholic_decision')
 assert re.search(r'ai_will_do\s*=\s*\{\s*factor\s*=\s*0\.02\b', normalized(named_block(decision, 'ai_will_do'))), 'AI adoption weight'
-proposal = read('events/UniateChurch.txt')
+proposal = normalized(read('events/RIP_shared_greek_catholic_UniateChurch.txt'))
 accept = re.search(r'name = uniate_church\.1\.a\s*ai_chance = \{ factor = (\d+) \}', proposal)
 reject = re.search(r'name = uniate_church\.1\.b\s*ai_chance = \{ factor = (\d+) \}', proposal)
 assert accept and reject and int(accept[1]) * 5 <= int(reject[1]), 'AI union proposal must lean to refusal'

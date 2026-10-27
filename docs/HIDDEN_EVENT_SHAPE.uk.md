@@ -11,9 +11,9 @@
 рядку на кожен відсутній ключ:
 
 ```
-[eventmanager.cpp:166]: Event #19800101 (rip_eparchy.101) is missing a title in events/RIP_EparchyHistory.txt
-[eventmanager.cpp:169]: Event #19800101 (rip_eparchy.101) is missing a desc in events/RIP_EparchyHistory.txt
-[eventmanager.cpp:175]: Event #19800101 (rip_eparchy.101) is missing picture in events/RIP_EparchyHistory.txt
+[eventmanager.cpp:166]: Event #19800101 (rip_eparchy.101) is missing a title in events/RIP_shared_greek_catholic_EparchyHistory.txt
+[eventmanager.cpp:169]: Event #19800101 (rip_eparchy.101) is missing a desc in events/RIP_shared_greek_catholic_EparchyHistory.txt
+[eventmanager.cpp:175]: Event #19800101 (rip_eparchy.101) is missing picture in events/RIP_shared_greek_catholic_EparchyHistory.txt
 ```
 
 Для події без жодного `option` додається ще один рядок `has no options`. Усього було 37 рядків від
@@ -51,10 +51,10 @@ country_event = {
 
 | Подія | Файл | Як виправлено |
 |---|---|---|
-| `rip_eparchy.101–105`, `rip_eparchy.201–205` | `events/RIP_EparchyHistory.txt` | **згенерований файл**: правка в `tools/build_eparchy_timeline.py` (константа `HIDDEN_SHAPE` після `id` обох стартерів), потім `python tools/build_eparchy_timeline.py` і `--check`. Ці події вже мали порожній `option` |
-| `rip_uzh_union.10` | `events/RIP_UzhLocalUnion.txt` | вручну: `title`, `desc`, `picture` = `none` після `id`; `option = { }` уже був |
+| `rip_eparchy.101–105`, `rip_eparchy.201–205` | `events/RIP_shared_greek_catholic_EparchyHistory.txt` | **згенерований файл**: правка в `tools/build_eparchy_timeline.py` (константа `HIDDEN_SHAPE` після `id` обох стартерів), потім `python tools/build_eparchy_timeline.py` і `--check`. Ці події вже мали порожній `option` |
+| `rip_uzh_union.10` | `events/RIP_UZH_UzhLocalUnion.txt` | вручну: `title`, `desc`, `picture` = `none` після `id`; `option = { }` уже був |
 | `rip_rg.900` | `events/RIP_RegionalGovernments.txt` | **згенерований файл**: правка одного рядка в `tools/build_regional_governments.py`, перегенерація; `--check` генератора проходить. Додано три ключі й `option = { }` |
-| `rip_ro_authority.1` | `events/RIP_OrthodoxAuthority.txt` | байт у байт та сама правка, що в коміті `1ba03af4` сесії церковних помилок (гілка `Clod/interesting-hamilton-d30c07`, ще не злита); без неї нова перевірка була б червоною. Злиття двох однакових правок конфліктів не дає |
+| `rip_ro_authority.1` | `events/RIP_shared_orthodox_OrthodoxAuthority.txt` | байт у байт та сама правка, що в коміті `1ba03af4` сесії церковних помилок (гілка `Clod/interesting-hamilton-d30c07`, ще не злита); без неї нова перевірка була б червоною. Злиття двох однакових правок конфліктів не дає |
 
 Дванадцять подій — це 10 + 1 + 1. У документі сесії церковних помилок
 (`docs/CHURCH_SCRIPT_ERRORS_20261019.uk.md`, ще не злитий) і в HANDOFF тієї сесії сказано «11»: це
@@ -127,6 +127,6 @@ EU4 1.37.5, ізольований профіль, 60 днів гри від 144
 
 ## Як додавати нову приховану подію
 
-Копіюйте `events/RIP_OrthodoxAuthority.txt`: `title = none`, `desc = none`, `picture = none` одразу
+Копіюйте `events/RIP_shared_orthodox_OrthodoxAuthority.txt`: `title = none`, `desc = none`, `picture = none` одразу
 після `id`, `hidden = yes` і порожній `option = { }` наприкінці. Якщо файл згенеровано, правте
 генератор і перегенеровуйте: `check_hidden_events.py` підкаже, який саме.

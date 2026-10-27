@@ -1,0 +1,40 @@
+namespace = bs_flavor
+
+country_event = {
+	id = bs_flavor.1
+	title = "bs_flavor.1t"
+	desc = "bs_flavor.1d"
+	picture = CIVIL_WAR_eventPicture
+	is_triggered_only = yes
+	trigger = {
+		tag = CRI
+		border_distance = {
+			who = GEN
+			distance = 10
+		}
+	}
+	option = {
+		name = "bs_flavor.1a"
+		add_country_modifier = {
+			name = GEN_compass
+			duration = 365
+		}
+		GEN = {
+			add_mercantilism = 5
+		}
+		ai_chance = {
+			factor = 0.9
+		}
+		add_truce_with = GEN
+	}
+	option = {
+		name = "bs_flavor.1b"
+		declare_war_with_cb = {
+			who = GEN
+			casus_belli = cb_border_war
+		}
+		ai_chance = {
+			factor = 0.1
+		}
+	}
+}

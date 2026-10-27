@@ -12,7 +12,7 @@ Verifies:
    - provinces_to_highlight present for Podillian marchland provinces.
    - Gated on west_ukraine_pdl_origin_country, peacetime, stability >= 0, cooldown.
    - Calls event pdl_border_policy.1.
-2. Event pdl_border_policy.1 in events/PodilliaBorderPolicy.txt:
+2. Event pdl_border_policy.1 in events/RIP_PDL_PodilliaBorderPolicy.txt:
    - Option a = patrols, b = town statute, c = mobile defence, then a free cancel; nothing is charged by the event itself.
    - Every constitutional path has its own variant (frontier, carpathian, magnate); each variant sends the AI straight to
      its commit effect and a human to the land-selection window of the same variant (an existing rip_rg event).
@@ -60,7 +60,7 @@ def test_decision():
 
 
 def test_events():
-    events = read("events/PodilliaBorderPolicy.txt")
+    events = read("events/RIP_PDL_PodilliaBorderPolicy.txt")
     assert "namespace = pdl_border_policy" in events
 
     root_event = named_block(events, "country_event")
@@ -81,7 +81,7 @@ def test_events():
     assert not re.search(r"\badd_(country|province)_modifier\b|\badd_treasury\b|_power =", flat), "the entry point must not charge or apply anything itself"
     assert not re.search(r"\belse(_if)?\s*=\s*\{", flat), "else / else_if drops country_event in EU4 1.37.5; use plain `if` blocks"
 
-    regional = read("events/RIP_RegionalGovernments.txt")
+    regional = read("events/RIP_PDL_RegionalGovernments.txt")
     effects = read("common/scripted_effects/rip_regional_government_effects.txt")
     for group, variants in VARIANTS.items():
         option = normalized(next(block for block in options if f"name = pdl_border_policy.1.{OPTION_OF[group]}" in block))

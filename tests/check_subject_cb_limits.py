@@ -141,9 +141,9 @@ def check_zaporozhia(failures: list[str]) -> None:
 
 def check_recurring_events(failures: list[str]) -> None:
     cases = (
-        ("events/HetmanateMoldovanExpansion.txt", "het_moldova.4"),
-        ("events/HetmanateSuccession.txt", "het_succession.5"),
-        ("events/Ruina.txt", "ruina_events.4"),
+        ("events/RIP_HET_HetmanateMoldovanExpansion.txt", "het_moldova.4"),
+        ("events/RIP_HET_HetmanateSuccession.txt", "het_succession.5"),
+        ("events/RIP_HET_Ruina.txt", "ruina_events.4"),
     )
     for relative, block_name in cases:
         block = event_block(read(relative), block_name)
@@ -154,7 +154,7 @@ def check_recurring_events(failures: list[str]) -> None:
     require(failures, "valid_for_personal_unions_trigger = yes" in uzh,
             "uz_crown_of_saint_stephen: HUN PU eligibility guard is missing")
 
-    svydrigaylo = event_block(read("events/svydrigaylo_independence.txt"), "svydrigaylo.001")
+    svydrigaylo = event_block(read("events/RIP_shared_west_ruthenian_svydrigaylo_independence.txt"), "svydrigaylo.001")
     require(failures, "months = 120" in svydrigaylo,
             "svydrigaylo.001: vassal CB needs an explicit 120-month duration")
 

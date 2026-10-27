@@ -15,7 +15,7 @@ of a scripted trigger inside `available`) is recorded in that document.
     steppe power and say so through custom_trigger_tooltip.
   * The Watch never touches the Podillian border policy: it adds no second independent set of bonuses
     there (docs/REGIONAL_REFORM_AUDIT.uk.md).
-  * events/SteppeRaiding.txt, steppe_raid.2 and only it, treats the tower line and the settled watch as a
+  * events/RIP_shared_steppe_SteppeRaiding.txt, steppe_raid.2 and only it, treats the tower line and the settled watch as a
     defended province and the patrols as a national defence.
   * The steppe-power definition equals the church layer's, word for word.
   * The three modifiers have the designed numbers, the right scope, text and a name; the clear-up effect
@@ -118,9 +118,10 @@ def read_dds(path):
 
 
 def raid_event(text):
-    start = text.index("\tid = steppe_raid.2")
-    end = text.index("\tid = steppe_raid.3")
-    return text[start:end]
+    from clausewitz_testlib import keyed_blocks
+    return next(block for _, block in keyed_blocks(text, 'country_event')
+                if re.search(r'\bid\s*=\s*([^\s}]+)', block)[1] == 'steppe_raid.2'
+                and re.search(r'(?m)^\s*title\s*=', block))
 
 
 # --------------------------------------------------------------------------
@@ -439,7 +440,7 @@ def sources():
         "on_actions": read("common/on_actions/rip_reform_mechanics_on_actions.txt"),
         "church": read("common/scripted_triggers/rip_church_policy_triggers.txt"),
         "modifiers": read("common/event_modifiers/rip_border_watch_modifiers.txt"),
-        "raid": read("events/SteppeRaiding.txt"),
+        "raid": read("events/RIP_shared_steppe_SteppeRaiding.txt"),
         "loc": loc_text("english"),
         "scripts": scripts,
     }

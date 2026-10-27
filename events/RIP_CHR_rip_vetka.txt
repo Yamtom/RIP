@@ -1,0 +1,146 @@
+namespace = rip_vetka
+# ---------------------------------------------------------------------------
+# CHR - the refuge on the Vetka
+# ---------------------------------------------------------------------------
+# Refugees. They come while Moscow presses the old rite; each admission is a
+# refugee in chr_ob_refugees, and the decision chr_grant_sloboda_to_old_believers
+# spends one to plant a sloboda.
+
+country_event = {
+	id = rip_vetka.1
+	title = rip_vetka.1.t
+	desc = rip_vetka.1.d
+	picture = RELIGION_eventPicture
+	trigger = {
+		has_reform = chr_vetka_asylum_reform
+		rip_moscow_has_driven_out_the_old_rite = yes
+		NOT = {
+			has_country_modifier = chr_metropolitan_displeasure
+		}
+	}
+	mean_time_to_happen = {
+		months = 36
+	}
+	option = {
+		# Open the forest roads.
+		name = rip_vetka.1.a
+		ai_chance = {
+			factor = 55
+		}
+		change_variable = {
+			which = chr_ob_refugees
+			value = 2
+		}
+		add_manpower = 2
+	}
+	option = {
+		# Admit only the craftsmen and merchants.
+		name = rip_vetka.1.b
+		ai_chance = {
+			factor = 35
+		}
+		change_variable = {
+			which = chr_ob_refugees
+			value = 1
+		}
+		add_years_of_income = 0.15
+	}
+	option = {
+		# Turn them back at the border.
+		name = rip_vetka.1.c
+		ai_chance = {
+			factor = 10
+		}
+		add_prestige = -3
+		if = {
+			limit = {
+				has_estate = estate_church
+			}
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 5
+			}
+		}
+	}
+}
+# The metropolitan of Chernihiv complains. Tolerance of the heretics has a
+# price, and the price rises with every sloboda.
+
+country_event = {
+	id = rip_vetka.2
+	title = rip_vetka.2.t
+	desc = rip_vetka.2.d
+	picture = RELIGION_eventPicture
+	trigger = {
+		has_reform = chr_vetka_asylum_reform
+		check_variable = {
+			which = chr_ob_slobody
+			value = 3
+		}
+		NOT = {
+			has_country_modifier = chr_metropolitan_displeasure
+		}
+		NOT = {
+			has_country_modifier = chr_edinoverie_compromise
+		}
+	}
+	mean_time_to_happen = {
+		months = 24
+	}
+	option = {
+		# Hear the metropolitan.
+		name = rip_vetka.2.a
+		ai_chance = {
+			factor = 40
+		}
+		change_variable = {
+			which = chr_ob_slobody
+			value = -1
+		}
+		random_owned_province = {
+			limit = {
+				has_province_modifier = chr_old_believer_sloboda
+			}
+			remove_province_modifier = chr_old_believer_sloboda
+		}
+		if = {
+			limit = {
+				has_estate = estate_church
+			}
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 10
+			}
+		}
+	}
+	option = {
+		# The charters stand.
+		name = rip_vetka.2.b
+		ai_chance = {
+			factor = 40
+		}
+		add_country_modifier = {
+			name = chr_metropolitan_displeasure
+			duration = 3650
+		}
+	}
+	option = {
+		# Common-faith parishes.
+		name = rip_vetka.2.c
+		trigger = {
+			adm_power = 50
+		}
+		ai_chance = {
+			factor = 20
+		}
+		add_adm_power = -50
+		change_variable = {
+			which = chr_ob_slobody
+			value = -2
+		}
+		add_country_modifier = {
+			name = chr_edinoverie_compromise
+			duration = 7300
+		}
+	}
+}

@@ -304,7 +304,7 @@ Kyivan Seniority тепер показує власні емблеми снем�
 - `uzh_palanok_captaincy_reform` замість ванільних фракцій має `states_general_mechanic` (Res Publica або Winds of
   Change) з двома сторонами: `partia_soymu` (ліва, торговий Сейм) і `partia_kapitaniv` (права, замкові капітани).
   Структурний `land_morale = -0.05` лишається; із сторонами чистий результат: Сейм −5%, Капітани +5%. Шкалу рухають
-  `common/scripted_effects/uzh_states_general_effects.txt`, `events/PalanokFortress.txt` і
+  `common/scripted_effects/uzh_states_general_effects.txt`, `events/RIP_UZH_PalanokFortress.txt` і
   `missions/Zakarpatta_Missions.txt`; термінові вибори зсувають її на 0,33 (ванільна `elections.720`). Тест:
   `tests/check_uzh_states_general.py`. Поля династії (`queen = yes`, `heir = no`) обґрунтовано за ванільними
   «королями-солдатами»; поведінка консорта після виборів у кампанії не перевірялась.

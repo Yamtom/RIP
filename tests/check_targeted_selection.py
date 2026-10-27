@@ -62,7 +62,7 @@ def test_volhynian_territorial_concessions():
     assert "country_event = { id = rip_vln_concessions.1 }" in decision
 
     # Event check
-    events = read("events/VolhynianConcessions.txt")
+    events = read("events/RIP_VLN_VolhynianConcessions.txt")
     event = named_block(events, "country_event")
     assert "id = rip_vln_concessions.1" in event
     assert "owns = 2962" in event, "Ostrozky Rivne/Ostroh option"

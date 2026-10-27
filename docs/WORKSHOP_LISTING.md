@@ -158,10 +158,10 @@ python tests/check_docs_language.py
 
 | Де | Написано | Насправді | У коментарі |
 |---|---|---|---|
-| `events/SteppeRaiding.txt:435` | `2410` | Theodoro | Yedisan |
-| `events/SteppeRaiding.txt:436` | `2447` | Mantrega | Budjak |
-| `events/SteppeRaiding.txt:437` | `2416` | Majar | Kuban |
-| `events/SteppeRaiding.txt:504` | `1082` | **Казань** | Нижній Яїк |
+| `events/RIP_shared_steppe_SteppeRaiding.txt:435` | `2410` | Theodoro | Yedisan |
+| `events/RIP_shared_steppe_SteppeRaiding.txt:436` | `2447` | Mantrega | Budjak |
+| `events/RIP_shared_steppe_SteppeRaiding.txt:437` | `2416` | Majar | Kuban |
+| `events/RIP_shared_steppe_SteppeRaiding.txt:504` | `1082` | **Казань** | Нижній Яїк |
 | `common/scripted_triggers/zaz_het_triggers.txt:51` | `2410` | Theodoro | Khortytsia |
 | `common/scripted_triggers/zaz_het_triggers.txt:52` | `2411` | Mansur | Samara |
 | `common/scripted_triggers/zaz_het_triggers.txt:267` | `2408` | Lipetsk | Sumy |

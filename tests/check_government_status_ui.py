@@ -21,7 +21,7 @@ for power, factors in [(g.concord,g.concord_factors),(g.gathering,g.gather_facto
             actual.add((normalized(trigger[trigger.index('{')+1:trigger.rfind('}')]),float(m[1])))
     displayed={(normalized(trigger),float(value)) for _,trigger,value,_ in factors}
     assert actual == displayed, (power, actual ^ displayed)
-annual_source=normalized(read('events/RuthenianDecadence.txt'))
+annual_source=normalized(read('events/RIP_KRU_RuthenianDecadence.txt'))
 for _,trigger,value,_ in g.annual:
     expected=normalized('if = { limit = { '+trigger+' } change_variable = { which = ruthenian_decadence value = '+str(value)+' } }')
     assert expected in annual_source, expected

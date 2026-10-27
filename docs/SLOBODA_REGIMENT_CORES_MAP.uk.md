@@ -473,9 +473,9 @@ country_decisions = {
 
 | Приклад | Як зроблено |
 |---|---|
-| `events/OdesaRepublic.txt`, `odesa_republic.1` | 1794–1806, власник `282`, `NOT = { exists = ODS }`; варіант: `282 = { add_core = ODS }`, `release = ODS`, потім `change_government` і реформа вже на новому тегу |
-| `events/QasimKhanate.txt`, `qasim_khanate.1` | `release = QAS`, потім `create_subject = { subject_type = vassal subject = QAS }`; коментар у файлі: тег має ванільну корку на `1778`, але країни нема, її треба звільнити, перш ніж робити підданою |
-| `events/RIP_RuthenianDiaspora.txt`, `rip_diaspora.20`, `.21` | у `immediate` корки `ZLK` і `SRK` ставляться на придатні провінції власника, у варіанті — `release`, `vassalize`, а тоді `change_primary_culture` і `change_religion` на новому тегу |
+| `events/RIP_ODS_OdesaRepublic.txt`, `odesa_republic.1` | 1794–1806, власник `282`, `NOT = { exists = ODS }`; варіант: `282 = { add_core = ODS }`, `release = ODS`, потім `change_government` і реформа вже на новому тегу |
+| `events/RIP_QAS_QasimKhanate.txt`, `qasim_khanate.1` | `release = QAS`, потім `create_subject = { subject_type = vassal subject = QAS }`; коментар у файлі: тег має ванільну корку на `1778`, але країни нема, її треба звільнити, перш ніж робити підданою |
+| `events/RIP_shared_ruthenian_RuthenianDiaspora.txt`, `rip_diaspora.20`, `.21` | у `immediate` корки `ZLK` і `SRK` ставляться на придатні провінції власника, у варіанті — `release`, `vassalize`, а тоді `change_primary_culture` і `change_religion` на новому тегу |
 | `common/scripted_effects/zaz_path_effects.txt` | `cede_province = ROOT`, `add_core = ROOT`, `change_culture = ROOT` для нової провінції Січі |
 
 У двох із трьох прикладів (`ODS`, `ZLK`/`SRK`) корка й звільнення стоять в одному ефекті події, і подія захищена від
@@ -488,7 +488,7 @@ country_decisions = {
 
 | Спосіб | Що перевірено | Висновок |
 |---|---|---|
-| Ефект `release = TAG` у скрипті | 66 рядків `release = <ТЕГ>` у 33 файлах ванільних `events/`, `decisions/`, `missions/`, `common/` і ще понад 20 із посиланням на область виконання (дж). Вікі Paradox: поточна країна звільняє всі свої провінції з корками вказаного тега (дж). Модові приклади: `events/OdesaRepublic.txt` (`282 = { add_core = ODS }`, `release = ODS`), `events/QasimKhanate.txt`, `events/RIP_RuthenianDiaspora.txt` (`ZLK`, `SRK`) | **основний шлях для полків** |
+| Ефект `release = TAG` у скрипті | 66 рядків `release = <ТЕГ>` у 33 файлах ванільних `events/`, `decisions/`, `missions/`, `common/` і ще понад 20 із посиланням на область виконання (дж). Вікі Paradox: поточна країна звільняє всі свої провінції з корками вказаного тега (дж). Модові приклади: `events/RIP_ODS_OdesaRepublic.txt` (`282 = { add_core = ODS }`, `release = ODS`), `events/RIP_QAS_QasimKhanate.txt`, `events/RIP_shared_ruthenian_RuthenianDiaspora.txt` (`ZLK`, `SRK`) | **основний шлях для полків** |
 | Вибір «Release» у мирному договорі (`po_release_annexed`) | У `common/peace_treaties/00_peace_treaties.txt` про звільнення є лише коментар до ваги `released_nation`; умови зашито в рушій. Ванільні рядки інтерфейсу (`PEACEOFFER_RELEASE`, `COUNTRY_CANNOT_RELEASE`) говорять про «корки країни» провінцій переможеного | корки на старті дають змогу звільнити KHK вже 1444 року після війни; що саме вимагає рушій, зі скрипту не видно, не перевірено |
 | Звільнення наявного підданого (`release = <поддана країна>`; у `countrydiplomacyview.gui` список `vassal_select_list` і рядок «Click on a shield to release as Dependency» — призначення вікна виведено з назв) | `request_protectorate` у ванільних діях викликає `release = PREV` для кожного підданого; атрибути `can_release_in_peace`, `can_release_and_play` у `common/subject_types` | стосується тегів, що вже існують |
 | Дипломатична дія «звільнити тег, якого немає» | Серед `common/new_diplomatic_actions` лише `release_pronia`, `release_soyurghal`, `release_nahuatl_tributary`, і всі діють на наявну країну | **такої дії у ваніллі немає**: ціль дії мусить існувати |
@@ -506,7 +506,7 @@ country_decisions = {
 
 | Умова | Де видно | Примітка |
 |---|---|---|
-| Тега не існує: `NOT = { exists = TAG }` | `decisions/ReleasePrussia.txt`, `events/OdesaRepublic.txt` | для вже існуючого тега `release` діє інакше (звільняє поддану країну) |
+| Тега не існує: `NOT = { exists = TAG }` | `decisions/ReleasePrussia.txt`, `events/RIP_ODS_OdesaRepublic.txt` | для вже існуючого тега `release` діє інакше (звільняє поддану країну) |
 | У власника є провінція з корками цього тега | у 45 із 66 ванільних викликів `release = <ТЕГ>` за 25 рядків до нього стоїть `add_core = <той самий ТЕГ>` (`ReleasePrussia`, `flavorCRI`, `Dharma_Mission_Events`, `FlavorBUR`); решта 21 (`disaster_GeorgianCrisis`, `flavorHUN`, `FlavorPirates` та інші) корок не додає, спираючись, імовірно, на вже наявні | корка потрібна (за вікі Paradox, ефект бере лише провінції з корками); чому в 21 випадку її не додано, не з'ясовано |
 | Мир: `is_at_war = no` | `boh_release_prussia` | пр: так само |
 | Власник вільний: `is_free_or_tributary_trigger = yes` | `boh_release_prussia`; тригер у `common/scripted_triggers/00_scripted_triggers.txt` | суб'єкт без суверенітету не може |
@@ -728,8 +728,8 @@ country_decisions = {
   `events/Dharma_Mission_Events.txt`, `common/scripted_triggers/00_scripted_triggers.txt`.
 - Файли мода: `history/countries/{KHK,SMY,OKH,IZM}*.txt`, `history/provinces/{289,290,291,298,299,1945,2408,4542,4543}*.txt`,
   `common/province_names/*.txt`, `decisions/CossackHostFormation.txt`, `common/scripted_effects/rip_cossack_host_naming_effects.txt`,
-  `events/RIP.txt` (`sloboda_history.*`), `events/OdesaRepublic.txt`, `events/QasimKhanate.txt`,
-  `events/RIP_RuthenianDiaspora.txt`, `common/government_reforms/RIP_shared_cossack_government_reforms.txt`,
+  `events/RIP.txt` (`sloboda_history.*`), `events/RIP_ODS_OdesaRepublic.txt`, `events/RIP_QAS_QasimKhanate.txt`,
+  `events/RIP_shared_ruthenian_RuthenianDiaspora.txt`, `common/government_reforms/RIP_shared_cossack_government_reforms.txt`,
   `tests/check_province_names.py`, `tests/dev_tools/README.md`, `docs/STYLE_GLOSSARY.md` (розд. 4),
   `docs/SLOBOZHANSHCHYNA_HISTORICAL_PROCESSES.md`.
 

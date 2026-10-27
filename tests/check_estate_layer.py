@@ -163,10 +163,10 @@ def check_shared_jewish(failures: list[str]) -> None:
             require(failures, Counter(tags) == Counter(JEWISH_TAGS),
                     f"{relative}::{key}: {gate} tag set differs from the shared contract")
 
-    trigger = named_block(event_block(read("events/JewishEstate.txt"), "rip_jewish.1"), "trigger")
+    trigger = named_block(event_block(read("events/RIP_shared_estates_JewishEstate.txt"), "rip_jewish.1"), "trigger")
     event_tags = re.findall(r"\btag\s*=\s*([A-Z0-9]{3})\b", trigger)
     require(failures, Counter(event_tags) == Counter(JEWISH_TAGS),
-            "events/JewishEstate.txt::rip_jewish.1: tag gate differs from its privileges")
+            "events/RIP_shared_estates_JewishEstate.txt::rip_jewish.1: tag gate differs from its privileges")
 
 
 def check_registrations(failures: list[str], custom_privileges: set[str]) -> None:

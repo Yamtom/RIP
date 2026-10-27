@@ -360,7 +360,7 @@ def contracts():
     # All country paths use the same idempotent bridge; province loops cannot call it.
     # The old automatic Union-centre event file is intentionally retired.
     assert not (ROOT / 'events/UniateReformationSpread.txt').exists()
-    for filename in ('events/RussianOrthodox.txt', 'events/UniateChurch.txt', 'decisions/GreekCatholicDecisions.txt'):
+    for filename in ('events/RIP_shared_orthodox_RussianOrthodox.txt', 'events/RIP_shared_greek_catholic_UniateChurch.txt', 'decisions/GreekCatholicDecisions.txt'):
         source = normalized(read(filename))
         assert not re.search(r'change_religion = (?:russian_orthodox|greek_catholic)', source), filename
         assert not re.search(r'add_base_(?:tax|production|manpower)\s*=', source), filename
@@ -388,13 +388,13 @@ def contracts():
     brest_effect = named_block(brest, 'effect')
     assert 'set_country_flag = pursuing_uniate_union' in brest_effect
     assert 'set_country_flag = union_of_brest_happened' in brest_effect
-    brest_event = read('events/UniateChurch.txt')
-    assert brest_event.count('trigger = { rip_uc_can_accept_brest_trigger = yes }') == 2
+    brest_event = read('events/RIP_shared_greek_catholic_UniateChurch.txt')
+    assert normalized(brest_event).count('trigger = { rip_uc_can_accept_brest_trigger = yes }') == 2
     assert brest_event.count('set_country_flag = union_of_brest_happened') == 2
-    khmelnytsky = next(block for _, block in keyed_blocks(read('events/KhmelnytskyUprisings.txt'), 'country_event')
+    khmelnytsky = next(block for _, block in keyed_blocks(read('events/RIP_shared_cossack_KhmelnytskyUprisings.txt'), 'country_event')
                        if 'id = khmelnytsky_events.7' in block)
     assert 'is_year = 1596' in named_block(khmelnytsky, 'trigger')
-    west_events = read('events/WestUkraineHistory.txt')
+    west_events = read('events/RIP_shared_west_ruthenian_WestUkraineHistory.txt')
     west_union = next(block for _, block in keyed_blocks(west_events, 'country_event')
                       if 'id = west_ukraine_history.3' in block)
     assert 'is_year = 1596' in named_block(west_union, 'trigger')
@@ -422,9 +422,9 @@ def contracts():
     assert ('is_year', '1596') in brest_gate
     # The Greek Catholic conversion profile belonged to the retired Union centre.
     assert not (ROOT / 'common/religious_conversions/zz_RIP_greek_catholic.txt').exists()
-    events = read('events/OrthodoxCrusade.txt')
+    events = read('events/RIP_shared_orthodox_OrthodoxCrusade.txt')
     assert not re.search(r'add_base_|change_religion\s*=', events)
-    assert 'rip_faith_pilgrimage_recent duration = 3650' in events
+    assert 'rip_faith_pilgrimage_recent duration = 3650' in normalized(events)
     # Exact tier equality prevents compatibility from buffing the buildings.
     install = vanilla_root()
     if install:

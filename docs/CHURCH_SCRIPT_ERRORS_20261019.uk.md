@@ -13,7 +13,7 @@
 |---|---|---|---|---|
 | 1 | `decisions/RIP_RO_Communion.txt` | невідомий тригер `rip_church_ro_can_break_communion` | відкіт `fa1d6ee5` зняв тригер і повернув умови в усі виклики, крім цього рішення | мир, стабільність 1, 100 DIP, без очікуваного примирення й ціна (100 DIP, 1 стабільності) записані в самому рішенні |
 | 2 | `decisions/GreekCatholicDecisions.txt` | «Unexpected token: `rip_church_union_supporter`», рядок 105 | не тригер, а рядок 86: `any_allied_country` — такого тригера в EU4 немає; усе після нього розібрано хибно | `any_ally` |
-| 3 | `events/RIP_OrthodoxAuthority.txt` | подія `rip_ro_authority.1` без `title`, `desc`, `picture`, «has no options» | подію навмисно лишено для старих сейвів, але без форми прихованої події, яку вимагає рушій | `title`, `desc`, `picture` = `none` і порожній `option` |
+| 3 | `events/RIP_shared_orthodox_OrthodoxAuthority.txt` | подія `rip_ro_authority.1` без `title`, `desc`, `picture`, «has no options» | подію навмисно лишено для старих сейвів, але без форми прихованої події, яку вимагає рушій | `title`, `desc`, `picture` = `none` і порожній `option` |
 
 У грі (ізольований профіль, 1444.11.11, 360 днів) з правками нема жодного з 25 різних
 рядків, які ці три групи писали в базовому прогоні, і нема жодного нового рядка. Обидва

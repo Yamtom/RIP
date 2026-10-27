@@ -273,7 +273,7 @@ for policy in ('war', 'mission'):
 # Historical imperial settlements must clear once before adding both markers.
 # A second clear used to erase the marker immediately before it in each caller.
 events = {dict(body)['id']: body
-          for kind, body in parse(read('events/RussianOrthodox.txt'))
+          for kind, body in parse(read('events/RIP_shared_orthodox_RussianOrthodox.txt'))
           if kind == 'country_event' and 'title' in dict(body)}
 
 

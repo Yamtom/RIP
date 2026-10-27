@@ -99,7 +99,7 @@
 
 - **Місії**: `missions/Volhynia_Missions.txt`, від рядка 2580.
 - **Модифікатори**: `common/event_modifiers/VOL_mission_modifiers.txt`
-- **Події**: `events/VOL_path_events.txt`
+- **Події**: `events/RIP_VOL_VOL_path_events.txt`
 - **Локалізація**: `localisation/VOL_austrian_polish_missions_l_english.yml`
   та `localisation/VOL_path_events_l_english.yml`
 

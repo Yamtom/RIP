@@ -7,7 +7,7 @@ from church_testlib import World, EFFECTS, TRIGGERS, parse
 from clausewitz_testlib import read, named_block
 
 events = {}
-for path in ('events/RussianOrthodox.txt', 'events/RIP_RO_InstitutionalHistory.txt'):
+for path in ('events/RIP_shared_orthodox_RussianOrthodox.txt', 'events/RIP_shared_orthodox_RO_InstitutionalHistory.txt'):
     for kind, body in parse(read(path)):
         if kind == 'country_event' and 'title' in dict(body):
             events[dict(body)['id']] = body
@@ -112,7 +112,7 @@ assert not available(w_without_jurisdiction, c_without_jurisdiction, 'russian_or
 cases += 1
 
 # The national church events are jurisdiction-gated, not confession-gated.
-province_event_3 = next(body for kind, body in parse(read('events/RussianOrthodox.txt'))
+province_event_3 = next(body for kind, body in parse(read('events/RIP_shared_orthodox_RussianOrthodox.txt'))
                         if kind == 'province_event' and dict(body)['id'] == 'russian_orthodox.3')
 assert contains_pair(dict(province_event_3)['trigger'], ('rip_church_ro_jurisdiction', 'yes'))
 for event_id in ('russian_orthodox.4', 'russian_orthodox.5', 'russian_orthodox.7',
@@ -314,7 +314,7 @@ def walk(nodes):
             yield from walk(value)
 
 
-faith_events = {dict(body)['id']: body for kind, body in parse(read('events/RIP_FaithDisasters.txt'))
+faith_events = {dict(body)['id']: body for kind, body in parse(read('events/RIP_shared_church_FaithDisasters.txt'))
                 if kind == 'country_event'}
 searches = [('russian_orthodox.6', events['russian_orthodox.6']),
             ('rip_ro_old_believer_rising_effect', EFFECTS['rip_ro_old_believer_rising_effect'])]

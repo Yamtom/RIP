@@ -80,7 +80,7 @@ was returning every six місяців.
 не повториться.
 
 Ще два коментарі в репозиторії називають ці самі провінції неправильно, і
-довіряти їм не варто: `events/SteppeRaiding.txt` зве `1082` Нижнім Яїком, а це
+довіряти їм не варто: `events/RIP_shared_steppe_SteppeRaiding.txt` зве `1082` Нижнім Яїком, а це
 не так. Розбір див. у `docs/WORKSHOP_LISTING.md`.
 
 ## Історичний контекст
@@ -431,8 +431,8 @@ was returning every six місяців.
 ## Створені файли/Modified
 
 ### Нові файли
-1. **events/BorderPrincipalities.txt** — 12 подій про зміну зверхника
-2. **events/QasimKhanate.txt** — 6 подій про Касимов і липків
+1. **events/RIP_shared_frontier_BorderPrincipalities.txt** — 12 подій про зміну зверхника
+2. **events/RIP_QAS_QasimKhanate.txt** — 6 подій про Касимов і липків
 3. **common/event_modifiers/border_principalities_modifiers.txt** — понад 30 модифікаторів
 4. **localisation/border_principalities_l_english.yml** — локалізація подій і модифікаторів
 5. **localisation/qasim_khanate_l_english.yml** — локалізація касимовських подій

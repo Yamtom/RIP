@@ -6,7 +6,7 @@ also owned by tools/ro_history_localisation.py: this file adds Old Believer
 keys, it never overrides a Muscovite-history one.
 
 The keys are read by common/religions/zzz_old_believer.txt,
-common/rebel_types/old_believer.txt, events/RIP_OldBelievers.txt,
+common/rebel_types/old_believer.txt, events/RIP_shared_orthodox_OldBelievers.txt,
 decisions/RIP_OldBelievers.txt and
 common/event_modifiers/rip_old_believer_modifiers.txt. The three strings of the
 console fixture live next to it, in tests/dev_tools/rip_ob_test_l_english.yml.

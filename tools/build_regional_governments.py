@@ -2,11 +2,21 @@
 from pathlib import Path
 import argparse
 import re
+from event_layout import layout
 
 ROOT = Path(__file__).resolve().parents[1]
 CHECK = False
 
 def emit(path, text, bom=False):
+    if path.startswith('events/'):
+        for destination, content in layout(path, text).items():
+            dest = ROOT / destination
+            data = content.encode('utf-8')
+            if CHECK:
+                assert dest.read_bytes().replace(b'\r\n', b'\n') == data, f'Stale generated output: {destination}'
+            else:
+                dest.write_bytes(data)
+        return
     data = text.replace('\r\n','\n').replace('\n','\r\n').encode('utf-8-sig' if bom else 'utf-8')
     dest = ROOT / path
     if CHECK:

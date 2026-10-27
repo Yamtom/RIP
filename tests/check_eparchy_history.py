@@ -274,6 +274,8 @@ def event_problems(data: dict, events: str, triggers: str, loc_keys: set[str]) -
         if missing:
             continue
         dated, late, visible = blocks[ids['dated']], blocks[ids['late']], blocks[ids['visible']]
+        dated_code = re.sub(r'\s+', ' ', dated)
+        late_code = re.sub(r'\s+', ' ', late)
         for role, block in (('dated starter', dated), ('late starter', late)):
             if not re.search(r'(?m)^\s*hidden\s*=\s*yes', block):
                 problems.append(f"{row['id']}: {role} is not hidden")
@@ -295,22 +297,22 @@ def event_problems(data: dict, events: str, triggers: str, loc_keys: set[str]) -
             problems.append(f"{row['id']}: dated starter lacks fire_only_once (the shape the engine probes measured)")
         if n['date_window'] not in dated or n['possible'] not in dated:
             problems.append(f"{row['id']}: dated starter must test its date window and possible")
-        if f"NOT = {{ has_province_flag = {n['scheduled']} }}" not in dated:
+        if f"NOT = {{ has_province_flag = {n['scheduled']} }}" not in dated_code:
             problems.append(f"{row['id']}: dated starter does not guard itself with the scheduled flag; with MTTH 1 day it would schedule the event again")
         if f"set_province_flag = {n['scheduled']}" not in dated:
             problems.append(f"{row['id']}: dated starter never sets the scheduled flag")
-        if f"province_event = {{ id = {ids['visible']} days = {data['dated_delay_days']} }}" not in dated:
+        if f"province_event = {{ id = {ids['visible']} days = {data['dated_delay_days']} }}" not in dated_code:
             problems.append(f"{row['id']}: dated starter does not schedule the visible event {data['dated_delay_days']} days on")
         expected_mtth = f"months = {row['spread_months']}" if row['spread_months'] else 'days = 1'
-        if f'mean_time_to_happen = {{ {expected_mtth} }}' not in dated:
+        if f'mean_time_to_happen = {{ {expected_mtth} }}' not in dated_code:
             problems.append(f"{row['id']}: dated starter MTTH should be {expected_mtth}")
         if n['late_window'] not in late or n['possible'] not in late:
             problems.append(f"{row['id']}: late starter must test its late window and possible")
-        if f"had_province_flag = {{ flag = {n['scheduled']} days = {data['late_retry_days']} }}" not in late:
+        if f"had_province_flag = {{ flag = {n['scheduled']} days = {data['late_retry_days']} }}" not in late_code:
             problems.append(f"{row['id']}: late starter does not wait for a stale scheduled flag")
-        if f"set_province_flag = {n['late_flag']}" not in late or f"province_event = {{ id = {ids['visible']} }}" not in late:
+        if f"set_province_flag = {n['late_flag']}" not in late_code or f"province_event = {{ id = {ids['visible']} }}" not in late_code:
             problems.append(f"{row['id']}: late starter must set the late flag and fire the visible event")
-        if f"mean_time_to_happen = {{ months = {data['late_mtth_months']} }}" not in late:
+        if f"mean_time_to_happen = {{ months = {data['late_mtth_months']} }}" not in late_code:
             problems.append(f"{row['id']}: late starter MTTH months = {data['late_mtth_months']} missing")
         # Visible event.
         if not re.search(r'(?m)^\s*is_triggered_only\s*=\s*yes', visible):
@@ -330,6 +332,7 @@ def event_problems(data: dict, events: str, triggers: str, loc_keys: set[str]) -
         options = re.split(r'(?m)^\toption = \{', visible)[1:]
         if len(options) == 2:
             a, b = options
+            a, b = re.sub(r'\s+', ' ', a), re.sub(r'\s+', ' ', b)
             if keys['a'] not in a or 'ai_chance = { factor = 90 }' not in a:
                 problems.append(f"{row['id']}: option a must be {keys['a']} with ai_chance 90")
             if keys['b'] not in b or 'ai_chance = { factor = 10 }' not in b:
@@ -747,8 +750,11 @@ def planted(data: dict, files: dict[str, str], definitions, doc: str, loc_keys: 
         return clone
 
     def replace_once(text, old, new):
-        assert old in text, old
-        return text.replace(old, new, 1)
+        # Mutations target the same tokens after event formatting changes.
+        pattern = r'\s+'.join(re.escape(part) for part in old.split())
+        match = re.search(pattern, text)
+        assert match, old
+        return text[:match.start()] + new.strip() + text[match.end():]
 
     def visible_block(text):
         return event_blocks(text)[visible_id]

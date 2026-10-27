@@ -66,7 +66,7 @@
 
 ## 4. Суперечка Польщі й Литви
 
-`events/UnionDispute.txt` — одинадцять подій; `decisions/UnionDispute.txt` —
+`events/RIP_shared_commonwealth_UnionDispute.txt` — одинадцять подій; `decisions/UnionDispute.txt` —
 п'ять рішень.
 
 | Подія | Коли | Про що |
@@ -101,11 +101,11 @@
 
 ## 5. Конфесійне розходження
 
-`events/LithuanianConfession.txt` — одинадцять подій: вісім із Вільна й три з
+`events/RIP_LIT_LithuanianConfession.txt` — одинадцять подій: вісім із Вільна й три з
 Кракова. Це **половина Великого
 князівства** тієї історії, яку мод уже розповідає для Речі Посполитої загалом у
-`events/CommonwealthReformation.txt` (магнатський кальвінізм, Варшавська
-конфедерація, католицьке відвоювання) і `events/UniateChurch.txt` (Берестя й
+`events/RIP_shared_commonwealth_CommonwealthReformation.txt` (магнатський кальвінізм, Варшавська
+конфедерація, католицьке відвоювання) і `events/RIP_shared_greek_catholic_UniateChurch.txt` (Берестя й
 після нього). Ланцюг читає їхні прапорці — `pl_magnate_reformation`,
 `pl_warsaw_confederation`, `pl_catholic_recovery`, `uniate_union_proposed` — і
 ставить питання, якого ті ланцюги не ставлять: **що буде, коли двір і країна

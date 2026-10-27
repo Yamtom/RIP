@@ -181,11 +181,11 @@ russian_orthodox = {
 
 ---
 
-### 4. Події (`events/RussianOrthodox.txt`)
+### 4. Події (`events/RIP_shared_orthodox_RussianOrthodox.txt`)
 
 **Будова події:**
 > Шаблон прибрано: це загальний синтаксис EU4, а не щось
-> специфічне для мода. Чинні події дивіться в `events/RussianOrthodox.txt`.
+> специфічне для мода. Чинні події дивіться в `events/RIP_shared_orthodox_RussianOrthodox.txt`.
 
 **Розряди подій:**
 

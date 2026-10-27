@@ -54,7 +54,7 @@ def load_events(*paths):
     return found
 
 
-EVENTS = load_events('events/RussianOrthodox.txt', 'events/RIP_FaithDisasters.txt', 'events/RIP_OldBelievers.txt')
+EVENTS = load_events('events/RIP_shared_orthodox_RussianOrthodox.txt', 'events/RIP_shared_church_FaithDisasters.txt', 'events/RIP_shared_orthodox_OldBelievers.txt')
 
 
 def choose(world, scope, event, option):
@@ -454,7 +454,7 @@ choose(w, c, 'rip_faith_disaster.2', 'rip_faith_disaster.2.a')
 assert 'rip_ro_raskol_settled' in c['flags']
 assert faiths(w) == before and {k: dict(p['flags']) for k, p in w.provinces.items()} == before_flags
 assert 'rip_ob_toleration' in c['flags'], 'the policy outlives the disaster'
-ending = read('events/RIP_FaithDisasters.txt').split('id = rip_faith_disaster.2', 1)[1].split('country_event', 1)[0]
+ending = read('events/RIP_shared_church_FaithDisasters.txt').split('id = rip_faith_disaster.2', 1)[1].split('country_event', 1)[0]
 assert 'change_religion' not in ending and 'clr_province_flag' not in ending and 'rip_ob_' not in ending
 cases += 1
 
@@ -483,13 +483,13 @@ assert 'rip_ob_begin_schism_effect = yes' in named_block(history, 'rip_church_ro
 compromise = named_block(history, 'rip_church_ro_ritual_compromise_effect')
 assert not re.search(r'\brip_ob_\w+_effect\s*=\s*yes', compromise), 'a compromise founds no community or policy'
 for path in ('common/scripted_effects/rip_old_believer_effects.txt', 'common/scripted_triggers/rip_old_believer_triggers.txt',
-             'common/event_modifiers/rip_old_believer_modifiers.txt', 'events/RIP_OldBelievers.txt',
+             'common/event_modifiers/rip_old_believer_modifiers.txt', 'events/RIP_shared_orthodox_OldBelievers.txt',
              'decisions/RIP_OldBelievers.txt', 'common/on_actions/RIP_religion_old_believer_on_actions.txt'):
     text = read(path)
     assert 'add_opinion' not in text, path + ': add_opinion is dropped inside else_if/else bodies of scripted effects'
     assert not re.search(r'\belse(_if)?\s*=', text), path + ': else/else_if is the trap the engine measured; use exclusive ifs'
 for path in ('common/scripted_triggers/rip_old_believer_triggers.txt', 'common/scripted_effects/rip_old_believer_effects.txt',
-             'events/RIP_FaithDisasters.txt', 'common/disasters/rip_faith_disasters.txt'):
+             'events/RIP_shared_church_FaithDisasters.txt', 'common/disasters/rip_faith_disasters.txt'):
     assert 'rip_ob_crisis' not in read(path), path
 assert 'rip_ob_test' not in ''.join(p.read_bytes().decode('cp1252', 'replace') for p in (ROOT / 'events').glob('*.txt')), \
     'the console fixture belongs in tests/dev_tools; in events/ the game loads it'
@@ -499,13 +499,13 @@ for call in sorted(set(re.findall(r'\brip_ob_\w+_effect\b', fixture))):
 for trigger in sorted(set(re.findall(r'\brip_ob_\w+\s*=\s*yes', fixture))):
     assert trigger.split()[0] in EFFECTS or trigger.split()[0] in TRIGGERS, \
         'the console fixture reads an undefined helper: ' + trigger
-ids = re.findall(r'^\s*id = (rip_ob\.\d+)', read('events/RIP_OldBelievers.txt'), re.M)
+ids = re.findall(r'^\s*id = (rip_ob\.\d+)', read('events/RIP_shared_orthodox_OldBelievers.txt'), re.M)
 assert ids == ['rip_ob.2', 'rip_ob.3'] and len(set(ids)) == len(ids)
 rebels = read('common/rebel_types/old_believer.txt')
 assert 'dominant_religion = old_believer' in rebels and 'religion = orthodox' not in rebels
 # The opening repression option has one Old Believer rebel spawn, and only in
 # an eligible non-capital parish; victory there may change the majority faith.
-disaster_text = read('events/RIP_FaithDisasters.txt')
+disaster_text = read('events/RIP_shared_church_FaithDisasters.txt')
 assert disaster_text.count('type = old_believer_rebels') == 1
 disaster_repression = next(
     dict(body)
@@ -525,7 +525,7 @@ assert ('OR', [('has_province_flag', 'rip_ob_community'),
 
 # The other historical Old Believer rebel spawn is the 1666 council's explicit
 # repression choice, not part of the Orthodox conversion wave.
-russian_orthodox_text = read('events/RussianOrthodox.txt')
+russian_orthodox_text = read('events/RIP_shared_orthodox_RussianOrthodox.txt')
 assert russian_orthodox_text.count('type = old_believer_rebels') == 1
 council_repression = next(
     dict(body)

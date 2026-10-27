@@ -10,7 +10,7 @@ from church_testlib import World as BaseWorld, parse, TRIGGERS, EFFECTS
 TRIGGERS.update(parse(read('common/scripted_triggers/rip_dniester_triggers.txt')))
 EFFECTS.update(parse(read('common/scripted_effects/rip_dniester_effects.txt')))
 DECISIONS = dict(dict(parse(read('decisions/DniesterEstuaryDecisions.txt')))['country_decisions'])
-EVENTS = {dict(body)['id']: body for key, body in parse(read('events/DniesterEstuary.txt')) if key == 'country_event'}
+EVENTS = {dict(body)['id']: body for key, body in parse(read('events/RIP_shared_frontier_DniesterEstuary.txt')) if key == 'country_event'}
 
 
 class World(BaseWorld):
@@ -143,7 +143,7 @@ def dated_councils():
 
 
 def static_contracts():
-    for filename in ('decisions/DniesterEstuaryDecisions.txt', 'events/DniesterEstuary.txt'):
+    for filename in ('decisions/DniesterEstuaryDecisions.txt', 'events/RIP_shared_frontier_DniesterEstuary.txt'):
         assert not re.search(r'\b(?:282|2410)\b', read(filename))
     assert len(DECISIONS) == 6
     for name, body in DECISIONS.items():

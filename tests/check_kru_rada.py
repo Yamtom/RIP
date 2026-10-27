@@ -329,7 +329,7 @@ def check_logic(triggers_text, effects_text, kru_effects_text, runs=3000, seed=1
 
 def check_sources(files):
     problems = []
-    for relative in ('events/RuthenianDecadence.txt', 'common/disasters/kru_disasters.txt',
+    for relative in ('events/RIP_KRU_RuthenianDecadence.txt', 'common/disasters/kru_disasters.txt',
                      'common/scripted_triggers/su_south_ukraine_triggers.txt'):
         text = files[relative]
         if 'has_reform = ruthenian_factional_empire' in text:
@@ -363,7 +363,7 @@ def check_sources(files):
     actions = normalized(files['common/on_actions/RIP_KRU_on_actions.txt'])
     if 'on_monthly_pulse = { events = { ruthenian_factions.21 } }' not in actions or 'ruthenian_factions.20' not in actions:
         problems.append('RIP_KRU_on_actions.txt does not run the monthly refresh (ruthenian_factions.21) and the yearly one (.20)')
-    events = files['events/RuthenianFactional.txt']
+    events = files['events/RIP_KRU_RuthenianFactional.txt']
     monthly = events[events.index('id = ruthenian_factions.21'):].split('id = ruthenian_factions.20')[0]
     if 'kru_refresh_factional_court_effect = yes' not in monthly or 'hidden = yes' not in monthly:
         problems.append('ruthenian_factions.21 is not a hidden event that refreshes the Rada')
@@ -433,10 +433,10 @@ def load_loc():
 
 
 def sources():
-    names = ('events/RuthenianDecadence.txt', 'decisions/KyivTriggers.txt', 'common/disasters/kru_disasters.txt',
+    names = ('events/RIP_KRU_RuthenianDecadence.txt', 'decisions/KyivTriggers.txt', 'common/disasters/kru_disasters.txt',
              'common/scripted_triggers/su_south_ukraine_triggers.txt', 'common/government_mechanics/rip_ruthenian_factional_court.txt',
              'common/governments/00_governments.txt', 'common/government_names/000_RIP_names.txt', 'common/on_actions/RIP_KRU_on_actions.txt',
-             'events/RuthenianFactional.txt', 'common/scripted_effects/kru_effects.txt')
+             'events/RIP_KRU_RuthenianFactional.txt', 'common/scripted_effects/kru_effects.txt')
     return {name: read(name) for name in names}
 
 
@@ -463,7 +463,7 @@ def planted(reform_text, triggers_text, effects_text, kru_effects_text, files, l
         'a refresh that skips the pair': check_logic(triggers_text, effects_text, swap(kru_effects_text, '\tkru_rada_rank_effect = yes\n', '', 1), runs=300),
         'a junior voice for any runner-up': check_logic(triggers_text, effects_text, kru_effects_text.replace('influence = 38', 'influence = 20'), runs=300),
         'old flags that survive a refresh': check_logic(triggers_text, swap(effects_text, '\tclr_country_flag = kru_previous_dominant_boyary\n', '', 1), kru_effects_text, runs=300),
-        'a file that names a Rada id again': check_sources({**files, 'events/RuthenianDecadence.txt': files['events/RuthenianDecadence.txt'] + '\nhas_reform = ruthenian_factional_empire_reform\n'}),
+        'a file that names a Rada id again': check_sources({**files, 'events/RIP_KRU_RuthenianDecadence.txt': files['events/RIP_KRU_RuthenianDecadence.txt'] + '\nhas_reform = ruthenian_factional_empire_reform\n'}),
         'a court mechanic that asks the scripted trigger': check_sources({**files, 'common/government_mechanics/rip_ruthenian_factional_court.txt': swap(files['common/government_mechanics/rip_ruthenian_factional_court.txt'], '\t\t\thas_reform = ruthenian_factional_empire_reform\n', '\t\t\tkru_holds_rada_reform = yes\n', 1)}),
         'a court button that refreshes before it adds': check_sources({**files, 'common/government_mechanics/rip_ruthenian_factional_court.txt': swap(files['common/government_mechanics/rip_ruthenian_factional_court.txt'], 'add_faction_influence = {\n\t\t\t\t\tfaction = kru_boyary\n\t\t\t\t\tinfluence = 25\n\t\t\t\t}', 'kru_refresh_factional_court_effect = yes\n\t\t\t\tadd_faction_influence = {\n\t\t\t\t\tfaction = kru_boyary\n\t\t\t\t\tinfluence = 25\n\t\t\t\t}', 1).replace('add_treasury = 50\n\t\t\t\tkru_refresh_factional_court_effect = yes', 'add_treasury = 50', 1)}),
         'a reform id missing from the tier lists': check_sources({**files, 'common/governments/00_governments.txt': files['common/governments/00_governments.txt'].replace('ruthenian_factional_empire_hetmans_boyars_reform', 'x')}),

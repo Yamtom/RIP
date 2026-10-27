@@ -72,7 +72,7 @@ annual = [
  ('Legitimacy','NOT = { legitimacy = 50 }',1,'legitimacy below 50'),
  ('StabGood','stability = 2',-3,'stability at least +2'),
  ('Peace','is_at_war = no',-2,'at peace')]
-# The decadence number is a country variable that the first yearly review creates (events/RuthenianDecadence.txt, rip_decadence_initialized).
+# The decadence number is a country variable that the first yearly review creates (events/RIP_KRU_RuthenianDecadence.txt, rip_decadence_initialized).
 # Printing it with [Root.ruthenian_decadence.GetValue] FAILS while the variable does not exist: measured in EU4 1.37.5, the row showed nothing and the
 # engine wrote "Unknown text property 'GetValue]..." once per frame (9.3 million lines, 1 GB, in five hours with the window open). A defined_text ladder
 # reads a missing variable as "no", so it never errors; the colours follow the panel's own thresholds (crisis from 90, retreat below 75).

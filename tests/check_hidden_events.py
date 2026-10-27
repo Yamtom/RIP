@@ -49,7 +49,7 @@ TOKEN = re.compile(r'#[^\n]*|"(?:[^"\\\n]|\\.)*"?|[=<>]=?|!=|\?=|[{}]|[^\s={}<>"
 OPERATORS = frozenset(('=', '==', '<', '>', '<=', '>=', '!=', '?='))
 
 FIX_HINT = ('Fix: give the event the vanilla hidden-event shape - `title = none`, `desc = none`, `picture = none` '
-            'right after `id`, and an `option = { }` (a model: events/RIP_OrthodoxAuthority.txt). EU4 writes "is missing a '
+            'right after `id`, and an `option = { }` (a model: events/RIP_shared_orthodox_OrthodoxAuthority.txt). EU4 writes "is missing a '
             'title / desc / picture" and "has no options" to error.log for every event without these keys, hidden or not.')
 
 

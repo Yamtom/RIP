@@ -210,7 +210,7 @@ def main() -> int:
         "common/scripted_triggers/zaz_mechanics_triggers.txt": (
             "has_province_modifier = hetmanate_capital",
         ),
-        "events/DniesterEstuary.txt": (
+        "events/RIP_shared_frontier_DniesterEstuary.txt": (
             "has_province_modifier = dniester_cossack_raids_threat",
             "name = dniester_anti_raid_fortifications",
         ),

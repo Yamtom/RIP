@@ -2,7 +2,7 @@
 import re
 from clausewitz_testlib import read, named_block, keyed_blocks, normalized
 
-events = read('events/RIP_HabsburgGreekCatholic.txt')
+events = read('events/RIP_shared_greek_catholic_HabsburgGreekCatholic.txt')
 blocks = {re.search(r'id\s*=\s*(rip_hgc\.\d+)', b).group(1): b for _, b in keyed_blocks(events, 'country_event')}
 assert set(blocks) == {'rip_hgc.1', 'rip_hgc.2'}, sorted(blocks)
 
@@ -30,7 +30,7 @@ for eid in blocks:
 assert '19 September 1771' in loc and 'Eximia regalium' in loc and '1774' in loc and 'Barbareum' in loc
 
 # Zamosc is reachable for every Greek Catholic state, not only via the Brest chain.
-zamosc = next(b for _, b in keyed_blocks(read('events/UniateChurch.txt'), 'country_event')
+zamosc = next(b for _, b in keyed_blocks(read('events/RIP_shared_greek_catholic_UniateChurch.txt'), 'country_event')
               if re.search(r'id\s*=\s*uniate_church\.5\b', b))
 gate = normalized(named_block(zamosc, 'trigger'))
 assert 'has_country_flag = pursuing_uniate_union' in gate and 'religion = greek_catholic' in gate

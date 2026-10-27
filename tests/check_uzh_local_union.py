@@ -12,8 +12,8 @@ from clausewitz_testlib import ROOT, named_block, keyed_blocks, normalized
 SOURCES = {
     'triggers': 'common/scripted_triggers/rip_uzh_union_triggers.txt',
     'effects': 'common/scripted_effects/rip_uzh_union_effects.txt',
-    'events': 'events/RIP_UzhLocalUnion.txt',
-    'uzh': 'events/Uzh.txt',
+    'events': 'events/RIP_UZH_UzhLocalUnion.txt',
+    'uzh': 'events/RIP_UZH_Uzh.txt',
     'missions': 'missions/Zakarpatta_Missions.txt',
     'loc': 'localisation/rip_uzh_local_union_l_english.yml',
     'country': 'history/countries/UZH - Huszt.txt',

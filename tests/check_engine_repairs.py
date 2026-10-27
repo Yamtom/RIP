@@ -42,7 +42,7 @@ def execute(nodes, state):
         elif key == 'country_event': state.setdefault('events', []).append(dict(value)['id'])
         else: raise AssertionError(('Unexpected modeled effect', key))
 
-pulse = dict(parse(named_block(read('events/RuthenianDecadence.txt'), 'immediate')))['immediate']
+pulse = dict(parse(named_block(read('events/RIP_KRU_RuthenianDecadence.txt'), 'immediate')))['immediate']
 # Model actual initialization, yearly arithmetic and both clamps, before modifiers/events.
 cut = next(i for i,(k,v) in enumerate(pulse) if k == 'if' and any(x == 'remove_country_modifier' for x,_ in v))
 pulse = pulse[:cut]
@@ -92,7 +92,7 @@ for faction,amount in [('kru_boyary',10),('rep_boyary',5)]:
     assert f'trigger = {{ faction_in_power = {faction} }}\n\t\tinfluence = {amount}' in estates
 assert 'ai_will_do' not in read('common/estate_agendas/RIP_magnate_agendas.txt')
 assert 'on_completed_agenda_effect_estate_nobles = yes' in named_block(read('common/scripted_effects/rip_estate_effects.txt'),'on_completed_agenda_effect_estate_magnates')
-assert not re.search(r'\badd_estate_influence\s*=',read('events/FreeElection.txt'))
+assert not re.search(r'\badd_estate_influence\s*=',read('events/RIP_shared_commonwealth_FreeElection.txt'))
 assert 'ZAZ_evolve_to_hetmanate = {' not in read('decisions/ZaporizhiaDecisions.txt')
 assert 'tag = ZAZ' in named_block(read('decisions/HetmanateNation.txt'),'hetmanate_nation')
 print(f'ENGINE REPAIRS PASS: 100-year adverse/recovery models; thresholds {thresholds}; legacy value; branch safety, GUI, estates, decisions.')

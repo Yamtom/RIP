@@ -342,9 +342,9 @@ assert 'Costs §Y10 Fervor§! to start and §R3 Fervor§! a month' in loc['rip_c
 cases += 1
 
 # The node menu: a pair of lines for every node, each with its price and return, and the keys exist.
-event = dict(parse(read('events/RIP_ChurchNodes_generated.txt'))[1][1])
+event = dict(parse(read('events/RIP_shared_church_ChurchNodes_generated.txt'))[1][1])
 assert event['title'] == 'rip_church_nodes.1.t' and event['desc'] == 'rip_church_nodes.1.d'
-options = [dict(body) for key, body in parse(read('events/RIP_ChurchNodes_generated.txt'))[1][1] if key == 'option']
+options = [dict(body) for key, body in parse(read('events/RIP_shared_church_ChurchNodes_generated.txt'))[1][1] if key == 'option']
 funds = [o for o in options if o['name'].endswith('_fund')]
 closes = [o for o in options if o['name'].endswith('_close') and o['name'] != 'rip_church_close']
 assert len(funds) == len(closes) >= 60

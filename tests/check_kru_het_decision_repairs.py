@@ -93,11 +93,11 @@ def check_tombstones():
         w, c = fixture('KRU')
         c['dlcs'] = dlcs
         for identifier in ('ruthenian_factions.1', 'ruthenian_factions.2'):
-            fields = event('events/RuthenianFactional.txt', identifier)
+            fields = event('events/RIP_KRU_RuthenianFactional.txt', identifier)
             assert fields['hidden'] == fields['is_triggered_only'] == 'yes'
             before = deepcopy(c)
             w.execute(fields.get('immediate', []), c)
-            for key, option in dict(parse(named_block(read('events/RuthenianFactional.txt'), 'country_event', 1 if identifier.endswith('.1') else 2)))['country_event']:
+            for key, option in dict(parse(named_block(read('events/RIP_KRU_RuthenianFactional.txt'), 'country_event', 1 if identifier.endswith('.1') else 2)))['country_event']:
                 if key == 'option': w.execute([(k, v) for k, v in option if k != 'name'], c)
             assert c == before and not w.events
     court = read('common/government_mechanics/rip_ruthenian_factional_court.txt')
@@ -147,13 +147,13 @@ def check_elections():
     before = deepcopy(c)
     w.run('zaz_hold_hetman_election', c)
     assert c == before and len(w.events) == 1
-    candidate = event('events/RIP_HetmanElection.txt', 'rip_het_election.1')
+    candidate = event('events/RIP_HET_HetmanElection.txt', 'rip_het_election.1')
     assert candidate['is_triggered_only'] == 'yes' and w.gate(candidate['trigger'], c)
-    assert 'tag = ZAZ' not in normalized(named_block(read('events/RIP_HetmanElection.txt'), 'trigger'))
+    assert 'tag = ZAZ' not in normalized(named_block(read('events/RIP_HET_HetmanElection.txt'), 'trigger'))
     decision = named_block(read('decisions/ZaporizhiaDecisions.txt'), 'zaz_hold_hetman_election')
     assert 'add_adm_power' not in named_block(decision, 'effect')
     # Execute each paid candidate branch for both government resource types.
-    options = [body for _, body in keyed_blocks(read('events/RIP_HetmanElection.txt'), 'option')]
+    options = [body for _, body in keyed_blocks(read('events/RIP_HET_HetmanElection.txt'), 'option')]
     assert len(options) == 3
     for government in ('monarchy', 'republic'):
         for index, body in enumerate(options):
@@ -189,7 +189,7 @@ def check_elections():
     w, c = fixture('ZAZ')
     c['reforms'].add('zaz_kosh_elections_reform')
     for n in (5, 14, 15):
-        fields = event('events/ZaporizhiaFlavor.txt', f'zaz_flavor.{n}')
+        fields = event('events/RIP_ZAZ_ZaporizhiaFlavor.txt', f'zaz_flavor.{n}')
         assert ('zaz_election_event_term_expired', 'yes') in fields['trigger']
         assert ('zaz_hetman_recent_election_expired', 'yes') in fields['trigger']
         for age in (0, 729, 730, 1459, 1460, 7300):
@@ -225,7 +225,7 @@ def check_autonomy():
     before = deepcopy(c)
     w.run('het_resist_abolition_effect', c)
     assert c == before
-    abolition = event('events/HetmanateEnhanced.txt', 'het_enhanced.7')
+    abolition = event('events/RIP_HET_HetmanateEnhanced.txt', 'het_enhanced.7')
     for age in (0, 3649):
         w.day = age
         assert not gate(w, c, 'can_resist_abolition')

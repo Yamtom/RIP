@@ -29,7 +29,7 @@ FAMILIES = ("chr", "uzh", "pdl", "prl", "ods")
 MECHANICS = "common/government_mechanics/rip_regional_governments.txt"
 TRIGGERS = "common/scripted_triggers/rip_regional_government_triggers.txt"
 MODIFIERS = "common/event_modifiers/rip_regional_government_modifiers.txt"
-EVENTS = "events/RIP_RegionalGovernments.txt"
+EVENTS = tuple(f"events/RIP_{tag}_RegionalGovernments.txt" for tag in ("CHR", "UZH", "PDL", "PRL", "ODS"))
 # effect classes the engine drops inside else / else_if bodies (measured in 1.37.5, diagnostics/engine_probes_20260929)
 DROPPED = re.compile(r"\b(country_event|province_event|add_opinion|reverse_add_opinion)\b")
 
@@ -74,7 +74,7 @@ def test_vanilla_keys():
 
 
 def test_hidden_events_have_the_vanilla_shape():
-    text = read(EVENTS)
+    text = "\n".join(read(path) for path in EVENTS)
     hidden = 0
     for _, block in keyed_blocks(text, "country_event"):
         if re.search(r"(?m)^\s*hidden\s*=\s*yes", block):
@@ -87,7 +87,7 @@ def test_hidden_events_have_the_vanilla_shape():
 
 def test_no_dropped_effect_in_else_bodies():
     # the buttons, the decisions, the Podillia entry event and the selection windows use plain `if` only
-    for path in (MECHANICS, "decisions/RIP_RegionalGovernments.txt", "events/PodilliaBorderPolicy.txt", EVENTS):
+    for path in (MECHANICS, "decisions/RIP_RegionalGovernments.txt", "events/RIP_PDL_PodilliaBorderPolicy.txt", *EVENTS):
         text = read(path)
         assert not re.search(r"\belse(_if)?\s*=\s*\{", normalized(text)), f"{path}: else / else_if (the engine drops country_event inside them)"
     # a scripted effect may keep else for effects that survive there (modifiers, flags, loyalty), but not for the dropped ones

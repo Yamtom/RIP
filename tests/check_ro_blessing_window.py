@@ -76,10 +76,10 @@ for _, blessing in keyed_blocks(read('common/church_aspects/RIP_ro_holy_blessing
 hooks = read('common/on_actions/RIP_religion_russian_orthodox_on_actions.txt')
 assert 'rip_ro_icon_upkeep_effect = yes' in named_block(hooks, 'on_startup')
 assert 'rip_ro_icon_upkeep_effect = yes' in named_block(hooks, 'on_religion_change')
-assert 'country_event =' not in read('events/RIP_OrthodoxAuthority.txt').split('immediate =')[1]
+assert 'country_event =' not in read('events/RIP_shared_orthodox_OrthodoxAuthority.txt').split('immediate =')[1]
 # The drain stays only for saves with the old 30-day event queued, in the shape every vanilla hidden event has
 # (68 of 68): without title/desc/picture = none and an option EU4 logs four lines at every start.
-drain = re.sub(r'(?m)#.*$', '', read('events/RIP_OrthodoxAuthority.txt'))
+drain = re.sub(r'(?m)#.*$', '', read('events/RIP_shared_orthodox_OrthodoxAuthority.txt'))
 for needed in ('id = rip_ro_authority.1', 'hidden = yes', 'is_triggered_only = yes', 'title = none', 'desc = none', 'picture = none'):
     assert needed in drain, f'rip_ro_authority.1 lost {needed}'
 assert 'option = {' in drain.split('immediate =')[1], 'rip_ro_authority.1 has no option'

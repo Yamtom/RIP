@@ -97,7 +97,7 @@ for n in (0,1000):
     assert len(s['events'])==1
 s=state(900);s['vars']['rip_het_extreme_months']=59;effect('rip_het_monthly_effect',s)
 assert s['vars']['rip_het_extreme_months']==0
-events=parse(read('events/RIP_HetmanAuthority.txt'))
+events=parse(read('events/RIP_HET_HetmanAuthority.txt'))
 event=events['country_event']
 compromise=next(v for k,v in event if k=='option')
 for n in range(1001):
@@ -107,6 +107,6 @@ source=read('common/government_reforms/RIP_shared_cossack_government_reforms.txt
 assert 'cossacks_mechanic' in source and 'rip_het_authority_mechanic' not in source
 assert 'rip_het_migrating' in named_block(source,'removed_effect')
 assert 'rip_hetman_cossacks_reform' in read('common/governments/00_governments.txt')
-assert read('events/HetmanateRegimentalGovernance.txt').count('rip_het_polk_rights_effect = yes')==4
+assert read('events/RIP_HET_HetmanateRegimentalGovernance.txt').count('rip_het_polk_rights_effect = yes')==4
 subprocess.run([sys.executable,'-B','tools/build_hetman_authority.py','--check'],cwd=ROOT,check=True)
 print('HET AUTHORITY PASS: 1001 projection/drift positions, 1001 compromises, payment, shared terms, target loss, migration and extreme-duration scenarios. Runtime unverified.')

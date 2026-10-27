@@ -40,7 +40,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / 'tools/data/eparchy_timeline.json'
 TRIGGERS = 'common/scripted_triggers/rip_eparchy_triggers.txt'
-EVENTS = 'events/RIP_EparchyHistory.txt'
+EVENTS = 'events/RIP_shared_greek_catholic_EparchyHistory.txt'
 LOC = 'localisation/rip_eparchy_l_english.yml'
 GENERATOR = 'tools/build_eparchy_timeline.py'
 KINDS = ('union_convert', 'union_modifier_only', 'development')
@@ -570,9 +570,10 @@ def encode_loc(text: str) -> bytes:
 
 
 def outputs(data: dict) -> dict[str, bytes]:
+    from event_layout import layout
     return {
         TRIGGERS: encode_script(render_triggers(data)),
-        EVENTS: encode_script(render_events(data)),
+        **{path: text.encode('utf-8') for path, text in layout('events/RIP_EparchyHistory.txt', render_events(data)).items()},
         LOC: encode_loc(render_loc(data)),
     }
 

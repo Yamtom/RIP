@@ -1,0 +1,224 @@
+##############################################################
+# The faith-and-border reforms: what their institutions do once they stand.
+#
+#   rip_stauropegion  HLC  the Lviv brotherhood and its bishop; the Union choice
+#   rip_vetka         CHR  Old Believer refugees; the metropolitan's complaint
+#   rip_kamianets     PDL  the petitions of the four communities
+#   rip_sophia        PLT  a Muscovite candidate for the Sophian throne
+#
+# Every event is fired by its own reform, never by a date alone, and rates are
+# design values. The Zeal of the Host (ZAZ / HET) has no events: it lives in
+# common/government_mechanics/rip_zaz_holy_patronage.txt.
+##############################################################
+
+namespace = rip_stauropegion
+# ---------------------------------------------------------------------------
+# HLC - the brotherhood audits the bishop
+# ---------------------------------------------------------------------------
+
+country_event = {
+	id = rip_stauropegion.1
+	title = rip_stauropegion.1.t
+	desc = rip_stauropegion.1.d
+	picture = RELIGION_eventPicture
+	trigger = {
+		has_reform = hlc_stauropegion_brotherhood_reform
+		NOT = {
+			has_country_flag = hlc_stauropegion_union_decided
+		}
+		NOT = {
+			has_country_modifier = hlc_brotherhood_vigilance
+		}
+		NOT = {
+			has_country_modifier = hlc_bishop_assertive
+		}
+	}
+	mean_time_to_happen = {
+		months = 72
+	}
+	option = {
+		# The brotherhood prevails.
+		name = rip_stauropegion.1.a
+		ai_chance = {
+			factor = 50
+		}
+		add_country_modifier = {
+			name = hlc_brotherhood_vigilance
+			duration = 3650
+		}
+		change_variable = {
+			which = hlc_stauropegion_strife
+			value = 1
+		}
+		if = {
+			limit = {
+				has_estate = estate_burghers
+			}
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 10
+			}
+		}
+		if = {
+			limit = {
+				has_estate = estate_church
+			}
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = -10
+			}
+		}
+	}
+	option = {
+		# The bishop is upheld.
+		name = rip_stauropegion.1.b
+		ai_chance = {
+			factor = 30
+		}
+		add_country_modifier = {
+			name = hlc_bishop_assertive
+			duration = 3650
+		}
+		change_variable = {
+			which = hlc_stauropegion_strife
+			value = 1
+		}
+		if = {
+			limit = {
+				has_estate = estate_church
+			}
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 10
+			}
+		}
+		if = {
+			limit = {
+				has_estate = estate_burghers
+			}
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = -10
+			}
+		}
+	}
+	option = {
+		# The matter goes to the Patriarch.
+		name = rip_stauropegion.1.c
+		trigger = {
+			dip_power = 50
+		}
+		ai_chance = {
+			factor = 20
+		}
+		add_dip_power = -50
+		add_prestige = 5
+		set_variable = {
+			which = hlc_stauropegion_strife
+			value = 0
+		}
+	}
+}
+# The Union choice. Strife has built up, or the Reformation chain has pushed the
+# country toward Rome: the bishop and the brotherhood part ways. The Union
+# itself is not decided here; option b sets uniate_pressure_mounting, the flag
+# that lets the existing uniate_church.1 fire, and the rest runs through the
+# Greek Catholic church of the mod.
+
+country_event = {
+	id = rip_stauropegion.2
+	title = rip_stauropegion.2.t
+	desc = rip_stauropegion.2.d
+	picture = RELIGION_eventPicture
+	trigger = {
+		has_reform = hlc_stauropegion_brotherhood_reform
+		is_year = 1590
+		NOT = {
+			has_country_flag = hlc_stauropegion_union_decided
+		}
+		OR = {
+			check_variable = {
+				which = hlc_stauropegion_strife
+				value = 3
+			}
+			has_country_flag = uniate_pressure_mounting
+		}
+	}
+	mean_time_to_happen = {
+		months = 24
+	}
+	immediate = {
+		set_country_flag = hlc_stauropegion_union_decided
+	}
+	option = {
+		# The brotherhood holds to the Patriarch.
+		name = rip_stauropegion.2.a
+		ai_chance = {
+			factor = 60
+		}
+		clr_country_flag = uniate_pressure_mounting
+		set_variable = {
+			which = hlc_stauropegion_strife
+			value = 0
+		}
+		add_country_modifier = {
+			name = hlc_brotherhood_vigilance
+			duration = 7300
+		}
+		add_prestige = 5
+	}
+	option = {
+		# The bishop turns to Rome.
+		name = rip_stauropegion.2.b
+		ai_chance = {
+			factor = 15
+		}
+		set_country_flag = uniate_pressure_mounting
+		set_variable = {
+			which = hlc_stauropegion_strife
+			value = 0
+		}
+		add_country_modifier = {
+			name = hlc_bishop_assertive
+			duration = 7300
+		}
+	}
+	option = {
+		# A bridge between the rites.
+		name = rip_stauropegion.2.c
+		trigger = {
+			adm_power = 50
+		}
+		ai_chance = {
+			factor = 25
+		}
+		add_adm_power = -50
+		set_country_flag = uniate_pressure_mounting
+		set_variable = {
+			which = hlc_stauropegion_strife
+			value = 0
+		}
+		add_country_modifier = {
+			name = hlc_ecumenical_bridge
+			duration = 7300
+		}
+		if = {
+			limit = {
+				has_estate = estate_burghers
+			}
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 5
+			}
+		}
+		if = {
+			limit = {
+				has_estate = estate_church
+			}
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 5
+			}
+		}
+	}
+}

@@ -33,7 +33,7 @@ def options(block: str) -> list[str]:
 
 
 def check_border_events(failures: list[str]) -> None:
-    text = read("events/BorderPrincipalities.txt")
+    text = read("events/RIP_shared_frontier_BorderPrincipalities.txt")
     for number in range(1, 13):
         event_block(text, f"border_principalities.{number}")
 
@@ -83,7 +83,7 @@ def check_border_events(failures: list[str]) -> None:
 
 
 def check_qasim_events(failures: list[str]) -> None:
-    text = read("events/QasimKhanate.txt")
+    text = read("events/RIP_QAS_QasimKhanate.txt")
     for number in range(1, 7):
         event_block(text, f"qasim_khanate.{number}")
 
@@ -122,7 +122,7 @@ def check_qasim_events(failures: list[str]) -> None:
 
     loyalty = event_block(text, "qasim_khanate.6")
     require(failures, "fire_only_once = yes" in loyalty
-            and "NOT = { has_country_flag = lipka_loyalty_settled }" in loyalty,
+            and "NOT = { has_country_flag = lipka_loyalty_settled }" in normalized(loyalty),
             "qasim_khanate.6: Lipka loyalty event can recur")
     require(failures, all("set_country_flag = lipka_loyalty_settled" in option
                           for option in options(loyalty)),
@@ -141,7 +141,7 @@ def check_modifiers_and_integration(failures: list[str]) -> None:
         require(failures, f"{orphan} = {{" not in modifiers,
                 f"dead Border modifier remains defined: {orphan}")
 
-    raids = read("events/SteppeRaiding.txt")
+    raids = read("events/RIP_shared_steppe_SteppeRaiding.txt")
     target = event_block(raids, "steppe_raid.2")
     for modifier in ("glinski_tatar_settlement", "jagoldai_horde_settlement",
                      "lipka_tatar_settlement"):

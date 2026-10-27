@@ -30,7 +30,7 @@
 Інших воріт, доступних греко-католицькій країні, у скриптах немає: решта
 умов `papal_influence` стоїть в одному блоці з `religion = catholic`
 (`missions/Zakarpatta_Missions.txt`, `uz_orthodox_unity`) або є вагою
-`mean_time_to_happen` для POL, LIT і PLC (`events/CommonwealthReformation.txt`).
+`mean_time_to_happen` для POL, LIT і PLC (`events/RIP_shared_commonwealth_CommonwealthReformation.txt`).
 
 ### Чому пороги нижчі за папські частки
 
@@ -63,7 +63,7 @@
 кнопки нічого не ставить. ШІ проходить тими самими ефектами.
 
 **Не зроблено (файл чужий, великий):** Замостя й синод 1650 року в
-`events/UniateChurch.txt` прапорця досі не ставлять. Потрібно по одному рядку
+`events/RIP_shared_greek_catholic_UniateChurch.txt` прапорця досі не ставлять. Потрібно по одному рядку
 `set_country_flag = rip_uc_synod_held` у кожному варіанті, поряд з наявним
 прапорцем:
 
@@ -109,7 +109,7 @@
 
 - Записи `add_papal_influence` для ГК-одержувача поза цим проходом:
   `decisions/HLCRepublicPaths.txt` (гілка `religion = greek_catholic`, +10),
-  `events/Volhynia_Alt_History.txt` (`rip_vol_alt_history.8.b`, +100; подію
+  `events/RIP_VOL_Volhynia_Alt_History.txt` (`rip_vol_alt_history.8.b`, +100; подію
   ніщо не запускає), модифікатор `zamosc_synod_latinization`
   (`common/event_modifiers/uniate_church_modifiers.txt`, `papal_influence = 1`
   для греко-католицької країни).

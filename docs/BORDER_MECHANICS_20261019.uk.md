@@ -23,7 +23,7 @@
 Чому не Гетьманат і не CHR. Шкала «Старшина ↔ Гетьман» потребує заміни `cossacks_mechanic`, який HET уже несе, тобто
 друга панель на ту саму державу, і вікна з шкалою без запуску гри не перевірити. Сіверська (CHR) вічова родина вже
 має `siversk_patrimony_mechanic`. UZH не мала жодної механіки на середніх тірах, а теми застав, солі й опришків уже
-жили в `events/Uzh.txt`, `common/event_modifiers/RIP_UZH_modifiers.txt` і катастрофі `uzh_opryshky_uprising`, тож
+жили в `events/RIP_UZH_Uzh.txt`, `common/event_modifiers/RIP_UZH_modifiers.txt` і катастрофі `uzh_opryshky_uprising`, тож
 механіка з'єднується з наявним, а не стоїть окремо.
 Станом на `main` (`c0115a6f`) шкалу «Старшина ↔ Гетьман» уже зроблено окремою сесією (`rip_hetman_cossacks_reform`,
 `rip_het_authority`), тож цей вибір її не дублює; про перетин із системою `rip_rg_*` — розділ 9.
@@ -32,7 +32,7 @@
 `pdl_carpathian_bastion_reform` і `pdl_frontier_republic_reform` (з `cossacks_mechanic`), PRL — `prl_border_fortress_reform`.
 Ще одна реформа на цьому тірі була б ще однією стат-палицею поруч (аудит 17.10: 12 з 15 реформ PDL і 5 з 6 PRL не мають
 нічого, крім модифікаторів). Козацька гілка PDL не отримує другої панелі. Для PDL важливо й те, що повторювану
-прикордонну політику (`decisions/Podillia_Decisions.txt`, `events/PodilliaBorderPolicy.txt`) уже реалізовано: Сторожа
+прикордонну політику (`decisions/Podillia_Decisions.txt`, `events/RIP_PDL_PodilliaBorderPolicy.txt`) уже реалізовано: Сторожа
 працює лише на містах, що межують зі степовою державою, і ні в чому не дублює її національних модифікаторів (вимога
 `REGIONAL_REFORM_AUDIT.uk.md`: «не накладати другий незалежний комплект бонусів»).
 
@@ -86,7 +86,7 @@
 | `rip_settle_the_watch` — Settle the Watch | DIP | 20 років в одному вразливому місті без осілої сторожі: +25% місцевих людських ресурсів, +10% захищеності, −15% місцевого податку |
 
 Жетон спільний: `rip_border_watch_order`, 10 років. Мета Сторожі — відповісти на степовий набіг: у
-`events/SteppeRaiding.txt`, подія `steppe_raid.2` (і лише вона), лінія веж і осіла сторожа входять до тих самих
+`events/RIP_shared_steppe_SteppeRaiding.txt`, подія `steppe_raid.2` (і лише вона), лінія веж і осіла сторожа входять до тих самих
 переліків «захищеної провінції», що й церковна «frontier watch» і засічна лінія (три місця), патрулі — до національних
 оборон. Подія оминає захищені міста, коли є інші цілі, і завдає менше шкоди, коли їх немає.
 
@@ -225,7 +225,7 @@ EU4 1.37.5, ізольований профіль, копія тек мода н
 18 жовтня, 21:33; база цієї гілки — `e32c21d8` з 18:42). Він додає шкалу «Старшина ↔ Гетьман» (`rip_hetman_cossacks_reform`,
 механіка `rip_het_authority`) і систему регіональних постанов `rip_rg_*` для CHR, UZH, PDL, PRL і ODS
 (`common/government_mechanics/rip_regional_governments.txt`, `decisions/RIP_RegionalGovernments.txt`,
-`events/RIP_RegionalGovernments.txt`; подію `events/PodilliaBorderPolicy.txt` переписано на неї). Тобто пункт «шкала Гетьманату»
+`events/RIP_RegionalGovernments.txt`; подію `events/RIP_PDL_PodilliaBorderPolicy.txt` переписано на неї). Тобто пункт «шкала Гетьманату»
 з вибору автора на `main` уже зроблено іншою сесією; цей документ його не дублює.
 
 Репетицію виконано на окремому знімку `main` (тимчасовий `git worktree`; гілку, `main` і цю теку не змінено): мої 50 змінених
@@ -235,7 +235,7 @@ EU4 1.37.5, ізольований профіль, копія тек мода н
 |---|---|---|
 | нові файли й файли без перетину | 38 | переносяться без змін |
 | видалені встановлені копії фікстури | 2 | `events/RIP_GovernmentReformTest.txt`, `localisation/rip_gov_test_l_english.yml` |
-| зливаються самі | 5 | `RIP_PDL_`, `RIP_PRL_`, `RIP_UZH_government_reforms.txt`, `00_governments.txt`, `events/SteppeRaiding.txt` |
+| зливаються самі | 5 | `RIP_PDL_`, `RIP_PRL_`, `RIP_UZH_government_reforms.txt`, `00_governments.txt`, `events/RIP_shared_steppe_SteppeRaiding.txt` |
 | конфлікти | 5 | лише числа й рядки реєстрації (нижче) |
 
 Автоматично зливається тому, що правки не стикаються: `main` вішає `rip_rg_*_mechanic` на **базові** реформи M1/R1 (PDL: чотири,

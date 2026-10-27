@@ -61,7 +61,7 @@
 >
 > У поточній локальній правці `rip_ro_raskol` більше не завершується від єдності
 > та стабільності, які вже достатні на старті; вихід лишився через падіння
-> Патріаршого авторитету. `events/RIP_FaithDisasters.txt` використовує валідний
+> Патріаршого авторитету. `events/RIP_shared_church_FaithDisasters.txt` використовує валідний
 > `change_innovativeness = -2`.
 >
 > У `RIP_MOS_RUS_trading_policies.txt` два `trade_share` стоять у `FROM` (вузол
@@ -509,7 +509,7 @@ Markdown
 > солі — позика; наступник знятої `uzh_castles_line_reform`, але без найму полків. Механіка `rip_border_watch_mechanic` («Сторожа
 > Порубіжжя») висить на двох **наявних** реформах M5, `prl_border_fortress_reform` і `pdl_carpathian_bastion_reform` (пасиви не
 > змінено): вежі, патрулі, осіла сторожа; діє лише на містах, що межують зі степовою державою, і відповідає на набіг у
-> `events/SteppeRaiding.txt` (`steppe_raid.2`, три рядки). У гейт внесено шість реформ (п'ять «віри та кордонів» з `855fdd80`, яких
+> `events/RIP_shared_steppe_SteppeRaiding.txt` (`steppe_raid.2`, три рядки). У гейт внесено шість реформ (п'ять «віри та кордонів» з `855fdd80`, яких
 > ніхто не вніс у карту, інвентар і фікстуру, і нова): 129 визначень, 138 пар «реформа — тір», 154 варіанти фікстури.
 > «Оптимізація всіх реформ» — за журналом рушія: чисте `HEAD` у EU4 1.37.5 дало 2177 записів `error.log` (84 різні); виправлено
 > `Unexpected token` в `uzh_palatial_ruthenian_reform`, шість знятих маркерів `KRU_*` (24 записи), дві картки реформ з id замість
@@ -744,7 +744,7 @@ Markdown
 >
 > У поточній локальній правці `rip_ro_raskol` більше не завершується від єдності
 > та стабільності, які вже достатні на старті; вихід лишився через падіння
-> Патріаршого авторитету. `events/RIP_FaithDisasters.txt` використовує валідний
+> Патріаршого авторитету. `events/RIP_shared_church_FaithDisasters.txt` використовує валідний
 > `change_innovativeness = -2`.
 >
 > У `RIP_MOS_RUS_trading_policies.txt` два `trade_share` стоять у `FROM` (вузол
@@ -1214,7 +1214,7 @@ Markdown
 найважливіші:
 
 - 
-`events/SteppeRaiding.txt:504` навертає провінцію `1082` на ойратську
+`events/RIP_shared_steppe_SteppeRaiding.txt:504` навертає провінцію `1082` на ойратську
   культуру й ваджраяну під назвою «Lower Yayik». `1082` — це **Казань**.
   Провінції «Нижній Яїк» у 1.37 немає; найближчі підстановки — `466` Сарай або
   `468` Хазарія.
@@ -1229,7 +1229,7 @@ Markdown
 `common/scripted_effects/russian_orthodox_effects.txt`, тепер закриті:
 `establish_orthodox_mission_effect`, `suppress_cultural_resistance_effect` і
 `establish_monastery_mission_effect` замінили собою байт-у-байт ідентичні
-inline-блоки в `events/RussianOrthodox.txt` (russian_orthodox.7.b, .12.a,
+inline-блоки в `events/RIP_shared_orthodox_RussianOrthodox.txt` (russian_orthodox.7.b, .12.a,
 .15.a) — дублювання зникло, effects тепер викликані. `start_constantinople_
 crusade_effect` і `start_jerusalem_crusade_effect` видалені: вони дублювали
 робочі рішення хрестових походів у `decisions/OrthodoxCrusadeDecisions.txt`,
@@ -1270,7 +1270,7 @@ cb_insult і один cb_vassalize_mission, і жодного declare_war. Ви�
 за кодом.
 
 5. Найбільші виправлені дефекти — щоб не повторити
-Маркери конфлікту в main. events/QasimKhanate.txt дійшов до
+Маркери конфлікту в main. events/RIP_QAS_QasimKhanate.txt дійшов до
 origin/main із <<<<<<< усередині: дужки балансували, тож усі перевірки
 проходили, поки гра не розбирала файл узагалі. Тепер це ловить чек.
 Кожен ID провінції в прикордонних князівствах був хибним. 295 — це

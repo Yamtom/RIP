@@ -362,7 +362,7 @@ modifiers_effect`).
   навмисно `reset_on_new_ruler = yes`: новий старший князь не має спадкового
   права одразу знімати `rip_tenure_lapsed`.
 - Виявлено й виправлено розсинхрон: `decisions/KyivTriggers.txt` →
-  `kyiv_establish_princedoms` і всі п'ять варіантів `events/KyivShogunate.txt`
+  `kyiv_establish_princedoms` і всі п'ять варіантів `events/RIP_KIE_KyivShogunate.txt`
   →  `kyiv_shogunate.1` створювали `subject_type = princedom`, хоча обидва
   доступні лише під `kyivan_shogunate_reform`, а всі три кнопки сеніорату
   читають `is_subject_of_type = senior_udil`. Тепер обидва місця роблять
@@ -374,7 +374,7 @@ modifiers_effect`).
   свідомо не займали — його ж використовують KRU/PLC/Hadiach/kyiv_independence.
 - Спадковість при обриві лінії: `rip_kyiv_seniorate_line_broken_trigger`
   (`common/scripted_triggers/rip_kyivan_seniorate_triggers.txt`) +
-  `events/KyivShogunate.txt : kyiv_shogunate.2`, з `RIP_KIE_on_actions.txt :
+  `events/RIP_KIE_KyivShogunate.txt : kyiv_shogunate.2`, з `RIP_KIE_on_actions.txt :
   on_monarch_death`. Умова: `has_reform kyivan_shogunate_reform`, немає
   спадкоємця, ROOT більше не володіє Києвом (280), а один із його senior_udil
   володіє. Ванільного скриптового правила «спадкоємець той, хто володіє
