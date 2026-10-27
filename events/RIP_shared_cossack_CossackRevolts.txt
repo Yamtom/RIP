@@ -121,18 +121,21 @@ country_event = {
 	desc = "zaz_4_desc"
 	picture = BORDER_TENSION_eventPicture
 	is_triggered_only = yes
-	immediate = {
-		hidden_effect = {
-			PLC = {
-				declare_war_with_cb = {
-					who = TUR
-					casus_belli = cb_insult
-				}
-			}
-		}
-	}
 	option = {
 		name = "zaz_4_a"
+		if = {
+			limit = {
+				tag = TUR
+				is_subject = no
+				exists = PLC
+				PLC = { is_subject = no }
+				NOT = { war_with = PLC }
+				NOT = { truce_with = PLC }
+				NOT = { alliance_with = PLC }
+				NOT = { has_casus_belli = { target = PLC type = cb_insult } }
+			}
+			add_casus_belli = { target = PLC type = cb_insult months = 12 }
+		}
 	}
 }
 

@@ -72,6 +72,15 @@ country_event = {
 	immediate = {
 		clr_country_flag = ruina_period_active
 		set_country_flag = survived_the_ruina
+		if = {
+			limit = { tag = CHR }
+			clr_country_flag = chernihiv_ruina_active
+			set_country_flag = chernihiv_ruina_resolved
+			if = {
+				limit = { NOT = { has_country_flag = chr_ruina_path_selected } }
+				country_event = { id = chr_flavor.18 days = 7 }
+			}
+		}
 	}
 	option = {
 		name = "ruina_events.2.a"
