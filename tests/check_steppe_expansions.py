@@ -193,6 +193,39 @@ def check_helpers_and_callers(failures: list[str]) -> None:
             "Hetmanate Kaffa disruption is not guarded by actual target ownership")
 
 
+def check_het_raid_spoils(failures: list[str]) -> None:
+    """One launched Hetmanate raid must settle its spoils exactly once."""
+    text = read("events/RIP_HET_HetmanateCossackRaids.txt")
+    organize = event_block(text, "het_cossack_raids.1")
+    raid_options = [
+        block for _, block in keyed_blocks(organize, "option")
+        if "name = het_successful_raid" in block
+    ]
+    require(failures, len(raid_options) == 3,
+            "het_cossack_raids.1: expected three launched-raid options")
+    for block in raid_options:
+        require(failures, block.count("set_country_flag = het_raid_spoils_pending") == 1
+                and block.count("id = het_cossack_raids.6") == 1,
+                "het_cossack_raids.1: a launched raid must queue exactly one spoils event")
+    cancel = next((block for _, block in keyed_blocks(organize, "option")
+                   if "het_cossack_raids.1.cancel" in block), "")
+    require(failures, bool(cancel) and "het_raid_spoils_pending" not in cancel
+            and "het_cossack_raids.6" not in cancel,
+            "het_cossack_raids.1: cancelled raid must not grant spoils")
+
+    spoils = event_block(text, "het_cossack_raids.6")
+    require(failures, "is_triggered_only = yes" in spoils
+            and "mean_time_to_happen" not in spoils,
+            "het_cossack_raids.6: spoils must not repeat on MTTH")
+    require(failures, "has_country_modifier = het_successful_raid" not in spoils,
+            "het_cossack_raids.6: two-year modifier must not act as a reward entitlement")
+    trigger = named_block(spoils, "trigger")
+    immediate = named_block(spoils, "immediate")
+    require(failures, "has_country_flag = het_raid_spoils_pending" in trigger
+            and "clr_country_flag = het_raid_spoils_pending" in immediate,
+            "het_cossack_raids.6: pending spoils entitlement is not consumed")
+
+
 def check_policy_and_cooldowns(failures: list[str]) -> None:
     missions = read("missions/Zaporozhie_Missions.txt")
     slave_trade = named_block(missions, "ZAZ_TUR_slave_trade")
@@ -253,6 +286,7 @@ def main() -> int:
     check_core_cycle(failures)
     check_new_chains(failures)
     check_helpers_and_callers(failures)
+    check_het_raid_spoils(failures)
     check_policy_and_cooldowns(failures)
     check_localisation_and_docs(failures)
 

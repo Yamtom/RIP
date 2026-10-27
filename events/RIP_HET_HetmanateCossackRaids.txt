@@ -61,6 +61,13 @@ country_event = {
 		add_prestige = 10
 		add_years_of_income = 0.5
 		set_country_flag = het_conducted_major_raid
+		# One launched raid queues exactly one spoils settlement.
+		set_country_flag = het_raid_spoils_pending
+		country_event = {
+			id = het_cossack_raids.6
+			days = 60
+			random = 60
+		}
 	}
 	option = {
 		# Raid Polish territories
@@ -99,6 +106,13 @@ country_event = {
 		add_prestige = 12
 		add_years_of_income = 0.4
 		set_country_flag = het_conducted_major_raid
+		# One launched raid queues exactly one spoils settlement.
+		set_country_flag = het_raid_spoils_pending
+		country_event = {
+			id = het_cossack_raids.6
+			days = 60
+			random = 60
+		}
 	}
 	option = {
 		# Raid Crimean lands
@@ -154,6 +168,13 @@ country_event = {
 		add_prestige = 8
 		add_years_of_income = 0.3
 		set_country_flag = het_conducted_major_raid
+		# One launched raid queues exactly one spoils settlement.
+		set_country_flag = het_raid_spoils_pending
+		country_event = {
+			id = het_cossack_raids.6
+			days = 60
+			random = 60
+		}
 	}
 	option = {
 		# Cancel the raid
@@ -302,12 +323,14 @@ country_event = {
 	title = het_cossack_raids.6.t
 	desc = het_cossack_raids.6.d
 	picture = TRADE_GOODS_METALS_AND_MINING_EQUIPENT_eventPicture
+	is_triggered_only = yes
 	trigger = {
 		tag = HET
-		has_country_modifier = het_successful_raid
+		has_country_flag = het_raid_spoils_pending
 	}
-	mean_time_to_happen = {
-		months = 12
+	immediate = {
+		# Consume the reward right before options are shown.
+		clr_country_flag = het_raid_spoils_pending
 	}
 	option = {
 		# Distribute among the Host
