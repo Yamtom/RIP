@@ -142,6 +142,8 @@ assert not other['modifiers']
 cases += 1
 
 # The book reform does not change religion; the formal council is a later gate.
+# Raskol models internal conflict, communities, and old rite policy without
+# automatic state conversion (more consistent than equating ritual schism with a new confession).
 for choice, internal_schism in (('russian_orthodox.6.a', True), ('russian_orthodox.6.b', True), ('russian_orthodox.6.c', False)):
     w, c, p, other, catholic = setup(1653)
     for flag in ('rip_ro_stage_autocephaly', 'rip_ro_stage_patriarchate', 'rip_church_ro_recognized'):
