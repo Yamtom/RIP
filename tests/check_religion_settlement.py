@@ -425,6 +425,10 @@ def contracts():
     events = read('events/RIP_shared_orthodox_OrthodoxCrusade.txt')
     assert not re.search(r'add_base_|change_religion\s*=', events)
     assert 'rip_faith_pilgrimage_recent duration = 3650' in normalized(events)
+    assert events.count('desc = rip_crusade_parish_support_desc') == 1
+    assert 'id = orthodox_crusade.4' in events
+    for duplicate in ('orthodox_crusade.9', 'orthodox_crusade.10', 'orthodox_crusade.14', 'orthodox_crusade.20'):
+        assert f'id = {duplicate}' not in events
     # Exact tier equality prevents compatibility from buffing the buildings.
     install = vanilla_root()
     if install:
