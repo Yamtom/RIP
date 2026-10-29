@@ -457,6 +457,7 @@ country_event = {
 	title = "het_flavor.10.t"
 	desc = "het_flavor.10.d"
 	picture = RELIGION_eventPicture
+	fire_only_once = yes
 	trigger = {
 		tag = HET
 		religion = orthodox
@@ -469,8 +470,10 @@ country_event = {
 	}
 	option = {
 		name = "het_flavor.10.a"
-		add_patriarch_authority = 0.1
-		add_patriarch_authority = 0.2
+		# Fund the metropolitan institution; base vanilla cathedral cost.
+		trigger = { treasury = 300 }
+		add_treasury = -300
+		add_patriarch_authority = 0.3
 		280 = {
 			add_building = cathedral
 			add_base_tax = 1
