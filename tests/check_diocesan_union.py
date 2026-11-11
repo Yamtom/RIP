@@ -156,7 +156,10 @@ sponsor_decision = named_block(church_decisions, 'rip_church_sponsor_union')
 assert 'any_owned_province = { rip_church_sponsor_parish = yes }' in normalized(named_block(sponsor_decision, 'potential'))
 ai = normalized(named_block(sponsor_decision, 'ai_will_do'))
 assert 'factor = 1 modifier = { factor = 0 num_of_loans = 1 }' in ai
-assert 'modifier = { factor = 0 NOT = { adm_power = 200 dip_power = 150 } }' in ai
+# Either shortfall blocks the AI: `NOT = { a b }` is NOR and blocked it only
+# when both were short.
+assert 'modifier = { factor = 0 OR = { NOT = { adm_power = 200 } NOT = { dip_power = 150 } } }' in ai
+assert 'NOT = { adm_power = 200 dip_power = 150 }' not in ai
 assert 'modifier = { factor = 2 num_of_owned_provinces_with = { value = 3 rip_church_sponsor_parish = yes } }' in ai
 assert 'rip_church_can_sponsor_union = yes' in normalized(named_block(sponsor_decision, 'allow'))
 # The Florentine path keeps its own, narrower test, untouched.

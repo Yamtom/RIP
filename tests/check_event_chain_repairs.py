@@ -38,7 +38,9 @@ assert count == 6
 reckoning = event('RIP_ZAZ_ZaporizhiaFlavor.txt', 'zaz_flavor.18')
 trigger = normalized(named_block(reckoning, 'trigger'))
 assert 'fire_only_once = yes' in reckoning
-assert 'is_year = 1770' in trigger and 'NOT = { is_year = 1780 }' in trigger
+assert 'is_year = 1775' in trigger and 'NOT = { is_year = 1780 }' in trigger
+assert 'is_year = 1770' not in trigger
+assert 'owns = 283' in trigger
 assert 'exists = RUS' in trigger
 assert 'OR = { war_with = RUS is_subject_of = RUS }' in trigger
 assert 'NOT = { has_country_flag = zaz_final_reckoning_resolved }' in trigger

@@ -15,7 +15,7 @@ foreach ($base in @("$env:LOCALAPPDATA/Programs/Python", "$env:ProgramFiles", 'C
 # Existing bundled Python is preferable to downloading another interpreter.
 $candidates += "$env:ProgramFiles/NVIDIA Corporation/RTX Remix/kit/python/python.exe"
 foreach ($candidate in $candidates) {
-    if (-not $candidate -or $candidate -match 'WindowsApps' -or
+    if (-not $candidate -or
         -not (Test-Path -LiteralPath $candidate -PathType Leaf)) { continue }
     $LASTEXITCODE = -1
     & $candidate -B -c 'import sys; assert sys.version_info >= (3, 10)' *> $null
