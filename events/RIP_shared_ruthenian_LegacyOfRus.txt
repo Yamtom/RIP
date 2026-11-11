@@ -1,0 +1,61 @@
+# New compatibility events for the restored mission calls; the original
+# event implementation was not present in the available repository history.
+namespace = flavor_ukr_legacy_of_rus
+
+country_event = {
+ id = flavor_ukr_legacy_of_rus.1
+ title = flavor_ukr_legacy_of_rus.1.t
+ desc = flavor_ukr_legacy_of_rus.1.d
+ picture = DIPLOMACY_eventPicture
+ is_triggered_only = yes
+ option = {
+  name = flavor_ukr_legacy_of_rus.1.a
+  add_prestige_or_monarch_power = { amount = 25 }
+ }
+}
+
+country_event = {
+ id = flavor_ukr_legacy_of_rus.2
+ title = flavor_ukr_legacy_of_rus.2.t
+ desc = flavor_ukr_legacy_of_rus.2.d
+ picture = DIPLOMACY_eventPicture
+ is_triggered_only = yes
+ option = {
+  name = flavor_ukr_legacy_of_rus.2.a
+  add_prestige_or_monarch_power = { amount = 25 }
+ }
+}
+
+country_event = {
+ id = flavor_ukr_legacy_of_rus.3
+ title = flavor_ukr_legacy_of_rus.3.t
+ desc = flavor_ukr_legacy_of_rus.3.d
+ picture = DIPLOMACY_eventPicture
+ is_triggered_only = yes
+ option = {
+  name = flavor_ukr_legacy_of_rus.3.a
+  add_adm_power = 50
+ }
+}
+
+country_event = {
+ id = flavor_ukr_legacy_of_rus.4
+ title = flavor_ukr_legacy_of_rus.4.t
+ desc = flavor_ukr_legacy_of_rus.4.d
+ picture = DIPLOMACY_eventPicture
+ is_triggered_only = yes
+ option = {
+  name = flavor_ukr_legacy_of_rus.4.a
+  2962 = {
+   if = {
+    limit = { owned_by = ROOT }
+    if = {
+     limit = { NOT = { has_building = university } }
+     add_building = university
+    }
+    else = { add_base_production = 2 }
+   }
+  }
+  add_prestige_or_monarch_power = { amount = 10 }
+ }
+}
