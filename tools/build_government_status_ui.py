@@ -331,7 +331,9 @@ def main():
         data=content.replace('\r\n','\n').replace('\n',newline).encode('utf-8-sig' if rel.endswith('.yml') else 'utf-8')
         path=ROOT/rel
         if args.check:
-            assert path.exists() and path.read_bytes()==data, f'Stale generated file: {rel}'
+            # core.autocrlf rewrites line endings on checkout; the engine reads both.
+            unix=lambda raw: raw.replace(b'\r\n',b'\n')
+            assert path.exists() and unix(path.read_bytes())==unix(data), f'Stale generated file: {rel}'
         else:
             path.parent.mkdir(parents=True,exist_ok=True); path.write_bytes(data)
     print(f'Government status UI: {len(outputs)} outputs '+('verified' if args.check else 'written'))
