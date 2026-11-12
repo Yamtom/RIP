@@ -88,7 +88,30 @@ Two lessons from using it:
 
 `gfx/interface/government_reform_icons/` plus a `.gfx` declaring
 `government_reform_<name>` with `noOfFrames = 1` and `norefcount = yes`. The mod ships
-six under `interface/rip_government_reform_icons.gfx`.
+six under `interface/rip_government_reform_icons.gfx`. A reform's `icon = "<name>"` selects
+the sprite `government_reform_<name>`; vanilla keeps its icons in that folder and in
+`dlc/<dlc>/` subfolders of it, so search both before concluding an icon is absent.
+
+Measured over the 346 files of 1.37.5: 312 are **57x57, uncompressed 32-bit BGRA, no
+mipmaps, 13124 bytes**. The rest are 27 with six mipmaps (the Winds of Change set and the
+frame overlay), 5 DXT5, `retain_tribal_hierarchy` at 58x58 and `modern_economics_reform`
+at 57x59 - do not copy those. Every icon carries a **3 px frame** baked into the
+texture - bronze rim, crimson, dark crimson - and a **51x51 picture** inside it
+(x and y 3..53), painted to the edge of that window. Picture means over 334 icons: saturation 106/255
+(p10-p90 64-150), value 132/255 (89-167), luminance spread 52. The frame is not
+pixel-identical between icons; the per-pixel median over all of them is the common one.
+
+The mod's six Cossack/Hetmanate icons used to be byte copies of vanilla icons (`horde_riding`
+for two different reforms, `merchant_ship` for an academy). `tools/build_reform_icons.py`
+now crops each from painted art that already exists - vanilla mission icons, the
+Cossacks DLC banner and startup image, the mod's own `petro_mohyla` and Sich great-project
+art - scales it to 51x51, pulls saturation and value into the p10-p90 band above (never
+past it, so a flat source is not forced) and pastes it into the median frame. Donor
+missions are 59x63 and the great-project art 300x150, so the crop is a square inside them
+clear of the baked name plaque. `tests/check_reform_icons.py` fails on a byte copy of a
+vanilla icon, on two identical icons, and on a frame that differs from its siblings.
+To make a painted one instead, follow the prompt in `docs/core_ruthenia_visual_prompts.md`
+and keep the same 57x57 frame.
 
 ## Flags
 
