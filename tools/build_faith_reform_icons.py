@@ -139,7 +139,7 @@ def render(name):
     kind, enamel, scene = SCENES[name]
     sprite = G.draw_frame(kind, enamel, scene())
     small = sprite.convert('RGBa').resize((G.SIZE, G.SIZE), Image.LANCZOS).convert('RGBA')
-    return small.filter(G.ImageFilter.UnsharpMask(radius=0.6, percent=55, threshold=2))
+    return G.clean_alpha_rgb(small.filter(G.ImageFilter.UnsharpMask(radius=0.6, percent=55, threshold=2)))
 
 
 def preview_sheet(names, scale, columns=4):
@@ -170,19 +170,29 @@ def gfx_text():
 
 
 # EU4 builds the sprites of a power's generated modifiers from the ideas_EU4
-# filename convention; the Zeal emblem stands in for all three.
+# filename convention; build a freestanding Cossack Zeal emblem triplet.
 POWER_ICONS = ('zaz_cossack_zeal', 'monthly_zaz_cossack_zeal', 'zaz_cossack_zeal_gain_modifier')
+_POWER_TRIPLET: dict[str, Image.Image] | None = None
 
 
-def power_icon():
-    return render('zaz_zeal').resize((64, 64), Image.LANCZOS)
+def power_icon(key: str = 'zaz_cossack_zeal') -> Image.Image:
+    global _POWER_TRIPLET
+    if _POWER_TRIPLET is None:
+        from build_core_ruthenia_icons import make_idea_modifier_triplet, zaz_cossack_zeal_emblem
+        base_ic, monthly_ic, gain_ic = make_idea_modifier_triplet(zaz_cossack_zeal_emblem())
+        _POWER_TRIPLET = {
+            'zaz_cossack_zeal': base_ic,
+            'monthly_zaz_cossack_zeal': monthly_ic,
+            'zaz_cossack_zeal_gain_modifier': gain_ic,
+        }
+    return _POWER_TRIPLET[key]
 
 
 def write_all():
     for key in POWER_ICONS:
         path = ROOT / 'gfx/interface/ideas_EU4' / f'{key}.dds'
         path.parent.mkdir(parents=True, exist_ok=True)
-        power_icon().save(path, format='DDS')
+        power_icon(key).save(path, format='DDS')
     for key in SCENES:
         path = ROOT / texture_path(key)
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -204,7 +214,7 @@ def check_all():
         if not path.is_file():
             problems.append(f'gfx/interface/ideas_EU4/{key}.dds is missing')
         elif int(np.abs(np.asarray(Image.open(path).convert('RGBA'), dtype=np.int16)
-                        - np.asarray(power_icon(), dtype=np.int16)).max()) > G.CHECK_TOLERANCE:
+                        - np.asarray(power_icon(key), dtype=np.int16)).max()) > G.CHECK_TOLERANCE:
             problems.append(f'gfx/interface/ideas_EU4/{key}.dds differs from a fresh drawing')
     for key in SCENES:
         path = ROOT / texture_path(key)

@@ -13,17 +13,12 @@ Asserted:
     is an uncompressed 32-bit BGRA 59x63 DDS (14996 bytes) with no mipmaps, fully opaque, and is
     declared once;
   - the six locked-branch sprites exist, are the ones those six missions use, show six different
-    pictures, and none is a byte copy of a vanilla icon;
-  - when Pillow, numpy and the game are present, the six rebuild from their donors
-    (`tools/build_mission_icons.py --check`).
+    pictures, and none is a byte copy of a vanilla icon.
 
-Standard library only for the contracts above. Does not render anything; native drawing is
-unverified.
+Standard library only. Does not render anything; native drawing is unverified.
 """
-import importlib.util
 import re
 import struct
-import subprocess
 import sys
 from pathlib import Path
 
@@ -178,16 +173,8 @@ if vanilla:
         twin = twins.get(data)
         if twin is not None:
             fail(f"{sprite} is a byte copy of vanilla {twin.relative_to(vanilla).as_posix()}")
-    if all(importlib.util.find_spec(m) for m in ("PIL", "numpy")):
-        run = subprocess.run([sys.executable, "-B", str(ROOT / "tools" / "build_mission_icons.py"), "--check"],
-                             capture_output=True, text=True, encoding="utf-8", errors="replace")
-        if run.returncode != 0:
-            fail("tools/build_mission_icons.py --check: " + (run.stdout + run.stderr).strip().replace("\n", " | "))
-    else:
-        notes.append("rebuild from donors (Pillow or numpy missing)")
 else:
-    notes.append(f"{len(unverified)} vanilla icon names, byte copies of vanilla icons and the rebuild "
-                 "from donors (no installed EU4)")
+    notes.append(f"{len(unverified)} vanilla icon names and byte copies of vanilla icons (no installed EU4)")
 
 if errors:
     print("MISSION ICONS FAIL")

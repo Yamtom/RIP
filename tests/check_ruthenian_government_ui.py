@@ -46,6 +46,8 @@ assert not any(evaluate(p,set(),'FRA') for p in potentials.values())
 for power in ('kyivan_throne_concord','kyivan_peoples_gathering','kyiv_princely_levy_power','kyiv_seat_rotation_power','kyiv_grant_reconfirmation_power'):
     for key in (power,'monthly_'+power,power+'_gain_modifier'):
         assert (ROOT/f'gfx/interface/ideas_EU4/{key}.dds').read_bytes()[:4] == b'DDS '
+for faction_inf in ('kru_knyazi_influence','kru_boyary_influence','kru_starshyna_influence','rep_boyary_influence','rep_knyazi_influence'):
+    assert (ROOT/f'gfx/interface/ideas_EU4/{faction_inf}.dds').read_bytes()[:4] == b'DDS '
 
 siversk = named_block(read('common/government_reforms/RIP_CHR_government_reforms.txt'),'chr_siversk_principality_reform')
 assert 'icon = "russian_principality"' in siversk
@@ -93,9 +95,9 @@ expected_ability_icons = {
         'GFX_rip_kyiv_druzhyna',
     ],
     'rip_kyivan_seniorate': [
-        'GFX_cossacks_ability_MIL',
-        'GFX_cossacks_ability_DIP',
-        'GFX_cossacks_ability_ADM',
+        'GFX_rip_kyiv_levy',
+        'GFX_rip_kyiv_rota',
+        'GFX_rip_kyiv_grants',
     ],
     'rip_ruthenian_factional_court': [
         'GFX_faction_kru_knyazi',
@@ -234,10 +236,10 @@ for language in ('english','french','german','spanish'):
 
 for name in (
     'siversk_charter', 'siversk_towns', 'siversk_retinue', 'kyiv_snem',
-    'kyiv_udil', 'kyiv_druzhyna',
+    'kyiv_udil', 'kyiv_druzhyna', 'kyiv_levy', 'kyiv_rota', 'kyiv_grants',
 ):
     assert (ROOT/f'gfx/interface/rip_government/{name}.dds').is_file(), name
-for name in ('rada', 'siversk_principality', 'knyazi', 'boyary', 'starshyna'):
+for name in ('gathering', 'rada', 'siversk_principality', 'knyazi', 'boyary', 'starshyna'):
     assert not (ROOT/f'gfx/interface/rip_government/{name}.dds').exists(), name
 game = vanilla_root()
 if game:

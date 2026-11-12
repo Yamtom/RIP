@@ -102,8 +102,8 @@ ICONS = (
     Icon("het_academy_enlightenment", "gfx/interface/missions/mission_early_modern_university.dds",
          True, (0, 4, 59, 63), "a university courtyard and its dome, read as the Kyiv academy"),
     Icon("zaz_last_sich", "gfx/interface/great_projects/great_project_zaporozhian_sich.dds",
-         False, (165, 15, 295, 145), "the timber watchtower and palisade of the Sich",
-         md5="9d53ae9a0fce0a841259c108b30639c7"),
+         False, (176, 31, 290, 145), "the log watchtower and palisade of the Sich, below the monument plaque",
+         md5="1d0ee7952fbdf6137b5beda7ca10f013"),
 )
 
 
@@ -206,7 +206,7 @@ def dds_bytes(pixels: np.ndarray, header: bytes) -> bytes:
     return bytes(header) + pixels[..., [2, 1, 0, 3]].tobytes()
 
 
-def build_all(game: Path) -> tuple[dict[str, np.ndarray], list[str]]:
+def build_all_checked(game: Path) -> tuple[dict[str, np.ndarray], list[str]]:
     """The rebuilt icons, and a message for each icon whose pinned donor has changed (not rebuilt)."""
     ring = frame_ring(game)
     built, stale = {}, []
@@ -216,6 +216,14 @@ def build_all(game: Path) -> tuple[dict[str, np.ndarray], list[str]]:
         except StaleDonor as problem:
             stale.append(str(problem))
     return built, stale
+
+
+def build_all(game: Path) -> dict[str, np.ndarray]:
+    """Every icon, as {texture path: RGBA pixels}; raises StaleDonor rather than skip one (other tools call this)."""
+    built, stale = build_all_checked(game)
+    if stale:
+        raise StaleDonor("; ".join(stale))
+    return built
 
 
 def preview(images: dict[str, np.ndarray], scale: int, out: Path) -> None:
@@ -242,7 +250,7 @@ def main() -> int:
     if game is None:
         print("SKIP: the vanilla install is needed for the donors and the frame (set EU4_DIR); nothing written")
         return 0 if args.check else 1
-    images, stale = build_all(game)
+    images, stale = build_all_checked(game)
     for message in stale:
         print(f"STALE DONOR {message}")
     if stale and not args.check:

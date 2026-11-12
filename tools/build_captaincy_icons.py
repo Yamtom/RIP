@@ -80,8 +80,8 @@ def hex_points(cx, cy, radius, rot=0.0):
 
 
 def keep_poly():
-    body = poly([(4.0, 12.0), (78.0, 12.0), (78.0, 79.0), (4.0, 79.0)])
-    teeth = union(*[poly([(x, 3.6), (x + 11.0, 3.6), (x + 11.0, 12.5), (x, 12.5)]) for x in (4.0, 25.0, 46.0, 67.0)])
+    body = poly([(4.6, 12.2), (77.4, 12.2), (77.4, 78.0), (4.6, 78.0)])
+    teeth = union(*[poly([(x, 4.0), (x + 10.8, 4.0), (x + 10.8, 12.6), (x, 12.6)]) for x in (4.6, 25.2, 45.8, 66.6)])
     return union(body, teeth)
 
 
@@ -89,8 +89,8 @@ def frame_masks(kind):
     """Outer silhouette, inner edge of the gold band, of the enamel, and the picture area."""
     c = SIZE / 2.0
     if kind == 'hex':
-        return (poly(hex_points(c, c, 40.8)), poly(hex_points(c, c, 36.2)),
-                poly(hex_points(c, c, 33.8)), poly(hex_points(c, c, 32.8)))
+        return (poly(hex_points(c, c, 39.2)), poly(hex_points(c, c, 34.8)),
+                poly(hex_points(c, c, 32.5)), poly(hex_points(c, c, 31.5)))
     if kind == 'keep':
         outer = keep_poly()
         return outer, erode(outer, 3.9), erode(outer, 5.6), erode(outer, 6.4)
@@ -480,7 +480,7 @@ def render(key):
     kind, enamel, scene = BUTTONS[key]
     sprite = draw_frame(kind, enamel, scene())
     small = sprite.convert('RGBa').resize((SIZE, SIZE), Image.LANCZOS).convert('RGBA')
-    return small.filter(ImageFilter.UnsharpMask(radius=0.6, percent=55, threshold=2))
+    return kit.clean_alpha_rgb(small.filter(ImageFilter.UnsharpMask(radius=0.6, percent=55, threshold=2)))
 
 
 def sprite_name(key):

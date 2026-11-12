@@ -366,7 +366,7 @@ def render(key):
         return scene_reform_sprite()
     paint = {'soymu': scene_soymu, 'kapitaniv': scene_kapitaniv}[key]
     frames = [paint(1), paint(2)]
-    frames = [f.filter(ImageFilter.UnsharpMask(radius=0.5, percent=45, threshold=2)) for f in frames]
+    frames = [kit.clean_alpha_rgb(f.filter(ImageFilter.UnsharpMask(radius=0.5, percent=45, threshold=2))) for f in frames]
     return strip(frames)
 
 

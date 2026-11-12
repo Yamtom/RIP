@@ -126,12 +126,10 @@ mipmaps, 14996 bytes, fully opaque**, with no frame of their own - the mission w
 The rest are 42x41 (16), 60x64 (13) and a few odd sizes; do not copy those.
 
 The six locked-branch missions (`uz_identity_branching_*`, `chr_identity_branching_*`) used to draw
-vanilla's `mission_unknown_mission`. `tools/build_mission_icons.py` gives each a vanilla donor
-chosen for the branch's theme and sets vanilla's own padlock (`mission_locked_mission`, cut out by
-value) bottom-right over a soft backing, so a locked slot still reads as locked. A frame-free
-59x63 painting needs no grade: vanilla donors are already vanilla's. `tests/check_mission_icons.py`
-fails on `mission_unknown_mission`, on an `icon =` that no sprite declares, and on a byte copy of a
-vanilla icon among the six.
+vanilla's `mission_unknown_mission`; they now draw painted pictures declared in
+`interface/rip_mission_icons.gfx`. `tests/check_mission_icons.py` fails on `mission_unknown_mission`,
+on an `icon =` that no sprite declares, on a mod mission texture that is not a 59x63 opaque BGRA DDS,
+and on a byte copy of a vanilla icon among the six.
 
 ## Flags
 
