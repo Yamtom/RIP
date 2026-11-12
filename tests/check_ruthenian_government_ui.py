@@ -46,6 +46,8 @@ assert not any(evaluate(p,set(),'FRA') for p in potentials.values())
 for power in ('kyivan_throne_concord','kyivan_peoples_gathering','kyiv_princely_levy_power','kyiv_seat_rotation_power','kyiv_grant_reconfirmation_power'):
     for key in (power,'monthly_'+power,power+'_gain_modifier'):
         assert (ROOT/f'gfx/interface/ideas_EU4/{key}.dds').read_bytes()[:4] == b'DDS '
+for faction_inf in ('kru_knyazi_influence','kru_boyary_influence','kru_starshyna_influence','rep_boyary_influence','rep_knyazi_influence'):
+    assert (ROOT/f'gfx/interface/ideas_EU4/{faction_inf}.dds').read_bytes()[:4] == b'DDS '
 
 siversk = named_block(read('common/government_reforms/RIP_CHR_government_reforms.txt'),'chr_siversk_principality_reform')
 assert 'icon = "russian_principality"' in siversk

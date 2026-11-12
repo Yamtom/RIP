@@ -265,7 +265,10 @@ for i, (name, x, y) in enumerate(ICONS):
         sprites.append(f'\tspriteType = {{ name = "GFX_faction_kru_{name}" texturefile = "gfx/interface/rip_government/faction_{name}.dds" noOfFrames = 1 norefcount = yes }}')
         color = {'knyazi':'purple','boyary':'blue','starshyna':'red'}[name]
         sprites.append(f'\tspriteType = {{ name = "GFX_faction_bg_kru_{name}" texturefile = "gfx/interface/faction_{color}_frame.tga" transparencecheck = yes noOfFrames = 1 norefcount = yes }}')
-from build_core_ruthenia_icons import make_idea_modifier_triplet
+        if name in ('knyazi', 'boyary'):
+            sprites.append(f'\tspriteType = {{ name = "GFX_faction_rep_{name}" texturefile = "gfx/interface/rip_government/faction_{name}.dds" noOfFrames = 1 norefcount = yes }}')
+            sprites.append(f'\tspriteType = {{ name = "GFX_faction_bg_rep_{name}" texturefile = "gfx/interface/faction_{color}_frame.tga" transparencecheck = yes noOfFrames = 1 norefcount = yes }}')
+from build_core_ruthenia_icons import build_faction_influence_icons, make_idea_modifier_triplet
 for power, icon in [('kyivan_throne_concord','concord'),('kyivan_peoples_gathering','prosperity'),
                     ('kyiv_princely_levy_power','kyiv_levy'),('kyiv_seat_rotation_power','kyiv_rota'),
                     ('kyiv_grant_reconfirmation_power','kyiv_grants')]:
@@ -279,6 +282,13 @@ for power, icon in [('kyivan_throne_concord','concord'),('kyivan_peoples_gatheri
         else:
             modifier_path.parent.mkdir(parents=True,exist_ok=True)
             modifier_icon.save(modifier_path)
+for fname, ficon in build_faction_influence_icons().items():
+    fpath = ROOT / f'gfx/interface/ideas_EU4/{fname}'
+    if ARGS.check:
+        assert Image.open(fpath).convert('RGBA').tobytes() == ficon.tobytes()
+    else:
+        fpath.parent.mkdir(parents=True, exist_ok=True)
+        ficon.save(fpath)
 emit('interface/rip_ruthenian_government.gfx','spriteTypes = {\n'+'\n'.join(sprites)+'\n}\n')
 if not ARGS.check:
     preview.save(ROOT/'gfx/interface/rip_government/source/preview.png')
@@ -350,6 +360,9 @@ COPY = {
  'kru_boyary_FACTION_DESC':'The boyar houses seek office, landed rights and control of the treasury.\\n\\nTheir influence receives a yearly boost from stability of at least 2 and a treasury of at least 300 ducats. Court the Boyary to spend 50 administrative power for 25 influence and 50 ducats. Cooldown: 6 years; unavailable at 70 influence.',
  'kru_starshyna_FACTION_DESC':'The Cossack officers defend military service, regimental appointments and the rights of the host.\\n\\nTheir influence receives a yearly boost from army tradition of at least 40 and from war. Court the Starshyna to spend 50 military power for 25 influence and 5 army tradition. Cooldown: 6 years; unavailable at 70 influence.',
  'kru_knyazi_influence':'Knyazi Influence','kru_boyary_influence':'Boyary Influence','kru_starshyna_influence':'Starshyna Influence',
+ 'rep_boyary_FACTION_DESC':'The boyar council represents the landed nobility in the representative assembly, favoring tax administration and loyal subject domains.',
+ 'rep_knyazi_FACTION_DESC':'The princely houses uphold dynastic prerogative, central authority and diplomatic standing within the representative monarchy.',
+ 'rep_boyary_influence':'Boyary Influence','rep_knyazi_influence':'Knyazi Influence',
  'ability_ruthenian_factional_court_mechanic':'Council of Three Estates',
  'ruthenian_factional_pair_system_tt':'The faction in power leads the rada. The faction that is second by influence stands on the left of the States General bar and the leader on the right; the bar moves right with the leader\'s influence (50, 55, 60). The runner-up keeps a junior voice from 38 influence. The pair is checked every month and after every court ability.',
  'ruthenian_factional_influence_sources_tt':'Yearly influence: Knyazi gain from legitimacy of at least 60 and at least two subjects; Boyary from stability of at least 2 and 300 ducats; Starshyna from army tradition of at least 40 and war. Council abilities also add influence.',

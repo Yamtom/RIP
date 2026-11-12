@@ -474,6 +474,152 @@ def make_vanilla_arrow_badge(size: int = 64) -> Image.Image:
 
 _PLUS_BADGE: Image.Image | None = None
 _ARROW_BADGE: Image.Image | None = None
+_FACTION_INFLUENCE_BADGE: Image.Image | None = None
+
+
+def make_vanilla_faction_influence_badge(size: int = 64) -> Image.Image:
+    """Render a 3D bevelled steel-blue 4-directional compass ring matching vanilla <faction>_influence.dds."""
+    ss = 4
+    s_px = size * ss
+    cx, cy = 40.0 * ss, 36.5 * ss
+    y_g, x_g = np.mgrid[0:s_px, 0:s_px].astype(np.float32)
+    dx = (x_g - cx) / ss
+    dy = (y_g - cy) / ss
+    r = np.hypot(dx, dy)
+
+    ring_fill = (r >= 4.4) & (r <= 7.3)
+    ring_border = ((r >= 3.4) & (r < 4.4)) | ((r > 7.3) & (r <= 8.3))
+
+    tri_im = Image.new('L', (s_px, s_px), 0)
+    td = ImageDraw.Draw(tri_im)
+    td.polygon([(40.0 * ss, 23.3 * ss), (36.8 * ss, 27.9 * ss), (43.2 * ss, 27.9 * ss)], fill=255)
+    td.polygon([(40.0 * ss, 49.7 * ss), (36.8 * ss, 45.1 * ss), (43.2 * ss, 45.1 * ss)], fill=255)
+    td.polygon([(26.8 * ss, 36.5 * ss), (31.4 * ss, 33.3 * ss), (31.4 * ss, 39.7 * ss)], fill=255)
+    td.polygon([(53.2 * ss, 36.5 * ss), (48.6 * ss, 33.3 * ss), (48.6 * ss, 39.7 * ss)], fill=255)
+    tri_fill = np.asarray(tri_im, dtype=np.float32) / 255.0 > 0.5
+    tri_dil = np.asarray(tri_im.filter(ImageFilter.MaxFilter(int(2 * ss + 1))), dtype=np.float32) / 255.0 > 0.15
+    tri_border = tri_dil & (~tri_fill)
+
+    fill_mask = ring_fill | tri_fill
+    border_mask = (ring_border | tri_border) & (~fill_mask)
+
+    fill_im = Image.fromarray((fill_mask.astype(np.uint8) * 255), 'L')
+    bevel = np.asarray(fill_im.filter(ImageFilter.GaussianBlur(radius=0.9 * ss)), dtype=np.float32) / 255.0
+
+    light = np.clip((-dx * 0.45 - dy * 0.65) / 11.5 + 0.58, 0.0, 1.0)
+    ridge = np.clip(1.0 - np.abs(r - 5.85) / 1.6, 0.0, 1.0) * 0.30
+    shade = np.clip(0.18 + 0.54 * light + 0.24 * bevel + ridge, 0.0, 1.0)
+
+    red = np.clip(38 + shade * 88, 0, 255).astype(np.uint8)
+    grn = np.clip(64 + shade * 108, 0, 255).astype(np.uint8)
+    blu = np.clip(94 + shade * 124, 0, 255).astype(np.uint8)
+
+    out = np.zeros((s_px, s_px, 4), dtype=np.uint8)
+    out[border_mask, 0] = 12
+    out[border_mask, 1] = 18
+    out[border_mask, 2] = 26
+    out[border_mask, 3] = 240
+
+    out[fill_mask, 0] = red[fill_mask]
+    out[fill_mask, 1] = grn[fill_mask]
+    out[fill_mask, 2] = blu[fill_mask]
+    out[fill_mask, 3] = 255
+
+    im = Image.fromarray(out, 'RGBA')
+    sh = Image.new('RGBA', (s_px, s_px), (0, 0, 0, 0))
+    sh_a = im.getchannel('A').point(lambda a: int(a * 0.68))
+    sh_l = Image.new('RGBA', (s_px, s_px), (0, 0, 0, 0))
+    sh_l.putalpha(sh_a)
+    sh.paste(sh_l, (int(1.0 * ss), int(1.3 * ss)))
+    sh = sh.filter(ImageFilter.GaussianBlur(radius=1.1 * ss))
+    comp = Image.alpha_composite(sh, im)
+    res = comp.convert('RGBa').resize((size, size), Image.Resampling.LANCZOS).convert('RGBA')
+    arr = np.array(res)
+    arr[arr[:, :, 3] < 8] = 0
+    arr[arr[:, :, 3] == 0] = 0
+    return Image.fromarray(arr, 'RGBA')
+
+
+def make_faction_influence_icon(
+    emblem_rgba: Image.Image,
+    box_size: int = 42,
+    center: tuple[int, int] = (27, 28),
+) -> Image.Image:
+    """Build a 64x64 <faction>_influence icon matching vanilla ideas_EU4 faction influence conventions."""
+    global _FACTION_INFLUENCE_BADGE
+    if _FACTION_INFLUENCE_BADGE is None:
+        _FACTION_INFLUENCE_BADGE = make_vanilla_faction_influence_badge(64)
+    base, _, _ = make_idea_modifier_triplet(emblem_rgba, box_size=box_size, center=center)
+    return resize_clean(Image.alpha_composite(base, _FACTION_INFLUENCE_BADGE), (64, 64))
+
+
+def build_faction_influence_icons() -> dict[str, Image.Image]:
+    return {
+        'kru_knyazi_influence.dds': make_faction_influence_icon(atlas_emblem(1, 2)),
+        'kru_boyary_influence.dds': make_faction_influence_icon(atlas_emblem(2, 2)),
+        'kru_starshyna_influence.dds': make_faction_influence_icon(atlas_emblem(3, 2)),
+        'rep_boyary_influence.dds': make_faction_influence_icon(atlas_emblem(3, 0)),
+        'rep_knyazi_influence.dds': make_faction_influence_icon(atlas_emblem(0, 1)),
+    }
+
+
+def het_authority_emblem() -> Image.Image:
+    """Composite the Hetmanate bulava & sabre regalia over a wax-sealed Universal charter scroll."""
+    scroll = atlas_emblem(0, 0).copy()
+    regalia = atlas_emblem(3, 2).copy()
+    w, h = regalia.size
+    sw, sh = int(w * 0.72), int(h * 0.72)
+    scroll_small = resize_clean(scroll, (sw, sh))
+
+    comp = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    comp.paste(scroll_small, ((w - sw) // 2 - 14, (h - sh) // 2 + 18))
+
+    sh_l = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    sh_a = regalia.getchannel('A').point(lambda a: int(a * 0.82))
+    sh_c = Image.new('RGBA', (w, h), (10, 6, 4, 0))
+    sh_c.putalpha(sh_a)
+    sh_l.paste(sh_c, (5, 7))
+    sh_l = sh_l.filter(ImageFilter.GaussianBlur(radius=6.0))
+    comp = Image.alpha_composite(comp, sh_l)
+    return Image.alpha_composite(comp, regalia)
+
+
+def zaz_cossack_zeal_emblem() -> Image.Image:
+    """Composite crossed swords and crimson shield with the radiant 3D golden Orthodox three-bar cross."""
+    banner = Image.open(ROOT / 'assets/church_banners/ro_banner_mission.png').convert('RGBA')
+    crop = banner.crop((370, 240, 885, 885))
+    arr = np.asarray(crop, dtype=np.float32)
+    r, g, b = arr[:, :, 0], arr[:, :, 1], arr[:, :, 2]
+    goldness = (g - b * 0.6) + (r - b) * 0.4 - np.maximum(0, r - g * 1.45) * 1.8
+    alpha = np.clip((goldness - 28.0) / 38.0 * 255.0, 0, 255).astype(np.uint8)
+    cross_rgba = np.zeros_like(arr, dtype=np.uint8)
+    cross_rgba[:, :, 0] = np.clip(r * 1.06, 0, 255).astype(np.uint8)
+    cross_rgba[:, :, 1] = np.clip(g * 1.04, 0, 255).astype(np.uint8)
+    cross_rgba[:, :, 2] = np.clip(b * 0.88, 0, 255).astype(np.uint8)
+    cross_rgba[:, :, 3] = alpha
+    cross_im = Image.fromarray(cross_rgba, 'RGBA')
+    bbox = cross_im.getbbox()
+    if bbox:
+        cross_im = cross_im.crop(bbox)
+
+    shield_swords = atlas_emblem(1, 1).copy()
+    sw, sh = shield_swords.size
+    cw = int(sw * 0.50)
+    ch = int(cw * cross_im.height / cross_im.width)
+    c_small = resize_clean(cross_im, (cw, ch))
+    ox = (sw - cw) // 2
+    oy = (sh - ch) // 2 - int(sh * 0.02)
+
+    sh_l = Image.new('RGBA', (sw, sh), (0, 0, 0, 0))
+    sh_a = c_small.getchannel('A').point(lambda a: int(a * 0.85))
+    sh_c = Image.new('RGBA', (cw, ch), (18, 6, 4, 0))
+    sh_c.putalpha(sh_a)
+    sh_l.paste(sh_c, (ox + 3, oy + 4))
+    sh_l = sh_l.filter(ImageFilter.GaussianBlur(radius=4.0))
+    out = Image.alpha_composite(shield_swords, sh_l)
+    fg = Image.new('RGBA', (sw, sh), (0, 0, 0, 0))
+    fg.paste(c_small, (ox, oy))
+    return Image.alpha_composite(out, fg)
 
 
 def make_idea_modifier_triplet(
@@ -614,6 +760,11 @@ def write_all() -> int:
         path.parent.mkdir(parents=True, exist_ok=True)
         img.save(path, format='DDS')
 
+    for name, img in build_faction_influence_icons().items():
+        path = ROOT / 'gfx/interface/ideas_EU4' / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        img.save(path, format='DDS')
+
     vp_path = ROOT / 'gfx/interface/great_projects/great_project_vilnius_palace.dds'
     build_vilnius_palace().save(vp_path, format='DDS')
 
@@ -677,6 +828,18 @@ def check_all() -> int:
         path = ROOT / 'gfx/interface/ideas_EU4' / name
         if not path.is_file():
             problems.append(f'Missing magnate modifier icon: {path}')
+            continue
+        have = Image.open(path).convert('RGBA')
+        if have.size != (64, 64):
+            problems.append(f'{name}: expected 64x64, got {have.size}')
+        diff = ImageChops.difference(have, want).getextrema()
+        if max(ch[1] for ch in diff) > CHECK_TOLERANCE:
+            problems.append(f'{name}: differs from generator')
+
+    for name, want in build_faction_influence_icons().items():
+        path = ROOT / 'gfx/interface/ideas_EU4' / name
+        if not path.is_file():
+            problems.append(f'Missing faction influence icon: {path}')
             continue
         have = Image.open(path).convert('RGBA')
         if have.size != (64, 64):

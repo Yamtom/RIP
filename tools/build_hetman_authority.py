@@ -288,8 +288,8 @@ def main():
         else:
             path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(data)
     from PIL import Image
-    from build_core_ruthenia_icons import atlas_emblem, make_idea_modifier_triplet
-    base_icon, monthly_icon, gain_icon = make_idea_modifier_triplet(atlas_emblem(3, 2))
+    from build_core_ruthenia_icons import het_authority_emblem, make_idea_modifier_triplet
+    base_icon, monthly_icon, gain_icon = make_idea_modifier_triplet(het_authority_emblem())
     for new, icon in [(POWER, base_icon), ('monthly_' + POWER, monthly_icon), (POWER + '_gain_modifier', gain_icon)]:
         target = ROOT / f'gfx/interface/ideas_EU4/{new}.dds'
         if args.check:
