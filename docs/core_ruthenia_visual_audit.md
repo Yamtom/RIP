@@ -36,8 +36,36 @@
 | redesign | estate privilege icon | `estate_jewish_loan_banks` | `common/estate_privileges/RIP_shared_jewish_privileges.txt :: estate_jewish_loan_banks` | `privilege_loan_interaction` | Functional but too generic to distinguish communal credit networks from normal borrowing tools. | `rip_gfx_privilege_jewish_loan_banks_icon` | `interface/rip_privilege_icons.gfx :: rip_gfx_privilege_jewish_loan_banks_icon` | підключено з запасним DDS, власна графіка в черзі |
 | redesign | estate privilege icon | `estate_jewish_kahal_autonomy` | `common/estate_privileges/RIP_shared_jewish_privileges.txt :: estate_jewish_kahal_autonomy` | `privilege_autonomy` | Generic autonomy symbol hides the specific kahal self-governance identity. | `rip_gfx_privilege_jewish_kahal_autonomy_icon` | `interface/rip_privilege_icons.gfx :: rip_gfx_privilege_jewish_kahal_autonomy_icon` | підключено з запасним DDS, власна графіка в черзі |
 | redesign | estate privilege icon | `estate_jewish_black_sea_network` | `common/estate_privileges/RIP_shared_jewish_privileges.txt :: estate_jewish_black_sea_network` | `privilege_caravans` | Caravan icon reads broadly and misses the maritime-diaspora brokerage angle. | `rip_gfx_privilege_jewish_black_sea_network_icon` | `interface/rip_privilege_icons.gfx :: rip_gfx_privilege_jewish_black_sea_network_icon` | підключено з запасним DDS, власна графіка в черзі |
-| redesign | event picture | `south_ukraine_history.7` | `events/RIP_shared_steppe_SouthUkraineHistorical.txt :: south_ukraine_history.7` | `PARLIAMENT_eventPicture` | Parliamentary chamber scene is semantically wrong for a Zaporozhian autonomy charter on the steppe frontier. | `rip_gfx_event_south_ukraine_zaporozhian_autonomy_charter_eventPicture` | `interface/rip_eventpictures.gfx :: rip_gfx_event_south_ukraine_zaporozhian_autonomy_charter_eventPicture` | підключено з запасним DDS, власна графіка в черзі |
-| redesign | event picture | `south_ukraine_history.12` | `events/RIP_shared_steppe_SouthUkraineHistorical.txt :: south_ukraine_history.12` | `PARLIAMENT_eventPicture` | Generic parliamentary hall obscures an imperial frontier restructuring of forts, maps, and settlers. | `rip_gfx_event_south_ukraine_imperial_frontier_reform_eventPicture` | `interface/rip_eventpictures.gfx :: rip_gfx_event_south_ukraine_imperial_frontier_reform_eventPicture` | підключено з запасним DDS, власна графіка в черзі |
-| redesign | event picture | `het_flavor.12` | `events/RIP_HET_HetmanateFlavor.txt :: het_flavor.12` | `REFORM_eventPicture` | Functional but too broad; does not communicate the Little Russian Collegium specifically. | `rip_gfx_event_hetmanate_little_russian_collegium_eventPicture` | `interface/rip_eventpictures.gfx :: rip_gfx_event_hetmanate_little_russian_collegium_eventPicture` | підключено з запасним DDS, власна графіка в черзі |
-| redesign | event picture | `kyiv_dnieper_history.10` | `events/RIP_shared_ruthenian_KyivDnieperHistorical.txt :: kyiv_dnieper_history.10` | `REFORM_eventPicture` | Generic reform imagery obscures Orthodox printing, scholarship, and book production in Kyiv. | `rip_gfx_event_kyiv_orthodox_printing_press_eventPicture` | `interface/rip_eventpictures.gfx :: rip_gfx_event_kyiv_orthodox_printing_press_eventPicture` | підключено з запасним DDS, власна графіка в черзі |
-| redesign | event picture | `rip_jewish.1` | `events/RIP_shared_estates_JewishEstate.txt :: rip_jewish.1` | `BURGHERS_eventPicture` | Generic burgher scene obscures protected Jewish merchant diasporas, charters, and credit networks. | `rip_gfx_event_jewish_estate_invite_merchants_eventPicture` | `interface/rip_eventpictures.gfx :: rip_gfx_event_jewish_estate_invite_merchants_eventPicture` | підключено з запасним DDS, власна графіка в черзі |
+| redesign | event picture | `south_ukraine_history.7` | `events/RIP_shared_steppe_SouthUkraineHistorical.txt :: south_ukraine_history.7` | Козаки й посланець обговорюють хартію | Умовна сцена до рішення, не документальний портрет. | `rip_gfx_event_south_ukraine_zaporozhian_autonomy_charter_art_eventPicture` | `interface/rip_eventpictures.gfx :: rip_gfx_event_south_ukraine_zaporozhian_autonomy_charter_art_eventPicture` | власний DDS; у грі не перевірено |
+| redesign | event picture | `south_ukraine_history.12` | `events/RIP_shared_steppe_SouthUkraineHistorical.txt :: south_ukraine_history.12` | Посадовці над картою степу | Умовний план прикордоння, не історична карта. | `rip_gfx_event_south_ukraine_imperial_frontier_reform_eventPicture` | `interface/rip_eventpictures.gfx :: rip_gfx_event_south_ukraine_imperial_frontier_reform_eventPicture` | власний DDS; у грі не перевірено |
+| redesign | event picture | `het_flavor.12` | `events/RIP_HET_HetmanateFlavor.txt :: het_flavor.12` | Імперські чиновники й старшина за столом | Художня інтерпретація колегії, не реконструкція засідання чи герба. | `rip_gfx_event_hetmanate_little_russian_collegium_eventPicture` | `interface/rip_eventpictures.gfx :: rip_gfx_event_hetmanate_little_russian_collegium_eventPicture` | власний DDS; у грі не перевірено |
+| redesign | event picture | `kyiv_dnieper_history.10` | `events/RIP_shared_ruthenian_KyivDnieperHistorical.txt :: kyiv_dnieper_history.10` | Друкарський верстат і православний чернець | Умовна майстерня, не реконструкція конкретної київської друкарні. | `rip_gfx_event_kyiv_orthodox_printing_press_eventPicture` | `interface/rip_eventpictures.gfx :: rip_gfx_event_kyiv_orthodox_printing_press_eventPicture` | власний DDS; у грі не перевірено |
+| redesign | event picture | `rip_jewish.1` | `events/RIP_shared_estates_JewishEstate.txt :: rip_jewish.1` | Купець і посадовець обговорюють охоронну грамоту | Умовна сцена без заяви про конкретних осіб або вже ухвалене рішення. | `rip_gfx_event_jewish_estate_invite_merchants_eventPicture` | `interface/rip_eventpictures.gfx :: rip_gfx_event_jewish_estate_invite_merchants_eventPicture` | власний DDS; у грі не перевірено |
+
+### Перегляд ілюстрацій подій: 11 листопада 2026
+
+П'ять наявних DDS у [event_pictures_rip](../gfx/event_pictures/event_pictures_rip/)
+були ванільними заглушками: двічі `REFORM`, а також `COURT`,
+`UNIVERSITY` і `MERCHANTS_TALKING`. Вони мають 512 × 132 пікселі, DXT1
+без mipmaps; такий самий формат є і серед базових зображень ванілі. В інших
+переглянутих ванільних ресурсах трапляються mipmaps та 32-бітний формат, тому
+сама різниця не доводить помилки.
+
+Після порівняння з ванільною вибіркою створено п'ять нових ілюстрацій:
+чорнильний контур, штрихування й теплий пергамент збережено як спільний
+художній напрям. Це згенеровані інтерпретації, а не свідчення вигляду
+конкретних людей, споруд чи документів. Особливості одягу, карти та дрібної
+геральдики потребують авторської історичної перевірки.
+
+Джерела PNG збережено в [assets/event_pictures](../assets/event_pictures/),
+остаточні промпти — в [документі промптів](core_ruthenia_visual_prompts.md).
+[Генератор DDS](../tools/build_event_pictures.py) пропорційно кадрує
+зображення до 512 × 132 і записує непрозорий 32-бітний DDS без DX10;
+`python -B tools/build_event_pictures.py --check` перевіряє відповідність
+вихідним PNG. Нові картинки показуються незалежно від DLC.
+
+Усі п'ять старих локальних DDS збережено. Старий спрайт хартії далі
+використовує `russian_orthodox.17`; сама хартія отримала окремий спрайт, щоб
+не змінювати церковну подію. Раніше помічений нестандартний шлях локального
+архіву Rights of Man тепер не впливає на зображення київської події.
+Відображення жодної нової картинки безпосередньо в грі ще не перевірялося.

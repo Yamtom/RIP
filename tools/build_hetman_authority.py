@@ -287,13 +287,16 @@ def main():
             assert path.read_bytes().replace(b'\r\n', b'\n') == data, f'Stale: {rel}'
         else:
             path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(data)
-    for old, new in [('kyivan_throne_concord', POWER), ('monthly_kyivan_throne_concord', 'monthly_' + POWER), ('kyivan_throne_concord_gain_modifier', POWER + '_gain_modifier')]:
-        data = (ROOT / f'gfx/interface/ideas_EU4/{old}.dds').read_bytes()
+    from PIL import Image
+    from build_core_ruthenia_icons import atlas_emblem, make_idea_modifier_triplet
+    base_icon, monthly_icon, gain_icon = make_idea_modifier_triplet(atlas_emblem(3, 2))
+    for new, icon in [(POWER, base_icon), ('monthly_' + POWER, monthly_icon), (POWER + '_gain_modifier', gain_icon)]:
         target = ROOT / f'gfx/interface/ideas_EU4/{new}.dds'
         if args.check:
-            assert target.read_bytes() == data, target
+            assert Image.open(target).convert('RGBA').tobytes() == icon.tobytes(), target
         else:
-            target.write_bytes(data)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            icon.save(target, format='DDS')
     print(f'HET authority: {len(OUT)} generated files ' + ('verified' if args.check else 'written'))
 
 if __name__ == '__main__':

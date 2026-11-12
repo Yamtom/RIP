@@ -5,10 +5,11 @@ English fallback strings in non-English languages are intentional, not translati
 """
 from pathlib import Path
 import argparse
+import math
 import sys
 import re
 from collections import deque
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -32,27 +33,57 @@ NAMES = ['siversk_charter','siversk_towns','siversk_retinue','kyiv_snem',
          'concord','gathering','prosperity','rada','siversk_principality']
 
 ICONS = [
-    ('concord', 0, 3), ('gathering', 1, 3), ('prosperity', 1, 3),
+    ('concord', 0, 3), ('prosperity', 1, 3),
     ('kyiv_levy', 2, 1), ('kyiv_rota', 3, 1), ('kyiv_grants', 0, 2),
     ('knyazi', 1, 2), ('boyary', 2, 2), ('starshyna', 3, 2),
-    ('siversk_charter', 0, 0), ('siversk_towns', 0, 0),
-    ('siversk_retinue', 0, 0), ('kyiv_snem', 0, 0),
-    ('kyiv_udil', 0, 0), ('kyiv_druzhyna', 0, 0),
+    ('siversk_charter', 0, 0), ('siversk_towns', 1, 0),
+    ('siversk_retinue', 2, 0), ('kyiv_snem', 3, 0),
+    ('kyiv_udil', 0, 1), ('kyiv_druzhyna', 1, 1),
 ]
-ART = {'siversk_charter': 'charter', 'siversk_towns': 'towns',
-       'siversk_retinue': 'druzhyna', 'kyiv_snem': 'snem',
-       'kyiv_udil': 'charter', 'kyiv_druzhyna': 'druzhyna',
-       'kyiv_levy': 'druzhyna', 'kyiv_rota': 'snem',
-       'kyiv_grants': 'charter', 'concord': 'concord', 'prosperity': 'prosperity'}
+ART = {
+    'siversk_charter': 'charter',
+    'siversk_towns': 'towns',
+    'kyiv_snem': 'snem',
+    'kyiv_druzhyna': 'druzhyna',
+    'concord': 'concord',
+    'prosperity': 'prosperity',
+}
+BUTTON_THEMES = {
+    'siversk_charter': 'siversk',
+    'siversk_towns': 'siversk',
+    'siversk_retinue': 'siversk',
+    'kyiv_snem': 'seniority',
+    'kyiv_udil': 'seniority',
+    'kyiv_druzhyna': 'seniority',
+    'kyiv_levy': 'seniorate',
+    'kyiv_rota': 'seniorate',
+    'kyiv_grants': 'seniorate',
+}
 atlas = Image.open(ROOT/'gfx/interface/rip_government/source/atlas.png').convert('RGBA')
 ROWS = (0, .25, .5, .732, 1)
 sprites = []
-preview = Image.new('RGB', (640, 180), '#16292b')
+preview = Image.new('RGB', (640, 360), '#16292b')
 draw = ImageDraw.Draw(preview)
-def remove_atlas_background(image):
+
+def resize_clean(image, size):
+    pre = image.convert('RGBa').resize(size, Image.Resampling.LANCZOS).convert('RGBA')
+    pixels = pre.load()
+    width, height = pre.size
+    for y in range(height):
+        for x in range(width):
+            if pixels[x, y][3] == 0:
+                pixels[x, y] = (0, 0, 0, 0)
+    return pre
+
+def remove_atlas_background(image, pad_ratio=0.08):
+    image = image.copy()
     pixels = image.load()
     width, height = image.size
-    background = pixels[0, 0][:3]
+    corners = [pixels[0, 0][:3], pixels[width - 1, 0][:3],
+               pixels[0, height - 1][:3], pixels[width - 1, height - 1][:3]]
+    bg_r = sum(c[0] for c in corners) // 4
+    bg_g = sum(c[1] for c in corners) // 4
+    bg_b = sum(c[2] for c in corners) // 4
     visited = bytearray(width * height)
     pending = deque()
 
@@ -68,25 +99,136 @@ def remove_atlas_background(image):
     for y in range(1, height - 1):
         enqueue(0, y)
         enqueue(width - 1, y)
+    for y in range(1, height - 1):
+        for x in range(1, width - 1):
+            red, green, blue, _ = pixels[x, y]
+            if max(abs(red - bg_r), abs(green - bg_g), abs(blue - bg_b)) <= 18:
+                enqueue(x, y)
 
     while pending:
         index = pending.popleft()
         x, y = index % width, index // width
         red, green, blue, alpha = pixels[x, y]
-        if max(abs(red - background[0]), abs(green - background[1]),
-               abs(blue - background[2])) > 24:
-            continue
-        pixels[x, y] = (red, green, blue, 0)
-        if x:
-            enqueue(x - 1, y)
-        if x + 1 < width:
-            enqueue(x + 1, y)
-        if y:
-            enqueue(x, y - 1)
-        if y + 1 < height:
-            enqueue(x, y + 1)
+        dist = max(abs(red - bg_r), abs(green - bg_g), abs(blue - bg_b))
+        teal_excess = min(green - red, blue - red)
+        if dist <= 32 or (teal_excess >= 16 and red < 42 and blue < 85):
+            pixels[x, y] = (0, 0, 0, 0)
+            if x:
+                enqueue(x - 1, y)
+            if x + 1 < width:
+                enqueue(x + 1, y)
+            if y:
+                enqueue(x, y - 1)
+            if y + 1 < height:
+                enqueue(x, y + 1)
+        elif dist < 54 or (teal_excess >= 8 and red < 55 and blue < 95):
+            factor = min(1.0, max(0.0, (dist - 32) / 22.0))
+            new_alpha = int(alpha * factor)
+            if blue > red and green > red:
+                green = (green + red) // 2
+                blue = (blue + red) // 2
+            pixels[x, y] = (red, green, blue, new_alpha) if new_alpha > 0 else (0, 0, 0, 0)
+
+    for y in range(1, height - 1):
+        for x in range(1, width - 1):
+            if pixels[x, y][3] > 0:
+                neighbors = sum(
+                    1 for dy in (-1, 0, 1) for dx in (-1, 0, 1)
+                    if (dx or dy) and pixels[x + dx, y + dy][3] > 32
+                )
+                if neighbors <= 1:
+                    pixels[x, y] = (0, 0, 0, 0)
+
+    bbox = image.getbbox()
+    if bbox:
+        cropped = image.crop(bbox)
+        cw, ch = cropped.size
+        side = int(max(cw, ch) / (1.0 - 2 * pad_ratio))
+        out = Image.new('RGBA', (side, side), (0, 0, 0, 0))
+        out.paste(cropped, ((side - cw) // 2, (side - ch) // 2))
+        return out
     return image
 
+def frame_mechanic_button(emblem_rgba, theme, size=72):
+    ss = 4
+    side = size * ss
+    cx = cy = side / 2.0
+    canvas = Image.new('RGBA', (side, side), (0, 0, 0, 0))
+    pixels = canvas.load()
+    palettes = {
+        'siversk':   {'bg_top': (72, 26, 22), 'bg_bot': (32, 12, 10), 'rim_hi': (236, 198, 118), 'rim_lo': (78, 52, 20), 'inner': (138, 48, 36)},
+        'seniority': {'bg_top': (24, 52, 74), 'bg_bot': (11, 24, 36), 'rim_hi': (232, 196, 120), 'rim_lo': (72, 50, 22), 'inner': (46, 92, 124)},
+        'seniorate': {'bg_top': (68, 42, 20), 'bg_bot': (28, 17, 9),  'rim_hi': (242, 206, 126), 'rim_lo': (82, 56, 22), 'inner': (148, 96, 42)},
+    }
+    pal = palettes[theme]
+    r_halo_out = 32.5 * ss
+    r_outer    = 29.5 * ss
+    r_rim_in   = 25.2 * ss
+    r_groove   = 23.8 * ss
+
+    for y in range(side):
+        for x in range(side):
+            dx = x + 0.5 - cx
+            dy = y + 0.5 - cy
+            d = math.hypot(dx, dy)
+            if d > r_halo_out:
+                continue
+            nx = dx / max(d, 1.0)
+            ny = dy / max(d, 1.0)
+            light = max(0.0, min(1.0, (-0.55 * nx - 0.83 * ny + 1.0) * 0.5))
+            if d > r_outer:
+                t = (r_halo_out - d) / (r_halo_out - r_outer)
+                a = int(170 * (t ** 1.6))
+                pixels[x, y] = (10, 8, 6, a) if a > 0 else (0, 0, 0, 0)
+            elif d > r_rim_in:
+                u = (d - r_rim_in) / (r_outer - r_rim_in)
+                ridge = math.sin(u * math.pi)
+                shade = 0.25 + 0.75 * (0.65 * light + 0.35 * ridge)
+                if u > 0.85 or u < 0.12:
+                    shade *= 0.55
+                r = int(pal['rim_lo'][0] + (pal['rim_hi'][0] - pal['rim_lo'][0]) * shade)
+                g = int(pal['rim_lo'][1] + (pal['rim_hi'][1] - pal['rim_lo'][1]) * shade)
+                b = int(pal['rim_lo'][2] + (pal['rim_hi'][2] - pal['rim_lo'][2]) * shade)
+                pixels[x, y] = (max(0, min(255, r)), max(0, min(255, g)), max(0, min(255, b)), 255)
+            elif d > r_groove:
+                u = (d - r_groove) / (r_rim_in - r_groove)
+                if u < 0.45:
+                    c = pal['inner']
+                    pixels[x, y] = (c[0], c[1], c[2], 255)
+                else:
+                    pixels[x, y] = (18, 12, 10, 255)
+            else:
+                vy = y / side
+                vign = 1.0 - 0.35 * ((d / r_groove) ** 2)
+                r = int((pal['bg_top'][0] * (1 - vy) + pal['bg_bot'][0] * vy) * vign)
+                g = int((pal['bg_top'][1] * (1 - vy) + pal['bg_bot'][1] * vy) * vign)
+                b = int((pal['bg_top'][2] * (1 - vy) + pal['bg_bot'][2] * vy) * vign)
+                pixels[x, y] = (max(0, min(255, r)), max(0, min(255, g)), max(0, min(255, b)), 255)
+
+    bbox = emblem_rgba.getbbox()
+    cropped = emblem_rgba.crop(bbox) if bbox else emblem_rgba
+    cw, ch = cropped.size
+    target_box = int(47 * ss)
+    scale = min(target_box / cw, target_box / ch)
+    nw, nh = max(1, int(round(cw * scale))), max(1, int(round(ch * scale)))
+    emb_resized = resize_clean(cropped, (nw, nh))
+
+    shadow = Image.new('RGBA', (side, side), (0, 0, 0, 0))
+    sh_alpha = emb_resized.getchannel('A').point(lambda a: int(a * 0.65))
+    sh_layer = Image.new('RGBA', (nw, nh), (0, 0, 0, 0))
+    sh_layer.putalpha(sh_alpha)
+    ox = (side - nw) // 2
+    oy = (side - nh) // 2
+    shadow.paste(sh_layer, (ox + int(1.2 * ss), oy + int(1.8 * ss)))
+    shadow = shadow.filter(ImageFilter.GaussianBlur(radius=1.6 * ss))
+    canvas = Image.alpha_composite(canvas, shadow)
+
+    emb_layer = Image.new('RGBA', (side, side), (0, 0, 0, 0))
+    emb_layer.paste(emb_resized, (ox, oy))
+    canvas = Image.alpha_composite(canvas, emb_layer)
+    return resize_clean(canvas, (size, size))
+
+unframed_tiles = {}
 for i, (name, x, y) in enumerate(ICONS):
     tile = atlas.crop((round(x*atlas.width/4), round(ROWS[y]*atlas.height),
                        round((x+1)*atlas.width/4), round(ROWS[y+1]*atlas.height)))
@@ -94,8 +236,12 @@ for i, (name, x, y) in enumerate(ICONS):
         tile = Image.open(ROOT/f'gfx/interface/rip_government/source/{ART[name]}.png').convert('RGBA')
     else:
         tile = remove_atlas_background(tile)
-    icon = tile.resize((72,72), Image.Resampling.LANCZOS)
-    # Native 72x72 footprint; source PNG alpha is preserved for new emblems.
+    unframed_tiles[name] = tile
+    if name in BUTTON_THEMES:
+        icon = frame_mechanic_button(tile, BUTTON_THEMES[name], size=72)
+    else:
+        icon = resize_clean(tile, (72, 72))
+    # Native 72x72 footprint; interaction buttons use mechanic frames, power emblems stay unframed.
     if name not in ('knyazi', 'boyary', 'starshyna'):
         path = ROOT/f'gfx/interface/rip_government/{name}.dds'
         if ARGS.check:
@@ -103,15 +249,14 @@ for i, (name, x, y) in enumerate(ICONS):
             assert Image.open(path).convert('RGBA').tobytes() == icon.tobytes(), path
         else:
             icon.save(path)
-    preview_icon = icon.resize((64,64), Image.Resampling.LANCZOS)
+        sprites.append(f'\tspriteType = {{ name = "GFX_rip_{name}" texturefile = "gfx/interface/rip_government/{name}.dds" noOfFrames = 1 norefcount = yes }}')
+    preview_icon = resize_clean(icon, (64, 64))
     preview_x, preview_y = i % 4, i // 4
     preview.paste(preview_icon, (preview_x*160+48, preview_y*90),
                   preview_icon.getchannel('A'))
     draw.text((preview_x*160+6, preview_y*90+66), name, fill='#eed8ac')
-    if name in ART:
-        sprites.append(f'\tspriteType = {{ name = "GFX_rip_{name}" texturefile = "gfx/interface/rip_government/{name}.dds" noOfFrames = 1 norefcount = yes }}')
     if name in ('knyazi','boyary','starshyna'):
-        faction = tile.resize((104,104),Image.Resampling.LANCZOS)
+        faction = resize_clean(tile, (104, 104))
         faction_path = ROOT/f'gfx/interface/rip_government/faction_{name}.dds'
         if ARGS.check:
             assert Image.open(faction_path).convert('RGBA').tobytes() == faction.tobytes()
@@ -120,13 +265,14 @@ for i, (name, x, y) in enumerate(ICONS):
         sprites.append(f'\tspriteType = {{ name = "GFX_faction_kru_{name}" texturefile = "gfx/interface/rip_government/faction_{name}.dds" noOfFrames = 1 norefcount = yes }}')
         color = {'knyazi':'purple','boyary':'blue','starshyna':'red'}[name]
         sprites.append(f'\tspriteType = {{ name = "GFX_faction_bg_kru_{name}" texturefile = "gfx/interface/faction_{color}_frame.tga" transparencecheck = yes noOfFrames = 1 norefcount = yes }}')
+from build_core_ruthenia_icons import make_idea_modifier_triplet
 for power, icon in [('kyivan_throne_concord','concord'),('kyivan_peoples_gathering','prosperity'),
                     ('kyiv_princely_levy_power','kyiv_levy'),('kyiv_seat_rotation_power','kyiv_rota'),
                     ('kyiv_grant_reconfirmation_power','kyiv_grants')]:
-    for key in (power,'monthly_'+power,power+'_gain_modifier'):
+    base_icon, monthly_icon, gain_icon = make_idea_modifier_triplet(unframed_tiles[icon])
+    for key, modifier_icon in ((power, base_icon), ('monthly_' + power, monthly_icon), (power + '_gain_modifier', gain_icon)):
         # EU4 creates modifier sprites from the ideas_EU4 filename convention.
         # Supply the actual files rather than relying on a hand-named alias.
-        modifier_icon = Image.open(ROOT/f'gfx/interface/rip_government/{icon}.dds').convert('RGBA').resize((64,64),Image.Resampling.LANCZOS)
         modifier_path = ROOT/f'gfx/interface/ideas_EU4/{key}.dds'
         if ARGS.check:
             assert Image.open(modifier_path).convert('RGBA').tobytes() == modifier_icon.tobytes()
@@ -138,6 +284,7 @@ if not ARGS.check:
     preview.save(ROOT/'gfx/interface/rip_government/source/preview.png')
 
 OBSOLETE_ASSETS = [
+    'gfx/interface/rip_government/gathering.dds',
     'gfx/interface/rip_government/rada.dds',
     'gfx/interface/rip_government/siversk_principality.dds',
     'gfx/interface/rip_government/knyazi.dds',

@@ -421,15 +421,15 @@ def frame_masks(kind):
     """Outer silhouette, inner edge of the gold band, of the enamel, and the picture area."""
     c = SIZE / 2.0
     if kind == 'round':
-        return ellipse(c, c, 40.0), ellipse(c, c, 35.2), ellipse(c, c, 33.4), ellipse(c, c, 32.6)
+        return ellipse(c, c, 38.2), ellipse(c, c, 33.6), ellipse(c, c, 31.8), ellipse(c, c, 31.0)
     if kind == 'octagon':
-        return (poly(octagon_points(c, c, 40.4)), poly(octagon_points(c, c, 35.8)),
-                poly(octagon_points(c, c, 33.2)), poly(octagon_points(c, c, 32.2)))
+        return (poly(octagon_points(c, c, 38.5)), poly(octagon_points(c, c, 34.1)),
+                poly(octagon_points(c, c, 31.6)), poly(octagon_points(c, c, 30.6)))
     if kind == 'arch':
-        return (arch_poly(c, 70, 2.4, 79.6), arch_poly(c, 61.6, 6.8, 75.2),
-                arch_poly(c, 58.0, 8.6, 73.4), arch_poly(c, 56.4, 9.4, 72.6))
+        return (arch_poly(c, 68.0, 3.2, 78.2), arch_poly(c, 59.8, 7.5, 73.9),
+                arch_poly(c, 56.4, 9.2, 72.2), arch_poly(c, 54.8, 10.0, 71.4))
     if kind == 'shield':
-        outer = shield_poly(c, 36.0, 3.0, 79.4)
+        outer = shield_poly(c, 35.0, 3.6, 78.2)
         return outer, erode(outer, 4.3), erode(outer, 6.1), erode(outer, 6.9)
     raise ValueError(kind)
 
@@ -1962,11 +1962,17 @@ SCENES = {
 # Rendering and output
 # --------------------------------------------------------------------------
 
+def clean_alpha_rgb(image):
+    arr = np.asarray(image, dtype=np.uint8).copy()
+    arr[arr[..., 3] == 0, :3] = 0
+    return Image.fromarray(arr, 'RGBA')
+
+
 def render(name):
     kind, enamel, scene = SCENES[name]
     sprite = draw_frame(kind, enamel, scene())
     small = sprite.convert('RGBa').resize((SIZE, SIZE), Image.LANCZOS).convert('RGBA')
-    return small.filter(ImageFilter.UnsharpMask(radius=0.6, percent=55, threshold=2))
+    return clean_alpha_rgb(small.filter(ImageFilter.UnsharpMask(radius=0.6, percent=55, threshold=2)))
 
 
 def preview_sheet(names, scale, columns=6):

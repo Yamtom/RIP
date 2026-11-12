@@ -93,9 +93,9 @@ expected_ability_icons = {
         'GFX_rip_kyiv_druzhyna',
     ],
     'rip_kyivan_seniorate': [
-        'GFX_cossacks_ability_MIL',
-        'GFX_cossacks_ability_DIP',
-        'GFX_cossacks_ability_ADM',
+        'GFX_rip_kyiv_levy',
+        'GFX_rip_kyiv_rota',
+        'GFX_rip_kyiv_grants',
     ],
     'rip_ruthenian_factional_court': [
         'GFX_faction_kru_knyazi',
@@ -234,10 +234,10 @@ for language in ('english','french','german','spanish'):
 
 for name in (
     'siversk_charter', 'siversk_towns', 'siversk_retinue', 'kyiv_snem',
-    'kyiv_udil', 'kyiv_druzhyna',
+    'kyiv_udil', 'kyiv_druzhyna', 'kyiv_levy', 'kyiv_rota', 'kyiv_grants',
 ):
     assert (ROOT/f'gfx/interface/rip_government/{name}.dds').is_file(), name
-for name in ('rada', 'siversk_principality', 'knyazi', 'boyary', 'starshyna'):
+for name in ('gathering', 'rada', 'siversk_principality', 'knyazi', 'boyary', 'starshyna'):
     assert not (ROOT/f'gfx/interface/rip_government/{name}.dds').exists(), name
 game = vanilla_root()
 if game:
