@@ -15,7 +15,6 @@
 > 3D смарагдовий `+` для `monthly_*`, 3D золота `↑` для `*_gain_modifier`). `tools/build_reform_icons.py`,
 > `tools/build_core_ruthenia_icons.py` і `tests/check_reform_icons.py` узгоджені між собою (`--check` = 0).
 > Вигляд у грі не перевірявся.
-
 > **Оновлення 15 жовтня 2026 (зміна тега русинської держави, що втратила
 > одноіменну столицю):** якщо `HLC`, `VLN`, `KIE`, `CHR`, `ZAZ`, `PRL`, `PDL`,
 > `UZH`, `VTB`, `MSK`, `MSL` чи `PLT` понад 25 років не володіє провінцією, від

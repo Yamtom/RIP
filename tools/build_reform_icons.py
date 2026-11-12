@@ -86,18 +86,18 @@ class Icon:
 
 
 ICONS = (
-    Icon("cossack_host", "gfx/interface/government_reform_icons/source/cossack_host.png",
-         False, (0, 0, 512, 512), "a mounted Cossack officer with raised golden bulava and banner over the steppe"),
+    Icon("cossack_host", "gfx/interface/missions/dlc_missions/third_rome/russian_minors/mission_recruit_the_cossacks.dds",
+         True, (3, 9, 57, 63), "a Cossack rider with a lance and a pennant on the open steppe"),
     Icon("zaz_free_host", "gfx/interface/missions/mission_cossack_cavalry.dds",
          True, (0, 4, 59, 63), "an elite rider charging under a storm sky"),
-    Icon("zaz_sich_brotherhood", "gfx/interface/government_reform_icons/source/zaz_sich_brotherhood.png",
-         False, (0, 0, 512, 512), "a circle of Cossack sabres and Orthodox cross banner on a wooden rada table"),
-    Icon("het_starshyna_oligarchy", "gfx/interface/government_reform_icons/source/het_starshyna_oligarchy.png",
-         False, (0, 0, 512, 512), "an ornate golden bulava, signet rings, register ledger, and fur-trimmed gloves"),
-    Icon("het_academy_enlightenment", "gfx/interface/government_reform_icons/source/het_academy_enlightenment.png",
-         False, (0, 0, 512, 512), "an open illuminated scholarly book, quill, brass astrolabe, and cross by candlelight"),
-    Icon("zaz_last_sich", "gfx/interface/great_projects/source/zaporozhian_sich_reference.png",
-         False, (280, 20, 500, 240), "the timber watchtower and palisade of the Sich"),
+    Icon("zaz_sich_brotherhood", "gfx/interface/sub/startup/subscription_startup_image_7_cossacks.dds",
+         True, (205, 75, 545, 415), "the circle round the rada table: the quill, the paper, the oath"),
+    Icon("het_starshyna_oligarchy", "gfx/dlc_pictures/dlc046_the_cossacks_banner.dds",
+         True, (398, 52, 538, 192), "a grey-capped elder beside a crested officer: the senior ranks"),
+    Icon("het_academy_enlightenment", "gfx/interface/missions/petro_mohyla.dds",
+         False, (0, 4, 59, 63), "the Kyiv academy courtyard and its dome"),
+    Icon("zaz_last_sich", "gfx/interface/great_projects/great_project_zaporozhian_sich.dds",
+         False, (165, 15, 295, 145), "the timber watchtower and palisade of the Sich"),
 )
 
 
