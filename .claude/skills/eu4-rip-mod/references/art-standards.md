@@ -104,14 +104,34 @@ pixel-identical between icons; the per-pixel median over all of them is the comm
 The mod's six Cossack/Hetmanate icons used to be byte copies of vanilla icons (`horde_riding`
 for two different reforms, `merchant_ship` for an academy). `tools/build_reform_icons.py`
 now crops each from painted art that already exists - vanilla mission icons, the
-Cossacks DLC banner and startup image, the mod's own `petro_mohyla` and Sich great-project
-art - scales it to 51x51, pulls saturation and value into the p10-p90 band above (never
+Cossacks DLC banner and startup image, vanilla's `mission_early_modern_university` and the
+mod's Sich great-project art - scales it to 51x51, pulls saturation and value into the p10-p90 band above (never
 past it, so a flat source is not forced) and pastes it into the median frame. Donor
 missions are 59x63 and the great-project art 300x150, so the crop is a square inside them
 clear of the baked name plaque. `tests/check_reform_icons.py` fails on a byte copy of a
 vanilla icon, on two identical icons, and on a frame that differs from its siblings.
 To make a painted one instead, follow the prompt in `docs/core_ruthenia_visual_prompts.md`
 and keep the same 57x57 frame.
+
+## Mission icons
+
+`gfx/interface/missions/` plus a `.gfx` declaring `<sprite>` with `name` and `texturefile`;
+a mission's `icon = <sprite>` uses the name directly (no `government_reform_` style prefix). Vanilla
+keeps its icons there and in `dlc_missions/<dlc>/...` subfolders, so search both. Names are
+not all plain: `mission_non-western_soldiers`, `mission_city_of_the_world's_desire` and
+`a.e.i.o.u.` are real sprites, so a parser must not stop at `-`, `'` or `.`.
+
+Measured over the 1565 files of 1.37.5: 1511 are **59x63, uncompressed 32-bit BGRA, no
+mipmaps, 14996 bytes, fully opaque**, with no frame of their own - the mission window draws it.
+The rest are 42x41 (16), 60x64 (13) and a few odd sizes; do not copy those.
+
+The six locked-branch missions (`uz_identity_branching_*`, `chr_identity_branching_*`) used to draw
+vanilla's `mission_unknown_mission`. `tools/build_mission_icons.py` gives each a vanilla donor
+chosen for the branch's theme and sets vanilla's own padlock (`mission_locked_mission`, cut out by
+value) bottom-right over a soft backing, so a locked slot still reads as locked. A frame-free
+59x63 painting needs no grade: vanilla donors are already vanilla's. `tests/check_mission_icons.py`
+fails on `mission_unknown_mission`, on an `icon =` that no sprite declares, and on a byte copy of a
+vanilla icon among the six.
 
 ## Flags
 
