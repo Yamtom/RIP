@@ -192,6 +192,9 @@ if vanilla:
                              capture_output=True, text=True, encoding="utf-8", errors="replace")
         if run.returncode != 0:
             fail("tools/build_reform_icons.py --check: " + (run.stdout + run.stderr).strip().replace("\n", " | "))
+        elif "STALE DONOR" in run.stdout:
+            notes.append("an icon's donor in this mod changed, so that icon was not re-verified: " +
+                         "; ".join(line for line in run.stdout.splitlines() if line.startswith("STALE DONOR")))
     else:
         notes.append("rebuild from donors (Pillow or numpy missing)")
 else:

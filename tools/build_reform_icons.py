@@ -21,8 +21,11 @@ EU4 or in this mod and says what the reform is:
     zaz_free_host            mission_cossack_cavalry        a rider charging under a storm sky
     zaz_sich_brotherhood     startup image of the Cossacks  the circle at the rada table, the quill and the paper
     het_starshyna_oligarchy  DLC banner "The Cossacks"      a grey-capped elder beside a crested officer
-    het_academy_enlightenment petro_mohyla (this mod)       the Kyiv academy courtyard and its dome
+    het_academy_enlightenment mission_early_modern_university  a university courtyard and its dome, read as the Kyiv academy
     zaz_last_sich            great_project_zaporozhian_sich (this mod)   the timber watchtower and palisade of the Sich
+
+The Sich donor is a picture of this mod that other work may repaint, so its md5 is pinned: if it
+changes the icon is not rebuilt or verified, `STALE DONOR` says so, and the crop needs choosing again.
 
 The prompts in docs/core_ruthenia_visual_prompts.md stay the brief for a painter: none of
 the donors holds a mace, a seal ring or an astrolabe, so these are the closest existing
@@ -47,6 +50,7 @@ game --check says SKIP and exits 0, and writing refuses.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import struct
 import sys
 from dataclasses import dataclass
@@ -83,6 +87,7 @@ class Icon:
     vanilla: bool  # True: under the installed game; False: under this mod
     crop: tuple[int, int, int, int]  # left, top, right, bottom of a SQUARE in the donor
     why: str
+    md5: str | None = None  # pin for a donor inside this mod, which other work may repaint; vanilla's is pinned by the install version
 
 
 ICONS = (
@@ -94,10 +99,11 @@ ICONS = (
          True, (205, 75, 545, 415), "the circle round the rada table: the quill, the paper, the oath"),
     Icon("het_starshyna_oligarchy", "gfx/dlc_pictures/dlc046_the_cossacks_banner.dds",
          True, (398, 52, 538, 192), "a grey-capped elder beside a crested officer: the senior ranks"),
-    Icon("het_academy_enlightenment", "gfx/interface/missions/petro_mohyla.dds",
-         False, (0, 4, 59, 63), "the Kyiv academy courtyard and its dome"),
+    Icon("het_academy_enlightenment", "gfx/interface/missions/mission_early_modern_university.dds",
+         True, (0, 4, 59, 63), "a university courtyard and its dome, read as the Kyiv academy"),
     Icon("zaz_last_sich", "gfx/interface/great_projects/great_project_zaporozhian_sich.dds",
-         False, (165, 15, 295, 145), "the timber watchtower and palisade of the Sich"),
+         False, (165, 15, 295, 145), "the timber watchtower and palisade of the Sich",
+         md5="9d53ae9a0fce0a841259c108b30639c7"),
 )
 
 
@@ -166,7 +172,14 @@ def pull_into_band(picture: Image.Image) -> Image.Image:
     return Image.fromarray(np.clip(rgb.round(), 0, 255).astype(np.uint8), "RGB")
 
 
+class StaleDonor(Exception):
+    """A donor inside this mod no longer is the picture the crop was chosen on."""
+
+
 def make_picture(icon: Icon, root: Path) -> Image.Image:
+    if icon.md5 and hashlib.md5((root / icon.source).read_bytes()).hexdigest() != icon.md5:
+        raise StaleDonor(f"{icon.name}: {icon.source} is not the picture the crop {icon.crop} was chosen on "
+                         f"(pinned md5 {icon.md5}); choose a new crop and update the pin")
     source = read_rgba(root / icon.source)
     left, top, right, bottom = icon.crop
     if right - left != bottom - top:
@@ -193,9 +206,16 @@ def dds_bytes(pixels: np.ndarray, header: bytes) -> bytes:
     return bytes(header) + pixels[..., [2, 1, 0, 3]].tobytes()
 
 
-def build_all(game: Path) -> dict[str, np.ndarray]:
+def build_all(game: Path) -> tuple[dict[str, np.ndarray], list[str]]:
+    """The rebuilt icons, and a message for each icon whose pinned donor has changed (not rebuilt)."""
     ring = frame_ring(game)
-    return {texture_path(icon): build(icon, game, ring) for icon in ICONS}
+    built, stale = {}, []
+    for icon in ICONS:
+        try:
+            built[texture_path(icon)] = build(icon, game, ring)
+        except StaleDonor as problem:
+            stale.append(str(problem))
+    return built, stale
 
 
 def preview(images: dict[str, np.ndarray], scale: int, out: Path) -> None:
@@ -222,7 +242,12 @@ def main() -> int:
     if game is None:
         print("SKIP: the vanilla install is needed for the donors and the frame (set EU4_DIR); nothing written")
         return 0 if args.check else 1
-    images = build_all(game)
+    images, stale = build_all(game)
+    for message in stale:
+        print(f"STALE DONOR {message}")
+    if stale and not args.check:
+        print("nothing written: a donor changed, so the picture would not be the one that was chosen")
+        return 1
 
     if args.preview:
         preview(images, args.scale, args.preview)
@@ -248,7 +273,8 @@ def main() -> int:
             if worst > CHECK_TOLERANCE:
                 print(f"DIFFERS {path}: worst channel error {worst} > {CHECK_TOLERANCE}; rerun without --check")
                 bad += 1
-        print("REFORM ICONS FAIL" if bad else f"REFORM ICONS PASS: {len(images)} icons rebuild from their donors")
+        note = f"; {len(stale)} not re-verified (STALE DONOR above)" if stale else ""
+        print("REFORM ICONS FAIL" if bad else f"REFORM ICONS PASS: {len(images)} icons rebuild from their donors{note}")
         return 1 if bad else 0
 
     for path, px in images.items():
