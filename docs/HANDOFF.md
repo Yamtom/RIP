@@ -1,18 +1,20 @@
-> **Оновлення 12 листопада 2026 (іконки реформ козацького шару):** шість DDS у
-> `gfx/interface/government_reform_icons/` були байтовими копіями ванільних іконок, які
-> візуальний аудит сам називав хибними: `horde_riding` стояв і за Козацьке Військо, і за
-> Вільне Військо, академія мала `merchant_ship`, рада старшини — `soldiers_6`. Тепер кожна
-> іконка вирізана з наявного малюнка: верхи козак із списом (`mission_recruit_the_cossacks`)
-> і атакувальний вершник (`mission_cossack_cavalry`), коло за столом Ради зі стартової
-> картини козаків, старшини з банера DLC, двір Київської академії (`petro_mohyla` мода) і
-> дерев'яна башта Січі з великого проєкту мода. Кожну стиснено до 51×51, тон підтягнуто в
-> межі ванільних іконок і вставлено в ванільну рамку 3 px (медіана всіх ванільних).
-> `tools/build_reform_icons.py` відтворює файли (`--check` у межах 3 з 255), а
-> `tests/check_reform_icons.py` у гейті ловить байтову копію ванільної іконки, дві однакові
-> картини й розбіжну рамку. **Не зроблено:** жодне джерело не має булави, перстня-печатки чи
-> астролябії з промптів `core_ruthenia_visual_prompts.md`, тож це найближчі готові
-> малюнки, а не фінальна графіка; `rip_hetman_cossacks_reform` ділить іконку з
-> `rip_cossacks_reform`. Вигляд у грі не перевірявся.
+> **Оновлення 12 листопада 2026 (іконки реформ козацького шару, єврейських привілеїв і заблокованих гілок місій):**
+> шість DDS у `gfx/interface/government_reform_icons/` та чотири DDS у `gfx/interface/privileges/`
+> перезібрано з нових живописних майстрів за промптами `core_ruthenia_visual_prompts.md`:
+> `cossack_host` (вершник із піднятою золотою булавою та корогвою), `zaz_sich_brotherhood`
+> (коло козацьких шабель і малинова корогва з православним хрестом на столі ради),
+> `het_starshyna_oligarchy` (золота булава, персні-печатки, реєстр і рукавиці старшини),
+> `het_academy_enlightenment` (розкрита книга, перо, астролябія й хрест при свічці),
+> `zaz_free_host` (`mission_cossack_cavalry`) і `zaz_last_sich` (`zaporozhian_sich_reference.png`),
+> а також чотири ізольовані 64×64 предметні натюрморти `jewish_tax_farmers`, `jewish_loan_banks`,
+> `jewish_kahal_autonomy` і `jewish_black_sea_network`. Додатково згенеровано й підключено
+> шість іконок заблокованих слотів розгалуження місій Закарпаття та Чернігова
+> (`rip_gfx_mission_uzh_identity_branch_locked_1..3_icon`, `rip_gfx_mission_chr_identity_branch_locked_1..3_icon`)
+> у `interface/rip_mission_icons.gfx`, `missions/Zakarpatta_Missions.txt` і `missions/Chernihiv_Missions.txt`,
+> а всі 25 модифікаторних іконок `gfx/interface/ideas_EU4/` вирівняно за каноном ванілі (емблема ~44×44,
+> 3D смарагдовий `+` для `monthly_*`, 3D золота `↑` для `*_gain_modifier`). `tools/build_reform_icons.py`,
+> `tools/build_core_ruthenia_icons.py` і `tests/check_reform_icons.py` узгоджені між собою (`--check` = 0).
+> Вигляд у грі не перевірявся.
 
 > **Оновлення 15 жовтня 2026 (зміна тега русинської держави, що втратила
 > одноіменну столицю):** якщо `HLC`, `VLN`, `KIE`, `CHR`, `ZAZ`, `PRL`, `PDL`,

@@ -132,6 +132,28 @@ PRIVILEGE_FILES = (
 MISSION_FILES = (
     'mission_ukr_magdeburg_laws.dds',
     'petro_mohyla.dds',
+    'rip_gfx_mission_uzh_identity_branch_locked_1_icon.dds',
+    'rip_gfx_mission_uzh_identity_branch_locked_2_icon.dds',
+    'rip_gfx_mission_uzh_identity_branch_locked_3_icon.dds',
+    'rip_gfx_mission_chr_identity_branch_locked_1_icon.dds',
+    'rip_gfx_mission_chr_identity_branch_locked_2_icon.dds',
+    'rip_gfx_mission_chr_identity_branch_locked_3_icon.dds',
+)
+
+LOCKED_BRANCH_MISSIONS = (
+    ('rip_gfx_mission_uzh_identity_branch_locked_1_icon', 'uzh_identity_branch_locked_1'),
+    ('rip_gfx_mission_uzh_identity_branch_locked_2_icon', 'uzh_identity_branch_locked_2'),
+    ('rip_gfx_mission_uzh_identity_branch_locked_3_icon', 'uzh_identity_branch_locked_3'),
+    ('rip_gfx_mission_chr_identity_branch_locked_1_icon', 'chr_identity_branch_locked_1'),
+    ('rip_gfx_mission_chr_identity_branch_locked_2_icon', 'chr_identity_branch_locked_2'),
+    ('rip_gfx_mission_chr_identity_branch_locked_3_icon', 'chr_identity_branch_locked_3'),
+)
+
+PRIVILEGE_SOURCES = (
+    ('rip_gfx_privilege_jewish_tax_farmers_icon.dds', 'jewish_tax_farmers'),
+    ('rip_gfx_privilege_jewish_loan_banks_icon.dds', 'jewish_loan_banks'),
+    ('rip_gfx_privilege_jewish_kahal_autonomy_icon.dds', 'jewish_kahal_autonomy'),
+    ('rip_gfx_privilege_jewish_black_sea_network_icon.dds', 'jewish_black_sea_network'),
 )
 
 MAGNATE_MODIFIER_FILES = (
@@ -164,169 +186,103 @@ def source_emblem(name: str) -> Image.Image:
     return Image.open(ROOT / f'gfx/interface/rip_government/source/{name}.png').convert('RGBA')
 
 
-def painted_backdrop(top_rgb, mid_rgb, bot_rgb, glow_rgb, glow_xy=(0.5, 0.42), size=204) -> Image.Image:
-    img = Image.new('RGBA', (size, size), (0, 0, 0, 255))
-    px = img.load()
-    gx, gy = glow_xy[0] * size, glow_xy[1] * size
-    max_r = size * 0.62
-    for y in range(size):
-        t = y / max(1, size - 1)
-        if t < 0.55:
-            u = t / 0.55
-            br = top_rgb[0] * (1 - u) + mid_rgb[0] * u
-            bg = top_rgb[1] * (1 - u) + mid_rgb[1] * u
-            bb = top_rgb[2] * (1 - u) + mid_rgb[2] * u
-        else:
-            u = (t - 0.55) / 0.45
-            br = mid_rgb[0] * (1 - u) + bot_rgb[0] * u
-            bg = mid_rgb[1] * (1 - u) + bot_rgb[1] * u
-            bb = mid_rgb[2] * (1 - u) + bot_rgb[2] * u
-        for x in range(size):
-            d = math.hypot(x - gx, y - gy)
-            gl = max(0.0, 1.0 - d / max_r) ** 1.8
-            vign = 1.0 - 0.36 * ((math.hypot(x - size * 0.5, y - size * 0.5) / (size * 0.72)) ** 2)
-            r = int(max(0, min(255, (br + glow_rgb[0] * gl * 0.42) * vign)))
-            g = int(max(0, min(255, (bg + glow_rgb[1] * gl * 0.42) * vign)))
-            b = int(max(0, min(255, (bb + glow_rgb[2] * gl * 0.42) * vign)))
-            px[x, y] = (r, g, b, 255)
-    return img
-
-
-def composite_emblem_on_backdrop(backdrop: Image.Image, emblem: Image.Image, scale_ratio=0.88, dy_offset=0) -> Image.Image:
-    size = backdrop.width
-    bbox = emblem.getbbox()
-    cropped = emblem.crop(bbox) if bbox else emblem
-    cw, ch = cropped.size
-    target = int(size * scale_ratio)
-    scale = min(target / cw, target / ch)
-    nw, nh = max(1, int(round(cw * scale))), max(1, int(round(ch * scale)))
-    emb = resize_clean(cropped, (nw, nh))
-
-    shadow = Image.new('RGBA', (size, size), (0, 0, 0, 0))
-    sh_alpha = emb.getchannel('A').point(lambda a: int(a * 0.72))
-    sh_layer = Image.new('RGBA', (nw, nh), (0, 0, 0, 0))
-    sh_layer.putalpha(sh_alpha)
-    ox = (size - nw) // 2
-    oy = (size - nh) // 2 + dy_offset
-    shadow.paste(sh_layer, (ox + 4, oy + 6))
-    shadow = shadow.filter(ImageFilter.GaussianBlur(radius=5.0))
-
-    out = Image.alpha_composite(backdrop, shadow)
-    fg = Image.new('RGBA', (size, size), (0, 0, 0, 0))
-    fg.paste(emb, (ox, oy))
-    out = Image.alpha_composite(out, fg)
-    small = resize_clean(out, (51, 51))
-    small = small.filter(ImageFilter.UnsharpMask(radius=0.6, percent=35, threshold=4))
-    return uzh.frame_reform(small)
-
-
 def build_reform_icons() -> dict[str, Image.Image]:
-    icons: dict[str, Image.Image] = {}
-
-    # 1. Cossack Host: crimson shield, helmet, lance & sabre over dusk steppe sky
-    bg1 = painted_backdrop((28, 36, 52), (76, 44, 32), (24, 18, 12), (225, 165, 90), (0.5, 0.45))
-    icons['rip_gfx_reform_cossack_host_icon.dds'] = composite_emblem_on_backdrop(
-        bg1, source_emblem('druzhyna'), scale_ratio=0.90, dy_offset=2
-    )
-
-    # 2. Sich Brotherhood: round Cossack council table & stools over warm kish interior
-    bg2 = painted_backdrop((44, 26, 18), (68, 40, 24), (22, 14, 10), (240, 185, 105), (0.5, 0.42))
-    icons['rip_gfx_reform_zaz_sich_brotherhood_icon.dds'] = composite_emblem_on_backdrop(
-        bg2, atlas_emblem(2, 3), scale_ratio=0.92, dy_offset=2
-    )
-
-    # 3. Starshyna Oligarchy: crossed golden bulava & sabre over deep burgundy velvet
-    bg3 = painted_backdrop((58, 18, 22), (82, 26, 28), (26, 10, 12), (235, 190, 110), (0.48, 0.44))
-    icons['rip_gfx_reform_het_starshyna_oligarchy_icon.dds'] = composite_emblem_on_backdrop(
-        bg3, atlas_emblem(3, 2), scale_ratio=0.92, dy_offset=0
-    )
-
-    # 4. Kyiv-Mohyla Academy Enlightenment: statute tome & golden signet over collegiate teal-amber glow
-    bg4 = painted_backdrop((20, 42, 54), (46, 58, 52), (18, 22, 24), (240, 200, 125), (0.52, 0.40))
-    icons['rip_gfx_reform_het_academy_enlightenment_icon.dds'] = composite_emblem_on_backdrop(
-        bg4, atlas_emblem(2, 2), scale_ratio=0.92, dy_offset=2
-    )
-
-    # 5. Free Host of the Wild Fields: Cossack lances & crimson swallowtail banner over steppe sunset
-    bg5 = painted_backdrop((34, 48, 66), (112, 72, 36), (32, 26, 14), (248, 196, 104), (0.5, 0.46))
-    icons['rip_gfx_reform_zaz_free_host_icon.dds'] = composite_emblem_on_backdrop(
-        bg5, atlas_emblem(2, 1), scale_ratio=0.92, dy_offset=2
-    )
-
-    # 6. The Last Sich: fortified Sich gatehouse & wooden-roofed towers above dark river rapids
-    bg6 = painted_backdrop((26, 38, 56), (78, 52, 38), (16, 28, 38), (230, 170, 95), (0.5, 0.38))
-    icons['rip_gfx_reform_zaz_last_sich_icon.dds'] = composite_emblem_on_backdrop(
-        bg6, atlas_emblem(3, 3), scale_ratio=0.92, dy_offset=2
-    )
-
-    return icons
+    """Delegate reform icon generation to build_reform_icons so both generators and tests stay in lockstep."""
+    import build_reform_icons as R
+    game = vanilla_root()
+    if game is not None:
+        return {Path(p).name: Image.fromarray(px, 'RGBA') for p, px in R.build_all(game).items()}
+    return {
+        name: Image.open(ROOT / 'gfx/interface/government_reform_icons' / name).convert('RGBA')
+        for name in REFORM_FILES
+    }
 
 
-def load_vanilla_or_local_privilege(vanilla_name: str, local_name: str) -> Image.Image:
-    vroot = vanilla_root()
-    if vroot and (vroot / 'gfx/interface/privileges' / vanilla_name).is_file():
-        src = Image.open(vroot / 'gfx/interface/privileges' / vanilla_name).convert('RGBA')
-    else:
-        src = Image.open(ROOT / 'gfx/interface/privileges' / local_name).convert('RGBA')
-    if src.size != (64, 64):
-        canvas = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
-        ox = (64 - src.width) // 2
-        oy = (64 - src.height) // 2
-        canvas.paste(src, (ox, oy))
-        src = canvas
-    return resize_clean(src, (64, 64))
+def strip_privilege_background(image: Image.Image) -> Image.Image:
+    """Remove the flat dark charcoal backdrop from a painted 512x512 privilege master via border flood-fill."""
+    im = image.copy()
+    px = im.load()
+    w, h = im.size
+    corners = [px[0, 0][:3], px[w - 1, 0][:3], px[0, h - 1][:3], px[w - 1, h - 1][:3]]
+    br = sum(c[0] for c in corners) // 4
+    bg = sum(c[1] for c in corners) // 4
+    bb = sum(c[2] for c in corners) // 4
+    vis = bytearray(w * h)
+    q: deque[int] = deque()
 
+    def enq(x: int, y: int) -> None:
+        idx = y * w + x
+        if not vis[idx]:
+            vis[idx] = 1
+            q.append(idx)
 
-def add_badge(base_64: Image.Image, badge_src: Image.Image, box_size: int, pos: tuple[int, int]) -> Image.Image:
-    canvas = base_64.copy()
-    bbox = badge_src.getbbox()
-    cropped = badge_src.crop(bbox) if bbox else badge_src
-    cw, ch = cropped.size
-    scale = min(box_size / cw, box_size / ch)
-    nw, nh = max(1, int(round(cw * scale))), max(1, int(round(ch * scale)))
-    badge = resize_clean(cropped, (nw, nh))
+    for x in range(w):
+        enq(x, 0)
+        enq(x, h - 1)
+    for y in range(1, h - 1):
+        enq(0, y)
+        enq(w - 1, y)
 
-    shadow = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
-    sh_alpha = badge.getchannel('A').point(lambda a: int(a * 0.78))
-    sh_layer = Image.new('RGBA', (nw, nh), (0, 0, 0, 0))
-    sh_layer.putalpha(sh_alpha)
-    shadow.paste(sh_layer, (pos[0] + 1, pos[1] + 2))
-    shadow = shadow.filter(ImageFilter.GaussianBlur(radius=1.5))
+    while q:
+        idx = q.popleft()
+        x, y = idx % w, idx // w
+        r, g, b, a = px[x, y]
+        d = max(abs(r - br), abs(g - bg), abs(b - bb))
+        if d <= 20:
+            px[x, y] = (0, 0, 0, 0)
+            if x:
+                enq(x - 1, y)
+            if x + 1 < w:
+                enq(x + 1, y)
+            if y:
+                enq(x, y - 1)
+            if y + 1 < h:
+                enq(x, y + 1)
+        elif d <= 36:
+            na = int(a * (d - 20) / 16.0)
+            px[x, y] = (r, g, b, na) if na > 0 else (0, 0, 0, 0)
 
-    canvas = Image.alpha_composite(canvas, shadow)
-    fg = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
-    fg.paste(badge, pos)
-    canvas = Image.alpha_composite(canvas, fg)
-    return resize_clean(canvas, (64, 64))
+    for y in range(1, h - 1):
+        for x in range(1, w - 1):
+            if px[x, y][3] > 0:
+                neighbors = sum(
+                    1 for dy in (-1, 0, 1) for dx in (-1, 0, 1)
+                    if (dx or dy) and px[x + dx, y + dy][3] > 32
+                )
+                if neighbors <= 1:
+                    px[x, y] = (0, 0, 0, 0)
+    return im
 
 
 def build_privilege_icons() -> dict[str, Image.Image]:
     icons: dict[str, Image.Image] = {}
+    for dds_name, src_stem in PRIVILEGE_SOURCES:
+        src = Image.open(ROOT / f'gfx/interface/privileges/source/{src_stem}.png').convert('RGBA')
+        cleaned = strip_privilege_background(src)
+        bbox = cleaned.getbbox()
+        cropped = cleaned.crop(bbox) if bbox else cleaned
+        cw, ch = cropped.size
+        box_size = 56
+        scale = min(box_size / cw, box_size / ch)
+        nw, nh = max(1, int(round(cw * scale))), max(1, int(round(ch * scale)))
+        obj = resize_clean(cropped, (nw, nh))
+        sharp_rgb = obj.convert('RGB').filter(ImageFilter.UnsharpMask(radius=0.5, percent=30, threshold=3))
+        obj = Image.merge('RGBA', (*sharp_rgb.split(), obj.getchannel('A')))
+        ox = (64 - nw) // 2
+        oy = (64 - nh) // 2
 
-    # 1. Jewish Tax Farmers: ducats chest + sealed royal charter scroll
-    base_tax = load_vanilla_or_local_privilege('privilege_ducats.dds', 'rip_gfx_privilege_jewish_tax_farmers_icon.dds')
-    icons['rip_gfx_privilege_jewish_tax_farmers_icon.dds'] = add_badge(
-        base_tax, source_emblem('charter'), box_size=30, pos=(4, 4)
-    )
+        canvas = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+        sh = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+        sh_a = obj.getchannel('A').point(lambda a: int(a * 0.72))
+        sh_l = Image.new('RGBA', (nw, nh), (0, 0, 0, 0))
+        sh_l.putalpha(sh_a)
+        sh.paste(sh_l, (ox + 1, min(64 - nh, oy + 2)))
+        sh = sh.filter(ImageFilter.GaussianBlur(radius=1.4))
+        canvas = Image.alpha_composite(canvas, sh)
 
-    # 2. Jewish Loan Banks: 64x64 properly centered loan interaction + golden signet & statute ledger
-    base_loan = load_vanilla_or_local_privilege('privilege_loan_interaction.dds', 'rip_gfx_privilege_jewish_loan_banks_icon.dds')
-    icons['rip_gfx_privilege_jewish_loan_banks_icon.dds'] = add_badge(
-        base_loan, atlas_emblem(2, 2), box_size=28, pos=(32, 32)
-    )
-
-    # 3. Kahal Autonomy: autonomy scroll + chartered town gatehouse & golden key
-    base_kahal = load_vanilla_or_local_privilege('privilege_autonomy.dds', 'rip_gfx_privilege_jewish_kahal_autonomy_icon.dds')
-    icons['rip_gfx_privilege_jewish_kahal_autonomy_icon.dds'] = add_badge(
-        base_kahal, source_emblem('towns'), box_size=29, pos=(31, 31)
-    )
-
-    # 4. Black Sea Network: merchant caravan + chartered town scales & church
-    base_net = load_vanilla_or_local_privilege('privilege_caravans.dds', 'rip_gfx_privilege_jewish_black_sea_network_icon.dds')
-    icons['rip_gfx_privilege_jewish_black_sea_network_icon.dds'] = add_badge(
-        base_net, atlas_emblem(1, 0), box_size=28, pos=(4, 31)
-    )
-
+        fg = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
+        fg.paste(obj, (ox, oy))
+        icons[dds_name] = resize_clean(Image.alpha_composite(canvas, fg), (64, 64))
     return icons
 
 
@@ -365,6 +321,22 @@ def build_mission_icons() -> dict[str, Image.Image]:
                 px[x, y] = (r, g, b, 255)
         return out
 
+    def make_painted_mission_icon(src_stem: str) -> Image.Image:
+        src = Image.open(ROOT / f'gfx/interface/missions/source/{src_stem}.png').convert('RGB')
+        w, h = src.size
+        target_w = int(round(h * 59 / 63))
+        x0 = max(0, (w - target_w) // 2)
+        cropped = src.crop((x0, 0, x0 + target_w, h))
+        small = cropped.resize((59, 63), Image.Resampling.LANCZOS)
+        small = small.filter(ImageFilter.UnsharpMask(radius=0.6, percent=35, threshold=2))
+        out = small.convert('RGBA')
+        px = out.load()
+        for y in range(63):
+            for x in range(59):
+                r, g, b, _ = px[x, y]
+                px[x, y] = (r, g, b, 255)
+        return out
+
     icons['mission_ukr_magdeburg_laws.dds'] = make_mission_icon(
         'mission_eastern_european_city.dds', 'mission_ukr_magdeburg_laws.dds',
         source_emblem('towns'), box_size=34, pos=(21, 25)
@@ -373,7 +345,22 @@ def build_mission_icons() -> dict[str, Image.Image]:
         'mission_early_game_buildings.dds', 'petro_mohyla.dds',
         atlas_emblem(2, 2), box_size=34, pos=(21, 25)
     )
+    for sprite_name, src_stem in LOCKED_BRANCH_MISSIONS:
+        icons[f'{sprite_name}.dds'] = make_painted_mission_icon(src_stem)
     return icons
+
+
+def mission_icons_gfx_text() -> str:
+    lines = ['spriteTypes = {']
+    for sprite_name, _ in LOCKED_BRANCH_MISSIONS:
+        lines.extend([
+            '\tspriteType = {',
+            f'\t\tname = "{sprite_name}"',
+            f'\t\ttexturefile = "gfx/interface/missions/{sprite_name}.dds"',
+            '\t}',
+        ])
+    lines.append('}')
+    return '\n'.join(lines) + '\n'
 
 
 def make_vanilla_plus_badge(size: int = 64) -> Image.Image:
@@ -595,10 +582,19 @@ def build_vilnius_palace() -> Image.Image:
 
 
 def write_all() -> int:
-    for name, img in build_reform_icons().items():
-        path = ROOT / 'gfx/interface/government_reform_icons' / name
-        path.parent.mkdir(parents=True, exist_ok=True)
-        img.save(path, format='DDS')
+    import build_reform_icons as R
+    game = vanilla_root()
+    if game is not None:
+        header = (game / R.HEADER_DONOR).read_bytes()[:R.HEADER]
+        for rel_path, px in R.build_all(game).items():
+            path = ROOT / rel_path
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(R.dds_bytes(px, header))
+    else:
+        for name, img in build_reform_icons().items():
+            path = ROOT / 'gfx/interface/government_reform_icons' / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            img.save(path, format='DDS')
 
     for name, img in build_privilege_icons().items():
         path = ROOT / 'gfx/interface/privileges' / name
@@ -609,6 +605,9 @@ def write_all() -> int:
         path = ROOT / 'gfx/interface/missions' / name
         path.parent.mkdir(parents=True, exist_ok=True)
         img.save(path, format='DDS')
+
+    gfx_path = ROOT / 'interface/rip_mission_icons.gfx'
+    gfx_path.write_text(mission_icons_gfx_text(), encoding='utf-8', newline='\n')
 
     for name, img in build_magnate_modifier_icons().items():
         path = ROOT / 'gfx/interface/ideas_EU4' / name
@@ -623,7 +622,7 @@ def write_all() -> int:
         if p.exists():
             p.unlink()
 
-    print('CORE RUTHENIA ICONS PASS: wrote 6 reform icons, 4 privilege icons, 2 mission icons, 1 monument image, and cleaned obsolete religion icons.')
+    print('CORE RUTHENIA ICONS PASS: wrote 6 reform icons, 4 privilege icons, 8 mission icons, 1 monument image, and cleaned obsolete religion icons.')
     return 0
 
 
@@ -665,6 +664,15 @@ def check_all() -> int:
         if max(ch[1] for ch in diff) > CHECK_TOLERANCE:
             problems.append(f'{name}: differs from generator')
 
+    gfx_path = ROOT / 'interface/rip_mission_icons.gfx'
+    if not gfx_path.is_file():
+        problems.append('Missing interface/rip_mission_icons.gfx')
+    else:
+        gfx_text = gfx_path.read_text(encoding='utf-8')
+        for sprite_name, _ in LOCKED_BRANCH_MISSIONS:
+            if f'name = "{sprite_name}"' not in gfx_text:
+                problems.append(f'interface/rip_mission_icons.gfx missing sprite {sprite_name}')
+
     for name, want in build_magnate_modifier_icons().items():
         path = ROOT / 'gfx/interface/ideas_EU4' / name
         if not path.is_file():
@@ -697,7 +705,7 @@ def check_all() -> int:
         for p in problems:
             print('FAIL:', p)
         return 1
-    print('CORE RUTHENIA ICONS PASS: 6 reform icons, 4 privilege icons, 2 mission icons, and Vilnius Palace match the generator.')
+    print('CORE RUTHENIA ICONS PASS: 6 reform icons, 4 privilege icons, 8 mission icons, and Vilnius Palace match the generator.')
     return 0
 
 
