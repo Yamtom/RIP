@@ -301,39 +301,7 @@ def build_privilege_icons() -> dict[str, Image.Image]:
 
 
 def build_mission_icons() -> dict[str, Image.Image]:
-    vroot = vanilla_root()
     icons: dict[str, Image.Image] = {}
-
-    def make_mission_icon(vanilla_donor: str, local_fallback: str, badge_src: Image.Image, box_size: int, pos: tuple[int, int]) -> Image.Image:
-        if vroot and (vroot / 'gfx/interface/missions' / vanilla_donor).is_file():
-            base = Image.open(vroot / 'gfx/interface/missions' / vanilla_donor).convert('RGBA')
-        else:
-            base = Image.open(ROOT / 'gfx/interface/missions' / local_fallback).convert('RGBA')
-        base = base.resize((59, 63), Image.Resampling.LANCZOS)
-        bbox = badge_src.getbbox()
-        cropped = badge_src.crop(bbox) if bbox else badge_src
-        cw, ch = cropped.size
-        scale = min(box_size / cw, box_size / ch)
-        nw, nh = max(1, int(round(cw * scale))), max(1, int(round(ch * scale)))
-        badge = resize_clean(cropped, (nw, nh))
-
-        shadow = Image.new('RGBA', (59, 63), (0, 0, 0, 0))
-        sh_alpha = badge.getchannel('A').point(lambda a: int(a * 0.80))
-        sh_layer = Image.new('RGBA', (nw, nh), (0, 0, 0, 0))
-        sh_layer.putalpha(sh_alpha)
-        shadow.paste(sh_layer, (pos[0] + 1, pos[1] + 2))
-        shadow = shadow.filter(ImageFilter.GaussianBlur(radius=1.8))
-
-        out = Image.alpha_composite(base, shadow)
-        fg = Image.new('RGBA', (59, 63), (0, 0, 0, 0))
-        fg.paste(badge, pos)
-        out = Image.alpha_composite(out, fg)
-        px = out.load()
-        for y in range(63):
-            for x in range(59):
-                r, g, b, _ = px[x, y]
-                px[x, y] = (r, g, b, 255)
-        return out
 
     def make_painted_mission_icon(src_stem: str) -> Image.Image:
         src = Image.open(ROOT / f'gfx/interface/missions/source/{src_stem}.png').convert('RGB')
@@ -351,14 +319,8 @@ def build_mission_icons() -> dict[str, Image.Image]:
                 px[x, y] = (r, g, b, 255)
         return out
 
-    icons['mission_ukr_magdeburg_laws.dds'] = make_mission_icon(
-        'mission_eastern_european_city.dds', 'mission_ukr_magdeburg_laws.dds',
-        source_emblem('towns'), box_size=34, pos=(21, 25)
-    )
-    icons['petro_mohyla.dds'] = make_mission_icon(
-        'mission_early_game_buildings.dds', 'petro_mohyla.dds',
-        atlas_emblem(2, 2), box_size=34, pos=(21, 25)
-    )
+    icons['mission_ukr_magdeburg_laws.dds'] = make_painted_mission_icon('magdeburg_charter')
+    icons['petro_mohyla.dds'] = make_painted_mission_icon('petro_mohyla')
     for sprite_name, src_stem in LOCKED_BRANCH_MISSIONS:
         icons[f'{sprite_name}.dds'] = make_painted_mission_icon(src_stem)
     return icons

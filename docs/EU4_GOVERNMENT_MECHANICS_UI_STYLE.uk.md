@@ -425,7 +425,9 @@ Use case: stylized-concept. Create TWO opaque {W}x{H} pixel painted illustration
 немає `loadType = "INGAME"` і `transparencecheck`; частина кнопок процедурна, а не
 намальована; власні шкали 300×58 з емблемою `scale 0.5` замість ванільних 345×90 фонів.
 
-Промпти з `core_ruthenia_visual_prompts.md` для іконок місій ще не втілені в DDS.
+Шість промптів для закритих гілок місій реалізовані у DDS. Дві унікальні
+іконки відновлення Русі — Петра Могилу та Магдебурзьке право — також отримали
+авторські майстер-файли й генерацію DDS через `tools/build_core_ruthenia_icons.py`.
 
 ## 7. Що лишилося неперевіреним
 
