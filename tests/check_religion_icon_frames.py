@@ -13,8 +13,8 @@ Asserted:
   - each declared texture exists in the mod, is uncompressed 32-bit BGRA with no
     mipmaps, and is exactly 32 * frames or 64 * frames wide;
   - frames 1-29 equal vanilla, frame for frame (needs the installed game);
-  - every frame a religion points at is drawn, and frames 30 and 31 are recoloured
-    copies of their donors, not the donors;
+  - every frame a religion points at is drawn; new frames differ from vanilla
+    and retain transparent margins;
   - the two 32 px strips show the same art, so an advisor row and a province view
     never disagree about a faith.
 
@@ -42,7 +42,7 @@ SPRITES = {
     "GFX_province_view_religion", "GFX_religion_icon_strip",
 }
 VANILLA_FRAMES = 29
-DONORS = {30: 4, 31: 1, 32: 4}  # frame -> the vanilla frame it is recoloured from
+DONORS = {30: 4, 31: 4, 32: 4}  # frame -> the vanilla frame it is recoloured from
 errors = []
 
 
@@ -186,6 +186,9 @@ for texture, strip in strips.items():
         if number <= strip.frames:
             if strip.frame(number) == strip.frame(donor):
                 fail(f"{texture}: frame {number} is an unchanged copy of frame {donor}")
+            rows = strip.frame(number)
+            if any(rows[0][3::4]) or any(rows[-1][3::4]) or any(row[3] or row[-1] for row in rows):
+                fail(f"{texture}: frame {number} touches the cell edge")
     if strip.frames >= 31 and strip.frame(30) == strip.frame(31):
         fail(f"{texture}: frames 30 and 31 are identical")
 

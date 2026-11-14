@@ -89,26 +89,29 @@
 ## rip_gfx_privilege_jewish_tax_farmers_icon
 
 - Призначення: Estate privilege icon for `estate_jewish_tax_farmers`.
-- Нотатки про стиль: Square privilege icon, single dominant object, EU4 painterly style, legible at small size, no text, no UI.
-- Промпт (англійською): Create a square Europa Universalis IV privilege icon for Jewish tax-farming contracts, showing a sealed ledger, coin scales, and a wax-stamped charter resting on a merchant desk, conveying communal financiers managing tax leases rather than generic wealth alone, muted gold, dark walnut, burgundy seal wax, strong silhouette, painterly early modern historical style, no text, no border, no interface, no modern objects.
+- Джерело: `gfx/interface/privileges/source/jewish_tax_farmers_compact.png`; референс — попередній майстер `jewish_tax_farmers.png`.
+- Промпт (англійською): Edit this original historical strategy-game privilege icon. Keep its painterly early-modern look, warm gold and aged parchment palette, and a completely uniform dark charcoal background, but simplify it for legibility when the whole icon is only 32 pixels wide. Replace the crowded book, scale and multiple objects with a single large rolled parchment tax-lease charter and a clearly visible dark red wax seal, plus one small stack of gold coins beside it. The charter must dominate, not the coins. One coherent isolated object group centered with generous empty space around it. No people, frame, lettering, numerals, modern symbols or watermark. Soft realistic painted shading; clear silhouette and strong contrast.
 
 ## rip_gfx_privilege_jewish_loan_banks_icon
 
 - Призначення: Estate privilege icon for `estate_jewish_loan_banks`.
-- Нотатки про стиль: Square privilege icon, finance and credit symbolism, painterly EU4 style, no text, no UI.
-- Промпт (англійською): Create a square Europa Universalis IV privilege icon for kahal loan-banks, showing a locked strongbox, quill, folded bond, and abacus-like counting tokens on a cloth-covered desk, emphasizing early modern communal credit networks, muted brass, dark blue cloth, parchment beige, strong readable silhouette, painterly historical style, no text, no border, no interface, no modern objects.
+- Джерело: `gfx/interface/privileges/source/jewish_loan_banks_compact.png`; референс — попередній майстер `jewish_loan_banks.png`.
+- Промпт (англійською): Edit this original historical strategy-game privilege icon, keeping the style and colors of the supplied artwork. Simplify for excellent legibility at 32 pixels: show one large wooden early-modern locked strongbox with dark iron bands, and one pale sealed folded loan document resting diagonally against it. A few coins may peek out, but keep the strongbox as the unmistakable single dominant form. Painterly, historically plausible materials, subdued blue-black iron, warm brown timber, parchment and brass. Isolate the centered object group against a completely uniform dark charcoal background with generous empty margins. No people, frame, lettering, numerals, modern objects or watermark.
 
 ## rip_gfx_privilege_jewish_kahal_autonomy_icon
 
 - Призначення: Estate privilege icon for `estate_jewish_kahal_autonomy`.
-- Нотатки про стиль: Square privilege icon, communal self-governance symbolism, painterly EU4 style, no text, no UI.
-- Промпт (англійською): Create a square Europa Universalis IV privilege icon for kahal autonomy, showing a ceremonial community seal and legal folio beside a synagogue lamp and keys, conveying recognized self-governance and internal jurisdiction in an early modern Jewish community, muted silver, aged parchment, deep blue and warm candlelight, strong silhouette, painterly historical style, no text, no border, no interface, no modern objects.
+- Джерело: `gfx/interface/privileges/source/jewish_kahal_autonomy_compact.png`; референс — попередній майстер `jewish_kahal_autonomy.png`.
+- Промпт (англійською): Edit this original historical strategy-game privilege icon for communal self-government. Keep its painterly historical material and deep blue, muted silver, parchment palette. Simplify the design for legibility at only 32 pixels: a single large closed blue-bound legal folio bearing a small silver clasp, with one large old iron key diagonally across its cover and a plain seal beside it. Emphasize chartered internal jurisdiction rather than religion or wealth. Remove the lamp and extra keys; no writing, symbols, stars, figures or decoration. Isolate the object group in the center against a completely uniform dark charcoal background with generous empty margins, no frame or watermark.
 
 ## rip_gfx_privilege_jewish_black_sea_network_icon
 
 - Призначення: Estate privilege icon for `estate_jewish_black_sea_network`.
-- Нотатки про стиль: Square privilege icon, maritime-trade symbolism, painterly EU4 style, no text, no UI.
-- Промпт (англійською): Create a square Europa Universalis IV privilege icon for a Jewish Black Sea brokerage network, showing a merchant ship token, sealed trade letters, and a coastal map with route markings linking Black Sea ports, emphasizing brokerage and diaspora connections rather than generic caravans, muted teal, parchment, dark red wax, strong silhouette, painterly early modern historical style, no text, no border, no interface, no modern objects.
+- Джерело: `gfx/interface/privileges/source/jewish_black_sea_network_compact.png`; референс — попередній майстер `jewish_black_sea_network.png`.
+- Промпт (англійською): Edit this original historical strategy-game privilege icon. Keep the existing painterly historical style and subdued teal, parchment and brass palette, but make maritime commerce unmistakable at 32 pixels: one large side-view seventeenth-century wooden merchant vessel with one broad cream lateen sail as the dominant silhouette, and one small wax-sealed folded trade letter near the hull. The ship is peaceful, unarmed and historically plausible for the Black Sea; no specific flag or readable map. Remove the compass and fabric rolls. Center the simple object group with generous empty space around it against a completely uniform dark charcoal background. Strong readable silhouette, no people, frame, lettering, numerals or watermark.
+
+Порівняння розміру з ваніллю, межі висновків і вибіркове збирання чотирьох
+DDS описані в [README іконок привілеїв](../gfx/interface/privileges/README.uk.md).
 
 ## rip_gfx_event_south_ukraine_zaporozhian_autonomy_charter_eventPicture
 

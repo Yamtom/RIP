@@ -4,7 +4,7 @@ $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
 $repoRoot = Split-Path $PSScriptRoot -Parent
 foreach ($key in @('war', 'mercy', 'building', 'mission')) {
-    $source = [System.Drawing.Image]::FromFile((Join-Path $repoRoot "assets/church_banners/ro_banner_$key.png"))
+    $source = [System.Drawing.Image]::FromFile((Join-Path $repoRoot "assets/church_banners/ro_banner_${key}_v2.png"))
     $bitmap = [System.Drawing.Bitmap]::new(64, 64, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
     $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
     $graphics.CompositingMode = [System.Drawing.Drawing2D.CompositingMode]::SourceCopy

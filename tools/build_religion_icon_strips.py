@@ -1,33 +1,12 @@
-"""Build and verify 32-frame strips (Muscovite 30, Greek Catholic 31, Old Believer 32).
+"""Build 32-frame EU4 religion strips and standalone DDS reference exports.
 
-EU4 draws a religion from a strip of equal square frames indexed by `icon = N`
-in common/religions. Vanilla ships FOUR such textures, not three:
-
-    icon_religion.dds            64x64  x29   GFX_icon_religion
-    country_icon_religion.dds    64x64  x29   GFX_country_icon_religion
-    icon_religion_small.dds      32x32  x29   GFX_icon_religion_small, GFX_religion_icon_strip
-    province_view_religion.dds   32x32  x29   GFX_province_view_religion
-
-All four strips are generated from vanilla, preserving the original frames:
-
-    frames 1..29  the vanilla file, byte for byte
-    frame 30      vanilla frame 4 (Orthodox cross), purple shifted to oak
-    frame 31      vanilla frame 1 (Catholic crucifix), gold shifted to crimson
-    frame 32      vanilla frame 4 (Orthodox cross), purple shifted to green
-
-with the SAME recolour documented in interface/rip_religion_icons.gfx. Pixels
-with alpha 0 keep the donor's bytes, so bilinear sampling under a scale factor
-(advisor icons draw at 0.9) bleeds the same colour vanilla's own frames do.
-
-The recolour was recovered by reproducing the shipped frames of the other three
-strips: every one of them is rebuilt bit-exactly from vanilla by `extend()`
-below, which is also how the legacy frames are verified.
-The one parameter the .gfx comment does not state is the grey floor - pixels
-with saturation under 0.08 are left alone, which is what keeps the metal rim and
-the outline at vanilla's shading.
-
-Needs the installed game (EU4_DIR or the usual Steam path); without it --check
-falls back to structural checks and says so. Standard library only.
+Frames 1-29 preserve installed vanilla pixels byte for byte. Frames 30-32
+use transparent PNG masters from gfx/interface/religion_icons/source.
+Four BGRA strips serve five sprites at native 64px and 32px sizes.
+Masters are fitted with premultiplied-alpha resampling and transparent margins.
+Requires Pillow and installed EU4; --check verifies reproducibility.
+Without vanilla only structural checks are possible, explicitly reported.
+The legacy recolour helpers remain available to compare previous artwork.
 """
 from __future__ import annotations
 
@@ -37,6 +16,7 @@ import math
 import struct
 import sys
 from pathlib import Path
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tests"))
@@ -50,7 +30,7 @@ MIN_SATURATION = 0.08  # below this a pixel is metal or outline, not coloured pa
 # frame -> (donor frame in the vanilla strip, recolour). Hues are degrees.
 RECOLOURS = {
     30: dict(donor=4, window=(215, 335), hue=26, sat_mul=1.50, sat_add=0.14, sat_cap=0.62, val_mul=0.90),
-    31: dict(donor=1, window=(15, 70), hue=350, sat_mul=1.15, sat_add=0.10, sat_cap=0.72, val_mul=0.92),
+    31: dict(donor=4, window=(215, 335), hue=350, sat_mul=1.15, sat_add=0.10, sat_cap=0.72, val_mul=0.92),
     32: dict(donor=4, window=(215, 335), hue=150, sat_mul=1.20, sat_add=0.10, sat_cap=0.65, val_mul=0.85),
 }
 
@@ -61,6 +41,38 @@ STRIPS = (
     ("icon_religion_small.dds", 32, True),
     ("province_view_religion.dds", 32, True),
 )
+
+STANDALONE_FRAMES = {'russian_orthodox': 30, 'greek_catholic': 31, 'old_believers': 32}
+
+
+def artwork_frame(number: int, size: int) -> list[bytes]:
+    """Export transparent masters at native UI size using premultiplied alpha."""
+    faith = next(name for name, frame in STANDALONE_FRAMES.items() if frame == number)
+    path = ROOT / f'gfx/interface/religion_icons/source/{faith}_v2.png'
+    with Image.open(path) as source:
+        image = source.convert('RGBA')
+    alpha = image.getchannel('A')
+    if alpha.getextrema()[0] != 0:
+        raise ValueError(f'{path}: master must have transparent background')
+    bbox = alpha.point(lambda a: 255 if a >= 16 else 0).getbbox()
+    if bbox is None:
+        raise ValueError(f'{path}: empty master')
+    image = image.crop(bbox)
+    scale = min(round(size * 0.60) / image.width, round(size * 0.84) / image.height)
+    dims = (max(1, round(image.width * scale)), max(1, round(image.height * scale)))
+    image = image.convert('RGBa').resize(dims, Image.Resampling.LANCZOS).convert('RGBA')
+    canvas = Image.new('RGBA', (size, size))
+    canvas.paste(image, ((size - dims[0]) // 2, (size - dims[1]) // 2))
+    data = canvas.tobytes('raw', 'BGRA')
+    return [data[y * size * 4:(y + 1) * size * 4] for y in range(size)]
+
+
+def standalone(strip: 'Strip', number: int) -> bytes:
+    """Export a preview/source-reference DDS with the same native BGRA layout."""
+    header = bytearray(strip.header)
+    struct.pack_into('<I', header, 16, strip.height)
+    struct.pack_into('<I', header, 20, strip.height * 4)
+    return bytes(header) + b''.join(strip.frame(number))
 
 
 class Strip:
@@ -124,10 +136,10 @@ def recolour(rows: list[bytes], spec: dict) -> list[bytes]:
 
 
 def extend(vanilla: Strip) -> bytes:
-    """The vanilla strip plus frames 30 and 31, as a complete DDS file."""
+    """The vanilla strip plus frames 30 through 32, as a complete DDS file."""
     if vanilla.frames != VANILLA_FRAMES or vanilla.width != VANILLA_FRAMES * vanilla.height:
         raise ValueError(f"{vanilla.label}: expected {VANILLA_FRAMES} square frames, found {vanilla.width}x{vanilla.height}")
-    added = [recolour(vanilla.frame(RECOLOURS[n]["donor"]), RECOLOURS[n]) for n in sorted(RECOLOURS)]
+    added = [artwork_frame(n, vanilla.height) for n in sorted(RECOLOURS)]
     header = bytearray(vanilla.header)
     width = MOD_FRAMES * vanilla.height
     struct.pack_into("<I", header, 16, width)
@@ -216,6 +228,21 @@ def main() -> int:
             print(f"BAD   {rel}: " + "; ".join(problems))
         else:
             print(f"OK    {rel}: not bit-exact to the recolour, but frames 1-29 equal vanilla and 30-31 are present")
+    # These individual files are reference exports; EU4 reads the strips above.
+    icon_strip = ROOT / 'gfx/interface/icon_religion.dds'
+    if icon_strip.exists():
+        strip = Strip.read(icon_strip)
+        for faith, number in STANDALONE_FRAMES.items():
+            target = ROOT / f'gfx/interface/religion_icons/{faith}.dds'
+            expected = standalone(strip, number)
+            if not target.exists() or target.read_bytes() != expected:
+                stale.append(target.relative_to(ROOT).as_posix())
+                if not args.check:
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(expected)
+                    wrote.append(target.relative_to(ROOT).as_posix())
+                else:
+                    print(f'STALE {target.relative_to(ROOT)}: standalone export differs from live frame')
     state = "BAD" if bad else "STALE" if args.check and stale else "GENERATED" if wrote else "OK"
     print(f"{state}: religion strips; {len(stale)} stale, {len(wrote)} written, {len(bad)} bad"
           + ("" if root is not None else "; vanilla install not found, comparison skipped"))

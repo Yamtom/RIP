@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections import Counter
 import re
+import struct
 import sys
 
 from clausewitz_testlib import ROOT, keyed_blocks, named_block, normalized, read
@@ -320,6 +321,40 @@ def check_localisation(failures: list[str], keys: set[str]) -> None:
         require(failures, key in loc_keys, f"English localisation missing: {key}")
 
 
+def check_jewish_privilege_icon_layout(failures: list[str]) -> None:
+    for privilege in sorted(SHARED_JEWISH):
+        sprite = f"rip_gfx_privilege_{privilege.removeprefix('estate_')}_icon"
+        path = ROOT / "gfx/interface/privileges" / f"{sprite}.dds"
+        if not path.is_file():
+            failures.append(f"Jewish privilege DDS is missing: {sprite}.dds")
+            continue
+        data = path.read_bytes()
+        if (
+            len(data) != 128 + 64 * 64 * 4
+            or data[:4] != b"DDS "
+            or struct.unpack_from("<II", data, 12) != (64, 64)
+            or data[84:88] != b"\0\0\0\0"
+            or struct.unpack_from("<I", data, 88)[0] != 32
+            or struct.unpack_from("<I", data, 104)[0] != 0xFF000000
+        ):
+            failures.append(f"{sprite}: expected a complete 64x64 32-bit legacy DDS")
+            continue
+        alpha = data[131::4]
+        if any(alpha[i] for i in (0, 63, 64 * 63, 64 * 64 - 1)):
+            failures.append(f"{sprite}: canvas corners must be transparent")
+        pixels = [(i % 64, i // 64) for i, value in enumerate(alpha) if value >= 32]
+        if not pixels:
+            failures.append(f"{sprite}: no visible foreground")
+            continue
+        xs, ys = zip(*pixels)
+        width, height = max(xs) - min(xs) + 1, max(ys) - min(ys) + 1
+        require(failures, 24 <= width <= 40 and 24 <= height <= 40,
+                f"{sprite}: visible silhouette {width}x{height} is outside the vanilla-sized range")
+        require(failures, abs((min(xs) + max(xs) + 1) / 2 - 32) <= 3
+                and abs((min(ys) + max(ys) + 1) / 2 - 32) <= 3,
+                f"{sprite}: visible silhouette is not centered")
+
+
 def main() -> int:
     failures: list[str] = []
     for stale in ("common/estate_privileges/chr_privileges.txt",
@@ -331,6 +366,7 @@ def main() -> int:
     check_magnates(failures)
     check_burgher_name(failures)
     check_style_and_dependencies(failures)
+    check_jewish_privilege_icon_layout(failures)
 
     custom_privileges = country | SHARED_JEWISH | MAGNATE_PRIVILEGES | ORTHODOX_PRIVILEGES | GC_PRIVILEGES
     check_registrations(failures, custom_privileges)

@@ -6,6 +6,8 @@ and the low-detail Vilnius Palace placeholder while enforcing EU4 DDS/alpha cont
 
     python -B tools/build_core_ruthenia_icons.py
     python -B tools/build_core_ruthenia_icons.py --check
+    python -B tools/build_core_ruthenia_icons.py --privileges-only
+    python -B tools/build_core_ruthenia_icons.py --privileges-only --check
 """
 from __future__ import annotations
 
@@ -149,12 +151,21 @@ LOCKED_BRANCH_MISSIONS = (
     ('rip_gfx_mission_chr_identity_branch_locked_3_icon', 'chr_identity_branch_locked_3'),
 )
 
-PRIVILEGE_SOURCES = (
-    ('rip_gfx_privilege_jewish_tax_farmers_icon.dds', 'jewish_tax_farmers'),
-    ('rip_gfx_privilege_jewish_loan_banks_icon.dds', 'jewish_loan_banks'),
-    ('rip_gfx_privilege_jewish_kahal_autonomy_icon.dds', 'jewish_kahal_autonomy'),
-    ('rip_gfx_privilege_jewish_black_sea_network_icon.dds', 'jewish_black_sea_network'),
+EXTENDED_PRIVILEGE_STEMS = (
+    'seimski_statutes', 'left_bank_settlement', 'roman_concordat',
+    'strong_appanages', 'collegium_learning', 'starshyna_council',
+    'grain_charters', 'sich_rada', 'chaiky', 'magnate_supremacy',
+    'brotherhood_charters', 'basilian_schools', 'parish_concord', 'synodal_courts',
 )
+
+PRIVILEGE_FILES += tuple(f'rip_gfx_privilege_{stem}_icon.dds' for stem in EXTENDED_PRIVILEGE_STEMS)
+
+PRIVILEGE_SOURCES = (
+    ('rip_gfx_privilege_jewish_tax_farmers_icon.dds', 'jewish_tax_farmers_compact'),
+    ('rip_gfx_privilege_jewish_loan_banks_icon.dds', 'jewish_loan_banks_compact'),
+    ('rip_gfx_privilege_jewish_kahal_autonomy_icon.dds', 'jewish_kahal_autonomy_compact'),
+    ('rip_gfx_privilege_jewish_black_sea_network_icon.dds', 'jewish_black_sea_network_compact'),
+) + tuple((f'rip_gfx_privilege_{stem}_icon.dds', stem) for stem in EXTENDED_PRIVILEGE_STEMS)
 
 MAGNATE_MODIFIER_FILES = (
     ('magnates_influence_modifier.dds', 'nobles_influence_modifier.dds'),
@@ -163,10 +174,8 @@ MAGNATE_MODIFIER_FILES = (
     ('magnates_privilege_slots.dds', 'nobles_privilege_slots.dds'),
 )
 
-OBSOLETE_RELIGION_ICONS = (
-    'gfx/interface/religion_icons/greek_catholic.dds',
-    'gfx/interface/religion_icons/russian_orthodox.dds',
-)
+# Religion reference exports are maintained by build_religion_icon_strips.py.
+OBSOLETE_RELIGION_ICONS = ()
 
 ATLAS = Image.open(ROOT / 'gfx/interface/rip_government/source/atlas.png').convert('RGBA')
 ROWS = (0, 0.25, 0.5, 0.732, 1.0)
@@ -257,19 +266,24 @@ def strip_privilege_background(image: Image.Image) -> Image.Image:
 def build_privilege_icons() -> dict[str, Image.Image]:
     icons: dict[str, Image.Image] = {}
     for dds_name, src_stem in PRIVILEGE_SOURCES:
-        src = Image.open(ROOT / f'gfx/interface/privileges/source/{src_stem}.png').convert('RGBA')
+        source = ROOT / f'gfx/interface/privileges/source/{src_stem}.png'
+        src = Image.open(source).convert('RGBA')
         cleaned = strip_privilege_background(src)
         bbox = cleaned.getbbox()
-        cropped = cleaned.crop(bbox) if bbox else cleaned
+        if not bbox:
+            raise ValueError(f'No visible foreground in {source}')
+        cropped = cleaned.crop(bbox)
         cw, ch = cropped.size
-        box_size = 56
+        # Vanilla 64px privilege textures typically center a roughly 30-35px motif.
+        box_size = 30
         scale = min(box_size / cw, box_size / ch)
         nw, nh = max(1, int(round(cw * scale))), max(1, int(round(ch * scale)))
         obj = resize_clean(cropped, (nw, nh))
         sharp_rgb = obj.convert('RGB').filter(ImageFilter.UnsharpMask(radius=0.5, percent=30, threshold=3))
         obj = Image.merge('RGBA', (*sharp_rgb.split(), obj.getchannel('A')))
-        ox = (64 - nw) // 2
-        oy = (64 - nh) // 2
+        # Offset the down-and-right shadow to keep the visible motif centered.
+        ox = (64 - nw) // 2 - 1
+        oy = (64 - nh) // 2 - 2
 
         canvas = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
         sh = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
@@ -727,6 +741,29 @@ def build_vilnius_palace() -> Image.Image:
     return render("vilnius_palace")
 
 
+def write_privilege_icons() -> None:
+    for name, img in build_privilege_icons().items():
+        path = ROOT / 'gfx/interface/privileges' / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        img.save(path, format='DDS')
+
+
+def check_privilege_icons(problems: list[str]) -> None:
+    threshold = [255 if value > CHECK_TOLERANCE else 0 for value in range(256)]
+    for name, want in build_privilege_icons().items():
+        path = ROOT / 'gfx/interface/privileges' / name
+        if not path.is_file():
+            problems.append(f'Missing privilege icon: {path}')
+            continue
+        have = Image.open(path).convert('RGBA')
+        if have.size != (64, 64):
+            problems.append(f'{name}: expected 64x64, got {have.size}')
+            continue
+        diff = ImageChops.difference(have, want)
+        if any(diff.getchannel(band).point(threshold).getbbox() for band in 'RGBA'):
+            problems.append(f'{name}: differs from generator')
+
+
 def write_all() -> int:
     import build_reform_icons as R
     game = vanilla_root()
@@ -742,10 +779,7 @@ def write_all() -> int:
             path.parent.mkdir(parents=True, exist_ok=True)
             img.save(path, format='DDS')
 
-    for name, img in build_privilege_icons().items():
-        path = ROOT / 'gfx/interface/privileges' / name
-        path.parent.mkdir(parents=True, exist_ok=True)
-        img.save(path, format='DDS')
+    write_privilege_icons()
 
     for name, img in build_mission_icons().items():
         path = ROOT / 'gfx/interface/missions' / name
@@ -791,17 +825,7 @@ def check_all() -> int:
         if max(ch[1] for ch in diff) > CHECK_TOLERANCE:
             problems.append(f'{name}: differs from generator')
 
-    for name, want in build_privilege_icons().items():
-        path = ROOT / 'gfx/interface/privileges' / name
-        if not path.is_file():
-            problems.append(f'Missing privilege icon: {path}')
-            continue
-        have = Image.open(path).convert('RGBA')
-        if have.size != (64, 64):
-            problems.append(f'{name}: expected 64x64, got {have.size}')
-        diff = ImageChops.difference(have, want).getextrema()
-        if max(ch[1] for ch in diff) > CHECK_TOLERANCE:
-            problems.append(f'{name}: differs from generator')
+    check_privilege_icons(problems)
 
     for name, want in build_mission_icons().items():
         path = ROOT / 'gfx/interface/missions' / name
@@ -875,7 +899,22 @@ def check_all() -> int:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
+    parser.add_argument('--privileges-only', action='store_true',
+                        help='write or check only the privilege icons')
     args = parser.parse_args(argv)
+    if args.privileges_only:
+        if args.check:
+            problems: list[str] = []
+            check_privilege_icons(problems)
+            if problems:
+                for problem in problems:
+                    print('FAIL:', problem)
+                return 1
+            print(f'PRIVILEGE ICONS PASS: {len(PRIVILEGE_FILES)} icons match the generator.')
+        else:
+            write_privilege_icons()
+            print(f'PRIVILEGE ICONS PASS: wrote {len(PRIVILEGE_FILES)} privilege icons.')
+        return 0
     return check_all() if args.check else write_all()
 
 

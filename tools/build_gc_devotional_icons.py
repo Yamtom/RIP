@@ -14,11 +14,11 @@ parser.add_argument('--check', action='store_true')
 args = parser.parse_args()
 stale = []
 for name in ('liturgy', 'learning', 'charity'):
-    source = ROOT / f'assets/church_icons/gc_icon_{name}.png'
+    source = ROOT / f'assets/church_icons/gc_icon_{name}_v2.png'
     target = ROOT / f'gfx/interface/rip_church/gc_icon_{name}.dds'
     with Image.open(source) as image:
         assert image.width == image.height, (source, 'square painting required')
-        compiled = image.convert('RGBA').resize((64, 64), Image.Resampling.LANCZOS)
+        compiled = image.convert('RGBA').convert('RGBa').resize((64, 64), Image.Resampling.LANCZOS).convert('RGBA')
         buffer = BytesIO()
         compiled.save(buffer, format='DDS')
     data = buffer.getvalue()
