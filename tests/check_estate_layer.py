@@ -236,8 +236,12 @@ def check_burgher_name(failures: list[str]) -> None:
     require(failures, len(candidates) == 1,
             "03_burghers.txt: expected one estate_mecenates custom_name block")
     if candidates:
-        expected = {"ruthenian", "ruthenian_new", "rusyn", "rusyn_new", "rusyn_new_new",
-                    "byelorussian", "byelorussian_new"}
+        expected = {"ruthenian", "ruthenian_new",
+                    "ruthenian_west_ruthenian", "ruthenian_west_slavic",
+                    "rusyn", "rusyn_new", "rusyn_new_new",
+                    "rusyn_west_ruthenian", "rusyn_west_slavic",
+                    "byelorussian", "byelorussian_new",
+                    "byelorussian_west_ruthenian", "byelorussian_west_slavic"}
         found = set(re.findall(r"\bculture\s*=\s*([A-Za-z0-9_]+)", candidates[0]))
         require(failures, found == expected,
                 f"03_burghers.txt: estate_mecenates cultures differ: {sorted(found)}")

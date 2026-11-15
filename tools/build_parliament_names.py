@@ -52,7 +52,7 @@ TAGS = list(NOUNS) + ['LIT']
 # called by it - the "home assembly" rule - once no reform and no church government has named its parliament.
 OWN_RULE_TAGS = ('ZAZ', 'HET', 'SMY', 'OKH', 'IZM', 'KHK', 'HLC', 'VLN')
 HOME_TAGS = [tag for tag in NOUNS if tag not in OWN_RULE_TAGS]
-CULTURES = ('ruthenian', 'ruthenian_new', 'rusyn', 'rusyn_new', 'rusyn_new_new')
+CULTURES = ('ruthenian', 'ruthenian_new', 'ruthenian_west_ruthenian', 'ruthenian_west_slavic', 'rusyn', 'rusyn_new', 'rusyn_new_new', 'rusyn_west_ruthenian', 'rusyn_west_slavic')
 RUTHENIAN = ('OR = { ' + ' '.join(f'tag = {t}' for t in TAGS) + ' '
              + ' '.join(f'primary_culture = {c}' for c in CULTURES) + ' }')
 ADJ = '[Root.GetAdjective]'

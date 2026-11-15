@@ -1,0 +1,159 @@
+# West-Ruthenian and West-Slavic Cultural Maneuver Decisions
+# Authenticity & Progression:
+#   Branch A: Stage 1 (Distinctiveness <= 50%) -> Stage 2 (west_ruthenian group <= 30%; needs >= 60% S1 index)
+#   Branch B (parallel & mutually exclusive with Branch A):
+#             Stage 3 (west_slavic affinity < 20%) -> Stage 4 (west_slavic shift < 5%; needs >= 85% S3 index)
+#   Repeatable diplomatic rally decisions allow divided realms to bring holdout sphere states into consensus.
+
+country_decisions = {
+	wr_charter_distinctiveness_decision = {
+		major = yes
+		potential = {
+			wr_potential_stage1 = yes
+		}
+		allow = {
+			wr_allow_stage1 = yes
+			adm_power = 125
+			dip_power = 125
+			years_of_income = 0.5
+		}
+		effect = {
+			add_adm_power = -125
+			add_dip_power = -125
+			add_years_of_income = -0.5
+			country_event = {
+				id = wr_cultural_maneuver.1
+			}
+		}
+		ai_will_do = {
+			factor = 0.35
+			modifier = {
+				factor = 0
+				NOT = { wr_is_carrier_country = yes }
+				NOT = { wr_has_accepted_target_culture = yes }
+			}
+		}
+	}
+
+	wr_rally_branch_a_congress_decision = {
+		major = yes
+		potential = {
+			wr_potential_rally_branch_a = yes
+		}
+		allow = {
+			wr_allow_rally_branch_a = yes
+			dip_power = 75
+			prestige = 10
+			treasury = 75
+		}
+		effect = {
+			add_dip_power = -75
+			add_treasury = -75
+			wr_rally_branch_a_congress_effect = yes
+		}
+		ai_will_do = {
+			factor = 0.25
+			modifier = {
+				factor = 1.5
+				OR = {
+					wr_byelorussian_stage2_index_met = yes
+					wr_ruthenian_stage2_index_met = yes
+					wr_rusyn_stage2_index_met = yes
+				}
+			}
+		}
+	}
+
+	wr_codify_west_ruthenian_group_decision = {
+		major = yes
+		potential = {
+			wr_potential_stage2 = yes
+		}
+		allow = {
+			wr_allow_stage2 = yes
+			adm_power = 200
+			dip_power = 200
+			treasury = 250
+		}
+		effect = {
+			add_adm_power = -200
+			add_dip_power = -200
+			add_treasury = -250
+			country_event = {
+				id = wr_cultural_maneuver.10
+			}
+		}
+		ai_will_do = {
+			factor = 0.25
+		}
+	}
+
+	wr_proclaim_west_slavic_affinity_decision = {
+		major = yes
+		potential = {
+			wr_potential_stage3 = yes
+		}
+		allow = {
+			wr_allow_stage3 = yes
+			adm_power = 150
+			dip_power = 250
+			years_of_income = 0.75
+		}
+		effect = {
+			add_adm_power = -150
+			add_dip_power = -250
+			add_years_of_income = -0.75
+			country_event = {
+				id = wr_cultural_maneuver.20
+			}
+		}
+		ai_will_do = {
+			factor = 0.15
+		}
+	}
+
+	wr_rally_branch_b_congress_decision = {
+		major = yes
+		potential = {
+			wr_potential_rally_branch_b = yes
+		}
+		allow = {
+			wr_allow_rally_branch_b = yes
+			dip_power = 100
+			prestige = 15
+			treasury = 100
+		}
+		effect = {
+			add_dip_power = -100
+			add_treasury = -100
+			wr_rally_branch_b_congress_effect = yes
+		}
+		ai_will_do = {
+			factor = 0.15
+		}
+	}
+
+	wr_attempt_west_slavic_transition_decision = {
+		major = yes
+		potential = {
+			wr_potential_stage4 = yes
+		}
+		allow = {
+			wr_allow_stage4 = yes
+			adm_power = 250
+			dip_power = 300
+			treasury = 500
+		}
+		effect = {
+			add_adm_power = -250
+			add_dip_power = -300
+			add_treasury = -500
+			country_event = {
+				id = wr_cultural_maneuver.30
+			}
+		}
+		ai_will_do = {
+			factor = 0.04
+		}
+	}
+}

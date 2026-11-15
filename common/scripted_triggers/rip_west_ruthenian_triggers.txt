@@ -1,0 +1,1868 @@
+# Triggers for the West-Ruthenian and West-Slavic cultural maneuver
+# Applies independently to three East-Slavic Western-border peoples without conflating them:
+#   1. Belarusian (byelorussian / byelorussian_new -> byelorussian_west_ruthenian / byelorussian_west_slavic)
+#   2. Ruthenian  (ruthenian / ruthenian_new       -> ruthenian_west_ruthenian / ruthenian_west_slavic)
+#   3. Rusyn      (rusyn / rusyn_new               -> rusyn_west_ruthenian / rusyn_west_slavic)
+# Three-circle collective interaction model:
+#   Circle 1: states with primary Belarusian/Ruthenian/Rusyn culture
+#   Circle 2: states with accepted Belarusian/Ruthenian/Rusyn culture
+#   Circle 3: states only holding Belarusian/Ruthenian/Rusyn provinces (unaccepted)
+# Graph & mutual-exclusion rule:
+#   Branch A: Stage 1 (distinctiveness <= 50%) -> Stage 2 (west_ruthenian group <= 30%; needs >= 60% global S1 index)
+#   Branch B: Stage 3 (west_slavic affinity < 20%) -> Stage 4 (west_slavic shift < 5%; needs >= 85% global S3 index)
+#   Branch A (Stages 1-2) and Branch B (Stages 3-4) are parallel entry paths and strictly mutually exclusive.
+
+# ------------------------------------------------------------------------
+# Province-level culture families (excluding Carpathian local-union rusyn_new_new)
+# ------------------------------------------------------------------------
+
+wr_is_byelorussian_province = {
+	OR = {
+		culture = byelorussian
+		culture = byelorussian_new
+		culture = byelorussian_west_ruthenian
+		culture = byelorussian_west_slavic
+	}
+}
+
+wr_is_ruthenian_province = {
+	OR = {
+		culture = ruthenian
+		culture = ruthenian_new
+		culture = ruthenian_west_ruthenian
+		culture = ruthenian_west_slavic
+	}
+}
+
+wr_is_rusyn_province = {
+	OR = {
+		culture = rusyn
+		culture = rusyn_new
+		culture = rusyn_west_ruthenian
+		culture = rusyn_west_slavic
+	}
+}
+
+wr_is_target_province = {
+	OR = {
+		wr_is_byelorussian_province = yes
+		wr_is_ruthenian_province = yes
+		wr_is_rusyn_province = yes
+	}
+}
+
+# ------------------------------------------------------------------------
+# Three Circles of State Involvement
+# ------------------------------------------------------------------------
+
+# Circle 1: Primary-culture states
+wr_is_byelorussian_country = {
+	OR = {
+		primary_culture = byelorussian
+		primary_culture = byelorussian_new
+		primary_culture = byelorussian_west_ruthenian
+		primary_culture = byelorussian_west_slavic
+	}
+}
+
+wr_is_ruthenian_country = {
+	OR = {
+		primary_culture = ruthenian
+		primary_culture = ruthenian_new
+		primary_culture = ruthenian_west_ruthenian
+		primary_culture = ruthenian_west_slavic
+	}
+}
+
+wr_is_rusyn_country = {
+	OR = {
+		primary_culture = rusyn
+		primary_culture = rusyn_new
+		primary_culture = rusyn_west_ruthenian
+		primary_culture = rusyn_west_slavic
+	}
+}
+
+wr_is_carrier_country = {
+	OR = {
+		wr_is_byelorussian_country = yes
+		wr_is_ruthenian_country = yes
+		wr_is_rusyn_country = yes
+	}
+}
+
+# Circle 2: Accepted-culture states (not primary for that specific people)
+wr_has_accepted_byelorussian = {
+	NOT = { wr_is_byelorussian_country = yes }
+	OR = {
+		accepted_culture = byelorussian
+		accepted_culture = byelorussian_new
+		accepted_culture = byelorussian_west_ruthenian
+		accepted_culture = byelorussian_west_slavic
+	}
+}
+
+wr_has_accepted_ruthenian = {
+	NOT = { wr_is_ruthenian_country = yes }
+	OR = {
+		accepted_culture = ruthenian
+		accepted_culture = ruthenian_new
+		accepted_culture = ruthenian_west_ruthenian
+		accepted_culture = ruthenian_west_slavic
+	}
+}
+
+wr_has_accepted_rusyn = {
+	NOT = { wr_is_rusyn_country = yes }
+	OR = {
+		accepted_culture = rusyn
+		accepted_culture = rusyn_new
+		accepted_culture = rusyn_west_ruthenian
+		accepted_culture = rusyn_west_slavic
+	}
+}
+
+wr_has_accepted_target_culture = {
+	OR = {
+		wr_has_accepted_byelorussian = yes
+		wr_has_accepted_ruthenian = yes
+		wr_has_accepted_rusyn = yes
+	}
+}
+
+# Circle 3: Present-only states (neither primary nor accepted for that people)
+wr_has_unaccepted_byelorussian_provinces = {
+	NOT = { wr_is_byelorussian_country = yes }
+	NOT = { wr_has_accepted_byelorussian = yes }
+	any_owned_province = {
+		is_core = owner
+		wr_is_byelorussian_province = yes
+	}
+}
+
+wr_has_unaccepted_ruthenian_provinces = {
+	NOT = { wr_is_ruthenian_country = yes }
+	NOT = { wr_has_accepted_ruthenian = yes }
+	any_owned_province = {
+		is_core = owner
+		wr_is_ruthenian_province = yes
+	}
+}
+
+wr_has_unaccepted_rusyn_provinces = {
+	NOT = { wr_is_rusyn_country = yes }
+	NOT = { wr_has_accepted_rusyn = yes }
+	any_owned_province = {
+		is_core = owner
+		wr_is_rusyn_province = yes
+	}
+}
+
+wr_has_unaccepted_target_provinces = {
+	OR = {
+		wr_has_unaccepted_byelorussian_provinces = yes
+		wr_has_unaccepted_ruthenian_provinces = yes
+		wr_has_unaccepted_rusyn_provinces = yes
+	}
+}
+
+# Cultural sphere membership (for congress dispatch & bilateral matching)
+wr_byelorussian_congress_member = {
+	OR = {
+		wr_is_byelorussian_country = yes
+		AND = {
+			wr_has_accepted_byelorussian = yes
+			any_owned_province = {
+				wr_is_byelorussian_province = yes
+			}
+		}
+		any_owned_province = {
+			is_core = owner
+			wr_is_byelorussian_province = yes
+		}
+	}
+}
+
+wr_ruthenian_congress_member = {
+	OR = {
+		wr_is_ruthenian_country = yes
+		AND = {
+			wr_has_accepted_ruthenian = yes
+			any_owned_province = {
+				wr_is_ruthenian_province = yes
+			}
+		}
+		any_owned_province = {
+			is_core = owner
+			wr_is_ruthenian_province = yes
+		}
+	}
+}
+
+wr_rusyn_congress_member = {
+	OR = {
+		wr_is_rusyn_country = yes
+		AND = {
+			wr_has_accepted_rusyn = yes
+			any_owned_province = {
+				wr_is_rusyn_province = yes
+			}
+		}
+		any_owned_province = {
+			is_core = owner
+			wr_is_rusyn_province = yes
+		}
+	}
+}
+
+wr_byelorussian_initiator_stake = {
+	OR = {
+		wr_is_byelorussian_country = yes
+		AND = {
+			wr_has_accepted_byelorussian = yes
+			num_of_owned_provinces_with = {
+				value = 5
+				is_core = owner
+				wr_is_byelorussian_province = yes
+			}
+		}
+		num_of_owned_provinces_with = {
+			value = 7
+			is_core = owner
+			wr_is_byelorussian_province = yes
+		}
+	}
+}
+
+wr_ruthenian_initiator_stake = {
+	OR = {
+		wr_is_ruthenian_country = yes
+		AND = {
+			wr_has_accepted_ruthenian = yes
+			num_of_owned_provinces_with = {
+				value = 7
+				is_core = owner
+				wr_is_ruthenian_province = yes
+			}
+		}
+		num_of_owned_provinces_with = {
+			value = 10
+			is_core = owner
+			wr_is_ruthenian_province = yes
+		}
+	}
+}
+
+wr_rusyn_initiator_stake = {
+	OR = {
+		wr_is_rusyn_country = yes
+		AND = {
+			wr_has_accepted_rusyn = yes
+			any_owned_province = {
+				is_core = owner
+				wr_is_rusyn_province = yes
+			}
+		}
+		AND = {
+			any_owned_province = {
+				is_core = owner
+				wr_is_rusyn_province = yes
+			}
+			OR = {
+				development_in_provinces = {
+					value = 20
+					wr_is_rusyn_province = yes
+				}
+				any_subject_country = {
+					wr_is_rusyn_country = yes
+				}
+			}
+		}
+	}
+}
+
+# ------------------------------------------------------------------------
+# Patrons, Base State Eligibility & West-Slavic Bridge
+# ------------------------------------------------------------------------
+
+wr_is_patron_hegemon = {
+	OR = {
+		tag = LIT
+		tag = POL
+		tag = PLC
+		tag = HUN
+		tag = HAB
+		tag = BOH
+		tag = KRU
+		tag = KIE
+		tag = HLC
+		tag = VOL
+		tag = VLN
+		tag = CHR
+		tag = PDL
+		tag = TRV
+		tag = RPS
+		culture_group = west_slavic
+	}
+}
+
+wr_can_run_maneuver_base = {
+	normal_or_historical_nations = yes
+	is_colonial_nation = no
+	is_nomad = no
+	NOT = { tag = PAP }
+	NOT = { tag = HLR }
+	NOT = { tag = MOS }
+	NOT = { tag = RUS }
+	NOT = { primary_culture = russian }
+	NOT = { primary_culture = russian_new }
+}
+
+wr_is_maneuver_relevant_country = {
+	wr_can_run_maneuver_base = yes
+	OR = {
+		wr_is_carrier_country = yes
+		wr_has_accepted_target_culture = yes
+		any_owned_province = {
+			wr_is_target_province = yes
+		}
+	}
+}
+
+wr_has_primary_or_accepted_potential = {
+	OR = {
+		AND = {
+			wr_is_carrier_country = yes
+			num_of_cities = 3
+			total_development = 35
+			OR = {
+				AND = {
+					wr_is_byelorussian_country = yes
+					development_in_provinces = {
+						value = 30
+						wr_is_byelorussian_province = yes
+					}
+				}
+				AND = {
+					wr_is_ruthenian_country = yes
+					development_in_provinces = {
+						value = 40
+						wr_is_ruthenian_province = yes
+					}
+				}
+				AND = {
+					wr_is_rusyn_country = yes
+					any_owned_province = {
+						is_core = owner
+						wr_is_rusyn_province = yes
+					}
+					development_in_provinces = {
+						value = 18
+						wr_is_rusyn_province = yes
+					}
+				}
+			}
+		}
+		AND = {
+			wr_has_accepted_target_culture = yes
+			total_development = 60
+			OR = {
+				AND = {
+					wr_has_accepted_byelorussian = yes
+					num_of_owned_provinces_with = {
+						value = 5
+						is_core = owner
+						wr_is_byelorussian_province = yes
+					}
+					development_in_provinces = {
+						value = 45
+						wr_is_byelorussian_province = yes
+					}
+				}
+				AND = {
+					wr_has_accepted_ruthenian = yes
+					num_of_owned_provinces_with = {
+						value = 7
+						is_core = owner
+						wr_is_ruthenian_province = yes
+					}
+					development_in_provinces = {
+						value = 65
+						wr_is_ruthenian_province = yes
+					}
+				}
+				AND = {
+					wr_has_accepted_rusyn = yes
+					total_development = 80
+					num_of_owned_provinces_with = {
+						value = 1
+						is_core = owner
+						wr_is_rusyn_province = yes
+					}
+					development_in_provinces = {
+						value = 20
+						wr_is_rusyn_province = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+wr_has_patron_only_potential = {
+	wr_has_unaccepted_target_provinces = yes
+	wr_is_patron_hegemon = yes
+	total_development = 120
+	OR = {
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 7
+				is_core = owner
+				wr_is_byelorussian_province = yes
+			}
+			development_in_provinces = {
+				value = 65
+				wr_is_byelorussian_province = yes
+			}
+		}
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 10
+				is_core = owner
+				wr_is_ruthenian_province = yes
+			}
+			development_in_provinces = {
+				value = 90
+				wr_is_ruthenian_province = yes
+			}
+		}
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 1
+				is_core = owner
+				wr_is_rusyn_province = yes
+			}
+			development_in_provinces = {
+				value = 22
+				wr_is_rusyn_province = yes
+			}
+			OR = {
+				any_subject_country = {
+					wr_is_rusyn_country = yes
+				}
+				total_development = 150
+			}
+		}
+	}
+}
+
+wr_has_convertible_byelorussian_wr = {
+	OR = {
+		primary_culture = byelorussian
+		primary_culture = byelorussian_new
+		any_owned_province = {
+			OR = {
+				culture = byelorussian
+				culture = byelorussian_new
+			}
+		}
+	}
+}
+
+wr_has_convertible_ruthenian_wr = {
+	OR = {
+		primary_culture = ruthenian
+		primary_culture = ruthenian_new
+		any_owned_province = {
+			OR = {
+				culture = ruthenian
+				culture = ruthenian_new
+			}
+		}
+	}
+}
+
+wr_has_convertible_rusyn_wr = {
+	OR = {
+		primary_culture = rusyn
+		primary_culture = rusyn_new
+		any_owned_province = {
+			OR = {
+				culture = rusyn
+				culture = rusyn_new
+			}
+		}
+	}
+}
+
+wr_has_convertible_west_ruthenian_base = {
+	OR = {
+		wr_has_convertible_byelorussian_wr = yes
+		wr_has_convertible_ruthenian_wr = yes
+		wr_has_convertible_rusyn_wr = yes
+	}
+}
+
+wr_has_convertible_byelorussian_ws = {
+	OR = {
+		primary_culture = byelorussian
+		primary_culture = byelorussian_new
+		primary_culture = byelorussian_west_ruthenian
+		any_owned_province = {
+			OR = {
+				culture = byelorussian
+				culture = byelorussian_new
+				culture = byelorussian_west_ruthenian
+			}
+		}
+	}
+}
+
+wr_has_convertible_ruthenian_ws = {
+	OR = {
+		primary_culture = ruthenian
+		primary_culture = ruthenian_new
+		primary_culture = ruthenian_west_ruthenian
+		any_owned_province = {
+			OR = {
+				culture = ruthenian
+				culture = ruthenian_new
+				culture = ruthenian_west_ruthenian
+			}
+		}
+	}
+}
+
+wr_has_convertible_rusyn_ws = {
+	OR = {
+		primary_culture = rusyn
+		primary_culture = rusyn_new
+		primary_culture = rusyn_west_ruthenian
+		any_owned_province = {
+			OR = {
+				culture = rusyn
+				culture = rusyn_new
+				culture = rusyn_west_ruthenian
+			}
+		}
+	}
+}
+
+wr_has_convertible_west_slavic_base = {
+	OR = {
+		wr_has_convertible_byelorussian_ws = yes
+		wr_has_convertible_ruthenian_ws = yes
+		wr_has_convertible_rusyn_ws = yes
+	}
+}
+
+# Real political/institutional West-Slavic gravity (beyond bare Catholicism)
+wr_has_strong_west_slavic_bridge = {
+	OR = {
+		culture_group = west_slavic
+		accepted_culture = polish
+		accepted_culture = czech
+		accepted_culture = slovak
+		accepted_culture = schlesian
+		accepted_culture = sorbian
+		AND = {
+			is_subject = yes
+			overlord = {
+				OR = {
+					culture_group = west_slavic
+					tag = POL
+					tag = PLC
+					tag = BOH
+					tag = HAB
+					tag = HUN
+				}
+			}
+		}
+		num_of_owned_provinces_with = {
+			value = 2
+			is_core = owner
+			culture_group = west_slavic
+		}
+		any_ally = {
+			culture_group = west_slavic
+			total_development = 75
+			has_opinion = {
+				who = ROOT
+				value = 100
+			}
+		}
+	}
+}
+
+# ------------------------------------------------------------------------
+# Global Province Adoption Index Thresholds
+# Stage 2 requires >= 60% of a culture's global provinces under Stage 1 / WR.
+# Stage 4 requires >= 85% of a culture's global provinces under Stage 3 / WS.
+# ------------------------------------------------------------------------
+
+wr_byelorussian_stage2_index_met = {
+	check_variable = { which = wr_byelorussian_s1_pct value = 60 }
+}
+
+wr_ruthenian_stage2_index_met = {
+	check_variable = { which = wr_ruthenian_s1_pct value = 60 }
+}
+
+wr_rusyn_stage2_index_met = {
+	check_variable = { which = wr_rusyn_s1_pct value = 60 }
+}
+
+wr_byelorussian_stage4_index_met = {
+	check_variable = { which = wr_byelorussian_s3_pct value = 85 }
+}
+
+wr_ruthenian_stage4_index_met = {
+	check_variable = { which = wr_ruthenian_s3_pct value = 85 }
+}
+
+wr_rusyn_stage4_index_met = {
+	check_variable = { which = wr_rusyn_s3_pct value = 85 }
+}
+
+wr_any_staked_stage2_index_unmet = {
+	OR = {
+		AND = {
+			wr_byelorussian_initiator_stake = yes
+			NOT = { wr_byelorussian_stage2_index_met = yes }
+		}
+		AND = {
+			wr_ruthenian_initiator_stake = yes
+			NOT = { wr_ruthenian_stage2_index_met = yes }
+		}
+		AND = {
+			wr_rusyn_initiator_stake = yes
+			NOT = { wr_rusyn_stage2_index_met = yes }
+		}
+	}
+}
+
+wr_any_staked_stage4_index_unmet = {
+	OR = {
+		AND = {
+			wr_byelorussian_initiator_stake = yes
+			NOT = { wr_byelorussian_stage4_index_met = yes }
+		}
+		AND = {
+			wr_ruthenian_initiator_stake = yes
+			NOT = { wr_ruthenian_stage4_index_met = yes }
+		}
+		AND = {
+			wr_rusyn_initiator_stake = yes
+			NOT = { wr_rusyn_stage4_index_met = yes }
+		}
+	}
+}
+
+# ------------------------------------------------------------------------
+# Collective Mandate Triggers (prevent one minor from altering a shared culture alone)
+# ------------------------------------------------------------------------
+
+wr_has_byelorussian_collective_mandate_stage2 = {
+	NOT = {
+		any_known_country = {
+			NOT = { tag = ROOT }
+			is_subject = no
+			wr_is_byelorussian_country = yes
+			OR = {
+				war_with = ROOT
+				is_rival = ROOT
+				is_enemy = ROOT
+			}
+		}
+	}
+	OR = {
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 8
+				is_core = owner
+				wr_is_byelorussian_province = yes
+			}
+			development_in_provinces = {
+				value = 75
+				wr_is_byelorussian_province = yes
+			}
+		}
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 4
+				is_core = owner
+				wr_is_byelorussian_province = yes
+			}
+			development_in_provinces = {
+				value = 40
+				wr_is_byelorussian_province = yes
+			}
+			any_known_country = {
+				NOT = { tag = ROOT }
+				OR = {
+					wr_is_byelorussian_country = yes
+					AND = {
+						wr_has_accepted_byelorussian = yes
+						num_of_owned_provinces_with = {
+							value = 2
+							wr_is_byelorussian_province = yes
+						}
+					}
+				}
+				OR = {
+					is_subject_of = ROOT
+					overlord_of = ROOT
+					AND = {
+						alliance_with = ROOT
+						has_opinion = {
+							who = ROOT
+							value = 100
+						}
+					}
+				}
+				OR = {
+					has_country_flag = wr_distinctiveness_recognized
+					is_subject_of = ROOT
+				}
+			}
+		}
+		AND = {
+			NOT = {
+				any_known_country = {
+					NOT = { tag = ROOT }
+					OR = {
+						wr_is_byelorussian_country = yes
+						AND = {
+							wr_has_accepted_byelorussian = yes
+							num_of_owned_provinces_with = {
+								value = 2
+								wr_is_byelorussian_province = yes
+							}
+						}
+					}
+				}
+			}
+			num_of_owned_provinces_with = {
+				value = 6
+				is_core = owner
+				wr_is_byelorussian_province = yes
+			}
+			development_in_provinces = {
+				value = 55
+				wr_is_byelorussian_province = yes
+			}
+		}
+	}
+}
+
+wr_has_ruthenian_collective_mandate_stage2 = {
+	NOT = {
+		any_known_country = {
+			NOT = { tag = ROOT }
+			is_subject = no
+			wr_is_ruthenian_country = yes
+			OR = {
+				war_with = ROOT
+				is_rival = ROOT
+				is_enemy = ROOT
+			}
+		}
+	}
+	OR = {
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 16
+				is_core = owner
+				wr_is_ruthenian_province = yes
+			}
+			development_in_provinces = {
+				value = 150
+				wr_is_ruthenian_province = yes
+			}
+		}
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 7
+				is_core = owner
+				wr_is_ruthenian_province = yes
+			}
+			development_in_provinces = {
+				value = 70
+				wr_is_ruthenian_province = yes
+			}
+			any_known_country = {
+				NOT = { tag = ROOT }
+				OR = {
+					wr_is_ruthenian_country = yes
+					AND = {
+						wr_has_accepted_ruthenian = yes
+						num_of_owned_provinces_with = {
+							value = 3
+							wr_is_ruthenian_province = yes
+						}
+					}
+				}
+				OR = {
+					is_subject_of = ROOT
+					overlord_of = ROOT
+					AND = {
+						alliance_with = ROOT
+						has_opinion = {
+							who = ROOT
+							value = 100
+						}
+					}
+				}
+				OR = {
+					has_country_flag = wr_distinctiveness_recognized
+					is_subject_of = ROOT
+				}
+			}
+		}
+		AND = {
+			NOT = {
+				any_known_country = {
+					NOT = { tag = ROOT }
+					OR = {
+						wr_is_ruthenian_country = yes
+						AND = {
+							wr_has_accepted_ruthenian = yes
+							num_of_owned_provinces_with = {
+								value = 3
+								wr_is_ruthenian_province = yes
+							}
+						}
+					}
+				}
+			}
+			num_of_owned_provinces_with = {
+				value = 10
+				is_core = owner
+				wr_is_ruthenian_province = yes
+			}
+			development_in_provinces = {
+				value = 95
+				wr_is_ruthenian_province = yes
+			}
+		}
+	}
+}
+
+wr_has_rusyn_collective_mandate_stage2 = {
+	NOT = {
+		any_known_country = {
+			NOT = { tag = ROOT }
+			is_subject = no
+			wr_is_rusyn_country = yes
+			OR = {
+				war_with = ROOT
+				is_rival = ROOT
+				is_enemy = ROOT
+			}
+		}
+	}
+	OR = {
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 3
+				is_core = owner
+				wr_is_rusyn_province = yes
+			}
+			development_in_provinces = {
+				value = 35
+				wr_is_rusyn_province = yes
+			}
+		}
+		AND = {
+			any_owned_province = {
+				is_core = owner
+				wr_is_rusyn_province = yes
+			}
+			development_in_provinces = {
+				value = 20
+				wr_is_rusyn_province = yes
+			}
+			any_known_country = {
+				NOT = { tag = ROOT }
+				OR = {
+					wr_is_rusyn_country = yes
+					AND = {
+						wr_has_accepted_rusyn = yes
+						any_owned_province = {
+							wr_is_rusyn_province = yes
+						}
+					}
+				}
+				OR = {
+					is_subject_of = ROOT
+					overlord_of = ROOT
+					AND = {
+						alliance_with = ROOT
+						has_opinion = {
+							who = ROOT
+							value = 100
+						}
+					}
+				}
+				OR = {
+					has_country_flag = wr_distinctiveness_recognized
+					is_subject_of = ROOT
+				}
+			}
+		}
+		AND = {
+			NOT = {
+				any_known_country = {
+					NOT = { tag = ROOT }
+					OR = {
+						wr_is_rusyn_country = yes
+						AND = {
+							wr_has_accepted_rusyn = yes
+							any_owned_province = {
+								wr_is_rusyn_province = yes
+							}
+						}
+					}
+				}
+			}
+			any_owned_province = {
+				is_core = owner
+				wr_is_rusyn_province = yes
+			}
+			development_in_provinces = {
+				value = 25
+				wr_is_rusyn_province = yes
+			}
+		}
+	}
+}
+
+wr_has_byelorussian_collective_mandate_stage4 = {
+	NOT = {
+		any_known_country = {
+			NOT = { tag = ROOT }
+			is_subject = no
+			wr_is_byelorussian_country = yes
+			OR = {
+				war_with = ROOT
+				is_rival = ROOT
+				is_enemy = ROOT
+			}
+		}
+	}
+	OR = {
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 9
+				is_core = owner
+				wr_is_byelorussian_province = yes
+			}
+			development_in_provinces = {
+				value = 85
+				wr_is_byelorussian_province = yes
+			}
+		}
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 4
+				is_core = owner
+				wr_is_byelorussian_province = yes
+			}
+			development_in_provinces = {
+				value = 45
+				wr_is_byelorussian_province = yes
+			}
+			any_known_country = {
+				NOT = { tag = ROOT }
+				OR = {
+					wr_is_byelorussian_country = yes
+					AND = {
+						wr_has_accepted_byelorussian = yes
+						num_of_owned_provinces_with = {
+							value = 2
+							wr_is_byelorussian_province = yes
+						}
+					}
+				}
+				OR = {
+					is_subject_of = ROOT
+					overlord_of = ROOT
+					AND = {
+						alliance_with = ROOT
+						has_opinion = {
+							who = ROOT
+							value = 125
+						}
+					}
+				}
+				OR = {
+					has_country_flag = wr_west_slavic_affinity_active
+					is_subject_of = ROOT
+					overlord_of = ROOT
+				}
+			}
+		}
+		AND = {
+			NOT = {
+				any_known_country = {
+					NOT = { tag = ROOT }
+					OR = {
+						wr_is_byelorussian_country = yes
+						AND = {
+							wr_has_accepted_byelorussian = yes
+							num_of_owned_provinces_with = {
+								value = 2
+								wr_is_byelorussian_province = yes
+							}
+						}
+					}
+				}
+			}
+			num_of_owned_provinces_with = {
+				value = 7
+				is_core = owner
+				wr_is_byelorussian_province = yes
+			}
+			development_in_provinces = {
+				value = 65
+				wr_is_byelorussian_province = yes
+			}
+		}
+	}
+}
+
+wr_has_ruthenian_collective_mandate_stage4 = {
+	NOT = {
+		any_known_country = {
+			NOT = { tag = ROOT }
+			is_subject = no
+			wr_is_ruthenian_country = yes
+			OR = {
+				war_with = ROOT
+				is_rival = ROOT
+				is_enemy = ROOT
+			}
+		}
+	}
+	OR = {
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 20
+				is_core = owner
+				wr_is_ruthenian_province = yes
+			}
+			development_in_provinces = {
+				value = 190
+				wr_is_ruthenian_province = yes
+			}
+		}
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 8
+				is_core = owner
+				wr_is_ruthenian_province = yes
+			}
+			development_in_provinces = {
+				value = 80
+				wr_is_ruthenian_province = yes
+			}
+			any_known_country = {
+				NOT = { tag = ROOT }
+				OR = {
+					wr_is_ruthenian_country = yes
+					AND = {
+						wr_has_accepted_ruthenian = yes
+						num_of_owned_provinces_with = {
+							value = 3
+							wr_is_ruthenian_province = yes
+						}
+					}
+				}
+				OR = {
+					is_subject_of = ROOT
+					overlord_of = ROOT
+					AND = {
+						alliance_with = ROOT
+						has_opinion = {
+							who = ROOT
+							value = 125
+						}
+					}
+				}
+				OR = {
+					has_country_flag = wr_west_slavic_affinity_active
+					is_subject_of = ROOT
+					overlord_of = ROOT
+				}
+			}
+		}
+		AND = {
+			NOT = {
+				any_known_country = {
+					NOT = { tag = ROOT }
+					OR = {
+						wr_is_ruthenian_country = yes
+						AND = {
+							wr_has_accepted_ruthenian = yes
+							num_of_owned_provinces_with = {
+								value = 3
+								wr_is_ruthenian_province = yes
+							}
+						}
+					}
+				}
+			}
+			num_of_owned_provinces_with = {
+				value = 13
+				is_core = owner
+				wr_is_ruthenian_province = yes
+			}
+			development_in_provinces = {
+				value = 125
+				wr_is_ruthenian_province = yes
+			}
+		}
+	}
+}
+
+wr_has_rusyn_collective_mandate_stage4 = {
+	NOT = {
+		any_known_country = {
+			NOT = { tag = ROOT }
+			is_subject = no
+			wr_is_rusyn_country = yes
+			OR = {
+				war_with = ROOT
+				is_rival = ROOT
+				is_enemy = ROOT
+			}
+		}
+	}
+	OR = {
+		AND = {
+			num_of_owned_provinces_with = {
+				value = 3
+				is_core = owner
+				wr_is_rusyn_province = yes
+			}
+			development_in_provinces = {
+				value = 40
+				wr_is_rusyn_province = yes
+			}
+		}
+		AND = {
+			any_owned_province = {
+				is_core = owner
+				wr_is_rusyn_province = yes
+			}
+			development_in_provinces = {
+				value = 22
+				wr_is_rusyn_province = yes
+			}
+			any_known_country = {
+				NOT = { tag = ROOT }
+				OR = {
+					wr_is_rusyn_country = yes
+					AND = {
+						wr_has_accepted_rusyn = yes
+						any_owned_province = {
+							wr_is_rusyn_province = yes
+						}
+					}
+				}
+				OR = {
+					is_subject_of = ROOT
+					overlord_of = ROOT
+					AND = {
+						alliance_with = ROOT
+						has_opinion = {
+							who = ROOT
+							value = 125
+						}
+					}
+				}
+				OR = {
+					has_country_flag = wr_west_slavic_affinity_active
+					is_subject_of = ROOT
+					overlord_of = ROOT
+				}
+			}
+		}
+		AND = {
+			NOT = {
+				any_known_country = {
+					NOT = { tag = ROOT }
+					OR = {
+						wr_is_rusyn_country = yes
+						AND = {
+							wr_has_accepted_rusyn = yes
+							any_owned_province = {
+								wr_is_rusyn_province = yes
+							}
+						}
+					}
+				}
+			}
+			any_owned_province = {
+				is_core = owner
+				wr_is_rusyn_province = yes
+			}
+			development_in_provinces = {
+				value = 30
+				wr_is_rusyn_province = yes
+			}
+		}
+	}
+}
+
+# ------------------------------------------------------------------------
+# Potential and Allow Gates for Each Stage
+# ------------------------------------------------------------------------
+
+# Stage 1: Distinctiveness (<= 50%) - Entry of Branch A (mutually exclusive with Branch B)
+wr_potential_stage1 = {
+	wr_can_run_maneuver_base = yes
+	OR = {
+		is_year = 1515
+		has_institution = printing_press
+	}
+	OR = {
+		wr_has_primary_or_accepted_potential = yes
+		wr_has_patron_only_potential = yes
+	}
+	NOT = { has_country_flag = wr_distinctiveness_recognized }
+	NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	NOT = { has_country_flag = wr_west_slavic_affinity_active }
+	NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	NOT = { has_country_flag = wr_stage1_attempted }
+}
+
+wr_allow_stage1 = {
+	NOT = { has_country_flag = wr_west_slavic_affinity_active }
+	NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	is_at_war = no
+	stability = 1
+	adm_tech = 9
+	has_institution = renaissance
+	prestige = 20
+	legitimacy_equivalent = 80
+	is_bankrupt = no
+	NOT = { num_of_loans = 2 }
+	OR = {
+		adm = 4
+		dip = 4
+		advisor = philosopher
+		advisor = statesman
+		advisor = theologian
+	}
+	NOT = {
+		any_known_country = {
+			war_with = ROOT
+			wr_is_carrier_country = yes
+		}
+	}
+	OR = {
+		AND = {
+			wr_is_carrier_country = yes
+			OR = {
+				AND = {
+					wr_is_byelorussian_country = yes
+					development_in_provinces = {
+						value = 35
+						wr_is_byelorussian_province = yes
+					}
+				}
+				AND = {
+					wr_is_ruthenian_country = yes
+					development_in_provinces = {
+						value = 50
+						wr_is_ruthenian_province = yes
+					}
+				}
+				AND = {
+					wr_is_rusyn_country = yes
+					development_in_provinces = {
+						value = 20
+						wr_is_rusyn_province = yes
+					}
+				}
+			}
+		}
+		AND = {
+			wr_has_accepted_target_culture = yes
+			OR = {
+				AND = {
+					wr_has_accepted_byelorussian = yes
+					development_in_provinces = {
+						value = 55
+						wr_is_byelorussian_province = yes
+					}
+				}
+				AND = {
+					wr_has_accepted_ruthenian = yes
+					development_in_provinces = {
+						value = 75
+						wr_is_ruthenian_province = yes
+					}
+				}
+				AND = {
+					wr_has_accepted_rusyn = yes
+					development_in_provinces = {
+						value = 25
+						wr_is_rusyn_province = yes
+					}
+				}
+			}
+		}
+		AND = {
+			wr_has_unaccepted_target_provinces = yes
+			stability = 2
+			OR = {
+				has_idea_group = humanist_ideas
+				full_idea_group = diplomatic_ideas
+			}
+			OR = {
+				development_in_provinces = {
+					value = 75
+					wr_is_byelorussian_province = yes
+				}
+				development_in_provinces = {
+					value = 100
+					wr_is_ruthenian_province = yes
+				}
+				development_in_provinces = {
+					value = 25
+					wr_is_rusyn_province = yes
+				}
+			}
+		}
+	}
+}
+
+wr_eligible_stage1 = {
+	wr_potential_stage1 = yes
+	wr_allow_stage1 = yes
+}
+
+# Stage 2: West-Ruthenian separate culture group (<= 30%) - Strictly requires Stage 1 & >= 60% S1 index
+wr_potential_stage2 = {
+	wr_can_run_maneuver_base = yes
+	has_country_flag = wr_distinctiveness_recognized
+	OR = {
+		is_year = 1550
+		has_institution = printing_press
+	}
+	wr_has_primary_or_accepted_potential = yes
+	wr_has_convertible_west_ruthenian_base = yes
+	NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	NOT = { has_country_flag = wr_west_slavic_affinity_active }
+	NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	NOT = { has_country_flag = wr_stage2_attempted }
+}
+
+wr_allow_stage2 = {
+	NOT = { has_country_flag = wr_west_slavic_affinity_active }
+	NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	had_country_flag = {
+		flag = wr_distinctiveness_recognized
+		days = 5475
+	}
+	is_at_war = no
+	OR = {
+		is_free_or_tributary_trigger = yes
+		overlord = {
+			has_country_flag = wr_west_ruthenian_group_formed
+		}
+	}
+	stability = 2
+	adm_tech = 12
+	has_institution = printing_press
+	prestige = 35
+	legitimacy_equivalent = 85
+	NOT = { num_of_loans = 1 }
+	OR = {
+		full_idea_group = humanist_ideas
+		full_idea_group = innovativeness_ideas
+		full_idea_group = administrative_ideas
+		AND = {
+			adm = 4
+			dip = 4
+		}
+	}
+	OR = {
+		AND = {
+			wr_byelorussian_initiator_stake = yes
+			wr_has_convertible_byelorussian_wr = yes
+			wr_has_byelorussian_collective_mandate_stage2 = yes
+			custom_trigger_tooltip = {
+				tooltip = wr_tt_byelorussian_s2_index
+				wr_byelorussian_stage2_index_met = yes
+			}
+		}
+		AND = {
+			wr_ruthenian_initiator_stake = yes
+			wr_has_convertible_ruthenian_wr = yes
+			wr_has_ruthenian_collective_mandate_stage2 = yes
+			custom_trigger_tooltip = {
+				tooltip = wr_tt_ruthenian_s2_index
+				wr_ruthenian_stage2_index_met = yes
+			}
+		}
+		AND = {
+			wr_rusyn_initiator_stake = yes
+			wr_has_convertible_rusyn_wr = yes
+			wr_has_rusyn_collective_mandate_stage2 = yes
+			custom_trigger_tooltip = {
+				tooltip = wr_tt_rusyn_s2_index
+				wr_rusyn_stage2_index_met = yes
+			}
+		}
+	}
+}
+
+wr_eligible_stage2 = {
+	wr_potential_stage2 = yes
+	wr_allow_stage2 = yes
+}
+
+# Stage 3: West-Slavic cultural affinity (< 20%) - Parallel to Stages 1-2 & mutually exclusive with Branch A
+wr_potential_stage3 = {
+	wr_can_run_maneuver_base = yes
+	OR = {
+		is_year = 1545
+		has_institution = printing_press
+	}
+	OR = {
+		wr_has_primary_or_accepted_potential = yes
+		wr_has_patron_only_potential = yes
+	}
+	wr_has_strong_west_slavic_bridge = yes
+	NOT = { has_country_flag = wr_distinctiveness_recognized }
+	NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	NOT = { has_country_flag = wr_west_slavic_affinity_active }
+	NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	NOT = { has_country_flag = wr_stage3_attempted }
+}
+
+wr_allow_stage3 = {
+	NOT = { has_country_flag = wr_distinctiveness_recognized }
+	NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	is_at_war = no
+	stability = 1
+	adm_tech = 11
+	has_institution = printing_press
+	prestige = 25
+	legitimacy_equivalent = 80
+	diplomatic_reputation = 2
+	NOT = { num_of_loans = 1 }
+	OR = {
+		culture_group = west_slavic
+		religion = catholic
+		religion = greek_catholic
+		religion = hussite
+		religion = protestant
+		religion = reformed
+		any_ally = {
+			culture_group = west_slavic
+			has_opinion = {
+				who = ROOT
+				value = 125
+			}
+		}
+		overlord = {
+			culture_group = west_slavic
+		}
+	}
+	OR = {
+		AND = {
+			wr_has_primary_or_accepted_potential = yes
+			OR = {
+				development_in_provinces = {
+					value = 45
+					wr_is_byelorussian_province = yes
+				}
+				development_in_provinces = {
+					value = 65
+					wr_is_ruthenian_province = yes
+				}
+				development_in_provinces = {
+					value = 22
+					wr_is_rusyn_province = yes
+				}
+			}
+		}
+		AND = {
+			wr_has_unaccepted_target_provinces = yes
+			stability = 2
+			OR = {
+				development_in_provinces = {
+					value = 75
+					wr_is_byelorussian_province = yes
+				}
+				development_in_provinces = {
+					value = 100
+					wr_is_ruthenian_province = yes
+				}
+				development_in_provinces = {
+					value = 25
+					wr_is_rusyn_province = yes
+				}
+			}
+		}
+	}
+}
+
+wr_eligible_stage3 = {
+	wr_potential_stage3 = yes
+	wr_allow_stage3 = yes
+}
+
+# Stage 4: Transition to west_slavic (< 5%) - Strictly requires Stage 3 & >= 85% S3 index
+wr_potential_stage4 = {
+	wr_can_run_maneuver_base = yes
+	has_country_flag = wr_west_slavic_affinity_active
+	OR = {
+		is_year = 1615
+		had_country_flag = {
+			flag = wr_west_slavic_affinity_active
+			days = 10950
+		}
+	}
+	wr_has_primary_or_accepted_potential = yes
+	wr_has_strong_west_slavic_bridge = yes
+	wr_has_convertible_west_slavic_base = yes
+	NOT = { has_country_flag = wr_distinctiveness_recognized }
+	NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	NOT = { has_country_flag = wr_stage4_attempted }
+}
+
+wr_allow_stage4 = {
+	NOT = { has_country_flag = wr_distinctiveness_recognized }
+	NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	had_country_flag = {
+		flag = wr_west_slavic_affinity_active
+		days = 10950
+	}
+	is_at_war = no
+	OR = {
+		is_free_or_tributary_trigger = yes
+		overlord = {
+			has_country_flag = wr_west_slavic_shift_completed
+		}
+	}
+	stability = 2
+	adm_tech = 17
+	has_institution = printing_press
+	has_institution = global_trade
+	prestige = 50
+	legitimacy_equivalent = 90
+	religious_unity = 0.9
+	NOT = { num_of_loans = 1 }
+	NOT = { overextension_percentage = 0.01 }
+	any_owned_province = {
+		wr_is_target_province = yes
+		OR = {
+			has_building = university
+			has_building = town_hall
+		}
+	}
+	OR = {
+		AND = {
+			wr_byelorussian_initiator_stake = yes
+			wr_has_convertible_byelorussian_ws = yes
+			wr_has_byelorussian_collective_mandate_stage4 = yes
+			custom_trigger_tooltip = {
+				tooltip = wr_tt_byelorussian_s4_index
+				wr_byelorussian_stage4_index_met = yes
+			}
+		}
+		AND = {
+			wr_ruthenian_initiator_stake = yes
+			wr_has_convertible_ruthenian_ws = yes
+			wr_has_ruthenian_collective_mandate_stage4 = yes
+			custom_trigger_tooltip = {
+				tooltip = wr_tt_ruthenian_s4_index
+				wr_ruthenian_stage4_index_met = yes
+			}
+		}
+		AND = {
+			wr_rusyn_initiator_stake = yes
+			wr_has_convertible_rusyn_ws = yes
+			wr_has_rusyn_collective_mandate_stage4 = yes
+			custom_trigger_tooltip = {
+				tooltip = wr_tt_rusyn_s4_index
+				wr_rusyn_stage4_index_met = yes
+			}
+		}
+	}
+}
+
+wr_eligible_stage4 = {
+	wr_potential_stage4 = yes
+	wr_allow_stage4 = yes
+}
+
+# ------------------------------------------------------------------------
+# Repeatable Diplomatic Rally Congress Gates (10-year cooldown)
+# ------------------------------------------------------------------------
+
+wr_has_rally_candidate_stage1 = {
+	any_country = {
+		NOT = { tag = ROOT }
+		wr_can_run_maneuver_base = yes
+		NOT = { has_country_flag = wr_distinctiveness_recognized }
+		NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+		NOT = { has_country_flag = wr_west_slavic_affinity_active }
+		NOT = { has_country_flag = wr_west_slavic_shift_completed }
+		OR = {
+			AND = {
+				wr_byelorussian_congress_member = yes
+				ROOT = { wr_byelorussian_initiator_stake = yes }
+			}
+			AND = {
+				wr_ruthenian_congress_member = yes
+				ROOT = { wr_ruthenian_initiator_stake = yes }
+			}
+			AND = {
+				wr_rusyn_congress_member = yes
+				ROOT = { wr_rusyn_initiator_stake = yes }
+			}
+		}
+	}
+}
+
+wr_potential_rally_branch_a = {
+	wr_can_run_maneuver_base = yes
+	has_country_flag = wr_distinctiveness_recognized
+	NOT = { has_country_flag = wr_west_slavic_affinity_active }
+	NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	wr_any_staked_stage2_index_unmet = yes
+	OR = {
+		wr_has_rally_candidate_stage1 = yes
+		any_owned_province = {
+			wr_is_target_province = yes
+			NOT = { has_province_modifier = wr_chancery_prosta_mova_tradition }
+		}
+	}
+}
+
+wr_allow_rally_branch_a = {
+	is_at_war = no
+	stability = 1
+	OR = {
+		NOT = { has_country_flag = wr_branch_a_rally_cooldown }
+		had_country_flag = {
+			flag = wr_branch_a_rally_cooldown
+			days = 3650
+		}
+	}
+}
+
+wr_has_rally_candidate_stage3 = {
+	any_country = {
+		NOT = { tag = ROOT }
+		wr_can_run_maneuver_base = yes
+		NOT = { has_country_flag = wr_distinctiveness_recognized }
+		NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+		NOT = { has_country_flag = wr_west_slavic_affinity_active }
+		NOT = { has_country_flag = wr_west_slavic_shift_completed }
+		OR = {
+			AND = {
+				wr_byelorussian_congress_member = yes
+				ROOT = { wr_byelorussian_initiator_stake = yes }
+			}
+			AND = {
+				wr_ruthenian_congress_member = yes
+				ROOT = { wr_ruthenian_initiator_stake = yes }
+			}
+			AND = {
+				wr_rusyn_congress_member = yes
+				ROOT = { wr_rusyn_initiator_stake = yes }
+			}
+		}
+	}
+}
+
+wr_potential_rally_branch_b = {
+	wr_can_run_maneuver_base = yes
+	has_country_flag = wr_west_slavic_affinity_active
+	NOT = { has_country_flag = wr_distinctiveness_recognized }
+	NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	wr_any_staked_stage4_index_unmet = yes
+	OR = {
+		wr_has_rally_candidate_stage3 = yes
+		any_owned_province = {
+			wr_is_target_province = yes
+			NOT = { has_province_modifier = wr_west_slavic_shared_script_space }
+		}
+	}
+}
+
+wr_allow_rally_branch_b = {
+	is_at_war = no
+	stability = 1
+	OR = {
+		NOT = { has_country_flag = wr_branch_b_rally_cooldown }
+		had_country_flag = {
+			flag = wr_branch_b_rally_cooldown
+			days = 3650
+		}
+	}
+}
+
+# ------------------------------------------------------------------------
+# Collective Partner Support & Cross-Scope Congress Matching
+# ------------------------------------------------------------------------
+
+wr_has_collective_partner_stage1 = {
+	any_known_country = {
+		NOT = { tag = ROOT }
+		OR = {
+			wr_is_carrier_country = yes
+			wr_has_accepted_target_culture = yes
+		}
+		OR = {
+			is_subject_of = ROOT
+			overlord_of = ROOT
+			AND = {
+				alliance_with = ROOT
+				has_opinion = {
+					who = ROOT
+					value = 100
+				}
+			}
+		}
+		OR = {
+			has_country_flag = wr_distinctiveness_recognized
+			has_opinion = {
+				who = ROOT
+				value = 125
+			}
+		}
+	}
+}
+
+wr_has_collective_partner_stage2 = {
+	any_known_country = {
+		NOT = { tag = ROOT }
+		OR = {
+			wr_is_carrier_country = yes
+			wr_has_accepted_target_culture = yes
+		}
+		OR = {
+			is_subject_of = ROOT
+			overlord_of = ROOT
+			alliance_with = ROOT
+		}
+		has_country_flag = wr_distinctiveness_recognized
+	}
+}
+
+wr_has_collective_partner_stage3 = {
+	OR = {
+		any_known_country = {
+			NOT = { tag = ROOT }
+			OR = {
+				wr_is_carrier_country = yes
+				wr_has_accepted_target_culture = yes
+			}
+			OR = {
+				is_subject_of = ROOT
+				overlord_of = ROOT
+				alliance_with = ROOT
+			}
+			has_country_flag = wr_west_slavic_affinity_active
+		}
+		any_ally = {
+			culture_group = west_slavic
+			total_development = 75
+			has_opinion = {
+				who = ROOT
+				value = 125
+			}
+		}
+	}
+}
+
+wr_has_collective_partner_stage4 = {
+	any_known_country = {
+		NOT = { tag = ROOT }
+		OR = {
+			wr_is_carrier_country = yes
+			wr_has_accepted_target_culture = yes
+		}
+		OR = {
+			is_subject_of = ROOT
+			overlord_of = ROOT
+			AND = {
+				alliance_with = ROOT
+				has_opinion = {
+					who = ROOT
+					value = 125
+				}
+			}
+		}
+		OR = {
+			has_country_flag = wr_west_slavic_affinity_active
+			has_country_flag = wr_west_slavic_shift_completed
+		}
+	}
+}
+
+wr_from_shares_byelorussian_sphere = {
+	wr_byelorussian_congress_member = yes
+	FROM = {
+		wr_byelorussian_initiator_stake = yes
+	}
+}
+
+wr_from_shares_ruthenian_sphere = {
+	wr_ruthenian_congress_member = yes
+	FROM = {
+		wr_ruthenian_initiator_stake = yes
+	}
+}
+
+wr_from_shares_rusyn_sphere = {
+	wr_rusyn_congress_member = yes
+	FROM = {
+		wr_rusyn_initiator_stake = yes
+	}
+}
+
+wr_is_pure_byelorussian_stake = {
+	wr_byelorussian_initiator_stake = yes
+	NOT = { wr_ruthenian_initiator_stake = yes }
+	NOT = { wr_rusyn_initiator_stake = yes }
+}
+
+wr_is_pure_ruthenian_stake = {
+	wr_ruthenian_initiator_stake = yes
+	NOT = { wr_byelorussian_initiator_stake = yes }
+	NOT = { wr_rusyn_initiator_stake = yes }
+}
+
+wr_is_pure_rusyn_stake = {
+	wr_rusyn_initiator_stake = yes
+	NOT = { wr_byelorussian_initiator_stake = yes }
+	NOT = { wr_ruthenian_initiator_stake = yes }
+}
+
+wr_is_pure_byelorussian_from_sphere = {
+	wr_from_shares_byelorussian_sphere = yes
+	NOT = { wr_from_shares_ruthenian_sphere = yes }
+	NOT = { wr_from_shares_rusyn_sphere = yes }
+}
+
+wr_is_pure_ruthenian_from_sphere = {
+	wr_from_shares_ruthenian_sphere = yes
+	NOT = { wr_from_shares_byelorussian_sphere = yes }
+	NOT = { wr_from_shares_rusyn_sphere = yes }
+}
+
+wr_is_pure_rusyn_from_sphere = {
+	wr_from_shares_rusyn_sphere = yes
+	NOT = { wr_from_shares_byelorussian_sphere = yes }
+	NOT = { wr_from_shares_ruthenian_sphere = yes }
+}

@@ -1,0 +1,1994 @@
+# ========================================================================
+# West-Ruthenian and West-Slavic Cultural Maneuver (Belarusian, Ruthenian & Rusyn)
+# Authenticity & Progression:
+#   Branch A:
+#     Stage 1 (Distinctiveness <= 50%): B - grounded in Lithuanian-Ruthenian
+#       Statutes, chancery "prosta mova" and Skaryna-era humanist printing.
+#     Stage 2 (West-Ruthenian Group <= 30%): C - speculative institutional
+#       codification of Belarusian and Rusyn into west_ruthenian (requires Stage 1).
+#   Branch B (parallel to Branch A):
+#     Stage 3 (West-Slavic Affinity < 20%): B/C - legal, confessional and
+#       urban gravitation toward west_slavic (does NOT require Stages 1 or 2).
+#     Stage 4 (West-Slavic Shift < 5%): C - strictly speculative cultural
+#       shift of Belarusian and Rusyn into west_slavic (requires Stage 3, max < 5%).
+# Three-Circle Collective Consensus:
+#   Events .41-.44 -> Circle 1 (other primary-culture states)
+#   Events .51-.54 -> Circle 2 (accepted-culture states)
+#   Events .61-.64 -> Circle 3 (present-only unaccepted-province states)
+# ========================================================================
+
+namespace = wr_cultural_maneuver
+
+# ------------------------------------------------------------------------
+# Branch A, Stage 1: Recognition of West-Ruthenian distinctiveness (<= 50%)
+# ------------------------------------------------------------------------
+country_event = {
+	id = wr_cultural_maneuver.1
+	title = wr_cultural_maneuver.1.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_stake = yes
+		}
+		desc = wr_cultural_maneuver.1.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_stake = yes
+		}
+		desc = wr_cultural_maneuver.1.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_stake = yes
+		}
+		desc = wr_cultural_maneuver.1.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.1.d
+	}
+	picture = BIG_BOOK_eventPicture
+
+	trigger = {
+		wr_eligible_stage1 = yes
+	}
+
+	mean_time_to_happen = {
+		months = 180
+		modifier = {
+			factor = 0.85
+			has_institution = printing_press
+		}
+		modifier = {
+			factor = 0.85
+			has_idea_group = humanist_ideas
+		}
+		modifier = {
+			factor = 0.8
+			wr_is_carrier_country = yes
+		}
+		modifier = {
+			factor = 0.85
+			wr_has_collective_partner_stage1 = yes
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_stage1_attempted
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.1.a
+		add_adm_power = -25
+		add_dip_power = -25
+		random_list = {
+			30 = {
+				modifier = {
+					factor = 1.25
+					wr_has_collective_partner_stage1 = yes
+				}
+				modifier = {
+					factor = 1.2
+					has_institution = printing_press
+				}
+				modifier = {
+					factor = 1.15
+					has_idea_group = humanist_ideas
+				}
+				country_event = {
+					id = wr_cultural_maneuver.2
+					days = 1
+				}
+			}
+			68 = {
+				country_event = {
+					id = wr_cultural_maneuver.3
+					days = 1
+				}
+			}
+		}
+		ai_chance = {
+			factor = 48
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.1.b
+		trigger = {
+			ai = no
+		}
+		add_stability = -1
+		add_adm_power = -150
+		add_dip_power = -150
+		wr_spawn_traditionalist_backlash_effect = yes
+		wr_apply_stage1_distinctiveness_effect = yes
+		ai_chance = {
+			factor = 0
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.1.c
+		add_prestige = 5
+		ai_chance = {
+			factor = 52
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.2
+	title = wr_cultural_maneuver.2.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_stake = yes
+		}
+		desc = wr_cultural_maneuver.2.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_stake = yes
+		}
+		desc = wr_cultural_maneuver.2.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_stake = yes
+		}
+		desc = wr_cultural_maneuver.2.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.2.d
+	}
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = wr_cultural_maneuver.2.a
+		wr_apply_stage1_distinctiveness_effect = yes
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.3
+	title = wr_cultural_maneuver.3.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_stake = yes
+		}
+		desc = wr_cultural_maneuver.3.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_stake = yes
+		}
+		desc = wr_cultural_maneuver.3.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_stake = yes
+		}
+		desc = wr_cultural_maneuver.3.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.3.d
+	}
+	picture = DEBATE_REPUBLICAN_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = wr_cultural_maneuver.3.a
+		add_prestige = -5
+		if = {
+			limit = {
+				has_estate = estate_church
+			}
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 10
+			}
+		}
+	}
+}
+
+# ------------------------------------------------------------------------
+# Branch A, Stage 2: Separate West-Ruthenian culture group (<= 30%)
+# Strictly requires Stage 1
+# ------------------------------------------------------------------------
+country_event = {
+	id = wr_cultural_maneuver.10
+	title = wr_cultural_maneuver.10.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_stake = yes
+		}
+		desc = wr_cultural_maneuver.10.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_stake = yes
+		}
+		desc = wr_cultural_maneuver.10.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_stake = yes
+		}
+		desc = wr_cultural_maneuver.10.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.10.d
+	}
+	picture = REFORM_eventPicture
+
+	trigger = {
+		wr_eligible_stage2 = yes
+	}
+
+	mean_time_to_happen = {
+		months = 216
+		modifier = {
+			factor = 0.85
+			full_idea_group = humanist_ideas
+		}
+		modifier = {
+			factor = 0.8
+			wr_is_carrier_country = yes
+		}
+		modifier = {
+			factor = 0.85
+			wr_has_collective_partner_stage2 = yes
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_stage2_attempted
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.10.a
+		add_adm_power = -50
+		add_dip_power = -50
+		random_list = {
+			18 = {
+				modifier = {
+					factor = 1.35
+					wr_has_collective_partner_stage2 = yes
+				}
+				modifier = {
+					factor = 1.2
+					OR = {
+						full_idea_group = humanist_ideas
+						full_idea_group = administrative_ideas
+					}
+				}
+				country_event = {
+					id = wr_cultural_maneuver.11
+					days = 1
+				}
+			}
+			74 = {
+				country_event = {
+					id = wr_cultural_maneuver.12
+					days = 1
+				}
+			}
+		}
+		ai_chance = {
+			factor = 28
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.10.b
+		trigger = {
+			ai = no
+		}
+		add_stability = -1
+		add_adm_power = -175
+		add_dip_power = -175
+		wr_spawn_traditionalist_backlash_effect = yes
+		wr_apply_stage2_west_ruthenian_group_effect = yes
+		ai_chance = {
+			factor = 0
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.10.c
+		add_prestige = 5
+		ai_chance = {
+			factor = 72
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.11
+	title = wr_cultural_maneuver.11.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_stake = yes
+		}
+		desc = wr_cultural_maneuver.11.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_stake = yes
+		}
+		desc = wr_cultural_maneuver.11.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_stake = yes
+		}
+		desc = wr_cultural_maneuver.11.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.11.d
+	}
+	picture = GOOD_WITH_MONARCH_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = wr_cultural_maneuver.11.a
+		wr_apply_stage2_west_ruthenian_group_effect = yes
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.12
+	title = wr_cultural_maneuver.12.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_stake = yes
+		}
+		desc = wr_cultural_maneuver.12.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_stake = yes
+		}
+		desc = wr_cultural_maneuver.12.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_stake = yes
+		}
+		desc = wr_cultural_maneuver.12.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.12.d
+	}
+	picture = BAD_WITH_MONARCH_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = wr_cultural_maneuver.12.a
+		add_prestige = -10
+		add_dip_power = 25
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.15
+	title = wr_cultural_maneuver.15.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.15.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.15.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.15.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.15.d
+	}
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_west_slavic_affinity_active }
+		NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	}
+
+	option = {
+		name = wr_cultural_maneuver.15.a
+		wr_convert_country_to_west_ruthenian_effect = yes
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		ai_chance = {
+			factor = 28
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.15.b
+		add_prestige = 5
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		ai_chance = {
+			factor = 72
+		}
+	}
+}
+
+# ------------------------------------------------------------------------
+# Branch B, Stage 3 (Parallel to Stages 1-2): West-Slavic affinity (< 20%)
+# ------------------------------------------------------------------------
+country_event = {
+	id = wr_cultural_maneuver.20
+	title = wr_cultural_maneuver.20.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_stake = yes
+		}
+		desc = wr_cultural_maneuver.20.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_stake = yes
+		}
+		desc = wr_cultural_maneuver.20.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_stake = yes
+		}
+		desc = wr_cultural_maneuver.20.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.20.d
+	}
+	picture = DIPLOMACY_eventPicture
+
+	trigger = {
+		wr_eligible_stage3 = yes
+	}
+
+	mean_time_to_happen = {
+		months = 228
+		modifier = {
+			factor = 0.85
+			OR = {
+				religion = catholic
+				religion = greek_catholic
+			}
+		}
+		modifier = {
+			factor = 0.85
+			wr_has_collective_partner_stage3 = yes
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_stage3_attempted
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.20.a
+		add_dip_power = -50
+		random_list = {
+			10 = {
+				modifier = {
+					factor = 1.35
+					wr_has_collective_partner_stage3 = yes
+				}
+				modifier = {
+					factor = 1.25
+					OR = {
+						religion = catholic
+						religion = greek_catholic
+					}
+				}
+				modifier = {
+					factor = 1.15
+					has_institution = printing_press
+				}
+				country_event = {
+					id = wr_cultural_maneuver.21
+					days = 1
+				}
+			}
+			84 = {
+				country_event = {
+					id = wr_cultural_maneuver.22
+					days = 1
+				}
+			}
+		}
+		ai_chance = {
+			factor = 16
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.20.b
+		trigger = {
+			ai = no
+		}
+		add_stability = -2
+		add_adm_power = -150
+		add_dip_power = -175
+		wr_spawn_traditionalist_backlash_effect = yes
+		wr_apply_stage3_west_slavic_affinity_effect = yes
+		ai_chance = {
+			factor = 0
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.20.c
+		add_prestige = 10
+		ai_chance = {
+			factor = 84
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.21
+	title = wr_cultural_maneuver.21.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_stake = yes
+		}
+		desc = wr_cultural_maneuver.21.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_stake = yes
+		}
+		desc = wr_cultural_maneuver.21.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_stake = yes
+		}
+		desc = wr_cultural_maneuver.21.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.21.d
+	}
+	picture = SEJM_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = wr_cultural_maneuver.21.a
+		wr_apply_stage3_west_slavic_affinity_effect = yes
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.22
+	title = wr_cultural_maneuver.22.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_stake = yes
+		}
+		desc = wr_cultural_maneuver.22.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_stake = yes
+		}
+		desc = wr_cultural_maneuver.22.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_stake = yes
+		}
+		desc = wr_cultural_maneuver.22.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.22.d
+	}
+	picture = DEBATE_REPUBLICAN_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = wr_cultural_maneuver.22.a
+		add_prestige = -10
+		add_dip_power = 20
+	}
+}
+
+# ------------------------------------------------------------------------
+# Branch B, Stage 4: Transition of Belarusian & Rusyn into west_slavic (< 5%)
+# Strictly requires Stage 3; strictly capped below 5% (no ai = no bypass).
+# ------------------------------------------------------------------------
+country_event = {
+	id = wr_cultural_maneuver.30
+	title = wr_cultural_maneuver.30.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_stake = yes
+		}
+		desc = wr_cultural_maneuver.30.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_stake = yes
+		}
+		desc = wr_cultural_maneuver.30.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_stake = yes
+		}
+		desc = wr_cultural_maneuver.30.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.30.d
+	}
+	picture = WESTERNISATION_eventPicture
+
+	trigger = {
+		wr_eligible_stage4 = yes
+	}
+
+	mean_time_to_happen = {
+		months = 280
+		modifier = {
+			factor = 0.85
+			OR = {
+				religion = catholic
+				religion = greek_catholic
+			}
+		}
+		modifier = {
+			factor = 0.85
+			wr_has_collective_partner_stage4 = yes
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_stage4_attempted
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.30.a
+		add_adm_power = -50
+		add_dip_power = -50
+		random_list = {
+			1.5 = {
+				modifier = {
+					factor = 1.4
+					wr_has_collective_partner_stage4 = yes
+				}
+				modifier = {
+					factor = 1.35
+					OR = {
+						religion = catholic
+						religion = greek_catholic
+					}
+				}
+				modifier = {
+					factor = 1.2
+					has_institution = printing_press
+				}
+				country_event = {
+					id = wr_cultural_maneuver.31
+					days = 1
+				}
+			}
+			96 = {
+				country_event = {
+					id = wr_cultural_maneuver.32
+					days = 1
+				}
+			}
+		}
+		ai_chance = {
+			factor = 4
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.30.b
+		add_prestige = 10
+		add_dip_power = 50
+		ai_chance = {
+			factor = 96
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.31
+	title = wr_cultural_maneuver.31.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_stake = yes
+		}
+		desc = wr_cultural_maneuver.31.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_stake = yes
+		}
+		desc = wr_cultural_maneuver.31.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_stake = yes
+		}
+		desc = wr_cultural_maneuver.31.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.31.d
+	}
+	picture = WESTERNISATION_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = wr_cultural_maneuver.31.a
+		wr_apply_stage4_west_slavic_transition_effect = yes
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.32
+	title = wr_cultural_maneuver.32.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_stake = yes
+		}
+		desc = wr_cultural_maneuver.32.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_stake = yes
+		}
+		desc = wr_cultural_maneuver.32.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_stake = yes
+		}
+		desc = wr_cultural_maneuver.32.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.32.d
+	}
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = wr_cultural_maneuver.32.a
+		add_prestige = -10
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.35
+	title = wr_cultural_maneuver.35.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.35.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.35.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.35.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.35.d
+	}
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_distinctiveness_recognized }
+		NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	}
+
+	option = {
+		name = wr_cultural_maneuver.35.a
+		random_list = {
+			4 = {
+				wr_convert_country_to_west_slavic_effect = yes
+			}
+			96 = {
+				add_prestige = 5
+			}
+		}
+		ai_chance = {
+			factor = 4
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.35.b
+		add_prestige = 5
+		ai_chance = {
+			factor = 96
+		}
+	}
+}
+
+# ========================================================================
+# Three-Circle Collective Consensus: Circle 1 (Independent primary-culture states)
+# ========================================================================
+
+country_event = {
+	id = wr_cultural_maneuver.41
+	title = wr_cultural_maneuver.41.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.41.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.41.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.41.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.41.d
+	}
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_west_slavic_affinity_active }
+		NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_congress_s1_responded
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.41.a
+		wr_apply_stage1_distinctiveness_from_sphere_effect = yes
+		add_country_modifier = {
+			name = wr_collective_concord
+			duration = 5475
+		}
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		ai_chance = {
+			factor = 42
+			modifier = {
+				factor = 0
+				OR = {
+					war_with = FROM
+					is_rival = FROM
+					is_enemy = FROM
+				}
+			}
+			modifier = {
+				factor = 1.8
+				is_subject_of = FROM
+			}
+			modifier = {
+				factor = 1.4
+				alliance_with = FROM
+			}
+			modifier = {
+				factor = 1.25
+				has_opinion = { who = FROM value = 125 }
+			}
+			modifier = {
+				factor = 1.25
+				trust = { who = FROM value = 60 }
+			}
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.41.b
+		add_prestige = 10
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		FROM = {
+			add_prestige = -5
+		}
+		ai_chance = {
+			factor = 52
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.42
+	title = wr_cultural_maneuver.42.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.42.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.42.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.42.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.42.d
+	}
+	picture = REFORM_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_west_slavic_affinity_active }
+		NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_congress_s2_responded
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.42.a
+		wr_sync_circle1_stage2_with_from_effect = yes
+		add_country_modifier = {
+			name = wr_collective_concord
+			duration = 5475
+		}
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		ai_chance = {
+			factor = 28
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.42.b
+		add_prestige = 10
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		FROM = {
+			add_prestige = -10
+		}
+		ai_chance = {
+			factor = 72
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.43
+	title = wr_cultural_maneuver.43.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.43.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.43.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.43.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.43.d
+	}
+	picture = SEJM_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_distinctiveness_recognized }
+		NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_congress_s3_responded
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.43.a
+		wr_apply_stage3_west_slavic_affinity_local_effect = yes
+		wr_refresh_all_sphere_indices_effect = yes
+		add_country_modifier = {
+			name = wr_collective_concord
+			duration = 5475
+		}
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		ai_chance = {
+			factor = 14
+			modifier = {
+				factor = 0
+				OR = {
+					war_with = FROM
+					is_rival = FROM
+					is_enemy = FROM
+				}
+			}
+			modifier = {
+				factor = 1.8
+				is_subject_of = FROM
+			}
+			modifier = {
+				factor = 1.4
+				alliance_with = FROM
+			}
+			modifier = {
+				factor = 1.25
+				has_opinion = { who = FROM value = 125 }
+			}
+			modifier = {
+				factor = 1.25
+				trust = { who = FROM value = 60 }
+			}
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.43.b
+		add_prestige = 10
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		ai_chance = {
+			factor = 84
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.44
+	title = wr_cultural_maneuver.44.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.44.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.44.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.44.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.44.d
+	}
+	picture = WESTERNISATION_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_distinctiveness_recognized }
+		NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_congress_s4_responded
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.44.a
+		random_list = {
+			4 = {
+				wr_sync_circle1_stage4_with_from_effect = yes
+				add_opinion = {
+					who = FROM
+					modifier = opinion_wr_collective_accord
+				}
+				reverse_add_opinion = {
+					who = FROM
+					modifier = opinion_wr_collective_accord
+				}
+			}
+			96 = {
+				add_prestige = -5
+			}
+		}
+		ai_chance = {
+			factor = 4
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.44.b
+		add_prestige = 10
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		FROM = {
+			add_prestige = -10
+		}
+		ai_chance = {
+			factor = 96
+		}
+	}
+}
+
+# ========================================================================
+# Three-Circle Collective Consensus: Circle 2 (Accepted-culture states)
+# ========================================================================
+
+country_event = {
+	id = wr_cultural_maneuver.51
+	title = wr_cultural_maneuver.51.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.51.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.51.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.51.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.51.d
+	}
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_west_slavic_affinity_active }
+		NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_congress_s1_responded
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.51.a
+		add_dip_power = -25
+		wr_apply_stage1_distinctiveness_from_sphere_effect = yes
+		add_country_modifier = {
+			name = wr_collective_concord
+			duration = 5475
+		}
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		ai_chance = {
+			factor = 40
+			modifier = {
+				factor = 0
+				OR = {
+					war_with = FROM
+					is_rival = FROM
+					is_enemy = FROM
+				}
+			}
+			modifier = {
+				factor = 1.8
+				is_subject_of = FROM
+			}
+			modifier = {
+				factor = 1.4
+				alliance_with = FROM
+			}
+			modifier = {
+				factor = 1.25
+				has_opinion = { who = FROM value = 125 }
+			}
+			modifier = {
+				factor = 1.25
+				trust = { who = FROM value = 60 }
+			}
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.51.b
+		wr_apply_cultural_ferment_from_sphere_effect = yes
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		ai_chance = {
+			factor = 55
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.52
+	title = wr_cultural_maneuver.52.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.52.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.52.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.52.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.52.d
+	}
+	picture = REFORM_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_west_slavic_affinity_active }
+		NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_congress_s2_responded
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.52.a
+		add_dip_power = -50
+		wr_sync_circle2_stage2_with_from_effect = yes
+		add_country_modifier = {
+			name = wr_collective_concord
+			duration = 5475
+		}
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		ai_chance = {
+			factor = 28
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.52.b
+		wr_apply_cultural_ferment_from_sphere_effect = yes
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		ai_chance = {
+			factor = 72
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.53
+	title = wr_cultural_maneuver.53.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.53.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.53.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.53.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.53.d
+	}
+	picture = SEJM_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_distinctiveness_recognized }
+		NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_congress_s3_responded
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.53.a
+		add_dip_power = -35
+		wr_apply_stage3_west_slavic_affinity_local_effect = yes
+		wr_refresh_all_sphere_indices_effect = yes
+		add_country_modifier = {
+			name = wr_collective_concord
+			duration = 5475
+		}
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		ai_chance = {
+			factor = 14
+			modifier = {
+				factor = 0
+				OR = {
+					war_with = FROM
+					is_rival = FROM
+					is_enemy = FROM
+				}
+			}
+			modifier = {
+				factor = 1.8
+				is_subject_of = FROM
+			}
+			modifier = {
+				factor = 1.4
+				alliance_with = FROM
+			}
+			modifier = {
+				factor = 1.25
+				has_opinion = { who = FROM value = 125 }
+			}
+			modifier = {
+				factor = 1.25
+				trust = { who = FROM value = 60 }
+			}
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.53.b
+		wr_apply_cultural_ferment_from_sphere_effect = yes
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		ai_chance = {
+			factor = 84
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.54
+	title = wr_cultural_maneuver.54.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.54.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.54.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.54.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.54.d
+	}
+	picture = WESTERNISATION_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_distinctiveness_recognized }
+		NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_congress_s4_responded
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.54.a
+		random_list = {
+			4 = {
+				wr_sync_circle2_stage4_with_from_effect = yes
+				add_opinion = {
+					who = FROM
+					modifier = opinion_wr_collective_accord
+				}
+				reverse_add_opinion = {
+					who = FROM
+					modifier = opinion_wr_collective_accord
+				}
+			}
+			96 = {
+				wr_apply_cultural_ferment_from_sphere_effect = yes
+			}
+		}
+		ai_chance = {
+			factor = 4
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.54.b
+		wr_apply_cultural_ferment_from_sphere_effect = yes
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		ai_chance = {
+			factor = 96
+		}
+	}
+}
+
+# ========================================================================
+# Three-Circle Collective Consensus: Circle 3 (Present-only unaccepted states)
+# ========================================================================
+
+country_event = {
+	id = wr_cultural_maneuver.61
+	title = wr_cultural_maneuver.61.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.61.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.61.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.61.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.61.d
+	}
+	picture = DEBATE_REPUBLICAN_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_west_slavic_affinity_active }
+		NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_congress_s1_responded
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.61.a
+		add_dip_power = -25
+		wr_grant_circle3_stage1_provinces_from_sphere_effect = yes
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		ai_chance = {
+			factor = 22
+			modifier = {
+				factor = 0
+				OR = {
+					war_with = FROM
+					is_rival = FROM
+					is_enemy = FROM
+				}
+			}
+			modifier = {
+				factor = 1.8
+				is_subject_of = FROM
+			}
+			modifier = {
+				factor = 1.4
+				alliance_with = FROM
+			}
+			modifier = {
+				factor = 1.25
+				has_opinion = { who = FROM value = 125 }
+			}
+			modifier = {
+				factor = 1.25
+				trust = { who = FROM value = 60 }
+			}
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.61.b
+		wr_apply_cultural_ferment_from_sphere_effect = yes
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		ai_chance = {
+			factor = 75
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.62
+	title = wr_cultural_maneuver.62.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.62.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.62.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.62.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.62.d
+	}
+	picture = DEBATE_REPUBLICAN_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_west_slavic_affinity_active }
+		NOT = { has_country_flag = wr_west_slavic_shift_completed }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_congress_s2_responded
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.62.a
+		add_dip_power = -50
+		wr_sync_circle3_stage2_with_from_effect = yes
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		ai_chance = {
+			factor = 15
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.62.b
+		wr_apply_cultural_ferment_from_sphere_effect = yes
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		ai_chance = {
+			factor = 85
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.63
+	title = wr_cultural_maneuver.63.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.63.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.63.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.63.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.63.d
+	}
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_distinctiveness_recognized }
+		NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_congress_s3_responded
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.63.a
+		add_dip_power = -35
+		wr_grant_circle3_stage3_provinces_from_sphere_effect = yes
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_accord
+		}
+		ai_chance = {
+			factor = 12
+			modifier = {
+				factor = 0
+				OR = {
+					war_with = FROM
+					is_rival = FROM
+					is_enemy = FROM
+				}
+			}
+			modifier = {
+				factor = 1.8
+				is_subject_of = FROM
+			}
+			modifier = {
+				factor = 1.4
+				alliance_with = FROM
+			}
+			modifier = {
+				factor = 1.25
+				has_opinion = { who = FROM value = 125 }
+			}
+			modifier = {
+				factor = 1.25
+				trust = { who = FROM value = 60 }
+			}
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.63.b
+		wr_apply_cultural_ferment_from_sphere_effect = yes
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		ai_chance = {
+			factor = 85
+		}
+	}
+}
+
+country_event = {
+	id = wr_cultural_maneuver.64
+	title = wr_cultural_maneuver.64.t
+	desc = {
+		trigger = {
+			wr_is_pure_byelorussian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.64.d_belarus
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_ruthenian_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.64.d_ruthenia
+	}
+	desc = {
+		trigger = {
+			wr_is_pure_rusyn_from_sphere = yes
+		}
+		desc = wr_cultural_maneuver.64.d_rusyn
+	}
+	desc = {
+		trigger = {
+			always = yes
+		}
+		desc = wr_cultural_maneuver.64.d
+	}
+	picture = DEBATE_REPUBLICAN_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_country_flag = wr_distinctiveness_recognized }
+		NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = wr_congress_s4_responded
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.64.a
+		random_list = {
+			4 = {
+				wr_sync_circle3_stage4_with_from_effect = yes
+				add_opinion = {
+					who = FROM
+					modifier = opinion_wr_collective_accord
+				}
+			}
+			96 = {
+				wr_apply_cultural_ferment_from_sphere_effect = yes
+			}
+		}
+		ai_chance = {
+			factor = 4
+		}
+	}
+
+	option = {
+		name = wr_cultural_maneuver.64.b
+		wr_apply_cultural_ferment_from_sphere_effect = yes
+		add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		reverse_add_opinion = {
+			who = FROM
+			modifier = opinion_wr_collective_discord
+		}
+		ai_chance = {
+			factor = 96
+		}
+	}
+}

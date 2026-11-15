@@ -90,6 +90,9 @@ country_event = {
 		}
 		OR = {
 			primary_culture = byelorussian
+			primary_culture = byelorussian_new
+			primary_culture = byelorussian_west_ruthenian
+			primary_culture = byelorussian_west_slavic
 			primary_culture = ruthenian
 		}
 		is_subject = no
@@ -100,6 +103,9 @@ country_event = {
 			value = 5
 			OR = {
 				culture = byelorussian
+				culture = byelorussian_new
+				culture = byelorussian_west_ruthenian
+				culture = byelorussian_west_slavic
 				culture = ruthenian
 			}
 		}
@@ -123,7 +129,12 @@ country_event = {
 		}
 		every_province = {
 			limit = {
-				culture = byelorussian
+				OR = {
+					culture = byelorussian
+					culture = byelorussian_new
+					culture = byelorussian_west_ruthenian
+					culture = byelorussian_west_slavic
+				}
 				NOT = {
 					owned_by = ROOT
 				}
@@ -416,6 +427,9 @@ country_event = {
 		trigger = {
 			OR = {
 				primary_culture = byelorussian
+				primary_culture = byelorussian_new
+				primary_culture = byelorussian_west_ruthenian
+				primary_culture = byelorussian_west_slavic
 				primary_culture = ruthenian
 			}
 		}
@@ -426,6 +440,15 @@ country_event = {
 			limit = {
 				NOT = {
 					primary_culture = byelorussian
+				}
+				NOT = {
+					primary_culture = byelorussian_new
+				}
+				NOT = {
+					primary_culture = byelorussian_west_ruthenian
+				}
+				NOT = {
+					primary_culture = byelorussian_west_slavic
 				}
 			}
 			change_primary_culture = byelorussian
@@ -448,6 +471,9 @@ country_event = {
 		trigger = {
 			OR = {
 				primary_culture = byelorussian
+				primary_culture = byelorussian_new
+				primary_culture = byelorussian_west_ruthenian
+				primary_culture = byelorussian_west_slavic
 				primary_culture = ruthenian
 			}
 		}
@@ -464,7 +490,12 @@ country_event = {
 		}
 		every_owned_province = {
 			limit = {
-				culture = byelorussian
+				OR = {
+					culture = byelorussian
+					culture = byelorussian_new
+					culture = byelorussian_west_ruthenian
+					culture = byelorussian_west_slavic
+				}
 			}
 			change_culture = ruthenian
 		}

@@ -59,13 +59,22 @@ MOD_REGIONS = {
 WORLD_FILES = {
     "ruthenian.txt", "byelorussian.txt", "rusyn.txt",
     "ruthenian_new.txt", "byelorussian_new.txt",
+    "ruthenian_west_ruthenian.txt", "ruthenian_west_slavic.txt",
+    "byelorussian_west_ruthenian.txt", "byelorussian_west_slavic.txt",
     "rusyn_new.txt", "rusyn_new_new.txt",
+    "rusyn_west_ruthenian.txt", "rusyn_west_slavic.txt",
 }
 TRANSITION_FILES = {
     "ruthenian_new.txt": "ruthenian.txt",
+    "ruthenian_west_ruthenian.txt": "ruthenian.txt",
+    "ruthenian_west_slavic.txt": "ruthenian.txt",
     "byelorussian_new.txt": "byelorussian.txt",
+    "byelorussian_west_ruthenian.txt": "byelorussian.txt",
+    "byelorussian_west_slavic.txt": "byelorussian.txt",
     "rusyn_new.txt": "rusyn.txt",
     "rusyn_new_new.txt": "rusyn.txt",
+    "rusyn_west_ruthenian.txt": "rusyn.txt",
+    "rusyn_west_slavic.txt": "rusyn.txt",
 }
 
 # Founded, or first given this name, after 1750.

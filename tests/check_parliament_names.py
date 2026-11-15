@@ -156,7 +156,7 @@ for tag, culture in (('FRA', 'french'), ('ENG', 'english'), ('POL', 'polish'), (
 for government, want in (('theocracy', f'{ADJ} Sobor'), ('republic', f'{ADJ} Veche'), ('monarchy', 'Rada of the Land')):
     assert title('XXX', government) == want, (government, title('XXX', government))          # a released or formed state: no noun of its own
 assert title('HLC', 'republic') == 'Halych Veche', 'the HLC adjective is misspelled in the mod; the title uses the place'
-for culture in ('ruthenian', 'rusyn', 'ruthenian_new', 'rusyn_new', 'rusyn_new_new'):
+for culture in ('ruthenian', 'rusyn', 'ruthenian_new', 'ruthenian_west_ruthenian', 'ruthenian_west_slavic', 'rusyn_new', 'rusyn_new_new', 'rusyn_west_ruthenian', 'rusyn_west_slavic'):
     assert title('XXX', 'monarchy', culture) == 'Rada of the Land', culture      # a released or formed state with a Ruthenian primary culture
 
 # ---- Every tag by form of government, every rule reachable, the guide's table is the generated one ----------------

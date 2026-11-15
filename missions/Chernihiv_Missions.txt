@@ -1325,7 +1325,7 @@ chr_missions_3 = {
 		}
 	}
 	chr_grain_corridors = {
-		icon = mission_protect_the_south_slavs
+		icon = rip_gfx_mission_ruthenian_granaries_icon
 		required_missions = { chr_dniepr
 		}
 		position = 8
@@ -2374,7 +2374,11 @@ chr_missions_5 = {
 		}
 		position = 19
 		trigger = {
-			accepted_culture = ruthenian
+			OR = {
+				accepted_culture = ruthenian
+				accepted_culture = ruthenian_west_ruthenian
+				accepted_culture = ruthenian_west_slavic
+			}
 		}
 		effect = {
 			set_ruler_culture = ruthenian

@@ -545,8 +545,12 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         "ruthenian",
         "rusyn",
         "ruthenian_new",
+        "ruthenian_west_ruthenian",
+        "ruthenian_west_slavic",
         "rusyn_new",
         "rusyn_new_new",
+        "rusyn_west_ruthenian",
+        "rusyn_west_slavic",
     )
     require(
         failures,

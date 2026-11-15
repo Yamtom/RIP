@@ -15,6 +15,7 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 TOKEN = re.compile(r'#[^\n]*|"(?:\\.|[^"\\])*"|[{}=]|[^\s{}=#"]+')
+LEGACY_MOD_FILES: set[Path] = set()
 
 
 def read(path: Path, vanilla: bool = False) -> str:
@@ -22,6 +23,8 @@ def read(path: Path, vanilla: bool = False) -> str:
     try:
         return raw.decode('utf-8-sig')
     except UnicodeDecodeError:
+        if not vanilla:
+            LEGACY_MOD_FILES.add(path)
         return raw.decode('cp1252')
 
 
@@ -92,6 +95,7 @@ def main() -> int:
         current = advisors(p)
         if base.exists():
             hashes.append(f'- `{p.name}`: `{hashlib.sha256(base.read_bytes()).hexdigest()}`')
+        hashes.append(f'- RIP `{p.name}`: `{hashlib.sha256(p.read_bytes()).hexdigest()}`')
         missing = set(original) - {r['advisor_id'] for r in current}
         if missing:
             warnings.append(f'{p.name}: absent vanilla IDs: {sorted(missing, key=int)}')
@@ -121,9 +125,12 @@ def main() -> int:
     version_file = vanilla / 'launcher-settings.json'
     version = json.loads(read(version_file, True)).get('version', 'unknown') if version_file.exists() else 'unknown'
     counts = collections.Counter(status for _, _, status in rows)
+    for p in sorted(LEGACY_MOD_FILES):
+        message = f'{p.relative_to(ROOT)}: not valid UTF-8; decoded as Windows-1252 for diagnosis only'
+        (errors if p in overrides else warnings).append(message)
     out = ['# Advisor comparison snapshot', '', f'Vanilla: `{vanilla}`', '', f'Installed version: **{version}**', '',
            f'RIP records: **{len(rows)}**; {dict(counts)}.', '',
-           'Comparison ignores comments, whitespace and field order. Vanilla decoding: UTF-8, falling back to Windows-1252. RIP: UTF-8 only.', '',
+           'Comparison ignores comments, whitespace and field order. Decoding: UTF-8, falling back to Windows-1252 for diagnosis. Non-UTF-8 RIP files are reported explicitly.', '',
            'This is a structural comparison, not a historical certificate or a runtime test. Definition lookup checks identifier existence, not engine semantics.', '',
            '## Vanilla SHA-256', '', *hashes, '', '## Structural errors', '', *(errors or ['None.']), '',
            '## Review warnings', '', *(warnings or ['None.']), '',

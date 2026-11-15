@@ -4,7 +4,11 @@ country_decisions = {
 	form_cossack_host = {
 		major = yes
 		potential = {
-			primary_culture = ruthenian
+			OR = {
+				primary_culture = ruthenian
+				primary_culture = ruthenian_west_ruthenian
+				primary_culture = ruthenian_west_slavic
+			}
 			is_cossack_polity = yes
 			NOT = { has_country_flag = declared_cossack_host }
 			NOT = { tag = HET }  # Hetmanate has separate path
@@ -25,7 +29,13 @@ country_decisions = {
 				duration = -1
 			}
 			every_owned_province = {
-				limit = { culture = ruthenian }
+				limit = {
+					OR = {
+						culture = ruthenian
+						culture = ruthenian_west_ruthenian
+						culture = ruthenian_west_slavic
+					}
+				}
 				add_province_modifier = {
 					name = "host_territory"
 					duration = -1

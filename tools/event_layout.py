@@ -101,7 +101,7 @@ FAMILIES = {
     'shared_commonwealth': 'CommonwealthReformation FreeElection UnionDispute TheDeluge',
     'shared_cossack': 'CossackRevolts Haidamaky KhmelnytskyUprisings',
     'shared_ruthenian': 'KyivDnieperHistorical RuthenianEastwardExpansion RIP_RuthenianDiaspora',
-    'shared_west_ruthenian': 'WestUkraineHistory svydrigaylo_independence',
+    'shared_west_ruthenian': 'WestUkraineHistory svydrigaylo_independence CulturalManeuver',
     'shared_steppe': 'RaidMechanics SteppeRaiding SouthUkraineHistorical',
     'shared_frontier': 'AppanagePrincipalities BorderPrincipalities MoldavianFrontierExpansion DniesterEstuary',
     'shared_belarus': 'PolesianBelarus', 'shared_estates': 'JewishEstate',

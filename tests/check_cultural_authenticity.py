@@ -11,7 +11,11 @@ from clausewitz_testlib import ROOT, named_block
 BASES = ("ruthenian", "byelorussian", "rusyn")
 ALIASES = {
     "ruthenian_new": "ruthenian", "byelorussian_new": "byelorussian",
+    "ruthenian_west_ruthenian": "ruthenian", "ruthenian_west_slavic": "ruthenian",
+    "byelorussian_west_ruthenian": "byelorussian",
+    "byelorussian_west_slavic": "byelorussian",
     "rusyn_new": "rusyn", "rusyn_new_new": "rusyn",
+    "rusyn_west_ruthenian": "rusyn", "rusyn_west_slavic": "rusyn",
 }
 ROWS = re.compile(r'^\s*(\d+)\s*=\s*"([^"]+)"', re.M)
 
@@ -42,8 +46,12 @@ def main():
             if name_pool(text, alias, field) != name_pool(text, base, field):
                 failures.append(f"{alias}/{field}: culture transition loses the {base} naming register")
     for culture, tag in {
-        "ruthenian": "KIE", "byelorussian": "PLT",
+        "ruthenian": "KIE",
+        "ruthenian_west_ruthenian": "KIE", "ruthenian_west_slavic": "KIE",
+        "byelorussian": "PLT",
+        "byelorussian_west_ruthenian": "PLT", "byelorussian_west_slavic": "PLT",
         "rusyn": "UZH", "rusyn_new": "UZH", "rusyn_new_new": "UZH",
+        "rusyn_west_ruthenian": "UZH", "rusyn_west_slavic": "UZH",
     }.items():
         if f"primary = {tag}" not in named_block(text, culture):
             failures.append(f"{culture}: lost inherited primary tag {tag}")

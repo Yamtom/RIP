@@ -35,7 +35,11 @@ country_event = {
 		any_owned_province = {
 			OR = {
 				culture = ruthenian
+				culture = ruthenian_west_ruthenian
+				culture = ruthenian_west_slavic
 				culture = byelorussian
+				culture = byelorussian_west_ruthenian
+				culture = byelorussian_west_slavic
 			}
 		}
 	}
@@ -153,7 +157,11 @@ country_event = {
 		}
 		random_owned_province = {
 			limit = {
-				culture = ruthenian
+				OR = {
+					culture = ruthenian
+					culture = ruthenian_west_ruthenian
+					culture = ruthenian_west_slavic
+				}
 			}
 			change_culture = polish
 		}
@@ -400,6 +408,8 @@ country_event = {
 			has_terrain = steppe
 			OR = {
 				culture = ruthenian
+				culture = ruthenian_west_ruthenian
+				culture = ruthenian_west_slavic
 			}
 		}
 		NOT = {
@@ -427,7 +437,11 @@ country_event = {
 		random_owned_province = {
 			limit = {
 				has_terrain = steppe
-				culture = ruthenian
+				OR = {
+					culture = ruthenian
+					culture = ruthenian_west_ruthenian
+					culture = ruthenian_west_slavic
+				}
 			}
 			spawn_rebels = {
 				type = cossack_rebels

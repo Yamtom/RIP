@@ -59,4 +59,5 @@ else:
 manifest = json.loads((ROOT / builder.MANIFEST).read_text(encoding='utf-8'))
 assert manifest['game_version'] in ('1.37.5', '1.37.5.0')
 assert manifest['choices'] == 33 and manifest['native_bytes_preserved'] is True
-print('COLONIAL NAMES PASS: 33 choices, 7 culture keys, all 11 American regions; source and rejection checks.')
+culture_keys_count = sum(len(variants) for variants in data['cultures'].values())
+print(f'COLONIAL NAMES PASS: 33 choices, {culture_keys_count} culture keys, all 11 American regions; source and rejection checks.')

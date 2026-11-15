@@ -1,0 +1,1911 @@
+# Scripted effects for the West-Ruthenian and West-Slavic cultural maneuver
+# Supports Belarusian (byelorussian), Ruthenian (ruthenian), and Rusyn (rusyn)
+# independently via the three-circle collective consensus and global province
+# adoption indices (Stage 2 >= 60% S1/WR, Stage 4 >= 85% S3/WS).
+
+# ------------------------------------------------------------------------
+# Shared helper: replace obsolete accepted_culture slot without wasting a slot
+# ------------------------------------------------------------------------
+
+wr_refresh_byelorussian_accepted_slot_wr_effect = {
+	if = {
+		limit = {
+			NOT = { wr_is_byelorussian_country = yes }
+			any_owned_province = {
+				culture = byelorussian_west_ruthenian
+			}
+			NOT = { accepted_culture = byelorussian_west_ruthenian }
+		}
+		add_accepted_culture = byelorussian_west_ruthenian
+	}
+	if = {
+		limit = {
+			accepted_culture = byelorussian
+			NOT = { any_owned_province = { culture = byelorussian } }
+		}
+		remove_accepted_culture = byelorussian
+	}
+	if = {
+		limit = {
+			accepted_culture = byelorussian_new
+			NOT = { any_owned_province = { culture = byelorussian_new } }
+		}
+		remove_accepted_culture = byelorussian_new
+	}
+}
+
+wr_refresh_ruthenian_accepted_slot_wr_effect = {
+	if = {
+		limit = {
+			NOT = { wr_is_ruthenian_country = yes }
+			any_owned_province = {
+				culture = ruthenian_west_ruthenian
+			}
+			NOT = { accepted_culture = ruthenian_west_ruthenian }
+		}
+		add_accepted_culture = ruthenian_west_ruthenian
+	}
+	if = {
+		limit = {
+			accepted_culture = ruthenian
+			NOT = { any_owned_province = { culture = ruthenian } }
+		}
+		remove_accepted_culture = ruthenian
+	}
+	if = {
+		limit = {
+			accepted_culture = ruthenian_new
+			NOT = { any_owned_province = { culture = ruthenian_new } }
+		}
+		remove_accepted_culture = ruthenian_new
+	}
+}
+
+wr_refresh_rusyn_accepted_slot_wr_effect = {
+	if = {
+		limit = {
+			NOT = { wr_is_rusyn_country = yes }
+			any_owned_province = {
+				culture = rusyn_west_ruthenian
+			}
+			NOT = { accepted_culture = rusyn_west_ruthenian }
+		}
+		add_accepted_culture = rusyn_west_ruthenian
+	}
+	if = {
+		limit = {
+			accepted_culture = rusyn
+			NOT = { any_owned_province = { culture = rusyn } }
+		}
+		remove_accepted_culture = rusyn
+	}
+	if = {
+		limit = {
+			accepted_culture = rusyn_new
+			NOT = { any_owned_province = { culture = rusyn_new } }
+		}
+		remove_accepted_culture = rusyn_new
+	}
+}
+
+wr_refresh_byelorussian_accepted_slot_ws_effect = {
+	if = {
+		limit = {
+			NOT = { wr_is_byelorussian_country = yes }
+			any_owned_province = {
+				culture = byelorussian_west_slavic
+			}
+			NOT = { accepted_culture = byelorussian_west_slavic }
+		}
+		add_accepted_culture = byelorussian_west_slavic
+	}
+	if = {
+		limit = {
+			accepted_culture = byelorussian
+			NOT = { any_owned_province = { culture = byelorussian } }
+		}
+		remove_accepted_culture = byelorussian
+	}
+	if = {
+		limit = {
+			accepted_culture = byelorussian_new
+			NOT = { any_owned_province = { culture = byelorussian_new } }
+		}
+		remove_accepted_culture = byelorussian_new
+	}
+	if = {
+		limit = {
+			accepted_culture = byelorussian_west_ruthenian
+			NOT = { any_owned_province = { culture = byelorussian_west_ruthenian } }
+		}
+		remove_accepted_culture = byelorussian_west_ruthenian
+	}
+}
+
+wr_refresh_ruthenian_accepted_slot_ws_effect = {
+	if = {
+		limit = {
+			NOT = { wr_is_ruthenian_country = yes }
+			any_owned_province = {
+				culture = ruthenian_west_slavic
+			}
+			NOT = { accepted_culture = ruthenian_west_slavic }
+		}
+		add_accepted_culture = ruthenian_west_slavic
+	}
+	if = {
+		limit = {
+			accepted_culture = ruthenian
+			NOT = { any_owned_province = { culture = ruthenian } }
+		}
+		remove_accepted_culture = ruthenian
+	}
+	if = {
+		limit = {
+			accepted_culture = ruthenian_new
+			NOT = { any_owned_province = { culture = ruthenian_new } }
+		}
+		remove_accepted_culture = ruthenian_new
+	}
+	if = {
+		limit = {
+			accepted_culture = ruthenian_west_ruthenian
+			NOT = { any_owned_province = { culture = ruthenian_west_ruthenian } }
+		}
+		remove_accepted_culture = ruthenian_west_ruthenian
+	}
+}
+
+wr_refresh_rusyn_accepted_slot_ws_effect = {
+	if = {
+		limit = {
+			NOT = { wr_is_rusyn_country = yes }
+			any_owned_province = {
+				culture = rusyn_west_slavic
+			}
+			NOT = { accepted_culture = rusyn_west_slavic }
+		}
+		add_accepted_culture = rusyn_west_slavic
+	}
+	if = {
+		limit = {
+			accepted_culture = rusyn
+			NOT = { any_owned_province = { culture = rusyn } }
+		}
+		remove_accepted_culture = rusyn
+	}
+	if = {
+		limit = {
+			accepted_culture = rusyn_new
+			NOT = { any_owned_province = { culture = rusyn_new } }
+		}
+		remove_accepted_culture = rusyn_new
+	}
+	if = {
+		limit = {
+			accepted_culture = rusyn_west_ruthenian
+			NOT = { any_owned_province = { culture = rusyn_west_ruthenian } }
+		}
+		remove_accepted_culture = rusyn_west_ruthenian
+	}
+}
+
+# ------------------------------------------------------------------------
+# Global Province Adoption Index & Charter Synchronization Helpers
+# ------------------------------------------------------------------------
+
+# Runs in province scope on owned target provinces
+wr_apply_stage1_charter_to_province_effect = {
+	if = {
+		limit = {
+			has_province_modifier = wr_west_slavic_shared_script_space
+		}
+		remove_province_modifier = wr_west_slavic_shared_script_space
+	}
+	if = {
+		limit = {
+			NOT = { has_province_modifier = wr_chancery_prosta_mova_tradition }
+		}
+		add_province_modifier = {
+			name = wr_chancery_prosta_mova_tradition
+			duration = -1
+		}
+	}
+}
+
+# Runs in province scope on owned target or West-Slavic provinces
+wr_apply_stage3_affinity_to_province_effect = {
+	if = {
+		limit = {
+			wr_is_target_province = yes
+			has_province_modifier = wr_chancery_prosta_mova_tradition
+		}
+		remove_province_modifier = wr_chancery_prosta_mova_tradition
+	}
+	if = {
+		limit = {
+			NOT = { has_province_modifier = wr_west_slavic_shared_script_space }
+		}
+		add_province_modifier = {
+			name = wr_west_slavic_shared_script_space
+			duration = -1
+		}
+	}
+}
+
+# Runs in province scope on owner / culture change / conversion
+wr_sync_single_province_charter_effect = {
+	if = {
+		limit = {
+			wr_is_target_province = yes
+			is_core = owner
+			owner = {
+				wr_can_run_maneuver_base = yes
+				OR = {
+					has_country_flag = wr_distinctiveness_recognized
+					has_country_flag = wr_west_ruthenian_group_formed
+				}
+				NOT = { has_country_flag = wr_west_slavic_affinity_active }
+				NOT = { has_country_flag = wr_west_slavic_shift_completed }
+			}
+		}
+		wr_apply_stage1_charter_to_province_effect = yes
+	}
+	else_if = {
+		limit = {
+			wr_is_target_province = yes
+			is_core = owner
+			owner = {
+				wr_can_run_maneuver_base = yes
+				OR = {
+					has_country_flag = wr_west_slavic_affinity_active
+					has_country_flag = wr_west_slavic_shift_completed
+				}
+				NOT = { has_country_flag = wr_distinctiveness_recognized }
+				NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+			}
+		}
+		wr_apply_stage3_affinity_to_province_effect = yes
+	}
+}
+
+# Runs in country scope on yearly pulse or rally
+wr_sync_owned_charter_provinces_effect = {
+	if = {
+		limit = {
+			OR = {
+				has_country_flag = wr_distinctiveness_recognized
+				has_country_flag = wr_west_ruthenian_group_formed
+			}
+			NOT = { has_country_flag = wr_west_slavic_affinity_active }
+			NOT = { has_country_flag = wr_west_slavic_shift_completed }
+		}
+		every_owned_province = {
+			limit = {
+				is_core = owner
+				OR = {
+					AND = {
+						wr_is_byelorussian_province = yes
+						owner = { wr_byelorussian_initiator_stake = yes }
+					}
+					AND = {
+						wr_is_ruthenian_province = yes
+						owner = { wr_ruthenian_initiator_stake = yes }
+					}
+					AND = {
+						wr_is_rusyn_province = yes
+						owner = { wr_rusyn_initiator_stake = yes }
+					}
+				}
+			}
+			wr_apply_stage1_charter_to_province_effect = yes
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				has_country_flag = wr_west_slavic_affinity_active
+				has_country_flag = wr_west_slavic_shift_completed
+			}
+			NOT = { has_country_flag = wr_distinctiveness_recognized }
+			NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+		}
+		every_owned_province = {
+			limit = {
+				is_core = owner
+				OR = {
+					AND = {
+						wr_is_byelorussian_province = yes
+						owner = { wr_byelorussian_initiator_stake = yes }
+					}
+					AND = {
+						wr_is_ruthenian_province = yes
+						owner = { wr_ruthenian_initiator_stake = yes }
+					}
+					AND = {
+						wr_is_rusyn_province = yes
+						owner = { wr_rusyn_initiator_stake = yes }
+					}
+					culture_group = west_slavic
+				}
+			}
+			wr_apply_stage3_affinity_to_province_effect = yes
+		}
+	}
+}
+
+# Computes global province shares (0..100) for all 3 peoples on current country scope.
+wr_recalculate_maneuver_indices_effect = {
+	save_event_target_as = wr_index_target
+	set_variable = { which = wr_byelorussian_total value = 0 }
+	set_variable = { which = wr_byelorussian_s1_cnt value = 0 }
+	set_variable = { which = wr_byelorussian_s3_cnt value = 0 }
+	set_variable = { which = wr_byelorussian_s1_pct value = 0 }
+	set_variable = { which = wr_byelorussian_s3_pct value = 0 }
+	set_variable = { which = wr_ruthenian_total value = 0 }
+	set_variable = { which = wr_ruthenian_s1_cnt value = 0 }
+	set_variable = { which = wr_ruthenian_s3_cnt value = 0 }
+	set_variable = { which = wr_ruthenian_s1_pct value = 0 }
+	set_variable = { which = wr_ruthenian_s3_pct value = 0 }
+	set_variable = { which = wr_rusyn_total value = 0 }
+	set_variable = { which = wr_rusyn_s1_cnt value = 0 }
+	set_variable = { which = wr_rusyn_s3_cnt value = 0 }
+	set_variable = { which = wr_rusyn_s1_pct value = 0 }
+	set_variable = { which = wr_rusyn_s3_pct value = 0 }
+	every_province = {
+		limit = {
+			is_city = yes
+			wr_is_target_province = yes
+		}
+		if = {
+			limit = { wr_is_byelorussian_province = yes }
+			event_target:wr_index_target = { change_variable = { which = wr_byelorussian_total value = 1 } }
+			if = {
+				limit = {
+					OR = {
+						has_province_modifier = wr_chancery_prosta_mova_tradition
+						culture = byelorussian_west_ruthenian
+					}
+				}
+				event_target:wr_index_target = { change_variable = { which = wr_byelorussian_s1_cnt value = 1 } }
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_province_modifier = wr_west_slavic_shared_script_space
+						culture = byelorussian_west_slavic
+					}
+				}
+				event_target:wr_index_target = { change_variable = { which = wr_byelorussian_s3_cnt value = 1 } }
+			}
+		}
+		else_if = {
+			limit = { wr_is_ruthenian_province = yes }
+			event_target:wr_index_target = { change_variable = { which = wr_ruthenian_total value = 1 } }
+			if = {
+				limit = {
+					OR = {
+						has_province_modifier = wr_chancery_prosta_mova_tradition
+						culture = ruthenian_west_ruthenian
+					}
+				}
+				event_target:wr_index_target = { change_variable = { which = wr_ruthenian_s1_cnt value = 1 } }
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_province_modifier = wr_west_slavic_shared_script_space
+						culture = ruthenian_west_slavic
+					}
+				}
+				event_target:wr_index_target = { change_variable = { which = wr_ruthenian_s3_cnt value = 1 } }
+			}
+		}
+		else_if = {
+			limit = { wr_is_rusyn_province = yes }
+			event_target:wr_index_target = { change_variable = { which = wr_rusyn_total value = 1 } }
+			if = {
+				limit = {
+					OR = {
+						has_province_modifier = wr_chancery_prosta_mova_tradition
+						culture = rusyn_west_ruthenian
+					}
+				}
+				event_target:wr_index_target = { change_variable = { which = wr_rusyn_s1_cnt value = 1 } }
+			}
+			else_if = {
+				limit = {
+					OR = {
+						has_province_modifier = wr_west_slavic_shared_script_space
+						culture = rusyn_west_slavic
+					}
+				}
+				event_target:wr_index_target = { change_variable = { which = wr_rusyn_s3_cnt value = 1 } }
+			}
+		}
+	}
+	if = {
+		limit = { check_variable = { which = wr_byelorussian_total value = 1 } }
+		set_variable = { which = wr_byelorussian_s1_pct which = wr_byelorussian_s1_cnt }
+		multiply_variable = { which = wr_byelorussian_s1_pct value = 100 }
+		divide_variable = { which = wr_byelorussian_s1_pct which = wr_byelorussian_total }
+		set_variable = { which = wr_byelorussian_s3_pct which = wr_byelorussian_s3_cnt }
+		multiply_variable = { which = wr_byelorussian_s3_pct value = 100 }
+		divide_variable = { which = wr_byelorussian_s3_pct which = wr_byelorussian_total }
+	}
+	if = {
+		limit = { check_variable = { which = wr_ruthenian_total value = 1 } }
+		set_variable = { which = wr_ruthenian_s1_pct which = wr_ruthenian_s1_cnt }
+		multiply_variable = { which = wr_ruthenian_s1_pct value = 100 }
+		divide_variable = { which = wr_ruthenian_s1_pct which = wr_ruthenian_total }
+		set_variable = { which = wr_ruthenian_s3_pct which = wr_ruthenian_s3_cnt }
+		multiply_variable = { which = wr_ruthenian_s3_pct value = 100 }
+		divide_variable = { which = wr_ruthenian_s3_pct which = wr_ruthenian_total }
+	}
+	if = {
+		limit = { check_variable = { which = wr_rusyn_total value = 1 } }
+		set_variable = { which = wr_rusyn_s1_pct which = wr_rusyn_s1_cnt }
+		multiply_variable = { which = wr_rusyn_s1_pct value = 100 }
+		divide_variable = { which = wr_rusyn_s1_pct which = wr_rusyn_total }
+		set_variable = { which = wr_rusyn_s3_pct which = wr_rusyn_s3_cnt }
+		multiply_variable = { which = wr_rusyn_s3_pct value = 100 }
+		divide_variable = { which = wr_rusyn_s3_pct which = wr_rusyn_total }
+	}
+}
+
+wr_refresh_all_sphere_indices_effect = {
+	every_country = {
+		limit = {
+			wr_is_maneuver_relevant_country = yes
+		}
+		wr_recalculate_maneuver_indices_effect = yes
+	}
+}
+
+# ------------------------------------------------------------------------
+# Stage 1: Recognition of West-Ruthenian cultural distinctiveness (<= 50%)
+# ------------------------------------------------------------------------
+
+wr_dispatch_three_circle_congress_stage1_effect = {
+	every_country = {
+		limit = {
+			NOT = { tag = ROOT }
+			wr_can_run_maneuver_base = yes
+			NOT = { has_country_flag = wr_congress_s1_responded }
+			NOT = { has_country_flag = wr_west_slavic_affinity_active }
+			NOT = { has_country_flag = wr_west_slavic_shift_completed }
+			OR = {
+				AND = {
+					wr_byelorussian_congress_member = yes
+					ROOT = { wr_byelorussian_initiator_stake = yes }
+				}
+				AND = {
+					wr_ruthenian_congress_member = yes
+					ROOT = { wr_ruthenian_initiator_stake = yes }
+				}
+				AND = {
+					wr_rusyn_congress_member = yes
+					ROOT = { wr_rusyn_initiator_stake = yes }
+				}
+			}
+		}
+		if = {
+			limit = {
+				wr_is_carrier_country = yes
+				NOT = { has_country_flag = wr_distinctiveness_recognized }
+			}
+			country_event = {
+				id = wr_cultural_maneuver.41
+				days = 3
+			}
+		}
+		else_if = {
+			limit = {
+				wr_has_accepted_target_culture = yes
+				NOT = { has_country_flag = wr_distinctiveness_recognized }
+			}
+			country_event = {
+				id = wr_cultural_maneuver.51
+				days = 4
+			}
+		}
+		else_if = {
+			limit = {
+				wr_has_unaccepted_target_provinces = yes
+			}
+			country_event = {
+				id = wr_cultural_maneuver.61
+				days = 5
+			}
+		}
+	}
+}
+
+wr_apply_stage1_distinctiveness_effect = {
+	set_country_flag = wr_distinctiveness_recognized
+	add_country_modifier = {
+		name = wr_west_ruthenian_distinctiveness
+		duration = -1
+	}
+	add_prestige = 10
+	if = {
+		limit = {
+			wr_byelorussian_initiator_stake = yes
+			NOT = { wr_is_byelorussian_country = yes }
+			any_owned_province = {
+				culture = byelorussian
+			}
+			NOT = { accepted_culture = byelorussian }
+		}
+		add_accepted_culture = byelorussian
+	}
+	if = {
+		limit = {
+			wr_ruthenian_initiator_stake = yes
+			NOT = { wr_is_ruthenian_country = yes }
+			any_owned_province = {
+				culture = ruthenian
+			}
+			NOT = { accepted_culture = ruthenian }
+		}
+		add_accepted_culture = ruthenian
+	}
+	if = {
+		limit = {
+			wr_rusyn_initiator_stake = yes
+			NOT = { wr_is_rusyn_country = yes }
+			any_owned_province = {
+				culture = rusyn
+			}
+			NOT = { accepted_culture = rusyn }
+		}
+		add_accepted_culture = rusyn
+	}
+	if = {
+		limit = {
+			wr_byelorussian_initiator_stake = yes
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_byelorussian_province = yes
+			}
+			wr_apply_stage1_charter_to_province_effect = yes
+		}
+	}
+	if = {
+		limit = {
+			wr_ruthenian_initiator_stake = yes
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_ruthenian_province = yes
+			}
+			wr_apply_stage1_charter_to_province_effect = yes
+		}
+	}
+	if = {
+		limit = {
+			wr_rusyn_initiator_stake = yes
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_rusyn_province = yes
+			}
+			wr_apply_stage1_charter_to_province_effect = yes
+		}
+	}
+	wr_dispatch_three_circle_congress_stage1_effect = yes
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+wr_apply_stage1_distinctiveness_from_sphere_effect = {
+	set_country_flag = wr_distinctiveness_recognized
+	add_country_modifier = {
+		name = wr_west_ruthenian_distinctiveness
+		duration = -1
+	}
+	if = {
+		limit = {
+			OR = {
+				wr_is_byelorussian_country = yes
+				wr_has_accepted_byelorussian = yes
+				wr_from_shares_byelorussian_sphere = yes
+			}
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_byelorussian_province = yes
+			}
+			wr_apply_stage1_charter_to_province_effect = yes
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				wr_is_ruthenian_country = yes
+				wr_has_accepted_ruthenian = yes
+				wr_from_shares_ruthenian_sphere = yes
+			}
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_ruthenian_province = yes
+			}
+			wr_apply_stage1_charter_to_province_effect = yes
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				wr_is_rusyn_country = yes
+				wr_has_accepted_rusyn = yes
+				wr_from_shares_rusyn_sphere = yes
+			}
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_rusyn_province = yes
+			}
+			wr_apply_stage1_charter_to_province_effect = yes
+		}
+	}
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+wr_grant_circle3_stage1_provinces_from_sphere_effect = {
+	if = {
+		limit = {
+			wr_from_shares_byelorussian_sphere = yes
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_byelorussian_province = yes
+			}
+			add_local_autonomy = 10
+			wr_apply_stage1_charter_to_province_effect = yes
+		}
+	}
+	if = {
+		limit = {
+			wr_from_shares_ruthenian_sphere = yes
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_ruthenian_province = yes
+			}
+			add_local_autonomy = 10
+			wr_apply_stage1_charter_to_province_effect = yes
+		}
+	}
+	if = {
+		limit = {
+			wr_from_shares_rusyn_sphere = yes
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_rusyn_province = yes
+			}
+			add_local_autonomy = 10
+			wr_apply_stage1_charter_to_province_effect = yes
+		}
+	}
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+# ------------------------------------------------------------------------
+# Stage 2: West-Ruthenian separate culture group (<= 30%)
+# ------------------------------------------------------------------------
+
+wr_convert_byelorussian_to_west_ruthenian_provinces_effect = {
+	every_owned_province = {
+		limit = {
+			OR = {
+				culture = byelorussian
+				culture = byelorussian_new
+			}
+		}
+		change_culture = byelorussian_west_ruthenian
+		if = {
+			limit = {
+				NOT = { has_province_modifier = wr_west_ruthenian_statute_autonomy }
+			}
+			add_province_modifier = {
+				name = wr_west_ruthenian_statute_autonomy
+				duration = -1
+			}
+		}
+	}
+}
+
+wr_convert_ruthenian_to_west_ruthenian_provinces_effect = {
+	every_owned_province = {
+		limit = {
+			OR = {
+				culture = ruthenian
+				culture = ruthenian_new
+			}
+		}
+		change_culture = ruthenian_west_ruthenian
+		if = {
+			limit = {
+				NOT = { has_province_modifier = wr_west_ruthenian_statute_autonomy }
+			}
+			add_province_modifier = {
+				name = wr_west_ruthenian_statute_autonomy
+				duration = -1
+			}
+		}
+	}
+}
+
+wr_convert_rusyn_to_west_ruthenian_provinces_effect = {
+	every_owned_province = {
+		limit = {
+			OR = {
+				culture = rusyn
+				culture = rusyn_new
+			}
+		}
+		change_culture = rusyn_west_ruthenian
+		if = {
+			limit = {
+				NOT = { has_province_modifier = wr_west_ruthenian_statute_autonomy }
+			}
+			add_province_modifier = {
+				name = wr_west_ruthenian_statute_autonomy
+				duration = -1
+			}
+		}
+	}
+}
+
+wr_convert_country_to_west_ruthenian_effect = {
+	set_country_flag = wr_west_ruthenian_group_formed
+	if = {
+		limit = {
+			NOT = { has_country_flag = wr_distinctiveness_recognized }
+		}
+		set_country_flag = wr_distinctiveness_recognized
+	}
+	if = {
+		limit = {
+			NOT = { has_country_modifier = wr_west_ruthenian_commonwealth }
+		}
+		add_country_modifier = {
+			name = wr_west_ruthenian_commonwealth
+			duration = -1
+		}
+	}
+	if = {
+		limit = {
+			wr_byelorussian_stage2_index_met = yes
+			OR = {
+				primary_culture = byelorussian
+				primary_culture = byelorussian_new
+			}
+		}
+		change_primary_culture = byelorussian_west_ruthenian
+		set_ruler_culture = byelorussian_west_ruthenian
+		if = {
+			limit = { has_heir = yes }
+			set_heir_culture = byelorussian_west_ruthenian
+		}
+		if = {
+			limit = { has_consort = yes }
+			set_consort_culture = byelorussian_west_ruthenian
+		}
+	}
+	else_if = {
+		limit = {
+			wr_ruthenian_stage2_index_met = yes
+			OR = {
+				primary_culture = ruthenian
+				primary_culture = ruthenian_new
+			}
+		}
+		change_primary_culture = ruthenian_west_ruthenian
+		set_ruler_culture = ruthenian_west_ruthenian
+		if = {
+			limit = { has_heir = yes }
+			set_heir_culture = ruthenian_west_ruthenian
+		}
+		if = {
+			limit = { has_consort = yes }
+			set_consort_culture = ruthenian_west_ruthenian
+		}
+	}
+	else_if = {
+		limit = {
+			wr_rusyn_stage2_index_met = yes
+			OR = {
+				primary_culture = rusyn
+				primary_culture = rusyn_new
+			}
+		}
+		change_primary_culture = rusyn_west_ruthenian
+		set_ruler_culture = rusyn_west_ruthenian
+		if = {
+			limit = { has_heir = yes }
+			set_heir_culture = rusyn_west_ruthenian
+		}
+		if = {
+			limit = { has_consort = yes }
+			set_consort_culture = rusyn_west_ruthenian
+		}
+	}
+	if = {
+		limit = {
+			wr_byelorussian_initiator_stake = yes
+			wr_byelorussian_stage2_index_met = yes
+		}
+		wr_convert_byelorussian_to_west_ruthenian_provinces_effect = yes
+		wr_refresh_byelorussian_accepted_slot_wr_effect = yes
+	}
+	if = {
+		limit = {
+			wr_ruthenian_initiator_stake = yes
+			wr_ruthenian_stage2_index_met = yes
+		}
+		wr_convert_ruthenian_to_west_ruthenian_provinces_effect = yes
+		wr_refresh_ruthenian_accepted_slot_wr_effect = yes
+	}
+	if = {
+		limit = {
+			wr_rusyn_initiator_stake = yes
+			wr_rusyn_stage2_index_met = yes
+		}
+		wr_convert_rusyn_to_west_ruthenian_provinces_effect = yes
+		wr_refresh_rusyn_accepted_slot_wr_effect = yes
+	}
+	if = {
+		limit = { exists = MOS }
+		MOS = {
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_wr_west_ruthenian_separation
+			}
+		}
+	}
+	if = {
+		limit = { exists = RUS }
+		RUS = {
+			add_opinion = {
+				who = ROOT
+				modifier = opinion_wr_west_ruthenian_separation
+			}
+		}
+	}
+}
+
+wr_dispatch_three_circle_congress_stage2_effect = {
+	every_subject_country = {
+		limit = {
+			OR = {
+				primary_culture = byelorussian
+				primary_culture = byelorussian_new
+				primary_culture = ruthenian
+				primary_culture = ruthenian_new
+				primary_culture = rusyn
+				primary_culture = rusyn_new
+			}
+			NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+			NOT = { has_country_flag = wr_west_slavic_affinity_active }
+			NOT = { has_country_flag = wr_west_slavic_shift_completed }
+			OR = {
+				AND = {
+					wr_is_byelorussian_country = yes
+					ROOT = {
+						wr_byelorussian_initiator_stake = yes
+						wr_byelorussian_stage2_index_met = yes
+					}
+				}
+				AND = {
+					wr_is_ruthenian_country = yes
+					ROOT = {
+						wr_ruthenian_initiator_stake = yes
+						wr_ruthenian_stage2_index_met = yes
+					}
+				}
+				AND = {
+					wr_is_rusyn_country = yes
+					ROOT = {
+						wr_rusyn_initiator_stake = yes
+						wr_rusyn_stage2_index_met = yes
+					}
+				}
+			}
+		}
+		country_event = {
+			id = wr_cultural_maneuver.15
+			days = 1
+		}
+	}
+	every_country = {
+		limit = {
+			NOT = { tag = ROOT }
+			NOT = { is_subject_of = ROOT }
+			wr_can_run_maneuver_base = yes
+			NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+			NOT = { has_country_flag = wr_west_slavic_affinity_active }
+			NOT = { has_country_flag = wr_west_slavic_shift_completed }
+			NOT = { has_country_flag = wr_congress_s2_responded }
+			OR = {
+				AND = {
+					wr_byelorussian_congress_member = yes
+					ROOT = {
+						wr_byelorussian_initiator_stake = yes
+						wr_byelorussian_stage2_index_met = yes
+					}
+				}
+				AND = {
+					wr_ruthenian_congress_member = yes
+					ROOT = {
+						wr_ruthenian_initiator_stake = yes
+						wr_ruthenian_stage2_index_met = yes
+					}
+				}
+				AND = {
+					wr_rusyn_congress_member = yes
+					ROOT = {
+						wr_rusyn_initiator_stake = yes
+						wr_rusyn_stage2_index_met = yes
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				wr_is_carrier_country = yes
+			}
+			country_event = {
+				id = wr_cultural_maneuver.42
+				days = 3
+			}
+		}
+		else_if = {
+			limit = {
+				wr_has_accepted_target_culture = yes
+			}
+			country_event = {
+				id = wr_cultural_maneuver.52
+				days = 4
+			}
+		}
+		else_if = {
+			limit = {
+				wr_has_unaccepted_target_provinces = yes
+			}
+			country_event = {
+				id = wr_cultural_maneuver.62
+				days = 5
+			}
+		}
+	}
+}
+
+wr_apply_stage2_west_ruthenian_group_effect = {
+	wr_recalculate_maneuver_indices_effect = yes
+	wr_convert_country_to_west_ruthenian_effect = yes
+	wr_dispatch_three_circle_congress_stage2_effect = yes
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+# ------------------------------------------------------------------------
+# Stage 3: West-Slavic Cultural Affinity (< 20%) - Parallel to Stages 1-2
+# ------------------------------------------------------------------------
+
+wr_dispatch_three_circle_congress_stage3_effect = {
+	every_country = {
+		limit = {
+			NOT = { tag = ROOT }
+			wr_can_run_maneuver_base = yes
+			NOT = { has_country_flag = wr_distinctiveness_recognized }
+			NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+			NOT = { has_country_flag = wr_west_slavic_affinity_active }
+			NOT = { has_country_flag = wr_west_slavic_shift_completed }
+			NOT = { has_country_flag = wr_congress_s3_responded }
+			OR = {
+				AND = {
+					wr_byelorussian_congress_member = yes
+					ROOT = { wr_byelorussian_initiator_stake = yes }
+				}
+				AND = {
+					wr_ruthenian_congress_member = yes
+					ROOT = { wr_ruthenian_initiator_stake = yes }
+				}
+				AND = {
+					wr_rusyn_congress_member = yes
+					ROOT = { wr_rusyn_initiator_stake = yes }
+				}
+			}
+		}
+		if = {
+			limit = {
+				wr_is_carrier_country = yes
+			}
+			country_event = {
+				id = wr_cultural_maneuver.43
+				days = 3
+			}
+		}
+		else_if = {
+			limit = {
+				wr_has_accepted_target_culture = yes
+			}
+			country_event = {
+				id = wr_cultural_maneuver.53
+				days = 4
+			}
+		}
+		else_if = {
+			limit = {
+				wr_has_unaccepted_target_provinces = yes
+			}
+			country_event = {
+				id = wr_cultural_maneuver.63
+				days = 5
+			}
+		}
+	}
+}
+
+wr_apply_stage3_west_slavic_affinity_local_effect = {
+	set_country_flag = wr_west_slavic_affinity_active
+	if = {
+		limit = {
+			NOT = { has_country_modifier = wr_west_slavic_cultural_affinity }
+		}
+		add_country_modifier = {
+			name = wr_west_slavic_cultural_affinity
+			duration = -1
+		}
+	}
+	add_dip_power = 25
+	if = {
+		limit = {
+			NOT = { culture_group = west_slavic }
+		}
+		if = {
+			limit = {
+				NOT = { accepted_culture = polish }
+				OR = {
+					any_owned_province = { culture = polish }
+					any_neighbor_country = { primary_culture = polish }
+					alliance_with = POL
+					alliance_with = PLC
+					overlord = {
+						OR = {
+							tag = POL
+							tag = PLC
+						}
+					}
+				}
+			}
+			add_accepted_culture = polish
+		}
+		else_if = {
+			limit = {
+				NOT = { accepted_culture = slovak }
+				OR = {
+					any_owned_province = { culture = slovak }
+					any_neighbor_country = { primary_culture = slovak }
+					overlord = { tag = HUN }
+				}
+			}
+			add_accepted_culture = slovak
+		}
+		else_if = {
+			limit = {
+				NOT = { accepted_culture = czech }
+				OR = {
+					any_owned_province = { culture = czech }
+					any_neighbor_country = { primary_culture = czech }
+					alliance_with = BOH
+					overlord = { tag = BOH }
+				}
+			}
+			add_accepted_culture = czech
+		}
+	}
+	else = {
+		if = {
+			limit = {
+				any_owned_province = { culture = byelorussian }
+				NOT = { accepted_culture = byelorussian }
+			}
+			add_accepted_culture = byelorussian
+		}
+		if = {
+			limit = {
+				any_owned_province = { culture = ruthenian }
+				NOT = { accepted_culture = ruthenian }
+			}
+			add_accepted_culture = ruthenian
+		}
+		if = {
+			limit = {
+				any_owned_province = { culture = rusyn }
+				NOT = { accepted_culture = rusyn }
+			}
+			add_accepted_culture = rusyn
+		}
+	}
+	every_owned_province = {
+		limit = {
+			OR = {
+				wr_is_target_province = yes
+				culture_group = west_slavic
+			}
+		}
+		wr_apply_stage3_affinity_to_province_effect = yes
+	}
+	every_known_country = {
+		limit = {
+			culture_group = west_slavic
+			OR = {
+				alliance_with = ROOT
+				is_neighbor_of = ROOT
+				overlord_of = ROOT
+			}
+		}
+		add_opinion = {
+			who = ROOT
+			modifier = opinion_wr_west_slavic_kinship
+		}
+		reverse_add_opinion = {
+			who = ROOT
+			modifier = opinion_wr_west_slavic_kinship
+		}
+	}
+}
+
+wr_apply_stage3_west_slavic_affinity_effect = {
+	wr_apply_stage3_west_slavic_affinity_local_effect = yes
+	wr_dispatch_three_circle_congress_stage3_effect = yes
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+wr_grant_circle3_stage3_provinces_from_sphere_effect = {
+	if = {
+		limit = {
+			wr_from_shares_byelorussian_sphere = yes
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_byelorussian_province = yes
+			}
+			wr_apply_stage3_affinity_to_province_effect = yes
+		}
+	}
+	if = {
+		limit = {
+			wr_from_shares_ruthenian_sphere = yes
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_ruthenian_province = yes
+			}
+			wr_apply_stage3_affinity_to_province_effect = yes
+		}
+	}
+	if = {
+		limit = {
+			wr_from_shares_rusyn_sphere = yes
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_rusyn_province = yes
+			}
+			wr_apply_stage3_affinity_to_province_effect = yes
+		}
+	}
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+# ------------------------------------------------------------------------
+# Stage 4: Transition to West-Slavic (< 5%) - Strictly requires Stage 3
+# ------------------------------------------------------------------------
+
+wr_convert_byelorussian_to_west_slavic_provinces_effect = {
+	every_owned_province = {
+		limit = {
+			OR = {
+				culture = byelorussian
+				culture = byelorussian_new
+				culture = byelorussian_west_ruthenian
+			}
+		}
+		change_culture = byelorussian_west_slavic
+	}
+}
+
+wr_convert_ruthenian_to_west_slavic_provinces_effect = {
+	every_owned_province = {
+		limit = {
+			OR = {
+				culture = ruthenian
+				culture = ruthenian_new
+				culture = ruthenian_west_ruthenian
+			}
+		}
+		change_culture = ruthenian_west_slavic
+	}
+}
+
+wr_convert_rusyn_to_west_slavic_provinces_effect = {
+	every_owned_province = {
+		limit = {
+			OR = {
+				culture = rusyn
+				culture = rusyn_new
+				culture = rusyn_west_ruthenian
+			}
+		}
+		change_culture = rusyn_west_slavic
+	}
+}
+
+wr_convert_country_to_west_slavic_effect = {
+	set_country_flag = wr_west_slavic_shift_completed
+	if = {
+		limit = {
+			NOT = { has_country_modifier = wr_west_slavic_synthesis }
+		}
+		add_country_modifier = {
+			name = wr_west_slavic_synthesis
+			duration = -1
+		}
+	}
+	if = {
+		limit = {
+			wr_byelorussian_stage4_index_met = yes
+			OR = {
+				primary_culture = byelorussian
+				primary_culture = byelorussian_new
+				primary_culture = byelorussian_west_ruthenian
+			}
+		}
+		change_primary_culture = byelorussian_west_slavic
+		set_ruler_culture = byelorussian_west_slavic
+		if = {
+			limit = { has_heir = yes }
+			set_heir_culture = byelorussian_west_slavic
+		}
+		if = {
+			limit = { has_consort = yes }
+			set_consort_culture = byelorussian_west_slavic
+		}
+	}
+	else_if = {
+		limit = {
+			wr_ruthenian_stage4_index_met = yes
+			OR = {
+				primary_culture = ruthenian
+				primary_culture = ruthenian_new
+				primary_culture = ruthenian_west_ruthenian
+			}
+		}
+		change_primary_culture = ruthenian_west_slavic
+		set_ruler_culture = ruthenian_west_slavic
+		if = {
+			limit = { has_heir = yes }
+			set_heir_culture = ruthenian_west_slavic
+		}
+		if = {
+			limit = { has_consort = yes }
+			set_consort_culture = ruthenian_west_slavic
+		}
+	}
+	else_if = {
+		limit = {
+			wr_rusyn_stage4_index_met = yes
+			OR = {
+				primary_culture = rusyn
+				primary_culture = rusyn_new
+				primary_culture = rusyn_west_ruthenian
+			}
+		}
+		change_primary_culture = rusyn_west_slavic
+		set_ruler_culture = rusyn_west_slavic
+		if = {
+			limit = { has_heir = yes }
+			set_heir_culture = rusyn_west_slavic
+		}
+		if = {
+			limit = { has_consort = yes }
+			set_consort_culture = rusyn_west_slavic
+		}
+	}
+	if = {
+		limit = {
+			wr_byelorussian_initiator_stake = yes
+			wr_byelorussian_stage4_index_met = yes
+		}
+		wr_convert_byelorussian_to_west_slavic_provinces_effect = yes
+		wr_refresh_byelorussian_accepted_slot_ws_effect = yes
+	}
+	if = {
+		limit = {
+			wr_ruthenian_initiator_stake = yes
+			wr_ruthenian_stage4_index_met = yes
+		}
+		wr_convert_ruthenian_to_west_slavic_provinces_effect = yes
+		wr_refresh_ruthenian_accepted_slot_ws_effect = yes
+	}
+	if = {
+		limit = {
+			wr_rusyn_initiator_stake = yes
+			wr_rusyn_stage4_index_met = yes
+		}
+		wr_convert_rusyn_to_west_slavic_provinces_effect = yes
+		wr_refresh_rusyn_accepted_slot_ws_effect = yes
+	}
+}
+
+wr_dispatch_three_circle_congress_stage4_effect = {
+	every_subject_country = {
+		limit = {
+			OR = {
+				primary_culture = byelorussian
+				primary_culture = byelorussian_new
+				primary_culture = byelorussian_west_ruthenian
+				primary_culture = ruthenian
+				primary_culture = ruthenian_new
+				primary_culture = ruthenian_west_ruthenian
+				primary_culture = rusyn
+				primary_culture = rusyn_new
+				primary_culture = rusyn_west_ruthenian
+			}
+			NOT = { has_country_flag = wr_west_slavic_shift_completed }
+			NOT = { has_country_flag = wr_distinctiveness_recognized }
+			NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+			OR = {
+				AND = {
+					wr_is_byelorussian_country = yes
+					ROOT = {
+						wr_byelorussian_initiator_stake = yes
+						wr_byelorussian_stage4_index_met = yes
+					}
+				}
+				AND = {
+					wr_is_ruthenian_country = yes
+					ROOT = {
+						wr_ruthenian_initiator_stake = yes
+						wr_ruthenian_stage4_index_met = yes
+					}
+				}
+				AND = {
+					wr_is_rusyn_country = yes
+					ROOT = {
+						wr_rusyn_initiator_stake = yes
+						wr_rusyn_stage4_index_met = yes
+					}
+				}
+			}
+		}
+		country_event = {
+			id = wr_cultural_maneuver.35
+			days = 1
+		}
+	}
+	every_country = {
+		limit = {
+			NOT = { tag = ROOT }
+			NOT = { is_subject_of = ROOT }
+			wr_can_run_maneuver_base = yes
+			NOT = { has_country_flag = wr_west_slavic_shift_completed }
+			NOT = { has_country_flag = wr_distinctiveness_recognized }
+			NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+			NOT = { has_country_flag = wr_congress_s4_responded }
+			OR = {
+				AND = {
+					wr_byelorussian_congress_member = yes
+					ROOT = {
+						wr_byelorussian_initiator_stake = yes
+						wr_byelorussian_stage4_index_met = yes
+					}
+				}
+				AND = {
+					wr_ruthenian_congress_member = yes
+					ROOT = {
+						wr_ruthenian_initiator_stake = yes
+						wr_ruthenian_stage4_index_met = yes
+					}
+				}
+				AND = {
+					wr_rusyn_congress_member = yes
+					ROOT = {
+						wr_rusyn_initiator_stake = yes
+						wr_rusyn_stage4_index_met = yes
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				wr_is_carrier_country = yes
+			}
+			country_event = {
+				id = wr_cultural_maneuver.44
+				days = 3
+			}
+		}
+		else_if = {
+			limit = {
+				wr_has_accepted_target_culture = yes
+			}
+			country_event = {
+				id = wr_cultural_maneuver.54
+				days = 4
+			}
+		}
+		else_if = {
+			limit = {
+				wr_has_unaccepted_target_provinces = yes
+			}
+			country_event = {
+				id = wr_cultural_maneuver.64
+				days = 5
+			}
+		}
+	}
+}
+
+wr_apply_stage4_west_slavic_transition_effect = {
+	wr_recalculate_maneuver_indices_effect = yes
+	wr_convert_country_to_west_slavic_effect = yes
+	wr_dispatch_three_circle_congress_stage4_effect = yes
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+# ------------------------------------------------------------------------
+# Repeatable Diplomatic Rally Congress Effects (10-year cooldown)
+# ------------------------------------------------------------------------
+
+wr_rally_branch_a_congress_effect = {
+	clr_country_flag = wr_branch_a_rally_cooldown
+	set_country_flag = wr_branch_a_rally_cooldown
+	wr_sync_owned_charter_provinces_effect = yes
+	every_country = {
+		limit = {
+			NOT = { tag = ROOT }
+			wr_can_run_maneuver_base = yes
+			has_country_flag = wr_congress_s1_responded
+			NOT = { has_country_flag = wr_distinctiveness_recognized }
+			NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+			NOT = { has_country_flag = wr_west_slavic_affinity_active }
+			NOT = { has_country_flag = wr_west_slavic_shift_completed }
+			OR = {
+				AND = {
+					wr_byelorussian_congress_member = yes
+					ROOT = { wr_byelorussian_initiator_stake = yes }
+				}
+				AND = {
+					wr_ruthenian_congress_member = yes
+					ROOT = { wr_ruthenian_initiator_stake = yes }
+				}
+				AND = {
+					wr_rusyn_congress_member = yes
+					ROOT = { wr_rusyn_initiator_stake = yes }
+				}
+			}
+		}
+		clr_country_flag = wr_congress_s1_responded
+	}
+	wr_dispatch_three_circle_congress_stage1_effect = yes
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+wr_rally_branch_b_congress_effect = {
+	clr_country_flag = wr_branch_b_rally_cooldown
+	set_country_flag = wr_branch_b_rally_cooldown
+	wr_sync_owned_charter_provinces_effect = yes
+	every_country = {
+		limit = {
+			NOT = { tag = ROOT }
+			wr_can_run_maneuver_base = yes
+			has_country_flag = wr_congress_s3_responded
+			NOT = { has_country_flag = wr_distinctiveness_recognized }
+			NOT = { has_country_flag = wr_west_ruthenian_group_formed }
+			NOT = { has_country_flag = wr_west_slavic_affinity_active }
+			NOT = { has_country_flag = wr_west_slavic_shift_completed }
+			OR = {
+				AND = {
+					wr_byelorussian_congress_member = yes
+					ROOT = { wr_byelorussian_initiator_stake = yes }
+				}
+				AND = {
+					wr_ruthenian_congress_member = yes
+					ROOT = { wr_ruthenian_initiator_stake = yes }
+				}
+				AND = {
+					wr_rusyn_congress_member = yes
+					ROOT = { wr_rusyn_initiator_stake = yes }
+				}
+			}
+		}
+		clr_country_flag = wr_congress_s3_responded
+	}
+	wr_dispatch_three_circle_congress_stage3_effect = yes
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+# ------------------------------------------------------------------------
+# Three-Circle Bilateral Sync & Ferment Effects (called from congress events)
+# ------------------------------------------------------------------------
+
+wr_apply_cultural_ferment_from_sphere_effect = {
+	if = {
+		limit = {
+			wr_from_shares_byelorussian_sphere = yes
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_byelorussian_province = yes
+				NOT = { has_province_modifier = wr_cultural_ferment }
+			}
+			add_province_modifier = {
+				name = wr_cultural_ferment
+				duration = 3650
+			}
+		}
+	}
+	if = {
+		limit = {
+			wr_from_shares_ruthenian_sphere = yes
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_ruthenian_province = yes
+				NOT = { has_province_modifier = wr_cultural_ferment }
+			}
+			add_province_modifier = {
+				name = wr_cultural_ferment
+				duration = 3650
+			}
+		}
+	}
+	if = {
+		limit = {
+			wr_from_shares_rusyn_sphere = yes
+		}
+		every_owned_province = {
+			limit = {
+				wr_is_rusyn_province = yes
+				NOT = { has_province_modifier = wr_cultural_ferment }
+			}
+			add_province_modifier = {
+				name = wr_cultural_ferment
+				duration = 3650
+			}
+		}
+	}
+}
+
+wr_sync_circle1_stage2_with_from_effect = {
+	wr_recalculate_maneuver_indices_effect = yes
+	set_country_flag = wr_west_ruthenian_group_formed
+	if = {
+		limit = {
+			NOT = { has_country_flag = wr_distinctiveness_recognized }
+		}
+		set_country_flag = wr_distinctiveness_recognized
+	}
+	if = {
+		limit = {
+			NOT = { has_country_modifier = wr_west_ruthenian_commonwealth }
+		}
+		add_country_modifier = {
+			name = wr_west_ruthenian_commonwealth
+			duration = -1
+		}
+	}
+	if = {
+		limit = {
+			wr_from_shares_byelorussian_sphere = yes
+			wr_byelorussian_stage2_index_met = yes
+			OR = {
+				primary_culture = byelorussian
+				primary_culture = byelorussian_new
+			}
+		}
+		change_primary_culture = byelorussian_west_ruthenian
+		set_ruler_culture = byelorussian_west_ruthenian
+		if = {
+			limit = { has_heir = yes }
+			set_heir_culture = byelorussian_west_ruthenian
+		}
+		if = {
+			limit = { has_consort = yes }
+			set_consort_culture = byelorussian_west_ruthenian
+		}
+		wr_convert_byelorussian_to_west_ruthenian_provinces_effect = yes
+	}
+	else_if = {
+		limit = {
+			wr_from_shares_ruthenian_sphere = yes
+			wr_ruthenian_stage2_index_met = yes
+			OR = {
+				primary_culture = ruthenian
+				primary_culture = ruthenian_new
+			}
+		}
+		change_primary_culture = ruthenian_west_ruthenian
+		set_ruler_culture = ruthenian_west_ruthenian
+		if = {
+			limit = { has_heir = yes }
+			set_heir_culture = ruthenian_west_ruthenian
+		}
+		if = {
+			limit = { has_consort = yes }
+			set_consort_culture = ruthenian_west_ruthenian
+		}
+		wr_convert_ruthenian_to_west_ruthenian_provinces_effect = yes
+	}
+	else_if = {
+		limit = {
+			wr_from_shares_rusyn_sphere = yes
+			wr_rusyn_stage2_index_met = yes
+			OR = {
+				primary_culture = rusyn
+				primary_culture = rusyn_new
+			}
+		}
+		change_primary_culture = rusyn_west_ruthenian
+		set_ruler_culture = rusyn_west_ruthenian
+		if = {
+			limit = { has_heir = yes }
+			set_heir_culture = rusyn_west_ruthenian
+		}
+		if = {
+			limit = { has_consort = yes }
+			set_consort_culture = rusyn_west_ruthenian
+		}
+		wr_convert_rusyn_to_west_ruthenian_provinces_effect = yes
+	}
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+wr_sync_circle1_stage4_with_from_effect = {
+	wr_recalculate_maneuver_indices_effect = yes
+	set_country_flag = wr_west_slavic_shift_completed
+	if = {
+		limit = {
+			NOT = { has_country_modifier = wr_west_slavic_synthesis }
+		}
+		add_country_modifier = {
+			name = wr_west_slavic_synthesis
+			duration = -1
+		}
+	}
+	if = {
+		limit = {
+			wr_from_shares_byelorussian_sphere = yes
+			wr_byelorussian_stage4_index_met = yes
+			OR = {
+				primary_culture = byelorussian
+				primary_culture = byelorussian_new
+				primary_culture = byelorussian_west_ruthenian
+			}
+		}
+		change_primary_culture = byelorussian_west_slavic
+		set_ruler_culture = byelorussian_west_slavic
+		if = {
+			limit = { has_heir = yes }
+			set_heir_culture = byelorussian_west_slavic
+		}
+		if = {
+			limit = { has_consort = yes }
+			set_consort_culture = byelorussian_west_slavic
+		}
+		wr_convert_byelorussian_to_west_slavic_provinces_effect = yes
+	}
+	else_if = {
+		limit = {
+			wr_from_shares_ruthenian_sphere = yes
+			wr_ruthenian_stage4_index_met = yes
+			OR = {
+				primary_culture = ruthenian
+				primary_culture = ruthenian_new
+				primary_culture = ruthenian_west_ruthenian
+			}
+		}
+		change_primary_culture = ruthenian_west_slavic
+		set_ruler_culture = ruthenian_west_slavic
+		if = {
+			limit = { has_heir = yes }
+			set_heir_culture = ruthenian_west_slavic
+		}
+		if = {
+			limit = { has_consort = yes }
+			set_consort_culture = ruthenian_west_slavic
+		}
+		wr_convert_ruthenian_to_west_slavic_provinces_effect = yes
+	}
+	else_if = {
+		limit = {
+			wr_from_shares_rusyn_sphere = yes
+			wr_rusyn_stage4_index_met = yes
+			OR = {
+				primary_culture = rusyn
+				primary_culture = rusyn_new
+				primary_culture = rusyn_west_ruthenian
+			}
+		}
+		change_primary_culture = rusyn_west_slavic
+		set_ruler_culture = rusyn_west_slavic
+		if = {
+			limit = { has_heir = yes }
+			set_heir_culture = rusyn_west_slavic
+		}
+		if = {
+			limit = { has_consort = yes }
+			set_consort_culture = rusyn_west_slavic
+		}
+		wr_convert_rusyn_to_west_slavic_provinces_effect = yes
+	}
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+wr_sync_circle2_stage2_with_from_effect = {
+	wr_recalculate_maneuver_indices_effect = yes
+	if = {
+		limit = {
+			NOT = { has_country_flag = wr_distinctiveness_recognized }
+		}
+		set_country_flag = wr_distinctiveness_recognized
+	}
+	if = {
+		limit = {
+			wr_from_shares_byelorussian_sphere = yes
+			wr_byelorussian_stage2_index_met = yes
+		}
+		wr_convert_byelorussian_to_west_ruthenian_provinces_effect = yes
+		wr_refresh_byelorussian_accepted_slot_wr_effect = yes
+	}
+	if = {
+		limit = {
+			wr_from_shares_ruthenian_sphere = yes
+			wr_ruthenian_stage2_index_met = yes
+		}
+		wr_convert_ruthenian_to_west_ruthenian_provinces_effect = yes
+		wr_refresh_ruthenian_accepted_slot_wr_effect = yes
+	}
+	if = {
+		limit = {
+			wr_from_shares_rusyn_sphere = yes
+			wr_rusyn_stage2_index_met = yes
+		}
+		wr_convert_rusyn_to_west_ruthenian_provinces_effect = yes
+		wr_refresh_rusyn_accepted_slot_wr_effect = yes
+	}
+	if = {
+		limit = {
+			NOT = { wr_has_convertible_west_ruthenian_base = yes }
+		}
+		set_country_flag = wr_west_ruthenian_group_formed
+	}
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+wr_sync_circle2_stage4_with_from_effect = {
+	wr_recalculate_maneuver_indices_effect = yes
+	if = {
+		limit = {
+			wr_from_shares_byelorussian_sphere = yes
+			wr_byelorussian_stage4_index_met = yes
+		}
+		wr_convert_byelorussian_to_west_slavic_provinces_effect = yes
+		wr_refresh_byelorussian_accepted_slot_ws_effect = yes
+	}
+	if = {
+		limit = {
+			wr_from_shares_ruthenian_sphere = yes
+			wr_ruthenian_stage4_index_met = yes
+		}
+		wr_convert_ruthenian_to_west_slavic_provinces_effect = yes
+		wr_refresh_ruthenian_accepted_slot_ws_effect = yes
+	}
+	if = {
+		limit = {
+			wr_from_shares_rusyn_sphere = yes
+			wr_rusyn_stage4_index_met = yes
+		}
+		wr_convert_rusyn_to_west_slavic_provinces_effect = yes
+		wr_refresh_rusyn_accepted_slot_ws_effect = yes
+	}
+	if = {
+		limit = {
+			NOT = { wr_has_convertible_west_slavic_base = yes }
+		}
+		set_country_flag = wr_west_slavic_shift_completed
+	}
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+wr_sync_circle3_stage2_with_from_effect = {
+	wr_recalculate_maneuver_indices_effect = yes
+	if = {
+		limit = {
+			wr_from_shares_byelorussian_sphere = yes
+			wr_byelorussian_stage2_index_met = yes
+		}
+		wr_convert_byelorussian_to_west_ruthenian_provinces_effect = yes
+	}
+	if = {
+		limit = {
+			wr_from_shares_ruthenian_sphere = yes
+			wr_ruthenian_stage2_index_met = yes
+		}
+		wr_convert_ruthenian_to_west_ruthenian_provinces_effect = yes
+	}
+	if = {
+		limit = {
+			wr_from_shares_rusyn_sphere = yes
+			wr_rusyn_stage2_index_met = yes
+		}
+		wr_convert_rusyn_to_west_ruthenian_provinces_effect = yes
+	}
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+wr_sync_circle3_stage4_with_from_effect = {
+	wr_recalculate_maneuver_indices_effect = yes
+	if = {
+		limit = {
+			wr_from_shares_byelorussian_sphere = yes
+			wr_byelorussian_stage4_index_met = yes
+		}
+		wr_convert_byelorussian_to_west_slavic_provinces_effect = yes
+	}
+	if = {
+		limit = {
+			wr_from_shares_ruthenian_sphere = yes
+			wr_ruthenian_stage4_index_met = yes
+		}
+		wr_convert_ruthenian_to_west_slavic_provinces_effect = yes
+	}
+	if = {
+		limit = {
+			wr_from_shares_rusyn_sphere = yes
+			wr_rusyn_stage4_index_met = yes
+		}
+		wr_convert_rusyn_to_west_slavic_provinces_effect = yes
+	}
+	wr_refresh_all_sphere_indices_effect = yes
+}
+
+# ------------------------------------------------------------------------
+# Traditionalist backlash helper
+# ------------------------------------------------------------------------
+
+wr_spawn_traditionalist_backlash_effect = {
+	add_country_modifier = {
+		name = wr_traditionalist_backlash
+		duration = 3650
+	}
+	if = {
+		limit = {
+			any_owned_province = {
+				wr_is_target_province = yes
+			}
+		}
+		random_owned_province = {
+			limit = {
+				wr_is_target_province = yes
+			}
+			spawn_rebels = {
+				type = particularist_rebels
+				size = 1
+			}
+		}
+	}
+	else = {
+		random_owned_province = {
+			spawn_rebels = {
+				type = particularist_rebels
+				size = 1
+			}
+		}
+	}
+}

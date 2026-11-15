@@ -1,0 +1,64 @@
+# RIP - West-Ruthenian and West-Slavic Cultural Maneuver on_actions
+# Keeps global province adoption indices and cored province charters in sync.
+
+on_startup = {
+	if = {
+		limit = {
+			wr_is_maneuver_relevant_country = yes
+		}
+		wr_sync_owned_charter_provinces_effect = yes
+		wr_recalculate_maneuver_indices_effect = yes
+	}
+}
+
+on_yearly_pulse = {
+	if = {
+		limit = {
+			wr_is_maneuver_relevant_country = yes
+		}
+		wr_sync_owned_charter_provinces_effect = yes
+		wr_recalculate_maneuver_indices_effect = yes
+	}
+}
+
+on_province_owner_change = {
+	if = {
+		limit = {
+			wr_is_target_province = yes
+		}
+		wr_sync_single_province_charter_effect = yes
+		owner = {
+			if = {
+				limit = {
+					wr_is_maneuver_relevant_country = yes
+				}
+				wr_recalculate_maneuver_indices_effect = yes
+			}
+		}
+		FROM = {
+			if = {
+				limit = {
+					exists = yes
+					wr_is_maneuver_relevant_country = yes
+				}
+				wr_recalculate_maneuver_indices_effect = yes
+			}
+		}
+	}
+}
+
+on_province_culture_converted = {
+	wr_sync_single_province_charter_effect = yes
+	owner = {
+		if = {
+			limit = {
+				wr_is_maneuver_relevant_country = yes
+			}
+			wr_recalculate_maneuver_indices_effect = yes
+		}
+	}
+}
+
+on_province_culture_changed = {
+	wr_sync_single_province_charter_effect = yes
+}
