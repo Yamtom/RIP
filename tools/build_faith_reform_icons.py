@@ -45,81 +45,105 @@ def ground(layer, top, stops):
 
 
 def scene_zaz_monastery():
-    """A whitewashed chapel of the order with two candles lit before it."""
-    layer = G.backdrop(DUSK, (41, 30), 52)
-    layer = G.over(layer, G.glow(41, 36, 26, (255, 200, 120), 0.30))
-    layer = ground(layer, 62, [(0.0, hexc('#1c3a2a')), (1.0, hexc('#08140e'))])
-    layer = G.over(layer, G.cottage(41, 63, 1.55))
-    layer = G.over(layer, G.candle(14, 72, 9))
-    layer = G.over(layer, G.candle(68, 72, 9))
+    """Endow a Military Monastery: painted Orthodox monastery, brotherhood charter and lit candle."""
+    layer = G.painted_backdrop(
+        'assets/church_banners/ro_banner_building_v2.png',
+        focus=(0.50, 0.45), zoom=1.08, tint_rgb=(0.86, 0.96, 1.12), brightness=0.82,
+    )
+    layer = G.place_cutout(
+        layer, G.priv_cutout('brotherhood_charters'), cx=41, cy=46, box=48,
+        glow_color=(255, 210, 130), glow_radius=25, glow_alpha=0.35,
+    )
     return layer
 
 
 def scene_zaz_escort():
-    """A bishop's banner carried between crossed swords."""
-    layer = G.backdrop(DUSK, (41, 30), 52)
-    layer = G.over(layer, G.glow(41, 30, 26, (190, 214, 255), 0.30))
-    layer = ground(layer, 66, [(0.0, hexc('#1c3a2a')), (1.0, hexc('#08140e'))])
-    layer = G.over(layer, G.sword((16, 72), -58, 48, blade_w=3.6, grip=5.0))
-    layer = G.over(layer, G.sword((66, 72), -122, 48, blade_w=3.6, grip=5.0))
-    layer = G.over(layer, G.banner((41, 72), 0, 52, 21, 16, G.VELVET_RED, charge='cross', seed=2, side=1))
+    """Escort the Hierarchy: hierarchical banner escorted by Cossack sabres and mace."""
+    layer = G.painted_backdrop(
+        'assets/church_banners/ro_banner_mission_v2.png',
+        focus=(0.50, 0.45), zoom=1.08, tint_rgb=(0.84, 0.94, 1.14), brightness=0.82,
+    )
+    layer = G.place_cutout(
+        layer, G.priv_cutout('chaiky'), cx=36, cy=43, box=46,
+        glow_color=(195, 220, 255), glow_radius=25, glow_alpha=0.32,
+    )
+    layer = G.place_cutout(
+        layer, G.atlas_cutout(3, 2), cx=51, cy=52, box=34,
+    )
     return layer
 
 
 def scene_zaz_faithful():
-    """The faithful in a burning town: a banner and a raised sword against the fire."""
-    layer = G.backdrop(EMBER, (41, 66), 56)
-    layer = G.over(layer, G.glow(41, 58, 32, (255, 140, 50), 0.55))
-    layer = G.over(layer, G.glow(18, 62, 14, (255, 190, 80), 0.45))
-    layer = G.over(layer, G.glow(66, 60, 14, (255, 190, 80), 0.45))
-    layer = ground(layer, 66, [(0.0, hexc('#2a1208')), (1.0, hexc('#0a0402'))])
-    layer = G.over(layer, G.cottage(17, 67, 0.8))
-    layer = G.over(layer, G.cottage(66, 67, 0.8))
-    layer = G.over(layer, G.sword((41, 72), -90, 34, blade_w=4.0, grip=5.5))
-    layer = G.over(layer, G.banner((27, 72), -10, 46, 17, 14, G.BLUE_CLOTH, charge='cross', seed=3, side=1))
+    """Raise the Faithful: Cossack host standards, war cross and arms raised in defence of the faith."""
+    layer = G.painted_backdrop(
+        'assets/church_banners/ro_banner_war_v2.png',
+        focus=(0.50, 0.45), zoom=1.08, tint_rgb=(1.12, 0.88, 0.78), brightness=0.84,
+    )
+    layer = G.place_cutout(
+        layer, G.priv_cutout('sich_rada'), cx=41, cy=47, box=48,
+        glow_color=(255, 175, 90), glow_radius=26, glow_alpha=0.38,
+    )
+    layer = G.place_cutout(
+        layer, G.gov_cutout('concord'), cx=41, cy=22, box=24,
+    )
     return layer
 
 
 def scene_zaz_zeal():
-    """The Zeal emblem: one great flame over the cross of the order."""
-    layer = G.backdrop(DUSK, (41, 41), 56)
-    layer = G.over(layer, G.glow(41, 48, 30, (255, 190, 90), 0.55))
-    layer = G.over(layer, G.candle(41, 66, 16))
-    cross_v = G.poly([(39.2, 10), (42.8, 10), (42.8, 32), (39.2, 32)])
-    cross_h = G.poly([(33, 15), (49, 15), (49, 18.6), (33, 18.6)])
-    cross = G.union(cross_v, cross_h)
-    layer = G.over(layer, G.outline(cross, 0.4, (40, 22, 4), 0.95), G.shaded(cross, G.GOLD, 0.4, relief=1.0, gain=1.8, spec=0.5))
+    """The Cossack Zeal emblem: Orthodox cross, crossed sabres and flame over the Sich."""
+    from build_core_ruthenia_icons import zaz_cossack_zeal_emblem
+    layer = G.painted_backdrop(
+        'gfx/interface/government_reform_icons/source/zaz_sich_brotherhood.png',
+        focus=(0.50, 0.45), zoom=1.18, tint_rgb=(0.82, 0.92, 1.16), brightness=0.72,
+    )
+    emblem = G.remove_dark_bg(zaz_cossack_zeal_emblem(), teal=False)
+    layer = G.place_cutout(
+        layer, emblem, cx=41, cy=42, box=54,
+        glow_color=(255, 200, 110), glow_radius=28, glow_alpha=0.45,
+    )
     return layer
 
 
 def scene_plt_seal():
-    """The Nomocanon rolled and sealed in wax, a candle at its side."""
-    layer = G.backdrop(HALL, (41, 36), 52)
-    layer = G.over(layer, G.glow(41, 36, 26, (255, 214, 140), 0.28))
-    layer = ground(layer, 64, [(0.0, hexc('#2a1a0c')), (1.0, hexc('#0a0604'))])
-    layer = G.over(layer, G.rolled_scroll(40, 46, 40, 12, degrees=-6))
-    layer = G.over(layer, G.wax_seal(50, 43, 6.5, seed=4))
-    layer = G.over(layer, G.candle(14, 62, 10))
+    """Seal the Nomocanon: the Nomocanon codex, metropolitan mitre and sealed scroll."""
+    layer = G.painted_backdrop(
+        'gfx/interface/missions/source/petro_mohyla.png',
+        focus=(0.50, 0.48), zoom=1.15, tint_rgb=(0.82, 1.08, 0.90), brightness=0.78,
+    )
+    layer = G.place_cutout(
+        layer, G.priv_cutout('synodal_courts'), cx=41, cy=45, box=50,
+        glow_color=(255, 220, 145), glow_radius=25, glow_alpha=0.32,
+    )
     return layer
 
 
 def scene_plt_guild():
-    """A guild's purse and coins before the parish church of the quarter."""
-    layer = G.backdrop(HALL, (41, 36), 52)
-    layer = G.over(layer, G.glow(41, 32, 26, (255, 214, 140), 0.25))
-    layer = ground(layer, 62, [(0.0, hexc('#2a1a0c')), (1.0, hexc('#0a0604'))])
-    layer = G.over(layer, G.cottage(54, 62, 1.15))
-    layer = G.over(layer, G.purse(24, 56, 11))
-    for i, (x, y) in enumerate([(14, 70), (22, 72), (31, 70), (38, 73)]):
-        layer = G.over(layer, G.coin(x, y, 3.3, flat=0.55, seed=i))
+    """Patronage of the Guild Parishes: guild quarter and church with a coffer of gold ducats."""
+    layer = G.painted_backdrop(
+        'assets/church_banners/ro_banner_building_v2.png',
+        focus=(0.45, 0.50), zoom=1.15, flip=True, tint_rgb=(0.84, 1.08, 0.92), brightness=0.80,
+    )
+    layer = G.place_cutout(
+        layer, G.gov_cutout('towns'), cx=36, cy=38, box=42,
+        glow_color=(250, 220, 150), glow_radius=24, glow_alpha=0.30,
+    )
+    layer = G.place_cutout(
+        layer, G.priv_cutout('jewish_tax_farmers_compact'), cx=48, cy=54, box=36,
+    )
     return layer
 
 
 def scene_plt_veto():
-    """The city assembly refuses: a charter torn across, its seal broken."""
-    layer = G.backdrop(HALL, (41, 36), 52)
-    layer = G.over(layer, G.glow(41, 36, 26, (255, 214, 140), 0.25))
-    paper = G.charter(41, 38, 40, 46, seed=8, degrees=-4, lines=6, seal_r=5.5, broken=True, torn=True)
+    """Call the City Assembly (the veto): the city assembly and a torn charter with a broken seal."""
+    layer = G.painted_backdrop(
+        'gfx/interface/missions/source/magdeburg_charter.png',
+        focus=(0.50, 0.50), zoom=1.18, tint_rgb=(0.84, 1.06, 0.90), brightness=0.76,
+    )
+    layer = G.place_cutout(
+        layer, G.gov_cutout('snem'), cx=41, cy=35, box=44,
+        glow_color=(255, 214, 140), glow_radius=24, glow_alpha=0.30,
+    )
+    paper = G.charter(41, 55, 34, 28, seed=8, degrees=-5, lines=5, seal_r=4.8, broken=True, torn=True)
     layer = G.over(layer, paper)
     return layer
 
@@ -191,12 +215,10 @@ def power_icon(key: str = 'zaz_cossack_zeal') -> Image.Image:
 def write_all():
     for key in POWER_ICONS:
         path = ROOT / 'gfx/interface/ideas_EU4' / f'{key}.dds'
-        path.parent.mkdir(parents=True, exist_ok=True)
-        power_icon(key).save(path, format='DDS')
+        G.save_dds_atomic(power_icon(key), path)
     for key in SCENES:
         path = ROOT / texture_path(key)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        render(key).save(path, format='DDS')
+        G.save_dds_atomic(render(key), path)
     (ROOT / GFX_FILE).write_bytes(gfx_text().encode('ascii'))
     sheet = ROOT / TEXTURE_DIR / 'source' / 'faith_reform_preview.png'
     sheet.parent.mkdir(parents=True, exist_ok=True)

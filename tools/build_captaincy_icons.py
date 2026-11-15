@@ -174,52 +174,28 @@ def timber(mask, seed, planks=True):
 # --------------------------------------------------------------------------
 
 def scene_posts():
-    """Man the Border Posts: a blockhouse above the pass, a striped customs barrier across the road."""
-    layer = gradient(full_mask(), [(0.0, hexc('#46688e')), (0.40, hexc('#c8a27e')), (0.62, hexc('#f4d490')), (1.0, hexc('#f4d490'))],
-                     (0, 4), (0, 56))
-    layer = over(layer, glow(64, 33, 28, (255, 236, 170), 0.6))
-    layer = over(layer, ridge(wave(0, 82, 40, 9, 1.6, 0.5), 70, [(0.0, hexc('#3a4a62')), (0.5, hexc('#6a7c96')), (1.0, hexc('#b8c4d4'))], seed=3))
-    layer = over(layer, ridge(wave(0, 82, 48, 6, 2.2, 2.0), 72, [(0.0, hexc('#14302a')), (0.5, hexc('#2e5a48')), (1.0, hexc('#6a9a80'))], seed=5))
-    ground = poly([(0, 58)] + [(x, 58 - 2.0 * math.sin(x / 9.0)) for x in range(0, 83, 3)] + [(82, 82), (0, 82)])
-    layer = over(layer, shaded(ground, GRASS, 2.5, relief=3.4, gain=1.1, texture=noise(8, 3.0, 3)))
-    road = poly([(36, 58), (48, 58), (60, 82), (20, 82)])
-    layer = over(layer, gradient(road, [(0.0, hexc('#8c7a58')), (1.0, hexc('#5a4a30'))], (0, 58), (0, 82)))
-    # the rocky knoll under the blockhouse
-    knoll = poly([(9, 60), (15, 50), (25, 45), (41, 45), (49, 50), (53, 60)])
-    layer = over(layer, shaded(knoll, ROCK, 1.6, relief=3.0, gain=1.4, texture=noise(6, 2.0, 3)))
-    # the blockhouse: stone footing, timber storey, shingle roof, glowing window, pennant
-    foot = poly([(17, 46), (39, 46), (39, 38), (17, 38)])
-    upper = poly([(15, 38), (41, 38), (39, 25), (17, 25)])
-    roof = poly([(13, 25), (43, 25), (28, 13)])
-    whole = union(foot, upper, roof)
-    layer = over(layer, shadow(whole, 0.9, 1.2, 1.0, 0.5), outline(whole, 0.5, (20, 12, 6), 0.95))
-    layer = over(layer, shaded(foot, STONE_WARM, 0.8, relief=1.8, gain=1.5, texture=noise(11, 1.4, 3)))
-    layer = over(layer, timber(upper, 12))
-    layer = over(layer, shaded(roof, SHINGLE, 0.9, relief=2.0, gain=1.5, texture=noise(13, 0.7, 3)))
-    layer = over(layer, roundness(union(foot, upper), 15, 41, dark=0.45, lift=0.15, peak=0.3))
-    layer = over(layer, solid(poly([(25, 36), (31, 36), (31, 30), (25, 30)]), (255, 206, 110), 0.95),
-                 solid(minus(poly([(24.4, 36.6), (31.6, 36.6), (31.6, 29.4), (24.4, 29.4)]), poly([(25, 36), (31, 36), (31, 30), (25, 30)])), (30, 18, 8), 0.95))
-    layer = over(layer, solid(poly([(22, 46), (22, 41), (26, 41), (26, 46)]), (14, 8, 6), 0.9))
-    pole = stroke([(28, 13), (28, 4)], 0.6, caps=False)
-    layer = over(layer, outline(pole, 0.25, (20, 14, 8), 0.9), solid(pole, (190, 160, 100), 1.0))
-    layer = over(layer, pennant((28.3, 4.2), 9.0, 5.2))
-    # the customs barrier: a striped pole on a post, counterweight behind
-    post = poly([(49, 60), (53, 60), (53, 52), (49, 52)])
+    """Man the Border Posts: painted Carpathian pass, frontier stronghold and striped customs barrier."""
+    layer = kit.painted_backdrop(
+        'gfx/interface/missions/source/uzh_identity_branch_locked_2.png',
+        focus=(0.50, 0.44), zoom=1.10, tint_rgb=(0.94, 1.04, 0.92), brightness=0.84,
+    )
+    layer = kit.place_cutout(
+        layer, kit.atlas_cutout(3, 3), cx=31, cy=45, box=40,
+        glow_color=(255, 224, 150), glow_radius=24, glow_alpha=0.34,
+    )
+    post = poly([(49, 62), (53, 62), (53, 52), (49, 52)])
     layer = over(layer, shadow(post, 0.6, 0.9, 0.6, 0.4), outline(post, 0.35, (20, 12, 6), 0.95), shaded(post, DARK_WOOD, 0.4, relief=1.0, gain=1.4))
-    beam = stroke([(39, 56.6), (68, 52.4)], 2.0, caps=False)
+    beam = stroke([(37, 57.6), (68, 53.0)], 2.1, caps=False)
     stripes = blank_mask()
     sd = ImageDraw.Draw(stripes)
     for i in range(10):
-        x0 = 39 + i * 3.0
-        sd.line(kit._px([(x0, 56.6 - (x0 - 39) * 0.145 + 1.5), (x0 + 1.0, 56.6 - (x0 + 1 - 39) * 0.145 - 1.5)]), fill=255, width=int(1.4 * SS))
+        x0 = 37 + i * 3.1
+        sd.line(kit._px([(x0, 57.6 - (x0 - 37) * 0.148 + 1.5), (x0 + 1.0, 57.6 - (x0 + 1 - 37) * 0.148 - 1.5)]), fill=255, width=int(1.4 * SS))
     layer = over(layer, shadow(beam, 0.6, 0.9, 0.6, 0.4), outline(beam, 0.35, (30, 8, 8), 0.95))
     layer = over(layer, shaded(beam, STRIPE_WHITE, 0.4, relief=1.0, gain=1.4))
     layer = over(layer, solid(inter(stripes, beam), (186, 28, 32), 0.95))
-    counter = ellipse(40.6, 57.2, 2.0)
+    counter = ellipse(38.6, 58.2, 2.0)
     layer = over(layer, outline(counter, 0.3, (20, 12, 6), 0.9), shaded(counter, STONE_WARM, 0.5, relief=1.0, gain=1.4))
-    # firs
-    for fx, fy, fh in ((5, 64, 14), (12, 62, 11), (72, 62, 15), (78, 66, 12)):
-        layer = over(layer, fir(fx, fy, fh, seed=int(fx)))
     return layer
 
 
@@ -253,25 +229,21 @@ def pickaxe(base, degrees, length):
 
 
 def scene_salt():
-    """Pledge the Salt Chambers: salt blocks, a miner's pick, a sealed deed of pledge."""
-    layer = gradient(full_mask(), [(0.0, hexc('#16343c')), (0.55, hexc('#0c1e26')), (1.0, hexc('#050e12'))], (0, 0), (0, 82))
-    layer = over(layer, glow(34, 34, 30, (150, 210, 220), 0.30))
-    floor = poly([(0, 57), (82, 57), (82, 82), (0, 82)])
-    layer = over(layer, shaded(floor, DARK_WOOD, 1.0, relief=1.6, gain=1.1, texture=noise(31, 1.4, 2)))
-    layer = over(layer, solid(stroke([(0, 57.4), (82, 57.4)], 0.7), (210, 170, 90), 0.5))
-    # a stack of salt blocks
-    rows = ((57.0, 3, 12.0), (48.0, 2, 17.5), (39.0, 1, 23.0))
-    k = 0
-    for y, count, x0 in rows:
-        for i in range(count):
-            layer = over(layer, salt_block(x0 + i * 11.2, y, 10.4, 8.6, tilt=0.0, seed=k + 1))
-            k += 1
-    layer = over(layer, pickaxe((60.0, 58), 17, 30))
-    # the deed of pledge, with its wax seal, lying in front
-    layer = over(layer, kit.charter(32, 60.5, 22, 12, seed=33, degrees=-5, lines=3, seal_r=3.4))
-    # coins
-    for cx, cy in ((48.0, 62.5), (52.5, 61.0), (50.5, 65.0)):
-        layer = over(layer, kit.coin(cx, cy, 2.6, flat=0.55, seed=int(cx)))
+    """Pledge the Salt Chambers: salt blocks, a miner's pick, coffer of ducats and sealed deed of pledge."""
+    layer = kit.painted_backdrop(
+        'gfx/interface/missions/source/uzh_identity_branch_locked_1.png',
+        focus=(0.50, 0.50), zoom=1.16, tint_rgb=(0.86, 1.04, 0.98), brightness=0.72,
+    )
+    layer = kit.place_cutout(
+        layer, kit.priv_cutout('jewish_tax_farmers_compact'), cx=45, cy=46, box=44,
+        glow_color=(165, 225, 215), glow_radius=24, glow_alpha=0.30,
+    )
+    for idx, (bx, by) in enumerate(((14.0, 56.0), (24.5, 56.0), (19.2, 47.2))):
+        layer = over(layer, salt_block(bx, by, 9.8, 8.2, tilt=0.0, seed=idx + 1))
+    layer = over(layer, pickaxe((61.0, 58), 16, 28))
+    layer = kit.place_cutout(
+        layer, kit.gov_cutout('charter'), cx=30, cy=56, box=28, degrees=-6,
+    )
     return layer
 
 
@@ -334,16 +306,17 @@ def campfire(cx, base_y, scale=1.0):
 
 
 def scene_opryshky():
-    """Enlist the Opryshky: a highlander's hat, a bartka and a camp fire under the firs."""
-    layer = gradient(full_mask(), [(0.0, hexc('#0a1c16')), (0.55, hexc('#14382a')), (1.0, hexc('#05120c'))], (0, 0), (0, 82))
-    layer = over(layer, glow(41, 66, 46, (255, 150, 60), 0.50))
-    for fx, fy, fh, s in ((6, 68, 30, 1), (15, 66, 24, 2), (68, 66, 26, 3), (77, 70, 32, 4), (25, 64, 16, 5), (58, 64, 18, 6)):
-        layer = over(layer, tint(fir(fx, fy, fh, seed=s), (0.55, 0.62, 0.6)))
-    ground = poly([(0, 66), (82, 66), (82, 82), (0, 82)])
-    layer = over(layer, shaded(ground, DARK_WOOD, 1.0, relief=1.4, gain=1.0, texture=noise(51, 1.4, 2)))
-    layer = over(layer, campfire(46, 67, 0.85))
-    layer = over(layer, bartka((20, 66), 7, 44))
-    layer = over(layer, highland_hat(53, 38, 0.92))
+    """Enlist the Opryshky: Carpathian highlander warrior, bartka axe and campfire under the firs."""
+    layer = kit.painted_backdrop(
+        'gfx/interface/missions/source/uzh_identity_branch_locked_3.png',
+        focus=(0.50, 0.45), zoom=1.18, flip=True, tint_rgb=(0.84, 1.06, 0.88), brightness=0.72,
+    )
+    layer = over(layer, campfire(48, 66, 0.82))
+    layer = kit.place_cutout(
+        layer, kit.atlas_cutout(2, 1), cx=34, cy=45, box=42,
+        glow_color=(255, 165, 75), glow_radius=25, glow_alpha=0.38,
+    )
+    layer = over(layer, bartka((58, 66), -8, 40))
     return layer
 
 
@@ -390,68 +363,52 @@ def watch_tower(cx, base_y, width, height, beacon=True, seed=1):
 
 
 def scene_towers():
-    """Post the Watchtowers: a tower line on the steppe, a beacon fire on the near one."""
-    layer = gradient(full_mask(), [(0.0, hexc('#243452')), (0.34, hexc('#7a5a6a')), (0.56, hexc('#e8a860')), (1.0, hexc('#e8a860'))], (0, 0), (0, 58))
-    layer = over(layer, glow(26, 54, 36, (255, 226, 150), 0.60))
-    ground = poly([(0, 56)] + [(x, 56 - 1.4 * math.sin(x / 8.0) - 0.8 * math.sin(x / 3.0)) for x in range(0, 83, 3)] + [(82, 82), (0, 82)])
-    layer = over(layer, gradient(ground, [(0.0, hexc('#7a6a34')), (0.45, hexc('#4a4018')), (1.0, hexc('#1e1a0a'))], (0, 54), (0, 82)))
-    grass = strands(ground, 7, 380, 2.4, 0.16, [hexc('#a89c48'), hexc('#6a6226'), hexc('#d8cc78'), hexc('#3a3414')],
-                    lambda x, y: -math.pi / 2, spread=0.28)
-    layer = over(layer, grass)
-    # far towers, small and dark against the glow
-    for fx, fy, fh, w in ((64, 56, 14, 5.0), (74, 56, 10, 3.6), (52, 56, 8, 3.0)):
-        layer = over(layer, tint(watch_tower(fx, fy, w, fh, beacon=False, seed=int(fx)), (0.55, 0.52, 0.6)))
-    layer = over(layer, watch_tower(32, 74, 17, 34, beacon=True, seed=3))
+    """Post the Watchtowers: timber watchtower with burning beacon on the steppe line."""
+    layer = kit.painted_backdrop(
+        'gfx/interface/great_projects/source/zaporozhian_sich.png',
+        focus=(0.50, 0.45), zoom=1.12, tint_rgb=(0.94, 0.96, 1.08), brightness=0.82,
+    )
+    layer = over(layer, watch_tower(31, 74, 17, 34, beacon=True, seed=3))
+    layer = kit.place_cutout(
+        layer, kit.atlas_cutout(1, 1), cx=55, cy=52, box=32,
+        glow_color=(255, 195, 110), glow_radius=22, glow_alpha=0.30,
+    )
     return layer
 
 
 def scene_patrols():
-    """Send Out the Patrols: two riders with a pennant, riding the line against the sunset."""
-    layer = gradient(full_mask(), [(0.0, hexc('#243452')), (0.34, hexc('#7a5a6a')), (0.56, hexc('#e8a860')), (1.0, hexc('#e8a860'))], (0, 0), (0, 58))
-    layer = over(layer, glow(60, 52, 34, (255, 226, 150), 0.60))
-    ground = poly([(0, 54)] + [(x, 54 - 1.6 * math.sin(x / 9.0 + 1.0)) for x in range(0, 83, 3)] + [(82, 82), (0, 82)])
-    layer = over(layer, gradient(ground, [(0.0, hexc('#7a6a34')), (0.45, hexc('#4a4018')), (1.0, hexc('#1e1a0a'))], (0, 52), (0, 82)))
-    layer = over(layer, strands(ground, 8, 320, 2.4, 0.16, [hexc('#a89c48'), hexc('#6a6226'), hexc('#d8cc78'), hexc('#3a3414')],
-                                lambda x, y: -math.pi / 2, spread=0.28))
-    layer = over(layer, tint(watch_tower(14, 56, 6.0, 16, beacon=False, seed=5), (0.55, 0.52, 0.6)))
-    far, _ = kit.boyar_rider(24, 60, 0.30, horse=CHESTNUT, coat=kit.SKY_BLUE_COAT, flip=False, seed=2)
-    layer = over(layer, tint(far, (0.8, 0.8, 0.86)))
-    rider, F = kit.boyar_rider(54, 66, 0.52, horse=kit.DUN, coat=kit.RED_COAT, flip=False, seed=1)
-    layer = over(layer, rider)
-    layer = over(layer, kit.lance_standard(F(58, 20), -2, 38, 17, 11, [(0.0, hexc('#6a0c12')), (0.6, hexc('#a81620')), (1.0, hexc('#d84c44'))],
-                                           emblem=None, seed=1, side=-1))
-    layer = over(layer, solid(blur(ellipse(48, 74, 28, 4.0), 2.2), (232, 200, 150), 0.30))
+    """Send Out the Patrols: mounted frontier patrol with lances and shields riding the steppe line."""
+    layer = kit.painted_backdrop(
+        'gfx/interface/missions/source/chr_identity_branch_locked_1.png',
+        focus=(0.50, 0.48), zoom=1.15, flip=True, tint_rgb=(0.92, 0.96, 1.10), brightness=0.84,
+    )
+    layer = kit.place_cutout(
+        layer, kit.gov_cutout('druzhyna'), cx=42, cy=46, box=52, flip=True,
+        glow_color=(255, 224, 150), glow_radius=26, glow_alpha=0.36,
+    )
     return layer
 
 
 def scene_settlers():
-    """Settle the Watch: a cottage on a ploughed strip, a watchtower on the rise behind."""
-    layer = gradient(full_mask(), [(0.0, hexc('#3a2a5a')), (0.45, hexc('#c8783c')), (0.8, hexc('#f0b860')), (1.0, hexc('#f0b860'))], (0, 4), (0, 56))
-    layer = over(layer, glow(62, 48, 26, (255, 220, 140), 0.55))
-    hills = poly([(0, 50)] + bezier((0, 50), (14, 40), (30, 44), (46, 49), n=20)[1:] + bezier((46, 49), (60, 52), (70, 42), (82, 46), n=20)[1:] + [(82, 82), (0, 82)])
-    layer = over(layer, shaded(hills, [(0.0, hexc('#12261a')), (0.5, hexc('#24462a')), (1.0, hexc('#4a7a3c'))], 2.0, relief=3.0, gain=1.0))
-    layer = over(layer, tint(watch_tower(66, 47, 7.0, 20, beacon=False, seed=6), (0.62, 0.6, 0.66)))
-    layer = over(layer, kit.furrows(54, 30, 0, 82, 82))
-    layer = over(layer, kit.cottage(36, 66, 1.0))
-    # a palisade of pointed stakes in front
-    for i in range(11):
-        x = 6 + i * 3.4
-        stake = poly([(x - 1.2, 80), (x + 1.2, 80), (x + 1.2, 72.5), (x, 70.4), (x - 1.2, 72.5)])
-        layer = over(layer, shadow(stake, 0.5, 0.8, 0.5, 0.4), outline(stake, 0.3, (16, 10, 6), 0.95), shaded(stake, WOOD, 0.3, relief=0.8, gain=1.5))
-    # a haystack
-    stack = poly([(60, 70), (74, 70), (72, 62), (67, 57), (62, 62)])
-    layer = over(layer, shadow(stack, 0.8, 1.0, 0.8, 0.45), outline(stack, 0.4, (40, 28, 8), 0.95),
-                 shaded(stack, THATCH, 1.0, relief=2.0, gain=1.3, texture=noise(61, 0.6, 3)))
+    """Settle the Watch: settler homestead and plough field beneath a frontier watchtower."""
+    layer = kit.painted_backdrop(
+        'gfx/interface/government_reform_icons/source/cossack_host.png',
+        focus=(0.48, 0.48), zoom=1.15, flip=True, tint_rgb=(1.02, 0.96, 0.88), brightness=0.84,
+    )
+    layer = over(layer, tint(watch_tower(63, 49, 7.5, 21, beacon=False, seed=6), (0.78, 0.76, 0.82)))
+    layer = kit.place_cutout(
+        layer, kit.priv_cutout('left_bank_settlement'), cx=39, cy=47, box=50,
+        glow_color=(255, 220, 145), glow_radius=25, glow_alpha=0.34,
+    )
     return layer
 
 
 def scene_reform():
-    """The reform card: the Verecke pass with a blockhouse, the customs barrier and two salt carts."""
-    layer = scene_posts()
-    # a pair of salt carts crossing the foreground, white loads under canvas
-    for cx, sc in ((20, 0.5), (47, 0.46)):
-        layer = over(layer, kit.wagon(cx, 79, sc))
-    return layer
+    """The reform card: painted Carpathian pass with timber watchtower and waymarker shield."""
+    return kit.painted_backdrop(
+        'gfx/interface/missions/source/uzh_identity_branch_locked_2.png',
+        focus=(0.50, 0.46), zoom=1.08, contrast=1.08,
+    )
 
 
 # --------------------------------------------------------------------------
@@ -474,8 +431,8 @@ KEYS = list(BUTTONS) + [REFORM_KEY]
 
 def render(key):
     if key == REFORM_KEY:
-        picture = uzh.to_pixels(scene_reform(), (0, 0, 82, 82), (51, 51))
-        picture = picture.filter(ImageFilter.UnsharpMask(radius=0.6, percent=28, threshold=6))
+        picture = scene_reform().resize((51, 51), Image.LANCZOS)
+        picture = picture.filter(ImageFilter.UnsharpMask(radius=0.6, percent=38, threshold=3))
         return uzh.frame_reform(picture)
     kind, enamel, scene = BUTTONS[key]
     sprite = draw_frame(kind, enamel, scene())
@@ -516,8 +473,7 @@ def preview_sheet(names, scale, columns=4):
 def write_all():
     for key in KEYS:
         path = ROOT / texture_path(key)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        render(key).save(path, format='DDS')
+        kit.save_dds_atomic(render(key), path)
     (ROOT / GFX_FILE).write_bytes(gfx_text().encode('ascii'))
     sheet = ROOT / TEXTURE_DIR / 'source' / 'captaincy_preview.png'
     sheet.parent.mkdir(parents=True, exist_ok=True)

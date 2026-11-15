@@ -8,11 +8,14 @@ and the low-detail Vilnius Palace placeholder while enforcing EU4 DDS/alpha cont
     python -B tools/build_core_ruthenia_icons.py --check
     python -B tools/build_core_ruthenia_icons.py --privileges-only
     python -B tools/build_core_ruthenia_icons.py --privileges-only --check
+    python -B tools/build_core_ruthenia_icons.py --missions-only
+    python -B tools/build_core_ruthenia_icons.py --missions-only --check
 """
 from __future__ import annotations
 
 import argparse
 import math
+import re
 import sys
 from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter
@@ -131,15 +134,9 @@ PRIVILEGE_FILES = (
     'rip_gfx_privilege_jewish_black_sea_network_icon.dds',
 )
 
-MISSION_FILES = (
-    'mission_ukr_magdeburg_laws.dds',
-    'petro_mohyla.dds',
-    'rip_gfx_mission_uzh_identity_branch_locked_1_icon.dds',
-    'rip_gfx_mission_uzh_identity_branch_locked_2_icon.dds',
-    'rip_gfx_mission_uzh_identity_branch_locked_3_icon.dds',
-    'rip_gfx_mission_chr_identity_branch_locked_1_icon.dds',
-    'rip_gfx_mission_chr_identity_branch_locked_2_icon.dds',
-    'rip_gfx_mission_chr_identity_branch_locked_3_icon.dds',
+LEGACY_MISSION_ART = (
+    ('mission_ukr_magdeburg_laws', 'magdeburg_charter'),
+    ('petro_mohyla', 'petro_mohyla'),
 )
 
 LOCKED_BRANCH_MISSIONS = (
@@ -150,6 +147,18 @@ LOCKED_BRANCH_MISSIONS = (
     ('rip_gfx_mission_chr_identity_branch_locked_2_icon', 'chr_identity_branch_locked_2'),
     ('rip_gfx_mission_chr_identity_branch_locked_3_icon', 'chr_identity_branch_locked_3'),
 )
+
+# Each entry is (registered sprite name, checked-in source PNG stem).
+AUTHORED_MISSION_ART = (
+    ('rip_gfx_mission_mazepa_patronage_icon', 'mazepa_patronage'),
+    ('rip_gfx_mission_dnieper_chaika_icon', 'dnieper_chaika'),
+    ('rip_gfx_mission_ruthenian_granaries_icon', 'ruthenian_granaries'),
+    ('rip_gfx_mission_frontier_fortress_icon', 'frontier_fortress'),
+    ('rip_gfx_mission_chumak_salt_caravan_icon', 'chumak_salt_caravan'),
+    ('rip_gfx_mission_cossack_rada_icon', 'cossack_rada'),
+)
+MISSION_ART = LEGACY_MISSION_ART + LOCKED_BRANCH_MISSIONS + AUTHORED_MISSION_ART
+MISSION_FILES = tuple(f'{sprite}.dds' for sprite, _ in MISSION_ART)
 
 EXTENDED_PRIVILEGE_STEMS = (
     'seimski_statutes', 'left_bank_settlement', 'roman_concordat',
@@ -307,8 +316,14 @@ def build_mission_icons() -> dict[str, Image.Image]:
         src = Image.open(ROOT / f'gfx/interface/missions/source/{src_stem}.png').convert('RGB')
         w, h = src.size
         target_w = int(round(h * 59 / 63))
-        x0 = max(0, (w - target_w) // 2)
-        cropped = src.crop((x0, 0, x0 + target_w, h))
+        if target_w <= w:
+            # Preserve the reviewed crop of the original square masters.
+            x0 = (w - target_w) // 2
+            cropped = src.crop((x0, 0, x0 + target_w, h))
+        else:
+            target_h = min(h, int(round(w * 63 / 59)))
+            y0 = (h - target_h) // 2
+            cropped = src.crop((0, y0, w, y0 + target_h))
         small = cropped.resize((59, 63), Image.Resampling.LANCZOS)
         small = small.filter(ImageFilter.UnsharpMask(radius=0.6, percent=35, threshold=2))
         out = small.convert('RGBA')
@@ -319,16 +334,14 @@ def build_mission_icons() -> dict[str, Image.Image]:
                 px[x, y] = (r, g, b, 255)
         return out
 
-    icons['mission_ukr_magdeburg_laws.dds'] = make_painted_mission_icon('magdeburg_charter')
-    icons['petro_mohyla.dds'] = make_painted_mission_icon('petro_mohyla')
-    for sprite_name, src_stem in LOCKED_BRANCH_MISSIONS:
+    for sprite_name, src_stem in MISSION_ART:
         icons[f'{sprite_name}.dds'] = make_painted_mission_icon(src_stem)
     return icons
 
 
 def mission_icons_gfx_text() -> str:
     lines = ['spriteTypes = {']
-    for sprite_name, _ in LOCKED_BRANCH_MISSIONS:
+    for sprite_name, _ in LOCKED_BRANCH_MISSIONS + AUTHORED_MISSION_ART:
         lines.extend([
             '\tspriteType = {',
             f'\t\tname = "{sprite_name}"',
@@ -529,35 +542,86 @@ def make_faction_influence_icon(
     return resize_clean(Image.alpha_composite(base, _FACTION_INFLUENCE_BADGE), (64, 64))
 
 
+def rep_knyazi_emblem() -> Image.Image:
+    """Composite the princely shield & charter with the Knyazi crown & sceptre for Representative Monarchy."""
+    shield = atlas_emblem(0, 1).copy()
+    crown = atlas_emblem(1, 2).copy()
+    w, h = max(shield.width, crown.width), max(shield.height, crown.height)
+    comp = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    sw, sh = int(w * 0.78), int(h * 0.78)
+    shield_small = resize_clean(shield, (sw, sh))
+    comp.paste(shield_small, ((w - sw) // 2 - 12, (h - sh) // 2 + 12))
+
+    cw, ch = int(w * 0.84), int(h * 0.84)
+    crown_small = resize_clean(crown, (cw, ch))
+    ox, oy = (w - cw) // 2 + 10, (h - ch) // 2 - 8
+    sh_l = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    sh_a = crown_small.getchannel('A').point(lambda a: int(a * 0.82))
+    sh_c = Image.new('RGBA', (cw, ch), (10, 6, 12, 0))
+    sh_c.putalpha(sh_a)
+    sh_l.paste(sh_c, (ox + 5, oy + 7))
+    sh_l = sh_l.filter(ImageFilter.GaussianBlur(radius=5.0))
+    comp = Image.alpha_composite(comp, sh_l)
+    fg = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    fg.paste(crown_small, (ox, oy))
+    return Image.alpha_composite(comp, fg)
+
+
+def rep_boyary_emblem() -> Image.Image:
+    """Composite the Boyar council scroll with the treasury scales & seal for Representative Monarchy."""
+    council = source_emblem('snem').copy()
+    scales = atlas_emblem(2, 2).copy()
+    w, h = scales.size
+    cw, ch = int(w * 0.76), int(h * 0.76)
+    council_small = resize_clean(council, (cw, ch))
+    comp = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    comp.paste(council_small, ((w - cw) // 2 - 14, (h - ch) // 2 - 10))
+
+    sw, sh = int(w * 0.86), int(h * 0.86)
+    scales_small = resize_clean(scales, (sw, sh))
+    ox, oy = (w - sw) // 2 + 10, (h - sh) // 2 + 10
+    sh_l = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    sh_a = scales_small.getchannel('A').point(lambda a: int(a * 0.82))
+    sh_c = Image.new('RGBA', (sw, sh), (6, 10, 16, 0))
+    sh_c.putalpha(sh_a)
+    sh_l.paste(sh_c, (ox + 5, oy + 7))
+    sh_l = sh_l.filter(ImageFilter.GaussianBlur(radius=5.0))
+    comp = Image.alpha_composite(comp, sh_l)
+    fg = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    fg.paste(scales_small, (ox, oy))
+    return Image.alpha_composite(comp, fg)
+
+
 def build_faction_influence_icons() -> dict[str, Image.Image]:
     return {
         'kru_knyazi_influence.dds': make_faction_influence_icon(atlas_emblem(1, 2)),
         'kru_boyary_influence.dds': make_faction_influence_icon(atlas_emblem(2, 2)),
         'kru_starshyna_influence.dds': make_faction_influence_icon(atlas_emblem(3, 2)),
-        'rep_boyary_influence.dds': make_faction_influence_icon(atlas_emblem(3, 0)),
-        'rep_knyazi_influence.dds': make_faction_influence_icon(atlas_emblem(0, 1)),
+        'rep_boyary_influence.dds': make_faction_influence_icon(rep_boyary_emblem()),
+        'rep_knyazi_influence.dds': make_faction_influence_icon(rep_knyazi_emblem()),
     }
 
 
 def het_authority_emblem() -> Image.Image:
-    """Composite the Hetmanate bulava & sabre regalia over a wax-sealed Universal charter scroll."""
-    scroll = atlas_emblem(0, 0).copy()
-    regalia = atlas_emblem(3, 2).copy()
-    w, h = regalia.size
+    """Composite the painted crossed gold Hetman bulava & silver Starshyna mace over a wax-sealed charter scroll."""
+    scroll = source_emblem('charter').copy()
+    disaster = Image.open(ROOT / 'gfx/interface/disasters/source/hetman_succession_crisis.png').convert('RGBA')
+    maces = remove_atlas_background(disaster.crop((96, 96, 628, 628)), pad_ratio=0.06)
+    w, h = maces.size
     sw, sh = int(w * 0.72), int(h * 0.72)
     scroll_small = resize_clean(scroll, (sw, sh))
 
     comp = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    comp.paste(scroll_small, ((w - sw) // 2 - 14, (h - sh) // 2 + 18))
+    comp.paste(scroll_small, ((w - sw) // 2, (h - sh) // 2 + int(h * 0.06)))
 
     sh_l = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    sh_a = regalia.getchannel('A').point(lambda a: int(a * 0.82))
+    sh_a = maces.getchannel('A').point(lambda a: int(a * 0.84))
     sh_c = Image.new('RGBA', (w, h), (10, 6, 4, 0))
     sh_c.putalpha(sh_a)
     sh_l.paste(sh_c, (5, 7))
     sh_l = sh_l.filter(ImageFilter.GaussianBlur(radius=6.0))
     comp = Image.alpha_composite(comp, sh_l)
-    return Image.alpha_composite(comp, regalia)
+    return Image.alpha_composite(comp, maces)
 
 
 def zaz_cossack_zeal_emblem() -> Image.Image:
@@ -726,6 +790,62 @@ def check_privilege_icons(problems: list[str]) -> None:
             problems.append(f'{name}: differs from generator')
 
 
+def write_mission_icons() -> None:
+    for name, img in build_mission_icons().items():
+        path = ROOT / 'gfx/interface/missions' / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        img.save(path, format='DDS')
+    (ROOT / 'interface/rip_mission_icons.gfx').write_text(
+        mission_icons_gfx_text(), encoding='utf-8', newline='\n')
+
+
+def check_mission_icons(problems: list[str]) -> None:
+    from clausewitz_testlib import keyed_blocks
+
+    missing_sources = [stem for _, stem in MISSION_ART
+                       if not (ROOT / f'gfx/interface/missions/source/{stem}.png').is_file()]
+    if missing_sources:
+        problems.extend(f'Missing mission source: {stem}.png' for stem in missing_sources)
+        return
+
+    for name, want in build_mission_icons().items():
+        path = ROOT / 'gfx/interface/missions' / name
+        if not path.is_file():
+            problems.append(f'Missing mission icon: {path}')
+            continue
+        with Image.open(path) as image:
+            have = image.convert('RGBA')
+        if have.size != (59, 63):
+            problems.append(f'{name}: expected 59x63, got {have.size}')
+            continue
+        if have.getchannel('A').getextrema() != (255, 255):
+            problems.append(f'{name}: mission artwork must be opaque')
+        # RGBA getbbox() alone can miss RGB changes when alpha is unchanged.
+        diff = ImageChops.difference(have, want).getextrema()
+        if max(channel[1] for channel in diff) > CHECK_TOLERANCE:
+            problems.append(f'{name}: differs from source master/generator')
+
+    registrations: dict[str, list[tuple[Path, str]]] = {sprite: [] for sprite, _ in MISSION_ART}
+    for path in (ROOT / 'interface').glob('*.gfx'):
+        for _, block in keyed_blocks(path.read_text(encoding='utf-8-sig'), 'spriteType'):
+            name_match = re.search(r'\bname\s*=\s*"([^"]+)"', block)
+            if name_match and name_match[1] in registrations:
+                texture_match = re.search(r'\btexturefile\s*=\s*"([^"]+)"', block)
+                registrations[name_match[1]].append((path, texture_match[1] if texture_match else ''))
+    mission_text = '\n'.join(path.read_text(encoding='utf-8-sig')
+                             for path in (ROOT / 'missions').glob('*.txt'))
+    for sprite, entries in registrations.items():
+        if len(entries) != 1:
+            problems.append(f'{sprite}: expected one sprite registration, got {len(entries)}')
+        elif entries[0][1] != f'gfx/interface/missions/{sprite}.dds':
+            problems.append(f'{sprite}: sprite texture does not point to its generated DDS')
+        if not re.search(rf'(?m)^\s*icon\s*=\s*{re.escape(sprite)}\s*(?:#.*)?$', mission_text):
+            problems.append(f'{sprite}: no mission uses this artwork')
+    gfx_path = ROOT / 'interface/rip_mission_icons.gfx'
+    if not gfx_path.is_file() or gfx_path.read_text(encoding='utf-8-sig') != mission_icons_gfx_text():
+        problems.append('interface/rip_mission_icons.gfx differs from generator')
+
+
 def write_all() -> int:
     import build_reform_icons as R
     game = vanilla_root()
@@ -743,13 +863,7 @@ def write_all() -> int:
 
     write_privilege_icons()
 
-    for name, img in build_mission_icons().items():
-        path = ROOT / 'gfx/interface/missions' / name
-        path.parent.mkdir(parents=True, exist_ok=True)
-        img.save(path, format='DDS')
-
-    gfx_path = ROOT / 'interface/rip_mission_icons.gfx'
-    gfx_path.write_text(mission_icons_gfx_text(), encoding='utf-8', newline='\n')
+    write_mission_icons()
 
     for name, img in build_magnate_modifier_icons().items():
         path = ROOT / 'gfx/interface/ideas_EU4' / name
@@ -769,7 +883,7 @@ def write_all() -> int:
         if p.exists():
             p.unlink()
 
-    print('CORE RUTHENIA ICONS PASS: wrote 6 reform icons, 4 privilege icons, 8 mission icons, 1 monument image, and cleaned obsolete religion icons.')
+    print(f'CORE RUTHENIA ICONS PASS: wrote reform/privilege icons, {len(MISSION_FILES)} mission icons, modifier icons and Vilnius Palace.')
     return 0
 
 
@@ -789,26 +903,7 @@ def check_all() -> int:
 
     check_privilege_icons(problems)
 
-    for name, want in build_mission_icons().items():
-        path = ROOT / 'gfx/interface/missions' / name
-        if not path.is_file():
-            problems.append(f'Missing mission icon: {path}')
-            continue
-        have = Image.open(path).convert('RGBA')
-        if have.size != (59, 63):
-            problems.append(f'{name}: expected 59x63, got {have.size}')
-        diff = ImageChops.difference(have, want).getextrema()
-        if max(ch[1] for ch in diff) > CHECK_TOLERANCE:
-            problems.append(f'{name}: differs from generator')
-
-    gfx_path = ROOT / 'interface/rip_mission_icons.gfx'
-    if not gfx_path.is_file():
-        problems.append('Missing interface/rip_mission_icons.gfx')
-    else:
-        gfx_text = gfx_path.read_text(encoding='utf-8')
-        for sprite_name, _ in LOCKED_BRANCH_MISSIONS:
-            if f'name = "{sprite_name}"' not in gfx_text:
-                problems.append(f'interface/rip_mission_icons.gfx missing sprite {sprite_name}')
+    check_mission_icons(problems)
 
     for name, want in build_magnate_modifier_icons().items():
         path = ROOT / 'gfx/interface/ideas_EU4' / name
@@ -854,16 +949,32 @@ def check_all() -> int:
         for p in problems:
             print('FAIL:', p)
         return 1
-    print('CORE RUTHENIA ICONS PASS: 6 reform icons, 4 privilege icons, 8 mission icons, and Vilnius Palace match the generator.')
+    print(f'CORE RUTHENIA ICONS PASS: reform/privilege icons, {len(MISSION_FILES)} mission icons, modifier icons and Vilnius Palace match the generator.')
     return 0
 
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
-    parser.add_argument('--privileges-only', action='store_true',
-                        help='write or check only the privilege icons')
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument('--privileges-only', action='store_true',
+                       help='write or check only the privilege icons')
+    scope.add_argument('--missions-only', action='store_true',
+                       help='write or check only mission DDS icons and their sprite registrations')
     args = parser.parse_args(argv)
+    if args.missions_only:
+        if args.check:
+            problems: list[str] = []
+            check_mission_icons(problems)
+            if problems:
+                for problem in problems:
+                    print('FAIL:', problem)
+                return 1
+            print(f'MISSION ICONS PASS: {len(MISSION_FILES)} icons match their masters and have live registrations/usages.')
+        else:
+            write_mission_icons()
+            print(f'MISSION ICONS PASS: wrote {len(MISSION_FILES)} icons and sprite registrations.')
+        return 0
     if args.privileges_only:
         if args.check:
             problems: list[str] = []

@@ -203,8 +203,8 @@ def generate():
                 body+=block('option',f'name = rip_rg_province_{p}\ntrigger = {{ {condition} }}\nif = {{ limit = {{ {condition} }} add_{c}_power = -25 set_country_flag = rip_rg_{k}_second_done {p} = {{ {a["payload"]} }} }}\nai_chance = {{ factor = 1 }}')
             body+=block('option','name = rip_rg_cancel\nai_chance = { factor = 1 }'); events.append(block('country_event',body))
         a['start']=start
-        icon='GFX_rip_siversk_towns' if f=='chr' else 'GFX_rip_siversk_retinue'
-        a['icon']=icon
+        group_key='_'.join(k.split('_')[:2]) if f in ('pdl','prl') else k
+        a['icon']=f'GFX_rip_rg_{group_key}'
         a['guard']=f'rip_rg_{k}_can = yes any_owned_province = {{ rip_rg_{k}_target = yes }}'
     # Three physical buttons per frontier government, not one button per price.
     tooltips = {

@@ -40,6 +40,8 @@ EDGE = 82
 GFX = "interface/rip_ability_icons.gfx"
 
 RESOLUTIONS_FILE = "common/government_mechanics/rip_institutional_resolutions.txt"
+REGIONAL_FILE = "common/government_mechanics/rip_regional_governments.txt"
+HET_FILE = "common/government_mechanics/rip_het_authority.txt"
 MECHANICS = [
     ("common/government_mechanics/rip_hlc_boyar_council.txt", "hlc_boyar_council_mechanic", 3),
     ("common/government_mechanics/rip_hlc_austrian_reorganization.txt", "hlc_austrian_reorganization_mechanic", 6),
@@ -48,12 +50,18 @@ MECHANICS = [
     (RESOLUTIONS_FILE, "rip_municipal_resolutions_mechanic", 2),
     (RESOLUTIONS_FILE, "rip_chancery_resolutions_mechanic", 2),
     (RESOLUTIONS_FILE, "rip_register_resolutions_mechanic", 2),
+    (REGIONAL_FILE, "rip_rg_chr_mechanic", 3),
+    (REGIONAL_FILE, "rip_rg_uzh_mechanic", 3),
+    (REGIONAL_FILE, "rip_rg_pdl_mechanic", 3),
+    (REGIONAL_FILE, "rip_rg_prl_mechanic", 3),
+    (REGIONAL_FILE, "rip_rg_ods_mechanic", 2),
+    (HET_FILE, "rip_het_authority_mechanic", 2),
 ]
 ORDINANCES = ("chancery", "settlement", "cadastral", "urbarial", "toleration", "frontier")
 LEGACY_FLAGGED = ("chancery", "settlement", "cadastral")      # the permanent ordinances of an older save still carry a flag
 ORDINANCE_ICONS = {"chancery": "GFX_rip_chancery_ordinance", "settlement": "GFX_rip_settlement_ordinance", "cadastral": "GFX_rip_cadastre_ordinance",
                    "urbarial": "GFX_rip_urbarial_ordinance", "toleration": "GFX_rip_toleration_ordinance", "frontier": "GFX_rip_frontier_ordinance"}
-SPRITES = 21
+SPRITES = 37
 # Pany Rada: button -> sprite, in file order; the frame is the shield no other mechanic uses
 RADA_FILE = "common/government_mechanics/rip_lit_pany_rada.txt"
 RADA_MECHANIC = "lit_pany_rada_mechanic"

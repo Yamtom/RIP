@@ -22,7 +22,7 @@ def emit(path, data, bom=False):
     path = ROOT / path
     payload = (('\ufeff' if bom else '') + data).encode('utf-8')
     if ARGS.check:
-        assert path.read_bytes() == payload, f'Stale: {path}'
+        assert path.read_bytes().replace(b'\r\n', b'\n') == payload.replace(b'\r\n', b'\n'), f'Stale: {path}'
     else:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(payload)
@@ -65,15 +65,20 @@ sprites = []
 preview = Image.new('RGB', (640, 360), '#16292b')
 draw = ImageDraw.Draw(preview)
 
-def resize_clean(image, size):
-    pre = image.convert('RGBa').resize(size, Image.Resampling.LANCZOS).convert('RGBA')
-    pixels = pre.load()
-    width, height = pre.size
+def clean_alpha_zero(image):
+    pixels = image.load()
+    width, height = image.size
     for y in range(height):
         for x in range(width):
             if pixels[x, y][3] == 0:
                 pixels[x, y] = (0, 0, 0, 0)
-    return pre
+    return image
+
+def resize_clean(image, size, sharpen=0):
+    pre = image.convert('RGBa').resize(size, Image.Resampling.LANCZOS).convert('RGBA')
+    if sharpen > 0:
+        pre = pre.filter(ImageFilter.UnsharpMask(radius=0.6, percent=sharpen, threshold=2))
+    return clean_alpha_zero(pre)
 
 def remove_atlas_background(image, pad_ratio=0.08):
     image = image.copy()
@@ -159,12 +164,15 @@ def frame_mechanic_button(emblem_rgba, theme, size=72):
         'siversk':   {'bg_top': (72, 26, 22), 'bg_bot': (32, 12, 10), 'rim_hi': (236, 198, 118), 'rim_lo': (78, 52, 20), 'inner': (138, 48, 36)},
         'seniority': {'bg_top': (24, 52, 74), 'bg_bot': (11, 24, 36), 'rim_hi': (232, 196, 120), 'rim_lo': (72, 50, 22), 'inner': (46, 92, 124)},
         'seniorate': {'bg_top': (68, 42, 20), 'bg_bot': (28, 17, 9),  'rim_hi': (242, 206, 126), 'rim_lo': (82, 56, 22), 'inner': (148, 96, 42)},
+        'knyazi':    {'bg_top': (58, 24, 68), 'bg_bot': (24, 10, 30), 'rim_hi': (238, 202, 124), 'rim_lo': (76, 52, 22), 'inner': (118, 52, 136)},
+        'boyary':    {'bg_top': (22, 46, 78), 'bg_bot': (10, 20, 36), 'rim_hi': (236, 198, 120), 'rim_lo': (74, 50, 22), 'inner': (44, 88, 142)},
+        'starshyna': {'bg_top': (76, 22, 22), 'bg_bot': (34, 10, 10), 'rim_hi': (240, 204, 124), 'rim_lo': (80, 54, 22), 'inner': (148, 44, 40)},
     }
     pal = palettes[theme]
-    r_halo_out = 32.5 * ss
-    r_outer    = 29.5 * ss
-    r_rim_in   = 25.2 * ss
-    r_groove   = 23.8 * ss
+    r_halo_out = 34.5 * ss
+    r_outer    = 32.5 * ss
+    r_rim_in   = 27.6 * ss
+    r_groove   = 26.2 * ss
 
     for y in range(side):
         for x in range(side):
@@ -208,7 +216,7 @@ def frame_mechanic_button(emblem_rgba, theme, size=72):
     bbox = emblem_rgba.getbbox()
     cropped = emblem_rgba.crop(bbox) if bbox else emblem_rgba
     cw, ch = cropped.size
-    target_box = int(47 * ss)
+    target_box = int(50 * ss)
     scale = min(target_box / cw, target_box / ch)
     nw, nh = max(1, int(round(cw * scale))), max(1, int(round(ch * scale)))
     emb_resized = resize_clean(cropped, (nw, nh))
@@ -226,7 +234,34 @@ def frame_mechanic_button(emblem_rgba, theme, size=72):
     emb_layer = Image.new('RGBA', (side, side), (0, 0, 0, 0))
     emb_layer.paste(emb_resized, (ox, oy))
     canvas = Image.alpha_composite(canvas, emb_layer)
-    return resize_clean(canvas, (size, size))
+    return resize_clean(canvas, (size, size), sharpen=35)
+
+from build_core_ruthenia_icons import (
+    build_faction_influence_icons,
+    het_authority_emblem,
+    make_idea_modifier_triplet,
+    rep_boyary_emblem,
+    rep_knyazi_emblem,
+)
+
+def save_dds(image, path, fmt='DDS'):
+    import io, time
+    buf = io.BytesIO()
+    image.save(buf, format=fmt)
+    payload = buf.getvalue()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    for attempt in range(4):
+        try:
+            path.write_bytes(payload)
+            return
+        except OSError:
+            if path.exists():
+                try:
+                    path.unlink()
+                except OSError:
+                    pass
+            time.sleep(0.05 * (attempt + 1))
+    path.write_bytes(payload)
 
 unframed_tiles = {}
 for i, (name, x, y) in enumerate(ICONS):
@@ -240,7 +275,7 @@ for i, (name, x, y) in enumerate(ICONS):
     if name in BUTTON_THEMES:
         icon = frame_mechanic_button(tile, BUTTON_THEMES[name], size=72)
     else:
-        icon = resize_clean(tile, (72, 72))
+        icon = resize_clean(tile, (72, 72), sharpen=30)
     # Native 72x72 footprint; interaction buttons use mechanic frames, power emblems stay unframed.
     if name not in ('knyazi', 'boyary', 'starshyna'):
         path = ROOT/f'gfx/interface/rip_government/{name}.dds'
@@ -248,7 +283,7 @@ for i, (name, x, y) in enumerate(ICONS):
             assert icon.getpixel((0, 0))[3] == 0
             assert Image.open(path).convert('RGBA').tobytes() == icon.tobytes(), path
         else:
-            icon.save(path)
+            save_dds(icon, path)
         sprites.append(f'\tspriteType = {{ name = "GFX_rip_{name}" texturefile = "gfx/interface/rip_government/{name}.dds" noOfFrames = 1 norefcount = yes }}')
     preview_icon = resize_clean(icon, (64, 64))
     preview_x, preview_y = i % 4, i // 4
@@ -256,19 +291,43 @@ for i, (name, x, y) in enumerate(ICONS):
                   preview_icon.getchannel('A'))
     draw.text((preview_x*160+6, preview_y*90+66), name, fill='#eed8ac')
     if name in ('knyazi','boyary','starshyna'):
-        faction = resize_clean(tile, (104, 104))
+        faction = resize_clean(tile, (104, 104), sharpen=30)
         faction_path = ROOT/f'gfx/interface/rip_government/faction_{name}.dds'
         if ARGS.check:
             assert Image.open(faction_path).convert('RGBA').tobytes() == faction.tobytes()
         else:
-            faction.save(faction_path)
+            save_dds(faction, faction_path)
         sprites.append(f'\tspriteType = {{ name = "GFX_faction_kru_{name}" texturefile = "gfx/interface/rip_government/faction_{name}.dds" noOfFrames = 1 norefcount = yes }}')
         color = {'knyazi':'purple','boyary':'blue','starshyna':'red'}[name]
         sprites.append(f'\tspriteType = {{ name = "GFX_faction_bg_kru_{name}" texturefile = "gfx/interface/faction_{color}_frame.tga" transparencecheck = yes noOfFrames = 1 norefcount = yes }}')
+        court_btn = frame_mechanic_button(tile, name, size=72)
+        court_path = ROOT/f'gfx/interface/rip_government/kru_court_{name}.dds'
+        if ARGS.check:
+            assert court_btn.getpixel((0, 0))[3] == 0
+            assert Image.open(court_path).convert('RGBA').tobytes() == court_btn.tobytes(), court_path
+        else:
+            save_dds(court_btn, court_path)
+        sprites.append(f'\tspriteType = {{ name = "GFX_rip_kru_court_{name}" texturefile = "gfx/interface/rip_government/kru_court_{name}.dds" noOfFrames = 1 norefcount = yes }}')
         if name in ('knyazi', 'boyary'):
-            sprites.append(f'\tspriteType = {{ name = "GFX_faction_rep_{name}" texturefile = "gfx/interface/rip_government/faction_{name}.dds" noOfFrames = 1 norefcount = yes }}')
+            rep_tile = rep_knyazi_emblem() if name == 'knyazi' else rep_boyary_emblem()
+            rep_faction = resize_clean(rep_tile, (104, 104), sharpen=30)
+            rep_path = ROOT/f'gfx/interface/rip_government/faction_rep_{name}.dds'
+            if ARGS.check:
+                assert Image.open(rep_path).convert('RGBA').tobytes() == rep_faction.tobytes(), rep_path
+            else:
+                save_dds(rep_faction, rep_path)
+            sprites.append(f'\tspriteType = {{ name = "GFX_faction_rep_{name}" texturefile = "gfx/interface/rip_government/faction_rep_{name}.dds" noOfFrames = 1 norefcount = yes }}')
             sprites.append(f'\tspriteType = {{ name = "GFX_faction_bg_rep_{name}" texturefile = "gfx/interface/faction_{color}_frame.tga" transparencecheck = yes noOfFrames = 1 norefcount = yes }}')
-from build_core_ruthenia_icons import build_faction_influence_icons, make_idea_modifier_triplet
+
+het_emblem = resize_clean(het_authority_emblem(), (72, 72), sharpen=30)
+het_emblem_path = ROOT / 'gfx/interface/rip_government/het_authority.dds'
+if ARGS.check:
+    assert het_emblem.getpixel((0, 0))[3] == 0
+    assert Image.open(het_emblem_path).convert('RGBA').tobytes() == het_emblem.tobytes(), het_emblem_path
+else:
+    save_dds(het_emblem, het_emblem_path)
+sprites.append('\tspriteType = { name = "GFX_rip_het_authority" texturefile = "gfx/interface/rip_government/het_authority.dds" noOfFrames = 1 norefcount = yes }')
+
 for power, icon in [('kyivan_throne_concord','concord'),('kyivan_peoples_gathering','prosperity'),
                     ('kyiv_princely_levy_power','kyiv_levy'),('kyiv_seat_rotation_power','kyiv_rota'),
                     ('kyiv_grant_reconfirmation_power','kyiv_grants')]:
@@ -280,18 +339,16 @@ for power, icon in [('kyivan_throne_concord','concord'),('kyivan_peoples_gatheri
         if ARGS.check:
             assert Image.open(modifier_path).convert('RGBA').tobytes() == modifier_icon.tobytes()
         else:
-            modifier_path.parent.mkdir(parents=True,exist_ok=True)
-            modifier_icon.save(modifier_path)
+            save_dds(modifier_icon, modifier_path)
 for fname, ficon in build_faction_influence_icons().items():
     fpath = ROOT / f'gfx/interface/ideas_EU4/{fname}'
     if ARGS.check:
         assert Image.open(fpath).convert('RGBA').tobytes() == ficon.tobytes()
     else:
-        fpath.parent.mkdir(parents=True, exist_ok=True)
-        ficon.save(fpath)
+        save_dds(ficon, fpath)
 emit('interface/rip_ruthenian_government.gfx','spriteTypes = {\n'+'\n'.join(sprites)+'\n}\n')
 if not ARGS.check:
-    preview.save(ROOT/'gfx/interface/rip_government/source/preview.png')
+    save_dds(preview, ROOT/'gfx/interface/rip_government/source/preview.png', fmt='PNG')
 
 OBSOLETE_ASSETS = [
     'gfx/interface/rip_government/gathering.dds',

@@ -158,54 +158,40 @@ def kalpak_layer():
     return layer
 
 
+def _emblem_frame_pair(cutout: Image.Image, fw: int, fh: int, frame: int) -> Image.Image:
+    """Fit a painted cutout into (fw, fh) with a 1px dark rim and return Frame 1 (muted) or Frame 2 (gold)."""
+    cw, ch = cutout.size
+    target_w, target_h = fw - 4, fh - 4
+    scale = min(target_w / float(cw), target_h / float(ch))
+    nw = max(1, int(round(cw * scale)))
+    nh = max(1, int(round(ch * scale)))
+    small = cutout.convert('RGBa').resize((nw, nh), Image.LANCZOS).convert('RGBA')
+    canvas = Image.new('RGBA', (fw, fh), (0, 0, 0, 0))
+    canvas.paste(small, ((fw - nw) // 2, (fh - nh) // 2))
+    alpha = np.asarray(canvas.getchannel('A'), dtype=np.float32)
+    dilated = np.asarray(canvas.getchannel('A').filter(ImageFilter.MaxFilter(3)), dtype=np.float32)
+    dilated[0, 0] = 0.0
+    rim_a = np.clip(dilated * 0.92, 0, 255).astype(np.uint8)
+    base = Image.new('RGBA', (fw, fh), (18, 12, 8, 0))
+    base.putalpha(Image.fromarray(rim_a, 'L'))
+    fg = canvas.copy()
+    fg.putalpha(Image.fromarray(np.clip(alpha * 1.15, 0, 255).astype(np.uint8), 'L'))
+    merged = Image.alpha_composite(base, fg)
+    shared_alpha = merged.getchannel('A')
+    if frame == 1:
+        out = kit.grade_rgba(merged, tint_rgb=(0.94, 0.92, 0.88), sat=0.68, brightness=0.78, contrast=1.05)
+    else:
+        out = golden(kit.grade_rgba(merged, brightness=1.12, contrast=1.10))
+    out.putalpha(shared_alpha)
+    return kit.clean_alpha_rgb(out)
+
+
 def scene_soymu(frame):
-    layer = kalpak_layer()
-    if frame == 2:
-        layer = golden(layer)
-    return to_pixels(layer, (0, 0, 27 * PX, 19 * PX), (27, 19))
-
-
-# --------------------------------------------------------------------------
-# The Captains' Party: a march tower with a pennant (23x25 px per frame)
-# --------------------------------------------------------------------------
-
-def tower_layer():
-    layer = blank_layer()
-    rocks = union(ellipse(*P(11.6, 23.6), 10.6 * PX, 1.9 * PX), ellipse(*P(5.5, 22.6), 3.4 * PX, 1.5 * PX),
-                  ellipse(*P(18.0, 22.8), 3.8 * PX, 1.6 * PX))
-    shaft = poly(Ps([(5.2, 22.8), (18.2, 22.8), (17.2, 9.6), (6.2, 9.6)]))
-    parapet = poly(Ps([(4.4, 9.8), (19.0, 9.8), (19.0, 7.0), (4.4, 7.0)]))
-    merlons = union(*[poly(Ps([(x, 7.2), (x + 2.5, 7.2), (x + 2.5, 4.6), (x, 4.6)])) for x in (4.4, 8.3, 12.2, 16.5)])
-    tower = union(shaft, parapet, merlons)
-    layer = over(layer, shadow(union(tower, rocks), 0.9, 1.0, 0.9, 0.5))
-    layer = over(layer, outline(union(tower, rocks), 0.55 * PX, (16, 12, 10), 0.95))
-    layer = over(layer, shaded(rocks, ROCK, 1.2, relief=2.6, gain=1.5, texture=noise(21, 2.0, 3)))
-    layer = over(layer, shaded(tower, STONE_WARM, 1.1, relief=2.4, gain=1.6, spec=0.1, texture=noise(23, 2.4, 3)))
-    layer = over(layer, roundness(union(shaft, parapet), 4.4 * PX, 19.0 * PX, dark=0.5, lift=0.18, peak=0.30))
-    # courses of stone and the dark of the parapet's underside
-    courses = blank_mask()
-    d = ImageDraw.Draw(courses)
-    for y in (11.8, 14.2, 16.6, 19.0, 21.2):
-        d.line(kit._px([P(5.6, y), P(17.8, y)]), fill=255, width=max(1, int(0.22 * PX * SS)))
-    layer = over(layer, solid(inter(courses, shaft), (40, 32, 24), 0.55))
-    layer = over(layer, solid(poly(Ps([(4.4, 9.8), (19.0, 9.8), (18.8, 10.7), (4.6, 10.7)])), (20, 14, 10), 0.6))
-    # arrow slit and the low door
-    slit = poly(Ps([(10.9, 12.2), (12.3, 12.2), (12.3, 16.0), (10.9, 16.0)]))
-    door = poly(Ps([(9.6, 22.8), (9.6, 19.6)] + [(9.6 + 2.0 + 2.0 * math.cos(a), 19.6 - 2.0 * math.sin(a)) for a in np.linspace(math.pi, 0, 14)] + [(13.6, 22.8)]))
-    layer = over(layer, solid(slit, (10, 8, 8), 0.95), solid(door, (12, 8, 6), 0.95))
-    # pole and a swallow-tailed crimson pennant streaming to the right
-    pole = stroke(Ps([(11.7, 4.6), (11.7, 0.6)]), 0.55 * PX, caps=False)
-    layer = over(layer, outline(pole, 0.25 * PX, (20, 14, 8), 0.9), solid(pole, (190, 160, 100), 1.0))
-    pennant = poly(Ps([(11.9, 0.8), (18.6, 1.8), (16.6, 2.9), (18.6, 4.0), (11.9, 4.1)]))
-    layer = over(layer, outline(pennant, 0.3 * PX, (30, 4, 6), 0.95), shaded(pennant, CRIMSON, 0.6, relief=1.2, gain=1.6, spec=0.2))
-    return layer
+    return _emblem_frame_pair(kit.priv_cutout('seimski_statutes'), 27, 19, frame)
 
 
 def scene_kapitaniv(frame):
-    layer = tower_layer()
-    if frame == 2:
-        layer = golden(layer)
-    return to_pixels(layer, (0, 0, 23 * PX, 25 * PX), (23, 25))
+    return _emblem_frame_pair(kit.atlas_cutout(3, 3), 23, 25, frame)
 
 
 # --------------------------------------------------------------------------
@@ -326,33 +312,39 @@ def scene_reform():
     return layer
 
 
+def _pull_into_reform_band(rgb: np.ndarray, strength: float = 0.35) -> np.ndarray:
+    target_mean = (76.0, 62.0, 49.0)
+    target_std = (42.0, 36.0, 30.0)
+    arr = rgb.astype(np.float32).copy()
+    for c in range(3):
+        ch = arr[..., c]
+        m = float(ch.mean())
+        s = max(1.0, float(ch.std()))
+        norm = (ch - m) / s * target_std[c] + target_mean[c]
+        arr[..., c] = ch * (1.0 - strength) + norm * strength
+    return np.clip(arr, 0, 255).astype(np.uint8)
+
+
 def frame_reform(picture):
-    """Fit a 51x51 picture into vanilla's baked three-pixel frame (lit from the upper left)."""
-    size = 57
-    out = Image.new('RGBA', (size, size), (0, 0, 0, 255))
-    px = out.load()
-    top_left = ((136, 98, 68), (90, 26, 25), (50, 8, 10))
-    bottom_right = ((60, 12, 12), (82, 12, 14), (128, 78, 50))
-    for y in range(size):
-        for x in range(size):
-            inside = 3 <= x <= 53 and 3 <= y <= 53
-            if inside:
-                continue
-            ring_tl = min(x, y)
-            ring_br = min(size - 1 - x, size - 1 - y)
-            if ring_tl <= ring_br:
-                colour = top_left[min(ring_tl, 2)]
-            else:
-                colour = bottom_right[min(ring_br, 2)]
-            px[x, y] = colour + (255,)
-    px[0, 0] = (157, 121, 84, 255)
-    out.paste(picture, (3, 3))
+    """Fit a 51x51 picture into vanilla's authentic three-pixel reform frame ring and colour band."""
+    donor = ROOT / 'gfx/interface/government_reform_icons/rip_gfx_reform_cossack_host_icon.dds'
+    out = Image.open(donor).convert('RGBA')
+    pic_rgba = picture.convert('RGBA').resize((51, 51), Image.LANCZOS)
+    graded_rgb = _pull_into_reform_band(np.asarray(pic_rgba.convert('RGB'), dtype=np.uint8))
+    inner = Image.fromarray(graded_rgb, 'RGB').convert('RGBA')
+    inner.putalpha(255)
+    out.paste(inner, (3, 3))
+    out.putalpha(255)
     return out
 
 
 def scene_reform_sprite():
-    picture = to_pixels(scene_reform(), (0, 0, 82, 82), (51, 51))
-    picture = picture.filter(ImageFilter.UnsharpMask(radius=0.6, percent=28, threshold=6))
+    layer = kit.painted_backdrop(
+        'gfx/interface/great_projects/source/palanok_fortress.png',
+        focus=(0.50, 0.46), zoom=1.08, contrast=1.08,
+    )
+    picture = layer.resize((51, 51), Image.LANCZOS)
+    picture = picture.filter(ImageFilter.UnsharpMask(radius=0.6, percent=38, threshold=3))
     return frame_reform(picture)
 
 
@@ -366,7 +358,6 @@ def render(key):
         return scene_reform_sprite()
     paint = {'soymu': scene_soymu, 'kapitaniv': scene_kapitaniv}[key]
     frames = [paint(1), paint(2)]
-    frames = [kit.clean_alpha_rgb(f.filter(ImageFilter.UnsharpMask(radius=0.5, percent=45, threshold=2))) for f in frames]
     return strip(frames)
 
 
@@ -403,8 +394,7 @@ def preview_sheet(scale, columns=3):
 def write_all():
     for key in SPRITES:
         path = ROOT / texture_path(key)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        render(key).save(path, format='DDS')
+        kit.save_dds_atomic(render(key), path)
     (ROOT / GFX_FILE).write_bytes(gfx_text().encode('ascii'))
     print(f'wrote {len(SPRITES)} sprites and {GFX_FILE}')
 

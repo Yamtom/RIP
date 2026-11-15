@@ -27,15 +27,16 @@ import argparse
 import math
 import random
 import sys
+from collections import deque
 from functools import reduce
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageChops, ImageDraw, ImageFilter
+from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[1]
 SIZE = 82            # final sprite edge: vanilla's mechanic buttons are 82x82
-SS = 8               # supersampling factor
+SS = 4               # supersampling factor
 S = SIZE * SS
 LIGHT = (-0.55, -0.70, 0.62)          # light comes from the upper left
 TEXTURE_DIR = 'gfx/interface/rip_government'
@@ -1472,270 +1473,422 @@ def castle(cx, base_y, sc=1.0, seed=1):
 
 
 # --------------------------------------------------------------------------
+# Painted source asset loaders and compositors
+# --------------------------------------------------------------------------
+
+_PAINTED_CACHE: dict[tuple, Image.Image] = {}
+_ATLAS_ROWS = (0.0, 0.25, 0.5, 0.732, 1.0)
+
+
+def _raw_image(rel_path: str) -> Image.Image:
+    key = ('raw', rel_path)
+    if key not in _PAINTED_CACHE:
+        im = Image.open(ROOT / rel_path).convert('RGBA')
+        if 'great_projects/source/' in rel_path.replace('\\', '/'):
+            w, h = im.size
+            im = im.crop((int(w * 0.025), int(h * 0.215), int(w * 0.975), int(h * 0.965)))
+        _PAINTED_CACHE[key] = im
+    return _PAINTED_CACHE[key]
+
+
+def remove_dark_bg(image: Image.Image, teal: bool = False) -> Image.Image:
+    """Flood-fill remove flat dark studio backdrops from painted source tiles and crop to bbox."""
+    im = image.copy()
+    px = im.load()
+    w, h = im.size
+    corners = [px[0, 0][:3], px[w - 1, 0][:3], px[0, h - 1][:3], px[w - 1, h - 1][:3]]
+    br = sum(c[0] for c in corners) // 4
+    bg = sum(c[1] for c in corners) // 4
+    bb = sum(c[2] for c in corners) // 4
+    vis = bytearray(w * h)
+    q: deque[int] = deque()
+
+    def enq(x: int, y: int) -> None:
+        idx = y * w + x
+        if not vis[idx]:
+            vis[idx] = 1
+            q.append(idx)
+
+    for x in range(w):
+        enq(x, 0)
+        enq(x, h - 1)
+    for y in range(1, h - 1):
+        enq(0, y)
+        enq(w - 1, y)
+    if teal:
+        for y in range(1, h - 1):
+            for x in range(1, w - 1):
+                r, g, b, _ = px[x, y]
+                if max(abs(r - br), abs(g - bg), abs(b - bb)) <= 18:
+                    enq(x, y)
+
+    hard = 32 if teal else 22
+    soft = 54 if teal else 38
+    while q:
+        idx = q.popleft()
+        x, y = idx % w, idx // w
+        r, g, b, a = px[x, y]
+        dist = max(abs(r - br), abs(g - bg), abs(b - bb))
+        teal_ex = min(g - r, b - r) if teal else 0
+        if dist <= hard or (teal and teal_ex >= 16 and r < 42 and b < 85):
+            px[x, y] = (0, 0, 0, 0)
+            if x:
+                enq(x - 1, y)
+            if x + 1 < w:
+                enq(x + 1, y)
+            if y:
+                enq(x, y - 1)
+            if y + 1 < h:
+                enq(x, y + 1)
+        elif dist < soft or (teal and teal_ex >= 8 and r < 55 and b < 95):
+            factor = min(1.0, max(0.0, (dist - hard) / float(soft - hard)))
+            na = int(a * factor)
+            if teal and b > r and g > r:
+                g = (g + r) // 2
+                b = (b + r) // 2
+            px[x, y] = (r, g, b, na) if na > 0 else (0, 0, 0, 0)
+
+    bbox = im.getbbox()
+    return im.crop(bbox) if bbox else im
+
+
+def atlas_cutout(gx: int, gy: int) -> Image.Image:
+    key = ('atlas', gx, gy)
+    if key not in _PAINTED_CACHE:
+        atlas = _raw_image('gfx/interface/rip_government/source/atlas.png')
+        tile = atlas.crop((
+            round(gx * atlas.width / 4),
+            round(_ATLAS_ROWS[gy] * atlas.height),
+            round((gx + 1) * atlas.width / 4),
+            round(_ATLAS_ROWS[gy + 1] * atlas.height),
+        ))
+        _PAINTED_CACHE[key] = remove_dark_bg(tile, teal=True)
+    return _PAINTED_CACHE[key]
+
+
+def gov_cutout(name: str) -> Image.Image:
+    key = ('gov', name)
+    if key not in _PAINTED_CACHE:
+        im = _raw_image(f'gfx/interface/rip_government/source/{name}.png')
+        bbox = im.getbbox()
+        _PAINTED_CACHE[key] = im.crop(bbox) if bbox else im
+    return _PAINTED_CACHE[key]
+
+
+def priv_cutout(name: str) -> Image.Image:
+    key = ('priv', name)
+    if key not in _PAINTED_CACHE:
+        im = _raw_image(f'gfx/interface/privileges/source/{name}.png')
+        _PAINTED_CACHE[key] = remove_dark_bg(im, teal=False)
+    return _PAINTED_CACHE[key]
+
+
+def church_cutout(name: str) -> Image.Image:
+    key = ('church', name)
+    if key not in _PAINTED_CACHE:
+        im = _raw_image(f'assets/church_icons/{name}.png')
+        if im.getpixel((0, 0))[3] > 200:
+            im = remove_dark_bg(im, teal=False)
+        else:
+            bbox = im.getbbox()
+            im = im.crop(bbox) if bbox else im
+        _PAINTED_CACHE[key] = im
+    return _PAINTED_CACHE[key]
+
+
+def disaster_cutout(name: str, tile: int = 0) -> Image.Image:
+    key = ('disaster', name, tile)
+    if key not in _PAINTED_CACHE:
+        im = _raw_image(f'gfx/interface/disasters/source/{name}.png')
+        x0 = tile * 724
+        cropped = im.crop((x0 + 96, 96, x0 + 628, 628))
+        _PAINTED_CACHE[key] = remove_dark_bg(cropped, teal=True)
+    return _PAINTED_CACHE[key]
+
+
+def grade_rgba(
+    image: Image.Image,
+    tint_rgb: tuple[float, float, float] = (1.0, 1.0, 1.0),
+    sat: float = 1.0,
+    brightness: float = 1.0,
+    contrast: float = 1.0,
+) -> Image.Image:
+    alpha = image.getchannel('A')
+    rgb = image.convert('RGB')
+    if sat != 1.0:
+        rgb = ImageEnhance.Color(rgb).enhance(sat)
+    if contrast != 1.0:
+        rgb = ImageEnhance.Contrast(rgb).enhance(contrast)
+    if brightness != 1.0:
+        rgb = ImageEnhance.Brightness(rgb).enhance(brightness)
+    if tint_rgb != (1.0, 1.0, 1.0):
+        arr = np.asarray(rgb, dtype=np.float32)
+        arr[..., 0] *= tint_rgb[0]
+        arr[..., 1] *= tint_rgb[1]
+        arr[..., 2] *= tint_rgb[2]
+        rgb = Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8), 'RGB')
+    out = rgb.convert('RGBA')
+    out.putalpha(alpha)
+    return out
+
+
+def painted_backdrop(
+    rel_path: str,
+    focus: tuple[float, float] = (0.5, 0.5),
+    zoom: float = 1.0,
+    flip: bool = False,
+    degrees: float = 0.0,
+    tint_rgb: tuple[float, float, float] = (1.0, 1.0, 1.0),
+    sat: float = 1.0,
+    brightness: float = 1.0,
+    contrast: float = 1.05,
+) -> Image.Image:
+    src = _raw_image(rel_path)
+    w, h = src.size
+    side = max(32.0, min(w, h) / max(0.5, zoom))
+    cx = max(side / 2.0, min(w - side / 2.0, focus[0] * w))
+    cy = max(side / 2.0, min(h - side / 2.0, focus[1] * h))
+    cropped = src.crop((int(round(cx - side / 2.0)), int(round(cy - side / 2.0)),
+                        int(round(cx + side / 2.0)), int(round(cy + side / 2.0))))
+    if flip:
+        cropped = cropped.transpose(Image.FLIP_LEFT_RIGHT)
+    if degrees:
+        cropped = cropped.rotate(-degrees, resample=Image.BICUBIC)
+    bg = Image.new('RGBA', cropped.size, (18, 12, 10, 255))
+    bg.alpha_composite(cropped)
+    resized = bg.resize((S, S), Image.LANCZOS)
+    graded = grade_rgba(resized, tint_rgb=tint_rgb, sat=sat, brightness=brightness, contrast=contrast)
+    graded.putalpha(255)
+    return graded
+
+
+def place_cutout(
+    base: Image.Image,
+    cutout: Image.Image,
+    cx: float,
+    cy: float,
+    box: float,
+    degrees: float = 0.0,
+    flip: bool = False,
+    tint_rgb: tuple[float, float, float] = (1.0, 1.0, 1.0),
+    sat: float = 1.0,
+    brightness: float = 1.0,
+    contrast: float = 1.06,
+    shadow_alpha: float = 0.62,
+    rim_color: tuple[int, int, int] = (20, 12, 6),
+    rim_width: float = 0.50,
+    rim_alpha: float = 0.85,
+    glow_color: tuple[int, int, int] | None = None,
+    glow_radius: float = 22.0,
+    glow_alpha: float = 0.30,
+) -> Image.Image:
+    layer = base
+    if glow_color is not None and glow_alpha > 0:
+        layer = over(layer, glow(cx, cy, glow_radius, glow_color, glow_alpha))
+    im = cutout.transpose(Image.FLIP_LEFT_RIGHT) if flip else cutout
+    im = grade_rgba(im, tint_rgb=tint_rgb, sat=sat, brightness=brightness, contrast=contrast)
+    cw, ch = im.size
+    target = max(4, int(round(box * SS)))
+    scale = min(target / float(cw), target / float(ch))
+    nw = max(1, int(round(cw * scale)))
+    nh = max(1, int(round(ch * scale)))
+    resized = im.convert('RGBa').resize((nw, nh), Image.LANCZOS).convert('RGBA')
+    if degrees:
+        pad = int(math.ceil(math.hypot(nw, nh))) + 4
+        rot_canvas = Image.new('RGBA', (pad, pad), (0, 0, 0, 0))
+        rot_canvas.paste(resized, ((pad - nw) // 2, (pad - nh) // 2))
+        resized = rot_canvas.rotate(-degrees, resample=Image.BICUBIC)
+        nw, nh = resized.size
+    canvas = blank_layer()
+    ox = int(round(cx * SS - nw / 2.0))
+    oy = int(round(cy * SS - nh / 2.0))
+    canvas.paste(resized, (ox, oy))
+    mask = canvas.getchannel('A')
+    if shadow_alpha > 0:
+        layer = over(layer, shadow(mask, 0.9, 1.3, 1.2, shadow_alpha))
+    if rim_alpha > 0 and rim_width > 0:
+        layer = over(layer, outline(mask, rim_width, rim_color, rim_alpha))
+    return over(layer, canvas)
+
+
+# --------------------------------------------------------------------------
 # Scenes
 # --------------------------------------------------------------------------
 
 def scene_boyar_office():
-    """Confirm the Boyars in Office: a charter with its seal, a boyar's fur hat beside it."""
-    layer = backdrop([(0.0, hexc('#8a4426')), (0.5, hexc('#4e2016')), (1.0, hexc('#1e0b08'))], (46, 26), 54)
-    layer = over(layer, glow(54, 30, 22, (255, 190, 100), 0.35))
-    for x in range(8, 78, 9):
-        layer = over(layer, solid(poly([(x, 0), (x + 1.3, 0), (x + 1.3, 82), (x, 82)]), (20, 6, 4), 0.22))
-    layer = over(layer, fur_hat(54, 52, 16, 27, seed=4, degrees=4))
-    layer = over(layer, charter(31, 42, 24, 30, seed=11, degrees=-8, lines=5, seal_r=4.8))
+    """Confirm the Boyars in Office: a charter with its seal, a boyar in fur-trimmed coat beside it."""
+    layer = painted_backdrop(
+        'gfx/interface/government_reform_icons/source/het_starshyna_oligarchy.png',
+        focus=(0.5, 0.48), zoom=1.15, tint_rgb=(1.14, 0.80, 0.74), brightness=0.76,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(2, 2), cx=49, cy=43, box=44,
+        glow_color=(255, 196, 118), glow_radius=24, glow_alpha=0.34,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('charter'), cx=27, cy=50, box=35, degrees=-10,
+        rim_color=(32, 14, 8),
+    )
     return layer
 
 
 def scene_boyar_claimant():
-    """Counter the Foreign Claimant: a foreign crown with the prince's sword laid across it."""
-    layer = backdrop([(0.0, hexc('#7a3a2a')), (0.5, hexc('#3e1812')), (1.0, hexc('#180806'))], (41, 36), 52)
-    layer = over(layer, glow(41, 36, 22, (255, 200, 120), 0.30))
-    layer = over(layer, contact(42, 58, 18, 3.2, 0.55))
-    layer = over(layer, crown(42, 56, 30, 27, degrees=-6))
-    layer = over(layer, sword((16, 64), -38, 42, blade_w=5.6))
+    """Counter the Foreign Claimant: a royal crown countered by crossed princely swords and shield."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/chr_identity_branch_locked_2.png',
+        focus=(0.5, 0.48), zoom=1.15, tint_rgb=(1.16, 0.78, 0.70), brightness=0.72,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(1, 2), cx=42, cy=32, box=38, degrees=-6,
+        glow_color=(255, 200, 120), glow_radius=24, glow_alpha=0.32,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(1, 1), cx=41, cy=53, box=42, degrees=8,
+        rim_color=(28, 10, 8),
+    )
     return layer
 
 
 def scene_boyar_example():
-    """Make an Example of a Defiant Boyar: his fur hat on the block, the axe in the wood."""
-    layer = backdrop([(0.0, hexc('#5a1c14')), (0.55, hexc('#341210')), (1.0, hexc('#140606'))], (41, 30), 54)
-    layer = over(layer, glow(41, 40, 24, (255, 150, 80), 0.22))
-    layer = over(layer, log_block(36, 67, 28, 12, seed=9))
-    layer = over(layer, fur_hat(35, 57, 14, 23, seed=6, degrees=-8))
-    layer = over(layer, axe((59, 69), -5, 33))
-    return layer
-
-
-def senate_hall():
-    """Blue hall behind the Volhynian magnates: a lit window arch between two stone pillars."""
-    layer = backdrop([(0.0, hexc('#34548f')), (0.5, hexc('#18305e')), (1.0, hexc('#070f24'))], (41, 26), 52)
-    arch = poly([(30, 40), (30, 22)] + arc_points(41, 22, 11, 11, math.pi, 2 * math.pi, 24) + [(52, 22), (52, 40)])
-    layer = over(layer, glow(41, 26, 24, (190, 215, 255), 0.40))
-    layer = over(layer, solid(arch, (176, 204, 250), 0.50), solid(stroke([(41, 11), (41, 40)], 0.7), (24, 40, 80), 0.55),
-                 solid(stroke([(30, 27), (52, 27)], 0.7), (24, 40, 80), 0.55), outline(arch, 0.6, (14, 24, 52), 0.8))
-    for x0 in (12.0, 64.0):
-        pillar = poly([(x0, 8), (x0 + 6, 8), (x0 + 6, 74), (x0, 74)])
-        layer = over(layer, shadow(pillar, 0.8, 0.0, 1.0, 0.45), outline(pillar, 0.5, (10, 14, 26), 0.9), shaded(pillar, STONE, 1.0, relief=2.0, gain=1.3))
-        layer = over(layer, roundness(pillar, x0, x0 + 6, dark=0.5, lift=0.12))
+    """Make an Example of a Defiant Boyar: boyar fur cap, gold chain, and heavy maces of punishment."""
+    layer = painted_backdrop(
+        'gfx/interface/great_projects/source/zaporozhian_sich.png',
+        focus=(0.5, 0.55), zoom=1.20, tint_rgb=(1.18, 0.70, 0.64), brightness=0.66,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('magnate_supremacy'), cx=39, cy=45, box=50,
+        glow_color=(255, 150, 90), glow_radius=25, glow_alpha=0.30,
+    )
+    layer = over(layer, axe((58, 67), -8, 32))
     return layer
 
 
 def scene_senate_summon():
-    """Summon the Senate: three magnates seated behind the council table, candles lit."""
-    layer = senate_hall()
-    layer = over(layer, magnate(24.5, 38, 0.78, GREEN_CLOTH, VELVET_RED, seed=2))
-    layer = over(layer, magnate(57.5, 38, 0.78, BLUE_CLOTH, GREEN_CLOTH, seed=3))
-    layer = over(layer, magnate(41, 35, 0.98, VELVET_RED, GREEN_CLOTH, seed=1))
-    layer = over(layer, long_table(55, 62, 4.0, 78.0))
-    layer = over(layer, candle(17, 56, 7))
-    layer = over(layer, candle(65, 56, 7))
-    layer = over(layer, rolled_scroll(41, 59, 17, 4.4, degrees=-4))
+    """Summon the Senate: Ruthenian-Volhynian magnates seated around the council table."""
+    layer = painted_backdrop(
+        'gfx/interface/great_projects/source/vilnius_palace.png',
+        focus=(0.45, 0.48), zoom=1.18, flip=True, tint_rgb=(0.76, 0.92, 1.18), brightness=0.78,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('snem'), cx=41, cy=44, box=52,
+        glow_color=(185, 215, 255), glow_radius=26, glow_alpha=0.35,
+    )
     return layer
 
 
 def scene_senate_buyoff():
-    """Buy Off a Magnate House: a house shield, a heavy purse, ducats spilling across the floor."""
-    layer = backdrop([(0.0, hexc('#34548f')), (0.5, hexc('#18305e')), (1.0, hexc('#070f24'))], (41, 30), 50)
-    layer = over(layer, glow(41, 40, 24, (200, 220, 255), 0.25))
-    floor = poly([(0, 58), (82, 58), (82, 82), (0, 82)])
-    layer = over(layer, gradient(floor, [(0.0, hexc('#1b2a4a')), (1.0, hexc('#080e1e'))], (0, 58), (0, 82)))
-    layer = over(layer, heater_shield(33, 20, 24, 32, VELVET_RED, degrees=-9, device='bend'))
-    layer = over(layer, purse(50, 50, 12.5))
-    for i, (x, y, flat) in enumerate([(24, 66, 0.55), (31, 69, 0.55), (38, 67, 0.55), (45, 70, 0.55), (53, 68, 0.55), (60, 66, 0.55), (31, 63, 0.55)]):
-        layer = over(layer, coin(x, y, 3.3, flat=flat, seed=i))
-    layer = over(layer, coin(42, 62, 3.6, flat=1.0))
+    """Buy Off a Magnate House: a magnate house shield beside a coffer spilling gold ducats."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/chr_identity_branch_locked_3.png',
+        focus=(0.5, 0.52), zoom=1.20, tint_rgb=(0.76, 0.90, 1.16), brightness=0.76,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('jewish_tax_farmers_compact'), cx=46, cy=48, box=46,
+        glow_color=(200, 224, 255), glow_radius=24, glow_alpha=0.30,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(0, 1), cx=27, cy=34, box=31, degrees=-10,
+    )
     return layer
 
 
 def scene_senate_banners():
-    """Call Up the Magnate Banners: three swallow-tailed banners on lances, one for each great house."""
-    layer = backdrop([(0.0, hexc('#34548f')), (0.5, hexc('#18305e')), (1.0, hexc('#070f24'))], (41, 30), 50)
-    layer = over(layer, glow(41, 30, 26, (190, 214, 255), 0.30))
-    ground = poly([(0, 66), (82, 66), (82, 82), (0, 82)])
-    layer = over(layer, gradient(ground, [(0.0, hexc('#1c3a2a')), (1.0, hexc('#08140e'))], (0, 66), (0, 82)))
-    layer = over(layer, heater_shield(24, 56, 13, 17, VELVET_RED, degrees=-14, device='chevron'))
-    layer = over(layer, sword((66, 71), -118, 15, blade_w=3.4, grip=4.5))
-    layer = over(layer, banner((41, 71), -15, 46, 14, 13, BLUE_CLOTH, charge='cross', seed=2, side=-1))
-    layer = over(layer, banner((41, 71), 15, 46, 14, 13, VELVET_RED, charge='stripe', seed=3, side=1))
-    layer = over(layer, banner((41, 72), 0, 54, 20, 15, [(0.0, hexc('#5a4410')), (0.5, hexc('#c89a24')), (1.0, hexc('#f6dc7a'))],
-                               charge='cross', seed=1, side=1))
-    return layer
-
-
-def chancery_room():
-    layer = backdrop([(0.0, hexc('#2c5260')), (0.5, hexc('#17303a')), (1.0, hexc('#08141a'))], (30, 24), 54)
-    layer = over(layer, glow(26, 22, 26, (190, 230, 240), 0.22))
-    desk = poly([(0, 58), (82, 58), (82, 82), (0, 82)])
-    layer = over(layer, shaded(desk, DARK_WOOD, 1.0, relief=1.6, gain=1.2, texture=noise(51, 1.4, 2)))
-    layer = over(layer, solid(stroke([(0, 58.4), (82, 58.4)], 0.7), (210, 170, 90), 0.55))
+    """Call Up the Magnate Banners: princely standards, heraldic shields and lances of the great houses."""
+    layer = painted_backdrop(
+        'assets/church_banners/ro_banner_war_v2.png',
+        focus=(0.5, 0.45), zoom=1.05, tint_rgb=(0.80, 0.94, 1.16), brightness=0.82,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('strong_appanages'), cx=41, cy=45, box=52,
+        glow_color=(190, 220, 255), glow_radius=26, glow_alpha=0.32,
+    )
     return layer
 
 
 def scene_chancery():
-    """The Chancery Ordinance: a sealed ordinance, pen and ink, the files tied up in red tape."""
-    layer = chancery_room()
-    layer = over(layer, file_stack(31, 69, 14))
-    layer = over(layer, charter(39, 34, 26, 32, seed=21, degrees=-5, lines=6, seal_r=4.8,
-                                cords=((24, 24, 28), (214, 164, 44))))
-    layer = over(layer, quill((62, 64), 14, 32))
-    layer = over(layer, inkwell(62, 68, 10, 8))
+    """The Chancery Ordinance: statute book, sealed ordinance scroll, brass inkwell and quill."""
+    layer = painted_backdrop(
+        'gfx/interface/government_reform_icons/source/het_academy_enlightenment.png',
+        focus=(0.5, 0.55), zoom=1.18, tint_rgb=(0.82, 0.98, 1.08), brightness=0.74,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('seimski_statutes'), cx=41, cy=44, box=52,
+        glow_color=(195, 232, 245), glow_radius=25, glow_alpha=0.28,
+    )
     return layer
 
 
 def scene_settlement():
-    """The Settlement Ordinance: a settlers' wagon and a new cottage on the ploughed marches."""
-    layer = backdrop([(0.0, hexc('#3a2a5a')), (0.45, hexc('#c8783c')), (1.0, hexc('#f2c36a'))], (41, 48), 60)
-    layer = gradient(full_mask(), [(0.0, hexc('#25305a')), (0.55, hexc('#b86a44')), (0.82, hexc('#f0b860')), (1.0, hexc('#f0b860'))], (0, 8), (0, 56))
-    layer = over(layer, glow(60, 50, 26, (255, 220, 140), 0.55))
-    hills = poly([(0, 50)] + bezier((0, 50), (14, 40), (30, 44), (46, 49), n=20)[1:] + bezier((46, 49), (60, 52), (70, 42), (82, 46), n=20)[1:] + [(82, 82), (0, 82)])
-    layer = over(layer, shaded(hills, [(0.0, hexc('#12261a')), (0.5, hexc('#24462a')), (1.0, hexc('#4a7a3c'))], 2.0, relief=3.0, gain=1.0))
-    layer = over(layer, furrows(54, 41, 0, 82, 82))
-    layer = over(layer, cottage(62, 58, 0.9))
-    layer = over(layer, wagon(30, 71, 1.15))
+    """The Settlement Ordinance: wooden homestead, plough and golden wheat on the settled marches."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/uzh_identity_branch_locked_3.png',
+        focus=(0.45, 0.50), zoom=1.15, tint_rgb=(1.06, 0.96, 0.84), brightness=0.86,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('left_bank_settlement'), cx=41, cy=45, box=52,
+        glow_color=(255, 224, 150), glow_radius=26, glow_alpha=0.35,
+    )
     return layer
 
 
 def scene_cadastre():
-    """The Cadastral Ordinance: a survey sheet of parcels, the surveyor's chain and dividers."""
-    layer = backdrop([(0.0, hexc('#46341c')), (1.0, hexc('#1a1208'))], (41, 41), 56)
-    layer = over(layer, survey_map())
-    chain_pts = bezier((9, 64), (26, 46), (46, 76), (73, 54), n=24)
+    """The Cadastral Ordinance: survey charter of parcels, brass dividers and surveyor's chain."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/uzh_identity_branch_locked_1.png',
+        focus=(0.60, 0.55), zoom=1.25, flip=True, tint_rgb=(0.96, 0.88, 0.74), brightness=0.72,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('grain_charters'), cx=37, cy=45, box=48, degrees=-5,
+        glow_color=(250, 216, 145), glow_radius=24, glow_alpha=0.28,
+    )
+    chain_pts = bezier((12, 64), (28, 50), (46, 72), (70, 54), n=20)
     layer = over(layer, survey_chain(chain_pts))
-    layer = over(layer, dividers((56, 20), 16, 7.5, 27))
-    return layer
-
-
-# --------------------------------------------------------------------------
-# The bottom row of the crown ordinances: the urbarial register, the faiths of the marches, the frontier guard
-# --------------------------------------------------------------------------
-
-WHEAT = [(0.0, hexc('#5a3c0c')), (0.40, hexc('#b88a22')), (0.62, hexc('#dcae3a')), (0.85, hexc('#f0cc60')), (1.0, hexc('#fff0a8'))]
-PINE = [(0.0, hexc('#06180c')), (0.5, hexc('#12381c')), (1.0, hexc('#2c6e38')), ]
-SLATE_ROOF = [(0.0, hexc('#14181e')), (0.4, hexc('#2e3844')), (0.62, hexc('#46566a')), (1.0, hexc('#8a9ab0'))]
-WHITEWASH = [(0.0, hexc('#8a8478')), (0.4, hexc('#d8d2c0')), (0.62, hexc('#f0eadb')), (1.0, hexc('#ffffff'))]
-
-
-def wheat_sheaf(cx, base_y, h, seed=1):
-    """A bound sheaf of wheat: stalks fan out from a leather band, a heavy ear at the tip of each."""
-    rng = random.Random(seed)
-    stalks, ears = [], []
-    count = 17
-    for i in range(count):
-        t = i / (count - 1) - 0.5
-        angle = t * 0.95
-        length = h * rng.uniform(0.9, 1.0)
-        foot = (cx + t * 4.0, base_y)
-        tip = (cx + math.sin(angle) * length, base_y - math.cos(angle) * length)
-        stalks.append(stroke([foot, tip], 0.85, caps=False))
-        ears.append(ellipse(tip[0], tip[1] - 0.4, 1.25, 3.1, degrees=math.degrees(angle)))
-    stalk_mask, ear_mask = union(*stalks), union(*ears)
-    band_y = base_y - h * 0.36
-    band = poly([(cx - 5.0, band_y), (cx + 5.0, band_y), (cx + 5.4, band_y + 3.2), (cx - 5.4, band_y + 3.2)])
-    whole = union(stalk_mask, ear_mask, band)
-    layer = blank_layer()
-    layer = over(layer, contact(cx, base_y + 0.4, 9.0, 1.4, 0.5))
-    layer = over(layer, outline(whole, 0.45, (40, 24, 4), 0.9))
-    layer = over(layer, shaded(stalk_mask, WHEAT, 0.5, relief=1.0, gain=1.5, texture=noise(seed, 0.8, 2)))
-    layer = over(layer, shaded(ear_mask, WHEAT, 0.5, relief=1.6, gain=1.8, spec=0.25))
-    layer = over(layer, shaded(band, LEATHER, 0.4, relief=0.9, gain=1.6))
+    layer = over(layer, dividers((56, 21), 16, 7.0, 25))
     return layer
 
 
 def scene_urbarial():
-    """The Urbarial Ordinance: the register of what each village owes - a sealed patent beside a bound sheaf on ploughed land."""
-    layer = gradient(full_mask(), [(0.0, hexc('#3a3a62')), (0.5, hexc('#c28a52')), (0.78, hexc('#f0c070')), (1.0, hexc('#f0c070'))], (0, 6), (0, 54))
-    layer = over(layer, glow(60, 46, 24, (255, 224, 150), 0.5))
-    layer = over(layer, furrows(52, 41, 0, 82, 82))
-    layer = over(layer, charter(30, 40, 26, 34, seed=33, degrees=-6, lines=7, seal_r=4.6, cords=((150, 24, 28), (214, 164, 44))))
-    layer = over(layer, wheat_sheaf(54, 71, 26, seed=5))
-    return layer
-
-
-def church_roofed(cx, base_y, sc, roof_stops, dome=False, seed=1):
-    """A whitewashed church seen from the front. With `dome` it has an Eastern drum under a gold onion dome and cross,
-    without it a Latin gable with a bell tower under a slate spire and cross."""
-    def P(x, y):
-        return (cx + x * sc, base_y + y * sc)
-    layer = blank_layer()
-    parts = []
-    if dome:
-        body = poly([P(-11, -13), P(11, -13), P(11, 0), P(-11, 0)])
-        roof = poly([P(-12.5, -12), P(12.5, -12), P(5.5, -21), P(-5.5, -21)])
-        drum = poly([P(-4.4, -21), P(4.4, -21), P(4.4, -29), P(-4.4, -29)])
-        top = bezier(P(-6.0, -29), P(-9.2, -35), P(-2.6, -41), P(0, -47), n=18) + bezier(P(0, -47), P(2.6, -41), P(9.2, -35), P(6.0, -29), n=18)[1:]
-        cupola = poly(top)
-        cross = union(stroke([P(0, -47), P(0, -56)], 1.1), stroke([P(-2.6, -52), P(2.6, -52)], 0.95), stroke([P(-1.6, -49.6), P(1.6, -50.2)], 0.8))
-        parts = [body, roof, drum, cupola, cross]
-    else:
-        body = poly([P(-11, -11), P(11, -11), P(11, 0), P(-11, 0)])
-        roof = poly([P(-12.5, -10), P(12.5, -10), P(0, -20)])
-        tower = poly([P(-4.6, -11), P(4.6, -11), P(4.6, -30), P(-4.6, -30)])
-        spire = poly([P(-5.8, -30), P(5.8, -30), P(0, -52)])
-        cross = union(stroke([P(0, -52), P(0, -59)], 1.1), stroke([P(-2.4, -56), P(2.4, -56)], 0.95))
-        parts = [body, roof, tower, spire, cross]
-    whole = union(*parts)
-    layer = over(layer, contact(cx, base_y, 15 * sc, 2.0, 0.5))
-    layer = over(layer, outline(whole, 0.5, (14, 12, 22), 0.95))
-    walls = union(parts[0], parts[2]) if not dome else union(parts[0], parts[2])
-    layer = over(layer, shaded(walls, WHITEWASH, 0.8, relief=1.5, gain=1.3, texture=noise(seed, 0.7, 2)))
-    layer = over(layer, shaded(parts[1], roof_stops, 0.9, relief=1.8, gain=1.4))
-    if dome:
-        layer = over(layer, shaded(parts[3], GOLD, 0.9, relief=2.6, gain=1.9, spec=0.55))
-    else:
-        layer = over(layer, shaded(parts[3], SLATE_ROOF, 0.9, relief=2.0, gain=1.4))
-    layer = over(layer, shaded(parts[4], GOLD, 0.3, relief=0.8, gain=1.8, spec=0.4))
-    door = poly([P(-2.3, -6.5), P(2.3, -6.5), P(2.3, 0), P(-2.3, 0)])
-    layer = over(layer, shaded(door, DARK_WOOD, 0.3, relief=0.6, gain=1.3))
-    for wx in (-7.4, 7.4):
-        win = poly([P(wx - 1.2, -9.4), P(wx + 1.2, -9.4), P(wx + 1.2, -5.0), P(wx - 1.2, -5.0)])
-        layer = over(layer, solid(win, (255, 214, 120), 1.0), solid(minus(grow(win, 0.3), win), (30, 20, 8), 0.9))
+    """The Urbarial Ordinance: sealed village patent beside a golden sheaf of wheat and sickle."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/chr_identity_branch_locked_3.png',
+        focus=(0.50, 0.55), zoom=1.22, flip=True, tint_rgb=(1.08, 0.95, 0.78), brightness=0.78,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('prosperity'), cx=49, cy=46, box=43,
+        glow_color=(255, 224, 150), glow_radius=25, glow_alpha=0.36,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('charter'), cx=28, cy=44, box=35, degrees=-8,
+    )
     return layer
 
 
 def scene_toleration():
-    """The Toleration Ordinance: an Eastern church and a Latin one under the same sky, a crown held above them both."""
-    layer = gradient(full_mask(), [(0.0, hexc('#1c2a5a')), (0.5, hexc('#6a5a8c')), (0.8, hexc('#e8a468')), (1.0, hexc('#e8a468'))], (0, 4), (0, 62))
-    layer = over(layer, glow(41, 24, 22, (255, 226, 160), 0.45))
-    hills = poly([(0, 62)] + bezier((0, 62), (20, 56), (60, 58), (82, 60), n=20)[1:] + [(82, 82), (0, 82)])
-    layer = over(layer, shaded(hills, [(0.0, hexc('#0e2216')), (0.5, hexc('#1c4026')), (1.0, hexc('#3a6a3a'))], 2.0, relief=3.0, gain=1.0))
-    layer = over(layer, church_roofed(23, 68, 0.78, GREEN_CLOTH, dome=True, seed=3))
-    layer = over(layer, church_roofed(59, 68, 0.78, VELVET_RED, dome=False, seed=4))
-    layer = over(layer, crown(41, 25, 17, 11))
-    return layer
-
-
-def pine_tree(cx, base_y, h, w, seed=1):
-    """A fir: three overlapping tiers on a short trunk."""
-    layer = blank_layer()
-    tiers = [poly([(cx - w / 2 * s, base_y - h * y0), (cx + w / 2 * s, base_y - h * y0), (cx, base_y - h * y1)])
-             for s, y0, y1 in ((1.0, 0.16, 0.56), (0.78, 0.40, 0.78), (0.52, 0.64, 1.0))]
-    trunk = poly([(cx - 0.9, base_y), (cx + 0.9, base_y), (cx + 0.9, base_y - h * 0.2), (cx - 0.9, base_y - h * 0.2)])
-    whole = union(*tiers, trunk)
-    layer = over(layer, outline(whole, 0.4, (4, 14, 8), 0.9))
-    layer = over(layer, shaded(trunk, DARK_WOOD, 0.3, relief=0.5, gain=1.2))
-    for i, tier in enumerate(tiers):
-        layer = over(layer, shaded(tier, PINE, 0.7, relief=1.4, gain=1.3, texture=noise(seed + i, 0.6, 2)))
+    """The Toleration Ordinance: sanctuaries of the marches under confessional concord and royal crown."""
+    layer = painted_backdrop(
+        'assets/church_banners/ro_banner_building_v2.png',
+        focus=(0.50, 0.45), zoom=1.05, tint_rgb=(1.02, 0.96, 1.06), brightness=0.84,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('parish_concord'), cx=41, cy=48, box=46,
+        glow_color=(255, 226, 165), glow_radius=24, glow_alpha=0.34,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(1, 2), cx=41, cy=21, box=24,
+    )
     return layer
 
 
 def scene_frontier():
-    """The Frontier Guard Ordinance: a watchtower on the Carpathian pass, a palisade, firs and a banner at dusk."""
-    layer = gradient(full_mask(), [(0.0, hexc('#243a66')), (0.55, hexc('#8a6a8c')), (1.0, hexc('#e8a468'))], (0, 4), (0, 58))
-    layer = over(layer, glow(24, 40, 22, (255, 210, 140), 0.45))
-    far = poly([(0, 46), (13, 30), (23, 40), (36, 22), (50, 42), (63, 31), (82, 47), (82, 82), (0, 82)])
-    layer = over(layer, shaded(far, [(0.0, hexc('#242e4a')), (0.5, hexc('#566286')), (1.0, hexc('#9aa6c4'))], 2.4, relief=4.0, gain=1.3))
-    near = poly([(0, 60), (18, 53), (40, 58), (60, 51), (82, 58), (82, 82), (0, 82)])
-    layer = over(layer, shaded(near, [(0.0, hexc('#0c1c12')), (0.5, hexc('#1c3a24')), (1.0, hexc('#365e38'))], 2.0, relief=3.0, gain=1.0))
-    layer = over(layer, pine_tree(70, 63, 22, 11, seed=2))
-    layer = over(layer, pine_tree(77, 66, 17, 9, seed=5))
-    layer = over(layer, castle_tower(46, 60, 12, 21, 9, seed=3))
-    layer = over(layer, banner((46, 30), 0, 13, 11, 7, [(0.0, hexc('#5a4410')), (0.5, hexc('#c89a24')), (1.0, hexc('#f6dc7a'))],
-                               charge='cross', seed=1, side=1))
-    for i in range(6):
-        x = 6.0 + i * 5.2
-        stake = poly([(x, 70), (x + 4.0, 70), (x + 4.0, 61), (x + 2.0, 56.6), (x, 61)])
-        layer = over(layer, shadow(stake, 0.5, 0.6, 0.5, 0.45), outline(stake, 0.35, (16, 8, 4), 0.95), shaded(stake, DARK_WOOD, 0.4, relief=1.0, gain=1.5, texture=noise(60 + i, 0.5, 2)))
-    layer = over(layer, solid(stroke([(5, 66.5), (37, 66.5)], 0.9), (30, 16, 8), 0.9))
+    """The Frontier Guard Ordinance: watchtower on the Carpathian pass and mounted frontier guard."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/uzh_identity_branch_locked_2.png',
+        focus=(0.50, 0.42), zoom=1.12, tint_rgb=(0.96, 0.94, 1.06), brightness=0.88,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(2, 0), cx=34, cy=50, box=42,
+        glow_color=(255, 214, 145), glow_radius=24, glow_alpha=0.32,
+    )
     return layer
 
 
@@ -1772,78 +1925,93 @@ def ledger_book(cx, cy, w, h, seed=3):
 
 
 def scene_resolution_municipal_charters():
-    """Confirm the Municipal Charters: the walled town and its sealed charter."""
-    layer = backdrop([(0.0, hexc('#3a8a80')), (0.5, hexc('#1c524c')), (1.0, hexc('#08201e'))], (41, 28), 52)
-    layer = over(layer, glow(41, 30, 26, (200, 245, 235), 0.30))
-    ground = poly([(0, 56), (82, 56), (82, 82), (0, 82)])
-    layer = over(layer, gradient(ground, [(0.0, hexc('#1e3a2a')), (1.0, hexc('#08140e'))], (0, 56), (0, 82)))
-    layer = over(layer, castle(41, 54, 0.95, seed=6))
-    layer = over(layer, charter(41, 63, 30, 17, seed=14, lines=3, seal_r=3.6, cords=((24, 24, 28), (214, 164, 44))))
+    """Confirm the Municipal Charters: the walled town and its sealed Magdeburg charter."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/magdeburg_charter.png',
+        focus=(0.50, 0.36), zoom=1.15, tint_rgb=(0.80, 1.06, 1.02), brightness=0.80,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('towns'), cx=44, cy=36, box=44,
+        glow_color=(190, 245, 235), glow_radius=24, glow_alpha=0.32,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('charter'), cx=32, cy=54, box=32, degrees=-8,
+    )
     return layer
 
 
 def scene_resolution_municipal_accounts():
-    """Examine the Municipal Accounts: the town's ledger open on a table, coins stacked beside it."""
-    layer = backdrop([(0.0, hexc('#3a8a80')), (0.5, hexc('#1c524c')), (1.0, hexc('#08201e'))], (41, 30), 52)
-    layer = over(layer, glow(41, 32, 24, (200, 245, 235), 0.25))
-    layer = over(layer, long_table(54, 62, 4.0, 78.0))
-    layer = over(layer, ledger_book(36, 45, 32, 19, seed=4))
-    for i, (x, y) in enumerate([(62, 57.6), (62, 55.2), (62, 52.8), (62, 50.4)]):
-        layer = over(layer, coin(x, y, 4.0, flat=0.5, seed=i))
-    layer = over(layer, coin(53, 61, 3.4, flat=0.5, seed=7))
+    """Examine the Municipal Accounts: open municipal ledger, brass scales and stacked gold ducats."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/magdeburg_charter.png',
+        focus=(0.50, 0.68), zoom=1.25, flip=True, tint_rgb=(0.78, 1.04, 1.00), brightness=0.74,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('jewish_loan_banks_compact'), cx=41, cy=44, box=52,
+        glow_color=(190, 245, 235), glow_radius=25, glow_alpha=0.30,
+    )
     return layer
 
 
 def scene_resolution_chancery_service():
-    """Examine the Service Rolls: a long roll of names, each line ticked off, pen and ink beside it."""
-    layer = backdrop([(0.0, hexc('#6a4a9a')), (0.5, hexc('#2e1a52')), (1.0, hexc('#0e0620'))], (41, 30), 52)
-    layer = over(layer, glow(40, 34, 26, (230, 210, 255), 0.25))
-    desk = poly([(0, 62), (82, 62), (82, 82), (0, 82)])
-    layer = over(layer, shaded(desk, DARK_WOOD, 1.0, relief=1.6, gain=1.2, texture=noise(53, 1.4, 2)))
-    layer = over(layer, solid(stroke([(0, 62.4), (82, 62.4)], 0.7), (210, 170, 90), 0.55))
-    w, h, cx, cy, lines = 30, 40, 38, 36, 8
-    layer = over(layer, charter(cx, cy, w, h, seed=11, lines=lines, seal_r=0))
-    x, y = cx - w / 2, cy - h / 2
-    curl = max(2.0, h * 0.075)
-    gap = (h - 2 * curl - 3.4) / lines
-    ticks = blank_mask()
-    for i in range(lines):
-        yy = y + curl + 1.6 + gap * (i + 0.5)
-        ticks = union(ticks, stroke([(x + w - 5.0, yy), (x + w - 3.8, yy + 1.0), (x + w - 2.0, yy - 1.3)], 0.55))
-    layer = over(layer, solid(ticks, (24, 120, 52), 0.9))
-    layer = over(layer, quill((64, 66), 14, 30))
-    layer = over(layer, inkwell(64, 70, 9, 7))
+    """Examine the Service Rolls: chancery codices, service rolls and quill."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/petro_mohyla.png',
+        focus=(0.50, 0.45), zoom=1.15, tint_rgb=(0.96, 0.84, 1.14), brightness=0.76,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('collegium_learning'), cx=38, cy=43, box=48,
+        glow_color=(225, 205, 255), glow_radius=25, glow_alpha=0.30,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(0, 2), cx=53, cy=52, box=31, degrees=8,
+    )
     return layer
 
 
 def scene_resolution_chancery_rights():
-    """Confirm the Local Rights: the privilege with its hanging seals, and the key to the town's liberties."""
-    layer = backdrop([(0.0, hexc('#6a4a9a')), (0.5, hexc('#2e1a52')), (1.0, hexc('#0e0620'))], (41, 30), 52)
-    layer = over(layer, glow(41, 32, 26, (230, 210, 255), 0.28))
-    layer = over(layer, privilege_charter(41, 32, 36, 36, seed=9, lines=6, seals=3))
-    layer = over(layer, gold_key(41, 66, 26, degrees=-6))
+    """Confirm the Local Rights: privilege charter with hanging wax seals and the gold key to liberties."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/petro_mohyla.png',
+        focus=(0.45, 0.58), zoom=1.24, flip=True, tint_rgb=(0.98, 0.86, 1.14), brightness=0.76,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('roman_concordat'), cx=41, cy=38, box=48,
+        glow_color=(230, 210, 255), glow_radius=25, glow_alpha=0.30,
+    )
+    layer = over(layer, gold_key(41, 63, 25, degrees=-6))
     return layer
 
 
 def scene_resolution_register_muster():
-    """Fund the Full Muster: a regimental banner, crossed sabre and a purse of pay."""
-    layer = backdrop([(0.0, hexc('#c8883a')), (0.5, hexc('#7a4a1c')), (1.0, hexc('#2a1606'))], (41, 30), 52)
-    layer = over(layer, glow(41, 34, 26, (255, 224, 160), 0.30))
-    ground = poly([(0, 64), (82, 64), (82, 82), (0, 82)])
-    layer = over(layer, gradient(ground, [(0.0, hexc('#3a2a12')), (1.0, hexc('#120a04'))], (0, 64), (0, 82)))
-    layer = over(layer, banner((29, 70), -4, 48, 22, 16, VELVET_RED, charge='cross', seed=2, side=1))
-    layer = over(layer, sword((69, 73), -104, 26, blade_w=3.6, grip=5.0))
-    layer = over(layer, purse(47, 62, 9.5, seed=6))
+    """Fund the Full Muster: regimental standards, kettle-drums, crossed sabres and mace."""
+    layer = painted_backdrop(
+        'gfx/interface/government_reform_icons/source/zaz_sich_brotherhood.png',
+        focus=(0.50, 0.45), zoom=1.15, tint_rgb=(1.10, 0.94, 0.76), brightness=0.78,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('sich_rada'), cx=37, cy=41, box=46,
+        glow_color=(255, 220, 155), glow_radius=25, glow_alpha=0.32,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(3, 2), cx=52, cy=52, box=34,
+    )
     return layer
 
 
 def scene_resolution_register_settlement():
-    """Settle the Service Obligations: the sabre stands in the furrow beside a cottage - the registered man stays on his land."""
-    layer = gradient(full_mask(), [(0.0, hexc('#5a3a62')), (0.5, hexc('#d08a4a')), (0.78, hexc('#f4c878')), (1.0, hexc('#f4c878'))], (0, 6), (0, 54))
-    layer = over(layer, glow(58, 46, 24, (255, 224, 150), 0.5))
-    layer = over(layer, furrows(52, 41, 0, 82, 82))
-    layer = over(layer, cottage(58, 62, 1.15))
-    layer = over(layer, sword((22, 26), 90, 28, blade_w=3.8, grip=6.0))
+    """Settle the Service Obligations: settler homestead and plough beside the registered warrior's arms."""
+    layer = painted_backdrop(
+        'gfx/interface/government_reform_icons/source/cossack_host.png',
+        focus=(0.50, 0.48), zoom=1.15, tint_rgb=(1.08, 0.96, 0.80), brightness=0.84,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('left_bank_settlement'), cx=46, cy=45, box=45,
+        glow_color=(255, 224, 150), glow_radius=24, glow_alpha=0.34,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(2, 1), cx=26, cy=48, box=33, degrees=-8,
+    )
     return layer
 
 
@@ -1872,64 +2040,303 @@ def gediminas_emblem(centre, height):
 
 
 def scene_rada_confirm():
-    """Seek the Rada's Confirmation: two lords face each other across the council table, the privilege between them with its
-    seals hanging over the edge, the Pahonia on the wall behind."""
-    layer = backdrop([(0.0, hexc('#8c7442')), (0.5, hexc('#4c3a20')), (1.0, hexc('#1a1208'))], (41, 26), 56)
-    for x in range(10, 74, 10):
-        layer = over(layer, solid(poly([(x, 0), (x + 1.2, 0), (x + 1.2, 82), (x, 82)]), (16, 10, 4), 0.20))
-    layer = over(layer, glow(41, 24, 26, (255, 214, 140), 0.40))
-    layer = over(layer, pahonia_shield(41, 5, 26, 33))
-    layer = over(layer, rada_lord(21, 35, 0.95, 1, RED_COAT, YELLOW_COAT, seed=2))
-    layer = over(layer, rada_lord(61, 35, 0.95, -1, GREEN_CLOTH, SKY_BLUE_COAT, beard=BEARD_BROWN, seed=3))
-    layer = over(layer, long_table(52, 58, 4.0, 78.0))
-    layer = over(layer, privilege_charter(41, 44, 23, 15, seed=5, degrees=-2, lines=4))
+    """Seek the Rada's Confirmation: Rada lords conferring over the privilege in Vilnius Palace under the Pahonia."""
+    layer = painted_backdrop(
+        'gfx/interface/great_projects/source/vilnius_palace.png',
+        focus=(0.50, 0.45), zoom=1.15, tint_rgb=(1.12, 0.90, 0.78), brightness=0.76,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('snem'), cx=41, cy=48, box=48,
+        glow_color=(255, 214, 140), glow_radius=26, glow_alpha=0.36,
+    )
+    layer = over(layer, pahonia_shield(41, 7, 22, 28))
     return layer
 
 
 def scene_rada_lord():
-    """Win Over a Wavering Lord: a hand offers the key of a starostwo under a sealed charter; a hesitating lord looks at it, his castle behind."""
-    layer = gradient(full_mask(), [(0.0, hexc('#34566a')), (0.45, hexc('#b8825a')), (0.7, hexc('#f0c070')), (1.0, hexc('#f0c070'))], (0, 4), (0, 62))
-    layer = over(layer, glow(26, 36, 30, (255, 224, 150), 0.45))
-    hills = poly([(0, 46)] + bezier((0, 46), (14, 38), (30, 42), (44, 45), n=20)[1:] + bezier((44, 45), (60, 48), (72, 40), (82, 43), n=20)[1:] + [(82, 82), (0, 82)])
-    layer = over(layer, shaded(hills, [(0.0, hexc('#10241a')), (0.5, hexc('#24462a')), (1.0, hexc('#4a7a3c'))], 2.0, relief=3.0, gain=1.0))
-    layer = over(layer, castle(33, 46, 0.9))
-    layer = over(layer, rada_lord(57, 30, 1.5, -1, RED_COAT, YELLOW_COAT, seed=2))
-    layer = over(layer, privilege_charter(23, 33, 16, 19, seed=7, degrees=-5, lines=5, seals=1))
-    layer = over(layer, open_hand(27, 59, 1.2, degrees=-8))
-    layer = over(layer, gold_key(34, 50, 26, degrees=-20))
-    return layer
-
-
-def distant_lances(xs, base_y, top_y, seed=1):
-    """A rank of lances and pennons far behind the riders: the rest of the household."""
-    rng = random.Random(seed)
-    layer = blank_layer()
-    for x in xs:
-        ty = top_y + rng.uniform(-3, 3)
-        pole = stroke([(x, base_y), (x - 0.5, ty)], 0.45, caps=False)
-        pen = poly([(x - 0.5, ty), (x + 4.2, ty + 1.0), (x + 3.0, ty + 2.0), (x + 4.2, ty + 3.0), (x - 0.5, ty + 3.0)])
-        layer = over(layer, solid(pole, (36, 24, 28), 0.85), solid(pen, (130, 24, 30), 0.9))
+    """Win Over a Wavering Lord: magnate lord before his hill castle offered a starostwo charter and key."""
+    layer = painted_backdrop(
+        'gfx/interface/great_projects/source/palanok_fortress.png',
+        focus=(0.38, 0.45), zoom=1.15, tint_rgb=(1.08, 0.94, 0.82), brightness=0.82,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(2, 2), cx=51, cy=43, box=42, flip=True,
+        glow_color=(255, 220, 150), glow_radius=24, glow_alpha=0.34,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(3, 1), cx=27, cy=48, box=33, degrees=-8,
+    )
+    layer = over(layer, gold_key(34, 58, 22, degrees=-18))
     return layer
 
 
 def scene_rada_retinues():
-    """The Rada's Own Retinues: boyar household cavalry under two magnate standards, the Pahonia and the Columns of Gediminas."""
-    layer = gradient(full_mask(), [(0.0, hexc('#243452')), (0.40, hexc('#7a5a6a')), (0.62, hexc('#e8a860')), (1.0, hexc('#e8a860'))], (0, 4), (0, 60))
-    layer = over(layer, glow(41, 50, 34, (255, 226, 150), 0.55))
-    ground = poly([(0, 56)] + bezier((0, 56), (20, 52), (60, 54), (82, 55), n=20)[1:] + [(82, 82), (0, 82)])
-    layer = over(layer, gradient(ground, [(0.0, hexc('#6a5430')), (1.0, hexc('#241a0c'))], (0, 54), (0, 82)))
-    layer = over(layer, distant_lances([14, 19, 52, 57, 62, 67], 52, 34, seed=3))
-    rc, _ = boyar_rider(62, 51, 0.31, horse=DUN, coat=GREEN_CLOTH, flip=True, seed=5)
-    layer = over(layer, rc)
-    ra, Fa = boyar_rider(27, 54, 0.38, horse=GREY_HORSE, coat=SKY_BLUE_COAT, flip=True, seed=3)
-    layer = over(layer, ra)
-    layer = over(layer, lance_standard(Fa(58, 20), -2, 28, 17, 14, [(0.0, hexc('#6a0c12')), (0.6, hexc('#a81620')), (1.0, hexc('#d84c44'))],
-                                 emblem=lambda c: gediminas_emblem(c, 8.0), seed=2, side=1))
-    rb, Fb = boyar_rider(46, 57, 0.46, horse=BAY, coat=RED_COAT, flip=True, seed=1)
-    layer = over(layer, rb)
-    layer = over(layer, lance_standard(Fb(58, 20), -2, 36, 20, 16, SCARLET_FIELD,
-                                 emblem=lambda c: pahonia_emblem(c, 13), seed=1, side=1))
-    layer = over(layer, solid(blur(ellipse(41, 66, 30, 4.5), 2.2), (232, 200, 150), 0.40))
+    """The Rada's Own Retinues: armoured noble cavalry retinue under the Pahonia shield."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/chr_identity_branch_locked_1.png',
+        focus=(0.50, 0.48), zoom=1.12, tint_rgb=(1.10, 0.92, 0.80), brightness=0.84,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('druzhyna'), cx=43, cy=46, box=50,
+        glow_color=(255, 224, 150), glow_radius=26, glow_alpha=0.36,
+    )
+    layer = over(layer, pahonia_shield(24, 14, 17, 22))
+    return layer
+
+
+def scene_rg_chr_bell():
+    """Ring the Veche Bell (Chernihiv-Siversk): town hall belfry and municipal Veche assembly."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/magdeburg_charter.png',
+        focus=(0.48, 0.24), zoom=1.85, tint_rgb=(1.12, 0.94, 0.78), brightness=0.86,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('snem'), cx=44, cy=49, box=44,
+        glow_color=(255, 218, 142), glow_radius=24, glow_alpha=0.36,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('brotherhood_charters'), cx=25, cy=32, box=32, degrees=-10,
+    )
+    return layer
+
+
+def scene_rg_chr_staple():
+    """Grant the Desna Staple Right (Chernihiv-Siversk): Desna river map, merchant vessel and customs gold."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/chr_identity_branch_locked_1.png',
+        focus=(0.48, 0.52), zoom=1.18, tint_rgb=(0.92, 1.06, 1.08), brightness=0.86,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('chaiky'), cx=30, cy=32, box=38, degrees=-6,
+        glow_color=(160, 232, 236), glow_radius=22, glow_alpha=0.32,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('jewish_tax_farmers_compact'), cx=53, cy=52, box=34,
+    )
+    return layer
+
+
+def scene_rg_chr_militia():
+    """Muster the Guild Militia (Chernihiv-Siversk): timber palisade, crossed pikes and town garrison."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/chr_identity_branch_locked_2.png',
+        focus=(0.50, 0.48), zoom=1.15, tint_rgb=(1.08, 0.96, 0.84), brightness=0.88,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(2, 0), cx=48, cy=48, box=44,
+        glow_color=(255, 216, 140), glow_radius=24, glow_alpha=0.34,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(2, 1), cx=24, cy=40, box=32, degrees=-6,
+    )
+    return layer
+
+
+def scene_rg_uzh_salt():
+    """Exercise the Salt Regalia (Transcarpathia): royal salt regalia codex, balance scale and coffer."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/uzh_identity_branch_locked_3.png',
+        focus=(0.50, 0.48), zoom=1.18, tint_rgb=(0.90, 1.02, 1.15), brightness=0.86,
+    )
+    layer = place_cutout(
+        layer, disaster_cutout('podillia_jewish_emancipation', 0), cx=42, cy=45, box=48,
+        glow_color=(180, 224, 255), glow_radius=24, glow_alpha=0.34,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('jewish_loan_banks_compact'), cx=25, cy=54, box=30,
+    )
+    return layer
+
+
+def scene_rg_uzh_guides():
+    """Contract the Highland Guides (Transcarpathia): Carpathian peaks, highland wayfinder cross and blades."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/uzh_identity_branch_locked_2.png',
+        focus=(0.50, 0.46), zoom=1.14, tint_rgb=(0.94, 1.08, 0.98), brightness=0.86,
+    )
+    layer = place_cutout(
+        layer, disaster_cutout('zaporozhian_sich_crisis', 0), cx=42, cy=52, box=44,
+        glow_color=(190, 240, 210), glow_radius=22, glow_alpha=0.32,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(3, 1), cx=25, cy=34, box=28, degrees=-12,
+    )
+    return layer
+
+
+def scene_rg_uzh_pass():
+    """Fortify the Carpathian Pass (Transcarpathia): mountain pass boundary post and stone fortress tower."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/uzh_identity_branch_locked_1.png',
+        focus=(0.56, 0.48), zoom=1.16, tint_rgb=(1.06, 0.98, 0.86), brightness=0.86,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(2, 1), cx=30, cy=44, box=44,
+        glow_color=(255, 222, 150), glow_radius=24, glow_alpha=0.34,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('strong_appanages'), cx=54, cy=50, box=34, degrees=8,
+    )
+    return layer
+
+
+def scene_rg_pdl_patrol():
+    """Send the Watch Patrols (Podillia): frontier fortress gate, crossed sabres and watchtower."""
+    layer = painted_backdrop(
+        'gfx/interface/great_projects/source/palanok_fortress.png',
+        focus=(0.68, 0.46), zoom=1.35, flip=True, tint_rgb=(1.12, 0.88, 0.78), brightness=0.84,
+    )
+    layer = place_cutout(
+        layer, disaster_cutout('zaporozhian_sich_crisis', 0), cx=41, cy=46, box=48,
+        glow_color=(255, 198, 130), glow_radius=24, glow_alpha=0.36,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(2, 1), cx=24, cy=36, box=30,
+    )
+    return layer
+
+
+def scene_rg_pdl_charter():
+    """Grant the Kamianets Town Statute (Podillia): magistrate charter presentation, wax statute and town keys."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/magdeburg_charter.png',
+        focus=(0.55, 0.50), zoom=1.45, tint_rgb=(1.08, 0.92, 1.06), brightness=0.84,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('seimski_statutes'), cx=46, cy=46, box=44, degrees=-6,
+        glow_color=(240, 198, 255), glow_radius=24, glow_alpha=0.34,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('towns'), cx=26, cy=50, box=34,
+    )
+    return layer
+
+
+def scene_rg_pdl_mobile():
+    """Muster the Mobile Defense (Podillia): crimson lance banners and mounted frontier cavalry."""
+    layer = painted_backdrop(
+        'gfx/interface/missions/source/chr_identity_branch_locked_3.png',
+        focus=(0.48, 0.48), zoom=1.15, tint_rgb=(1.12, 0.90, 0.82), brightness=0.86,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('druzhyna'), cx=46, cy=48, box=46, flip=True,
+        glow_color=(255, 206, 136), glow_radius=24, glow_alpha=0.36,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(3, 2), cx=25, cy=36, box=30,
+    )
+    return layer
+
+
+def scene_rg_prl_patrol():
+    """Send the Watch Patrols (Pereiaslav): steppe brotherhood sentinel, shield and watchtower."""
+    layer = painted_backdrop(
+        'gfx/interface/government_reform_icons/source/zaz_sich_brotherhood.png',
+        focus=(0.50, 0.46), zoom=1.18, tint_rgb=(1.08, 0.94, 0.82), brightness=0.86,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(1, 1), cx=28, cy=48, box=38, degrees=-8,
+        glow_color=(255, 212, 140), glow_radius=22, glow_alpha=0.34,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(2, 1), cx=53, cy=42, box=38,
+    )
+    return layer
+
+
+def scene_rg_prl_charter():
+    """Charter the Frontier Towns (Pereiaslav): Left-Bank wooden town, wheat sheaf and wax-sealed charter."""
+    layer = painted_backdrop(
+        'gfx/interface/privileges/source/left_bank_settlement.png',
+        focus=(0.52, 0.52), zoom=1.12, tint_rgb=(1.04, 0.96, 0.88), brightness=0.88,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('charter'), cx=50, cy=48, box=42, degrees=8,
+        glow_color=(255, 224, 156), glow_radius=24, glow_alpha=0.34,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(0, 1), cx=26, cy=42, box=34,
+    )
+    return layer
+
+
+def scene_rg_prl_mobile():
+    """Muster the Mobile Defense (Pereiaslav): mounted Cossack regiments, bulava and crossed sabres."""
+    layer = painted_backdrop(
+        'gfx/interface/government_reform_icons/source/cossack_host.png',
+        focus=(0.50, 0.46), zoom=1.16, flip=True, tint_rgb=(1.14, 0.90, 0.78), brightness=0.86,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('sich_rada'), cx=48, cy=48, box=44,
+        glow_color=(255, 214, 138), glow_radius=24, glow_alpha=0.36,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(3, 2), cx=26, cy=38, box=36, degrees=-10,
+    )
+    return layer
+
+
+def scene_rg_ods_freight():
+    """Charter Mediterranean Freight (Odesa): Black Sea nautical chart, compass and golden grain freight."""
+    layer = painted_backdrop(
+        'gfx/interface/privileges/source/jewish_black_sea_network.png',
+        focus=(0.50, 0.48), zoom=1.12, tint_rgb=(0.90, 1.06, 1.12), brightness=0.88,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('grain_charters'), cx=48, cy=46, box=46,
+        glow_color=(255, 230, 150), glow_radius=24, glow_alpha=0.36,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('jewish_black_sea_network_compact'), cx=25, cy=50, box=34,
+    )
+    return layer
+
+
+def scene_rg_ods_corsairs():
+    """Outfit Black Sea Corsairs (Odesa): Cossack Chaika warship under sail and crossed boarding sabres."""
+    layer = painted_backdrop(
+        'gfx/interface/great_projects/source/zaporozhian_sich.png',
+        focus=(0.35, 0.52), zoom=1.35, tint_rgb=(0.82, 0.96, 1.14), brightness=0.84,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('chaiky'), cx=40, cy=40, box=50, degrees=-4,
+        glow_color=(170, 224, 255), glow_radius=24, glow_alpha=0.36,
+    )
+    layer = place_cutout(
+        layer, atlas_cutout(3, 2), cx=48, cy=54, box=34, degrees=12,
+    )
+    return layer
+
+
+def scene_het_rights():
+    """Confirm Officers Rights (Hetmanate Authority): Starshyna council, crossed silver/gold maces and charter."""
+    layer = painted_backdrop(
+        'gfx/interface/government_reform_icons/source/het_starshyna_oligarchy.png',
+        focus=(0.50, 0.45), zoom=1.16, tint_rgb=(0.94, 1.00, 1.12), brightness=0.86,
+    )
+    layer = place_cutout(
+        layer, disaster_cutout('hetman_succession_crisis', 0), cx=32, cy=44, box=44, degrees=-6,
+        glow_color=(200, 226, 255), glow_radius=24, glow_alpha=0.34,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('seimski_statutes'), cx=52, cy=50, box=38, degrees=8,
+    )
+    return layer
+
+
+def scene_het_chancery():
+    """Review the Chancery (Hetmanate Authority): General Military Chancery, gilded bulava on register and charter."""
+    layer = painted_backdrop(
+        'gfx/interface/government_reform_icons/source/het_academy_enlightenment.png',
+        focus=(0.50, 0.46), zoom=1.16, tint_rgb=(1.10, 0.96, 0.82), brightness=0.86,
+    )
+    layer = place_cutout(
+        layer, priv_cutout('starshyna_council'), cx=44, cy=46, box=48,
+        glow_color=(255, 222, 148), glow_radius=24, glow_alpha=0.36,
+    )
+    layer = place_cutout(
+        layer, gov_cutout('charter'), cx=24, cy=50, box=32, degrees=-10,
+    )
     return layer
 
 
@@ -1955,6 +2362,22 @@ SCENES = {
     'rada_confirm': ('shield', SCARLET_ENAMEL, scene_rada_confirm),
     'rada_lord': ('shield', SCARLET_ENAMEL, scene_rada_lord),
     'rada_retinues': ('shield', SCARLET_ENAMEL, scene_rada_retinues),
+    'rg_chr_bell': ('arch', CRIMSON_ENAMEL, scene_rg_chr_bell),
+    'rg_chr_staple': ('arch', TEAL_ENAMEL, scene_rg_chr_staple),
+    'rg_chr_militia': ('arch', UMBER_ENAMEL, scene_rg_chr_militia),
+    'rg_uzh_salt': ('octagon', BLUE_ENAMEL, scene_rg_uzh_salt),
+    'rg_uzh_guides': ('octagon', TEAL_ENAMEL, scene_rg_uzh_guides),
+    'rg_uzh_pass': ('octagon', UMBER_ENAMEL, scene_rg_uzh_pass),
+    'rg_pdl_patrol': ('round', SCARLET_ENAMEL, scene_rg_pdl_patrol),
+    'rg_pdl_charter': ('round', VIOLET_ENAMEL, scene_rg_pdl_charter),
+    'rg_pdl_mobile': ('round', CRIMSON_ENAMEL, scene_rg_pdl_mobile),
+    'rg_prl_patrol': ('arch', SCARLET_ENAMEL, scene_rg_prl_patrol),
+    'rg_prl_charter': ('arch', VIOLET_ENAMEL, scene_rg_prl_charter),
+    'rg_prl_mobile': ('arch', CRIMSON_ENAMEL, scene_rg_prl_mobile),
+    'rg_ods_freight': ('octagon', TEAL_ENAMEL, scene_rg_ods_freight),
+    'rg_ods_corsairs': ('octagon', BLACK_ENAMEL, scene_rg_ods_corsairs),
+    'het_rights': ('round', BLUE_ENAMEL, scene_het_rights),
+    'het_chancery': ('round', UMBER_ENAMEL, scene_het_chancery),
 }
 
 
@@ -2002,15 +2425,34 @@ def gfx_text():
     return '\r\n'.join(lines) + '\r\n'
 
 
+def save_dds_atomic(image: Image.Image, path: Path, fmt: str = 'DDS') -> None:
+    import io
+    import time
+    buf = io.BytesIO()
+    image.save(buf, format=fmt)
+    payload = buf.getvalue()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    for attempt in range(5):
+        try:
+            path.write_bytes(payload)
+            return
+        except OSError:
+            try:
+                if path.exists():
+                    path.unlink()
+            except OSError:
+                pass
+            time.sleep(0.05 * (attempt + 1))
+    path.write_bytes(payload)
+
+
 def write_all():
     for key in SCENES:
         path = ROOT / texture_path(key)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        render(key).save(path, format='DDS')
+        save_dds_atomic(render(key), path)
     (ROOT / GFX_FILE).write_bytes(gfx_text().encode('ascii'))
     sheet = ROOT / TEXTURE_DIR / 'source' / 'abilities_preview.png'
-    sheet.parent.mkdir(parents=True, exist_ok=True)
-    preview_sheet(list(SCENES), 4).save(sheet)
+    save_dds_atomic(preview_sheet(list(SCENES), 4), sheet, fmt='PNG')
     print(f'wrote {len(SCENES)} sprites, {GFX_FILE} and {sheet.relative_to(ROOT).as_posix()}')
 
 

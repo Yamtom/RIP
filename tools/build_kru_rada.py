@@ -280,34 +280,52 @@ kru_rada_forget_old_state_effect = {
 # -------------------------------------------------------------------------------------------- sprites and text ---------------
 
 def sprite_strip(key):
-    """Two 23x25 frames: the faction's emblem muted (out of power), and bright with a gold rim (in power)."""
+    """Two 23x25 frames with identical alpha: the faction's emblem muted (out of power), and warm gold-lit (in power)."""
     if Image is None or ImageFilter is None:
         raise _art_deps_err or ModuleNotFoundError("Pillow is required to generate sprite strips")
     emblem = Image.open(ROOT / f'gfx/interface/rip_government/faction_{key}.dds').convert('RGBA')
     emblem = emblem.crop(emblem.getchannel('A').point(lambda v: 255 if v > 24 else 0).getbbox())
-    scale = min(21.0 / emblem.width, 23.0 / emblem.height)
-    emblem = emblem.resize((max(1, round(emblem.width * scale)), max(1, round(emblem.height * scale))), Image.LANCZOS)
+    scale = min(19.0 / emblem.width, 21.0 / emblem.height)
+    emblem = emblem.convert('RGBa').resize(
+        (max(1, round(emblem.width * scale)), max(1, round(emblem.height * scale))),
+        Image.LANCZOS,
+    ).convert('RGBA')
+    x, y = (23 - emblem.width) // 2, (25 - emblem.height) // 2
+    held = Image.new('L', (23, 25), 0)
+    held.paste(emblem.getchannel('A'), (x, y))
+    rim_mask = held.filter(ImageFilter.MaxFilter(3))
+    rim_px = rim_mask.load()
+    rim_px[0, 0] = 0
+    shared_alpha = rim_mask.point(lambda v: min(255, int(v * 0.95)) if v > 8 else 0)
     strip = Image.new('RGBA', (46, 25), (0, 0, 0, 0))
     for frame in range(2):
-        cell = Image.new('RGBA', (23, 25), (0, 0, 0, 0))
-        x, y = (23 - emblem.width) // 2, (25 - emblem.height) // 2
+        rim_color = (26, 18, 12, 0) if frame == 0 else (218, 172, 58, 0)
+        cell = Image.new('RGBA', (23, 25), rim_color)
+        cell.putalpha(shared_alpha)
         picture = emblem.copy()
+        r, g, b, a = picture.split()
         if frame == 0:
-            r, g, b, a = picture.split()
             grey = Image.merge('RGB', (r, g, b)).convert('L')
-            muted = Image.merge('RGB', tuple(Image.blend(grey, ch, 0.55) for ch in (r, g, b))).point(lambda v: int(v * 0.78))
+            muted = Image.merge('RGB', tuple(Image.blend(grey, ch, 0.52) for ch in (r, g, b))).point(lambda v: int(v * 0.74))
             picture = Image.merge('RGBA', (*muted.split(), a))
         else:
-            held = Image.new('L', (23, 25), 0)
-            held.paste(picture.getchannel('A'), (x, y))
-            rim = held.filter(ImageFilter.MaxFilter(3)).point(lambda v: 255 if v > 0 else 0)
-            glow = Image.new('RGBA', (23, 25), (255, 205, 70, 0))
-            glow.putalpha(rim.point(lambda v: 170 if v else 0))
-            cell.alpha_composite(glow)
-            r, g, b, a = picture.split()
-            picture = Image.merge('RGBA', (r.point(lambda v: min(255, int(v * 1.12) + 6)), g.point(lambda v: min(255, int(v * 1.10) + 5)), b.point(lambda v: min(255, int(v * 1.04))), a))
+            picture = Image.merge(
+                'RGBA',
+                (
+                    r.point(lambda v: min(255, int(v * 1.24) + 18)),
+                    g.point(lambda v: min(255, int(v * 1.16) + 12)),
+                    b.point(lambda v: min(255, int(v * 0.96) + 4)),
+                    a,
+                ),
+            )
         cell.alpha_composite(picture, (x, y))
-        strip.alpha_composite(cell, (23 * frame, 0))
+        cell.putalpha(shared_alpha)
+        cpx = cell.load()
+        for cy in range(25):
+            for cx in range(23):
+                if cpx[cx, cy][3] == 0:
+                    cpx[cx, cy] = (0, 0, 0, 0)
+        strip.paste(cell, (23 * frame, 0))
     return strip
 
 
@@ -412,14 +430,20 @@ def main():
             if not path.exists():
                 stale.append(relative)
                 if not args.check:
-                    fresh.save(path, format='DDS')
+                    import io
+                    buf = io.BytesIO()
+                    fresh.save(buf, format='DDS')
+                    path.write_bytes(buf.getvalue())
                 continue
             have = np.asarray(Image.open(path).convert('RGBA'), dtype=np.int16)
             want = np.asarray(fresh, dtype=np.int16)
             if have.shape != want.shape or int(np.abs(have - want).max()) > 3:
                 stale.append(relative)
                 if not args.check:
-                    fresh.save(path, format='DDS')
+                    import io
+                    buf = io.BytesIO()
+                    fresh.save(buf, format='DDS')
+                    path.write_bytes(buf.getvalue())
     print(('STALE' if args.check and stale else 'GENERATED' if stale else 'CURRENT')
           + f': Rada of Three Estates, {len(REFORM_IDS)} reforms, {len(KEYS)} side sprites, {len(stale)} files')
     for relative in stale:

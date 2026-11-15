@@ -172,7 +172,7 @@ mechanic = f'''{MECHANIC} = {{
     }} }}
     interactions = {{
 '''
-for name, gate, icon in [('rights', 'confirm_rights', 'GFX_rip_siversk_charter'), ('chancery', 'review_chancery', 'GFX_rip_kyiv_snem')]:
+for name, gate, icon in [('rights', 'confirm_rights', 'GFX_rip_het_rights'), ('chancery', 'review_chancery', 'GFX_rip_het_chancery')]:
     mechanic += f'''        rip_het_{name} = {{
             icon = {icon}
             trigger = {{ rip_het_can_{gate} = yes }}
@@ -228,7 +228,7 @@ put('interface/rip_het_authority.gui', '''
 guiTypes = {
  windowType = {
   name = "rip_het_authority_power" size = { x = 300 y = 58 } moveable = 0
-  iconType = { name = "emblem" spriteType = "GFX_rip_concord" position = { x = 0 y = 2 } scale = 0.5 }
+  iconType = { name = "emblem" spriteType = "GFX_rip_het_authority" position = { x = 0 y = 2 } scale = 0.5 }
   instantTextBoxType = { name = "label" position = { x = 38 y = 0 } font = "vic_18" text = "rip_het_authority" maxWidth = 250 maxHeight = 22 format = left }
   iconType = { name = "government_power_bar" spriteType = "GFX_single_government_power_bar" position = { x = 35 y = 31 } }
   iconType = { name = "government_power_bar_frame" spriteType = "GFX_single_government_power_bar_frame" position = { x = 24 y = 28 } alwaystransparent = yes }
@@ -287,6 +287,7 @@ def main():
             assert path.read_bytes().replace(b'\r\n', b'\n') == data, f'Stale: {rel}'
         else:
             path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(data)
+    import io, time
     from PIL import Image
     from build_core_ruthenia_icons import het_authority_emblem, make_idea_modifier_triplet
     base_icon, monthly_icon, gain_icon = make_idea_modifier_triplet(het_authority_emblem())
@@ -295,8 +296,21 @@ def main():
         if args.check:
             assert Image.open(target).convert('RGBA').tobytes() == icon.tobytes(), target
         else:
+            buf = io.BytesIO()
+            icon.save(buf, format='DDS')
+            payload = buf.getvalue()
             target.parent.mkdir(parents=True, exist_ok=True)
-            icon.save(target, format='DDS')
+            for attempt in range(4):
+                try:
+                    target.write_bytes(payload)
+                    break
+                except OSError:
+                    if target.exists():
+                        try:
+                            target.unlink()
+                        except OSError:
+                            pass
+                    time.sleep(0.05 * (attempt + 1))
     print(f'HET authority: {len(OUT)} generated files ' + ('verified' if args.check else 'written'))
 
 if __name__ == '__main__':

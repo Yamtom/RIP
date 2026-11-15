@@ -100,9 +100,9 @@ expected_ability_icons = {
         'GFX_rip_kyiv_grants',
     ],
     'rip_ruthenian_factional_court': [
-        'GFX_faction_kru_knyazi',
-        'GFX_faction_kru_boyary',
-        'GFX_faction_kru_starshyna',
+        'GFX_rip_kru_court_knyazi',
+        'GFX_rip_kru_court_boyary',
+        'GFX_rip_kru_court_starshyna',
     ],
 }
 for file, expected in expected_ability_icons.items():
