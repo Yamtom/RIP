@@ -11,11 +11,12 @@ Asserted:
     gfx/interface/government_reform_icons/ is left without a sprite;
   - every such texture is an uncompressed 32-bit BGRA DDS, 57x57, no mipmaps, 13124 bytes,
     with the same size, pitch, pixel-format masks and caps as its siblings;
-  - the 3 px frame of the six icons built by tools/build_reform_icons.py is identical across
-    them, and the 51x51 picture is not (nothing painted over the frame, nothing copied);
-  - no two mod reform icons are the same picture, and none is a byte copy of a vanilla one
+  - the 3 px frame of every icon built by tools/build_reform_icons.py is identical across
+    them, and the 51x51 pictures are all different (nothing painted over the frame, nothing copied);
+  - no two mod reform icons are the same picture, none is a byte copy of a vanilla one, and every
+    vanilla icon a reform of the mod names is a sprite the installed game declares
     (needs the installed game);
-  - when Pillow, numpy and the game are present, the six icons rebuild from their donors
+  - when Pillow, numpy and the game are present, the icons rebuild from their donors
     (`tools/build_reform_icons.py --check`).
 
 Standard library only for the contracts above. Does not render anything; native drawing is
@@ -35,15 +36,9 @@ HEADER = 128
 SIZE = 57
 FRAME = 3
 FILE_BYTES = HEADER + SIZE * SIZE * 4
-# The icons built from donors by tools/build_reform_icons.py (the frame is shared by these).
-BUILT = (
-    "rip_gfx_reform_cossack_host_icon",
-    "rip_gfx_reform_zaz_free_host_icon",
-    "rip_gfx_reform_zaz_sich_brotherhood_icon",
-    "rip_gfx_reform_het_starshyna_oligarchy_icon",
-    "rip_gfx_reform_het_academy_enlightenment_icon",
-    "rip_gfx_reform_zaz_last_sich_icon",
-)
+# Every texture in the folder is built from existing pictures by tools/build_reform_icons.py, inside the
+# same frame, so the frame must agree and the pictures must differ.
+BUILT = tuple(sorted(path.stem for path in (ROOT / ICON_DIR).glob("rip_gfx_reform_*_icon.dds")))
 errors = []
 
 
@@ -109,10 +104,13 @@ def ring_and_picture(data):
 
 # ---- the reforms' icons and their sprites --------------------------------------------------
 used = {}
+every_icon = {}  # every icon a reform of the mod writes, vanilla's included
 for path in sorted((ROOT / "common" / "government_reforms").glob("*.txt")):
     text = re.sub(r"#[^\r\n]*", "", read_text(path))
-    for icon in re.findall(r'\bicon\s*=\s*"(rip_gfx_reform_[A-Za-z0-9_]+)"', text):
-        used.setdefault(icon, []).append(path.name)
+    for icon in re.findall(r'(?m)^\s*icon\s*=\s*"?([^\s"}]+)"?', text):
+        every_icon.setdefault(icon, []).append(path.name)
+        if icon.startswith("rip_gfx_reform_"):
+            used.setdefault(icon, []).append(path.name)
 
 declared = {}
 for path in sorted((ROOT / "interface").rglob("*.gfx")):
@@ -140,9 +138,9 @@ for path in folder:
     relative = f"{ICON_DIR}/{path.name}"
     if relative not in declared_textures:
         fail(f"{relative} has no government_reform_* sprite; the file is dead weight")
-for name in BUILT:
-    if not (ROOT / ICON_DIR / f"{name}.dds").is_file():
-        fail(f"{ICON_DIR}/{name}.dds is missing")
+if len(BUILT) < 26:
+    fail(f"only {len(BUILT)} built reform icons in {ICON_DIR}; the six Cossack/Hetmanate icons and the twenty "
+         "that replace foreign ones are expected")
 
 # ---- the textures ----------------------------------------------------------------------------
 textures = {}
@@ -180,6 +178,13 @@ for first in sorted(textures):
 vanilla = vanilla_root()
 notes = []
 if vanilla:
+    vanilla_sprites = set()
+    for gfx in sorted((vanilla / "interface").rglob("*.gfx")):
+        vanilla_sprites.update(name for name, _ in sprite_blocks(read_text(gfx)) if name)
+    for icon, files in sorted(every_icon.items()):
+        sprite = f"government_reform_{icon}"
+        if sprite not in declared and sprite not in vanilla_sprites:
+            fail(f"icon {icon} ({', '.join(sorted(set(files)))}) is declared neither by the mod nor by the installed game")
     vanilla_files = {}
     for path in (vanilla / ICON_DIR).rglob("*.dds"):
         vanilla_files.setdefault(path.read_bytes(), path)
@@ -206,6 +211,6 @@ if errors:
         print(" -", message)
     sys.exit(1)
 print(f"REFORM ICONS PASS: {len(used)} reform icons declared and present, {len(textures)} textures "
-      f"57x57, {len(BUILT)} built icons share one frame and show six different pictures")
+      f"57x57, {len(BUILT)} built icons share one frame and show {len(BUILT)} different pictures")
 if notes:
     print("SKIP: " + "; ".join(notes))

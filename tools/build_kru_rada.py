@@ -107,7 +107,7 @@ def reform_text(second, lead):
     else:
         potential = f'\tpotential = {{\n\t\thas_reform = {rid}\n\t}}\n'
     return f'''{rid} = {{
-	icon = "imperial_nobility_reform"
+	icon = "rip_gfx_reform_kru_rada_{second}_{lead}_icon"
 	legacy_equivalent = principality_legacy
 {potential}	allow_normal_conversion = no
 	valid_for_nation_designer = no
