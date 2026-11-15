@@ -21,8 +21,11 @@ EU4 or in this mod and says what the reform is:
     zaz_free_host            mission_cossack_cavalry        a rider charging under a storm sky
     zaz_sich_brotherhood     startup image of the Cossacks  the circle at the rada table, the quill and the paper
     het_starshyna_oligarchy  DLC banner "The Cossacks"      a grey-capped elder beside a crested officer
-    het_academy_enlightenment petro_mohyla (this mod)       the Kyiv academy courtyard and its dome
+    het_academy_enlightenment mission_early_modern_university  a university courtyard and its dome, read as the Kyiv academy
     zaz_last_sich            great_project_zaporozhian_sich (this mod)   the timber watchtower and palisade of the Sich
+
+The Sich donor is a picture of this mod that other work may repaint, so its md5 is pinned: if it
+changes the icon is not rebuilt or verified, `STALE DONOR` says so, and the crop needs choosing again.
 
 The prompts in docs/core_ruthenia_visual_prompts.md stay the brief for a painter: none of
 the donors holds a mace, a seal ring or an astrolabe, so these are the closest existing
@@ -47,10 +50,12 @@ game --check says SKIP and exits 0, and writing refuses.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import struct
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Callable
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
@@ -66,6 +71,7 @@ ART = SIZE - 2 * FRAME  # 51
 FILE_BYTES = HEADER + SIZE * SIZE * 4
 ICON_DIR = "gfx/interface/government_reform_icons"
 HEADER_DONOR = f"{ICON_DIR}/horde_riding.dds"
+MIS = "gfx/interface/missions/"
 
 # Vanilla picture statistics (HSV, 0-255) the grade pulls into, never beyond.
 SAT_BAND = (75.0, 140.0)
@@ -73,6 +79,7 @@ VAL_BAND = (100.0, 165.0)
 MIN_SPREAD = 42.0
 MAX_SAT_GAIN = 1.5
 MAX_STRETCH = 1.2
+MIN_ALPHA = 200  # a donor crop must be opaque to this much
 CHECK_TOLERANCE = 3  # per channel; Pillow versions round Lanczos and HSV slightly differently
 
 
@@ -83,6 +90,7 @@ class Icon:
     vanilla: bool  # True: under the installed game; False: under this mod
     crop: tuple[int, int, int, int]  # left, top, right, bottom of a SQUARE in the donor
     why: str
+    md5: str | None = None  # pin for a donor inside this mod, which other work may repaint; vanilla's is pinned by the install version
 
 
 ICONS = (
@@ -94,10 +102,40 @@ ICONS = (
          True, (205, 75, 545, 415), "the circle round the rada table: the quill, the paper, the oath"),
     Icon("het_starshyna_oligarchy", "gfx/dlc_pictures/dlc046_the_cossacks_banner.dds",
          True, (398, 52, 538, 192), "a grey-capped elder beside a crested officer: the senior ranks"),
-    Icon("het_academy_enlightenment", "gfx/interface/missions/petro_mohyla.dds",
-         False, (0, 4, 59, 63), "the Kyiv academy courtyard and its dome"),
+    Icon("het_academy_enlightenment", "gfx/interface/missions/mission_early_modern_university.dds",
+         True, (0, 4, 59, 63), "a university courtyard and its dome, read as the Kyiv academy"),
     Icon("zaz_last_sich", "gfx/interface/great_projects/great_project_zaporozhian_sich.dds",
-         False, (165, 15, 295, 145), "the timber watchtower and palisade of the Sich"),
+         False, (176, 31, 290, 145), "the log watchtower and palisade of the Sich, below the monument plaque",
+         md5="1d0ee7952fbdf6137b5beda7ca10f013"),
+    # Ruthenian reforms that drew a Japanese shogun, a British monarch, a revolutionary fist, a tribal
+    # council or a Chinese examiner. Each donor is a vanilla mission picture of Rus', Novgorod,
+    # Hungary or the Orthodox church, which is what the reform is about.
+    Icon("kyivan_rus", MIS + "dlc_missions/third_rome/russian_minors/mission_restore_kiev.dds",
+         True, (0, 2, 59, 61), "a Rus' prince on his throne with the book of law"),
+    Icon("princes_council", MIS + "dlc_missions/third_rome/russian_minors/mission_unite_the_princes.dds",
+         True, (0, 2, 59, 61), "princes and boyars in council under an arch"),
+    Icon("kyivan_cathedral", MIS + "dlc_missions/lions_of_the_north/mission_develop_kiev.dds",
+         True, (0, 2, 59, 61), "the golden domes of the Kyivan cathedral complex"),
+    Icon("orthodox_synod", MIS + "dlc_missions/third_rome/novgorod/mission_autocephalous_archbishopric.dds",
+         True, (0, 2, 59, 61), "the Orthodox cross between two icon banners"),
+    Icon("prikaz_chancery", MIS + "dlc_missions/third_rome/muscovy_russia/mission_establish_the_prikazy.dds",
+         True, (0, 4, 59, 63), "a chancery clerk writing with a quill"),
+    Icon("rus_host", MIS + "dlc_missions/third_rome/russian_minors/mission_consolidate_the_state.dds",
+         True, (0, 4, 59, 63), "a mounted captain and foot soldiers with red shields before a white fortress"),
+    Icon("ruthenian_banner", MIS + "dlc_missions/third_rome/russian_minors/mission_rule_ruthenia.dds",
+         True, (0, 2, 59, 61), "the blue banner with the golden trident of Ruthenia"),
+    Icon("veche", MIS + "dlc_missions/third_rome/novgorod/mission_novgorod_the_great.dds",
+         True, (0, 4, 59, 63), "the walls and towers of Novgorod, seat of the veche"),
+    Icon("statute", MIS + "dlc_missions/emperor/serbia/reissue_the_mining_code.dds",
+         True, (0, 2, 59, 61), "an illuminated law code read to a gathering"),
+    Icon("sacred_law", MIS + "dlc_missions/emperor/serbia/law_of_the_pious.dds",
+         True, (0, 2, 59, 61), "an open illuminated manuscript of church law"),
+    Icon("palatine_compact", MIS + "dlc_missions/emperor/bohemia/hungarian_union.dds",
+         True, (0, 2, 59, 61), "two parties settling a compact over a table"),
+    Icon("palatine_parliament", MIS + "dlc_missions/emperor/hungary/a_strong_government.dds",
+         True, (0, 4, 59, 63), "the seat of a Hungarian assembly"),
+    Icon("monastic_lands", MIS + "dlc_missions/third_rome/muscovy_russia/mission_land_of_churches.dds",
+         True, (0, 4, 59, 63), "white monastery churches in open country"),
 )
 
 
@@ -166,13 +204,20 @@ def pull_into_band(picture: Image.Image) -> Image.Image:
     return Image.fromarray(np.clip(rgb.round(), 0, 255).astype(np.uint8), "RGB")
 
 
+class StaleDonor(Exception):
+    """A donor inside this mod no longer is the picture the crop was chosen on."""
+
+
 def make_picture(icon: Icon, root: Path) -> Image.Image:
+    if icon.md5 and hashlib.md5((root / icon.source).read_bytes()).hexdigest() != icon.md5:
+        raise StaleDonor(f"{icon.name}: {icon.source} is not the picture the crop {icon.crop} was chosen on "
+                         f"(pinned md5 {icon.md5}); choose a new crop and update the pin")
     source = read_rgba(root / icon.source)
     left, top, right, bottom = icon.crop
     if right - left != bottom - top:
         raise ValueError(f"{icon.name}: crop {icon.crop} is not square")
     piece = source.crop(icon.crop)
-    if np.asarray(piece)[..., 3].min() != 255:
+    if np.asarray(piece)[..., 3].min() < MIN_ALPHA:  # some vanilla mission icons are 229-255 at their edges
         raise ValueError(f"{icon.name}: crop {icon.crop} reaches transparent pixels of {icon.source}")
     picture = piece.convert("RGB").resize((ART, ART), Image.LANCZOS)
     picture = picture.filter(ImageFilter.UnsharpMask(radius=0.7, percent=45, threshold=3))
@@ -188,26 +233,163 @@ def build(icon: Icon, game: Path, ring: np.ndarray) -> np.ndarray:
     return out
 
 
+# --------------------------------------------------------------------------------------------
+# Composites: pictures put together from several existing ones
+# --------------------------------------------------------------------------------------------
+
+def donor_picture(path: Path, crop: tuple[int, int, int, int]) -> Image.Image:
+    """A square piece of an opaque donor, scaled to the picture window and graded like any donor."""
+    piece = read_rgba(path).crop(crop)
+    picture = piece.convert("RGB").resize((ART, ART), Image.LANCZOS)
+    return pull_into_band(picture.filter(ImageFilter.UnsharpMask(radius=0.7, percent=45, threshold=3)))
+
+
+def confessional_balance(game: Path) -> Image.Image:
+    """Orthodox domes on the left, a Gothic spire on the right, one gold seam between: two rites kept in balance."""
+    left = donor_picture(game / MIS / "dlc_missions/third_rome/novgorod/mission_cathedral_cities.dds", (0, 2, 59, 61))
+    right = donor_picture(game / MIS / "mission_european_church.dds", (0, 2, 59, 61))
+    mask = Image.new("L", (ART * 4, ART * 4), 0)
+    # the seam leans a little: from x = 28 at the top to x = 22 at the bottom
+    ImageDraw.Draw(mask).polygon([(28 * 4, 0), (ART * 4, 0), (ART * 4, ART * 4), (22 * 4, ART * 4)], fill=255)
+    mask = mask.resize((ART, ART), Image.LANCZOS)
+    out = Image.composite(right, left, mask)
+    seam = Image.new("RGBA", (ART * 4, ART * 4), (0, 0, 0, 0))
+    ImageDraw.Draw(seam).line([(28 * 4, 0), (22 * 4, ART * 4)], fill=(236, 200, 110, 255), width=8)
+    seam = seam.resize((ART, ART), Image.LANCZOS)
+    shadow = seam.filter(ImageFilter.GaussianBlur(1.2)).point(lambda v: int(v * 0.5))
+    out = out.convert("RGBA")
+    dark = Image.new("RGBA", out.size, (0, 0, 0, 255))
+    out = Image.composite(dark, out, shadow.getchannel("A"))
+    out.alpha_composite(seam)
+    return out.convert("RGB")
+
+
+# The Rada of Three Estates (tools/build_kru_rada.py): one government, six reform ids, one for each ordered pair
+# (second by influence, dominant). The icon shows the two emblems of the faction emblems, the dominant one large.
+RADA_EMBLEMS = {  # faction -> (md5 of gfx/interface/rip_government/faction_<key>.dds, background of the card when it leads)
+    "knyazi": ("382fc68a703493e48f49e796c15a0445", (96, 30, 38)),
+    "boyary": ("7b8553cc2ab53d966b6ee2237a8bd6ae", (30, 58, 62)),
+    "starshyna": ("6fccbdcfeb0c67e68d564e1ad8431da8", (74, 38, 30)),
+}
+RADA_PAIRS = (  # (second, dominant): the order of build_kru_rada.PAIRS
+    ("boyary", "knyazi"), ("starshyna", "knyazi"), ("knyazi", "boyary"),
+    ("starshyna", "boyary"), ("knyazi", "starshyna"), ("boyary", "starshyna"),
+)
+
+
+def rada_icon_name(second: str, lead: str) -> str:
+    return f"kru_rada_{second}_{lead}"
+
+
+def emblem(key: str) -> Image.Image:
+    path = ROOT / "gfx/interface/rip_government" / f"faction_{key}.dds"
+    if hashlib.md5(path.read_bytes()).hexdigest() != RADA_EMBLEMS[key][0]:
+        raise StaleDonor(f"kru_rada: {path.relative_to(ROOT).as_posix()} is not the emblem the Rada icons were composed "
+                         f"from (pinned md5 {RADA_EMBLEMS[key][0]}); compose them again and update the pin")
+    image = read_rgba(path)
+    box = np.asarray(image)[..., 3] > 24
+    rows, cols = np.where(box)
+    return image.crop((cols.min(), rows.min(), cols.max() + 1, rows.max() + 1))
+
+
+def place(canvas: Image.Image, image: Image.Image, centre: tuple[float, float], longest: int, dim: float = 1.0) -> None:
+    """Scale `image` so its longer side is `longest`, centre it, drop a soft shadow under it."""
+    scale = longest / max(image.size)
+    size = (max(1, round(image.width * scale)), max(1, round(image.height * scale)))
+    small = image.convert("RGBa").resize(size, Image.LANCZOS).convert("RGBA")
+    if dim != 1.0:
+        r, g, b, a = small.split()
+        small = Image.merge("RGBA", [c.point(lambda v: int(v * dim)) for c in (r, g, b)] + [a])
+    x, y = round(centre[0] - size[0] / 2), round(centre[1] - size[1] / 2)
+    shadow = Image.new("L", canvas.size, 0)
+    shadow.paste(small.getchannel("A"), (x + 1, y + 2))
+    shadow = shadow.filter(ImageFilter.GaussianBlur(1.6)).point(lambda v: int(v * 0.65))
+    canvas.paste(Image.new("RGBA", canvas.size, (0, 0, 0, 255)), (0, 0), shadow)
+    canvas.alpha_composite(small, (x, y))
+
+
+def rada_picture(second: str, lead: str) -> Image.Image:
+    """The two blocs that lead the Rada: the dominant emblem large and lit, the second smaller behind it."""
+    cx, cy = ART * 0.58, ART * 0.44
+    bg = np.zeros((ART, ART, 3), dtype=np.float64)
+    yy, xx = np.mgrid[0:ART, 0:ART]
+    radius = np.clip(np.hypot(xx - cx, yy - cy) / (ART * 0.78), 0.0, 1.0)
+    centre = np.array(RADA_EMBLEMS[lead][1], dtype=np.float64)
+    bg[:] = centre * (1.0 - 0.72 * radius[..., None] ** 1.4)
+    canvas = Image.fromarray(bg.round().astype(np.uint8), "RGB").convert("RGBA")
+
+    glow = np.clip(1.0 - np.hypot(xx - cx, yy - cy) / (ART * 0.42), 0.0, 1.0) ** 2 * 0.42
+    light = Image.new("RGBA", canvas.size, (255, 214, 150, 0))
+    light.putalpha(Image.fromarray((glow * 255).round().astype(np.uint8), "L"))
+    canvas.alpha_composite(light)
+
+    place(canvas, emblem(second), (ART * 0.27, ART * 0.72), 25, dim=0.82)
+    place(canvas, emblem(lead), (cx, cy), 37)
+    return canvas.convert("RGB")
+
+
+@dataclass(frozen=True)
+class Composite:
+    name: str
+    why: str
+    make: Callable[[Path], Image.Image]  # the RGB picture of ART x ART
+
+
+COMPOSITES = (
+    Composite("confessional_balance", "an Orthodox cathedral and a Gothic church side by side, one gold seam",
+              confessional_balance),
+) + tuple(
+    Composite(rada_icon_name(s, l), f"the Rada: {s} second, {l} dominant",
+              (lambda game, s=s, l=l: rada_picture(s, l)))
+    for s, l in RADA_PAIRS
+)
+
+
 def dds_bytes(pixels: np.ndarray, header: bytes) -> bytes:
     """Header of a vanilla icon (same pixel format, masks, flags) and BGRA pixels."""
     return bytes(header) + pixels[..., [2, 1, 0, 3]].tobytes()
 
 
-def build_all(game: Path) -> dict[str, np.ndarray]:
+def build_all_checked(game: Path) -> tuple[dict[str, np.ndarray], list[str]]:
+    """The rebuilt icons, and a message for each icon whose pinned donor has changed (not rebuilt)."""
     ring = frame_ring(game)
-    return {texture_path(icon): build(icon, game, ring) for icon in ICONS}
+    built, stale = {}, []
+    for icon in ICONS:
+        try:
+            built[texture_path(icon)] = build(icon, game, ring)
+        except StaleDonor as problem:
+            stale.append(str(problem))
+    for composite in COMPOSITES:
+        try:
+            out = ring.copy()
+            out[FRAME:SIZE - FRAME, FRAME:SIZE - FRAME, :3] = np.asarray(composite.make(game), dtype=np.uint8)
+            out[FRAME:SIZE - FRAME, FRAME:SIZE - FRAME, 3] = 255
+            built[texture_path(Icon(composite.name, "", True, (0, 0, 0, 0), composite.why))] = out
+        except StaleDonor as problem:
+            stale.append(str(problem))
+    return built, stale
 
 
-def preview(images: dict[str, np.ndarray], scale: int, out: Path) -> None:
+def build_all(game: Path) -> dict[str, np.ndarray]:
+    """Every icon, as {texture path: RGBA pixels}; raises StaleDonor rather than skip one (other tools call this)."""
+    built, stale = build_all_checked(game)
+    if stale:
+        raise StaleDonor("; ".join(stale))
+    return built
+
+
+def preview(images: dict[str, np.ndarray], scale: int, out: Path, columns: int = 8) -> None:
     pad = 8
     cell = SIZE * scale
-    sheet = Image.new("RGB", (len(images) * (cell + pad) + pad, cell + pad * 2 + 14), (40, 40, 40))
+    rows = -(-len(images) // columns)
+    sheet = Image.new("RGB", (min(len(images), columns) * (cell + pad) + pad, rows * (cell + pad + 14) + pad), (40, 40, 40))
     draw = ImageDraw.Draw(sheet)
     for i, (path, px) in enumerate(images.items()):
         tile = Image.fromarray(px, "RGBA").resize((cell, cell), Image.NEAREST)
-        x = pad + i * (cell + pad)
-        sheet.paste(tile, (x, pad), tile)
-        draw.text((x, pad + cell + 2), Path(path).stem.replace("rip_gfx_reform_", "")[:28], fill=(230, 230, 230))
+        x = pad + (i % columns) * (cell + pad)
+        y = pad + (i // columns) * (cell + pad + 14)
+        sheet.paste(tile, (x, y), tile)
+        draw.text((x, y + cell + 2), Path(path).stem.replace("rip_gfx_reform_", "")[:30], fill=(230, 230, 230))
     sheet.save(out)
 
 
@@ -222,7 +404,12 @@ def main() -> int:
     if game is None:
         print("SKIP: the vanilla install is needed for the donors and the frame (set EU4_DIR); nothing written")
         return 0 if args.check else 1
-    images = build_all(game)
+    images, stale = build_all_checked(game)
+    for message in stale:
+        print(f"STALE DONOR {message}")
+    if stale and not args.check:
+        print("nothing written: a donor changed, so the picture would not be the one that was chosen")
+        return 1
 
     if args.preview:
         preview(images, args.scale, args.preview)
@@ -248,7 +435,8 @@ def main() -> int:
             if worst > CHECK_TOLERANCE:
                 print(f"DIFFERS {path}: worst channel error {worst} > {CHECK_TOLERANCE}; rerun without --check")
                 bad += 1
-        print("REFORM ICONS FAIL" if bad else f"REFORM ICONS PASS: {len(images)} icons rebuild from their donors")
+        note = f"; {len(stale)} not re-verified (STALE DONOR above)" if stale else ""
+        print("REFORM ICONS FAIL" if bad else f"REFORM ICONS PASS: {len(images)} icons rebuild from their donors{note}")
         return 1 if bad else 0
 
     for path, px in images.items():
