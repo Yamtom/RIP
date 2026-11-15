@@ -171,10 +171,11 @@ Ruthenian lands" condition written as `region = ruthenia_region` silently drops
 Halych, Belz, Peremyshl, Lviv and Drohobych - which is most of what a Galician
 country owns, and the city the Khmelnytsky host besieged.
 
-**`severian` and `severian_new` are empty save-compatibility aliases, on purpose.**
-`tests/check_culture_key_compatibility.py` fails the build if either block gains a
-body, and fails it again if any loaded script so much as reads `culture = severian`.
-New work uses the vanilla keys `ryazanian` and `ryazanian_new`.
+**`ryazanian` and `ryazanian_new` use unmodified vanilla EU4 1.37.5 definitions; `severian` is removed.**
+`tests/check_culture_key_compatibility.py` fails if `severian` or `severian_new`
+reappear in `00_cultures.txt` or loaded scripts, or if vanilla `ryazanian` is
+overridden back to Severian. Siveria (`1945`, `4244`, `297`, `298`, `4543`, `291`),
+Upper Oka (`4116`, `OKA`) use `ruthenian`, and `SMO` uses `byelorussian`.
 
 **A reform absent from `common/governments/00_governments.txt` is never offered.**
 Whatever its `potential` and `trigger` say, it will not appear in any slot. 25 reforms

@@ -8,7 +8,7 @@
 
 | Категорія UI | Ванільний еталон EU4 1.37.5 | Розмір / кадри / формат DDS | Конвенція RIP у `gfx/interface/rip_government/` |
 | :--- | :--- | :--- | :--- |
-| **Кнопки державних механік (82×82)** | `gfx/interface/government_mechanics/**/*.dds` (*devshirme*, *iqta*, *council_of_ten*, *mamluk*) | `82×82`, 1 кадр, 32-bit uncompressed BGRA (`A8R8G8B8`), `alpha[0,0] = 0`, `alpha[center] = 255` | **50 спрайтів**: одна характерна форма золотої/емалевої оправи на механіку (`round`, `octagon`, `arch`, `shield`, `hex`, `keep`), усередині — багатошарові мальовані мініатюри з перевірених джерел репозиторію |
+| **Кнопки державних механік (82×82)** | `gfx/interface/government_mechanics/**/*.dds` (*devshirme*, *iqta*, *council_of_ten*, *mamluk*) | `82×82`, 1 кадр, 32-bit uncompressed BGRA (`A8R8G8B8`), `alpha[0,0] = 0`, `alpha[center] = 255` | **50 спрайтів**: одна характерна симетрична форма золотої/емалевої оправи на механіку (`round`, `octagon`, `arch`, `shield`, `hex`, `keep`), усередині — **рівно один чіткий мальований фокусний об’єкт** на гладкому радіальному оксамитовому тлі або цілісна мальована сцена без процедурних векторних накладок |
 | **Кнопки та емблеми шкал руських князівств і Гетьманщини (72×72)** | `cossacks_ability_{adm,dip,mil}.dds`, `shogunate/*.dds`, `russian_ability_*.dds` | `72×72`, 1 кадр, 32-bit uncompressed RGBA/BGRA, медальйон `bbox=(1, 1, 70, 70)` (`~71%` непрозорих пікселів) | **15 спрайтів**: 12 круглих кнопок у золотій оправі (`r_outer = 32.5`, `r_halo_out = 34.5`) та 3 вільні емблеми шкал влади (`concord`, `prosperity`, `het_authority`) |
 | **Іконки державних реформ (57×57)** | `gfx/interface/government_reform_icons/*.dds` | `57×57`, 1 кадр, 32-bit uncompressed BGRA без міпмапів (`13 124` байти), суцільний альфа-канал (`alpha = 255`), зовнішня 3px рамка | **2 спрайти** (`uzh_palanok_captaincy_reform.dds`, `captaincy_reform.dds`): мальована сцена `51×51` з кольорокорекцією у ванільний діапазон реформ (`pull_into_band`) у медіанній 3px рамці ванільної іконки реформи |
 | **Двокадрові смуги States General** | `republic_icon_strip.dds` (`54×19`, 2×`27×19`), `monarchism_icon_strip.dds` (`46×25`, 2×`23×25`) | `noOfFrames = 2`, однаковий альфа-силует обох кадрів (`alpha_max_diff = 0`, `alpha[0,0] = 0`), кадр 1 приглушений, кадр 2 золотий | **4 спрайти** (`uzh_partia_soymu.dds` `54×19`, `uzh_partia_kapitaniv.dds` `46×25`) + **3 спрайти** Тристанової ради (`kru_rada_{knyazi,boyary,starshyna}.dds` `46×25`) |
@@ -35,13 +35,13 @@
 - **Емблеми шкал влади (`72×72`, без рамки, масштабуються у `.gui` з `scale = 0.5`)**:
   - `concord.dds` (`GFX_rip_concord`) — `source/concord.png`
   - `prosperity.dds` (`GFX_rip_prosperity`) — `source/prosperity.png`
-  - `het_authority.dds` (`GFX_rip_het_authority`) — схрещені золота гетьманська булава й срібний пернач під червоною стрічкою (`disasters/source/hetman_succession_crisis.png`) поверх універсала з печаткою (`source/charter.png`)
+  - `het_authority.dds` (`GFX_rip_het_authority`) — схрещені золота гетьманська булава й срібний старшинський пернач під червоною стрічкою (`disasters/source/hetman_succession_crisis.png`)
 - **Емблеми фракцій (`104×104`)**:
   - `faction_knyazi.dds` (`GFX_faction_kru_knyazi`) — `source/atlas.png` `(1, 2)`
   - `faction_boyary.dds` (`GFX_faction_kru_boyary`) — `source/atlas.png` `(2, 2)`
   - `faction_starshyna.dds` (`GFX_faction_kru_starshyna`) — `source/atlas.png` `(3, 2)`
-  - `faction_rep_knyazi.dds` (`GFX_faction_rep_knyazi`) — княжий вінець із соборною грамотою на багряному щиті представницької монархії
-  - `faction_rep_boyary.dds` (`GFX_faction_rep_boyary`) — боярська рада з магдебурзькою міською грамотою та терезами на смарагдово-синьому тлі
+  - `faction_rep_knyazi.dds` (`GFX_faction_rep_knyazi`) — княжий вінець із соборною грамотою (`source/atlas.png` `(0, 1)`)
+  - `faction_rep_boyary.dds` (`GFX_faction_rep_boyary`) — різьблені крісла боярської ради (`source/atlas.png` `(3, 0)`)
 
 ### 2.2. `tools/build_government_ability_icons.py` → `interface/rip_ability_icons.gfx` (37 текстур `82×82`)
 - **Боярська рада Галичини (`round`, багряна емаль)**:
@@ -78,7 +78,7 @@
 ### 2.5. `tools/build_captaincy_icons.py` → `interface/rip_captaincy_icons.gfx` (7 текстур)
 - **Карпатське капітанство (`82×82`, шестикутна оправа `hex`, лісова зелена емаль)**:
   - `captaincy_posts.dds`, `captaincy_salt.dds`, `captaincy_opryshky.dds`
-- **Прикордонна сторожа (`82×82`, зубчаста оправа `keep`, сланцево-синя емаль)**:
+- **Прикордонна сторожа (`82×82`, бастіонна оправа зі скошеними кутами `keep`, сланцево-синя емаль)**:
   - `watch_towers.dds`, `watch_patrols.dds`, `watch_settlers.dds`
 - **Картка реформи (`57×57`)**:
   - `captaincy_reform.dds` (`government_reform_rip_gfx_reform_uzh_carpathian_captaincy_icon`) — мальований Верецький перевал зі сторожовою вежею та щитом (`missions/source/uzh_identity_branch_locked_2.png`) у ванільній 3px рамці реформи

@@ -85,10 +85,12 @@ Culture ids are **written into every history file and every save**. Therefore:
 - **Never rename or delete a culture that is in use.** *Move* it between groups
   instead. Deleting one turns every province/country that had it into "no
   culture" in game and in existing saves.
-- RIP keeps **`severian` and `severian_new` as deliberately empty save-compat
-  aliases.** `tests/check_culture_key_compatibility.py` fails the build if either
-  gains a body **or if any loaded script reads `culture = severian`**. New work
-  uses the vanilla keys **`ryazanian` / `ryazanian_new`**.
+- **Vanilla `ryazanian` / `ryazanian_new` are restored to vanilla EU4 1.37.5**, and
+  the old `severian` / `severian_new` aliases and Severian cultural layer have
+  been completely removed. `tests/check_culture_key_compatibility.py` enforces
+  that `ryazanian` / `ryazanian_new` remain vanilla, `severian` / `severian_new`
+  do not exist in `00_cultures.txt` or scripts, and Siveria/Upper Oka provinces
+  plus `OKA` use `ruthenian` while `SMO` uses `byelorussian`.
 - Adding a culture is safe. Renaming its **localisation** is safe. Renaming the
   **key** is not.
 
@@ -118,8 +120,8 @@ Vanilla 1.37 carries **two parallel East-Slavic sets**, and RIP keeps both:
 
 | Group | Cultures | Used by |
 |---|---|---|
-| `east_slavic` | `russian`, `novgorodian`, `ryazanian`, `severian`(empty), `byelorussian`, `ruthenian`, `rusyn` | **RIP's own `history/provinces/` files** (`280 - Kiev.txt` → `culture = ruthenian`) |
-| `slavic` | `russian_new`, `novgorodian_new`, `ryazanian_new`, `severian_new`(empty), `byelorussian_new`, `ruthenian_new`, + all West/South Slavic `_new` | **vanilla's unmodified history** for the rest of the world |
+| `east_slavic` | `russian`, `novgorodian`, `ryazanian`, `byelorussian`, `ruthenian`, `rusyn` | **RIP's own `history/provinces/` files** (`280 - Kiev.txt` → `culture = ruthenian`) |
+| `slavic` | `russian_new`, `novgorodian_new`, `ryazanian_new`, `byelorussian_new`, `ruthenian_new`, + all West/South Slavic `_new` | **vanilla's unmodified history** for the rest of the world |
 | `carpathian` | `transylvanian`, `romanian`, `hungarian`, `rusyn_new_new` (primary UZH) | Transcarpathia |
 
 So a RIP Kyiv (`ruthenian`, group `east_slavic`) and a vanilla Muscovy
@@ -137,7 +139,7 @@ Ruthenian family - keep any culture rework and that trigger in lockstep.
 
 - [ ] new culture added to a group, with its own name pools (not inheriting silently)?
 - [ ] no space-bearing name left unquoted; no stray comma tokens?
-- [ ] not renaming/deleting an in-use key; `severian`/`severian_new` untouched and unread?
+- [ ] not renaming/deleting an in-use key; no `severian`/`severian_new` references reintroduced?
 - [ ] every non-ASCII vanilla name still intact (diff vs vanilla, cp1252)?
 - [ ] `primary = TAG` only where that tag should hold cores forever?
 - [ ] province/country history culture ids all exist in the file?

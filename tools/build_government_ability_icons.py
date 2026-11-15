@@ -1606,6 +1606,93 @@ def disaster_cutout(name: str, tile: int = 0) -> Image.Image:
     return _PAINTED_CACHE[key]
 
 
+def banner_cutout(name: str) -> Image.Image:
+    key = ('banner', name)
+    if key not in _PAINTED_CACHE:
+        im = _raw_image(f'assets/church_banners/{name}.png')
+        bbox = im.getbbox()
+        _PAINTED_CACHE[key] = im.crop(bbox) if bbox else im
+    return _PAINTED_CACHE[key]
+
+
+def religion_cutout(name: str) -> Image.Image:
+    key = ('religion', name)
+    if key not in _PAINTED_CACHE:
+        im = _raw_image(f'gfx/interface/religion_icons/source/{name}.png')
+        bbox = im.getbbox()
+        _PAINTED_CACHE[key] = im.crop(bbox) if bbox else im
+    return _PAINTED_CACHE[key]
+
+
+def extra_cutout(col: int, row: int) -> Image.Image:
+    key = ('extra', col, row)
+    if key not in _PAINTED_CACHE:
+        im = _raw_image('gfx/interface/rip_government/source/emblems_extra.png')
+        cw, ch = im.width // 2, im.height // 2
+        pad_x, pad_y = int(cw * 0.04), int(ch * 0.04)
+        cropped = im.crop((col * cw + pad_x, row * ch + pad_y, (col + 1) * cw - pad_x, (row + 1) * ch - pad_y))
+        _PAINTED_CACHE[key] = remove_dark_bg(cropped, teal=True)
+    return _PAINTED_CACHE[key]
+
+
+def velvet_backdrop(
+    top_rgb: tuple[int, int, int],
+    bot_rgb: tuple[int, int, int],
+) -> Image.Image:
+    """Clean, smooth radial vignette backdrop modeled on vanilla EU4 mechanic medallions."""
+    yy, xx = np.mgrid[0:S, 0:S].astype(np.float32)
+    cx = cy = S / 2.0
+    r = np.hypot(xx - cx, yy - cy) / (34.0 * SS)
+    vy = yy / float(S)
+    vign = np.clip(1.05 - 0.42 * (r ** 1.85), 0.28, 1.05)
+    out = np.zeros((S, S, 4), dtype=np.uint8)
+    for ch in range(3):
+        grad = top_rgb[ch] * (1.0 - vy) + bot_rgb[ch] * vy
+        out[..., ch] = np.clip(grad * vign, 0, 255).astype(np.uint8)
+    out[..., 3] = 255
+    return Image.fromarray(out, 'RGBA')
+
+
+def emblem_scene(
+    cutout: Image.Image,
+    top_rgb: tuple[int, int, int],
+    bot_rgb: tuple[int, int, int],
+    glow_rgb: tuple[int, int, int],
+    box: float = 51.0,
+    cx: float = 41.0,
+    cy: float = 42.5,
+    flip: bool = False,
+    degrees: float = 0.0,
+    tint_rgb: tuple[float, float, float] = (1.0, 1.0, 1.0),
+    sat: float = 1.04,
+    brightness: float = 1.02,
+    contrast: float = 1.08,
+) -> Image.Image:
+    """Single focal emblem centered on a clean radial velvet vignette (zero sticker clutter)."""
+    layer = velvet_backdrop(top_rgb, bot_rgb)
+    return place_cutout(
+        layer,
+        cutout,
+        cx=cx,
+        cy=cy,
+        box=box,
+        degrees=degrees,
+        flip=flip,
+        tint_rgb=tint_rgb,
+        sat=sat,
+        brightness=brightness,
+        contrast=contrast,
+        shadow_alpha=0.68,
+        rim_color=(16, 10, 6),
+        rim_width=0.48,
+        rim_alpha=0.88,
+        glow_color=glow_rgb,
+        glow_radius=26.0,
+        glow_alpha=0.40,
+    )
+
+
+
 def grade_rgba(
     image: Image.Image,
     tint_rgb: tuple[float, float, float] = (1.0, 1.0, 1.0),
@@ -1716,180 +1803,110 @@ def place_cutout(
 # --------------------------------------------------------------------------
 
 def scene_boyar_office():
-    """Confirm the Boyars in Office: a charter with its seal, a boyar in fur-trimmed coat beside it."""
-    layer = painted_backdrop(
-        'gfx/interface/government_reform_icons/source/het_starshyna_oligarchy.png',
-        focus=(0.5, 0.48), zoom=1.15, tint_rgb=(1.14, 0.80, 0.74), brightness=0.76,
+    """Confirm the Boyars in Office: boyar statute codex with carnelian signet ring."""
+    return emblem_scene(
+        priv_cutout('magnate_supremacy'),
+        top_rgb=(74, 24, 22), bot_rgb=(28, 8, 8), glow_rgb=(255, 198, 120),
+        box=51, cy=43,
     )
-    layer = place_cutout(
-        layer, atlas_cutout(2, 2), cx=49, cy=43, box=44,
-        glow_color=(255, 196, 118), glow_radius=24, glow_alpha=0.34,
-    )
-    layer = place_cutout(
-        layer, gov_cutout('charter'), cx=27, cy=50, box=35, degrees=-10,
-        rim_color=(32, 14, 8),
-    )
-    return layer
 
 
 def scene_boyar_claimant():
-    """Counter the Foreign Claimant: a royal crown countered by crossed princely swords and shield."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/chr_identity_branch_locked_2.png',
-        focus=(0.5, 0.48), zoom=1.15, tint_rgb=(1.16, 0.78, 0.70), brightness=0.72,
+    """Counter the Foreign Claimant: foreign royal crown barred by a steel broadsword."""
+    return emblem_scene(
+        extra_cutout(0, 1),
+        top_rgb=(66, 20, 44), bot_rgb=(24, 8, 18), glow_rgb=(255, 206, 132),
+        box=51, cy=42,
     )
-    layer = place_cutout(
-        layer, atlas_cutout(1, 2), cx=42, cy=32, box=38, degrees=-6,
-        glow_color=(255, 200, 120), glow_radius=24, glow_alpha=0.32,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(1, 1), cx=41, cy=53, box=42, degrees=8,
-        rim_color=(28, 10, 8),
-    )
-    return layer
 
 
 def scene_boyar_example():
-    """Make an Example of a Defiant Boyar: boyar fur cap, gold chain, and heavy maces of punishment."""
-    layer = painted_backdrop(
-        'gfx/interface/great_projects/source/zaporozhian_sich.png',
-        focus=(0.5, 0.55), zoom=1.20, tint_rgb=(1.18, 0.70, 0.64), brightness=0.66,
+    """Make an Example of a Defiant Boyar: crimson shield over crossed broadswords."""
+    return emblem_scene(
+        atlas_cutout(1, 1),
+        top_rgb=(78, 18, 16), bot_rgb=(26, 6, 6), glow_rgb=(255, 168, 96),
+        box=51, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('magnate_supremacy'), cx=39, cy=45, box=50,
-        glow_color=(255, 150, 90), glow_radius=25, glow_alpha=0.30,
-    )
-    layer = over(layer, axe((58, 67), -8, 32))
-    return layer
 
 
 def scene_senate_summon():
-    """Summon the Senate: Ruthenian-Volhynian magnates seated around the council table."""
-    layer = painted_backdrop(
-        'gfx/interface/great_projects/source/vilnius_palace.png',
-        focus=(0.45, 0.48), zoom=1.18, flip=True, tint_rgb=(0.76, 0.92, 1.18), brightness=0.78,
+    """Summon the Senate: Ruthenian-Volhynian council table and high-backed chairs."""
+    return emblem_scene(
+        gov_cutout('snem'),
+        top_rgb=(22, 44, 78), bot_rgb=(10, 18, 36), glow_rgb=(180, 218, 255),
+        box=51, cy=44,
     )
-    layer = place_cutout(
-        layer, gov_cutout('snem'), cx=41, cy=44, box=52,
-        glow_color=(185, 215, 255), glow_radius=26, glow_alpha=0.35,
-    )
-    return layer
 
 
 def scene_senate_buyoff():
-    """Buy Off a Magnate House: a magnate house shield beside a coffer spilling gold ducats."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/chr_identity_branch_locked_3.png',
-        focus=(0.5, 0.52), zoom=1.20, tint_rgb=(0.76, 0.90, 1.16), brightness=0.76,
+    """Buy Off a Magnate House: fur-trimmed princely cap beside a sealed land grant."""
+    return emblem_scene(
+        atlas_cutout(0, 1),
+        top_rgb=(26, 52, 82), bot_rgb=(12, 22, 38), glow_rgb=(255, 222, 148),
+        box=51, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('jewish_tax_farmers_compact'), cx=46, cy=48, box=46,
-        glow_color=(200, 224, 255), glow_radius=24, glow_alpha=0.30,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(0, 1), cx=27, cy=34, box=31, degrees=-10,
-    )
-    return layer
 
 
 def scene_senate_banners():
-    """Call Up the Magnate Banners: princely standards, heraldic shields and lances of the great houses."""
-    layer = painted_backdrop(
-        'assets/church_banners/ro_banner_war_v2.png',
-        focus=(0.5, 0.45), zoom=1.05, tint_rgb=(0.80, 0.94, 1.16), brightness=0.82,
+    """Call Up the Magnate Banners: fortified magnate stronghold behind a crimson heraldic shield."""
+    return emblem_scene(
+        priv_cutout('strong_appanages'),
+        top_rgb=(20, 38, 72), bot_rgb=(8, 16, 32), glow_rgb=(196, 224, 255),
+        box=52, cy=44,
     )
-    layer = place_cutout(
-        layer, priv_cutout('strong_appanages'), cx=41, cy=45, box=52,
-        glow_color=(190, 220, 255), glow_radius=26, glow_alpha=0.32,
-    )
-    return layer
 
 
 def scene_chancery():
-    """The Chancery Ordinance: statute book, sealed ordinance scroll, brass inkwell and quill."""
-    layer = painted_backdrop(
-        'gfx/interface/government_reform_icons/source/het_academy_enlightenment.png',
-        focus=(0.5, 0.55), zoom=1.18, tint_rgb=(0.82, 0.98, 1.08), brightness=0.74,
+    """The Chancery Ordinance: rolled imperial chancery statute with hanging red wax seal."""
+    return emblem_scene(
+        priv_cutout('seimski_statutes'),
+        top_rgb=(44, 38, 26), bot_rgb=(16, 14, 10), glow_rgb=(255, 218, 140),
+        box=52, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('seimski_statutes'), cx=41, cy=44, box=52,
-        glow_color=(195, 232, 245), glow_radius=25, glow_alpha=0.28,
-    )
-    return layer
 
 
 def scene_settlement():
-    """The Settlement Ordinance: wooden homestead, plough and golden wheat on the settled marches."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/uzh_identity_branch_locked_3.png',
-        focus=(0.45, 0.50), zoom=1.15, tint_rgb=(1.06, 0.96, 0.84), brightness=0.86,
+    """The Settlement Ordinance: golden wheat sheaf before a wooden frontier homestead."""
+    return emblem_scene(
+        priv_cutout('left_bank_settlement'),
+        top_rgb=(54, 42, 22), bot_rgb=(20, 14, 8), glow_rgb=(255, 226, 148),
+        box=52, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('left_bank_settlement'), cx=41, cy=45, box=52,
-        glow_color=(255, 224, 150), glow_radius=26, glow_alpha=0.35,
-    )
-    return layer
 
 
 def scene_cadastre():
-    """The Cadastral Ordinance: survey charter of parcels, brass dividers and surveyor's chain."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/uzh_identity_branch_locked_1.png',
-        focus=(0.60, 0.55), zoom=1.25, flip=True, tint_rgb=(0.96, 0.88, 0.74), brightness=0.72,
+    """The Cadastral Ordinance: cadastral tax ledger, brass balance scales and gold ducats."""
+    return emblem_scene(
+        priv_cutout('jewish_tax_farmers'),
+        top_rgb=(36, 44, 34), bot_rgb=(14, 18, 12), glow_rgb=(245, 218, 142),
+        box=52, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('grain_charters'), cx=37, cy=45, box=48, degrees=-5,
-        glow_color=(250, 216, 145), glow_radius=24, glow_alpha=0.28,
-    )
-    chain_pts = bezier((12, 64), (28, 50), (46, 72), (70, 54), n=20)
-    layer = over(layer, survey_chain(chain_pts))
-    layer = over(layer, dividers((56, 21), 16, 7.0, 25))
-    return layer
 
 
 def scene_urbarial():
-    """The Urbarial Ordinance: sealed village patent beside a golden sheaf of wheat and sickle."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/chr_identity_branch_locked_3.png',
-        focus=(0.50, 0.55), zoom=1.22, flip=True, tint_rgb=(1.08, 0.95, 0.78), brightness=0.78,
+    """The Urbarial Ordinance: golden wheat sheaf bound with a sealed peasant charter."""
+    return emblem_scene(
+        priv_cutout('grain_charters'),
+        top_rgb=(62, 40, 20), bot_rgb=(22, 14, 8), glow_rgb=(255, 224, 144),
+        box=52, cy=43,
     )
-    layer = place_cutout(
-        layer, gov_cutout('prosperity'), cx=49, cy=46, box=43,
-        glow_color=(255, 224, 150), glow_radius=25, glow_alpha=0.36,
-    )
-    layer = place_cutout(
-        layer, gov_cutout('charter'), cx=28, cy=44, box=35, degrees=-8,
-    )
-    return layer
 
 
 def scene_toleration():
-    """The Toleration Ordinance: sanctuaries of the marches under confessional concord and royal crown."""
-    layer = painted_backdrop(
-        'assets/church_banners/ro_banner_building_v2.png',
-        focus=(0.50, 0.45), zoom=1.05, tint_rgb=(1.02, 0.96, 1.06), brightness=0.84,
+    """The Toleration Ordinance: clasped hands of confessional concord beneath a golden cross."""
+    return emblem_scene(
+        priv_cutout('parish_concord'),
+        top_rgb=(48, 30, 56), bot_rgb=(18, 10, 24), glow_rgb=(255, 226, 162),
+        box=51, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('parish_concord'), cx=41, cy=48, box=46,
-        glow_color=(255, 226, 165), glow_radius=24, glow_alpha=0.34,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(1, 2), cx=41, cy=21, box=24,
-    )
-    return layer
 
 
 def scene_frontier():
-    """The Frontier Guard Ordinance: watchtower on the Carpathian pass and mounted frontier guard."""
-    layer = painted_backdrop(
+    """The Frontier Guard Ordinance: pure painted Carpathian mountain pass and frontier post."""
+    return painted_backdrop(
         'gfx/interface/missions/source/uzh_identity_branch_locked_2.png',
-        focus=(0.50, 0.42), zoom=1.12, tint_rgb=(0.96, 0.94, 1.06), brightness=0.88,
+        focus=(0.50, 0.45), zoom=1.18, tint_rgb=(1.00, 0.98, 1.04), brightness=0.92, contrast=1.08,
     )
-    layer = place_cutout(
-        layer, atlas_cutout(2, 0), cx=34, cy=50, box=42,
-        glow_color=(255, 214, 145), glow_radius=24, glow_alpha=0.32,
-    )
-    return layer
 
 
 # --------------------------------------------------------------------------
@@ -1925,94 +1942,55 @@ def ledger_book(cx, cy, w, h, seed=3):
 
 
 def scene_resolution_municipal_charters():
-    """Confirm the Municipal Charters: the walled town and its sealed Magdeburg charter."""
-    layer = painted_backdrop(
+    """Confirm the Municipal Charters: pure oil painting of burghers presenting the Magdeburg charter."""
+    return painted_backdrop(
         'gfx/interface/missions/source/magdeburg_charter.png',
-        focus=(0.50, 0.36), zoom=1.15, tint_rgb=(0.80, 1.06, 1.02), brightness=0.80,
+        focus=(0.50, 0.44), zoom=1.22, tint_rgb=(0.96, 1.02, 1.00), brightness=0.92, contrast=1.08,
     )
-    layer = place_cutout(
-        layer, gov_cutout('towns'), cx=44, cy=36, box=44,
-        glow_color=(190, 245, 235), glow_radius=24, glow_alpha=0.32,
-    )
-    layer = place_cutout(
-        layer, gov_cutout('charter'), cx=32, cy=54, box=32, degrees=-8,
-    )
-    return layer
 
 
 def scene_resolution_municipal_accounts():
-    """Examine the Municipal Accounts: open municipal ledger, brass scales and stacked gold ducats."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/magdeburg_charter.png',
-        focus=(0.50, 0.68), zoom=1.25, flip=True, tint_rgb=(0.78, 1.04, 1.00), brightness=0.74,
+    """Examine the Municipal Accounts: iron-bound municipal treasury chest with gold ducats and ledger."""
+    return emblem_scene(
+        priv_cutout('jewish_loan_banks'),
+        top_rgb=(18, 56, 54), bot_rgb=(8, 22, 22), glow_rgb=(176, 244, 232),
+        box=52, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('jewish_loan_banks_compact'), cx=41, cy=44, box=52,
-        glow_color=(190, 245, 235), glow_radius=25, glow_alpha=0.30,
-    )
-    return layer
 
 
 def scene_resolution_chancery_service():
-    """Examine the Service Rolls: chancery codices, service rolls and quill."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/petro_mohyla.png',
-        focus=(0.50, 0.45), zoom=1.15, tint_rgb=(0.96, 0.84, 1.14), brightness=0.76,
+    """Examine the Service Rolls: open illuminated chancery register book and white quill."""
+    return emblem_scene(
+        priv_cutout('collegium_learning'),
+        top_rgb=(50, 26, 68), bot_rgb=(18, 10, 28), glow_rgb=(232, 206, 255),
+        box=51, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('collegium_learning'), cx=38, cy=43, box=48,
-        glow_color=(225, 205, 255), glow_radius=25, glow_alpha=0.30,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(0, 2), cx=53, cy=52, box=31, degrees=8,
-    )
-    return layer
 
 
 def scene_resolution_chancery_rights():
-    """Confirm the Local Rights: privilege charter with hanging wax seals and the gold key to liberties."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/petro_mohyla.png',
-        focus=(0.45, 0.58), zoom=1.24, flip=True, tint_rgb=(0.98, 0.86, 1.14), brightness=0.76,
+    """Confirm the Local Rights: twin wax-sealed privilege charters."""
+    return emblem_scene(
+        priv_cutout('roman_concordat'),
+        top_rgb=(58, 22, 58), bot_rgb=(22, 8, 24), glow_rgb=(245, 210, 255),
+        box=51, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('roman_concordat'), cx=41, cy=38, box=48,
-        glow_color=(230, 210, 255), glow_radius=25, glow_alpha=0.30,
-    )
-    layer = over(layer, gold_key(41, 63, 25, degrees=-6))
-    return layer
 
 
 def scene_resolution_register_muster():
-    """Fund the Full Muster: regimental standards, kettle-drums, crossed sabres and mace."""
-    layer = painted_backdrop(
-        'gfx/interface/government_reform_icons/source/zaz_sich_brotherhood.png',
-        focus=(0.50, 0.45), zoom=1.15, tint_rgb=(1.10, 0.94, 0.76), brightness=0.78,
+    """Fund the Full Muster: crossed golden Cossack bulava and sabre with crimson tassel."""
+    return emblem_scene(
+        atlas_cutout(3, 2),
+        top_rgb=(66, 38, 18), bot_rgb=(24, 14, 6), glow_rgb=(255, 218, 142),
+        box=52, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('sich_rada'), cx=37, cy=41, box=46,
-        glow_color=(255, 220, 155), glow_radius=25, glow_alpha=0.32,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(3, 2), cx=52, cy=52, box=34,
-    )
-    return layer
 
 
 def scene_resolution_register_settlement():
-    """Settle the Service Obligations: settler homestead and plough beside the registered warrior's arms."""
-    layer = painted_backdrop(
+    """Settle the Service Obligations: pure oil painting of the mounted registered Cossack on the steppe."""
+    return painted_backdrop(
         'gfx/interface/government_reform_icons/source/cossack_host.png',
-        focus=(0.50, 0.48), zoom=1.15, tint_rgb=(1.08, 0.96, 0.80), brightness=0.84,
+        focus=(0.50, 0.42), zoom=1.18, tint_rgb=(1.04, 0.98, 0.92), brightness=0.92, contrast=1.08,
     )
-    layer = place_cutout(
-        layer, priv_cutout('left_bank_settlement'), cx=46, cy=45, box=45,
-        glow_color=(255, 224, 150), glow_radius=24, glow_alpha=0.34,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(2, 1), cx=26, cy=48, box=33, degrees=-8,
-    )
-    return layer
 
 
 def vytis_at(cx, cy, height, **kw):
@@ -2040,304 +2018,170 @@ def gediminas_emblem(centre, height):
 
 
 def scene_rada_confirm():
-    """Seek the Rada's Confirmation: Rada lords conferring over the privilege in Vilnius Palace under the Pahonia."""
-    layer = painted_backdrop(
-        'gfx/interface/great_projects/source/vilnius_palace.png',
-        focus=(0.50, 0.45), zoom=1.15, tint_rgb=(1.12, 0.90, 0.78), brightness=0.76,
+    """Seek the Rada's Confirmation: grand ducal throne flanked by council chairs."""
+    return emblem_scene(
+        atlas_cutout(3, 0),
+        top_rgb=(76, 20, 24), bot_rgb=(28, 8, 10), glow_rgb=(255, 214, 140),
+        box=49, cy=41,
     )
-    layer = place_cutout(
-        layer, gov_cutout('snem'), cx=41, cy=48, box=48,
-        glow_color=(255, 214, 140), glow_radius=26, glow_alpha=0.36,
-    )
-    layer = over(layer, pahonia_shield(41, 7, 22, 28))
-    return layer
 
 
 def scene_rada_lord():
-    """Win Over a Wavering Lord: magnate lord before his hill castle offered a starostwo charter and key."""
-    layer = painted_backdrop(
-        'gfx/interface/great_projects/source/palanok_fortress.png',
-        focus=(0.38, 0.45), zoom=1.15, tint_rgb=(1.08, 0.94, 0.82), brightness=0.82,
+    """Win Over a Wavering Lord: two noble hands clasped in solemn compact before a golden throne."""
+    return emblem_scene(
+        atlas_cutout(0, 3),
+        top_rgb=(68, 24, 34), bot_rgb=(24, 8, 14), glow_rgb=(255, 220, 148),
+        box=49, cy=41,
     )
-    layer = place_cutout(
-        layer, atlas_cutout(2, 2), cx=51, cy=43, box=42, flip=True,
-        glow_color=(255, 220, 150), glow_radius=24, glow_alpha=0.34,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(3, 1), cx=27, cy=48, box=33, degrees=-8,
-    )
-    layer = over(layer, gold_key(34, 58, 22, degrees=-18))
-    return layer
 
 
 def scene_rada_retinues():
-    """The Rada's Own Retinues: armoured noble cavalry retinue under the Pahonia shield."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/chr_identity_branch_locked_1.png',
-        focus=(0.50, 0.48), zoom=1.12, tint_rgb=(1.10, 0.92, 0.80), brightness=0.84,
+    """The Rada's Own Retinues: crimson-and-gold shield over crossed swords and spears."""
+    return emblem_scene(
+        gov_cutout('druzhyna'),
+        top_rgb=(82, 22, 18), bot_rgb=(30, 8, 6), glow_rgb=(255, 212, 136),
+        box=50, cy=41,
     )
-    layer = place_cutout(
-        layer, gov_cutout('druzhyna'), cx=43, cy=46, box=50,
-        glow_color=(255, 224, 150), glow_radius=26, glow_alpha=0.36,
-    )
-    layer = over(layer, pahonia_shield(24, 14, 17, 22))
-    return layer
 
 
 def scene_rg_chr_bell():
-    """Ring the Veche Bell (Chernihiv-Siversk): town hall belfry and municipal Veche assembly."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/magdeburg_charter.png',
-        focus=(0.48, 0.24), zoom=1.85, tint_rgb=(1.12, 0.94, 0.78), brightness=0.86,
+    """Ring the Veche Bell (Chernihiv-Siversk): golden three-domed cathedral belfry gonfalon."""
+    return emblem_scene(
+        banner_cutout('ro_banner_building_v2'),
+        top_rgb=(68, 28, 22), bot_rgb=(24, 10, 8), glow_rgb=(255, 218, 142),
+        box=52, cy=44,
     )
-    layer = place_cutout(
-        layer, gov_cutout('snem'), cx=44, cy=49, box=44,
-        glow_color=(255, 218, 142), glow_radius=24, glow_alpha=0.36,
-    )
-    layer = place_cutout(
-        layer, priv_cutout('brotherhood_charters'), cx=25, cy=32, box=32, degrees=-10,
-    )
-    return layer
 
 
 def scene_rg_chr_staple():
-    """Grant the Desna Staple Right (Chernihiv-Siversk): Desna river map, merchant vessel and customs gold."""
-    layer = painted_backdrop(
+    """Grant the Desna Staple Right (Chernihiv-Siversk): pure painted Desna river charter and seal."""
+    return painted_backdrop(
         'gfx/interface/missions/source/chr_identity_branch_locked_1.png',
-        focus=(0.48, 0.52), zoom=1.18, tint_rgb=(0.92, 1.06, 1.08), brightness=0.86,
+        focus=(0.50, 0.50), zoom=1.18, tint_rgb=(0.98, 1.02, 1.02), brightness=0.92, contrast=1.08,
     )
-    layer = place_cutout(
-        layer, priv_cutout('chaiky'), cx=30, cy=32, box=38, degrees=-6,
-        glow_color=(160, 232, 236), glow_radius=22, glow_alpha=0.32,
-    )
-    layer = place_cutout(
-        layer, priv_cutout('jewish_tax_farmers_compact'), cx=53, cy=52, box=34,
-    )
-    return layer
 
 
 def scene_rg_chr_militia():
-    """Muster the Guild Militia (Chernihiv-Siversk): timber palisade, crossed pikes and town garrison."""
-    layer = painted_backdrop(
+    """Muster the Guild Militia (Chernihiv-Siversk): pure painted crossed pikes before the timber palisade."""
+    return painted_backdrop(
         'gfx/interface/missions/source/chr_identity_branch_locked_2.png',
-        focus=(0.50, 0.48), zoom=1.15, tint_rgb=(1.08, 0.96, 0.84), brightness=0.88,
+        focus=(0.50, 0.48), zoom=1.18, tint_rgb=(1.04, 0.98, 0.92), brightness=0.92, contrast=1.08,
     )
-    layer = place_cutout(
-        layer, atlas_cutout(2, 0), cx=48, cy=48, box=44,
-        glow_color=(255, 216, 140), glow_radius=24, glow_alpha=0.34,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(2, 1), cx=24, cy=40, box=32, degrees=-6,
-    )
-    return layer
 
 
 def scene_rg_uzh_salt():
-    """Exercise the Salt Regalia (Transcarpathia): royal salt regalia codex, balance scale and coffer."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/uzh_identity_branch_locked_3.png',
-        focus=(0.50, 0.48), zoom=1.18, tint_rgb=(0.90, 1.02, 1.15), brightness=0.86,
+    """Exercise the Salt Regalia (Transcarpathia): silver-clasped regalia ledger and candlesticks."""
+    return emblem_scene(
+        priv_cutout('jewish_kahal_autonomy'),
+        top_rgb=(22, 42, 74), bot_rgb=(8, 16, 30), glow_rgb=(188, 226, 255),
+        box=52, cy=43,
     )
-    layer = place_cutout(
-        layer, disaster_cutout('podillia_jewish_emancipation', 0), cx=42, cy=45, box=48,
-        glow_color=(180, 224, 255), glow_radius=24, glow_alpha=0.34,
-    )
-    layer = place_cutout(
-        layer, priv_cutout('jewish_loan_banks_compact'), cx=25, cy=54, box=30,
-    )
-    return layer
 
 
 def scene_rg_uzh_guides():
-    """Contract the Highland Guides (Transcarpathia): Carpathian peaks, highland wayfinder cross and blades."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/uzh_identity_branch_locked_2.png',
-        focus=(0.50, 0.46), zoom=1.14, tint_rgb=(0.94, 1.08, 0.98), brightness=0.86,
+    """Contract the Highland Guides (Transcarpathia): pure painted Carpathian pine forest and mountain trail stele."""
+    return painted_backdrop(
+        'gfx/interface/missions/source/uzh_identity_branch_locked_1.png',
+        focus=(0.50, 0.48), zoom=1.18, tint_rgb=(0.96, 1.04, 0.98), brightness=0.92, contrast=1.08,
     )
-    layer = place_cutout(
-        layer, disaster_cutout('zaporozhian_sich_crisis', 0), cx=42, cy=52, box=44,
-        glow_color=(190, 240, 210), glow_radius=22, glow_alpha=0.32,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(3, 1), cx=25, cy=34, box=28, degrees=-12,
-    )
-    return layer
 
 
 def scene_rg_uzh_pass():
-    """Fortify the Carpathian Pass (Transcarpathia): mountain pass boundary post and stone fortress tower."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/uzh_identity_branch_locked_1.png',
-        focus=(0.56, 0.48), zoom=1.16, tint_rgb=(1.06, 0.98, 0.86), brightness=0.86,
+    """Fortify the Carpathian Pass (Transcarpathia): stone mountain stronghold gate with crimson shield."""
+    return emblem_scene(
+        atlas_cutout(3, 3),
+        top_rgb=(58, 40, 20), bot_rgb=(22, 14, 8), glow_rgb=(255, 220, 144),
+        box=52, cy=43,
     )
-    layer = place_cutout(
-        layer, atlas_cutout(2, 1), cx=30, cy=44, box=44,
-        glow_color=(255, 222, 150), glow_radius=24, glow_alpha=0.34,
-    )
-    layer = place_cutout(
-        layer, priv_cutout('strong_appanages'), cx=54, cy=50, box=34, degrees=8,
-    )
-    return layer
 
 
 def scene_rg_pdl_patrol():
-    """Send the Watch Patrols (Podillia): frontier fortress gate, crossed sabres and watchtower."""
-    layer = painted_backdrop(
-        'gfx/interface/great_projects/source/palanok_fortress.png',
-        focus=(0.68, 0.46), zoom=1.35, flip=True, tint_rgb=(1.12, 0.88, 0.78), brightness=0.84,
+    """Send the Watch Patrols (Podillia): timber palisade gate behind crossed Cossack sabres."""
+    return emblem_scene(
+        disaster_cutout('zaporozhian_sich_crisis', 0),
+        top_rgb=(72, 24, 20), bot_rgb=(26, 8, 6), glow_rgb=(255, 204, 132),
+        box=50, cy=42,
     )
-    layer = place_cutout(
-        layer, disaster_cutout('zaporozhian_sich_crisis', 0), cx=41, cy=46, box=48,
-        glow_color=(255, 198, 130), glow_radius=24, glow_alpha=0.36,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(2, 1), cx=24, cy=36, box=30,
-    )
-    return layer
 
 
 def scene_rg_pdl_charter():
-    """Grant the Kamianets Town Statute (Podillia): magistrate charter presentation, wax statute and town keys."""
-    layer = painted_backdrop(
-        'gfx/interface/missions/source/magdeburg_charter.png',
-        focus=(0.55, 0.50), zoom=1.45, tint_rgb=(1.08, 0.92, 1.06), brightness=0.84,
+    """Grant the Kamianets Town Statute (Podillia): twin red-and-blue sealed charters behind brass scales."""
+    return emblem_scene(
+        disaster_cutout('podillia_jewish_emancipation', 0),
+        top_rgb=(54, 24, 64), bot_rgb=(20, 8, 26), glow_rgb=(236, 206, 255),
+        box=50, cy=42,
     )
-    layer = place_cutout(
-        layer, priv_cutout('seimski_statutes'), cx=46, cy=46, box=44, degrees=-6,
-        glow_color=(240, 198, 255), glow_radius=24, glow_alpha=0.34,
-    )
-    layer = place_cutout(
-        layer, gov_cutout('towns'), cx=26, cy=50, box=34,
-    )
-    return layer
 
 
 def scene_rg_pdl_mobile():
-    """Muster the Mobile Defense (Podillia): crimson lance banners and mounted frontier cavalry."""
-    layer = painted_backdrop(
+    """Muster the Mobile Defense (Podillia): pure painted crimson cavalry pennants and lances."""
+    return painted_backdrop(
         'gfx/interface/missions/source/chr_identity_branch_locked_3.png',
-        focus=(0.48, 0.48), zoom=1.15, tint_rgb=(1.12, 0.90, 0.82), brightness=0.86,
+        focus=(0.48, 0.48), zoom=1.18, tint_rgb=(1.06, 0.96, 0.92), brightness=0.92, contrast=1.08,
     )
-    layer = place_cutout(
-        layer, gov_cutout('druzhyna'), cx=46, cy=48, box=46, flip=True,
-        glow_color=(255, 206, 136), glow_radius=24, glow_alpha=0.36,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(3, 2), cx=25, cy=36, box=30,
-    )
-    return layer
 
 
 def scene_rg_prl_patrol():
-    """Send the Watch Patrols (Pereiaslav): steppe brotherhood sentinel, shield and watchtower."""
-    layer = painted_backdrop(
-        'gfx/interface/government_reform_icons/source/zaz_sich_brotherhood.png',
-        focus=(0.50, 0.46), zoom=1.18, tint_rgb=(1.08, 0.94, 0.82), brightness=0.86,
+    """Send the Watch Patrols (Pereiaslav): steel nasal helmet, round shield and frontier spear."""
+    return emblem_scene(
+        atlas_cutout(2, 0),
+        top_rgb=(68, 26, 24), bot_rgb=(24, 10, 8), glow_rgb=(255, 212, 138),
+        box=50, cy=44,
     )
-    layer = place_cutout(
-        layer, atlas_cutout(1, 1), cx=28, cy=48, box=38, degrees=-8,
-        glow_color=(255, 212, 140), glow_radius=22, glow_alpha=0.34,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(2, 1), cx=53, cy=42, box=38,
-    )
-    return layer
 
 
 def scene_rg_prl_charter():
-    """Charter the Frontier Towns (Pereiaslav): Left-Bank wooden town, wheat sheaf and wax-sealed charter."""
-    layer = painted_backdrop(
-        'gfx/interface/privileges/source/left_bank_settlement.png',
-        focus=(0.52, 0.52), zoom=1.12, tint_rgb=(1.04, 0.96, 0.88), brightness=0.88,
+    """Charter the Frontier Towns (Pereiaslav): arched stone town gate with golden scales."""
+    return emblem_scene(
+        atlas_cutout(1, 0),
+        top_rgb=(52, 28, 62), bot_rgb=(18, 10, 24), glow_rgb=(242, 212, 255),
+        box=50, cy=44,
     )
-    layer = place_cutout(
-        layer, gov_cutout('charter'), cx=50, cy=48, box=42, degrees=8,
-        glow_color=(255, 224, 156), glow_radius=24, glow_alpha=0.34,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(0, 1), cx=26, cy=42, box=34,
-    )
-    return layer
 
 
 def scene_rg_prl_mobile():
-    """Muster the Mobile Defense (Pereiaslav): mounted Cossack regiments, bulava and crossed sabres."""
-    layer = painted_backdrop(
-        'gfx/interface/government_reform_icons/source/cossack_host.png',
-        focus=(0.50, 0.46), zoom=1.16, flip=True, tint_rgb=(1.14, 0.90, 0.78), brightness=0.86,
+    """Muster the Mobile Defense (Pereiaslav): three upright lances with crimson swallowtail banner."""
+    return emblem_scene(
+        atlas_cutout(2, 1),
+        top_rgb=(76, 22, 22), bot_rgb=(28, 8, 8), glow_rgb=(255, 208, 132),
+        box=51, cy=44,
     )
-    layer = place_cutout(
-        layer, priv_cutout('sich_rada'), cx=48, cy=48, box=44,
-        glow_color=(255, 214, 138), glow_radius=24, glow_alpha=0.36,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(3, 2), cx=26, cy=38, box=36, degrees=-10,
-    )
-    return layer
 
 
 def scene_rg_ods_freight():
-    """Charter Mediterranean Freight (Odesa): Black Sea nautical chart, compass and golden grain freight."""
-    layer = painted_backdrop(
-        'gfx/interface/privileges/source/jewish_black_sea_network.png',
-        focus=(0.50, 0.48), zoom=1.12, tint_rgb=(0.90, 1.06, 1.12), brightness=0.88,
+    """Charter Mediterranean Freight (Odesa): brass compass rose, sealed maritime chart and gold coins."""
+    return emblem_scene(
+        priv_cutout('jewish_black_sea_network'),
+        top_rgb=(16, 54, 58), bot_rgb=(6, 20, 24), glow_rgb=(176, 240, 236),
+        box=52, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('grain_charters'), cx=48, cy=46, box=46,
-        glow_color=(255, 230, 150), glow_radius=24, glow_alpha=0.36,
-    )
-    layer = place_cutout(
-        layer, priv_cutout('jewish_black_sea_network_compact'), cx=25, cy=50, box=34,
-    )
-    return layer
 
 
 def scene_rg_ods_corsairs():
-    """Outfit Black Sea Corsairs (Odesa): Cossack Chaika warship under sail and crossed boarding sabres."""
-    layer = painted_backdrop(
-        'gfx/interface/great_projects/source/zaporozhian_sich.png',
-        focus=(0.35, 0.52), zoom=1.35, tint_rgb=(0.82, 0.96, 1.14), brightness=0.84,
+    """Outfit Black Sea Corsairs (Odesa): Zaporozhian Chaika war galley under sail with oars."""
+    return emblem_scene(
+        priv_cutout('chaiky'),
+        top_rgb=(18, 34, 58), bot_rgb=(6, 12, 24), glow_rgb=(184, 226, 255),
+        box=52, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('chaiky'), cx=40, cy=40, box=50, degrees=-4,
-        glow_color=(170, 224, 255), glow_radius=24, glow_alpha=0.36,
-    )
-    layer = place_cutout(
-        layer, atlas_cutout(3, 2), cx=48, cy=54, box=34, degrees=12,
-    )
-    return layer
 
 
 def scene_het_rights():
-    """Confirm Officers Rights (Hetmanate Authority): Starshyna council, crossed silver/gold maces and charter."""
-    layer = painted_backdrop(
-        'gfx/interface/government_reform_icons/source/het_starshyna_oligarchy.png',
-        focus=(0.50, 0.45), zoom=1.16, tint_rgb=(0.94, 1.00, 1.12), brightness=0.86,
+    """Confirm Officers Rights (Hetmanate Authority): carved Cossack Starshyna council table with stools and golden mace."""
+    return emblem_scene(
+        priv_cutout('sich_rada'),
+        top_rgb=(22, 42, 74), bot_rgb=(8, 16, 30), glow_rgb=(192, 226, 255),
+        box=52, cy=43,
     )
-    layer = place_cutout(
-        layer, disaster_cutout('hetman_succession_crisis', 0), cx=32, cy=44, box=44, degrees=-6,
-        glow_color=(200, 226, 255), glow_radius=24, glow_alpha=0.34,
-    )
-    layer = place_cutout(
-        layer, priv_cutout('seimski_statutes'), cx=52, cy=50, box=38, degrees=8,
-    )
-    return layer
 
 
 def scene_het_chancery():
-    """Review the Chancery (Hetmanate Authority): General Military Chancery, gilded bulava on register and charter."""
-    layer = painted_backdrop(
-        'gfx/interface/government_reform_icons/source/het_academy_enlightenment.png',
-        focus=(0.50, 0.46), zoom=1.16, tint_rgb=(1.10, 0.96, 0.82), brightness=0.86,
+    """Review the Chancery (Hetmanate Authority): golden Hetman bulava resting on the chancery register."""
+    return emblem_scene(
+        priv_cutout('starshyna_council'),
+        top_rgb=(64, 38, 18), bot_rgb=(24, 14, 6), glow_rgb=(255, 222, 146),
+        box=52, cy=43,
     )
-    layer = place_cutout(
-        layer, priv_cutout('starshyna_council'), cx=44, cy=46, box=48,
-        glow_color=(255, 222, 148), glow_radius=24, glow_alpha=0.36,
-    )
-    layer = place_cutout(
-        layer, gov_cutout('charter'), cx=24, cy=50, box=32, degrees=-10,
-    )
-    return layer
 
 
 SCENES = {

@@ -9,7 +9,7 @@ sys.path.insert(0, str(ROOT / 'tools'))
 import build_colonial_names as builder
 
 data = builder.load_data()
-assert len(data['regions']) * len(data['cultures']) == 44
+assert len(data['regions']) * len(data['cultures']) == 33
 fixture = ''.join(
     f'{region} = {{\n\tprovinces = {{ 1 2 3 }}\n\t# brace in a string: "}}"\n'
     '\tnames = { name = "COLONIAL_REGION_New_Root_GetName" }\n}\n'
@@ -18,7 +18,7 @@ fixture = ''.join(
 fixture = ('# Nouvelle-\xc9cosse\n' + fixture).replace('\n', '\r\n').encode('latin-1')
 rendered = builder.render(fixture, data)
 assert builder.strip_insertions(rendered.decode('latin-1')).encode('latin-1') == fixture
-assert rendered.count(b'name = "RIP_COLONIAL_') == 44
+assert rendered.count(b'name = "RIP_COLONIAL_') == 33
 assert builder.localization(data).startswith(b'\xef\xbb\xbf')
 for region in data['regions']:
     block = named_block(rendered.decode('latin-1'), region)
@@ -58,5 +58,5 @@ else:
     print('SKIP: live native source comparison unavailable')
 manifest = json.loads((ROOT / builder.MANIFEST).read_text(encoding='utf-8'))
 assert manifest['game_version'] in ('1.37.5', '1.37.5.0')
-assert manifest['choices'] == 44 and manifest['native_bytes_preserved'] is True
-print('COLONIAL NAMES PASS: 44 choices, 9 culture keys, all 11 American regions; source and rejection checks.')
+assert manifest['choices'] == 33 and manifest['native_bytes_preserved'] is True
+print('COLONIAL NAMES PASS: 33 choices, 7 culture keys, all 11 American regions; source and rejection checks.')

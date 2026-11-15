@@ -543,53 +543,13 @@ def make_faction_influence_icon(
 
 
 def rep_knyazi_emblem() -> Image.Image:
-    """Composite the princely shield & charter with the Knyazi crown & sceptre for Representative Monarchy."""
-    shield = atlas_emblem(0, 1).copy()
-    crown = atlas_emblem(1, 2).copy()
-    w, h = max(shield.width, crown.width), max(shield.height, crown.height)
-    comp = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    sw, sh = int(w * 0.78), int(h * 0.78)
-    shield_small = resize_clean(shield, (sw, sh))
-    comp.paste(shield_small, ((w - sw) // 2 - 12, (h - sh) // 2 + 12))
-
-    cw, ch = int(w * 0.84), int(h * 0.84)
-    crown_small = resize_clean(crown, (cw, ch))
-    ox, oy = (w - cw) // 2 + 10, (h - ch) // 2 - 8
-    sh_l = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    sh_a = crown_small.getchannel('A').point(lambda a: int(a * 0.82))
-    sh_c = Image.new('RGBA', (cw, ch), (10, 6, 12, 0))
-    sh_c.putalpha(sh_a)
-    sh_l.paste(sh_c, (ox + 5, oy + 7))
-    sh_l = sh_l.filter(ImageFilter.GaussianBlur(radius=5.0))
-    comp = Image.alpha_composite(comp, sh_l)
-    fg = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    fg.paste(crown_small, (ox, oy))
-    return Image.alpha_composite(comp, fg)
+    """Single painted princely cap and assembly charter emblem for Representative Monarchy Knyazi."""
+    return atlas_emblem(0, 1).copy()
 
 
 def rep_boyary_emblem() -> Image.Image:
-    """Composite the Boyar council scroll with the treasury scales & seal for Representative Monarchy."""
-    council = source_emblem('snem').copy()
-    scales = atlas_emblem(2, 2).copy()
-    w, h = scales.size
-    cw, ch = int(w * 0.76), int(h * 0.76)
-    council_small = resize_clean(council, (cw, ch))
-    comp = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    comp.paste(council_small, ((w - cw) // 2 - 14, (h - ch) // 2 - 10))
-
-    sw, sh = int(w * 0.86), int(h * 0.86)
-    scales_small = resize_clean(scales, (sw, sh))
-    ox, oy = (w - sw) // 2 + 10, (h - sh) // 2 + 10
-    sh_l = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    sh_a = scales_small.getchannel('A').point(lambda a: int(a * 0.82))
-    sh_c = Image.new('RGBA', (sw, sh), (6, 10, 16, 0))
-    sh_c.putalpha(sh_a)
-    sh_l.paste(sh_c, (ox + 5, oy + 7))
-    sh_l = sh_l.filter(ImageFilter.GaussianBlur(radius=5.0))
-    comp = Image.alpha_composite(comp, sh_l)
-    fg = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    fg.paste(scales_small, (ox, oy))
-    return Image.alpha_composite(comp, fg)
+    """Single painted council seats emblem for Representative Monarchy Boyary."""
+    return atlas_emblem(3, 0).copy()
 
 
 def build_faction_influence_icons() -> dict[str, Image.Image]:
@@ -603,25 +563,9 @@ def build_faction_influence_icons() -> dict[str, Image.Image]:
 
 
 def het_authority_emblem() -> Image.Image:
-    """Composite the painted crossed gold Hetman bulava & silver Starshyna mace over a wax-sealed charter scroll."""
-    scroll = source_emblem('charter').copy()
+    """Single symmetrical painted crossed gold Hetman bulava & silver Starshyna mace bound with crimson ribbon."""
     disaster = Image.open(ROOT / 'gfx/interface/disasters/source/hetman_succession_crisis.png').convert('RGBA')
-    maces = remove_atlas_background(disaster.crop((96, 96, 628, 628)), pad_ratio=0.06)
-    w, h = maces.size
-    sw, sh = int(w * 0.72), int(h * 0.72)
-    scroll_small = resize_clean(scroll, (sw, sh))
-
-    comp = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    comp.paste(scroll_small, ((w - sw) // 2, (h - sh) // 2 + int(h * 0.06)))
-
-    sh_l = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    sh_a = maces.getchannel('A').point(lambda a: int(a * 0.84))
-    sh_c = Image.new('RGBA', (w, h), (10, 6, 4, 0))
-    sh_c.putalpha(sh_a)
-    sh_l.paste(sh_c, (5, 7))
-    sh_l = sh_l.filter(ImageFilter.GaussianBlur(radius=6.0))
-    comp = Image.alpha_composite(comp, sh_l)
-    return Image.alpha_composite(comp, maces)
+    return remove_atlas_background(disaster.crop((96, 96, 628, 628)), pad_ratio=0.06)
 
 
 def zaz_cossack_zeal_emblem() -> Image.Image:

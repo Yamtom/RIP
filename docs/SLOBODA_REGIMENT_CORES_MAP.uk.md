@@ -166,12 +166,12 @@ ZZZZZZZZZZZZZZPPPMMMMMMMMMMMMMMMMMMMMMMMMMtttttttttttt
 | ID | Ванільна назва | Назва в моді залежно від власника чи культури (дж) | Область → регіон (дж) | Розвиток | Товар |
 |---|---|---|---|---|---|
 | `291` | Kharkov | «`Kharkiv`» (культури ruthenian, rusyn); RUS «`Kharkov`»; PLC «`Achtyrka`»; MOS «`Kharkovskiy Polk`»; KIE «`Donets`» | `sloboda_ukraine_area` → `ruthenia_region` | 2/2/1 (5) | залізо (прихований товар — вугілля); `estate = estate_cossacks` |
-| `4543` | Rylsk | «`Putyvl`» (культура ryazanian і власник KHK); для решти — ванільна «`Rylsk`» | `chernigov_area` → `ruthenia_region` | 1/1/1 (3); місцева автономія 25 | зерно |
-| `290` | Poltava | HET «`Poltavskyi Polk`»; PLC, POL «`Poltawa`»; KIE, ryazanian «`Ltava`»; для решти — «`Poltava`» | `east_dniepr_area` → `ruthenia_region` | 3/3/2 (8) | зерно |
+| `4543` | Rylsk | «`Putyvl`» (власник KHK); для решти — ванільна «`Rylsk`» | `chernigov_area` → `ruthenia_region` | 1/1/1 (3); місцева автономія 25 | зерно |
+| `290` | Poltava | HET «`Poltavskyi Polk`»; PLC, POL «`Poltawa`»; KIE «`Ltava`»; для решти — «`Poltava`» | `east_dniepr_area` → `ruthenia_region` | 3/3/2 (8) | зерно |
 | `2411` | Mansur | RUS, MOS «`Novobogoroditsk(aya)`»; ZAZ, PLC «`Kodak`»; KRU «`Velykyi Luh`»; PDL «`Chornyi Shliakh`»; для решти — «`Mansur`» | `zaporizhia_area` → `crimea_region` | 3/3/2 (8) | худоба |
 | `4542` | Lubnie | «`Lubny`» | `east_dniepr_area` → `ruthenia_region` | 3/3/2 (8) | зерно |
-| `298` | Kursk | MOS «`Belgorod`»; KHK «`Sudzha`»; ryazanian «`Kursk`» | `sloboda_ukraine_area` → `ruthenia_region` | 2/1/1 (4) | зерно |
-| `299` | Voronezh | KHK, KRU, ZAZ «`Ostrohozk`»; ruthenian «`Ostrohozhsk`»; ryazanian «`Podonnia`» | `sloboda_ukraine_area` → `ruthenia_region` | 3/3/2 (8) | худоба |
+| `298` | Kursk | MOS «`Belgorod`»; KHK «`Sudzha`»; для решти — ванільна «`Kursk`» | `sloboda_ukraine_area` → `ruthenia_region` | 2/1/1 (4) | зерно |
+| `299` | Voronezh | KHK, KRU, ZAZ «`Ostrohozk`»; ruthenian «`Ostrohozhsk`»; для решти — ванільна «`Voronezh`» | `sloboda_ukraine_area` → `ruthenia_region` | 3/3/2 (8) | худоба |
 | `2408` | Lipetsk (у `localisation` і в `capital` — «`Yelets`») | KHK «`Usman`» | `sloboda_ukraine_area` → `ruthenia_region` | 3/3/1 (7) | худоба |
 
 Вузол торгівлі: `291`, `290`, `4543`, `4542` — вузол `kiev`; `2411` — вузол `crimea` (`common/tradenodes`, дж).
@@ -182,11 +182,11 @@ ZZZZZZZZZZZZZZPPPMMMMMMMMMMMMMMMMMMMMMMMMMtttttttttttt
 | ID | Власник, культура, віра на 1444.11.11 (дж) | Перебіг власності до 1821 (дж) | Корки на 1444.11.11 (дж) |
 |---|---|---|---|
 | `291` | `CHR`; `ruthenian`; `orthodox` | `CHR` (1444.11.1) → `ZAZ` 1555.1.1 → `RUS` 1657.1.1; `capital` «`Belgorod`», з 1657 «`Kharkiv`» | `CRI`, **`KHK`** |
-| `4543` | `CHR`; **`ryazanian`**; `orthodox` | `CHR` → `RUS` 1508.10.18 | `CHR`, **`KHK`** |
+| `4543` | `CHR`; **`ruthenian`**; `orthodox` | `CHR` → `RUS` 1508.10.18 | `CHR`, **`KHK`** |
 | `290` | `CHR`; `ruthenian`; `orthodox` | `CHR` → `PLC` 1569.7.1 → повстанці контролюють 1648–54 (корка `ZAZ`) → `RUS` 1667.1.30 | `CHR`, `PRL` |
 | `2411` | `CRI`; `crimean`; `sunni` | `CRI` → `ZAZ` 1555.1.1 (`ruthenian`, `orthodox`) → `RUS` 1700.7.14 → `TUR` 1713.6.24 → `RUS` 1739.9.29; корка `ZAZ` знята 1775.5.7 | `CRI` |
 | `4542` | `CHR`; `ruthenian`; `orthodox` | `CHR` → `PLC` 1569.7.1 → повстанці контролюють 1648–54 → `RUS` 1667.1.30 | `CHR`, `PRL` |
-| `298` | `CHR`; `ryazanian`; `orthodox` | `CHR` → `RUS` 1508.10.18 | `CHR`, **`KHK`, `OKH`** |
+| `298` | `CHR`; `ruthenian`; `orthodox` | `CHR` → `RUS` 1508.10.18 | `CHR`, **`KHK`, `OKH`** |
 | `299` | `GOL`; `mishary`; `sunni` (з 1600 — `russian`, `orthodox`) | `GOL` → `CRI` 1502.6.1 → `RUS` 1572.8.2 | `GOL`, **`KHK`, `SMY`** |
 | `2408` | `RYA`; `mishary`; `sunni` (з 1600 — `ryazanian`, `orthodox`) | `RYA` → `CRI` 1502.6.1 → `RUS` 1572.8.2; `capital` «`Lipetsk`» з 1703 | `RYA`, **`KHK`, `IZM`** |
 
@@ -396,7 +396,7 @@ country_event = {
 			controlled_by = ROOT
 			NOT = { has_province_flag = rip_regiment_chartered }
 			NOT = { has_province_flag = rip_regiment_declined }
-			culture_group = east_slavic          # holds ryazanian, ruthenian, russian, severian, rusyn
+			culture_group = east_slavic          # holds ryazanian, ruthenian, russian, byelorussian, rusyn
 			OR = { religion = orthodox religion = russian_orthodox }
 		}
 	}
@@ -602,7 +602,7 @@ country_decisions = {
 
 | № | Файл | Поточне | Пропозиція | Навіщо |
 |---|---|---|---|---|
-| 18 | `common/province_names/SMY.txt` (нового) | немає: під власником SMY провінція `4543` називається «Putyvl» (культура ryazanian) | `4543 = "Sumy"` | назва столиці |
+| 18 | `common/province_names/SMY.txt` (нового) | немає: під власником SMY провінція `4543` має ванільну назву «Rylsk» | `4543 = "Sumy"` | назва столиці |
 | 19 | `common/province_names/OKH.txt` (нового) | немає: `290` під OKH називається «Poltava» | `290 = "Okhtyrka"` | назва столиці |
 | 20 | `common/province_names/IZM.txt` (нового) | немає: `2411` під IZM називається «Mansur» | `2411 = "Izium"` | назва столиці |
 | 21 | `common/province_names/KHK.txt` | `4543 = "Putyvl"`, `298 = "Sudzha"`, `2408 = "Usman"` та інші | залишити; переглянути, якщо KHK не володітиме цими провінціями | `Sudzha` лежить у `4543`, не в `298` (95%) |
@@ -663,7 +663,7 @@ country_decisions = {
 - Що тип `march` справді відкриває інтерфейс підданих і не псує `rip_cossack_host_name_effect`.
 - Що назви «Sumy», «Okhtyrka», «Izium» з'являються в провінціях після додання тегових файлів назв.
 - Що ванільний ШІ не звільняє полки в мирних договорах, коли корки є.
-- Що тригер подій із `culture_group = east_slavic` справді пропускає `ryazanian` (`4543`) і `ruthenian` (група містить обидві культури за `common/cultures/00_cultures.txt`, дж; у грі не спостерігалося).
+- Що тригер подій із `culture_group = east_slavic` справді пропускає `ruthenian` (`4543`, `298`) і `ryazanian` (`2408`) (група містить обидві культури за `common/cultures/00_cultures.txt`, дж; у грі не спостерігалося).
 
 ### 7.3 Питання автору
 

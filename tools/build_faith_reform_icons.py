@@ -44,108 +44,77 @@ def ground(layer, top, stops):
     return G.over(layer, G.gradient(strip, stops, (0, top), (0, 82)))
 
 
+def hierarch_cutout() -> Image.Image:
+    key = ('hierarch', 'gc_archbishop')
+    if key not in G._PAINTED_CACHE:
+        im = G._raw_image('gfx/interface/rip_church/gc_archbishop_source.png')
+        right_half = im.crop((im.width // 2, 0, im.width, im.height))
+        bbox = right_half.getbbox()
+        G._PAINTED_CACHE[key] = right_half.crop(bbox) if bbox else right_half
+    return G._PAINTED_CACHE[key]
+
+
 def scene_zaz_monastery():
-    """Endow a Military Monastery: painted Orthodox monastery, brotherhood charter and lit candle."""
-    layer = G.painted_backdrop(
-        'assets/church_banners/ro_banner_building_v2.png',
-        focus=(0.50, 0.45), zoom=1.08, tint_rgb=(0.86, 0.96, 1.12), brightness=0.82,
+    """Endow a Military Monastery: rolled monastery endowment charter with Orthodox cross and red wax seal."""
+    return G.emblem_scene(
+        G.priv_cutout('brotherhood_charters'),
+        top_rgb=(20, 42, 76), bot_rgb=(8, 16, 32), glow_rgb=(255, 218, 142),
+        box=51, cy=43,
     )
-    layer = G.place_cutout(
-        layer, G.priv_cutout('brotherhood_charters'), cx=41, cy=46, box=48,
-        glow_color=(255, 210, 130), glow_radius=25, glow_alpha=0.35,
-    )
-    return layer
 
 
 def scene_zaz_escort():
-    """Escort the Hierarchy: hierarchical banner escorted by Cossack sabres and mace."""
-    layer = G.painted_backdrop(
-        'assets/church_banners/ro_banner_mission_v2.png',
-        focus=(0.50, 0.45), zoom=1.08, tint_rgb=(0.84, 0.94, 1.14), brightness=0.82,
+    """Escort the Hierarchy: painted Orthodox metropolitan hierarch with cross and staff on a sapphire medallion."""
+    return G.emblem_scene(
+        hierarch_cutout(),
+        top_rgb=(24, 48, 82), bot_rgb=(10, 18, 36), glow_rgb=(255, 224, 152),
+        box=52, cy=44,
     )
-    layer = G.place_cutout(
-        layer, G.priv_cutout('chaiky'), cx=36, cy=43, box=46,
-        glow_color=(195, 220, 255), glow_radius=25, glow_alpha=0.32,
-    )
-    layer = G.place_cutout(
-        layer, G.atlas_cutout(3, 2), cx=51, cy=52, box=34,
-    )
-    return layer
 
 
 def scene_zaz_faithful():
-    """Raise the Faithful: Cossack host standards, war cross and arms raised in defence of the faith."""
-    layer = G.painted_backdrop(
-        'assets/church_banners/ro_banner_war_v2.png',
-        focus=(0.50, 0.45), zoom=1.08, tint_rgb=(1.12, 0.88, 0.78), brightness=0.84,
+    """Raise the Faithful: crimson-and-gold Archangel Michael war gonfalon on a dark sapphire-ember medallion."""
+    return G.emblem_scene(
+        G.banner_cutout('ro_banner_war_v2'),
+        top_rgb=(42, 26, 62), bot_rgb=(14, 10, 26), glow_rgb=(255, 206, 132),
+        box=52, cy=43,
     )
-    layer = G.place_cutout(
-        layer, G.priv_cutout('sich_rada'), cx=41, cy=47, box=48,
-        glow_color=(255, 175, 90), glow_radius=26, glow_alpha=0.38,
-    )
-    layer = G.place_cutout(
-        layer, G.gov_cutout('concord'), cx=41, cy=22, box=24,
-    )
-    return layer
 
 
 def scene_zaz_zeal():
-    """The Cossack Zeal emblem: Orthodox cross, crossed sabres and flame over the Sich."""
-    from build_core_ruthenia_icons import zaz_cossack_zeal_emblem
-    layer = G.painted_backdrop(
-        'gfx/interface/government_reform_icons/source/zaz_sich_brotherhood.png',
-        focus=(0.50, 0.45), zoom=1.18, tint_rgb=(0.82, 0.92, 1.16), brightness=0.72,
+    """The Cossack Zeal emblem: golden three-bar Orthodox cross on a deep navy-blue medallion."""
+    return G.emblem_scene(
+        G.religion_cutout('russian_orthodox'),
+        top_rgb=(18, 38, 72), bot_rgb=(6, 14, 30), glow_rgb=(255, 216, 134),
+        box=50, cy=42,
     )
-    emblem = G.remove_dark_bg(zaz_cossack_zeal_emblem(), teal=False)
-    layer = G.place_cutout(
-        layer, emblem, cx=41, cy=42, box=54,
-        glow_color=(255, 200, 110), glow_radius=28, glow_alpha=0.45,
-    )
-    return layer
 
 
 def scene_plt_seal():
-    """Seal the Nomocanon: the Nomocanon codex, metropolitan mitre and sealed scroll."""
-    layer = G.painted_backdrop(
-        'gfx/interface/missions/source/petro_mohyla.png',
-        focus=(0.50, 0.48), zoom=1.15, tint_rgb=(0.82, 1.08, 0.90), brightness=0.78,
+    """Seal the Nomocanon: leather-bound Nomocanon codex embossed with a golden Orthodox cross and quill."""
+    return G.emblem_scene(
+        G.priv_cutout('basilian_schools'),
+        top_rgb=(16, 54, 34), bot_rgb=(6, 20, 12), glow_rgb=(255, 222, 148),
+        box=51, cy=44,
     )
-    layer = G.place_cutout(
-        layer, G.priv_cutout('synodal_courts'), cx=41, cy=45, box=50,
-        glow_color=(255, 220, 145), glow_radius=25, glow_alpha=0.32,
-    )
-    return layer
 
 
 def scene_plt_guild():
-    """Patronage of the Guild Parishes: guild quarter and church with a coffer of gold ducats."""
-    layer = G.painted_backdrop(
-        'assets/church_banners/ro_banner_building_v2.png',
-        focus=(0.45, 0.50), zoom=1.15, flip=True, tint_rgb=(0.84, 1.08, 0.92), brightness=0.80,
+    """Patronage of the Guild Parishes: brotherhood guild printing press beneath a golden Orthodox cross."""
+    return G.emblem_scene(
+        G.disaster_cutout('rip_uc_brotherhoods', 0),
+        top_rgb=(20, 58, 38), bot_rgb=(8, 22, 14), glow_rgb=(255, 224, 150),
+        box=50, cy=43,
     )
-    layer = G.place_cutout(
-        layer, G.gov_cutout('towns'), cx=36, cy=38, box=42,
-        glow_color=(250, 220, 150), glow_radius=24, glow_alpha=0.30,
-    )
-    layer = G.place_cutout(
-        layer, G.priv_cutout('jewish_tax_farmers_compact'), cx=48, cy=54, box=36,
-    )
-    return layer
 
 
 def scene_plt_veto():
-    """Call the City Assembly (the veto): the city assembly and a torn charter with a broken seal."""
-    layer = G.painted_backdrop(
-        'gfx/interface/missions/source/magdeburg_charter.png',
-        focus=(0.50, 0.50), zoom=1.18, tint_rgb=(0.84, 1.06, 0.90), brightness=0.76,
+    """Call the City Assembly (the veto): golden scales of justice over the assembly law book."""
+    return G.emblem_scene(
+        G.priv_cutout('synodal_courts'),
+        top_rgb=(18, 52, 42), bot_rgb=(6, 18, 16), glow_rgb=(255, 222, 146),
+        box=50, cy=44,
     )
-    layer = G.place_cutout(
-        layer, G.gov_cutout('snem'), cx=41, cy=35, box=44,
-        glow_color=(255, 214, 140), glow_radius=24, glow_alpha=0.30,
-    )
-    paper = G.charter(41, 55, 34, 28, seed=8, degrees=-5, lines=5, seal_r=4.8, broken=True, torn=True)
-    layer = G.over(layer, paper)
-    return layer
 
 
 SCENES = {

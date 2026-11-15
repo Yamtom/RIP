@@ -32,7 +32,7 @@ def load_data(path=DATA):
     data = json.loads(path.read_text(encoding='utf-8'))
     assert data['target_version'] == '1.37.5'
     assert set(data['regions']) == REGIONS
-    assert set(data['cultures']) == {'ruthenian', 'byelorussian', 'ryazanian', 'rusyn'}
+    assert set(data['cultures']) == {'ruthenian', 'byelorussian', 'rusyn'}
     aliases = [a for group in data['cultures'].values() for a in group]
     assert len(aliases) == len(set(aliases))
     for region, names in data['regions'].items():
@@ -102,7 +102,8 @@ def prepare(output=ROOT):
     loc = output / LOC
     loc.parent.mkdir(parents=True, exist_ok=True)
     loc.write_bytes(localization(data))
-    print('PREPARED 44 names and 44 adjectives; native hook requires install with EU4 1.37.5.')
+    choices_count = sum(len(names) for names in data['regions'].values())
+    print(f'PREPARED {choices_count} names and {choices_count} adjectives; native hook requires install with EU4 1.37.5.')
 
 
 def install(source, output=ROOT, check=False):
@@ -120,22 +121,24 @@ def install(source, output=ROOT, check=False):
             raise ValueError('Native colonial file missing or out of date')
         if (output / LOC).read_bytes() != localization(data):
             raise ValueError('Colonial localization out of date')
-        print('VERIFIED 44 native choices; all other source bytes preserved.')
+        choices_count = sum(len(names) for names in data['regions'].values())
+        print(f'VERIFIED {choices_count} native choices; all other source bytes preserved.')
         return
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_bytes(result)
     prepare(output)
     manifest = output / MANIFEST
     manifest.parent.mkdir(parents=True, exist_ok=True)
+    choices_count = sum(len(names) for names in data['regions'].values())
     manifest.write_text(json.dumps({
         'game_version': version, 'source_file': RELATIVE,
         'source_sha256': hashlib.sha256(original).hexdigest(),
         'output_sha256': hashlib.sha256(result).hexdigest(),
-        'choices': 44, 'classification': data['classification'],
+        'choices': choices_count, 'classification': data['classification'],
         'native_bytes_preserved': True,
         'runtime_verified': False,
     }, indent=2) + '\n', encoding='utf-8')
-    print('INSTALLED native names for 11 regions and 4 culture families.')
+    print(f"INSTALLED native names for {len(data['regions'])} regions and {len(data['cultures'])} culture families.")
 
 
 def main():

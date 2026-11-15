@@ -79,10 +79,22 @@ def hex_points(cx, cy, radius, rot=0.0):
             for i in range(6)]
 
 
+def bastion_points(cx, cy, half, cut):
+    return [
+        (cx - half + cut, cy - half),
+        (cx + half - cut, cy - half),
+        (cx + half, cy - half + cut),
+        (cx + half, cy + half - cut),
+        (cx + half - cut, cy + half),
+        (cx - half + cut, cy + half),
+        (cx - half, cy + half - cut),
+        (cx - half, cy - half + cut),
+    ]
+
+
 def keep_poly():
-    body = poly([(4.6, 12.2), (77.4, 12.2), (77.4, 78.0), (4.6, 78.0)])
-    teeth = union(*[poly([(x, 4.0), (x + 10.8, 4.0), (x + 10.8, 12.6), (x, 12.6)]) for x in (4.6, 25.2, 45.8, 66.6)])
-    return union(body, teeth)
+    c = SIZE / 2.0
+    return poly(bastion_points(c, c, 36.2, 8.2))
 
 
 def frame_masks(kind):
@@ -92,8 +104,10 @@ def frame_masks(kind):
         return (poly(hex_points(c, c, 39.2)), poly(hex_points(c, c, 34.8)),
                 poly(hex_points(c, c, 32.5)), poly(hex_points(c, c, 31.5)))
     if kind == 'keep':
-        outer = keep_poly()
-        return outer, erode(outer, 3.9), erode(outer, 5.6), erode(outer, 6.4)
+        return (poly(bastion_points(c, c, 36.2, 8.2)),
+                poly(bastion_points(c, c, 32.2, 6.6)),
+                poly(bastion_points(c, c, 30.0, 5.8)),
+                poly(bastion_points(c, c, 29.0, 5.4)))
     raise ValueError(kind)
 
 
@@ -174,233 +188,55 @@ def timber(mask, seed, planks=True):
 # --------------------------------------------------------------------------
 
 def scene_posts():
-    """Man the Border Posts: painted Carpathian pass, frontier stronghold and striped customs barrier."""
-    layer = kit.painted_backdrop(
-        'gfx/interface/missions/source/uzh_identity_branch_locked_2.png',
-        focus=(0.50, 0.44), zoom=1.10, tint_rgb=(0.94, 1.04, 0.92), brightness=0.84,
+    """Man the Border Posts: pure painted Palanok fortress commanding the Carpathian pass."""
+    return kit.painted_backdrop(
+        'gfx/interface/great_projects/source/palanok_fortress.png',
+        focus=(0.45, 0.45), zoom=1.22, tint_rgb=(0.98, 1.02, 0.96), brightness=0.92, contrast=1.08,
     )
-    layer = kit.place_cutout(
-        layer, kit.atlas_cutout(3, 3), cx=31, cy=45, box=40,
-        glow_color=(255, 224, 150), glow_radius=24, glow_alpha=0.34,
-    )
-    post = poly([(49, 62), (53, 62), (53, 52), (49, 52)])
-    layer = over(layer, shadow(post, 0.6, 0.9, 0.6, 0.4), outline(post, 0.35, (20, 12, 6), 0.95), shaded(post, DARK_WOOD, 0.4, relief=1.0, gain=1.4))
-    beam = stroke([(37, 57.6), (68, 53.0)], 2.1, caps=False)
-    stripes = blank_mask()
-    sd = ImageDraw.Draw(stripes)
-    for i in range(10):
-        x0 = 37 + i * 3.1
-        sd.line(kit._px([(x0, 57.6 - (x0 - 37) * 0.148 + 1.5), (x0 + 1.0, 57.6 - (x0 + 1 - 37) * 0.148 - 1.5)]), fill=255, width=int(1.4 * SS))
-    layer = over(layer, shadow(beam, 0.6, 0.9, 0.6, 0.4), outline(beam, 0.35, (30, 8, 8), 0.95))
-    layer = over(layer, shaded(beam, STRIPE_WHITE, 0.4, relief=1.0, gain=1.4))
-    layer = over(layer, solid(inter(stripes, beam), (186, 28, 32), 0.95))
-    counter = ellipse(38.6, 58.2, 2.0)
-    layer = over(layer, outline(counter, 0.3, (20, 12, 6), 0.9), shaded(counter, STONE_WARM, 0.5, relief=1.0, gain=1.4))
-    return layer
-
-
-def salt_block(x, y, w, h, tilt=0.0, seed=1):
-    """A block of rock salt: pale, faceted, bluish in the shade."""
-    pts = [(x, y), (x + w, y - tilt), (x + w + w * 0.18, y - h * 0.22 - tilt), (x + w * 0.14, y - h * 0.22), (x, y)]
-    front = poly([(x, y), (x + w, y - tilt), (x + w, y - h - tilt), (x, y - h)])
-    top = poly([(x, y - h), (x + w, y - h - tilt), (x + w + w * 0.2, y - h - tilt - h * 0.24), (x + w * 0.2, y - h - h * 0.24)])
-    side = poly([(x + w, y - tilt), (x + w + w * 0.2, y - tilt - h * 0.24), (x + w + w * 0.2, y - h - tilt - h * 0.24), (x + w, y - h - tilt)])
-    whole = union(front, top, side)
-    layer = blank_layer()
-    layer = over(layer, shadow(whole, 0.8, 1.1, 0.9, 0.5), outline(whole, 0.4, (60, 66, 76), 0.9))
-    layer = over(layer, shaded(front, SALT_WHITE, 0.5, relief=1.2, gain=1.5, texture=noise(seed, 0.8, 2)))
-    layer = over(layer, shaded(top, SALT_WHITE, 0.4, relief=1.0, gain=1.2))
-    layer = over(layer, solid(side, (110, 128, 160), 0.35), solid(front, (96, 118, 150), 0.12))
-    layer = over(layer, solid(stroke([(x + w * 0.2, y - h * 0.8), (x + w * 0.5, y - h * 0.5)], 0.25), (255, 255, 255), 0.7))
-    return layer
-
-
-def pickaxe(base, degrees, length):
-    """A miner's pick stuck head-down: haft up, a curved double-pointed head."""
-    pts = lambda p: kit.place(p, degrees, base)
-    haft = poly(pts([(-1.0, 0), (1.0, 0), (0.85, -length), (-0.85, -length)]))
-    head = poly(pts([(-9.0, -length + 3.6), (-4.0, -length - 0.6), (0.0, -length - 1.4), (4.0, -length - 0.6), (9.0, -length + 3.6),
-                     (4.0, -length + 1.2), (0.0, -length + 1.8), (-4.0, -length + 1.2)]))
-    layer = blank_layer()
-    layer = over(layer, shadow(union(haft, head), 0.9, 1.2, 0.9, 0.5), outline(union(haft, head), 0.5, (16, 14, 14), 0.95))
-    layer = over(layer, shaded(haft, WOOD, 0.4, relief=0.9, gain=1.6, texture=noise(21, 0.7, 2)))
-    layer = over(layer, shaded(head, STEEL, 1.0, relief=2.0, gain=1.3, spec=0.2))
-    return layer
 
 
 def scene_salt():
-    """Pledge the Salt Chambers: salt blocks, a miner's pick, coffer of ducats and sealed deed of pledge."""
-    layer = kit.painted_backdrop(
-        'gfx/interface/missions/source/uzh_identity_branch_locked_1.png',
-        focus=(0.50, 0.50), zoom=1.16, tint_rgb=(0.86, 1.04, 0.98), brightness=0.72,
+    """Pledge the Salt Chambers: oak salt chest brimming with rock-salt crystals and royal wax seal."""
+    return kit.emblem_scene(
+        kit.extra_cutout(1, 0),
+        top_rgb=(18, 56, 32), bot_rgb=(6, 20, 12), glow_rgb=(186, 244, 198),
+        box=50, cy=42,
     )
-    layer = kit.place_cutout(
-        layer, kit.priv_cutout('jewish_tax_farmers_compact'), cx=45, cy=46, box=44,
-        glow_color=(165, 225, 215), glow_radius=24, glow_alpha=0.30,
-    )
-    for idx, (bx, by) in enumerate(((14.0, 56.0), (24.5, 56.0), (19.2, 47.2))):
-        layer = over(layer, salt_block(bx, by, 9.8, 8.2, tilt=0.0, seed=idx + 1))
-    layer = over(layer, pickaxe((61.0, 58), 16, 28))
-    layer = kit.place_cutout(
-        layer, kit.gov_cutout('charter'), cx=30, cy=56, box=28, degrees=-6,
-    )
-    return layer
-
-
-def bartka(base, degrees, length):
-    """The highlander's bartka: a long haft with a narrow-bladed axe head and a hammer at the back."""
-    pts = lambda p: kit.place(p, degrees, base)
-    haft = poly(pts([(-0.95, 0), (0.95, 0), (0.8, -length), (-0.8, -length)]))
-    top = -length + 4.0
-    blade = poly(pts([(0.8, top - 7.0), (2.4, top - 7.4), (9.4, top - 1.0), (9.0, top + 1.0), (2.4, top + 7.0), (0.8, top + 6.8)]))
-    hammer = poly(pts([(-0.8, top - 2.6), (-4.6, top - 2.0), (-4.6, top + 1.6), (-0.8, top + 2.2)]))
-    head = union(blade, hammer)
-    layer = blank_layer()
-    layer = over(layer, shadow(union(haft, head), 1.0, 1.4, 1.0, 0.5), outline(union(haft, head), 0.6, (226, 188, 128), 0.55))
-    layer = over(layer, shaded(haft, LIGHT_WOOD, 0.4, relief=0.9, gain=1.6, texture=noise(24, 0.7, 2)))
-    layer = over(layer, shaded(head, STEEL, 1.0, relief=2.0, gain=1.3, spec=0.2))
-    edge = stroke(pts([(9.2, top - 1.0), (8.8, top + 1.0)]), 0.6)
-    layer = over(layer, solid(edge, (250, 252, 255), 0.92))
-    # a pair of brass rings on the haft, as the highlanders wear it
-    for ry in (-length * 0.4, -length * 0.62):
-        ring = stroke(pts([(-1.3, ry), (1.3, ry)]), 0.9, caps=False)
-        layer = over(layer, shaded(ring, GOLD, 0.2, relief=0.6, gain=1.7, spec=0.3))
-    return layer
-
-
-def highland_hat(cx, cy, scale=1.0):
-    """A round felt hat with a low crown, a red band and a long feather."""
-    def P(x, y):
-        return (cx + x * scale, cy + y * scale)
-    brim = ellipse(*P(0, 4), 15 * scale, 4.0 * scale)
-    crown = poly([P(-9, 4)] + [P(-9 + 18 * t, 4 - 11 * math.sin(math.pi * t) ** 0.7) for t in np.linspace(0, 1, 24)] + [P(9, 4)])
-    band = poly([P(-9.2, 2.2), P(9.2, 2.2), P(9.4, 4.6), P(-9.4, 4.6)])
-    whole = union(brim, crown)
-    layer = blank_layer()
-    layer = over(layer, shadow(whole, 1.0, 1.4, 1.2, 0.55), outline(whole, 0.55, (10, 8, 6), 0.95))
-    layer = over(layer, shaded(brim, FELT, 0.8, relief=1.4, gain=1.4, texture=noise(41, 0.8, 2)))
-    layer = over(layer, shaded(crown, FELT, 1.4, relief=2.8, gain=1.5, spec=0.08, texture=noise(42, 0.8, 3)))
-    layer = over(layer, roundness(crown, cx - 9 * scale, cx + 9 * scale, dark=0.5, lift=0.18, peak=0.3))
-    layer = over(layer, shaded(band, VELVET_RED, 0.4, relief=1.0, gain=1.6, spec=0.2))
-    feather = stroke([P(6, 2)] + [P(x, y) for x, y in bezier((6, 2), (12, -6), (18, -12), (20, -20))[1:]], 1.5 * scale)
-    layer = over(layer, outline(feather, 0.35, (30, 24, 20), 0.95), solid(feather, (240, 236, 224), 1.0))
-    quill_line = stroke([P(6, 2)] + [P(x, y) for x, y in bezier((6, 2), (12, -6), (18, -12), (20, -20))[1:]], 0.3 * scale)
-    layer = over(layer, solid(quill_line, (120, 110, 96), 0.8))
-    return layer
-
-
-def campfire(cx, base_y, scale=1.0):
-    def P(x, y):
-        return (cx + x * scale, base_y + y * scale)
-    layer = blank_layer()
-    layer = over(layer, glow(cx, base_y - 6 * scale, 22 * scale, (255, 160, 60), 0.55))
-    logs = union(stroke([P(-9, 0), P(8, -4)], 2.6 * scale), stroke([P(9, 0), P(-8, -4)], 2.6 * scale))
-    flame = poly([P(-6, -3)] + [P(x, y) for x, y in bezier((-6, -3), (-8, -12), (-1, -14), (0, -26))[1:]] +
-                 [P(x, y) for x, y in bezier((0, -26), (2, -14), (8, -12), (6, -3))[1:]])
-    core = poly([P(-3, -3)] + [P(x, y) for x, y in bezier((-3, -3), (-4, -9), (0, -10), (0, -17))[1:]] +
-                [P(x, y) for x, y in bezier((0, -17), (1, -10), (4, -9), (3, -3))[1:]])
-    layer = over(layer, outline(logs, 0.4, (16, 8, 4), 0.95), shaded(logs, DARK_WOOD, 0.5, relief=1.2, gain=1.4))
-    layer = over(layer, shaded(flame, FLAME, 1.0, relief=2.4, gain=1.3))
-    layer = over(layer, shaded(core, FLAME, 0.6, relief=1.6, gain=1.5, spec=0.3))
-    return layer
 
 
 def scene_opryshky():
-    """Enlist the Opryshky: Carpathian highlander warrior, bartka axe and campfire under the firs."""
-    layer = kit.painted_backdrop(
-        'gfx/interface/missions/source/uzh_identity_branch_locked_3.png',
-        focus=(0.50, 0.45), zoom=1.18, flip=True, tint_rgb=(0.84, 1.06, 0.88), brightness=0.72,
+    """Enlist the Opryshky: crossed Carpathian brass bartka axes bound with a crimson cord."""
+    return kit.emblem_scene(
+        kit.extra_cutout(0, 0),
+        top_rgb=(26, 48, 24), bot_rgb=(10, 18, 8), glow_rgb=(255, 214, 138),
+        box=50, cy=42,
     )
-    layer = over(layer, campfire(48, 66, 0.82))
-    layer = kit.place_cutout(
-        layer, kit.atlas_cutout(2, 1), cx=34, cy=45, box=42,
-        glow_color=(255, 165, 75), glow_radius=25, glow_alpha=0.38,
-    )
-    layer = over(layer, bartka((58, 66), -8, 40))
-    return layer
-
-
-def watch_tower(cx, base_y, width, height, beacon=True, seed=1):
-    """A timber watchtower on two braced legs with a platform; a hut under a roof, or a beacon fire in a rail."""
-    hw = width / 2.0
-    legs = union(stroke([(cx - hw, base_y), (cx - hw * 0.6, base_y - height)], 1.5, caps=False),
-                 stroke([(cx + hw, base_y), (cx + hw * 0.6, base_y - height)], 1.5, caps=False))
-    brace = union(stroke([(cx - hw * 0.92, base_y - height * 0.12), (cx + hw * 0.64, base_y - height * 0.56)], 0.9, caps=False),
-                  stroke([(cx + hw * 0.92, base_y - height * 0.12), (cx - hw * 0.64, base_y - height * 0.56)], 0.9, caps=False))
-    platform = poly([(cx - hw * 0.84, base_y - height), (cx + hw * 0.84, base_y - height), (cx + hw * 0.84, base_y - height - 1.8),
-                     (cx - hw * 0.84, base_y - height - 1.8)])
-    top_y = base_y - height - 1.8
-    layer = blank_layer()
-    layer = over(layer, contact(cx, base_y + 0.5, width * 0.8, 1.6, 0.5))
-    if beacon:
-        rail_h = 4.2
-        rails = union(stroke([(cx - hw * 0.84, top_y), (cx - hw * 0.84, top_y - rail_h)], 0.8, caps=False),
-                      stroke([(cx + hw * 0.84, top_y), (cx + hw * 0.84, top_y - rail_h)], 0.8, caps=False),
-                      stroke([(cx - hw * 0.84, top_y - rail_h), (cx + hw * 0.84, top_y - rail_h)], 0.7, caps=False))
-        whole = union(legs, brace, platform, rails)
-        layer = over(layer, glow(cx, top_y - 8, 30, (255, 170, 70), 0.35))
-        layer = over(layer, shadow(whole, 0.9, 1.2, 1.0, 0.5), outline(whole, 0.45, (16, 10, 6), 0.95))
-        layer = over(layer, shaded(legs, DARK_WOOD, 0.4, relief=1.0, gain=1.5))
-        layer = over(layer, shaded(brace, WOOD, 0.3, relief=0.8, gain=1.5))
-        layer = over(layer, shaded(platform, WOOD, 0.4, relief=1.0, gain=1.4))
-        layer = over(layer, shaded(rails, WOOD, 0.3, relief=0.8, gain=1.5))
-        # smoke first, so the fire sits in front of it
-        for i, (sx, sy, sr) in enumerate(((1.4, -26, 3.0), (3.2, -32, 3.8), (5.8, -39, 4.6))):
-            layer = over(layer, solid(blur(ellipse(cx + sx, top_y + sy, sr), 1.1), (70, 56, 60), 0.50 - 0.10 * i))
-        layer = over(layer, campfire(cx, top_y + 0.4, 0.78))
-        return layer
-    hut_h = height * 0.30
-    hut = poly([(cx - hw * 0.6, top_y), (cx + hw * 0.6, top_y), (cx + hw * 0.6, top_y - hut_h), (cx - hw * 0.6, top_y - hut_h)])
-    roof = poly([(cx - hw * 0.8, top_y - hut_h), (cx + hw * 0.8, top_y - hut_h), (cx, top_y - hut_h - hw * 0.8)])
-    whole = union(legs, brace, platform, hut, roof)
-    layer = over(layer, shadow(whole, 0.9, 1.2, 1.0, 0.5), outline(whole, 0.45, (16, 10, 6), 0.95))
-    layer = over(layer, shaded(legs, DARK_WOOD, 0.4, relief=1.0, gain=1.5))
-    layer = over(layer, shaded(brace, WOOD, 0.3, relief=0.8, gain=1.5))
-    layer = over(layer, shaded(platform, WOOD, 0.4, relief=1.0, gain=1.4))
-    layer = over(layer, timber(hut, seed))
-    layer = over(layer, shaded(roof, SHINGLE, 0.7, relief=1.6, gain=1.5, texture=noise(seed + 3, 0.7, 3)))
-    return layer
 
 
 def scene_towers():
-    """Post the Watchtowers: timber watchtower with burning beacon on the steppe line."""
-    layer = kit.painted_backdrop(
+    """Post the Watchtowers: pure painted timber watchtower and palisade of the Sich on the steppe line."""
+    return kit.painted_backdrop(
         'gfx/interface/great_projects/source/zaporozhian_sich.png',
-        focus=(0.50, 0.45), zoom=1.12, tint_rgb=(0.94, 0.96, 1.08), brightness=0.82,
+        focus=(0.74, 0.44), zoom=1.35, tint_rgb=(0.98, 1.00, 1.04), brightness=0.92, contrast=1.08,
     )
-    layer = over(layer, watch_tower(31, 74, 17, 34, beacon=True, seed=3))
-    layer = kit.place_cutout(
-        layer, kit.atlas_cutout(1, 1), cx=55, cy=52, box=32,
-        glow_color=(255, 195, 110), glow_radius=22, glow_alpha=0.30,
-    )
-    return layer
 
 
 def scene_patrols():
-    """Send Out the Patrols: mounted frontier patrol with lances and shields riding the steppe line."""
-    layer = kit.painted_backdrop(
-        'gfx/interface/missions/source/chr_identity_branch_locked_1.png',
-        focus=(0.50, 0.48), zoom=1.15, flip=True, tint_rgb=(0.92, 0.96, 1.10), brightness=0.84,
+    """Send Out the Patrols: brass frontier signal horn crossed with a steel cavalry sabre."""
+    return kit.emblem_scene(
+        kit.extra_cutout(1, 1),
+        top_rgb=(24, 42, 68), bot_rgb=(10, 16, 28), glow_rgb=(255, 218, 146),
+        box=50, cy=42,
     )
-    layer = kit.place_cutout(
-        layer, kit.gov_cutout('druzhyna'), cx=42, cy=46, box=52, flip=True,
-        glow_color=(255, 224, 150), glow_radius=26, glow_alpha=0.36,
-    )
-    return layer
 
 
 def scene_settlers():
-    """Settle the Watch: settler homestead and plough field beneath a frontier watchtower."""
-    layer = kit.painted_backdrop(
-        'gfx/interface/government_reform_icons/source/cossack_host.png',
-        focus=(0.48, 0.48), zoom=1.15, flip=True, tint_rgb=(1.02, 0.96, 0.88), brightness=0.84,
+    """Settle the Watch: frontier heraldic shield with golden wheat ears and crossed spears."""
+    return kit.emblem_scene(
+        kit.gov_cutout('prosperity'),
+        top_rgb=(28, 48, 66), bot_rgb=(10, 18, 26), glow_rgb=(255, 224, 148),
+        box=50, cy=42,
     )
-    layer = over(layer, tint(watch_tower(63, 49, 7.5, 21, beacon=False, seed=6), (0.78, 0.76, 0.82)))
-    layer = kit.place_cutout(
-        layer, kit.priv_cutout('left_bank_settlement'), cx=39, cy=47, box=50,
-        glow_color=(255, 220, 145), glow_radius=25, glow_alpha=0.34,
-    )
-    return layer
 
 
 def scene_reform():

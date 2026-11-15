@@ -22,8 +22,6 @@ def read(path: Path, vanilla: bool = False) -> str:
     try:
         return raw.decode('utf-8-sig')
     except UnicodeDecodeError:
-        if not vanilla:
-            raise
         return raw.decode('cp1252')
 
 

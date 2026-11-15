@@ -57,14 +57,13 @@ MOD_REGIONS = {
 }
 # Culture files legitimately name the whole world - vanilla's east_slavic.txt does.
 WORLD_FILES = {
-    "ruthenian.txt", "byelorussian.txt", "ryazanian.txt", "rusyn.txt",
-    "ruthenian_new.txt", "byelorussian_new.txt", "ryazanian_new.txt",
+    "ruthenian.txt", "byelorussian.txt", "rusyn.txt",
+    "ruthenian_new.txt", "byelorussian_new.txt",
     "rusyn_new.txt", "rusyn_new_new.txt",
 }
 TRANSITION_FILES = {
     "ruthenian_new.txt": "ruthenian.txt",
     "byelorussian_new.txt": "byelorussian.txt",
-    "ryazanian_new.txt": "ryazanian.txt",
     "rusyn_new.txt": "rusyn.txt",
     "rusyn_new_new.txt": "rusyn.txt",
 }
@@ -88,7 +87,7 @@ FALLBACK = {
     "ODS.txt": "ruthenian.txt", "UZH.txt": "rusyn.txt",
     "MSK.txt": "byelorussian.txt", "VTB.txt": "byelorussian.txt",
     "MSL.txt": "byelorussian.txt", "BLR.txt": "byelorussian.txt",
-    "CHR.txt": "ryazanian.txt", "RYA.txt": "ryazanian.txt",
+    "CHR.txt": "ruthenian.txt",
 }
 
 
