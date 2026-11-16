@@ -1,0 +1,98 @@
+name = "Khmelnytsky Uprising"
+war_goal = {
+	type = defend_capital_independence
+	casus_belli = cb_independence_war
+	tag = ZAZ
+}
+
+# Cossack-Crimean alliance rises against the Commonwealth
+1648.4.19 = {
+	add_attacker = ZAZ
+	add_attacker = CRI
+	add_defender = PLC
+}
+
+1648.5.26 = {
+	battle = {
+		name = "Korsun"
+		location = 1944
+		attacker = {
+			commander = "Bohdan Khmelnytsky"	# Bohdan Khmelnytsky
+			infantry = 15000
+			cavalry = 6000
+			artillery = 20
+			losses = 5	# percent
+			country = ZAZ
+		}
+		defender = {
+			commander = "Mikolaj Potocki"	# Mikolaj Potocki
+			infantry = 12000
+			cavalry = 8000
+			artillery = 30
+			losses = 90	# percent
+			country = PLC
+		}
+		result = yes
+	}
+}
+
+# Cossack Hetmanate state consolidates at Kyiv, Chyhyryn, and the Left Bank
+1648.6.1 = {
+	add_attacker = HET
+}
+
+1648.9.23 = {
+	battle = {
+		name = "Pyliavtsi"
+		location = 4540
+		attacker = {
+			commander = "Bohdan Khmelnytsky"	# Bohdan Khmelnytsky
+			infantry = 45000
+			cavalry = 25000
+			artillery = 40
+			losses = 8	# percent
+			country = HET
+		}
+		defender = {
+			commander = "Wladyslaw Dominik Zaslawski"	# Wladyslaw Dominik Zaslawski
+			infantry = 20000
+			cavalry = 16000
+			artillery = 50
+			losses = 35	# percent
+			country = PLC
+		}
+		result = yes
+	}
+}
+
+1649.8.15 = {
+	battle = {
+		name = "Zboriv"
+		location = 2961
+		attacker = {
+			commander = "Bohdan Khmelnytsky"	# Bohdan Khmelnytsky
+			infantry = 40000
+			cavalry = 30000
+			artillery = 30
+			losses = 12	# percent
+			country = HET
+		}
+		defender = {
+			commander = "John II Casimir"	# John II Casimir
+			infantry = 15000
+			cavalry = 10000
+			artillery = 20
+			losses = 20	# percent
+			country = PLC
+		}
+		result = yes
+	}
+}
+
+# Treaty of Zboriv
+1649.8.18 = {
+	rem_attacker = ZAZ
+	rem_attacker = HET
+	rem_attacker = CRI
+	rem_defender = PLC
+}

@@ -2,14 +2,46 @@ name = "Polish-Cossack-Tatar War"
 war_goal = {
 	type = take_capital_vassalize
 	casus_belli = cb_vassalize_mission
-	province = 1944
+	province = 1944 # Cherkasy
 }
+
 1667.1.30 = {
 	add_attacker = PLC
 	add_defender = PDL
+	add_defender = CRI
 }
 
-1667.10.11 = {
+1667.10.6 = {
+	battle = {
+		name = "Podhajce"
+		location = 2961
+		attacker = {
+			commander = "Petro Doroshenko"	# Petro Doroshenko
+			infantry = 15000
+			cavalry = 20000
+			artillery = 20
+			losses = 15	# percent
+			country = PDL
+		}
+		defender = {
+			commander = "John III Sobieski"	# John III Sobieski
+			infantry = 6000
+			cavalry = 3000
+			artillery = 18
+			losses = 8	# percent
+			country = PLC
+		}
+		result = no
+	}
+}
+
+# Crimean-Polish truce at Podhajce
+1667.10.16 = {
+	rem_defender = CRI
+}
+
+# Pact of Podhajce
+1667.10.19 = {
 	rem_attacker = PLC
 	rem_defender = PDL
 }

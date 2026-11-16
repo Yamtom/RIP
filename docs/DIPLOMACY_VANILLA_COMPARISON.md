@@ -91,24 +91,24 @@ Ownership screen evaluates province history on the relation start date only. It 
 | VolynHalich.txt#5 | alliance | MOS → CRI | 1474.4.1–1478.4.30 | RIP | — |
 | ZaporizhiaHetmanate.txt#1 | vassal | LIT → ZAZ | 1555.1.1–1569.7.1 | RIP | — |
 | ZaporizhiaHetmanate.txt#2 | vassal | PLC → ZAZ | 1569.7.1–1648.1.1 | RIP | — |
-| ZaporizhiaHetmanate.txt#3 | vassal | RUS → ZAZ | 1654.1.8–1657.7.27 | RIP | — |
-| ZaporizhiaHetmanate.txt#4 | vassal | PLC → ZAZ | 1658.9.16–1659.6.17 | RIP | — |
-| ZaporizhiaHetmanate.txt#5 | vassal | RUS → ZAZ | 1659.6.18–1663.10.18 | RIP | — |
-| ZaporizhiaHetmanate.txt#6 | vassal | TUR → ZAZ | 1669.1.1–1676.10.27 | RIP | — |
+| ZaporizhiaHetmanate.txt#3 | alliance | ZAZ → CRI | 1624.1.1–1629.1.1 | RIP | — |
+| ZaporizhiaHetmanate.txt#4 | alliance | ZAZ → CRI | 1648.3.1–1654.1.8 | RIP | — |
+| ZaporizhiaHetmanate.txt#5 | guarantee | RUS → ZAZ | 1667.1.30–1686.5.6 | RIP | — |
+| ZaporizhiaHetmanate.txt#6 | guarantee | PLC → ZAZ | 1667.1.30–1686.5.6 | RIP | — |
 | ZaporizhiaHetmanate.txt#7 | vassal | RUS → ZAZ | 1686.5.6–1708.11.1 | RIP | — |
-| ZaporizhiaHetmanate.txt#8 | alliance | SWE → ZAZ | 1708.11.1–1709.7.8 | RIP | — |
-| ZaporizhiaHetmanate.txt#9 | vassal | RUS → ZAZ | 1709.7.9–1711.7.21 | RIP | — |
-| ZaporizhiaHetmanate.txt#10 | alliance | ZAZ → CRI | 1648.3.1–1654.1.8 | RIP | — |
-| ZaporizhiaHetmanate.txt#11 | alliance | ZAZ → CRI | 1624.1.1–1629.1.1 | RIP | — |
-| ZaporizhiaHetmanate.txt#12 | vassal | RUS → HET | 1654.1.8–1708.11.1 | RIP | HET |
-| ZaporizhiaHetmanate.txt#13 | alliance | SWE → HET | 1708.11.1–1709.7.8 | RIP | HET |
-| ZaporizhiaHetmanate.txt#14 | vassal | RUS → HET | 1709.7.9–1764.11.10 | RIP | HET |
-| ZaporizhiaHetmanate.txt#15 | alliance | ZAZ → HET | 1654.1.8–1663.1.1 | RIP | HET |
-| ZaporizhiaHetmanate.txt#16 | alliance | ZAZ → HET | 1687.1.1–1709.7.8 | RIP | HET |
-| ZaporizhiaHetmanate.txt#17 | guarantee | RUS → ZAZ | 1667.1.30–1686.5.6 | RIP | — |
-| ZaporizhiaHetmanate.txt#18 | guarantee | PLC → ZAZ | 1667.1.30–1686.5.6 | RIP | — |
-| ZaporizhiaHetmanate.txt#19 | vassal | TUR → ZAZ | 1711.7.21–1734.6.1 | RIP | — |
-| ZaporizhiaHetmanate.txt#20 | vassal | RUS → ZAZ | 1734.6.1–1775.6.5 | RIP | — |
+| ZaporizhiaHetmanate.txt#8 | alliance | SWE → ZAZ | 1708.11.1–1711.7.21 | RIP | — |
+| ZaporizhiaHetmanate.txt#9 | vassal | TUR → ZAZ | 1711.7.21–1734.6.1 | RIP | — |
+| ZaporizhiaHetmanate.txt#10 | vassal | RUS → ZAZ | 1734.6.1–1775.6.5 | RIP | — |
+| ZaporizhiaHetmanate.txt#11 | vassal | TUR → ZAZ | 1778.1.1–1821.12.31 | RIP | — |
+| ZaporizhiaHetmanate.txt#12 | vassal | RUS → HET | 1654.1.8–1658.9.16 | RIP | — |
+| ZaporizhiaHetmanate.txt#13 | dependency | PLC → HET | 1658.9.16–1659.10.27 | RIP | — |
+| ZaporizhiaHetmanate.txt#14 | vassal | RUS → HET | 1659.10.27–1708.11.1 | RIP | — |
+| ZaporizhiaHetmanate.txt#15 | alliance | SWE → HET | 1708.11.1–1709.7.8 | RIP | — |
+| ZaporizhiaHetmanate.txt#16 | vassal | RUS → HET | 1709.7.9–1764.11.10 | RIP | — |
+| ZaporizhiaHetmanate.txt#17 | alliance | ZAZ → HET | 1648.6.1–1667.1.30 | RIP | — |
+| ZaporizhiaHetmanate.txt#18 | alliance | ZAZ → HET | 1687.1.1–1709.7.8 | RIP | — |
+| ZaporizhiaHetmanate.txt#19 | vassal | TUR → PDL | 1669.3.1–1676.9.19 | RIP | — |
+| ZaporizhiaHetmanate.txt#20 | vassal | TUR → PDL | 1677.6.29–1699.1.26 | RIP | — |
 
 ## Merged overlap findings
 
@@ -146,5 +146,5 @@ RIP SHA256: `9396a6329f7403bdf6b3e2daedc8b4a6c33d1f9c254f50f6835a75328ff2eb2f`
 
 ### ZaporizhiaHetmanate.txt
 
-RIP SHA256: `3c1f796618c8e33f293a1cb40c302bf0d740ab6aa2b4ee1f24ced4aee0e63c08`
+RIP SHA256: `9830c1c73246d3fb32ecb0ae97f872885b55b904e132942645d32437774c2f97`
 

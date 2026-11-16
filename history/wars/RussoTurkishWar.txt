@@ -2,19 +2,53 @@ name = "Russo-Turkish War"
 war_goal = {
 	type = take_claim
 	casus_belli = cb_conquest
-	province = 466 # Sarai
+	province = 280 # Kiev
 }
 
-1676.1.1 = {
+# Escalation after Zurawno; Left-Bank Hetmanate and Zaporizhia defend against the Porte
+1676.11.1 = {
 	add_attacker = TUR
 	add_attacker = CRI
 	add_defender = RUS
 	add_defender = HET
+	add_defender = ZAZ
 }
 
+# Yuriy Khmelnytsky marches with the Ottoman Chyhyryn expedition
+1677.6.29 = {
+	add_attacker = PDL
+}
+
+1678.7.21 = {
+	battle = {
+		name = "Chyhyryn"
+		location = 1944
+		attacker = {
+			commander = "Kara Mustafa"	# Kara Mustafa
+			infantry = 70000
+			cavalry = 30000
+			artillery = 60
+			losses = 20	# percent
+			country = TUR
+		}
+		defender = {
+			commander = "Grigory Romodanovsky"	# Grigory Romodanovsky
+			infantry = 50000
+			cavalry = 20000
+			artillery = 40
+			losses = 15	# percent
+			country = RUS
+		}
+		result = yes
+	}
+}
+
+# Treaty of Bakhchisarai
 1681.1.3 = {
 	rem_attacker = TUR
 	rem_attacker = CRI
+	rem_attacker = PDL
 	rem_defender = RUS
 	rem_defender = HET
+	rem_defender = ZAZ
 }

@@ -1,0 +1,45 @@
+name = "Starodub War"
+war_goal = {
+	type = take_core
+	casus_belli = cb_core
+	province = 4244 # Starodub
+}
+
+# Lithuania, Poland, and Kyiv strike Severia during Ivan IV's minority
+1534.2.15 = {
+	add_attacker = LIT
+	add_attacker = POL
+	add_attacker = KIE
+	add_defender = RUS
+}
+
+1535.8.29 = {
+	battle = {
+		name = "Starodub"
+		location = 4244
+		attacker = {
+			commander = "Andriy Nemyrovych"	# Andriy Nemyrovych
+			infantry = 18000
+			cavalry = 12000
+			artillery = 25
+			losses = 15	# percent
+			country = KIE
+		}
+		defender = {
+			commander = "Fyodor Telepnev-Obolensky"	# Fyodor Telepnev-Obolensky
+			infantry = 10000
+			cavalry = 5000
+			losses = 75	# percent
+			country = RUS
+		}
+		result = yes
+	}
+}
+
+# Truce of Moscow
+1537.2.18 = {
+	rem_attacker = LIT
+	rem_attacker = POL
+	rem_attacker = KIE
+	rem_defender = RUS
+}

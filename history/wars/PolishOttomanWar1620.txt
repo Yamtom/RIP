@@ -1,0 +1,74 @@
+name = "Polish-Ottoman War (Khotyn)"
+war_goal = {
+	type = take_claim
+	casus_belli = cb_conquest
+	province = 281 # Kamienec
+}
+
+# Moldavian intervention escalates into full Ottoman-Commonwealth war
+1620.9.1 = {
+	add_attacker = TUR
+	add_attacker = CRI
+	add_attacker = MOL
+	add_attacker = WAL
+	add_defender = PLC
+	add_defender = ZAZ
+}
+
+1620.9.20 = {
+	battle = {
+		name = "Cecora"
+		location = 268
+		attacker = {
+			commander = "Iskender Pasha"	# Iskender Pasha
+			infantry = 12000
+			cavalry = 10000
+			artillery = 20
+			losses = 15	# percent
+			country = TUR
+		}
+		defender = {
+			commander = "Stanislaw Zolkiewski"	# Stanislaw Zolkiewski
+			infantry = 6000
+			cavalry = 4000
+			artillery = 15
+			losses = 80	# percent
+			country = PLC
+		}
+		result = yes
+	}
+}
+
+1621.9.2 = {
+	battle = {
+		name = "Khotyn"
+		location = 268
+		attacker = {
+			commander = "Osman II"	# Osman II
+			infantry = 60000
+			cavalry = 50000
+			artillery = 60
+			losses = 35	# percent
+			country = TUR
+		}
+		defender = {
+			commander = "Petro Sahaidachnyi"	# Petro Konashevych-Sahaidachnyi
+			infantry = 45000
+			cavalry = 20000
+			artillery = 50
+			losses = 18	# percent
+			country = ZAZ
+		}
+		result = no
+	}
+}
+
+# Treaty of Khotyn
+1621.10.9 = {
+	rem_attacker = TUR
+	rem_attacker = CRI
+	rem_attacker = MOL
+	rem_attacker = WAL
+	rem_defender = PLC
+	rem_defender = ZAZ
+}

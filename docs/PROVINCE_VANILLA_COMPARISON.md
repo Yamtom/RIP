@@ -2,11 +2,11 @@
 
 Installed baseline: **EU4 v1.37.5.0 Inca (491d)**
 
-Path: `D:\Programs Files(x86)\Steam\steamapps\common\Europa Universalis IV`
+Path: `D:\Users\Yamtom\Documents\Paradox Interactive\Europa Universalis IV\mod\RIP\diagnostics\vanilla_donors\eu4_1.37.5`
 
-Reviewed `65` RIP province history files: {'override': 62, 'identical': 3}.
-Total 1444.11.11 development across reviewed provinces: vanilla **428** -> RIP **592** (**+164**).
-1444.11.11 ownership breakdown: {'LIT': 21, 'CHR': 9, 'KIE': 7, 'POL': 5, 'HLC': 5, 'VLN': 5, 'RYA': 4, 'ZAZ': 3, 'HUN': 1, 'MOS': 1, 'GOL': 1, 'MAZ': 1, 'UZH': 1, 'OKA': 1}.
+Reviewed `81` RIP province history files: {'override': 78, 'identical': 3}.
+Total 1444.11.11 development across reviewed provinces: vanilla **557** -> RIP **720** (**+163**).
+1444.11.11 ownership breakdown: {'LIT': 22, 'CHR': 9, 'KIE': 7, 'CRI': 6, 'POL': 5, 'HLC': 5, 'VLN': 5, 'RYA': 4, 'ZAZ': 3, 'GOL': 3, 'HUN': 2, 'GEN': 2, 'MOL': 2, 'MOS': 1, 'MAZ': 1, 'UZH': 1, 'FEO': 1, 'OKA': 1, 'TUR': 1}.
 
 Only RIP overrides in `history/provinces/` are compared; unoverridden vanilla provinces inherit vanilla history verbatim.
 Identical fixture provinces (`300`, `301`, `4255`) are intentionally retained for `tests/check_culture_key_compatibility.py`.
@@ -14,6 +14,7 @@ Identical fixture provinces (`300`, `301`, `4255`) are intentionally retained fo
 | ID | File | Comparison | 1444 Owner (V->RIP) | 1444 Culture (V->RIP) | 1444 Religion | 1444 Dev (V->RIP) | Trade Good | CoT | 1444 Cores | Dated Blocks |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 153 | 153 - Pest.txt | override | HUN -> HUN | hungarian -> hungarian | catholic | 11 -> 12 (+1) | grain | 2 | HUN | 14 |
+| 162 | 162 - Zemplen.txt | override | HUN -> HUN | slovak -> slovak | catholic | 7 -> 9 (+2) | grain | — | HUN,SLO,TRA,UZH | 12 |
 | 259 | 259 - Sandomierz.txt | override | POL -> POL | polish -> polish | catholic | 9 -> 12 (+3) | cloth | — | POL | 14 |
 | 260 | 260 - Lublin.txt | override | POL -> POL | polish -> polish | catholic | 13 -> 16 (+3) | cloth | 2 | POL,VLN | 18 |
 | 261 | 261 - Halicz.txt | override | POL -> HLC | ruthenian -> ruthenian | orthodox | 8 -> 12 (+4) | grain | — | HLC,POL | 15 |
@@ -21,6 +22,7 @@ Identical fixture provinces (`300`, `301`, `4255`) are intentionally retained fo
 | 270 | 270 - Troki.txt | override | LIT -> LIT | lithuanian -> lithuanian | catholic | 8 -> 11 (+3) | livestock | — | LIT | 4 |
 | 271 | 271 - Samogitia.txt | override | LIT -> LIT | lithuanian -> lithuanian | catholic | 6 -> 9 (+3) | livestock | — | LIT | 9 |
 | 272 | 272 - Lithuania.txt | override | LIT -> LIT | lithuanian -> lithuanian | catholic | 13 -> 16 (+3) | grain | 1 | LIT | 9 |
+| 275 | 275 - Polotsk.txt | override | LIT -> LIT | byelorussian -> byelorussian | orthodox | 9 -> 12 (+3) | iron | — | LIT,PLT | 7 |
 | 276 | 276 - Minsk.txt | override | LIT -> LIT | byelorussian -> byelorussian | orthodox | 7 -> 10 (+3) | naval_supplies | — | LIT,MSK | 8 |
 | 277 | 277 - Brest.txt | override | LIT -> VLN | byelorussian -> ruthenian | orthodox | 6 -> 6 (+0) | wool | — | LIT,VLN | 9 |
 | 278 | 278 - Pinsk.txt | override | LIT -> LIT | byelorussian -> byelorussian | orthodox | 6 -> 9 (+3) | wool | — | LIT | 8 |
@@ -28,7 +30,10 @@ Identical fixture provinces (`300`, `301`, `4255`) are intentionally retained fo
 | 280 | 280 - Kiev.txt | override | LIT -> KIE | ruthenian -> ruthenian | orthodox | 10 -> 16 (+6) | grain | 2 | KIE | 23 |
 | 281 | 281 - Kamienec.txt | override | POL -> HLC | ruthenian -> ruthenian | orthodox | 6 -> 8 (+2) | livestock | — | HLC,PDL | 12 |
 | 282 | 282 - Yedisan.txt | override | LIT -> ZAZ | ruthenian -> ruthenian | orthodox | 5 -> 8 (+3) | livestock | — | ZAZ | 10 |
-| 283 | 283 - Zaporozhia.txt | override | LIT -> ZAZ | ruthenian -> ruthenian | orthodox | 4 -> 7 (+3) | livestock | — | ZAZ | 36 |
+| 283 | 283 - Zaporozhia.txt | override | LIT -> ZAZ | ruthenian -> ruthenian | orthodox | 4 -> 7 (+3) | livestock | — | ZAZ | 33 |
+| 286 | 286 - Azow.txt | override | GEN -> GEN | crimean -> crimean | sunni | 9 -> 9 (+0) | slaves | — | GEN | 10 |
+| 287 | 287 - Kouban.txt | override | CRI -> CRI | crimean -> crimean | sunni | 9 -> 9 (+0) | livestock | — | CRI | 3 |
+| 288 | 288 - Cherkassk.txt | override | GOL -> GOL | mishary -> mishary | sunni | 8 -> 8 (+0) | livestock | — | GOL | 8 |
 | 289 | 289 - Chernigov.txt | override | LIT -> CHR | ryazanian -> ruthenian | orthodox | 5 -> 5 (+0) | iron | — | CHR,KHK | 12 |
 | 290 | 290 - Poltava.txt | override | LIT -> CHR | ruthenian -> ruthenian | orthodox | 5 -> 8 (+3) | grain | — | CHR,PRL | 5 |
 | 291 | 291 - Kharkov.txt | override | LIT -> CHR | ruthenian -> ruthenian | orthodox | 5 -> 5 (+0) | iron | — | CHR,KHK | 4 |
@@ -41,6 +46,7 @@ Identical fixture provinces (`300`, `301`, `4255`) are intentionally retained fo
 | 300 | 300 - Tula.txt | identical | RYA -> RYA | ryazanian -> ryazanian | orthodox | 8 -> 8 (+0) | iron | — | RYA | 8 |
 | 301 | 301 - Ryazan.txt | identical | RYA -> RYA | ryazanian -> ryazanian | orthodox | 13 -> 13 (+0) | wool | — | RYA | 9 |
 | 771 | 771 - Vitebsk.txt | override | LIT -> LIT | byelorussian -> byelorussian | orthodox | 5 -> 8 (+3) | grain | — | LIT,PLT,VTB | 10 |
+| 1756 | 1756 - Budjak.txt | override | MOL -> MOL | romanian -> romanian | orthodox | 11 -> 11 (+0) | wool | — | MOL | 16 |
 | 1936 | 1936 - Kovno.txt | override | LIT -> LIT | lithuanian -> lithuanian | catholic | 7 -> 10 (+3) | livestock | — | LIT | 11 |
 | 1937 | 1937 - Grodno.txt | override | LIT -> LIT | byelorussian -> byelorussian | orthodox | 5 -> 11 (+6) | livestock | — | LIT,VLN | 6 |
 | 1940 | 1940 - Belz.txt | override | MAZ -> MAZ | ruthenian -> ruthenian | orthodox | 9 -> 13 (+4) | livestock | — | HLC,MAZ,VOL | 11 |
@@ -50,10 +56,19 @@ Identical fixture provinces (`300`, `301`, `4255`) are intentionally retained fo
 | 1944 | 1944 - Cherkasy.txt | override | LIT -> KIE | ruthenian -> ruthenian | orthodox | 3 -> 6 (+3) | livestock | — | KIE | 11 |
 | 1945 | 1945 - Novgorod-Seversky.txt | override | LIT -> CHR | ryazanian -> ruthenian | orthodox | 4 -> 7 (+3) | iron | —->1 | CHR,KHK | 21 |
 | 1952 | 1952 - Maramaros.txt | override | HUN -> UZH | ruthenian -> rusyn | orthodox | 5 -> 11 (+6) | salt | —->1 | HUN,UZH | 7 |
+| 1974 | 1974 - Yedishkul.txt | override | CRI -> CRI | crimean -> crimean | sunni | 10 -> 8 (-2) | salt | — | CRI | 9 |
+| 2405 | 2405 - Bendery.txt | override | MOL -> MOL | romanian -> romanian | orthodox | 7 -> 7 (+0) | wine | — | MOL | 11 |
 | 2406 | 2406 - Ingil.txt | override | LIT -> ZAZ | ruthenian -> ruthenian | orthodox | 3 -> 6 (+3) | wine | — | ZAZ | 3 |
 | 2407 | 2407 - Pereyaslav.txt | override | LIT -> CHR | ruthenian -> ruthenian | orthodox | 5 -> 8 (+3) | grain | — | CHR,PRL | 6 |
 | 2408 | 2408 - Lipetsk.txt | override | RYA -> RYA | mishary -> mishary | sunni | 7 -> 7 (+0) | livestock | — | IZM,KHK,RYA | 4 |
+| 2409 | 2409 - Bahmut.txt | override | GOL -> GOL | mishary -> mishary | sunni | 5 -> 5 (+0) | iron | — | GOL | 10 |
+| 2410 | 2410 - Theodoro.txt | override | FEO -> FEO | goths -> goths | orthodox | 9 -> 9 (+0) | wine | — | FEO | 5 |
+| 2411 | 2411 - Mansur.txt | override | CRI -> CRI | crimean -> crimean | sunni | 8 -> 8 (+0) | livestock | — | CRI | 6 |
+| 2412 | 2412 - Kyzyl-Yar.txt | override | CRI -> CRI | crimean -> crimean | sunni | 11 -> 8 (-3) | salt | — | CRI | 8 |
+| 2413 | 2413 - Tyn.txt | override | CRI -> CRI | crimean -> crimean | sunni | 8 -> 8 (+0) | livestock | — | CRI | 6 |
+| 2414 | 2414 - Azaraba.txt | override | CRI -> CRI | crimean -> crimean | sunni | 9 -> 8 (-1) | livestock | — | CRI | 3 |
 | 2424 | 2424 - Peremyshl.txt | override | POL -> HLC | ruthenian -> ruthenian | orthodox | 7 -> 12 (+5) | livestock | — | HLC,POL | 15 |
+| 2447 | 2447 - Mantrega.txt | override | GEN -> GEN | pontic_greek -> pontic_greek | orthodox | 5 -> 5 (+0) | livestock | — | CIR,CRI,GEN | 6 |
 | 2959 | 2959 - Tarnow.txt | override | POL -> POL | polish -> polish | catholic | 8 -> 8 (+0) | grain | — | HLC,POL | 13 |
 | 2960 | 2960 - Sadecki.txt | override | POL -> POL | polish -> polish | catholic | 14 -> 20 (+6) | iron | — | HLC,POL | 9 |
 | 2961 | 2961 - Lwow.txt | override | POL -> HLC | ruthenian -> ruthenian | orthodox | 12 -> 13 (+1) | dyes | 1 | HLC,POL | 14 |
@@ -78,12 +93,14 @@ Identical fixture provinces (`300`, `301`, `4255`) are intentionally retained fo
 | 4543 | 4543 - Rylsk.txt | override | LIT -> CHR | ryazanian -> ruthenian | orthodox | 3 -> 3 (+0) | grain | — | CHR,KHK | 7 |
 | 4544 | 4544 - Bobrujsk.txt | override | LIT -> LIT | byelorussian -> byelorussian | orthodox | 3 -> 6 (+3) | grain | — | LIT | 8 |
 | 4545 | 4545 - Sluck.txt | override | LIT -> LIT | byelorussian -> byelorussian | orthodox | 6 -> 9 (+3) | cloth | — | LIT,MSK | 8 |
+| 4706 | 4706 - Tolcu.txt | override | TUR -> TUR | bulgarian -> bulgarian | orthodox | 4 -> 4 (+0) | wool | — | BUL,TUR | 9 |
 
-## Development delta summary (51 provinces changed; net +164)
+## Development delta summary (56 provinces changed; net +163)
 
 | ID | Province | Vanilla Tax/Prod/Man (Total) | RIP Tax/Prod/Man (Total) | Delta |
 |---|---|---|---|---|
 | 153 | Pest | 5/4/2 (11) | 6/4/2 (12) | +1 |
+| 162 | Zemplen | 3/2/2 (7) | 4/3/2 (9) | +2 |
 | 259 | Sandomierz | 4/4/1 (9) | 5/5/2 (12) | +3 |
 | 260 | Lublin | 5/5/3 (13) | 6/6/4 (16) | +3 |
 | 261 | Halicz | 3/3/2 (8) | 4/4/4 (12) | +4 |
@@ -91,6 +108,7 @@ Identical fixture provinces (`300`, `301`, `4255`) are intentionally retained fo
 | 270 | Troki | 3/3/2 (8) | 4/4/3 (11) | +3 |
 | 271 | Samogitia | 2/2/2 (6) | 3/3/3 (9) | +3 |
 | 272 | Lithuania | 5/5/3 (13) | 6/6/4 (16) | +3 |
+| 275 | Polotsk | 4/4/1 (9) | 5/5/2 (12) | +3 |
 | 276 | Minsk | 3/3/1 (7) | 4/4/2 (10) | +3 |
 | 278 | Pinsk | 3/2/1 (6) | 4/3/2 (9) | +3 |
 | 279 | Volhynia | 4/4/2 (10) | 6/6/4 (16) | +6 |
@@ -112,8 +130,11 @@ Identical fixture provinces (`300`, `301`, `4255`) are intentionally retained fo
 | 1944 | Cherkasy | 1/1/1 (3) | 2/2/2 (6) | +3 |
 | 1945 | Novgorod-Seversky | 1/2/1 (4) | 2/3/2 (7) | +3 |
 | 1952 | Maramaros | 2/2/1 (5) | 4/4/3 (11) | +6 |
+| 1974 | Yedishkul | 4/4/2 (10) | 3/3/2 (8) | -2 |
 | 2406 | Ingil | 1/1/1 (3) | 2/2/2 (6) | +3 |
 | 2407 | Pereyaslav | 2/2/1 (5) | 3/3/2 (8) | +3 |
+| 2412 | Kyzyl-Yar | 4/4/3 (11) | 3/3/2 (8) | -3 |
+| 2414 | Azaraba | 3/3/3 (9) | 3/2/3 (8) | -1 |
 | 2424 | Peremyshl | 3/3/1 (7) | 5/5/2 (12) | +5 |
 | 2960 | Sadecki | 6/6/2 (14) | 8/8/4 (20) | +6 |
 | 2961 | Lwow | 5/5/2 (12) | 5/5/3 (13) | +1 |
@@ -177,6 +198,90 @@ Vanilla SHA256: `6abba11a4e7e1f9f5264ca5df53b8094a974e4f6edacf49df1f1f06080db5ed
  base_production = 4
  base_manpower = 2
  is_city = yes
+```
+
+### 162 - Zemplen.txt
+
+RIP SHA256: `7c33cf064ca594a87484eaa706d5afdad24bbb0a1ecc7f2e18b70d5b1d0ea360`
+
+Vanilla SHA256: `65a122e28bc26b7f206f2b47ca8591ac6594b6516573a9838a01590ac0fbe76f`
+
+```diff
+--- vanilla/162 - Zemplen.txt
++++ RIP/162 - Zemplen.txt
+@@ -1,20 +1,21 @@
+-#162 - Zemplén
++#162 - Zemplen
+ 
+ owner = HUN
+-controller = HUN 
++controller = HUN
+ culture = slovak
+ religion = catholic
+ capital = "Kassa"
+ trade_goods = grain
+ hre = no
+-base_tax = 3 
+-base_production = 2
++base_tax = 4
++base_production = 3
+ base_manpower = 2
+ is_city = yes
+ add_core = HUN
+ add_core = TRA
++add_core = SLO
++add_core = UZH
+ fort_15th = yes
+-add_core = SLO
+ extra_cost = 8
+ discovered_by = KAZ
+ discovered_by = CRI
+@@ -26,35 +27,30 @@
+ discovered_by = muslim
+ discovered_by = ottoman
+ 
+-
+ 1526.8.30 = {
+ 	owner = HAB
+ 	controller = HAB
+ 	add_core = HAB
+-} # Battle of Mohács, the end of the independent Kingdom of Hungary, Hungary came under military rule
++} # Battle of Mohacs
+ 1545.1.1 = { religion = protestant } # Synod of Erdod
+-1570.1.1 = {remove_core = TRA	} #Treaty of Speyer
+-1604.1.1 = { revolt = { type = nationalist_rebels size = 1 } controller = REB } # The nobility in Royal Hungary rebelled against Habsburg & Jesuit repression
+-1606.1.1 = { revolt = {} controller = HAB } # Peace treaty
++1570.1.1 = { remove_core = TRA } # Treaty of Speyer
++1604.1.1 = { revolt = { type = nationalist_rebels size = 1 } controller = REB } # Upper Hungary revolt
++1606.1.1 = { revolt = {} controller = HAB } # Peace of Vienna
+ 1619.1.1 = { revolt = { type = nationalist_rebels size = 1 } controller = REB } # Occupied by Gabriel Bethlen
+-1620.1.1 = { revolt = {} }
+-1626.1.1 = { controller = HAB } # The 3rd Peace of Pressburg
++1626.1.1 = { revolt = {} controller = HAB } # Third Peace of Pressburg
+ 1648.1.1 = {
+ 	owner = TRA
+ 	controller = TRA
+ 	add_core = TRA
+ 	remove_core = HAB
+-} # Kosice is united with Transylvania
+-1670.1.1 = {
+-	fort_15th = yes
+-}
+-1682.1.1 = { revolt = { type = nationalist_rebels size = 1 } controller = REB } # Occupied by Imrich Tokoli
++} # Kosice united with Transylvania
++1682.1.1 = { revolt = { type = nationalist_rebels size = 1 } controller = REB } # Occupied by Imre Thokoly
+ 1685.10.15 = {
+ 	revolt = {}
+ 	owner = HAB
+ 	controller = HAB
+ 	add_core = HAB
+ 	remove_core = TRA
+-} # Imrich Tokoli surrendered to the emperor's soldiers
+-1703.1.1 = { unrest = 6 } # Kuruc rebellion, lead by Francisc Rakoczy
+-1711.1.1 = { unrest = 0 } # Treaty of Szatmar, the House of Habsburg recognized as the new ruler
++} # Thokoly uprising suppressed
++1703.1.1 = { unrest = 6 } # Rakoczi uprising
++1711.1.1 = { unrest = 0 } # Treaty of Szatmar
 ```
 
 ### 259 - Sandomierz.txt
@@ -438,6 +543,68 @@ Vanilla SHA256: `b6e6028958341823b30c755f239ddd0a96de67dccada0a5815122b65d73b7a6
  discovered_by = western
 ```
 
+### 275 - Polotsk.txt
+
+RIP SHA256: `e63e0ad98676d06d6f8ab2949b672bdd5e16dda9f91bae9f0fe5f0ed5a1b7b20`
+
+Vanilla SHA256: `ad6c82c8a37942a8a51ec15ab586ddb7108b361ac264b0eb8d99c96addb19b1b`
+
+```diff
+--- vanilla/275 - Polotsk.txt
++++ RIP/275 - Polotsk.txt
+@@ -1,31 +1,32 @@
+ #275 - Polotsk
+ 
+-owner = LIT 
+-controller = LIT 
++owner = LIT
++controller = LIT
+ culture = byelorussian
+-religion = orthodox 
++religion = orthodox
+ hre = no
+-base_tax = 4
+-base_production = 4
++base_tax = 5
++base_production = 5
+ trade_goods = iron
+-base_manpower = 1
++base_manpower = 2
+ add_local_autonomy = 50
+ capital = "Polotsk"
+-is_city = yes 
+-fort_15th = yes 
++is_city = yes
++fort_15th = yes
+ add_core = PLT
+ add_core = LIT
+ discovered_by = western
+ discovered_by = eastern
+ discovered_by = nomad_group
+ 
+-
+-1563.2.15 = { controller = RUS } # Captured by Ivan the Terrible, during the Livonian war
++1563.2.15 = { controller = RUS } # Captured by Ivan the Terrible during the Livonian War
+ 1569.7.1 = {
+ 	owner = PLC
++	controller = PLC
+ 	add_core = PLC
+ } # Union of Lublin
+-1579.9.30 = { controller = PLC } # Retaken by Stephan Bathory
++1569.7.2 = { controller = RUS } # Continued Russian wartime occupation until 1579
++1579.9.30 = { controller = PLC } # Retaken by Stefan Batory
+ 1772.8.5 = {
+ 	add_core = RUS
+ 	owner = RUS
+@@ -33,5 +34,5 @@
+ 	remove_core = PLC
+ 	add_local_autonomy = -50
+ } # First partition of Poland
+-1794.3.24 = { unrest = 5 } # Kosciuszko uprising, minimize the Russian influence
++1794.3.24 = { unrest = 5 } # Kosciuszko uprising
+ 1794.11.16 = { unrest = 0 }
+```
+
 ### 276 - Minsk.txt
 
 RIP SHA256: `17a9d960573f2cbabe79b0fc6a6567f1434f354c9679daca22ca445b16258e94`
@@ -592,7 +759,7 @@ Vanilla SHA256: `10bb193e2be80305d26d248af95a48b409a1c8af37f2b58eb75bb53a2eb4a3b
 
 ### 280 - Kiev.txt
 
-RIP SHA256: `d856e20b4544cfcb44eaf4e7709be5d3ccee24e37a8b51ef1685bf81ce07f83c`
+RIP SHA256: `3ba5669ff1ed63d0f28196ea3693e8b3160d161722bd66d748e11721ebf8b783`
 
 Vanilla SHA256: `7f976b31208bc3c74d8d2ada24a3bdbca5e3d26fa2120b67aa4b9d6e2995f3f3`
 
@@ -619,7 +786,7 @@ Vanilla SHA256: `7f976b31208bc3c74d8d2ada24a3bdbca5e3d26fa2120b67aa4b9d6e2995f3f
  is_city = yes
  add_core = KIE
  add_core = LIT
-@@ -21,24 +20,115 @@
+@@ -21,24 +20,113 @@
  extra_cost = 16
  center_of_trade = 2
  
@@ -661,10 +828,11 @@ Vanilla SHA256: `7f976b31208bc3c74d8d2ada24a3bdbca5e3d26fa2120b67aa4b9d6e2995f3f
 +	unrest = 15
 +}
 +
-+1648.6.1 = { 
-+	revolt = {} 
-+	controller = ZAZ
-+	owner = ZAZ
++1648.6.1 = {
++	revolt = {}
++	controller = HET
++	owner = HET
++	remove_core = ZAZ
 +	unrest = 0
 +}
 +
@@ -685,13 +853,11 @@ Vanilla SHA256: `7f976b31208bc3c74d8d2ada24a3bdbca5e3d26fa2120b67aa4b9d6e2995f3f
 +1658.9.16 = {
 +	owner = PLC
 +	controller = PLC
-+	remove_core = ZAZ
 +}
 +
 +1659.6.17 = {
-+	owner = ZAZ
-+	controller = ZAZ
-+	add_core = ZAZ
++	owner = HET
++	controller = HET
 +}
 +
 +1663.1.1 = {
@@ -737,7 +903,6 @@ Vanilla SHA256: `7f976b31208bc3c74d8d2ada24a3bdbca5e3d26fa2120b67aa4b9d6e2995f3f
 +	remove_province_modifier = kyiv_autonomy_guaranteed
 +	remove_province_modifier = kyiv_mohyla_academy
 +	remove_core = HET
-+	remove_core = ZAZ
 +	unrest = 4
 +}
 +
@@ -860,7 +1025,7 @@ Vanilla SHA256: `321fdcacad3739fd35021e9f944222c8bc5c6f0cd288bd674b794750e9c5ce2
 
 ### 283 - Zaporozhia.txt
 
-RIP SHA256: `7970b8ead7b7c1b01a6befa215350a34ba7086c5be1209850bad6dc5f8321e46`
+RIP SHA256: `5c89db253857814f12e3c9f266c914dcf17fbe76995f37459e135d9c9e840ada`
 
 Vanilla SHA256: `e7dd3c41edf5cc99e5caccc41faa8ed5e21c77093442495a107c0a5229a4abd8`
 
@@ -885,7 +1050,7 @@ Vanilla SHA256: `e7dd3c41edf5cc99e5caccc41faa8ed5e21c77093442495a107c0a5229a4abd
  capital = "Sich"
  is_city = yes
  add_core = CRI
-@@ -20,10 +19,161 @@
+@@ -20,10 +19,137 @@
  discovered_by = nomad_group
  
  1444.1.1 = { owner = LIT controller = LIT add_core = LIT culture = ruthenian religion = orthodox }
@@ -961,18 +1126,7 @@ Vanilla SHA256: `e7dd3c41edf5cc99e5caccc41faa8ed5e21c77093442495a107c0a5229a4abd
 +1667.1.30 = { unrest = 6 } # Treaty of Andrusovo
 +
 +1669.1.1 = {
-+	owner = TUR
-+	controller = TUR
-+	add_core = TUR
 +	remove_province_modifier = "russian_protection"
-+}
-+
-+1676.10.27 = {
-+	owner = RUS
-+	controller = RUS
-+	add_core = RUS
-+	remove_core = TUR
-+	unrest = 3
 +}
 +
 +1687.1.1 = { 
@@ -988,28 +1142,11 @@ Vanilla SHA256: `e7dd3c41edf5cc99e5caccc41faa8ed5e21c77093442495a107c0a5229a4abd
 +
 +1709.7.8 = { 
 +	unrest = 8
++	capital = "Kamianka Sich"
 +	remove_province_modifier = "zaporozhian_sich_capital"
 +}
 +
-+1711.1.1 = {
-+	owner = CRI
-+	controller = CRI
-+	add_core = CRI
-+}
-+
-+1728.1.1 = {
-+	owner = TUR
-+	controller = TUR
-+	add_core = TUR
-+	remove_core = RUS
-+}
-+
-+1734.1.1 = { 
-+	owner = RUS 
-+	controller = RUS 
-+	add_core = RUS
-+	remove_core = TUR
-+	remove_core = CRI
++1734.6.1 = {
 +	unrest = 0
 +	capital = "Nova Sich"
 +	add_permanent_province_modifier = {
@@ -1037,8 +1174,12 @@ Vanilla SHA256: `e7dd3c41edf5cc99e5caccc41faa8ed5e21c77093442495a107c0a5229a4abd
 +	unrest = 5
 +}
 +1775.6.5 = {
++	owner = RUS
++	controller = RUS
++	add_core = RUS
 +	unrest = 15
 +	remove_core = ZAZ
++	remove_province_modifier = "zaporozhian_sich_capital"
 +	add_province_modifier = {
 +		name = "sich_destroyed"
 +		duration = 3650
@@ -1056,9 +1197,130 @@ Vanilla SHA256: `e7dd3c41edf5cc99e5caccc41faa8ed5e21c77093442495a107c0a5229a4abd
 +1785.1.1 = { unrest = 0 }
 ```
 
+### 286 - Azow.txt
+
+RIP SHA256: `71d7e8e6a112838e812e96b7b6e33a174565b081e51492def56a66272dda0b83`
+
+Vanilla SHA256: `e571804e352daf992625902b38c937d334c7d5b6e3ee5fd747242b22c5a440d1`
+
+```diff
+--- vanilla/286 - Azow.txt
++++ RIP/286 - Azow.txt
+@@ -13,8 +13,6 @@
+ is_city = yes
+ add_core = GEN
+ 
+-
+-
+ discovered_by = western
+ discovered_by = eastern
+ discovered_by = muslim
+@@ -28,11 +26,13 @@
+ 	duration = -1
+ }
+ 
+-1471.1.1 = { fort_15th = yes owner = TUR controller = TUR add_core = TUR remove_core = GEN capital = "Azaq" } # End of prosperity, seized by the Turks, fortress established
+-1637.6.1 = { owner = ZAZ controller = ZAZ add_core = ZAZ } # Held by the Don Cossacks and the Zaporozhian Cossacks
+-1642.1.1 = { owner = TUR controller = TUR } # Decides to surrender to avoid war
+-1696.7.19 = { controller = RUS capital = "Azov" } # Peter the Great managed to take the fortress, "Azov campaigns" 
++1471.1.1 = { fort_15th = yes owner = TUR controller = TUR add_core = TUR remove_core = GEN capital = "Azaq" } # Seized by the Ottomans, fortress established
++1637.6.1 = { owner = ZAZ controller = ZAZ add_core = ZAZ } # Held by Don and Zaporozhian Cossacks during the Azov Siege
++1642.1.1 = { owner = TUR controller = TUR } # Cossacks evacuate Azov; claim endures until the Sich's dissolution
++1696.7.19 = { controller = RUS capital = "Azov" } # Peter the Great takes Azov
+ 1700.6.13 = { owner = RUS add_core = RUS } # Treaty of Constantinople
+ 1713.6.24 = { owner = TUR controller = TUR remove_core = RUS } # Treaty of Adrianople
+-1736.6.30 = { controller = RUS } # Taken by the army during the Russo-Turkish War
+-1739.9.29 = { owner = RUS add_core = RUS remove_core = TUR } # Treaty of Belgrad
++1736.6.30 = { controller = RUS } # Taken during the Russo-Turkish War
++1739.9.29 = { owner = RUS add_core = RUS remove_core = TUR } # Treaty of Belgrade
++1775.6.5 = { remove_core = ZAZ } # Dissolution of the Zaporozhian Sich
++1783.4.8 = { trade_goods = fish } # Annexation of Crimea ends the Ottoman-Crimean steppe slave market
+```
+
+### 287 - Kouban.txt
+
+RIP SHA256: `f9497c40fe69318b1aef3a21acbd6f2fb629e0f968c236765e9590ed0bfc8e91`
+
+Vanilla SHA256: `5fdeafdd2729eae35ce4cf1d58c34086e58cbb05972a140fae9273a15db0afae`
+
+```diff
+--- vanilla/287 - Kouban.txt
++++ RIP/287 - Kouban.txt
+@@ -9,7 +9,7 @@
+ base_production = 3
+ trade_goods = livestock
+ base_manpower = 3
+-capital = "Stavropol"
++capital = "Qopil"
+ is_city = yes
+ add_core = CRI
+ discovered_by = eastern
+@@ -18,9 +18,16 @@
+ discovered_by = western
+ discovered_by = nomad_group
+ 
+-
+ 1478.6.1 = { add_core = TUR } # Crimea becomes a vassal of the Ottoman Empire
+-1774.7.21 = {
++1783.4.8 = {
+ 	owner = RUS
+- controller = RUS remove_core = CRI add_core = RUS remove_core = TUR } # Treaty of Kuchuk-Kainarji
+-1777.1.1 = { religion = orthodox culture = russian } # Kouban Cossacks, Stavropol founded
++	controller = RUS
++	remove_core = CRI
++	add_core = RUS
++	remove_core = TUR
++} # Annexation of the Crimean Khanate and Kuban
++1793.8.15 = {
++	religion = orthodox
++	culture = ruthenian
++	capital = "Ekaterinodar"
++} # Black Sea Cossack Host settles Kuban and founds Ekaterinodar
+```
+
+### 288 - Cherkassk.txt
+
+RIP SHA256: `5057c74da8e6c5117a82983c6ca557ef1b7d59a707e4f90c2ba27fbdccaf3852`
+
+Vanilla SHA256: `da9ae4412add816379bb224d4e61207f2b632bc13ed8cdcfef2bb4756fef08ee`
+
+```diff
+--- vanilla/288 - Cherkassk.txt
++++ RIP/288 - Cherkassk.txt
+@@ -9,7 +9,7 @@
+ base_production = 3
+ trade_goods = livestock
+ base_manpower = 2
+-capital = "Cherkassk"
++capital = "Bela Vezha"
+ is_city = yes
+ add_core = GOL
+ discovered_by = eastern
+@@ -18,11 +18,15 @@
+ discovered_by = ottoman
+ discovered_by = nomad_group
+ 
+-
+ 1502.6.1 = { owner = AST controller = AST add_core = AST remove_core = GOL } # Golden Horde destroyed by Crimea
+-1556.6.2 = { owner = RUS controller = RUS add_core = RUS remove_core = AST } # Russians acquire Volga after fall of Astrakhan
+-1570.1.1 = { culture = russian religion = orthodox }
++1556.6.2 = { owner = RUS controller = RUS add_core = RUS remove_core = AST } # Muscovite expansion to the lower Volga after Astrakhan
++1570.1.1 = {
++	capital = "Cherkassk"
++	culture = russian
++	religion = orthodox
++} # Don Cossack Host establishes Cherkassk as its capital
+ 1670.3.1 = { revolt = { type = anti_tax_rebels size = 2 name = "Stepan Razin" } controller = REB unrest = 6 } # Razin rebellion
+-1671.4.14 = { revolt = { } controller = RUS unrest = 0 } # Razin captured
++1671.4.14 = { revolt = {} controller = RUS unrest = 0 } # Razin captured
+ 1773.9.13 = { revolt = { type = anti_tax_rebels size = 2 name = "Yemelyan Pugachev" } controller = REB unrest = 6 } # Pugachev rebellion
+ 1775.2.1 = { revolt = {} controller = RUS unrest = 0 } # Pugachev is captured
++1805.5.29 = { capital = "Novocherkassk" } # Don Host capital moved to Novocherkassk
+```
+
 ### 289 - Chernigov.txt
 
-RIP SHA256: `813674d5dc9ac11c8070c1294693150b51bdcc962e0cf1a28fad01efc7413277`
+RIP SHA256: `4967fceb78f27494e05dea3f1d0493aa29675ffe5b38f72822d8894dde661fa7`
 
 Vanilla SHA256: `edd91ae76f9bca819241c67acdbe04d4e22030443791e3322ede9e28992ffef1`
 
@@ -1095,26 +1357,44 @@ Vanilla SHA256: `edd91ae76f9bca819241c67acdbe04d4e22030443791e3322ede9e28992ffef
  
  1503.1.1 = { controller = MOS }
  1503.3.21 = { owner = MOS add_core = MOS }
-@@ -41,7 +42,6 @@
+@@ -39,15 +40,20 @@
+ 1648.1.1 = {
+ 	revolt = { type = nationalist_rebels size = 0 }
  	controller = REB
++	add_core = HET
  	add_core = ZAZ
- } # Chmielnicki Rebellion
+-} # Chmielnicki Rebellion
 - # Military and territorial unit at the time
- 1654.1.1 = { revolt = {} controller = PLC remove_core = ZAZ }
- 1657.1.1 = {
+-1654.1.1 = { revolt = {} controller = PLC remove_core = ZAZ }
+-1657.1.1 = {
++} # Khmelnytsky Rebellion
++1648.6.1 = {
++	revolt = {}
++	owner = HET
++	controller = HET
++	remove_core = ZAZ
++} # Chernihiv Regiment enters the Cossack Hetmanate
++1764.11.10 = {
  	owner = RUS
+ 	controller = RUS
+ 	add_core = RUS
+ 	remove_core = PLC
+-}
++} # Abolition of the Hetmanate by Catherine II
+ 1794.3.24 = { unrest = 5 } # Kosciuszko uprising, minimize the Russian influence
+ 1794.11.16 = { unrest = 0 }
 ```
 
 ### 290 - Poltava.txt
 
-RIP SHA256: `07420ec2a902a40621f7105b3bbdd1eec4b30b9cab77ec0e7e71b4f89eaabddb`
+RIP SHA256: `81101c93ab9880b43eaae46767199c7d9c876198e94463bf975f67fdfc84aa8e`
 
 Vanilla SHA256: `dc03625549387e5515e296e1fb486844f09e87aa7ee7a8399fee3d5bede9225c`
 
 ```diff
 --- vanilla/290 - Poltava.txt
 +++ RIP/290 - Poltava.txt
-@@ -1,38 +1,38 @@
+@@ -1,38 +1,45 @@
 -#290 - Poltava
  
  owner = LIT
@@ -1148,19 +1428,29 @@ Vanilla SHA256: `dc03625549387e5515e296e1fb486844f09e87aa7ee7a8399fee3d5bede9225
  	add_core = PLC
  } # Union of Lublin, Polish administration
 -1635.1.1 = { fort_16th = yes } #Kodak Fortress
- 1648.1.1 = {	revolt = { type = nationalist_rebels size = 0 }
+-1648.1.1 = {	revolt = { type = nationalist_rebels size = 0 }
++1648.1.1 = {
++	revolt = { type = nationalist_rebels size = 0 }
  	controller = REB
++	add_core = HET
  	add_core = ZAZ
- } # Chmielnicki uprising
- 1654.1.1 = { revolt = {} controller = PLC remove_core = ZAZ }
+-} # Chmielnicki uprising
+-1654.1.1 = { revolt = {} controller = PLC remove_core = ZAZ }
 -1667.1.1 = {
-+1667.1.30 = {
++} # Khmelnytsky uprising
++1648.6.1 = {
++	revolt = {}
++	owner = HET
++	controller = HET
++	remove_core = ZAZ
++} # Poltava Regiment forms inside the Cossack Hetmanate
++1764.11.10 = {
  	owner = RUS
  	controller = RUS
  	add_core = RUS
  	remove_core = PLC
 -} # Part of the Russian empire
-+} # Treaty of Andrusovo
++} # Abolition of the Hetmanate by Catherine II
 ```
 
 ### 291 - Kharkov.txt
@@ -1475,6 +1765,65 @@ Vanilla SHA256: `663108ebcb792edaf8ae75aaf13e3cd0214894b876f5caba28468ec2567d8c0
  discovered_by = nomad_group
 ```
 
+### 1756 - Budjak.txt
+
+RIP SHA256: `147ce2cdfa4a05e8ed061dbac54f6c04331f95f348066d04fe069045e29dc98c`
+
+Vanilla SHA256: `d3fef70ae7b9142dad1bed58ce4fe509bdb1a03d35418cfd35db082ef7b6cc11`
+
+```diff
+--- vanilla/1756 - Budjak.txt
++++ RIP/1756 - Budjak.txt
+@@ -5,16 +5,14 @@
+ culture = romanian
+ religion = orthodox
+ hre = no
+-base_tax = 5 
++base_tax = 5
+ base_production = 4
+ capital = "Kilia"
+ is_city = yes
+ trade_goods = wool
+ base_manpower = 2
+-fort_15th = yes #Akkerman Fortress
++fort_15th = yes # Bilhorod / Akkerman and Kilia fortresses
+ add_core = MOL
+-
+-
+ 
+ discovered_by = western
+ discovered_by = eastern
+@@ -29,12 +27,17 @@
+ 	duration = -1
+ }
+ 
+-1472.1.1 = { owner = TUR controller = TUR add_core = TUR } # Turkish invasion
+-1583.1.1 = { fort_15th = no fort_16th = yes } #Strengthened by the Ottomans
+-1593.1.1 = { add_core = WAL } # Ruled by Michael the brave
++1484.8.5 = {
++	owner = TUR
++	controller = TUR
++	add_core = TUR
++	capital = "Akkerman"
++} # Conquest of Kilia and Bilhorod (Akkerman) by Bayezid II
++1583.1.1 = { fort_15th = no fort_16th = yes } # Strengthened by the Ottomans
++1593.1.1 = { add_core = WAL } # Ruled by Michael the Brave
+ 1601.1.1 = { remove_core = WAL }
+-1653.1.1 = { revolt = { type = noble_rebels size = 2 } controller = REB } # Revolt of the Boyars
+-1654.1.1 = { revolt = {} controller = TUR } # Estimated
++1653.1.1 = { revolt = { type = noble_rebels size = 2 } controller = REB } # Boyar unrest
++1654.1.1 = { revolt = {} controller = TUR }
+ 1739.1.1 = { controller = RUS }
+ 1739.9.18 = { controller = TUR }
+ 1769.1.1 = { controller = RUS }
+@@ -44,4 +47,4 @@
+ 1789.6.1 = { controller = HAB } # Occupied by Austria
+ 1791.8.4 = { controller = TUR } # Treaty of Sistova
+ 1806.1.1 = { controller = RUS } # Occupied by Russia
+-1812.5.28 = { owner = RUS add_core = RUS remove_core = TUR } # Treaty of Bucharest, ceded to Russia
++1812.5.28 = { owner = RUS add_core = RUS remove_core = TUR } # Treaty of Bucharest
+```
+
 ### 1936 - Kovno.txt
 
 RIP SHA256: `0e910590545378461d94ff11e4694de2d2d6c34053185fb3945f70e130f407a6`
@@ -1731,7 +2080,7 @@ Vanilla SHA256: `6569316ff51d635c3b3521f14fd0eb6357ca98cc649e5c5b808a990875a39bd
 
 ### 1944 - Cherkasy.txt
 
-RIP SHA256: `eaaf6461be0291e4e8bb9da7146f61b55a81ab59e3f130eecf4da0929214337c`
+RIP SHA256: `107c71f3a7dc02b7324d90613f0a35f7480b1b57681040d3f3bb4cbb5f7f38b5`
 
 Vanilla SHA256: `049797486b2403dbd00bd1bffab0b455fb37f6e5ab39fe9c7920325dd2063f37`
 
@@ -1752,7 +2101,7 @@ Vanilla SHA256: `049797486b2403dbd00bd1bffab0b455fb37f6e5ab39fe9c7920325dd2063f3
  capital = "Cherkasy"
  is_city = yes
  add_local_autonomy = 25
-@@ -20,19 +20,42 @@
+@@ -20,19 +20,48 @@
  discovered_by = ottoman
  discovered_by = nomad_group
  
@@ -1775,16 +2124,23 @@ Vanilla SHA256: `049797486b2403dbd00bd1bffab0b455fb37f6e5ab39fe9c7920325dd2063f3
  1648.1.1 = {
  	revolt = { type = nationalist_rebels size = 0 }
  	controller = REB
++	add_core = HET
  	add_core = ZAZ
 -} # Chmielnicki uprising
+-1654.1.1 = { revolt = {} controller = PLC remove_core = ZAZ }
 +	capital = "Chyhyryn"
-+} # Chmielnicki uprising; the hetman's seat moves to his own estates
- 1654.1.1 = { revolt = {} controller = PLC remove_core = ZAZ }
++} # Khmelnytsky uprising; the hetman's seat moves to his own estates
++1648.6.1 = {
++	revolt = {}
++	owner = HET
++	controller = HET
++	remove_core = ZAZ
++} # Chyhyryn serves as the Hetmanate capital
 +1667.1.30 = {
 +	owner = PDL
 +	controller = PDL
 +	add_core = PDL
-+} # Andrusovo truce, but goes war with Doroshenko
++} # Andrusovo truce divides the banks; Doroshenko leads the Right Bank
 +1678.8.12 = { capital = "Cherkasy" }
 +# Chyhyryn razed at the end of the second campaign against it, and never
 +# recovered as a seat of government. Like Kodak above, it has no province of
@@ -1801,7 +2157,7 @@ Vanilla SHA256: `049797486b2403dbd00bd1bffab0b455fb37f6e5ab39fe9c7920325dd2063f3
 
 ### 1945 - Novgorod-Seversky.txt
 
-RIP SHA256: `b98e82a92cbdba968fc73d043710107110d6839ae16b49456beebe507427567c`
+RIP SHA256: `ee7562872df537326b1a654dc44c64eec49ecffa3a7ef36858822b1395a3c2c0`
 
 Vanilla SHA256: `8f9737c886bcabb744714c4868b0235d9f61c94afac2d856caa0e0c94ef37183`
 
@@ -1850,18 +2206,29 @@ Vanilla SHA256: `8f9737c886bcabb744714c4868b0235d9f61c94afac2d856caa0e0c94ef3718
  1598.1.1 = { unrest = 5 } # "Time of troubles"
  1611.1.1 = { controller = PLC } # Polish occupation
  1613.1.1 = { unrest = 0 } # Order returned, Romanov dynasty
-@@ -35,8 +41,14 @@
+@@ -33,10 +39,22 @@
+ 1648.1.1 = {
+ 	revolt = { type = nationalist_rebels size = 0 }
  	controller = REB
++	add_core = HET
  	add_core = ZAZ
- } # Chmielnicki Rebellion
+-} # Chmielnicki Rebellion
+-1654.1.1 = { revolt = {} controller = PLC remove_core = ZAZ }
+-1654.1.18 = { owner = RUS controller = RUS add_core = RUS } # Treaty of Pereyaslav
++} # Khmelnytsky Rebellion
++1648.6.1 = {
++	revolt = {}
++	owner = HET
++	controller = HET
++	remove_core = ZAZ
++} # Nizhyn and Starodub Regiments join the Cossack Hetmanate
 +1648.7.11 = { base_tax = 3 } # Cossack host rallying swells the local markets
- 1654.1.1 = { revolt = {} controller = PLC remove_core = ZAZ }
- 1654.1.18 = { owner = RUS controller = RUS add_core = RUS } # Treaty of Pereyaslav
 +1660.5.1 = { add_local_autonomy = 15 } # Seim regimental autonomy restored
  1667.2.9 = { remove_core = PLC } # Treaty of Andrusovo
 +1708.11.2 = { unrest = 4 } # Mazepa's defection unsettles Siversk towns
 +1709.7.1 = { unrest = 0 } # Poltava battle quells unrest
 +1736.4.1 = { add_building = weapons } # Hetmanate commissions new ironworks
++1764.11.10 = { owner = RUS controller = RUS add_core = RUS } # Abolition of the Hetmanate by Catherine II
 +1767.3.1 = { add_permanent_province_modifier = { name = chr_siversk_statute duration = -1 } } # Siversk Statute codifies urban rights
  1794.3.24 = { unrest = 5 } # Kosciuszko uprising, minimize the Russian influence
  1794.11.16 = { unrest = 0 }
@@ -1972,6 +2339,132 @@ Vanilla SHA256: `dde2a95839904677f67e44a174f0d7fa3be597d6799ad20f2bc3ff17e66c70a
 +} # Galician administrators eye the salt road yet respect Huszt's statutes
 ```
 
+### 1974 - Yedishkul.txt
+
+RIP SHA256: `eaa92b6785a5185c034de2fb2d661f17431b12ac7460d75218b4aa891c9d5e01`
+
+Vanilla SHA256: `82a4ca4d1c859e0af13ffdc091e2484e2557639e4b83f5a5138f65eef8d804ac`
+
+```diff
+--- vanilla/1974 - Yedishkul.txt
++++ RIP/1974 - Yedishkul.txt
+@@ -5,15 +5,13 @@
+ culture = crimean
+ religion = sunni
+ hre = no
+-base_tax = 4
+-base_production = 4
++base_tax = 3
++base_production = 3
+ trade_goods = salt
+ base_manpower = 2
+-capital = "Kherson"
++capital = "Islam-Kermen"
+ is_city = yes
+ add_core = CRI
+-
+-
+ 
+ discovered_by = western
+ discovered_by = eastern
+@@ -21,10 +19,18 @@
+ discovered_by = ottoman
+ discovered_by = nomad_group
+ 
+-
+ 1478.6.1 = { add_core = TUR } # Crimea becomes a vassal of the Ottoman Empire
++1711.7.21 = { add_core = ZAZ } # Oleshky Sich on the lower Dnieper
+ 1736.6.1 = { controller = RUS } # Russian occupation
+ 1739.9.29 = { controller = CRI } # Treaty of Nish
+ 1771.7.1 = { controller = RUS } # Russian occupation
+-1774.7.21 = {	controller = CRI add_core = RUS remove_core = TUR } # Treaty of Kuchuk-Kainarji, Crimea becomes Russian vassal
+-1783.4.8 = { owner = RUS controller = RUS remove_core = CRI } # Annexed by Catherine II
++1774.7.21 = { controller = CRI add_core = RUS remove_core = TUR } # Treaty of Kuchuk-Kainarji
++1775.6.5 = { remove_core = ZAZ } # Dissolution of Zaporozhian Cossack autonomy
++1778.6.18 = { capital = "Kherson" } # Kherson founded
++1783.4.8 = {
++	owner = RUS
++	controller = RUS
++	remove_core = CRI
++	culture = ruthenian
++	religion = orthodox
++} # Annexed and settled by Catherine II
+```
+
+### 2405 - Bendery.txt
+
+RIP SHA256: `b4f05531711776cd28b8c0ef3a46d506d7721a5709d5371048846a9fa0a0f917`
+
+Vanilla SHA256: `7819d6679e5efd7444ad6f00208cb5ed81a9a0fc1457b229f0b44eb09091e9ec`
+
+```diff
+--- vanilla/2405 - Bendery.txt
++++ RIP/2405 - Bendery.txt
+@@ -1,10 +1,10 @@
+-#2405 - Bender
++#2405 - Bendery
+ 
+ owner = MOL
+ controller = MOL
+ culture = romanian
+ religion = orthodox
+-capital = "Bender"
++capital = "Tighina"
+ trade_goods = wine
+ hre = no
+ base_tax = 3
+@@ -13,28 +13,31 @@
+ is_city = yes
+ add_core = MOL
+ 
+-
+-
+ discovered_by = western
+ discovered_by = eastern
+ discovered_by = muslim
+ discovered_by = ottoman
+ discovered_by = nomad_group
+ 
+-
+-1484.1.1 = { controller = TUR } #Turkish invasion
+-1489.1.1 = { controller = MOL } # Treaty with Sultan Bezayd II.
+-1593.1.1 = { add_core = WAL } # Ruled by Michael the brave
+-1601.1.1 = { remove_core = WAL }
+-1653.1.1 = { revolt = { type = noble_rebels size = 2 } controller = REB } # Revolt of the Boyars
+-1654.1.1 = { revolt = {} controller = MOL } # Estimated
+-1739.1.1 = { controller = RUS }
+-1739.9.18 = { controller = MOL }
+-1769.1.1 = { controller = RUS }
+-1774.1.1 = { controller = MOL }
+-1788.1.1 = { controller = RUS }
+-1789.1.1 = { controller = MOL }
+-1789.6.1 = { controller = HAB } # Occupied by Austria
+-1791.8.4 = { controller = MOL } # Treaty of Sistova
+-1806.1.1 = { controller = RUS } # Occupied by Russia
+-1812.5.28 = { owner = RUS add_core = RUS } # Treaty of Bucharest, ceded to Russia+1484.1.1 = { controller = TUR } # Ottoman campaign
++1489.1.1 = { controller = MOL } # Peace treaty with Bayezid II
++1538.9.1 = {
++	owner = TUR
++	controller = TUR
++	add_core = TUR
++	capital = "Bender"
++	fort_15th = yes
++} # Annexed by Suleiman I as the Bender sanjak and fortress
++1739.8.28 = { controller = RUS } # Occupied during the Russo-Turkish War
++1739.9.18 = { controller = TUR } # Treaty of Belgrade
++1770.9.26 = { controller = RUS } # Stormed by Russian forces
++1774.7.21 = { controller = TUR } # Treaty of Kuchuk-Kainarji
++1789.11.14 = { controller = RUS } # Captured during the Russo-Turkish War
++1792.1.9 = { controller = TUR } # Treaty of Jassy
++1806.11.24 = { controller = RUS } # Occupied by Russia
++1812.5.28 = {
++	owner = RUS
++	controller = RUS
++	add_core = RUS
++	remove_core = TUR
++} # Treaty of Bucharest
+```
+
 ### 2406 - Ingil.txt
 
 RIP SHA256: `21d70de30b03cb7f6cff3a37ad4d13f7d33442c2b48cec830bb5faa3e496f339`
@@ -2019,14 +2512,14 @@ Vanilla SHA256: `409ba26a3171d54606fa06438461a23e1a01fb663ccace8ade999b593d4e330
 
 ### 2407 - Pereyaslav.txt
 
-RIP SHA256: `378d740611c4533fe99a3321927fe7e2aa08b1ce844edd3a416ac44c7af4bd27`
+RIP SHA256: `db6d0423b037457af03b3d7c9cc6b8176daf2ff372e9ae6058526c4a85523690`
 
 Vanilla SHA256: `20124dbbc6197715f8daefcf81be3eefbe625871dd2297bc8447858297ba5353`
 
 ```diff
 --- vanilla/2407 - Pereyaslav.txt
 +++ RIP/2407 - Pereyaslav.txt
-@@ -1,34 +1,42 @@
+@@ -1,34 +1,48 @@
 -#2407 - Pereyaslav
  
  owner = LIT
@@ -2069,16 +2562,22 @@ Vanilla SHA256: `20124dbbc6197715f8daefcf81be3eefbe625871dd2297bc8447858297ba535
 +1648.1.1 = {
 +	revolt = { type = nationalist_rebels size = 2 }
 +	controller = REB
++	add_core = HET
 +	add_core = ZAZ
 +} # Khmelnytsky Uprising
-+1654.1.1 = { revolt = {} controller = PLC remove_core = ZAZ }
-+1667.1.30 = {
++1648.6.1 = {
++	revolt = {}
++	owner = HET
++	controller = HET
++	remove_core = ZAZ
++} # Pereyaslav Regiment joins the Cossack Hetmanate
++1764.11.10 = {
  	owner = RUS
 +	controller = RUS
  	add_core = RUS
  	remove_core = PLC
 -} # Part of the Russian empire
-+} # Treaty of Andrusovo
++} # Abolition of the Hetmanate by Catherine II
 ```
 
 ### 2408 - Lipetsk.txt
@@ -2109,6 +2608,273 @@ Vanilla SHA256: `6ab0d5ef2e2f3834992d35c30343e19e723f581eeda6b10285dd829966dc326
  } # Battle of Molodi
  1600.1.1 = { culture = ryazanian religion = orthodox }
 -1703.1.1 = { capital = "Lipetsk" }+1703.1.1 = { capital = "Lipetsk" }
+```
+
+### 2409 - Bahmut.txt
+
+RIP SHA256: `b8f51e59ac394eebe7ff643338a6629aedf2a9756770ff3134f8a43c267c9326`
+
+Vanilla SHA256: `12a04d41763a31930e8e31fbc86c5b0d34ddccbb4770da9f2da37efde8d51e26`
+
+```diff
+--- vanilla/2409 - Bahmut.txt
++++ RIP/2409 - Bahmut.txt
+@@ -5,7 +5,7 @@
+ culture = mishary
+ religion = sunni
+ hre = no
+-base_tax = 2 
++base_tax = 2
+ base_production = 2
+ trade_goods = iron
+ base_manpower = 1
+@@ -18,20 +18,27 @@
+ discovered_by = ottoman
+ discovered_by = nomad_group
+ 
+-
+ 1502.6.1 = {
+ 	owner = CRI
+-	controller = CRI 
++	controller = CRI
+ 	add_core = CRI
+-	remove_core = GOL 
++	remove_core = GOL
+ } # Golden Horde destroyed by Crimea
+ 1572.1.1 = {
+ 	owner = RUS
+ 	controller = RUS
+ 	add_core = RUS
+-	remove_core = CRI 
++	remove_core = CRI
+ } # Battle of Molodi
+ 1670.3.1 = { revolt = { type = anti_tax_rebels size = 2 name = "Stepan Razin" } controller = REB unrest = 6 } # Razin rebellion
+-1671.4.14 = { revolt = { } controller = RUS unrest = 0 } # Razin captured
++1671.4.14 = { revolt = {} controller = RUS unrest = 0 } # Razin captured
++1676.1.1 = {
++	capital = "Tor"
++	culture = ruthenian
++	religion = orthodox
++} # Sloboda Cossack saltworks and Tor settlement
++1701.1.1 = { capital = "Bahmut" } # Bakhmut fortress and saltworks
++1707.10.9 = { revolt = { type = anti_tax_rebels size = 1 name = "Kondraty Bulavin" } controller = REB unrest = 6 } # Bulavin Cossack uprising
++1708.7.7 = { revolt = {} controller = RUS unrest = 0 } # Bulavin uprising suppressed
+ 1773.9.13 = { revolt = { type = anti_tax_rebels size = 2 name = "Yemelyan Pugachev" } controller = REB unrest = 6 } # Pugachev rebellion
+ 1775.2.1 = { revolt = {} controller = RUS unrest = 0 } # Pugachev is captured
+```
+
+### 2410 - Theodoro.txt
+
+RIP SHA256: `e349af43b4c69afe6ed35cc2b263395a7e3aac16b37c4abc2fbfad52044eaa4a`
+
+Vanilla SHA256: `19a628af0a5fa9ae1721d2e50cb2e1232d7cc37877bfd8c5d83ef626cfb3307e`
+
+```diff
+--- vanilla/2410 - Theodoro.txt
++++ RIP/2410 - Theodoro.txt
+@@ -5,11 +5,11 @@
+ culture = goths
+ religion = orthodox
+ hre = no
+-base_tax = 3 
++base_tax = 3
+ base_production = 3
+ trade_goods = wine
+ base_manpower = 3
+-capital = "Mangul"
++capital = "Mangup"
+ is_city = yes
+ add_core = TRE
+ 
+@@ -20,16 +20,14 @@
+ 	key = GEN_ITALIAN_MERCHANT_INFLUENCE
+ }
+ 
+-
+-
+ discovered_by = western
+ discovered_by = eastern
+ discovered_by = muslim
+ discovered_by = ottoman
+ discovered_by = nomad_group
+ 
+-
+ 1390.1.1 = { owner = FEO controller = FEO add_core = FEO remove_core = TRE }
+-1475.5.1 = { owner = TUR controller = TUR add_core = TUR} # Seized by Gedik Ahmet Pasha
++1475.5.1 = { owner = TUR controller = TUR add_core = TUR } # Seized by Gedik Ahmet Pasha
+ 1771.7.1 = { controller = RUS } # Russo-Turkish War
+ 1774.7.21 = { owner = RUS controller = RUS add_core = RUS remove_core = TUR } # Treaty of Kuchuk-Kainarji
++1784.2.21 = { capital = "Sevastopol" } # Imperial decree renames the Aqyar harbor base Sevastopol
+```
+
+### 2411 - Mansur.txt
+
+RIP SHA256: `bf2db991e9e57d905704301b864389110cc068eccc5e88670484f19cdb7cd467`
+
+Vanilla SHA256: `03a5e5085c3a06ca30443a985d11001af943591e904febe278fab4ad3cac0abe`
+
+```diff
+--- vanilla/2411 - Mansur.txt
++++ RIP/2411 - Mansur.txt
+@@ -5,7 +5,7 @@
+ culture = crimean
+ religion = sunni
+ hre = no
+-base_tax = 3 
++base_tax = 3
+ base_production = 3
+ trade_goods = livestock
+ base_manpower = 2
+@@ -19,15 +19,16 @@
+ discovered_by = nomad_group
+ 
+ 1555.1.1 = {
+-	owner = ZAZ 
+-	controller = ZAZ 
++	owner = ZAZ
++	controller = ZAZ
+ 	add_core = ZAZ
+-	remove_core = CRI 
+-	culture = ruthenian 
+-	religion = orthodox 
+-} # Fortified military camp, independent state
+-1700.7.14 = { owner = RUS controller = RUS add_core = RUS } # Treaty of Constantinople
+-1713.6.24 = { owner = TUR controller = TUR add_core = TUR remove_core = RUS } # Treaty of Adrianople
+-1736.6.30 = { controller = RUS } # Taken by the army during the Russo-Turkish War
+-1739.9.29 = { owner = RUS add_core = RUS remove_core = TUR capital = "Ekaterinoslav" } # Treaty of Belgrad
+-1775.5.7 = { remove_core = ZAZ } # Zaporozhian host abolished+	remove_core = CRI
++	culture = ruthenian
++	religion = orthodox
++	capital = "Samar"
++} # Zaporozhian Cossack settlement in the Samara-Kodak lands
++1635.7.1 = { capital = "Kodak" } # Kodak fortress erected on the Dnieper rapids
++1713.6.24 = { owner = TUR controller = TUR add_core = TUR } # Treaty of Adrianople
++1734.6.1 = { owner = ZAZ controller = ZAZ remove_core = TUR } # Nova Sich restoration of Kodak and Samara palankas
++1775.6.5 = { owner = RUS controller = RUS add_core = RUS remove_core = ZAZ } # Liquidation of the Zaporozhian Sich
++1776.1.1 = { capital = "Ekaterinoslav" } # Ekaterinoslav founded
+```
+
+### 2412 - Kyzyl-Yar.txt
+
+RIP SHA256: `33084b4a7dbd923348131c7766870fde17dc1d15b96c74209b5bb8c4151765a5`
+
+Vanilla SHA256: `9b18900f69103ca39e8a052e0c8453b8379531647d95aa3cd9da0152b0100b5b`
+
+```diff
+--- vanilla/2412 - Kyzyl-Yar.txt
++++ RIP/2412 - Kyzyl-Yar.txt
+@@ -5,15 +5,13 @@
+ culture = crimean
+ religion = sunni
+ hre = no
+-base_tax = 4
+-base_production = 4
++base_tax = 3
++base_production = 3
+ trade_goods = salt
+-base_manpower = 3
++base_manpower = 2
+ capital = "Kyzyl-Yar"
+ is_city = yes
+ add_core = CRI
+-
+-
+ 
+ discovered_by = western
+ discovered_by = eastern
+@@ -21,9 +19,21 @@
+ discovered_by = ottoman
+ discovered_by = nomad_group
+ 
+-
+ 1478.6.1 = { add_core = TUR } # Crimea becomes a vassal of the Ottoman Empire
++1734.6.1 = { add_core = ZAZ } # Kalmius Palanka under Nova Sich
+ 1736.6.1 = { controller = RUS } # Russian occupation
+ 1739.9.29 = { controller = CRI } # Treaty of Nish
+ 1771.7.1 = { controller = RUS } # Russo-Turkish War
+-1774.7.21 = { owner = RUS controller = RUS remove_core = CRI } # Treaty of Kuchuk-Kainarji
++1774.7.21 = {
++	owner = RUS
++	controller = RUS
++	add_core = RUS
++	remove_core = CRI
++	remove_core = TUR
++} # Treaty of Kuchuk-Kainarji
++1775.6.5 = { remove_core = ZAZ } # Liquidation of the Zaporozhian Sich
++1778.7.28 = {
++	capital = "Mariupol"
++	culture = ruthenian
++	religion = orthodox
++} # Azov and Mariupol resettlement
+```
+
+### 2413 - Tyn.txt
+
+RIP SHA256: `022b64c405935e2c1f2e4bcf750d6bf91b6c6ccf7f00aaec0d0c1d85eb0a332a`
+
+Vanilla SHA256: `e5fec4167ea949926ef2cde9cb775bfda597012b686578fa121f52b21bee63bf`
+
+```diff
+--- vanilla/2413 - Tyn.txt
++++ RIP/2413 - Tyn.txt
+@@ -22,13 +22,13 @@
+ discovered_by = ottoman
+ discovered_by = nomad_group
+ 
+-
+ 1572.8.2 = {
+ 	owner = RUS
+ 	controller = RUS
+-	add_core = RUS 
+-}
++	add_core = RUS
++} # Muscovite steppe frontier expands southward after the 1572 campaign
+ 1670.3.1 = { revolt = { type = anti_tax_rebels size = 2 name = "Stepan Razin" } controller = REB unrest = 6 } # Razin rebellion
+-1671.4.14 = { revolt = { } controller = RUS unrest = 0 } # Razin captured
++1671.4.14 = { revolt = {} controller = RUS unrest = 0 } # Razin captured
++1761.9.23 = { capital = "Rostov" } # St. Dmitry of Rostov fortress founded on the Don
+ 1773.9.13 = { revolt = { type = anti_tax_rebels size = 2 name = "Yemelyan Pugachev" } controller = REB unrest = 6 } # Pugachev rebellion
+-1775.2.1 = { revolt = {} controller = RUS unrest = 0 } # Pugachev is captured+1775.2.1 = { revolt = {} controller = RUS unrest = 0 } # Pugachev is captured
+```
+
+### 2414 - Azaraba.txt
+
+RIP SHA256: `309237aec9a89eaccbb4aa6bebe9c14cb9e7147dfb5e9f292cc703d8037e0e1b`
+
+Vanilla SHA256: `7adc7e39e7a3f5fa9c6fd32b36d499805c6ccbf18535411eb9d6daab1596aed5`
+
+```diff
+--- vanilla/2414 - Azaraba.txt
++++ RIP/2414 - Azaraba.txt
+@@ -6,7 +6,7 @@
+ religion = sunni
+ hre = no
+ base_tax = 3
+-base_production = 3
++base_production = 2
+ trade_goods = livestock
+ base_manpower = 3
+ capital = "Azaraba"
+@@ -18,13 +18,14 @@
+ discovered_by = ottoman
+ discovered_by = nomad_group
+ 
+-
+ 1478.6.1 = { add_core = TUR }
+-1774.7.21 = {
++1783.4.8 = {
+ 	owner = RUS
+ 	add_core = RUS
+ 	controller = RUS
+ 	remove_core = TUR
+-	culture = russian
+-	religion = orthodox 
+-}# Treaty of Kuchuk-Kainarji
++} # Annexation of the Crimean Khanate and right-bank Kuban
++1793.8.15 = {
++	culture = ruthenian
++	religion = orthodox
++} # Black Sea Cossack Host settles the Azov-Kuban steppe
 ```
 
 ### 2424 - Peremyshl.txt
@@ -2151,6 +2917,48 @@ Vanilla SHA256: `c29ca800b86d8fa1c53c693bf4c6dafe5c8e6c00c3f18cc0490b2a6057a6c53
  1492.1.1 = { unrest = 0 } 
  
  1569.7.1 = {
+```
+
+### 2447 - Mantrega.txt
+
+RIP SHA256: `69e3b63e81d6516c2a308afa64f471f29bbd7848b082c10cb5a644c92fc9ae7a`
+
+Vanilla SHA256: `29eec9d1f6dbe446353cf9662e1b2f1e71d2574cecb4e244816d6cc3503db98f`
+
+```diff
+--- vanilla/2447 - Mantrega.txt
++++ RIP/2447 - Mantrega.txt
+@@ -5,7 +5,7 @@
+ culture = pontic_greek
+ religion = orthodox
+ hre = no
+-base_tax = 2 
++base_tax = 2
+ base_production = 2
+ trade_goods = livestock
+ base_manpower = 1
+@@ -15,16 +15,19 @@
+ add_core = CIR
+ add_core = CRI
+ 
+-
+ discovered_by = western
+ discovered_by = eastern
+ discovered_by = muslim
+ discovered_by = ottoman
+ discovered_by = nomad_group
+ 
+-
+ 1475.5.1 = { owner = TUR controller = TUR add_core = TUR }
+ 1781.6.24 = { capital = "Anapa" }
+ 1784.1.2 = { culture = nogaybak religion = sunni }
+ 1791.6.22 = { controller = RUS } # War
+-1792.1.9 = { owner = RUS controller = RUS add_core = RUS culture = russian religion = orthodox }+1792.1.9 = { owner = RUS controller = RUS add_core = RUS } # Treaty of Jassy
++1792.8.25 = {
++	capital = "Taman"
++	culture = ruthenian
++	religion = orthodox
++} # Black Sea Cossacks land at Taman under Anton Holovaty
 ```
 
 ### 2959 - Tarnow.txt
@@ -2909,7 +3717,7 @@ Vanilla SHA256: `619ecb677cf382e22c6a0d513b7d7bfc4e0a0fb5812a6610ccce65fd008eef9
 
 ### 4542 - Lubnie.txt
 
-RIP SHA256: `fc704e7074c6d2cbe637693bb533b571698c457d8227c1abff40715f9c014797`
+RIP SHA256: `f9a597d5d117e425b73ede6e1bb4bc382a25586498f553e6680a8187930a9f84`
 
 Vanilla SHA256: `7dd3b04c4086cfcb378042578edbee3216e47266d363c790d23a32d4a73ba41a`
 
@@ -2940,7 +3748,7 @@ Vanilla SHA256: `7dd3b04c4086cfcb378042578edbee3216e47266d363c790d23a32d4a73ba41
  fort_15th = yes
  discovered_by = eastern
  discovered_by = western
-@@ -21,15 +20,21 @@
+@@ -21,15 +20,27 @@
  discovered_by = ottoman
  discovered_by = nomad_group
  
@@ -2956,16 +3764,22 @@ Vanilla SHA256: `7dd3b04c4086cfcb378042578edbee3216e47266d363c790d23a32d4a73ba41
 +1648.1.1 = {
 +	revolt = { type = nationalist_rebels size = 2 }
 +	controller = REB
++	add_core = HET
 +	add_core = ZAZ
 +} # Khmelnytsky Uprising
-+1654.1.1 = { revolt = {} controller = PLC remove_core = ZAZ }
-+1667.1.30 = {
++1648.6.1 = {
++	revolt = {}
++	owner = HET
++	controller = HET
++	remove_core = ZAZ
++} # Lubny and Myrhorod Regiments join the Cossack Hetmanate
++1764.11.10 = {
  	owner = RUS
 +	controller = RUS
  	add_core = RUS
  	remove_core = PLC
 -} # Part of the Russian empire
-+} # Treaty of Andrusovo
++} # Abolition of the Hetmanate by Catherine II
 ```
 
 ### 4543 - Rylsk.txt
@@ -3059,4 +3873,48 @@ Vanilla SHA256: `3ce85e4d574498d3b3a809df65b07a5b346fd00b1e3856cb43649005fd732f0
  is_city = yes
  add_core = LIT
 +add_core = MSK
+```
+
+### 4706 - Tolcu.txt
+
+RIP SHA256: `5320fd00fd130daf7d4fa7e28c0b015a551163487f5407cd3a56692e5b674384`
+
+Vanilla SHA256: `dab7186e89754da813c435b7c5f10458dd6c2f80b7f71e4e07dcf8ff92faf403`
+
+```diff
+--- vanilla/4706 - Tolcu.txt
++++ RIP/4706 - Tolcu.txt
+@@ -1,3 +1,5 @@
++#4706 - Tolcu
++
+ owner = TUR
+ controller = TUR
+ culture = bulgarian
+@@ -12,14 +14,11 @@
+ add_core = TUR
+ add_core = BUL
+ 
+-
+-
+ discovered_by = western
+ discovered_by = eastern
+ discovered_by = muslim
+ discovered_by = ottoman
+ discovered_by = nomad_group
+-
+ 
+ 1481.6.1 = { unrest = 6 } # Civil war, Bayezid & Jem
+ 1482.7.26 = { unrest = 0 } # Jem escapes to Rhodes
+@@ -27,5 +26,11 @@
+ 1556.1.1 = { unrest = 0 }
+ 1688.1.1 = { unrest = 6 } # Rebellion against Ottoman rule, centered on Chiprovtzi
+ 1689.1.1 = { unrest = 0 } # Brutally suppressed by Janissaries
++1778.1.1 = {
++	owner = ZAZ
++	controller = ZAZ
++	add_core = ZAZ
++	capital = "Dunavets"
++} # Ottoman firman grants the Danube delta to the Danubian Sich
+ 1793.1.1 = { unrest = 5 } # Pasvanoglu Rebellion, centered at Vidin
+ 1798.1.1 = { unrest = 0 }
 ```

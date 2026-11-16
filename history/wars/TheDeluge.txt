@@ -6,45 +6,100 @@ war_goal = {
 	province = 276 # Minsk
 }
 
+# Pereyaslav Agreement and Russo-Polish War
 1654.1.18 = {
 	add_attacker = RUS
 	add_attacker = HET
+	add_attacker = ZAZ
 	add_defender = PLC
 }
 
+# Austria & Denmark ally with Poland
 1656.12.1 = {
 	add_defender = HAB
 	add_defender = DAN
 }
 
+# Brandenburg switches side
 1657.6.1 = {
 	add_defender = BRA
 }
 
+# Treaty of Roskilde
 1658.2.26 = {
 	rem_defender = HAB
 	rem_defender = DAN
 }
 
-
-1658.9.21 = {
+# Treaty of Hadiach (Vyhovsky's Hetmanate aligns with the Commonwealth; ZAZ stays opposed)
+1658.9.16 = {
 	rem_attacker = HET
 	add_defender = HET
 }
 
-
-1659.10.27 = {
-	add_attacker = HET
-	rem_defender = HET
+1659.7.8 = {
+	battle = {
+		name = "Konotop"
+		location = 1945
+		attacker = {
+			commander = "Aleksey Trubetskoy"	# Aleksey Trubetskoy
+			infantry = 35000
+			cavalry = 15000
+			artillery = 40
+			losses = 60	# percent
+			country = RUS
+		}
+		defender = {
+			commander = "Ivan Vyhovsky"	# Ivan Vyhovsky
+			infantry = 16000
+			cavalry = 20000
+			artillery = 20
+			losses = 15	# percent
+			country = HET
+		}
+		result = no
+	}
 }
 
+# Second Pereyaslav Articles
+1659.10.27 = {
+	rem_defender = HET
+	add_attacker = HET
+}
+
+# Peace treaty of Oliwa
 1660.3.5 = {
 	rem_defender = BRA
 }
 
+1660.10.14 = {
+	battle = {
+		name = "Chudnov"
+		location = 1942
+		attacker = {
+			commander = "Vasiliy Sheremetev"	# Vasiliy Sheremetev
+			infantry = 20000
+			cavalry = 15000
+			artillery = 30
+			losses = 75	# percent
+			country = RUS
+		}
+		defender = {
+			commander = "Jerzy Lubomirski"	# Jerzy Lubomirski
+			infantry = 14000
+			cavalry = 18000
+			artillery = 30
+			losses = 15	# percent
+			country = PLC
+		}
+		result = no
+	}
+}
+
+# Truce of Andrusovo
 1667.1.30 = {
 	rem_defender = PLC
 	rem_attacker = RUS
 	rem_attacker = HET
+	rem_attacker = ZAZ
 }
-

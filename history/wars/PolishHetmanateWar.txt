@@ -2,14 +2,70 @@ name = "Polish-Cossack War"
 war_goal = {
 	type = take_capital_vassalize
 	casus_belli = cb_vassalize_mission
-	province = 1944
+	province = 290 # Poltava
 }
+
 1651.2.20 = {
 	add_attacker = PLC
 	add_defender = HET
+	add_defender = ZAZ
+	add_defender = CRI
 }
 
+1651.6.28 = {
+	battle = {
+		name = "Berestechko"
+		location = 279
+		attacker = {
+			commander = "John II Casimir"	# John II Casimir
+			infantry = 34000
+			cavalry = 24000
+			artillery = 30
+			losses = 12	# percent
+			country = PLC
+		}
+		defender = {
+			commander = "Bohdan Khmelnytsky"	# Bohdan Khmelnytsky
+			infantry = 35000
+			cavalry = 15000
+			artillery = 20
+			losses = 35	# percent
+			country = HET
+		}
+		result = yes
+	}
+}
+
+1652.6.2 = {
+	battle = {
+		name = "Batih"
+		location = 1943
+		attacker = {
+			commander = "Bohdan Khmelnytsky"	# Bohdan Khmelnytsky
+			infantry = 15000
+			cavalry = 15000
+			losses = 5	# percent
+			country = HET
+		}
+		defender = {
+			commander = "Marcin Kalinowski"	# Marcin Kalinowski
+			infantry = 10000
+			cavalry = 10000
+			losses = 85	# percent
+			country = PLC
+		}
+		result = yes
+	}
+}
+
+# Truce of Kamianets (Zhvanets)
+1653.12.15 = {
+	rem_defender = CRI
+}
+
+# Pereyaslav Council
 1654.1.17 = {
 	rem_attacker = PLC
 	rem_defender = HET
+	rem_defender = ZAZ
 }

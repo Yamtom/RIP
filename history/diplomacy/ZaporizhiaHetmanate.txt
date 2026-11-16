@@ -1,11 +1,9 @@
+# Unified ZAZ (Sich), HET (Hetmanate), and PDL (Right-Bank Hetmanate) diplomacy.
+# EU4 1.37.5 deprecated pre-1.20 colonial/westernized protectorates, so historical
+# treaties of protection are represented via vassal, princedom (Hadiach), and
+# dual-guarantee approximations.
 
-# Single owner of RIP's ZAZ/HET diplomatic records; former mod_fixes entries
-# are consolidated here. The existing map still uses ZAZ for parts of the
-# Hetmanate: this is a compatibility timeline, not a completed institutional
-# separation. HET records only matter for starts where HET actually exists.
-# The Commonwealth does not exist before the Union of Lublin. Until 1569 the
-# Dnieper palatinates were Lithuanian; Lublin moved them to the Polish Crown,
-# and the register of 1572 follows from that transfer.
+# --- Zaporozhian Sich (ZAZ) ---
 vassal = {
 	first = LIT
 	second = ZAZ
@@ -20,33 +18,35 @@ vassal = {
 	end_date = 1648.1.1
 }
 
-
-vassal = {
-	first = RUS
-	second = ZAZ
-	start_date = 1654.1.8
-	end_date = 1657.7.27
+# Year-level approximation of the 1624-1628 Black Sea cooperation with Crimea.
+alliance = {
+	first = ZAZ
+	second = CRI
+	start_date = 1624.1.1
+	end_date = 1629.1.1
 }
 
-vassal = {
+# Khmelnytsky's Crimean alliance during the 1648-1653 campaigns.
+alliance = {
+	first = ZAZ
+	second = CRI
+	start_date = 1648.3.1
+	end_date = 1654.1.8
+}
+
+# Joint protection over Zaporizhia after Andrusovo.
+guarantee = {
+	first = RUS
+	second = ZAZ
+	start_date = 1667.1.30
+	end_date = 1686.5.6
+}
+
+guarantee = {
 	first = PLC
 	second = ZAZ
-	start_date = 1658.9.16
-	end_date = 1659.6.17
-}
-
-vassal = {
-	first = RUS
-	second = ZAZ
-	start_date = 1659.6.18
-	end_date = 1663.10.18
-}
-
-vassal = {
-	first = TUR
-	second = ZAZ
-	start_date = 1669.1.1
-	end_date = 1676.10.27
+	start_date = 1667.1.30
+	end_date = 1686.5.6
 }
 
 vassal = {
@@ -56,43 +56,59 @@ vassal = {
 	end_date = 1708.11.1
 }
 
+# Alliance of Kost Hordiyenko and Pylyp Orlyk with Charles XII until Pruth.
 alliance = {
 	first = SWE
 	second = ZAZ
 	start_date = 1708.11.1
-	end_date = 1709.7.8
-}
-
-vassal = {
-	first = RUS
-	second = ZAZ
-	start_date = 1709.7.9
 	end_date = 1711.7.21
 }
 
-# Approximate campaign window for Khmelnytsky's Crimean alliance.
-# March 1648 is historical; the first day is a month-level game approximation.
-alliance = {
-	first = ZAZ
-	second = CRI
-	start_date = 1648.3.1
-	end_date = 1654.1.8
+# Kamianka and Oleshky Sich under Crimean-Ottoman protection (approximated by TUR).
+vassal = {
+	first = TUR
+	second = ZAZ
+	start_date = 1711.7.21
+	end_date = 1734.6.1
 }
 
-# Year-level approximation of the 1624-1628 cooperation, not a continuous
-# alliance throughout 1620-1637. Exact treaty-day reconstruction is pending.
-alliance = {
-	first = ZAZ
-	second = CRI
-	start_date = 1624.1.1
-	end_date = 1629.1.1
+# Nova Sich restoration under the Lubny Articles.
+vassal = {
+	first = RUS
+	second = ZAZ
+	start_date = 1734.6.1
+	end_date = 1775.6.5
 }
 
+# Danubian Sich (Zadunaiska Sich) in Dobruja under Ottoman protection.
+vassal = {
+	first = TUR
+	second = ZAZ
+	start_date = 1778.1.1
+	end_date = 1821.12.31
+}
 
+# --- Cossack Hetmanate (HET) ---
 vassal = {
 	first = RUS
 	second = HET
 	start_date = 1654.1.8
+	end_date = 1658.9.16
+}
+
+# Treaty of Hadiach: Grand Duchy of Rus' federal princedom inside the Commonwealth.
+dependency = {
+	subject_type = princedom
+	first = PLC
+	second = HET
+	start_date = 1658.9.16
+	end_date = 1659.10.27
+}
+
+vassal = {
+	first = RUS
+	second = HET
+	start_date = 1659.10.27
 	end_date = 1708.11.1
 }
 
@@ -110,11 +126,12 @@ vassal = {
 	end_date = 1764.11.10
 }
 
+# Sich cooperation with the Hetmanate up to Andrusovo and during Samoilovych/Mazepa.
 alliance = {
 	first = ZAZ
 	second = HET
-	start_date = 1654.1.8
-	end_date = 1663.1.1
+	start_date = 1648.6.1
+	end_date = 1667.1.30
 }
 
 alliance = {
@@ -124,32 +141,19 @@ alliance = {
 	end_date = 1709.7.8
 }
 
-# Joint protection after Andrusovo: game approximation using two guarantees.
-guarantee = {
-	first = RUS
-	second = ZAZ
-	start_date = 1667.1.30
-	end_date = 1686.5.6
-}
-
-guarantee = {
-	first = PLC
-	second = ZAZ
-	start_date = 1667.1.30
-	end_date = 1686.5.6
-}
-
-# Crimean-Ottoman protection, represented by TUR in the inherited RIP model.
+# --- Right-Bank & Ottoman-Protected Cossack Hetmanate (PDL) ---
+# Korsun Articles: Petro Doroshenko places the Right Bank under Ottoman protection.
 vassal = {
 	first = TUR
-	second = ZAZ
-	start_date = 1711.7.21
-	end_date = 1734.6.1
+	second = PDL
+	start_date = 1669.3.1
+	end_date = 1676.9.19
 }
 
+# Yuriy Khmelnytsky's Principality of Ukraine and subsequent Khan's Ukraine under the Porte.
 vassal = {
-	first = RUS
-	second = ZAZ
-	start_date = 1734.6.1
-	end_date = 1775.6.5
+	first = TUR
+	second = PDL
+	start_date = 1677.6.29
+	end_date = 1699.1.26
 }

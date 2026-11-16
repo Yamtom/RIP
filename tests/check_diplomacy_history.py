@@ -53,9 +53,12 @@ def main():
 
     for tag, when, expected in [
         ('ZAZ', '1560.1.1', {'LIT'}), ('ZAZ', '1570.1.1', {'PLC'}),
+        ('ZAZ', '1660.1.1', set()), ('HET', '1656.1.1', {'RUS'}),
+        ('HET', '1659.1.1', {'PLC'}), ('HET', '1660.1.1', {'RUS'}),
+        ('PDL', '1670.1.1', {'TUR'}), ('PDL', '1685.1.1', {'TUR'}),
         ('ZAZ', '1709.1.1', set()), ('ZAZ', '1712.1.1', {'TUR'}),
-        ('ZAZ', '1735.1.1', {'RUS'}), ('KUR', '1720.1.1', {'PLC'}),
-        ('KIE', '1444.11.11', set()),
+        ('ZAZ', '1735.1.1', {'RUS'}), ('ZAZ', '1785.1.1', {'TUR'}),
+        ('KUR', '1720.1.1', {'PLC'}), ('KIE', '1444.11.11', set()),
     ]:
         if overlords(tag, when) != expected:
             failures.append(f'{tag} {when}: unexpected overlord set')
