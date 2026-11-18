@@ -527,7 +527,7 @@ button(
     'rip_church_gc_window_toggle',304,300,'religion = greek_catholic',
     'if = { limit = { has_country_flag = rip_church_gc_window_hidden } clr_country_flag = rip_church_gc_window_hidden } else = { set_country_flag = rip_church_gc_window_hidden }',
     potential='religion = greek_catholic',sprite='GFX_standard_button_71',label=True)
-outputs['interface/RIP_church_panels.gfx']='spriteTypes = {\n'+'\n'.join(insets)+'''
+outputs['interface/RIP_shared_church_panels.gfx']='spriteTypes = {\n'+'\n'.join(insets)+'''
  spriteType = {
   name = "GFX_rip_church_ro_frame"
   textureFile = "gfx/interface/copts_bg.dds"

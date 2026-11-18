@@ -23,7 +23,7 @@ What this writes (all of it generated, compare with --check):
   common/government_reforms/RIP_KRU_rada_reforms.txt        the six reforms
   common/scripted_triggers/kru_rada_triggers.txt            the holder test, "A is ahead of B" ladders, the six pair tests, the leader's grip
   common/scripted_effects/kru_rada_effects.txt              the rank, reform swap and bar effects
-  interface/rip_kru_rada.gfx                                the three side sprites (GFX_kru_rada_<faction>, two frames: out of power / in power)
+  interface/RIP_KRU_government_rada.gfx                                the three side sprites (GFX_kru_rada_<faction>, two frames: out of power / in power)
   gfx/interface/rip_government/kru_rada_<faction>.dds       their textures, made from the faction emblems
   localisation/replace/zzzz_rip_kru_rada_l_<language>.yml   side names, descriptions and tooltips (English text in all four languages)
 
@@ -376,7 +376,7 @@ def text_outputs():
         'common/government_reforms/RIP_KRU_rada_reforms.txt': reforms_file(),
         'common/scripted_triggers/kru_rada_triggers.txt': triggers_file(),
         'common/scripted_effects/kru_rada_effects.txt': effects_file(),
-        'interface/rip_kru_rada.gfx': gfx_text(),
+        'interface/RIP_KRU_government_rada.gfx': gfx_text(),
     }
     for language in LANGUAGES:
         result[f'localisation/replace/zzzz_rip_kru_rada_l_{language}.yml'] = '﻿' + localisation(language)

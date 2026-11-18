@@ -45,7 +45,7 @@ REFORM = "uzh_palanok_captaincy_reform"
 LEFT, RIGHT = "partia_soymu", "partia_kapitaniv"
 REFORM_FILE = "common/government_reforms/RIP_UZH_government_reforms.txt"
 EFFECT_FILE = "common/scripted_effects/uzh_states_general_effects.txt"
-GFX = "interface/rip_uzh_states_general.gfx"
+GFX = "interface/RIP_UZH_government_states_general.gfx"
 ICON = "rip_gfx_reform_uzh_palanok_captaincy_icon"
 # sprite -> (expected width, height, frames); the vanilla sprite each stands in for is named beside it
 ART = {

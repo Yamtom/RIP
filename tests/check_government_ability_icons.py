@@ -37,7 +37,7 @@ from clausewitz_testlib import ROOT, read, named_block, matching_brace, normaliz
 
 LANGUAGES = ("english", "french", "german", "spanish")
 EDGE = 82
-GFX = "interface/rip_ability_icons.gfx"
+GFX = "interface/RIP_shared_government_ability_icons.gfx"
 
 RESOLUTIONS_FILE = "common/government_mechanics/rip_institutional_resolutions.txt"
 REGIONAL_FILE = "common/government_mechanics/rip_regional_governments.txt"

@@ -37,7 +37,7 @@ from clausewitz_testlib import ROOT, read, named_block, matching_brace, normaliz
 LANGUAGES = ("english", "french", "german", "spanish")
 MECHANIC = "rip_border_watch_mechanic"
 MECH_FILE = "common/government_mechanics/rip_border_watch.txt"
-GFX = "interface/rip_captaincy_icons.gfx"
+GFX = "interface/RIP_shared_government_captaincy_icons.gfx"
 TOKEN = "rip_border_watch_order"
 COOLDOWN_DESC = "rip_border_watch_order_cd"
 CARRIERS = ("prl_border_fortress_reform", "pdl_carpathian_bastion_reform")

@@ -114,7 +114,7 @@ cases += 1
 dds = (ROOT / 'gfx/interface/rip_ro_mission_policy.dds').read_bytes()
 assert dds[:4] == b'DDS '
 assert struct.unpack_from('<II', dds, 12) == (56, 112)
-gfx = read('interface/RIP_church_mission.gfx')
+gfx = read('interface/RIP_shared_church_mission.gfx')
 assert 'noOfFrames = 2' in gfx
 native = dict(dict(parse(read('common/trading_policies/00_trading_policies.txt')))['propagate_religion'])
 assert native['button_gfx'] == 'GFX_Trading_Policy_Propagate_Religion'

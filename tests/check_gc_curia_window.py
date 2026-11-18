@@ -155,7 +155,7 @@ for tab in ('union', 'curia'):
     assert len({str(d['position']) for d in tabs}) == 1
     assert all(d['quadTextureSprite'] == 'GFX_tab_small_116' for d in tabs)
 assert interface.count('spriteType = "GFX_rip_church_union_frame"') >= 3
-assert 'small_tiles_dialog.dds' not in read('interface/RIP_church_panels.gfx')
+assert 'small_tiles_dialog.dds' not in read('interface/RIP_shared_church_panels.gfx')
 assert 'name = "current_patriarch_authority_text" scripted = yes' in interface
 assert interface.count('spriteType = "GFX_rip_church_section_banner"') >= 6
 assert 'rip_church_gc_holy_see_gift_button' in pages['curia']
@@ -248,7 +248,7 @@ assert 'rip_church_gc_native_privileges_button' not in native_controls
 cover = dict((d['name'], d) for _, d in widgets(parse(native_controls)))['rip_church_gc_selector_cover']
 assert cover['alwaystransparent'] == 'no'
 assert cover['spriteType'] == 'GFX_rip_church_gc_selector_surface'
-gfx = read('interface/RIP_church_panels.gfx')
+gfx = read('interface/RIP_shared_church_panels.gfx')
 cover_sprite = next(block for _, block in keyed_blocks(gfx, 'corneredTileSpriteType')
                     if 'name = "GFX_rip_church_gc_selector_surface"' in block)
 cover_size = dict(dict(dict(parse(cover_sprite))['corneredTileSpriteType'])['size'])

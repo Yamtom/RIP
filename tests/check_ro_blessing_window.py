@@ -90,7 +90,7 @@ assert not (ROOT / 'events/RIP_OrthodoxHolyCities.txt').exists(), 'the old event
 
 controls = read('common/custom_gui/RIP_church_controls.txt')
 gui = read('interface/countryreligionview.gui')
-panels_gfx = read('interface/RIP_church_panels.gfx')
+panels_gfx = read('interface/RIP_shared_church_panels.gfx')
 site_localisation = read('localisation/rip_ro_blessing_window_l_english.yml')
 custom_loc = read('customizable_localization/RIP_MOS_RUS_holy_cities.txt')
 church_readouts = read_custom_localization('church')

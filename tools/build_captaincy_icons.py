@@ -47,7 +47,7 @@ from build_government_ability_icons import (  # noqa: E402
 
 ROOT = HERE.parent
 TEXTURE_DIR = 'gfx/interface/rip_government'
-GFX_FILE = 'interface/rip_captaincy_icons.gfx'
+GFX_FILE = 'interface/RIP_shared_government_captaincy_icons.gfx'
 
 # --------------------------------------------------------------------------
 # Palettes (dark -> lit) that the toolkit does not ship

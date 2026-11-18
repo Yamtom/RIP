@@ -325,7 +325,7 @@ Kyivan Seniority тепер показує власні емблеми снем�
 арка із синьою емаллю (Магнатський сенат).
 
 ```powershell
-python tools/build_government_ability_icons.py           # пише DDS, interface/rip_ability_icons.gfx і source/abilities_preview.png
+python tools/build_government_ability_icons.py           # пише DDS, interface/RIP_shared_government_ability_icons.gfx і source/abilities_preview.png
 python tools/build_government_ability_icons.py --check   # перемальовує й порівнює (допуск 3 на канал)
 python tools/build_government_ability_icons.py --preview out.png --scale 4 --only boyar_office
 ```

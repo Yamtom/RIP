@@ -382,7 +382,7 @@ def check_sources(files):
 
 def check_sprites_and_text(loc):
     problems = []
-    gfx = read('interface/rip_kru_rada.gfx')
+    gfx = read('interface/RIP_KRU_government_rada.gfx')
     for key in KEYS:
         if f'name = "GFX_kru_rada_{key}" texturefile = "gfx/interface/rip_government/kru_rada_{key}.dds" noOfFrames = 2' not in gfx:
             problems.append(f'GFX_kru_rada_{key} is not declared with two frames')

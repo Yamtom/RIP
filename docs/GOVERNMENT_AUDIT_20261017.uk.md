@@ -59,7 +59,7 @@ PDL, події й рішення, що їх крутять, а також ди�
   рядки), тож відсутність у лозі помилок їх розбору HEAD не підтверджує.
   Урядовий смоук від 17.10.2026 (`diagnostics/government_ui_20261017/manifest.json`)
   **заблоковано** помилкою Direct3D ще до кампанії — це не пройдена перевірка, тож
-  вікна, шкали й спрайти з `rip_ruthenian_powers.gui` рушієм не підтверджені.
+  вікна, шкали й спрайти з `RIP_shared_ruthenian_powers.gui` рушієм не підтверджені.
 - **Що значить «підтверджено».** Прочитано в коді, знайдено пошуком по репозиторію,
   змодельовано логіку, звірено з вимірами автора або з його логами гри. Самостійно в
   запущеній грі я нічого не відтворював (її тут немає).
@@ -92,15 +92,15 @@ PDL, події й рішення, що їх крутять, а також ди�
 **Д1 (С). Друга шкала Цесарства посилається на неіснуюче вікно.**
 `common/government_mechanics/rip_kyivan_cesarstvo.txt:89` має
 `gui = rip_peoples_prosperity_power`. Такого `windowType` немає: вікно зветься
-`rip_peoples_gathering_power` (`interface/rip_ruthenian_powers.gui:12`; генератор —
+`rip_peoples_gathering_power` (`interface/RIP_shared_ruthenian_powers.gui:12`; генератор —
 `tools/build_ruthenian_government_ui.py:160–161`). Перейменування коміту `444d74c`
 змінило GUI й генератор, а файл механіки після нього правили ще раз (`3fb493c`) і стару
 назву лишили. Очікуваний наслідок — шкала «Concord of Peoples» без панелі й рядок у
 `error.log`; поведінку рушія не перевіряв. Виправлення: один рядок.
 
 **Д2 (С). Спрайт емблеми тієї ж шкали ніде не визначено.**
-`interface/rip_ruthenian_powers.gui:14` вживає `GFX_rip_gathering`, а в
-`interface/rip_ruthenian_government.gfx` є лише `GFX_rip_prosperity`. Причина в
+`interface/RIP_shared_ruthenian_powers.gui:14` вживає `GFX_rip_gathering`, а в
+`interface/RIP_shared_ruthenian_government.gfx` є лише `GFX_rip_prosperity`. Причина в
 генераторі: спрайти виводяться тільки для імен з таблиці `ART`, а в ній є `prosperity`,
 немає `gathering` (`build_ruthenian_government_ui.py:38–43`). `--check` генератора
 зелений, бо порівнює вихід із самим собою. Виправлення: додати `gathering` до `ART` або
@@ -108,7 +108,7 @@ PDL, події й рішення, що їх крутять, а також ди�
 
 **Д3 (Н). Дев'ять власних іконок кнопок не підключені.**
 `GFX_rip_siversk_charter/towns/retinue`, `GFX_rip_kyiv_snem/udil/druzhyna`,
-`GFX_rip_kyiv_levy/rota/grants` визначені в `rip_ruthenian_government.gfx` і мають DDS,
+`GFX_rip_kyiv_levy/rota/grants` визначені в `RIP_shared_ruthenian_government.gfx` і мають DDS,
 але жодна кнопка їх не вживає: `rip_siversk_patrimony.txt:11,21,31`,
 `rip_kyivan_seniority.txt:50,78,111`, `rip_kyivan_seniorate.txt:72,99,139` досі стоять на
 ванільних `GFX_cossacks_ability_ADM/DIP/MIL`. `docs/RUTHENIAN_GOVERNMENT_UI.uk.md:24–33`
@@ -380,7 +380,7 @@ has_estate=estate_magnates`. Це єдине вживання в моді. Ша�
   республіки.
 - **Розташування GUI.** У `setup.log` гри автора ванільні вікна механік — 15 файлів у
   `interface/government_mechanics/` (від `arabic_trade_influence.gui` до
-  `three_flames_bar.gui`); мод тримає свої в `interface/rip_ruthenian_powers.gui`. У тому ж
+  `three_flames_bar.gui`); мод тримає свої в `interface/RIP_shared_ruthenian_powers.gui`. У тому ж
   лозі завантажуються ванільні `.gui` і з кореня `interface/`, і з підтеки, тож це різниця
   звичаю, а не помилка.
 - **Числа.** За вибіркою з 115 ванільних реформ у реформах мода медіана 4 модифікатори
@@ -792,7 +792,7 @@ States General, три кнопки двору, три стани однієї �
   звірка з файлами); історичні твердження (анотації пошуку, не сторінки); оцінки реформ у
   3.5 (моя експертна класифікація, не вимір).
 - **Не підтверджено.** Що саме робить рушій у Д1, Д2, Д3 і Р1–Р8; рендер усіх вікон
-  `rip_ruthenian_powers.gui` у грі (смоук від 17.10.2026 заблоковано Direct3D); баланс у
+  `RIP_shared_ruthenian_powers.gui` у грі (смоук від 17.10.2026 заблоковано Direct3D); баланс у
   кампанії; поведінка системи з Д4 після виправлення (в кампанії вона ще не працювала, її
   баланс невідомий); будь-що про ваніль поза вибіркою; мова канцелярії Мазепи, Луцьк 1702.
 

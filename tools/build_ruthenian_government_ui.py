@@ -346,7 +346,7 @@ for fname, ficon in build_faction_influence_icons().items():
         assert Image.open(fpath).convert('RGBA').tobytes() == ficon.tobytes()
     else:
         save_dds(ficon, fpath)
-emit('interface/rip_ruthenian_government.gfx','spriteTypes = {\n'+'\n'.join(sprites)+'\n}\n')
+emit('interface/RIP_shared_ruthenian_government.gfx','spriteTypes = {\n'+'\n'.join(sprites)+'\n}\n')
 if not ARGS.check:
     save_dds(preview, ROOT/'gfx/interface/rip_government/source/preview.png', fmt='PNG')
 
@@ -386,7 +386,7 @@ for widget, icon, label in [('rip_throne_concord_power','concord','kyivan_throne
   iconType = {{ name = "government_power_bar_frame" spriteType = "GFX_single_government_power_bar_frame" position = {{ x = 24 y = 28 }} alwaystransparent = yes }}
  }}''')
 gui.append('}')
-emit('interface/rip_ruthenian_powers.gui','\n'.join(gui)+'\n')
+emit('interface/RIP_shared_ruthenian_powers.gui','\n'.join(gui)+'\n')
 
 COPY = {
  'ability_siversk_patrimony_mechanic':'Siversk Patrimony',

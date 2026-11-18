@@ -30,7 +30,7 @@ KIE, CHR і ZAZ. Після підтвердження користувача с
 `mission_early_modern_university.dds`, а `mission_ukr_magdeburg_laws.dds` —
 `mission_hanseatic_city.dds` з установленої EU4. Вони лежать у
 `gfx/interface/missions/` і зареєстровані в
-`interface/rip_ruthenian_legacy_missions.gfx` під потрібними назвами.
+`interface/RIP_shared_ruthenian_legacy_missions.gfx` під потрібними назвами.
 Ще 13 відсутніх власних іконок замінено на наявні тематичні іконки EU4.
 
 `tools/build_ruthenian_legacy_localisation.py` створює

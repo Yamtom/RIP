@@ -319,7 +319,7 @@ pos = native.index('name = "countrygovernmentview"')
 start = native.rfind('{',0,pos)
 end = close_brace(native,start)
 gui = native[:end] + '\n# Generated read-only RIP government explanations.\n' + '\n'.join(panel(name, pot, rows) for name, pot, rows in PANELS) + '\n' + native[end:]
-outputs = {'interface/rip_government_status.gfx': 'spriteTypes = { corneredTileSpriteType = { name = GFX_rip_government_status_bg size = { x = 470 y = 290 } texturefile = '+chr(34)+'gfx/interface/small_tiles_dialog.dds'+chr(34)+' borderSize = { x = 8 y = 8 } } }\n', 'interface/countrygovernmentview.gui': gui, 'common/custom_gui/rip_government_status.txt':'\n'.join(CONTROLS)+'\n'}
+outputs = {'interface/RIP_shared_government_status.gfx': 'spriteTypes = { corneredTileSpriteType = { name = GFX_rip_government_status_bg size = { x = 470 y = 290 } texturefile = '+chr(34)+'gfx/interface/small_tiles_dialog.dds'+chr(34)+' borderSize = { x = 8 y = 8 } } }\n', 'interface/countrygovernmentview.gui': gui, 'common/custom_gui/rip_government_status.txt':'\n'.join(CONTROLS)+'\n'}
 outputs.update(split_custom_localization('\n'.join(DYNAMIC)+'\n', 'government_status'))
 for language in ('english','french','german','spanish'):
     outputs[f'localisation/replace/zzzz_RIP_government_status_l_{language}.yml'] = 'l_'+language+':\n'+'\n'.join(f' {k}:0 "{v.replace(chr(10), chr(92)+"n")}"' for k,v in LOC.items())+'\n'

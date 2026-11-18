@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ART = ROOT / 'gfx/interface/disasters'
 SOURCE = ART / 'source'
 MANIFEST = json.loads((SOURCE / 'manifest.json').read_text(encoding='utf-8'))
-GFX = ROOT / 'interface/rip_disasters.gfx'
+GFX = ROOT / 'interface/RIP_shared_disaster_icons.gfx'
 
 
 def sprite_text() -> str:
@@ -58,7 +58,7 @@ def build() -> None:
 
 
 def check() -> None:
-    assert GFX.read_text(encoding='utf-8') == sprite_text(), 'Regenerate rip_disasters.gfx'
+    assert GFX.read_text(encoding='utf-8') == sprite_text(), 'Regenerate RIP_shared_disaster_icons.gfx'
     for name, entry in MANIFEST.items():
         target = ART / f'rip_{name}.dds'
         if entry['kind'] == 'vanilla':

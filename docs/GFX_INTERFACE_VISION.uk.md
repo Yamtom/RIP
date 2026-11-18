@@ -231,7 +231,7 @@ photorealism, or interface controls.
    ресурсах трапляються DXT1 і 32-бітний BGRA, як із mipmaps, так і без них:
    це не один універсальний профіль експорту.
 5. Зареєструвати спрайт у відповідному `.gfx` та послатися на точний ID у
-   вмісті. Реальний приклад для подій — [rip_eventpictures.gfx](../interface/rip_eventpictures.gfx);
+   вмісті. Реальний приклад для подій — [RIP_shared_event_pictures.gfx](../interface/RIP_shared_event_pictures.gfx);
    поля `name` і `texturefile` пов'язують ID та DDS, а поле `picture` події
    посилається на ID. Не вважати запасний DDS готовою власною ілюстрацією.
 6. Перевірити культурні варіанти, рамки й стани конкретного ресурсу: у ванілі,

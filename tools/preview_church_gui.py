@@ -96,10 +96,10 @@ dimensions=dict(dict(entries)['size']); panel_w,panel_h=int(dimensions['x']),int
 canvas=Image.new('RGBA',(panel_w,panel_h),(22,30,33,255))
 sprite_paths={'GFX_country_religion_view_bg':'gfx/interface/defender_of_the_faith/country_religion_view_bg.dds'}
 tiles={}
-for _,block in keyed_blocks((ROOT/'interface/RIP_church_panels.gfx').read_text(),'corneredTileSpriteType'):
+for _,block in keyed_blocks((ROOT/'interface/RIP_shared_church_panels.gfx').read_text(),'corneredTileSpriteType'):
     d=dict(dict(parse(block))['corneredTileSpriteType']); dims=dict(d['size'])
     tiles[d['name']]=tile(d['textureFile'],int(dims['x']),int(dims['y']),int(dict(d['borderSize'])['x']))
-for _,block in keyed_blocks((ROOT/'interface/RIP_church_panels.gfx').read_text(),'spriteType'):
+for _,block in keyed_blocks((ROOT/'interface/RIP_shared_church_panels.gfx').read_text(),'spriteType'):
     d=dict(dict(parse(block))['spriteType']); sprite_paths[d['name']]=d['textureFile']
 rects=[]
 bindings={dict(dict(parse(b))['custom_button'])['name']:dict(dict(parse(b))['custom_button']) for _,b in keyed_blocks((ROOT/'common/custom_gui/RIP_church_controls.txt').read_text(),'custom_button')}

@@ -82,7 +82,7 @@ for active in itertools.product((False, True), repeat=4):
     execute(branches,state)
     assert state.get('events',[]) == expected, 'Resolution fired twice'
 mechanic=read('common/government_mechanics/rip_kyivan_cesarstvo.txt')
-gui=read('interface/rip_ruthenian_powers.gui'); gfx=read('interface/rip_ruthenian_government.gfx')
+gui=read('interface/RIP_shared_ruthenian_powers.gui'); gfx=read('interface/RIP_shared_ruthenian_government.gfx')
 for name in re.findall(r'gui = (\w+)',mechanic): assert f'name = "{name}"' in gui
 for sprite in re.findall(r'spriteType = "(GFX_rip_\w+)"',gui): assert f'name = "{sprite}"' in gfx
 for f in ('RIP_kru_factions','RIP_representation_monarchy_factions'):

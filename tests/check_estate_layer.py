@@ -303,7 +303,7 @@ def check_style_and_dependencies(failures: list[str]) -> None:
     require(failures, "magnates_loyalty_modifier = 0.2" in normalized(land_modifier),
             "Magnates land ownership does not use its registered loyalty modifier")
 
-    gfx = read("interface/rip_privilege_icons.gfx")
+    gfx = read("interface/RIP_shared_estate_privilege_icons.gfx")
     for key in ("tax_farmers", "loan_banks", "kahal_autonomy", "black_sea_network"):
         sprite = f"rip_gfx_privilege_jewish_{key}_icon"
         require(failures, gfx.count(f'name = "{sprite}"') == 1,

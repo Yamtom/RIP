@@ -40,7 +40,7 @@ SS = 4               # supersampling factor
 S = SIZE * SS
 LIGHT = (-0.55, -0.70, 0.62)          # light comes from the upper left
 TEXTURE_DIR = 'gfx/interface/rip_government'
-GFX_FILE = 'interface/rip_ability_icons.gfx'
+GFX_FILE = 'interface/RIP_shared_government_ability_icons.gfx'
 CHECK_TOLERANCE = 3                    # per channel; float maths differs a little between machines
 
 

@@ -739,7 +739,7 @@ def write_mission_icons() -> None:
         path = ROOT / 'gfx/interface/missions' / name
         path.parent.mkdir(parents=True, exist_ok=True)
         img.save(path, format='DDS')
-    (ROOT / 'interface/rip_mission_icons.gfx').write_text(
+    (ROOT / 'interface/RIP_shared_mission_icons.gfx').write_text(
         mission_icons_gfx_text(), encoding='utf-8', newline='\n')
 
 
@@ -785,9 +785,9 @@ def check_mission_icons(problems: list[str]) -> None:
             problems.append(f'{sprite}: sprite texture does not point to its generated DDS')
         if not re.search(rf'(?m)^\s*icon\s*=\s*{re.escape(sprite)}\s*(?:#.*)?$', mission_text):
             problems.append(f'{sprite}: no mission uses this artwork')
-    gfx_path = ROOT / 'interface/rip_mission_icons.gfx'
+    gfx_path = ROOT / 'interface/RIP_shared_mission_icons.gfx'
     if not gfx_path.is_file() or gfx_path.read_text(encoding='utf-8-sig') != mission_icons_gfx_text():
-        problems.append('interface/rip_mission_icons.gfx differs from generator')
+        problems.append('interface/RIP_shared_mission_icons.gfx differs from generator')
 
 
 def write_all() -> int:

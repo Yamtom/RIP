@@ -50,7 +50,7 @@ from build_government_ability_icons import (  # noqa: E402
 
 ROOT = HERE.parent
 TEXTURE_DIR = 'gfx/interface/rip_government'
-GFX_FILE = 'interface/rip_uzh_states_general.gfx'
+GFX_FILE = 'interface/RIP_UZH_government_states_general.gfx'
 CHECK_TOLERANCE = 3          # per channel; float maths differs a little between machines
 
 # name -> (texture file, sprite name, (width, height) in pixels, frames)

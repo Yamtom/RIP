@@ -141,7 +141,7 @@ def asset(path):
     return Image.open(p).convert('RGBA')
 
 sprites = {}
-for p in [*sorted((GAME / 'interface').glob('*.gfx')), ROOT / 'interface/RIP_church_panels.gfx']:
+for p in [*sorted((GAME / 'interface').glob('*.gfx')), ROOT / 'interface/RIP_shared_church_panels.gfx']:
     source = p.read_text(encoding='utf-8-sig', errors='replace')
     for kind in ('spriteType', 'textSpriteType', 'corneredTileSpriteType'):
         for _, block in keyed_blocks(source, kind):

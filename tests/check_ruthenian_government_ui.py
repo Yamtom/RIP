@@ -78,7 +78,7 @@ for action in ('kru_court_the_knyazi', 'kru_court_the_boyary', 'kru_court_the_st
     interaction = named_block(named_block(court, 'interactions'), action)
     assert 'kru_refresh_factional_court_effect = yes' in named_block(interaction, 'effect')
 
-gfx = read('interface/rip_ruthenian_government.gfx')
+gfx = read('interface/RIP_shared_ruthenian_government.gfx')
 for faction in ('knyazi','boyary','starshyna'):
     assert f'GFX_faction_kru_{faction}"' in gfx
     assert f'GFX_faction_bg_kru_{faction}"' in gfx
@@ -201,7 +201,7 @@ for button in (
 assert 'government_reform_rip_siversk_principality' not in gfx
 for icon in ('GFX_rip_concord', 'GFX_rip_prosperity'):
     assert f'name = "{icon}"' in gfx
-government_gui = read('interface/rip_ruthenian_powers.gui')
+government_gui = read('interface/RIP_shared_ruthenian_powers.gui')
 assert 'rip_kru_' not in government_gui
 for power in old_balances:
     for key in (power, 'monthly_' + power, power + '_gain_modifier'):

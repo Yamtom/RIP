@@ -10,7 +10,7 @@
 > `jewish_kahal_autonomy` і `jewish_black_sea_network`. Додатково згенеровано й підключено
 > шість іконок заблокованих слотів розгалуження місій Закарпаття та Чернігова
 > (`rip_gfx_mission_uzh_identity_branch_locked_1..3_icon`, `rip_gfx_mission_chr_identity_branch_locked_1..3_icon`)
-> у `interface/rip_mission_icons.gfx`, `missions/Zakarpatta_Missions.txt` і `missions/Chernihiv_Missions.txt`,
+> у `interface/RIP_shared_mission_icons.gfx`, `missions/Zakarpatta_Missions.txt` і `missions/Chernihiv_Missions.txt`,
 > а всі 25 модифікаторних іконок `gfx/interface/ideas_EU4/` вирівняно за каноном ванілі (емблема ~44×44,
 > 3D смарагдовий `+` для `monthly_*`, 3D золота `↑` для `*_gain_modifier`). `tools/build_reform_icons.py`,
 > `tools/build_core_ruthenia_icons.py` і `tests/check_reform_icons.py` узгоджені між собою (`--check` = 0).

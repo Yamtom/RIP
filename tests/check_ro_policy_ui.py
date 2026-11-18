@@ -145,7 +145,7 @@ for faith in ('russian_orthodox', 'orthodox', 'greek_catholic', 'catholic'):
 # active state uses its separate highlight frame, never a check/cross badge.
 for policy in ('war', 'mercy', 'building', 'mission'):
     texture = f'gfx/interface/rip_church/ro_banner_{policy}.dds'
-    assert f'textureFile = "{texture}"' in read('interface/RIP_church_panels.gfx')
+    assert f'textureFile = "{texture}"' in read('interface/RIP_shared_church_panels.gfx')
     asset = (ROOT / texture).read_bytes()
     assert asset[:4] == b'DDS ' and struct.unpack_from('<II', asset, 12) == (64, 64)
     assert len(asset) == 128 + 64 * 64 * 4

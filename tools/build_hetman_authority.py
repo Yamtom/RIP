@@ -224,7 +224,7 @@ country_event = {{
     }}
 }}
 ''')
-put('interface/rip_het_authority.gui', '''
+put('interface/RIP_HET_government_authority.gui', '''
 guiTypes = {
  windowType = {
   name = "rip_het_authority_power" size = { x = 300 y = 58 } moveable = 0

@@ -30,7 +30,7 @@ import build_government_ability_icons as G  # noqa: E402
 
 ROOT = G.ROOT
 TEXTURE_DIR = G.TEXTURE_DIR
-GFX_FILE = 'interface/rip_faith_reform_icons.gfx'
+GFX_FILE = 'interface/RIP_shared_church_reform_icons.gfx'
 hexc = G.hexc
 
 GREEN_ENAMEL = [(0.0, hexc('#06180c')), (0.5, hexc('#12482a')), (1.0, hexc('#2c8a52'))]
