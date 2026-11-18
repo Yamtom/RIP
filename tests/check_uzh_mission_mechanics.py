@@ -9,6 +9,7 @@ from clausewitz_testlib import ROOT, keyed_blocks, line_number, named_block, nor
 SYNCED_LOC_KEYS = (
     "uzh_agriculture_desc",
     "UZH_pannonian_compact_government_tt",
+    "UZH_revival_komitat_condition_tt",
     "UZH_federalization_authority_tt",
     "UZH_federative_statutes_reward_tt",
     "UZH_congress_border_bastion_subject_tt",
