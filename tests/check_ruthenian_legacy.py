@@ -3,7 +3,9 @@ from pathlib import Path
 import re
 import sys
 
-from clausewitz_testlib import ROOT, vanilla_root, named_block, _mask_comments_and_strings
+from clausewitz_testlib import (
+    ROOT, _mask_comments_and_strings, keyed_blocks, named_block, normalized, vanilla_root,
+)
 
 sys.path.insert(0, str(ROOT / 'tools'))
 from build_ruthenian_legacy_localisation import MISSIONS, render
@@ -22,6 +24,10 @@ def source(directory, suffix):
 
 
 s = read(ROOT / 'missions/Ruthenian_Missions.txt')
+assert all(not line.strip() or line.startswith('#') for line in s.splitlines()), 'donor tree must stay disabled'
+assert '# BEGIN DONOR SOURCE\n' in s, 'missing donor exception marker'
+s = s.split('# BEGIN DONOR SOURCE\n', 1)[1]
+s = '\n'.join(line[2:] if line.startswith('# ') else '' for line in s.splitlines())
 mission_ids = set(re.findall(r'(?m)^\s*(ukr_(?!missions_)\w+)\s*=\s*\{', s))
 assert len(mission_ids) == 32 and mission_ids == set(MISSIONS), mission_ids ^ set(MISSIONS)
 for dependencies in re.findall(r'required_missions\s*=\s*\{([^}]+)\}', s):
@@ -93,8 +99,18 @@ expected = {
 masked = _mask_comments_and_strings(s)
 used = {int(a or b) for a, b in re.findall(r'(?m)^\s*(\d+)\s*=\s*\{|province_id\s*=\s*(\d+)', masked)} - {10, 40, 50}
 assert used == set(expected), used ^ set(expected)
+guarded_claims = 0
 for province, name in expected.items():
     assert (VANILLA / 'history/provinces' / f'{province} - {name}.txt').exists(), (province, name)
+    # EU4 1.37.5 rejects a bare limit inside a fixed province scope.
+    for _, block in keyed_blocks(masked, str(province)):
+        if 'add_permanent_claim' in block:
+            assert (
+                'if = { limit = { NOT = { is_core = ROOT } NOT = { is_permanent_claim = ROOT } } '
+                'add_permanent_claim = ROOT }'
+            ) in normalized(block), (province, block)
+            guarded_claims += 1
+assert guarded_claims == 25, guarded_claims
 for suffix, filename in (('_area', 'area.txt'), ('_region', 'region.txt')):
     path = ROOT / 'map' / filename
     geography = read(path if path.exists() else VANILLA / 'map' / filename)
