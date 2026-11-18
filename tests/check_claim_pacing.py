@@ -88,7 +88,7 @@ def check_kyiv_formations(failures: list[str]) -> None:
 
 
 def check_kyiv_missions(failures: list[str]) -> None:
-    text = read("missions/Kyiv_Missions.txt")
+    text = read("missions/Kyiv_Successors_Missions.txt")
     muscovy = named_block(text, "UKR_muscovy")
     muscovy_effect = named_block(muscovy, "effect")
     require(failures, "russia_region = {" not in muscovy_effect,
@@ -116,7 +116,7 @@ def check_kyiv_missions(failures: list[str]) -> None:
     require(failures, has_normal_claim_scope(princes_effect, "russia_region"),
             "UKR_princes: post-gate remainder must use temporary claims")
 
-    subjugate = named_block(text, "KIE_subjugate_moscow")
+    subjugate = named_block(read("missions/Kyiv_Missions.txt"), "KIE_subjugate_moscow")
     subjugate_trigger = named_block(subjugate, "trigger")
     require(failures, "region = russia_region" in subjugate_trigger
             and "value = 23" in subjugate_trigger,

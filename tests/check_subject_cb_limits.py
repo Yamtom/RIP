@@ -95,7 +95,7 @@ def check_kyiv(failures: list[str]) -> None:
     require(failures, "months = 240" in north and "months = 120" in north,
             "KIE_northern_expansion: expected 240-month PU / 120-month vassal fallback")
 
-    ruler = named_block(text, "KIE_true_ruler")
+    ruler = named_block(read("missions/Kyiv_Shared_Missions.txt"), "KIE_true_ruler")
     require(failures, ruler.count("add_casus_belli = {") == 2,
             "KIE_true_ruler: expected exactly two alternative grants")
     require(failures, "else_if = {" in ruler,

@@ -209,7 +209,7 @@ def check_province_names_and_compatibility() -> None:
         ("common/scripted_triggers/kru_ruthenian_reform_triggers.txt", "ruthenian_west_slavic"),
         ("common/great_projects/RIP_UZH_great_projects.txt", "ruthenian_west_ruthenian"),
         ("common/great_projects/RIP_ZAZ_great_projects.txt", "ruthenian_west_slavic"),
-        ("missions/Kyiv_Missions.txt", "ruthenian_west_ruthenian"),
+        ("missions/Kyiv_Successors_Missions.txt", "ruthenian_west_ruthenian"),
         ("missions/Ruthenian_Missions.txt", "ruthenian_west_slavic"),
         ("customizable_localization/RIP_UZH_identity.txt", "rusyn_west_ruthenian"),
         ("customizable_localization/RIP_UZH_identity.txt", "rusyn_west_slavic"),
