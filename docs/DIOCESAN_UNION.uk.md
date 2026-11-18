@@ -156,7 +156,7 @@
   на православних сусідів і васалів (`rip_uc_press_the_union_effect`) діє в обох.
 
 Тепер подія має справжній англійський текст із позначкою «Game model» у
-`localisation/khmelnytsky_events_l_english.yml`; заглушки з `zzz_missing`
+`localisation/RIP_HET_realm_l_english.yml`; заглушки з `zzz_missing`
 (вони завантажуються пізніше й перекривали б його) видалено, як і мертві ключі
 `*_desc` для обох модифікаторів. Прапор `union_of_brest_happened` подія ставить,
 як і раніше.

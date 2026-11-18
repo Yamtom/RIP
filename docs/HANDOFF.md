@@ -573,7 +573,7 @@ Markdown
 > `check_parliament_names`, `check_podillia_border_policy`), нових немає. Три з них
 > (`check_event_modifier_layer`: зайві нулі в `rip_regional_government_modifiers.txt`; `check_script_layer`:
 > чотири ERROR про дублі ключів `pdl_border_policy.1.*` між `RIP_l_english.yml` і
-> `zzz_rip_regional_governments_l_english.yml`; `check_podillia_border_policy`) стали червоними від
+> `RIP_shared_government_orders_l_english.yml`; `check_podillia_border_policy`) стали червоними від
 > `c0115a6f`, не від цієї гілки. Дві державні перевірки червоні через п'ять реформ
 > `chr_vetka_asylum_reform`, `hlc_stauropegion_brotherhood_reform`, `pdl_kamianets_concordat_reform`,
 > `plt_sophian_autonomy_reform` і `zaz_orthodox_knighthood_reform`: їх ще немає в карті реформ,

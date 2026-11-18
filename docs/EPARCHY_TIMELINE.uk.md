@@ -15,7 +15,7 @@
 |---|---|
 | `common/scripted_triggers/rip_eparchy_triggers.txt` | вікна дат і умови готовності, по чотири тригери на рядок |
 | `events/RIP_shared_greek_catholic_EparchyHistory.txt` | два приховані стартери й одна видима подія на рядок, простір імен `rip_eparchy` |
-| `localisation/rip_eparchy_l_english.yml` | англійські тексти; французька, німецька й іспанська успадковують їх від англійської |
+| `localisation/RIP_shared_church_eparchies_l_english.yml` | англійські тексти; французька, німецька й іспанська успадковують їх від англійської |
 
 Змінити дату — значить змінити один рядок таблиці й запустити
 `python tools/build_eparchy_timeline.py`. Команда з `--check` завершується з кодом 1,

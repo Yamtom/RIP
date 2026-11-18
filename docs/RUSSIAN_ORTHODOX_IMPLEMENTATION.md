@@ -28,7 +28,7 @@
 
 Три поправки до опису нижче.
 
-**`localisation/russian_orthodox_l_ukrainian.yml` не існує.** Структура файлів
+**`localisation/RIP_MOS_RUS_realm_l_ukrainian.yml` не існує.** Структура файлів
 на початку документа обіцяє український переклад на 250+ рядків; у
 репозиторії його немає. Англійський файл на місці.
 
@@ -92,7 +92,7 @@ RIP Mod/
 ├── decisions/
 │   └── RussianOrthodoxDecisions.txt                [7 рішень країни + 2 провінції]
 ├── localisation/
-│   └── russian_orthodox_l_english.yml              [250+ записів англійською]
+│   └── RIP_MOS_RUS_realm_l_english.yml              [250+ записів англійською]
 └── docs/
     ├── RUSSIAN_ORTHODOX_README.md                  [повний опис]
     ├── RUSSIAN_ORTHODOX_QUICKREF.md                [швидкий довідник]
@@ -384,7 +384,7 @@ russian_orthodox = {
 
 ### Структура файлів
 
-**Англійська (`russian_orthodox_l_english.yml`):**
+**Англійська (`RIP_MOS_RUS_realm_l_english.yml`):**
 - Понад 250 ключів локалізації
 - Назви й описи подій (15 подій × 3-4 ключі = 60+)
 - Назви й описи рішень (9 рішень × 2 ключі = 18+)
@@ -392,7 +392,7 @@ russian_orthodox = {
 - Назви й описи релігії, аспектів і благословень (20+ ключів)
 - Інші рядки інтерфейсу (50+ ключів)
 
-**Українська (`russian_orthodox_l_ukrainian.yml`):** файлу немає — див.
+**Українська (`RIP_MOS_RUS_realm_l_ukrainian.yml`):** файлу немає — див.
 поправку на початку документа. Гра бере англійські рядки.
 
 ### Домовленість про назви ключів

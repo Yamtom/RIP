@@ -317,9 +317,9 @@
   - 7 подій: вибір шляху, повторювані події, проголошення імперії
 
 ### Файли локалізації
-- **`localisation/VOL_austrian_polish_missions_l_english.yml`**
+- **`localisation/RIP_VOL_realm_l_english.yml`**
   - Назви місій, описи, підказки, назви й описи модифікаторів
-- **`localisation/VOL_path_events_l_english.yml`**
+- **`localisation/RIP_VOL_realm_l_english.yml`**
   - Текст і варіанти подій
 
 ### Файли модифікаторів приязні

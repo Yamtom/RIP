@@ -165,7 +165,7 @@
   `common/government_reforms/RIP_LIT_government_reforms.txt`. Ім'я реформи лишається
   ванільним.
 - **`grand_duchy_reform_desc` у локалізації** — опис мусив описувати нову
-  реформу, тож лежить у `localisation/zzz_lit_grand_duchy_override_l_english.yml`.
+  реформу, тож лежить у `localisation/RIP_LIT_realm_l_english.yml`.
   Префікс `zzz_` тут не прикраса: без нього файл сортувався б раніше за ванільний
   і ваніль виграла б.
 

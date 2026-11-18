@@ -8,7 +8,7 @@
 >
 > Перевірено 2026-08-17: результат міграції на місці
 > (`decisions/HetmanateDecisions.txt`, `events/RIP_HET_HetmanateLegacyEras.txt`,
-> `localisation/het_legacy_eras_l_english.yml`), а `history/wars/` справді вже
+> `localisation/RIP_HET_realm_l_english.yml`), а `history/wars/` справді вже
 > вживає `PDL` і жодного `POD`. Один рядок матриці застарів - див. поправку.
 
 ## Обсяг і правила
@@ -31,7 +31,7 @@
 | `ruthenianew/history/provinces.rar` | історія | несумісне (мапа з 1.28) | немає | відкладено | Архів не показує різниці й не годиться для прямого внесення. |
 | `ruthenianew/common/tradenodes/00_tradenodes.txt` | торгівля й карта | несумісне (мапа з 1.28) | немає | відкладено | Зміна торгового графа вимагає узгодженого оновлення карти й повного балансного проходу. |
 | `ruthenianew/map/*` | карта | несумісне (мапа з 1.28) | немає | відкладено | `default.map`, `definition.csv`, області, краї, континенти й растри вимагають повної перебудови карти. |
-| `ruthenianew/localisation/Ruthenia_mod_l_english.yml` | локалізація | уже внесено | `localisation/ruthenian_eastward_l_english.yml` та інші файли RIP | зроблено | Головні назви й рядки вже є в чинних шарах локалізації. |
+| `ruthenianew/localisation/Ruthenia_mod_l_english.yml` | локалізація | уже внесено | `localisation/RIP_shared_ruthenian_expeditions_l_english.yml` та інші файли RIP | зроблено | Головні назви й рядки вже є в чинних шарах локалізації. |
 | `ruthenianew/gfx/flags/*.tga` | ресурси | безпечний кандидат | `gfx/flags/*.tga` | відкладено | Необов'язковий візуальний запас; можна вносити потегово, якщо схвалять власні прапори. |
 
 ## Нормалізація старих тегів
@@ -44,7 +44,7 @@
 - Розширено наявну архітектуру гетьманських ланцюгів подій замість додавання нового дерева місій:
   - `decisions/HetmanateDecisions.txt`
   - `events/RIP_HET_HetmanateLegacyEras.txt`
-  - `localisation/het_legacy_eras_l_english.yml`
+  - `localisation/RIP_HET_realm_l_english.yml`
 
 ## Кандидати в беклог
 - Необов'язкове перенесення графіки прапорів із `ruthenianew/gfx/flags/*.tga` після узгодження арт-напрямку.

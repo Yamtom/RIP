@@ -161,7 +161,7 @@
 ## 8. Точки інтеграції
 
 ### Змінені активні файли
-- `localisation/ruthenian_eastward_l_english.yml` — усі теги, провінції, династії
+- `localisation/RIP_shared_ruthenian_expeditions_l_english.yml` — усі теги, провінції, династії
 - `common/event_modifiers/ruthenian_eastward_modifiers.txt` — історичні модифікатори Гетьманщини
 - `decisions/RuthenianEastwardExpansion.txt` — підтримка тега MOL
 - `localisation/replace/zzz_RIP_l_english.yml` — назви династій

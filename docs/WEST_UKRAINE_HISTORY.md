@@ -602,7 +602,7 @@
   - Додано 6 модифікаторів приязні
 
 ### Файли локалізації
-- **localisation/west_ukraine_history_l_english.yml** (новий)
+- **localisation/RIP_shared_west_ruthenian_affairs_l_english.yml** (новий)
   - 22 описи модифікаторів і нічого більше
   - назви, описи й варіанти самих подій лежать у `localisation/RIP_l_english.yml`
 

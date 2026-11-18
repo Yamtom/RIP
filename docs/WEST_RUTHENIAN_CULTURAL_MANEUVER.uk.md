@@ -10,7 +10,7 @@
 2. **Русини (`ruthenian` -> `Ruskyi` / `Ruszynjsky`, `primary = KIE`):** рівнинні та галицько-волинські русини Києва (`KIE`), Чернігова (`CHR`), Волині (`VOL`), Галича (`HLC`), Поділля (`PDL`), Брацлава, Переяслава (`PRL`), Запорожжя (`ZAZ`) та Куяби (`KUY`). Історичні підвалини: поворот на народну мову у Пересопницькому Євангелії (`1556–1561`), привілеї про «руське письмо» у Київському, Волинському та Брацлавському воєводствах (`1569`), Острозька академія (`1576`) й Острозька Біблія (`1581`), Львівське Успенське ставропігійне братство (`1586`), Київське братство і тримовний Києво-Могилянський колегіум (`1615–1632`), а в альтернативній гілці — навчання шляхти й міщан у Кракові, Празі та Замості разом із двомовними гродськими книгами.
 3. **Карпатські руснаки (`rusyn` -> `Rusnacky` / `Rusznjoczky`):** мешканці Унґа (`UZH`), Берега, Уґочі, Марамороша, Шариша, Земпліна та Спиша (Пряшів, Бардіїв, Ужгород, Мукачево, Хуст, Солотвино). Історичні підвалини: волосько-руське право (`ius Valachicum`) із шолтисами та князями, соляні жупи Солотвина, Мукачівська єпархія, карпатські учительні євангелія народним говором, трнавські й краківські друки, а також пряма історична паралель із процесами словакізації у Шариші та на Спиші. Локально-унійна культура `rusyn_new_new` навмисно виключена з маневру.
 
-Правила локалізації нових сутностей (`localisation/rip_west_ruthenian_maneuver_l_*.yml`):
+Правила локалізації нових сутностей (`localisation/RIP_shared_west_ruthenian_charters_l_*.yml`):
 
 - **Назва культурної групи `west_ruthenian`** дублює ванільну назву культури `ruthenian` у чотирьох мовах: `Ruthenian` (`english`), `ruthène` (`french`), `Ruthenisch` (`german`), `rutena` (`spanish`).
 - **Назви культур у гілці `*_west_ruthenian`** подаються виключно у кальковано-транскрибованій формі з рідних мов **без жодних діакритичних знаків** (`ASCII`):
@@ -72,5 +72,5 @@
 
 - Культури, назви та ідентичність: `common/cultures/00_cultures.txt`, `common/province_names/{byelorussian_west_ruthenian,byelorussian_west_slavic,ruthenian_west_ruthenian,ruthenian_west_slavic,rusyn_west_ruthenian,rusyn_west_slavic}.txt`, `common/colonial_regions/00_colonial_regions.txt`, `customizable_localization/RIP_shared_parliament_names.txt`, `customizable_localization/RIP_UZH_identity.txt`.
 - Скрипти, події й хуки: `common/scripted_triggers/rip_west_ruthenian_triggers.txt`, `common/scripted_effects/rip_west_ruthenian_effects.txt`, `common/on_actions/rip_west_ruthenian_on_actions.txt`, `common/event_modifiers/rip_west_ruthenian_modifiers.txt`, `common/opinion_modifiers/rip_shared_opinion_modifiers.txt`, `decisions/WestRuthenianManeuverDecisions.txt`, `events/RIP_shared_west_ruthenian_CulturalManeuver.txt`.
-- Локалізація `EFIGS`: `localisation/rip_west_ruthenian_maneuver_l_{english,french,german,spanish}.yml`.
+- Локалізація `EFIGS`: `localisation/RIP_shared_west_ruthenian_charters_l_{english,french,german,spanish}.yml`.
 - Автотест інваріантів: `tests/check_west_ruthenian_cultural_maneuver.py`.

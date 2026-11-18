@@ -220,7 +220,7 @@ PDL, події й рішення, що їх крутять, а також ди�
 - GDD §1.3 обіцяє позначати Kyivan Shogunate і Cesarstvo в тултипі як «Speculative
   Alternate History» (GDD, рядок 74). У жодному англійському локалізаційному файлі цього
   напису немає: у церковному шарі є «Alternative history», у ZAZ/HET-місіях — «Alternate
-  history path» (`ZAZ_HET_missions_l_english.yml:137`), а в описах Сеньйорату й Цесарства
+  history path» (`RIP_ZAZ_HET_missions_l_english.yml:137`), а в описах Сеньйорату й Цесарства
   жодної позначки немає.
 - `docs/GOVERNMENT_AUTHENTICITY_105.uk.md:98–100` каже, що з Київського сеньйорату
   «вилучені торгові міста та торгові пости». У коді (`RIP_KIE_KRU_government_reforms.txt:88–109`)
@@ -284,7 +284,7 @@ has_estate=estate_magnates`. Це єдине вживання в моді. Ша�
 для тегу HET, якого тут не з'явиться. Справжній шлях ZAZ/PRL → HET — рішення
 `hetmanate_nation` (`decisions/HetmanateNation.txt:3`, `change_tag = HET` на рядку 113),
 тож ця «major»-кнопка його дублює й нічого не робить. Локалізація —
-`localisation/zzz_force_localisation_l_english.yml:2–3` і копії в перекладних файлах.
+`localisation/RIP_ZAZ_realm_l_english.yml:2–3` і копії в перекладних файлах.
 Виправлення: прибрати рішення разом із ключами або зробити його входом у `hetmanate_nation`.
 
 ### 2.3 Ризики, які без гри не закрити

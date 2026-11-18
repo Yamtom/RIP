@@ -38,8 +38,8 @@ RIP Mod/
 │   └── wargoal_types/
 │       └── rip_shared_crusade_wargoals.txt    [2 воєнні цілі]
 └── localisation/
-    ├── orthodox_crusade_l_english.yml       [повна англійська]
-    └── orthodox_crusade_l_ukrainian.yml     [ЗАПЛАНОВАНО — не існує]
+    ├── RIP_shared_orthodox_crusades_l_english.yml       [повна англійська]
+    └── RIP_shared_orthodox_crusades_l_ukrainian.yml     [ЗАПЛАНОВАНО — не існує]
 ```
 
 ---

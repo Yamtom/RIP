@@ -1,7 +1,7 @@
 # Габсбурзьке врегулювання греко-католицької церкви: 1771, 1774 і Замостя
 
 Додано 29 вересня 2026 року. Події — у `events/RIP_shared_greek_catholic_HabsburgGreekCatholic.txt`,
-тексти — у `localisation/rip_habsburg_greek_catholic_l_english.yml`, перевірка —
+тексти — у `localisation/RIP_shared_greek_catholic_union_l_english.yml`, перевірка —
 `tests/check_habsburg_greek_catholic.py`.
 
 ## Що саме сталося (і чого не було)

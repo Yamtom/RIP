@@ -300,8 +300,8 @@ events/
 decisions/
   RussianOrthodoxDecisions.txt
 localisation/
-  russian_orthodox_l_english.yml
-  russian_orthodox_l_ukrainian.yml   <-- PLANNED, does not exist
+  RIP_MOS_RUS_realm_l_english.yml
+  RIP_MOS_RUS_realm_l_ukrainian.yml   <-- PLANNED, does not exist
 ```
 
 ### Сумісність

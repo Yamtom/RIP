@@ -10,7 +10,7 @@
 Зокрема **подія 1.2 про грецьких і вірменських купців** працює: тригер
 вимагає Київ, прапорець `dnieper_trade_network_established` і мир, а нагорода
 - `kyiv_foreign_trading_quarters`. Текст живе в
-`localisation/kyiv_dnieper_l_english.yml`, а не в самій події, тому пошук по
+`localisation/RIP_KIE_realm_l_english.yml`, а не в самій події, тому пошук по
 `.txt` її не показує - це не прогалина.
 
 Вірменська й єврейська міські мережі в моді представлені трьома окремими
@@ -350,8 +350,8 @@
 - **Модифікатори / Modifiers**: `common/event_modifiers/kyiv_dnieper_modifiers.txt`
 - **Підключення подій**: `common/on_actions/RIP_KIE_on_actions.txt`
 - **Локалізація / Localization**: 
-  - `localisation/kyiv_dnieper_l_english.yml`
-  - ~~`localisation/kyiv_dnieper_l_ukrainian.yml`~~ - не існує, лише планувався
+  - `localisation/RIP_KIE_realm_l_english.yml`
+  - ~~`localisation/RIP_KIE_realm_l_ukrainian.yml`~~ - не існує, лише планувався
   
 ### Баланс / Balance
 Усі події збалансовані за принципом:

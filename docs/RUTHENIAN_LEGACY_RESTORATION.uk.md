@@ -34,7 +34,7 @@ KIE, CHR і ZAZ. Після підтвердження користувача с
 Ще 13 відсутніх власних іконок замінено на наявні тематичні іконки EU4.
 
 `tools/build_ruthenian_legacy_localisation.py` створює
-`localisation/Legacy_of_Rus_l_english.yml` та французький, німецький,
+`localisation/RIP_shared_ruthenian_legacy_missions_l_english.yml` та французький, німецький,
 іспанський файли з англійськими резервними текстами. Це нові англійські
 тексти, а не перенесений оригінал; переклади ще не написані.
 
