@@ -46,7 +46,7 @@ GENERATOR = 'tools/build_eparchy_timeline.py'
 KINDS = ('union_convert', 'union_modifier_only', 'development')
 ROLES = ('protection', 'diocese', 'metropolitan', 'resistance')
 IDENT = re.compile(r'^[a-z][a-z0-9_]*$')
-LATE_TAIL = 'Here that date has passed without a settlement, and the question is still open.'
+LATE_TAIL = 'Although that hour has passed without a settlement, the question of the eparchy remains unsettled before the crown.'
 
 # ---------------------------------------------------------------------------
 # Data
@@ -522,7 +522,7 @@ def refusal_modifier(data: dict) -> str:
 
 def refusal_sentence(data: dict) -> str:
     fact = data['modifier_facts'][refusal_modifier(data)]
-    return (f"Refusal is alternative history: the province keeps its faith and gains "
+    return (f"If the crown declines, the province keeps its faith and gains "
             f"{join_and(shown_stats(fact))} for {years_words(data['refusal_days'])}.")
 
 

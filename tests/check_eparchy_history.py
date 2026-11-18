@@ -506,17 +506,17 @@ def loc_problems(data: dict, loc_text: str) -> list[str]:
             text = entries.get(keys[suffix], '')
             if len(text) > DESC_LIMIT:
                 problems.append(f"{keys[suffix]}: {len(text)} characters, over the {DESC_LIMIT} the event window is built for")
-            if 'Here' not in text:
-                problems.append(f"{keys[suffix]}: no 'Here ...' sentence separating history from the game model")
             if text.count('\\n\\n') != 1:
-                problems.append(f'{keys[suffix]}: expected one paragraph break between the fact and the model')
+                problems.append(f'{keys[suffix]}: expected one paragraph break between the fact and the settlement clause')
             if not text.split('\\n\\n')[0].startswith(row['text']['hist'][:40]):
                 problems.append(f'{keys[suffix]}: the historical fact must come first')
         if gen.LATE_TAIL not in entries.get(keys['l'], '') or gen.LATE_TAIL in entries.get(keys['d'], ''):
             problems.append(f"{row['id']}: only the late text may say the date has passed")
         label = entries.get(keys['b'], '')
-        if not label.endswith(data['refusal_label_suffix']):
-            problems.append(f"{keys['b']}: the refusal option must carry the alternative-history label")
+        if data['refusal_label_suffix']:
+            problems.append('refusal_label_suffix in timeline data must stay empty')
+        if 'alternative' in label.lower():
+            problems.append(f"{keys['b']}: the refusal option must not carry an out-of-universe label")
         for suffix in ('a', 'b'):
             text = entries.get(keys[suffix], '').removesuffix(data['refusal_label_suffix'])
             if words(text) > LABEL_LIMIT:
@@ -832,9 +832,9 @@ def planted(data: dict, files: dict[str, str], definitions, doc: str, loc_keys: 
     case('an unlisted year in a historical text',
          loc_problems(mutate_data(lambda d: d['rows'][0]['text'].__setitem__('hist', d['rows'][0]['text']['hist'] + ' It happened again in 1733.')), loc))
     case('a banned spelling', loc_problems(data, replace_once(loc, 'Peremyshl see', 'Przemysl see')))
-    case('the refusal loses its alternative-history label',
-         loc_problems(data, replace_once(loc, f'{gen.loc_keys(data, first)["b"]}:0 "Turn the petition away{data["refusal_label_suffix"]}"',
-                                         f'{gen.loc_keys(data, first)["b"]}:0 "Turn the petition away"')))
+    case('a refusal option leaks an out-of-universe label',
+         loc_problems(data, replace_once(loc, f'{gen.loc_keys(data, first)["b"]}:0 "Turn the petition away"',
+                                         f'{gen.loc_keys(data, first)["b"]}:0 "Turn the petition away (Alternative history)"')))
     case('the late sentence leaks into the dated text',
          loc_problems(data, replace_once(loc, gen.loc_keys(data, first)['d'] + ':0 "', gen.loc_keys(data, first)['d'] + ':0 "' + gen.LATE_TAIL + ' ')))
     case('a source outside the registry',
