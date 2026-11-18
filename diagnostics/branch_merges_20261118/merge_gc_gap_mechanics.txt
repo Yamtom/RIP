@@ -1,0 +1,26 @@
+Доповідь про вливання гілки: claude/gc-gap-mechanics
+Дата: 2026-11-18
+Цільова гілка: main (стан до серії злиттів: 83c406af)
+Влитий коміт гілки: 60c5033a (база відгалуження: 977dc736)
+Стратегія злиття: git merge -s ours --no-commit claude/gc-gap-mechanics
+
+1. Коміти у гілці claude/gc-gap-mechanics:
+- 60c5033a: feat(gc_church): Впровадити механіки єпархіальних кафедр, синоду та взаємодії з Римом
+
+2. Результат перевірки вмісту:
+Нових корисних змін, яких ще немає у main або які не суперечать чинній архітектурі, у гілці не виявлено:
+
+а) Виправлення з гілки, які вже присутні в main:
+- local_missionary_strength = -0.01 у common/religions/zz_greek_catholic.txt (плюс на main уже додано crusade_name = CRUSADE та yearly_patriarch_authority = 0.075);
+- вилучення застарілої платної синодальної події rip_faith.2 (нині у main — events/RIP_shared_church_FaithCanons.txt);
+- вилучення щомісячного зняття неіснуючих модифікаторів петицій із rip_church_gc_clear_privilege_effect у common/scripted_effects/rip_church_union_effects.txt (у main це перенесено в одноразову міграцію rip_church_retire_removed_union_mechanics_effect).
+
+б) Відмінності, де стан main є кращим:
+- для події uniate_crown.6 (нині в events/RIP_shared_greek_catholic_UniateCrownUnion.txt) у main збережено три предметні описи (uniate_crown.6.d.legate, uniate_crown.6.d.marriage, uniate_crown.6.d.title) із повною локалізацією чотирма мовами, тому спрощення до єдиного опису з гілки не потрібне.
+
+в) Застарілий прототип, який відхилено:
+- прототип мережі абстрактних єпархіальних кафедр і п'яти постійних програм синоду (decisions/RIP_GreekCatholicNetwork.txt, events/RIP_GreekCatholicNetwork.txt, common/scripted_effects/rip_church_gc_network_effects.txt, common/scripted_triggers/rip_church_gc_network_triggers.txt, common/event_modifiers/RIP_greek_catholic_network_modifiers.txt, diagnostics/gc_resilience_20260928/*) було створено поверх раннього коміту 977dc736 до подальшого розвитку системи ГКЦ у main.
+- чинна архітектура main реалізує інший, документально закріплений і перевірений підхід: історично датовані єпархіальні унії (docs/EPARCHY_TIMELINE.uk.md), механіку місцевих угод під католицькою короною (docs/DIOCESAN_UNION.uk.md), «Fund a Parish Mission», шкалу Hierarchical Capacity, молитвенні ікони, синодальні установи та прозору дипломатію Курії (docs/GREEK_CATHOLIC_WINDOW_GUIDE.uk.md, розділ «Чого більше немає»). Прототип мережі кафедр прямо суперечить цьому дизайну.
+
+3. Рішення щодо вливання:
+Гілку claude/gc-gap-mechanics влито в main із безумовним пріоритетом main (-s ours), щоб зафіксувати злиття без впровадження несумісного застарілого прототипу, і додано цей текстовий файл-доповідь.
