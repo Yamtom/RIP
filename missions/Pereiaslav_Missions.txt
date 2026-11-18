@@ -1,3 +1,4 @@
+# PRL | Pereiaslav, retained by eligible HET successors.
 
 prl_missions_1 = {
 	slot = 1
@@ -8,10 +9,10 @@ prl_missions_1 = {
 		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
-	
+
 	prl_build_army = {
 		icon = mission_build_up_to_force_limit
-		required_missions = {}
+		required_missions = { }
 		position = 1
 		trigger = {
 			army_size_percentage = 1
@@ -31,7 +32,7 @@ prl_missions_1 = {
 			}
 		}
 	}
-	
+
 	prl_consolidate_left_bank = {
 		icon = mission_unite_home_region
 		required_missions = { prl_build_army }
@@ -69,7 +70,7 @@ prl_missions_1 = {
 			}
 		}
 	}
-	
+
 	prl_border_defenses = {
 		icon = mission_assemble_an_army
 		required_missions = { prl_consolidate_left_bank }
@@ -102,7 +103,7 @@ prl_missions_1 = {
 			}
 		}
 	}
-	
+
 	prl_river_flotilla = {
 		icon = rip_gfx_mission_dnieper_chaika_icon
 		required_missions = { prl_border_defenses }
@@ -130,10 +131,10 @@ prl_missions_2 = {
 		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
-	
+
 	prl_chernozem_development = {
 		icon = rip_gfx_mission_ruthenian_granaries_icon
-		required_missions = {}
+		required_missions = { }
 		position = 1
 		trigger = {
 			2407 = {
@@ -164,7 +165,7 @@ prl_missions_2 = {
 			}
 		}
 	}
-	
+
 	prl_grain_trade = {
 		icon = mission_dominate_home_trade_node
 		required_missions = { prl_chernozem_development }
@@ -193,7 +194,7 @@ prl_missions_2 = {
 			}
 		}
 	}
-	
+
 	prl_trade_dominance = {
 		icon = rip_gfx_mission_dnieper_chaika_icon
 		required_missions = { prl_grain_trade }
@@ -215,7 +216,7 @@ prl_missions_2 = {
 			}
 		}
 	}
-	
+
 	prl_manufactories = {
 		icon = mission_have_manufactories
 		required_missions = { prl_trade_dominance }
@@ -246,10 +247,10 @@ prl_missions_3 = {
 		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
-	
+
 	prl_diplomatic_prestige = {
 		icon = mission_alliances
-		required_missions = {}
+		required_missions = { }
 		position = 1
 		trigger = {
 			diplomatic_reputation = 2
@@ -263,7 +264,7 @@ prl_missions_3 = {
 			}
 		}
 	}
-	
+
 	prl_great_power_alliance = {
 		icon = mission_monarch_in_throne_room
 		required_missions = { prl_diplomatic_prestige }
@@ -285,7 +286,7 @@ prl_missions_3 = {
 			}
 		}
 	}
-	
+
 	prl_vassal_management = {
 		icon = mission_unite_home_region
 		required_missions = { prl_great_power_alliance }
@@ -305,7 +306,7 @@ prl_missions_3 = {
 			add_legitimacy_equivalent = { amount = 20 republican_tradition = 10 }
 		}
 	}
-	
+
 	prl_regional_hegemony = {
 		icon = mission_empire
 		required_missions = { prl_vassal_management }
@@ -337,10 +338,10 @@ prl_missions_4 = {
 		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
-	
+
 	prl_episcopal_authority = {
 		icon = mission_hands_praying
-		required_missions = {}
+		required_missions = { }
 		position = 1
 		trigger = {
 			religious_unity = 0.90
@@ -375,7 +376,7 @@ prl_missions_4 = {
 			else = { rip_faith_mission_resource_effect = { PA = 0.1 PI = 25 ADM = 25 } }
 		}
 	}
-	
+
 	prl_monasteries = {
 		icon = mission_european_church
 		required_missions = { prl_episcopal_authority }
@@ -420,7 +421,7 @@ prl_missions_4 = {
 			else = { rip_faith_mission_resource_effect = { PA = 0.1 PI = 25 ADM = 25 } }
 		}
 	}
-	
+
 	prl_brotherhood_schools = {
 		icon = mission_early_game_buildings
 		required_missions = { prl_monasteries }
@@ -438,7 +439,7 @@ prl_missions_4 = {
 			add_adm_power = 100
 		}
 	}
-	
+
 	prl_orthodox_leadership = {
 		icon = mission_hands_praying
 		required_missions = { prl_brotherhood_schools }
@@ -469,10 +470,10 @@ prl_missions_5 = {
 		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
-	
+
 	prl_regimental_organization = {
 		icon = mission_conquer_50_development
-		required_missions = {}
+		required_missions = { }
 		position = 1
 		trigger = {
 			army_tradition = 30
@@ -488,7 +489,7 @@ prl_missions_5 = {
 			add_mil_power = 50
 		}
 	}
-	
+
 	prl_professional_army = {
 		icon = mission_assemble_an_army
 		required_missions = { prl_regimental_organization }
@@ -505,7 +506,7 @@ prl_missions_5 = {
 			add_army_professionalism = 0.05
 		}
 	}
-	
+
 	prl_military_campaigns = {
 		icon = mission_unite_home_region
 		required_missions = { prl_professional_army }
@@ -525,7 +526,7 @@ prl_missions_5 = {
 			add_prestige = 15
 		}
 	}
-	
+
 	prl_military_supremacy = {
 		icon = mission_conquer_50_development
 		required_missions = { prl_military_campaigns }

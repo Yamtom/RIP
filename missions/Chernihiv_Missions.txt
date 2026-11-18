@@ -1,3 +1,5 @@
+# CHR | Chernihiv and its alternative frontier policies.
+
 chr_missions_1 = {
 	slot = 1
 	generic = no
@@ -11,10 +13,10 @@ chr_missions_1 = {
 		}
 	}
 	has_country_shield = yes
+
 	chr_army = {
 		icon = mission_build_up_to_force_limit
-		required_missions = {
-		}
+		required_missions = { }
 		position = 1
 		trigger = {
 			army_size_percentage = 1
@@ -37,11 +39,10 @@ chr_missions_1 = {
 			}
 		}
 	}
+
 	chr_conquer_oka = {
 		icon = mission_conquer_moscow
-		required_missions = {
-			chr_army
-		}
+		required_missions = { chr_army }
 		position = 2
 		provinces_to_highlight = {
 			area = oka_area
@@ -73,11 +74,10 @@ chr_missions_1 = {
 			}
 		}
 	}
+
 	chr_oka_fortified_roads = {
 		icon = mission_build_up_to_force_limit
-		required_missions = {
-			chr_conquer_oka
-		}
+		required_missions = { chr_conquer_oka }
 		position = 3
 		provinces_to_highlight = {
 			area = oka_area
@@ -123,11 +123,10 @@ chr_missions_1 = {
 			}
 		}
 	}
+
 	chr_conquer_rya = {
 		icon = mission_conquer_novgorod
-		required_missions = {
-			chr_oka_fortified_roads
-		}
+		required_missions = { chr_oka_fortified_roads }
 		position = 4
 		provinces_to_highlight = {
 			area = ryazan_area
@@ -148,11 +147,10 @@ chr_missions_1 = {
 			}
 		}
 	}
+
 	chr_ryazan_muster_rolls = {
 		icon = mission_assemble_an_army
-		required_missions = {
-			chr_conquer_rya
-		}
+		required_missions = { chr_conquer_rya }
 		position = 5
 		trigger = {
 			manpower_percentage = 0.8
@@ -165,12 +163,10 @@ chr_missions_1 = {
 			add_army_tradition = 5
 		}
 	}
+
 	chr_Smolensk = {
 		icon = mission_cannons_firing
-		required_missions = {
-			chr_ryazan_muster_rolls
-			chr_conquer_states
-		}
+		required_missions = { chr_ryazan_muster_rolls chr_conquer_states }
 		position = 6
 		provinces_to_highlight = {
 			area = smolensk_area
@@ -211,11 +207,10 @@ chr_missions_1 = {
 			}
 		}
 	}
+
 	chr_Belarus_1 = {
 		icon = mission_unite_home_region
-		required_missions = {
-			chr_Smolensk
-		}
+		required_missions = { chr_Smolensk }
 		position = 7
 		provinces_to_highlight = {
 			area = white_ruthenia_area
@@ -243,11 +238,10 @@ chr_missions_1 = {
 			}
 		}
 	}
+
 	chr_Belarus_2 = {
 		icon = mission_assemble_an_army
-		required_missions = {
-			chr_Belarus_1
-		}
+		required_missions = { chr_Belarus_1 }
 		position = 8
 		provinces_to_highlight = {
 			area = minsk_area
@@ -275,11 +269,10 @@ chr_missions_1 = {
 			}
 		}
 	}
+
 	chr_Minsk = {
 		icon = mission_cannons_firing
-		required_missions = {
-			chr_Belarus_2
-		}
+		required_missions = { chr_Belarus_2 }
 		position = 18
 		provinces_to_highlight = {
 			area = pripyat_area
@@ -299,7 +292,6 @@ chr_missions_1 = {
 	}
 }
 
-
 chr_missions_2 = {
 	slot = 2
 	generic = no
@@ -313,11 +305,10 @@ chr_missions_2 = {
 		}
 	}
 	has_country_shield = yes
+
 	chr_expand_country_mission = {
 		icon = mission_conquer_50_development
-		required_missions = {
-			
-		}
+		required_missions = { }
 		position = 1
 		trigger = {
 			grown_by_development = 50
@@ -333,17 +324,16 @@ chr_missions_2 = {
 					}
 					add_province_modifier = {
 						name = growth_of_capital
-						duration = 9125						#25 years
+						duration = 9125 #25 years
 					}
 				}
 			}
 		}
 	}
+
 	chr_Manpower = {
 		icon = mission_assemble_an_army
-		required_missions = {
-			chr_expand_country_mission
-		}
+		required_missions = { chr_expand_country_mission }
 		position = 2
 		trigger = {
 			manpower_percentage = 1
@@ -380,11 +370,10 @@ chr_missions_2 = {
 			}
 		}
 	}
+
 	chr_conquer_states = {
 		icon = mission_cannons_firing
-		required_missions = {
-			chr_Manpower
-		}
+		required_missions = { chr_Manpower }
 		provinces_to_highlight = {
 			OR = {
 				area = sloboda_ukraine_area
@@ -432,14 +421,14 @@ chr_missions_2 = {
 			}
 			add_country_modifier = {
 				name = expansionist_country
-				duration = 9125				#25 years
+				duration = 9125 #25 years
 			}
 		}
 	}
+
 	chr_building_alliances = {
 		icon = mission_alliances
-		required_missions = {
-		}
+		required_missions = { }
 		#none
 		position = 6
 		trigger = {
@@ -460,18 +449,17 @@ chr_missions_2 = {
 		effect = {
 			add_country_modifier = {
 				name = influential_diplomacy
-				duration = 9125				#25 years
+				duration = 9125 #25 years
 			}
 		}
 	}
+
 	chr_border_compacts = {
 		icon = mission_alliances
-		required_missions = {
-			chr_building_alliances
-		}
+		required_missions = { chr_building_alliances }
 		provinces_to_highlight = {
-			province_id = 1945	# Novhorod-Siverskyi
-			province_id = 4244	# Starodub
+			province_id = 1945 # Novhorod-Siverskyi
+			province_id = 4244 # Starodub
 		}
 		position = 7
 		trigger = {
@@ -511,67 +499,66 @@ chr_missions_2 = {
 }
 
 chr_missions_2_branch_placeholder = {
-    slot = 2
-    generic = no
-    ai = yes
+	slot = 2
+	generic = no
+	ai = yes
 	potential = {
 		tag = CHR
 		NOT = { has_country_flag = chr_border_compacts_diplomatic_path }
 		NOT = { has_country_flag = chr_border_compacts_militarized_path }
 	}
-    has_country_shield = yes
-    chr_identity_branching_1 = {
-        icon = rip_gfx_mission_chr_identity_branch_locked_1_icon
-        position = 8
-        required_missions = { chr_border_compacts }
-        trigger = {
-            custom_trigger_tooltip = { tooltip = UZH_this_is_a_branching_mission always = no }
-        }
-        effect = {
-            custom_tooltip = UZH_this_is_a_branching_mission
-        }
-    }
+	has_country_shield = yes
 
-    chr_identity_branching_2 = {
-        icon = rip_gfx_mission_chr_identity_branch_locked_2_icon
-        position = 9
-        required_missions = { chr_identity_branching_1 }
-        trigger = {
-            custom_trigger_tooltip = { tooltip = UZH_this_is_a_branching_mission always = no }
-        }
-        effect = {
-            custom_tooltip = UZH_this_is_a_branching_mission
-        }
-    }
-    
-    chr_identity_branching_3 = {
-        icon = rip_gfx_mission_chr_identity_branch_locked_3_icon
-        position = 10
+	chr_identity_branching_1 = {
+		icon = rip_gfx_mission_chr_identity_branch_locked_1_icon
+		position = 8
+		required_missions = { chr_border_compacts }
+		trigger = {
+			custom_trigger_tooltip = { tooltip = UZH_this_is_a_branching_mission always = no }
+		}
+		effect = {
+			custom_tooltip = UZH_this_is_a_branching_mission
+		}
+	}
+
+	chr_identity_branching_2 = {
+		icon = rip_gfx_mission_chr_identity_branch_locked_2_icon
+		position = 9
+		required_missions = { chr_identity_branching_1 }
+		trigger = {
+			custom_trigger_tooltip = { tooltip = UZH_this_is_a_branching_mission always = no }
+		}
+		effect = {
+			custom_tooltip = UZH_this_is_a_branching_mission
+		}
+	}
+
+	chr_identity_branching_3 = {
+		icon = rip_gfx_mission_chr_identity_branch_locked_3_icon
+		position = 10
 		required_missions = { chr_identity_branching_2 }
-        trigger = {
-            custom_trigger_tooltip = { tooltip = UZH_this_is_a_branching_mission always = no }
-        }
-        effect = {
-            custom_tooltip = UZH_this_is_a_branching_mission
-        }
-    }
+		trigger = {
+			custom_trigger_tooltip = { tooltip = UZH_this_is_a_branching_mission always = no }
+		}
+		effect = {
+			custom_tooltip = UZH_this_is_a_branching_mission
+		}
+	}
 }
 
-
 chr_missions_2_diplomatic = {
-    slot = 2
-    generic = no
-    ai = yes
+	slot = 2
+	generic = no
+	ai = yes
 	potential = {
 		tag = CHR
 		has_country_flag = chr_border_compacts_diplomatic_path
 	}
-    has_country_shield = yes
+	has_country_shield = yes
+
 	chr_diplomatic_network = {
 		icon = mission_alliances
-		required_missions = {
-			chr_border_compacts
-		}
+		required_missions = { chr_border_compacts }
 		position = 8
 		trigger = {
 			has_country_flag = chr_border_compacts_diplomatic_path
@@ -608,62 +595,60 @@ chr_missions_2_diplomatic = {
 			}
 		}
 	}
+
 	chr_commonwealth_protectorate_mission = {
-        icon = mission_alliances
-        required_missions = {
-			chr_diplomatic_network
-        }
-        position = 9
-        trigger = {
+		icon = mission_alliances
+		required_missions = { chr_diplomatic_network }
+		position = 9
+		trigger = {
 			has_country_flag = chr_border_compacts_diplomatic_path
-            has_country_flag = chr_ruina_path_poland
-            has_country_modifier = chr_commonwealth_guardianship
-            is_at_war = no
-            custom_trigger_tooltip = {
-                tooltip = chr_commonwealth_protectorate_tt
-                OR = {
-                    AND = {
-                        exists = PLC
-                        alliance_with = PLC
-                        PLC = {
-                            has_opinion = { who = ROOT value = 100 }
-                            trust = { who = ROOT value = 50 }
-                        }
-                    }
-                    AND = {
-                        exists = POL
-                        alliance_with = POL
-                        POL = {
-                            has_opinion = { who = ROOT value = 100 }
-                            trust = { who = ROOT value = 50 }
-                        }
-                    }
-                    AND = {
-                        exists = LIT
-                        alliance_with = LIT
-                        LIT = {
-                            has_opinion = { who = ROOT value = 100 }
-                            trust = { who = ROOT value = 50 }
-                        }
-                    }
-                }
-            }
-        }
-        effect = {
-            add_country_modifier = {
-                name = chr_commonwealth_guardianship
-                duration = 5475
-                desc = chr_commonwealth_guardianship_desc
-            }
-            add_prestige = 10
-            set_country_flag = chr_polish_path_stage1
-        }
-    }
+			has_country_flag = chr_ruina_path_poland
+			has_country_modifier = chr_commonwealth_guardianship
+			is_at_war = no
+			custom_trigger_tooltip = {
+				tooltip = chr_commonwealth_protectorate_tt
+				OR = {
+					AND = {
+						exists = PLC
+						alliance_with = PLC
+						PLC = {
+							has_opinion = { who = ROOT value = 100 }
+							trust = { who = ROOT value = 50 }
+						}
+					}
+					AND = {
+						exists = POL
+						alliance_with = POL
+						POL = {
+							has_opinion = { who = ROOT value = 100 }
+							trust = { who = ROOT value = 50 }
+						}
+					}
+					AND = {
+						exists = LIT
+						alliance_with = LIT
+						LIT = {
+							has_opinion = { who = ROOT value = 100 }
+							trust = { who = ROOT value = 50 }
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_commonwealth_guardianship
+				duration = 5475
+				desc = chr_commonwealth_guardianship_desc
+			}
+			add_prestige = 10
+			set_country_flag = chr_polish_path_stage1
+		}
+	}
+
 	chr_sejmik_commissions_mission = {
 		icon = mission_high_income
-		required_missions = {
-			chr_commonwealth_protectorate_mission
-		}
+		required_missions = { chr_commonwealth_protectorate_mission }
 		position = 10
 		trigger = {
 			has_country_flag = chr_border_compacts_diplomatic_path
@@ -691,45 +676,42 @@ chr_missions_2_diplomatic = {
 			}
 		}
 	}
+
 	chr_commonwealth_joint_diets_mission = {
-        icon = mission_high_income
-        required_missions = {
-			chr_sejmik_commissions_mission
-        }
-        position = 11
-        trigger = {
+		icon = mission_high_income
+		required_missions = { chr_sejmik_commissions_mission }
+		position = 11
+		trigger = {
 			has_country_flag = chr_border_compacts_diplomatic_path
-            has_country_flag = chr_ruina_path_poland
-            has_country_flag = chr_polish_path_stage1
-            has_parliament = yes
-            stability = 2
-        }
-        effect = {
-            add_country_modifier = {
-                name = chr_commonwealth_joint_diets
-                duration = -1
-                desc = chr_commonwealth_joint_diets_desc
-            }
-            add_dip_power = 75
-        }
-    }
+			has_country_flag = chr_ruina_path_poland
+			has_country_flag = chr_polish_path_stage1
+			has_parliament = yes
+			stability = 2
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_commonwealth_joint_diets
+				duration = -1
+				desc = chr_commonwealth_joint_diets_desc
+			}
+			add_dip_power = 75
+		}
+	}
 }
 
 chr_missions_2_frontier = {
-    slot = 2
-    generic = no
-    ai = yes
+	slot = 2
+	generic = no
+	ai = yes
 	potential = {
 		tag = CHR
 		has_country_flag = chr_border_compacts_militarized_path
 	}
-    has_country_shield = yes
+	has_country_shield = yes
 
 	chr_frontier_garrisons = {
 		icon = mission_build_up_to_force_limit
-		required_missions = {
-			chr_border_compacts
-		}
+		required_missions = { chr_border_compacts }
 		position = 8
 		provinces_to_highlight = {
 			OR = {
@@ -828,54 +810,52 @@ chr_missions_2_frontier = {
 			}
 		}
 	}
+
 	chr_muscovy_auxiliaries_mission = {
-        icon = mission_build_up_to_force_limit
-        required_missions = {
-            chr_frontier_garrisons
-        }
-        position = 9
-        trigger = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { chr_frontier_garrisons }
+		position = 9
+		trigger = {
 			has_country_flag = chr_border_compacts_militarized_path
-            has_country_flag = chr_ruina_path_muscovy
-            has_country_modifier = chr_muscovite_guardianship
-            manpower_percentage = 0.7
-            custom_trigger_tooltip = {
-                tooltip = chr_muscovy_alliance_tt
-                OR = {
-                    AND = {
-                        exists = RUS
-                        alliance_with = RUS
-                        RUS = {
-                            has_opinion = { who = ROOT value = 100 }
-                            trust = { who = ROOT value = 50 }
-                        }
-                    }
-                    AND = {
-                        exists = MOS
-                        alliance_with = MOS
-                        MOS = {
-                            has_opinion = { who = ROOT value = 100 }
-                            trust = { who = ROOT value = 50 }
-                        }
-                    }
-                }
-            }
-        }
-        effect = {
-            add_country_modifier = {
-                name = chr_muscovite_guardianship
-                duration = 5475
-                desc = chr_muscovite_guardianship_desc
-            }
-            add_army_professionalism = 0.03
-            set_country_flag = chr_muscovite_path_stage1
-        }
-    }
+			has_country_flag = chr_ruina_path_muscovy
+			has_country_modifier = chr_muscovite_guardianship
+			manpower_percentage = 0.7
+			custom_trigger_tooltip = {
+				tooltip = chr_muscovy_alliance_tt
+				OR = {
+					AND = {
+						exists = RUS
+						alliance_with = RUS
+						RUS = {
+							has_opinion = { who = ROOT value = 100 }
+							trust = { who = ROOT value = 50 }
+						}
+					}
+					AND = {
+						exists = MOS
+						alliance_with = MOS
+						MOS = {
+							has_opinion = { who = ROOT value = 100 }
+							trust = { who = ROOT value = 50 }
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_muscovite_guardianship
+				duration = 5475
+				desc = chr_muscovite_guardianship_desc
+			}
+			add_army_professionalism = 0.03
+			set_country_flag = chr_muscovite_path_stage1
+		}
+	}
+
 	chr_belgorod_commission_statute_mission = {
 		icon = mission_build_up_to_force_limit
-		required_missions = {
-			chr_muscovy_auxiliaries_mission
-		}
+		required_missions = { chr_muscovy_auxiliaries_mission }
 		position = 10
 		trigger = {
 			has_country_flag = chr_border_compacts_militarized_path
@@ -950,30 +930,28 @@ chr_missions_2_frontier = {
 			}
 		}
 	}
-	chr_sloboda_border_commission_mission = {
-        icon = mission_conquer_5_states
-        required_missions = {
-			chr_belgorod_commission_statute_mission
-        }
-		position = 11
-        trigger = {
-			has_country_flag = chr_border_compacts_militarized_path
-            has_country_flag = chr_ruina_path_muscovy
-            has_country_flag = chr_muscovite_path_stage1
-            army_tradition = 40
-            manpower_percentage = 0.6
-        }
-        effect = {
-            add_country_modifier = {
-                name = chr_muscovite_border_commission
-                duration = -1
-                desc = chr_muscovite_border_commission_desc
-            }
-            add_mil_power = 75
-        }
-    }
-}
 
+	chr_sloboda_border_commission_mission = {
+		icon = mission_conquer_5_states
+		required_missions = { chr_belgorod_commission_statute_mission }
+		position = 11
+		trigger = {
+			has_country_flag = chr_border_compacts_militarized_path
+			has_country_flag = chr_ruina_path_muscovy
+			has_country_flag = chr_muscovite_path_stage1
+			army_tradition = 40
+			manpower_percentage = 0.6
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_muscovite_border_commission
+				duration = -1
+				desc = chr_muscovite_border_commission_desc
+			}
+			add_mil_power = 75
+		}
+	}
+}
 
 chr_missions_2_2 = {
 	slot = 2
@@ -988,11 +966,10 @@ chr_missions_2_2 = {
 		}
 	}
 	has_country_shield = yes
+
 	chr_Azov = {
 		icon = mission_conquer_5_states
-		required_missions = {
-			chr_Crimea
-		}
+		required_missions = { chr_Crimea }
 		position = 16
 		provinces_to_highlight = {
 			OR = {
@@ -1041,11 +1018,10 @@ chr_missions_2_2 = {
 			}
 		}
 	}
+
 	chr_trade_company_region_abroad = {
 		icon = mission_trade_company_region_abroad
-		required_missions = {
-			chr_Azov
-		}
+		required_missions = { chr_Azov }
 		position = 17
 		trigger = {
 			custom_trigger_tooltip = {
@@ -1081,16 +1057,14 @@ chr_missions_2_2 = {
 			}
 			add_country_modifier = {
 				name = east_india_trade_rush
-				duration = 9125				#25 years
+				duration = 9125 #25 years
 			}
 		}
 	}
+
 	chr_Astrakhan = {
 		icon = mission_conquer_50_development
-		required_missions = {
-			chr_trade_company_region_abroad 
-			chr_grain_cartel_charters
-		}
+		required_missions = { chr_trade_company_region_abroad chr_grain_cartel_charters }
 		position = 18
 		provinces_to_highlight = {
 			area = astrakhan_area
@@ -1110,11 +1084,10 @@ chr_missions_2_2 = {
 			add_mil_power = 100
 		}
 	}
+
 	chr_tatar_yoke = {
 		icon = mission_break_the_tatar_yoke
-		required_missions = { 
-			chr_Astrakhan
-		}
+		required_missions = { chr_Astrakhan }
 		position = 19
 		provinces_to_highlight = {
 			region = crimea_region
@@ -1151,10 +1124,10 @@ chr_missions_3 = {
 		}
 	}
 	has_country_shield = yes
+
 	chr_high_income_mission = {
 		icon = mission_high_income
-		required_missions = {
-		}
+		required_missions = { }
 		#None
 		position = 1
 		trigger = {
@@ -1163,18 +1136,16 @@ chr_missions_3 = {
 		effect = {
 			add_country_modifier = {
 				name = growing_economy
-				duration = 9125				#25 years
+				duration = 9125 #25 years
 			}
 		}
 	}
+
 	chr_stability = {
 		icon = mission_consolidate_the_state
-		required_missions = {
-			chr_high_income_mission
-		}
+		required_missions = { chr_high_income_mission }
 		position = 2
-		provinces_to_highlight = {
-		}
+		provinces_to_highlight = { }
 		trigger = {
 			stability = 2
 		}
@@ -1183,6 +1154,7 @@ chr_missions_3 = {
 			add_adm_power = 50
 		}
 	}
+
 	chr_build_temples = {
 		icon = mission_early_game_buildings
 		required_missions = { chr_stability
@@ -1199,11 +1171,10 @@ chr_missions_3 = {
 			}
 		}
 	}
+
 	chr_build_treasury = {
 		icon = mission_war_chest
-		required_missions = {
-			chr_build_temples
-		}
+		required_missions = { chr_build_temples }
 		position = 4
 		trigger = {
 			treasury = 2000
@@ -1216,11 +1187,10 @@ chr_missions_3 = {
 			}
 		}
 	}
+
 	chr_left_bank_collegium_mission = {
 		icon = mission_high_income
-		required_missions = {
-			chr_build_treasury
-		}
+		required_missions = { chr_build_treasury }
 		position = 5
 		trigger = {
 			custom_trigger_tooltip = {
@@ -1246,11 +1216,10 @@ chr_missions_3 = {
 			}
 		}
 	}
+
 	chr_build_manufactories = {
 		icon = mission_have_manufactories
-		required_missions = {
-			chr_left_bank_collegium_mission
-		}
+		required_missions = { chr_left_bank_collegium_mission }
 		position = 6
 		trigger = {
 			calc_true_if = {
@@ -1289,11 +1258,10 @@ chr_missions_3 = {
 			}
 		}
 	}
+
 	chr_dniepr = {
 		icon = mission_advance_to_the_dnieper
-		required_missions = {
-			chr_build_manufactories
-		}
+		required_missions = { chr_build_manufactories }
 		position = 7
 		provinces_to_highlight = {
 			area = east_dniepr_area
@@ -1324,6 +1292,7 @@ chr_missions_3 = {
 			}
 		}
 	}
+
 	chr_grain_corridors = {
 		icon = rip_gfx_mission_ruthenian_granaries_icon
 		required_missions = { chr_dniepr
@@ -1376,11 +1345,10 @@ chr_missions_3 = {
 			}
 		}
 	}
+
 	chr_sloboda_charters = {
 		icon = mission_build_up_to_force_limit
-		required_missions = {
-			chr_grain_corridors
-		}
+		required_missions = { chr_grain_corridors }
 		position = 9
 		provinces_to_highlight = {
 			area = sloboda_ukraine_area
@@ -1423,11 +1391,10 @@ chr_missions_3 = {
 			}
 		}
 	}
+
 	chr_black_soil_silos = {
 		icon = mission_have_manufactories
-		required_missions = {
-			chr_sloboda_charters
-		}
+		required_missions = { chr_sloboda_charters }
 		position = 10
 		provinces_to_highlight = {
 			area = sloboda_ukraine_area
@@ -1485,11 +1452,10 @@ chr_missions_3 = {
 			}
 		}
 	}
+
 	chr_grain_cartel_charters = {
 		icon = mission_dominate_home_trade_node
-		required_missions = {
-			chr_black_soil_silos
-		}
+		required_missions = { chr_black_soil_silos }
 		position = 17
 		trigger = {
 			custom_trigger_tooltip = {
@@ -1536,11 +1502,10 @@ chr_missions_3 = {
 			}
 		}
 	}
+
 	chr_dniepr_grain_exchange = {
 		icon = mission_dominate_home_trade_node
-		required_missions = {
-			chr_grain_cartel_charters
-		}
+		required_missions = { chr_grain_cartel_charters }
 		position = 18
 		provinces_to_highlight = {
 			OR = {
@@ -1588,11 +1553,10 @@ chr_missions_3 = {
 			}
 		}
 	}
+
 	chr_breadbasket_supremacy = {
 		icon = mission_high_income
-		required_missions = {
-			chr_dniepr_grain_exchange
-		}
+		required_missions = { chr_dniepr_grain_exchange }
 		position = 19
 		provinces_to_highlight = {
 			OR = {
@@ -1645,11 +1609,10 @@ chr_missions_3 = {
 			}
 		}
 	}
+
 	chr_agro_hypercorporation = {
 		icon = mission_trade_company_region_abroad
-		required_missions = {
-			chr_breadbasket_supremacy
-		}
+		required_missions = { chr_breadbasket_supremacy }
 		position = 20
 		trigger = {
 			trade_income_percentage = 0.3
@@ -1711,11 +1674,10 @@ chr_missions_4 = {
 		}
 	}
 	has_country_shield = yes
+
 	chr_independence = {
 		icon = mission_sovereign_principality
-		required_missions = {
-			chr_army
-		}
+		required_missions = { chr_army }
 		provinces_to_highlight = {
 			area_for_scope_province = {
 				is_capital_of = ROOT
@@ -1735,18 +1697,16 @@ chr_missions_4 = {
 				}
 			}
 		}
-		effect = { 
+		effect = {
 			add_stability_or_adm_power = yes
 			add_stability_or_adm_power = yes
 			add_legitimacy_equivalent = { amount = 30 republican_tradition = 30 }
 		}
 	}
+
 	chr_belgorod_line = {
 		icon = mission_build_up_to_force_limit
-		required_missions = {
-			chr_sloboda_charters
-			chr_kiev_2
-		}
+		required_missions = { chr_sloboda_charters chr_kiev_2 }
 		position = 10
 		provinces_to_highlight = {
 			OR = {
@@ -1803,12 +1763,10 @@ chr_missions_4 = {
 			add_mil_power = 50
 		}
 	}
+
 	chr_Great_Horde = {
 		icon = mission_cannons_firing
-		required_missions = {
-			chr_belgorod_line
-			chr_black_soil_silos
-		}
+		required_missions = { chr_belgorod_line chr_black_soil_silos }
 		position = 11
 		provinces_to_highlight = {
 			OR = {
@@ -1855,293 +1813,285 @@ chr_missions_4 = {
 			}
 		}
 	}
+
 	chr_dominate_home_trade_node = {
-		icon = mission_dominate_home_trade_node 
-		required_missions = { 
-			chr_Great_Horde 
-		} 
+		icon = mission_dominate_home_trade_node
+		required_missions = { chr_Great_Horde }
 		position = 12
-		trigger = { 
-			home_trade_node = { 
-				trade_share = { 
-					country = ROOT 
-					share = 75 
-				} 
-			} 
-		} 
-		effect = { 
-			hidden_effect = { 
-				home_trade_node_effect_scope = { 
-					random_trade_node_member_province = { 
-						limit = { 
-							owned_by = ROOT 
-						} 
-						save_event_target_as = reward_province 
-					} 
-					random_trade_node_member_province = { 
-						limit = { 
-							owned_by = ROOT 
-							is_capital = yes 
-						} 
-						save_event_target_as = reward_province 
-					} 
-					random_trade_node_member_province = { 
-						limit = { 
-							owned_by = ROOT 
-							development = CAPITAL 
-							is_capital = no 
-						} 
-						save_event_target_as = reward_province 
-					} 
-					random_trade_node_member_province = { 
-						limit = { 
-							owned_by = ROOT 
-							development = CAPITAL 
-							is_capital = no 
-							development = 20 
-						} 
-						save_event_target_as = reward_province 
-					} 
-					random_trade_node_member_province = { 
-						limit = { 
-							owned_by = ROOT 
-							development = CAPITAL 
-							is_capital = no 
-							development = 25 
-						} 
-						save_event_target_as = reward_province 
-					} 
-					random_trade_node_member_province = { 
-						limit = { 
-							owned_by = ROOT 
-							development = CAPITAL 
-							is_capital = no 
-							development = 30 
-						} 
-						save_event_target_as = reward_province 
-					} 
-				} 
-			} 
-			if = { 
-				limit = { 
-					has_saved_event_target = reward_province 
-				} 
-				event_target:reward_province = { 
-					add_province_modifier = { 
-						name = dominant_trade_hub 
-						duration = -1 
-					} 
-				} 
-			} 
-			else = { 
-				custom_tooltip = dominant_home_node_reward_tooltip 
-			} 
-			zaporizhia_area = { 
-				limit = { 
-					NOT = { 
-						is_core = ROOT 
-					} 
-					NOT = { 
-						is_permanent_claim = ROOT 
-					} 
-				} 
-				add_permanent_claim = ROOT 
-			} 
-		} 
-	} 
+		trigger = {
+			home_trade_node = {
+				trade_share = {
+					country = ROOT
+					share = 75
+				}
+			}
+		}
+		effect = {
+			hidden_effect = {
+				home_trade_node_effect_scope = {
+					random_trade_node_member_province = {
+						limit = {
+							owned_by = ROOT
+						}
+						save_event_target_as = reward_province
+					}
+					random_trade_node_member_province = {
+						limit = {
+							owned_by = ROOT
+							is_capital = yes
+						}
+						save_event_target_as = reward_province
+					}
+					random_trade_node_member_province = {
+						limit = {
+							owned_by = ROOT
+							development = CAPITAL
+							is_capital = no
+						}
+						save_event_target_as = reward_province
+					}
+					random_trade_node_member_province = {
+						limit = {
+							owned_by = ROOT
+							development = CAPITAL
+							is_capital = no
+							development = 20
+						}
+						save_event_target_as = reward_province
+					}
+					random_trade_node_member_province = {
+						limit = {
+							owned_by = ROOT
+							development = CAPITAL
+							is_capital = no
+							development = 25
+						}
+						save_event_target_as = reward_province
+					}
+					random_trade_node_member_province = {
+						limit = {
+							owned_by = ROOT
+							development = CAPITAL
+							is_capital = no
+							development = 30
+						}
+						save_event_target_as = reward_province
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_saved_event_target = reward_province
+				}
+				event_target:reward_province = {
+					add_province_modifier = {
+						name = dominant_trade_hub
+						duration = -1
+					}
+				}
+			}
+			else = {
+				custom_tooltip = dominant_home_node_reward_tooltip
+			}
+			zaporizhia_area = {
+				limit = {
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
 	chr_cossacks = {
-		icon = mission_recruit_the_cossacks 
-		required_missions = { 
-			chr_dominate_home_trade_node  
-		} 
-		position = 13 
-		provinces_to_highlight = { 
-			area = zaporizhia_area 
-			NOT = { 
-				owned_by = ROOT 
-			} 
-		} 
-		trigger = { 
-			zaporizhia_area = { 
-				type = all 
-				owned_by = ROOT 
-			} 
-		} 
-		effect = { 
-			if = { 
-				limit = { 
-					has_estate = estate_cossacks 
-				} 
-				add_estate_loyalty = { 
-					estate = estate_cossacks 
-					loyalty = 20 
-				} 
-			} 
-			else = { 
-				add_army_tradition = 15 
-			} 
-			yedisan_area = { 
-				limit = { 
-					NOT = { 
-						is_core = ROOT 
-					} 
-					NOT = { 
-						is_permanent_claim = ROOT 
-					} 
-				} 
-				add_permanent_claim = ROOT 
-			} 
-			moldavia_area = { 
-				limit = { 
-					NOT = { 
-						is_core = ROOT 
-					} 
-					NOT = { 
-						is_permanent_claim = ROOT 
-					} 
-				} 
-				add_permanent_claim = ROOT 
-			} 
-			crimea_area = { 
-				limit = { 
-					NOT = { 
-						is_core = ROOT 
-					} 
-					NOT = { 
-						is_permanent_claim = ROOT 
-					} 
-				} 
-				add_permanent_claim = ROOT 
-			} 
-		} 
-	} 
+		icon = mission_recruit_the_cossacks
+		required_missions = { chr_dominate_home_trade_node }
+		position = 13
+		provinces_to_highlight = {
+			area = zaporizhia_area
+			NOT = {
+				owned_by = ROOT
+			}
+		}
+		trigger = {
+			zaporizhia_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					has_estate = estate_cossacks
+				}
+				add_estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 20
+				}
+			}
+			else = {
+				add_army_tradition = 15
+			}
+			yedisan_area = {
+				limit = {
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			moldavia_area = {
+				limit = {
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			crimea_area = {
+				limit = {
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
 	chr_Zaporozhie = {
-		icon = mission_cossack_cavalry 
-		required_missions = { 
-			chr_cossacks  
-		} 
-		position = 14 
-		provinces_to_highlight = { 
-			OR = { 
-				area = yedisan_area 
-			} 
-			NOT = { 
-				country_or_non_sovereign_subject_holds = ROOT 
-			} 
-		} 
-		trigger = { 
-			yedisan_area = { 
-				type = all 
-				owned_by = ROOT 
-			} 
-		} 
-		effect = { 
-			crimea_region = { 
-				limit = { 
-					NOT = { 
-						is_core = ROOT 
-					} 
-					NOT = { 
-						is_permanent_claim = ROOT 
-					} 
-				} 
-				add_permanent_claim = ROOT 
-			} 
-		} 
-	} 
+		icon = mission_cossack_cavalry
+		required_missions = { chr_cossacks }
+		position = 14
+		provinces_to_highlight = {
+			OR = {
+				area = yedisan_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			yedisan_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			crimea_region = {
+				limit = {
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_permanent_claim = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
 	chr_Crimea = {
-		icon = mission_recruit_the_cossacks 
-		required_missions = { 
-			chr_Zaporozhie 
-		} 
+		icon = mission_recruit_the_cossacks
+		required_missions = { chr_Zaporozhie }
 		position = 15
-		provinces_to_highlight = { 
-			OR = { 
-				area = crimea_area 
-			} 
-			NOT = { 
-				country_or_non_sovereign_subject_holds = ROOT 
-			} 
-		} 
-		trigger = { 
-			crimea_area = { 
-				type = all 
-				owned_by = ROOT 
-			} 
-		} 
-		effect = { 
-			1974 = { 
-				change_culture = ruthenian 
-			} 
-			2412 = { 
-				change_culture = ruthenian 
-			} 
-			2411 = { 
-				change_culture = ruthenian 
-			} 
-			284 = { 
-				add_base_tax = 4 
-				add_base_production = 4 
-				add_base_manpower = 3 
-			} 
-		} 
-	} 
+		provinces_to_highlight = {
+			OR = {
+				area = crimea_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			crimea_area = {
+				type = all
+				owned_by = ROOT
+			}
+		}
+		effect = {
+			1974 = {
+				change_culture = ruthenian
+			}
+			2412 = {
+				change_culture = ruthenian
+			}
+			2411 = {
+				change_culture = ruthenian
+			}
+			284 = {
+				add_base_tax = 4
+				add_base_production = 4
+				add_base_manpower = 3
+			}
+		}
+	}
+
 	chr_establish_high_seas_navy = {
-		icon = mission_establish_high_seas_navy 
-		required_missions = { 
-			chr_Crimea 
-		} 
-		position = 16 
-		trigger = { 
-			OR = { 
-				num_of_heavy_ship = 10 
-				num_of_galley = 30 
-			} 
-		} 
-		effect = { 
-			add_country_modifier = { 
-				name = naval_enthusiasm_mission 
-				duration = 9125				#25 years 
-			} 
-		} 
-	} 
+		icon = mission_establish_high_seas_navy
+		required_missions = { chr_Crimea }
+		position = 16
+		trigger = {
+			OR = {
+				num_of_heavy_ship = 10
+				num_of_galley = 30
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = naval_enthusiasm_mission
+				duration = 9125 #25 years
+			}
+		}
+	}
+
 	chr_crimean_compact_mission = {
-        icon = mission_trade_company_region_abroad
-        required_missions = {
-            chr_establish_high_seas_navy
-        }
-        position = 18
-        trigger = {
-            has_country_flag = chr_ruina_path_crimea
-            has_country_modifier = chr_crimean_guardianship
-            custom_trigger_tooltip = {
-                tooltip = chr_crimean_compact_tt
-                AND = {
-                    exists = CRI
-                    alliance_with = CRI
-                    CRI = {
-                        has_opinion = { who = ROOT value = 100 }
-                        trust = { who = ROOT value = 50 }
-                    }
-                }
-            }
-        }
-        effect = {
-            add_country_modifier = {
-                name = chr_crimean_guardianship
-                duration = 5475
-                desc = chr_crimean_guardianship_desc
-            }
-            add_sailors = 1500
-            set_country_flag = chr_crimean_path_stage1
-        }
-    }
-	
+		icon = mission_trade_company_region_abroad
+		required_missions = { chr_establish_high_seas_navy }
+		position = 18
+		trigger = {
+			has_country_flag = chr_ruina_path_crimea
+			has_country_modifier = chr_crimean_guardianship
+			custom_trigger_tooltip = {
+				tooltip = chr_crimean_compact_tt
+				AND = {
+					exists = CRI
+					alliance_with = CRI
+					CRI = {
+						has_opinion = { who = ROOT value = 100 }
+						trust = { who = ROOT value = 50 }
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = chr_crimean_guardianship
+				duration = 5475
+				desc = chr_crimean_guardianship_desc
+			}
+			add_sailors = 1500
+			set_country_flag = chr_crimean_path_stage1
+		}
+	}
+
 	chr_black_sea_consortia_mission = {
 		icon = mission_establish_high_seas_navy
-		required_missions = {
-			chr_crimean_compact_mission
-		}
+		required_missions = { chr_crimean_compact_mission }
 		position = 19
 		trigger = {
 			has_country_flag = chr_ruina_path_crimea
@@ -2179,10 +2129,10 @@ chr_missions_5 = {
 		}
 	}
 	has_country_shield = yes
+
 	chr_kiev_2 = {
 		icon = mission_restore_kiev
-		required_missions = {
-		}
+		required_missions = { }
 		position = 9
 		provinces_to_highlight = {
 			province_id = 280
@@ -2207,11 +2157,10 @@ chr_missions_5 = {
 			add_years_of_income = 1.5
 		}
 	}
+
 	chr_kyiv_metropolia_mission = {
 		icon = mission_consolidate_the_state
-		required_missions = {
-			chr_kiev_2
-		}
+		required_missions = { chr_kiev_2 }
 		position = 10
 		trigger = {
 			280 = {
@@ -2255,11 +2204,10 @@ chr_missions_5 = {
 			}
 		}
 	}
+
 	chr_Kiev = {
 		icon = mission_build_up_to_force_limit
-		required_missions = {
-			chr_kyiv_metropolia_mission
-		}
+		required_missions = { chr_kyiv_metropolia_mission }
 		position = 11
 		provinces_to_highlight = {
 			OR = {
@@ -2294,11 +2242,10 @@ chr_missions_5 = {
 			}
 		}
 	}
+
 	chr_unite_home_region = {
 		icon = mission_unite_home_region
-		required_missions = {
-			chr_Kiev
-		}
+		required_missions = { chr_Kiev }
 		provinces_to_highlight = {
 			OR = {
 				region = ruthenia_region
@@ -2324,10 +2271,11 @@ chr_missions_5 = {
 			}
 		}
 	}
+
 	chr_ruthenia = {
 		icon = mission_rule_ruthenia
 		required_missions = {
-			chr_unite_home_region 
+			chr_unite_home_region
 			chr_crimean_compact_mission
 			chr_grain_cartel_charters
 		}
@@ -2366,12 +2314,10 @@ chr_missions_5 = {
 			}
 		}
 	}
+
 	chr_Accept_Ruthenian = {
 		icon = mission_alliances
-		required_missions = {
-			chr_ruthenia
-			chr_Minsk
-		}
+		required_missions = { chr_ruthenia chr_Minsk }
 		position = 19
 		trigger = {
 			OR = {
@@ -2393,11 +2339,10 @@ chr_missions_5 = {
 			}
 		}
 	}
+
 	chr_conquer_russia = {
 		icon = mission_unite_the_princes
-		required_missions = {
-			chr_Accept_Ruthenian 
-		}
+		required_missions = { chr_Accept_Ruthenian }
 		position = 20
 		trigger = {
 			grown_by_states = 20
@@ -2412,11 +2357,10 @@ chr_missions_5 = {
 			}
 		}
 	}
+
 	chr_assemble_an_army = {
 		icon = mission_assemble_an_army
-		required_missions = {
-			chr_conquer_russia 
-		}
+		required_missions = { chr_conquer_russia }
 		position = 21
 		trigger = {
 			army_size = 80
@@ -2428,11 +2372,10 @@ chr_missions_5 = {
 			}
 		}
 	}
+
 	chr_imperial_ambition_mission = {
 		icon = mission_empire
-		required_missions = {
-			chr_assemble_an_army
-		}
+		required_missions = { chr_assemble_an_army }
 		position = 22
 		trigger = {
 			total_development = 1000
