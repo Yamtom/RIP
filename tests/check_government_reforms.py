@@ -1076,19 +1076,35 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         ),
         "UZH identity selector still depends on its not-yet-selected identity",
     )
-    backa_settlements = normalized(
-        named_block(uzh_missions_raw, "uzh_backa_settlements")
-    )
+    backa_settlements_raw = named_block(uzh_missions_raw, "uzh_backa_settlements")
+    backa_settlements = normalized(backa_settlements_raw)
     banat_colonization = normalized(
         named_block(uzh_missions_raw, "uzh_banat_colonization")
     )
+    rusin_literacy = normalized(
+        named_block(uzh_missions_raw, "uz_rusin_literacy")
+    )
     require(
         failures,
-        "uzh_set_identity_culture = yes" in backa_settlements
+        "4126" in backa_settlements
+        and "alfold_area" not in backa_settlements
+        and "add_local_autonomy = 10" in backa_settlements
+        and "add_province_modifier" in backa_settlements
+        and "uz_rusin_settlement" in backa_settlements_raw
+        and "opinion_granted_privileges" in backa_settlements
+        and "change_culture" not in backa_settlements
         and "uzh_set_identity_culture = yes" in banat_colonization
-        and "change_culture = rusyn" not in backa_settlements
         and "change_culture = rusyn" not in banat_colonization,
-        "UZH Alföld/Banat settlement still overwrites the selected identity culture",
+        "UZH Backa/Banat settlement contract does not match charter-based Backa settlement or identity-preserving Banat settlement",
+    )
+    require(
+        failures,
+        "has_building = university" not in rusin_literacy
+        and "has_institution = printing_press" not in rusin_literacy
+        and "has_building = temple" in rusin_literacy
+        and "development = 16" in rusin_literacy
+        and "advisor = theologian" in rusin_literacy,
+        "UZH early literacy mission still requires university/printing press instead of temple, development, and advisor",
     )
     palatial_effect = normalized(palatial_mission)
     require(
@@ -1175,8 +1191,9 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     require(
         failures,
         "has_reform = uzh_komitat_system_reform" in revival
-        and "has_reform = uzh_republican_komitat_system_reform" in revival,
-        "UZH revival mission does not recognize both Komitat variants",
+        and "has_reform = uzh_republican_komitat_system_reform" in revival
+        and "has_building = university" in revival,
+        "UZH revival mission does not recognize both Komitat variants or university tier",
     )
     rusyn_state_mission = normalized(
         named_block(uzh_missions_raw, "uz_rusin_state")
@@ -1341,6 +1358,62 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
             if re.search(r"\bid = uzh\.1\b", normalized(block))
         )
     )
+    charter_event = normalized(
+        next(
+            block
+            for _, block in keyed_blocks(uzh_events, "country_event")
+            if re.search(r"\bid = uzh\.2\b", normalized(block))
+        )
+    )
+    require(
+        failures,
+        "add_legitimacy_equivalent" in charter_event
+        and "change_government_reform_progress = 20" in charter_event
+        and "add_prestige = -10" in charter_event,
+        "uzh.2 charter event must expose clear trade-offs across both options",
+    )
+    migration_event = normalized(
+        next(
+            block
+            for _, block in keyed_blocks(uzh_events, "country_event")
+            if re.search(r"\bid = uzh\.6\b", normalized(block))
+        )
+    )
+    pannonian_event = normalized(
+        next(
+            block
+            for _, block in keyed_blocks(uzh_events, "country_event")
+            if re.search(r"\bid = uzh\.230\b", normalized(block))
+        )
+    )
+    colonization_event = normalized(
+        next(
+            block
+            for _, block in keyed_blocks(uzh_events, "country_event")
+            if re.search(r"\bid = uzh\.310\b", normalized(block))
+        )
+    )
+    require(
+        failures,
+        "southern_transylvania_area" not in migration_event
+        and "southern_transylvania_area" not in pannonian_event
+        and "southern_transylvania_area" not in colonization_event
+        and "156 =" in migration_event
+        and "1954 =" in migration_event
+        and "uzh_banat_province = yes" in pannonian_event
+        and "uzh_banat_province = yes" in colonization_event,
+        "UZH Banat events must target provinces 156/1954 (uzh_banat_province) instead of southern_transylvania_area",
+    )
+    congress_bastion = normalized(
+        named_block(uzh_missions_raw, "uzh_congress_border_bastion")
+    )
+    require(
+        failures,
+        "hidden_trigger" not in congress_bastion
+        and "else_if" in congress_bastion
+        and "fort_level = 3" in congress_bastion,
+        "uzh_congress_border_bastion must expose fort_level = 3 via if/else_if without hidden_trigger",
+    )
     karloca_event = normalized(
         next(
             block
@@ -1378,8 +1451,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     )
     require(
         failures,
-        "limit = { religion = catholic } add_papal_influence = 10" in rite_event
-        and "else = { add_patriarch_authority = 0.1" in rite_event
+        "rip_faith_mission_resource_effect = { PA = 0.1 PI = 10 ADM = 25 }" in rite_event
         and "limit = { religion = catholic } add_papal_influence = 10"
         in karloca_event
         and "else = { add_patriarch_authority = 0.05" in karloca_event,
@@ -1678,6 +1750,42 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         "desc_uz_kyivan_legacy",
         "desc_uz_carpathian_federation",
         "desc_uz_karloca_synod_blessing",
+        "uz_rusin_literacy_desc",
+        "uzh.4.d",
+        "uzh_backa_settlements_desc",
+        "UZH_hungarian_protection_option_a_tt",
+        "UZH_hungarian_protection_option_b_tt",
+        "UZH_congress_border_bastion_border_req_tt",
+        "UZH_congress_border_bastion_subject_req_tt",
+        "UZH_great_migration_culture_tt",
+        "UZH_revival_core_culture_tt",
+        "uz_hungarian_protection_desc",
+        "uz_mukachevo_autonomy_desc",
+        "uz_union_dilemma_desc",
+        "uz_rusin_language_desc",
+        "uzh_banat_colonization_desc",
+        "uz_pan_ruthenian_congress_desc",
+        "uz_uhro_rusyn_integration_desc",
+        "uzh_pannonian_republic_desc",
+        "desc_uz_rusin_settlement",
+        "uzh.201.t",
+        "uzh.201.d",
+        "uz_national_revival_desc",
+        "uzh.7.d",
+        "uz_identity_question_desc",
+        "uz_self_identification_desc",
+        "UZH_this_is_a_branching_mission",
+        "uzh_identity.1.d",
+        "uzh_identity.1.a",
+        "uzh_identity.1.b",
+        "uzh_identity.1.c",
+        "uzh_identity.4.d",
+        "uz_kyivan_heritage_desc",
+        "uz_rusyn_autonomy_desc",
+        "uz_carpathian_federation_desc",
+        "uz_carpathian_commonwealth_desc",
+        "uzh_federalization_desc",
+        "uzh_federative_statutes_desc",
     ):
         match = re.search(rf'(?m)^\s*{key}:\d+\s+"([^"]*)"', english)
         require(failures, match is not None, f"missing English narrative key: {key}")
