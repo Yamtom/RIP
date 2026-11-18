@@ -285,7 +285,7 @@ def contract_sequel(uzh):
                   'NOT = { has_country_flag = uzh_union_synod_established }'):
         req(guard in gate, 'sequel-guard')
     req('fire_only_once = yes' in normalized(sequel), 'sequel-once')
-    # the mission sets these two for any Orthodox UZH with no year gate
+    # the mission can set these two for Orthodox UZH from 1646 onward
     req('uzh_union_old_rite_confirmed' not in gate
         and 'uz_old_rite_resilience' not in gate, 'sequel-blocked')
     trigger = parse(named_block(sequel, 'trigger'))[0][1]

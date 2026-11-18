@@ -159,8 +159,13 @@ UZH_missions_1 = {
 		required_missions = { uz_hungarian_protection }
 		position = 4
 		provinces_to_highlight = {
-			1952 = {
-				owned_by = ROOT
+			province_id = 1952
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+				NOT = { development = 15 }
+				NOT = { uzh_has_courthouse_infrastructure = yes }
+				local_autonomy = 50
 			}
 		}
 		trigger = {
@@ -248,6 +253,13 @@ UZH_missions_1 = {
 					OR = {
 						diplomatic_reputation = 2
 						republican_tradition = 70
+					}
+				}
+				AND = {
+					government = theocracy
+					OR = {
+						diplomatic_reputation = 2
+						devotion = 70
 					}
 				}
 			}
@@ -445,9 +457,10 @@ UZH_missions_1 = {
 		position = 10
 		provinces_to_highlight = {
 			OR = {
-				1952 = {
-					owned_by = ROOT
+				AND = {
+					province_id = 1952
 					OR = {
+						NOT = { owned_by = ROOT }
 						NOT = { uzh_has_courthouse_infrastructure = yes }
 						NOT = { has_building = university }
 					}
@@ -567,8 +580,10 @@ UZH_missions_1 = {
 		required_missions = { uz_national_revival }
 		position = 11
 		provinces_to_highlight = {
-			1952 = {
-				owned_by = ROOT
+			province_id = 1952
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
 			}
 		}
 		trigger = {
@@ -631,10 +646,12 @@ UZH_missions_2 = {
 			hidden_effect = {
 				set_country_flag = uzh_frontier_prepared
 			}
-			carpathia_region = {
-				limit = {
-					NOT = { owned_by = ROOT }
-				}
+			transylvania_area = {
+				limit = { NOT = { owned_by = ROOT } }
+				add_permanent_claim = ROOT
+			}
+			slovakia_area = {
+				limit = { NOT = { owned_by = ROOT } }
 				add_permanent_claim = ROOT
 			}
 			add_country_modifier = {
@@ -657,13 +674,14 @@ UZH_missions_2 = {
 
 	uzh_backa_settlements = {
 		icon = mission_colonize_the_caribbean
-		required_missions = { uzh_pannonian_frontier }
-		position = 3
+		required_missions = { uzh_banat_colonization }
+		position = 5
 		provinces_to_highlight = {
 			province_id = 4126
 		}
 		trigger = {
-			has_country_flag = uzh_frontier_prepared
+			is_year = 1751
+			has_country_flag = uzh_banat_settled
 			is_at_war = no
 			4126 = { # Bacs (Backa)
 				controlled_by = owner
@@ -728,11 +746,12 @@ UZH_missions_2 = {
 
 	uzh_banat_colonization = {
 		icon = mission_colonize_the_caribbean
-		required_missions = { uzh_backa_settlements }
+		required_missions = { uzh_srem_metropolis }
 		position = 4
 		provinces_to_highlight = { uzh_banat_province = yes }
 		trigger = {
-			has_country_flag = uzh_backa_colonies_established
+			is_year = 1718
+			has_country_flag = uzh_srem_metropolis_consecrated
 			owns = 156 # Temes
 			owns = 1954 # Torontal
 			any_owned_province = {
@@ -767,16 +786,20 @@ UZH_missions_2 = {
 	# communities in Backa followed the Krizevci Eparchy (1777). Subordinating a Srem metropolis to Khust is speculative.
 	uzh_srem_metropolis = {
 		icon = mission_religious
-		required_missions = { uzh_banat_colonization }
-		position = 5
+		required_missions = { uzh_pannonian_frontier }
+		position = 3
 		provinces_to_highlight = {
-			4173 = {
-				owned_by = ROOT
+			province_id = 4173
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { religion = ROOT }
+				NOT = { has_building = cathedral }
 			}
 		}
 		trigger = {
-			has_country_flag = uzh_banat_settled
-			owns = 4173 # Syrmia (Srem; Karlóca / Novi Sad metropolitan region)
+			is_year = 1713
+			has_country_flag = uzh_frontier_prepared
+			owns = 4173 # Syrmia (Srem; Karlóca / Petrovaradin metropolitan region)
 			4173 = {
 				religion = ROOT
 				has_building = cathedral
@@ -810,7 +833,7 @@ UZH_missions_2 = {
 
 	uzh_pannonian_expansion = {
 		icon = mission_conquer_5_states
-		required_missions = { uzh_srem_metropolis }
+		required_missions = { uzh_backa_settlements }
 		position = 6
 		provinces_to_highlight = {
 			OR = {
@@ -845,11 +868,10 @@ UZH_missions_2 = {
 				name = "uz_pannonian_drive"
 				duration = 5475
 			}
-			alfold_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-				}
-				add_permanent_claim = ROOT
+			# The mission already requires all four Alfold provinces.
+			every_owned_province = {
+				limit = { area = alfold_area }
+				add_base_production = 1
 			}
 			slavonia_area = {
 				limit = {
@@ -968,6 +990,7 @@ UZH_missions_2 = {
 				tooltip = UZH_pannonian_compact_government_tt
 				OR = {
 					government = republic
+					government = theocracy
 					has_country_flag = uzh_constitutional_framework
 				}
 			}
@@ -1081,6 +1104,7 @@ UZH_missions_2 = {
 							loyalty = 10
 						}
 					}
+					set_country_flag = uzh_pannonian_charter_ratified
 				}
 				set_country_flag = uzh_pannonian_compact_signed
 				country_event = {
@@ -1194,6 +1218,7 @@ UZH_missions_2 = {
 			OR = {
 				has_country_flag = uzh_pannonian_republic_established
 				has_country_flag = uzh_pannonian_charter_ratified
+				has_country_flag = uzh_pannonian_compact_signed
 			}
 			num_of_merchants = 3
 			num_of_owned_provinces_with = {
@@ -1243,87 +1268,13 @@ UZH_missions_3 = {
 	}
 	has_country_shield = yes
 
-	uz_huszt_rename = {
-		icon = rip_gfx_mission_frontier_fortress_icon
-		required_missions = { }
-		position = 1
-		provinces_to_highlight = {
-			OR = {
-				AND = {
-					region = carpathia_region
-					owned_by = ROOT
-				}
-				AND = {
-					owned_by = ROOT
-					NOT = { region = carpathia_region }
-				}
-			}
-		}
-		trigger = {
-			NOT = { has_country_flag = uzh_name_zakarpattia }
-			OR = {
-				AND = {
-					num_of_cities = 3
-					government_rank = 2
-				}
-				AND = {
-					num_of_owned_provinces_with = {
-						region = carpathia_region
-						value = 8
-					}
-					any_owned_province = {
-						NOT = { region = carpathia_region }
-					}
-				}
-			}
-		}
-		effect = {
-			hidden_effect = {
-				override_country_name = UZH_Huszt_Name
-				set_country_flag = uzh_name_huszt
-			}
-			add_prestige = 15
-		}
-		ai_weight = {
-			factor = 400
-		}
-	}
-
-	uz_zakarpattia_realm = {
-		icon = mission_empire
-		required_missions = { uz_huszt_rename }
-		position = 2
-		provinces_to_highlight = {
-			region = carpathia_region
-		}
-		trigger = {
-			OR = {
-				government_rank = 3
-				num_of_owned_provinces_with = {
-					region = carpathia_region
-					value = 15
-				}
-			}
-		}
-		effect = {
-			clr_country_flag = uzh_name_huszt
-			hidden_effect = {
-				override_country_name = UZH_Zakarpattia_Name
-				set_country_flag = uzh_name_zakarpattia
-			}
-			add_legitimacy_equivalent = { amount = 15 republican_tradition = 8 }
-			add_prestige = 25
-		}
-		ai_weight = {
-			factor = 350
-		}
-	}
-
 	uz_union_dilemma = {
 		icon = mission_religious
 		position = 3
 		required_missions = { uz_hungarian_protection }
 		trigger = {
+			# A settlement inspired by the historical union cannot precede 1646.
+			is_year = 1646
 			OR = {
 				religion = orthodox
 				religion = russian_orthodox
@@ -1515,9 +1466,16 @@ UZH_missions_3 = {
 			NOT = { uzh_identity_core_culture = yes }
 		}
 		trigger = {
-			has_country_flag = uzh_language_standardized
+			had_country_flag = { flag = uzh_language_standardized days = 1095 }
+			dip_power = 100
+			num_of_owned_provinces_with = {
+				uzh_pre_identity_candidate_culture = yes
+				uzh_has_courthouse_infrastructure = yes
+				value = 3
+			}
 		}
 		effect = {
+			add_dip_power = -100
 			if = {
 				limit = {
 					NOT = {
@@ -1584,34 +1542,8 @@ UZH_missions_3 = {
 			adm_power = 100
 		}
 		effect = {
-			if = {
-				limit = {
-					ai = yes
-				}
-				random_list = {
-					33 = {
-						hidden_effect = {
-							set_country_flag = chose_ruthenian_identity
-						}
-					}
-					33 = {
-						hidden_effect = {
-							set_country_flag = chose_rusyn_identity
-						}
-					}
-					34 = {
-						hidden_effect = {
-							set_country_flag = chose_uhro_rusyn_identity
-						}
-					}
-				}
-				swap_non_generic_missions = yes
-			}
-			else = {
-				country_event = {
-					id = uzh_identity.1 # Подія для вибору гілки ідентичності
-				}
-			}
+			# Players and AI use the same complete identity transition.
+			country_event = { id = uzh_identity.1 }
 			hidden_effect = {
 				set_country_flag = uzh_identity_path_locked
 			}
@@ -1626,7 +1558,13 @@ UZH_missions_3 = {
 		required_missions = { uz_identity_question }
 		position = 8
 		trigger = {
-			has_country_flag = uzh_identity_path_locked
+			had_country_flag = { flag = uzh_identity_path_locked days = 1825 }
+			stability = 2
+			num_of_owned_provinces_with = {
+				uzh_identity_core_culture = yes
+				religion = ROOT
+				value = 5
+			}
 			OR = {
 				has_country_flag = chose_ruthenian_identity
 				has_country_flag = chose_rusyn_identity
@@ -2454,8 +2392,9 @@ UZH_missions_3_uhro_rusyn = {
 		position = 12
 		provinces_to_highlight = {
 			OR = {
-				153 = {
-					owned_by = ROOT
+				AND = {
+					province_id = 153
+					NOT = { country_or_non_sovereign_subject_holds = ROOT }
 				}
 				AND = {
 					region = carpathia_region
@@ -2662,10 +2601,6 @@ UZH_missions_4 = {
 	ai = yes
 	potential = {
 		tag = UZH
-		OR = {
-			government = monarchy
-			government = republic
-		}
 	}
 	has_country_shield = yes
 
@@ -2710,6 +2645,9 @@ UZH_missions_4 = {
 					NOT = { has_reform = uzh_republican_komitat_system_reform }
 				}
 				add_government_reform = uzh_republican_komitat_system_reform
+			}
+			else = {
+				change_government_reform_progress = 35
 			}
 			add_country_modifier = {
 				name = "uz_komitat_administration"
@@ -2810,6 +2748,12 @@ UZH_missions_4 = {
 					stability = 2
 					num_of_cities = 8
 				}
+				AND = {
+					government = theocracy
+					stability = 2
+					devotion = 70
+					num_of_cities = 8
+				}
 			}
 		}
 		effect = {
@@ -2825,7 +2769,18 @@ UZH_missions_4 = {
 				limit = { government = republic }
 				add_republican_tradition = 10
 			}
-			hidden_effect = {
+			else_if = {
+				limit = { government = theocracy }
+				add_devotion = 10
+			}
+			if = {
+				limit = {
+					OR = {
+						government = monarchy
+						government = republic
+					}
+				}
+				custom_tooltip = UZH_palatial_reform_reward_tt
 				if = {
 					limit = { has_country_flag = chose_ruthenian_identity }
 					add_government_reform = uzh_palatial_ruthenian_reform
@@ -2845,8 +2800,11 @@ UZH_missions_4 = {
 						add_government_reform = uzh_palatial_uhro_republic_reform
 					}
 				}
-				set_country_flag = uzh_palatial_reform_enacted
 			}
+			else = {
+				change_government_reform_progress = 50
+			}
+			hidden_effect = { set_country_flag = uzh_palatial_reform_enacted }
 		}
 		ai_weight = {
 			factor = 320
@@ -2884,7 +2842,7 @@ UZH_missions_4 = {
 				}
 				add_country_modifier = {
 					name = "uz_statute_codification"
-					duration = 9125
+					duration = -1
 				}
 				add_legitimacy = 15
 				change_government_reform_progress = 50
@@ -2896,7 +2854,7 @@ UZH_missions_4 = {
 				}
 				add_country_modifier = {
 					name = "uz_statute_codification"
-					duration = 9125
+					duration = -1
 				}
 				add_legitimacy = 15
 				change_government_reform_progress = 50
@@ -3036,6 +2994,91 @@ UZH_missions_4 = {
 	}
 }
 
+# State titles follow cultural consolidation and the palatine settlement.
+UZH_missions_realm = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = { tag = UZH }
+	has_country_shield = yes
+
+	uz_huszt_rename = {
+		icon = rip_gfx_mission_frontier_fortress_icon
+		required_missions = { uz_self_identification uzh_palatial_reform }
+		position = 9
+		provinces_to_highlight = {
+			OR = {
+				AND = {
+					region = carpathia_region
+					owned_by = ROOT
+				}
+				AND = {
+					owned_by = ROOT
+					NOT = { region = carpathia_region }
+				}
+			}
+		}
+		trigger = {
+			NOT = { has_country_flag = uzh_name_zakarpattia }
+			OR = {
+				AND = {
+					num_of_cities = 3
+					government_rank = 2
+				}
+				AND = {
+					num_of_owned_provinces_with = {
+						region = carpathia_region
+						value = 8
+					}
+					any_owned_province = {
+						NOT = { region = carpathia_region }
+					}
+				}
+			}
+		}
+		effect = {
+			hidden_effect = {
+				override_country_name = UZH_Huszt_Name
+				set_country_flag = uzh_name_huszt
+			}
+			add_prestige = 15
+		}
+		ai_weight = {
+			factor = 400
+		}
+	}
+
+	uz_zakarpattia_realm = {
+		icon = mission_empire
+		required_missions = { uz_huszt_rename }
+		position = 10
+		provinces_to_highlight = {
+			region = carpathia_region
+		}
+		trigger = {
+			OR = {
+				government_rank = 3
+				num_of_owned_provinces_with = {
+					region = carpathia_region
+					value = 15
+				}
+			}
+		}
+		effect = {
+			clr_country_flag = uzh_name_huszt
+			hidden_effect = {
+				override_country_name = UZH_Zakarpattia_Name
+				set_country_flag = uzh_name_zakarpattia
+			}
+			add_legitimacy_equivalent = { amount = 15 republican_tradition = 8 }
+			add_prestige = 25
+		}
+		ai_weight = {
+			factor = 350
+		}
+	}
+}
+
 UZH_missions_5 = {
 	slot = 5
 	generic = no
@@ -3056,41 +3099,28 @@ UZH_missions_5 = {
 					trade_goods = wine
 					NOT = { uzh_has_workshop_infrastructure = yes }
 				}
-				OR = {
-					AND = {
-						1952 = {
-							owned_by = ROOT
-							NOT = { has_building = farm_estate }
-						}
-					}
-					AND = {
-						region = carpathia_region
+				AND = {
+					owned_by = ROOT
+					region = carpathia_region
+					OR = {
+						trade_goods = grain
 						trade_goods = livestock
-						owned_by = ROOT
-						NOT = { has_building = farm_estate }
+						trade_goods = wine
 					}
+					NOT = { has_building = farm_estate }
 				}
 			}
 		}
 		trigger = {
 			has_country_flag = uzh_mukachevo_privilege_confirmed
-			OR = {
-				1952 = {
-					owned_by = ROOT
-					has_building = farm_estate
-				}
-				any_owned_province = {
-					region = carpathia_region
+			any_owned_province = {
+				region = carpathia_region
+				OR = {
+					trade_goods = grain
 					trade_goods = livestock
-					owned_by = ROOT
-					has_building = farm_estate
-				}
-				any_owned_province = {
-					region = carpathia_region
 					trade_goods = wine
-					owned_by = ROOT
-					has_building = farm_estate
 				}
+				has_building = farm_estate
 			}
 			num_of_owned_provinces_with = {
 				trade_goods = wine
@@ -3141,19 +3171,21 @@ UZH_missions_5 = {
 		position = 4
 		provinces_to_highlight = { province_id = 1952 }
 		trigger = {
+			had_country_flag = { flag = uzh_agriculture_program_launched days = 730 }
+			treasury = 150
 			custom_trigger_tooltip = {
 				tooltip = UZH_solotvynska_camera_salt_tt
 				1952 = { # Maramaros (Solotvyno)
 					owned_by = ROOT
 					trade_goods = salt
-					OR = {
-						has_manufactory_trigger = yes
-						development = 15
-					}
+					uzh_has_workshop_infrastructure = yes
+					uzh_has_courthouse_infrastructure = yes
+					base_production = 6
 				}
 			}
 		}
 		effect = {
+			add_treasury = -150
 			country_event = { id = uzh.241 }
 		}
 		ai_weight = {
@@ -3252,7 +3284,7 @@ UZH_missions_5 = {
 						134 = { # Wien
 							is_strongest_trade_power = ROOT
 						}
-						137 = { # Ragusa
+						262 = { # Krakow
 							is_strongest_trade_power = ROOT
 						}
 					}
@@ -3292,6 +3324,23 @@ UZH_missions_5 = {
 				AND = {
 					trade_goods = coal
 					NOT = { owned_by = ROOT }
+					OR = {
+						region = carpathia_region
+						region = poland_region
+						region = balkan_region
+						region = ruthenia_region
+					}
+				}
+				AND = {
+					owned_by = ROOT
+					region = carpathia_region
+					OR = {
+						trade_goods = iron
+						trade_goods = copper
+						trade_goods = salt
+						trade_goods = naval_supplies
+					}
+					NOT = { has_manufactory_trigger = yes }
 				}
 			}
 		}
@@ -3313,9 +3362,25 @@ UZH_missions_5 = {
 				}
 				value = 3
 			}
-			num_of_owned_provinces_with = {
-				trade_goods = coal
-				value = 1
+			custom_trigger_tooltip = {
+				tooltip = UZH_industrial_coal_tt
+				OR = {
+					num_of_owned_provinces_with = {
+						trade_goods = coal
+						value = 1
+					}
+					num_of_owned_provinces_with = {
+						region = carpathia_region
+						OR = {
+							trade_goods = iron
+							trade_goods = copper
+							trade_goods = salt
+							trade_goods = naval_supplies
+						}
+						has_manufactory_trigger = yes
+						value = 2
+					}
+				}
 			}
 		}
 		effect = {
@@ -3518,7 +3583,7 @@ UZH_missions_5 = {
 				custom_tooltip = UZH_congress_border_bastion_subject_tt
 				add_country_modifier = {
 					name = "uz_pan_ruthenian_union"
-					duration = 5475
+					duration = -1
 				}
 				add_dip_power = 125
 				change_government_reform_progress = 40
@@ -3529,6 +3594,10 @@ UZH_missions_5 = {
 				if = {
 					limit = { government = monarchy }
 					add_legitimacy = 10
+				}
+				if = {
+					limit = { government = theocracy }
+					add_devotion = 10
 				}
 				clr_country_flag = uzh_congress_border_supremacy
 			}

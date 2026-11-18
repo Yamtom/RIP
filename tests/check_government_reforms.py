@@ -1034,15 +1034,18 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         in komitat_mission,
         "UZH Komitat mission does not grant the government-specific M1/R1 reform",
     )
-    uzh_slot = normalized(named_block(read("missions/Zakarpatta_Missions.txt"), "UZH_missions_4"))
+    uzh_slot_potential = normalized(
+        named_block(named_block(uzh_missions_raw, "UZH_missions_4"), "potential")
+    )
+    palatial_mission = named_block(uzh_missions_raw, "uzh_palatial_reform")
+    palatial_norm = normalized(palatial_mission)
     require(
         failures,
-        "government = monarchy" in uzh_slot
-        and "government = republic" in uzh_slot
-        and "government = theocracy" not in uzh_slot,
-        "UZH constitutional missions can force M/R-only reforms into an unsupported government type",
+        "government = monarchy" not in uzh_slot_potential
+        and "government = republic" not in uzh_slot_potential
+        and "OR = { government = monarchy government = republic }" in palatial_norm,
+        "UZH constitutional slot must stay open to theocracies while guarding M/R reforms inside mission effects",
     )
-    palatial_mission = named_block(read("missions/Zakarpatta_Missions.txt"), "uzh_palatial_reform")
     palatial_requirements = normalized(named_block(palatial_mission, "required_missions"))
     require(
         failures,
@@ -1321,9 +1324,9 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
     require(
         failures,
         "134 = { is_strongest_trade_power = ROOT" in tisza_customs
-        and "137 = { is_strongest_trade_power = ROOT" in tisza_customs
-        and not re.search(r"\b(?:118|120|121|122|123|124)\b", tisza_customs),
-        "UZH Tisza Customs checks provinces outside the stated Wien/Ragusa trade nodes",
+        and "262 = { is_strongest_trade_power = ROOT" in tisza_customs
+        and not re.search(r"\b(?:118|120|121|122|123|124|137)\b", tisza_customs),
+        "UZH Tisza Customs must check Pest's downstream Wien/Krakow trade nodes instead of Ragusa/Italian nodes",
     )
     federative_statutes = normalized(
         named_block(read("missions/Zakarpatta_Missions.txt"), "uzh_federative_statutes")

@@ -94,6 +94,8 @@ uzh_gain_manpower_8000 = {
 	add_manpower = 8
 }
 
+# Province scope. Match the primary cultures selected by uzh_identity.1;
+# *_new belongs to the separate pan-Slavic group, not the UZH identity branch.
 uzh_set_identity_culture = {
 	if = {
 		limit = {
@@ -101,7 +103,7 @@ uzh_set_identity_culture = {
 				has_country_flag = chose_ruthenian_identity
 			}
 		}
-		change_culture = ruthenian_new
+		change_culture = ruthenian
 	}
 	else_if = {
 		limit = {
@@ -109,7 +111,7 @@ uzh_set_identity_culture = {
 				has_country_flag = chose_rusyn_identity
 			}
 		}
-		change_culture = rusyn_new
+		change_culture = rusyn
 	}
 	else_if = {
 		limit = {

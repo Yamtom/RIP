@@ -497,6 +497,7 @@ country_event = {
 	}
 }
 
+# Modifier IDs retained for save compatibility; describes Carpathian ironworks and imported coal supply.
 country_event = {
 	id = uzh.203
 	title = "uzh.203.t"
@@ -737,8 +738,8 @@ country_event = {
 		}
 	}
 	# The old-rite flag and modifier no longer close this event: the mission
-	# uz_union_dilemma sets both for any Orthodox UZH with no year gate, so
-	# while they were gates a default run could never be offered the synod.
+	# uz_union_dilemma can set both for Orthodox UZH from 1646 onward, so
+	# they must not prevent a later offer of the synod.
 	# The real guards are uzh_union_synod_established and fire_only_once.
 	# Two years on average: the record has the Hungarian synod confirm the
 	# union two years after the signing, which is orientation, not a date.
@@ -939,6 +940,9 @@ country_event = {
 	picture = BATTLE_eventPicture
 	trigger = {
 		tag = UZH
+		is_year = 1703
+		NOT = { is_year = 1712 }
+		exists = HAB
 		NOT = {
 			has_country_modifier = uz_kuruc_border_raids
 		}
@@ -947,7 +951,7 @@ country_event = {
 		}
 	}
 	mean_time_to_happen = {
-		months = 180
+		months = 24
 	}
 	fire_only_once = yes
 	option = {
@@ -993,6 +997,9 @@ country_event = {
 	picture = CULTURE_eventPicture
 	trigger = {
 		tag = UZH
+		# Generic late-Enlightenment schools, not Dukhnovych's post-1821 career.
+		is_year = 1770
+		has_institution = enlightenment
 		NOT = {
 			has_country_modifier = uz_duchnovych_awakening
 		}
@@ -1230,6 +1237,7 @@ country_event = {
 	}
 }
 
+# Flag and modifier IDs retained for save compatibility; option A musters Carpathian Hajduk companies.
 country_event = {
 	id = uzh.410
 	title = "uzh.410.t"
@@ -1294,6 +1302,7 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = "uzh_identity.1.a"
+		ai_chance = { factor = 33 }
 		set_country_flag = chose_ruthenian_identity
 		clr_country_flag = chose_rusyn_identity
 		clr_country_flag = chose_uhro_rusyn_identity
@@ -1325,6 +1334,7 @@ country_event = {
 	}
 	option = {
 		name = "uzh_identity.1.b"
+		ai_chance = { factor = 33 }
 		set_country_flag = chose_rusyn_identity
 		clr_country_flag = chose_ruthenian_identity
 		clr_country_flag = chose_uhro_rusyn_identity
@@ -1356,6 +1366,7 @@ country_event = {
 	}
 	option = {
 		name = "uzh_identity.1.c"
+		ai_chance = { factor = 34 }
 		set_country_flag = chose_uhro_rusyn_identity
 		clr_country_flag = chose_ruthenian_identity
 		clr_country_flag = chose_rusyn_identity
