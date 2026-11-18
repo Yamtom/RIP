@@ -1,3 +1,5 @@
+# ZAZ | The Host and its diplomatic paths, retained by eligible HET successors.
+
 ZAZ_missions_1 = {
 	slot = 1
 	generic = no
@@ -7,10 +9,9 @@ ZAZ_missions_1 = {
 	}
 	has_country_shield = yes
 
-
 	ZAZ_muster_manpower = {
 		icon = mission_conquer_novgorod
-		required_missions = { ZAZ_independce}
+		required_missions = { ZAZ_independce }
 		position = 2
 		trigger = {
 			manpower_percentage = 0.5
@@ -52,9 +53,7 @@ ZAZ_missions_1 = {
 	ZAZ_orthodox_protectors = {
 		icon = mission_hands_praying
 		position = 3
-		required_missions = {
-			ZAZ_muster_manpower
-		}
+		required_missions = { ZAZ_muster_manpower }
 		trigger = {
 			religious_unity = 0.85
 			OR = {
@@ -107,9 +106,7 @@ ZAZ_missions_1 = {
 	ZAZ_lit = {
 		icon = mission_conquer_50_development
 		position = 3
-		required_missions = {
-			ZAZ_orthodox_protectors
-		}
+		required_missions = { ZAZ_orthodox_protectors }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 272
@@ -205,9 +202,7 @@ ZAZ_missions_1 = {
 	ZAZ_krakow = {
 		icon = mission_cannons_firing
 		position = 4
-		required_missions = {
-			ZAZ_lit
-		}
+		required_missions = { ZAZ_lit }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 262
@@ -258,7 +253,6 @@ ZAZ_missions_1 = {
 			}
 		}
 	}
-
 }
 
 ZAZ_missions_2 = {
@@ -307,9 +301,7 @@ ZAZ_missions_2 = {
 	ZAZ_rally_hordes = {
 		icon = mission_have_two_subjects
 		position = 3
-		required_missions = {
-			ZAZ_muster_manpower
-		}
+		required_missions = { ZAZ_muster_manpower }
 		trigger = {
 			army_size_percentage = 1
 			cavalry_fraction = 0.4
@@ -349,9 +341,7 @@ ZAZ_missions_2 = {
 	ZAZ_first_raze = {
 		icon = mission_non-western_cavalry_raid
 		position = 4
-		required_missions = {
-			ZAZ_rally_hordes
-		}
+		required_missions = { ZAZ_rally_hordes }
 		provinces_to_highlight = {
 			owned_by = ROOT
 			NOT = {
@@ -382,9 +372,7 @@ ZAZ_missions_2 = {
 	ZAZ_saratov = {
 		icon = mission_unite_home_region
 		position = 5
-		required_missions = {
-			ZAZ_first_raze
-		}
+		required_missions = { ZAZ_first_raze }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 303
@@ -449,9 +437,7 @@ ZAZ_missions_3 = {
 	ZAZ_establish_sich = {
 		icon = mission_cossack_cavalry
 		position = 2
-		required_missions = {
-			ZAZ_independce
-		}
+		required_missions = { ZAZ_independce }
 		trigger = {
 			stability = 1
 			army_size_percentage = 0.75
@@ -480,12 +466,11 @@ ZAZ_missions_3 = {
 			add_prestige = 10
 		}
 	}
+
 	ZAZ_khanate = {
 		icon = mission_alliances
 		position = 3
-		required_missions = {
-			ZAZ_establish_sich
-		}
+		required_missions = { ZAZ_establish_sich }
 		trigger = {
 			grown_by_development = 12
 		}
@@ -499,12 +484,11 @@ ZAZ_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_proper = {
 		icon = mission_have_two_subjects
 		position = 4
-		required_missions = {
-			ZAZ_khanate
-		}
+		required_missions = { ZAZ_khanate }
 		trigger = {
 			grown_by_development = 50
 		}
@@ -524,10 +508,7 @@ ZAZ_missions_3 = {
 	ZAZ_finally = {
 		icon = mission_alliances
 		position = 6
-		required_missions = {
-			ZAZ_proper
-			ZAZ_istanbul
-		}
+		required_missions = { ZAZ_proper ZAZ_istanbul }
 		trigger = {
 			is_subject = no
 			stability = 2
@@ -563,12 +544,11 @@ ZAZ_missions_4 = {
 		zaz_has_legacy_missions = yes
 	}
 	has_country_shield = yes
+
 	ZAZ_settlements = {
 		icon = mission_assemble_an_army
 		position = 4
-		required_missions = {
-			ZAZ_khanate
-		}
+		required_missions = { ZAZ_khanate }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 282
@@ -636,12 +616,11 @@ ZAZ_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_moskva = {
 		icon = mission_unite_home_region
 		position = 5
-		required_missions = {
-			ZAZ_settlements
-		}
+		required_missions = { ZAZ_settlements }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 295
@@ -704,13 +683,10 @@ ZAZ_missions_5 = {
 	}
 	has_country_shield = yes
 
-
 	ZAZ_chaiky_raids = {
 		icon = rip_gfx_mission_dnieper_chaika_icon
 		position = 3
-		required_missions = {
-			ZAZ_establish_sich
-		}
+		required_missions = { ZAZ_establish_sich }
 		trigger = {
 			num_of_galley = 5
 			navy_tradition = 10
@@ -741,12 +717,11 @@ ZAZ_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_istanbul = {
 		icon = mission_build_up_to_force_limit
 		position = 5
-		required_missions = {
-			ZAZ_chaiky_raids
-		}
+		required_missions = { ZAZ_chaiky_raids }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 151
@@ -799,6 +774,7 @@ ZAZ_missions_5 = {
 	}
 }
 
+# Choice of diplomatic path
 ZAZ_missions_1_1 = {
 	slot = 1
 	generic = no
@@ -815,12 +791,11 @@ ZAZ_missions_1_1 = {
 		}
 	}
 	has_country_shield = yes
+
 	ZAZ_ally_tur = {
 		icon = mission_eastern_european_city
 		position = 7
-		required_missions = {
-			ZAZ_finally
-		}
+		required_missions = { ZAZ_finally }
 		provinces_to_highlight = {
 			OR = {
 				country_or_non_sovereign_subject_holds = TUR
@@ -880,12 +855,11 @@ ZAZ_missions_2_2 = {
 		}
 	}
 	has_country_shield = yes
+
 	ZAZ_ally_tartar = {
 		icon = mission_assemble_an_army
 		position = 7
-		required_missions = {
-			ZAZ_finally
-		}
+		required_missions = { ZAZ_finally }
 		provinces_to_highlight = {
 			OR = {
 				country_or_non_sovereign_subject_holds = GOL
@@ -945,12 +919,11 @@ ZAZ_missions_3_2 = {
 		}
 	}
 	has_country_shield = yes
+
 	ZAZ_only_zaz = {
 		icon = mission_rule_ruthenia
 		position = 7
-		required_missions = {
-			ZAZ_finally
-		}
+		required_missions = { ZAZ_finally }
 		provinces_to_highlight = {
 			OR = {
 				OR = {
@@ -1041,12 +1014,11 @@ ZAZ_missions_4_2 = {
 		}
 	}
 	has_country_shield = yes
+
 	ZAZ_ally_pol = {
 		icon = mission_unite_the_princes
 		position = 7
-		required_missions = {
-			ZAZ_finally
-		}
+		required_missions = { ZAZ_finally }
 		provinces_to_highlight = {
 			OR = {
 				country_or_non_sovereign_subject_holds = POL
@@ -1096,12 +1068,11 @@ ZAZ_missions_5_2 = {
 		}
 	}
 	has_country_shield = yes
+
 	ZAZ_ally_rus = {
 		icon = mission_conquer_moscow
 		position = 7
-		required_missions = {
-			ZAZ_finally
-		}
+		required_missions = { ZAZ_finally }
 		provinces_to_highlight = {
 			OR = {
 				country_or_non_sovereign_subject_holds = MOS
@@ -1134,7 +1105,8 @@ ZAZ_missions_5_2 = {
 		}
 	}
 }
- 
+
+# Alliance with the Ottomans
 ZAZ_TUR_missions_1 = {
 	slot = 1
 	generic = no
@@ -1144,12 +1116,11 @@ ZAZ_TUR_missions_1 = {
 		has_country_flag = zaz_allied_tur
 	}
 	has_country_shield = yes
+
 	ZAZ_TUR_different_ally = {
 		icon = mission_recruit_the_cossacks
 		position = 8
-		required_missions = {
-			ZAZ_ally_tur
-		}
+		required_missions = { ZAZ_ally_tur }
 		trigger = {
 			OR = {
 				any_ally = {
@@ -1171,12 +1142,11 @@ ZAZ_TUR_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_TUR_embargo_all = {
 		icon = mission_establish_high_seas_navy
 		position = 9
-		required_missions = {
-			ZAZ_TUR_different_ally
-		}
+		required_missions = { ZAZ_TUR_different_ally }
 		trigger = {
 			num_of_allies = 1
 			all_ally = {
@@ -1203,12 +1173,11 @@ ZAZ_TUR_missions_2 = {
 		has_country_flag = zaz_allied_tur
 	}
 	has_country_shield = yes
+
 	ZAZ_TUR_contest_crimea = {
 		icon = mission_cannons_firing
 		position = 8
-		required_missions = {
-			ZAZ_ally_tur
-		}
+		required_missions = { ZAZ_ally_tur }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 1974
@@ -1274,12 +1243,11 @@ ZAZ_TUR_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_TUR_war_crimea = {
 		icon = mission_cannons_firing
 		position = 9
-		required_missions = {
-			ZAZ_TUR_contest_crimea
-		}
+		required_missions = { ZAZ_TUR_contest_crimea }
 		provinces_to_highlight = {
 			OR = {
 				area = zaporizhia_area
@@ -1322,12 +1290,11 @@ ZAZ_TUR_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_TUR_end_crimea = {
 		icon = mission_dominate_home_trade_node
 		position = 10
-		required_missions = {
-			ZAZ_TUR_war_crimea
-		}
+		required_missions = { ZAZ_TUR_war_crimea }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 284
@@ -1381,12 +1348,11 @@ ZAZ_TUR_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_TUR_sieze_ports = {
 		icon = mission_recruit_the_cossacks
 		position = 11
-		required_missions = {
-			ZAZ_TUR_end_crimea
-		}
+		required_missions = { ZAZ_TUR_end_crimea }
 		provinces_to_highlight = {
 			OR = {
 				area = crimea_area
@@ -1428,12 +1394,11 @@ ZAZ_TUR_missions_3 = {
 		has_country_flag = zaz_allied_tur
 	}
 	has_country_shield = yes
+
 	ZAZ_TUR_slave_trade = {
 		icon = mission_early_game_buildings
 		position = 9
-		required_missions = {
-			ZAZ_TUR_side_tur
-		}
+		required_missions = { ZAZ_TUR_side_tur }
 		provinces_to_highlight = {
 			province_id = 285
 			NOT = {
@@ -1484,14 +1449,11 @@ ZAZ_TUR_missions_3 = {
 			}
 		}
 	}
-	
 
 	ZAZ_TUR_conquer_steppe = {
 		icon = mission_high_income
 		position = 11
-		required_missions = {
-			ZAZ_TUR_end_crimea
-		}
+		required_missions = { ZAZ_TUR_end_crimea }
 		provinces_to_highlight = {
 			OR = {
 				area = lower_don_area
@@ -1518,13 +1480,11 @@ ZAZ_TUR_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_TUR_otoman = {
 		icon = mission_cossack_cavalry
 		position = 12
-		required_missions = {
-			ZAZ_TUR_sieze_ports
-			ZAZ_TUR_conquer_steppe
-		}
+		required_missions = { ZAZ_TUR_sieze_ports ZAZ_TUR_conquer_steppe }
 		provinces_to_highlight = {
 			OR = {
 				region = crimea_region
@@ -1582,12 +1542,11 @@ ZAZ_TUR_missions_4 = {
 		has_country_flag = zaz_allied_tur
 	}
 	has_country_shield = yes
+
 	ZAZ_TUR_side_tur = {
 		icon = mission_consolidate_the_state
 		position = 8
-		required_missions = {
-			ZAZ_ally_tur
-		}
+		required_missions = { ZAZ_ally_tur }
 		trigger = {
 			OR = {
 				is_in_war = {
@@ -1606,12 +1565,11 @@ ZAZ_TUR_missions_4 = {
 			add_historical_friend = RUM
 		}
 	}
+
 	ZAZ_TUR_brake_rus = {
 		icon = mission_war_chest
 		position = 9
-		required_missions = {
-			ZAZ_TUR_side_tur
-		}
+		required_missions = { ZAZ_TUR_side_tur }
 		trigger = {
 			OR = {
 				NOT = {
@@ -1665,15 +1623,12 @@ ZAZ_TUR_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_TUR_convert_islam = {
 		icon = mission_have_manufactories
 		position = 10
-		required_missions = {
-			ZAZ_TUR_brake_rus
-			ZAZ_TUR_slave_trade
-		}
-		trigger = {
-		}
+		required_missions = { ZAZ_TUR_brake_rus ZAZ_TUR_slave_trade }
+		trigger = { }
 		effect = {
 			country_event = {
 				id = zaz_flavor_m_5.1
@@ -1691,12 +1646,11 @@ ZAZ_TUR_missions_5 = {
 		has_country_flag = zaz_allied_tur
 	}
 	has_country_shield = yes
+
 	ZAZ_TUR_expand_border = {
 		icon = mission_advance_to_the_dnieper
 		position = 8
-		required_missions = {
-			ZAZ_ally_tur
-		}
+		required_missions = { ZAZ_ally_tur }
 		trigger = {
 			reverse_has_opinion_modifier = {
 				who = LIT
@@ -1745,12 +1699,11 @@ ZAZ_TUR_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_TUR_settle_south = {
 		icon = mission_restore_kiev
 		position = 10
-		required_missions = {
-			ZAZ_TUR_expand_border
-		}
+		required_missions = { ZAZ_TUR_expand_border }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 1943
@@ -1819,12 +1772,11 @@ ZAZ_TUR_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_TUR_settle_north = {
 		icon = mission_break_the_tatar_yoke
 		position = 11
-		required_missions = {
-			ZAZ_TUR_settle_south
-		}
+		required_missions = { ZAZ_TUR_settle_south }
 		provinces_to_highlight = {
 			OR = {
 				area = sloboda_ukraine_area
@@ -1903,6 +1855,7 @@ ZAZ_TUR_missions_5 = {
 	}
 }
 
+# Alliance with Russia
 ZAZ_RUS_missions_1 = {
 	slot = 1
 	generic = no
@@ -1912,12 +1865,11 @@ ZAZ_RUS_missions_1 = {
 		has_country_flag = zaz_allied_rus
 	}
 	has_country_shield = yes
+
 	ZAZ_RUS_war_rus = {
 		icon = mission_extent_yasak_to_the_east
 		position = 8
-		required_missions = {
-			ZAZ_ally_rus
-		}
+		required_missions = { ZAZ_ally_rus }
 		trigger = {
 			OR = {
 				is_in_war = {
@@ -1972,13 +1924,11 @@ ZAZ_RUS_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_orthodox = {
 		icon = mission_have_two_subjects
 		position = 10
-		required_missions = {
-			ZAZ_RUS_europe_trade
-			ZAZ_RUS_war_rus
-		}
+		required_missions = { ZAZ_RUS_europe_trade ZAZ_RUS_war_rus }
 		trigger = {
 			religion = orthodox
 			patriarch_authority = 0.5
@@ -1991,13 +1941,11 @@ ZAZ_RUS_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_threaten_tur = {
 		icon = the_russian_campaign
 		position = 14
-		required_missions = {
-			ZAZ_RUS_hetman
-			ZAZ_RUS_orthodox
-		}
+		required_missions = { ZAZ_RUS_hetman ZAZ_RUS_orthodox }
 		trigger = {
 			OR = {
 				army_size = TUR
@@ -2026,12 +1974,11 @@ ZAZ_RUS_missions_2 = {
 		has_country_flag = zaz_allied_rus
 	}
 	has_country_shield = yes
+
 	ZAZ_RUS_brack_lit = {
 		icon = mission_conquer_5_states
 		position = 8
-		required_missions = {
-			ZAZ_ally_rus
-		}
+		required_missions = { ZAZ_ally_rus }
 		trigger = {
 			exists = LIT
 			NOT = {
@@ -2083,12 +2030,11 @@ ZAZ_RUS_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_settle_south = {
 		icon = mission_trade_company_region_abroad
 		position = 9
-		required_missions = {
-			ZAZ_RUS_brack_lit
-		}
+		required_missions = { ZAZ_RUS_brack_lit }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 1943
@@ -2157,12 +2103,11 @@ ZAZ_RUS_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_settle_north = {
 		icon = mission_conquer_50_development
 		position = 10
-		required_missions = {
-			ZAZ_RUS_settle_south
-		}
+		required_missions = { ZAZ_RUS_settle_south }
 		provinces_to_highlight = {
 			OR = {
 				area = sloboda_ukraine_area
@@ -2250,12 +2195,11 @@ ZAZ_RUS_missions_3 = {
 		has_country_flag = zaz_allied_rus
 	}
 	has_country_shield = yes
+
 	ZAZ_RUS_brack_tur = {
 		icon = mission_empire
 		position = 8
-		required_missions = {
-			ZAZ_ally_rus
-		}
+		required_missions = { ZAZ_ally_rus }
 		trigger = {
 			NOT = {
 				OR = {
@@ -2276,12 +2220,11 @@ ZAZ_RUS_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_sieze_ports = {
 		icon = mission_conquer_5_states
 		position = 12
-		required_missions = {
-			ZAZ_RUS_end_crimea
-		}
+		required_missions = { ZAZ_RUS_end_crimea }
 		provinces_to_highlight = {
 			OR = {
 				area = crimea_area
@@ -2323,12 +2266,11 @@ ZAZ_RUS_missions_4 = {
 		has_country_flag = zaz_allied_rus
 	}
 	has_country_shield = yes
+
 	ZAZ_RUS_contest_crimea = {
 		icon = mission_conquer_novgorod
 		position = 8
-		required_missions = {
-			ZAZ_ally_rus
-		}
+		required_missions = { ZAZ_ally_rus }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 1974
@@ -2394,12 +2336,11 @@ ZAZ_RUS_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_war_crimea = {
 		icon = mission_unite_the_princes
 		position = 9
-		required_missions = {
-			ZAZ_RUS_contest_crimea
-		}
+		required_missions = { ZAZ_RUS_contest_crimea }
 		trigger = {
 			OR = {
 				offensive_war_with = CRI
@@ -2433,12 +2374,11 @@ ZAZ_RUS_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_end_crimea = {
 		icon = mission_landsknecht_soldier
 		position = 11
-		required_missions = {
-			ZAZ_RUS_war_crimea
-		}
+		required_missions = { ZAZ_RUS_war_crimea }
 		provinces_to_highlight = {
 			OR = {
 				owned_by = ROOT
@@ -2493,12 +2433,11 @@ ZAZ_RUS_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_conquer_steppe = {
 		icon = mission_high_income
 		position = 12
-		required_missions = {
-			ZAZ_RUS_end_crimea
-		}
+		required_missions = { ZAZ_RUS_end_crimea }
 		provinces_to_highlight = {
 			OR = {
 				area = lower_don_area
@@ -2525,14 +2464,11 @@ ZAZ_RUS_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_hetman = {
 		icon = mission_high_income
 		position = 13
-		required_missions = {
-			ZAZ_RUS_sieze_ports
-			ZAZ_RUS_conquer_steppe
-			ZAZ_RUS_westest
-		}
+		required_missions = { ZAZ_RUS_sieze_ports ZAZ_RUS_conquer_steppe ZAZ_RUS_westest }
 		provinces_to_highlight = {
 			OR = {
 				region = crimea_region
@@ -2591,12 +2527,11 @@ ZAZ_RUS_missions_5 = {
 		has_country_flag = zaz_allied_rus
 	}
 	has_country_shield = yes
+
 	ZAZ_RUS_different_ally = {
 		icon = mission_conquer_novgorod
 		position = 8
-		required_missions = {
-			ZAZ_ally_rus
-		}
+		required_missions = { ZAZ_ally_rus }
 		trigger = {
 			any_ally = {
 				NOT = {
@@ -2614,12 +2549,11 @@ ZAZ_RUS_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_europe_trade = {
 		icon = mission_protect_white_sea_trade
 		position = 9
-		required_missions = {
-			ZAZ_RUS_different_ally
-		}
+		required_missions = { ZAZ_RUS_different_ally }
 		trigger = {
 			280 = {
 				trade_share = {
@@ -2635,12 +2569,11 @@ ZAZ_RUS_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_west = {
 		icon = dominant_economy
 		position = 10
-		required_missions = {
-			ZAZ_RUS_europe_trade
-		}
+		required_missions = { ZAZ_RUS_europe_trade }
 		provinces_to_highlight = {
 			area = red_ruthenia_area
 			NOT = {
@@ -2671,12 +2604,11 @@ ZAZ_RUS_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_wester = {
 		icon = mission_rule_ruthenia
 		position = 11
-		required_missions = {
-			ZAZ_RUS_west
-		}
+		required_missions = { ZAZ_RUS_west }
 		provinces_to_highlight = {
 			area = sandomierz_area
 			NOT = {
@@ -2711,12 +2643,11 @@ ZAZ_RUS_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_RUS_westest = {
 		icon = mission_conquer_moscow
 		position = 12
-		required_missions = {
-			ZAZ_RUS_wester
-		}
+		required_missions = { ZAZ_RUS_wester }
 		provinces_to_highlight = {
 			area = malopolska_area
 			NOT = {
@@ -2738,6 +2669,7 @@ ZAZ_RUS_missions_5 = {
 	}
 }
 
+# Alliance with the Horde
 ZAZ_GOL_missions_1 = {
 	slot = 1
 	generic = no
@@ -2747,12 +2679,11 @@ ZAZ_GOL_missions_1 = {
 		has_country_flag = zaz_allied_gol
 	}
 	has_country_shield = yes
+
 	ZAZ_GOL_insult_feo = {
 		icon = mission_conquer_5_states
 		position = 8
-		required_missions = {
-			ZAZ_ally_tartar
-		}
+		required_missions = { ZAZ_ally_tartar }
 		trigger = {
 			reverse_has_opinion_modifier = {
 				who = FEO
@@ -2775,12 +2706,11 @@ ZAZ_GOL_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_attack_genoa = {
 		icon = mission_unite_home_region
 		position = 9
-		required_missions = {
-			ZAZ_GOL_insult_feo
-		}
+		required_missions = { ZAZ_GOL_insult_feo }
 		provinces_to_highlight = {
 			province_id = 2410
 			NOT = {
@@ -2834,12 +2764,11 @@ ZAZ_GOL_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_attack_genoa_2 = {
 		icon = mission_recruit_the_cossacks
 		position = 10
-		required_missions = {
-			ZAZ_GOL_attack_genoa
-		}
+		required_missions = { ZAZ_GOL_attack_genoa }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 285
@@ -2903,12 +2832,11 @@ ZAZ_GOL_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_trebes = {
 		icon = mission_galleys_in_port
 		position = 11
-		required_missions = {
-			ZAZ_GOL_attack_genoa_2
-		}
+		required_missions = { ZAZ_GOL_attack_genoa_2 }
 		provinces_to_highlight = {
 			province_id = 330
 			NOT = {
@@ -2952,13 +2880,13 @@ ZAZ_GOL_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_tribes_3 = {
 		icon = mission_recruit_streltsy
 		position = 14
 		required_missions = {
 			ZAZ_GOL_trebes
 			ZAZ_GOL_tribes_2
-
 		}
 		provinces_to_highlight = {
 			OR = {
@@ -3014,12 +2942,11 @@ ZAZ_GOL_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_tribes_4 = {
 		icon = mission_steppe_warriors
 		position = 15
-		required_missions = {
-			ZAZ_GOL_tribes_3
-		}
+		required_missions = { ZAZ_GOL_tribes_3 }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 4303
@@ -3061,12 +2988,11 @@ ZAZ_GOL_missions_2 = {
 		has_country_flag = zaz_allied_gol
 	}
 	has_country_shield = yes
+
 	ZAZ_GOL_west_dniepr = {
 		icon = mission_rice_field
 		position = 10
-		required_missions = {
-			ZAZ_GOL_cordon
-		}
+		required_missions = { ZAZ_GOL_cordon }
 		provinces_to_highlight = {
 			area = west_dniepr_area
 			NOT = {
@@ -3104,13 +3030,11 @@ ZAZ_GOL_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_weste = {
 		icon = mission_conquer_moscow
 		position = 11
-		required_missions = {
-			ZAZ_GOL_west_dniepr
-			ZAZ_GOL_east_dniepr
-		}
+		required_missions = { ZAZ_GOL_west_dniepr ZAZ_GOL_east_dniepr }
 		provinces_to_highlight = {
 			province_id = 1756
 			NOT = {
@@ -3139,12 +3063,11 @@ ZAZ_GOL_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_podolia_volhynia = {
 		icon = mission_sovereign_principality
 		position = 12
-		required_missions = {
-			ZAZ_GOL_weste
-		}
+		required_missions = { ZAZ_GOL_weste }
 		provinces_to_highlight = {
 			area = podolia_volhynia_area
 			NOT = {
@@ -3182,12 +3105,11 @@ ZAZ_GOL_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_red_ruthenia = {
 		icon = mission_unite_the_princes
 		position = 13
-		required_missions = {
-			ZAZ_GOL_podolia_volhynia
-		}
+		required_missions = { ZAZ_GOL_podolia_volhynia }
 		provinces_to_highlight = {
 			OR = {
 				area = red_ruthenia_area
@@ -3254,12 +3176,11 @@ ZAZ_GOL_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_malopolska = {
 		icon = mission_break_the_tatar_yoke
 		position = 14
-		required_missions = {
-			ZAZ_GOL_red_ruthenia
-		}
+		required_missions = { ZAZ_GOL_red_ruthenia }
 		provinces_to_highlight = {
 			OR = {
 				area = malopolska_area
@@ -3347,12 +3268,11 @@ ZAZ_GOL_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_poland = {
 		icon = mission_conquer_novgorod
 		position = 15
-		required_missions = {
-			ZAZ_GOL_malopolska
-		}
+		required_missions = { ZAZ_GOL_malopolska }
 		provinces_to_highlight = {
 			OR = {
 				region = poland_region
@@ -3385,12 +3305,11 @@ ZAZ_GOL_missions_3 = {
 		has_country_flag = zaz_allied_gol
 	}
 	has_country_shield = yes
+
 	ZAZ_GOL_insult_lit = {
 		icon = king_of_poland
 		position = 8
-		required_missions = {
-			ZAZ_ally_tartar
-		}
+		required_missions = { ZAZ_ally_tartar }
 		trigger = {
 			reverse_has_opinion_modifier = {
 				who = LIT
@@ -3439,12 +3358,11 @@ ZAZ_GOL_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_cordon = {
 		icon = mission_restore_kiev
 		position = 9
-		required_missions = {
-			ZAZ_GOL_insult_lit
-		}
+		required_missions = { ZAZ_GOL_insult_lit }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 1943
@@ -3491,12 +3409,11 @@ ZAZ_GOL_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_east_dniepr = {
 		icon = mission_city_of_the_world's_desire
 		position = 10
-		required_missions = {
-			ZAZ_GOL_cordon
-		}
+		required_missions = { ZAZ_GOL_cordon }
 		provinces_to_highlight = {
 			area = east_dniepr_area
 			NOT = {
@@ -3533,15 +3450,12 @@ ZAZ_GOL_missions_3 = {
 				add_permanent_claim = ROOT
 			}
 		}
-
 	}
+
 	ZAZ_GOL_ruthenia = {
 		icon = mission_consolidate_the_state
 		position = 11
-		required_missions = {
-			ZAZ_GOL_west_dniepr
-			ZAZ_GOL_east_dniepr
-		}
+		required_missions = { ZAZ_GOL_west_dniepr ZAZ_GOL_east_dniepr }
 		provinces_to_highlight = {
 			region = ruthenia_region
 			NOT = {
@@ -3605,12 +3519,11 @@ ZAZ_GOL_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_russia = {
 		icon = mission_advance_to_the_dnieper
 		position = 12
-		required_missions = {
-			ZAZ_GOL_ruthenia
-		}
+		required_missions = { ZAZ_GOL_ruthenia }
 		provinces_to_highlight = {
 			OR = {
 				area = pskov_area
@@ -3687,12 +3600,11 @@ ZAZ_GOL_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_russia_2 = {
 		icon = mission_sovereign_principality
 		position = 13
-		required_missions = {
-			ZAZ_GOL_russia
-		}
+		required_missions = { ZAZ_GOL_russia }
 		provinces_to_highlight = {
 			OR = {
 				area = ryazan_area
@@ -3736,12 +3648,11 @@ ZAZ_GOL_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_russia_3 = {
 		icon = mission_autocephalous_archbishopric
 		position = 14
-		required_missions = {
-			ZAZ_GOL_russia_2
-		}
+		required_missions = { ZAZ_GOL_russia_2 }
 		provinces_to_highlight = {
 			region = russia_region
 			NOT = {
@@ -3772,12 +3683,11 @@ ZAZ_GOL_missions_4 = {
 		has_country_flag = zaz_allied_gol
 	}
 	has_country_shield = yes
+
 	ZAZ_GOL_insult_crimea = {
 		icon = danubian_power
 		position = 8
-		required_missions = {
-			ZAZ_ally_tartar
-		}
+		required_missions = { ZAZ_ally_tartar }
 		trigger = {
 			exists = CRI
 			reverse_has_opinion_modifier = {
@@ -3834,12 +3744,11 @@ ZAZ_GOL_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_crimea_1 = {
 		icon = mission_non-western_cavalry_raid
 		position = 9
-		required_missions = {
-			ZAZ_GOL_insult_crimea
-		}
+		required_missions = { ZAZ_GOL_insult_crimea }
 		provinces_to_highlight = {
 			OR = {
 				area = yedisan_area
@@ -3914,12 +3823,11 @@ ZAZ_GOL_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_crimea_2 = {
 		icon = take_constantinople
 		position = 10
-		required_missions = {
-			ZAZ_GOL_crimea_1
-		}
+		required_missions = { ZAZ_GOL_crimea_1 }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 284
@@ -3979,12 +3887,11 @@ ZAZ_GOL_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_crimea_3 = {
 		icon = mission_pf_cross
 		position = 11
-		required_missions = {
-			ZAZ_GOL_crimea_2
-		}
+		required_missions = { ZAZ_GOL_crimea_2 }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 2195
@@ -4082,12 +3989,11 @@ ZAZ_GOL_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_tribes = {
 		icon = carolingian_empire
 		position = 12
-		required_missions = {
-			ZAZ_GOL_crimea_3
-		}
+		required_missions = { ZAZ_GOL_crimea_3 }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 1856
@@ -4144,12 +4050,11 @@ ZAZ_GOL_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_tribes_2 = {
 		icon = mission_empire
 		position = 13
-		required_missions = {
-			ZAZ_GOL_tribes
-		}
+		required_missions = { ZAZ_GOL_tribes }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 4301
@@ -4215,12 +4120,11 @@ ZAZ_GOL_missions_5 = {
 		has_country_flag = zaz_allied_gol
 	}
 	has_country_shield = yes
+
 	ZAZ_GOL_politics = {
 		icon = mission_conquer_romania
 		position = 8
-		required_missions = {
-			ZAZ_ally_tartar
-		}
+		required_missions = { ZAZ_ally_tartar }
 		trigger = {
 			dip = 3
 			legitimacy_equivalent = 90
@@ -4266,12 +4170,11 @@ ZAZ_GOL_missions_5 = {
 			add_dip_power = 50
 		}
 	}
+
 	ZAZ_GOL_politics_2 = {
 		icon = mission_crusade_for_varna
 		position = 9
-		required_missions = {
-			ZAZ_GOL_politics
-		}
+		required_missions = { ZAZ_GOL_politics }
 		trigger = {
 			legitimacy_equivalent = 90
 			total_development = 350
@@ -4285,12 +4188,11 @@ ZAZ_GOL_missions_5 = {
 			add_dip_power = 100
 		}
 	}
+
 	ZAZ_GOL_insult_tur = {
 		icon = mission_collect_yasak
 		position = 11
-		required_missions = {
-			
-		}
+		required_missions = { }
 		trigger = {
 			OR = {
 				exists = TUR
@@ -4314,12 +4216,11 @@ ZAZ_GOL_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_tur_1 = {
 		icon = mission_break_the_tatar_yoke
 		position = 12
-		required_missions = {
-			ZAZ_GOL_insult_tur
-		}
+		required_missions = { ZAZ_GOL_insult_tur }
 		provinces_to_highlight = {
 			area = moldavia_area
 			NOT = {
@@ -4349,12 +4250,11 @@ ZAZ_GOL_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_tur_2 = {
 		icon = mission_cossack_cavalry
 		position = 13
-		required_missions = {
-			ZAZ_GOL_tur_1
-		}
+		required_missions = { ZAZ_GOL_tur_1 }
 		provinces_to_highlight = {
 			area = wallachia_area
 			NOT = {
@@ -4384,12 +4284,11 @@ ZAZ_GOL_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_tur_3 = {
 		icon = mission_unite_home_region
 		position = 14
-		required_missions = {
-			ZAZ_GOL_tur_2
-		}
+		required_missions = { ZAZ_GOL_tur_2 }
 		provinces_to_highlight = {
 			area = bulgaria_area
 			NOT = {
@@ -4451,12 +4350,11 @@ ZAZ_GOL_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_tur_4 = {
 		icon = mission_arabian_sea_trade
 		position = 15
-		required_missions = {
-			ZAZ_GOL_tur_3
-		}
+		required_missions = { ZAZ_GOL_tur_3 }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 149
@@ -4494,12 +4392,11 @@ ZAZ_GOL_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_GOL_tur_5 = {
 		icon = mission_integrate_perm
 		position = 16
-		required_missions = {
-			ZAZ_GOL_tur_4
-		}
+		required_missions = { ZAZ_GOL_tur_4 }
 		provinces_to_highlight = {
 			province_id = 151
 			NOT = {
@@ -4523,6 +4420,7 @@ ZAZ_GOL_missions_5 = {
 	}
 }
 
+# Independent Host
 ZAZ_UKR_missions_1 = {
 	slot = 1
 	generic = no
@@ -4532,12 +4430,11 @@ ZAZ_UKR_missions_1 = {
 		has_country_flag = zaz_only_zaz
 	}
 	has_country_shield = yes
+
 	ZAZ_UKR_politics = {
 		icon = mission_conquer_5_states
 		position = 8
-		required_missions = {
-			ZAZ_only_zaz
-		}
+		required_missions = { ZAZ_only_zaz }
 		trigger = {
 			dip = 3
 			adm = 3
@@ -4553,12 +4450,11 @@ ZAZ_UKR_missions_1 = {
 			add_dip_power = 50
 		}
 	}
+
 	ZAZ_UKR_politics_2 = {
 		icon = mission_unite_home_region
 		position = 9
-		required_missions = {
-			ZAZ_UKR_politics
-		}
+		required_missions = { ZAZ_UKR_politics }
 		trigger = {
 			legitimacy_equivalent = 90
 			total_development = 250
@@ -4569,13 +4465,11 @@ ZAZ_UKR_missions_1 = {
 			add_dip_power = 100
 		}
 	}
-	
+
 	ZAZ_UKR = {
 		icon = mission_assemble_an_army
 		position = 12
-		required_missions = {
-			ZAZ_UKR_politics_2
-		}
+		required_missions = { ZAZ_UKR_politics_2 }
 		provinces_to_highlight = {
 			area = moldavia_area
 			NOT = {
@@ -4605,12 +4499,11 @@ ZAZ_UKR_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_2 = {
 		icon = mission_cannons_firing
 		position = 13
-		required_missions = {
-			ZAZ_UKR
-		}
+		required_missions = { ZAZ_UKR }
 		provinces_to_highlight = {
 			area = wallachia_area
 			NOT = {
@@ -4654,12 +4547,11 @@ ZAZ_UKR_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_3 = {
 		icon = mission_conquer_5_states
 		position = 14
-		required_missions = {
-			ZAZ_UKR_2
-		}
+		required_missions = { ZAZ_UKR_2 }
 		provinces_to_highlight = {
 			area = bulgaria_area
 			NOT = {
@@ -4711,12 +4603,11 @@ ZAZ_UKR_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_4 = {
 		icon = mission_conquer_5_states
 		position = 15
-		required_missions = {
-			ZAZ_UKR_3
-		}
+		required_missions = { ZAZ_UKR_3 }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 149
@@ -4750,12 +4641,11 @@ ZAZ_UKR_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_5 = {
 		icon = mission_conquer_50_development
 		position = 16
-		required_missions = {
-			ZAZ_UKR_4
-		}
+		required_missions = { ZAZ_UKR_4 }
 		provinces_to_highlight = {
 			province_id = 151
 			NOT = {
@@ -4788,12 +4678,11 @@ ZAZ_UKR_missions_2 = {
 		has_country_flag = zaz_only_zaz
 	}
 	has_country_shield = yes
+
 	ZAZ_UKR_cordon = {
 		icon = mission_build_up_to_force_limit
 		position = 8
-		required_missions = {
-			ZAZ_only_zaz
-		}
+		required_missions = { ZAZ_only_zaz }
 		trigger = {
 			OR = {
 				exists = LIT
@@ -4852,12 +4741,11 @@ ZAZ_UKR_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_settle_south = {
 		icon = mission_war_chest
 		position = 9
-		required_missions = {
-			ZAZ_UKR_cordon
-		}
+		required_missions = { ZAZ_UKR_cordon }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 1943
@@ -4904,12 +4792,11 @@ ZAZ_UKR_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_settle_north = {
 		icon = mission_cannons_firing
 		position = 10
-		required_missions = {
-			ZAZ_UKR_settle_south
-		}
+		required_missions = { ZAZ_UKR_settle_south }
 		provinces_to_highlight = {
 			OR = {
 				area = sloboda_ukraine_area
@@ -4952,12 +4839,11 @@ ZAZ_UKR_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_settle_north_1 = {
 		icon = mission_build_up_to_force_limit
 		position = 11
-		required_missions = {
-			ZAZ_UKR_settle_north
-		}
+		required_missions = { ZAZ_UKR_settle_north }
 		provinces_to_highlight = {
 			OR = {
 				region = ruthenia_region
@@ -4986,13 +4872,11 @@ ZAZ_UKR_missions_2 = {
 			}
 		}
 	}
-	
+
 	ZAZ_UKR_ruthenia = {
 		icon = mission_assemble_an_army
 		position = 12
-		required_missions = {
-			ZAZ_UKR_settle_north_1
-		}
+		required_missions = { ZAZ_UKR_settle_north_1 }
 		provinces_to_highlight = {
 			region = ruthenia_region
 			NOT = {
@@ -5056,12 +4940,11 @@ ZAZ_UKR_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_russia = {
 		icon = mission_build_up_to_force_limit
 		position = 13
-		required_missions = {
-			ZAZ_UKR_ruthenia
-		}
+		required_missions = { ZAZ_UKR_ruthenia }
 		provinces_to_highlight = {
 			OR = {
 				area = pskov_area
@@ -5138,12 +5021,11 @@ ZAZ_UKR_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_russia_2 = {
 		icon = mission_conquer_50_development
 		position = 14
-		required_missions = {
-			ZAZ_UKR_russia
-		}
+		required_missions = { ZAZ_UKR_russia }
 		provinces_to_highlight = {
 			OR = {
 				area = ryazan_area
@@ -5187,12 +5069,11 @@ ZAZ_UKR_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_russia_3 = {
 		icon = mission_assemble_an_army
 		position = 15
-		required_missions = {
-			ZAZ_UKR_russia_2
-		}
+		required_missions = { ZAZ_UKR_russia_2 }
 		provinces_to_highlight = {
 			region = russia_region
 			NOT = {
@@ -5223,12 +5104,11 @@ ZAZ_UKR_missions_3 = {
 		has_country_flag = zaz_only_zaz
 	}
 	has_country_shield = yes
+
 	ZAZ_UKR_insult_feo = {
 		icon = mission_cannons_firing
 		position = 8
-		required_missions = {
-			ZAZ_only_zaz
-		}
+		required_missions = { ZAZ_only_zaz }
 		provinces_to_highlight = {
 			province_id = 2410
 			NOT = {
@@ -5262,12 +5142,11 @@ ZAZ_UKR_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_attack_genoa = {
 		icon = mission_cossack_cavalry
 		position = 9
-		required_missions = {
-			ZAZ_UKR_insult_feo
-		}
+		required_missions = { ZAZ_UKR_insult_feo }
 		provinces_to_highlight = {
 			province_id = 2410
 			NOT = {
@@ -5321,13 +5200,11 @@ ZAZ_UKR_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_attack_genoa_2 = {
 		icon = mission_non-western_cavalry_raid
 		position = 10
-		required_missions = {
-			ZAZ_UKR_attack_genoa
-			ZAZ_UKR_war_crimea
-		}
+		required_missions = { ZAZ_UKR_attack_genoa ZAZ_UKR_war_crimea }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 285
@@ -5391,12 +5268,11 @@ ZAZ_UKR_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_insult_tur = {
 		icon = mission_eastern_european_city
 		position = 14
-		required_missions = {
-			ZAZ_UKR_sieze_ports_1
-		}
+		required_missions = { ZAZ_UKR_sieze_ports_1 }
 		trigger = {
 			OR = {
 				AND = {
@@ -5430,12 +5306,11 @@ ZAZ_UKR_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_weste = {
 		icon = mission_conquer_5_states
 		position = 17
-		required_missions = {
-			ZAZ_UKR_5
-		}
+		required_missions = { ZAZ_UKR_5 }
 		provinces_to_highlight = {
 			province_id = 1756
 			NOT = {
@@ -5464,12 +5339,11 @@ ZAZ_UKR_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_podolia_volhynia = {
 		icon = mission_early_modern_university
 		position = 18
-		required_missions = {
-			ZAZ_UKR_weste
-		}
+		required_missions = { ZAZ_UKR_weste }
 		provinces_to_highlight = {
 			area = podolia_volhynia_area
 			NOT = {
@@ -5529,12 +5403,11 @@ ZAZ_UKR_missions_4 = {
 		has_country_flag = zaz_only_zaz
 	}
 	has_country_shield = yes
+
 	ZAZ_UKR_contest_crimea = {
 		icon = mission_recruit_the_cossacks
 		position = 8
-		required_missions = {
-			ZAZ_only_zaz
-		}
+		required_missions = { ZAZ_only_zaz }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 1974
@@ -5600,13 +5473,11 @@ ZAZ_UKR_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_war_crimea = {
 		icon = mission_consolidate_the_state
 		position = 9
-		required_missions = {
-			ZAZ_UKR_contest_crimea
-			ZAZ_UKR_east_dniepr
-		}
+		required_missions = { ZAZ_UKR_contest_crimea ZAZ_UKR_east_dniepr }
 		provinces_to_highlight = {
 			OR = {
 				area = zaporizhia_area
@@ -5649,12 +5520,11 @@ ZAZ_UKR_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_end_crimea = {
 		icon = mission_rule_ruthenia
 		position = 10
-		required_missions = {
-			ZAZ_UKR_war_crimea
-		}
+		required_missions = { ZAZ_UKR_war_crimea }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 284
@@ -5708,12 +5578,11 @@ ZAZ_UKR_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_sieze_ports = {
 		icon = mission_restore_kiev
 		position = 12
-		required_missions = {
-			ZAZ_UKR_end_crimea
-		}
+		required_missions = { ZAZ_UKR_end_crimea }
 		provinces_to_highlight = {
 			OR = {
 				area = crimea_area
@@ -5744,12 +5613,11 @@ ZAZ_UKR_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_sieze_ports_1 = {
 		icon = mission_have_two_subjects
 		position = 13
-		required_missions = {
-			ZAZ_UKR_sieze_ports
-		}
+		required_missions = { ZAZ_UKR_sieze_ports }
 		provinces_to_highlight = {
 			culture = crimean
 		}
@@ -5770,12 +5638,11 @@ ZAZ_UKR_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_hatman = {
 		icon = mission_conquer_50_development
 		position = 14
-		required_missions = {
-			ZAZ_UKR_sieze_ports_1
-		}
+		required_missions = { ZAZ_UKR_sieze_ports_1 }
 		provinces_to_highlight = {
 			OR = {
 				region = crimea_region
@@ -5841,13 +5708,11 @@ ZAZ_UKR_missions_4 = {
 			}
 		}
 	}
-	
+
 	ZAZ_UKR_dip_7 = {
 		icon = mission_eastern_european_city
 		position = 15
-		required_missions = {
-			ZAZ_UKR_hatman
-		}
+		required_missions = { ZAZ_UKR_hatman }
 		provinces_to_highlight = {
 			area = red_ruthenia_area
 			NOT = {
@@ -5886,12 +5751,11 @@ ZAZ_UKR_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_dip_4 = {
 		icon = mission_noble_council
 		position = 16
-		required_missions = {
-			ZAZ_UKR_dip_7
-		}
+		required_missions = { ZAZ_UKR_dip_7 }
 		provinces_to_highlight = {
 			area = sandomierz_area
 			NOT = {
@@ -5951,13 +5815,11 @@ ZAZ_UKR_missions_5 = {
 		has_country_flag = zaz_only_zaz
 	}
 	has_country_shield = yes
-	
+
 	ZAZ_UKR_east_dniepr = {
 		icon = mission_alliances
 		position = 8
-		required_missions = {
-			ZAZ_only_zaz
-		}
+		required_missions = { ZAZ_only_zaz }
 		provinces_to_highlight = {
 			area = east_dniepr_area
 			NOT = {
@@ -6006,13 +5868,11 @@ ZAZ_UKR_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_malopolska = {
 		icon = mission_have_manufactories
 		position = 19
-		required_missions = {
-			ZAZ_UKR_east_dniepr
-			ZAZ_UKR_podolia_volhynia
-		}
+		required_missions = { ZAZ_UKR_east_dniepr ZAZ_UKR_podolia_volhynia }
 		provinces_to_highlight = {
 			OR = {
 				area = malopolska_area
@@ -6065,12 +5925,11 @@ ZAZ_UKR_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_UKR_poland = {
 		icon = mission_have_two_subjects
 		position = 20
-		required_missions = {
-			ZAZ_UKR_malopolska
-		}
+		required_missions = { ZAZ_UKR_malopolska }
 		provinces_to_highlight = {
 			OR = {
 				region = poland_region
@@ -6094,6 +5953,7 @@ ZAZ_UKR_missions_5 = {
 	}
 }
 
+# Alliance with Poland
 ZAZ_POL_missions_1 = {
 	slot = 1
 	generic = no
@@ -6103,12 +5963,11 @@ ZAZ_POL_missions_1 = {
 		has_country_flag = zaz_allied_pol
 	}
 	has_country_shield = yes
+
 	ZAZ_POL_expand_border = {
 		icon = mission_have_two_subjects
 		position = 8
-		required_missions = {
-			ZAZ_ally_pol
-		}
+		required_missions = { ZAZ_ally_pol }
 		provinces_to_highlight = {
 			OR = {
 				country_or_non_sovereign_subject_holds = TUR
@@ -6160,12 +6019,11 @@ ZAZ_POL_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_POL_settle_east = {
 		icon = mission_build_up_to_force_limit
 		position = 9
-		required_missions = {
-			ZAZ_POL_expand_border
-		}
+		required_missions = { ZAZ_POL_expand_border }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 1943
@@ -6208,12 +6066,11 @@ ZAZ_POL_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_POL_settle_north = {
 		icon = mission_build_up_to_force_limit
 		position = 10
-		required_missions = {
-			ZAZ_POL_settle_east
-		}
+		required_missions = { ZAZ_POL_settle_east }
 		provinces_to_highlight = {
 			OR = {
 				area = podolia_volhynia_area
@@ -6234,12 +6091,11 @@ ZAZ_POL_missions_1 = {
 			}
 		}
 	}
+
 	ZAZ_POL_settle_east_2 = {
 		icon = mission_eastern_european_city
 		position = 11
-		required_missions = {
-			ZAZ_POL_settle_north
-		}
+		required_missions = { ZAZ_POL_settle_north }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 4529
@@ -6286,13 +6142,11 @@ ZAZ_POL_missions_2 = {
 		has_country_flag = zaz_allied_pol
 	}
 	has_country_shield = yes
+
 	ZAZ_POL_east_dniepr = {
 		icon = mission_empire
 		position = 10
-		required_missions = {
-			ZAZ_POL_cordon
-			ZAZ_POL_settle_east
-		}
+		required_missions = { ZAZ_POL_cordon ZAZ_POL_settle_east }
 		provinces_to_highlight = {
 			area = east_dniepr_area
 			NOT = {
@@ -6330,12 +6184,11 @@ ZAZ_POL_missions_2 = {
 			}
 		}
 	}
+
 	ZAZ_POL_sieze_ports = {
 		icon = mission_have_manufactories
 		position = 12
-		required_missions = {
-			ZAZ_POL_end_crimea
-		}
+		required_missions = { ZAZ_POL_end_crimea }
 		provinces_to_highlight = {
 			OR = {
 				area = crimea_area
@@ -6372,12 +6225,11 @@ ZAZ_POL_missions_3 = {
 		has_country_flag = zaz_allied_pol
 	}
 	has_country_shield = yes
+
 	ZAZ_POL_cri = {
 		icon = mission_conquer_5_states
 		position = 8
-		required_missions = {
-			ZAZ_ally_pol
-		}
+		required_missions = { ZAZ_ally_pol }
 		provinces_to_highlight = {
 			country_or_non_sovereign_subject_holds = CRI
 		}
@@ -6415,12 +6267,11 @@ ZAZ_POL_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_POL_end_crimea = {
 		icon = mission_noble_council
 		position = 11
-		required_missions = {
-			ZAZ_POL_cri
-		}
+		required_missions = { ZAZ_POL_cri }
 		provinces_to_highlight = {
 			OR = {
 				owned_by = ROOT
@@ -6475,12 +6326,11 @@ ZAZ_POL_missions_3 = {
 			}
 		}
 	}
+
 	ZAZ_POL_settle_south = {
 		icon = mission_have_two_subjects
 		position = 12
-		required_missions = {
-			ZAZ_POL_end_crimea
-		}
+		required_missions = { ZAZ_POL_end_crimea }
 		provinces_to_highlight = {
 			OR = {
 				area = azov_area
@@ -6520,12 +6370,11 @@ ZAZ_POL_missions_4 = {
 		has_country_flag = zaz_allied_pol
 	}
 	has_country_shield = yes
+
 	ZAZ_POL_insult_gol = {
 		icon = mission_conquer_novgorod
 		position = 8
-		required_missions = {
-			ZAZ_ally_pol
-		}
+		required_missions = { ZAZ_ally_pol }
 		provinces_to_highlight = {
 			country_or_non_sovereign_subject_holds = GOL
 		}
@@ -6600,12 +6449,11 @@ ZAZ_POL_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_POL_cordon = {
 		icon = mission_cannons_firing
 		position = 9
-		required_missions = {
-			ZAZ_POL_insult_gol
-		}
+		required_missions = { ZAZ_POL_insult_gol }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 1943
@@ -6652,12 +6500,11 @@ ZAZ_POL_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_POL_west_dniepr = {
 		icon = mission_unite_home_region
 		position = 10
-		required_missions = {
-			ZAZ_POL_cordon
-		}
+		required_missions = { ZAZ_POL_cordon }
 		provinces_to_highlight = {
 			area = west_dniepr_area
 			NOT = {
@@ -6695,13 +6542,11 @@ ZAZ_POL_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_POL_ruthenia = {
 		icon = mission_monarch_in_throne_room
 		position = 11
-		required_missions = {
-			ZAZ_POL_west_dniepr
-			ZAZ_POL_east_dniepr
-		}
+		required_missions = { ZAZ_POL_west_dniepr ZAZ_POL_east_dniepr }
 		provinces_to_highlight = {
 			region = ruthenia_region
 			NOT = {
@@ -6765,12 +6610,11 @@ ZAZ_POL_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_POL_russia = {
 		icon = mission_conquer_5_states
 		position = 12
-		required_missions = {
-			ZAZ_POL_ruthenia
-		}
+		required_missions = { ZAZ_POL_ruthenia }
 		provinces_to_highlight = {
 			OR = {
 				area = pskov_area
@@ -6847,12 +6691,11 @@ ZAZ_POL_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_POL_russia_2 = {
 		icon = mission_monarch_in_throne_room
 		position = 13
-		required_missions = {
-			ZAZ_POL_russia
-		}
+		required_missions = { ZAZ_POL_russia }
 		provinces_to_highlight = {
 			OR = {
 				area = ryazan_area
@@ -6896,12 +6739,11 @@ ZAZ_POL_missions_4 = {
 			}
 		}
 	}
+
 	ZAZ_POL_russia_3 = {
 		icon = mission_eastern_european_city
 		position = 14
-		required_missions = {
-			ZAZ_POL_russia_2
-		}
+		required_missions = { ZAZ_POL_russia_2 }
 		provinces_to_highlight = {
 			region = russia_region
 			NOT = {
@@ -6916,7 +6758,7 @@ ZAZ_POL_missions_4 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = zaz_russia_buff			#zaz_plc_buff
+				name = zaz_russia_buff #zaz_plc_buff
 				duration = 9125
 			}
 		}
@@ -6932,12 +6774,11 @@ ZAZ_POL_missions_5 = {
 		has_country_flag = zaz_allied_pol
 	}
 	has_country_shield = yes
+
 	ZAZ_POL_politics = {
 		icon = mission_crusade_for_varna
 		position = 8
-		required_missions = {
-			ZAZ_ally_pol
-		}
+		required_missions = { ZAZ_ally_pol }
 		trigger = {
 			dip = 3
 			legitimacy_equivalent = 90
@@ -7001,12 +6842,11 @@ ZAZ_POL_missions_5 = {
 			add_dip_power = 50
 		}
 	}
+
 	ZAZ_POL_politics_2 = {
 		icon = mission_have_two_subjects
 		position = 10
-		required_missions = {
-			ZAZ_POL_politics
-		}
+		required_missions = { ZAZ_POL_politics }
 		trigger = {
 			legitimacy_equivalent = 90
 			total_development = 350
@@ -7017,13 +6857,11 @@ ZAZ_POL_missions_5 = {
 			add_dip_power = 100
 		}
 	}
+
 	ZAZ_POL = {
 		icon = mission_alliances
 		position = 9
-		required_missions = {
-			ZAZ_POL_settle_north
-			ZAZ_POL_west_dniepr
-		}
+		required_missions = { ZAZ_POL_settle_north ZAZ_POL_west_dniepr }
 		provinces_to_highlight = {
 			area = moldavia_area
 			NOT = {
@@ -7053,12 +6891,11 @@ ZAZ_POL_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_POL_2 = {
 		icon = mission_conquer_5_states
 		position = 11
-		required_missions = {
-			ZAZ_POL
-		}
+		required_missions = { ZAZ_POL }
 		provinces_to_highlight = {
 			area = wallachia_area
 			NOT = {
@@ -7088,12 +6925,11 @@ ZAZ_POL_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_POL_3 = {
 		icon = mission_teutonic_knights
 		position = 12
-		required_missions = {
-			ZAZ_POL_2
-		}
+		required_missions = { ZAZ_POL_2 }
 		provinces_to_highlight = {
 			area = bulgaria_area
 			NOT = {
@@ -7141,12 +6977,11 @@ ZAZ_POL_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_POL_4 = {
 		icon = mission_galleys_in_port
 		position = 13
-		required_missions = {
-			ZAZ_POL_3
-		}
+		required_missions = { ZAZ_POL_3 }
 		provinces_to_highlight = {
 			OR = {
 				province_id = 149
@@ -7180,12 +7015,11 @@ ZAZ_POL_missions_5 = {
 			}
 		}
 	}
+
 	ZAZ_POL_5 = {
 		icon = mission_steppe_warriors
 		position = 14
-		required_missions = {
-			ZAZ_POL_4
-		}
+		required_missions = { ZAZ_POL_4 }
 		provinces_to_highlight = {
 			province_id = 151
 			NOT = {
@@ -7199,7 +7033,7 @@ ZAZ_POL_missions_5 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = zaz_tur_buff				#ZAZ_POL_buff
+				name = zaz_tur_buff #ZAZ_POL_buff
 				duration = 9125
 			}
 			country_event = {
