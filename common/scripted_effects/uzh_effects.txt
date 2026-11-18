@@ -25,6 +25,17 @@ uzh_select_dynasty_patron = {
 	}
 	else_if = {
 		limit = {
+			is_subject = no
+			any_known_country = { uzh_security_partner = yes }
+		}
+		random_known_country = {
+			limit = { uzh_security_partner = yes }
+			save_event_target_as = uzh_dynasty_patron
+		}
+		set_country_flag = uzh_dynasty_source_neighbor
+	}
+	else_if = {
+		limit = {
 			NOT = { is_subject = yes }
 			any_neighbor_country = {
 				total_development = 150

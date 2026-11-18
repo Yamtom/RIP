@@ -1,17 +1,31 @@
-uzh_powerful_monarchy_pressure = {
+# Candidate country scope, ROOT is the country convening the congress.
+uzh_security_partner = {
+	total_development = 150
 	OR = {
-		AND = {
-			is_subject = yes
-			overlord = {
-				exists = yes
-				government = monarchy
-				total_development = 150
-			}
-		}
-		any_neighbor_country = {
-			government = monarchy
-			total_development = 150
-		}
+		alliance_with = ROOT
+		ROOT = { guaranteed_by = PREV }
+	}
+}
+
+uzh_banat_province = {
+	OR = {
+		province_id = 156 # Temes
+		province_id = 1954 # Torontal
+	}
+}
+
+# A parliamentary seat represents its land directly. Other states qualify
+# through a developed provincial centre with a recognised culture.
+uzh_federal_land = {
+	region = carpathia_region
+	is_state = yes
+	OR = {
+		culture = ROOT
+		has_owner_accepted_culture = yes
+	}
+	OR = {
+		development = 10
+		has_seat_in_parliament = yes
 	}
 }
 
