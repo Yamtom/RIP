@@ -1,0 +1,650 @@
+# HLC, VOL, VLN | Western Ruthenian starters. Eligibility differs by slot and origin.
+
+VOL_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		west_ukraine_shared_starter = yes
+	}
+	has_country_shield = yes
+
+	VOL_declare_independence = {
+		icon = mission_have_two_subjects
+		required_missions = { }
+		position = 1
+		trigger = {
+			is_subject = no
+		}
+		effect = {
+			add_country_modifier = {
+				name = VOL_rebuild_nation
+				duration = 9125
+			}
+			podolia_volhynia_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			red_ruthenia_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			volhynia_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	VOL_unite_galicia = {
+		icon = mission_conquer_50_development
+		required_missions = { VOL_declare_independence }
+		position = 2
+		provinces_to_highlight = {
+			OR = {
+				area = podolia_volhynia_area
+				area = red_ruthenia_area
+				area = volhynia_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			podolia_volhynia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			red_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			volhynia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						government_rank = 2
+					}
+				}
+				set_government_rank = 2
+			}
+			west_dniepr_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			moldavia_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			if = {
+				limit = { west_ukraine_hlc_origin_country = yes }
+				country_event = { id = rip_galicia.1 }
+			}
+			add_dip_power = 25
+			add_adm_power = 25
+		}
+	}
+
+	VOL_conquer_malopolska = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { VOL_unite_galicia }
+		position = 4
+		provinces_to_highlight = {
+			OR = {
+				area = malopolska_area
+				area = sandomierz_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			malopolska_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			sandomierz_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_accepted_culture = polish
+			podlasie_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			podlasie_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	VOL_integrate_north = {
+		icon = mission_war_chest
+		required_missions = { VOL_conquer_malopolska }
+		position = 5
+		provinces_to_highlight = {
+			OR = {
+				area = white_ruthenia_area
+				area = podlasie_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			white_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			podlasie_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			white_ruthenia_area = {
+				change_culture = ROOT
+				change_religion = ROOT
+			}
+			podlasie_area = {
+				change_culture = ROOT
+				change_religion = ROOT
+			}
+			minsk_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			white_ruthenia_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			275 = {
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+}
+
+VOL_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		west_ukraine_shared_starter = yes
+	}
+	has_country_shield = yes
+
+	VOL_stability = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { VOL_church }
+		position = 2
+		provinces_to_highlight = {
+			area = podolia_volhynia_area
+		}
+		trigger = {
+			stability = 2
+			podolia_volhynia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = VOL_border_control
+				duration = 3654
+			}
+		}
+	}
+
+	VOL_conquer_west_dniepr = {
+		icon = mission_conquer_5_states
+		required_missions = { VOL_unite_galicia }
+		position = 3
+		provinces_to_highlight = {
+			area = west_dniepr_area
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			west_dniepr_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			yedisan_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			280 = {
+				if = {
+					limit = {
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_core = ROOT
+				}
+				move_capital_effect = yes
+				add_base_tax = 2
+				add_base_production = 2
+				add_base_manpower = 2
+				add_province_modifier = {
+					name = VOL_re_establishment_of_kyiv
+					duration = 9125
+				}
+			}
+		}
+	}
+}
+
+VOL_missions_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		west_ukraine_shared_starter = yes
+	}
+	has_country_shield = yes
+
+	VOL_church = {
+		icon = mission_assemble_an_army
+		required_missions = { }
+		position = 1
+		trigger = {
+			temple = 5
+			prestige = 50
+		}
+		effect = {
+			add_country_modifier = {
+				name = VOL_godliness
+				duration = 3650
+			}
+			add_country_modifier = {
+				name = VOL_mod_arch
+				duration = -1
+			}
+		}
+	}
+
+	VOL_full_army = {
+		icon = mission_cannons_firing
+		required_missions = { VOL_church }
+		position = 2
+		provinces_to_highlight = {
+			area = volhynia_area
+		}
+		trigger = {
+			army_size_percentage = 1
+			volhynia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			279 = {
+				add_building = fort_16th
+			}
+		}
+	}
+
+	VOL_conquer_moldavia = {
+		icon = rip_gfx_mission_chumak_salt_caravan_icon
+		required_missions = { VOL_unite_galicia }
+		position = 3
+		provinces_to_highlight = {
+			area = moldavia_area
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			moldavia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			1756 = {
+				# Crimea
+				add_trade_modifier = {
+					who = ROOT
+					duration = 7300
+					power = 15
+					key = VOL_control_danube
+				}
+				add_unit_construction = {
+					type = galley
+					amount = 5
+					speed = 0.5
+					cost = 0
+				}
+			}
+			yedisan_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	VOL_conquer_zaporozhia = {
+		icon = mission_non-western_cavalry_raid
+		required_missions = { VOL_conquer_west_dniepr VOL_conquer_moldavia }
+		position = 4
+		provinces_to_highlight = {
+			OR = {
+				area = zaporizhia_area
+				area = yedisan_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			zaporizhia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			yedisan_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			2413 = {
+				add_permanent_claim = ROOT
+			}
+			crimea_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = VOL_mastery_of_the_steppes
+				duration = 7300
+			}
+		}
+	}
+}
+
+VOL_missions_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		west_ukraine_hlc_vol_starter = yes
+	}
+	has_country_shield = yes
+
+	VOL_king_power = {
+		icon = mission_conquer_5_states
+		required_missions = { VOL_church }
+		position = 2
+		provinces_to_highlight = { area = red_ruthenia_area }
+		trigger = {
+			absolutism = 50
+			red_ruthenia_area = { type = all country_or_non_sovereign_subject_holds = ROOT }
+		}
+		effect = {
+			dip_power_cost = -50
+			capital_scope = {
+				cossack_cavalry = ROOT
+				cossack_cavalry = ROOT
+				cossack_cavalry = ROOT
+				cossack_cavalry = ROOT
+				cossack_cavalry = ROOT
+			}
+		}
+	}
+}
+
+VOL_missions_5 = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		west_ukraine_hlc_vol_starter = yes
+	}
+	has_country_shield = yes
+
+	VOL_renaissance_mission = {
+		icon = mission_early_modern_university
+		required_missions = { }
+		position = 1
+		trigger = {
+			has_institution = renaissance
+			stability = 2
+			prestige = 25
+			NOT = {
+				war_exhaustion = 1
+			}
+		}
+		effect = {
+			country_event = {
+				id = M_VOL_Events.1
+			}
+			add_country_modifier = {
+				name = VOL_ruthenian_renaissance
+				duration = 7300
+			}
+		}
+	}
+
+	VOL_expand_Chumatsky_Way_mission = {
+		icon = rip_gfx_mission_chumak_salt_caravan_icon
+		required_missions = { VOL_renaissance_mission }
+		position = 2
+		provinces_to_highlight = {
+			province_id = 261
+		}
+		trigger = {
+			261 = {
+				owned_by = ROOT
+				NOT = {
+					unrest = 1
+				}
+				NOT = {
+					devastation = 1
+				}
+				OR = {
+					has_building = workshop
+					has_building = counting_house
+				}
+				OR = {
+					has_building = trade_depot
+					has_building = stock_exchange
+				}
+			}
+		}
+		effect = {
+			261 = {
+				add_province_modifier = {
+					name = VOL_chumak_modifier
+					duration = -1
+				}
+			}
+		}
+	}
+
+	VOL_deal_with_the_boyar_mission = {
+		icon = mission_noble_council
+		required_missions = { VOL_expand_Chumatsky_Way_mission }
+		position = 3
+		trigger = {
+			if = {
+				limit = {
+					is_revolutionary = no
+				}
+				absolutism = 50
+			}
+			crown_land_share = 50
+		}
+		effect = {
+			add_adm_power = 100
+			add_country_modifier = {
+				name = VOL_dealt_with_the_boyar
+				duration = 7300
+			}
+		}
+	}
+
+	VOL_invest_in_west_rus_mission = {
+		icon = mission_have_manufactories
+		required_missions = { VOL_deal_with_the_boyar_mission }
+		position = 4
+		provinces_to_highlight = {
+			OR = {
+				province_id = 279
+				province_id = 2961
+			}
+		}
+		trigger = {
+			owns_core_province = 279
+			owns_core_province = 2961
+			279 = {
+				development = 20
+				has_manufactory_trigger = yes
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+					}
+					province_has_center_of_trade_of_level = 3
+				}
+				else = {
+					OR = {
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}
+			}
+			2961 = {
+				development = 20
+				has_manufactory_trigger = yes
+				if = {
+					limit = {
+						has_dlc = "Dharma"
+					}
+					province_has_center_of_trade_of_level = 2
+				}
+				else = {
+					OR = {
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}
+			}
+		}
+		effect = {
+			volhynia_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = VOL_invested_in_rus
+					duration = 7300
+				}
+			}
+			red_ruthenia_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = VOL_invested_in_rus
+					duration = 7300
+				}
+			}
+		}
+	}
+}

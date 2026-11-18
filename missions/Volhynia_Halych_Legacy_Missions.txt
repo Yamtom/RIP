@@ -1,0 +1,165 @@
+# HLC | Halych and successors with its mission legacy.
+
+VOL_missions_HLC = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = { west_ukraine_hlc_legacy_missions = yes }
+	has_country_shield = yes
+
+	hlc_halych_sejm_mission = {
+		icon = mission_assemble_an_army
+		required_missions = { VOL_conquer_malopolska }
+		position = 8
+		trigger = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = hlc_path_poland_req_tt
+					hlc_has_poland_path = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_halych_sejm_fallback_req_tt
+					AND = {
+						adm_tech = 10
+						total_development = 160
+						stability = 1
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = { name = rip_galicia_halych_sejm duration = 3650 }
+			add_adm_power = 50
+		}
+	}
+}
+
+VOL_missions_4_HLC = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = { west_ukraine_hlc_legacy_missions = yes }
+
+	hlc_carpathian_bulwark = {
+		icon = mission_conquer_50_development
+		required_missions = { VOL_unite_galicia }
+		position = 9
+		provinces_to_highlight = { area = red_ruthenia_area }
+		trigger = {
+			red_ruthenia_area = { type = all country_or_non_sovereign_subject_holds = ROOT }
+			num_of_owned_provinces_with = { value = 3 has_building = fort_15th }
+		}
+		effect = {
+			add_country_modifier = { name = rip_galicia_carpathian_shield duration = 3650 }
+			if = {
+				limit = {
+					NOT = { hlc_has_confessional_settlement = yes }
+				}
+				country_event = { id = rip_galicia.2 }
+			}
+		}
+	}
+
+	hlc_confessional_compact = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { hlc_carpathian_bulwark }
+		position = 10
+		trigger = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = hlc_confessional_dualism_confessional_req_tt
+					hlc_has_confessional_settlement = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_confessional_fallback_req_tt
+					AND = {
+						religious_unity = 0.75
+						stability = 1
+						num_of_owned_provinces_with = {
+							value = 5
+							development = 10
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					has_country_modifier = rip_galicia_uniate_synod
+					NOT = { has_country_modifier = rip_galicia_orthodox_bastion }
+				}
+				add_country_modifier = { name = rip_galicia_uniate_synod duration = 3650 }
+			}
+			if = {
+				limit = {
+					has_country_modifier = rip_galicia_orthodox_bastion
+					NOT = { has_country_modifier = rip_galicia_uniate_synod }
+				}
+				add_country_modifier = { name = rip_galicia_orthodox_bastion duration = 3650 }
+			}
+			if = {
+				limit = { has_country_modifier = rip_galicia_sejm_uniate }
+				add_country_modifier = { name = rip_galicia_sejm_uniate duration = 3650 }
+			}
+			if = {
+				limit = {
+					NOT = { hlc_has_constitution_settlement = yes }
+				}
+				country_event = { id = rip_galicia.3 }
+			}
+			add_prestige = 10
+		}
+	}
+
+	hlc_constitutional_settlement = {
+		icon = mission_have_two_subjects
+		required_missions = { hlc_confessional_compact }
+		position = 11
+		trigger = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = hlc_constitution_done_req_tt
+					hlc_has_constitution_settlement = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_constitution_fallback_req_tt
+					AND = {
+						adm_tech = 14
+						government_rank = 2
+						stability = 2
+					}
+				}
+			}
+		}
+		effect = {
+			add_prestige = 10
+			change_government_reform_progress = 15
+			if = {
+				limit = {
+					OR = {
+						hlc_has_constitution_civic_outcome = yes
+						has_country_modifier = rip_galicia_constitution
+					}
+				}
+				add_adm_power = 50
+				add_dip_power = 25
+			}
+			else_if = {
+				limit = {
+					OR = {
+						hlc_has_constitution_martial_outcome = yes
+						has_country_modifier = rip_galicia_crown_and_sabre
+					}
+				}
+				add_mil_power = 50
+				add_army_tradition = 5
+			}
+			else = {
+				add_adm_power = 25
+				add_dip_power = 25
+				add_mil_power = 25
+			}
+		}
+	}
+}

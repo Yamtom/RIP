@@ -1,0 +1,362 @@
+# VOL | Territorial expansion of Halycia-Volhynia in slots 1-3.
+
+VOL_missions_U_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = { tag = VOL }
+	has_country_shield = yes
+
+	VOL_demolish_poland = {
+		icon = mission_cannons_firing
+		required_missions = { VOL_integrate_north }
+		position = 8
+
+		trigger = {
+			NOT = { exists = POL }
+			OR = {
+				AND = {
+					alliance_with = HLC
+					HLC = {
+						num_of_owned_provinces_with = {
+							value = 5
+						}
+						custom_trigger_tooltip = {
+							tooltip = vol_demolish_poland_hlc_path_req_tt
+							hlc_has_any_path = yes
+						}
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = vol_demolish_poland_military_route_req_tt
+					AND = {
+						total_development = 250
+						army_size = 45
+						army_tradition = 40
+					}
+				}
+			}
+		}
+		effect = {
+			add_prestige = 25
+			add_mil_power = 100
+			if = {
+				limit = { alliance_with = HLC }
+				add_dip_power = 50
+			}
+			else = {
+				add_army_tradition = 5
+			}
+			add_prestige = 10
+		}
+	}
+}
+
+VOL_missions_U_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = { tag = VOL }
+	has_country_shield = yes
+
+	VOL_conquer_east_dniepr = {
+		icon = mission_unite_home_region
+		required_missions = { VOL_conquer_west_dniepr }
+		position = 4
+		provinces_to_highlight = {
+			OR = {
+				area = east_dniepr_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			east_dniepr_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			chernigov_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	volhynia_conquer_chernihiv = {
+		icon = mission_alliances
+		required_missions = { VOL_conquer_east_dniepr }
+		position = 5
+		provinces_to_highlight = {
+			OR = {
+				area = chernigov_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			chernigov_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			smolensk_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			sloboda_ukraine_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	VOL_conquer_bilorus = {
+		icon = mission_assemble_an_army
+		required_missions = { VOL_integrate_north volhynia_conquer_chernihiv }
+		position = 6
+		provinces_to_highlight = {
+			OR = {
+				area = minsk_area
+				area = white_ruthenia_area
+				province_id = 275
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			minsk_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			white_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			275 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_accepted_culture = byelorussian
+			smolensk_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	VOL_demolish_lithuania = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { VOL_conquer_bilorus }
+		position = 7
+		trigger = {
+			NOT = {
+				exists = LIT
+			}
+			NOT = {
+				exists = PLC
+			}
+		}
+		effect = {
+			lithuania_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			samogitia_area = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	VOL_land_collector = {
+		icon = mission_conquer_50_development
+		required_missions = { VOL_demolish_lithuania VOL_demolish_poland VOL_far_north }
+		position = 9
+		provinces_to_highlight = {
+			OR = {
+				area = samogitia_area
+				area = lithuania_area
+				area = pskov_area
+				area = novgorod_area
+				area = tver_area
+				province_id = 1952
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			samogitia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			lithuania_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			pskov_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			novgorod_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			tver_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			1952 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_adm_power = 500
+			add_dip_power = 500
+			add_mil_power = 500
+			ruthenia_region = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = ruthenian_integration
+					duration = 7300
+				}
+			}
+		}
+	}
+}
+
+VOL_missions_U_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = { tag = VOL }
+	has_country_shield = yes
+
+	VOL_conquer_sloboda = {
+		icon = mission_assemble_an_army
+		required_missions = { VOL_conquer_east_dniepr }
+		position = 6
+		provinces_to_highlight = {
+			OR = {
+				area = sloboda_ukraine_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			sloboda_ukraine_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			2409 = {
+				add_permanent_claim = ROOT
+			}
+			add_country_modifier = {
+				name = VOL_protectors_of_ruthenia
+				duration = 9125
+			}
+		}
+	}
+
+	VOL_conquer_smolensk = {
+		icon = mission_cannons_firing
+		required_missions = { volhynia_conquer_chernihiv }
+		position = 7
+		provinces_to_highlight = {
+			area = smolensk_area
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			smolensk_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_dip_power = 50
+			add_mercantilism = 2
+			293 = {
+				# kyiv
+				add_trade_modifier = {
+					who = ROOT
+					duration = 7300
+					power = 15
+					key = VOL_control_smolensk
+				}
+			}
+		}
+	}
+
+	VOL_demolish_MOS = {
+		icon = mission_conquer_5_states
+		required_missions = { VOL_conquer_smolensk }
+		position = 8
+		trigger = {
+			NOT = {
+				exists = MOS
+			}
+			NOT = {
+				exists = RUS
+			}
+		}
+		effect = {
+			add_prestige = 20
+		}
+	}
+}

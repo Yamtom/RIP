@@ -97,7 +97,7 @@
 
 ## Де що лежить
 
-- **Місії**: `missions/Volhynia_Missions.txt`, від рядка 2580.
+- Імперська й конституційна гілки починаються із серій `VOL_austrian_imperial_path_slot1` та `VOL_polish_constitutional_path_slot3`. [Місії Галичини-Волині](../missions/Volhynia_Missions.txt)
 - **Модифікатори**: `common/event_modifiers/VOL_mission_modifiers.txt`
 - **Події**: `events/RIP_VOL_VOL_path_events.txt`
 - **Локалізація**: `localisation/RIP_VOL_realm_l_english.yml`
