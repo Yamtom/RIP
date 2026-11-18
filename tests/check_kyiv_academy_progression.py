@@ -78,7 +78,7 @@ def test_flavor_event():
 
 def test_localization():
     loc_sources = [
-        ("english", [ROOT / "localisation" / "RIP_l_english.yml"]),
+        ("english", [ROOT / "localisation" / "RIP_HET_realm_l_english.yml", ROOT / "localisation" / "RIP_KIE_realm_l_english.yml"]),
     ] + [
         (lang, [
             ROOT / "localisation" / "replace" / f"RIP_HET_content_l_{lang}.yml",

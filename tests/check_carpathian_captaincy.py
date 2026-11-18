@@ -35,7 +35,7 @@ MECHANIC = "uzh_carpathian_captaincy_mechanic"
 MECH_FILE = "common/government_mechanics/rip_uzh_carpathian_captaincy.txt"
 REFORM_FILE = "common/government_reforms/RIP_UZH_government_reforms.txt"
 GFX = "interface/RIP_shared_government_captaincy_icons.gfx"
-EN_LOC = "localisation/rip_border_mechanics_l_english.yml"
+EN_LOC = "localisation/RIP_shared_frontier_border_watch_l_english.yml"
 TOKEN = "uzh_carpathian_captaincy_session"
 COOLDOWN_DESC = "uzh_carpathian_captaincy_session_cd"
 
@@ -87,7 +87,7 @@ def body(block):
 
 
 def loc_text(language, extra=None):
-    path = ROOT / "localisation" / ("rip_border_mechanics_l_english.yml" if language == "english"
+    path = ROOT / "localisation" / ("RIP_shared_frontier_border_watch_l_english.yml" if language == "english"
                                       else f"replace/RIP_shared_frontier_border_watch_l_{language}.yml")
     return path.read_text(encoding="utf-8-sig") if path.is_file() else ""
 

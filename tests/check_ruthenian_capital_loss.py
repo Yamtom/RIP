@@ -97,12 +97,12 @@ for tag, seat in table.items():
 cases += 1
 
 # --- 3. text -----------------------------------------------------------------
-loc = read('localisation/rip_capital_loss_l_english.yml')
+loc = read('localisation/RIP_shared_ruthenian_statehood_l_english.yml')
 for tag in table:
     key = 'rip_seat_become_' + tag.lower()
     assert re.search(rf'^ {key}_title:\d+ "[^"]+"', loc, re.M) and re.search(rf'^ {key}_desc:\d+ "[^"]+"', loc, re.M), key
     assert f'[{tag}.GetName]' in loc, key + ': the text names the realm through its tag'
-assert len(re.findall(r'^ \w+:\d+ ', loc, re.M)) == 2 * len(table), 'only the decisions\' own keys'
+assert len(re.findall(r'^ rip_seat_become_\w+:\d+ ', loc, re.M)) == 2 * len(table), 'unexpected capital decision keys'
 cases += 1
 
 

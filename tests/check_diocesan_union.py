@@ -83,7 +83,7 @@ for outcome in (2, 3):
 assert 'set_province_flag = rip_du_approached' in options[0]
 assert options[0].index('set_province_flag = rip_du_approached') < options[0].index('random_list')
 
-loc_path = ROOT / 'localisation/rip_diocesan_union_l_english.yml'
+loc_path = ROOT / 'localisation/RIP_shared_greek_catholic_union_l_english.yml'
 assert loc_path.read_bytes().startswith(b'\xef\xbb\xbf')
 loc = loc_path.read_text(encoding='utf-8-sig')
 for key in re.findall(r'(?:title|desc|name)\s*=\s*(rip_diocesan_union\.\d+\.[a-z])', events):
@@ -444,7 +444,7 @@ else:
     print('NOTE: events/RIP_shared_greek_catholic_EparchyHistory.txt absent; the seat-lock interface is checked from this side only')
 
 # Real text, defined once: no placeholder from zzz_missing may load later and win.
-khmelnytsky_loc = (ROOT / 'localisation/khmelnytsky_events_l_english.yml').read_text(encoding='utf-8-sig')
+khmelnytsky_loc = (ROOT / 'localisation/RIP_HET_realm_l_english.yml').read_text(encoding='utf-8-sig')
 k7_texts = entries(khmelnytsky_loc)
 wanted = ['khmelnytsky_events.7.t', 'khmelnytsky_events.7.d', 'khmelnytsky_events.7.a',
           'khmelnytsky_events.7.b', 'union_of_brest_enforced', 'desc_union_of_brest_enforced',
@@ -453,7 +453,7 @@ for key in wanted:
     assert key in k7_texts, key
     holders = [p.name for p in (ROOT / 'localisation').rglob('*_l_english.yml')
                if re.search(r'(?m)^ ' + re.escape(key) + r':\d', p.read_text(encoding='utf-8-sig'))]
-    assert holders == ['khmelnytsky_events_l_english.yml'], (key, holders)
+    assert holders == ['RIP_HET_realm_l_english.yml'], (key, holders)
 body = k7_texts['khmelnytsky_events.7.d']
 assert not body.startswith('Game model.')
 assert 'changes rite' in body and '+3 unrest' in body and '+5% autonomy' in body

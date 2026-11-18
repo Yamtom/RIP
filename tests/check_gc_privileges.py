@@ -64,7 +64,7 @@ for key in keys:
     assert len(re.findall(rf'(?m)^\s*{key}\s*$', estate)) == 1, key
 
 for language in ('english', 'french', 'german', 'spanish'):
-    path = ('localisation/rip_gc_privileges_l_english.yml' if language == 'english'
+    path = ('localisation/RIP_shared_greek_catholic_union_l_english.yml' if language == 'english'
             else f'localisation/replace/RIP_shared_greek_catholic_content_l_{language}.yml')
     loc = read(path)
     for key in keys:

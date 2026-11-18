@@ -70,7 +70,7 @@ assert 'greek_catholic_persecution_effect' not in effect_source
 assert 'persecution_of_greek_catholics' not in effect_source
 on_actions = read('common/on_actions/RIP_religion_greek_catholic_on_actions.txt')
 assert 'uniate_church.18' not in on_actions and 'uniate_church.20' not in on_actions
-english_loc = read('localisation/uniate_and_raid_l_english.yml')
+english_loc = read('localisation/RIP_shared_greek_catholic_union_l_english.yml')
 assert 'uniate_church.18.' not in english_loc and 'uniate_church.20.' not in english_loc
 assert 'persecution_of_greek_catholics:0 "Legacy: Wartime Parish Disruption"' in english_loc
 assert 'Wartime decrees and occupation once troubled mixed parishes across the frontier.' in english_loc
@@ -89,7 +89,7 @@ assert 'university' not in normalized(named_block(read('common/scripted_effects/
 # The decision tooltip states the payoff in words; keep it equal to the modifier.
 mod = normalized(named_block(read('common/event_modifiers/uniate_church_modifiers.txt'), 'uniate_educational_network'))
 assert 'advisor_pool = 1' in mod and 'advisor_cost = -0.1' in mod and 'global_missionary_strength = 0.02' in mod
-tooltip = next(l for l in read('localisation/uniate_and_raid_l_english.yml').splitlines() if 'greek_catholic_education_effect_tt:0' in l)
+tooltip = next(l for l in read('localisation/RIP_shared_greek_catholic_union_l_english.yml').splitlines() if 'greek_catholic_education_effect_tt:0' in l)
 assert '+1§! advisor pool' in tooltip and '-10%§! advisor cost' in tooltip and '+2%§! missionary strength' in tooltip
 assert 'custom_tooltip = greek_catholic_education_effect_tt' in normalized(read('decisions/GreekCatholicDecisions.txt'))
 print(f'PASS: {cases} school source-state cases; unsupported generic occupation and dependent remembrance events retired')

@@ -153,7 +153,7 @@ STANDING_FILE = 'common/scripted_triggers/rip_hierarchy_standing_triggers.txt'
 HLC_FILE = 'decisions/HLCMetropolitanatePaths.txt'
 UZH_TRIGGER_FILE = 'common/scripted_triggers/uzh_eparchy_triggers.txt'
 UZH_DECISION_FILE = 'decisions/UzhEparchyPath.txt'
-LOC_FILE = 'localisation/rip_synod_consequences_l_english.yml'
+LOC_FILE = 'localisation/RIP_shared_church_affairs_l_english.yml'
 
 standing = text_of(STANDING_FILE)
 hlc = text_of(HLC_FILE)

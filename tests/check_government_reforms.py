@@ -48,6 +48,11 @@ VANILLA_OVERRIDE_REFORMS = {
 }
 
 
+def read_root_english() -> str:
+    return "\n".join(path.read_text(encoding="utf-8-sig")
+                     for path in sorted((ROOT / "localisation").glob("*_l_english.yml")))
+
+
 def require(failures: list[str], condition: bool, message: str) -> None:
     if not condition:
         failures.append(message)
@@ -515,7 +520,7 @@ def check_localisation(failures: list[str], owners: dict[str, Path]) -> None:
 
     # Kyivan branches (Seniorate, Cesarstvo) carry clean in-universe descriptions
     # without meta labels in both the decision offers and reform tooltips.
-    english = read("localisation/RIP_l_english.yml")
+    english = read_root_english()
     for key in (
         "kyiv_shogunate_path_desc",
         "kyiv_cesarstvo_path_desc",
@@ -1593,7 +1598,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         "UZH eparchy Th2/Th3 decisions do not gate on the prior tier's reform",
     )
     for label, locale in [
-        ("localisation/RIP_l_english.yml", read("localisation/RIP_l_english.yml")),
+        ("localisation/*_l_english.yml", read_root_english()),
         ("localisation/replace/*_l_french.yml", read_replace_all("french")),
         ("localisation/replace/*_l_german.yml", read_replace_all("german")),
         ("localisation/replace/*_l_spanish.yml", read_replace_all("spanish")),
@@ -1607,7 +1612,7 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
             is None,
             f"UZH still globally renames the vanilla Dutch factions in {label}",
         )
-    english = read("localisation/RIP_l_english.yml")
+    english = read_root_english()
     fallback_texts = [(lang, read_replace_all(lang)) for lang in ("french", "german", "spanish")]
     for key in (
         "uzh_palanok_captaincy_reform_desc",

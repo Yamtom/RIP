@@ -16,7 +16,7 @@ policy texts say what each policy does to that pace and nothing about a timer.
 """
 COPY = {
  'old_believer': 'Old Believer',
- 'old_believer_religion_desc': 'Communities preserving the old Russian rites and rejecting the revised books. State institutions support visiting priests or lay elders, community assemblies, and endowed refuges. These are available through decisions. There is no common patriarchal-authority resource. The province religion represents a majority; smaller communities remain provincial modifiers.',
+ 'old_believer_religion_desc': 'The keepers of the old rite pray from the books their fathers used and refuse the revised service. Some receive visiting priests. Others entrust worship to lay elders. Their assemblies can endow refuges and shelter scattered congregations. A province follows the old rite where its adherents form the majority.',
  'old_believer_rebels_name': '$RELIGION$ Zealots',
  'old_believer_rebels_title': 'Old Believer Zealots',
  'old_believer_rebels_desc': 'These communities defend the old books. Their success can establish Old Believer majorities. A state conversion requires their faith to be dominant.',

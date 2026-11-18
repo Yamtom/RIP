@@ -16,7 +16,7 @@ controls = read('common/custom_gui/RIP_church_controls.txt')
 features = read('common/custom_gui/RIP_church_gc_features.txt')
 gui_generator = read('tools/build_church_gui.py')
 localisation_generator = read('tools/build_church_localisation.py')
-english = read_church_redesign_loc('english') + '\n' + read('localisation/rip_ro_blessing_window_l_english.yml')
+english = read_church_redesign_loc('english') + '\n' + read('localisation/RIP_shared_church_affairs_l_english.yml')
 interface = read('interface/countryreligionview.gui')
 custom_text = read_custom_localization('church')
 

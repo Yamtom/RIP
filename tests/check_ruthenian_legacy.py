@@ -39,7 +39,7 @@ while pending:
     pending = {key: dependencies for key, dependencies in pending.items() if key not in available}
 
 for language in ('english', 'french', 'german', 'spanish'):
-    path = ROOT / 'localisation' / f'Legacy_of_Rus_l_{language}.yml'
+    path = ROOT / 'localisation' / f'RIP_shared_ruthenian_legacy_missions_l_{language}.yml'
     assert path.read_bytes() == render(language), path
     new_keys = set(re.findall(r'^ (\S+):', render(language).decode('utf-8'), re.M))
     for other in (ROOT / 'localisation').rglob(f'*_l_{language}.yml'):

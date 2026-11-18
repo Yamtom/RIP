@@ -256,7 +256,7 @@ def check_policy_and_cooldowns(failures: list[str]) -> None:
 
 
 def check_localisation_and_docs(failures: list[str]) -> None:
-    loc = read("localisation/zzz_steppe_raiding_l_english.yml")
+    loc = read("localisation/RIP_shared_steppe_raids_l_english.yml")
     for event_id, options in ((11, "ab"), (12, "ab"), (13, "abc"),
                               (14, "ab"), (15, "ab"), (16, "ab")):
         for suffix in ("t", "d", *options):
@@ -275,7 +275,7 @@ def check_localisation_and_docs(failures: list[str]) -> None:
     for completed in ("ринок Кафи", "донськ", "черкес", "османська відповідь"):
         require(failures, completed.lower() not in future.lower(),
                 f"STEPPE_RAIDING_SYSTEM: completed feature remains FUTURE: {completed}")
-    require(failures, "localisation/zzz_steppe_raiding_l_english.yml" in doc,
+    require(failures, "localisation/RIP_shared_steppe_raids_l_english.yml" in doc,
             "STEPPE_RAIDING_SYSTEM: localisation path is stale")
     require(failures, "Єдисан (`282`)" in doc and "Яїк (`474`)" in doc,
             "STEPPE_RAIDING_SYSTEM: corrected migration IDs are not documented")

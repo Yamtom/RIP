@@ -181,7 +181,7 @@ def read_loc(path):
 
 
 LOC = read_loc(ROOT / 'localisation/replace/RIP_shared_church_redesign_l_english.yml')
-LOC.update(read_loc(ROOT / 'localisation/rip_ro_blessing_window_l_english.yml'))
+LOC.update(read_loc(ROOT / 'localisation/RIP_shared_church_affairs_l_english.yml'))
 LADDERS = {}
 for kind, body in parse(read_custom_localization('church')):
     if kind == 'defined_text':

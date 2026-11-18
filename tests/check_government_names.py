@@ -173,7 +173,7 @@ def check_triggers_and_mappings(failures: list[str], text: str) -> None:
         "Boyar Republic of Rus' must have nine rank/ruler names of its own",
     )
     loc_files = {
-        "english": "localisation/zzz_missing_l_english.yml",
+        "english": "localisation/RIP_KRU_realm_l_english.yml",
         "french": "localisation/replace/RIP_KRU_content_l_french.yml",
         "german": "localisation/replace/RIP_KRU_content_l_german.yml",
         "spanish": "localisation/replace/RIP_KRU_content_l_spanish.yml",
@@ -535,10 +535,8 @@ def check_visible_language(failures: list[str]) -> None:
     ]
     english = "\n".join(
         [
-            read("localisation/RIP_l_english.yml"),
-            read("localisation/volhynia_government_l_english.yml"),
-            read("localisation/zaz_paths_l_english.yml"),
-            read("localisation/podillia_events_l_english.yml"),
+            *(path.read_text(encoding="utf-8-sig") for path in
+              sorted((ROOT / "localisation").glob("*_l_english.yml"))),
             *replace_gov_texts,
         ]
     )

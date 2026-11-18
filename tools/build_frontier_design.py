@@ -162,7 +162,7 @@ OR = {{ ai = no rip_frontier_{key}_ai_budget = yes }}'''))
         text[decision_ids[key]+'_title']=text.pop('rip_frontier_'+key+'_purchase_title')
         text[decision_ids[key]+'_desc']=text.pop('rip_frontier_'+key+'_purchase_desc')
     for lang in ('english','french','german','spanish'):
-        result[f'localisation/rip_frontier_design_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(f' {k}:0 "{v}"\n' for k,v in sorted(text.items()))
+        result[f'localisation/RIP_shared_frontier_settlements_l_{lang}.yml']='\ufeffl_'+lang+':\n'+''.join(f' {k}:0 "{v}"\n' for k,v in sorted(text.items()))
     return result
 
 def main():

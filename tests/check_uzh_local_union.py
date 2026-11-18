@@ -15,7 +15,7 @@ SOURCES = {
     'events': 'events/RIP_UZH_UzhLocalUnion.txt',
     'uzh': 'events/RIP_UZH_Uzh.txt',
     'missions': 'missions/Zakarpatta_Missions.txt',
-    'loc': 'localisation/rip_uzh_local_union_l_english.yml',
+    'loc': 'localisation/RIP_UZH_realm_l_english.yml',
     'country': 'history/countries/UZH - Huszt.txt',
     'province': 'history/provinces/1952 - Maramaros.txt',
     'doc': 'docs/UZHHOROD_LOCAL_UNION.uk.md',

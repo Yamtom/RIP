@@ -94,7 +94,7 @@ def test_localization():
     ]
 
     loc_sources = [
-        ("english", ["localisation/RIP_l_english.yml"]),
+        ("english", ["localisation/RIP_KIE_realm_l_english.yml", "localisation/RIP_VLN_realm_l_english.yml"]),
     ] + [
         (lang, [
             f"localisation/replace/RIP_KIE_content_l_{lang}.yml",

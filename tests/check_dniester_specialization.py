@@ -94,7 +94,7 @@ def check_specialization_contract(failures: list[str]) -> None:
 
 
 def check_localisation_notes(failures: list[str]) -> None:
-    loc = read("localisation/uniate_and_raid_l_english.yml")
+    loc = read("localisation/RIP_shared_frontier_estuary_l_english.yml")
     for key in (
         "establish_dniester_fishing_desc:",
         "establish_dniester_wine_trade_desc:",

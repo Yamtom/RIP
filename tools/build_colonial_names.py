@@ -18,7 +18,7 @@ from clausewitz_testlib import _mask_comments_and_strings, matching_brace, vanil
 
 DATA = ROOT / 'tools/data/rip_colonial_names.json'
 RELATIVE = 'common/colonial_regions/00_colonial_regions.txt'
-LOC = 'localisation/rip_colonial_names_l_english.yml'
+LOC = 'localisation/RIP_shared_ruthenian_colonial_names_l_english.yml'
 MANIFEST = 'docs/data/colonial_names_source.json'
 BEGIN = '\t# RIP CULTURAL NAMES BEGIN\n'
 END = '\t# RIP CULTURAL NAMES END\n'

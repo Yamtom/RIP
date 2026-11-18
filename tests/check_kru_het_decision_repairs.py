@@ -265,7 +265,7 @@ def check_autonomy():
     for hook in ('on_startup', 'on_monthly_pulse'):
         assert 'het_autonomy_upkeep_effect = yes' in named_block(hooks, hook)
     for lang in ('english', 'french', 'german', 'spanish'):
-        path = ROOT / f'localisation/rip_het_autonomy_l_{lang}.yml'
+        path = ROOT / f'localisation/RIP_HET_realm_l_{lang}.yml'
         assert path.read_bytes().startswith(b'\xef\xbb\xbf')
         text = path.read_text(encoding='utf-8-sig')
         assert 'rip_het_autonomy_defended:0' in text and 'desc_rip_het_autonomy_defended:0' in text

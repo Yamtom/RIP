@@ -6,7 +6,7 @@ from clausewitz_testlib import named_block, read
 
 decisions = read("decisions/HLCRepublicPaths.txt")
 triggers = read_scripted_trigger_family("path_state_triggers")
-localisation = read("localisation/rip_galicia_l_english.yml")
+localisation = read("localisation/RIP_HLC_realm_l_english.yml")
 
 boyars = named_block(decisions, "hlc_the_boyars_take_power")
 boyar_potential = named_block(boyars, "potential")

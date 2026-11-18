@@ -23,7 +23,7 @@ for eid, block in blocks.items():
 # The bull must not touch the UZH road: no reform, no government change.
 assert 'add_government_reform' not in events and 'change_government' not in events
 
-loc = read('localisation/rip_habsburg_greek_catholic_l_english.yml')
+loc = read('localisation/RIP_shared_greek_catholic_union_l_english.yml')
 for eid in blocks:
     for suffix in ('t', 'd', 'a', 'b'):
         assert f' {eid}.{suffix}:0 ' in loc, (eid, suffix)

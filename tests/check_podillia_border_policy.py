@@ -157,7 +157,7 @@ def test_localization():
         "pdl_elites_delegated",
     ]
     for lang_file in [
-        "localisation/RIP_l_english.yml",
+        "localisation/RIP_PDL_realm_l_english.yml",
         "localisation/replace/RIP_PDL_content_l_french.yml",
         "localisation/replace/RIP_PDL_content_l_german.yml",
         "localisation/replace/RIP_PDL_content_l_spanish.yml",
@@ -168,7 +168,7 @@ def test_localization():
 
     generated = ["pdl_border_policy.1.desc", "pdl_border_policy.1.a", "pdl_border_policy.1.b", "pdl_border_policy.1.c", "rip_rg_cancel"]
     for language in ("english", "french", "german", "spanish"):
-        content = (ROOT / f"localisation/zzz_rip_regional_governments_l_{language}.yml").read_text(encoding="utf-8-sig")
+        content = (ROOT / f"localisation/RIP_shared_government_orders_l_{language}.yml").read_text(encoding="utf-8-sig")
         for key in generated:
             assert f" {key}:" in content, f"Missing key {key} in the generated {language} file"
 

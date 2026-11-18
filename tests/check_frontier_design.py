@@ -196,7 +196,7 @@ def contracts():
     assert '1756' in read('decisions/DniesterEstuaryDecisions.txt')
     assert '282' in named_block(read('decisions/OdesaGovernmentDecisions.txt'),'establish_hajibey_free_port')
     for lang in ('english','french','german','spanish'):
-        text=read('localisation/rip_frontier_design_l_'+lang+'.yml')
+        text=read('localisation/RIP_shared_frontier_settlements_l_'+lang+'.yml')
         assert 'Shared ten-year term' in text and 'five NEW normal claims' in text
 
 

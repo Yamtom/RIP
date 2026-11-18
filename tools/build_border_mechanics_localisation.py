@@ -1,4 +1,4 @@
-"""Write the French, German and Spanish copies of localisation/rip_border_mechanics_l_english.yml.
+"""Write the French, German and Spanish copies of localisation/RIP_shared_frontier_border_watch_l_english.yml.
 
 The mod's source language is English. French, German and Spanish carry the English text
 under localisation/replace/ so that nothing renders as a raw key while a translation is
@@ -20,7 +20,7 @@ from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "localisation" / "rip_border_mechanics_l_english.yml"
+SOURCE = ROOT / "localisation" / "RIP_shared_frontier_border_watch_l_english.yml"
 LANGUAGES = {
     "french": "Traduction partielle",
     "german": "Teilweise ubersetzt",
@@ -45,7 +45,7 @@ def render(language: str, lines_out: list[str]) -> bytes:
         f"l_{language}:",
         "",
         f" # {LANGUAGES[language]} (owner={OWNER}, entity={ENTITY}). The mod's source language is English;",
-        " # the entries below are copied from localisation/rip_border_mechanics_l_english.yml so nothing",
+        " # the entries below are copied from localisation/RIP_shared_frontier_border_watch_l_english.yml so nothing",
         " # renders as a raw key while the translation is outstanding. Written by",
         " # tools/build_border_mechanics_localisation.py: change the English file, not this one.",
         "",

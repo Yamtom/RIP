@@ -5,7 +5,7 @@ import argparse
 ROOT = Path(__file__).resolve().parents[1]
 MISSIONS = {
     'ukr_kyiv_mohyla_academy': ('Kyiv Mohyla Academy', 'Bring the printing press to our realm and establish a flourishing centre of learning in Kyiv.'),
-    'ukr_magdeburg_laws': ('Magdeburg Law', 'Support prosperous towns and secure the confidence of their burghers.'),
+    'ukr_magdeburg_laws': ('Magdeburg Law', 'Our burghers ask to elect their magistrates and hear disputes in their own courts. A town that prospers under its charter gives its neighbours reason to petition for the same rights.'),
     'ukr_barocco': ('Ruthenian Baroque', 'Develop Kyiv and Chernihiv and build churches throughout the Dnieper towns.'),
     'ukr_kyiv_patriarchate': ('The Church of Kyiv', 'Strengthen the religious institutions of Kyiv and secure the support of the clergy.'),
     'ukr_second_jerusalem': ('A Second Jerusalem', 'Defend our faith and establish a cathedral and university in Kyiv.'),
@@ -13,7 +13,7 @@ MISSIONS = {
     'ukr_dnipro': ('Across the Dnieper', 'Secure and develop the lands along the eastern Dnieper.'),
     'ukr_chernihiv': ('The Chernihiv Lands', 'Unite Chernihiv, Novhorod-Siverskyi and Starodub under our rule.'),
     'ukr_ostrozkyi_princes': ('The Ostrozkyi Patrons', 'Support learning in the Volhynian lands around Ostroh and Rivne.'),
-    'ukr_sweden_alliance': ('The Swedish Question', 'Resolve our relations with Sweden through alliance, rivalry or the disappearance of its crown.'),
+    'ukr_sweden_alliance': ('The Swedish Question', 'While a king sits in Sweden, our envoys must decide whether to seek his friendship or challenge his power in the Baltic. If the Swedish crown falls, the question settles itself.'),
     'ukr_take_smolensk': ('Secure Smolensk', 'Bring the Smolensk lands under our rule or that of our subjects.'),
     'ukr_defeat_muscowy': ('Break Muscovite Power', 'Control Moscow and the Oka lands, and end Muscovite or Russian rule over Novgorod.'),
     'ukr_podillya': ('The Podillian Lands', 'Secure the Podillian lands on our western frontier.'),
@@ -54,7 +54,7 @@ TEXT = {
     'ukrainian_grain': 'Ruthenian Grain Exports',
     'ukr_black_sea_cossack_raids': 'Black Sea ports held, occupied or raided',
     'flavor_ukr_legacy_of_rus.1.t': 'Our Banners at Tsarhorod',
-    'flavor_ukr_legacy_of_rus.1.d': 'Our victory at Constantinople has transformed our standing among the powers of Europe. The city offers new opportunities for trade and diplomacy, alongside the burden of defending the straits.',
+    'flavor_ukr_legacy_of_rus.1.d': 'Our banners fly over Tsarhorod. Merchants waiting to pass the Bosporus already seek safe conduct from our captains. Word will reach the courts of Europe soon enough. For now the garrison needs its pay.',
     'flavor_ukr_legacy_of_rus.1.a': 'Let our envoys announce the victory.',
     'flavor_ukr_legacy_of_rus.2.t': 'Muscovite Power Broken',
     'flavor_ukr_legacy_of_rus.2.d': 'With Moscow under our authority and Novgorod beyond Muscovite rule, the balance of power has shifted. Our court can now press its own claims to leadership among the lands of Rus.',
@@ -86,7 +86,7 @@ def main():
     args = parser.parse_args()
     stale = []
     for language in ('english', 'french', 'german', 'spanish'):
-        path = ROOT / 'localisation' / f'Legacy_of_Rus_l_{language}.yml'
+        path = ROOT / 'localisation' / f'RIP_shared_ruthenian_legacy_missions_l_{language}.yml'
         expected = render(language)
         if not path.exists() or path.read_bytes() != expected:
             if args.check:

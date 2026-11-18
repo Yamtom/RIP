@@ -22,7 +22,7 @@ loc = {key: value.replace('\\n', '\n') for key, value in re.findall(
     r'^ ([\w.]+):\d+ "(.*)"$',
     read_church_redesign_loc('english'),
     re.M)}
-loc.update({key: value.replace('\\n', '\n') for key,value in re.findall(r'^ ([\w.]+):\d+ "(.*)"$', read('localisation/rip_ro_blessing_window_l_english.yml'), re.M)})
+loc.update({key: value.replace('\\n', '\n') for key,value in re.findall(r'^ ([\w.]+):\d+ "(.*)"$', read('localisation/RIP_shared_church_affairs_l_english.yml'), re.M)})
 node_loc = {key: value for key, value in re.findall(
     r'^ ([\w.]+):\d+ "(.*)"$',
     (ROOT / 'localisation/replace/RIP_shared_church_nodes_l_english.yml').read_text(encoding='utf-8-sig'),

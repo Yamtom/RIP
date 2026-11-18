@@ -189,6 +189,9 @@ def classify_static_key(
         if core.startswith(pref):
             core = core[len(pref):]
     src_en = en_source.get(key, "")
+    tagged_source = parse_replace_filename(src_en)
+    if tagged_source:
+        return tagged_source[0], "content"
 
     # 2a. Exact English source-file provenance for fallback entries
     if src_en in (
@@ -575,7 +578,7 @@ def check_current(manifest: dict | None = None) -> list[str]:
 
     if manifest and "language_digests" in manifest:
         for lang in LANGUAGES:
-            expected = manifest["language_digests"][lang]
+            expected = manifest.get("current_language_digests", manifest["language_digests"])[lang]
             ordered = sorted(by_lang[lang])
             payload = json.dumps(ordered, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
             actual_sha = hashlib.sha256(payload).hexdigest()
@@ -624,6 +627,8 @@ def main() -> int:
 
     if args.update_manifest:
         manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+        # Keep the original file migration snapshot alongside the edited catalogue.
+        manifest["current_language_digests"] = snapshot_current()["language_digests"]
         manifest["allowed_tags"] = sorted(ALLOWED_TAGS)
         manifest["allowed_shared"] = sorted(ALLOWED_SHARED)
         manifest["generator_groups"] = dict(sorted(GENERATOR_OWNED_GROUPS.items()))

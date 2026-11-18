@@ -85,8 +85,8 @@ decadence_shown = choice('RipGovDecadence',
     + [('has_country_flag = rip_decadence_initialized', '§G0§!')],
     '§YNot started: it begins at 20 at the first yearly review§!')
 annual_text = '\n'.join(factor('RipGov'+n,t,v,l) for n,t,v,l in annual)
-annual_tip = 'Current conditions for the next yearly pulse; coloured values are active, 0 means inactive. Add these values together. Events can change Decadence separately; this is not a forecast of intervening events.\n' + annual_text + '\nOn the first yearly update, an uninitialised zero starts at 20 before these changes. Annual modifiers: below 40 / 40-69 / at least 70.'
-crisis_tip = 'Court Crisis can start accumulating while the Kyivan Confederation holds this reform, faces no other disaster, and Decadence reaches at least 90. Base monthly progress at 90+: +6; frontier centralisation +1.5, frontier liberties -1, southern recovery -1. Progress recedes below 75. An active crisis ends only when Decadence is below 60 AND stability is at least +1.\nThe first annual crossing of 90 can also trigger a separate court event; its choices reduce Decadence. A threshold does not mean the disaster starts immediately.'
+annual_tip = 'Yearly change in Decadence under present conditions. Add the coloured values below. Court events may also raise or lower Decadence.\n' + annual_text + '\nAt the first yearly review, Decadence starts at 20 before the adjustments listed above. Its effects change at 40 and again at 70.'
+crisis_tip = 'Court Crisis can start accumulating while the Kyivan Confederation holds this reform, faces no other disaster, and Decadence reaches at least 90. Base monthly progress at 90+: +6; frontier centralisation +1.5, frontier liberties -1, southern recovery -1. Progress recedes below 75. An active crisis ends only when Decadence is below 60 AND stability is at least +1.\nThe first time a yearly review puts Decadence at 90 or higher, the court may offer a way to reduce it. The disaster begins only when its progress is full.'
 kru_rows = [row('rip_gov_kru_title',12,'§YRada of Three Estates§!',coalition_tip), row('rip_gov_kru_leader',40,'Right (leads): '+leader,coalition_tip),
             row('rip_gov_kru_second',64,'Left (second): '+second,coalition_tip), row('rip_gov_kru_opposition',88,'Opposition: '+opposition,coalition_tip),
             row('rip_gov_kru_bar',112,'Bar: '+bar,coalition_tip), row('rip_gov_kru_voice',136,'Junior voice: '+voice,coalition_tip),
@@ -108,7 +108,7 @@ concord_factors = [('Stable','stability = 2',.1,'stability at least +2'),('Unsta
 gather_factors = [('Eligible','rip_cesar_integration_eligible = yes',.3,'integration eligible'),('Cultures','rip_cesar_integration_eligible = yes num_accepted_cultures = 3',.15,'eligible and at least 3 accepted cultures'),('Minority','rip_cesar_integration_eligible = yes check_variable = { which = rip_cesar_minority_share value = 0.3 }',.15,'eligible and non-primary share at least 30%'),('Throne','rip_cesar_integration_eligible = yes '+power(concord,60),.1,'eligible and Concord at least 60'),('Excluded15','check_variable = { which = rip_cesar_excluded_share value = 0.15 }',-.25,'unaccepted share at least 15%'),('Excluded30','check_variable = { which = rip_cesar_excluded_share value = 0.3 }',-.35,'unaccepted share at least 30% (stacks with 15%)'),('WeakThrone','NOT = { '+power(concord,30)+' }',-.2,'Concord below 30'),('Exhausted','war_exhaustion = 5',-.15,'war exhaustion at least 5'),('Ineligible','NOT = { rip_cesar_integration_eligible = yes }',-.5,'integration not eligible')]
 concord_tip = 'Monthly Concord: base +0.10, plus active values below.\n'+'\n'.join(factor('CesarConcord'+n,t,v,l) for n,t,v,l in concord_factors)+'\nAt zero Concord, Throne in Disarray lasts 1825 days.'
 gather_tip = 'Monthly Gathering: base 0, plus active values below.\n'+'\n'.join(factor('CesarGather'+n,t,v,l) for n,t,v,l in gather_factors)+'\nAt 100: a 3650-day compact, +10 prestige and +10 Concord; Gathering resets to 40. This reset is not a breakdown.'
-recovery_tip = 'Monthly breakdown check: unaccepted development at least 30% AND Gathering below 20. Once per breakdown: -15 Concord and Throne in Disarray for 1825 days.\nRecovery requires unaccepted development strictly below 15% AND Gathering at least 40. It clears the breakdown flag; the timed Throne in Disarray modifier remains until expiry. Falling to zero Concord can also apply that modifier.'
+recovery_tip = 'Each month, if cultures the crown has yet to accept account for at least 30% of development and Gathering is below 20, the court loses 15 Concord and suffers Throne in Disarray for 1825 days. This loss occurs once per crisis.\nThe crisis ends once unaccepted development falls below 15% and Gathering reaches 40. Throne in Disarray lasts its full term. It can also take effect when Concord falls to zero.'
 cesar_rows = [row('rip_gov_cesar_title',12,'§YCesarstvo: Lands and Settlement§!',lands_tip),row('rip_gov_cesar_minority',44,'Non-primary development: ~'+minority,lands_tip),row('rip_gov_cesar_excluded',72,'Unaccepted development: ~'+excluded,lands_tip),row('rip_gov_cesar_eligible',104,'Integration: '+eligible,elig_tip),row('rip_gov_cesar_concord',136,'Throne Concord: monthly factors',concord_tip),row('rip_gov_cesar_gather',164,'Gathering: monthly factors',gather_tip),row('rip_gov_cesar_breakdown',198,breakdown,recovery_tip),row('rip_gov_cesar_recovery',230,'Crisis and recovery: hover for thresholds',recovery_tip)]
 
 # --- Institutional resolutions (Municipal, Chancery, Register) -------------------------------------------------------
@@ -151,8 +151,8 @@ res_stability = choice('RipGovResStability', [('NOT = { stability = 0 }', '§RSt
 res_treasury = choice('RipGovResTreasury', [('NOT = { treasury = 50 }', '§RUnder 50 ducats§!')], '§G50 ducats§!')
 
 res_title_tip = ('Institutional resolutions: the towns\' charters, the chancery\'s rolls and the Cossack register can each pass one paid resolution of ten years, '
-                 'and only one resolution can stand in the whole realm.\nThe buttons are in the government mechanics box on the left of this window; '
-                 'their tooltips say what each one costs, what it does and why it is refused.')
+                 'and only one resolution can stand in the whole realm.\nChoose a resolution on the left. '
+                 'Hover over a resolution to see its cost, effects and requirements.')
 res_now_tip = ('The resolution in force, if any. A resolution ends after ten years, or at once if the reform that gave it is removed; '
                'the ten-year term still runs on and no other resolution can be passed until it is over.')
 res_needs_tip = ('To pass a resolution you need:\n- peace\n- stability of at least 0\n- 50 ducats, which are paid\n- 50 monarch power of the kind named on the button, which is paid\n'
@@ -164,7 +164,7 @@ res_lines_tip = ('What each button does, for ten years:\n'
                  '- Confirm the Local Rights (50 DIP): -10% culture promotion cost, -0.5 national unrest, -5% national tax\n'
                  '- Fund the Full Muster (50 MIL): +5% manpower recovery, +5% land maintenance\n'
                  '- Settle the Service Obligations (50 DIP): -0.5 national unrest, -5% national manpower')
-res_hint_tip = 'The two buttons are in the mechanics box on the left, under the government description. Scroll within that panel if the lower row sits below the frame.'
+res_hint_tip = 'Choose a resolution beneath the government description on the left. Scroll down to see further orders.'
 
 
 def resolution_block(prefix, y, step):
@@ -172,7 +172,7 @@ def resolution_block(prefix, y, step):
     return [row(f'rip_gov_{prefix}_res_now', y, 'In force: ' + res_name, res_now_tip),
             row(f'rip_gov_{prefix}_res_left', y + step, res_left, res_now_tip),
             row(f'rip_gov_{prefix}_res_needs', y + 2 * step, 'Needs: ' + res_peace + ' | ' + res_stability + ' | ' + res_treasury, res_needs_tip),
-            row(f'rip_gov_{prefix}_res_hint', y + 3 * step, 'Buttons: mechanics box, left.', res_hint_tip),
+            row(f'rip_gov_{prefix}_res_hint', y + 3 * step, 'Orders on the left', res_hint_tip),
             row(f'rip_gov_{prefix}_res_lines', y + 4 * step, res_lines, res_lines_tip, height=132)]
 
 
@@ -207,7 +207,7 @@ hlc_crown_rows = [row('rip_gov_hlc_crown_title', 12, '§YFrontier Crown: Six Ord
 for index, (key, label, power, power_test, modifier, effect) in enumerate(ORDINANCES):
     hlc_crown_rows.append(row(f'rip_gov_hlc_crown_{key.lower()}', 64 + 26 * index, f'{label} (50 {power}): ' + ordinance_state(key, label, power, power_test, modifier),
                               f'{label} Ordinance - for ten years: {effect}.\nCosts 50 {power} power. At most three of the six can be in force; none can be taken back.'))
-hlc_crown_rows.append(row('rip_gov_hlc_crown_hint', 226, 'Buttons: mechanics box, left.', 'The six ordinance buttons are in the mechanics box on the left, two rows of three. Scroll within that panel if the lower row sits below the frame.'))
+hlc_crown_rows.append(row('rip_gov_hlc_crown_hint', 226, 'Orders on the left', 'Choose among six ordinances on the left. Scroll down to see the second row.'))
 
 # --- Galicia: the Boyar Council (the Polish fork of the voivodeship) ------------------------------------------------------
 hlc_council = choice('RipGovHlcCouncil', [
@@ -227,7 +227,7 @@ hlc_rows = [
     row('rip_gov_hlc_title', 12, '§YGalicia: Boyar Council§!', hlc_council_tip),
     row('rip_gov_hlc_council', 38, 'Council Course: ' + hlc_council, hlc_council_tip),
     row('rip_gov_hlc_session', 64, 'Council Session: ' + hlc_session, hlc_session_tip),
-    row('rip_gov_hlc_hint', 92, 'Buttons: mechanics box, left.', 'The three council buttons are in the mechanics box on the left, under the government description.')
+    row('rip_gov_hlc_hint', 92, 'Orders on the left', 'Choose a council order beneath the government description on the left.')
 ]
 
 # --- Lithuania: Pany Rada (LIT) ---

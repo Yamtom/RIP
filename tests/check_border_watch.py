@@ -98,7 +98,7 @@ def block_of(text, name):
 
 
 def loc_text(language):
-    path = ROOT / "localisation" / ("rip_border_mechanics_l_english.yml" if language == "english"
+    path = ROOT / "localisation" / ("RIP_shared_frontier_border_watch_l_english.yml" if language == "english"
                                       else f"replace/RIP_shared_frontier_border_watch_l_{language}.yml")
     return path.read_text(encoding="utf-8-sig") if path.is_file() else ""
 

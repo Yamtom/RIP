@@ -20,7 +20,7 @@ for directory in ('common', 'events', 'decisions', 'missions', 'interface'):
         text = re.sub(r'#[^\n]*', '', path.read_bytes().decode('latin-1'))
         assert not re.search(r'\brip_gc_test[._]', text), str(path)
 
-loc_path = ROOT / 'localisation/rip_gc_test_l_english.yml'
+loc_path = ROOT / 'localisation/RIP_shared_church_test_events_l_english.yml'
 assert loc_path.read_bytes().startswith(b'\xef\xbb\xbf')
 loc = loc_path.read_text(encoding='utf-8-sig')
 keys = re.findall(r'^\s+(\S+):\d*\s+"', loc, re.M)

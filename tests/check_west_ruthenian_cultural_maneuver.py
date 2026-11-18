@@ -742,7 +742,7 @@ def check_localisation() -> None:
     }
 
     for lang in ("english", "french", "german", "spanish"):
-        path = ROOT / "localisation" / f"rip_west_ruthenian_maneuver_l_{lang}.yml"
+        path = ROOT / "localisation" / f"RIP_shared_west_ruthenian_charters_l_{lang}.yml"
         raw = path.read_bytes()
         assert raw.startswith(b"\xef\xbb\xbf"), f"{path.name} missing UTF-8 BOM"
         assert not raw.startswith(b"\xef\xbb\xbf\xef\xbb\xbf"), f"{path.name} has double BOM"

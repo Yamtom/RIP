@@ -428,7 +428,7 @@ def load_loc():
     for language in LANGUAGES:
         text = read(f'localisation/replace/RIP_KRU_government_rada_l_{language}.yml')
         loc[language] = dict(re.findall(r'(?m)^ (\w+):\d+ "(.*)"$', text))
-    loc['ui'] = dict(re.findall(r'(?m)^ (\w+):\d+ "(.*)"$', read('localisation/zzzz_rip_government_ui_l_english.yml')))
+    loc['ui'] = dict(re.findall(r'(?m)^ (\w+):\d+ "(.*)"$', read('localisation/RIP_shared_government_powers_l_english.yml')))
     return loc
 
 

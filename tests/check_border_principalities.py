@@ -150,8 +150,8 @@ def check_modifiers_and_integration(failures: list[str]) -> None:
 
 
 def check_localisation_and_docs(failures: list[str]) -> None:
-    border_loc = read("localisation/border_principalities_l_english.yml")
-    qasim_loc = read("localisation/qasim_khanate_l_english.yml")
+    border_loc = read("localisation/RIP_shared_frontier_lordships_l_english.yml")
+    qasim_loc = read("localisation/RIP_QAS_realm_l_english.yml")
     for number in range(1, 13):
         for suffix in ("t", "d"):
             require(failures, f"border_principalities.{number}.{suffix}:" in border_loc,

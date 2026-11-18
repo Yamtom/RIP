@@ -99,7 +99,7 @@ def test_dynamic_names():
 
 def test_localization():
     loc_files = [
-        ROOT / "localisation" / "zaz_paths_l_english.yml",
+        ROOT / "localisation" / "RIP_ZAZ_realm_l_english.yml",
         ROOT / "localisation" / "replace" / "RIP_ZAZ_content_l_french.yml",
         ROOT / "localisation" / "replace" / "RIP_ZAZ_content_l_german.yml",
         ROOT / "localisation" / "replace" / "RIP_ZAZ_content_l_spanish.yml",

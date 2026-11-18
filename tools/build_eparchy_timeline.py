@@ -5,7 +5,7 @@ Generated files (never edit by hand; each carries a header saying so):
 
     common/scripted_triggers/rip_eparchy_triggers.txt   date windows, readiness gates
     events/RIP_EparchyHistory.txt                        two hidden starters + one visible event per row
-    localisation/rip_eparchy_l_english.yml               event texts (fr/de/es inherit from English)
+    localisation/RIP_shared_church_eparchies_l_english.yml               event texts (fr/de/es inherit from English)
 
 Usage:
     python tools/build_eparchy_timeline.py            rewrite the three files
@@ -41,7 +41,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / 'tools/data/eparchy_timeline.json'
 TRIGGERS = 'common/scripted_triggers/rip_eparchy_triggers.txt'
 EVENTS = 'events/RIP_shared_greek_catholic_EparchyHistory.txt'
-LOC = 'localisation/rip_eparchy_l_english.yml'
+LOC = 'localisation/RIP_shared_church_eparchies_l_english.yml'
 GENERATOR = 'tools/build_eparchy_timeline.py'
 KINDS = ('union_convert', 'union_modifier_only', 'development')
 ROLES = ('protection', 'diocese', 'metropolitan', 'resistance')

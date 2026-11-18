@@ -16,8 +16,10 @@ Verifies:
 from __future__ import annotations
 
 from collections import defaultdict
+from hashlib import sha256
 import json
 from pathlib import Path
+import re
 import sys
 import tempfile
 
@@ -73,6 +75,44 @@ def test_generator_and_static_groups_disjoint() -> None:
     assert "language_digests" in manifest
 
 
+def test_catalogue() -> None:
+    """Moving or editing a string must preserve its key, version and loading layer."""
+    root = ROOT / "localisation"
+    manifest = json.loads(layout.MANIFEST_PATH.read_text(encoding="utf-8"))
+    known_owners = layout.ALLOWED_OWNERS | {"ZAZ_HET", "KUY"}
+    owner_names = "|".join(sorted(known_owners, key=len, reverse=True))
+    name_pattern = re.compile(rf"RIP_(?:{owner_names})_[a-z][a-z0-9_]*_l_({'|'.join(layout.LANGUAGES)})\.yml")
+    # These entries also occur in the installed vanilla catalogue. Retain their load order.
+    priority_files = {
+        "000_RIP_shared_ruthenian_restoration_l_english.yml": {"restored_ruthenia"},
+        "zzz_RIP_shared_ruthenian_overrides_l_english.yml": {
+            "conquest_of_constantinople", "grand_duchy_reform_desc", "POSADNIK",
+            "GRAND_POSADNIK", "POSADNITSA", "GRAND_POSADNITSA", "zasechnaya_cherta",
+        },
+    }
+    by_layer = defaultdict(list)
+    for path in root.rglob("*.yml"):
+        assert path.parent in (root, root / "replace"), path
+        name = path.name
+        if name in priority_files:
+            assert path.parent == root, path
+            name = name.split("_", 1)[1]
+        match = name_pattern.fullmatch(name)
+        assert match, path
+        lang = match[1]
+        assert path.read_text(encoding="utf-8-sig").splitlines()[0] == f"l_{lang}:", path
+        entries = layout.parse_yml_entries(path)
+        if path.name in priority_files:
+            assert {key for key, _, _ in entries} == priority_files[path.name], path
+        layer = "root" if path.parent == root else "replace"
+        by_layer[layer, lang].extend((key, version) for key, version, _ in entries)
+    for (layer, lang), entries in by_layer.items():
+        assert len(entries) == len({k for k, _ in entries}), (layer, lang, "duplicate keys")
+        payload = json.dumps(sorted(entries), separators=(",", ":")).encode()
+        assert sha256(payload).hexdigest() == manifest["catalogue_key_digests"][layer][lang], (layer, lang)
+    assert len(by_layer) == 2 * len(layout.LANGUAGES)
+
+
 def test_planted_violations() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         tmp_dir = Path(tmp)
@@ -120,6 +160,7 @@ def main() -> int:
     problems = layout.check_current()
     assert not problems, "\n".join(problems)
     test_no_overlap_with_root_localisation()
+    test_catalogue()
     test_generator_and_static_groups_disjoint()
     test_planted_violations()
     total_files = len(list((ROOT / "localisation/replace").glob("*.yml")))

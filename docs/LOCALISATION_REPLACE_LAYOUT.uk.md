@@ -1,5 +1,7 @@
 # Тегова система найменування файлів у `localisation/replace/`
 
+Поточну структуру всього каталогу та межі перевірки описано в [localisation/README.uk.md](../localisation/README.uk.md). Нижче збережено опис початкової міграції. Після редактури текстів первинні контрольні суми залишаються в маніфесті як історичний знімок, а перевірка використовує також актуальні контрольні суми.
+
 Міграцію виконано з повною перевіркою еквівалентності даних через [localisation_replace_layout.py](../tools/localisation_replace_layout.py) та еталонний маніфест [localisation_replace_manifest.json](data/localisation_replace_manifest.json).
 
 ## 1. Правило іменування файлів

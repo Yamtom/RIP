@@ -29,7 +29,7 @@
 | Спільні ефекти ринку й реакцій | `common/scripted_effects/steppe_raid_effects.txt` |
 | Модифікатори подій і провінцій | `common/event_modifiers/steppe_raid_modifiers.txt` |
 | Модифікатори думки | `common/opinion_modifiers/RIP_opinion_modifiers.txt` |
-| Англійська локалізація | `localisation/zzz_steppe_raiding_l_english.yml` |
+| Англійська локалізація | `localisation/RIP_shared_steppe_raids_l_english.yml` |
 | Загальна інтеграція набігів | `events/RIP_shared_steppe_RaidMechanics.txt` |
 | Інтеграція Запорожжя й Гетьманщини | `events/RIP_ZAZ_ZaporizhiaFixes.txt`, `events/RIP_HET_HetmanateCossackRaids.txt`, `common/scripted_effects/zaz_het_effects.txt` |
 | Політика місій щодо Кафи | `missions/Zaporozhie_Missions.txt` (`ZAZ_TUR_slave_trade`) |

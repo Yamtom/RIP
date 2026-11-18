@@ -47,7 +47,7 @@ assert 'provincial_uniate_resistance' not in rite_compact
 assert 'rip_church_forced_integration' not in rite_compact
 assert 'rip_church_historical_east_effect = yes' in rite_compact
 assert 'dual_communion_compromise' in rite_compact
-english_localisation = read('localisation/uniate_and_raid_l_english.yml')
+english_localisation = read('localisation/RIP_shared_greek_catholic_union_l_english.yml')
 assert 'bishops' in english_localisation.split('uniate_church.1.a:0', 1)[1].splitlines()[0].lower()
 assert 'royal decree' in english_localisation
 assert 'Eastern rite' in english_localisation and 'Latinization' in english_localisation
@@ -58,7 +58,7 @@ modifier = named_block(
 )
 assert 'diplomatic_reputation = -1' in modifier
 
-localisation = read('localisation/uniate_and_raid_l_english.yml')
+localisation = read('localisation/RIP_shared_greek_catholic_union_l_english.yml')
 assert "weakens our diplomatic standing for fifteen years" in localisation
 assert 'orthodox_revival_movement:0 "Orthodox Revival Movement"' in localisation
 assert "diplomatic standing by 1 for 15 years" in localisation

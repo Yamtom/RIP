@@ -719,7 +719,7 @@ for key in list(DATA):
     match=re.fullmatch(r'rip_church_(ro|gc)(?:_(east|middle|rome))?_pa_(country|local)_(\d+)',key)
     if match:
         DATA[key]='Church authority adjustment: '+str(int(match[4])*5)+'%'
-        DATA['desc_'+key]='Offsets the inherited Orthodox authority bonus for this confession. Recalculated in five-point authority bands; the native Orthodox faith is unchanged.'
+        DATA['desc_'+key]='The strength of the local hierarchy determines its influence here. Its effects change for every five points of Hierarchical Capacity.'
 
 DATA.update({
  'rip_church_gc_course_range':'East -100     |     Balanced -40 ... +40     |     Rome +100',
@@ -924,9 +924,8 @@ for key in list(DATA):
 STATE_UNION_ALT=('When an Orthodox realm holds no Catholic overlord, the sovereign adopts the Union for the whole state '
  'rather than leaving bishops to conclude accords under foreign crowns.')
 # Shared mechanics cover several local church traditions, not one jurisdiction.
-REGIONAL_UNION_NOTE=('This settlement covers several distinct Ruthenian and Carpathian Eastern Catholic union traditions rather than one monolithic institution. '
- 'Brest, Uzhhorod, Peremyshl, Lviv and Lutsk followed separate local histories, chronologies and jurisdictions; '
- 'each region kept its own customs and ecclesiastical order.')
+REGIONAL_UNION_NOTE=('Communion with Rome embraces several distinct Ruthenian and Carpathian Eastern Catholic union traditions. '
+ 'The bishops of Brest, Uzhhorod, Peremyshl, Lviv and Lutsk each answer for their own flocks and customs.')
 DATA.update({
  'convert_to_greek_catholic_decision_title':'Accept a local church union',
  'convert_to_greek_catholic_decision_desc':STATE_UNION_ALT+' Bring our local hierarchy into communion with Rome while retaining its Byzantine rite. '+REGIONAL_UNION_NOTE,
@@ -1302,8 +1301,8 @@ GC_CAPACITY_HELP=('Hierarchical Capacity (HC) measures the administrative streng
  'A local synod lasts ten years and costs 20 HC plus 75 ducats for Infrastructure (-10% state maintenance, +5% church loyalty and -5% local autonomy in owned Greek Catholic core cities), '
  'or 20 HC plus 100 ducats for Coexistence (-0.5 global unrest, +10% improve relations and +5% local autonomy in recognized non-Greek-Catholic communities). '
  'A parish visit costs 5 HC, 100 ducats and 25 ADM, once per ten years: choose +1% local missionary strength or -1 local unrest in one eligible province; either choice also gives -5% local tax for ten years. '
- 'The inherited Orthodox bonuses are offset by balancing modifiers in five-point bands rounded down. At 100 HC the net country effects are 0% global missionary strength and 0% church influence; '
- 'owned Greek Catholic provinces have -0.375 local unrest and 0% local manpower. Between bands, a small part of the native bonus remains. Other decisions show their own HC thresholds and costs.')
+ 'The effects of Hierarchical Capacity change in five-point bands. At 100 HC the net country effects are 0% global missionary strength and 0% church influence; '
+ 'owned Greek Catholic provinces have -0.375 local unrest and 0% local manpower. Between those marks the exact bonuses vary slightly. Other decisions show their own HC thresholds and costs.')
 # Native EU4 1.37.5 modifiers multiply the exact authority fraction. The RIP
 # country/province modifiers compensate the fraction rounded DOWN to five
 # points. Display their sum, not the hidden compensation as if it were a cost.
@@ -1572,7 +1571,7 @@ DATA.update(OLD_BELIEVER_COPY)
 DATA.update(GOVERNANCE_COPY)
 # These historical keys now have one generator-owned definition. Retire the
 # former hand-maintained copies, preserving every unrelated key and the BOM.
-legacy_ro_paths = ['localisation/russian_orthodox_l_english.yml'] + [
+legacy_ro_paths = ['localisation/RIP_MOS_RUS_realm_l_english.yml'] + [
  f'localisation/replace/RIP_MOS_RUS_content_l_{lang}.yml'
  for lang in ('french','german','spanish')
  if (ROOT / f'localisation/replace/RIP_MOS_RUS_content_l_{lang}.yml').is_file()]

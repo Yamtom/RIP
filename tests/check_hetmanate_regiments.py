@@ -96,7 +96,7 @@ def test_localization():
     ]
 
     for lang_file in [
-        "localisation/RIP_l_english.yml",
+        "localisation/RIP_HET_realm_l_english.yml",
         "localisation/replace/RIP_HET_content_l_french.yml",
         "localisation/replace/RIP_HET_content_l_german.yml",
         "localisation/replace/RIP_HET_content_l_spanish.yml",
