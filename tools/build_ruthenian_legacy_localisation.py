@@ -23,7 +23,7 @@ MISSIONS = {
     'ukr_visla': ('The Western Borderlands', 'Secure our claims towards the Vistula and across the Carpathian frontier.'),
     'ukr_crown_of_lithuania': ('The Lithuanian Inheritance', 'Bring the Lithuanian and Belarusian lands under our authority.'),
     'ukr_ruthenian_empire': ('A Ruthenian Empire', 'Complete our great enterprises and establish a stable and prestigious imperial state.'),
-    'ukr_cossacks': ('The Cossack Frontier', 'Secure Zaporizhzhia and Ingil and organize the forces of the frontier.'),
+    'ukr_cossacks': ('The Cossack Frontier', 'Secure Zaporozhia and Ingil and organize the forces of the frontier.'),
     'ukr_age_of_heroic_campaigns': ('The Black Sea Campaigns', 'Establish our power along the Black Sea coast through conquest, occupation or raids.'),
     'ukr_sahaydachnyi_reforms': ('Reform the Cossack Host', 'Build an experienced army and establish capable military leadership.'),
     'ukr_crimea': ('Secure Crimea', 'Bring Crimea and the adjoining steppe lands under our rule.'),
