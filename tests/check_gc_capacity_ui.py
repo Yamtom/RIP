@@ -4,7 +4,7 @@ import re
 from decimal import Decimal
 from pathlib import Path
 
-from clausewitz_testlib import ROOT, keyed_blocks, named_block, read, vanilla_root
+from clausewitz_testlib import ROOT, keyed_blocks, named_block, read, vanilla_root, read_church_redesign_loc
 from clausewitz_testlib import read_custom_localization
 
 gui = read("interface/countryreligionview.gui")
@@ -71,7 +71,7 @@ assert "potential = { religion = greek_catholic }" in gc_heading_binding
 assert "tooltip = rip_church_authority_heading_tt" in gc_heading_binding
 
 help_text = (
-    "native Patriarch Authority bar (0–100)",
+    "local Eastern hierarchy (0–100)",
     "+7.5 HC per year (+0.625 per month)",
     "Country-specific decisions, events and mission rewards",
     "Liturgy grants +1 yearly prestige",
@@ -88,9 +88,7 @@ localisation_generator = read("tools/build_church_localisation.py")
 for phrase in help_text:
     assert phrase in localisation_generator, ("generator", phrase)
 for language in ("english", "french", "german", "spanish"):
-    localisation = read(
-        f"localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml"
-    )
+    localisation = read_church_redesign_loc(language)
     tooltip = next(
         line for line in localisation.splitlines()
         if line.startswith(" rip_church_gc_resources_tt:")
@@ -140,7 +138,7 @@ rows = [
 assert [fraction for fraction, _ in rows] == [Decimal(i) / 100 for i in range(100, -1, -1)]
 tooltip_labels = {}
 for language in ("english", "french", "german", "spanish"):
-    text = read(f"localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml")
+    text = read_church_redesign_loc(language)
     labels = dict(re.findall(r'^ (\w+):0 "(.*)"$', text, re.M))
     assert labels["rip_church_gc_capacity_hover_tt"] == "[Root.GetChurchCapacityTooltip]"
     assert labels["rip_church_authority_heading_tt"] == "[Root.GetChurchAuthorityTooltip]"

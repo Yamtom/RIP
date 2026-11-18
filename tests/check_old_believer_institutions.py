@@ -183,7 +183,7 @@ events_text = read("events/RIP_shared_orthodox_OldBelieverInstitutions.txt")
 assert events_text.count("is_triggered_only = yes") == 3
 assert not re.search(r"\belse(?:_if)?\s*=", events_text)
 for lang in ("english", "french", "german", "spanish"):
-    path = ROOT / f"localisation/replace/zzzz_RIP_church_redesign_l_{lang}.yml"
+    path = ROOT / f"localisation/replace/RIP_shared_church_redesign_l_{lang}.yml"
     raw = path.read_bytes()
     assert raw.startswith(b"\xef\xbb\xbf") and not raw[3:].startswith(b"\xef\xbb\xbf")
     text = raw.decode("utf-8-sig")

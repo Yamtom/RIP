@@ -1,11 +1,11 @@
 """Regression coverage for blank RO counters, exhausted Fervor, the variable rename and the network status."""
 from church_testlib import fixture, parse
-from clausewitz_testlib import read
+from clausewitz_testlib import read, read_church_redesign_loc
 from clausewitz_testlib import read_custom_localization
 import re
 
 loc = dict(re.findall(r'^\s*([^#\s:]+):\d*\s+"(.*)"\s*$',
-                     read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml'), re.M))
+                     read_church_redesign_loc('english'), re.M))
 definitions = {dict(body)['name']: body for kind, body in
                parse(read_custom_localization('church')) if kind == 'defined_text'}
 cases = 0

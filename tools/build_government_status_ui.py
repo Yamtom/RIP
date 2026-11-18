@@ -5,9 +5,13 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from custom_localization_layout import split_custom_localization
-import argparse, os
+import argparse
 ROOT = Path(__file__).resolve().parents[1]
-GAME = Path(os.environ.get('EU4_DIR', 'D:/Programs Files(x86)/Steam/steamapps/common/Europa Universalis IV'))
+sys.path.insert(0, str(ROOT / 'tests'))
+from clausewitz_testlib import vanilla_root
+GAME = vanilla_root()
+if GAME is None:
+    raise SystemExit('BLOCKED: government UI generation requires the supported vanilla version; set EU4_DIR to an unpacked 1.37 installation')
 LOC = {}
 DYNAMIC = []
 CONTROLS = []
@@ -57,12 +61,12 @@ bar = choice('RipGovRadaBar', [('kru_leader_influence_60 = yes', 'Right, three q
                                ('kru_leader_influence_55 = yes', 'Right, a half (leader at 55+)'),
                                ('kru_leader_influence_50 = yes', 'Right, a quarter (leader at 50+)')], 'Centre (leader under 50: contested)')
 voice = choice('RipGovJuniorVoice', [(f'has_country_modifier = KRU_junior_{f}', n) for f, n in factions], 'None')
-coalition_tip = ('The States General bar (Res Publica or Winds of Change) shows the two blocs that lead the rada: the bloc that is SECOND by influence stands on the LEFT, '
+coalition_tip = ('The balance bar shows the two blocs that lead the rada: the bloc that is SECOND by influence stands on the LEFT, '
                  'the dominant bloc - the faction in power - on the RIGHT. The third bloc is the opposition and is not on the bar.\n'
-                 'When the pair changes, the rada swaps to the reform that has it: six reform ids, one government called Rada of Three Estates.\n'
+                 'When the leading pair changes, the Rada shifts to the standing held by that pair under the Rada of Three Estates.\n'
                  'The bar is centred while the leader has under 50 influence and moves right by a quarter, a half and three quarters at 50, 55 and 60; the bloc on the side in power '
-                 'gives its floor modifiers. The leader also keeps the vanilla faction-in-power modifier. The runner-up keeps a junior voice from 38 influence.\n'
-                 'The record refreshes every month and after every court ability. Without Res Publica or Winds of Change the pair, the faction panel and the abilities work, but there is no bar.')
+                 'gives its floor modifiers. The leader also keeps its faction-in-power standing. The runner-up keeps a junior voice from 38 influence.\n'
+                 'The record refreshes every month and after every court ability. Where no Estates balance bar is active, the leading pair, the faction council and the court abilities still govern the realm.')
 annual = [
  ('StabZero','stability = 0 NOT = { stability = 1 }',2,'stability = 0'),
  ('StabBad','NOT = { stability = 0 }',3,'stability < 0'),
@@ -82,7 +86,7 @@ decadence_shown = choice('RipGovDecadence',
     '§YNot started: it begins at 20 at the first yearly review§!')
 annual_text = '\n'.join(factor('RipGov'+n,t,v,l) for n,t,v,l in annual)
 annual_tip = 'Current conditions for the next yearly pulse; coloured values are active, 0 means inactive. Add these values together. Events can change Decadence separately; this is not a forecast of intervening events.\n' + annual_text + '\nOn the first yearly update, an uninitialised zero starts at 20 before these changes. Annual modifiers: below 40 / 40-69 / at least 70.'
-crisis_tip = 'Court Crisis can start accumulating for KRU with this reform, no other disaster, and Decadence at least 90. Base monthly progress at 90+: +6; frontier centralisation +1.5, frontier liberties -1, southern recovery -1. Progress recedes below 75. An active crisis ends only when Decadence is below 60 AND stability is at least +1.\nThe first annual crossing of 90 can also trigger a separate court event; its choices reduce Decadence. A threshold does not mean the disaster starts immediately.'
+crisis_tip = 'Court Crisis can start accumulating while the Kyivan Confederation holds this reform, faces no other disaster, and Decadence reaches at least 90. Base monthly progress at 90+: +6; frontier centralisation +1.5, frontier liberties -1, southern recovery -1. Progress recedes below 75. An active crisis ends only when Decadence is below 60 AND stability is at least +1.\nThe first annual crossing of 90 can also trigger a separate court event; its choices reduce Decadence. A threshold does not mean the disaster starts immediately.'
 kru_rows = [row('rip_gov_kru_title',12,'§YRada of Three Estates§!',coalition_tip), row('rip_gov_kru_leader',40,'Right (leads): '+leader,coalition_tip),
             row('rip_gov_kru_second',64,'Left (second): '+second,coalition_tip), row('rip_gov_kru_opposition',88,'Opposition: '+opposition,coalition_tip),
             row('rip_gov_kru_bar',112,'Bar: '+bar,coalition_tip), row('rip_gov_kru_voice',136,'Junior voice: '+voice,coalition_tip),
@@ -96,7 +100,7 @@ minority = share('rip_cesar_minority_share', 'RipGovMinorityShare')
 excluded = share('rip_cesar_excluded_share', 'RipGovExcludedShare')
 eligible = choice('RipGovIntegration', [('rip_cesar_integration_eligible = yes','§GEligible§!')], '§RNot eligible§!')
 breakdown = choice('RipGovBreakdown', [('has_country_flag = rip_cesar_breakdown','§RBreakdown active§!')], 'No active breakdown')
-lands_tip = 'Shares use total development of ALL owned provinces, including territories; subjects are excluded. The census updates monthly. Displayed whole percentages are rounded down; thresholds use the exact share.\nNon-primary: provinces whose culture differs from the owner\'s primary culture. Unaccepted: the subset of those provinces for which the engine reports no owner-accepted culture. Accepted same-group cultures therefore follow the engine\'s cultural-union rules.\nConquest, development, province loss, culture conversion and changes in accepted or primary culture alter these shares at the next census. Promoting a culture can reduce the unaccepted share without reducing the non-primary share.'
+lands_tip = 'Shares use total development of ALL owned provinces, including territories; subjects are excluded. The census updates monthly. Displayed whole percentages are rounded down; thresholds use the exact share.\nNon-primary: provinces whose culture differs from the owner\'s primary culture. Unaccepted: the subset of those provinces whose culture the crown does not recognize as accepted. Accepted cultures within our cultural union follow imperial union standing.\nConquest, development, province loss, culture conversion and changes in accepted or primary culture alter these shares at the next census. Promoting a culture can reduce the unaccepted share without reducing the non-primary share.'
 elig_tip = 'Integration requires ALL three: at least one owned non-primary province with an owner-accepted culture; at least one accepted culture; non-primary development at least 10%. A cultural union alone does not waive the accepted-culture requirement.\nThree accepted cultures add growth only while these requirements hold. Development matters, not the number of provinces.'
 power = lambda p,v: f'has_government_power = {{ mechanic_type = {p}_mechanic power_type = {p} value = {v} }}'
 concord = 'kyivan_throne_concord'; gathering = 'kyivan_peoples_gathering'
@@ -160,7 +164,7 @@ res_lines_tip = ('What each button does, for ten years:\n'
                  '- Confirm the Local Rights (50 DIP): -10% culture promotion cost, -0.5 national unrest, -5% national tax\n'
                  '- Fund the Full Muster (50 MIL): +5% manpower recovery, +5% land maintenance\n'
                  '- Settle the Service Obligations (50 DIP): -0.5 national unrest, -5% national manpower')
-res_hint_tip = 'The two buttons are in the mechanics box on the left, under the government description. The bottom row may need the mouse wheel.'
+res_hint_tip = 'The two buttons are in the mechanics box on the left, under the government description. Scroll within that panel if the lower row sits below the frame.'
 
 
 def resolution_block(prefix, y, step):
@@ -187,7 +191,7 @@ hlc_slots = choice('RipGovHlcSlots', [
     ('NOT = { hlc_ordinance_slot_free = yes }', '§Y3 / 3 (full)§!'),
     ('calc_true_if = { ' + hlc_modifiers + ' amount = 2 }', '§G2 / 3 (1 free)§!'),
     ('calc_true_if = { ' + hlc_modifiers + ' amount = 1 }', '§G1 / 3 (2 free)§!')], '§G0 / 3 (3 free)§!')
-hlc_slots_tip = ('Ordinance slots: the crown keeps at most three of its six ordinances in force (hlc_ordinance_slot_free). Each ordinance costs 50 monarch power of the kind '
+hlc_slots_tip = ('Ordinance slots: the crown keeps at most three of its six ordinances in force. Each ordinance costs 50 monarch power of the kind '
                  'named, stands for ten years and cannot be enacted again before its term ends; the crown cannot take one back. '
                  'A slot opens when an ordinance runs out or the crown authority is lost.')
 
@@ -203,7 +207,7 @@ hlc_crown_rows = [row('rip_gov_hlc_crown_title', 12, '§YFrontier Crown: Six Ord
 for index, (key, label, power, power_test, modifier, effect) in enumerate(ORDINANCES):
     hlc_crown_rows.append(row(f'rip_gov_hlc_crown_{key.lower()}', 64 + 26 * index, f'{label} (50 {power}): ' + ordinance_state(key, label, power, power_test, modifier),
                               f'{label} Ordinance - for ten years: {effect}.\nCosts 50 {power} power. At most three of the six can be in force; none can be taken back.'))
-hlc_crown_rows.append(row('rip_gov_hlc_crown_hint', 226, 'Buttons: mechanics box, left.', 'The six ordinance buttons are in the mechanics box on the left, two rows of three. The bottom row may need the mouse wheel.'))
+hlc_crown_rows.append(row('rip_gov_hlc_crown_hint', 226, 'Buttons: mechanics box, left.', 'The six ordinance buttons are in the mechanics box on the left, two rows of three. Scroll within that panel if the lower row sits below the frame.'))
 
 # --- Galicia: the Boyar Council (the Polish fork of the voivodeship) ------------------------------------------------------
 hlc_council = choice('RipGovHlcCouncil', [
@@ -217,7 +221,7 @@ hlc_session = choice('RipGovHlcSession', [
 ], '§GReady to Convene§!')
 
 hlc_council_tip = 'Active Boyar Council course:\n- Co-option (Confirm in Office): +10 Noble Loyalty for 10 years (available below 60% loyalty)\n- Dynastic Defense (Counter Claimant): +3 Legitimacy for 10 years (available below 60% legitimacy)\n- Repression (Make an Example): +3 Army Tradition, -5 Noble Loyalty for 7 years (at peace, loyalty < 40%)'
-hlc_session_tip = 'Shared 10-year session lockout:\nThe Boyar Council courses share a single 10-year cooldown token (hlc_boyar_council_session).\nChoosing any course convenes the council and locks all other courses for 10 years because co-option, dynastic defence, and repression compete rather than stack as independent tools.'
+hlc_session_tip = 'Shared 10-year session lockout:\nThe Boyar Council courses share a single ten-year council session.\nChoosing any course convenes the council and locks all other courses for 10 years because co-option, dynastic defence, and repression compete rather than stack as independent tools.'
 
 hlc_rows = [
     row('rip_gov_hlc_title', 12, '§YGalicia: Boyar Council§!', hlc_council_tip),
@@ -238,9 +242,9 @@ lit_retinues = choice('RipGovLitRetinues', [
 lit_lord = choice('RipGovLitBrokerage', [
     ('has_country_modifier = lit_lord_won_over', '§GLord Won Over§!'),
     ('NOT = { estate_loyalty = { estate = estate_nobles loyalty = 50 } }', '§GAvailable (50 DIP -> +15% Loyalty)§!')
-], '§YNobility Loyal (>=50%)§!')
+], '§YNobility Loyal (50%+)§!')
 
-lit_consent_tip = 'Rada Confirmation:\nGrants +2 Legitimacy for 5 years.\nRequires noble loyalty >= 40% and costs 10% noble loyalty.\nActive consent is required to muster the Rada\'s Own Retinues.'
+lit_consent_tip = 'Rada Confirmation:\nGrants +2 Legitimacy for 5 years.\nRequires at least 40% noble loyalty and costs 10% noble loyalty.\nActive consent is required to muster the Rada\'s Own Retinues.'
 lit_retinues_tip = 'The Rada\'s Own Retinues:\nMustering the retinues during wartime CONSUMES the active Rada Consent, costs 10% noble loyalty, and gives +3 Army Tradition and a 5-year combat modifier.\nThe Grand Duke burns his political capital with the lords to call up their private armies.'
 lit_lord_tip = 'Win Over a Wavering Lord:\nCosts 50 diplomatic power to restore +15% noble loyalty when noble loyalty drops below 50%.\nEssential for recovering loyalty to reach the 40% threshold needed for consent or retinues.'
 lit_threshold_tip = 'Noble Loyalty Thresholds:\n- 40%: Minimum needed to seek Rada consent or muster retinues\n- 50%: Ceiling for winning over a wavering lord\nBoth major Rada actions reduce loyalty by 10%.'
@@ -321,8 +325,9 @@ end = close_brace(native,start)
 gui = native[:end] + '\n# Generated read-only RIP government explanations.\n' + '\n'.join(panel(name, pot, rows) for name, pot, rows in PANELS) + '\n' + native[end:]
 outputs = {'interface/RIP_shared_government_status.gfx': 'spriteTypes = { corneredTileSpriteType = { name = GFX_rip_government_status_bg size = { x = 470 y = 290 } texturefile = '+chr(34)+'gfx/interface/small_tiles_dialog.dds'+chr(34)+' borderSize = { x = 8 y = 8 } } }\n', 'interface/countrygovernmentview.gui': gui, 'common/custom_gui/rip_government_status.txt':'\n'.join(CONTROLS)+'\n'}
 outputs.update(split_custom_localization('\n'.join(DYNAMIC)+'\n', 'government_status'))
-for language in ('english','french','german','spanish'):
-    outputs[f'localisation/replace/zzzz_RIP_government_status_l_{language}.yml'] = 'l_'+language+':\n'+'\n'.join(f' {k}:0 "{v.replace(chr(10), chr(92)+"n")}"' for k,v in LOC.items())+'\n'
+body = '\n'.join(f' {k}:0 "{v.replace(chr(10), chr(92)+"n")}"' for k, v in LOC.items()) + '\n'
+for language in ('english', 'french', 'german', 'spanish'):
+    outputs[f'localisation/replace/RIP_shared_government_status_l_{language}.yml'] = 'l_' + language + ':\n' + body
 
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument('--check',action='store_true'); args=parser.parse_args()

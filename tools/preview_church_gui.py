@@ -12,7 +12,7 @@ ap=argparse.ArgumentParser(); group=ap.add_mutually_exclusive_group()
 for option in ('ro','province'): group.add_argument('--'+option,action='store_true')
 args=ap.parse_args()
 branch='ro' if args.ro else 'rite' if args.province else 'gc'
-loc=dict(re.findall(r'^\s+(\w+):0 "(.*)"$',(ROOT/'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'),re.M))
+loc = dict(re.findall(r'^\s+(\w+):0 "(.*)"$', (ROOT / 'localisation/replace/RIP_shared_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'), re.M))
 sample={'Root.GetChurchPrivilege':'Agreement on coexistence'}
 sample.update({'Root.GetChurchROStatus':'Reconciliation in progress',
  # The window reads every number through a defined_text ladder, never a direct variable.

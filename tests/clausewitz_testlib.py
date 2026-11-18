@@ -366,3 +366,15 @@ def read_scripted_trigger_family(family: str) -> str:
     paths = sorted((ROOT / "common/scripted_triggers").glob("*" + family + ".txt"))
     assert paths, family
     return "\n".join(path.read_text(encoding="utf-8-sig") for path in paths)
+
+
+def read_replace_all(language: str = "english") -> str:
+    """Read every tag/entity file in localisation/replace for one language."""
+    paths = sorted((ROOT / "localisation/replace").glob(f"*_l_{language}.yml"))
+    assert paths, language
+    return "\n".join(path.read_text(encoding="utf-8-sig") for path in paths)
+
+
+def read_church_redesign_loc(language: str = "english") -> str:
+    """Read the generated church-redesign file in localisation/replace."""
+    return read(f"localisation/replace/RIP_shared_church_redesign_l_{language}.yml")

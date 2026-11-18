@@ -73,9 +73,9 @@ assert 'uniate_church.18' not in on_actions and 'uniate_church.20' not in on_act
 english_loc = read('localisation/uniate_and_raid_l_english.yml')
 assert 'uniate_church.18.' not in english_loc and 'uniate_church.20.' not in english_loc
 assert 'persecution_of_greek_catholics:0 "Legacy: Wartime Parish Disruption"' in english_loc
-assert 'Retired inert identifier retained for old saves' in english_loc
+assert 'Wartime decrees and occupation once troubled mixed parishes across the frontier.' in english_loc
 for lang in ('french', 'german', 'spanish'):
-    fallback = read(f'localisation/replace/zzz_RIP_untranslated_l_{lang}.yml')
+    fallback = read(f'localisation/replace/RIP_shared_greek_catholic_content_l_{lang}.yml')
     assert 'uniate_church.20.a:0 "Fund a local inquiry."' not in fallback
 retired_modifier = normalized(named_block(
     read('common/event_modifiers/uniate_church_modifiers.txt'),

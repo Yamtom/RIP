@@ -1,6 +1,6 @@
 """Contracts for the remaining Greek Catholic synod, icons and Rome audience."""
 import re
-from clausewitz_testlib import named_block, keyed_blocks, read, vanilla_defines_localisation, vanilla_root
+from clausewitz_testlib import named_block, keyed_blocks, read, vanilla_defines_localisation, vanilla_root, read_church_redesign_loc
 from clausewitz_testlib import read_custom_localization
 from church_testlib import parse
 
@@ -16,7 +16,7 @@ controls = read('common/custom_gui/RIP_church_controls.txt')
 features = read('common/custom_gui/RIP_church_gc_features.txt')
 gui_generator = read('tools/build_church_gui.py')
 localisation_generator = read('tools/build_church_localisation.py')
-english = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml') + '\n' + read('localisation/rip_ro_blessing_window_l_english.yml')
+english = read_church_redesign_loc('english') + '\n' + read('localisation/rip_ro_blessing_window_l_english.yml')
 interface = read('interface/countryreligionview.gui')
 custom_text = read_custom_localization('church')
 
@@ -73,8 +73,8 @@ assert 'rip_church_rights_card' not in interface
 assert 'rip_church_gui_right_' not in english
 assert 'rip_church_gc_curia_vote_disclaimer' not in localisation_generator
 assert 'rip_church_gc_curia_vote_disclaimer' not in english
-assert 'no gameplay unlock for these offices' in localisation_generator
-assert 'no gameplay unlock for these offices' in english
+assert 'no cardinalship, curia vote' in localisation_generator.lower()
+assert 'no cardinalship, curia vote' in english.lower()
 assert 'name = "rip_church_gc_controller_readout"' in interface
 assert 'global_event_target = rip_church_gc_controller' in controls
 assert 'event_target:rip_church_gc_controller = { is_papal_controller = yes }' in controls
@@ -104,7 +104,7 @@ for level in ('low', 'high'):
     assert data[:4] == b'DDS ' and struct.unpack_from('<II', data, 12) == (38, 38)
 assert 'grants +25 opinion in both directions, decaying by 2 per year' in localisation_generator
 for language in ('english', 'french', 'german', 'spanish'):
-    localisation = read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
+    localisation = read_church_redesign_loc(language)
     assert 'grants +25 opinion in both directions, decaying by 2 per year' in localisation
     assert 'Effect: +25 opinion in both directions, decaying by 2 per year' in localisation
 assert 'grants +10 opinion in both directions' not in english
@@ -123,7 +123,7 @@ assert '100 ducats' in localisation_generator
 assert '+25 opinion of us, decaying by 5 per year' in localisation_generator
 assert 'no Patriarch Authority, Curia vote, cardinal or electoral influence' in localisation_generator
 for language in ('english', 'french', 'german', 'spanish'):
-    localisation = read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
+    localisation = read_church_redesign_loc(language)
     assert 'rip_church_gc_holy_see_gift_button:0 "Send a gift to Rome"' in localisation
     assert 'The Papal State gains +25 opinion of us, decaying by 5 per year' in localisation
     assert 'rip_church_opinion_gc_donation:0 "Donation from an Eastern Catholic church"' in localisation
@@ -379,7 +379,7 @@ count_text = expanded_localisation('rip_church_gui_count_value')
 assert '.GetValue' not in count_text, 'the count row must not read a variable directly'
 assert '[Root.GetChurchEasternCount]' in count_text and '[Root.GetChurchLatinCount]' in count_text
 count_tooltip = english_keys['rip_church_gui_count_value_tt'].lower()
-for phrase in ('gameplay', 'canonical', 'not an exact', 'voluntary union acceptance', 'guarantee community rights'):
+for phrase in ('canonical', 'rather than exact', 'voluntary assent to the union', 'guarantee community rights'):
     assert phrase in count_tooltip, ('count tooltip must say', phrase)
 count_start = interface.index('name = "rip_church_gui_count_value"')
 assert 'alwaystransparent' not in interface[count_start:interface.index('\n}', count_start)], (

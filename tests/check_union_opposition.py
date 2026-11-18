@@ -163,7 +163,7 @@ assert 'uniate_church.3.a:0 "Suppress the brotherhoods"' in localisation
 assert 'uniate_church.3.b:0 "Negotiate coexistence"' in localisation
 assert 'uniate_church.3.c:0 "Grant brotherhoods local autonomy"' in localisation
 for language in ('french', 'german', 'spanish'):
-    fallback = read(f'localisation/replace/zzz_RIP_untranslated_l_{language}.yml')
+    fallback = read(f'localisation/replace/RIP_shared_greek_catholic_content_l_{language}.yml')
     assert 'uniate_church.1.a:0 "Let the bishops negotiate communion with Rome"' in fallback
     assert 'uniate_church.2.a:0 "Impose the union by royal decree"' in fallback
     assert 'uniate_church.2.b:0 "Honor the Eastern rite and allow a negotiated transition"' in fallback

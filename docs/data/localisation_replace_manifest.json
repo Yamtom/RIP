@@ -1,0 +1,1506 @@
+{
+  "schema": "RIP_<OWNER>_<ENTITY>_l_<language>.yml",
+  "allowed_tags": [
+    "CHR",
+    "HET",
+    "HLC",
+    "KIE",
+    "KRU",
+    "LIT",
+    "MOS_RUS",
+    "NOV",
+    "ODS",
+    "PDL",
+    "PRL",
+    "QAS",
+    "UZH",
+    "VLN",
+    "VOL",
+    "ZAZ"
+  ],
+  "allowed_shared": [
+    "shared_belarus",
+    "shared_church",
+    "shared_commonwealth",
+    "shared_cossack",
+    "shared_estates",
+    "shared_frontier",
+    "shared_government",
+    "shared_greek_catholic",
+    "shared_orthodox",
+    "shared_ruthenian",
+    "shared_steppe",
+    "shared_west_ruthenian"
+  ],
+  "generator_groups": {
+    "RIP_HET_government_authority": "tools/build_hetman_authority.py",
+    "RIP_KRU_government_rada": "tools/build_kru_rada.py",
+    "RIP_shared_church_nodes": "tools/build_church_support.py",
+    "RIP_shared_church_redesign": "tools/build_church_localisation.py",
+    "RIP_shared_frontier_border_watch": "tools/build_border_mechanics_localisation.py",
+    "RIP_shared_government_parliament_names": "tools/build_parliament_names.py",
+    "RIP_shared_government_status": "tools/build_government_status_ui.py"
+  },
+  "baseline_files": [
+    {
+      "file": "000_fix_descs_l_english.yml",
+      "lang": "english",
+      "keys": 64,
+      "sha256": "970ddf4d325c53b42b0a037a7f01871f77039666a59c8df00c71dc3fd6a62cff"
+    },
+    {
+      "file": "zzz_chr_paths_l_french.yml",
+      "lang": "french",
+      "keys": 229,
+      "sha256": "bc9a203c6526fccc48ad993b2c0ca56deb89a5ac6d4e03b3cd9704432f27ad16"
+    },
+    {
+      "file": "zzz_chr_paths_l_german.yml",
+      "lang": "german",
+      "keys": 229,
+      "sha256": "7e15975f76ccdfcc43d2e8efd35baf15014657a060bc309830f9bcdd810d8eb3"
+    },
+    {
+      "file": "zzz_chr_paths_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 229,
+      "sha256": "c7f5a98d5b4441e8f5586d67579d7d9f92fdf7f7b3df779fc7ea24f7098a9d65"
+    },
+    {
+      "file": "zzz_lit_grand_duchy_l_french.yml",
+      "lang": "french",
+      "keys": 168,
+      "sha256": "255135783f5478c4701c0e0575dba1b98babd835bee6af92f803544fdcd6eda4"
+    },
+    {
+      "file": "zzz_lit_grand_duchy_l_german.yml",
+      "lang": "german",
+      "keys": 168,
+      "sha256": "d4d7027dd450a09188208f2fe6189e6fed0d2dadc9d46e1fc84aae2c74785e5e"
+    },
+    {
+      "file": "zzz_lit_grand_duchy_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 168,
+      "sha256": "c69bc931b21b0f1331590868d13848ad0fa73f7d6f3e9801a31964487cd0d6d9"
+    },
+    {
+      "file": "zzz_rip_faith_mechanics_l_french.yml",
+      "lang": "french",
+      "keys": 136,
+      "sha256": "8b6614730bf721475367f68c66aaacac23eac1f4ce8cfe2d2a672bc7432ca4a9"
+    },
+    {
+      "file": "zzz_rip_faith_mechanics_l_german.yml",
+      "lang": "german",
+      "keys": 136,
+      "sha256": "9c8eee808ac8266709fc5c8583fdd50221b145cf72e8a2cc67138f2e908bd032"
+    },
+    {
+      "file": "zzz_rip_faith_mechanics_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 136,
+      "sha256": "778c8c6065694e8c7a7b7a4d6fea41ca2e9f7cca59c2aff4d26254d247cc0af0"
+    },
+    {
+      "file": "zzz_rip_free_election_l_french.yml",
+      "lang": "french",
+      "keys": 20,
+      "sha256": "afc54ab85c3f8900ca8abffb2b6464ad9c83a099bb9bc6528a96ff6476e88da0"
+    },
+    {
+      "file": "zzz_rip_free_election_l_german.yml",
+      "lang": "german",
+      "keys": 20,
+      "sha256": "92b9c306407dbc350dcf79bf1b8552585ab18cda220ec33b3a2cef75c10a16f8"
+    },
+    {
+      "file": "zzz_rip_free_election_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 20,
+      "sha256": "6dc1823b72ef4418047cb811dc096fa7a5355b6605ce2efed5c7d69aeb8b8479"
+    },
+    {
+      "file": "zzz_rip_gc_privileges_l_french.yml",
+      "lang": "french",
+      "keys": 16,
+      "sha256": "2e971a4e3ce510c05734ee4e86822eadcfb34203faeb581b6a4b82dde8090aca"
+    },
+    {
+      "file": "zzz_rip_gc_privileges_l_german.yml",
+      "lang": "german",
+      "keys": 16,
+      "sha256": "b36d746b7909566768efcd9b74eb94c0bfabebd0e635561cf961406a3363a0b4"
+    },
+    {
+      "file": "zzz_rip_gc_privileges_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 16,
+      "sha256": "a5edde8da770da0db3d28b183a35338b3eac1b96bc758f4acf7b6c85b302d2c7"
+    },
+    {
+      "file": "zzz_rip_government_reviews_l_french.yml",
+      "lang": "french",
+      "keys": 39,
+      "sha256": "5fc5264b3ea380456188015a0cc5b6df847041465045c2d80d57a99374f4a285"
+    },
+    {
+      "file": "zzz_rip_government_reviews_l_german.yml",
+      "lang": "german",
+      "keys": 39,
+      "sha256": "698ab31ebca8cfaffdb7161186948e3360c4add1d9f091b6ee8f44ebe4a3c68b"
+    },
+    {
+      "file": "zzz_rip_government_reviews_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 39,
+      "sha256": "0d2ea8e5afbc20cd3e66685dd923161a5fc8f0ce57f8f5db257d6a32dd1ae203"
+    },
+    {
+      "file": "zzz_RIP_idea_names_l_english.yml",
+      "lang": "english",
+      "keys": 39,
+      "sha256": "c3dd0e8abce304603a14a54a33b3eb078339a710a42c265d203001dafc044e7e"
+    },
+    {
+      "file": "zzz_RIP_l_english.yml",
+      "lang": "english",
+      "keys": 156,
+      "sha256": "6226b018429c76032c18e7e8135444527a6598358eec9b5095bbd043497ec870"
+    },
+    {
+      "file": "zzz_RIP_l_french.yml",
+      "lang": "french",
+      "keys": 62,
+      "sha256": "9387bc63534df05942ea1b9b9d064301a02c8f9c87e94ac0d3aafee4211d2018"
+    },
+    {
+      "file": "zzz_RIP_l_german.yml",
+      "lang": "german",
+      "keys": 62,
+      "sha256": "e234e33b77eb8aff55cafae72592e28fd7061b30b17754e121e79095104486ec"
+    },
+    {
+      "file": "zzz_RIP_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 62,
+      "sha256": "31e23d3545d2d65b3108a10a5d67ea1b3290d8bc5e82a3121cd91cc6e75e7f8d"
+    },
+    {
+      "file": "zzz_rip_magnates_l_french.yml",
+      "lang": "french",
+      "keys": 25,
+      "sha256": "0910d96e0c6d8c72f030273e25cc979fb445dfc7412f324e06f728c04ae08863"
+    },
+    {
+      "file": "zzz_rip_magnates_l_german.yml",
+      "lang": "german",
+      "keys": 25,
+      "sha256": "9d5e79b94d1c9b509ab5ecd48e091ee8b1425e289b31243edc40873bd1d20fe7"
+    },
+    {
+      "file": "zzz_rip_magnates_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 25,
+      "sha256": "c377236683fdf4cb0d07e1fe03071e1c010778abb99f96cbf3d4cf42e4581603"
+    },
+    {
+      "file": "zzz_rip_palace_diplomacy_l_french.yml",
+      "lang": "french",
+      "keys": 90,
+      "sha256": "6296cc4e0a37927a9cd5e7bae6a035a16761019b176cd9dcdb57eebb80a7d06f"
+    },
+    {
+      "file": "zzz_rip_palace_diplomacy_l_german.yml",
+      "lang": "german",
+      "keys": 90,
+      "sha256": "3403bda5ff0ab44d8d6e3761f7b40388b5eccea3f11b920d6afb730da2b7e6ef"
+    },
+    {
+      "file": "zzz_rip_palace_diplomacy_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 90,
+      "sha256": "3a77b52dd41e880948f1b1ec0b9a19fdc11713071dadfea1725c7e168dd6dafc"
+    },
+    {
+      "file": "zzz_rip_troubles_l_french.yml",
+      "lang": "french",
+      "keys": 35,
+      "sha256": "b17bcd3fe8207feb1081787d9fe5c2f2c849f9b675eaa296c84aa9f9432caf09"
+    },
+    {
+      "file": "zzz_rip_troubles_l_german.yml",
+      "lang": "german",
+      "keys": 35,
+      "sha256": "b2816e3a55e15f0a6bf62235df3c474f54ea6280dd00844e68855fc8059fc2a5"
+    },
+    {
+      "file": "zzz_rip_troubles_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 35,
+      "sha256": "f76681bde973542a9b83e42af06fce8825ee5b14d4ae730227311237d14df9ba"
+    },
+    {
+      "file": "zzz_RIP_untranslated_border_l_french.yml",
+      "lang": "french",
+      "keys": 35,
+      "sha256": "1f987b26086e63e461291a9bc80dd3b08ed6b0431dec3a360fa6305530872d3e"
+    },
+    {
+      "file": "zzz_RIP_untranslated_border_l_german.yml",
+      "lang": "german",
+      "keys": 35,
+      "sha256": "47f29b5cf0ad4bc96ec3be351ad6fbd7f02e9eac1e12f4eaec5d2066f3b89b4e"
+    },
+    {
+      "file": "zzz_RIP_untranslated_border_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 35,
+      "sha256": "1c99e4142f9f1ba8caea8b5e0b648c0490f8504036b3f390cc10a88fafee3fed"
+    },
+    {
+      "file": "zzz_RIP_untranslated_l_french.yml",
+      "lang": "french",
+      "keys": 8025,
+      "sha256": "afc333333d7c157a1531224eed3e6850d7a3e7a01954bd0e31b5839b3a81a48b"
+    },
+    {
+      "file": "zzz_RIP_untranslated_l_german.yml",
+      "lang": "german",
+      "keys": 8025,
+      "sha256": "15689f349e8624e07b541c070a76eee2af0881a325633be441f18632d59cff1a"
+    },
+    {
+      "file": "zzz_RIP_untranslated_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 8025,
+      "sha256": "00c1d8280bbec63fcbadc74e9d0100ba8303a9c940da63b9996ba8403bbb6fad"
+    },
+    {
+      "file": "zzz_zaz_paths_l_french.yml",
+      "lang": "french",
+      "keys": 119,
+      "sha256": "8fa8d9da6be862f86fbd7e501607160e2791eb5920e4152a22728a391ed1d536"
+    },
+    {
+      "file": "zzz_zaz_paths_l_german.yml",
+      "lang": "german",
+      "keys": 119,
+      "sha256": "2528ecc197f33c68bf43af9e28ded9cb0e295b3521bb9ff3e3c20a615261fa26"
+    },
+    {
+      "file": "zzz_zaz_paths_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 119,
+      "sha256": "a75e86de9ee0ed9874112d13d6237d8cc68f78707cec9c096d766af667e3f8c0"
+    },
+    {
+      "file": "zzzz_RIP_church_nodes_l_english.yml",
+      "lang": "english",
+      "keys": 160,
+      "sha256": "8855785487a4c7bb1817bf0d59ea5b04bc8cbb4a64e7aed9953d06d9cee8d344"
+    },
+    {
+      "file": "zzzz_RIP_church_nodes_l_french.yml",
+      "lang": "french",
+      "keys": 160,
+      "sha256": "14b4144aa3ef9525c037f9f43e31af6c3a9c84fce3091ab3c1011f4077fc2335"
+    },
+    {
+      "file": "zzzz_RIP_church_nodes_l_german.yml",
+      "lang": "german",
+      "keys": 160,
+      "sha256": "b8a1085617fb07038e9386b9f165e82bc5f0ab63833ea513e878c31e18481bcc"
+    },
+    {
+      "file": "zzzz_RIP_church_nodes_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 160,
+      "sha256": "25803873bb6ed6e67779dfbc868b0ce2a6edaa601bb16a7e3149e42038678ae5"
+    },
+    {
+      "file": "zzzz_RIP_church_redesign_l_english.yml",
+      "lang": "english",
+      "keys": 2425,
+      "sha256": "5b996bc50056084af4d6e6a962aa0c0ba3e81cbc169ed585a4ed9a3d47e057e2"
+    },
+    {
+      "file": "zzzz_RIP_church_redesign_l_french.yml",
+      "lang": "french",
+      "keys": 2425,
+      "sha256": "2d188c442a613dce70f27a17abeb12bf9bc7943e40e12fd49a598c7c89ab3ab9"
+    },
+    {
+      "file": "zzzz_RIP_church_redesign_l_german.yml",
+      "lang": "german",
+      "keys": 2425,
+      "sha256": "1a44e3eceb9c2422a9440b8b827f3c351f513a7981a730942612e8360219ec23"
+    },
+    {
+      "file": "zzzz_RIP_church_redesign_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 2425,
+      "sha256": "7cc918995675d5233f16832efb4d158a4c7903c1916602d6c3c66d82b7bc8e07"
+    },
+    {
+      "file": "zzzz_RIP_government_status_l_english.yml",
+      "lang": "english",
+      "keys": 621,
+      "sha256": "3ea88bb92e141648e73aa5143b531f7f4ea0b80208f888dbb1dd75ef6aad5f1a"
+    },
+    {
+      "file": "zzzz_RIP_government_status_l_french.yml",
+      "lang": "french",
+      "keys": 621,
+      "sha256": "3e18f384df940c2f9f6256832b95083605066f31d1f53f9a95a91046c5373ea0"
+    },
+    {
+      "file": "zzzz_RIP_government_status_l_german.yml",
+      "lang": "german",
+      "keys": 621,
+      "sha256": "00ca8386f0b03350aba1b8337b750b7a99fab5127955ad8aa5b1621e64c221db"
+    },
+    {
+      "file": "zzzz_RIP_government_status_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 621,
+      "sha256": "785e88f784828e69da2557f568613d3a6228ed3b3849ae385afbcff8065d16eb"
+    },
+    {
+      "file": "zzzz_RIP_het_authority_l_english.yml",
+      "lang": "english",
+      "keys": 24,
+      "sha256": "ee12cfc659162cf7889435d7a4ad8d832248cd8ba0be07e42bc674de558a8905"
+    },
+    {
+      "file": "zzzz_RIP_het_authority_l_french.yml",
+      "lang": "french",
+      "keys": 24,
+      "sha256": "d8dcc503c4c2ee8d92fa3b506668774796d63f822e6f28cd3a772cf7596dc627"
+    },
+    {
+      "file": "zzzz_RIP_het_authority_l_german.yml",
+      "lang": "german",
+      "keys": 24,
+      "sha256": "8405c6e00519ae08dea4d7a5007902c71031ff471362c5ea0b4acfc850f8c319"
+    },
+    {
+      "file": "zzzz_RIP_het_authority_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 24,
+      "sha256": "cbd7d6fa8f64a78f30315c9d8af5597dd07326d60c73dfa591d9c6dac84cd3ea"
+    },
+    {
+      "file": "zzzz_rip_kru_rada_l_english.yml",
+      "lang": "english",
+      "keys": 12,
+      "sha256": "527c903cc0a357015437f6054d4e6333539f23dc04b2db17bb37b041340d18f4"
+    },
+    {
+      "file": "zzzz_rip_kru_rada_l_french.yml",
+      "lang": "french",
+      "keys": 9,
+      "sha256": "1cb952300752b690ed2e67764bbd0495a5ac9acaa793333ff1a8dc6d1e073968"
+    },
+    {
+      "file": "zzzz_rip_kru_rada_l_german.yml",
+      "lang": "german",
+      "keys": 9,
+      "sha256": "e6339aac4d2a739561afa2ad2ce025d082e15aef917a6fcc4a8aede4ac841508"
+    },
+    {
+      "file": "zzzz_rip_kru_rada_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 9,
+      "sha256": "3427bb472c09007f788a29ab74674c7a9ae2e02d7f74df401c3402b9f1b93a8a"
+    },
+    {
+      "file": "zzzz_rip_parliament_names_l_english.yml",
+      "lang": "english",
+      "keys": 90,
+      "sha256": "5289999e978e1917b5b2cef279a6a1e4d35859bc1f4961a46b995900a267516e"
+    },
+    {
+      "file": "zzzz_rip_parliament_names_l_french.yml",
+      "lang": "french",
+      "keys": 90,
+      "sha256": "6c06bddf6da06c2084481085a456df58e27268685a175093ac5230ef9bac2ab2"
+    },
+    {
+      "file": "zzzz_rip_parliament_names_l_german.yml",
+      "lang": "german",
+      "keys": 90,
+      "sha256": "a1d0dc83ca252f31603417b261d2be9f404679bd4a359b5612e7926054c4fe37"
+    },
+    {
+      "file": "zzzz_rip_parliament_names_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 90,
+      "sha256": "02a9c4e93afd3745aed507e3c503fd3ccd44b27460086ebeed6da78dce1f0ba5"
+    },
+    {
+      "file": "zzzz_RIP_religion_settlement_l_english.yml",
+      "lang": "english",
+      "keys": 46,
+      "sha256": "0b7e70343508e04f216ccfa70b0f00174d09e7d7bec3bdc42619a04149445312"
+    },
+    {
+      "file": "zzzz_RIP_religion_settlement_l_french.yml",
+      "lang": "french",
+      "keys": 46,
+      "sha256": "3173096892c8ed1bcb44bd9ffe19204e8fc5337961831e77f242fca0083868d4"
+    },
+    {
+      "file": "zzzz_RIP_religion_settlement_l_german.yml",
+      "lang": "german",
+      "keys": 46,
+      "sha256": "bc97c110f01d73f1b3f7ae0b4df83482bd8d4e941765fd0e81edf7ec342b15a1"
+    },
+    {
+      "file": "zzzz_RIP_religion_settlement_l_spanish.yml",
+      "lang": "spanish",
+      "keys": 46,
+      "sha256": "a8c927ba376470dd2c33da48698cdb2b0873b97a53e56f2fc8e74faf4a155469"
+    }
+  ],
+  "language_digests": {
+    "english": {
+      "count": 3637,
+      "unique_keys": 3637,
+      "sha256": "9889e3b016925c811cfb023dd2ee4da23a79b7eef5349c29747e650de6e47d5f"
+    },
+    "french": {
+      "count": 12374,
+      "unique_keys": 12374,
+      "sha256": "72d694a09b3c3a8c519082e22096fe78f1d8e8e0054b438bb71287b49461e7e3"
+    },
+    "german": {
+      "count": 12374,
+      "unique_keys": 12374,
+      "sha256": "317e0432b48fbee2395dc21e53bbbca5118e657e5885fdd27b6d0c4575970464"
+    },
+    "spanish": {
+      "count": 12374,
+      "unique_keys": 12374,
+      "sha256": "b25a5adebf0756ce101c489c96c41d3e234ded2be22cb2076c84c12a83d33050"
+    }
+  },
+  "migrated_files": [
+    {
+      "file": "RIP_CHR_content_l_english.yml",
+      "owner": "CHR",
+      "entity": "content",
+      "lang": "english",
+      "keys": 32,
+      "sha256": "c3936fbfbcf6dee8ba0334185f914ab845d28717e3eee159becafcda36332e22"
+    },
+    {
+      "file": "RIP_CHR_content_l_french.yml",
+      "owner": "CHR",
+      "entity": "content",
+      "lang": "french",
+      "keys": 935,
+      "sha256": "d61bdb6c5558d3c5f8ccfe91cea4d3789a7ae80d06bac2a13bfcd1994e97e96f"
+    },
+    {
+      "file": "RIP_CHR_content_l_german.yml",
+      "owner": "CHR",
+      "entity": "content",
+      "lang": "german",
+      "keys": 935,
+      "sha256": "6f286510a5aec399ac3c29f0340c8881f1b1d5360dcd283aee710e65c51c194e"
+    },
+    {
+      "file": "RIP_CHR_content_l_spanish.yml",
+      "owner": "CHR",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 935,
+      "sha256": "c2d744dd7e89cf636969a74d97222bd7df30bf8d324d5110472c79dd81a7e6ad"
+    },
+    {
+      "file": "RIP_HET_content_l_english.yml",
+      "owner": "HET",
+      "entity": "content",
+      "lang": "english",
+      "keys": 21,
+      "sha256": "204dcdb771a829fe9252735fc5c297af6c44b0a2f731345aa41959fdc09a4cca"
+    },
+    {
+      "file": "RIP_HET_content_l_french.yml",
+      "owner": "HET",
+      "entity": "content",
+      "lang": "french",
+      "keys": 835,
+      "sha256": "a7e5337dda3c9a9fac795fd06d3677380e345b59f9f84cb77e08b408c540df1a"
+    },
+    {
+      "file": "RIP_HET_content_l_german.yml",
+      "owner": "HET",
+      "entity": "content",
+      "lang": "german",
+      "keys": 835,
+      "sha256": "5613e7d4f421e375e3fc115c31bb7f691c47fd21dbeae88c0ccedb74bfca1cb0"
+    },
+    {
+      "file": "RIP_HET_content_l_spanish.yml",
+      "owner": "HET",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 835,
+      "sha256": "15354e13a1da6eddf06a47c274dfdf5962689f936c48f83c9a2bff65e2b3734c"
+    },
+    {
+      "file": "RIP_HET_government_authority_l_english.yml",
+      "owner": "HET",
+      "entity": "government_authority",
+      "lang": "english",
+      "keys": 24,
+      "sha256": "ee12cfc659162cf7889435d7a4ad8d832248cd8ba0be07e42bc674de558a8905"
+    },
+    {
+      "file": "RIP_HET_government_authority_l_french.yml",
+      "owner": "HET",
+      "entity": "government_authority",
+      "lang": "french",
+      "keys": 24,
+      "sha256": "d8dcc503c4c2ee8d92fa3b506668774796d63f822e6f28cd3a772cf7596dc627"
+    },
+    {
+      "file": "RIP_HET_government_authority_l_german.yml",
+      "owner": "HET",
+      "entity": "government_authority",
+      "lang": "german",
+      "keys": 24,
+      "sha256": "8405c6e00519ae08dea4d7a5007902c71031ff471362c5ea0b4acfc850f8c319"
+    },
+    {
+      "file": "RIP_HET_government_authority_l_spanish.yml",
+      "owner": "HET",
+      "entity": "government_authority",
+      "lang": "spanish",
+      "keys": 24,
+      "sha256": "cbd7d6fa8f64a78f30315c9d8af5597dd07326d60c73dfa591d9c6dac84cd3ea"
+    },
+    {
+      "file": "RIP_HLC_content_l_french.yml",
+      "owner": "HLC",
+      "entity": "content",
+      "lang": "french",
+      "keys": 155,
+      "sha256": "152f553821d20994843160a2d9b6958d81127f367d348d46c8c3b21461b26cdb"
+    },
+    {
+      "file": "RIP_HLC_content_l_german.yml",
+      "owner": "HLC",
+      "entity": "content",
+      "lang": "german",
+      "keys": 155,
+      "sha256": "3b701840dfd12a828bdfe7a733caa289f2d4aae191ddc60fc7c0af5357d66541"
+    },
+    {
+      "file": "RIP_HLC_content_l_spanish.yml",
+      "owner": "HLC",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 155,
+      "sha256": "43b246ca7091f7d04e0397e029128de9fdb182f76fc98ed46fdbcd753be9a567"
+    },
+    {
+      "file": "RIP_KIE_content_l_english.yml",
+      "owner": "KIE",
+      "entity": "content",
+      "lang": "english",
+      "keys": 21,
+      "sha256": "4d4946b8405b4cfe6fa5111cb6243a40fc6c0602d3c9a4ec391e5fe7ce5be141"
+    },
+    {
+      "file": "RIP_KIE_content_l_french.yml",
+      "owner": "KIE",
+      "entity": "content",
+      "lang": "french",
+      "keys": 500,
+      "sha256": "0c937fdb46fabdee68599706d371776a89562b1af74ada00f00654737c537010"
+    },
+    {
+      "file": "RIP_KIE_content_l_german.yml",
+      "owner": "KIE",
+      "entity": "content",
+      "lang": "german",
+      "keys": 500,
+      "sha256": "f06b071aec1d451a1d2d8a5ae0a56f4b7aafdbc1f111529f1c146a172475e822"
+    },
+    {
+      "file": "RIP_KIE_content_l_spanish.yml",
+      "owner": "KIE",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 500,
+      "sha256": "3fcdbc68530b83cfcdebb430c10e7c67a141d78cd960405c05222ccb0620780d"
+    },
+    {
+      "file": "RIP_KRU_content_l_english.yml",
+      "owner": "KRU",
+      "entity": "content",
+      "lang": "english",
+      "keys": 5,
+      "sha256": "076d3c431c10e7451f0a2c89ee9aabc89010b872c5b2a91edc0af85c61ca1eed"
+    },
+    {
+      "file": "RIP_KRU_content_l_french.yml",
+      "owner": "KRU",
+      "entity": "content",
+      "lang": "french",
+      "keys": 82,
+      "sha256": "7696196f2614c7b350b95fe7e0a6cf60b441e4f600adb10986c69f7c9dbc1990"
+    },
+    {
+      "file": "RIP_KRU_content_l_german.yml",
+      "owner": "KRU",
+      "entity": "content",
+      "lang": "german",
+      "keys": 82,
+      "sha256": "735232d24621aa7b98fb1d4649fb915de1ae75fa164dad77371cb3b16e7a2a87"
+    },
+    {
+      "file": "RIP_KRU_content_l_spanish.yml",
+      "owner": "KRU",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 82,
+      "sha256": "114573bab96eeff119e9e4ad0da21ed605cd6de921b1bafc7c7fb83090fa728b"
+    },
+    {
+      "file": "RIP_KRU_government_rada_l_english.yml",
+      "owner": "KRU",
+      "entity": "government_rada",
+      "lang": "english",
+      "keys": 12,
+      "sha256": "527c903cc0a357015437f6054d4e6333539f23dc04b2db17bb37b041340d18f4"
+    },
+    {
+      "file": "RIP_KRU_government_rada_l_french.yml",
+      "owner": "KRU",
+      "entity": "government_rada",
+      "lang": "french",
+      "keys": 9,
+      "sha256": "1cb952300752b690ed2e67764bbd0495a5ac9acaa793333ff1a8dc6d1e073968"
+    },
+    {
+      "file": "RIP_KRU_government_rada_l_german.yml",
+      "owner": "KRU",
+      "entity": "government_rada",
+      "lang": "german",
+      "keys": 9,
+      "sha256": "e6339aac4d2a739561afa2ad2ce025d082e15aef917a6fcc4a8aede4ac841508"
+    },
+    {
+      "file": "RIP_KRU_government_rada_l_spanish.yml",
+      "owner": "KRU",
+      "entity": "government_rada",
+      "lang": "spanish",
+      "keys": 9,
+      "sha256": "3427bb472c09007f788a29ab74674c7a9ae2e02d7f74df401c3402b9f1b93a8a"
+    },
+    {
+      "file": "RIP_LIT_content_l_french.yml",
+      "owner": "LIT",
+      "entity": "content",
+      "lang": "french",
+      "keys": 186,
+      "sha256": "79b5796bea79840b7fd540050e0d376d96aed5c9cf51fad66e240b3a95bd31b4"
+    },
+    {
+      "file": "RIP_LIT_content_l_german.yml",
+      "owner": "LIT",
+      "entity": "content",
+      "lang": "german",
+      "keys": 186,
+      "sha256": "f1a9a514d8a2be1853f4abf4803bb9533f6187e18aeac20d1e67cea86550df8f"
+    },
+    {
+      "file": "RIP_LIT_content_l_spanish.yml",
+      "owner": "LIT",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 186,
+      "sha256": "df3c55c999899efd31ff6cb47c6e81cdfeed025748e5c6042a9086bf176b818e"
+    },
+    {
+      "file": "RIP_MOS_RUS_content_l_english.yml",
+      "owner": "MOS_RUS",
+      "entity": "content",
+      "lang": "english",
+      "keys": 17,
+      "sha256": "8102913328a96e0a8a2ec26c35c4318efadef0b5e483e17f73794cb4b85b31fc"
+    },
+    {
+      "file": "RIP_MOS_RUS_content_l_french.yml",
+      "owner": "MOS_RUS",
+      "entity": "content",
+      "lang": "french",
+      "keys": 208,
+      "sha256": "399462d96d4bc4af1daf133a6cb813a628ac7fdd8accd051166b26e1912fdeea"
+    },
+    {
+      "file": "RIP_MOS_RUS_content_l_german.yml",
+      "owner": "MOS_RUS",
+      "entity": "content",
+      "lang": "german",
+      "keys": 208,
+      "sha256": "020ed3705bde89f0fee14938054e4b4d95a70777dec48ba992c1e5f8acbc2b12"
+    },
+    {
+      "file": "RIP_MOS_RUS_content_l_spanish.yml",
+      "owner": "MOS_RUS",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 208,
+      "sha256": "ceb03a4d42b04cf0563db652f4669595fb1f3ef57f9eb2e6eb91ae31b9f107da"
+    },
+    {
+      "file": "RIP_NOV_content_l_english.yml",
+      "owner": "NOV",
+      "entity": "content",
+      "lang": "english",
+      "keys": 25,
+      "sha256": "4126a1e36292aedef3b613a51fdba85979139c8890e6d9c30cfb41474ba81c82"
+    },
+    {
+      "file": "RIP_NOV_content_l_french.yml",
+      "owner": "NOV",
+      "entity": "content",
+      "lang": "french",
+      "keys": 25,
+      "sha256": "983ea4976e0a7bf2f036af7415bbb6e09ba5c2d184446f4a3bf5d82d108ff582"
+    },
+    {
+      "file": "RIP_NOV_content_l_german.yml",
+      "owner": "NOV",
+      "entity": "content",
+      "lang": "german",
+      "keys": 25,
+      "sha256": "bb6c85b6fe3c8fcd7bdf1c72eb6e5cc605124d518812c10ac6a5b2da3d4bec3a"
+    },
+    {
+      "file": "RIP_NOV_content_l_spanish.yml",
+      "owner": "NOV",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 25,
+      "sha256": "c978e2e5c991bafb50704c572cbfbf2ef3cd4fb3a8246a9139e1ea009c673fbf"
+    },
+    {
+      "file": "RIP_ODS_content_l_french.yml",
+      "owner": "ODS",
+      "entity": "content",
+      "lang": "french",
+      "keys": 21,
+      "sha256": "f63276b18548491c79cd4db953b5b0731c9a9ac4f72b6a35e34314627a9b5887"
+    },
+    {
+      "file": "RIP_ODS_content_l_german.yml",
+      "owner": "ODS",
+      "entity": "content",
+      "lang": "german",
+      "keys": 21,
+      "sha256": "ee8d9cb8c3ec6fd0c44559a72e8c1a7c0dad557c3dc0b31800d61264ecca204f"
+    },
+    {
+      "file": "RIP_ODS_content_l_spanish.yml",
+      "owner": "ODS",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 21,
+      "sha256": "2dd71c4d04d3329e92584869fa428cd142bbe1f8dade3c8f11652c6da4a152bf"
+    },
+    {
+      "file": "RIP_PDL_content_l_french.yml",
+      "owner": "PDL",
+      "entity": "content",
+      "lang": "french",
+      "keys": 456,
+      "sha256": "208447565851bcdbc3ab6dfb7d9a15bd613378cccb6f6cf71d59a1b31366ea0c"
+    },
+    {
+      "file": "RIP_PDL_content_l_german.yml",
+      "owner": "PDL",
+      "entity": "content",
+      "lang": "german",
+      "keys": 456,
+      "sha256": "160092a8a2d555811a556818376b416767e2f9ab8a8dacbcdf22ccfc65eed7d1"
+    },
+    {
+      "file": "RIP_PDL_content_l_spanish.yml",
+      "owner": "PDL",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 456,
+      "sha256": "7e8abc90022fae2ac346bc8d7201d79aaf42c0b837bae52a9755d4c9a01dfd60"
+    },
+    {
+      "file": "RIP_PRL_content_l_french.yml",
+      "owner": "PRL",
+      "entity": "content",
+      "lang": "french",
+      "keys": 149,
+      "sha256": "b13f34a0df076562cb0cc760ff3f6337505b6800fbd9bb37eb802d4306d4ce3c"
+    },
+    {
+      "file": "RIP_PRL_content_l_german.yml",
+      "owner": "PRL",
+      "entity": "content",
+      "lang": "german",
+      "keys": 149,
+      "sha256": "53db94e9b4ddd9237288fed3165c68f994afdd32a184de2cf39fd225cf58bfc5"
+    },
+    {
+      "file": "RIP_PRL_content_l_spanish.yml",
+      "owner": "PRL",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 149,
+      "sha256": "65bf93131bd05a26df4182b1aefc01d2a18d6017555533657bd87f440af3538e"
+    },
+    {
+      "file": "RIP_QAS_content_l_french.yml",
+      "owner": "QAS",
+      "entity": "content",
+      "lang": "french",
+      "keys": 54,
+      "sha256": "ce21b4c85cae2ea619a5fc60b902e945351378cf0478924f832057bec7f89a73"
+    },
+    {
+      "file": "RIP_QAS_content_l_german.yml",
+      "owner": "QAS",
+      "entity": "content",
+      "lang": "german",
+      "keys": 54,
+      "sha256": "a9a9b514351d910157693c49e7cc240a36a0f5a8d73577a217b0863c6371000c"
+    },
+    {
+      "file": "RIP_QAS_content_l_spanish.yml",
+      "owner": "QAS",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 54,
+      "sha256": "669bf859476fa661c5545f91027d5fbcf582dad16040ce252f03d522e325aff8"
+    },
+    {
+      "file": "RIP_shared_belarus_content_l_english.yml",
+      "owner": "shared_belarus",
+      "entity": "content",
+      "lang": "english",
+      "keys": 2,
+      "sha256": "bc5e1797fdd287ea65cb1a08a29d515dcd1892ebcba2176816bdb854b731d51d"
+    },
+    {
+      "file": "RIP_shared_belarus_content_l_french.yml",
+      "owner": "shared_belarus",
+      "entity": "content",
+      "lang": "french",
+      "keys": 174,
+      "sha256": "86bb9ccbe6235d7af63d8d8943b1309077af59335354f4fe00a7aedf4e016156"
+    },
+    {
+      "file": "RIP_shared_belarus_content_l_german.yml",
+      "owner": "shared_belarus",
+      "entity": "content",
+      "lang": "german",
+      "keys": 174,
+      "sha256": "1d2736144a6e283e41c59c470a9a8466826b049a22d6da33b118cdc1e47c8b3c"
+    },
+    {
+      "file": "RIP_shared_belarus_content_l_spanish.yml",
+      "owner": "shared_belarus",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 174,
+      "sha256": "a97d6ba3880f04d2d5513c095924e5aa3f1e0f2e25c76c4e075a6920e22e8013"
+    },
+    {
+      "file": "RIP_shared_church_content_l_english.yml",
+      "owner": "shared_church",
+      "entity": "content",
+      "lang": "english",
+      "keys": 20,
+      "sha256": "5848ce5d7d18cc611e44ca25eb47917b893aafc5a000df21b8c5020e5aa6761a"
+    },
+    {
+      "file": "RIP_shared_church_content_l_french.yml",
+      "owner": "shared_church",
+      "entity": "content",
+      "lang": "french",
+      "keys": 244,
+      "sha256": "6775c5d3238c5ebf7ff1fdc5c1144a3f49a1090a31c771d78283381c651c1786"
+    },
+    {
+      "file": "RIP_shared_church_content_l_german.yml",
+      "owner": "shared_church",
+      "entity": "content",
+      "lang": "german",
+      "keys": 244,
+      "sha256": "b85d6e0daccbd7458fd942ec974d24cd65ac1bf0d9cb47ae2597b839680faf6a"
+    },
+    {
+      "file": "RIP_shared_church_content_l_spanish.yml",
+      "owner": "shared_church",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 244,
+      "sha256": "4b83678ecace6114cab6200455e1f6ddbd50aeea3a1f259f4905e7aaa78c9e90"
+    },
+    {
+      "file": "RIP_shared_church_nodes_l_english.yml",
+      "owner": "shared_church",
+      "entity": "nodes",
+      "lang": "english",
+      "keys": 160,
+      "sha256": "e71fbe4bcf87fce49529945374a8802202cf4b388926d2dae62ce6970dce7aee"
+    },
+    {
+      "file": "RIP_shared_church_nodes_l_french.yml",
+      "owner": "shared_church",
+      "entity": "nodes",
+      "lang": "french",
+      "keys": 160,
+      "sha256": "adcb7cfae779fe08113a53d29dca7c92ed68ecfdc75f0232ce5c3c18b9812985"
+    },
+    {
+      "file": "RIP_shared_church_nodes_l_german.yml",
+      "owner": "shared_church",
+      "entity": "nodes",
+      "lang": "german",
+      "keys": 160,
+      "sha256": "480f31495e32a5d93f30ec700f57cddf35b407a2fe1ccaef0d5d79b563c7cd50"
+    },
+    {
+      "file": "RIP_shared_church_nodes_l_spanish.yml",
+      "owner": "shared_church",
+      "entity": "nodes",
+      "lang": "spanish",
+      "keys": 160,
+      "sha256": "85032ff822d8349a26e7b26e4fdb95ef1911c48821cd662dbb96c857608cc9bb"
+    },
+    {
+      "file": "RIP_shared_church_redesign_l_english.yml",
+      "owner": "shared_church",
+      "entity": "redesign",
+      "lang": "english",
+      "keys": 2425,
+      "sha256": "7ada9dc4a7b4f2affed25b61846778770ca961613bd26070e089d089de508a0d"
+    },
+    {
+      "file": "RIP_shared_church_redesign_l_french.yml",
+      "owner": "shared_church",
+      "entity": "redesign",
+      "lang": "french",
+      "keys": 2425,
+      "sha256": "8e3c27929de57809bfa00f414a33ff1da4ce5cf3f34dd94398c7d4c9adc81d55"
+    },
+    {
+      "file": "RIP_shared_church_redesign_l_german.yml",
+      "owner": "shared_church",
+      "entity": "redesign",
+      "lang": "german",
+      "keys": 2425,
+      "sha256": "332c7766682be74ac86b6571bbb9ad8cb479407b77c6cfb1bac484f60c08e249"
+    },
+    {
+      "file": "RIP_shared_church_redesign_l_spanish.yml",
+      "owner": "shared_church",
+      "entity": "redesign",
+      "lang": "spanish",
+      "keys": 2425,
+      "sha256": "eb66f2f7bb164a0df2e9dabd770f99452f5c7aa54f5c83399604e361e2f12a26"
+    },
+    {
+      "file": "RIP_shared_commonwealth_content_l_french.yml",
+      "owner": "shared_commonwealth",
+      "entity": "content",
+      "lang": "french",
+      "keys": 154,
+      "sha256": "5d680f9eb22f35a742e7a72a10be3f82a9c5153224d41b17a3e4098fa38c1900"
+    },
+    {
+      "file": "RIP_shared_commonwealth_content_l_german.yml",
+      "owner": "shared_commonwealth",
+      "entity": "content",
+      "lang": "german",
+      "keys": 154,
+      "sha256": "c54a4b5fb36366222d01e3977d776c8bbc8aaa745f2389b9c0097c34c50b8e61"
+    },
+    {
+      "file": "RIP_shared_commonwealth_content_l_spanish.yml",
+      "owner": "shared_commonwealth",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 154,
+      "sha256": "78fbd92cc47b6cbfe6e337303c68832cb9f7118eddbe913c3851b3621432bb6d"
+    },
+    {
+      "file": "RIP_shared_cossack_content_l_english.yml",
+      "owner": "shared_cossack",
+      "entity": "content",
+      "lang": "english",
+      "keys": 24,
+      "sha256": "0c2ad824e66d7d6078765b8498016419070ed8df59719cbe4da73e726bd171dd"
+    },
+    {
+      "file": "RIP_shared_cossack_content_l_french.yml",
+      "owner": "shared_cossack",
+      "entity": "content",
+      "lang": "french",
+      "keys": 228,
+      "sha256": "0e9222b62e251d5b59888dd8417664958191544e43e59d69bf3729b3b16438bd"
+    },
+    {
+      "file": "RIP_shared_cossack_content_l_german.yml",
+      "owner": "shared_cossack",
+      "entity": "content",
+      "lang": "german",
+      "keys": 228,
+      "sha256": "7a445ba123f4537acf4813603bd8e0d0b799144c369c8147c7c527724a6a91a9"
+    },
+    {
+      "file": "RIP_shared_cossack_content_l_spanish.yml",
+      "owner": "shared_cossack",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 228,
+      "sha256": "84c114e4e28f857488ca165b22988b0d023ac048362dd8c3c767a378265c9f56"
+    },
+    {
+      "file": "RIP_shared_estates_content_l_french.yml",
+      "owner": "shared_estates",
+      "entity": "content",
+      "lang": "french",
+      "keys": 53,
+      "sha256": "dc194d12124686fd274edb5405f1c18543e29a6bb0afde588cb12f6a22672303"
+    },
+    {
+      "file": "RIP_shared_estates_content_l_german.yml",
+      "owner": "shared_estates",
+      "entity": "content",
+      "lang": "german",
+      "keys": 53,
+      "sha256": "7fece6c1b736ac268df7146efb9810818e6199dc4a7770038d1d98e30a16a785"
+    },
+    {
+      "file": "RIP_shared_estates_content_l_spanish.yml",
+      "owner": "shared_estates",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 53,
+      "sha256": "380e2eef0acf1233d8f080e9a8d997efa7e9643347d3c68cd059a238fc117f2d"
+    },
+    {
+      "file": "RIP_shared_frontier_border_watch_l_french.yml",
+      "owner": "shared_frontier",
+      "entity": "border_watch",
+      "lang": "french",
+      "keys": 35,
+      "sha256": "3b36a1c0fb74687400fca5eb9325ff462f866d2b1545a8df41c389962a0e013b"
+    },
+    {
+      "file": "RIP_shared_frontier_border_watch_l_german.yml",
+      "owner": "shared_frontier",
+      "entity": "border_watch",
+      "lang": "german",
+      "keys": 35,
+      "sha256": "5e40c00c84e7e3f9ded38bb7af3e0c80e39dd8cf085080badc35e035f8182a83"
+    },
+    {
+      "file": "RIP_shared_frontier_border_watch_l_spanish.yml",
+      "owner": "shared_frontier",
+      "entity": "border_watch",
+      "lang": "spanish",
+      "keys": 35,
+      "sha256": "ec906112168ef1a7551ec9cfeefd0e2971f5b127dc85cd3c749b7c349aaec567"
+    },
+    {
+      "file": "RIP_shared_frontier_content_l_english.yml",
+      "owner": "shared_frontier",
+      "entity": "content",
+      "lang": "english",
+      "keys": 18,
+      "sha256": "3f10a5111cb4bd77c508619535e413458159c4bb69167ae408c5ae362dfd2cd6"
+    },
+    {
+      "file": "RIP_shared_frontier_content_l_french.yml",
+      "owner": "shared_frontier",
+      "entity": "content",
+      "lang": "french",
+      "keys": 201,
+      "sha256": "651ed249f1d194689c8e1b2e4402950ee70620f8d5ac7bc9042f2f4b2a9bb3db"
+    },
+    {
+      "file": "RIP_shared_frontier_content_l_german.yml",
+      "owner": "shared_frontier",
+      "entity": "content",
+      "lang": "german",
+      "keys": 201,
+      "sha256": "426a2a512e60f01a99fabf0cc836709ff346142426d1c4ec610282917d689797"
+    },
+    {
+      "file": "RIP_shared_frontier_content_l_spanish.yml",
+      "owner": "shared_frontier",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 201,
+      "sha256": "69ed83c8fd2a59eeee7637f48cd3e32639c863de335eb213a898d64fe259b0fb"
+    },
+    {
+      "file": "RIP_shared_government_content_l_french.yml",
+      "owner": "shared_government",
+      "entity": "content",
+      "lang": "french",
+      "keys": 247,
+      "sha256": "aa551c47ec216f37e57fd31f0a5a96fd479a822fdec7cdf79c8fc8a370c1afaf"
+    },
+    {
+      "file": "RIP_shared_government_content_l_german.yml",
+      "owner": "shared_government",
+      "entity": "content",
+      "lang": "german",
+      "keys": 247,
+      "sha256": "cf4caa962df7980b770082e112fb018d67d853786b770ada9709182c4df00c83"
+    },
+    {
+      "file": "RIP_shared_government_content_l_spanish.yml",
+      "owner": "shared_government",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 247,
+      "sha256": "8bc47b4fa75c81e7c25ef019476a1c545b3266ab733216f5444bd9ef6f81eb53"
+    },
+    {
+      "file": "RIP_shared_government_parliament_names_l_english.yml",
+      "owner": "shared_government",
+      "entity": "parliament_names",
+      "lang": "english",
+      "keys": 90,
+      "sha256": "5289999e978e1917b5b2cef279a6a1e4d35859bc1f4961a46b995900a267516e"
+    },
+    {
+      "file": "RIP_shared_government_parliament_names_l_french.yml",
+      "owner": "shared_government",
+      "entity": "parliament_names",
+      "lang": "french",
+      "keys": 90,
+      "sha256": "6c06bddf6da06c2084481085a456df58e27268685a175093ac5230ef9bac2ab2"
+    },
+    {
+      "file": "RIP_shared_government_parliament_names_l_german.yml",
+      "owner": "shared_government",
+      "entity": "parliament_names",
+      "lang": "german",
+      "keys": 90,
+      "sha256": "a1d0dc83ca252f31603417b261d2be9f404679bd4a359b5612e7926054c4fe37"
+    },
+    {
+      "file": "RIP_shared_government_parliament_names_l_spanish.yml",
+      "owner": "shared_government",
+      "entity": "parliament_names",
+      "lang": "spanish",
+      "keys": 90,
+      "sha256": "02a9c4e93afd3745aed507e3c503fd3ccd44b27460086ebeed6da78dce1f0ba5"
+    },
+    {
+      "file": "RIP_shared_government_status_l_english.yml",
+      "owner": "shared_government",
+      "entity": "status",
+      "lang": "english",
+      "keys": 621,
+      "sha256": "cd1739dab86d22c6608d44150d8c58457f80aef183ae03af601425cfe7666f06"
+    },
+    {
+      "file": "RIP_shared_government_status_l_french.yml",
+      "owner": "shared_government",
+      "entity": "status",
+      "lang": "french",
+      "keys": 621,
+      "sha256": "850badc858de45ea5ea6f6953e20271d8cc97547a26060b0f2ccd84f8d6534dd"
+    },
+    {
+      "file": "RIP_shared_government_status_l_german.yml",
+      "owner": "shared_government",
+      "entity": "status",
+      "lang": "german",
+      "keys": 621,
+      "sha256": "b07233306ee1b6cab3e6c4c81af0e8e08583659197e069649f769d116e3447f7"
+    },
+    {
+      "file": "RIP_shared_government_status_l_spanish.yml",
+      "owner": "shared_government",
+      "entity": "status",
+      "lang": "spanish",
+      "keys": 621,
+      "sha256": "cc3e7f7bfcb308e0a174a05f71b863e50746e45ad0ce36cbb3e877577823710e"
+    },
+    {
+      "file": "RIP_shared_greek_catholic_content_l_french.yml",
+      "owner": "shared_greek_catholic",
+      "entity": "content",
+      "lang": "french",
+      "keys": 421,
+      "sha256": "b7bd95735e4526757fcbe24dc0f9c3292f687d135785efeed1829d35ac3f2201"
+    },
+    {
+      "file": "RIP_shared_greek_catholic_content_l_german.yml",
+      "owner": "shared_greek_catholic",
+      "entity": "content",
+      "lang": "german",
+      "keys": 421,
+      "sha256": "c3d231e6f2a0b9962ccbaab383446b1a24869df078c7439660ed7fbe3180a7d1"
+    },
+    {
+      "file": "RIP_shared_greek_catholic_content_l_spanish.yml",
+      "owner": "shared_greek_catholic",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 421,
+      "sha256": "502c9f39c16b550fc97f0a8a9824cdc02b1a35ad6475e639c8443aaa0dcf49d6"
+    },
+    {
+      "file": "RIP_shared_orthodox_content_l_english.yml",
+      "owner": "shared_orthodox",
+      "entity": "content",
+      "lang": "english",
+      "keys": 4,
+      "sha256": "bcde3aba970f4ca66453735f96fa5b09030fa5f68ab0dbb1a1974749f3b1f845"
+    },
+    {
+      "file": "RIP_shared_orthodox_content_l_french.yml",
+      "owner": "shared_orthodox",
+      "entity": "content",
+      "lang": "french",
+      "keys": 161,
+      "sha256": "77235a399d2f3eb565e973db69e9ee4b44e45e8b42ade266d94768e2848990d3"
+    },
+    {
+      "file": "RIP_shared_orthodox_content_l_german.yml",
+      "owner": "shared_orthodox",
+      "entity": "content",
+      "lang": "german",
+      "keys": 161,
+      "sha256": "4a51f4334ef099bc5af923b0617ceb427fa8e9de5a55ec8da4fbd46a7ea28bba"
+    },
+    {
+      "file": "RIP_shared_orthodox_content_l_spanish.yml",
+      "owner": "shared_orthodox",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 161,
+      "sha256": "0c1c254067cd3269dcbd47e205b55d9e413b88e3f54259b6e75b285363acf9e0"
+    },
+    {
+      "file": "RIP_shared_ruthenian_content_l_english.yml",
+      "owner": "shared_ruthenian",
+      "entity": "content",
+      "lang": "english",
+      "keys": 60,
+      "sha256": "a1c0569311358bf6a085391dbc2e28ac9133d28e8a9df34a98ca1b542cf7a356"
+    },
+    {
+      "file": "RIP_shared_ruthenian_content_l_french.yml",
+      "owner": "shared_ruthenian",
+      "entity": "content",
+      "lang": "french",
+      "keys": 570,
+      "sha256": "d9f16026ba8f847cabfab7c8e4a2806d774e12fb781e589833963bd83af3f829"
+    },
+    {
+      "file": "RIP_shared_ruthenian_content_l_german.yml",
+      "owner": "shared_ruthenian",
+      "entity": "content",
+      "lang": "german",
+      "keys": 570,
+      "sha256": "bc55bbf02bc5120bb3075eded7cba4b98540ffdca3436d0616a9805ce7fc33a9"
+    },
+    {
+      "file": "RIP_shared_ruthenian_content_l_spanish.yml",
+      "owner": "shared_ruthenian",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 570,
+      "sha256": "083c27c730a6dfe05613e67d46059b599c7c8980693e1784fda3fdf225633be0"
+    },
+    {
+      "file": "RIP_shared_steppe_content_l_english.yml",
+      "owner": "shared_steppe",
+      "entity": "content",
+      "lang": "english",
+      "keys": 4,
+      "sha256": "83a0dccf9028e7322a9807ec0810f05e924a4a6aea098950bf11a573911adf40"
+    },
+    {
+      "file": "RIP_shared_steppe_content_l_french.yml",
+      "owner": "shared_steppe",
+      "entity": "content",
+      "lang": "french",
+      "keys": 349,
+      "sha256": "d276e778855721c78f30bbb4c2374f7e8584788ea66c418432ff4d91d3f6ee5f"
+    },
+    {
+      "file": "RIP_shared_steppe_content_l_german.yml",
+      "owner": "shared_steppe",
+      "entity": "content",
+      "lang": "german",
+      "keys": 349,
+      "sha256": "3ef524bc69ebd1c02085e487027fb65ba26bd6095c004ec9d8974f640cfcc2db"
+    },
+    {
+      "file": "RIP_shared_steppe_content_l_spanish.yml",
+      "owner": "shared_steppe",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 349,
+      "sha256": "cdcccd703070b869bdf000bcd973fb4c7bf50c60a88c8824f4602c388180e978"
+    },
+    {
+      "file": "RIP_shared_west_ruthenian_content_l_english.yml",
+      "owner": "shared_west_ruthenian",
+      "entity": "content",
+      "lang": "english",
+      "keys": 4,
+      "sha256": "f296e4f30aa3cef02175cf73aa6e823dc0c9c2ee9c8ee7d160d2c1bf7852e6b6"
+    },
+    {
+      "file": "RIP_shared_west_ruthenian_content_l_french.yml",
+      "owner": "shared_west_ruthenian",
+      "entity": "content",
+      "lang": "french",
+      "keys": 198,
+      "sha256": "7bc609aab3274839238eeace7679d070b76541e45b10645d76b3af0877c7fc35"
+    },
+    {
+      "file": "RIP_shared_west_ruthenian_content_l_german.yml",
+      "owner": "shared_west_ruthenian",
+      "entity": "content",
+      "lang": "german",
+      "keys": 198,
+      "sha256": "61998377737e383a81fee303ef8e113f57b27e8701305f849589c0a608a64971"
+    },
+    {
+      "file": "RIP_shared_west_ruthenian_content_l_spanish.yml",
+      "owner": "shared_west_ruthenian",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 198,
+      "sha256": "5159c30d69d88b278a53fe8d2fd01800d43bdfb1e416d44ced5ef3c9dfaaf739"
+    },
+    {
+      "file": "RIP_UZH_content_l_french.yml",
+      "owner": "UZH",
+      "entity": "content",
+      "lang": "french",
+      "keys": 658,
+      "sha256": "54aa511902a4f1729c5fd4a97e797fe427dd287e014ad08cc22acea1d92d6677"
+    },
+    {
+      "file": "RIP_UZH_content_l_german.yml",
+      "owner": "UZH",
+      "entity": "content",
+      "lang": "german",
+      "keys": 658,
+      "sha256": "69c53eac2b3bc66edfe2c953bf637527ee004c3bac5b1da256b80fb174d67140"
+    },
+    {
+      "file": "RIP_UZH_content_l_spanish.yml",
+      "owner": "UZH",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 658,
+      "sha256": "09807cedb22609434a9886dcd9e10edd7f1c5586ce259f96a1c51a7e6d3c40e0"
+    },
+    {
+      "file": "RIP_VLN_content_l_french.yml",
+      "owner": "VLN",
+      "entity": "content",
+      "lang": "french",
+      "keys": 128,
+      "sha256": "bad2ec2253b624098e8256731a071a0efe43c1988003c6b5dc3b39b7651ebb39"
+    },
+    {
+      "file": "RIP_VLN_content_l_german.yml",
+      "owner": "VLN",
+      "entity": "content",
+      "lang": "german",
+      "keys": 128,
+      "sha256": "93116e3ed62d1de8dcb1caf0449d3eab0a910b1f8164ec58d580e7f58093a1c6"
+    },
+    {
+      "file": "RIP_VLN_content_l_spanish.yml",
+      "owner": "VLN",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 128,
+      "sha256": "7e3f26f5d35772f0c688813dafc6c490dcfd57ecf9a22aed9c1aeceff9062f7f"
+    },
+    {
+      "file": "RIP_VOL_content_l_english.yml",
+      "owner": "VOL",
+      "entity": "content",
+      "lang": "english",
+      "keys": 5,
+      "sha256": "be89ae4ff87b5d384fbe537656088e442a0f512453dccf1f4419c98549a4a86f"
+    },
+    {
+      "file": "RIP_VOL_content_l_french.yml",
+      "owner": "VOL",
+      "entity": "content",
+      "lang": "french",
+      "keys": 492,
+      "sha256": "4475a893cae8fea57ad5ea9da9c435b075133ef18b5362b6de3e51a387497ae1"
+    },
+    {
+      "file": "RIP_VOL_content_l_german.yml",
+      "owner": "VOL",
+      "entity": "content",
+      "lang": "german",
+      "keys": 492,
+      "sha256": "679a386653ffd9fbdc602fef783ff54ac02401ba0bdfba2ccd77ec05a19172d0"
+    },
+    {
+      "file": "RIP_VOL_content_l_spanish.yml",
+      "owner": "VOL",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 492,
+      "sha256": "f84fe3c847ecf29e29b6a449cf3c6c20e713264fc9873400c058f8a3d957d2bb"
+    },
+    {
+      "file": "RIP_ZAZ_content_l_english.yml",
+      "owner": "ZAZ",
+      "entity": "content",
+      "lang": "english",
+      "keys": 43,
+      "sha256": "504b4913f246faeebb0860d4761c2055db21cf067e7a590452ada20a2631600c"
+    },
+    {
+      "file": "RIP_ZAZ_content_l_french.yml",
+      "owner": "ZAZ",
+      "entity": "content",
+      "lang": "french",
+      "keys": 1126,
+      "sha256": "0278acaae5707ce385293106078f30248e7699d1c6449149409d2d162f3d2e3a"
+    },
+    {
+      "file": "RIP_ZAZ_content_l_german.yml",
+      "owner": "ZAZ",
+      "entity": "content",
+      "lang": "german",
+      "keys": 1126,
+      "sha256": "3e367067245e0039e89080ac3bc6f257dc86bb6eae3c847419f123b6f3b66983"
+    },
+    {
+      "file": "RIP_ZAZ_content_l_spanish.yml",
+      "owner": "ZAZ",
+      "entity": "content",
+      "lang": "spanish",
+      "keys": 1126,
+      "sha256": "a347e879ad434011727993dd660a641da66a65a3e54ead87b1dfced59359dcf5"
+    }
+  ]
+}

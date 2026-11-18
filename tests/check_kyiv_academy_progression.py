@@ -77,19 +77,22 @@ def test_flavor_event():
 
 
 def test_localization():
-    loc_files = [
-        ROOT / "localisation" / "RIP_l_english.yml",
-        ROOT / "localisation" / "replace" / "zzz_RIP_untranslated_l_french.yml",
-        ROOT / "localisation" / "replace" / "zzz_RIP_untranslated_l_german.yml",
-        ROOT / "localisation" / "replace" / "zzz_RIP_untranslated_l_spanish.yml",
+    loc_sources = [
+        ("english", [ROOT / "localisation" / "RIP_l_english.yml"]),
+    ] + [
+        (lang, [
+            ROOT / "localisation" / "replace" / f"RIP_HET_content_l_{lang}.yml",
+            ROOT / "localisation" / "replace" / f"RIP_KIE_content_l_{lang}.yml",
+        ])
+        for lang in ("french", "german", "spanish")
     ]
 
-    for loc in loc_files:
-        text = loc.read_text(encoding="utf-8-sig")
-        assert "het_found_brotherhood_collegium_title" in text, f"Missing title in {loc.name}"
-        assert "het_found_brotherhood_collegium_desc" in text, f"Missing desc in {loc.name}"
-        assert "het_expand_academy_title" in text, f"Missing academy title in {loc.name}"
-        assert "kyiv_brotherhood_collegium" in text, f"Missing modifier in {loc.name}"
+    for label, paths in loc_sources:
+        text = "\n".join(p.read_text(encoding="utf-8-sig") for p in paths)
+        assert "het_found_brotherhood_collegium_title" in text, f"Missing title in {label}"
+        assert "het_found_brotherhood_collegium_desc" in text, f"Missing desc in {label}"
+        assert "het_expand_academy_title" in text, f"Missing academy title in {label}"
+        assert "kyiv_brotherhood_collegium" in text, f"Missing modifier in {label}"
 
 
 if __name__ == "__main__":

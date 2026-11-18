@@ -29,7 +29,7 @@ rada = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(rada)
 
 LANGUAGES = ('english', 'french', 'german', 'spanish')
-loc = {lang: dict(re.findall(r'^ ([\w.]+):\d+ "(.*)"$', read(f'localisation/replace/zzzz_rip_parliament_names_l_{lang}.yml'), re.M))
+loc = {lang: dict(re.findall(r'^ ([\w.]+):\d+ "(.*)"$', read(f'localisation/replace/RIP_shared_government_parliament_names_l_{lang}.yml'), re.M))
        for lang in LANGUAGES}
 english = loc['english']
 ladder = read('customizable_localization/RIP_shared_parliament_names.txt')
@@ -231,7 +231,7 @@ for lang in LANGUAGES:
     assert set(loc[lang]) == set(english)
 # Nothing else in the mod may define a <TAG>_parliament_name or call the retired command.
 for path in sorted((ROOT / 'localisation').rglob('*.yml')):
-    if path.name.startswith('zzzz_rip_parliament_names_'):
+    if path.name.startswith('RIP_shared_government_parliament_names_'):
         continue
     text = path.read_text(encoding='utf-8-sig')
     assert 'GetRIPParliamentName' not in text and '_parliament_name:' not in text, path.name

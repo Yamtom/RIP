@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-from clausewitz_testlib import read_scripted_trigger_family
+from clausewitz_testlib import read_scripted_trigger_family, read_replace_all
 from clausewitz_testlib import ROOT, named_block, normalized, read
 
 
@@ -174,9 +174,9 @@ def check_triggers_and_mappings(failures: list[str], text: str) -> None:
     )
     loc_files = {
         "english": "localisation/zzz_missing_l_english.yml",
-        "french": "localisation/replace/zzz_RIP_untranslated_l_french.yml",
-        "german": "localisation/replace/zzz_RIP_untranslated_l_german.yml",
-        "spanish": "localisation/replace/zzz_RIP_untranslated_l_spanish.yml",
+        "french": "localisation/replace/RIP_KRU_content_l_french.yml",
+        "german": "localisation/replace/RIP_KRU_content_l_german.yml",
+        "spanish": "localisation/replace/RIP_KRU_content_l_spanish.yml",
     }
     for language, path in loc_files.items():
         defined = set(re.findall(r"(?m)^ ([A-Z_]+):\d+ ", read(path)))
@@ -528,21 +528,19 @@ def check_reform_balance_and_lifecycle(failures: list[str]) -> None:
 
 
 def check_visible_language(failures: list[str]) -> None:
+    replace_gov_texts = [
+        path.read_text(encoding="utf-8-sig")
+        for path in sorted((ROOT / "localisation/replace").glob("*.yml"))
+        if "_church_" not in path.name and "_greek_catholic_church" not in path.name
+    ]
     english = "\n".join(
-        read(path)
-        for path in (
-            "localisation/RIP_l_english.yml",
-            "localisation/volhynia_government_l_english.yml",
-            "localisation/zaz_paths_l_english.yml",
-            "localisation/podillia_events_l_english.yml",
-            "localisation/replace/zzz_RIP_l_english.yml",
-            "localisation/replace/zzz_RIP_untranslated_l_french.yml",
-            "localisation/replace/zzz_RIP_untranslated_l_german.yml",
-            "localisation/replace/zzz_RIP_untranslated_l_spanish.yml",
-            "localisation/replace/zzz_zaz_paths_l_french.yml",
-            "localisation/replace/zzz_zaz_paths_l_german.yml",
-            "localisation/replace/zzz_zaz_paths_l_spanish.yml",
-        )
+        [
+            read("localisation/RIP_l_english.yml"),
+            read("localisation/volhynia_government_l_english.yml"),
+            read("localisation/zaz_paths_l_english.yml"),
+            read("localisation/podillia_events_l_english.yml"),
+            *replace_gov_texts,
+        ]
     )
     for stale in (
         "Agro Hypercorporation",

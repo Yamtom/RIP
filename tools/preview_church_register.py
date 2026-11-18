@@ -180,7 +180,7 @@ def read_loc(path):
     return dict(re.findall(r'^ ([\w.]+):\d+ "(.*)"$', path.read_text(encoding='utf-8-sig'), re.M))
 
 
-LOC = read_loc(ROOT / 'localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
+LOC = read_loc(ROOT / 'localisation/replace/RIP_shared_church_redesign_l_english.yml')
 LOC.update(read_loc(ROOT / 'localisation/rip_ro_blessing_window_l_english.yml'))
 LADDERS = {}
 for kind, body in parse(read_custom_localization('church')):

@@ -131,10 +131,11 @@ $env:EU4_DIR = "D:\...\steamapps\common\Europa Universalis IV"
 - **Реформа без блоку `potential` видно всім країнам світу**, лише притлумлену
   тригером. Єдиний гейт видимості — `ruthenian_reform_visible` з
   `common/scripted_triggers/ruthenian_reform_triggers.txt`.
-- **Порядок перекриття локалізації визначає ім'я файлу за абеткою** — файл, чиє
-  ім'я стоїть пізніше, виграє. Звідси префікс `zzz_` на файлах, які мають
-  свідомо перекрити щось раніше (`localisation/zzz_*`,
-  `localisation/replace/zzz_RIP_*`).
+- **Порядок перекриття локалізації**: директорія `localisation/replace/`
+  завантажується рушієм після `localisation/`. У моді файли `replace/`
+  іменовані за теговою схемою `RIP_<OWNER>_<ENTITY>_l_<language>.yml`
+  (із `0` дублікатів усередині `replace/` і `0` перетинів з `localisation/`),
+  а у пласкій `localisation/` порядок перекриття задається абеткою (`localisation/zzz_*`).
 - **Перекривати ванільний ключ (наприклад, `PRINCIPALITY`) можна лише
   навмисно й із приміткою** — інакше це тихо перейменовує весь ванільний
   контент, що використовує той самий ключ.
@@ -159,7 +160,7 @@ $env:EU4_DIR = "D:\...\steamapps\common\Europa Universalis IV"
   «democratic traditions»); уникати `identity`, `democracy`, `ethnic`,
   `ideology` та знаків оклику.
 - Мова-джерело англійська; французька/німецька/іспанська успадковують з неї
-  через `localisation/replace/zzz_RIP_untranslated_l_*.yml` і оновлюються лише
+  у тегових файлах `localisation/replace/RIP_<OWNER>_<ENTITY>_l_<language>.yml` і оновлюються лише
   коли перекладач їх бере.
 
 Документація мода (`docs/*.md`) — українською; `check_docs_language.py`

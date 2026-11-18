@@ -426,7 +426,7 @@ def check_sprites_and_text(loc):
 def load_loc():
     loc = {}
     for language in LANGUAGES:
-        text = read(f'localisation/replace/zzzz_rip_kru_rada_l_{language}.yml')
+        text = read(f'localisation/replace/RIP_KRU_government_rada_l_{language}.yml')
         loc[language] = dict(re.findall(r'(?m)^ (\w+):\d+ "(.*)"$', text))
     loc['ui'] = dict(re.findall(r'(?m)^ (\w+):\d+ "(.*)"$', read('localisation/zzzz_rip_government_ui_l_english.yml')))
     return loc

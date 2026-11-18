@@ -25,7 +25,7 @@ What this writes (all of it generated, compare with --check):
   common/scripted_effects/kru_rada_effects.txt              the rank, reform swap and bar effects
   interface/RIP_KRU_government_rada.gfx                                the three side sprites (GFX_kru_rada_<faction>, two frames: out of power / in power)
   gfx/interface/rip_government/kru_rada_<faction>.dds       their textures, made from the faction emblems
-  localisation/replace/zzzz_rip_kru_rada_l_<language>.yml   side names, descriptions and tooltips (English text in all four languages)
+  localisation/replace/RIP_KRU_government_rada_l_<language>.yml   side names, descriptions and tooltips (English text in all four languages)
 
 How a bar position is chosen (kru_rada_bar_effect): the bar is centred and then moved to the right by the leader's grip: influence 50 gives a
 quarter, 55 a half, 60 three quarters, less than 50 nothing - the Rada is contested and nobody holds the floor. Side modifiers apply to the
@@ -379,7 +379,7 @@ def text_outputs():
         'interface/RIP_KRU_government_rada.gfx': gfx_text(),
     }
     for language in LANGUAGES:
-        result[f'localisation/replace/zzzz_rip_kru_rada_l_{language}.yml'] = '﻿' + localisation(language)
+        result[f'localisation/replace/RIP_KRU_government_rada_l_{language}.yml'] = '﻿' + localisation(language)
     return result
 
 

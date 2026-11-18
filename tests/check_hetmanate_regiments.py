@@ -97,9 +97,9 @@ def test_localization():
 
     for lang_file in [
         "localisation/RIP_l_english.yml",
-        "localisation/replace/zzz_RIP_untranslated_l_french.yml",
-        "localisation/replace/zzz_RIP_untranslated_l_german.yml",
-        "localisation/replace/zzz_RIP_untranslated_l_spanish.yml",
+        "localisation/replace/RIP_HET_content_l_french.yml",
+        "localisation/replace/RIP_HET_content_l_german.yml",
+        "localisation/replace/RIP_HET_content_l_spanish.yml",
     ]:
         content = (ROOT / lang_file).read_text(encoding="utf-8-sig")
         for key in required_keys:

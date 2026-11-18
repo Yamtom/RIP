@@ -72,7 +72,7 @@ assert 'local_unrest = 1' in named_block(mission_modifiers, 'rip_gc_faith_funded
 assert 'local_tax_modifier = -0.05' in named_block(mission_modifiers, 'rip_gc_faith_funded_mission')
 assert 'local_missionary_strength = 0.01' in named_block(mission_modifiers, 'rip_faith_funded_mission')
 for language in ('english', 'german', 'french', 'spanish'):
-    mission_localisation = read(f'localisation/replace/zzzz_RIP_religion_settlement_l_{language}.yml')
+    mission_localisation = read(f'localisation/replace/RIP_shared_church_content_l_{language}.yml')
     assert 'rip_gc_faith_funded_mission:0' in mission_localisation, language
     assert 'desc_rip_gc_faith_funded_mission:0' in mission_localisation, language
     assert '+3 percentage points' in mission_localisation, language

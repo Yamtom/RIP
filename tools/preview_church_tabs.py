@@ -23,7 +23,7 @@ ap.add_argument('--ro', action='store_true', help='Preview and measure the Musco
 args = ap.parse_args()
 OUT = args.out
 OUT.mkdir(parents=True, exist_ok=True)
-loc = dict(re.findall(r'^\s+(\w+):0 "(.*)"$', (ROOT / 'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'), re.M))
+loc = dict(re.findall(r'^\s+(\w+):0 "(.*)"$', (ROOT / 'localisation/replace/RIP_shared_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'), re.M))
 readouts = {}
 readout_rows = {}
 for _, block in keyed_blocks(read_custom_localization('church'), 'defined_text'):

@@ -1,6 +1,6 @@
 """English names for the Old Believer religion, rebels, communities and policy.
 
-Emitted into localisation/replace/zzzz_RIP_church_redesign_l_*.yml by
+Emitted into localisation/replace/RIP_shared_church_redesign_l_*.yml by
 tools/build_church_localisation.py, which refuses to start if a key here is
 also owned by tools/ro_history_localisation.py: this file adds Old Believer
 keys, it never overrides a Muscovite-history one.
@@ -52,11 +52,11 @@ COPY = {
 # Three state institutions; generator-owned in all four fallback languages.
 COPY.update({
  'rip_ob_choose_accord_title': 'Settle the Organization of the Old Rite',
- 'rip_ob_choose_accord_desc': 'Current settlement: [Root.GetOldBelieverAccord].\\nChoose support for visiting priests or worship under lay elders. Costs 75 ADM and 100 ducats. A later change costs an additional 1 stability. Peace, at least 0 stability; change once every 20 years. Payment is made only on confirmation. This policy models patronage of diverse communities, not a single historical Old Believer church.',
+ 'rip_ob_choose_accord_desc': 'Current settlement: [Root.GetOldBelieverAccord].\\nChoose support for visiting priests or worship under lay elders. Costs 75 ADM and 100 ducats. A later change costs an additional 1 stability. Peace, at least 0 stability; change once every 20 years. Payment is made only on confirmation. The crown acts as patron to diverse Old Believer communities rather than establishing a single unified church.',
  'rip_ob_hold_assembly_title': 'Convene the Community Assembly',
  'rip_ob_hold_assembly_desc': 'Current mandate: [Root.GetOldBelieverMandate].\\nFor 50 ADM and 75 ducats, choose a 10-year mandate: manuscript schools (-5% idea cost, -0.5% missionary strength), or mutual aid (-1 national unrest, -5% national tax). One mandate at a time. Peace, at least 0 stability; once every 10 years. Confirmation lists the effects.',
  'rip_ob_endow_refuge_title': 'Endow a Refuge of the Old Rite',
- 'rip_ob_endow_refuge_desc': 'Propose one randomly selected eligible non-capital core with an existing Old Believer community or majority. The event names the randomly proposed site, which can be accepted or declined freely; it is not a manual map selection. Costs 50 DIP, 100 ducats and adds 10 local autonomy. Refuge: -1 local unrest, +15% local production efficiency, -15% local tax and -1% local missionary strength. One foundation per 10 years; fewer than 3 foundations must already be owned. Minority communities and provincial religion are preserved. Benefits require an Old Believer ruler or the toleration policy and are suspended by repression.',
+ 'rip_ob_endow_refuge_desc': 'Propose an endowment in one randomly chosen non-capital core with an existing Old Believer community or majority. The assembly petition names the site, which the crown may grant or decline freely. Costs 50 DIP, 100 ducats and adds 10 local autonomy. Refuge: -1 local unrest, +15% local production efficiency, -15% local tax and -1% local missionary strength. One foundation per 10 years; fewer than 3 foundations must already be owned. Minority communities and provincial religion are preserved. Benefits require an Old Believer ruler or the toleration policy and are suspended by repression.',
  'rip_ob_institutions.1.t': 'Priests and Lay Elders',
  'rip_ob_institutions.1.d': 'The old books survive; the succession of clergy is harder to secure. Some communities receive priests who leave the reformed church, while others entrust prayer and teaching to lay elders. Neither policy gives us a patriarch or a new episcopal hierarchy.\\nCurrent settlement: [Root.GetOldBelieverAccord]. Confirmation costs 75 ADM and 100 ducats; changing an existing settlement also costs 1 stability. Its benefits last while we follow the Old Rite, and its 20-year lock survives conversion.',
  'rip_ob_institutions.1.a': 'Support visiting priests',
@@ -72,11 +72,11 @@ COPY.update({
  'rip_ob_no_accord': 'No settlement chosen',
  'rip_ob_no_mandate': 'No current mandate',
  'rip_ob_priestly_accord': 'Patronage of Visiting Priests',
- 'desc_rip_ob_priestly_accord': 'Communities receive clergy from outside the old-rite settlements. Missionary strength +1%, yearly prestige +0.5; tax income -5% pays for their support. This grants no patriarchate or nineteenth-century episcopal succession.',
+ 'desc_rip_ob_priestly_accord': 'Communities receive clergy from outside the old-rite settlements. Missionary strength +1%, yearly prestige +0.5; tax income -5% pays for their support. This grants neither a patriarchate nor an independent episcopal succession.',
  'rip_ob_lay_accord': 'Worship under Lay Elders',
  'desc_rip_ob_lay_accord': 'Readers and lay elders direct communal worship and preserve the old books. Tolerance of the true faith +1 and idea cost -5%, at the cost of missionary strength -1%. Communities retain their diversity.',
  'rip_ob_manuscript_mandate': 'Manuscript Schools',
- 'desc_rip_ob_manuscript_mandate': 'The community assembly supports readers, scribes and the study of old books. For 10 years: idea cost -5%, missionary strength -0.5%. A game-design interpretation of community scholarship.',
+ 'desc_rip_ob_manuscript_mandate': 'The community assembly supports readers, scribes and the study of old books. For 10 years: idea cost -5%, missionary strength -0.5%.',
  'rip_ob_mutual_aid_mandate': 'Communal Mutual Aid',
  'desc_rip_ob_mutual_aid_mandate': 'The assembly directs funds to alms and relief. For 10 years: national unrest -1, national tax -5%.',
  'rip_ob_active_refuge': 'Endowed Old Rite Refuge',

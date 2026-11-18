@@ -8,7 +8,7 @@ import re
 import struct
 
 from church_testlib import EFFECTS, fixture, parse
-from clausewitz_testlib import ROOT, read, vanilla_root
+from clausewitz_testlib import ROOT, read, vanilla_root, read_church_redesign_loc
 from clausewitz_testlib import read_custom_localization
 
 
@@ -90,8 +90,8 @@ for language, label in (
     ('german', 'Patriarchale Autorität'),
     ('spanish', 'Autoridad patriarcal'),
 ):
-    loc_path = f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml'
-    assert f'current_patriarch_authority_text:0 "{label}"' in read(loc_path), loc_path
+    loc_text = read_church_redesign_loc(language)
+    assert f'current_patriarch_authority_text:0 "{label}"' in loc_text, language
 native_select, _ = widget('guiButtonType', 'pick_icon_button', host_children)
 assert position(route) == position(native_select)
 assert route['Orientation'] == native_select['Orientation'], 'replacement keeps the native host anchor'
@@ -215,7 +215,7 @@ cases += 1
 
 # The button caption is static (a custom-localisation call inside buttonText is unproven in the engine);
 # the state-driven line sits under it: ready is yellow, blocked is red, active is green.
-policy_loc = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
+policy_loc = read_church_redesign_loc('english')
 for key, marker in (('rip_church_ro_action_ready','§Y10 now, then 3 a month'),
                     ('rip_church_ro_action_fuel','§RNeeds 10 Fervor'),
                     ('rip_church_ro_action_fuel_mission','§RNeeds 20 Fervor'),

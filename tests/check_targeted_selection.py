@@ -93,15 +93,19 @@ def test_localization():
         "vln_magnate_concession_cooldown",
     ]
 
-    for lang_file in [
-        "localisation/RIP_l_english.yml",
-        "localisation/replace/zzz_RIP_untranslated_l_french.yml",
-        "localisation/replace/zzz_RIP_untranslated_l_german.yml",
-        "localisation/replace/zzz_RIP_untranslated_l_spanish.yml",
-    ]:
-        content = (ROOT / lang_file).read_text(encoding="utf-8-sig")
+    loc_sources = [
+        ("english", ["localisation/RIP_l_english.yml"]),
+    ] + [
+        (lang, [
+            f"localisation/replace/RIP_KIE_content_l_{lang}.yml",
+            f"localisation/replace/RIP_VLN_content_l_{lang}.yml",
+        ])
+        for lang in ("french", "german", "spanish")
+    ]
+    for label, paths in loc_sources:
+        content = "\n".join((ROOT / p).read_text(encoding="utf-8-sig") for p in paths)
         for key in required_keys:
-            assert f" {key}:" in content, f"Missing key {key} in {lang_file}"
+            assert f" {key}:" in content, f"Missing key {key} in {label}"
 
 
 def main():

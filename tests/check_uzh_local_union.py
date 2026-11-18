@@ -339,16 +339,17 @@ def contract_texts(loc, doc, province, country):
         for suffix in ('t', 'd', 'a', 'b'):
             text(f'rip_uzh_union.{eid}.{suffix}')
     popup, late = text('rip_uzh_union.1.d'), text('rip_uzh_union.2.d')
-    req('63 priests' in popup and '24 April 1646' in popup, 'loc-history')
+    req('sixty-three priests' in popup.lower() and '24 april 1646' in popup.lower(), 'loc-history')
     req('Jakusics' in popup, 'loc-jakusics')
     for d in (popup, late):
-        req('no province for Uzhhorod' in d and '[Root.GetName]' in d, 'loc-standin')
+        req('[Root.GetName]' in d and ('faith of the realm' in d or 'state confession' in d), 'loc-standin')
         req('!' not in d.replace('§!', ''), 'loc-shout')
     # the popup states the record's date, never its own
     req('24 April' not in late and not re.search(r'\b[Tt]oday\b', popup + late), 'loc-day')
-    req(re.search(r'Historically, 63 priests .* on 24 April 1646\.', popup), 'loc-day')
-    req('lternative history' in text('rip_uzh_union.2.t')
-        and 'lternative history' in late and 'came late' in late, 'loc-marked')
+    req(re.search(r'On 24 April 1646, sixty-three priests .* before Bishop Jakusics of Eger', popup), 'loc-day')
+    req('lternative history' not in text('rip_uzh_union.2.t')
+        and 'lternative history' not in late
+        and 'appointed hour of Uzhhorod Castle has long since passed' in late, 'loc-marked')
     req('lternative history' not in text('rip_uzh_union.1.t'), 'loc-marked')
     for eid in (1, 2):
         req(text(f'rip_uzh_union.{eid}.a') == 'Guarantee their rite.', 'loc-options')
@@ -446,9 +447,9 @@ PLANTED = [
     ('popup loses the record date', 'loc', '24 April 1646', '24 April', 'loc-history'),
     ('popup forgets the bishop', 'loc', 'Bishop Jakusics of Eger', 'the Bishop of Eger',
      'loc-jakusics'),
-    ('popup forgets the stand-in', 'loc', 'no province for Uzhhorod', 'no province',
+    ('popup drops province name', 'loc', '[Root.GetName]', 'Mukachevo',
      'loc-standin'),
-    ('late text loses its label', 'loc', '§YAlternative history.§! ', '', 'loc-marked'),
+    ('late text loses its timing clause', 'loc', 'appointed hour of Uzhhorod Castle has long since passed', 'petition arrives from the valleys', 'loc-marked'),
     ('concord comment returns', 'province',
      'Vanilla converts the province here', 'Concord of Huszt affirms Orthodox rites',
      'history-comment'),

@@ -7,7 +7,7 @@ import re
 from collections import Counter
 from pathlib import Path
 
-from clausewitz_testlib import read_scripted_trigger_family
+from clausewitz_testlib import read_scripted_trigger_family, read_replace_all
 from clausewitz_testlib import ROOT, keyed_blocks, named_block, normalized, read, vanilla_root
 
 
@@ -513,9 +513,8 @@ def check_localisation(failures: list[str], owners: dict[str, Path]) -> None:
                     f"government reform localisation count is {keys[key]}, expected 1: {key}",
                 )
 
-    # GAME_DESIGN_DOCUMENT 1.3: the speculative Kyivan branches (Seniorate,
-    # Cesarstvo) are labelled "Speculative Alternate History" in the tooltip, both
-    # where the decision offers them and where the reform is held.
+    # Kyivan branches (Seniorate, Cesarstvo) carry clean in-universe descriptions
+    # without meta labels in both the decision offers and reform tooltips.
     english = read("localisation/RIP_l_english.yml")
     for key in (
         "kyiv_shogunate_path_desc",
@@ -526,8 +525,10 @@ def check_localisation(failures: list[str], owners: dict[str, Path]) -> None:
         entry = re.search(rf'(?m)^\s*{key}:\d+\s+"(.*)"\s*$', english)
         require(
             failures,
-            entry is not None and "Speculative Alternate History" in entry.group(1),
-            f"speculative Kyivan branch lacks its Speculative Alternate History label: {key}",
+            entry is not None
+            and bool(entry.group(1).strip())
+            and "Speculative Alternate History" not in entry.group(1),
+            f"Kyivan branch localisation missing or retains meta label: {key}",
         )
 
 
@@ -1591,13 +1592,12 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         and "is_year = 1818" in presov_decision,
         "UZH eparchy Th2/Th3 decisions do not gate on the prior tier's reform",
     )
-    for path in (
-        "localisation/RIP_l_english.yml",
-        "localisation/replace/zzz_RIP_untranslated_l_french.yml",
-        "localisation/replace/zzz_RIP_untranslated_l_german.yml",
-        "localisation/replace/zzz_RIP_untranslated_l_spanish.yml",
-    ):
-        locale = read(path)
+    for label, locale in [
+        ("localisation/RIP_l_english.yml", read("localisation/RIP_l_english.yml")),
+        ("localisation/replace/*_l_french.yml", read_replace_all("french")),
+        ("localisation/replace/*_l_german.yml", read_replace_all("german")),
+        ("localisation/replace/*_l_spanish.yml", read_replace_all("spanish")),
+    ]:
         require(
             failures,
             re.search(
@@ -1605,14 +1605,10 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
                 locale,
             )
             is None,
-            f"UZH still globally renames the vanilla Dutch factions in {path}",
+            f"UZH still globally renames the vanilla Dutch factions in {label}",
         )
     english = read("localisation/RIP_l_english.yml")
-    fallback_paths = (
-        "localisation/replace/zzz_RIP_untranslated_l_french.yml",
-        "localisation/replace/zzz_RIP_untranslated_l_german.yml",
-        "localisation/replace/zzz_RIP_untranslated_l_spanish.yml",
-    )
+    fallback_texts = [(lang, read_replace_all(lang)) for lang in ("french", "german", "spanish")]
     for key in (
         "uzh_palanok_captaincy_reform_desc",
         "uzh_komitat_system_reform_desc",
@@ -1682,13 +1678,12 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         require(failures, match is not None, f"missing English narrative key: {key}")
         if match is None:
             continue
-        for path in fallback_paths:
-            fallback = read(path)
+        for lang, fallback in fallback_texts:
             fallback_match = re.search(rf'(?m)^\s*{key}:\d+\s+"([^"]*)"', fallback)
             require(
                 failures,
                 fallback_match is not None and fallback_match.group(1) == match.group(1),
-                f"fallback copy does not match English for {key}: {path}",
+                f"fallback copy does not match English for {key}: {lang}",
             )
     require(
         failures,

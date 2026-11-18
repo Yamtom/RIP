@@ -14,18 +14,18 @@ from math import floor
 import re
 
 from church_testlib import TRIGGERS, World, parse
-from clausewitz_testlib import ROOT, named_block, read
+from clausewitz_testlib import ROOT, named_block, read, read_church_redesign_loc
 from clausewitz_testlib import read_custom_localization
 
 cases = 0
 loc = {key: value.replace('\\n', '\n') for key, value in re.findall(
     r'^ ([\w.]+):\d+ "(.*)"$',
-    (ROOT / 'localisation/replace/zzzz_RIP_church_redesign_l_english.yml').read_text(encoding='utf-8-sig'),
+    read_church_redesign_loc('english'),
     re.M)}
 loc.update({key: value.replace('\\n', '\n') for key,value in re.findall(r'^ ([\w.]+):\d+ "(.*)"$', read('localisation/rip_ro_blessing_window_l_english.yml'), re.M)})
 node_loc = {key: value for key, value in re.findall(
     r'^ ([\w.]+):\d+ "(.*)"$',
-    (ROOT / 'localisation/replace/zzzz_RIP_church_nodes_l_english.yml').read_text(encoding='utf-8-sig'),
+    (ROOT / 'localisation/replace/RIP_shared_church_nodes_l_english.yml').read_text(encoding='utf-8-sig'),
     re.M)}
 readouts = {}
 for kind, body in parse(read_custom_localization('church')):

@@ -82,8 +82,10 @@ for key in ('rip_gov_kru_leader', 'rip_gov_kru_second', 'rip_gov_kru_opposition'
 assert 'Right (leads)' in loc['rip_gov_kru_leader'] and 'Left (second)' in loc['rip_gov_kru_second']
 assert 'tag = KRU kru_holds_rada_reform = yes' in read('common/custom_gui/rip_government_status.txt')
 assert 'strictly below 15%' in loc['rip_gov_cesar_recovery_tt']
-assert 'hlc_ordinance_slot_free' in loc['rip_gov_hlc_crown_slots_tt']
-assert 'hlc_boyar_council_session' in loc['rip_gov_hlc_session_tt']
+assert 'at most three of its six ordinances' in loc['rip_gov_hlc_crown_slots_tt']
+assert 'hlc_ordinance_slot_free' not in loc['rip_gov_hlc_crown_slots_tt']
+assert 'single ten-year council session' in loc['rip_gov_hlc_session_tt']
+assert 'hlc_boyar_council_session' not in loc['rip_gov_hlc_session_tt']
 assert 'Rada Consent' in loc['rip_gov_lit_retinues_tt']
 
 # --- Rows that quote numbers must quote the numbers the modifiers really have ---------------------------------------

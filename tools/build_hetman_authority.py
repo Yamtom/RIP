@@ -263,7 +263,7 @@ for key, value in {
 }.items():
     loc(key, value)
 for language in ('english', 'french', 'german', 'spanish'):
-    put(f'localisation/replace/zzzz_RIP_het_authority_l_{language}.yml', 'l_' + language + ':\n' + '\n'.join(f' {k}:0 "{v}"' for k, v in LOC.items()))
+    put(f'localisation/replace/RIP_HET_government_authority_l_{language}.yml', 'l_' + language + ':\n' + '\n'.join(f' {k}:0 "{v}"' for k, v in LOC.items()))
 
 # Preserve the existing Cossack rights in a separate HET base reform.
 base = (ROOT / 'common/government_reforms/RIP_shared_cossack_government_reforms.txt').read_text(encoding='utf-8-sig')

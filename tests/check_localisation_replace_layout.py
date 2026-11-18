@@ -1,0 +1,131 @@
+"""Regression gate for the tag/entity naming layout in localisation/replace/.
+
+Verifies:
+1. Every file in localisation/replace/ follows RIP_<OWNER>_<ENTITY>_l_<language>.yml
+   with a known country tag / tag pair or shared_<family> owner and stays flat.
+2. Every file keeps a single UTF-8 BOM, matching l_<language>: header, and parses
+   strictly as Paradox localisation.
+3. Zero duplicate keys exist across localisation/replace/ per language, and zero
+   keys collide with root localisation/*_l_<language>.yml.
+4. Per-language key counts and multiset (key, version, text) digests match the
+   pre-migration baseline manifest identically.
+5. Generator-owned <ENTITY> groups remain disjoint from non-generated files.
+6. Planted regressions (bad filename, missing/duplicate BOM, wrong language header,
+   duplicate key across files, nested subdirectory) are caught cleanly.
+"""
+from __future__ import annotations
+
+from collections import defaultdict
+import json
+from pathlib import Path
+import sys
+import tempfile
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tools"))
+sys.path.insert(0, str(ROOT / "tests"))
+
+import localisation_replace_layout as layout
+from check_file_encoding import error as encoding_error
+
+
+def test_filename_parser_handles_shared_underscores() -> None:
+    assert layout.parse_replace_filename("RIP_shared_church_content_l_french.yml") == (
+        "shared_church", "content", "french"
+    )
+    assert layout.parse_replace_filename("RIP_shared_west_ruthenian_content_l_spanish.yml") == (
+        "shared_west_ruthenian", "content", "spanish"
+    )
+    assert layout.parse_replace_filename("RIP_MOS_RUS_content_l_german.yml") == (
+        "MOS_RUS", "content", "german"
+    )
+    assert layout.parse_replace_filename("RIP_HET_government_authority_l_english.yml") == (
+        "HET", "government_authority", "english"
+    )
+    assert layout.parse_replace_filename("zzz_RIP_untranslated_l_french.yml") is None
+    assert layout.parse_replace_filename("RIP_BADTAG_content_l_english.yml") is None
+
+
+def test_no_overlap_with_root_localisation() -> None:
+    for lang in layout.LANGUAGES:
+        root_keys: set[str] = set()
+        for path in sorted((ROOT / "localisation").glob(f"*_l_{lang}.yml")):
+            for key, _, _ in layout.parse_yml_entries(path):
+                root_keys.add(key)
+        rep_keys: set[str] = set()
+        for path in sorted((ROOT / "localisation/replace").glob(f"*_l_{lang}.yml")):
+            for key, _, _ in layout.parse_yml_entries(path):
+                rep_keys.add(key)
+        overlap = sorted(root_keys & rep_keys)
+        assert not overlap, f"{lang}: root localisation overlaps replace/: {overlap[:10]}"
+
+
+def test_generator_and_static_groups_disjoint() -> None:
+    manifest = json.loads(layout.MANIFEST_PATH.read_text(encoding="utf-8"))
+    gen_groups = set(layout.GENERATOR_OWNED_GROUPS)
+    actual_groups = defaultdict(set)
+    for path in sorted((ROOT / "localisation/replace").glob("*.yml")):
+        parsed = layout.parse_replace_filename(path.name)
+        assert parsed is not None, path.name
+        owner, entity, _ = parsed
+        actual_groups[f"RIP_{owner}_{entity}"].add(path.name)
+    assert gen_groups <= set(actual_groups), sorted(gen_groups - set(actual_groups))
+    assert "language_digests" in manifest
+
+
+def test_planted_violations() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_dir = Path(tmp)
+        old_dir = layout.REPLACE_DIR
+        try:
+            layout.REPLACE_DIR = tmp_dir
+            # 1. Invalid filename
+            bad_name = tmp_dir / "zzz_legacy_l_english.yml"
+            bad_name.write_bytes(b"\xef\xbb\xbfl_english:\r\n test_k:0 \"ok\"\r\n")
+            assert any("non-conforming replace filename" in p for p in layout.check_current({}))
+            bad_name.unlink()
+
+            # 2. Wrong header language
+            bad_hdr = tmp_dir / "RIP_HET_test_l_french.yml"
+            bad_hdr.write_bytes(b"\xef\xbb\xbfl_english:\r\n test_k:0 \"ok\"\r\n")
+            assert any("does not match language french" in p for p in layout.check_current({}))
+            bad_hdr.unlink()
+
+            # 3. Duplicate key across two replace files
+            f1 = tmp_dir / "RIP_HET_a_l_english.yml"
+            f2 = tmp_dir / "RIP_ZAZ_b_l_english.yml"
+            f1.write_bytes(b"\xef\xbb\xbfl_english:\r\n dup_k:0 \"one\"\r\n")
+            f2.write_bytes(b"\xef\xbb\xbfl_english:\r\n dup_k:0 \"two\"\r\n")
+            assert any("duplicate key 'dup_k'" in p for p in layout.check_current({}))
+            f1.unlink()
+            f2.unlink()
+
+            # 4. Nested directory in replace/
+            sub = tmp_dir / "CHR"
+            sub.mkdir()
+            assert any("nested directory forbidden" in p for p in layout.check_current({}))
+            sub.rmdir()
+
+            # 5. Missing BOM caught
+            no_bom = tmp_dir / "RIP_HET_a_l_english.yml"
+            no_bom.write_bytes(b"l_english:\r\n ok_k:0 \"ok\"\r\n")
+            assert any("UTF-8 BOM" in p for p in layout.check_current({}))
+            assert encoding_error("localisation/replace/RIP_HET_a_l_english.yml", b"l_english:\n") is not None
+        finally:
+            layout.REPLACE_DIR = old_dir
+
+
+def main() -> int:
+    test_filename_parser_handles_shared_underscores()
+    problems = layout.check_current()
+    assert not problems, "\n".join(problems)
+    test_no_overlap_with_root_localisation()
+    test_generator_and_static_groups_disjoint()
+    test_planted_violations()
+    total_files = len(list((ROOT / "localisation/replace").glob("*.yml")))
+    print(f"LOCALISATION REPLACE LAYOUT TEST PASS: {total_files} files, 0 duplicates, baseline digests matched, 5 planted regressions caught")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

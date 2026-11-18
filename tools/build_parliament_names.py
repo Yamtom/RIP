@@ -18,7 +18,7 @@ Outputs (all written, or compared with --check):
   customizable_localization/RIP_shared_parliament_names.txt       GetRIPParliamentTitle, first matching rule wins
   common/custom_gui/rip_parliament_title.txt                the text-box binding
   interface/parliament.gui                                  vanilla window with the overlay and the native title moved
-  localisation/replace/zzzz_rip_parliament_names_l_*.yml    titles and plain nouns (English text in all four languages)
+  localisation/replace/RIP_shared_government_parliament_names_l_*.yml  titles and plain nouns (English text in all four languages)
 Names follow docs/STYLE_GLOSSARY.md: the institution is named, native terms stay untranslated, every significant
 word is capitalised, "Veche" is spelled as in the reform names. docs/RUTHENIAN_PARLIAMENT_NAMES.uk.md explains each rule.
 """
@@ -381,7 +381,7 @@ def outputs():
         'common/custom_gui/rip_parliament_title.txt': GUI_BINDING,
     }
     for language in LANGUAGES:
-        result[f'localisation/replace/zzzz_rip_parliament_names_l_{language}.yml'] = '﻿' + localisation(language)
+        result[f'localisation/replace/RIP_shared_government_parliament_names_l_{language}.yml'] = '﻿' + localisation(language)
     result[DOC] = doc_text((ROOT / DOC).read_text(encoding='utf-8').replace('\r\n', '\n'))
     if GAME is not None:
         result['interface/parliament.gui'] = gui((GAME / 'interface/parliament.gui').read_text(encoding='utf-8-sig'))

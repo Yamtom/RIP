@@ -8,7 +8,7 @@ import subprocess
 import sys
 import tempfile
 from church_testlib import World, parse
-from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized, vanilla_root
+from clausewitz_testlib import ROOT, read, named_block, keyed_blocks, normalized, vanilla_root, read_church_redesign_loc
 from clausewitz_testlib import read_custom_localization
 
 icons = ('michael', 'eleusa', 'pancreator', 'nicholas')
@@ -94,7 +94,7 @@ panels_gfx = read('interface/RIP_shared_church_panels.gfx')
 site_localisation = read('localisation/rip_ro_blessing_window_l_english.yml')
 custom_loc = read('customizable_localization/RIP_MOS_RUS_holy_cities.txt')
 church_readouts = read_custom_localization('church')
-generated_loc = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
+generated_loc = read_church_redesign_loc('english')
 modifiers = read('common/event_modifiers/RIP_faith_modifiers.txt')
 pulse_effects = read('common/scripted_effects/rip_ro_holy_cities_effects.txt')
 hooks = read('common/on_actions/RIP_religion_russian_orthodox_on_actions.txt')

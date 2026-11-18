@@ -98,19 +98,17 @@ def entries(text):
 
 texts = entries(loc)
 
-# The random union is the labelled fallback, alternative history, and it says so
-# in the decision and in the offer; both state what a refusal costs and that the
+# Both the decision and the offer state what a refusal costs and that the
 # ten-year lock belongs to one eparchy, not to the crown.
 desc = texts['rip_du_negotiate_desc']
 offer_text = texts['rip_diocesan_union.1.d']
-assert desc.startswith('Alternative history.'), desc[:40]
-assert offer_text.startswith('Alternative history.'), offer_text[:40]
+assert not desc.startswith('Alternative history.'), desc[:40]
+assert not offer_text.startswith('Alternative history.'), offer_text[:40]
 for text in (desc, offer_text, texts['rip_diocesan_union.3.d']):
     assert '+3 unrest' in text and '+15% autonomy' in text and 'ten years' in text, text[:60]
 assert 'cannot be approached again' in desc and 'others can' in desc
 assert 'cannot be approached again' in offer_text and 'Other eparchies are not affected' in offer_text
 assert 'the other eparchies stay open' in texts['rip_diocesan_union.3.d']
-assert 'dated event' in desc  # the dated seat events take precedence historically
 # The numbers in the text are the numbers of the modifier and the timers.
 resistance = named_block(read('common/event_modifiers/uniate_church_modifiers.txt'),
                          'resistance_to_greek_catholic_spread')
@@ -457,7 +455,7 @@ for key in wanted:
                if re.search(r'(?m)^ ' + re.escape(key) + r':\d', p.read_text(encoding='utf-8-sig'))]
     assert holders == ['khmelnytsky_events_l_english.yml'], (key, holders)
 body = k7_texts['khmelnytsky_events.7.d']
-assert body.startswith('Game model.')
+assert not body.startswith('Game model.')
 assert 'changes rite' in body and '+3 unrest' in body and '+5% autonomy' in body
 assert 'patronage' in body and 'Brest' in body and 'twenty years' in body
 modifiers = read('common/event_modifiers/PRL_modifiers.txt')

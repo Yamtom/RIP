@@ -61,7 +61,7 @@ def main() -> int:
             if LEGACY_ASSIGNMENT.search(path.read_bytes()):
                 failures.append(f"{path.relative_to(ROOT)}: live script references removed Severian culture key")
 
-    for loc_path in sorted((ROOT / "localisation/replace").glob("zzz_RIP_l_*.yml")):
+    for loc_path in sorted((ROOT / "localisation/replace").glob("RIP_*_l_*.yml")):
         if SEVERIAN_CULTURE_LOC.search(loc_path.read_text(encoding="utf-8-sig")):
             failures.append(f"{loc_path.relative_to(ROOT)}: overrides vanilla ryazanian/severian culture localisation")
 

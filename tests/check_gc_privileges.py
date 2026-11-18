@@ -65,12 +65,14 @@ for key in keys:
 
 for language in ('english', 'french', 'german', 'spanish'):
     path = ('localisation/rip_gc_privileges_l_english.yml' if language == 'english'
-            else f'localisation/replace/zzz_rip_gc_privileges_l_{language}.yml')
+            else f'localisation/replace/RIP_shared_greek_catholic_content_l_{language}.yml')
     loc = read(path)
     for key in keys:
-        assert f' {key}:0 "' in loc and f' {key}_desc:0 "' in loc, (language, key)
-    for bad in 'ś', 'ć', '−', '!':
-        assert bad not in loc, (language, bad)
+        title_match = re.search(rf'(?m)^ {re.escape(key)}:0 "(.*)"$', loc)
+        desc_match = re.search(rf'(?m)^ {re.escape(key)}_desc:0 "(.*)"$', loc)
+        assert title_match and desc_match, (language, key)
+        for bad in 'ś', 'ć', '−', '!':
+            assert bad not in title_match[1] and bad not in desc_match[1], (language, key, bad)
 # State-wide adoption is alternative history (no crown ever did it): the AI must
 # take it rarely. The player is not restricted.
 decision = named_block(read('decisions/GreekCatholicDecisions.txt'), 'convert_to_greek_catholic_decision')

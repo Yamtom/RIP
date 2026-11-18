@@ -67,7 +67,8 @@ assert 'rip_church_gc_roman = { always = no }' in orientation
 custom_loc = read_custom_localization('church')
 for name in ('GetChurchCuriaRate', 'GetChurchDonationState', 'GetChurchCuriaPrivilege'):
     assert name not in custom_loc
-english = text('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
+from clausewitz_testlib import read_church_redesign_loc
+english = read_church_redesign_loc('english')
 for stale in ('Papal Standing', 'Communion Balance', 'Papal petitions',
               'rip_church_gc_rome_resources', 'GetChurchCuriaRate',
               'rip_church_gc_petition_', 'rip_church_gui_ring_'):

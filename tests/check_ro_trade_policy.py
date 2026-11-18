@@ -2,7 +2,7 @@
 import re
 import struct
 from church_testlib import World, TRIGGERS, parse
-from clausewitz_testlib import ROOT, read
+from clausewitz_testlib import ROOT, read, read_church_redesign_loc
 
 policy_source = read('common/trading_policies/RIP_MOS_RUS_trading_policies.txt')
 policy = dict(dict(parse(policy_source))['rip_church_mission_network'])
@@ -25,7 +25,7 @@ expected = {'rip_church_policy_' + suffix + '_tt'
             for suffix in ('mission', 'dlc', 'funded', 'merchant', 'share', 'parish', 'target')}
 assert set(requirements) == expected
 for language in ('english', 'french', 'german', 'spanish'):
-    loc = read('localisation/replace/zzzz_RIP_church_redesign_l_' + language + '.yml')
+    loc = read_church_redesign_loc(language)
     for name in expected:
         assert len(re.findall(r'(?m)^\s*' + name + r':0 ', loc)) == 1, (language, name)
 

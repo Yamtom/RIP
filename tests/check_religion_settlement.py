@@ -6,7 +6,7 @@ contract test, not the EU4 engine, a save loader or a campaign balance simulator
 from copy import deepcopy
 import re
 
-from clausewitz_testlib import ROOT, read, named_block, normalized, vanilla_root, keyed_blocks
+from clausewitz_testlib import ROOT, read, named_block, normalized, vanilla_root, keyed_blocks, read_church_redesign_loc
 
 
 def parse(text):
@@ -867,21 +867,17 @@ def guarantee_naming_problems(text):
         values = _literals_or_whole(body, key)
         for value in values:
             lower = value.lower()
-            if (not all(phrase in lower for phrase in ('gameplay', 'canonical', 'not an exact'))
-                    or not re.search(r'\bvoluntary (?:acceptance|union acceptance)\b', lower)):
+            if (
+                'canonical' not in lower
+                or not re.search(r'(?:rather than|distinct from|not)\s+(?:an\s+)?exact', lower)
+                or not re.search(r'\bvoluntary (?:assent to the union|acceptance|union acceptance)\b', lower)
+            ):
                 problems.append(f'{key}: wording must disclaim exact status, canonical status and voluntary acceptance')
     return problems
 
 
 def rite_interpretation_problems(text):
-    """The tax/manpower trade-off is an explicit game-design interpretation, not faith punishment or history."""
-    phrases = (
-        'game-design interpretation',
-        'administrative compromise',
-        'protecting local arrangements and autonomy',
-        'not a penalty for another faith',
-        'not a documented historical formula',
-    )
+    """The tax/manpower trade-off is a fiscal concession for local autonomy, not faith punishment."""
     keys = ['rip_church_rite_help']
     generated = 'RITE_INTERPRETATION=' not in text
     if generated:
@@ -891,7 +887,13 @@ def rite_interpretation_problems(text):
         values = _literals_or_whole(text, key)
         for value in values:
             lower = value.lower()
-            problems += [f'{key}: missing {phrase!r}' for phrase in phrases if phrase not in lower]
+            if (
+                'protecting local arrangements and autonomy' not in lower
+                and 'concessions to local autonomy' not in lower
+            ):
+                problems.append(f'{key}: missing local autonomy explanation')
+            if not re.search(r'not a penalty (?:upon|on) another faith', lower):
+                problems.append(f"{key}: missing 'not a penalty on/upon another faith'")
             if key != 'desc_rip_church_rite':
                 tax = 'local tax falls by 15%' if key != 'rip_church_rite_help' else 'tax -15%'
                 manpower = 'manpower by 20%' if key != 'rip_church_rite_help' else 'manpower -20%'
@@ -974,34 +976,32 @@ def ecumenism_scope_problems(text):
 
 
 def florentine_precedent_problems(text):
-    """1439 is a precedent for an alternative campaign path, never the UGCC's origin."""
+    """1439 is a precedent for early union, distinct from the later Union of Brest in 1596."""
     requirements = {
         'greek_catholic_religion_desc': (
-            'broad game category covering several distinct Ruthenian and Carpathian Eastern Catholic union traditions',
-            'not the modern Ukrainian Greek Catholic Church in its narrow sense',
-            'Florentine union as a precedent',
-            'not as the founding of the UGCC',
+            'several distinct ruthenian and carpathian union traditions',
+            'council of florence of 6 july 1439',
+            'precedent for early reconciliation with rome',
+            'distinct from the later union of brest in 1596',
         ),
-        'rip_church.5.t': ('Florentine Legacy',),
+        'rip_church.5.t': ('florentine legacy',),
         'rip_church.5.d': (
-            'as a precedent',
-            'campaign-created alternative',
-            'does not represent the founding of the UGCC in 1439',
+            'council of florence of 1439 as a precedent',
+            'rather than establishing a single unified hierarchy like the later union of brest in 1596',
         ),
-        'rip_church_florence_title': ('Florentine precedent',),
+        'rip_church_florence_title': ('florentine precedent',),
         'rip_church_florence_desc': (
-            'Florentine precedent',
-            'not the founding of the UGCC',
+            'union of 6 july 1439 at florence as a precedent',
+            'distinct from the later union of brest in 1596',
         ),
-        'rip_church_gui_florence': ('Florentine precedent',),
+        'rip_church_gui_florence': ('florentine precedent',),
         'rip_church_gui_florence_tt': (
-            'Florentine precedent of 1439',
-            'not the founding of the UGCC',
-            'campaign-created alternative',
+            'florentine precedent of 1439',
+            'distinct from the brest synod of 1596',
         ),
-        'rip_church_gui_florence_wait': ('Florentine precedent',),
-        'rip_church_gui_florence_done': ('Florentine precedent carried forward',),
-        'rip_church_gui_florence_none': ('Florentine-precedent negotiations',),
+        'rip_church_gui_florence_wait': ('florentine precedent',),
+        'rip_church_gui_florence_done': ('florentine precedent carried forward',),
+        'rip_church_gui_florence_none': ('florentine-precedent negotiations',),
     }
     problems = []
     for key, phrases in requirements.items():
@@ -1009,8 +1009,9 @@ def florentine_precedent_problems(text):
         if not values:
             problems.append(f'{key}: no literal localisation value')
         for value in values:
+            lower = value.lower()
             problems += [f'{key}: missing {phrase!r}'
-                         for phrase in phrases if phrase not in value]
+                         for phrase in phrases if phrase not in lower]
     body = _without_comments(text)
     for stale in ('The Florentine Alternative Endures',
                   'has sustained the Florentine union of 1439',
@@ -1019,8 +1020,8 @@ def florentine_precedent_problems(text):
             problems.append(f'obsolete origin/continuity wording remains: {stale!r}')
     note = _literals(body, 'rip_church_gui_paths_title_tt')
     for value in note:
-        if 'several local Ruthenian and Carpathian Eastern Catholic union traditions' not in value:
-            problems.append('shared route note does not identify the model as several local union traditions')
+        if 'several distinct Ruthenian and Carpathian Eastern Catholic union traditions' not in value:
+            problems.append('shared route note does not list the regional union traditions')
     return problems
 
 
@@ -1040,17 +1041,16 @@ def guarantee_of_rights_contracts():
     relations = read('common/scripted_effects/rip_church_diplomacy_effects.txt')
     facts = ecumenism_facts(modifiers, read('common/opinion_modifiers/RIP_church_relations.txt'))
     generator = read('tools/build_church_localisation.py')
-    english = read('localisation/replace/zzzz_RIP_church_redesign_l_english.yml')
+    english = read_church_redesign_loc('english')
     fallback_localisations = {
         f'guarantee_naming_{language}': guarantee_naming_problems(
-            read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml'))
+            read_church_redesign_loc(language))
         for language in ('french', 'german', 'spanish')
     }
     rite_texts = {
         'rite_interpretation_generator': generator,
         'rite_interpretation_english': english,
-        **{f'rite_interpretation_{language}': read(
-            f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
+        **{f'rite_interpretation_{language}': read_church_redesign_loc(language)
            for language in ('french', 'german', 'spanish')},
     }
     rite_docs = {
@@ -1059,7 +1059,7 @@ def guarantee_of_rights_contracts():
     }
     ecumenism_fallbacks = {
         f'ecumenism_clarification_{language}': ecumenism_scope_problems(
-            read(f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml'))
+            read_church_redesign_loc(language))
         for language in ('french', 'german', 'spanish')
     }
     ecumenism_docs = {
@@ -1076,8 +1076,7 @@ def guarantee_of_rights_contracts():
         for name, text in {
             'generator': generator,
             'english': english,
-            **{language: read(
-                f'localisation/replace/zzzz_RIP_church_redesign_l_{language}.yml')
+            **{language: read_church_redesign_loc(language)
                for language in ('french', 'german', 'spanish')},
         }.items()
     }

@@ -648,7 +648,7 @@ def load():
     for language in LANGUAGES:
         fallback = None
         if language != "english":
-            path = ROOT / "localisation" / "replace" / f"zzz_RIP_untranslated_l_{language}.yml"
+            path = ROOT / "localisation" / "replace" / f"RIP_HLC_content_l_{language}.yml"
             fallback = path.read_text(encoding="utf-8-sig") if path.is_file() else None
         texts[language] = (loc_text(language), fallback)
     return sources, texts

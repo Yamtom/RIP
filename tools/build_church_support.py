@@ -264,7 +264,7 @@ node_loc = ''.join(
     f' rip_church_node_{name}_close:0 "Close ${name}$: §R-{NODE_YIELD} Fervor§! a month; the {NODE_COST} Fervor are not refunded"\n'
     for name,_ in nodes)
 for lang in ('english','french','german','spanish'):
-    output(f'localisation/replace/zzzz_RIP_church_nodes_l_{lang}.yml', '﻿l_'+lang+':\n'+node_loc)
+    output(f'localisation/replace/RIP_shared_church_nodes_l_{lang}.yml', '﻿l_'+lang+':\n'+node_loc)
 changed=[]
 for path, text in outputs.items():
     target=ROOT/path
