@@ -123,8 +123,11 @@ for religion, number in mod_icons:
 
 # Which sprites read a strip? The known five, plus anything vanilla points at one.
 required = set(SPRITES)
+vanilla_sprite_files = {}
 if vanilla:
-    for name, texture, _, _ in declarations(vanilla):
+    for name, texture, _, path in declarations(vanilla):
+        if name:
+            vanilla_sprite_files.setdefault(name, set()).add(path.name)
         if texture in STRIPS:
             required.add(name)
 for name, texture, _, _ in mod_decl:
@@ -143,12 +146,17 @@ for name in sorted(required):
     if len(entries) > 1:
         fail(f"{name} is declared {len(entries)} times in the mod ({', '.join(e[2] for e in entries)}); the winner is ambiguous")
         continue
-    texture, frames, _ = entries[0]
+    texture, frames, mod_file = entries[0]
     if texture not in STRIPS:
         fail(f"{name} points at {texture}, which is not one of the four religion strips")
         continue
     if frames < highest:
         fail(f"{name} declares noOfFrames = {frames} but a religion uses icon = {highest}")
+    # EU4 loads interface/*.gfx in ASCII order; overriding a vanilla sprite requires
+    # a filename sorting strictly after every vanilla file that defines the sprite.
+    for v_file in sorted(vanilla_sprite_files.get(name, ())):
+        if not (mod_file > v_file and mod_file.lower() > v_file.lower()):
+            fail(f"{name}: mod file {mod_file} does not sort after vanilla {v_file}; vanilla's noOfFrames would overwrite the mod")
 
 # Every texture the mod's sprites name, in the mod.
 strips = {}

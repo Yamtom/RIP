@@ -22,7 +22,9 @@ for row in manifest:
         errors.append('Migration changed engine content: '+row['new'])
 for path in (ROOT / 'interface').iterdir():
     if path.suffix in ('.gui', '.gfx') and path.name not in fixed:
-        if not re.fullmatch(r'RIP_(?:[A-Z0-9]{3}|shared)_[a-z0-9_]+\.(?:gui|gfx)',path.name):
+        # Files overriding lowercase vanilla sprites (e.g. countryview.gfx, provinceview.gfx)
+        # require a lowercase `zz_` prefix so EU4's ASCII load order applies them last.
+        if not re.fullmatch(r'(?:zz_)?RIP_(?:[A-Z0-9]{3}|shared)_[a-z0-9_]+\.(?:gui|gfx)',path.name):
             errors.append('Noncanonical name: '+path.name)
 for name in fixed:
     if not (ROOT/'interface'/name).is_file():

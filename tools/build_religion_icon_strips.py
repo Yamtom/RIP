@@ -16,7 +16,6 @@ import math
 import struct
 import sys
 from pathlib import Path
-from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tests"))
@@ -47,6 +46,7 @@ STANDALONE_FRAMES = {'russian_orthodox': 30, 'greek_catholic': 31, 'old_believer
 
 def artwork_frame(number: int, size: int) -> list[bytes]:
     """Export transparent masters at native UI size using premultiplied alpha."""
+    from PIL import Image
     faith = next(name for name, frame in STANDALONE_FRAMES.items() if frame == number)
     path = ROOT / f'gfx/interface/religion_icons/source/{faith}_v2.png'
     with Image.open(path) as source:
