@@ -1,5 +1,59 @@
-# RIP - PDL. Podolian government migration and reconciliation.
+# RIP - PDL. Podolian government migration, reconciliation, and Khotyn campaign tracking.
 on_startup = {
 	pdl_migrate_legacy_galician_union_effect = yes
 	pdl_reconcile_base_reform_effect = yes
+}
+
+# Country scope: ROOT is winner, FROM is loser (vanilla on_battle_won_country / on_war_won).
+on_battle_won_country = {
+	if = {
+		limit = {
+			tag = PDL
+			owns = 281
+			281 = { controlled_by = ROOT }
+		}
+		if = {
+			limit = { FROM = { tag = TUR } }
+			set_country_flag = pdl_repelled_ottoman_assault
+		}
+		if = {
+			limit = {
+				FROM = {
+					OR = {
+						tag = TUR
+						tag = CRI
+						religion_group = muslim
+						is_great_power = yes
+					}
+				}
+			}
+			set_country_flag = pdl_repelled_southern_assault
+		}
+	}
+}
+
+on_war_won = {
+	if = {
+		limit = {
+			tag = PDL
+			owns = 281
+		}
+		if = {
+			limit = { FROM = { tag = TUR } }
+			set_country_flag = pdl_repelled_ottoman_assault
+		}
+		if = {
+			limit = {
+				FROM = {
+					OR = {
+						tag = TUR
+						tag = CRI
+						religion_group = muslim
+						is_great_power = yes
+					}
+				}
+			}
+			set_country_flag = pdl_repelled_southern_assault
+		}
+	}
 }

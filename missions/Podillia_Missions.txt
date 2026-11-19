@@ -60,7 +60,7 @@ PDL_missions_1_carpathian = {
 
 		effect = {
 			add_prestige = 20
-			4749 = {
+			2405 = { # Bendery
 				if = {
 					limit = {
 						NOT = { is_permanent_claim = ROOT }
@@ -153,13 +153,23 @@ PDL_missions_1_carpathian = {
 		position = 5
 
 		provinces_to_highlight = {
-			area = podolia_volhynia_area
+			OR = {
+				area = podolia_volhynia_area
+				area = red_ruthenia_area
+				area = moldavia_area
+				area = yedisan_area
+			}
 			NOT = { owned_by = ROOT }
 		}
 
 		trigger = {
 			num_of_owned_provinces_with = {
-				area = podolia_volhynia_area
+				OR = {
+					area = podolia_volhynia_area
+					area = red_ruthenia_area
+					area = moldavia_area
+					area = yedisan_area
+				}
 				value = 6
 			}
 			if = {
@@ -393,12 +403,37 @@ PDL_missions_3_magnate = {
 		required_missions = { PDL_kamianets_development }
 		position = 3
 
-		provinces_to_highlight = { }
+		provinces_to_highlight = {
+			OR = {
+				area = podolia_volhynia_area
+				area = red_ruthenia_area
+				area = west_dniepr_area
+				area = east_dniepr_area
+				area = volhynia_area
+			}
+			OR = {
+				trade_goods = grain
+				trade_goods = livestock
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 10 }
+			}
+		}
 
 		trigger = {
 			num_of_owned_provinces_with = {
-				area = podolia_volhynia_area
-				trade_goods = grain
+				OR = {
+					area = podolia_volhynia_area
+					area = red_ruthenia_area
+					area = west_dniepr_area
+					area = east_dniepr_area
+					area = volhynia_area
+				}
+				OR = {
+					trade_goods = grain
+					trade_goods = livestock
+				}
 				development = 10
 				value = 4
 			}
@@ -458,9 +493,29 @@ PDL_missions_3_magnate = {
 		required_missions = { PDL_merchant_networks }
 		position = 5
 
+		provinces_to_highlight = {
+			OR = {
+				area = podolia_volhynia_area
+				area = red_ruthenia_area
+				area = west_dniepr_area
+				area = east_dniepr_area
+				area = volhynia_area
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 15 }
+			}
+		}
+
 		trigger = {
 			num_of_owned_provinces_with = {
-				area = podolia_volhynia_area
+				OR = {
+					area = podolia_volhynia_area
+					area = red_ruthenia_area
+					area = west_dniepr_area
+					area = east_dniepr_area
+					area = volhynia_area
+				}
 				development = 15
 				value = 4
 			}
@@ -788,22 +843,121 @@ PDL_historical_khotyn_battle = {
 		required_missions = { }
 		position = 3
 
+		provinces_to_highlight = {
+			province_id = 281
+		}
+
 		trigger = {
-			owns = 281
-			281 = { has_building = fort_17th }
-			prestige = 40
+			281 = {
+				owned_by = ROOT
+				controlled_by = ROOT
+				OR = {
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
 			if = {
 				limit = { exists = TUR }
-				army_strength = {
-					who = TUR
-					value = 0.6
+				custom_trigger_tooltip = {
+					tooltip = pdl_khotyn_ottoman_campaign_tt
+					OR = {
+						has_country_flag = pdl_repelled_ottoman_assault
+						AND = {
+							war_with = TUR
+							war_score_against = {
+								who = TUR
+								value = 10
+							}
+							281 = { controlled_by = ROOT }
+						}
+					}
+				}
+			}
+			else = {
+				custom_trigger_tooltip = {
+					tooltip = pdl_khotyn_fallback_campaign_tt
+					OR = {
+						has_country_flag = pdl_repelled_ottoman_assault
+						has_country_flag = pdl_repelled_southern_assault
+						AND = {
+							is_at_war = yes
+							war_score = 25
+							281 = { controlled_by = ROOT }
+						}
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = pdl_khotyn_cossack_muster_tt
+				OR = {
+					alliance_with = ZAZ
+					alliance_with = HET
+					ZAZ = { is_subject_of = ROOT }
+					HET = { is_subject_of = ROOT }
+					AND = {
+						has_estate = estate_cossacks
+						estate_loyalty = {
+							estate = estate_cossacks
+							loyalty = 50
+						}
+						num_of_cavalry = 8
+					}
+					num_of_cavalry = 15
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = pdl_khotyn_coalition_tt
+				OR = {
+					alliance_with = POL
+					alliance_with = PLC
+					alliance_with = LIT
+					alliance_with = HLC
+					alliance_with = VOL
+					alliance_with = VLN
+					alliance_with = KIE
+					alliance_with = KRU
+					num_of_allies = 2
 				}
 			}
 		}
 
 		effect = {
-			add_prestige = 25
 			add_mil_power = 150
+			if = {
+				limit = { has_estate = estate_cossacks }
+				add_estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 10
+				}
+			}
+			every_ally = {
+				limit = {
+					OR = {
+						tag = POL
+						tag = PLC
+						tag = LIT
+						tag = ZAZ
+						tag = HET
+						tag = HLC
+						tag = VOL
+						tag = VLN
+						tag = KIE
+						tag = KRU
+					}
+				}
+				add_trust = {
+					who = ROOT
+					value = 10
+				}
+				ROOT = {
+					add_trust = {
+						who = PREV
+						value = 10
+					}
+				}
+			}
+			country_event = { id = podillia_events.11 }
 		}
 
 		ai_weight = {
