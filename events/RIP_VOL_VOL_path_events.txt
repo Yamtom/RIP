@@ -9,6 +9,8 @@ country_event = {
 	option = {
 		name = vol_path_events.1.a
 		set_country_flag = vol_austrian_path
+		clr_country_flag = vol_constitutional_path
+		swap_non_generic_missions = yes
 		add_country_modifier = {
 			name = vol_diplomatic_focus
 			duration = 7300
@@ -36,6 +38,8 @@ country_event = {
 	option = {
 		name = vol_path_events.1.b
 		set_country_flag = vol_constitutional_path
+		clr_country_flag = vol_austrian_path
+		swap_non_generic_missions = yes
 		add_country_modifier = {
 			name = vol_constitutional_focus
 			duration = 7300
@@ -149,8 +153,14 @@ country_event = {
 			has_country_modifier = vol_cultural_flowering
 			has_country_modifier = vol_dynastic_prestige
 		}
-		capital_scope = {
-			has_building = university
+		OR = {
+			capital_scope = {
+				has_building = university
+			}
+			2962 = {
+				owned_by = ROOT
+				has_building = university
+			}
 		}
 	}
 	mean_time_to_happen = {
@@ -304,6 +314,74 @@ country_event = {
 				name = vol_constitutional_coronation
 				duration = 3650
 			}
+		}
+	}
+}
+
+country_event = {
+	id = vol_path_events.8
+	title = vol_path_events.8.t
+	desc = vol_path_events.8.d
+	picture = UNIVERSITY_eventPicture
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = vol_path_events.8.a
+		add_adm_power = 50
+		define_advisor = {
+			type = philosopher
+			name = "Herasym Smotrytsky"
+			culture = ruthenian
+			skill = 2
+			cost_multiplier = 0.5
+		}
+		ai_chance = {
+			factor = 55
+		}
+	}
+	option = {
+		name = vol_path_events.8.b
+		add_dip_power = 50
+		2962 = {
+			if = {
+				limit = { owned_by = ROOT }
+				add_institution_embracement = {
+					which = printing_press
+					value = 50
+				}
+			}
+		}
+		ai_chance = {
+			factor = 45
+		}
+	}
+}
+
+country_event = {
+	id = vol_path_events.9
+	title = vol_path_events.9.t
+	desc = vol_path_events.9.d
+	picture = BIG_BOOK_eventPicture
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = vol_path_events.9.a
+		rip_faith_mission_resource_effect = { PA = 0.1 PI = 15 ADM = 25 }
+		add_prestige = 20
+		ai_chance = {
+			factor = 55
+		}
+	}
+	option = {
+		name = vol_path_events.9.b
+		add_dip_power = 50
+		add_prestige = 25
+		if = {
+			limit = { has_dlc = "Rule Britannia" }
+			change_innovativeness = 3
+		}
+		ai_chance = {
+			factor = 45
 		}
 	}
 }
