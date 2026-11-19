@@ -2,7 +2,7 @@
 import re
 
 from clausewitz_testlib import ROOT, keyed_blocks, named_block, read
-from check_uzh_local_union import get, parse, window_true
+from check_uzh_local_union import get, parse, walk, window_true
 
 
 def body(text, name):
@@ -41,7 +41,7 @@ for name, position, year, predecessor, flag in chain:
     assert re.search(r'required_missions\s*=\s*\{\s*' + predecessor + r'\s*\}', named_block(missions, name))
     trigger = get(mission, 'trigger')[0]
     check_window(trigger, year)
-    assert get(trigger, 'has_country_flag') == [flag], name
+    assert [v for k, v in walk(trigger) if k == 'has_country_flag'] == [flag], name
     assert f'set_country_flag = {flag}' in named_block(missions, predecessor)
 assert re.search(r'required_missions\s*=\s*\{\s*uzh_backa_settlements\s*\}', named_block(missions, 'uzh_pannonian_expansion'))
 

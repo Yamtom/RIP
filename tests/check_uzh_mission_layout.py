@@ -1,9 +1,10 @@
 """Static contracts for UZH mission resource deductions, arrow routing, vertical compactness, and flag visibility."""
 from __future__ import annotations
 
+from collections import defaultdict
 import re
 
-from clausewitz_testlib import ROOT, keyed_blocks, read
+from clausewitz_testlib import ROOT, keyed_blocks, normalized, read, vanilla_root
 
 
 BRANCH_SERIES = {
@@ -162,7 +163,37 @@ def main() -> int:
 
         assert set(wide_edges) <= {("uzh_pannonian_republic", "uzh_federalization")}, wide_edges
 
+        # EU4 stacks multiple simultaneously active series in the same slot sequentially
+        # by file order rather than interleaving their `position` numbers. Verify every
+        # active series is strictly ascending and never starts at or above an earlier
+        # active series's maximum row in the same slot.
+        series_in_slot: dict[int, list[tuple[str, list[int]]]] = defaultdict(list)
+        series_seen: dict[str, list[int]] = {}
+        for m in missions.values():
+            if m["name"] not in active:
+                continue
+            if m["series"] not in series_seen:
+                positions: list[int] = []
+                series_seen[m["series"]] = positions
+                series_in_slot[m["slot"]].append((m["series"], positions))
+            series_seen[m["series"]].append(m["pos"])
+        for slot_num, slot_series in series_in_slot.items():
+            prev_max = 0
+            for s_name, positions in slot_series:
+                assert positions == sorted(positions) and len(positions) == len(set(positions)), (
+                    f"{b_key}: series {s_name} (slot {slot_num}) has non-ascending positions {positions}"
+                )
+                assert min(positions) > prev_max, (
+                    f"{b_key}: series {s_name} (slot {slot_num}, min P{min(positions)}) interleaves with "
+                    f"earlier active series ending at P{prev_max}; EU4 would stack it below P{prev_max}"
+                )
+                prev_max = max(positions)
+
     # 3. Structural repairs: no P11 hole in Uhro-Rusyn, downward palatial arrow, contiguous Slot 5 econ
+    assert "UZH_missions_realm" not in missions_text
+    assert [m["pos"] for m in missions.values() if m["series"] == "UZH_missions_4"] == [3, 4, 8, 9, 10, 11, 12]
+    assert missions["uz_huszt_rename"]["series"] == "UZH_missions_4"
+    assert missions["uz_zakarpattia_realm"]["series"] == "UZH_missions_4"
     uhro_positions = sorted(
         m["pos"] for m in missions.values() if m["series"] == "UZH_missions_3_uhro_rusyn"
     )
@@ -260,7 +291,291 @@ def main() -> int:
         for key in ("UZH_pannonian_compact_government_tt", "UZH_revival_komitat_condition_tt"):
             assert fb.get(key) == en[key], (lang, key)
 
-    print("PASS: UZH mission layout, costs, arrow geometry, closed gaps, and flag visibility contracts")
+    # 5. Palanok scale direction & permanent modifier balance contracts
+    komitat_norm = normalized(missions["uzh_komitat_system"]["body"])
+    assert "0.7" not in komitat_norm
+    assert "OR = { NOT = { statists_vs_orangists = -0.5 } statists_vs_orangists = 0.5 }" in komitat_norm
+    assert (
+        "limit = { has_states_general_mechanic = yes has_reform = uzh_palanok_captaincy_reform statists_vs_orangists = 0.5 } add_army_tradition = 10"
+        in komitat_norm
+    )
+
+    unity_eff = missions["uz_orthodox_unity"]["effect"]
+    assert "uz_orthodox_metropolis" in extract_subblock(unity_eff, "capital_scope")
+    for _, loop_blk in keyed_blocks(unity_eff, "every_owned_province"):
+        assert "uz_orthodox_metropolis" not in loop_blk
+
+    # Non-capstone missions must grant 25-year (9125d) rather than permanent modifiers
+    for mname in (
+        "uzh_pannonian_republic",
+        "uz_kyivan_heritage",
+        "uz_orthodox_unity",
+        "uz_rusyn_autonomy",
+        "uz_carpathian_federation",
+        "uz_uhro_rusyn_integration",
+        "uz_crown_of_saint_stephen",
+        "uzh_congress_subject_hegemony",
+    ):
+        for _, cm_blk in keyed_blocks(missions[mname]["effect"], "add_country_modifier"):
+            assert not re.search(r"\bduration\s*=\s*-1\b", cm_blk), (mname, cm_blk)
+
+    # Parse modifier definitions from RIP_UZH_modifiers.txt and check worst-case stack bounds
+    mod_defs: dict[str, dict[str, float]] = {}
+    mod_text = strip_comments(read("common/event_modifiers/RIP_UZH_modifiers.txt"))
+    for mm in re.finditer(r"^([A-Za-z0-9_]+)\s*=\s*\{([^}]*)\}", mod_text, re.M):
+        stats: dict[str, float] = {}
+        for line in mm.group(2).splitlines():
+            if "=" in line:
+                k, v = [p.strip() for p in line.split("=", 1)]
+                try:
+                    stats[k] = float(v)
+                except ValueError:
+                    pass
+        mod_defs[mm.group(1)] = stats
+
+    # Collect permanent country modifiers granted unconditionally by shared events (uzh.7, uzh.8)
+    ev_perm_mods: set[str] = set()
+    for _, ev_blk in keyed_blocks(events_text, "country_event"):
+        if re.search(r"\bid\s*=\s*uzh\.(7|8)\b", ev_blk):
+            for _, cm_blk in keyed_blocks(ev_blk, "add_country_modifier"):
+                if re.search(r"\bduration\s*=\s*-1\b", cm_blk):
+                    nm = re.search(r'\bname\s*=\s*"?([A-Za-z0-9_]+)"?', cm_blk)
+                    if nm:
+                        ev_perm_mods.add(nm.group(1))
+
+    branch_caps = {
+        "ruthenian": {"uz_pan_ruthenian_union"},
+        "rusyn": {"uz_carpathian_commonwealth"},
+        "uhro_rusyn": {"danubian_monarchy_influence"},
+    }
+    for b_key, b_mods in branch_caps.items():
+        # Verify the branch series actually only uses those permanent country modifiers
+        series_name = BRANCH_SERIES[b_key]
+        found_branch_perms = set()
+        for m in missions.values():
+            if m["series"] == series_name:
+                for _, cm_blk in keyed_blocks(m["effect"], "add_country_modifier"):
+                    if re.search(r"\bduration\s*=\s*-1\b", cm_blk):
+                        nm = re.search(r'\bname\s*=\s*"?([A-Za-z0-9_]+)"?', cm_blk)
+                        if nm:
+                            found_branch_perms.add(nm.group(1))
+        assert found_branch_perms == b_mods, (b_key, found_branch_perms, b_mods)
+
+        for gov in ("monarchy", "republic", "theocracy"):
+            for congress in ("subject", "border"):
+                active_mods = set(ev_perm_mods) | b_mods | {
+                    "uz_danube_trade_league",
+                    "uz_federal_structure",
+                    "uz_federative_statutes_autonomy"
+                    if gov == "republic"
+                    else "uz_federative_statutes_capacity",
+                    "uz_congress_border_drill" if congress == "border" else "uz_pan_ruthenian_union",
+                }
+                if gov == "monarchy":
+                    active_mods |= {"uz_constitutional_system", "uz_statute_codification"}
+
+                assert len(active_mods) <= 8, (b_key, gov, congress, len(active_mods), active_mods)
+                totals: dict[str, float] = defaultdict(float)
+                for mod_name in active_mods:
+                    for stat, val in mod_defs[mod_name].items():
+                        totals[stat] += val
+
+                assert totals["governing_capacity_modifier"] <= 0.20 + 1e-9, (b_key, gov, congress, totals)
+                assert totals["governing_capacity"] <= 150 + 1e-9, (b_key, gov, congress, totals)
+                assert totals["diplomatic_reputation"] <= 2 + 1e-9, (b_key, gov, congress, totals)
+                assert totals["all_power_cost"] == 0, (b_key, gov, congress, totals)
+                assert totals["administrative_efficiency"] == 0, (b_key, gov, congress, totals)
+                assert totals["num_accepted_cultures"] <= 2 + 1e-9, (b_key, gov, congress, totals)
+
+    assert "permanently" not in en["UZH_pannonian_republic_foundation_tt"].lower()
+    assert "permanently" not in en["UZH_congress_subject_hegemony_subject_tt"].lower()
+    assert "+100" in en["UZH_federative_statutes_reward_tt"]
+    assert "50" in en["uzh_komitat_captains_party_tt"]
+    for lang in ("french", "german", "spanish"):
+        fb = loc_entries(ROOT / f"localisation/replace/RIP_UZH_content_l_{lang}.yml")
+        for key in (
+            "uzh_komitat_captains_party_tt",
+            "uzh_komitat_system_desc",
+            "UZH_pannonian_republic_foundation_tt",
+            "UZH_federative_statutes_reward_tt",
+            "UZH_congress_subject_hegemony_subject_tt",
+        ):
+            assert fb.get(key) == en[key], (lang, key)
+
+    # 6. Smooth reward spikes, remove event duplicates, remove rigid idea gates, fix 1444 start bottlenecks
+    pannonian_eff = missions["uzh_pannonian_republic"]["effect"]
+    assert "uz_pannonian_league" not in pannonian_eff
+    assert "uz_border_guard_union" not in pannonian_eff
+    assert "uzh_gain_manpower_6000" not in pannonian_eff
+    assert "change_government_reform_progress = 35" in pannonian_eff
+
+    ev_blocks = {}
+    for _, ev_blk in keyed_blocks(events_text, "country_event"):
+        ev_id = re.search(r"\bid\s*=\s*([A-Za-z0-9_.]+)", ev_blk)
+        if ev_id:
+            ev_blocks[ev_id.group(1)] = ev_blk
+
+    ev5_norm = normalized(ev_blocks["uzh.5"])
+    assert "uz_border_dynasty_network" not in ev5_norm
+    ev202b_norm = normalized(list(keyed_blocks(ev_blocks["uzh.202"], "option"))[1][1])
+    assert "uzh_gain_manpower_6000 = yes" in ev202b_norm
+    assert "add_mil_power = 100" not in ev202b_norm
+
+    exp_eff_norm = normalized(missions["uzh_pannonian_expansion"]["effect"])
+    assert "uz_pannonian_drive" not in exp_eff_norm
+    assert "add_mil_power" not in exp_eff_norm
+    assert "id = uzh.230" in exp_eff_norm
+
+    kyiv_trig = normalized(missions["uz_kyivan_heritage"]["trigger"])
+    assert "OR = { has_idea_group = religious_ideas has_idea_group = influence_ideas AND = { religious_unity = 0.85 diplomatic_reputation = 2 } }" in kyiv_trig
+    fed_trig = normalized(missions["uzh_federalization"]["trigger"])
+    assert "OR = { has_idea_group = administrative_ideas AND = { stability = 2 reform_level = 6 } }" in fed_trig
+
+    frontier_trig = normalized(missions["uzh_pannonian_frontier"]["trigger"])
+    for tok in ("tag = POL", "tag = HLC", "tag = HAB", "tag = BOH", "is_rival = HUN", "is_subject_of = HUN", "fort_level = 2"):
+        assert tok in frontier_trig, tok
+
+    agri_trig = normalized(missions["uzh_agriculture"]["trigger"])
+    assert "trade_goods = wine uzh_has_workshop_infrastructure" not in agri_trig
+    assert "AND = { has_adm_advisor = yes num_of_owned_provinces_with = { region = carpathia_region OR = { trade_goods = grain trade_goods = livestock trade_goods = wine } base_production = 5 value = 2 } }" in agri_trig
+
+    tisza_trig = normalized(missions["uzh_tisza_customs_convention"]["trigger"])
+    assert "share = 35" in tisza_trig
+    assert tisza_trig.count("share = 15") == 2
+
+    # 7. Culture-conversion grind relief, Uhro-Rusyn crown coherence, and dynamic uzh.8 loc
+    banat_trig = normalized(missions["uzh_banat_colonization"]["trigger"])
+    for tok in ("is_core = ROOT", "devastation = 5", "religion = ROOT", "development = 10"):
+        assert tok in banat_trig, tok
+    assert "culture = rusyn" not in banat_trig
+
+    nobility_trig = normalized(missions["uzh_rusin_nobility"]["trigger"])
+    assert "uzh_identity_core_culture = yes uzh_has_courthouse_infrastructure = yes value = 3" in nobility_trig
+    assert "has_owner_accepted_culture = yes" in nobility_trig and "value = 4" in nobility_trig
+
+    exp_trig = normalized(missions["uzh_pannonian_expansion"]["trigger"])
+    assert "area = alfold_area uzh_identity_core_culture = yes value = 2" in exp_trig
+    assert "has_owner_accepted_culture = yes" in exp_trig and "NOT = { nationalism = 1 }" in exp_trig
+
+    decree_trig = normalized(missions["uz_language_decree"]["trigger"])
+    assert "uzh_pre_identity_candidate_culture = yes uzh_has_courthouse_infrastructure = yes value = 2" in decree_trig
+    assert "region = carpathia_region uzh_has_courthouse_infrastructure = yes value = 3" in decree_trig
+
+    id_q_trig = normalized(missions["uz_identity_question"]["trigger"])
+    assert "uzh_pre_identity_candidate_culture = yes value = 3" in id_q_trig
+    assert "has_owner_accepted_culture = yes" in id_q_trig and "total_development = 75" in id_q_trig
+    assert "uzh_identity_core_culture = yes" not in id_q_trig
+
+    self_id_trig = normalized(missions["uz_self_identification"]["trigger"])
+    assert "uzh_identity_core_culture = yes religion = ROOT value = 5" in self_id_trig
+    assert "has_owner_accepted_culture = yes" in self_id_trig and "value = 6" in self_id_trig
+
+    stephen_trig = normalized(missions["uz_crown_of_saint_stephen"]["trigger"])
+    assert "culture = rusyn_new_new value = 3" in stephen_trig
+    assert "has_owner_accepted_culture = yes" in stephen_trig
+
+    stephen_eff = missions["uz_crown_of_saint_stephen"]["effect"]
+    loyal_if = normalized(extract_subblock(stephen_eff, "if"))
+    assert "opinion_uz_dual_crown" in loyal_if and "add_trust = {" in loyal_if
+    assert "add_casus_belli" not in loyal_if
+    else_ifs = list(keyed_blocks(stephen_eff, "else_if"))
+    assert len(else_ifs) >= 1 and "valid_for_personal_unions_trigger = yes" in normalized(else_ifs[0][1])
+    stephen_else = normalized(extract_subblock(stephen_eff, "else"))
+    assert "transdanubia_area" in stephen_else and "slovakia_area" in stephen_else
+    assert "153 = { add_base_tax = 1 add_base_production = 1 }" in stephen_else
+
+    for key in (
+        "uzh.8.t",
+        "uzh.8.d",
+        "uzh.8.a",
+        "uz_rusin_state_title",
+        "uz_rusin_state_desc",
+        "desc_uz_sovereign_rusin_state",
+    ):
+        val = en[key]
+        assert "[Root.GetUZHIdentityCultureAdjective]" in val, (key, val)
+        assert "Rusyn State" not in val and "sovereign Rusyn" not in val, (key, val)
+
+    # 8. Congress pre-choice visible tooltips, zero raw flags in UI, 2-line mission titles, church tooltips
+    for mname, req_tts, eff_tts in (
+        (
+            "uzh_congress_subject_hegemony",
+            ("UZH_congress_subject_hegemony_subject_req_tt", "UZH_congress_subject_hegemony_border_req_tt"),
+            ("UZH_congress_subject_hegemony_subject_tt", "UZH_congress_subject_hegemony_border_tt"),
+        ),
+        (
+            "uzh_congress_border_bastion",
+            ("UZH_congress_border_bastion_subject_req_tt", "UZH_congress_border_bastion_border_req_tt"),
+            ("UZH_congress_border_bastion_subject_tt", "UZH_congress_border_bastion_border_tt"),
+        ),
+    ):
+        trig_else = extract_subblock(missions[mname]["trigger"], "else")
+        eff_else = extract_subblock(missions[mname]["effect"], "else")
+        for tt in req_tts:
+            assert tt in trig_else, (mname, tt)
+        for tt in eff_tts:
+            assert tt in eff_else, (mname, tt)
+
+    for mname, m in missions.items():
+        for sec, pats in (
+            ("trigger", ("has_country_flag", "had_country_flag", "uzh_identity_core_culture")),
+            ("effect", ("set_country_flag", "clr_country_flag")),
+        ):
+            cd = 0
+            shield: list[int] = []
+            for tl in strip_comments(m[sec]).splitlines():
+                if re.search(r"\b(custom_trigger_tooltip|hidden_trigger|hidden_effect|limit)\s*=\s*\{", tl):
+                    shield.append(cd)
+                if not shield:
+                    for tok in pats:
+                        assert tok not in tl, f"{mname}.{sec} exposes raw {tok}: {tl.strip()}"
+                cd += tl.count("{") - tl.count("}")
+                while shield and cd <= shield[-1]:
+                    shield.pop()
+
+    for lang in ("english", "french", "german", "spanish"):
+        church_loc = loc_entries(ROOT / f"localisation/replace/RIP_shared_church_content_l_{lang}.yml")
+        for k in ("rip_church_florence_effect_tt", "rip_church_sponsor_union_effect_tt"):
+            assert k in church_loc and church_loc[k].strip(), (lang, k)
+            assert not re.search(r"\?[YGRWBM!]", church_loc[k]), (lang, k, church_loc[k])
+    for k, val in en.items():
+        assert not re.search(r"\?[YGRWBM!]|Alf\?ld|Krak\?w|B\?cska", val), (k, val)
+
+    vanilla = vanilla_root()
+    if vanilla and (vanilla / "gfx/fonts/vic_18.fnt").is_file():
+        fnt = (vanilla / "gfx/fonts/vic_18.fnt").read_text(encoding="latin-1")
+        adv = {int(mm.group(1)): int(mm.group(2)) for mm in re.finditer(r"char\s+id=(\d+).*?xadvance=(-?\d+)", fnt)}
+        sp = adv.get(32, 4)
+
+        def wrap_count(title: str, max_w: int) -> tuple[int, int]:
+            lines_w: list[int] = []
+            cur_w = 0
+            for word in title.split(" "):
+                ww = sum(adv.get(ord(ch), 7) for ch in word)
+                if cur_w == 0:
+                    cur_w = ww
+                elif cur_w + sp + ww <= max_w:
+                    cur_w += sp + ww
+                else:
+                    lines_w.append(cur_w)
+                    cur_w = ww
+            if cur_w:
+                lines_w.append(cur_w)
+            return len(lines_w), max(lines_w or [0])
+
+        for mname in missions:
+            raw_t = en[f"{mname}_title"]
+            variants = (
+                [raw_t.replace("[Root.GetUZHIdentityCultureAdjective]", adj) for adj in ("Rusyn", "Ruthenian", "Carpathian")]
+                if "[Root.GetUZHIdentityCultureAdjective]" in raw_t
+                else [raw_t]
+            )
+            for variant in variants:
+                n84, _ = wrap_count(variant, 84)
+                n90, w90 = wrap_count(variant, 90)
+                assert n84 <= 2 and n90 <= 2 and w90 <= 90, (mname, variant, n84, n90, w90)
+
+    print("PASS: UZH mission layout, costs, arrow geometry, closed gaps, flag visibility, Palanok scale, permanent balance, start/pacing, and dynamic loc contracts")
     return 0
 
 

@@ -22,7 +22,9 @@ country_decisions = {
 		}
 
 		effect = {
-			set_country_flag = uzh_eparchial_rule_established
+			hidden_effect = {
+				set_country_flag = uzh_eparchial_rule_established
+			}
 			if = {
 				limit = { NOT = { government = theocracy } }
 				change_government = theocracy
@@ -67,7 +69,9 @@ country_decisions = {
 		}
 
 		effect = {
-			set_country_flag = uzh_uzhhorod_see_translated
+			hidden_effect = {
+				set_country_flag = uzh_uzhhorod_see_translated
+			}
 			add_government_reform = uzh_uzhhorod_seat_translation_reform
 			add_adm_power = -50
 			add_prestige = 5
@@ -101,7 +105,9 @@ country_decisions = {
 		}
 
 		effect = {
-			set_country_flag = uzh_presov_eparchy_established
+			hidden_effect = {
+				set_country_flag = uzh_presov_eparchy_established
+			}
 			add_government_reform = uzh_presov_eparchy_reform
 			add_stability = -1
 			add_prestige = 10
@@ -127,10 +133,15 @@ country_decisions = {
 		}
 		allow = {
 			NOT = { has_country_modifier = uz_colonization_cooldown }
-			OR = {
-				has_country_flag = uzh_backa_colonies_established
-				has_country_flag = uzh_banat_settled
-				has_country_flag = uzh_pannonian_expansion_complete
+			custom_trigger_tooltip = {
+				tooltip = UZH_colonization_wave_req_tt
+				hidden_trigger = {
+					OR = {
+						has_country_flag = uzh_backa_colonies_established
+						has_country_flag = uzh_banat_settled
+						has_country_flag = uzh_pannonian_expansion_complete
+					}
+				}
 			}
 			adm_power = 50
 			dip_power = 25
@@ -160,7 +171,12 @@ country_decisions = {
 		}
 		allow = {
 			NOT = { has_country_modifier = uz_unique_host_cooldown }
-			has_country_flag = uzh_pannonian_expansion_complete
+			custom_trigger_tooltip = {
+				tooltip = UZH_hajduk_host_req_tt
+				hidden_trigger = {
+					has_country_flag = uzh_pannonian_expansion_complete
+				}
+			}
 			mil_power = 50
 			manpower_percentage = 0.25
 		}

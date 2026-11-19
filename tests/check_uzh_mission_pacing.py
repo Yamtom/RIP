@@ -40,13 +40,14 @@ colonists = named_block(read('common/event_modifiers/RIP_UZH_modifiers.txt'), 'u
 assert 'colonist_placement_chance' not in colonists and 'global_colonial_growth' not in colonists
 assert all(s in colonists for s in ('production_efficiency = 0.1', 'global_manpower_modifier = 0.1', 'development_cost = -0.1'))
 
-realm = named_block(missions, 'UZH_missions_realm')
-assert 'slot = 4' in realm
+slot4 = named_block(missions, 'UZH_missions_4')
+assert 'slot = 4' in slot4
+assert 'UZH_missions_realm' not in missions
 for key, position in [('uz_huszt_rename', 9), ('uz_zakarpattia_realm', 10)]:
-    assert f'position = {position}' in named_block(realm, key)
+    assert f'position = {position}' in named_block(slot4, key)
     assert key not in named_block(missions, 'UZH_missions_3')
-    assert not re.search(r'position\s*=\s*' + str(position) + r'\b', named_block(missions, 'UZH_missions_4'))
-requirements = named_block(named_block(realm, 'uz_huszt_rename'), 'required_missions')
+assert [int(p) for p in re.findall(r'\bposition\s*=\s*(\d+)', slot4)] == [3, 4, 8, 9, 10, 11, 12]
+requirements = named_block(named_block(slot4, 'uz_huszt_rename'), 'required_missions')
 assert 'uz_self_identification' in requirements and 'uzh_palatial_reform' in requirements
-assert 'uz_huszt_rename' in named_block(named_block(realm, 'uz_zakarpattia_realm'), 'required_missions')
+assert 'uz_huszt_rename' in named_block(named_block(slot4, 'uz_zakarpattia_realm'), 'required_missions')
 print('PASS: three distinct mission stages, targeted claims, usable settlement rewards and connected late realm titles')

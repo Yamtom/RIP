@@ -289,9 +289,21 @@ def check_hooks(event_text, mission_text, effect_text, onaction_text):
             problems.append(f"mission {mission} does not call {effect}")
         toward["captains" if "captains" in effect else "sejm"] += 1
     toward["captains"] += 1  # the war won
-    komitat = normalized(named_block(mission_text, "uzh_komitat_system"))
-    if "has_states_general_mechanic = yes" not in komitat or "statists_vs_orangists = 0.7" not in komitat:
-        problems.append("the Komitat mission no longer reads the scale (it must wait for the Captains' Party at 0.7)")
+    komitat_raw = named_block(mission_text, "uzh_komitat_system")
+    komitat = normalized(komitat_raw)
+    if (
+        "has_states_general_mechanic = yes" not in komitat
+        or "NOT = { statists_vs_orangists = -0.5 }" not in komitat
+        or "statists_vs_orangists = 0.5" not in komitat
+    ):
+        problems.append("the Komitat mission no longer reads the symmetric +/-0.5 Palanok scale")
+    komitat_eff = normalized(named_block(komitat_raw, "effect"))
+    if (
+        "limit = { has_states_general_mechanic = yes has_reform = uzh_palanok_captaincy_reform statists_vs_orangists = 0.5 }"
+        not in komitat_eff
+        or "remove_government_reform = uzh_palanok_captaincy_reform" not in komitat_eff
+    ):
+        problems.append("the Komitat mission no longer branches Captains (retain captaincy) vs Sejm (komitat states)")
     if min(toward.values()) < 2:
         problems.append(f"the hooks push one party only: {toward}")
     families = 1 + 1 + len(MISSION_HOOKS)  # war, fortress events, missions
@@ -446,7 +458,7 @@ def planted_violations(texts, loc, textures, sprites, envelope, geometry):
         "war hook dropped from on_war_won": check_effects(effects, onaction.replace("uzh_sg_war_won_effect = yes", "# gone", 1)),
         "fortress option without its hook": check_hooks(fortress.replace("uzh_sg_sejm_15_effect = yes", "# gone", 1), missions, effects, onaction),
         "mission without its hook": check_hooks(fortress, missions.replace("uzh_sg_captains_20_effect = yes", "# gone", 1), effects, onaction),
-        "komitat mission no longer reads the scale": check_hooks(fortress, missions.replace("statists_vs_orangists = 0.7", "always = yes", 1), effects, onaction),
+        "komitat mission no longer reads the scale": check_hooks(fortress, missions.replace("NOT = { statists_vs_orangists = -0.5 }", "always = yes", 1), effects, onaction),
         "a hook tooltip missing in German": check_localisation({**loc, "german": loc["german"] - {"uzh_sg_sejm_15_tt"}}),
         "the faction names back in Spanish": check_localisation({**loc, "spanish": loc["spanish"] | {"uzh_partia_soymu"}}),
         "vanilla's Statists renamed": check_localisation({**loc, "english": loc["english"] | {"statists"}}),

@@ -1016,15 +1016,15 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
         "has_government_attribute = has_dutch_election" not in uzh_missions,
         "UZH mission still tests the removed Dutch election attribute",
     )
+    komitat_mission = normalized(named_block(uzh_missions_raw, "uzh_komitat_system"))
     require(
         failures,
-        "has_states_general_mechanic = yes"
-        in normalized(named_block(uzh_missions_raw, "uzh_komitat_system"))
-        and "has_reform = uzh_palanok_captaincy_reform" in uzh_missions
-        and "statists_vs_orangists = 0.7" in uzh_missions,
-        "UZH Komitat mission does not enforce Captains' Party support for the Palanok mechanic",
+        "has_states_general_mechanic = yes" in komitat_mission
+        and "has_reform = uzh_palanok_captaincy_reform" in komitat_mission
+        and "NOT = { statists_vs_orangists = -0.5 }" in komitat_mission
+        and "statists_vs_orangists = 0.5" in komitat_mission,
+        "UZH Komitat mission does not read the symmetric +/-0.5 Palanok scale",
     )
-    komitat_mission = normalized(named_block(uzh_missions_raw, "uzh_komitat_system"))
     require(
         failures,
         "government = monarchy" in komitat_mission

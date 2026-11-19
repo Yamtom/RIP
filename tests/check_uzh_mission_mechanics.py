@@ -8,11 +8,50 @@ from clausewitz_testlib import ROOT, keyed_blocks, line_number, named_block, nor
 
 SYNCED_LOC_KEYS = (
     "uzh_agriculture_desc",
+    "UZH_agriculture_pastures_tt",
+    "uzh_pannonian_frontier_desc",
     "UZH_pannonian_compact_government_tt",
     "UZH_revival_komitat_condition_tt",
+    "uzh_komitat_captains_party_tt",
+    "uzh_komitat_system_desc",
+    "UZH_pannonian_republic_foundation_tt",
+    "UZH_pannonian_republic_reform_choice_tt",
     "UZH_federalization_authority_tt",
     "UZH_federative_statutes_reward_tt",
+    "UZH_congress_subject_hegemony_subject_tt",
     "UZH_congress_border_bastion_subject_tt",
+    "UZH_tisza_customs_pest_tt",
+    "UZH_tisza_customs_downstream_tt",
+    "UZH_rusin_nobility_court_tt",
+    "UZH_pannonian_expansion_culture_tt",
+    "UZH_identity_question_culture_tt",
+    "uz_crown_of_saint_stephen_desc",
+    "uz_rusin_state_title",
+    "uz_rusin_state_desc",
+    "uz_sovereign_rusin_state",
+    "desc_uz_sovereign_rusin_state",
+    "uzh.8.t",
+    "uzh.8.d",
+    "uzh.8.a",
+    "uz_preserve_orthodox_faith_title",
+    "uz_resist_habsburgs_title",
+    "uzh_danube_trade_league_title",
+    "uz_union_compromise_plus_title",
+    "uz_identity_branching_1_title",
+    "uz_identity_branching_2_title",
+    "uz_identity_branching_3_title",
+    "uz_orthodox_unity_title",
+    "uz_crown_of_saint_stephen_title",
+    "uz_zakarpattia_realm_title",
+    "uzh_congress_subject_hegemony_title",
+    "uzh_congress_border_bastion_title",
+    "UZH_language_decree_timer_tt",
+    "UZH_self_identification_timer_tt",
+    "UZH_self_identification_provinces_tt",
+    "UZH_solotvynska_camera_timer_tt",
+    "UZH_pan_congress_carpathia_3_tt",
+    "UZH_colonization_wave_req_tt",
+    "UZH_hajduk_host_req_tt",
 )
 
 
@@ -83,9 +122,11 @@ def main() -> int:
 
     pannonian = named_block(missions, "uzh_pannonian_republic")
     pannonian_trig = normalized(named_block(pannonian, "trigger"))
-    pannonian_eff = normalized(named_block(pannonian, "effect"))
+    pannonian_eff_raw = named_block(pannonian, "effect")
+    pannonian_eff = normalized(pannonian_eff_raw)
     assert "OR = { government = republic government = theocracy has_country_flag = uzh_constitutional_framework }" in pannonian_trig
-    assert "else = { add_stability = 1 if = { limit = { has_estate = estate_church } add_estate_loyalty = { estate = estate_church loyalty = 10 } } set_country_flag = uzh_pannonian_charter_ratified }" in pannonian_eff
+    assert '"uz_pannonian_autonomy"' in pannonian_eff_raw and '"uz_carpathian_hegemony"' in pannonian_eff_raw
+    assert "else = { add_country_modifier = { name = duration = 9125 } add_stability = 1 if = { limit = { has_estate = estate_church } add_estate_loyalty = { estate = estate_church loyalty = 10 } } set_country_flag = uzh_pannonian_charter_ratified }" in pannonian_eff
 
     danube_trig = normalized(named_block(named_block(missions, "uzh_danube_trade_league"), "trigger"))
     assert "has_country_flag = uzh_pannonian_charter_ratified" in danube_trig

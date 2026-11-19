@@ -146,24 +146,21 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = "uzh.5.a"
-		add_country_modifier = {
-			name = "uz_border_dynasty_network"
-			duration = 9125
-		}
-		add_prestige = 10
 		if = {
 			limit = {
 				has_country_flag = uzh_dynasty_source_overlord
 			}
-			add_legitimacy_equivalent = {
-				amount = 10
-				republican_tradition = 5
-			}
-			add_liberty_desire = -10
-			overlord = {
-				add_opinion = {
-					who = ROOT
-					modifier = opinion_uz_border_dynasty
+			add_adm_power = 50
+			change_government_reform_progress = 20
+			if = {
+				limit = {
+					is_subject = yes
+				}
+				overlord = {
+					add_opinion = {
+						who = ROOT
+						modifier = opinion_uz_border_dynasty
+					}
 				}
 			}
 		}
@@ -171,41 +168,52 @@ country_event = {
 			limit = {
 				has_country_flag = uzh_dynasty_source_neighbor
 			}
-			event_target:uzh_dynasty_patron = {
-				add_opinion = {
-					who = ROOT
-					modifier = opinion_uz_border_dynasty
+			add_dip_power = 50
+			if = {
+				limit = {
+					has_saved_event_target = uzh_dynasty_patron
+				}
+				add_trust = {
+					who = event_target:uzh_dynasty_patron
+					value = 10
+					mutual = yes
 				}
 			}
-			add_dip_power = 75
 		}
 		if = {
 			limit = {
 				has_country_flag = uzh_dynasty_source_habsburg
 			}
-			HAB = {
-				add_opinion = {
-					who = ROOT
-					modifier = opinion_uz_dual_crown
+			add_mil_power = 50
+			add_army_professionalism = 0.05
+			if = {
+				limit = {
+					exists = HAB
+				}
+				HAB = {
+					add_opinion = {
+						who = ROOT
+						modifier = opinion_uz_dual_crown
+					}
 				}
 			}
-			add_mil_power = 75
-			add_army_professionalism = 0.05
 		}
 		if = {
 			limit = {
 				has_country_flag = uzh_dynasty_source_none
 			}
 			add_stability = 1
-			change_government_reform_progress = 35
+			change_government_reform_progress = 25
 		}
 	}
 	option = {
 		name = "uzh.5.b"
-		clr_country_flag = uzh_dynasty_source_overlord
-		clr_country_flag = uzh_dynasty_source_neighbor
-		clr_country_flag = uzh_dynasty_source_habsburg
-		set_country_flag = uzh_dynasty_source_none
+		hidden_effect = {
+			clr_country_flag = uzh_dynasty_source_overlord
+			clr_country_flag = uzh_dynasty_source_neighbor
+			clr_country_flag = uzh_dynasty_source_habsburg
+			set_country_flag = uzh_dynasty_source_none
+		}
 		add_prestige = -10
 		add_mil_power = 50
 		change_government_reform_progress = 25
@@ -237,7 +245,9 @@ country_event = {
 			}
 			add_local_autonomy = -5
 		}
-		set_country_flag = uzh_diaspora_started
+		hidden_effect = {
+			set_country_flag = uzh_diaspora_started
+		}
 	}
 	option = {
 		name = "uzh.6.b"
@@ -245,7 +255,9 @@ country_event = {
 			name = "uz_pannonian_settlement"
 			duration = 10950
 		}
-		set_country_flag = uzh_diaspora_started
+		hidden_effect = {
+			set_country_flag = uzh_diaspora_started
+		}
 		alfold_area = {
 			limit = {
 				NOT = {
@@ -471,7 +483,9 @@ country_event = {
 			name = "uz_congress_subject_charters"
 			duration = 9125
 		}
-		set_country_flag = uzh_congress_subject_path
+		hidden_effect = {
+			set_country_flag = uzh_congress_subject_path
+		}
 		if = {
 			limit = {
 				num_of_subjects = 1
@@ -491,8 +505,10 @@ country_event = {
 			name = "uz_congress_border_drill"
 			duration = 9125
 		}
-		set_country_flag = uzh_congress_border_path
-		add_mil_power = 100
+		hidden_effect = {
+			set_country_flag = uzh_congress_border_path
+		}
+		uzh_gain_manpower_6000 = yes
 		add_army_professionalism = 0.05
 	}
 }
@@ -1303,9 +1319,11 @@ country_event = {
 	option = {
 		name = "uzh_identity.1.a"
 		ai_chance = { factor = 33 }
-		set_country_flag = chose_ruthenian_identity
-		clr_country_flag = chose_rusyn_identity
-		clr_country_flag = chose_uhro_rusyn_identity
+		hidden_effect = {
+			set_country_flag = chose_ruthenian_identity
+			clr_country_flag = chose_rusyn_identity
+			clr_country_flag = chose_uhro_rusyn_identity
+		}
 		every_owned_province = {
 			if = {
 				limit = {
@@ -1335,9 +1353,11 @@ country_event = {
 	option = {
 		name = "uzh_identity.1.b"
 		ai_chance = { factor = 33 }
-		set_country_flag = chose_rusyn_identity
-		clr_country_flag = chose_ruthenian_identity
-		clr_country_flag = chose_uhro_rusyn_identity
+		hidden_effect = {
+			set_country_flag = chose_rusyn_identity
+			clr_country_flag = chose_ruthenian_identity
+			clr_country_flag = chose_uhro_rusyn_identity
+		}
 		every_owned_province = {
 			if = {
 				limit = {
@@ -1367,9 +1387,11 @@ country_event = {
 	option = {
 		name = "uzh_identity.1.c"
 		ai_chance = { factor = 34 }
-		set_country_flag = chose_uhro_rusyn_identity
-		clr_country_flag = chose_ruthenian_identity
-		clr_country_flag = chose_rusyn_identity
+		hidden_effect = {
+			set_country_flag = chose_uhro_rusyn_identity
+			clr_country_flag = chose_ruthenian_identity
+			clr_country_flag = chose_rusyn_identity
+		}
 		every_owned_province = {
 			if = {
 				limit = {
@@ -1432,7 +1454,9 @@ country_event = {
 	}
 	option = {
 		name = "uzh_identity.2.a"
-		set_country_flag = ruthenian_consequences_fired
+		hidden_effect = {
+			set_country_flag = ruthenian_consequences_fired
+		}
 		add_country_modifier = {
 			name = "uz_ruthenian_awakening"
 			duration = 5475
@@ -1475,7 +1499,9 @@ country_event = {
 	}
 	option = {
 		name = "uzh_identity.3.a"
-		set_country_flag = rusyn_consequences_fired
+		hidden_effect = {
+			set_country_flag = rusyn_consequences_fired
+		}
 		add_country_modifier = {
 			name = "uz_rusyn_autonomy"
 			duration = 5475
@@ -1509,7 +1535,9 @@ country_event = {
 	}
 	option = {
 		name = "uzh_identity.4.a"
-		set_country_flag = uhro_rusyn_consequences_fired
+		hidden_effect = {
+			set_country_flag = uhro_rusyn_consequences_fired
+		}
 		if = {
 			limit = {
 				exists = HUN
