@@ -12,24 +12,34 @@ VLN_alt_history_path_1 = {
 	VLN_galician_alliance = {
 		icon = mission_alliances
 		required_missions = { VLN_declare_independence }
-		position = 12
+		position = 24
 		provinces_to_highlight = {
-			region = ruthenia_region
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			OR = {
+				area = red_ruthenia_area
+				area = podolia_volhynia_area
+				area = volhynia_area
+			}
+			NOT = { rip_vol_partner_holds_province = yes }
 		}
 		trigger = {
 			OR = {
 				AND = {
 					alliance_with = HLC
 					HLC = {
+						is_subject = no
 						num_of_owned_provinces_with = {
 							value = 5
+						}
+						has_opinion = {
+							who = ROOT
+							value = 100
 						}
 						custom_trigger_tooltip = {
 							tooltip = vln_galician_alliance_hlc_path_req_tt
 							hlc_has_any_path = yes
 						}
 					}
+					dip_power = 50
 				}
 				custom_trigger_tooltip = {
 					tooltip = vln_galician_alliance_autonomous_req_tt
@@ -47,26 +57,44 @@ VLN_alt_history_path_1 = {
 				limit = {
 					exists = HLC
 					alliance_with = HLC
+					HLC = { is_subject = no }
 				}
+				add_dip_power = -50
 				HLC = {
 					add_trust = {
 						who = ROOT
 						value = 20
 					}
-				}
-				ROOT = {
-					add_trust = {
-						who = HLC
-						value = 20
+					add_favors = {
+						who = ROOT
+						amount = 10
 					}
 				}
-			}
-			red_ruthenia_area = {
-				limit = {
-					NOT = { owned_by = ROOT }
-					NOT = { is_core = ROOT }
+				add_trust = {
+					who = HLC
+					value = 20
 				}
-				add_permanent_claim = ROOT
+				add_favors = {
+					who = HLC
+					amount = 10
+				}
+				red_ruthenia_area = {
+					limit = {
+						NOT = { rip_vol_partner_holds_province = yes }
+						NOT = { is_core = HLC }
+					}
+					add_claim = HLC
+				}
+			}
+			else = {
+				red_ruthenia_area = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+						NOT = { rip_vol_partner_holds_province = yes }
+					}
+					add_claim = ROOT
+				}
 			}
 		}
 		ai_weight = {
@@ -77,7 +105,15 @@ VLN_alt_history_path_1 = {
 	VLN_carpathian_federation_eastern = {
 		icon = mission_unite_home_region
 		required_missions = { VLN_galician_alliance VLN_unite_galicia }
-		position = 13
+		position = 25
+		provinces_to_highlight = {
+			OR = {
+				area = podolia_volhynia_area
+				area = red_ruthenia_area
+				area = volhynia_area
+			}
+			NOT = { rip_vol_partner_holds_province = yes }
+		}
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -94,11 +130,37 @@ VLN_alt_history_path_1 = {
 				}
 			}
 			OR = {
-				HLC = {
-					custom_trigger_tooltip = {
-						tooltip = vln_hlc_austria_path_req_tt
-						hlc_has_any_path = yes
+				AND = {
+					alliance_with = HLC
+					HLC = {
+						is_subject = no
+						has_opinion = {
+							who = ROOT
+							value = 125
+						}
+						custom_trigger_tooltip = {
+							tooltip = vln_hlc_austria_path_req_tt
+							hlc_has_any_path = yes
+						}
 					}
+					trust = {
+						who = HLC
+						value = 65
+					}
+					red_ruthenia_area = {
+						type = all
+						rip_vol_partner_holds_province = yes
+					}
+					podolia_volhynia_area = {
+						type = all
+						rip_vol_partner_holds_province = yes
+					}
+					volhynia_area = {
+						type = all
+						rip_vol_partner_holds_province = yes
+					}
+					dip_power = 75
+					treasury = 100
 				}
 				custom_trigger_tooltip = {
 					tooltip = vln_carpathian_federation_autonomous_req_tt
@@ -108,6 +170,8 @@ VLN_alt_history_path_1 = {
 							type = all
 							country_or_non_sovereign_subject_holds = ROOT
 						}
+						dip_power = 75
+						treasury = 100
 					}
 				}
 			}
@@ -115,19 +179,41 @@ VLN_alt_history_path_1 = {
 			is_subject = no
 		}
 		effect = {
+			add_dip_power = -75
+			add_treasury = -100
 			set_country_flag = rip_vol_carpathian_federation
 			add_prestige = 25
 			add_legitimacy = 10
-			add_dip_power = 100
 			if = {
 				limit = {
 					exists = HLC
 					alliance_with = HLC
+					HLC = { is_subject = no }
+				}
+				add_trust = {
+					who = HLC
+					value = 15
+				}
+				add_favors = {
+					who = HLC
+					amount = 15
+				}
+				add_country_modifier = {
+					name = rip_vol_carpathian_compact
+					duration = 7300
 				}
 				HLC = {
 					add_trust = {
 						who = ROOT
-						value = 20
+						value = 15
+					}
+					add_favors = {
+						who = ROOT
+						amount = 15
+					}
+					add_country_modifier = {
+						name = rip_vol_carpathian_compact
+						duration = 7300
 					}
 				}
 			}
@@ -139,8 +225,8 @@ VLN_alt_history_path_1 = {
 
 	VLN_eastern_partnership_culmination = {
 		icon = mission_eastern_european_city
-		required_missions = { VLN_carpathian_federation_eastern VLN_restore_ruthenia }
-		position = 14
+		required_missions = { VLN_carpathian_federation_eastern }
+		position = 26
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -164,7 +250,6 @@ VLN_alt_history_path_1 = {
 			add_prestige = 40
 			add_legitimacy = 20
 			add_adm_power = 150
-			add_prestige = 50
 			country_event = {
 				id = rip_vol_alt_history.1
 			}
@@ -187,7 +272,7 @@ VLN_alt_history_path_2 = {
 	VLN_baltic_aspirations = {
 		icon = mission_conquer_5_states
 		required_missions = { VLN_declare_independence }
-		position = 12
+		position = 24
 		provinces_to_highlight = {
 			OR = {
 				area = lithuania_area
@@ -236,7 +321,7 @@ VLN_alt_history_path_2 = {
 	VLN_grand_ruthenia_baltic = {
 		icon = mission_unite_home_region
 		required_missions = { VLN_baltic_aspirations VLN_unite_galicia }
-		position = 13
+		position = 25
 		provinces_to_highlight = {
 			OR = {
 				area = lithuania_area
@@ -279,7 +364,7 @@ VLN_alt_history_path_2 = {
 	VLN_baltic_partnership_culmination = {
 		icon = mission_eastern_european_city
 		required_missions = { VLN_grand_ruthenia_baltic VLN_integrate_north }
-		position = 14
+		position = 26
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -306,7 +391,6 @@ VLN_alt_history_path_2 = {
 				amount = 15
 			}
 			add_dip_power = 100
-			add_prestige = 75
 			country_event = {
 				id = rip_vol_alt_history.2
 			}
@@ -329,7 +413,7 @@ VLN_alt_history_galician_synergy = {
 	VLN_confessional_balance = {
 		icon = mission_hands_praying
 		required_missions = { VLN_unite_galicia }
-		position = 18
+		position = 27
 		trigger = {
 			OR = {
 				HLC = {
@@ -344,10 +428,9 @@ VLN_alt_history_galician_synergy = {
 		}
 		effect = {
 			if = {
-				limit = { HLC = { hlc_has_confessional_settlement = yes } }
+				limit = { alliance_with = HLC HLC = { hlc_has_confessional_settlement = yes } }
 				set_country_flag = rip_vol_confessional_allied
-				add_church_power = 50
-				add_papal_influence = 25
+				rip_faith_mission_resource_effect = { PA = 0.1 PI = 25 ADM = 25 }
 			}
 			country_event = {
 				id = rip_vol_alt_history.3
@@ -361,9 +444,10 @@ VLN_alt_history_galician_synergy = {
 	VLN_constitutional_assembly = {
 		icon = mission_noble_council
 		required_missions = { VLN_confessional_balance }
-		position = 19
+		position = 28
 		trigger = {
-			absolutism = 45
+			adm_tech = 10
+			stability = 1
 			custom_trigger_tooltip = {
 				tooltip = vln_constitutional_assembly_path_req_tt
 				OR = {
@@ -393,7 +477,7 @@ VLN_alt_history_galician_synergy = {
 	VLN_ruthenian_renaissance = {
 		icon = mission_early_modern_university
 		required_missions = { VLN_constitutional_assembly }
-		position = 20
+		position = 29
 		trigger = {
 			has_institution = renaissance
 			capital_scope = { development = 30 }
@@ -445,20 +529,20 @@ VLN_alt_history_independence_arch = {
 				area = red_ruthenia_area
 				area = volhynia_area
 			}
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = { rip_vol_partner_holds_province = yes }
 		}
 		trigger = {
 			podolia_volhynia_area = {
 				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+				rip_vol_partner_holds_province = yes
 			}
 			red_ruthenia_area = {
 				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+				rip_vol_partner_holds_province = yes
 			}
 			volhynia_area = {
 				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+				rip_vol_partner_holds_province = yes
 			}
 		}
 		effect = {
@@ -510,7 +594,7 @@ VLN_alt_history_independence_arch = {
 	VLN_restore_ruthenia = {
 		icon = mission_eastern_european_city
 		required_missions = { VLN_integrate_north }
-		position = 18
+		position = 27
 		trigger = {
 			west_dniepr_area = {
 				type = all
@@ -552,7 +636,7 @@ VLN_carpathian_prestige = {
 
 		provinces_to_highlight = {
 			OR = {
-				area = galicia_area
+				area = volhynia_area
 				area = red_ruthenia_area
 			}
 			owned_by = ROOT
@@ -567,7 +651,7 @@ VLN_carpathian_prestige = {
 			num_of_owned_provinces_with = {
 				value = 3
 				OR = {
-					area = galicia_area
+					area = volhynia_area
 					area = red_ruthenia_area
 				}
 				num_of_times_improved = 3

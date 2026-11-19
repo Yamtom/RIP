@@ -8,13 +8,16 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = rip_vol_alt_history.1.a
+		trigger = { exists = HLC alliance_with = HLC HLC = { is_subject = no } }
 		# Accept Carpathian Federation
-		add_prestige = 50
+		HLC = { country_event = { id = rip_vol_alt_history.9 } }
 	}
 	option = {
 		name = rip_vol_alt_history.1.b
 		# Pursue Independent Path
+		set_country_flag = rip_vol_sovereign_crown
 		add_adm_power = 50
+		add_country_modifier = { name = rip_vol_sovereign_crown_modifier duration = 7300 }
 	}
 }
 
@@ -27,14 +30,16 @@ country_event = {
 	option = {
 		name = rip_vol_alt_history.2.a
 		# Embrace Grand Ruthenia
-		add_dip_power = 150
-		add_prestige = 75
+		add_dip_power = 75
+		add_prestige = 25
+		add_country_modifier = { name = rip_vol_sovereign_crown_modifier duration = 7300 }
 	}
 	option = {
 		name = rip_vol_alt_history.2.b
 		# Regional Hegemon Only
 		add_mil_power = 75
-		add_prestige = 50
+		add_prestige = 20
+		add_country_modifier = { name = vol_diplomatic_ascendancy duration = 7300 }
 	}
 }
 
@@ -87,20 +92,55 @@ country_event = {
 	option = {
 		name = rip_vol_alt_history.4.a
 		# Crown and Sejmik (Polish-inspired)
+		add_country_modifier = { name = rip_vol_sejmik_compact duration = -1 }
 		add_adm_power = 50
 		add_dip_power = 50
 	}
 	option = {
 		name = rip_vol_alt_history.4.b
 		# Voivodeship Assembly (Hungarian-inspired)
+		add_country_modifier = { name = rip_vol_voivode_compact duration = -1 }
 		add_adm_power = 75
 		add_legitimacy = 10
 	}
 	option = {
 		name = rip_vol_alt_history.4.c
 		# Cossack Radical Democracy
+		add_country_modifier = { name = rip_vol_cossack_compact duration = -1 }
 		add_mil_power = 75
-		add_legitimacy = 25
+		add_stability = -1
+	}
+}
+
+country_event = {
+	id = rip_vol_alt_history.9
+	title = rip_vol_alt_history.9.t
+	desc = rip_vol_alt_history.9.d
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = rip_vol_alt_history.9.a
+		trigger = { is_subject = no FROM = { exists = yes alliance_with = ROOT is_subject = no } }
+		ai_chance = { factor = 70 }
+		add_dip_power = -50
+		remove_country_modifier = rip_vol_carpathian_compact
+		add_country_modifier = { name = rip_vol_federal_compact duration = 7300 }
+		add_trust = { who = FROM value = 10 }
+		add_favors = { who = FROM amount = 15 }
+		FROM = {
+			set_country_flag = rip_vol_federal_compact_accepted
+			add_dip_power = -50
+			remove_country_modifier = rip_vol_carpathian_compact
+			add_country_modifier = { name = rip_vol_federal_compact duration = 7300 }
+			add_trust = { who = ROOT value = 10 }
+			add_favors = { who = ROOT amount = 15 }
+		}
+	}
+	option = {
+		name = rip_vol_alt_history.9.b
+		ai_chance = { factor = 30 }
+		add_prestige = 5
+		FROM = { add_dip_power = 25 }
 	}
 }
 
