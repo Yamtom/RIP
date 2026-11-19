@@ -13,7 +13,10 @@ VOL_missions_U_1 = {
 		position = 8
 
 		trigger = {
-			NOT = { exists = POL }
+			OR = {
+				NOT = { exists = POL }
+				POL = { is_subject_of = ROOT }
+			}
 			OR = {
 				AND = {
 					alliance_with = HLC
@@ -87,7 +90,7 @@ VOL_missions_U_2 = {
 						is_core = ROOT
 					}
 				}
-				add_permanent_claim = ROOT
+				add_claim = ROOT
 			}
 		}
 	}
@@ -120,7 +123,7 @@ VOL_missions_U_2 = {
 						is_core = ROOT
 					}
 				}
-				add_permanent_claim = ROOT
+				add_claim = ROOT
 			}
 			sloboda_ukraine_area = {
 				limit = {
@@ -131,7 +134,7 @@ VOL_missions_U_2 = {
 						is_core = ROOT
 					}
 				}
-				add_permanent_claim = ROOT
+				add_claim = ROOT
 			}
 		}
 	}
@@ -174,7 +177,7 @@ VOL_missions_U_2 = {
 						is_core = ROOT
 					}
 				}
-				add_permanent_claim = ROOT
+				add_claim = ROOT
 			}
 		}
 	}
@@ -184,12 +187,8 @@ VOL_missions_U_2 = {
 		required_missions = { VOL_conquer_bilorus }
 		position = 7
 		trigger = {
-			NOT = {
-				exists = LIT
-			}
-			NOT = {
-				exists = PLC
-			}
+			OR = { NOT = { exists = LIT } LIT = { is_subject_of = ROOT } }
+			OR = { NOT = { exists = PLC } PLC = { is_subject_of = ROOT } }
 		}
 		effect = {
 			lithuania_area = {
@@ -201,7 +200,7 @@ VOL_missions_U_2 = {
 						is_core = ROOT
 					}
 				}
-				add_permanent_claim = ROOT
+				add_claim = ROOT
 			}
 			samogitia_area = {
 				limit = {
@@ -212,7 +211,7 @@ VOL_missions_U_2 = {
 						is_core = ROOT
 					}
 				}
-				add_permanent_claim = ROOT
+				add_claim = ROOT
 			}
 		}
 	}
@@ -260,9 +259,9 @@ VOL_missions_U_2 = {
 			}
 		}
 		effect = {
-			add_adm_power = 500
-			add_dip_power = 500
-			add_mil_power = 500
+			add_adm_power = 150
+			add_dip_power = 150
+			add_mil_power = 150
 			ruthenia_region = {
 				limit = {
 					owned_by = ROOT
@@ -303,7 +302,7 @@ VOL_missions_U_3 = {
 		}
 		effect = {
 			2409 = {
-				add_permanent_claim = ROOT
+				add_claim = ROOT
 			}
 			add_country_modifier = {
 				name = VOL_protectors_of_ruthenia
@@ -348,12 +347,8 @@ VOL_missions_U_3 = {
 		required_missions = { VOL_conquer_smolensk }
 		position = 8
 		trigger = {
-			NOT = {
-				exists = MOS
-			}
-			NOT = {
-				exists = RUS
-			}
+			OR = { NOT = { exists = MOS } MOS = { is_subject_of = ROOT } }
+			OR = { NOT = { exists = RUS } RUS = { is_subject_of = ROOT } }
 		}
 		effect = {
 			add_prestige = 20

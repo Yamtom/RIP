@@ -9,8 +9,8 @@ VOL_missions_HLC = {
 
 	hlc_halych_sejm_mission = {
 		icon = mission_assemble_an_army
-		required_missions = { VOL_conquer_malopolska }
-		position = 8
+		required_missions = { VOL_unite_galicia }
+		position = 21
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -43,11 +43,15 @@ VOL_missions_4_HLC = {
 	hlc_carpathian_bulwark = {
 		icon = mission_conquer_50_development
 		required_missions = { VOL_unite_galicia }
-		position = 9
+		position = 21
 		provinces_to_highlight = { area = red_ruthenia_area }
 		trigger = {
 			red_ruthenia_area = { type = all country_or_non_sovereign_subject_holds = ROOT }
-			num_of_owned_provinces_with = { value = 3 has_building = fort_15th }
+			num_of_owned_provinces_with = {
+				value = 3
+				OR = { area = red_ruthenia_area area = volhynia_area area = podolia_volhynia_area }
+				OR = { has_building = fort_15th has_building = fort_16th has_building = fort_17th has_building = fort_18th }
+			}
 		}
 		effect = {
 			add_country_modifier = { name = rip_galicia_carpathian_shield duration = 3650 }
@@ -63,7 +67,7 @@ VOL_missions_4_HLC = {
 	hlc_confessional_compact = {
 		icon = mission_build_up_to_force_limit
 		required_missions = { hlc_carpathian_bulwark }
-		position = 10
+		position = 22
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -115,7 +119,7 @@ VOL_missions_4_HLC = {
 	hlc_constitutional_settlement = {
 		icon = mission_have_two_subjects
 		required_missions = { hlc_confessional_compact }
-		position = 11
+		position = 23
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {

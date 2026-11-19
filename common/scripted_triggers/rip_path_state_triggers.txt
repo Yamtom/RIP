@@ -3,10 +3,7 @@
 west_ukraine_shared_starter = {
 	OR = {
 		tag = HLC
-		AND = {
-			tag = VOL
-			NOT = { has_country_flag = rip_vol_origin_vln }
-		}
+		tag = VOL
 		AND = {
 			tag = VLN
 			NOT = { exists = HLC }
@@ -16,14 +13,14 @@ west_ukraine_shared_starter = {
 
 west_ukraine_austrian_path = {
 	OR = {
-		hlc_has_austria_path = yes
+		AND = { hlc_has_austria_path = yes NOT = { vol_has_constitutional_path = yes } }
 		vol_has_austrian_path = yes
 	}
 }
 
 west_ukraine_constitutional_path = {
 	OR = {
-		hlc_has_poland_path = yes
+		AND = { hlc_has_poland_path = yes NOT = { vol_has_austrian_path = yes } }
 		vol_has_constitutional_path = yes
 	}
 }
