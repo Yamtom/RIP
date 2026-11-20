@@ -13,6 +13,10 @@ VOL_missions_U_4 = {
 		position = 3
 		provinces_to_highlight = {
 			province_id = 280
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_capital = yes }
+			}
 		}
 		trigger = {
 			adm_tech = 10
@@ -24,9 +28,19 @@ VOL_missions_U_4 = {
 		}
 		effect = {
 			add_stability = 2
-			change_heir_adm = 2
-			change_heir_dip = 2
-			change_heir_mil = 2
+			if = {
+				limit = {
+					has_heir = yes
+				}
+				change_heir_adm = 2
+				change_heir_dip = 2
+				change_heir_mil = 2
+			}
+			else = {
+				add_adm_power = 75
+				add_dip_power = 75
+				add_mil_power = 75
+			}
 			add_country_modifier = {
 				name = VOL_unity
 				duration = -1
@@ -589,20 +603,19 @@ VOL_polish_constitutional_path_slot3 = {
 	}
 }
 
-VOL_polish_constitutional_path_slot4 = {
+VOL_ostroh_learning_slot4 = {
 	slot = 4
 	generic = no
 	ai = yes
 	potential = {
 		tag = VOL
-		west_ukraine_constitutional_path = yes
 	}
 	has_country_shield = yes
 
 	VOL_church_relations = {
 		icon = mission_hands_praying
-		position = 11
-		required_missions = { VOL_manage_magnates }
+		position = 10
+		required_missions = { VOL_choose_development_path }
 		trigger = {
 			if = {
 				limit = { has_estate = estate_church }
@@ -630,8 +643,8 @@ VOL_polish_constitutional_path_slot4 = {
 
 	VOL_university_expansion = {
 		icon = mission_early_modern_university
-		position = 12
-		required_missions = { VOL_church_relations VOL_establish_sejm }
+		position = 11
+		required_missions = { VOL_church_relations }
 		provinces_to_highlight = {
 			province_id = 2962
 			OR = {
@@ -688,7 +701,7 @@ VOL_polish_constitutional_path_slot4 = {
 
 	VOL_renaissance_court = {
 		icon = mission_early_modern_university
-		position = 13
+		position = 12
 		required_missions = { VOL_university_expansion }
 		provinces_to_highlight = {
 			province_id = 2962
@@ -737,7 +750,7 @@ VOL_polish_constitutional_path_slot4 = {
 
 	VOL_education_edict = {
 		icon = religious_resolution
-		position = 14
+		position = 13
 		required_missions = { VOL_renaissance_court }
 		provinces_to_highlight = {
 			OR = {

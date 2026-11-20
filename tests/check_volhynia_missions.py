@@ -218,6 +218,71 @@ assert "has_building = marketplace" in chumak_trig
 west_rus_trig = normalized(named_block(missions["VOL_invest_in_west_rus_mission"][3], "trigger"))
 assert west_rus_trig.count("has_building = marketplace") == 4
 
+# 5c. VOL claim chain completeness, VOL_old_capital heir/highlight guards, and early VOL_border_control balance.
+unite_eff = normalized(named_block(missions["VOL_unite_galicia"][3], "effect"))
+assert "malopolska_area" in unite_eff and "sandomierz_area" in unite_eff
+
+malopolska_eff = normalized(named_block(missions["VOL_conquer_malopolska"][3], "effect"))
+assert "white_ruthenia_area" in malopolska_eff and "podlasie_area" in malopolska_eff
+
+west_dniepr_eff = normalized(named_block(missions["VOL_conquer_west_dniepr"][3], "effect"))
+assert "east_dniepr_area" in west_dniepr_eff and "zaporizhia_area" in west_dniepr_eff
+assert "yedisan_area" not in west_dniepr_eff
+
+moldavia_eff = normalized(named_block(missions["VOL_conquer_moldavia"][3], "effect"))
+assert "yedisan_area" in moldavia_eff
+
+east_dniepr_eff = normalized(named_block(missions["VOL_conquer_east_dniepr"][3], "effect"))
+assert "chernigov_area" in east_dniepr_eff and "sloboda_ukraine_area" in east_dniepr_eff
+
+chernihiv_eff = normalized(named_block(missions["volhynia_conquer_chernihiv"][3], "effect"))
+assert "smolensk_area" in chernihiv_eff and "sloboda_ukraine_area" not in chernihiv_eff
+
+sloboda_eff = normalized(named_block(missions["VOL_conquer_sloboda"][3], "effect"))
+assert "2409" not in sloboda_eff
+
+demolish_mos_eff = normalized(named_block(missions["VOL_demolish_MOS"][3], "effect"))
+for area in ("pskov_area", "novgorod_area", "tver_area"):
+    assert area in demolish_mos_eff
+
+old_cap_eff = normalized(named_block(missions["VOL_old_capital"][3], "effect"))
+assert "has_heir = yes" in old_cap_eff and "change_heir_adm = 2" in old_cap_eff
+assert "else = { add_adm_power = 75 add_dip_power = 75 add_mil_power = 75 }" in old_cap_eff
+
+vol_stab_eff = normalized(named_block(missions["VOL_stability"][3], "effect"))
+assert "duration = 3650" in vol_stab_eff and "duration = 3654" not in vol_stab_eff
+
+border_mod = normalized(named_block(read("common/event_modifiers/RIP_VOL_modifiers.txt"), "VOL_border_control"))
+assert "land_morale = 0.1" in border_mod
+assert "land_morale = 0.2" not in border_mod
+
+# 5d. Symmetric HLC/VLN partner hold in VOL_unite_galicia, VOL_full_army barracks, shared Ostroh slot 4, and imperial path balance.
+unite_gal_trig = normalized(named_block(missions["VOL_unite_galicia"][3], "trigger"))
+assert unite_gal_trig.count("rip_vol_partner_holds_province = yes") == 3
+partner_trig = normalized(read("common/scripted_triggers/rip_vol_mission_triggers.txt"))
+assert "tag = HLC" in partner_trig and "alliance_with = VLN" in partner_trig
+
+full_army_eff = normalized(named_block(missions["VOL_full_army"][3], "effect"))
+assert "NOT = { has_building = barracks } NOT = { has_building = training_fields }" in full_army_eff
+assert "add_building = barracks" in full_army_eff
+
+assert "tag = VOL" in tree_meta["VOL_ostroh_learning_slot4"][2]
+assert "west_ukraine_constitutional_path" not in tree_meta["VOL_ostroh_learning_slot4"][2]
+assert (
+    missions["VOL_church_relations"][1],
+    missions["VOL_university_expansion"][1],
+    missions["VOL_renaissance_court"][1],
+    missions["VOL_education_edict"][1],
+) == (10, 11, 12, 13)
+
+vol_mods = read("common/event_modifiers/VOL_mission_modifiers.txt")
+imp_triumph = normalized(named_block(vol_mods, "vol_imperial_triumph"))
+assert "diplomatic_annexation_cost = -0.2" in imp_triumph and "ae_impact = -0.15" in imp_triumph and "discipline = 0.05" in imp_triumph
+cult_tol = normalized(named_block(vol_mods, "vol_cultural_tolerance"))
+assert "governing_capacity_modifier = 0.15" in cult_tol
+diplo_asc = normalized(named_block(vol_mods, "vol_diplomatic_ascendancy"))
+assert "ae_impact = -0.1" in diplo_asc and "diplomatic_annexation_cost = -0.15" in diplo_asc
+
 # 6. Mission titles must fit EU4's 2-line mission scroll banner (vic_18, maxWidth 90).
 vanilla = vanilla_root()
 if vanilla and (vanilla / "gfx/fonts/vic_18.fnt").is_file():
