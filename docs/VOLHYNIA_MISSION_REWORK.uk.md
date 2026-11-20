@@ -159,6 +159,35 @@
 рішенням гравця. Галицькі ринки приймають майстерню й звичайний ринок
 (або їхні поліпшення), без очікування торговельного депо.
 
+## Узгодження претензій, балансу гілок і текстів
+
+- **Симетрія союзу HLC–VLN (`VOL_unite_galicia`)**: `rip_vol_partner_holds_province`
+  тепер працює симетрично і для Галича у союзі з `VLN`, а `VOL_unite_galicia`
+  перевіряє цей тригер замість одностороннього володіння `ROOT` — так `HLC`
+  може завершити об’єднання й запустити `rip_galicia.1` без розриву союзу.
+- **Ланцюжок претензій `VOL` та `PDL_unite_podillia`**: `VOL_unite_galicia`
+  видає претензії на `malopolska_area` та `sandomierz_area`; `VOL_conquer_malopolska`
+  додає `white_ruthenia_area`; `VOL_conquer_west_dniepr` видає `east_dniepr_area`
+  та `zaporizhia_area` без дублювання `yedisan_area`; `sloboda_ukraine_area`
+  перенесено в безпосередню передумову `VOL_conquer_east_dniepr`, тупикову
+  претензію на `2409` у `VOL_conquer_sloboda` замінено на `50` військової сили,
+  а `VOL_demolish_MOS` видає претензії на `pskov_area`, `novgorod_area` і
+  `tver_area`. У `PDL_unite_podillia` порожній `add_accepted_culture = ruthenian`
+  замінено на очки й зниження сепаратизму в Поділлі.
+- **Спадкоємець і ранній баланс**: у `VOL_old_capital` покращення спадкоємця
+  перевіряє `has_heir = yes` із фолбеком очок монарха, `VOL_stability`
+  використовує `3650` днів, `VOL_border_control` унормовано до `+10%` бойового
+  духу, а `VOL_full_army` додає казарми (або базовий рекрутський ресурс, якщо
+  казарми вже збудовані) поряд із фортом і модифікатором твердині.
+- **Острозький цикл і австрійська гілка**: серію `VOL_ostroh_learning_slot4`
+  (колонка 4, рядки 10–13) відкрито для обох державницьких гілок `VOL`, а
+  модифікатори австрійсько-імперського шляху підсилено (адміністративні,
+  дипломатичні, станово-абсолютистські й фінальні військові бонуси).
+- **Історичне шліфування текстів**: оновлено 10 ранніх описів місій і
+  модифікаторів `VOL` у всіх чотирьох мовних файлах (`RIP_VOL_realm_l_english.yml`
+  та `localisation/replace/RIP_VOL_content_l_{french,german,spanish}.yml`),
+  оновлено маніфест `docs/data/localisation_replace_manifest.json`.
+
 ## Перевірки й межі підтвердження
 
 - `tests/check_volhynia_missions.py`, `tests/check_volhynia_historical_routes.py`,
