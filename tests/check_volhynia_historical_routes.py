@@ -60,7 +60,7 @@ def check_ostroh_education() -> None:
 
 
 def check_galician_partnership() -> None:
-    legacy = read("missions/VOL_VLN_Legacy_Transition.txt")
+    legacy = read("missions/zzz_VOL_VLN_Legacy_Transition.txt")
 
     alliance = named_block(legacy, "VLN_galician_alliance")
     alliance_trigger = normalized(named_block(alliance, "trigger"))
@@ -92,24 +92,73 @@ def check_galician_partnership() -> None:
     assert "add_favors = { who = ROOT amount = 15 }" in fed_effect
 
     alt_events = read("events/RIP_VOL_Volhynia_Alt_History.txt")
-    ev9 = next(
-        normalized(b)
+    for dead_id in ("rip_vol_alt_history.5", "rip_vol_alt_history.6", "rip_vol_alt_history.7", "rip_vol_alt_history.8"):
+        assert dead_id not in alt_events, f"dead decorative stub {dead_id} must stay removed"
+
+    ev_by_title = {
+        re.search(r"\btitle\s*=\s*(rip_vol_alt_history\.\d+\.t)", b).group(1): normalized(b)
         for _, b in keyed_blocks(alt_events, "country_event")
-        if "title = rip_vol_alt_history.9.t" in b
-    )
-    assert ev9.count("remove_country_modifier = rip_vol_carpathian_compact") == 2
+        if "title = rip_vol_alt_history." in b
+    }
+    ev9 = ev_by_title["rip_vol_alt_history.9.t"]
+    assert ev9.count("remove_country_modifier = rip_vol_carpathian_compact") >= 2
     assert ev9.count("add_dip_power = -50") == 2
+    assert "add_historical_friend = FROM" in ev9 and "add_historical_friend = ROOT" in ev9
+    assert "name = rip_vol_federal_compact duration = -1" in ev9
+    assert "name = rip_vol_sovereign_alliance_modifier" in ev9
     assert "add_favors = { who = FROM amount = 15 }" in ev9
     assert "add_favors = { who = ROOT amount = 15 }" in ev9
+
+    ev2 = ev_by_title["rip_vol_alt_history.2.t"]
+    assert "name = rip_vol_grand_ruthenia_doctrine duration = -1" in ev2
+    assert "name = rip_vol_baltic_hegemon_doctrine duration = -1" in ev2
+    assert "add_dip_power" not in ev2 and "add_mil_power" not in ev2
+
+    ev3 = ev_by_title["rip_vol_alt_history.3.t"]
+    assert "name = rip_vol_synod_orthodox_settlement duration = -1" in ev3
+    assert "name = rip_vol_synod_uniate_settlement duration = -1" in ev3
+    assert "name = rip_vol_synod_pluralist_settlement duration = -1" in ev3
+
+    ev4 = ev_by_title["rip_vol_alt_history.4.t"]
+    assert ev4.count("change_estate_land_share") == 3
+    assert "add_adm_power" not in ev4 and "add_dip_power" not in ev4 and "add_mil_power" not in ev4
+
+    vol_on_actions = normalized(read("common/on_actions/RIP_VOL_on_actions.txt"))
+    assert "on_alliance_broken = {" in vol_on_actions
+    assert "remove_historical_friend = FROM" in vol_on_actions
+    assert "remove_country_modifier = rip_vol_federal_compact" in vol_on_actions
+    assert "remove_country_modifier = rip_vol_sovereign_alliance_modifier" in vol_on_actions
+
+
+def check_conquest_hegemony_triggers() -> None:
+    conquest = read("missions/Volhynia_Conquest_Missions.txt")
+    for mission_name in ("VOL_demolish_poland", "VOL_demolish_lithuania", "VOL_demolish_MOS"):
+        trigger = normalized(named_block(named_block(conquest, mission_name), "trigger"))
+        assert "NOT = { any_owned_province = { region = ruthenia_region } }" in trigger, (
+            f"{mission_name}: must allow completion via regional expulsion instead of total annexation"
+        )
+        assert "NOT = { is_great_power = yes }" in trigger, (
+            f"{mission_name}: must check loss of Great Power hegemony"
+        )
+        assert "NOT = { army_strength = { who = ROOT" in trigger, (
+            f"{mission_name}: must check loss of military parity"
+        )
+    vln_legacy = read("missions/zzz_VOL_VLN_Legacy_Transition.txt")
+    baltic_trig = normalized(named_block(named_block(vln_legacy, "VLN_baltic_aspirations"), "trigger"))
+    assert "NOT = { any_owned_province = { region = ruthenia_region } }" in baltic_trig
+    crimea_trig = normalized(named_block(named_block(vln_legacy, "VLN_conquer_crimea"), "trigger"))
+    assert "NOT = { any_owned_province = { region = crimea_region } }" in crimea_trig
 
 
 def main() -> int:
     check_chumak_route()
     check_ostroh_education()
     check_galician_partnership()
+    check_conquest_hegemony_triggers()
     print(
         "VOLHYNIA HISTORICAL ROUTES PASS: Chumak market/security route, "
-        "Ostroh Academy (1576) & Bible (1581), and mutual Halych partnership verified."
+        "Ostroh Academy (1576) & Bible (1581), substantive political settlements, "
+        "non-annihilation conquest triggers, and mutual Halych partnership verified."
     )
     return 0
 

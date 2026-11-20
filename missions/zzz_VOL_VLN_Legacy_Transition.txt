@@ -1,4 +1,6 @@
 # VLN | Volyn and successors with its mission legacy.
+# Loaded after Volhynia_Missions.txt and Kyiv_Successors_Missions.txt so VLN
+# starts at row 1 and stacks cleanly below VOL/UKR columns after formation.
 
 VLN_alt_history_path_1 = {
 	slot = 1
@@ -11,8 +13,8 @@ VLN_alt_history_path_1 = {
 
 	VLN_galician_alliance = {
 		icon = mission_alliances
-		required_missions = { VLN_declare_independence }
-		position = 24
+		required_missions = { }
+		position = 1
 		provinces_to_highlight = {
 			OR = {
 				area = red_ruthenia_area
@@ -22,6 +24,7 @@ VLN_alt_history_path_1 = {
 			NOT = { rip_vol_partner_holds_province = yes }
 		}
 		trigger = {
+			mission_completed = VLN_declare_independence
 			OR = {
 				AND = {
 					alliance_with = HLC
@@ -104,8 +107,8 @@ VLN_alt_history_path_1 = {
 
 	VLN_carpathian_federation_eastern = {
 		icon = mission_unite_home_region
-		required_missions = { VLN_galician_alliance VLN_unite_galicia }
-		position = 25
+		required_missions = { VLN_galician_alliance }
+		position = 2
 		provinces_to_highlight = {
 			OR = {
 				area = podolia_volhynia_area
@@ -115,6 +118,7 @@ VLN_alt_history_path_1 = {
 			NOT = { rip_vol_partner_holds_province = yes }
 		}
 		trigger = {
+			mission_completed = VLN_unite_galicia
 			OR = {
 				custom_trigger_tooltip = {
 					tooltip = vln_eastern_path_req_tt
@@ -226,7 +230,7 @@ VLN_alt_history_path_1 = {
 	VLN_eastern_partnership_culmination = {
 		icon = mission_eastern_european_city
 		required_missions = { VLN_carpathian_federation_eastern }
-		position = 26
+		position = 3
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -271,8 +275,8 @@ VLN_alt_history_path_2 = {
 
 	VLN_baltic_aspirations = {
 		icon = mission_conquer_5_states
-		required_missions = { VLN_declare_independence }
-		position = 24
+		required_missions = { }
+		position = 1
 		provinces_to_highlight = {
 			OR = {
 				area = lithuania_area
@@ -281,9 +285,20 @@ VLN_alt_history_path_2 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
+			mission_completed = VLN_declare_independence
 			OR = {
 				NOT = { exists = LIT }
 				LIT = { is_subject = yes }
+				LIT = {
+					NOT = { any_owned_province = { region = ruthenia_region } }
+					NOT = { is_great_power = yes }
+					NOT = {
+						army_strength = {
+							who = ROOT
+							value = 0.5
+						}
+					}
+				}
 			}
 			num_of_owned_provinces_with = {
 				value = 5
@@ -320,8 +335,8 @@ VLN_alt_history_path_2 = {
 
 	VLN_grand_ruthenia_baltic = {
 		icon = mission_unite_home_region
-		required_missions = { VLN_baltic_aspirations VLN_unite_galicia }
-		position = 25
+		required_missions = { VLN_baltic_aspirations }
+		position = 2
 		provinces_to_highlight = {
 			OR = {
 				area = lithuania_area
@@ -331,6 +346,7 @@ VLN_alt_history_path_2 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
+			mission_completed = VLN_unite_galicia
 			custom_trigger_tooltip = {
 				tooltip = vln_baltic_path_req_tt
 				vol_has_baltic_path = yes
@@ -363,9 +379,10 @@ VLN_alt_history_path_2 = {
 
 	VLN_baltic_partnership_culmination = {
 		icon = mission_eastern_european_city
-		required_missions = { VLN_grand_ruthenia_baltic VLN_integrate_north }
-		position = 26
+		required_missions = { VLN_grand_ruthenia_baltic }
+		position = 3
 		trigger = {
+			mission_completed = VLN_integrate_north
 			OR = {
 				custom_trigger_tooltip = {
 					tooltip = vln_grand_ruthenia_req_tt
@@ -412,9 +429,10 @@ VLN_alt_history_galician_synergy = {
 
 	VLN_confessional_balance = {
 		icon = mission_hands_praying
-		required_missions = { VLN_unite_galicia }
-		position = 27
+		required_missions = { }
+		position = 1
 		trigger = {
+			mission_completed = VLN_unite_galicia
 			OR = {
 				HLC = {
 					custom_trigger_tooltip = {
@@ -444,7 +462,7 @@ VLN_alt_history_galician_synergy = {
 	VLN_constitutional_assembly = {
 		icon = mission_noble_council
 		required_missions = { VLN_confessional_balance }
-		position = 28
+		position = 2
 		trigger = {
 			adm_tech = 10
 			stability = 1
@@ -477,7 +495,7 @@ VLN_alt_history_galician_synergy = {
 	VLN_ruthenian_renaissance = {
 		icon = mission_early_modern_university
 		required_missions = { VLN_constitutional_assembly }
-		position = 29
+		position = 3
 		trigger = {
 			has_institution = renaissance
 			capital_scope = { development = 30 }
@@ -505,7 +523,7 @@ VLN_alt_history_independence_arch = {
 	VLN_declare_independence = {
 		icon = mission_have_two_subjects
 		required_missions = { }
-		position = 15
+		position = 1
 		trigger = {
 			is_subject = no
 		}
@@ -522,7 +540,7 @@ VLN_alt_history_independence_arch = {
 	VLN_unite_galicia = {
 		icon = mission_conquer_50_development
 		required_missions = { VLN_declare_independence }
-		position = 16
+		position = 2
 		provinces_to_highlight = {
 			OR = {
 				area = podolia_volhynia_area
@@ -563,7 +581,7 @@ VLN_alt_history_independence_arch = {
 	VLN_integrate_north = {
 		icon = mission_assemble_an_army
 		required_missions = { VLN_unite_galicia }
-		position = 17
+		position = 3
 		provinces_to_highlight = {
 			OR = {
 				area = minsk_area
@@ -594,7 +612,7 @@ VLN_alt_history_independence_arch = {
 	VLN_restore_ruthenia = {
 		icon = mission_eastern_european_city
 		required_missions = { VLN_integrate_north }
-		position = 27
+		position = 4
 		trigger = {
 			west_dniepr_area = {
 				type = all
@@ -631,8 +649,8 @@ VLN_carpathian_prestige = {
 
 	VLN_carpathian_bulwark = {
 		icon = mission_non-western_soldiers
-		required_missions = { VLN_unite_galicia }
-		position = 16
+		required_missions = { }
+		position = 1
 
 		provinces_to_highlight = {
 			OR = {
@@ -644,6 +662,7 @@ VLN_carpathian_prestige = {
 		}
 
 		trigger = {
+			mission_completed = VLN_unite_galicia
 			custom_trigger_tooltip = {
 				tooltip = vln_eastern_path_req_tt
 				vol_has_eastern_path = yes
@@ -669,8 +688,8 @@ VLN_carpathian_prestige = {
 
 	VLN_conquer_crimea = {
 		icon = mission_sca_lit_conquer_crimea
-		required_missions = { VLN_integrate_north }
-		position = 17
+		required_missions = { }
+		position = 2
 
 		provinces_to_highlight = {
 			region = crimea_region
@@ -678,6 +697,7 @@ VLN_carpathian_prestige = {
 		}
 
 		trigger = {
+			mission_completed = VLN_integrate_north
 			OR = {
 				custom_trigger_tooltip = {
 					tooltip = vln_baltic_path_req_tt
@@ -688,7 +708,19 @@ VLN_carpathian_prestige = {
 					AND = {
 						total_development = 300
 						army_size = 45
-						NOT = { exists = CRI }
+						OR = {
+							NOT = { exists = CRI }
+							CRI = { is_subject_of = ROOT }
+							CRI = {
+								NOT = { any_owned_province = { region = crimea_region } }
+								NOT = {
+									army_strength = {
+										who = ROOT
+										value = 0.5
+									}
+								}
+							}
+						}
 					}
 				}
 			}

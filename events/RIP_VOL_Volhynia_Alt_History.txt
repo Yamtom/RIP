@@ -9,15 +9,21 @@ country_event = {
 	option = {
 		name = rip_vol_alt_history.1.a
 		trigger = { exists = HLC alliance_with = HLC HLC = { is_subject = no } }
-		# Accept Carpathian Federation
+		# Propose a binding bilateral Carpathian compact to Halych
 		HLC = { country_event = { id = rip_vol_alt_history.9 } }
 	}
 	option = {
 		name = rip_vol_alt_history.1.b
-		# Pursue Independent Path
+		# Reclaim full fiscal and executive sovereignty instead of shared upkeep
 		set_country_flag = rip_vol_sovereign_crown
-		add_adm_power = 50
-		add_country_modifier = { name = rip_vol_sovereign_crown_modifier duration = 7300 }
+		remove_country_modifier = rip_vol_carpathian_compact
+		remove_country_modifier = rip_vol_federal_compact
+		add_country_modifier = { name = rip_vol_sovereign_crown_modifier duration = -1 }
+		add_absolutism = 10
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = { estate = estate_nobles loyalty = -5 }
+		}
 	}
 }
 
@@ -29,17 +35,23 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = rip_vol_alt_history.2.a
-		# Embrace Grand Ruthenia
-		add_dip_power = 75
-		add_prestige = 25
-		add_country_modifier = { name = rip_vol_sovereign_crown_modifier duration = 7300 }
+		# Grand Ruthenia: multi-peopled imperial administration with stronger magnate houses
+		set_country_flag = rip_vol_grand_ruthenia_doctrine_adopted
+		add_country_modifier = { name = rip_vol_grand_ruthenia_doctrine duration = -1 }
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = { estate = estate_nobles loyalty = 10 }
+		}
 	}
 	option = {
 		name = rip_vol_alt_history.2.b
-		# Regional Hegemon Only
-		add_mil_power = 75
-		add_prestige = 20
-		add_country_modifier = { name = vol_diplomatic_ascendancy duration = 7300 }
+		# Regional Hegemon: tighter core state backed by marches and Baltic trade
+		set_country_flag = rip_vol_baltic_hegemon_doctrine_adopted
+		add_country_modifier = { name = rip_vol_baltic_hegemon_doctrine duration = -1 }
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = 10 }
+		}
 	}
 }
 
@@ -50,36 +62,62 @@ country_event = {
 	picture = RELIGION_eventPicture
 	is_triggered_only = yes
 	# Alternative history: the synod is a game model, not a recorded council.
-	# Every option leaves rip_vol_synod_held behind so later Volhynia content
-	# can tell that the confessional question was settled. The reward is the
-	# recipient's own religious currency (rip_faith_mission_resource_effect):
-	# a Greek Catholic state has no papal influence to spend, and gets
-	# patriarch_authority instead.
+	# Every option leaves rip_vol_synod_held behind and enacts a permanent
+	# confessional rule with distinct estate and tolerance trade-offs.
 	option = {
 		name = rip_vol_alt_history.3.a
 		# Orthodox Foundation
 		set_country_flag = rip_vol_synod_held
+		set_country_flag = rip_vol_synod_orthodox
 		rip_faith_mission_resource_effect = {
-			PA = 0.2
-			PI = 20
+			PA = 0.1
+			PI = 15
 			ADM = 25
+		}
+		add_country_modifier = { name = rip_vol_synod_orthodox_settlement duration = -1 }
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = { estate = estate_church loyalty = 15 }
+		}
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = -5 }
 		}
 	}
 	option = {
 		name = rip_vol_alt_history.3.b
-		# Uniate Synthesis (Greek-Catholic)
+		# Uniate Concord
 		set_country_flag = rip_vol_synod_held
+		set_country_flag = rip_vol_synod_uniate
 		rip_faith_mission_resource_effect = {
-			PA = 0.2
-			PI = 50
-			ADM = 50
+			PA = 0.1
+			PI = 25
+			ADM = 25
+		}
+		add_country_modifier = { name = rip_vol_synod_uniate_settlement duration = -1 }
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = { estate = estate_church loyalty = 5 }
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = { estate = estate_nobles loyalty = 5 }
 		}
 	}
 	option = {
 		name = rip_vol_alt_history.3.c
-		# Pluralist Balance
+		# Charter of Tolerance
 		set_country_flag = rip_vol_synod_held
-		add_dip_power = 50
+		set_country_flag = rip_vol_synod_pluralist
+		add_country_modifier = { name = rip_vol_synod_pluralist_settlement duration = -1 }
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = 15 }
+		}
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = { estate = estate_church loyalty = -10 }
+		}
 	}
 }
 
@@ -91,23 +129,43 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = rip_vol_alt_history.4.a
-		# Crown and Sejmik (Polish-inspired)
+		# Estate Compact (Sejmik representation and noble land share)
+		set_country_flag = rip_vol_constitution_sejmik
 		add_country_modifier = { name = rip_vol_sejmik_compact duration = -1 }
-		add_adm_power = 50
-		add_dip_power = 50
+		if = {
+			limit = { has_estate = estate_nobles }
+			change_estate_land_share = { estate = estate_nobles share = 5 }
+			add_estate_loyalty = { estate = estate_nobles loyalty = 15 }
+		}
+		add_legitimacy_equivalent = { amount = 10 republican_tradition = 5 }
+		change_government_reform_progress = 30
 	}
 	option = {
 		name = rip_vol_alt_history.4.b
-		# Voivodeship Assembly (Hungarian-inspired)
+		# Frontier Chancery (Crown centralization and higher state upkeep)
+		set_country_flag = rip_vol_constitution_voivode
 		add_country_modifier = { name = rip_vol_voivode_compact duration = -1 }
-		add_adm_power = 75
-		add_legitimacy = 10
+		change_estate_land_share = { estate = all share = -5 }
+		add_absolutism = 10
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = { estate = estate_nobles loyalty = -10 }
+		}
 	}
 	option = {
 		name = rip_vol_alt_history.4.c
-		# Cossack Radical Democracy
+		# Cossack Liberties (Frontier Host empowerment against magnates)
+		set_country_flag = rip_vol_constitution_cossack
 		add_country_modifier = { name = rip_vol_cossack_compact duration = -1 }
-		add_mil_power = 75
+		if = {
+			limit = { has_estate = estate_cossacks }
+			change_estate_land_share = { estate = estate_cossacks share = 5 }
+			add_estate_loyalty = { estate = estate_cossacks loyalty = 15 }
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = { estate = estate_nobles loyalty = -15 }
+		}
 		add_stability = -1
 	}
 }
@@ -124,14 +182,16 @@ country_event = {
 		ai_chance = { factor = 70 }
 		add_dip_power = -50
 		remove_country_modifier = rip_vol_carpathian_compact
-		add_country_modifier = { name = rip_vol_federal_compact duration = 7300 }
+		add_country_modifier = { name = rip_vol_federal_compact duration = -1 }
+		add_historical_friend = FROM
 		add_trust = { who = FROM value = 10 }
 		add_favors = { who = FROM amount = 15 }
 		FROM = {
 			set_country_flag = rip_vol_federal_compact_accepted
 			add_dip_power = -50
 			remove_country_modifier = rip_vol_carpathian_compact
-			add_country_modifier = { name = rip_vol_federal_compact duration = 7300 }
+			add_country_modifier = { name = rip_vol_federal_compact duration = -1 }
+			add_historical_friend = ROOT
 			add_trust = { who = ROOT value = 10 }
 			add_favors = { who = ROOT amount = 15 }
 		}
@@ -139,96 +199,14 @@ country_event = {
 	option = {
 		name = rip_vol_alt_history.9.b
 		ai_chance = { factor = 30 }
-		add_prestige = 5
-		FROM = { add_dip_power = 25 }
-	}
-}
-
-country_event = {
-	id = rip_vol_alt_history.5
-	title = rip_vol_alt_history.5.t
-	desc = rip_vol_alt_history.5.d
-	picture = DIPLOMACY_eventPicture
-	is_triggered_only = yes
-	fire_only_once = yes
-	option = {
-		name = rip_vol_alt_history.5.a
-		# Form Carpathian Union
-		add_prestige = 100
-		add_adm_power = 200
-	}
-	option = {
-		name = rip_vol_alt_history.5.b
-		# Maintain Alliance Only
-		add_prestige = 25
-	}
-}
-
-country_event = {
-	id = rip_vol_alt_history.6
-	title = rip_vol_alt_history.6.t
-	desc = rip_vol_alt_history.6.d
-	picture = COURT_eventPicture
-	is_triggered_only = yes
-	option = {
-		name = rip_vol_alt_history.6.a
-		# Empower Voivode Assembly
-		add_dip_power = 100
-		add_legitimacy = 10
-	}
-	option = {
-		name = rip_vol_alt_history.6.b
-		# Centralize Monarchical Power
-		add_legitimacy = 15
-		add_absolutism = 25
-		add_adm_power = 100
-	}
-	option = {
-		name = rip_vol_alt_history.6.c
-		# Cossack Uprising
-		add_stability = -1
-		add_war_exhaustion = 2
-	}
-}
-
-country_event = {
-	id = rip_vol_alt_history.7
-	title = rip_vol_alt_history.7.t
-	desc = rip_vol_alt_history.7.d
-	picture = CONQUEST_eventPicture
-	is_triggered_only = yes
-	option = {
-		name = rip_vol_alt_history.7.a
-		# Assert Ruthenia Grand Duchess
-		add_prestige = 50
-	}
-	option = {
-		name = rip_vol_alt_history.7.b
-		# Support Elective Principles
-		add_legitimacy = -10
-		add_republican_tradition = 15
-	}
-}
-
-country_event = {
-	id = rip_vol_alt_history.8
-	title = rip_vol_alt_history.8.t
-	desc = rip_vol_alt_history.8.d
-	picture = RELIGION_eventPicture
-	is_triggered_only = yes
-	option = {
-		name = rip_vol_alt_history.8.a
-		# Orthodox Consolidation
-		add_stability = 1
-	}
-	option = {
-		name = rip_vol_alt_history.8.b
-		# Protect Uniate Autonomy
-		add_papal_influence = 100
-	}
-	option = {
-		name = rip_vol_alt_history.8.c
-		# Religious Tolerance Edict
-		add_dip_power = 75
+		remove_country_modifier = rip_vol_carpathian_compact
+		add_country_modifier = { name = rip_vol_sovereign_alliance_modifier duration = 7300 }
+		add_trust = { who = FROM value = 5 }
+		FROM = {
+			set_country_flag = rip_vol_sovereign_alliance
+			remove_country_modifier = rip_vol_carpathian_compact
+			add_country_modifier = { name = rip_vol_sovereign_alliance_modifier duration = 7300 }
+			add_trust = { who = ROOT value = 5 }
+		}
 	}
 }

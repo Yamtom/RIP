@@ -124,21 +124,48 @@ PDL_missions_1_carpathian = {
 
 		provinces_to_highlight = {
 			province_id = 281
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 18 }
+				AND = {
+					NOT = { has_building = barracks }
+					NOT = { has_building = training_fields }
+				}
+				AND = {
+					NOT = { has_building = regimental_camp }
+					NOT = { has_building = conscription_center }
+					NOT = { has_building = courthouse }
+					NOT = { has_building = town_hall }
+				}
+			}
 		}
 
 		trigger = {
 			281 = {
 				owned_by = ROOT
-				NOT = { num_free_building_slots = 1 }
+				development = 18
+				OR = {
+					has_building = barracks
+					has_building = training_fields
+				}
+				OR = {
+					has_building = regimental_camp
+					has_building = conscription_center
+					has_building = courthouse
+					has_building = town_hall
+				}
 			}
 		}
 
 		effect = {
+			add_army_tradition = 10
 			281 = {
-				add_base_tax = 2
-				add_base_production = 2
 				add_base_manpower = 2
-				center_of_trade = 2
+				add_base_tax = 1
+				add_province_modifier = {
+					name = pdl_kamianets_citadel
+					duration = -1
+				}
 			}
 		}
 
@@ -290,9 +317,33 @@ PDL_missions_2_frontier = {
 		required_missions = { PDL_steppe_mastery }
 		position = 3
 
+		provinces_to_highlight = {
+			OR = {
+				area = yedisan_area
+				area = zaporizhia_area
+			}
+			NOT = { owned_by = ROOT }
+		}
+
 		trigger = {
 			has_country_flag = pdl_cossack_recruited
 			has_estate = estate_cossacks
+			estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 60
+			}
+			estate_influence = {
+				estate = estate_cossacks
+				influence = 30
+			}
+			army_tradition = 30
+			num_of_owned_provinces_with = {
+				OR = {
+					area = yedisan_area
+					area = zaporizhia_area
+				}
+				value = 2
+			}
 		}
 
 		effect = {
@@ -300,7 +351,14 @@ PDL_missions_2_frontier = {
 				name = pdl_cossack_host
 				duration = -1
 			}
-
+			change_estate_land_share = {
+				estate = estate_cossacks
+				share = 5
+			}
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 10
+			}
 			add_years_of_income = 1
 		}
 
@@ -375,21 +433,60 @@ PDL_missions_3_magnate = {
 		icon = mission_eastern_european_city
 		required_missions = { PDL_magnate_authority }
 		position = 2
-		provinces_to_highlight = { }
+
+		provinces_to_highlight = {
+			province_id = 281
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 15 }
+				AND = {
+					NOT = { has_building = marketplace }
+					NOT = { has_building = trade_depot }
+					NOT = { has_building = stock_exchange }
+				}
+				AND = {
+					NOT = { has_building = workshop }
+					NOT = { has_building = counting_house }
+				}
+			}
+		}
 
 		trigger = {
 			281 = {
 				owned_by = ROOT
-				NOT = { num_free_building_slots = 1 }
+				development = 15
+				OR = {
+					has_building = marketplace
+					has_building = trade_depot
+					has_building = stock_exchange
+				}
+				OR = {
+					has_building = workshop
+					has_building = counting_house
+				}
 			}
 		}
 
 		effect = {
 			281 = {
-				add_base_tax = 2
 				add_base_production = 2
-				add_base_manpower = 2
-				center_of_trade = 2
+				add_base_tax = 1
+				if = {
+					limit = {
+						NOT = { province_has_center_of_trade_of_level = 2 }
+					}
+					center_of_trade = 2
+				}
+				else = {
+					add_base_production = 2
+				}
+			}
+			if = {
+				limit = { has_estate = estate_burghers }
+				add_estate_loyalty = {
+					estate = estate_burghers
+					loyalty = 10
+				}
 			}
 		}
 
@@ -519,10 +616,28 @@ PDL_missions_3_magnate = {
 				development = 15
 				value = 4
 			}
+			if = {
+				limit = { has_estate = estate_nobles }
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 60
+				}
+				estate_influence = {
+					estate = estate_nobles
+					influence = 40
+				}
+			}
+			else = {
+				stability = 2
+				legitimacy_equivalent = 80
+			}
+			adm_power = 50
 		}
 
 		effect = {
+			add_adm_power = -50
 			add_prestige = 20
+			country_event = { id = podillia_events.13 }
 		}
 
 		ai_weight = {
@@ -686,16 +801,49 @@ PDL_missions_5_culture = {
 		position = 1
 
 		trigger = {
-			num_of_owned_provinces_with = {
-				has_building = temple
-				value = 3
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = pdl_positive_heretic_tolerance_tt
+					has_global_modifier_value = {
+						which = tolerance_heretic
+						value = 1
+					}
+				}
+				has_estate_privilege = estate_burghers_enforced_interfaith_dialogue
+				has_reform = pdl_religious_tolerance_reform
+				has_reform = pdl_kamianets_concordat_reform
+				has_country_modifier = pdl_religious_tolerance
+				has_idea_group = humanist_ideas
 			}
-			prestige = 25
+			OR = {
+				any_owned_province = {
+					NOT = { religion = ROOT }
+				}
+				religious_unity = 0.85
+			}
+			stability = 1
 		}
 
 		effect = {
-			add_dip_power = 50
 			set_country_flag = pdl_tolerance_path
+			add_country_modifier = {
+				name = pdl_tolerance_edict
+				duration = 7300
+			}
+			if = {
+				limit = { has_estate = estate_burghers }
+				add_estate_loyalty = {
+					estate = estate_burghers
+					loyalty = 10
+				}
+			}
+			if = {
+				limit = { has_estate = estate_church }
+				add_estate_loyalty = {
+					estate = estate_church
+					loyalty = -5
+				}
+			}
 		}
 
 		ai_weight = {
@@ -711,14 +859,48 @@ PDL_missions_5_culture = {
 		trigger = {
 			has_country_flag = pdl_tolerance_path
 			capital_scope = {
-				development = 20
+				development = 18
 			}
-			prestige = 30
+			treasury = 75
+			OR = {
+				has_country_modifier = pdl_jewish_protection
+				has_country_modifier = jewish_merchant_charters
+				has_country_flag = pdl_four_communities_chartered
+				has_estate_privilege = estate_jewish_tax_farmers
+				has_estate_privilege = estate_jewish_loan_banks
+				has_estate_privilege = estate_jewish_kahal_autonomy
+				has_estate_privilege = estate_burghers_enforced_interfaith_dialogue
+				AND = {
+					has_estate = estate_burghers
+					estate_loyalty = {
+						estate = estate_burghers
+						loyalty = 60
+					}
+					custom_trigger_tooltip = {
+						tooltip = pdl_non_negative_heathen_tolerance_tt
+						has_global_modifier_value = {
+							which = tolerance_heathen
+							value = 1
+						}
+					}
+				}
+			}
 		}
 
 		effect = {
-			add_dip_power = 50
+			add_treasury = -75
 			set_country_flag = pdl_jewish_communities_established
+			add_country_modifier = {
+				name = pdl_kahal_town_charters
+				duration = -1
+			}
+			if = {
+				limit = { NOT = { has_country_modifier = jewish_merchant_charters } }
+				add_country_modifier = {
+					name = jewish_merchant_charters
+					duration = 7300
+				}
+			}
 		}
 
 		ai_weight = {
@@ -733,16 +915,46 @@ PDL_missions_5_culture = {
 
 		trigger = {
 			has_country_flag = pdl_tolerance_path
-			religious_unity = 0.40
-			num_of_owned_provinces_with = {
-				religion = orthodox
-				value = 5
+			religious_unity = 0.80
+			custom_trigger_tooltip = {
+				tooltip = pdl_confessional_coexistence_tt
+				OR = {
+					AND = {
+						num_of_owned_provinces_with = {
+							NOT = { religion = ROOT }
+							NOT = { unrest = 1 }
+							value = 2
+						}
+						has_global_modifier_value = {
+							which = tolerance_heretic
+							value = 2
+						}
+					}
+					AND = {
+						has_global_modifier_value = {
+							which = tolerance_heretic
+							value = 2
+						}
+						has_global_modifier_value = {
+							which = tolerance_heathen
+							value = 1
+						}
+						OR = {
+							has_reform = pdl_religious_tolerance_reform
+							has_reform = pdl_kamianets_concordat_reform
+							has_country_modifier = pdl_religious_tolerance
+						}
+					}
+				}
 			}
 		}
 
 		effect = {
+			add_country_modifier = {
+				name = pdl_confessional_equilibrium_modifier
+				duration = -1
+			}
 			add_prestige = 15
-			add_dip_power = 50
 		}
 
 		ai_weight = {
@@ -759,12 +971,21 @@ PDL_missions_5_culture = {
 			has_country_flag = pdl_tolerance_path
 			has_institution = renaissance
 			capital_scope = {
-				development = 30
+				development = 25
+				NOT = { unrest = 1 }
+			}
+			OR = {
+				num_accepted_cultures = 2
+				has_country_modifier = pdl_confessional_equilibrium_modifier
 			}
 		}
 
 		effect = {
-			add_adm_power = 100
+			add_country_modifier = {
+				name = pdl_pluralist_renaissance
+				duration = -1
+			}
+			add_adm_power = 75
 			add_prestige = 20
 		}
 

@@ -1,4 +1,7 @@
 # HLC | Halych and successors with its mission legacy.
+# Loaded after Volhynia_Missions.txt and Kyiv_Successors_Missions.txt so
+# retained Halych missions sit right under HLC's starter rows (row 6+) and
+# stack cleanly below VOL/UKR columns after formation without floating arrows.
 
 VOL_missions_HLC = {
 	slot = 3
@@ -9,8 +12,8 @@ VOL_missions_HLC = {
 
 	hlc_halych_sejm_mission = {
 		icon = mission_assemble_an_army
-		required_missions = { VOL_unite_galicia }
-		position = 21
+		required_missions = { }
+		position = 6
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -39,11 +42,12 @@ VOL_missions_4_HLC = {
 	generic = no
 	ai = yes
 	potential = { west_ukraine_hlc_legacy_missions = yes }
+	has_country_shield = yes
 
 	hlc_carpathian_bulwark = {
 		icon = mission_conquer_50_development
-		required_missions = { VOL_unite_galicia }
-		position = 21
+		required_missions = { }
+		position = 6
 		provinces_to_highlight = { area = red_ruthenia_area }
 		trigger = {
 			red_ruthenia_area = { type = all country_or_non_sovereign_subject_holds = ROOT }
@@ -67,7 +71,7 @@ VOL_missions_4_HLC = {
 	hlc_confessional_compact = {
 		icon = mission_build_up_to_force_limit
 		required_missions = { hlc_carpathian_bulwark }
-		position = 22
+		position = 7
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -119,7 +123,7 @@ VOL_missions_4_HLC = {
 	hlc_constitutional_settlement = {
 		icon = mission_have_two_subjects
 		required_missions = { hlc_confessional_compact }
-		position = 23
+		position = 8
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {

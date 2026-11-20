@@ -555,8 +555,8 @@ planted('rip_vol_synod_held removed',
         one_shot_errors(vol_now.replace('set_country_flag = rip_vol_synod_held', 'set_country_flag = rip_vol_other'), gal_now),
         'rip_vol_synod_held')
 planted('papal influence back in rip_vol_alt_history.3.b',
-        one_shot_errors(swap(vol_now, 'rip_faith_mission_resource_effect = { PA = 0.2 PI = 50 ADM = 50 }',
-                             'add_papal_influence = 50'), gal_now),
+        one_shot_errors(swap(vol_now, 'rip_faith_mission_resource_effect = { PA = 0.1 PI = 25 ADM = 25 }',
+                             'add_papal_influence = 25'), gal_now),
         'papal influence')
 planted('papal influence back in rip_galicia.2.a',
         one_shot_errors(vol_now, swap(gal_now, 'rip_faith_mission_resource_effect = { PA = 0.25 PI = 25 ADM = 25 }',

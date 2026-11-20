@@ -1,7 +1,97 @@
-# RIP - VOL. Restore missions for the HLC or VLN successor path.
-# The event itself requires tag = VOL and checks the inherited mission tree.
+# RIP - VOL. Restore missions for the HLC or VLN successor path and keep
+# bilateral Carpathian compacts tied to a live Volhynia-Halych alliance.
 on_yearly_pulse = {
 	events = {
 		west_ukraine_missions.1
+	}
+	if = {
+		limit = {
+			OR = {
+				has_country_modifier = rip_vol_federal_compact
+				has_country_modifier = rip_vol_carpathian_compact
+				has_country_modifier = rip_vol_sovereign_alliance_modifier
+			}
+			OR = {
+				AND = {
+					tag = HLC
+					NOT = { alliance_with = VLN }
+					NOT = { alliance_with = VOL }
+					NOT = { alliance_with = KRU }
+				}
+				AND = {
+					NOT = { tag = HLC }
+					NOT = { alliance_with = HLC }
+				}
+			}
+		}
+		if = {
+			limit = { has_country_modifier = rip_vol_federal_compact }
+			if = {
+				limit = { tag = HLC }
+				remove_historical_friend = VLN
+				remove_historical_friend = VOL
+				remove_historical_friend = KRU
+			}
+			else = {
+				remove_historical_friend = HLC
+			}
+		}
+		remove_country_modifier = rip_vol_federal_compact
+		remove_country_modifier = rip_vol_carpathian_compact
+		remove_country_modifier = rip_vol_sovereign_alliance_modifier
+	}
+}
+
+# Country scope: ROOT - Original alliance creator, FROM - Alliance accepter.
+on_alliance_broken = {
+	if = {
+		limit = {
+			OR = {
+				has_country_modifier = rip_vol_federal_compact
+				has_country_modifier = rip_vol_carpathian_compact
+				has_country_modifier = rip_vol_sovereign_alliance_modifier
+				FROM = { has_country_modifier = rip_vol_federal_compact }
+				FROM = { has_country_modifier = rip_vol_carpathian_compact }
+				FROM = { has_country_modifier = rip_vol_sovereign_alliance_modifier }
+			}
+			OR = {
+				AND = {
+					tag = HLC
+					FROM = {
+						OR = {
+							tag = VLN
+							tag = VOL
+							tag = KRU
+						}
+					}
+				}
+				AND = {
+					OR = {
+						tag = VLN
+						tag = VOL
+						tag = KRU
+					}
+					FROM = { tag = HLC }
+				}
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					has_country_modifier = rip_vol_federal_compact
+					FROM = { has_country_modifier = rip_vol_federal_compact }
+				}
+			}
+			remove_historical_friend = FROM
+			FROM = { remove_historical_friend = ROOT }
+		}
+		remove_country_modifier = rip_vol_federal_compact
+		remove_country_modifier = rip_vol_carpathian_compact
+		remove_country_modifier = rip_vol_sovereign_alliance_modifier
+		FROM = {
+			remove_country_modifier = rip_vol_federal_compact
+			remove_country_modifier = rip_vol_carpathian_compact
+			remove_country_modifier = rip_vol_sovereign_alliance_modifier
+		}
 	}
 }

@@ -366,3 +366,51 @@ country_event = {
 		set_country_flag = pdl_crimea_secure
 	}
 }
+
+country_event = {
+	id = podillia_events.13
+	title = podillia_events.13.t
+	desc = podillia_events.13.d
+	picture = SEJM_eventPicture
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = podillia_events.13.a
+		# Ratify a power-sharing Sejm compact with the magnates and burghers
+		set_country_flag = pdl_sejm_compact_ratified
+		add_country_modifier = {
+			name = pdl_magnate_sejm_compact
+			duration = -1
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			change_estate_land_share = { estate = estate_nobles share = 5 }
+			add_estate_loyalty = { estate = estate_nobles loyalty = 15 }
+		}
+		if = {
+			limit = { has_estate = estate_burghers }
+			add_estate_loyalty = { estate = estate_burghers loyalty = 10 }
+		}
+		ai_chance = {
+			factor = 60
+		}
+	}
+	option = {
+		name = podillia_events.13.b
+		# Subordinate the Sejm to crown statutes and reclaim estate lands
+		set_country_flag = pdl_crown_sejm_ratified
+		add_country_modifier = {
+			name = pdl_crown_sejm_statutes
+			duration = -1
+		}
+		change_estate_land_share = { estate = all share = -5 }
+		add_absolutism = 10
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = { estate = estate_nobles loyalty = -10 }
+		}
+		ai_chance = {
+			factor = 40
+		}
+	}
+}

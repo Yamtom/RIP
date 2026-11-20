@@ -147,10 +147,87 @@ def main() -> int:
     assert "on_battle_won_country = {" in on_actions and "on_war_won = {" in on_actions
     assert "set_country_flag = pdl_repelled_ottoman_assault" in on_actions
 
+    # 5. Kamianets urban missions have distinct citadel vs market specializations (no duplicate slot-fill / +6 dev).
+    citadel = normalized(named_block(source, "PDL_kamianets_capital"))
+    market = normalized(named_block(source, "PDL_kamianets_development"))
+    assert "num_free_building_slots" not in citadel and "num_free_building_slots" not in market
+    assert "has_building = barracks" in citadel and "name = pdl_kamianets_citadel" in citadel
+    assert "has_building = marketplace" in market and "has_building = workshop" in market
+
+    # 6. Host assembly introduces real steppe territory, Cossack loyalty, and estate land-share bargain.
+    host = normalized(named_block(source, "PDL_host_assembly"))
+    assert "area = yedisan_area" in host and "army_tradition = 30" in host
+    assert "estate_loyalty = { estate = estate_cossacks loyalty = 60 }" in host
+    assert "change_estate_land_share = { estate = estate_cossacks share = 5 }" in host
+
+    # 7. Magnate Sejm is an estate bargain firing podillia_events.13, not bare prestige.
+    sejm = normalized(named_block(source, "PDL_magnate_sejm"))
+    assert "estate_loyalty = { estate = estate_nobles loyalty = 60 }" in sejm
+    assert "country_event = { id = podillia_events.13 }" in sejm
+    pdl_events = read("events/RIP_PDL_Podillia_Events.txt")
+    sejm_ev = next(
+        normalized(b)
+        for _, b in keyed_blocks(pdl_events, "country_event")
+        if "title = podillia_events.13.t" in b
+    )
+    assert "name = pdl_magnate_sejm_compact" in sejm_ev and "name = pdl_crown_sejm_statutes" in sejm_ev
+    assert "change_estate_land_share" in sejm_ev
+
+    # 8. Tolerance branch tests real tolerance/multi-confessional coexistence and rewards tolerance modifiers.
+    tol = normalized(named_block(source, "PDL_religious_tolerance"))
+    jewish = normalized(named_block(source, "PDL_jewish_communities"))
+    equil = normalized(named_block(source, "PDL_confessional_equilibrium"))
+    ren = normalized(named_block(source, "PDL_cultural_renaissance"))
+    assert "has_building = temple" not in tol
+    assert "which = tolerance_heretic value = 1" in tol and "name = pdl_tolerance_edict" in tol
+    assert "name = pdl_kahal_town_charters" in jewish and "name = jewish_merchant_charters" in jewish
+    assert "religion = orthodox value = 5" not in equil
+    assert "NOT = { religion = ROOT }" in equil and "which = tolerance_heretic value = 2" in equil
+    assert "name = pdl_confessional_equilibrium_modifier" in equil
+    assert "name = pdl_pluralist_renaissance" in ren
+
+    # 9. Mission titles must fit EU4's 2-line mission scroll banner (vic_18, maxWidth 90).
+    vanilla = vanilla_root()
+    if vanilla and (vanilla / "gfx/fonts/vic_18.fnt").is_file():
+        fnt = (vanilla / "gfx/fonts/vic_18.fnt").read_text(encoding="latin-1")
+        adv = {int(m.group(1)): int(m.group(2)) for m in re.finditer(r"char\s+id=(\d+).*?xadvance=(-?\d+)", fnt)}
+        sp = adv.get(32, 4)
+
+        def wrap_metrics(title: str, max_w: int) -> tuple[int, int]:
+            lines_w: list[int] = []
+            cur_w = 0
+            for word in title.split(" "):
+                ww = sum(adv.get(ord(ch), 7) for ch in word)
+                if cur_w == 0:
+                    cur_w = ww
+                elif cur_w + sp + ww <= max_w:
+                    cur_w += sp + ww
+                else:
+                    lines_w.append(cur_w)
+                    cur_w = ww
+            if cur_w:
+                lines_w.append(cur_w)
+            return len(lines_w), max(lines_w or [0])
+
+        en_titles = dict(
+            re.findall(r'^ ([A-Za-z0-9_.\-]+_title):\d+\s+"(.*)"\s*$', read("localisation/RIP_PDL_realm_l_english.yml"), re.M)
+        )
+        pdl_missions = [
+            m.group(1)
+            for m in re.finditer(r"(?m)^\t([A-Za-z0-9_]+)\s*=\s*\{", re.sub(r"#.*", "", source))
+            if m.group(1) not in ("potential", "potential_on_load")
+        ]
+        for mname in pdl_missions:
+            title = en_titles[f"{mname}_title"]
+            assert title == title.strip() and "\\n" not in title, (mname, title)
+            n84, w84 = wrap_metrics(title, 84)
+            n90, w90 = wrap_metrics(title, 90)
+            assert n84 <= 2 and n90 <= 2 and w84 <= 84 and w90 <= 90, (mname, title, n84, w84, n90, w90)
+
     print(
         f"PODILLIA MISSIONS PASS: {checked_counters} area-bounded province counters satisfiable on EU4 map, "
         "PDL_podillian_granaries accepts grain/livestock, PDL_fortify_podillia claims Bendery (2405), "
-        "and PDL_khotyn_siege models the 1621 joint war/coalition campaign."
+        "PDL_khotyn_siege models 1621, urban/Sejm/Host pacing, 2-line titles and real tolerance contracts hold."
     )
     return 0
 

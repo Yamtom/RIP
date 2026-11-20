@@ -13,9 +13,25 @@ VOL_missions_U_1 = {
 		position = 8
 
 		trigger = {
-			OR = {
-				NOT = { exists = POL }
-				POL = { is_subject_of = ROOT }
+			custom_trigger_tooltip = {
+				tooltip = vol_poland_hegemony_broken_tt
+				OR = {
+					NOT = { exists = POL }
+					POL = { is_subject_of = ROOT }
+					POL = {
+						NOT = { any_owned_province = { region = ruthenia_region } }
+						NOT = { any_owned_province = { area = red_ruthenia_area } }
+						NOT = { any_owned_province = { area = malopolska_area } }
+						NOT = { any_owned_province = { area = sandomierz_area } }
+						NOT = { is_great_power = yes }
+						NOT = {
+							army_strength = {
+								who = ROOT
+								value = 0.5
+							}
+						}
+					}
+				}
 			}
 			OR = {
 				AND = {
@@ -187,8 +203,40 @@ VOL_missions_U_2 = {
 		required_missions = { VOL_conquer_bilorus }
 		position = 7
 		trigger = {
-			OR = { NOT = { exists = LIT } LIT = { is_subject_of = ROOT } }
-			OR = { NOT = { exists = PLC } PLC = { is_subject_of = ROOT } }
+			custom_trigger_tooltip = {
+				tooltip = vol_lithuania_hegemony_broken_tt
+				AND = {
+					OR = {
+						NOT = { exists = LIT }
+						LIT = { is_subject_of = ROOT }
+						LIT = {
+							NOT = { any_owned_province = { region = ruthenia_region } }
+							NOT = { is_great_power = yes }
+							NOT = {
+								army_strength = {
+									who = ROOT
+									value = 0.5
+								}
+							}
+						}
+					}
+					OR = {
+						NOT = { exists = PLC }
+						PLC = { is_subject_of = ROOT }
+						PLC = {
+							NOT = { any_owned_province = { region = ruthenia_region } }
+							NOT = { any_owned_province = { area = red_ruthenia_area } }
+							NOT = { is_great_power = yes }
+							NOT = {
+								army_strength = {
+									who = ROOT
+									value = 0.5
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 		effect = {
 			lithuania_area = {
@@ -285,7 +333,7 @@ VOL_missions_U_3 = {
 	VOL_conquer_sloboda = {
 		icon = mission_assemble_an_army
 		required_missions = { VOL_conquer_east_dniepr }
-		position = 6
+		position = 5
 		provinces_to_highlight = {
 			OR = {
 				area = sloboda_ukraine_area
@@ -314,7 +362,7 @@ VOL_missions_U_3 = {
 	VOL_conquer_smolensk = {
 		icon = mission_cannons_firing
 		required_missions = { volhynia_conquer_chernihiv }
-		position = 7
+		position = 6
 		provinces_to_highlight = {
 			area = smolensk_area
 			NOT = {
@@ -345,10 +393,41 @@ VOL_missions_U_3 = {
 	VOL_demolish_MOS = {
 		icon = mission_conquer_5_states
 		required_missions = { VOL_conquer_smolensk }
-		position = 8
+		position = 7
 		trigger = {
-			OR = { NOT = { exists = MOS } MOS = { is_subject_of = ROOT } }
-			OR = { NOT = { exists = RUS } RUS = { is_subject_of = ROOT } }
+			custom_trigger_tooltip = {
+				tooltip = vol_muscovy_hegemony_broken_tt
+				AND = {
+					OR = {
+						NOT = { exists = MOS }
+						MOS = { is_subject_of = ROOT }
+						MOS = {
+							NOT = { any_owned_province = { region = ruthenia_region } }
+							NOT = { is_great_power = yes }
+							NOT = {
+								army_strength = {
+									who = ROOT
+									value = 0.6
+								}
+							}
+						}
+					}
+					OR = {
+						NOT = { exists = RUS }
+						RUS = { is_subject_of = ROOT }
+						RUS = {
+							NOT = { any_owned_province = { region = ruthenia_region } }
+							NOT = { is_great_power = yes }
+							NOT = {
+								army_strength = {
+									who = ROOT
+									value = 0.6
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 		effect = {
 			add_prestige = 20
