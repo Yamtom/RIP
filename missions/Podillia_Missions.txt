@@ -85,20 +85,29 @@ PDL_missions_1_carpathian = {
 			province_id = 281
 			OR = {
 				NOT = { owned_by = ROOT }
-				NOT = { has_building = fort_17th }
+				NOT = { OR = { has_building = fort_15th has_building = fort_16th has_building = fort_17th has_building = fort_18th } }
 			}
 		}
 
 		trigger = {
 			281 = { owned_by = ROOT }
-			281 = { has_building = fort_17th }
+			281 = { OR = { has_building = fort_15th has_building = fort_16th has_building = fort_17th has_building = fort_18th } }
 		}
 
 		effect = {
 			add_army_tradition = 2
 			281 = {
 				add_base_manpower = 2
-				add_building = barracks
+				if = {
+					limit = {
+						NOT = { has_building = barracks }
+						NOT = { has_building = training_fields }
+					}
+					add_building = barracks
+				}
+				else = {
+					add_base_manpower = 2
+				}
 			}
 			if = {
 				limit = {
@@ -107,7 +116,7 @@ PDL_missions_1_carpathian = {
 					}
 				}
 				281 = {
-					add_center_of_trade_level = 1
+					center_of_trade = 1
 				}
 			}
 		}
@@ -253,10 +262,23 @@ PDL_missions_2_frontier = {
 		trigger = {
 			num_of_cavalry = 10
 			prestige = 20
-			has_estate = estate_cossacks
+			if = {
+				limit = { has_estate = estate_cossacks }
+				estate_loyalty = { estate = estate_cossacks loyalty = 40 }
+			}
+			else = {
+				# Local frontier service remains available without the estate or its DLC.
+				owns = 281
+				stability = 1
+				mil_power = 50
+			}
 		}
 
 		effect = {
+			if = {
+				limit = { NOT = { has_estate = estate_cossacks } }
+				add_mil_power = -50
+			}
 			set_country_flag = pdl_cossack_recruited
 			add_country_modifier = {
 				name = pdl_cossack_integration
@@ -996,7 +1018,7 @@ PDL_missions_5_culture = {
 }
 
 PDL_missions_galician_synergy = {
-	slot = 6
+	slot = 2
 	generic = no
 	ai = yes
 	potential = {
@@ -1009,7 +1031,7 @@ PDL_missions_galician_synergy = {
 	PDL_galician_compact = {
 		icon = mission_alliances
 		required_missions = { }
-		position = 3
+		position = 5
 
 		trigger = {
 			exists = HLC
@@ -1030,7 +1052,7 @@ PDL_missions_galician_synergy = {
 	PDL_trade_corridor = {
 		icon = mission_dominate_home_trade_node
 		required_missions = { PDL_galician_compact }
-		position = 4
+		position = 6
 
 		trigger = {
 			has_country_flag = pdl_galician_compact
@@ -1050,7 +1072,7 @@ PDL_missions_galician_synergy = {
 }
 
 PDL_historical_khotyn_battle = {
-	slot = 7
+	slot = 4
 	generic = no
 	ai = yes
 	potential = {
@@ -1062,7 +1084,7 @@ PDL_historical_khotyn_battle = {
 	PDL_khotyn_siege = {
 		icon = mission_cannons_firing
 		required_missions = { }
-		position = 3
+		position = 5
 
 		provinces_to_highlight = {
 			province_id = 281

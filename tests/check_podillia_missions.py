@@ -68,6 +68,45 @@ def main() -> int:
     source = read("missions/Podillia_Missions.txt")
     areas = load_areas()
 
+    # The opening mission cannot require the estate that later steppe conquests unlock.
+    recruit = named_block(source, "PDL_recruit_cossacks")
+    recruit_trigger = named_block(recruit, "trigger")
+    estate_branch = normalized(named_block(recruit_trigger, "if"))
+    local_branch = normalized(named_block(recruit_trigger, "else"))
+    assert "limit = { has_estate = estate_cossacks }" in estate_branch
+    assert "loyalty = 40" in estate_branch
+    assert "owns = 281" in local_branch and "mil_power = 50" in local_branch
+    assert "has_dlc" not in local_branch and "terrain" not in local_branch and "has_estate" not in local_branch
+    assert "stability = 1" in local_branch
+    recruit_effect = normalized(named_block(recruit, "effect"))
+    assert "limit = { NOT = { has_estate = estate_cossacks } } add_mil_power = -50" in recruit_effect
+    assert "set_country_flag = pdl_cossack_recruited" in recruit_effect
+
+    # Vanilla countrymissionsview.gui exposes only five horizontal slots.
+    # Additional series in the same slot stack below earlier series.
+    cursors = {}
+    cells = set()
+    placed = {}
+    for tree_name in re.findall(r"(?m)^(PDL_\w+)\s*=\s*\{", source):
+        tree = named_block(source, tree_name)
+        slot = int(re.search(r"\bslot\s*=\s*(\d+)", tree)[1])
+        assert 1 <= slot <= 5, f"{tree_name}: outside vanilla mission UI"
+        cursor = cursors.get(slot, 0)
+        for mission_name in re.findall(r"(?m)^\t(PDL_\w+)\s*=\s*\{", tree):
+            mission = named_block(tree, mission_name)
+            row = max(cursor + 1, int(re.search(r"\bposition\s*=\s*(\d+)", mission)[1]))
+            assert (slot, row) not in cells
+            cells.add((slot, row))
+            placed[mission_name] = (slot, row)
+            cursor = row
+        cursors[slot] = cursor
+    assert placed["PDL_galician_compact"] == (2, 5)
+    assert placed["PDL_trade_corridor"] == (2, 6)
+    assert placed["PDL_khotyn_siege"] == (4, 5)
+    early_fort = named_block(named_block(source, "PDL_khotyn_fortress"), "trigger")
+    for fort in ("fort_15th", "fort_16th", "fort_17th", "fort_18th"):
+        assert fort in early_fort, "Early Dniester mission must accept medieval and upgraded forts"
+
     # 1. No Pomeranian Stargard (4749) claim or placeholder anywhere in Podillia missions.
     assert not re.search(r"\b4749\b", source), "4749 (Stargard in Pomerania) must not appear in Podillia_Missions.txt"
 
@@ -185,6 +224,15 @@ def main() -> int:
     assert "NOT = { religion = ROOT }" in equil and "which = tolerance_heretic value = 2" in equil
     assert "name = pdl_confessional_equilibrium_modifier" in equil
     assert "name = pdl_pluralist_renaissance" in ren
+
+    # 8b. PDL_khotyn_fortress avoids fort_17th softlock, guards barracks, and creates a level 1 CoT.
+    khotyn_fort = named_block(source, "PDL_khotyn_fortress")
+    khotyn_fort_trig = normalized(named_block(khotyn_fort, "trigger"))
+    khotyn_fort_eff = normalized(named_block(khotyn_fort, "effect"))
+    for token in ("fort_15th", "fort_16th", "fort_17th", "fort_18th"):
+        assert token in khotyn_fort_trig, f"PDL_khotyn_fortress trigger missing {token}"
+    assert "NOT = { has_building = barracks } NOT = { has_building = training_fields }" in khotyn_fort_eff
+    assert "center_of_trade = 1" in khotyn_fort_eff
 
     # 9. Mission titles must fit EU4's 2-line mission scroll banner (vic_18, maxWidth 90).
     vanilla = vanilla_root()
