@@ -1,7 +1,9 @@
 # HLC | Halych and successors with its mission legacy.
-# Loaded after Volhynia_Missions.txt and Kyiv_Successors_Missions.txt so
-# retained Halych missions sit right under HLC's starter rows (row 6+) and
-# stack cleanly below VOL/UKR columns after formation without floating arrows.
+# Loaded after Volhynia_Missions.txt and Kyiv_Successors_Missions.txt.
+# Rows are chosen so that a VOL that kept these missions shares no row with
+# its own series in the same column (the engine warns with mission.cpp:353
+# otherwise): column 3 holds VOL_missions_U_3 at 5-7, column 4 holds
+# VOL_missions_U_4 at 3, 4 and 8, and VOL_missions_4 at 2.
 
 VOL_missions_HLC = {
 	slot = 3
@@ -13,7 +15,7 @@ VOL_missions_HLC = {
 	hlc_halych_sejm_mission = {
 		icon = mission_assemble_an_army
 		required_missions = { }
-		position = 6
+		position = 8
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -47,7 +49,7 @@ VOL_missions_4_HLC = {
 	hlc_carpathian_bulwark = {
 		icon = mission_conquer_50_development
 		required_missions = { }
-		position = 6
+		position = 5
 		provinces_to_highlight = {
 			# Fixed Carpathian approaches: Halych, Peremyshl, Drohobych.
 			OR = { province_id = 261 province_id = 2424 province_id = 4541 }
@@ -82,7 +84,7 @@ VOL_missions_4_HLC = {
 	hlc_confessional_compact = {
 		icon = mission_build_up_to_force_limit
 		required_missions = { hlc_carpathian_bulwark }
-		position = 7
+		position = 6
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -103,22 +105,38 @@ VOL_missions_4_HLC = {
 			}
 		}
 		effect = {
+			# Renew whichever settlement the synod chose. The choice is read from
+			# the flags rip_galicia.2 sets, not from the modifier alone: the
+			# modifier lasts ten years and may already have lapsed.
 			if = {
 				limit = {
-					has_country_modifier = rip_galicia_uniate_synod
+					OR = {
+						has_country_flag = rip_galicia_synod_held
+						has_country_modifier = rip_galicia_uniate_synod
+					}
+					NOT = { has_country_flag = rip_galicia_orthodox_held }
 					NOT = { has_country_modifier = rip_galicia_orthodox_bastion }
 				}
 				add_country_modifier = { name = rip_galicia_uniate_synod duration = 3650 }
 			}
 			if = {
 				limit = {
-					has_country_modifier = rip_galicia_orthodox_bastion
+					OR = {
+						has_country_flag = rip_galicia_orthodox_held
+						has_country_modifier = rip_galicia_orthodox_bastion
+					}
+					NOT = { has_country_flag = rip_galicia_synod_held }
 					NOT = { has_country_modifier = rip_galicia_uniate_synod }
 				}
 				add_country_modifier = { name = rip_galicia_orthodox_bastion duration = 3650 }
 			}
 			if = {
-				limit = { has_country_modifier = rip_galicia_sejm_uniate }
+				limit = {
+					OR = {
+						has_country_flag = rip_galicia_synod_held
+						has_country_modifier = rip_galicia_sejm_uniate
+					}
+				}
 				add_country_modifier = { name = rip_galicia_sejm_uniate duration = 3650 }
 			}
 			if = {
@@ -134,7 +152,7 @@ VOL_missions_4_HLC = {
 	hlc_constitutional_settlement = {
 		icon = mission_have_two_subjects
 		required_missions = { hlc_confessional_compact }
-		position = 8
+		position = 7
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
