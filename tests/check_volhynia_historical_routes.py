@@ -65,6 +65,10 @@ def check_galician_partnership() -> None:
     alliance = named_block(legacy, "VLN_galician_alliance")
     alliance_trigger = normalized(named_block(alliance, "trigger"))
     alliance_effect = normalized(named_block(alliance, "effect"))
+    # An independent HLC must not first conquer allied Volhynia to choose a path.
+    assert "hlc_has_any_path" not in alliance_trigger
+    assert "VOL_unite_galicia" not in alliance_trigger
+    assert "is_subject = no" in alliance_trigger
     assert "dip_power = 50" in alliance_trigger and "add_dip_power = -50" in alliance_effect
     assert "add_claim = HLC" in alliance_effect
     assert "add_favors = { who = HLC amount = 10 }" in alliance_effect
@@ -84,6 +88,7 @@ def check_galician_partnership() -> None:
     fed = named_block(legacy, "VLN_carpathian_federation_eastern")
     fed_trigger = normalized(named_block(fed, "trigger"))
     fed_effect = normalized(named_block(fed, "effect"))
+    assert "hlc_has_any_path" not in fed_trigger
     assert "trust = { who = HLC value = 65 }" in fed_trigger
     assert "dip_power = 75" in fed_trigger and "treasury = 100" in fed_trigger
     assert "add_dip_power = -75" in fed_effect and "add_treasury = -100" in fed_effect
@@ -132,6 +137,14 @@ def check_galician_partnership() -> None:
 
 def check_conquest_hegemony_triggers() -> None:
     conquest = read("missions/Volhynia_Conquest_Missions.txt")
+    reward = normalized(named_block(named_block(conquest, "VOL_conquer_bilorus"), "effect"))
+    assert "add_adm_power = 50" in reward and "add_dip_power = 75" in reward
+    assert "add_accepted_culture" not in reward and "add_claim" not in reward
+    north = named_block(read("missions/Volhynia_Common_Missions.txt"), "VOL_integrate_north")
+    white_reward = named_block(named_block(north, "effect"), "white_ruthenia_area")
+    assert "add_permanent_claim" not in white_reward and "add_claim" not in white_reward
+    ascendancy = named_block(read("common/event_modifiers/VOL_mission_modifiers.txt"), "vol_diplomatic_ascendancy")
+    assert "karma" not in ascendancy
     for mission_name in ("VOL_demolish_poland", "VOL_demolish_lithuania", "VOL_demolish_MOS"):
         trigger = normalized(named_block(named_block(conquest, mission_name), "trigger"))
         assert "NOT = { any_owned_province = { region = ruthenia_region } }" in trigger, (

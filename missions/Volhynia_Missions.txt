@@ -18,7 +18,7 @@ VOL_missions_U_4 = {
 			adm_tech = 10
 			crown_land_share = 40
 			280 = {
-				country_or_non_sovereign_subject_holds = ROOT
+				owned_by = ROOT
 				is_capital = yes
 			}
 		}
@@ -251,7 +251,7 @@ VOL_austrian_imperial_path_slot1 = {
 				culture = hungarian
 				culture = romanian
 			}
-			NOT = { has_province_modifier = embraced_minority_religion }
+			NOT = { has_province_modifier = vol_minority_rights }
 		}
 		trigger = {
 			custom_trigger_tooltip = {
@@ -299,7 +299,7 @@ VOL_austrian_imperial_path_slot1 = {
 					}
 				}
 				add_province_modifier = {
-					name = embraced_minority_religion
+					name = vol_minority_rights
 					duration = -1
 				}
 			}

@@ -25,6 +25,8 @@ VLN_alt_history_path_1 = {
 		}
 		trigger = {
 			mission_completed = VLN_declare_independence
+			is_subject = no
+			dip_power = 50
 			OR = {
 				AND = {
 					alliance_with = HLC
@@ -37,12 +39,7 @@ VLN_alt_history_path_1 = {
 							who = ROOT
 							value = 100
 						}
-						custom_trigger_tooltip = {
-							tooltip = vln_galician_alliance_hlc_path_req_tt
-							hlc_has_any_path = yes
-						}
 					}
-					dip_power = 50
 				}
 				custom_trigger_tooltip = {
 					tooltip = vln_galician_alliance_autonomous_req_tt
@@ -141,10 +138,6 @@ VLN_alt_history_path_1 = {
 						has_opinion = {
 							who = ROOT
 							value = 125
-						}
-						custom_trigger_tooltip = {
-							tooltip = vln_hlc_austria_path_req_tt
-							hlc_has_any_path = yes
 						}
 					}
 					trust = {
@@ -625,7 +618,7 @@ VLN_alt_history_independence_arch = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = restored_ruthenia
+				name = rip_vol_restored_ruthenia_country
 				duration = -1
 			}
 			add_adm_power = 100

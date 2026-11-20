@@ -1,7 +1,7 @@
 """Source and EU4 layout contracts for Volhynian/Halych/VLN routes; not an EU4 runtime simulation."""
 from collections import defaultdict
 import re
-from clausewitz_testlib import read, named_block, keyed_blocks, vanilla_root
+from clausewitz_testlib import read, named_block, keyed_blocks, normalized, vanilla_root
 
 # Exact EU4 alphabetical load order for this mission cluster.
 FILES = [
@@ -157,6 +157,18 @@ common_source = read("missions/Volhynia_Common_Missions.txt")
 assert "change_culture" not in common_source and "change_religion" not in common_source
 assert "absolutism =" not in common_source
 assert "move_capital_effect" not in common_source
+old_capital_trigger = normalized(named_block(missions["VOL_old_capital"][3], "trigger"))
+assert "280 = { owned_by = ROOT is_capital = yes }" in old_capital_trigger
+assert "country_or_non_sovereign_subject_holds" not in old_capital_trigger
+army = named_block(common_source, "VOL_full_army")
+assert "add_building = fort_16th" not in army
+assert "add_building = fort_15th" in army
+assert "name = fortress_modifier" in army
+assert "cossack_cavalry" not in named_block(common_source, "VOL_king_power")
+minorities = missions["VOL_manage_minorities"][3]
+assert "embraced_minority_religion" not in minorities
+assert "name = vol_minority_rights" in minorities
+assert "1952" not in missions["VOL_land_collector"][3]
 assert "VOL_invest_in_west_rus_mission" not in missions["VOL_choose_development_path"][2]
 assert "mission_completed = VOL_renaissance_mission" in named_block(missions["VOL_choose_development_path"][3], "trigger")
 assert "has_country_modifier" not in named_block(missions["VOL_religious_settlement"][3], "trigger")
@@ -167,6 +179,16 @@ assert "galicia_area" not in legacy
 assert "rip_vol_partner_holds_province" in missions["VLN_unite_galicia"][3]
 assert "VLN_restore_ruthenia" not in missions["VLN_eastern_partnership_culmination"][2]
 forts = missions["hlc_carpathian_bulwark"][3]
+fort_counter = named_block(named_block(forts, "trigger"), "num_of_owned_provinces_with")
+fort_highlight = named_block(forts, "provinces_to_highlight")
+frontier = {"261", "2424", "4541"}
+assert set(re.findall(r"province_id\s*=\s*(\d+)", fort_counter)) == frontier
+assert set(re.findall(r"province_id\s*=\s*(\d+)", fort_highlight)) == frontier
+assert "value = 3" in fort_counter and "controlled_by = ROOT" in fort_counter
+assert "area =" not in fort_counter, "Inland forts must not satisfy the Carpathian frontier"
+assert "VOL_conquer_malopolska" not in missions["hlc_halych_sejm_mission"][3]
+assert missions["hlc_confessional_compact"][2] == ["hlc_carpathian_bulwark"]
+assert missions["hlc_constitutional_settlement"][2] == ["hlc_confessional_compact"]
 for century in (15, 16, 17, 18):
     assert f"fort_{century}th" in forts
 events = read("events/RIP_VOL_VOL_path_events.txt")
@@ -181,6 +203,20 @@ for lang in ("english", "french", "german", "spanish"):
     loc = read(path)
     for suffix in ("t", "d", "a", "b"):
         assert f" rip_vol_alt_history.9.{suffix}:" in loc
+
+# 5b. Volhynian restoration country modifier, sane global autonomy, and marketplace pacing.
+vln_restore_eff = normalized(named_block(missions["VLN_restore_ruthenia"][3], "effect"))
+assert "name = rip_vol_restored_ruthenia_country" in vln_restore_eff
+assert "name = restored_ruthenia" not in vln_restore_eff
+
+vol_unity_mod = normalized(named_block(read("common/event_modifiers/RIP_VOL_modifiers.txt"), "VOL_unity"))
+assert "global_autonomy = -0.05" in vol_unity_mod
+assert "global_autonomy = -1" not in vol_unity_mod
+
+chumak_trig = normalized(named_block(missions["VOL_expand_Chumatsky_Way_mission"][3], "trigger"))
+assert "has_building = marketplace" in chumak_trig
+west_rus_trig = normalized(named_block(missions["VOL_invest_in_west_rus_mission"][3], "trigger"))
+assert west_rus_trig.count("has_building = marketplace") == 4
 
 # 6. Mission titles must fit EU4's 2-line mission scroll banner (vic_18, maxWidth 90).
 vanilla = vanilla_root()

@@ -48,12 +48,23 @@ VOL_missions_4_HLC = {
 		icon = mission_conquer_50_development
 		required_missions = { }
 		position = 6
-		provinces_to_highlight = { area = red_ruthenia_area }
+		provinces_to_highlight = {
+			# Fixed Carpathian approaches: Halych, Peremyshl, Drohobych.
+			OR = { province_id = 261 province_id = 2424 province_id = 4541 }
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { controlled_by = ROOT }
+				NOT = {
+					OR = { has_building = fort_15th has_building = fort_16th has_building = fort_17th has_building = fort_18th }
+				}
+			}
+		}
 		trigger = {
 			red_ruthenia_area = { type = all country_or_non_sovereign_subject_holds = ROOT }
 			num_of_owned_provinces_with = {
 				value = 3
-				OR = { area = red_ruthenia_area area = volhynia_area area = podolia_volhynia_area }
+				OR = { province_id = 261 province_id = 2424 province_id = 4541 }
+				controlled_by = ROOT
 				OR = { has_building = fort_15th has_building = fort_16th has_building = fort_17th has_building = fort_18th }
 			}
 		}

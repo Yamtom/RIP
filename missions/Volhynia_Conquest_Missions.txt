@@ -183,18 +183,10 @@ VOL_missions_U_2 = {
 			}
 		}
 		effect = {
-			add_accepted_culture = byelorussian
-			smolensk_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_claim = ROOT
-			}
+			# Recognition and claims were granted by the two prerequisites.
+			add_adm_power = 50
+			add_dip_power = 75
+			add_prestige = 10
 		}
 	}
 
@@ -275,7 +267,6 @@ VOL_missions_U_2 = {
 				area = pskov_area
 				area = novgorod_area
 				area = tver_area
-				province_id = 1952
 			}
 			NOT = {
 				country_or_non_sovereign_subject_holds = ROOT
@@ -300,9 +291,6 @@ VOL_missions_U_2 = {
 			}
 			tver_area = {
 				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			1952 = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
