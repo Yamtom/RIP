@@ -48,3 +48,26 @@ west_ukraine_vln_legacy_missions = {
 vln_has_sejmik_path = {
 	has_country_flag = rip_vln_path_sejmik
 }
+
+# A Volyn that formed VOL (or has no Halych, so uses the shared starter rows)
+# completes the VOL spelling of these missions, not the VLN one.
+vln_declare_independence_done = {
+	OR = {
+		mission_completed = VLN_declare_independence
+		mission_completed = VOL_declare_independence
+	}
+}
+
+vln_unite_galicia_done = {
+	OR = {
+		mission_completed = VLN_unite_galicia
+		mission_completed = VOL_unite_galicia
+	}
+}
+
+vln_integrate_north_done = {
+	OR = {
+		mission_completed = VLN_integrate_north
+		mission_completed = VOL_integrate_north
+	}
+}

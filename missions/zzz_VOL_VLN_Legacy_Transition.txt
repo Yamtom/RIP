@@ -24,7 +24,7 @@ VLN_alt_history_path_1 = {
 			NOT = { rip_vol_partner_holds_province = yes }
 		}
 		trigger = {
-			mission_completed = VLN_declare_independence
+			vln_declare_independence_done = yes
 			is_subject = no
 			dip_power = 50
 			OR = {
@@ -115,7 +115,7 @@ VLN_alt_history_path_1 = {
 			NOT = { rip_vol_partner_holds_province = yes }
 		}
 		trigger = {
-			mission_completed = VLN_unite_galicia
+			vln_unite_galicia_done = yes
 			OR = {
 				custom_trigger_tooltip = {
 					tooltip = vln_eastern_path_req_tt
@@ -278,7 +278,7 @@ VLN_alt_history_path_2 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			mission_completed = VLN_declare_independence
+			vln_declare_independence_done = yes
 			OR = {
 				NOT = { exists = LIT }
 				LIT = { is_subject = yes }
@@ -339,7 +339,7 @@ VLN_alt_history_path_2 = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
-			mission_completed = VLN_unite_galicia
+			vln_unite_galicia_done = yes
 			custom_trigger_tooltip = {
 				tooltip = vln_baltic_path_req_tt
 				vol_has_baltic_path = yes
@@ -375,7 +375,7 @@ VLN_alt_history_path_2 = {
 		required_missions = { VLN_grand_ruthenia_baltic }
 		position = 3
 		trigger = {
-			mission_completed = VLN_integrate_north
+			vln_integrate_north_done = yes
 			OR = {
 				custom_trigger_tooltip = {
 					tooltip = vln_grand_ruthenia_req_tt
@@ -425,7 +425,7 @@ VLN_alt_history_galician_synergy = {
 		required_missions = { }
 		position = 1
 		trigger = {
-			mission_completed = VLN_unite_galicia
+			vln_unite_galicia_done = yes
 			OR = {
 				HLC = {
 					custom_trigger_tooltip = {
@@ -508,8 +508,14 @@ VLN_alt_history_independence_arch = {
 	slot = 4
 	generic = no
 	ai = yes
+	# Only Volyn itself, and only while Halych exists. A VOL formed from Volyn
+	# (or a Volyn with no Halych to partner) already has the shared VOL rows
+	# for independence, Galicia, the north and Ruthenia; showing this arch as
+	# well drew every one of them twice. Triggers elsewhere in this file read
+	# the vln_*_done scripted triggers, which accept either spelling.
 	potential = {
-		west_ukraine_vln_legacy_missions = yes
+		tag = VLN
+		exists = HLC
 	}
 	has_country_shield = yes
 
@@ -655,7 +661,7 @@ VLN_carpathian_prestige = {
 		}
 
 		trigger = {
-			mission_completed = VLN_unite_galicia
+			vln_unite_galicia_done = yes
 			custom_trigger_tooltip = {
 				tooltip = vln_eastern_path_req_tt
 				vol_has_eastern_path = yes
@@ -690,7 +696,7 @@ VLN_carpathian_prestige = {
 		}
 
 		trigger = {
-			mission_completed = VLN_integrate_north
+			vln_integrate_north_done = yes
 			OR = {
 				custom_trigger_tooltip = {
 					tooltip = vln_baltic_path_req_tt

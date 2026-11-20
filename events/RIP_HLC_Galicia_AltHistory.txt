@@ -41,6 +41,12 @@ country_event = {
 	fire_only_once = yes
 	trigger = {
 		west_ukraine_hlc_legacy_missions = yes
+		# The synod follows the fortified frontier: without this gate it sat two
+		# years after the path was chosen, and its ten-year modifiers had run out
+		# before hlc_carpathian_bulwark / hlc_confessional_compact could renew them.
+		# The mission itself fires the event at once, so the gate only stops the
+		# MTTH draw from pre-empting it.
+		mission_completed = hlc_carpathian_bulwark
 		OR = {
 			has_country_flag = rip_galicia_path_austria
 			has_country_flag = rip_galicia_path_poland
@@ -79,6 +85,9 @@ country_event = {
 		name = rip_galicia.2.b
 		# Orthodox Bastion
 		set_country_flag = rip_galicia_confessional_set
+		# Read by hlc_confessional_compact, which renews the bastion even
+		# after the ten-year modifier has expired.
+		set_country_flag = rip_galicia_orthodox_held
 		add_legitimacy = 10
 		if = {
 			limit = {
@@ -101,6 +110,8 @@ country_event = {
 	fire_only_once = yes
 	trigger = {
 		west_ukraine_hlc_legacy_missions = yes
+		# Same gate as rip_galicia.2: the constitution waits for the compact.
+		mission_completed = hlc_confessional_compact
 		has_country_flag = rip_galicia_confessional_set
 		NOT = {
 			has_country_flag = rip_galicia_constitution_done
