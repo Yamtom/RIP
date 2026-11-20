@@ -84,6 +84,67 @@
 запускає подію `podillia_events.11`.
 Це дизайнерське уточнення не стверджує, що Хотин історично був Кам’янцем.
 
+## Баланс гілок і «стіни очікування» (20 листопада 2026)
+
+Статичний розбір гілок і темпу виявив такі вади; виправлено лише те, що
+перевіряється без запуску гри.
+
+| Вада | Виправлення |
+| --- | --- |
+| Події `rip_galicia.2` (MTTH 24 міс.) і `rip_galicia.3` (36 міс.) спрацьовували самі через два-три роки після вибору шляху, задовго до трьох фортів. Їхні десятирічні модифікатори спливали до `hlc_confessional_compact`, і блок продовження в місії проходив вхолосту. | Події отримали умову `mission_completed = hlc_carpathian_bulwark` / `hlc_confessional_compact`; місії, як і раніше, запускають їх самі. Подія `rip_galicia.2.b` ставить `rip_galicia_orthodox_held`, а місія продовжує синод, бастіон і `rip_galicia_sejm_uniate` за прапорцями (`rip_galicia_synod_held`, `rip_galicia_orthodox_held`), а не лише за наявністю модифікатора, що міг уже спливти. |
+| Острозька академія й Біблія були лише на конституційній гілці: імперський гравець втрачав їх назавжди, а разом з ними `vol_enlightened_realm` (−10% вартості технологій та ідей). | Місії `VOL_university_expansion`, `VOL_renaissance_court`, `VOL_education_edict` винесено в серію `VOL_ostroh_enlightenment_slot4` для обох шляхів і залежать від `VOL_choose_development_path`. Конституційна гілка зберігає вимогу сейму (`vol_has_sejm_established`), імперська його не потребує. `VOL_church_relations` лишилась у конституційній серії окремою місією. |
+| Імперська гілка мала 6 місій без жодного бонусу до адміністративної ефективності, а фінал вимагав трьох васалів, тоді як конституційна не вимагала жодного. | `vol_imperial_triumph` отримав +10% адміністративної ефективності (як `vol_constitutional_triumph`); `VOL_ruthenia_triumphant` вимагає двох підданих, як `VOL_balance_of_power`. Різниця в кількості місій (6 проти 8) вирівнюється доступом до освітнього ланцюга, а не новими місіями: імперська гілка тепер має 9 місій, конституційна — 8. |
+| `VOL_expand_Chumatsky_Way_mission` (рядок 2) вимагала торгове депо (`trade_depot`), яке стає доступним близько 1622 року: усі наступні рядки колонки чекали двісті років. | Достатньо `marketplace`; депо й біржа теж зараховуються. |
+| `PDL_khotyn_fortress` (рядок 3 першої колонки) вимагала `fort_17th` (близько 1648 року). | Приймає `fort_16th`, `fort_17th` або `fort_18th`, як і сама `PDL_khotyn_siege`. |
+| `PDL_khotyn_siege` (слот 7) і галицька пара `PDL_galician_compact` / `PDL_trade_corridor` (слот 6) лежали поза п’ятьма колонками вікна місій. | Хотин переміщено до слота 5 (рядок 5), галицьку пару — до слота 4 (рядки 5–6). |
+| Союзна гілка `VLN` мала Catch-22: `VLN_galician_alliance` і `VLN_carpathian_federation_eastern` вимагали `hlc_has_any_path`, а `HLC` обирає шлях лише через `VOL_unite_galicia` (усі три арії у власному володінні), хоча Волинь тримає сам союзник. | Замість прапорця шляху достатньо стабільності 1 в `HLC` за миру. Тексти `vln_galician_alliance_hlc_path_req_tt` і `vln_hlc_austria_path_req_tt` оновлено. |
+| Дерево `VOL`, утворене з `VLN`, показувало дубль: незалежність, об’єднання Галичини, північ і відновлення Русі виконувалися двічі (серія `VLN_alt_history_independence_arch` поверх спільних рядків `VOL_*`). | Арка видима лише для `VLN` за наявності `HLC`. Решта місій `VLN` читає нові сторожові тригери `vln_declare_independence_done`, `vln_unite_galicia_done`, `vln_integrate_north_done`, які приймають обидва написання. |
+
+Другий прохід того ж дня: шлагбаум `VOL_prosperity` і тексти.
+
+| Вада | Виправлення |
+| --- | --- |
+| `VOL_prosperity` вимагала 10 із 12 провінцій Волині, Червоної Русі й Поділля на 15 розвитку, що читалося як шлагбаум перед вибором шляху. | Потрібно 8 із 12 на 12 розвитку без спустошення; підсвічування й опис узгоджено. |
+| `VOL_expand_Chumatsky_Way_mission` описувала «правий берег Дніпра». | Опис і назва («The Dniester Salt Road») переписані на галицьке солеваріння (Дрогобич, Долина) і Дністер; `VOL_chumak_modifier` додатково лягає на Дрогобич (`4541`), якщо він у власності. |
+| `VOL_invest_in_eastern_rus_mission` називалася «Eastern Coal Basin», а `VOL_invested_in_rus` — «Commercial Infrastructure of the Western Lands», хоча лягає й на східні області. | «Frontier Markets» (Харків і Тана) та «Ruthenian Market Infrastructure». |
+| Старі описи: `desc_VOL_border_control` (вікіпедійне означення), `VOL_old_capital_desc` (сучасний жарт), `desc_VOL_mastery_of_the_steppes` («Wild pole»), `VOL_conquer_bilorus_desc`, `VOL_rex_of_rus_desc` (дата коронації), `VLN_carpathian_bulwark_desc`, `desc_VOL_invested_in_rus`. | Переписано в єдиному реєстрі з рештою тексту. |
+| Історичні опори не використовувалися. | Дипломатична гілка: `VOL_balance_of_power` тепер «The Congress of Lutsk» (1429), `VOL_dynastic_marriages` спирається на нього; Свидригайлів уділ (1440–1452) у `VOL_declare_independence`, Пересопницьке Євангеліє (1556–1561) у `VOL_renaissance_court`. Галичина: солеварні Дрогобича й Долини в `hlc_carpathian_bulwark`, Львівське Успенське братство в `hlc_confessional_compact`. Поділля: Чорний і Кучманський шляхи в `PDL_fortify_podillia` та `PDL_withstand_ottoman_threat`, чотири громади Кам'янця в `PDL_kamianets_capital` і `PDL_kamianets_development`. |
+
+Нові описи лише в англійських файлах; переклади не чіпано (див. нижче).
+
+Перетини рядків для однієї країни (`mission.cpp:353`). Статичний підрахунок
+знайшов два перетини у `VOL` з походженням `HLC`: колонка 4, рядок 8
+(`VOL_far_north` проти `hlc_constitutional_settlement`; саме його рушій
+називав у старих журналах) і колонка 3, рядок 6 (`VOL_conquer_smolensk` проти
+`hlc_halych_sejm_mission`). Галицькі спадкові місії тепер стоять у колонці 4
+на рядках 5–7, а `hlc_halych_sejm_mission` — на рядку 8 колонки 3.
+
+Спроба живої перевірки (20 листопада 2026): EU4 1.37.5 запускався з ізольованого
+профілю для `HLC`, `VLN`, `PDL`, а також для `VOL` (з обох походжень) і `UKR`
+через події-фікстури. Кампанія не дійшла до гри: журнал зупинився на
+`SetReligiousSchoolEffect`, стартові вікна чекали кліків, `auto_run` не
+виконався, а події-фікстури (`RIPH`) не спрацювали. Тож рядків
+`mission.cpp:353` у цих журналах немає, але місії для жодної країни ще не
+складалися, і це **не** доводить їх відсутності. Видимість місій теж не
+перевірена. У журналах `VLN` помічено потік `has_reform ... wrong scope`
+(близько 280 тис. рядків проти 2 тис. у `HLC`/`PDL`) під час завантаження;
+джерело не з'ясовано, до цих правок воно не звірялося з чистим `HEAD`.
+
+Не виправлено й не підтверджено:
+
+- Серії `zzz_*` для `VLN`/`HLC` досі оголошують позиції 1–4 та 6–8 у колонках,
+  які у `VOL` уже зайняті спільними рядками. Попередження
+  `mission.cpp:353` (`Non-generic mission series ... overlapping`) у старих
+  журналах `diagnostics/gc_pacing_20260929` свідчить, що рушій зміщує такі
+  серії автоматично, але результат для `VOL`, сформованої з `VLN`/`HLC`, слід
+  підтвердити запуском гри. Дублі `VLN_ruthenian_renaissance` проти
+  `VOL_renaissance_mission` та `VLN_carpathian_bulwark` проти `HLC` лишаються.
+- Переклади (`localisation/replace/*_french|german|spanish`) не оновлено: їх
+  веде перекладач, а `check_localisation_replace_layout.py` фіксує дайджести.
+  Англійський текст змінено у `RIP_VOL_realm_l_english.yml` і
+  `RIP_VLN_realm_l_english.yml`.
+- Баланс чисел (мінус 10% і плюс 10% ефективності) не міряно в грі.
+
 ## Перевірки й межі підтвердження
 
 - `tests/check_volhynia_missions.py`, `tests/check_volhynia_historical_routes.py`,
