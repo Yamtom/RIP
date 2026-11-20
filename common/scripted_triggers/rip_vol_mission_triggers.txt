@@ -1,10 +1,17 @@
-# Province scope: a voluntary Galician partner retains its own territory.
+# Province scope: a voluntary Galician or Volhynian partner retains its own territory.
 rip_vol_partner_holds_province = {
 	OR = {
 		country_or_non_sovereign_subject_holds = ROOT
 		AND = {
 			ROOT = { alliance_with = HLC }
 			country_or_non_sovereign_subject_holds = HLC
+		}
+		AND = {
+			ROOT = {
+				tag = HLC
+				alliance_with = VLN
+			}
+			country_or_non_sovereign_subject_holds = VLN
 		}
 	}
 }

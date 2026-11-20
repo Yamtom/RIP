@@ -234,6 +234,15 @@ def main() -> int:
     assert "NOT = { has_building = barracks } NOT = { has_building = training_fields }" in khotyn_fort_eff
     assert "center_of_trade = 1" in khotyn_fort_eff
 
+    # 8c. PDL_unite_podillia grants useful state-building rewards instead of accepting primary culture ruthenian.
+    unite_pdl_eff = normalized(named_block(named_block(source, "PDL_unite_podillia"), "effect"))
+    assert "add_accepted_culture = ruthenian" not in unite_pdl_eff
+    assert (
+        "add_adm_power = 50" in unite_pdl_eff
+        and "add_dip_power = 50" in unite_pdl_eff
+        and "add_nationalism = -5" in unite_pdl_eff
+    )
+
     # 9. Mission titles must fit EU4's 2-line mission scroll banner (vic_18, maxWidth 90).
     vanilla = vanilla_root()
     if vanilla and (vanilla / "gfx/fonts/vic_18.fnt").is_file():
