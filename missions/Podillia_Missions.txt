@@ -85,13 +85,26 @@ PDL_missions_1_carpathian = {
 			province_id = 281
 			OR = {
 				NOT = { owned_by = ROOT }
-				NOT = { has_building = fort_17th }
+				AND = {
+					NOT = { has_building = fort_16th }
+					NOT = { has_building = fort_17th }
+					NOT = { has_building = fort_18th }
+				}
 			}
 		}
 
+		# fort_17th only unlocks around 1648, which stalled the whole first
+		# column behind this row for two centuries; the Khotyn of 1621 was a
+		# sixteenth-century trace italienne anyway.
 		trigger = {
-			281 = { owned_by = ROOT }
-			281 = { has_building = fort_17th }
+			281 = {
+				owned_by = ROOT
+				OR = {
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
 		}
 
 		effect = {
@@ -995,8 +1008,10 @@ PDL_missions_5_culture = {
 	}
 }
 
+# Slot 6 and 7 are not drawn by the mission window (it shows columns 1-5),
+# so the Galician pair and Khotyn now sit under the columns that have room.
 PDL_missions_galician_synergy = {
-	slot = 6
+	slot = 4
 	generic = no
 	ai = yes
 	potential = {
@@ -1009,7 +1024,7 @@ PDL_missions_galician_synergy = {
 	PDL_galician_compact = {
 		icon = mission_alliances
 		required_missions = { }
-		position = 3
+		position = 5
 
 		trigger = {
 			exists = HLC
@@ -1030,7 +1045,7 @@ PDL_missions_galician_synergy = {
 	PDL_trade_corridor = {
 		icon = mission_dominate_home_trade_node
 		required_missions = { PDL_galician_compact }
-		position = 4
+		position = 6
 
 		trigger = {
 			has_country_flag = pdl_galician_compact
@@ -1050,7 +1065,7 @@ PDL_missions_galician_synergy = {
 }
 
 PDL_historical_khotyn_battle = {
-	slot = 7
+	slot = 5
 	generic = no
 	ai = yes
 	potential = {
@@ -1062,7 +1077,7 @@ PDL_historical_khotyn_battle = {
 	PDL_khotyn_siege = {
 		icon = mission_cannons_firing
 		required_missions = { }
-		position = 3
+		position = 5
 
 		provinces_to_highlight = {
 			province_id = 281

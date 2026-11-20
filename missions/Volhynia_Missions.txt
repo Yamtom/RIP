@@ -628,10 +628,29 @@ VOL_polish_constitutional_path_slot4 = {
 		}
 	}
 
+}
+
+# The Ostroh Academy and Bible are the cultural centrepiece of Volhynia, so
+# they belong to both development paths. They used to sit in the constitutional
+# series above, which meant an imperial (Austrian) realm could never found
+# them. Only the Sejm gate stays path-specific (see university_expansion).
+VOL_ostroh_enlightenment_slot4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		tag = VOL
+		OR = {
+			west_ukraine_austrian_path = yes
+			west_ukraine_constitutional_path = yes
+		}
+	}
+	has_country_shield = yes
+
 	VOL_university_expansion = {
 		icon = mission_early_modern_university
 		position = 12
-		required_missions = { VOL_church_relations VOL_establish_sejm }
+		required_missions = { VOL_choose_development_path }
 		provinces_to_highlight = {
 			province_id = 2962
 			OR = {
@@ -645,6 +664,15 @@ VOL_polish_constitutional_path_slot4 = {
 			}
 		}
 		trigger = {
+			# Constitutional realms still need the Sejm that funds the college;
+			# imperial realms found it by court patronage instead.
+			OR = {
+				west_ukraine_austrian_path = yes
+				custom_trigger_tooltip = {
+					tooltip = vol_sejm_established_req_tt
+					vol_has_sejm_established = yes
+				}
+			}
 			owns_core_province = 2962 # Rowne (Ostroh)
 			2962 = {
 				development = 15
@@ -827,19 +855,22 @@ VOL_synergy_missions_slot5 = {
 				area = podolia_volhynia_area
 			}
 			OR = {
-				NOT = { development = 15 }
+				NOT = { development = 12 }
 				devastation = 1
 			}
 		}
 		trigger = {
+			# Eight of twelve at 12 development. Ten at 15 asked for most of the
+			# heartland to be built out before the path-choice finale, which
+			# read as a gate rather than a milestone.
 			num_of_owned_provinces_with = {
-				value = 10
+				value = 8
 				OR = {
 					area = volhynia_area
 					area = red_ruthenia_area
 					area = podolia_volhynia_area
 				}
-				development = 15
+				development = 12
 				NOT = { devastation = 1 }
 			}
 		}
@@ -959,7 +990,10 @@ VOL_synergy_missions_slot5 = {
 					AND = {
 						west_ukraine_austrian_path = yes
 						OR = { num_of_royal_marriages = 3 diplomatic_reputation = 3 }
-						num_of_subjects = 3
+						# Two, as in VOL_balance_of_power: the constitutional
+						# branch asks for no subjects at all, so a third
+						# vassal was a pure surcharge on the imperial path.
+						num_of_subjects = 2
 					}
 					AND = {
 						west_ukraine_constitutional_path = yes

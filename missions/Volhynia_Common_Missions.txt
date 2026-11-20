@@ -643,7 +643,10 @@ VOL_missions_5 = {
 		required_missions = { VOL_renaissance_mission }
 		position = 2
 		provinces_to_highlight = {
-			province_id = 261
+			OR = {
+				province_id = 261
+				province_id = 4541 # Drohobycz, the brine pits
+			}
 		}
 		trigger = {
 			261 = {
@@ -658,7 +661,12 @@ VOL_missions_5 = {
 					has_building = workshop
 					has_building = counting_house
 				}
+				# A trade depot only becomes buildable around 1622, which parked
+				# the whole second row (and everything behind it) for two hundred
+				# years. A marketplace is enough for the caravan charter; the
+				# depot and the exchange still count.
 				OR = {
+					has_building = marketplace
 					has_building = trade_depot
 					has_building = stock_exchange
 				}
@@ -669,6 +677,16 @@ VOL_missions_5 = {
 				add_province_modifier = {
 					name = VOL_chumak_modifier
 					duration = -1
+				}
+			}
+			# The salt pans of Drohobych feed the same road.
+			4541 = {
+				if = {
+					limit = { owned_by = ROOT }
+					add_province_modifier = {
+						name = VOL_chumak_modifier
+						duration = -1
+					}
 				}
 			}
 		}
