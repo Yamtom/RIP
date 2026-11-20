@@ -21,15 +21,14 @@ EU4 or in this mod and says what the reform is:
     zaz_free_host            mission_cossack_cavalry        a rider charging under a storm sky
     zaz_sich_brotherhood     startup image of the Cossacks  the circle at the rada table, the quill and the paper
     het_starshyna_oligarchy  DLC banner "The Cossacks"      a grey-capped elder beside a crested officer
-    het_academy_enlightenment mission_early_modern_university  a university courtyard and its dome, read as the Kyiv academy
     zaz_last_sich            great_project_zaporozhian_sich (this mod)   the timber watchtower and palisade of the Sich
 
 The Sich donor is a picture of this mod that other work may repaint, so its md5 is pinned: if it
 changes the icon is not rebuilt or verified, `STALE DONOR` says so, and the crop needs choosing again.
 
-The prompts in docs/core_ruthenia_visual_prompts.md stay the brief for a painter: none of
-the donors holds a mace, a seal ring or an astrolabe, so these are the closest existing
-pictures, not the finished art the prompts describe.
+The prompts in docs/core_ruthenia_visual_prompts.md stay the brief for a painter: none of the donors holds a mace,
+a seal ring or an astrolabe, so these are the closest existing pictures, not the finished art the prompts describe.
+The Kyiv-Mohyla academy icon is not built here any more: 14431995 replaced it with the painted master.
 
 Pipeline for one icon (all numbers below are constants, nothing is tuned by eye per icon):
 
@@ -102,8 +101,6 @@ ICONS = (
          True, (205, 75, 545, 415), "the circle round the rada table: the quill, the paper, the oath"),
     Icon("het_starshyna_oligarchy", "gfx/dlc_pictures/dlc046_the_cossacks_banner.dds",
          True, (398, 52, 538, 192), "a grey-capped elder beside a crested officer: the senior ranks"),
-    Icon("het_academy_enlightenment", "gfx/interface/missions/mission_early_modern_university.dds",
-         True, (0, 4, 59, 63), "a university courtyard and its dome, read as the Kyiv academy"),
     Icon("zaz_last_sich", "gfx/interface/great_projects/great_project_zaporozhian_sich.dds",
          False, (176, 31, 290, 145), "the log watchtower and palisade of the Sich, below the monument plaque",
          md5="1d0ee7952fbdf6137b5beda7ca10f013"),
@@ -267,9 +264,9 @@ def confessional_balance(game: Path) -> Image.Image:
 # The Rada of Three Estates (tools/build_kru_rada.py): one government, six reform ids, one for each ordered pair
 # (second by influence, dominant). The icon shows the two emblems of the faction emblems, the dominant one large.
 RADA_EMBLEMS = {  # faction -> (md5 of gfx/interface/rip_government/faction_<key>.dds, background of the card when it leads)
-    "knyazi": ("382fc68a703493e48f49e796c15a0445", (96, 30, 38)),
-    "boyary": ("7b8553cc2ab53d966b6ee2237a8bd6ae", (30, 58, 62)),
-    "starshyna": ("6fccbdcfeb0c67e68d564e1ad8431da8", (74, 38, 30)),
+    "knyazi": ("3d34efd0e7e66c102262b6b990e060db", (96, 30, 38)),
+    "boyary": ("5524d83042f61c86b2edc0674d793037", (30, 58, 62)),
+    "starshyna": ("7f94ac517aa0947f83540f39449e6fd9", (74, 38, 30)),
 }
 RADA_PAIRS = (  # (second, dominant): the order of build_kru_rada.PAIRS
     ("boyary", "knyazi"), ("starshyna", "knyazi"), ("knyazi", "boyary"),
