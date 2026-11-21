@@ -49,11 +49,30 @@ ruthenian_principality_reform = {
 # Merchant Republic"), create a trading city, have this reform accepted as the
 # city's, and fire the hook for it.
 #
+# The first is trade_city_reform, the engine hook that fires when a country turns
+# a province into a trading city: kyivan_rus_reform and kyivan_shogunate_reform
+# both carry it under Mare Nostrum, so Kyivan Rus makes a trading city and the
+# new country is born an appanage; the event kyiv_trade_cities.1
+# (events/RIP_KIE_KyivTradeCities.txt, booked by on_province_owner_change in
+# common/on_actions/RIP_KIE_on_actions.txt) then makes it the founder's udil
+# (a princedom, or a senior_udil under the Seniorate). This is the original design
+# of the mod, restored on the author's instruction after the 1512b9da rebalance
+# had taken it out of the Seniorate. Measured in 1.37.5 (2026-11-21, in the game):
+# both reforms give the country can_form_trade_league and leave
+# is_merchant_republic = no, and that is enough - a Kyivan Rus country that leads
+# a Trade League gets the "Create Trading City" button on its provinces, whose
+# tooltip and confirmation dialog show this very reform. The engine fires neither
+# on_country_released nor on_create_client_state for the new country, and at the
+# change of owner of its capital the country holds no reform yet, so the hook
+# listens for that change and books the event for the next day.
+#
 # The second grant site is rip_grant_the_udil in
 # common/new_diplomatic_actions/RIP_KIE_diplomatic_actions.txt, which turns
 # an ordinary vassal into an udil - the subject type from
 # common/subject_types/RIP_shared_ruthenian_subject_types.txt and this government together.
 # Once a kyiv_path_* reform replaces kyivan_rus_reform, the first site is gone with it.
+# common/subject_types/RIP_shared_ruthenian_subject_types.txt and this government
+# together. That one needs no league.
 #
 # The payload used to be the trading city's - trade efficiency, burgher influence,
 # plutocratic ideas, the free city icon - because that is where it came from. It

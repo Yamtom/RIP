@@ -212,7 +212,24 @@ def source_contracts():
     for key in ("monarch_admin_power", "monarch_military_power", "administrative_efficiency", "all_power_cost"):
         assert not re.search(rf"\b{key}\s*=", normalized(reforms)), f"unbudgeted high-impact modifier: {key}"
     assert "cossacks_mechanic" not in named_block(reforms, "siversk_veche_reform")
-    assert "trade_city_reform" not in named_block(reforms, "kyivan_shogunate_reform")
+    # Trading cities are the udil's birth: the early design, restored on the author's instruction
+    # (it had been removed from the Seniorate by the 1512b9da rebalance). Both Kyivan reforms hand the
+    # new city principality_appanage under each Mare Nostrum DLC branch, and an event makes it a subject:
+    # senior_udil under the Seniorate, princedom under the Rus reform.
+    for reform in ("kyivan_rus_reform", "kyivan_shogunate_reform"):
+        granted = re.findall(r"trade_city_reform\s*=\s*principality_appanage", normalized(named_block(reforms, reform)))
+        assert len(granted) == 2, f"{reform} must grant principality_appanage in both Mare Nostrum branches"
+    # The engine fires neither on_country_released nor on_create_client_state for a trading city (measured in
+    # 1.37.5), only on_province_owner_change, and at that moment the new country has no reform yet. So the hook
+    # books an event for the next day and the event makes the udil.
+    booking = normalized(named_block(read("common/on_actions/RIP_KIE_on_actions.txt"), "on_province_owner_change"))
+    for needle in ("is_trade_league_leader = yes", "has_reform = kyivan_rus_reform",
+                   "has_reform = kyivan_shogunate_reform", "id = kyiv_trade_cities.1", "days = 1"):
+        assert needle in booking, f"on_province_owner_change lost {needle}"
+    udil_event = normalized(named_block(read("events/RIP_KIE_KyivTradeCities.txt"), "country_event"))
+    for needle in ("has_reform = principality_appanage", "is_in_trade_league = yes", "subject_type = senior_udil",
+                   "subject_type = princedom", "name = rip_held_as_an_udil", "rip_recalculate_the_rota_effect = yes"):
+        assert needle in udil_event, f"kyiv_trade_cities.1 lost {needle}"
     # Grain production had two multiplicative layers: keep only local goods.
     assert "global_trade_goods_size_modifier" not in named_block(reforms, "chr_grain_directorate_reform")
     grain = named_block(read("common/event_modifiers/RIP_CHR_modifiers.txt"), "chr_grain_directorate_province")

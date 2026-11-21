@@ -118,12 +118,16 @@ kyivan_shogunate_reform = {
 		}
 		can_use_trade_post = yes
 	}
+	# The Seniorate hands its trading cities out as seats too: the new city is
+	# born with principality_appanage and the event kyiv_trade_cities.1
+	# (events/RIP_KIE_KyivTradeCities.txt) turns it into a senior_udil.
 	conditional = {
 		allow = {
 			has_dlc = "Mare Nostrum"
 			NOT = { has_dlc = "Res Publica" }
 		}
 		can_form_trade_league = yes
+		trade_city_reform = principality_appanage
 	}
 	conditional = {
 		allow = {
@@ -132,6 +136,7 @@ kyivan_shogunate_reform = {
 		}
 		can_use_trade_post = yes
 		can_form_trade_league = yes
+		trade_city_reform = principality_appanage
 	}
 	# The Seniorate, not the Bakufu. shogunate_mechanic is the Japanese daimyo
 	# UI; kyivan_seniorate_mechanic works the senior_udil subjects - the rota,
