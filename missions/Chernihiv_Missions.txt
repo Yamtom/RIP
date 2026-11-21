@@ -998,7 +998,7 @@ chr_missions_2_2 = {
 
 	chr_Astrakhan = {
 		icon = mission_conquer_50_development
-		required_missions = { chr_Azov chr_grain_cartel_charters }
+		required_missions = { chr_Azov chr_grain_guild_charters }
 		position = 18
 		provinces_to_highlight = {
 			area = astrakhan_area
@@ -1183,17 +1183,6 @@ chr_missions_3 = {
 				duration = 9125
 			}
 			add_years_of_income = 1.5
-			east_dniepr_area = {
-				limit = {
-					NOT = {
-						is_core = ROOT
-					}
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
 		}
 	}
 
@@ -1398,13 +1387,13 @@ chr_missions_3 = {
 		}
 	}
 
-	chr_grain_cartel_charters = {
+	chr_grain_guild_charters = {
 		icon = mission_dominate_home_trade_node
 		required_missions = { chr_black_soil_silos }
 		position = 17
 		trigger = {
 			custom_trigger_tooltip = {
-				tooltip = chr_grain_cartel_workshops_tt
+				tooltip = chr_grain_guild_workshops_tt
 				calc_true_if = {
 					all_owned_province = {
 						OR = {
@@ -1417,7 +1406,7 @@ chr_missions_3 = {
 				}
 			}
 			custom_trigger_tooltip = {
-				tooltip = chr_grain_cartel_marketplaces_tt
+				tooltip = chr_grain_guild_marketplaces_tt
 				calc_true_if = {
 					all_owned_province = {
 						OR = {
@@ -1438,11 +1427,11 @@ chr_missions_3 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = chr_grain_cartel_charters
+				name = chr_grain_guild_charters
 				duration = 7300
 			}
 			add_country_modifier = {
-				name = chr_grain_cartel_ledgers
+				name = chr_grain_guild_ledgers
 				duration = -1
 			}
 		}
@@ -1450,7 +1439,7 @@ chr_missions_3 = {
 
 	chr_dniepr_grain_exchange = {
 		icon = mission_dominate_home_trade_node
-		required_missions = { chr_grain_cartel_charters }
+		required_missions = { chr_grain_guild_charters }
 		position = 18
 		provinces_to_highlight = {
 			OR = {
@@ -1555,7 +1544,7 @@ chr_missions_3 = {
 		}
 	}
 
-	chr_agro_hypercorporation = {
+	chr_grain_consortium_charter = {
 		icon = rip_gfx_mission_ruthenian_granaries_icon
 		required_missions = { chr_breadbasket_supremacy }
 		position = 20
@@ -1568,7 +1557,7 @@ chr_missions_3 = {
 				amount = 4
 			}
 			custom_trigger_tooltip = {
-				tooltip = chr_agro_hypercorporation_exchange_tt
+				tooltip = chr_grain_consortium_charter_fair_tt
 				calc_true_if = {
 					all_owned_province = {
 						has_province_modifier = chr_sloboda_exchange_province
@@ -1579,7 +1568,7 @@ chr_missions_3 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = chr_agro_hypercorporation
+				name = chr_grain_consortium_charter
 				duration = 18250
 			}
 			if = {
@@ -1601,7 +1590,7 @@ chr_missions_3 = {
 				add_permanent_claim = ROOT
 			}
 			hidden_effect = {
-				set_country_flag = chr_agro_hypercorp_complete
+				set_country_flag = chr_grain_consortium_complete
 			}
 		}
 	}
@@ -2364,7 +2353,7 @@ chr_missions_5 = {
 		icon = mission_rule_ruthenia
 		required_missions = {
 			chr_unite_home_region
-			chr_grain_cartel_charters
+			chr_grain_guild_charters
 		}
 		position = 18
 		provinces_to_highlight = {

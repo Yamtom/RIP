@@ -77,7 +77,7 @@ python -B tests/check_clausewitz_braces.py
 | Карпатський обряд | `uz_preserve_orthodox_faith`, `uz_orthodox_unity` | `mission_catholic_heddal_church` |
 | Переселення | `uzh_banat_colonization`, `uzh_backa_settlements` | `mission_serfdom` |
 | | `uz_great_migration` | `mission_cope_with_refugees` |
-| Зерно, сіль, торгівля | `pol_secure_grain_trade`, `uzh_agriculture`, `chr_agro_hypercorporation` | `rip_gfx_mission_ruthenian_granaries_icon` |
+| Зерно, сіль, торгівля | `pol_secure_grain_trade`, `uzh_agriculture`, `chr_grain_consortium_charter` | `rip_gfx_mission_ruthenian_granaries_icon` |
 | | `uzh_tisza_customs_convention`, `KIE_dniestr_trade_route` | `rip_gfx_mission_chumak_salt_caravan_icon` |
 | Чайки | `UKR_fleet` | `rip_gfx_mission_dnieper_chaika_icon` |
 | Фортеці та рубежі | `PDL_khotyn_siege`, `VOL_full_army`, `het_bulwark_christendom`, `uz_mukachevo_autonomy`, `chr_Smolensk`, `VOL_conquer_smolensk` | `rip_gfx_mission_frontier_fortress_icon` |
