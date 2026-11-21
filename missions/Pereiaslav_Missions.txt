@@ -23,7 +23,7 @@ prl_missions_1 = {
 				name = prl_regimental_muster
 				duration = 9125
 			}
-			east_dniepr_area = {
+			chernigov_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -492,6 +492,10 @@ prl_missions_4 = {
 		required_missions = { prl_monasteries }
 		position = 3
 		trigger = {
+			OR = {
+				is_year = 1586
+				has_institution = printing_press
+			}
 			adm_tech = 12
 			innovativeness = 10
 		}
@@ -509,11 +513,15 @@ prl_missions_4 = {
 		icon = mission_develop_kiev
 		required_missions = { prl_brotherhood_schools }
 		position = 4
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = { religion = ROOT }
+		}
 		trigger = {
-			religious_unity = 1
+			religious_unity = 0.90
 			num_of_owned_provinces_with = {
 				value = 10
-				religion = orthodox
+				religion = ROOT
 			}
 		}
 		effect = {
@@ -551,8 +559,8 @@ prl_missions_4 = {
 				value = 3
 			}
 			OR = {
-				has_institution = printing_press
-				adm_tech = 14
+				is_year = 1695
+				has_institution = manufactories
 			}
 		}
 		effect = {
@@ -584,6 +592,7 @@ prl_missions_5 = {
 		required_missions = { }
 		position = 1
 		trigger = {
+			prl_regimental_era = yes
 			army_tradition = 30
 			mil_power = 100
 		}

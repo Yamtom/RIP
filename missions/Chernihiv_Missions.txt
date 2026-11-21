@@ -458,8 +458,10 @@ chr_missions_2 = {
 		icon = mission_alliances
 		required_missions = { chr_building_alliances }
 		provinces_to_highlight = {
-			province_id = 1945 # Novhorod-Siverskyi
-			province_id = 4244 # Starodub
+			OR = {
+				province_id = 1945 # Novhorod-Siverskyi
+				province_id = 4244 # Starodub
+			}
 		}
 		position = 7
 		trigger = {
@@ -1190,6 +1192,10 @@ chr_missions_3 = {
 		required_missions = { chr_build_treasury }
 		position = 5
 		trigger = {
+			OR = {
+				is_year = 1700
+				has_institution = manufactories
+			}
 			custom_trigger_tooltip = {
 				tooltip = chr_left_bank_collegium_university_tt
 				calc_true_if = {
@@ -2335,6 +2341,10 @@ chr_missions_5 = {
 				AND = {
 					NOT = { religion = orthodox }
 					has_parliament = yes
+					OR = {
+						is_year = 1574
+						has_institution = printing_press
+					}
 					custom_trigger_tooltip = {
 						tooltip = chr_metropolitan_statute_tt
 						calc_true_if = {
