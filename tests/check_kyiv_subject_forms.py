@@ -10,7 +10,7 @@ Static only: it reads text, it does not prove any of those paths fires in the ga
 import re
 from pathlib import Path
 
-from clausewitz_testlib import ROOT, read
+from clausewitz_testlib import ROOT, named_block, read
 
 # file -> subject types it creates with `subject_type = ...`
 CREATION_PATHS = {
@@ -77,7 +77,18 @@ def main():
         for suffix in ("_title", "_title_plural", "_long_desc", "_is_our"):
             assert f" {subject}{suffix}:" in statehood, subject + suffix
     assert 'princedom_is_our:0 "$NAME|Y$ is our princedom."' in statehood
-    assert "мертва" in doc, "the document must keep saying that the trade-city route does not fire"
+    # The trade-city route has three links, and the document says what is unverified.
+    rus = named_block(read("common/government_reforms/RIP_KIE_KRU_government_reforms.txt"), "kyivan_rus_reform")
+    assert rus.count("trade_city_reform = principality_appanage") == 2, "kyivan_rus_reform lost its trade-city hook"
+    assert rus.count("can_form_trade_league = yes") >= 2
+    appanage = named_block(read("common/government_reforms/RIP_shared_ruthenian_government_reforms.txt"), "principality_appanage")
+    assert "has_reform = principality_appanage" in named_block(appanage, "potential"), "principality_appanage must stay script-granted"
+    hook = named_block(read("common/on_actions/RIP_KIE_on_actions.txt"), "on_country_released")
+    for needle in ("has_reform = principality_appanage", "has_reform = kyivan_rus_reform",
+                   "subject_type = princedom", "name = rip_held_as_an_udil"):
+        assert needle in hook, f"on_country_released no longer contains {needle}"
+    assert "Mare Nostrum" in doc and "is_trading_city" in doc
+    assert "мертва" not in doc, "the trade-city route was wrongly called dead; see the vanilla plutocratic_reform"
 
     assert not failures, "\n".join(failures)
 
