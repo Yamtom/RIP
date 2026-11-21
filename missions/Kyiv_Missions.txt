@@ -384,8 +384,24 @@ KIE_missions_2 = {
 			}
 		}
 		effect = {
-			add_prestige = 25
-			add_legitimacy = 20
+			if = {
+				limit = {
+					NOT = { government_rank = 3 }
+					OR = {
+						is_part_of_hre = no
+						is_emperor = yes
+					}
+				}
+				set_government_rank = 3
+			}
+			add_prestige = 50
+			add_legitimacy_equivalent = {
+				amount = 20
+				republican_tradition = 10
+			}
+			add_adm_power = 100
+			add_dip_power = 100
+			add_mil_power = 100
 			add_country_modifier = {
 				name = KIE_heir_of_rus
 				duration = -1
@@ -413,7 +429,13 @@ KIE_missions_4 = {
 		required_missions = { }
 		position = 2
 		provinces_to_highlight = {
-			owned_by = BYZ
+			OR = {
+				owned_by = BYZ
+				AND = {
+					province_id = 280
+					ROOT = { NOT = { exists = BYZ } }
+				}
+			}
 		}
 		trigger = {
 			if = {
@@ -445,6 +467,16 @@ KIE_missions_4 = {
 								}
 							}
 						}
+					}
+				}
+			}
+			else = {
+				advisor = theologian
+				280 = {
+					owned_by = ROOT
+					OR = {
+						has_building = temple
+						has_building = cathedral
 					}
 				}
 			}
@@ -485,17 +517,23 @@ KIE_missions_4 = {
 					NOT = {
 						is_strongest_trade_power = ROOT
 					}
-					province_id = 310
-				}
-				AND = {
-					NOT = {
-						is_strongest_trade_power = ROOT
-					}
 					province_id = 280
 				}
 				AND = {
 					NOT = {
-						province_trade_power = 50
+						trade_share = {
+							country = ROOT
+							share = 20
+						}
+					}
+					province_id = 262
+				}
+				AND = {
+					NOT = {
+						trade_share = {
+							country = ROOT
+							share = 25
+						}
 					}
 					province_id = 1322
 				}
@@ -505,14 +543,20 @@ KIE_missions_4 = {
 			OR = {
 				full_idea_group = trade_ideas
 				AND = {
-					310 = {
-						is_strongest_trade_power = ROOT
-					}
 					280 = {
 						is_strongest_trade_power = ROOT
 					}
+					262 = {
+						trade_share = {
+							country = ROOT
+							share = 20
+						}
+					}
 					1322 = {
-						province_trade_power = 50
+						trade_share = {
+							country = ROOT
+							share = 25
+						}
 					}
 				}
 			}
@@ -549,7 +593,7 @@ KIE_missions_4 = {
 			has_estate = estate_burghers
 			num_of_owned_provinces_with = {
 				value = 6
-				has_building = marketplace
+				OR = { has_building = marketplace has_building = trade_depot has_building = stock_exchange }
 			}
 			any_owned_province = {
 				province_has_center_of_trade_of_level = 2
@@ -568,13 +612,18 @@ KIE_missions_4 = {
 		icon = mission_protect_white_sea_trade
 		required_missions = { KIE_trade_houses }
 		position = 7
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				region = ruthenia_region
+				area = red_ruthenia_area
+			}
+			province_has_center_of_trade_of_level = 1
+			NOT = { has_province_modifier = KIE_free_trade_city }
+		}
 		trigger = {
 			has_estate = estate_burghers
 			estate_influence = { estate = estate_burghers influence = 60 }
-			OR = {
-				has_reform = kyivan_shogunate_reform
-				has_country_flag = kyiv_path_shogunate
-			}
 			any_owned_province = {
 				OR = {
 					region = ruthenia_region

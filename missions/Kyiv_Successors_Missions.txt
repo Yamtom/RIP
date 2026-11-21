@@ -173,20 +173,22 @@ UKR_missions_1 = {
 		required_missions = { UKR_novgorod }
 		provinces_to_highlight = {
 			region = scandinavia_region
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+			has_port = yes
 		}
 		trigger = {
-			scandinavia_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			OR = {
+				num_of_owned_provinces_with = { value = 3 region = scandinavia_region has_port = yes }
+				any_ally = {
+					has_opinion = { who = ROOT value = 150 }
+					num_of_owned_provinces_with = { value = 3 region = scandinavia_region has_port = yes }
+				}
 			}
 		}
 		effect = {
 			add_prestige = 15
 			add_legitimacy = 15
 			scandinavia_region = {
+				limit = { owned_by = ROOT has_port = yes }
 				add_province_modifier = {
 					name = "KIE_scandinavia"
 					duration = 7300
@@ -520,8 +522,8 @@ UKR_missions_3 = {
 			}
 		}
 		trigger = {
-			all_owned_province = {
-				area = thrace_area
+			thrace_area = {
+				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 			owns = 151
@@ -710,18 +712,7 @@ UKR_missions_4 = {
 		}
 		trigger = {
 			OR = {
-				BYZ = {
-					has_opinion = {
-						who = ROOT
-						value = 180
-					}
-				}
-				TUR = {
-					has_opinion = {
-						who = ROOT
-						value = 180
-					}
-				}
+				151 = { owner = { has_opinion = { who = ROOT value = 180 } } }
 				151 = {
 					controlled_by = ROOT
 				}
@@ -843,11 +834,17 @@ UKR_missions_5 = {
 		position = 6
 		required_missions = { KIE_cossack }
 		trigger = {
-			all_owned_province = {
+			yedisan_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
 				OR = {
-					area = yedisan_area
-					area = sloboda_ukraine_area
+					culture = ruthenian
+					culture = ruthenian_west_ruthenian
+					culture = ruthenian_west_slavic
 				}
+			}
+			sloboda_ukraine_area = {
+				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 				OR = {
 					culture = ruthenian
@@ -988,17 +985,26 @@ UKR_missions_5 = {
 			astrakhan_area = {
 				type = all
 				controlled_by = ROOT
-				development = 70
 			}
 			lower_don_area = {
 				type = all
 				controlled_by = ROOT
-				development = 70
 			}
 			sloboda_ukraine_area = {
 				type = all
 				controlled_by = ROOT
-				development = 70
+			}
+			development_in_provinces = {
+				area = astrakhan_area
+				value = 70
+			}
+			development_in_provinces = {
+				area = lower_don_area
+				value = 70
+			}
+			development_in_provinces = {
+				area = sloboda_ukraine_area
+				value = 70
 			}
 			2409 = {
 				OR = {
