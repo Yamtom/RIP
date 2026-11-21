@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
-    "00_country_ideas.txt": ("KIE_ideas",),
+    "00_country_ideas.txt": ("KIE_ideas", "CHR_ideas", "ZAZ_ideas"),
     "zz_group_ideas.txt": ("ruthenian_ideas", "cossack_ideas"),
 }
 
