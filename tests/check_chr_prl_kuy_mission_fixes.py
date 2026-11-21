@@ -226,6 +226,16 @@ def check_chr_border_compacts_highlight() -> None:
     assert "province_id = 4244" in or_block
 
 
+def check_chr_crimean_compact_routes() -> None:
+    mission = named_block(read("missions/Chernihiv_Missions.txt"), "chr_crimean_compact_mission")
+    trigger = named_block(mission, "trigger")
+    assert "has_country_flag = chr_ruina_path_crimea" in normalized(_top_level_body(trigger))
+    routes = named_block(trigger, "OR")
+    assert "alliance_with = CRI" in normalized(named_block(routes, "custom_trigger_tooltip"))
+    assert "crimea_area = { type = all owned_by = ROOT is_core = ROOT }" in normalized(routes)
+    assert "CRI" not in _top_level_body(trigger) + _top_level_body(routes)
+
+
 def main() -> int:
     check_prl_build_army()
     check_prl_orthodox_leadership()
@@ -233,6 +243,7 @@ def main() -> int:
     check_kuy_steppe_granary()
     check_kuy_chronicle_rework()
     check_chr_border_compacts_highlight()
+    check_chr_crimean_compact_routes()
     print(
         "CHR/PRL/KUY MISSION FIXES PASS: prl_build_army claims chernigov_area, "
         "prl_orthodox_leadership uses 0.90 unity + religion = ROOT, "

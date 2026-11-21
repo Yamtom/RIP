@@ -2230,15 +2230,22 @@ chr_missions_4 = {
 		position = 18
 		trigger = {
 			has_country_flag = chr_ruina_path_crimea
-			custom_trigger_tooltip = {
-				tooltip = chr_crimean_compact_tt
-				AND = {
-					exists = CRI
-					alliance_with = CRI
-					CRI = {
-						has_opinion = { who = ROOT value = 100 }
-						trust = { who = ROOT value = 50 }
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = chr_crimean_compact_tt
+					AND = {
+						exists = CRI
+						alliance_with = CRI
+						CRI = {
+							has_opinion = { who = ROOT value = 100 }
+							trust = { who = ROOT value = 50 }
+						}
 					}
+				}
+				crimea_area = {
+					type = all
+					owned_by = ROOT
+					is_core = ROOT
 				}
 			}
 		}
