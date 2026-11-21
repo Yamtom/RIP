@@ -19,6 +19,7 @@ scripts = [
     "tests/check_colonial_names.py",
     "tests/check_clausewitz_braces.py",
     "tests/check_mission_coordinates.py",
+    "tests/check_kyiv_mission_layout.py",
     "tests/check_hidden_events.py",
     "tests/check_religion_icon_frames.py",
     "tests/check_ro_blessing_window.py",

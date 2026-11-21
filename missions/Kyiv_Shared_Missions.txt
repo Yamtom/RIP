@@ -453,8 +453,8 @@ KIE_missions_5 = {
 
 	KIE_stability = {
 		icon = mission_conquer_5_states
-		position = 1
-		required_missions = { }
+		position = 2
+		required_missions = { KIE_true_ruler }
 		trigger = {
 			stability = 2
 		}
@@ -470,7 +470,7 @@ KIE_missions_5 = {
 	KIE_magdeburg_law = {
 		icon = mission_ukr_magdeburg_laws
 		position = 3
-		required_missions = { KIE_secure_kyiv }
+		required_missions = { KIE_secure_kyiv KIE_stability }
 		provinces_to_highlight = {
 			province_id = 280
 		}
@@ -529,7 +529,7 @@ KIE_missions_5 = {
 	KIE_cossack = {
 		icon = mission_recruit_the_cossacks
 		position = 5
-		required_missions = { KIE_friend_or_foe }
+		required_missions = { KIE_consolidate }
 		trigger = {
 			num_of_cavalry = 10
 		}
@@ -555,7 +555,7 @@ KIE_missions_5 = {
 	KIE_dnieper_settlement = {
 		icon = mission_advance_to_the_dnieper
 		position = 6
-		required_missions = { KIE_cossack KIE_brotherhood_schools }
+		required_missions = { KIE_cossack }
 		provinces_to_highlight = {
 			OR = {
 				area = east_dniepr_area
