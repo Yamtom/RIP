@@ -520,8 +520,8 @@ UKR_missions_3 = {
 			}
 		}
 		trigger = {
-			all_owned_province = {
-				area = thrace_area
+			thrace_area = {
+				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 			owns = 151
@@ -843,11 +843,17 @@ UKR_missions_5 = {
 		position = 6
 		required_missions = { KIE_cossack }
 		trigger = {
-			all_owned_province = {
+			yedisan_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
 				OR = {
-					area = yedisan_area
-					area = sloboda_ukraine_area
+					culture = ruthenian
+					culture = ruthenian_west_ruthenian
+					culture = ruthenian_west_slavic
 				}
+			}
+			sloboda_ukraine_area = {
+				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 				OR = {
 					culture = ruthenian
@@ -985,20 +991,31 @@ UKR_missions_5 = {
 			}
 		}
 		trigger = {
+			# Area totals (about 10 development per province). A per-province
+			# `development = 70` under `type = all` could never be met on the steppe.
 			astrakhan_area = {
 				type = all
 				controlled_by = ROOT
-				development = 70
+			}
+			development_in_provinces = {
+				value = 50
+				area = astrakhan_area
 			}
 			lower_don_area = {
 				type = all
 				controlled_by = ROOT
-				development = 70
+			}
+			development_in_provinces = {
+				value = 40
+				area = lower_don_area
 			}
 			sloboda_ukraine_area = {
 				type = all
 				controlled_by = ROOT
-				development = 70
+			}
+			development_in_provinces = {
+				value = 40
+				area = sloboda_ukraine_area
 			}
 			2409 = {
 				OR = {

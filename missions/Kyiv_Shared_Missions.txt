@@ -112,22 +112,9 @@ KIE_missions_3 = {
 					stability = 1
 				}
 			}
-			OR = {
-				AND = {
-					exists = VOL
-					VOL = {
-						is_free_or_tributary_trigger = yes
-						is_neighbor_of = ROOT
-					}
-				}
-				AND = {
-					exists = VLN
-					VLN = {
-						is_free_or_tributary_trigger = yes
-						is_neighbor_of = ROOT
-					}
-				}
-			}
+			# The Volhynian neighbour only decides which casus belli is granted
+			# (see effect). It must not gate the root: if Volhynia is annexed or
+			# subjugated by someone else, columns 1-3 would stay locked forever.
 			has_institution = renaissance
 		}
 		effect = {
@@ -221,7 +208,7 @@ KIE_missions_3 = {
 					}
 					OR = {
 						exists = GLH
-						exists = GLH
+						exists = GOL
 					}
 				}
 			}

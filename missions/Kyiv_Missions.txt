@@ -495,9 +495,9 @@ KIE_missions_4 = {
 				}
 				AND = {
 					NOT = {
-						province_trade_power = 50
+						is_strongest_trade_power = ROOT
 					}
-					province_id = 1322
+					province_id = 282
 				}
 			}
 		}
@@ -511,8 +511,8 @@ KIE_missions_4 = {
 					280 = {
 						is_strongest_trade_power = ROOT
 					}
-					1322 = {
-						province_trade_power = 50
+					282 = {
+						is_strongest_trade_power = ROOT
 					}
 				}
 			}
@@ -571,9 +571,12 @@ KIE_missions_4 = {
 		trigger = {
 			has_estate = estate_burghers
 			estate_influence = { estate = estate_burghers influence = 60 }
-			OR = {
-				has_reform = kyivan_shogunate_reform
-				has_country_flag = kyiv_path_shogunate
+			custom_trigger_tooltip = {
+				tooltip = KIE_free_trade_cities_path_tt
+				OR = {
+					has_reform = kyivan_shogunate_reform
+					has_country_flag = kyiv_path_shogunate
+				}
 			}
 			any_owned_province = {
 				OR = {
