@@ -1704,6 +1704,161 @@ chr_missions_4 = {
 		}
 	}
 
+	chr_siversk_sloboda_frontier = {
+		icon = mission_lit_harness_steppes
+		required_missions = { chr_independence }
+		position = 3
+		provinces_to_highlight = {
+			OR = {
+				area = sloboda_ukraine_area
+				province_id = 4543
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			sloboda_ukraine_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			4543 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			if = {
+				limit = { has_estate = estate_cossacks }
+				add_estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 10
+				}
+			}
+			else = {
+				add_army_tradition = 10
+			}
+			4543 = {
+				if = {
+					limit = { owned_by = ROOT }
+					add_base_manpower = 2
+					add_base_production = 1
+				}
+			}
+			azov_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			lower_don_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			2447 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
+			}
+		}
+	}
+
+	chr_tmutarakan_inheritance = {
+		icon = mission_rule_ruthenia
+		required_missions = { chr_siversk_sloboda_frontier }
+		position = 4
+		provinces_to_highlight = {
+			OR = {
+				area = azov_area
+				area = lower_don_area
+				province_id = 2447
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			azov_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			lower_don_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2447 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			if = {
+				limit = { has_estate = estate_cossacks }
+				add_estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 10
+				}
+			}
+			else = {
+				add_army_tradition = 10
+			}
+			add_prestige_or_monarch_power = { amount = 25 }
+			2447 = {
+				if = {
+					limit = { owned_by = ROOT }
+					rename_capital = "Tmutorokan"
+					change_culture = ROOT
+					change_religion = ROOT
+					add_base_tax = 1
+					add_base_production = 1
+					add_base_manpower = 2
+					add_province_modifier = {
+						name = chr_tmutarakan_principality
+						duration = -1
+					}
+				}
+			}
+			287 = {
+				if = {
+					limit = { owned_by = ROOT }
+					add_base_manpower = 2
+					add_base_production = 1
+				}
+			}
+			286 = {
+				if = {
+					limit = {
+						owned_by = ROOT
+						trade_goods = slaves
+					}
+					change_trade_goods = grain
+					if = {
+						limit = { has_province_modifier = slave_entrepot }
+						remove_province_modifier = slave_entrepot
+					}
+				}
+			}
+			astrakhan_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			circassia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+
 	chr_belgorod_line = {
 		icon = mission_build_up_to_force_limit
 		required_missions = { chr_sloboda_charters chr_kiev_2 }
