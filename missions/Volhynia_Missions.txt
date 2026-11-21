@@ -310,6 +310,88 @@ VOL_austrian_imperial_path_slot2 = {
 	}
 }
 
+VOL_vistula_marches_slot3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		tag = VOL
+	}
+	has_country_shield = yes
+
+	VOL_vistula_marches = {
+		icon = mission_rule_ruthenia
+		position = 9
+		required_missions = { VOL_demolish_poland }
+		provinces_to_highlight = {
+			OR = {
+				area = podlasie_area
+				province_id = 260
+				province_id = 2959
+				province_id = 2960
+				province_id = 1952
+				province_id = 162
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			podlasie_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			260 = { country_or_non_sovereign_subject_holds = ROOT }
+			2959 = { country_or_non_sovereign_subject_holds = ROOT }
+			2960 = { country_or_non_sovereign_subject_holds = ROOT }
+			OR = {
+				AND = {
+					1952 = { country_or_non_sovereign_subject_holds = ROOT }
+					162 = { country_or_non_sovereign_subject_holds = ROOT }
+				}
+				malopolska_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+			}
+		}
+		effect = {
+			add_power_projection = {
+				type = mission_rewards_power_projection
+				amount = 25
+			}
+			add_country_modifier = {
+				name = vol_vistula_carpathian_march
+				duration = 9125
+			}
+			lithuania_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			samogitia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			275 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+		}
+	}
+}
+
 VOL_polish_constitutional_path_slot3 = {
 	slot = 3
 	generic = no

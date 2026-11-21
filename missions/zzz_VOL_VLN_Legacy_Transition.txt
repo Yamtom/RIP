@@ -502,6 +502,53 @@ VLN_alt_history_galician_synergy = {
 			factor = 100
 		}
 	}
+
+	VLN_ostrozkyi_patrons = {
+		icon = mission_early_modern_university
+		required_missions = { VLN_ruthenian_renaissance }
+		position = 4
+		provinces_to_highlight = {
+			province_id = 2962
+		}
+		trigger = {
+			OR = {
+				has_institution = renaissance
+				is_institution_enabled = printing_press
+			}
+			2962 = {
+				owned_by = ROOT
+				has_tax_building_trigger = yes
+				OR = {
+					has_building = university
+					num_of_times_improved = 8
+				}
+				if = {
+					limit = { has_dlc = "Mandate of Heaven" }
+					NOT = { devastation = 1 }
+				}
+			}
+		}
+		effect = {
+			2962 = {
+				if = {
+					limit = { NOT = { has_building = university } }
+					add_building = university
+				}
+				else = {
+					add_base_production = 2
+				}
+				add_base_tax = 1
+			}
+			add_prestige_or_monarch_power = { amount = 15 }
+			add_country_modifier = {
+				name = vln_ostrozkyi_patronage
+				duration = 9125
+			}
+		}
+		ai_weight = {
+			factor = 100
+		}
+	}
 }
 
 VLN_alt_history_independence_arch = {

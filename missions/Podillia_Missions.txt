@@ -669,6 +669,59 @@ PDL_missions_3_magnate = {
 			factor = 110
 		}
 	}
+
+	PDL_dniester_granaries = {
+		icon = mission_pol_breadbasket_europe
+		required_missions = { PDL_magnate_sejm }
+		position = 6
+
+		provinces_to_highlight = {
+			country_or_non_sovereign_subject_holds = ROOT
+			OR = {
+				trade_goods = grain
+				trade_goods = livestock
+			}
+			NOT = { has_production_building_trigger = yes }
+		}
+
+		trigger = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				OR = {
+					trade_goods = grain
+					trade_goods = livestock
+				}
+				has_production_building_trigger = yes
+				value = 6
+			}
+			OR = {
+				trading_part = {
+					trade_goods = grain
+					value = 0.08
+				}
+				production_leader = {
+					trade_goods = grain
+					value = yes
+				}
+				281 = {
+					owned_by = ROOT
+					base_production = 10
+				}
+			}
+		}
+
+		effect = {
+			add_country_modifier = {
+				name = pdl_dniester_granary_network
+				duration = 9125
+			}
+			add_dip_power = 50
+			add_years_of_income = 0.5
+		}
+
+		ai_weight = {
+			factor = 90
+		}
+	}
 }
 
 PDL_missions_4_expansion_column = {
@@ -1014,6 +1067,63 @@ PDL_missions_5_culture = {
 			}
 			add_adm_power = 75
 			add_prestige = 20
+		}
+
+		ai_weight = {
+			factor = 80
+		}
+	}
+
+	PDL_kamianets_magdeburg_charters = {
+		icon = mission_ukr_magdeburg_laws
+		required_missions = { PDL_cultural_renaissance }
+		position = 5
+
+		provinces_to_highlight = {
+			OR = {
+				province_id = 281
+				AND = {
+					owned_by = ROOT
+					OR = {
+						NOT = { has_trade_building_trigger = yes }
+						NOT = { development = 12 }
+					}
+				}
+			}
+		}
+
+		trigger = {
+			281 = {
+				owned_by = ROOT
+				development = 16
+				has_trade_building_trigger = yes
+			}
+			num_of_owned_provinces_with = {
+				has_trade_building_trigger = yes
+				development = 12
+				value = 4
+			}
+			if = {
+				limit = { has_estate = estate_burghers }
+				estate_loyalty = {
+					estate = estate_burghers
+					loyalty = 60
+				}
+			}
+			else = {
+				mercantilism = 15
+			}
+		}
+
+		effect = {
+			add_country_modifier = {
+				name = pdl_magdeburg_charters
+				duration = 9125
+			}
+			add_mercantilism = 3
+			281 = {
+				add_base_production = 2
+			}
 		}
 
 		ai_weight = {
