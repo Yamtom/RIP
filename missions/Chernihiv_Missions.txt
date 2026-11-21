@@ -458,8 +458,10 @@ chr_missions_2 = {
 		icon = mission_alliances
 		required_missions = { chr_building_alliances }
 		provinces_to_highlight = {
-			province_id = 1945 # Novhorod-Siverskyi
-			province_id = 4244 # Starodub
+			OR = {
+				province_id = 1945 # Novhorod-Siverskyi
+				province_id = 4244 # Starodub
+			}
 		}
 		position = 7
 		trigger = {
@@ -1024,23 +1026,14 @@ chr_missions_2_2 = {
 		required_missions = { chr_Azov }
 		position = 17
 		trigger = {
-			custom_trigger_tooltip = {
-				tooltip = trade_company_region_abroad_tooltip
-				calc_true_if = {
-					all_trade_node = {
-						calc_true_if = {
-							all_trade_node_member_province = {
-								owned_by = ROOT
-								is_node_in_trade_company_region = yes
-								NOT = {
-									continent = CAPITAL
-								}
-							}
-							amount = 5
-						}
+			calc_true_if = {
+				all_trade_node = {
+					trade_share = {
+						country = ROOT
+						share = 10
 					}
-					amount = 3
 				}
+				amount = 3
 			}
 		}
 		effect = {
@@ -1411,7 +1404,10 @@ chr_missions_3 = {
 				tooltip = chr_black_soil_silos_modules_tt
 				calc_true_if = {
 					all_owned_province = {
-						has_province_modifier = chr_sloboda_farm_lvl1
+						OR = {
+							has_province_modifier = chr_sloboda_farm_lvl1
+							has_province_modifier = chr_sloboda_farm_lvl2
+						}
 					}
 					amount = 4
 				}
@@ -1487,7 +1483,7 @@ chr_missions_3 = {
 			home_trade_node = {
 				trade_share = {
 					country = ROOT
-					share = 0.5
+					share = 50
 				}
 			}
 		}
@@ -1528,7 +1524,7 @@ chr_missions_3 = {
 			home_trade_node = {
 				trade_share = {
 					country = ROOT
-					share = 0.55
+					share = 55
 				}
 			}
 			custom_trigger_tooltip = {
@@ -1620,7 +1616,7 @@ chr_missions_3 = {
 				all_owned_province = {
 					has_province_modifier = chr_sloboda_farm_lvl2
 				}
-				amount = 5
+				amount = 4
 			}
 			custom_trigger_tooltip = {
 				tooltip = chr_agro_hypercorporation_exchange_tt
@@ -2431,7 +2427,6 @@ chr_missions_5 = {
 		icon = mission_rule_ruthenia
 		required_missions = {
 			chr_unite_home_region
-			chr_crimean_compact_mission
 			chr_grain_cartel_charters
 		}
 		position = 18
