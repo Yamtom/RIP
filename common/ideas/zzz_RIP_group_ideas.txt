@@ -1,5 +1,4 @@
-# Loaded after vanilla zz_group_ideas.txt so these override the vanilla
-# culture-group and cossack idea sets rather than competing with them.
+# The same-path vanilla override delegates both groups to this file.
 
 ruthenian_ideas = {
 	start = {
@@ -15,6 +14,7 @@ ruthenian_ideas = {
 		# Chernihiv has its own CHR_ideas set; keep it out of the overlapping
 		# Ruthenian culture-group set so it can never resolve to two sets.
 		NOT = { tag = CHR }
+		NOT = { tag = KIE }
 		OR = {
 			# All four, as vanilla has it. 03_scripted_effects_for_mission_rewards.txt
 			# does change_primary_culture = ruthenian_new as a mission reward, so dropping
@@ -69,6 +69,7 @@ cossack_ideas = {
 	trigger = {
 		# This set replaces the vanilla one, so it must still answer to the
 		# vanilla reform for anyone who reached it by a vanilla route.
+		NOT = { tag = KIE }
 		OR = {
 			OR = { has_reform = rip_cossacks_reform has_reform = rip_hetman_cossacks_reform }
 			has_reform = cossacks_reform
