@@ -40,7 +40,7 @@ country_event = {
 	picture = REFORM_eventPicture
 	fire_only_once = yes
 	trigger = {
-		west_ukraine_hlc_legacy_missions = yes
+		west_ukraine_hlc_heritage_missions = yes
 		# The synod follows the fortified frontier: without this gate it sat two
 		# years after the path was chosen, and its ten-year modifiers had run out
 		# before hlc_carpathian_bulwark / hlc_confessional_compact could renew them.
@@ -50,6 +50,9 @@ country_event = {
 		OR = {
 			has_country_flag = rip_galicia_path_austria
 			has_country_flag = rip_galicia_path_poland
+			# A Volhynian-origin VOL never chose a Galician path; its synod is held
+			# by the frontier mission itself.
+			tag = VOL
 		}
 		NOT = {
 			has_country_flag = rip_galicia_confessional_set
@@ -109,7 +112,7 @@ country_event = {
 	picture = REVOLUTION_eventPicture
 	fire_only_once = yes
 	trigger = {
-		west_ukraine_hlc_legacy_missions = yes
+		west_ukraine_hlc_heritage_missions = yes
 		# Same gate as rip_galicia.2: the constitution waits for the compact.
 		mission_completed = hlc_confessional_compact
 		has_country_flag = rip_galicia_confessional_set

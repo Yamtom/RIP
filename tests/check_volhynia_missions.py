@@ -7,9 +7,9 @@ from clausewitz_testlib import read, named_block, keyed_blocks, normalized, vani
 FILES = [
     "Volhynia_Common_Missions",
     "Volhynia_Conquest_Missions",
+    "Volhynia_Heritage_Missions",
     "Volhynia_Missions",
     "zzz_VOL_VLN_Legacy_Transition",
-    "zzz_Volhynia_Halych_Legacy_Missions",
 ]
 assert FILES == sorted(FILES, key=str.lower), "FILES must reflect EU4 alphabetical load order"
 
@@ -40,6 +40,11 @@ for file in FILES:
             trees[tree].append(name)
 
 
+def may_shift(file):
+    """Only the heritage file and the zzz_ legacy file are allowed to land below their declared row."""
+    return file.startswith("zzz_") or file == "Volhynia_Heritage_Missions"
+
+
 def check_eu4_layout(label, active_trees, *, allow_legacy_shift=False, max_allowed_row=None):
     """Simulate EU4 sequential per-slot series stacking and validate arrows and compactness."""
     active_set = set(active_trees)
@@ -57,7 +62,7 @@ def check_eu4_layout(label, active_trees, *, allow_legacy_shift=False, max_allow
             prev_in_series = declared_pos
             cur = slot_cursor[slot] + 1
             actual = max(cur, declared_pos)
-            if not allow_legacy_shift or not file.startswith("zzz_"):
+            if not allow_legacy_shift or not may_shift(file):
                 assert actual == declared_pos, (
                     f"{label}: {file}::{tree}::{name} declared p{declared_pos} shifted to p{actual}"
                 )
@@ -90,67 +95,98 @@ def check_eu4_layout(label, active_trees, *, allow_legacy_shift=False, max_allow
             elif p - rp > 1:
                 blockers = [grid[(s, y)] for y in range(rp + 1, p) if (s, y) in grid]
                 assert not blockers, f"{label}: blocked vertical {dep} -> {name} by {blockers}"
+    return placed
 
 
 def select(pred):
     return [t for t in ordered_trees if pred(*tree_meta[t][:3])]
 
 
-# 1. HLC standalone (must have zero empty rows, compact height, and both Halych shields).
-check_eu4_layout(
+HLC_HERITAGE = "west_ukraine_hlc_heritage_missions"
+VLN_HERITAGE = "west_ukraine_vln_heritage_missions"
+VLN_ALT = "west_ukraine_vln_alt_paths"
+
+# 1. HLC standalone: five rows, no empty row, the Galician series hangs directly under the trunk.
+hlc_placed = check_eu4_layout(
     "HLC",
     select(lambda f, s, p: any(k in p for k in (
-        "west_ukraine_shared_starter", "west_ukraine_hlc_vol_starter", "west_ukraine_hlc_legacy_missions"
+        "west_ukraine_shared_starter", "west_ukraine_hlc_vol_starter", HLC_HERITAGE
     ))),
-    max_allowed_row=8,
+    max_allowed_row=5,
 )
+assert {n: hlc_placed[n][:2] for n in (
+    "hlc_carpathian_bulwark", "hlc_confessional_compact", "hlc_constitutional_settlement", "hlc_halych_sejm_mission"
+)} == {
+    "hlc_carpathian_bulwark": (4, 3),
+    "hlc_confessional_compact": (4, 4),
+    "hlc_constitutional_settlement": (4, 5),
+    "hlc_halych_sejm_mission": (3, 5),
+}, "HLC: Galician series must sit at column 4 rows 3-5 and the Compact at column 3 row 5"
 assert "has_country_shield = yes" in tree_meta["VOL_missions_HLC"][3]
 assert "has_country_shield = yes" in tree_meta["VOL_missions_4_HLC"][3]
 
 # 2. VLN standalone (both with HLC alive and with HLC gone).
-check_eu4_layout(
+vln_placed = check_eu4_layout(
     "VLN_with_HLC",
-    select(lambda f, s, p: any(k in p for k in ("west_ukraine_vln_alt_paths", "west_ukraine_vln_legacy_missions"))),
+    select(lambda f, s, p: any(k in p for k in (VLN_ALT, VLN_HERITAGE))),
     max_allowed_row=4,
 )
+assert vln_placed["VLN_carpathian_bulwark"][:2] == (5, 1) and vln_placed["VLN_conquer_crimea"][:2] == (5, 2)
 check_eu4_layout(
     "VLN_no_HLC",
-    select(lambda f, s, p: any(k in p for k in (
-        "west_ukraine_shared_starter", "west_ukraine_vln_alt_paths", "west_ukraine_vln_legacy_missions"
-    ))),
+    select(lambda f, s, p: any(k in p for k in ("west_ukraine_shared_starter", VLN_ALT, VLN_HERITAGE))),
     allow_legacy_shift=True,
     max_allowed_row=8,
 )
 
-# 3. VOL plain, from HLC, from VLN, and combined old-save legacies on both branches.
+# 3. Halych-Volhynia. Both heritage halves are open to every VOL; a Volhynian origin adds the
+#    alt-history chains, which stack below. The heritage series must land in the gaps of the
+#    VOL grid and must not push a single VOL series loaded after them.
+VOL_HERITAGE_CELLS = {
+    "hlc_carpathian_bulwark": (4, 5),
+    "hlc_confessional_compact": (4, 6),
+    "hlc_constitutional_settlement": (4, 7),
+    "hlc_halych_sejm_mission": (3, 8),
+    "VLN_carpathian_bulwark": (5, 6),
+    "VLN_conquer_crimea": (5, 7),
+}
 for branch, excl in (("austrian", "constitutional"), ("constitutional", "austrian")):
     vol_core = lambda f, s, p, ex=excl: (
         any(k in p for k in ("west_ukraine_shared_starter", "west_ukraine_hlc_vol_starter"))
         or ("tag = VOL" in p and ex not in p)
     )
-    check_eu4_layout(f"VOL_plain_{branch}", select(vol_core), max_allowed_row=14)
-    check_eu4_layout(
-        f"VOL_from_HLC_{branch}",
-        select(lambda f, s, p: vol_core(f, s, p) or "west_ukraine_hlc_legacy_missions" in p),
-        allow_legacy_shift=True,
-        max_allowed_row=17,
-    )
-    check_eu4_layout(
-        f"VOL_from_VLN_{branch}",
-        select(lambda f, s, p: vol_core(f, s, p) or "west_ukraine_vln_" in p),
-        allow_legacy_shift=True,
-        max_allowed_row=18,
-    )
-    check_eu4_layout(
-        f"VOL_both_legacies_{branch}",
-        select(lambda f, s, p: vol_core(f, s, p) or "west_ukraine_hlc_legacy_missions" in p or "west_ukraine_vln_" in p),
-        allow_legacy_shift=True,
-        max_allowed_row=22,
-    )
+    with_heritage = lambda f, s, p: vol_core(f, s, p) or HLC_HERITAGE in p or VLN_HERITAGE in p
+    for label, pred, cap in (
+        (f"VOL_from_HLC_{branch}", with_heritage, 13),
+        (f"VOL_from_VLN_{branch}", lambda f, s, p: with_heritage(f, s, p) or VLN_ALT in p, 17),
+    ):
+        placed = check_eu4_layout(label, select(pred), allow_legacy_shift=True, max_allowed_row=cap)
+        for name, cell in VOL_HERITAGE_CELLS.items():
+            assert placed[name][:2] == cell, f"{label}: {name} at {placed[name][:2]}, expected {cell}"
+        assert placed["VOL_far_north"][:2] == (4, 8), f"{label}: far_north moved to {placed['VOL_far_north'][:2]}"
 
 # 4. UKR inheritance: retained Halych/VLN missions must not depend on absent VOL_unite_galicia.
 assert missions["hlc_halych_sejm_mission"][2] == []
 assert missions["hlc_carpathian_bulwark"][2] == []
+
+# 4b. The two halves of the frontier are paired, both open to every VOL, and the Volhynian half
+#     leads on to the Crimean campaign instead of floating beside it.
+assert "west_ukraine_hlc_heritage_missions" in tree_meta["VOL_missions_HLC"][2]
+assert "west_ukraine_hlc_heritage_missions" in tree_meta["VOL_missions_4_HLC"][2]
+assert "west_ukraine_vln_heritage_missions" in tree_meta["VLN_carpathian_prestige"][2]
+assert tree_meta["VLN_carpathian_prestige"][0] == "Volhynia_Heritage_Missions"
+assert missions["VLN_conquer_crimea"][2] == ["VLN_carpathian_bulwark"]
+vln_bulwark_trigger = normalized(named_block(missions["VLN_carpathian_bulwark"][3], "trigger"))
+assert "vol_has_eastern_path = yes" in vln_bulwark_trigger and "vln_carpathian_bulwark_fallback_req_tt" in vln_bulwark_trigger, (
+    "the Volhynian frontier supply must not be locked behind the eastern partnership path"
+)
+assert missions["VOL_far_north"][2] == ["VOL_demolish_MOS"]
+assert "mission_completed = VOL_restore_ruthenia" in normalized(named_block(missions["VOL_far_north"][3], "trigger"))
+assert missions["VOL_far_north"][4] == "VOL_missions_U_4_north"
+assert missions["VOL_old_capital"][4] == missions["VOL_restore_ruthenia"][4] == "VOL_missions_U_4"
+assert tree_meta["VOL_missions_U_4"][0] == tree_meta["VOL_missions_U_5"][0] == "Volhynia_Conquest_Missions", (
+    "the rows above and below the Galician series must load before the heritage file"
+)
 
 # 5. Political and historical contracts.
 common_source = read("missions/Volhynia_Common_Missions.txt")
