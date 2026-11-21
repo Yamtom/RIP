@@ -317,9 +317,36 @@ prl_missions_3 = {
 		icon = mission_alliances
 		required_missions = { }
 		position = 1
+		provinces_to_highlight = {
+			province_id = 2407
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 12 }
+			}
+		}
 		trigger = {
-			diplomatic_reputation = 2
-			num_of_allies = 1
+			2407 = {
+				owned_by = ROOT
+				development = 12
+			}
+			has_dip_advisor = yes
+			OR = {
+				any_ally = {
+					has_opinion = {
+						who = ROOT
+						value = 100
+					}
+				}
+				AND = {
+					is_subject = yes
+					overlord = {
+						has_opinion = {
+							who = ROOT
+							value = 100
+						}
+					}
+				}
+			}
 		}
 		effect = {
 			add_dip_power = 100
@@ -356,12 +383,23 @@ prl_missions_3 = {
 		icon = mission_unite_home_region
 		required_missions = { prl_great_power_alliance }
 		position = 3
-		trigger = {
+		provinces_to_highlight = {
+			province_id = 2407
 			OR = {
-				num_of_subjects = 2
-				is_subject = yes
+				NOT = { owned_by = ROOT }
+				NOT = { has_courthouse_building_trigger = yes }
 			}
-			stability = 2
+		}
+		trigger = {
+			is_subject = no
+			num_of_subjects = 2
+			all_subject_country = {
+				NOT = { liberty_desire = 50 }
+			}
+			2407 = {
+				owned_by = ROOT
+				has_courthouse_building_trigger = yes
+			}
 		}
 		effect = {
 			add_country_modifier = {
@@ -376,10 +414,28 @@ prl_missions_3 = {
 		icon = mission_empire
 		required_missions = { prl_vassal_management }
 		position = 4
+		provinces_to_highlight = {
+			OR = {
+				area = east_dniepr_area
+				area = chernigov_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
 		trigger = {
-			total_development = 200
-			army_size = 30
-			prestige = 25
+			east_dniepr_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			chernigov_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2407 = {
+				owned_by = ROOT
+				is_core = ROOT
+				development = 20
+			}
+			total_own_and_non_tributary_subject_development = 200
 		}
 		effect = {
 			add_country_modifier = {
@@ -628,12 +684,29 @@ prl_missions_5 = {
 		icon = mission_unite_home_region
 		required_missions = { prl_professional_army }
 		position = 3
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				area = east_dniepr_area
+				area = chernigov_area
+				area = west_dniepr_area
+				area = zaporizhia_area
+			}
+			NOT = { has_manpower_building_trigger = yes }
+		}
 		trigger = {
 			num_of_owned_provinces_with = {
-				value = 15
-				is_core = ROOT
+				value = 4
+				has_manpower_building_trigger = yes
 			}
-			army_size = 25
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				value = 12
+				OR = {
+					region = ruthenia_region
+					region = crimea_region
+				}
+			}
+			num_of_generals = 2
 		}
 		effect = {
 			add_country_modifier = {
@@ -648,10 +721,37 @@ prl_missions_5 = {
 		icon = mission_conquer_50_development
 		required_missions = { prl_military_campaigns }
 		position = 4
+		provinces_to_highlight = {
+			OR = {
+				AND = {
+					province_id = 2407
+					OR = {
+						NOT = { owned_by = ROOT }
+						NOT = { has_manpower_building_trigger = yes }
+						NOT = { has_forcelimit_building_trigger = yes }
+					}
+				}
+				AND = {
+					area = east_dniepr_area
+					OR = {
+						NOT = { owned_by = ROOT }
+						NOT = { has_forcelimit_building_trigger = yes }
+					}
+				}
+			}
+		}
 		trigger = {
-			army_size = 40
+			2407 = {
+				owned_by = ROOT
+				has_manpower_building_trigger = yes
+				has_forcelimit_building_trigger = yes
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				has_forcelimit_building_trigger = yes
+			}
 			army_tradition = 50
-			land_forcelimit = 35
+			army_size_percentage = 0.9
 		}
 		effect = {
 			add_country_modifier = {

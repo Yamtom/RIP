@@ -45,13 +45,16 @@ def require_order(
 def check_priority(failures: list[str], text: str) -> None:
     entries = re.findall(r"(?m)^([A-Za-z0-9_]+)\s*=\s*\{", text)
     order = positions(text)
-    require(failures, len(entries) == 63, f"expected 63 blocks, found {len(entries)}")
+    require(failures, len(entries) == 64, f"expected 64 blocks, found {len(entries)}")
     require(
         failures,
         len(order) == len(entries),
         "government-name file contains a duplicate top-level block key",
     )
 
+    require_order(
+        failures, order, "kuyaba_khaganate", "ruthenian_principality_reform"
+    )
     require_order(
         failures, order, "chr_grain_directorate_reform", "siversk_veche_reform"
     )
@@ -152,6 +155,17 @@ def check_triggers_and_mappings(failures: list[str], text: str) -> None:
             "tag = HET" in normalized(named_block(text, name)),
             f"{name} lacks an HET tag gate",
         )
+
+    kuyaba = normalized(named_block(text, "kuyaba_khaganate"))
+    require(
+        failures,
+        "tag = KUY" in kuyaba
+        and "government = monarchy" in kuyaba
+        and "3 = KHAGANATE" in kuyaba
+        and "3 = KHAGAN" in kuyaba
+        and "3 = GREAT_KHATUN" in kuyaba,
+        "kuyaba_khaganate must apply Khaganate/Khagan/Great Khatun titles to KUY monarchies",
+    )
 
     boyar = normalized(named_block(text, "kyivan_boyar_republic_reform"))
     veche = normalized(named_block(text, "kyivan_veche_reform"))
@@ -644,7 +658,7 @@ def main() -> int:
 
     print(
         "GOVERNMENT NAME CHECK: PASS "
-        "(63 blocks; priority, reachability, lifecycle, and title contracts hold)"
+        "(64 blocks; priority, reachability, lifecycle, and title contracts hold)"
     )
     return 0
 

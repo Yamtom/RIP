@@ -1,0 +1,44 @@
+namespace = kuy_flavor
+
+country_event = {
+	id = kuy_flavor.1
+	title = "kuy_flavor.1.t"
+	desc = "kuy_flavor.1.d"
+	picture = FEAST_eventPicture
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "kuy_flavor.1.a"
+		if = {
+			limit = { religion_group = muslim }
+			add_piety = 0.25
+		}
+		add_country_modifier = {
+			name = kuy_sober_statutes
+			duration = 9125
+		}
+		280 = {
+			add_unrest = 3
+		}
+		ai_chance = {
+			factor = 50
+		}
+	}
+
+	option = {
+		name = "kuy_flavor.1.b"
+		if = {
+			limit = { religion_group = muslim }
+			add_piety = -0.25
+		}
+		add_country_modifier = {
+			name = kuy_mead_excise
+			duration = 9125
+		}
+		add_prestige = -5
+		ai_chance = {
+			factor = 50
+		}
+	}
+}
