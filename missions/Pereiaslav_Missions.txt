@@ -289,6 +289,12 @@ prl_missions_2 = {
 			else = {
 				mercantilism = 15
 			}
+			# The charter text is dated 1585; the institution lets a player who is
+			# ahead of history through without waiting for the year.
+			OR = {
+				is_year = 1585
+				has_institution = printing_press
+			}
 		}
 		effect = {
 			add_country_modifier = {

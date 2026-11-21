@@ -11,6 +11,9 @@ country_event = {
 	}
 	immediate = {
 		set_country_flag = chernihiv_ruina_active
+		# One mid-Ruina setback per disaster; chr_flavor.3 checks that the
+		# disaster is still running when it fires.
+		country_event = { id = chr_flavor.3 days = 540 }
 	}
 	option = {
 		name = "chr_flavor.1.a"

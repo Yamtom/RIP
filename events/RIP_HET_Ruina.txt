@@ -16,6 +16,12 @@ country_event = {
 	is_triggered_only = yes
 	immediate = {
 		set_country_flag = ruina_period_active
+		# CHR's own opening dilemma; its options grant the two modifiers
+		# that chernihiv_ruina's progress block already counts.
+		if = {
+			limit = { tag = CHR }
+			country_event = { id = chr_flavor.1 days = 3 }
+		}
 	}
 	option = {
 		name = "ruina_events.1.a"
