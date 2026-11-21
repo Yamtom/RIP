@@ -374,51 +374,11 @@ chr_missions_2 = {
 	chr_conquer_states = {
 		icon = mission_cannons_firing
 		required_missions = { chr_Manpower }
-		provinces_to_highlight = {
-			OR = {
-				area = sloboda_ukraine_area
-				province_id = 2409
-			}
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
 		position = 5
 		trigger = {
 			grown_by_states = 5
-			sloboda_ukraine_area = {
-				type = all
-				owned_by = ROOT
-			}
-			2409 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
 		}
 		effect = {
-			lower_don_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
-			2413 = {
-				if = {
-					limit = {
-						NOT = {
-							owned_by = ROOT
-						}
-						NOT = {
-							is_core = ROOT
-						}
-					}
-					add_permanent_claim = ROOT
-				}
-			}
 			add_country_modifier = {
 				name = expansionist_country
 				duration = 9125 #25 years
@@ -966,21 +926,13 @@ chr_missions_2_2 = {
 		required_missions = { chr_Crimea }
 		position = 16
 		provinces_to_highlight = {
-			OR = {
-				area = azov_area
-				province_id = 2447
-			}
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+			province_id = 2447
 		}
 		trigger = {
-			azov_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
 			2447 = {
 				country_or_non_sovereign_subject_holds = ROOT
+				has_trade_building_trigger = yes
+				development = 15
 			}
 		}
 		effect = {
@@ -1038,7 +990,7 @@ chr_missions_2_2 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = east_india_trade_rush
+				name = chr_foreign_trade_rush
 				duration = 9125 #25 years
 			}
 		}
@@ -1172,8 +1124,8 @@ chr_missions_3 = {
 
 	chr_left_bank_collegium_mission = {
 		icon = petro_mohyla
-		required_missions = { chr_build_treasury }
-		position = 5
+		required_missions = { chr_black_soil_silos }
+		position = 11
 		trigger = {
 			OR = {
 				is_year = 1700
@@ -1206,7 +1158,7 @@ chr_missions_3 = {
 	chr_build_manufactories = {
 		icon = mission_have_manufactories
 		required_missions = { chr_left_bank_collegium_mission }
-		position = 6
+		position = 12
 		trigger = {
 			calc_true_if = {
 				desc = build_manufactories_mission_tooltip
@@ -1247,7 +1199,7 @@ chr_missions_3 = {
 
 	chr_dniepr = {
 		icon = mission_advance_to_the_dnieper
-		required_missions = { chr_build_manufactories }
+		required_missions = { chr_build_treasury }
 		position = 7
 		provinces_to_highlight = {
 			area = east_dniepr_area
@@ -1769,17 +1721,12 @@ chr_missions_4 = {
 		provinces_to_highlight = {
 			OR = {
 				area = azov_area
-				area = lower_don_area
 				province_id = 2447
 			}
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
 			azov_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			lower_don_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
 			}
@@ -1936,30 +1883,8 @@ chr_missions_4 = {
 			}
 		}
 		effect = {
-			azov_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
-			2447 = {
-				if = {
-					limit = {
-						NOT = {
-							owned_by = ROOT
-						}
-						NOT = {
-							is_core = ROOT
-						}
-					}
-					add_permanent_claim = ROOT
-				}
-			}
+			add_army_tradition = 10
+			add_prestige = 20
 		}
 	}
 
@@ -2483,6 +2408,9 @@ chr_missions_5 = {
 		position = 19
 		trigger = {
 			OR = {
+				primary_culture = ruthenian
+				primary_culture = ruthenian_west_ruthenian
+				primary_culture = ruthenian_west_slavic
 				accepted_culture = ruthenian
 				accepted_culture = ruthenian_west_ruthenian
 				accepted_culture = ruthenian_west_slavic
