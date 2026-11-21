@@ -12,8 +12,8 @@ from clausewitz_testlib import ROOT, keyed_blocks, named_block, normalized, read
 
 
 REFORMS_DIR = ROOT / "common/government_reforms"
-EXPECTED_REFORM_COUNT = 133
-EXPECTED_REFORM_ID_SHA256 = "c68beb984b0b2eedbeb041b2e0ad760dd9829773cd7eef06754e4d12e82c6b0d"
+EXPECTED_REFORM_COUNT = 134
+EXPECTED_REFORM_ID_SHA256 = "82c52606206c6c0da5255eb005f924ef428c940b993c013dfc9d119de1c1cd23"
 ROLE_ONLY_REFORMS = (
     "kyivan_veche_reform",
     "kyivan_boyar_republic_reform",
@@ -181,6 +181,8 @@ def check_registration(failures: list[str], owners: dict[str, Path]) -> None:
     m6 = normalized(named_block(governments, "deliberative_assembly"))
     m7 = normalized(named_block(governments, "growth_of_administration"))
     m8 = normalized(named_block(governments, "economical_matters"))
+    m9 = normalized(named_block(governments, "legitimation_of_power"))
+    require(failures, "rip_srodna_pratsia_reform" in m9, "Srodna Pratsia must be in Legitimation of Power")
     m11 = normalized(named_block(governments, "separation_of_power"))
     r8 = normalized(named_block(governments, "economical_matters_republic"))
     require(failures, "assembly_houses_reform" in m6, "Assembly Houses is not registered at M6")
@@ -819,7 +821,22 @@ def check_reachability_and_scope(failures: list[str], reforms: str) -> None:
 
     kie = read("common/government_reforms/RIP_KIE_KRU_government_reforms.txt")
     require(failures, "cossacks_mechanic" not in kie, "medieval KIE/KRU forms still expose Cossack UI")
-    cesarstvo = normalized(named_block(kie, "kyivan_cesarstvo_reform"))
+    cesarstvo_source = named_block(kie, "kyivan_cesarstvo_reform")
+    cesarstvo = normalized(cesarstvo_source)
+    abilities = named_block(cesarstvo_source, "government_abilities")
+    require(
+        failures,
+        set(abilities.split("{", 1)[1].split("}", 1)[0].split())
+        == {"kyivan_throne_concord_mechanic", "kyivan_peoples_gathering_mechanic"},
+        "Cesarstvo must use only its two imperial mechanics",
+    )
+    vocation = named_block(shared, "rip_srodna_pratsia_reform")
+    require(
+        failures,
+        "rip_diaspora_eligible_culture = yes" in named_block(vocation, "potential")
+        and "has_institution = enlightenment" in named_block(vocation, "trigger"),
+        "Srodna Pratsia must follow primary culture and require the Enlightenment",
+    )
     hungarian_attributes = (
         "seizing_land_no_rebels_from_estate_nobles",
         "monarch_power_on_institutions",

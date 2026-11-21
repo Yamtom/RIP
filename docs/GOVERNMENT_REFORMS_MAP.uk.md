@@ -94,6 +94,7 @@ flowchart TB
 | `M6 regional` | `assembly_houses_reform` |
 | `M7 regional` | `vln_ruthenian_renaissance_reform` |
 | `M8 regional` | `merchant_nobility_reform` ≈ `jap_gokaido_reform`; `open_trading_ports_reform` ≈ `thalassocracy_reform`; `vln_magdeburg_rights`, з окремими міськими та інституційними умовами |
+| `M9 regional` | `rip_srodna_pratsia_reform` — «Сродна праця». Після прийняття Просвітництва доступна монархіям з основною руською або русинською культурою та її похідними. Дає +1 кандидата в радники й +10% ефективності виробництва. |
 | `M10` | `representation_monarchy_reform` (`Kyivan` + Boyar Elite) ≈ `considerable_bloodline_reform` (`regional`) |
 | `M11` | `legislative_rada_reform` (`regional`) ≈ `divine_tsyisar_reform` (`predecessor`) |
 
@@ -115,7 +116,8 @@ flowchart LR
   M4 --> M6["M6 Assembly Houses"]
   M6 --> M7["M7 Renaissance"]
   M7 --> M8["M8 Trade / Ports / Magdeburg Rights"]
-  M8 --> M10["M10 Representation ≈ Bloodline"]
+  M8 --> M9["M9 Srodna Pratsia"]
+  M9 --> M10["M10 Representation ≈ Bloodline"]
   M10 --> M11["M11 Rada ≈ Divine Tsyisar"]
 ```
 
@@ -646,7 +648,7 @@ flowchart LR
 
 ## Перевірені інваріанти
 
-- 133 унікальних definition-ID; дублів немає.
+- 134 унікальних definition-ID; дублів немає.
 - Кожен definition-ID присутній у government registration; навмисні
   багатотипові реформи — сумісні UZH-форми та CHR Grain Directorate.
 - `assembly_houses_reform` більше не є source-unreachable.

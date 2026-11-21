@@ -54,11 +54,19 @@ def check_kyiv_formations(failures: list[str]) -> None:
             f"{decision}: permanent Ruthenia reward needs the 20-province control gate",
         )
 
-    rus_potential = named_block(named_block(text, "rus_nation"), "potential")
+    rus_block = named_block(text, "rus_nation")
+    rus_potential = named_block(rus_block, "potential")
+    rus_allow = named_block(rus_block, "allow")
     require(failures, "NOT = { exists = RUS }" in rus_potential,
             "rus_nation: KRU formation must be exclusive with the RUS fallback")
-    require(failures, "has_institution = renaissance" not in rus_potential,
-            "rus_nation: ADM 10 path must not be made unreachable by a pre-Renaissance gate")
+    require(failures, "NOT = { has_institution = renaissance }" in normalized(rus_potential),
+            "rus_nation: must be gated to pre-Renaissance in potential")
+    require(failures, "NOT = { has_institution = renaissance }" in normalized(rus_allow),
+            "rus_nation: must require pre-Renaissance in allow")
+    require(failures, "adm_tech = 10" not in rus_allow,
+            "rus_nation: pre-Renaissance restoration must not require ADM tech 10")
+    require(failures, "calc_true_if" not in rus_potential,
+            "rus_nation: must stay visible to KIE holding Kyiv; the Kyiv/Chernihiv/Polotsk set belongs in allow")
     like = named_block(text, "like_rus_nation")
     like_potential = named_block(like, "potential")
     like_normalized = normalized(like_potential)

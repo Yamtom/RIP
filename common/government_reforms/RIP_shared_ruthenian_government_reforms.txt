@@ -17,9 +17,6 @@ ruthenian_principality_reform = {
 	heir = yes
 	rulers_can_be_generals = no
 	royal_marriage = yes
-	trigger = {
-		ruthenian_reform_eligible = yes
-	}
 	modifiers = {
 		state_governing_cost = -0.1
 		vassal_income = 0.25
@@ -103,12 +100,6 @@ elected_assemblies_reform = {
 			has_reform = kyivan_rus_reform
 		}
 	}
-	trigger = {
-		OR = {
-			has_reform = elected_assemblies_reform
-			has_reform = kyivan_rus_reform
-		}
-	}
 	modifiers = {
 		min_autonomy_in_territories = -0.1
 		reform_progress_growth = 0.10
@@ -126,12 +117,6 @@ boyar_elite_reform = {
 		}
 	}
 	allow_normal_conversion = yes
-	trigger = {
-		OR = {
-			has_reform = boyar_elite_reform
-			ruthenian_reform_eligible = yes
-		}
-	}
 	modifiers = {
 		army_tradition = 0.5
 		land_attrition = -0.1
@@ -156,19 +141,6 @@ sacred_regulation_reform = {
 		}
 	}
 	allow_normal_conversion = yes
-	trigger = {
-		OR = {
-			has_reform = sacred_regulation_reform
-			AND = {
-				ruthenian_reform_eligible = yes
-				OR = {
-					religion = orthodox
-					religion = russian_orthodox
-					religion = greek_catholic
-				}
-			}
-		}
-	}
 	modifiers = {
 		tolerance_own = 1
 		stability_cost_modifier = -0.1
@@ -194,19 +166,6 @@ patriarch_engagement_reform = {
 		}
 	}
 	allow_normal_conversion = yes
-	trigger = {
-		OR = {
-			has_reform = patriarch_engagement_reform
-			AND = {
-				ruthenian_reform_eligible = yes
-				OR = {
-					religion = orthodox
-					religion = russian_orthodox
-					religion = greek_catholic
-				}
-			}
-		}
-	}
 	modifiers = {
 		missionary_maintenance_cost = -0.25
 		yearly_patriarch_authority = 0.005
@@ -225,12 +184,6 @@ merchant_nobility_reform = {
 		}
 	}
 	allow_normal_conversion = yes
-	trigger = {
-		OR = {
-			has_reform = merchant_nobility_reform
-			ruthenian_reform_eligible = yes
-		}
-	}
 	modifiers = {
 		merchants = 1
 		burghers_influence_modifier = 0.1
@@ -247,12 +200,6 @@ open_trading_ports_reform = {
 		}
 	}
 	allow_normal_conversion = yes
-	trigger = {
-		OR = {
-			has_reform = open_trading_ports_reform
-			ruthenian_reform_eligible = yes
-		}
-	}
 	modifiers = {
 		global_own_trade_power = 0.1
 		center_of_trade_upgrade_cost = -0.15
@@ -269,12 +216,6 @@ assembly_houses_reform = {
 		}
 	}
 	allow_normal_conversion = yes
-	trigger = {
-		OR = {
-			has_reform = assembly_houses_reform
-			ruthenian_reform_eligible = yes
-		}
-	}
 	different_religion_acceptance = 25
 	modifiers = {
 		global_unrest = -1
@@ -302,12 +243,6 @@ considerable_bloodline_reform = {
 	}
 	allow_normal_conversion = yes
 	maintain_dynasty = yes
-	trigger = {
-		OR = {
-			has_reform = considerable_bloodline_reform
-			ruthenian_reform_eligible = yes
-		}
-	}
 	modifiers = {
 		max_absolutism = 5
 		legitimacy = 1
@@ -345,15 +280,6 @@ representation_monarchy_reform = {
 		rep_boyary
 		rep_knyazi
 	}
-	trigger = {
-		OR = {
-			has_reform = representation_monarchy_reform
-			AND = {
-				has_reform = boyar_elite_reform
-				has_reform = kyivan_rus_reform
-			}
-		}
-	}
 	modifiers = {
 		global_unrest = -0.5
 		max_absolutism = -10
@@ -366,17 +292,11 @@ legislative_rada_reform = {
 	potential = {
 		OR = {
 			has_reform = legislative_rada_reform
+			has_reform = representation_monarchy_reform
 			ruthenian_reform_visible = yes
 		}
 	}
 	allow_normal_conversion = yes
-	trigger = {
-		OR = {
-			has_reform = legislative_rada_reform
-			has_reform = representation_monarchy_reform
-			ruthenian_reform_eligible = yes
-		}
-	}
 	conditional = {
 		allow = {
 			OR = {
@@ -398,14 +318,6 @@ divine_tsyisar_reform = {
 	legacy_equivalent = despotic_monarchy
 	allow_normal_conversion = yes
 	potential = {
-		OR = {
-			has_reform = divine_tsyisar_reform
-			has_reform = considerable_bloodline_reform
-			has_reform = sacred_regulation_reform
-			has_reform = kyivan_rus_reform
-		}
-	}
-	trigger = {
 		OR = {
 			has_reform = divine_tsyisar_reform
 			has_reform = considerable_bloodline_reform
@@ -442,7 +354,6 @@ vln_magdeburg_rights = {
 		OR = {
 			has_reform = vln_magdeburg_rights
 			AND = {
-				ruthenian_reform_eligible = yes
 				num_of_owned_provinces_with = {
 					value = 5
 					development = 10
@@ -462,6 +373,28 @@ vln_magdeburg_rights = {
 	}
 }
 
+rip_srodna_pratsia_reform = {
+	icon = "man_on_podium"
+	allow_normal_conversion = yes
+	valid_for_nation_designer = no
+	potential = {
+		OR = {
+			has_reform = rip_srodna_pratsia_reform
+			rip_diaspora_eligible_culture = yes
+		}
+	}
+	trigger = {
+		OR = {
+			has_reform = rip_srodna_pratsia_reform
+			has_institution = enlightenment
+		}
+	}
+	modifiers = {
+		advisor_pool = 1
+		production_efficiency = 0.10
+	}
+}
+
 # Regional cultural flowering; the old vln_ prefix remains for save safety.
 vln_ruthenian_renaissance_reform = {
 	icon = "man_on_podium"
@@ -477,21 +410,13 @@ vln_ruthenian_renaissance_reform = {
 		OR = {
 			has_reform = vln_ruthenian_renaissance_reform
 			AND = {
-				ruthenian_reform_eligible = yes
 				has_institution = renaissance
-				num_of_owned_provinces_with = {
-					value = 3
-					development = 20
-					OR = {
-						culture = ruthenian
-						culture = rusyn
-						culture = ruthenian_new
-						culture = ruthenian_west_ruthenian
-						culture = ruthenian_west_slavic
-						culture = rusyn_new
-						culture = rusyn_new_new
-						culture = rusyn_west_ruthenian
-						culture = rusyn_west_slavic
+				custom_trigger_tooltip = {
+					tooltip = rip_three_developed_ruthenian_towns_tt
+					num_of_owned_provinces_with = {
+						value = 3
+						development = 20
+						rip_diaspora_eligible_culture_province = yes
 					}
 				}
 			}

@@ -9,8 +9,16 @@ kyivan_rus_reform = {
 	potential = {
 		OR = {
 			has_reform = kyivan_rus_reform
-			tag = KIE
-			tag = KRU
+			AND = {
+				OR = {
+					tag = KRU
+					AND = {
+						tag = KIE
+						has_country_flag = rus_flag
+					}
+				}
+				NOT = { has_country_flag = kyiv_path_chosen }
+			}
 		}
 	}
 	allow_normal_conversion = no
@@ -26,13 +34,6 @@ kyivan_rus_reform = {
 	allow_force_tributary = yes
 	allow_vassal_war = yes
 	allow_vassal_alliance = yes
-	trigger = {
-		OR = {
-			has_reform = kyivan_rus_reform
-			tag = KRU
-			tag = KIE
-		}
-	}
 	modifiers = {
 		global_autonomy = -0.025
 		global_manpower_modifier = 0.15
@@ -94,12 +95,12 @@ kyivan_shogunate_reform = {
 	potential = {
 		OR = {
 			has_reform = kyivan_shogunate_reform
-			tag = KIE
+			has_country_flag = kyiv_path_shogunate
 		}
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
-	valid_for_new_country = yes
+	valid_for_new_country = no
 	lock_level_when_selected = yes
 	queen = yes
 	heir = yes
@@ -147,12 +148,6 @@ kyivan_shogunate_reform = {
 			kyivan_seniorate_mechanic
 		}
 	}
-	trigger = {
-		OR = {
-			has_reform = kyivan_shogunate_reform
-			tag = KIE
-		}
-	}
 	modifiers = {
 		vassal_forcelimit_bonus = 0.15
 		diplomatic_reputation = 1
@@ -169,26 +164,18 @@ kyivan_cesarstvo_reform = {
 	potential = {
 		OR = {
 			has_reform = kyivan_cesarstvo_reform
-			tag = KIE
-			tag = KRU
+			has_country_flag = kyiv_path_cesarstvo
 		}
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
-	valid_for_new_country = yes
+	valid_for_new_country = no
 	lock_level_when_selected = yes
 	queen = yes
 	heir = yes
 	royal_marriage = yes
 	rulers_can_be_generals = yes
 	allow_convert = no
-	trigger = {
-		OR = {
-			has_reform = kyivan_cesarstvo_reform
-			tag = KIE
-			tag = KRU
-		}
-	}
 	modifiers = {
 		global_institution_spread = 0.10
 		governing_capacity_modifier = 0.1
@@ -198,12 +185,7 @@ kyivan_cesarstvo_reform = {
 	custom_attributes = {
 		locked_government_type = yes
 	}
-	# The imperial Kyivan court still rests on the seniority of the house of
-	# Rurik - the same mechanic as kyivan_rus_reform, not the Muscovite one.
-	# Alongside it, two counters of its own - boyar concord and the gathering
-	# of the Cesarstvo's non-Rus peoples - in
-	# common/government_mechanics/rip_kyivan_cesarstvo.txt, which does not
-	# touch kyivan_seniority_mechanic or its file.
+	# The imperial court bargains with the boyars and charters its constituent peoples.
 	conditional = {
 		allow = {
 			OR = {
@@ -212,7 +194,6 @@ kyivan_cesarstvo_reform = {
 			}
 		}
 		government_abilities = {
-			kyivan_seniority_mechanic
 			kyivan_throne_concord_mechanic
 			kyivan_peoples_gathering_mechanic
 		}
@@ -225,13 +206,15 @@ kyivan_veche_reform = {
 	potential = {
 		OR = {
 			has_reform = kyivan_veche_reform
-			tag = KIE
-			tag = KRU
+			AND = {
+				has_country_flag = kyiv_path_veche_republic
+				NOT = { has_country_flag = kyiv_boyar_council_established }
+			}
 		}
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
-	valid_for_new_country = yes
+	valid_for_new_country = no
 	lock_level_when_selected = yes
 	republic = yes
 	republican_name = yes
@@ -242,13 +225,6 @@ kyivan_veche_reform = {
 	royal_marriage = no
 	rulers_can_be_generals = yes
 	allow_convert = no
-	trigger = {
-		OR = {
-			has_reform = kyivan_veche_reform
-			tag = KIE
-			tag = KRU
-		}
-	}
 	modifiers = {
 		merchants = 1
 		global_trade_power = 0.1
@@ -376,13 +352,15 @@ kyivan_metropolitanate_reform = {
 	potential = {
 		OR = {
 			has_reform = kyivan_metropolitanate_reform
-			tag = KIE
-			tag = KRU
+			AND = {
+				has_country_flag = kyiv_path_metropolitanate
+				NOT = { has_country_flag = kyiv_church_synod_established }
+			}
 		}
 	}
 	allow_normal_conversion = no
 	valid_for_nation_designer = no
-	valid_for_new_country = yes
+	valid_for_new_country = no
 	lock_level_when_selected = yes
 	religion = yes
 	monastic = yes
@@ -391,13 +369,6 @@ kyivan_metropolitanate_reform = {
 	royal_marriage = no
 	rulers_can_be_generals = no
 	allow_convert = no
-	trigger = {
-		OR = {
-			has_reform = kyivan_metropolitanate_reform
-			tag = KIE
-			tag = KRU
-		}
-	}
 	modifiers = {
 		church_loyalty_modifier = 0.15
 		tolerance_own = 1
@@ -449,18 +420,6 @@ kyivan_church_synod_reform = {
 	royal_marriage = no
 	rulers_can_be_generals = no
 	allow_convert = no
-	trigger = {
-		OR = {
-			has_reform = kyivan_church_synod_reform
-			AND = {
-				OR = {
-					tag = KIE
-					tag = KRU
-				}
-				has_country_flag = kyiv_church_synod_established
-			}
-		}
-	}
 	modifiers = {
 		church_loyalty_modifier = 0.1
 		tolerance_own = 1

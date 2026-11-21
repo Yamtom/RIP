@@ -17,12 +17,7 @@ country_decisions = {
 			NOT = { exists = HET }
 			NOT = { exists = KUY }
 			NOT = { exists = KRU }
-			calc_true_if = {
-				amount = 2
-				owns = 280
-				owns = 289
-				owns = 275
-			}
+			NOT = { has_institution = renaissance }
 		}
 
 		provinces_to_highlight = {
@@ -42,7 +37,7 @@ country_decisions = {
 			owns_or_non_sovereign_subject_of = 289 # Chernihov
 			owns_or_non_sovereign_subject_of = 275 # Polotsk
 			stability = 1
-			adm_tech = 10
+			NOT = { has_institution = renaissance }
 			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
 				region = ruthenia_region
 				value = 20
@@ -52,9 +47,9 @@ country_decisions = {
 		
 		effect = {
 			add_prestige = 25
+			set_country_flag = rus_flag
 			add_government_reform = kyivan_rus_reform
 			change_tag = KRU
-			set_country_flag = rus_flag
 			swap_non_generic_missions = yes
 			on_change_tag_effect = yes
 			save_global_event_target_as = kyiv_rus
@@ -144,8 +139,8 @@ country_decisions = {
 		
 		effect = {
 			add_prestige = 25
-			add_government_reform = kyivan_rus_reform
 			set_country_flag = rus_flag
+			add_government_reform = kyivan_rus_reform
 			save_global_event_target_as = kyiv_rus
 			
 			280 = {
@@ -201,12 +196,12 @@ country_decisions = {
 		}
 		effect = {
 			add_prestige = 10
+			set_country_flag = kyiv_path_shogunate
 			add_government_reform = kyivan_shogunate_reform
 			add_country_modifier = {
 				name = KIE_shogunate
 				duration = 7300
 			}
-			set_country_flag = kyiv_path_shogunate
 			set_country_flag = kyiv_path_chosen
 		}
 		ai_will_do = {
@@ -241,6 +236,7 @@ country_decisions = {
 		effect = {
 			add_prestige = 25
 			set_government_rank = 3
+			set_country_flag = kyiv_path_cesarstvo
 			add_government_reform = kyivan_cesarstvo_reform
 			add_country_modifier = {
 				name = KIE_cesarstvo
@@ -260,7 +256,6 @@ country_decisions = {
 					duration = 7300
 				}
 			}
-			set_country_flag = kyiv_path_cesarstvo
 			set_country_flag = kyiv_path_chosen
 		}
 		ai_will_do = {
@@ -416,10 +411,10 @@ country_decisions = {
 				limit = { NOT = { government = republic } }
 				change_government = republic
 			}
+			set_country_flag = kyiv_path_veche_republic
 			add_government_reform = kyivan_veche_reform
 			change_tag = KRU
 			set_country_flag = rus_flag
-			set_country_flag = kyiv_path_veche_republic
 			set_country_flag = kyiv_path_chosen
 			swap_non_generic_missions = yes
 			on_change_tag_effect = yes
@@ -512,10 +507,10 @@ country_decisions = {
 				limit = { NOT = { government = theocracy } }
 				change_government = theocracy
 			}
+			set_country_flag = kyiv_path_metropolitanate
 			add_government_reform = kyivan_metropolitanate_reform
 			change_tag = KRU
 			set_country_flag = rus_flag
-			set_country_flag = kyiv_path_metropolitanate
 			set_country_flag = kyiv_path_chosen
 			swap_non_generic_missions = yes
 			on_change_tag_effect = yes

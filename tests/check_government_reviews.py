@@ -277,7 +277,7 @@ def comparator_coverage():
         "head_of_the_patriarchy_reform",
         "orthodox_patriarchate_reform",
     }
-    assert len(rows) == len(data["reforms"]) == 133 and set(rows) == live_ids
+    assert len(rows) == len(data["reforms"]) == 134 and set(rows) == live_ids
     own_tiers = reform_tiers(read("common/governments/00_governments.txt"))
     snapshots = {row["id"]: row for row in data["vanilla_comparators"]}
     installed = vanilla_root()
@@ -302,11 +302,11 @@ def comparator_coverage():
                 assert comparator in snapshots and tier in snapshots[comparator]["tiers"], (reform, tier, comparator)
                 if native_tiers is not None:
                     assert comparator in native_definitions and tier in native_tiers.get(comparator, set()), (reform, tier, comparator)
-    assert count == 142
+    assert count == 143
     if installed:
-        print("GOVERNMENT COMPARATOR COVERAGE: PASS (133 definitions; 142 tier rows verified against installed 1.37)")
+        print("GOVERNMENT COMPARATOR COVERAGE: PASS (134 definitions; 143 tier rows verified against installed 1.37)")
     else:
-        print("GOVERNMENT COMPARATOR COVERAGE: PASS (133 definitions; 142 saved tier rows); SKIP live vanilla tier check")
+        print("GOVERNMENT COMPARATOR COVERAGE: PASS (134 definitions; 143 saved tier rows); SKIP live vanilla tier check")
 
 
 def main():
