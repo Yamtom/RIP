@@ -40,10 +40,14 @@ ruthenian_principality_reform = {
 # of the realm. That was the original design: Kyivan Rus makes a trading city
 # and the new subject comes out an appanage. An earlier comment here said it can
 # never fire because only a merchant republic makes trading cities. That is
-# wrong: vanilla monarchies (plutocratic_reform, livonian_trade_monarchy) carry
-# the same can_form_trade_league + trade_city_reform conditional. Whether the
-# engine accepts this reform as a trading city's, and fires on_country_released
-# for it, has not been checked in the game.
+# wrong as to the conditional: vanilla monarchies (plutocratic_reform,
+# livonian_trade_monarchy) carry the same can_form_trade_league + trade_city_reform
+# pair. Run in the game (1.37.5, 21 Nov 2026): a country that gained
+# kyivan_rus_reform gained can_form_trade_league and can_use_trade_post, and a
+# scripted `release` did NOT fire on_country_released. Not checked: whether such a
+# country can lead a Trade League (the vanilla text says "Leader must also be a
+# Merchant Republic"), create a trading city, have this reform accepted as the
+# city's, and fire the hook for it.
 #
 # The second grant site is rip_grant_the_udil in
 # common/new_diplomatic_actions/RIP_KIE_diplomatic_actions.txt, which turns
