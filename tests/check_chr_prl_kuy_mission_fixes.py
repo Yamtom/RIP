@@ -392,7 +392,7 @@ def check_chr_layout_compaction() -> None:
 
     for mname, dep in (
         ("chr_Smolensk", "chr_conquer_states"),
-        ("chr_Astrakhan", "chr_grain_cartel_charters"),
+        ("chr_Astrakhan", "chr_grain_guild_charters"),
         ("chr_left_bank_collegium_mission", "chr_black_soil_silos"),
         ("chr_Accept_Ruthenian", "chr_Minsk"),
     ):

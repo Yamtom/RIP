@@ -17,7 +17,7 @@ COUNTRY_PRIVILEGES = {
             "estate_nobles_chr_seimski_statuty",
             "estate_church_chr_chernihiv_collegium",
             "estate_cossacks_chr_starshyna_collegium",
-            "estate_burghers_chr_grain_cartels",
+            "estate_burghers_chr_grain_guilds",
         },
     },
     "common/estate_privileges/RIP_HET_privileges.txt": {
@@ -87,7 +87,7 @@ ESTATE_REGISTRATIONS = {
         "estate_nobles_het_hetman_power",
     },
     "common/estates/03_burghers.txt": SHARED_JEWISH | {
-        "estate_burghers_chr_grain_cartels",
+        "estate_burghers_chr_grain_guilds",
         "estate_burghers_het_left_bank",
     },
     "common/estates/04_cossacks.txt": {
