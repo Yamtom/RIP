@@ -31,19 +31,25 @@ ruthenian_principality_reform = {
 #
 # Granted by script only, which is what potential = { has_reform = <itself> }
 # means - vanilla writes fourteen reforms that way, kalmar_union among them. It
-# had exactly one grant site, trade_city_reform inside kyivan_shogunate_reform,
-# which is the engine hook that fires when a country turns a province into a
-# trading city. That was the original design: Kyivan Rus made a trading city and
-# the new subject came out an appanage. It can never fire as written, because
-# only a merchant republic makes trading cities and kyivan_shogunate_reform sits
-# in the monarchy tier, so no country could ever hold this reform.
+# has two grant sites.
+#
+# The first is trade_city_reform inside kyivan_rus_reform (twice, one per Mare
+# Nostrum conditional): the engine hands it to the country that a Kyivan Rus
+# realm turns out of a province as a trading city, and on_country_released in
+# common/on_actions/RIP_KIE_on_actions.txt then makes that country a princedom
+# of the realm. That was the original design: Kyivan Rus makes a trading city
+# and the new subject comes out an appanage. An earlier comment here said it can
+# never fire because only a merchant republic makes trading cities. That is
+# wrong: vanilla monarchies (plutocratic_reform, livonian_trade_monarchy) carry
+# the same can_form_trade_league + trade_city_reform conditional. Whether the
+# engine accepts this reform as a trading city's, and fires on_country_released
+# for it, has not been checked in the game.
 #
 # The second grant site is rip_grant_the_udil in
 # common/new_diplomatic_actions/RIP_KIE_diplomatic_actions.txt, which turns
 # an ordinary vassal into an udil - the subject type from
-# common/subject_types/RIP_shared_ruthenian_subject_types.txt and this government together. The
-# trade_city_reform line is left where it is: it is the original intent, and it
-# costs nothing to keep should a Kyivan republic ever exist.
+# common/subject_types/RIP_shared_ruthenian_subject_types.txt and this government together.
+# Once a kyiv_path_* reform replaces kyivan_rus_reform, the first site is gone with it.
 #
 # The payload used to be the trading city's - trade efficiency, burgher influence,
 # plutocratic ideas, the free city icon - because that is where it came from. It
