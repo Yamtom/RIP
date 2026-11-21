@@ -28,8 +28,6 @@ ALLOWED_ROOTS = {"KIE_true_ruler", "KIE_mohyla_academy"}
 ALLOWED_SUCCESSOR_ROOTS = {
     "KIE_true_ruler",
     "UKR_ruthenia",
-    "UKR_kazan",
-    "UKR_perm",
     "KIE_mohyla_academy",
 }
 EXPECTED_CELLS = {
@@ -184,6 +182,13 @@ def check_successor_layout(tag: str) -> list[str]:
         reqs = set(placed["UKR_breadbasket_of_europe"][2])
         if reqs != {"UKR_fleet", "UKR_horde"}:
             failures.append(f"{tag}: UKR_breadbasket_of_europe expected {{UKR_fleet, UKR_horde}}, got {reqs}")
+    # Kazan and Perm used to float free; both hang one row under the Granary, and
+    # Siberia follows both.
+    for mname in ("UKR_kazan", "UKR_perm"):
+        if mname in placed and set(placed[mname][2]) != {"UKR_breadbasket_of_europe"}:
+            failures.append(f"{tag}: {mname} expected {{UKR_breadbasket_of_europe}}, got {set(placed[mname][2])}")
+    if "UKR_siberia" in placed and set(placed["UKR_siberia"][2]) != {"UKR_kazan", "UKR_perm"}:
+        failures.append(f"{tag}: UKR_siberia expected {{UKR_kazan, UKR_perm}}, got {set(placed['UKR_siberia'][2])}")
 
     return failures
 
@@ -222,6 +227,13 @@ def check_two_line_titles() -> list[str]:
     ):
         for k, v in re.findall(r'^ ([A-Za-z0-9_.\-]+_title):\d+\s+"(.*)"\s*$', read(f"localisation/{loc_file}"), re.M):
             en_titles[k] = v
+    # The short copy of the Diaspora tree reads the originals' titles as $key$ references.
+    for k, v in list(en_titles.items()):
+        seen = set()
+        while re.fullmatch(r"\$[A-Za-z0-9_.\-]+\$", v) and v not in seen:
+            seen.add(v)
+            v = en_titles.get(v[1:-1], v)
+        en_titles[k] = v
 
     failures: list[str] = []
     for filename in TITLE_FILES:

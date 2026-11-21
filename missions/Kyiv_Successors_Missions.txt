@@ -1107,7 +1107,9 @@ UKR_missions_4 = {
 	UKR_kazan = {
 		icon = mission_steppe_warriors
 		position = 12
-		required_missions = { }
+		# Kazan and Perm hang under the Granary: the black-earth economy carries the
+		# frontier up the Volga and the Kama. Both cells are one row below it.
+		required_missions = { UKR_breadbasket_of_europe }
 		provinces_to_highlight = {
 			OR = {
 				area = kazan_area
@@ -1371,7 +1373,7 @@ UKR_missions_5 = {
 	UKR_perm = {
 		icon = mission_integrate_perm
 		position = 12
-		required_missions = { }
+		required_missions = { UKR_breadbasket_of_europe }
 		trigger = {
 			perm_area = {
 				type = all

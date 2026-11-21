@@ -77,3 +77,17 @@ rip_diaspora_mainland_partner_trigger = {
 		has_opinion = { who = ROOT value = $THRESHOLD$ }
 	}
 }
+
+# Countries whose national mission tree ends above row 15 in columns 2-4, so the
+# short copy of the Diaspora tree (RIP_diaspora_kyiv_missions_*, rows 15-23 in
+# missions/zzzz_RuthenianDiaspora_Missions.txt) cannot collide with it. Every other
+# country keeps the tall copy from row 24. Add a tag only after
+# tests/check_diaspora_layout.py shows that its tree fits; the tag must gate at
+# least one of its own mission series, or that test cannot measure it.
+rip_diaspora_short_tree = {
+	OR = {
+		tag = KIE
+		tag = KRU
+		tag = UKR
+	}
+}

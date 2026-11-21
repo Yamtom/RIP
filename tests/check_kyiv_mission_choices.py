@@ -151,26 +151,31 @@ def check_byzantine_and_mohyla():
 
 
 def check_diaspora():
-    for mission in ('rip_diaspora_south_america', 'rip_diaspora_australia',
-                    'rip_diaspora_south_america_settlers', 'rip_diaspora_australia_settlers'):
-        trigger = named_block(named_block(diaspora, mission), 'trigger')
-        assert 'rip_lysianskyi_circumnavigation_flag' not in trigger, \
-            f'{mission} must not wait for the circumnavigation'
-    assert 'rip_lysianskyi_circumnavigation_flag' in named_block(diaspora, 'rip_diaspora_of_rus')
-    named_block(diaspora, 'rip_lysianskyi_circumnavigation')
+    # The tree exists twice (rows 24-32 and, with the suffix _kyiv, rows 15-23);
+    # every contract holds for both copies.
+    for suffix in ('', '_kyiv'):
+        for mission in ('rip_diaspora_south_america', 'rip_diaspora_australia',
+                        'rip_diaspora_south_america_settlers', 'rip_diaspora_australia_settlers'):
+            mission += suffix
+            trigger = named_block(named_block(diaspora, mission), 'trigger')
+            assert 'rip_lysianskyi_circumnavigation_flag' not in trigger, \
+                f'{mission} must not wait for the circumnavigation'
+        assert 'rip_lysianskyi_circumnavigation_flag' in named_block(diaspora, 'rip_diaspora_of_rus' + suffix)
+        named_block(diaspora, 'rip_lysianskyi_circumnavigation' + suffix)
 
-    for mission, region in (('rip_green_wedge', 'manchuria_region'), ('rip_grey_wedge', 'central_asia_region')):
-        trigger = named_block(named_block(diaspora, mission), 'trigger')
-        assert 'NOT = {' not in trigger.replace('is_subject = no', ''), \
-            f'{mission} must tolerate provinces with a local population'
-        counters = [named_block(trigger, 'num_of_owned_provinces_with', n) for n in (1, 2)]
-        assert f'region = {region}' in counters[0] and 'value = 3' in counters[0]
-        assert 'rip_diaspora_eligible_culture_province = yes' in counters[1] and 'value = 2' in counters[1]
+        for mission, region in (('rip_green_wedge', 'manchuria_region'), ('rip_grey_wedge', 'central_asia_region')):
+            mission += suffix
+            trigger = named_block(named_block(diaspora, mission), 'trigger')
+            assert 'NOT = {' not in trigger.replace('is_subject = no', ''), \
+                f'{mission} must tolerate provinces with a local population'
+            counters = [named_block(trigger, 'num_of_owned_provinces_with', n) for n in (1, 2)]
+            assert f'region = {region}' in counters[0] and 'value = 3' in counters[0]
+            assert 'rip_diaspora_eligible_culture_province = yes' in counters[1] and 'value = 2' in counters[1]
 
-    final = named_block(named_block(diaspora, 'rip_diaspora_of_rus'), 'trigger')
-    assert 'saratov_area' not in final, 'the Volga is not the Grey Wedge'
-    for area in ('yrtesh_area', 'ishim_area', 'aqmola_area', 'kazakhstan_area'):
-        assert 'rip_diaspora_established_community = yes' in named_block(final, area), area
+        final = named_block(named_block(diaspora, 'rip_diaspora_of_rus' + suffix), 'trigger')
+        assert 'saratov_area' not in final, 'the Volga is not the Grey Wedge'
+        for area in ('yrtesh_area', 'ishim_area', 'aqmola_area', 'kazakhstan_area'):
+            assert 'rip_diaspora_established_community = yes' in named_block(final, area), area
 
 
 def check_localisation():
