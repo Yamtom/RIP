@@ -636,3 +636,204 @@ het_missions_3 = {
 		}
 	}
 }
+
+het_missions_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			tag = HET
+			NOT = { map_setup = map_setup_random }
+		}
+	}
+	has_country_shield = yes
+
+	het_sahaidachnyi_host = {
+		icon = mission_assemble_an_army
+		required_missions = { }
+		position = 1
+		provinces_to_highlight = {
+			province_id = 280
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			army_size_percentage = 0.9
+			army_tradition = 40
+			OR = {
+				mil = 5
+				has_commanding_three_star = yes
+				advisor = army_reformer
+				AND = {
+					has_dlc = "Cradle of Civilization"
+					army_professionalism = 0.2
+				}
+			}
+			if = {
+				limit = { has_estate = estate_cossacks }
+				estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 60
+				}
+			}
+			280 = {
+				OR = {
+					country_or_non_sovereign_subject_holds = ROOT
+					owner = {
+						religion = ROOT
+						has_opinion = {
+							who = ROOT
+							value = 100
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = { has_dlc = "Cradle of Civilization" }
+				add_army_professionalism = 0.05
+			}
+			else = {
+				add_army_tradition = 10
+			}
+			add_country_modifier = {
+				name = "het_sahaidachnyi_regiments"
+				duration = -1
+			}
+			add_mil_power = 75
+			rip_faith_mission_resource_effect = { PA = 0.05 PI = 10 ADM = 25 }
+		}
+	}
+
+	het_age_of_heroic_campaigns = {
+		icon = mission_establish_high_seas_navy
+		required_missions = { het_sahaidachnyi_host }
+		position = 2
+		provinces_to_highlight = {
+			OR = {
+				region = crimea_region
+				region = anatolia_region
+			}
+			has_port = yes
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = { controlled_by = ROOT }
+			NOT = { has_province_modifier = slaves_raided }
+		}
+		trigger = {
+			OR = {
+				calc_true_if = {
+					desc = het_black_sea_campaigns_tt
+					all_province = {
+						OR = {
+							region = crimea_region
+							region = anatolia_region
+						}
+						has_port = yes
+						OR = {
+							country_or_non_sovereign_subject_holds = ROOT
+							controlled_by = ROOT
+							has_province_modifier = slaves_raided
+						}
+					}
+					amount = 8
+				}
+				AND = {
+					num_of_ports = 4
+					num_of_galley = 15
+					navy_tradition = 30
+				}
+			}
+		}
+		effect = {
+			add_navy_tradition = 30
+			add_country_modifier = {
+				name = "het_heroic_sea_campaigns"
+				duration = 10950
+			}
+			crimea_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			azov_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+
+	het_black_sea_armada = {
+		icon = mission_rb_grow_the_channel
+		required_missions = { het_age_of_heroic_campaigns }
+		position = 3
+		provinces_to_highlight = {
+			province_id = 1322
+		}
+		trigger = {
+			num_of_ports = 6
+			navy_size_percentage = 0.9
+			navy_size = 25
+			1322 = {
+				trade_share = {
+					country = ROOT
+					share = 25
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "het_black_sea_armada_modifier"
+				duration = 9125
+			}
+			add_dip_power = 75
+			151 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+			149 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+			4705 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+			4779 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+		}
+	}
+}

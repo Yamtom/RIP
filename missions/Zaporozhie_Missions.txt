@@ -672,6 +672,71 @@ ZAZ_missions_4 = {
 			}
 		}
 	}
+
+	ZAZ_sahaidachnyi_reforms = {
+		icon = mission_assemble_an_army
+		position = 6
+		required_missions = { ZAZ_moskva }
+		trigger = {
+			army_size_percentage = 0.9
+			army_tradition = 40
+			OR = {
+				has_completed_idea_group_of_category = { mil_ideas = yes }
+				AND = {
+					has_dlc = "Cradle of Civilization"
+					army_professionalism = 0.25
+				}
+			}
+			if = {
+				limit = { has_estate = estate_cossacks }
+				estate_loyalty = {
+					estate = estate_cossacks
+					loyalty = 60
+				}
+			}
+			OR = {
+				mil = 5
+				has_commanding_three_star = yes
+				advisor = army_reformer
+			}
+		}
+		effect = {
+			if = {
+				limit = { has_dlc = "Cradle of Civilization" }
+				add_army_professionalism = 0.05
+			}
+			else = {
+				add_army_tradition = 10
+			}
+			add_country_modifier = {
+				name = "zaz_sahaidachnyi_reforms_modifier"
+				duration = -1
+			}
+			define_general = {
+				name = "Petro Konashevych-Sahaidachnyi"
+				fire = 5
+				shock = 4
+				manuever = 4
+				siege = 1
+			}
+			crimea_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			yedisan_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
 }
 
 ZAZ_missions_5 = {
@@ -769,6 +834,72 @@ ZAZ_missions_5 = {
 			else = {
 				add_prestige = 10
 				add_manpower = 1
+			}
+		}
+	}
+
+	ZAZ_heroic_campaigns = {
+		icon = mission_establish_high_seas_navy
+		position = 6
+		required_missions = { ZAZ_istanbul }
+		provinces_to_highlight = {
+			OR = {
+				region = crimea_region
+				region = anatolia_region
+			}
+			has_port = yes
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+			NOT = { controlled_by = ROOT }
+			NOT = { has_province_modifier = slaves_raided }
+		}
+		trigger = {
+			OR = {
+				calc_true_if = {
+					desc = zaz_black_sea_campaigns_tt
+					all_province = {
+						OR = {
+							region = crimea_region
+							region = anatolia_region
+						}
+						has_port = yes
+						OR = {
+							country_or_non_sovereign_subject_holds = ROOT
+							controlled_by = ROOT
+							has_province_modifier = slaves_raided
+						}
+					}
+					amount = 8
+				}
+				AND = {
+					num_of_ports = 4
+					num_of_galley = 15
+					navy_tradition = 35
+				}
+			}
+		}
+		effect = {
+			add_navy_tradition = 30
+			add_country_modifier = {
+				name = "zaz_heroic_campaigns_modifier"
+				duration = 10950
+			}
+			sloboda_ukraine_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			4543 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
 			}
 		}
 	}
