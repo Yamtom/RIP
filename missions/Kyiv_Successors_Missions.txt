@@ -251,18 +251,55 @@ UKR_missions_2 = {
 		icon = mission_conquer_riga
 		position = 8
 		required_missions = { UKR_novgorod }
+		# One mission, three campaigns. A realm may become a Baltic power by
+		# holding a developed harbour, by leading the Baltic Sea trade, or by
+		# allying with a regional state. Taking the whole shore is the separate
+		# summit UKR_baltic_dominion for players who want the imperial version.
 		provinces_to_highlight = {
-			OR = {
-				region = baltic_region
-			}
+			region = baltic_region
+			has_port = yes
 			NOT = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		trigger = {
-			baltic_region = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = UKR_baltic_port_tt
+					any_owned_province = {
+						region = baltic_region
+						has_port = yes
+						development = 10
+						OR = {
+							has_building = dock
+							has_building = drydock
+						}
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = UKR_baltic_trade_tt
+					38 = {
+						trade_share = {
+							country = ROOT
+							share = 25
+						}
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = UKR_baltic_alliance_tt
+					any_ally = {
+						capital_scope = {
+							OR = {
+								region = baltic_region
+								region = scandinavia_region
+							}
+						}
+						has_opinion = {
+							who = ROOT
+							value = 100
+						}
+					}
+				}
 			}
 		}
 		effect = {
@@ -270,7 +307,7 @@ UKR_missions_2 = {
 				name = "KIE_expansion"
 				duration = 7300
 			}
-			# Scandinavia opens only after the Baltic has been consolidated. These
+			# Scandinavia opens only once a Baltic foothold is secured. These
 			# are temporary claims on a contiguous northern route.
 			finland_area = {
 				limit = {
@@ -490,6 +527,37 @@ UKR_missions_2 = {
 			}
 		}
 	}
+
+	UKR_baltic_dominion = {
+		icon = mission_conquer_baltic_region
+		position = 12
+		required_missions = { UKR_swedish_question }
+		# Optional summit. The old Baltic mission asked for the entire shore;
+		# that version now stands alone for players who want the imperial campaign.
+		provinces_to_highlight = {
+			region = baltic_region
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			baltic_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_prestige = 25
+			add_power_projection = {
+				type = mission_rewards_power_projection
+				amount = 20
+			}
+			add_country_modifier = {
+				name = UKR_baltic_dominion
+				duration = -1
+			}
+		}
+	}
 }
 
 UKR_missions_3 = {
@@ -635,14 +703,11 @@ UKR_missions_3 = {
 		effect = {
 			add_prestige = 25
 			add_legitimacy = 25
-			151 = {
-				change_culture = ROOT
-				change_religion = ROOT
-			}
-			151 = {
-				add_base_tax = 2
-				add_base_production = 2
-				add_base_manpower = 2
+			# The city no longer takes our culture and faith in one click. The court
+			# decides: confirm the rights of the Greek institutions, or begin the
+			# long integration of Tsarhorod into the realm (kyiv_choices.1).
+			country_event = {
+				id = kyiv_choices.1
 			}
 			morea_area = {
 				limit = {
@@ -1047,39 +1112,38 @@ UKR_missions_5 = {
 		icon = mission_advance_to_the_dnieper
 		position = 6
 		required_missions = { KIE_cossack }
-		trigger = {
-			yedisan_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-				OR = {
-					culture = ruthenian
-					culture = ruthenian_west_ruthenian
-					culture = ruthenian_west_slavic
+		# The crossing is tied to one pair of bank provinces: Kyiv on the right
+		# bank and Pereyaslav opposite it on the left. The bridgehead counts once
+		# Pereyaslav is held and carries a fort or a Cossack settlement, so a
+		# province of another culture on the far steppe cannot block the Crimean
+		# and Don branches that hang from this mission.
+		provinces_to_highlight = {
+			OR = {
+				AND = {
+					province_id = 280
+					NOT = { country_or_non_sovereign_subject_holds = ROOT }
 				}
-			}
-			sloboda_ukraine_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-				OR = {
-					culture = ruthenian
-					culture = ruthenian_west_ruthenian
-					culture = ruthenian_west_slavic
+				AND = {
+					province_id = 2407
+					OR = {
+						NOT = { country_or_non_sovereign_subject_holds = ROOT }
+						AND = {
+							NOT = { has_fort_building_trigger = yes }
+							NOT = { has_province_modifier = cossack_settlement }
+						}
+					}
 				}
 			}
 		}
-		provinces_to_highlight = {
-			OR = {
-				area = yedisan_area
-				area = sloboda_ukraine_area
+		trigger = {
+			280 = {
+				country_or_non_sovereign_subject_holds = ROOT
 			}
-			NOT = {
-				AND = {
-					country_or_non_sovereign_subject_holds = ROOT
-					OR = {
-						culture = ruthenian
-						culture = ruthenian_west_ruthenian
-						culture = ruthenian_west_slavic
-					}
+			2407 = {
+				country_or_non_sovereign_subject_holds = ROOT
+				OR = {
+					has_fort_building_trigger = yes
+					has_province_modifier = cossack_settlement
 				}
 			}
 		}
@@ -1121,10 +1185,58 @@ UKR_missions_5 = {
 		}
 	}
 
-	UKR_tatar = {
-		icon = mission_break_the_tatar_yoke
+	UKR_sloboda_frontier = {
+		icon = mission_lit_harness_steppes
 		position = 7
 		required_missions = { UKR_dniepr }
+		# The Sloboda is settled hub by hub, not culture by culture: two
+		# fortified or Cossack-settled towns of Ruthenian culture are enough.
+		# Voronezh and Lipetsk begin with Mishary Tatar and Ryazan populations,
+		# so requiring the whole area would make this unreachable for most of the game.
+		provinces_to_highlight = {
+			area = sloboda_ukraine_area
+			OR = {
+				NOT = { country_or_non_sovereign_subject_holds = ROOT }
+				AND = {
+					NOT = { has_fort_building_trigger = yes }
+					NOT = { has_province_modifier = cossack_settlement }
+				}
+			}
+		}
+		trigger = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				area = sloboda_ukraine_area
+				value = 2
+				OR = {
+					culture = ruthenian
+					culture = ruthenian_west_ruthenian
+					culture = ruthenian_west_slavic
+				}
+				OR = {
+					has_fort_building_trigger = yes
+					has_province_modifier = cossack_settlement
+				}
+			}
+		}
+		effect = {
+			sloboda_ukraine_area = {
+				limit = {
+					owned_by = ROOT
+				}
+				add_province_modifier = {
+					name = cossack_frontier_settlement
+					duration = 7300
+				}
+			}
+			add_manpower = 2
+			add_army_tradition = 5
+		}
+	}
+
+	UKR_tatar = {
+		icon = mission_break_the_tatar_yoke
+		position = 8
+		required_missions = { UKR_sloboda_frontier }
 		trigger = {
 			lower_don_area = {
 				type = all
@@ -1161,7 +1273,7 @@ UKR_missions_5 = {
 	UKR_demand_tribute = {
 		icon = mission_cossack_cavalry
 		required_missions = { UKR_crimea UKR_tatar }
-		position = 8
+		position = 9
 		trigger = {
 			astrakhan_area = {
 				type = all
@@ -1183,7 +1295,7 @@ UKR_missions_5 = {
 
 	UKR_horde = {
 		icon = mission_unite_home_region
-		position = 9
+		position = 10
 		required_missions = { UKR_demand_tribute }
 		provinces_to_highlight = {
 			OR = {
@@ -1243,7 +1355,7 @@ UKR_missions_5 = {
 
 	UKR_fleet = {
 		icon = rip_gfx_mission_dnieper_chaika_icon
-		position = 10
+		position = 11
 		required_missions = { UKR_port }
 		trigger = {
 			navy_size_percentage = 1
@@ -1258,7 +1370,7 @@ UKR_missions_5 = {
 
 	UKR_perm = {
 		icon = mission_integrate_perm
-		position = 11
+		position = 12
 		required_missions = { }
 		trigger = {
 			perm_area = {
@@ -1281,7 +1393,7 @@ UKR_missions_5 = {
 
 	UKR_siberia = {
 		icon = mission_collect_yasak
-		position = 12
+		position = 13
 		required_missions = { UKR_kazan UKR_perm }
 		# A foothold across the ridge replaces the old 400-point power toll.
 		trigger = {
@@ -1324,7 +1436,12 @@ KIE_missions_1_culture = {
 		provinces_to_highlight = {
 			province_id = 280
 		}
+		# The Collegium of 1632 joined two existing schools, so it follows the
+		# Brotherhood schools. The prerequisite sits in the trigger rather than in
+		# required_missions: the Brotherhood is in column 5 and this cell is in
+		# column 1, and a long cross-column arrow would draw through other cells.
 		trigger = {
+			mission_completed = KIE_brotherhood_schools
 			has_institution = printing_press
 			280 = {
 				owned_by = ROOT
@@ -1338,6 +1455,9 @@ KIE_missions_1_culture = {
 				}
 			}
 		}
+		# The reward is the Collegium itself: its province modifier and a
+		# university in Kyiv, plus a measure of prestige. It no longer also pays
+		# out an advisor, heir stats and reform progress at the same time.
 		effect = {
 			280 = {
 				if = {
@@ -1347,30 +1467,19 @@ KIE_missions_1_culture = {
 				else = {
 					add_base_production = 2
 				}
+				if = {
+					limit = { has_province_modifier = kyiv_brotherhood_collegium }
+					remove_province_modifier = kyiv_brotherhood_collegium
+				}
+				if = {
+					limit = { NOT = { has_province_modifier = kyiv_mohyla_academy } }
+					add_province_modifier = {
+						name = kyiv_mohyla_academy
+						duration = -1
+					}
+				}
 			}
-			add_prestige_or_monarch_power = { amount = 25 }
-			if = {
-				limit = { has_dlc = "Rule Britannia" }
-				change_innovativeness = 3
-			}
-			change_government_reform_progress = 50
-			if = {
-				limit = { has_heir = yes }
-				change_heir_adm = 1
-				change_heir_dip = 1
-			}
-			else = {
-				add_adm_power = 50
-				add_dip_power = 50
-			}
-			define_advisor = {
-				name = "Petro Mohyla"
-				culture = romanian
-				religion = ROOT
-				type = theologian
-				skill = 3
-				cost_multiplier = 0.5
-			}
+			add_prestige = 15
 		}
 	}
 

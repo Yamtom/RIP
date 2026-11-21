@@ -1,0 +1,39 @@
+country_decisions = {
+
+	# KIE_byzantine_relations (missions/Kyiv_Missions.txt). While Byzantium
+	# survives, the mission wants either an alliance or a rivalry in which the
+	# Kyiv court has said aloud what it claims. This decision is that
+	# declaration; kyiv_choices.4 lets the player pick the claim and sets
+	# rip_kie_byz_primacy_declared, and Constantinople's opinion of us pays for it.
+	rip_kie_declare_primacy = {
+		potential = {
+			tag = KIE
+			exists = BYZ
+			NOT = { has_country_flag = rip_kie_byz_primacy_declared }
+			NOT = { mission_completed = KIE_byzantine_relations }
+		}
+		allow = {
+			is_at_war = no
+			NOT = { alliance_with = BYZ }
+			BYZ = {
+				custom_trigger_tooltip = {
+					tooltip = rivalled_or_rival_of
+					OR = {
+						is_rival = root
+						root = {
+							is_rival = prev
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			country_event = {
+				id = kyiv_choices.4
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}

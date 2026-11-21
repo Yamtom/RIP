@@ -1,0 +1,201 @@
+namespace = kyiv_choices
+
+# Court decisions that the Kyiv mission trees used to make for the player.
+#   kyiv_choices.1  UKR_tsyisar          what becomes of Tsarhorod
+#   kyiv_choices.2  UKR_tsyisar          the integration, fifteen years later
+#   kyiv_choices.3  KIE_magdeburg_law    how far the magistrate's powers reach
+#   kyiv_choices.4  rip_kie_declare_primacy
+#                                         the public claim to primacy over Constantinople
+
+# Tsarhorod. The mission no longer converts the city by decree.
+country_event = {
+	id = kyiv_choices.1
+	title = kyiv_choices.1.t
+	desc = kyiv_choices.1.d
+	picture = CONSTANTINOPLE_eventPicture
+	is_triggered_only = yes
+
+	# Confirm the rights of the Greek institutions: the city is restored as a
+	# Greek Orthodox city under privileges, and the court need not change it.
+	option = {
+		name = kyiv_choices.1.a
+		ai_chance = {
+			factor = 1
+		}
+		151 = {
+			change_culture = greek
+			change_religion = orthodox
+			add_base_tax = 1
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = UKR_tsarhorod_greek_privileges
+				duration = -1
+			}
+		}
+		add_prestige = 10
+	}
+
+	# Begin the long integration of the court: the city takes our culture and
+	# faith only after fifteen years, and is restless until then.
+	option = {
+		name = kyiv_choices.1.b
+		ai_chance = {
+			factor = 1
+		}
+		151 = {
+			add_base_tax = 1
+			add_base_production = 1
+			add_base_manpower = 1
+			add_province_modifier = {
+				name = UKR_tsarhorod_court_integration
+				duration = 5475
+			}
+		}
+		set_country_flag = ukr_tsarhorod_integrating
+		country_event = {
+			id = kyiv_choices.2
+			days = 5475
+		}
+	}
+}
+
+country_event = {
+	id = kyiv_choices.2
+	title = kyiv_choices.2.t
+	desc = kyiv_choices.2.d
+	picture = CONSTANTINOPLE_eventPicture
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = ukr_tsarhorod_integrating
+		owns = 151
+	}
+
+	option = {
+		name = kyiv_choices.2.a
+		clr_country_flag = ukr_tsarhorod_integrating
+		151 = {
+			if = {
+				limit = {
+					has_province_modifier = UKR_tsarhorod_court_integration
+				}
+				remove_province_modifier = UKR_tsarhorod_court_integration
+			}
+			change_culture = ROOT
+			change_religion = ROOT
+			add_base_tax = 1
+			add_base_production = 1
+			add_base_manpower = 1
+		}
+	}
+}
+
+# Magdeburg law in Kyiv: the powers of the magistrate.
+country_event = {
+	id = kyiv_choices.3
+	title = kyiv_choices.3.t
+	desc = kyiv_choices.3.d
+	picture = FREE_CITY_eventPicture
+	is_triggered_only = yes
+
+	# A magistrate of the city's own.
+	option = {
+		name = kyiv_choices.3.a
+		ai_chance = {
+			factor = 1
+		}
+		280 = {
+			add_base_production = 1
+			add_province_modifier = {
+				name = KIE_kyiv_magistrate
+				duration = -1
+			}
+		}
+		if = {
+			limit = {
+				has_estate = estate_burghers
+			}
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = 10
+			}
+		}
+	}
+
+	# The voivode's court confirms the verdicts and the levies.
+	option = {
+		name = kyiv_choices.3.b
+		ai_chance = {
+			factor = 1
+		}
+		280 = {
+			add_province_modifier = {
+				name = KIE_kyiv_voivode_oversight
+				duration = -1
+			}
+		}
+		add_adm_power = 50
+		if = {
+			limit = {
+				has_estate = estate_burghers
+			}
+			add_estate_loyalty = {
+				estate = estate_burghers
+				loyalty = -5
+			}
+		}
+	}
+}
+
+# KIE_byzantine_relations: the public claim. Fired by rip_kie_declare_primacy.
+country_event = {
+	id = kyiv_choices.4
+	title = kyiv_choices.4.t
+	desc = kyiv_choices.4.d
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+
+	# The church of the Rus' speaks first.
+	option = {
+		name = kyiv_choices.4.a
+		set_country_flag = rip_kie_byz_primacy_declared
+		set_country_flag = rip_kie_byz_primacy_church
+		add_prestige = 10
+		if = {
+			limit = {
+				exists = BYZ
+			}
+			BYZ = {
+				add_opinion = {
+					who = ROOT
+					modifier = kie_church_primacy_declared
+				}
+			}
+		}
+	}
+
+	# The house of the Rurikids speaks first.
+	option = {
+		name = kyiv_choices.4.b
+		set_country_flag = rip_kie_byz_primacy_declared
+		set_country_flag = rip_kie_byz_primacy_dynastic
+		add_legitimacy = 10
+		if = {
+			limit = {
+				exists = BYZ
+			}
+			BYZ = {
+				add_opinion = {
+					who = ROOT
+					modifier = kie_dynastic_primacy_declared
+				}
+			}
+		}
+	}
+
+	# Keep silent for now; the decision stays available.
+	option = {
+		name = kyiv_choices.4.c
+	}
+}

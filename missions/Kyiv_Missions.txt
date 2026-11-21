@@ -452,28 +452,24 @@ KIE_missions_4 = {
 				}
 				OR = {
 					alliance_with = BYZ
-					BYZ = {
-						custom_trigger_tooltip = {
-							tooltip = rivalled_or_rival_of
-							OR = {
-								is_rival = root
-								root = {
-									is_rival = prev
+					AND = {
+						BYZ = {
+							custom_trigger_tooltip = {
+								tooltip = rivalled_or_rival_of
+								OR = {
+									is_rival = root
+									root = {
+										is_rival = prev
+									}
 								}
 							}
 						}
+						# Rivalry alone is not the quarrel. The Kyiv court has to say
+						# aloud what it claims, and pay for it, through the decision
+						# rip_kie_declare_primacy (kyiv_choices.4).
 						custom_trigger_tooltip = {
-							tooltip = has_been_insulted_by_root
-							OR = {
-								has_opinion_modifier = {
-									who = ROOT
-									modifier = insulted
-								}
-								has_opinion_modifier = {
-									who = ROOT
-									modifier = scornfully_insulted
-								}
-							}
+							tooltip = KIE_byzantine_primacy_declared_tt
+							has_country_flag = rip_kie_byz_primacy_declared
 						}
 					}
 				}

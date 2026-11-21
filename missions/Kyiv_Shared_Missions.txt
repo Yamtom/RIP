@@ -490,8 +490,12 @@ KIE_missions_5 = {
 				duration = 7300
 			}
 			add_prestige = 10
-			add_adm_power = 50
-			280 = { add_base_production = 1 }
+			# How far the magistrate's powers reach is the court's decision
+			# (kyiv_choices.3); the old flat adm power and production now come
+			# with the option that earns them.
+			country_event = {
+				id = kyiv_choices.3
+			}
 		}
 	}
 
@@ -502,16 +506,55 @@ KIE_missions_5 = {
 		provinces_to_highlight = {
 			province_id = 280
 		}
+		# Two routes to the same school. The historical Epiphany Brotherhood was
+		# founded in 1615 by an Orthodox community under a Catholic king, and in
+		# 1620 Hetman Sahaidachnyi enrolled the whole Zaporozhian Host in it, so a
+		# realm of another faith can patronise Kyiv's Orthodox community instead
+		# of building the whole parish network itself.
 		trigger = {
-			religion = orthodox
 			adm_tech = 10
 			280 = {
 				owned_by = ROOT
-				OR = { has_building = temple has_building = cathedral }
 			}
-			num_of_owned_provinces_with = {
-				value = 3
-				OR = { has_building = temple has_building = cathedral }
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = KIE_brotherhood_parish_network_tt
+					AND = {
+						OR = {
+							religion = orthodox
+							religion = russian_orthodox
+						}
+						280 = {
+							OR = { has_building = temple has_building = cathedral }
+						}
+						num_of_owned_provinces_with = {
+							value = 3
+							OR = { has_building = temple has_building = cathedral }
+						}
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = KIE_brotherhood_patronage_tt
+					AND = {
+						NOT = { religion = orthodox }
+						NOT = { religion = russian_orthodox }
+						280 = {
+							religion = orthodox
+							OR = { has_building = temple has_building = cathedral }
+						}
+						OR = {
+							AND = {
+								has_estate = estate_burghers
+								estate_influence = {
+									estate = estate_burghers
+									influence = 40
+								}
+							}
+							mission_completed = KIE_cossack
+							alliance_with = ZAZ
+						}
+					}
+				}
 			}
 		}
 		effect = {
