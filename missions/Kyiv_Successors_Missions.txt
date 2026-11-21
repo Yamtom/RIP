@@ -171,22 +171,23 @@ UKR_missions_1 = {
 		icon = mission_protect_white_sea_trade
 		position = 8
 		required_missions = { UKR_novgorod }
+		# The Primary Chronicle puts Rurik's first seat at Ladoga (1961), on the
+		# Volkhov route, before Novgorod. No Scandinavian land is involved.
 		provinces_to_highlight = {
-			region = scandinavia_region
+			province_id = 1961
 			NOT = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		trigger = {
-			scandinavia_region = {
-				type = all
+			1961 = {
 				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		effect = {
 			add_prestige = 15
 			add_legitimacy = 15
-			scandinavia_region = {
+			1961 = {
 				add_province_modifier = {
 					name = "KIE_scandinavia"
 					duration = 7300
@@ -363,24 +364,6 @@ UKR_missions_2 = {
 			add_country_modifier = {
 				name = "KIE_union"
 				duration = -1
-			}
-			hidden_effect = {
-				every_province = {
-					limit = {
-						OR = {
-							culture = polish
-						}
-					}
-					change_culture = ROOT
-				}
-				every_country = {
-					limit = {
-						OR = {
-							primary_culture = polish
-						}
-					}
-					change_primary_culture = ROOT
-				}
 			}
 		}
 	}
