@@ -32,7 +32,8 @@ byz = named_block(read('missions/Kyiv_Missions.txt'), 'KIE_byzantine_relations')
 trigger = named_block(byz, 'trigger')
 alive = named_block(trigger, 'if')
 assert 'exists = BYZ' in alive and 'alliance_with = BYZ' in alive
-assert 'is_rival = root' in alive and 'modifier = insulted' in alive
+assert 'is_rival = root' in alive and 'has_country_flag = rip_kie_byz_primacy_declared' in alive
+assert 'insulted' not in alive, 'the rivalry path must not ask the player to send an insult'
 dead = named_block(trigger, 'else')
 assert 'advisor = theologian' in dead
 kyiv = named_block(dead, '280')

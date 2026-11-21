@@ -68,19 +68,37 @@ assert 'influence = 60' in fc_trigger
 assert 'province_has_center_of_trade_of_level = 1' in fc_trigger
 assert 'provinces_to_highlight' in free_cities
 
-for mission, areas in (
-    ('UKR_tsyisar', ('thrace_area',)),
-    ('UKR_dniepr', ('yedisan_area', 'sloboda_ukraine_area')),
-):
-    trigger = named_block(named_block(successors, mission), 'trigger')
-    assert 'all_owned_province' not in trigger
-    for area in areas:
-        scope = named_block(trigger, area)
-        assert 'type = all' in scope
-        assert 'country_or_non_sovereign_subject_holds = ROOT' in scope
-        if mission == 'UKR_dniepr':
-            for culture in ('ruthenian', 'ruthenian_west_ruthenian', 'ruthenian_west_slavic'):
-                assert f'culture = {culture}' in scope
+tsyisar_trigger = named_block(named_block(successors, 'UKR_tsyisar'), 'trigger')
+assert 'all_owned_province' not in tsyisar_trigger
+tsyisar_scope = named_block(tsyisar_trigger, 'thrace_area')
+assert 'type = all' in tsyisar_scope
+assert 'country_or_non_sovereign_subject_holds = ROOT' in tsyisar_scope
+
+# The Dnieper crossing is one pair of bank provinces plus a fort or settlement,
+# not the culture of every province of the Yedisan and the Sloboda.
+dniepr = named_block(successors, 'UKR_dniepr')
+dniepr_trigger = named_block(dniepr, 'trigger')
+assert 'all_owned_province' not in dniepr_trigger
+assert 'yedisan_area' not in dniepr_trigger and 'sloboda_ukraine_area' not in dniepr_trigger
+assert 'culture = ' not in dniepr_trigger, 'UKR_dniepr must not gate on distant provinces by culture'
+assert 'country_or_non_sovereign_subject_holds = ROOT' in named_block(dniepr_trigger, '280')
+bridgehead = named_block(dniepr_trigger, '2407')
+assert 'country_or_non_sovereign_subject_holds = ROOT' in bridgehead
+assert 'has_fort_building_trigger = yes' in bridgehead
+assert 'has_province_modifier = cossack_settlement' in bridgehead
+
+# The Sloboda becomes its own mission: a few hubs, not the whole area by culture.
+sloboda = named_block(successors, 'UKR_sloboda_frontier')
+assert 'required_missions = { UKR_dniepr }' in sloboda
+sloboda_trigger = named_block(sloboda, 'trigger')
+counter = named_block(sloboda_trigger, 'num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with')
+assert 'area = sloboda_ukraine_area' in counter and 'value = 2' in counter
+assert 'type = all' not in sloboda_trigger
+for culture in ('ruthenian', 'ruthenian_west_ruthenian', 'ruthenian_west_slavic'):
+    assert f'culture = {culture}' in counter
+assert 'has_fort_building_trigger = yes' in counter and 'has_province_modifier = cossack_settlement' in counter
+assert 'required_missions = { UKR_sloboda_frontier }' in named_block(successors, 'UKR_tatar')
+assert 'required_missions = { UKR_dniepr }' in named_block(successors, 'UKR_crimea')
 
 horde = named_block(named_block(successors, 'UKR_horde'), 'trigger')
 assert 'development = 70' not in horde
