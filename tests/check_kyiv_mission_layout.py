@@ -1,4 +1,4 @@
-"""Static KIE mission-screen layout gate.
+"""Static KIE, KRU and UKR mission-screen layout gate.
 
 Models EU4 per-slot stacking and arrow routing (vertical run in the parent
 column down to the gap above the child row, inferred from in-game screenshots
@@ -17,6 +17,11 @@ MISSION_FILES = (
     "Kyiv_Successors_Missions.txt",
 )
 ALLOWED_ROOTS = {"KIE_true_ruler", "KIE_mohyla_academy"}
+# UKR_ruthenia opens the successor column; every other successor mission has a parent.
+SUCCESSOR_ROOTS = ALLOWED_ROOTS | {"UKR_ruthenia"}
+# The one arrow that still runs behind a card: Serbia sits in the cell under the
+# port, because Serbia must hang directly under Bulgaria (column 3, row 9).
+KNOWN_OCCLUSIONS = {("UKR_port", "UKR_fleet")}
 EXPECTED_CELLS = {
     "KIE_stability": (5, 2),
     "KIE_byzantine_relations": (4, 2),
@@ -27,18 +32,36 @@ EXPECTED_CELLS = {
     "KIE_cossack": (5, 5),
     "KIE_dnieper_settlement": (5, 6),
 }
+SUCCESSOR_CELLS = {
+    "UKR_breadbasket_of_europe": (1, 4),
+    "UKR_ruthenia": (1, 5),
+    "UKR_baltic_dominion": (2, 12),
+    "UKR_ruthenian_empire": (3, 12),
+    "UKR_dniepr": (4, 6),
+    "UKR_crimea": (4, 7),
+    "UKR_port": (4, 9),
+    "UKR_serbia": (4, 10),
+    "UKR_fleet": (4, 11),
+    "UKR_sloboda_frontier": (5, 7),
+    "UKR_tatar": (5, 8),
+    "UKR_demand_tribute": (5, 9),
+    "UKR_horde": (5, 10),
+    "UKR_kazan": (5, 11),
+    "UKR_perm": (5, 12),
+    "UKR_siberia": (5, 13),
+}
 
 
-def collect_kie_grid() -> tuple[
+def collect_grid(tag: str) -> tuple[
     dict[str, tuple[int, int, list[str]]],
     dict[tuple[int, int], str],
     list[str],
 ]:
-    """Simulate EU4 slot-by-slot mission placement for KIE."""
+    """Simulate EU4 slot-by-slot mission placement for one tag."""
     series = []
     for filename in sorted(MISSION_FILES, key=str.lower):
         for sname, slot, pot, missions in parse_series_in_file(f"missions/{filename}"):
-            if re.search(r"\btag\s*=\s*KIE\b", pot):
+            if re.search(rf"\btag\s*=\s*{tag}\b", pot):
                 series.append((sname, slot, missions))
 
     cursors: dict[int, int] = defaultdict(int)
@@ -62,12 +85,14 @@ def collect_kie_grid() -> tuple[
     return placed, grid, failures
 
 
-def check_layout() -> list[str]:
-    """Validate KIE roots, arrow visibility, and expected coordinates."""
-    placed, grid, failures = collect_kie_grid()
+def check_layout(tag: str = "KIE") -> list[str]:
+    """Validate roots, arrow visibility, and expected coordinates for one tag."""
+    placed, grid, failures = collect_grid(tag)
+    roots = ALLOWED_ROOTS if tag == "KIE" else SUCCESSOR_ROOTS
+    known = set() if tag == "KIE" else KNOWN_OCCLUSIONS
 
     for mname, (slot, row, reqs) in placed.items():
-        if not reqs and mname not in ALLOWED_ROOTS:
+        if not reqs and mname not in roots:
             failures.append(
                 f"{mname} at ({slot}, {row}) has no required_missions (unexpected root)"
             )
@@ -86,22 +111,22 @@ def check_layout() -> list[str]:
                 for y in range(dep_row + 1, row)
                 if (dep_slot, y) in grid
             ]
-            if occluders:
+            if occluders and (dep, mname) not in known:
                 failures.append(
                     f"occluded arrow {dep} ({dep_slot}, {dep_row}) -> {mname} ({slot}, {row}) behind {occluders}"
                 )
 
-    for mname, expected in EXPECTED_CELLS.items():
+    for mname, expected in (EXPECTED_CELLS if tag == "KIE" else SUCCESSOR_CELLS).items():
         if mname not in placed:
-            failures.append(f"expected mission {mname} missing from KIE grid")
+            failures.append(f"expected mission {mname} missing from {tag} grid")
             continue
         actual = (placed[mname][0], placed[mname][1])
         if actual != expected:
             failures.append(f"{mname}: expected {expected}, got {actual}")
 
-    if "KIE_dynasty" in placed and "KIE_byzantine_relations" not in placed["KIE_dynasty"][2]:
+    if tag == "KIE" and "KIE_dynasty" in placed and "KIE_byzantine_relations" not in placed["KIE_dynasty"][2]:
         failures.append("KIE_dynasty must require KIE_byzantine_relations")
-    if "KIE_magdeburg_law" in placed and "KIE_stability" not in placed["KIE_magdeburg_law"][2]:
+    if tag == "KIE" and "KIE_magdeburg_law" in placed and "KIE_stability" not in placed["KIE_magdeburg_law"][2]:
         failures.append("KIE_magdeburg_law must require KIE_stability")
 
     dependents: dict[str, list[str]] = defaultdict(list)
@@ -116,14 +141,19 @@ def check_layout() -> list[str]:
 
 
 def main() -> int:
-    failures = check_layout()
-    if failures:
-        print("FAIL: KIE mission layout")
-        for failure in failures:
-            print(f"  {failure}")
+    failed = False
+    for tag in ("KIE", "KRU", "UKR"):
+        failures = check_layout(tag)
+        if failures:
+            failed = True
+            print(f"FAIL: {tag} mission layout")
+            for failure in failures:
+                print(f"  {failure}")
+    if failed:
         return 1
-    placed, _, _ = collect_kie_grid()
-    print(f"PASS: KIE mission layout ({len(placed)} missions, 0 collisions, 0 hidden/non-downward arrows; static only)")
+    counts = {tag: len(collect_grid(tag)[0]) for tag in ("KIE", "KRU", "UKR")}
+    print(f"PASS: KIE/KRU/UKR mission layout ({counts}; 0 collisions, 0 unexpected roots, "
+          f"0 non-downward arrows; {len(KNOWN_OCCLUSIONS)} known occluded arrow; static only)")
     return 0
 
 
