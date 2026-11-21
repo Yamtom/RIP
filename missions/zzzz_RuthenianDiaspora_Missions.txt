@@ -1,5 +1,14 @@
 # Load after national series sharing columns 2-4, including the zzz_ transitions.
-# The diaspora branches occupy rows 24-32 below those series.
+# The tree exists twice, because columns stack one series under another and the
+# national trees differ in height (up to row 22 for CHR):
+#   RIP_diaspora_missions_*        rows 24-32, for every country except those below;
+#   RIP_diaspora_kyiv_missions_*   rows 15-23, same missions with the suffix _kyiv, for
+#                                  rip_diaspora_short_tree (KIE, KRU, UKR), whose trees
+#                                  end at row 12 in these columns.
+# Both copies share the flags set by their effects, so the decisions in
+# decisions/RIP_RuthenianDiaspora.txt serve either. Titles and descriptions of the
+# copy are references to the originals (localisation/RIP_shared_ruthenian_expeditions).
+# tests/check_diaspora_layout.py keeps the two copies identical apart from ids and rows.
 RIP_diaspora_missions_1 = {
 	slot = 3
 	generic = no
@@ -8,6 +17,7 @@ RIP_diaspora_missions_1 = {
 		NOT = { map_setup = map_setup_random }
 		rip_diaspora_eligible_culture = yes
 		government_rank = 2
+		NOT = { rip_diaspora_short_tree = yes }
 	}
 	has_country_shield = yes
 
@@ -114,6 +124,7 @@ RIP_diaspora_missions_2 = {
 		NOT = { map_setup = map_setup_random }
 		rip_diaspora_eligible_culture = yes
 		government_rank = 2
+		NOT = { rip_diaspora_short_tree = yes }
 	}
 	has_country_shield = yes
 
@@ -250,6 +261,7 @@ RIP_diaspora_missions_3 = {
 		NOT = { map_setup = map_setup_random }
 		rip_diaspora_eligible_culture = yes
 		government_rank = 2
+		NOT = { rip_diaspora_short_tree = yes }
 	}
 	has_country_shield = yes
 
@@ -342,6 +354,368 @@ RIP_diaspora_missions_3 = {
 		icon = mission_trade_company_region_abroad
 		required_missions = { rip_diaspora_root }
 		position = 31
+		trigger = {
+			is_subject = no
+			total_development = 300
+			NOT = {
+				any_owned_province = {
+					region = central_asia_region
+				}
+			}
+			rip_diaspora_mainland_partner_trigger = { REGION = central_asia_region THRESHOLD = 100 }
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_grey_wedge_settlers_flag
+		}
+	}
+}
+
+RIP_diaspora_kyiv_missions_1 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		NOT = { map_setup = map_setup_random }
+		rip_diaspora_eligible_culture = yes
+		government_rank = 2
+		rip_diaspora_short_tree = yes
+	}
+	has_country_shield = yes
+
+	rip_diaspora_root_kyiv = {
+		icon = mission_exploration
+		position = 15
+		trigger = {
+			is_year = 1800
+			is_subject = no
+			any_owned_province = {
+				has_port = yes
+			}
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_diaspora_root_flag
+		}
+	}
+
+	rip_lysianskyi_circumnavigation_kyiv = {
+		icon = mission_explore_the_world
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 17
+		trigger = {
+			is_year = 1806
+			has_country_flag = circumnavigation_done
+		}
+		effect = {
+			add_prestige = 15
+			add_country_modifier = {
+				name = rip_diaspora_of_rus_legacy
+				duration = 3650
+			}
+			set_country_flag = rip_lysianskyi_circumnavigation_flag
+		}
+	}
+
+	rip_diaspora_of_rus_kyiv = {
+		icon = mission_new_world_power
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 23
+		trigger = {
+			is_year = 1806
+			OR = {
+				has_country_flag = rip_diaspora_usa_flag
+				has_country_flag = rip_diaspora_usa_settlers_flag
+			}
+			OR = {
+				has_country_flag = rip_diaspora_south_america_flag
+				has_country_flag = rip_diaspora_south_america_settlers_flag
+			}
+			OR = {
+				has_country_flag = rip_diaspora_australia_flag
+				has_country_flag = rip_diaspora_australia_settlers_flag
+			}
+			OR = {
+				has_country_flag = rip_green_wedge_flag
+				has_country_flag = rip_green_wedge_settlers_flag
+				2447 = {
+					rip_diaspora_established_community = yes
+				}
+			}
+			OR = {
+				has_country_flag = rip_grey_wedge_flag
+				has_country_flag = rip_grey_wedge_settlers_flag
+				# South-western Siberia and the northern Kazakh steppe: the Irtysh,
+				# Ishim and Akmola areas and the Kazakh steppe itself.
+				yrtesh_area = {
+					rip_diaspora_established_community = yes
+				}
+				ishim_area = {
+					rip_diaspora_established_community = yes
+				}
+				aqmola_area = {
+					rip_diaspora_established_community = yes
+				}
+				kazakhstan_area = {
+					rip_diaspora_established_community = yes
+				}
+			}
+		}
+		effect = {
+			add_prestige = 25
+			# A voyage of our own round the world, if we made one, adds renown;
+			# it is no longer a gate for the southern branches.
+			if = {
+				limit = { has_country_flag = rip_lysianskyi_circumnavigation_flag }
+				add_prestige = 10
+			}
+			add_country_modifier = {
+				name = rip_diaspora_of_rus_legacy
+				duration = -1
+			}
+			set_country_flag = rip_diaspora_of_rus_completed_flag
+		}
+	}
+}
+
+RIP_diaspora_kyiv_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		NOT = { map_setup = map_setup_random }
+		rip_diaspora_eligible_culture = yes
+		government_rank = 2
+		rip_diaspora_short_tree = yes
+	}
+	has_country_shield = yes
+
+	rip_colonize_canada_kyiv = {
+		icon = mission_rb_colonise_canada
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 16
+		trigger = {
+			any_owned_province = {
+				colonial_region = colonial_canada
+			}
+		}
+		effect = {
+			add_prestige = 10
+			custom_tooltip = rip_colonize_canada_flavor_tt
+			set_country_flag = rip_colonize_canada_flag
+		}
+	}
+
+	rip_diaspora_usa_kyiv = {
+		icon = mission_rb_the_thirteen_colonies
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 18
+		trigger = {
+			OR = {
+				has_country_flag = rip_colonize_canada_flag
+				has_country_flag = rip_colonize_canada_settlers_flag
+			}
+			any_owned_province = {
+				colonial_region = colonial_eastern_america
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_years_of_income = 0.25
+			set_country_flag = rip_diaspora_usa_flag
+		}
+	}
+
+	rip_diaspora_south_america_kyiv = {
+		icon = mission_colonise_brazil
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 19
+		trigger = {
+			OR = {
+				any_owned_province = {
+					colonial_region = colonial_brazil
+				}
+				any_owned_province = {
+					colonial_region = colonial_la_plata
+				}
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_years_of_income = 0.5
+			set_country_flag = rip_diaspora_south_america_flag
+		}
+	}
+
+	rip_diaspora_australia_kyiv = {
+		icon = mission_naval_kingdom
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 20
+		trigger = {
+			any_owned_province = {
+				colonial_region = colonial_australia
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_navy_tradition = 10
+			set_country_flag = rip_diaspora_australia_flag
+		}
+	}
+
+	rip_green_wedge_kyiv = {
+		icon = mission_afghan_frontier
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 21
+		# The Green Wedge was a scatter of settler communities in a mixed land,
+		# so owning one more province with a local population must not undo the
+		# mission: three provinces, at least two of them with Ruthenian or Rusyn
+		# communities.
+		trigger = {
+			is_subject = no
+			num_of_owned_provinces_with = {
+				region = manchuria_region
+				value = 3
+			}
+			num_of_owned_provinces_with = {
+				region = manchuria_region
+				rip_diaspora_eligible_culture_province = yes
+				value = 2
+			}
+		}
+		effect = {
+			add_prestige = 10
+			set_country_flag = rip_green_wedge_flag
+			country_event = { id = rip_diaspora.20 days = 5 }
+		}
+	}
+
+	rip_grey_wedge_kyiv = {
+		icon = mission_rajputana_frontier
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 22
+		# Same rule as the Green Wedge: communities among the local population.
+		trigger = {
+			is_subject = no
+			num_of_owned_provinces_with = {
+				region = central_asia_region
+				value = 3
+			}
+			num_of_owned_provinces_with = {
+				region = central_asia_region
+				rip_diaspora_eligible_culture_province = yes
+				value = 2
+			}
+		}
+		effect = {
+			add_prestige = 10
+			set_country_flag = rip_grey_wedge_flag
+			country_event = { id = rip_diaspora.21 days = 5 }
+		}
+	}
+}
+
+RIP_diaspora_kyiv_missions_3 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		NOT = { map_setup = map_setup_random }
+		rip_diaspora_eligible_culture = yes
+		government_rank = 2
+		rip_diaspora_short_tree = yes
+	}
+	has_country_shield = yes
+
+	rip_colonize_canada_settlers_kyiv = {
+		icon = mission_settlers_north_america
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 16
+		trigger = {
+			NOT = { any_owned_province = { colonial_region = colonial_canada } }
+			rip_diaspora_colonial_partner_trigger = { REGION = colonial_canada THRESHOLD = 100 }
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_colonize_canada_settlers_flag
+		}
+	}
+
+	rip_diaspora_usa_settlers_kyiv = {
+		icon = mission_diplomatic_relation
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 18
+		trigger = {
+			OR = {
+				has_country_flag = rip_colonize_canada_flag
+				has_country_flag = rip_colonize_canada_settlers_flag
+			}
+			NOT = { any_owned_province = { colonial_region = colonial_eastern_america } }
+			rip_diaspora_colonial_partner_trigger = { REGION = colonial_eastern_america THRESHOLD = 100 }
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_diaspora_usa_settlers_flag
+		}
+	}
+
+	rip_diaspora_south_america_settlers_kyiv = {
+		icon = mission_ottoman_diplomacy
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 19
+		trigger = {
+			NOT = { any_owned_province = { colonial_region = colonial_brazil } }
+			NOT = { any_owned_province = { colonial_region = colonial_la_plata } }
+			OR = {
+				rip_diaspora_colonial_partner_trigger = { REGION = colonial_brazil THRESHOLD = 100 }
+				rip_diaspora_colonial_partner_trigger = { REGION = colonial_la_plata THRESHOLD = 100 }
+			}
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_diaspora_south_america_settlers_flag
+		}
+	}
+
+	rip_diaspora_australia_settlers_kyiv = {
+		icon = mission_friends_or_enemies
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 20
+		trigger = {
+			NOT = { any_owned_province = { colonial_region = colonial_australia } }
+			rip_diaspora_colonial_partner_trigger = { REGION = colonial_australia THRESHOLD = 100 }
+		}
+		effect = {
+			add_prestige = 5
+			add_navy_tradition = 5
+			set_country_flag = rip_diaspora_australia_settlers_flag
+		}
+	}
+
+	rip_green_wedge_settlers_kyiv = {
+		icon = mission_trade_company_region_abroad
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 21
+		trigger = {
+			is_subject = no
+			total_development = 300
+			NOT = {
+				any_owned_province = {
+					region = manchuria_region
+				}
+			}
+			rip_diaspora_mainland_partner_trigger = { REGION = manchuria_region THRESHOLD = 100 }
+		}
+		effect = {
+			add_prestige = 5
+			set_country_flag = rip_green_wedge_settlers_flag
+		}
+	}
+
+	rip_grey_wedge_settlers_kyiv = {
+		icon = mission_trade_company_region_abroad
+		required_missions = { rip_diaspora_root_kyiv }
+		position = 22
 		trigger = {
 			is_subject = no
 			total_development = 300
