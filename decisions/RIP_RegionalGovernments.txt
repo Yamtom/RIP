@@ -2,7 +2,10 @@ country_decisions = {
 	rip_rg_chr_bell_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_chr = yes }
-		allow = { OR = { AND = { rip_rg_chr_bell_can = yes any_owned_province = { rip_rg_chr_bell_target = yes } } } }
+		allow = {
+			rip_rg_chr_bell_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_chr_bell_land_tt any_owned_province = { rip_rg_chr_bell_target = yes } }
+		}
 		provinces_to_highlight = { OR = { rip_rg_chr_bell_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_chr_bell_tt
@@ -15,7 +18,10 @@ country_decisions = {
 	rip_rg_chr_staple_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_chr = yes }
-		allow = { OR = { AND = { rip_rg_chr_staple_can = yes any_owned_province = { rip_rg_chr_staple_target = yes } } } }
+		allow = {
+			rip_rg_chr_staple_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_chr_staple_land_tt any_owned_province = { rip_rg_chr_staple_target = yes } }
+		}
 		provinces_to_highlight = { OR = { rip_rg_chr_staple_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_chr_staple_tt
@@ -28,7 +34,10 @@ country_decisions = {
 	rip_rg_chr_militia_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_chr = yes }
-		allow = { OR = { AND = { rip_rg_chr_militia_can = yes any_owned_province = { rip_rg_chr_militia_target = yes } } } }
+		allow = {
+			rip_rg_chr_militia_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_chr_militia_land_tt any_owned_province = { rip_rg_chr_militia_target = yes } }
+		}
 		provinces_to_highlight = { OR = { rip_rg_chr_militia_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_chr_militia_tt
@@ -41,7 +50,10 @@ country_decisions = {
 	rip_rg_uzh_salt_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_uzh = yes }
-		allow = { OR = { AND = { rip_rg_uzh_salt_can = yes any_owned_province = { rip_rg_uzh_salt_target = yes } } } }
+		allow = {
+			rip_rg_uzh_salt_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_uzh_salt_land_tt any_owned_province = { rip_rg_uzh_salt_target = yes } }
+		}
 		provinces_to_highlight = { OR = { rip_rg_uzh_salt_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_uzh_salt_tt
@@ -54,7 +66,10 @@ country_decisions = {
 	rip_rg_uzh_guides_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_uzh = yes }
-		allow = { OR = { AND = { rip_rg_uzh_guides_can = yes any_owned_province = { rip_rg_uzh_guides_target = yes } } } }
+		allow = {
+			rip_rg_uzh_guides_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_uzh_guides_land_tt any_owned_province = { rip_rg_uzh_guides_target = yes } }
+		}
 		provinces_to_highlight = { OR = { rip_rg_uzh_guides_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_uzh_guides_tt
@@ -67,7 +82,10 @@ country_decisions = {
 	rip_rg_uzh_pass_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_uzh = yes }
-		allow = { OR = { AND = { rip_rg_uzh_pass_can = yes any_owned_province = { rip_rg_uzh_pass_target = yes } } } }
+		allow = {
+			rip_rg_uzh_pass_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_uzh_pass_land_tt any_owned_province = { rip_rg_uzh_pass_target = yes } }
+		}
 		provinces_to_highlight = { OR = { rip_rg_uzh_pass_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_uzh_pass_tt
@@ -80,7 +98,26 @@ country_decisions = {
 	rip_rg_pdl_patrol_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_pdl = yes }
-		allow = { OR = { AND = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } } AND = { rip_rg_pdl_patrol_frontier_can = yes any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } } AND = { rip_rg_pdl_patrol_carpathian_can = yes any_owned_province = { rip_rg_pdl_patrol_carpathian_target = yes } } } }
+		allow = {
+			if = {
+				limit = { has_country_flag = pdl_frontier_path has_country_flag = pdl_carpathian_path }
+				OR = { AND = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } } AND = { rip_rg_pdl_patrol_frontier_can = yes any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } } AND = { rip_rg_pdl_patrol_carpathian_can = yes any_owned_province = { rip_rg_pdl_patrol_carpathian_target = yes } } }
+			}
+			else_if = {
+				limit = { has_country_flag = pdl_frontier_path }
+				rip_rg_pdl_patrol_frontier_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_pdl_patrol_frontier_land_tt any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } }
+			}
+			else_if = {
+				limit = { has_country_flag = pdl_carpathian_path }
+				rip_rg_pdl_patrol_carpathian_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_pdl_patrol_carpathian_land_tt any_owned_province = { rip_rg_pdl_patrol_carpathian_target = yes } }
+			}
+			else = {
+				rip_rg_pdl_patrol_base_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_pdl_patrol_base_land_tt any_owned_province = { rip_rg_pdl_patrol_base_target = yes } }
+			}
+		}
 		provinces_to_highlight = { OR = { rip_rg_pdl_patrol_base_target = yes rip_rg_pdl_patrol_frontier_target = yes rip_rg_pdl_patrol_carpathian_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_pdl_patrol_tt
@@ -97,7 +134,17 @@ country_decisions = {
 	rip_rg_pdl_charter_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_pdl = yes }
-		allow = { OR = { AND = { rip_rg_pdl_charter_base_can = yes any_owned_province = { rip_rg_pdl_charter_base_target = yes } } AND = { rip_rg_pdl_charter_magnate_can = yes any_owned_province = { rip_rg_pdl_charter_magnate_target = yes } } } }
+		allow = {
+			if = {
+				limit = { has_country_flag = pdl_magnate_path }
+				rip_rg_pdl_charter_magnate_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_pdl_charter_magnate_land_tt any_owned_province = { rip_rg_pdl_charter_magnate_target = yes } }
+			}
+			else = {
+				rip_rg_pdl_charter_base_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_pdl_charter_base_land_tt any_owned_province = { rip_rg_pdl_charter_base_target = yes } }
+			}
+		}
 		provinces_to_highlight = { OR = { rip_rg_pdl_charter_base_target = yes rip_rg_pdl_charter_magnate_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_pdl_charter_tt
@@ -112,7 +159,26 @@ country_decisions = {
 	rip_rg_pdl_mobile_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_pdl = yes }
-		allow = { OR = { AND = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } } AND = { rip_rg_pdl_mobile_frontier_can = yes any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } } AND = { rip_rg_pdl_mobile_carpathian_can = yes any_owned_province = { rip_rg_pdl_mobile_carpathian_target = yes } } } }
+		allow = {
+			if = {
+				limit = { has_country_flag = pdl_frontier_path has_country_flag = pdl_carpathian_path }
+				OR = { AND = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } } AND = { rip_rg_pdl_mobile_frontier_can = yes any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } } AND = { rip_rg_pdl_mobile_carpathian_can = yes any_owned_province = { rip_rg_pdl_mobile_carpathian_target = yes } } }
+			}
+			else_if = {
+				limit = { has_country_flag = pdl_frontier_path }
+				rip_rg_pdl_mobile_frontier_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_pdl_mobile_frontier_land_tt any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } }
+			}
+			else_if = {
+				limit = { has_country_flag = pdl_carpathian_path }
+				rip_rg_pdl_mobile_carpathian_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_pdl_mobile_carpathian_land_tt any_owned_province = { rip_rg_pdl_mobile_carpathian_target = yes } }
+			}
+			else = {
+				rip_rg_pdl_mobile_base_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_pdl_mobile_base_land_tt any_owned_province = { rip_rg_pdl_mobile_base_target = yes } }
+			}
+		}
 		provinces_to_highlight = { OR = { rip_rg_pdl_mobile_base_target = yes rip_rg_pdl_mobile_frontier_target = yes rip_rg_pdl_mobile_carpathian_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_pdl_mobile_tt
@@ -129,7 +195,10 @@ country_decisions = {
 	rip_rg_prl_patrol_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_prl = yes }
-		allow = { OR = { AND = { rip_rg_prl_patrol_base_can = yes any_owned_province = { rip_rg_prl_patrol_base_target = yes } } } }
+		allow = {
+			rip_rg_prl_patrol_base_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_prl_patrol_base_land_tt any_owned_province = { rip_rg_prl_patrol_base_target = yes } }
+		}
 		provinces_to_highlight = { OR = { rip_rg_prl_patrol_base_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_prl_patrol_tt
@@ -142,7 +211,10 @@ country_decisions = {
 	rip_rg_prl_charter_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_prl = yes }
-		allow = { OR = { AND = { rip_rg_prl_charter_base_can = yes any_owned_province = { rip_rg_prl_charter_base_target = yes } } } }
+		allow = {
+			rip_rg_prl_charter_base_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_prl_charter_base_land_tt any_owned_province = { rip_rg_prl_charter_base_target = yes } }
+		}
 		provinces_to_highlight = { OR = { rip_rg_prl_charter_base_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_prl_charter_tt
@@ -155,7 +227,10 @@ country_decisions = {
 	rip_rg_prl_mobile_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_prl = yes }
-		allow = { OR = { AND = { rip_rg_prl_mobile_base_can = yes any_owned_province = { rip_rg_prl_mobile_base_target = yes } } } }
+		allow = {
+			rip_rg_prl_mobile_base_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_prl_mobile_base_land_tt any_owned_province = { rip_rg_prl_mobile_base_target = yes } }
+		}
 		provinces_to_highlight = { OR = { rip_rg_prl_mobile_base_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_prl_mobile_tt
@@ -168,7 +243,10 @@ country_decisions = {
 	rip_rg_ods_freight_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_ods = yes }
-		allow = { OR = { AND = { rip_rg_ods_freight_can = yes any_owned_province = { rip_rg_ods_freight_target = yes } } } }
+		allow = {
+			rip_rg_ods_freight_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_ods_freight_land_tt any_owned_province = { rip_rg_ods_freight_target = yes } }
+		}
 		provinces_to_highlight = { OR = { rip_rg_ods_freight_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_ods_freight_tt
@@ -181,7 +259,10 @@ country_decisions = {
 	rip_rg_ods_corsairs_decision = {
 		color = { 185 140 30 }
 		potential = { rip_rg_ods = yes }
-		allow = { OR = { AND = { rip_rg_ods_corsairs_can = yes any_owned_province = { rip_rg_ods_corsairs_target = yes } } } }
+		allow = {
+			rip_rg_ods_corsairs_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_ods_corsairs_land_tt any_owned_province = { rip_rg_ods_corsairs_target = yes } }
+		}
 		provinces_to_highlight = { OR = { rip_rg_ods_corsairs_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_ods_corsairs_tt

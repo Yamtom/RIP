@@ -56,39 +56,23 @@ country_decisions = {
 			}
 		}
 		provinces_to_highlight = {
-			OR = {	
+			OR = {
+				province_id = 280
+				province_id = 283
 				AND = {
-					ROOT = { DIP = 5 }
+					ROOT = { NOT = { dip = 5 } }
 					OR = {
-						province_id = 280		#kyiv -center
-						province_id = 283		#Zaporozhie -southern center of rebellions
-					}
-				}
-				AND = {
-					ROOT = { NOT = { DIP = 5 } }
-					if = {
-						limit = { NOT = {is_date = 1775.1.1 } }
-						OR = {
-							province_id = 280		#kyiv -center
-							province_id = 283		#Zaporozhie -eastern/southern center of rebellions
-							province_id = 261		#Halych -western
-							province_id = 279		#Volhynia -western
-							province_id = 289		#Chernihiv -eastern
-						}
-					}
-					OR = {
-						province_id = 280		#kyiv -center
-						province_id = 283		#Zaporozhie -eastern/southern center of rebellions
-						province_id = 261		#Halych -western
-						province_id = 279		#Volhynia -western
-						province_id = 289		#Chernihiv -eastern
-						province_id = 291		#Kharkiv -easter
+						province_id = 261
+						province_id = 279
+						province_id = 289
+						AND = { province_id = 291 ROOT = { is_year = 1775 } }
 					}
 				}
 			}
 			OR = {
 				NOT = { owned_by = ROOT }
 				NOT = { is_core = ROOT }
+				AND = { province_id = 280 is_state = no }
 			}
 		}
 		allow = {
@@ -101,33 +85,17 @@ country_decisions = {
 				value = 20
 			}
 
-			280 = { is_state = yes }					#kyiv -center
-			OR = {
-				AND = {
-					owns_core_province = 283		#Zaporozhie -southern center of rebellions
-					owns_core_province = 280		#kyiv -center
-					dip = 5
-				}
-				AND = {
-					ROOT = { NOT = { DIP = 5 } }
-					if = {
-						limit = { NOT = {is_date = 1775.1.1 } }
-						AND = {
-							owns_core_province = 261		#Halych -western
-							owns_core_province = 279		#Volhynia -western
-							owns_core_province = 283		#Zaporozhie southern center of rebellions
-							owns_core_province = 280		#kyiv -center
-							owns_core_province = 289		#Chernihiv -eastern
-						}
-					}
-					AND = {
-						owns_core_province = 261		#Halych -western
-						owns_core_province = 279		#Volhynia -western
-						owns_core_province = 283		#Zaporozhie southern center of rebellions
-						owns_core_province = 280		#kyiv -center
-						owns_core_province = 289		#Chernihiv -eastern
-						owns_core_province = 291		#Kharkiv -eastern
-					}				
+			owns_core_province = 280 # Kyiv
+			owns_core_province = 283 # Zaporizhzhia
+			280 = { is_state = yes }
+			if = {
+				limit = { NOT = { dip = 5 } }
+				owns_core_province = 261 # Halych
+				owns_core_province = 279 # Volhynia
+				owns_core_province = 289 # Chernihiv
+				if = {
+					limit = { is_year = 1775 }
+					owns_core_province = 291 # Kharkiv
 				}
 			}
 		}

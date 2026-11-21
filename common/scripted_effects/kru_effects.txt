@@ -3,6 +3,29 @@
 # Country Scope: KRU, KIE (Kyiv, Ruthenia)
 # =========================================================================
 
+# Country scope, KRU only. Founding flags also identify the routes in old saves.
+rip_kru_set_realm_name = {
+	if = {
+		limit = {
+			OR = {
+				has_country_flag = kyiv_path_factional_ruthenia
+				has_country_flag = kru_confederation_invitation_sent
+				kru_holds_rada_reform = yes
+			}
+		}
+		override_country_name = RIP_KRU_CONFEDERATION
+	}
+	else_if = {
+		limit = { has_country_flag = kyiv_path_veche_republic }
+		override_country_name = RIP_KRU_VECHE
+	}
+	else_if = {
+		limit = { has_country_flag = kyiv_path_metropolitanate }
+		override_country_name = RIP_KRU_METROPOLIA
+	}
+	else = { restore_country_name = yes }
+}
+
 # ========================================================================
 # KRU - the Kyivan Confederation.
 #

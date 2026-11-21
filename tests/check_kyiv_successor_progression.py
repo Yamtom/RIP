@@ -89,7 +89,7 @@ assert 'has_province_modifier = cossack_settlement' in bridgehead
 
 # The Sloboda becomes its own mission: a few hubs, not the whole area by culture.
 sloboda = named_block(successors, 'UKR_sloboda_frontier')
-assert 'required_missions = { UKR_dniepr }' in sloboda
+assert 'required_missions = { UKR_dniepr KIE_dnieper_settlement }' in sloboda
 sloboda_trigger = named_block(sloboda, 'trigger')
 counter = named_block(sloboda_trigger, 'num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with')
 assert 'area = sloboda_ukraine_area' in counter and 'value = 2' in counter
