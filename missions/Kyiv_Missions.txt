@@ -73,10 +73,16 @@ KIE_missions_2 = {
 		icon = mission_high_income
 		position = 3
 		required_missions = { KIE_subjugate_white_ruthenia }
+		# The text is about grain, so the gate counts developed grain and
+		# cattle land instead of workshops and counting houses.
 		trigger = {
-			OR = {
-				workshop = 10
-				counting_house = 10
+			num_of_owned_provinces_with = {
+				value = 6
+				development = 8
+				OR = {
+					trade_goods = grain
+					trade_goods = livestock
+				}
 			}
 		}
 		effect = {
@@ -111,7 +117,9 @@ KIE_missions_2 = {
 			}
 		}
 		effect = {
-			chernigov_area = {
+			# Chernigov itself is held already; the claim goes to the Sloboda
+			# lands east of it.
+			sloboda_ukraine_area = {
 				limit = {
 					NOT = {
 						is_core = ROOT

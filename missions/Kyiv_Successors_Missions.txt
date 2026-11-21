@@ -1044,13 +1044,16 @@ UKR_missions_5 = {
 		icon = mission_collect_yasak
 		position = 12
 		required_missions = { UKR_kazan UKR_perm }
+		# A foothold across the ridge replaces the old 400-point power toll.
 		trigger = {
-			adm_power = 200
-			dip_power = 200
+			any_owned_province = {
+				OR = {
+					area = ural_area
+					region = west_siberia_region
+				}
+			}
 		}
 		effect = {
-			add_adm_power = -200
-			add_dip_power = -200
 			add_country_modifier = {
 				name = "KIE_siberian_frontier"
 				duration = -1

@@ -42,7 +42,9 @@ KIE_missions_1 = {
 			}
 		}
 		effect = {
-			podlasie_area = {
+			# Podlasie is already held at this point (see trigger), so the
+			# claim goes to Podillia, the next neighbour to the south.
+			podolia_volhynia_area = {
 				limit = {
 					NOT = {
 						is_permanent_claim = ROOT
@@ -53,7 +55,8 @@ KIE_missions_1 = {
 				}
 				add_permanent_claim = ROOT
 			}
-			add_manpower = 1
+			add_prestige = 10
+			add_manpower = 2
 		}
 	}
 
@@ -448,8 +451,8 @@ KIE_missions_5 = {
 
 	KIE_magdeburg_law = {
 		icon = mission_early_game_buildings
-		position = 2
-		required_missions = { KIE_restore_kyiv }
+		position = 3
+		required_missions = { KIE_secure_kyiv }
 		provinces_to_highlight = {
 			province_id = 280
 		}
@@ -475,7 +478,7 @@ KIE_missions_5 = {
 
 	KIE_brotherhood_schools = {
 		icon = mission_hands_praying
-		position = 3
+		position = 4
 		required_missions = { KIE_magdeburg_law }
 		provinces_to_highlight = {
 			province_id = 280
