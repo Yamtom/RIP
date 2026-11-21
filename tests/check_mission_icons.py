@@ -13,12 +13,17 @@ Asserted:
     is an uncompressed 32-bit BGRA 59x63 DDS (14996 bytes) with no mipmaps, fully opaque, and is
     declared once;
   - the six locked-branch sprites exist, are the ones those six missions use, show six different
-    pictures, and none is a byte copy of a vanilla icon.
+    pictures, and none is a byte copy of a vanilla icon;
+  - every sprite of interface/RIP_shared_mission_icons_composed.gfx is used by a mission and, when Pillow,
+    numpy and the game are present, rebuilds from its donors
+    (`tools/build_mission_composites.py --check`).
 
-Standard library only. Does not render anything; native drawing is unverified.
+Standard library only for the contracts above. Does not render anything; native drawing is unverified.
 """
+import importlib.util
 import re
 import struct
+import subprocess
 import sys
 from pathlib import Path
 
@@ -164,6 +169,15 @@ for first in sorted(sixes):
         if first < second and sixes[first] == sixes[second]:
             fail(f"{first} and {second} are the same picture")
 
+# ---- icons composed from vanilla pictures (tools/build_mission_composites.py) -------------
+composed_gfx = ROOT / "interface" / "RIP_shared_mission_icons_composed.gfx"
+composed = [name for name, _ in sprites(read_text(composed_gfx))] if composed_gfx.is_file() else []
+for sprite in composed:
+    if sprite not in textures:
+        fail(f"{sprite} is not a declared, valid texture")
+    if sprite not in all_used:
+        fail(f"{sprite} is composed but no mission uses it")
+
 notes = []
 if vanilla:
     twins = {}
@@ -173,8 +187,16 @@ if vanilla:
         twin = twins.get(data)
         if twin is not None:
             fail(f"{sprite} is a byte copy of vanilla {twin.relative_to(vanilla).as_posix()}")
+    if all(importlib.util.find_spec(m) for m in ("PIL", "numpy")):
+        run = subprocess.run([sys.executable, "-B", str(ROOT / "tools" / "build_mission_composites.py"), "--check"],
+                             capture_output=True, text=True, encoding="utf-8", errors="replace")
+        if run.returncode != 0:
+            fail("tools/build_mission_composites.py --check: " + (run.stdout + run.stderr).strip().replace("\n", " | "))
+    else:
+        notes.append("rebuild of the composed icons (Pillow or numpy missing)")
 else:
-    notes.append(f"{len(unverified)} vanilla icon names and byte copies of vanilla icons (no installed EU4)")
+    notes.append(f"{len(unverified)} vanilla icon names, byte copies of vanilla icons and the rebuild of the composed "
+                 "icons (no installed EU4)")
 
 if errors:
     print("MISSION ICONS FAIL")
