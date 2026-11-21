@@ -7,6 +7,14 @@ on_monarch_death = {
 }
 
 on_startup = {
+	if = {
+		limit = {
+			tag = CHR
+			mission_completed = chr_border_compacts
+			NOT = { has_country_flag = chr_border_doctrine_confirmed }
+		}
+		chr_restore_border_doctrine = yes
+	}
 	chr_refresh_grain_directorate_effect = yes
 	chr_reconcile_path_province_modifiers_effect = yes
 }

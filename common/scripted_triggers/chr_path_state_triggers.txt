@@ -1,5 +1,21 @@
 # RIP - chr path state triggers.
 
+# Province scope, ROOT is the country issuing the frontier charter.
+chr_can_organize_frontier_sloboda = {
+	OR = {
+		area = sloboda_ukraine_area
+		province_id = 4543 # Rylsk
+	}
+	any_neighbor_province = {
+		NOT = { owned_by = ROOT }
+	}
+	NOT = { has_province_modifier = chr_frontier_sloboda }
+	NOT = { has_province_modifier = chr_enterprise_mlyn }
+	NOT = { has_province_modifier = chr_enterprise_guta }
+	NOT = { has_province_modifier = chr_enterprise_buda }
+	NOT = { has_province_modifier = chr_enterprise_selitra }
+}
+
 chr_agro_hypercorp_completed = {
 	has_country_flag = chr_agro_hypercorp_complete
 }

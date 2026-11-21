@@ -140,6 +140,28 @@ chr_pantheon_cooldown_effect = {
 # CHERNIHIV BORDER COMPACTS
 # ========================================================================
 
+# Older pact reviews could switch or erase the doctrine after its mission.
+chr_restore_border_doctrine = {
+	set_country_flag = chr_border_doctrine_confirmed
+	if = {
+		limit = { OR = { has_country_flag = chr_diplomatic_branch_taken mission_completed = chr_diplomatic_network } }
+		clr_country_flag = chr_border_compacts_militarized_path
+		set_country_flag = chr_border_compacts_diplomatic_path
+	}
+	else_if = {
+		limit = { OR = { has_country_flag = chr_frontier_branch_taken mission_completed = chr_frontier_garrisons } }
+		clr_country_flag = chr_border_compacts_diplomatic_path
+		set_country_flag = chr_border_compacts_militarized_path
+	}
+	else = {
+		# Before either follow-up was completed, a review could have overwritten
+		# the only evidence of the player's choice. Let the council confirm it.
+		set_country_flag = chr_border_compacts_fired
+		country_event = { id = chr_flavor.38 }
+	}
+	swap_non_generic_missions = yes
+}
+
 chr_border_compact_forge_effect = {
 	if = {
 		limit = {

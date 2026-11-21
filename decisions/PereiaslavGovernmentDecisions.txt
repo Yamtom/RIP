@@ -2,8 +2,12 @@ country_decisions = {
 	prl_establish_regimental_republic = {
 		major = yes
 		potential = {
-			tag = PRL
-			government = monarchy
+			prl_has_legacy_missions = yes
+			OR = {
+				government = monarchy
+				AND = { tag = HET government = republic }
+			}
+			NOT = { has_reform = prl_regimental_republic_reform }
 			has_country_flag = prl_regimental_republic_unlocked
 			NOT = { has_country_flag = prl_regimental_republic_established }
 		}
@@ -19,7 +23,10 @@ country_decisions = {
 			add_adm_power = -100
 			add_mil_power = -100
 			set_country_flag = prl_regimental_republic_established
-			change_government = republic
+			if = {
+				limit = { government = monarchy }
+				change_government = republic
+			}
 			add_government_reform = prl_regimental_republic_reform
 			add_republican_tradition = 20
 			add_prestige = 10

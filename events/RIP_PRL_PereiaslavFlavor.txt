@@ -7,7 +7,9 @@ country_event = {
 	picture = DIPLOMACY_eventPicture
 	fire_only_once = yes
 	trigger = {
-		tag = PRL
+		prl_has_legacy_missions = yes
+		NOT = { has_country_flag = pereiaslav_treaty_signed }
+		NOT = { has_country_flag = rip_pereiaslav_council_declined }
 		owns = 2407
 		is_year = 1654
 		NOT = {
@@ -52,6 +54,7 @@ country_event = {
 	option = {
 		name = "prl_flavor.1.a"
 		set_country_flag = prl_pereiaslav_oath
+		set_country_flag = pereiaslav_treaty_signed
 		if = {
 			limit = {
 				exists = RUS
@@ -114,6 +117,7 @@ country_event = {
 	}
 	option = {
 		name = "prl_flavor.1.b"
+		set_country_flag = rip_pereiaslav_council_declined
 		add_prestige = 15
 		add_legitimacy_equivalent = {
 			amount = 10
@@ -135,13 +139,17 @@ country_event = {
 	picture = LAND_MILITARY_eventPicture
 	fire_only_once = yes
 	trigger = {
-		tag = PRL
+		prl_has_legacy_missions = yes
 		owns = 2407
 		army_tradition = 25
 		prl_regimental_era = yes
 		OR = {
 			has_reform = prl_regimental_republic_reform
 			has_reform = prl_border_fortress_reform
+			AND = {
+				tag = HET
+				has_country_flag = prl_statute_prepared
+			}
 		}
 	}
 	mean_time_to_happen = {
@@ -183,15 +191,19 @@ country_event = {
 	picture = ORTHODOX_eventPicture
 	fire_only_once = yes
 	trigger = {
-		tag = PRL
+		prl_has_legacy_missions = yes
 		owns = 2407
 		religion = orthodox
 		2407 = {
-			has_building = temple
+			has_tax_building_trigger = yes
 		}
 		OR = {
 			has_reform = prl_episcopal_authority_reform
 			has_estate_privilege = estate_church_statutory_rights
+			AND = {
+				tag = HET
+				has_country_flag = prl_brotherhood_prepared
+			}
 		}
 	}
 	mean_time_to_happen = {
@@ -235,13 +247,10 @@ country_event = {
 	picture = TRADE_eventPicture
 	fire_only_once = yes
 	trigger = {
-		tag = PRL
+		prl_has_legacy_missions = yes
 		owns = 2407
 		2407 = {
-			OR = {
-				has_building = marketplace
-				has_building = trade_depot
-			}
+			has_trade_building_trigger = yes
 		}
 		home_trade_node = {
 			trade_share = {

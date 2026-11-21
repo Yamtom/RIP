@@ -84,13 +84,6 @@ country_event = {
 			}
 			clr_country_flag = chr_border_compacts_pending_review
 		}
-		if = {
-			limit = {
-				has_country_flag = chr_border_compacts_militarized_path
-			}
-			clr_country_flag = chr_border_compacts_militarized_path
-		}
-		set_country_flag = chr_border_compacts_diplomatic_path
 		remove_country_modifier = chr_border_compact_confidence
 		remove_country_modifier = chr_border_compact_tension
 		remove_country_modifier = chr_border_compact_betrayal
@@ -152,13 +145,6 @@ country_event = {
 			}
 			clr_country_flag = chr_border_compacts_pending_review
 		}
-		if = {
-			limit = {
-				has_country_flag = chr_border_compacts_diplomatic_path
-			}
-			clr_country_flag = chr_border_compacts_diplomatic_path
-		}
-		set_country_flag = chr_border_compacts_militarized_path
 		remove_country_modifier = chr_border_compact_confidence
 		remove_country_modifier = chr_border_compact_tension
 		add_country_modifier = {
@@ -203,13 +189,6 @@ country_event = {
 			}
 			clr_country_flag = chr_border_compacts_pending_review
 		}
-		if = {
-			limit = {
-				has_country_flag = chr_border_compacts_militarized_path
-			}
-			clr_country_flag = chr_border_compacts_militarized_path
-		}
-		set_country_flag = chr_border_compacts_diplomatic_path
 		add_country_modifier = {
 			name = chr_border_compact_confidence
 			duration = 1825
@@ -257,18 +236,6 @@ country_event = {
 			}
 			clr_country_flag = chr_border_compacts_pending_review
 		}
-		if = {
-			limit = {
-				has_country_flag = chr_border_compacts_diplomatic_path
-			}
-			clr_country_flag = chr_border_compacts_diplomatic_path
-		}
-		if = {
-			limit = {
-				has_country_flag = chr_border_compacts_militarized_path
-			}
-			clr_country_flag = chr_border_compacts_militarized_path
-		}
 		remove_country_modifier = chr_border_compact_confidence
 		remove_country_modifier = chr_border_compact_tension
 		remove_country_modifier = chr_border_compact_betrayal
@@ -305,9 +272,11 @@ country_event = {
 		set_country_flag = chr_border_compacts_diplomatic_path
 		swap_non_generic_missions = yes
 		hidden_effect = {
-			country_event = {
-				id = chr_flavor.10
+			if = {
+				limit = { NOT = { has_country_flag = chr_border_doctrine_confirmed } }
+				country_event = { id = chr_flavor.10 }
 			}
+			set_country_flag = chr_border_doctrine_confirmed
 		}
 	}
 	option = {
@@ -322,9 +291,11 @@ country_event = {
 		set_country_flag = chr_border_compacts_militarized_path
 		swap_non_generic_missions = yes
 		hidden_effect = {
-			country_event = {
-				id = chr_flavor.10
+			if = {
+				limit = { NOT = { has_country_flag = chr_border_doctrine_confirmed } }
+				country_event = { id = chr_flavor.10 }
 			}
+			set_country_flag = chr_border_doctrine_confirmed
 		}
 	}
 }

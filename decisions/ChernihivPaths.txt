@@ -351,40 +351,19 @@ country_decisions = {
 		}
 		provinces_to_highlight = {
 			owned_by = ROOT
-			any_neighbor_province = {
-				NOT = { owned_by = ROOT }
-			}
-			NOT = { has_province_modifier = chr_frontier_sloboda }
-			NOT = { has_province_modifier = chr_enterprise_mlyn }
-			NOT = { has_province_modifier = chr_enterprise_guta }
-			NOT = { has_province_modifier = chr_enterprise_buda }
-			NOT = { has_province_modifier = chr_enterprise_selitra }
+			chr_can_organize_frontier_sloboda = yes
 		}
 		allow = {
 			adm_power = 25
 			any_owned_province = {
-				any_neighbor_province = {
-					NOT = { owned_by = ROOT }
-				}
-				NOT = { has_province_modifier = chr_frontier_sloboda }
-				NOT = { has_province_modifier = chr_enterprise_mlyn }
-				NOT = { has_province_modifier = chr_enterprise_guta }
-				NOT = { has_province_modifier = chr_enterprise_buda }
-				NOT = { has_province_modifier = chr_enterprise_selitra }
+				chr_can_organize_frontier_sloboda = yes
 			}
 		}
 		effect = {
 			add_adm_power = -25
 			random_owned_province = {
 				limit = {
-					any_neighbor_province = {
-						NOT = { owned_by = ROOT }
-					}
-					NOT = { has_province_modifier = chr_frontier_sloboda }
-					NOT = { has_province_modifier = chr_enterprise_mlyn }
-					NOT = { has_province_modifier = chr_enterprise_guta }
-					NOT = { has_province_modifier = chr_enterprise_buda }
-					NOT = { has_province_modifier = chr_enterprise_selitra }
+					chr_can_organize_frontier_sloboda = yes
 				}
 				add_province_modifier = {
 					name = chr_frontier_sloboda

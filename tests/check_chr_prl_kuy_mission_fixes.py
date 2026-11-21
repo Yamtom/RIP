@@ -229,17 +229,56 @@ def check_chr_border_compacts_highlight() -> None:
 def check_chr_crimean_compact_routes() -> None:
     mission = named_block(read("missions/Chernihiv_Missions.txt"), "chr_crimean_compact_mission")
     trigger = named_block(mission, "trigger")
-    assert "has_country_flag = chr_ruina_path_crimea" in normalized(_top_level_body(trigger))
+    assert "chr_ruina_path_" not in trigger
     routes = named_block(trigger, "OR")
     assert "alliance_with = CRI" in normalized(named_block(routes, "custom_trigger_tooltip"))
     assert "crimea_area = { type = all owned_by = ROOT is_core = ROOT }" in normalized(routes)
     assert "CRI" not in _top_level_body(trigger) + _top_level_body(routes)
 
 
+def check_prl_successor_content() -> None:
+    missions = read("missions/Pereiaslav_Missions.txt")
+    events = dict(
+        (re.search(r"\bid = (prl_flavor\.\d+)", block)[1], block)
+        for _, block in keyed_blocks(read("events/RIP_PRL_PereiaslavFlavor.txt"), "country_event")
+    )
+    for number, mission, flag in (
+        (1, "prl_great_power_alliance", "prl_pereiaslav_council_prepared"),
+        (2, "prl_regimental_organization", "prl_statute_prepared"),
+        (3, "prl_brotherhood_schools", "prl_brotherhood_prepared"),
+        (4, "prl_trade_dominance", "prl_trubizh_prepared"),
+    ):
+        event = events[f"prl_flavor.{number}"]
+        assert f"set_country_flag = {flag}" in named_block(named_block(missions, mission), "effect")
+        trigger = named_block(event, "trigger")
+        assert "prl_has_legacy_missions = yes" in _top_level_body(trigger)
+        assert f"has_country_flag = {flag}" in named_block(event, "mean_time_to_happen")
+        if number in (2, 3):
+            assert f"AND = {{ tag = HET has_country_flag = {flag} }}" in normalized(trigger)
+
+    het_events = read("events/RIP_HET_HetmanateFlavor.txt")
+    het_council = next(block for _, block in keyed_blocks(het_events, "country_event")
+                       if re.search(r"\bid = het_flavor\.3\b", block))
+    assert "NOT = { AND = { prl_has_legacy_missions = yes owns = 2407 } }" in normalized(named_block(het_council, "trigger"))
+    for council in (het_council, events["prl_flavor.1"]):
+        for flag in ("pereiaslav_treaty_signed", "rip_pereiaslav_council_declined"):
+            assert f"NOT = {{ has_country_flag = {flag} }}" in normalized(named_block(council, "trigger"))
+            assert f"set_country_flag = {flag}" in council
+
+    decision = named_block(read("decisions/PereiaslavGovernmentDecisions.txt"), "prl_establish_regimental_republic")
+    potential = normalized(named_block(decision, "potential"))
+    assert "prl_has_legacy_missions = yes" in potential
+    assert "AND = { tag = HET government = republic }" in potential
+    reform = named_block(read("common/government_reforms/RIP_PRL_government_reforms.txt"), "prl_regimental_republic_reform")
+    for gate in ("potential", "trigger"):
+        assert "prl_has_legacy_missions = yes" in named_block(reform, gate)
+
+
 def main() -> int:
     check_prl_build_army()
     check_prl_orthodox_leadership()
     check_prl_grounded_missions()
+    check_prl_successor_content()
     check_kuy_steppe_granary()
     check_kuy_chronicle_rework()
     check_chr_border_compacts_highlight()

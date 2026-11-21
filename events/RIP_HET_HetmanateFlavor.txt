@@ -102,6 +102,10 @@ country_event = {
 	fire_only_once = yes
 	trigger = {
 		tag = HET
+		NOT = { AND = { prl_has_legacy_missions = yes owns = 2407 } }
+		NOT = { has_country_flag = rip_pereiaslav_council_declined }
+		NOT = { has_country_flag = prl_pereiaslav_oath }
+		NOT = { has_country_modifier = prl_defiant_council }
 		is_subject = no
 		NOT = {
 			has_country_flag = pereiaslav_treaty_signed
@@ -145,6 +149,7 @@ country_event = {
 	}
 	option = {
 		name = "het_flavor.3.b"
+		set_country_flag = rip_pereiaslav_council_declined
 		add_prestige = 10
 		add_legitimacy = 10
 		add_war_exhaustion = -1

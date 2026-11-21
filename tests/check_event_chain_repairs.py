@@ -23,6 +23,26 @@ assert 'id = chr_flavor.18' in bridge
 choice = event('RIP_CHR_Chernihiv.txt', 'chr_flavor.18')
 assert 'NOT = { has_country_flag = chr_ruina_path_selected }' in normalized(named_block(choice, 'trigger'))
 
+# The disaster chooses a temporary patron. The council chooses the mission tree.
+missions = (ROOT / 'missions/Chernihiv_Missions.txt').read_text(encoding='utf-8')
+assert 'chr_ruina_path_' not in missions
+for series, doctrine, guardianship in (
+    ('chr_missions_2_diplomatic', 'diplomatic', 'chr_commonwealth_guardianship'),
+    ('chr_missions_2_frontier', 'militarized', 'chr_muscovite_guardianship'),
+):
+    branch = named_block(missions, series)
+    assert f'has_country_flag = chr_border_compacts_{doctrine}_path' in named_block(branch, 'potential')
+    for _, trigger in keyed_blocks(branch, 'trigger'):
+        assert f'has_country_modifier = {guardianship}' not in trigger
+
+review = event('RIP_CHR_Chernihiv.txt', 'chr_flavor.36')
+assert not re.search(r'(?:set|clr)_country_flag\s*=\s*chr_border_compacts_\w+_path', review)
+council = event('RIP_CHR_Chernihiv.txt', 'chr_flavor.38')
+for _, option in keyed_blocks(council, 'option'):
+    assert 'swap_non_generic_missions = yes' in option
+    assert 'set_country_flag = chr_border_doctrine_confirmed' in option
+    assert 'NOT = { has_country_flag = chr_border_doctrine_confirmed }' in normalized(option)
+
 count = 0
 for filename, event_id, areas in [
     ('RIP_HET_HetmanateFlavor.txt', 'het_flavor.8', ['east_dniepr_area', 'west_dniepr_area']),
