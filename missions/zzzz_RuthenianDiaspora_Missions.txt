@@ -73,13 +73,30 @@ RIP_diaspora_missions_1 = {
 			OR = {
 				has_country_flag = rip_grey_wedge_flag
 				has_country_flag = rip_grey_wedge_settlers_flag
-				saratov_area = {
+				# South-western Siberia and the northern Kazakh steppe: the Irtysh,
+				# Ishim and Akmola areas and the Kazakh steppe itself.
+				yrtesh_area = {
+					rip_diaspora_established_community = yes
+				}
+				ishim_area = {
+					rip_diaspora_established_community = yes
+				}
+				aqmola_area = {
+					rip_diaspora_established_community = yes
+				}
+				kazakhstan_area = {
 					rip_diaspora_established_community = yes
 				}
 			}
 		}
 		effect = {
 			add_prestige = 25
+			# A voyage of our own round the world, if we made one, adds renown;
+			# it is no longer a gate for the southern branches.
+			if = {
+				limit = { has_country_flag = rip_lysianskyi_circumnavigation_flag }
+				add_prestige = 10
+			}
 			add_country_modifier = {
 				name = rip_diaspora_of_rus_legacy
 				duration = -1
@@ -141,7 +158,6 @@ RIP_diaspora_missions_2 = {
 		required_missions = { rip_diaspora_root }
 		position = 28
 		trigger = {
-			has_country_flag = rip_lysianskyi_circumnavigation_flag
 			OR = {
 				any_owned_province = {
 					colonial_region = colonial_brazil
@@ -163,7 +179,6 @@ RIP_diaspora_missions_2 = {
 		required_missions = { rip_diaspora_root }
 		position = 29
 		trigger = {
-			has_country_flag = rip_lysianskyi_circumnavigation_flag
 			any_owned_province = {
 				colonial_region = colonial_australia
 			}
@@ -179,17 +194,20 @@ RIP_diaspora_missions_2 = {
 		icon = mission_afghan_frontier
 		required_missions = { rip_diaspora_root }
 		position = 30
+		# The Green Wedge was a scatter of settler communities in a mixed land,
+		# so owning one more province with a local population must not undo the
+		# mission: three provinces, at least two of them with Ruthenian or Rusyn
+		# communities.
 		trigger = {
 			is_subject = no
 			num_of_owned_provinces_with = {
 				region = manchuria_region
 				value = 3
 			}
-			NOT = {
-				any_owned_province = {
-					region = manchuria_region
-					NOT = { rip_diaspora_eligible_culture_province = yes }
-				}
+			num_of_owned_provinces_with = {
+				region = manchuria_region
+				rip_diaspora_eligible_culture_province = yes
+				value = 2
 			}
 		}
 		effect = {
@@ -203,17 +221,17 @@ RIP_diaspora_missions_2 = {
 		icon = mission_rajputana_frontier
 		required_missions = { rip_diaspora_root }
 		position = 31
+		# Same rule as the Green Wedge: communities among the local population.
 		trigger = {
 			is_subject = no
 			num_of_owned_provinces_with = {
 				region = central_asia_region
 				value = 3
 			}
-			NOT = {
-				any_owned_province = {
-					region = central_asia_region
-					NOT = { rip_diaspora_eligible_culture_province = yes }
-				}
+			num_of_owned_provinces_with = {
+				region = central_asia_region
+				rip_diaspora_eligible_culture_province = yes
+				value = 2
 			}
 		}
 		effect = {
@@ -272,7 +290,6 @@ RIP_diaspora_missions_3 = {
 		required_missions = { rip_diaspora_root }
 		position = 28
 		trigger = {
-			has_country_flag = rip_lysianskyi_circumnavigation_flag
 			NOT = { any_owned_province = { colonial_region = colonial_brazil } }
 			NOT = { any_owned_province = { colonial_region = colonial_la_plata } }
 			OR = {
@@ -291,7 +308,6 @@ RIP_diaspora_missions_3 = {
 		required_missions = { rip_diaspora_root }
 		position = 29
 		trigger = {
-			has_country_flag = rip_lysianskyi_circumnavigation_flag
 			NOT = { any_owned_province = { colonial_region = colonial_australia } }
 			rip_diaspora_colonial_partner_trigger = { REGION = colonial_australia THRESHOLD = 100 }
 		}
