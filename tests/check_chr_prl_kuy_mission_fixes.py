@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT_DIR / "tests"))
 
+from check_donor_mission_ports import parse_series_in_file
 from clausewitz_testlib import (
     ROOT,
     _mask_comments_and_strings,
@@ -335,6 +336,70 @@ def check_prl_slot5_and_interactive_rewards() -> None:
         assert "fire_only_once" not in events[eid], eid
 
 
+def check_chr_layout_compaction() -> None:
+    chr_text = read("missions/Chernihiv_Missions.txt")
+    assert "UZH_this_is_a_branching_mission" not in chr_text
+
+    series = parse_series_in_file("missions/Chernihiv_Missions.txt")
+    by_name = {sname: (slot, ms) for sname, slot, _, ms in series}
+    branches = (
+        "chr_missions_2_branch_placeholder",
+        "chr_missions_2_diplomatic",
+        "chr_missions_2_frontier",
+    )
+    assert [(m, p) for m, p, _ in by_name["chr_missions_2_branch_placeholder"][1]] == [
+        ("chr_identity_branching_1", 6),
+        ("chr_identity_branching_2", 7),
+        ("chr_identity_branching_3", 8),
+        ("chr_identity_branching_4", 9),
+    ]
+    for bname in ("chr_missions_2_diplomatic", "chr_missions_2_frontier"):
+        assert [p for _, p, _ in by_name[bname][1]] == [6, 7, 8, 9], bname
+
+    for active in branches:
+        cursors: dict[int, int] = {s: 0 for s in range(1, 6)}
+        grid: dict[tuple[int, int], str] = {}
+        placed: dict[str, tuple[int, int, list[str]]] = {}
+        by_slot: dict[int, list[int]] = {s: [] for s in range(1, 6)}
+        for sname, slot, _, ms in series:
+            if sname in branches and sname != active:
+                continue
+            prev = 0
+            for mname, pos, reqs in ms:
+                assert pos > prev, (active, sname, mname, pos, prev)
+                prev = pos
+                row = max(cursors[slot] + 1, pos)
+                assert row == pos, (active, mname, pos, row)
+                assert (slot, row) not in grid, (active, slot, row, grid[(slot, row)], mname)
+                cursors[slot] = row
+                grid[(slot, row)] = mname
+                placed[mname] = (slot, row, reqs)
+                by_slot[slot].append(row)
+
+        assert max(p for _, p in grid) == 14, active
+        for mname, (s, p, reqs) in placed.items():
+            for dep in reqs:
+                ds, dp, _ = placed[dep]
+                assert p - dp == 1, (active, f"{dep}(s{ds}p{dp}) -> {mname}(s{s}p{p})")
+                for y in range(dp + 1, p):
+                    assert (ds, y) not in grid, (active, mname, dep, grid[(ds, y)])
+        assert by_slot[1] == list(range(1, 10))
+        assert by_slot[2] == [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]
+        assert by_slot[3] == list(range(1, 15))
+        assert by_slot[4] == list(range(2, 12))
+        assert by_slot[5] == list(range(1, 12))
+        assert grid[(5, 1)] == "chr_kiev_2"
+
+    for mname, dep in (
+        ("chr_Smolensk", "chr_conquer_states"),
+        ("chr_Astrakhan", "chr_grain_cartel_charters"),
+        ("chr_left_bank_collegium_mission", "chr_black_soil_silos"),
+        ("chr_Accept_Ruthenian", "chr_Minsk"),
+    ):
+        trig = normalized(named_block(named_block(chr_text, mname), "trigger"))
+        assert f"mission_completed = {dep}" in trig, (mname, dep)
+
+
 def main() -> int:
     check_prl_build_army()
     check_prl_orthodox_leadership()
@@ -345,6 +410,7 @@ def main() -> int:
     check_kuy_chronicle_rework()
     check_chr_border_compacts_highlight()
     check_chr_crimean_compact_routes()
+    check_chr_layout_compaction()
     print(
         "CHR/PRL/KUY MISSION FIXES PASS: prl_build_army claims chernigov_area, "
         "prl_orthodox_leadership uses 0.90 unity + religion = ROOT, "
