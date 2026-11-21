@@ -206,6 +206,19 @@ def generate():
         group_key='_'.join(k.split('_')[:2]) if f in ('pdl','prl') else k
         a['icon']=f'GFX_rip_rg_{group_key}'
         a['guard']=f'rip_rg_{k}_can = yes any_owned_province = {{ rip_rg_{k}_target = yes }}'
+        land = {'chr':'the Desna towns', 'uzh':'the Carpathian borderlands',
+                'pdl':'the Podillian march', 'prl':'the Pereiaslav frontier',
+                'ods':'the Black Sea ports'}[f]
+        requirement = {'':'a city', 'rip_rg_fort = yes':'a fortified city',
+                       'trade_goods = salt':'a salt-producing province',
+                       'rip_rg_port = yes':'an unblocked port',
+                       'OR = { has_terrain = mountain has_terrain = hills has_terrain = highlands }':
+                           'a mountain, hill or highland province'}[a['target']]
+        loc[f'rip_rg_{k}_land_tt'] = f'Own and control {requirement} in {land}.'
+        a['decision_guard'] = (
+            f'rip_rg_{k}_can = yes\ncustom_trigger_tooltip = {{ tooltip = rip_rg_{k}_land_tt '
+            f'any_owned_province = {{ rip_rg_{k}_target = yes }} }}'
+        )
     # Three physical buttons per frontier government, not one button per price.
     tooltips = {
         'chr_bell': 'Choose an owned city; pay 50 ADM on confirmation.\\nTarget land gains -3 Nationalism and Veche Municipal Judges (-2 Local Unrest) for 5 years.\\nCountry gains Veche Deliberations (-0.05 Yearly Corruption, +10% Stability Cost; halved under Magistrat Rule) for 5 years.\\nInstitution shared term: 10 years.',
@@ -237,7 +250,20 @@ def generate():
             eff='custom_tooltip = rip_rg_'+group+'_tt\n'+launch
             interactions.append(block('rip_rg_'+group,f'icon = {first["icon"]}\ntrigger = {{ {guard} }}\n'+block('effect',eff)+f'ai_chance = {{ {first["ai"]} }}'))
             highlight='OR = { '+' '.join('rip_rg_'+a['key']+'_target = yes' for a in variants)+' }'
-            decisions.append(block('rip_rg_'+group+'_decision',f'color = {{ 185 140 30 }}\npotential = {{ rip_rg_{f} = yes }}\nallow = {{ {guard} }}\nprovinces_to_highlight = {{ {highlight} }}\n'+block('effect',eff)+'ai_will_do = { factor = 0 }'))
+            allow = first['decision_guard']
+            if len(variants) > 1:
+                alternatives = variants[1:]
+                clauses = []
+                # If a legacy save has both paths, keep the original choice of offers.
+                if len(alternatives) == 2:
+                    both = ' '.join(a['extra'] for a in alternatives)
+                    clauses.append(block('if', f'limit = {{ {both} }}\n{guard}'))
+                for a in alternatives:
+                    clauses.append(block('else_if' if clauses else 'if',
+                                         f'limit = {{ {a["extra"]} }}\n{a["decision_guard"]}'))
+                clauses.append(block('else', allow))
+                allow = ''.join(clauses).rstrip()
+            decisions.append(block('rip_rg_'+group+'_decision',f'color = {{ 185 140 30 }}\npotential = {{ rip_rg_{f} = yes }}\n'+block('allow',allow)+f'provinces_to_highlight = {{ {highlight} }}\n'+block('effect',eff)+'ai_will_do = { factor = 0 }'))
             loc['rip_rg_'+group]=first['title']; loc['rip_rg_'+group+'_desc']=loc['rip_rg_'+first['key']+'_desc']+(' The Podillian path changes the final price; inspect the confirmation tooltip.' if len(variants)>1 else '')
             loc['rip_rg_'+group+'_decision_title']=first['title']; loc['rip_rg_'+group+'_decision_desc']=loc['rip_rg_'+group+'_desc']
             loc['rip_rg_'+group+'_tt']=tooltips.get(group, loc['rip_rg_'+group+'_desc'])
