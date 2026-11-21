@@ -66,7 +66,11 @@ assert 'Not started' in loc[re.findall(r'localisation_key = (\w+)', chunk)[-1]],
 start=gui.index('\n# Generated read-only RIP government explanations.\n')
 end=gui.index('\n}',gui.index(f'name = "{g.PANEL_NAMES[-1]}"'))+2
 assert gui[:start]+gui[end+1:]==g.native
-assert 'x=550 y=72' in gui and 'x=470 y=290' in gui # within native root width 1024
+assert 'x=550 y=12' in gui and 'x=470 y=320' in gui
+assert 'x=550 y=340' in gui and 'x=470 y=216' in gui
+# Both blocks fit within the native 1024-wide root and a 720-high viewport
+# at 1x UI scale (root y=140; final bottom=696).
+assert 550 + 470 <= 1024 and 140 + 340 + 216 <= 720
 # The Rada panel says what the bar says: the runner-up on the left, the dominant bloc on the right, the grip at the thresholds the generator uses.
 kru_spec = importlib.util.spec_from_file_location('build_kru_rada', ROOT/'tools/build_kru_rada.py')
 kru = importlib.util.module_from_spec(kru_spec)
@@ -84,9 +88,50 @@ assert 'tag = KRU kru_holds_rada_reform = yes' in read('common/custom_gui/rip_go
 assert 'falls below 15%' in loc['rip_gov_cesar_recovery_tt']
 assert 'at most three of its six ordinances' in loc['rip_gov_hlc_crown_slots_tt']
 assert 'hlc_ordinance_slot_free' not in loc['rip_gov_hlc_crown_slots_tt']
-assert 'single ten-year council session' in loc['rip_gov_hlc_session_tt']
-assert 'hlc_boyar_council_session' not in loc['rip_gov_hlc_session_tt']
-assert 'Rada Consent' in loc['rip_gov_lit_retinues_tt']
+assert 'single ten-year council session' in loc['rip_gov_hlc_purpose_tt']
+assert 'hlc_boyar_council_session' not in loc['rip_gov_hlc_purpose_tt']
+assert 'Rada Consent' in loc['rip_gov_lit_retinues_price']
+
+# Reject text overflow using the installed game's actual bitmap-font advances.
+# This checks all dynamic alternatives, including the all-institutions case.
+font_source = (g.GAME / 'gfx/fonts/vic_18.fnt').read_text(encoding='utf-8-sig')
+advances = {int(code): int(width) for code, width in re.findall(r'char id=(\d+).*?xadvance=(-?\d+)', font_source)}
+def text_width(value):
+    return sum(advances.get(ord(c), 12) for c in re.sub(r'§.', '', value))
+definitions = {re.search(r'name = (\w+)', b)[1]: re.findall(r'localisation_key = (\w+)', b) for b in g.DYNAMIC}
+def longest(value):
+    def expand(match):
+        alternatives = [longest(loc[key]) for key in definitions[match[1]]]
+        return max(alternatives, key=lambda v: max(map(text_width, v.split('\n'))))
+    return re.sub(r'\[Root\.(\w+)\]', expand, value)
+overflows = []
+for panel_name, _, rows in g.PANELS:
+    panel_height = 216 if panel_name == 'rip_gov_reviews_panel' else 320
+    for widget in rows:
+        match = re.search(r'y=(\d+).*?text = "(\w+)" maxWidth = (\d+) maxHeight = (\d+)', widget)
+        if not match:
+            continue
+        y, key, width, height = int(match[1]), match[2], int(match[3]), int(match[4])
+        expanded = longest(loc[key]).rstrip('\n')
+        widest = max(map(text_width, expanded.split('\n')))
+        if widest > width or len(expanded.split('\n')) * 18 > height or y + height > panel_height:
+            overflows.append((key, widest, width, height, expanded))
+assert not overflows, overflows
+assert 'Orders on the left' not in '\n'.join(loc.values())
+assert 'Ready for a new resolution' not in '\n'.join(loc.values())
+assert '+10% maximum manpower' not in loc['rip_gov_vln_banners_action_tt']
+assert 'three years after this effect expires' in loc['rip_gov_hlc_example_action_tt']
+# All nine action states include the complete source trigger, not a second
+# hand-maintained approximation. Native cooldowns are explicitly not inferred.
+for source_file, abilities in {
+    'rip_vln_magnate_senate.txt': ['vln_summon_the_senate', 'vln_call_up_the_magnate_banners', 'vln_buy_off_a_magnate_house'],
+    'rip_lit_pany_rada.txt': ['lit_seek_the_radas_confirmation', 'lit_the_radas_own_retinues', 'lit_win_over_a_wavering_lord'],
+    'rip_hlc_boyar_council.txt': ['hlc_confirm_the_boyars_in_office', 'hlc_counter_the_foreign_claimant', 'hlc_make_an_example_of_a_defiant_boyar'],
+}.items():
+    source_text = read('common/government_mechanics/' + source_file)
+    for ability in abilities:
+        contract = named_block(named_block(source_text, ability), 'trigger')
+        assert normalized(contract) in normalized(dynamic), ability
 
 # --- Rows that quote numbers must quote the numbers the modifiers really have ---------------------------------------
 MODIFIER_WORDS = {

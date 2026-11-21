@@ -2,33 +2,138 @@
 # Country labels identify the content family, not additional eligibility gates.
 # Whole definitions are grouped here; keep each text-branch order and random setting.
 defined_text = {
-	name = RipGovLitConsent
+	name = RipGovLitDossierRada
 	random = no
 	text = {
 		trigger = {
 			has_country_modifier = lit_rada_confirmed
 		}
-		localisation_key = rip_gov_RipGovLitConsent_0
+		localisation_key = rip_gov_RipGovLitDossierRada_0
 	}
 	text = {
 		trigger = {
 			always = yes
 		}
-		localisation_key = rip_gov_RipGovLitConsent_1
+		localisation_key = rip_gov_RipGovLitDossierRada_1
 	}
 }
 
 defined_text = {
-	name = RipGovLitRetinues
+	name = RipGovLitDossierActivelit_confirm
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = lit_rada_confirmed
+		}
+		localisation_key = rip_gov_RipGovLitDossierActivelit_confirm_0
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovLitDossierActivelit_confirm_1
+	}
+}
+
+defined_text = {
+	name = RipGovLitDossierActionlit_confirm
+	random = no
+	text = {
+		trigger = {
+			has_country_modifier = lit_rada_confirmed
+		}
+		localisation_key = rip_gov_RipGovLitDossierActionlit_confirm_0
+	}
+	text = {
+		trigger = {
+			NOT = {
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 40
+				}
+			}
+		}
+		localisation_key = rip_gov_RipGovLitDossierActionlit_confirm_1
+	}
+	text = {
+		trigger = {
+			OR = {
+				has_reform = grand_duchy_reform
+				has_reform = lit_union_of_two_nations_reform
+				has_reform = lit_separate_crown_reform
+			}
+			has_estate = estate_nobles
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 40
+			}
+			NOT = {
+				has_country_modifier = lit_rada_confirmed
+			}
+		}
+		localisation_key = rip_gov_RipGovLitDossierActionlit_confirm_2
+	}
+	text = {
+		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovLitDossierActionlit_confirm_3
+	}
+}
+
+defined_text = {
+	name = RipGovLitDossierActivelit_retinues
 	random = no
 	text = {
 		trigger = {
 			has_country_modifier = lit_rada_retinues_mustered
 		}
-		localisation_key = rip_gov_RipGovLitRetinues_0
+		localisation_key = rip_gov_RipGovLitDossierActivelit_retinues_0
 	}
 	text = {
 		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovLitDossierActivelit_retinues_1
+	}
+}
+
+defined_text = {
+	name = RipGovLitDossierActionlit_retinues
+	random = no
+	text = {
+		trigger = {
+			is_at_war = no
+		}
+		localisation_key = rip_gov_RipGovLitDossierActionlit_retinues_0
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_country_modifier = lit_rada_confirmed
+			}
+		}
+		localisation_key = rip_gov_RipGovLitDossierActionlit_retinues_1
+	}
+	text = {
+		trigger = {
+			NOT = {
+				estate_loyalty = {
+					estate = estate_nobles
+					loyalty = 40
+				}
+			}
+		}
+		localisation_key = rip_gov_RipGovLitDossierActionlit_retinues_2
+	}
+	text = {
+		trigger = {
+			OR = {
+				has_reform = grand_duchy_reform
+				has_reform = lit_union_of_two_nations_reform
+				has_reform = lit_separate_crown_reform
+			}
+			has_estate = estate_nobles
 			is_at_war = yes
 			has_country_modifier = lit_rada_confirmed
 			estate_loyalty = {
@@ -36,33 +141,62 @@ defined_text = {
 				loyalty = 40
 			}
 		}
-		localisation_key = rip_gov_RipGovLitRetinues_1
-	}
-	text = {
-		trigger = {
-			has_country_modifier = lit_rada_confirmed
-		}
-		localisation_key = rip_gov_RipGovLitRetinues_2
+		localisation_key = rip_gov_RipGovLitDossierActionlit_retinues_3
 	}
 	text = {
 		trigger = {
 			always = yes
 		}
-		localisation_key = rip_gov_RipGovLitRetinues_3
+		localisation_key = rip_gov_RipGovLitDossierActionlit_retinues_4
 	}
 }
 
 defined_text = {
-	name = RipGovLitBrokerage
+	name = RipGovLitDossierActivelit_lord
 	random = no
 	text = {
 		trigger = {
 			has_country_modifier = lit_lord_won_over
 		}
-		localisation_key = rip_gov_RipGovLitBrokerage_0
+		localisation_key = rip_gov_RipGovLitDossierActivelit_lord_0
 	}
 	text = {
 		trigger = {
+			always = yes
+		}
+		localisation_key = rip_gov_RipGovLitDossierActivelit_lord_1
+	}
+}
+
+defined_text = {
+	name = RipGovLitDossierActionlit_lord
+	random = no
+	text = {
+		trigger = {
+			estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 50
+			}
+		}
+		localisation_key = rip_gov_RipGovLitDossierActionlit_lord_0
+	}
+	text = {
+		trigger = {
+			NOT = {
+				dip_power = 50
+			}
+		}
+		localisation_key = rip_gov_RipGovLitDossierActionlit_lord_1
+	}
+	text = {
+		trigger = {
+			OR = {
+				has_reform = grand_duchy_reform
+				has_reform = lit_union_of_two_nations_reform
+				has_reform = lit_separate_crown_reform
+			}
+			has_estate = estate_nobles
+			dip_power = 50
 			NOT = {
 				estate_loyalty = {
 					estate = estate_nobles
@@ -70,12 +204,12 @@ defined_text = {
 				}
 			}
 		}
-		localisation_key = rip_gov_RipGovLitBrokerage_1
+		localisation_key = rip_gov_RipGovLitDossierActionlit_lord_2
 	}
 	text = {
 		trigger = {
 			always = yes
 		}
-		localisation_key = rip_gov_RipGovLitBrokerage_2
+		localisation_key = rip_gov_RipGovLitDossierActionlit_lord_3
 	}
 }
