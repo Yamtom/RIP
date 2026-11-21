@@ -11,17 +11,34 @@ KUY_missions_1 = {
 	has_country_shield = yes
 
 	KUY_magdeburg_guilds = {
-		icon = mission_ukr_magdeburg_laws
+		icon = mission_market_place_with_asian_traders
 		position = 1
 		required_missions = { }
 		provinces_to_highlight = {
-			owned_by = ROOT
 			OR = {
-				NOT = { has_trade_building_trigger = yes }
-				NOT = { development = 15 }
+				AND = {
+					province_id = 280
+					OR = {
+						NOT = { owned_by = ROOT }
+						NOT = { has_trade_building_trigger = yes }
+						NOT = { development = 15 }
+					}
+				}
+				AND = {
+					owned_by = ROOT
+					OR = {
+						NOT = { has_trade_building_trigger = yes }
+						NOT = { development = 15 }
+					}
+				}
 			}
 		}
 		trigger = {
+			280 = {
+				owned_by = ROOT
+				has_trade_building_trigger = yes
+				development = 15
+			}
 			num_of_owned_provinces_with = {
 				has_trade_building_trigger = yes
 				development = 15
@@ -283,6 +300,9 @@ KUY_missions_3 = {
 					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = ROOT
+			}
+			country_event = {
+				id = kuy_flavor.1
 			}
 		}
 	}

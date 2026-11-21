@@ -992,6 +992,14 @@ chr_missions_2_2 = {
 			}
 		}
 		effect = {
+			astrakhan_area = {
+				limit = {
+					NOT = { country_or_non_sovereign_subject_holds = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
 			2412 = {
 				if = {
 					limit = {
@@ -1037,17 +1045,6 @@ chr_missions_2_2 = {
 			}
 		}
 		effect = {
-			astrakhan_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
 			add_country_modifier = {
 				name = east_india_trade_rush
 				duration = 9125 #25 years
@@ -1057,7 +1054,7 @@ chr_missions_2_2 = {
 
 	chr_Astrakhan = {
 		icon = mission_conquer_50_development
-		required_missions = { chr_trade_company_region_abroad chr_grain_cartel_charters }
+		required_missions = { chr_Azov chr_grain_cartel_charters }
 		position = 18
 		provinces_to_highlight = {
 			area = astrakhan_area
@@ -1186,6 +1183,10 @@ chr_missions_3 = {
 		required_missions = { chr_build_treasury }
 		position = 5
 		trigger = {
+			OR = {
+				is_year = 1700
+				has_institution = manufactories
+			}
 			custom_trigger_tooltip = {
 				tooltip = chr_left_bank_collegium_university_tt
 				calc_true_if = {
@@ -1390,7 +1391,11 @@ chr_missions_3 = {
 		required_missions = { chr_sloboda_charters }
 		position = 10
 		provinces_to_highlight = {
-			area = sloboda_ukraine_area
+			OR = {
+				area = east_dniepr_area
+				area = sloboda_ukraine_area
+			}
+			trade_goods = grain
 		}
 		trigger = {
 			calc_true_if = {
@@ -2212,20 +2217,26 @@ chr_missions_4 = {
 
 	chr_crimean_compact_mission = {
 		icon = mission_trade_company_region_abroad
-		required_missions = { chr_establish_high_seas_navy }
+		required_missions = { chr_Zaporozhie }
 		position = 18
 		trigger = {
 			has_country_flag = chr_ruina_path_crimea
-			has_country_modifier = chr_crimean_guardianship
-			custom_trigger_tooltip = {
-				tooltip = chr_crimean_compact_tt
-				AND = {
-					exists = CRI
-					alliance_with = CRI
-					CRI = {
-						has_opinion = { who = ROOT value = 100 }
-						trust = { who = ROOT value = 50 }
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = chr_crimean_compact_tt
+					AND = {
+						exists = CRI
+						alliance_with = CRI
+						CRI = {
+							has_opinion = { who = ROOT value = 100 }
+							trust = { who = ROOT value = 50 }
+						}
 					}
+				}
+				crimea_area = {
+					type = all
+					owned_by = ROOT
+					is_core = ROOT
 				}
 			}
 		}
@@ -2328,6 +2339,10 @@ chr_missions_5 = {
 				AND = {
 					NOT = { religion = orthodox }
 					has_parliament = yes
+					OR = {
+						is_year = 1574
+						has_institution = printing_press
+					}
 					custom_trigger_tooltip = {
 						tooltip = chr_metropolitan_statute_tt
 						calc_true_if = {

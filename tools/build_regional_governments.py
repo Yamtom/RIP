@@ -215,8 +215,13 @@ def generate():
                        'OR = { has_terrain = mountain has_terrain = hills has_terrain = highlands }':
                            'a mountain, hill or highland province'}[a['target']]
         loc[f'rip_rg_{k}_land_tt'] = f'Own and control {requirement} in {land}.'
+        # The decision's potential already checked the government. Podillia's
+        # allow selects the applicable path before showing its term and price.
+        visible_guard = guard.removeprefix(f'rip_rg_{f} = yes\n')
+        if f == 'pdl':
+            visible_guard = visible_guard.removeprefix(a['extra'])
         a['decision_guard'] = (
-            f'rip_rg_{k}_can = yes\ncustom_trigger_tooltip = {{ tooltip = rip_rg_{k}_land_tt '
+            visible_guard.strip() + f'\ncustom_trigger_tooltip = {{ tooltip = rip_rg_{k}_land_tt '
             f'any_owned_province = {{ rip_rg_{k}_target = yes }} }}'
         )
     # Three physical buttons per frontier government, not one button per price.

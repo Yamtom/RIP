@@ -187,7 +187,7 @@
 | Тег | Держава | Монархія | Республіка | Теократія |
 |---|---|---|---|---|
 | `KIE` | Kyiv | Kyivan Veche | Kyivan Veche | Kyivan Sobor |
-| `KRU` | Kyivan Confederation | Kyivan Rada | Kyivan Rada | Kyivan Sobor |
+| `KRU` | Kyivan Rus (назва держави залежить від обраного устрою) | Kyivan Rada | Kyivan Rada | Kyivan Sobor |
 | `UKR` | Ukraine | Ukrainian Rada | Ukrainian Rada | Ukrainian Sobor |
 | `RUT` | Ruthenian Tsardom | Ruthenian Zemsky Sobor | Ruthenian Zemsky Sobor | Ruthenian Sobor |
 | `CHR` | Chernihiv | Chernihivan Veche | Chernihivan Veche | Chernihivan Sobor |

@@ -89,6 +89,10 @@ def test_no_dropped_effect_in_else_bodies():
     # the buttons, the decisions, the Podillia entry event and the selection windows use plain `if` only
     for path in (MECHANICS, "decisions/RIP_RegionalGovernments.txt", "events/RIP_PDL_PodilliaBorderPolicy.txt", *EVENTS):
         text = read(path)
+        # Decision requirements may show only the active constitutional branch.
+        # The engine restriction concerns effects in the click handler.
+        if path.startswith("decisions/"):
+            text = "\n".join(block for _, block in keyed_blocks(text, "effect"))
         assert not re.search(r"\belse(_if)?\s*=\s*\{", normalized(text)), f"{path}: else / else_if (the engine drops country_event inside them)"
     # a scripted effect may keep else for effects that survive there (modifiers, flags, loyalty), but not for the dropped ones
     effects = read("common/scripted_effects/rip_regional_government_effects.txt")
