@@ -1,0 +1,492 @@
+# KUY | Kuyaba missions (non-Christian Ruthenian-steppe power).
+
+KUY_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = KUY
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	KUY_magdeburg_guilds = {
+		icon = mission_ukr_magdeburg_laws
+		position = 1
+		required_missions = { }
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				NOT = { has_trade_building_trigger = yes }
+				NOT = { development = 15 }
+			}
+		}
+		trigger = {
+			num_of_owned_provinces_with = {
+				has_trade_building_trigger = yes
+				development = 15
+				value = 5
+			}
+			if = {
+				limit = { has_estate = estate_burghers }
+				estate_loyalty = {
+					estate = estate_burghers
+					loyalty = 60
+				}
+			}
+			else = {
+				mercantilism = 15
+			}
+		}
+		effect = {
+			add_mercantilism = 3
+			add_country_modifier = {
+				name = kuy_magdeburg_guilds_modifier
+				duration = -1
+			}
+		}
+	}
+
+	KUY_granary_of_steppe = {
+		icon = mission_pol_breadbasket_europe
+		position = 2
+		required_missions = { KUY_magdeburg_guilds }
+		provinces_to_highlight = {
+			country_or_non_sovereign_subject_holds = ROOT
+			trade_goods = grain
+			NOT = { has_production_building_trigger = yes }
+		}
+		trigger = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				trade_goods = grain
+				has_production_building_trigger = yes
+				value = 8
+			}
+			OR = {
+				production_leader = {
+					trade_goods = grain
+					value = yes
+				}
+				trading_part = {
+					trade_goods = grain
+					value = 0.1
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = KUY_every_grain_province_tt
+			tooltip = {
+				add_province_modifier = {
+					name = kuy_steppe_granary
+					duration = 7300
+				}
+			}
+			change_price = {
+				trade_goods = grain
+				key = kuy_steppe_grain
+				value = 0.15
+				duration = 5475
+			}
+			hidden_effect = {
+				every_owned_province = {
+					limit = {
+						trade_goods = grain
+						has_production_building_trigger = yes
+					}
+					add_province_modifier = {
+						name = kuy_steppe_granary
+						duration = 7300
+					}
+				}
+			}
+		}
+	}
+}
+
+KUY_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		tag = KUY
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	KUY_dnieper_crossings = {
+		icon = mission_advance_to_the_dnieper
+		position = 2
+		required_missions = { KUY_restore_kuyaba }
+		provinces_to_highlight = {
+			area = east_dniepr_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			east_dniepr_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			development_in_provinces = {
+				value = 20
+				area = east_dniepr_area
+			}
+		}
+		effect = {
+			add_army_tradition = 15
+			chernigov_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			sloboda_ukraine_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+
+	KUY_steppe_caravans = {
+		icon = mission_lit_harness_steppes
+		position = 3
+		required_missions = { KUY_dnieper_crossings }
+		provinces_to_highlight = {
+			OR = {
+				area = yedisan_area
+				area = zaporizhia_area
+				region = crimea_region
+			}
+			rip_is_steppe_or_grasslands = yes
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 8 }
+			}
+		}
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 6
+				OR = {
+					area = yedisan_area
+					area = zaporizhia_area
+					region = crimea_region
+				}
+				rip_is_steppe_or_grasslands = yes
+				development = 8
+				if = {
+					limit = { has_dlc = "Mandate of Heaven" }
+					NOT = { devastation = 1 }
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = kuy_steppe_caravans_modifier
+				duration = 9125
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = yedisan_area
+						area = zaporizhia_area
+					}
+					rip_is_steppe_or_grasslands = yes
+				}
+				add_base_production = 1
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = yedisan_area
+						area = zaporizhia_area
+					}
+					rip_is_steppe_or_grasslands = yes
+				}
+				add_base_production = 1
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = yedisan_area
+						area = zaporizhia_area
+					}
+					rip_is_steppe_or_grasslands = yes
+				}
+				add_base_production = 1
+			}
+		}
+	}
+}
+
+KUY_missions_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		tag = KUY
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	KUY_restore_kuyaba = {
+		icon = mission_restore_kiev
+		position = 1
+		required_missions = { }
+		provinces_to_highlight = {
+			OR = {
+				area = west_dniepr_area
+				province_id = 280
+			}
+			NOT = { owned_by = ROOT }
+		}
+		trigger = {
+			west_dniepr_area = {
+				type = all
+				owned_by = ROOT
+			}
+			280 = {
+				development = 20
+				if = {
+					limit = { has_dlc = "Mandate of Heaven" }
+					NOT = { devastation = 1 }
+				}
+			}
+		}
+		effect = {
+			add_prestige_or_monarch_power = { amount = 20 }
+			280 = {
+				add_base_tax = 1
+				add_base_production = 1
+			}
+			east_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			yedisan_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			zaporizhia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
+	KUY_crimean_gates = {
+		icon = mission_sca_lit_conquer_crimea
+		position = 2
+		required_missions = { KUY_restore_kuyaba }
+		provinces_to_highlight = {
+			OR = {
+				area = crimea_area
+				area = azov_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			crimea_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			azov_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			add_mil_power = 75
+			add_prestige = 20
+			lower_don_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			thrace_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+
+	KUY_sultanate_of_rus = {
+		icon = mission_rule_ruthenia
+		position = 4
+		required_missions = { KUY_steppe_caravans KUY_crimean_gates KUY_bosporus_straits }
+		provinces_to_highlight = {
+			region = ruthenia_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				region = ruthenia_region
+				value = 25
+			}
+			280 = {
+				owned_by = ROOT
+				development = 30
+			}
+			prestige = 50
+			stability = 2
+			has_any_disaster = no
+		}
+		effect = {
+			add_permanent_power_projection = {
+				type = 25_permanent_power_projection
+				amount = 25
+			}
+			add_country_modifier = {
+				name = kuy_sultanate_of_rus_modifier
+				duration = -1
+			}
+			if = {
+				limit = {
+					has_dlc = "Mandate of Heaven"
+					has_had_golden_age = yes
+					in_golden_age = no
+				}
+				reset_golden_age = yes
+			}
+			else_if = {
+				limit = {
+					has_dlc = "Mandate of Heaven"
+					in_golden_age = yes
+				}
+				extend_golden_age = 240
+			}
+			else = {
+				add_adm_power = 100
+				add_dip_power = 100
+				add_mil_power = 100
+			}
+		}
+	}
+}
+
+KUY_missions_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		tag = KUY
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	KUY_black_sea_fleet = {
+		icon = mission_rb_grow_the_channel
+		position = 2
+		required_missions = { KUY_restore_kuyaba }
+		trigger = {
+			num_of_ports = 5
+			navy_size_percentage = 0.9
+		}
+		effect = {
+			add_country_modifier = {
+				name = kuy_black_sea_fleet_modifier
+				duration = 9125
+			}
+			151 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+			149 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+			4705 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+			4779 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+		}
+	}
+
+	KUY_bosporus_straits = {
+		icon = take_constantinople
+		position = 3
+		required_missions = { KUY_black_sea_fleet }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 151
+				province_id = 1320
+			}
+		}
+		trigger = {
+			OR = {
+				151 = {
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				AND = {
+					1320 = {
+						trade_share = {
+							country = ROOT
+							share = 25
+						}
+					}
+					151 = {
+						owner = {
+							OR = {
+								alliance_with = ROOT
+								has_opinion = { who = ROOT value = 100 }
+							}
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			add_prestige_or_monarch_power = { amount = 35 }
+			add_mercantilism = 3
+			add_dip_power = 100
+		}
+	}
+}

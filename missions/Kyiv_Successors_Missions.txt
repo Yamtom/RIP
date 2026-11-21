@@ -367,6 +367,129 @@ UKR_missions_2 = {
 			}
 		}
 	}
+
+	UKR_lithuanian_inheritance = {
+		icon = mission_lit_great_power_politics
+		position = 10
+		required_missions = { UKR_poland }
+		provinces_to_highlight = {
+			OR = {
+				area = minsk_area
+				area = pripyat_area
+				area = white_ruthenia_area
+				area = lithuania_area
+				area = samogitia_area
+				province_id = 275
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			minsk_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			pripyat_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			white_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			lithuania_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			samogitia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			275 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		effect = {
+			if = {
+				limit = {
+					NOT = { accepted_culture = byelorussian }
+					NOT = { primary_culture = byelorussian }
+				}
+				add_accepted_culture = byelorussian
+			}
+			else = {
+				add_dip_power = 75
+			}
+			if = {
+				limit = {
+					NOT = { accepted_culture = lithuanian }
+					NOT = { primary_culture = lithuanian }
+				}
+				add_accepted_culture = lithuanian
+			}
+			else = {
+				add_dip_power = 75
+			}
+			add_country_modifier = {
+				name = UKR_grand_duchy_heritage
+				duration = -1
+			}
+			baltic_region = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+
+	UKR_swedish_question = {
+		icon = mission_swedish_great_power
+		position = 11
+		required_missions = { UKR_lithuanian_inheritance }
+		trigger = {
+			OR = {
+				AND = {
+					alliance_with = SWE
+					reverse_has_opinion = {
+						who = SWE
+						value = 100
+					}
+				}
+				is_rival = SWE
+				NOT = { exists = SWE }
+			}
+		}
+		effect = {
+			if = {
+				limit = { alliance_with = SWE }
+				SWE = {
+					add_opinion = {
+						who = ROOT
+						modifier = ruthenian_swedish_alliance
+					}
+				}
+				add_opinion = {
+					who = SWE
+					modifier = ruthenian_swedish_alliance
+				}
+				add_trust = {
+					who = SWE
+					value = 10
+				}
+				add_dip_power = 75
+			}
+			else = {
+				add_power_projection = {
+					type = mission_rewards_power_projection
+					amount = 20
+				}
+				add_mil_power = 75
+				add_navy_tradition = 15
+			}
+		}
+	}
 }
 
 UKR_missions_3 = {
@@ -615,6 +738,61 @@ UKR_missions_3 = {
 			}
 		}
 	}
+
+	UKR_ruthenian_empire = {
+		icon = mission_rule_ruthenia
+		position = 12
+		required_missions = { UKR_greece UKR_swedish_question KIE_second_jerusalem }
+		trigger = {
+			prestige = 50
+			stability = 3
+			has_any_disaster = no
+			is_bankrupt = no
+		}
+		effect = {
+			if = {
+				limit = {
+					NOT = { government_rank = 3 }
+					OR = {
+						is_part_of_hre = no
+						is_emperor = yes
+					}
+				}
+				set_government_rank = 3
+			}
+			else = {
+				add_prestige = 50
+			}
+			add_permanent_power_projection = {
+				type = 25_permanent_power_projection
+				amount = 25
+			}
+			add_country_modifier = {
+				name = UKR_ruthenian_empire_modifier
+				duration = -1
+			}
+			if = {
+				limit = {
+					has_dlc = "Mandate of Heaven"
+					has_had_golden_age = yes
+					in_golden_age = no
+				}
+				reset_golden_age = yes
+			}
+			else_if = {
+				limit = {
+					has_dlc = "Mandate of Heaven"
+					in_golden_age = yes
+				}
+				extend_golden_age = 240
+			}
+			else = {
+				add_adm_power = 100
+				add_dip_power = 100
+				add_mil_power = 100
+			}
+		}
+	}
 }
 
 UKR_missions_4 = {
@@ -789,6 +967,61 @@ UKR_missions_4 = {
 		}
 		effect = {
 			add_mil_power = 50
+		}
+	}
+
+	UKR_breadbasket_of_europe = {
+		icon = mission_pol_breadbasket_europe
+		position = 12
+		required_missions = { }
+		provinces_to_highlight = {
+			country_or_non_sovereign_subject_holds = ROOT
+			trade_goods = grain
+			NOT = { has_production_building_trigger = yes }
+		}
+		trigger = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				trade_goods = grain
+				has_production_building_trigger = yes
+				value = 10
+			}
+			OR = {
+				production_leader = {
+					trade_goods = grain
+					value = yes
+				}
+				trading_part = {
+					trade_goods = grain
+					value = 0.15
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = UKR_every_grain_province_tt
+			tooltip = {
+				add_province_modifier = {
+					name = UKR_breadbasket_granary
+					duration = 7300
+				}
+			}
+			change_price = {
+				trade_goods = grain
+				key = UKR_ruthenian_grain
+				value = 0.15
+				duration = 5475
+			}
+			hidden_effect = {
+				every_owned_province = {
+					limit = {
+						trade_goods = grain
+						has_production_building_trigger = yes
+					}
+					add_province_modifier = {
+						name = UKR_breadbasket_granary
+						duration = 7300
+					}
+				}
+			}
 		}
 	}
 }
@@ -1062,6 +1295,177 @@ UKR_missions_5 = {
 		effect = {
 			add_country_modifier = {
 				name = "KIE_siberian_frontier"
+				duration = -1
+			}
+		}
+	}
+}
+
+KIE_missions_1_culture = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			OR = {
+				tag = KIE
+				tag = UKR
+				tag = KRU
+			}
+			NOT = { map_setup = map_setup_random }
+		}
+	}
+	has_country_shield = yes
+
+	KIE_mohyla_academy = {
+		icon = petro_mohyla
+		position = 4
+		required_missions = { }
+		provinces_to_highlight = {
+			province_id = 280
+		}
+		trigger = {
+			has_institution = printing_press
+			280 = {
+				owned_by = ROOT
+				OR = {
+					has_building = university
+					development = 35
+				}
+				if = {
+					limit = { has_dlc = "Mandate of Heaven" }
+					NOT = { devastation = 1 }
+				}
+			}
+		}
+		effect = {
+			280 = {
+				if = {
+					limit = { NOT = { has_building = university } }
+					add_building = university
+				}
+				else = {
+					add_base_production = 2
+				}
+			}
+			add_prestige_or_monarch_power = { amount = 25 }
+			if = {
+				limit = { has_dlc = "Rule Britannia" }
+				change_innovativeness = 3
+			}
+			change_government_reform_progress = 50
+			if = {
+				limit = { has_heir = yes }
+				change_heir_adm = 1
+				change_heir_dip = 1
+			}
+			else = {
+				add_adm_power = 50
+				add_dip_power = 50
+			}
+			define_advisor = {
+				name = "Petro Mohyla"
+				culture = romanian
+				religion = ROOT
+				type = theologian
+				skill = 3
+				cost_multiplier = 0.5
+			}
+		}
+	}
+
+	KIE_ruthenian_baroque = {
+		icon = mission_develop_kiev
+		position = 5
+		required_missions = { KIE_mohyla_academy }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280
+				province_id = 289
+				province_id = 2407
+				province_id = 290
+				province_id = 1945
+				province_id = 4244
+			}
+		}
+		trigger = {
+			280 = {
+				owned_by = ROOT
+				has_tax_building_trigger = yes
+				development = 30
+			}
+			num_of_owned_provinces_with = {
+				value = 4
+				OR = {
+					province_id = 289
+					province_id = 2407
+					province_id = 290
+					province_id = 1945
+					province_id = 4244
+					area = west_dniepr_area
+				}
+				has_tax_building_trigger = yes
+			}
+		}
+		effect = {
+			add_prestige_or_monarch_power = { amount = 25 }
+			if = {
+				limit = { has_dlc = "Mandate of Heaven" }
+				add_splendor = 400
+			}
+			else = {
+				add_adm_power = 50
+			}
+			change_ruler_stat = {
+				stat = adm
+				amount = 1
+			}
+			if = {
+				limit = {
+					has_dlc = "Rights of Man"
+					NOT = { num_of_ruler_traits = { amount = 3 } }
+				}
+				add_ruler_personality = patron_of_arts_personality
+			}
+			else = {
+				add_adm_power = 50
+			}
+			280 = {
+				add_base_tax = 1
+				add_province_modifier = {
+					name = KIE_lavra_printing_press
+					duration = -1
+				}
+			}
+		}
+	}
+
+	KIE_second_jerusalem = {
+		icon = mission_european_church
+		position = 6
+		required_missions = { KIE_ruthenian_baroque }
+		provinces_to_highlight = {
+			province_id = 280
+		}
+		trigger = {
+			280 = {
+				owned_by = ROOT
+				has_building = cathedral
+				has_building = university
+			}
+			OR = {
+				is_defender_of_faith = yes
+				AND = {
+					religious_unity = 0.95
+					prestige = 75
+				}
+			}
+		}
+		effect = {
+			add_prestige_or_monarch_power = { amount = 50 }
+			rip_faith_mission_resource_effect = { PA = 0.1 PI = 15 ADM = 50 }
+			add_country_modifier = {
+				name = KIE_second_jerusalem_modifier
 				duration = -1
 			}
 		}
