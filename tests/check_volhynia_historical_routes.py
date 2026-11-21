@@ -159,7 +159,8 @@ def check_conquest_hegemony_triggers() -> None:
     vln_legacy = read("missions/zzz_VOL_VLN_Legacy_Transition.txt")
     baltic_trig = normalized(named_block(named_block(vln_legacy, "VLN_baltic_aspirations"), "trigger"))
     assert "NOT = { any_owned_province = { region = ruthenia_region } }" in baltic_trig
-    crimea_trig = normalized(named_block(named_block(vln_legacy, "VLN_conquer_crimea"), "trigger"))
+    heritage = read("missions/Volhynia_Heritage_Missions.txt")
+    crimea_trig = normalized(named_block(named_block(heritage, "VLN_conquer_crimea"), "trigger"))
     assert "NOT = { any_owned_province = { region = crimea_region } }" in crimea_trig
 
 
