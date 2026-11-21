@@ -607,45 +607,57 @@ country_decisions = {
 			can_carry_the_host = yes
 			any_known_country = {
 				any_owned_province = {
-					is_host_refuge = yes
-					NOT = { owned_by = ROOT }
+					is_valid_host_refuge_province = yes
 				}
 			}
 		}
 		provinces_to_highlight = {
-			is_host_refuge = yes
-			NOT = { owned_by = ROOT }
+			is_valid_host_refuge_province = yes
 		}
 		allow = {
+			is_at_war = no
+			stability = 0
 			adm_power = 100
 			mil_power = 100
 			custom_trigger_tooltip = {
+				tooltip = cossack_carry_the_host_crisis_tt
+				zaz_host_forced_to_flee = yes
+			}
+			custom_trigger_tooltip = {
 				tooltip = cossack_carry_the_host_tt
 				any_known_country = {
-					any_owned_province = {
-						is_host_refuge = yes
-						NOT = { owned_by = ROOT }
-					}
-					OR = {
-						alliance_with = ROOT
-						is_subject_of = ROOT
-						has_opinion = { who = ROOT value = 100 }
-					}
+					is_valid_host_refuge_holder = yes
 				}
 			}
 		}
 		effect = {
 			add_adm_power = -100
 			add_mil_power = -100
+			custom_tooltip = cossack_carry_the_host_leave_old_tt
 			cossack_carry_the_host_effect = yes
 		}
 		ai_will_do = {
 			factor = 1
+			# AI stays home unless genuinely cornered:
+			# either Zaporozhia (283) is lost and the Host is down to <= 2 provinces,
+			# or any Cossack polity is down to 1 province after a major defeat or Sich Crisis.
 			modifier = {
-				factor = 2
-				num_of_cities = 2
-				any_neighbor_country = {
-					war_with = ROOT
+				factor = 0
+				NOT = {
+					OR = {
+						AND = {
+							zaz_lineage_country = yes
+							NOT = { owns = 283 }
+							NOT = { num_of_cities = 3 }
+						}
+						AND = {
+							NOT = { num_of_cities = 2 }
+							OR = {
+								revanchism = 25
+								has_disaster = zaporozhian_sich_crisis
+							}
+						}
+					}
 				}
 			}
 		}

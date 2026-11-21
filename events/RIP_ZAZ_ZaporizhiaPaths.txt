@@ -93,3 +93,85 @@ country_event = {
 		add_republican_tradition = -5
 	}
 }
+
+# Human refuge holder consent request when a Cossack Host asks to settle on frontier land.
+# ROOT = refuge holder (player), FROM = carrying Cossack country.
+country_event = {
+	id = zaz_paths.6
+	title = zaz_paths.6.t
+	desc = zaz_paths.6.d
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = zaz_paths.6.a
+		ai_chance = {
+			factor = 100
+		}
+		save_event_target_as = host_refuge_holder
+		if = {
+			limit = {
+				FROM = { exists = yes }
+			}
+			FROM = {
+				save_event_target_as = host_carrying_country
+				clr_country_flag = host_refuge_request_pending
+			}
+		}
+		if = {
+			limit = {
+				FROM = {
+					exists = yes
+					is_at_war = no
+				}
+				any_owned_province = {
+					is_host_refuge = yes
+					NOT = { owned_by = FROM }
+					is_capital = no
+					controlled_by = owner
+				}
+			}
+			random_owned_province = {
+				limit = {
+					is_host_refuge = yes
+					NOT = { owned_by = FROM }
+					is_capital = no
+					controlled_by = owner
+				}
+				save_event_target_as = host_new_seat
+			}
+			FROM = {
+				zaz_complete_carry_the_host_effect = yes
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					FROM = { exists = yes }
+				}
+				FROM = {
+					add_adm_power = 100
+					add_mil_power = 100
+				}
+			}
+		}
+	}
+
+	option = {
+		name = zaz_paths.6.b
+		ai_chance = {
+			factor = 0
+		}
+		set_country_flag = zaz_refused_host_refuge
+		if = {
+			limit = {
+				FROM = { exists = yes }
+			}
+			FROM = {
+				clr_country_flag = host_refuge_request_pending
+				add_adm_power = 100
+				add_mil_power = 100
+			}
+		}
+	}
+}

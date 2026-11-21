@@ -24,46 +24,170 @@ zaz_take_the_road_effect = {
 }
 
 # Carrying the Host is the move the Sich actually made twice: out of reach of
-# the power that had just broken it, onto ground held by somebody else. The
-# seat goes to a refuge province owned by a country that will have us, and the
-# old lands are left behind rather than kept.
+# the power that had just broken it, onto non-capital ground held by a friendly
+# power. AI refuge holders yield a valid frontier province immediately; human
+# refuge holders are asked via zaz_paths.6 before anything is ceded. Once a new
+# seat is taken, the Host moves its capital there and leaves its old lands behind
+# (retaining cores for eventual reconquest).
 cossack_carry_the_host_effect = {
-	random_known_country = {
+	save_event_target_as = host_carrying_country
+	if = {
 		limit = {
-			any_owned_province = {
-				is_host_refuge = yes
-				NOT = { owned_by = ROOT }
-			}
-			OR = {
-				alliance_with = ROOT
-				is_subject_of = ROOT
-				has_opinion = { who = ROOT value = 100 }
+			any_known_country = {
+				ai = yes
+				is_valid_host_refuge_holder = yes
 			}
 		}
-		save_event_target_as = host_refuge_holder
-		random_owned_province = {
+		random_known_country = {
 			limit = {
-				is_host_refuge = yes
-				NOT = { owned_by = ROOT }
+				ai = yes
+				is_valid_host_refuge_holder = yes
 			}
-			save_event_target_as = host_new_seat
+			save_event_target_as = host_refuge_holder
+			random_owned_province = {
+				limit = {
+					is_valid_host_refuge_province = yes
+				}
+				save_event_target_as = host_new_seat
+			}
+		}
+		zaz_complete_carry_the_host_effect = yes
+	}
+	else_if = {
+		limit = {
+			any_known_country = {
+				ai = no
+				is_valid_host_refuge_holder = yes
+			}
+		}
+		set_country_flag = host_refuge_request_pending
+		random_known_country = {
+			limit = {
+				ai = no
+				is_valid_host_refuge_holder = yes
+			}
+			country_event = { id = zaz_paths.6 }
 		}
 	}
+}
+
+# Executes in the carrying country's scope once host_carrying_country,
+# host_refuge_holder, and host_new_seat are resolved in the same tick.
+# Uses event_target:host_carrying_country instead of ROOT because callers may
+# enter from a human host_refuge_holder event (zaz_paths.6) via FROM = { ... }.
+zaz_complete_carry_the_host_effect = {
 	if = {
-		limit = { has_saved_event_target = host_new_seat }
+		limit = {
+			has_saved_event_target = host_new_seat
+			has_saved_event_target = host_refuge_holder
+			has_saved_event_target = host_carrying_country
+		}
+		capital_scope = {
+			if = {
+				limit = { has_province_modifier = zaporozhian_sich_capital }
+				remove_province_modifier = zaporozhian_sich_capital
+			}
+		}
 		event_target:host_new_seat = {
-			cede_province = ROOT
-			add_core = ROOT
-			change_culture = ROOT
+			cede_province = event_target:host_carrying_country
+			add_core = event_target:host_carrying_country
+			change_culture = event_target:host_carrying_country
 			add_province_modifier = {
 				name = zaz_new_sich_camp
 				duration = -1
 			}
 		}
 		set_capital = event_target:host_new_seat
+		every_owned_province = {
+			limit = {
+				is_capital = no
+				NOT = { province_id = event_target:host_new_seat }
+			}
+			if = {
+				limit = { has_province_modifier = zaporozhian_sich_capital }
+				remove_province_modifier = zaporozhian_sich_capital
+			}
+			if = {
+				limit = {
+					any_core_country = {
+						exists = yes
+						NOT = { tag = event_target:host_carrying_country }
+						NOT = { tag = event_target:host_refuge_holder }
+					}
+				}
+				random_core_country = {
+					limit = {
+						exists = yes
+						NOT = { tag = event_target:host_carrying_country }
+						NOT = { tag = event_target:host_refuge_holder }
+					}
+					save_event_target_as = host_abandoned_recipient
+				}
+				cede_province = event_target:host_abandoned_recipient
+			}
+			else_if = {
+				limit = {
+					any_neighbor_province = {
+						is_city = yes
+						owner = {
+							NOT = { tag = event_target:host_carrying_country }
+							NOT = { tag = event_target:host_refuge_holder }
+							NOT = { alliance_with = event_target:host_carrying_country }
+						}
+					}
+				}
+				random_neighbor_province = {
+					limit = {
+						is_city = yes
+						owner = {
+							NOT = { tag = event_target:host_carrying_country }
+							NOT = { tag = event_target:host_refuge_holder }
+							NOT = { alliance_with = event_target:host_carrying_country }
+						}
+					}
+					owner = {
+						save_event_target_as = host_abandoned_recipient
+					}
+				}
+				cede_province = event_target:host_abandoned_recipient
+			}
+			else_if = {
+				limit = {
+					any_neighbor_province = {
+						is_city = yes
+						owner = {
+							NOT = { tag = event_target:host_carrying_country }
+							NOT = { tag = event_target:host_refuge_holder }
+						}
+					}
+				}
+				random_neighbor_province = {
+					limit = {
+						is_city = yes
+						owner = {
+							NOT = { tag = event_target:host_carrying_country }
+							NOT = { tag = event_target:host_refuge_holder }
+						}
+					}
+					owner = {
+						save_event_target_as = host_abandoned_recipient
+					}
+				}
+				cede_province = event_target:host_abandoned_recipient
+			}
+			else_if = {
+				limit = {
+					any_neighbor_province = {
+						is_city = yes
+						owned_by = event_target:host_refuge_holder
+					}
+				}
+				cede_province = event_target:host_refuge_holder
+			}
+		}
 		event_target:host_refuge_holder = {
 			add_opinion = {
-				who = ROOT
+				who = event_target:host_carrying_country
 				modifier = zaz_gave_the_host_refuge
 			}
 		}

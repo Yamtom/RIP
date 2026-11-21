@@ -125,7 +125,29 @@ is_cossack_polity = {
 
 can_carry_the_host = {
 	is_cossack_polity = yes
-	NOT = { has_country_flag = host_recently_moved }
-	is_at_war = no
-	stability = 0
+	NOT = { num_of_cities = 5 }
+	NOT = { has_country_modifier = zaz_host_in_exile }
+	OR = {
+		NOT = { has_country_flag = host_recently_moved }
+		had_country_flag = { flag = host_recently_moved days = 9125 }
+	}
+	OR = {
+		NOT = { has_country_flag = host_refuge_request_pending }
+		had_country_flag = { flag = host_refuge_request_pending days = 90 }
+	}
+}
+
+# Genuine displacement or crisis required to carry the Host into exile.
+# Blocks an intact 1444-1449 Zaporozhia (3 provinces holding 283) from fleeing.
+zaz_host_forced_to_flee = {
+	NOT = { num_of_cities = 5 }
+	OR = {
+		AND = {
+			zaz_lineage_country = yes
+			NOT = { owns = 283 } # Lost Zaporozhia (the historic Sich)
+		}
+		NOT = { num_of_cities = 3 } # Reduced to 2 or fewer provinces
+		has_disaster = zaporozhian_sich_crisis
+		revanchism = 25 # Recently suffered a major defeat in war
+	}
 }

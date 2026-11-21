@@ -22,6 +22,30 @@ is_host_refuge = {
 	}
 }
 
+is_valid_host_refuge_province = {
+	is_host_refuge = yes
+	NOT = { owned_by = ROOT }
+	is_capital = no
+	controlled_by = owner
+}
+
+is_valid_host_refuge_holder = {
+	NOT = { tag = ROOT }
+	NOT = { war_with = ROOT }
+	OR = {
+		NOT = { has_country_flag = zaz_refused_host_refuge }
+		had_country_flag = { flag = zaz_refused_host_refuge days = 3650 }
+	}
+	OR = {
+		alliance_with = ROOT
+		is_subject_of = ROOT
+		has_opinion = { who = ROOT value = 100 }
+	}
+	any_owned_province = {
+		is_valid_host_refuge_province = yes
+	}
+}
+
 # The named hosts the frontier actually raised. Each is a stretch of country
 # rather than a tag: the 1.37 map has no room to split the Don or the Kuban
 # into a country, so the identity is carried by a modifier and read by the
