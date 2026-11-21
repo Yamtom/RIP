@@ -40,7 +40,7 @@ assert 'owned_by = ROOT' in kyiv
 assert 'has_building = temple' in kyiv and 'has_building = cathedral' in kyiv
 assert '1453' not in trigger
 
-diaspora = read('missions/RuthenianDiaspora_Missions.txt')
+diaspora = read('missions/zzzz_RuthenianDiaspora_Missions.txt')
 from pathlib import Path
 
 cells = set()

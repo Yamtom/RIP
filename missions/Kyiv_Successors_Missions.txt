@@ -171,24 +171,23 @@ UKR_missions_1 = {
 		icon = mission_protect_white_sea_trade
 		position = 8
 		required_missions = { UKR_novgorod }
+		# The Primary Chronicle puts Rurik's first seat at Ladoga (1961), on the
+		# Volkhov route, before Novgorod. No Scandinavian land is involved.
 		provinces_to_highlight = {
-			region = scandinavia_region
-			has_port = yes
+			province_id = 1961
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		trigger = {
-			OR = {
-				num_of_owned_provinces_with = { value = 3 region = scandinavia_region has_port = yes }
-				any_ally = {
-					has_opinion = { who = ROOT value = 150 }
-					num_of_owned_provinces_with = { value = 3 region = scandinavia_region has_port = yes }
-				}
+			1961 = {
+				country_or_non_sovereign_subject_holds = ROOT
 			}
 		}
 		effect = {
 			add_prestige = 15
 			add_legitimacy = 15
-			scandinavia_region = {
-				limit = { owned_by = ROOT has_port = yes }
+			1961 = {
 				add_province_modifier = {
 					name = "KIE_scandinavia"
 					duration = 7300
@@ -365,24 +364,6 @@ UKR_missions_2 = {
 			add_country_modifier = {
 				name = "KIE_union"
 				duration = -1
-			}
-			hidden_effect = {
-				every_province = {
-					limit = {
-						OR = {
-							culture = polish
-						}
-					}
-					change_culture = ROOT
-				}
-				every_country = {
-					limit = {
-						OR = {
-							primary_culture = polish
-						}
-					}
-					change_primary_culture = ROOT
-				}
 			}
 		}
 	}
@@ -982,6 +963,8 @@ UKR_missions_5 = {
 			}
 		}
 		trigger = {
+			# Area totals (about 10 development per province). A per-province
+			# development threshold per province under `type = all` could never be met on the steppe.
 			astrakhan_area = {
 				type = all
 				controlled_by = ROOT
@@ -1067,13 +1050,16 @@ UKR_missions_5 = {
 		icon = mission_collect_yasak
 		position = 12
 		required_missions = { UKR_kazan UKR_perm }
+		# A foothold across the ridge replaces the old 400-point power toll.
 		trigger = {
-			adm_power = 200
-			dip_power = 200
+			any_owned_province = {
+				OR = {
+					area = ural_area
+					region = west_siberia_region
+				}
+			}
 		}
 		effect = {
-			add_adm_power = -200
-			add_dip_power = -200
 			add_country_modifier = {
 				name = "KIE_siberian_frontier"
 				duration = -1

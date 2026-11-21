@@ -1,21 +1,36 @@
-# HLC | Halych and successors with its mission legacy.
-# Loaded after Volhynia_Missions.txt and Kyiv_Successors_Missions.txt.
-# Rows are chosen so that a VOL that kept these missions shares no row with
-# its own series in the same column (the engine warns with mission.cpp:353
-# otherwise): column 3 holds VOL_missions_U_3 at 5-7, column 4 holds
-# VOL_missions_U_4 at 3, 4 and 8, and VOL_missions_4 at 2.
+# HLC, VOL, VLN | Galician and Volhynian heritage missions.
+#
+# This file sorts between Volhynia_Conquest_Missions.txt and
+# Volhynia_Missions.txt on purpose. The engine places the series of one column
+# one after another in load order, each mission on its declared row or just
+# below the previous one (whichever is lower). Declared rows here are therefore
+# only minimums:
+#   * HLC alone has nothing above these series, so they sit at the top of their
+#     columns, directly under the trunk (column 4 rows 3-5, column 3 row 5).
+#   * A VOL loads the conquest series first, so the same series drop into the
+#     gaps the VOL tree leaves: Frontier Crown, Confessional Settlement and
+#     Statutes at column 4 rows 5-7 (between VOL_restore_ruthenia and
+#     VOL_far_north), the Halych Compact at column 3 row 8, Provision the
+#     Frontier and Conquer Crimea at column 5 rows 6-7 (between
+#     VOL_invest_in_eastern_rus_mission and VOL_choose_development_path).
+# Do not move VOL series that load before this file without rechecking
+# tests/check_volhynia_missions.py: a later row shifted here shifts every row
+# loaded after it in that column.
+#
+# Both halves of the frontier are open to every VOL whatever its origin: the
+# Galician series reads fortresses, the Volhynian series reads the hinterland.
 
 VOL_missions_HLC = {
 	slot = 3
 	generic = no
 	ai = yes
-	potential = { west_ukraine_hlc_legacy_missions = yes }
+	potential = { west_ukraine_hlc_heritage_missions = yes }
 	has_country_shield = yes
 
 	hlc_halych_sejm_mission = {
 		icon = mission_assemble_an_army
 		required_missions = { }
-		position = 8
+		position = 5
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -43,13 +58,13 @@ VOL_missions_4_HLC = {
 	slot = 4
 	generic = no
 	ai = yes
-	potential = { west_ukraine_hlc_legacy_missions = yes }
+	potential = { west_ukraine_hlc_heritage_missions = yes }
 	has_country_shield = yes
 
 	hlc_carpathian_bulwark = {
 		icon = mission_conquer_50_development
 		required_missions = { }
-		position = 5
+		position = 3
 		provinces_to_highlight = {
 			# Fixed Carpathian approaches: Halych, Peremyshl, Drohobych.
 			OR = { province_id = 261 province_id = 2424 province_id = 4541 }
@@ -84,7 +99,7 @@ VOL_missions_4_HLC = {
 	hlc_confessional_compact = {
 		icon = mission_build_up_to_force_limit
 		required_missions = { hlc_carpathian_bulwark }
-		position = 6
+		position = 4
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -152,7 +167,7 @@ VOL_missions_4_HLC = {
 	hlc_constitutional_settlement = {
 		icon = mission_have_two_subjects
 		required_missions = { hlc_confessional_compact }
-		position = 7
+		position = 5
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
@@ -197,6 +212,122 @@ VOL_missions_4_HLC = {
 				add_dip_power = 25
 				add_mil_power = 25
 			}
+		}
+	}
+}
+
+VLN_carpathian_prestige = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		west_ukraine_vln_heritage_missions = yes
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	VLN_carpathian_bulwark = {
+		icon = mission_non-western_soldiers
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = {
+			OR = {
+				area = volhynia_area
+				area = red_ruthenia_area
+			}
+			owned_by = ROOT
+			NOT = { num_of_times_improved = 3 }
+		}
+
+		trigger = {
+			vln_unite_galicia_done = yes
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = vln_eastern_path_req_tt
+					vol_has_eastern_path = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = vln_carpathian_bulwark_fallback_req_tt
+					AND = {
+						total_development = 200
+						stability = 1
+					}
+				}
+			}
+			num_of_owned_provinces_with = {
+				value = 3
+				OR = {
+					area = volhynia_area
+					area = red_ruthenia_area
+				}
+				num_of_times_improved = 3
+			}
+		}
+
+		effect = {
+			add_country_modifier = {
+				name = vol_carpathian_bulwark_modifier
+				duration = -1
+			}
+			add_mil_power = 100
+		}
+	}
+
+	VLN_conquer_crimea = {
+		icon = mission_sca_lit_conquer_crimea
+		required_missions = { VLN_carpathian_bulwark }
+		position = 2
+
+		provinces_to_highlight = {
+			region = crimea_region
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+
+		trigger = {
+			vln_integrate_north_done = yes
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = vln_baltic_path_req_tt
+					vol_has_baltic_path = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = vln_conquer_crimea_fallback_req_tt
+					AND = {
+						total_development = 300
+						army_size = 45
+						OR = {
+							NOT = { exists = CRI }
+							CRI = { is_subject_of = ROOT }
+							CRI = {
+								NOT = { any_owned_province = { region = crimea_region } }
+								NOT = {
+									army_strength = {
+										who = ROOT
+										value = 0.5
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			crimea_region = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+
+		effect = {
+			add_country_modifier = {
+				name = vol_crimean_conquest
+				duration = -1
+			}
+			add_prestige = 80
+			add_mil_power = 125
+		}
+		ai_weight = {
+			factor = 350
 		}
 	}
 }
