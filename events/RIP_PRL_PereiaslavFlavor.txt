@@ -287,3 +287,124 @@ country_event = {
 		clr_country_flag = prl_trubizh_prepared
 	}
 }
+
+country_event = {
+	id = prl_flavor.5
+	title = "prl_flavor.5.t"
+	desc = "prl_flavor.5.d"
+	picture = TRADE_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = "prl_flavor.5.a"
+		add_country_modifier = {
+			name = prl_river_control
+			duration = -1
+		}
+		add_navy_tradition = 15
+		add_mercantilism = 2
+		2407 = {
+			if = {
+				limit = { owned_by = ROOT }
+				if = {
+					limit = { has_building = marketplace }
+					add_building = trade_depot
+				}
+				else_if = {
+					limit = { has_building = trade_depot }
+					add_building = stock_exchange
+				}
+				else_if = {
+					limit = { NOT = { has_building = stock_exchange } }
+					add_building = marketplace
+				}
+				else = {
+					add_base_production = 2
+				}
+			}
+		}
+	}
+
+	option = {
+		name = "prl_flavor.5.b"
+		add_country_modifier = {
+			name = prl_river_control
+			duration = 9125
+		}
+		add_mil_power = 75
+		east_dniepr_area = {
+			limit = { owned_by = ROOT }
+			add_base_production = 1
+		}
+		2407 = {
+			if = {
+				limit = { owned_by = ROOT }
+				if = {
+					limit = { has_building = workshop }
+					add_building = counting_house
+				}
+				else_if = {
+					limit = { NOT = { has_building = counting_house } }
+					add_building = workshop
+				}
+				else = {
+					add_base_production = 2
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = prl_flavor.6
+	title = "prl_flavor.6.t"
+	desc = "prl_flavor.6.d"
+	picture = LAND_MILITARY_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = "prl_flavor.6.a"
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 15
+			}
+		}
+		else = {
+			add_army_tradition = 10
+		}
+		define_advisor = {
+			type = army_reformer
+			skill = 2
+			culture = ROOT
+			religion = ROOT
+			cost_multiplier = 0.5
+		}
+		add_yearly_manpower = 1.0
+	}
+
+	option = {
+		name = "prl_flavor.6.b"
+		if = {
+			limit = { has_dlc = "Cradle of Civilization" }
+			add_army_professionalism = 0.05
+		}
+		else = {
+			add_army_tradition = 10
+		}
+		define_advisor = {
+			type = commandant
+			skill = 2
+			culture = ROOT
+			religion = ROOT
+			cost_multiplier = 0.5
+		}
+		2407 = {
+			if = {
+				limit = { owned_by = ROOT }
+				add_base_manpower = 2
+			}
+		}
+	}
+}

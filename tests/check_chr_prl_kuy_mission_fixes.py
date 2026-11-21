@@ -111,12 +111,13 @@ def check_prl_grounded_missions() -> None:
     assert "any_ally = { total_development = 300 }" in gp_trig
 
     vassal_trig = normalized(named_block(named_block(prl_text, "prl_vassal_management"), "trigger"))
-    assert "is_subject = no" in vassal_trig
-    assert "is_subject = yes" not in vassal_trig
     assert "stability = 2" not in vassal_trig
-    assert "num_of_subjects = 2" in vassal_trig
-    assert "all_subject_country = { NOT = { liberty_desire = 50 } }" in vassal_trig
+    assert "num_of_subjects = 2" not in vassal_trig
     assert "2407 = { owned_by = ROOT has_courthouse_building_trigger = yes }" in vassal_trig
+    vassal_or = normalized(named_block(named_block(named_block(prl_text, "prl_vassal_management"), "trigger"), "OR"))
+    assert "is_subject = no num_of_subjects = 1 all_subject_country = { NOT = { liberty_desire = 50 } has_opinion = { who = ROOT value = 125 } }" in vassal_or
+    assert "all_ally = { has_opinion = { who = ROOT value = 150 }" in vassal_or and "amount = 2" in vassal_or
+    assert "is_subject = yes overlord = { has_opinion = { who = ROOT value = 150 }" in vassal_or
 
     heg_trig = normalized(named_block(named_block(prl_text, "prl_regional_hegemony"), "trigger"))
     assert "army_size = 30" not in heg_trig
@@ -274,10 +275,71 @@ def check_prl_successor_content() -> None:
         assert "prl_has_legacy_missions = yes" in named_block(reform, gate)
 
 
+def check_prl_slot5_and_interactive_rewards() -> None:
+    prl_text = read("missions/Pereiaslav_Missions.txt")
+    slot5 = named_block(prl_text, "prl_missions_5")
+
+    expected_order = [
+        ("prl_professional_army", 1, "required_missions = { }"),
+        ("prl_military_campaigns", 2, "required_missions = { prl_professional_army }"),
+        ("prl_regimental_organization", 3, "required_missions = { prl_military_campaigns }"),
+        ("prl_military_supremacy", 4, "required_missions = { prl_regimental_organization }"),
+        ("prl_sloboda_regiments", 5, "required_missions = { prl_military_supremacy }"),
+    ]
+    offsets = []
+    for name, pos, req in expected_order:
+        blk = normalized(named_block(slot5, name))
+        assert f"position = {pos}" in blk, (name, pos)
+        assert req in blk, (name, req)
+        offsets.append(slot5.index(f"{name} = {{"))
+    assert offsets == sorted(offsets), "Slot 5 missions must appear in sequential row order"
+
+    prof_trig_raw = named_block(named_block(slot5, "prl_professional_army"), "trigger")
+    prof_trig = normalized(prof_trig_raw)
+    assert "prl_regimental_era" not in prof_trig
+    assert 'has_dlc = "Cradle of Civilization"' in prof_trig_raw
+    assert "else = { army_tradition = 30 }" in prof_trig
+
+    camp_trig = normalized(named_block(named_block(slot5, "prl_military_campaigns"), "trigger"))
+    assert "prl_regimental_era" not in camp_trig
+
+    reg_blk = named_block(slot5, "prl_regimental_organization")
+    assert "prl_regimental_era = yes" in normalized(named_block(reg_blk, "trigger"))
+    reg_eff = normalized(named_block(reg_blk, "effect"))
+    assert "set_country_flag = prl_statute_prepared" in reg_eff
+    assert "set_country_flag = prl_regimental_republic_unlocked" in reg_eff
+    assert "country_event = { id = prl_flavor.6 }" in reg_eff
+
+    sup_eff = normalized(named_block(named_block(slot5, "prl_military_supremacy"), "effect"))
+    assert "sloboda_ukraine_area = { limit = { NOT = { is_core = ROOT } NOT = { is_permanent_claim = ROOT } } add_permanent_claim = ROOT }" in sup_eff
+    assert "4543 = { if = { limit = { NOT = { is_core = ROOT } NOT = { is_permanent_claim = ROOT } } add_permanent_claim = ROOT } }" in sup_eff
+
+    slob_eff = normalized(named_block(named_block(slot5, "prl_sloboda_regiments"), "effect"))
+    assert "sloboda_ukraine_area = { limit = { owned_by = ROOT } add_base_manpower = 1 add_local_autonomy = -15 }" in slob_eff
+
+    assert "country_event = { id = prl_flavor.5 }" in normalized(named_block(named_block(prl_text, "prl_river_flotilla"), "effect"))
+    trade_eff = normalized(named_block(named_block(prl_text, "prl_trade_dominance"), "effect"))
+    assert "center_of_trade = 1" in trade_eff and "add_center_of_trade_level = 1" in trade_eff
+    broth_eff = normalized(named_block(named_block(prl_text, "prl_brotherhood_schools"), "effect"))
+    assert "add_building = university" in broth_eff
+    magd_eff = normalized(named_block(named_block(prl_text, "prl_magdeburg_charter"), "effect"))
+    assert "name = prl_magdeburg_charter_modifier duration = -1" in magd_eff
+
+    events = {
+        re.search(r"\bid = (prl_flavor\.\d+)", block)[1]: normalized(block)
+        for _, block in keyed_blocks(read("events/RIP_PRL_PereiaslavFlavor.txt"), "country_event")
+    }
+    for eid in ("prl_flavor.5", "prl_flavor.6"):
+        assert eid in events, eid
+        assert "is_triggered_only = yes" in events[eid], eid
+        assert "fire_only_once" not in events[eid], eid
+
+
 def main() -> int:
     check_prl_build_army()
     check_prl_orthodox_leadership()
     check_prl_grounded_missions()
+    check_prl_slot5_and_interactive_rewards()
     check_prl_successor_content()
     check_kuy_steppe_granary()
     check_kuy_chronicle_rework()
@@ -286,7 +348,7 @@ def main() -> int:
     print(
         "CHR/PRL/KUY MISSION FIXES PASS: prl_build_army claims chernigov_area, "
         "prl_orthodox_leadership uses 0.90 unity + religion = ROOT, "
-        "PRL counter missions grounded and prl_vassal_management requires 2 loyal subjects, "
+        "PRL Slot 3 smooth diplomacy + Slot 5 unblocked before 1600 + Sloboda claims + interactive rewards, "
         "kuy_steppe_granary uses trade_goods_size_modifier, "
         "KUY uses Khagan titles, iqta, Podil Akhi Guilds, and kuy_flavor.1, "
         "chr_border_compacts highlight wraps 1945/4244 in OR (static only)."
