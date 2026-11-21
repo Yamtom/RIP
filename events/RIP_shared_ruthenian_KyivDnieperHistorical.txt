@@ -896,6 +896,9 @@ country_event = {
 	desc = kyiv_dnieper_history.9.d
 	picture = UNIVERSITY_eventPicture
 	trigger = {
+		# Kyiv-Mohyla belongs to the Hetmanate, which has its own event
+		# (het_flavor.2) set at 1632.
+		NOT = { tag = HET }
 		owns = 280
 		religion = orthodox
 		is_year = 1580
