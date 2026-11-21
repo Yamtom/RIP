@@ -65,6 +65,18 @@ KIE, CHR і ZAZ. Після підтвердження користувача с
 - **«Корсунь» для Феодоро (`ukr_korsun`, провінція `2410`)**: перейменування `2410` (Феодоро / Мангуп) на «Корсунь» змішує гірське князівство Феодоро з античним і середньовічним Херсонесом (Корсунем) у районі сучасного Севастополя.
 - **Прив'язка Острога до Рівного (`ukr_ostrozkyi_princes`, провінція `2962`)**: на мапі EU4 провінція `2962` (`Rowne` / Рівне) є лише картографічним наближенням для Острога й не може подаватися як тотожність обох міст без прямого застереження.
 
+## Виконані перенесення донорських сюжетів (2026-11-21)
+
+Перенесення виконано вибірково (без повторного увімкнення спільного файла `Ruthenian_Missions.txt`) у заданій послідовності `UZH > HLC+VLN+VOL+PDL > KIE+UKR+KUY+KRU > CHR+PRL > ZAZ+HET`:
+
+1. **`UZH` (`missions/Zakarpatta_Missions.txt`)**: `uzh_beskid_vistula_passes` (за мотивами `ukr_visla`, тимчасові претензії без вічних регіональних стрибків) і `uzh_carpathian_magdeburg_charters` (за мотивами `ukr_magdeburg_laws`, 25-річний модифікатор зі збереженням ліміту постійних модифікаторів `UZH`).
+2. **`HLC + VLN + VOL + PDL`**: `hlc_lviv_magdeburg_charters` (`Volhynia_Heritage_Missions.txt`, Львів і Червона Русь для `HLC`/`VOL`), `VLN_ostrozkyi_patrons` (`zzz_VOL_VLN_Legacy_Transition.txt`, з явним застереженням, що провінція `2962` Рівне на мапі позначає Острог), `VOL_vistula_marches` (`Volhynia_Missions.txt`) та `PDL_dniester_granaries`, `PDL_kamianets_magdeburg_charters` (`Podillia_Missions.txt`, враховує `grain` і `livestock`, магдебурзький привілей Кам'янця 1374 року).
+3. **`KIE + UKR + KUY + KRU`**: у `Kyiv_Shared_Missions.txt` виправлено дубльований рядок `KIE_cossack` (`position = 5`) та `KIE_dnieper_settlement` (`position = 6`); у `Kyiv_Successors_Missions.txt` додано спільний для `KIE`/`UKR`/`KRU` культурно-освітній цикл `KIE_mohyla_academy` (Петро Могила 1632 року), `KIE_ruthenian_baroque` і `KIE_second_jerusalem`, а також спадкоємні місії `UKR_lithuanian_inheritance` (тимчасові балтійські претензії), `UKR_swedish_question`, `UKR_breadbasket_of_europe` й імперський фінал `UKR_ruthenian_empire`. Для Куябії створено окреме дерево `missions/Kuyaba_Missions.txt` (`KUY`, 9 місій без християнських блокувань і без анахронічного Кривбасу).
+4. **`CHR + PRL`**: `chr_siversk_sloboda_frontier` (Рильськ `4543`) та `chr_tmutarakan_inheritance` (Тмуторокань на `2447` зі скасуванням работоргівлі Тани `286` через перехід на `grain` замість `unknown`) у `Chernihiv_Missions.txt`; `prl_magdeburg_charter`, `prl_dnieper_baroque` й `prl_sloboda_regiments` у `Pereiaslav_Missions.txt`.
+5. **`ZAZ + HET`**: `ZAZ_sahaidachnyi_reforms` і `ZAZ_heroic_campaigns` (`Zaporozhie_Missions.txt`, без зміщення гілок `ZAZ_ally_*`) та серія `het_missions_4` (`het_sahaidachnyi_host`, `het_age_of_heroic_campaigns`, `het_black_sea_armada`) у `zzz_Hetmanate_Missions.txt`.
+
+Усі згадані перенесення перевірено статичними скриптами цілісності, кодування, дужок, локалізації та укладання колонок; поведінка безпосередньо в запущеній грі EU4 не перевірялася.
+
 ## Перевірки
 
 - `tests/check_ruthenian_legacy.py`: 32 місії, ациклічні залежності,
