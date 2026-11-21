@@ -54,25 +54,46 @@ on_monthly_pulse = {
 	rip_cesarstvo_monthly_effect = yes
 }
 
-# When Kyivan Rus establishes an appanage trading city via Mare Nostrum,
-# convert the newly formed entity into a princedom subject.
-on_country_released = {
+# When a Kyivan realm establishes a trading city via Mare Nostrum, the engine
+# builds the new country with the founder's trade_city_reform, which for
+# kyivan_rus_reform and kyivan_shogunate_reform is principality_appanage. The
+# event kyiv_trade_cities.1 is the second half: it makes the new country the
+# founder's udil.
+#
+# Measured in 1.37.5 (2026-11-21, the "Create Trading City" button on a province
+# of a Kyivan Rus country that leads a Trade League): the engine does NOT fire
+# on_country_released, on_create_client_state, on_country_creation or
+# on_government_change for the new country. It fires on_new_monarch and
+# on_province_owner_change (this = the capital, FROM = the founder). At that
+# moment the new country has no reform yet, is in no league and is nobody's
+# subject; one day later it holds principality_appanage, sits in the founder's
+# league and is still no subject. So this hook only books the event for the next
+# day, when the country is whole, and the event does the work. The first two
+# versions of this hook, written on on_country_released and
+# on_create_client_state, never ran.
+#
+# this = province, FROM = old owner (vanilla 00_on_actions.txt). Only a Kyivan
+# realm that leads a Trade League can have founded one, so a province lost by
+# anyone else costs one failed limit here and nothing more.
+on_province_owner_change = {
 	if = {
 		limit = {
-			has_reform = principality_appanage
 			FROM = {
-				has_reform = kyivan_rus_reform
+				is_trade_league_leader = yes
+				OR = {
+					has_reform = kyivan_rus_reform
+					has_reform = kyivan_shogunate_reform
+				}
+			}
+			owner = {
+				is_subject = no
 			}
 		}
-		FROM = {
-			create_subject = {
-				subject_type = princedom
-				subject = ROOT
+		owner = {
+			country_event = {
+				id = kyiv_trade_cities.1
+				days = 1
 			}
-		}
-		add_country_modifier = {
-			name = rip_held_as_an_udil
-			duration = -1
 		}
 	}
 }

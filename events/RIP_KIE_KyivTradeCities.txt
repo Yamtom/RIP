@@ -1,0 +1,74 @@
+namespace = kyiv_trade_cities
+
+# The second half of a Kyivan trading city: the new country becomes the founder's
+# udil. The first half is trade_city_reform = principality_appanage on
+# kyivan_rus_reform and kyivan_shogunate_reform, which the engine reads when the
+# founder presses "Create Trading City"; the hook that books this event is
+# on_province_owner_change in common/on_actions/RIP_KIE_on_actions.txt, which
+# explains why it waits a day.
+#
+# ROOT = the new country. By now it holds principality_appanage, sits in the
+# founder's Trade League and is nobody's subject. Becoming a subject takes it
+# out of the league. A princedom under kyivan_rus_reform, a senior_udil under the
+# Seniorate, exactly as rip_grant_the_udil makes them.
+country_event = {
+	id = kyiv_trade_cities.1
+	title = none
+	desc = none
+	picture = none
+	hidden = yes
+	is_triggered_only = yes
+	trigger = {
+		has_reform = principality_appanage
+		is_subject = no
+		is_in_trade_league = yes
+		any_country = {
+			is_trade_league_leader = yes
+			is_in_trade_league_with = ROOT
+			OR = {
+				has_reform = kyivan_rus_reform
+				has_reform = kyivan_shogunate_reform
+			}
+		}
+	}
+	immediate = {
+		random_country = {
+			limit = {
+				is_trade_league_leader = yes
+				is_in_trade_league_with = ROOT
+				OR = {
+					has_reform = kyivan_rus_reform
+					has_reform = kyivan_shogunate_reform
+				}
+			}
+			if = {
+				limit = {
+					has_reform = kyivan_shogunate_reform
+				}
+				create_subject = {
+					subject_type = senior_udil
+					subject = ROOT
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_reform = kyivan_shogunate_reform }
+				}
+				create_subject = {
+					subject_type = princedom
+					subject = ROOT
+				}
+			}
+		}
+		add_country_modifier = {
+			name = rip_held_as_an_udil
+			duration = -1
+		}
+		# Counted from the udils actually standing, as in rip_grant_the_udil.
+		overlord = {
+			rip_recalculate_the_rota_effect = yes
+		}
+	}
+	option = {
+	}
+}
