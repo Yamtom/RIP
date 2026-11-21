@@ -497,6 +497,87 @@ UZH_missions_1 = {
 			factor = 700
 		}
 	}
+
+	uzh_beskid_vistula_passes = {
+		icon = mission_rule_ruthenia
+		required_missions = { uz_rusin_state }
+		position = 12
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1952
+				province_id = 162
+				province_id = 2960
+				province_id = 2959
+				province_id = 261
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			owns_core_province = 1952
+			162 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			OR = {
+				calc_true_if = {
+					all_province = {
+						OR = {
+							province_id = 2960
+							province_id = 2959
+							province_id = 261
+							province_id = 2424
+							province_id = 4541
+						}
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+					amount = 2
+				}
+				AND = {
+					1952 = { fort_level = 2 }
+					army_tradition = 30
+					261 = {
+						owner = {
+							OR = {
+								alliance_with = ROOT
+								has_opinion = { who = ROOT value = 100 }
+							}
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			add_power_projection = {
+				type = mission_rewards_power_projection
+				amount = 20
+			}
+			add_mil_power = 50
+			add_country_modifier = {
+				name = "uz_beskid_vistula_corridor"
+				duration = 9125
+			}
+			red_ruthenia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			260 = {
+				if = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+		}
+		ai_weight = {
+			factor = 300
+		}
+	}
 }
 
 UZH_missions_2 = {
@@ -1197,6 +1278,52 @@ UZH_missions_2 = {
 		}
 		ai_weight = {
 			factor = 450
+		}
+	}
+
+	uzh_carpathian_magdeburg_charters = {
+		icon = mission_ukr_magdeburg_laws
+		required_missions = { uzh_danube_trade_league }
+		position = 13
+		provinces_to_highlight = {
+			owned_by = ROOT
+			OR = {
+				NOT = { has_trade_building_trigger = yes }
+				NOT = { development = 15 }
+			}
+		}
+		trigger = {
+			num_of_owned_provinces_with = {
+				has_trade_building_trigger = yes
+				development = 15
+				value = 5
+			}
+			if = {
+				limit = { has_estate = estate_burghers }
+				estate_loyalty = {
+					estate = estate_burghers
+					loyalty = 60
+				}
+			}
+			else = {
+				mercantilism = 20
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "uz_carpathian_town_charters"
+				duration = 9125
+			}
+			add_mercantilism = 3
+			1952 = {
+				if = {
+					limit = { owned_by = ROOT }
+					add_base_production = 1
+				}
+			}
+		}
+		ai_weight = {
+			factor = 300
 		}
 	}
 }
