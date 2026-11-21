@@ -602,6 +602,13 @@ country_decisions = {
 		potential = {
 			tag = KIE
 			has_reform = kyivan_shogunate_reform
+			OR = {
+				AND = { NOT = { exists = CHR } any_owned_province = { area = chernigov_area } }
+				AND = { NOT = { exists = VLN } any_owned_province = { area = volhynia_area } }
+				AND = { NOT = { exists = PDL } any_owned_province = { area = podolia_volhynia_area } }
+				AND = { NOT = { exists = PRL } owns = 2407 }
+				AND = { NOT = { exists = HLC } any_owned_province = { area = red_ruthenia_area } }
+			}
 		}
 		allow = {
 			is_at_war = no
@@ -620,6 +627,7 @@ country_decisions = {
 		potential = {
 			tag = KIE
 			has_reform = kyivan_shogunate_reform
+			has_country_modifier = KIE_trade_houses
 		}
 		provinces_to_highlight = {
 			owned_by = ROOT
@@ -633,7 +641,6 @@ country_decisions = {
 		allow = {
 			is_at_war = no
 			stability = 1
-			has_country_modifier = KIE_trade_houses
 			has_estate = estate_burghers
 			estate_influence = { estate = estate_burghers influence = 60 }
 			NOT = { has_country_modifier = KIE_free_city_charter_cooldown }

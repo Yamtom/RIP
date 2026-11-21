@@ -3,7 +3,8 @@ country_decisions = {
 		color = { 185 140 30 }
 		potential = { rip_rg_chr = yes }
 		allow = {
-			rip_rg_chr_bell_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = rip_rg_chr_term } }
+			adm_power = 50
 			custom_trigger_tooltip = { tooltip = rip_rg_chr_bell_land_tt any_owned_province = { rip_rg_chr_bell_target = yes } }
 		}
 		provinces_to_highlight = { OR = { rip_rg_chr_bell_target = yes } }
@@ -19,7 +20,8 @@ country_decisions = {
 		color = { 185 140 30 }
 		potential = { rip_rg_chr = yes }
 		allow = {
-			rip_rg_chr_staple_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = rip_rg_chr_term } }
+			dip_power = 50
 			custom_trigger_tooltip = { tooltip = rip_rg_chr_staple_land_tt any_owned_province = { rip_rg_chr_staple_target = yes } }
 		}
 		provinces_to_highlight = { OR = { rip_rg_chr_staple_target = yes } }
@@ -35,7 +37,8 @@ country_decisions = {
 		color = { 185 140 30 }
 		potential = { rip_rg_chr = yes }
 		allow = {
-			rip_rg_chr_militia_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = rip_rg_chr_term } }
+			mil_power = 50
 			custom_trigger_tooltip = { tooltip = rip_rg_chr_militia_land_tt any_owned_province = { rip_rg_chr_militia_target = yes } }
 		}
 		provinces_to_highlight = { OR = { rip_rg_chr_militia_target = yes } }
@@ -51,7 +54,8 @@ country_decisions = {
 		color = { 185 140 30 }
 		potential = { rip_rg_uzh = yes }
 		allow = {
-			rip_rg_uzh_salt_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = rip_rg_uzh_term } }
+			dip_power = 50
 			custom_trigger_tooltip = { tooltip = rip_rg_uzh_salt_land_tt any_owned_province = { rip_rg_uzh_salt_target = yes } }
 		}
 		provinces_to_highlight = { OR = { rip_rg_uzh_salt_target = yes } }
@@ -67,7 +71,9 @@ country_decisions = {
 		color = { 185 140 30 }
 		potential = { rip_rg_uzh = yes }
 		allow = {
-			rip_rg_uzh_guides_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = rip_rg_uzh_term } }
+			mil_power = 50
+			treasury = 30
 			custom_trigger_tooltip = { tooltip = rip_rg_uzh_guides_land_tt any_owned_province = { rip_rg_uzh_guides_target = yes } }
 		}
 		provinces_to_highlight = { OR = { rip_rg_uzh_guides_target = yes } }
@@ -83,7 +89,9 @@ country_decisions = {
 		color = { 185 140 30 }
 		potential = { rip_rg_uzh = yes }
 		allow = {
-			rip_rg_uzh_pass_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = rip_rg_uzh_term } }
+			adm_power = 50
+			treasury = 50
 			custom_trigger_tooltip = { tooltip = rip_rg_uzh_pass_land_tt any_owned_province = { rip_rg_uzh_pass_target = yes } }
 		}
 		provinces_to_highlight = { OR = { rip_rg_uzh_pass_target = yes } }
@@ -105,16 +113,22 @@ country_decisions = {
 			}
 			else_if = {
 				limit = { has_country_flag = pdl_frontier_path }
-				rip_rg_pdl_patrol_frontier_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = pdl_recent_border_policy } }
+				mil_power = 25
+				treasury = 30
 				custom_trigger_tooltip = { tooltip = rip_rg_pdl_patrol_frontier_land_tt any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } }
 			}
 			else_if = {
 				limit = { has_country_flag = pdl_carpathian_path }
-				rip_rg_pdl_patrol_carpathian_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = pdl_recent_border_policy } }
+				mil_power = 35
+				treasury = 60
 				custom_trigger_tooltip = { tooltip = rip_rg_pdl_patrol_carpathian_land_tt any_owned_province = { rip_rg_pdl_patrol_carpathian_target = yes } }
 			}
 			else = {
-				rip_rg_pdl_patrol_base_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = pdl_recent_border_policy } }
+				mil_power = 35
+				treasury = 40
 				custom_trigger_tooltip = { tooltip = rip_rg_pdl_patrol_base_land_tt any_owned_province = { rip_rg_pdl_patrol_base_target = yes } }
 			}
 		}
@@ -137,11 +151,15 @@ country_decisions = {
 		allow = {
 			if = {
 				limit = { has_country_flag = pdl_magnate_path }
-				rip_rg_pdl_charter_magnate_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = pdl_recent_border_policy } }
+				adm_power = 35
+				treasury = 30
 				custom_trigger_tooltip = { tooltip = rip_rg_pdl_charter_magnate_land_tt any_owned_province = { rip_rg_pdl_charter_magnate_target = yes } }
 			}
 			else = {
-				rip_rg_pdl_charter_base_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = pdl_recent_border_policy } }
+				adm_power = 50
+				treasury = 30
 				custom_trigger_tooltip = { tooltip = rip_rg_pdl_charter_base_land_tt any_owned_province = { rip_rg_pdl_charter_base_target = yes } }
 			}
 		}
@@ -166,16 +184,23 @@ country_decisions = {
 			}
 			else_if = {
 				limit = { has_country_flag = pdl_frontier_path }
-				rip_rg_pdl_mobile_frontier_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = pdl_recent_border_policy } }
+				mil_power = 35
+				treasury = 50
+				manpower = 1
 				custom_trigger_tooltip = { tooltip = rip_rg_pdl_mobile_frontier_land_tt any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } }
 			}
 			else_if = {
 				limit = { has_country_flag = pdl_carpathian_path }
-				rip_rg_pdl_mobile_carpathian_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = pdl_recent_border_policy } }
+				mil_power = 50
+				treasury = 75
 				custom_trigger_tooltip = { tooltip = rip_rg_pdl_mobile_carpathian_land_tt any_owned_province = { rip_rg_pdl_mobile_carpathian_target = yes } }
 			}
 			else = {
-				rip_rg_pdl_mobile_base_can = yes
+				custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = pdl_recent_border_policy } }
+				mil_power = 50
+				treasury = 50
 				custom_trigger_tooltip = { tooltip = rip_rg_pdl_mobile_base_land_tt any_owned_province = { rip_rg_pdl_mobile_base_target = yes } }
 			}
 		}
@@ -196,7 +221,9 @@ country_decisions = {
 		color = { 185 140 30 }
 		potential = { rip_rg_prl = yes }
 		allow = {
-			rip_rg_prl_patrol_base_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = pdl_recent_border_policy } }
+			mil_power = 35
+			treasury = 40
 			custom_trigger_tooltip = { tooltip = rip_rg_prl_patrol_base_land_tt any_owned_province = { rip_rg_prl_patrol_base_target = yes } }
 		}
 		provinces_to_highlight = { OR = { rip_rg_prl_patrol_base_target = yes } }
@@ -212,7 +239,9 @@ country_decisions = {
 		color = { 185 140 30 }
 		potential = { rip_rg_prl = yes }
 		allow = {
-			rip_rg_prl_charter_base_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = pdl_recent_border_policy } }
+			adm_power = 50
+			treasury = 30
 			custom_trigger_tooltip = { tooltip = rip_rg_prl_charter_base_land_tt any_owned_province = { rip_rg_prl_charter_base_target = yes } }
 		}
 		provinces_to_highlight = { OR = { rip_rg_prl_charter_base_target = yes } }
@@ -228,7 +257,9 @@ country_decisions = {
 		color = { 185 140 30 }
 		potential = { rip_rg_prl = yes }
 		allow = {
-			rip_rg_prl_mobile_base_can = yes
+			custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = pdl_recent_border_policy } }
+			mil_power = 50
+			treasury = 50
 			custom_trigger_tooltip = { tooltip = rip_rg_prl_mobile_base_land_tt any_owned_province = { rip_rg_prl_mobile_base_target = yes } }
 		}
 		provinces_to_highlight = { OR = { rip_rg_prl_mobile_base_target = yes } }
@@ -244,7 +275,11 @@ country_decisions = {
 		color = { 185 140 30 }
 		potential = { rip_rg_ods = yes }
 		allow = {
-			rip_rg_ods_freight_can = yes
+			is_at_war = no
+			num_of_light_ship = 3
+			custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = rip_rg_ods_term } }
+			dip_power = 50
+			treasury = 30
 			custom_trigger_tooltip = { tooltip = rip_rg_ods_freight_land_tt any_owned_province = { rip_rg_ods_freight_target = yes } }
 		}
 		provinces_to_highlight = { OR = { rip_rg_ods_freight_target = yes } }
@@ -260,7 +295,11 @@ country_decisions = {
 		color = { 185 140 30 }
 		potential = { rip_rg_ods = yes }
 		allow = {
-			rip_rg_ods_corsairs_can = yes
+			num_of_light_ship = 3
+			OR = { has_dlc = "Wealth of Nations" has_dlc = "El Dorado" }
+			custom_trigger_tooltip = { tooltip = rip_rg_term_tt NOT = { has_country_modifier = rip_rg_ods_term } }
+			mil_power = 50
+			treasury = 50
 			custom_trigger_tooltip = { tooltip = rip_rg_ods_corsairs_land_tt any_owned_province = { rip_rg_ods_corsairs_target = yes } }
 		}
 		provinces_to_highlight = { OR = { rip_rg_ods_corsairs_target = yes } }

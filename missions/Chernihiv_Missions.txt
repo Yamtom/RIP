@@ -990,6 +990,14 @@ chr_missions_2_2 = {
 			}
 		}
 		effect = {
+			astrakhan_area = {
+				limit = {
+					NOT = { country_or_non_sovereign_subject_holds = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
 			2412 = {
 				if = {
 					limit = {
@@ -1044,17 +1052,6 @@ chr_missions_2_2 = {
 			}
 		}
 		effect = {
-			astrakhan_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
 			add_country_modifier = {
 				name = east_india_trade_rush
 				duration = 9125 #25 years
@@ -1064,7 +1061,7 @@ chr_missions_2_2 = {
 
 	chr_Astrakhan = {
 		icon = mission_conquer_50_development
-		required_missions = { chr_trade_company_region_abroad chr_grain_cartel_charters }
+		required_missions = { chr_Azov chr_grain_cartel_charters }
 		position = 18
 		provinces_to_highlight = {
 			area = astrakhan_area
@@ -1397,7 +1394,11 @@ chr_missions_3 = {
 		required_missions = { chr_sloboda_charters }
 		position = 10
 		provinces_to_highlight = {
-			area = sloboda_ukraine_area
+			OR = {
+				area = east_dniepr_area
+				area = sloboda_ukraine_area
+			}
+			trade_goods = grain
 		}
 		trigger = {
 			calc_true_if = {
@@ -1411,7 +1412,10 @@ chr_missions_3 = {
 				tooltip = chr_black_soil_silos_modules_tt
 				calc_true_if = {
 					all_owned_province = {
-						has_province_modifier = chr_sloboda_farm_lvl1
+						OR = {
+							has_province_modifier = chr_sloboda_farm_lvl1
+							has_province_modifier = chr_sloboda_farm_lvl2
+						}
 					}
 					amount = 4
 				}
@@ -1487,7 +1491,7 @@ chr_missions_3 = {
 			home_trade_node = {
 				trade_share = {
 					country = ROOT
-					share = 0.5
+					share = 50
 				}
 			}
 		}
@@ -1528,7 +1532,7 @@ chr_missions_3 = {
 			home_trade_node = {
 				trade_share = {
 					country = ROOT
-					share = 0.55
+					share = 55
 				}
 			}
 			custom_trigger_tooltip = {
@@ -1620,7 +1624,7 @@ chr_missions_3 = {
 				all_owned_province = {
 					has_province_modifier = chr_sloboda_farm_lvl2
 				}
-				amount = 5
+				amount = 4
 			}
 			custom_trigger_tooltip = {
 				tooltip = chr_agro_hypercorporation_exchange_tt
@@ -2216,11 +2220,10 @@ chr_missions_4 = {
 
 	chr_crimean_compact_mission = {
 		icon = mission_trade_company_region_abroad
-		required_missions = { chr_establish_high_seas_navy }
+		required_missions = { chr_Zaporozhie }
 		position = 18
 		trigger = {
 			has_country_flag = chr_ruina_path_crimea
-			has_country_modifier = chr_crimean_guardianship
 			custom_trigger_tooltip = {
 				tooltip = chr_crimean_compact_tt
 				AND = {
@@ -2431,7 +2434,6 @@ chr_missions_5 = {
 		icon = mission_rule_ruthenia
 		required_missions = {
 			chr_unite_home_region
-			chr_crimean_compact_mission
 			chr_grain_cartel_charters
 		}
 		position = 18

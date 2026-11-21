@@ -109,8 +109,23 @@ prl_missions_1 = {
 		required_missions = { prl_border_defenses }
 		position = 4
 		trigger = {
-			navy_size = 10
-			num_of_admirals = 1
+			OR = {
+				calc_true_if = {
+					all_owned_province = {
+						area = east_dniepr_area
+						OR = {
+							has_building = workshop
+							has_building = counting_house
+						}
+						base_manpower = 4
+					}
+					amount = 2
+				}
+				AND = {
+					navy_size = 10
+					num_of_admirals = 1
+				}
+			}
 		}
 		effect = {
 			add_country_modifier = {

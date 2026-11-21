@@ -928,6 +928,7 @@ REGIONAL_UNION_NOTE=('Communion with Rome embraces several distinct Ruthenian an
  'The bishops of Brest, Uzhhorod, Peremyshl, Lviv and Lutsk each answer for their own flocks and customs.')
 DATA.update({
  'convert_to_greek_catholic_decision_title':'Accept a local church union',
+ 'rip_dec_union_parishes_tt':'Own at least three Orthodox provinces of Ruthenian, Belarusian or Rusyn culture, including their regional variants.',
  'convert_to_greek_catholic_decision_desc':STATE_UNION_ALT+' Bring our local hierarchy into communion with Rome while retaining its Byzantine rite. '+REGIONAL_UNION_NOTE,
  'rip_church_gui_paths_title':'Local routes to communion',
  'rip_church_gui_paths_title_tt':REGIONAL_UNION_NOTE,

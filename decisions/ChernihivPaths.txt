@@ -456,7 +456,6 @@ country_decisions = {
 			NOT = { has_province_modifier = chr_fortified_monastery_lvl2 }
 		}
 		allow = {
-			has_country_flag = chr_frontier_branch_taken
 			treasury = 150
 			mil_power = 25
 			any_owned_province = {
@@ -466,13 +465,6 @@ country_decisions = {
 				}
 				has_building = temple
 				NOT = { has_province_modifier = chr_fortified_monastery_lvl2 }
-			}
-			NOT = {
-				OR = {
-					has_country_modifier = chr_monastery_investment_cooldown
-					has_country_modifier = chr_sloboda_investment_cooldown
-					has_country_modifier = chr_exchange_integration_cooldown
-				}
 			}
 		}
 		effect = {
@@ -522,7 +514,6 @@ country_decisions = {
 			NOT = { has_province_modifier = chr_sloboda_farm_lvl2 }
 		}
 		allow = {
-			has_country_flag = chr_grain_corridors_built
 			treasury = 120
 			dip_power = 25
 			any_owned_province = {
@@ -533,13 +524,6 @@ country_decisions = {
 				trade_goods = grain
 				has_building = farm_estate
 				NOT = { has_province_modifier = chr_sloboda_farm_lvl2 }
-			}
-			NOT = {
-				OR = {
-					has_country_modifier = chr_monastery_investment_cooldown
-					has_country_modifier = chr_sloboda_investment_cooldown
-					has_country_modifier = chr_exchange_integration_cooldown
-				}
 			}
 		}
 		effect = {
@@ -588,24 +572,8 @@ country_decisions = {
 			NOT = { has_province_modifier = chr_sloboda_exchange_province }
 		}
 		allow = {
-			has_country_flag = chr_grain_exchange_founded
 			treasury = 100
 			adm_power = 25
-			any_owned_province = {
-				OR = {
-					area = east_dniepr_area
-					area = sloboda_ukraine_area
-				}
-				has_province_modifier = chr_sloboda_farm_lvl2
-				NOT = { has_province_modifier = chr_sloboda_exchange_province }
-			}
-			NOT = {
-				OR = {
-					has_country_modifier = chr_monastery_investment_cooldown
-					has_country_modifier = chr_sloboda_investment_cooldown
-					has_country_modifier = chr_exchange_integration_cooldown
-				}
-			}
 		}
 		effect = {
 			add_treasury = -100
