@@ -1,5 +1,79 @@
 # KRU, UKR | Missions for the Kyivan Confederation and Ruthenia after formation.
 
+UKR_missions_0 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		AND = {
+			OR = {
+				tag = UKR
+				tag = KRU
+			}
+			NOT = {
+				map_setup = map_setup_random
+			}
+		}
+	}
+	has_country_shield = yes
+
+	UKR_breadbasket_of_europe = {
+		icon = mission_pol_breadbasket_europe
+		position = 4
+		required_missions = { KIE_growing_wealth }
+		# Workshops on grain land follow the wealth mission that asks for workshops.
+		provinces_to_highlight = {
+			country_or_non_sovereign_subject_holds = ROOT
+			trade_goods = grain
+			NOT = { has_production_building_trigger = yes }
+		}
+		trigger = {
+			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+				trade_goods = grain
+				has_production_building_trigger = yes
+				value = 10
+			}
+			OR = {
+				production_leader = {
+					trade_goods = grain
+					value = yes
+				}
+				trading_part = {
+					trade_goods = grain
+					value = 0.15
+				}
+			}
+		}
+		effect = {
+			custom_tooltip = UKR_every_grain_province_tt
+			tooltip = {
+				add_province_modifier = {
+					name = UKR_breadbasket_granary
+					duration = 7300
+				}
+			}
+			change_price = {
+				trade_goods = grain
+				key = UKR_ruthenian_grain
+				value = 0.15
+				duration = 5475
+			}
+			hidden_effect = {
+				every_owned_province = {
+					limit = {
+						trade_goods = grain
+						has_production_building_trigger = yes
+					}
+					add_province_modifier = {
+						name = UKR_breadbasket_granary
+						duration = 7300
+					}
+				}
+			}
+		}
+	}
+}
+
 UKR_missions_1 = {
 	slot = 1
 	generic = no
@@ -877,6 +951,83 @@ UKR_missions_4 = {
 	}
 	has_country_shield = yes
 
+	UKR_dniepr = {
+		icon = mission_advance_to_the_dnieper
+		position = 6
+		required_missions = { KIE_cossack }
+		# The crossing is tied to one pair of bank provinces: Kyiv on the right
+		# bank and Pereyaslav opposite it on the left. The bridgehead counts once
+		# Pereyaslav is held and carries a fort or a Cossack settlement, so a
+		# province of another culture on the far steppe cannot block the Crimean
+		# and Don branches that hang from this mission.
+		provinces_to_highlight = {
+			OR = {
+				AND = {
+					province_id = 280
+					NOT = { country_or_non_sovereign_subject_holds = ROOT }
+				}
+				AND = {
+					province_id = 2407
+					OR = {
+						NOT = { country_or_non_sovereign_subject_holds = ROOT }
+						AND = {
+							NOT = { has_fort_building_trigger = yes }
+							NOT = { has_province_modifier = cossack_settlement }
+						}
+					}
+				}
+			}
+		}
+		trigger = {
+			280 = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			2407 = {
+				country_or_non_sovereign_subject_holds = ROOT
+				OR = {
+					has_fort_building_trigger = yes
+					has_province_modifier = cossack_settlement
+				}
+			}
+		}
+		effect = {
+			add_adm_power = 100
+			lower_don_area = {
+				limit = {
+					NOT = {
+						is_permanent_claim = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			azov_area = {
+				limit = {
+					NOT = {
+						is_permanent_claim = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+			crimea_area = {
+				limit = {
+					NOT = {
+						is_permanent_claim = ROOT
+					}
+					NOT = {
+						is_core = ROOT
+					}
+				}
+				add_permanent_claim = ROOT
+			}
+		}
+	}
+
 	UKR_crimea = {
 		icon = mission_non-western_cavalry_raid
 		position = 7
@@ -1012,83 +1163,21 @@ UKR_missions_4 = {
 		}
 	}
 
-	UKR_kazan = {
-		icon = mission_steppe_warriors
+	UKR_fleet = {
+		icon = rip_gfx_mission_dnieper_chaika_icon
 		position = 11
-		required_missions = { }
-		provinces_to_highlight = {
-			OR = {
-				area = kazan_area
-			}
-			NOT = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-		}
+		required_missions = { UKR_port }
 		trigger = {
-			kazan_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
+			navy_size_percentage = 1
 		}
 		effect = {
-			add_mil_power = 50
+			add_country_modifier = {
+				name = "KIE_black_sea_fleet"
+				duration = 5475
+			}
 		}
 	}
 
-	UKR_breadbasket_of_europe = {
-		icon = mission_pol_breadbasket_europe
-		position = 12
-		required_missions = { }
-		provinces_to_highlight = {
-			country_or_non_sovereign_subject_holds = ROOT
-			trade_goods = grain
-			NOT = { has_production_building_trigger = yes }
-		}
-		trigger = {
-			num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
-				trade_goods = grain
-				has_production_building_trigger = yes
-				value = 10
-			}
-			OR = {
-				production_leader = {
-					trade_goods = grain
-					value = yes
-				}
-				trading_part = {
-					trade_goods = grain
-					value = 0.15
-				}
-			}
-		}
-		effect = {
-			custom_tooltip = UKR_every_grain_province_tt
-			tooltip = {
-				add_province_modifier = {
-					name = UKR_breadbasket_granary
-					duration = 7300
-				}
-			}
-			change_price = {
-				trade_goods = grain
-				key = UKR_ruthenian_grain
-				value = 0.15
-				duration = 5475
-			}
-			hidden_effect = {
-				every_owned_province = {
-					limit = {
-						trade_goods = grain
-						has_production_building_trigger = yes
-					}
-					add_province_modifier = {
-						name = UKR_breadbasket_granary
-						duration = 7300
-					}
-				}
-			}
-		}
-	}
 }
 
 UKR_missions_5 = {
@@ -1107,83 +1196,6 @@ UKR_missions_5 = {
 		}
 	}
 	has_country_shield = yes
-
-	UKR_dniepr = {
-		icon = mission_advance_to_the_dnieper
-		position = 6
-		required_missions = { KIE_cossack }
-		# The crossing is tied to one pair of bank provinces: Kyiv on the right
-		# bank and Pereyaslav opposite it on the left. The bridgehead counts once
-		# Pereyaslav is held and carries a fort or a Cossack settlement, so a
-		# province of another culture on the far steppe cannot block the Crimean
-		# and Don branches that hang from this mission.
-		provinces_to_highlight = {
-			OR = {
-				AND = {
-					province_id = 280
-					NOT = { country_or_non_sovereign_subject_holds = ROOT }
-				}
-				AND = {
-					province_id = 2407
-					OR = {
-						NOT = { country_or_non_sovereign_subject_holds = ROOT }
-						AND = {
-							NOT = { has_fort_building_trigger = yes }
-							NOT = { has_province_modifier = cossack_settlement }
-						}
-					}
-				}
-			}
-		}
-		trigger = {
-			280 = {
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			2407 = {
-				country_or_non_sovereign_subject_holds = ROOT
-				OR = {
-					has_fort_building_trigger = yes
-					has_province_modifier = cossack_settlement
-				}
-			}
-		}
-		effect = {
-			add_adm_power = 100
-			lower_don_area = {
-				limit = {
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
-			azov_area = {
-				limit = {
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
-			crimea_area = {
-				limit = {
-					NOT = {
-						is_permanent_claim = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
-			}
-		}
-	}
 
 	UKR_sloboda_frontier = {
 		icon = mission_lit_harness_steppes
@@ -1272,9 +1284,12 @@ UKR_missions_5 = {
 
 	UKR_demand_tribute = {
 		icon = mission_cossack_cavalry
-		required_missions = { UKR_crimea UKR_tatar }
+		required_missions = { UKR_tatar }
 		position = 9
+		# The Crimean prerequisite moved from required_missions to the trigger: an
+		# arrow from column 4 would run down behind three other cards.
 		trigger = {
+			mission_completed = UKR_crimea
 			astrakhan_area = {
 				type = all
 				country_or_non_sovereign_subject_holds = ROOT
@@ -1353,25 +1368,33 @@ UKR_missions_5 = {
 		}
 	}
 
-	UKR_fleet = {
-		icon = rip_gfx_mission_dnieper_chaika_icon
+	UKR_kazan = {
+		icon = mission_steppe_warriors
 		position = 11
-		required_missions = { UKR_port }
+		required_missions = { UKR_horde }
+		provinces_to_highlight = {
+			OR = {
+				area = kazan_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
 		trigger = {
-			navy_size_percentage = 1
+			kazan_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
 		}
 		effect = {
-			add_country_modifier = {
-				name = "KIE_black_sea_fleet"
-				duration = 5475
-			}
+			add_mil_power = 50
 		}
 	}
 
 	UKR_perm = {
 		icon = mission_integrate_perm
 		position = 12
-		required_missions = { }
+		required_missions = { UKR_kazan }
 		trigger = {
 			perm_area = {
 				type = all
@@ -1394,7 +1417,7 @@ UKR_missions_5 = {
 	UKR_siberia = {
 		icon = mission_collect_yasak
 		position = 13
-		required_missions = { UKR_kazan UKR_perm }
+		required_missions = { UKR_perm }
 		# A foothold across the ridge replaces the old 400-point power toll.
 		trigger = {
 			any_owned_province = {
@@ -1411,6 +1434,7 @@ UKR_missions_5 = {
 			}
 		}
 	}
+
 }
 
 KIE_missions_1_culture = {
