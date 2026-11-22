@@ -42,3 +42,61 @@ country_event = {
 		}
 	}
 }
+
+country_event = {
+	id = kuy_flavor.2
+	title = "kuy_flavor.2.t"
+	desc = "kuy_flavor.2.d"
+	picture = PRAYING_eventPicture
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	option = {
+		name = "kuy_flavor.2.a"
+		if = {
+			limit = { religion_group = muslim }
+			add_piety = 0.25
+		}
+		add_country_modifier = {
+			name = kuy_rus_mosque_endowment
+			duration = -1
+		}
+		280 = {
+			if = {
+				limit = { owned_by = ROOT }
+				add_base_tax = 2
+			}
+		}
+		ai_chance = {
+			factor = 50
+		}
+	}
+
+	option = {
+		name = "kuy_flavor.2.b"
+		if = {
+			limit = { religion_group = muslim }
+			add_piety = -0.25
+		}
+		if = {
+			limit = { has_estate = estate_dhimmi }
+			add_estate_loyalty = {
+				estate = estate_dhimmi
+				loyalty = 15
+			}
+		}
+		add_country_modifier = {
+			name = kuy_kyiv_dhimmi_charter
+			duration = -1
+		}
+		280 = {
+			if = {
+				limit = { owned_by = ROOT }
+				add_base_production = 2
+			}
+		}
+		ai_chance = {
+			factor = 50
+		}
+	}
+}

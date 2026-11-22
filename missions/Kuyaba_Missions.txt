@@ -118,6 +118,73 @@ KUY_missions_1 = {
 			}
 		}
 	}
+
+	KUY_volga_bulgar_road = {
+		icon = mission_silk_road
+		position = 3
+		required_missions = { KUY_granary_of_steppe KUY_dnieper_crossings }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 1082
+				province_id = 4267
+				area = kazan_area
+				area = volga_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			OR = {
+				AND = {
+					1082 = { country_or_non_sovereign_subject_holds = ROOT }
+					4267 = { country_or_non_sovereign_subject_holds = ROOT }
+				}
+				AND = {
+					1082 = {
+						trade_share = {
+							country = ROOT
+							share = 20
+						}
+					}
+					464 = {
+						trade_share = {
+							country = ROOT
+							share = 20
+						}
+					}
+				}
+			}
+		}
+		effect = {
+			add_years_of_income = 1.0
+			add_country_modifier = {
+				name = kuy_volga_bulgar_road_modifier
+				duration = -1
+			}
+			4267 = {
+				if = {
+					limit = { owned_by = ROOT }
+					add_base_production = 2
+					add_base_tax = 1
+				}
+			}
+			astrakhan_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			kazan_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
 }
 
 KUY_missions_2 = {
@@ -150,21 +217,9 @@ KUY_missions_2 = {
 		}
 		effect = {
 			add_army_tradition = 15
-			chernigov_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_claim = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_claim = ROOT
-			}
-			sloboda_ukraine_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_claim = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_claim = ROOT
+			east_dniepr_area = {
+				limit = { owned_by = ROOT }
+				add_local_autonomy = -10
 			}
 		}
 	}
@@ -188,17 +243,7 @@ KUY_missions_2 = {
 		trigger = {
 			num_of_owned_provinces_with = {
 				value = 6
-				OR = {
-					area = yedisan_area
-					area = zaporizhia_area
-					region = crimea_region
-				}
-				rip_is_steppe_or_grasslands = yes
-				development = 8
-				if = {
-					limit = { has_dlc = "Mandate of Heaven" }
-					NOT = { devastation = 1 }
-				}
+				kuy_caravan_waystation = yes
 			}
 		}
 		effect = {
@@ -208,33 +253,33 @@ KUY_missions_2 = {
 			}
 			random_owned_province = {
 				limit = {
-					OR = {
-						area = yedisan_area
-						area = zaporizhia_area
-					}
-					rip_is_steppe_or_grasslands = yes
+					kuy_caravan_waystation = yes
+					NOT = { has_province_flag = kuy_caravan_improved }
 				}
+				set_province_flag = kuy_caravan_improved
 				add_base_production = 1
 			}
 			random_owned_province = {
 				limit = {
-					OR = {
-						area = yedisan_area
-						area = zaporizhia_area
-					}
-					rip_is_steppe_or_grasslands = yes
+					kuy_caravan_waystation = yes
+					NOT = { has_province_flag = kuy_caravan_improved }
 				}
+				set_province_flag = kuy_caravan_improved
 				add_base_production = 1
 			}
 			random_owned_province = {
 				limit = {
-					OR = {
-						area = yedisan_area
-						area = zaporizhia_area
-					}
-					rip_is_steppe_or_grasslands = yes
+					kuy_caravan_waystation = yes
+					NOT = { has_province_flag = kuy_caravan_improved }
 				}
+				set_province_flag = kuy_caravan_improved
 				add_base_production = 1
+			}
+			hidden_effect = {
+				every_owned_province = {
+					limit = { has_province_flag = kuy_caravan_improved }
+					clr_province_flag = kuy_caravan_improved
+				}
 			}
 		}
 	}
@@ -279,13 +324,6 @@ KUY_missions_3 = {
 			280 = {
 				add_base_tax = 1
 				add_base_production = 1
-			}
-			east_dniepr_area = {
-				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
-				}
-				add_permanent_claim = ROOT
 			}
 			yedisan_area = {
 				limit = {
@@ -507,6 +545,217 @@ KUY_missions_4 = {
 			add_prestige_or_monarch_power = { amount = 35 }
 			add_mercantilism = 3
 			add_dip_power = 100
+		}
+	}
+}
+
+KUY_missions_5 = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		tag = KUY
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	KUY_compact_of_rus_faiths = {
+		icon = mission_mosque
+		position = 1
+		required_missions = { }
+		provinces_to_highlight = {
+			province_id = 280
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { has_tax_building_trigger = yes }
+			}
+		}
+		trigger = {
+			280 = {
+				owned_by = ROOT
+				has_tax_building_trigger = yes
+			}
+			OR = {
+				AND = {
+					religious_unity = 0.90
+					num_of_owned_provinces_with = {
+						region = ruthenia_region
+						religion = ROOT
+						value = 12
+					}
+				}
+				AND = {
+					if = {
+						limit = { has_estate = estate_dhimmi }
+						estate_loyalty = {
+							estate = estate_dhimmi
+							loyalty = 60
+						}
+						num_of_estate_privileges = {
+							estate = estate_dhimmi
+							value = 2
+						}
+					}
+					else = {
+						religious_unity = 0.85
+						has_idea_group = humanist_ideas
+					}
+					num_of_owned_provinces_with = {
+						region = ruthenia_region
+						NOT = { unrest = 1 }
+						value = 12
+					}
+				}
+			}
+		}
+		effect = {
+			country_event = {
+				id = kuy_flavor.2
+			}
+		}
+	}
+
+	KUY_islamic_schools = {
+		icon = mission_patronize_sufi_scholars
+		position = 2
+		required_missions = { KUY_compact_of_rus_faiths }
+		provinces_to_highlight = {
+			province_id = 280
+			OR = {
+				NOT = { owned_by = ROOT }
+				AND = {
+					NOT = { has_building = university }
+					NOT = { development = 25 }
+				}
+			}
+		}
+		trigger = {
+			280 = {
+				owned_by = ROOT
+				OR = {
+					has_building = university
+					development = 25
+				}
+			}
+			has_adm_advisor_2 = yes
+			if = {
+				limit = {
+					religion_group = muslim
+					has_dlc = "Cradle of Civilization"
+				}
+				OR = {
+					has_religious_scholars_trigger = yes
+					piety = 0.5
+					NOT = { piety = -0.5 }
+				}
+			}
+			else = {
+				religious_unity = 0.85
+			}
+		}
+		effect = {
+			280 = {
+				if = {
+					limit = { NOT = { has_building = university } }
+					add_building = university
+				}
+				else = {
+					add_base_tax = 2
+				}
+			}
+			define_advisor = {
+				type = theologian
+				skill = 3
+				culture = ROOT
+				religion = ROOT
+				cost_multiplier = 0.5
+			}
+			add_country_modifier = {
+				name = kuy_kyiv_madrasa_network
+				duration = -1
+			}
+			if = {
+				limit = { has_dlc = "Rule Britannia" }
+				change_innovativeness = 3
+			}
+			else = {
+				add_adm_power = 75
+			}
+		}
+	}
+
+	KUY_caliphate_envoys = {
+		icon = mission_fatimid_caliphate
+		position = 3
+		required_missions = { KUY_islamic_schools }
+		provinces_to_highlight = {
+			OR = {
+				province_id = 151
+				province_id = 361
+				province_id = 385
+				province_id = 410
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			prestige = 40
+			OR = {
+				is_defender_of_faith = yes
+				any_ally = {
+					religion_group = muslim
+					total_development = 300
+					has_opinion = { who = ROOT value = 125 }
+				}
+				385 = { country_or_non_sovereign_subject_holds = ROOT }
+				361 = { country_or_non_sovereign_subject_holds = ROOT }
+				410 = { country_or_non_sovereign_subject_holds = ROOT }
+				151 = { country_or_non_sovereign_subject_holds = ROOT }
+			}
+		}
+		effect = {
+			add_dip_power = 100
+			add_prestige_or_monarch_power = { amount = 25 }
+			change_government_reform_progress = 50
+			add_country_modifier = {
+				name = kuy_caliphate_recognition
+				duration = -1
+			}
+			if = {
+				limit = {
+					any_ally = {
+						religion_group = muslim
+						total_development = 300
+					}
+				}
+				every_ally = {
+					limit = {
+						religion_group = muslim
+						total_development = 300
+					}
+					add_trust = {
+						who = ROOT
+						value = 15
+						mutual = yes
+					}
+					if = {
+						limit = {
+							OR = {
+								has_dlc = "The Cossacks"
+								has_dlc = "Leviathan"
+							}
+						}
+						ROOT = {
+							add_favors = {
+								who = PREV
+								amount = 15
+							}
+						}
+					}
+				}
+			}
+			else = {
+				add_army_tradition = 15
+			}
 		}
 	}
 }

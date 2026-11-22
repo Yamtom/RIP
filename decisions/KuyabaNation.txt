@@ -97,22 +97,24 @@ country_decisions = {
 			280 = {
 				move_capital_effect = yes
 			}
+			change_tag = KUY
 			ruthenia_region = {
 				limit = {
 					NOT = { owned_by = ROOT }
-					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = KUY
 			}
 			red_ruthenia_area = {
 				limit = {
 					NOT = { owned_by = ROOT }
-					NOT = { is_claim = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
 				}
 				add_permanent_claim = KUY
 			}
 			add_prestige = 25
-			change_tag = KUY
 			set_country_flag = formed_kuyaba_nation_flag
 			swap_non_generic_missions = yes
 			on_change_tag_effect = yes

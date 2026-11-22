@@ -400,7 +400,83 @@ def check_chr_layout_compaction() -> None:
         assert f"mission_completed = {dep}" in trig, (mname, dep)
 
 
+def check_kuy_expanded_tree() -> None:
+    series = parse_series_in_file("missions/Kuyaba_Missions.txt")
+    assert [sname for sname, slot, _, _ in series] == [f"KUY_missions_{i}" for i in range(1, 6)]
+    all_ms = {mname: (slot, pos, reqs) for _, slot, _, ms in series for mname, pos, reqs in ms}
+    assert len(all_ms) == 13, len(all_ms)
+    assert all_ms["KUY_volga_bulgar_road"] == (1, 3, ["KUY_granary_of_steppe", "KUY_dnieper_crossings"])
+    assert all_ms["KUY_compact_of_rus_faiths"] == (5, 1, [])
+    assert all_ms["KUY_islamic_schools"] == (5, 2, ["KUY_compact_of_rus_faiths"])
+    assert all_ms["KUY_caliphate_envoys"] == (5, 3, ["KUY_islamic_schools"])
+
+    kuy_text = read("missions/Kuyaba_Missions.txt")
+    volga_trig = normalized(named_block(named_block(kuy_text, "KUY_volga_bulgar_road"), "trigger"))
+    assert "1082 = { country_or_non_sovereign_subject_holds = ROOT }" in volga_trig
+    assert "4267 = { country_or_non_sovereign_subject_holds = ROOT }" in volga_trig
+    assert "1082 = { trade_share = { country = ROOT share = 20 } }" in volga_trig
+    assert "464 = { trade_share = { country = ROOT share = 20 } }" in volga_trig
+    assert "kuy_volga_bulgar_road_modifier" in normalized(named_block(named_block(kuy_text, "KUY_volga_bulgar_road"), "effect"))
+
+    assert "country_event = { id = kuy_flavor.2 }" in normalized(named_block(named_block(kuy_text, "KUY_compact_of_rus_faiths"), "effect"))
+    kuy_events = read("events/RIP_KUY_Kuyaba.txt")
+    ev2 = [
+        blk for _, blk in keyed_blocks(kuy_events, "country_event")
+        if re.search(r"\bid\s*=\s*kuy_flavor\.2\b", blk) and re.search(r"(?m)^\s*title\s*=", blk)
+    ]
+    assert len(ev2) == 1, "kuy_flavor.2 must be defined once"
+    norm_ev2 = normalized(ev2[0])
+    assert "is_triggered_only = yes" in norm_ev2 and "fire_only_once = yes" in norm_ev2
+    assert "picture = PRAYING_eventPicture" in norm_ev2
+    opts = [normalized(blk) for _, blk in keyed_blocks(ev2[0], "option")]
+    assert len(opts) == 2
+    assert "kuy_rus_mosque_endowment" in opts[0] and "add_piety = 0.25" in opts[0]
+    assert "kuy_kyiv_dhimmi_charter" in opts[1] and "add_piety = -0.25" in opts[1]
+
+    sch_blk = named_block(kuy_text, "KUY_islamic_schools")
+    assert 'has_dlc = "Cradle of Civilization"' in sch_blk
+    assert "add_building = university" in normalized(named_block(sch_blk, "effect"))
+    assert "kuy_kyiv_madrasa_network" in normalized(named_block(sch_blk, "effect"))
+
+    cal_blk = named_block(kuy_text, "KUY_caliphate_envoys")
+    cal_trig = normalized(named_block(cal_blk, "trigger"))
+    assert "is_defender_of_faith = yes" in cal_trig
+    for pid in (385, 361, 410, 151):
+        assert f"{pid} = {{ country_or_non_sovereign_subject_holds = ROOT }}" in cal_trig
+    assert "kuy_caliphate_recognition" in normalized(named_block(cal_blk, "effect"))
+
+    shared_mods = read("common/event_modifiers/RIP_shared_modifiers.txt")
+    for mod, key in (
+        ("kuy_volga_bulgar_road_modifier", "merchants = 1"),
+        ("kuy_rus_mosque_endowment", "global_missionary_strength = 0.02"),
+        ("kuy_kyiv_dhimmi_charter", "tolerance_heathen = 2"),
+        ("kuy_kyiv_madrasa_network", "technology_cost = -0.05"),
+        ("kuy_caliphate_recognition", "institution_spread_from_true_faith = 0.25"),
+    ):
+        assert key in normalized(named_block(shared_mods, mod)), (mod, key)
+
+
+def check_kyiv_and_caravan_rewards() -> None:
+    kyiv = named_block(read("missions/Chernihiv_Missions.txt"), "chr_kiev_2")
+    assert "flavor_rus." not in kyiv and "name = chr_old" in kyiv
+    missions = read("missions/Kuyaba_Missions.txt")
+    restoration = named_block(named_block(missions, "KUY_restore_kuyaba"), "effect")
+    crossings = named_block(named_block(missions, "KUY_dnieper_crossings"), "effect")
+    assert "east_dniepr_area" not in restoration and "add_claim" not in crossings
+    caravans = named_block(missions, "KUY_steppe_caravans")
+    assert "kuy_caravan_waystation = yes" in named_block(caravans, "trigger")
+    draws = list(keyed_blocks(named_block(caravans, "effect"), "random_owned_province"))
+    assert len(draws) == 3
+    for _, draw in draws:
+        limit = normalized(named_block(draw, "limit"))
+        assert "kuy_caravan_waystation = yes" in limit
+        assert "NOT = { has_province_flag = kuy_caravan_improved }" in limit
+        assert "set_province_flag = kuy_caravan_improved" in draw and "add_base_production = 1" in draw
+    assert "clr_province_flag = kuy_caravan_improved" in named_block(caravans, "every_owned_province")
+
+
 def main() -> int:
+    check_kyiv_and_caravan_rewards()
     check_prl_build_army()
     check_prl_orthodox_leadership()
     check_prl_grounded_missions()
@@ -408,6 +484,7 @@ def main() -> int:
     check_prl_successor_content()
     check_kuy_steppe_granary()
     check_kuy_chronicle_rework()
+    check_kuy_expanded_tree()
     check_chr_border_compacts_highlight()
     check_chr_crimean_compact_routes()
     check_chr_layout_compaction()
@@ -416,7 +493,7 @@ def main() -> int:
         "prl_orthodox_leadership uses 0.90 unity + religion = ROOT, "
         "PRL Slot 3 smooth diplomacy + Slot 5 unblocked before 1600 + Sloboda claims + interactive rewards, "
         "kuy_steppe_granary uses trade_goods_size_modifier, "
-        "KUY uses Khagan titles, iqta, Podil Akhi Guilds, and kuy_flavor.1, "
+        "KUY expands to 13 missions (Volga-Bolgar + Slot 5 faith/schools/caliphate + kuy_flavor.2), "
         "chr_border_compacts highlight wraps 1945/4244 in OR (static only)."
     )
     return 0
