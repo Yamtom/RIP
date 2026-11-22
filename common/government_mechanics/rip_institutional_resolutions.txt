@@ -14,6 +14,13 @@
 # resolution does and every reason it is refused are in the button's own
 # tooltip, as the engine draws any mechanic button.
 #
+# LAYOUT. Each mechanic has two buttons and a row of the mechanic box holds three, so a pair
+# drawn by the default window hangs to the left of the box (under the Host's three Cossack
+# buttons it looked lopsided). The first button of each mechanic therefore names its own
+# window, gui = rip_government_interaction_pair_left (interface/RIP_shared_government_interactions.gui),
+# which sets the pair centred, on the axis of a full row of three. The second button keeps the
+# default window. tests/check_government_interaction_layout.py holds the rule.
+#
 #   Municipal  (vln_magdeburg_rights)                     Charters (DIP) / Accounts (ADM)
 #   Chancery   (lit_ruthenian_chancery_reform,
 #               chr_kanceliaryst_republic_reform)          Service Rolls (ADM) / Local Rights (DIP)
@@ -53,6 +60,7 @@ rip_municipal_resolutions_mechanic = {
 
 	interactions = {
 		rip_resolution_municipal_charters = {
+			gui = rip_government_interaction_pair_left
 			icon = GFX_rip_resolution_municipal_charters
 			trigger = {
 				rip_gov_has_municipal_review = yes
@@ -139,6 +147,7 @@ rip_chancery_resolutions_mechanic = {
 
 	interactions = {
 		rip_resolution_chancery_service = {
+			gui = rip_government_interaction_pair_left
 			icon = GFX_rip_resolution_chancery_service
 			trigger = {
 				rip_gov_has_chancery_review = yes
@@ -228,6 +237,7 @@ rip_register_resolutions_mechanic = {
 
 	interactions = {
 		rip_resolution_register_muster = {
+			gui = rip_government_interaction_pair_left
 			icon = GFX_rip_resolution_register_muster
 			trigger = {
 				rip_gov_has_register_review = yes
