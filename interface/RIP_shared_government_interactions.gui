@@ -1,0 +1,66 @@
+guiTypes = {
+	# ---------------------------------------------------------------------------------------------
+	# The button windows of RIP government mechanics that the engine's default window cannot place.
+	#
+	# The Government view draws every mechanic as its own row of `government_interaction_type`
+	# windows (100 wide, interface/countrygovernmentview.gui) laid out from the left edge of the
+	# mechanic box. Three interactions fill the 300-wide row; two leave the right third empty and the
+	# pair hangs to the left (the Host of Zaporozhia, Chernihiv, Odesa: a 2-of-3 row under, or beside,
+	# a full three-button row).
+	#
+	# Measured in EU4 1.37.5 (1600x900, UI scale 1.0, probe mechanics on the Host reform): the engine
+	# centres the button in its window and `position.x` is an offset from that centre, so the left
+	# edge of a button is  x + (window width - 82) / 2  from the left edge of the row (82 is the
+	# engine's button box, not the 72-74 px of visible art). The default window (width 100, x = 8)
+	# therefore puts the three buttons at 17, 117 and 217; a centred pair has to sit at 67 and 167,
+	# on the same axis as the three above it. The second window of the pair is the default one
+	# (150 + 17 = 167), so only the first needs a window of its own: width 150, x = 33
+	# (33 + (150 - 82) / 2 = 67). `center = no` on the interaction would remove the centring and
+	# make x absolute; it is not used, so the button keeps its centring for any icon size.
+	#
+	# Used as `gui = rip_government_interaction_pair_left` on the FIRST interaction of every RIP
+	# mechanic that has exactly two (tests/check_government_interaction_layout.py keeps this true).
+	# Like every interaction window it must keep the three elements the engine looks up by name:
+	# the button, and the power bar with its frame (hidden here: no two-button RIP mechanic spends
+	# a power of its own, so they are only the placeholders the engine insists on).
+	# ---------------------------------------------------------------------------------------------
+	windowType = {
+		name = "rip_government_interaction_pair_left"
+		size = { x = 150 y = 100 }
+		backGround = ""
+		moveable = 0
+		dontRender = ""
+		horizontalBorder = ""
+		Orientation = "UPPER_LEFT"
+
+		### interaction button
+		guiButtonType = {
+			name = "government_interaction_button"
+			quadTextureSprite = "GFX_russian_ability_ADM" #placeholder so we don't get an assert - you have to set something - but this will be overridden by the interaction's icon
+			position = { x = 33 y = 4 }
+			tooltip = ""
+			tooltipText = ""
+			delayedTooltipText = ""
+			buttonFont = "vic_18"
+			Orientation = "UPPER_LEFT"
+			clicksound = back_click
+			text = ""
+		}
+
+		#bar and frame for the power type associated with this interaction (hidden: the power is not unique to the interaction)
+		iconType = {
+			name = "government_power_bar"
+			spriteType = "GFX_government_power_bar"
+			position = { x = 45 y = 78 }
+			Orientation = "UPPER_LEFT"
+		}
+
+		iconType = {
+			name = "government_power_bar_frame"
+			spriteType = "GFX_government_power_bar_frame"
+			position = { x = 31 y = 74 }
+			Orientation = "UPPER_LEFT"
+			alwaystransparent = yes
+		}
+	}
+}
