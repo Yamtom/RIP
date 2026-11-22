@@ -48,6 +48,31 @@ for mission, primary, successor in (
 assert "partner = CRI" in field("ZAZ_ally_crimea", "trigger")
 assert "create_alliance = CRI" in field("ZAZ_ally_crimea", "effect")
 assert "alliance_with = CRI" in field("ZAZ_perekop_trade", "trigger")
+
+# All foreign partners sit on one row. The Crimean choice and its two
+# follow-ups form a clear vertical line beneath the Rada.
+def cell(series, mission):
+    tree = named_block(missions, series)
+    slot = int(re.search(r"\bslot = (\d+)", tree)[1])
+    row = int(re.search(r"\bposition = (\d+)", named_block(tree, mission))[1])
+    return slot, row
+
+
+rada = cell("ZAZ_missions_3", "ZAZ_finally")
+pact = cell("ZAZ_crimean_diplomacy", "ZAZ_ally_crimea")
+assert pact[0] == rada[0] and pact[1] > rada[1]
+for slot, series, choice in (
+    (1, "ZAZ_missions_1_1", "ZAZ_ally_tur"),
+    (2, "ZAZ_missions_2_2", "ZAZ_ally_tartar"),
+    (4, "ZAZ_missions_4_2", "ZAZ_ally_pol"),
+    (5, "ZAZ_missions_5_2", "ZAZ_ally_rus"),
+):
+    assert cell(series, choice) == (slot, pact[1])
+assert cell("ZAZ_crimean_diplomacy", "ZAZ_perekop_trade") == (pact[0], pact[1] + 1)
+assert cell("ZAZ_CRI_missions_2", "ZAZ_cri_crossings_compact") == (pact[0], pact[1] + 2)
+assert field("ZAZ_ally_crimea", "required_missions") == "required_missions = { ZAZ_finally }"
+assert field("ZAZ_perekop_trade", "required_missions") == "required_missions = { ZAZ_ally_crimea }"
+
 for mission in ("ZAZ_POL_politics", "ZAZ_POL_politics_2"):
     assert "OR = { alliance_with = PLC alliance_with = POL }" in field(mission, "trigger")
 assert field("ZAZ_POL_cri", "effect").count("owned_by = CRI") == 3
