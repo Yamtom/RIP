@@ -180,6 +180,16 @@ ZAZ_missions_1 = {
 			add_prestige = 15
 			add_legitimacy = 10
 			add_republican_tradition = 5
+			if = {
+				limit = {
+					NOT = {
+						owns = 272
+					}
+				}
+				country_event = {
+					id = zaz_flavor_m_1.1
+				}
+			}
 			272 = {
 				if = {
 					limit = {
@@ -414,7 +424,7 @@ ZAZ_missions_2 = {
 					}
 				}
 				country_event = {
-					id = zaz_flavor_m_3.2
+					id = zaz_flavor_m_3.1
 				}
 			}
 			else = {
@@ -508,7 +518,7 @@ ZAZ_missions_3 = {
 	ZAZ_finally = {
 		icon = mission_alliances
 		position = 6
-		required_missions = { ZAZ_proper ZAZ_istanbul }
+		required_missions = { ZAZ_proper }
 		trigger = {
 			is_subject = no
 			stability = 2
@@ -530,7 +540,7 @@ ZAZ_missions_3 = {
 			add_legitimacy = 15
 			add_republican_tradition = 10
 			country_event = {
-				id = zaz_flavor_m_3.1
+				id = zaz_flavor_m_10.1
 			}
 		}
 	}
@@ -828,7 +838,7 @@ ZAZ_missions_5 = {
 					}
 				}
 				country_event = {
-					id = zaz_flavor_m_3.1
+					id = zaz_flavor_m_3.2
 				}
 			}
 			else = {
@@ -956,13 +966,21 @@ ZAZ_missions_1_1 = {
 			}
 			if = {
 				limit = {
-					exists = RUM
+					exists = TUR
+					reverse_has_opinion = {
+						who = TUR
+						value = 100
+					}
 				}
 				create_alliance = TUR
 			}
 			if = {
 				limit = {
-					exists = TUR
+					exists = RUM
+					reverse_has_opinion = {
+						who = RUM
+						value = 100
+					}
 				}
 				create_alliance = RUM
 			}
@@ -1020,13 +1038,21 @@ ZAZ_missions_2_2 = {
 			}
 			if = {
 				limit = {
-					exists = GLH
+					exists = GOL
+					reverse_has_opinion = {
+						who = GOL
+						value = 100
+					}
 				}
 				create_alliance = GOL
 			}
 			if = {
 				limit = {
-					exists = GOL
+					exists = GLH
+					reverse_has_opinion = {
+						who = GLH
+						value = 100
+					}
 				}
 				create_alliance = GLH
 			}
@@ -1177,8 +1203,26 @@ ZAZ_missions_4_2 = {
 			country_event = {
 				id = zaz_flavor_m_4.1
 			}
-			create_alliance = POL
-			create_alliance = PLC
+			if = {
+				limit = {
+					exists = POL
+					reverse_has_opinion = {
+						who = POL
+						value = 100
+					}
+				}
+				create_alliance = POL
+			}
+			if = {
+				limit = {
+					exists = PLC
+					reverse_has_opinion = {
+						who = PLC
+						value = 100
+					}
+				}
+				create_alliance = PLC
+			}
 		}
 	}
 }
@@ -1231,8 +1275,26 @@ ZAZ_missions_5_2 = {
 			country_event = {
 				id = zaz_flavor_m_4.1
 			}
-			create_alliance = MOS
-			create_alliance = RUS
+			if = {
+				limit = {
+					exists = MOS
+					reverse_has_opinion = {
+						who = MOS
+						value = 100
+					}
+				}
+				create_alliance = MOS
+			}
+			if = {
+				limit = {
+					exists = RUS
+					reverse_has_opinion = {
+						who = RUS
+						value = 100
+					}
+				}
+				create_alliance = RUS
+			}
 		}
 	}
 }
@@ -1253,16 +1315,12 @@ ZAZ_TUR_missions_1 = {
 		position = 8
 		required_missions = { ZAZ_ally_tur }
 		trigger = {
-			OR = {
-				any_ally = {
-					NOT = {
-						tag = TUR
-					}
+			any_ally = {
+				NOT = {
+					tag = TUR
 				}
-				any_ally = {
-					NOT = {
-						tag = RUM
-					}
+				NOT = {
+					tag = RUM
 				}
 			}
 		}
@@ -6375,7 +6433,12 @@ ZAZ_POL_missions_3 = {
 			2411 = {
 				if = {
 					limit = {
-						owned_by = ROOT
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
 					add_permanent_claim = ROOT
 				}
@@ -6383,7 +6446,12 @@ ZAZ_POL_missions_3 = {
 			2412 = {
 				if = {
 					limit = {
-						owned_by = ROOT
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
 					add_permanent_claim = ROOT
 				}
@@ -6391,7 +6459,12 @@ ZAZ_POL_missions_3 = {
 			1974 = {
 				if = {
 					limit = {
-						owned_by = ROOT
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
 					add_permanent_claim = ROOT
 				}
@@ -6915,7 +6988,7 @@ ZAZ_POL_missions_5 = {
 			legitimacy_equivalent = 90
 			if = {
 				limit = {
-					exists = POL
+					exists = PLC
 				}
 				alliance_with = PLC
 			}
@@ -6981,11 +7054,24 @@ ZAZ_POL_missions_5 = {
 		trigger = {
 			legitimacy_equivalent = 90
 			total_development = 350
-			alliance_with = POL
+			OR = {
+				alliance_with = POL
+				alliance_with = PLC
+			}
 		}
 		effect = {
 			add_prestige = 20
 			add_dip_power = 100
+			if = {
+				limit = {
+					NOT = {
+						religion = catholic
+					}
+				}
+				country_event = {
+					id = zaz_flavor_m_5.2
+				}
+			}
 		}
 	}
 

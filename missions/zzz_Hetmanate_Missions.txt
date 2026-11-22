@@ -231,47 +231,80 @@ het_missions_1 = {
 		required_missions = { het_mazepa_renaissance }
 		position = 5
 		trigger = {
+			army_tradition = 40
 			OR = {
-				alliance_with = SWE
-				any_ally = {
-					OR = {
-						tag = SWE
-						culture_group = scandinavian
-					}
-					is_great_power = yes
-				}
+				# "Mazepa's Choice" (het_enhanced.5) has been answered, one way or the
+				# other, or the break with the overlord was made by decision.
+				has_country_flag = mazepa_crisis_resolved
+				has_country_flag = mazepa_independence_attempted
+				# A hetman whom no tsar presses keeps the old routes.
 				AND = {
+					NOT = { is_subject_of = RUS }
 					OR = {
-						is_year = 1708
-						has_institution = global_trade
-						current_age = age_of_absolutism
-					}
-				}
-				AND = {
-					NOT = {
-						OR = {
-							is_year = 1708
-							has_institution = global_trade
-							current_age = age_of_absolutism
+						alliance_with = SWE
+						any_ally = {
+							OR = {
+								tag = SWE
+								culture_group = scandinavian
+							}
+							is_great_power = yes
+						}
+						AND = {
+							OR = {
+								is_year = 1708
+								has_institution = global_trade
+								current_age = age_of_absolutism
+							}
+						}
+						AND = {
+							NOT = {
+								OR = {
+									is_year = 1708
+									has_institution = global_trade
+									current_age = age_of_absolutism
+								}
+							}
+							army_tradition = 80
 						}
 					}
-					army_tradition = 80
+				}
+				# A vassal the ultimatum never reached is not held back once the
+				# window of het_enhanced.5 has closed.
+				AND = {
+					is_subject_of = RUS
+					is_year = 1715
 				}
 			}
-			army_tradition = 40
 		}
 		effect = {
-			add_country_modifier = {
-				name = het_independence_struggle
-				duration = 3650
-			}
-			add_mil_power = 150
-			russia_region = {
+			if = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					has_country_flag = mazepa_crisis_resolved
+					NOT = { has_country_flag = mazepa_allied_sweden }
+					NOT = { has_country_flag = mazepa_independence_attempted }
 				}
-				add_claim = ROOT
+				# The oath was kept: protection, standing and administrative momentum
+				# in place of a war against the tsar.
+				add_country_modifier = {
+					name = het_russian_protection
+					duration = 7300
+				}
+				add_legitimacy = 10
+				add_adm_power = 100
+			}
+			else = {
+				add_country_modifier = {
+					name = het_independence_struggle
+					duration = 3650
+				}
+				add_mil_power = 150
+				russia_region = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
 			}
 		}
 	}
@@ -517,12 +550,20 @@ het_missions_3 = {
 					duration = 5475
 				}
 			}
-			moldavia_area = {
+			# A pact does not claim the partner's own land: claims follow only
+			# when Moldavia is not already sworn to us or bound by alliance.
+			if = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = { alliance_with = MOL }
+					NOT = { MOL = { is_subject_of = ROOT } }
 				}
-				add_permanent_claim = ROOT
+				moldavia_area = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 			wallachia_area = {
 				limit = {
@@ -550,6 +591,17 @@ het_missions_3 = {
 					type = all
 					country_or_non_sovereign_subject_holds = ROOT
 				}
+				# A free ally also settles the line, but only once the hospodar
+				# has been defended in war (het_moldova.7) or the pact has been
+				# held against foreign pressure (het_moldova.8).
+				AND = {
+					alliance_with = MOL
+					MOL = { is_subject = no }
+					OR = {
+						has_country_flag = het_defended_moldavia
+						has_country_flag = het_moldavia_pressure_held
+					}
+				}
 			}
 		}
 		effect = {
@@ -559,6 +611,16 @@ het_missions_3 = {
 				}
 				add_country_modifier = {
 					name = het_moldovan_vassalization
+					duration = 7300
+				}
+			}
+			else_if = {
+				limit = {
+					alliance_with = MOL
+					MOL = { is_subject = no }
+				}
+				add_country_modifier = {
+					name = het_moldovan_sworn_alliance
 					duration = 7300
 				}
 			}
