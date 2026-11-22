@@ -316,6 +316,151 @@ country_event = {
 }
 
 country_event = {
+	id = het_moldova.7
+	title = het_moldova.7.t
+	desc = het_moldova.7.d
+	picture = BATTLE_eventPicture
+	trigger = {
+		tag = HET
+		has_country_flag = het_unlocked_moldovan_path
+		NOT = {
+			has_country_flag = het_defended_moldavia
+		}
+		alliance_with = MOL
+		MOL = {
+			is_subject = no
+			is_in_war = {
+				defenders = MOL
+			}
+		}
+	}
+	mean_time_to_happen = {
+		months = 6
+		modifier = {
+			factor = 6
+			has_country_flag = het_moldavia_left_to_fight_alone
+		}
+	}
+	option = {
+		# Send the regiments to the Prut
+		name = het_moldova.7.a
+		ai_chance = {
+			factor = 90
+		}
+		set_country_flag = het_defended_moldavia
+		clr_country_flag = het_moldavia_left_to_fight_alone
+		add_army_tradition = 5
+		add_prestige = 10
+		add_manpower = -2
+		add_trust = {
+			who = MOL
+			value = 20
+			mutual = yes
+		}
+	}
+	option = {
+		# The hospodar must hold on his own
+		name = het_moldova.7.b
+		ai_chance = {
+			factor = 10
+		}
+		set_country_flag = het_moldavia_left_to_fight_alone
+		add_prestige = -5
+		MOL = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_refused_protection
+			}
+		}
+	}
+}
+
+country_event = {
+	id = het_moldova.8
+	title = het_moldova.8.t
+	desc = het_moldova.8.d
+	picture = DIPLOMACY_eventPicture
+	trigger = {
+		tag = HET
+		has_country_flag = het_unlocked_moldovan_path
+		had_country_flag = {
+			flag = het_unlocked_moldovan_path
+			days = 1825
+		}
+		NOT = {
+			has_country_flag = het_moldavia_pressure_held
+		}
+		alliance_with = MOL
+		MOL = {
+			is_subject = no
+			any_neighbor_country = {
+				is_great_power = yes
+				NOT = {
+					tag = ROOT
+				}
+				NOT = {
+					alliance_with = ROOT
+				}
+			}
+		}
+	}
+	mean_time_to_happen = {
+		months = 48
+		modifier = {
+			factor = 3
+			has_country_flag = het_moldavia_pressure_flinched
+		}
+	}
+	option = {
+		# Keep faith with the hospodar
+		name = het_moldova.8.a
+		ai_chance = {
+			factor = 85
+		}
+		set_country_flag = het_moldavia_pressure_held
+		clr_country_flag = het_moldavia_pressure_flinched
+		add_prestige = 10
+		add_trust = {
+			who = MOL
+			value = 20
+			mutual = yes
+		}
+		MOL = {
+			every_neighbor_country = {
+				limit = {
+					is_great_power = yes
+					NOT = {
+						tag = ROOT
+					}
+					NOT = {
+						alliance_with = ROOT
+					}
+				}
+				add_opinion = {
+					who = ROOT
+					modifier = insulted
+				}
+			}
+		}
+	}
+	option = {
+		# Soothe the envoys and say nothing of the pact
+		name = het_moldova.8.b
+		ai_chance = {
+			factor = 15
+		}
+		set_country_flag = het_moldavia_pressure_flinched
+		add_prestige = -5
+		MOL = {
+			add_opinion = {
+				who = ROOT
+				modifier = het_refused_protection
+			}
+		}
+	}
+}
+
+country_event = {
 	id = het_moldova.90
 	title = het_moldova.90.t
 	desc = het_moldova.90.d

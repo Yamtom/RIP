@@ -703,12 +703,20 @@ het_missions_3 = {
 					duration = 5475
 				}
 			}
-			moldavia_area = {
+			# A pact does not claim the partner's own land: claims follow only
+			# when Moldavia is not already sworn to us or bound by alliance.
+			if = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					NOT = { alliance_with = MOL }
+					NOT = { MOL = { is_subject_of = ROOT } }
 				}
-				add_permanent_claim = ROOT
+				moldavia_area = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 			wallachia_area = {
 				limit = {
@@ -736,6 +744,17 @@ het_missions_3 = {
 					type = all
 					country_or_non_sovereign_subject_holds = ROOT
 				}
+				# A free ally also settles the line, but only once the hospodar
+				# has been defended in war (het_moldova.7) or the pact has been
+				# held against foreign pressure (het_moldova.8).
+				AND = {
+					alliance_with = MOL
+					MOL = { is_subject = no }
+					OR = {
+						has_country_flag = het_defended_moldavia
+						has_country_flag = het_moldavia_pressure_held
+					}
+				}
 			}
 		}
 		effect = {
@@ -745,6 +764,16 @@ het_missions_3 = {
 				}
 				add_country_modifier = {
 					name = het_moldovan_vassalization
+					duration = 7300
+				}
+			}
+			else_if = {
+				limit = {
+					alliance_with = MOL
+					MOL = { is_subject = no }
+				}
+				add_country_modifier = {
+					name = het_moldovan_sworn_alliance
 					duration = 7300
 				}
 			}

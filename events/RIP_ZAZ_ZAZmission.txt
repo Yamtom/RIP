@@ -14,20 +14,41 @@ country_event = {
 		}
 		272 = {
 			change_controller = ROOT
-			owner = {
-				add_war_exhaustion = 15
+			if = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+				}
+				owner = {
+					add_war_exhaustion = 15
+				}
 			}
 		}
 		275 = {
 			change_controller = ROOT
-			owner = {
-				add_war_exhaustion = 15
+			if = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+				}
+				owner = {
+					add_war_exhaustion = 15
+				}
 			}
 		}
 		1936 = {
 			change_controller = ROOT
-			owner = {
-				add_war_exhaustion = 15
+			if = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+				}
+				owner = {
+					add_war_exhaustion = 15
+				}
 			}
 		}
 	}
@@ -38,20 +59,41 @@ country_event = {
 		}
 		272 = {
 			change_controller = ROOT
-			owner = {
-				add_stability = -3
+			if = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+				}
+				owner = {
+					add_stability = -3
+				}
 			}
 		}
 		275 = {
 			change_controller = ROOT
-			owner = {
-				add_stability = -3
+			if = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+				}
+				owner = {
+					add_stability = -3
+				}
 			}
 		}
 		1936 = {
 			change_controller = ROOT
-			owner = {
-				add_stability = -3
+			if = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+				}
+				owner = {
+					add_stability = -3
+				}
 			}
 		}
 	}
@@ -67,9 +109,16 @@ country_event = {
 				amount = 100
 			}
 			add_devastation = 25
-			owner = {
-				add_stability = -1
-				add_war_exhaustion = 7.5
+			if = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+				}
+				owner = {
+					add_stability = -1
+					add_war_exhaustion = 7.5
+				}
 			}
 		}
 		275 = {
@@ -79,9 +128,16 @@ country_event = {
 				amount = 100
 			}
 			add_devastation = 25
-			owner = {
-				add_stability = -1
-				add_war_exhaustion = 7.5
+			if = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+				}
+				owner = {
+					add_stability = -1
+					add_war_exhaustion = 7.5
+				}
 			}
 		}
 		1936 = {
@@ -91,12 +147,19 @@ country_event = {
 				amount = 100
 			}
 			add_devastation = 25
-			owner = {
-				add_stability = -1
-				add_war_exhaustion = 7.5
+			if = {
+				limit = {
+					NOT = {
+						owned_by = ROOT
+					}
+				}
+				owner = {
+					add_stability = -1
+					add_war_exhaustion = 7.5
+				}
 			}
 		}
-		add_years_of_income = 5
+		add_years_of_income = 2
 	}
 }
 
@@ -546,7 +609,7 @@ country_event = {
 	option = {
 		name = zaz_flavor_m_5.2.a
 		ai_chance = {
-			factor = 0.5
+			factor = 0.1
 		}
 		change_religion = catholic
 		capital_scope = {
@@ -569,7 +632,7 @@ country_event = {
 	option = {
 		name = zaz_flavor_m_5.2.b
 		ai_chance = {
-			factor = 0.5
+			factor = 0.9
 		}
 		add_patriarch_authority = 0.05
 		add_country_modifier = {

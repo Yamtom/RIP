@@ -180,6 +180,16 @@ ZAZ_missions_1 = {
 			add_prestige = 15
 			add_legitimacy = 10
 			add_republican_tradition = 5
+			if = {
+				limit = {
+					NOT = {
+						owns = 272
+					}
+				}
+				country_event = {
+					id = zaz_flavor_m_1.1
+				}
+			}
 			272 = {
 				if = {
 					limit = {
@@ -1268,16 +1278,12 @@ ZAZ_TUR_missions_1 = {
 		position = 8
 		required_missions = { ZAZ_ally_tur }
 		trigger = {
-			OR = {
-				any_ally = {
-					NOT = {
-						tag = TUR
-					}
+			any_ally = {
+				NOT = {
+					tag = TUR
 				}
-				any_ally = {
-					NOT = {
-						tag = RUM
-					}
+				NOT = {
+					tag = RUM
 				}
 			}
 		}
@@ -6822,6 +6828,16 @@ ZAZ_POL_missions_5 = {
 		effect = {
 			add_prestige = 20
 			add_dip_power = 100
+			if = {
+				limit = {
+					NOT = {
+						religion = catholic
+					}
+				}
+				country_event = {
+					id = zaz_flavor_m_5.2
+				}
+			}
 		}
 	}
 
