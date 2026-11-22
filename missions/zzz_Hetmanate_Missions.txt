@@ -21,23 +21,38 @@ het_missions_1 = {
 			manpower_percentage = 0.5
 			OR = {
 				has_country_modifier = khmelnitsky_uprising
+				is_year = 1648
+				current_age = age_of_reformation
+				current_age = age_of_absolutism
+				current_age = age_of_revolutions
 				AND = {
-					OR = {
-						is_year = 1648
-						has_institution = renaissance
-						current_age = age_of_reformation
-					}
+					army_size_percentage = 1
+					manpower_percentage = 0.75
+				}
+			}
+			OR = {
+				has_country_modifier = khmelnitsky_uprising
+				war_with = POL
+				war_with = PLC
+				war_with = LIT
+				AND = {
+					is_subject = yes
+					liberty_desire = 50
 				}
 				AND = {
-					NOT = {
-						OR = {
-							is_year = 1648
-							has_institution = renaissance
-							current_age = age_of_reformation
+					is_subject = no
+					army_tradition = 30
+					OR = {
+						has_estate_privilege = estate_cossacks_land_rights
+						has_country_modifier = zaz_no_register
+						has_country_modifier = rip_register_confirmed
+						has_country_modifier = zaz_register_expanded
+						has_country_modifier = zaz_register_unlimited
+						num_of_owned_provinces_with = {
+							value = 6
+							region = ruthenia_region
 						}
 					}
-					army_size_percentage = 1
-					manpower_percentage = 1
 				}
 			}
 		}
@@ -48,7 +63,28 @@ het_missions_1 = {
 			}
 			add_army_tradition = 20
 			add_mil_power = 100
-			ruthenia_region = {
+			west_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			east_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			podolia_volhynia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			volhynia_area = {
 				limit = {
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
@@ -65,6 +101,10 @@ het_missions_1 = {
 		icon = mission_autocephalous_archbishopric
 		required_missions = { het_khmelnytsky_uprising }
 		position = 2
+		provinces_to_highlight = {
+			province_id = 280
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
 		trigger = {
 			OR = {
 				has_country_flag = orthodox_defender_het
@@ -73,8 +113,56 @@ het_missions_1 = {
 				has_country_modifier = orthodox_crusade_participant
 				has_country_modifier = orthodox_crusade_leader
 			}
-			total_own_and_non_tributary_subject_development = 150
 			religious_unity = 0.8
+			if = {
+				limit = { religion = orthodox }
+				patriarch_authority = 0.2
+			}
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = het_orthodox_metropolis_pillar_tt
+					280 = {
+						country_or_non_sovereign_subject_holds = ROOT
+						religion = orthodox
+						OR = {
+							has_building = temple
+							has_building = cathedral
+							has_province_modifier = kyiv_brotherhood_collegium
+							has_province_modifier = kyiv_mohyla_academy
+							has_province_modifier = kyiv_orthodox_metropolitanate
+						}
+					}
+					num_of_owned_provinces_with = {
+						value = 3
+						religion = orthodox
+						OR = {
+							has_building = temple
+							has_building = cathedral
+						}
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = het_orthodox_brotherhood_pillar_tt
+					total_own_and_non_tributary_subject_development = 120
+					OR = {
+						has_country_flag = orthodox_defender_het
+						has_country_flag = orthodox_brotherhoods_supported
+						has_country_modifier = orthodox_brotherhoods
+						has_country_modifier = orthodox_protector
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = het_orthodox_register_pillar_tt
+					army_size = 20
+					OR = {
+						has_country_modifier = rip_register_confirmed
+						has_country_modifier = zaz_register_expanded
+						has_country_modifier = zaz_register_unlimited
+						has_country_modifier = het_registered_cossacks_integrated
+						has_country_flag = rip_hadiach_ratified
+					}
+				}
+			}
 		}
 		effect = {
 			add_country_modifier = {
@@ -84,13 +172,33 @@ het_missions_1 = {
 			set_country_flag = het_unlocked_crusade_role
 			rip_faith_mission_resource_effect = { PA = 0.2 PI = 20 ADM = 25 }
 			add_prestige = 20
-			poland_region = {
+			country_event = { id = het_enhanced.9 }
+			west_dniepr_area = {
 				limit = {
-					religion = catholic
+					religion = orthodox
 					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
 					NOT = { is_permanent_claim = ROOT }
 				}
-				add_permanent_claim = ROOT
+				add_claim = ROOT
+			}
+			podolia_volhynia_area = {
+				limit = {
+					religion = orthodox
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			volhynia_area = {
+				limit = {
+					religion = orthodox
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
 			}
 		}
 	}
@@ -170,43 +278,55 @@ het_missions_1 = {
 		icon = rip_gfx_mission_mazepa_patronage_icon
 		required_missions = { het_break_polish_yoke }
 		position = 4
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280
+				is_capital_of = ROOT
+			}
+		}
 		trigger = {
 			stability = 2
 			prestige = 25
 			OR = {
-				OR = {
-					has_institution = printing_press
-					current_age = age_of_absolutism
-				}
+				has_country_modifier = mazepa_golden_age
+				is_year = 1687
+				has_institution = printing_press
+				current_age = age_of_absolutism
+				current_age = age_of_revolutions
 				AND = {
-					NOT = {
-						OR = {
-							has_institution = printing_press
-							current_age = age_of_absolutism
-						}
-					}
 					stability = 3
 					prestige = 50
+					adm_tech = 14
+				}
+			}
+			num_of_owned_provinces_with = {
+				value = 3
+				OR = {
+					has_building = temple
+					has_building = cathedral
+					has_building = university
 				}
 			}
 			OR = {
-				has_country_modifier = mazepa_golden_age
-				AND = {
+				has_country_flag = academy_expanded
+				has_country_flag = kyiv_mohyla_academy_founded
+				has_country_flag = kyiv_brotherhood_collegium_founded
+				280 = {
+					owned_by = ROOT
 					OR = {
-						is_year = 1687
-						has_institution = printing_press
-						current_age = age_of_absolutism
+						has_province_modifier = kyiv_mohyla_academy
+						has_province_modifier = kyiv_brotherhood_collegium
+					}
+				}
+				capital_scope = {
+					OR = {
+						has_building = university
+						has_building = cathedral
 					}
 				}
 				AND = {
-					NOT = {
-						OR = {
-							is_year = 1687
-							has_institution = printing_press
-							current_age = age_of_absolutism
-						}
-					}
-					adm_tech = 20
+					capital_scope = { has_building = temple }
+					treasury = 200
 				}
 			}
 		}
@@ -215,14 +335,9 @@ het_missions_1 = {
 				name = mazepa_golden_age
 				duration = 8030
 			}
-			add_adm_power = 100
-			add_dip_power = 100
-			capital_scope = {
-				add_province_modifier = {
-					name = het_cultural_center
-					duration = -1
-				}
-			}
+			add_adm_power = 50
+			add_dip_power = 50
+			country_event = { id = het_enhanced.10 }
 		}
 	}
 
@@ -231,47 +346,118 @@ het_missions_1 = {
 		required_missions = { het_mazepa_renaissance }
 		position = 5
 		trigger = {
+			army_tradition = 40
 			OR = {
-				alliance_with = SWE
-				any_ally = {
+				custom_trigger_tooltip = {
+					tooltip = het_mazepa_swedish_course_tt
 					OR = {
-						tag = SWE
-						culture_group = scandinavian
-					}
-					is_great_power = yes
-				}
-				AND = {
-					OR = {
-						is_year = 1708
-						has_institution = global_trade
-						current_age = age_of_absolutism
-					}
-				}
-				AND = {
-					NOT = {
-						OR = {
-							is_year = 1708
-							has_institution = global_trade
-							current_age = age_of_absolutism
+						has_country_flag = mazepa_allied_sweden
+						alliance_with = SWE
+						any_ally = {
+							OR = {
+								tag = SWE
+								culture_group = scandinavian
+							}
+							is_great_power = yes
+						}
+						AND = {
+							NOT = { exists = SWE }
+							any_ally = {
+								is_great_power = yes
+								NOT = { overlord_of = ROOT }
+								NOT = { tag = RUS }
+								NOT = { tag = MOS }
+							}
 						}
 					}
-					army_tradition = 80
+				}
+				custom_trigger_tooltip = {
+					tooltip = het_mazepa_loyal_course_tt
+					OR = {
+						has_country_flag = mazepa_remained_loyal
+						AND = {
+							is_subject = yes
+							NOT = { liberty_desire = 35 }
+							overlord = {
+								has_opinion = { who = ROOT value = 150 }
+								trust = { who = ROOT value = 60 }
+							}
+						}
+					}
 				}
 			}
-			army_tradition = 40
 		}
 		effect = {
-			add_country_modifier = {
-				name = het_independence_struggle
-				duration = 3650
-			}
-			add_mil_power = 150
-			russia_region = {
+			if = {
 				limit = {
-					NOT = { is_core = ROOT }
-					NOT = { is_permanent_claim = ROOT }
+					OR = {
+						has_country_flag = mazepa_allied_sweden
+						alliance_with = SWE
+						any_ally = {
+							OR = {
+								tag = SWE
+								culture_group = scandinavian
+							}
+							is_great_power = yes
+						}
+						AND = {
+							NOT = { exists = SWE }
+							any_ally = {
+								is_great_power = yes
+								NOT = { overlord_of = ROOT }
+								NOT = { tag = RUS }
+								NOT = { tag = MOS }
+							}
+						}
+					}
 				}
-				add_claim = ROOT
+				set_country_flag = het_swedish_course_completed
+				add_country_modifier = {
+					name = het_independence_struggle
+					duration = 3650
+				}
+				add_mil_power = 150
+				if = {
+					limit = { alliance_with = SWE }
+					SWE = {
+						add_trust = {
+							who = ROOT
+							value = 10
+							mutual = yes
+						}
+					}
+				}
+				russia_region = {
+					limit = {
+						NOT = { is_core = ROOT }
+						NOT = { is_permanent_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+			else = {
+				set_country_flag = het_loyal_course_completed
+				add_country_modifier = {
+					name = het_loyal_autonomy_accord
+					duration = 7300
+				}
+				add_adm_power = 100
+				add_dip_power = 100
+				add_stability_or_adm_power = yes
+				if = {
+					limit = { is_subject = yes }
+					overlord = {
+						add_trust = {
+							who = ROOT
+							value = 10
+							mutual = yes
+						}
+						add_opinion = {
+							who = ROOT
+							modifier = hetmanate_remained_loyal
+						}
+					}
+				}
 			}
 		}
 	}

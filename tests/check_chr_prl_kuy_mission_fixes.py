@@ -462,7 +462,9 @@ def check_kyiv_and_caravan_rewards() -> None:
     missions = read("missions/Kuyaba_Missions.txt")
     restoration = named_block(named_block(missions, "KUY_restore_kuyaba"), "effect")
     crossings = named_block(named_block(missions, "KUY_dnieper_crossings"), "effect")
-    assert "east_dniepr_area" not in restoration and "add_claim" not in crossings
+    assert "east_dniepr_area" not in restoration and "chernigov_area" not in crossings
+    assert "add_permanent_claim = ROOT" in named_block(restoration, "moldavia_area")
+    assert "add_claim = ROOT" in named_block(crossings, "azov_area")
     caravans = named_block(missions, "KUY_steppe_caravans")
     assert "kuy_caravan_waystation = yes" in named_block(caravans, "trigger")
     draws = list(keyed_blocks(named_block(caravans, "effect"), "random_owned_province"))

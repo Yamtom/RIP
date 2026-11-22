@@ -235,17 +235,36 @@ country_event = {
 	picture = DIPLOMACY_eventPicture
 	trigger = {
 		tag = HET
-		has_reform = het_mazepist_autocracy_reform
-		is_year = 1700
-		NOT = {
-			is_year = 1715
+		is_subject = yes
+		OR = {
+			has_reform = het_mazepist_autocracy_reform
+			is_year = 1687
 		}
-		overlord = {
-			tag = RUS
+		NOT = {
+			is_year = 1740
+		}
+		OR = {
+			is_subject_of = RUS
+			is_subject_of = MOS
 		}
 		exists = SWE
 		SWE = {
-			war_with = RUS
+			OR = {
+				AND = {
+					ROOT = { is_subject_of = RUS }
+					OR = {
+						war_with = RUS
+						is_rival = RUS
+					}
+				}
+				AND = {
+					ROOT = { is_subject_of = MOS }
+					OR = {
+						war_with = MOS
+						is_rival = MOS
+					}
+				}
+			}
 		}
 		NOT = {
 			has_country_flag = mazepa_crisis_resolved
@@ -257,7 +276,7 @@ country_event = {
 	option = {
 		name = "het_enhanced.5.a"
 		trigger = {
-			legitimacy_equivalent = 80
+			legitimacy_equivalent = 60
 		}
 		overlord = {
 			add_opinion = {
@@ -290,6 +309,12 @@ country_event = {
 		}
 		add_liberty_desire = -15
 		add_legitimacy = 10
+		add_dip_power = 50
+		add_country_modifier = {
+			name = "het_loyal_hetmanate_charter"
+			duration = 7300
+		}
+		set_country_flag = mazepa_remained_loyal
 		set_country_flag = mazepa_crisis_resolved
 	}
 }
@@ -462,5 +487,223 @@ country_event = {
 		add_adm_power = 50
 		add_dip_power = 50
 		set_country_flag = cossack_revival_movement
+	}
+}
+
+country_event = {
+	id = het_enhanced.9
+	title = "het_enhanced.9.t"
+	desc = "het_enhanced.9.d"
+	picture = RELIGION_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = "het_enhanced.9.a"
+		ai_chance = {
+			factor = 40
+		}
+		if = {
+			limit = { owns = 280 }
+			280 = {
+				add_province_modifier = {
+					name = kyiv_orthodox_metropolitanate
+					duration = -1
+				}
+				add_base_tax = 1
+				add_base_production = 1
+			}
+		}
+		else = {
+			add_country_modifier = {
+				name = orthodox_protector
+				duration = 5475
+			}
+		}
+		add_patriarch_authority = 0.1
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = {
+				estate = estate_church
+				loyalty = 15
+			}
+		}
+	}
+	option = {
+		name = "het_enhanced.9.b"
+		ai_chance = {
+			factor = 30
+		}
+		add_country_modifier = {
+			name = orthodox_brotherhoods
+			duration = 7300
+		}
+		set_country_flag = orthodox_brotherhoods_supported
+		add_adm_power = 50
+		add_dip_power = 50
+		if = {
+			limit = {
+				owns = 280
+				280 = {
+					NOT = { has_province_modifier = kyiv_brotherhood_collegium }
+					NOT = { has_province_modifier = kyiv_mohyla_academy }
+				}
+			}
+			280 = {
+				add_province_modifier = {
+					name = kyiv_brotherhood_collegium
+					duration = -1
+				}
+			}
+		}
+	}
+	option = {
+		name = "het_enhanced.9.c"
+		ai_chance = {
+			factor = 30
+		}
+		add_country_modifier = {
+			name = het_registered_cossacks_integrated
+			duration = 7300
+		}
+		add_mil_power = 100
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = {
+				estate = estate_cossacks
+				loyalty = 15
+			}
+		}
+	}
+}
+
+country_event = {
+	id = het_enhanced.10
+	title = "het_enhanced.10.t"
+	desc = "het_enhanced.10.d"
+	picture = UNIVERSITY_eventPicture
+	is_triggered_only = yes
+	option = {
+		name = "het_enhanced.10.a"
+		ai_chance = {
+			factor = 40
+		}
+		trigger = {
+			OR = {
+				treasury = 200
+				has_country_flag = academy_expanded
+				has_country_flag = kyiv_mohyla_academy_founded
+			}
+		}
+		if = {
+			limit = {
+				NOT = { has_country_flag = academy_expanded }
+				NOT = { has_country_flag = kyiv_mohyla_academy_founded }
+			}
+			add_treasury = -200
+		}
+		if = {
+			limit = { owns = 280 }
+			280 = {
+				if = {
+					limit = { NOT = { has_building = university } }
+					add_building = university
+				}
+				else = {
+					add_base_tax = 2
+					add_base_production = 1
+				}
+				if = {
+					limit = { NOT = { has_province_modifier = kyiv_mohyla_academy } }
+					remove_province_modifier = kyiv_brotherhood_collegium
+					add_province_modifier = {
+						name = kyiv_mohyla_academy
+						duration = -1
+					}
+				}
+			}
+		}
+		else = {
+			capital_scope = {
+				if = {
+					limit = { NOT = { has_building = university } }
+					add_building = university
+				}
+				else = {
+					add_base_tax = 2
+					add_base_production = 1
+				}
+			}
+		}
+		capital_scope = {
+			add_province_modifier = {
+				name = het_cultural_center
+				duration = -1
+			}
+		}
+		add_innovativeness_small_effect = yes
+	}
+	option = {
+		name = "het_enhanced.10.b"
+		ai_chance = {
+			factor = 40
+		}
+		trigger = {
+			treasury = 200
+		}
+		add_treasury = -200
+		if = {
+			limit = { owns = 280 }
+			280 = {
+				if = {
+					limit = { NOT = { has_building = cathedral } }
+					add_building = cathedral
+				}
+				else = {
+					add_base_tax = 2
+					add_base_production = 1
+				}
+				add_province_modifier = {
+					name = het_kyiv_mazepa_golden_age
+					duration = -1
+				}
+			}
+		}
+		else = {
+			capital_scope = {
+				if = {
+					limit = { NOT = { has_building = cathedral } }
+					add_building = cathedral
+				}
+				else = {
+					add_base_tax = 2
+					add_base_production = 1
+				}
+				add_province_modifier = {
+					name = het_kyiv_mazepa_golden_age
+					duration = -1
+				}
+			}
+		}
+		capital_scope = {
+			add_province_modifier = {
+				name = het_cultural_center
+				duration = -1
+			}
+		}
+		rip_faith_mission_resource_effect = { PA = 0.1 PI = 10 ADM = 25 }
+		add_prestige = 15
+	}
+	option = {
+		name = "het_enhanced.10.c"
+		ai_chance = {
+			factor = 20
+		}
+		capital_scope = {
+			add_base_tax = 1
+			add_province_modifier = {
+				name = het_cultural_center
+				duration = 7300
+			}
+		}
+		add_adm_power = 50
 	}
 }

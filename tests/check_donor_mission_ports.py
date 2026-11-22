@@ -381,7 +381,7 @@ def main() -> int:
         lambda s, p: True,
         all_ported,
     )
-    for bflag in ("zaz_only_zaz", "zaz_allied_tur", "zaz_allied_rus", "zaz_allied_gol", "zaz_allied_pol"):
+    for bflag in ("zaz_only_zaz", "zaz_allied_tur", "zaz_allied_rus", "zaz_allied_gol", "zaz_allied_cri", "zaz_allied_pol"):
         simulate_stacking(
             f"HET_from_ZAZ_{bflag}",
             ["Zaporozhie_Missions.txt", "zzz_Hetmanate_Missions.txt"],

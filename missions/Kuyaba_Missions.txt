@@ -221,6 +221,15 @@ KUY_missions_2 = {
 				limit = { owned_by = ROOT }
 				add_local_autonomy = -10
 			}
+			azov_area = {
+				limit = {
+					NOT = { country_or_non_sovereign_subject_holds = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
 		}
 	}
 
@@ -327,6 +336,14 @@ KUY_missions_3 = {
 			}
 			yedisan_area = {
 				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_permanent_claim = ROOT }
+				}
+				add_permanent_claim = ROOT
+			}
+			moldavia_area = {
+				limit = {
+					NOT = { country_or_non_sovereign_subject_holds = ROOT }
 					NOT = { is_core = ROOT }
 					NOT = { is_permanent_claim = ROOT }
 				}
