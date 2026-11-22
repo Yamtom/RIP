@@ -1780,7 +1780,14 @@ ZAZ_TUR_missions_4 = {
 		icon = mission_have_manufactories
 		position = 10
 		required_missions = { ZAZ_TUR_brake_rus ZAZ_TUR_slave_trade }
-		trigger = { }
+		trigger = {
+			OR = {
+				alliance_with = TUR
+				alliance_with = RUM
+				is_subject_of = TUR
+				is_subject_of = RUM
+			}
+		}
 		effect = {
 			country_event = {
 				id = zaz_flavor_m_5.1
@@ -1804,9 +1811,19 @@ ZAZ_TUR_missions_5 = {
 		position = 8
 		required_missions = { ZAZ_ally_tur }
 		trigger = {
-			reverse_has_opinion_modifier = {
-				who = LIT
-				modifier = insulted
+			OR = {
+				reverse_has_opinion_modifier = {
+					who = LIT
+					modifier = insulted
+				}
+				reverse_has_opinion_modifier = {
+					who = PLC
+					modifier = insulted
+				}
+				AND = {
+					NOT = { exists = LIT }
+					NOT = { exists = PLC }
+				}
 			}
 		}
 		effect = {
@@ -2132,11 +2149,24 @@ ZAZ_RUS_missions_2 = {
 		position = 8
 		required_missions = { ZAZ_ally_rus }
 		trigger = {
-			exists = LIT
-			NOT = {
-				reverse_has_opinion = {
-					who = LIT
-					value = -190
+			OR = {
+				AND = {
+					exists = LIT
+					NOT = {
+						reverse_has_opinion = {
+							who = LIT
+							value = -190
+						}
+					}
+				}
+				AND = {
+					exists = PLC
+					NOT = {
+						reverse_has_opinion = {
+							who = PLC
+							value = -190
+						}
+					}
 				}
 			}
 		}
@@ -2837,9 +2867,12 @@ ZAZ_GOL_missions_1 = {
 		position = 8
 		required_missions = { ZAZ_ally_tartar }
 		trigger = {
-			reverse_has_opinion_modifier = {
-				who = FEO
-				modifier = insulted
+			OR = {
+				reverse_has_opinion_modifier = {
+					who = FEO
+					modifier = insulted
+				}
+				NOT = { exists = FEO }
 			}
 		}
 		effect = {
@@ -3463,9 +3496,19 @@ ZAZ_GOL_missions_3 = {
 		position = 8
 		required_missions = { ZAZ_ally_tartar }
 		trigger = {
-			reverse_has_opinion_modifier = {
-				who = LIT
-				modifier = insulted
+			OR = {
+				reverse_has_opinion_modifier = {
+					who = LIT
+					modifier = insulted
+				}
+				reverse_has_opinion_modifier = {
+					who = PLC
+					modifier = insulted
+				}
+				AND = {
+					NOT = { exists = LIT }
+					NOT = { exists = PLC }
+				}
 			}
 		}
 		effect = {
@@ -6830,9 +6873,8 @@ ZAZ_POL_missions_5 = {
 			add_dip_power = 100
 			if = {
 				limit = {
-					NOT = {
-						religion = catholic
-					}
+					NOT = { religion = catholic }
+					NOT = { religion = greek_catholic }
 				}
 				country_event = {
 					id = zaz_flavor_m_5.2

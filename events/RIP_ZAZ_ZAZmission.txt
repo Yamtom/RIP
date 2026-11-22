@@ -566,30 +566,43 @@ country_event = {
 	option = {
 		name = zaz_flavor_m_5.1.a
 		ai_chance = {
-			factor = 0.5
-		}
-		change_religion = sunni
-		capital_scope = {
-			every_neighbor_province = {
-				limit = {
-					owned_by = ROOT
-				}
-				add_province_modifier = {
-					name = zaz_islam_spread
-					duration = 3650
-				}
-			}
-			change_religion = sunni
+			factor = 0.4
 		}
 		add_country_modifier = {
-			name = zaz_missionaries
-			duration = 3650
+			name = zaz_ottoman_berat
+			duration = 7300
+		}
+		add_patriarch_authority = -0.05
+		if = {
+			limit = {
+				exists = TUR
+			}
+			TUR = {
+				add_trust = {
+					who = ROOT
+					value = 10
+					mutual = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = { exists = TUR }
+				exists = RUM
+			}
+			RUM = {
+				add_trust = {
+					who = ROOT
+					value = 10
+					mutual = yes
+				}
+			}
 		}
 	}
 	option = {
 		name = zaz_flavor_m_5.1.b
 		ai_chance = {
-			factor = 0.5
+			factor = 0.6
 		}
 		add_patriarch_authority = 0.05
 		add_country_modifier = {
@@ -611,18 +624,18 @@ country_event = {
 		ai_chance = {
 			factor = 0.1
 		}
-		change_religion = catholic
+		change_religion = greek_catholic
 		capital_scope = {
 			every_neighbor_province = {
 				limit = {
 					owned_by = ROOT
 				}
 				add_province_modifier = {
-					name = zaz_catholic_spread
+					name = zaz_union_spread
 					duration = 3650
 				}
 			}
-			change_religion = catholic
+			change_religion = greek_catholic
 		}
 		add_country_modifier = {
 			name = zaz_missionaries

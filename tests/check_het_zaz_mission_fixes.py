@@ -75,7 +75,7 @@ def check_zaz_events_belong_to_their_city() -> None:
     pairs = {
         "ZAZ_lit": ("zaz_flavor_m_1.1", {272, 275, 1936}, "Lithuania"),
         "ZAZ_krakow": ("zaz_flavor_m_2.1", {262}, "Krak"),
-        "ZAZ_moskva": ("zaz_flavor_m_2.2", {295}, "Moskva"),
+        "ZAZ_moskva": ("zaz_flavor_m_2.2", {295}, "Moscow"),
         "ZAZ_saratov": ("zaz_flavor_m_3.2", {303}, "Saratov"),
         "ZAZ_istanbul": ("zaz_flavor_m_3.3", {151}, "Bosporus"),
     }
@@ -122,12 +122,14 @@ def check_zaz_turkish_other_ally_and_polish_conversion() -> None:
     assert "OR = { alliance_with = PLC alliance_with = POL }" in normalized(named_block(second, "trigger"))
     assert called_events(normalized(named_block(second, "effect"))) == ["zaz_flavor_m_5.2"]
     assert "NOT = { religion = catholic }" in normalized(named_block(second, "effect"))
+    assert "NOT = { religion = greek_catholic }" in normalized(named_block(second, "effect"))
 
     conversion = events("events/RIP_ZAZ_ZAZmission.txt")["zaz_flavor_m_5.2"]
     options = [normalized(block) for _, block in keyed_blocks(conversion, "option")]
     assert len(options) == 2
     convert, stay = options
-    assert "change_religion = catholic" in convert and "factor = 0.1" in convert
+    assert "change_religion = greek_catholic" in convert and "change_religion = catholic" not in convert
+    assert "factor = 0.1" in convert
     assert "factor = 0.9" in stay
 
 
@@ -186,16 +188,72 @@ def check_het_moldavian_line() -> None:
     assert "!" not in " ".join(v for k, v in loc.items() if k.startswith(("het_moldova.7", "het_moldova.8")))
 
 
+def check_audit_p1_fixes() -> None:
+    """The 23 November 2026 audit, priority 1: faith events, dead Lithuania/Theodoro steps, outliers, texts."""
+    # The Turkish branch no longer converts anybody to Islam and no longer fires from an empty trigger.
+    berat = normalized(events("events/RIP_ZAZ_ZAZmission.txt")["zaz_flavor_m_5.1"])
+    assert "sunni" not in berat and "change_religion" not in berat, berat
+    assert "zaz_ottoman_berat" in berat and "zaz_ortho" in berat
+    trigger = normalized(named_block(mission(ZAZ, "ZAZ_TUR_convert_islam"), "trigger"))
+    assert trigger != "trigger = { }" and "alliance_with = TUR" in trigger, trigger
+    for name in ("zaz_islam_spread", "zaz_catholic_spread"):
+        for folder in ("common", "events", "missions", "decisions"):
+            for path in (ROOT / folder).rglob("*.txt"):
+                assert name not in path.read_text(encoding="utf-8-sig", errors="ignore"), (name, path.name)
+
+    # Theodoro fell in 1475 and Lithuania becomes the Commonwealth: neither may freeze a column.
+    feo = normalized(named_block(mission(ZAZ, "ZAZ_GOL_insult_feo"), "trigger"))
+    assert "NOT = { exists = FEO }" in feo, feo
+    for name in ("ZAZ_GOL_insult_lit", "ZAZ_TUR_expand_border"):
+        lit = normalized(named_block(mission(ZAZ, name), "trigger"))
+        assert "who = PLC modifier = insulted" in lit, (name, lit)
+        assert "AND = { NOT = { exists = LIT } NOT = { exists = PLC } }" in lit, (name, lit)
+    reclaim = normalized(named_block(mission(ZAZ, "ZAZ_RUS_brack_lit"), "trigger"))
+    assert "exists = LIT" in reclaim and "exists = PLC" in reclaim, reclaim
+
+    # Rozumovsky's reward is his courts; the election modifier belongs to the decision and the 1750 history.
+    rozumovsky = normalized(named_block(mission(HET, "het_rozumovsky_reforms"), "effect"))
+    assert "name = het_rozumovsky_courts" in rozumovsky and "het_reformed_election_system" not in rozumovsky, rozumovsky
+    het_modifiers = read("common/event_modifiers/RIP_HET_modifiers.txt")
+    assert len(re.findall(r"(?m)^het_rozumovsky_courts\s*=", het_modifiers)) == 1
+
+    # Outliers brought back to the scale of their neighbours (vanilla: -0.03..-0.05 war exhaustion, +0.25 force limit).
+    zaz_modifiers = read("common/event_modifiers/RIP_ZAZ_modifiers.txt")
+    assert "land_forcelimit_modifier = 0.25" in normalized(named_block(zaz_modifiers, "zaz_army"))
+    east = read("common/event_modifiers/ruthenian_eastward_modifiers.txt")
+    assert "war_exhaustion = -0.05" in normalized(named_block(east, "khmelnitsky_uprising"))
+
+    # Texts: no khanate or clan for a Cossack host, no "Moskva", no mislabelled coin-flip options.
+    loc = english_loc()
+    for key in ("ZAZ_proper_title", "ZAZ_proper_desc", "zaz_proper_khan", "ZAZ_TUR_otoman_desc",
+                "ZAZ_TUR_side_tur_title", "ZAZ_TUR_side_tur_desc", "ZAZ_khanate_desc"):
+        assert not re.search(r"khanate|\bclan\b|Mongol", loc[key], re.I), (key, loc[key])
+    assert "Moskva" not in " ".join(v for k, v in loc.items() if k.startswith("zaz_flavor_m_2.2"))
+    for key in ("zaz_flavor_m_2.1.c", "zaz_flavor_m_2.2.c", "zaz_flavor_m_3.2.c"):
+        assert loc[key] == "Let the colonels draw lots.", key
+    assert "Sultan" in loc["zaz_flavor_m_5.1.t"] and "Brest" in loc["zaz_flavor_m_5.2.t"]
+    for key in ("zaz_ottoman_berat", "desc_zaz_ottoman_berat", "zaz_union_spread", "desc_zaz_union_spread",
+                "het_rozumovsky_courts", "desc_het_rozumovsky_courts"):
+        assert key in loc, key
+        for lang in ("french", "german", "spanish"):
+            assert key in replace_keys(lang), (lang, key)
+    for key in ("zaz_islam_spread", "desc_zaz_islam_spread", "zaz_catholic_spread", "desc_zaz_catholic_spread"):
+        assert key not in loc, key
+
+
 def main() -> int:
     check_zaz_events_belong_to_their_city()
     check_zaz_council_without_the_bosphorus()
     check_zaz_turkish_other_ally_and_polish_conversion()
     check_het_moldavian_line()
+    check_audit_p1_fixes()
     print(
         "HET/ZAZ MISSION FIXES PASS: five ambush events fire from their own city and the Free State "
         "has its own event, the council needs ZAZ_proper only, the Turkish other-ally mission rejects "
         "TUR and RUM, the Polish branch reaches its conversion event, and the Moldavian Union accepts "
-        "a defended or pressured free ally (static only)."
+        "a defended or pressured free ally; the audit fixes hold: the Sultan's berat converts nobody, the Polish "
+        "offer is the Union of Brest, Theodoro and Lithuania no longer freeze their columns, Rozumovsky pays "
+        "in courts, and the outlier modifiers sit on the scale of their neighbours (static only)."
     )
     return 0
 

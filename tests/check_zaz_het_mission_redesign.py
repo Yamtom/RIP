@@ -40,8 +40,9 @@ def check_preserved_zaz_strengths(failures: list[str], zaz_missions: str, zaz_ev
     )
 
     rel_ev = event_block(zaz_events, "zaz_flavor_m_5.1")
-    require(failures, "change_religion = sunni" in rel_ev and "zaz_ortho" in rel_ev,
-            "zaz_flavor_m_5.1 must preserve both Sunni and Orthodox options")
+    require(failures, "change_religion" not in rel_ev and "sunni" not in rel_ev
+            and "zaz_ottoman_berat" in rel_ev and "zaz_ortho" in rel_ev,
+            "zaz_flavor_m_5.1 is the Sultan's berat: an accept option that changes no faith, and the Orthodox option")
 
 
 def check_zaz_branch_victory_and_russia_finale(failures: list[str], zaz_missions: str) -> None:
