@@ -257,7 +257,15 @@ country_event = {
 	option = {
 		name = "het_enhanced.5.a"
 		trigger = {
-			legitimacy_equivalent = 80
+			# The patronage of Mazepa's Golden Age (mission het_mazepa_renaissance)
+			# lets the gambit rest on a smaller margin of legitimacy.
+			OR = {
+				legitimacy_equivalent = 80
+				AND = {
+					has_country_modifier = mazepa_golden_age
+					legitimacy_equivalent = 60
+				}
+			}
 		}
 		overlord = {
 			add_opinion = {
