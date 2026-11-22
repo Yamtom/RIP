@@ -8,7 +8,7 @@ country_event = {
 	trigger = {
 		tag = HET
 		NOT = {
-			legitimacy = 60
+			legitimacy_equivalent = 60
 		}
 		has_reform = het_starshyna_oligarchy_reform
 	}
@@ -21,7 +21,10 @@ country_event = {
 			change_mil = 3
 			change_adm = -1
 		}
-		add_legitimacy = 10
+		add_legitimacy_equivalent = {
+			amount = 10
+			republican_tradition = 5
+		}
 		add_army_tradition = 10
 	}
 	option = {
@@ -30,7 +33,10 @@ country_event = {
 			change_dip = 3
 			change_adm = -1
 		}
-		add_legitimacy = 10
+		add_legitimacy_equivalent = {
+			amount = 10
+			republican_tradition = 5
+		}
 		add_dip_power = 50
 	}
 	option = {
@@ -39,7 +45,10 @@ country_event = {
 			change_adm = 3
 			change_mil = -1
 		}
-		add_legitimacy = 15
+		add_legitimacy_equivalent = {
+			amount = 15
+			republican_tradition = 8
+		}
 		add_adm_power = 50
 	}
 }
@@ -151,7 +160,10 @@ country_event = {
 		name = "het_flavor.3.b"
 		set_country_flag = rip_pereiaslav_council_declined
 		add_prestige = 10
-		add_legitimacy = 10
+		add_legitimacy_equivalent = {
+			amount = 10
+			republican_tradition = 5
+		}
 		add_war_exhaustion = -1
 		add_country_modifier = {
 			name = het_independence_struggle
@@ -247,7 +259,10 @@ country_event = {
 			estate = estate_nobles
 			loyalty = -15
 		}
-		add_legitimacy = 10
+		add_legitimacy_equivalent = {
+			amount = 10
+			republican_tradition = 5
+		}
 		add_country_modifier = {
 			name = "het_strong_hetman"
 			duration = 3650
@@ -343,7 +358,10 @@ country_event = {
 	option = {
 		name = "het_flavor.7.b"
 		add_prestige = -20
-		add_legitimacy = -20
+		add_legitimacy_equivalent = {
+			amount = -20
+			republican_tradition = -10
+		}
 		add_stability = -2
 		capital_scope = {
 			add_devastation = 30

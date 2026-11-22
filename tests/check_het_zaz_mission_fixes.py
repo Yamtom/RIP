@@ -75,7 +75,7 @@ def check_zaz_events_belong_to_their_city() -> None:
     pairs = {
         "ZAZ_lit": ("zaz_flavor_m_1.1", {272, 275, 1936}, "Lithuania"),
         "ZAZ_krakow": ("zaz_flavor_m_2.1", {262}, "Krak"),
-        "ZAZ_moskva": ("zaz_flavor_m_2.2", {295}, "Moskva"),
+        "ZAZ_moskva": ("zaz_flavor_m_2.2", {295}, "Moscow"),
         "ZAZ_saratov": ("zaz_flavor_m_3.2", {303}, "Saratov"),
         "ZAZ_istanbul": ("zaz_flavor_m_3.3", {151}, "Bosporus"),
     }
