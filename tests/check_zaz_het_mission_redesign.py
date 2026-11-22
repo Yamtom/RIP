@@ -166,6 +166,11 @@ def check_hetmanate_missions_and_events(
     maz_ren = named_block(het_missions, "het_mazepa_renaissance")
     maz_trig = named_block(maz_ren, "trigger")
     maz_eff = named_block(maz_ren, "effect")
+    assert "is_year = 1687" in maz_trig
+    assert all("is_year = 1687" not in block for _, block in keyed_blocks(maz_trig, "OR"))
+    articles = named_block(het_missions, "het_rozumovsky_reforms")
+    assert "is_year = 1710" in named_block(articles, "trigger")
+    assert "het_reformed_election_system" in named_block(articles, "effect")
     require(
         failures,
         ("has_building = university" in maz_trig or "has_building = cathedral" in maz_trig)
@@ -196,6 +201,9 @@ def check_hetmanate_missions_and_events(
     swe = named_block(het_missions, "het_swedish_alliance")
     swe_trig = named_block(swe, "trigger")
     swe_eff = named_block(swe, "effect")
+    claims = named_block(swe_eff, "ruthenia_region")
+    assert set(re.findall(r"province_id = (\d+)", claims)) == {"280", "1943", "289"}
+    assert "russia_region" not in swe_eff and swe_eff.count("add_claim = ROOT") == 1
     require(
         failures,
         "global_trade" not in swe_trig

@@ -287,18 +287,7 @@ het_missions_1 = {
 		trigger = {
 			stability = 2
 			prestige = 25
-			OR = {
-				has_country_modifier = mazepa_golden_age
-				is_year = 1687
-				has_institution = printing_press
-				current_age = age_of_absolutism
-				current_age = age_of_revolutions
-				AND = {
-					stability = 3
-					prestige = 50
-					adm_tech = 14
-				}
-			}
+			is_year = 1687
 			num_of_owned_provinces_with = {
 				value = 3
 				OR = {
@@ -427,8 +416,11 @@ het_missions_1 = {
 						}
 					}
 				}
-				russia_region = {
+				ruthenia_region = {
 					limit = {
+						OR = { province_id = 280 province_id = 1943 province_id = 289 }
+						NOT = { owned_by = ROOT }
+						NOT = { is_claim = ROOT }
 						NOT = { is_core = ROOT }
 						NOT = { is_permanent_claim = ROOT }
 					}
@@ -468,28 +460,8 @@ het_missions_1 = {
 		position = 6
 		trigger = {
 			adm_tech = 18
-			OR = {
-				has_country_modifier = het_reformed_election_system
-				AND = {
-					OR = {
-						is_year = 1750
-						has_institution = enlightenment
-						current_age = age_of_revolutions
-					}
-				}
-				AND = {
-					NOT = {
-						OR = {
-							is_year = 1750
-							has_institution = enlightenment
-							current_age = age_of_revolutions
-						}
-					}
-					adm_tech = 24
-					legitimacy = 100
-				}
-			}
-			legitimacy = 80
+			is_year = 1710
+			legitimacy_equivalent = 80
 		}
 		effect = {
 			add_country_modifier = {

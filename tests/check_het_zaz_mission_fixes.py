@@ -115,19 +115,27 @@ def check_zaz_council_without_the_bosphorus() -> None:
 
 
 def check_zaz_turkish_other_ally_and_polish_conversion() -> None:
+    pact = mission(ZAZ, "ZAZ_TUR_convert_islam")
+    assert "alliance_with = TUR alliance_with = RUM" in normalized(named_block(pact, "trigger"))
+    assert "religion = orthodox" in named_block(pact, "effect")
+    islam = events("events/RIP_ZAZ_ZAZmission.txt")["zaz_flavor_m_5.1"]
+    schools, keep = [normalized(block) for _, block in keyed_blocks(islam, "option")]
+    assert "change_religion" not in islam
+    assert "treasury = 50" in schools and "add_treasury = -50" in schools
+    assert "prl_brotherhood_schools" in schools and "add_patriarch_authority" in keep
     different = normalized(named_block(mission(ZAZ, "ZAZ_TUR_different_ally"), "trigger"))
     assert different == "trigger = { any_ally = { NOT = { tag = TUR } NOT = { tag = RUM } } }", different
 
     second = mission(ZAZ, "ZAZ_POL_politics_2")
     assert "OR = { alliance_with = PLC alliance_with = POL }" in normalized(named_block(second, "trigger"))
     assert called_events(normalized(named_block(second, "effect"))) == ["zaz_flavor_m_5.2"]
-    assert "NOT = { religion = catholic }" in normalized(named_block(second, "effect"))
+    assert "religion = orthodox is_religion_enabled = greek_catholic" in normalized(named_block(second, "effect"))
 
     conversion = events("events/RIP_ZAZ_ZAZmission.txt")["zaz_flavor_m_5.2"]
     options = [normalized(block) for _, block in keyed_blocks(conversion, "option")]
     assert len(options) == 2
     convert, stay = options
-    assert "change_religion = catholic" in convert and "factor = 0.1" in convert
+    assert "change_religion = greek_catholic" in convert and "factor = 0.1" in convert
     assert "factor = 0.9" in stay
 
 

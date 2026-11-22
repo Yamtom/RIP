@@ -18,7 +18,7 @@ ZAZ_missions_1 = {
 			num_of_infantry = 10
 		}
 		effect = {
-			add_yearly_manpower = 2.5
+			add_yearly_manpower = 1
 			add_country_modifier = {
 				name = zaz_army
 				duration = 5475
@@ -482,10 +482,17 @@ ZAZ_missions_3 = {
 		position = 3
 		required_missions = { ZAZ_establish_sich }
 		trigger = {
-			grown_by_development = 12
+			OR = {
+				grown_by_development = 12
+				zaz_sich_teachers = yes
+			}
 		}
 		effect = {
-			add_yearly_manpower = 2.5
+			if = {
+				limit = { zaz_sich_teachers = yes }
+				add_country_modifier = { name = prl_brotherhood_schools duration = 3650 }
+			}
+			else = { add_yearly_manpower = 1 }
 			every_owned_province = {
 				limit = {
 					is_core = ROOT
@@ -1780,11 +1787,16 @@ ZAZ_TUR_missions_4 = {
 		icon = mission_have_manufactories
 		position = 10
 		required_missions = { ZAZ_TUR_brake_rus ZAZ_TUR_slave_trade }
-		trigger = { }
+		trigger = {
+			stability = 1
+			OR = { alliance_with = TUR alliance_with = RUM }
+		}
 		effect = {
-			country_event = {
-				id = zaz_flavor_m_5.1
+			if = {
+				limit = { religion = orthodox }
+				country_event = { id = zaz_flavor_m_5.1 }
 			}
+			else = { add_dip_power = 25 }
 		}
 	}
 }
@@ -1804,9 +1816,16 @@ ZAZ_TUR_missions_5 = {
 		position = 8
 		required_missions = { ZAZ_ally_tur }
 		trigger = {
-			reverse_has_opinion_modifier = {
-				who = LIT
-				modifier = insulted
+			OR = {
+				AND = { exists = LIT reverse_has_opinion_modifier = { who = LIT modifier = insulted } }
+				AND = {
+					NOT = { exists = LIT }
+					OR = {
+						NOT = { exists = PLC }
+						owns = 1943
+						reverse_has_opinion_modifier = { who = PLC modifier = insulted }
+					}
+				}
 			}
 		}
 		effect = {
@@ -1858,69 +1877,85 @@ ZAZ_TUR_missions_5 = {
 		required_missions = { ZAZ_TUR_expand_border }
 		provinces_to_highlight = {
 			OR = {
-				province_id = 1943
-				province_id = 1944
-				province_id = 290
-			}
-			NOT = {
-				owned_by = ROOT
+				AND = { owned_by = ROOT OR = { province_id = 1943 province_id = 1944 province_id = 290 } }
+				AND = {
+					OR = {
+						province_id = 1943
+						province_id = 1944
+						province_id = 290
+					}
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			1943 = {
-				owned_by = ROOT
-			}
-			1944 = {
-				owned_by = ROOT
-			}
-			290 = {
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_register = yes
+				AND = {
+					1943 = {
+						owned_by = ROOT
+					}
+					1944 = {
+						owned_by = ROOT
+					}
+					290 = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			sloboda_ukraine_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_register = yes }
+				add_country_modifier = { name = sloboda_regimental_chancery duration = 3650 }
 			}
-			west_dniepr_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				sloboda_ukraine_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
-			}
-			east_dniepr_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+				west_dniepr_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
-			}
-			podolia_volhynia_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+				east_dniepr_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				podolia_volhynia_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -1931,77 +1966,94 @@ ZAZ_TUR_missions_5 = {
 		required_missions = { ZAZ_TUR_settle_south }
 		provinces_to_highlight = {
 			OR = {
-				area = sloboda_ukraine_area
-				area = west_dniepr_area
-				area = east_dniepr_area
-				area = podolia_volhynia_area
-			}
-			NOT = {
-				owned_by = ROOT
+				AND = { owned_by = ROOT area = west_dniepr_area }
+				AND = {
+					OR = {
+						area = sloboda_ukraine_area
+						area = west_dniepr_area
+						area = east_dniepr_area
+						area = podolia_volhynia_area
+					}
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			sloboda_ukraine_area = {
-				type = all
-				owned_by = ROOT
-			}
-			west_dniepr_area = {
-				type = all
-				owned_by = ROOT
-			}
-			east_dniepr_area = {
-				type = all
-				owned_by = ROOT
-			}
-			podolia_volhynia_area = {
-				type = all
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_collegium = yes
+				AND = {
+					sloboda_ukraine_area = {
+						type = all
+						owned_by = ROOT
+					}
+					west_dniepr_area = {
+						type = all
+						owned_by = ROOT
+					}
+					east_dniepr_area = {
+						type = all
+						owned_by = ROOT
+					}
+					podolia_volhynia_area = {
+						type = all
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			pripyat_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_collegium = yes }
+				add_adm_power = 100
+				capital_scope = { add_base_tax = 1 }
 			}
-			minsk_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				pripyat_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
-			}
-			white_ruthenia_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+				minsk_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
-			}
-			smolensk_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+				white_ruthenia_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				smolensk_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -2132,11 +2184,15 @@ ZAZ_RUS_missions_2 = {
 		position = 8
 		required_missions = { ZAZ_ally_rus }
 		trigger = {
-			exists = LIT
-			NOT = {
-				reverse_has_opinion = {
-					who = LIT
-					value = -190
+			OR = {
+				AND = { exists = LIT NOT = { reverse_has_opinion = { who = LIT value = -190 } } }
+				AND = {
+					NOT = { exists = LIT }
+					OR = {
+						NOT = { exists = PLC }
+						owns = 1943
+						NOT = { reverse_has_opinion = { who = PLC value = -190 } }
+					}
 				}
 			}
 		}
@@ -2189,69 +2245,85 @@ ZAZ_RUS_missions_2 = {
 		required_missions = { ZAZ_RUS_brack_lit }
 		provinces_to_highlight = {
 			OR = {
-				province_id = 1943
-				province_id = 1944
-				province_id = 290
-			}
-			NOT = {
-				owned_by = ROOT
+				AND = { owned_by = ROOT OR = { province_id = 1943 province_id = 1944 province_id = 290 } }
+				AND = {
+					OR = {
+						province_id = 1943
+						province_id = 1944
+						province_id = 290
+					}
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			1943 = {
-				owned_by = ROOT
-			}
-			1944 = {
-				owned_by = ROOT
-			}
-			290 = {
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_register = yes
+				AND = {
+					1943 = {
+						owned_by = ROOT
+					}
+					1944 = {
+						owned_by = ROOT
+					}
+					290 = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			sloboda_ukraine_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_register = yes }
+				add_country_modifier = { name = sloboda_regimental_chancery duration = 3650 }
 			}
-			west_dniepr_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				sloboda_ukraine_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
-			}
-			east_dniepr_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+				west_dniepr_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
-			}
-			podolia_volhynia_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+				east_dniepr_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				podolia_volhynia_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -2262,77 +2334,94 @@ ZAZ_RUS_missions_2 = {
 		required_missions = { ZAZ_RUS_settle_south }
 		provinces_to_highlight = {
 			OR = {
-				area = sloboda_ukraine_area
-				area = west_dniepr_area
-				area = east_dniepr_area
-				area = podolia_volhynia_area
-			}
-			NOT = {
-				owned_by = ROOT
+				AND = { owned_by = ROOT area = west_dniepr_area }
+				AND = {
+					OR = {
+						area = sloboda_ukraine_area
+						area = west_dniepr_area
+						area = east_dniepr_area
+						area = podolia_volhynia_area
+					}
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			sloboda_ukraine_area = {
-				type = all
-				owned_by = ROOT
-			}
-			west_dniepr_area = {
-				type = all
-				owned_by = ROOT
-			}
-			east_dniepr_area = {
-				type = all
-				owned_by = ROOT
-			}
-			podolia_volhynia_area = {
-				type = all
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_collegium = yes
+				AND = {
+					sloboda_ukraine_area = {
+						type = all
+						owned_by = ROOT
+					}
+					west_dniepr_area = {
+						type = all
+						owned_by = ROOT
+					}
+					east_dniepr_area = {
+						type = all
+						owned_by = ROOT
+					}
+					podolia_volhynia_area = {
+						type = all
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			pripyat_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_collegium = yes }
+				add_adm_power = 100
+				capital_scope = { add_base_tax = 1 }
 			}
-			minsk_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				pripyat_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
-			}
-			white_ruthenia_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+				minsk_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
-			}
-			smolensk_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+				white_ruthenia_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				smolensk_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -2837,9 +2926,9 @@ ZAZ_GOL_missions_1 = {
 		position = 8
 		required_missions = { ZAZ_ally_tartar }
 		trigger = {
-			reverse_has_opinion_modifier = {
-				who = FEO
-				modifier = insulted
+			OR = {
+				NOT = { exists = FEO }
+				reverse_has_opinion_modifier = { who = FEO modifier = insulted }
 			}
 		}
 		effect = {
@@ -3127,6 +3216,13 @@ ZAZ_GOL_missions_1 = {
 		}
 		effect = {
 			add_dip_power = 200
+			# The six signatories retain the benefits, including subject provinces.
+			4303 = { add_base_production = 1 }
+			2204 = { add_base_production = 1 }
+			4305 = { add_base_production = 1 }
+			4299 = { add_base_production = 1 }
+			425 = { add_base_production = 1 }
+			421 = { add_base_production = 1 }
 		}
 	}
 }
@@ -3146,39 +3242,56 @@ ZAZ_GOL_missions_2 = {
 		position = 10
 		required_missions = { ZAZ_GOL_cordon }
 		provinces_to_highlight = {
-			area = west_dniepr_area
-			NOT = {
-				owned_by = ROOT
+			OR = {
+				AND = { owned_by = ROOT area = west_dniepr_area }
+				AND = {
+					area = west_dniepr_area
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			west_dniepr_area = {
-				type = all
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_collegium = yes
+				AND = {
+					west_dniepr_area = {
+						type = all
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			minsk_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_collegium = yes }
+				add_adm_power = 100
+				capital_scope = { add_base_tax = 1 }
 			}
-			white_ruthenia_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				minsk_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				white_ruthenia_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -3442,7 +3555,7 @@ ZAZ_GOL_missions_2 = {
 		effect = {
 			add_country_modifier = {
 				name = zaz_plc_buff
-				duration = 9125
+				duration = -1
 			}
 		}
 	}
@@ -3463,9 +3576,16 @@ ZAZ_GOL_missions_3 = {
 		position = 8
 		required_missions = { ZAZ_ally_tartar }
 		trigger = {
-			reverse_has_opinion_modifier = {
-				who = LIT
-				modifier = insulted
+			OR = {
+				AND = { exists = LIT reverse_has_opinion_modifier = { who = LIT modifier = insulted } }
+				AND = {
+					NOT = { exists = LIT }
+					OR = {
+						NOT = { exists = PLC }
+						owns = 1943
+						reverse_has_opinion_modifier = { who = PLC modifier = insulted }
+					}
+				}
 			}
 		}
 		effect = {
@@ -3517,47 +3637,63 @@ ZAZ_GOL_missions_3 = {
 		required_missions = { ZAZ_GOL_insult_lit }
 		provinces_to_highlight = {
 			OR = {
-				province_id = 1943
-				province_id = 1944
-				province_id = 290
-			}
-			NOT = {
-				owned_by = ROOT
+				AND = { owned_by = ROOT OR = { province_id = 1943 province_id = 1944 province_id = 290 } }
+				AND = {
+					OR = {
+						province_id = 1943
+						province_id = 1944
+						province_id = 290
+					}
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			1943 = {
-				owned_by = ROOT
-			}
-			1944 = {
-				owned_by = ROOT
-			}
-			290 = {
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_register = yes
+				AND = {
+					1943 = {
+						owned_by = ROOT
+					}
+					1944 = {
+						owned_by = ROOT
+					}
+					290 = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			west_dniepr_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_register = yes }
+				add_country_modifier = { name = sloboda_regimental_chancery duration = 3650 }
 			}
-			east_dniepr_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				west_dniepr_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				east_dniepr_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -3567,39 +3703,55 @@ ZAZ_GOL_missions_3 = {
 		position = 10
 		required_missions = { ZAZ_GOL_cordon }
 		provinces_to_highlight = {
-			area = east_dniepr_area
-			NOT = {
-				owned_by = ROOT
+			OR = {
+				AND = { owned_by = ROOT area = east_dniepr_area }
+				AND = {
+					area = east_dniepr_area
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			east_dniepr_area = {
-				type = all
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_school = yes
+				AND = {
+					east_dniepr_area = {
+						type = all
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			sloboda_ukraine_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_school = yes }
+				add_country_modifier = { name = prl_brotherhood_schools duration = 5475 }
 			}
-			smolensk_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				sloboda_ukraine_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				smolensk_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -3772,7 +3924,7 @@ ZAZ_GOL_missions_3 = {
 		effect = {
 			add_country_modifier = {
 				name = zaz_russia_buff
-				duration = 9125
+				duration = -1
 			}
 			add_prestige = 25
 			add_mil_power = 100
@@ -4500,7 +4652,7 @@ ZAZ_GOL_missions_5 = {
 		effect = {
 			add_country_modifier = {
 				name = zaz_tur_buff
-				duration = 9125
+				duration = -1
 			}
 			country_event = {
 				id = zaz_flavor_m_9.1
@@ -4749,7 +4901,7 @@ ZAZ_UKR_missions_1 = {
 		effect = {
 			add_country_modifier = {
 				name = zaz_tur_buff
-				duration = 9125
+				duration = -1
 			}
 			country_event = {
 				id = zaz_flavor_m_9.1
@@ -4837,47 +4989,63 @@ ZAZ_UKR_missions_2 = {
 		required_missions = { ZAZ_UKR_cordon }
 		provinces_to_highlight = {
 			OR = {
-				province_id = 1943
-				province_id = 1944
-				province_id = 290
-			}
-			NOT = {
-				owned_by = ROOT
+				AND = { owned_by = ROOT OR = { province_id = 1943 province_id = 1944 province_id = 290 } }
+				AND = {
+					OR = {
+						province_id = 1943
+						province_id = 1944
+						province_id = 290
+					}
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			1943 = {
-				owned_by = ROOT
-			}
-			1944 = {
-				owned_by = ROOT
-			}
-			290 = {
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_register = yes
+				AND = {
+					1943 = {
+						owned_by = ROOT
+					}
+					1944 = {
+						owned_by = ROOT
+					}
+					290 = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			west_dniepr_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_register = yes }
+				add_country_modifier = { name = sloboda_regimental_chancery duration = 3650 }
 			}
-			east_dniepr_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				west_dniepr_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				east_dniepr_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -4888,43 +5056,60 @@ ZAZ_UKR_missions_2 = {
 		required_missions = { ZAZ_UKR_settle_south }
 		provinces_to_highlight = {
 			OR = {
-				area = sloboda_ukraine_area
-				area = west_dniepr_area
-				area = east_dniepr_area
-				area = podolia_volhynia_area
-			}
-			NOT = {
-				owned_by = ROOT
+				AND = { owned_by = ROOT area = west_dniepr_area }
+				AND = {
+					OR = {
+						area = sloboda_ukraine_area
+						area = west_dniepr_area
+						area = east_dniepr_area
+						area = podolia_volhynia_area
+					}
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			west_dniepr_area = {
-				type = all
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_collegium = yes
+				AND = {
+					west_dniepr_area = {
+						type = all
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			minsk_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_collegium = yes }
+				add_adm_power = 100
+				capital_scope = { add_base_tax = 1 }
 			}
-			white_ruthenia_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				minsk_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				white_ruthenia_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -5132,7 +5317,7 @@ ZAZ_UKR_missions_2 = {
 		effect = {
 			add_country_modifier = {
 				name = zaz_russia_buff
-				duration = 9125
+				duration = -1
 			}
 			add_prestige = 25
 			add_mil_power = 100
@@ -5866,50 +6051,66 @@ ZAZ_UKR_missions_5 = {
 		position = 8
 		required_missions = { ZAZ_only_zaz }
 		provinces_to_highlight = {
-			area = east_dniepr_area
-			NOT = {
-				owned_by = ROOT
+			OR = {
+				AND = { owned_by = ROOT area = east_dniepr_area }
+				AND = {
+					area = east_dniepr_area
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			east_dniepr_area = {
-				type = all
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_school = yes
+				AND = {
+					east_dniepr_area = {
+						type = all
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			sloboda_ukraine_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_school = yes }
+				add_country_modifier = { name = prl_brotherhood_schools duration = 5475 }
 			}
-			smolensk_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				sloboda_ukraine_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
-			}
-			chernigov_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+				smolensk_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				chernigov_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -5992,7 +6193,7 @@ ZAZ_UKR_missions_5 = {
 		effect = {
 			add_country_modifier = {
 				name = zaz_plc_buff
-				duration = 9125
+				duration = -1
 			}
 		}
 	}
@@ -6193,39 +6394,55 @@ ZAZ_POL_missions_2 = {
 		position = 10
 		required_missions = { ZAZ_POL_cordon ZAZ_POL_settle_east }
 		provinces_to_highlight = {
-			area = east_dniepr_area
-			NOT = {
-				owned_by = ROOT
+			OR = {
+				AND = { owned_by = ROOT area = east_dniepr_area }
+				AND = {
+					area = east_dniepr_area
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			east_dniepr_area = {
-				type = all
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_school = yes
+				AND = {
+					east_dniepr_area = {
+						type = all
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			sloboda_ukraine_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_school = yes }
+				add_country_modifier = { name = prl_brotherhood_schools duration = 5475 }
 			}
-			smolensk_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				sloboda_ukraine_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				smolensk_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -6501,47 +6718,63 @@ ZAZ_POL_missions_4 = {
 		required_missions = { ZAZ_POL_insult_gol }
 		provinces_to_highlight = {
 			OR = {
-				province_id = 1943
-				province_id = 1944
-				province_id = 290
-			}
-			NOT = {
-				owned_by = ROOT
+				AND = { owned_by = ROOT OR = { province_id = 1943 province_id = 1944 province_id = 290 } }
+				AND = {
+					OR = {
+						province_id = 1943
+						province_id = 1944
+						province_id = 290
+					}
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			1943 = {
-				owned_by = ROOT
-			}
-			1944 = {
-				owned_by = ROOT
-			}
-			290 = {
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_register = yes
+				AND = {
+					1943 = {
+						owned_by = ROOT
+					}
+					1944 = {
+						owned_by = ROOT
+					}
+					290 = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			west_dniepr_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_register = yes }
+				add_country_modifier = { name = sloboda_regimental_chancery duration = 3650 }
 			}
-			east_dniepr_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				west_dniepr_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				east_dniepr_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -6551,39 +6784,56 @@ ZAZ_POL_missions_4 = {
 		position = 10
 		required_missions = { ZAZ_POL_cordon }
 		provinces_to_highlight = {
-			area = west_dniepr_area
-			NOT = {
-				owned_by = ROOT
+			OR = {
+				AND = { owned_by = ROOT area = west_dniepr_area }
+				AND = {
+					area = west_dniepr_area
+					NOT = {
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		trigger = {
-			west_dniepr_area = {
-				type = all
-				owned_by = ROOT
+			OR = {
+				zaz_frontier_collegium = yes
+				AND = {
+					west_dniepr_area = {
+						type = all
+						owned_by = ROOT
+					}
+				}
 			}
 		}
 		effect = {
-			minsk_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
-					}
-					NOT = {
-						is_core = ROOT
-					}
-				}
-				add_permanent_claim = ROOT
+			if = {
+				limit = { zaz_frontier_collegium = yes }
+				add_adm_power = 100
+				capital_scope = { add_base_tax = 1 }
 			}
-			white_ruthenia_area = {
-				limit = {
-					NOT = {
-						owned_by = ROOT
+			else = {
+				minsk_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
 					}
-					NOT = {
-						is_core = ROOT
-					}
+					add_permanent_claim = ROOT
 				}
-				add_permanent_claim = ROOT
+				white_ruthenia_area = {
+					limit = {
+						NOT = {
+							owned_by = ROOT
+						}
+						NOT = {
+							is_core = ROOT
+						}
+					}
+					add_permanent_claim = ROOT
+				}
 			}
 		}
 	}
@@ -6768,8 +7018,8 @@ ZAZ_POL_missions_4 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = zaz_russia_buff #zaz_plc_buff
-				duration = 9125
+				name = zaz_russia_buff
+				duration = -1
 			}
 			add_prestige = 25
 			add_mil_power = 100
@@ -6830,9 +7080,8 @@ ZAZ_POL_missions_5 = {
 			add_dip_power = 100
 			if = {
 				limit = {
-					NOT = {
-						religion = catholic
-					}
+					religion = orthodox
+					is_religion_enabled = greek_catholic
 				}
 				country_event = {
 					id = zaz_flavor_m_5.2
@@ -7016,8 +7265,8 @@ ZAZ_POL_missions_5 = {
 		}
 		effect = {
 			add_country_modifier = {
-				name = zaz_tur_buff #ZAZ_POL_buff
-				duration = 9125
+				name = zaz_tur_buff
+				duration = -1
 			}
 			country_event = {
 				id = zaz_flavor_m_9.1
