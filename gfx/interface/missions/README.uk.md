@@ -83,7 +83,6 @@ python -B tests/check_clausewitz_braces.py
 | Фортеці та рубежі | `PDL_khotyn_siege`, `VOL_full_army`, `het_bulwark_christendom`, `uz_mukachevo_autonomy`, `chr_Smolensk`, `VOL_conquer_smolensk` | `rip_gfx_mission_frontier_fortress_icon` |
 | Рада | `ZAZ_POL_politics` | `rip_gfx_mission_cossack_rada_icon` |
 | Інше | `KIE_friend_or_foe` | `mission_friends_or_enemies` |
-| | `ZAZ_GOL_west_dniepr` | `mission_advance_to_the_dnieper` |
 | | `UKR_baltic` | `mission_conquer_riga` |
 | | `ZAZ_RUS_end_crimea` | `mission_break_the_tatar_yoke` |
 | | `VOL_renaissance_court` | `law_of_the_pious` |

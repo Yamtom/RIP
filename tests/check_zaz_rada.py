@@ -26,7 +26,9 @@ for mission, event, city in (
     options = list(keyed_blocks(events[event], "option"))
     assert len(options) == 3
     for _, option in options:
-        assert re.findall(r"(\d+) = \{\s*change_controller", option) == [city]
+        # an ambush occupies a province only while its owner is at war with ROOT
+        assert re.findall(r"(\d+) = \{\s*if = \{\s*limit = \{\s*owner = \{\s*war_with = ROOT\s*\}\s*\}\s*change_controller", option) == [city]
+        assert option.count("change_controller") == 1
 
 assert field("ZAZ_finally", "required_missions") == "required_missions = { ZAZ_proper }"
 assert "zaz_flavor_m_3.1" in field("ZAZ_finally", "effect")
