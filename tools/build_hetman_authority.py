@@ -173,8 +173,10 @@ mechanic = f'''{MECHANIC} = {{
     interactions = {{
 '''
 for name, gate, icon in [('rights', 'confirm_rights', 'GFX_rip_het_rights'), ('chancery', 'review_chancery', 'GFX_rip_het_chancery')]:
+    # two buttons in a row of three: the first has the window that centres the pair (interface/RIP_shared_government_interactions.gui)
+    window = '            gui = rip_government_interaction_pair_left\n' if name == 'rights' else ''
     mechanic += f'''        rip_het_{name} = {{
-            icon = {icon}
+{window}            icon = {icon}
             trigger = {{ rip_het_can_{gate} = yes }}
             effect = {{ rip_het_{name}_effect = yes }}
             ai_chance = {{ factor = 0 modifier = {{ factor = 10

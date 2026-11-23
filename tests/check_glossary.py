@@ -42,6 +42,7 @@ BANNED_SPELLING = [
     (r'\bKamieniec\b|\bKamenets\b', "Kamianets"),
     (r'\bWilno\b|\bVilna\b', "Vilnius"),
     (r'\bCracow\b',       "Kraków"),
+    (r'\bMoskva\b',       "Moscow"),
     (r'\bSublime Porte\b|\bIstanbul\b', "the Porte"),
 ]
 BANNED_REGISTER = [

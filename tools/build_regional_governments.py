@@ -250,10 +250,12 @@ def generate():
         interactions=[]
         for group, variants in groups.items():
             first=variants[0]
+            # two buttons in a row of three: the first has the window that centres the pair (interface/RIP_shared_government_interactions.gui)
+            window='gui = rip_government_interaction_pair_left\n' if len(groups)==2 and not interactions else ''
             guard='OR = { '+' '.join('AND = { '+a['guard']+' }' for a in variants)+' }'
             launch=launch_ifs(variants)
             eff='custom_tooltip = rip_rg_'+group+'_tt\n'+launch
-            interactions.append(block('rip_rg_'+group,f'icon = {first["icon"]}\ntrigger = {{ {guard} }}\n'+block('effect',eff)+f'ai_chance = {{ {first["ai"]} }}'))
+            interactions.append(block('rip_rg_'+group,window+f'icon = {first["icon"]}\ntrigger = {{ {guard} }}\n'+block('effect',eff)+f'ai_chance = {{ {first["ai"]} }}'))
             highlight='OR = { '+' '.join('rip_rg_'+a['key']+'_target = yes' for a in variants)+' }'
             allow = first['decision_guard']
             if len(variants) > 1:

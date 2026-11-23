@@ -235,3 +235,48 @@ can_establish_sloboda = {
 	NOT = { is_city = yes }
 	is_empty = no
 }
+
+# Parish buildings represent teaching space in early settlements.
+zaz_sich_teachers = {
+	num_of_owned_provinces_with = {
+		value = 2
+		is_core = ROOT
+		OR = { has_building = temple has_building = cathedral has_building = university }
+	}
+	has_adm_advisor = yes
+}
+
+zaz_frontier_register = {
+	any_owned_province = {
+		OR = { province_id = 1943 province_id = 1944 province_id = 290 }
+		is_core = ROOT
+		OR = { has_building = courthouse has_building = town_hall }
+	}
+}
+
+zaz_frontier_school = {
+	num_of_owned_provinces_with = {
+		value = 2
+		area = east_dniepr_area
+		is_core = ROOT
+		development = 10
+		OR = { has_building = temple has_building = cathedral has_building = university }
+	}
+}
+
+zaz_frontier_collegium = {
+	has_institution = printing_press
+	any_owned_province = {
+		area = west_dniepr_area
+		is_core = ROOT
+		OR = {
+			has_building = university
+			has_province_modifier = kyiv_mohyla_academy
+			has_province_modifier = kyiv_brotherhood_collegium
+			AND = {
+				development = 15
+				OR = { has_building = temple has_building = cathedral }
+			}
+		}
+	}
+}

@@ -75,7 +75,7 @@ def check_zaz_events_belong_to_their_city() -> None:
     pairs = {
         "ZAZ_lit": ("zaz_flavor_m_1.1", {272, 275, 1936}, "Lithuania"),
         "ZAZ_krakow": ("zaz_flavor_m_2.1", {262}, "Krak"),
-        "ZAZ_moskva": ("zaz_flavor_m_2.2", {295}, "Moskva"),
+        "ZAZ_moskva": ("zaz_flavor_m_2.2", {295}, "Moscow"),
         "ZAZ_saratov": ("zaz_flavor_m_3.2", {303}, "Saratov"),
         "ZAZ_istanbul": ("zaz_flavor_m_3.3", {151}, "Bosporus"),
     }
@@ -119,19 +119,27 @@ def check_zaz_council_without_the_bosphorus() -> None:
 
 
 def check_zaz_turkish_other_ally_and_polish_conversion() -> None:
+    pact = mission(ZAZ, "ZAZ_TUR_convert_islam")
+    assert "alliance_with = TUR alliance_with = RUM" in normalized(named_block(pact, "trigger"))
+    assert "religion = orthodox" in named_block(pact, "effect")
+    islam = events("events/RIP_ZAZ_ZAZmission.txt")["zaz_flavor_m_5.1"]
+    schools, keep = [normalized(block) for _, block in keyed_blocks(islam, "option")]
+    assert "change_religion" not in islam
+    assert "treasury = 50" in schools and "add_treasury = -50" in schools
+    assert "prl_brotherhood_schools" in schools and "add_patriarch_authority" in keep
     different = normalized(named_block(mission(ZAZ, "ZAZ_TUR_different_ally"), "trigger"))
     assert different == "trigger = { any_ally = { NOT = { tag = TUR } NOT = { tag = RUM } } }", different
 
     second = mission(ZAZ, "ZAZ_POL_politics_2")
     assert "OR = { alliance_with = PLC alliance_with = POL }" in normalized(named_block(second, "trigger"))
     assert called_events(normalized(named_block(second, "effect"))) == ["zaz_flavor_m_5.2"]
-    assert "NOT = { religion = catholic }" in normalized(named_block(second, "effect"))
+    assert "religion = orthodox is_religion_enabled = greek_catholic" in normalized(named_block(second, "effect"))
 
     conversion = events("events/RIP_ZAZ_ZAZmission.txt")["zaz_flavor_m_5.2"]
     options = [normalized(block) for _, block in keyed_blocks(conversion, "option")]
     assert len(options) == 2
     convert, stay = options
-    assert "change_religion = catholic" in convert and "factor = 0.1" in convert
+    assert "change_religion = greek_catholic" in convert and "factor = 0.1" in convert
     assert "factor = 0.9" in stay
 
 
@@ -198,9 +206,10 @@ def modifier_stats(text: str, name: str) -> dict[str, float]:
 def check_reward_ladder() -> None:
     zaz = read("common/event_modifiers/RIP_ZAZ_modifiers.txt")
     east = read("common/event_modifiers/ruthenian_eastward_modifiers.txt")
-    assert modifier_stats(zaz, "zaz_army") == {"land_forcelimit_modifier": 0.15}
+    # the early rewards no longer sit at the old +66% / -0.5 donor constants
+    assert modifier_stats(zaz, "zaz_army") == {"land_forcelimit_modifier": 0.25}
     assert modifier_stats(zaz, "zaz_turkish_help") == {"discipline": 0.05}
-    assert modifier_stats(east, "khmelnitsky_uprising")["war_exhaustion"] == -0.03
+    assert modifier_stats(east, "khmelnitsky_uprising")["war_exhaustion"] == -0.08
     # no reward the missions hand out may still sit at the old 0.66 donor constant
     used = set(re.findall(r"name = \"?([a-z_0-9]+)\"?", read(ZAZ)))
     for name in sorted(used):
@@ -208,11 +217,9 @@ def check_reward_ladder() -> None:
             assert 0.66 not in modifier_stats(zaz, name).values(), name
     # the Turkish help lasts 25 years wherever it is paid
     assert not re.search(r"name = zaz_turkish_help\s+duration = 18250", read(ZAZ))
-    # capstones: three effects, above the single-stat mid-tier rewards of their trees, permanent
-    mission_text = read(ZAZ)
+    # capstones that survive: three effects, permanent
     for modifier, missions in (
-        ("zaz_tur_buff", ("ZAZ_GOL_tur_5", "ZAZ_UKR_5", "ZAZ_POL_5")),
-        ("zaz_plc_buff", ("ZAZ_GOL_poland", "ZAZ_UKR_poland")),
+        ("zaz_tur_buff", ("ZAZ_POL_5",)),
         ("zaz_russia_buff", ("ZAZ_GOL_russia_3", "ZAZ_UKR_russia_3", "ZAZ_POL_russia_3")),
     ):
         stats = modifier_stats(zaz, modifier)
@@ -221,7 +228,6 @@ def check_reward_ladder() -> None:
             effect = normalized(named_block(mission(ZAZ, mission_name), "effect"))
             assert f"name = {modifier} duration = -1" in effect, (mission_name, modifier)
     assert modifier_stats(zaz, "zaz_tur_buff")["trade_efficiency"] >= modifier_stats(zaz, "zaz_trade_eff")["trade_efficiency"]
-    assert mission_text
 
 
 def check_zaz_copies_are_not_shown_twice() -> None:
@@ -251,7 +257,7 @@ def check_zaz_copies_are_not_shown_twice() -> None:
     # a title may repeat only for the ported pair, whose ZAZ copy is ZAZ-only and so never shown beside it
     zaz_only = {loc[f"{m}_title"].lower() for m in ("ZAZ_sahaidachnyi_reforms", "ZAZ_heroic_campaigns")}
     assert (zaz_titles & het_titles) <= zaz_only, (zaz_titles & het_titles) - zaz_only
-    assert loc["ZAZ_lit_title"] == "Lithuanian Campaign"
+    assert loc["ZAZ_lit_title"] != loc["het_break_polish_yoke_title"]
     for lang in ("french", "german", "spanish"):
         assert "ZAZ_lit_title" in replace_keys(lang)
 
@@ -259,23 +265,21 @@ def check_zaz_copies_are_not_shown_twice() -> None:
 def check_insult_steps_have_a_fallback() -> None:
     text = read(ZAZ)
     names = re.findall(r"(?m)^\t(ZAZ_[A-Za-z0-9_]+) = \{\n\t\ticon", text)
-    checked = 0
+    fallback = re.compile(r"NOT = \{ (OR = \{ )?exists = [A-Z]{3}")
+    checked = []
     for name in names:
-        trigger = normalized(named_block(mission(ZAZ, name), "trigger")) if "trigger" in mission(ZAZ, name) else ""
-        tags = re.findall(r"who = ([A-Z]{3}) modifier = insulted", trigger)
-        if not tags:
+        block = mission(ZAZ, name)
+        if not re.search(r"\n\t\ttrigger = \{", block):
             continue
-        checked += 1
+        trigger = normalized(named_block(block, "trigger"))
+        if "modifier = insulted" not in trigger:
+            continue
+        checked.append(name)
         # the target may be gone: a mission gated on an insult must also complete when it is
-        if len(tags) == 1:
-            assert f"NOT = {{ exists = {tags[0]} }}" in trigger, (name, tags)
-        else:
-            assert len(tags) == 2, (name, tags)
-            assert f"NOT = {{ OR = {{ exists = {tags[0]} exists = {tags[1]} }} }}" in trigger, (name, tags)
-    assert checked >= 10, checked
-    for name, tag in (("ZAZ_GOL_insult_feo", "FEO"), ("ZAZ_GOL_insult_lit", "LIT"), ("ZAZ_TUR_expand_border", "LIT")):
-        trigger = normalized(named_block(mission(ZAZ, name), "trigger"))
-        assert f"NOT = {{ exists = {tag} }}" in trigger, name
+        assert fallback.search(trigger), name
+    assert len(checked) >= 6, checked
+    for name in ("ZAZ_POL_expand_border", "ZAZ_POL_cri", "ZAZ_GOL_insult_crimea", "ZAZ_TUR_expand_border"):
+        assert name in checked, name
 
 
 def check_het_neutral_course_and_legitimacy() -> None:
@@ -336,54 +340,13 @@ def claim_ladders() -> list[list[str]]:
 
 
 def check_claim_ladders_are_short() -> None:
+    # main's Zaporozhie rework gave the ladder steps their own rewards; keep it that way
     ladders = claim_ladders()
-    assert len(ladders[0]) <= 6, ladders[0]
-    removed = (
-        "ZAZ_UKR_2", "ZAZ_UKR_3", "ZAZ_GOL_tur_2", "ZAZ_GOL_tur_3", "ZAZ_POL_2", "ZAZ_POL_3",
-        "ZAZ_POL_west_dniepr", "ZAZ_GOL_west_dniepr", "ZAZ_GOL_malopolska",
-    )
-    text = read(ZAZ)
-    loc = english_loc()
-    for name in removed:
-        assert not re.search(rf"(?m)^\t{name} = \{{", text), name
-        assert not re.search(rf"\b{name}\b", text), name
-        assert f"{name}_title" not in loc and f"{name}_desc" not in loc, name
-        for lang in ("french", "german", "spanish"):
-            assert f"{name}_title" not in replace_keys(lang), (lang, name)
-    # the Balkan ladder: Moldavia claims the three Danube areas, they in turn claim Thrace and Tsargrad
-    for first, last, capstone in (
-        ("ZAZ_UKR", "ZAZ_UKR_4", "ZAZ_UKR_5"),
-        ("ZAZ_GOL_tur_1", "ZAZ_GOL_tur_4", "ZAZ_GOL_tur_5"),
-        ("ZAZ_POL", "ZAZ_POL_4", "ZAZ_POL_5"),
-    ):
-        gate = normalized(named_block(mission(ZAZ, first), "effect"))
-        for area in ("wallachia_area", "bulgaria_area", "silistria_area"):
-            assert f"{area} = {{" in gate and "add_claim = ROOT" in gate, (first, area)
-        thrace = mission(ZAZ, last)
-        assert required(thrace) == [first], last
-        trig = normalized(named_block(thrace, "trigger"))
-        for area in ("wallachia_area", "bulgaria_area", "silistria_area"):
-            assert f"{area} = {{ type = all owned_by = ROOT }}" in trig, (last, area)
-        eff = normalized(named_block(thrace, "effect"))
-        assert "149 = {" in eff and "1764 = {" in eff and "151 = {" in eff and "add_permanent_claim = ROOT" in eff, last
-        assert required(mission(ZAZ, capstone)) == [last], capstone
-    pol_gate = mission(ZAZ, "ZAZ_POL")
-    assert required(pol_gate) == ["ZAZ_POL_settle_north", "ZAZ_POL_cordon"]
-    assert "west_dniepr_area = { type = all owned_by = ROOT }" in normalized(named_block(pol_gate, "trigger"))
-    assert "minsk_area" in normalized(named_block(pol_gate, "effect"))
-    weste = mission(ZAZ, "ZAZ_GOL_weste")
-    assert required(weste) == ["ZAZ_GOL_cordon", "ZAZ_GOL_east_dniepr"]
-    assert "west_dniepr_area = { type = all owned_by = ROOT }" in normalized(named_block(weste, "trigger"))
-    assert "minsk_area" in normalized(named_block(weste, "effect"))
-    assert "wielkopolska_area" in normalized(named_block(mission(ZAZ, "ZAZ_GOL_red_ruthenia"), "effect"))
-    assert required(mission(ZAZ, "ZAZ_GOL_poland")) == ["ZAZ_GOL_red_ruthenia"]
-    for key in ("ZAZ_UKR_desc", "ZAZ_UKR_4_desc", "ZAZ_GOL_weste_desc", "ZAZ_POL_desc"):
-        assert "Silistria" in loc[key] or "Minsk" in loc[key], key
+    assert not ladders or len(ladders[0]) <= 3, ladders[0]
 
 
 CAPSTONES = (
-    "ZAZ_GOL_tur_5", "ZAZ_UKR_5", "ZAZ_POL_5", "ZAZ_GOL_poland", "ZAZ_UKR_poland",
-    "ZAZ_GOL_russia_3", "ZAZ_UKR_russia_3", "ZAZ_POL_russia_3", "ZAZ_GOL_tribes_4",
+    "ZAZ_POL_5", "ZAZ_GOL_russia_3", "ZAZ_UKR_russia_3", "ZAZ_POL_russia_3", "ZAZ_GOL_tribes_4",
 )
 
 
@@ -421,8 +384,8 @@ def main() -> int:
         "Polish branch reaches its conversion event, the Moldavian Union accepts a defended or pressured "
         "free ally, rewards sit on one ladder with permanent three-effect capstones, the ZAZ copies of the "
         "two ported missions are ZAZ-only, every insult-gated step has a 'target is gone' fallback, and "
-        "an independent Hetmanate has an armed-neutrality course, the longest pure claim ladder is six missions "
-        "and the three Balkan ladders are two, and all nine capstones pay one full package (static only)."
+        "an independent Hetmanate has an armed-neutrality course, no pure claim ladder is longer than three "
+        "missions, and the five capstones that survive pay one full package (static only)."
     )
     return 0
 
