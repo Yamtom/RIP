@@ -1,0 +1,114 @@
+country_decisions = {
+
+	plc_charter_left_bank_town = {
+		major = yes
+		potential = {
+			tag = PLC
+			rip_plc_holds_left_bank = yes
+			NOT = { has_country_flag = plc_left_bank_town_chartered }
+		}
+		provinces_to_highlight = {
+			OR = {
+				area = east_dniepr_area
+				area = sloboda_ukraine_area
+			}
+		}
+		allow = {
+			adm_power = 50
+			stability = 1
+			is_at_war = no
+		}
+		effect = {
+			set_country_flag = plc_left_bank_town_chartered
+			add_adm_power = -50
+			random_owned_province = {
+				limit = { rip_plc_left_bank_province = yes }
+				add_base_tax = 1
+				add_base_production = 1
+				add_province_modifier = {
+					name = rip_plc_free_years
+					duration = 3650
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	plc_recognise_ruthenian_chancery = {
+		major = yes
+		potential = {
+			tag = PLC
+			has_country_flag = plc_ruthenian_chancery
+			NOT = { accepted_culture = ruthenian }
+		}
+		allow = {
+			adm_power = 100
+			stability = 1
+		}
+		effect = {
+			add_adm_power = -100
+			add_accepted_culture = ruthenian
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	plc_eternal_peace_with_moscow = {
+		major = yes
+		potential = {
+			tag = PLC
+			280 = {
+				owned_by = ROOT
+			}
+			NOT = { has_country_flag = plc_eternal_peace_signed }
+			OR = {
+				exists = RUS
+				exists = MOS
+			}
+		}
+		provinces_to_highlight = {
+			province_id = 280
+		}
+		allow = {
+			is_year = 1667
+			stability = 1
+			NOT = { war_with = RUS }
+			NOT = { war_with = MOS }
+		}
+		effect = {
+			set_country_flag = plc_eternal_peace_signed
+			add_country_modifier = {
+				name = rip_plc_eternal_peace
+				duration = 7300
+			}
+			if = {
+				limit = { exists = RUS }
+				280 = {
+					cede_province = RUS
+				}
+				create_alliance = RUS
+			}
+			if = {
+				limit = {
+					NOT = { exists = RUS }
+					exists = MOS
+				}
+				280 = {
+					cede_province = MOS
+				}
+				create_alliance = MOS
+			}
+			country_event = {
+				id = plc_eternal_peace.1
+				days = 30
+			}
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+}

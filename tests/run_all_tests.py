@@ -78,6 +78,7 @@ scripts = [
     "tests/check_claim_pacing.py",
     "tests/check_vanilla_mission_sync.py",
     "tests/check_ruthenian_mission_series.py",
+    "tests/check_plc_ruthenian_branches.py",
     "tests/check_subject_cb_limits.py",
     "tests/check_border_principalities.py",
     "tests/check_steppe_expansions.py",

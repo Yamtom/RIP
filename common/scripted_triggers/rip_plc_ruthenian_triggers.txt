@@ -1,0 +1,45 @@
+# Gates for the nine Ruthenian branches of the Commonwealth (events/RIP_shared_commonwealth_RuthenianBranches.txt,
+# decisions/RIP_PLC_RuthenianDecisions.txt, common/disasters/plc_disasters.txt). The Ruthenian lands are
+# ruthenia_region plus the red_ruthenia_area; the Left Bank is the east_dniepr_area and the sloboda_ukraine_area.
+
+# Province scope.
+rip_plc_ruthenian_province = {
+	OR = {
+		region = ruthenia_region
+		area = red_ruthenia_area
+	}
+}
+
+rip_plc_ruthenian_orthodox_province = {
+	rip_plc_ruthenian_province = yes
+	OR = {
+		religion = orthodox
+		religion = russian_orthodox
+	}
+}
+
+rip_plc_left_bank_province = {
+	OR = {
+		area = east_dniepr_area
+		area = sloboda_ukraine_area
+	}
+}
+
+# Country scope.
+rip_plc_holds_ruthenian_lands = {
+	any_owned_province = {
+		rip_plc_ruthenian_province = yes
+	}
+}
+
+rip_plc_holds_orthodox_ruthenia = {
+	any_owned_province = {
+		rip_plc_ruthenian_orthodox_province = yes
+	}
+}
+
+rip_plc_holds_left_bank = {
+	any_owned_province = {
+		rip_plc_left_bank_province = yes
+	}
+}
