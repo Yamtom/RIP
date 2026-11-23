@@ -175,11 +175,20 @@ def check_province_names_and_compatibility() -> None:
         assert t_bytes == b_bytes, f"{target} must mirror {base}"
 
     # Hadiach mission & event layout registration
-    plc_missions = (ROOT / "missions" / "Poland_Commonwealth_Rework.txt").read_text(encoding="utf-8")
-    assert plc_missions.count("rusyn_west_ruthenian") >= 2
-    assert plc_missions.count("rusyn_west_slavic") >= 2
-    assert plc_missions.count("ruthenian_west_ruthenian") >= 2
-    assert plc_missions.count("ruthenian_west_slavic") >= 2
+    plc_missions = (ROOT / "missions" / "zzz_Poland_Commonwealth_Rework.txt").read_text(encoding="utf-8")
+    for series_name in ("POL_re_missions_1", "POL_re_missions_2"):
+        series, _ = extract_brace_block(plc_missions, series_name)
+        assert "generic = no" in series
+        potential, _ = extract_brace_block(series, "potential")
+        assert {"POL", "PLC"} == set(re.findall(r"\btag = (\w+)", potential))
+    commission, _ = extract_brace_block(plc_missions, "pol_hadiach_commission")
+    subject, _ = extract_brace_block(commission, "any_subject_country")
+    for culture in ("rusyn_west_ruthenian", "rusyn_west_slavic",
+                    "ruthenian_west_ruthenian", "ruthenian_west_slavic"):
+        assert f"primary_culture = {culture}" in subject
+    privileges, _ = extract_brace_block(plc_missions, "pol_codify_hadiach_privileges")
+    seats, _ = extract_brace_block(privileges, "num_of_owned_provinces_with")
+    assert all(term in seats for term in ("value = 3", "region = ruthenia_region", "has_seat_in_parliament = yes"))
 
     event_layout = (ROOT / "tools" / "event_layout.py").read_text(encoding="utf-8")
     assert "CulturalManeuver" in event_layout

@@ -2308,7 +2308,7 @@ mos_rus_russian_consolidation = {
 					OR = {
 						NOT = { owned_by = ROOT }
 						if = {
-							limit = { has_dlc = "Third Rome" religion = orthodox }
+							limit = { has_dlc = "Third Rome" rip_faith_is_eastern_orthodox = yes }
 							has_state_patriach = no
 						}
 						NOT = { religion = ROOT }
@@ -2317,16 +2317,19 @@ mos_rus_russian_consolidation = {
 			}
 		}
 		trigger = {
-			BYZ = {
-				OR = {
-					NOT = { owns = 151 }
-					is_subject_of = ROOT
+			OR = {
+				NOT = { exists = BYZ }
+				BYZ = {
+					OR = {
+						NOT = { owns = 151 }
+						is_subject_of = ROOT
+					}
 				}
 			}
 			295 = {
 				owned_by = ROOT
 				if = {
-					limit = { has_dlc = "Third Rome" religion = orthodox }
+					limit = { has_dlc = "Third Rome" rip_faith_is_eastern_orthodox = yes }
 					has_state_patriach = yes
 				}
 				religion = ROOT
@@ -2341,7 +2344,7 @@ mos_rus_russian_consolidation = {
 		}
 		effect = {
 			if = {
-				limit = { religion = orthodox }
+				limit = { rip_faith_is_eastern_orthodox = yes }
 				add_country_modifier = {
 					name = "russian_patriarchate"
 					duration = -1

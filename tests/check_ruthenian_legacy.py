@@ -1,4 +1,4 @@
-"""Static dependency and geography checks for the restored 32-mission tree."""
+"""Check the archived 32-mission donor, its dependencies and its geography."""
 from pathlib import Path
 import re
 import sys
@@ -53,12 +53,15 @@ for language in ('english', 'french', 'german', 'spanish'):
             keys = set(re.findall(r'^\s*(\S+):\d*\s', read(other), re.M))
             assert not new_keys.intersection(keys), (other, new_keys.intersection(keys))
 
-# Legacy rows must not share coordinates with any currently shipped RIP tree.
+# The disabled donor reserves no rows. Active trees may reuse its coordinates,
+# but their ports have their own IDs so they cannot activate a donor mission.
 positions = {int(x) for x in re.findall(r'\bposition\s*=\s*(\d+)', s)}
 assert positions == set(range(24, 32))
 for path in (ROOT / 'missions').glob('*.txt'):
     if path.name != 'Ruthenian_Missions.txt':
-        assert not positions.intersection(map(int, re.findall(r'\bposition\s*=\s*(\d+)', read(path)))), path
+        active = _mask_comments_and_strings(read(path))
+        definitions = set(re.findall(r'(?m)^\s*(\w+)\s*=\s*\{', active))
+        assert not mission_ids.intersection(definitions), (path, mission_ids.intersection(definitions))
 
 gfx = source('interface', '.gfx')
 assert 'name = "DIPLOMACY_eventPicture"' in gfx

@@ -2,7 +2,7 @@
 
 POL_re_missions_1 = {
 	slot = 1
-	generic = yes
+	generic = no
 	ai = yes
 	potential = {
 		OR = {
@@ -50,7 +50,7 @@ POL_re_missions_1 = {
 					}
 				}
 			}
-			owns = 272 # Vilnius
+			272 = { country_or_non_sovereign_subject_holds = ROOT } # Vilnius
 			owns = 262 # Kraków
 		}
 		effect = {
@@ -140,37 +140,20 @@ POL_re_missions_1 = {
 			has_parliament = yes
 			custom_trigger_tooltip = {
 				tooltip = POL_hadiach_commission_subject_tt
-				hidden_trigger = {
-					any_subject_country = {
-						NOT = { liberty_desire = 50 }
-						OR = {
-							tag = ZAZ
-							tag = HET
-							primary_culture = ruthenian
-							primary_culture = ruthenian_new
-							primary_culture = ruthenian_west_ruthenian
-							primary_culture = ruthenian_west_slavic
-							primary_culture = rusyn
-							primary_culture = rusyn_new
-							primary_culture = rusyn_west_ruthenian
-							primary_culture = rusyn_west_slavic
-						}
+				any_subject_country = {
+					NOT = { liberty_desire = 50 }
+					OR = {
+						tag = ZAZ
+						tag = HET
+						primary_culture = ruthenian
+						primary_culture = ruthenian_new
+						primary_culture = ruthenian_west_ruthenian
+						primary_culture = ruthenian_west_slavic
+						primary_culture = rusyn
+						primary_culture = rusyn_new
+						primary_culture = rusyn_west_ruthenian
+						primary_culture = rusyn_west_slavic
 					}
-				}
-			}
-			any_subject_country = {
-				NOT = { liberty_desire = 50 }
-				OR = {
-					tag = ZAZ
-					tag = HET
-					primary_culture = ruthenian
-					primary_culture = ruthenian_new
-					primary_culture = ruthenian_west_ruthenian
-					primary_culture = ruthenian_west_slavic
-					primary_culture = rusyn
-					primary_culture = rusyn_new
-					primary_culture = rusyn_west_ruthenian
-					primary_culture = rusyn_west_slavic
 				}
 			}
 		}
@@ -209,19 +192,8 @@ POL_re_missions_1 = {
 			num_accepted_cultures = 4
 			custom_trigger_tooltip = {
 				tooltip = POL_hadiach_seats_tt
-				hidden_trigger = {
-					calc_true_if = {
-						amount = 3
-						any_owned_province = {
-							region = ruthenia_region
-							has_seat_in_parliament = yes
-						}
-					}
-				}
-			}
-			calc_true_if = {
-				amount = 3
-				any_owned_province = {
+				num_of_owned_provinces_with = {
+					value = 3
 					region = ruthenia_region
 					has_seat_in_parliament = yes
 				}
@@ -254,34 +226,20 @@ POL_re_missions_1 = {
 		position = 17
 		trigger = {
 			has_country_flag = pol_hadiach_privileges_codified
-			num_of_owned_provinces_with = {
-				region = ruthenia_region
-				value = 10
-			}
 			custom_trigger_tooltip = {
 				tooltip = POL_triatomic_integration_tt
-				hidden_trigger = {
-					num_of_owned_provinces_with = {
-						region = ruthenia_region
-						value = 10
-					}
+				num_of_owned_provinces_with = {
+					region = ruthenia_region
+					value = 10
 				}
 			}
 			custom_trigger_tooltip = {
 				tooltip = POL_triatomic_autonomy_tt
-				hidden_trigger = {
-					NOT = {
-						any_owned_province = {
-							region = ruthenia_region
-							local_autonomy = 40
-						}
+				NOT = {
+					any_owned_province = {
+						region = ruthenia_region
+						local_autonomy = 40
 					}
-				}
-			}
-			NOT = {
-				any_owned_province = {
-					region = ruthenia_region
-					local_autonomy = 40
 				}
 			}
 		}
@@ -312,7 +270,7 @@ POL_re_missions_1 = {
 
 POL_re_missions_2 = {
 	slot = 2
-	generic = yes
+	generic = no
 	ai = yes
 	potential = {
 		OR = {
