@@ -1,0 +1,106 @@
+# Shared additions to the base and DLC trees. Never replace a vanilla series.
+rip_russian_ruthenian_contacts = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		OR = { tag = MOS tag = RUS }
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	rip_rus_kyiv_scribes = {
+		icon = mission_alliances
+		position = 16
+		required_missions = { }
+		trigger = {
+			280 = { rip_ruthenian_mission_contact = yes } # Kyiv
+			dip_power = 50
+		}
+		effect = { add_prestige = 5 add_dip_power = 25 }
+	}
+
+	rip_rus_copy_ruthenian_books = {
+		icon = mission_early_game_buildings
+		position = 17
+		required_missions = { rip_rus_kyiv_scribes }
+		trigger = {
+			capital_scope = { OR = { has_building = temple has_building = cathedral } }
+			OR = {
+				2962 = { rip_ruthenian_mission_contact = yes } # Volhynia
+				2961 = { rip_ruthenian_mission_contact = yes } # Lviv
+			}
+		}
+		effect = { add_adm_power = 40 }
+	}
+
+	rip_rus_ruthenian_press = {
+		icon = mission_noble_council
+		position = 18
+		required_missions = { rip_rus_copy_ruthenian_books }
+		trigger = {
+			has_institution = printing_press
+			280 = { rip_ruthenian_mission_contact = yes }
+			capital_scope = { base_production = 8 }
+		}
+		effect = {
+			capital_scope = { add_base_production = 1 }
+			add_prestige = 10
+		}
+	}
+}
+
+rip_polish_rusyn_contacts = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		OR = { tag = POL tag = PLC }
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	rip_pol_carpathian_passes = {
+		icon = mission_alliances
+		position = 18
+		required_missions = { }
+		trigger = {
+			1952 = { rip_ruthenian_mission_contact = yes } # Maramaros
+			owns_core_province = 261 # Halych
+		}
+		effect = { add_dip_power = 35 }
+	}
+
+	rip_pol_rusyn_fairs = {
+		icon = mission_dominate_home_trade_node
+		position = 19
+		required_missions = { rip_pol_carpathian_passes }
+		trigger = {
+			261 = {
+				owned_by = ROOT
+				OR = { has_building = marketplace has_building = trade_depot has_building = stock_exchange }
+			}
+			2424 = {
+				owned_by = ROOT
+				OR = { has_building = marketplace has_building = trade_depot has_building = stock_exchange }
+			}
+		}
+		effect = { 261 = { add_base_production = 1 } }
+	}
+
+	rip_pol_lviv_charters = {
+		icon = mission_noble_council
+		position = 20
+		required_missions = { rip_pol_rusyn_fairs }
+		trigger = {
+			stability = 1
+			1952 = { rip_ruthenian_mission_contact = yes }
+			2961 = {
+				owned_by = ROOT
+				base_tax = 6
+				NOT = { local_autonomy = 30 }
+			}
+		}
+		effect = { 2961 = { add_base_tax = 1 } add_prestige = 10 }
+	}
+}

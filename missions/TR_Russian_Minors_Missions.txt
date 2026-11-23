@@ -157,6 +157,7 @@ tr_russian_minors_2 = {
 	tr_independence = {
 		icon = mission_sovereign_principality
 		required_missions = { }
+		position = 1
 		provinces_to_highlight = {
 			area_for_scope_province = {
 				is_capital_of = ROOT
@@ -230,9 +231,54 @@ tr_russian_minors_2 = {
 		}
 	}
 
+	tr_rip_volga_marches = {
+		icon = mission_steppe_warriors
+		required_missions = { tr_conquer_russia }
+		position = 4
+		provinces_to_highlight = {
+			OR = {
+				region = ural_region
+				region = crimea_region
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			OR = {
+				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+					value = 6
+					region = ural_region
+				}
+				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+					value = 5
+					region = crimea_region
+				}
+			}
+		}
+		effect = {
+			add_army_tradition = 10
+			add_country_modifier = {
+				name = tr_rip_steppe_vanguard
+				duration = 7300
+			}
+			crimea_region = {
+				limit = {
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_claim = ROOT
+					}
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+
 	tr_tatar_yoke = {
 		icon = mission_break_the_tatar_yoke
-		required_missions = { tr_cossacks }
+		required_missions = { tr_rip_volga_marches tr_cossacks }
 		position = 5
 		provinces_to_highlight = {
 			region = crimea_region
@@ -447,6 +493,30 @@ tr_russian_minors_3 = {
 			}
 		}
 	}
+
+	tr_rip_gather_rus = {
+		icon = mission_unite_home_region
+		required_missions = { tr_tatar_yoke tr_ruthenia }
+		position = 6
+		provinces_to_highlight = { }
+		trigger = {
+			is_subject = no
+			stability = 2
+			total_development = 600
+			OR = {
+				government_rank = 3
+				prestige = 75
+			}
+		}
+		effect = {
+			add_prestige = 25
+			add_legitimacy = 25
+			add_country_modifier = {
+				name = tr_rip_sovereign_of_all_rus
+				duration = -1
+			}
+		}
+	}
 }
 
 tr_russian_minors_4 = {
@@ -478,6 +548,7 @@ tr_russian_minors_4 = {
 	tr_stability = {
 		icon = mission_consolidate_the_state
 		required_missions = { }
+		position = 1
 		provinces_to_highlight = { }
 		trigger = {
 			stability = 2
@@ -499,7 +570,84 @@ tr_russian_minors_4 = {
 		effect = {
 			add_prestige = 10
 			add_adm_power = 50
+			capital_scope = {
+				region = {
+					limit = {
+						NOT = {
+							is_core = ROOT
+						}
+						NOT = {
+							is_claim = ROOT
+						}
+					}
+					add_claim = ROOT
+				}
+			}
+		}
+	}
+
+	tr_rip_frontier_marches = {
+		icon = mission_assemble_an_army
+		required_missions = { tr_stability }
+		position = 2
+		provinces_to_highlight = {
+			OR = {
+				area = smolensk_area
+				area = oka_area
+				area = ryazan_area
+				area = chernigov_area
+				area = east_dniepr_area
+			}
+			NOT = {
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+		trigger = {
+			is_subject = no
+			army_size = 15
+			OR = {
+				total_development = 120
+				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+					value = 6
+					OR = {
+						area = smolensk_area
+						area = oka_area
+						area = ryazan_area
+						area = chernigov_area
+						area = east_dniepr_area
+					}
+				}
+			}
+		}
+		effect = {
+			add_mil_power = 50
+			add_country_modifier = {
+				name = tr_rip_frontier_mobilization
+				duration = 5475
+			}
 			east_dniepr_area = {
+				limit = {
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_claim = ROOT
+					}
+				}
+				add_claim = ROOT
+			}
+			smolensk_area = {
+				limit = {
+					NOT = {
+						is_core = ROOT
+					}
+					NOT = {
+						is_claim = ROOT
+					}
+				}
+				add_claim = ROOT
+			}
+			chernigov_area = {
 				limit = {
 					NOT = {
 						is_core = ROOT
@@ -515,7 +663,7 @@ tr_russian_minors_4 = {
 
 	tr_dniepr = {
 		icon = mission_advance_to_the_dnieper
-		required_missions = { tr_stability }
+		required_missions = { tr_rip_frontier_marches }
 		position = 3
 		provinces_to_highlight = {
 			area = east_dniepr_area
@@ -621,6 +769,45 @@ tr_russian_minors_5 = {
 		}
 	}
 	has_country_shield = yes
+
+	tr_rip_princely_domains = {
+		icon = mission_eastern_european_city
+		required_missions = { tr_stability }
+		position = 2
+		provinces_to_highlight = {
+			is_capital_of = ROOT
+		}
+		trigger = {
+			capital_scope = {
+				development = 20
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+				OR = {
+					has_building = workshop
+					has_building = counting_house
+				}
+			}
+			num_of_owned_provinces_with = {
+				value = 5
+				development = 10
+			}
+		}
+		effect = {
+			add_adm_power = 50
+			add_dip_power = 50
+			capital_scope = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+			}
+			add_country_modifier = {
+				name = tr_rip_princely_charter
+				duration = 7300
+			}
+		}
+	}
 
 	tr_kiev = {
 		icon = mission_restore_kiev

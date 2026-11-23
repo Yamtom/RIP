@@ -407,6 +407,13 @@ def main() -> int:
     check_kyiv_missions(failures)
     check_russian_formation(failures)
     check_domination_russia(failures)
+    minors = read("missions/TR_Russian_Minors_Missions.txt")
+    require(failures, not re.search(r"\b(?:add_permanent_claim|add_russian_claim)\s*=", minors),
+            "Third Rome minor principalities must grant only temporary mission claims")
+    for series in range(1, 6):
+        potential = named_block(named_block(minors, f"tr_russian_minors_{series}"), "potential")
+        require(failures, not re.search(r"\btag\s*=\s*(?:PLT|SMO)\b", potential),
+                f"Third Rome minor series {series} must exclude Polotsk and Smolensk")
     check_russia_balance_event(failures)
     check_ruthenian_eastward_expansion(failures)
 

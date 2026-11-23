@@ -5,6 +5,12 @@
 # deliberately excluded, see tools/data/rip_colonial_names.json
 # for the three culture families this mod covers with colonial names.
 
+# Historical commemoration in both layouts. Settlements and the finale have independent gates.
+rip_diaspora_can_commemorate_lysianskyi = {
+	is_year = 1806
+	has_country_flag = circumnavigation_done
+}
+
 rip_diaspora_eligible_culture = {
 	OR = {
 		primary_culture = ruthenian
@@ -74,6 +80,79 @@ rip_diaspora_mainland_partner_trigger = {
 	any_country = {
 		NOT = { tag = ROOT }
 		any_owned_province = { region = $REGION$ }
+		has_opinion = { who = ROOT value = $THRESHOLD$ }
+	}
+}
+
+# Convertible-province variants used by the settler decisions and choice
+# events so regions with only already-Ruthenian (or already-converted-faith)
+# provinces neither stay selectable nor keep the decision open when empty.
+rip_diaspora_colonial_convertible_culture_trigger = {
+	any_country = {
+		any_owned_province = {
+			colonial_region = $REGION$
+			NOT = { rip_diaspora_eligible_culture_province = yes }
+		}
+		OR = {
+			AND = {
+				is_colonial_nation = yes
+				has_opinion = { who = ROOT value = $THRESHOLD$ }
+				overlord = { has_opinion = { who = ROOT value = $THRESHOLD$ } }
+			}
+			AND = {
+				NOT = { is_colonial_nation = yes }
+				NOT = { tag = ROOT }
+				has_opinion = { who = ROOT value = $THRESHOLD$ }
+			}
+		}
+	}
+}
+
+rip_diaspora_colonial_convertible_faith_trigger = {
+	any_country = {
+		any_owned_province = {
+			colonial_region = $REGION$
+			OR = {
+				NOT = { rip_diaspora_eligible_culture_province = yes }
+				NOT = { religion = ROOT }
+			}
+		}
+		OR = {
+			AND = {
+				is_colonial_nation = yes
+				has_opinion = { who = ROOT value = $THRESHOLD$ }
+				overlord = { has_opinion = { who = ROOT value = $THRESHOLD$ } }
+			}
+			AND = {
+				NOT = { is_colonial_nation = yes }
+				NOT = { tag = ROOT }
+				has_opinion = { who = ROOT value = $THRESHOLD$ }
+			}
+		}
+	}
+}
+
+rip_diaspora_mainland_convertible_culture_trigger = {
+	any_country = {
+		NOT = { tag = ROOT }
+		any_owned_province = {
+			region = $REGION$
+			NOT = { rip_diaspora_eligible_culture_province = yes }
+		}
+		has_opinion = { who = ROOT value = $THRESHOLD$ }
+	}
+}
+
+rip_diaspora_mainland_convertible_faith_trigger = {
+	any_country = {
+		NOT = { tag = ROOT }
+		any_owned_province = {
+			region = $REGION$
+			OR = {
+				NOT = { rip_diaspora_eligible_culture_province = yes }
+				NOT = { religion = ROOT }
+			}
+		}
 		has_opinion = { who = ROOT value = $THRESHOLD$ }
 	}
 }

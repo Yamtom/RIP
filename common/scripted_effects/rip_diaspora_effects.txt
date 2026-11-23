@@ -1,19 +1,24 @@
 # Effects behind the Ruthenian Diaspora settler decisions
-# (decisions/RIP_RuthenianDiaspora.txt), fired from within the small events
-# in events/RIP_RuthenianDiaspora.txt rather than silently from the decision
-# itself. Each finds one random qualifying province held by the foreign
-# partner identified by the matching trigger in rip_diaspora_triggers.txt and
-# brings it over to our own primary culture - the "faith" variants also
-# bring it to our religion, the costlier option offered to the player.
+# (decisions/RIP_RuthenianDiaspora.txt), fired from within the choice events
+# in events/RIP_shared_ruthenian_RuthenianDiaspora.txt rather than silently
+# from the decision itself. Each finds one random qualifying province held by
+# the foreign partner identified by the matching convertible trigger in
+# rip_diaspora_triggers.txt and brings it over to our own primary culture -
+# the "faith" variants also bring it to our religion, the costlier option
+# offered to the player.
 #
 # $REGION$ must match the region/colonial_region used by the calling
 # trigger; $THRESHOLD$ must match the opinion floor already checked before
-# the event fired, so random_country cannot land on an unqualified partner.
+# the option became available, so random_country cannot land on an unqualified
+# partner or one with zero convertible provinces.
 
 rip_diaspora_convert_colonial_culture_effect = {
 	random_country = {
 		limit = {
-			any_owned_province = { colonial_region = $REGION$ }
+			any_owned_province = {
+				colonial_region = $REGION$
+				NOT = { rip_diaspora_eligible_culture_province = yes }
+			}
 			OR = {
 				AND = {
 					is_colonial_nation = yes
@@ -40,7 +45,13 @@ rip_diaspora_convert_colonial_culture_effect = {
 rip_diaspora_convert_colonial_faith_effect = {
 	random_country = {
 		limit = {
-			any_owned_province = { colonial_region = $REGION$ }
+			any_owned_province = {
+				colonial_region = $REGION$
+				OR = {
+					NOT = { rip_diaspora_eligible_culture_province = yes }
+					NOT = { religion = ROOT }
+				}
+			}
 			OR = {
 				AND = {
 					is_colonial_nation = yes
@@ -72,7 +83,10 @@ rip_diaspora_convert_mainland_culture_effect = {
 	random_country = {
 		limit = {
 			NOT = { tag = ROOT }
-			any_owned_province = { region = $REGION$ }
+			any_owned_province = {
+				region = $REGION$
+				NOT = { rip_diaspora_eligible_culture_province = yes }
+			}
 			has_opinion = { who = ROOT value = $THRESHOLD$ }
 		}
 		random_owned_province = {
@@ -89,7 +103,13 @@ rip_diaspora_convert_mainland_faith_effect = {
 	random_country = {
 		limit = {
 			NOT = { tag = ROOT }
-			any_owned_province = { region = $REGION$ }
+			any_owned_province = {
+				region = $REGION$
+				OR = {
+					NOT = { rip_diaspora_eligible_culture_province = yes }
+					NOT = { religion = ROOT }
+				}
+			}
 			has_opinion = { who = ROOT value = $THRESHOLD$ }
 		}
 		random_owned_province = {
