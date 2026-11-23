@@ -1,3 +1,14 @@
+> **Оновлення 24 листопада 2026 (дерево місій Полоцька):** детально — [PLT_POLOTSK_MISSIONS_20261124.uk.md](PLT_POLOTSK_MISSIONS_20261124.uk.md).
+> `PLT`, якого вилучено з третьоримських серій малих князівств, отримав власний файл `missions/PLT_Polotsk_Missions.txt`: три колонки
+> (Двіна, Біла Русь, Велике князівство), 13 місій, нагороди територією лише тимчасовими претензіями (`add_claim = ROOT`), дванадцять нових
+> модифікаторів у `RIP_BELARUS_modifiers.txt` і 50 нових ключів у чотирьох мовах (англійські в `RIP_shared_belarus_affairs_l_english.yml`,
+> їхні копії в `localisation/replace/RIP_shared_belarus_content_l_<мова>.yml`). Маніфест локалізації оновлено вручну й мінімально:
+> `--update-manifest` переписав би близько сорока застарілих хешів файлів, яких ніхто не читає. Нова перевірка —
+> `tests/check_plt_missions.py` (27 зіпсованих копій дерева, усі впіймано). Гейт: ті самі сім червоних, що й на базовій лінії
+> (`check_colonial_names`, `check_church_gui_routes`, `check_ruthenian_government_ui`, `check_interface_naming`,
+> `check_kyiv_subject_forms`, `check_parliament_names`, `check_ruthenian_legacy`), нових немає. Теги `VTB`, `MSK`, `MSL` і `BLR`
+> лишено без дерев (обґрунтування в документі). Гілку відрізано від `main` (`7fb3e6c9`); у зведеній гілці її файли злито з малими князівствами, діаспорою й Польщею: README об'єднано, хеші каталогу replace перераховано. У грі нічого не запускали.
+>
 > **Оновлення 23 листопада 2026 (Польща й Річ Посполита, після rebase на `main`):** рецензію про `Poland_Commonwealth_Rework.txt` паралельно виправляла лінія роботи в `main` (перейменування на `zzz_Poland_Commonwealth_Rework.txt`, `generic = no`, `num_of_owned_provinces_with` замість нездійсненного `calc_true_if` + `any_owned_province`, один рядок підказки на умову, патріархат для `russian_orthodox`); ворота діаспори й дерево малих князівств тієї ж рецензії теж уже стоять у `main`, тож версії з цієї гілки відкинуто. Гілка додає: `NOT = { map_setup = map_setup_random }` в обох серіях, `pol_triatomic_compact` із `promote_culture_cost = -0.25` замість `culture_conversion_cost = -0.15`, коментар про порядок завантаження й перевірку `tests/check_poland_commonwealth_missions.py`, яка шукає нездійсненні `calc_true_if` в усіх скриптах. Докладно — [POLISH_COMMONWEALTH_MISSIONS_20261123.uk.md](POLISH_COMMONWEALTH_MISSIONS_20261123.uk.md). У грі не запускали.
 >
 > **Оновлення 22 листопада 2026 (вікно «Government» для Host):** пара кнопок реєстру («Full muster», «Service obligations») висіла у двох лівих колонках із
