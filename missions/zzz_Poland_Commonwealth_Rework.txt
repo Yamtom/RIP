@@ -1,4 +1,14 @@
 # POL, PLC | The Sejm, Hadiach, army reform and the grain trade.
+#
+# The file name starts with zzz_ on purpose. EU4 loads missions/ in alphabetical
+# order and stacks the series of one column one under another, a mission standing
+# at max(previous row + 1, position). Called Poland_..., this file loaded before
+# the vanilla Polish_Missions.txt and SCA_Polish_Missions.txt, so the cursor jumped
+# to row 11 and the whole vanilla Polish tree sank beneath row 18. Positions 11-18
+# below are minimums for a file that loads after both.
+# The series are generic = no: a generic = yes series gives way to any
+# non-generic series in the same slot, and POL/PLC have those from both vanilla files.
+# tests/check_poland_commonwealth_missions.py keeps all of this.
 
 POL_re_missions_1 = {
 	slot = 1
@@ -9,6 +19,7 @@ POL_re_missions_1 = {
 			tag = POL
 			tag = PLC
 		}
+		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
 
@@ -138,6 +149,7 @@ POL_re_missions_1 = {
 		trigger = {
 			has_country_flag = pol_union_reaffirmed
 			has_parliament = yes
+			# One line in the tooltip: the real condition stands inside the custom tooltip.
 			custom_trigger_tooltip = {
 				tooltip = POL_hadiach_commission_subject_tt
 				any_subject_country = {
@@ -190,6 +202,9 @@ POL_re_missions_1 = {
 		trigger = {
 			has_country_flag = pol_hadiach_commission_signed
 			num_accepted_cultures = 4
+			# calc_true_if counts the triggers written directly inside it, and one
+			# any_owned_province is one trigger, so the old amount = 3 could never hold.
+			# num_of_owned_provinces_with counts the provinces themselves.
 			custom_trigger_tooltip = {
 				tooltip = POL_hadiach_seats_tt
 				num_of_owned_provinces_with = {
@@ -277,6 +292,7 @@ POL_re_missions_2 = {
 			tag = POL
 			tag = PLC
 		}
+		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
 
