@@ -144,20 +144,6 @@ def build_panels(g):
               text('cesar_recovery', 266, 'Recovery: unaccepted share below 15%\nand Gathering at least 40', g['recovery_tip'], height=40, font='vic_16')]
     add('cesar', 'has_reform = kyivan_cesarstvo_reform', cesar)
 
-    # An independent block: never show empty institutional sections merely
-    # because a country is Lithuania or Volhynia. It can coexist with any dossier.
-    reviews = [text('rev_title', 10, '§YInstitutional Resolutions§!', g['res_title_tip']),
-               text('rev_now', 34, 'In force: ' + g['res_name'], g['res_now_tip'], font='vic_16'),
-               text('rev_left', 54, g['res_left'], g['res_now_tip'], font='vic_16')]
-    # Compact dynamically: absent institutions contribute neither text nor a
-    # blank line. Full benefits, costs and shared lock are in the same tooltip.
-    compact = []
-    for key, held, label, power, power_test, modifier, _ in g['RESOLUTIONS']:
-        compact.append(g['resolution_state']('Dossier' + key, held, label, power, power_test, modifier))
-    reviews += [text('rev_res_lines', 78, ''.join(compact), g['res_needs_tip'] + '\n\n' + g['res_lines_tip'], height=132, font='vic_16')]
-    review_gate = 'OR = { rip_gov_has_municipal_review = yes rip_gov_has_chancery_review = yes rip_gov_has_register_review = yes rip_gov_resolution_in_force = yes NOT = { rip_gov_resolution_lock_over = yes } }'
-    add('reviews', review_gate, reviews)
-
     # Identity reforms normally exclude one another by tier. Explicit priority
     # also prevents overlap in migrated saves that still hold a legacy pair.
     previous = []
@@ -168,5 +154,11 @@ def build_panels(g):
         gate, rows = by_name[full]
         ordered.append((full, gate + ''.join(' NOT = { ' + earlier + ' }' for earlier in previous), rows))
         previous.append(gate)
-    ordered.append(panels[-1])
+    # The institutional resolutions are an independent block: it can coexist with any dossier, and never shows an empty
+    # institution. It sits at the top of the column, or under the status panel of the reform when there is one; the ledger
+    # builds one window for each position (tools/government_resolution_ledger.py).
+    status_any = 'OR = { ' + ' '.join('AND = { ' + gate + ' }' for gate in previous) + ' }'
+    windows, geometry = g['ledger'].build_ledger(g, status_any)
+    g['GEOMETRY'].update(geometry)
+    ordered.extend(windows)
     return ordered
