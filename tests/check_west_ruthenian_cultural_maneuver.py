@@ -175,11 +175,13 @@ def check_province_names_and_compatibility() -> None:
         assert t_bytes == b_bytes, f"{target} must mirror {base}"
 
     # Hadiach mission & event layout registration
-    plc_missions = (ROOT / "missions" / "Poland_Commonwealth_Rework.txt").read_text(encoding="utf-8")
-    assert plc_missions.count("rusyn_west_ruthenian") >= 2
-    assert plc_missions.count("rusyn_west_slavic") >= 2
-    assert plc_missions.count("ruthenian_west_ruthenian") >= 2
-    assert plc_missions.count("ruthenian_west_slavic") >= 2
+    # The Hadiach commission lists each culture once (the old hidden copy of the
+    # same trigger, which made the count two, was removed).
+    plc_missions = (ROOT / "missions" / "zzz_Poland_Commonwealth_Rework.txt").read_text(encoding="utf-8")
+    assert plc_missions.count("rusyn_west_ruthenian") >= 1
+    assert plc_missions.count("rusyn_west_slavic") >= 1
+    assert plc_missions.count("ruthenian_west_ruthenian") >= 1
+    assert plc_missions.count("ruthenian_west_slavic") >= 1
 
     event_layout = (ROOT / "tools" / "event_layout.py").read_text(encoding="utf-8")
     assert "CulturalManeuver" in event_layout

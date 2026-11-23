@@ -367,6 +367,37 @@ def check_capstones_pay_the_full_package() -> None:
             assert key in replace_keys(lang), (lang, key)
 
 
+def check_audit_p1_fixes() -> None:
+    """The 23 November 2026 audit, priority 1, as main solved it: faith events, dead steps, outliers, texts."""
+    # The Turkish branch converts nobody to Islam and no longer fires from an empty trigger.
+    renewal = normalized(events("events/RIP_ZAZ_ZAZmission.txt")["zaz_flavor_m_5.1"])
+    assert "sunni" not in renewal and "change_religion" not in renewal, renewal
+    assert "zaz_ortho" in renewal
+    trigger = normalized(named_block(mission(ZAZ, "ZAZ_TUR_convert_islam"), "trigger"))
+    assert trigger != "trigger = { }" and "alliance_with = TUR" in trigger, trigger
+    # The Polish offer is the Union of the Churches, not Latin Catholicism, and only an Orthodox host is offered it.
+    union = normalized(events("events/RIP_ZAZ_ZAZmission.txt")["zaz_flavor_m_5.2"])
+    assert "change_religion = greek_catholic" in union and "change_religion = catholic" not in union, union
+    politics = normalized(named_block(mission(ZAZ, "ZAZ_POL_politics_2"), "effect"))
+    assert "religion = orthodox" in politics and "zaz_flavor_m_5.2" in politics, politics
+    # The Islam modifier of the old conversion is no longer handed out by any event or mission.
+    for folder in ("events", "missions", "decisions"):
+        for path in (ROOT / folder).rglob("*.txt"):
+            assert "zaz_islam_spread" not in path.read_text(encoding="utf-8-sig", errors="ignore"), path.name
+    # Rozumovsky's reward is not the election modifier that the decision and the 1750 history also hand out.
+    rozumovsky = normalized(named_block(mission(HET, "het_rozumovsky_reforms"), "effect"))
+    assert "het_reformed_election_system" not in rozumovsky, rozumovsky
+    # Texts: no khanate or clan for a Cossack host, no "Moskva", and the two Russian steps say what they ask.
+    loc = english_loc()
+    for key in ("ZAZ_proper_title", "ZAZ_proper_desc", "zaz_proper_khan", "ZAZ_TUR_otoman_desc",
+                "ZAZ_TUR_side_tur_title", "ZAZ_TUR_side_tur_desc", "ZAZ_khanate_desc"):
+        assert not re.search(r"khanate|\bclan\b|Mongol", loc[key], re.I), (key, loc[key])
+    assert "Moskva" not in " ".join(v for k, v in loc.items() if k.startswith("zaz_flavor_m_2.2"))
+    assert "1655" in loc["ZAZ_RUS_war_rus_desc"] and "1686" in loc["ZAZ_RUS_orthodox_desc"]
+    for lang in ("french", "german", "spanish"):
+        assert {"ZAZ_RUS_war_rus_desc", "ZAZ_RUS_orthodox_desc"} <= replace_keys(lang), lang
+
+
 def main() -> int:
     check_zaz_events_belong_to_their_city()
     check_zaz_council_without_the_bosphorus()
@@ -378,6 +409,7 @@ def main() -> int:
     check_het_neutral_course_and_legitimacy()
     check_claim_ladders_are_short()
     check_capstones_pay_the_full_package()
+    check_audit_p1_fixes()
     print(
         "HET/ZAZ MISSION FIXES PASS: five ambush events fire from their own city and only occupy while at "
         "war, the council needs ZAZ_proper only, the Turkish other-ally mission rejects TUR and RUM, the "
@@ -385,7 +417,9 @@ def main() -> int:
         "free ally, rewards sit on one ladder with permanent three-effect capstones, the ZAZ copies of the "
         "two ported missions are ZAZ-only, every insult-gated step has a 'target is gone' fallback, and "
         "an independent Hetmanate has an armed-neutrality course, no pure claim ladder is longer than three "
-        "missions, and the five capstones that survive pay one full package (static only)."
+        "missions, the five capstones that survive pay one full package, and the audit fixes hold: nobody is "
+        "converted to Islam, the Polish offer is the Union of the Churches, and the Russian steps name their "
+        "history (static only)."
     )
     return 0
 
