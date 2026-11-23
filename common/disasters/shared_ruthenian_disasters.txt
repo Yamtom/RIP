@@ -37,7 +37,8 @@ chernihiv_ruina = {
 			current_age = age_of_absolutism
 		}
 		is_year = 1657
-		NOT = { is_year = 1700 }
+		NOT = { is_year = 1688 }
+		any_owned_province = { OR = { area = east_dniepr_area area = chernigov_area } }
 		NOT = { stability = 1 }
 		if = {
 			limit = { has_government_attribute = hlc_disables_chernihiv_ruina }
@@ -52,13 +53,14 @@ chernihiv_ruina = {
 			}
 			AND = {
 				is_subject = yes
-				NOT = { liberty_desire = 50 }
+				liberty_desire = 50
 			}
 		}
 		OR = {
 			any_neighbor_country = {
 				OR = {
 					tag = POL
+					tag = PLC
 					tag = MOS
 					tag = RUS
 					tag = CRI

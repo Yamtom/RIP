@@ -10,8 +10,10 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_chr_bell_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_chr_bell_tt
-			if = { limit = { rip_rg_chr_bell_can = yes any_owned_province = { rip_rg_chr_bell_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_chr_bell_target = yes } save_event_target_as = rip_rg_target } rip_rg_chr_bell_commit_effect = yes }
-			if = { limit = { rip_rg_chr_bell_can = yes any_owned_province = { rip_rg_chr_bell_target = yes } ai = no } country_event = { id = rip_rg.100 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_chr_bell_can = yes any_owned_province = { rip_rg_chr_bell_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_chr_bell_target = yes } save_event_target_as = rip_rg_target } rip_rg_chr_bell_commit_effect = yes }
+				if = { limit = { rip_rg_chr_bell_can = yes any_owned_province = { rip_rg_chr_bell_target = yes } ai = no } country_event = { id = rip_rg.100 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -27,8 +29,10 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_chr_staple_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_chr_staple_tt
-			if = { limit = { rip_rg_chr_staple_can = yes any_owned_province = { rip_rg_chr_staple_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_chr_staple_target = yes } save_event_target_as = rip_rg_target } rip_rg_chr_staple_commit_effect = yes }
-			if = { limit = { rip_rg_chr_staple_can = yes any_owned_province = { rip_rg_chr_staple_target = yes } ai = no } country_event = { id = rip_rg.120 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_chr_staple_can = yes any_owned_province = { rip_rg_chr_staple_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_chr_staple_target = yes } save_event_target_as = rip_rg_target } rip_rg_chr_staple_commit_effect = yes }
+				if = { limit = { rip_rg_chr_staple_can = yes any_owned_province = { rip_rg_chr_staple_target = yes } ai = no } country_event = { id = rip_rg.120 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -44,8 +48,10 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_chr_militia_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_chr_militia_tt
-			if = { limit = { rip_rg_chr_militia_can = yes any_owned_province = { rip_rg_chr_militia_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_chr_militia_target = yes } save_event_target_as = rip_rg_target } rip_rg_chr_militia_commit_effect = yes }
-			if = { limit = { rip_rg_chr_militia_can = yes any_owned_province = { rip_rg_chr_militia_target = yes } ai = no } country_event = { id = rip_rg.140 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_chr_militia_can = yes any_owned_province = { rip_rg_chr_militia_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_chr_militia_target = yes } save_event_target_as = rip_rg_target } rip_rg_chr_militia_commit_effect = yes }
+				if = { limit = { rip_rg_chr_militia_can = yes any_owned_province = { rip_rg_chr_militia_target = yes } ai = no } country_event = { id = rip_rg.140 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -61,8 +67,10 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_uzh_salt_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_uzh_salt_tt
-			if = { limit = { rip_rg_uzh_salt_can = yes any_owned_province = { rip_rg_uzh_salt_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_uzh_salt_target = yes } save_event_target_as = rip_rg_target } rip_rg_uzh_salt_commit_effect = yes }
-			if = { limit = { rip_rg_uzh_salt_can = yes any_owned_province = { rip_rg_uzh_salt_target = yes } ai = no } country_event = { id = rip_rg.160 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_uzh_salt_can = yes any_owned_province = { rip_rg_uzh_salt_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_uzh_salt_target = yes } save_event_target_as = rip_rg_target } rip_rg_uzh_salt_commit_effect = yes }
+				if = { limit = { rip_rg_uzh_salt_can = yes any_owned_province = { rip_rg_uzh_salt_target = yes } ai = no } country_event = { id = rip_rg.160 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -79,8 +87,10 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_uzh_guides_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_uzh_guides_tt
-			if = { limit = { rip_rg_uzh_guides_can = yes any_owned_province = { rip_rg_uzh_guides_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_uzh_guides_target = yes } save_event_target_as = rip_rg_target } rip_rg_uzh_guides_commit_effect = yes }
-			if = { limit = { rip_rg_uzh_guides_can = yes any_owned_province = { rip_rg_uzh_guides_target = yes } ai = no } country_event = { id = rip_rg.180 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_uzh_guides_can = yes any_owned_province = { rip_rg_uzh_guides_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_uzh_guides_target = yes } save_event_target_as = rip_rg_target } rip_rg_uzh_guides_commit_effect = yes }
+				if = { limit = { rip_rg_uzh_guides_can = yes any_owned_province = { rip_rg_uzh_guides_target = yes } ai = no } country_event = { id = rip_rg.180 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -97,8 +107,10 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_uzh_pass_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_uzh_pass_tt
-			if = { limit = { rip_rg_uzh_pass_can = yes any_owned_province = { rip_rg_uzh_pass_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_uzh_pass_target = yes } save_event_target_as = rip_rg_target } rip_rg_uzh_pass_commit_effect = yes }
-			if = { limit = { rip_rg_uzh_pass_can = yes any_owned_province = { rip_rg_uzh_pass_target = yes } ai = no } country_event = { id = rip_rg.200 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_uzh_pass_can = yes any_owned_province = { rip_rg_uzh_pass_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_uzh_pass_target = yes } save_event_target_as = rip_rg_target } rip_rg_uzh_pass_commit_effect = yes }
+				if = { limit = { rip_rg_uzh_pass_can = yes any_owned_province = { rip_rg_uzh_pass_target = yes } ai = no } country_event = { id = rip_rg.200 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -135,12 +147,14 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_pdl_patrol_base_target = yes rip_rg_pdl_patrol_frontier_target = yes rip_rg_pdl_patrol_carpathian_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_pdl_patrol_tt
-			if = { limit = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_patrol_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_patrol_base_commit_effect = yes }
-			if = { limit = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } ai = no } country_event = { id = rip_rg.220 } }
-			if = { limit = { NOT = { AND = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } } } rip_rg_pdl_patrol_frontier_can = yes any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_patrol_frontier_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_patrol_frontier_commit_effect = yes }
-			if = { limit = { NOT = { AND = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } } } rip_rg_pdl_patrol_frontier_can = yes any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } ai = no } country_event = { id = rip_rg.240 } }
-			if = { limit = { NOT = { AND = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } } } NOT = { AND = { rip_rg_pdl_patrol_frontier_can = yes any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } } } rip_rg_pdl_patrol_carpathian_can = yes any_owned_province = { rip_rg_pdl_patrol_carpathian_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_patrol_carpathian_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_patrol_carpathian_commit_effect = yes }
-			if = { limit = { NOT = { AND = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } } } NOT = { AND = { rip_rg_pdl_patrol_frontier_can = yes any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } } } rip_rg_pdl_patrol_carpathian_can = yes any_owned_province = { rip_rg_pdl_patrol_carpathian_target = yes } ai = no } country_event = { id = rip_rg.260 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_patrol_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_patrol_base_commit_effect = yes }
+				if = { limit = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } ai = no } country_event = { id = rip_rg.220 } }
+				if = { limit = { NOT = { AND = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } } } rip_rg_pdl_patrol_frontier_can = yes any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_patrol_frontier_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_patrol_frontier_commit_effect = yes }
+				if = { limit = { NOT = { AND = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } } } rip_rg_pdl_patrol_frontier_can = yes any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } ai = no } country_event = { id = rip_rg.240 } }
+				if = { limit = { NOT = { AND = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } } } NOT = { AND = { rip_rg_pdl_patrol_frontier_can = yes any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } } } rip_rg_pdl_patrol_carpathian_can = yes any_owned_province = { rip_rg_pdl_patrol_carpathian_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_patrol_carpathian_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_patrol_carpathian_commit_effect = yes }
+				if = { limit = { NOT = { AND = { rip_rg_pdl_patrol_base_can = yes any_owned_province = { rip_rg_pdl_patrol_base_target = yes } } } NOT = { AND = { rip_rg_pdl_patrol_frontier_can = yes any_owned_province = { rip_rg_pdl_patrol_frontier_target = yes } } } rip_rg_pdl_patrol_carpathian_can = yes any_owned_province = { rip_rg_pdl_patrol_carpathian_target = yes } ai = no } country_event = { id = rip_rg.260 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -166,10 +180,12 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_pdl_charter_base_target = yes rip_rg_pdl_charter_magnate_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_pdl_charter_tt
-			if = { limit = { rip_rg_pdl_charter_base_can = yes any_owned_province = { rip_rg_pdl_charter_base_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_charter_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_charter_base_commit_effect = yes }
-			if = { limit = { rip_rg_pdl_charter_base_can = yes any_owned_province = { rip_rg_pdl_charter_base_target = yes } ai = no } country_event = { id = rip_rg.280 } }
-			if = { limit = { NOT = { AND = { rip_rg_pdl_charter_base_can = yes any_owned_province = { rip_rg_pdl_charter_base_target = yes } } } rip_rg_pdl_charter_magnate_can = yes any_owned_province = { rip_rg_pdl_charter_magnate_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_charter_magnate_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_charter_magnate_commit_effect = yes }
-			if = { limit = { NOT = { AND = { rip_rg_pdl_charter_base_can = yes any_owned_province = { rip_rg_pdl_charter_base_target = yes } } } rip_rg_pdl_charter_magnate_can = yes any_owned_province = { rip_rg_pdl_charter_magnate_target = yes } ai = no } country_event = { id = rip_rg.300 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_pdl_charter_base_can = yes any_owned_province = { rip_rg_pdl_charter_base_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_charter_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_charter_base_commit_effect = yes }
+				if = { limit = { rip_rg_pdl_charter_base_can = yes any_owned_province = { rip_rg_pdl_charter_base_target = yes } ai = no } country_event = { id = rip_rg.280 } }
+				if = { limit = { NOT = { AND = { rip_rg_pdl_charter_base_can = yes any_owned_province = { rip_rg_pdl_charter_base_target = yes } } } rip_rg_pdl_charter_magnate_can = yes any_owned_province = { rip_rg_pdl_charter_magnate_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_charter_magnate_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_charter_magnate_commit_effect = yes }
+				if = { limit = { NOT = { AND = { rip_rg_pdl_charter_base_can = yes any_owned_province = { rip_rg_pdl_charter_base_target = yes } } } rip_rg_pdl_charter_magnate_can = yes any_owned_province = { rip_rg_pdl_charter_magnate_target = yes } ai = no } country_event = { id = rip_rg.300 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -207,12 +223,14 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_pdl_mobile_base_target = yes rip_rg_pdl_mobile_frontier_target = yes rip_rg_pdl_mobile_carpathian_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_pdl_mobile_tt
-			if = { limit = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_mobile_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_mobile_base_commit_effect = yes }
-			if = { limit = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } ai = no } country_event = { id = rip_rg.320 } }
-			if = { limit = { NOT = { AND = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } } } rip_rg_pdl_mobile_frontier_can = yes any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_mobile_frontier_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_mobile_frontier_commit_effect = yes }
-			if = { limit = { NOT = { AND = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } } } rip_rg_pdl_mobile_frontier_can = yes any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } ai = no } country_event = { id = rip_rg.340 } }
-			if = { limit = { NOT = { AND = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } } } NOT = { AND = { rip_rg_pdl_mobile_frontier_can = yes any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } } } rip_rg_pdl_mobile_carpathian_can = yes any_owned_province = { rip_rg_pdl_mobile_carpathian_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_mobile_carpathian_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_mobile_carpathian_commit_effect = yes }
-			if = { limit = { NOT = { AND = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } } } NOT = { AND = { rip_rg_pdl_mobile_frontier_can = yes any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } } } rip_rg_pdl_mobile_carpathian_can = yes any_owned_province = { rip_rg_pdl_mobile_carpathian_target = yes } ai = no } country_event = { id = rip_rg.360 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_mobile_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_mobile_base_commit_effect = yes }
+				if = { limit = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } ai = no } country_event = { id = rip_rg.320 } }
+				if = { limit = { NOT = { AND = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } } } rip_rg_pdl_mobile_frontier_can = yes any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_mobile_frontier_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_mobile_frontier_commit_effect = yes }
+				if = { limit = { NOT = { AND = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } } } rip_rg_pdl_mobile_frontier_can = yes any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } ai = no } country_event = { id = rip_rg.340 } }
+				if = { limit = { NOT = { AND = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } } } NOT = { AND = { rip_rg_pdl_mobile_frontier_can = yes any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } } } rip_rg_pdl_mobile_carpathian_can = yes any_owned_province = { rip_rg_pdl_mobile_carpathian_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_pdl_mobile_carpathian_target = yes } save_event_target_as = rip_rg_target } rip_rg_pdl_mobile_carpathian_commit_effect = yes }
+				if = { limit = { NOT = { AND = { rip_rg_pdl_mobile_base_can = yes any_owned_province = { rip_rg_pdl_mobile_base_target = yes } } } NOT = { AND = { rip_rg_pdl_mobile_frontier_can = yes any_owned_province = { rip_rg_pdl_mobile_frontier_target = yes } } } rip_rg_pdl_mobile_carpathian_can = yes any_owned_province = { rip_rg_pdl_mobile_carpathian_target = yes } ai = no } country_event = { id = rip_rg.360 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -229,8 +247,10 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_prl_patrol_base_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_prl_patrol_tt
-			if = { limit = { rip_rg_prl_patrol_base_can = yes any_owned_province = { rip_rg_prl_patrol_base_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_prl_patrol_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_prl_patrol_base_commit_effect = yes }
-			if = { limit = { rip_rg_prl_patrol_base_can = yes any_owned_province = { rip_rg_prl_patrol_base_target = yes } ai = no } country_event = { id = rip_rg.380 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_prl_patrol_base_can = yes any_owned_province = { rip_rg_prl_patrol_base_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_prl_patrol_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_prl_patrol_base_commit_effect = yes }
+				if = { limit = { rip_rg_prl_patrol_base_can = yes any_owned_province = { rip_rg_prl_patrol_base_target = yes } ai = no } country_event = { id = rip_rg.380 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -247,8 +267,10 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_prl_charter_base_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_prl_charter_tt
-			if = { limit = { rip_rg_prl_charter_base_can = yes any_owned_province = { rip_rg_prl_charter_base_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_prl_charter_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_prl_charter_base_commit_effect = yes }
-			if = { limit = { rip_rg_prl_charter_base_can = yes any_owned_province = { rip_rg_prl_charter_base_target = yes } ai = no } country_event = { id = rip_rg.400 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_prl_charter_base_can = yes any_owned_province = { rip_rg_prl_charter_base_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_prl_charter_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_prl_charter_base_commit_effect = yes }
+				if = { limit = { rip_rg_prl_charter_base_can = yes any_owned_province = { rip_rg_prl_charter_base_target = yes } ai = no } country_event = { id = rip_rg.400 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -265,8 +287,10 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_prl_mobile_base_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_prl_mobile_tt
-			if = { limit = { rip_rg_prl_mobile_base_can = yes any_owned_province = { rip_rg_prl_mobile_base_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_prl_mobile_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_prl_mobile_base_commit_effect = yes }
-			if = { limit = { rip_rg_prl_mobile_base_can = yes any_owned_province = { rip_rg_prl_mobile_base_target = yes } ai = no } country_event = { id = rip_rg.420 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_prl_mobile_base_can = yes any_owned_province = { rip_rg_prl_mobile_base_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_prl_mobile_base_target = yes } save_event_target_as = rip_rg_target } rip_rg_prl_mobile_base_commit_effect = yes }
+				if = { limit = { rip_rg_prl_mobile_base_can = yes any_owned_province = { rip_rg_prl_mobile_base_target = yes } ai = no } country_event = { id = rip_rg.420 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -285,8 +309,10 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_ods_freight_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_ods_freight_tt
-			if = { limit = { rip_rg_ods_freight_can = yes any_owned_province = { rip_rg_ods_freight_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_ods_freight_target = yes } save_event_target_as = rip_rg_target } rip_rg_ods_freight_commit_effect = yes }
-			if = { limit = { rip_rg_ods_freight_can = yes any_owned_province = { rip_rg_ods_freight_target = yes } ai = no } country_event = { id = rip_rg.440 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_ods_freight_can = yes any_owned_province = { rip_rg_ods_freight_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_ods_freight_target = yes } save_event_target_as = rip_rg_target } rip_rg_ods_freight_commit_effect = yes }
+				if = { limit = { rip_rg_ods_freight_can = yes any_owned_province = { rip_rg_ods_freight_target = yes } ai = no } country_event = { id = rip_rg.440 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}
@@ -305,8 +331,10 @@ country_decisions = {
 		provinces_to_highlight = { OR = { rip_rg_ods_corsairs_target = yes } }
 		effect = {
 			custom_tooltip = rip_rg_ods_corsairs_tt
-			if = { limit = { rip_rg_ods_corsairs_can = yes any_owned_province = { rip_rg_ods_corsairs_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_ods_corsairs_target = yes } save_event_target_as = rip_rg_target } rip_rg_ods_corsairs_commit_effect = yes }
-			if = { limit = { rip_rg_ods_corsairs_can = yes any_owned_province = { rip_rg_ods_corsairs_target = yes } ai = no } country_event = { id = rip_rg.460 } }
+			hidden_effect = {
+				if = { limit = { rip_rg_ods_corsairs_can = yes any_owned_province = { rip_rg_ods_corsairs_target = yes } ai = yes } random_owned_province = { limit = { rip_rg_ods_corsairs_target = yes } save_event_target_as = rip_rg_target } rip_rg_ods_corsairs_commit_effect = yes }
+				if = { limit = { rip_rg_ods_corsairs_can = yes any_owned_province = { rip_rg_ods_corsairs_target = yes } ai = no } country_event = { id = rip_rg.460 } }
+			}
 		}
 		ai_will_do = { factor = 0 }
 	}

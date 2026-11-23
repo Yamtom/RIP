@@ -3,7 +3,6 @@ country_decisions = {
 	hetmanate_nation = {
 		major = yes
 		potential = {
-			has_institution = renaissance
 			normal_or_historical_nations = yes
 			was_never_end_game_tag_trigger = yes
 			NOT = { has_country_flag = formed_hetmanate_nation_flag }
@@ -23,8 +22,6 @@ country_decisions = {
 			NOT = { exists = HET }
 			NOT = { exists = UKR }
 			NOT = { exists = KRU }
-			NOT = { tag = PAP }
-			NOT = { tag = HLR }	
 			OR = {
 				ai = no
 				AND = {
@@ -35,130 +32,137 @@ country_decisions = {
 		}
 		provinces_to_highlight = {
 			OR = {
-				area = west_dniepr_area
-				area = east_dniepr_area
-				area = zaporizhia_area
-			}
-			OR = {
-				NOT = { owned_by = ROOT }
-				NOT = { is_core = ROOT }
+				AND = { province_id = 1944 NOT = { AND = { owned_by = ROOT is_core = ROOT } } }
+				AND = { province_id = 283 ROOT = { tag = ZAZ } NOT = { AND = { owned_by = ROOT is_core = ROOT } } }
+				AND = { province_id = 2407 ROOT = { tag = PRL } NOT = { AND = { owned_by = ROOT is_core = ROOT } } }
+				AND = {
+					OR = { area = west_dniepr_area area = east_dniepr_area area = zaporizhia_area }
+					NOT = { country_or_non_sovereign_subject_holds = ROOT }
+					ROOT = { NOT = { rip_het_dnieper_base = yes } }
+				}
 			}
 		}
 		allow = {
+			has_institution = renaissance
 			adm_tech = 15
-			NOT = { exists = HET }
 			is_at_war = no
 			stability = 2
-			west_dniepr_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			owns_core_province = 1944 # Cherkasy, the new capital
+			if = {
+				limit = { tag = ZAZ }
+				owns_core_province = 283
 			}
-			east_dniepr_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
-			}
-			zaporizhia_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			else = { owns_core_province = 2407 }
+			custom_trigger_tooltip = {
+				tooltip = rip_het_dnieper_base_tt
+				rip_het_dnieper_base = yes
 			}
 		}
 		effect = {
-			1944 = {
-				move_capital_effect = yes
-			}
-			if = {
-				limit = { has_reform = zaz_sich_brotherhood_reform }
-				set_country_flag = rip_preserve_zaz_sich_brotherhood_reform
-			}
-			if = {
-				limit = { has_reform = zaz_kosh_elections_reform }
-				set_country_flag = rip_preserve_zaz_kosh_elections_reform
-			}
-			if = {
-				limit = { has_reform = zaz_chaiky_trade_reform }
-				set_country_flag = rip_preserve_zaz_chaiky_trade_reform
-			}
-			if = {
-				limit = { has_reform = zaz_general_rada_reform }
-				set_country_flag = rip_preserve_zaz_general_rada_reform
-			}
-			if = {
-				limit = { has_reform = zaz_free_host_reform }
-				set_country_flag = rip_preserve_zaz_free_host_reform
-			}
-			if = {
-				limit = { has_reform = zaz_last_sich_reform }
-				set_country_flag = rip_preserve_zaz_last_sich_reform
-			}
-			if = {
-				limit = { tag = ZAZ }
-				set_country_flag = rip_hetmanate_origin_zaz
-			}
-			if = {
-				limit = { tag = PRL }
-				set_country_flag = rip_hetmanate_origin_prl
-			}
-			west_dniepr_area = {
-				add_permanent_claim = HET
-			}
-			east_dniepr_area = {
-				add_permanent_claim = HET
-			}
-			zaporizhia_area = {
-				add_permanent_claim = HET
-			}
-			yedisan_area = {
-				add_permanent_claim = HET
-			}
-			change_tag = HET
-			if = {
-				limit = {
-					has_country_flag = rip_hetmanate_origin_prl
-					NOT = { government = republic }
+			custom_tooltip = rip_het_proclamation_tt
+			hidden_effect = {
+				1944 = {
+					move_capital_effect = yes
 				}
-				change_government = republic
-			}
-			if = {
-				limit = {
-					has_country_flag = rip_hetmanate_origin_prl
-					NOT = { has_reform = rip_cossacks_reform }
+				if = {
+					limit = { has_reform = zaz_sich_brotherhood_reform }
+					set_country_flag = rip_preserve_zaz_sich_brotherhood_reform
 				}
-				add_government_reform = rip_cossacks_reform
+				if = {
+					limit = { has_reform = zaz_kosh_elections_reform }
+					set_country_flag = rip_preserve_zaz_kosh_elections_reform
+				}
+				if = {
+					limit = { has_reform = zaz_chaiky_trade_reform }
+					set_country_flag = rip_preserve_zaz_chaiky_trade_reform
+				}
+				if = {
+					limit = { has_reform = zaz_general_rada_reform }
+					set_country_flag = rip_preserve_zaz_general_rada_reform
+				}
+				if = {
+					limit = { has_reform = zaz_free_host_reform }
+					set_country_flag = rip_preserve_zaz_free_host_reform
+				}
+				if = {
+					limit = { has_reform = zaz_last_sich_reform }
+					set_country_flag = rip_preserve_zaz_last_sich_reform
+				}
+				if = {
+					limit = { tag = ZAZ }
+					set_country_flag = rip_hetmanate_origin_zaz
+				}
+				if = {
+					limit = { tag = PRL }
+					set_country_flag = rip_hetmanate_origin_prl
+				}
+				change_tag = HET
+				west_dniepr_area = {
+					limit = { NOT = { owned_by = ROOT } NOT = { is_core = ROOT } }
+					add_permanent_claim = ROOT
+				}
+				east_dniepr_area = {
+					limit = { NOT = { owned_by = ROOT } NOT = { is_core = ROOT } }
+					add_permanent_claim = ROOT
+				}
+				zaporizhia_area = {
+					limit = { NOT = { owned_by = ROOT } NOT = { is_core = ROOT } }
+					add_permanent_claim = ROOT
+				}
+				yedisan_area = {
+					limit = { NOT = { owned_by = ROOT } NOT = { is_core = ROOT } }
+					add_permanent_claim = ROOT
+				}
+				if = {
+					limit = {
+						has_country_flag = rip_hetmanate_origin_prl
+						NOT = { government = republic }
+					}
+					change_government = republic
+				}
+				if = {
+					limit = {
+						has_country_flag = rip_hetmanate_origin_prl
+						NOT = { has_reform = rip_cossacks_reform }
+					}
+					add_government_reform = rip_cossacks_reform
 					rip_het_migrate_effect = yes
+				}
+				if = {
+					limit = { has_country_flag = rip_preserve_zaz_sich_brotherhood_reform }
+					add_government_reform = zaz_sich_brotherhood_reform
+					clr_country_flag = rip_preserve_zaz_sich_brotherhood_reform
+				}
+				if = {
+					limit = { has_country_flag = rip_preserve_zaz_kosh_elections_reform }
+					add_government_reform = zaz_kosh_elections_reform
+					clr_country_flag = rip_preserve_zaz_kosh_elections_reform
+				}
+				if = {
+					limit = { has_country_flag = rip_preserve_zaz_chaiky_trade_reform }
+					add_government_reform = zaz_chaiky_trade_reform
+					clr_country_flag = rip_preserve_zaz_chaiky_trade_reform
+				}
+				if = {
+					limit = { has_country_flag = rip_preserve_zaz_general_rada_reform }
+					add_government_reform = zaz_general_rada_reform
+					clr_country_flag = rip_preserve_zaz_general_rada_reform
+				}
+				if = {
+					limit = { has_country_flag = rip_preserve_zaz_free_host_reform }
+					add_government_reform = zaz_free_host_reform
+					clr_country_flag = rip_preserve_zaz_free_host_reform
+				}
+				if = {
+					limit = { has_country_flag = rip_preserve_zaz_last_sich_reform }
+					add_government_reform = zaz_last_sich_reform
+					clr_country_flag = rip_preserve_zaz_last_sich_reform
+				}
+				set_global_flag = hetmanate_nation_formed
+				country_event = { id = ideagroups.1 } #Swap Ideas
+				set_country_flag = formed_hetmanate_nation_flag
+
 			}
-			if = {
-				limit = { has_country_flag = rip_preserve_zaz_sich_brotherhood_reform }
-				add_government_reform = zaz_sich_brotherhood_reform
-				clr_country_flag = rip_preserve_zaz_sich_brotherhood_reform
-			}
-			if = {
-				limit = { has_country_flag = rip_preserve_zaz_kosh_elections_reform }
-				add_government_reform = zaz_kosh_elections_reform
-				clr_country_flag = rip_preserve_zaz_kosh_elections_reform
-			}
-			if = {
-				limit = { has_country_flag = rip_preserve_zaz_chaiky_trade_reform }
-				add_government_reform = zaz_chaiky_trade_reform
-				clr_country_flag = rip_preserve_zaz_chaiky_trade_reform
-			}
-			if = {
-				limit = { has_country_flag = rip_preserve_zaz_general_rada_reform }
-				add_government_reform = zaz_general_rada_reform
-				clr_country_flag = rip_preserve_zaz_general_rada_reform
-			}
-			if = {
-				limit = { has_country_flag = rip_preserve_zaz_free_host_reform }
-				add_government_reform = zaz_free_host_reform
-				clr_country_flag = rip_preserve_zaz_free_host_reform
-			}
-			if = {
-				limit = { has_country_flag = rip_preserve_zaz_last_sich_reform }
-				add_government_reform = zaz_last_sich_reform
-				clr_country_flag = rip_preserve_zaz_last_sich_reform
-			}
-			set_global_flag = hetmanate_nation_formed
-			country_event = { id = ideagroups.1 } #Swap Ideas	
-			set_country_flag = formed_hetmanate_nation_flag
 
 			if = {
 				limit = {
@@ -173,9 +177,11 @@ country_decisions = {
 				add_prestige = 50
 				set_government_rank = 3
 			}
-			swap_non_generic_missions = yes
-			on_change_tag_effect = yes
-			set_country_flag = rip_hetmanate_missions_synced
+			hidden_effect = {
+				swap_non_generic_missions = yes
+				on_change_tag_effect = yes
+				set_country_flag = rip_hetmanate_missions_synced
+			}
 		}
 
 		ai_will_do = {

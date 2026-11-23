@@ -17,28 +17,37 @@ country_decisions = {
 			stability = 1
 			army_tradition = 40
 			total_development = 50
-			num_of_cavalry = 10
-			republican_tradition = 50
+			num_of_infantry = 6
+			num_of_cavalry = 3
+			if = {
+				limit = { mil_tech = 7 }
+				num_of_artillery = 1
+			}
+			else = { army_size = 10 }
+			legitimacy_equivalent = 50
 		}
 		effect = {
-			set_country_flag = declared_cossack_host
+			hidden_effect = { set_country_flag = declared_cossack_host }
 			add_prestige = 15
 			add_army_tradition = 10
 			add_country_modifier = {
 				name = "cossack_host_proclaimed"
 				duration = -1
 			}
-			every_owned_province = {
-				limit = {
-					OR = {
-						culture = ruthenian
-						culture = ruthenian_west_ruthenian
-						culture = ruthenian_west_slavic
+			custom_tooltip = rip_host_districts_tt
+			hidden_effect = {
+				every_owned_province = {
+					limit = {
+						OR = {
+							culture = ruthenian
+							culture = ruthenian_west_ruthenian
+							culture = ruthenian_west_slavic
+						}
 					}
-				}
-				add_province_modifier = {
-					name = "host_territory"
-					duration = -1
+					add_province_modifier = {
+						name = "host_territory"
+						duration = -1
+					}
 				}
 			}
 			if = {
@@ -108,10 +117,7 @@ country_decisions = {
 		potential = {
 			has_country_flag = declared_cossack_host
 			is_year = 1700
-			OR = {
-				overlord = { tag = RUS }
-				alliance_with = RUS
-			}
+			overlord = { tag = RUS }
 			NOT = { has_country_flag = russian_host_integrated }
 		}
 		allow = {

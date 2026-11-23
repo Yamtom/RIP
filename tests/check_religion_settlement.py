@@ -55,7 +55,7 @@ class World:
         state = dict(kind='country', id=tag, religion=religion, flags={}, modifiers={}, variables={},
                      treasury=1000, adm_power=500, dip_power=500, mil_power=500,
                      patriarch_authority=1, papal_influence=0, prestige=60, stability=2, total_development=300,
-                     is_subject=False, is_at_war=False, wars=set(), allies=set(), truces=set(),
+                     army_size=30, manpower_percentage=0.5, is_subject=False, is_at_war=False, wars=set(), allies=set(), truces=set(),
                      cbs={}, capital=None, dlcs={'Third Rome'}, reforms=set())
         self.countries[tag] = state
         return state
@@ -298,6 +298,12 @@ def run_cases():
         paid = deepcopy(c)
         w.run('rip_faith_settlement_migration_effect', c)
         assert c == paid
+        cases += 1
+    for field, below in (('army_size', 29), ('manpower_percentage', 0.49)):
+        w, c = fixture()
+        assert w.gate(TRIGGERS['rip_crusade_can_start_trigger'], c)
+        c[field] = below
+        assert not w.gate(TRIGGERS['rip_crusade_can_start_trigger'], c)
         cases += 1
     # Campaign lifecycle reads real start, join, resolution and cleanup scripts.
     for outcome in ('win', 'forfeit', 'timeout', 'faith', 'target_owner', 'target_faith', 'annexed_leader'):

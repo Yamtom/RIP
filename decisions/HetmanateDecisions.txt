@@ -267,24 +267,20 @@ country_decisions = {
 		allow = {
 			is_at_war = yes
 			dip_power = 100
-			OR = {
-				AND = {
+			if = {
+				limit = {
 					OR = {
 						is_year = 1650
 						current_age = age_of_absolutism
 						current_age = age_of_revolutions
 						has_institution = manufactories
 					}
-					war_exhaustion = 3
 				}
-				AND = {
-					NOT = { is_year = 1650 }
-					NOT = { current_age = age_of_absolutism }
-					NOT = { current_age = age_of_revolutions }
-					NOT = { has_institution = manufactories }
-					war_exhaustion = 6
-					dip_power = 200
-				}
+				war_exhaustion = 3
+			}
+			else = {
+				war_exhaustion = 6
+				dip_power = 200
 			}
 			OR = {
 				AND = {
@@ -340,24 +336,21 @@ country_decisions = {
 		}
 		allow = {
 			mil_power = 150
-			OR = {
-				AND = {
+			if = {
+				limit = {
 					OR = {
 						is_year = 1700
 						current_age = age_of_revolutions
 						has_institution = enlightenment
 					}
-					liberty_desire = 50
-					army_size = 20
 				}
-				AND = {
-					NOT = { is_year = 1700 }
-					NOT = { current_age = age_of_revolutions }
-					NOT = { has_institution = enlightenment }
-					liberty_desire = 75
-					army_size = 35
-					mil_power = 300
-				}
+				liberty_desire = 50
+				army_size = 20
+			}
+			else = {
+				liberty_desire = 75
+				army_size = 35
+				mil_power = 300
 			}
 			any_ally = {
 				is_great_power = yes

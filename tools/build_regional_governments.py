@@ -270,7 +270,8 @@ def generate():
                                          f'limit = {{ {a["extra"]} }}\n{a["decision_guard"]}'))
                 clauses.append(block('else', allow))
                 allow = ''.join(clauses).rstrip()
-            decisions.append(block('rip_rg_'+group+'_decision',f'color = {{ 185 140 30 }}\npotential = {{ rip_rg_{f} = yes }}\n'+block('allow',allow)+f'provinces_to_highlight = {{ {highlight} }}\n'+block('effect',eff)+'ai_will_do = { factor = 0 }'))
+            decision_effect = 'custom_tooltip = rip_rg_'+group+'_tt\n'+block('hidden_effect',launch)
+            decisions.append(block('rip_rg_'+group+'_decision',f'color = {{ 185 140 30 }}\npotential = {{ rip_rg_{f} = yes }}\n'+block('allow',allow)+f'provinces_to_highlight = {{ {highlight} }}\n'+block('effect',decision_effect)+'ai_will_do = { factor = 0 }'))
             loc['rip_rg_'+group]=first['title']; loc['rip_rg_'+group+'_desc']=loc['rip_rg_'+first['key']+'_desc']+(' The Podillian path changes the final price; inspect the confirmation tooltip.' if len(variants)>1 else '')
             loc['rip_rg_'+group+'_decision_title']=first['title']; loc['rip_rg_'+group+'_decision_desc']=loc['rip_rg_'+group+'_desc']
             loc['rip_rg_'+group+'_tt']=tooltips.get(group, loc['rip_rg_'+group+'_desc'])
