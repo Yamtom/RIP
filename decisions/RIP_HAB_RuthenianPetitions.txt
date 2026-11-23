@@ -1,0 +1,98 @@
+country_decisions = {
+
+	rip_hab_ruthenian_galicia_cadastre = {
+		potential = {
+			OR = {
+				tag = HAB
+				tag = AUH
+			}
+			NOT = { has_country_flag = rip_hab_ruthenian_galicia_cadastre_heard }
+			OR = {
+				owns = 1952
+				any_owned_province = {
+					OR = {
+						area = red_ruthenia_area
+						region = ruthenia_region
+					}
+				}
+			}
+		}
+		allow = {
+			OR = {
+				has_country_flag = pragmatic_sanction
+				is_female = yes
+				adm_tech = 12
+			}
+			is_at_war = no
+		}
+		effect = {
+			set_country_flag = rip_hab_ruthenian_galicia_cadastre_heard
+			country_event = { id = rip_hab_ruthenian.1 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_hab_ruthenian_carpathian_compromise = {
+		potential = {
+			OR = {
+				tag = HAB
+				tag = AUH
+			}
+			NOT = { has_country_flag = rip_hab_ruthenian_carpathian_compromise_heard }
+			OR = {
+				owns = 1952
+				1952 = { country_or_non_sovereign_subject_holds = ROOT }
+				any_owned_province = { rip_diaspora_eligible_culture_province = yes }
+			}
+		}
+		allow = {
+			OR = {
+				has_disaster = hungarian_revolt
+				has_disaster = revolution
+				tag = AUH
+				has_country_flag = hab_chose_compromise
+				senior_union_with = HUN
+				owns = 153
+			}
+		}
+		effect = {
+			set_country_flag = rip_hab_ruthenian_carpathian_compromise_heard
+			country_event = { id = rip_hab_ruthenian.3 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_hab_ruthenian_danube_carpathian_post = {
+		potential = {
+			OR = {
+				tag = HAB
+				tag = AUH
+			}
+			NOT = { has_country_flag = rip_hab_ruthenian_danube_carpathian_post_heard }
+			owns = 134
+			OR = {
+				owns = 1952
+				any_owned_province = {
+					OR = {
+						area = red_ruthenia_area
+						region = ruthenia_region
+					}
+				}
+				2961 = { rip_ruthenian_mission_contact = yes }
+				1952 = { rip_ruthenian_mission_contact = yes }
+			}
+		}
+		allow = {
+			OR = {
+				is_emperor = yes
+				adm_tech = 9
+			}
+			is_at_war = no
+		}
+		effect = {
+			set_country_flag = rip_hab_ruthenian_danube_carpathian_post_heard
+			country_event = { id = rip_hab_ruthenian.5 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+}

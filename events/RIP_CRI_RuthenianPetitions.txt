@@ -1,0 +1,142 @@
+namespace = rip_cri_ruthenian
+
+country_event = {
+	id = rip_cri_ruthenian.1
+	title = rip_cri_ruthenian.1.t
+	desc = rip_cri_ruthenian.1.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_cri_ruthenian.1.a
+		custom_tooltip = rip_cri_ruthenian.1.result_tt
+		trigger = { dip_power = 35 }
+		ai_chance = { factor = 2 }
+		add_dip_power = -35
+		country_event = { id = rip_cri_ruthenian.2 days = 180 }
+	}
+	option = {
+		name = rip_cri_ruthenian.1.b
+		ai_chance = { factor = 1 }
+		if = {
+			limit = { has_estate = estate_nomadic_tribes }
+			add_estate_loyalty = { estate = estate_nomadic_tribes loyalty = 5 }
+		}
+		add_mil_power = 15
+	}
+}
+
+country_event = {
+	id = rip_cri_ruthenian.2
+	title = rip_cri_ruthenian.2.t
+	desc = rip_cri_ruthenian.2.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_cri_ruthenian.2.a
+		if = {
+			limit = { has_estate = estate_nomadic_tribes }
+			add_estate_loyalty = { estate = estate_nomadic_tribes loyalty = 10 }
+		}
+		add_treasury = 65
+		add_country_modifier = {
+			name = rip_cri_dnieper_salt_truce
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_cri_ruthenian.3
+	title = rip_cri_ruthenian.3.t
+	desc = rip_cri_ruthenian.3.d
+	picture = MONGOL_BANNERS_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_cri_ruthenian.3.a
+		custom_tooltip = rip_cri_ruthenian.3.result_tt
+		trigger = { adm_power = 35 }
+		ai_chance = { factor = 2 }
+		add_adm_power = -35
+		country_event = { id = rip_cri_ruthenian.4 days = 150 }
+	}
+	option = {
+		name = rip_cri_ruthenian.3.b
+		ai_chance = { factor = 1 }
+		add_treasury = 35
+		add_prestige = 5
+	}
+}
+
+country_event = {
+	id = rip_cri_ruthenian.4
+	title = rip_cri_ruthenian.4.t
+	desc = rip_cri_ruthenian.4.d
+	picture = MONGOL_BANNERS_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_cri_ruthenian.4.a
+		if = {
+			limit = { has_reform = steppe_horde }
+			add_horde_unity = 15
+		}
+		else = {
+			add_legitimacy = 15
+		}
+		add_prestige = 10
+		add_dip_power = 40
+	}
+}
+
+country_event = {
+	id = rip_cri_ruthenian.5
+	title = rip_cri_ruthenian.5.t
+	desc = rip_cri_ruthenian.5.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_cri_ruthenian.5.a
+		custom_tooltip = rip_cri_ruthenian.5.result_tt
+		trigger = { treasury = 70 }
+		ai_chance = { factor = 2 }
+		add_treasury = -70
+		country_event = { id = rip_cri_ruthenian.6 days = 210 }
+	}
+	option = {
+		name = rip_cri_ruthenian.5.b
+		ai_chance = { factor = 1 }
+		add_treasury = 45
+		add_mil_power = 20
+	}
+}
+
+country_event = {
+	id = rip_cri_ruthenian.6
+	title = rip_cri_ruthenian.6.t
+	desc = rip_cri_ruthenian.6.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_cri_ruthenian.6.a
+		if = {
+			limit = { any_owned_province = { region = ruthenia_region } }
+			random_owned_province = {
+				limit = { region = ruthenia_region }
+				add_base_tax = 1
+				add_base_production = 1
+			}
+		}
+		else = {
+			add_adm_power = 25
+		}
+		add_country_modifier = {
+			name = rip_cri_ruthenian_yarlyk_chancery
+			duration = 5475
+		}
+	}
+}

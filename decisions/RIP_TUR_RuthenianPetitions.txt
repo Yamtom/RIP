@@ -1,0 +1,153 @@
+country_decisions = {
+
+	rip_tur_ruthenian_hurrem_waqf = {
+		potential = {
+			tag = TUR
+			NOT = { has_country_flag = rip_tur_ruthenian_hurrem_waqf_heard }
+			OR = {
+				has_global_flag = wih_roxelana_tur_flag
+				any_owned_province = { rip_diaspora_eligible_culture_province = yes }
+				2961 = { rip_ruthenian_mission_contact = yes }
+				281 = { rip_ruthenian_mission_contact = yes }
+			}
+		}
+		allow = {
+			OR = {
+				has_global_flag = wih_roxelana_tur_flag
+				is_year = 1525
+			}
+		}
+		effect = {
+			set_country_flag = rip_tur_ruthenian_hurrem_waqf_heard
+			country_event = { id = rip_tur_ruthenian.1 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_tur_ruthenian_kamianets_eyalet = {
+		potential = {
+			tag = TUR
+			NOT = { has_country_flag = rip_tur_ruthenian_kamianets_eyalet_heard }
+			OR = {
+				owns = 281
+				any_owned_province = { region = ruthenia_region }
+			}
+		}
+		allow = {
+			is_at_war = no
+			adm_tech = 10
+		}
+		effect = {
+			set_country_flag = rip_tur_ruthenian_kamianets_eyalet_heard
+			country_event = { id = rip_tur_ruthenian.3 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_tur_ruthenian_janissary_levies = {
+		potential = {
+			tag = TUR
+			NOT = { has_country_flag = rip_tur_ruthenian_janissary_levies_heard }
+			any_owned_province = {
+				OR = {
+					region = ruthenia_region
+					area = yedisan_area
+					area = zaporizhia_area
+				}
+			}
+		}
+		allow = {
+			OR = {
+				has_estate = estate_janissaries
+				has_disaster = janissary_decadence
+				has_disaster = tur_disaster_janissary_coup
+				has_disaster = tur_disaster_ottoman_power_struggle
+				mil_tech = 7
+			}
+		}
+		effect = {
+			set_country_flag = rip_tur_ruthenian_janissary_levies_heard
+			country_event = { id = rip_tur_ruthenian.5 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_tur_ruthenian_salonika_grain = {
+		potential = {
+			tag = TUR
+			NOT = { has_country_flag = rip_tur_ruthenian_salonika_grain_heard }
+			owns = 148
+			OR = {
+				any_owned_province = { rip_diaspora_eligible_culture_province = yes }
+				281 = { rip_ruthenian_mission_contact = yes }
+				280 = { rip_ruthenian_mission_contact = yes }
+			}
+		}
+		allow = {
+			OR = {
+				has_estate = estate_dhimmi
+				dip_tech = 7
+			}
+			is_at_war = no
+		}
+		effect = {
+			set_country_flag = rip_tur_ruthenian_salonika_grain_heard
+			country_event = { id = rip_tur_ruthenian.7 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_tur_ruthenian_phanar_kyiv_synod = {
+		potential = {
+			tag = TUR
+			NOT = { has_country_flag = rip_tur_ruthenian_phanar_kyiv_synod_heard }
+			owns = 151
+			280 = { rip_ruthenian_mission_contact = yes }
+		}
+		allow = {
+			dip_tech = 6
+		}
+		effect = {
+			set_country_flag = rip_tur_ruthenian_phanar_kyiv_synod_heard
+			country_event = { id = rip_tur_ruthenian.9 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_tur_ruthenian_frontier_crisis = {
+		potential = {
+			tag = TUR
+			NOT = { has_country_flag = rip_tur_ruthenian_frontier_crisis_heard }
+			any_owned_province = {
+				OR = {
+					region = ruthenia_region
+					area = yedisan_area
+					area = moldavia_area
+					area = zaporizhia_area
+				}
+			}
+		}
+		allow = {
+			OR = {
+				has_disaster = tur_disaster_ottoman_power_struggle
+				has_disaster = tur_disaster_eyalet_rebellion
+				has_disaster = tur_disaster_pasha_decadence
+				has_disaster = revolution
+				current_age = age_of_revolutions
+				AND = {
+					has_government_mechanic = ottoman_decadence_mechanic
+					has_government_power = {
+						mechanic_type = ottoman_decadence_mechanic
+						power_type = ottoman_decadence
+						value = 35
+					}
+				}
+			}
+		}
+		effect = {
+			set_country_flag = rip_tur_ruthenian_frontier_crisis_heard
+			country_event = { id = rip_tur_ruthenian.11 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+}

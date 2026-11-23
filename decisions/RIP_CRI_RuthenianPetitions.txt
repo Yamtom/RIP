@@ -1,0 +1,98 @@
+country_decisions = {
+
+	rip_cri_ruthenian_dnieper_pastures = {
+		potential = {
+			OR = {
+				tag = CRI
+				AND = {
+					was_tag = CRI
+					OR = {
+						tag = GLH
+						tag = MGE
+					}
+				}
+			}
+			NOT = { has_country_flag = rip_cri_ruthenian_dnieper_pastures_heard }
+			OR = {
+				any_owned_province = { region = ruthenia_region }
+				owns = 283
+				owns = 282
+			}
+		}
+		allow = {
+			OR = {
+				has_estate = estate_nomadic_tribes
+				has_reform = steppe_horde
+			}
+		}
+		effect = {
+			set_country_flag = rip_cri_ruthenian_dnieper_pastures_heard
+			country_event = { id = rip_cri_ruthenian.1 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_cri_ruthenian_succession_envoys = {
+		potential = {
+			OR = {
+				tag = CRI
+				AND = {
+					was_tag = CRI
+					OR = {
+						tag = GLH
+						tag = MGE
+					}
+				}
+			}
+			NOT = { has_country_flag = rip_cri_ruthenian_succession_envoys_heard }
+			OR = {
+				280 = { rip_ruthenian_mission_contact = yes }
+				any_owned_province = { rip_diaspora_eligible_culture_province = yes }
+			}
+		}
+		allow = {
+			OR = {
+				NOT = { legitimacy_equivalent = 80 }
+				has_regency = yes
+				adm_tech = 5
+			}
+		}
+		effect = {
+			set_country_flag = rip_cri_ruthenian_succession_envoys_heard
+			country_event = { id = rip_cri_ruthenian.3 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_cri_ruthenian_ulus_tribute = {
+		potential = {
+			OR = {
+				tag = CRI
+				AND = {
+					was_tag = CRI
+					OR = {
+						tag = GLH
+						tag = MGE
+					}
+				}
+			}
+			NOT = { has_country_flag = rip_cri_ruthenian_ulus_tribute_heard }
+			any_owned_province = { region = ruthenia_region }
+		}
+		allow = {
+			OR = {
+				tag = GLH
+				tag = MGE
+				num_of_owned_provinces_with = {
+					value = 3
+					region = ruthenia_region
+				}
+			}
+		}
+		effect = {
+			set_country_flag = rip_cri_ruthenian_ulus_tribute_heard
+			country_event = { id = rip_cri_ruthenian.5 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+}

@@ -1,0 +1,83 @@
+country_decisions = {
+
+	rip_pol_ruthenian_sejmik_compacts = {
+		potential = {
+			OR = {
+				tag = POL
+				tag = PLC
+			}
+			NOT = { has_country_flag = rip_pol_ruthenian_sejmik_compacts_heard }
+			any_owned_province = { rip_diaspora_eligible_culture_province = yes }
+		}
+		allow = {
+			OR = {
+				has_reform = elective_monarchy
+				has_reform = polish_elective_monarchy
+				has_country_flag = librium_veto
+				has_country_flag = pol_pact_conventa_flag
+				tag = PLC
+				adm_tech = 8
+			}
+		}
+		effect = {
+			set_country_flag = rip_pol_ruthenian_sejmik_compacts_heard
+			country_event = { id = rip_pol_ruthenian.1 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_pol_ruthenian_baltic_moldavian_road = {
+		potential = {
+			OR = {
+				tag = POL
+				tag = PLC
+			}
+			NOT = { has_country_flag = rip_pol_ruthenian_baltic_moldavian_road_heard }
+			owns = 2961
+		}
+		allow = {
+			is_at_war = no
+			OR = {
+				owns = 43
+				43 = { owner = { has_opinion = { who = ROOT value = 50 } } }
+				owns = 268
+				MOL = { is_subject_of = ROOT }
+				dip_tech = 6
+			}
+		}
+		effect = {
+			set_country_flag = rip_pol_ruthenian_baltic_moldavian_road_heard
+			country_event = { id = rip_pol_ruthenian.3 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_pol_ruthenian_cossack_register_roll = {
+		potential = {
+			OR = {
+				tag = POL
+				tag = PLC
+			}
+			NOT = { has_country_flag = rip_pol_ruthenian_cossack_register_roll_heard }
+			any_owned_province = {
+				OR = {
+					area = west_dniepr_area
+					area = podolia_volhynia_area
+					area = east_dniepr_area
+					area = zaporizhia_area
+				}
+			}
+		}
+		allow = {
+			OR = {
+				has_estate = estate_cossacks
+				mil_tech = 7
+			}
+		}
+		effect = {
+			set_country_flag = rip_pol_ruthenian_cossack_register_roll_heard
+			country_event = { id = rip_pol_ruthenian.5 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+}

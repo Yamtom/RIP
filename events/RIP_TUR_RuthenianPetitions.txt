@@ -1,0 +1,306 @@
+namespace = rip_tur_ruthenian
+
+country_event = {
+	id = rip_tur_ruthenian.1
+	title = rip_tur_ruthenian.1.t
+	desc = rip_tur_ruthenian.1.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_ruthenian.1.a
+		custom_tooltip = rip_tur_ruthenian.1.result_tt
+		trigger = { treasury = 80 }
+		ai_chance = { factor = 2 }
+		add_treasury = -80
+		country_event = { id = rip_tur_ruthenian.2 days = 180 }
+	}
+	option = {
+		name = rip_tur_ruthenian.1.b
+		ai_chance = { factor = 1 }
+		if = {
+			limit = { religion_group = muslim }
+			add_piety = 0.1
+		}
+		else = {
+			add_prestige = 5
+		}
+		add_prestige = 5
+	}
+}
+
+country_event = {
+	id = rip_tur_ruthenian.2
+	title = rip_tur_ruthenian.2.t
+	desc = rip_tur_ruthenian.2.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_ruthenian.2.a
+		add_dip_power = 50
+		add_legitimacy = 10
+		add_country_modifier = {
+			name = rip_tur_ruthenian_palace_waqf
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_ruthenian.3
+	title = rip_tur_ruthenian.3.t
+	desc = rip_tur_ruthenian.3.d
+	picture = FORT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_ruthenian.3.a
+		custom_tooltip = rip_tur_ruthenian.3.result_tt
+		trigger = { adm_power = 40 }
+		ai_chance = { factor = 2 }
+		add_adm_power = -40
+		country_event = { id = rip_tur_ruthenian.4 days = 180 }
+	}
+	option = {
+		name = rip_tur_ruthenian.3.b
+		ai_chance = { factor = 1 }
+		add_treasury = 50
+		if = {
+			limit = { owns = 281 }
+			281 = { add_local_autonomy = 10 }
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_ruthenian.4
+	title = rip_tur_ruthenian.4.t
+	desc = rip_tur_ruthenian.4.d
+	picture = FORT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_ruthenian.4.a
+		if = {
+			limit = { owns = 281 }
+			281 = {
+				add_base_tax = 1
+				add_local_autonomy = -15
+				add_province_modifier = {
+					name = rip_tur_kamianets_defter
+					duration = 7300
+				}
+			}
+		}
+		else_if = {
+			limit = { any_owned_province = { region = ruthenia_region } }
+			random_owned_province = {
+				limit = { region = ruthenia_region }
+				add_base_tax = 1
+				add_local_autonomy = -15
+				add_province_modifier = {
+					name = rip_tur_kamianets_defter
+					duration = 7300
+				}
+			}
+		}
+		else = {
+			add_adm_power = 25
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_ruthenian.5
+	title = rip_tur_ruthenian.5.t
+	desc = rip_tur_ruthenian.5.d
+	picture = MILITARY_CAMP_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_ruthenian.5.a
+		custom_tooltip = rip_tur_ruthenian.5.result_tt
+		trigger = {
+			mil_power = 40
+			treasury = 60
+		}
+		ai_chance = { factor = 2 }
+		add_mil_power = -40
+		add_treasury = -60
+		country_event = { id = rip_tur_ruthenian.6 days = 150 }
+	}
+	option = {
+		name = rip_tur_ruthenian.5.b
+		ai_chance = { factor = 1 }
+		if = {
+			limit = { has_estate = estate_janissaries }
+			add_estate_loyalty = { estate = estate_janissaries loyalty = 5 }
+		}
+		add_mil_power = 15
+	}
+}
+
+country_event = {
+	id = rip_tur_ruthenian.6
+	title = rip_tur_ruthenian.6.t
+	desc = rip_tur_ruthenian.6.d
+	picture = MILITARY_CAMP_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_ruthenian.6.a
+		add_army_tradition = 8
+		if = {
+			limit = { has_government_mechanic = ottoman_decadence_mechanic }
+			add_government_power = {
+				mechanic_type = ottoman_decadence_mechanic
+				power_type = ottoman_decadence
+				value = -5
+			}
+		}
+		if = {
+			limit = { has_estate = estate_janissaries }
+			add_estate_loyalty = { estate = estate_janissaries loyalty = 10 }
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_ruthenian.7
+	title = rip_tur_ruthenian.7.t
+	desc = rip_tur_ruthenian.7.d
+	picture = MERCHANTS_TALKING_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_ruthenian.7.a
+		custom_tooltip = rip_tur_ruthenian.7.result_tt
+		trigger = { treasury = 75 }
+		ai_chance = { factor = 2 }
+		add_treasury = -75
+		country_event = { id = rip_tur_ruthenian.8 days = 210 }
+	}
+	option = {
+		name = rip_tur_ruthenian.7.b
+		ai_chance = { factor = 1 }
+		add_treasury = 35
+		add_mercantilism = 1
+	}
+}
+
+country_event = {
+	id = rip_tur_ruthenian.8
+	title = rip_tur_ruthenian.8.t
+	desc = rip_tur_ruthenian.8.d
+	picture = MERCHANTS_TALKING_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_ruthenian.8.a
+		if = {
+			limit = { owns = 148 }
+			148 = { add_base_production = 1 }
+		}
+		else = {
+			add_dip_power = 20
+		}
+		add_country_modifier = {
+			name = rip_tur_salonika_ruthenian_factors
+			duration = 5475
+		}
+		if = {
+			limit = { has_estate = estate_dhimmi }
+			add_estate_loyalty = { estate = estate_dhimmi loyalty = 10 }
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_ruthenian.9
+	title = rip_tur_ruthenian.9.t
+	desc = rip_tur_ruthenian.9.d
+	picture = CONSTANTINOPLE_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_ruthenian.9.a
+		custom_tooltip = rip_tur_ruthenian.9.result_tt
+		trigger = { dip_power = 40 }
+		ai_chance = { factor = 2 }
+		add_dip_power = -40
+		country_event = { id = rip_tur_ruthenian.10 days = 180 }
+	}
+	option = {
+		name = rip_tur_ruthenian.9.b
+		ai_chance = { factor = 1 }
+		add_dip_power = 20
+		if = {
+			limit = { religion_group = muslim }
+			add_piety = 0.1
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_ruthenian.10
+	title = rip_tur_ruthenian.10.t
+	desc = rip_tur_ruthenian.10.d
+	picture = CONSTANTINOPLE_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_ruthenian.10.a
+		add_prestige = 10
+		add_adm_power = 35
+		add_country_modifier = {
+			name = rip_tur_phanar_kyiv_mediation
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_ruthenian.11
+	title = rip_tur_ruthenian.11.t
+	desc = rip_tur_ruthenian.11.d
+	picture = REVOLUTION_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_ruthenian.11.a
+		custom_tooltip = rip_tur_ruthenian.11.result_tt
+		trigger = { treasury = 100 }
+		ai_chance = { factor = 2 }
+		add_treasury = -100
+		country_event = { id = rip_tur_ruthenian.12 days = 150 }
+	}
+	option = {
+		name = rip_tur_ruthenian.11.b
+		ai_chance = { factor = 1 }
+		add_war_exhaustion = -2
+		add_mil_power = 25
+	}
+}
+
+country_event = {
+	id = rip_tur_ruthenian.12
+	title = rip_tur_ruthenian.12.t
+	desc = rip_tur_ruthenian.12.d
+	picture = REVOLUTION_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_ruthenian.12.a
+		add_stability_or_adm_power = yes
+		add_yearly_manpower = 0.5
+		if = {
+			limit = { has_government_mechanic = ottoman_decadence_mechanic }
+			add_government_power = {
+				mechanic_type = ottoman_decadence_mechanic
+				power_type = ottoman_decadence
+				value = -5
+			}
+		}
+	}
+}
