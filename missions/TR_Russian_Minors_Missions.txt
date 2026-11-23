@@ -932,4 +932,36 @@ tr_russian_minors_5 = {
 			}
 		}
 	}
+
+	tr_rip_ruthenian_charters = {
+		icon = mission_monarch_in_throne_room
+		required_missions = { tr_kiev }
+		position = 5
+		provinces_to_highlight = {
+			rip_diaspora_eligible_culture_province = yes
+			NOT = { owned_by = ROOT }
+		}
+		trigger = {
+			is_subject = no
+			stability = 1
+			num_of_owned_provinces_with = {
+				value = 3
+				rip_diaspora_eligible_culture_province = yes
+				development = 8
+			}
+		}
+		effect = {
+			add_adm_power = 50
+			if = {
+				limit = {
+					NOT = { accepted_culture = ruthenian }
+				}
+				add_accepted_culture = ruthenian
+			}
+			add_country_modifier = {
+				name = tr_rip_ruthenian_charters
+				duration = 7300
+			}
+		}
+	}
 }

@@ -2371,6 +2371,48 @@ mos_rus_russian_consolidation = {
 		}
 	}
 
+	# Mod addition. The Kyiv metropolia passed under the Moscow patriarch in 1686; the clergy
+	# it brought (Mohyla's pupils, the Lavra press) shaped the Russian church of the next century.
+	rip_rus_kyiv_metropolia = {
+		icon = mission_autocephalous_archbishopric
+		required_missions = { mos_rus_russian_patriarchate }
+		position = 8
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280
+				rip_diaspora_eligible_culture_province = yes
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			rip_faith_is_eastern_orthodox = yes
+			280 = { country_or_non_sovereign_subject_holds = ROOT }
+			num_of_owned_provinces_with = {
+				value = 4
+				rip_diaspora_eligible_culture_province = yes
+			}
+			stability = 1
+		}
+		effect = {
+			add_prestige = 10
+			add_adm_power = 50
+			280 = {
+				if = {
+					limit = { owned_by = ROOT }
+					add_base_tax = 1
+				}
+			}
+			add_country_modifier = {
+				name = rip_rus_kyivan_clergy
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 250
+		}
+	}
+
 	mos_rus_found_the_russian_tsardom = { #Custom localization for republics/monarchies/theocracies
 		icon = mission_the_russian_tsardom
 		required_missions = { }

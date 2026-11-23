@@ -188,12 +188,12 @@ def check_russian_minors() -> None:
             cells.add(cell)
             mission_ids.append(ident)
 
-    assert len(mission_ids) == 14 and len(cells) == 14, (len(mission_ids), cells)
+    assert len(mission_ids) == 15 and len(cells) == 15, (len(mission_ids), cells)
     assert set(mission_ids) == {
         "tr_conquer_mos", "tr_independence", "tr_conquer_russia", "tr_rip_volga_marches",
         "tr_tatar_yoke", "tr_conquer_nov", "tr_cossacks", "tr_rip_gather_rus",
         "tr_stability", "tr_rip_frontier_marches", "tr_dniepr", "tr_ruthenia",
-        "tr_rip_princely_domains", "tr_kiev",
+        "tr_rip_princely_domains", "tr_kiev", "tr_rip_ruthenian_charters",
     }
 
     stability = named_block(minors_missions, "tr_stability")
@@ -215,6 +215,13 @@ def check_russian_minors() -> None:
     assert "position = 2" in domains
     assert "tr_rip_princely_charter" in domains
 
+    charters = named_block(minors_missions, "tr_rip_ruthenian_charters")
+    assert "required_missions = { tr_kiev }" in charters and "position = 5" in charters
+    assert "slot = 5" in named_block(minors_missions, "tr_russian_minors_5")
+    assert "add_accepted_culture = ruthenian" in charters and "tr_rip_ruthenian_charters" in named_block(
+        charters, "effect")
+    assert (5, 5) in cells
+
     volga = named_block(minors_missions, "tr_rip_volga_marches")
     assert "required_missions = { tr_conquer_russia }" in volga
     assert "position = 4" in volga
@@ -233,6 +240,7 @@ def check_russian_minors() -> None:
         "tr_rip_princely_charter",
         "tr_rip_steppe_vanguard",
         "tr_rip_sovereign_of_all_rus",
+        "tr_rip_ruthenian_charters",
     ):
         named_block(minors_modifiers, mod)
 

@@ -69,6 +69,9 @@ REVIEWED_DOM_DEVIATIONS = {
     "rus_dissolve_the_streltsy": "kill-counter flag merged into the same hidden_effect",
 }
 
+# Missions that exist only in the mod's copy (one per tree, see tests/check_ruthenian_mission_series.py).
+MOD_ADDITIONS = {"rip_rus_kyiv_metropolia"}
+
 CUSTOM_NATION_CLAUSE = (
     "AND = { is_playing_custom_nation = yes capital_scope = { region = russia_region } "
     "NOT = { technology_group = nomad_group } }"
@@ -275,7 +278,7 @@ def dom_drift(mod_text: str, vanilla_text: str, definitions: dict[str, str]) -> 
         mod_missions, vanilla_missions = mod[name]["missions"], vanilla[name]["missions"]
         for mission in sorted(set(vanilla_missions) - set(mod_missions)):
             problems.append(f"{name}/{mission}: in vanilla 1.37.5, missing from the mod")
-        for mission in sorted(set(mod_missions) - set(vanilla_missions)):
+        for mission in sorted(set(mod_missions) - set(vanilla_missions) - MOD_ADDITIONS):
             problems.append(f"{name}/{mission}: in the mod, absent from vanilla 1.37.5")
         for mission in sorted(set(mod_missions) & set(vanilla_missions)):
             if mod_missions[mission] != vanilla_missions[mission] and mission not in REVIEWED_DOM_DEVIATIONS:
