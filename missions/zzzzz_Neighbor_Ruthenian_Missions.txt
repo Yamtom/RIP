@@ -1,0 +1,368 @@
+# Additive Ruthenian-culture and Ruthenia-region missions for neighboring base and DLC trees.
+# Never replaces vanilla files; loads after vanilla and existing RIP series.
+
+rip_lit_ruthenian_missions = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = LIT
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	rip_lit_ruthenian_chancery = {
+		icon = mission_noble_council
+		required_missions = { }
+		position = 6
+		provinces_to_highlight = {
+			region = ruthenia_region
+			rip_diaspora_eligible_culture_province = yes
+			OR = {
+				NOT = { owned_by = ROOT }
+				local_autonomy = 35
+			}
+		}
+		trigger = {
+			OR = {
+				accepted_culture = ruthenian
+				accepted_culture = ruthenian_new
+				accepted_culture = ruthenian_west_ruthenian
+				accepted_culture = ruthenian_west_slavic
+				rip_diaspora_eligible_culture = yes
+			}
+			num_of_owned_provinces_with = {
+				value = 8
+				region = ruthenia_region
+				rip_diaspora_eligible_culture_province = yes
+				NOT = { local_autonomy = 35 }
+			}
+			OR = {
+				adm_tech = 8
+				num_of_owned_provinces_with = {
+					value = 3
+					region = ruthenia_region
+					OR = {
+						has_building = courthouse
+						has_building = town_hall
+					}
+				}
+			}
+		}
+		effect = {
+			add_adm_power = 75
+			change_government_reform_progress = 35
+			add_country_modifier = {
+				name = rip_lit_chancery_statutes
+				duration = 9125
+			}
+		}
+	}
+
+	rip_lit_princes_of_rus = {
+		icon = mission_eastern_european_city
+		required_missions = { rip_lit_ruthenian_chancery }
+		position = 7
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280
+				AND = {
+					region = ruthenia_region
+					rip_diaspora_eligible_culture_province = yes
+					NOT = { development = 15 }
+				}
+			}
+		}
+		trigger = {
+			280 = {
+				owned_by = ROOT
+				development = 20
+				rip_diaspora_eligible_culture_province = yes
+			}
+			num_of_owned_provinces_with = {
+				value = 4
+				region = ruthenia_region
+				rip_diaspora_eligible_culture_province = yes
+				development = 15
+			}
+			stability = 1
+		}
+		effect = {
+			add_prestige = 15
+			add_dip_power = 75
+			280 = {
+				add_base_tax = 1
+				add_base_production = 1
+				add_base_manpower = 1
+			}
+			add_country_modifier = {
+				name = rip_lit_ruthenian_pillar
+				duration = -1
+			}
+		}
+	}
+}
+
+rip_tatar_ruthenian_missions = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			AND = {
+				NOT = { has_dlc = "Winds of Change" }
+				OR = {
+					tag = GOL
+					tag = CRI
+					tag = NOG
+					tag = KAZ
+					tag = SHY
+					tag = GLH
+					tag = SIB
+					tag = BSH
+					tag = AST
+					tag = QAS
+					tag = KZH
+					tag = CHG
+					tag = KAS
+				}
+			}
+			AND = {
+				has_dlc = "Winds of Change"
+				OR = {
+					is_tatar_nation = yes
+					is_mongol_nation = yes
+					is_moghulistan_nation = yes
+					tag = GLH
+					tag = MGE
+					tag = ILK
+					tag = YUA
+				}
+			}
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	rip_tatar_dnieper_tribute = {
+		icon = mission_steppe_warriors
+		required_missions = { }
+		position = 20
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280
+				AND = {
+					region = ruthenia_region
+					rip_diaspora_eligible_culture_province = yes
+				}
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			OR = {
+				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+					value = 6
+					region = ruthenia_region
+					rip_diaspora_eligible_culture_province = yes
+				}
+				AND = {
+					280 = { country_or_non_sovereign_subject_holds = ROOT }
+					num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+						value = 4
+						region = ruthenia_region
+					}
+				}
+				any_subject_country = {
+					rip_diaspora_eligible_culture = yes
+					num_of_cities = 4
+				}
+			}
+		}
+		effect = {
+			add_years_of_income = 0.75
+			add_mil_power = 50
+			add_country_modifier = {
+				name = rip_tatar_ruthenian_tribute
+				duration = 9125
+			}
+			west_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			east_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+}
+
+rip_tur_ruthenian_missions = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = TUR
+			tag = RUM
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	rip_tur_podillian_eyalet = {
+		icon = mission_ottoman_diplomacy
+		required_missions = { }
+		position = 17
+		provinces_to_highlight = {
+			OR = {
+				area = podolia_volhynia_area
+				AND = {
+					region = ruthenia_region
+					rip_diaspora_eligible_culture_province = yes
+				}
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			OR = {
+				AND = {
+					281 = { country_or_non_sovereign_subject_holds = ROOT }
+					num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+						value = 5
+						region = ruthenia_region
+						rip_diaspora_eligible_culture_province = yes
+					}
+				}
+				any_subject_country = {
+					rip_diaspora_eligible_culture = yes
+					num_of_cities = 5
+				}
+			}
+		}
+		effect = {
+			add_prestige = 15
+			add_mil_power = 50
+			if = {
+				limit = {
+					281 = { country_or_non_sovereign_subject_holds = ROOT }
+				}
+				281 = {
+					add_province_modifier = {
+						name = rip_tur_kamianets_citadel
+						duration = 9125
+					}
+				}
+			}
+			add_country_modifier = {
+				name = rip_tur_northern_protectorate
+				duration = 9125
+			}
+			podolia_volhynia_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			west_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+}
+
+rip_pol_ruthenian_missions = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = POL
+			tag = PLC
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	rip_pol_ruthenian_palatinates = {
+		icon = mission_early_game_buildings
+		required_missions = { }
+		position = 13
+		provinces_to_highlight = {
+			OR = {
+				area = red_ruthenia_area
+				AND = {
+					region = ruthenia_region
+					rip_diaspora_eligible_culture_province = yes
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				local_autonomy = 30
+			}
+		}
+		trigger = {
+			2961 = {
+				owned_by = ROOT
+				development = 18
+				rip_diaspora_eligible_culture_province = yes
+			}
+			num_of_owned_provinces_with = {
+				value = 6
+				OR = {
+					area = red_ruthenia_area
+					region = ruthenia_region
+				}
+				rip_diaspora_eligible_culture_province = yes
+				NOT = { local_autonomy = 30 }
+			}
+			OR = {
+				accepted_culture = ruthenian
+				accepted_culture = ruthenian_new
+				accepted_culture = ruthenian_west_ruthenian
+				accepted_culture = ruthenian_west_slavic
+				accepted_culture = rusyn
+				accepted_culture = rusyn_new
+				accepted_culture = rusyn_new_new
+				accepted_culture = rusyn_west_ruthenian
+				accepted_culture = rusyn_west_slavic
+				num_of_owned_provinces_with = {
+					value = 3
+					OR = {
+						area = red_ruthenia_area
+						region = ruthenia_region
+					}
+					rip_diaspora_eligible_culture_province = yes
+					OR = {
+						has_building = temple
+						has_building = cathedral
+						has_building = university
+					}
+				}
+			}
+		}
+		effect = {
+			add_adm_power = 50
+			add_dip_power = 50
+			2961 = {
+				add_base_production = 1
+				add_base_tax = 1
+			}
+			add_country_modifier = {
+				name = rip_pol_ruthenian_palatinates_mod
+				duration = 9125
+			}
+		}
+	}
+}

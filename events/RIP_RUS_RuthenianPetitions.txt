@@ -1,0 +1,214 @@
+namespace = rip_rus_ruthenian
+
+country_event = {
+	id = rip_rus_ruthenian.1
+	title = rip_rus_ruthenian.1.t
+	desc = rip_rus_ruthenian.1.d
+	picture = BIG_BOOK_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_ruthenian.1.a
+		trigger = { adm_power = 35 }
+		ai_chance = { factor = 2 }
+		add_adm_power = -35
+		country_event = { id = rip_rus_ruthenian.2 days = 180 }
+	}
+	option = {
+		name = rip_rus_ruthenian.1.b
+		ai_chance = { factor = 1 }
+		add_legitimacy = 5
+	}
+}
+
+country_event = {
+	id = rip_rus_ruthenian.2
+	title = rip_rus_ruthenian.2.t
+	desc = rip_rus_ruthenian.2.d
+	picture = BIG_BOOK_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_ruthenian.2.a
+		add_dip_power = 55
+	}
+}
+
+country_event = {
+	id = rip_rus_ruthenian.3
+	title = rip_rus_ruthenian.3.t
+	desc = rip_rus_ruthenian.3.d
+	picture = MILITARY_CAMP_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_ruthenian.3.a
+		trigger = { treasury = 60 }
+		ai_chance = { factor = 2 }
+		add_treasury = -60
+		country_event = { id = rip_rus_ruthenian.4 days = 120 }
+	}
+	option = {
+		name = rip_rus_ruthenian.3.b
+		ai_chance = { factor = 1 }
+		if = {
+			limit = { owns = 2407 }
+			2407 = { add_local_autonomy = 5 }
+		}
+		add_prestige = 5
+	}
+}
+
+country_event = {
+	id = rip_rus_ruthenian.4
+	title = rip_rus_ruthenian.4.t
+	desc = rip_rus_ruthenian.4.d
+	picture = MILITARY_CAMP_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_ruthenian.4.a
+		if = {
+			limit = { owns = 2407 }
+			2407 = { add_base_manpower = 1 }
+		}
+	}
+}
+
+country_event = {
+	id = rip_rus_ruthenian.5
+	title = rip_rus_ruthenian.5.t
+	desc = rip_rus_ruthenian.5.d
+	picture = TRADE_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_ruthenian.5.a
+		trigger = { treasury = 75 }
+		ai_chance = { factor = 2 }
+		add_treasury = -75
+		country_event = { id = rip_rus_ruthenian.6 days = 270 }
+	}
+	option = {
+		name = rip_rus_ruthenian.5.b
+		ai_chance = { factor = 1 }
+		add_treasury = 20
+	}
+}
+
+country_event = {
+	id = rip_rus_ruthenian.6
+	title = rip_rus_ruthenian.6.t
+	desc = rip_rus_ruthenian.6.d
+	picture = TRADE_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_ruthenian.6.a
+		random_owned_province = { limit = { region = west_siberia_region is_city = yes } add_base_production = 1 }
+		add_prestige = 4
+	}
+}
+
+country_event = {
+	id = rip_rus_ruthenian.7
+	title = rip_rus_ruthenian.7.t
+	desc = rip_rus_ruthenian.7.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_ruthenian.7.a
+		trigger = { treasury = 80 }
+		ai_chance = { factor = 2 }
+		add_treasury = -80
+		country_event = { id = rip_rus_ruthenian.8 days = 180 }
+	}
+	option = {
+		name = rip_rus_ruthenian.7.b
+		ai_chance = { factor = 1 }
+		add_war_exhaustion = -1
+	}
+}
+
+country_event = {
+	id = rip_rus_ruthenian.8
+	title = rip_rus_ruthenian.8.t
+	desc = rip_rus_ruthenian.8.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_ruthenian.8.a
+		add_stability_or_adm_power = yes
+	}
+}
+
+country_event = {
+	id = rip_rus_ruthenian.9
+	title = rip_rus_ruthenian.9.t
+	desc = rip_rus_ruthenian.9.d
+	picture = MILITARY_CAMP_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_ruthenian.9.a
+		trigger = { mil_power = 30 }
+		ai_chance = { factor = 2 }
+		add_mil_power = -30
+		country_event = { id = rip_rus_ruthenian.10 days = 150 }
+	}
+	option = {
+		name = rip_rus_ruthenian.9.b
+		ai_chance = { factor = 1 }
+		add_estate_loyalty = { estate = estate_cossacks loyalty = 5 }
+	}
+}
+
+country_event = {
+	id = rip_rus_ruthenian.10
+	title = rip_rus_ruthenian.10.t
+	desc = rip_rus_ruthenian.10.d
+	picture = MILITARY_CAMP_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_ruthenian.10.a
+		add_army_tradition = 8
+	}
+}
+
+country_event = {
+	id = rip_rus_ruthenian.11
+	title = rip_rus_ruthenian.11.t
+	desc = rip_rus_ruthenian.11.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_ruthenian.11.a
+		trigger = { adm_power = 30 }
+		ai_chance = { factor = 2 }
+		add_adm_power = -30
+		country_event = { id = rip_rus_ruthenian.12 days = 240 }
+	}
+	option = {
+		name = rip_rus_ruthenian.11.b
+		ai_chance = { factor = 1 }
+		add_dip_power = 15
+	}
+}
+
+country_event = {
+	id = rip_rus_ruthenian.12
+	title = rip_rus_ruthenian.12.t
+	desc = rip_rus_ruthenian.12.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_ruthenian.12.a
+		add_legitimacy = 10
+		add_prestige = 6
+	}
+}

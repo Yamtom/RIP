@@ -19,6 +19,7 @@ diaspora_effects = read("common/scripted_effects/rip_diaspora_effects.txt")
 diaspora_modifiers = read("common/event_modifiers/RIP_diaspora_modifiers.txt")
 minors_missions = read("missions/TR_Russian_Minors_Missions.txt")
 minors_modifiers = read("common/event_modifiers/RIP_TR_minors_modifiers.txt")
+dom_russia_missions = read("missions/DOM_Russia_Missions.txt")
 
 
 def loc_entries(path: str) -> dict[str, str]:
@@ -285,16 +286,30 @@ def check_localisation() -> None:
             assert fb.get(key) == mos_en[key], (lang, key)
 
 
+def check_dom_russia_compat() -> None:
+    patriarchate = named_block(dom_russia_missions, "mos_rus_russian_patriarchate")
+    for sub in ("provinces_to_highlight", "trigger", "effect"):
+        block = named_block(patriarchate, sub)
+        assert "rip_faith_is_eastern_orthodox = yes" in block, sub
+        assert "religion = orthodox" not in block, sub
+
+    sudebnik = named_block(dom_russia_missions, "rus_enact_the_sudebnik")
+    sudebnik_trigger = named_block(sudebnik, "trigger")
+    assert "NOT = { rip_diaspora_eligible_culture = yes }" in sudebnik_trigger
+    assert "primary_culture = ruthenian" not in sudebnik_trigger
+    assert "primary_culture = ruthenian_new" not in sudebnik_trigger
+
+
 def planted(label: str, mutate, check) -> None:
-    global diaspora_missions, diaspora_decisions, diaspora_events, minors_missions
-    saved = (diaspora_missions, diaspora_decisions, diaspora_events, minors_missions)
+    global diaspora_missions, diaspora_decisions, diaspora_events, minors_missions, dom_russia_missions
+    saved = (diaspora_missions, diaspora_decisions, diaspora_events, minors_missions, dom_russia_missions)
     try:
         mutate()
         check()
     except AssertionError:
         return
     finally:
-        diaspora_missions, diaspora_decisions, diaspora_events, minors_missions = saved
+        diaspora_missions, diaspora_decisions, diaspora_events, minors_missions, dom_russia_missions = saved
     raise SystemExit(f"planted regression not caught: {label}")
 
 
@@ -305,6 +320,7 @@ def main() -> int:
     check_diaspora_events()
     check_russian_minors()
     check_localisation()
+    check_dom_russia_compat()
 
     def readd_1800() -> None:
         global diaspora_missions
@@ -334,11 +350,28 @@ def main() -> int:
         global minors_missions
         minors_missions = minors_missions.replace("add_claim = ROOT", "add_permanent_claim = ROOT", 1)
 
+    def revert_patriarchate_orth() -> None:
+        global dom_russia_missions
+        pat = named_block(dom_russia_missions, "mos_rus_russian_patriarchate")
+        eff = named_block(pat, "effect")
+        mutated_eff = eff.replace("rip_faith_is_eastern_orthodox = yes", "religion = orthodox", 1)
+        dom_russia_missions = dom_russia_missions.replace(eff, mutated_eff, 1)
+
+    def revert_sudebnik_culture() -> None:
+        global dom_russia_missions
+        dom_russia_missions = dom_russia_missions.replace(
+            "NOT = { rip_diaspora_eligible_culture = yes }",
+            "NOT = { primary_culture = ruthenian }\n\t\t\t\t\tNOT = { primary_culture = ruthenian_new }",
+            1,
+        )
+
     planted("1800 time gate returns", readd_1800, check_diaspora_missions)
     planted("else_if priority trap returns", readd_else_if, check_diaspora_decisions)
     planted("ZLK pre-cores in immediate", readd_zlk_immediate, check_diaspora_events)
     planted("tr_dniepr bypasses tr_rip_frontier_marches", revert_dniepr_req, check_russian_minors)
     planted("add_permanent_claim leaks into TR Russian Minors", readd_perm_claim, check_russian_minors)
+    planted("mos_rus_russian_patriarchate drops russian_orthodox", revert_patriarchate_orth, check_dom_russia_compat)
+    planted("rus_enact_the_sudebnik reverts to narrow ruthenian check", revert_sudebnik_culture, check_dom_russia_compat)
 
     print("PASS: Diaspora time-gate/region-choice/ZLK-SRK and TR Russian Minors fixes (static + planted checks)")
     return 0
