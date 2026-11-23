@@ -65,6 +65,7 @@ REVIEWED_DOM_DEVIATIONS = {
     "mos_rus_russian_patriarchate": "rip_faith_is_eastern_orthodox and the Byzantine gate",
     # Same effect, written out by hand in the mod file.
     "rus_solidify_serfdom": "macro expansion repeats the tooltip inside hidden_effect",
+    "rus_enact_the_sudebnik": "rip_diaspora_eligible_culture replaces the two primary_culture checks (eaba6787)",
     "rus_early_industrialization": "ten explicit random_owned_province instead of the for-macro",
     "rus_dissolve_the_streltsy": "kill-counter flag merged into the same hidden_effect",
 }

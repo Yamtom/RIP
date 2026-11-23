@@ -23,6 +23,7 @@ from check_vanilla_mission_sync import dump, parse
 from clausewitz_testlib import ROOT, read, vanilla_root
 
 NEW_FILE = "zzzz_Ruthenian_Contacts_Horde_Habsburg.txt"
+LATEST_NEW_ROW = 17  # the lowest of the new missions (Tatar row 17, Habsburg row 13)
 # Vanilla files that fill column 5 for Tatar or Habsburg tags (measured on 1.37.5 with the check below).
 KNOWN_COLUMN_FILES = ("zzz_WoC_Shared_Horde_Missions.txt", "WoC_Austrian_Missions.txt", "WoC_Tatar_Missions.txt")
 TATAR_TAGS = ("GOL", "CRI", "NOG", "KAZ", "SHY", "GLH", "SIB", "BSH", "AST", "QAS", "KZH", "CHG", "KAS")
@@ -96,8 +97,12 @@ def load_order_problems(new_name: str, files: dict[str, str], known: tuple[str, 
         for series, slot, generic, potential, missions in series_list(text):
             if slot != 5 or generic == "yes" or not missions or not applies(potential):
                 continue
-            if name.lower() > mine:
-                problems.append(f"{name}/{series} fills column 5 for Tatar or Habsburg tags but loads after {new_name}")
+            # A series that loads after the new file only stacks below it, which is harmless as long as
+            # its declared rows start under the new missions; one that starts higher would sit above them.
+            lowest = min((position for position, _, _ in missions.values() if position), default=0)
+            if name.lower() > mine and lowest <= LATEST_NEW_ROW:
+                problems.append(f"{name}/{series} fills column 5 for Tatar or Habsburg tags, loads after {new_name} "
+                                f"and starts at row {lowest}, not below row {LATEST_NEW_ROW}")
     return problems
 
 
@@ -105,8 +110,8 @@ def tallest_row(files: dict[str, str], new_name: str, tags: tuple[str, ...], hel
     """Highest declared row of any vanilla or mod column-5 series that a country of this family can see."""
     rows = [0]
     for name, text in files.items():
-        if name == new_name:
-            continue
+        if name == new_name or name.lower() > new_name.lower():
+            continue  # only series that load before the new file can push it down
         for series, slot, generic, potential, missions in series_list(text):
             if slot != 5 or generic == "yes":
                 continue
