@@ -1,3 +1,18 @@
+> **Оновлення 24 листопада 2026 (звірка місій з ваніллю, чотири русинські місії, дев'ять гілок `PLC`):** три коміти.
+> **1. Звірка** (`docs/MISSIONS_VANILLA_SYNC_20261124.uk.md`): `DOM_Russia_Missions.txt` після розгортання ванільних макросів не відстає від 1.37.5
+> (21 місія відрізняється навмисно; у донорі 1.30.3 цього файла немає), а в `TR_Russian_Minors_Missions.txt` до `potential` усіх п'яти серій
+> перенесено ванільну гілку `is_playing_custom_nation`; ванільну пов'язаність місій не взято, бо мод має власну розкладку. Нова перевірка
+> `tests/check_vanilla_mission_sync.py`. **2. Чотири місії** (`docs/RUTHENIAN_CONTACT_MISSIONS_20261124.uk.md`): «Київська митрополія» (`DOM`, колонка 3
+> рядок 8), «Русинські хартії» (`TR`, колонка 5 рядок 5), «Русинські ярлики» (татари) і «Галицькі русини» (`HAB`) в новому файлі
+> `missions/zzzz_Ruthenian_Contacts_Horde_Habsburg.txt`: одна серія на дерево, префікс `zzzz_` потрібен, щоб файл сортувався після
+> `zzz_WoC_Shared_Horde_Missions.txt`; перевірка `tests/check_ruthenian_mission_series.py`. **3. Дев'ять гілок `PLC`**
+> (`docs/PLC_RUTHENIAN_BRANCHES_20261124.uk.md`): 24 події, 3 рішення, катастрофа `plc_confederation_of_bar`, 15 модифікаторів, перевірка
+> `tests/check_plc_ruthenian_branches.py`. Хеші каталогу локалізації в маніфесті перераховано (разом із застарілими від чужих комітів), тож
+> `check_localisation_replace_layout.py` знову зелений. Решта червоних у гейті не з цієї роботи: `check_colonial_names` (CRLF), `check_church_gui_routes`,
+> `check_ruthenian_government_ui`, `check_interface_naming`, `check_kyiv_subject_forms`, `check_parliament_names`, `check_ruthenian_legacy`.
+> У грі нічого не запускалося. Питання автору: чи залишати пряму передачу Каменця (`281`) в `plc_buchach.1` і ігровий вибір рядків 17 і 13 для татарської та австрійської
+> місій (позиція — лише мінімум, перша місія серії стоїть під деревом без стрілки).
+>
 > **Оновлення 24 листопада 2026 (дерево місій Полоцька):** детально — [PLT_POLOTSK_MISSIONS_20261124.uk.md](PLT_POLOTSK_MISSIONS_20261124.uk.md).
 > `PLT`, якого вилучено з третьоримських серій малих князівств, отримав власний файл `missions/PLT_Polotsk_Missions.txt`: три колонки
 > (Двіна, Біла Русь, Велике князівство), 13 місій, нагороди територією лише тимчасовими претензіями (`add_claim = ROOT`), дванадцять нових
