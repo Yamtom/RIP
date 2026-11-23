@@ -15,6 +15,7 @@ if GAME is None:
 LOC = {}
 DYNAMIC = []
 CONTROLS = []
+GEOMETRY = {}   # window name -> (y, height, background sprite); the status panels keep the default
 
 def loc(key, value):
     LOC[key] = value
@@ -43,9 +44,7 @@ def row(name, y, text, tip, height=22, x=18, width=434, font='vic_18', potential
 
 def panel(name, potential, rows):
     CONTROLS.append(f'custom_window = {{ name = {name} potential = {{ {potential} }} }}')
-    reviews = name == 'rip_gov_reviews_panel'
-    y, height = (340, 216) if reviews else (12, 320)
-    sprite = 'GFX_rip_government_reviews_bg' if reviews else 'GFX_rip_government_status_bg'
+    y, height, sprite = GEOMETRY.get(name, (12, 320, 'GFX_rip_government_status_bg'))
     return f'''windowType = {{ name = "{name}" scripted = yes position = {{ x=550 y={y} }} size = {{ x=470 y={height} }} moveable = 0
  iconType = {{ name = "background" spriteType = "{sprite}" position = {{ x=0 y=0 }} }}
  {chr(10).join(rows)}
@@ -139,9 +138,9 @@ def resolution_state(key, held, label, power, power_test, modifier):
     return choice('RipGovRes' + key, [(f'NOT = {{ {held} }}', '')] + [(trigger, head + shown + '\n') for trigger, shown in states], head + 'Check button\n')
 
 
-res_name = choice('RipGovResName', [(f'has_country_modifier = {modifier}', f'§G{name}§!') for _, _, _, _, _, modifier, name in RESOLUTIONS]
-                  + [('NOT = { rip_gov_resolution_lock_over = yes }', '§YNone in force§!')], '§GNone in force§!')
-res_left = choice('RipGovResLeft', [('rip_gov_resolution_lock_over = yes', 'Term complete; each order has its own requirements')]
+res_name = choice('RipGovResName', [(f'has_country_modifier = {modifier}', f'§Y{name}§!') for _, _, _, _, _, modifier, name in RESOLUTIONS]
+                  + [('NOT = { rip_gov_resolution_lock_over = yes }', 'None')], 'None')
+res_left = choice('RipGovResLeft', [('rip_gov_resolution_lock_over = yes', 'Term complete')]
                   + [(f'had_country_flag = {{ flag = rip_gov_review_recent days = {365 * gone} }}',
                       f'Next resolution in §Y{10 - gone}§! year' + ('' if 10 - gone == 1 else 's')) for gone in range(9, 0, -1)],
                   'Next resolution in §Y10§! years')
@@ -206,6 +205,7 @@ vln_consent_tip = 'Senate Consent:\nSummon the Senate costs 3 months of income, 
 
 # Layout is separate from the numerical contracts above. Native interaction
 # buttons remain the authority for engine-owned cooldowns, including old saves.
+import government_resolution_ledger as ledger
 from government_status_layout import build_panels
 PANELS = build_panels(globals())
 PANEL_NAMES = [name for name, _, _ in PANELS]
@@ -229,7 +229,7 @@ gui = native[:end] + '\n# Generated read-only RIP government explanations.\n' + 
 # transitive localisation graph actually reachable from a displayed widget.
 import re
 used = set(re.findall(r'text = "(rip_gov_\w+)"', gui))
-used |= {key + '_tt' for key in used}
+used |= {key + '_tt' for key in used if key + '_tt' in LOC}   # a static caption has no tooltip
 definitions = {re.search(r'name = (\w+)', block)[1]: block for block in DYNAMIC}
 live_dynamic = set()
 while True:
@@ -243,7 +243,7 @@ LOC = {key: value for key, value in LOC.items() if key in used}
 DYNAMIC = [block for name, block in definitions.items() if name in live_dynamic]
 backgrounds = 'spriteTypes = {\n' + '\n'.join(
     f' corneredTileSpriteType = {{ name = {name} size = {{ x = 470 y = {height} }} texturefile = "gfx/interface/government_view/government_mechanics_bg.dds" borderSize = {{ x = 12 y = 12 }} }}'
-    for name, height in [('GFX_rip_government_status_bg', 320), ('GFX_rip_government_reviews_bg', 216)]
+    for name, height in [('GFX_rip_government_status_bg', 320), ('GFX_rip_government_reviews_head_bg', ledger.HEAD_H)] + [(ledger.card_sprite(h), h) for h in ledger.HEIGHTS]
 ) + '\n}\n'
 outputs = {'interface/RIP_shared_government_status.gfx': backgrounds, 'interface/countrygovernmentview.gui': gui, 'common/custom_gui/rip_government_status.txt':'\n'.join(CONTROLS)+'\n'}
 outputs.update(split_custom_localization('\n'.join(DYNAMIC)+'\n', 'government_status'))

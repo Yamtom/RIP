@@ -67,10 +67,32 @@ start=gui.index('\n# Generated read-only RIP government explanations.\n')
 end=gui.index('\n}',gui.index(f'name = "{g.PANEL_NAMES[-1]}"'))+2
 assert gui[:start]+gui[end+1:]==g.native
 assert 'x=550 y=12' in gui and 'x=470 y=320' in gui
-assert 'x=550 y=340' in gui and 'x=470 y=216' in gui
-# Both blocks fit within the native 1024-wide root and a 720-high viewport
-# at 1x UI scale (root y=140; final bottom=696).
-assert 550 + 470 <= 1024 and 140 + 340 + 216 <= 720
+# The resolutions ledger: a head and a card for each institution, docked at the top of the column or under a status panel.
+ledger = importlib.util.spec_from_file_location('government_resolution_ledger', ROOT/'tools/government_resolution_ledger.py')
+ledger_module = importlib.util.module_from_spec(ledger); ledger.loader.exec_module(ledger_module)
+assert ledger_module.TOP_Y == 12 and ledger_module.STATUS_Y == 12 + 320 + 4
+assert 'x=470 y=%d' % ledger_module.HEAD_H in gui and all('x=470 y=%d' % h in gui for h in ledger_module.HEIGHTS)
+# Every panel fits within the native 1024-wide root. In a 768-high viewport at 1x UI scale (root y=140) the head and the tallest card fit under the
+# 320-high status panel, and in a 720-high one two cards fit at the top of an empty column. The cards of the town charters and of the chancery are
+# equally high, so the position of a card does not depend on which of the two stands above it.
+assert 550 + 470 <= 1024
+tall = max(ledger_module.HEIGHTS)
+assert 140 + ledger_module.STATUS_Y + ledger_module.HEAD_H + ledger_module.GAP + tall <= 768
+assert 140 + ledger_module.TOP_Y + ledger_module.HEAD_H + 2 * (ledger_module.GAP + tall) <= 720
+heights = {group[0]: ledger_module.card_height(group[4]) for group in ledger_module.GROUPS}
+assert heights['Municipal'] == heights['Chancery'], heights
+# Text stays clear of the frame (12 px of ornament on every side) in every window of the ledger.
+for panel_name, _, rows in g.PANELS:
+    if not panel_name.startswith('rip_gov_rv_'):
+        continue
+    window_height = g.GEOMETRY[panel_name][1]
+    for widget in rows:
+        m = re.search(r'x=(\d+) y=(\d+) \}\s*(?:font|scale).*?(?:maxWidth = (\d+) maxHeight = (\d+)|scale = ([\d.]+))', widget)
+        if not m:
+            continue
+        x, y = int(m[1]), int(m[2])
+        width, height = (int(m[3]), int(m[4])) if m[3] else (round(82 * float(m[5])), round(82 * float(m[5])))
+        assert x >= 12 and x + width <= 470 - 12 and y >= 12 and y + height <= window_height - 12, (panel_name, widget[:80], x, y, width, height)
 # The Rada panel says what the bar says: the runner-up on the left, the dominant bloc on the right, the grip at the thresholds the generator uses.
 kru_spec = importlib.util.spec_from_file_location('build_kru_rada', ROOT/'tools/build_kru_rada.py')
 kru = importlib.util.module_from_spec(kru_spec)
@@ -106,7 +128,7 @@ def longest(value):
     return re.sub(r'\[Root\.(\w+)\]', expand, value)
 overflows = []
 for panel_name, _, rows in g.PANELS:
-    panel_height = 216 if panel_name == 'rip_gov_reviews_panel' else 320
+    panel_height = g.GEOMETRY.get(panel_name, (12, 320))[1]
     for widget in rows:
         match = re.search(r'y=(\d+).*?text = "(\w+)" maxWidth = (\d+) maxHeight = (\d+)', widget)
         if not match:
@@ -214,7 +236,7 @@ def check_resolutions(mech, modifiers, reforms, tips, triggers):
         if f'has_country_modifier = {modifier}' not in in_force:
             problems.append(f'rip_gov_resolution_in_force does not look for {modifier}')
         for mod_key, value in modifier_values(modifiers, modifier).items():
-            if MODIFIER_WORDS[mod_key] and said(mod_key, value) not in tips['rip_gov_rev_res_lines_tt']:
+            if MODIFIER_WORDS[mod_key] and said(mod_key, value) not in tips['rip_gov_rv_fx_' + key]:
                 problems.append(f'the resolution list does not quote {said(mod_key, value)} for {label}')
     for reform, mechanic in (('vln_magdeburg_rights', 'rip_municipal_resolutions_mechanic'), ('lit_ruthenian_chancery_reform', 'rip_chancery_resolutions_mechanic'),
                              ('het_regimental_system_reform', 'rip_register_resolutions_mechanic'), ('rip_cossacks_reform', 'rip_register_resolutions_mechanic'),

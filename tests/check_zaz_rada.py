@@ -51,8 +51,9 @@ assert "partner = CRI" in field("ZAZ_ally_crimea", "trigger")
 assert "create_alliance = CRI" in field("ZAZ_ally_crimea", "effect")
 assert "alliance_with = CRI" in field("ZAZ_perekop_trade", "trigger")
 
-# All foreign partners sit on one row. The Crimean choice and its two
-# follow-ups form a clear vertical line beneath the Rada.
+# Four foreign partners sit on the row under the Rada; the Crimean pact runs straight down the
+# Rada's own column one tier lower, with its two follow-ups beneath it. The full geometry, in
+# every state of the choice, is pinned by check_zaz_mission_layout.py.
 def cell(series, mission):
     tree = named_block(missions, series)
     slot = int(re.search(r"\bslot = (\d+)", tree)[1])
@@ -62,14 +63,14 @@ def cell(series, mission):
 
 rada = cell("ZAZ_missions_3", "ZAZ_finally")
 pact = cell("ZAZ_crimean_diplomacy", "ZAZ_ally_crimea")
-assert pact[0] == rada[0] and pact[1] > rada[1]
+assert pact[0] == rada[0] and pact[1] == rada[1] + 2
 for slot, series, choice in (
     (1, "ZAZ_missions_1_1", "ZAZ_ally_tur"),
     (2, "ZAZ_missions_2_2", "ZAZ_ally_tartar"),
     (4, "ZAZ_missions_4_2", "ZAZ_ally_pol"),
     (5, "ZAZ_missions_5_2", "ZAZ_ally_rus"),
 ):
-    assert cell(series, choice) == (slot, pact[1])
+    assert cell(series, choice) == (slot, rada[1] + 1)
 assert cell("ZAZ_crimean_diplomacy", "ZAZ_perekop_trade") == (pact[0], pact[1] + 1)
 assert cell("ZAZ_CRI_missions_2", "ZAZ_cri_crossings_compact") == (pact[0], pact[1] + 2)
 assert field("ZAZ_ally_crimea", "required_missions") == "required_missions = { ZAZ_finally }"
