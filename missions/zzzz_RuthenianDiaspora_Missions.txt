@@ -25,7 +25,14 @@ RIP_diaspora_missions_1 = {
 		icon = mission_exploration
 		position = 24
 		trigger = {
-			is_year = 1800
+			# The tree opens with the age of revolutions, in 1750 at the latest, or as
+			# soon as the realm's diplomats reach technology 23: whichever comes first.
+			# A hard 1800 left nearly every campaign without the branch.
+			OR = {
+				is_year = 1750
+				current_age = age_of_revolutions
+				dip_tech = 23
+			}
 			is_subject = no
 			any_owned_province = {
 				has_port = yes
@@ -387,7 +394,14 @@ RIP_diaspora_kyiv_missions_1 = {
 		icon = mission_exploration
 		position = 15
 		trigger = {
-			is_year = 1800
+			# The tree opens with the age of revolutions, in 1750 at the latest, or as
+			# soon as the realm's diplomats reach technology 23: whichever comes first.
+			# A hard 1800 left nearly every campaign without the branch.
+			OR = {
+				is_year = 1750
+				current_age = age_of_revolutions
+				dip_tech = 23
+			}
 			is_subject = no
 			any_owned_province = {
 				has_port = yes

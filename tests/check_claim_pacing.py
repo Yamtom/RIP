@@ -278,6 +278,59 @@ def check_domination_russia(failures: list[str]) -> None:
             "DOM Russia opener is not wired to a namespaced balanced replacement")
 
 
+def check_russian_minors(failures: list[str]) -> None:
+    """Third Rome minors: three columns, no Polotsk, Dnieper behind a united Russia."""
+    text = read("missions/TR_Russian_Minors_Missions.txt")
+
+    series = [name for name in re.findall(r"(?m)^(tr_russian_minors_\d+)\s*=\s*\{", text)]
+    slots = sorted(int(value) for value in re.findall(r"(?m)^\s*slot\s*=\s*(\d+)", text))
+    require(failures, series == ["tr_russian_minors_1", "tr_russian_minors_2", "tr_russian_minors_3"]
+            and slots == [1, 2, 3],
+            "TR_Russian_Minors: the tree must stay in the three vanilla columns "
+            "so that slots 4 and 5 keep the generic missions")
+    require(failures, not re.search(r"(?m)^\s*tag\s*=\s*PLT\b", text),
+            "TR_Russian_Minors: Polotsk (PLT) must not run the Moscow-first tree")
+    require(failures, len(re.findall(r"(?m)^\s*tag\s*=\s*SMO\b", text)) == 3,
+            "TR_Russian_Minors: Smolensk (SMO) must stay on all three series")
+
+    # The Dnieper follows the unification of Russia, as in vanilla.
+    dniepr = named_block(text, "tr_dniepr")
+    dniepr_required = normalized(named_block(dniepr, "required_missions"))
+    require(failures, "tr_conquer_russia" in dniepr_required and "tr_conquer_mos" in dniepr_required,
+            "tr_dniepr: must require tr_conquer_russia and tr_conquer_mos")
+    for early in ("tr_independence", "tr_stability"):
+        block = named_block(text, early)
+        require(failures, "east_dniepr_area" not in block and "west_dniepr_area" not in block
+                and "zaporizhia_area" not in block,
+                f"{early}: Dnieper claims must wait for tr_conquer_russia and tr_dniepr")
+    require(failures, has_normal_claim_scope(
+        named_block(named_block(text, "tr_conquer_russia"), "effect"), "east_dniepr_area"),
+        "tr_conquer_russia: the Left Bank claim must be a temporary claim")
+    require(failures, "add_permanent_claim" not in named_block(text, "tr_stability"),
+            "tr_stability: no permanent claims for a stability mission")
+
+    # Every claim beyond the principality's own two areas is temporary.
+    independence = named_block(text, "tr_independence")
+    require(failures, text.count("add_permanent_claim") == independence.count("add_permanent_claim") == 2
+            and "novgorod_area" in independence and "moscow_area" in independence,
+            "TR_Russian_Minors: permanent claims are limited to the two areas of tr_independence")
+    rewards = {
+        "tr_conquer_nov": ("pskov_area", "beloozero_area", "pomor_area", "karelia_area",
+                           "north_karelia", "arkhangelsk_area", "vologda_area"),
+        "tr_conquer_mos": ("oka_area", "ryazan_area", "vladimir_area", "suzdal_area",
+                           "yaroslavl_area", "tver_area", "tambov_area"),
+        "tr_dniepr": ("west_dniepr_area", "zaporizhia_area"),
+        "tr_cossacks": ("sloboda_ukraine_area", "podolia_volhynia_area", "crimea_region"),
+        "tr_kiev": ("white_ruthenia_area", "pripyat_area", "smolensk_area", "minsk_area",
+                    "red_ruthenia_area"),
+    }
+    for mission, scopes in rewards.items():
+        effect = named_block(named_block(text, mission), "effect")
+        for scope in scopes:
+            require(failures, has_normal_claim_scope(effect, scope),
+                    f"{mission}: {scope} must be a temporary claim")
+
+
 def check_russia_balance_event(failures: list[str]) -> None:
     text = read("events/RIP_MOS_RUS_RussiaBalance.txt")
     require(failures, "namespace = rip_russia_balance" in text,
@@ -407,6 +460,7 @@ def main() -> int:
     check_kyiv_missions(failures)
     check_russian_formation(failures)
     check_domination_russia(failures)
+    check_russian_minors(failures)
     check_russia_balance_event(failures)
     check_ruthenian_eastward_expansion(failures)
 

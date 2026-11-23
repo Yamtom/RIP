@@ -1,14 +1,25 @@
 # POL, PLC | The Sejm, Hadiach, army reform and the grain trade.
+#
+# The file name starts with zzz_ on purpose. EU4 loads missions/ in alphabetical
+# order and stacks the series of one column one under another, a mission standing
+# at max(previous row + 1, position). Called Poland_..., this file loaded before
+# the vanilla Polish_Missions.txt and SCA_Polish_Missions.txt, so the cursor jumped
+# to row 11 and the whole vanilla Polish tree sank beneath row 18. Positions 11-18
+# below are minimums for a file that loads after both.
+# The series are generic = no: a generic = yes series gives way to any
+# non-generic series in the same slot, and POL/PLC have those from both vanilla files.
+# tests/check_poland_commonwealth_missions.py keeps all of this.
 
 POL_re_missions_1 = {
 	slot = 1
-	generic = yes
+	generic = no
 	ai = yes
 	potential = {
 		OR = {
 			tag = POL
 			tag = PLC
 		}
+		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
 
@@ -138,39 +149,23 @@ POL_re_missions_1 = {
 		trigger = {
 			has_country_flag = pol_union_reaffirmed
 			has_parliament = yes
+			# One line in the tooltip: the real condition stands inside the custom tooltip.
 			custom_trigger_tooltip = {
 				tooltip = POL_hadiach_commission_subject_tt
-				hidden_trigger = {
-					any_subject_country = {
-						NOT = { liberty_desire = 50 }
-						OR = {
-							tag = ZAZ
-							tag = HET
-							primary_culture = ruthenian
-							primary_culture = ruthenian_new
-							primary_culture = ruthenian_west_ruthenian
-							primary_culture = ruthenian_west_slavic
-							primary_culture = rusyn
-							primary_culture = rusyn_new
-							primary_culture = rusyn_west_ruthenian
-							primary_culture = rusyn_west_slavic
-						}
+				any_subject_country = {
+					NOT = { liberty_desire = 50 }
+					OR = {
+						tag = ZAZ
+						tag = HET
+						primary_culture = ruthenian
+						primary_culture = ruthenian_new
+						primary_culture = ruthenian_west_ruthenian
+						primary_culture = ruthenian_west_slavic
+						primary_culture = rusyn
+						primary_culture = rusyn_new
+						primary_culture = rusyn_west_ruthenian
+						primary_culture = rusyn_west_slavic
 					}
-				}
-			}
-			any_subject_country = {
-				NOT = { liberty_desire = 50 }
-				OR = {
-					tag = ZAZ
-					tag = HET
-					primary_culture = ruthenian
-					primary_culture = ruthenian_new
-					primary_culture = ruthenian_west_ruthenian
-					primary_culture = ruthenian_west_slavic
-					primary_culture = rusyn
-					primary_culture = rusyn_new
-					primary_culture = rusyn_west_ruthenian
-					primary_culture = rusyn_west_slavic
 				}
 			}
 		}
@@ -207,21 +202,13 @@ POL_re_missions_1 = {
 		trigger = {
 			has_country_flag = pol_hadiach_commission_signed
 			num_accepted_cultures = 4
+			# calc_true_if counts the triggers written directly inside it, and one
+			# any_owned_province is one trigger, so the old amount = 3 could never hold.
+			# num_of_owned_provinces_with counts the provinces themselves.
 			custom_trigger_tooltip = {
 				tooltip = POL_hadiach_seats_tt
-				hidden_trigger = {
-					calc_true_if = {
-						amount = 3
-						any_owned_province = {
-							region = ruthenia_region
-							has_seat_in_parliament = yes
-						}
-					}
-				}
-			}
-			calc_true_if = {
-				amount = 3
-				any_owned_province = {
+				num_of_owned_provinces_with = {
+					value = 3
 					region = ruthenia_region
 					has_seat_in_parliament = yes
 				}
@@ -254,34 +241,20 @@ POL_re_missions_1 = {
 		position = 17
 		trigger = {
 			has_country_flag = pol_hadiach_privileges_codified
-			num_of_owned_provinces_with = {
-				region = ruthenia_region
-				value = 10
-			}
 			custom_trigger_tooltip = {
 				tooltip = POL_triatomic_integration_tt
-				hidden_trigger = {
-					num_of_owned_provinces_with = {
-						region = ruthenia_region
-						value = 10
-					}
+				num_of_owned_provinces_with = {
+					region = ruthenia_region
+					value = 10
 				}
 			}
 			custom_trigger_tooltip = {
 				tooltip = POL_triatomic_autonomy_tt
-				hidden_trigger = {
-					NOT = {
-						any_owned_province = {
-							region = ruthenia_region
-							local_autonomy = 40
-						}
+				NOT = {
+					any_owned_province = {
+						region = ruthenia_region
+						local_autonomy = 40
 					}
-				}
-			}
-			NOT = {
-				any_owned_province = {
-					region = ruthenia_region
-					local_autonomy = 40
 				}
 			}
 		}
@@ -312,13 +285,14 @@ POL_re_missions_1 = {
 
 POL_re_missions_2 = {
 	slot = 2
-	generic = yes
+	generic = no
 	ai = yes
 	potential = {
 		OR = {
 			tag = POL
 			tag = PLC
 		}
+		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
 
