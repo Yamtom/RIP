@@ -11,7 +11,8 @@ administrative_efficiency = 0.2 і discipline = 0.1 у VLN).
 Штраф не рахується: якщо ваніль має модифікатор лише з одним знаком
 (culture_conversion_cost тільки від'ємний), значення з протилежним знаком є
 свідомою ціною ідеї й не перевіряється. Модифікатори, яких ваніль у наборах
-ідей не має, друкуються як примітка й не валять перевірку.
+ідей не має, вважаються помилкою (FAIL), щоб мертві чи неванільні ключі
+не прослизали непоміченими.
 """
 import io
 import re
@@ -77,6 +78,59 @@ def modifiers(path):
                     pass
 
 
+def check_text_against_scale(filename, text, top, bottom):
+    errors = []
+    for group, body in parse(text):
+        if not isinstance(body, list):
+            continue
+        for slot, content in body:
+            if slot in SKIP_SLOTS or not isinstance(content, list):
+                continue
+            for modifier, raw_val in content:
+                try:
+                    value = float(raw_val)
+                except (TypeError, ValueError):
+                    continue
+                if modifier not in top and modifier not in bottom:
+                    errors.append(
+                        f"{filename}: {group}.{slot} {modifier} = {value:g}"
+                        " (модифікатора немає у ванільних наборах ідей)"
+                    )
+                    continue
+                if value > 0 and top[modifier] > 0 and value > top[modifier]:
+                    errors.append(
+                        f"{filename}: {group}.{slot} {modifier} = {value:g}"
+                        f" > ванільний максимум {top[modifier]:g}"
+                    )
+                if value < 0 and bottom[modifier] < 0 and value < bottom[modifier]:
+                    errors.append(
+                        f"{filename}: {group}.{slot} {modifier} = {value:g}"
+                        f" < ванільний мінімум {bottom[modifier]:g}"
+                    )
+    return errors
+
+
+def check_planted_unknown_and_overscale(top, bottom):
+    planted_bad = """
+    test_ideas = {
+        start = { yearly_authority = 0.15 }
+        slot_1 = { discipline = 0.1 }
+    }
+    """
+    errs = check_text_against_scale("planted_bad.txt", planted_bad, top, bottom)
+    assert any("yearly_authority" in e for e in errs), errs
+    assert any("discipline" in e for e in errs), errs
+
+    planted_ok = """
+    test_ideas = {
+        start = { siege_ability = -0.15 }
+        slot_1 = { culture_conversion_cost = 0.5 }
+    }
+    """
+    ok_errs = check_text_against_scale("planted_ok.txt", planted_ok, top, bottom)
+    assert not ok_errs, ok_errs
+
+
 def main():
     vanilla = vanilla_root()
     if vanilla is None:
@@ -90,24 +144,14 @@ def main():
             top[modifier] = max(top[modifier], value)
             bottom[modifier] = min(bottom[modifier], value)
 
+    check_planted_unknown_and_overscale(top, bottom)
+
     files = sorted((ROOT / "common" / "ideas").glob("01_*.txt"))
     files += sorted((ROOT / "common" / "ideas").glob("zzz_*.txt"))
     errors = []
-    unknown = []
     for path in files:
-        for group, slot, modifier, value in modifiers(path):
-            if modifier not in top and modifier not in bottom:
-                unknown.append(f"{path.name}: {group}.{slot} {modifier} = {value:g}")
-                continue
-            if value > 0 and top[modifier] > 0 and value > top[modifier]:
-                errors.append(f"{path.name}: {group}.{slot} {modifier} = {value:g}"
-                              f" > ванільний максимум {top[modifier]:g}")
-            if value < 0 and bottom[modifier] < 0 and value < bottom[modifier]:
-                errors.append(f"{path.name}: {group}.{slot} {modifier} = {value:g}"
-                              f" < ванільний мінімум {bottom[modifier]:g}")
+        errors.extend(check_text_against_scale(path.name, read(path), top, bottom))
 
-    for line in unknown:
-        print("NOTE (у ванільних ідеях немає):", line)
     for line in errors:
         print("FAIL:", line)
     if errors:

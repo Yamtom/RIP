@@ -104,6 +104,7 @@ country_decisions = {
 		}
 		effect = {
 			set_country_flag = ruthenian_frontier_mobility_network
+			set_country_flag = rip_expedition_defenses_active
 			add_treasury = -100
 			add_adm_power = -50
 			add_country_modifier = {
@@ -113,7 +114,9 @@ country_decisions = {
 			every_owned_province = {
 				limit = {
 					rip_is_crimea_frontier_terrain = yes
+					NOT = { has_province_modifier = steppe_border_defense }
 				}
+				set_province_flag = rip_expedition_steppe_defense
 				add_province_modifier = {
 					name = steppe_border_defense
 					duration = 7300
@@ -134,6 +137,7 @@ country_decisions = {
 				every_owned_province = {
 					limit = {
 						region = crimea_region
+						NOT = { has_province_modifier = zasechnaya_cherta_province }
 						OR = {
 							has_building = fort_15th
 							has_building = fort_16th
@@ -141,6 +145,7 @@ country_decisions = {
 							has_building = fort_18th
 						}
 					}
+					set_province_flag = rip_expedition_fortified_line
 					add_province_modifier = {
 						name = zasechnaya_cherta_province
 						duration = 5475

@@ -28,16 +28,36 @@ def outputs():
     regions=' '.join('AND = { '+geography+' ROOT = { rip_host_'+key+'_active = yes } }' for key,(_,_,geography) in HOSTS.items())
     triggers.append(block('rip_host_muster_eligible', 'controlled_by = ROOT\nis_state_core = ROOT\nrip_is_steppe_or_grasslands = yes\nOR = { '+regions+' }'))
     result['common/scripted_triggers/rip_frontier_host_triggers.txt']='\n'.join(triggers)
-    upkeep='''if = {
- limit = { rip_host_any_active = yes }
- if = { limit = { NOT = { has_country_modifier = cossack_host_founded } } add_country_modifier = { name = cossack_host_founded duration = -1 } }
+    clear_musters = """every_owned_province = {
+	limit = { has_province_modifier = cossack_host_muster }
+	remove_province_modifier = cossack_host_muster
+}"""
+    upkeep = """if = {
+	limit = { rip_host_any_active = yes }
+	if = {
+		limit = { NOT = { has_country_modifier = cossack_host_founded } }
+		add_country_modifier = { name = cossack_host_founded duration = -1 }
+	}
+	every_owned_province = {
+		if = {
+			limit = { has_province_modifier = cossack_host_muster NOT = { rip_host_muster_eligible = yes } }
+			remove_province_modifier = cossack_host_muster
+		}
+		else_if = {
+			limit = { NOT = { has_province_modifier = cossack_host_muster } rip_host_muster_eligible = yes }
+			add_province_modifier = { name = cossack_host_muster duration = -1 }
+		}
+	}
 }
-if = { limit = { NOT = { rip_host_any_active = yes } } remove_country_modifier = cossack_host_founded }
-every_owned_province = {
- if = { limit = { has_province_modifier = cossack_host_muster NOT = { rip_host_muster_eligible = yes } } remove_province_modifier = cossack_host_muster }
- if = { limit = { rip_host_muster_eligible = yes NOT = { has_province_modifier = cossack_host_muster } } add_province_modifier = { name = cossack_host_muster duration = -1 } }
-}'''
-    result['common/scripted_effects/rip_frontier_host_effects.txt']=block('rip_host_network_upkeep_effect',upkeep)
+else_if = {
+	limit = { has_country_modifier = cossack_host_founded }
+	remove_country_modifier = cossack_host_founded
+	rip_host_clear_musters_effect = yes
+}"""
+    result['common/scripted_effects/rip_frontier_host_effects.txt'] = (
+        block('rip_host_clear_musters_effect', clear_musters) + '\n'
+        + block('rip_host_network_upkeep_effect', upkeep)
+    )
 
     triggers=[block('rip_frontier_term_open', 'OR = { NOT = { has_country_flag = rip_frontier_expedition_recent } had_country_flag = { flag = rip_frontier_expedition_recent days = 3650 } }')]
     triggers.append(block('rip_frontier_capital_base', 'owned_by = ROOT\ncontrolled_by = ROOT\nis_city = yes\nis_in_capital_area = yes'))
@@ -125,16 +145,64 @@ OR = {{ ai = no rip_frontier_{key}_ai_budget = yes }}'''))
         'ural': ('crimea_region',6,['ruthenian_ural_gate','ruthenian_ural_fortified_line','ruthenian_ural_trade_posts']),
         'manchuria': ('ural_region',6,['ruthenian_manchurian_push','ruthenian_manchurian_wardens','ruthenian_manchurian_companies']),
     }
+    defenses = {
+        'rip_expedition_steppe_defense': 'steppe_border_defense',
+        'rip_expedition_fortified_line': 'zasechnaya_cherta_province',
+    }
+    clear_defenses = '\n'.join(
+        f'if = {{\n\tlimit = {{ has_province_flag = {flag} }}\n'
+        f'\tremove_province_modifier = {modifier}\n\tclr_province_flag = {flag}\n}}'
+        for flag, modifier in defenses.items()
+    )
+    effects.append(block('rip_expedition_clear_province_effect', clear_defenses))
     for key,(region,count,mods) in bonuses.items():
         hasbase=f'num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {{ region = {region} value = {count} }}'
         triggers.append(block('rip_frontier_'+key+'_base',f'OR = {{ tag = CHR tag = HET tag = UKR }}\n{hasbase}\nany_owned_province = {{ rip_frontier_capital_base = yes region = {region} }}'))
-        removals='\n'.join('remove_country_modifier = '+m for m in mods)
-        local='\nevery_owned_province = { remove_province_modifier = steppe_border_defense remove_province_modifier = zasechnaya_cherta_province }' if key=='crimea' else ''
-        cleanup.append(f'if = {{ limit = {{ NOT = {{ rip_frontier_{key}_base = yes }} }}\n{removals}{local}\n}}')
+        active_benefits = ['has_country_modifier = ' + modifier for modifier in mods]
+        removals = ['\tremove_country_modifier = ' + modifier for modifier in mods]
+        if key == 'crimea':
+            active_benefits.append('has_country_flag = rip_expedition_defenses_active')
+            removals.extend([
+                '\tif = {',
+                '\t\tlimit = { has_country_flag = rip_expedition_defenses_active }',
+                '\t\tcrimea_region = {',
+                '\t\t\tlimit = { owned_by = ROOT }',
+                '\t\t\trip_expedition_clear_province_effect = yes',
+                '\t\t}',
+                '\t\tclr_country_flag = rip_expedition_defenses_active',
+                '\t}',
+            ])
+        cleanup.extend([
+            'if = {',
+            '\tlimit = {',
+            '\t\tOR = {',
+            *('\t\t\t' + benefit for benefit in active_benefits),
+            '\t\t}',
+            f'\t\tNOT = {{ rip_frontier_{key}_base = yes }}',
+            '\t}',
+            *removals,
+            '}',
+        ])
     effects.append(block('rip_frontier_expedition_upkeep_effect','\n'.join(cleanup)))
     result['common/scripted_effects/rip_frontier_expedition_effects.txt']='\n'.join(effects)
     result['common/scripted_triggers/rip_frontier_expedition_triggers.txt']='\n'.join(triggers)
-    result['common/on_actions/RIP_frontier_design_on_actions.txt']='\n'.join(block(hook,'rip_host_network_upkeep_effect = yes\nrip_frontier_expedition_upkeep_effect = yes') for hook in ('on_startup','on_monthly_pulse','on_reform_changed'))
+    sync = 'rip_host_network_upkeep_effect = yes\nrip_frontier_expedition_upkeep_effect = yes'
+    startup = """# An older save can contain an orphaned muster in a conquered province.
+if = {
+	limit = { NOT = { has_country_modifier = cossack_host_founded } }
+	rip_host_clear_musters_effect = yes
+}"""
+    transfer = """if = {
+	limit = { has_province_modifier = cossack_host_muster }
+	remove_province_modifier = cossack_host_muster
+}
+rip_expedition_clear_province_effect = yes"""
+    result['common/on_actions/RIP_frontier_design_on_actions.txt'] = '\n'.join((
+        block('on_startup', startup + '\n' + sync),
+        block('on_monthly_pulse', sync),
+        block('on_reform_changed', sync),
+        block('on_province_owner_change', transfer),
+    ))
     text={
         'rip_frontier_ai_reserve_tt':'After paying, retain one year of gross income; no loans or negative monthly balance.',
         'rip_frontier_batch_tt':'Up to five NEW normal claims in one connected frontier batch. The first target must border directly controlled land connected to the capital. Existing cores, claims and dependent-subject land are excluded. Shared ten-year term across all theatres. No payment without a target. Repeat purchases never renew initial benefits.',
