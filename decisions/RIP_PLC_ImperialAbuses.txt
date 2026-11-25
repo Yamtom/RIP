@@ -1,0 +1,68 @@
+country_decisions = {
+
+	rip_plc_second_serfdom_corvee = {
+		potential = {
+			tag = PLC
+			NOT = { has_country_flag = rip_plc_second_serfdom_corvee_heard }
+			any_owned_province = { rip_diaspora_eligible_culture_province = yes }
+		}
+		allow = {
+			adm_tech = 9
+		}
+		effect = {
+			set_country_flag = rip_plc_second_serfdom_corvee_heard
+			country_event = { id = rip_plc_reckoning.1 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_plc_ordinance_of_1638 = {
+		potential = {
+			tag = PLC
+			NOT = { has_country_flag = rip_plc_ordinance_of_1638_heard }
+			any_owned_province = {
+				OR = {
+					area = west_dniepr_area
+					area = east_dniepr_area
+					area = zaporizhia_area
+					area = podolia_volhynia_area
+				}
+			}
+		}
+		allow = {
+			OR = {
+				is_year = 1600
+				has_estate = estate_cossacks
+				mil_tech = 11
+			}
+		}
+		effect = {
+			set_country_flag = rip_plc_ordinance_of_1638_heard
+			country_event = { id = rip_plc_reckoning.3 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+
+	rip_plc_parish_sequestrations = {
+		potential = {
+			tag = PLC
+			NOT = { has_country_flag = rip_plc_parish_sequestrations_heard }
+			religion = catholic
+			any_owned_province = {
+				rip_diaspora_eligible_culture_province = yes
+				religion = orthodox
+			}
+		}
+		allow = {
+			OR = {
+				is_year = 1596
+				adm_tech = 10
+			}
+		}
+		effect = {
+			set_country_flag = rip_plc_parish_sequestrations_heard
+			country_event = { id = rip_plc_reckoning.5 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+}

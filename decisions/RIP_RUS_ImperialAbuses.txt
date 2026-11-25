@@ -1,0 +1,25 @@
+country_decisions = {
+
+	rip_rus_kyiv_press_censorship = {
+		potential = {
+			tag = RUS
+			NOT = { has_country_flag = rip_rus_kyiv_press_censorship_heard }
+			OR = {
+				owns = 280
+				owns = 289
+				any_owned_province = { rip_diaspora_eligible_culture_province = yes }
+			}
+		}
+		allow = {
+			OR = {
+				adm_tech = 14
+				is_year = 1700
+			}
+		}
+		effect = {
+			set_country_flag = rip_rus_kyiv_press_censorship_heard
+			country_event = { id = rip_rus_reckoning.1 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+}

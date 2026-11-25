@@ -319,7 +319,7 @@ def main():
 
     # 2. Parse decisions and events
     decisions = parse_all_decisions()
-    assert len(decisions) == 288, f"Expected 288 decisions, found {len(decisions)}"
+    assert len(decisions) == 299, f"Expected 299 decisions, found {len(decisions)}"
     event_defs = parse_all_events()
     reachable_events = collect_reachable_events(decisions, event_defs)
 

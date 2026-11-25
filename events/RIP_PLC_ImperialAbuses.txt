@@ -1,0 +1,314 @@
+namespace = rip_plc_reckoning
+
+# --- 1. Second Serfdom & Folwark Corvee
+
+country_event = {
+	id = rip_plc_reckoning.1
+	title = rip_plc_reckoning.1.t
+	desc = rip_plc_reckoning.1.d
+	picture = FARMING_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_plc_reckoning.1.a
+		custom_tooltip = rip_plc_reckoning.1.result_tt
+		ai_chance = { factor = 2 }
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = { estate = estate_nobles loyalty = 15 }
+		}
+		add_treasury = 80
+		set_country_flag = rip_plc_magnate_pacification_enforced
+		country_event = { id = rip_plc_reckoning.2 days = 180 }
+	}
+	option = {
+		name = rip_plc_reckoning.1.b
+		ai_chance = { factor = 1 }
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = { estate = estate_nobles loyalty = -15 }
+		}
+		add_adm_power = -25
+		add_country_modifier = {
+			name = rip_plc_capped_corvee
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_plc_reckoning.2
+	title = rip_plc_reckoning.2.t
+	desc = rip_plc_reckoning.2.d
+	picture = FARMING_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_plc_reckoning.2.a
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_unrest = 6
+				add_province_modifier = {
+					name = rip_plc_folwark_exhaustion
+					duration = 7300
+				}
+			}
+		}
+		add_country_modifier = {
+			name = rip_plc_second_serfdom
+			duration = 5475
+		}
+	}
+}
+
+# --- 2. Crown Ordinance Abolishing Cossack Self-Rule
+
+country_event = {
+	id = rip_plc_reckoning.3
+	title = rip_plc_reckoning.3.t
+	desc = rip_plc_reckoning.3.d
+	picture = SEJM_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_plc_reckoning.3.a
+		custom_tooltip = rip_plc_reckoning.3.result_tt
+		ai_chance = { factor = 2 }
+		add_absolutism = 5
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = { estate = estate_nobles loyalty = 10 }
+		}
+		set_country_flag = rip_plc_magnate_pacification_enforced
+		country_event = { id = rip_plc_reckoning.4 days = 150 }
+	}
+	option = {
+		name = rip_plc_reckoning.3.b
+		ai_chance = { factor = 1 }
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = { estate = estate_nobles loyalty = -10 }
+		}
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = { estate = estate_cossacks loyalty = 10 }
+		}
+		add_country_modifier = {
+			name = rip_plc_regimental_liberties
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_plc_reckoning.4
+	title = rip_plc_reckoning.4.t
+	desc = rip_plc_reckoning.4.d
+	picture = SEJM_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_plc_reckoning.4.a
+		if = {
+			limit = { has_estate = estate_cossacks }
+			add_estate_loyalty = { estate = estate_cossacks loyalty = -25 }
+		}
+		if = {
+			limit = {
+				any_owned_province = {
+					OR = {
+						area = west_dniepr_area
+						area = east_dniepr_area
+						area = zaporizhia_area
+						area = podolia_volhynia_area
+					}
+				}
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = west_dniepr_area
+						area = east_dniepr_area
+						area = zaporizhia_area
+						area = podolia_volhynia_area
+					}
+				}
+				add_unrest = 8
+				add_devastation = 15
+			}
+		}
+		add_country_modifier = {
+			name = rip_plc_crown_ordinance
+			duration = 5475
+		}
+	}
+}
+
+# --- 3. Orthodox Parish Sequestrations
+
+country_event = {
+	id = rip_plc_reckoning.5
+	title = rip_plc_reckoning.5.t
+	desc = rip_plc_reckoning.5.d
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_plc_reckoning.5.a
+		custom_tooltip = rip_plc_reckoning.5.result_tt
+		ai_chance = { factor = 2 }
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = { estate = estate_church loyalty = 15 }
+		}
+		add_papal_influence = 10
+		country_event = { id = rip_plc_reckoning.6 days = 180 }
+	}
+	option = {
+		name = rip_plc_reckoning.5.b
+		ai_chance = { factor = 1 }
+		if = {
+			limit = { has_estate = estate_church }
+			add_estate_loyalty = { estate = estate_church loyalty = -10 }
+		}
+		add_papal_influence = -5
+		add_country_modifier = {
+			name = rip_plc_municipal_confession_peace
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_plc_reckoning.6
+	title = rip_plc_reckoning.6.t
+	desc = rip_plc_reckoning.6.d
+	picture = ORTHODOX_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_plc_reckoning.6.a
+		if = {
+			limit = {
+				any_owned_province = {
+					rip_diaspora_eligible_culture_province = yes
+					religion = orthodox
+				}
+			}
+			random_owned_province = {
+				limit = {
+					rip_diaspora_eligible_culture_province = yes
+					religion = orthodox
+				}
+				add_unrest = 6
+				add_province_modifier = {
+					name = rip_plc_closed_parishes
+					duration = 5475
+				}
+			}
+		}
+		add_country_modifier = {
+			name = rip_plc_confessional_coercion
+			duration = 5475
+		}
+	}
+}
+
+# --- Disaster: rip_plc_bloody_pacification (.7 start, .8 pulse, .9 end)
+
+country_event = {
+	id = rip_plc_reckoning.7
+	title = rip_plc_reckoning.7.t
+	desc = rip_plc_reckoning.7.d
+	picture = ANGRY_MOB_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_plc_reckoning.7.a
+		ai_chance = { factor = 60 }
+		add_stability = -1
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_devastation = 25
+				spawn_rebels = {
+					type = particularist_rebels
+					size = 1
+				}
+			}
+		}
+	}
+	option = {
+		name = rip_plc_reckoning.7.b
+		ai_chance = { factor = 40 }
+		add_adm_power = -50
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = { estate = estate_nobles loyalty = -15 }
+		}
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_local_autonomy = 15
+			}
+		}
+	}
+}
+
+country_event = {
+	id = rip_plc_reckoning.8
+	title = rip_plc_reckoning.8.t
+	desc = rip_plc_reckoning.8.d
+	picture = BATTLE_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_plc_reckoning.8.a
+		ai_chance = { factor = 55 }
+		add_treasury = 35
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_devastation = 20
+				add_unrest = 5
+			}
+		}
+	}
+	option = {
+		name = rip_plc_reckoning.8.b
+		ai_chance = { factor = 45 }
+		add_dip_power = -30
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_unrest = -3
+			}
+		}
+	}
+}
+
+country_event = {
+	id = rip_plc_reckoning.9
+	title = rip_plc_reckoning.9.t
+	desc = rip_plc_reckoning.9.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = survived_rip_plc_bloody_pacification
+		}
+	}
+
+	option = {
+		name = rip_plc_reckoning.9.a
+		add_stability_or_adm_power = yes
+		add_legitimacy = 10
+	}
+}

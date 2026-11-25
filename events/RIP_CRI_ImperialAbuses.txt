@@ -1,0 +1,190 @@
+namespace = rip_cri_reckoning
+
+# --- 1. Kaffa & Perekop Captive Markets
+
+country_event = {
+	id = rip_cri_reckoning.1
+	title = rip_cri_reckoning.1.t
+	desc = rip_cri_reckoning.1.d
+	picture = HORDE_ON_HORSEBACK_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_cri_reckoning.1.a
+		custom_tooltip = rip_cri_reckoning.1.result_tt
+		ai_chance = { factor = 2 }
+		add_treasury = 85
+		if = {
+			limit = { has_estate = estate_nomadic_tribes }
+			add_estate_loyalty = { estate = estate_nomadic_tribes loyalty = 15 }
+		}
+		set_country_flag = rip_cri_kaffa_marts_expanded
+		country_event = { id = rip_cri_reckoning.2 days = 180 }
+	}
+	option = {
+		name = rip_cri_reckoning.1.b
+		ai_chance = { factor = 1 }
+		if = {
+			limit = { has_estate = estate_nomadic_tribes }
+			add_estate_loyalty = { estate = estate_nomadic_tribes loyalty = -10 }
+		}
+		set_country_flag = rip_cri_kaffa_marts_curbed
+		add_dip_power = 25
+		add_country_modifier = {
+			name = rip_cri_reformed_tamga
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_cri_reckoning.2
+	title = rip_cri_reckoning.2.t
+	desc = rip_cri_reckoning.2.d
+	picture = MERCHANTS_TALKING_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_cri_reckoning.2.a
+		add_country_modifier = {
+			name = rip_cri_slave_mart_infamy
+			duration = 5475
+		}
+		if = {
+			limit = { owns = 285 }
+			285 = {
+				add_unrest = 4
+				add_devastation = 15
+			}
+		}
+		else = {
+			if = {
+				limit = { owns = 284 }
+				284 = {
+					add_unrest = 4
+					add_devastation = 15
+				}
+			}
+		}
+	}
+}
+
+# --- Disaster: rip_cri_yasyr_depopulation_crisis (.3 start, .4 pulse, .5 end)
+
+country_event = {
+	id = rip_cri_reckoning.3
+	title = rip_cri_reckoning.3.t
+	desc = rip_cri_reckoning.3.d
+	picture = PLAGUE_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_cri_reckoning.3.a
+		ai_chance = { factor = 55 }
+		add_horde_unity = -10
+		add_treasury = -40
+		if = {
+			limit = {
+				any_owned_province = {
+					OR = {
+						area = crimea_area
+						area = yedisan_area
+						area = azov_area
+					}
+				}
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = crimea_area
+						area = yedisan_area
+						area = azov_area
+					}
+				}
+				add_devastation = 20
+				spawn_rebels = {
+					type = particularist_rebels
+					size = 1
+				}
+			}
+		}
+	}
+	option = {
+		name = rip_cri_reckoning.3.b
+		ai_chance = { factor = 45 }
+		add_dip_power = -45
+		if = {
+			limit = { has_estate = estate_nomadic_tribes }
+			add_estate_loyalty = { estate = estate_nomadic_tribes loyalty = -15 }
+		}
+		set_country_flag = rip_cri_kaffa_marts_curbed
+	}
+}
+
+country_event = {
+	id = rip_cri_reckoning.4
+	title = rip_cri_reckoning.4.t
+	desc = rip_cri_reckoning.4.d
+	picture = MERCHANTS_TALKING_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_cri_reckoning.4.a
+		ai_chance = { factor = 55 }
+		add_treasury = -35
+		if = {
+			limit = {
+				any_owned_province = {
+					OR = {
+						area = crimea_area
+						area = yedisan_area
+						area = azov_area
+					}
+				}
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = crimea_area
+						area = yedisan_area
+						area = azov_area
+					}
+				}
+				add_devastation = 15
+				add_unrest = 4
+			}
+		}
+	}
+	option = {
+		name = rip_cri_reckoning.4.b
+		ai_chance = { factor = 45 }
+		add_mil_power = -30
+		add_prestige = -5
+	}
+}
+
+country_event = {
+	id = rip_cri_reckoning.5
+	title = rip_cri_reckoning.5.t
+	desc = rip_cri_reckoning.5.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = survived_rip_cri_yasyr_depopulation_crisis
+		}
+	}
+
+	option = {
+		name = rip_cri_reckoning.5.a
+		add_stability_or_adm_power = yes
+		if = {
+			limit = { has_reform = steppe_horde }
+			add_horde_unity = 10
+		}
+		else = {
+			add_legitimacy = 10
+		}
+	}
+}

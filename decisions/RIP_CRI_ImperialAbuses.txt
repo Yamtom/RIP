@@ -1,0 +1,35 @@
+country_decisions = {
+
+	rip_cri_kaffa_captive_markets = {
+		potential = {
+			OR = {
+				tag = CRI
+				AND = {
+					was_tag = CRI
+					OR = {
+						tag = GLH
+						tag = MGE
+					}
+				}
+			}
+			NOT = { has_country_flag = rip_cri_kaffa_captive_markets_heard }
+			OR = {
+				owns = 284
+				owns = 285
+				owns = 282
+			}
+		}
+		allow = {
+			OR = {
+				has_reform = steppe_horde
+				has_estate = estate_nomadic_tribes
+				adm_tech = 5
+			}
+		}
+		effect = {
+			set_country_flag = rip_cri_kaffa_captive_markets_heard
+			country_event = { id = rip_cri_reckoning.1 }
+		}
+		ai_will_do = { factor = 1 }
+	}
+}
