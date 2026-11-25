@@ -30,6 +30,8 @@ estate_magnates = {
 			}
 			# Halych
 			has_reform = hlc_magnate_assembly_reform
+			has_reform = hlc_boyar_republic_reform
+			has_reform = hlc_boyar_oligarchy_reform
 			# Podillia
 			# The Magnate Compact retains the crown. Its reform ID predates the current design.
 			has_reform = pdl_magnate_republic_reform
@@ -44,9 +46,12 @@ estate_magnates = {
 		NOT = { has_estate = estate_brahmins }
 		is_nomad = no
 		is_colonial_nation = no
-		# The sejmik republic is the one republic that keeps this estate.
+		# Access outside a monarchy requires one of the listed reforms.
 		OR = {
 			government = monarchy
+			has_reform = pdl_magnate_republic_reform
+			has_reform = hlc_boyar_republic_reform
+			has_reform = hlc_boyar_oligarchy_reform
 			has_reform = vln_sejmik_republic_reform
 		}
 	}

@@ -320,6 +320,13 @@ def check_style_and_dependencies(failures: list[str]) -> None:
     land_modifier = named_block(magnates, "land_ownership_modifier")
     require(failures, "magnates_loyalty_modifier = 0.2" in normalized(land_modifier),
             "Magnates land ownership does not use its registered loyalty modifier")
+    magnates_trigger = normalized(named_block(magnates, "trigger"))
+    for reform in ("pdl_magnate_republic_reform", "hlc_boyar_republic_reform",
+                   "hlc_boyar_oligarchy_reform", "vln_sejmik_republic_reform"):
+        require(failures, f"has_reform = {reform}" in magnates_trigger,
+                f"RIP_magnates.txt: magnates estate trigger missing {reform}")
+    require(failures, "OR = { government = monarchy" in magnates_trigger,
+            "RIP_magnates.txt: republican magnate reforms must not be blocked by bare government = monarchy")
 
     gfx = read("interface/RIP_shared_estate_privilege_icons.gfx")
     for key in ("tax_farmers", "loan_banks", "kahal_autonomy", "black_sea_network"):

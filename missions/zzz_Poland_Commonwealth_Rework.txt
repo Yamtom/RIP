@@ -263,6 +263,70 @@ POL_re_missions_1 = {
 			factor = 420
 		}
 	}
+
+	pol_crown_ruthenian_integration = {
+		icon = mission_conquer_5_states
+		required_missions = { pol_codify_hadiach_privileges }
+		position = 17
+		provinces_to_highlight = {
+			region = ruthenia_region
+			OR = {
+				NOT = { owned_by = ROOT }
+				local_autonomy = 40
+			}
+		}
+		trigger = {
+			has_country_flag = pol_hadiach_privileges_codified
+			custom_trigger_tooltip = {
+				tooltip = POL_not_triatomic_federation_tt
+				NOT = { has_country_flag = pol_triatomic_commonwealth_realized }
+			}
+			custom_trigger_tooltip = {
+				tooltip = POL_no_ruthenian_princedom_tt
+				NOT = {
+					any_subject_country = {
+						is_subject_of_type = princedom
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = POL_triatomic_integration_tt
+				num_of_owned_provinces_with = {
+					region = ruthenia_region
+					value = 10
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = POL_triatomic_autonomy_tt
+				NOT = {
+					any_owned_province = {
+						region = ruthenia_region
+						local_autonomy = 40
+					}
+				}
+			}
+		}
+		effect = {
+			add_country_modifier = {
+				name = "pol_crown_ruthenian_palatinates"
+				duration = -1
+			}
+			add_adm_power = 100
+			change_government_reform_progress = 75
+			every_owned_province = {
+				limit = {
+					region = ruthenia_region
+				}
+				add_local_autonomy = -5
+			}
+			hidden_effect = {
+				set_country_flag = pol_crown_ruthenia_integrated
+			}
+		}
+		ai_weight = {
+			factor = 340
+		}
+	}
 }
 
 POL_re_missions_3 = {
@@ -374,19 +438,39 @@ POL_re_missions_3 = {
 		position = 17
 		trigger = {
 			has_country_flag = pol_hadiach_privileges_codified
+			is_at_war = no
+			stability = 2
 			custom_trigger_tooltip = {
-				tooltip = POL_triatomic_integration_tt
-				num_of_owned_provinces_with = {
-					region = ruthenia_region
-					value = 10
-				}
+				tooltip = POL_not_crown_integration_tt
+				NOT = { has_country_flag = pol_crown_ruthenia_integrated }
 			}
 			custom_trigger_tooltip = {
-				tooltip = POL_triatomic_autonomy_tt
-				NOT = {
-					any_owned_province = {
-						region = ruthenia_region
-						local_autonomy = 40
+				tooltip = POL_triatomic_partner_preserved_tt
+				any_subject_country = {
+					NOT = { liberty_desire = 35 }
+					has_opinion = {
+						who = ROOT
+						value = 125
+					}
+					num_of_owned_provinces_with = {
+						value = 5
+						OR = {
+							region = ruthenia_region
+							area = red_ruthenia_area
+						}
+					}
+					OR = {
+						is_subject_of_type = princedom
+						tag = ZAZ
+						tag = HET
+						primary_culture = ruthenian
+						primary_culture = ruthenian_new
+						primary_culture = ruthenian_west_ruthenian
+						primary_culture = ruthenian_west_slavic
+						primary_culture = rusyn
+						primary_culture = rusyn_new
+						primary_culture = rusyn_west_ruthenian
+						primary_culture = rusyn_west_slavic
 					}
 				}
 			}
@@ -400,11 +484,28 @@ POL_re_missions_3 = {
 			add_prestige = 15
 			add_legitimacy = 10
 			change_government_reform_progress = 100
-			every_owned_province = {
+			every_subject_country = {
 				limit = {
-					region = ruthenia_region
+					OR = {
+						is_subject_of_type = princedom
+						tag = ZAZ
+						tag = HET
+						primary_culture = ruthenian
+						primary_culture = ruthenian_new
+						primary_culture = ruthenian_west_ruthenian
+						primary_culture = ruthenian_west_slavic
+						primary_culture = rusyn
+						primary_culture = rusyn_new
+						primary_culture = rusyn_west_ruthenian
+						primary_culture = rusyn_west_slavic
+					}
 				}
-				add_local_autonomy = -5
+				add_liberty_desire = -15
+				add_trust = {
+					who = ROOT
+					value = 10
+					mutual = yes
+				}
 			}
 			hidden_effect = {
 				set_country_flag = pol_triatomic_commonwealth_realized
