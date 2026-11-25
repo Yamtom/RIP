@@ -1,24 +1,4 @@
-"""The Ruthenian contact missions hang from the vanilla trees instead of floating below them.
-
-EU4 stacks the series of one column in file order and a mission lands on max(previous row + 1, position), so a
-series that sorts after the vanilla ones and has no prerequisite sits far below the tree with no arrow. The
-series of Moscow, Lithuania, the Tatars and the Ottomans were rebuilt so that each first mission has the last
-mission of the vanilla column as its prerequisite and sits on the row under it (Austria hangs from a named
-vanilla mission, which in the older tree is not the last one of its column). A parent has to exist in the
-variant the player sees, so each tree has one series per variant (the Domination, Lions of the North or Winds of
-Change tree, and the older tree). Mission keys cannot repeat across series, so the second copy carries its own
-keys (`_classic`, `_alt`) and quotes the loc of the first.
-
-This check
-  * lays the columns out with tests/dev_tools/mission_grid.py (vanilla files plus the mod's, in load order) for
-    every tag and DLC set that matters and requires each mission on the expected cell under the expected parent;
-  * requires exactly one of a series and its twin to be on screen for such a country;
-  * requires the twin to stay a copy of its main series apart from keys, rows, the first parent and the potential;
-  * requires the twin's loc to quote the main mission's.
-
-Static only: it models the engine from its source, it does not run EU4. Without an installed 1.37.x only the
-twin and loc comparisons run. Russia formed from Novgorod is not modelled (the grid cannot read was_tag).
-"""
+"""Check DLC variants, prerequisite arrows and near-neighbor placement against EU4 1.37.x mission files."""
 from __future__ import annotations
 
 import re
@@ -67,16 +47,17 @@ CASES = [
         ("rip_tat_ruthenian_yarlyks_classic", 5, 5, "tatar_yoke_mission"),
         ("rip_tatar_dnieper_tribute_classic", 5, 6, "rip_tat_ruthenian_yarlyks_classic")]),
     ("Ottomans, Domination", "TUR", None, [
-        ("rip_tur_podillian_eyalet", 1, 14, "tur_embrace_the_military_doctrines")]),
+        ("rip_tur_podillian_eyalet", 4, 14, ""),
+        ("rip_record_ladyzhyn", 4, 15, "rip_tur_podillian_eyalet")]),
     ("Ottomans without Domination", "TUR", "Domination", [
-        ("rip_tur_podillian_eyalet_classic", 1, 8, "conquer_hungary")]),
+        ("rip_tur_podillian_eyalet_classic", 4, 10, ""),
+        ("rip_record_ladyzhyn_classic", 4, 11, "rip_tur_podillian_eyalet_classic")]),
     ("Rum", "RUM", None, [
-        ("rip_tur_podillian_eyalet_classic", 1, 8, "conquer_hungary")]),
+        ("rip_tur_podillian_eyalet_classic", 4, 10, "")]),
     ("Austria, Winds of Change", "HAB", None, [
-        ("rip_hab_galician_ruthenians", 5, 13, "hab_shift_in_balance")]),
-    # The older column 5 goes on to row 10, so this arrow passes behind the vanilla cards under conquer_transylvania.
+        ("rip_hab_galician_ruthenians", 5, 8, "hab_galicia")]),
     ("Austria without Winds of Change", "HAB", "Winds of Change", [
-        ("rip_hab_galician_ruthenians_classic", 5, 13, "conquer_transylvania")]),
+        ("rip_hab_galician_ruthenians_classic", 5, 11, "")]),
 ]
 
 # main series, its twin, the file, the suffix the twin's keys carry
@@ -86,8 +67,6 @@ TWINS = [
     ("rip_lit_ruthenian_missions", "rip_lit_ruthenian_missions_classic", "zzzzz_Neighbor_Ruthenian_Missions.txt", "_classic"),
     ("rip_lit_volok_missions", "rip_lit_volok_missions_classic", "zzzzz_Neighbor_Ruthenian_Missions.txt", "_classic"),
     ("rip_tur_ruthenian_missions", "rip_tur_ruthenian_missions_classic", "zzzzz_Neighbor_Ruthenian_Missions.txt", "_classic"),
-    ("rip_austrian_ruthenian_contacts", "rip_austrian_ruthenian_contacts_classic",
-     "zzzz_Ruthenian_Contacts_Horde_Habsburg.txt", "_classic"),
 ]
 LOC_FILES = ("RIP_shared_ruthenian_contacts", "RIP_shared_ruthenian_neighbor_missions", "RIP_LIT_reckoning")
 
@@ -130,6 +109,7 @@ def normalised(block: str, suffix: str | None) -> str:
         text = re.sub(rf"\b(rip_\w+?){re.escape(suffix)}\b", r"\1", text)
     text = strip_block(text, "potential")
     text = strip_block(text, "potential_on_load")
+    text = re.sub(r"(?m)^\s*mission_completed = (tur_black_sea_dominance|take_kaffa)\s*$", "", text)
     text = re.sub(r"position = \d+", "position = N", text)
     text = re.sub(r"required_missions = \{[^}]*\}", "required_missions = { }", text)
     text = re.sub(r"(?m)^[ \t]*#.*\n", "", text)
@@ -220,6 +200,45 @@ def cell_problems() -> list[str]:
     return problems
 
 
+def revised_layout_problems() -> list[str]:
+    problems = []
+    files = mg.load_files(False)
+    vanilla = vanilla_root() / "missions" / "WoC_Austrian_Missions.txt"
+    original = vanilla.read_text(encoding="utf-8-sig")
+    patched = files[vanilla.name]
+    from check_vanilla_mission_sync import parse
+    series = brace_block(patched, "WoC_austria_5")
+    unpatched = patched.replace(series, strip_block(series, "rip_hab_galician_ruthenians"), 1)
+    if parse(unpatched) != parse("\n".join(line.rstrip() for line in original.splitlines())):
+        problems.append("Winds of Change Austrian override changed vanilla data")
+    dlcs = set(re.findall(r'has_dlc = "([^"]+)"', "".join(files.values())))
+    chain = [
+        ("rip_pol_carpathian_passes", 1, 11, []),
+        ("rip_pol_rusyn_fairs", 2, 12, ["rip_pol_carpathian_passes"]),
+        ("rip_pol_lviv_charters", 2, 13, ["rip_pol_rusyn_fairs"]),
+        ("rip_pol_ruthenian_palatinates", 2, 14, ["rip_pol_lviv_charters"]),
+    ]
+    for tag in ("POL", "PLC"):
+        for owned in (dlcs, dlcs - {"Lions of the North"}):
+            placed = mg.layout(files, mg.Context(tag, owned))
+            for name, col, row, parents in chain:
+                if placed.get(name, ())[:3] != (col, row, parents):
+                    problems.append(f"{tag}: broken regional chain at {name}")
+            shown = {name for name, (_, _, _, series, _) in placed.items() if series.startswith("POL_re_missions_")}
+            if len(shown) != (10 if tag == "PLC" else 0):
+                problems.append(f"{tag}: unexpected Commonwealth mission count {len(shown)}")
+            for name in shown:
+                col, row, parents, *_ = placed[name]
+                for parent in parents:
+                    if parent not in placed:
+                        problems.append(f"{tag}: {name} has missing prerequisite {parent}")
+                        continue
+                    pc, pr, *_ = placed[parent]
+                    if abs(col - pc) > 1 or row != pr + 1:
+                        problems.append(f"{tag}: {name} should be directly below or diagonal to {parent}")
+    return problems
+
+
 def self_test(files_present: bool) -> list[str]:
     """Damaged copies of the checks' inputs that must be caught; returns those that were not."""
     missed = []
@@ -242,7 +261,7 @@ def main() -> int:
     problems = twin_problems() + loc_problems()
     measured = vanilla_root() is not None
     if measured:
-        problems += cell_problems()
+        problems += cell_problems() + revised_layout_problems()
     for label in self_test(measured):
         problems.append(f"self-test: not caught: {label}")
     if problems:

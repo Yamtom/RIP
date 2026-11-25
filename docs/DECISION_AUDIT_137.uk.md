@@ -498,7 +498,7 @@
 | Рішення | Видимість | Виконання |
 | --- | --- | --- |
 | Enable Moldavian Southern Process (`south_ukraine_enable_process_mol`) | державність, прогрес кампанії | ресурси, дипломатія й війна |
-| Enable Crimean Southern Process (`south_ukraine_enable_process_cri`) | державність, прогрес кампанії | ресурси, дипломатія й війна |
+| Charter the Khan's Frontier Settlements (`south_ukraine_enable_process_cri`) | державність, прогрес кампанії | ресурси, дипломатія й війна |
 | Codify the Steppe Frontier (`south_ukraine_codify_frontier`) | прогрес кампанії, час і технології, землі, ресурси, військо | час і технології, землі, ресурси, військо, дипломатія й війна |
 | Establish a Black Sea Grain Exchange (`south_ukraine_grain_exchange`) | прогрес кампанії, час і технології, ресурси | час і технології, ресурси |
 

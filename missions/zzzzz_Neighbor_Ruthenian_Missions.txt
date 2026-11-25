@@ -1,18 +1,6 @@
-# Additive Ruthenian-culture and Ruthenia-region missions for neighboring base and DLC trees.
-# Never replaces vanilla files; loads after vanilla and existing RIP series.
-#
-# Every series is tied to the last mission of the vanilla column it joins, so each first mission has an arrow and
-# no vacuum above it. A parent has to exist in the variant the player sees, hence one series per variant with the
-# vanilla potential: Lithuania under Lions of the North (lit_jesuit_academy, row 5) or without it (lit_develop_sluck,
-# row 4); the Ottomans of Domination (column 1 of DOM_Ottoman_Missions.txt, ending on
-# tur_embrace_the_military_doctrines, row 13) or the older tree that TUR without Domination and RUM use (column 1
-# ending on conquer_hungary, row 7). The *_classic series are copies with their own keys, because a mission key
-# cannot repeat; tests/check_mission_ties.py checks that the copies stay identical.
-# Column 1 of Lithuania also carries the Kyiv succession (rip_lit_kyiv_succession, under the princes of Rus) and column 3 the
-# Volok survey (rip_lit_volok_survey, under lit_build_manufactories; a root of the free column 3 in the older tree). Both open the
-# events of events/RIP_LIT_Reckoning.txt.
-# The Tatar and Habsburg series live in zzzz_Ruthenian_Contacts_Horde_Habsburg.txt, which sorts after the vanilla
-# horde files; the Dnieper tribute moved there to follow the yarlyks.
+# Late-loaded Lithuanian and Ottoman mission additions.
+# Kamianets follows Black Sea Dominance or the capture of Kaffa as a completion trigger.
+# The Ladyzhyn series is loaded under Kamianets in zzzzzz_Historical_Record.txt.
 
 rip_lit_ruthenian_missions = {
 	slot = 1
@@ -334,7 +322,7 @@ rip_lit_volok_missions_classic = {
 }
 
 rip_tur_ruthenian_missions = {
-	slot = 1
+	slot = 4
 	generic = no
 	ai = yes
 	potential_on_load = {
@@ -350,7 +338,7 @@ rip_tur_ruthenian_missions = {
 
 	rip_tur_podillian_eyalet = {
 		icon = mission_ottoman_diplomacy
-		required_missions = { tur_embrace_the_military_doctrines }
+		required_missions = { }
 		position = 14
 		provinces_to_highlight = {
 			OR = {
@@ -363,6 +351,7 @@ rip_tur_ruthenian_missions = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
+			mission_completed = tur_black_sea_dominance
 			OR = {
 				AND = {
 					281 = { country_or_non_sovereign_subject_holds = ROOT }
@@ -415,7 +404,7 @@ rip_tur_ruthenian_missions = {
 }
 
 rip_tur_ruthenian_missions_classic = {
-	slot = 1
+	slot = 4
 	generic = no
 	ai = yes
 	potential = {
@@ -449,8 +438,8 @@ rip_tur_ruthenian_missions_classic = {
 
 	rip_tur_podillian_eyalet_classic = {
 		icon = mission_ottoman_diplomacy
-		required_missions = { conquer_hungary }
-		position = 8
+		required_missions = { }
+		position = 10
 		provinces_to_highlight = {
 			OR = {
 				area = podolia_volhynia_area
@@ -462,6 +451,7 @@ rip_tur_ruthenian_missions_classic = {
 			NOT = { country_or_non_sovereign_subject_holds = ROOT }
 		}
 		trigger = {
+			mission_completed = take_kaffa
 			OR = {
 				AND = {
 					281 = { country_or_non_sovereign_subject_holds = ROOT }
@@ -508,91 +498,6 @@ rip_tur_ruthenian_missions_classic = {
 					NOT = { is_claim = ROOT }
 				}
 				add_claim = ROOT
-			}
-		}
-	}
-}
-
-rip_pol_ruthenian_missions = {
-	slot = 5
-	generic = no
-	ai = yes
-	potential = {
-		OR = {
-			tag = POL
-			tag = PLC
-		}
-		NOT = { map_setup = map_setup_random }
-	}
-	has_country_shield = yes
-
-	rip_pol_ruthenian_palatinates = {
-		icon = mission_early_game_buildings
-		required_missions = { rip_pol_lviv_charters }
-		position = 15
-		provinces_to_highlight = {
-			OR = {
-				area = red_ruthenia_area
-				AND = {
-					region = ruthenia_region
-					rip_diaspora_eligible_culture_province = yes
-				}
-			}
-			OR = {
-				NOT = { owned_by = ROOT }
-				local_autonomy = 30
-			}
-		}
-		trigger = {
-			2961 = {
-				owned_by = ROOT
-				development = 18
-				rip_diaspora_eligible_culture_province = yes
-			}
-			num_of_owned_provinces_with = {
-				value = 6
-				OR = {
-					area = red_ruthenia_area
-					region = ruthenia_region
-				}
-				rip_diaspora_eligible_culture_province = yes
-				NOT = { local_autonomy = 30 }
-			}
-			OR = {
-				accepted_culture = ruthenian
-				accepted_culture = ruthenian_new
-				accepted_culture = ruthenian_west_ruthenian
-				accepted_culture = ruthenian_west_slavic
-				accepted_culture = rusyn
-				accepted_culture = rusyn_new
-				accepted_culture = rusyn_new_new
-				accepted_culture = rusyn_west_ruthenian
-				accepted_culture = rusyn_west_slavic
-				num_of_owned_provinces_with = {
-					value = 3
-					OR = {
-						area = red_ruthenia_area
-						region = ruthenia_region
-					}
-					rip_diaspora_eligible_culture_province = yes
-					OR = {
-						has_building = temple
-						has_building = cathedral
-						has_building = university
-					}
-				}
-			}
-		}
-		effect = {
-			add_adm_power = 50
-			add_dip_power = 50
-			2961 = {
-				add_base_production = 1
-				add_base_tax = 1
-			}
-			add_country_modifier = {
-				name = rip_pol_ruthenian_palatinates_mod
-				duration = 9125
 			}
 		}
 	}

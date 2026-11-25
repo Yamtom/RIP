@@ -1,24 +1,4 @@
-"""The four Ruthenian-contact missions added to the Russian, minor-principality, Tatar and Austrian trees.
-
-  Russia        rip_rus_kyiv_metropolia      DOM_Russia_Missions.txt, column 3, row 8
-  Minors        tr_rip_ruthenian_charters    TR_Russian_Minors_Missions.txt, column 5, row 5
-  Tatars        rip_tat_ruthenian_yarlyks    zzzz_Ruthenian_Contacts_Horde_Habsburg.txt, column 5, row 17 under
-                                             tatars_intercontinental_trade, then rip_tatar_dnieper_tribute on row 18;
-                                             the older tree (no Winds of Change) has the *_classic copies on rows 5-6
-                                             under tatar_yoke_mission
-  Austria       rip_hab_galician_ruthenians  the same file, column 5, row 13
-
-The first two live in the mod's own full-file overrides. The last two cannot: the mod owns no copy of
-the Tatar and Austrian trees, so they are series in a `zzzz_` file that loads after every vanilla file
-of their column (the engine stacks series in file order and `position` is only a minimum, see
-docs/RUTHENIAN_CONTACT_MISSIONS_20261124.uk.md). The Tatar series hang from the last mission of the vanilla
-column of their variant; the Austrian ones follow hab_shift_in_balance (Winds of Change) or conquer_transylvania
-(the older tree). tests/check_mission_ties.py proves the rows against the real vanilla columns and that the
-copies match their main series.
-
-Static only. Without an installed EU4 1.37.x the load-order proof falls back to the file names
-recorded below; with it, every vanilla series that could share the column is read.
-"""
+"""Static mission contracts for Ruthenian additions to Russia, the minors, the Tatars and Austria."""
 from __future__ import annotations
 
 import re
@@ -107,9 +87,12 @@ def load_order_problems(new_name: str, files: dict[str, str], known: tuple[str, 
             # A series that loads after the new file only stacks below it, which is harmless as long as
             # its declared rows start under the new missions; one that starts higher would sit above them.
             lowest = min((position for position, _, _ in missions.values() if position), default=0)
-            if name.lower() > mine and lowest <= LATEST_NEW_ROW:
+            classic_tatar = ('NOT = { has_dlc = "Winds of Change" }' in potential
+                             and not re.search(r"\b(?:was_)?tag = (HAB|AUH)\b", potential))
+            tail = 6 if classic_tatar else LATEST_NEW_ROW
+            if name.lower() > mine and lowest <= tail:
                 problems.append(f"{name}/{series} fills column 5 for Tatar or Habsburg tags, loads after {new_name} "
-                                f"and starts at row {lowest}, not below row {LATEST_NEW_ROW}")
+                                f"and starts at row {lowest}, not below row {tail}")
     return problems
 
 
@@ -138,10 +121,8 @@ def new_file_problems(text: str, files: dict[str, str], known: tuple[str, ...]) 
                                          "tatars_intercontinental_trade", TATAR_TAGS, TAG_HELPERS, True),
         "rip_horde_ruthenian_contacts_classic": ({"rip_tat_ruthenian_yarlyks_classic": 5, "rip_tatar_dnieper_tribute_classic": 6},
                                                  "tatar_yoke_mission", TATAR_TAGS, TAG_HELPERS, False),
-        "rip_austrian_ruthenian_contacts": ({"rip_hab_galician_ruthenians": 13}, "hab_shift_in_balance",
-                                            ("HAB", "AUH"), (), True),
-        "rip_austrian_ruthenian_contacts_classic": ({"rip_hab_galician_ruthenians_classic": 13}, "conquer_transylvania",
-                                                    ("HAB",), (), True),
+        "rip_austrian_ruthenian_contacts_classic": ({"rip_hab_galician_ruthenians_classic": 11}, "",
+                                                    ("HAB",), (), False),
     }
     if set(series) != set(expected):
         problems.append(f"expected series {sorted(expected)}, found {sorted(series)}")
@@ -185,9 +166,12 @@ def new_file_problems(text: str, files: dict[str, str], known: tuple[str, ...]) 
     classic = series.get("rip_horde_ruthenian_contacts_classic", (0, "", 0))[1]
     if 'NOT = { has_dlc = "Winds of Change" }' not in classic or "tag = KAS" not in classic:
         problems.append("Tatar classic series: potential must be the older tree's tag list without Winds of Change")
-    austrian = series.get("rip_austrian_ruthenian_contacts", (0, "", 0))[1]
-    if not re.search(r"(?<!\w)tag = HAB\b", austrian) or not re.search(r"(?<!\w)tag = AUH\b", austrian):
-        problems.append("Austrian series: potential must cover HAB and AUH")
+    austrian = series.get("rip_austrian_ruthenian_contacts_classic", (0, "", 0))[1]
+    if not re.search(r"(?<!\w)tag = HAB\b", austrian):
+        problems.append("Classic Austrian series must cover HAB")
+    _, _, classic_missions = series.get("rip_austrian_ruthenian_contacts_classic", (0, "", {}))
+    if "mission_completed = partition_poland" not in classic_missions.get("rip_hab_galician_ruthenians_classic", (0, "", ""))[2]:
+        problems.append("Classic Austrian mission must require the conquest of Galicia")
     return problems
 
 
@@ -264,7 +248,7 @@ def self_test(new_text: str, dom_text: str, files: dict[str, str]) -> list[str]:
     expect("Tatar chain loses its parent", new_file_problems(
         new_text.replace("required_missions = { tatars_intercontinental_trade }", "required_missions = { }", 1), files, KNOWN_COLUMN_FILES))
     expect("Austrian mission loses its parent", new_file_problems(
-        new_text.replace("required_missions = { hab_shift_in_balance }", "required_missions = { }", 1), files, KNOWN_COLUMN_FILES))
+        new_text.replace("mission_completed = partition_poland", "always = yes", 1), files, KNOWN_COLUMN_FILES))
     expect("culture gate removed", new_file_problems(
         new_text.replace("rip_diaspora_eligible_culture_province = yes", "development = 1"), files, KNOWN_COLUMN_FILES))
     expect("HAB gate lost", new_file_problems(new_text.replace("tag = HAB", "tag = BOH", 1), files, KNOWN_COLUMN_FILES))

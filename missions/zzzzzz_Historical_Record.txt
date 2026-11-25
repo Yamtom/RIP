@@ -151,50 +151,126 @@ rip_plc_historical_record_1 = {
 	}
 }
 
-rip_cri_historical_record_1 = {
-	slot = 1
+rip_cri_historical_record_5 = {
+	slot = 5
 	generic = no
 	ai = yes
+	potential_on_load = {
+		has_dlc = "Winds of Change"
+	}
 	potential = {
 		tag = CRI
+		has_dlc = "Winds of Change"
 		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
 
 	rip_record_kyiv_captives = {
 		icon = mission_alliances
-		position = 18
-		required_missions = {  }
+		position = 19
+		required_missions = { rip_tatar_dnieper_tribute }
 		trigger = {
 			is_year = 1482
 			any_owned_province = { area = crimea_area }
 			280 = { has_discovered = ROOT }
 			treasury = 65
 		}
-		effect = { country_event = { id = rip_historical_record.11 } }
+		effect = {
+			if = {
+				limit = { NOT = { mission_completed = rip_record_kyiv_captives_classic } }
+				country_event = { id = rip_historical_record.11 }
+			}
+		}
 	}
 }
 
-rip_tur_historical_record_5 = {
+rip_cri_historical_record_5_classic = {
 	slot = 5
 	generic = no
 	ai = yes
 	potential = {
+		tag = CRI
+		NOT = { has_dlc = "Winds of Change" }
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	rip_record_kyiv_captives_classic = {
+		icon = mission_alliances
+		position = 7
+		required_missions = { rip_tatar_dnieper_tribute_classic }
+		trigger = {
+			is_year = 1482
+			any_owned_province = { area = crimea_area }
+			280 = { has_discovered = ROOT }
+			treasury = 65
+		}
+		effect = {
+			if = {
+				limit = { NOT = { mission_completed = rip_record_kyiv_captives } }
+				country_event = { id = rip_historical_record.11 }
+			}
+		}
+	}
+}
+
+rip_tur_historical_record = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
 		tag = TUR
+		has_dlc = "Domination"
 		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
 
 	rip_record_ladyzhyn = {
 		icon = mission_early_game_buildings
-		position = 18
-		required_missions = {  }
+		position = 15
+		required_missions = { rip_tur_podillian_eyalet }
 		trigger = {
 			is_year = 1674
+			# Ladyzhyn is represented by the Bratslav province.
 			1943 = { country_or_non_sovereign_subject_holds = ROOT }
 			treasury = 60
 		}
-		effect = { country_event = { id = rip_historical_record.12 } }
+		effect = {
+			if = {
+				limit = { NOT = { mission_completed = rip_record_ladyzhyn_classic } }
+				country_event = { id = rip_historical_record.12 }
+			}
+		}
+	}
+}
+
+rip_tur_historical_record_classic = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		tag = TUR
+		NOT = { has_dlc = "Domination" }
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	rip_record_ladyzhyn_classic = {
+		icon = mission_early_game_buildings
+		position = 11
+		required_missions = { rip_tur_podillian_eyalet_classic }
+		trigger = {
+			is_year = 1674
+			# Ladyzhyn is represented by the Bratslav province.
+			1943 = { country_or_non_sovereign_subject_holds = ROOT }
+			treasury = 60
+		}
+		effect = {
+			if = {
+				limit = { NOT = { mission_completed = rip_record_ladyzhyn } }
+				country_event = { id = rip_historical_record.12 }
+			}
+		}
 	}
 }
 
@@ -202,21 +278,59 @@ rip_lit_historical_record_1 = {
 	slot = 1
 	generic = no
 	ai = yes
+	potential_on_load = {
+		has_dlc = "Lions of the North"
+	}
 	potential = {
 		tag = LIT
+		has_dlc = "Lions of the North"
 		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
 
 	rip_record_volhynian_expulsion = {
 		icon = mission_high_income
-		position = 8
-		required_missions = {  }
+		position = 9
+		required_missions = { rip_lit_kyiv_succession }
 		trigger = {
 			is_year = 1495
 			279 = { country_or_non_sovereign_subject_holds = ROOT }
 			adm_power = 30
 		}
-		effect = { country_event = { id = rip_historical_record.13 } }
+		effect = {
+			if = {
+				limit = { NOT = { mission_completed = rip_record_volhynian_expulsion_classic } }
+				country_event = { id = rip_historical_record.13 }
+			}
+		}
+	}
+}
+
+rip_lit_historical_record_1_classic = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = LIT
+		NOT = { has_dlc = "Lions of the North" }
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	rip_record_volhynian_expulsion_classic = {
+		icon = mission_high_income
+		position = 8
+		required_missions = { rip_lit_kyiv_succession_classic }
+		trigger = {
+			is_year = 1495
+			279 = { country_or_non_sovereign_subject_holds = ROOT }
+			adm_power = 30
+		}
+		effect = {
+			if = {
+				limit = { NOT = { mission_completed = rip_record_volhynian_expulsion } }
+				country_event = { id = rip_historical_record.13 }
+			}
+		}
 	}
 }

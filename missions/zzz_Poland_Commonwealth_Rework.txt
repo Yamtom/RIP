@@ -54,21 +54,10 @@ rip_polish_rusyn_markets = {
 		}
 		effect = { 261 = { add_base_production = 1 } }
 	}
-}
-
-rip_polish_rusyn_charters = {
-	slot = 4
-	generic = no
-	ai = yes
-	potential = {
-		OR = { tag = POL tag = PLC }
-		NOT = { map_setup = map_setup_random }
-	}
-	has_country_shield = yes
 
 	rip_pol_lviv_charters = {
 		icon = mission_noble_council
-		position = 14
+		position = 13
 		required_missions = { rip_pol_rusyn_fairs }
 		trigger = {
 			stability = 1
@@ -80,6 +69,77 @@ rip_polish_rusyn_charters = {
 			}
 		}
 		effect = { 2961 = { add_base_tax = 1 } add_prestige = 10 }
+	}
+
+	rip_pol_ruthenian_palatinates = {
+		icon = mission_early_game_buildings
+		required_missions = { rip_pol_lviv_charters }
+		position = 14
+		provinces_to_highlight = {
+			OR = {
+				area = red_ruthenia_area
+				AND = {
+					region = ruthenia_region
+					rip_diaspora_eligible_culture_province = yes
+				}
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				local_autonomy = 30
+			}
+		}
+		trigger = {
+			2961 = {
+				owned_by = ROOT
+				development = 18
+				rip_diaspora_eligible_culture_province = yes
+			}
+			num_of_owned_provinces_with = {
+				value = 6
+				OR = {
+					area = red_ruthenia_area
+					region = ruthenia_region
+				}
+				rip_diaspora_eligible_culture_province = yes
+				NOT = { local_autonomy = 30 }
+			}
+			OR = {
+				accepted_culture = ruthenian
+				accepted_culture = ruthenian_new
+				accepted_culture = ruthenian_west_ruthenian
+				accepted_culture = ruthenian_west_slavic
+				accepted_culture = rusyn
+				accepted_culture = rusyn_new
+				accepted_culture = rusyn_new_new
+				accepted_culture = rusyn_west_ruthenian
+				accepted_culture = rusyn_west_slavic
+				num_of_owned_provinces_with = {
+					value = 3
+					OR = {
+						area = red_ruthenia_area
+						region = ruthenia_region
+					}
+					rip_diaspora_eligible_culture_province = yes
+					OR = {
+						has_building = temple
+						has_building = cathedral
+						has_building = university
+					}
+				}
+			}
+		}
+		effect = {
+			add_adm_power = 50
+			add_dip_power = 50
+			2961 = {
+				add_base_production = 1
+				add_base_tax = 1
+			}
+			add_country_modifier = {
+				name = rip_pol_ruthenian_palatinates_mod
+				duration = 9125
+			}
+		}
 	}
 }
 
@@ -149,40 +209,6 @@ POL_re_missions_1 = {
 		}
 	}
 
-	pol_guardian_of_frontier = {
-		icon = mission_build_up_to_force_limit
-		required_missions = { pol_ruthenian_compact }
-		position = 15
-		trigger = {
-			army_size_percentage = 0.6
-			owns = 281 # Podillia (Kamianets)
-			owns = 1943 # Bratslav
-			owns = 4540 # Winnica
-		}
-		effect = {
-			add_country_modifier = {
-				name = "pol_frontier_commissariat"
-				duration = 9125
-			}
-			add_mil_power = 75
-			add_army_tradition = 5
-		}
-		ai_weight = {
-			factor = 420
-		}
-	}
-}
-
-POL_re_missions_2 = {
-	slot = 2
-	generic = no
-	ai = yes
-	potential = {
-		tag = PLC
-		NOT = { map_setup = map_setup_random }
-	}
-	has_country_shield = yes
-
 	pol_ruthenian_compact = {
 		icon = mission_conquer_novgorod
 		required_missions = { pol_reaffirm_union }
@@ -215,48 +241,32 @@ POL_re_missions_2 = {
 		}
 	}
 
-	pol_professionalize_army = {
+	pol_guardian_of_frontier = {
 		icon = mission_build_up_to_force_limit
-		required_missions = { pol_hadiach_commission }
-		position = 16
+		required_missions = { pol_ruthenian_compact }
+		position = 15
 		trigger = {
-			army_professionalism = 0.2
+			army_size_percentage = 0.6
+			owns = 281 # Podillia (Kamianets)
+			owns = 1943 # Bratslav
+			owns = 4540 # Winnica
 		}
 		effect = {
 			add_country_modifier = {
-				name = "pol_army_commission"
-				duration = 5475
-			}
-			add_mil_power = 50
-		}
-		ai_weight = {
-			factor = 380
-		}
-	}
-
-	pol_hussar_reform = {
-		icon = mission_build_up_to_force_limit
-		required_missions = { pol_professionalize_army }
-		position = 17
-		trigger = {
-			army_tradition = 30
-			num_of_cavalry = 20
-		}
-		effect = {
-			add_country_modifier = {
-				name = "pol_winged_hussars"
+				name = "pol_frontier_commissariat"
 				duration = 9125
 			}
-			add_army_professionalism = 0.05
+			add_mil_power = 75
+			add_army_tradition = 5
 		}
 		ai_weight = {
-			factor = 400
+			factor = 420
 		}
 	}
 }
 
 POL_re_missions_3 = {
-	slot = 3
+	slot = 2
 	generic = no
 	ai = yes
 	potential = {
@@ -407,7 +417,7 @@ POL_re_missions_3 = {
 }
 
 POL_re_missions_4 = {
-	slot = 4
+	slot = 3
 	generic = no
 	ai = yes
 	potential = {
@@ -419,7 +429,7 @@ POL_re_missions_4 = {
 	pol_secure_grain_trade = {
 		icon = rip_gfx_mission_ruthenian_granaries_icon
 		required_missions = { rip_pol_lviv_charters }
-		position = 16
+		position = 14
 		trigger = {
 			num_of_merchants = 3
 			owns = 43 # Danzig
@@ -437,6 +447,56 @@ POL_re_missions_4 = {
 		}
 		ai_weight = {
 			factor = 390
+		}
+	}
+}
+
+POL_re_missions_2 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		tag = PLC
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	pol_professionalize_army = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { pol_hadiach_commission }
+		position = 16
+		trigger = {
+			army_professionalism = 0.2
+		}
+		effect = {
+			add_country_modifier = {
+				name = "pol_army_commission"
+				duration = 5475
+			}
+			add_mil_power = 50
+		}
+		ai_weight = {
+			factor = 380
+		}
+	}
+
+	pol_hussar_reform = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { pol_professionalize_army }
+		position = 17
+		trigger = {
+			army_tradition = 30
+			num_of_cavalry = 20
+		}
+		effect = {
+			add_country_modifier = {
+				name = "pol_winged_hussars"
+				duration = 9125
+			}
+			add_army_professionalism = 0.05
+		}
+		ai_weight = {
+			factor = 400
 		}
 	}
 }
