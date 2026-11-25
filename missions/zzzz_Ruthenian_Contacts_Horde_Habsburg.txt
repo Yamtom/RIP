@@ -1,18 +1,4 @@
-# Shared additions to the vanilla Tatar and Austrian trees. Never replace a vanilla series.
-#
-# The mod owns no copy of these trees: the Tatar ones come in three DLC variants
-# (Tatar_Missions, WoC_Tatar_Missions, zzz_WoC_Shared_Horde_Missions) and the Austrian ones
-# in four (Austrian_Missions, EMP_Austrian_Missions, 99_EMP_Austrian_Missions,
-# WoC_Austrian_Missions). Each tree gets ONE series here, with a potential wide enough for
-# all of its variants, so the player sees one new mission whichever DLC set is installed.
-#
-# Load order matters. The engine stacks series of the same column in file order and `position`
-# is only a minimum, so a series that sorts BEFORE a vanilla one pushes the vanilla missions down
-# and bends their arrows. The `zzzz_` prefix sorts after `zzz_WoC_Shared_Horde_Missions.txt`, the
-# last vanilla file that fills column 5 for these tags; tests/check_ruthenian_mission_series.py
-# keeps it that way. Column 5 is the one the vanilla Tatar and Austrian variants leave to the
-# bottom, and the first mission has no prerequisite, so it sits below the vanilla tree
-# without an arrow (the same compromise as zzz_Ruthenian_Contacts.txt).
+# Tatar and Austrian additions load after the vanilla mission series in column five.
 
 rip_horde_ruthenian_contacts = {
 	slot = 5
@@ -82,6 +68,7 @@ rip_austrian_ruthenian_contacts = {
 	generic = no
 	ai = yes
 	potential = {
+		has_dlc = "Winds of Change"
 		NOT = { map_setup = map_setup_random }
 		OR = {
 			tag = HAB
@@ -93,11 +80,10 @@ rip_austrian_ruthenian_contacts = {
 	}
 	has_country_shield = yes
 
-	# Position 13 clears the tallest variant (WoC_austria_5 ends on row 12).
 	rip_hab_galician_ruthenians = {
 		icon = mission_early_modern_university
 		position = 13
-		required_missions = { }
+		required_missions = { hab_shift_in_balance }
 		provinces_to_highlight = {
 			area = red_ruthenia_area
 			NOT = { owned_by = ROOT }
@@ -119,16 +105,73 @@ rip_austrian_ruthenian_contacts = {
 			}
 		}
 		effect = {
-			add_adm_power = 50
 			if = {
-				limit = {
-					NOT = { accepted_culture = ruthenian }
+				limit = { NOT = { mission_completed = rip_hab_galician_ruthenians_classic } }
+				add_adm_power = 50
+				if = {
+					limit = {
+						NOT = { accepted_culture = ruthenian }
+					}
+					add_accepted_culture = ruthenian
 				}
-				add_accepted_culture = ruthenian
+				add_country_modifier = {
+					name = rip_hab_ruthenian_clergy
+					duration = 7300
+				}
 			}
-			add_country_modifier = {
-				name = rip_hab_ruthenian_clergy
-				duration = 7300
+		}
+	}
+}
+
+rip_austrian_ruthenian_contacts_classic = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		NOT = { map_setup = map_setup_random }
+		tag = HAB
+		NOT = { has_dlc = "Winds of Change" }
+	}
+	has_country_shield = yes
+
+	rip_hab_galician_ruthenians_classic = {
+		icon = mission_early_modern_university
+		position = 13
+		required_missions = { conquer_transylvania }
+		provinces_to_highlight = {
+			area = red_ruthenia_area
+			NOT = { owned_by = ROOT }
+		}
+		trigger = {
+			stability = 1
+			num_of_owned_provinces_with = {
+				value = 3
+				area = red_ruthenia_area
+				rip_diaspora_eligible_culture_province = yes
+			}
+			any_owned_province = {
+				area = red_ruthenia_area
+				OR = {
+					religion = greek_catholic
+					religion = orthodox
+					religion = russian_orthodox
+				}
+			}
+		}
+		effect = {
+			if = {
+				limit = { NOT = { mission_completed = rip_hab_galician_ruthenians } }
+				add_adm_power = 50
+				if = {
+					limit = {
+						NOT = { accepted_culture = ruthenian }
+					}
+					add_accepted_culture = ruthenian
+				}
+				add_country_modifier = {
+					name = rip_hab_ruthenian_clergy
+					duration = 7300
+				}
 			}
 		}
 	}

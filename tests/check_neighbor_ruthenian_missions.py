@@ -33,7 +33,7 @@ EXPECTED_MISSIONS = {
     "rip_lit_princes_of_rus": ("rip_lit_ruthenian_missions", 1, 7),
     "rip_tatar_dnieper_tribute": ("rip_tatar_ruthenian_missions", 5, 20),
     "rip_tur_podillian_eyalet": ("rip_tur_ruthenian_missions", 5, 17),
-    "rip_pol_ruthenian_palatinates": ("rip_pol_ruthenian_missions", 5, 13),
+    "rip_pol_ruthenian_palatinates": ("rip_pol_ruthenian_missions", 5, 15),
 }
 
 EXPECTED_MODIFIERS = (
@@ -121,11 +121,14 @@ def check_neighbor_missions() -> None:
     pol_pot = named_block(named_block(neighbor_missions, "rip_pol_ruthenian_missions"), "potential")
     assert "tag = POL" in pol_pot and "tag = PLC" in pol_pot and "has_dlc" not in pol_pot
 
+    palatinates = named_block(neighbor_missions, "rip_pol_ruthenian_palatinates")
+    assert "rip_pol_lviv_charters" in named_block(palatinates, "required_missions")
+
     # Check non-collision against RIP's existing Poland/Contacts/Diaspora trees.
     pol_re = parse_series_cells(read("missions/zzz_Poland_Commonwealth_Rework.txt"))
     contacts = parse_series_cells(read("missions/zzz_Ruthenian_Contacts.txt"))
     rip_pol_cells = {(slot, pos) for _, slot, _, ms in pol_re + contacts if True for _, pos in ms}
-    assert (5, 13) not in rip_pol_cells
+    assert (5, 15) not in rip_pol_cells
 
     if vanilla_root() is not None:
         # Verify zero coordinate collisions against installed vanilla EU4 1.37 files.
@@ -133,7 +136,7 @@ def check_neighbor_missions() -> None:
             ("LIT", 1, {6, 7}, ("Lithuanian Missions.txt", "SCA_Lithuania_Missions.txt")),
             ("TATAR", 5, {20}, ("Tatar_Missions.txt", "WoC_Tatar_Missions.txt", "zzz_WoC_Shared_Horde_Missions.txt", "zzzz_WoC_EoC_Yuan_Missions.txt")),
             ("TUR", 5, {17}, ("Ottoman_Missions.txt", "DOM_Ottoman_Missions.txt")),
-            ("POL", 5, {13}, ("Polish_Missions.txt", "SCA_Polish_Missions.txt")),
+            ("POL", 5, {15}, ("Polish_Missions.txt", "SCA_Polish_Missions.txt")),
         ]
         for label, target_slot, our_rows, files in checks:
             occupied = set()

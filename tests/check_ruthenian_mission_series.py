@@ -8,7 +8,7 @@
 The first two live in the mod's own full-file overrides. The last two cannot: the mod owns no copy of
 the Tatar and Austrian trees, so they are series in a `zzzz_` file that loads after every vanilla file
 of their column (the engine stacks series in file order and `position` is only a minimum, see
-docs/RUTHENIAN_CONTACT_MISSIONS_20261124.uk.md). One series covers every DLC variant of its tree.
+docs/RUTHENIAN_CONTACT_MISSIONS_20261124.uk.md). The Austrian versions follow the corresponding native prerequisite.
 
 Static only. Without an installed EU4 1.37.x the load-order proof falls back to the file names
 recorded below; with it, every vanilla series that could share the column is read.
@@ -34,6 +34,7 @@ MISSION_KEYS = {
     "rip_rus_kyiv_metropolia": ("localisation/RIP_MOS_RUS_realm_l_english.yml", "replace"),
     "tr_rip_ruthenian_charters": ("localisation/RIP_MOS_RUS_realm_l_english.yml", "replace"),
     "rip_tat_ruthenian_yarlyks": ("localisation/RIP_shared_ruthenian_contacts_l_english.yml", "contacts"),
+    "rip_hab_galician_ruthenians_classic": ("localisation/RIP_shared_ruthenian_contacts_l_english.yml", "contacts"),
     "rip_hab_galician_ruthenians": ("localisation/RIP_shared_ruthenian_contacts_l_english.yml", "contacts"),
 }
 MODIFIERS = {
@@ -127,6 +128,7 @@ def new_file_problems(text: str, files: dict[str, str], known: tuple[str, ...]) 
     series = {name: (slot, potential, missions) for name, slot, _, potential, missions in series_list(text)}
     expected = {
         "rip_horde_ruthenian_contacts": ("rip_tat_ruthenian_yarlyks", 17, TATAR_TAGS, TAG_HELPERS),
+        "rip_austrian_ruthenian_contacts_classic": ("rip_hab_galician_ruthenians_classic", 13, ("HAB",), ()),
         "rip_austrian_ruthenian_contacts": ("rip_hab_galician_ruthenians", 13, ("HAB", "AUH"), ()),
     }
     if set(series) != set(expected):
@@ -143,8 +145,15 @@ def new_file_problems(text: str, files: dict[str, str], known: tuple[str, ...]) 
         position, required, body = missions[mission]
         if position != row:
             problems.append(f"{mission}: row {position}, expected {row}")
-        if required.strip():
-            problems.append(f"{mission}: has a prerequisite; a series in a zzzz_ file has nothing above it to draw an arrow from")
+        parent = {"rip_austrian_ruthenian_contacts": "hab_shift_in_balance",
+                  "rip_austrian_ruthenian_contacts_classic": "conquer_transylvania"}.get(name, "")
+        if required.strip() != parent:
+            problems.append(f"{mission}: expected prerequisite {parent!r}")
+        if parent:
+            dlc = 'has_dlc = "Winds of Change"'
+            if dlc not in potential or (f"NOT = {{ {dlc} }}" in potential) != name.endswith("_classic"):
+                problems.append(f"{mission}: DLC eligibility must match its parent")
+
         if "map_setup = map_setup_random" not in potential:
             problems.append(f"{name}: potential must keep NOT map_setup_random")
         if "rip_diaspora_eligible_culture" not in body:

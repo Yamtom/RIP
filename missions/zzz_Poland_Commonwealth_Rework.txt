@@ -1,31 +1,102 @@
-# POL, PLC | The Sejm, Hadiach, army reform and the grain trade.
-#
-# The file name starts with zzz_ on purpose. EU4 loads missions/ in alphabetical
-# order and stacks the series of one column one under another, a mission standing
-# at max(previous row + 1, position). Called Poland_..., this file loaded before
-# the vanilla Polish_Missions.txt and SCA_Polish_Missions.txt, so the cursor jumped
-# to row 11 and the whole vanilla Polish tree sank beneath row 18. Positions 11-18
-# below are minimums for a file that loads after both.
-# The series are generic = no: a generic = yes series gives way to any
-# non-generic series in the same slot, and POL/PLC have those from both vanilla files.
-# tests/check_poland_commonwealth_missions.py keeps all of this.
+# Regional contacts are shared by Poland and the Commonwealth. The constitutional settlement opens on formation.
+# Sort after both vanilla Polish trees; positions are minima within each column.
+
+rip_polish_rusyn_contacts = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		OR = { tag = POL tag = PLC }
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	rip_pol_carpathian_passes = {
+		icon = mission_alliances
+		position = 11
+		required_missions = { }
+		trigger = {
+			if = {
+				limit = { has_dlc = "Lions of the North" }
+				mission_completed = pol_moldavia
+			}
+			else = { mission_completed = annex_mazovia }
+			1952 = { rip_ruthenian_mission_contact = yes } # Maramaros
+			owns_core_province = 261 # Halych
+		}
+		effect = { add_dip_power = 35 }
+	}
+}
+
+rip_polish_rusyn_markets = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		OR = { tag = POL tag = PLC }
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	rip_pol_rusyn_fairs = {
+		icon = mission_dominate_home_trade_node
+		position = 12
+		required_missions = { rip_pol_carpathian_passes }
+		trigger = {
+			261 = {
+				owned_by = ROOT
+				OR = { has_building = marketplace has_building = trade_depot has_building = stock_exchange }
+			}
+			2424 = {
+				owned_by = ROOT
+				OR = { has_building = marketplace has_building = trade_depot has_building = stock_exchange }
+			}
+		}
+		effect = { 261 = { add_base_production = 1 } }
+	}
+}
+
+rip_polish_rusyn_charters = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		OR = { tag = POL tag = PLC }
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	rip_pol_lviv_charters = {
+		icon = mission_noble_council
+		position = 14
+		required_missions = { rip_pol_rusyn_fairs }
+		trigger = {
+			stability = 1
+			1952 = { rip_ruthenian_mission_contact = yes }
+			2961 = {
+				owned_by = ROOT
+				base_tax = 6
+				NOT = { local_autonomy = 30 }
+			}
+		}
+		effect = { 2961 = { add_base_tax = 1 } add_prestige = 10 }
+	}
+}
 
 POL_re_missions_1 = {
 	slot = 1
 	generic = no
 	ai = yes
 	potential = {
-		OR = {
-			tag = POL
-			tag = PLC
-		}
+		tag = PLC
 		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
 
 	pol_restore_sejm_discipline = {
 		icon = mission_noble_council
-		position = 11
+		required_missions = { rip_pol_carpathian_passes }
+		position = 12
 		trigger = {
 			government = monarchy
 			has_parliament = yes
@@ -50,17 +121,8 @@ POL_re_missions_1 = {
 	pol_reaffirm_union = {
 		icon = mission_alliances
 		required_missions = { pol_restore_sejm_discipline }
-		position = 12
+		position = 13
 		trigger = {
-			OR = {
-				tag = PLC
-				AND = {
-					tag = POL
-					LIT = {
-						junior_union_with = ROOT
-					}
-				}
-			}
 			272 = { country_or_non_sovereign_subject_holds = ROOT } # Vilnius
 			owns = 262 # Kraków
 		}
@@ -87,10 +149,44 @@ POL_re_missions_1 = {
 		}
 	}
 
+	pol_guardian_of_frontier = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { pol_ruthenian_compact }
+		position = 15
+		trigger = {
+			army_size_percentage = 0.6
+			owns = 281 # Podillia (Kamianets)
+			owns = 1943 # Bratslav
+			owns = 4540 # Winnica
+		}
+		effect = {
+			add_country_modifier = {
+				name = "pol_frontier_commissariat"
+				duration = 9125
+			}
+			add_mil_power = 75
+			add_army_tradition = 5
+		}
+		ai_weight = {
+			factor = 420
+		}
+	}
+}
+
+POL_re_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		tag = PLC
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
 	pol_ruthenian_compact = {
 		icon = mission_conquer_novgorod
 		required_missions = { pol_reaffirm_union }
-		position = 13
+		position = 14
 		provinces_to_highlight = {
 			region = ruthenia_region
 			NOT = { owned_by = ROOT }
@@ -119,28 +215,55 @@ POL_re_missions_1 = {
 		}
 	}
 
-	pol_guardian_of_frontier = {
+	pol_professionalize_army = {
 		icon = mission_build_up_to_force_limit
-		required_missions = { pol_ruthenian_compact }
-		position = 14
+		required_missions = { pol_hadiach_commission }
+		position = 16
 		trigger = {
-			army_size_percentage = 0.6
-			owns = 281 # Podillia (Kamianets)
-			owns = 1943 # Bratslav
-			owns = 4540 # Winnica
+			army_professionalism = 0.2
 		}
 		effect = {
 			add_country_modifier = {
-				name = "pol_frontier_commissariat"
-				duration = 9125
+				name = "pol_army_commission"
+				duration = 5475
 			}
-			add_mil_power = 75
-			add_army_tradition = 5
+			add_mil_power = 50
 		}
 		ai_weight = {
-			factor = 420
+			factor = 380
 		}
 	}
+
+	pol_hussar_reform = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { pol_professionalize_army }
+		position = 17
+		trigger = {
+			army_tradition = 30
+			num_of_cavalry = 20
+		}
+		effect = {
+			add_country_modifier = {
+				name = "pol_winged_hussars"
+				duration = 9125
+			}
+			add_army_professionalism = 0.05
+		}
+		ai_weight = {
+			factor = 400
+		}
+	}
+}
+
+POL_re_missions_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		tag = PLC
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
 
 	pol_hadiach_commission = {
 		icon = mission_alliances
@@ -283,62 +406,20 @@ POL_re_missions_1 = {
 	}
 }
 
-POL_re_missions_2 = {
-	slot = 2
+POL_re_missions_4 = {
+	slot = 4
 	generic = no
 	ai = yes
 	potential = {
-		OR = {
-			tag = POL
-			tag = PLC
-		}
+		tag = PLC
 		NOT = { map_setup = map_setup_random }
 	}
 	has_country_shield = yes
 
-	pol_professionalize_army = {
-		icon = mission_build_up_to_force_limit
-		required_missions = { pol_hadiach_commission }
-		position = 16
-		trigger = {
-			army_professionalism = 0.2
-		}
-		effect = {
-			add_country_modifier = {
-				name = "pol_army_commission"
-				duration = 5475
-			}
-			add_mil_power = 50
-		}
-		ai_weight = {
-			factor = 380
-		}
-	}
-
-	pol_hussar_reform = {
-		icon = mission_build_up_to_force_limit
-		required_missions = { pol_professionalize_army }
-		position = 17
-		trigger = {
-			army_tradition = 30
-			num_of_cavalry = 20
-		}
-		effect = {
-			add_country_modifier = {
-				name = "pol_winged_hussars"
-				duration = 9125
-			}
-			add_army_professionalism = 0.05
-		}
-		ai_weight = {
-			factor = 400
-		}
-	}
-
 	pol_secure_grain_trade = {
 		icon = rip_gfx_mission_ruthenian_granaries_icon
-		required_missions = { pol_hussar_reform }
-		position = 18
+		required_missions = { rip_pol_lviv_charters }
+		position = 16
 		trigger = {
 			num_of_merchants = 3
 			owns = 43 # Danzig
