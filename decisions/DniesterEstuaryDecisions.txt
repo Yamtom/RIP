@@ -1,5 +1,32 @@
 country_decisions = {
 
+	rip_conclude_dniester_accord = {
+		major = yes
+		potential = {
+			has_country_flag = rip_dniester_accord_signed
+			NOT = { has_country_flag = rip_dniester_accord_concluded }
+		}
+		allow = {
+			is_at_war = no
+			custom_trigger_tooltip = {
+				tooltip = rip_dniester_accord_held_tt
+				had_country_flag = { flag = rip_dniester_accord_held days = 1825 }
+				rip_sovereign_accord_active = {
+					signed = rip_dniester_accord_signed
+					opinion = rip_dniester_accord_opinion
+					partner = rip_accord_dniester_partner
+				}
+			}
+		}
+		effect = {
+			set_country_flag = rip_dniester_accord_concluded
+			add_prestige = 10
+			add_mercantilism = 2
+			rip_update_sovereign_accords = yes
+		}
+		ai_will_do = { factor = 1 }
+	}
+
 	develop_dniester_estuary_trade = {
 		major = yes
 		potential = {

@@ -1,0 +1,55 @@
+# Reconcile every month. A gap in control, alliance or independence resets
+# the waiting period. A concluded treaty resumes its bonus on reconciliation.
+rip_update_sovereign_accord = {
+	if = {
+		limit = { has_country_flag = $signed$ }
+		if = {
+			limit = { rip_sovereign_accord_active = { signed = $signed$ opinion = $opinion$ partner = $partner$ } }
+			if = {
+				limit = { NOT = { has_country_flag = $held$ } }
+				set_country_flag = $held$
+			}
+			if = {
+				limit = {
+					has_country_flag = $concluded$
+					NOT = { has_country_modifier = $reward$ }
+				}
+				add_country_modifier = { name = $reward$ duration = -1 }
+			}
+		}
+		else = {
+			clr_country_flag = $held$
+			if = {
+				limit = { has_country_modifier = $reward$ }
+				remove_country_modifier = $reward$
+			}
+		}
+	}
+}
+
+rip_update_sovereign_accords = {
+	rip_update_sovereign_accord = {
+		signed = rip_hadiach_accord_signed
+		opinion = rip_hadiach_accord_opinion
+		partner = rip_accord_hadiach_partner
+		held = rip_hadiach_accord_held
+		concluded = rip_hadiach_accord_concluded
+		reward = rip_hadiach_accord_reward
+	}
+	rip_update_sovereign_accord = {
+		signed = rip_kyiv_accord_signed
+		opinion = rip_kyiv_accord_opinion
+		partner = rip_accord_kyiv_partner
+		held = rip_kyiv_accord_held
+		concluded = rip_kyiv_accord_concluded
+		reward = rip_kyiv_accord_reward
+	}
+	rip_update_sovereign_accord = {
+		signed = rip_dniester_accord_signed
+		opinion = rip_dniester_accord_opinion
+		partner = rip_accord_dniester_partner
+		held = rip_dniester_accord_held
+		concluded = rip_dniester_accord_concluded
+		reward = rip_dniester_accord_reward
+	}
+}

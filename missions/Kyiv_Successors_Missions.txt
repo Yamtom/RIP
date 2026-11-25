@@ -288,6 +288,30 @@ UKR_missions_2 = {
 		}
 	}
 
+	UKR_defensive_league = {
+		icon = mission_alliances
+		position = 6
+		required_missions = { UKR_princely_compact }
+		trigger = {
+			is_at_war = no
+			custom_trigger_tooltip = {
+				tooltip = rip_kyiv_accord_held_tt
+				had_country_flag = { flag = rip_kyiv_accord_held days = 1825 }
+				rip_sovereign_accord_active = {
+					signed = rip_kyiv_accord_signed
+					opinion = rip_kyiv_accord_opinion
+					partner = rip_accord_kyiv_partner
+				}
+			}
+		}
+		effect = {
+			add_prestige = 20
+			change_government_reform_progress = 50
+			set_country_flag = rip_kyiv_accord_concluded
+			rip_update_sovereign_accords = yes
+		}
+	}
+
 	UKR_princes = {
 		icon = mission_unite_the_princes
 		position = 7

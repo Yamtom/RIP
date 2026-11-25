@@ -218,14 +218,22 @@ POL_re_missions_1 = {
 			NOT = { owned_by = ROOT }
 		}
 		trigger = {
-			num_of_owned_provinces_with = {
-				region = ruthenia_region
-				value = 6
-			}
-			num_of_owned_provinces_with = {
-				region = ruthenia_region
-				culture = ruthenian
-				value = 3
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = POL_hadiach_sovereign_accord_tt
+					rip_hadiach_accord_live = yes
+				}
+				AND = {
+					num_of_owned_provinces_with = {
+						region = ruthenia_region
+						value = 6
+					}
+					num_of_owned_provinces_with = {
+						region = ruthenia_region
+						culture = ruthenian
+						value = 3
+					}
+				}
 			}
 		}
 		effect = {
@@ -346,22 +354,27 @@ POL_re_missions_3 = {
 		trigger = {
 			has_country_flag = pol_union_reaffirmed
 			has_parliament = yes
-			# One line in the tooltip: the real condition stands inside the custom tooltip.
-			custom_trigger_tooltip = {
-				tooltip = POL_hadiach_commission_subject_tt
-				any_subject_country = {
-					NOT = { liberty_desire = 50 }
-					OR = {
-						tag = ZAZ
-						tag = HET
-						primary_culture = ruthenian
-						primary_culture = ruthenian_new
-						primary_culture = ruthenian_west_ruthenian
-						primary_culture = ruthenian_west_slavic
-						primary_culture = rusyn
-						primary_culture = rusyn_new
-						primary_culture = rusyn_west_ruthenian
-						primary_culture = rusyn_west_slavic
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = POL_hadiach_sovereign_accord_tt
+					rip_hadiach_accord_live = yes
+				}
+				custom_trigger_tooltip = {
+					tooltip = POL_hadiach_commission_subject_tt
+					any_subject_country = {
+						NOT = { liberty_desire = 50 }
+						OR = {
+							tag = ZAZ
+							tag = HET
+							primary_culture = ruthenian
+							primary_culture = ruthenian_new
+							primary_culture = ruthenian_west_ruthenian
+							primary_culture = ruthenian_west_slavic
+							primary_culture = rusyn
+							primary_culture = rusyn_new
+							primary_culture = rusyn_west_ruthenian
+							primary_culture = rusyn_west_slavic
+						}
 					}
 				}
 			}
@@ -398,16 +411,21 @@ POL_re_missions_3 = {
 		position = 16
 		trigger = {
 			has_country_flag = pol_hadiach_commission_signed
-			num_accepted_cultures = 4
-			# calc_true_if counts the triggers written directly inside it, and one
-			# any_owned_province is one trigger, so the old amount = 3 could never hold.
-			# num_of_owned_provinces_with counts the provinces themselves.
-			custom_trigger_tooltip = {
-				tooltip = POL_hadiach_seats_tt
-				num_of_owned_provinces_with = {
-					value = 3
-					region = ruthenia_region
-					has_seat_in_parliament = yes
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = POL_hadiach_crown_charters_tt
+					num_accepted_cultures = 4
+					num_of_owned_provinces_with = {
+						value = 3
+						region = ruthenia_region
+						has_seat_in_parliament = yes
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = POL_hadiach_sovereign_charters_tt
+					rip_hadiach_accord_live = yes
+					has_parliament = yes
+					stability = 2
 				}
 			}
 		}
@@ -444,42 +462,59 @@ POL_re_missions_3 = {
 				tooltip = POL_not_crown_integration_tt
 				NOT = { has_country_flag = pol_crown_ruthenia_integrated }
 			}
-			custom_trigger_tooltip = {
-				tooltip = POL_triatomic_partner_preserved_tt
-				any_subject_country = {
-					NOT = { liberty_desire = 35 }
-					has_opinion = {
-						who = ROOT
-						value = 125
-					}
-					num_of_owned_provinces_with = {
-						value = 5
-						OR = {
-							region = ruthenia_region
-							area = red_ruthenia_area
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = POL_hadiach_sovereign_border_tt
+					rip_hadiach_accord_live = yes
+					had_country_flag = { flag = rip_hadiach_accord_held days = 1825 }
+				}
+				custom_trigger_tooltip = {
+					tooltip = POL_triatomic_partner_preserved_tt
+					any_subject_country = {
+						NOT = { liberty_desire = 35 }
+						has_opinion = {
+							who = ROOT
+							value = 125
 						}
-					}
-					OR = {
-						is_subject_of_type = princedom
-						tag = ZAZ
-						tag = HET
-						primary_culture = ruthenian
-						primary_culture = ruthenian_new
-						primary_culture = ruthenian_west_ruthenian
-						primary_culture = ruthenian_west_slavic
-						primary_culture = rusyn
-						primary_culture = rusyn_new
-						primary_culture = rusyn_west_ruthenian
-						primary_culture = rusyn_west_slavic
+						num_of_owned_provinces_with = {
+							value = 5
+							OR = {
+								region = ruthenia_region
+								area = red_ruthenia_area
+							}
+						}
+						OR = {
+							is_subject_of_type = princedom
+							tag = ZAZ
+							tag = HET
+							primary_culture = ruthenian
+							primary_culture = ruthenian_new
+							primary_culture = ruthenian_west_ruthenian
+							primary_culture = ruthenian_west_slavic
+							primary_culture = rusyn
+							primary_culture = rusyn_new
+							primary_culture = rusyn_west_ruthenian
+							primary_culture = rusyn_west_slavic
+						}
 					}
 				}
 			}
 		}
 
 		effect = {
-			add_country_modifier = {
-				name = "pol_triatomic_compact"
-				duration = -1
+			if = {
+				limit = {
+					rip_hadiach_accord_live = yes
+					had_country_flag = { flag = rip_hadiach_accord_held days = 1825 }
+				}
+				set_country_flag = rip_hadiach_accord_concluded
+				rip_update_sovereign_accords = yes
+			}
+			else = {
+				add_country_modifier = {
+					name = "pol_triatomic_compact"
+					duration = -1
+				}
 			}
 			add_prestige = 15
 			add_legitimacy = 10
