@@ -1,0 +1,768 @@
+# Sloboda Cossack Regiments (SMY, OKH, IZM, KHK) mission tree.
+# All slots remain in rows 1-4 below row 24 (tall Diaspora mission root in slots 2-4).
+
+smy_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = SMY
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	smy_psel_stockade = {
+		icon = rip_gfx_mission_frontier_fortress_icon
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = {
+			province_id = 299
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 12 }
+			}
+		}
+
+		trigger = {
+			299 = {
+				owned_by = ROOT
+				development = 12
+			}
+		}
+
+		effect = {
+			add_mil_power = 50
+			299 = {
+				add_province_modifier = {
+					name = sloboda_sumy_stockade
+					duration = -1
+				}
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	smy_sumy_cattle_fairs = {
+		icon = mission_high_income
+		required_missions = { smy_psel_stockade }
+		position = 2
+
+		provinces_to_highlight = {
+			province_id = 299
+			OR = {
+				NOT = { owned_by = ROOT }
+				AND = {
+					NOT = { base_production = 5 }
+					NOT = {
+						OR = {
+							has_building = marketplace
+							has_building = trade_depot
+							has_building = stock_exchange
+						}
+					}
+				}
+			}
+		}
+
+		trigger = {
+			299 = {
+				owned_by = ROOT
+				OR = {
+					base_production = 5
+					has_building = marketplace
+					has_building = trade_depot
+					has_building = stock_exchange
+				}
+			}
+		}
+
+		effect = {
+			add_years_of_income = 1.0
+			add_country_modifier = {
+				name = sloboda_regimental_fairs
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+okh_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = OKH
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	okh_vorskla_granaries = {
+		icon = rip_gfx_mission_ruthenian_granaries_icon
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = {
+			province_id = 298
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 12 }
+			}
+		}
+
+		trigger = {
+			298 = {
+				owned_by = ROOT
+				development = 12
+			}
+		}
+
+		effect = {
+			add_adm_power = 50
+			298 = {
+				add_province_modifier = {
+					name = sloboda_okhtyrka_granaries
+					duration = -1
+				}
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	okh_okhtyrka_dragoons = {
+		icon = mission_cossack_cavalry
+		required_missions = { okh_vorskla_granaries }
+		position = 2
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			num_of_cavalry = 4
+			manpower_percentage = 0.5
+		}
+
+		effect = {
+			add_army_tradition = 10
+			add_country_modifier = {
+				name = sloboda_frontier_squadrons
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+izm_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = IZM
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	izm_izium_trail_watch = {
+		icon = mission_non-western_cavalry_raid
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = {
+			province_id = 2408
+			OR = {
+				NOT = { owned_by = ROOT }
+				AND = {
+					NOT = { base_manpower = 4 }
+					NOT = {
+						OR = {
+							has_building = fort_15th
+							has_building = fort_16th
+							has_building = fort_17th
+							has_building = fort_18th
+						}
+					}
+				}
+			}
+		}
+
+		trigger = {
+			2408 = {
+				owned_by = ROOT
+				OR = {
+					base_manpower = 4
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+		}
+
+		effect = {
+			add_mil_power = 50
+			2408 = {
+				add_province_modifier = {
+					name = sloboda_izium_crossing
+					duration = -1
+				}
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	izm_donets_interceptor = {
+		icon = mission_break_the_tatar_yoke
+		required_missions = { izm_izium_trail_watch }
+		position = 2
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			army_size_percentage = 1.0
+			army_tradition = 15
+		}
+
+		effect = {
+			add_mil_power = 50
+			add_country_modifier = {
+				name = sloboda_muravsky_patrols
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+khk_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = KHK
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	khk_lopan_citadel = {
+		icon = mission_eastern_european_city
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = {
+			province_id = 291
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 14 }
+			}
+		}
+
+		trigger = {
+			291 = {
+				owned_by = ROOT
+				development = 14
+			}
+		}
+
+		effect = {
+			add_adm_power = 50
+			291 = {
+				add_province_modifier = {
+					name = sloboda_kharkiv_citadel
+					duration = -1
+				}
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	khk_kharkiv_arsenal = {
+		icon = mission_cannons_firing
+		required_missions = { khk_lopan_citadel }
+		position = 2
+
+		provinces_to_highlight = {
+			province_id = 291
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = {
+					OR = {
+						has_building = workshop
+						has_building = counting_house
+						has_building = barracks
+						has_building = training_fields
+					}
+				}
+			}
+		}
+
+		trigger = {
+			291 = {
+				owned_by = ROOT
+				OR = {
+					has_building = workshop
+					has_building = counting_house
+					has_building = barracks
+					has_building = training_fields
+				}
+			}
+		}
+
+		effect = {
+			add_mil_power = 50
+			add_country_modifier = {
+				name = sloboda_kharkiv_founders
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+sloboda_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = SMY
+			tag = OKH
+			tag = IZM
+			tag = KHK
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	sloboda_border_palisade = {
+		icon = rip_gfx_mission_frontier_fortress_icon
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			is_free_or_tributary_trigger = yes
+			army_size_percentage = 0.8
+		}
+
+		effect = {
+			sloboda_ukraine_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			add_country_modifier = {
+				name = sloboda_wild_field_militia
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	sloboda_four_regiments = {
+		icon = mission_unite_the_princes
+		required_missions = { sloboda_border_palisade }
+		position = 2
+
+		provinces_to_highlight = {
+			area = sloboda_ukraine_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+
+		trigger = {
+			sloboda_ukraine_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+
+		effect = {
+			add_prestige = 15
+			add_country_modifier = {
+				name = sloboda_united_regiments
+				duration = 9125
+			}
+			lower_don_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	sloboda_don_steppe = {
+		icon = mission_lit_harness_steppes
+		required_missions = { sloboda_four_regiments }
+		position = 3
+
+		provinces_to_highlight = {
+			area = lower_don_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+
+		trigger = {
+			lower_don_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+
+		effect = {
+			add_dip_power = 50
+			add_country_modifier = {
+				name = sloboda_don_outposts
+				duration = 7300
+			}
+			azov_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	sloboda_sea_of_azov = {
+		icon = mission_sca_lit_conquer_crimea
+		required_missions = { sloboda_don_steppe }
+		position = 4
+
+		provinces_to_highlight = {
+			area = azov_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+
+		trigger = {
+			azov_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+
+		effect = {
+			add_mil_power = 75
+			add_country_modifier = {
+				name = sloboda_azov_steppe_gate
+				duration = -1
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+sloboda_missions_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = SMY
+			tag = OKH
+			tag = IZM
+			tag = KHK
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	sloboda_regimental_roll = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			army_size = 12
+			manpower_percentage = 0.6
+		}
+
+		effect = {
+			add_army_tradition = 10
+			add_country_modifier = {
+				name = host_military_structure
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	sloboda_proclaim_host = {
+		icon = mission_recruit_the_cossacks
+		required_missions = { sloboda_regimental_roll sloboda_four_regiments }
+		position = 2
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			OR = {
+				has_country_modifier = cossack_host_proclaimed
+				has_reform = cossack_republic_reform
+				has_reform = rip_cossacks_reform
+				num_of_cavalry = 6
+			}
+		}
+
+		effect = {
+			add_prestige = 20
+			add_country_modifier = {
+				name = sloboda_sotnia_autonomy
+				duration = 9125
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	sloboda_chernihiv_accord = {
+		icon = mission_alliances
+		required_missions = { sloboda_proclaim_host }
+		position = 3
+
+		provinces_to_highlight = {
+			area = chernigov_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+
+		trigger = {
+			OR = {
+				chernigov_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				AND = {
+					exists = CHR
+					alliance_with = CHR
+					CHR = {
+						has_opinion = {
+							who = ROOT
+							value = 100
+						}
+					}
+				}
+				AND = {
+					total_development = 120
+					stability = 1
+				}
+			}
+		}
+
+		effect = {
+			add_dip_power = 50
+			add_country_modifier = {
+				name = sloboda_siverian_corridor
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	sloboda_free_hosts = {
+		icon = rip_gfx_mission_cossack_rada_icon
+		required_missions = { sloboda_chernihiv_accord sloboda_sea_of_azov }
+		position = 4
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			total_development = 180
+			stability = 1
+			is_subject = no
+		}
+
+		effect = {
+			add_prestige = 25
+			add_country_modifier = {
+				name = sloboda_chartered_freedom
+				duration = -1
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+sloboda_missions_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = SMY
+			tag = OKH
+			tag = IZM
+			tag = KHK
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	sloboda_plough_the_steppe = {
+		icon = mission_pol_breadbasket_europe
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = { base_production = 4 }
+		}
+
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 3
+				base_production = 4
+			}
+		}
+
+		effect = {
+			add_adm_power = 50
+			add_country_modifier = {
+				name = sloboda_steppe_ploughmen
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	sloboda_grain_bazaars = {
+		icon = rip_gfx_mission_chumak_salt_caravan_icon
+		required_missions = { sloboda_plough_the_steppe }
+		position = 2
+
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = {
+				OR = {
+					has_building = marketplace
+					has_building = trade_depot
+					has_building = stock_exchange
+				}
+			}
+		}
+
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 3
+				OR = {
+					has_building = marketplace
+					has_building = trade_depot
+					has_building = stock_exchange
+				}
+			}
+		}
+
+		effect = {
+			add_years_of_income = 1.0
+			add_country_modifier = {
+				name = sloboda_chumak_routes
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	sloboda_regimental_colleges = {
+		icon = mission_early_modern_university
+		required_missions = { sloboda_grain_bazaars }
+		position = 3
+
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = {
+				OR = {
+					has_building = temple
+					has_building = cathedral
+					has_building = courthouse
+					has_building = town_hall
+				}
+			}
+		}
+
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 4
+				OR = {
+					has_building = temple
+					has_building = cathedral
+					has_building = courthouse
+					has_building = town_hall
+				}
+			}
+		}
+
+		effect = {
+			add_adm_power = 50
+			add_country_modifier = {
+				name = sloboda_kharkiv_collegium
+				duration = -1
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}

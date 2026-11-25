@@ -1,0 +1,1191 @@
+# Vitebsk (VTB), Minsk (MSK), Mstislavl (MSL), and formable Belarus (BLR) mission trees.
+# Northern minor series stay in rows 1-4; formable BLR occupies rows 1-3 across slots 1-4.
+
+vtb_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = VTB
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	vtb_dvina_tolls = {
+		icon = mission_dominate_home_trade_node
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = {
+			province_id = 771
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 14 }
+			}
+		}
+
+		trigger = {
+			771 = {
+				owned_by = ROOT
+				development = 14
+			}
+		}
+
+		effect = {
+			add_dip_power = 50
+			771 = {
+				add_province_modifier = {
+					name = blr_dvina_tollhouse
+					duration = -1
+				}
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	vtb_guild_charters = {
+		icon = mission_early_game_buildings
+		required_missions = { vtb_dvina_tolls }
+		position = 2
+
+		provinces_to_highlight = {
+			province_id = 771
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = {
+					OR = {
+						has_building = marketplace
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}
+				NOT = {
+					OR = {
+						has_building = workshop
+						has_building = counting_house
+					}
+				}
+			}
+		}
+
+		trigger = {
+			771 = {
+				owned_by = ROOT
+				OR = {
+					has_building = marketplace
+					has_building = trade_depot
+					has_building = stock_exchange
+				}
+				OR = {
+					has_building = workshop
+					has_building = counting_house
+				}
+			}
+		}
+
+		effect = {
+			add_mercantilism = 3
+			add_country_modifier = {
+				name = blr_vitebsk_guilds
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	vtb_baltic_outlet = {
+		icon = mission_conquer_riga
+		required_missions = { vtb_guild_charters }
+		position = 3
+
+		provinces_to_highlight = {
+			province_id = 38
+			NOT = { owned_by = ROOT }
+		}
+
+		trigger = {
+			OR = {
+				num_of_owned_provinces_with = {
+					value = 1
+					has_port = yes
+				}
+				38 = {
+					owner = {
+						alliance_with = ROOT
+						has_opinion = {
+							who = ROOT
+							value = 100
+						}
+					}
+				}
+			}
+		}
+
+		effect = {
+			add_years_of_income = 1.0
+			add_country_modifier = {
+				name = dvina_trade_charter
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+msk_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = MSK
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	msk_nemiga_burghers = {
+		icon = mission_eastern_european_city
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = {
+			province_id = 276
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 14 }
+			}
+		}
+
+		trigger = {
+			276 = {
+				owned_by = ROOT
+				development = 14
+			}
+		}
+
+		effect = {
+			add_adm_power = 50
+			276 = {
+				add_province_modifier = {
+					name = blr_minsk_fairgrounds
+					duration = -1
+				}
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	msk_svislach_workshops = {
+		icon = mission_high_income
+		required_missions = { msk_nemiga_burghers }
+		position = 2
+
+		provinces_to_highlight = {
+			province_id = 276
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = {
+					OR = {
+						has_building = marketplace
+						has_building = trade_depot
+						has_building = stock_exchange
+					}
+				}
+				NOT = {
+					OR = {
+						has_building = workshop
+						has_building = counting_house
+					}
+				}
+			}
+		}
+
+		trigger = {
+			276 = {
+				owned_by = ROOT
+				OR = {
+					has_building = marketplace
+					has_building = trade_depot
+					has_building = stock_exchange
+				}
+				OR = {
+					has_building = workshop
+					has_building = counting_house
+				}
+			}
+		}
+
+		effect = {
+			add_years_of_income = 1.0
+			add_country_modifier = {
+				name = minsk_svislach_markets
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	msk_crossroads_capital = {
+		icon = mission_noble_council
+		required_missions = { msk_svislach_workshops }
+		position = 3
+
+		provinces_to_highlight = {
+			province_id = 276
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_capital_of = ROOT }
+				NOT = {
+					OR = {
+						has_building = courthouse
+						has_building = town_hall
+					}
+				}
+			}
+		}
+
+		trigger = {
+			stability = 1
+			276 = {
+				owned_by = ROOT
+				is_capital_of = ROOT
+				OR = {
+					has_building = courthouse
+					has_building = town_hall
+				}
+			}
+		}
+
+		effect = {
+			add_adm_power = 75
+			add_country_modifier = {
+				name = blr_minsk_magistracy
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+msl_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = MSL
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	msl_sozh_bulwark = {
+		icon = rip_gfx_mission_frontier_fortress_icon
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = {
+			province_id = 4246
+			OR = {
+				NOT = { owned_by = ROOT }
+				AND = {
+					NOT = { base_manpower = 4 }
+					NOT = {
+						OR = {
+							has_building = fort_15th
+							has_building = fort_16th
+							has_building = fort_17th
+							has_building = fort_18th
+						}
+					}
+				}
+			}
+		}
+
+		trigger = {
+			4246 = {
+				owned_by = ROOT
+				OR = {
+					base_manpower = 4
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+		}
+
+		effect = {
+			add_mil_power = 50
+			4246 = {
+				add_province_modifier = {
+					name = blr_sozh_citadel
+					duration = -1
+				}
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	msl_eastern_watch = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { msl_sozh_bulwark }
+		position = 2
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			army_size_percentage = 1.0
+			manpower_percentage = 0.5
+		}
+
+		effect = {
+			add_army_tradition = 10
+			add_country_modifier = {
+				name = mstislavl_border_guard
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	msl_guard_dnieper_gate = {
+		icon = mission_assemble_an_army
+		required_missions = { msl_eastern_watch }
+		position = 3
+
+		provinces_to_highlight = {
+			area = smolensk_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+
+		trigger = {
+			OR = {
+				293 = {
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				AND = {
+					total_development = 65
+					army_tradition = 25
+				}
+			}
+		}
+
+		effect = {
+			smolensk_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			add_country_modifier = {
+				name = blr_smolensk_watch_doctrine
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+blr_minor_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = VTB
+			tag = MSK
+			tag = MSL
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	blr_minor_free_banner = {
+		icon = mission_sovereign_principality
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			is_free_or_tributary_trigger = yes
+			army_size_percentage = 0.8
+		}
+
+		effect = {
+			white_ruthenia_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			minsk_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_minor_white_ruthenia = {
+		icon = mission_unite_the_princes
+		required_missions = { blr_minor_free_banner }
+		position = 2
+
+		provinces_to_highlight = {
+			area = white_ruthenia_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+
+		trigger = {
+			white_ruthenia_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+
+		effect = {
+			add_country_modifier = {
+				name = belarusian_white_ruthenian_levy
+				duration = 7300
+			}
+			pripyat_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			275 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_minor_pripyat_minsk = {
+		icon = mission_unite_home_region
+		required_missions = { blr_minor_white_ruthenia }
+		position = 3
+
+		provinces_to_highlight = {
+			OR = {
+				area = minsk_area
+				area = pripyat_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+
+		trigger = {
+			minsk_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			pripyat_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+
+		effect = {
+			add_country_modifier = {
+				name = turov_pripyat_wardens
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_minor_proclaim_belarus = {
+		icon = mission_empire
+		required_missions = { blr_minor_pripyat_minsk blr_minor_ruthenian_press }
+		position = 4
+
+		provinces_to_highlight = {
+			OR = {
+				province_id = 275
+				province_id = 771
+				province_id = 276
+				province_id = 1941
+				province_id = 278
+				province_id = 4115
+				province_id = 4246
+			}
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { is_core = ROOT }
+			}
+		}
+
+		trigger = {
+			is_free_or_tributary_trigger = yes
+			owns_core_province = 275
+			owns_core_province = 771
+			owns_core_province = 276
+			owns_core_province = 1941
+			owns_core_province = 278
+			owns_core_province = 4115
+			owns_core_province = 4246
+		}
+
+		effect = {
+			add_prestige = 25
+			add_legitimacy_equivalent = {
+				amount = 10
+				republican_tradition = 5
+			}
+			add_country_modifier = {
+				name = belarusian_white_rus_crown
+				duration = 9125
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+blr_minor_missions_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = VTB
+			tag = MSK
+			tag = MSL
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	blr_minor_diplomatic_terms = {
+		icon = mission_alliances
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			OR = {
+				alliance_with = LIT
+				is_subject_of = LIT
+				owns = 272
+				NOT = { exists = LIT }
+				num_of_allies = 2
+			}
+		}
+
+		effect = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = gdl_vilnius_accord
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_minor_town_laws = {
+		icon = mission_ukr_magdeburg_laws
+		required_missions = { blr_minor_diplomatic_terms }
+		position = 2
+
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = {
+				OR = {
+					has_building = courthouse
+					has_building = town_hall
+				}
+			}
+		}
+
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 2
+				OR = {
+					has_building = courthouse
+					has_building = town_hall
+				}
+			}
+		}
+
+		effect = {
+			add_adm_power = 50
+			add_country_modifier = {
+				name = blr_burgher_courts
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_minor_ruthenian_press = {
+		icon = mission_early_modern_university
+		required_missions = { blr_minor_town_laws }
+		position = 3
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			OR = {
+				has_institution = printing_press
+				num_of_owned_provinces_with = {
+					value = 4
+					development = 10
+				}
+			}
+		}
+
+		effect = {
+			add_prestige = 10
+			add_country_modifier = {
+				name = polotsk_skaryna_press
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+blr_formable_missions_1 = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		tag = BLR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	blr_podlasie_west = {
+		icon = mission_assemble_an_army
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			army_size = 20
+			is_free_or_tributary_trigger = yes
+		}
+
+		effect = {
+			podlasie_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_podlasie_secured = {
+		icon = mission_conquer_5_states
+		required_missions = { blr_podlasie_west }
+		position = 2
+
+		provinces_to_highlight = {
+			area = podlasie_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+
+		trigger = {
+			podlasie_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+
+		effect = {
+			add_dip_power = 50
+			lithuania_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_vilnius_march = {
+		icon = mission_monarch_in_throne_room
+		required_missions = { blr_podlasie_secured blr_dnieper_river_trade }
+		position = 3
+
+		provinces_to_highlight = {
+			area = lithuania_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+
+		trigger = {
+			lithuania_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+		}
+
+		effect = {
+			add_prestige = 20
+			38 = {
+				if = {
+					limit = {
+						NOT = { owned_by = ROOT }
+						NOT = { is_core = ROOT }
+						NOT = { is_claim = ROOT }
+					}
+					add_claim = ROOT
+				}
+			}
+			add_country_modifier = {
+				name = blr_baltic_amber_fleet
+				duration = -1
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+blr_formable_missions_2 = {
+	slot = 2
+	generic = no
+	ai = yes
+	potential = {
+		tag = BLR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	blr_minsk_seat = {
+		icon = mission_eastern_european_city
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = {
+			province_id = 276
+			OR = {
+				NOT = { owned_by = ROOT }
+				NOT = { development = 20 }
+				NOT = {
+					OR = {
+						has_building = courthouse
+						has_building = town_hall
+					}
+				}
+			}
+		}
+
+		trigger = {
+			276 = {
+				owned_by = ROOT
+				development = 20
+				OR = {
+					has_building = courthouse
+					has_building = town_hall
+				}
+			}
+		}
+
+		effect = {
+			add_adm_power = 50
+			276 = {
+				add_province_modifier = {
+					name = blr_minsk_royal_seat
+					duration = -1
+				}
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_dnieper_river_trade = {
+		icon = mission_dominate_home_trade_node
+		required_missions = { blr_minsk_seat }
+		position = 2
+
+		provinces_to_highlight = {
+			owned_by = ROOT
+			NOT = {
+				OR = {
+					has_building = marketplace
+					has_building = trade_depot
+					has_building = stock_exchange
+				}
+			}
+		}
+
+		trigger = {
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					has_building = marketplace
+					has_building = trade_depot
+					has_building = stock_exchange
+				}
+			}
+		}
+
+		effect = {
+			add_years_of_income = 1.0
+			add_country_modifier = {
+				name = blr_dnieper_dvina_exchange
+				duration = 9125
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_unified_diet = {
+		icon = mission_consolidate_the_state
+		required_missions = { blr_dnieper_river_trade blr_confessional_peace }
+		position = 3
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			total_development = 250
+			stability = 2
+			num_of_owned_provinces_with = {
+				value = 6
+				OR = {
+					has_building = courthouse
+					has_building = town_hall
+				}
+			}
+		}
+
+		effect = {
+			add_prestige = 25
+			add_country_modifier = {
+				name = blr_litva_rus_compact
+				duration = -1
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+blr_formable_missions_3 = {
+	slot = 3
+	generic = no
+	ai = yes
+	potential = {
+		tag = BLR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	blr_smolensk_claims = {
+		icon = mission_build_up_to_force_limit
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			army_size = 20
+			manpower_percentage = 0.5
+		}
+
+		effect = {
+			smolensk_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_smolensk_fortress = {
+		icon = rip_gfx_mission_frontier_fortress_icon
+		required_missions = { blr_smolensk_claims }
+		position = 2
+
+		provinces_to_highlight = {
+			OR = {
+				area = smolensk_area
+				province_id = 293
+			}
+			OR = {
+				NOT = { country_or_non_sovereign_subject_holds = ROOT }
+				AND = {
+					province_id = 293
+					NOT = {
+						OR = {
+							has_building = fort_15th
+							has_building = fort_16th
+							has_building = fort_17th
+							has_building = fort_18th
+						}
+					}
+				}
+			}
+		}
+
+		trigger = {
+			smolensk_area = {
+				type = all
+				country_or_non_sovereign_subject_holds = ROOT
+			}
+			293 = {
+				owned_by = ROOT
+				OR = {
+					has_building = fort_15th
+					has_building = fort_16th
+					has_building = fort_17th
+					has_building = fort_18th
+				}
+			}
+		}
+
+		effect = {
+			293 = {
+				add_province_modifier = {
+					name = blr_smolensk_bastion
+					duration = -1
+				}
+			}
+			chernigov_area = {
+				limit = {
+					NOT = { owned_by = ROOT }
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_eastern_rampart = {
+		icon = mission_steppe_warriors
+		required_missions = { blr_smolensk_fortress }
+		position = 3
+
+		provinces_to_highlight = {
+			area = chernigov_area
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+
+		trigger = {
+			OR = {
+				chernigov_area = {
+					type = all
+					country_or_non_sovereign_subject_holds = ROOT
+				}
+				AND = {
+					army_size = 40
+					army_tradition = 40
+				}
+			}
+		}
+
+		effect = {
+			add_mil_power = 75
+			add_country_modifier = {
+				name = blr_upper_dnieper_guard
+				duration = -1
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
+
+blr_formable_missions_4 = {
+	slot = 4
+	generic = no
+	ai = yes
+	potential = {
+		tag = BLR
+		NOT = { map_setup = map_setup_random }
+	}
+	has_country_shield = yes
+
+	blr_statute_codex = {
+		icon = mission_noble_council
+		required_missions = { }
+		position = 1
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			adm_tech = 10
+			num_of_owned_provinces_with = {
+				value = 4
+				OR = {
+					has_building = workshop
+					has_building = counting_house
+				}
+			}
+		}
+
+		effect = {
+			add_adm_power = 50
+			add_country_modifier = {
+				name = gdl_ruthenian_chancery
+				duration = 7300
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_confessional_peace = {
+		icon = rip_gfx_mission_confessional_balance_icon
+		required_missions = { blr_statute_codex }
+		position = 2
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			religious_unity = 0.85
+			num_of_owned_provinces_with = {
+				value = 5
+				OR = {
+					has_building = temple
+					has_building = cathedral
+				}
+			}
+		}
+
+		effect = {
+			add_stability_or_adm_power = yes
+			add_country_modifier = {
+				name = blr_vilnius_polotsk_synod
+				duration = 9125
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+
+	blr_golden_statute = {
+		icon = mission_early_modern_university
+		required_missions = { blr_confessional_peace }
+		position = 3
+
+		provinces_to_highlight = { }
+
+		trigger = {
+			has_institution = printing_press
+			num_of_owned_provinces_with = {
+				value = 2
+				has_building = university
+			}
+		}
+
+		effect = {
+			add_prestige = 20
+			add_country_modifier = {
+				name = blr_white_rus_statute
+				duration = -1
+			}
+		}
+
+		ai_weight = {
+			factor = 500
+		}
+	}
+}
