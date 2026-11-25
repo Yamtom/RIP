@@ -122,6 +122,13 @@ country_event = {
 			name = mobile_anti_raid_patrols
 			duration = 365
 		}
+		# Staying home spends the season too: every choice in this chain ends in
+		# recent_raid_cooldown, the pause shared by all raid events of this file
+		# and by the horde chains steppe_raid.1 and steppe_raid.14.
+		add_country_modifier = {
+			name = recent_raid_cooldown
+			duration = 365
+		}
 	}
 }
 
@@ -279,6 +286,10 @@ country_event = {
 		}
 		add_prestige = -10
 		add_mil_power = 10
+		add_country_modifier = {
+			name = recent_raid_cooldown
+			duration = 365
+		}
 	}
 }
 

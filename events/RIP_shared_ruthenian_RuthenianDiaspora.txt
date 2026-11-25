@@ -303,17 +303,17 @@ country_event = {
 		name = rip_diaspora.12.a
 		trigger = {
 			has_country_flag = rip_green_wedge_settlers_flag
-			rip_diaspora_mainland_convertible_culture_trigger = { REGION = manchuria_region THRESHOLD = 100 }
+			rip_diaspora_mainland_convertible_culture_trigger = { WEDGE = rip_green_wedge_province THRESHOLD = 100 }
 		}
 		ai_chance = {
 			factor = 1
 			modifier = {
 				factor = 4
-				NOT = { manchuria_region = { rip_diaspora_established_community = yes } }
+				NOT = { any_province = { rip_green_wedge_province = yes rip_diaspora_established_community = yes } }
 			}
 		}
 		rip_diaspora_convert_mainland_culture_effect = {
-			REGION = manchuria_region
+			WEDGE = rip_green_wedge_province
 			THRESHOLD = 100
 		}
 		add_country_modifier = {
@@ -327,7 +327,7 @@ country_event = {
 		name = rip_diaspora.12.b
 		trigger = {
 			has_country_flag = rip_grey_wedge_settlers_flag
-			rip_diaspora_mainland_convertible_culture_trigger = { REGION = central_asia_region THRESHOLD = 100 }
+			rip_diaspora_mainland_convertible_culture_trigger = { WEDGE = rip_grey_wedge_province THRESHOLD = 100 }
 		}
 		ai_chance = {
 			factor = 1
@@ -337,7 +337,7 @@ country_event = {
 			}
 		}
 		rip_diaspora_convert_mainland_culture_effect = {
-			REGION = central_asia_region
+			WEDGE = rip_grey_wedge_province
 			THRESHOLD = 100
 		}
 		add_country_modifier = {
@@ -373,17 +373,17 @@ country_event = {
 		name = rip_diaspora.13.a
 		trigger = {
 			has_country_flag = rip_green_wedge_settlers_flag
-			rip_diaspora_mainland_convertible_faith_trigger = { REGION = manchuria_region THRESHOLD = 140 }
+			rip_diaspora_mainland_convertible_faith_trigger = { WEDGE = rip_green_wedge_province THRESHOLD = 140 }
 		}
 		ai_chance = {
 			factor = 1
 			modifier = {
 				factor = 4
-				NOT = { manchuria_region = { rip_diaspora_established_community = yes } }
+				NOT = { any_province = { rip_green_wedge_province = yes rip_diaspora_established_community = yes } }
 			}
 		}
 		rip_diaspora_convert_mainland_faith_effect = {
-			REGION = manchuria_region
+			WEDGE = rip_green_wedge_province
 			THRESHOLD = 140
 		}
 		add_stability = -1
@@ -398,7 +398,7 @@ country_event = {
 		name = rip_diaspora.13.b
 		trigger = {
 			has_country_flag = rip_grey_wedge_settlers_flag
-			rip_diaspora_mainland_convertible_faith_trigger = { REGION = central_asia_region THRESHOLD = 140 }
+			rip_diaspora_mainland_convertible_faith_trigger = { WEDGE = rip_grey_wedge_province THRESHOLD = 140 }
 		}
 		ai_chance = {
 			factor = 1
@@ -408,7 +408,7 @@ country_event = {
 			}
 		}
 		rip_diaspora_convert_mainland_faith_effect = {
-			REGION = central_asia_region
+			WEDGE = rip_grey_wedge_province
 			THRESHOLD = 140
 		}
 		add_stability = -1
@@ -433,9 +433,10 @@ country_event = {
 	}
 }
 # Fired once by the rip_green_wedge mission itself: we already hold a small
-# pocket of Manchuria in which at least two provinces have Ruthenian or Rusyn
-# communities. The sovereign decides whether to grant them autonomy as a
-# vassal, a frontier march, or keep them under direct crown administration.
+# pocket of the Amur and Pacific lands (rip_green_wedge_province) in which at
+# least two provinces have Ruthenian or Rusyn communities. The sovereign
+# decides whether to grant them autonomy as a vassal, a frontier march, or keep
+# them under direct crown administration.
 
 country_event = {
 	id = rip_diaspora.20
@@ -455,7 +456,7 @@ country_event = {
 		}
 		every_owned_province = {
 			limit = {
-				region = manchuria_region
+				rip_green_wedge_province = yes
 				rip_diaspora_eligible_culture_province = yes
 			}
 			add_core = ZLK
@@ -475,7 +476,7 @@ country_event = {
 		}
 		every_owned_province = {
 			limit = {
-				region = manchuria_region
+				rip_green_wedge_province = yes
 				rip_diaspora_eligible_culture_province = yes
 			}
 			add_core = ZLK
@@ -496,7 +497,7 @@ country_event = {
 		}
 		every_owned_province = {
 			limit = {
-				region = manchuria_region
+				rip_green_wedge_province = yes
 				rip_diaspora_eligible_culture_province = yes
 			}
 			add_province_modifier = {

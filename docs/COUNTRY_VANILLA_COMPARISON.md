@@ -42,7 +42,7 @@ Definition checks establish identifier presence, not reform eligibility or runti
 | VOL | override | 279: Volhynia | monarchy / feudalism_reform | 1 |
 | VTB | addition | 771: Vitebsk | monarchy / principality | 1 |
 | ZAZ | override | 283: Zaporozhia | republic / rip_cossacks_reform | 66 |
-| ZLK | addition | 2107: Ningguta | monarchy / feudalism_reform | 0 |
+| ZLK | addition | 2106: Furdan | monarchy / feudalism_reform | 0 |
 
 ## Review findings
 
@@ -2145,7 +2145,7 @@ Vanilla SHA256: `644700595c8d47147fa281817a9ee081a907b474f61612fb190a58c5baa2d33
 
 ### ZLK - Zeleny Klyn.txt
 
-RIP SHA256: `89ad449c643cf5ff337e130f58c55674b0188ab44594b2f1a42e629324a27971`
+RIP SHA256: `8f922243c0d168f98a2b1380c7626ab25d834219940bc1e81b8562791029cd9d`
 
 No vanilla counterpart; historical validation needs external sources.
 
