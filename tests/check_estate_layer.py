@@ -230,19 +230,26 @@ def check_magnates(failures: list[str]) -> None:
 
 
 def check_magnate_republic(failures: list[str], estates: str) -> None:
-    """The sejmik republic says its magnate senate elects the voivode.
-
-    The estate therefore has to survive the change to a republic: the reform
-    must open the estate, and the government gate must let exactly it through.
-    """
+    """Magnates retain access through the explicitly supported reforms."""
     trigger = named_block(named_block(estates, "estate_magnates"), "trigger")
     seats = normalized(named_block(trigger, "OR"))
-    require(failures, "has_reform = vln_sejmik_republic_reform" in seats,
-            "Magnates are not offered to the Volhynian sejmik republic")
-    require(failures,
-            "OR = { government = monarchy has_reform = vln_sejmik_republic_reform }"
-            in normalized(trigger),
-            "Magnates government gate shuts out the sejmik republic or opens to every republic")
+    exceptions = {
+        "has_reform = pdl_magnate_republic_reform",
+        "has_reform = hlc_boyar_republic_reform",
+        "has_reform = hlc_boyar_oligarchy_reform",
+        "has_reform = vln_sejmik_republic_reform",
+    }
+    require(failures, all(reform in seats for reform in exceptions),
+            "Magnates eligibility omits a supported reform")
+    government_gates = [
+        block for _, block in keyed_blocks(trigger, "OR")
+        if "government = monarchy" in normalized(block)
+    ]
+    expected = exceptions | {"government = monarchy"}
+    require(failures, len(government_gates) == 1
+            and government_gates[0].count("{") == 1
+            and set(re.findall(r"\b\w+ = \w+", normalized(government_gates[0]))) == expected,
+            "Magnates government gate must enumerate only monarchy and the supported reforms")
 
 
 def check_burgher_name(failures: list[str]) -> None:
@@ -290,7 +297,8 @@ def check_style_and_dependencies(failures: list[str]) -> None:
 
     reforms = "\n".join(path.read_text(encoding="utf-8-sig", errors="replace")
                          for path in (ROOT / "common/government_reforms").glob("*.txt"))
-    for reform in ("hlc_magnate_assembly_reform", "pdl_magnate_republic_reform",
+    for reform in ("hlc_magnate_assembly_reform", "hlc_boyar_republic_reform",
+                   "hlc_boyar_oligarchy_reform", "pdl_magnate_republic_reform",
                    "pdl_magnate_dominion_reform", "vln_voivode_council",
                    "vln_sejmik_republic_reform"):
         require(failures, len(re.findall(rf"(?m)^{re.escape(reform)}\s*=\s*\{{", reforms)) == 1,
@@ -320,14 +328,6 @@ def check_style_and_dependencies(failures: list[str]) -> None:
     land_modifier = named_block(magnates, "land_ownership_modifier")
     require(failures, "magnates_loyalty_modifier = 0.2" in normalized(land_modifier),
             "Magnates land ownership does not use its registered loyalty modifier")
-    magnates_trigger = normalized(named_block(magnates, "trigger"))
-    for reform in ("pdl_magnate_republic_reform", "hlc_boyar_republic_reform",
-                   "hlc_boyar_oligarchy_reform", "vln_sejmik_republic_reform"):
-        require(failures, f"has_reform = {reform}" in magnates_trigger,
-                f"RIP_magnates.txt: magnates estate trigger missing {reform}")
-    require(failures, "OR = { government = monarchy" in magnates_trigger,
-            "RIP_magnates.txt: republican magnate reforms must not be blocked by bare government = monarchy")
-
     gfx = read("interface/RIP_shared_estate_privilege_icons.gfx")
     for key in ("tax_farmers", "loan_banks", "kahal_autonomy", "black_sea_network"):
         sprite = f"rip_gfx_privilege_jewish_{key}_icon"
