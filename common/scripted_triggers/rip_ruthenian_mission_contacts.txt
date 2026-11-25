@@ -5,3 +5,20 @@ rip_ruthenian_mission_contact = {
 		owner = { has_opinion = { who = ROOT value = 100 } }
 	}
 }
+# Province scope. An independent Ruthenian ally can join the compact in its
+# own right. Directly held and subject seats can also send delegates.
+rip_kyivan_compact_seat = {
+	OR = {
+		country_or_non_sovereign_subject_holds = ROOT
+		owner = {
+			is_subject = no
+			alliance_with = ROOT
+			has_opinion = { who = ROOT value = 100 }
+			OR = {
+				primary_culture = ruthenian
+				primary_culture = ruthenian_west_ruthenian
+				primary_culture = ruthenian_west_slavic
+			}
+		}
+	}
+}

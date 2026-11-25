@@ -171,12 +171,25 @@ VOL_missions_4_HLC = {
 		trigger = {
 			OR = {
 				custom_trigger_tooltip = {
-					tooltip = hlc_constitution_done_req_tt
-					hlc_has_constitution_settlement = yes
+					tooltip = hlc_constitution_civic_req_tt
+					hlc_has_constitution_civic_outcome = yes
+					2961 = {
+						owned_by = ROOT
+						development = 25
+						has_trade_building_trigger = yes
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = hlc_constitution_martial_req_tt
+					hlc_has_constitution_martial_outcome = yes
+					army_size_percentage = 0.9
+					army_tradition = 30
 				}
 				custom_trigger_tooltip = {
 					tooltip = hlc_constitution_fallback_req_tt
 					AND = {
+						hlc_has_constitution_civic_outcome = no
+						hlc_has_constitution_martial_outcome = no
 						adm_tech = 14
 						government_rank = 2
 						stability = 2
@@ -196,6 +209,7 @@ VOL_missions_4_HLC = {
 				}
 				add_adm_power = 50
 				add_dip_power = 25
+				add_country_modifier = { name = rip_galicia_constitution duration = 7300 }
 			}
 			else_if = {
 				limit = {
@@ -206,6 +220,7 @@ VOL_missions_4_HLC = {
 				}
 				add_mil_power = 50
 				add_army_tradition = 5
+				add_country_modifier = { name = rip_galicia_crown_and_sabre duration = 7300 }
 			}
 			else = {
 				add_adm_power = 25

@@ -132,16 +132,10 @@ def check_kyiv_missions(failures: list[str]) -> None:
 
     baltic = named_block(text, "UKR_baltic")
     baltic_effect = named_block(baltic, "effect")
-    require(failures, "add_permanent_claim = ROOT" not in baltic_effect,
-            "UKR_baltic: distant Polish claims must remain temporary")
-    for area in (
-        "finland_area", "bothnia_area", "laponia_area", "norrland_area",
-        "svealand_area", "ostra_svealand_area", "vastra_gotaland_area",
-    ):
-        require(failures, has_normal_claim_scope(baltic_effect, area),
-                f"UKR_baltic: staged Scandinavian route is missing {area}")
-    require(failures, has_normal_claim_scope(baltic_effect, "poland_region"),
-            "UKR_baltic: distant Polish route must use temporary claims")
+    require(failures, not re.search(r"\badd_(?:permanent_)?claim\s*=", baltic_effect),
+            "UKR_baltic: trade and alliances must not grant conquest claims")
+    require(failures, has_normal_claim_scope(princes_effect, "poland_region"),
+            "UKR_princes: distant Polish route must use temporary claims")
 
 
 def check_russian_formation(failures: list[str]) -> None:

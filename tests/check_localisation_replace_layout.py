@@ -79,7 +79,7 @@ def test_catalogue() -> None:
     """Moving or editing a string must preserve its key, version and loading layer."""
     root = ROOT / "localisation"
     manifest = json.loads(layout.MANIFEST_PATH.read_text(encoding="utf-8"))
-    known_owners = layout.ALLOWED_OWNERS | {"ZAZ_HET", "KUY"}
+    known_owners = layout.ALLOWED_OWNERS | {"ZAZ_HET", "KUY", "shared_imperial"}
     owner_names = "|".join(sorted(known_owners, key=len, reverse=True))
     name_pattern = re.compile(rf"RIP_(?:{owner_names})_[a-z][a-z0-9_]*_l_({'|'.join(layout.LANGUAGES)})\.yml")
     # These entries also occur in the installed vanilla catalogue. Retain their load order.

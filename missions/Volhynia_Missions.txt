@@ -891,31 +891,26 @@ VOL_synergy_missions_slot5 = {
 	VOL_ruthenia_triumphant = {
 		icon = a.e.i.o.u.
 		position = 13
-		required_missions = { VOL_ruthenian_hegemony }
+		required_missions = { }
 		trigger = {
-			custom_trigger_tooltip = {
-				tooltip = vol_empire_proclaimed_req_tt
-				vol_has_empire_proclaimed = yes
-			}
-			total_development = 600
-			is_great_power = yes
-			custom_trigger_tooltip = {
-				tooltip = vol_ruthenia_triumphant_branch_req_tt
-				OR = {
-					AND = {
-						west_ukraine_austrian_path = yes
-						OR = { num_of_royal_marriages = 3 diplomatic_reputation = 3 }
-						# Two, as in VOL_balance_of_power: the constitutional
-						# branch asks for no subjects at all, so a third
-						# vassal was a pure surcharge on the imperial path.
-						num_of_subjects = 2
-					}
-					AND = {
-						west_ukraine_constitutional_path = yes
-						has_country_modifier = vol_golden_liberty
-						stability = 3
-						legitimacy_equivalent = 95
-					}
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = vol_imperial_triumph_req_tt
+					west_ukraine_austrian_path = yes
+					vol_has_empire_proclaimed = yes
+					total_development = 600
+					is_great_power = yes
+					OR = { num_of_royal_marriages = 3 diplomatic_reputation = 3 }
+					num_of_subjects = 2
+				}
+				custom_trigger_tooltip = {
+					tooltip = vol_constitutional_triumph_req_tt
+					west_ukraine_constitutional_path = yes
+					mission_completed = VOL_religious_settlement
+					has_country_modifier = vol_golden_liberty
+					total_development = 320
+					stability = 3
+					legitimacy_equivalent = 95
 				}
 			}
 		}
