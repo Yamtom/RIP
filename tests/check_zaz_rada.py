@@ -82,4 +82,28 @@ assert field("ZAZ_POL_cri", "effect").count("owned_by = CRI") == 3
 independent = field("ZAZ_only_zaz", "trigger")
 assert "is_subject = no" in independent and "army_size_percentage" in independent
 assert all(term not in independent for term in ("exists", "opinion", "alliance_with"))
-print("ZAZ Rada, raids, alliances and Sejm contracts passed.")
+
+review = named_block(read("decisions/ZaporizhiaDecisions.txt"), "zaz_review_rada_pact")
+review_potential = named_block(review, "potential")
+assert "zaz_has_legacy_missions = yes" in review_potential
+assert "mission_completed = ZAZ_finally" in review_potential
+assert "zaz_rada_has_foreign_course = yes" in review_potential
+assert "NOT = { has_country_flag = zaz_rada_pact_reviewed }" in review_potential
+review_allow = named_block(review, "allow")
+assert "is_at_war = no" in review_allow and "is_subject = no" in review_allow
+assert "zaz_rada_has_patron_alliance = no" in review_allow
+review_effect = named_block(review, "effect")
+assert "set_country_flag = zaz_rada_pact_reviewed" in review_effect
+assert "swap_non_generic_missions = yes" in review_effect
+assert "fire_only_once" not in events["zaz_flavor_m_4.1"]
+
+partner_alliance = named_block(read("common/scripted_triggers/zaz_het_triggers.txt"), "zaz_rada_has_patron_alliance")
+for mission, course in (
+    ("ZAZ_ally_crimea", "cri"), ("ZAZ_ally_tur", "tur"), ("ZAZ_ally_tartar", "gol"),
+    ("ZAZ_ally_pol", "pol"), ("ZAZ_ally_rus", "rus"),
+):
+    route = next(block for _, block in keyed_blocks(partner_alliance, "AND") if f"has_country_flag = zaz_allied_{course}" in block)
+    assert f"clr_country_flag = zaz_allied_{course}" in review_effect
+    assert set(re.findall(r"partner = (\w+)", field(mission, "trigger"))) == set(re.findall(r"alliance_with = (\w+)", route))
+
+print("ZAZ Rada, pact review, raids, alliances and Sejm contracts passed.")

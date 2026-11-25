@@ -41,6 +41,9 @@ EXPECTED_CELLS = {
     "KIE_dnieper_settlement": (5, 6),
 }
 EXPECTED_SUCCESSOR_CELLS = {
+    "UKR_baltic": (2, 4),
+    "UKR_merchant_commonwealth": (2, 5),
+    "UKR_princely_compact": (4, 5),
     "UKR_dniepr": (4, 6),
     "UKR_crimea": (4, 7),
     "UKR_small_discrepancies": (4, 8),

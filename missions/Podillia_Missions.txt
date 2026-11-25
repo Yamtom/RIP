@@ -838,18 +838,38 @@ PDL_missions_4_expansion_column = {
 
 	PDL_grand_podillia = {
 		icon = mission_eastern_european_city
-		required_missions = { PDL_expand_eastward }
+		required_missions = { }
 		position = 4
 
-		provinces_to_highlight = {
-			area = east_dniepr_area
-			NOT = { country_or_non_sovereign_subject_holds = ROOT }
-		}
-
 		trigger = {
-			east_dniepr_area = {
-				type = all
-				country_or_non_sovereign_subject_holds = ROOT
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = pdl_grand_carpathian_tt
+					has_country_flag = pdl_carpathian_path
+					mission_completed = PDL_withstand_ottoman_threat
+					281 = { owned_by = ROOT development = 25 }
+				}
+				custom_trigger_tooltip = {
+					tooltip = pdl_grand_frontier_tt
+					has_country_flag = pdl_frontier_path
+					mission_completed = PDL_host_assembly
+					mission_completed = PDL_secure_crimea_raids
+				}
+				custom_trigger_tooltip = {
+					tooltip = pdl_grand_magnate_tt
+					has_country_flag = pdl_magnate_path
+					mission_completed = PDL_dniester_granaries
+					has_estate = estate_magnates
+					estate_loyalty = { estate = estate_magnates loyalty = 60 }
+				}
+				custom_trigger_tooltip = {
+					tooltip = pdl_grand_expansion_tt
+					mission_completed = PDL_expand_eastward
+					east_dniepr_area = {
+						type = all
+						country_or_non_sovereign_subject_holds = ROOT
+					}
+				}
 			}
 		}
 

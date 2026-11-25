@@ -40,6 +40,21 @@ def check_baltic_and_tsarhorod():
     assert 'region = baltic_region' in trigger
     assert 'has_port = yes' in trigger and 'has_building = dock' in trigger
     assert 'trade_share' in trigger and 'any_ally' in trigger
+    assert 'required_missions = { KIE_magdeburg_law }' in baltic
+
+    trade = named_block(successors, 'UKR_merchant_commonwealth')
+    assert 'required_missions = { UKR_baltic }' in trade
+    assert 'trade_share' in named_block(trade, '1926')
+    assert 'trade_share' in named_block(trade, '280')
+
+    compact = named_block(successors, 'UKR_princely_compact')
+    assert 'required_missions = { KIE_consolidate }' in compact
+    for seat in ('279', '289', '2961'):
+        assert 'rip_kyivan_compact_seat = yes' in named_block(compact, seat)
+    empire = named_block(successors, 'UKR_ruthenian_empire')
+    assert named_block(empire, 'required_missions').split() == [
+        'required_missions', '=', '{', 'UKR_greece', 'KIE_second_jerusalem', '}',
+    ]
 
     summit = named_block(successors, 'UKR_baltic_dominion')
     assert 'required_missions = { UKR_swedish_question }' in summit
@@ -48,8 +63,7 @@ def check_baltic_and_tsarhorod():
     assert 'type = all' in area and 'country_or_non_sovereign_subject_holds = ROOT' in area
     assert 'name = UKR_baltic_dominion' in named_block(summit, 'effect')
     named_block(kie_modifiers, 'UKR_baltic_dominion')
-    # The poland mission still follows the lighter Baltic mission, not the summit.
-    assert 'required_missions = { UKR_baltic }' in named_block(successors, 'UKR_poland')
+    assert 'required_missions = { UKR_princes }' in named_block(successors, 'UKR_poland')
 
     tsyisar = named_block(successors, 'UKR_tsyisar')
     effect = named_block(tsyisar, 'effect')
@@ -186,6 +200,8 @@ def check_localisation():
         'UKR_sloboda_frontier_title', 'UKR_sloboda_frontier_desc',
         'UKR_baltic_dominion_title', 'UKR_baltic_dominion_desc',
         'UKR_baltic_port_tt', 'UKR_baltic_trade_tt', 'UKR_baltic_alliance_tt',
+        'UKR_princely_compact_title', 'UKR_princely_compact_desc',
+        'UKR_merchant_commonwealth_title', 'UKR_merchant_commonwealth_desc',
         'KIE_brotherhood_parish_network_tt', 'KIE_brotherhood_patronage_tt',
         'KIE_byzantine_primacy_declared_tt',
         'UKR_baltic_dominion', 'desc_UKR_baltic_dominion',
