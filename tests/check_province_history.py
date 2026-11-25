@@ -94,6 +94,10 @@ def verify_live_provinces(vanilla: Path) -> None:
         "275 Polotsk must carry PLT core and 12 dev (5/5/2)",
     )
     req(
+        by_id["275"]["rip_1444"]["owner"] == "PLT" and by_id["275"]["rip_1444"]["controller"] == "PLT",
+        "275 Polotsk must start owned by its Lithuanian vassal PLT (history/diplomacy/PolotskVassalage.txt)",
+    )
+    req(
         simulate_province(province_tree(by_id["275"]["rip_text"]), dt.date(1569, 7, 1))["controller"] == "PLC",
         "275 must resolve controller on 1569.7.1 Union of Lublin",
     )

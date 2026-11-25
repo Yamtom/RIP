@@ -1,0 +1,64 @@
+# Redress for Lithuania's two reckonings (events/RIP_LIT_Reckoning.txt). Each decision is open only after the harsher
+# choice of its branch and only once the disaster that followed it is over.
+
+country_decisions = {
+
+	# Branch 1: clear the names of the princes who were executed or exiled after the plot of 1481.
+	rip_lit_rehabilitate_olelkovych = {
+		potential = {
+			tag = LIT
+			OR = {
+				has_country_flag = rip_lit_princes_executed
+				has_country_flag = rip_lit_princes_exiled
+			}
+			NOT = { has_country_flag = rip_lit_olelkovych_rehabilitated }
+		}
+		allow = {
+			NOT = { has_disaster = rip_lit_ruthenian_princes_revolt }
+			stability = 1
+			treasury = 100
+		}
+		effect = {
+			add_treasury = -100
+			add_prestige = 5
+			set_country_flag = rip_lit_olelkovych_rehabilitated
+			remove_country_modifier = rip_lit_princes_executed
+			add_country_modifier = {
+				name = rip_lit_princes_rehabilitated
+				duration = 9125
+			}
+			280 = {
+				remove_province_modifier = rip_lit_princely_seat_lost
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	# Branch 2: write the fugitives of the surveyed estates into a frontier register instead of hunting them.
+	rip_lit_open_frontier_register = {
+		potential = {
+			tag = LIT
+			has_country_flag = rip_lit_fugitives_hunted
+			NOT = { has_country_flag = rip_lit_frontier_hosts_registered }
+		}
+		allow = {
+			NOT = { has_disaster = rip_lit_peasant_flight }
+			stability = 1
+			treasury = 120
+		}
+		effect = {
+			add_treasury = -120
+			set_country_flag = rip_lit_frontier_hosts_registered
+			remove_country_modifier = rip_lit_volok_dues
+			add_country_modifier = {
+				name = rip_lit_frontier_hosts
+				duration = 9125
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+}

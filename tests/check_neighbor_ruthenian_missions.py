@@ -1,9 +1,12 @@
 """Static contracts for additive Ruthenian-culture / Ruthenia-region neighbor missions.
 
 Verifies that missions/zzzzz_Neighbor_Ruthenian_Missions.txt covers Lithuania
-(2 missions), Tatars/Hordes (1), Ottomans/Rum (1), and Poland/Commonwealth (1)
-without overriding any of the 9 vanilla mission files or colliding with any
-existing vanilla or RIP mission coordinates.
+(chancery, princes of Rus, Kyiv succession in column 1; Volok survey in column 3), the Ottomans and Rum
+(column 1) and Poland/Commonwealth (column 5) without overriding any of the 9 vanilla mission files.
+Lithuania and the Ottomans have one series per vanilla variant (Lions of the North / Domination or not),
+each hung from the last mission of its variant; the Tatar missions moved to
+zzzz_Ruthenian_Contacts_Horde_Habsburg.txt (tests/check_ruthenian_mission_series.py). The rows are checked
+against the real vanilla columns by tests/check_mission_ties.py.
 
 Static only: models EU4 per-slot mission placement; does not run EU4.
 """
@@ -31,10 +34,19 @@ VANILLA_FILES = (
 EXPECTED_MISSIONS = {
     "rip_lit_ruthenian_chancery": ("rip_lit_ruthenian_missions", 1, 6),
     "rip_lit_princes_of_rus": ("rip_lit_ruthenian_missions", 1, 7),
-    "rip_tatar_dnieper_tribute": ("rip_tatar_ruthenian_missions", 5, 20),
-    "rip_tur_podillian_eyalet": ("rip_tur_ruthenian_missions", 5, 17),
+    "rip_lit_kyiv_succession": ("rip_lit_ruthenian_missions", 1, 8),
+    "rip_lit_ruthenian_chancery_classic": ("rip_lit_ruthenian_missions_classic", 1, 5),
+    "rip_lit_princes_of_rus_classic": ("rip_lit_ruthenian_missions_classic", 1, 6),
+    "rip_lit_kyiv_succession_classic": ("rip_lit_ruthenian_missions_classic", 1, 7),
+    "rip_lit_volok_survey": ("rip_lit_volok_missions", 3, 5),
+    "rip_lit_volok_survey_classic": ("rip_lit_volok_missions_classic", 3, 1),
+    "rip_tur_podillian_eyalet": ("rip_tur_ruthenian_missions", 1, 14),
+    "rip_tur_podillian_eyalet_classic": ("rip_tur_ruthenian_missions_classic", 1, 8),
     "rip_pol_ruthenian_palatinates": ("rip_pol_ruthenian_missions", 5, 13),
 }
+# Their title and description live in the reckoning file, not in the neighbour one.
+RECKONING_MISSIONS = {"rip_lit_kyiv_succession", "rip_lit_kyiv_succession_classic",
+                      "rip_lit_volok_survey", "rip_lit_volok_survey_classic"}
 
 EXPECTED_MODIFIERS = (
     "rip_lit_chancery_statutes",
@@ -92,8 +104,11 @@ def check_neighbor_missions() -> None:
     series = parse_series_cells(neighbor_missions)
     assert [s[0] for s in series] == [
         "rip_lit_ruthenian_missions",
-        "rip_tatar_ruthenian_missions",
+        "rip_lit_ruthenian_missions_classic",
+        "rip_lit_volok_missions",
+        "rip_lit_volok_missions_classic",
         "rip_tur_ruthenian_missions",
+        "rip_tur_ruthenian_missions_classic",
         "rip_pol_ruthenian_missions",
     ], [s[0] for s in series]
 
@@ -101,22 +116,26 @@ def check_neighbor_missions() -> None:
     for s_name, slot, pot, missions in series:
         s_block = named_block(neighbor_missions, s_name)
         assert "generic = no" in s_block, s_name
-        assert slot in (1, 5), (s_name, slot)
+        assert slot in (1, 3, 5), (s_name, slot)
         for m_name, pos in missions:
             found_missions[m_name] = (s_name, slot, pos)
 
     assert found_missions == EXPECTED_MISSIONS, found_missions
 
-    lit_pot = named_block(named_block(neighbor_missions, "rip_lit_ruthenian_missions"), "potential")
-    assert "tag = LIT" in lit_pot and "has_dlc" not in lit_pot
+    lotn = 'has_dlc = "Lions of the North"'
+    domination = 'has_dlc = "Domination"'
+    for name in ("rip_lit_ruthenian_missions", "rip_lit_volok_missions"):
+        pot = named_block(named_block(neighbor_missions, name), "potential")
+        assert "tag = LIT" in pot and lotn in pot and "NOT = { has_dlc" not in pot, name
+        assert lotn in named_block(named_block(neighbor_missions, name), "potential_on_load"), name
+        classic = named_block(named_block(neighbor_missions, name + "_classic"), "potential")
+        assert "tag = LIT" in classic and "NOT = { " + lotn + " }" in classic, name + "_classic"
 
-    tatar_pot = named_block(named_block(neighbor_missions, "rip_tatar_ruthenian_missions"), "potential")
-    for tok in ("has_dlc = \"Winds of Change\"", "is_tatar_nation = yes", "is_mongol_nation = yes",
-                "is_moghulistan_nation = yes", "tag = CRI", "tag = GOL", "tag = QAS", "tag = YUA", "tag = MGE"):
-        assert tok in tatar_pot, tok
-
-    tur_pot = named_block(named_block(neighbor_missions, "rip_tur_ruthenian_missions"), "potential")
-    assert "tag = TUR" in tur_pot and "tag = RUM" in tur_pot and "has_dlc" not in tur_pot
+    tur = named_block(neighbor_missions, "rip_tur_ruthenian_missions")
+    assert "tag = TUR" in named_block(tur, "potential") and "tag = RUM" not in tur
+    assert domination in named_block(tur, "potential") and domination in named_block(tur, "potential_on_load")
+    tur_classic = named_block(named_block(neighbor_missions, "rip_tur_ruthenian_missions_classic"), "potential")
+    assert "tag = TUR" in tur_classic and "tag = RUM" in tur_classic and "NOT = { " + domination + " }" in tur_classic
 
     pol_pot = named_block(named_block(neighbor_missions, "rip_pol_ruthenian_missions"), "potential")
     assert "tag = POL" in pol_pot and "tag = PLC" in pol_pot and "has_dlc" not in pol_pot
@@ -128,11 +147,8 @@ def check_neighbor_missions() -> None:
     assert (5, 13) not in rip_pol_cells
 
     if vanilla_root() is not None:
-        # Verify zero coordinate collisions against installed vanilla EU4 1.37 files.
+        # Poland still sits in the free cell of column 5; the tied series are checked by tests/check_mission_ties.py.
         checks = [
-            ("LIT", 1, {6, 7}, ("Lithuanian Missions.txt", "SCA_Lithuania_Missions.txt")),
-            ("TATAR", 5, {20}, ("Tatar_Missions.txt", "WoC_Tatar_Missions.txt", "zzz_WoC_Shared_Horde_Missions.txt", "zzzz_WoC_EoC_Yuan_Missions.txt")),
-            ("TUR", 5, {17}, ("Ottoman_Missions.txt", "DOM_Ottoman_Missions.txt")),
             ("POL", 5, {13}, ("Polish_Missions.txt", "SCA_Polish_Missions.txt")),
         ]
         for label, target_slot, our_rows, files in checks:
@@ -159,8 +175,14 @@ def check_modifiers_and_localisation() -> None:
 
     for lang in ("english", "french", "german", "spanish"):
         entries = loc_entries(f"localisation/RIP_shared_ruthenian_neighbor_missions_l_{lang}.yml")
+        entries.update(loc_entries(f"localisation/RIP_LIT_reckoning_l_{lang}.yml"))
         for key in expected_keys:
             assert entries.get(key), (lang, key)
+        # the variant twins quote their main mission instead of repeating its text
+        for key in EXPECTED_MISSIONS:
+            if key.endswith("_classic"):
+                for part in ("title", "desc"):
+                    assert entries[f"{key}_{part}"] == f"${key[:-8]}_{part}$", (lang, key, part)
 
 
 def planted(label: str, mutate, check) -> None:
@@ -197,7 +219,7 @@ def main() -> int:
     planted("Lithuania mission collides with SCA row 5", collide_lit_row, check_neighbor_missions)
     planted("add_permanent_claim leaks into neighbor missions", leak_perm_claim, check_neighbor_missions)
 
-    print("PASS: Additive Ruthenian neighbor missions (LIT x2, Tatars/Hordes x1, TUR/RUM x1, POL/PLC x1; static + planted checks)")
+    print("PASS: Additive Ruthenian neighbor missions (LIT x3 + Volok, in both DLC variants; TUR/RUM x1 in both; POL/PLC x1; static + planted checks)")
     return 0
 
 

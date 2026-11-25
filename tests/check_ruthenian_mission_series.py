@@ -2,13 +2,18 @@
 
   Russia        rip_rus_kyiv_metropolia      DOM_Russia_Missions.txt, column 3, row 8
   Minors        tr_rip_ruthenian_charters    TR_Russian_Minors_Missions.txt, column 5, row 5
-  Tatars        rip_tat_ruthenian_yarlyks    zzzz_Ruthenian_Contacts_Horde_Habsburg.txt, column 5, row 17
+  Tatars        rip_tat_ruthenian_yarlyks    zzzz_Ruthenian_Contacts_Horde_Habsburg.txt, column 5, row 17 under
+                                             tatars_intercontinental_trade, then rip_tatar_dnieper_tribute on row 18;
+                                             the older tree (no Winds of Change) has the *_classic copies on rows 5-6
+                                             under tatar_yoke_mission
   Austria       rip_hab_galician_ruthenians  the same file, column 5, row 13
 
 The first two live in the mod's own full-file overrides. The last two cannot: the mod owns no copy of
 the Tatar and Austrian trees, so they are series in a `zzzz_` file that loads after every vanilla file
 of their column (the engine stacks series in file order and `position` is only a minimum, see
-docs/RUTHENIAN_CONTACT_MISSIONS_20261124.uk.md). One series covers every DLC variant of its tree.
+docs/RUTHENIAN_CONTACT_MISSIONS_20261124.uk.md). The Tatar series hang from the last mission of the vanilla
+column of their variant; the Austrian one still has no prerequisite. tests/check_mission_ties.py proves the
+rows against the real vanilla columns and that the *_classic copies match their main series.
 
 Static only. Without an installed EU4 1.37.x the load-order proof falls back to the file names
 recorded below; with it, every vanilla series that could share the column is read.
@@ -23,7 +28,7 @@ from check_vanilla_mission_sync import dump, parse
 from clausewitz_testlib import ROOT, read, vanilla_root
 
 NEW_FILE = "zzzz_Ruthenian_Contacts_Horde_Habsburg.txt"
-LATEST_NEW_ROW = 17  # the lowest of the new missions (Tatar row 17, Habsburg row 13)
+LATEST_NEW_ROW = 18  # the lowest row the later-loading series must clear (Tatar tribute row 18)
 # Vanilla files that fill column 5 for Tatar or Habsburg tags (measured on 1.37.5 with the check below).
 KNOWN_COLUMN_FILES = ("zzz_WoC_Shared_Horde_Missions.txt", "WoC_Austrian_Missions.txt", "WoC_Tatar_Missions.txt")
 TATAR_TAGS = ("GOL", "CRI", "NOG", "KAZ", "SHY", "GLH", "SIB", "BSH", "AST", "QAS", "KZH", "CHG", "KAS")
@@ -125,37 +130,52 @@ def tallest_row(files: dict[str, str], new_name: str, tags: tuple[str, ...], hel
 def new_file_problems(text: str, files: dict[str, str], known: tuple[str, ...]) -> list[str]:
     problems = []
     series = {name: (slot, potential, missions) for name, slot, _, potential, missions in series_list(text)}
+    # series -> (its missions with their rows, the parent of the first one, tags, helpers, measure against the tallest variant)
     expected = {
-        "rip_horde_ruthenian_contacts": ("rip_tat_ruthenian_yarlyks", 17, TATAR_TAGS, TAG_HELPERS),
-        "rip_austrian_ruthenian_contacts": ("rip_hab_galician_ruthenians", 13, ("HAB", "AUH"), ()),
+        "rip_horde_ruthenian_contacts": ({"rip_tat_ruthenian_yarlyks": 17, "rip_tatar_dnieper_tribute": 18},
+                                         "tatars_intercontinental_trade", TATAR_TAGS, TAG_HELPERS, True),
+        "rip_horde_ruthenian_contacts_classic": ({"rip_tat_ruthenian_yarlyks_classic": 5, "rip_tatar_dnieper_tribute_classic": 6},
+                                                 "tatar_yoke_mission", TATAR_TAGS, TAG_HELPERS, False),
+        "rip_austrian_ruthenian_contacts": ({"rip_hab_galician_ruthenians": 13}, "", ("HAB", "AUH"), (), True),
     }
     if set(series) != set(expected):
         problems.append(f"expected series {sorted(expected)}, found {sorted(series)}")
-    for name, (mission, row, tags, helpers) in expected.items():
+    for name, (rows, parent, tags, helpers, measure) in expected.items():
         if name not in series:
             continue
         slot, potential, missions = series[name]
         if slot != 5:
             problems.append(f"{name}: column {slot}, expected 5")
-        if list(missions) != [mission]:
-            problems.append(f"{name}: expected exactly the mission {mission}, found {list(missions)}")
+        if list(missions) != list(rows):
+            problems.append(f"{name}: expected exactly the missions {list(rows)}, found {list(missions)}")
             continue
-        position, required, body = missions[mission]
-        if position != row:
-            problems.append(f"{mission}: row {position}, expected {row}")
-        if required.strip():
-            problems.append(f"{mission}: has a prerequisite; a series in a zzzz_ file has nothing above it to draw an arrow from")
+        previous = None
+        for mission, row in rows.items():
+            position, required, body = missions[mission]
+            if position != row:
+                problems.append(f"{mission}: row {position}, expected {row}")
+            want = parent if previous is None else previous
+            if required.strip() != want:
+                problems.append(f"{mission}: required_missions {{ {required.strip()} }}, expected {{ {want} }}")
+            if "add_country_modifier" not in body and mission.startswith(("rip_tat_ruthenian_yarlyks", "rip_hab")):
+                problems.append(f"{mission}: no reward modifier")
+            if "rip_diaspora_eligible_culture" not in body:
+                problems.append(f"{mission}: no Ruthenian culture gate")
+            previous = mission
         if "map_setup = map_setup_random" not in potential:
             problems.append(f"{name}: potential must keep NOT map_setup_random")
-        if "rip_diaspora_eligible_culture" not in body:
-            problems.append(f"{mission}: no Ruthenian culture gate")
-        if "add_country_modifier" not in body:
-            problems.append(f"{mission}: no reward modifier")
         top = tallest_row(files, NEW_FILE, tags, helpers)
-        if top and row <= top:
-            problems.append(f"{mission}: row {row} does not clear the tallest vanilla variant (row {top})")
-    if "is_tatar_nation = yes" not in series.get("rip_horde_ruthenian_contacts", (0, "", 0))[1]:
+        first, row = next(iter(rows.items()))
+        if measure and top and row <= top:
+            problems.append(f"{first}: row {row} does not clear the tallest vanilla variant (row {top})")
+    tatar = series.get("rip_horde_ruthenian_contacts", (0, "", 0))[1]
+    if "is_tatar_nation = yes" not in tatar:
         problems.append("Tatar series: potential lost is_tatar_nation")
+    if 'has_dlc = "Winds of Change"' not in tatar:
+        problems.append("Tatar series: potential must name Winds of Change, the variant whose column it hangs from")
+    classic = series.get("rip_horde_ruthenian_contacts_classic", (0, "", 0))[1]
+    if 'NOT = { has_dlc = "Winds of Change" }' not in classic or "tag = KAS" not in classic:
+        problems.append("Tatar classic series: potential must be the older tree's tag list without Winds of Change")
     austrian = series.get("rip_austrian_ruthenian_contacts", (0, "", 0))[1]
     if not re.search(r"(?<!\w)tag = HAB\b", austrian) or not re.search(r"(?<!\w)tag = AUH\b", austrian):
         problems.append("Austrian series: potential must cover HAB and AUH")
@@ -232,7 +252,9 @@ def self_test(new_text: str, dom_text: str, files: dict[str, str]) -> list[str]:
     expect("Tatar mission dropped under the vanilla tree",
            new_file_problems(new_text.replace("position = 17", "position = 3", 1), files, KNOWN_COLUMN_FILES) if len(files) > 40
            else ["not measurable without vanilla"])
-    expect("prerequisite added", new_file_problems(
+    expect("Tatar chain loses its parent", new_file_problems(
+        new_text.replace("required_missions = { tatars_intercontinental_trade }", "required_missions = { }", 1), files, KNOWN_COLUMN_FILES))
+    expect("Austrian mission gains a prerequisite", new_file_problems(
         new_text.replace("required_missions = { }", "required_missions = { tatars_russian_yoke }", 1), files, KNOWN_COLUMN_FILES))
     expect("culture gate removed", new_file_problems(
         new_text.replace("rip_diaspora_eligible_culture_province = yes", "development = 1"), files, KNOWN_COLUMN_FILES))
@@ -263,7 +285,7 @@ def main() -> int:
         return 1
     measured = "with the installed 1.37.x" if vanilla_root() is not None else "from recorded file names only"
     print(f"RUTHENIAN MISSION SERIES PASS: 4 missions in 4 trees, load order proved {measured}, "
-          "8 damaged variants caught")
+          "9 damaged variants caught")
     return 0
 
 

@@ -1,0 +1,381 @@
+namespace = rip_lit_reckoning
+
+# Two episodes of the Grand Duchy's rule over the Ruthenian lands that the base game passes over.
+# Branch 1 (events 1-5): the end of the Kyiv appanage and the princes' plot of 1481, mission rip_lit_kyiv_succession.
+# Branch 2 (events 11-15): the Volok survey of 1557 and the statutes that bound the villages, mission rip_lit_volok_survey.
+# The missions open events 1 and 11; each ends in a choice the player can make the other way. The disasters
+# (common/disasters/rip_lit_reckoning_disasters.txt) start only after the harsher choice. Sources: docs/LIT_RECKONING_20261124.uk.md.
+
+# --- Branch 1. The Kyiv appanage and the princes' plot ---------------------------------------------------------------
+
+country_event = {
+	id = rip_lit_reckoning.1
+	title = rip_lit_reckoning.1.t
+	desc = rip_lit_reckoning.1.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_lit_reckoning.1.a
+		ai_chance = { factor = 80 }
+		set_country_flag = rip_lit_kyiv_appanage_abolished
+		add_country_modifier = {
+			name = rip_lit_kyiv_voivodeship
+			duration = 9125
+		}
+		280 = {
+			add_unrest = 3
+			add_province_modifier = {
+				name = rip_lit_princely_seat_lost
+				duration = 3650
+			}
+		}
+		country_event = { id = rip_lit_reckoning.2 days = 1460 }
+	}
+	option = {
+		name = rip_lit_reckoning.1.b
+		ai_chance = { factor = 20 }
+		set_country_flag = rip_lit_kyiv_appanage_kept
+		add_adm_power = -50
+		add_country_modifier = {
+			name = rip_lit_appanage_charter
+			duration = 9125
+		}
+	}
+}
+
+country_event = {
+	id = rip_lit_reckoning.2
+	title = rip_lit_reckoning.2.t
+	desc = rip_lit_reckoning.2.d
+	picture = CORRUPTION_eventPicture
+	is_triggered_only = yes
+
+	trigger = { has_country_flag = rip_lit_kyiv_appanage_abolished }
+
+	option = {
+		name = rip_lit_reckoning.2.a
+		ai_chance = { factor = 45 }
+		set_country_flag = rip_lit_princes_executed
+		add_prestige = -5
+		add_country_modifier = {
+			name = rip_lit_princes_executed
+			duration = 7300
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+	}
+	option = {
+		name = rip_lit_reckoning.2.b
+		ai_chance = { factor = 45 }
+		set_country_flag = rip_lit_princes_exiled
+		add_stability = -1
+		add_country_modifier = {
+			name = rip_lit_princes_executed
+			duration = 3650
+		}
+	}
+	option = {
+		name = rip_lit_reckoning.2.c
+		ai_chance = { factor = 10 }
+		set_country_flag = rip_lit_princes_reconciled
+		add_adm_power = -75
+		remove_country_modifier = rip_lit_kyiv_voivodeship
+		add_country_modifier = {
+			name = rip_lit_appanage_charter
+			duration = 5475
+		}
+	}
+}
+
+# On start of the disaster: the border princes look to Moscow.
+country_event = {
+	id = rip_lit_reckoning.3
+	title = rip_lit_reckoning.3.t
+	desc = rip_lit_reckoning.3.d
+	picture = DIPLOMACY_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_lit_reckoning.3.a
+		ai_chance = { factor = 60 }
+		add_stability = -1
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_devastation = 15
+				add_province_modifier = {
+					name = rip_lit_princes_defected
+					duration = 3650
+				}
+				spawn_rebels = {
+					type = noble_rebels
+					size = 1
+				}
+			}
+		}
+	}
+	option = {
+		name = rip_lit_reckoning.3.b
+		ai_chance = { factor = 40 }
+		add_treasury = -80
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_unrest = -3
+			}
+		}
+	}
+}
+
+# Monthly while the disaster runs: a prince raises his retainers.
+country_event = {
+	id = rip_lit_reckoning.4
+	title = rip_lit_reckoning.4.t
+	desc = rip_lit_reckoning.4.d
+	picture = BATTLE_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_lit_reckoning.4.a
+		ai_chance = { factor = 55 }
+		add_treasury = 35
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_devastation = 15
+				add_unrest = 4
+			}
+		}
+	}
+	option = {
+		name = rip_lit_reckoning.4.b
+		ai_chance = { factor = 45 }
+		add_dip_power = -30
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_unrest = -3
+			}
+		}
+	}
+}
+
+# End of the disaster.
+country_event = {
+	id = rip_lit_reckoning.5
+	title = rip_lit_reckoning.5.t
+	desc = rip_lit_reckoning.5.d
+	picture = COURT_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_lit_reckoning.5.a
+		set_country_flag = survived_rip_lit_ruthenian_princes_revolt
+		add_stability = 1
+		add_legitimacy = 5
+	}
+}
+
+# --- Branch 2. The Volok survey and the villages ---------------------------------------------------------------------
+
+country_event = {
+	id = rip_lit_reckoning.11
+	title = rip_lit_reckoning.11.t
+	desc = rip_lit_reckoning.11.d
+	picture = FARMING_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_lit_reckoning.11.a
+		ai_chance = { factor = 70 }
+		set_country_flag = rip_lit_volok_enforced
+		add_country_modifier = {
+			name = rip_lit_volok_dues
+			duration = 9125
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = 10
+			}
+		}
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_unrest = 2
+			}
+		}
+		country_event = { id = rip_lit_reckoning.12 days = 1095 }
+	}
+	option = {
+		name = rip_lit_reckoning.11.b
+		ai_chance = { factor = 30 }
+		set_country_flag = rip_lit_dues_capped
+		add_country_modifier = {
+			name = rip_lit_capped_dues
+			duration = 9125
+		}
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+	}
+}
+
+country_event = {
+	id = rip_lit_reckoning.12
+	title = rip_lit_reckoning.12.t
+	desc = rip_lit_reckoning.12.d
+	picture = ANGRY_MOB_eventPicture
+	is_triggered_only = yes
+
+	trigger = { has_country_flag = rip_lit_volok_enforced }
+
+	option = {
+		name = rip_lit_reckoning.12.a
+		ai_chance = { factor = 60 }
+		set_country_flag = rip_lit_fugitives_hunted
+		add_stability = -1
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_unrest = 4
+				add_province_modifier = {
+					name = rip_lit_runaway_estates
+					duration = 5475
+				}
+			}
+		}
+	}
+	option = {
+		name = rip_lit_reckoning.12.b
+		ai_chance = { factor = 40 }
+		set_country_flag = rip_lit_frontier_hosts_registered
+		add_treasury = -50
+		add_country_modifier = {
+			name = rip_lit_frontier_hosts
+			duration = 7300
+		}
+	}
+}
+
+# On start of the disaster: the manors stand empty.
+country_event = {
+	id = rip_lit_reckoning.13
+	title = rip_lit_reckoning.13.t
+	desc = rip_lit_reckoning.13.d
+	picture = FARMING_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_lit_reckoning.13.a
+		ai_chance = { factor = 55 }
+		add_treasury = -60
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_devastation = 10
+				add_province_modifier = {
+					name = rip_lit_runaway_estates
+					duration = 3650
+				}
+			}
+		}
+	}
+	option = {
+		name = rip_lit_reckoning.13.b
+		ai_chance = { factor = 45 }
+		add_adm_power = -40
+		if = {
+			limit = { has_estate = estate_nobles }
+			add_estate_loyalty = {
+				estate = estate_nobles
+				loyalty = -10
+			}
+		}
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_unrest = -3
+			}
+		}
+	}
+}
+
+# Monthly while the disaster runs: a village leaves.
+country_event = {
+	id = rip_lit_reckoning.14
+	title = rip_lit_reckoning.14.t
+	desc = rip_lit_reckoning.14.d
+	picture = ANGRY_MOB_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_lit_reckoning.14.a
+		ai_chance = { factor = 55 }
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_unrest = 5
+				spawn_rebels = {
+					type = anti_tax_rebels
+					size = 1
+				}
+			}
+		}
+	}
+	option = {
+		name = rip_lit_reckoning.14.b
+		ai_chance = { factor = 45 }
+		add_treasury = -30
+		if = {
+			limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+			random_owned_province = {
+				limit = { rip_diaspora_eligible_culture_province = yes }
+				add_unrest = -3
+			}
+		}
+	}
+}
+
+# End of the disaster.
+country_event = {
+	id = rip_lit_reckoning.15
+	title = rip_lit_reckoning.15.t
+	desc = rip_lit_reckoning.15.d
+	picture = FARMING_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_lit_reckoning.15.a
+		set_country_flag = survived_rip_lit_peasant_flight
+		add_stability = 1
+		add_treasury = 40
+	}
+}
