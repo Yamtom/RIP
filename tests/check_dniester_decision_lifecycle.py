@@ -145,9 +145,12 @@ def dated_councils():
 def static_contracts():
     for filename in ('decisions/DniesterEstuaryDecisions.txt', 'events/RIP_shared_frontier_DniesterEstuary.txt'):
         assert not re.search(r'\b(?:282|2410)\b', read(filename))
-    assert len(DECISIONS) == 6
+    assert len(DECISIONS) == 7
     for name, body in DECISIONS.items():
         fields = dict(body)
+        if name == 'rip_conclude_dniester_accord':
+            assert "rip_sovereign_accord_active" in repr(fields['allow'])
+            continue
         assert fields['provinces_to_highlight'] == [('province_id', '1756')]
         if name != 'contest_ottoman_dniester_control':
             assert ('rip_dniester_port_access', 'yes') in fields['allow']

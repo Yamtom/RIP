@@ -1,0 +1,164 @@
+rip_sign_hadiach_accord = {
+	category = influence
+	alert_index = 3
+	alert_tooltip = rip_sign_hadiach_accord
+	require_acceptance = yes
+	is_visible = {
+		has_country_flag = pol_union_reaffirmed
+		NOT = { has_country_flag = pol_crown_ruthenia_integrated }
+		NOT = { has_country_flag = pol_triatomic_commonwealth_realized }
+		tag = PLC
+		is_subject = no
+		NOT = { has_country_flag = rip_hadiach_accord_signed }
+		FROM = {
+			is_subject = no
+			alliance_with = ROOT
+			is_neighbor_of = ROOT
+			rip_hadiach_eligible_partner = yes
+		}
+	}
+	is_allowed = {
+		is_at_war = no
+		rip_accord_offer_ready = { refused = rip_hadiach_accord_refused }
+		is_year = 1600
+		adm_tech = 14
+		treasury = 200
+		dip_power = 50
+		FROM = {
+			is_at_war = no
+			rip_accord_hadiach_partner = yes
+		}
+	}
+	on_accept = {
+		add_treasury = -200
+		add_dip_power = -50
+		set_country_flag = rip_hadiach_accord_signed
+		FROM = {
+			add_treasury = 200
+			add_opinion = { who = ROOT modifier = rip_hadiach_accord_opinion }
+		}
+		add_trust = { who = FROM value = 5 mutual = yes }
+		rip_update_sovereign_accords = yes
+	}
+	on_decline = { set_country_flag = rip_hadiach_accord_refused }
+	ai_will_do = {
+		treasury = 400
+		is_at_war = no
+		FROM = { trust = { who = ROOT value = 60 } }
+	}
+	ai_acceptance = {
+		add_entry = {
+			name = DIPLO_OPPINION
+			export_to_variable = { variable_name = ai_value value = opinion who = FROM with = ROOT }
+			multiply_variable = { which = ai_value value = 0.2 }
+		}
+	}
+}
+
+rip_sign_kyiv_accord = {
+	category = influence
+	alert_index = 3
+	alert_tooltip = rip_sign_kyiv_accord
+	require_acceptance = yes
+	is_visible = {
+		OR = { tag = KRU tag = UKR }
+		mission_completed = UKR_princely_compact
+		is_subject = no
+		NOT = { has_country_flag = rip_kyiv_accord_signed }
+		FROM = {
+			is_subject = no
+			alliance_with = ROOT
+			is_neighbor_of = ROOT
+			rip_hadiach_eligible_partner = yes
+		OR = { owns = 279 owns = 289 owns = 2961 }
+		}
+	}
+	is_allowed = {
+		is_at_war = no
+		rip_accord_offer_ready = { refused = rip_kyiv_accord_refused }
+		treasury = 150
+		dip_power = 50
+		FROM = {
+			is_at_war = no
+			rip_accord_kyiv_partner = yes
+		}
+	}
+	on_accept = {
+		add_treasury = -150
+		add_dip_power = -50
+		set_country_flag = rip_kyiv_accord_signed
+		FROM = {
+			add_treasury = 150
+			add_opinion = { who = ROOT modifier = rip_kyiv_accord_opinion }
+		}
+		add_trust = { who = FROM value = 5 mutual = yes }
+		rip_update_sovereign_accords = yes
+	}
+	on_decline = { set_country_flag = rip_kyiv_accord_refused }
+	ai_will_do = {
+		treasury = 300
+		is_at_war = no
+		FROM = { trust = { who = ROOT value = 60 } }
+	}
+	ai_acceptance = {
+		add_entry = {
+			name = DIPLO_OPPINION
+			export_to_variable = { variable_name = ai_value value = opinion who = FROM with = ROOT }
+			multiply_variable = { which = ai_value value = 0.2 }
+		}
+	}
+}
+
+rip_sign_dniester_accord = {
+	category = economy
+	alert_index = 3
+	alert_tooltip = rip_sign_dniester_accord
+	require_acceptance = yes
+	is_visible = {
+		OR = { tag = MOL tag = ZAZ tag = HET tag = KIE tag = KRU tag = UKR tag = POL tag = PLC tag = VOL tag = PDL }
+		NOT = { owns_or_non_sovereign_subject_of = 1756 }
+		is_subject = no
+		NOT = { has_country_flag = rip_dniester_accord_signed }
+		FROM = {
+			is_subject = no
+			alliance_with = ROOT
+			is_neighbor_of = ROOT
+			owns = 1756
+		}
+	}
+	is_allowed = {
+		is_at_war = no
+		rip_accord_offer_ready = { refused = rip_dniester_accord_refused }
+		adm_tech = 10
+		treasury = 300
+		dip_power = 50
+		FROM = {
+			is_at_war = no
+			rip_accord_dniester_partner = yes
+		}
+	}
+	on_accept = {
+		add_treasury = -300
+		add_dip_power = -50
+		set_country_flag = rip_dniester_accord_signed
+		FROM = {
+			add_treasury = 300
+			add_opinion = { who = ROOT modifier = rip_dniester_accord_opinion }
+		}
+		add_trust = { who = FROM value = 5 mutual = yes }
+		rip_update_sovereign_accords = yes
+	}
+	on_decline = { set_country_flag = rip_dniester_accord_refused }
+	ai_will_do = {
+		treasury = 600
+		is_at_war = no
+		FROM = { trust = { who = ROOT value = 60 } }
+	}
+	ai_acceptance = {
+		add_entry = {
+			name = DIPLO_OPPINION
+			export_to_variable = { variable_name = ai_value value = opinion who = FROM with = ROOT }
+			multiply_variable = { which = ai_value value = 0.2 }
+		}
+	}
+}

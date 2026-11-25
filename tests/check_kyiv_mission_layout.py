@@ -43,6 +43,7 @@ EXPECTED_CELLS = {
 EXPECTED_SUCCESSOR_CELLS = {
     "UKR_baltic": (2, 4),
     "UKR_merchant_commonwealth": (2, 5),
+    "UKR_defensive_league": (2, 6),
     "UKR_princely_compact": (4, 5),
     "UKR_dniepr": (4, 6),
     "UKR_crimea": (4, 7),
@@ -226,6 +227,7 @@ def check_two_line_titles() -> list[str]:
     for loc_file in (
         "RIP_KIE_realm_l_english.yml",
         "RIP_KRU_realm_l_english.yml",
+        "RIP_shared_ruthenian_accords_l_english.yml",
         "RIP_shared_ruthenian_expeditions_l_english.yml",
     ):
         for k, v in re.findall(r'^ ([A-Za-z0-9_.\-]+_title):\d+\s+"(.*)"\s*$', read(f"localisation/{loc_file}"), re.M):
