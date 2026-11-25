@@ -1,0 +1,195 @@
+namespace = rip_rus_reckoning
+
+# --- 1. Synod Censorship of the Kyivan & Chernihiv Presses
+
+country_event = {
+	id = rip_rus_reckoning.1
+	title = rip_rus_reckoning.1.t
+	desc = rip_rus_reckoning.1.d
+	picture = BIG_BOOK_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_reckoning.1.a
+		custom_tooltip = rip_rus_reckoning.1.result_tt
+		ai_chance = { factor = 2 }
+		add_absolutism = 5
+		add_adm_power = 40
+		set_country_flag = rip_rus_censorship_ukaz_enforced
+		country_event = { id = rip_rus_reckoning.2 days = 180 }
+	}
+	option = {
+		name = rip_rus_reckoning.1.b
+		ai_chance = { factor = 1 }
+		add_absolutism = -5
+		add_dip_power = 25
+		add_country_modifier = {
+			name = rip_rus_ruthenian_charters_spared
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_rus_reckoning.2
+	title = rip_rus_reckoning.2.t
+	desc = rip_rus_reckoning.2.d
+	picture = BIG_BOOK_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_reckoning.2.a
+		if = {
+			limit = { owns = 280 }
+			280 = {
+				add_unrest = 6
+				add_province_modifier = {
+					name = rip_rus_silenced_presses
+					duration = 7300
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = { owns = 289 }
+				289 = {
+					add_unrest = 6
+					add_province_modifier = {
+						name = rip_rus_silenced_presses
+						duration = 7300
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = { any_owned_province = { rip_diaspora_eligible_culture_province = yes } }
+					random_owned_province = {
+						limit = { rip_diaspora_eligible_culture_province = yes }
+						add_unrest = 6
+						add_province_modifier = {
+							name = rip_rus_silenced_presses
+							duration = 7300
+						}
+					}
+				}
+			}
+		}
+		add_country_modifier = {
+			name = rip_rus_imperial_uniformity
+			duration = 5475
+		}
+	}
+}
+
+# --- Disaster: rip_rus_abolition_of_hetmanate (.3 start, .4 pulse, .5 end)
+
+country_event = {
+	id = rip_rus_reckoning.3
+	title = rip_rus_reckoning.3.t
+	desc = rip_rus_reckoning.3.d
+	picture = COUNTRY_COLLAPSE_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_reckoning.3.a
+		ai_chance = { factor = 60 }
+		add_absolutism = 10
+		add_stability = -1
+		if = {
+			limit = {
+				any_owned_province = {
+					OR = {
+						area = east_dniepr_area
+						area = chernigov_area
+						area = zaporizhia_area
+						area = west_dniepr_area
+					}
+				}
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = east_dniepr_area
+						area = chernigov_area
+						area = zaporizhia_area
+						area = west_dniepr_area
+					}
+				}
+				add_devastation = 30
+				spawn_rebels = {
+					type = particularist_rebels
+					size = 1
+				}
+			}
+		}
+	}
+	option = {
+		name = rip_rus_reckoning.3.b
+		ai_chance = { factor = 40 }
+		add_absolutism = -10
+		add_adm_power = -50
+		if = {
+			limit = { any_owned_province = { region = ruthenia_region } }
+			random_owned_province = {
+				limit = { region = ruthenia_region }
+				add_local_autonomy = 20
+			}
+		}
+	}
+}
+
+country_event = {
+	id = rip_rus_reckoning.4
+	title = rip_rus_reckoning.4.t
+	desc = rip_rus_reckoning.4.d
+	picture = MILITARY_CAMP_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_rus_reckoning.4.a
+		ai_chance = { factor = 55 }
+		add_yearly_manpower = -0.15
+		add_treasury = 40
+		if = {
+			limit = { any_owned_province = { region = ruthenia_region } }
+			random_owned_province = {
+				limit = { region = ruthenia_region }
+				add_devastation = 15
+				add_unrest = 4
+			}
+		}
+	}
+	option = {
+		name = rip_rus_reckoning.4.b
+		ai_chance = { factor = 45 }
+		add_treasury = -50
+		add_dip_power = -20
+		if = {
+			limit = { any_owned_province = { region = ruthenia_region } }
+			random_owned_province = {
+				limit = { region = ruthenia_region }
+				add_unrest = -2
+			}
+		}
+	}
+}
+
+country_event = {
+	id = rip_rus_reckoning.5
+	title = rip_rus_reckoning.5.t
+	desc = rip_rus_reckoning.5.d
+	picture = REFORM_eventPicture
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = survived_rip_rus_abolition_of_hetmanate
+		}
+	}
+
+	option = {
+		name = rip_rus_reckoning.5.a
+		add_stability_or_adm_power = yes
+		add_prestige = 5
+	}
+}

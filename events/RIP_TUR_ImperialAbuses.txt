@@ -1,0 +1,687 @@
+namespace = rip_tur_reckoning
+
+# --- 1. Yasyr Port Tithe (Pencik) & Galley Oarsmen
+
+country_event = {
+	id = rip_tur_reckoning.1
+	title = rip_tur_reckoning.1.t
+	desc = rip_tur_reckoning.1.d
+	picture = SHIP_SAILING_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.1.a
+		custom_tooltip = rip_tur_reckoning.1.result_tt
+		ai_chance = { factor = 2 }
+		add_treasury = 90
+		add_sailors = 1000
+		set_country_flag = rip_tur_galley_conscription_enforced
+		country_event = { id = rip_tur_reckoning.2 days = 180 }
+	}
+	option = {
+		name = rip_tur_reckoning.1.b
+		ai_chance = { factor = 1 }
+		add_prestige = -5
+		add_dip_power = 25
+		set_country_flag = rip_tur_galley_conscription_curbed
+		add_country_modifier = {
+			name = rip_tur_ransom_brokerage
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_reckoning.2
+	title = rip_tur_reckoning.2.t
+	desc = rip_tur_reckoning.2.d
+	picture = SHIP_SAILING_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.2.a
+		add_country_modifier = {
+			name = rip_tur_pencik_notoriety
+			duration = 5475
+		}
+		if = {
+			limit = { owns = 282 }
+			282 = {
+				add_unrest = 3
+				add_devastation = 10
+			}
+		}
+		if = {
+			limit = { owns = 285 }
+			285 = {
+				add_unrest = 3
+				add_devastation = 10
+			}
+		}
+	}
+}
+
+# --- 2. Seizure of Podillian Churches
+
+country_event = {
+	id = rip_tur_reckoning.3
+	title = rip_tur_reckoning.3.t
+	desc = rip_tur_reckoning.3.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.3.a
+		custom_tooltip = rip_tur_reckoning.3.result_tt
+		ai_chance = { factor = 2 }
+		if = {
+			limit = { religion_group = muslim }
+			add_piety = 0.15
+		}
+		add_prestige = 5
+		country_event = { id = rip_tur_reckoning.4 days = 150 }
+	}
+	option = {
+		name = rip_tur_reckoning.3.b
+		ai_chance = { factor = 1 }
+		if = {
+			limit = { religion_group = muslim }
+			add_piety = -0.1
+		}
+		add_adm_power = -25
+		add_country_modifier = {
+			name = rip_tur_podillian_dhimma_charter
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_reckoning.4
+	title = rip_tur_reckoning.4.t
+	desc = rip_tur_reckoning.4.d
+	picture = RELIGIOUS_TURMOIL_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.4.a
+		if = {
+			limit = {
+				any_owned_province = {
+					OR = {
+						area = podolia_volhynia_area
+						region = ruthenia_region
+					}
+					religion_group = christian
+				}
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = podolia_volhynia_area
+						region = ruthenia_region
+					}
+					religion_group = christian
+				}
+				add_devastation = 20
+				add_unrest = 6
+				add_province_modifier = {
+					name = rip_tur_seized_parishes
+					duration = 5475
+				}
+			}
+		}
+		add_country_modifier = {
+			name = rip_tur_coercive_eyalet_rule
+			duration = 5475
+		}
+	}
+}
+
+# --- 3. Harsh Devshirme Conscription Levy
+
+country_event = {
+	id = rip_tur_reckoning.5
+	title = rip_tur_reckoning.5.t
+	desc = rip_tur_reckoning.5.d
+	picture = MILITARY_CAMP_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.5.a
+		custom_tooltip = rip_tur_reckoning.5.result_tt
+		ai_chance = { factor = 2 }
+		add_yearly_manpower = 0.4
+		country_event = { id = rip_tur_reckoning.6 days = 180 }
+	}
+	option = {
+		name = rip_tur_reckoning.5.b
+		ai_chance = { factor = 1 }
+		if = {
+			limit = { has_estate = estate_janissaries }
+			add_estate_loyalty = { estate = estate_janissaries loyalty = -10 }
+		}
+		add_adm_power = 20
+		add_country_modifier = {
+			name = rip_tur_devshirme_commutation
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_reckoning.6
+	title = rip_tur_reckoning.6.t
+	desc = rip_tur_reckoning.6.d
+	picture = MILITARY_CAMP_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.6.a
+		if = {
+			limit = { any_owned_province = { religion_group = christian } }
+			random_owned_province = {
+				limit = { religion_group = christian }
+				if = {
+					limit = { base_manpower = 2 }
+					add_base_manpower = -1
+				}
+				else = {
+					add_devastation = 20
+				}
+				add_unrest = 5
+			}
+		}
+		add_country_modifier = {
+			name = rip_tur_harsh_devshirme
+			duration = 5475
+		}
+	}
+}
+
+# --- 4. Forced Surgun Resettlement
+
+country_event = {
+	id = rip_tur_reckoning.7
+	title = rip_tur_reckoning.7.t
+	desc = rip_tur_reckoning.7.d
+	picture = CITY_VIEW_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.7.a
+		custom_tooltip = rip_tur_reckoning.7.result_tt
+		ai_chance = { factor = 2 }
+		if = {
+			limit = { owns = 151 }
+			151 = { add_base_production = 1 }
+		}
+		country_event = { id = rip_tur_reckoning.8 days = 180 }
+	}
+	option = {
+		name = rip_tur_reckoning.7.b
+		ai_chance = { factor = 1 }
+		add_prestige = -5
+		add_dip_power = 20
+		add_country_modifier = {
+			name = rip_tur_voluntary_charters
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_reckoning.8
+	title = rip_tur_reckoning.8.t
+	desc = rip_tur_reckoning.8.d
+	picture = CITY_VIEW_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.8.a
+		if = {
+			limit = {
+				any_owned_province = {
+					NOT = { culture_group = turko_semitic }
+					NOT = { has_province_modifier = rip_tur_uprooted_quarters }
+				}
+			}
+			random_owned_province = {
+				limit = {
+					NOT = { culture_group = turko_semitic }
+					NOT = { has_province_modifier = rip_tur_uprooted_quarters }
+				}
+				add_devastation = 20
+				add_unrest = 5
+				add_province_modifier = {
+					name = rip_tur_uprooted_quarters
+					duration = 5475
+				}
+			}
+		}
+		if = {
+			limit = {
+				any_owned_province = {
+					NOT = { culture_group = turko_semitic }
+					NOT = { has_province_modifier = rip_tur_uprooted_quarters }
+				}
+			}
+			random_owned_province = {
+				limit = {
+					NOT = { culture_group = turko_semitic }
+					NOT = { has_province_modifier = rip_tur_uprooted_quarters }
+				}
+				add_devastation = 20
+				add_unrest = 5
+				add_province_modifier = {
+					name = rip_tur_uprooted_quarters
+					duration = 5475
+				}
+			}
+		}
+		add_country_modifier = {
+			name = rip_tur_surgun_edicts
+			duration = 5475
+		}
+	}
+}
+
+# --- 5. Celali & Anatolian Punitive Expeditions
+
+country_event = {
+	id = rip_tur_reckoning.9
+	title = rip_tur_reckoning.9.t
+	desc = rip_tur_reckoning.9.d
+	picture = ANGRY_MOB_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.9.a
+		custom_tooltip = rip_tur_reckoning.9.result_tt
+		ai_chance = { factor = 2 }
+		add_war_exhaustion = -2
+		add_absolutism = 5
+		country_event = { id = rip_tur_reckoning.10 days = 150 }
+	}
+	option = {
+		name = rip_tur_reckoning.9.b
+		ai_chance = { factor = 1 }
+		add_absolutism = -5
+		add_adm_power = -25
+		add_country_modifier = {
+			name = rip_tur_anatolian_amnesty
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_reckoning.10
+	title = rip_tur_reckoning.10.t
+	desc = rip_tur_reckoning.10.d
+	picture = ANGRY_MOB_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.10.a
+		if = {
+			limit = {
+				any_owned_province = {
+					region = anatolia_region
+					NOT = { has_province_modifier = rip_tur_great_flight }
+				}
+			}
+			random_owned_province = {
+				limit = {
+					region = anatolia_region
+					NOT = { has_province_modifier = rip_tur_great_flight }
+				}
+				add_devastation = 30
+				add_province_modifier = {
+					name = rip_tur_great_flight
+					duration = 5475
+				}
+			}
+		}
+		if = {
+			limit = {
+				any_owned_province = {
+					region = anatolia_region
+					NOT = { has_province_modifier = rip_tur_great_flight }
+				}
+			}
+			random_owned_province = {
+				limit = {
+					region = anatolia_region
+					NOT = { has_province_modifier = rip_tur_great_flight }
+				}
+				add_devastation = 30
+				add_province_modifier = {
+					name = rip_tur_great_flight
+					duration = 5475
+				}
+			}
+		}
+		add_country_modifier = {
+			name = rip_tur_iron_pacification
+			duration = 5475
+		}
+	}
+}
+
+# --- 6. Danubian & Steppe Tribute Exactions
+
+country_event = {
+	id = rip_tur_reckoning.11
+	title = rip_tur_reckoning.11.t
+	desc = rip_tur_reckoning.11.d
+	picture = BORDER_TENSION_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.11.a
+		custom_tooltip = rip_tur_reckoning.11.result_tt
+		ai_chance = { factor = 2 }
+		add_treasury = 100
+		add_mil_power = 25
+		country_event = { id = rip_tur_reckoning.12 days = 180 }
+	}
+	option = {
+		name = rip_tur_reckoning.11.b
+		ai_chance = { factor = 1 }
+		add_dip_power = 20
+		add_country_modifier = {
+			name = rip_tur_fixed_danubian_tribute
+			duration = 5475
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_reckoning.12
+	title = rip_tur_reckoning.12.t
+	desc = rip_tur_reckoning.12.d
+	picture = BORDER_TENSION_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.12.a
+		every_subject_country = {
+			limit = {
+				OR = {
+					tag = MOL
+					tag = WAL
+					capital_scope = { region = ruthenia_region }
+				}
+			}
+			add_liberty_desire = 25
+		}
+		if = {
+			limit = {
+				any_owned_province = {
+					OR = {
+						area = moldavia_area
+						area = wallachia_area
+						area = yedisan_area
+					}
+				}
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = moldavia_area
+						area = wallachia_area
+						area = yedisan_area
+					}
+				}
+				add_devastation = 25
+				add_unrest = 5
+			}
+		}
+		add_country_modifier = {
+			name = rip_tur_danubian_exactions
+			duration = 5475
+		}
+	}
+}
+
+# --- Disaster 1: rip_tur_ruina_scorched_earth (.13 start, .14 pulse, .15 end)
+
+country_event = {
+	id = rip_tur_reckoning.13
+	title = rip_tur_reckoning.13.t
+	desc = rip_tur_reckoning.13.d
+	picture = BATTLE_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.13.a
+		ai_chance = { factor = 60 }
+		add_stability = -1
+		if = {
+			limit = {
+				any_owned_province = {
+					OR = {
+						area = podolia_volhynia_area
+						area = west_dniepr_area
+						area = zaporizhia_area
+					}
+				}
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = podolia_volhynia_area
+						area = west_dniepr_area
+						area = zaporizhia_area
+					}
+				}
+				add_devastation = 30
+				spawn_rebels = {
+					type = particularist_rebels
+					size = 1
+				}
+			}
+		}
+	}
+	option = {
+		name = rip_tur_reckoning.13.b
+		ai_chance = { factor = 40 }
+		add_treasury = -75
+		add_adm_power = -40
+		if = {
+			limit = {
+				any_owned_province = {
+					OR = {
+						area = podolia_volhynia_area
+						area = west_dniepr_area
+						area = zaporizhia_area
+					}
+				}
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = podolia_volhynia_area
+						area = west_dniepr_area
+						area = zaporizhia_area
+					}
+				}
+				add_devastation = 15
+			}
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_reckoning.14
+	title = rip_tur_reckoning.14.t
+	desc = rip_tur_reckoning.14.d
+	picture = COUNTRY_COLLAPSE_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.14.a
+		ai_chance = { factor = 55 }
+		add_mil_power = 20
+		if = {
+			limit = {
+				any_owned_province = {
+					OR = {
+						area = podolia_volhynia_area
+						area = west_dniepr_area
+						area = zaporizhia_area
+						area = yedisan_area
+					}
+				}
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = podolia_volhynia_area
+						area = west_dniepr_area
+						area = zaporizhia_area
+						area = yedisan_area
+					}
+				}
+				add_devastation = 20
+				add_unrest = 4
+			}
+		}
+	}
+	option = {
+		name = rip_tur_reckoning.14.b
+		ai_chance = { factor = 45 }
+		add_treasury = -40
+		if = {
+			limit = {
+				any_owned_province = {
+					OR = {
+						area = podolia_volhynia_area
+						area = west_dniepr_area
+						area = zaporizhia_area
+						area = yedisan_area
+					}
+				}
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						area = podolia_volhynia_area
+						area = west_dniepr_area
+						area = zaporizhia_area
+						area = yedisan_area
+					}
+				}
+				add_devastation = -10
+				add_unrest = -2
+			}
+		}
+	}
+}
+
+country_event = {
+	id = rip_tur_reckoning.15
+	title = rip_tur_reckoning.15.t
+	desc = rip_tur_reckoning.15.d
+	picture = FORT_eventPicture
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = survived_rip_tur_ruina_scorched_earth
+		}
+	}
+
+	option = {
+		name = rip_tur_reckoning.15.a
+		add_stability_or_adm_power = yes
+		add_prestige = 5
+	}
+}
+
+# --- Disaster 2: rip_tur_captive_galley_revolt (.16 start, .17 pulse, .18 end)
+
+country_event = {
+	id = rip_tur_reckoning.16
+	title = rip_tur_reckoning.16.t
+	desc = rip_tur_reckoning.16.d
+	picture = NAVAL_MILITARY_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.16.a
+		ai_chance = { factor = 55 }
+		add_sailors = -1500
+		add_prestige = -10
+		if = {
+			limit = {
+				any_owned_province = {
+					OR = {
+						province_id = 285
+						province_id = 282
+						province_id = 151
+					}
+				}
+			}
+			random_owned_province = {
+				limit = {
+					OR = {
+						province_id = 285
+						province_id = 282
+						province_id = 151
+					}
+				}
+				add_unrest = 5
+			}
+		}
+	}
+	option = {
+		name = rip_tur_reckoning.16.b
+		ai_chance = { factor = 45 }
+		add_treasury = -90
+		add_dip_power = -35
+		set_country_flag = rip_tur_galley_conscription_curbed
+	}
+}
+
+country_event = {
+	id = rip_tur_reckoning.17
+	title = rip_tur_reckoning.17.t
+	desc = rip_tur_reckoning.17.d
+	picture = SHIP_SAILING_eventPicture
+	is_triggered_only = yes
+
+	option = {
+		name = rip_tur_reckoning.17.a
+		ai_chance = { factor = 55 }
+		add_sailors = -750
+		add_war_exhaustion = 1
+	}
+	option = {
+		name = rip_tur_reckoning.17.b
+		ai_chance = { factor = 45 }
+		add_treasury = -45
+		add_dip_power = 15
+	}
+}
+
+country_event = {
+	id = rip_tur_reckoning.18
+	title = rip_tur_reckoning.18.t
+	desc = rip_tur_reckoning.18.d
+	picture = NAVAL_MILITARY_eventPicture
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = survived_rip_tur_captive_galley_revolt
+		}
+	}
+
+	option = {
+		name = rip_tur_reckoning.18.a
+		add_navy_tradition = 5
+		add_stability_or_adm_power = yes
+	}
+}

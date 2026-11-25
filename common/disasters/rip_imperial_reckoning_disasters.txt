@@ -1,0 +1,447 @@
+rip_tur_ruina_scorched_earth = {
+	potential = {
+		tag = TUR
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = survived_rip_tur_ruina_scorched_earth }
+		any_owned_province = {
+			OR = {
+				area = podolia_volhynia_area
+				area = west_dniepr_area
+				area = zaporizhia_area
+				area = yedisan_area
+			}
+		}
+	}
+	can_start = {
+		has_any_disaster = no
+		any_owned_province = {
+			OR = {
+				area = podolia_volhynia_area
+				area = west_dniepr_area
+				area = zaporizhia_area
+			}
+			OR = {
+				devastation = 15
+				unrest = 3
+				nationalism = 10
+			}
+		}
+	}
+	can_stop = {
+		NOT = {
+			any_owned_province = {
+				OR = {
+					area = podolia_volhynia_area
+					area = west_dniepr_area
+					area = zaporizhia_area
+				}
+				OR = {
+					devastation = 10
+					unrest = 2
+				}
+			}
+		}
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			stability = 2
+			is_at_war = no
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 1
+			always = yes
+		}
+		modifier = {
+			factor = 1.5
+			war_exhaustion = 3
+		}
+		modifier = {
+			factor = 1.5
+			any_owned_province = {
+				OR = {
+					area = podolia_volhynia_area
+					area = west_dniepr_area
+				}
+				devastation = 25
+			}
+		}
+		modifier = {
+			factor = -0.5
+			stability = 2
+		}
+	}
+	can_end = {
+		stability = 1
+		NOT = { num_of_rebel_armies = 1 }
+		NOT = {
+			any_owned_province = {
+				OR = {
+					area = podolia_volhynia_area
+					area = west_dniepr_area
+					area = zaporizhia_area
+				}
+				devastation = 20
+			}
+		}
+	}
+	modifier = {
+		global_unrest = 2
+		diplomatic_reputation = -2
+		land_attrition = 0.15
+		manpower_recovery_speed = -0.15
+	}
+	on_start = rip_tur_reckoning.13
+	on_end = rip_tur_reckoning.15
+	on_monthly = {
+		random_events = {
+			1000 = 0
+			120 = rip_tur_reckoning.14
+		}
+	}
+}
+
+rip_tur_captive_galley_revolt = {
+	potential = {
+		tag = TUR
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = survived_rip_tur_captive_galley_revolt }
+		num_of_galley = 10
+		OR = {
+			owns = 285
+			owns = 282
+			owns = 151
+		}
+		OR = {
+			any_owned_province = { rip_diaspora_eligible_culture_province = yes }
+			CRI = { is_subject_of = ROOT }
+			owns = 285
+		}
+	}
+	can_start = {
+		has_any_disaster = no
+		OR = {
+			has_country_flag = rip_tur_galley_conscription_enforced
+			war_exhaustion = 5
+			NOT = { stability = 0 }
+		}
+	}
+	can_stop = {
+		OR = {
+			NOT = { num_of_galley = 5 }
+			has_country_flag = rip_tur_galley_conscription_curbed
+		}
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			stability = 2
+			is_at_war = no
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 1
+			always = yes
+		}
+		modifier = {
+			factor = 2
+			has_country_flag = rip_tur_galley_conscription_enforced
+		}
+		modifier = {
+			factor = 1
+			num_of_galley = 25
+		}
+		modifier = {
+			factor = 1
+			war_exhaustion = 4
+		}
+	}
+	can_end = {
+		stability = 1
+		is_at_war = no
+		NOT = { num_of_rebel_armies = 1 }
+	}
+	modifier = {
+		galley_power = -0.2
+		sailors_recovery_speed = -0.25
+		naval_morale = -0.15
+		diplomatic_reputation = -1
+	}
+	on_start = rip_tur_reckoning.16
+	on_end = rip_tur_reckoning.18
+	on_monthly = {
+		random_events = {
+			1000 = 0
+			120 = rip_tur_reckoning.17
+		}
+	}
+}
+
+rip_plc_bloody_pacification = {
+	potential = {
+		tag = PLC
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = survived_rip_plc_bloody_pacification }
+		any_owned_province = { rip_diaspora_eligible_culture_province = yes }
+	}
+	can_start = {
+		has_any_disaster = no
+		any_owned_province = {
+			rip_diaspora_eligible_culture_province = yes
+			OR = {
+				devastation = 15
+				unrest = 4
+				nationalism = 10
+			}
+		}
+		OR = {
+			has_country_flag = rip_plc_magnate_pacification_enforced
+			NOT = { stability = 1 }
+			war_exhaustion = 3
+		}
+	}
+	can_stop = {
+		NOT = {
+			any_owned_province = {
+				rip_diaspora_eligible_culture_province = yes
+				OR = {
+					devastation = 10
+					unrest = 3
+				}
+			}
+		}
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			stability = 2
+			is_at_war = no
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 1
+			always = yes
+		}
+		modifier = {
+			factor = 2
+			has_country_flag = rip_plc_magnate_pacification_enforced
+		}
+		modifier = {
+			factor = 1.5
+			war_exhaustion = 3
+		}
+		modifier = {
+			factor = -0.5
+			accepted_culture = ruthenian
+		}
+	}
+	can_end = {
+		stability = 1
+		NOT = { num_of_rebel_armies = 1 }
+		NOT = {
+			any_owned_province = {
+				rip_diaspora_eligible_culture_province = yes
+				unrest = 2
+			}
+		}
+	}
+	modifier = {
+		global_unrest = 3
+		manpower_recovery_speed = -0.2
+		diplomatic_reputation = -2
+		cavalry_cost = 0.15
+	}
+	on_start = rip_plc_reckoning.7
+	on_end = rip_plc_reckoning.9
+	on_monthly = {
+		random_events = {
+			1000 = 0
+			120 = rip_plc_reckoning.8
+		}
+	}
+}
+
+rip_rus_abolition_of_hetmanate = {
+	potential = {
+		tag = RUS
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = survived_rip_rus_abolition_of_hetmanate }
+		any_owned_province = {
+			OR = {
+				area = east_dniepr_area
+				area = chernigov_area
+				area = zaporizhia_area
+				area = west_dniepr_area
+			}
+		}
+	}
+	can_start = {
+		has_any_disaster = no
+		num_of_owned_provinces_with = {
+			value = 4
+			region = ruthenia_region
+		}
+		OR = {
+			absolutism = 45
+			is_year = 1700
+			has_country_flag = rip_rus_censorship_ukaz_enforced
+		}
+	}
+	can_stop = {
+		NOT = {
+			any_owned_province = { region = ruthenia_region }
+		}
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			accepted_culture = ruthenian
+			stability = 2
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 1
+			always = yes
+		}
+		modifier = {
+			factor = 1.5
+			absolutism = 50
+		}
+		modifier = {
+			factor = 2
+			has_country_flag = rip_rus_censorship_ukaz_enforced
+		}
+		modifier = {
+			factor = 1
+			any_owned_province = {
+				region = ruthenia_region
+				unrest = 2
+			}
+		}
+	}
+	can_end = {
+		stability = 1
+		NOT = { num_of_rebel_armies = 1 }
+		NOT = {
+			any_owned_province = {
+				region = ruthenia_region
+				unrest = 3
+			}
+		}
+	}
+	modifier = {
+		global_unrest = 2
+		diplomatic_reputation = -2
+		stability_cost_modifier = 0.2
+		manpower_recovery_speed = -0.15
+	}
+	on_start = rip_rus_reckoning.3
+	on_end = rip_rus_reckoning.5
+	on_monthly = {
+		random_events = {
+			1000 = 0
+			120 = rip_rus_reckoning.4
+		}
+	}
+}
+
+rip_cri_yasyr_depopulation_crisis = {
+	potential = {
+		OR = {
+			tag = CRI
+			AND = {
+				was_tag = CRI
+				OR = {
+					tag = GLH
+					tag = MGE
+				}
+			}
+		}
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = survived_rip_cri_yasyr_depopulation_crisis }
+		OR = {
+			owns = 284
+			owns = 285
+			owns = 282
+		}
+	}
+	can_start = {
+		has_any_disaster = no
+		OR = {
+			has_country_flag = rip_cri_kaffa_marts_expanded
+			is_year = 1580
+			NOT = { horde_unity = 65 }
+			war_exhaustion = 4
+		}
+		any_neighbor_country = {
+			any_owned_province = {
+				OR = {
+					region = ruthenia_region
+					area = zaporizhia_area
+					area = red_ruthenia_area
+				}
+			}
+		}
+	}
+	can_stop = {
+		has_country_flag = rip_cri_kaffa_marts_curbed
+		stability = 2
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			stability = 2
+			is_at_war = no
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 1
+			always = yes
+		}
+		modifier = {
+			factor = 2
+			has_country_flag = rip_cri_kaffa_marts_expanded
+		}
+		modifier = {
+			factor = 1.5
+			war_exhaustion = 3
+		}
+		modifier = {
+			factor = 1
+			NOT = { horde_unity = 70 }
+		}
+	}
+	can_end = {
+		stability = 1
+		NOT = { num_of_rebel_armies = 1 }
+		OR = {
+			horde_unity = 75
+			NOT = { has_reform = steppe_horde }
+		}
+	}
+	modifier = {
+		trade_efficiency = -0.2
+		global_unrest = 2
+		diplomatic_reputation = -2
+		global_tax_modifier = -0.15
+	}
+	on_start = rip_cri_reckoning.3
+	on_end = rip_cri_reckoning.5
+	on_monthly = {
+		random_events = {
+			1000 = 0
+			120 = rip_cri_reckoning.4
+		}
+	}
+}
