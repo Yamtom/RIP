@@ -4,36 +4,30 @@
 
 rip_HET_ideas = {
 	start = {
-		land_morale = 0.2
-		stability_cost_modifier = -0.15
+		land_morale = 0.15
 		reform_progress_growth = 0.1
 	}
 	bonus = {
 		administrative_efficiency = 0.05
-		governing_capacity_modifier = 0.1
 	}
 	trigger = {
 		tag = HET
 	}
 	free = yes
 	HET_hetman_authority = {
-		# All five, as vanilla does it in every one of the 149 national ideas that
-		# grant a government currency. HET starts government = republic under
-		# rip_cossacks_reform, so legitimacy on its own was dead weight.
+		# Covers both republic (rip_cossacks_reform) and monarchical/crowned Hetman paths
+		# while keeping the full idea set within the regional 11-19 modifier budget.
 		legitimacy = 1
 		republican_tradition = 0.3
-		devotion = 1
-		horde_unity = 1
-		meritocracy = 1
 		max_absolutism = 10
 	}
 	HET_starshyna_administration = {
-		governing_capacity_modifier = 0.15
-		advisor_pool = 1
+		governing_capacity_modifier = 0.2
+		advisor_cost = -0.1
 	}
 	HET_left_bank_settlers = {
-		global_manpower_modifier = 0.3
-		development_cost = -0.15
+		global_manpower_modifier = 0.2
+		development_cost = -0.1
 	}
 	HET_collegium_tradition = {
 		idea_cost = -0.1
