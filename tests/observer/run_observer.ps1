@@ -38,7 +38,7 @@ $CommandFileVirtualPath = $(
     else { 'tests/observer/commands/setup.txt' }
 )
 $TargetYear = $(if ($Smoke) { 1446 } else { 1650 })
-$RequiredCheckpointYears = $(if ($Smoke) { @(1446) } else { @(1500, 1550, 1600, 1650) })
+$RequiredCheckpointYears = $(if ($Smoke) { @(1446) } else { @(1464, 1500, 1550, 1600, 1650) })
 
 function Get-NormalizedPath {
     param([Parameter(Mandatory = $true)][string]$Path)
@@ -489,6 +489,7 @@ $requiredFiles = @(
     $CommandFileDiskPath,
     $SchemaPath,
     (Join-Path $PSScriptRoot 'commands\checkpoint_1500.txt'),
+    (Join-Path $PSScriptRoot 'commands\checkpoint_1464.txt'),
     (Join-Path $PSScriptRoot 'commands\checkpoint_1550.txt'),
     (Join-Path $PSScriptRoot 'commands\checkpoint_1600.txt'),
     (Join-Path $PSScriptRoot 'commands\checkpoint_1650.txt'),
