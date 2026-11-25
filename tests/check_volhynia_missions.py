@@ -319,6 +319,25 @@ assert "governing_capacity_modifier = 0.15" in cult_tol
 diplo_asc = normalized(named_block(vol_mods, "vol_diplomatic_ascendancy"))
 assert "ae_impact = -0.1" in diplo_asc and "diplomatic_annexation_cost = -0.15" in diplo_asc
 
+triumph = missions["VOL_ruthenia_triumphant"][3]
+assert not missions["VOL_ruthenia_triumphant"][2]
+dynastic, constitutional = [
+    normalized(branch) for _, branch in keyed_blocks(named_block(triumph, "trigger"), "custom_trigger_tooltip")
+]
+assert "vol_has_empire_proclaimed = yes" in dynastic and "is_great_power = yes" in dynastic
+assert "mission_completed = VOL_religious_settlement" in constitutional
+assert "has_country_modifier = vol_golden_liberty" in constitutional
+assert "vol_has_empire_proclaimed" not in constitutional and "is_great_power" not in constitutional
+
+statutes = named_block(missions["hlc_constitutional_settlement"][3], "trigger")
+civic, martial, fallback = [
+    normalized(branch) for _, branch in keyed_blocks(statutes, "custom_trigger_tooltip")
+]
+assert "hlc_has_constitution_civic_outcome = yes" in civic and "has_trade_building_trigger = yes" in civic
+assert "hlc_has_constitution_martial_outcome = yes" in martial and "army_tradition = 30" in martial
+for path in ("civic", "martial"):
+    assert f"hlc_has_constitution_{path}_outcome = no" in fallback
+
 # 6. Mission titles must fit EU4's 2-line mission scroll banner (vic_18, maxWidth 90).
 vanilla = vanilla_root()
 if vanilla and (vanilla / "gfx/fonts/vic_18.fnt").is_file():

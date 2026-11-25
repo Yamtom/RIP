@@ -243,6 +243,23 @@ def main() -> int:
         and "add_nationalism = -5" in unite_pdl_eff
     )
 
+    # Each constitution can complete the finale without the eastward conquest chain.
+    grand = named_block(source, "PDL_grand_podillia")
+    assert "required_missions = { }" in grand
+    grand_routes = {
+        re.search(r"tooltip = (\w+)", branch)[1]: normalized(branch)
+        for _, branch in keyed_blocks(named_block(grand, "trigger"), "custom_trigger_tooltip")
+    }
+    for name, flag, requirement in (
+        ("carpathian", "pdl_carpathian_path", "mission_completed = PDL_withstand_ottoman_threat"),
+        ("frontier", "pdl_frontier_path", "mission_completed = PDL_secure_crimea_raids"),
+        ("magnate", "pdl_magnate_path", "estate_loyalty = { estate = estate_magnates loyalty = 60 }"),
+    ):
+        branch = grand_routes[f"pdl_grand_{name}_tt"]
+        assert f"has_country_flag = {flag}" in branch and requirement in branch
+        assert "PDL_expand_eastward" not in branch
+    assert "mission_completed = PDL_expand_eastward" in grand_routes["pdl_grand_expansion_tt"]
+
     # 9. Mission titles must fit EU4's 2-line mission scroll banner (vic_18, maxWidth 90).
     vanilla = vanilla_root()
     if vanilla and (vanilla / "gfx/fonts/vic_18.fnt").is_file():
