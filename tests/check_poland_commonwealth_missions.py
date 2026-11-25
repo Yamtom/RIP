@@ -26,7 +26,12 @@ REWORK = "zzz_Poland_Commonwealth_Rework.txt"
 # Files of the installed game that define the Polish series, by name; the
 # comparison is case-insensitive, as the engine's is.
 VANILLA_POLISH = ("Polish_Missions.txt", "SCA_Polish_Missions.txt")
-HADIACH_MISSIONS = ("pol_hadiach_commission", "pol_codify_hadiach_privileges", "pol_triatomic_commonwealth")
+HADIACH_MISSIONS = (
+    "pol_hadiach_commission",
+    "pol_codify_hadiach_privileges",
+    "pol_triatomic_commonwealth",
+    "pol_crown_ruthenian_integration",
+)
 
 
 def require(failures: list[str], condition: bool, message: str) -> None:
@@ -154,13 +159,46 @@ def check_hadiach(failures: list[str]) -> None:
                 and "any_owned_province" not in outside,
                 f"{mission}: a condition shown in a custom tooltip is repeated outside it")
 
+    triatomic = named_block(text, "pol_triatomic_commonwealth")
+    triatomic_trig = named_block(triatomic, "trigger")
+    require(failures, "has_country_flag = pol_crown_ruthenia_integrated" in triatomic_trig
+            and "any_subject_country" in triatomic_trig
+            and "num_of_owned_provinces_with" not in named_block(triatomic_trig, "custom_trigger_tooltip", 1),
+            "pol_triatomic_commonwealth: must preserve a Ruthenian partner and exclude Crown integration")
+    require(failures, "every_subject_country" in named_block(triatomic, "effect")
+            and "add_local_autonomy" not in named_block(triatomic, "effect"),
+            "pol_triatomic_commonwealth: federation finale must reward subjects instead of centralising")
+
+    crown = named_block(text, "pol_crown_ruthenian_integration")
+    crown_trig = named_block(crown, "trigger")
+    require(failures, "has_country_flag = pol_triatomic_commonwealth_realized" in crown_trig
+            and "is_subject_of_type = princedom" in crown_trig
+            and "value = 10" in crown_trig,
+            "pol_crown_ruthenian_integration: must exclude the federation finale and require direct Crown integration")
+    require(failures, "pol_crown_ruthenian_palatinates" in named_block(crown, "effect")
+            and "set_country_flag = pol_crown_ruthenia_integrated" in named_block(crown, "effect"),
+            "pol_crown_ruthenian_integration: missing Crown Palatinates modifier or completion flag")
+
+    hadiach_action = named_block(read("common/new_diplomatic_actions/RIP_PLC_diplomatic_actions.txt"), "rip_offer_hadiach_terms")
+    hadiach_visible = named_block(hadiach_action, "is_visible")
+    hadiach_ai = named_block(hadiach_action, "ai_will_do")
+    require(failures, "NOT = { total_development = ROOT }" in hadiach_visible
+            and "rip_diaspora_eligible_culture = yes" in hadiach_visible,
+            "rip_offer_hadiach_terms: recipient must be smaller than ROOT and Ruthenian/Belarusian/Cossack")
+    require(failures, "attacker_leader" not in hadiach_ai,
+            "rip_offer_hadiach_terms: ai_will_do must not conflict with peacetime is_allowed")
+
 
 def check_modifier(failures: list[str]) -> None:
-    block = named_block(read("common/event_modifiers/RIP_POL_modifiers.txt"), "pol_triatomic_compact")
+    mods_text = read("common/event_modifiers/RIP_POL_modifiers.txt")
+    block = named_block(mods_text, "pol_triatomic_compact")
     require(failures, "culture_conversion_cost" not in block,
             "pol_triatomic_compact: an equal federation must not make assimilation cheaper")
     require(failures, "promote_culture_cost = -0.25" in block,
             "pol_triatomic_compact: expected promote_culture_cost = -0.25")
+    crown_mod = named_block(mods_text, "pol_crown_ruthenian_palatinates")
+    require(failures, "governing_capacity_modifier = 0.1" in crown_mod and "max_absolutism = 10" in crown_mod,
+            "pol_crown_ruthenian_palatinates: missing expected Crown integration modifiers")
 
 
 def check_patriarchate(failures: list[str]) -> None:

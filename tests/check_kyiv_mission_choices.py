@@ -188,8 +188,13 @@ def check_diaspora():
 
         final = named_block(named_block(diaspora, 'rip_diaspora_of_rus' + suffix), 'trigger')
         assert 'saratov_area' not in final, 'the Volga is not the Grey Wedge'
+        assert '2447' not in final, 'Mantrega (2447) in Crimea is not the Green Wedge'
+        for area in ('furdan_area', 'east_heilongjiang_area', 'ilan_hala_area'):
+            assert 'rip_diaspora_established_community = yes' in named_block(final, area), area
         for area in ('yrtesh_area', 'ishim_area', 'aqmola_area', 'kazakhstan_area'):
             assert 'rip_diaspora_established_community = yes' in named_block(final, area), area
+        root_eff = named_block(named_block(diaspora, 'rip_diaspora_root' + suffix), 'effect')
+        assert 'rip_diaspora_counterfactual_epilogue_tt' in root_eff
 
 
 def check_localisation():
@@ -232,12 +237,14 @@ def check_localisation():
     assert 'insult' not in kie['KIE_byzantine_relations_desc']
 
     for key in ('rip_green_wedge_desc', 'rip_grey_wedge_desc', 'rip_diaspora_of_rus_desc',
-                'rip_lysianskyi_circumnavigation_desc'):
+                'rip_lysianskyi_circumnavigation_desc', 'rip_diaspora_root_desc',
+                'rip_diaspora_counterfactual_epilogue_tt'):
         for lang in ('french', 'german', 'spanish'):
             fallback = loc_entries(f'localisation/replace/RIP_shared_ruthenian_content_l_{lang}.yml')
             assert fallback[key] == expeditions[key], (lang, key)
     assert 'Saratov' not in expeditions['rip_diaspora_of_rus_desc']
     assert 'Yellow Wedge' not in expeditions['rip_diaspora_of_rus_desc']
+    assert 'Taman' not in expeditions['rip_diaspora_of_rus_desc']
 
 
 def planted(label, mutate, check):

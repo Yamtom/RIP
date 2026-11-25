@@ -225,7 +225,7 @@ def revised_layout_problems() -> list[str]:
                 if placed.get(name, ())[:3] != (col, row, parents):
                     problems.append(f"{tag}: broken regional chain at {name}")
             shown = {name for name, (_, _, _, series, _) in placed.items() if series.startswith("POL_re_missions_")}
-            if len(shown) != (10 if tag == "PLC" else 0):
+            if len(shown) != (11 if tag == "PLC" else 0):
                 problems.append(f"{tag}: unexpected Commonwealth mission count {len(shown)}")
             for name in shown:
                 col, row, parents, *_ = placed[name]

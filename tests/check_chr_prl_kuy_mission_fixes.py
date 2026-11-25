@@ -476,6 +476,13 @@ def check_kyiv_and_caravan_rewards() -> None:
         assert "set_province_flag = kuy_caravan_improved" in draw and "add_base_production = 1" in draw
     assert "clr_province_flag = kuy_caravan_improved" in named_block(caravans, "every_owned_province")
 
+    chr_mods = read("common/event_modifiers/RIP_CHR_modifiers.txt")
+    for mod in ("chr_bunchuk_tovaryshi", "chr_pantheon_samoylovych_chancery"):
+        body = normalized(named_block(chr_mods, mod))
+        assert "administrative_efficiency" not in body, (mod, body)
+    assert "state_governing_cost = -0.1" in normalized(named_block(chr_mods, "chr_pantheon_samoylovych_chancery"))
+    assert "state_maintenance_modifier = -0.15" in normalized(named_block(chr_mods, "chr_bunchuk_tovaryshi"))
+
 
 def main() -> int:
     check_kyiv_and_caravan_rewards()
