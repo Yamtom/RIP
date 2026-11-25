@@ -34,6 +34,14 @@ country_event = {
 		NOT = {
 			has_country_modifier = steppe_raid_cooldown
 		}
+		# The pause shared with the seasonal raids (RaidMechanics file), and a
+		# seasonal raid still under way.
+		NOT = {
+			has_country_modifier = recent_raid_cooldown
+		}
+		NOT = {
+			has_country_modifier = spring_raid_season
+		}
 		any_neighbor_country = {
 			NOT = {
 				alliance_with = ROOT
@@ -83,6 +91,10 @@ country_event = {
 			name = steppe_raid_cooldown
 			duration = 730
 		}
+		add_country_modifier = {
+			name = recent_raid_cooldown
+			duration = 365
+		}
 		add_mil_power = -25
 		add_years_of_income = -0.15
 		add_horde_unity = 5
@@ -120,6 +132,10 @@ country_event = {
 		}
 		add_prestige = -5
 		add_horde_unity = -3
+		add_country_modifier = {
+			name = recent_raid_cooldown
+			duration = 365
+		}
 	}
 }
 
@@ -1067,6 +1083,12 @@ country_event = {
 		NOT = {
 			has_country_modifier = steppe_raid_cooldown
 		}
+		NOT = {
+			has_country_modifier = recent_raid_cooldown
+		}
+		NOT = {
+			has_country_modifier = spring_raid_season
+		}
 		any_province = {
 			area = circassia_area
 			is_empty = no
@@ -1103,6 +1125,10 @@ country_event = {
 			name = steppe_raid_cooldown
 			duration = 1825
 		}
+		add_country_modifier = {
+			name = recent_raid_cooldown
+			duration = 365
+		}
 		random_country = {
 			limit = {
 				any_owned_province = {
@@ -1133,6 +1159,10 @@ country_event = {
 			factor = 30
 		}
 		add_horde_unity = -3
+		add_country_modifier = {
+			name = recent_raid_cooldown
+			duration = 365
+		}
 	}
 }
 # Circassian target response.

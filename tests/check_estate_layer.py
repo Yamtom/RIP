@@ -229,6 +229,22 @@ def check_magnates(failures: list[str]) -> None:
         )), f"{key}: failure path does not follow the vanilla agenda pattern")
 
 
+def check_magnate_republic(failures: list[str], estates: str) -> None:
+    """The sejmik republic says its magnate senate elects the voivode.
+
+    The estate therefore has to survive the change to a republic: the reform
+    must open the estate, and the government gate must let exactly it through.
+    """
+    trigger = named_block(named_block(estates, "estate_magnates"), "trigger")
+    seats = normalized(named_block(trigger, "OR"))
+    require(failures, "has_reform = vln_sejmik_republic_reform" in seats,
+            "Magnates are not offered to the Volhynian sejmik republic")
+    require(failures,
+            "OR = { government = monarchy has_reform = vln_sejmik_republic_reform }"
+            in normalized(trigger),
+            "Magnates government gate shuts out the sejmik republic or opens to every republic")
+
+
 def check_burgher_name(failures: list[str]) -> None:
     burghers = named_block(read("common/estates/03_burghers.txt"), "estate_burghers")
     candidates = [block for _, block in keyed_blocks(burghers, "custom_name")
@@ -275,9 +291,11 @@ def check_style_and_dependencies(failures: list[str]) -> None:
     reforms = "\n".join(path.read_text(encoding="utf-8-sig", errors="replace")
                          for path in (ROOT / "common/government_reforms").glob("*.txt"))
     for reform in ("hlc_magnate_assembly_reform", "pdl_magnate_republic_reform",
-                   "pdl_magnate_dominion_reform", "vln_voivode_council"):
+                   "pdl_magnate_dominion_reform", "vln_voivode_council",
+                   "vln_sejmik_republic_reform"):
         require(failures, len(re.findall(rf"(?m)^{re.escape(reform)}\s*=\s*\{{", reforms)) == 1,
                 f"Magnates trigger reform is not defined exactly once: {reform}")
+    check_magnate_republic(failures, read("common/estates/RIP_magnates.txt"))
 
     effects = read("common/scripted_effects/rip_estate_effects.txt")
     require(failures, len(re.findall(r"(?m)^rip_estate_mood_effect\s*=\s*\{", effects)) == 1,

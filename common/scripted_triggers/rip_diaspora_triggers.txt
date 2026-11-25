@@ -65,8 +65,31 @@ rip_diaspora_colonial_partner_trigger = {
 	}
 }
 
-# Same idea for a mainland region with no colonial-nation layer above it: a
-# single foreign owner on good terms with us is enough.
+# Province scope. The Green Wedge lay in the Russian Far East: north of the
+# Amur, along its lower course and in the Ussuri country down to the Pacific.
+# Three vanilla 1.37 areas sit wholly there. central_jilin_area and
+# heilongjiang_area also reach across the rivers, so their wedge provinces are
+# named one by one: 729 Bohori, 2105 Kuru, 4217 Pijin, 2102 Albazin. 1053
+# Hinggan stays out: map/rivers.bmp puts it south of the Amur. Liaodong, Girin,
+# Ningguta and Sakhalin are outside too. ZLK's capital (history/countries) is
+# 2106 Furdan, inside this set.
+rip_green_wedge_province = {
+	OR = {
+		area = furdan_area
+		area = east_heilongjiang_area
+		area = ilan_hala_area
+		province_id = 729
+		province_id = 2105
+		province_id = 4217
+		province_id = 2102
+	}
+}
+
+# Province scope. The zone the Grey Wedge charter and its settlers use.
+rip_grey_wedge_province = {
+	region = central_asia_region
+}
+
 # Province scope: a local community under our rule or under a friendly host.
 rip_diaspora_established_community = {
 	rip_diaspora_eligible_culture_province = yes
@@ -76,10 +99,13 @@ rip_diaspora_established_community = {
 	}
 }
 
+# A mainland wedge has no colonial-nation layer above it: a single foreign owner
+# on good terms with us is enough. $WEDGE$ is one of the two province triggers
+# above, $THRESHOLD$ the opinion floor.
 rip_diaspora_mainland_partner_trigger = {
 	any_country = {
 		NOT = { tag = ROOT }
-		any_owned_province = { region = $REGION$ }
+		any_owned_province = { $WEDGE$ = yes }
 		has_opinion = { who = ROOT value = $THRESHOLD$ }
 	}
 }
@@ -136,7 +162,7 @@ rip_diaspora_mainland_convertible_culture_trigger = {
 	any_country = {
 		NOT = { tag = ROOT }
 		any_owned_province = {
-			region = $REGION$
+			$WEDGE$ = yes
 			NOT = { rip_diaspora_eligible_culture_province = yes }
 		}
 		has_opinion = { who = ROOT value = $THRESHOLD$ }
@@ -147,7 +173,7 @@ rip_diaspora_mainland_convertible_faith_trigger = {
 	any_country = {
 		NOT = { tag = ROOT }
 		any_owned_province = {
-			region = $REGION$
+			$WEDGE$ = yes
 			OR = {
 				NOT = { rip_diaspora_eligible_culture_province = yes }
 				NOT = { religion = ROOT }

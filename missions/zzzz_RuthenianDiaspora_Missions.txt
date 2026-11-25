@@ -211,14 +211,17 @@ RIP_diaspora_missions_2 = {
 		# so owning one more province with a local population must not undo the
 		# mission: three provinces, at least two of them with Ruthenian or Rusyn
 		# communities.
+		provinces_to_highlight = {
+			rip_green_wedge_province = yes
+		}
 		trigger = {
 			is_subject = no
 			num_of_owned_provinces_with = {
-				region = manchuria_region
+				rip_green_wedge_province = yes
 				value = 3
 			}
 			num_of_owned_provinces_with = {
-				region = manchuria_region
+				rip_green_wedge_province = yes
 				rip_diaspora_eligible_culture_province = yes
 				value = 2
 			}
@@ -336,15 +339,18 @@ RIP_diaspora_missions_3 = {
 		icon = mission_trade_company_region_abroad
 		required_missions = { rip_diaspora_root }
 		position = 30
+		provinces_to_highlight = {
+			rip_green_wedge_province = yes
+		}
 		trigger = {
 			is_subject = no
 			total_development = 300
 			NOT = {
 				any_owned_province = {
-					region = manchuria_region
+					rip_green_wedge_province = yes
 				}
 			}
-			rip_diaspora_mainland_partner_trigger = { REGION = manchuria_region THRESHOLD = 100 }
+			rip_diaspora_mainland_partner_trigger = { WEDGE = rip_green_wedge_province THRESHOLD = 100 }
 		}
 		effect = {
 			add_prestige = 5
@@ -364,7 +370,7 @@ RIP_diaspora_missions_3 = {
 					region = central_asia_region
 				}
 			}
-			rip_diaspora_mainland_partner_trigger = { REGION = central_asia_region THRESHOLD = 100 }
+			rip_diaspora_mainland_partner_trigger = { WEDGE = rip_grey_wedge_province THRESHOLD = 100 }
 		}
 		effect = {
 			add_prestige = 5
@@ -575,14 +581,17 @@ RIP_diaspora_kyiv_missions_2 = {
 		# so owning one more province with a local population must not undo the
 		# mission: three provinces, at least two of them with Ruthenian or Rusyn
 		# communities.
+		provinces_to_highlight = {
+			rip_green_wedge_province = yes
+		}
 		trigger = {
 			is_subject = no
 			num_of_owned_provinces_with = {
-				region = manchuria_region
+				rip_green_wedge_province = yes
 				value = 3
 			}
 			num_of_owned_provinces_with = {
-				region = manchuria_region
+				rip_green_wedge_province = yes
 				rip_diaspora_eligible_culture_province = yes
 				value = 2
 			}
@@ -700,15 +709,18 @@ RIP_diaspora_kyiv_missions_3 = {
 		icon = mission_trade_company_region_abroad
 		required_missions = { rip_diaspora_root_kyiv }
 		position = 21
+		provinces_to_highlight = {
+			rip_green_wedge_province = yes
+		}
 		trigger = {
 			is_subject = no
 			total_development = 300
 			NOT = {
 				any_owned_province = {
-					region = manchuria_region
+					rip_green_wedge_province = yes
 				}
 			}
-			rip_diaspora_mainland_partner_trigger = { REGION = manchuria_region THRESHOLD = 100 }
+			rip_diaspora_mainland_partner_trigger = { WEDGE = rip_green_wedge_province THRESHOLD = 100 }
 		}
 		effect = {
 			add_prestige = 5
@@ -728,7 +740,7 @@ RIP_diaspora_kyiv_missions_3 = {
 					region = central_asia_region
 				}
 			}
-			rip_diaspora_mainland_partner_trigger = { REGION = central_asia_region THRESHOLD = 100 }
+			rip_diaspora_mainland_partner_trigger = { WEDGE = rip_grey_wedge_province THRESHOLD = 100 }
 		}
 		effect = {
 			add_prestige = 5

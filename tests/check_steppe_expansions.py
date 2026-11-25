@@ -193,6 +193,71 @@ def check_helpers_and_callers(failures: list[str]) -> None:
             "Hetmanate Kaffa disruption is not guarded by actual target ownership")
 
 
+def unpaused_raid_choices(text: str, event_id: str) -> list[str]:
+    """Options reachable from event_id that end without recent_raid_cooldown.
+
+    An option settles the pause itself or hands the raid to follow-up events
+    whose options all settle it. raid_mechanics.2 only reports on scouting and
+    never ends a raid, so it cannot carry the pause.
+    """
+    gaps: list[str] = []
+    for _, option in keyed_blocks(event_block(text, event_id), "option"):
+        if "name = recent_raid_cooldown" in option:
+            continue
+        followups = [
+            ident for ident in re.findall(r"\bid = (raid_mechanics\.\d+)", option)
+            if ident != "raid_mechanics.2"
+        ]
+        if not followups:
+            gaps.append(scalar(option, "name") or event_id)
+            continue
+        for ident in followups:
+            gaps.extend(unpaused_raid_choices(text, ident))
+    return sorted(set(gaps))
+
+
+def check_raid_season_pause(failures: list[str]) -> None:
+    text = read("events/RIP_shared_steppe_RaidMechanics.txt")
+    trigger = named_block(event_block(text, "raid_mechanics.1"), "trigger")
+    require(failures, "has_country_modifier = recent_raid_cooldown" in trigger,
+            "raid_mechanics.1: seasonal raid ignores the shared pause")
+    gaps = unpaused_raid_choices(text, "raid_mechanics.1")
+    require(failures, not gaps,
+            f"raid_mechanics.1: choices that skip the shared raid pause: {gaps}")
+
+    pause = "name = recent_raid_cooldown"
+    planted = text.replace(pause, "name = planted_gap")
+    require(failures, {"raid_mechanics.1.c", "raid_mechanics.10.e"}
+            <= set(unpaused_raid_choices(planted, "raid_mechanics.1")),
+            "raid pause check does not catch a stay-home or cancelled raid")
+
+    horde = read("events/RIP_shared_steppe_SteppeRaiding.txt")
+    gaps = horde_pause_gaps(horde)
+    require(failures, not gaps, f"horde raids outside the shared pause: {gaps}")
+    planted_gaps = horde_pause_gaps(horde.replace(pause, "name = planted_gap").replace(
+        "has_country_modifier = recent_raid_cooldown", "has_country_modifier = planted_gap"))
+    require(failures, {"steppe_raid.1.a", "steppe_raid.1.b", "steppe_raid.14.a",
+                       "steppe_raid.14.b", "steppe_raid.1 trigger recent_raid_cooldown",
+                       "steppe_raid.14 trigger recent_raid_cooldown"} <= set(planted_gaps),
+            "raid pause check does not catch a horde chain that leaves the pause")
+
+
+def horde_pause_gaps(text: str) -> list[str]:
+    """Where the horde raid openers ignore or fail to start the shared pause."""
+    gaps: list[str] = []
+    for event_id in ("steppe_raid.1", "steppe_raid.14"):
+        block = event_block(text, event_id)
+        trigger = normalized(named_block(block, "trigger"))
+        for modifier in ("recent_raid_cooldown", "spring_raid_season"):
+            if f"NOT = {{ has_country_modifier = {modifier} }}" not in trigger:
+                gaps.append(f"{event_id} trigger {modifier}")
+        for _, option in keyed_blocks(block, "option"):
+            if "name = recent_raid_cooldown" not in option:
+                # The option's own name comes first; modifier names follow it.
+                gaps.append(scalar(option, "name") or event_id)
+    return gaps
+
+
 def check_het_raid_spoils(failures: list[str]) -> None:
     """One launched Hetmanate raid must settle its spoils exactly once."""
     text = read("events/RIP_HET_HetmanateCossackRaids.txt")
@@ -286,6 +351,7 @@ def main() -> int:
     check_core_cycle(failures)
     check_new_chains(failures)
     check_helpers_and_callers(failures)
+    check_raid_season_pause(failures)
     check_het_raid_spoils(failures)
     check_policy_and_cooldowns(failures)
     check_localisation_and_docs(failures)

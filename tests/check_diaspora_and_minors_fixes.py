@@ -144,9 +144,9 @@ def check_diaspora_events() -> None:
         assert "trigger = {" not in cancel and "factor = 0" in cancel, (ev_id, cancel)
         assert "rip_diaspora_settlers_cooldown" not in cancel and "add_stability" not in cancel
 
-    for ev_id, tag, region in (
-        ("rip_diaspora.20", "ZLK", "manchuria_region"),
-        ("rip_diaspora.21", "SRK", "central_asia_region"),
+    for ev_id, tag, zone in (
+        ("rip_diaspora.20", "ZLK", "rip_green_wedge_province = yes"),
+        ("rip_diaspora.21", "SRK", "region = central_asia_region"),
     ):
         ev = events[ev_id]
         assert "immediate = {" not in ev, f"{ev_id} must not pre-plant cores in immediate"
@@ -155,11 +155,37 @@ def check_diaspora_events() -> None:
         opt_a, opt_b, opt_c = options
         assert f"add_core = {tag}" in opt_a and f"release = {tag}" in opt_a and f"vassalize = {tag}" in opt_a
         assert f"add_core = {tag}" in opt_b and f"release = {tag}" in opt_b and f"create_march = {tag}" in opt_b
-        assert f"region = {region}" in opt_c
+        assert zone in opt_c
         assert "rip_diaspora_crown_frontier" in opt_c
         assert f"release = {tag}" not in opt_c and f"add_core = {tag}" not in opt_c
 
     named_block(diaspora_modifiers, "rip_diaspora_crown_frontier")
+
+
+def check_green_wedge_geography() -> None:
+    """The Green Wedge is the Amur and Pacific lands, not the whole of Manchuria."""
+    wedge = named_block(diaspora_triggers, "rip_green_wedge_province")
+    areas = set(re.findall(r"\barea = (\w+)", wedge))
+    singles = {int(i) for i in re.findall(r"\bprovince_id = (\d+)", wedge)}
+    assert areas == {"furdan_area", "east_heilongjiang_area", "ilan_hala_area"}, areas
+    assert singles == {729, 2105, 4217, 2102}, singles
+    assert "region" not in wedge, "the wedge widened back to a whole region"
+    for name, text in (
+        ("missions", diaspora_missions), ("decisions", diaspora_decisions),
+        ("events", diaspora_events), ("triggers", diaspora_triggers),
+        ("effects", diaspora_effects),
+    ):
+        assert "manchuria_region" not in text, f"diaspora {name} use all of Manchuria"
+    for suffix in ("", "_kyiv"):
+        settled = named_block(diaspora_missions, f"rip_green_wedge{suffix}")
+        assert named_block(settled, "trigger").count("rip_green_wedge_province = yes") == 2, suffix
+        guests = named_block(diaspora_missions, f"rip_green_wedge_settlers{suffix}")
+        assert "WEDGE = rip_green_wedge_province" in guests, suffix
+
+    # 2106 Furdan belongs to furdan_area in the vanilla map the wedge is built on.
+    history = read("history/countries/ZLK - Zeleny Klyn.txt")
+    capitals = re.findall(r"(?m)^(?:fixed_)?capital = (\d+)", history)
+    assert capitals == ["2106", "2106"], f"ZLK capital left the wedge: {capitals}"
 
 
 def check_russian_minors() -> None:
@@ -326,6 +352,7 @@ def main() -> int:
     check_diaspora_triggers_and_effects()
     check_diaspora_decisions()
     check_diaspora_events()
+    check_green_wedge_geography()
     check_russian_minors()
     check_localisation()
     check_dom_russia_compat()
@@ -373,6 +400,12 @@ def main() -> int:
             1,
         )
 
+    def widen_wedge() -> None:
+        global diaspora_missions
+        diaspora_missions = diaspora_missions.replace(
+            "rip_green_wedge_province = yes", "region = manchuria_region", 1)
+
+    planted("green wedge widens to all Manchuria", widen_wedge, check_green_wedge_geography)
     planted("1800 time gate returns", readd_1800, check_diaspora_missions)
     planted("else_if priority trap returns", readd_else_if, check_diaspora_decisions)
     planted("ZLK pre-cores in immediate", readd_zlk_immediate, check_diaspora_events)

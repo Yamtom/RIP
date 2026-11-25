@@ -163,13 +163,14 @@ def check_diaspora():
         assert 'rip_lysianskyi_circumnavigation_flag' in named_block(diaspora, 'rip_diaspora_of_rus' + suffix)
         named_block(diaspora, 'rip_lysianskyi_circumnavigation' + suffix)
 
-        for mission, region in (('rip_green_wedge', 'manchuria_region'), ('rip_grey_wedge', 'central_asia_region')):
+        for mission, zone in (('rip_green_wedge', 'rip_green_wedge_province = yes'),
+                              ('rip_grey_wedge', 'region = central_asia_region')):
             mission += suffix
             trigger = named_block(named_block(diaspora, mission), 'trigger')
             assert 'NOT = {' not in trigger.replace('is_subject = no', ''), \
                 f'{mission} must tolerate provinces with a local population'
             counters = [named_block(trigger, 'num_of_owned_provinces_with', n) for n in (1, 2)]
-            assert f'region = {region}' in counters[0] and 'value = 3' in counters[0]
+            assert zone in counters[0] and 'value = 3' in counters[0]
             assert 'rip_diaspora_eligible_culture_province = yes' in counters[1] and 'value = 2' in counters[1]
 
         final = named_block(named_block(diaspora, 'rip_diaspora_of_rus' + suffix), 'trigger')

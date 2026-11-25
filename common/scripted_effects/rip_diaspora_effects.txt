@@ -84,14 +84,14 @@ rip_diaspora_convert_mainland_culture_effect = {
 		limit = {
 			NOT = { tag = ROOT }
 			any_owned_province = {
-				region = $REGION$
+				$WEDGE$ = yes
 				NOT = { rip_diaspora_eligible_culture_province = yes }
 			}
 			has_opinion = { who = ROOT value = $THRESHOLD$ }
 		}
 		random_owned_province = {
 			limit = {
-				region = $REGION$
+				$WEDGE$ = yes
 				NOT = { rip_diaspora_eligible_culture_province = yes }
 			}
 			change_culture = ROOT
@@ -104,7 +104,7 @@ rip_diaspora_convert_mainland_faith_effect = {
 		limit = {
 			NOT = { tag = ROOT }
 			any_owned_province = {
-				region = $REGION$
+				$WEDGE$ = yes
 				OR = {
 					NOT = { rip_diaspora_eligible_culture_province = yes }
 					NOT = { religion = ROOT }
@@ -114,7 +114,7 @@ rip_diaspora_convert_mainland_faith_effect = {
 		}
 		random_owned_province = {
 			limit = {
-				region = $REGION$
+				$WEDGE$ = yes
 				OR = {
 					NOT = { rip_diaspora_eligible_culture_province = yes }
 					NOT = { religion = ROOT }
