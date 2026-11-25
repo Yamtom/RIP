@@ -6,6 +6,11 @@
 # WoC_Austrian_Missions). Each tree gets ONE series here, with a potential wide enough for
 # all of its variants, so the player sees one new mission whichever DLC set is installed.
 #
+# Tying. Each Tatar series hangs from the last mission of the vanilla column 5 of its variant: Winds of Change ends on
+# tatars_intercontinental_trade (row 16), the older tree on tatar_yoke_mission (row 4). The yarlyks sits directly under
+# it and the Dnieper tribute under the yarlyks. Under Winds of Change only is_tatar_nation and Glinsk have that column
+# (zzz_WoC_Shared_Horde_Missions.txt), so SHY, KZH, CHG and KAS have these missions only in the older tree.
+#
 # Load order matters. The engine stacks series of the same column in file order and `position`
 # is only a minimum, so a series that sorts BEFORE a vanilla one pushes the vanilla missions down
 # and bends their arrows. The `zzzz_` prefix sorts after `zzz_WoC_Shared_Horde_Missions.txt`, the
@@ -18,24 +23,25 @@ rip_horde_ruthenian_contacts = {
 	slot = 5
 	generic = no
 	ai = yes
+	potential_on_load = {
+		has_dlc = "Winds of Change"
+	}
 	potential = {
 		NOT = { map_setup = map_setup_random }
+		has_dlc = "Winds of Change"
 		OR = {
 			is_tatar_nation = yes
-			tag = SHY
 			tag = GLH
-			tag = KZH
-			tag = CHG
-			tag = KAS
 		}
 	}
+
 	has_country_shield = yes
 
-	# Position 17 clears the tallest variant (the WoC shared-horde series end on row 16).
+	# Row 17 is the cell under tatars_intercontinental_trade, the last mission of the vanilla column 5.
 	rip_tat_ruthenian_yarlyks = {
 		icon = mission_collect_yasak
 		position = 17
-		required_missions = { }
+		required_missions = { tatars_intercontinental_trade }
 		provinces_to_highlight = {
 			OR = {
 				region = ruthenia_region
@@ -72,6 +78,195 @@ rip_horde_ruthenian_contacts = {
 			add_country_modifier = {
 				name = rip_tat_ruthenian_tribute
 				duration = 5475
+			}
+		}
+	}
+
+	rip_tatar_dnieper_tribute = {
+		icon = mission_steppe_warriors
+		required_missions = { rip_tat_ruthenian_yarlyks }
+		position = 18
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280
+				AND = {
+					region = ruthenia_region
+					rip_diaspora_eligible_culture_province = yes
+				}
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			OR = {
+				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+					value = 6
+					region = ruthenia_region
+					rip_diaspora_eligible_culture_province = yes
+				}
+				AND = {
+					280 = { country_or_non_sovereign_subject_holds = ROOT }
+					num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+						value = 4
+						region = ruthenia_region
+					}
+				}
+				any_subject_country = {
+					rip_diaspora_eligible_culture = yes
+					num_of_cities = 4
+				}
+			}
+		}
+		effect = {
+			add_years_of_income = 0.75
+			add_mil_power = 50
+			add_country_modifier = {
+				name = rip_tatar_ruthenian_tribute
+				duration = 9125
+			}
+			west_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			east_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+		}
+	}
+}
+
+rip_horde_ruthenian_contacts_classic = {
+	slot = 5
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = GOL
+			tag = CRI
+			tag = NOG
+			tag = KAZ
+			tag = SHY
+			tag = GLH
+			tag = SIB
+			tag = BSH
+			tag = AST
+			tag = QAS
+			tag = KZH
+			tag = CHG
+			tag = KAS
+		}
+		NOT = { has_dlc = "Winds of Change" }
+		NOT = { map_setup = map_setup_random }
+	}
+
+
+	has_country_shield = yes
+
+	# Row 5 is the cell under tatar_yoke_mission, the last mission of the older column 5.
+	rip_tat_ruthenian_yarlyks_classic = {
+		icon = mission_collect_yasak
+		position = 5
+		required_missions = { tatar_yoke_mission }
+		provinces_to_highlight = {
+			OR = {
+				region = ruthenia_region
+				area = red_ruthenia_area
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			prestige = 20
+			OR = {
+				any_subject_country = {
+					OR = {
+						rip_diaspora_eligible_culture = yes
+						capital_scope = {
+							OR = {
+								region = ruthenia_region
+								area = red_ruthenia_area
+							}
+						}
+					}
+				}
+				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+					value = 3
+					OR = {
+						region = ruthenia_region
+						area = red_ruthenia_area
+					}
+				}
+			}
+		}
+		effect = {
+			add_prestige = 10
+			add_years_of_income = 0.25
+			add_country_modifier = {
+				name = rip_tat_ruthenian_tribute
+				duration = 5475
+			}
+		}
+	}
+
+	rip_tatar_dnieper_tribute_classic = {
+		icon = mission_steppe_warriors
+		required_missions = { rip_tat_ruthenian_yarlyks_classic }
+		position = 6
+		provinces_to_highlight = {
+			OR = {
+				province_id = 280
+				AND = {
+					region = ruthenia_region
+					rip_diaspora_eligible_culture_province = yes
+				}
+			}
+			NOT = { country_or_non_sovereign_subject_holds = ROOT }
+		}
+		trigger = {
+			OR = {
+				num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+					value = 6
+					region = ruthenia_region
+					rip_diaspora_eligible_culture_province = yes
+				}
+				AND = {
+					280 = { country_or_non_sovereign_subject_holds = ROOT }
+					num_of_provinces_owned_or_owned_by_non_sovereign_subjects_with = {
+						value = 4
+						region = ruthenia_region
+					}
+				}
+				any_subject_country = {
+					rip_diaspora_eligible_culture = yes
+					num_of_cities = 4
+				}
+			}
+		}
+		effect = {
+			add_years_of_income = 0.75
+			add_mil_power = 50
+			add_country_modifier = {
+				name = rip_tatar_ruthenian_tribute
+				duration = 9125
+			}
+			west_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
+			}
+			east_dniepr_area = {
+				limit = {
+					NOT = { is_core = ROOT }
+					NOT = { is_claim = ROOT }
+				}
+				add_claim = ROOT
 			}
 		}
 	}

@@ -1,0 +1,156 @@
+# Disasters of Lithuania's reckoning (events/RIP_LIT_Reckoning.txt). Each starts only after the harsher choice of its branch
+# and ends when the Ruthenian provinces are quiet again. Icons: interface/RIP_shared_disaster_lit_reckoning.gfx.
+
+# Branch 1: the princes of the Ruthenian lands after the Kyiv appanage was abolished and the plotters were executed or exiled.
+rip_lit_ruthenian_princes_revolt = {
+	potential = {
+		tag = LIT
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = survived_rip_lit_ruthenian_princes_revolt }
+		OR = {
+			has_country_flag = rip_lit_princes_executed
+			has_country_flag = rip_lit_princes_exiled
+		}
+	}
+	can_start = {
+		has_any_disaster = no
+		any_owned_province = { rip_diaspora_eligible_culture_province = yes }
+		OR = {
+			NOT = { stability = 1 }
+			war_exhaustion = 3
+			any_owned_province = {
+				rip_diaspora_eligible_culture_province = yes
+				unrest = 3
+			}
+		}
+	}
+	can_stop = {
+		NOT = {
+			any_owned_province = {
+				rip_diaspora_eligible_culture_province = yes
+				unrest = 3
+			}
+		}
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			stability = 2
+			is_at_war = no
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 1
+			always = yes
+		}
+		modifier = {
+			factor = 1.5
+			has_country_flag = rip_lit_princes_executed
+		}
+		modifier = {
+			factor = 1.5
+			war_exhaustion = 3
+		}
+		modifier = {
+			factor = -0.5
+			accepted_culture = ruthenian
+		}
+	}
+	can_end = {
+		stability = 1
+		NOT = { num_of_rebel_armies = 1 }
+		NOT = {
+			any_owned_province = {
+				rip_diaspora_eligible_culture_province = yes
+				unrest = 2
+			}
+		}
+	}
+	modifier = {
+		global_unrest = 2
+		diplomatic_reputation = -1
+		improve_relation_modifier = -0.1
+	}
+	on_start = rip_lit_reckoning.3
+	on_end = rip_lit_reckoning.5
+	on_monthly = {
+		random_events = {
+			1000 = 0
+			120 = rip_lit_reckoning.4
+		}
+	}
+}
+
+# Branch 2: the villages that left the surveyed estates for the steppe frontier.
+rip_lit_peasant_flight = {
+	potential = {
+		tag = LIT
+		normal_or_historical_nations = yes
+		NOT = { has_country_flag = survived_rip_lit_peasant_flight }
+		has_country_flag = rip_lit_fugitives_hunted
+	}
+	can_start = {
+		has_any_disaster = no
+		any_owned_province = { rip_diaspora_eligible_culture_province = yes }
+		OR = {
+			NOT = { stability = 1 }
+			any_owned_province = {
+				rip_diaspora_eligible_culture_province = yes
+				unrest = 3
+			}
+		}
+	}
+	can_stop = {
+		NOT = {
+			any_owned_province = {
+				rip_diaspora_eligible_culture_province = yes
+				unrest = 3
+			}
+		}
+	}
+	down_progress = {
+		factor = 0
+		modifier = {
+			factor = 1
+			stability = 2
+		}
+	}
+	progress = {
+		modifier = {
+			factor = 1
+			always = yes
+		}
+		modifier = {
+			factor = 1
+			has_country_modifier = rip_lit_volok_dues
+		}
+		modifier = {
+			factor = -0.5
+			has_country_modifier = rip_lit_frontier_hosts
+		}
+	}
+	can_end = {
+		stability = 1
+		NOT = {
+			any_owned_province = {
+				rip_diaspora_eligible_culture_province = yes
+				unrest = 2
+			}
+		}
+	}
+	modifier = {
+		global_manpower_modifier = -0.2
+		global_tax_modifier = -0.1
+		global_unrest = 1
+	}
+	on_start = rip_lit_reckoning.13
+	on_end = rip_lit_reckoning.15
+	on_monthly = {
+		random_events = {
+			1000 = 0
+			120 = rip_lit_reckoning.14
+		}
+	}
+}

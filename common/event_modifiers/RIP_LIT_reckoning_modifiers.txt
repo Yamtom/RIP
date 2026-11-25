@@ -1,0 +1,76 @@
+# Lithuania's reckoning with two episodes the base game passes over: the end of the Kyiv appanage (1470-1481)
+# and the Volok survey with the statutes that followed (1557-1588). Events: events/RIP_LIT_Reckoning.txt.
+
+# --- Branch 1: the Kyiv appanage -------------------------------------------------------------------------------------
+
+# Kyiv under an appointed voivode: a tighter grip on the Ruthenian lands, paid for in the princes' trust.
+rip_lit_kyiv_voivodeship = {
+	global_tax_modifier = 0.05
+	global_unrest = 1
+	improve_relation_modifier = -0.1
+}
+
+# The court that executed or exiled the plotters is feared, and the Ruthenian princes know it.
+rip_lit_princes_executed = {
+	global_unrest = 2
+	diplomatic_reputation = -1
+	prestige = -1
+}
+
+# The appanage confirmed in a charter: the Olelkovych governors keep Kyiv, the treasury sees less of it.
+rip_lit_appanage_charter = {
+	global_tax_modifier = -0.05
+	improve_relation_modifier = 0.15
+	stability_cost_modifier = -0.1
+}
+
+# Lifted by the decision that clears the Olelkovych name.
+rip_lit_princes_rehabilitated = {
+	global_unrest = -1
+	diplomatic_reputation = 1
+	improve_relation_modifier = 0.1
+}
+
+# Province modifier on Kyiv while the princely seat is gone.
+rip_lit_princely_seat_lost = {
+	local_tax_modifier = -0.1
+	local_unrest = 2
+}
+
+# The border princes who went over to Moscow with their estates.
+rip_lit_princes_defected = {
+	local_manpower_modifier = -0.25
+	local_tax_modifier = -0.25
+	local_unrest = 2
+}
+
+# --- Branch 2: the Volok survey ----------------------------------------------------------------------------------------
+
+# Dues fixed by the survey: more grain and money from the manors, fewer men who can be spared for the levy.
+rip_lit_volok_dues = {
+	global_tax_modifier = 0.1
+	production_efficiency = 0.05
+	global_manpower_modifier = -0.1
+	global_unrest = 1
+}
+
+# Dues capped at the surveyed holdings: the manors earn less, the villages stay.
+rip_lit_capped_dues = {
+	global_tax_modifier = 0.03
+	global_manpower_modifier = 0.05
+	global_unrest = -0.5
+}
+
+# Fugitives from the estates written into the frontier register as hosts under a hetman.
+rip_lit_frontier_hosts = {
+	land_morale = 0.05
+	global_manpower_modifier = 0.05
+	global_tax_modifier = -0.03
+}
+
+# Province modifier where the villagers left the manors.
+rip_lit_runaway_estates = {
+	local_tax_modifier = -0.25
+	local_manpower_modifier = -0.25
+	local_unrest = 2
+}

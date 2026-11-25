@@ -1,18 +1,39 @@
 # Shared additions to the base and DLC trees. Never replace a vanilla series.
+#
+# Moscow and Russia. The Domination tree (DOM_Russia_Missions.txt) is the one the mod owns; its column 1 ends on
+# mos_rus_europes_greatest_power (row 8 for Moscow), so the chain hangs from that mission and the first Kyiv mission
+# sits on row 9. A Russia that already has the Sudebnik and the Book of Royal Degrees in column 1 stacks the chain
+# below them (rows 12-14) and the arrow, which runs down the parent's column, passes behind those two cards.
+# The *_alt series is everything the Domination series leaves out (no Domination; Russia formed from Novgorod). Its
+# column 1 differs in each of those trees, so the first mission is a root with position = 1: the engine stacks it
+# straight under whatever the column holds, with no vacuum and no arrow. Mission keys cannot repeat across series
+# (vanilla repeats none), which is why the alt chain has its own keys and loc lines that point at the main ones.
+# tests/check_ruthenian_mission_series.py keeps the two chains identical apart from keys, rows and the first parent.
 rip_russian_ruthenian_contacts = {
 	slot = 1
 	generic = no
 	ai = yes
+	potential_on_load = {
+		has_dlc = "Domination"
+	}
 	potential = {
-		OR = { tag = MOS tag = RUS }
+		OR = {
+			tag = MOS
+			AND = {
+				NOT = { was_tag = NOV }
+				tag = RUS
+			}
+		}
+		has_dlc = "Domination"
 		NOT = { map_setup = map_setup_random }
 	}
+
 	has_country_shield = yes
 
 	rip_rus_kyiv_scribes = {
 		icon = mission_alliances
-		position = 16
-		required_missions = { }
+		position = 9
+		required_missions = { mos_rus_europes_greatest_power }
 		trigger = {
 			280 = { rip_ruthenian_mission_contact = yes } # Kyiv
 			dip_power = 50
@@ -22,7 +43,7 @@ rip_russian_ruthenian_contacts = {
 
 	rip_rus_copy_ruthenian_books = {
 		icon = mission_early_game_buildings
-		position = 17
+		position = 10
 		required_missions = { rip_rus_kyiv_scribes }
 		trigger = {
 			capital_scope = { OR = { has_building = temple has_building = cathedral } }
@@ -36,8 +57,67 @@ rip_russian_ruthenian_contacts = {
 
 	rip_rus_ruthenian_press = {
 		icon = mission_noble_council
-		position = 18
+		position = 11
 		required_missions = { rip_rus_copy_ruthenian_books }
+		trigger = {
+			has_institution = printing_press
+			280 = { rip_ruthenian_mission_contact = yes }
+			capital_scope = { base_production = 8 }
+		}
+		effect = {
+			capital_scope = { add_base_production = 1 }
+			add_prestige = 10
+		}
+	}
+}
+
+rip_russian_ruthenian_contacts_alt = {
+	slot = 1
+	generic = no
+	ai = yes
+	potential = {
+		OR = {
+			tag = MOS
+			tag = RUS
+		}
+		OR = {
+			NOT = { has_dlc = "Domination" }
+			was_tag = NOV
+		}
+		NOT = { map_setup = map_setup_random }
+	}
+
+	has_country_shield = yes
+
+	rip_rus_kyiv_scribes_alt = {
+		icon = mission_alliances
+		position = 1
+		required_missions = { }
+		trigger = {
+			280 = { rip_ruthenian_mission_contact = yes } # Kyiv
+			dip_power = 50
+		}
+		effect = { add_prestige = 5 add_dip_power = 25 }
+	}
+
+	rip_rus_copy_ruthenian_books_alt = {
+		icon = mission_early_game_buildings
+		position = 2
+		required_missions = { rip_rus_kyiv_scribes_alt }
+		trigger = {
+			capital_scope = { OR = { has_building = temple has_building = cathedral } }
+			OR = {
+				2962 = { rip_ruthenian_mission_contact = yes } # Volhynia
+				2961 = { rip_ruthenian_mission_contact = yes } # Lviv
+			}
+		}
+		effect = { add_adm_power = 40 }
+	}
+
+	rip_rus_ruthenian_press_alt = {
+		icon = mission_noble_council
+		position = 3
+		required_missions = { rip_rus_copy_ruthenian_books_alt }
 		trigger = {
 			has_institution = printing_press
 			280 = { rip_ruthenian_mission_contact = yes }
